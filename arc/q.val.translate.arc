@@ -91,6 +91,7 @@
     .assign te_val.buffer = ( """" + v_lst.Value ) + """"
     .assign te_val.dimensions = 1
     .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
+    .//TODO assign dimension
   .end for
 .end function
 .//
@@ -136,6 +137,7 @@
       .assign te_val.buffer = ( """" + cnst_lsc.Value ) + """"
       .assign te_val.dimensions = 1
       .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
+      .//TODO assign dimension
     .end if
   .end for
 .end function
@@ -150,6 +152,7 @@
     .assign te_val.buffer = te_var.buffer
     .assign te_val.dimensions = te_var.dimensions
     .assign te_val.array_spec = te_var.array_spec
+    .assign te_val.te_dimID = te_var.te_dimID
   .end for
 .end function
 .//
@@ -201,6 +204,7 @@
     .end if 
     .assign te_val.dimensions = te_attr.dimensions
     .assign te_val.array_spec = te_attr.array_spec
+    .assign te_val.te_dimID   = te_attr.te_dimID
     .// Maybe attribute value is actually derived.
     .select one o_dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
     .if ( not_empty o_dbattr )
@@ -211,6 +215,7 @@
         .assign te_val.buffer = ( te_aba.GeneratedName + "( " ) + ( root + " )" )
         .assign te_val.dimensions = te_aba.dimensions
         .assign te_val.array_spec = te_aba.array_spec
+        .assign te_val.te_dimID   = te_aba.te_dimID
       .end if
     .end if
     .end if
@@ -236,6 +241,7 @@
     .select one te_mbr related by v_mvl->S_MBR[R836]->TE_MBR[R2047]
     .assign te_val.dimensions = te_mbr.dimensions
     .assign te_val.array_spec = te_mbr.array_spec
+    .assign te_val.te_dimID   = te_mbr.te_dimID
     .assign te_val.OAL = ( root_te_val.OAL + "." ) + te_mbr.Name
     .assign te_val.buffer = ( root_te_val.buffer + "." ) + te_mbr.GeneratedName
   .end if
@@ -297,6 +303,7 @@
     .assign te_val.buffer = "rcvd_evt->" + te_parm.GeneratedName
     .assign te_val.dimensions = te_parm.dimensions
     .assign te_val.array_spec = te_parm.array_spec
+    .assign te_val.te_dimID   = te_parm.te_dimID
   .end for
 .end function
 .//
@@ -321,6 +328,7 @@
     .assign te_val.buffer = te_parm.GeneratedName
     .assign te_val.dimensions = te_parm.dimensions
     .assign te_val.array_spec = te_parm.array_spec
+    .assign te_val.te_dimID   = te_parm.te_dimID
     .if ( 1 == te_parm.By_Ref )
       .assign te_val.buffer = ( "(*" + te_parm.GeneratedName ) + ")"
     .end if
@@ -377,8 +385,10 @@
       .end if
     .end if
     .assign te_val.OAL = ( op + " " ) + root_te_val.OAL
+    .// future support for vector arithmetic goes here
     .assign te_val.dimensions = root_te_val.dimensions
     .assign te_val.array_spec = root_te_val.array_spec
+    .assign te_val.te_dimID   = root_te_val.te_dimID
   .end if
 .end function
 .//
@@ -423,7 +433,10 @@
         .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.buffer ) + " )" )
       .end if
     .end if
+    .// future support for vector arithmetic goes here
+    .assign te_val.dimensions = r_te_val.dimensions
     .assign te_val.array_spec = r_te_val.array_spec
+    .assign te_val.te_dimID   = r_te_val.te_dimID
     .assign te_val.OAL = ( ( "( " + l_te_val.OAL ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.OAL ) + " )" )
   .end if
 .end function
@@ -450,6 +463,7 @@
   .assign te_val.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${rm.parameter_OAL})"
   .assign te_val.dimensions = te_aba.dimensions
   .assign te_val.array_spec = te_aba.array_spec
+  .assign te_val.te_dimID   = te_aba.te_dimID
 .end function
 .//
 .function q_val_bridge_values
@@ -495,6 +509,7 @@
     .assign te_val.buffer = te_val.buffer + ")"
     .assign te_val.dimensions = te_aba.dimensions
     .assign te_val.array_spec = te_aba.array_spec
+    .assign te_val.te_dimID   = te_aba.te_dimID
   .end if
 .end function
 .//
@@ -555,6 +570,7 @@
   .assign te_val.buffer = ( te_val.buffer + parameters ) + ")"
   .assign te_val.dimensions = te_aba.dimensions
   .assign te_val.array_spec = te_aba.array_spec
+  .assign te_val.te_dimID   = te_aba.te_dimID
   .end if
 .end function
 .//
@@ -587,6 +603,7 @@
     .assign te_val.buffer = te_val.buffer + ")"
     .assign te_val.dimensions = te_aba.dimensions
     .assign te_val.array_spec = te_aba.array_spec
+    .assign te_val.te_dimID   = te_aba.te_dimID
   .end if
 .end function
 .//
@@ -613,8 +630,16 @@
     .end if
     .assign te_val.OAL = ( root_te_val.OAL + "[" ) + ( index_te_val.buffer + "]" )
     .assign te_val.buffer = ( root_te_val.buffer + "[" ) + ( index_te_val.buffer + "]" )
+    .// Peel off outer layer of dimensions.
+    .// CDS:  do not know how to do this with array_spec
     .assign te_val.array_spec = root_te_val.array_spec
-    .assign te_val.dimensions = root_te_val.dimensions
+    .assign te_val.dimensions = root_te_val.dimensions - 1
+    .select one next_te_DIM related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'succeeds']
+    .if ( not_empty next_te_DIM )
+      .assign te_val.te_dimID = next_te_DIM.te_dimID
+    .else
+      .assign te_val.te_dimID = 0
+    .end if
   .end if
 .end function
 .//
@@ -635,7 +660,19 @@
       .invoke gen_value( root_v_val )
     .end if
     .assign te_val.OAL = root_te_val.OAL + ".length"
-    .assign te_val.buffer = root_te_val.buffer + ".length"
+    .select any te_target from instances of TE_TARGET
+    .if ( "C" == te_target.language )
+      .select one te_dim related by root_te_val->TE_DIM[R2079]
+      .if ( not_empty te_dim )
+        .assign te_val.buffer = "${te_dim.elementCount} /* ${te_val.OAL} */ "
+      .else
+        .assign te_val.buffer = root_te_val.buffer + ".ARRAY_LENGTH_NOT_FOUND()"
+        .print "ERROR:  C model compiler does not support length operator for OAL value:  ${te_val.OAL}"
+        .exit 101
+      .end if
+    .else
+      .assign te_val.buffer = root_te_val.buffer + ".length"
+    .end if
   .end if
 .end function
 .//

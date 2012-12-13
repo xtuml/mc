@@ -33,5 +33,8 @@ ${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
   static ${te_instance.handle} ${te_instance.self};
     .end if
   .end if
+  .if ( te_mact.trace )
+  ${te_trace.component_msg_start}( "${te_aba.ParameterFormat}", ${te_mact.ComponentName}_DOMAIN_ID, ${port_counter}, ${te_mact.Order}${te_aba.ParameterTrace} );
+  .end if
 ${action_body}\
 }

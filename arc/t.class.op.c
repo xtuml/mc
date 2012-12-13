@@ -32,9 +32,15 @@ ${te_aba.ParameterDefinition})
 {
   .if ( o_tfr.Suc_Pars == 1 )
 ${op_body}
+    .// CDS agilegc
+    .if ( "void" != te_aba.ReturnDataType )
+  XTUML_NO_RETURN( "${te_c.Name}::${te_class.Name}::${te_tfr.Name}" );
+  return ${rval_te_dt.Initial_Value};
+    .end if
   .else
   /* WARNING!  Skipping unsuccessful or unparsed operation ${te_c.Name}::${te_class.Name}::${te_tfr.Name} */
     .print "WARNING:  unsuccessful or unparsed operation ${te_c.Name}::${te_class.Name}::${te_tfr.Name}"
+    .exit 102
   .end if
 }
 .//

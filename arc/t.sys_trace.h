@@ -95,34 +95,24 @@ do { \
 #endif
 
 /*
- * Transformer invocation start tracing:
+ * Component message start tracing:
  */
-/* To suppress transformer start tracing, uncomment the following macro */
-/* #define ${te_prefix.define_usw}XTUML_TRANSFORMER_START_TRACE( obj_kl, tfr_name ) */
+/* To suppress component message start tracing, uncomment the following macro */
+/* #define ${te_trace.component_msg_start}( arg_format, component_number, port_number, message_number, args... ) */
 
-#ifndef ${te_prefix.define_usw}XTUML_TRANSFORMER_START_TRACE
-#define ${te_prefix.define_usw}XTUML_TRANSFORMER_START_TRACE( obj_kl, tfr_name ) \
+#ifndef ${te_trace.component_msg_start}
+#define ${te_trace.component_msg_start}( arg_format, component_number, port_number, message_number, args... ) \
 do { \
   ${te_prefix.define_usw}XTUML_SOURCE_PROLOGUE; \
-  ${printf}( "Invocation started: '%s' Transformer '%s'\n", obj_kl, tfr_name ); \
+  ${printf}( "component %d port %d message %d " arg_format "\n", component_number, port_number, message_number, ## args ); \
   XTUML_TRACE_FLUSH( 0 ); \
 } while (0)
 #endif
 
 /*
- * Transformer invocation complete tracing:
+ * Component message end tracing:
  */
-/* To suppress transformer end tracing, uncomment the following macro */
-/* #define ${te_prefix.define_usw}XTUML_TRANSFORMER_END_TRACE( obj_kl, tfr_name ) */
 
-#ifndef ${te_prefix.define_usw}XTUML_TRANSFORMER_END_TRACE
-#define ${te_prefix.define_usw}XTUML_TRANSFORMER_END_TRACE( obj_kl, tfr_name ) \
-do { \
-  ${te_prefix.define_usw}XTUML_SOURCE_PROLOGUE; \
-  ${printf}( "Invocation complete: '%s' Transformer '%s'\n", obj_kl, tfr_name ); \
-  XTUML_TRACE_FLUSH( 0 ); \
-} while (0)
-#endif
 
 /*
  * Object Action Language (OAL) statement level tracing:

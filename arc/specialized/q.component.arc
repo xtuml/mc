@@ -58,24 +58,29 @@
   .for each connected_te_c in te_cs
     .assign attr_include_files = attr_include_files + "#include ""${connected_te_c.module_file}.${te_file.hdr_file_ext}""\n"
   .end for
-  .// Add foreign includes derived from marking.
-  .if ( false )
-    .select many required_te_iirs related by local_te_iirs->TE_IIR[R2081.'requires or delegates']
-    .select many provided_te_iirs related by local_te_iirs->TE_IIR[R2081.'provides or is delegated']
-    .assign te_iirs = required_te_iirs | provided_te_iirs
-    .for each te_iir in te_iirs
-      .assign attr_include_files = attr_include_files + "#include ""${te_iir.component_name}.${te_file.hdr_file_ext}""\n"
-    .end for
+  .// CDS agilegc (Add foreign includes derived from marking.)
+  .select many s_syss from instances of S_SYS
+  .assign syscount = cardinality s_syss
+  .if ( 2 == syscount )
+    .select any te_sys from instances of TE_SYS where ( selected.Name == "SYS" )
+    .if ( not_empty te_sys )
+      .select many required_te_iirs related by local_te_iirs->TE_IIR[R2081.'requires or delegates']
+      .select many provided_te_iirs related by local_te_iirs->TE_IIR[R2081.'provides or is delegated']
+      .assign te_iirs = required_te_iirs | provided_te_iirs
+      .for each te_iir in te_iirs
+        .assign attr_include_files = attr_include_files + "#include ""${te_iir.component_name}.${te_file.hdr_file_ext}""\n"
+      .end for
+    .end if
   .end if
+  .// CDS agilegc end
 .end function
 .//
 .//============================================================================
 .// Build the include file body for the component port action.
 .//============================================================================
 .function TE_MACT_CreateDeclarations
-  .param inst_ref_set te_macts
+  .param inst_ref_set first_te_macts
   .select any te_file from instances of TE_FILE
-  .select many first_te_macts related by te_macts->TE_C[R2002]->TE_MACT[R2002] where ( selected.Order == 0 )
   .for each te_mact in first_te_macts
     .while ( not_empty te_mact )
       .select one te_aba related by te_mact->TE_ABA[R2010]
@@ -89,12 +94,14 @@
 .// Generate the port interface functions.
 .//============================================================================
 .function TE_MACT_CreateDefinition
-  .param inst_ref_set te_macts
+  .param inst_ref_set first_te_macts
+  .param integer port_counter
   .select any te_file from instances of TE_FILE
   .select any te_prefix from instances of TE_PREFIX
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .select any te_thread from instances of TE_THREAD
+  .select any te_trace from instances of TE_TRACE
   .select any te_parm from instances of TE_PARM where ( false )
   .select any empty_sm_evt from instances of SM_EVT where ( false )
   .select any empty_act_blk from instances of ACT_BLK where ( false )
@@ -106,7 +113,8 @@
     .assign trace = false
   .end if
   .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
-  .for each te_mact in te_macts
+  .for each te_mact in first_te_macts
+    .while ( not_empty te_mact )
     .assign sm_evt = empty_sm_evt
     .assign foreign_te_macts = empty_te_macts
     .assign act_blk = empty_act_blk
@@ -192,7 +200,10 @@
     .assign action_body = axret.body
     .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
       .// outbound message
-      .// CDS could select through R2081 here to get foreign_te_macts.
+      .select many foreign_te_macts related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080]->TE_MACT[R2006] where ( selected.MessageName == te_mact.MessageName )
+      .if ( empty foreign_te_macts )
+        .select many foreign_te_macts related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080]->TE_MACT[R2006] where ( selected.MessageName == te_mact.MessageName )
+      .end if
       .if ( not_empty foreign_te_macts )
         .assign action_body = ""
         .for each foreign_te_mact in foreign_te_macts
@@ -206,20 +217,21 @@
           .end if
         .end for
       .else
-        .if ( false )
+        .// CDS agilegc
         .// Check to see if any "virtual" connections (TE_IIRs) have been made to foreign components via marking.
-        .select one foreign_te_iir related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']
-        .if ( te_mact.Provision )
-          .select one foreign_te_iir related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']
-        .end if
-        .if ( not_empty foreign_te_iir )
-          .assign presumed_target = ( ( foreign_te_iir.component_name + "_" ) + ( foreign_te_iir.port_name + "_" ) ) + te_mact.MessageName
-          .invoke s = t_oal_smt_iop( presumed_target, te_aba.ParameterInvocation, "  ", true )
-          .if ( "void" != te_aba.ReturnDataType )
-            .assign action_body = "  return"
+        .if ( "SYS" == te_sys.Name )
+          .select many foreign_te_iirs related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']
+          .if ( empty foreign_te_iirs )
+            .select many foreign_te_iirs related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']
           .end if
-          .assign action_body = action_body + s.body
-        .end if
+          .for each foreign_te_iir in foreign_te_iirs
+            .assign presumed_target = ( ( foreign_te_iir.component_name + "_" ) + ( foreign_te_iir.port_name + "_" ) ) + te_mact.MessageName
+            .invoke s = t_oal_smt_iop( presumed_target, te_aba.ParameterInvocation, "  ", true )
+            .if ( "void" != te_aba.ReturnDataType )
+              .assign action_body = "  return"
+            .end if
+            .assign action_body = action_body + s.body
+          .end for
         .end if
       .end if
     .elif ( ( ( te_mact.Provision ) and ( 0 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 1 == te_mact.Direction ) ) )
@@ -331,6 +343,8 @@
         .include "${te_file.arc_path}/t.component.port.autosar.c"
       .end if
     .end if
+      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+    .end while
   .end for
 .end function
 .//

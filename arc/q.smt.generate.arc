@@ -1218,7 +1218,6 @@
   .end while
   .//
   .invoke s = t_oal_smt_return( value, returnvaltype, intCast1, intCast2, deallocation, te_blk.indentation )
-  .assign te_smt.declaration = s.declaration
   .assign te_smt.buffer = s.body
   .assign te_smt.OAL = "RETURN ${value_OAL}"
 .end function

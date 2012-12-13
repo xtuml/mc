@@ -403,6 +403,7 @@
     .assign te_dt.DT_ID = s_dt.DT_ID
     .assign te_dt.Name = s_dt.Name
     .assign te_dt.Core_Typ = -1
+    .assign te_dt.string_format = ""
     .assign te_dt.te_cID = 0
     .// Link the ownership if contained in a component.
     .assign te_c = empty_te_c
@@ -520,6 +521,7 @@
       .// void
       .assign te_dt.ExtName = "void"
       .assign te_dt.Initial_Value = "0"
+      .assign te_dt.string_format = ""
     .elif ( 1 == te_dt.Core_Typ )
       .// boolean
       .if (te_sys.AUTOSAR)
@@ -528,6 +530,7 @@
         .assign te_dt.ExtName = "bool"
       .end if
       .assign te_dt.Initial_Value = "false"
+      .assign te_dt.string_format = "%d"
     .elif ( 2 == te_dt.Core_Typ )
       .// integer
       .if (te_sys.AUTOSAR)
@@ -536,6 +539,7 @@
         .assign te_dt.ExtName = "i_t"
       .end if
       .assign te_dt.Initial_Value = "0"
+      .assign te_dt.string_format = "%d"
     .elif ( 3 == te_dt.Core_Typ )
       .// real
       .// float or double:  Default to smaller type for embedded.
@@ -546,48 +550,59 @@
         .assign te_dt.ExtName = "r_t"
       .end if
       .assign te_dt.Initial_Value = "0.0"
+      .assign te_dt.string_format = "%f"
     .elif ( 4 == te_dt.Core_Typ )
       .// string
       .assign te_dt.ExtName = "c_t"
       .assign te_dt.Initial_Value = "CTOR"
+      .assign te_dt.string_format = "%s"
     .elif ( 5 == te_dt.Core_Typ )
       .// unique_id
       .assign te_dt.ExtName = te_prefix.type + "UniqueID_t"
       .assign te_dt.Initial_Value = "0"
+      .assign te_dt.string_format = "%x"
       .//
     .elif ( 6 == te_dt.Core_Typ )
       .// current_state
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%d"
     .elif ( 7 == te_dt.Core_Typ )
       .// same as base<Attribute>
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%x"
     .elif ( 8 == te_dt.Core_Typ )
       .// inst_ref<Object>
       .assign te_dt.ExtName = "void *"
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%x"
     .elif ( 9 == te_dt.Core_Typ )
       .// inst_ref_set<Object>
       .assign te_dt.ExtName = te_set.base_class + " *"
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%x"
     .elif ( 10 == te_dt.Core_Typ )
       .// inst<Event>
       .assign te_dt.ExtName = te_eq.base_event_type + " *"
       .assign te_dt.Initial_Value = "0"
+      .assign te_dt.string_format = "%x"
       .//
     .elif ( 11 == te_dt.Core_Typ )
       .// inst<Mapping>
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%x"
     .elif ( 12 == te_dt.Core_Typ )
       .// inst_ref<Mapping>
       .assign te_dt.ExtName = "i_t"
       .assign te_dt.Initial_Value = "0"
+      .assign te_dt.string_format = "%x"
     .else
       .// undefined
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%x"
     .end if
   .end for
   .//
@@ -607,6 +622,7 @@
     .assign te_dt.Core_Typ = core_te_dt.Core_Typ
     .assign te_dt.Include_File = core_te_dt.Include_File
     .assign te_dt.ExtName = core_te_dt.ExtName
+    .assign te_dt.string_format = core_te_dt.string_format
     .if ( "" != s_dt.DefaultValue )
       .assign te_dt.Initial_Value = s_dt.DefaultValue
     .else
@@ -655,6 +671,7 @@
     .assign te_dt.Is_Enum = true 
     .assign te_dt.Initial_Value = ( te_dt.Owning_Dom_Name + "_" ) + ( te_dt.Name + "__UNINITIALIZED__e" )
     .assign te_dt.Value = "-1"
+    .assign te_dt.string_format = "%d"
     .if ( te_dt.Owning_Dom_Name == "sys" )
       .assign te_dt.Include_File = ( te_file.types + "." ) + te_file.hdr_file_ext
     .end if
@@ -682,6 +699,7 @@
   .for each s_sdt in s_sdts
     .select one te_dt related by s_sdt->S_DT[R17]->TE_DT[R2021]
     .assign te_dt.ExtName = ( te_dt.Owning_Dom_Name + "_sdt_" ) + te_dt.Name
+    .assign te_dt.string_format = ""
     .select many s_mbrs related by s_sdt->S_MBR[R44]
     .for each s_mbr in s_mbrs
       .create object instance te_mbr of TE_MBR
@@ -1917,6 +1935,8 @@
   .assign te_aba.ParameterDeclaration = params.declaration
   .assign te_aba.ParameterInvocation = params.invocation
   .assign te_aba.ParameterStructure = params.structure
+  .assign te_aba.ParameterTrace = params.parameter_trace
+  .assign te_aba.ParameterFormat = params.string_format
   .assign te_aba.ParameterAssignment = params.assignment
   .assign te_aba.ParameterAssignmentBase = params.assignment_base
   .assign te_aba.scope = ""
