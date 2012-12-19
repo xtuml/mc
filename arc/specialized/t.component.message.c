@@ -34,7 +34,8 @@ ${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
     .end if
   .end if
   .if ( te_mact.trace )
-  ${te_trace.component_msg_start}( "${te_aba.ParameterFormat}", ${te_mact.ComponentName}_DOMAIN_ID, ${port_counter}, ${te_mact.Order}${te_aba.ParameterTrace} );
+  /* <message compname="${te_c.Name}" compnum="${te_c.number}" portname="${te_po.Name}" portnum="${te_po.Order}" msgname="${te_mact.MessageName}" msgnum="${te_mact.Order}"/> */
+  ${te_trace.component_msg_start}( "${te_aba.ParameterFormat}", ${te_c.number}, ${te_po.Order}, ${te_mact.Order}${te_aba.ParameterTrace} );
   .end if
 ${action_body}\
 }

@@ -37,12 +37,10 @@
   .include "${arc_path}/t.component.module.h"
   .emit to file "${te_file.system_include_path}/${te_c.module_file}.${te_file.hdr_file_ext}"
   .//
-  .assign port_counter = 0
   .for each te_po in te_pos
     .// Get the first te_mact(s) in the port.
     .select many te_macts related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
-    .invoke s = TE_MACT_CreateDefinition( te_macts, port_counter )
-    .assign port_counter = port_counter + 1
+    .invoke s = TE_MACT_CreateDefinition( te_c, te_po, te_macts )
     .assign message_definitions = message_definitions + s.body
     .assign portisr = ""
     .if ( "TLM" == te_sys.SystemCPortsType )

@@ -163,7 +163,6 @@
     .assign te_c.module_file = te_c.Name
     .assign te_c.port_file = te_c.Name
     .assign te_c.classes_file = te_c.Name + "_classes"
-    .assign te_c.UseModelNames = true
     .assign te_c.CodeComments = true
     .// Create the Component Instance instances.
     .select many cl_ics related by c_c->CL_IC[R4201]
@@ -236,8 +235,11 @@
     .end for
     .// Identify polymorhic ports.
     .// Polymorphic ports exist more than once in the same orientation on a component.
-    .select many te_pos from instances of TE_PO
+    .assign port_counter = 0
+    .select many te_pos related by te_c->TE_PO[R2005]
     .for each te_po in te_pos
+      .assign te_po.Order = port_counter
+      .assign port_counter = port_counter + 1
       .select many poly_te_pos related by te_po->TE_C[R2005]->TE_PO[R2005] where ( ( ( selected.c_iId == te_po.c_iId ) and ( selected.Provision == te_po.Provision ) ) and ( selected.ID != te_po.ID ) )
       .if ( not_empty poly_te_pos )
         .// If we have seen this port already, it will be marked as polymorphic.

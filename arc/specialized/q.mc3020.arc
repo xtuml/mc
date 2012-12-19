@@ -7,7 +7,7 @@
 .//
 .function factory_TE_COPYRIGHT
   .param inst_ref te_copyright
-  .assign te_copyright.body = "(C) Copyright 1998-2012 Mentor Graphics Corporation.  All rights reserved."
+  .assign te_copyright.body = "your copyright statement can go here (from te_copyright.body)"
 .end function
 .//
 .//

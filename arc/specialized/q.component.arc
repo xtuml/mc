@@ -61,7 +61,7 @@
   .// CDS agilegc (Add foreign includes derived from marking.)
   .select many s_syss from instances of S_SYS
   .assign syscount = cardinality s_syss
-  .if ( 2 == syscount )
+  .if ( ( 2 == syscount ) and ( false ) )
     .select any te_sys from instances of TE_SYS where ( selected.Name == "SYS" )
     .if ( not_empty te_sys )
       .select many required_te_iirs related by local_te_iirs->TE_IIR[R2081.'requires or delegates']
@@ -94,8 +94,9 @@
 .// Generate the port interface functions.
 .//============================================================================
 .function TE_MACT_CreateDefinition
+  .param inst_ref te_c
+  .param inst_ref te_po
   .param inst_ref_set first_te_macts
-  .param integer port_counter
   .select any te_file from instances of TE_FILE
   .select any te_prefix from instances of TE_PREFIX
   .select any te_sys from instances of TE_SYS
@@ -106,12 +107,6 @@
   .select any empty_sm_evt from instances of SM_EVT where ( false )
   .select any empty_act_blk from instances of ACT_BLK where ( false )
   .select many empty_te_macts from instances of TE_MACT where ( false )
-  .// Use any TE_C to get tracing settings.
-  .select any te_c from instances of TE_C where ( selected.StmtTrace )
-  .assign trace = true
-  .if ( empty te_c )
-    .assign trace = false
-  .end if
   .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
   .for each te_mact in first_te_macts
     .while ( not_empty te_mact )
@@ -196,7 +191,7 @@
         .select many foreign_te_macts related by spr_rss->TE_MACT[R2053]
       .end if
     .end if
-    .invoke axret = blck_xlate( trace, act_blk, 0 )
+    .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
     .assign action_body = axret.body
     .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
       .// outbound message
@@ -207,8 +202,8 @@
       .if ( not_empty foreign_te_macts )
         .assign action_body = ""
         .for each foreign_te_mact in foreign_te_macts
-          .select one te_c related by foreign_te_mact->TE_C[R2002]
-          .if ( te_c.included_in_build )
+          .select one foreign_te_c related by foreign_te_mact->TE_C[R2002]
+          .if ( foreign_te_c.included_in_build )
             .invoke s = t_oal_smt_iop( foreign_te_mact.GeneratedName, te_aba.ParameterInvocation, "  ", true )
             .if ( "void" != te_aba.ReturnDataType )
               .assign action_body = "return "
@@ -219,7 +214,7 @@
       .else
         .// CDS agilegc
         .// Check to see if any "virtual" connections (TE_IIRs) have been made to foreign components via marking.
-        .if ( "SYS" == te_sys.Name )
+        .if ( ( "SYS" == te_sys.Name ) and ( false ) )
           .select many foreign_te_iirs related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']
           .if ( empty foreign_te_iirs )
             .select many foreign_te_iirs related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']
