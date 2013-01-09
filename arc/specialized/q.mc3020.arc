@@ -7,7 +7,7 @@
 .//
 .function factory_TE_COPYRIGHT
   .param inst_ref te_copyright
-  .assign te_copyright.body = "(C) Copyright 1998-2012 Mentor Graphics Corporation.  All rights reserved."
+  .assign te_copyright.body = "your copyright statement can go here (from te_copyright.body)"
 .end function
 .//
 .//
@@ -369,6 +369,8 @@
 .function factory_TE_TRACE
   .param inst_ref te_trace
   .select any te_prefix from instances of TE_PREFIX
+  .assign te_trace.component_msg_start = te_prefix.define_usw + "COMP_MSG_START_TRACE"
+  .assign te_trace.component_msg_end = te_prefix.define_usw + "COMP_MSG_END_TRACE"
   .assign te_trace.state_txn_start = te_prefix.define_usw + "STATE_TXN_START_TRACE"
   .assign te_trace.oal_trace = te_prefix.define_usw + "OAL_ACTION_TRACE"
   .assign te_trace.state_txn_end = te_prefix.define_usw + "STATE_TXN_END_TRACE"

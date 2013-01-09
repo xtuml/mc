@@ -202,6 +202,33 @@
 .end function
 .//
 .//============================================================================
+.function MarkMessageTracingOn
+  .param string component_name
+  .param string port_name
+  .param string message_name
+  .select many te_cs from instances of TE_C where ( selected.Name == component_name )
+  .if ( ( "" == component_name ) or ( "*" == component_name ) )
+    .select many te_cs from instances of TE_C
+  .end if
+  .select many te_pos related by te_cs->TE_PO[R2005] where ( selected.Name == port_name )
+  .if ( ( "" == port_name ) or ( "*" == port_name ) )
+    .select many te_pos related by te_cs->TE_PO[R2005]
+  .end if
+  .select many te_macts related by te_pos->TE_MACT[R2006] where ( selected.MessageName == message_name )
+  .if ( ( "" == message_name ) or ( "*" == message_name ) )
+    .select many te_macts related by te_pos->TE_MACT[R2006]
+  .end if
+  .for each te_mact in te_macts
+    .assign te_mact.trace = true
+  .end for
+  .if ( empty te_macts )
+    .print "Warning:  No messages found to trace for ${component_name}::${port_name}::${message_name}."
+  .else
+    .print "Message tracing enabled for ${component_name}::${port_name}::${message_name}."
+  .end if
+.end function
+.//
+.//============================================================================
 .function TagEmptyHandleDetectionOn
   .select many te_cs from instances of TE_C
   .for each te_c in te_cs
