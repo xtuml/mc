@@ -26,7 +26,7 @@ ${te_c.Description}
 .end if
 
 #include "${te_file.types}.${te_file.hdr_file_ext}"
-${declarations.body}
+${message_declarations}
 
 ${te_target.c2cplusplus_linkage_end}
 #endif  /* $u{te_c.module_file}_$u{te_file.hdr_file_ext} */

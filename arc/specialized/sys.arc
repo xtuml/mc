@@ -176,6 +176,13 @@
   .assign te_c.current_component = false
 .end for
 .//
+.select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
+.invoke SetSystemSelfEventQueueParameters( active_te_cs )
+.invoke SetSystemNonSelfEventQueueParameters( active_te_cs )
+.invoke system_parameters = RenderSystemLimitsDeclarations( active_te_cs )
+.invoke system_class_array = DefineClassInfoArray( active_te_cs )
+.invoke domain_ids = DeclareDomainIdentityEnums( active_te_cs )
+.//
 .// Generate the interface code between the components.
 .include "${te_file.arc_path}/q.components.arc"
 .//
@@ -188,11 +195,6 @@
 .invoke dci = GetClassInfoArrayNaming()
 .//
 .// function-based archetype generation
-.//
-.select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
-.invoke SetSystemSelfEventQueueParameters( active_te_cs )
-.invoke SetSystemNonSelfEventQueueParameters( active_te_cs )
-.invoke system_parameters = RenderSystemLimitsDeclarations( active_te_cs )
 .//
 .invoke persistence_needed = IsPersistenceSupportNeeded()
 .assign types = te_typemap
@@ -230,8 +232,6 @@
 .// template-based generation
 .//
 .//
-.invoke system_class_array = DefineClassInfoArray( active_te_cs )
-.invoke domain_ids = DeclareDomainIdentityEnums( active_te_cs )
 .//
 .//=============================================================================
 .// Generate main.
