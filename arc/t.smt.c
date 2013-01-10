@@ -59,6 +59,8 @@ ${ws}else if ( ${condition} ) {
   .param inst_ref te_smt
   .param inst_ref te_assign
   .param string ws
+  .param integer element_count
+  .param boolean is_parameter
   .if ( te_assign.isImplicit )
     .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
   .end if
@@ -72,7 +74,13 @@ ${ws}${te_instance.module}${te_string.strcpy}( ${te_assign.lval}, ${te_assign.rv
       .if ( 0 == te_assign.rval_dimensions )
 ${ws}${te_assign.lval} = ${te_assign.rval};
       .else
-${ws}${te_instance.module}${te_string.memmove}( (void * const) &(${te_assign.lval}), (void const * const) &(${te_assign.rval}), sizeof( ${te_assign.rval} ) );
+        .// We use memmove, because C does not copy arrays very nicely.
+${ws}${te_instance.module}${te_string.memmove}( (void * const) &(${te_assign.lval}), (void const * const) &(${te_assign.rval}), \
+        .if ( is_parameter )
+sizeof( ${te_assign.rval}[0] ) * ${element_count} );
+        .else
+sizeof( ${te_assign.rval} ) );
+        .end if
       .end if
     .end if
   .else
@@ -90,7 +98,7 @@ ${ws}${te_assign.lval} = ${te_assign.rval};
   .select any te_instance from instances of TE_INSTANCE
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .invoke domain_id = GetDomainTypeIDFromString( te_c.Name )
-  .invoke init_uniques = AutoInitializeUniqueIDs( o_obj, var_name )
+  .invoke init_uniques = AutoInitializeUniqueIDs( te_class, var_name )
   .assign attr_declaration = ""
   .if ( is_implicit )
     .assign attr_declaration = "${class_name} * ${var_name};"

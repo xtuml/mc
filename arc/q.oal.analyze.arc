@@ -635,8 +635,7 @@
   .//
   .select many te_classes from instances of TE_CLASS
   .for each te_class in te_classes
-    .select one obj related by te_class->O_OBJ[R2019]
-    .select many oid_set related by obj->O_ID[R104]
+    .select many oid_set related by te_class->O_OBJ[R2019]->O_ID[R104]
     .for each oid in oid_set
       .select one te_where related by oid->TE_WHERE[R2032]
       .// Get all special wheres when loading instances even if they are
@@ -650,9 +649,9 @@
       .if ( te_where.WhereKey )
         .assign key_number = oid.Oid_ID + 1
         .assign where_spec = ""
-        .assign where_key = "${obj.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
+        .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
         .//
-        .select many te_attrs related by obj->O_ATTR[R102]->TE_ATTR[R2033]
+        .select many te_attrs related by te_class->TE_ATTR[R2061]
         .for each te_attr in te_attrs
           .assign te_attr.Included = FALSE
         .end for
@@ -664,26 +663,25 @@
         .end for
         .//
         .// *** Provide a key without parenthesis.
-        .invoke first_attr = GetFirstAttributeInObjectModel( obj )
-        .assign current_attr = first_attr.result
+        .select any first_te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+        .assign te_attr = first_te_attr
         .assign ident_attr_count = 0
-        .while ( not_empty current_attr )
-          .select one te_attr related by current_attr->TE_ATTR[R2033]
+        .while ( not_empty te_attr )
+          .select one o_attr related by te_attr->O_ATTR[R2033]
           .if ( te_attr.Included )
             .assign ident_attr_count = ident_attr_count + 1
-            .assign where_spec = where_spec + "selected.${current_attr.Name} == ?"
+            .assign where_spec = where_spec + "selected.${o_attr.Name} == ?"
             .if ( ident_attr_count < num_ident_attr )
               .assign where_spec = where_spec + " AND "
             .end if
           .end if
           .//
-          .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-          .assign current_attr = next_attr
+          .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
         .end while
         .//
-        .// Object ${obj.Name} (${obj.Key_Lett}) Identifier *${key_number}
+        .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
         .create object instance t of TE_SWC
-        .assign t.Obj_Kl = obj.Key_Lett
+        .assign t.Obj_Kl = te_class.Key_Lett
         .assign t.Where_Spec = where_spec
         .assign t.Key = "${where_key}"
         .assign t.Ret_Val = FALSE
@@ -692,14 +690,14 @@
         .//
         .// *** Provide a key parenthesized at the outer construct.
         .assign where_spec = "("
-        .assign where_key = "${obj.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
-        .assign current_attr = first_attr.result
+        .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
+        .assign te_attr = first_te_attr
         .assign ident_attr_count = 0
-        .while ( not_empty current_attr )
-          .select one te_attr related by current_attr->TE_ATTR[R2033]
+        .while ( not_empty te_attr )
+          .select one o_attr related by te_attr->O_ATTR[R2033]
           .if ( te_attr.Included )
             .assign ident_attr_count = ident_attr_count + 1
-            .assign where_spec = where_spec + "selected.${current_attr.Name} == ?"
+            .assign where_spec = where_spec + "selected.${o_attr.Name} == ?"
             .if ( ident_attr_count < num_ident_attr )
               .assign where_spec = where_spec + " AND "
             .else
@@ -707,13 +705,12 @@
             .end if
           .end if
           .//
-          .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-          .assign current_attr = next_attr
+          .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
         .end while
         .//
-        .// Object ${obj.Name} (${obj.Key_Lett}) Identifier *${key_number}
+        .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
         .create object instance t of TE_SWC
-        .assign t.Obj_Kl = obj.Key_Lett
+        .assign t.Obj_Kl = te_class.Key_Lett
         .assign t.Where_Spec = where_spec
         .assign t.Key = where_key
         .assign t.Ret_Val = FALSE
@@ -723,14 +720,14 @@
         .if ( num_ident_attr > 1 )
           .// *** Provide a key parenthesized at outer and inner constructs.
           .assign where_spec = "("
-          .assign where_key = "${obj.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
-          .assign current_attr = first_attr.result
+          .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
+          .assign te_attr = first_te_attr
           .assign ident_attr_count = 0
-          .while ( not_empty current_attr )
-            .select one te_attr related by current_attr->TE_ATTR[R2033]
+          .while ( not_empty te_attr )
+            .select one o_attr related by te_attr->O_ATTR[R2033]
             .if ( te_attr.Included )
               .assign ident_attr_count = ident_attr_count + 1
-              .assign where_spec = where_spec + "(selected.${current_attr.Name} == ?)"
+              .assign where_spec = where_spec + "(selected.${o_attr.Name} == ?)"
               .if ( ident_attr_count < num_ident_attr )
                 .assign where_spec = where_spec + " AND "
               .else
@@ -738,13 +735,12 @@
               .end if
             .end if
             .//
-            .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-            .assign current_attr = next_attr
+            .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
           .end while
           .//
-          .// Object ${obj.Name} (${obj.Key_Lett}) Identifier *${key_number}
+          .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
           .create object instance t of TE_SWC
-          .assign t.Obj_Kl = obj.Key_Lett
+          .assign t.Obj_Kl = te_class.Key_Lett
           .assign t.Where_Spec = where_spec
           .assign t.Key = where_key
           .assign t.Ret_Val = FALSE
@@ -752,26 +748,25 @@
           .assign t.Oid_ID = oid.Oid_ID
           .// *** Provide a key parenthesized at just inner constructs.
           .assign where_spec = ""
-          .assign where_key = "${obj.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
-          .assign current_attr = first_attr.result
+          .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
+          .assign te_attr = first_te_attr
           .assign ident_attr_count = 0
-          .while ( not_empty current_attr )
-            .select one te_attr related by current_attr->TE_ATTR[R2033]
+          .while ( not_empty te_attr )
+            .select one o_attr related by te_attr->O_ATTR[R2033]
             .if ( te_attr.Included )
               .assign ident_attr_count = ident_attr_count + 1
-              .assign where_spec = where_spec + "(selected.${current_attr.Name} == ?)"
+              .assign where_spec = where_spec + "(selected.${o_attr.Name} == ?)"
               .if ( ident_attr_count < num_ident_attr )
                 .assign where_spec = where_spec + " AND "
               .end if
             .end if
             .//
-            .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-            .assign current_attr = next_attr
+            .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
           .end while
           .//
-          .// Object ${obj.Name} (${obj.Key_Lett}) Identifier *${key_number}
+          .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
           .create object instance t of TE_SWC
-          .assign t.Obj_Kl = obj.Key_Lett
+          .assign t.Obj_Kl = te_class.Key_Lett
           .assign t.Where_Spec = where_spec
           .assign t.Key = where_key
           .assign t.Ret_Val = FALSE

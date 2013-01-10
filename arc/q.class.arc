@@ -20,13 +20,12 @@
 .// Creates the prologue for the implementation files
 .//============================================================================
 .function CreateFilePrologue
-  .param inst_ref o_obj
+  .param inst_ref te_class
   .param boolean  gen_declaration
   .//
   .select any te_copyright from instances of TE_COPYRIGHT
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
-  .select one te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by te_class->TE_C[R2064]
 /*----------------------------------------------------------------------------
   .if ( gen_declaration )
@@ -73,17 +72,16 @@ ${te_target.c2cplusplus_linkage_end}
 .// appear in the application analysis class diagram.
 .//============================================================================
 .function CreateObjectAttrDataDeclaration
-  .param inst_ref o_obj
+  .param inst_ref te_class
   .select any te_string from instances of TE_STRING
-  .invoke first_attr = GetFirstAttributeInObjectModel( o_obj )
-  .assign current_attr = first_attr.result
-  .while ( not_empty current_attr )
-    .select one te_attr related by current_attr->TE_ATTR[R2033]
-    .select one te_dt related by current_attr->S_DT[R114]->TE_DT[R2021]
+  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .while ( not_empty te_attr )
+    .select one o_attr related by te_attr->O_ATTR[R2033]
+    .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
     .assign comment = ""
     .select any te_sys from instances of TE_SYS
     .if ( not te_sys.InstanceLoading )
-    .invoke note = GetObjectAttributeInfoComment( current_attr, TRUE )
+    .invoke note = GetObjectAttributeInfoComment( o_attr, TRUE )
     .if ( note.result != "" )
       .assign comment = "/* ${note.result} */"
     .end if
@@ -93,7 +91,7 @@ ${te_target.c2cplusplus_linkage_end}
       .if ( te_attr.translate )
         .if ( te_dt.Core_Typ == 2 )
           .// integer type
-          .assign bit_field_width = "${current_attr.Descrip:BIT_WIDTH}"
+          .assign bit_field_width = "${o_attr.Descrip:BIT_WIDTH}"
           .if ( "${bit_field_width}" != "" )
   ui_t ${te_attr.GeneratedName} : ${bit_field_width};  ${comment}
           .else
@@ -107,8 +105,7 @@ ${te_target.c2cplusplus_linkage_end}
       .end if
     .end if
     .// Advance to the next object attribute, if any.
-    .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-    .assign current_attr = next_attr
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
   .end while
 .end function
 .//
@@ -206,7 +203,7 @@ ${te_target.c2cplusplus_linkage_end}
       .assign cs = persist.current_state
     .end if
     .// *** Application OIM data members
-    .invoke data_members = CreateObjectAttrDataDeclaration( o_obj )
+    .invoke data_members = CreateObjectAttrDataDeclaration( te_class )
     .assign abody = "  /* application analysis class attributes */\n"
     .assign abody = abody + data_members.body
     .//
@@ -327,7 +324,7 @@ class ${te_c.Name}; // forward reference
   .select one o_obj related by te_class->O_OBJ[R2019]
   .select one sm_ism related by o_obj->SM_ISM[R518]
   .select one sm_asm related by o_obj->SM_ASM[R519]
-  .invoke file_prologue = CreateFilePrologue( o_obj, gen_declaration )
+  .invoke file_prologue = CreateFilePrologue( te_class, gen_declaration )
   .invoke file_epilogue = CreateFileEpilogue( te_class, gen_declaration )
   .assign instance_loader = ""
   .assign batch_relation = ""
@@ -353,6 +350,7 @@ ${file_prologue.body}\
 ${include_files.body}\
   .if ( gen_declaration )
 ${obj_data_class.body}\
+    .include "${te_file.arc_path}/t.class.instancedumper.h"
   .end if
 ${instance_loader}\
 ${batch_relation}\
@@ -364,6 +362,7 @@ ${rel_frag.body}
 };
     .end if
   .else
+    .include "${te_file.arc_path}/t.class.instancedumper.c"
     .if ( "" != xforms.body )
       .include "${te_file.arc_path}/t.class.ops.c"
     .end if

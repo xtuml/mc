@@ -179,7 +179,17 @@
       .// no need to do anything special here, because the type will be vanilla set base class
     .end if
   .end if
-  .invoke s = t_oal_smt_assign( te_smt, te_assign, te_blk.indentation )
+  .assign element_count = 0
+  .select one r_te_dim related by r_te_val->TE_DIM[R2079]
+  .if ( not_empty r_te_dim )
+    .assign element_count = r_te_dim.elementCount
+  .end if
+  .assign is_parameter = false
+  .select one v_pvl related by r_v_val->V_PVL[R801]
+  .if ( not_empty v_pvl )
+    .assign is_parameter = true
+  .end if
+  .invoke s = t_oal_smt_assign( te_smt, te_assign, te_blk.indentation, element_count, is_parameter )
   .assign te_smt.buffer = s.body
   .assign te_smt.OAL = "ASSIGN ${l_te_val.OAL} = ${r_te_val.OAL}"
 .end function

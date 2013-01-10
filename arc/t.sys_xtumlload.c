@@ -121,7 +121,7 @@ static Escher_ClassNumber_t wordindex;
  * Loop through reading the file one record at a time.
  * Parse each record.
  */
-extern int Escher_xtUML_load(
+int Escher_xtUML_load(
   int argc,
   char * argv[]
 )

@@ -124,30 +124,27 @@
   .//
   .// Generate the attribute value initializers.
   .//
-  .invoke first_attr = GetFirstAttributeInObjectModel( o_obj )
-  .assign current_attr = first_attr.result
-  .if ( not_empty current_attr )
-    .select one te_attr related by current_attr->TE_ATTR[R2033]
-    .while ( not_empty current_attr )
+  .select any te_attr related by o_obj->TE_CLASS[R2019]-TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .if ( not_empty te_attr )
+    .select one o_attr related by te_attr->O_ATTR[R2033]
+    .while ( not_empty te_attr )
       .if ( te_attr.translate )
-        .select any i_avl related by i_ins->I_AVL[R2909] where ( selected.Attr_ID == current_attr.Attr_ID )
-        .invoke avlcode = PEIRenderInitializerBodyAttribute( current_attr, i_avl )
+        .select any i_avl related by i_ins->I_AVL[R2909] where ( selected.Attr_ID == o_attr.Attr_ID )
+        .invoke avlcode = PEIRenderInitializerBodyAttribute( o_attr, i_avl )
         .assign attr_result = attr_result + avlcode.result
       .end if
       .//
       .// Advance to the next object attribute, if any.
-      .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-      .assign current_attr = next_attr
+      .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
       .//
       .// Generate comma separator.
-      .if ( not_empty current_attr )
-        .select one te_attr related by current_attr->TE_ATTR[R2033]
+      .if ( not_empty te_attr )
         .if ( te_attr.translate )
           .assign attr_result = attr_result + ", "
         .end if
       .end if
     .end while
-  .end if .// not_empty current_attr
+  .end if
   .//
   .// Generate the association linkage (if needed).
   .//

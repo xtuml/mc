@@ -1412,26 +1412,6 @@ ${aoth_fundamentals.body}\
 .end function
 .//
 .//============================================================================
-.// Return <result> an instance reference of type O_ATTR to the first
-.// (e.g., top) attribute of an object in the anlysis OIM.
-.//============================================================================
-.function GetFirstAttributeInObjectModel
-  .param inst_ref o_obj
-  .//
-  .// Get a no such instance attribute for variable type declaration.
-  .select any attr_result related by o_obj->O_ATTR[R102] where ( selected.PAttr_ID == 0 )
-  .// Find the first attribute of the object (e.g., no R103 predecessor)
-  .select many obj_attr_set related by o_obj->O_ATTR[R102]
-  .for each obj_attr in obj_attr_set
-    .select one previous_attr related by obj_attr->O_ATTR[R103.'precedes']
-    .if ( empty previous_attr )
-      .assign attr_result = obj_attr
-      .break for
-    .end if
-  .end for
-.end function
-.//
-.//============================================================================
 .// Return <result> the multiplicity/conditionality string.
 .//
 .// Inputs:

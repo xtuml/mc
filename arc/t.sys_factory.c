@@ -148,7 +148,7 @@ ${te_instance.scope}${te_instance.delete_persistent}(
 
 typedef void (*brf)( Escher_iHandle_t );
 static brf batch_relaters[] = {
-    ${all_batch_relaters}
+${all_batch_relaters}
 };
 
 /*

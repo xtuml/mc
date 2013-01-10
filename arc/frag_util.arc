@@ -77,25 +77,24 @@ ${indent.result}}
 .// and therefore need to be automatically set up at create time.
 .//============================================================================
 .function AutoInitializeUniqueIDs
-  .param inst_ref o_obj
+  .param inst_ref te_class
   .param string instance
   .//
   .assign attr_result = FALSE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
-  .invoke first_attr = GetFirstAttributeInObjectModel( o_obj )
-  .assign current_attr = first_attr.result
-  .while ( not_empty current_attr )
-    .select one te_attr related by current_attr->TE_ATTR[R2033]
+  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .while ( not_empty te_attr )
+    .select one o_attr related by te_attr->O_ATTR[R2033]
     .if ( te_attr.translate )
-      .invoke member_type = GetAttributeCodeGenType( current_attr )
+      .invoke member_type = GetAttributeCodeGenType( o_attr )
       .assign cdt = member_type.cdt
       .if ( not_empty cdt )
       .if ( cdt.Core_Typ == 5 )
         .assign dt = member_type.dt
         .// Core_Typ == 5 is "unique_id"
         .// CDS:  Note "select any" when there may be more than one.
-        .select any oida related by current_attr->O_OIDA[R105]
+        .select any oida related by o_attr->O_OIDA[R105]
         .if ( not_empty oida )
           .select one te_dt related by dt->TE_DT[R2021]
           .assign attr_result = TRUE
@@ -116,9 +115,8 @@ ${te_instance.module}${te_string.strcpy}( ${instance}->${te_attr.GeneratedName},
     .end if
     .//
     .// Advance to the next object attribute, if any.
-    .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-    .assign current_attr = next_attr
-  .end while  .// not_empty current_attr
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+  .end while
 .end function
 .//
 .//============================================================================
@@ -162,10 +160,8 @@ ${compare_stmt}\
   .assign param_list = ""
   .assign ident_attr_count = 0
   .//
-  .invoke first_attr = GetFirstAttributeInObjectModel( o_obj )
-  .assign current_attr = first_attr.result
-  .while ( not_empty current_attr )
-    .select one te_attr related by current_attr->TE_ATTR[R2033]
+  .select any te_attr related by o_obj->TE_CLASS[R2019]->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .while ( not_empty te_attr )
     .if ( te_attr.Included )
       .assign ident_attr_count = ident_attr_count + 1
       .assign param_list = param_list + te_attr.ParamBuffer
@@ -173,8 +169,7 @@ ${compare_stmt}\
         .assign param_list = param_list + ", "
       .end if
     .end if
-    .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-    .assign current_attr = next_attr
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
   .end while
   .//
 ${param_list}\

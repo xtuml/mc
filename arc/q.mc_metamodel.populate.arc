@@ -42,6 +42,7 @@
   .select any empty_te_c from instances of TE_C where ( false )
   .select any empty_te_dim from instances of TE_DIM where ( false )
   .select any empty_o_obj from instances of O_OBJ where ( false )
+  .select any empty_te_attr from instances of TE_ATTR where ( false )
   .select any empty_te_mact from instances of TE_MACT where ( false )
   .select many empty_te_dts from instances of TE_DT where ( false )
   .select many empty_te_parms from instances of TE_PARM where ( false )
@@ -1427,8 +1428,10 @@
       .assign te_class.persist_link = te_class.GeneratedName + "_LinkCentral"
       .//
       .// Create the Generated Attribute instances and link them to the real ones.
-      .select many o_attrs related by o_obj->O_ATTR[R102]
-      .for each o_attr in o_attrs
+      .assign delimiter = ""
+      .assign prev_te_attr = empty_te_attr
+      .select any o_attr related by o_obj->O_ATTR[R102] where ( selected.PAttr_ID == 0 )
+      .while ( not_empty o_attr )
         .create object instance te_attr of TE_ATTR
         .assign te_attr.Name = o_attr.Name
         .assign te_attr.GeneratedName = "$r{o_attr.Name}"
@@ -1445,6 +1448,11 @@
         .assign te_attr.Attr_ID = o_attr.Attr_ID
         .// relate te_attr to te_class across R2061;
         .assign te_attr.te_classGeneratedName = te_class.GeneratedName
+        .assign te_attr.prevID = 0
+        .if ( not_empty prev_te_attr )
+          .// relate te_attr to prev_te_attr across R2087.'succeeds';
+          .assign te_attr.prevID = prev_te_attr.ID
+        .end if
         .select many s_dims related by o_attr->S_DIM[R120]
         .assign array_spec = ""
         .assign te_attr.dimensions = cardinality s_dims
@@ -1464,6 +1472,8 @@
         .assign te_attr.array_spec = array_spec
         .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
         .assign te_attr.GeneratedType = te_dt.ExtName
+        .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
+        .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
         .if ( 7 == te_dt.Core_Typ )
           .// referential attribute
           .invoke a = GetAttributeCodeGenType( o_attr )
@@ -1496,7 +1506,10 @@
           .// relate te_dbattr to te_aba across R2010;
           .assign te_dbattr.AbaID = te_aba.AbaID
         .end if
-      .end for
+        .assign delimiter = ","
+        .assign prev_te_attr = te_attr
+        .select one o_attr related by o_attr->O_ATTR[R103.'succeeds']
+      .end while
       .//
       .// Create the Generated State Machines and connect them to SM_SM.
       .select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517]

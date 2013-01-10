@@ -1,5 +1,5 @@
 .//============================================================================
-.// $RCSfile: t.class.select_where.h,v $
+.// $RCSfile: t.class.instancedump.c,v $
 .//
 .// Notice:
 .// (C) Copyright 1998-2012 Mentor Graphics Corporation
@@ -10,5 +10,14 @@
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
-${te_class.GeneratedName} * ${te_where.select_any_where}( ${param_list} );
-.//
+.if ( te_sys.InstanceLoading )
+/*
+ * Dump instances in SQL format.
+ */
+void
+${te_class.GeneratedName}_instancedumper( ${te_instance.handle} instance )
+{
+  ${te_class.GeneratedName} * self = (${te_class.GeneratedName} *) instance;
+  printf( "INSERT INTO ${te_class.Key_Lett} VALUES ( ${te_class.attribute_format} );\n"${te_class.attribute_dump} );
+}
+.end if

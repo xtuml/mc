@@ -221,8 +221,8 @@
 .for each te_c in te_cs
   .if ( te_c.internal_behavior )
     .assign all_domain_include_files = all_domain_include_files + "#include ""${te_c.classes_file}.${te_file.hdr_file_ext}""\n"
-    .assign all_instance_loaders = all_instance_loaders + "${te_c.Name}_instance_loaders\n"
-    .assign all_batch_relaters = all_batch_relaters + "${te_c.Name}_batch_relaters\n"
+    .assign all_instance_loaders = all_instance_loaders + "  ${te_c.Name}_instance_loaders,\n"
+    .assign all_batch_relaters = all_batch_relaters + "  ${te_c.Name}_batch_relaters,\n"
     .assign all_max_class_numbers = all_max_class_numbers + " + ${te_c.Name}_MAX_CLASS_NUMBERS"
   .end if
 .end for
