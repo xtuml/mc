@@ -7,7 +7,7 @@
 .// fragment generator entry points.
 .//
 .// Notice:
-.// (C) Copyright 1998-2012 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and

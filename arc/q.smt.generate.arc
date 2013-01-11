@@ -1,7 +1,7 @@
 .//====================================================================
 .// $RCSfile: q.smt.generate.arc,v $
 .//
-.// (c) Copyright 1998-2012 Mentor Graphics Corporation  All rights reserved.
+.// (c) Copyright 1998-2013 Mentor Graphics Corporation  All rights reserved.
 .//====================================================================
 .// ----------------------------------------------------------
 .// gen for statements
