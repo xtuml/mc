@@ -66,13 +66,12 @@
 .// Generate a routine that will initialize instances from string data.
 .//=============================================================================
 .function gen_class_instance_loader
-  .param inst_ref o_obj
+  .param inst_ref te_class
   .param boolean  gen_declaration
   .//
   .select any te_dma from instances of TE_DMA
   .select any te_string from instances of TE_STRING
   .select any te_instance from instances of TE_INSTANCE
-  .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( gen_declaration )
 ${te_instance.handle} ${te_class.GeneratedName}_instanceloader( ${te_instance.handle}, const c_t * [] );
   .else
@@ -169,10 +168,10 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
 .//
 .//
 .function gen_class_batch_relate
-  .param inst_ref o_obj
+  .param inst_ref te_class
   .param boolean gen_declaration
   .select any te_instance from instances of TE_INSTANCE
-  .select one te_class related by o_obj->TE_CLASS[R2019]
+  .select one o_obj related by te_class->O_OBJ[R2019]
   .select many r_rgos related by o_obj->R_OIR[R201]->R_RGO[R203]
   .if ( not_empty r_rgos )
     .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
@@ -252,7 +251,7 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
             .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
           .end while
           .if ( ( ( 0 == o_id.Oid_ID ) and ( 1 == o_rtida_count ) ) and nonreferential )
-  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance${r_rto_count} = (${part_te_class.GeneratedName} *) Escher_instance_cache[ (int) ${param_list} ];
+  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance${r_rto_count} = (${part_te_class.GeneratedName} *) Escher_instance_cache[ (intptr_t) ${param_list} ];
           .else
   ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance${r_rto_count} = ${te_where.select_any_where}( ${param_list} );
           .end if

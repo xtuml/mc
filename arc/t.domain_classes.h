@@ -42,8 +42,6 @@ ${class_numbers}\
 /* Provide a map of classes to task numbers.  */
 #define ${class_numbers_list.task_numbers} ${task_numbers}
 
-#define ${domain_class_info.result}${class_info_init}
-
 #define ${te_c.Name}_class_dispatchers${class_dispatchers}
 .if ( te_sys.InstanceLoading )
 

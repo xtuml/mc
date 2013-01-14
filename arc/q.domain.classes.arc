@@ -60,13 +60,14 @@
   .assign task_numbers = ""
   .assign class_dispatchers = ""
   .assign class_typedefs = ""
-  .assign class_info_init = ""
+  .assign attr_class_info_init = ""
   .assign class_union = "  char ${te_c.Name}_dummy;\\n"
   .assign class_includes = "#include ""${te_c.module_file}.${te_file.hdr_file_ext}"""
   .assign ee_includes = ""
   .assign function_include = ""
   .assign instance_loaders = ""
   .assign batch_relaters = ""
+  .assign attr_instance_dumpers = ""
   .assign type_name = ""
   .assign class_name = ""
   .assign number_of_state_machines = 0
@@ -104,9 +105,9 @@
         .assign type_name = te_class.CBsystem_class_number
         .assign class_name = te_class.CBGeneratedName
         .assign dispatcher = te_class.CBdispatcher
-        .assign class_info_init = ( class_info_init + delimiter ) + "\\n  0"
+        .assign attr_class_info_init = ( attr_class_info_init + delimiter ) + "\n  0"
       .else
-        .assign class_info_init = ( class_info_init + delimiter ) + ( "\\n  &" + extent_info.extent )
+        .assign attr_class_info_init = ( attr_class_info_init + delimiter ) + ( "\n  &" + extent_info.extent )
         .assign type_name = te_class.system_class_number
         .assign class_name = te_class.GeneratedName
         .if ( object_set_type == 0 )
@@ -124,6 +125,7 @@
         .assign class_name = te_class.GeneratedName
         .assign instance_loaders = instance_loaders + "${delimiter}\\n {""${o_obj.Key_Lett}"", ${type_name}, ${class_name}_instanceloader}"
         .assign batch_relaters = batch_relaters + "${delimiter}\\n ${class_name}_batch_relate"
+        .assign attr_instance_dumpers = attr_instance_dumpers + "${delimiter}\n  ${class_name}_instancedumper"
       .end if
       .assign class_numbers = class_numbers + "#define ${type_name} ${class_number_count}\n"
       .assign class_number_count = class_number_count + 1

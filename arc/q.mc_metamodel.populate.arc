@@ -558,12 +558,12 @@
       .// string
       .assign te_dt.ExtName = "c_t"
       .assign te_dt.Initial_Value = "CTOR"
-      .assign te_dt.string_format = "%s"
+      .assign te_dt.string_format = "'%s'"
     .elif ( 5 == te_dt.Core_Typ )
       .// unique_id
       .assign te_dt.ExtName = te_prefix.type + "UniqueID_t"
       .assign te_dt.Initial_Value = "0"
-      .assign te_dt.string_format = "%x"
+      .assign te_dt.string_format = "%p"
       .//
     .elif ( 6 == te_dt.Core_Typ )
       .// current_state
@@ -574,33 +574,33 @@
       .// same as base<Attribute>
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
-      .assign te_dt.string_format = "%x"
+      .assign te_dt.string_format = "%p"
     .elif ( 8 == te_dt.Core_Typ )
       .// inst_ref<Object>
       .assign te_dt.ExtName = "void *"
       .assign te_dt.Initial_Value = ""
-      .assign te_dt.string_format = "%x"
+      .assign te_dt.string_format = "%p"
     .elif ( 9 == te_dt.Core_Typ )
       .// inst_ref_set<Object>
       .assign te_dt.ExtName = te_set.base_class + " *"
       .assign te_dt.Initial_Value = ""
-      .assign te_dt.string_format = "%x"
+      .assign te_dt.string_format = "%p"
     .elif ( 10 == te_dt.Core_Typ )
       .// inst<Event>
       .assign te_dt.ExtName = te_eq.base_event_type + " *"
       .assign te_dt.Initial_Value = "0"
-      .assign te_dt.string_format = "%x"
+      .assign te_dt.string_format = "%p"
       .//
     .elif ( 11 == te_dt.Core_Typ )
       .// inst<Mapping>
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
-      .assign te_dt.string_format = "%x"
+      .assign te_dt.string_format = "%d"
     .elif ( 12 == te_dt.Core_Typ )
       .// inst_ref<Mapping>
       .assign te_dt.ExtName = "i_t"
       .assign te_dt.Initial_Value = "0"
-      .assign te_dt.string_format = "%x"
+      .assign te_dt.string_format = "%d"
     .else
       .// undefined
       .assign te_dt.ExtName = ""
@@ -1472,8 +1472,6 @@
         .assign te_attr.array_spec = array_spec
         .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
         .assign te_attr.GeneratedType = te_dt.ExtName
-        .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
-        .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
         .if ( 7 == te_dt.Core_Typ )
           .// referential attribute
           .invoke a = GetAttributeCodeGenType( o_attr )
@@ -1481,6 +1479,8 @@
           .assign s_dt = a.dt
           .select one te_dt related by s_dt->TE_DT[R2021]
         .end if
+        .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
+        .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
         .// In the C model compiler, treat strings as arrays.
         .if ( 4 == te_dt.Core_Typ )
           .// string

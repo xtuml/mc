@@ -13,8 +13,6 @@
 #include "${te_file.xtumlload}.${te_file.hdr_file_ext}"
 ${all_domain_include_files}
 
-
-
 typedef ${te_instance.handle} (*LoadInstance_t)( ${te_instance.handle}, const c_t * [] );
 
 typedef struct {
@@ -24,7 +22,7 @@ typedef struct {
 } Escher_instance_loader_info_t;
 
 Escher_instance_loader_info_t class_string_2_class_number[] = {
-  ${all_instance_loaders}
+${all_instance_loaders}\
 };
 
 static Escher_ClassNumber_t lookupclassloader( const c_t * );
@@ -39,7 +37,6 @@ static Escher_ClassNumber_t lookupclassloader( const c_t * s )
   }
   return i;
 }
-
 
 static void Escher_load_instance( Escher_ClassNumber_t, const c_t * [] );
 static void Escher_load_instance(
@@ -61,7 +58,7 @@ static void Escher_load_instance(
   /* Convert/Populate the attribute values.  */
   return_identifier = (*class_string_2_class_number[n].instance_loader)( instance, wordvalues );
   if ( 0 != return_identifier ) {
-    Escher_instance_cache[ (int) return_identifier ] = instance;
+    Escher_instance_cache[ (intptr_t) return_identifier ] = instance;
   }
 }
 

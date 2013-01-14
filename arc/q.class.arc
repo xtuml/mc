@@ -340,9 +340,9 @@ class ${te_c.Name}; // forward reference
   .invoke mda = CreateMathematicallyDependentAttributeMethods( o_obj, gen_declaration )
   .invoke include_files = ClassAddIncludeFiles( te_c, gen_declaration )
   .if ( te_sys.InstanceLoading )
-    .invoke s = gen_class_instance_loader( o_obj, gen_declaration )
+    .invoke s = gen_class_instance_loader( te_class, gen_declaration )
     .assign instance_loader = s.body
-    .invoke s = gen_class_batch_relate( o_obj, gen_declaration )
+    .invoke s = gen_class_batch_relate( te_class, gen_declaration )
     .assign batch_relation = s.body
   .end if
   .invoke special_where = AddObjectSpecialWhereMethods( o_obj, gen_declaration )

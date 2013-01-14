@@ -83,9 +83,13 @@
   .//
   .// internal classes
   .//
+  .assign instance_dumpers = ""
+  .assign class_info_init = ""
   .if ( te_c.internal_behavior )
     .invoke te_c_CollectLimits( te_c )
     .invoke class_type_identifiers = CreateClassIdentifierFile( te_c )
+    .assign instance_dumpers = class_type_identifiers.instance_dumpers
+    .assign class_info_init = class_type_identifiers.class_info_init
 ${class_type_identifiers.body}
     .emit to file "${te_file.domain_include_path}/${te_c.classes_file}.${te_file.hdr_file_ext}"
   .end if

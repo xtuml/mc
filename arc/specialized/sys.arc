@@ -40,6 +40,8 @@
 .include "${arc_path}/q.class.cdispatch.arc"
 .include "${arc_path}/q.class.events.arc"
 .include "${arc_path}/q.class.factory.arc"
+.//.include "${arc_path}/q.class.instance.dumper.arc"
+.//.include "${arc_path}/q.class.instance.dump.arc"
 .include "${arc_path}/q.class.link.arc"
 .include "${arc_path}/q.class.pei.arc"
 .include "${arc_path}/q.class.persist.arc"
@@ -216,6 +218,8 @@
 .assign all_domain_include_files = ""
 .assign all_instance_loaders = ""
 .assign all_batch_relaters = ""
+.assign all_instance_dumpersd = ""
+.assign all_instance_dumpers = ""
 .assign all_max_class_numbers = "0"
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
@@ -223,6 +227,8 @@
     .assign all_domain_include_files = all_domain_include_files + "#include ""${te_c.classes_file}.${te_file.hdr_file_ext}""\n"
     .assign all_instance_loaders = all_instance_loaders + "  ${te_c.Name}_instance_loaders,\n"
     .assign all_batch_relaters = all_batch_relaters + "  ${te_c.Name}_batch_relaters,\n"
+    .assign all_instance_dumpersd = all_instance_dumpersd + "extern ${te_prefix.result}idf ${te_c.Name}_instance_dumpers[ ${te_c.Name}_MAX_CLASS_NUMBERS ];\n"
+    .assign all_instance_dumpers = all_instance_dumpers + "  ${te_c.Name}_instance_dumpers,\n"
     .assign all_max_class_numbers = all_max_class_numbers + " + ${te_c.Name}_MAX_CLASS_NUMBERS"
   .end if
 .end for

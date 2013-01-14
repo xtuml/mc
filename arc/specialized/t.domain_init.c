@@ -9,9 +9,12 @@
 .//============================================================================
 .//
 #if ${max_class_number.max} > 0
+.if ( te_sys.InstanceLoading )
+Escher_idf ${te_c.Name}_instance_dumpers[ ${max_class_number.max} ] = {${instance_dumpers}
+};
+.end if
 /* xtUML class info (collections, sizes, etc.) */
-${dci.class_info_type} * const ${domain_class_info.array_name}[ ${max_class_number.max} ] = {
-  ${domain_class_info.result}
+${dci.class_info_type} * const ${domain_class_info.array_name}[ ${max_class_number.max} ] = {${class_info_init}
 };
 #endif
 

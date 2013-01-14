@@ -94,6 +94,7 @@ ${inst_id_in_handle}\
 } ${te_instance.base};
 typedef ${te_instance.base} * ${te_instance.handle};
 typedef ${te_instance.handle} ${te_prefix.type}UniqueID_t;
+typedef void (*Escher_idf)( Escher_iHandle_t ); 
 
 /* Return code type for dispatch of a polymorphic event (see ${te_file.events}.${te_file.hdr_file_ext}).  */
 typedef ${te_typemap.poly_return_type} ${te_typemap.poly_return_name};
@@ -125,6 +126,10 @@ typedef u4_t ${te_prefix.type}uSec_t;
  * Note we include stdio.h for printf.  Otherwise, it is not needed.
  */
 #include <stdio.h>
+.if ( te_sys.InstanceLoading )
+#include <stdint.h>
+#include <string.h>
+.end if
 ${user_supplied_data_types}\
 .end if
 .if ( te_sys.SystemCPortsType != "BitLevelSignals" )
