@@ -3,8 +3,6 @@
 .select many a_aeas from instances of A_AEA
 .for each a_aea in a_aeas
 INSERT INTO A_AEA VALUES (\
-  .assign a = a_aea.Id
-  .print "un-initialized == ${a_aea.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_aea.Id}" )
  0\
   .else
@@ -16,8 +14,6 @@ INSERT INTO A_AEA VALUES (\
 .select many a_aes from instances of A_AE
 .for each a_ae in a_aes
 INSERT INTO A_AE VALUES (\
-  .assign a = a_ae.Id
-  .print "un-initialized == ${a_ae.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_ae.Id}" )
  0\
   .else
@@ -29,8 +25,6 @@ INSERT INTO A_AE VALUES (\
 .select many a_ates from instances of A_ATE
 .for each a_ate in a_ates
 INSERT INTO A_ATE VALUES (\
-  .assign a = a_ate.Id
-  .print "un-initialized == ${a_ate.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_ate.Id}" )
  0\
   .else
@@ -42,8 +36,6 @@ INSERT INTO A_ATE VALUES (\
 .select many a_acts from instances of A_ACT
 .for each a_act in a_acts
 INSERT INTO A_ACT VALUES (\
-  .assign a = a_act.Id
-  .print "un-initialized == ${a_act.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_act.Id}" )
  0\
   .else
@@ -55,8 +47,6 @@ INSERT INTO A_ACT VALUES (\
 .select many a_gas from instances of A_GA
 .for each a_ga in a_gas
 INSERT INTO A_GA VALUES (\
-  .assign a = a_ga.Id
-  .print "un-initialized == ${a_ga.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_ga.Id}" )
  0\
   .else
@@ -68,32 +58,24 @@ INSERT INTO A_GA VALUES (\
 .select many a_es from instances of A_E
 .for each a_e in a_es
 INSERT INTO A_E VALUES (\
-  .assign a = a_e.Id
-  .print "un-initialized == ${a_e.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_e.Id}" )
  0\
   .else
  ${a_e.Id}\
   .end if
 \
-  .assign a = a_e.Package_ID
-  .print "un-initialized == ${a_e.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_e.Package_ID}" )
 , 0\
   .else
 , ${a_e.Package_ID}\
   .end if
 , '${a_e.Guard}', '${a_e.Descrip}'\
-  .assign a = a_e.TargetId
-  .print "un-initialized == ${a_e.TargetId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_e.TargetId}" )
 , 0\
   .else
 , ${a_e.TargetId}\
   .end if
 \
-  .assign a = a_e.SourceId
-  .print "un-initialized == ${a_e.SourceId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_e.SourceId}" )
 , 0\
   .else
@@ -105,8 +87,6 @@ INSERT INTO A_E VALUES (\
 .select many a_afs from instances of A_AF
 .for each a_af in a_afs
 INSERT INTO A_AF VALUES (\
-  .assign a = a_af.Id
-  .print "un-initialized == ${a_af.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_af.Id}" )
  0\
   .else
@@ -118,8 +98,6 @@ INSERT INTO A_AF VALUES (\
 .select many a_aias from instances of A_AIA
 .for each a_aia in a_aias
 INSERT INTO A_AIA VALUES (\
-  .assign a = a_aia.Package_ID
-  .print "un-initialized == ${a_aia.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_aia.Package_ID}" )
  0\
   .else
@@ -131,16 +109,12 @@ INSERT INTO A_AIA VALUES (\
 .select many a_ns from instances of A_N
 .for each a_n in a_ns
 INSERT INTO A_N VALUES (\
-  .assign a = a_n.Id
-  .print "un-initialized == ${a_n.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_n.Id}" )
  0\
   .else
  ${a_n.Id}\
   .end if
 \
-  .assign a = a_n.Package_ID
-  .print "un-initialized == ${a_n.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_n.Package_ID}" )
 , 0\
   .else
@@ -152,16 +126,12 @@ INSERT INTO A_N VALUES (\
 .select many a_aps from instances of A_AP
 .for each a_ap in a_aps
 INSERT INTO A_AP VALUES (\
-  .assign a = a_ap.Id
-  .print "un-initialized == ${a_ap.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_ap.Id}" )
  0\
   .else
  ${a_ap.Id}\
   .end if
 \
-  .assign a = a_ap.Package_ID
-  .print "un-initialized == ${a_ap.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_ap.Package_ID}" )
 , 0\
   .else
@@ -173,56 +143,42 @@ INSERT INTO A_AP VALUES (\
 .select many a_as from instances of A_A
 .for each a_a in a_as
 INSERT INTO A_A VALUES (\
-  .assign a = a_a.Package_ID
-  .print "un-initialized == ${a_a.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_a.Package_ID}" )
  0\
   .else
  ${a_a.Package_ID}\
   .end if
 , '${a_a.Name}', '${a_a.Descrip}'\
-  .assign a = a_a.Dom_ID
-  .print "un-initialized == ${a_a.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_a.Dom_ID}" )
 , 0\
   .else
 , ${a_a.Dom_ID}\
   .end if
 \
-  .assign a = a_a.SS_ID
-  .print "un-initialized == ${a_a.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_a.SS_ID}" )
 , 0\
   .else
 , ${a_a.SS_ID}\
   .end if
 \
-  .assign a = a_a.Parent_Package_ID
-  .print "un-initialized == ${a_a.Parent_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_a.Parent_Package_ID}" )
 , 0\
   .else
 , ${a_a.Parent_Package_ID}\
   .end if
 \
-  .assign a = a_a.Sys_ID
-  .print "un-initialized == ${a_a.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_a.Sys_ID}" )
 , 0\
   .else
 , ${a_a.Sys_ID}\
   .end if
 \
-  .assign a = a_a.Component_Package_ID
-  .print "un-initialized == ${a_a.Component_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_a.Component_Package_ID}" )
 , 0\
   .else
 , ${a_a.Component_Package_ID}\
   .end if
 \
-  .assign a = a_a.Component_Id
-  .print "un-initialized == ${a_a.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_a.Component_Id}" )
 , 0\
   .else
@@ -234,8 +190,6 @@ INSERT INTO A_A VALUES (\
 .select many a_ctls from instances of A_CTL
 .for each a_ctl in a_ctls
 INSERT INTO A_CTL VALUES (\
-  .assign a = a_ctl.Id
-  .print "un-initialized == ${a_ctl.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_ctl.Id}" )
  0\
   .else
@@ -247,8 +201,6 @@ INSERT INTO A_CTL VALUES (\
 .select many a_dms from instances of A_DM
 .for each a_dm in a_dms
 INSERT INTO A_DM VALUES (\
-  .assign a = a_dm.Id
-  .print "un-initialized == ${a_dm.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_dm.Id}" )
  0\
   .else
@@ -260,8 +212,6 @@ INSERT INTO A_DM VALUES (\
 .select many a_ffs from instances of A_FF
 .for each a_ff in a_ffs
 INSERT INTO A_FF VALUES (\
-  .assign a = a_ff.Id
-  .print "un-initialized == ${a_ff.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_ff.Id}" )
  0\
   .else
@@ -273,8 +223,6 @@ INSERT INTO A_FF VALUES (\
 .select many a_fjs from instances of A_FJ
 .for each a_fj in a_fjs
 INSERT INTO A_FJ VALUES (\
-  .assign a = a_fj.Id
-  .print "un-initialized == ${a_fj.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_fj.Id}" )
  0\
   .else
@@ -286,8 +234,6 @@ INSERT INTO A_FJ VALUES (\
 .select many a_inis from instances of A_INI
 .for each a_ini in a_inis
 INSERT INTO A_INI VALUES (\
-  .assign a = a_ini.Id
-  .print "un-initialized == ${a_ini.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_ini.Id}" )
  0\
   .else
@@ -299,8 +245,6 @@ INSERT INTO A_INI VALUES (\
 .select many a_objs from instances of A_OBJ
 .for each a_obj in a_objs
 INSERT INTO A_OBJ VALUES (\
-  .assign a = a_obj.Id
-  .print "un-initialized == ${a_obj.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_obj.Id}" )
  0\
   .else
@@ -312,8 +256,6 @@ INSERT INTO A_OBJ VALUES (\
 .select many a_sss from instances of A_SS
 .for each a_ss in a_sss
 INSERT INTO A_SS VALUES (\
-  .assign a = a_ss.Id
-  .print "un-initialized == ${a_ss.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${a_ss.Id}" )
  0\
   .else
@@ -325,16 +267,12 @@ INSERT INTO A_SS VALUES (\
 .select many r_rels from instances of R_REL
 .for each r_rel in r_rels
 INSERT INTO R_REL VALUES (\
-  .assign a = r_rel.Rel_ID
-  .print "un-initialized == ${r_rel.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_rel.Rel_ID}" )
  0\
   .else
  ${r_rel.Rel_ID}\
   .end if
 , ${r_rel.Numb}, '${r_rel.Descrip}'\
-  .assign a = r_rel.SS_ID
-  .print "un-initialized == ${r_rel.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_rel.SS_ID}" )
 , 0\
   .else
@@ -346,24 +284,18 @@ INSERT INTO R_REL VALUES (\
 .select many r_aones from instances of R_AONE
 .for each r_aone in r_aones
 INSERT INTO R_AONE VALUES (\
-  .assign a = r_aone.Obj_ID
-  .print "un-initialized == ${r_aone.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_aone.Obj_ID}" )
  0\
   .else
  ${r_aone.Obj_ID}\
   .end if
 \
-  .assign a = r_aone.Rel_ID
-  .print "un-initialized == ${r_aone.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_aone.Rel_ID}" )
 , 0\
   .else
 , ${r_aone.Rel_ID}\
   .end if
 \
-  .assign a = r_aone.OIR_ID
-  .print "un-initialized == ${r_aone.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_aone.OIR_ID}" )
 , 0\
   .else
@@ -375,24 +307,18 @@ INSERT INTO R_AONE VALUES (\
 .select many r_aoths from instances of R_AOTH
 .for each r_aoth in r_aoths
 INSERT INTO R_AOTH VALUES (\
-  .assign a = r_aoth.Obj_ID
-  .print "un-initialized == ${r_aoth.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_aoth.Obj_ID}" )
  0\
   .else
  ${r_aoth.Obj_ID}\
   .end if
 \
-  .assign a = r_aoth.Rel_ID
-  .print "un-initialized == ${r_aoth.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_aoth.Rel_ID}" )
 , 0\
   .else
 , ${r_aoth.Rel_ID}\
   .end if
 \
-  .assign a = r_aoth.OIR_ID
-  .print "un-initialized == ${r_aoth.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_aoth.OIR_ID}" )
 , 0\
   .else
@@ -404,24 +330,18 @@ INSERT INTO R_AOTH VALUES (\
 .select many r_cones from instances of R_CONE
 .for each r_cone in r_cones
 INSERT INTO R_CONE VALUES (\
-  .assign a = r_cone.Obj_ID
-  .print "un-initialized == ${r_cone.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_cone.Obj_ID}" )
  0\
   .else
  ${r_cone.Obj_ID}\
   .end if
 \
-  .assign a = r_cone.Rel_ID
-  .print "un-initialized == ${r_cone.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_cone.Rel_ID}" )
 , 0\
   .else
 , ${r_cone.Rel_ID}\
   .end if
 \
-  .assign a = r_cone.OIR_ID
-  .print "un-initialized == ${r_cone.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_cone.OIR_ID}" )
 , 0\
   .else
@@ -433,24 +353,18 @@ INSERT INTO R_CONE VALUES (\
 .select many r_coths from instances of R_COTH
 .for each r_coth in r_coths
 INSERT INTO R_COTH VALUES (\
-  .assign a = r_coth.Obj_ID
-  .print "un-initialized == ${r_coth.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_coth.Obj_ID}" )
  0\
   .else
  ${r_coth.Obj_ID}\
   .end if
 \
-  .assign a = r_coth.Rel_ID
-  .print "un-initialized == ${r_coth.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_coth.Rel_ID}" )
 , 0\
   .else
 , ${r_coth.Rel_ID}\
   .end if
 \
-  .assign a = r_coth.OIR_ID
-  .print "un-initialized == ${r_coth.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_coth.OIR_ID}" )
 , 0\
   .else
@@ -462,24 +376,18 @@ INSERT INTO R_COTH VALUES (\
 .select many r_assrs from instances of R_ASSR
 .for each r_assr in r_assrs
 INSERT INTO R_ASSR VALUES (\
-  .assign a = r_assr.Obj_ID
-  .print "un-initialized == ${r_assr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_assr.Obj_ID}" )
  0\
   .else
  ${r_assr.Obj_ID}\
   .end if
 \
-  .assign a = r_assr.Rel_ID
-  .print "un-initialized == ${r_assr.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_assr.Rel_ID}" )
 , 0\
   .else
 , ${r_assr.Rel_ID}\
   .end if
 \
-  .assign a = r_assr.OIR_ID
-  .print "un-initialized == ${r_assr.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_assr.OIR_ID}" )
 , 0\
   .else
@@ -491,24 +399,18 @@ INSERT INTO R_ASSR VALUES (\
 .select many r_forms from instances of R_FORM
 .for each r_form in r_forms
 INSERT INTO R_FORM VALUES (\
-  .assign a = r_form.Obj_ID
-  .print "un-initialized == ${r_form.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_form.Obj_ID}" )
  0\
   .else
  ${r_form.Obj_ID}\
   .end if
 \
-  .assign a = r_form.Rel_ID
-  .print "un-initialized == ${r_form.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_form.Rel_ID}" )
 , 0\
   .else
 , ${r_form.Rel_ID}\
   .end if
 \
-  .assign a = r_form.OIR_ID
-  .print "un-initialized == ${r_form.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_form.OIR_ID}" )
 , 0\
   .else
@@ -520,24 +422,18 @@ INSERT INTO R_FORM VALUES (\
 .select many r_parts from instances of R_PART
 .for each r_part in r_parts
 INSERT INTO R_PART VALUES (\
-  .assign a = r_part.Obj_ID
-  .print "un-initialized == ${r_part.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_part.Obj_ID}" )
  0\
   .else
  ${r_part.Obj_ID}\
   .end if
 \
-  .assign a = r_part.Rel_ID
-  .print "un-initialized == ${r_part.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_part.Rel_ID}" )
 , 0\
   .else
 , ${r_part.Rel_ID}\
   .end if
 \
-  .assign a = r_part.OIR_ID
-  .print "un-initialized == ${r_part.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_part.OIR_ID}" )
 , 0\
   .else
@@ -549,24 +445,18 @@ INSERT INTO R_PART VALUES (\
 .select many r_subs from instances of R_SUB
 .for each r_sub in r_subs
 INSERT INTO R_SUB VALUES (\
-  .assign a = r_sub.Obj_ID
-  .print "un-initialized == ${r_sub.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_sub.Obj_ID}" )
  0\
   .else
  ${r_sub.Obj_ID}\
   .end if
 \
-  .assign a = r_sub.Rel_ID
-  .print "un-initialized == ${r_sub.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_sub.Rel_ID}" )
 , 0\
   .else
 , ${r_sub.Rel_ID}\
   .end if
 \
-  .assign a = r_sub.OIR_ID
-  .print "un-initialized == ${r_sub.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_sub.OIR_ID}" )
 , 0\
   .else
@@ -578,24 +468,18 @@ INSERT INTO R_SUB VALUES (\
 .select many r_supers from instances of R_SUPER
 .for each r_super in r_supers
 INSERT INTO R_SUPER VALUES (\
-  .assign a = r_super.Obj_ID
-  .print "un-initialized == ${r_super.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_super.Obj_ID}" )
  0\
   .else
  ${r_super.Obj_ID}\
   .end if
 \
-  .assign a = r_super.Rel_ID
-  .print "un-initialized == ${r_super.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_super.Rel_ID}" )
 , 0\
   .else
 , ${r_super.Rel_ID}\
   .end if
 \
-  .assign a = r_super.OIR_ID
-  .print "un-initialized == ${r_super.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_super.OIR_ID}" )
 , 0\
   .else
@@ -607,32 +491,24 @@ INSERT INTO R_SUPER VALUES (\
 .select many r_oirs from instances of R_OIR
 .for each r_oir in r_oirs
 INSERT INTO R_OIR VALUES (\
-  .assign a = r_oir.Obj_ID
-  .print "un-initialized == ${r_oir.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_oir.Obj_ID}" )
  0\
   .else
  ${r_oir.Obj_ID}\
   .end if
 \
-  .assign a = r_oir.Rel_ID
-  .print "un-initialized == ${r_oir.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_oir.Rel_ID}" )
 , 0\
   .else
 , ${r_oir.Rel_ID}\
   .end if
 \
-  .assign a = r_oir.OIR_ID
-  .print "un-initialized == ${r_oir.OIR_ID} ${a} unique_id"
   .if ( "un-initialized" == "${r_oir.OIR_ID}" )
 , 0\
   .else
 , ${r_oir.OIR_ID}\
   .end if
 \
-  .assign a = r_oir.IObj_ID
-  .print "un-initialized == ${r_oir.IObj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_oir.IObj_ID}" )
 , 0\
   .else
@@ -644,8 +520,6 @@ INSERT INTO R_OIR VALUES (\
 .select many r_comps from instances of R_COMP
 .for each r_comp in r_comps
 INSERT INTO R_COMP VALUES (\
-  .assign a = r_comp.Rel_ID
-  .print "un-initialized == ${r_comp.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_comp.Rel_ID}" )
  0\
   .else
@@ -657,8 +531,6 @@ INSERT INTO R_COMP VALUES (\
 .select many r_assocs from instances of R_ASSOC
 .for each r_assoc in r_assocs
 INSERT INTO R_ASSOC VALUES (\
-  .assign a = r_assoc.Rel_ID
-  .print "un-initialized == ${r_assoc.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_assoc.Rel_ID}" )
  0\
   .else
@@ -670,61 +542,41 @@ INSERT INTO R_ASSOC VALUES (\
 .select many r_rtos from instances of R_RTO
 .for each r_rto in r_rtos
 INSERT INTO R_RTO VALUES (\
-  .assign a = r_rto.Obj_ID
-  .print "un-initialized == ${r_rto.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_rto.Obj_ID}" )
  0\
   .else
  ${r_rto.Obj_ID}\
   .end if
 \
-  .assign a = r_rto.Rel_ID
-  .print "un-initialized == ${r_rto.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_rto.Rel_ID}" )
 , 0\
   .else
 , ${r_rto.Rel_ID}\
   .end if
 \
-  .assign a = r_rto.OIR_ID
-  .print "un-initialized == ${r_rto.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_rto.OIR_ID}" )
 , 0\
   .else
 , ${r_rto.OIR_ID}\
   .end if
-\
-  .assign a = r_rto.Oid_ID
-  .print "un-initialized == ${r_rto.Oid_ID} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${r_rto.Oid_ID}" )
-, 0\
-  .else
-, ${r_rto.Oid_ID}\
-  .end if
- );
+, ${r_rto.Oid_ID} );
 .end for
 .print "Referring Class In Assoc (R_RGO)"
 .select many r_rgos from instances of R_RGO
 .for each r_rgo in r_rgos
 INSERT INTO R_RGO VALUES (\
-  .assign a = r_rgo.Obj_ID
-  .print "un-initialized == ${r_rgo.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_rgo.Obj_ID}" )
  0\
   .else
  ${r_rgo.Obj_ID}\
   .end if
 \
-  .assign a = r_rgo.Rel_ID
-  .print "un-initialized == ${r_rgo.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_rgo.Rel_ID}" )
 , 0\
   .else
 , ${r_rgo.Rel_ID}\
   .end if
 \
-  .assign a = r_rgo.OIR_ID
-  .print "un-initialized == ${r_rgo.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_rgo.OIR_ID}" )
 , 0\
   .else
@@ -736,8 +588,6 @@ INSERT INTO R_RGO VALUES (\
 .select many r_simps from instances of R_SIMP
 .for each r_simp in r_simps
 INSERT INTO R_SIMP VALUES (\
-  .assign a = r_simp.Rel_ID
-  .print "un-initialized == ${r_simp.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_simp.Rel_ID}" )
  0\
   .else
@@ -749,8 +599,6 @@ INSERT INTO R_SIMP VALUES (\
 .select many r_subsups from instances of R_SUBSUP
 .for each r_subsup in r_subsups
 INSERT INTO R_SUBSUP VALUES (\
-  .assign a = r_subsup.Rel_ID
-  .print "un-initialized == ${r_subsup.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${r_subsup.Rel_ID}" )
  0\
   .else
@@ -762,24 +610,18 @@ INSERT INTO R_SUBSUP VALUES (\
 .select many act_blks from instances of ACT_BLK
 .for each act_blk in act_blks
 INSERT INTO ACT_BLK VALUES (\
-  .assign a = act_blk.Block_ID
-  .print "un-initialized == ${act_blk.Block_ID} ${a} unique_id"
   .if ( "un-initialized" == "${act_blk.Block_ID}" )
  0\
   .else
  ${act_blk.Block_ID}\
   .end if
 , ${act_blk.WhereSpecOK}, ${act_blk.InWhereSpec}, ${act_blk.SelectedFound}, '${act_blk.TempBuffer}', '${act_blk.SupData1}', '${act_blk.SupData2}', ${act_blk.CurrentLine}, ${act_blk.CurrentCol}, ${act_blk.currentKeyLettersLineNumber}, ${act_blk.currentKeyLettersColumn}, ${act_blk.currentParameterAssignmentNameLineNumber}, ${act_blk.currentParameterAssignmentNameColumn}, ${act_blk.currentAssociationNumberLineNumber}, ${act_blk.currentAssociationNumberColumn}, ${act_blk.currentAssociationPhraseLineNumber}, ${act_blk.currentAssociationPhraseColumn}, ${act_blk.currentDataTypeNameLineNumber}, ${act_blk.currentDataTypeNameColumn}, ${act_blk.blockInStackFrameCreated}\
-  .assign a = act_blk.Action_ID
-  .print "un-initialized == ${act_blk.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_blk.Action_ID}" )
 , 0\
   .else
 , ${act_blk.Action_ID}\
   .end if
 \
-  .assign a = act_blk.Parsed_Action_ID
-  .print "un-initialized == ${act_blk.Parsed_Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_blk.Parsed_Action_ID}" )
 , 0\
   .else
@@ -791,16 +633,12 @@ INSERT INTO ACT_BLK VALUES (\
 .select many act_bics from instances of ACT_BIC
 .for each act_bic in act_bics
 INSERT INTO ACT_BIC VALUES (\
-  .assign a = act_bic.Component_Id
-  .print "un-initialized == ${act_bic.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_bic.Component_Id}" )
  0\
   .else
  ${act_bic.Component_Id}\
   .end if
 \
-  .assign a = act_bic.Action_ID
-  .print "un-initialized == ${act_bic.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_bic.Action_ID}" )
 , 0\
   .else
@@ -812,16 +650,12 @@ INSERT INTO ACT_BIC VALUES (\
 .select many act_bies from instances of ACT_BIE
 .for each act_bie in act_bies
 INSERT INTO ACT_BIE VALUES (\
-  .assign a = act_bie.Element_ID
-  .print "un-initialized == ${act_bie.Element_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_bie.Element_ID}" )
  0\
   .else
  ${act_bie.Element_ID}\
   .end if
 \
-  .assign a = act_bie.Action_ID
-  .print "un-initialized == ${act_bie.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_bie.Action_ID}" )
 , 0\
   .else
@@ -833,32 +667,24 @@ INSERT INTO ACT_BIE VALUES (\
 .select many act_acts from instances of ACT_ACT
 .for each act_act in act_acts
 INSERT INTO ACT_ACT VALUES (\
-  .assign a = act_act.Action_ID
-  .print "un-initialized == ${act_act.Action_ID} ${a} unique_id"
   .if ( "un-initialized" == "${act_act.Action_ID}" )
  0\
   .else
  ${act_act.Action_ID}\
   .end if
 , '${act_act.Type}', ${act_act.LoopLevel}\
-  .assign a = act_act.Block_ID
-  .print "un-initialized == ${act_act.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_act.Block_ID}" )
 , 0\
   .else
 , ${act_act.Block_ID}\
   .end if
 \
-  .assign a = act_act.CurrentScope_ID
-  .print "un-initialized == ${act_act.CurrentScope_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_act.CurrentScope_ID}" )
 , 0\
   .else
 , ${act_act.CurrentScope_ID}\
   .end if
 , ${act_act.return_value}, '${act_act.Label}'\
-  .assign a = act_act.Parsed_Block_ID
-  .print "un-initialized == ${act_act.Parsed_Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_act.Parsed_Block_ID}" )
 , 0\
   .else
@@ -870,8 +696,6 @@ INSERT INTO ACT_ACT VALUES (\
 .select many act_brks from instances of ACT_BRK
 .for each act_brk in act_brks
 INSERT INTO ACT_BRK VALUES (\
-  .assign a = act_brk.Statement_ID
-  .print "un-initialized == ${act_brk.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_brk.Statement_ID}" )
  0\
   .else
@@ -883,16 +707,12 @@ INSERT INTO ACT_BRK VALUES (\
 .select many act_brbs from instances of ACT_BRB
 .for each act_brb in act_brbs
 INSERT INTO ACT_BRB VALUES (\
-  .assign a = act_brb.Action_ID
-  .print "un-initialized == ${act_brb.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_brb.Action_ID}" )
  0\
   .else
  ${act_brb.Action_ID}\
   .end if
 \
-  .assign a = act_brb.Brg_ID
-  .print "un-initialized == ${act_brb.Brg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_brb.Brg_ID}" )
 , 0\
   .else
@@ -904,8 +724,6 @@ INSERT INTO ACT_BRB VALUES (\
 .select many act_cons from instances of ACT_CON
 .for each act_con in act_cons
 INSERT INTO ACT_CON VALUES (\
-  .assign a = act_con.Statement_ID
-  .print "un-initialized == ${act_con.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_con.Statement_ID}" )
  0\
   .else
@@ -917,8 +735,6 @@ INSERT INTO ACT_CON VALUES (\
 .select many act_ctls from instances of ACT_CTL
 .for each act_ctl in act_ctls
 INSERT INTO ACT_CTL VALUES (\
-  .assign a = act_ctl.Statement_ID
-  .print "un-initialized == ${act_ctl.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ctl.Statement_ID}" )
  0\
   .else
@@ -930,24 +746,18 @@ INSERT INTO ACT_CTL VALUES (\
 .select many act_dabs from instances of ACT_DAB
 .for each act_dab in act_dabs
 INSERT INTO ACT_DAB VALUES (\
-  .assign a = act_dab.Action_ID
-  .print "un-initialized == ${act_dab.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_dab.Action_ID}" )
  0\
   .else
  ${act_dab.Action_ID}\
   .end if
 \
-  .assign a = act_dab.Obj_ID
-  .print "un-initialized == ${act_dab.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_dab.Obj_ID}" )
 , 0\
   .else
 , ${act_dab.Obj_ID}\
   .end if
 \
-  .assign a = act_dab.Attr_ID
-  .print "un-initialized == ${act_dab.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_dab.Attr_ID}" )
 , 0\
   .else
@@ -959,24 +769,18 @@ INSERT INTO ACT_DAB VALUES (\
 .select many act_es from instances of ACT_E
 .for each act_e in act_es
 INSERT INTO ACT_E VALUES (\
-  .assign a = act_e.Statement_ID
-  .print "un-initialized == ${act_e.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_e.Statement_ID}" )
  0\
   .else
  ${act_e.Statement_ID}\
   .end if
 \
-  .assign a = act_e.Block_ID
-  .print "un-initialized == ${act_e.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_e.Block_ID}" )
 , 0\
   .else
 , ${act_e.Block_ID}\
   .end if
 \
-  .assign a = act_e.If_Statement_ID
-  .print "un-initialized == ${act_e.If_Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_e.If_Statement_ID}" )
 , 0\
   .else
@@ -988,32 +792,24 @@ INSERT INTO ACT_E VALUES (\
 .select many act_els from instances of ACT_EL
 .for each act_el in act_els
 INSERT INTO ACT_EL VALUES (\
-  .assign a = act_el.Statement_ID
-  .print "un-initialized == ${act_el.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_el.Statement_ID}" )
  0\
   .else
  ${act_el.Statement_ID}\
   .end if
 \
-  .assign a = act_el.Block_ID
-  .print "un-initialized == ${act_el.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_el.Block_ID}" )
 , 0\
   .else
 , ${act_el.Block_ID}\
   .end if
 \
-  .assign a = act_el.Value_ID
-  .print "un-initialized == ${act_el.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_el.Value_ID}" )
 , 0\
   .else
 , ${act_el.Value_ID}\
   .end if
 \
-  .assign a = act_el.If_Statement_ID
-  .print "un-initialized == ${act_el.If_Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_el.If_Statement_ID}" )
 , 0\
   .else
@@ -1025,40 +821,30 @@ INSERT INTO ACT_EL VALUES (\
 .select many act_fors from instances of ACT_FOR
 .for each act_for in act_fors
 INSERT INTO ACT_FOR VALUES (\
-  .assign a = act_for.Statement_ID
-  .print "un-initialized == ${act_for.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_for.Statement_ID}" )
  0\
   .else
  ${act_for.Statement_ID}\
   .end if
 \
-  .assign a = act_for.Block_ID
-  .print "un-initialized == ${act_for.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_for.Block_ID}" )
 , 0\
   .else
 , ${act_for.Block_ID}\
   .end if
 , ${act_for.is_implicit}\
-  .assign a = act_for.Loop_Var_ID
-  .print "un-initialized == ${act_for.Loop_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_for.Loop_Var_ID}" )
 , 0\
   .else
 , ${act_for.Loop_Var_ID}\
   .end if
 \
-  .assign a = act_for.Set_Var_ID
-  .print "un-initialized == ${act_for.Set_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_for.Set_Var_ID}" )
 , 0\
   .else
 , ${act_for.Set_Var_ID}\
   .end if
 \
-  .assign a = act_for.Obj_ID
-  .print "un-initialized == ${act_for.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_for.Obj_ID}" )
 , 0\
   .else
@@ -1070,16 +856,12 @@ INSERT INTO ACT_FOR VALUES (\
 .select many act_fnbs from instances of ACT_FNB
 .for each act_fnb in act_fnbs
 INSERT INTO ACT_FNB VALUES (\
-  .assign a = act_fnb.Action_ID
-  .print "un-initialized == ${act_fnb.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fnb.Action_ID}" )
  0\
   .else
  ${act_fnb.Action_ID}\
   .end if
 \
-  .assign a = act_fnb.Sync_ID
-  .print "un-initialized == ${act_fnb.Sync_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fnb.Sync_ID}" )
 , 0\
   .else
@@ -1091,40 +873,30 @@ INSERT INTO ACT_FNB VALUES (\
 .select many act_ifs from instances of ACT_IF
 .for each act_if in act_ifs
 INSERT INTO ACT_IF VALUES (\
-  .assign a = act_if.Statement_ID
-  .print "un-initialized == ${act_if.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_if.Statement_ID}" )
  0\
   .else
  ${act_if.Statement_ID}\
   .end if
 \
-  .assign a = act_if.Block_ID
-  .print "un-initialized == ${act_if.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_if.Block_ID}" )
 , 0\
   .else
 , ${act_if.Block_ID}\
   .end if
 \
-  .assign a = act_if.Value_ID
-  .print "un-initialized == ${act_if.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_if.Value_ID}" )
 , 0\
   .else
 , ${act_if.Value_ID}\
   .end if
 \
-  .assign a = act_if.Elif_Statement_ID
-  .print "un-initialized == ${act_if.Elif_Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_if.Elif_Statement_ID}" )
 , 0\
   .else
 , ${act_if.Elif_Statement_ID}\
   .end if
 \
-  .assign a = act_if.Else_Statement_ID
-  .print "un-initialized == ${act_if.Else_Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_if.Else_Statement_ID}" )
 , 0\
   .else
@@ -1136,16 +908,12 @@ INSERT INTO ACT_IF VALUES (\
 .select many act_opbs from instances of ACT_OPB
 .for each act_opb in act_opbs
 INSERT INTO ACT_OPB VALUES (\
-  .assign a = act_opb.Action_ID
-  .print "un-initialized == ${act_opb.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_opb.Action_ID}" )
  0\
   .else
  ${act_opb.Action_ID}\
   .end if
 \
-  .assign a = act_opb.Tfr_ID
-  .print "un-initialized == ${act_opb.Tfr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_opb.Tfr_ID}" )
 , 0\
   .else
@@ -1157,16 +925,12 @@ INSERT INTO ACT_OPB VALUES (\
 .select many act_pobs from instances of ACT_POB
 .for each act_pob in act_pobs
 INSERT INTO ACT_POB VALUES (\
-  .assign a = act_pob.Action_ID
-  .print "un-initialized == ${act_pob.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_pob.Action_ID}" )
  0\
   .else
  ${act_pob.Action_ID}\
   .end if
 \
-  .assign a = act_pob.Id
-  .print "un-initialized == ${act_pob.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_pob.Id}" )
 , 0\
   .else
@@ -1178,16 +942,12 @@ INSERT INTO ACT_POB VALUES (\
 .select many act_psbs from instances of ACT_PSB
 .for each act_psb in act_psbs
 INSERT INTO ACT_PSB VALUES (\
-  .assign a = act_psb.Action_ID
-  .print "un-initialized == ${act_psb.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_psb.Action_ID}" )
  0\
   .else
  ${act_psb.Action_ID}\
   .end if
 \
-  .assign a = act_psb.Id
-  .print "un-initialized == ${act_psb.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_psb.Id}" )
 , 0\
   .else
@@ -1199,16 +959,12 @@ INSERT INTO ACT_PSB VALUES (\
 .select many act_robs from instances of ACT_ROB
 .for each act_rob in act_robs
 INSERT INTO ACT_ROB VALUES (\
-  .assign a = act_rob.Action_ID
-  .print "un-initialized == ${act_rob.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_rob.Action_ID}" )
  0\
   .else
  ${act_rob.Action_ID}\
   .end if
 \
-  .assign a = act_rob.Id
-  .print "un-initialized == ${act_rob.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_rob.Id}" )
 , 0\
   .else
@@ -1220,16 +976,12 @@ INSERT INTO ACT_ROB VALUES (\
 .select many act_rsbs from instances of ACT_RSB
 .for each act_rsb in act_rsbs
 INSERT INTO ACT_RSB VALUES (\
-  .assign a = act_rsb.Action_ID
-  .print "un-initialized == ${act_rsb.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_rsb.Action_ID}" )
  0\
   .else
  ${act_rsb.Action_ID}\
   .end if
 \
-  .assign a = act_rsb.Id
-  .print "un-initialized == ${act_rsb.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_rsb.Id}" )
 , 0\
   .else
@@ -1241,24 +993,18 @@ INSERT INTO ACT_RSB VALUES (\
 .select many act_sabs from instances of ACT_SAB
 .for each act_sab in act_sabs
 INSERT INTO ACT_SAB VALUES (\
-  .assign a = act_sab.Action_ID
-  .print "un-initialized == ${act_sab.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sab.Action_ID}" )
  0\
   .else
  ${act_sab.Action_ID}\
   .end if
 \
-  .assign a = act_sab.SM_ID
-  .print "un-initialized == ${act_sab.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sab.SM_ID}" )
 , 0\
   .else
 , ${act_sab.SM_ID}\
   .end if
 \
-  .assign a = act_sab.Act_ID
-  .print "un-initialized == ${act_sab.Act_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sab.Act_ID}" )
 , 0\
   .else
@@ -1270,24 +1016,18 @@ INSERT INTO ACT_SAB VALUES (\
 .select many act_smts from instances of ACT_SMT
 .for each act_smt in act_smts
 INSERT INTO ACT_SMT VALUES (\
-  .assign a = act_smt.Statement_ID
-  .print "un-initialized == ${act_smt.Statement_ID} ${a} unique_id"
   .if ( "un-initialized" == "${act_smt.Statement_ID}" )
  0\
   .else
  ${act_smt.Statement_ID}\
   .end if
 \
-  .assign a = act_smt.Block_ID
-  .print "un-initialized == ${act_smt.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_smt.Block_ID}" )
 , 0\
   .else
 , ${act_smt.Block_ID}\
   .end if
 \
-  .assign a = act_smt.Previous_Statement_ID
-  .print "un-initialized == ${act_smt.Previous_Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_smt.Previous_Statement_ID}" )
 , 0\
   .else
@@ -1299,24 +1039,18 @@ INSERT INTO ACT_SMT VALUES (\
 .select many act_tabs from instances of ACT_TAB
 .for each act_tab in act_tabs
 INSERT INTO ACT_TAB VALUES (\
-  .assign a = act_tab.Action_ID
-  .print "un-initialized == ${act_tab.Action_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_tab.Action_ID}" )
  0\
   .else
  ${act_tab.Action_ID}\
   .end if
 \
-  .assign a = act_tab.SM_ID
-  .print "un-initialized == ${act_tab.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_tab.SM_ID}" )
 , 0\
   .else
 , ${act_tab.SM_ID}\
   .end if
 \
-  .assign a = act_tab.Act_ID
-  .print "un-initialized == ${act_tab.Act_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_tab.Act_ID}" )
 , 0\
   .else
@@ -1328,24 +1062,18 @@ INSERT INTO ACT_TAB VALUES (\
 .select many act_whls from instances of ACT_WHL
 .for each act_whl in act_whls
 INSERT INTO ACT_WHL VALUES (\
-  .assign a = act_whl.Statement_ID
-  .print "un-initialized == ${act_whl.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_whl.Statement_ID}" )
  0\
   .else
  ${act_whl.Statement_ID}\
   .end if
 \
-  .assign a = act_whl.Value_ID
-  .print "un-initialized == ${act_whl.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_whl.Value_ID}" )
 , 0\
   .else
 , ${act_whl.Value_ID}\
   .end if
 \
-  .assign a = act_whl.Block_ID
-  .print "un-initialized == ${act_whl.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_whl.Block_ID}" )
 , 0\
   .else
@@ -1357,8 +1085,6 @@ INSERT INTO ACT_WHL VALUES (\
 .select many bp_bps from instances of BP_BP
 .for each bp_bp in bp_bps
 INSERT INTO BP_BP VALUES (\
-  .assign a = bp_bp.Breakpoint_ID
-  .print "un-initialized == ${bp_bp.Breakpoint_ID} ${a} unique_id"
   .if ( "un-initialized" == "${bp_bp.Breakpoint_ID}" )
  0\
   .else
@@ -1370,8 +1096,6 @@ INSERT INTO BP_BP VALUES (\
 .select many bp_cons from instances of BP_CON
 .for each bp_con in bp_cons
 INSERT INTO BP_CON VALUES (\
-  .assign a = bp_con.Breakpoint_ID
-  .print "un-initialized == ${bp_con.Breakpoint_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${bp_con.Breakpoint_ID}" )
  0\
   .else
@@ -1383,16 +1107,12 @@ INSERT INTO BP_CON VALUES (\
 .select many bp_evs from instances of BP_EV
 .for each bp_ev in bp_evs
 INSERT INTO BP_EV VALUES (\
-  .assign a = bp_ev.Breakpoint_ID
-  .print "un-initialized == ${bp_ev.Breakpoint_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${bp_ev.Breakpoint_ID}" )
  0\
   .else
  ${bp_ev.Breakpoint_ID}\
   .end if
 , ${bp_ev.onEnqueue}, ${bp_ev.onDequeue}, ${bp_ev.onEventIgnored}, ${bp_ev.onCantHappen}\
-  .assign a = bp_ev.SMevt_ID
-  .print "un-initialized == ${bp_ev.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${bp_ev.SMevt_ID}" )
 , 0\
   .else
@@ -1404,16 +1124,12 @@ INSERT INTO BP_EV VALUES (\
 .select many bp_oals from instances of BP_OAL
 .for each bp_oal in bp_oals
 INSERT INTO BP_OAL VALUES (\
-  .assign a = bp_oal.Statement_ID
-  .print "un-initialized == ${bp_oal.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${bp_oal.Statement_ID}" )
  0\
   .else
  ${bp_oal.Statement_ID}\
   .end if
 \
-  .assign a = bp_oal.Breakpoint_ID
-  .print "un-initialized == ${bp_oal.Breakpoint_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${bp_oal.Breakpoint_ID}" )
 , 0\
   .else
@@ -1425,24 +1141,18 @@ INSERT INTO BP_OAL VALUES (\
 .select many bp_sts from instances of BP_ST
 .for each bp_st in bp_sts
 INSERT INTO BP_ST VALUES (\
-  .assign a = bp_st.Breakpoint_ID
-  .print "un-initialized == ${bp_st.Breakpoint_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${bp_st.Breakpoint_ID}" )
  0\
   .else
  ${bp_st.Breakpoint_ID}\
   .end if
 , ${bp_st.onEntry}, ${bp_st.onExit}\
-  .assign a = bp_st.SM_ID
-  .print "un-initialized == ${bp_st.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${bp_st.SM_ID}" )
 , 0\
   .else
 , ${bp_st.SM_ID}\
   .end if
 \
-  .assign a = bp_st.SMstt_ID
-  .print "un-initialized == ${bp_st.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${bp_st.SMstt_ID}" )
 , 0\
   .else
@@ -1454,32 +1164,24 @@ INSERT INTO BP_ST VALUES (\
 .select many ca_accs from instances of CA_ACC
 .for each ca_acc in ca_accs
 INSERT INTO CA_ACC VALUES (\
-  .assign a = ca_acc.APath_ID
-  .print "un-initialized == ${ca_acc.APath_ID} ${a} unique_id"
   .if ( "un-initialized" == "${ca_acc.APath_ID}" )
  0\
   .else
  ${ca_acc.APath_ID}\
   .end if
 \
-  .assign a = ca_acc.SS_ID
-  .print "un-initialized == ${ca_acc.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_acc.SS_ID}" )
 , 0\
   .else
 , ${ca_acc.SS_ID}\
   .end if
 \
-  .assign a = ca_acc.SM_ID
-  .print "un-initialized == ${ca_acc.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_acc.SM_ID}" )
 , 0\
   .else
 , ${ca_acc.SM_ID}\
   .end if
 \
-  .assign a = ca_acc.IObj_ID
-  .print "un-initialized == ${ca_acc.IObj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_acc.IObj_ID}" )
 , 0\
   .else
@@ -1491,16 +1193,12 @@ INSERT INTO CA_ACC VALUES (\
 .select many ca_comms from instances of CA_COMM
 .for each ca_comm in ca_comms
 INSERT INTO CA_COMM VALUES (\
-  .assign a = ca_comm.CPath_ID
-  .print "un-initialized == ${ca_comm.CPath_ID} ${a} unique_id"
   .if ( "un-initialized" == "${ca_comm.CPath_ID}" )
  0\
   .else
  ${ca_comm.CPath_ID}\
   .end if
 \
-  .assign a = ca_comm.SS_ID
-  .print "un-initialized == ${ca_comm.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_comm.SS_ID}" )
 , 0\
   .else
@@ -1512,32 +1210,24 @@ INSERT INTO CA_COMM VALUES (\
 .select many ca_eesmcs from instances of CA_EESMC
 .for each ca_eesmc in ca_eesmcs
 INSERT INTO CA_EESMC VALUES (\
-  .assign a = ca_eesmc.CPath_ID
-  .print "un-initialized == ${ca_eesmc.CPath_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_eesmc.CPath_ID}" )
  0\
   .else
  ${ca_eesmc.CPath_ID}\
   .end if
 \
-  .assign a = ca_eesmc.EEmod_ID
-  .print "un-initialized == ${ca_eesmc.EEmod_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_eesmc.EEmod_ID}" )
 , 0\
   .else
 , ${ca_eesmc.EEmod_ID}\
   .end if
 \
-  .assign a = ca_eesmc.EE_ID
-  .print "un-initialized == ${ca_eesmc.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_eesmc.EE_ID}" )
 , 0\
   .else
 , ${ca_eesmc.EE_ID}\
   .end if
 \
-  .assign a = ca_eesmc.SM_ID
-  .print "un-initialized == ${ca_eesmc.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_eesmc.SM_ID}" )
 , 0\
   .else
@@ -1549,16 +1239,12 @@ INSERT INTO CA_EESMC VALUES (\
 .select many ca_eesmes from instances of CA_EESME
 .for each ca_eesme in ca_eesmes
 INSERT INTO CA_EESME VALUES (\
-  .assign a = ca_eesme.CPath_ID
-  .print "un-initialized == ${ca_eesme.CPath_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_eesme.CPath_ID}" )
  0\
   .else
  ${ca_eesme.CPath_ID}\
   .end if
 \
-  .assign a = ca_eesme.SMevt_ID
-  .print "un-initialized == ${ca_eesme.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_eesme.SMevt_ID}" )
 , 0\
   .else
@@ -1570,24 +1256,18 @@ INSERT INTO CA_EESME VALUES (\
 .select many ca_smeeas from instances of CA_SMEEA
 .for each ca_smeea in ca_smeeas
 INSERT INTO CA_SMEEA VALUES (\
-  .assign a = ca_smeea.APath_ID
-  .print "un-initialized == ${ca_smeea.APath_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeea.APath_ID}" )
  0\
   .else
  ${ca_smeea.APath_ID}\
   .end if
 \
-  .assign a = ca_smeea.EE_ID
-  .print "un-initialized == ${ca_smeea.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeea.EE_ID}" )
 , 0\
   .else
 , ${ca_smeea.EE_ID}\
   .end if
 \
-  .assign a = ca_smeea.EEmod_ID
-  .print "un-initialized == ${ca_smeea.EEmod_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeea.EEmod_ID}" )
 , 0\
   .else
@@ -1599,32 +1279,24 @@ INSERT INTO CA_SMEEA VALUES (\
 .select many ca_smeecs from instances of CA_SMEEC
 .for each ca_smeec in ca_smeecs
 INSERT INTO CA_SMEEC VALUES (\
-  .assign a = ca_smeec.CPath_ID
-  .print "un-initialized == ${ca_smeec.CPath_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeec.CPath_ID}" )
  0\
   .else
  ${ca_smeec.CPath_ID}\
   .end if
 \
-  .assign a = ca_smeec.SM_ID
-  .print "un-initialized == ${ca_smeec.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeec.SM_ID}" )
 , 0\
   .else
 , ${ca_smeec.SM_ID}\
   .end if
 \
-  .assign a = ca_smeec.EE_ID
-  .print "un-initialized == ${ca_smeec.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeec.EE_ID}" )
 , 0\
   .else
 , ${ca_smeec.EE_ID}\
   .end if
 \
-  .assign a = ca_smeec.EEmod_ID
-  .print "un-initialized == ${ca_smeec.EEmod_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeec.EEmod_ID}" )
 , 0\
   .else
@@ -1636,24 +1308,18 @@ INSERT INTO CA_SMEEC VALUES (\
 .select many ca_smeeds from instances of CA_SMEED
 .for each ca_smeed in ca_smeeds
 INSERT INTO CA_SMEED VALUES (\
-  .assign a = ca_smeed.APath_ID
-  .print "un-initialized == ${ca_smeed.APath_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeed.APath_ID}" )
  0\
   .else
  ${ca_smeed.APath_ID}\
   .end if
 \
-  .assign a = ca_smeed.EEdi_ID
-  .print "un-initialized == ${ca_smeed.EEdi_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeed.EEdi_ID}" )
 , 0\
   .else
 , ${ca_smeed.EEdi_ID}\
   .end if
 \
-  .assign a = ca_smeed.EE_ID
-  .print "un-initialized == ${ca_smeed.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeed.EE_ID}" )
 , 0\
   .else
@@ -1665,24 +1331,18 @@ INSERT INTO CA_SMEED VALUES (\
 .select many ca_smeees from instances of CA_SMEEE
 .for each ca_smeee in ca_smeees
 INSERT INTO CA_SMEEE VALUES (\
-  .assign a = ca_smeee.CPath_ID
-  .print "un-initialized == ${ca_smeee.CPath_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeee.CPath_ID}" )
  0\
   .else
  ${ca_smeee.CPath_ID}\
   .end if
 \
-  .assign a = ca_smeee.EE_ID
-  .print "un-initialized == ${ca_smeee.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeee.EE_ID}" )
 , 0\
   .else
 , ${ca_smeee.EE_ID}\
   .end if
 \
-  .assign a = ca_smeee.EEevt_ID
-  .print "un-initialized == ${ca_smeee.EEevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smeee.EEevt_ID}" )
 , 0\
   .else
@@ -1694,24 +1354,18 @@ INSERT INTO CA_SMEEE VALUES (\
 .select many ca_smoas from instances of CA_SMOA
 .for each ca_smoa in ca_smoas
 INSERT INTO CA_SMOA VALUES (\
-  .assign a = ca_smoa.APath_ID
-  .print "un-initialized == ${ca_smoa.APath_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smoa.APath_ID}" )
  0\
   .else
  ${ca_smoa.APath_ID}\
   .end if
 \
-  .assign a = ca_smoa.Obj_ID
-  .print "un-initialized == ${ca_smoa.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smoa.Obj_ID}" )
 , 0\
   .else
 , ${ca_smoa.Obj_ID}\
   .end if
 \
-  .assign a = ca_smoa.IObj_ID
-  .print "un-initialized == ${ca_smoa.IObj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smoa.IObj_ID}" )
 , 0\
   .else
@@ -1723,24 +1377,18 @@ INSERT INTO CA_SMOA VALUES (\
 .select many ca_smoaas from instances of CA_SMOAA
 .for each ca_smoaa in ca_smoaas
 INSERT INTO CA_SMOAA VALUES (\
-  .assign a = ca_smoaa.APath_ID
-  .print "un-initialized == ${ca_smoaa.APath_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smoaa.APath_ID}" )
  0\
   .else
  ${ca_smoaa.APath_ID}\
   .end if
 \
-  .assign a = ca_smoaa.Attr_ID
-  .print "un-initialized == ${ca_smoaa.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smoaa.Attr_ID}" )
 , 0\
   .else
 , ${ca_smoaa.Attr_ID}\
   .end if
 \
-  .assign a = ca_smoaa.Obj_ID
-  .print "un-initialized == ${ca_smoaa.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smoaa.Obj_ID}" )
 , 0\
   .else
@@ -1752,40 +1400,30 @@ INSERT INTO CA_SMOAA VALUES (\
 .select many ca_smsmcs from instances of CA_SMSMC
 .for each ca_smsmc in ca_smsmcs
 INSERT INTO CA_SMSMC VALUES (\
-  .assign a = ca_smsmc.CPath_ID
-  .print "un-initialized == ${ca_smsmc.CPath_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smsmc.CPath_ID}" )
  0\
   .else
  ${ca_smsmc.CPath_ID}\
   .end if
 \
-  .assign a = ca_smsmc.OSM_ID
-  .print "un-initialized == ${ca_smsmc.OSM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smsmc.OSM_ID}" )
 , 0\
   .else
 , ${ca_smsmc.OSM_ID}\
   .end if
 \
-  .assign a = ca_smsmc.DSM_ID
-  .print "un-initialized == ${ca_smsmc.DSM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smsmc.DSM_ID}" )
 , 0\
   .else
 , ${ca_smsmc.DSM_ID}\
   .end if
 \
-  .assign a = ca_smsmc.OIObj_ID
-  .print "un-initialized == ${ca_smsmc.OIObj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smsmc.OIObj_ID}" )
 , 0\
   .else
 , ${ca_smsmc.OIObj_ID}\
   .end if
 \
-  .assign a = ca_smsmc.DIObj_ID
-  .print "un-initialized == ${ca_smsmc.DIObj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smsmc.DIObj_ID}" )
 , 0\
   .else
@@ -1797,16 +1435,12 @@ INSERT INTO CA_SMSMC VALUES (\
 .select many ca_smsmes from instances of CA_SMSME
 .for each ca_smsme in ca_smsmes
 INSERT INTO CA_SMSME VALUES (\
-  .assign a = ca_smsme.CPath_ID
-  .print "un-initialized == ${ca_smsme.CPath_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smsme.CPath_ID}" )
  0\
   .else
  ${ca_smsme.CPath_ID}\
   .end if
 \
-  .assign a = ca_smsme.SMevt_ID
-  .print "un-initialized == ${ca_smsme.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ca_smsme.SMevt_ID}" )
 , 0\
   .else
@@ -1818,32 +1452,24 @@ INSERT INTO CA_SMSME VALUES (\
 .select many comm_lnks from instances of COMM_LNK
 .for each comm_lnk in comm_lnks
 INSERT INTO COMM_LNK VALUES (\
-  .assign a = comm_lnk.Link_ID
-  .print "un-initialized == ${comm_lnk.Link_ID} ${a} unique_id"
   .if ( "un-initialized" == "${comm_lnk.Link_ID}" )
  0\
   .else
  ${comm_lnk.Link_ID}\
   .end if
 \
-  .assign a = comm_lnk.Rel_ID
-  .print "un-initialized == ${comm_lnk.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_lnk.Rel_ID}" )
 , 0\
   .else
 , ${comm_lnk.Rel_ID}\
   .end if
 , '${comm_lnk.Numb}', '${comm_lnk.Descrip}', '${comm_lnk.StartText}', '${comm_lnk.EndText}', ${comm_lnk.isFormal}, ${comm_lnk.StartVisibility}, ${comm_lnk.EndVisibility}\
-  .assign a = comm_lnk.Start_Part_ID
-  .print "un-initialized == ${comm_lnk.Start_Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_lnk.Start_Part_ID}" )
 , 0\
   .else
 , ${comm_lnk.Start_Part_ID}\
   .end if
 \
-  .assign a = comm_lnk.Destination_Part_ID
-  .print "un-initialized == ${comm_lnk.Destination_Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_lnk.Destination_Part_ID}" )
 , 0\
   .else
@@ -1855,8 +1481,6 @@ INSERT INTO COMM_LNK VALUES (\
 .select many comm_cics from instances of COMM_CIC
 .for each comm_cic in comm_cics
 INSERT INTO COMM_CIC VALUES (\
-  .assign a = comm_cic.Package_ID
-  .print "un-initialized == ${comm_cic.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_cic.Package_ID}" )
  0\
   .else
@@ -1868,56 +1492,42 @@ INSERT INTO COMM_CIC VALUES (\
 .select many comm_comms from instances of COMM_COMM
 .for each comm_comm in comm_comms
 INSERT INTO COMM_COMM VALUES (\
-  .assign a = comm_comm.Package_ID
-  .print "un-initialized == ${comm_comm.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_comm.Package_ID}" )
  0\
   .else
  ${comm_comm.Package_ID}\
   .end if
 \
-  .assign a = comm_comm.Dom_ID
-  .print "un-initialized == ${comm_comm.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_comm.Dom_ID}" )
 , 0\
   .else
 , ${comm_comm.Dom_ID}\
   .end if
 \
-  .assign a = comm_comm.SS_ID
-  .print "un-initialized == ${comm_comm.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_comm.SS_ID}" )
 , 0\
   .else
 , ${comm_comm.SS_ID}\
   .end if
 \
-  .assign a = comm_comm.CIC_Package_ID
-  .print "un-initialized == ${comm_comm.CIC_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_comm.CIC_Package_ID}" )
 , 0\
   .else
 , ${comm_comm.CIC_Package_ID}\
   .end if
 , '${comm_comm.Name}', '${comm_comm.Descrip}'\
-  .assign a = comm_comm.Sys_ID
-  .print "un-initialized == ${comm_comm.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_comm.Sys_ID}" )
 , 0\
   .else
 , ${comm_comm.Sys_ID}\
   .end if
 \
-  .assign a = comm_comm.Component_Package_ID
-  .print "un-initialized == ${comm_comm.Component_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_comm.Component_Package_ID}" )
 , 0\
   .else
 , ${comm_comm.Component_Package_ID}\
   .end if
 \
-  .assign a = comm_comm.Component_Id
-  .print "un-initialized == ${comm_comm.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_comm.Component_Id}" )
 , 0\
   .else
@@ -1929,16 +1539,12 @@ INSERT INTO COMM_COMM VALUES (\
 .select many comm_mics from instances of COMM_MIC
 .for each comm_mic in comm_mics
 INSERT INTO COMM_MIC VALUES (\
-  .assign a = comm_mic.Package_ID
-  .print "un-initialized == ${comm_mic.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_mic.Package_ID}" )
  0\
   .else
  ${comm_mic.Package_ID}\
   .end if
 \
-  .assign a = comm_mic.Msg_ID
-  .print "un-initialized == ${comm_mic.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_mic.Msg_ID}" )
 , 0\
   .else
@@ -1950,16 +1556,12 @@ INSERT INTO COMM_MIC VALUES (\
 .select many comm_pics from instances of COMM_PIC
 .for each comm_pic in comm_pics
 INSERT INTO COMM_PIC VALUES (\
-  .assign a = comm_pic.Package_ID
-  .print "un-initialized == ${comm_pic.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_pic.Package_ID}" )
  0\
   .else
  ${comm_pic.Package_ID}\
   .end if
 \
-  .assign a = comm_pic.Part_ID
-  .print "un-initialized == ${comm_pic.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${comm_pic.Part_ID}" )
 , 0\
   .else
@@ -1971,32 +1573,24 @@ INSERT INTO COMM_PIC VALUES (\
 .select many c_cs from instances of C_C
 .for each c_c in c_cs
 INSERT INTO C_C VALUES (\
-  .assign a = c_c.Id
-  .print "un-initialized == ${c_c.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_c.Id}" )
  0\
   .else
  ${c_c.Id}\
   .end if
 \
-  .assign a = c_c.Package_ID
-  .print "un-initialized == ${c_c.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_c.Package_ID}" )
 , 0\
   .else
 , ${c_c.Package_ID}\
   .end if
 \
-  .assign a = c_c.NestedComponent_Id
-  .print "un-initialized == ${c_c.NestedComponent_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_c.NestedComponent_Id}" )
 , 0\
   .else
 , ${c_c.NestedComponent_Id}\
   .end if
 , '${c_c.Name}', '${c_c.Descrip}', ${c_c.Mult}\
-  .assign a = c_c.Root_Package_ID
-  .print "un-initialized == ${c_c.Root_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_c.Root_Package_ID}" )
 , 0\
   .else
@@ -2008,8 +1602,6 @@ INSERT INTO C_C VALUES (\
 .select many c_dgs from instances of C_DG
 .for each c_dg in c_dgs
 INSERT INTO C_DG VALUES (\
-  .assign a = c_dg.Id
-  .print "un-initialized == ${c_dg.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_dg.Id}" )
  0\
   .else
@@ -2021,16 +1613,12 @@ INSERT INTO C_DG VALUES (\
 .select many c_eps from instances of C_EP
 .for each c_ep in c_eps
 INSERT INTO C_EP VALUES (\
-  .assign a = c_ep.Id
-  .print "un-initialized == ${c_ep.Id} ${a} unique_id"
   .if ( "un-initialized" == "${c_ep.Id}" )
  0\
   .else
  ${c_ep.Id}\
   .end if
 \
-  .assign a = c_ep.Interface_Id
-  .print "un-initialized == ${c_ep.Interface_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_ep.Interface_Id}" )
 , 0\
   .else
@@ -2042,24 +1630,18 @@ INSERT INTO C_EP VALUES (\
 .select many c_ios from instances of C_IO
 .for each c_io in c_ios
 INSERT INTO C_IO VALUES (\
-  .assign a = c_io.Id
-  .print "un-initialized == ${c_io.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_io.Id}" )
  0\
   .else
  ${c_io.Id}\
   .end if
 \
-  .assign a = c_io.DT_ID
-  .print "un-initialized == ${c_io.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_io.DT_ID}" )
 , 0\
   .else
 , ${c_io.DT_ID}\
   .end if
 , '${c_io.Name}', '${c_io.Descrip}', ${c_io.Direction}, '${c_io.Return_Dimensions}'\
-  .assign a = c_io.Previous_Id
-  .print "un-initialized == ${c_io.Previous_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_io.Previous_Id}" )
 , 0\
   .else
@@ -2071,16 +1653,12 @@ INSERT INTO C_IO VALUES (\
 .select many c_rids from instances of C_RID
 .for each c_rid in c_rids
 INSERT INTO C_RID VALUES (\
-  .assign a = c_rid.Reference_Id
-  .print "un-initialized == ${c_rid.Reference_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_rid.Reference_Id}" )
  0\
   .else
  ${c_rid.Reference_Id}\
   .end if
 \
-  .assign a = c_rid.Delegation_Id
-  .print "un-initialized == ${c_rid.Delegation_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_rid.Delegation_Id}" )
 , 0\
   .else
@@ -2092,32 +1670,24 @@ INSERT INTO C_RID VALUES (\
 .select many c_irs from instances of C_IR
 .for each c_ir in c_irs
 INSERT INTO C_IR VALUES (\
-  .assign a = c_ir.Id
-  .print "un-initialized == ${c_ir.Id} ${a} unique_id"
   .if ( "un-initialized" == "${c_ir.Id}" )
  0\
   .else
  ${c_ir.Id}\
   .end if
 \
-  .assign a = c_ir.Formal_Interface_Id
-  .print "un-initialized == ${c_ir.Formal_Interface_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_ir.Formal_Interface_Id}" )
 , 0\
   .else
 , ${c_ir.Formal_Interface_Id}\
   .end if
 \
-  .assign a = c_ir.Delegation_Id
-  .print "un-initialized == ${c_ir.Delegation_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_ir.Delegation_Id}" )
 , 0\
   .else
 , ${c_ir.Delegation_Id}\
   .end if
 \
-  .assign a = c_ir.Port_Id
-  .print "un-initialized == ${c_ir.Port_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_ir.Port_Id}" )
 , 0\
   .else
@@ -2129,16 +1699,12 @@ INSERT INTO C_IR VALUES (\
 .select many c_ass from instances of C_AS
 .for each c_as in c_ass
 INSERT INTO C_AS VALUES (\
-  .assign a = c_as.Id
-  .print "un-initialized == ${c_as.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_as.Id}" )
  0\
   .else
  ${c_as.Id}\
   .end if
 , '${c_as.Name}', '${c_as.Descrip}', ${c_as.Direction}\
-  .assign a = c_as.Previous_Id
-  .print "un-initialized == ${c_as.Previous_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_as.Previous_Id}" )
 , 0\
   .else
@@ -2150,16 +1716,12 @@ INSERT INTO C_AS VALUES (\
 .select many c_is from instances of C_I
 .for each c_i in c_is
 INSERT INTO C_I VALUES (\
-  .assign a = c_i.Id
-  .print "un-initialized == ${c_i.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_i.Id}" )
  0\
   .else
  ${c_i.Id}\
   .end if
 \
-  .assign a = c_i.Package_ID
-  .print "un-initialized == ${c_i.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_i.Package_ID}" )
 , 0\
   .else
@@ -2171,16 +1733,12 @@ INSERT INTO C_I VALUES (\
 .select many c_pos from instances of C_PO
 .for each c_po in c_pos
 INSERT INTO C_PO VALUES (\
-  .assign a = c_po.Id
-  .print "un-initialized == ${c_po.Id} ${a} unique_id"
   .if ( "un-initialized" == "${c_po.Id}" )
  0\
   .else
  ${c_po.Id}\
   .end if
 \
-  .assign a = c_po.Component_Id
-  .print "un-initialized == ${c_po.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_po.Component_Id}" )
 , 0\
   .else
@@ -2192,32 +1750,24 @@ INSERT INTO C_PO VALUES (\
 .select many c_pps from instances of C_PP
 .for each c_pp in c_pps
 INSERT INTO C_PP VALUES (\
-  .assign a = c_pp.PP_Id
-  .print "un-initialized == ${c_pp.PP_Id} ${a} unique_id"
   .if ( "un-initialized" == "${c_pp.PP_Id}" )
  0\
   .else
  ${c_pp.PP_Id}\
   .end if
 \
-  .assign a = c_pp.Signal_Id
-  .print "un-initialized == ${c_pp.Signal_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_pp.Signal_Id}" )
 , 0\
   .else
 , ${c_pp.Signal_Id}\
   .end if
 \
-  .assign a = c_pp.DT_ID
-  .print "un-initialized == ${c_pp.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_pp.DT_ID}" )
 , 0\
   .else
 , ${c_pp.DT_ID}\
   .end if
 , '${c_pp.Name}', '${c_pp.Descrip}', ${c_pp.By_Ref}, '${c_pp.Dimensions}'\
-  .assign a = c_pp.Previous_PP_Id
-  .print "un-initialized == ${c_pp.Previous_PP_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_pp.Previous_PP_Id}" )
 , 0\
   .else
@@ -2229,8 +1779,6 @@ INSERT INTO C_PP VALUES (\
 .select many c_ps from instances of C_P
 .for each c_p in c_ps
 INSERT INTO C_P VALUES (\
-  .assign a = c_p.Provision_Id
-  .print "un-initialized == ${c_p.Provision_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_p.Provision_Id}" )
  0\
   .else
@@ -2242,8 +1790,6 @@ INSERT INTO C_P VALUES (\
 .select many c_rs from instances of C_R
 .for each c_r in c_rs
 INSERT INTO C_R VALUES (\
-  .assign a = c_r.Requirement_Id
-  .print "un-initialized == ${c_r.Requirement_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_r.Requirement_Id}" )
  0\
   .else
@@ -2255,24 +1801,18 @@ INSERT INTO C_R VALUES (\
 .select many c_sfs from instances of C_SF
 .for each c_sf in c_sfs
 INSERT INTO C_SF VALUES (\
-  .assign a = c_sf.Id
-  .print "un-initialized == ${c_sf.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_sf.Id}" )
  0\
   .else
  ${c_sf.Id}\
   .end if
 \
-  .assign a = c_sf.Requirement_Id
-  .print "un-initialized == ${c_sf.Requirement_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_sf.Requirement_Id}" )
 , 0\
   .else
 , ${c_sf.Requirement_Id}\
   .end if
 \
-  .assign a = c_sf.Provision_Id
-  .print "un-initialized == ${c_sf.Provision_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${c_sf.Provision_Id}" )
 , 0\
   .else
@@ -2284,32 +1824,24 @@ INSERT INTO C_SF VALUES (\
 .select many cl_ics from instances of CL_IC
 .for each cl_ic in cl_ics
 INSERT INTO CL_IC VALUES (\
-  .assign a = cl_ic.Id
-  .print "un-initialized == ${cl_ic.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_ic.Id}" )
  0\
   .else
  ${cl_ic.Id}\
   .end if
 \
-  .assign a = cl_ic.AssignedComp_Id
-  .print "un-initialized == ${cl_ic.AssignedComp_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_ic.AssignedComp_Id}" )
 , 0\
   .else
 , ${cl_ic.AssignedComp_Id}\
   .end if
 \
-  .assign a = cl_ic.ParentComp_Id
-  .print "un-initialized == ${cl_ic.ParentComp_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_ic.ParentComp_Id}" )
 , 0\
   .else
 , ${cl_ic.ParentComp_Id}\
   .end if
 \
-  .assign a = cl_ic.Component_Package_ID
-  .print "un-initialized == ${cl_ic.Component_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_ic.Component_Package_ID}" )
 , 0\
   .else
@@ -2321,16 +1853,12 @@ INSERT INTO CL_IC VALUES (\
 .select many cl_ipinss from instances of CL_IPINS
 .for each cl_ipins in cl_ipinss
 INSERT INTO CL_IPINS VALUES (\
-  .assign a = cl_ipins.Satisfaction_Id
-  .print "un-initialized == ${cl_ipins.Satisfaction_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_ipins.Satisfaction_Id}" )
  0\
   .else
  ${cl_ipins.Satisfaction_Id}\
   .end if
 \
-  .assign a = cl_ipins.ImportedProvision_Id
-  .print "un-initialized == ${cl_ipins.ImportedProvision_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_ipins.ImportedProvision_Id}" )
 , 0\
   .else
@@ -2342,8 +1870,6 @@ INSERT INTO CL_IPINS VALUES (\
 .select many cl_ips from instances of CL_IP
 .for each cl_ip in cl_ips
 INSERT INTO CL_IP VALUES (\
-  .assign a = cl_ip.Id
-  .print "un-initialized == ${cl_ip.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_ip.Id}" )
  0\
   .else
@@ -2355,32 +1881,24 @@ INSERT INTO CL_IP VALUES (\
 .select many cl_iirs from instances of CL_IIR
 .for each cl_iir in cl_iirs
 INSERT INTO CL_IIR VALUES (\
-  .assign a = cl_iir.Id
-  .print "un-initialized == ${cl_iir.Id} ${a} unique_id"
   .if ( "un-initialized" == "${cl_iir.Id}" )
  0\
   .else
  ${cl_iir.Id}\
   .end if
 \
-  .assign a = cl_iir.Ref_Id
-  .print "un-initialized == ${cl_iir.Ref_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_iir.Ref_Id}" )
 , 0\
   .else
 , ${cl_iir.Ref_Id}\
   .end if
 \
-  .assign a = cl_iir.ImportedComp_Id
-  .print "un-initialized == ${cl_iir.ImportedComp_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_iir.ImportedComp_Id}" )
 , 0\
   .else
 , ${cl_iir.ImportedComp_Id}\
   .end if
 \
-  .assign a = cl_iir.Delegation_Id
-  .print "un-initialized == ${cl_iir.Delegation_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_iir.Delegation_Id}" )
 , 0\
   .else
@@ -2392,16 +1910,12 @@ INSERT INTO CL_IIR VALUES (\
 .select many cl_irs from instances of CL_IR
 .for each cl_ir in cl_irs
 INSERT INTO CL_IR VALUES (\
-  .assign a = cl_ir.Id
-  .print "un-initialized == ${cl_ir.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_ir.Id}" )
  0\
   .else
  ${cl_ir.Id}\
   .end if
 \
-  .assign a = cl_ir.Satisfaction_Element_Id
-  .print "un-initialized == ${cl_ir.Satisfaction_Element_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cl_ir.Satisfaction_Element_Id}" )
 , 0\
   .else
@@ -2413,16 +1927,12 @@ INSERT INTO CL_IR VALUES (\
 .select many cn_cics from instances of CN_CIC
 .for each cn_cic in cn_cics
 INSERT INTO CN_CIC VALUES (\
-  .assign a = cn_cic.Id
-  .print "un-initialized == ${cn_cic.Id} ${a} unique_id"
   .if ( "un-initialized" == "${cn_cic.Id}" )
  0\
   .else
  ${cn_cic.Id}\
   .end if
 \
-  .assign a = cn_cic.Parent_Id
-  .print "un-initialized == ${cn_cic.Parent_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cn_cic.Parent_Id}" )
 , 0\
   .else
@@ -2434,16 +1944,12 @@ INSERT INTO CN_CIC VALUES (\
 .select many cn_dcs from instances of CN_DC
 .for each cn_dc in cn_dcs
 INSERT INTO CN_DC VALUES (\
-  .assign a = cn_dc.Id
-  .print "un-initialized == ${cn_dc.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cn_dc.Id}" )
  0\
   .else
  ${cn_dc.Id}\
   .end if
 \
-  .assign a = cn_dc.Dom_ID
-  .print "un-initialized == ${cn_dc.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cn_dc.Dom_ID}" )
 , 0\
   .else
@@ -2455,16 +1961,12 @@ INSERT INTO CN_DC VALUES (\
 .select many cp_cpinps from instances of CP_CPINP
 .for each cp_cpinp in cp_cpinps
 INSERT INTO CP_CPINP VALUES (\
-  .assign a = cp_cpinp.Id
-  .print "un-initialized == ${cp_cpinp.Id} ${a} unique_id"
   .if ( "un-initialized" == "${cp_cpinp.Id}" )
  0\
   .else
  ${cp_cpinp.Id}\
   .end if
 \
-  .assign a = cp_cpinp.Parent_Package_ID
-  .print "un-initialized == ${cp_cpinp.Parent_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cp_cpinp.Parent_Package_ID}" )
 , 0\
   .else
@@ -2476,32 +1978,24 @@ INSERT INTO CP_CPINP VALUES (\
 .select many cp_cps from instances of CP_CP
 .for each cp_cp in cp_cps
 INSERT INTO CP_CP VALUES (\
-  .assign a = cp_cp.Package_ID
-  .print "un-initialized == ${cp_cp.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cp_cp.Package_ID}" )
  0\
   .else
  ${cp_cp.Package_ID}\
   .end if
 \
-  .assign a = cp_cp.ParentLink_Id
-  .print "un-initialized == ${cp_cp.ParentLink_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cp_cp.ParentLink_Id}" )
 , 0\
   .else
 , ${cp_cp.ParentLink_Id}\
   .end if
 \
-  .assign a = cp_cp.Sys_ID
-  .print "un-initialized == ${cp_cp.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cp_cp.Sys_ID}" )
 , 0\
   .else
 , ${cp_cp.Sys_ID}\
   .end if
 \
-  .assign a = cp_cp.Containing_Sys_ID
-  .print "un-initialized == ${cp_cp.Containing_Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cp_cp.Containing_Sys_ID}" )
 , 0\
   .else
@@ -2513,24 +2007,18 @@ INSERT INTO CP_CP VALUES (\
 .select many spr_peps from instances of SPR_PEP
 .for each spr_pep in spr_peps
 INSERT INTO SPR_PEP VALUES (\
-  .assign a = spr_pep.Id
-  .print "un-initialized == ${spr_pep.Id} ${a} unique_id"
   .if ( "un-initialized" == "${spr_pep.Id}" )
  0\
   .else
  ${spr_pep.Id}\
   .end if
 \
-  .assign a = spr_pep.ExecutableProperty_Id
-  .print "un-initialized == ${spr_pep.ExecutableProperty_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${spr_pep.ExecutableProperty_Id}" )
 , 0\
   .else
 , ${spr_pep.ExecutableProperty_Id}\
   .end if
 \
-  .assign a = spr_pep.Provision_Id
-  .print "un-initialized == ${spr_pep.Provision_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${spr_pep.Provision_Id}" )
 , 0\
   .else
@@ -2542,50 +2030,42 @@ INSERT INTO SPR_PEP VALUES (\
 .select many spr_pos from instances of SPR_PO
 .for each spr_po in spr_pos
 INSERT INTO SPR_PO VALUES (\
-  .assign a = spr_po.Id
-  .print "un-initialized == ${spr_po.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${spr_po.Id}" )
  0\
   .else
  ${spr_po.Id}\
   .end if
-, '${spr_po.Name}', '${spr_po.Descrip}', '${spr_po.Action_Semantics}', ${spr_po.Suc_Pars} );
+, '${spr_po.Name}', '${spr_po.Descrip}', ''\
+, ${spr_po.Suc_Pars} );
 .end for
 .print "Provided Signal (SPR_PS)"
 .select many spr_pss from instances of SPR_PS
 .for each spr_ps in spr_pss
 INSERT INTO SPR_PS VALUES (\
-  .assign a = spr_ps.Id
-  .print "un-initialized == ${spr_ps.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${spr_ps.Id}" )
  0\
   .else
  ${spr_ps.Id}\
   .end if
-, '${spr_ps.Name}', '${spr_ps.Descrip}', '${spr_ps.Action_Semantics}', ${spr_ps.Suc_Pars} );
+, '${spr_ps.Name}', '${spr_ps.Descrip}', ''\
+, ${spr_ps.Suc_Pars} );
 .end for
 .print "Required Executable Property (SPR_REP)"
 .select many spr_reps from instances of SPR_REP
 .for each spr_rep in spr_reps
 INSERT INTO SPR_REP VALUES (\
-  .assign a = spr_rep.Id
-  .print "un-initialized == ${spr_rep.Id} ${a} unique_id"
   .if ( "un-initialized" == "${spr_rep.Id}" )
  0\
   .else
  ${spr_rep.Id}\
   .end if
 \
-  .assign a = spr_rep.ExecutableProperty_Id
-  .print "un-initialized == ${spr_rep.ExecutableProperty_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${spr_rep.ExecutableProperty_Id}" )
 , 0\
   .else
 , ${spr_rep.ExecutableProperty_Id}\
   .end if
 \
-  .assign a = spr_rep.Requirement_Id
-  .print "un-initialized == ${spr_rep.Requirement_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${spr_rep.Requirement_Id}" )
 , 0\
   .else
@@ -2597,34 +2077,30 @@ INSERT INTO SPR_REP VALUES (\
 .select many spr_ros from instances of SPR_RO
 .for each spr_ro in spr_ros
 INSERT INTO SPR_RO VALUES (\
-  .assign a = spr_ro.Id
-  .print "un-initialized == ${spr_ro.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${spr_ro.Id}" )
  0\
   .else
  ${spr_ro.Id}\
   .end if
-, '${spr_ro.Name}', '${spr_ro.Descrip}', '${spr_ro.Action_Semantics}', ${spr_ro.Suc_Pars} );
+, '${spr_ro.Name}', '${spr_ro.Descrip}', ''\
+, ${spr_ro.Suc_Pars} );
 .end for
 .print "Required Signal (SPR_RS)"
 .select many spr_rss from instances of SPR_RS
 .for each spr_rs in spr_rss
 INSERT INTO SPR_RS VALUES (\
-  .assign a = spr_rs.Id
-  .print "un-initialized == ${spr_rs.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${spr_rs.Id}" )
  0\
   .else
  ${spr_rs.Id}\
   .end if
-, '${spr_rs.Name}', '${spr_rs.Descrip}', '${spr_rs.Action_Semantics}', ${spr_rs.Suc_Pars} );
+, '${spr_rs.Name}', '${spr_rs.Descrip}', ''\
+, ${spr_rs.Suc_Pars} );
 .end for
 .print "Constant Specification (CNST_CSP)"
 .select many cnst_csps from instances of CNST_CSP
 .for each cnst_csp in cnst_csps
 INSERT INTO CNST_CSP VALUES (\
-  .assign a = cnst_csp.Constant_Spec_ID
-  .print "un-initialized == ${cnst_csp.Constant_Spec_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_csp.Constant_Spec_ID}" )
  0\
   .else
@@ -2636,16 +2112,12 @@ INSERT INTO CNST_CSP VALUES (\
 .select many cnst_cips from instances of CNST_CIP
 .for each cnst_cip in cnst_cips
 INSERT INTO CNST_CIP VALUES (\
-  .assign a = cnst_cip.Constant_Spec_ID
-  .print "un-initialized == ${cnst_cip.Constant_Spec_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_cip.Constant_Spec_ID}" )
  0\
   .else
  ${cnst_cip.Constant_Spec_ID}\
   .end if
 \
-  .assign a = cnst_cip.Package_ID
-  .print "un-initialized == ${cnst_cip.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_cip.Package_ID}" )
 , 0\
   .else
@@ -2657,16 +2129,12 @@ INSERT INTO CNST_CIP VALUES (\
 .select many cnst_lfscs from instances of CNST_LFSC
 .for each cnst_lfsc in cnst_lfscs
 INSERT INTO CNST_LFSC VALUES (\
-  .assign a = cnst_lfsc.Const_ID
-  .print "un-initialized == ${cnst_lfsc.Const_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_lfsc.Const_ID}" )
  0\
   .else
  ${cnst_lfsc.Const_ID}\
   .end if
 \
-  .assign a = cnst_lfsc.DT_ID
-  .print "un-initialized == ${cnst_lfsc.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_lfsc.DT_ID}" )
 , 0\
   .else
@@ -2678,16 +2146,12 @@ INSERT INTO CNST_LFSC VALUES (\
 .select many cnst_lscs from instances of CNST_LSC
 .for each cnst_lsc in cnst_lscs
 INSERT INTO CNST_LSC VALUES (\
-  .assign a = cnst_lsc.Const_ID
-  .print "un-initialized == ${cnst_lsc.Const_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_lsc.Const_ID}" )
  0\
   .else
  ${cnst_lsc.Const_ID}\
   .end if
 \
-  .assign a = cnst_lsc.DT_ID
-  .print "un-initialized == ${cnst_lsc.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_lsc.DT_ID}" )
 , 0\
   .else
@@ -2699,40 +2163,30 @@ INSERT INTO CNST_LSC VALUES (\
 .select many cnst_sycs from instances of CNST_SYC
 .for each cnst_syc in cnst_sycs
 INSERT INTO CNST_SYC VALUES (\
-  .assign a = cnst_syc.Const_ID
-  .print "un-initialized == ${cnst_syc.Const_ID} ${a} unique_id"
   .if ( "un-initialized" == "${cnst_syc.Const_ID}" )
  0\
   .else
  ${cnst_syc.Const_ID}\
   .end if
 , '${cnst_syc.Name}', '${cnst_syc.Descrip}'\
-  .assign a = cnst_syc.DT_ID
-  .print "un-initialized == ${cnst_syc.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_syc.DT_ID}" )
 , 0\
   .else
 , ${cnst_syc.DT_ID}\
   .end if
 \
-  .assign a = cnst_syc.Constant_Spec_ID
-  .print "un-initialized == ${cnst_syc.Constant_Spec_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_syc.Constant_Spec_ID}" )
 , 0\
   .else
 , ${cnst_syc.Constant_Spec_ID}\
   .end if
 \
-  .assign a = cnst_syc.Previous_Const_ID
-  .print "un-initialized == ${cnst_syc.Previous_Const_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_syc.Previous_Const_ID}" )
 , 0\
   .else
 , ${cnst_syc.Previous_Const_ID}\
   .end if
 \
-  .assign a = cnst_syc.Previous_DT_DT_ID
-  .print "un-initialized == ${cnst_syc.Previous_DT_DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${cnst_syc.Previous_DT_DT_ID}" )
 , 0\
   .else
@@ -2789,22 +2243,18 @@ INSERT INTO DOC_LINK VALUES ( '${doc_link.target}', '${doc_link.text}' );
 .select many doc_pars from instances of DOC_PAR
 .for each doc_par in doc_pars
 INSERT INTO DOC_PAR VALUES (\
-  .assign a = doc_par.ID
-  .print "un-initialized == ${doc_par.ID} ${a} unique_id"
   .if ( "un-initialized" == "${doc_par.ID}" )
  0\
   .else
  ${doc_par.ID}\
   .end if
 \
-  .assign a = doc_par.sectionID
-  .print "un-initialized == ${doc_par.sectionID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${doc_par.sectionID}" )
 , 0\
   .else
 , ${doc_par.sectionID}\
   .end if
-, '${doc_par.text}', ${doc_par.ptext}, ${doc_par.formatted} );
+, '${doc_par.text}', '${doc_par.ptext}', ${doc_par.formatted} );
 .end for
 .print "row (DOC_ROW)"
 .select many doc_rows from instances of DOC_ROW
@@ -2815,16 +2265,12 @@ INSERT INTO DOC_ROW VALUES ( ${doc_row.head} );
 .select many doc_secs from instances of DOC_SEC
 .for each doc_sec in doc_secs
 INSERT INTO DOC_SEC VALUES (\
-  .assign a = doc_sec.ID
-  .print "un-initialized == ${doc_sec.ID} ${a} unique_id"
   .if ( "un-initialized" == "${doc_sec.ID}" )
  0\
   .else
  ${doc_sec.ID}\
   .end if
 \
-  .assign a = doc_sec.nextID
-  .print "un-initialized == ${doc_sec.nextID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${doc_sec.nextID}" )
 , 0\
   .else
@@ -2841,32 +2287,24 @@ INSERT INTO DOC_TBL VALUES ( '${doc_tbl.title}', ${doc_tbl.num_cols} );
 .select many s_bparms from instances of S_BPARM
 .for each s_bparm in s_bparms
 INSERT INTO S_BPARM VALUES (\
-  .assign a = s_bparm.BParm_ID
-  .print "un-initialized == ${s_bparm.BParm_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_bparm.BParm_ID}" )
  0\
   .else
  ${s_bparm.BParm_ID}\
   .end if
 \
-  .assign a = s_bparm.Brg_ID
-  .print "un-initialized == ${s_bparm.Brg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_bparm.Brg_ID}" )
 , 0\
   .else
 , ${s_bparm.Brg_ID}\
   .end if
 , '${s_bparm.Name}'\
-  .assign a = s_bparm.DT_ID
-  .print "un-initialized == ${s_bparm.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_bparm.DT_ID}" )
 , 0\
   .else
 , ${s_bparm.DT_ID}\
   .end if
 , ${s_bparm.By_Ref}, '${s_bparm.Dimensions}'\
-  .assign a = s_bparm.Previous_BParm_ID
-  .print "un-initialized == ${s_bparm.Previous_BParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_bparm.Previous_BParm_ID}" )
 , 0\
   .else
@@ -2878,37 +2316,30 @@ INSERT INTO S_BPARM VALUES (\
 .select many s_brgs from instances of S_BRG
 .for each s_brg in s_brgs
 INSERT INTO S_BRG VALUES (\
-  .assign a = s_brg.Brg_ID
-  .print "un-initialized == ${s_brg.Brg_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_brg.Brg_ID}" )
  0\
   .else
  ${s_brg.Brg_ID}\
   .end if
 \
-  .assign a = s_brg.EE_ID
-  .print "un-initialized == ${s_brg.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_brg.EE_ID}" )
 , 0\
   .else
 , ${s_brg.EE_ID}\
   .end if
 , '${s_brg.Name}', '${s_brg.Descrip}', ${s_brg.Brg_Typ}\
-  .assign a = s_brg.DT_ID
-  .print "un-initialized == ${s_brg.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_brg.DT_ID}" )
 , 0\
   .else
 , ${s_brg.DT_ID}\
   .end if
-, '${s_brg.Action_Semantics}', ${s_brg.Suc_Pars}, '${s_brg.Return_Dimensions}' );
+, ''\
+, ${s_brg.Suc_Pars}, '${s_brg.Return_Dimensions}' );
 .end for
 .print "Core Data Type (S_CDT)"
 .select many s_cdts from instances of S_CDT
 .for each s_cdt in s_cdts
 INSERT INTO S_CDT VALUES (\
-  .assign a = s_cdt.DT_ID
-  .print "un-initialized == ${s_cdt.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_cdt.DT_ID}" )
  0\
   .else
@@ -2920,8 +2351,6 @@ INSERT INTO S_CDT VALUES (\
 .select many s_dpips from instances of S_DPIP
 .for each s_dpip in s_dpips
 INSERT INTO S_DPIP VALUES (\
-  .assign a = s_dpip.Package_ID
-  .print "un-initialized == ${s_dpip.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dpip.Package_ID}" )
  0\
   .else
@@ -2933,24 +2362,18 @@ INSERT INTO S_DPIP VALUES (\
 .select many s_dpks from instances of S_DPK
 .for each s_dpk in s_dpks
 INSERT INTO S_DPK VALUES (\
-  .assign a = s_dpk.Package_ID
-  .print "un-initialized == ${s_dpk.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dpk.Package_ID}" )
  0\
   .else
  ${s_dpk.Package_ID}\
   .end if
 , '${s_dpk.Name}'\
-  .assign a = s_dpk.Dom_ID
-  .print "un-initialized == ${s_dpk.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dpk.Dom_ID}" )
 , 0\
   .else
 , ${s_dpk.Dom_ID}\
   .end if
 \
-  .assign a = s_dpk.Parent_Package_ID
-  .print "un-initialized == ${s_dpk.Parent_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dpk.Parent_Package_ID}" )
 , 0\
   .else
@@ -2962,16 +2385,12 @@ INSERT INTO S_DPK VALUES (\
 .select many s_dips from instances of S_DIP
 .for each s_dip in s_dips
 INSERT INTO S_DIP VALUES (\
-  .assign a = s_dip.Package_ID
-  .print "un-initialized == ${s_dip.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dip.Package_ID}" )
  0\
   .else
  ${s_dip.Package_ID}\
   .end if
 \
-  .assign a = s_dip.DT_ID
-  .print "un-initialized == ${s_dip.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dip.DT_ID}" )
 , 0\
   .else
@@ -2983,16 +2402,12 @@ INSERT INTO S_DIP VALUES (\
 .select many s_dts from instances of S_DT
 .for each s_dt in s_dts
 INSERT INTO S_DT VALUES (\
-  .assign a = s_dt.DT_ID
-  .print "un-initialized == ${s_dt.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dt.DT_ID}" )
  0\
   .else
  ${s_dt.DT_ID}\
   .end if
 \
-  .assign a = s_dt.Dom_ID
-  .print "un-initialized == ${s_dt.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dt.Dom_ID}" )
 , 0\
   .else
@@ -3004,16 +2419,12 @@ INSERT INTO S_DT VALUES (\
 .select many s_diss from instances of S_DIS
 .for each s_dis in s_diss
 INSERT INTO S_DIS VALUES (\
-  .assign a = s_dis.Dom_ID
-  .print "un-initialized == ${s_dis.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dis.Dom_ID}" )
  0\
   .else
  ${s_dis.Dom_ID}\
   .end if
 \
-  .assign a = s_dis.DT_ID
-  .print "un-initialized == ${s_dis.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dis.DT_ID}" )
 , 0\
   .else
@@ -3025,128 +2436,96 @@ INSERT INTO S_DIS VALUES (\
 .select many s_dims from instances of S_DIM
 .for each s_dim in s_dims
 INSERT INTO S_DIM VALUES ( ${s_dim.elementCount}, ${s_dim.dimensionCount}\
-  .assign a = s_dim.Sync_ID
-  .print "un-initialized == ${s_dim.Sync_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.Sync_ID}" )
 , 0\
   .else
 , ${s_dim.Sync_ID}\
   .end if
 \
-  .assign a = s_dim.SParm_ID
-  .print "un-initialized == ${s_dim.SParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.SParm_ID}" )
 , 0\
   .else
 , ${s_dim.SParm_ID}\
   .end if
 \
-  .assign a = s_dim.BParm_ID
-  .print "un-initialized == ${s_dim.BParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.BParm_ID}" )
 , 0\
   .else
 , ${s_dim.BParm_ID}\
   .end if
 \
-  .assign a = s_dim.Brg_ID
-  .print "un-initialized == ${s_dim.Brg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.Brg_ID}" )
 , 0\
   .else
 , ${s_dim.Brg_ID}\
   .end if
 \
-  .assign a = s_dim.Id
-  .print "un-initialized == ${s_dim.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.Id}" )
 , 0\
   .else
 , ${s_dim.Id}\
   .end if
 \
-  .assign a = s_dim.Obj_ID
-  .print "un-initialized == ${s_dim.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.Obj_ID}" )
 , 0\
   .else
 , ${s_dim.Obj_ID}\
   .end if
 \
-  .assign a = s_dim.Attr_ID
-  .print "un-initialized == ${s_dim.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.Attr_ID}" )
 , 0\
   .else
 , ${s_dim.Attr_ID}\
   .end if
 \
-  .assign a = s_dim.TParm_ID
-  .print "un-initialized == ${s_dim.TParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.TParm_ID}" )
 , 0\
   .else
 , ${s_dim.TParm_ID}\
   .end if
 \
-  .assign a = s_dim.Tfr_ID
-  .print "un-initialized == ${s_dim.Tfr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.Tfr_ID}" )
 , 0\
   .else
 , ${s_dim.Tfr_ID}\
   .end if
 \
-  .assign a = s_dim.Member_ID
-  .print "un-initialized == ${s_dim.Member_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.Member_ID}" )
 , 0\
   .else
 , ${s_dim.Member_ID}\
   .end if
 \
-  .assign a = s_dim.DT_ID
-  .print "un-initialized == ${s_dim.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.DT_ID}" )
 , 0\
   .else
 , ${s_dim.DT_ID}\
   .end if
 \
-  .assign a = s_dim.PP_Id
-  .print "un-initialized == ${s_dim.PP_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.PP_Id}" )
 , 0\
   .else
 , ${s_dim.PP_Id}\
   .end if
 \
-  .assign a = s_dim.SM_ID
-  .print "un-initialized == ${s_dim.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.SM_ID}" )
 , 0\
   .else
 , ${s_dim.SM_ID}\
   .end if
 \
-  .assign a = s_dim.SMedi_ID
-  .print "un-initialized == ${s_dim.SMedi_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.SMedi_ID}" )
 , 0\
   .else
 , ${s_dim.SMedi_ID}\
   .end if
 \
-  .assign a = s_dim.DIM_ID
-  .print "un-initialized == ${s_dim.DIM_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_dim.DIM_ID}" )
 , 0\
   .else
 , ${s_dim.DIM_ID}\
   .end if
 \
-  .assign a = s_dim.Var_ID
-  .print "un-initialized == ${s_dim.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dim.Var_ID}" )
 , 0\
   .else
@@ -3158,24 +2537,18 @@ INSERT INTO S_DIM VALUES ( ${s_dim.elementCount}, ${s_dim.dimensionCount}\
 .select many s_doms from instances of S_DOM
 .for each s_dom in s_doms
 INSERT INTO S_DOM VALUES (\
-  .assign a = s_dom.Dom_ID
-  .print "un-initialized == ${s_dom.Dom_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_dom.Dom_ID}" )
  0\
   .else
  ${s_dom.Dom_ID}\
   .end if
 , '${s_dom.Name}', '${s_dom.Descrip}', ${s_dom.Full_Der}\
-  .assign a = s_dom.Config_ID
-  .print "un-initialized == ${s_dom.Config_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_dom.Config_ID}" )
 , 0\
   .else
 , ${s_dom.Config_ID}\
   .end if
 \
-  .assign a = s_dom.Sys_ID
-  .print "un-initialized == ${s_dom.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_dom.Sys_ID}" )
 , 0\
   .else
@@ -3187,8 +2560,6 @@ INSERT INTO S_DOM VALUES (\
 .select many s_eepips from instances of S_EEPIP
 .for each s_eepip in s_eepips
 INSERT INTO S_EEPIP VALUES (\
-  .assign a = s_eepip.EEPack_ID
-  .print "un-initialized == ${s_eepip.EEPack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eepip.EEPack_ID}" )
  0\
   .else
@@ -3200,8 +2571,6 @@ INSERT INTO S_EEPIP VALUES (\
 .select many s_edts from instances of S_EDT
 .for each s_edt in s_edts
 INSERT INTO S_EDT VALUES (\
-  .assign a = s_edt.DT_ID
-  .print "un-initialized == ${s_edt.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_edt.DT_ID}" )
  0\
   .else
@@ -3213,24 +2582,18 @@ INSERT INTO S_EDT VALUES (\
 .select many s_enums from instances of S_ENUM
 .for each s_enum in s_enums
 INSERT INTO S_ENUM VALUES (\
-  .assign a = s_enum.Enum_ID
-  .print "un-initialized == ${s_enum.Enum_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_enum.Enum_ID}" )
  0\
   .else
  ${s_enum.Enum_ID}\
   .end if
 , '${s_enum.Name}', '${s_enum.Descrip}'\
-  .assign a = s_enum.EDT_DT_ID
-  .print "un-initialized == ${s_enum.EDT_DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_enum.EDT_DT_ID}" )
 , 0\
   .else
 , ${s_enum.EDT_DT_ID}\
   .end if
 \
-  .assign a = s_enum.Previous_Enum_ID
-  .print "un-initialized == ${s_enum.Previous_Enum_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_enum.Previous_Enum_ID}" )
 , 0\
   .else
@@ -3242,24 +2605,18 @@ INSERT INTO S_ENUM VALUES (\
 .select many s_eedis from instances of S_EEDI
 .for each s_eedi in s_eedis
 INSERT INTO S_EEDI VALUES (\
-  .assign a = s_eedi.EEdi_ID
-  .print "un-initialized == ${s_eedi.EEdi_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_eedi.EEdi_ID}" )
  0\
   .else
  ${s_eedi.EEdi_ID}\
   .end if
 \
-  .assign a = s_eedi.EE_ID
-  .print "un-initialized == ${s_eedi.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eedi.EE_ID}" )
 , 0\
   .else
 , ${s_eedi.EE_ID}\
   .end if
 , '${s_eedi.Name}', '${s_eedi.Descrip}'\
-  .assign a = s_eedi.DT_ID
-  .print "un-initialized == ${s_eedi.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eedi.DT_ID}" )
 , 0\
   .else
@@ -3271,24 +2628,18 @@ INSERT INTO S_EEDI VALUES (\
 .select many s_eeedis from instances of S_EEEDI
 .for each s_eeedi in s_eeedis
 INSERT INTO S_EEEDI VALUES (\
-  .assign a = s_eeedi.EEedi_ID
-  .print "un-initialized == ${s_eeedi.EEedi_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_eeedi.EEedi_ID}" )
  0\
   .else
  ${s_eeedi.EEedi_ID}\
   .end if
 \
-  .assign a = s_eeedi.EE_ID
-  .print "un-initialized == ${s_eeedi.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eeedi.EE_ID}" )
 , 0\
   .else
 , ${s_eeedi.EE_ID}\
   .end if
 , '${s_eeedi.Name}', '${s_eeedi.Descrip}'\
-  .assign a = s_eeedi.DT_ID
-  .print "un-initialized == ${s_eeedi.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eeedi.DT_ID}" )
 , 0\
   .else
@@ -3300,24 +2651,18 @@ INSERT INTO S_EEEDI VALUES (\
 .select many s_eeedts from instances of S_EEEDT
 .for each s_eeedt in s_eeedts
 INSERT INTO S_EEEDT VALUES (\
-  .assign a = s_eeedt.EE_ID
-  .print "un-initialized == ${s_eeedt.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eeedt.EE_ID}" )
  0\
   .else
  ${s_eeedt.EE_ID}\
   .end if
 \
-  .assign a = s_eeedt.EEevt_ID
-  .print "un-initialized == ${s_eeedt.EEevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eeedt.EEevt_ID}" )
 , 0\
   .else
 , ${s_eeedt.EEevt_ID}\
   .end if
 \
-  .assign a = s_eeedt.EEedi_ID
-  .print "un-initialized == ${s_eeedt.EEedi_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eeedt.EEedi_ID}" )
 , 0\
   .else
@@ -3329,16 +2674,12 @@ INSERT INTO S_EEEDT VALUES (\
 .select many s_eeevts from instances of S_EEEVT
 .for each s_eeevt in s_eeevts
 INSERT INTO S_EEEVT VALUES (\
-  .assign a = s_eeevt.EEevt_ID
-  .print "un-initialized == ${s_eeevt.EEevt_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_eeevt.EEevt_ID}" )
  0\
   .else
  ${s_eeevt.EEevt_ID}\
   .end if
 \
-  .assign a = s_eeevt.EE_ID
-  .print "un-initialized == ${s_eeevt.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eeevt.EE_ID}" )
 , 0\
   .else
@@ -3350,24 +2691,18 @@ INSERT INTO S_EEEVT VALUES (\
 .select many s_eepks from instances of S_EEPK
 .for each s_eepk in s_eepks
 INSERT INTO S_EEPK VALUES (\
-  .assign a = s_eepk.EEPack_ID
-  .print "un-initialized == ${s_eepk.EEPack_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_eepk.EEPack_ID}" )
  0\
   .else
  ${s_eepk.EEPack_ID}\
   .end if
 , '${s_eepk.Name}'\
-  .assign a = s_eepk.Dom_ID
-  .print "un-initialized == ${s_eepk.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eepk.Dom_ID}" )
 , 0\
   .else
 , ${s_eepk.Dom_ID}\
   .end if
 \
-  .assign a = s_eepk.Parent_EEPack_ID
-  .print "un-initialized == ${s_eepk.Parent_EEPack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eepk.Parent_EEPack_ID}" )
 , 0\
   .else
@@ -3379,24 +2714,18 @@ INSERT INTO S_EEPK VALUES (\
 .select many s_eems from instances of S_EEM
 .for each s_eem in s_eems
 INSERT INTO S_EEM VALUES (\
-  .assign a = s_eem.EEmod_ID
-  .print "un-initialized == ${s_eem.EEmod_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_eem.EEmod_ID}" )
  0\
   .else
  ${s_eem.EEmod_ID}\
   .end if
 \
-  .assign a = s_eem.EE_ID
-  .print "un-initialized == ${s_eem.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eem.EE_ID}" )
 , 0\
   .else
 , ${s_eem.EE_ID}\
   .end if
 , ${s_eem.Modl_Typ}\
-  .assign a = s_eem.SS_ID
-  .print "un-initialized == ${s_eem.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eem.SS_ID}" )
 , 0\
   .else
@@ -3408,16 +2737,12 @@ INSERT INTO S_EEM VALUES (\
 .select many s_eeips from instances of S_EEIP
 .for each s_eeip in s_eeips
 INSERT INTO S_EEIP VALUES (\
-  .assign a = s_eeip.EEPack_ID
-  .print "un-initialized == ${s_eeip.EEPack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eeip.EEPack_ID}" )
  0\
   .else
  ${s_eeip.EEPack_ID}\
   .end if
 \
-  .assign a = s_eeip.EE_ID
-  .print "un-initialized == ${s_eeip.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_eeip.EE_ID}" )
 , 0\
   .else
@@ -3429,16 +2754,12 @@ INSERT INTO S_EEIP VALUES (\
 .select many s_ees from instances of S_EE
 .for each s_ee in s_ees
 INSERT INTO S_EE VALUES (\
-  .assign a = s_ee.EE_ID
-  .print "un-initialized == ${s_ee.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_ee.EE_ID}" )
  0\
   .else
  ${s_ee.EE_ID}\
   .end if
 , '${s_ee.Name}', '${s_ee.Descrip}', '${s_ee.Key_Lett}'\
-  .assign a = s_ee.Dom_ID
-  .print "un-initialized == ${s_ee.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_ee.Dom_ID}" )
 , 0\
   .else
@@ -3450,8 +2771,6 @@ INSERT INTO S_EE VALUES (\
 .select many s_fpips from instances of S_FPIP
 .for each s_fpip in s_fpips
 INSERT INTO S_FPIP VALUES (\
-  .assign a = s_fpip.FunPack_ID
-  .print "un-initialized == ${s_fpip.FunPack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_fpip.FunPack_ID}" )
  0\
   .else
@@ -3463,24 +2782,18 @@ INSERT INTO S_FPIP VALUES (\
 .select many s_fpks from instances of S_FPK
 .for each s_fpk in s_fpks
 INSERT INTO S_FPK VALUES (\
-  .assign a = s_fpk.FunPack_ID
-  .print "un-initialized == ${s_fpk.FunPack_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_fpk.FunPack_ID}" )
  0\
   .else
  ${s_fpk.FunPack_ID}\
   .end if
 , '${s_fpk.Name}'\
-  .assign a = s_fpk.Dom_ID
-  .print "un-initialized == ${s_fpk.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_fpk.Dom_ID}" )
 , 0\
   .else
 , ${s_fpk.Dom_ID}\
   .end if
 \
-  .assign a = s_fpk.Parent_FunPack_ID
-  .print "un-initialized == ${s_fpk.Parent_FunPack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_fpk.Parent_FunPack_ID}" )
 , 0\
   .else
@@ -3492,32 +2805,24 @@ INSERT INTO S_FPK VALUES (\
 .select many s_sparms from instances of S_SPARM
 .for each s_sparm in s_sparms
 INSERT INTO S_SPARM VALUES (\
-  .assign a = s_sparm.SParm_ID
-  .print "un-initialized == ${s_sparm.SParm_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_sparm.SParm_ID}" )
  0\
   .else
  ${s_sparm.SParm_ID}\
   .end if
 \
-  .assign a = s_sparm.Sync_ID
-  .print "un-initialized == ${s_sparm.Sync_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_sparm.Sync_ID}" )
 , 0\
   .else
 , ${s_sparm.Sync_ID}\
   .end if
 , '${s_sparm.Name}'\
-  .assign a = s_sparm.DT_ID
-  .print "un-initialized == ${s_sparm.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_sparm.DT_ID}" )
 , 0\
   .else
 , ${s_sparm.DT_ID}\
   .end if
 , ${s_sparm.By_Ref}, '${s_sparm.Dimensions}'\
-  .assign a = s_sparm.Previous_SParm_ID
-  .print "un-initialized == ${s_sparm.Previous_SParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_sparm.Previous_SParm_ID}" )
 , 0\
   .else
@@ -3529,16 +2834,12 @@ INSERT INTO S_SPARM VALUES (\
 .select many s_fips from instances of S_FIP
 .for each s_fip in s_fips
 INSERT INTO S_FIP VALUES (\
-  .assign a = s_fip.FunPack_ID
-  .print "un-initialized == ${s_fip.FunPack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_fip.FunPack_ID}" )
  0\
   .else
  ${s_fip.FunPack_ID}\
   .end if
 \
-  .assign a = s_fip.Sync_ID
-  .print "un-initialized == ${s_fip.Sync_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_fip.Sync_ID}" )
 , 0\
   .else
@@ -3550,24 +2851,19 @@ INSERT INTO S_FIP VALUES (\
 .select many s_syncs from instances of S_SYNC
 .for each s_sync in s_syncs
 INSERT INTO S_SYNC VALUES (\
-  .assign a = s_sync.Sync_ID
-  .print "un-initialized == ${s_sync.Sync_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_sync.Sync_ID}" )
  0\
   .else
  ${s_sync.Sync_ID}\
   .end if
 \
-  .assign a = s_sync.Dom_ID
-  .print "un-initialized == ${s_sync.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_sync.Dom_ID}" )
 , 0\
   .else
 , ${s_sync.Dom_ID}\
   .end if
-, '${s_sync.Name}', '${s_sync.Descrip}', '${s_sync.Action_Semantics}'\
-  .assign a = s_sync.DT_ID
-  .print "un-initialized == ${s_sync.DT_ID} ${a} same_as<Base_Attribute>"
+, '${s_sync.Name}', '${s_sync.Descrip}', ''\
+\
   .if ( "un-initialized" == "${s_sync.DT_ID}" )
 , 0\
   .else
@@ -3579,16 +2875,12 @@ INSERT INTO S_SYNC VALUES (\
 .select many s_irdts from instances of S_IRDT
 .for each s_irdt in s_irdts
 INSERT INTO S_IRDT VALUES (\
-  .assign a = s_irdt.DT_ID
-  .print "un-initialized == ${s_irdt.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_irdt.DT_ID}" )
  0\
   .else
  ${s_irdt.DT_ID}\
   .end if
 , ${s_irdt.isSet}\
-  .assign a = s_irdt.Obj_ID
-  .print "un-initialized == ${s_irdt.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_irdt.Obj_ID}" )
 , 0\
   .else
@@ -3600,32 +2892,24 @@ INSERT INTO S_IRDT VALUES (\
 .select many s_mbrs from instances of S_MBR
 .for each s_mbr in s_mbrs
 INSERT INTO S_MBR VALUES (\
-  .assign a = s_mbr.Member_ID
-  .print "un-initialized == ${s_mbr.Member_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_mbr.Member_ID}" )
  0\
   .else
  ${s_mbr.Member_ID}\
   .end if
 , '${s_mbr.Name}', '${s_mbr.Descrip}'\
-  .assign a = s_mbr.Parent_DT_DT_ID
-  .print "un-initialized == ${s_mbr.Parent_DT_DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_mbr.Parent_DT_DT_ID}" )
 , 0\
   .else
 , ${s_mbr.Parent_DT_DT_ID}\
   .end if
 \
-  .assign a = s_mbr.DT_ID
-  .print "un-initialized == ${s_mbr.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_mbr.DT_ID}" )
 , 0\
   .else
 , ${s_mbr.DT_ID}\
   .end if
 \
-  .assign a = s_mbr.Previous_Member_ID
-  .print "un-initialized == ${s_mbr.Previous_Member_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_mbr.Previous_Member_ID}" )
 , 0\
   .else
@@ -3637,8 +2921,6 @@ INSERT INTO S_MBR VALUES (\
 .select many s_sdts from instances of S_SDT
 .for each s_sdt in s_sdts
 INSERT INTO S_SDT VALUES (\
-  .assign a = s_sdt.DT_ID
-  .print "un-initialized == ${s_sdt.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_sdt.DT_ID}" )
  0\
   .else
@@ -3650,16 +2932,12 @@ INSERT INTO S_SDT VALUES (\
 .select many s_sids from instances of S_SID
 .for each s_sid in s_sids
 INSERT INTO S_SID VALUES (\
-  .assign a = s_sid.Dom_ID
-  .print "un-initialized == ${s_sid.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_sid.Dom_ID}" )
  0\
   .else
  ${s_sid.Dom_ID}\
   .end if
 \
-  .assign a = s_sid.SS_ID
-  .print "un-initialized == ${s_sid.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_sid.SS_ID}" )
 , 0\
   .else
@@ -3671,16 +2949,12 @@ INSERT INTO S_SID VALUES (\
 .select many s_siss from instances of S_SIS
 .for each s_sis in s_siss
 INSERT INTO S_SIS VALUES (\
-  .assign a = s_sis.Parent_SS_ID
-  .print "un-initialized == ${s_sis.Parent_SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_sis.Parent_SS_ID}" )
  0\
   .else
  ${s_sis.Parent_SS_ID}\
   .end if
 \
-  .assign a = s_sis.Child_SS_ID
-  .print "un-initialized == ${s_sis.Child_SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_sis.Child_SS_ID}" )
 , 0\
   .else
@@ -3692,24 +2966,18 @@ INSERT INTO S_SIS VALUES (\
 .select many s_sss from instances of S_SS
 .for each s_ss in s_sss
 INSERT INTO S_SS VALUES (\
-  .assign a = s_ss.SS_ID
-  .print "un-initialized == ${s_ss.SS_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_ss.SS_ID}" )
  0\
   .else
  ${s_ss.SS_ID}\
   .end if
 , '${s_ss.Name}', '${s_ss.Descrip}', '${s_ss.Prefix}', ${s_ss.Num_Rng}\
-  .assign a = s_ss.Dom_ID
-  .print "un-initialized == ${s_ss.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_ss.Dom_ID}" )
 , 0\
   .else
 , ${s_ss.Dom_ID}\
   .end if
 \
-  .assign a = s_ss.Config_ID
-  .print "un-initialized == ${s_ss.Config_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_ss.Config_ID}" )
 , 0\
   .else
@@ -3721,8 +2989,6 @@ INSERT INTO S_SS VALUES (\
 .select many s_syss from instances of S_SYS
 .for each s_sys in s_syss
 INSERT INTO S_SYS VALUES (\
-  .assign a = s_sys.Sys_ID
-  .print "un-initialized == ${s_sys.Sys_ID} ${a} unique_id"
   .if ( "un-initialized" == "${s_sys.Sys_ID}" )
  0\
   .else
@@ -3734,16 +3000,12 @@ INSERT INTO S_SYS VALUES (\
 .select many s_udts from instances of S_UDT
 .for each s_udt in s_udts
 INSERT INTO S_UDT VALUES (\
-  .assign a = s_udt.DT_ID
-  .print "un-initialized == ${s_udt.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_udt.DT_ID}" )
  0\
   .else
  ${s_udt.DT_ID}\
   .end if
 \
-  .assign a = s_udt.CDT_DT_ID
-  .print "un-initialized == ${s_udt.CDT_DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_udt.CDT_DT_ID}" )
 , 0\
   .else
@@ -3755,16 +3017,12 @@ INSERT INTO S_UDT VALUES (\
 .select many pl_eepids from instances of PL_EEPID
 .for each pl_eepid in pl_eepids
 INSERT INTO PL_EEPID VALUES (\
-  .assign a = pl_eepid.Dom_ID
-  .print "un-initialized == ${pl_eepid.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pl_eepid.Dom_ID}" )
  0\
   .else
  ${pl_eepid.Dom_ID}\
   .end if
 \
-  .assign a = pl_eepid.EEPack_ID
-  .print "un-initialized == ${pl_eepid.EEPack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pl_eepid.EEPack_ID}" )
 , 0\
   .else
@@ -3776,16 +3034,12 @@ INSERT INTO PL_EEPID VALUES (\
 .select many pl_fpids from instances of PL_FPID
 .for each pl_fpid in pl_fpids
 INSERT INTO PL_FPID VALUES (\
-  .assign a = pl_fpid.FunPack_ID
-  .print "un-initialized == ${pl_fpid.FunPack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pl_fpid.FunPack_ID}" )
  0\
   .else
  ${pl_fpid.FunPack_ID}\
   .end if
 \
-  .assign a = pl_fpid.Dom_ID
-  .print "un-initialized == ${pl_fpid.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pl_fpid.Dom_ID}" )
 , 0\
   .else
@@ -3797,16 +3051,12 @@ INSERT INTO PL_FPID VALUES (\
 .select many ep_pips from instances of EP_PIP
 .for each ep_pip in ep_pips
 INSERT INTO EP_PIP VALUES (\
-  .assign a = ep_pip.Parent_Package_ID
-  .print "un-initialized == ${ep_pip.Parent_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ep_pip.Parent_Package_ID}" )
  0\
   .else
  ${ep_pip.Parent_Package_ID}\
   .end if
 \
-  .assign a = ep_pip.Child_Package_ID
-  .print "un-initialized == ${ep_pip.Child_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ep_pip.Child_Package_ID}" )
 , 0\
   .else
@@ -3818,24 +3068,18 @@ INSERT INTO EP_PIP VALUES (\
 .select many ep_pkgs from instances of EP_PKG
 .for each ep_pkg in ep_pkgs
 INSERT INTO EP_PKG VALUES (\
-  .assign a = ep_pkg.Package_ID
-  .print "un-initialized == ${ep_pkg.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ep_pkg.Package_ID}" )
  0\
   .else
  ${ep_pkg.Package_ID}\
   .end if
 \
-  .assign a = ep_pkg.Sys_ID
-  .print "un-initialized == ${ep_pkg.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ep_pkg.Sys_ID}" )
 , 0\
   .else
 , ${ep_pkg.Sys_ID}\
   .end if
 \
-  .assign a = ep_pkg.Direct_Sys_ID
-  .print "un-initialized == ${ep_pkg.Direct_Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ep_pkg.Direct_Sys_ID}" )
 , 0\
   .else
@@ -3847,16 +3091,12 @@ INSERT INTO EP_PKG VALUES (\
 .select many ep_spkgs from instances of EP_SPKG
 .for each ep_spkg in ep_spkgs
 INSERT INTO EP_SPKG VALUES (\
-  .assign a = ep_spkg.Package_ID
-  .print "un-initialized == ${ep_spkg.Package_ID} ${a} unique_id"
   .if ( "un-initialized" == "${ep_spkg.Package_ID}" )
  0\
   .else
  ${ep_spkg.Package_ID}\
   .end if
 \
-  .assign a = ep_spkg.Container_Package_ID
-  .print "un-initialized == ${ep_spkg.Container_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ep_spkg.Container_Package_ID}" )
 , 0\
   .else
@@ -3868,16 +3108,12 @@ INSERT INTO EP_SPKG VALUES (\
 .select many e_cess from instances of E_CES
 .for each e_ces in e_cess
 INSERT INTO E_CES VALUES (\
-  .assign a = e_ces.Statement_ID
-  .print "un-initialized == ${e_ces.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_ces.Statement_ID}" )
  0\
   .else
  ${e_ces.Statement_ID}\
   .end if
 , ${e_ces.is_implicit}\
-  .assign a = e_ces.Var_ID
-  .print "un-initialized == ${e_ces.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_ces.Var_ID}" )
 , 0\
   .else
@@ -3889,8 +3125,6 @@ INSERT INTO E_CES VALUES (\
 .select many e_ceas from instances of E_CEA
 .for each e_cea in e_ceas
 INSERT INTO E_CEA VALUES (\
-  .assign a = e_cea.Statement_ID
-  .print "un-initialized == ${e_cea.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_cea.Statement_ID}" )
  0\
   .else
@@ -3902,8 +3136,6 @@ INSERT INTO E_CEA VALUES (\
 .select many e_cecs from instances of E_CEC
 .for each e_cec in e_cecs
 INSERT INTO E_CEC VALUES (\
-  .assign a = e_cec.Statement_ID
-  .print "un-initialized == ${e_cec.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_cec.Statement_ID}" )
  0\
   .else
@@ -3915,24 +3147,18 @@ INSERT INTO E_CEC VALUES (\
 .select many e_cees from instances of E_CEE
 .for each e_cee in e_cees
 INSERT INTO E_CEE VALUES (\
-  .assign a = e_cee.Statement_ID
-  .print "un-initialized == ${e_cee.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_cee.Statement_ID}" )
  0\
   .else
  ${e_cee.Statement_ID}\
   .end if
 \
-  .assign a = e_cee.EE_ID
-  .print "un-initialized == ${e_cee.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_cee.EE_ID}" )
 , 0\
   .else
 , ${e_cee.EE_ID}\
   .end if
 \
-  .assign a = e_cee.EEevt_ID
-  .print "un-initialized == ${e_cee.EEevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_cee.EEevt_ID}" )
 , 0\
   .else
@@ -3944,16 +3170,12 @@ INSERT INTO E_CEE VALUES (\
 .select many e_ceis from instances of E_CEI
 .for each e_cei in e_ceis
 INSERT INTO E_CEI VALUES (\
-  .assign a = e_cei.Statement_ID
-  .print "un-initialized == ${e_cei.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_cei.Statement_ID}" )
  0\
   .else
  ${e_cei.Statement_ID}\
   .end if
 \
-  .assign a = e_cei.Var_ID
-  .print "un-initialized == ${e_cei.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_cei.Var_ID}" )
 , 0\
   .else
@@ -3965,16 +3187,12 @@ INSERT INTO E_CEI VALUES (\
 .select many e_csmes from instances of E_CSME
 .for each e_csme in e_csmes
 INSERT INTO E_CSME VALUES (\
-  .assign a = e_csme.Statement_ID
-  .print "un-initialized == ${e_csme.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_csme.Statement_ID}" )
  0\
   .else
  ${e_csme.Statement_ID}\
   .end if
 \
-  .assign a = e_csme.SMevt_ID
-  .print "un-initialized == ${e_csme.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_csme.SMevt_ID}" )
 , 0\
   .else
@@ -3986,8 +3204,6 @@ INSERT INTO E_CSME VALUES (\
 .select many e_esss from instances of E_ESS
 .for each e_ess in e_esss
 INSERT INTO E_ESS VALUES (\
-  .assign a = e_ess.Statement_ID
-  .print "un-initialized == ${e_ess.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_ess.Statement_ID}" )
  0\
   .else
@@ -3999,8 +3215,6 @@ INSERT INTO E_ESS VALUES (\
 .select many e_gess from instances of E_GES
 .for each e_ges in e_gess
 INSERT INTO E_GES VALUES (\
-  .assign a = e_ges.Statement_ID
-  .print "un-initialized == ${e_ges.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_ges.Statement_ID}" )
  0\
   .else
@@ -4012,16 +3226,12 @@ INSERT INTO E_GES VALUES (\
 .select many e_gprs from instances of E_GPR
 .for each e_gpr in e_gprs
 INSERT INTO E_GPR VALUES (\
-  .assign a = e_gpr.Statement_ID
-  .print "un-initialized == ${e_gpr.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gpr.Statement_ID}" )
  0\
   .else
  ${e_gpr.Statement_ID}\
   .end if
 \
-  .assign a = e_gpr.Value_ID
-  .print "un-initialized == ${e_gpr.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gpr.Value_ID}" )
 , 0\
   .else
@@ -4033,16 +3243,12 @@ INSERT INTO E_GPR VALUES (\
 .select many e_gsmes from instances of E_GSME
 .for each e_gsme in e_gsmes
 INSERT INTO E_GSME VALUES (\
-  .assign a = e_gsme.Statement_ID
-  .print "un-initialized == ${e_gsme.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gsme.Statement_ID}" )
  0\
   .else
  ${e_gsme.Statement_ID}\
   .end if
 \
-  .assign a = e_gsme.SMevt_ID
-  .print "un-initialized == ${e_gsme.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gsme.SMevt_ID}" )
 , 0\
   .else
@@ -4054,8 +3260,6 @@ INSERT INTO E_GSME VALUES (\
 .select many e_gars from instances of E_GAR
 .for each e_gar in e_gars
 INSERT INTO E_GAR VALUES (\
-  .assign a = e_gar.Statement_ID
-  .print "un-initialized == ${e_gar.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gar.Statement_ID}" )
  0\
   .else
@@ -4067,8 +3271,6 @@ INSERT INTO E_GAR VALUES (\
 .select many e_gecs from instances of E_GEC
 .for each e_gec in e_gecs
 INSERT INTO E_GEC VALUES (\
-  .assign a = e_gec.Statement_ID
-  .print "un-initialized == ${e_gec.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gec.Statement_ID}" )
  0\
   .else
@@ -4080,24 +3282,18 @@ INSERT INTO E_GEC VALUES (\
 .select many e_gees from instances of E_GEE
 .for each e_gee in e_gees
 INSERT INTO E_GEE VALUES (\
-  .assign a = e_gee.Statement_ID
-  .print "un-initialized == ${e_gee.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gee.Statement_ID}" )
  0\
   .else
  ${e_gee.Statement_ID}\
   .end if
 \
-  .assign a = e_gee.EE_ID
-  .print "un-initialized == ${e_gee.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gee.EE_ID}" )
 , 0\
   .else
 , ${e_gee.EE_ID}\
   .end if
 \
-  .assign a = e_gee.EEevt_ID
-  .print "un-initialized == ${e_gee.EEevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gee.EEevt_ID}" )
 , 0\
   .else
@@ -4109,16 +3305,12 @@ INSERT INTO E_GEE VALUES (\
 .select many e_gens from instances of E_GEN
 .for each e_gen in e_gens
 INSERT INTO E_GEN VALUES (\
-  .assign a = e_gen.Statement_ID
-  .print "un-initialized == ${e_gen.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gen.Statement_ID}" )
  0\
   .else
  ${e_gen.Statement_ID}\
   .end if
 \
-  .assign a = e_gen.Var_ID
-  .print "un-initialized == ${e_gen.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${e_gen.Var_ID}" )
 , 0\
   .else
@@ -4130,16 +3322,12 @@ INSERT INTO E_GEN VALUES (\
 .select many g_eiss from instances of G_EIS
 .for each g_eis in g_eiss
 INSERT INTO G_EIS VALUES (\
-  .assign a = g_eis.Element_ID
-  .print "un-initialized == ${g_eis.Element_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${g_eis.Element_ID}" )
  0\
   .else
  ${g_eis.Element_ID}\
   .end if
 \
-  .assign a = g_eis.Sys_ID
-  .print "un-initialized == ${g_eis.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${g_eis.Sys_ID}" )
 , 0\
   .else
@@ -4151,24 +3339,18 @@ INSERT INTO G_EIS VALUES (\
 .select many act_ais from instances of ACT_AI
 .for each act_ai in act_ais
 INSERT INTO ACT_AI VALUES (\
-  .assign a = act_ai.Statement_ID
-  .print "un-initialized == ${act_ai.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ai.Statement_ID}" )
  0\
   .else
  ${act_ai.Statement_ID}\
   .end if
 \
-  .assign a = act_ai.r_Value_ID
-  .print "un-initialized == ${act_ai.r_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ai.r_Value_ID}" )
 , 0\
   .else
 , ${act_ai.r_Value_ID}\
   .end if
 \
-  .assign a = act_ai.l_Value_ID
-  .print "un-initialized == ${act_ai.l_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ai.l_Value_ID}" )
 , 0\
   .else
@@ -4180,16 +3362,12 @@ INSERT INTO ACT_AI VALUES (\
 .select many act_cnvs from instances of ACT_CNV
 .for each act_cnv in act_cnvs
 INSERT INTO ACT_CNV VALUES (\
-  .assign a = act_cnv.Statement_ID
-  .print "un-initialized == ${act_cnv.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_cnv.Statement_ID}" )
  0\
   .else
  ${act_cnv.Statement_ID}\
   .end if
 \
-  .assign a = act_cnv.Obj_ID
-  .print "un-initialized == ${act_cnv.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_cnv.Obj_ID}" )
 , 0\
   .else
@@ -4201,24 +3379,18 @@ INSERT INTO ACT_CNV VALUES (\
 .select many act_crs from instances of ACT_CR
 .for each act_cr in act_crs
 INSERT INTO ACT_CR VALUES (\
-  .assign a = act_cr.Statement_ID
-  .print "un-initialized == ${act_cr.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_cr.Statement_ID}" )
  0\
   .else
  ${act_cr.Statement_ID}\
   .end if
 \
-  .assign a = act_cr.Var_ID
-  .print "un-initialized == ${act_cr.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_cr.Var_ID}" )
 , 0\
   .else
 , ${act_cr.Var_ID}\
   .end if
 , ${act_cr.is_implicit}\
-  .assign a = act_cr.Obj_ID
-  .print "un-initialized == ${act_cr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_cr.Obj_ID}" )
 , 0\
   .else
@@ -4230,16 +3402,12 @@ INSERT INTO ACT_CR VALUES (\
 .select many act_dels from instances of ACT_DEL
 .for each act_del in act_dels
 INSERT INTO ACT_DEL VALUES (\
-  .assign a = act_del.Statement_ID
-  .print "un-initialized == ${act_del.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_del.Statement_ID}" )
  0\
   .else
  ${act_del.Statement_ID}\
   .end if
 \
-  .assign a = act_del.Var_ID
-  .print "un-initialized == ${act_del.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_del.Var_ID}" )
 , 0\
   .else
@@ -4251,24 +3419,18 @@ INSERT INTO ACT_DEL VALUES (\
 .select many i_avls from instances of I_AVL
 .for each i_avl in i_avls
 INSERT INTO I_AVL VALUES (\
-  .assign a = i_avl.Inst_ID
-  .print "un-initialized == ${i_avl.Inst_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_avl.Inst_ID}" )
  0\
   .else
  ${i_avl.Inst_ID}\
   .end if
 \
-  .assign a = i_avl.Obj_ID
-  .print "un-initialized == ${i_avl.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_avl.Obj_ID}" )
 , 0\
   .else
 , ${i_avl.Obj_ID}\
   .end if
 \
-  .assign a = i_avl.Attr_ID
-  .print "un-initialized == ${i_avl.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_avl.Attr_ID}" )
 , 0\
   .else
@@ -4280,24 +3442,18 @@ INSERT INTO I_AVL VALUES (\
 .select many i_bsfs from instances of I_BSF
 .for each i_bsf in i_bsfs
 INSERT INTO I_BSF VALUES (\
-  .assign a = i_bsf.Block_ID
-  .print "un-initialized == ${i_bsf.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_bsf.Block_ID}" )
  0\
   .else
  ${i_bsf.Block_ID}\
   .end if
 \
-  .assign a = i_bsf.Stack_Frame_ID
-  .print "un-initialized == ${i_bsf.Stack_Frame_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_bsf.Stack_Frame_ID}" )
 , 0\
   .else
 , ${i_bsf.Stack_Frame_ID}\
   .end if
 \
-  .assign a = i_bsf.Statement_ID
-  .print "un-initialized == ${i_bsf.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_bsf.Statement_ID}" )
 , 0\
   .else
@@ -4309,8 +3465,6 @@ INSERT INTO I_BSF VALUES (\
 .select many i_cins from instances of I_CIN
 .for each i_cin in i_cins
 INSERT INTO I_CIN VALUES (\
-  .assign a = i_cin.Container_ID
-  .print "un-initialized == ${i_cin.Container_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_cin.Container_ID}" )
  0\
   .else
@@ -4322,48 +3476,36 @@ INSERT INTO I_CIN VALUES (\
 .select many i_exes from instances of I_EXE
 .for each i_exe in i_exes
 INSERT INTO I_EXE VALUES ( ${i_exe.Running}\
-  .assign a = i_exe.Execution_Engine_ID
-  .print "un-initialized == ${i_exe.Execution_Engine_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_exe.Execution_Engine_ID}" )
 , 0\
   .else
 , ${i_exe.Execution_Engine_ID}\
   .end if
 \
-  .assign a = i_exe.Dom_ID
-  .print "un-initialized == ${i_exe.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_exe.Dom_ID}" )
 , 0\
   .else
 , ${i_exe.Dom_ID}\
   .end if
 \
-  .assign a = i_exe.Component_Id
-  .print "un-initialized == ${i_exe.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_exe.Component_Id}" )
 , 0\
   .else
 , ${i_exe.Component_Id}\
   .end if
 \
-  .assign a = i_exe.Package_ID
-  .print "un-initialized == ${i_exe.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_exe.Package_ID}" )
 , 0\
   .else
 , ${i_exe.Package_ID}\
   .end if
 , ${i_exe.Next_Unique_ID}, ${i_exe.Next_Instance_ID}\
-  .assign a = i_exe.ImportedComponent_Id
-  .print "un-initialized == ${i_exe.ImportedComponent_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_exe.ImportedComponent_Id}" )
 , 0\
   .else
 , ${i_exe.ImportedComponent_Id}\
   .end if
 , '${i_exe.Label}', ${i_exe.EQE_Lock}, ${i_exe.SQE_Lock}\
-  .assign a = i_exe.Container_ID
-  .print "un-initialized == ${i_exe.Container_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_exe.Container_ID}" )
 , 0\
   .else
@@ -4375,40 +3517,30 @@ INSERT INTO I_EXE VALUES ( ${i_exe.Running}\
 .select many i_divs from instances of I_DIV
 .for each i_div in i_divs
 INSERT INTO I_DIV VALUES (\
-  .assign a = i_div.DIV_ID
-  .print "un-initialized == ${i_div.DIV_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_div.DIV_ID}" )
  0\
   .else
  ${i_div.DIV_ID}\
   .end if
 \
-  .assign a = i_div.Event_ID
-  .print "un-initialized == ${i_div.Event_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_div.Event_ID}" )
 , 0\
   .else
 , ${i_div.Event_ID}\
   .end if
 \
-  .assign a = i_div.SM_ID
-  .print "un-initialized == ${i_div.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_div.SM_ID}" )
 , 0\
   .else
 , ${i_div.SM_ID}\
   .end if
 \
-  .assign a = i_div.SMedi_ID
-  .print "un-initialized == ${i_div.SMedi_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_div.SMedi_ID}" )
 , 0\
   .else
 , ${i_div.SMedi_ID}\
   .end if
 \
-  .assign a = i_div.PP_Id
-  .print "un-initialized == ${i_div.PP_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_div.PP_Id}" )
 , 0\
   .else
@@ -4420,32 +3552,24 @@ INSERT INTO I_DIV VALUES (\
 .select many i_eqes from instances of I_EQE
 .for each i_eqe in i_eqes
 INSERT INTO I_EQE VALUES (\
-  .assign a = i_eqe.Event_Queue_Entry_ID
-  .print "un-initialized == ${i_eqe.Event_Queue_Entry_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_eqe.Event_Queue_Entry_ID}" )
  0\
   .else
  ${i_eqe.Event_Queue_Entry_ID}\
   .end if
 \
-  .assign a = i_eqe.Execution_Engine_ID
-  .print "un-initialized == ${i_eqe.Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_eqe.Execution_Engine_ID}" )
 , 0\
   .else
 , ${i_eqe.Execution_Engine_ID}\
   .end if
 \
-  .assign a = i_eqe.Event_ID
-  .print "un-initialized == ${i_eqe.Event_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_eqe.Event_ID}" )
 , 0\
   .else
 , ${i_eqe.Event_ID}\
   .end if
 \
-  .assign a = i_eqe.Next_Event_Queue_Entry_ID
-  .print "un-initialized == ${i_eqe.Next_Event_Queue_Entry_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_eqe.Next_Event_Queue_Entry_ID}" )
 , 0\
   .else
@@ -4457,48 +3581,36 @@ INSERT INTO I_EQE VALUES (\
 .select many i_inss from instances of I_INS
 .for each i_ins in i_inss
 INSERT INTO I_INS VALUES (\
-  .assign a = i_ins.Inst_ID
-  .print "un-initialized == ${i_ins.Inst_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_ins.Inst_ID}" )
  0\
   .else
  ${i_ins.Inst_ID}\
   .end if
 , '${i_ins.Name}'\
-  .assign a = i_ins.SM_ID
-  .print "un-initialized == ${i_ins.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_ins.SM_ID}" )
 , 0\
   .else
 , ${i_ins.SM_ID}\
   .end if
 \
-  .assign a = i_ins.SMstt_ID
-  .print "un-initialized == ${i_ins.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_ins.SMstt_ID}" )
 , 0\
   .else
 , ${i_ins.SMstt_ID}\
   .end if
 \
-  .assign a = i_ins.Execution_Engine_ID
-  .print "un-initialized == ${i_ins.Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_ins.Execution_Engine_ID}" )
 , 0\
   .else
 , ${i_ins.Execution_Engine_ID}\
   .end if
 \
-  .assign a = i_ins.Trans_ID
-  .print "un-initialized == ${i_ins.Trans_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_ins.Trans_ID}" )
 , 0\
   .else
 , ${i_ins.Trans_ID}\
   .end if
 \
-  .assign a = i_ins.CIE_ID
-  .print "un-initialized == ${i_ins.CIE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_ins.CIE_ID}" )
 , 0\
   .else
@@ -4510,24 +3622,18 @@ INSERT INTO I_INS VALUES (\
 .select many i_icqes from instances of I_ICQE
 .for each i_icqe in i_icqes
 INSERT INTO I_ICQE VALUES (\
-  .assign a = i_icqe.Stack_ID
-  .print "un-initialized == ${i_icqe.Stack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_icqe.Stack_ID}" )
  0\
   .else
  ${i_icqe.Stack_ID}\
   .end if
 \
-  .assign a = i_icqe.Stack_Frame_ID
-  .print "un-initialized == ${i_icqe.Stack_Frame_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_icqe.Stack_Frame_ID}" )
 , 0\
   .else
 , ${i_icqe.Stack_Frame_ID}\
   .end if
 \
-  .assign a = i_icqe.Execution_Engine_ID
-  .print "un-initialized == ${i_icqe.Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_icqe.Execution_Engine_ID}" )
 , 0\
   .else
@@ -4539,16 +3645,12 @@ INSERT INTO I_ICQE VALUES (\
 .select many i_lips from instances of I_LIP
 .for each i_lip in i_lips
 INSERT INTO I_LIP VALUES (\
-  .assign a = i_lip.Rel_ID
-  .print "un-initialized == ${i_lip.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_lip.Rel_ID}" )
  0\
   .else
  ${i_lip.Rel_ID}\
   .end if
 \
-  .assign a = i_lip.Inst_ID
-  .print "un-initialized == ${i_lip.Inst_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_lip.Inst_ID}" )
 , 0\
   .else
@@ -4560,40 +3662,30 @@ INSERT INTO I_LIP VALUES (\
 .select many i_lnks from instances of I_LNK
 .for each i_lnk in i_lnks
 INSERT INTO I_LNK VALUES (\
-  .assign a = i_lnk.Link_ID
-  .print "un-initialized == ${i_lnk.Link_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_lnk.Link_ID}" )
  0\
   .else
  ${i_lnk.Link_ID}\
   .end if
 \
-  .assign a = i_lnk.Rel_ID
-  .print "un-initialized == ${i_lnk.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_lnk.Rel_ID}" )
 , 0\
   .else
 , ${i_lnk.Rel_ID}\
   .end if
 \
-  .assign a = i_lnk.fromInst_ID
-  .print "un-initialized == ${i_lnk.fromInst_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_lnk.fromInst_ID}" )
 , 0\
   .else
 , ${i_lnk.fromInst_ID}\
   .end if
 \
-  .assign a = i_lnk.toInst_ID
-  .print "un-initialized == ${i_lnk.toInst_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_lnk.toInst_ID}" )
 , 0\
   .else
 , ${i_lnk.toInst_ID}\
   .end if
 \
-  .assign a = i_lnk.assocInst_ID
-  .print "un-initialized == ${i_lnk.assocInst_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_lnk.assocInst_ID}" )
 , 0\
   .else
@@ -4605,16 +3697,12 @@ INSERT INTO I_LNK VALUES (\
 .select many i_mons from instances of I_MON
 .for each i_mon in i_mons
 INSERT INTO I_MON VALUES (\
-  .assign a = i_mon.Execution_Engine_ID
-  .print "un-initialized == ${i_mon.Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_mon.Execution_Engine_ID}" )
  0\
   .else
  ${i_mon.Execution_Engine_ID}\
   .end if
 \
-  .assign a = i_mon.Inst_ID
-  .print "un-initialized == ${i_mon.Inst_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_mon.Inst_ID}" )
 , 0\
   .else
@@ -4626,80 +3714,60 @@ INSERT INTO I_MON VALUES (\
 .select many i_evis from instances of I_EVI
 .for each i_evi in i_evis
 INSERT INTO I_EVI VALUES (\
-  .assign a = i_evi.Event_ID
-  .print "un-initialized == ${i_evi.Event_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_evi.Event_ID}" )
  0\
   .else
  ${i_evi.Event_ID}\
   .end if
 , ${i_evi.isExecuting}, ${i_evi.isCreation}\
-  .assign a = i_evi.SMevt_ID
-  .print "un-initialized == ${i_evi.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_evi.SMevt_ID}" )
 , 0\
   .else
 , ${i_evi.SMevt_ID}\
   .end if
 \
-  .assign a = i_evi.Target_Inst_ID
-  .print "un-initialized == ${i_evi.Target_Inst_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_evi.Target_Inst_ID}" )
 , 0\
   .else
 , ${i_evi.Target_Inst_ID}\
   .end if
 \
-  .assign a = i_evi.nextEvent_ID
-  .print "un-initialized == ${i_evi.nextEvent_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_evi.nextEvent_ID}" )
 , 0\
   .else
 , ${i_evi.nextEvent_ID}\
   .end if
 \
-  .assign a = i_evi.Sent_By_Inst_ID
-  .print "un-initialized == ${i_evi.Sent_By_Inst_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_evi.Sent_By_Inst_ID}" )
 , 0\
   .else
 , ${i_evi.Sent_By_Inst_ID}\
   .end if
 \
-  .assign a = i_evi.next_self_Event_ID
-  .print "un-initialized == ${i_evi.next_self_Event_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_evi.next_self_Event_ID}" )
 , 0\
   .else
 , ${i_evi.next_self_Event_ID}\
   .end if
 \
-  .assign a = i_evi.Sent_By_CIE_ID
-  .print "un-initialized == ${i_evi.Sent_By_CIE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_evi.Sent_By_CIE_ID}" )
 , 0\
   .else
 , ${i_evi.Sent_By_CIE_ID}\
   .end if
 \
-  .assign a = i_evi.CIE_ID
-  .print "un-initialized == ${i_evi.CIE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_evi.CIE_ID}" )
 , 0\
   .else
 , ${i_evi.CIE_ID}\
   .end if
 \
-  .assign a = i_evi.Execution_Engine_ID
-  .print "un-initialized == ${i_evi.Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_evi.Execution_Engine_ID}" )
 , 0\
   .else
 , ${i_evi.Execution_Engine_ID}\
   .end if
 \
-  .assign a = i_evi.Originating_Execution_Engine_ID
-  .print "un-initialized == ${i_evi.Originating_Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_evi.Originating_Execution_Engine_ID}" )
 , 0\
   .else
@@ -4711,48 +3779,36 @@ INSERT INTO I_EVI VALUES (\
 .select many i_rchs from instances of I_RCH
 .for each i_rch in i_rchs
 INSERT INTO I_RCH VALUES (\
-  .assign a = i_rch.Channel_Id
-  .print "un-initialized == ${i_rch.Channel_Id} ${a} unique_id"
   .if ( "un-initialized" == "${i_rch.Channel_Id}" )
  0\
   .else
  ${i_rch.Channel_Id}\
   .end if
 \
-  .assign a = i_rch.Execution_Engine_ID
-  .print "un-initialized == ${i_rch.Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_rch.Execution_Engine_ID}" )
 , 0\
   .else
 , ${i_rch.Execution_Engine_ID}\
   .end if
 \
-  .assign a = i_rch.other_Execution_Engine_ID
-  .print "un-initialized == ${i_rch.other_Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_rch.other_Execution_Engine_ID}" )
 , 0\
   .else
 , ${i_rch.other_Execution_Engine_ID}\
   .end if
 \
-  .assign a = i_rch.Satisfaction_Id
-  .print "un-initialized == ${i_rch.Satisfaction_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_rch.Satisfaction_Id}" )
 , 0\
   .else
 , ${i_rch.Satisfaction_Id}\
   .end if
 \
-  .assign a = i_rch.Delegation_Id
-  .print "un-initialized == ${i_rch.Delegation_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_rch.Delegation_Id}" )
 , 0\
   .else
 , ${i_rch.Delegation_Id}\
   .end if
 \
-  .assign a = i_rch.Next_provider_Channel_Id
-  .print "un-initialized == ${i_rch.Next_provider_Channel_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_rch.Next_provider_Channel_Id}" )
 , 0\
   .else
@@ -4764,32 +3820,24 @@ INSERT INTO I_RCH VALUES (\
 .select many i_sqes from instances of I_SQE
 .for each i_sqe in i_sqes
 INSERT INTO I_SQE VALUES (\
-  .assign a = i_sqe.Self_Queue_Entry_ID
-  .print "un-initialized == ${i_sqe.Self_Queue_Entry_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_sqe.Self_Queue_Entry_ID}" )
  0\
   .else
  ${i_sqe.Self_Queue_Entry_ID}\
   .end if
 \
-  .assign a = i_sqe.Execution_Engine_ID
-  .print "un-initialized == ${i_sqe.Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_sqe.Execution_Engine_ID}" )
 , 0\
   .else
 , ${i_sqe.Execution_Engine_ID}\
   .end if
 \
-  .assign a = i_sqe.Event_ID
-  .print "un-initialized == ${i_sqe.Event_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_sqe.Event_ID}" )
 , 0\
   .else
 , ${i_sqe.Event_ID}\
   .end if
 \
-  .assign a = i_sqe.Next_Self_Queue_Entry_ID
-  .print "un-initialized == ${i_sqe.Next_Self_Queue_Entry_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_sqe.Next_Self_Queue_Entry_ID}" )
 , 0\
   .else
@@ -4801,64 +3849,48 @@ INSERT INTO I_SQE VALUES (\
 .select many i_stfs from instances of I_STF
 .for each i_stf in i_stfs
 INSERT INTO I_STF VALUES (\
-  .assign a = i_stf.Stack_Frame_ID
-  .print "un-initialized == ${i_stf.Stack_Frame_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_stf.Stack_Frame_ID}" )
  0\
   .else
  ${i_stf.Stack_Frame_ID}\
   .end if
 , ${i_stf.Created_For_Wired_Bridge}, ${i_stf.readyForInterrupt}\
-  .assign a = i_stf.Bridge_Caller_Stack_Frame_ID
-  .print "un-initialized == ${i_stf.Bridge_Caller_Stack_Frame_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_stf.Bridge_Caller_Stack_Frame_ID}" )
 , 0\
   .else
 , ${i_stf.Bridge_Caller_Stack_Frame_ID}\
   .end if
 \
-  .assign a = i_stf.Child_Stack_Frame_ID
-  .print "un-initialized == ${i_stf.Child_Stack_Frame_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_stf.Child_Stack_Frame_ID}" )
 , 0\
   .else
 , ${i_stf.Child_Stack_Frame_ID}\
   .end if
 \
-  .assign a = i_stf.Top_Stack_Frame_Stack_ID
-  .print "un-initialized == ${i_stf.Top_Stack_Frame_Stack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_stf.Top_Stack_Frame_Stack_ID}" )
 , 0\
   .else
 , ${i_stf.Top_Stack_Frame_Stack_ID}\
   .end if
 \
-  .assign a = i_stf.Stack_ID
-  .print "un-initialized == ${i_stf.Stack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_stf.Stack_ID}" )
 , 0\
   .else
 , ${i_stf.Stack_ID}\
   .end if
 \
-  .assign a = i_stf.Inst_ID
-  .print "un-initialized == ${i_stf.Inst_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_stf.Inst_ID}" )
 , 0\
   .else
 , ${i_stf.Inst_ID}\
   .end if
 \
-  .assign a = i_stf.Value_Q_Stack_ID
-  .print "un-initialized == ${i_stf.Value_Q_Stack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_stf.Value_Q_Stack_ID}" )
 , 0\
   .else
 , ${i_stf.Value_Q_Stack_ID}\
   .end if
 \
-  .assign a = i_stf.Blocking_Stack_Frame_ID
-  .print "un-initialized == ${i_stf.Blocking_Stack_Frame_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_stf.Blocking_Stack_Frame_ID}" )
 , 0\
   .else
@@ -4870,16 +3902,12 @@ INSERT INTO I_STF VALUES (\
 .select many i_stacks from instances of I_STACK
 .for each i_stack in i_stacks
 INSERT INTO I_STACK VALUES (\
-  .assign a = i_stack.Stack_ID
-  .print "un-initialized == ${i_stack.Stack_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_stack.Stack_ID}" )
  0\
   .else
  ${i_stack.Stack_ID}\
   .end if
 \
-  .assign a = i_stack.Execution_Engine_ID
-  .print "un-initialized == ${i_stack.Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_stack.Execution_Engine_ID}" )
 , 0\
   .else
@@ -4891,16 +3919,12 @@ INSERT INTO I_STACK VALUES (\
 .select many i_tims from instances of I_TIM
 .for each i_tim in i_tims
 INSERT INTO I_TIM VALUES (\
-  .assign a = i_tim.Timer_ID
-  .print "un-initialized == ${i_tim.Timer_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_tim.Timer_ID}" )
  0\
   .else
  ${i_tim.Timer_ID}\
   .end if
 , ${i_tim.delay}, ${i_tim.running}, ${i_tim.recurring}\
-  .assign a = i_tim.Event_ID
-  .print "un-initialized == ${i_tim.Event_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_tim.Event_ID}" )
 , 0\
   .else
@@ -4912,24 +3936,18 @@ INSERT INTO I_TIM VALUES (\
 .select many i_vsfs from instances of I_VSF
 .for each i_vsf in i_vsfs
 INSERT INTO I_VSF VALUES (\
-  .assign a = i_vsf.ValueInStackFrame_ID
-  .print "un-initialized == ${i_vsf.ValueInStackFrame_ID} ${a} unique_id"
   .if ( "un-initialized" == "${i_vsf.ValueInStackFrame_ID}" )
  0\
   .else
  ${i_vsf.ValueInStackFrame_ID}\
   .end if
 \
-  .assign a = i_vsf.Value_ID
-  .print "un-initialized == ${i_vsf.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_vsf.Value_ID}" )
 , 0\
   .else
 , ${i_vsf.Value_ID}\
   .end if
 \
-  .assign a = i_vsf.Stack_Frame_ID
-  .print "un-initialized == ${i_vsf.Stack_Frame_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${i_vsf.Stack_Frame_ID}" )
 , 0\
   .else
@@ -4941,32 +3959,24 @@ INSERT INTO I_VSF VALUES (\
 .select many csme_cies from instances of CSME_CIE
 .for each csme_cie in csme_cies
 INSERT INTO CSME_CIE VALUES (\
-  .assign a = csme_cie.CIE_ID
-  .print "un-initialized == ${csme_cie.CIE_ID} ${a} unique_id"
   .if ( "un-initialized" == "${csme_cie.CIE_ID}" )
  0\
   .else
  ${csme_cie.CIE_ID}\
   .end if
 \
-  .assign a = csme_cie.Execution_Engine_ID
-  .print "un-initialized == ${csme_cie.Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${csme_cie.Execution_Engine_ID}" )
 , 0\
   .else
 , ${csme_cie.Execution_Engine_ID}\
   .end if
 \
-  .assign a = csme_cie.Obj_ID
-  .print "un-initialized == ${csme_cie.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${csme_cie.Obj_ID}" )
 , 0\
   .else
 , ${csme_cie.Obj_ID}\
   .end if
 \
-  .assign a = csme_cie.Package_ID
-  .print "un-initialized == ${csme_cie.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${csme_cie.Package_ID}" )
 , 0\
   .else
@@ -4978,32 +3988,24 @@ INSERT INTO CSME_CIE VALUES (\
 .select many csme_ciss from instances of CSME_CIS
 .for each csme_cis in csme_ciss
 INSERT INTO CSME_CIS VALUES (\
-  .assign a = csme_cis.SM_ID
-  .print "un-initialized == ${csme_cis.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${csme_cis.SM_ID}" )
  0\
   .else
  ${csme_cis.SM_ID}\
   .end if
 \
-  .assign a = csme_cis.SMstt_ID
-  .print "un-initialized == ${csme_cis.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${csme_cis.SMstt_ID}" )
 , 0\
   .else
 , ${csme_cis.SMstt_ID}\
   .end if
 \
-  .assign a = csme_cis.Trans_ID
-  .print "un-initialized == ${csme_cis.Trans_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${csme_cis.Trans_ID}" )
 , 0\
   .else
 , ${csme_cis.Trans_ID}\
   .end if
 \
-  .assign a = csme_cis.CIE_ID
-  .print "un-initialized == ${csme_cis.CIE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${csme_cis.CIE_ID}" )
 , 0\
   .else
@@ -5015,16 +4017,12 @@ INSERT INTO CSME_CIS VALUES (\
 .select many csme_clms from instances of CSME_CLM
 .for each csme_clm in csme_clms
 INSERT INTO CSME_CLM VALUES (\
-  .assign a = csme_clm.Execution_Engine_ID
-  .print "un-initialized == ${csme_clm.Execution_Engine_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${csme_clm.Execution_Engine_ID}" )
  0\
   .else
  ${csme_clm.Execution_Engine_ID}\
   .end if
 \
-  .assign a = csme_clm.CIE_ID
-  .print "un-initialized == ${csme_clm.CIE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${csme_clm.CIE_ID}" )
 , 0\
   .else
@@ -5036,16 +4034,12 @@ INSERT INTO CSME_CLM VALUES (\
 .select many sq_aps from instances of SQ_AP
 .for each sq_ap in sq_aps
 INSERT INTO SQ_AP VALUES (\
-  .assign a = sq_ap.Part_ID
-  .print "un-initialized == ${sq_ap.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_ap.Part_ID}" )
  0\
   .else
  ${sq_ap.Part_ID}\
   .end if
 , '${sq_ap.Name}', '${sq_ap.Descrip}'\
-  .assign a = sq_ap.LS_Part_ID
-  .print "un-initialized == ${sq_ap.LS_Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_ap.LS_Part_ID}" )
 , 0\
   .else
@@ -5057,16 +4051,12 @@ INSERT INTO SQ_AP VALUES (\
 .select many sq_cips from instances of SQ_CIP
 .for each sq_cip in sq_cips
 INSERT INTO SQ_CIP VALUES (\
-  .assign a = sq_cip.Part_ID
-  .print "un-initialized == ${sq_cip.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_cip.Part_ID}" )
  0\
   .else
  ${sq_cip.Part_ID}\
   .end if
 \
-  .assign a = sq_cip.Obj_ID
-  .print "un-initialized == ${sq_cip.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_cip.Obj_ID}" )
 , 0\
   .else
@@ -5078,16 +4068,12 @@ INSERT INTO SQ_CIP VALUES (\
 .select many sq_cpas from instances of SQ_CPA
 .for each sq_cpa in sq_cpas
 INSERT INTO SQ_CPA VALUES (\
-  .assign a = sq_cpa.Ia_ID
-  .print "un-initialized == ${sq_cpa.Ia_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sq_cpa.Ia_ID}" )
  0\
   .else
  ${sq_cpa.Ia_ID}\
   .end if
 , '${sq_cpa.Name}', '${sq_cpa.Type}'\
-  .assign a = sq_cpa.Part_ID
-  .print "un-initialized == ${sq_cpa.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_cpa.Part_ID}" )
 , 0\
   .else
@@ -5099,16 +4085,12 @@ INSERT INTO SQ_CPA VALUES (\
 .select many sq_cps from instances of SQ_CP
 .for each sq_cp in sq_cps
 INSERT INTO SQ_CP VALUES (\
-  .assign a = sq_cp.Part_ID
-  .print "un-initialized == ${sq_cp.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_cp.Part_ID}" )
  0\
   .else
  ${sq_cp.Part_ID}\
   .end if
 \
-  .assign a = sq_cp.Obj_ID
-  .print "un-initialized == ${sq_cp.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_cp.Obj_ID}" )
 , 0\
   .else
@@ -5120,16 +4102,12 @@ INSERT INTO SQ_CP VALUES (\
 .select many sq_cops from instances of SQ_COP
 .for each sq_cop in sq_cops
 INSERT INTO SQ_COP VALUES (\
-  .assign a = sq_cop.Part_ID
-  .print "un-initialized == ${sq_cop.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_cop.Part_ID}" )
  0\
   .else
  ${sq_cop.Part_ID}\
   .end if
 \
-  .assign a = sq_cop.Component_Id
-  .print "un-initialized == ${sq_cop.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_cop.Component_Id}" )
 , 0\
   .else
@@ -5141,16 +4119,12 @@ INSERT INTO SQ_COP VALUES (\
 .select many sq_eeps from instances of SQ_EEP
 .for each sq_eep in sq_eeps
 INSERT INTO SQ_EEP VALUES (\
-  .assign a = sq_eep.Part_ID
-  .print "un-initialized == ${sq_eep.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_eep.Part_ID}" )
  0\
   .else
  ${sq_eep.Part_ID}\
   .end if
 \
-  .assign a = sq_eep.EE_ID
-  .print "un-initialized == ${sq_eep.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_eep.EE_ID}" )
 , 0\
   .else
@@ -5162,8 +4136,6 @@ INSERT INTO SQ_EEP VALUES (\
 .select many sq_favs from instances of SQ_FAV
 .for each sq_fav in sq_favs
 INSERT INTO SQ_FAV VALUES (\
-  .assign a = sq_fav.Av_ID
-  .print "un-initialized == ${sq_fav.Av_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_fav.Av_ID}" )
  0\
   .else
@@ -5175,8 +4147,6 @@ INSERT INTO SQ_FAV VALUES (\
 .select many sq_fas from instances of SQ_FA
 .for each sq_fa in sq_fas
 INSERT INTO SQ_FA VALUES (\
-  .assign a = sq_fa.Ia_ID
-  .print "un-initialized == ${sq_fa.Ia_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_fa.Ia_ID}" )
  0\
   .else
@@ -5188,16 +4158,12 @@ INSERT INTO SQ_FA VALUES (\
 .select many sq_fpps from instances of SQ_FPP
 .for each sq_fpp in sq_fpps
 INSERT INTO SQ_FPP VALUES (\
-  .assign a = sq_fpp.Part_ID
-  .print "un-initialized == ${sq_fpp.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_fpp.Part_ID}" )
  0\
   .else
  ${sq_fpp.Part_ID}\
   .end if
 \
-  .assign a = sq_fpp.FunPack_ID
-  .print "un-initialized == ${sq_fpp.FunPack_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_fpp.FunPack_ID}" )
 , 0\
   .else
@@ -5209,8 +4175,6 @@ INSERT INTO SQ_FPP VALUES (\
 .select many sq_iavs from instances of SQ_IAV
 .for each sq_iav in sq_iavs
 INSERT INTO SQ_IAV VALUES (\
-  .assign a = sq_iav.Av_ID
-  .print "un-initialized == ${sq_iav.Av_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_iav.Av_ID}" )
  0\
   .else
@@ -5222,8 +4186,6 @@ INSERT INTO SQ_IAV VALUES (\
 .select many sq_ias from instances of SQ_IA
 .for each sq_ia in sq_ias
 INSERT INTO SQ_IA VALUES (\
-  .assign a = sq_ia.Ia_ID
-  .print "un-initialized == ${sq_ia.Ia_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_ia.Ia_ID}" )
  0\
   .else
@@ -5235,40 +4197,30 @@ INSERT INTO SQ_IA VALUES (\
 .select many sq_avs from instances of SQ_AV
 .for each sq_av in sq_avs
 INSERT INTO SQ_AV VALUES (\
-  .assign a = sq_av.Av_ID
-  .print "un-initialized == ${sq_av.Av_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sq_av.Av_ID}" )
  0\
   .else
  ${sq_av.Av_ID}\
   .end if
 \
-  .assign a = sq_av.Obj_ID
-  .print "un-initialized == ${sq_av.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_av.Obj_ID}" )
 , 0\
   .else
 , ${sq_av.Obj_ID}\
   .end if
 \
-  .assign a = sq_av.Attr_ID
-  .print "un-initialized == ${sq_av.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_av.Attr_ID}" )
 , 0\
   .else
 , ${sq_av.Attr_ID}\
   .end if
 , '${sq_av.Label}', '${sq_av.Value}', '${sq_av.InformalName}'\
-  .assign a = sq_av.Informal_Part_ID
-  .print "un-initialized == ${sq_av.Informal_Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_av.Informal_Part_ID}" )
 , 0\
   .else
 , ${sq_av.Informal_Part_ID}\
   .end if
 \
-  .assign a = sq_av.Formal_Part_ID
-  .print "un-initialized == ${sq_av.Formal_Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_av.Formal_Part_ID}" )
 , 0\
   .else
@@ -5280,16 +4232,12 @@ INSERT INTO SQ_AV VALUES (\
 .select many sq_ps from instances of SQ_P
 .for each sq_p in sq_ps
 INSERT INTO SQ_P VALUES (\
-  .assign a = sq_p.Part_ID
-  .print "un-initialized == ${sq_p.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_p.Part_ID}" )
  0\
   .else
  ${sq_p.Part_ID}\
   .end if
 \
-  .assign a = sq_p.Sequence_Package_ID
-  .print "un-initialized == ${sq_p.Sequence_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_p.Sequence_Package_ID}" )
 , 0\
   .else
@@ -5301,16 +4249,12 @@ INSERT INTO SQ_P VALUES (\
 .select many sq_lss from instances of SQ_LS
 .for each sq_ls in sq_lss
 INSERT INTO SQ_LS VALUES (\
-  .assign a = sq_ls.Part_ID
-  .print "un-initialized == ${sq_ls.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_ls.Part_ID}" )
  0\
   .else
  ${sq_ls.Part_ID}\
   .end if
 \
-  .assign a = sq_ls.Source_Part_ID
-  .print "un-initialized == ${sq_ls.Source_Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_ls.Source_Part_ID}" )
 , 0\
   .else
@@ -5322,16 +4266,12 @@ INSERT INTO SQ_LS VALUES (\
 .select many sq_pps from instances of SQ_PP
 .for each sq_pp in sq_pps
 INSERT INTO SQ_PP VALUES (\
-  .assign a = sq_pp.Part_ID
-  .print "un-initialized == ${sq_pp.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_pp.Part_ID}" )
  0\
   .else
  ${sq_pp.Part_ID}\
   .end if
 \
-  .assign a = sq_pp.Package_ID
-  .print "un-initialized == ${sq_pp.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_pp.Package_ID}" )
 , 0\
   .else
@@ -5343,24 +4283,18 @@ INSERT INTO SQ_PP VALUES (\
 .select many sq_tss from instances of SQ_TS
 .for each sq_ts in sq_tss
 INSERT INTO SQ_TS VALUES (\
-  .assign a = sq_ts.Span_ID
-  .print "un-initialized == ${sq_ts.Span_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sq_ts.Span_ID}" )
  0\
   .else
  ${sq_ts.Span_ID}\
   .end if
 \
-  .assign a = sq_ts.Mark_ID
-  .print "un-initialized == ${sq_ts.Mark_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_ts.Mark_ID}" )
 , 0\
   .else
 , ${sq_ts.Mark_ID}\
   .end if
 \
-  .assign a = sq_ts.Prev_Mark_ID
-  .print "un-initialized == ${sq_ts.Prev_Mark_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_ts.Prev_Mark_ID}" )
 , 0\
   .else
@@ -5372,16 +4306,12 @@ INSERT INTO SQ_TS VALUES (\
 .select many sq_tms from instances of SQ_TM
 .for each sq_tm in sq_tms
 INSERT INTO SQ_TM VALUES (\
-  .assign a = sq_tm.Mark_ID
-  .print "un-initialized == ${sq_tm.Mark_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sq_tm.Mark_ID}" )
  0\
   .else
  ${sq_tm.Mark_ID}\
   .end if
 , '${sq_tm.Name}'\
-  .assign a = sq_tm.Part_ID
-  .print "un-initialized == ${sq_tm.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_tm.Part_ID}" )
 , 0\
   .else
@@ -5393,8 +4323,6 @@ INSERT INTO SQ_TM VALUES (\
 .select many ia_ucps from instances of IA_UCP
 .for each ia_ucp in ia_ucps
 INSERT INTO IA_UCP VALUES (\
-  .assign a = ia_ucp.Part_ID
-  .print "un-initialized == ${ia_ucp.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ia_ucp.Part_ID}" )
  0\
   .else
@@ -5406,8 +4334,6 @@ INSERT INTO IA_UCP VALUES (\
 .select many ip_ipinips from instances of IP_IPINIP
 .for each ip_ipinip in ip_ipinips
 INSERT INTO IP_IPINIP VALUES (\
-  .assign a = ip_ipinip.Package_ID
-  .print "un-initialized == ${ip_ipinip.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ip_ipinip.Package_ID}" )
  0\
   .else
@@ -5419,48 +4345,36 @@ INSERT INTO IP_IPINIP VALUES (\
 .select many ip_ips from instances of IP_IP
 .for each ip_ip in ip_ips
 INSERT INTO IP_IP VALUES (\
-  .assign a = ip_ip.Package_ID
-  .print "un-initialized == ${ip_ip.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ip_ip.Package_ID}" )
  0\
   .else
  ${ip_ip.Package_ID}\
   .end if
 \
-  .assign a = ip_ip.Parent_Package_ID
-  .print "un-initialized == ${ip_ip.Parent_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ip_ip.Parent_Package_ID}" )
 , 0\
   .else
 , ${ip_ip.Parent_Package_ID}\
   .end if
 \
-  .assign a = ip_ip.Direct_Sys_ID
-  .print "un-initialized == ${ip_ip.Direct_Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ip_ip.Direct_Sys_ID}" )
 , 0\
   .else
 , ${ip_ip.Direct_Sys_ID}\
   .end if
 \
-  .assign a = ip_ip.Sys_ID
-  .print "un-initialized == ${ip_ip.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ip_ip.Sys_ID}" )
 , 0\
   .else
 , ${ip_ip.Sys_ID}\
   .end if
 \
-  .assign a = ip_ip.Component_Id
-  .print "un-initialized == ${ip_ip.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ip_ip.Component_Id}" )
 , 0\
   .else
 , ${ip_ip.Component_Id}\
   .end if
 \
-  .assign a = ip_ip.Component_Package_ID
-  .print "un-initialized == ${ip_ip.Component_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${ip_ip.Component_Package_ID}" )
 , 0\
   .else
@@ -5472,16 +4386,12 @@ INSERT INTO IP_IP VALUES (\
 .select many act_brgs from instances of ACT_BRG
 .for each act_brg in act_brgs
 INSERT INTO ACT_BRG VALUES (\
-  .assign a = act_brg.Statement_ID
-  .print "un-initialized == ${act_brg.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_brg.Statement_ID}" )
  0\
   .else
  ${act_brg.Statement_ID}\
   .end if
 \
-  .assign a = act_brg.Brg_ID
-  .print "un-initialized == ${act_brg.Brg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_brg.Brg_ID}" )
 , 0\
   .else
@@ -5493,16 +4403,12 @@ INSERT INTO ACT_BRG VALUES (\
 .select many act_fncs from instances of ACT_FNC
 .for each act_fnc in act_fncs
 INSERT INTO ACT_FNC VALUES (\
-  .assign a = act_fnc.Statement_ID
-  .print "un-initialized == ${act_fnc.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fnc.Statement_ID}" )
  0\
   .else
  ${act_fnc.Statement_ID}\
   .end if
 \
-  .assign a = act_fnc.Sync_ID
-  .print "un-initialized == ${act_fnc.Sync_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fnc.Sync_ID}" )
 , 0\
   .else
@@ -5514,32 +4420,24 @@ INSERT INTO ACT_FNC VALUES (\
 .select many act_iops from instances of ACT_IOP
 .for each act_iop in act_iops
 INSERT INTO ACT_IOP VALUES (\
-  .assign a = act_iop.Statement_ID
-  .print "un-initialized == ${act_iop.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_iop.Statement_ID}" )
  0\
   .else
  ${act_iop.Statement_ID}\
   .end if
 , ${act_iop.opNameLineNumber}, ${act_iop.opNameColumn}, ${act_iop.ownerNameLineNumber}, ${act_iop.ownerNameColumn}\
-  .assign a = act_iop.ProvidedOp_Id
-  .print "un-initialized == ${act_iop.ProvidedOp_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_iop.ProvidedOp_Id}" )
 , 0\
   .else
 , ${act_iop.ProvidedOp_Id}\
   .end if
 \
-  .assign a = act_iop.RequiredOp_Id
-  .print "un-initialized == ${act_iop.RequiredOp_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_iop.RequiredOp_Id}" )
 , 0\
   .else
 , ${act_iop.RequiredOp_Id}\
   .end if
 \
-  .assign a = act_iop.Value_ID
-  .print "un-initialized == ${act_iop.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_iop.Value_ID}" )
 , 0\
   .else
@@ -5551,24 +4449,18 @@ INSERT INTO ACT_IOP VALUES (\
 .select many act_tfms from instances of ACT_TFM
 .for each act_tfm in act_tfms
 INSERT INTO ACT_TFM VALUES (\
-  .assign a = act_tfm.Statement_ID
-  .print "un-initialized == ${act_tfm.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_tfm.Statement_ID}" )
  0\
   .else
  ${act_tfm.Statement_ID}\
   .end if
 \
-  .assign a = act_tfm.Tfr_ID
-  .print "un-initialized == ${act_tfm.Tfr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_tfm.Tfr_ID}" )
 , 0\
   .else
 , ${act_tfm.Tfr_ID}\
   .end if
 \
-  .assign a = act_tfm.Var_ID
-  .print "un-initialized == ${act_tfm.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_tfm.Var_ID}" )
 , 0\
   .else
@@ -5580,16 +4472,12 @@ INSERT INTO ACT_TFM VALUES (\
 .select many act_rets from instances of ACT_RET
 .for each act_ret in act_rets
 INSERT INTO ACT_RET VALUES (\
-  .assign a = act_ret.Statement_ID
-  .print "un-initialized == ${act_ret.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ret.Statement_ID}" )
  0\
   .else
  ${act_ret.Statement_ID}\
   .end if
 \
-  .assign a = act_ret.Value_ID
-  .print "un-initialized == ${act_ret.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ret.Value_ID}" )
 , 0\
   .else
@@ -5601,32 +4489,24 @@ INSERT INTO ACT_RET VALUES (\
 .select many act_sgns from instances of ACT_SGN
 .for each act_sgn in act_sgns
 INSERT INTO ACT_SGN VALUES (\
-  .assign a = act_sgn.Statement_ID
-  .print "un-initialized == ${act_sgn.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sgn.Statement_ID}" )
  0\
   .else
  ${act_sgn.Statement_ID}\
   .end if
 , ${act_sgn.sigNameLineNumber}, ${act_sgn.sigNameColumn}, ${act_sgn.ownerNameLineNumber}, ${act_sgn.ownerNameColumn}\
-  .assign a = act_sgn.ProvidedSig_Id
-  .print "un-initialized == ${act_sgn.ProvidedSig_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sgn.ProvidedSig_Id}" )
 , 0\
   .else
 , ${act_sgn.ProvidedSig_Id}\
   .end if
 \
-  .assign a = act_sgn.RequiredSig_Id
-  .print "un-initialized == ${act_sgn.RequiredSig_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sgn.RequiredSig_Id}" )
 , 0\
   .else
 , ${act_sgn.RequiredSig_Id}\
   .end if
 \
-  .assign a = act_sgn.Value_ID
-  .print "un-initialized == ${act_sgn.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sgn.Value_ID}" )
 , 0\
   .else
@@ -5638,8 +4518,6 @@ INSERT INTO ACT_SGN VALUES (\
 .select many msg_ams from instances of MSG_AM
 .for each msg_am in msg_ams
 INSERT INTO MSG_AM VALUES (\
-  .assign a = msg_am.Msg_ID
-  .print "un-initialized == ${msg_am.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_am.Msg_ID}" )
  0\
   .else
@@ -5651,16 +4529,12 @@ INSERT INTO MSG_AM VALUES (\
 .select many msg_bas from instances of MSG_BA
 .for each msg_ba in msg_bas
 INSERT INTO MSG_BA VALUES (\
-  .assign a = msg_ba.Arg_ID
-  .print "un-initialized == ${msg_ba.Arg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_ba.Arg_ID}" )
  0\
   .else
  ${msg_ba.Arg_ID}\
   .end if
 \
-  .assign a = msg_ba.BParm_ID
-  .print "un-initialized == ${msg_ba.BParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_ba.BParm_ID}" )
 , 0\
   .else
@@ -5672,16 +4546,12 @@ INSERT INTO MSG_BA VALUES (\
 .select many msg_bs from instances of MSG_B
 .for each msg_b in msg_bs
 INSERT INTO MSG_B VALUES (\
-  .assign a = msg_b.Msg_ID
-  .print "un-initialized == ${msg_b.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_b.Msg_ID}" )
  0\
   .else
  ${msg_b.Msg_ID}\
   .end if
 \
-  .assign a = msg_b.Brg_ID
-  .print "un-initialized == ${msg_b.Brg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_b.Brg_ID}" )
 , 0\
   .else
@@ -5693,24 +4563,18 @@ INSERT INTO MSG_B VALUES (\
 .select many msg_eas from instances of MSG_EA
 .for each msg_ea in msg_eas
 INSERT INTO MSG_EA VALUES (\
-  .assign a = msg_ea.Arg_ID
-  .print "un-initialized == ${msg_ea.Arg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_ea.Arg_ID}" )
  0\
   .else
  ${msg_ea.Arg_ID}\
   .end if
 \
-  .assign a = msg_ea.SM_ID
-  .print "un-initialized == ${msg_ea.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_ea.SM_ID}" )
 , 0\
   .else
 , ${msg_ea.SM_ID}\
   .end if
 \
-  .assign a = msg_ea.SMedi_ID
-  .print "un-initialized == ${msg_ea.SMedi_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_ea.SMedi_ID}" )
 , 0\
   .else
@@ -5722,16 +4586,12 @@ INSERT INTO MSG_EA VALUES (\
 .select many msg_es from instances of MSG_E
 .for each msg_e in msg_es
 INSERT INTO MSG_E VALUES (\
-  .assign a = msg_e.Msg_ID
-  .print "un-initialized == ${msg_e.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_e.Msg_ID}" )
  0\
   .else
  ${msg_e.Msg_ID}\
   .end if
 \
-  .assign a = msg_e.SMevt_ID
-  .print "un-initialized == ${msg_e.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_e.SMevt_ID}" )
 , 0\
   .else
@@ -5743,16 +4603,12 @@ INSERT INTO MSG_E VALUES (\
 .select many msg_epas from instances of MSG_EPA
 .for each msg_epa in msg_epas
 INSERT INTO MSG_EPA VALUES (\
-  .assign a = msg_epa.Arg_ID
-  .print "un-initialized == ${msg_epa.Arg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_epa.Arg_ID}" )
  0\
   .else
  ${msg_epa.Arg_ID}\
   .end if
 \
-  .assign a = msg_epa.PP_Id
-  .print "un-initialized == ${msg_epa.PP_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_epa.PP_Id}" )
 , 0\
   .else
@@ -5764,16 +4620,12 @@ INSERT INTO MSG_EPA VALUES (\
 .select many msg_fas from instances of MSG_FA
 .for each msg_fa in msg_fas
 INSERT INTO MSG_FA VALUES (\
-  .assign a = msg_fa.Arg_ID
-  .print "un-initialized == ${msg_fa.Arg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_fa.Arg_ID}" )
  0\
   .else
  ${msg_fa.Arg_ID}\
   .end if
 \
-  .assign a = msg_fa.SParm_ID
-  .print "un-initialized == ${msg_fa.SParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_fa.SParm_ID}" )
 , 0\
   .else
@@ -5785,16 +4637,12 @@ INSERT INTO MSG_FA VALUES (\
 .select many msg_fs from instances of MSG_F
 .for each msg_f in msg_fs
 INSERT INTO MSG_F VALUES (\
-  .assign a = msg_f.Msg_ID
-  .print "un-initialized == ${msg_f.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_f.Msg_ID}" )
  0\
   .else
  ${msg_f.Msg_ID}\
   .end if
 \
-  .assign a = msg_f.Sync_ID
-  .print "un-initialized == ${msg_f.Sync_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_f.Sync_ID}" )
 , 0\
   .else
@@ -5806,8 +4654,6 @@ INSERT INTO MSG_F VALUES (\
 .select many msg_ias from instances of MSG_IA
 .for each msg_ia in msg_ias
 INSERT INTO MSG_IA VALUES (\
-  .assign a = msg_ia.Arg_ID
-  .print "un-initialized == ${msg_ia.Arg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_ia.Arg_ID}" )
  0\
   .else
@@ -5819,8 +4665,6 @@ INSERT INTO MSG_IA VALUES (\
 .select many msg_iams from instances of MSG_IAM
 .for each msg_iam in msg_iams
 INSERT INTO MSG_IAM VALUES (\
-  .assign a = msg_iam.Msg_ID
-  .print "un-initialized == ${msg_iam.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_iam.Msg_ID}" )
  0\
   .else
@@ -5832,8 +4676,6 @@ INSERT INTO MSG_IAM VALUES (\
 .select many msg_isms from instances of MSG_ISM
 .for each msg_ism in msg_isms
 INSERT INTO MSG_ISM VALUES (\
-  .assign a = msg_ism.Msg_ID
-  .print "un-initialized == ${msg_ism.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_ism.Msg_ID}" )
  0\
   .else
@@ -5845,16 +4687,12 @@ INSERT INTO MSG_ISM VALUES (\
 .select many msg_iops from instances of MSG_IOP
 .for each msg_iop in msg_iops
 INSERT INTO MSG_IOP VALUES (\
-  .assign a = msg_iop.Msg_ID
-  .print "un-initialized == ${msg_iop.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_iop.Msg_ID}" )
  0\
   .else
  ${msg_iop.Msg_ID}\
   .end if
 \
-  .assign a = msg_iop.Id
-  .print "un-initialized == ${msg_iop.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_iop.Id}" )
 , 0\
   .else
@@ -5866,24 +4704,18 @@ INSERT INTO MSG_IOP VALUES (\
 .select many msg_as from instances of MSG_A
 .for each msg_a in msg_as
 INSERT INTO MSG_A VALUES (\
-  .assign a = msg_a.Arg_ID
-  .print "un-initialized == ${msg_a.Arg_ID} ${a} unique_id"
   .if ( "un-initialized" == "${msg_a.Arg_ID}" )
  0\
   .else
  ${msg_a.Arg_ID}\
   .end if
 \
-  .assign a = msg_a.Informal_Msg_ID
-  .print "un-initialized == ${msg_a.Informal_Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_a.Informal_Msg_ID}" )
 , 0\
   .else
 , ${msg_a.Informal_Msg_ID}\
   .end if
 \
-  .assign a = msg_a.Formal_Msg_ID
-  .print "un-initialized == ${msg_a.Formal_Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_a.Formal_Msg_ID}" )
 , 0\
   .else
@@ -5895,24 +4727,18 @@ INSERT INTO MSG_A VALUES (\
 .select many msg_ms from instances of MSG_M
 .for each msg_m in msg_ms
 INSERT INTO MSG_M VALUES (\
-  .assign a = msg_m.Msg_ID
-  .print "un-initialized == ${msg_m.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_m.Msg_ID}" )
  0\
   .else
  ${msg_m.Msg_ID}\
   .end if
 \
-  .assign a = msg_m.Receiver_Part_ID
-  .print "un-initialized == ${msg_m.Receiver_Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_m.Receiver_Part_ID}" )
 , 0\
   .else
 , ${msg_m.Receiver_Part_ID}\
   .end if
 \
-  .assign a = msg_m.Sender_Part_ID
-  .print "un-initialized == ${msg_m.Sender_Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_m.Sender_Part_ID}" )
 , 0\
   .else
@@ -5924,16 +4750,12 @@ INSERT INTO MSG_M VALUES (\
 .select many msg_oas from instances of MSG_OA
 .for each msg_oa in msg_oas
 INSERT INTO MSG_OA VALUES (\
-  .assign a = msg_oa.Arg_ID
-  .print "un-initialized == ${msg_oa.Arg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_oa.Arg_ID}" )
  0\
   .else
  ${msg_oa.Arg_ID}\
   .end if
 \
-  .assign a = msg_oa.TParm_ID
-  .print "un-initialized == ${msg_oa.TParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_oa.TParm_ID}" )
 , 0\
   .else
@@ -5945,16 +4767,12 @@ INSERT INTO MSG_OA VALUES (\
 .select many msg_os from instances of MSG_O
 .for each msg_o in msg_os
 INSERT INTO MSG_O VALUES (\
-  .assign a = msg_o.Msg_ID
-  .print "un-initialized == ${msg_o.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_o.Msg_ID}" )
  0\
   .else
  ${msg_o.Msg_ID}\
   .end if
 \
-  .assign a = msg_o.Tfr_ID
-  .print "un-initialized == ${msg_o.Tfr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_o.Tfr_ID}" )
 , 0\
   .else
@@ -5966,8 +4784,6 @@ INSERT INTO MSG_O VALUES (\
 .select many msg_rs from instances of MSG_R
 .for each msg_r in msg_rs
 INSERT INTO MSG_R VALUES (\
-  .assign a = msg_r.Msg_ID
-  .print "un-initialized == ${msg_r.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_r.Msg_ID}" )
  0\
   .else
@@ -5979,16 +4795,12 @@ INSERT INTO MSG_R VALUES (\
 .select many msg_sigs from instances of MSG_SIG
 .for each msg_sig in msg_sigs
 INSERT INTO MSG_SIG VALUES (\
-  .assign a = msg_sig.Msg_ID
-  .print "un-initialized == ${msg_sig.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_sig.Msg_ID}" )
  0\
   .else
  ${msg_sig.Msg_ID}\
   .end if
 \
-  .assign a = msg_sig.Id
-  .print "un-initialized == ${msg_sig.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_sig.Id}" )
 , 0\
   .else
@@ -6000,8 +4812,6 @@ INSERT INTO MSG_SIG VALUES (\
 .select many msg_sms from instances of MSG_SM
 .for each msg_sm in msg_sms
 INSERT INTO MSG_SM VALUES (\
-  .assign a = msg_sm.Msg_ID
-  .print "un-initialized == ${msg_sm.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${msg_sm.Msg_ID}" )
  0\
   .else
@@ -6013,8 +4823,6 @@ INSERT INTO MSG_SM VALUES (\
 .select many pe_crss from instances of PE_CRS
 .for each pe_crs in pe_crss
 INSERT INTO PE_CRS VALUES (\
-  .assign a = pe_crs.Id
-  .print "un-initialized == ${pe_crs.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pe_crs.Id}" )
  0\
   .else
@@ -6026,114 +4834,64 @@ INSERT INTO PE_CRS VALUES (\
 .select many pe_cvss from instances of PE_CVS
 .for each pe_cvs in pe_cvss
 INSERT INTO PE_CVS VALUES (\
-  .assign a = pe_cvs.Visibility_ID
-  .print "un-initialized == ${pe_cvs.Visibility_ID} ${a} unique_id"
   .if ( "un-initialized" == "${pe_cvs.Visibility_ID}" )
  0\
   .else
  ${pe_cvs.Visibility_ID}\
   .end if
 \
-  .assign a = pe_cvs.Element_ID
-  .print "un-initialized == ${pe_cvs.Element_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pe_cvs.Element_ID}" )
 , 0\
   .else
 , ${pe_cvs.Element_ID}\
   .end if
 \
-  .assign a = pe_cvs.Id
-  .print "un-initialized == ${pe_cvs.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pe_cvs.Id}" )
 , 0\
   .else
 , ${pe_cvs.Id}\
   .end if
-\
-  .assign a = pe_cvs.Name
-  .print "un-initialized == ${pe_cvs.Name} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${pe_cvs.Name}" )
-, 0\
-  .else
-, ${pe_cvs.Name}\
-  .end if
-\
-  .assign a = pe_cvs.Type
-  .print "un-initialized == ${pe_cvs.Type} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${pe_cvs.Type}" )
-, 0\
-  .else
-, ${pe_cvs.Type}\
-  .end if
- );
+, '${pe_cvs.Name}', ${pe_cvs.Type} );
 .end for
 .print "Element Visibility (PE_VIS)"
 .select many pe_viss from instances of PE_VIS
 .for each pe_vis in pe_viss
 INSERT INTO PE_VIS VALUES (\
-  .assign a = pe_vis.Visibility_ID
-  .print "un-initialized == ${pe_vis.Visibility_ID} ${a} unique_id"
   .if ( "un-initialized" == "${pe_vis.Visibility_ID}" )
  0\
   .else
  ${pe_vis.Visibility_ID}\
   .end if
 \
-  .assign a = pe_vis.Element_ID
-  .print "un-initialized == ${pe_vis.Element_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pe_vis.Element_ID}" )
 , 0\
   .else
 , ${pe_vis.Element_ID}\
   .end if
 \
-  .assign a = pe_vis.Package_ID
-  .print "un-initialized == ${pe_vis.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pe_vis.Package_ID}" )
 , 0\
   .else
 , ${pe_vis.Package_ID}\
   .end if
-\
-  .assign a = pe_vis.Name
-  .print "un-initialized == ${pe_vis.Name} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${pe_vis.Name}" )
-, 0\
-  .else
-, ${pe_vis.Name}\
-  .end if
-\
-  .assign a = pe_vis.Type
-  .print "un-initialized == ${pe_vis.Type} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${pe_vis.Type}" )
-, 0\
-  .else
-, ${pe_vis.Type}\
-  .end if
- );
+, '${pe_vis.Name}', ${pe_vis.Type} );
 .end for
 .print "Packageable Element (PE_PE)"
 .select many pe_pes from instances of PE_PE
 .for each pe_pe in pe_pes
 INSERT INTO PE_PE VALUES (\
-  .assign a = pe_pe.Element_ID
-  .print "un-initialized == ${pe_pe.Element_ID} ${a} unique_id"
   .if ( "un-initialized" == "${pe_pe.Element_ID}" )
  0\
   .else
  ${pe_pe.Element_ID}\
   .end if
 , ${pe_pe.Visibility}\
-  .assign a = pe_pe.Package_ID
-  .print "un-initialized == ${pe_pe.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pe_pe.Package_ID}" )
 , 0\
   .else
 , ${pe_pe.Package_ID}\
   .end if
 \
-  .assign a = pe_pe.Component_ID
-  .print "un-initialized == ${pe_pe.Component_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pe_pe.Component_ID}" )
 , 0\
   .else
@@ -6145,8 +4903,6 @@ INSERT INTO PE_PE VALUES (\
 .select many pe_srss from instances of PE_SRS
 .for each pe_srs in pe_srss
 INSERT INTO PE_SRS VALUES (\
-  .assign a = pe_srs.Package_ID
-  .print "un-initialized == ${pe_srs.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pe_srs.Package_ID}" )
  0\
   .else
@@ -6158,16 +4914,12 @@ INSERT INTO PE_SRS VALUES (\
 .select many pa_dics from instances of PA_DIC
 .for each pa_dic in pa_dics
 INSERT INTO PA_DIC VALUES (\
-  .assign a = pa_dic.Component_Id
-  .print "un-initialized == ${pa_dic.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pa_dic.Component_Id}" )
  0\
   .else
  ${pa_dic.Component_Id}\
   .end if
 \
-  .assign a = pa_dic.Delegation_Id
-  .print "un-initialized == ${pa_dic.Delegation_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pa_dic.Delegation_Id}" )
 , 0\
   .else
@@ -6179,16 +4931,12 @@ INSERT INTO PA_DIC VALUES (\
 .select many pa_sicps from instances of PA_SICP
 .for each pa_sicp in pa_sicps
 INSERT INTO PA_SICP VALUES (\
-  .assign a = pa_sicp.ComponentPackage_ID
-  .print "un-initialized == ${pa_sicp.ComponentPackage_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pa_sicp.ComponentPackage_ID}" )
  0\
   .else
  ${pa_sicp.ComponentPackage_ID}\
   .end if
 \
-  .assign a = pa_sicp.Satisfaction_Id
-  .print "un-initialized == ${pa_sicp.Satisfaction_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pa_sicp.Satisfaction_Id}" )
 , 0\
   .else
@@ -6200,16 +4948,12 @@ INSERT INTO PA_SICP VALUES (\
 .select many pa_sics from instances of PA_SIC
 .for each pa_sic in pa_sics
 INSERT INTO PA_SIC VALUES (\
-  .assign a = pa_sic.Component_Id
-  .print "un-initialized == ${pa_sic.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pa_sic.Component_Id}" )
  0\
   .else
  ${pa_sic.Component_Id}\
   .end if
 \
-  .assign a = pa_sic.Satisfaction_Id
-  .print "un-initialized == ${pa_sic.Satisfaction_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${pa_sic.Satisfaction_Id}" )
 , 0\
   .else
@@ -6221,40 +4965,30 @@ INSERT INTO PA_SIC VALUES (\
 .select many act_rus from instances of ACT_RU
 .for each act_ru in act_rus
 INSERT INTO ACT_RU VALUES (\
-  .assign a = act_ru.Statement_ID
-  .print "un-initialized == ${act_ru.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ru.Statement_ID}" )
  0\
   .else
  ${act_ru.Statement_ID}\
   .end if
 \
-  .assign a = act_ru.One_Side_Var_ID
-  .print "un-initialized == ${act_ru.One_Side_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ru.One_Side_Var_ID}" )
 , 0\
   .else
 , ${act_ru.One_Side_Var_ID}\
   .end if
 \
-  .assign a = act_ru.Other_Side_Var_ID
-  .print "un-initialized == ${act_ru.Other_Side_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ru.Other_Side_Var_ID}" )
 , 0\
   .else
 , ${act_ru.Other_Side_Var_ID}\
   .end if
 \
-  .assign a = act_ru.Associative_Var_ID
-  .print "un-initialized == ${act_ru.Associative_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ru.Associative_Var_ID}" )
 , 0\
   .else
 , ${act_ru.Associative_Var_ID}\
   .end if
 , '${act_ru.relationship_phrase}'\
-  .assign a = act_ru.Rel_ID
-  .print "un-initialized == ${act_ru.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_ru.Rel_ID}" )
 , 0\
   .else
@@ -6266,32 +5000,24 @@ INSERT INTO ACT_RU VALUES (\
 .select many act_rels from instances of ACT_REL
 .for each act_rel in act_rels
 INSERT INTO ACT_REL VALUES (\
-  .assign a = act_rel.Statement_ID
-  .print "un-initialized == ${act_rel.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_rel.Statement_ID}" )
  0\
   .else
  ${act_rel.Statement_ID}\
   .end if
 \
-  .assign a = act_rel.One_Side_Var_ID
-  .print "un-initialized == ${act_rel.One_Side_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_rel.One_Side_Var_ID}" )
 , 0\
   .else
 , ${act_rel.One_Side_Var_ID}\
   .end if
 \
-  .assign a = act_rel.Other_Side_Var_ID
-  .print "un-initialized == ${act_rel.Other_Side_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_rel.Other_Side_Var_ID}" )
 , 0\
   .else
 , ${act_rel.Other_Side_Var_ID}\
   .end if
 , '${act_rel.relationship_phrase}'\
-  .assign a = act_rel.Rel_ID
-  .print "un-initialized == ${act_rel.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_rel.Rel_ID}" )
 , 0\
   .else
@@ -6303,40 +5029,30 @@ INSERT INTO ACT_REL VALUES (\
 .select many act_urus from instances of ACT_URU
 .for each act_uru in act_urus
 INSERT INTO ACT_URU VALUES (\
-  .assign a = act_uru.Statement_ID
-  .print "un-initialized == ${act_uru.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_uru.Statement_ID}" )
  0\
   .else
  ${act_uru.Statement_ID}\
   .end if
 \
-  .assign a = act_uru.One_Side_Var_ID
-  .print "un-initialized == ${act_uru.One_Side_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_uru.One_Side_Var_ID}" )
 , 0\
   .else
 , ${act_uru.One_Side_Var_ID}\
   .end if
 \
-  .assign a = act_uru.Other_Side_Var_ID
-  .print "un-initialized == ${act_uru.Other_Side_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_uru.Other_Side_Var_ID}" )
 , 0\
   .else
 , ${act_uru.Other_Side_Var_ID}\
   .end if
 \
-  .assign a = act_uru.Associative_Var_ID
-  .print "un-initialized == ${act_uru.Associative_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_uru.Associative_Var_ID}" )
 , 0\
   .else
 , ${act_uru.Associative_Var_ID}\
   .end if
 , '${act_uru.relationship_phrase}'\
-  .assign a = act_uru.Rel_ID
-  .print "un-initialized == ${act_uru.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_uru.Rel_ID}" )
 , 0\
   .else
@@ -6348,32 +5064,24 @@ INSERT INTO ACT_URU VALUES (\
 .select many act_unrs from instances of ACT_UNR
 .for each act_unr in act_unrs
 INSERT INTO ACT_UNR VALUES (\
-  .assign a = act_unr.Statement_ID
-  .print "un-initialized == ${act_unr.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_unr.Statement_ID}" )
  0\
   .else
  ${act_unr.Statement_ID}\
   .end if
 \
-  .assign a = act_unr.One_Side_Var_ID
-  .print "un-initialized == ${act_unr.One_Side_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_unr.One_Side_Var_ID}" )
 , 0\
   .else
 , ${act_unr.One_Side_Var_ID}\
   .end if
 \
-  .assign a = act_unr.Other_Side_Var_ID
-  .print "un-initialized == ${act_unr.Other_Side_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_unr.Other_Side_Var_ID}" )
 , 0\
   .else
 , ${act_unr.Other_Side_Var_ID}\
   .end if
 , '${act_unr.relationship_phrase}'\
-  .assign a = act_unr.Rel_ID
-  .print "un-initialized == ${act_unr.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_unr.Rel_ID}" )
 , 0\
   .else
@@ -6385,8 +5093,6 @@ INSERT INTO ACT_UNR VALUES (\
 .select many sen_ales from instances of SEN_ALE
 .for each sen_ale in sen_ales
 INSERT INTO SEN_ALE VALUES (\
-  .assign a = sen_ale.Id
-  .print "un-initialized == ${sen_ale.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sen_ale.Id}" )
  0\
   .else
@@ -6398,8 +5104,6 @@ INSERT INTO SEN_ALE VALUES (\
 .select many sen_dces from instances of SEN_DCE
 .for each sen_dce in sen_dces
 INSERT INTO SEN_DCE VALUES (\
-  .assign a = sen_dce.Id
-  .print "un-initialized == ${sen_dce.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sen_dce.Id}" )
  0\
   .else
@@ -6411,8 +5115,6 @@ INSERT INTO SEN_DCE VALUES (\
 .select many sen_des from instances of SEN_DE
 .for each sen_de in sen_des
 INSERT INTO SEN_DE VALUES (\
-  .assign a = sen_de.Id
-  .print "un-initialized == ${sen_de.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sen_de.Id}" )
  0\
   .else
@@ -6424,8 +5126,6 @@ INSERT INTO SEN_DE VALUES (\
 .select many sen_res from instances of SEN_RE
 .for each sen_re in sen_res
 INSERT INTO SEN_RE VALUES (\
-  .assign a = sen_re.Id
-  .print "un-initialized == ${sen_re.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sen_re.Id}" )
  0\
   .else
@@ -6437,8 +5137,6 @@ INSERT INTO SEN_RE VALUES (\
 .select many sen_es from instances of SEN_E
 .for each sen_e in sen_es
 INSERT INTO SEN_E VALUES (\
-  .assign a = sen_e.Id
-  .print "un-initialized == ${sen_e.Id} ${a} unique_id"
   .if ( "un-initialized" == "${sen_e.Id}" )
  0\
   .else
@@ -6450,8 +5148,6 @@ INSERT INTO SEN_E VALUES (\
 .select many sp_alss from instances of SP_ALS
 .for each sp_als in sp_alss
 INSERT INTO SP_ALS VALUES (\
-  .assign a = sp_als.Id
-  .print "un-initialized == ${sp_als.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sp_als.Id}" )
  0\
   .else
@@ -6463,8 +5159,6 @@ INSERT INTO SP_ALS VALUES (\
 .select many sp_dss from instances of SP_DS
 .for each sp_ds in sp_dss
 INSERT INTO SP_DS VALUES (\
-  .assign a = sp_ds.Id
-  .print "un-initialized == ${sp_ds.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sp_ds.Id}" )
  0\
   .else
@@ -6476,8 +5170,6 @@ INSERT INTO SP_DS VALUES (\
 .select many sp_nss from instances of SP_NS
 .for each sp_ns in sp_nss
 INSERT INTO SP_NS VALUES (\
-  .assign a = sp_ns.Id
-  .print "un-initialized == ${sp_ns.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sp_ns.Id}" )
  0\
   .else
@@ -6489,16 +5181,12 @@ INSERT INTO SP_NS VALUES (\
 .select many sp_sps from instances of SP_SP
 .for each sp_sp in sp_sps
 INSERT INTO SP_SP VALUES (\
-  .assign a = sp_sp.Id
-  .print "un-initialized == ${sp_sp.Id} ${a} unique_id"
   .if ( "un-initialized" == "${sp_sp.Id}" )
  0\
   .else
  ${sp_sp.Id}\
   .end if
 \
-  .assign a = sp_sp.Engine_Id
-  .print "un-initialized == ${sp_sp.Engine_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sp_sp.Engine_Id}" )
 , 0\
   .else
@@ -6510,16 +5198,12 @@ INSERT INTO SP_SP VALUES (\
 .select many sp_ses from instances of SP_SE
 .for each sp_se in sp_ses
 INSERT INTO SP_SE VALUES (\
-  .assign a = sp_se.Id
-  .print "un-initialized == ${sp_se.Id} ${a} unique_id"
   .if ( "un-initialized" == "${sp_se.Id}" )
  0\
   .else
  ${sp_se.Id}\
   .end if
 \
-  .assign a = sp_se.Participant_Id
-  .print "un-initialized == ${sp_se.Participant_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sp_se.Participant_Id}" )
 , 0\
   .else
@@ -6531,8 +5215,6 @@ INSERT INTO SP_SE VALUES (\
 .select many squ_as from instances of SQU_A
 .for each squ_a in squ_as
 INSERT INTO SQU_A VALUES (\
-  .assign a = squ_a.Id
-  .print "un-initialized == ${squ_a.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${squ_a.Id}" )
  0\
   .else
@@ -6544,8 +5226,6 @@ INSERT INTO SQU_A VALUES (\
 .select many squ_ds from instances of SQU_D
 .for each squ_d in squ_ds
 INSERT INTO SQU_D VALUES (\
-  .assign a = squ_d.Id
-  .print "un-initialized == ${squ_d.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${squ_d.Id}" )
  0\
   .else
@@ -6557,8 +5237,6 @@ INSERT INTO SQU_D VALUES (\
 .select many squ_des from instances of SQU_DE
 .for each squ_de in squ_des
 INSERT INTO SQU_DE VALUES (\
-  .assign a = squ_de.Id
-  .print "un-initialized == ${squ_de.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${squ_de.Id}" )
  0\
   .else
@@ -6570,16 +5248,12 @@ INSERT INTO SQU_DE VALUES (\
 .select many squ_qs from instances of SQU_Q
 .for each squ_q in squ_qs
 INSERT INTO SQU_Q VALUES (\
-  .assign a = squ_q.Id
-  .print "un-initialized == ${squ_q.Id} ${a} unique_id"
   .if ( "un-initialized" == "${squ_q.Id}" )
  0\
   .else
  ${squ_q.Id}\
   .end if
 \
-  .assign a = squ_q.Engine_Id
-  .print "un-initialized == ${squ_q.Engine_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${squ_q.Engine_Id}" )
 , 0\
   .else
@@ -6591,8 +5265,6 @@ INSERT INTO SQU_Q VALUES (\
 .select many squ_rs from instances of SQU_R
 .for each squ_r in squ_rs
 INSERT INTO SQU_R VALUES (\
-  .assign a = squ_r.Id
-  .print "un-initialized == ${squ_r.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${squ_r.Id}" )
  0\
   .else
@@ -6604,8 +5276,6 @@ INSERT INTO SQU_R VALUES (\
 .select many sr_cmrs from instances of SR_CMR
 .for each sr_cmr in sr_cmrs
 INSERT INTO SR_CMR VALUES (\
-  .assign a = sr_cmr.Id
-  .print "un-initialized == ${sr_cmr.Id} ${a} unique_id"
   .if ( "un-initialized" == "${sr_cmr.Id}" )
  0\
   .else
@@ -6617,8 +5287,6 @@ INSERT INTO SR_CMR VALUES (\
 .select many sr_cms from instances of SR_CM
 .for each sr_cm in sr_cms
 INSERT INTO SR_CM VALUES (\
-  .assign a = sr_cm.Id
-  .print "un-initialized == ${sr_cm.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sr_cm.Id}" )
  0\
   .else
@@ -6630,16 +5298,12 @@ INSERT INTO SR_CM VALUES (\
 .select many sr_ms from instances of SR_M
 .for each sr_m in sr_ms
 INSERT INTO SR_M VALUES (\
-  .assign a = sr_m.Id
-  .print "un-initialized == ${sr_m.Id} ${a} unique_id"
   .if ( "un-initialized" == "${sr_m.Id}" )
  0\
   .else
  ${sr_m.Id}\
   .end if
 \
-  .assign a = sr_m.Result_Id
-  .print "un-initialized == ${sr_m.Result_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sr_m.Result_Id}" )
 , 0\
   .else
@@ -6651,8 +5315,6 @@ INSERT INTO SR_M VALUES (\
 .select many sr_nms from instances of SR_NM
 .for each sr_nm in sr_nms
 INSERT INTO SR_NM VALUES (\
-  .assign a = sr_nm.Id
-  .print "un-initialized == ${sr_nm.Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sr_nm.Id}" )
  0\
   .else
@@ -6664,24 +5326,18 @@ INSERT INTO SR_NM VALUES (\
 .select many sr_srs from instances of SR_SR
 .for each sr_sr in sr_srs
 INSERT INTO SR_SR VALUES (\
-  .assign a = sr_sr.Id
-  .print "un-initialized == ${sr_sr.Id} ${a} unique_id"
   .if ( "un-initialized" == "${sr_sr.Id}" )
  0\
   .else
  ${sr_sr.Id}\
   .end if
 \
-  .assign a = sr_sr.Engine_Id
-  .print "un-initialized == ${sr_sr.Engine_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sr_sr.Engine_Id}" )
 , 0\
   .else
 , ${sr_sr.Engine_Id}\
   .end if
 \
-  .assign a = sr_sr.MatchedParticipant_Id
-  .print "un-initialized == ${sr_sr.MatchedParticipant_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sr_sr.MatchedParticipant_Id}" )
 , 0\
   .else
@@ -6693,40 +5349,30 @@ INSERT INTO SR_SR VALUES (\
 .select many act_lnks from instances of ACT_LNK
 .for each act_lnk in act_lnks
 INSERT INTO ACT_LNK VALUES (\
-  .assign a = act_lnk.Link_ID
-  .print "un-initialized == ${act_lnk.Link_ID} ${a} unique_id"
   .if ( "un-initialized" == "${act_lnk.Link_ID}" )
  0\
   .else
  ${act_lnk.Link_ID}\
   .end if
 , '${act_lnk.Rel_Phrase}'\
-  .assign a = act_lnk.Statement_ID
-  .print "un-initialized == ${act_lnk.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_lnk.Statement_ID}" )
 , 0\
   .else
 , ${act_lnk.Statement_ID}\
   .end if
 \
-  .assign a = act_lnk.Rel_ID
-  .print "un-initialized == ${act_lnk.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_lnk.Rel_ID}" )
 , 0\
   .else
 , ${act_lnk.Rel_ID}\
   .end if
 \
-  .assign a = act_lnk.Next_Link_ID
-  .print "un-initialized == ${act_lnk.Next_Link_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_lnk.Next_Link_ID}" )
 , 0\
   .else
 , ${act_lnk.Next_Link_ID}\
   .end if
 , ${act_lnk.Mult}\
-  .assign a = act_lnk.Obj_ID
-  .print "un-initialized == ${act_lnk.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_lnk.Obj_ID}" )
 , 0\
   .else
@@ -6738,32 +5384,24 @@ INSERT INTO ACT_LNK VALUES (\
 .select many act_fiws from instances of ACT_FIW
 .for each act_fiw in act_fiws
 INSERT INTO ACT_FIW VALUES (\
-  .assign a = act_fiw.Statement_ID
-  .print "un-initialized == ${act_fiw.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fiw.Statement_ID}" )
  0\
   .else
  ${act_fiw.Statement_ID}\
   .end if
 \
-  .assign a = act_fiw.Var_ID
-  .print "un-initialized == ${act_fiw.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fiw.Var_ID}" )
 , 0\
   .else
 , ${act_fiw.Var_ID}\
   .end if
 , ${act_fiw.is_implicit}, '${act_fiw.cardinality}'\
-  .assign a = act_fiw.Where_Clause_Value_ID
-  .print "un-initialized == ${act_fiw.Where_Clause_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fiw.Where_Clause_Value_ID}" )
 , 0\
   .else
 , ${act_fiw.Where_Clause_Value_ID}\
   .end if
 \
-  .assign a = act_fiw.Obj_ID
-  .print "un-initialized == ${act_fiw.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fiw.Obj_ID}" )
 , 0\
   .else
@@ -6775,24 +5413,18 @@ INSERT INTO ACT_FIW VALUES (\
 .select many act_fios from instances of ACT_FIO
 .for each act_fio in act_fios
 INSERT INTO ACT_FIO VALUES (\
-  .assign a = act_fio.Statement_ID
-  .print "un-initialized == ${act_fio.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fio.Statement_ID}" )
  0\
   .else
  ${act_fio.Statement_ID}\
   .end if
 \
-  .assign a = act_fio.Var_ID
-  .print "un-initialized == ${act_fio.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fio.Var_ID}" )
 , 0\
   .else
 , ${act_fio.Var_ID}\
   .end if
 , ${act_fio.is_implicit}, '${act_fio.cardinality}'\
-  .assign a = act_fio.Obj_ID
-  .print "un-initialized == ${act_fio.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_fio.Obj_ID}" )
 , 0\
   .else
@@ -6804,8 +5436,6 @@ INSERT INTO ACT_FIO VALUES (\
 .select many act_srs from instances of ACT_SR
 .for each act_sr in act_srs
 INSERT INTO ACT_SR VALUES (\
-  .assign a = act_sr.Statement_ID
-  .print "un-initialized == ${act_sr.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sr.Statement_ID}" )
  0\
   .else
@@ -6817,16 +5447,12 @@ INSERT INTO ACT_SR VALUES (\
 .select many act_srws from instances of ACT_SRW
 .for each act_srw in act_srws
 INSERT INTO ACT_SRW VALUES (\
-  .assign a = act_srw.Statement_ID
-  .print "un-initialized == ${act_srw.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_srw.Statement_ID}" )
  0\
   .else
  ${act_srw.Statement_ID}\
   .end if
 \
-  .assign a = act_srw.Where_Clause_Value_ID
-  .print "un-initialized == ${act_srw.Where_Clause_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_srw.Where_Clause_Value_ID}" )
 , 0\
   .else
@@ -6838,24 +5464,18 @@ INSERT INTO ACT_SRW VALUES (\
 .select many act_sels from instances of ACT_SEL
 .for each act_sel in act_sels
 INSERT INTO ACT_SEL VALUES (\
-  .assign a = act_sel.Statement_ID
-  .print "un-initialized == ${act_sel.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sel.Statement_ID}" )
  0\
   .else
  ${act_sel.Statement_ID}\
   .end if
 \
-  .assign a = act_sel.Var_ID
-  .print "un-initialized == ${act_sel.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sel.Var_ID}" )
 , 0\
   .else
 , ${act_sel.Var_ID}\
   .end if
 , ${act_sel.is_implicit}, '${act_sel.cardinality}'\
-  .assign a = act_sel.Value_ID
-  .print "un-initialized == ${act_sel.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${act_sel.Value_ID}" )
 , 0\
   .else
@@ -6867,16 +5487,12 @@ INSERT INTO ACT_SEL VALUES (\
 .select many sq_miss from instances of SQ_MIS
 .for each sq_mis in sq_miss
 INSERT INTO SQ_MIS VALUES (\
-  .assign a = sq_mis.Msg_ID
-  .print "un-initialized == ${sq_mis.Msg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_mis.Msg_ID}" )
  0\
   .else
  ${sq_mis.Msg_ID}\
   .end if
 \
-  .assign a = sq_mis.Package_ID
-  .print "un-initialized == ${sq_mis.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_mis.Package_ID}" )
 , 0\
   .else
@@ -6888,8 +5504,6 @@ INSERT INTO SQ_MIS VALUES (\
 .select many sq_siss from instances of SQ_SIS
 .for each sq_sis in sq_siss
 INSERT INTO SQ_SIS VALUES (\
-  .assign a = sq_sis.Package_ID
-  .print "un-initialized == ${sq_sis.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_sis.Package_ID}" )
  0\
   .else
@@ -6901,56 +5515,42 @@ INSERT INTO SQ_SIS VALUES (\
 .select many sq_ss from instances of SQ_S
 .for each sq_s in sq_ss
 INSERT INTO SQ_S VALUES (\
-  .assign a = sq_s.Package_ID
-  .print "un-initialized == ${sq_s.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_s.Package_ID}" )
  0\
   .else
  ${sq_s.Package_ID}\
   .end if
 \
-  .assign a = sq_s.Dom_ID
-  .print "un-initialized == ${sq_s.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_s.Dom_ID}" )
 , 0\
   .else
 , ${sq_s.Dom_ID}\
   .end if
 , '${sq_s.Name}'\
-  .assign a = sq_s.SS_ID
-  .print "un-initialized == ${sq_s.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_s.SS_ID}" )
 , 0\
   .else
 , ${sq_s.SS_ID}\
   .end if
 \
-  .assign a = sq_s.Prev_Package_ID
-  .print "un-initialized == ${sq_s.Prev_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_s.Prev_Package_ID}" )
 , 0\
   .else
 , ${sq_s.Prev_Package_ID}\
   .end if
 , '${sq_s.Descrip}'\
-  .assign a = sq_s.Sys_ID
-  .print "un-initialized == ${sq_s.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_s.Sys_ID}" )
 , 0\
   .else
 , ${sq_s.Sys_ID}\
   .end if
 \
-  .assign a = sq_s.Component_Package_ID
-  .print "un-initialized == ${sq_s.Component_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_s.Component_Package_ID}" )
 , 0\
   .else
 , ${sq_s.Component_Package_ID}\
   .end if
 \
-  .assign a = sq_s.Component_Id
-  .print "un-initialized == ${sq_s.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sq_s.Component_Id}" )
 , 0\
   .else
@@ -6962,16 +5562,12 @@ INSERT INTO SQ_S VALUES (\
 .select many sm_ahs from instances of SM_AH
 .for each sm_ah in sm_ahs
 INSERT INTO SM_AH VALUES (\
-  .assign a = sm_ah.Act_ID
-  .print "un-initialized == ${sm_ah.Act_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_ah.Act_ID}" )
  0\
   .else
  ${sm_ah.Act_ID}\
   .end if
 \
-  .assign a = sm_ah.SM_ID
-  .print "un-initialized == ${sm_ah.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_ah.SM_ID}" )
 , 0\
   .else
@@ -6983,53 +5579,42 @@ INSERT INTO SM_AH VALUES (\
 .select many sm_acts from instances of SM_ACT
 .for each sm_act in sm_acts
 INSERT INTO SM_ACT VALUES (\
-  .assign a = sm_act.Act_ID
-  .print "un-initialized == ${sm_act.Act_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sm_act.Act_ID}" )
  0\
   .else
  ${sm_act.Act_ID}\
   .end if
 \
-  .assign a = sm_act.SM_ID
-  .print "un-initialized == ${sm_act.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_act.SM_ID}" )
 , 0\
   .else
 , ${sm_act.SM_ID}\
   .end if
-, ${sm_act.Suc_Pars}, '${sm_act.Action_Semantics}', '${sm_act.Descrip}' );
+, ${sm_act.Suc_Pars}, ''\
+, '${sm_act.Descrip}' );
 .end for
 .print "Cant Happen (SM_CH)"
 .select many sm_chs from instances of SM_CH
 .for each sm_ch in sm_chs
 INSERT INTO SM_CH VALUES (\
-  .assign a = sm_ch.SMstt_ID
-  .print "un-initialized == ${sm_ch.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_ch.SMstt_ID}" )
  0\
   .else
  ${sm_ch.SMstt_ID}\
   .end if
 \
-  .assign a = sm_ch.SMevt_ID
-  .print "un-initialized == ${sm_ch.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_ch.SMevt_ID}" )
 , 0\
   .else
 , ${sm_ch.SMevt_ID}\
   .end if
 \
-  .assign a = sm_ch.SM_ID
-  .print "un-initialized == ${sm_ch.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_ch.SM_ID}" )
 , 0\
   .else
 , ${sm_ch.SM_ID}\
   .end if
 \
-  .assign a = sm_ch.SMspd_ID
-  .print "un-initialized == ${sm_ch.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_ch.SMspd_ID}" )
 , 0\
   .else
@@ -7041,16 +5626,12 @@ INSERT INTO SM_CH VALUES (\
 .select many sm_asms from instances of SM_ASM
 .for each sm_asm in sm_asms
 INSERT INTO SM_ASM VALUES (\
-  .assign a = sm_asm.SM_ID
-  .print "un-initialized == ${sm_asm.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_asm.SM_ID}" )
  0\
   .else
  ${sm_asm.SM_ID}\
   .end if
 \
-  .assign a = sm_asm.Obj_ID
-  .print "un-initialized == ${sm_asm.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_asm.Obj_ID}" )
 , 0\
   .else
@@ -7062,32 +5643,24 @@ INSERT INTO SM_ASM VALUES (\
 .select many sm_crtxns from instances of SM_CRTXN
 .for each sm_crtxn in sm_crtxns
 INSERT INTO SM_CRTXN VALUES (\
-  .assign a = sm_crtxn.Trans_ID
-  .print "un-initialized == ${sm_crtxn.Trans_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_crtxn.Trans_ID}" )
  0\
   .else
  ${sm_crtxn.Trans_ID}\
   .end if
 \
-  .assign a = sm_crtxn.SM_ID
-  .print "un-initialized == ${sm_crtxn.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_crtxn.SM_ID}" )
 , 0\
   .else
 , ${sm_crtxn.SM_ID}\
   .end if
 \
-  .assign a = sm_crtxn.SMevt_ID
-  .print "un-initialized == ${sm_crtxn.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_crtxn.SMevt_ID}" )
 , 0\
   .else
 , ${sm_crtxn.SMevt_ID}\
   .end if
 \
-  .assign a = sm_crtxn.SMspd_ID
-  .print "un-initialized == ${sm_crtxn.SMspd_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sm_crtxn.SMspd_ID}" )
 , 0\
   .else
@@ -7099,32 +5672,24 @@ INSERT INTO SM_CRTXN VALUES (\
 .select many sm_eigns from instances of SM_EIGN
 .for each sm_eign in sm_eigns
 INSERT INTO SM_EIGN VALUES (\
-  .assign a = sm_eign.SMstt_ID
-  .print "un-initialized == ${sm_eign.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_eign.SMstt_ID}" )
  0\
   .else
  ${sm_eign.SMstt_ID}\
   .end if
 \
-  .assign a = sm_eign.SMevt_ID
-  .print "un-initialized == ${sm_eign.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_eign.SMevt_ID}" )
 , 0\
   .else
 , ${sm_eign.SMevt_ID}\
   .end if
 \
-  .assign a = sm_eign.SM_ID
-  .print "un-initialized == ${sm_eign.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_eign.SM_ID}" )
 , 0\
   .else
 , ${sm_eign.SM_ID}\
   .end if
 \
-  .assign a = sm_eign.SMspd_ID
-  .print "un-initialized == ${sm_eign.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_eign.SMspd_ID}" )
 , 0\
   .else
@@ -7136,16 +5701,12 @@ INSERT INTO SM_EIGN VALUES (\
 .select many sm_supdts from instances of SM_SUPDT
 .for each sm_supdt in sm_supdts
 INSERT INTO SM_SUPDT VALUES (\
-  .assign a = sm_supdt.SMspd_ID
-  .print "un-initialized == ${sm_supdt.SMspd_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sm_supdt.SMspd_ID}" )
  0\
   .else
  ${sm_supdt.SMspd_ID}\
   .end if
 \
-  .assign a = sm_supdt.SM_ID
-  .print "un-initialized == ${sm_supdt.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_supdt.SM_ID}" )
 , 0\
   .else
@@ -7157,16 +5718,12 @@ INSERT INTO SM_SUPDT VALUES (\
 .select many sm_isms from instances of SM_ISM
 .for each sm_ism in sm_isms
 INSERT INTO SM_ISM VALUES (\
-  .assign a = sm_ism.SM_ID
-  .print "un-initialized == ${sm_ism.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_ism.SM_ID}" )
  0\
   .else
  ${sm_ism.SM_ID}\
   .end if
 \
-  .assign a = sm_ism.Obj_ID
-  .print "un-initialized == ${sm_ism.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_ism.Obj_ID}" )
 , 0\
   .else
@@ -7178,24 +5735,18 @@ INSERT INTO SM_ISM VALUES (\
 .select many sm_levts from instances of SM_LEVT
 .for each sm_levt in sm_levts
 INSERT INTO SM_LEVT VALUES (\
-  .assign a = sm_levt.SMevt_ID
-  .print "un-initialized == ${sm_levt.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_levt.SMevt_ID}" )
  0\
   .else
  ${sm_levt.SMevt_ID}\
   .end if
 \
-  .assign a = sm_levt.SM_ID
-  .print "un-initialized == ${sm_levt.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_levt.SM_ID}" )
 , 0\
   .else
 , ${sm_levt.SM_ID}\
   .end if
 \
-  .assign a = sm_levt.SMspd_ID
-  .print "un-initialized == ${sm_levt.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_levt.SMspd_ID}" )
 , 0\
   .else
@@ -7207,24 +5758,18 @@ INSERT INTO SM_LEVT VALUES (\
 .select many sm_meahs from instances of SM_MEAH
 .for each sm_meah in sm_meahs
 INSERT INTO SM_MEAH VALUES (\
-  .assign a = sm_meah.Act_ID
-  .print "un-initialized == ${sm_meah.Act_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_meah.Act_ID}" )
  0\
   .else
  ${sm_meah.Act_ID}\
   .end if
 \
-  .assign a = sm_meah.SM_ID
-  .print "un-initialized == ${sm_meah.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_meah.SM_ID}" )
 , 0\
   .else
 , ${sm_meah.SM_ID}\
   .end if
 \
-  .assign a = sm_meah.Trans_ID
-  .print "un-initialized == ${sm_meah.Trans_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_meah.Trans_ID}" )
 , 0\
   .else
@@ -7236,8 +5781,6 @@ INSERT INTO SM_MEAH VALUES (\
 .select many sm_mealys from instances of SM_MEALY
 .for each sm_mealy in sm_mealys
 INSERT INTO SM_MEALY VALUES (\
-  .assign a = sm_mealy.SM_ID
-  .print "un-initialized == ${sm_mealy.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_mealy.SM_ID}" )
  0\
   .else
@@ -7249,24 +5792,18 @@ INSERT INTO SM_MEALY VALUES (\
 .select many sm_moahs from instances of SM_MOAH
 .for each sm_moah in sm_moahs
 INSERT INTO SM_MOAH VALUES (\
-  .assign a = sm_moah.Act_ID
-  .print "un-initialized == ${sm_moah.Act_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_moah.Act_ID}" )
  0\
   .else
  ${sm_moah.Act_ID}\
   .end if
 \
-  .assign a = sm_moah.SM_ID
-  .print "un-initialized == ${sm_moah.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_moah.SM_ID}" )
 , 0\
   .else
 , ${sm_moah.SM_ID}\
   .end if
 \
-  .assign a = sm_moah.SMstt_ID
-  .print "un-initialized == ${sm_moah.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_moah.SMstt_ID}" )
 , 0\
   .else
@@ -7278,8 +5815,6 @@ INSERT INTO SM_MOAH VALUES (\
 .select many sm_moores from instances of SM_MOORE
 .for each sm_moore in sm_moores
 INSERT INTO SM_MOORE VALUES (\
-  .assign a = sm_moore.SM_ID
-  .print "un-initialized == ${sm_moore.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_moore.SM_ID}" )
  0\
   .else
@@ -7291,40 +5826,30 @@ INSERT INTO SM_MOORE VALUES (\
 .select many sm_nstxns from instances of SM_NSTXN
 .for each sm_nstxn in sm_nstxns
 INSERT INTO SM_NSTXN VALUES (\
-  .assign a = sm_nstxn.Trans_ID
-  .print "un-initialized == ${sm_nstxn.Trans_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_nstxn.Trans_ID}" )
  0\
   .else
  ${sm_nstxn.Trans_ID}\
   .end if
 \
-  .assign a = sm_nstxn.SM_ID
-  .print "un-initialized == ${sm_nstxn.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_nstxn.SM_ID}" )
 , 0\
   .else
 , ${sm_nstxn.SM_ID}\
   .end if
 \
-  .assign a = sm_nstxn.SMstt_ID
-  .print "un-initialized == ${sm_nstxn.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_nstxn.SMstt_ID}" )
 , 0\
   .else
 , ${sm_nstxn.SMstt_ID}\
   .end if
 \
-  .assign a = sm_nstxn.SMevt_ID
-  .print "un-initialized == ${sm_nstxn.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_nstxn.SMevt_ID}" )
 , 0\
   .else
 , ${sm_nstxn.SMevt_ID}\
   .end if
 \
-  .assign a = sm_nstxn.SMspd_ID
-  .print "un-initialized == ${sm_nstxn.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_nstxn.SMspd_ID}" )
 , 0\
   .else
@@ -7336,32 +5861,24 @@ INSERT INTO SM_NSTXN VALUES (\
 .select many sm_netxns from instances of SM_NETXN
 .for each sm_netxn in sm_netxns
 INSERT INTO SM_NETXN VALUES (\
-  .assign a = sm_netxn.Trans_ID
-  .print "un-initialized == ${sm_netxn.Trans_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_netxn.Trans_ID}" )
  0\
   .else
  ${sm_netxn.Trans_ID}\
   .end if
 \
-  .assign a = sm_netxn.SM_ID
-  .print "un-initialized == ${sm_netxn.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_netxn.SM_ID}" )
 , 0\
   .else
 , ${sm_netxn.SM_ID}\
   .end if
 \
-  .assign a = sm_netxn.SMstt_ID
-  .print "un-initialized == ${sm_netxn.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_netxn.SMstt_ID}" )
 , 0\
   .else
 , ${sm_netxn.SMstt_ID}\
   .end if
 \
-  .assign a = sm_netxn.SMspd_ID
-  .print "un-initialized == ${sm_netxn.SMspd_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sm_netxn.SMspd_ID}" )
 , 0\
   .else
@@ -7373,48 +5890,36 @@ INSERT INTO SM_NETXN VALUES (\
 .select many sm_nlevts from instances of SM_NLEVT
 .for each sm_nlevt in sm_nlevts
 INSERT INTO SM_NLEVT VALUES (\
-  .assign a = sm_nlevt.SMevt_ID
-  .print "un-initialized == ${sm_nlevt.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_nlevt.SMevt_ID}" )
  0\
   .else
  ${sm_nlevt.SMevt_ID}\
   .end if
 \
-  .assign a = sm_nlevt.SM_ID
-  .print "un-initialized == ${sm_nlevt.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_nlevt.SM_ID}" )
 , 0\
   .else
 , ${sm_nlevt.SM_ID}\
   .end if
 \
-  .assign a = sm_nlevt.SMspd_ID
-  .print "un-initialized == ${sm_nlevt.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_nlevt.SMspd_ID}" )
 , 0\
   .else
 , ${sm_nlevt.SMspd_ID}\
   .end if
 \
-  .assign a = sm_nlevt.polySMevt_ID
-  .print "un-initialized == ${sm_nlevt.polySMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_nlevt.polySMevt_ID}" )
 , 0\
   .else
 , ${sm_nlevt.polySMevt_ID}\
   .end if
 \
-  .assign a = sm_nlevt.polySM_ID
-  .print "un-initialized == ${sm_nlevt.polySM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_nlevt.polySM_ID}" )
 , 0\
   .else
 , ${sm_nlevt.polySM_ID}\
   .end if
 \
-  .assign a = sm_nlevt.polySMspd_ID
-  .print "un-initialized == ${sm_nlevt.polySMspd_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sm_nlevt.polySMspd_ID}" )
 , 0\
   .else
@@ -7426,24 +5931,18 @@ INSERT INTO SM_NLEVT VALUES (\
 .select many sm_pevts from instances of SM_PEVT
 .for each sm_pevt in sm_pevts
 INSERT INTO SM_PEVT VALUES (\
-  .assign a = sm_pevt.SMevt_ID
-  .print "un-initialized == ${sm_pevt.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_pevt.SMevt_ID}" )
  0\
   .else
  ${sm_pevt.SMevt_ID}\
   .end if
 \
-  .assign a = sm_pevt.SM_ID
-  .print "un-initialized == ${sm_pevt.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_pevt.SM_ID}" )
 , 0\
   .else
 , ${sm_pevt.SM_ID}\
   .end if
 \
-  .assign a = sm_pevt.SMspd_ID
-  .print "un-initialized == ${sm_pevt.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_pevt.SMspd_ID}" )
 , 0\
   .else
@@ -7455,24 +5954,18 @@ INSERT INTO SM_PEVT VALUES (\
 .select many sm_sevts from instances of SM_SEVT
 .for each sm_sevt in sm_sevts
 INSERT INTO SM_SEVT VALUES (\
-  .assign a = sm_sevt.SMevt_ID
-  .print "un-initialized == ${sm_sevt.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sevt.SMevt_ID}" )
  0\
   .else
  ${sm_sevt.SMevt_ID}\
   .end if
 \
-  .assign a = sm_sevt.SM_ID
-  .print "un-initialized == ${sm_sevt.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sevt.SM_ID}" )
 , 0\
   .else
 , ${sm_sevt.SM_ID}\
   .end if
 \
-  .assign a = sm_sevt.SMspd_ID
-  .print "un-initialized == ${sm_sevt.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sevt.SMspd_ID}" )
 , 0\
   .else
@@ -7484,40 +5977,30 @@ INSERT INTO SM_SEVT VALUES (\
 .select many sm_sgevts from instances of SM_SGEVT
 .for each sm_sgevt in sm_sgevts
 INSERT INTO SM_SGEVT VALUES (\
-  .assign a = sm_sgevt.SMevt_ID
-  .print "un-initialized == ${sm_sgevt.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sgevt.SMevt_ID}" )
  0\
   .else
  ${sm_sgevt.SMevt_ID}\
   .end if
 \
-  .assign a = sm_sgevt.SM_ID
-  .print "un-initialized == ${sm_sgevt.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sgevt.SM_ID}" )
 , 0\
   .else
 , ${sm_sgevt.SM_ID}\
   .end if
 \
-  .assign a = sm_sgevt.SMspd_ID
-  .print "un-initialized == ${sm_sgevt.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sgevt.SMspd_ID}" )
 , 0\
   .else
 , ${sm_sgevt.SMspd_ID}\
   .end if
 \
-  .assign a = sm_sgevt.Provided_Signal_Id
-  .print "un-initialized == ${sm_sgevt.Provided_Signal_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sgevt.Provided_Signal_Id}" )
 , 0\
   .else
 , ${sm_sgevt.Provided_Signal_Id}\
   .end if
 \
-  .assign a = sm_sgevt.Required_Signal_Id
-  .print "un-initialized == ${sm_sgevt.Required_Signal_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sgevt.Required_Signal_Id}" )
 , 0\
   .else
@@ -7529,32 +6012,24 @@ INSERT INTO SM_SGEVT VALUES (\
 .select many sm_semes from instances of SM_SEME
 .for each sm_seme in sm_semes
 INSERT INTO SM_SEME VALUES (\
-  .assign a = sm_seme.SMstt_ID
-  .print "un-initialized == ${sm_seme.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_seme.SMstt_ID}" )
  0\
   .else
  ${sm_seme.SMstt_ID}\
   .end if
 \
-  .assign a = sm_seme.SMevt_ID
-  .print "un-initialized == ${sm_seme.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_seme.SMevt_ID}" )
 , 0\
   .else
 , ${sm_seme.SMevt_ID}\
   .end if
 \
-  .assign a = sm_seme.SM_ID
-  .print "un-initialized == ${sm_seme.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_seme.SM_ID}" )
 , 0\
   .else
 , ${sm_seme.SM_ID}\
   .end if
 \
-  .assign a = sm_seme.SMspd_ID
-  .print "un-initialized == ${sm_seme.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_seme.SMspd_ID}" )
 , 0\
   .else
@@ -7566,40 +6041,30 @@ INSERT INTO SM_SEME VALUES (\
 .select many sm_evtdis from instances of SM_EVTDI
 .for each sm_evtdi in sm_evtdis
 INSERT INTO SM_EVTDI VALUES (\
-  .assign a = sm_evtdi.SMedi_ID
-  .print "un-initialized == ${sm_evtdi.SMedi_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sm_evtdi.SMedi_ID}" )
  0\
   .else
  ${sm_evtdi.SMedi_ID}\
   .end if
 \
-  .assign a = sm_evtdi.SM_ID
-  .print "un-initialized == ${sm_evtdi.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_evtdi.SM_ID}" )
 , 0\
   .else
 , ${sm_evtdi.SM_ID}\
   .end if
 , '${sm_evtdi.Name}', '${sm_evtdi.Descrip}'\
-  .assign a = sm_evtdi.DT_ID
-  .print "un-initialized == ${sm_evtdi.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_evtdi.DT_ID}" )
 , 0\
   .else
 , ${sm_evtdi.DT_ID}\
   .end if
 , '${sm_evtdi.Dimensions}'\
-  .assign a = sm_evtdi.SMevt_ID
-  .print "un-initialized == ${sm_evtdi.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_evtdi.SMevt_ID}" )
 , 0\
   .else
 , ${sm_evtdi.SMevt_ID}\
   .end if
 \
-  .assign a = sm_evtdi.Previous_SMedi_ID
-  .print "un-initialized == ${sm_evtdi.Previous_SMedi_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_evtdi.Previous_SMedi_ID}" )
 , 0\
   .else
@@ -7611,24 +6076,18 @@ INSERT INTO SM_EVTDI VALUES (\
 .select many sm_evts from instances of SM_EVT
 .for each sm_evt in sm_evts
 INSERT INTO SM_EVT VALUES (\
-  .assign a = sm_evt.SMevt_ID
-  .print "un-initialized == ${sm_evt.SMevt_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sm_evt.SMevt_ID}" )
  0\
   .else
  ${sm_evt.SMevt_ID}\
   .end if
 \
-  .assign a = sm_evt.SM_ID
-  .print "un-initialized == ${sm_evt.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_evt.SM_ID}" )
 , 0\
   .else
 , ${sm_evt.SM_ID}\
   .end if
 \
-  .assign a = sm_evt.SMspd_ID
-  .print "un-initialized == ${sm_evt.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_evt.SMspd_ID}" )
 , 0\
   .else
@@ -7640,24 +6099,18 @@ INSERT INTO SM_EVT VALUES (\
 .select many sm_states from instances of SM_STATE
 .for each sm_state in sm_states
 INSERT INTO SM_STATE VALUES (\
-  .assign a = sm_state.SMstt_ID
-  .print "un-initialized == ${sm_state.SMstt_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sm_state.SMstt_ID}" )
  0\
   .else
  ${sm_state.SMstt_ID}\
   .end if
 \
-  .assign a = sm_state.SM_ID
-  .print "un-initialized == ${sm_state.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_state.SM_ID}" )
 , 0\
   .else
 , ${sm_state.SM_ID}\
   .end if
 \
-  .assign a = sm_state.SMspd_ID
-  .print "un-initialized == ${sm_state.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_state.SMspd_ID}" )
 , 0\
   .else
@@ -7669,8 +6122,6 @@ INSERT INTO SM_STATE VALUES (\
 .select many sm_sms from instances of SM_SM
 .for each sm_sm in sm_sms
 INSERT INTO SM_SM VALUES (\
-  .assign a = sm_sm.SM_ID
-  .print "un-initialized == ${sm_sm.SM_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sm_sm.SM_ID}" )
  0\
   .else
@@ -7682,24 +6133,18 @@ INSERT INTO SM_SM VALUES (\
 .select many sm_sdis from instances of SM_SDI
 .for each sm_sdi in sm_sdis
 INSERT INTO SM_SDI VALUES (\
-  .assign a = sm_sdi.SMedi_ID
-  .print "un-initialized == ${sm_sdi.SMedi_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sdi.SMedi_ID}" )
  0\
   .else
  ${sm_sdi.SMedi_ID}\
   .end if
 \
-  .assign a = sm_sdi.SMspd_ID
-  .print "un-initialized == ${sm_sdi.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sdi.SMspd_ID}" )
 , 0\
   .else
 , ${sm_sdi.SMspd_ID}\
   .end if
 \
-  .assign a = sm_sdi.SM_ID
-  .print "un-initialized == ${sm_sdi.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_sdi.SM_ID}" )
 , 0\
   .else
@@ -7711,24 +6156,18 @@ INSERT INTO SM_SDI VALUES (\
 .select many sm_tahs from instances of SM_TAH
 .for each sm_tah in sm_tahs
 INSERT INTO SM_TAH VALUES (\
-  .assign a = sm_tah.Act_ID
-  .print "un-initialized == ${sm_tah.Act_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_tah.Act_ID}" )
  0\
   .else
  ${sm_tah.Act_ID}\
   .end if
 \
-  .assign a = sm_tah.SM_ID
-  .print "un-initialized == ${sm_tah.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_tah.SM_ID}" )
 , 0\
   .else
 , ${sm_tah.SM_ID}\
   .end if
 \
-  .assign a = sm_tah.Trans_ID
-  .print "un-initialized == ${sm_tah.Trans_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_tah.Trans_ID}" )
 , 0\
   .else
@@ -7740,32 +6179,24 @@ INSERT INTO SM_TAH VALUES (\
 .select many sm_txns from instances of SM_TXN
 .for each sm_txn in sm_txns
 INSERT INTO SM_TXN VALUES (\
-  .assign a = sm_txn.Trans_ID
-  .print "un-initialized == ${sm_txn.Trans_ID} ${a} unique_id"
   .if ( "un-initialized" == "${sm_txn.Trans_ID}" )
  0\
   .else
  ${sm_txn.Trans_ID}\
   .end if
 \
-  .assign a = sm_txn.SM_ID
-  .print "un-initialized == ${sm_txn.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_txn.SM_ID}" )
 , 0\
   .else
 , ${sm_txn.SM_ID}\
   .end if
 \
-  .assign a = sm_txn.SMstt_ID
-  .print "un-initialized == ${sm_txn.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_txn.SMstt_ID}" )
 , 0\
   .else
 , ${sm_txn.SMstt_ID}\
   .end if
 \
-  .assign a = sm_txn.SMspd_ID
-  .print "un-initialized == ${sm_txn.SMspd_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sm_txn.SMspd_ID}" )
 , 0\
   .else
@@ -7777,80 +6208,54 @@ INSERT INTO SM_TXN VALUES (\
 .select many o_refs from instances of O_REF
 .for each o_ref in o_refs
 INSERT INTO O_REF VALUES (\
-  .assign a = o_ref.Obj_ID
-  .print "un-initialized == ${o_ref.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_ref.Obj_ID}" )
  0\
   .else
  ${o_ref.Obj_ID}\
   .end if
 \
-  .assign a = o_ref.RObj_ID
-  .print "un-initialized == ${o_ref.RObj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_ref.RObj_ID}" )
 , 0\
   .else
 , ${o_ref.RObj_ID}\
   .end if
-\
-  .assign a = o_ref.ROid_ID
-  .print "un-initialized == ${o_ref.ROid_ID} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${o_ref.ROid_ID}" )
-, 0\
-  .else
 , ${o_ref.ROid_ID}\
-  .end if
-\
-  .assign a = o_ref.RAttr_ID
-  .print "un-initialized == ${o_ref.RAttr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_ref.RAttr_ID}" )
 , 0\
   .else
 , ${o_ref.RAttr_ID}\
   .end if
 \
-  .assign a = o_ref.Rel_ID
-  .print "un-initialized == ${o_ref.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_ref.Rel_ID}" )
 , 0\
   .else
 , ${o_ref.Rel_ID}\
   .end if
 \
-  .assign a = o_ref.OIR_ID
-  .print "un-initialized == ${o_ref.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_ref.OIR_ID}" )
 , 0\
   .else
 , ${o_ref.OIR_ID}\
   .end if
 \
-  .assign a = o_ref.ROIR_ID
-  .print "un-initialized == ${o_ref.ROIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_ref.ROIR_ID}" )
 , 0\
   .else
 , ${o_ref.ROIR_ID}\
   .end if
 \
-  .assign a = o_ref.Attr_ID
-  .print "un-initialized == ${o_ref.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_ref.Attr_ID}" )
 , 0\
   .else
 , ${o_ref.Attr_ID}\
   .end if
 \
-  .assign a = o_ref.ARef_ID
-  .print "un-initialized == ${o_ref.ARef_ID} ${a} unique_id"
   .if ( "un-initialized" == "${o_ref.ARef_ID}" )
 , 0\
   .else
 , ${o_ref.ARef_ID}\
   .end if
 \
-  .assign a = o_ref.PARef_ID
-  .print "un-initialized == ${o_ref.PARef_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_ref.PARef_ID}" )
 , 0\
   .else
@@ -7862,32 +6267,24 @@ INSERT INTO O_REF VALUES (\
 .select many o_attrs from instances of O_ATTR
 .for each o_attr in o_attrs
 INSERT INTO O_ATTR VALUES (\
-  .assign a = o_attr.Attr_ID
-  .print "un-initialized == ${o_attr.Attr_ID} ${a} unique_id"
   .if ( "un-initialized" == "${o_attr.Attr_ID}" )
  0\
   .else
  ${o_attr.Attr_ID}\
   .end if
 \
-  .assign a = o_attr.Obj_ID
-  .print "un-initialized == ${o_attr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_attr.Obj_ID}" )
 , 0\
   .else
 , ${o_attr.Obj_ID}\
   .end if
 \
-  .assign a = o_attr.PAttr_ID
-  .print "un-initialized == ${o_attr.PAttr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_attr.PAttr_ID}" )
 , 0\
   .else
 , ${o_attr.PAttr_ID}\
   .end if
 , '${o_attr.Name}', '${o_attr.Descrip}', '${o_attr.Prefix}', '${o_attr.Root_Nam}', ${o_attr.Pfx_Mode}\
-  .assign a = o_attr.DT_ID
-  .print "un-initialized == ${o_attr.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_attr.DT_ID}" )
 , 0\
   .else
@@ -7899,16 +6296,12 @@ INSERT INTO O_ATTR VALUES (\
 .select many o_battrs from instances of O_BATTR
 .for each o_battr in o_battrs
 INSERT INTO O_BATTR VALUES (\
-  .assign a = o_battr.Attr_ID
-  .print "un-initialized == ${o_battr.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_battr.Attr_ID}" )
  0\
   .else
  ${o_battr.Attr_ID}\
   .end if
 \
-  .assign a = o_battr.Obj_ID
-  .print "un-initialized == ${o_battr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_battr.Obj_ID}" )
 , 0\
   .else
@@ -7920,37 +6313,23 @@ INSERT INTO O_BATTR VALUES (\
 .select many o_oidas from instances of O_OIDA
 .for each o_oida in o_oidas
 INSERT INTO O_OIDA VALUES (\
-  .assign a = o_oida.Attr_ID
-  .print "un-initialized == ${o_oida.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_oida.Attr_ID}" )
  0\
   .else
  ${o_oida.Attr_ID}\
   .end if
 \
-  .assign a = o_oida.Obj_ID
-  .print "un-initialized == ${o_oida.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_oida.Obj_ID}" )
 , 0\
   .else
 , ${o_oida.Obj_ID}\
   .end if
-\
-  .assign a = o_oida.Oid_ID
-  .print "un-initialized == ${o_oida.Oid_ID} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${o_oida.Oid_ID}" )
-, 0\
-  .else
-, ${o_oida.Oid_ID}\
-  .end if
-, '${o_oida.localAttributeName}' );
+, ${o_oida.Oid_ID}, '${o_oida.localAttributeName}' );
 .end for
 .print "Class Identifier (O_ID)"
 .select many o_ids from instances of O_ID
 .for each o_id in o_ids
 INSERT INTO O_ID VALUES ( ${o_id.Oid_ID}\
-  .assign a = o_id.Obj_ID
-  .print "un-initialized == ${o_id.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_id.Obj_ID}" )
 , 0\
   .else
@@ -7962,45 +6341,36 @@ INSERT INTO O_ID VALUES ( ${o_id.Oid_ID}\
 .select many o_dbattrs from instances of O_DBATTR
 .for each o_dbattr in o_dbattrs
 INSERT INTO O_DBATTR VALUES (\
-  .assign a = o_dbattr.Attr_ID
-  .print "un-initialized == ${o_dbattr.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_dbattr.Attr_ID}" )
  0\
   .else
  ${o_dbattr.Attr_ID}\
   .end if
 \
-  .assign a = o_dbattr.Obj_ID
-  .print "un-initialized == ${o_dbattr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_dbattr.Obj_ID}" )
 , 0\
   .else
 , ${o_dbattr.Obj_ID}\
   .end if
-, '${o_dbattr.Action_Semantics}', ${o_dbattr.Suc_Pars} );
+, ''\
+, ${o_dbattr.Suc_Pars} );
 .end for
 .print "Imported Class (O_IOBJ)"
 .select many o_iobjs from instances of O_IOBJ
 .for each o_iobj in o_iobjs
 INSERT INTO O_IOBJ VALUES (\
-  .assign a = o_iobj.IObj_ID
-  .print "un-initialized == ${o_iobj.IObj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_iobj.IObj_ID}" )
  0\
   .else
  ${o_iobj.IObj_ID}\
   .end if
 \
-  .assign a = o_iobj.Obj_ID
-  .print "un-initialized == ${o_iobj.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_iobj.Obj_ID}" )
 , 0\
   .else
 , ${o_iobj.Obj_ID}\
   .end if
 , ${o_iobj.Modl_Typ}\
-  .assign a = o_iobj.SS_ID
-  .print "un-initialized == ${o_iobj.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_iobj.SS_ID}" )
 , 0\
   .else
@@ -8012,16 +6382,12 @@ INSERT INTO O_IOBJ VALUES (\
 .select many o_objs from instances of O_OBJ
 .for each o_obj in o_objs
 INSERT INTO O_OBJ VALUES (\
-  .assign a = o_obj.Obj_ID
-  .print "un-initialized == ${o_obj.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_obj.Obj_ID}" )
  0\
   .else
  ${o_obj.Obj_ID}\
   .end if
 , '${o_obj.Name}', ${o_obj.Numb}, '${o_obj.Key_Lett}', '${o_obj.Descrip}'\
-  .assign a = o_obj.SS_ID
-  .print "un-initialized == ${o_obj.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_obj.SS_ID}" )
 , 0\
   .else
@@ -8033,16 +6399,12 @@ INSERT INTO O_OBJ VALUES (\
 .select many o_nbattrs from instances of O_NBATTR
 .for each o_nbattr in o_nbattrs
 INSERT INTO O_NBATTR VALUES (\
-  .assign a = o_nbattr.Attr_ID
-  .print "un-initialized == ${o_nbattr.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_nbattr.Attr_ID}" )
  0\
   .else
  ${o_nbattr.Attr_ID}\
   .end if
 \
-  .assign a = o_nbattr.Obj_ID
-  .print "un-initialized == ${o_nbattr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_nbattr.Obj_ID}" )
 , 0\
   .else
@@ -8054,32 +6416,24 @@ INSERT INTO O_NBATTR VALUES (\
 .select many o_tparms from instances of O_TPARM
 .for each o_tparm in o_tparms
 INSERT INTO O_TPARM VALUES (\
-  .assign a = o_tparm.TParm_ID
-  .print "un-initialized == ${o_tparm.TParm_ID} ${a} unique_id"
   .if ( "un-initialized" == "${o_tparm.TParm_ID}" )
  0\
   .else
  ${o_tparm.TParm_ID}\
   .end if
 \
-  .assign a = o_tparm.Tfr_ID
-  .print "un-initialized == ${o_tparm.Tfr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_tparm.Tfr_ID}" )
 , 0\
   .else
 , ${o_tparm.Tfr_ID}\
   .end if
 , '${o_tparm.Name}'\
-  .assign a = o_tparm.DT_ID
-  .print "un-initialized == ${o_tparm.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_tparm.DT_ID}" )
 , 0\
   .else
 , ${o_tparm.DT_ID}\
   .end if
 , ${o_tparm.By_Ref}, '${o_tparm.Dimensions}'\
-  .assign a = o_tparm.Previous_TParm_ID
-  .print "un-initialized == ${o_tparm.Previous_TParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_tparm.Previous_TParm_ID}" )
 , 0\
   .else
@@ -8091,32 +6445,25 @@ INSERT INTO O_TPARM VALUES (\
 .select many o_tfrs from instances of O_TFR
 .for each o_tfr in o_tfrs
 INSERT INTO O_TFR VALUES (\
-  .assign a = o_tfr.Tfr_ID
-  .print "un-initialized == ${o_tfr.Tfr_ID} ${a} unique_id"
   .if ( "un-initialized" == "${o_tfr.Tfr_ID}" )
  0\
   .else
  ${o_tfr.Tfr_ID}\
   .end if
 \
-  .assign a = o_tfr.Obj_ID
-  .print "un-initialized == ${o_tfr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_tfr.Obj_ID}" )
 , 0\
   .else
 , ${o_tfr.Obj_ID}\
   .end if
 , '${o_tfr.Name}', '${o_tfr.Descrip}'\
-  .assign a = o_tfr.DT_ID
-  .print "un-initialized == ${o_tfr.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_tfr.DT_ID}" )
 , 0\
   .else
 , ${o_tfr.DT_ID}\
   .end if
-, ${o_tfr.Instance_Based}, '${o_tfr.Action_Semantics}', ${o_tfr.Suc_Pars}, '${o_tfr.Return_Dimensions}'\
-  .assign a = o_tfr.Previous_Tfr_ID
-  .print "un-initialized == ${o_tfr.Previous_Tfr_ID} ${a} same_as<Base_Attribute>"
+, ${o_tfr.Instance_Based}, ''\
+, ${o_tfr.Suc_Pars}, '${o_tfr.Return_Dimensions}'\
   .if ( "un-initialized" == "${o_tfr.Previous_Tfr_ID}" )
 , 0\
   .else
@@ -8133,32 +6480,24 @@ INSERT INTO O_RAVR VALUES ( );
 .select many o_rattrs from instances of O_RATTR
 .for each o_rattr in o_rattrs
 INSERT INTO O_RATTR VALUES (\
-  .assign a = o_rattr.Attr_ID
-  .print "un-initialized == ${o_rattr.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_rattr.Attr_ID}" )
  0\
   .else
  ${o_rattr.Attr_ID}\
   .end if
 \
-  .assign a = o_rattr.Obj_ID
-  .print "un-initialized == ${o_rattr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_rattr.Obj_ID}" )
 , 0\
   .else
 , ${o_rattr.Obj_ID}\
   .end if
 \
-  .assign a = o_rattr.BAttr_ID
-  .print "un-initialized == ${o_rattr.BAttr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_rattr.BAttr_ID}" )
 , 0\
   .else
 , ${o_rattr.BAttr_ID}\
   .end if
 \
-  .assign a = o_rattr.BObj_ID
-  .print "un-initialized == ${o_rattr.BObj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_rattr.BObj_ID}" )
 , 0\
   .else
@@ -8170,40 +6509,24 @@ INSERT INTO O_RATTR VALUES (\
 .select many o_rtidas from instances of O_RTIDA
 .for each o_rtida in o_rtidas
 INSERT INTO O_RTIDA VALUES (\
-  .assign a = o_rtida.Attr_ID
-  .print "un-initialized == ${o_rtida.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_rtida.Attr_ID}" )
  0\
   .else
  ${o_rtida.Attr_ID}\
   .end if
 \
-  .assign a = o_rtida.Obj_ID
-  .print "un-initialized == ${o_rtida.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_rtida.Obj_ID}" )
 , 0\
   .else
 , ${o_rtida.Obj_ID}\
   .end if
-\
-  .assign a = o_rtida.Oid_ID
-  .print "un-initialized == ${o_rtida.Oid_ID} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${o_rtida.Oid_ID}" )
-, 0\
-  .else
 , ${o_rtida.Oid_ID}\
-  .end if
-\
-  .assign a = o_rtida.Rel_ID
-  .print "un-initialized == ${o_rtida.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_rtida.Rel_ID}" )
 , 0\
   .else
 , ${o_rtida.Rel_ID}\
   .end if
 \
-  .assign a = o_rtida.OIR_ID
-  .print "un-initialized == ${o_rtida.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${o_rtida.OIR_ID}" )
 , 0\
   .else
@@ -8215,24 +6538,18 @@ INSERT INTO O_RTIDA VALUES (\
 .select many sld_scinps from instances of SLD_SCINP
 .for each sld_scinp in sld_scinps
 INSERT INTO SLD_SCINP VALUES (\
-  .assign a = sld_scinp.Sys_ID
-  .print "un-initialized == ${sld_scinp.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sld_scinp.Sys_ID}" )
  0\
   .else
  ${sld_scinp.Sys_ID}\
   .end if
 \
-  .assign a = sld_scinp.Package_ID
-  .print "un-initialized == ${sld_scinp.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sld_scinp.Package_ID}" )
 , 0\
   .else
 , ${sld_scinp.Package_ID}\
   .end if
 \
-  .assign a = sld_scinp.Constant_Spec_ID
-  .print "un-initialized == ${sld_scinp.Constant_Spec_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sld_scinp.Constant_Spec_ID}" )
 , 0\
   .else
@@ -8244,16 +6561,12 @@ INSERT INTO SLD_SCINP VALUES (\
 .select many sld_sdps from instances of SLD_SDP
 .for each sld_sdp in sld_sdps
 INSERT INTO SLD_SDP VALUES (\
-  .assign a = sld_sdp.Sys_ID
-  .print "un-initialized == ${sld_sdp.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sld_sdp.Sys_ID}" )
  0\
   .else
  ${sld_sdp.Sys_ID}\
   .end if
 \
-  .assign a = sld_sdp.Package_ID
-  .print "un-initialized == ${sld_sdp.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sld_sdp.Package_ID}" )
 , 0\
   .else
@@ -8265,24 +6578,18 @@ INSERT INTO SLD_SDP VALUES (\
 .select many sld_sdinps from instances of SLD_SDINP
 .for each sld_sdinp in sld_sdinps
 INSERT INTO SLD_SDINP VALUES (\
-  .assign a = sld_sdinp.Package_ID
-  .print "un-initialized == ${sld_sdinp.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sld_sdinp.Package_ID}" )
  0\
   .else
  ${sld_sdinp.Package_ID}\
   .end if
 \
-  .assign a = sld_sdinp.DT_ID
-  .print "un-initialized == ${sld_sdinp.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sld_sdinp.DT_ID}" )
 , 0\
   .else
 , ${sld_sdinp.DT_ID}\
   .end if
 \
-  .assign a = sld_sdinp.Sys_ID
-  .print "un-initialized == ${sld_sdinp.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${sld_sdinp.Sys_ID}" )
 , 0\
   .else
@@ -8294,16 +6601,12 @@ INSERT INTO SLD_SDINP VALUES (\
 .select many te_abas from instances of TE_ABA
 .for each te_aba in te_abas
 INSERT INTO TE_ABA VALUES (\
-  .assign a = te_aba.AbaID
-  .print "un-initialized == ${te_aba.AbaID} ${a} unique_id"
   .if ( "un-initialized" == "${te_aba.AbaID}" )
  0\
   .else
  ${te_aba.AbaID}\
   .end if
-, '${te_aba.subtypeKL}', ${te_aba.SelfEventCount}, ${te_aba.NonSelfEventCount}, ${te_aba.SelectManyCount}, ${te_aba.SelectAnyWhereCount}, ${te_aba.TimerStartCount}, ${te_aba.ReturnStmtUsed}, ${te_aba.BreakStmtUsed}, ${te_aba.ContinueStmtUsed}, '${te_aba.ParameterDeclaration}', '${te_aba.ParameterDefinition}', '${te_aba.ParameterStructure}', '${te_aba.ParameterInvocation}', '${te_aba.ParameterAssignment}', '${te_aba.ParameterAssignmentBase}', '${te_aba.scope}', '${te_aba.GeneratedName}', '${te_aba.ReturnDataType}', ${te_aba.dimensions}\
-  .assign a = te_aba.te_dimID
-  .print "un-initialized == ${te_aba.te_dimID} ${a} same_as<Base_Attribute>"
+, '${te_aba.subtypeKL}', ${te_aba.SelfEventCount}, ${te_aba.NonSelfEventCount}, ${te_aba.SelectManyCount}, ${te_aba.SelectAnyWhereCount}, ${te_aba.TimerStartCount}, ${te_aba.ReturnStmtUsed}, ${te_aba.BreakStmtUsed}, ${te_aba.ContinueStmtUsed}, '${te_aba.ParameterDeclaration}', '${te_aba.ParameterDefinition}', '${te_aba.ParameterStructure}', '${te_aba.ParameterTrace}', '${te_aba.ParameterFormat}', '${te_aba.ParameterInvocation}', '${te_aba.ParameterAssignment}', '${te_aba.ParameterAssignmentBase}', '${te_aba.scope}', '${te_aba.GeneratedName}', '${te_aba.ReturnDataType}', ${te_aba.dimensions}\
   .if ( "un-initialized" == "${te_aba.te_dimID}" )
 , 0\
   .else
@@ -8315,24 +6618,18 @@ INSERT INTO TE_ABA VALUES (\
 .select many te_cis from instances of TE_CI
 .for each te_ci in te_cis
 INSERT INTO TE_CI VALUES (\
-  .assign a = te_ci.ID
-  .print "un-initialized == ${te_ci.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_ci.ID}" )
  0\
   .else
  ${te_ci.ID}\
   .end if
 , '${te_ci.Name}', '${te_ci.ClassifierName}', '${te_ci.template_parameter_values}'\
-  .assign a = te_ci.te_cID
-  .print "un-initialized == ${te_ci.te_cID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_ci.te_cID}" )
 , 0\
   .else
 , ${te_ci.te_cID}\
   .end if
 \
-  .assign a = te_ci.cl_icId
-  .print "un-initialized == ${te_ci.cl_icId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_ci.cl_icId}" )
 , 0\
   .else
@@ -8343,38 +6640,24 @@ INSERT INTO TE_CI VALUES (\
 .print "Dispatcher (TE_DISP)"
 .select many te_disps from instances of TE_DISP
 .for each te_disp in te_disps
-INSERT INTO TE_DISP VALUES ( ${te_disp.Dispatcher_ID}\
-  .assign a = te_disp.SystemID
-  .print "un-initialized == ${te_disp.SystemID} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${te_disp.SystemID}" )
-, 0\
-  .else
-, ${te_disp.SystemID}\
-  .end if
-, '${te_disp.Name}', '${te_disp.Descrip}' );
+INSERT INTO TE_DISP VALUES ( ${te_disp.Dispatcher_ID}, ${te_disp.SystemID}, '${te_disp.Name}', '${te_disp.Descrip}' );
 .end for
 .print "Extended Action (TE_ACT)"
 .select many te_acts from instances of TE_ACT
 .for each te_act in te_acts
 INSERT INTO TE_ACT VALUES (\
-  .assign a = te_act.AbaID
-  .print "un-initialized == ${te_act.AbaID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_act.AbaID}" )
  0\
   .else
  ${te_act.AbaID}\
   .end if
 , '${te_act.GeneratedName}', ${te_act.number}\
-  .assign a = te_act.SM_ID
-  .print "un-initialized == ${te_act.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_act.SM_ID}" )
 , 0\
   .else
 , ${te_act.SM_ID}\
   .end if
 \
-  .assign a = te_act.Act_ID
-  .print "un-initialized == ${te_act.Act_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_act.Act_ID}" )
 , 0\
   .else
@@ -8386,8 +6669,6 @@ INSERT INTO TE_ACT VALUES (\
 .select many te_pars from instances of TE_PAR
 .for each te_par in te_pars
 INSERT INTO TE_PAR VALUES ( '${te_par.Name}', ${te_par.By_Ref}, '${te_par.buffer}'\
-  .assign a = te_par.Value_ID
-  .print "un-initialized == ${te_par.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_par.Value_ID}" )
 , 0\
   .else
@@ -8398,33 +6679,31 @@ INSERT INTO TE_PAR VALUES ( '${te_par.Name}', ${te_par.By_Ref}, '${te_par.buffer
 .print "Extended Attribute (TE_ATTR)"
 .select many te_attrs from instances of TE_ATTR
 .for each te_attr in te_attrs
-INSERT INTO TE_ATTR VALUES ( ${te_attr.Used}, ${te_attr.read}, ${te_attr.written}, ${te_attr.Included}, ${te_attr.Order}, '${te_attr.ParamBuffer}', '${te_attr.Name}', '${te_attr.GeneratedName}', '${te_attr.DefaultValue}', ${te_attr.translate}, ${te_attr.dimensions}\
-  .assign a = te_attr.te_dimID
-  .print "un-initialized == ${te_attr.te_dimID} ${a} same_as<Base_Attribute>"
+INSERT INTO TE_ATTR VALUES (\
+  .if ( "un-initialized" == "${te_attr.ID}" )
+ 0\
+  .else
+ ${te_attr.ID}\
+  .end if
+, ${te_attr.Used}, ${te_attr.read}, ${te_attr.written}, ${te_attr.Included}, ${te_attr.Order}, '${te_attr.ParamBuffer}', '${te_attr.Name}', '${te_attr.GeneratedName}', '${te_attr.DefaultValue}', ${te_attr.translate}, ${te_attr.dimensions}\
   .if ( "un-initialized" == "${te_attr.te_dimID}" )
 , 0\
   .else
 , ${te_attr.te_dimID}\
   .end if
-, '${te_attr.array_spec}'\
-  .assign a = te_attr.te_classGeneratedName
-  .print "un-initialized == ${te_attr.te_classGeneratedName} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${te_attr.te_classGeneratedName}" )
+, '${te_attr.array_spec}', '${te_attr.te_classGeneratedName}', '${te_attr.GeneratedType}'\
+  .if ( "un-initialized" == "${te_attr.prevID}" )
 , 0\
   .else
-, ${te_attr.te_classGeneratedName}\
+, ${te_attr.prevID}\
   .end if
-, '${te_attr.GeneratedType}'\
-  .assign a = te_attr.Attr_ID
-  .print "un-initialized == ${te_attr.Attr_ID} ${a} same_as<Base_Attribute>"
+\
   .if ( "un-initialized" == "${te_attr.Attr_ID}" )
 , 0\
   .else
 , ${te_attr.Attr_ID}\
   .end if
 \
-  .assign a = te_attr.Obj_ID
-  .print "un-initialized == ${te_attr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_attr.Obj_ID}" )
 , 0\
   .else
@@ -8436,16 +6715,12 @@ INSERT INTO TE_ATTR VALUES ( ${te_attr.Used}, ${te_attr.read}, ${te_attr.written
 .select many te_brgs from instances of TE_BRG
 .for each te_brg in te_brgs
 INSERT INTO TE_BRG VALUES ( '${te_brg.EEname}', '${te_brg.EEkeyletters}', '${te_brg.Name}', '${te_brg.GeneratedName}'\
-  .assign a = te_brg.AbaID
-  .print "un-initialized == ${te_brg.AbaID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_brg.AbaID}" )
 , 0\
   .else
 , ${te_brg.AbaID}\
   .end if
 \
-  .assign a = te_brg.Brg_ID
-  .print "un-initialized == ${te_brg.Brg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_brg.Brg_ID}" )
 , 0\
   .else
@@ -8456,17 +6731,13 @@ INSERT INTO TE_BRG VALUES ( '${te_brg.EEname}', '${te_brg.EEkeyletters}', '${te_
 .print "Extended Class (TE_CLASS)"
 .select many te_classs from instances of TE_CLASS
 .for each te_class in te_classs
-INSERT INTO TE_CLASS VALUES ( '${te_class.Name}', ${te_class.Numb}, '${te_class.Key_Lett}', '${te_class.GeneratedName}', '${te_class.CBGeneratedName}', ${te_class.Included}, ${te_class.PEIsDefinedInData}, ${te_class.IsFixedPopulation}, ${te_class.IsReadOnly}, ${te_class.ExcludeFromGen}, ${te_class.MaxExtentSize}, ${te_class.SelfCreated}, ${te_class.NonSelfCreated}, ${te_class.ExtendedSetOps}, ${te_class.Persistent}, ${te_class.Order}, ${te_class.IsTrace}, ${te_class.ContainerIndex}, ${te_class.Task}, '${te_class.class_file}', '${te_class.system_class_number}', '${te_class.CBsystem_class_number}', '${te_class.persist_link}', '${te_class.dispatcher}', '${te_class.CBdispatcher}'\
-  .assign a = te_class.te_cID
-  .print "un-initialized == ${te_class.te_cID} ${a} same_as<Base_Attribute>"
+INSERT INTO TE_CLASS VALUES ( '${te_class.Name}', ${te_class.Numb}, '${te_class.Key_Lett}', '${te_class.GeneratedName}', '${te_class.CBGeneratedName}', ${te_class.Included}, ${te_class.PEIsDefinedInData}, ${te_class.IsFixedPopulation}, ${te_class.IsReadOnly}, ${te_class.ExcludeFromGen}, ${te_class.MaxExtentSize}, ${te_class.SelfCreated}, ${te_class.NonSelfCreated}, ${te_class.ExtendedSetOps}, ${te_class.Persistent}, ${te_class.Order}, ${te_class.IsTrace}, ${te_class.ContainerIndex}, ${te_class.Task}, '${te_class.class_file}', '${te_class.system_class_number}', '${te_class.CBsystem_class_number}', '${te_class.persist_link}', '${te_class.dispatcher}', '${te_class.CBdispatcher}', '${te_class.attribute_format}', '${te_class.attribute_dump}'\
   .if ( "un-initialized" == "${te_class.te_cID}" )
 , 0\
   .else
 , ${te_class.te_cID}\
   .end if
 \
-  .assign a = te_class.Obj_ID
-  .print "un-initialized == ${te_class.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_class.Obj_ID}" )
 , 0\
   .else
@@ -8478,32 +6749,18 @@ INSERT INTO TE_CLASS VALUES ( '${te_class.Name}', ${te_class.Numb}, '${te_class.
 .select many te_cs from instances of TE_C
 .for each te_c in te_cs
 INSERT INTO TE_C VALUES (\
-  .assign a = te_c.ID
-  .print "un-initialized == ${te_c.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_c.ID}" )
  0\
   .else
  ${te_c.ID}\
   .end if
-, '${te_c.Name}', '${te_c.Description}', ${te_c.TypeCode}, ${te_c.StateTrace}, ${te_c.StmtTrace}, ${te_c.DetectEmpty}, ${te_c.OptDisabled}, ${te_c.RawComments}, ${te_c.CodeComments}, ${te_c.UseModelNames}, ${te_c.current_component}, ${te_c.CollectionsFlavor}, '${te_c.classes_file}', '${te_c.init_file}', '${te_c.datatypes_file}', '${te_c.functions_file}', ${te_c.MaxObjExtent}, ${te_c.MaxRelExtent}, ${te_c.MaxSelectExtent}, ${te_c.MaxSelfEvents}, ${te_c.MaxNonSelfEvents}, ${te_c.MaxPriorityEvents}, ${te_c.MaxTimers}, ${te_c.InterleavedBridges}, ${te_c.PEIClassCount}, ${te_c.PersistentClassCount}, '${te_c.domain_mark_file}', '${te_c.class_mark_file}', '${te_c.events_mark_file}', '${te_c.module_file}', '${te_c.port_file}', '${te_c.include_file}', ${te_c.included_in_build}, ${te_c.internal_behavior}, ${te_c.isRealized}\
-  .assign a = te_c.SystemID
-  .print "un-initialized == ${te_c.SystemID} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${te_c.SystemID}" )
-, 0\
-  .else
-, ${te_c.SystemID}\
-  .end if
-\
-  .assign a = te_c.Dom_ID
-  .print "un-initialized == ${te_c.Dom_ID} ${a} same_as<Base_Attribute>"
+, '${te_c.Name}', '${te_c.Description}', ${te_c.number}, ${te_c.StateTrace}, ${te_c.StmtTrace}, ${te_c.DetectEmpty}, ${te_c.OptDisabled}, ${te_c.RawComments}, ${te_c.CodeComments}, ${te_c.UseModelNames}, ${te_c.current_component}, ${te_c.CollectionsFlavor}, '${te_c.classes_file}', '${te_c.init_file}', '${te_c.datatypes_file}', '${te_c.functions_file}', ${te_c.MaxObjExtent}, ${te_c.MaxRelExtent}, ${te_c.MaxSelectExtent}, ${te_c.MaxSelfEvents}, ${te_c.MaxNonSelfEvents}, ${te_c.MaxPriorityEvents}, ${te_c.MaxTimers}, ${te_c.InterleavedBridges}, ${te_c.PEIClassCount}, ${te_c.PersistentClassCount}, '${te_c.domain_mark_file}', '${te_c.class_mark_file}', '${te_c.events_mark_file}', '${te_c.module_file}', '${te_c.port_file}', '${te_c.include_file}', ${te_c.included_in_build}, ${te_c.internal_behavior}, ${te_c.isRealized}, ${te_c.SystemID}\
   .if ( "un-initialized" == "${te_c.Dom_ID}" )
 , 0\
   .else
 , ${te_c.Dom_ID}\
   .end if
 \
-  .assign a = te_c.cId
-  .print "un-initialized == ${te_c.cId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_c.cId}" )
 , 0\
   .else
@@ -8515,24 +6772,18 @@ INSERT INTO TE_C VALUES (\
 .select many te_dts from instances of TE_DT
 .for each te_dt in te_dts
 INSERT INTO TE_DT VALUES (\
-  .assign a = te_dt.ID
-  .print "un-initialized == ${te_dt.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_dt.ID}" )
  0\
   .else
  ${te_dt.ID}\
   .end if
-, '${te_dt.Name}', ${te_dt.Core_Typ}, ${te_dt.Included}, '${te_dt.ExtName}', '${te_dt.Include_File}', '${te_dt.Initial_Value}', '${te_dt.Value}', ${te_dt.Is_Enum}, '${te_dt.Owning_Dom_Name}', '${te_dt.string_array}', ${te_dt.generated}\
-  .assign a = te_dt.te_cID
-  .print "un-initialized == ${te_dt.te_cID} ${a} same_as<Base_Attribute>"
+, '${te_dt.Name}', ${te_dt.Core_Typ}, ${te_dt.Included}, '${te_dt.ExtName}', '${te_dt.Include_File}', '${te_dt.Initial_Value}', '${te_dt.Value}', ${te_dt.Is_Enum}, '${te_dt.Owning_Dom_Name}', '${te_dt.string_format}', ${te_dt.generated}\
   .if ( "un-initialized" == "${te_dt.te_cID}" )
 , 0\
   .else
 , ${te_dt.te_cID}\
   .end if
 \
-  .assign a = te_dt.DT_ID
-  .print "un-initialized == ${te_dt.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_dt.DT_ID}" )
 , 0\
   .else
@@ -8544,24 +6795,18 @@ INSERT INTO TE_DT VALUES (\
 .select many te_dbattrs from instances of TE_DBATTR
 .for each te_dbattr in te_dbattrs
 INSERT INTO TE_DBATTR VALUES ( ${te_dbattr.Included}\
-  .assign a = te_dbattr.AbaID
-  .print "un-initialized == ${te_dbattr.AbaID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_dbattr.AbaID}" )
 , 0\
   .else
 , ${te_dbattr.AbaID}\
   .end if
 , '${te_dbattr.GeneratedName}'\
-  .assign a = te_dbattr.Attr_ID
-  .print "un-initialized == ${te_dbattr.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_dbattr.Attr_ID}" )
 , 0\
   .else
 , ${te_dbattr.Attr_ID}\
   .end if
 \
-  .assign a = te_dbattr.Obj_ID
-  .print "un-initialized == ${te_dbattr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_dbattr.Obj_ID}" )
 , 0\
   .else
@@ -8573,16 +6818,12 @@ INSERT INTO TE_DBATTR VALUES ( ${te_dbattr.Included}\
 .select many te_dims from instances of TE_DIM
 .for each te_dim in te_dims
 INSERT INTO TE_DIM VALUES (\
-  .assign a = te_dim.te_dimID
-  .print "un-initialized == ${te_dim.te_dimID} ${a} unique_id"
   .if ( "un-initialized" == "${te_dim.te_dimID}" )
  0\
   .else
  ${te_dim.te_dimID}\
   .end if
 , ${te_dim.elementCount}, ${te_dim.dimensionCount}\
-  .assign a = te_dim.next_te_dimID
-  .print "un-initialized == ${te_dim.next_te_dimID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_dim.next_te_dimID}" )
 , 0\
   .else
@@ -8594,8 +6835,6 @@ INSERT INTO TE_DIM VALUES (\
 .select many te_enums from instances of TE_ENUM
 .for each te_enum in te_enums
 INSERT INTO TE_ENUM VALUES ( '${te_enum.Name}', '${te_enum.Value}', ${te_enum.Order}, '${te_enum.GeneratedName}'\
-  .assign a = te_enum.Enum_ID
-  .print "un-initialized == ${te_enum.Enum_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_enum.Enum_ID}" )
 , 0\
   .else
@@ -8607,32 +6846,24 @@ INSERT INTO TE_ENUM VALUES ( '${te_enum.Name}', '${te_enum.Value}', ${te_enum.Or
 .select many te_evts from instances of TE_EVT
 .for each te_evt in te_evts
 INSERT INTO TE_EVT VALUES (\
-  .assign a = te_evt.ID
-  .print "un-initialized == ${te_evt.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_evt.ID}" )
  0\
   .else
  ${te_evt.ID}\
   .end if
 , '${te_evt.Name}', ${te_evt.Numb}, '${te_evt.GeneratedName}', '${te_evt.Enumerator}', ${te_evt.Order}, ${te_evt.Used}, ${te_evt.UsedCount}, ${te_evt.Priority}\
-  .assign a = te_evt.SM_ID
-  .print "un-initialized == ${te_evt.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_evt.SM_ID}" )
 , 0\
   .else
 , ${te_evt.SM_ID}\
   .end if
 \
-  .assign a = te_evt.SMevt_ID
-  .print "un-initialized == ${te_evt.SMevt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_evt.SMevt_ID}" )
 , 0\
   .else
 , ${te_evt.SMevt_ID}\
   .end if
 \
-  .assign a = te_evt.te_smID
-  .print "un-initialized == ${te_evt.te_smID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_evt.te_smID}" )
 , 0\
   .else
@@ -8644,16 +6875,12 @@ INSERT INTO TE_EVT VALUES (\
 .select many te_ees from instances of TE_EE
 .for each te_ee in te_ees
 INSERT INTO TE_EE VALUES ( '${te_ee.Name}', '${te_ee.RegisteredName}', '${te_ee.Key_Lett}', '${te_ee.Descrip}', ${te_ee.TypeCode}, ${te_ee.Included}, '${te_ee.file}', '${te_ee.Include_File}', ${te_ee.Used}\
-  .assign a = te_ee.te_cID
-  .print "un-initialized == ${te_ee.te_cID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_ee.te_cID}" )
 , 0\
   .else
 , ${te_ee.te_cID}\
   .end if
 \
-  .assign a = te_ee.EE_ID
-  .print "un-initialized == ${te_ee.EE_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_ee.EE_ID}" )
 , 0\
   .else
@@ -8665,24 +6892,18 @@ INSERT INTO TE_EE VALUES ( '${te_ee.Name}', '${te_ee.RegisteredName}', '${te_ee.
 .select many te_syncs from instances of TE_SYNC
 .for each te_sync in te_syncs
 INSERT INTO TE_SYNC VALUES ( '${te_sync.Name}', ${te_sync.Included}, ${te_sync.IsInitFunction}, ${te_sync.IsSafeForInterrupts}, ${te_sync.XlateSemantics}, ${te_sync.Order}\
-  .assign a = te_sync.AbaID
-  .print "un-initialized == ${te_sync.AbaID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_sync.AbaID}" )
 , 0\
   .else
 , ${te_sync.AbaID}\
   .end if
 , '${te_sync.GeneratedName}', '${te_sync.intraface_method}', '${te_sync.deferred_method}'\
-  .assign a = te_sync.te_cID
-  .print "un-initialized == ${te_sync.te_cID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_sync.te_cID}" )
 , 0\
   .else
 , ${te_sync.te_cID}\
   .end if
 \
-  .assign a = te_sync.Sync_ID
-  .print "un-initialized == ${te_sync.Sync_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_sync.Sync_ID}" )
 , 0\
   .else
@@ -8694,48 +6915,36 @@ INSERT INTO TE_SYNC VALUES ( '${te_sync.Name}', ${te_sync.Included}, ${te_sync.I
 .select many te_mbrs from instances of TE_MBR
 .for each te_mbr in te_mbrs
 INSERT INTO TE_MBR VALUES (\
-  .assign a = te_mbr.ID
-  .print "un-initialized == ${te_mbr.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_mbr.ID}" )
  0\
   .else
  ${te_mbr.ID}\
   .end if
 , '${te_mbr.Name}', '${te_mbr.GeneratedName}', ${te_mbr.dimensions}\
-  .assign a = te_mbr.te_dimID
-  .print "un-initialized == ${te_mbr.te_dimID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mbr.te_dimID}" )
 , 0\
   .else
 , ${te_mbr.te_dimID}\
   .end if
 , '${te_mbr.array_spec}'\
-  .assign a = te_mbr.previousID
-  .print "un-initialized == ${te_mbr.previousID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mbr.previousID}" )
 , 0\
   .else
 , ${te_mbr.previousID}\
   .end if
 \
-  .assign a = te_mbr.te_dtID
-  .print "un-initialized == ${te_mbr.te_dtID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mbr.te_dtID}" )
 , 0\
   .else
 , ${te_mbr.te_dtID}\
   .end if
 \
-  .assign a = te_mbr.Member_ID
-  .print "un-initialized == ${te_mbr.Member_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mbr.Member_ID}" )
 , 0\
   .else
 , ${te_mbr.Member_ID}\
   .end if
 \
-  .assign a = te_mbr.DT_ID
-  .print "un-initialized == ${te_mbr.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mbr.DT_ID}" )
 , 0\
   .else
@@ -8747,80 +6956,60 @@ INSERT INTO TE_MBR VALUES (\
 .select many te_macts from instances of TE_MACT
 .for each te_mact in te_macts
 INSERT INTO TE_MACT VALUES (\
-  .assign a = te_mact.AbaID
-  .print "un-initialized == ${te_mact.AbaID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mact.AbaID}" )
  0\
   .else
  ${te_mact.AbaID}\
   .end if
 \
-  .assign a = te_mact.ID
-  .print "un-initialized == ${te_mact.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_mact.ID}" )
 , 0\
   .else
 , ${te_mact.ID}\
   .end if
 , '${te_mact.Name}', '${te_mact.Description}', '${te_mact.GeneratedName}', '${te_mact.ComponentName}', '${te_mact.DomainName}', '${te_mact.PortName}', '${te_mact.InterfaceName}', '${te_mact.MessageName}', ${te_mact.Direction}, ${te_mact.Provision}, '${te_mact.subtypeKL}', ${te_mact.polymorphic}, ${te_mact.Order}\
-  .assign a = te_mact.SPR_POId
-  .print "un-initialized == ${te_mact.SPR_POId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mact.SPR_POId}" )
 , 0\
   .else
 , ${te_mact.SPR_POId}\
   .end if
 \
-  .assign a = te_mact.SPR_PSId
-  .print "un-initialized == ${te_mact.SPR_PSId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mact.SPR_PSId}" )
 , 0\
   .else
 , ${te_mact.SPR_PSId}\
   .end if
 \
-  .assign a = te_mact.SPR_ROId
-  .print "un-initialized == ${te_mact.SPR_ROId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mact.SPR_ROId}" )
 , 0\
   .else
 , ${te_mact.SPR_ROId}\
   .end if
 \
-  .assign a = te_mact.SPR_RSId
-  .print "un-initialized == ${te_mact.SPR_RSId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mact.SPR_RSId}" )
 , 0\
   .else
 , ${te_mact.SPR_RSId}\
   .end if
 \
-  .assign a = te_mact.te_cID
-  .print "un-initialized == ${te_mact.te_cID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mact.te_cID}" )
 , 0\
   .else
 , ${te_mact.te_cID}\
   .end if
 \
-  .assign a = te_mact.te_poID
-  .print "un-initialized == ${te_mact.te_poID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mact.te_poID}" )
 , 0\
   .else
 , ${te_mact.te_poID}\
   .end if
 \
-  .assign a = te_mact.te_evtID
-  .print "un-initialized == ${te_mact.te_evtID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mact.te_evtID}" )
 , 0\
   .else
 , ${te_mact.te_evtID}\
   .end if
 \
-  .assign a = te_mact.nextID
-  .print "un-initialized == ${te_mact.nextID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_mact.nextID}" )
 , 0\
   .else
@@ -8832,16 +7021,12 @@ INSERT INTO TE_MACT VALUES (\
 .select many te_tfrs from instances of TE_TFR
 .for each te_tfr in te_tfrs
 INSERT INTO TE_TFR VALUES ( ${te_tfr.Included}, ${te_tfr.XlateSemantics}, ${te_tfr.Instance_Based}, '${te_tfr.Key_Lett}', '${te_tfr.Name}', '${te_tfr.GeneratedName}'\
-  .assign a = te_tfr.AbaID
-  .print "un-initialized == ${te_tfr.AbaID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_tfr.AbaID}" )
 , 0\
   .else
 , ${te_tfr.AbaID}\
   .end if
 \
-  .assign a = te_tfr.Tfr_ID
-  .print "un-initialized == ${te_tfr.Tfr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_tfr.Tfr_ID}" )
 , 0\
   .else
@@ -8853,88 +7038,66 @@ INSERT INTO TE_TFR VALUES ( ${te_tfr.Included}, ${te_tfr.XlateSemantics}, ${te_t
 .select many te_parms from instances of TE_PARM
 .for each te_parm in te_parms
 INSERT INTO TE_PARM VALUES ( '${te_parm.Name}', '${te_parm.Description}', ${te_parm.Order}, '${te_parm.ParamBuffer}', '${te_parm.OALParamBuffer}'\
-  .assign a = te_parm.ID
-  .print "un-initialized == ${te_parm.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_parm.ID}" )
 , 0\
   .else
 , ${te_parm.ID}\
   .end if
 \
-  .assign a = te_parm.nextID
-  .print "un-initialized == ${te_parm.nextID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_parm.nextID}" )
 , 0\
   .else
 , ${te_parm.nextID}\
   .end if
 , '${te_parm.GeneratedName}', ${te_parm.By_Ref}\
-  .assign a = te_parm.te_dtID
-  .print "un-initialized == ${te_parm.te_dtID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_parm.te_dtID}" )
 , 0\
   .else
 , ${te_parm.te_dtID}\
   .end if
 , ${te_parm.dimensions}\
-  .assign a = te_parm.te_dimID
-  .print "un-initialized == ${te_parm.te_dimID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_parm.te_dimID}" )
 , 0\
   .else
 , ${te_parm.te_dimID}\
   .end if
 , '${te_parm.array_spec}'\
-  .assign a = te_parm.AbaID
-  .print "un-initialized == ${te_parm.AbaID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_parm.AbaID}" )
 , 0\
   .else
 , ${te_parm.AbaID}\
   .end if
 \
-  .assign a = te_parm.SM_ID
-  .print "un-initialized == ${te_parm.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_parm.SM_ID}" )
 , 0\
   .else
 , ${te_parm.SM_ID}\
   .end if
 \
-  .assign a = te_parm.SMedi_ID
-  .print "un-initialized == ${te_parm.SMedi_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_parm.SMedi_ID}" )
 , 0\
   .else
 , ${te_parm.SMedi_ID}\
   .end if
 \
-  .assign a = te_parm.SParm_ID
-  .print "un-initialized == ${te_parm.SParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_parm.SParm_ID}" )
 , 0\
   .else
 , ${te_parm.SParm_ID}\
   .end if
 \
-  .assign a = te_parm.TParm_ID
-  .print "un-initialized == ${te_parm.TParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_parm.TParm_ID}" )
 , 0\
   .else
 , ${te_parm.TParm_ID}\
   .end if
 \
-  .assign a = te_parm.PP_Id
-  .print "un-initialized == ${te_parm.PP_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_parm.PP_Id}" )
 , 0\
   .else
 , ${te_parm.PP_Id}\
   .end if
 \
-  .assign a = te_parm.BParm_ID
-  .print "un-initialized == ${te_parm.BParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_parm.BParm_ID}" )
 , 0\
   .else
@@ -8946,32 +7109,24 @@ INSERT INTO TE_PARM VALUES ( '${te_parm.Name}', '${te_parm.Description}', ${te_p
 .select many te_pos from instances of TE_PO
 .for each te_po in te_pos
 INSERT INTO TE_PO VALUES (\
-  .assign a = te_po.ID
-  .print "un-initialized == ${te_po.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_po.ID}" )
  0\
   .else
  ${te_po.ID}\
   .end if
-, '${te_po.Name}', '${te_po.GeneratedName}', '${te_po.InterfaceName}', '${te_po.PackageName}', ${te_po.Provision}, ${te_po.polymorphic}, ${te_po.sibling}\
-  .assign a = te_po.te_cID
-  .print "un-initialized == ${te_po.te_cID} ${a} same_as<Base_Attribute>"
+, '${te_po.Name}', '${te_po.GeneratedName}', '${te_po.InterfaceName}', '${te_po.PackageName}', ${te_po.Provision}, ${te_po.polymorphic}, ${te_po.sibling}, ${te_po.Order}\
   .if ( "un-initialized" == "${te_po.te_cID}" )
 , 0\
   .else
 , ${te_po.te_cID}\
   .end if
 \
-  .assign a = te_po.c_iId
-  .print "un-initialized == ${te_po.c_iId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_po.c_iId}" )
 , 0\
   .else
 , ${te_po.c_iId}\
   .end if
 \
-  .assign a = te_po.c_poId
-  .print "un-initialized == ${te_po.c_poId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_po.c_poId}" )
 , 0\
   .else
@@ -8983,8 +7138,6 @@ INSERT INTO TE_PO VALUES (\
 .select many te_rels from instances of TE_REL
 .for each te_rel in te_rels
 INSERT INTO TE_REL VALUES ( ${te_rel.Numb}, ${te_rel.LinkNeeded}, ${te_rel.UnlinkNeeded}, ${te_rel.Navigated}, ${te_rel.Order}, ${te_rel.storage_needed}\
-  .assign a = te_rel.Rel_ID
-  .print "un-initialized == ${te_rel.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_rel.Rel_ID}" )
 , 0\
   .else
@@ -8996,45 +7149,29 @@ INSERT INTO TE_REL VALUES ( ${te_rel.Numb}, ${te_rel.LinkNeeded}, ${te_rel.Unlin
 .select many te_sms from instances of TE_SM
 .for each te_sm in te_sms
 INSERT INTO TE_SM VALUES (\
-  .assign a = te_sm.ID
-  .print "un-initialized == ${te_sm.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_sm.ID}" )
  0\
   .else
  ${te_sm.ID}\
   .end if
 , ${te_sm.complete}, '${te_sm.initial_state}', '${te_sm.SEMname}', '${te_sm.action_array}', '${te_sm.action_type}', '${te_sm.events_union}', '${te_sm.txn_action_array}', ${te_sm.txn_action_count}, '${te_sm.state_names_array}', ${te_sm.num_states}, ${te_sm.num_events}\
-  .assign a = te_sm.SM_ID
-  .print "un-initialized == ${te_sm.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_sm.SM_ID}" )
 , 0\
   .else
 , ${te_sm.SM_ID}\
   .end if
-\
-  .assign a = te_sm.te_classGeneratedName
-  .print "un-initialized == ${te_sm.te_classGeneratedName} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${te_sm.te_classGeneratedName}" )
-, 0\
-  .else
-, ${te_sm.te_classGeneratedName}\
-  .end if
- );
+, '${te_sm.te_classGeneratedName}' );
 .end for
 .print "Extended State (TE_STATE)"
 .select many te_states from instances of TE_STATE
 .for each te_state in te_states
 INSERT INTO TE_STATE VALUES ( '${te_state.Name}', '${te_state.enumerator}', ${te_state.Numb}, ${te_state.number}, ${te_state.Order}\
-  .assign a = te_state.SM_ID
-  .print "un-initialized == ${te_state.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_state.SM_ID}" )
 , 0\
   .else
 , ${te_state.SM_ID}\
   .end if
 \
-  .assign a = te_state.SMstt_ID
-  .print "un-initialized == ${te_state.SMstt_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_state.SMstt_ID}" )
 , 0\
   .else
@@ -9046,8 +7183,6 @@ INSERT INTO TE_STATE VALUES ( '${te_state.Name}', '${te_state.enumerator}', ${te
 .select many te_syss from instances of TE_SYS
 .for each te_sys in te_syss
 INSERT INTO TE_SYS VALUES ( ${te_sys.SystemID}, '${te_sys.ModelCompilerName}', '${te_sys.ModelCompilerVersion}', '${te_sys.ModelCompilerSerNum}', '${te_sys.ModelCompilerKey}', '${te_sys.BridgePointLicenseKey}', '${te_sys.ExecutableName}', ${te_sys.MaxStringLen}, ${te_sys.MaxObjExtent}, ${te_sys.MaxRelExtent}, ${te_sys.MaxSelectExtent}, ${te_sys.TotalContainers}, ${te_sys.MaxSelfEvents}, ${te_sys.MaxNonSelfEvents}, ${te_sys.MaxTimers}, ${te_sys.MaxInterleavedBridges}, ${te_sys.MaxInterleavedBridgeDataSize}, ${te_sys.CollectionsFlavor}, ${te_sys.TargetMonitorEnabled}, ${te_sys.ForcePriorityEvents}, ${te_sys.PEIClassCount}, ${te_sys.PersistentClassCount}, ${te_sys.PersistInstanceCacheDepth}, ${te_sys.PersistLinkCacheDepth}, ${te_sys.UnitsToDynamicallyAllocate}, ${te_sys.InstanceLoading}, '${te_sys.self_name}', '${te_sys.Name}', ${te_sys.AUTOSAR}, ${te_sys.VFB}, '${te_sys.SystemCPortsType}', ${te_sys.AllPortsPoly}\
-  .assign a = te_sys.Sys_ID
-  .print "un-initialized == ${te_sys.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_sys.Sys_ID}" )
 , 0\
   .else
@@ -9059,16 +7194,12 @@ INSERT INTO TE_SYS VALUES ( ${te_sys.SystemID}, '${te_sys.ModelCompilerName}', '
 .select many te_vals from instances of TE_VAL
 .for each te_val in te_vals
 INSERT INTO TE_VAL VALUES ( '${te_val.OAL}', '${te_val.buffer}', ${te_val.dimensions}, '${te_val.array_spec}'\
-  .assign a = te_val.te_dimID
-  .print "un-initialized == ${te_val.te_dimID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_val.te_dimID}" )
 , 0\
   .else
 , ${te_val.te_dimID}\
   .end if
 \
-  .assign a = te_val.Value_ID
-  .print "un-initialized == ${te_val.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_val.Value_ID}" )
 , 0\
   .else
@@ -9080,16 +7211,12 @@ INSERT INTO TE_VAL VALUES ( '${te_val.OAL}', '${te_val.buffer}', ${te_val.dimens
 .select many te_vars from instances of TE_VAR
 .for each te_var in te_vars
 INSERT INTO TE_VAR VALUES ( '${te_var.OAL}', '${te_var.buffer}', ${te_var.dimensions}\
-  .assign a = te_var.te_dimID
-  .print "un-initialized == ${te_var.te_dimID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_var.te_dimID}" )
 , 0\
   .else
 , ${te_var.te_dimID}\
   .end if
 , '${te_var.array_spec}'\
-  .assign a = te_var.Var_ID
-  .print "un-initialized == ${te_var.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_var.Var_ID}" )
 , 0\
   .else
@@ -9100,17 +7227,7 @@ INSERT INTO TE_VAR VALUES ( '${te_var.OAL}', '${te_var.buffer}', ${te_var.dimens
 .print "Extended Where (TE_WHERE)"
 .select many te_wheres from instances of TE_WHERE
 .for each te_where in te_wheres
-INSERT INTO TE_WHERE VALUES ( ${te_where.WhereKey}, '${te_where.select_any_where}'\
-  .assign a = te_where.Oid_ID
-  .print "un-initialized == ${te_where.Oid_ID} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${te_where.Oid_ID}" )
-, 0\
-  .else
-, ${te_where.Oid_ID}\
-  .end if
-\
-  .assign a = te_where.Obj_ID
-  .print "un-initialized == ${te_where.Obj_ID} ${a} same_as<Base_Attribute>"
+INSERT INTO TE_WHERE VALUES ( ${te_where.WhereKey}, '${te_where.select_any_where}', ${te_where.Oid_ID}\
   .if ( "un-initialized" == "${te_where.Obj_ID}" )
 , 0\
   .else
@@ -9127,40 +7244,30 @@ INSERT INTO TE_SNIPPET VALUES ( '${te_snippet.Index}', '${te_snippet.Body}' );
 .select many te_iirs from instances of TE_IIR
 .for each te_iir in te_iirs
 INSERT INTO TE_IIR VALUES (\
-  .assign a = te_iir.ID
-  .print "un-initialized == ${te_iir.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_iir.ID}" )
  0\
   .else
  ${te_iir.ID}\
   .end if
 , '${te_iir.component_name}', '${te_iir.port_name}', '${te_iir.interface_name}', ${te_iir.polymorphic}, '${te_iir.template_parameter_values}', '${te_iir.C2C}'\
-  .assign a = te_iir.cl_iirId
-  .print "un-initialized == ${te_iir.cl_iirId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_iir.cl_iirId}" )
 , 0\
   .else
 , ${te_iir.cl_iirId}\
   .end if
 \
-  .assign a = te_iir.c_irId
-  .print "un-initialized == ${te_iir.c_irId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_iir.c_irId}" )
 , 0\
   .else
 , ${te_iir.c_irId}\
   .end if
 \
-  .assign a = te_iir.te_poID
-  .print "un-initialized == ${te_iir.te_poID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_iir.te_poID}" )
 , 0\
   .else
 , ${te_iir.te_poID}\
   .end if
 \
-  .assign a = te_iir.provider_te_iirID
-  .print "un-initialized == ${te_iir.provider_te_iirID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_iir.provider_te_iirID}" )
 , 0\
   .else
@@ -9171,38 +7278,24 @@ INSERT INTO TE_IIR VALUES (\
 .print "Message Queue (TE_QUEUE)"
 .select many te_queues from instances of TE_QUEUE
 .for each te_queue in te_queues
-INSERT INTO TE_QUEUE VALUES ( ${te_queue.Queue_ID}\
-  .assign a = te_queue.Dispatcher_ID
-  .print "un-initialized == ${te_queue.Dispatcher_ID} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${te_queue.Dispatcher_ID}" )
-, 0\
-  .else
-, ${te_queue.Dispatcher_ID}\
-  .end if
-, ${te_queue.Type}, '${te_queue.Descrip}', ${te_queue.RenderCode}, ${te_queue.MaxDepth} );
+INSERT INTO TE_QUEUE VALUES ( ${te_queue.Queue_ID}, ${te_queue.Dispatcher_ID}, ${te_queue.Type}, '${te_queue.Descrip}', ${te_queue.RenderCode}, ${te_queue.MaxDepth} );
 .end for
 .print "Navigation (TE_NAV)"
 .select many te_navs from instances of TE_NAV
 .for each te_nav in te_navs
 INSERT INTO TE_NAV VALUES ( ${te_nav.NavigatedTo}\
-  .assign a = te_nav.OIR_ID
-  .print "un-initialized == ${te_nav.OIR_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_nav.OIR_ID}" )
 , 0\
   .else
 , ${te_nav.OIR_ID}\
   .end if
 \
-  .assign a = te_nav.Obj_ID
-  .print "un-initialized == ${te_nav.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_nav.Obj_ID}" )
 , 0\
   .else
 , ${te_nav.Obj_ID}\
   .end if
 \
-  .assign a = te_nav.Rel_ID
-  .print "un-initialized == ${te_nav.Rel_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_nav.Rel_ID}" )
 , 0\
   .else
@@ -9214,8 +7307,6 @@ INSERT INTO TE_NAV VALUES ( ${te_nav.NavigatedTo}\
 .select many te_swcs from instances of TE_SWC
 .for each te_swc in te_swcs
 INSERT INTO TE_SWC VALUES ( '${te_swc.Obj_Kl}', '${te_swc.Where_Spec}', '${te_swc.Key}', ${te_swc.Ret_Val}, ${te_swc.Built_In}, ${te_swc.Oid_ID}\
-  .assign a = te_swc.Obj_ID
-  .print "un-initialized == ${te_swc.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_swc.Obj_ID}" )
 , 0\
   .else
@@ -9236,15 +7327,7 @@ INSERT INTO TE_COPYRIGHT VALUES ( '${te_copyright.body}' );
 .print "dlist (TE_DLIST)"
 .select many te_dlists from instances of TE_DLIST
 .for each te_dlist in te_dlists
-INSERT INTO TE_DLIST VALUES (\
-  .assign a = te_dlist.flavor
-  .print "un-initialized == ${te_dlist.flavor} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${te_dlist.flavor}" )
- 0\
-  .else
- ${te_dlist.flavor}\
-  .end if
-, '${te_dlist.remove_node}' );
+INSERT INTO TE_DLIST VALUES ( '${te_dlist.flavor}', '${te_dlist.remove_node}' );
 .end for
 .print "dynamic memory allocation (TE_DMA)"
 .select many te_dmas from instances of TE_DMA
@@ -9290,48 +7373,36 @@ INSERT INTO TE_PREFIX VALUES ( '${te_prefix.symbol}', '${te_prefix.symbolsw}', '
 .select many te_relinfos from instances of TE_RELINFO
 .for each te_relinfo in te_relinfos
 INSERT INTO TE_RELINFO VALUES (\
-  .assign a = te_relinfo.obj
-  .print "un-initialized == ${te_relinfo.obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_relinfo.obj}" )
  0\
   .else
  ${te_relinfo.obj}\
   .end if
 \
-  .assign a = te_relinfo.related_obj
-  .print "un-initialized == ${te_relinfo.related_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_relinfo.related_obj}" )
 , 0\
   .else
 , ${te_relinfo.related_obj}\
   .end if
 \
-  .assign a = te_relinfo.rel
-  .print "un-initialized == ${te_relinfo.rel} ${a} unique_id"
   .if ( "un-initialized" == "${te_relinfo.rel}" )
 , 0\
   .else
 , ${te_relinfo.rel}\
   .end if
 \
-  .assign a = te_relinfo.rto
-  .print "un-initialized == ${te_relinfo.rto} ${a} unique_id"
   .if ( "un-initialized" == "${te_relinfo.rto}" )
 , 0\
   .else
 , ${te_relinfo.rto}\
   .end if
 \
-  .assign a = te_relinfo.rgo
-  .print "un-initialized == ${te_relinfo.rgo} ${a} unique_id"
   .if ( "un-initialized" == "${te_relinfo.rgo}" )
 , 0\
   .else
 , ${te_relinfo.rgo}\
   .end if
 \
-  .assign a = te_relinfo.oir
-  .print "un-initialized == ${te_relinfo.oir} ${a} unique_id"
   .if ( "un-initialized" == "${te_relinfo.oir}" )
 , 0\
   .else
@@ -9352,15 +7423,7 @@ INSERT INTO TE_SET VALUES ( '${te_set.number_of_containoids}', '${te_set.iterato
 .print "slist (TE_SLIST)"
 .select many te_slists from instances of TE_SLIST
 .for each te_slist in te_slists
-INSERT INTO TE_SLIST VALUES (\
-  .assign a = te_slist.flavor
-  .print "un-initialized == ${te_slist.flavor} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${te_slist.flavor}" )
- 0\
-  .else
- ${te_slist.flavor}\
-  .end if
-, '${te_slist.remove_node}' );
+INSERT INTO TE_SLIST VALUES ( '${te_slist.flavor}', '${te_slist.remove_node}' );
 .end for
 .print "string (TE_STRING)"
 .select many te_strings from instances of TE_STRING
@@ -9385,7 +7448,7 @@ INSERT INTO TE_TIM VALUES ( '${te_tim.max_timers}', ${te_tim.keyed_timer_support
 .print "trace (TE_TRACE)"
 .select many te_traces from instances of TE_TRACE
 .for each te_trace in te_traces
-INSERT INTO TE_TRACE VALUES ( '${te_trace.state_txn_start}', '${te_trace.state_txn_end}', '${te_trace.state_txn_event_ignored}', '${te_trace.state_txn_cant_happen}', '${te_trace.oal_trace}' );
+INSERT INTO TE_TRACE VALUES ( '${te_trace.component_msg_start}', '${te_trace.component_msg_end}', '${te_trace.state_txn_start}', '${te_trace.state_txn_end}', '${te_trace.state_txn_event_ignored}', '${te_trace.state_txn_cant_happen}', '${te_trace.oal_trace}' );
 .end for
 .print "type map (TE_TYPEMAP)"
 .select many te_typemaps from instances of TE_TYPEMAP
@@ -9401,53 +7464,17 @@ INSERT INTO TE_CALLOUT VALUES ( '${te_callout.file}', '${te_callout.initializati
 .select many tm_templates from instances of TM_TEMPLATE
 .for each tm_template in tm_templates
 INSERT INTO TM_TEMPLATE VALUES (\
-  .assign a = tm_template.ID
-  .print "un-initialized == ${tm_template.ID} ${a} unique_id"
   .if ( "un-initialized" == "${tm_template.ID}" )
  0\
   .else
  ${tm_template.ID}\
   .end if
-\
-  .assign a = tm_template.tm_cPackage
-  .print "un-initialized == ${tm_template.tm_cPackage} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${tm_template.tm_cPackage}" )
-, 0\
-  .else
-, ${tm_template.tm_cPackage}\
-  .end if
-\
-  .assign a = tm_template.tm_cName
-  .print "un-initialized == ${tm_template.tm_cName} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${tm_template.tm_cName}" )
-, 0\
-  .else
-, ${tm_template.tm_cName}\
-  .end if
-\
-  .assign a = tm_template.tm_ifPackage
-  .print "un-initialized == ${tm_template.tm_ifPackage} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${tm_template.tm_ifPackage}" )
-, 0\
-  .else
-, ${tm_template.tm_ifPackage}\
-  .end if
-\
-  .assign a = tm_template.tm_ifName
-  .print "un-initialized == ${tm_template.tm_ifName} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${tm_template.tm_ifName}" )
-, 0\
-  .else
-, ${tm_template.tm_ifName}\
-  .end if
-, ${tm_template.current}, '${tm_template.template_parameters}', '${tm_template.template_parameters_default}', '${tm_template.template_actual_parameters}', '${tm_template.template_default_instantiation}' );
+, '${tm_template.tm_cPackage}', '${tm_template.tm_cName}', '${tm_template.tm_ifPackage}', '${tm_template.tm_ifName}', ${tm_template.current}, '${tm_template.template_parameters}', '${tm_template.template_parameters_default}', '${tm_template.template_actual_parameters}', '${tm_template.template_default_instantiation}' );
 .end for
 .print "Component Mark (TM_C)"
 .select many tm_cs from instances of TM_C
 .for each tm_c in tm_cs
 INSERT INTO TM_C VALUES ( '${tm_c.Package}', '${tm_c.Name}', '${tm_c.xName}', '${tm_c.include_file}', ${tm_c.isChannel}, ${tm_c.isRealized}\
-  .assign a = tm_c.te_cID
-  .print "un-initialized == ${tm_c.te_cID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${tm_c.te_cID}" )
 , 0\
   .else
@@ -9484,8 +7511,6 @@ INSERT INTO TM_SYNC VALUES ( '${tm_sync.RegisteredDomain}', '${tm_sync.Name}', $
 .select many tm_ifs from instances of TM_IF
 .for each tm_if in tm_ifs
 INSERT INTO TM_IF VALUES ( '${tm_if.Package}', '${tm_if.Name}'\
-  .assign a = tm_if.c_iId
-  .print "un-initialized == ${tm_if.c_iId} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${tm_if.c_iId}" )
 , 0\
   .else
@@ -9507,32 +7532,24 @@ INSERT INTO TM_THREAD VALUES ( ${tm_thread.enabled}, '${tm_thread.flavor}', ${tm
 .select many tm_tpvs from instances of TM_TPV
 .for each tm_tpv in tm_tpvs
 INSERT INTO TM_TPV VALUES (\
-  .assign a = tm_tpv.ID
-  .print "un-initialized == ${tm_tpv.ID} ${a} unique_id"
   .if ( "un-initialized" == "${tm_tpv.ID}" )
  0\
   .else
  ${tm_tpv.ID}\
   .end if
 , '${tm_tpv.instance}', '${tm_tpv.value}'\
-  .assign a = tm_tpv.tm_tpID
-  .print "un-initialized == ${tm_tpv.tm_tpID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${tm_tpv.tm_tpID}" )
 , 0\
   .else
 , ${tm_tpv.tm_tpID}\
   .end if
 \
-  .assign a = tm_tpv.te_iirID
-  .print "un-initialized == ${tm_tpv.te_iirID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${tm_tpv.te_iirID}" )
 , 0\
   .else
 , ${tm_tpv.te_iirID}\
   .end if
 \
-  .assign a = tm_tpv.te_ciID
-  .print "un-initialized == ${tm_tpv.te_ciID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${tm_tpv.te_ciID}" )
 , 0\
   .else
@@ -9544,16 +7561,12 @@ INSERT INTO TM_TPV VALUES (\
 .select many tm_tps from instances of TM_TP
 .for each tm_tp in tm_tps
 INSERT INTO TM_TP VALUES (\
-  .assign a = tm_tp.ID
-  .print "un-initialized == ${tm_tp.ID} ${a} unique_id"
   .if ( "un-initialized" == "${tm_tp.ID}" )
  0\
   .else
  ${tm_tp.ID}\
   .end if
 , '${tm_tp.typename}', '${tm_tp.Name}', '${tm_tp.DefaultValue}'\
-  .assign a = tm_tp.tm_templateID
-  .print "un-initialized == ${tm_tp.tm_templateID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${tm_tp.tm_templateID}" )
 , 0\
   .else
@@ -9570,24 +7583,18 @@ INSERT INTO TM_BUILD VALUES ( '${tm_build.package_to_build}', '${tm_build.packag
 .select many te_blks from instances of TE_BLK
 .for each te_blk in te_blks
 INSERT INTO TE_BLK VALUES (\
-  .assign a = te_blk.Block_ID
-  .print "un-initialized == ${te_blk.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_blk.Block_ID}" )
  0\
   .else
  ${te_blk.Block_ID}\
   .end if
 \
-  .assign a = te_blk.first_Statement_ID
-  .print "un-initialized == ${te_blk.first_Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_blk.first_Statement_ID}" )
 , 0\
   .else
 , ${te_blk.first_Statement_ID}\
   .end if
 , '${te_blk.OAL}', '${te_blk.declaration}', '${te_blk.initialization}', '${te_blk.deallocation}', '${te_blk.code}', ${te_blk.depth}, '${te_blk.indentation}'\
-  .assign a = te_blk.AbaID
-  .print "un-initialized == ${te_blk.AbaID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_blk.AbaID}" )
 , 0\
   .else
@@ -9599,69 +7606,47 @@ INSERT INTO TE_BLK VALUES (\
 .select many te_lnks from instances of TE_LNK
 .for each te_lnk in te_lnks
 INSERT INTO TE_LNK VALUES (\
-  .assign a = te_lnk.ID
-  .print "un-initialized == ${te_lnk.ID} ${a} unique_id"
   .if ( "un-initialized" == "${te_lnk.ID}" )
  0\
   .else
  ${te_lnk.ID}\
   .end if
 , ${te_lnk.Mult}, '${te_lnk.rel_phrase}', ${te_lnk.rel_number}, '${te_lnk.OAL}', '${te_lnk.buffer}'\
-  .assign a = te_lnk.next_ID
-  .print "un-initialized == ${te_lnk.next_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_lnk.next_ID}" )
 , 0\
   .else
 , ${te_lnk.next_ID}\
   .end if
 \
-  .assign a = te_lnk.Link_ID
-  .print "un-initialized == ${te_lnk.Link_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_lnk.Link_ID}" )
 , 0\
   .else
 , ${te_lnk.Link_ID}\
   .end if
-, '${te_lnk.linkage}', '${te_lnk.iterator}', '${te_lnk.left}'\
-  .assign a = te_lnk.te_classGeneratedName
-  .print "un-initialized == ${te_lnk.te_classGeneratedName} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${te_lnk.te_classGeneratedName}" )
-, 0\
-  .else
-, ${te_lnk.te_classGeneratedName}\
-  .end if
-, ${te_lnk.first}, ${te_lnk.last}, '${te_lnk.assoc_type}' );
+, '${te_lnk.linkage}', '${te_lnk.iterator}', '${te_lnk.left}', '${te_lnk.te_classGeneratedName}', ${te_lnk.first}, ${te_lnk.last}, '${te_lnk.assoc_type}' );
 .end for
 .print "Extended Statement (TE_SMT)"
 .select many te_smts from instances of TE_SMT
 .for each te_smt in te_smts
 INSERT INTO TE_SMT VALUES (\
-  .assign a = te_smt.Statement_ID
-  .print "un-initialized == ${te_smt.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_smt.Statement_ID}" )
  0\
   .else
  ${te_smt.Statement_ID}\
   .end if
 , '${te_smt.OAL}', '${te_smt.declaration}', '${te_smt.initialization}', '${te_smt.deallocation}', '${te_smt.buffer}', '${te_smt.buffer2}', '${te_smt.trace}'\
-  .assign a = te_smt.next_Statement_ID
-  .print "un-initialized == ${te_smt.next_Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_smt.next_Statement_ID}" )
 , 0\
   .else
 , ${te_smt.next_Statement_ID}\
   .end if
 \
-  .assign a = te_smt.sub_Block_ID
-  .print "un-initialized == ${te_smt.sub_Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_smt.sub_Block_ID}" )
 , 0\
   .else
 , ${te_smt.sub_Block_ID}\
   .end if
 , '${te_smt.subtypeKL}'\
-  .assign a = te_smt.parent_Block_ID
-  .print "un-initialized == ${te_smt.parent_Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_smt.parent_Block_ID}" )
 , 0\
   .else
@@ -9673,8 +7658,6 @@ INSERT INTO TE_SMT VALUES (\
 .select many te_assigns from instances of TE_ASSIGN
 .for each te_assign in te_assigns
 INSERT INTO TE_ASSIGN VALUES ( ${te_assign.isImplicit}, ${te_assign.dimensions}, '${te_assign.array_spec}', '${te_assign.left_declaration}', ${te_assign.Core_Typ}, '${te_assign.lval}', '${te_assign.rval}'\
-  .assign a = te_assign.Statement_ID
-  .print "un-initialized == ${te_assign.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_assign.Statement_ID}" )
 , 0\
   .else
@@ -9686,8 +7669,6 @@ INSERT INTO TE_ASSIGN VALUES ( ${te_assign.isImplicit}, ${te_assign.dimensions},
 .select many te_breaks from instances of TE_BREAK
 .for each te_break in te_breaks
 INSERT INTO TE_BREAK VALUES (\
-  .assign a = te_break.Statement_ID
-  .print "un-initialized == ${te_break.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_break.Statement_ID}" )
  0\
   .else
@@ -9699,8 +7680,6 @@ INSERT INTO TE_BREAK VALUES (\
 .select many te_bridges from instances of TE_BRIDGE
 .for each te_bridge in te_bridges
 INSERT INTO TE_BRIDGE VALUES ( '${te_bridge.bridge_name}', '${te_bridge.parameters}'\
-  .assign a = te_bridge.Statement_ID
-  .print "un-initialized == ${te_bridge.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_bridge.Statement_ID}" )
 , 0\
   .else
@@ -9712,8 +7691,6 @@ INSERT INTO TE_BRIDGE VALUES ( '${te_bridge.bridge_name}', '${te_bridge.paramete
 .select many te_continues from instances of TE_CONTINUE
 .for each te_continue in te_continues
 INSERT INTO TE_CONTINUE VALUES (\
-  .assign a = te_continue.Statement_ID
-  .print "un-initialized == ${te_continue.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_continue.Statement_ID}" )
  0\
   .else
@@ -9725,8 +7702,6 @@ INSERT INTO TE_CONTINUE VALUES (\
 .select many te_controls from instances of TE_CONTROL
 .for each te_control in te_controls
 INSERT INTO TE_CONTROL VALUES (\
-  .assign a = te_control.Statement_ID
-  .print "un-initialized == ${te_control.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_control.Statement_ID}" )
  0\
   .else
@@ -9738,16 +7713,12 @@ INSERT INTO TE_CONTROL VALUES (\
 .select many te_create_events from instances of TE_CREATE_EVENT
 .for each te_create_event in te_create_events
 INSERT INTO TE_CREATE_EVENT VALUES (\
-  .assign a = te_create_event.sm_evt
-  .print "un-initialized == ${te_create_event.sm_evt} ${a} unique_id"
   .if ( "un-initialized" == "${te_create_event.sm_evt}" )
  0\
   .else
  ${te_create_event.sm_evt}\
   .end if
 , ${te_create_event.is_implicit}, '${te_create_event.class_name}', '${te_create_event.event_meaning}', '${te_create_event.oal_var_name}', '${te_create_event.var_name}', '${te_create_event.recipient_var_name}', '${te_create_event.parameters}'\
-  .assign a = te_create_event.Statement_ID
-  .print "un-initialized == ${te_create_event.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_create_event.Statement_ID}" )
 , 0\
   .else
@@ -9759,16 +7730,12 @@ INSERT INTO TE_CREATE_EVENT VALUES (\
 .select many te_create_instances from instances of TE_CREATE_INSTANCE
 .for each te_create_instance in te_create_instances
 INSERT INTO TE_CREATE_INSTANCE VALUES (\
-  .assign a = te_create_instance.o_obj
-  .print "un-initialized == ${te_create_instance.o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_create_instance.o_obj}" )
  0\
   .else
  ${te_create_instance.o_obj}\
   .end if
 , ${te_create_instance.is_implicit}, '${te_create_instance.class_name}', '${te_create_instance.var_name}'\
-  .assign a = te_create_instance.Statement_ID
-  .print "un-initialized == ${te_create_instance.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_create_instance.Statement_ID}" )
 , 0\
   .else
@@ -9780,16 +7747,12 @@ INSERT INTO TE_CREATE_INSTANCE VALUES (\
 .select many te_delete_instances from instances of TE_DELETE_INSTANCE
 .for each te_delete_instance in te_delete_instances
 INSERT INTO TE_DELETE_INSTANCE VALUES (\
-  .assign a = te_delete_instance.o_obj
-  .print "un-initialized == ${te_delete_instance.o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_delete_instance.o_obj}" )
  0\
   .else
  ${te_delete_instance.o_obj}\
   .end if
 , '${te_delete_instance.var_name}', ${te_delete_instance.del_count}\
-  .assign a = te_delete_instance.Statement_ID
-  .print "un-initialized == ${te_delete_instance.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_delete_instance.Statement_ID}" )
 , 0\
   .else
@@ -9801,8 +7764,6 @@ INSERT INTO TE_DELETE_INSTANCE VALUES (\
 .select many te_elifs from instances of TE_ELIF
 .for each te_elif in te_elifs
 INSERT INTO TE_ELIF VALUES ( '${te_elif.condition}'\
-  .assign a = te_elif.Statement_ID
-  .print "un-initialized == ${te_elif.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_elif.Statement_ID}" )
 , 0\
   .else
@@ -9814,8 +7775,6 @@ INSERT INTO TE_ELIF VALUES ( '${te_elif.condition}'\
 .select many te_elses from instances of TE_ELSE
 .for each te_else in te_elses
 INSERT INTO TE_ELSE VALUES (\
-  .assign a = te_else.Statement_ID
-  .print "un-initialized == ${te_else.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_else.Statement_ID}" )
  0\
   .else
@@ -9827,8 +7786,6 @@ INSERT INTO TE_ELSE VALUES (\
 .select many te_event_parameterss from instances of TE_EVENT_PARAMETERS
 .for each te_event_parameters in te_event_parameterss
 INSERT INTO TE_EVENT_PARAMETERS VALUES ( '${te_event_parameters.evt_msg_var}', '${te_event_parameters.parameter}', '${te_event_parameters.value}', '${te_event_parameters.value_type}'\
-  .assign a = te_event_parameters.Statement_ID
-  .print "un-initialized == ${te_event_parameters.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_event_parameters.Statement_ID}" )
 , 0\
   .else
@@ -9840,8 +7797,6 @@ INSERT INTO TE_EVENT_PARAMETERS VALUES ( '${te_event_parameters.evt_msg_var}', '
 .select many te_fors from instances of TE_FOR
 .for each te_for in te_fors
 INSERT INTO TE_FOR VALUES ( ${te_for.isImplicit}, '${te_for.class_name}', '${te_for.loop_variable}', '${te_for.set_variable}'\
-  .assign a = te_for.Statement_ID
-  .print "un-initialized == ${te_for.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_for.Statement_ID}" )
 , 0\
   .else
@@ -9853,8 +7808,6 @@ INSERT INTO TE_FOR VALUES ( ${te_for.isImplicit}, '${te_for.class_name}', '${te_
 .select many te_functions from instances of TE_FUNCTION
 .for each te_function in te_functions
 INSERT INTO TE_FUNCTION VALUES ( '${te_function.method}', '${te_function.parameters}'\
-  .assign a = te_function.Statement_ID
-  .print "un-initialized == ${te_function.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_function.Statement_ID}" )
 , 0\
   .else
@@ -9866,16 +7819,12 @@ INSERT INTO TE_FUNCTION VALUES ( '${te_function.method}', '${te_function.paramet
 .select many te_generates from instances of TE_GENERATE
 .for each te_generate in te_generates
 INSERT INTO TE_GENERATE VALUES (\
-  .assign a = te_generate.sm_evt
-  .print "un-initialized == ${te_generate.sm_evt} ${a} unique_id"
   .if ( "un-initialized" == "${te_generate.sm_evt}" )
  0\
   .else
  ${te_generate.sm_evt}\
   .end if
 , ${te_generate.self_directed}, '${te_generate.var_name}', '${te_generate.event_label}', '${te_generate.event_meaning}', '${te_generate.parameters}'\
-  .assign a = te_generate.Statement_ID
-  .print "un-initialized == ${te_generate.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_generate.Statement_ID}" )
 , 0\
   .else
@@ -9887,16 +7836,12 @@ INSERT INTO TE_GENERATE VALUES (\
 .select many te_generate_creator_events from instances of TE_GENERATE_CREATOR_EVENT
 .for each te_generate_creator_event in te_generate_creator_events
 INSERT INTO TE_GENERATE_CREATOR_EVENT VALUES (\
-  .assign a = te_generate_creator_event.sm_evt
-  .print "un-initialized == ${te_generate_creator_event.sm_evt} ${a} unique_id"
   .if ( "un-initialized" == "${te_generate_creator_event.sm_evt}" )
  0\
   .else
  ${te_generate_creator_event.sm_evt}\
   .end if
 , ${te_generate_creator_event.self_directed}, '${te_generate_creator_event.var_name}', '${te_generate_creator_event.event_label}', '${te_generate_creator_event.event_meaning}', '${te_generate_creator_event.parameters}'\
-  .assign a = te_generate_creator_event.Statement_ID
-  .print "un-initialized == ${te_generate_creator_event.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_generate_creator_event.Statement_ID}" )
 , 0\
   .else
@@ -9908,8 +7853,6 @@ INSERT INTO TE_GENERATE_CREATOR_EVENT VALUES (\
 .select many te_generate_precreated_events from instances of TE_GENERATE_PRECREATED_EVENT
 .for each te_generate_precreated_event in te_generate_precreated_events
 INSERT INTO TE_GENERATE_PRECREATED_EVENT VALUES ( ${te_generate_precreated_event.self_directed}, '${te_generate_precreated_event.var_name}'\
-  .assign a = te_generate_precreated_event.Statement_ID
-  .print "un-initialized == ${te_generate_precreated_event.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_generate_precreated_event.Statement_ID}" )
 , 0\
   .else
@@ -9921,16 +7864,12 @@ INSERT INTO TE_GENERATE_PRECREATED_EVENT VALUES ( ${te_generate_precreated_event
 .select many te_generate_to_classs from instances of TE_GENERATE_TO_CLASS
 .for each te_generate_to_class in te_generate_to_classs
 INSERT INTO TE_GENERATE_TO_CLASS VALUES (\
-  .assign a = te_generate_to_class.sm_evt
-  .print "un-initialized == ${te_generate_to_class.sm_evt} ${a} unique_id"
   .if ( "un-initialized" == "${te_generate_to_class.sm_evt}" )
  0\
   .else
  ${te_generate_to_class.sm_evt}\
   .end if
 , ${te_generate_to_class.self_directed}, '${te_generate_to_class.var_name}', '${te_generate_to_class.event_label}', '${te_generate_to_class.even_meaning}', '${te_generate_to_class.parameters}'\
-  .assign a = te_generate_to_class.Statement_ID
-  .print "un-initialized == ${te_generate_to_class.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_generate_to_class.Statement_ID}" )
 , 0\
   .else
@@ -9942,8 +7881,6 @@ INSERT INTO TE_GENERATE_TO_CLASS VALUES (\
 .select many te_ifs from instances of TE_IF
 .for each te_if in te_ifs
 INSERT INTO TE_IF VALUES ( '${te_if.condition}'\
-  .assign a = te_if.Statement_ID
-  .print "un-initialized == ${te_if.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_if.Statement_ID}" )
 , 0\
   .else
@@ -9955,8 +7892,6 @@ INSERT INTO TE_IF VALUES ( '${te_if.condition}'\
 .select many te_iops from instances of TE_IOP
 .for each te_iop in te_iops
 INSERT INTO TE_IOP VALUES ( '${te_iop.name}', '${te_iop.parameters}'\
-  .assign a = te_iop.Statement_ID
-  .print "un-initialized == ${te_iop.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_iop.Statement_ID}" )
 , 0\
   .else
@@ -9968,8 +7903,6 @@ INSERT INTO TE_IOP VALUES ( '${te_iop.name}', '${te_iop.parameters}'\
 .select many te_operations from instances of TE_OPERATION
 .for each te_operation in te_operations
 INSERT INTO TE_OPERATION VALUES ( ${te_operation.instance_based}, '${te_operation.operation_name}', '${te_operation.parameters}', '${te_operation.var_name}'\
-  .assign a = te_operation.Statement_ID
-  .print "un-initialized == ${te_operation.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_operation.Statement_ID}" )
 , 0\
   .else
@@ -9981,32 +7914,24 @@ INSERT INTO TE_OPERATION VALUES ( ${te_operation.instance_based}, '${te_operatio
 .select many te_relates from instances of TE_RELATE
 .for each te_relate in te_relates
 INSERT INTO TE_RELATE VALUES (\
-  .assign a = te_relate.one_o_obj
-  .print "un-initialized == ${te_relate.one_o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_relate.one_o_obj}" )
  0\
   .else
  ${te_relate.one_o_obj}\
   .end if
 \
-  .assign a = te_relate.oth_o_obj
-  .print "un-initialized == ${te_relate.oth_o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_relate.oth_o_obj}" )
 , 0\
   .else
 , ${te_relate.oth_o_obj}\
   .end if
 \
-  .assign a = te_relate.r_rel
-  .print "un-initialized == ${te_relate.r_rel} ${a} unique_id"
   .if ( "un-initialized" == "${te_relate.r_rel}" )
 , 0\
   .else
 , ${te_relate.r_rel}\
   .end if
 , ${te_relate.is_reflexive}, ${te_relate.relationship_number}, '${te_relate.relationship_phrase}', '${te_relate.one_var_name}', '${te_relate.oth_var_name}'\
-  .assign a = te_relate.Statement_ID
-  .print "un-initialized == ${te_relate.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_relate.Statement_ID}" )
 , 0\
   .else
@@ -10018,40 +7943,30 @@ INSERT INTO TE_RELATE VALUES (\
 .select many te_relate_usings from instances of TE_RELATE_USING
 .for each te_relate_using in te_relate_usings
 INSERT INTO TE_RELATE_USING VALUES (\
-  .assign a = te_relate_using.one_o_obj
-  .print "un-initialized == ${te_relate_using.one_o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_relate_using.one_o_obj}" )
  0\
   .else
  ${te_relate_using.one_o_obj}\
   .end if
 \
-  .assign a = te_relate_using.oth_o_obj
-  .print "un-initialized == ${te_relate_using.oth_o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_relate_using.oth_o_obj}" )
 , 0\
   .else
 , ${te_relate_using.oth_o_obj}\
   .end if
 \
-  .assign a = te_relate_using.ass_o_obj
-  .print "un-initialized == ${te_relate_using.ass_o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_relate_using.ass_o_obj}" )
 , 0\
   .else
 , ${te_relate_using.ass_o_obj}\
   .end if
 \
-  .assign a = te_relate_using.r_rel
-  .print "un-initialized == ${te_relate_using.r_rel} ${a} unique_id"
   .if ( "un-initialized" == "${te_relate_using.r_rel}" )
 , 0\
   .else
 , ${te_relate_using.r_rel}\
   .end if
 , ${te_relate_using.is_inflexive}, ${te_relate_using.relationship_number}, '${te_relate_using.relationship_phrase}', '${te_relate_using.one_var_name}', '${te_relate_using.oth_var_name}', '${te_relate_using.ass_var_name}', '${te_relate_using.one_rel_phrase}', '${te_relate_using.oth_rel_phrase}'\
-  .assign a = te_relate_using.Statement_ID
-  .print "un-initialized == ${te_relate_using.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_relate_using.Statement_ID}" )
 , 0\
   .else
@@ -10063,8 +7978,6 @@ INSERT INTO TE_RELATE_USING VALUES (\
 .select many te_returns from instances of TE_RETURN
 .for each te_return in te_returns
 INSERT INTO TE_RETURN VALUES ( '${te_return.value}', '${te_return.cast1}', '${te_return.cast2}'\
-  .assign a = te_return.Statement_ID
-  .print "un-initialized == ${te_return.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_return.Statement_ID}" )
 , 0\
   .else
@@ -10076,16 +7989,12 @@ INSERT INTO TE_RETURN VALUES ( '${te_return.value}', '${te_return.cast1}', '${te
 .select many te_selects from instances of TE_SELECT
 .for each te_select in te_selects
 INSERT INTO TE_SELECT VALUES (\
-  .assign a = te_select.o_obj
-  .print "un-initialized == ${te_select.o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_select.o_obj}" )
  0\
   .else
  ${te_select.o_obj}\
   .end if
 , ${te_select.is_implicit}, '${te_select.class_name}', '${te_select.target_class_name}', '${te_select.class_description}', '${te_select.multiplicity}', '${te_select.var_name}'\
-  .assign a = te_select.Statement_ID
-  .print "un-initialized == ${te_select.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_select.Statement_ID}" )
 , 0\
   .else
@@ -10097,77 +8006,53 @@ INSERT INTO TE_SELECT VALUES (\
 .select many te_select_relateds from instances of TE_SELECT_RELATED
 .for each te_select_related in te_select_relateds
 INSERT INTO TE_SELECT_RELATED VALUES (\
-  .assign a = te_select_related.Statement_ID
-  .print "un-initialized == ${te_select_related.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_select_related.Statement_ID}" )
  0\
   .else
  ${te_select_related.Statement_ID}\
   .end if
 \
-  .assign a = te_select_related.link_ID
-  .print "un-initialized == ${te_select_related.link_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_select_related.link_ID}" )
 , 0\
   .else
 , ${te_select_related.link_ID}\
   .end if
 \
-  .assign a = te_select_related.starting_Value_ID
-  .print "un-initialized == ${te_select_related.starting_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_select_related.starting_Value_ID}" )
 , 0\
   .else
 , ${te_select_related.starting_Value_ID}\
   .end if
 \
-  .assign a = te_select_related.where_clause_Value_ID
-  .print "un-initialized == ${te_select_related.where_clause_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_select_related.where_clause_Value_ID}" )
 , 0\
   .else
 , ${te_select_related.where_clause_Value_ID}\
   .end if
 \
-  .assign a = te_select_related.starting_Var_ID
-  .print "un-initialized == ${te_select_related.starting_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_select_related.starting_Var_ID}" )
 , 0\
   .else
 , ${te_select_related.starting_Var_ID}\
   .end if
 \
-  .assign a = te_select_related.result_Var_ID
-  .print "un-initialized == ${te_select_related.result_Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_select_related.result_Var_ID}" )
 , 0\
   .else
 , ${te_select_related.result_Var_ID}\
   .end if
-, ${te_select_related.by_where}, '${te_select_related.where_clause}', '${te_select_related.where_clause_OAL}', '${te_select_related.multiplicity}', ${te_select_related.is_implicit}, '${te_select_related.result_var}', '${te_select_related.result_var_OAL}', ${te_select_related.start_many}, '${te_select_related.start_var}', '${te_select_related.start_var_OAL}'\
-  .assign a = te_select_related.te_classGeneratedName
-  .print "un-initialized == ${te_select_related.te_classGeneratedName} ${a} same_as<Base_Attribute>"
-  .if ( "un-initialized" == "${te_select_related.te_classGeneratedName}" )
-, 0\
-  .else
-, ${te_select_related.te_classGeneratedName}\
-  .end if
- );
+, ${te_select_related.by_where}, '${te_select_related.where_clause}', '${te_select_related.where_clause_OAL}', '${te_select_related.multiplicity}', ${te_select_related.is_implicit}, '${te_select_related.result_var}', '${te_select_related.result_var_OAL}', ${te_select_related.start_many}, '${te_select_related.start_var}', '${te_select_related.start_var_OAL}', '${te_select_related.te_classGeneratedName}' );
 .end for
 .print "OAL select_where (TE_SELECT_WHERE)"
 .select many te_select_wheres from instances of TE_SELECT_WHERE
 .for each te_select_where in te_select_wheres
 INSERT INTO TE_SELECT_WHERE VALUES (\
-  .assign a = te_select_where.o_obj
-  .print "un-initialized == ${te_select_where.o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_select_where.o_obj}" )
  0\
   .else
  ${te_select_where.o_obj}\
   .end if
 , ${te_select_where.is_implicit}, '${te_select_where.class_name}', '${te_select_where.oal_var_name}', '${te_select_where.class_description}', '${te_select_where.multiplicity}', '${te_select_where.var_name}', '${te_select_where.selected_var_name}', '${te_select_where.where_clause}', ${te_select_where.special}, ${te_select_where.oid_id}\
-  .assign a = te_select_where.Statement_ID
-  .print "un-initialized == ${te_select_where.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_select_where.Statement_ID}" )
 , 0\
   .else
@@ -10179,16 +8064,12 @@ INSERT INTO TE_SELECT_WHERE VALUES (\
 .select many te_sgns from instances of TE_SGN
 .for each te_sgn in te_sgns
 INSERT INTO TE_SGN VALUES (\
-  .assign a = te_sgn.sm_evt
-  .print "un-initialized == ${te_sgn.sm_evt} ${a} unique_id"
   .if ( "un-initialized" == "${te_sgn.sm_evt}" )
  0\
   .else
  ${te_sgn.sm_evt}\
   .end if
 , ${te_sgn.self_directed}, '${te_sgn.var_name}', '${te_sgn.event_label}', '${te_sgn.event_meaning}', '${te_sgn.parameters}'\
-  .assign a = te_sgn.Statement_ID
-  .print "un-initialized == ${te_sgn.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_sgn.Statement_ID}" )
 , 0\
   .else
@@ -10200,32 +8081,24 @@ INSERT INTO TE_SGN VALUES (\
 .select many te_unrelates from instances of TE_UNRELATE
 .for each te_unrelate in te_unrelates
 INSERT INTO TE_UNRELATE VALUES (\
-  .assign a = te_unrelate.one_o_obj
-  .print "un-initialized == ${te_unrelate.one_o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_unrelate.one_o_obj}" )
  0\
   .else
  ${te_unrelate.one_o_obj}\
   .end if
 \
-  .assign a = te_unrelate.oth_o_obj
-  .print "un-initialized == ${te_unrelate.oth_o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_unrelate.oth_o_obj}" )
 , 0\
   .else
 , ${te_unrelate.oth_o_obj}\
   .end if
 \
-  .assign a = te_unrelate.r_rel
-  .print "un-initialized == ${te_unrelate.r_rel} ${a} unique_id"
   .if ( "un-initialized" == "${te_unrelate.r_rel}" )
 , 0\
   .else
 , ${te_unrelate.r_rel}\
   .end if
 , ${te_unrelate.is_inflexive}, ${te_unrelate.relationship_number}, '${te_unrelate.relationship_phrase}', '${te_unrelate.one_var_name}', '${te_unrelate.oth_var_name}'\
-  .assign a = te_unrelate.Statement_ID
-  .print "un-initialized == ${te_unrelate.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_unrelate.Statement_ID}" )
 , 0\
   .else
@@ -10237,40 +8110,30 @@ INSERT INTO TE_UNRELATE VALUES (\
 .select many te_unrelate_usings from instances of TE_UNRELATE_USING
 .for each te_unrelate_using in te_unrelate_usings
 INSERT INTO TE_UNRELATE_USING VALUES (\
-  .assign a = te_unrelate_using.one_o_obj
-  .print "un-initialized == ${te_unrelate_using.one_o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_unrelate_using.one_o_obj}" )
  0\
   .else
  ${te_unrelate_using.one_o_obj}\
   .end if
 \
-  .assign a = te_unrelate_using.oth_o_obj
-  .print "un-initialized == ${te_unrelate_using.oth_o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_unrelate_using.oth_o_obj}" )
 , 0\
   .else
 , ${te_unrelate_using.oth_o_obj}\
   .end if
 \
-  .assign a = te_unrelate_using.ass_o_obj
-  .print "un-initialized == ${te_unrelate_using.ass_o_obj} ${a} unique_id"
   .if ( "un-initialized" == "${te_unrelate_using.ass_o_obj}" )
 , 0\
   .else
 , ${te_unrelate_using.ass_o_obj}\
   .end if
 \
-  .assign a = te_unrelate_using.r_rel
-  .print "un-initialized == ${te_unrelate_using.r_rel} ${a} unique_id"
   .if ( "un-initialized" == "${te_unrelate_using.r_rel}" )
 , 0\
   .else
 , ${te_unrelate_using.r_rel}\
   .end if
 , ${te_unrelate_using.is_reflexive}, ${te_unrelate_using.relationship_number}, '${te_unrelate_using.relationship_phrase}', '${te_unrelate_using.one_var_name}', '${te_unrelate_using.oth_var_name}', '${te_unrelate_using.ass_var_name}', '${te_unrelate_using.one_rel_phrase}', '${te_unrelate_using.oth_rel_phrase}'\
-  .assign a = te_unrelate_using.Statement_ID
-  .print "un-initialized == ${te_unrelate_using.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_unrelate_using.Statement_ID}" )
 , 0\
   .else
@@ -10282,8 +8145,6 @@ INSERT INTO TE_UNRELATE_USING VALUES (\
 .select many te_whiles from instances of TE_WHILE
 .for each te_while in te_whiles
 INSERT INTO TE_WHILE VALUES ( '${te_while.condition}'\
-  .assign a = te_while.Statement_ID
-  .print "un-initialized == ${te_while.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${te_while.Statement_ID}" )
 , 0\
   .else
@@ -10295,16 +8156,12 @@ INSERT INTO TE_WHILE VALUES ( '${te_while.condition}'\
 .select many uc_aiucs from instances of UC_AIUC
 .for each uc_aiuc in uc_aiucs
 INSERT INTO UC_AIUC VALUES (\
-  .assign a = uc_aiuc.Assoc_ID
-  .print "un-initialized == ${uc_aiuc.Assoc_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_aiuc.Assoc_ID}" )
  0\
   .else
  ${uc_aiuc.Assoc_ID}\
   .end if
 \
-  .assign a = uc_aiuc.Package_ID
-  .print "un-initialized == ${uc_aiuc.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_aiuc.Package_ID}" )
 , 0\
   .else
@@ -10316,8 +8173,6 @@ INSERT INTO UC_AIUC VALUES (\
 .select many uc_bas from instances of UC_BA
 .for each uc_ba in uc_bas
 INSERT INTO UC_BA VALUES (\
-  .assign a = uc_ba.Assoc_ID
-  .print "un-initialized == ${uc_ba.Assoc_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_ba.Assoc_ID}" )
  0\
   .else
@@ -10329,8 +8184,6 @@ INSERT INTO UC_BA VALUES (\
 .select many uc_es from instances of UC_E
 .for each uc_e in uc_es
 INSERT INTO UC_E VALUES (\
-  .assign a = uc_e.Assoc_ID
-  .print "un-initialized == ${uc_e.Assoc_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_e.Assoc_ID}" )
  0\
   .else
@@ -10342,8 +8195,6 @@ INSERT INTO UC_E VALUES (\
 .select many uc_gs from instances of UC_G
 .for each uc_g in uc_gs
 INSERT INTO UC_G VALUES (\
-  .assign a = uc_g.Assoc_ID
-  .print "un-initialized == ${uc_g.Assoc_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_g.Assoc_ID}" )
  0\
   .else
@@ -10355,8 +8206,6 @@ INSERT INTO UC_G VALUES (\
 .select many uc_is from instances of UC_I
 .for each uc_i in uc_is
 INSERT INTO UC_I VALUES (\
-  .assign a = uc_i.Assoc_ID
-  .print "un-initialized == ${uc_i.Assoc_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_i.Assoc_ID}" )
  0\
   .else
@@ -10368,16 +8217,12 @@ INSERT INTO UC_I VALUES (\
 .select many uc_piucs from instances of UC_PIUC
 .for each uc_piuc in uc_piucs
 INSERT INTO UC_PIUC VALUES (\
-  .assign a = uc_piuc.Package_ID
-  .print "un-initialized == ${uc_piuc.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_piuc.Package_ID}" )
  0\
   .else
  ${uc_piuc.Package_ID}\
   .end if
 \
-  .assign a = uc_piuc.Part_ID
-  .print "un-initialized == ${uc_piuc.Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_piuc.Part_ID}" )
 , 0\
   .else
@@ -10389,24 +8234,18 @@ INSERT INTO UC_PIUC VALUES (\
 .select many uc_ucas from instances of UC_UCA
 .for each uc_uca in uc_ucas
 INSERT INTO UC_UCA VALUES (\
-  .assign a = uc_uca.Assoc_ID
-  .print "un-initialized == ${uc_uca.Assoc_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_uca.Assoc_ID}" )
  0\
   .else
  ${uc_uca.Assoc_ID}\
   .end if
 \
-  .assign a = uc_uca.Source_Part_ID
-  .print "un-initialized == ${uc_uca.Source_Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_uca.Source_Part_ID}" )
 , 0\
   .else
 , ${uc_uca.Source_Part_ID}\
   .end if
 \
-  .assign a = uc_uca.Destination_Part_ID
-  .print "un-initialized == ${uc_uca.Destination_Part_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_uca.Destination_Part_ID}" )
 , 0\
   .else
@@ -10418,56 +8257,42 @@ INSERT INTO UC_UCA VALUES (\
 .select many uc_uccs from instances of UC_UCC
 .for each uc_ucc in uc_uccs
 INSERT INTO UC_UCC VALUES (\
-  .assign a = uc_ucc.Package_ID
-  .print "un-initialized == ${uc_ucc.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_ucc.Package_ID}" )
  0\
   .else
  ${uc_ucc.Package_ID}\
   .end if
 \
-  .assign a = uc_ucc.Dom_ID
-  .print "un-initialized == ${uc_ucc.Dom_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_ucc.Dom_ID}" )
 , 0\
   .else
 , ${uc_ucc.Dom_ID}\
   .end if
 \
-  .assign a = uc_ucc.SS_ID
-  .print "un-initialized == ${uc_ucc.SS_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_ucc.SS_ID}" )
 , 0\
   .else
 , ${uc_ucc.SS_ID}\
   .end if
 \
-  .assign a = uc_ucc.Parent_Package_ID
-  .print "un-initialized == ${uc_ucc.Parent_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_ucc.Parent_Package_ID}" )
 , 0\
   .else
 , ${uc_ucc.Parent_Package_ID}\
   .end if
 , '${uc_ucc.Name}', '${uc_ucc.Descrip}'\
-  .assign a = uc_ucc.Sys_ID
-  .print "un-initialized == ${uc_ucc.Sys_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_ucc.Sys_ID}" )
 , 0\
   .else
 , ${uc_ucc.Sys_ID}\
   .end if
 \
-  .assign a = uc_ucc.Component_Package_ID
-  .print "un-initialized == ${uc_ucc.Component_Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_ucc.Component_Package_ID}" )
 , 0\
   .else
 , ${uc_ucc.Component_Package_ID}\
   .end if
 \
-  .assign a = uc_ucc.Component_Id
-  .print "un-initialized == ${uc_ucc.Component_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_ucc.Component_Id}" )
 , 0\
   .else
@@ -10479,8 +8304,6 @@ INSERT INTO UC_UCC VALUES (\
 .select many uc_uius from instances of UC_UIU
 .for each uc_uiu in uc_uius
 INSERT INTO UC_UIU VALUES (\
-  .assign a = uc_uiu.Package_ID
-  .print "un-initialized == ${uc_uiu.Package_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${uc_uiu.Package_ID}" )
  0\
   .else
@@ -10492,32 +8315,24 @@ INSERT INTO UC_UIU VALUES (\
 .select many v_pars from instances of V_PAR
 .for each v_par in v_pars
 INSERT INTO V_PAR VALUES (\
-  .assign a = v_par.Value_ID
-  .print "un-initialized == ${v_par.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_par.Value_ID}" )
  0\
   .else
  ${v_par.Value_ID}\
   .end if
 \
-  .assign a = v_par.Statement_ID
-  .print "un-initialized == ${v_par.Statement_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_par.Statement_ID}" )
 , 0\
   .else
 , ${v_par.Statement_ID}\
   .end if
 \
-  .assign a = v_par.Invocation_Value_ID
-  .print "un-initialized == ${v_par.Invocation_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_par.Invocation_Value_ID}" )
 , 0\
   .else
 , ${v_par.Invocation_Value_ID}\
   .end if
 , '${v_par.Name}'\
-  .assign a = v_par.Next_Value_ID
-  .print "un-initialized == ${v_par.Next_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_par.Next_Value_ID}" )
 , 0\
   .else
@@ -10529,24 +8344,18 @@ INSERT INTO V_PAR VALUES (\
 .select many v_aers from instances of V_AER
 .for each v_aer in v_aers
 INSERT INTO V_AER VALUES (\
-  .assign a = v_aer.Value_ID
-  .print "un-initialized == ${v_aer.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_aer.Value_ID}" )
  0\
   .else
  ${v_aer.Value_ID}\
   .end if
 \
-  .assign a = v_aer.Root_Value_ID
-  .print "un-initialized == ${v_aer.Root_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_aer.Root_Value_ID}" )
 , 0\
   .else
 , ${v_aer.Root_Value_ID}\
   .end if
 \
-  .assign a = v_aer.Index_Value_ID
-  .print "un-initialized == ${v_aer.Index_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_aer.Index_Value_ID}" )
 , 0\
   .else
@@ -10558,16 +8367,12 @@ INSERT INTO V_AER VALUES (\
 .select many v_alvs from instances of V_ALV
 .for each v_alv in v_alvs
 INSERT INTO V_ALV VALUES (\
-  .assign a = v_alv.Value_ID
-  .print "un-initialized == ${v_alv.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_alv.Value_ID}" )
  0\
   .else
  ${v_alv.Value_ID}\
   .end if
 \
-  .assign a = v_alv.Array_Value_ID
-  .print "un-initialized == ${v_alv.Array_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_alv.Array_Value_ID}" )
 , 0\
   .else
@@ -10579,32 +8384,24 @@ INSERT INTO V_ALV VALUES (\
 .select many v_avls from instances of V_AVL
 .for each v_avl in v_avls
 INSERT INTO V_AVL VALUES (\
-  .assign a = v_avl.Value_ID
-  .print "un-initialized == ${v_avl.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_avl.Value_ID}" )
  0\
   .else
  ${v_avl.Value_ID}\
   .end if
 \
-  .assign a = v_avl.Root_Value_ID
-  .print "un-initialized == ${v_avl.Root_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_avl.Root_Value_ID}" )
 , 0\
   .else
 , ${v_avl.Root_Value_ID}\
   .end if
 \
-  .assign a = v_avl.Obj_ID
-  .print "un-initialized == ${v_avl.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_avl.Obj_ID}" )
 , 0\
   .else
 , ${v_avl.Obj_ID}\
   .end if
 \
-  .assign a = v_avl.Attr_ID
-  .print "un-initialized == ${v_avl.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_avl.Attr_ID}" )
 , 0\
   .else
@@ -10616,24 +8413,18 @@ INSERT INTO V_AVL VALUES (\
 .select many v_bins from instances of V_BIN
 .for each v_bin in v_bins
 INSERT INTO V_BIN VALUES (\
-  .assign a = v_bin.Value_ID
-  .print "un-initialized == ${v_bin.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_bin.Value_ID}" )
  0\
   .else
  ${v_bin.Value_ID}\
   .end if
 \
-  .assign a = v_bin.Right_Value_ID
-  .print "un-initialized == ${v_bin.Right_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_bin.Right_Value_ID}" )
 , 0\
   .else
 , ${v_bin.Right_Value_ID}\
   .end if
 \
-  .assign a = v_bin.Left_Value_ID
-  .print "un-initialized == ${v_bin.Left_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_bin.Left_Value_ID}" )
 , 0\
   .else
@@ -10645,16 +8436,12 @@ INSERT INTO V_BIN VALUES (\
 .select many v_brvs from instances of V_BRV
 .for each v_brv in v_brvs
 INSERT INTO V_BRV VALUES (\
-  .assign a = v_brv.Value_ID
-  .print "un-initialized == ${v_brv.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_brv.Value_ID}" )
  0\
   .else
  ${v_brv.Value_ID}\
   .end if
 \
-  .assign a = v_brv.Brg_ID
-  .print "un-initialized == ${v_brv.Brg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_brv.Brg_ID}" )
 , 0\
   .else
@@ -10666,8 +8453,6 @@ INSERT INTO V_BRV VALUES (\
 .select many v_edvs from instances of V_EDV
 .for each v_edv in v_edvs
 INSERT INTO V_EDV VALUES (\
-  .assign a = v_edv.Value_ID
-  .print "un-initialized == ${v_edv.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_edv.Value_ID}" )
  0\
   .else
@@ -10679,32 +8464,24 @@ INSERT INTO V_EDV VALUES (\
 .select many v_eprs from instances of V_EPR
 .for each v_epr in v_eprs
 INSERT INTO V_EPR VALUES (\
-  .assign a = v_epr.Value_ID
-  .print "un-initialized == ${v_epr.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_epr.Value_ID}" )
  0\
   .else
  ${v_epr.Value_ID}\
   .end if
 \
-  .assign a = v_epr.SM_ID
-  .print "un-initialized == ${v_epr.SM_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_epr.SM_ID}" )
 , 0\
   .else
 , ${v_epr.SM_ID}\
   .end if
 \
-  .assign a = v_epr.SMedi_ID
-  .print "un-initialized == ${v_epr.SMedi_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_epr.SMedi_ID}" )
 , 0\
   .else
 , ${v_epr.SMedi_ID}\
   .end if
 \
-  .assign a = v_epr.PP_Id
-  .print "un-initialized == ${v_epr.PP_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_epr.PP_Id}" )
 , 0\
   .else
@@ -10716,16 +8493,12 @@ INSERT INTO V_EPR VALUES (\
 .select many v_fnvs from instances of V_FNV
 .for each v_fnv in v_fnvs
 INSERT INTO V_FNV VALUES (\
-  .assign a = v_fnv.Value_ID
-  .print "un-initialized == ${v_fnv.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_fnv.Value_ID}" )
  0\
   .else
  ${v_fnv.Value_ID}\
   .end if
 \
-  .assign a = v_fnv.Sync_ID
-  .print "un-initialized == ${v_fnv.Sync_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_fnv.Sync_ID}" )
 , 0\
   .else
@@ -10737,16 +8510,12 @@ INSERT INTO V_FNV VALUES (\
 .select many v_ints from instances of V_INT
 .for each v_int in v_ints
 INSERT INTO V_INT VALUES (\
-  .assign a = v_int.Var_ID
-  .print "un-initialized == ${v_int.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_int.Var_ID}" )
  0\
   .else
  ${v_int.Var_ID}\
   .end if
 , ${v_int.IsImplicitInFor}\
-  .assign a = v_int.Obj_ID
-  .print "un-initialized == ${v_int.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_int.Obj_ID}" )
 , 0\
   .else
@@ -10758,16 +8527,12 @@ INSERT INTO V_INT VALUES (\
 .select many v_irfs from instances of V_IRF
 .for each v_irf in v_irfs
 INSERT INTO V_IRF VALUES (\
-  .assign a = v_irf.Value_ID
-  .print "un-initialized == ${v_irf.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_irf.Value_ID}" )
  0\
   .else
  ${v_irf.Value_ID}\
   .end if
 \
-  .assign a = v_irf.Var_ID
-  .print "un-initialized == ${v_irf.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_irf.Var_ID}" )
 , 0\
   .else
@@ -10779,16 +8544,12 @@ INSERT INTO V_IRF VALUES (\
 .select many v_isrs from instances of V_ISR
 .for each v_isr in v_isrs
 INSERT INTO V_ISR VALUES (\
-  .assign a = v_isr.Value_ID
-  .print "un-initialized == ${v_isr.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_isr.Value_ID}" )
  0\
   .else
  ${v_isr.Value_ID}\
   .end if
 \
-  .assign a = v_isr.Var_ID
-  .print "un-initialized == ${v_isr.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_isr.Var_ID}" )
 , 0\
   .else
@@ -10800,16 +8561,12 @@ INSERT INTO V_ISR VALUES (\
 .select many v_inss from instances of V_INS
 .for each v_ins in v_inss
 INSERT INTO V_INS VALUES (\
-  .assign a = v_ins.Var_ID
-  .print "un-initialized == ${v_ins.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_ins.Var_ID}" )
  0\
   .else
  ${v_ins.Var_ID}\
   .end if
 \
-  .assign a = v_ins.Obj_ID
-  .print "un-initialized == ${v_ins.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_ins.Obj_ID}" )
 , 0\
   .else
@@ -10821,8 +8578,6 @@ INSERT INTO V_INS VALUES (\
 .select many v_lbos from instances of V_LBO
 .for each v_lbo in v_lbos
 INSERT INTO V_LBO VALUES (\
-  .assign a = v_lbo.Value_ID
-  .print "un-initialized == ${v_lbo.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_lbo.Value_ID}" )
  0\
   .else
@@ -10834,16 +8589,12 @@ INSERT INTO V_LBO VALUES (\
 .select many v_lens from instances of V_LEN
 .for each v_len in v_lens
 INSERT INTO V_LEN VALUES (\
-  .assign a = v_len.Value_ID
-  .print "un-initialized == ${v_len.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_len.Value_ID}" )
  0\
   .else
  ${v_len.Value_ID}\
   .end if
 \
-  .assign a = v_len.Enum_ID
-  .print "un-initialized == ${v_len.Enum_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_len.Enum_ID}" )
 , 0\
   .else
@@ -10855,8 +8606,6 @@ INSERT INTO V_LEN VALUES (\
 .select many v_lins from instances of V_LIN
 .for each v_lin in v_lins
 INSERT INTO V_LIN VALUES (\
-  .assign a = v_lin.Value_ID
-  .print "un-initialized == ${v_lin.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_lin.Value_ID}" )
  0\
   .else
@@ -10868,8 +8617,6 @@ INSERT INTO V_LIN VALUES (\
 .select many v_lrls from instances of V_LRL
 .for each v_lrl in v_lrls
 INSERT INTO V_LRL VALUES (\
-  .assign a = v_lrl.Value_ID
-  .print "un-initialized == ${v_lrl.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_lrl.Value_ID}" )
  0\
   .else
@@ -10881,8 +8628,6 @@ INSERT INTO V_LRL VALUES (\
 .select many v_lsts from instances of V_LST
 .for each v_lst in v_lsts
 INSERT INTO V_LST VALUES (\
-  .assign a = v_lst.Value_ID
-  .print "un-initialized == ${v_lst.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_lst.Value_ID}" )
  0\
   .else
@@ -10894,32 +8639,24 @@ INSERT INTO V_LST VALUES (\
 .select many v_mvls from instances of V_MVL
 .for each v_mvl in v_mvls
 INSERT INTO V_MVL VALUES (\
-  .assign a = v_mvl.Value_ID
-  .print "un-initialized == ${v_mvl.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_mvl.Value_ID}" )
  0\
   .else
  ${v_mvl.Value_ID}\
   .end if
 \
-  .assign a = v_mvl.Root_Value_ID
-  .print "un-initialized == ${v_mvl.Root_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_mvl.Root_Value_ID}" )
 , 0\
   .else
 , ${v_mvl.Root_Value_ID}\
   .end if
 \
-  .assign a = v_mvl.Member_ID
-  .print "un-initialized == ${v_mvl.Member_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_mvl.Member_ID}" )
 , 0\
   .else
 , ${v_mvl.Member_ID}\
   .end if
 \
-  .assign a = v_mvl.DT_DT_ID
-  .print "un-initialized == ${v_mvl.DT_DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_mvl.DT_DT_ID}" )
 , 0\
   .else
@@ -10931,32 +8668,24 @@ INSERT INTO V_MVL VALUES (\
 .select many v_msvs from instances of V_MSV
 .for each v_msv in v_msvs
 INSERT INTO V_MSV VALUES (\
-  .assign a = v_msv.Value_ID
-  .print "un-initialized == ${v_msv.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_msv.Value_ID}" )
  0\
   .else
  ${v_msv.Value_ID}\
   .end if
 \
-  .assign a = v_msv.PEP_Id
-  .print "un-initialized == ${v_msv.PEP_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_msv.PEP_Id}" )
 , 0\
   .else
 , ${v_msv.PEP_Id}\
   .end if
 \
-  .assign a = v_msv.REP_Id
-  .print "un-initialized == ${v_msv.REP_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_msv.REP_Id}" )
 , 0\
   .else
 , ${v_msv.REP_Id}\
   .end if
 , ${v_msv.ParmListOK}, ${v_msv.ownerNameLineNumber}, ${v_msv.ownerNameColumn}\
-  .assign a = v_msv.Target_Value_ID
-  .print "un-initialized == ${v_msv.Target_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_msv.Target_Value_ID}" )
 , 0\
   .else
@@ -10968,24 +8697,18 @@ INSERT INTO V_MSV VALUES (\
 .select many v_trvs from instances of V_TRV
 .for each v_trv in v_trvs
 INSERT INTO V_TRV VALUES (\
-  .assign a = v_trv.Value_ID
-  .print "un-initialized == ${v_trv.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_trv.Value_ID}" )
  0\
   .else
  ${v_trv.Value_ID}\
   .end if
 \
-  .assign a = v_trv.Tfr_ID
-  .print "un-initialized == ${v_trv.Tfr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_trv.Tfr_ID}" )
 , 0\
   .else
 , ${v_trv.Tfr_ID}\
   .end if
 \
-  .assign a = v_trv.Var_ID
-  .print "un-initialized == ${v_trv.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_trv.Var_ID}" )
 , 0\
   .else
@@ -10997,40 +8720,30 @@ INSERT INTO V_TRV VALUES (\
 .select many v_pvls from instances of V_PVL
 .for each v_pvl in v_pvls
 INSERT INTO V_PVL VALUES (\
-  .assign a = v_pvl.Value_ID
-  .print "un-initialized == ${v_pvl.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_pvl.Value_ID}" )
  0\
   .else
  ${v_pvl.Value_ID}\
   .end if
 \
-  .assign a = v_pvl.BParm_ID
-  .print "un-initialized == ${v_pvl.BParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_pvl.BParm_ID}" )
 , 0\
   .else
 , ${v_pvl.BParm_ID}\
   .end if
 \
-  .assign a = v_pvl.SParm_ID
-  .print "un-initialized == ${v_pvl.SParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_pvl.SParm_ID}" )
 , 0\
   .else
 , ${v_pvl.SParm_ID}\
   .end if
 \
-  .assign a = v_pvl.TParm_ID
-  .print "un-initialized == ${v_pvl.TParm_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_pvl.TParm_ID}" )
 , 0\
   .else
 , ${v_pvl.TParm_ID}\
   .end if
 \
-  .assign a = v_pvl.PP_Id
-  .print "un-initialized == ${v_pvl.PP_Id} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_pvl.PP_Id}" )
 , 0\
   .else
@@ -11042,32 +8755,24 @@ INSERT INTO V_PVL VALUES (\
 .select many v_slrs from instances of V_SLR
 .for each v_slr in v_slrs
 INSERT INTO V_SLR VALUES (\
-  .assign a = v_slr.Value_ID
-  .print "un-initialized == ${v_slr.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_slr.Value_ID}" )
  0\
   .else
  ${v_slr.Value_ID}\
   .end if
 \
-  .assign a = v_slr.Obj_ID
-  .print "un-initialized == ${v_slr.Obj_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_slr.Obj_ID}" )
 , 0\
   .else
 , ${v_slr.Obj_ID}\
   .end if
 \
-  .assign a = v_slr.Attr_ID
-  .print "un-initialized == ${v_slr.Attr_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_slr.Attr_ID}" )
 , 0\
   .else
 , ${v_slr.Attr_ID}\
   .end if
 \
-  .assign a = v_slr.Op_Value_ID
-  .print "un-initialized == ${v_slr.Op_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_slr.Op_Value_ID}" )
 , 0\
   .else
@@ -11079,24 +8784,18 @@ INSERT INTO V_SLR VALUES (\
 .select many v_scvs from instances of V_SCV
 .for each v_scv in v_scvs
 INSERT INTO V_SCV VALUES (\
-  .assign a = v_scv.Value_ID
-  .print "un-initialized == ${v_scv.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_scv.Value_ID}" )
  0\
   .else
  ${v_scv.Value_ID}\
   .end if
 \
-  .assign a = v_scv.Const_ID
-  .print "un-initialized == ${v_scv.Const_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_scv.Const_ID}" )
 , 0\
   .else
 , ${v_scv.Const_ID}\
   .end if
 \
-  .assign a = v_scv.DT_ID
-  .print "un-initialized == ${v_scv.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_scv.DT_ID}" )
 , 0\
   .else
@@ -11108,16 +8807,12 @@ INSERT INTO V_SCV VALUES (\
 .select many v_tvls from instances of V_TVL
 .for each v_tvl in v_tvls
 INSERT INTO V_TVL VALUES (\
-  .assign a = v_tvl.Value_ID
-  .print "un-initialized == ${v_tvl.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_tvl.Value_ID}" )
  0\
   .else
  ${v_tvl.Value_ID}\
   .end if
 \
-  .assign a = v_tvl.Var_ID
-  .print "un-initialized == ${v_tvl.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_tvl.Var_ID}" )
 , 0\
   .else
@@ -11129,16 +8824,12 @@ INSERT INTO V_TVL VALUES (\
 .select many v_trns from instances of V_TRN
 .for each v_trn in v_trns
 INSERT INTO V_TRN VALUES (\
-  .assign a = v_trn.Var_ID
-  .print "un-initialized == ${v_trn.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_trn.Var_ID}" )
  0\
   .else
  ${v_trn.Var_ID}\
   .end if
 \
-  .assign a = v_trn.DT_ID
-  .print "un-initialized == ${v_trn.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_trn.DT_ID}" )
 , 0\
   .else
@@ -11150,16 +8841,12 @@ INSERT INTO V_TRN VALUES (\
 .select many v_unys from instances of V_UNY
 .for each v_uny in v_unys
 INSERT INTO V_UNY VALUES (\
-  .assign a = v_uny.Value_ID
-  .print "un-initialized == ${v_uny.Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_uny.Value_ID}" )
  0\
   .else
  ${v_uny.Value_ID}\
   .end if
 \
-  .assign a = v_uny.Operand_Value_ID
-  .print "un-initialized == ${v_uny.Operand_Value_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_uny.Operand_Value_ID}" )
 , 0\
   .else
@@ -11171,24 +8858,18 @@ INSERT INTO V_UNY VALUES (\
 .select many v_vals from instances of V_VAL
 .for each v_val in v_vals
 INSERT INTO V_VAL VALUES (\
-  .assign a = v_val.Value_ID
-  .print "un-initialized == ${v_val.Value_ID} ${a} unique_id"
   .if ( "un-initialized" == "${v_val.Value_ID}" )
  0\
   .else
  ${v_val.Value_ID}\
   .end if
 , ${v_val.isLValue}, ${v_val.isImplicit}, ${v_val.LineNumber}, ${v_val.StartPosition}, ${v_val.EndPosition}, ${v_val.firstParameterLabelLineNumber}, ${v_val.firstParameterLabelColumn}, ${v_val.currentLaterParameterLabelLineNumber}, ${v_val.currentLaterParameterLabelColumn}\
-  .assign a = v_val.DT_ID
-  .print "un-initialized == ${v_val.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_val.DT_ID}" )
 , 0\
   .else
 , ${v_val.DT_ID}\
   .end if
 \
-  .assign a = v_val.Block_ID
-  .print "un-initialized == ${v_val.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_val.Block_ID}" )
 , 0\
   .else
@@ -11200,16 +8881,12 @@ INSERT INTO V_VAL VALUES (\
 .select many v_locs from instances of V_LOC
 .for each v_loc in v_locs
 INSERT INTO V_LOC VALUES (\
-  .assign a = v_loc.Id
-  .print "un-initialized == ${v_loc.Id} ${a} unique_id"
   .if ( "un-initialized" == "${v_loc.Id}" )
  0\
   .else
  ${v_loc.Id}\
   .end if
 , ${v_loc.LineNumber}, ${v_loc.StartPosition}, ${v_loc.EndPosition}\
-  .assign a = v_loc.Var_ID
-  .print "un-initialized == ${v_loc.Var_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_loc.Var_ID}" )
 , 0\
   .else
@@ -11221,24 +8898,18 @@ INSERT INTO V_LOC VALUES (\
 .select many v_vars from instances of V_VAR
 .for each v_var in v_vars
 INSERT INTO V_VAR VALUES (\
-  .assign a = v_var.Var_ID
-  .print "un-initialized == ${v_var.Var_ID} ${a} unique_id"
   .if ( "un-initialized" == "${v_var.Var_ID}" )
  0\
   .else
  ${v_var.Var_ID}\
   .end if
 \
-  .assign a = v_var.Block_ID
-  .print "un-initialized == ${v_var.Block_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_var.Block_ID}" )
 , 0\
   .else
 , ${v_var.Block_ID}\
   .end if
 , '${v_var.Name}', ${v_var.Declared}\
-  .assign a = v_var.DT_ID
-  .print "un-initialized == ${v_var.DT_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${v_var.DT_ID}" )
 , 0\
   .else
@@ -11250,16 +8921,12 @@ INSERT INTO V_VAR VALUES (\
 .select many s_aws from instances of S_AW
 .for each s_aw in s_aws
 INSERT INTO S_AW VALUES (\
-  .assign a = s_aw.Brg_ID
-  .print "un-initialized == ${s_aw.Brg_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_aw.Brg_ID}" )
  0\
   .else
  ${s_aw.Brg_ID}\
   .end if
 \
-  .assign a = s_aw.Sync_ID
-  .print "un-initialized == ${s_aw.Sync_ID} ${a} same_as<Base_Attribute>"
   .if ( "un-initialized" == "${s_aw.Sync_ID}" )
 , 0\
   .else

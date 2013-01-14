@@ -118,11 +118,12 @@
     .// CDS Also, we are selecting to get the foreign message even when we do not need/use it (inbound).
     .// CDS So, skip the foreign_te_mact selection here and move to the section below.
     .// CDS Continue to get act_blk and the mapped event here.
+.if ( false )
     .if ( te_mact.subtypeKL == "SPR_PO" )
       .select one spr_po related by te_mact->SPR_PO[R2050]
       .select any te_parm related by spr_po->SPR_PEP[R4503]->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
       .select one act_blk related by spr_po->ACT_POB[R687]->ACT_ACT[R698]->ACT_BLK[R666]
-      .// Navigate through the satisfaction to find sibling messages.
+      .// Navigate through the satisfaction to find connected/corresponding messages.
       .select many spr_ros related by spr_po->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->C_R[R4002]->SPR_REP[R4500]->SPR_RO[R4502] where ( selected.Name == spr_po.Name )
       .select many foreign_te_macts related by spr_ros->TE_MACT[R2052]
       .if ( empty foreign_te_macts )
@@ -139,7 +140,7 @@
       .select one spr_ro related by te_mact->SPR_RO[R2052]
       .select any te_parm related by spr_ro->SPR_REP[R4502]->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
       .select one act_blk related by spr_ro->ACT_ROB[R685]->ACT_ACT[R698]->ACT_BLK[R666]
-      .// Navigate through the satisfaction to find the sibling message.
+      .// Navigate through the satisfaction to find the connected/corresponding message.
       .select many spr_pos related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_ro.Name )
       .select many foreign_te_macts related by spr_pos->TE_MACT[R2050]
       .if ( empty foreign_te_macts )
@@ -156,7 +157,7 @@
       .select one spr_ps related by te_mact->SPR_PS[R2051]
       .select any te_parm related by spr_ps->SPR_PEP[R4503]->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
       .select one act_blk related by spr_ps->ACT_PSB[R686]->ACT_ACT[R698]->ACT_BLK[R666]
-      .// Navigate through the satisfaction to find the sibling message.
+      .// Navigate through the satisfaction to find the connected/corresponding message.
       .select many spr_rss related by spr_ps->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->C_R[R4002]->SPR_REP[R4500]->SPR_RS[R4502] where ( selected.Name == spr_ps.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_ps->SM_SGEVT[R528]->SM_SEVT[R526]->SM_EVT[R525]
@@ -175,7 +176,7 @@
       .select one spr_rs related by te_mact->SPR_RS[R2053]
       .select any te_parm related by spr_rs->SPR_REP[R4502]->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
       .select one act_blk related by spr_rs->ACT_RSB[R684]->ACT_ACT[R698]->ACT_BLK[R666]
-      .// Navigate through the satisfaction to find the sibling message.
+      .// Navigate through the satisfaction to find the connected/corresponding message.
       .select many spr_pss related by spr_rs->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PS[R4503] where ( selected.Name == spr_rs.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_rs->SM_SGEVT[R529]->SM_SEVT[R526]->SM_EVT[R525]
@@ -191,6 +192,7 @@
         .select many foreign_te_macts related by spr_rss->TE_MACT[R2053]
       .end if
     .end if
+.end if
     .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
     .assign action_body = axret.body
     .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )

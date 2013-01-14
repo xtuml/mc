@@ -1,5 +1,4 @@
-.//============================================================================
-.// $RCSfile: sys.arc,v $
+.//============================================================================ .// $RCSfile: sys.arc,v $
 .//
 .// Description:
 .// This is the root archetype for generation.
@@ -27,6 +26,7 @@
   .exit 100
 .end if
 .//
+.include "${arc_path}/frag_util.arc"
 .include "${arc_path}/m.bridge.arc"
 .include "${arc_path}/m.component.arc"
 .include "${arc_path}/m.datatype.arc"
@@ -40,8 +40,6 @@
 .include "${arc_path}/q.class.cdispatch.arc"
 .include "${arc_path}/q.class.events.arc"
 .include "${arc_path}/q.class.factory.arc"
-.//.include "${arc_path}/q.class.instance.dumper.arc"
-.//.include "${arc_path}/q.class.instance.dump.arc"
 .include "${arc_path}/q.class.link.arc"
 .include "${arc_path}/q.class.pei.arc"
 .include "${arc_path}/q.class.persist.arc"
@@ -69,31 +67,14 @@
 .include "${arc_path}/sys_util.arc"
 .include "${arc_path}/t.smt.c"
 .//
+.select any te_file from instances of TE_FILE
+.if ( empty te_file )
+.//
 .// Create the unmarked, standard singletons.
 .invoke factory_factory()
-.//
-.// Pull into scope global values from singleton classes.
-.select any te_callout from instances of TE_CALLOUT
-.select any te_container from instances of TE_CONTAINER
-.select any te_copyright from instances of TE_COPYRIGHT
-.select any te_dlist from instances of TE_DLIST
-.select any te_dma from instances of TE_DMA
-.select any te_eq from instances of TE_EQ
-.select any te_extent from instances of TE_EXTENT
 .select any te_file from instances of TE_FILE
 .assign te_file.arc_path = arc_path
-.select any te_ilb from instances of TE_ILB
-.select any te_instance from instances of TE_INSTANCE
-.select any te_persist from instances of TE_PERSIST
-.select any te_prefix from instances of TE_PREFIX
-.select any te_set from instances of TE_SET
-.select any te_slist from instances of TE_SLIST
-.select any te_string from instances of TE_STRING
-.select any te_target from instances of TE_TARGET
-.select any te_thread from instances of TE_THREAD
-.select any te_tim from instances of TE_TIM
-.select any te_trace from instances of TE_TRACE
-.select any te_typemap from instances of TE_TYPEMAP
+.//
 .// Determine if this is a generic packages model.
 .assign generic_packages = false
 .select any ep_pkg from instances of EP_PKG
@@ -136,6 +117,9 @@
 .invoke MC_metamodel_populate( generic_packages )
 .select any te_sys from instances of TE_SYS
 .//
+.// Uncomment the following line to create an instance dumper archetype.
+.//.include "${arc_path}/q.class.instance.dumper.arc"
+.//
 .// Include domain level user defined archetype functions.
 .//.include "${te_file.domain_color_path}/${te_file.domain_functions_mark}"
 .//
@@ -148,10 +132,6 @@
 .// 7) Perform event marking.
 .include "${te_file.domain_color_path}/${te_file.event_mark}"
 .//
-.// 8) Include system level user defined archetype functions.
-.include "${te_file.system_color_path}/${te_file.system_functions_mark}"
-.print "System level marking complete."
-.//
 .// analyze
 .include "${te_file.arc_path}/q.domain.analyze.arc"
 .invoke CreateSpecialWhereClauseInstances( te_sys )
@@ -159,8 +139,36 @@
 .// Order here is important.  Do not rearrange without knowing
 .// what you are doing.
 .//
-.include "${te_file.arc_path}/frag_util.arc"
 .invoke translate_all_oal()
+.//.include "${arc_path}/q.class.instance.dump.arc"
+.end if
+.// 8) Include system level user defined archetype functions.
+.include "${te_file.system_color_path}/${te_file.system_functions_mark}"
+.print "System level marking complete."
+.//
+.select any te_sys from instances of TE_SYS
+.// Pull into scope global values from singleton classes.
+.select any te_callout from instances of TE_CALLOUT
+.select any te_container from instances of TE_CONTAINER
+.select any te_copyright from instances of TE_COPYRIGHT
+.select any te_dlist from instances of TE_DLIST
+.select any te_dma from instances of TE_DMA
+.select any te_eq from instances of TE_EQ
+.select any te_extent from instances of TE_EXTENT
+.select any te_file from instances of TE_FILE
+.assign te_file.arc_path = arc_path
+.select any te_ilb from instances of TE_ILB
+.select any te_instance from instances of TE_INSTANCE
+.select any te_persist from instances of TE_PERSIST
+.select any te_prefix from instances of TE_PREFIX
+.select any te_set from instances of TE_SET
+.select any te_slist from instances of TE_SLIST
+.select any te_string from instances of TE_STRING
+.select any te_target from instances of TE_TARGET
+.select any te_thread from instances of TE_THREAD
+.select any te_tim from instances of TE_TIM
+.select any te_trace from instances of TE_TRACE
+.select any te_typemap from instances of TE_TYPEMAP
 .//
 .select many te_ees from instances of TE_EE where ( ( ( selected.RegisteredName != "TIM" ) and ( selected.te_cID == 0 ) ) and ( selected.Included ) )
 .if ( not_empty te_ees )

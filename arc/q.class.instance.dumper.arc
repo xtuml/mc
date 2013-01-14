@@ -11,16 +11,17 @@ INSERT INTO ${o_obj.Key_Lett} VALUES (\
   .while ( not_empty o_attr )
     .if ( "${o_attr.Descrip:Persistent}" != "false" )
       .assign attributename = o_attr.Name
-      .select one s_dt related by o_attr->S_DT[R114]
+      .invoke d = GetAttributeCodeGenType( o_attr )
+      .assign s_dt = d.dt
       .if ( "string" == s_dt.Name )
         .if ( "Action_Semantics_internal" == attributename )
           .assign attributename = "Action_Semantics"
-        .end if
+${delimiter} ''\\
+        .else
 ${delimiter} '$${$l{o_obj.Key_Lett}.${attributename}}'\
-      .elif ( ( "unique_id" == s_dt.Name ) or ( "same_as<Base_Attribute>" == s_dt.Name ) )
+        .end if
+      .elif ( "unique_id" == s_dt.Name )
 \\
-  ..assign a = $l{o_obj.Key_Lett}.${attributename}
-  ..print "un-initialized == $${$l{o_obj.Key_Lett}.${attributename}} $${a} ${s_dt.Name}"
   ..if ( "un-initialized" == "$${$l{o_obj.Key_Lett}.${attributename}}" )
 ${delimiter} 0\\
   ..else
