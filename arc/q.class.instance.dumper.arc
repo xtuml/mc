@@ -1,10 +1,10 @@
-.assign period = "."
 .assign dollarcurly = "$${"
+..print "dumping class instances into SQL format..."
 .select many o_objs from instances of O_OBJ
 .for each o_obj in o_objs
-  ${period}print "dumping class ${o_obj.Name}"
-${period}select many $l{o_obj.Key_Lett}s from instances of ${o_obj.Key_Lett}
-${period}for each $l{o_obj.Key_Lett} in $l{o_obj.Key_Lett}s
+..print "${o_obj.Name} (${o_obj.Key_Lett})"
+..select many $l{o_obj.Key_Lett}s from instances of ${o_obj.Key_Lett}
+..for each $l{o_obj.Key_Lett} in $l{o_obj.Key_Lett}s
 INSERT INTO ${o_obj.Key_Lett} VALUES (\
   .select one o_attr related by o_obj->O_ATTR[R102] where ( selected.PAttr_ID == 0 )
   .assign delimiter = ""
@@ -16,9 +16,16 @@ INSERT INTO ${o_obj.Key_Lett} VALUES (\
         .if ( "Action_Semantics_internal" == attributename )
           .assign attributename = "Action_Semantics"
         .end if
-${delimiter} '${dollarcurly}$l{o_obj.Key_Lett}.${attributename}}'\
-      .elif ( "unique_id" == s_dt.Name )
-${delimiter} ${dollarcurly}$l{o_obj.Key_Lett}.${attributename}}\
+${delimiter} '$${$l{o_obj.Key_Lett}.${attributename}}'\
+      .elif ( ( "unique_id" == s_dt.Name ) or ( "same_as<Base_Attribute>" == s_dt.Name ) )
+\\
+  ..assign a = $l{o_obj.Key_Lett}.${attributename}
+  ..print "un-initialized == $${$l{o_obj.Key_Lett}.${attributename}} $${a} ${s_dt.Name}"
+  ..if ( "un-initialized" == "$${$l{o_obj.Key_Lett}.${attributename}}" )
+${delimiter} 0\\
+  ..else
+${delimiter} ${dollarcurly}$l{o_obj.Key_Lett}.${attributename}}\\
+  ..end if
       .else
 ${delimiter} ${dollarcurly}$l{o_obj.Key_Lett}.${attributename}}\
       .end if
@@ -27,7 +34,9 @@ ${delimiter} ${dollarcurly}$l{o_obj.Key_Lett}.${attributename}}\
     .select one o_attr related by o_attr->O_ATTR[R103.'succeeds']
   .end while
  );
-${period}end for
+..end for
 .end for
-${period}emit to file "../../src/dump.sql"
-.emit to file "../../src/dump.arc"
+..emit to file "../../src/dumped_class_instances.sql"
+..exit 508
+.emit to file "../../src/q.class.instance.dump.arc"
+.exit 507
