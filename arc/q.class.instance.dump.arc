@@ -6967,7 +6967,7 @@ INSERT INTO TE_MACT VALUES (\
   .else
 , ${te_mact.ID}\
   .end if
-, '${te_mact.Name}', '${te_mact.Description}', '${te_mact.GeneratedName}', '${te_mact.ComponentName}', '${te_mact.DomainName}', '${te_mact.PortName}', '${te_mact.InterfaceName}', '${te_mact.MessageName}', ${te_mact.Direction}, ${te_mact.Provision}, '${te_mact.subtypeKL}', ${te_mact.polymorphic}, ${te_mact.Order}\
+, '${te_mact.Name}', '${te_mact.Description}', '${te_mact.GeneratedName}', '${te_mact.ComponentName}', '${te_mact.DomainName}', '${te_mact.PortName}', '${te_mact.InterfaceName}', '${te_mact.MessageName}', ${te_mact.Direction}, ${te_mact.Provision}, '${te_mact.subtypeKL}', ${te_mact.polymorphic}, ${te_mact.trace}, ${te_mact.Order}\
   .if ( "un-initialized" == "${te_mact.SPR_POId}" )
 , 0\
   .else

@@ -33,7 +33,6 @@
 .include "${arc_path}/m.domain.arc"
 .include "${arc_path}/m.event.arc"
 .include "${arc_path}/m.class.arc"
-.include "${arc_path}/m.registry.arc"
 .include "${arc_path}/m.system.arc"
 .include "${arc_path}/q.assoc.pseudoformalize.arc"
 .include "${arc_path}/q.class.arc"
@@ -67,14 +66,6 @@
 .include "${arc_path}/sys_util.arc"
 .include "${arc_path}/t.smt.c"
 .//
-.select any te_file from instances of TE_FILE
-.if ( empty te_file )
-.//
-.// Create the unmarked, standard singletons.
-.invoke factory_factory()
-.select any te_file from instances of TE_FILE
-.assign te_file.arc_path = arc_path
-.//
 .// Determine if this is a generic packages model.
 .assign generic_packages = false
 .select any ep_pkg from instances of EP_PKG
@@ -86,13 +77,19 @@
   .end if
 .end if
 .//
+.select any te_file from instances of TE_FILE
+.if ( empty te_file )
+.//
+.// Create the unmarked, standard singletons.
+.invoke factory_factory()
+.select any te_file from instances of TE_FILE
+.assign te_file.arc_path = arc_path
+.//
 .// marking
 .//
 .// Initialize the generator database with marking information.
 .// Note that the order of processing is important here.
 .//
-.// 1) Register the domains (coersing names).
-.include "${te_file.system_color_path}/${te_file.registry_mark}"
 .// 2) Mark interrupt handlers.
 .include "${te_file.system_color_path}/${te_file.bridge_mark}"
 .// 3) Initiate user data type marking.
@@ -140,7 +137,7 @@
 .// what you are doing.
 .//
 .invoke translate_all_oal()
-.//.include "${arc_path}/q.class.instance.dump.arc"
+.include "${arc_path}/q.class.instance.dump.arc"
 .end if
 .// 8) Include system level user defined archetype functions.
 .include "${te_file.system_color_path}/${te_file.system_functions_mark}"
