@@ -1873,8 +1873,6 @@
   .assign te_ee.Descrip = s_ee.Descrip
   .assign te_ee.Key_Lett = s_ee.Key_Lett
   .assign te_ee.RegisteredName = component_scope + "$r{te_ee.Key_Lett}"
-  .// Default to TypeCode of 10, realized external entity.
-  .assign te_ee.TypeCode = 10
   .assign te_ee.Included = false
   .assign te_ee.Used = false
   .assign te_ee.file = te_ee.RegisteredName + "_bridge"
@@ -1894,8 +1892,10 @@
   .select many s_brgs related by s_ee->S_BRG[R19]
   .for each s_brg in s_brgs
     .create object instance te_brg of TE_BRG
-    .// relate s_brg to te_brg across R2025;
+    .// relate te_brg to s_brg across R2025;
     .assign te_brg.Brg_ID = s_brg.Brg_ID
+    .// relate te_brg to te_ee across R2089;
+    .assign te_brg.EE_ID = te_ee.EE_ID
     .assign te_brg.EEkeyletters = s_ee.Key_Lett
     .assign te_brg.EEname = s_ee.Name
     .assign te_brg.Name = s_brg.Name

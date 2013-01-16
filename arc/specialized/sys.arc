@@ -39,6 +39,7 @@
 .include "${arc_path}/q.class.cdispatch.arc"
 .include "${arc_path}/q.class.events.arc"
 .include "${arc_path}/q.class.factory.arc"
+.include "${arc_path}/q.class.instance.dumper.arc"
 .include "${arc_path}/q.class.link.arc"
 .include "${arc_path}/q.class.pei.arc"
 .include "${arc_path}/q.class.persist.arc"
@@ -56,6 +57,7 @@
 .include "${arc_path}/q.mc3020.arc"
 .include "${arc_path}/q.names.arc"
 .include "${arc_path}/q.oal.act_blk.arc"
+.include "${arc_path}/q.oal.action.arc"
 .include "${arc_path}/q.oal.analyze.arc"
 .include "${arc_path}/q.oal.translate.arc"
 .include "${arc_path}/q.oal.test.arc"
@@ -114,8 +116,11 @@
 .invoke MC_metamodel_populate( generic_packages )
 .select any te_sys from instances of TE_SYS
 .//
-.// Uncomment the following line to create an instance dumper archetype.
-.//.include "${arc_path}/q.class.instance.dumper.arc"
+.// Uncomment the following lines to create an instance dumper archetype.
+.//.invoke i = TE_CLASS_instance_dumper()
+.//${i.body}
+.//.emit to file "../../src/q.class.instance.dump.arc"
+.//.exit 507
 .//
 .// 5) Perform domain level marking.
 .include "${te_file.domain_color_path}/${te_file.domain_mark}"
@@ -129,63 +134,15 @@
 .// analyze
 .include "${te_file.arc_path}/q.domain.analyze.arc"
 .invoke CreateSpecialWhereClauseInstances( te_sys )
-.//
-.invoke translate_all_oal()
-.select any empty_act_blk from instances of ACT_BLK where ( false )
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
-  .select many te_abas related by te_c->TE_ABA[R2088]
-  .for each te_aba in te_abas
-    .assign act_blk = empty_act_blk
-    .if ( "S_SYNC" == te_aba.subtypeKL )
-      .select one act_blk related by te_aba->TE_SYNC[R2010]->S_SYNC[R2023]->ACT_FNB[R695]->ACT_ACT[R698]->ACT_BLK[R666]
-    .elif ( "O_DBATTR" == te_aba.subtypeKL )
-      .select one te_dbattr related by te_aba->TE_DBATTR[R2010]
-      .select one o_dbattr related by te_dbattr->O_DBATTR[R2026]
-      .select one te_attr related by o_dbattr->O_BATTR[R107]->O_ATTR[R106]->TE_ATTR[R2033]
-      .if ( ( te_attr.Used ) or ( te_c.OptDisabled ) )
-        .if ( 1 = o_dbattr.Suc_Pars )
-          .select one act_blk related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666]
-        .end if
-      .end if
-    .elif ( "O_TFR" == te_aba.subtypeKL )
-      .select one o_tfr related by te_aba->TE_TFR[R2010]->O_TFR[R2024]
-      .if ( 1 == o_tfr.Suc_Pars )
-        .select one act_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666]
-      .end if
-    .elif ( "SM_ACT" == te_aba.subtypeKL )
-      .select one sm_act related by te_aba->TE_ACT[R2010]->SM_ACT[R2022]
-      .select one act_blk related by sm_act->ACT_SAB[R691]->ACT_ACT[R698]->ACT_BLK[R666]
-      .if ( empty act_blk )
-        .// Get the transition action.
-        .select one act_blk related by sm_act->ACT_TAB[R688]->ACT_ACT[R698]->ACT_BLK[R666]
-      .end if
-    .elif ( "TE_MACT" == te_aba.subtypeKL )
-      .select one te_mact related by te_aba->TE_MACT[R2010]
-      .if ( "SPR_PO" == te_mact.subtypeKL )
-        .select one act_blk related by te_aba->TE_MACT[R2010]->SPR_PO[R2050]->ACT_POB[R687]->ACT_ACT[R698]->ACT_BLK[R666]
-      .elif ( "SPR_RO" == te_mact.subtypeKL )
-        .select one act_blk related by te_aba->TE_MACT[R2010]->SPR_RO[R2052]->ACT_ROB[R685]->ACT_ACT[R698]->ACT_BLK[R666]
-      .elif ( "SPR_PS" == te_mact.subtypeKL )
-        .select one act_blk related by te_aba->TE_MACT[R2010]->SPR_PS[R2051]->ACT_PSB[R686]->ACT_ACT[R698]->ACT_BLK[R666]
-      .elif ( "SPR_RS" == te_mact.subtypeKL )
-        .select one act_blk related by te_aba->TE_MACT[R2010]->SPR_RS[R2053]->ACT_RSB[R684]->ACT_ACT[R698]->ACT_BLK[R666]
-      .end if
-    .elif ( "S_BRG" == te_aba.subtypeKL )
-      .select one act_blk related by te_aba->TE_BRG[R2010]->S_BRG[R2025]->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666]
-    .else
-      .print "ERROR:  TE_ABA.subtypeKL (${te_aba.subtypeKL}) out of range."
-      .exit 101
-    .end if
-    .if ( not_empty act_blk )
-      .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-      .assign te_aba.code = axret.body
-    .else
-      .assign te_aba.code = "\n  /* WARNING!  Skipping unsuccessful or unparsed action.  */\n"
-    .end if
-  .end for
+  .// Propagate domain information to the system level.
+  .invoke te_c_CollectLimits( te_c )
 .end for
-.//.include "${arc_path}/q.class.instance.dump.arc"
+.//
+.invoke translate_all_oal()
+.//
+.include "${arc_path}/q.class.instance.dump.arc"
 .end if
 .// 8) Include system level user defined archetype functions.
 .include "${te_file.system_color_path}/${te_file.system_functions_mark}"
@@ -217,18 +174,14 @@
 .//
 .select many te_ees from instances of TE_EE where ( ( ( selected.RegisteredName != "TIM" ) and ( selected.te_cID == 0 ) ) and ( selected.Included ) )
 .if ( not_empty te_ees )
-  .select any te_c from instances of te_c where ( false )
+  .select any te_c from instances of TE_C where ( false )
   .include "${te_file.arc_path}/q.domain.bridges.arc"
 .end if
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
-  .assign te_c.current_component = true
-  .// Propagate domain information to the system level.
-  .invoke te_c_CollectLimits( te_c )
   .select many te_ees related by te_c->TE_EE[R2085] where ( ( selected.RegisteredName != "TIM" ) and ( selected.Included ) )
   .include "${te_file.arc_path}/q.domain.bridges.arc"
   .include "${te_file.arc_path}/q.classes.arc"
-  .assign te_c.current_component = false
 .end for
 .//
 .select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
