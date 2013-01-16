@@ -49,7 +49,7 @@ ${te_act.GeneratedName}( ${te_class.GeneratedName} * ${te_instance.self}, const 
   ${te_c.Name} * thismodule = (${te_c.Name} *) event->thismodule;
       .end if
 ${received_event_declaration}\
-${action_body}\
+${te_aba.code}\
     .else
       .print "\n  WARNING!  Skipping unsuccessful or unparsed action for class ${te_class.Name} (${te_class.Key_Lett}) state ${te_state.Name}"
   /* WARNING!  Skipping unsuccessful or unparsed action for class ${te_class.Name} (${te_class.Key_Lett}) state ${te_state.Name}" */

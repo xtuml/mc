@@ -293,14 +293,8 @@ class ${te_c.Name}; // forward reference
         .if ( gen_declaration )
           .include "${te_file.arc_path}/t.class.attribute.mda.h"
         .else
-          .assign dba = ""
-          .if ( dbattr.Suc_Pars == 1 )
-            .select one act_blk related by dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666]
-            .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-            .assign dba = axret.body
-          .else
-            .assign dba = "\n  /* WARNING!  Skipping unsuccessful or unparsed action for attribute ${te_class.Name}.${te_attr.Name} */"
-            .print "${dba}"
+          .if ( dbattr.Suc_Pars != 1 )
+            .assign te_aba.code = "\n  /* WARNING!  Skipping unsuccessful or unparsed action for attribute ${te_class.Name}.${te_attr.Name} */"
           .end if
           .include "${te_file.arc_path}/t.class.attribute.mda.c"
         .end if
@@ -455,13 +449,8 @@ ${file_epilogue.body}
     .if ( gen_declaration )
       .include "${te_file.arc_path}/t.class.op.h"
     .else
-      .assign op_body = ""
-      .if ( o_tfr.Suc_Pars == 1 )
-        .select one act_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666]
-        .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-        .assign op_body = axret.body
-      .else
-        .print "\n\tWARNING!  Skipping unsuccessful or unparsed operation ${te_tfr.Name}"
+      .if ( o_tfr.Suc_Pars != 1 )
+        .assign te_aba.code = "\n\tWARNING!  Skipping unsuccessful or unparsed operation ${te_tfr.Name}"
       .end if
       .include "${te_file.arc_path}/t.class.op.c"
     .end if

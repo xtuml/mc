@@ -23,16 +23,12 @@
 .print "Analyzing model and making optimizations...."
 .// Identify state models having at least one state, event and transition.
 .invoke SM_SM_mark_valid()
-.// Identify data types that are used.
-.invoke datatype_used()
 .// Count up how many times each event is created/generated.
 .invoke event_smt_used()
 .// Find classes that are created in some way and identify invalid creates.
 .invoke class_smt_created()
 .// Detect invalid deletions.
 .invoke class_smt_deleted()
-.// Identify activity bodies that use break, continue and/or return.
-.invoke act_break_continue_return()
 .// Track down optimizable where clauses.
 .invoke selection_whereclause_identify_special()
 .// Identify the associations that need link and/or unlink methods.

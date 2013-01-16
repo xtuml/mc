@@ -1923,13 +1923,12 @@
   .create object instance te_aba of TE_ABA
   .assign te_aba.SelfEventCount = 0
   .assign te_aba.NonSelfEventCount = 0
-  .assign te_aba.SelectManyCount = 0
-  .assign te_aba.SelectAnyWhereCount = 0
-  .assign te_aba.TimerStartCount = 0
-  .assign te_aba.BreakStmtUsed = false
-  .assign te_aba.ContinueStmtUsed = false
-  .assign te_aba.ReturnStmtUsed = false
   .assign te_aba.subtypeKL = subtypeKL
+  .assign te_aba.te_cID = 0
+  .if ( not_empty te_c )
+    .// relate te_aba to te_c across R2088;
+    .assign te_aba.te_cID = te_c.ID
+  .end if
   .assign attr_te_aba = te_aba
   .select many actual_te_parms related by te_aba->TE_PARM[R2062] where ( false )
   .for each te_parm in te_parms

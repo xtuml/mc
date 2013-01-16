@@ -6606,13 +6606,19 @@ INSERT INTO TE_ABA VALUES (\
   .else
  ${te_aba.AbaID}\
   .end if
-, '${te_aba.subtypeKL}', ${te_aba.SelfEventCount}, ${te_aba.NonSelfEventCount}, ${te_aba.SelectManyCount}, ${te_aba.SelectAnyWhereCount}, ${te_aba.TimerStartCount}, ${te_aba.ReturnStmtUsed}, ${te_aba.BreakStmtUsed}, ${te_aba.ContinueStmtUsed}, '${te_aba.ParameterDeclaration}', '${te_aba.ParameterDefinition}', '${te_aba.ParameterStructure}', '${te_aba.ParameterTrace}', '${te_aba.ParameterFormat}', '${te_aba.ParameterInvocation}', '${te_aba.ParameterAssignment}', '${te_aba.ParameterAssignmentBase}', '${te_aba.scope}', '${te_aba.GeneratedName}', '${te_aba.ReturnDataType}', ${te_aba.dimensions}\
+, '${te_aba.subtypeKL}', ${te_aba.SelfEventCount}, ${te_aba.NonSelfEventCount}, '${te_aba.ParameterDeclaration}', '${te_aba.ParameterDefinition}', '${te_aba.ParameterStructure}', '${te_aba.ParameterTrace}', '${te_aba.ParameterFormat}', '${te_aba.ParameterInvocation}', '${te_aba.ParameterAssignment}', '${te_aba.ParameterAssignmentBase}', '${te_aba.scope}', '${te_aba.GeneratedName}', '${te_aba.ReturnDataType}', ${te_aba.dimensions}\
   .if ( "un-initialized" == "${te_aba.te_dimID}" )
 , 0\
   .else
 , ${te_aba.te_dimID}\
   .end if
-, '${te_aba.array_spec}' );
+, '${te_aba.array_spec}'\
+  .if ( "un-initialized" == "${te_aba.te_cID}" )
+, 0\
+  .else
+, ${te_aba.te_cID}\
+  .end if
+ );
 .end for
 .print "Component Instance (TE_CI)"
 .select many te_cis from instances of TE_CI
@@ -6731,7 +6737,7 @@ INSERT INTO TE_BRG VALUES ( '${te_brg.EEname}', '${te_brg.EEkeyletters}', '${te_
 .print "Extended Class (TE_CLASS)"
 .select many te_classs from instances of TE_CLASS
 .for each te_class in te_classs
-INSERT INTO TE_CLASS VALUES ( '${te_class.Name}', ${te_class.Numb}, '${te_class.Key_Lett}', '${te_class.GeneratedName}', '${te_class.CBGeneratedName}', ${te_class.Included}, ${te_class.PEIsDefinedInData}, ${te_class.IsFixedPopulation}, ${te_class.IsReadOnly}, ${te_class.ExcludeFromGen}, ${te_class.MaxExtentSize}, ${te_class.SelfCreated}, ${te_class.NonSelfCreated}, ${te_class.ExtendedSetOps}, ${te_class.Persistent}, ${te_class.Order}, ${te_class.IsTrace}, ${te_class.ContainerIndex}, ${te_class.Task}, '${te_class.class_file}', '${te_class.system_class_number}', '${te_class.CBsystem_class_number}', '${te_class.persist_link}', '${te_class.dispatcher}', '${te_class.CBdispatcher}', '${te_class.attribute_format}', '${te_class.attribute_dump}'\
+INSERT INTO TE_CLASS VALUES ( '${te_class.Name}', ${te_class.Numb}, '${te_class.Key_Lett}', '${te_class.GeneratedName}', '${te_class.CBGeneratedName}', ${te_class.Included}, ${te_class.PEIsDefinedInData}, ${te_class.IsFixedPopulation}, ${te_class.IsReadOnly}, ${te_class.ExcludeFromGen}, ${te_class.MaxExtentSize}, ${te_class.SelfCreated}, ${te_class.NonSelfCreated}, ${te_class.Persistent}, ${te_class.Order}, ${te_class.IsTrace}, ${te_class.ContainerIndex}, ${te_class.Task}, '${te_class.class_file}', '${te_class.system_class_number}', '${te_class.CBsystem_class_number}', '${te_class.persist_link}', '${te_class.dispatcher}', '${te_class.CBdispatcher}', '${te_class.attribute_format}', '${te_class.attribute_dump}'\
   .if ( "un-initialized" == "${te_class.te_cID}" )
 , 0\
   .else

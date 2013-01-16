@@ -31,7 +31,7 @@ ${te_aba.scope}${te_aba.GeneratedName}(\
 ${te_aba.ParameterDefinition})
 {
   .if ( o_tfr.Suc_Pars == 1 )
-${op_body}
+${te_aba.code}
   .else
   /* WARNING!  Skipping unsuccessful or unparsed operation ${te_c.Name}::${te_class.Name}::${te_tfr.Name} */
     .print "WARNING:  unsuccessful or unparsed operation ${te_c.Name}::${te_class.Name}::${te_tfr.Name}"

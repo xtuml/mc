@@ -115,11 +115,7 @@ ${te_sync.deferred_method}( void )
     .select one te_aba related by te_sync->TE_ABA[R2010]
     .assign function_body = ""
     .if ( s_sync.Suc_Pars == 1 )
-      .// Translate the action for this domain function and output
-      .// to the body of the implementing C routine.
-      .select one act_blk related by s_sync->ACT_FNB[R695]->ACT_ACT[R698]->ACT_BLK[R666]
-      .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-      .assign function_body = axret.body
+      .assign function_body = te_aba.code
     .end if
     .include "${te_file.arc_path}/t.domain.function.c"
   .end for

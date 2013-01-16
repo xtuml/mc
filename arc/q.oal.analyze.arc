@@ -126,27 +126,6 @@
 .end function
 .//
 .//
-.// Mark data types that are used.
-.//
-.function datatype_used
-  .select many v_vals from instances of V_VAL
-  .select many te_dts related by v_vals->S_DT[R820]->TE_DT[R2021]
-  .for each te_dt in te_dts
-    .assign te_dt.Included = true
-  .end for
-  .select many s_brgs from instances of S_BRG
-  .select many te_dts related by s_brgs->S_DT[R20]->TE_DT[R2021]
-  .for each te_dt in te_dts
-    .assign te_dt.Included = true
-  .end for
-  .select many s_syncs from instances of S_SYNC
-  .select many te_dts related by s_syncs->S_DT[R25]->TE_DT[R2021]
-  .for each te_dt in te_dts
-    .assign te_dt.Included = true
-  .end for
-.end function
-.//
-.//
 .// Find and mark/count events that are used in action language.
 .// Even though we store the information in a count, this query
 .// only counts each event once.
@@ -220,97 +199,6 @@
       .print "ERROR:  Attempt to create/delete object ${o_obj.Name} (${o_obj.Key_Lett}) within static instance population."
     .end if
   .end for
-.end function
-.//
-.//
-.// Mark all activities that contain break, continue and/or return
-.// statements.
-.//
-.function act_break_continue_return
-  .select many sm_states from instances of SM_STATE
-  .select many sm_acts related by sm_states->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514]
-  .for each sm_act in sm_acts
-    .select one act_act related by sm_act->ACT_SAB[R691]->ACT_ACT[R698]
-    .select one te_aba related by sm_act->TE_ACT[R2022]->TE_ABA[R2010]
-    .invoke smt_break_continue_return( act_act, te_aba )
-  .end for
-  .select many o_dbattrs from instances of O_DBATTR
-  .for each o_dbattr in o_dbattrs
-    .select one act_act related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698]
-    .select one te_aba related by o_dbattr->TE_DBATTR[R2026]->TE_ABA[R2010]
-    .invoke smt_break_continue_return( act_act, te_aba )
-  .end for
-  .select many s_syncs from instances of S_SYNC
-  .for each s_sync in s_syncs
-    .select one act_act related by s_sync->ACT_FNB[R695]->ACT_ACT[R698]
-    .select one te_aba related by s_sync->TE_SYNC[R2023]->TE_ABA[R2010]
-    .invoke smt_break_continue_return( act_act, te_aba )
-  .end for
-  .select many o_tfrs from instances of O_TFR
-  .for each o_tfr in o_tfrs
-    .select one act_act related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]
-    .select one te_aba related by o_tfr->TE_TFR[R2024]->TE_ABA[R2010]
-    .invoke smt_break_continue_return( act_act, te_aba )
-  .end for
-  .select many s_brgs from instances of S_BRG
-  .for each s_brg in s_brgs
-    .select one act_act related by s_brg->ACT_BRB[R697]->ACT_ACT[R698]
-    .select one te_aba related by s_brg->TE_BRG[R2025]->TE_ABA[R2010]
-    .invoke smt_break_continue_return( act_act, te_aba )
-  .end for
-.end function
-.//
-.//
-.// Mark all activities that contain break, continue and/or return
-.// statements.
-.//
-.function smt_break_continue_return
-  .param inst_ref act_act
-  .param inst_ref te_aba
-  .if ( not_empty te_aba )
-    .invoke used = smt_break_used( act_act )
-    .assign te_aba.BreakStmtUsed = used.used
-    .invoke used = smt_continue_used( act_act )
-    .assign te_aba.ContinueStmtUsed = used.used
-    .invoke used = smt_return_used( act_act )
-    .assign te_aba.ReturnStmtUsed = used.used
-  .end if
-.end function
-.//
-.//
-.// Mark activies with break statements.
-.//
-.function smt_break_used
-  .param inst_ref act_act
-  .assign attr_used = false
-  .select any smt related by act_act->ACT_BLK[R601]->ACT_SMT[R602]->ACT_BRK[R603]
-  .if ( not_empty smt )
-    .assign attr_used = true
-  .end if
-.end function
-.//
-.//
-.// Mark activies with continue statements.
-.//
-.function smt_continue_used
-  .param inst_ref act_act
-  .assign attr_used = false
-  .select any smt related by act_act->ACT_BLK[R601]->ACT_SMT[R602]->ACT_CON[R603]
-  .if ( not_empty smt )
-    .assign attr_used = true
-  .end if
-.end function
-.//
-.//
-.// Mark activies with return statements.
-.//
-.function smt_return_used
-  .param inst_ref act_act
-  .assign attr_used = false
-  .select any smt related by act_act->ACT_BLK[R601]->ACT_SMT[R602]->ACT_RET[R603]
-  .if ( not_empty smt )
-    .assign attr_used = true
-  .end if
 .end function
 .//
 .//

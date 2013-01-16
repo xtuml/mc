@@ -23,6 +23,6 @@ ${dbattr.Action_Semantics}
 ${te_aba.ReturnDataType}
 ${te_aba.GeneratedName}( ${te_class.GeneratedName} * ${te_instance.self} )
 {
-${dba}
+${te_aba.code}
   return ${te_instance.self}->${te_attr.GeneratedName};
 }
