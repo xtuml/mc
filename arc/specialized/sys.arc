@@ -143,9 +143,9 @@
 .//
 .invoke translate_all_oal()
 .//
-.print "dumping instances ${info.date}"
-.include "${arc_path}/q.class.instance.dump.arc"
-.print "done dumping instances ${info.date}"
+.//.print "dumping instances ${info.date}"
+.//.include "${arc_path}/q.class.instance.dump.arc"
+.//.print "done dumping instances ${info.date}"
 .end if
 .// 8) Include system level user defined archetype functions.
 .include "${te_file.system_color_path}/${te_file.system_functions_mark}"

@@ -59,3 +59,71 @@ verify that all the requirements are satisfied.
 End
 ---
 
+
+
+
+Remove domain_CLASS_INFO_INIT macro and simply put the data in the C file.
+  batch_relater_init
+  instance_loaders
+  dispatchers
+
+Each class is going to need an instance dumper.
+  Maybe it should link into class_info.
+  Each data types will have a dumper.
+  Each attribute will call the associated data type dumper.
+
+Edit docgen to explore.
+Functionize (OAL) beginning of 3020.
+Test in RSL-only first.
+Rid more transients.
+
+Consider using passing in the instance that will contain the output values.
+This would map very closely OAL to RSL.
+
+
+sys.arc (easy) [TE_SYS]
+  Package as function.
+
+marking (hard) [TM_?]
+  Somehow support marking, probably using the same marking files,
+  but maybe not.
+
+factory_factory (easy but option to improve) [TE_SYS + lots of singletons]
+  This has a ton of subroutines that will easily turn
+  into operations on the various classes.  However, this 
+  really should be some kind of loadable text file.
+
+q.assoc.pseudoformalize.arc (easy) [TE_REL]
+  This has PseudoFormalizeUnformalizedAssociations.
+
+MC_metamodel_populate (big) [TE_SYS]
+  Should this be made hierarchical with operations delegated down?
+  Yes, we should at least break it out as it is now.
+  All of the functions invoked from this query are fairly OALish.
+
+q.domain.analyze.arc (easy) [TE_C?]
+  Turn this into an operation that calls other operations.
+
+a.oal.analyze.arc (medium) [TE_ABA or TE_SMT]
+  This contains the various operations called by q.domain.analyze.arc.
+  These should be placed onto the appropriate TE_ classes.
+
+CreateSpecialWhereClauseInstances (easy) [TE_SWC]
+  Called from sys.arc, defined in q.oal.analyze.arc.
+
+te_c_CollectLimits (easy) [TE_C]
+  simple roll-up
+  
+translate_all_oal (easy) [TE_ABA]
+
+q.oal.translate.arc (easy) [TE_ABA] 4
+
+q.smt.generate.arc (easy except for select_related) [TE_SMT] 69
+  Select related is huge.
+
+t.smt.c (difficult) [TE_SMT] 29
+  Consider making these into "real" templates.
+
+q.val.translate.arc (easy but long) [TE_VAL] 34
+
+

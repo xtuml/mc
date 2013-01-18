@@ -87,10 +87,10 @@
   .select many v_lsts from instances of V_LST
   .for each v_lst in v_lsts
     .select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040]
-    .//.assign te_val.OAL = ( "'" + v_lst.Value ) + "'"
+    .assign te_val.OAL = ( "'" + v_lst.Value ) + "'"
     .//.assign te_val.OAL = ( "''" + v_lst.Value ) + "''"
     .//.assign te_val.OAL = ( "&quot;" + v_lst.Value ) + "&quot;"
-    .assign te_val.OAL = ( "" + v_lst.Value ) + ""
+    .//.assign te_val.OAL = ( "" + v_lst.Value ) + ""
     .assign te_val.buffer = ( """" + v_lst.Value ) + """"
     .assign te_val.dimensions = 1
     .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
