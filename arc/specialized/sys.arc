@@ -13,6 +13,7 @@
 .//============================================================================
 .//
 .//
+.print "starting ${info.date}"
 .invoke arc_env = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
 .assign arc_path = arc_env.result
 .if ( "" == arc_path )
@@ -142,7 +143,9 @@
 .//
 .invoke translate_all_oal()
 .//
+.print "dumping instances ${info.date}"
 .include "${arc_path}/q.class.instance.dump.arc"
+.print "done dumping instances ${info.date}"
 .end if
 .// 8) Include system level user defined archetype functions.
 .include "${te_file.system_color_path}/${te_file.system_functions_mark}"
@@ -402,4 +405,5 @@
 .include "${te_file.arc_path}/t.sys_xtumlload.c"
 .emit to file "${te_file.system_source_path}/${te_file.xtumlload}.${te_file.src_file_ext}"
 .end if
+.print "ending ${info.date}"
 .//

@@ -8,7 +8,8 @@ INSERT INTO A_AEA VALUES (\
   .else
  ${a_aea.Id}\
   .end if
-, '${a_aea.Name}', '${a_aea.Descrip}' );
+, '${a_aea.Name}', ''\
+ );
 .end for
 .select many a_aes from instances of A_AE
 .for each a_ae in a_aes
@@ -28,7 +29,8 @@ INSERT INTO A_ATE VALUES (\
   .else
  ${a_ate.Id}\
   .end if
-, '${a_ate.Name}', '${a_ate.Descrip}' );
+, '${a_ate.Name}', ''\
+ );
 .end for
 .select many a_acts from instances of A_ACT
 .for each a_act in a_acts
@@ -48,7 +50,8 @@ INSERT INTO A_GA VALUES (\
   .else
  ${a_ga.Id}\
   .end if
-, '${a_ga.Name}', '${a_ga.Descrip}' );
+, '${a_ga.Name}', ''\
+ );
 .end for
 .select many a_es from instances of A_E
 .for each a_e in a_es
@@ -64,7 +67,8 @@ INSERT INTO A_E VALUES (\
   .else
 , ${a_e.Package_ID}\
   .end if
-, '${a_e.Guard}', '${a_e.Descrip}'\
+, '${a_e.Guard}', ''\
+\
   .if ( "un-initialized" == "${a_e.TargetId}" )
 , 0\
   .else
@@ -86,7 +90,8 @@ INSERT INTO A_AF VALUES (\
   .else
  ${a_af.Id}\
   .end if
-, '${a_af.Descrip}' );
+, ''\
+ );
 .end for
 .select many a_aias from instances of A_AIA
 .for each a_aia in a_aias
@@ -128,7 +133,8 @@ INSERT INTO A_AP VALUES (\
   .else
 , ${a_ap.Package_ID}\
   .end if
-, '${a_ap.Name}', '${a_ap.Descrip}' );
+, '${a_ap.Name}', ''\
+ );
 .end for
 .select many a_as from instances of A_A
 .for each a_a in a_as
@@ -138,7 +144,8 @@ INSERT INTO A_A VALUES (\
   .else
  ${a_a.Package_ID}\
   .end if
-, '${a_a.Name}', '${a_a.Descrip}'\
+, '${a_a.Name}', ''\
+\
   .if ( "un-initialized" == "${a_a.Dom_ID}" )
 , 0\
   .else
@@ -194,7 +201,8 @@ INSERT INTO A_DM VALUES (\
   .else
  ${a_dm.Id}\
   .end if
-, '${a_dm.Name}', '${a_dm.Descrip}' );
+, '${a_dm.Name}', ''\
+ );
 .end for
 .select many a_ffs from instances of A_FF
 .for each a_ff in a_ffs
@@ -204,7 +212,8 @@ INSERT INTO A_FF VALUES (\
   .else
  ${a_ff.Id}\
   .end if
-, '${a_ff.Descrip}' );
+, ''\
+ );
 .end for
 .select many a_fjs from instances of A_FJ
 .for each a_fj in a_fjs
@@ -214,7 +223,8 @@ INSERT INTO A_FJ VALUES (\
   .else
  ${a_fj.Id}\
   .end if
-, '${a_fj.Descrip}', '${a_fj.GuardCondition}' );
+, ''\
+, '${a_fj.GuardCondition}' );
 .end for
 .select many a_inis from instances of A_INI
 .for each a_ini in a_inis
@@ -224,7 +234,8 @@ INSERT INTO A_INI VALUES (\
   .else
  ${a_ini.Id}\
   .end if
-, '${a_ini.Descrip}' );
+, ''\
+ );
 .end for
 .select many a_objs from instances of A_OBJ
 .for each a_obj in a_objs
@@ -234,7 +245,8 @@ INSERT INTO A_OBJ VALUES (\
   .else
  ${a_obj.Id}\
   .end if
-, '${a_obj.Name}', '${a_obj.Descrip}' );
+, '${a_obj.Name}', ''\
+ );
 .end for
 .select many a_sss from instances of A_SS
 .for each a_ss in a_sss
@@ -244,7 +256,8 @@ INSERT INTO A_SS VALUES (\
   .else
  ${a_ss.Id}\
   .end if
-, '${a_ss.Name}', '${a_ss.Descrip}' );
+, '${a_ss.Name}', ''\
+ );
 .end for
 .print "Association"
 .select many r_rels from instances of R_REL
@@ -255,7 +268,8 @@ INSERT INTO R_REL VALUES (\
   .else
  ${r_rel.Rel_ID}\
   .end if
-, ${r_rel.Numb}, '${r_rel.Descrip}'\
+, ${r_rel.Numb}, ''\
+\
   .if ( "un-initialized" == "${r_rel.SS_ID}" )
 , 0\
   .else
@@ -940,7 +954,8 @@ INSERT INTO COMM_LNK VALUES (\
   .else
 , ${comm_lnk.Rel_ID}\
   .end if
-, '${comm_lnk.Numb}', '${comm_lnk.Descrip}', '${comm_lnk.StartText}', '${comm_lnk.EndText}', ${comm_lnk.isFormal}, ${comm_lnk.StartVisibility}, ${comm_lnk.EndVisibility}\
+, '${comm_lnk.Numb}', ''\
+, '${comm_lnk.StartText}', '${comm_lnk.EndText}', ${comm_lnk.isFormal}, ${comm_lnk.StartVisibility}, ${comm_lnk.EndVisibility}\
   .if ( "un-initialized" == "${comm_lnk.Start_Part_ID}" )
 , 0\
   .else
@@ -990,7 +1005,8 @@ INSERT INTO COMM_COMM VALUES (\
   .else
 , ${comm_comm.CIC_Package_ID}\
   .end if
-, '${comm_comm.Name}', '${comm_comm.Descrip}'\
+, '${comm_comm.Name}', ''\
+\
   .if ( "un-initialized" == "${comm_comm.Sys_ID}" )
 , 0\
   .else
@@ -1063,7 +1079,8 @@ INSERT INTO C_C VALUES (\
   .else
 , ${c_c.NestedComponent_Id}\
   .end if
-, '${c_c.Name}', '${c_c.Descrip}', ${c_c.Mult}\
+, '${c_c.Name}', ''\
+, ${c_c.Mult}\
   .if ( "un-initialized" == "${c_c.Root_Package_ID}" )
 , 0\
   .else
@@ -1095,7 +1112,8 @@ INSERT INTO C_EP VALUES (\
   .else
 , ${c_ep.Interface_Id}\
   .end if
-, ${c_ep.Direction}, '${c_ep.Name}', '${c_ep.Descrip}' );
+, ${c_ep.Direction}, '${c_ep.Name}', ''\
+ );
 .end for
 .select many c_ios from instances of C_IO
 .for each c_io in c_ios
@@ -1111,7 +1129,8 @@ INSERT INTO C_IO VALUES (\
   .else
 , ${c_io.DT_ID}\
   .end if
-, '${c_io.Name}', '${c_io.Descrip}', ${c_io.Direction}, '${c_io.Return_Dimensions}'\
+, '${c_io.Name}', ''\
+, ${c_io.Direction}, '${c_io.Return_Dimensions}'\
   .if ( "un-initialized" == "${c_io.Previous_Id}" )
 , 0\
   .else
@@ -1171,7 +1190,8 @@ INSERT INTO C_AS VALUES (\
   .else
  ${c_as.Id}\
   .end if
-, '${c_as.Name}', '${c_as.Descrip}', ${c_as.Direction}\
+, '${c_as.Name}', ''\
+, ${c_as.Direction}\
   .if ( "un-initialized" == "${c_as.Previous_Id}" )
 , 0\
   .else
@@ -1193,7 +1213,8 @@ INSERT INTO C_I VALUES (\
   .else
 , ${c_i.Package_ID}\
   .end if
-, '${c_i.Name}', '${c_i.Descrip}' );
+, '${c_i.Name}', ''\
+ );
 .end for
 .select many c_pos from instances of C_PO
 .for each c_po in c_pos
@@ -1231,7 +1252,8 @@ INSERT INTO C_PP VALUES (\
   .else
 , ${c_pp.DT_ID}\
   .end if
-, '${c_pp.Name}', '${c_pp.Descrip}', ${c_pp.By_Ref}, '${c_pp.Dimensions}'\
+, '${c_pp.Name}', ''\
+, ${c_pp.By_Ref}, '${c_pp.Dimensions}'\
   .if ( "un-initialized" == "${c_pp.Previous_PP_Id}" )
 , 0\
   .else
@@ -1247,7 +1269,8 @@ INSERT INTO C_P VALUES (\
   .else
  ${c_p.Provision_Id}\
   .end if
-, '${c_p.Name}', '${c_p.InformalName}', '${c_p.Descrip}', '${c_p.pathFromComponent}' );
+, '${c_p.Name}', '${c_p.InformalName}', ''\
+, '${c_p.pathFromComponent}' );
 .end for
 .select many c_rs from instances of C_R
 .for each c_r in c_rs
@@ -1257,7 +1280,8 @@ INSERT INTO C_R VALUES (\
   .else
  ${c_r.Requirement_Id}\
   .end if
-, '${c_r.Name}', '${c_r.Descrip}', '${c_r.InformalName}', '${c_r.reversePathFromComponent}' );
+, '${c_r.Name}', ''\
+, '${c_r.InformalName}', '${c_r.reversePathFromComponent}' );
 .end for
 .select many c_sfs from instances of C_SF
 .for each c_sf in c_sfs
@@ -1279,7 +1303,8 @@ INSERT INTO C_SF VALUES (\
   .else
 , ${c_sf.Provision_Id}\
   .end if
-, '${c_sf.Descrip}', '${c_sf.Label}' );
+, ''\
+, '${c_sf.Label}' );
 .end for
 .print "Component Library"
 .select many cl_ics from instances of CL_IC
@@ -1308,7 +1333,8 @@ INSERT INTO CL_IC VALUES (\
   .else
 , ${cl_ic.Component_Package_ID}\
   .end if
-, ${cl_ic.Mult}, '${cl_ic.ClassifierName}', '${cl_ic.Name}', '${cl_ic.Descrip}' );
+, ${cl_ic.Mult}, '${cl_ic.ClassifierName}', '${cl_ic.Name}', ''\
+ );
 .end for
 .select many cl_ipinss from instances of CL_IPINS
 .for each cl_ipins in cl_ipinss
@@ -1334,7 +1360,8 @@ INSERT INTO CL_IP VALUES (\
   .else
  ${cl_ip.Id}\
   .end if
-, '${cl_ip.Name}', '${cl_ip.Descrip}' );
+, '${cl_ip.Name}', ''\
+ );
 .end for
 .select many cl_iirs from instances of CL_IIR
 .for each cl_iir in cl_iirs
@@ -1362,7 +1389,8 @@ INSERT INTO CL_IIR VALUES (\
   .else
 , ${cl_iir.Delegation_Id}\
   .end if
-, '${cl_iir.Name}', '${cl_iir.Descrip}' );
+, '${cl_iir.Name}', ''\
+ );
 .end for
 .select many cl_irs from instances of CL_IR
 .for each cl_ir in cl_irs
@@ -1378,7 +1406,8 @@ INSERT INTO CL_IR VALUES (\
   .else
 , ${cl_ir.Satisfaction_Element_Id}\
   .end if
-, '${cl_ir.Name}', '${cl_ir.Descrip}' );
+, '${cl_ir.Name}', ''\
+ );
 .end for
 .print "Component Nesting"
 .select many cn_cics from instances of CN_CIC
@@ -1456,7 +1485,8 @@ INSERT INTO CP_CP VALUES (\
   .else
 , ${cp_cp.Containing_Sys_ID}\
   .end if
-, '${cp_cp.Name}', '${cp_cp.Descrip}' );
+, '${cp_cp.Name}', ''\
+ );
 .end for
 .print "Signal Provisions and Requirements"
 .select many spr_peps from instances of SPR_PEP
@@ -1489,7 +1519,8 @@ INSERT INTO SPR_PO VALUES (\
   .else
  ${spr_po.Id}\
   .end if
-, '${spr_po.Name}', '${spr_po.Descrip}', ''\
+, '${spr_po.Name}', ''\
+, ''\
 , ${spr_po.Suc_Pars} );
 .end for
 .select many spr_pss from instances of SPR_PS
@@ -1500,7 +1531,8 @@ INSERT INTO SPR_PS VALUES (\
   .else
  ${spr_ps.Id}\
   .end if
-, '${spr_ps.Name}', '${spr_ps.Descrip}', ''\
+, '${spr_ps.Name}', ''\
+, ''\
 , ${spr_ps.Suc_Pars} );
 .end for
 .select many spr_reps from instances of SPR_REP
@@ -1533,7 +1565,8 @@ INSERT INTO SPR_RO VALUES (\
   .else
  ${spr_ro.Id}\
   .end if
-, '${spr_ro.Name}', '${spr_ro.Descrip}', ''\
+, '${spr_ro.Name}', ''\
+, ''\
 , ${spr_ro.Suc_Pars} );
 .end for
 .select many spr_rss from instances of SPR_RS
@@ -1544,7 +1577,8 @@ INSERT INTO SPR_RS VALUES (\
   .else
  ${spr_rs.Id}\
   .end if
-, '${spr_rs.Name}', '${spr_rs.Descrip}', ''\
+, '${spr_rs.Name}', ''\
+, ''\
 , ${spr_rs.Suc_Pars} );
 .end for
 .print "Constants"
@@ -1556,7 +1590,8 @@ INSERT INTO CNST_CSP VALUES (\
   .else
  ${cnst_csp.Constant_Spec_ID}\
   .end if
-, '${cnst_csp.InformalGroupName}', '${cnst_csp.Descrip}' );
+, '${cnst_csp.InformalGroupName}', ''\
+ );
 .end for
 .select many cnst_cips from instances of CNST_CIP
 .for each cnst_cip in cnst_cips
@@ -1614,7 +1649,8 @@ INSERT INTO CNST_SYC VALUES (\
   .else
  ${cnst_syc.Const_ID}\
   .end if
-, '${cnst_syc.Name}', '${cnst_syc.Descrip}'\
+, '${cnst_syc.Name}', ''\
+\
   .if ( "un-initialized" == "${cnst_syc.DT_ID}" )
 , 0\
   .else
@@ -1744,7 +1780,8 @@ INSERT INTO S_BPARM VALUES (\
   .else
 , ${s_bparm.Previous_BParm_ID}\
   .end if
-, '${s_bparm.Descrip}' );
+, ''\
+ );
 .end for
 .select many s_brgs from instances of S_BRG
 .for each s_brg in s_brgs
@@ -1760,7 +1797,8 @@ INSERT INTO S_BRG VALUES (\
   .else
 , ${s_brg.EE_ID}\
   .end if
-, '${s_brg.Name}', '${s_brg.Descrip}', ${s_brg.Brg_Typ}\
+, '${s_brg.Name}', ''\
+, ${s_brg.Brg_Typ}\
   .if ( "un-initialized" == "${s_brg.DT_ID}" )
 , 0\
   .else
@@ -1841,7 +1879,8 @@ INSERT INTO S_DT VALUES (\
   .else
 , ${s_dt.Dom_ID}\
   .end if
-, '${s_dt.Name}', '${s_dt.Descrip}', '${s_dt.DefaultValue}' );
+, '${s_dt.Name}', ''\
+, '${s_dt.DefaultValue}' );
 .end for
 .select many s_diss from instances of S_DIS
 .for each s_dis in s_diss
@@ -1967,7 +2006,8 @@ INSERT INTO S_DOM VALUES (\
   .else
  ${s_dom.Dom_ID}\
   .end if
-, '${s_dom.Name}', '${s_dom.Descrip}', ${s_dom.Full_Der}\
+, '${s_dom.Name}', ''\
+, ${s_dom.Full_Der}\
   .if ( "un-initialized" == "${s_dom.Config_ID}" )
 , 0\
   .else
@@ -2009,7 +2049,8 @@ INSERT INTO S_ENUM VALUES (\
   .else
  ${s_enum.Enum_ID}\
   .end if
-, '${s_enum.Name}', '${s_enum.Descrip}'\
+, '${s_enum.Name}', ''\
+\
   .if ( "un-initialized" == "${s_enum.EDT_DT_ID}" )
 , 0\
   .else
@@ -2037,7 +2078,8 @@ INSERT INTO S_EEDI VALUES (\
   .else
 , ${s_eedi.EE_ID}\
   .end if
-, '${s_eedi.Name}', '${s_eedi.Descrip}'\
+, '${s_eedi.Name}', ''\
+\
   .if ( "un-initialized" == "${s_eedi.DT_ID}" )
 , 0\
   .else
@@ -2059,7 +2101,8 @@ INSERT INTO S_EEEDI VALUES (\
   .else
 , ${s_eeedi.EE_ID}\
   .end if
-, '${s_eeedi.Name}', '${s_eeedi.Descrip}'\
+, '${s_eeedi.Name}', ''\
+\
   .if ( "un-initialized" == "${s_eeedi.DT_ID}" )
 , 0\
   .else
@@ -2103,7 +2146,8 @@ INSERT INTO S_EEEVT VALUES (\
   .else
 , ${s_eeevt.EE_ID}\
   .end if
-, ${s_eeevt.Numb}, '${s_eeevt.Mning}', ${s_eeevt.Is_Lbl_U}, '${s_eeevt.Unq_Lbl}', '${s_eeevt.Drv_Lbl}', '${s_eeevt.Descrip}' );
+, ${s_eeevt.Numb}, '${s_eeevt.Mning}', ${s_eeevt.Is_Lbl_U}, '${s_eeevt.Unq_Lbl}', '${s_eeevt.Drv_Lbl}', ''\
+ );
 .end for
 .select many s_eepks from instances of S_EEPK
 .for each s_eepk in s_eepks
@@ -2173,7 +2217,8 @@ INSERT INTO S_EE VALUES (\
   .else
  ${s_ee.EE_ID}\
   .end if
-, '${s_ee.Name}', '${s_ee.Descrip}', '${s_ee.Key_Lett}'\
+, '${s_ee.Name}', ''\
+, '${s_ee.Key_Lett}'\
   .if ( "un-initialized" == "${s_ee.Dom_ID}" )
 , 0\
   .else
@@ -2239,7 +2284,8 @@ INSERT INTO S_SPARM VALUES (\
   .else
 , ${s_sparm.Previous_SParm_ID}\
   .end if
-, '${s_sparm.Descrip}' );
+, ''\
+ );
 .end for
 .select many s_fips from instances of S_FIP
 .for each s_fip in s_fips
@@ -2271,7 +2317,8 @@ INSERT INTO S_SYNC VALUES (\
   .else
 , ${s_sync.Dom_ID}\
   .end if
-, '${s_sync.Name}', '${s_sync.Descrip}', ''\
+, '${s_sync.Name}', ''\
+, ''\
 \
   .if ( "un-initialized" == "${s_sync.DT_ID}" )
 , 0\
@@ -2304,7 +2351,8 @@ INSERT INTO S_MBR VALUES (\
   .else
  ${s_mbr.Member_ID}\
   .end if
-, '${s_mbr.Name}', '${s_mbr.Descrip}'\
+, '${s_mbr.Name}', ''\
+\
   .if ( "un-initialized" == "${s_mbr.Parent_DT_DT_ID}" )
 , 0\
   .else
@@ -2374,7 +2422,8 @@ INSERT INTO S_SS VALUES (\
   .else
  ${s_ss.SS_ID}\
   .end if
-, '${s_ss.Name}', '${s_ss.Descrip}', '${s_ss.Prefix}', ${s_ss.Num_Rng}\
+, '${s_ss.Name}', ''\
+, '${s_ss.Prefix}', ${s_ss.Num_Rng}\
   .if ( "un-initialized" == "${s_ss.Dom_ID}" )
 , 0\
   .else
@@ -2484,7 +2533,8 @@ INSERT INTO EP_PKG VALUES (\
   .else
 , ${ep_pkg.Direct_Sys_ID}\
   .end if
-, '${ep_pkg.Name}', '${ep_pkg.Descrip}', ${ep_pkg.Num_Rng} );
+, '${ep_pkg.Name}', ''\
+, ${ep_pkg.Num_Rng} );
 .end for
 .select many ep_spkgs from instances of EP_SPKG
 .for each ep_spkg in ep_spkgs
@@ -3124,7 +3174,8 @@ INSERT INTO SQ_AP VALUES (\
   .else
  ${sq_ap.Part_ID}\
   .end if
-, '${sq_ap.Name}', '${sq_ap.Descrip}'\
+, '${sq_ap.Name}', ''\
+\
   .if ( "un-initialized" == "${sq_ap.LS_Part_ID}" )
 , 0\
   .else
@@ -3146,7 +3197,8 @@ INSERT INTO SQ_CIP VALUES (\
   .else
 , ${sq_cip.Obj_ID}\
   .end if
-, '${sq_cip.Name}', '${sq_cip.InformalClassName}', '${sq_cip.Label}', '${sq_cip.Descrip}', ${sq_cip.isFormal} );
+, '${sq_cip.Name}', '${sq_cip.InformalClassName}', '${sq_cip.Label}', ''\
+, ${sq_cip.isFormal} );
 .end for
 .select many sq_cpas from instances of SQ_CPA
 .for each sq_cpa in sq_cpas
@@ -3162,7 +3214,8 @@ INSERT INTO SQ_CPA VALUES (\
   .else
 , ${sq_cpa.Part_ID}\
   .end if
-, '${sq_cpa.Descrip}' );
+, ''\
+ );
 .end for
 .select many sq_cps from instances of SQ_CP
 .for each sq_cp in sq_cps
@@ -3178,7 +3231,8 @@ INSERT INTO SQ_CP VALUES (\
   .else
 , ${sq_cp.Obj_ID}\
   .end if
-, '${sq_cp.Label}', '${sq_cp.InformalName}', '${sq_cp.Descrip}', ${sq_cp.isFormal} );
+, '${sq_cp.Label}', '${sq_cp.InformalName}', ''\
+, ${sq_cp.isFormal} );
 .end for
 .select many sq_cops from instances of SQ_COP
 .for each sq_cop in sq_cops
@@ -3194,7 +3248,8 @@ INSERT INTO SQ_COP VALUES (\
   .else
 , ${sq_cop.Component_Id}\
   .end if
-, '${sq_cop.Label}', '${sq_cop.InformalComponentName}', '${sq_cop.Descrip}', ${sq_cop.isFormal} );
+, '${sq_cop.Label}', '${sq_cop.InformalComponentName}', ''\
+, ${sq_cop.isFormal} );
 .end for
 .select many sq_eeps from instances of SQ_EEP
 .for each sq_eep in sq_eeps
@@ -3210,7 +3265,8 @@ INSERT INTO SQ_EEP VALUES (\
   .else
 , ${sq_eep.EE_ID}\
   .end if
-, '${sq_eep.Label}', '${sq_eep.InformalName}', '${sq_eep.Descrip}', ${sq_eep.isFormal} );
+, '${sq_eep.Label}', '${sq_eep.InformalName}', ''\
+, ${sq_eep.isFormal} );
 .end for
 .select many sq_favs from instances of SQ_FAV
 .for each sq_fav in sq_favs
@@ -3246,7 +3302,8 @@ INSERT INTO SQ_FPP VALUES (\
   .else
 , ${sq_fpp.FunPack_ID}\
   .end if
-, '${sq_fpp.Label}', '${sq_fpp.InformalName}', '${sq_fpp.Descrip}', ${sq_fpp.isFormal} );
+, '${sq_fpp.Label}', '${sq_fpp.InformalName}', ''\
+, ${sq_fpp.isFormal} );
 .end for
 .select many sq_iavs from instances of SQ_IAV
 .for each sq_iav in sq_iavs
@@ -3300,7 +3357,8 @@ INSERT INTO SQ_AV VALUES (\
   .else
 , ${sq_av.Formal_Part_ID}\
   .end if
-, '${sq_av.Descrip}', ${sq_av.isFormal} );
+, ''\
+, ${sq_av.isFormal} );
 .end for
 .select many sq_ps from instances of SQ_P
 .for each sq_p in sq_ps
@@ -3332,7 +3390,8 @@ INSERT INTO SQ_LS VALUES (\
   .else
 , ${sq_ls.Source_Part_ID}\
   .end if
-, '${sq_ls.Descrip}', ${sq_ls.Destroyed} );
+, ''\
+, ${sq_ls.Destroyed} );
 .end for
 .select many sq_pps from instances of SQ_PP
 .for each sq_pp in sq_pps
@@ -3348,7 +3407,8 @@ INSERT INTO SQ_PP VALUES (\
   .else
 , ${sq_pp.Package_ID}\
   .end if
-, '${sq_pp.Label}', '${sq_pp.InformalName}', '${sq_pp.Descrip}', ${sq_pp.isFormal} );
+, '${sq_pp.Label}', '${sq_pp.InformalName}', ''\
+, ${sq_pp.isFormal} );
 .end for
 .select many sq_tss from instances of SQ_TS
 .for each sq_ts in sq_tss
@@ -3370,7 +3430,8 @@ INSERT INTO SQ_TS VALUES (\
   .else
 , ${sq_ts.Prev_Mark_ID}\
   .end if
-, '${sq_ts.Name}', '${sq_ts.Descrip}' );
+, '${sq_ts.Name}', ''\
+ );
 .end for
 .select many sq_tms from instances of SQ_TM
 .for each sq_tm in sq_tms
@@ -3386,7 +3447,8 @@ INSERT INTO SQ_TM VALUES (\
   .else
 , ${sq_tm.Part_ID}\
   .end if
-, '${sq_tm.Descrip}' );
+, ''\
+ );
 .end for
 .select many ia_ucps from instances of IA_UCP
 .for each ia_ucp in ia_ucps
@@ -3396,7 +3458,8 @@ INSERT INTO IA_UCP VALUES (\
   .else
  ${ia_ucp.Part_ID}\
   .end if
-, '${ia_ucp.Name}', '${ia_ucp.Descrip}' );
+, '${ia_ucp.Name}', ''\
+ );
 .end for
 .print "Interface Package"
 .select many ip_ipinips from instances of IP_IPINIP
@@ -3447,7 +3510,8 @@ INSERT INTO IP_IP VALUES (\
   .else
 , ${ip_ip.Component_Package_ID}\
   .end if
-, '${ip_ip.Name}', '${ip_ip.Descrip}' );
+, '${ip_ip.Name}', ''\
+ );
 .end for
 .print "Invocation"
 .select many act_brgs from instances of ACT_BRG
@@ -3585,7 +3649,8 @@ INSERT INTO MSG_AM VALUES (\
   .else
  ${msg_am.Msg_ID}\
   .end if
-, '${msg_am.InformalName}', '${msg_am.Descrip}', '${msg_am.GuardCondition}', '${msg_am.DurationObservation}', '${msg_am.DurationConstraint}', ${msg_am.isFormal}, '${msg_am.Label}', '${msg_am.SequenceNumb}' );
+, '${msg_am.InformalName}', ''\
+, '${msg_am.GuardCondition}', '${msg_am.DurationObservation}', '${msg_am.DurationConstraint}', ${msg_am.isFormal}, '${msg_am.Label}', '${msg_am.SequenceNumb}' );
 .end for
 .select many msg_bas from instances of MSG_BA
 .for each msg_ba in msg_bas
@@ -3771,7 +3836,8 @@ INSERT INTO MSG_A VALUES (\
   .else
 , ${msg_a.Formal_Msg_ID}\
   .end if
-, '${msg_a.Label}', '${msg_a.Value}', '${msg_a.InformalName}', '${msg_a.Descrip}', ${msg_a.isFormal} );
+, '${msg_a.Label}', '${msg_a.Value}', '${msg_a.InformalName}', ''\
+, ${msg_a.isFormal} );
 .end for
 .select many msg_ms from instances of MSG_M
 .for each msg_m in msg_ms
@@ -3835,7 +3901,8 @@ INSERT INTO MSG_R VALUES (\
   .else
  ${msg_r.Msg_ID}\
   .end if
-, '${msg_r.Name}', '${msg_r.Descrip}', '${msg_r.GuardCondition}', '${msg_r.ResultTarget}', '${msg_r.ReturnValue}', '${msg_r.SequenceNumb}' );
+, '${msg_r.Name}', ''\
+, '${msg_r.GuardCondition}', '${msg_r.ResultTarget}', '${msg_r.ReturnValue}', '${msg_r.SequenceNumb}' );
 .end for
 .select many msg_sigs from instances of MSG_SIG
 .for each msg_sig in msg_sigs
@@ -3861,7 +3928,8 @@ INSERT INTO MSG_SM VALUES (\
   .else
  ${msg_sm.Msg_ID}\
   .end if
-, '${msg_sm.InformalName}', '${msg_sm.Descrip}', '${msg_sm.GuardCondition}', '${msg_sm.ResultTarget}', '${msg_sm.ReturnValue}', ${msg_sm.isFormal}, '${msg_sm.Label}', '${msg_sm.SequenceNumb}' );
+, '${msg_sm.InformalName}', ''\
+, '${msg_sm.GuardCondition}', '${msg_sm.ResultTarget}', '${msg_sm.ReturnValue}', ${msg_sm.isFormal}, '${msg_sm.Label}', '${msg_sm.SequenceNumb}' );
 .end for
 .print "Packageable Element"
 .select many pe_crss from instances of PE_CRS
@@ -4418,7 +4486,8 @@ INSERT INTO SQ_S VALUES (\
   .else
 , ${sq_s.Prev_Package_ID}\
   .end if
-, '${sq_s.Descrip}'\
+, ''\
+\
   .if ( "un-initialized" == "${sq_s.Sys_ID}" )
 , 0\
   .else
@@ -4470,7 +4539,8 @@ INSERT INTO SM_ACT VALUES (\
 , ${sm_act.SM_ID}\
   .end if
 , ${sm_act.Suc_Pars}, ''\
-, '${sm_act.Descrip}' );
+, ''\
+ );
 .end for
 .select many sm_chs from instances of SM_CH
 .for each sm_ch in sm_chs
@@ -4498,7 +4568,8 @@ INSERT INTO SM_CH VALUES (\
   .else
 , ${sm_ch.SMspd_ID}\
   .end if
-, '${sm_ch.Descrip}' );
+, ''\
+ );
 .end for
 .select many sm_asms from instances of SM_ASM
 .for each sm_asm in sm_asms
@@ -4570,7 +4641,8 @@ INSERT INTO SM_EIGN VALUES (\
   .else
 , ${sm_eign.SMspd_ID}\
   .end if
-, '${sm_eign.Descrip}' );
+, ''\
+ );
 .end for
 .select many sm_supdts from instances of SM_SUPDT
 .for each sm_supdt in sm_supdts
@@ -4912,7 +4984,8 @@ INSERT INTO SM_EVTDI VALUES (\
   .else
 , ${sm_evtdi.SM_ID}\
   .end if
-, '${sm_evtdi.Name}', '${sm_evtdi.Descrip}'\
+, '${sm_evtdi.Name}', ''\
+\
   .if ( "un-initialized" == "${sm_evtdi.DT_ID}" )
 , 0\
   .else
@@ -4952,7 +5025,8 @@ INSERT INTO SM_EVT VALUES (\
   .else
 , ${sm_evt.SMspd_ID}\
   .end if
-, ${sm_evt.Numb}, '${sm_evt.Mning}', ${sm_evt.Is_Lbl_U}, '${sm_evt.Unq_Lbl}', '${sm_evt.Drv_Lbl}', '${sm_evt.Descrip}' );
+, ${sm_evt.Numb}, '${sm_evt.Mning}', ${sm_evt.Is_Lbl_U}, '${sm_evt.Unq_Lbl}', '${sm_evt.Drv_Lbl}', ''\
+ );
 .end for
 .select many sm_states from instances of SM_STATE
 .for each sm_state in sm_states
@@ -4984,7 +5058,8 @@ INSERT INTO SM_SM VALUES (\
   .else
  ${sm_sm.SM_ID}\
   .end if
-, '${sm_sm.Descrip}', ${sm_sm.Config_ID} );
+, ''\
+, ${sm_sm.Config_ID} );
 .end for
 .select many sm_sdis from instances of SM_SDI
 .for each sm_sdi in sm_sdis
@@ -5115,7 +5190,8 @@ INSERT INTO O_REF VALUES (\
   .else
 , ${o_ref.PARef_ID}\
   .end if
-, ${o_ref.Is_Cstrd}, '${o_ref.Descrip}', '${o_ref.RObj_Name}', '${o_ref.RAttr_Name}', '${o_ref.Rel_Name}' );
+, ${o_ref.Is_Cstrd}, ''\
+, '${o_ref.RObj_Name}', '${o_ref.RAttr_Name}', '${o_ref.Rel_Name}' );
 .end for
 .select many o_attrs from instances of O_ATTR
 .for each o_attr in o_attrs
@@ -5137,7 +5213,8 @@ INSERT INTO O_ATTR VALUES (\
   .else
 , ${o_attr.PAttr_ID}\
   .end if
-, '${o_attr.Name}', '${o_attr.Descrip}', '${o_attr.Prefix}', '${o_attr.Root_Nam}', ${o_attr.Pfx_Mode}\
+, '${o_attr.Name}', ''\
+, '${o_attr.Prefix}', '${o_attr.Root_Nam}', ${o_attr.Pfx_Mode}\
   .if ( "un-initialized" == "${o_attr.DT_ID}" )
 , 0\
   .else
@@ -5234,7 +5311,8 @@ INSERT INTO O_OBJ VALUES (\
   .else
  ${o_obj.Obj_ID}\
   .end if
-, '${o_obj.Name}', ${o_obj.Numb}, '${o_obj.Key_Lett}', '${o_obj.Descrip}'\
+, '${o_obj.Name}', ${o_obj.Numb}, '${o_obj.Key_Lett}', ''\
+\
   .if ( "un-initialized" == "${o_obj.SS_ID}" )
 , 0\
   .else
@@ -5284,7 +5362,8 @@ INSERT INTO O_TPARM VALUES (\
   .else
 , ${o_tparm.Previous_TParm_ID}\
   .end if
-, '${o_tparm.Descrip}' );
+, ''\
+ );
 .end for
 .select many o_tfrs from instances of O_TFR
 .for each o_tfr in o_tfrs
@@ -5300,7 +5379,8 @@ INSERT INTO O_TFR VALUES (\
   .else
 , ${o_tfr.Obj_ID}\
   .end if
-, '${o_tfr.Name}', '${o_tfr.Descrip}'\
+, '${o_tfr.Name}', ''\
+\
   .if ( "un-initialized" == "${o_tfr.DT_ID}" )
 , 0\
   .else
@@ -5483,7 +5563,8 @@ INSERT INTO TE_CI VALUES (\
 .end for
 .select many te_disps from instances of TE_DISP
 .for each te_disp in te_disps
-INSERT INTO TE_DISP VALUES ( ${te_disp.Dispatcher_ID}, ${te_disp.SystemID}, '${te_disp.Name}', '${te_disp.Descrip}' );
+INSERT INTO TE_DISP VALUES ( ${te_disp.Dispatcher_ID}, ${te_disp.SystemID}, '${te_disp.Name}', ''\
+ );
 .end for
 .select many te_acts from instances of TE_ACT
 .for each te_act in te_acts
@@ -5597,7 +5678,8 @@ INSERT INTO TE_C VALUES (\
   .else
  ${te_c.ID}\
   .end if
-, '${te_c.Name}', '${te_c.Description}', ${te_c.number}, ${te_c.StateTrace}, ${te_c.StmtTrace}, ${te_c.DetectEmpty}, ${te_c.OptDisabled}, ${te_c.RawComments}, ${te_c.CodeComments}, ${te_c.CollectionsFlavor}, '${te_c.classes_file}', '${te_c.functions_file}', ${te_c.MaxObjExtent}, ${te_c.MaxRelExtent}, ${te_c.MaxSelectExtent}, ${te_c.MaxSelfEvents}, ${te_c.MaxNonSelfEvents}, ${te_c.MaxPriorityEvents}, ${te_c.MaxTimers}, ${te_c.InterleavedBridges}, ${te_c.PEIClassCount}, ${te_c.PersistentClassCount}, '${te_c.domain_mark_file}', '${te_c.class_mark_file}', '${te_c.events_mark_file}', '${te_c.module_file}', '${te_c.port_file}', '${te_c.include_file}', ${te_c.included_in_build}, ${te_c.internal_behavior}, ${te_c.isRealized}, ${te_c.SystemID}\
+, '${te_c.Name}', ''\
+, ${te_c.number}, ${te_c.StateTrace}, ${te_c.StmtTrace}, ${te_c.DetectEmpty}, ${te_c.OptDisabled}, ${te_c.RawComments}, ${te_c.CodeComments}, ${te_c.CollectionsFlavor}, '${te_c.classes_file}', '${te_c.functions_file}', ${te_c.MaxObjExtent}, ${te_c.MaxRelExtent}, ${te_c.MaxSelectExtent}, ${te_c.MaxSelfEvents}, ${te_c.MaxNonSelfEvents}, ${te_c.MaxPriorityEvents}, ${te_c.MaxTimers}, ${te_c.InterleavedBridges}, ${te_c.PEIClassCount}, ${te_c.PersistentClassCount}, '${te_c.domain_mark_file}', '${te_c.class_mark_file}', '${te_c.events_mark_file}', '${te_c.module_file}', '${te_c.port_file}', '${te_c.include_file}', ${te_c.included_in_build}, ${te_c.internal_behavior}, ${te_c.isRealized}, ${te_c.SystemID}\
   .if ( "un-initialized" == "${te_c.Dom_ID}" )
 , 0\
   .else
@@ -5711,7 +5793,8 @@ INSERT INTO TE_EVT VALUES (\
 .end for
 .select many te_ees from instances of TE_EE
 .for each te_ee in te_ees
-INSERT INTO TE_EE VALUES ( '${te_ee.Name}', '${te_ee.RegisteredName}', '${te_ee.Key_Lett}', '${te_ee.Descrip}', ${te_ee.Included}, '${te_ee.file}', '${te_ee.Include_File}', ${te_ee.Used}\
+INSERT INTO TE_EE VALUES ( '${te_ee.Name}', '${te_ee.RegisteredName}', '${te_ee.Key_Lett}', ''\
+, ${te_ee.Included}, '${te_ee.file}', '${te_ee.Include_File}', ${te_ee.Used}\
   .if ( "un-initialized" == "${te_ee.te_cID}" )
 , 0\
   .else
@@ -5801,7 +5884,8 @@ INSERT INTO TE_MACT VALUES (\
   .else
 , ${te_mact.ID}\
   .end if
-, '${te_mact.Name}', '${te_mact.Description}', '${te_mact.GeneratedName}', '${te_mact.ComponentName}', '${te_mact.DomainName}', '${te_mact.PortName}', '${te_mact.InterfaceName}', '${te_mact.MessageName}', ${te_mact.Direction}, ${te_mact.Provision}, '${te_mact.subtypeKL}', ${te_mact.polymorphic}, ${te_mact.trace}, ${te_mact.Order}\
+, '${te_mact.Name}', ''\
+, '${te_mact.GeneratedName}', '${te_mact.ComponentName}', '${te_mact.DomainName}', '${te_mact.PortName}', '${te_mact.InterfaceName}', '${te_mact.MessageName}', ${te_mact.Direction}, ${te_mact.Provision}, '${te_mact.subtypeKL}', ${te_mact.polymorphic}, ${te_mact.trace}, ${te_mact.Order}\
   .if ( "un-initialized" == "${te_mact.SPR_POId}" )
 , 0\
   .else
@@ -5869,7 +5953,8 @@ INSERT INTO TE_TFR VALUES ( ${te_tfr.Included}, ${te_tfr.XlateSemantics}, ${te_t
 .end for
 .select many te_parms from instances of TE_PARM
 .for each te_parm in te_parms
-INSERT INTO TE_PARM VALUES ( '${te_parm.Name}', '${te_parm.Description}', ${te_parm.Order}, '${te_parm.ParamBuffer}', '${te_parm.OALParamBuffer}'\
+INSERT INTO TE_PARM VALUES ( '${te_parm.Name}', ''\
+, ${te_parm.Order}, '${te_parm.ParamBuffer}', '${te_parm.OALParamBuffer}'\
   .if ( "un-initialized" == "${te_parm.ID}" )
 , 0\
   .else
@@ -6067,7 +6152,8 @@ INSERT INTO TE_IIR VALUES (\
 .end for
 .select many te_queues from instances of TE_QUEUE
 .for each te_queue in te_queues
-INSERT INTO TE_QUEUE VALUES ( ${te_queue.Queue_ID}, ${te_queue.Dispatcher_ID}, ${te_queue.Type}, '${te_queue.Descrip}', ${te_queue.RenderCode}, ${te_queue.MaxDepth} );
+INSERT INTO TE_QUEUE VALUES ( ${te_queue.Queue_ID}, ${te_queue.Dispatcher_ID}, ${te_queue.Type}, ''\
+, ${te_queue.RenderCode}, ${te_queue.MaxDepth} );
 .end for
 .select many te_navs from instances of TE_NAV
 .for each te_nav in te_navs
@@ -6357,7 +6443,8 @@ INSERT INTO UC_BA VALUES (\
   .else
  ${uc_ba.Assoc_ID}\
   .end if
-, '${uc_ba.Descrip}' );
+, ''\
+ );
 .end for
 .select many uc_es from instances of UC_E
 .for each uc_e in uc_es
@@ -6367,7 +6454,8 @@ INSERT INTO UC_E VALUES (\
   .else
  ${uc_e.Assoc_ID}\
   .end if
-, '${uc_e.Descrip}' );
+, ''\
+ );
 .end for
 .select many uc_gs from instances of UC_G
 .for each uc_g in uc_gs
@@ -6377,7 +6465,8 @@ INSERT INTO UC_G VALUES (\
   .else
  ${uc_g.Assoc_ID}\
   .end if
-, '${uc_g.Descrip}' );
+, ''\
+ );
 .end for
 .select many uc_is from instances of UC_I
 .for each uc_i in uc_is
@@ -6387,7 +6476,8 @@ INSERT INTO UC_I VALUES (\
   .else
  ${uc_i.Assoc_ID}\
   .end if
-, '${uc_i.Descrip}' );
+, ''\
+ );
 .end for
 .select many uc_piucs from instances of UC_PIUC
 .for each uc_piuc in uc_piucs
@@ -6453,7 +6543,8 @@ INSERT INTO UC_UCC VALUES (\
   .else
 , ${uc_ucc.Parent_Package_ID}\
   .end if
-, '${uc_ucc.Name}', '${uc_ucc.Descrip}'\
+, '${uc_ucc.Name}', ''\
+\
   .if ( "un-initialized" == "${uc_ucc.Sys_ID}" )
 , 0\
   .else

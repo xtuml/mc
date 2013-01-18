@@ -32,8 +32,7 @@ INSERT INTO ${o_obj.Key_Lett} VALUES (\
           .invoke d = GetAttributeCodeGenType( o_attr )
           .assign s_dt = d.dt
           .if ( "string" == s_dt.Name )
-            .if ( "Action_Semantics_internal" == attributename )
-              .assign attributename = "Action_Semantics"
+            .if ( ( "Action_Semantics_internal" == attributename ) or ( "Descrip" == attributename ) )
 ${delimiter} ''\\
             .else
 ${delimiter} '$${$l{o_obj.Key_Lett}.${attributename}}'\

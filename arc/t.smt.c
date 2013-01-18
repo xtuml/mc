@@ -75,7 +75,7 @@ ${ws}${te_instance.module}${te_string.strcpy}( ${te_assign.lval}, ${te_assign.rv
 ${ws}${te_assign.lval} = ${te_assign.rval};
       .else
         .// We use memmove, because C does not copy arrays very nicely.
-${ws}${te_instance.module}${te_string.memmove}( (void * const) &(${te_assign.lval}), (void const * const) &(${te_assign.rval}), \
+${ws}${te_instance.module}${te_string.memmove}( ${te_assign.lval}, ${te_assign.rval}, \
         .if ( is_parameter )
 sizeof( ${te_assign.rval}[0] ) * ${element_count} );
         .else

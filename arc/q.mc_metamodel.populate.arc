@@ -151,7 +151,7 @@
     .// relate te_c to te_sys across R2065;
     .assign te_c.SystemID = te_sys.SystemID
     .assign te_c.Name = "$r{c_c.Name}"
-    .assign te_c.Description = c_c.Descrip
+    .assign te_c.Descrip = c_c.Descrip
     .assign te_c.included_in_build = true
     .select any tm_c from instances of TM_C where ( selected.Name == c_c.Name )
     .if ( not_empty tm_c )
@@ -1813,7 +1813,7 @@
   .else
     .assign te_mact.polymorphic = TRUE
   .end if
-  .assign te_mact.Description = description
+  .assign te_mact.Descrip = description
   .assign te_mact.subtypeKL = subtypeKL
   .assign te_mact.Provision = te_po.provision
   .assign te_mact.Direction = direction
@@ -2000,7 +2000,7 @@
   .assign te_parm.ParamBuffer = ""
   .assign te_parm.OALParamBuffer = ""
   .assign te_parm.Name = "$r{name}"
-  .assign te_parm.Description = description
+  .assign te_parm.Descrip = description
   .assign te_parm.By_Ref = by_ref
   .assign te_parm.GeneratedName = prefix + name
   .assign te_parm.AbaID = 0
@@ -2051,7 +2051,7 @@
   .assign duplicate_te_parm.ParamBuffer = te_parm.ParamBuffer
   .assign duplicate_te_parm.OALParamBuffer = te_parm.OALParamBuffer
   .assign duplicate_te_parm.Name = te_parm.Name
-  .assign duplicate_te_parm.Description = te_parm.Description
+  .assign duplicate_te_parm.Descrip = te_parm.Descrip
   .assign duplicate_te_parm.By_Ref = te_parm.By_Ref
   .assign duplicate_te_parm.GeneratedName = te_parm.GeneratedName
   .// relate te_dt to te_parm across R2049;

@@ -19,9 +19,9 @@
 #ifndef $u{te_c.module_file}_$u{te_file.hdr_file_ext}
 #define $u{te_c.module_file}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
-.if ( "" != te_c.Description )
+.if ( "" != te_c.Descrip )
 /*
-${te_c.Description}
+${te_c.Descrip}
 */
 .end if
 
