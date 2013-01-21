@@ -58,14 +58,14 @@
       .assign te_blk.code = te_blk.code + te_smt.buffer
       .select one for_blk related by act_smt->ACT_FOR[R603]->ACT_BLK[R605]
       .if ( not_empty for_blk )
-        .invoke i = blck_xlate( trace, for_blk, te_blk.depth )
-        .assign inner_te_blk = i.te_blk
+        .invoke r = blck_xlate( trace, for_blk, te_blk.depth )
+        .assign inner_te_blk = r.te_blk
         .assign te_blk.code = te_blk.code + inner_te_blk.code
       .else
       .select one whl_blk related by act_smt->ACT_WHL[R603]->ACT_BLK[R608]
       .if ( not_empty whl_blk )
-        .invoke i = blck_xlate( trace, whl_blk, te_blk.depth )
-        .assign inner_te_blk = i.te_blk
+        .invoke r = blck_xlate( trace, whl_blk, te_blk.depth )
+        .assign inner_te_blk = r.te_blk
         .assign te_blk.code = te_blk.code + inner_te_blk.code
       .else
       .select one act_if related by act_smt->ACT_IF[R603]
@@ -73,8 +73,8 @@
         .assign current_act_if = act_if
         .select one if_blk related by act_if->ACT_BLK[R607]
         .if ( not_empty if_blk )
-          .invoke i = blck_xlate( trace, if_blk, te_blk.depth )
-          .assign inner_te_blk = i.te_blk
+          .invoke r = blck_xlate( trace, if_blk, te_blk.depth )
+          .assign inner_te_blk = r.te_blk
           .assign te_blk.code = te_blk.code + inner_te_blk.code
         .end if
         .// ELIF and ELSE are not linked across R661.  So, get the next
@@ -87,8 +87,8 @@
       .else
       .select one eli_blk related by act_smt->ACT_EL[R603]->ACT_BLK[R658]
       .if ( not_empty eli_blk )
-        .invoke i = blck_xlate( trace, eli_blk, te_blk.depth )
-        .assign inner_te_blk = i.te_blk
+        .invoke r = blck_xlate( trace, eli_blk, te_blk.depth )
+        .assign inner_te_blk = r.te_blk
         .assign te_blk.code = te_blk.code + inner_te_blk.code
         .// CDS Note:  This depends upon the generator storing these in order!
         .select any next related by current_act_if->ACT_EL[R682]->ACT_SMT[R603] where ( selected.LineNumber > act_smt.LineNumber )
@@ -101,8 +101,8 @@
       .else
       .select one else_blk related by act_smt->ACT_E[R603]->ACT_BLK[R606]
       .if ( not_empty else_blk )
-        .invoke i = blck_xlate( trace, else_blk, te_blk.depth )
-        .assign inner_te_blk = i.te_blk
+        .invoke r = blck_xlate( trace, else_blk, te_blk.depth )
+        .assign inner_te_blk = r.te_blk
         .assign te_blk.code = te_blk.code + inner_te_blk.code
         .select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'precedes']
       .end if

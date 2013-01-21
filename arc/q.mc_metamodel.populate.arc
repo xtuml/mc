@@ -415,8 +415,8 @@
       .if ( empty sld_sdinp )
         .select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000]
         .if ( not_empty ep_pkg )
-          .invoke i = TE_C.getContainingComponent( ep_pkg )
-          .assign te_c = i.te_c
+          .invoke r = TE_C.getContainingComponent( ep_pkg )
+          .assign te_c = r.result
         .end if
       .end if
     .else
@@ -438,8 +438,8 @@
     .assign te_c = empty_te_c
     .if ( generic_packages )
       .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
-      .invoke i = TE_C.getContainingComponent( ep_pkg )
-      .assign te_c = i.te_c
+      .invoke r = TE_C.getContainingComponent( ep_pkg )
+      .assign te_c = r.result
     .else
       .select one te_c related by o_obj->S_SS[R2]->S_DOM[R1]->TE_C[R2017]
     .end if
@@ -447,8 +447,8 @@
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
         .assign te_c.internal_behavior = true
         .// Create the Generated Class instance and link it to the real one.
-        .invoke i = FactoryTE_CLASS( o_obj, te_c )
-        .assign te_class = i.te_class
+        .invoke r = FactoryTE_CLASS( o_obj, te_c )
+        .assign te_class = r.result
       .end if
     .end if
   .end for
@@ -458,8 +458,8 @@
     .assign te_c = empty_te_c
     .if ( generic_packages )
       .select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000]
-      .invoke i = TE_C.getContainingComponent( ep_pkg )
-      .assign te_c = i.te_c
+      .invoke r = TE_C.getContainingComponent( ep_pkg )
+      .assign te_c = r.result
     .else
       .select one te_c related by s_sync->S_DOM[R23]->TE_C[R2017]
     .end if
@@ -483,8 +483,8 @@
     .assign te_c = empty_te_c
     .if ( generic_packages )
       .select one ep_pkg related by s_ee->PE_PE[R8001]->EP_PKG[R8000]
-      .invoke i = TE_C.getContainingComponent( ep_pkg )
-      .assign te_c = i.te_c
+      .invoke r = TE_C.getContainingComponent( ep_pkg )
+      .assign te_c = r.result
     .else
       .select one te_c related by s_ee->S_DOM[R8]->TE_C[R2017]
     .end if
@@ -612,8 +612,8 @@
   .// Initialize information for user data types.
   .select many s_udts from instances of S_UDT
   .for each s_udt in s_udts
-    .invoke i = GetBaseTypeForUDT( s_udt )
-    .assign base_s_dt = i.result
+    .invoke r = GetBaseTypeForUDT( s_udt )
+    .assign base_s_dt = r.result
     .select one core_te_dt related by base_s_dt->TE_DT[R2021]
     .// Given a user data type (S_UDT) and a core data type (S_CDT), set
     .// the C typedef that the user data type is known by in the generated
@@ -790,8 +790,8 @@
       .if ( empty s_cdt )
         .select one s_udt related by s_dt->S_UDT[R17]
         .if ( not_empty s_udt )
-          .invoke i = GetBaseTypeForUDT( s_udt )
-          .assign base_s_dt = i.result
+          .invoke r = GetBaseTypeForUDT( s_udt )
+          .assign base_s_dt = r.result
           .select one s_cdt related by base_s_dt->S_CDT[R17]
         .end if
         .if ( empty s_cdt )
@@ -813,8 +813,9 @@
         .end if
       .end if
       .if ( ( s_cdt.Core_Typ == 2 ) or ( s_cdt.Core_Typ == 3 ) )
-        .invoke status = MapUserSpecifiedDataTypePrecision( te_dt, tm_precision.xName )
-        .if ( status.error )
+        .invoke r = MapUserSpecifiedDataTypePrecision( te_dt, tm_precision.xName )
+        .assign status_error = r.error
+        .if ( status_error )
           .assign te_dt.ExtName = tm_precision.xName
         .end if
         .if ( ( "" != tm_precision.initial_value ) and ( empty s_edt ) )
@@ -920,8 +921,8 @@
   .for each s_bparm in s_bparms
     .select many s_dims related by s_bparm->S_DIM[R49]
     .select one te_dt related by s_bparm->S_DT[R22]->TE_DT[R2021]
-    .invoke i = FactoryTE_PARM( s_dims, te_dt, "p_", s_bparm.Name, s_bparm.Descrip, s_bparm.By_Ref )
-    .assign te_parm = i.result
+    .invoke r = FactoryTE_PARM( s_dims, te_dt, "p_", s_bparm.Name, s_bparm.Descrip, s_bparm.By_Ref )
+    .assign te_parm = r.result
     .// relate s_bparm to te_parm across R2028;
     .assign te_parm.BParm_ID = s_bparm.BParm_ID
     .if ( 1 == te_parm.By_Ref )
@@ -939,8 +940,8 @@
   .for each o_tparm in o_tparms
     .select many s_dims related by o_tparm->S_DIM[R121]
     .select one te_dt related by o_tparm->S_DT[R118]->TE_DT[R2021]
-    .invoke i = FactoryTE_PARM( s_dims, te_dt, "p_", o_tparm.Name, o_tparm.Descrip, o_tparm.By_Ref )
-    .assign te_parm = i.result
+    .invoke r = FactoryTE_PARM( s_dims, te_dt, "p_", o_tparm.Name, o_tparm.Descrip, o_tparm.By_Ref )
+    .assign te_parm = r.result
     .// relate o_tparm to te_parm across R2029;
     .assign te_parm.TParm_ID = o_tparm.TParm_ID
     .if ( 1 == te_parm.By_Ref )
@@ -958,8 +959,8 @@
   .for each s_sparm in s_sparms
     .select many s_dims related by s_sparm->S_DIM[R52]
     .select one te_dt related by s_sparm->S_DT[R26]->TE_DT[R2021]
-    .invoke i = FactoryTE_PARM( s_dims, te_dt, "p_", s_sparm.Name, s_sparm.Descrip, s_sparm.By_Ref )
-    .assign te_parm = i.result
+    .invoke r = FactoryTE_PARM( s_dims, te_dt, "p_", s_sparm.Name, s_sparm.Descrip, s_sparm.By_Ref )
+    .assign te_parm = r.result
     .// relate s_sparm to te_parm across R2030;
     .assign te_parm.SParm_ID = s_sparm.SParm_ID
     .if ( 1 == te_parm.By_Ref )
@@ -978,8 +979,8 @@
     .select many s_dims related by sm_evtdi->S_DIM[R531]
     .select one te_dt related by sm_evtdi->S_DT[R524]->TE_DT[R2021]
     .// Event data items are not passable By_Ref at this time.
-    .invoke i = FactoryTE_PARM( s_dims, te_dt, "p_", sm_evtdi.Name, sm_evtdi.Descrip, 0 )
-    .assign te_parm = i.result
+    .invoke r = FactoryTE_PARM( s_dims, te_dt, "p_", sm_evtdi.Name, sm_evtdi.Descrip, 0 )
+    .assign te_parm = r.result
     .// relate sm_evtdi to te_parm across R2031;
     .assign te_parm.SMedi_ID = sm_evtdi.SMedi_ID
     .assign te_parm.SM_ID = sm_evtdi.SM_ID
@@ -998,8 +999,8 @@
         .assign c_pp_name = ( c_io.Name + "_" ) + c_pp_name
       .end if
     .end if
-    .invoke i = FactoryTE_PARM( s_dims, te_dt, "p_", c_pp_name, c_pp.Descrip, c_pp.By_Ref )
-    .assign te_parm = i.result
+    .invoke r = FactoryTE_PARM( s_dims, te_dt, "p_", c_pp_name, c_pp.Descrip, c_pp.By_Ref )
+    .assign te_parm = r.result
     .// relate c_pp to te_parm across R2048;
     .assign te_parm.PP_Id = c_pp.PP_Id
     .if ( 1 == te_parm.By_Ref )
@@ -1058,8 +1059,8 @@
       .end if
     .end if
     .select many te_parms related by spr_rep->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
-    .invoke i = FactoryTE_MACT( te_parms, te_dt, te_c, te_po, spr_ro.Name, c_io.Descrip, c_io.direction, "SPR_RO" )
-    .assign te_mact = i.result
+    .invoke r = FactoryTE_MACT( te_parms, te_dt, te_c, te_po, spr_ro.Name, c_io.Descrip, c_io.direction, "SPR_RO" )
+    .assign te_mact = r.result
     .// relate te_mact to spr_ro across R2052;
     .assign te_mact.SPR_ROId = spr_ro.Id
   .end for
@@ -1070,8 +1071,8 @@
     .select one te_c related by te_po->TE_C[R2005]
     .select one c_as related by spr_rep->C_EP[R4500]->C_AS[R4004]
     .select many te_parms related by spr_rep->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
-    .invoke i = FactoryTE_MACT( te_parms, void_te_dt, te_c, te_po, spr_rs.Name, c_as.Descrip, c_as.direction, "SPR_RS" )
-    .assign te_mact = i.result
+    .invoke r = FactoryTE_MACT( te_parms, void_te_dt, te_c, te_po, spr_rs.Name, c_as.Descrip, c_as.direction, "SPR_RS" )
+    .assign te_mact = r.result
     .// relate te_mact to spr_rs across R2053;
     .assign te_mact.SPR_RSId = spr_rs.Id
   .end for
@@ -1089,8 +1090,8 @@
       .end if
     .end if
     .select many te_parms related by spr_pep->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
-    .invoke i = FactoryTE_MACT( te_parms, te_dt, te_c, te_po, spr_po.Name, c_io.Descrip, c_io.direction, "SPR_PO" )
-    .assign te_mact = i.result
+    .invoke r = FactoryTE_MACT( te_parms, te_dt, te_c, te_po, spr_po.Name, c_io.Descrip, c_io.direction, "SPR_PO" )
+    .assign te_mact = r.result
     .// relate te_mact to spr_po across R2050;
     .assign te_mact.SPR_POId = spr_po.Id
   .end for
@@ -1101,8 +1102,8 @@
     .select one te_c related by te_po->TE_C[R2005]
     .select one c_as related by spr_pep->C_EP[R4501]->C_AS[R4004]
     .select many te_parms related by spr_pep->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
-    .invoke i = FactoryTE_MACT( te_parms, void_te_dt, te_c, te_po, spr_ps.Name, c_as.Descrip, c_as.direction, "SPR_PS" )
-    .assign te_mact = i.result
+    .invoke r = FactoryTE_MACT( te_parms, void_te_dt, te_c, te_po, spr_ps.Name, c_as.Descrip, c_as.direction, "SPR_PS" )
+    .assign te_mact = r.result
     .// relate te_mact to spr_ps across R2051;
     .assign te_mact.SPR_PSId = spr_ps.Id
   .end for
@@ -1264,8 +1265,8 @@
       .assign te_blk.depth = te_blk.depth + 1
       .select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078]
     .end while
-    .invoke margin = indentwhitespace( te_blk.depth )
-    .assign te_blk.indentation = margin.ws
+    .invoke r = indentwhitespace( te_blk.depth )
+    .assign te_blk.indentation = r.ws
   .end for
   .//
   .// Create the generated chain links and connect them to the ACT_LNKs.
@@ -1381,8 +1382,8 @@
       .end if
       .select one te_dt related by s_sync->S_DT[R25]->TE_DT[R2021]
       .select many te_parms related by s_sync->S_SPARM[R24]->TE_PARM[R2030]
-      .invoke i = FactoryTE_ABA( te_c, te_parms, te_c.Name, te_sync.GeneratedName, "S_SYNC", te_dt )
-      .assign te_aba = i.te_aba
+      .invoke r = FactoryTE_ABA( te_c, te_parms, te_c.Name, te_sync.GeneratedName, "S_SYNC", te_dt )
+      .assign te_aba = r.te_aba
       .// relate te_sync to te_aba across R2010;
       .assign te_sync.AbaID = te_aba.AbaID
     .end for
@@ -1390,7 +1391,7 @@
     .// Create the Generated External Entity instances and link them in.
     .select many te_ees related by te_c->TE_EE[R2085]
     .for each te_ee in te_ees
-      .invoke i = TE_EE_init( te_ee, te_c )
+      .invoke TE_EE_init( te_ee, te_c )
     .end for
     .//
     .// Initialize the Generated Class instances.
@@ -1474,8 +1475,8 @@
         .assign te_attr.GeneratedType = te_dt.ExtName
         .if ( 7 == te_dt.Core_Typ )
           .// referential attribute
-          .invoke a = GetAttributeCodeGenType( o_attr )
-          .assign te_attr.GeneratedType = a.result
+          .invoke r = GetAttributeCodeGenType( o_attr )
+          .assign te_attr.GeneratedType = r.result
           .assign s_dt = a.dt
           .select one te_dt related by s_dt->TE_DT[R2021]
         .end if
@@ -1501,8 +1502,8 @@
           .assign te_dbattr.Obj_ID = o_dbattr.Obj_ID
           .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
           .assign te_parms = empty_te_parms
-          .invoke i = FactoryTE_ABA( te_c, te_parms, "", te_dbattr.GeneratedName, "O_DBATTR", te_dt )
-          .assign te_aba = i.te_aba
+          .invoke r = FactoryTE_ABA( te_c, te_parms, "", te_dbattr.GeneratedName, "O_DBATTR", te_dt )
+          .assign te_aba = r.te_aba
           .// relate te_dbattr to te_aba across R2010;
           .assign te_dbattr.AbaID = te_aba.AbaID
         .end if
@@ -1535,8 +1536,8 @@
         .assign te_tfr.Tfr_ID = o_tfr.Tfr_ID
         .select one te_dt related by o_tfr->S_DT[R116]->TE_DT[R2021]
         .select many te_parms related by o_tfr->O_TPARM[R117]->TE_PARM[R2029]
-        .invoke i = FactoryTE_ABA( te_c, te_parms, te_class.GeneratedName, te_tfr.GeneratedName, "O_TFR", te_dt )
-        .assign te_aba = i.te_aba
+        .invoke r = FactoryTE_ABA( te_c, te_parms, te_class.GeneratedName, te_tfr.GeneratedName, "O_TFR", te_dt )
+        .assign te_aba = r.te_aba
         .// relate te_tfr to te_aba across R2010;
         .assign te_tfr.AbaID = te_aba.AbaID
       .end for
@@ -1557,7 +1558,7 @@
   .//
   .select many te_ees from instances of TE_EE where ( selected.te_cID == 0 )
   .for each te_ee in te_ees
-    .invoke i = TE_EE_init( te_ee, empty_te_c )
+    .invoke TE_EE_init( te_ee, empty_te_c )
   .end for
   .//
 .end function
@@ -1584,7 +1585,7 @@
   .// Initialize model compiler extension attributes.
   .assign te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett
   .assign te_class.CBGeneratedName = te_class.GeneratedName + "_CB"
-  .assign attr_te_class = te_class
+  .assign attr_result = te_class
 .end function
 .//
 .//
@@ -1656,8 +1657,8 @@
     .assign te_act.Act_ID = sm_act.Act_ID
     .assign te_act.SM_ID = sm_act.SM_ID
     .assign te_act.GeneratedName = ( te_class.GeneratedName + class_based ) + ( "_act" + "${te_state.Numb}" )
-    .invoke i = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
-    .assign te_aba = i.te_aba
+    .invoke r = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
+    .assign te_aba = r.te_aba
     .// relate te_act to te_aba across R2010;
     .assign te_act.AbaID = te_aba.AbaID
   .end for
@@ -1686,8 +1687,8 @@
     .assign te_act.SM_ID = sm_act.SM_ID
     .assign te_act.GeneratedName = ( te_class.GeneratedName + class_based ) + ( "_xact" + "${counter}" )
     .assign te_act.number = counter
-    .invoke i = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
-    .assign te_aba = i.te_aba
+    .invoke r = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
+    .assign te_aba = r.te_aba
     .// relate te_act to te_aba across R2010;
     .assign te_act.AbaID = te_aba.AbaID
     .assign counter = counter + 1
@@ -1726,8 +1727,8 @@
   .// events starting with local then true then polys.
   .select many sm_levts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526]
   .select many local_te_evts related by sm_levts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036]
-  .invoke es = SortSetAscendingByAttr_Numb( local_te_evts )
-  .assign last_event_number = es.last
+  .invoke r = SortSetAscendingByAttr_Numb( local_te_evts )
+  .assign last_event_number = r.last
   .if ( last_event_number == 0 )
     .if ( empty local_te_evts )
       .assign last_event_number = -1
@@ -1842,12 +1843,12 @@
     .// which port the message came in through.
     .select many s_dims from instances of S_DIM where ( false )
     .select any portindex_te_dt from instances of TE_DT where ( selected.Name == "integer" )
-    .invoke p = FactoryTE_PARM( s_dims, portindex_te_dt, "", "A00portindex", "architectural port selector", 0 )
-    .assign polymorphic_te_parm = p.result
+    .invoke r = FactoryTE_PARM( s_dims, portindex_te_dt, "", "A00portindex", "architectural port selector", 0 )
+    .assign polymorphic_te_parm = r.result
     .assign te_parms = te_parms | polymorphic_te_parm
   .end if
-  .invoke i = FactoryTE_ABA( te_c, te_parms, te_mact.ComponentName, te_mact.GeneratedName, "TE_MACT", te_dt )
-  .assign te_aba = i.te_aba
+  .invoke r = FactoryTE_ABA( te_c, te_parms, te_mact.ComponentName, te_mact.GeneratedName, "TE_MACT", te_dt )
+  .assign te_aba = r.te_aba
   .// relate te_mact to te_aba across R2010;
   .assign te_mact.AbaID = te_aba.AbaID
   .assign attr_result = te_mact
@@ -1902,8 +1903,8 @@
     .assign te_brg.GeneratedName = bridge_scope + s_brg.Name
     .select one te_dt related by s_brg->S_DT[R20]->TE_DT[R2021]
     .select many te_parms related by s_brg->S_BPARM[R21]->TE_PARM[R2028]
-    .invoke i = FactoryTE_ABA( te_c, te_parms, te_ee.RegisteredName, te_brg.GeneratedName, "S_BRG", te_dt )
-    .assign te_aba = i.te_aba
+    .invoke r = FactoryTE_ABA( te_c, te_parms, te_ee.RegisteredName, te_brg.GeneratedName, "S_BRG", te_dt )
+    .assign te_aba = r.te_aba
     .// relate te_brg to te_aba across R2010;
     .assign te_brg.AbaID = te_aba.AbaID
   .end for
@@ -1929,7 +1930,6 @@
     .// relate te_aba to te_c across R2088;
     .assign te_aba.te_cID = te_c.ID
   .end if
-  .assign attr_te_aba = te_aba
   .select many actual_te_parms related by te_aba->TE_PARM[R2062] where ( false )
   .for each te_parm in te_parms
     .if ( 0 != te_parm.AbaID )
@@ -1982,6 +1982,7 @@
   .if ( te_aba.dimensions > 0 )
     .assign te_aba.ReturnDataType = te_aba.ReturnDataType + " *"
   .end if
+  .assign attr_te_aba = te_aba
 .end function
 .//
 .//
@@ -2148,7 +2149,6 @@
   .param inst_ref act_lnk
   .param inst_ref next_act_lnk
   .param inst_ref start_o_obj
-  .assign attr_te_lnk = te_lnk
   .if ( not_empty te_lnk )
     .select one start_o_obj related by act_lnk->O_OBJ[R678]
   .end if
@@ -2157,7 +2157,7 @@
     .if ( start_o_obj.Obj_ID == r_aoth.Obj_ID )
       .// aoth -> aone
       .invoke r = associator_TE_LNK( te_lnk, next_te_lnk )
-      .assign attr_te_lnk = r.result
+      .assign te_lnk = r.result
     .else
       .select one r_assr related by next_act_lnk->R_REL[R681]->R_ASSOC[R206]->R_ASSR[R211]
       .if ( start_o_obj.Obj_ID == r_assr.Obj_ID )
@@ -2170,7 +2170,7 @@
     .if ( start_o_obj.Obj_ID == r_aone.Obj_ID )
       .// aone -> aoth
       .invoke r = associator_TE_LNK( te_lnk, next_te_lnk )
-      .assign attr_te_lnk = r.result
+      .assign te_lnk = r.result
     .else
       .select one r_assr related by next_act_lnk->R_REL[R681]->R_ASSOC[R206]->R_ASSR[R211]
       .if ( start_o_obj.Obj_ID == r_assr.Obj_ID )
@@ -2203,6 +2203,7 @@
       .exit 100
     .end if
   .end if
+  .assign attr_result = te_lnk
 .end function
 .//
 .// Recursive call to drill down and get all of the nested components and
@@ -2229,29 +2230,31 @@
 .// containing (parent/owning) component.
 .function TE_C.getContainingComponent
   .param inst_ref ep_pkg
-  .select any attr_te_c from instances of TE_C where ( false )
+  .select any te_c from instances of TE_C where ( false )
   .// Return empty te_c for a top-level package with no containing package or component.
   .select one s_sys related by ep_pkg->S_SYS[R1401]
   .if ( empty s_sys )
-    .select one attr_te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
-    .if ( empty attr_te_c )
+    .select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
+    .if ( empty te_c )
       .select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000]
       .if ( not_empty parent_ep_pkg )
-        .invoke i = TE_C.getContainingComponent( parent_ep_pkg )
-        .assign attr_te_c = i.te_c
+        .invoke r = TE_C.getContainingComponent( parent_ep_pkg )
+        .assign te_c = r.result
       .end if
     .end if
   .end if
+  .assign attr_result = te_c
 .end function
 .//
 .// Recursively search upwards through the component hierarcy to find the
 .// containing (parent/owning) package.
 .function EP_PKG.getContainingPackage
   .param inst_ref element
-  .select one attr_pkg related by element->PE_PE[R8001]->EP_PKG[R8000]
-  .if ( empty attr_pkg )
+  .select one ep_pkg related by element->PE_PE[R8001]->EP_PKG[R8000]
+  .if ( empty ep_pkg )
     .select one c_c related by element->PE_PE[R8001]->C_C[R8003]
-    .invoke i = EP_PKG.getContainingPackage( c_c )
-    .assign attr_pkg = i.pkg
+    .invoke r = EP_PKG.getContainingPackage( c_c )
+    .assign ep_pkg = r.ep_pkg
   .end if
+  .assign attr_result = ep_pkg
 .end function

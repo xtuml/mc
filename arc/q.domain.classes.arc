@@ -157,21 +157,20 @@
   .assign enumeration_info = ""
   .select many enumeration_te_dts related by te_c->TE_DT[R2086] where ( selected.Is_Enum )
   .for each te_dt in enumeration_te_dts
-    .invoke enum_code = TE_DT_EnumerationDataTypes( te_dt )
-    .assign enumeration_info = enumeration_info + enum_code.body
-    .assign enum_code.body = ""
+    .invoke r = TE_DT_EnumerationDataTypes( te_dt )
+    .assign enumeration_info = enumeration_info + r.body
   .end for
   .//
   .select many structured_te_dts related by te_c->TE_DT[R2086]->S_DT[R2021]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
-  .invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
-  .assign structured_data_types = s.body
+  .invoke r = TE_DT_StructuredDataTypes( structured_te_dts )
+  .assign structured_data_types = r.body
   .//
   .// functions
   .assign function_declarations = ""
   .select any te_sync related by te_c->TE_SYNC[R2084]
   .if ( not_empty te_sync )
-    .invoke s = CreateSynchronousServiceClassDeclaration( te_c )
-    .assign function_declarations = s.body
+    .invoke r = CreateSynchronousServiceClassDeclaration( te_c )
+    .assign function_declarations = r.body
     .assign te_sync.Included = true
   .end if
   .//

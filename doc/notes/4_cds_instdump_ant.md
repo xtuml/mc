@@ -108,12 +108,14 @@ parse keyword pair to name file (e.g. file:sys.arc).
 
 
 Outline of Steps
-- Eliminate attr_ approach from RSL.
-- Make consistent parameter naming/labeling.
-- Add commented relate statements everywhere in the RSL.
-- Refactor RSL MC into appropriate files and functions.
-- Test.  Run test cases continually.
-- Build RSL MC.
+- (3 days) Eliminate the multi-attr_ approach from RSL.  Use attr_ to return a single
+value only.  Then, using only attr_result/body.  Treat assignment of attr_ as the
+return statement.
+- (3 days) Make consistent parameter naming/labeling.
+- (2 days) Add commented relate statements everywhere in the RSL.
+- (5 days) Refactor RSL MC into appropriate files and functions.
+- (5 days) Test.  Run test cases continually.
+- (10 days) Build RSL MC.
 
 Migrate (RSL->OAL), gen (OAL->RSL), compare (gen'd RSL to edited RSL),
 replace (edited RLS with OAL/gen'd RSL) little by little
@@ -122,6 +124,8 @@ RSL model compiler:  param ordering, invoke?, param labeling
 Relates need refs in a comment, bridge or actual (until RSL MC generates them).
 
 Consider RSL MC that uses Action_Semantics versus traversing/iterating ACT_SMTs.
+  .invoke r = f(); .assign x = r.result;
+  return x; -> .assign attr_result = x
 
 
 

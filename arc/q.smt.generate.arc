@@ -1365,8 +1365,9 @@
   .// associative association.  Insert the associative link between
   .// the starting variable and the first link in the chain.
   .invoke r = detect_and_insert_associator_TE_LNK( empty_te_lnk, te_lnk, empty_act_lnk, act_lnk, start_o_obj )
-  .if ( not_empty r.te_lnk )
-    .assign te_lnk = r.te_lnk
+  .assign assr_te_lnk = r.result
+  .if ( not_empty assr_te_lnk )
+    .assign te_lnk = assr_te_lnk
   .end if
   .// We detect first here.  We detect last in primary query/populate.
   .assign te_lnk.first = true

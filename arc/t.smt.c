@@ -423,8 +423,9 @@ ${ws}}
     .// *** Built in select any special where clause.
     .select any o_id related by o_obj->O_ID[R104] where ( selected.Oid_ID == oid_id )
     .select one te_where related by o_id->TE_WHERE[R2032]
-    .invoke arguments = CreateSpecialWhereComparisonArguments( o_obj, o_id )
-${ws}${te_select_where.var_name} = ${te_where.select_any_where}( ${arguments.body} );
+    .invoke r = CreateSpecialWhereComparisonArguments( o_obj, o_id )
+    .assign arguments = r.result
+${ws}${te_select_where.var_name} = ${te_where.select_any_where}( ${arguments} );
   .end if
 .end function
 .//------------------------------------------------

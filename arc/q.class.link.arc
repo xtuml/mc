@@ -89,7 +89,7 @@ ${persist_link_function.body}\
   .//
   .// Propagate the relationship data storage component fragments as
   .// an output fragment attribute of this function.
-  .assign attr_te_relstore = te_relstore
+  .assign attr_result = te_relstore
   .//
 .end function
 .//
@@ -874,9 +874,9 @@ ${aoth_fundamentals.body}\
     .select one ref_te_attr related by ref_attr->TE_ATTR[R2033]
     .if ( ref_te_attr.translate )
       .select one ident_te_attr related by ident_attr->TE_ATTR[R2033]
-      .invoke ref_attr_data_type = GetAttributeCodeGenType( ref_attr )
-      .assign dt = ref_attr_data_type.dt
-      .select one te_dt related by dt->TE_DT[R2021]
+      .invoke r = GetAttributeCodeGenType( ref_attr )
+      .assign s_dt = r.dt
+      .select one te_dt related by s_dt->TE_DT[R2021]
       .assign initial_value = te_dt.Initial_Value
       .include "${te_file.arc_path}/t.class.set_refs.c"
     .end if
@@ -897,9 +897,9 @@ ${aoth_fundamentals.body}\
   .for each ref_attr in ref_attr_set
     .select one ref_te_attr related by ref_attr->TE_ATTR[R2033]
     .if ( ref_te_attr.translate )
-      .invoke ref_attr_data_type = GetAttributeCodeGenType( ref_attr )
-      .assign dt = ref_attr_data_type.dt
-      .select one te_dt related by dt->TE_DT[R2021]
+      .invoke r = GetAttributeCodeGenType( ref_attr )
+      .assign s_dt = r.dt
+      .select one te_dt related by s_dt->TE_DT[R2021]
       .include "${te_file.arc_path}/t.class.reset_refs.c"
     .end if
   .end for  .// ref_attr in ref_attr_set

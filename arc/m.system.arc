@@ -69,64 +69,64 @@
 .//============================================================================
 .function TagMaximumStringLength
   .param integer max_len
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.MaxStringLen = max_len
 .end function
 .//
 .//============================================================================
 .function TagMaximumRelationshipExtentSize
   .param integer user_specified_size
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.MaxRelExtent = user_specified_size
 .end function
 .//
 .//============================================================================
 .function TagMaximumSelectionExtentSize
   .param integer user_specified_size
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.MaxSelectExtent = user_specified_size
 .end function
 .//
 .//============================================================================
 .function TagMaximumSelfDirectedEvents
   .param integer user_specified_size
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.MaxSelfEvents = user_specified_size
 .end function
 .//
 .//============================================================================
 .function TagMaximumNonSelfDirectedEvents
   .param integer user_specified_size
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.MaxNonSelfEvents = user_specified_size
 .end function
 .//
 .//============================================================================
 .function TagMaximumPendingOoaTimers
   .param integer user_specified_size
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.MaxTimers = user_specified_size
 .end function
 .//
 .//============================================================================
 .function TagMaximumInterleavedBridges
   .param integer user_specified_size
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.MaxInterleavedBridges = user_specified_size
 .end function
 .//
 .//============================================================================
 .function TagInterleavedBridgeDataSize
   .param integer user_specified_size
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.MaxInterleavedBridgeDataSize = user_specified_size
 .end function
 .//
@@ -135,8 +135,8 @@
 .//============================================================================
 .function TagCollectionsFlavor
   .param integer collections_flavor
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.CollectionsFlavor = collections_flavor
 .end function
 .//
@@ -157,8 +157,8 @@
 .function MarkPersistenceCacheDepth
   .param integer instance_depth
   .param integer link_depth
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.PersistInstanceCacheDepth = instance_depth
   .assign tm_systag.PersistLinkCacheDepth = link_depth
 .end function
@@ -166,8 +166,8 @@
 .//============================================================================
 .function TagDynamicMemoryAllocationOn
   .param integer units_to_allocate
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.UnitsToDynamicallyAllocate = units_to_allocate
   .if ( tm_systag.UnitsToDynamicallyAllocate < 1 )
     .assign tm_systag.UnitsToDynamicallyAllocate = 1 
@@ -176,8 +176,8 @@
 .//
 .//============================================================================
 .function TagInstanceLoading
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.InstanceLoading = true
 .end function
 .//
@@ -185,8 +185,8 @@
 .// Enable Virtual Function Bus (VFB) for AUTOSAR.
 .//============================================================================
 .function VFBEnable
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.VFB = true
 .end function
 .//
@@ -199,7 +199,7 @@
     .assign tm_systag.PersistLinkCacheDepth = 128
     .assign tm_systag.SystemCPortsType = "sc_interface"
   .end if
-  .assign attr_tm_systag = tm_systag
+  .assign attr_result = tm_systag
 .end function
 .//
 .//============================================================================
@@ -225,8 +225,8 @@
 .//============================================================================
 .function MarkSystemCPortType
   .param string port_type
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .if ( ( (port_type == "TLM") or (port_type == "BitLevelSignals") ) or (port_type == "sc_interface") )
     .assign tm_systag.SystemCPortsType = port_type
   .else
@@ -240,8 +240,8 @@
 .// interface going in the same direction more than once). 
 .//============================================================================
 .function MarkAllPortsPolymorphic
-  .invoke i = TM_SYSTAG_select()
-  .assign tm_systag = i.tm_systag
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
   .assign tm_systag.AllPortsPoly = true
 .end function
 .//

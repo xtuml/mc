@@ -14,8 +14,8 @@
 .//
 .//
 .print "starting ${info.date}"
-.invoke arc_env = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
-.assign arc_path = arc_env.result
+.invoke r = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
+.assign arc_path = r.result
 .if ( "" == arc_path )
   .print "\nERROR:  Environment variable ROX_MC_ARC_DIR not set."
   .exit 100
@@ -118,8 +118,8 @@
 .select any te_sys from instances of TE_SYS
 .//
 .// Uncomment the following lines to create an instance dumper archetype.
-.//.invoke i = TE_CLASS_instance_dumper()
-.//${i.body}
+.//.invoke r = TE_CLASS_instance_dumper()
+.//${r.body}
 .//.emit to file "../../src/q.class.instance.dump.arc"
 .//.exit 507
 .//
@@ -143,9 +143,9 @@
 .//
 .invoke translate_all_oal()
 .//
-.//.print "dumping instances ${info.date}"
-.//.include "${arc_path}/q.class.instance.dump.arc"
-.//.print "done dumping instances ${info.date}"
+.print "dumping instances ${info.date}"
+.include "${arc_path}/q.class.instance.dump.arc"
+.print "done dumping instances ${info.date}"
 .end if
 .// 8) Include system level user defined archetype functions.
 .include "${te_file.system_color_path}/${te_file.system_functions_mark}"
@@ -208,7 +208,6 @@
 .// function-based archetype generation
 .//
 .invoke persistence_needed = IsPersistenceSupportNeeded()
-.assign types = te_typemap
 .invoke instid = GetPersistentInstanceIdentifierVariable()
 .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
 .invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
@@ -342,15 +341,13 @@
 .assign enumeration_info = ""
 .select many enumeration_te_dts related by s_syss->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
 .for each te_dt in enumeration_te_dts
-  .invoke enum_code = TE_DT_EnumerationDataTypes( te_dt )
-  .assign enumeration_info = enumeration_info + enum_code.body
-  .assign enum_code.body = ""
+  .invoke r = TE_DT_EnumerationDataTypes( te_dt )
+  .assign enumeration_info = enumeration_info + r.body
 .end for
 .select many enumeration_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
 .for each te_dt in enumeration_te_dts
-  .invoke enum_code = TE_DT_EnumerationDataTypes( te_dt )
-  .assign enumeration_info = enumeration_info + enum_code.body
-  .assign enum_code.body = ""
+  .invoke r = TE_DT_EnumerationDataTypes( te_dt )
+  .assign enumeration_info = enumeration_info + r.body
 .end for
 .assign structured_data_types = ""
 .select many structured_te_dts related by s_syss->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]

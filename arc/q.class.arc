@@ -123,58 +123,59 @@ ${te_target.c2cplusplus_linkage_end}
   .param inst_ref o_attr
   .param boolean  do_naming_attr_also
   .//
-  .assign attr_result = ""
+  .assign result = ""
   .//
   .// Identifying attribute?  If so, indicate key set(s).
   .select many oid_set related by o_attr->O_OIDA[R105]->O_ID[R105]
   .if ( not_empty oid_set )
     .select any oid related by o_attr->O_OIDA[R105]->O_ID[R105] where (selected.Oid_ID == 0)
     .if ( not_empty oid )
-      .assign attr_result = attr_result + "*"
+      .assign result = result + "*"
     .end if
     .select any oid related by o_attr->O_OIDA[R105]->O_ID[R105] where (selected.Oid_ID == 1)
     .if ( not_empty oid )
-      .assign attr_result = attr_result + "*2"
+      .assign result = result + "*2"
     .end if
     .select any oid related by o_attr->O_OIDA[R105]->O_ID[R105] where (selected.Oid_ID == 2)
     .if ( not_empty oid )
-      .assign attr_result = attr_result + "*3"
+      .assign result = result + "*3"
     .end if
-    .assign attr_result = attr_result + " ${o_attr.Name}"
+    .assign result = result + " ${o_attr.Name}"
     .select one dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
     .if ( not_empty dbattr )
-      .assign attr_result = attr_result + " (M)"
+      .assign result = result + " (M)"
     .end if
   .end if  .// not_empty oid_set
   .//
   .// Referential attribute? If so, indicate from where.
   .select one ref_attr related by o_attr->O_RATTR[R106]
   .if ( not_empty ref_attr )
-    .if ( attr_result != "" )
+    .if ( result != "" )
       .// Referential is also an identifier.
-      .assign attr_result = attr_result + " "
+      .assign result = result + " "
     .else
-      .assign attr_result = attr_result + "- ${o_attr.Name} "
+      .assign result = result + "- ${o_attr.Name} "
     .end if
     .select many obj_ref_set related by ref_attr->O_REF[R108]
     .for each obj_ref in obj_ref_set
       .select any rel related by obj_ref->O_RTIDA[R111]->R_RTO[R110]->R_OIR[R203]->R_REL[R201] where (selected.Rel_ID == obj_ref.Rel_ID)
       .// Not a Constrained referential attribute?
       .if ( not obj_ref.Is_Cstrd )
-        .assign attr_result = attr_result + "(R${rel.Numb})"
+        .assign result = result + "(R${rel.Numb})"
       .else
-        .assign attr_result = attr_result + "(R${rel.Numb}c)"
+        .assign result = result + "(R${rel.Numb}c)"
       .end if  .// not obj_ref.Is_Cstrd
     .end for  .// obj_ref in obj_ref_set
   .end if  .// not_empty ref_attr
   .//
-  .if ( (attr_result == "") and do_naming_attr_also )
-    .assign attr_result = "- ${o_attr.Name}"
+  .if ( (result == "") and do_naming_attr_also )
+    .assign result = "- ${o_attr.Name}"
     .select one dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
     .if ( not_empty dbattr )
-      .assign attr_result = attr_result + " (M)"
+      .assign result = result + " (M)"
     .end if
   .end if
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -182,7 +183,7 @@ ${te_target.c2cplusplus_linkage_end}
 .//============================================================================
 .function CreateObjectDataClass
   .param inst_ref o_obj
-  .param frag_ref rel_info
+  .param inst_ref te_relstore
     .select any te_instance from instances of TE_INSTANCE
     .select any te_target from instances of TE_TARGET
     .select any te_typemap from instances of TE_TYPEMAP
@@ -208,7 +209,6 @@ ${te_target.c2cplusplus_linkage_end}
     .assign abody = abody + data_members.body
     .//
     .// *** Relationship storage data members
-    .assign te_relstore = rel_info.te_relstore
     .assign rbody = ""
     .if ( te_relstore.data_declare != "" )
       .assign rbody = rbody + "  /* relationship storage */\n"
@@ -328,8 +328,10 @@ class ${te_c.Name}; // forward reference
   .// This function also returns an instance te_relstore which contains
   .// the appropriate code components for the object class.
   .invoke object_extent   = AddClassExtent( o_obj, gen_declaration )
-  .invoke rel_frag = RenderObjectRelationships( o_obj, gen_declaration )
-  .invoke obj_data_class = CreateObjectDataClass( o_obj, rel_frag )
+  .invoke r = RenderObjectRelationships( o_obj, gen_declaration )
+  .assign te_relstore = r.result
+  .assign rendered_relationships = r.body
+  .invoke obj_data_class = CreateObjectDataClass( o_obj, te_relstore )
   .invoke xforms = TranslateTransformerActions( o_obj, te_class, gen_declaration )
   .invoke mda = CreateMathematicallyDependentAttributeMethods( o_obj, gen_declaration )
   .invoke include_files = ClassAddIncludeFiles( te_c, gen_declaration )
@@ -350,7 +352,7 @@ ${instance_loader}\
 ${batch_relation}\
 ${special_where.body}\
 ${xforms.body}
-${rel_frag.body}
+${rendered_relationships}
   .if ( gen_declaration )
     .if ( "C" != te_target.language )
 };
@@ -421,7 +423,7 @@ ${poly_crackers.body}\
 ${mda.body}\
 ${file_epilogue.body}
   .// Deallocate relationship storage.
-  .invoke FiniRelStorageFragment( rel_frag.te_relstore )
+  .invoke FiniRelStorageFragment( te_relstore )
 .end function
 .//
 .//============================================================================

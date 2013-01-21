@@ -80,7 +80,7 @@ ${indent.result}}
   .param inst_ref te_class
   .param string instance
   .//
-  .assign attr_result = FALSE
+  .assign result = FALSE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
   .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
@@ -94,10 +94,10 @@ ${indent.result}}
         .assign dt = member_type.dt
         .// Core_Typ == 5 is "unique_id"
         .// CDS:  Note "select any" when there may be more than one.
-        .select any oida related by o_attr->O_OIDA[R105]
-        .if ( not_empty oida )
+        .select any o_oida related by o_attr->O_OIDA[R105]
+        .if ( not_empty o_oida )
           .select one te_dt related by dt->TE_DT[R2021]
-          .assign attr_result = TRUE
+          .assign result = TRUE
 ${instance}->${te_attr.GeneratedName} = (${te_dt.ExtName}) ${instance};
         .end if
       .elif ( ( 2 == cdt.Core_Typ ) or ( 3 == cdt.Core_Typ ) )
@@ -117,6 +117,7 @@ ${te_instance.module}${te_string.strcpy}( ${instance}->${te_attr.GeneratedName},
     .// Advance to the next object attribute, if any.
     .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
   .end while
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -152,9 +153,9 @@ ${compare_stmt}\
 .//============================================================================
 .function CreateSpecialWhereComparisonArguments
   .param inst_ref o_obj
-  .param inst_ref oid
+  .param inst_ref o_id
   .//
-  .select many ident_attr_set related by oid->O_OIDA[R105]->O_ATTR[R105]
+  .select many ident_attr_set related by o_id->O_OIDA[R105]->O_ATTR[R105]
   .assign num_ident_attr = cardinality ident_attr_set
   .//
   .assign param_list = ""
@@ -172,6 +173,6 @@ ${compare_stmt}\
     .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
   .end while
   .//
-${param_list}\
+  .assign attr_result = param_list
 .end function
 .//

@@ -1,5 +1,5 @@
-.print "dumping class instances into SQL format..."
-.print "Activity"
+.//print "dumping class instances into SQL format..."
+.//print "Activity"
 .select many a_aeas from instances of A_AEA
 .for each a_aea in a_aeas
 INSERT INTO A_AEA VALUES (\
@@ -259,7 +259,7 @@ INSERT INTO A_SS VALUES (\
 , '${a_ss.Name}', ''\
  );
 .end for
-.print "Association"
+.//print "Association"
 .select many r_rels from instances of R_REL
 .for each r_rel in r_rels
 INSERT INTO R_REL VALUES (\
@@ -587,7 +587,7 @@ INSERT INTO R_SUBSUP VALUES (\
   .end if
  );
 .end for
-.print "Breakpoint"
+.//print "Breakpoint"
 .select many bp_bps from instances of BP_BP
 .for each bp_bp in bp_bps
 INSERT INTO BP_BP VALUES (\
@@ -662,7 +662,7 @@ INSERT INTO BP_ST VALUES (\
   .end if
  );
 .end for
-.print "Communication And Access"
+.//print "Communication And Access"
 .select many ca_accs from instances of CA_ACC
 .for each ca_acc in ca_accs
 INSERT INTO CA_ACC VALUES (\
@@ -939,7 +939,7 @@ INSERT INTO CA_SMSME VALUES (\
   .end if
  );
 .end for
-.print "Communication"
+.//print "Communication"
 .select many comm_lnks from instances of COMM_LNK
 .for each comm_lnk in comm_lnks
 INSERT INTO COMM_LNK VALUES (\
@@ -1058,7 +1058,7 @@ INSERT INTO COMM_PIC VALUES (\
   .end if
  );
 .end for
-.print "Component"
+.//print "Component"
 .select many c_cs from instances of C_C
 .for each c_c in c_cs
 INSERT INTO C_C VALUES (\
@@ -1306,7 +1306,7 @@ INSERT INTO C_SF VALUES (\
 , ''\
 , '${c_sf.Label}' );
 .end for
-.print "Component Library"
+.//print "Component Library"
 .select many cl_ics from instances of CL_IC
 .for each cl_ic in cl_ics
 INSERT INTO CL_IC VALUES (\
@@ -1409,7 +1409,7 @@ INSERT INTO CL_IR VALUES (\
 , '${cl_ir.Name}', ''\
  );
 .end for
-.print "Component Nesting"
+.//print "Component Nesting"
 .select many cn_cics from instances of CN_CIC
 .for each cn_cic in cn_cics
 INSERT INTO CN_CIC VALUES (\
@@ -1442,7 +1442,7 @@ INSERT INTO CN_DC VALUES (\
   .end if
  );
 .end for
-.print "Component Packaging"
+.//print "Component Packaging"
 .select many cp_cpinps from instances of CP_CPINP
 .for each cp_cpinp in cp_cpinps
 INSERT INTO CP_CPINP VALUES (\
@@ -1488,7 +1488,7 @@ INSERT INTO CP_CP VALUES (\
 , '${cp_cp.Name}', ''\
  );
 .end for
-.print "Signal Provisions and Requirements"
+.//print "Signal Provisions and Requirements"
 .select many spr_peps from instances of SPR_PEP
 .for each spr_pep in spr_peps
 INSERT INTO SPR_PEP VALUES (\
@@ -1581,7 +1581,7 @@ INSERT INTO SPR_RS VALUES (\
 , ''\
 , ${spr_rs.Suc_Pars} );
 .end for
-.print "Constants"
+.//print "Constants"
 .select many cnst_csps from instances of CNST_CSP
 .for each cnst_csp in cnst_csps
 INSERT INTO CNST_CSP VALUES (\
@@ -1676,7 +1676,7 @@ INSERT INTO CNST_SYC VALUES (\
   .end if
  );
 .end for
-.print "Document"
+.//print "Document"
 .select many doc_addrs from instances of DOC_ADDR
 .for each doc_addr in doc_addrs
 INSERT INTO DOC_ADDR VALUES ( '${doc_addr.street}', '${doc_addr.city}', '${doc_addr.state}', '${doc_addr.postcode}' );
@@ -1753,7 +1753,7 @@ INSERT INTO DOC_SEC VALUES (\
 .for each doc_tbl in doc_tbls
 INSERT INTO DOC_TBL VALUES ( '${doc_tbl.title}', ${doc_tbl.num_cols} );
 .end for
-.print "Domain"
+.//print "Domain"
 .select many s_bparms from instances of S_BPARM
 .for each s_bparm in s_bparms
 INSERT INTO S_BPARM VALUES (\
@@ -2463,7 +2463,7 @@ INSERT INTO S_UDT VALUES (\
   .end if
 , ${s_udt.Gen_Type} );
 .end for
-.print "Package Linking"
+.//print "Package Linking"
 .select many pl_eepids from instances of PL_EEPID
 .for each pl_eepid in pl_eepids
 INSERT INTO PL_EEPID VALUES (\
@@ -2496,7 +2496,7 @@ INSERT INTO PL_FPID VALUES (\
   .end if
  );
 .end for
-.print "Element Packaging"
+.//print "Element Packaging"
 .select many ep_pips from instances of EP_PIP
 .for each ep_pip in ep_pips
 INSERT INTO EP_PIP VALUES (\
@@ -2552,7 +2552,7 @@ INSERT INTO EP_SPKG VALUES (\
   .end if
  );
 .end for
-.print "Globals"
+.//print "Globals"
 .select many g_eiss from instances of G_EIS
 .for each g_eis in g_eiss
 INSERT INTO G_EIS VALUES (\
@@ -2569,7 +2569,7 @@ INSERT INTO G_EIS VALUES (\
   .end if
  );
 .end for
-.print "Instance"
+.//print "Instance"
 .select many i_avls from instances of I_AVL
 .for each i_avl in i_avls
 INSERT INTO I_AVL VALUES (\
@@ -3092,7 +3092,7 @@ INSERT INTO I_VSF VALUES (\
   .end if
  );
 .end for
-.print "Class State Machine Execution"
+.//print "Class State Machine Execution"
 .select many csme_cies from instances of CSME_CIE
 .for each csme_cie in csme_cies
 INSERT INTO CSME_CIE VALUES (\
@@ -3165,7 +3165,7 @@ INSERT INTO CSME_CLM VALUES (\
   .end if
  );
 .end for
-.print "Interaction"
+.//print "Interaction"
 .select many sq_aps from instances of SQ_AP
 .for each sq_ap in sq_aps
 INSERT INTO SQ_AP VALUES (\
@@ -3461,7 +3461,7 @@ INSERT INTO IA_UCP VALUES (\
 , '${ia_ucp.Name}', ''\
  );
 .end for
-.print "Interface Package"
+.//print "Interface Package"
 .select many ip_ipinips from instances of IP_IPINIP
 .for each ip_ipinip in ip_ipinips
 INSERT INTO IP_IPINIP VALUES (\
@@ -3513,7 +3513,7 @@ INSERT INTO IP_IP VALUES (\
 , '${ip_ip.Name}', ''\
  );
 .end for
-.print "Invocation"
+.//print "Invocation"
 .select many act_brgs from instances of ACT_BRG
 .for each act_brg in act_brgs
 INSERT INTO ACT_BRG VALUES (\
@@ -3640,7 +3640,7 @@ INSERT INTO ACT_SGN VALUES (\
   .end if
  );
 .end for
-.print "Message"
+.//print "Message"
 .select many msg_ams from instances of MSG_AM
 .for each msg_am in msg_ams
 INSERT INTO MSG_AM VALUES (\
@@ -3931,7 +3931,7 @@ INSERT INTO MSG_SM VALUES (\
 , '${msg_sm.InformalName}', ''\
 , '${msg_sm.GuardCondition}', '${msg_sm.ResultTarget}', '${msg_sm.ReturnValue}', ${msg_sm.isFormal}, '${msg_sm.Label}', '${msg_sm.SequenceNumb}' );
 .end for
-.print "Packageable Element"
+.//print "Packageable Element"
 .select many pe_crss from instances of PE_CRS
 .for each pe_crs in pe_crss
 INSERT INTO PE_CRS VALUES (\
@@ -4018,7 +4018,7 @@ INSERT INTO PE_SRS VALUES (\
   .end if
 , '${pe_srs.Name}', ${pe_srs.Type} );
 .end for
-.print "Persistence Associations"
+.//print "Persistence Associations"
 .select many pa_dics from instances of PA_DIC
 .for each pa_dic in pa_dics
 INSERT INTO PA_DIC VALUES (\
@@ -4067,7 +4067,7 @@ INSERT INTO PA_SIC VALUES (\
   .end if
  );
 .end for
-.print "Relate And Unrelate"
+.//print "Relate And Unrelate"
 .select many act_rus from instances of ACT_RU
 .for each act_ru in act_rus
 INSERT INTO ACT_RU VALUES (\
@@ -4192,8 +4192,8 @@ INSERT INTO ACT_UNR VALUES (\
   .end if
 , ${act_unr.associationNumberLineNumber}, ${act_unr.associationNumberColumn}, ${act_unr.associationPhraseLineNumber}, ${act_unr.associationPhraseColumn} );
 .end for
-.print "Search"
-.print "Engine"
+.//print "Search"
+.//print "Engine"
 .select many sen_ales from instances of SEN_ALE
 .for each sen_ale in sen_ales
 INSERT INTO SEN_ALE VALUES (\
@@ -4244,7 +4244,7 @@ INSERT INTO SEN_E VALUES (\
   .end if
  );
 .end for
-.print "Participation"
+.//print "Participation"
 .select many sp_alss from instances of SP_ALS
 .for each sp_als in sp_alss
 INSERT INTO SP_ALS VALUES (\
@@ -4307,7 +4307,7 @@ INSERT INTO SP_SE VALUES (\
   .end if
 , '${sp_se.modelRootId}', '${sp_se.className}', ${sp_se.elementId} );
 .end for
-.print "Query"
+.//print "Query"
 .select many squ_as from instances of SQU_A
 .for each squ_a in squ_as
 INSERT INTO SQU_A VALUES (\
@@ -4364,7 +4364,7 @@ INSERT INTO SQU_R VALUES (\
   .end if
  );
 .end for
-.print "Result"
+.//print "Result"
 .select many sr_cmrs from instances of SR_CMR
 .for each sr_cmr in sr_cmrs
 INSERT INTO SR_CMR VALUES (\
@@ -4433,7 +4433,7 @@ INSERT INTO SR_SR VALUES (\
   .end if
  );
 .end for
-.print "Sequence"
+.//print "Sequence"
 .select many sq_miss from instances of SQ_MIS
 .for each sq_mis in sq_miss
 INSERT INTO SQ_MIS VALUES (\
@@ -4507,7 +4507,7 @@ INSERT INTO SQ_S VALUES (\
   .end if
  );
 .end for
-.print "State Machine"
+.//print "State Machine"
 .select many sm_ahs from instances of SM_AH
 .for each sm_ah in sm_ahs
 INSERT INTO SM_AH VALUES (\
@@ -5133,7 +5133,7 @@ INSERT INTO SM_TXN VALUES (\
   .end if
  );
 .end for
-.print "Subsystem"
+.//print "Subsystem"
 .select many o_refs from instances of O_REF
 .for each o_ref in o_refs
 INSERT INTO O_REF VALUES (\
@@ -5455,7 +5455,7 @@ INSERT INTO O_RTIDA VALUES (\
   .end if
  );
 .end for
-.print "System Level Datatypes"
+.//print "System Level Datatypes"
 .select many sld_scinps from instances of SLD_SCINP
 .for each sld_scinp in sld_scinps
 INSERT INTO SLD_SCINP VALUES (\
@@ -5516,7 +5516,7 @@ INSERT INTO SLD_SDINP VALUES (\
   .end if
  );
 .end for
-.print "Translation Extensions"
+.//print "Translation Extensions"
 .select many te_abas from instances of TE_ABA
 .for each te_aba in te_abas
 INSERT INTO TE_ABA VALUES (\
@@ -6311,7 +6311,7 @@ INSERT INTO TE_TYPEMAP VALUES ( '${te_typemap.instance_index_name}', '${te_typem
 .for each te_callout in te_callouts
 INSERT INTO TE_CALLOUT VALUES ( '${te_callout.file}', '${te_callout.initialization}', '${te_callout.pre_xtUML_initialization}', '${te_callout.post_xtUML_initialization}', '${te_callout.background_processing}', '${te_callout.event_cant_happen}', '${te_callout.pre_shutdown}', '${te_callout.post_shutdown}', '${te_callout.event_no_instance}', '${te_callout.event_free_list_empty}', '${te_callout.empty_handle_detected}', '${te_callout.object_pool_empty}', '${te_callout.node_list_empty}', '${te_callout.interleaved_bridge_overflow}', '${te_callout.self_event_queue_empty}', '${te_callout.non_self_event_queue_empty}', '${te_callout.persistence_error}' );
 .end for
-.print "Translation Marking"
+.//print "Translation Marking"
 .select many tm_templates from instances of TM_TEMPLATE
 .for each tm_template in tm_templates
 INSERT INTO TM_TEMPLATE VALUES (\
@@ -6418,7 +6418,7 @@ INSERT INTO TM_TP VALUES (\
 .for each tm_build in tm_builds
 INSERT INTO TM_BUILD VALUES ( '${tm_build.package_to_build}', '${tm_build.package_obj_name}', '${tm_build.package_inst_name}' );
 .end for
-.print "Use Case"
+.//print "Use Case"
 .select many uc_aiucs from instances of UC_AIUC
 .for each uc_aiuc in uc_aiucs
 INSERT INTO UC_AIUC VALUES (\
@@ -6574,7 +6574,7 @@ INSERT INTO UC_UIU VALUES (\
   .end if
  );
 .end for
-.print "Wiring"
+.//print "Wiring"
 .select many s_aws from instances of S_AW
 .for each s_aw in s_aws
 INSERT INTO S_AW VALUES (\
