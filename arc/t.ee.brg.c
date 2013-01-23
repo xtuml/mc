@@ -38,7 +38,7 @@ ${bridge_action_body}\
     .else
   ${te_aba.ReturnDataType} result = ${te_dt.Initial_Value};
     .end if
-    .if ( persistence_needed.result )
+    .if ( te_sys.PersistentClassCount > 0 )
       .if ( ( te_brg.EEkeyletters == "PERSIST" ) and ( te_brg.Name == "commit" ) )
   result = ${te_prefix.result}PersistenceCommit(${parameters.definition});  /* architectural persist routine */
       .elif ( ( te_brg.EEkeyletters == "PERSIST" ) and ( te_brg.Name == "restore" ) )
@@ -76,7 +76,7 @@ ${bridge_action_body}\
   /* Note:  Customer/User must implement this function.  Calling stub.  */
   result = ${te_prefix.result}NVS_version(${parameters.definition});
       .end if
-    .end if .// persistence_needed
+    .end if
   /* Insert your implementation code here... */
   return result;
     .//

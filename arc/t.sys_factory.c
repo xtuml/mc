@@ -41,11 +41,11 @@ ${te_instance.scope}${te_instance.create}(
 {
   ${te_set.element_type} * node;
   ${te_instance.handle} instance;
-  ${dci.class_info_type} * dci = \
+  ${te_cia.class_info_type} * dci = \
 .if ( "SystemC" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
-*(${dci.class_info_name}[ ${domain_num_var} ] + class_num);
+*(${te_cia.class_info_name}[ ${domain_num_var} ] + class_num);
 .end if
 .if ( te_thread.enabled )
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
@@ -79,7 +79,7 @@ ${te_instance.get_dci}(class_num);
 .end if
   return instance;
 }
-.if ( persistence_needed.result )
+.if ( te_sys.PersistentClassCount > 0 )
 ${te_instance.handle}
 ${te_instance.scope}${te_instance.create_persistent}(
   const ${te_typemap.domain_number_name} domain_num,
@@ -104,11 +104,11 @@ ${te_instance.scope}${te_instance.delete}(
 )
 {
   ${te_set.element_type} * node;
-  ${dci.class_info_type} * dci = \
+  ${te_cia.class_info_type} * dci = \
 .if ( "SystemC" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
-*(${dci.class_info_name}[ ${domain_num_var} ] + class_num);
+*(${te_cia.class_info_name}[ ${domain_num_var} ] + class_num);
 .end if
     .//
 .if ( te_thread.enabled )
@@ -133,7 +133,7 @@ ${te_instance.get_dci}(class_num);
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
 .end if
 }
-.if ( persistence_needed.result )
+.if ( te_sys.PersistentClassCount > 0 )
 void
 ${te_instance.scope}${te_instance.delete_persistent}(
   ${te_instance.handle} instance,
@@ -143,7 +143,7 @@ ${te_instance.scope}${te_instance.delete_persistent}(
   ${te_instance.scope}${te_instance.delete}( instance, ${domain_num_var}, class_num );
   Escher_PersistDelete( instance, domain_num, class_num );
 }
-.end if .// persistence_needed
+.end if
 .if ( te_sys.InstanceLoading )
 
 typedef void (*brf)( Escher_iHandle_t );
@@ -163,11 +163,11 @@ void ${te_prefix.result}batch_relate(
   ${te_typemap.instance_index_name} i;
   ${te_set.iterator_class_name} iterator;
   ${te_instance.handle} instance;
-  ${dci.class_info_type} * dci = \
+  ${te_cia.class_info_type} * dci = \
 .if ( "SystemC" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
-*(${dci.class_info_name}[ domain_num ] + class_num);
+*(${te_cia.class_info_name}[ domain_num ] + class_num);
 .end if
   ${te_set.iterator_reset}( &iterator, &dci->${te_extent.active} );
   /* Cycle through the active list of instances of this class.  */
@@ -196,11 +196,11 @@ void ${te_prefix.result}dump_instances(
   ${te_set.iterator_class_name} iterator;
   ${te_instance.handle} instance;
   ${te_prefix.result}idf * instance_dumper;
-  ${dci.class_info_type} * dci = \
+  ${te_cia.class_info_type} * dci = \
 .if ( "SystemC" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
-*(${dci.class_info_name}[ domain_num ] + class_num);
+*(${te_cia.class_info_name}[ domain_num ] + class_num);
 .end if
   ${te_set.iterator_reset}( &iterator, &dci->${te_extent.active} );
   /* Cycle through the active list of instances of this class.  */
@@ -230,11 +230,11 @@ ${te_instance.scope}${te_instance.factory_init}(
 .// Link the instances in reverse order to allow preexisting
 .// instances (if any) to use the front of the array.
 .//
-  ${dci.class_info_type} * dci = \
+  ${te_cia.class_info_type} * dci = \
 .if ( "SystemC" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
-*(${dci.class_info_name}[ domain_num ] + class_num);
+*(${te_cia.class_info_name}[ domain_num ] + class_num);
 .end if
   if ( 0 != dci ) {
 .if ( te_thread.flavor == "OSX" )

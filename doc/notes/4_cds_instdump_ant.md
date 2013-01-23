@@ -63,20 +63,22 @@ conversion challenges with migrating from RSL to xtUML/OAL.  Relationships,
 invocations, parameters, return values, _self_, syntax  and more differ
 between RSL and xtUML/OAL.  RSL is heavily processing-centric with hundreds
 of functions passing many parameters.  Adding functions with parameters into
-an xtUML model is UI labor intensive and difficult to automate.  This large
-amount of work represent a barrier blocking the path forward to model-based
-model compilers.  To make matters worse, we wish to maintain an RSL version
-of a model compiler for some time.
+an xtUML model is UI labor intensive.  The model compilers contain thousands
+of lines of RSL which must be refactored before it can be converted into OAL.
+This large amount of work represent a barrier blocking the path forward to
+model-based model compilers.  To make matters worse, we wish to maintain an
+RSL version of a model compiler for some time.
 
 6.1.2  Idea
 We can maintain both the xtUML/OAL model compiler application and the
 RSL version by generating the RSL version from the xtUML/OAL version.
 xtUML is designed for translation.  So, the conversion can go from xtUML/OAL
-to RSL much easier than the other way around.
+to RSL much easier than the other way around.  We will build an RSL
+model compiler.
 
 6.1 Packaging
 There are several alternatives for packaging the OAL/RSL into
-action bodies.  The two most apparent are function and operations.
+action bodies.  The two most compelling are functions and operations.
 
 6.1.1  Pros and Cons of Packaging Alternatives
 Functional cohesion would dictate allocating processing to classes packaged
@@ -85,8 +87,11 @@ to the data being operated upon.  However class operations are more widely
 distributed in the model and thus separated from related action language
 bodies allocated to other classes.
 
-Functions have a more direct mapping to a set of RSL archetype files.  They
-are easier to see and edit in the xtUML Editor.
+Functions have a more direct mapping to a set of RSL archetype files.
+They are easier to see and edit in the xtUML Editor.  It should not be
+difficult to reallocate the functions to operations in the future.
+
+We will start with OAL functions with very close mapping to the RSL.
 
 
 6.1 File Naming
@@ -95,7 +100,7 @@ model of the model compiler will have the information needed to
 generate the RSL file.
 
 It may be simpler to use fewer archetype files.  However, the
-ordering of the functions in the archetype file might then be a
+ordering of the functions in the archetype files might then be a
 challenge.
 
 <TE_keyletters>_<operation_name>
@@ -104,7 +109,7 @@ The operation name may have a (sub)pattern.
 6.1.1 Function Name Pattern
 The function can be marked with a file name that will carry the contents
 of the fuction.  The Description field of the function can be given an RSL
-parse keyword pair to name file (e.g. file:sys.arc).
+parse keyword pair to name the file (e.g. file:sys.arc).
 
 
 Outline of Steps

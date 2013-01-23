@@ -72,11 +72,9 @@
   .// top-level domain connection to the rest of the system.
   .select any te_class related by te_c->TE_CLASS[R2064]
   .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
-  .invoke dci = GetClassInfoArrayNaming()
-  .invoke domain_class_info = GetDomainClassInfoName( te_c.Name )
-  .invoke max_class_number = GetDomainClassNumberName( te_c.Name )
+  .select any te_cia from instances of TE_CIA
+  .select one te_dci related by te_c->TE_DCI[R2090]
   .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
-  .invoke class_numbers = GetDomainClassNumberName( te_c.Name )
   .select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsInitFunction ) and ( selected.XlateSemantics ) )
   .invoke s = CreateDomainInitSegment( te_c, te_syncs, te_sm )
   .assign init_segment = s.body
@@ -86,7 +84,6 @@
   .assign instance_dumpers = ""
   .assign class_info_init = ""
   .if ( te_c.internal_behavior )
-    .invoke te_c_CollectLimits( te_c )
     .invoke class_type_identifiers = CreateClassIdentifierFile( te_c )
     .assign instance_dumpers = class_type_identifiers.instance_dumpers
     .assign class_info_init = class_type_identifiers.class_info_init

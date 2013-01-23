@@ -14,7 +14,45 @@
  *
  * ${te_copyright.body}
  *
-${system_parameters.s}\
+ *
+ * System Name:  ${te_sys.ExecutableName}
+ * System ID:    ${te_sys.SystemID}
+ * Model Compiler Product Information:
+ * Product:  ${te_sys.ModelCompilerName}
+ * Version:  ${te_sys.ModelCompilerVersion}
+ * S/N:      ${te_sys.ModelCompilerSerNum}
+ * System default/colored values:
+ * MaxStringLen:  ${te_sys.MaxStringLen}
+ * MaxObjExtent:  ${te_sys.MaxObjExtent}
+ * MaxRelExtent:  ${te_sys.MaxRelExtent}
+ * MaxSelectExtent:  ${te_sys.MaxSelectExtent}
+ * MaxSelfEvents:  ${te_sys.MaxSelfEvents}
+ * MaxNonSelfEvents:  ${te_sys.MaxNonSelfEvents}
+ * MaxTimers:  ${te_sys.MaxTimers}
+ * MaxInterleavedBridges:  ${te_sys.MaxInterleavedBridges}
+ * MaxInterleavedBridgeDataSize:  ${te_sys.MaxInterleavedBridgeDataSize}
+ * CollectionsFlavor:  ${te_sys.CollectionsFlavor}
+ * ForcePriorityEvents:  ${te_sys.ForcePriorityEvents}
+ * PEIClassCount:  ${te_sys.PEIClassCount}
+ * PersistentClassCount:  ${te_sys.PersistentClassCount}
+ * PersistInstanceCacheDepth:  ${te_sys.PersistInstanceCacheDepth}
+ * PersistLinkCacheDepth:  ${te_sys.PersistLinkCacheDepth}
+.for each te_c in active_te_cs
+ *
+ * Component Name:  ${te_c.Name}
+ * MaxObjExtent:  ${te_c.MaxObjExtent}
+ * MaxRelExtent:  ${te_c.MaxRelExtent}
+ * MaxSelectExtent:  ${te_c.MaxSelectExtent}
+ * MaxSelfEvents:  ${te_c.MaxSelfEvents}
+ * MaxNonSelfEvents:  ${te_c.MaxNonSelfEvents}
+ * MaxPriorityEvents:  ${te_c.MaxPriorityEvents}
+ * MaxTimers:  ${te_c.MaxTimers}
+ * InterleavedBridges:  ${te_c.InterleavedBridges}
+ * PEIClassCount:  ${te_c.PEIClassCount}
+ * PersistentClassCount:  ${te_c.PersistentClassCount}
+ * InterleavedDataSize:  ${te_sys.MaxInterleavedBridgeDataSize}
+ * CollectionsFlavor:  ${te_sys.CollectionsFlavor}
+.end for
  *--------------------------------------------------------------------------*/
 
 #ifndef ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext}
@@ -50,7 +88,7 @@ typedef unsigned char bool;
 #define FALSE ( (bool) 0 )
 #define TRUE  ( (bool) (!FALSE) )
 
-${system_parameters.body}
+${system_parameters}
 
 /*
  * Core types with byte widths defined for MISRA-C compliance.
@@ -84,7 +122,7 @@ typedef ${te_typemap.event_flags_type} ${te_typemap.event_flags_name};
 typedef ${te_typemap.event_priority_type} ${te_typemap.event_priority_name};
 typedef ${te_typemap.SEM_cell_type} ${te_typemap.SEM_cell_name};
 typedef ${instid.instid_typedef} ${instid.instid_type};
-.if ( persistence_needed.result )
+.if ( te_sys.PersistentClassCount > 0 )
 typedef ${link_type_type} ${link_type_name};
 .end if
 

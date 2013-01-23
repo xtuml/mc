@@ -31,12 +31,14 @@
   .// Select singletons into scope.
   .select any te_file from instances of TE_FILE
   .select any te_eq from instances of TE_EQ
+  .select any te_extent from instances of TE_EXTENT
   .select any te_instance from instances of TE_INSTANCE
   .select any te_prefix from instances of TE_PREFIX
   .select any te_set from instances of TE_SET
   .select any te_string from instances of TE_STRING
   .select any te_target from instances of TE_TARGET
   .select any te_tim from instances of TE_TIM
+  .select any te_typemap from instances of TE_TYPEMAP
   .select any empty_cp_cp from instances of CP_CP where ( false )
   .select any empty_ep_pkg from instances of EP_PKG where ( false )
   .select any empty_te_c from instances of TE_C where ( false )
@@ -140,6 +142,14 @@
   .assign nonself_te_queue.MaxDepth = 0
   .assign nonself_te_queue.Type = 2
   .//
+  .// Create the (domain) class info array instance.
+  .// CDS - This may end up being part of a component rather than a system.
+  .create object instance te_cia of TE_CIA
+  .assign te_cia.class_info_name = "domain_class_info"
+  .assign te_cia.class_info_type = te_extent.type
+  .assign te_cia.active_count = "active_count"
+  .assign te_cia.class_count = "domain_class_count"
+  .assign te_cia.count_type = te_typemap.object_number_name
   .//
   .//
   .// Create the Extended Component instance(s) and link them up.
@@ -165,6 +175,19 @@
     .assign te_c.port_file = te_c.Name
     .assign te_c.classes_file = te_c.Name + "_classes"
     .assign te_c.CodeComments = true
+    .// Create and relate the domain class info to carry details about
+    .// class extents for this component.
+    .create object instance te_dci of TE_DCI
+    .// relate te_dci to te_c across R2090;
+    .assign te_dci.te_cId = te_c.ID
+    .assign te_dci.class_numbers = te_c.Name + "_CLASS_NUMBERS"
+    .assign te_dci.union = te_c.Name + "_CLASS_U"
+    .assign te_dci.task_list = te_c.Name + "_task_numbers"
+    .assign te_dci.task_numbers = te_c.Name + "_TASK_NUMBERS"
+    .assign te_dci.max = te_c.Name + "_MAX_CLASS_NUMBERS"
+    .assign te_dci.max_models = te_c.Name + "_STATE_MODELS"
+    .assign te_dci.init = te_c.Name + "_CLASS_INFO_INIT"
+    .assign te_dci.array_name = te_c.Name + "_class_info"
     .// Create the Component Instance instances.
     .select many cl_ics related by c_c->CL_IC[R4201]
     .for each cl_ic in cl_ics
@@ -1477,7 +1500,7 @@
           .// referential attribute
           .invoke r = GetAttributeCodeGenType( o_attr )
           .assign te_attr.GeneratedType = r.result
-          .assign s_dt = a.dt
+          .assign s_dt = r.dt
           .select one te_dt related by s_dt->TE_DT[R2021]
         .end if
         .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
@@ -1657,6 +1680,7 @@
     .assign te_act.Act_ID = sm_act.Act_ID
     .assign te_act.SM_ID = sm_act.SM_ID
     .assign te_act.GeneratedName = ( te_class.GeneratedName + class_based ) + ( "_act" + "${te_state.Numb}" )
+    .//.select many te_parms related by sm_state->SM_SEME[R503]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532]->TE_PARM[R2031]
     .invoke r = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
     .assign te_aba = r.te_aba
     .// relate te_act to te_aba across R2010;
@@ -1675,7 +1699,6 @@
   .//
   .// Create the actions for the transitions.
   .assign counter = 1
-  .//.select many sm_acts related by sm_sm->SM_TXN[R505]->SM_TAH[R530]->SM_AH[R513]->SM_ACT[R514] where ( selected.Action_Semantics != "" )
   .// CDS This is the hairiest traversal we do.  We are finding actions
   .// CDS that actually have action language.
   .select many sm_acts related by sm_sm->SM_TXN[R505]->SM_TAH[R530]->SM_AH[R513]->SM_ACT[R514]->ACT_TAB[R688]->ACT_ACT[R698]->ACT_BLK[R666]->ACT_SMT[R602]->ACT_BLK[R602]->ACT_ACT[R666]->ACT_TAB[R698]->SM_ACT[R688]
@@ -1687,6 +1710,7 @@
     .assign te_act.SM_ID = sm_act.SM_ID
     .assign te_act.GeneratedName = ( te_class.GeneratedName + class_based ) + ( "_xact" + "${counter}" )
     .assign te_act.number = counter
+    .//.select many te_parms related by sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532]->TE_PARM[R2031]
     .invoke r = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
     .assign te_aba = r.te_aba
     .// relate te_act to te_aba across R2010;

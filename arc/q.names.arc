@@ -419,19 +419,6 @@
 .end function
 .//
 .//============================================================================
-.// Provide the name of the class_info structure and its members.
-.//============================================================================
-.function GetClassInfoArrayNaming
-  .select any te_typemap from instances of TE_TYPEMAP
-  .select any te_extent from instances of TE_EXTENT
-  .assign attr_class_info_name = "domain_class_info"
-  .assign attr_class_info_type = te_extent.type
-  .assign attr_active_count = "active_count"
-  .assign attr_class_count = "domain_class_count"
-  .assign attr_count_type = te_typemap.object_number_name
-.end function
-.//
-.//============================================================================
 .// Provide a name for the routine that will check if an instance is
 .// dirty, mark it if is not and queue it for flusing later.
 .//============================================================================
@@ -482,27 +469,5 @@
   .assign attr_dirty_name = "persist_dirty"
   .assign attr_dirty_dirty = 1
   .assign attr_dirty_clean = 0
-.end function
-.//
-.//============================================================================
-.// Return the constant name to be used for the domain class number set.
-.//============================================================================
-.function GetDomainClassNumberName
-  .param string registered_domain
-  .assign attr_result = registered_domain + "_CLASS_NUMBERS"
-  .assign attr_union = registered_domain + "_CLASS_U"
-  .assign attr_task_list = registered_domain + "_task_numbers"
-  .assign attr_task_numbers = registered_domain + "_TASK_NUMBERS"
-  .assign attr_max = registered_domain + "_MAX_CLASS_NUMBERS"
-  .assign attr_max_models = registered_domain + "_STATE_MODELS"
-.end function
-.//
-.//============================================================================
-.// Return the constant name to be used for the class information set.
-.//============================================================================
-.function GetDomainClassInfoName
-  .param string registered_domain
-  .assign attr_result = registered_domain + "_CLASS_INFO_INIT"
-  .assign attr_array_name = registered_domain + "_class_info"
 .end function
 .//

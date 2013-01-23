@@ -121,6 +121,7 @@
 .//.invoke r = TE_CLASS_instance_dumper()
 .//${r.body}
 .//.emit to file "../../src/q.class.instance.dump.arc"
+.//.include "${te_file.arc_path}/schema_gen.arc"
 .//.exit 507
 .//
 .// 5) Perform domain level marking.
@@ -144,7 +145,7 @@
 .invoke translate_all_oal()
 .//
 .print "dumping instances ${info.date}"
-.include "${arc_path}/q.class.instance.dump.arc"
+.include "${te_file.arc_path}/q.class.instance.dump.arc"
 .print "done dumping instances ${info.date}"
 .end if
 .// 8) Include system level user defined archetype functions.
@@ -175,6 +176,14 @@
 .select any te_trace from instances of TE_TRACE
 .select any te_typemap from instances of TE_TYPEMAP
 .//
+.select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
+.invoke SetSystemSelfEventQueueParameters( active_te_cs )
+.invoke SetSystemNonSelfEventQueueParameters( active_te_cs )
+.invoke r = RenderSystemLimitsDeclarations( active_te_cs )
+.assign system_parameters = r.body
+.invoke system_class_array = DefineClassInfoArray( active_te_cs )
+.invoke domain_ids = DeclareDomainIdentityEnums( active_te_cs )
+.//
 .select many te_ees from instances of TE_EE where ( ( ( selected.RegisteredName != "TIM" ) and ( selected.te_cID == 0 ) ) and ( selected.Included ) )
 .if ( not_empty te_ees )
   .select any te_c from instances of TE_C where ( false )
@@ -187,13 +196,6 @@
   .include "${te_file.arc_path}/q.classes.arc"
 .end for
 .//
-.select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
-.invoke SetSystemSelfEventQueueParameters( active_te_cs )
-.invoke SetSystemNonSelfEventQueueParameters( active_te_cs )
-.invoke system_parameters = RenderSystemLimitsDeclarations( active_te_cs )
-.invoke system_class_array = DefineClassInfoArray( active_te_cs )
-.invoke domain_ids = DeclareDomainIdentityEnums( active_te_cs )
-.//
 .// Generate the interface code between the components.
 .include "${te_file.arc_path}/q.components.arc"
 .//
@@ -203,11 +205,10 @@
 .//============================================================================
 .invoke main_decl = GetMainTaskEntryDeclaration()
 .invoke return_body = GetMainTaskEntryReturn()
-.invoke dci = GetClassInfoArrayNaming()
+.select any te_cia from instances of TE_CIA
 .//
 .// function-based archetype generation
 .//
-.invoke persistence_needed = IsPersistenceSupportNeeded()
 .invoke instid = GetPersistentInstanceIdentifierVariable()
 .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
 .invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
@@ -232,12 +233,13 @@
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
   .if ( te_c.internal_behavior )
+    .select one te_dci related by te_c->TE_DCI[R2090]
     .assign all_domain_include_files = all_domain_include_files + "#include ""${te_c.classes_file}.${te_file.hdr_file_ext}""\n"
     .assign all_instance_loaders = all_instance_loaders + "  ${te_c.Name}_instance_loaders,\n"
     .assign all_batch_relaters = all_batch_relaters + "  ${te_c.Name}_batch_relaters,\n"
-    .assign all_instance_dumpersd = all_instance_dumpersd + "extern ${te_prefix.result}idf ${te_c.Name}_instance_dumpers[ ${te_c.Name}_MAX_CLASS_NUMBERS ];\n"
+    .assign all_instance_dumpersd = all_instance_dumpersd + "extern ${te_prefix.result}idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ];\n"
     .assign all_instance_dumpers = all_instance_dumpers + "  ${te_c.Name}_instance_dumpers,\n"
-    .assign all_max_class_numbers = all_max_class_numbers + " + ${te_c.Name}_MAX_CLASS_NUMBERS"
+    .assign all_max_class_numbers = ( all_max_class_numbers + " + " ) + te_dci.max
   .end if
 .end for
 .//
@@ -264,11 +266,13 @@
 .include "${te_file.arc_path}/t.sys_main.c"
 .emit to file "${te_file.system_source_path}/${te_file.sys_main}.${te_file.src_file_ext}"
 .//
-.invoke active_class_counts = DefineActiveClassCountArray( te_cs )
+.invoke r = DefineActiveClassCountArray( te_cs )
+.assign active_class_counts = r.body
 .assign dom_count = cardinality te_cs
 .assign domain_num_var = "domain_num"
-.if ( persistence_needed.result )
-  .invoke persist_class_union = PersistentClassUnion( active_te_cs )
+.if ( te_sys.PersistentClassCount > 0 )
+  .invoke r = PersistentClassUnion( active_te_cs )
+  .assign persist_class_union = r.result
   .invoke persist_post_link = GetPersistentPostLinkName()
   .invoke persist_link_info = PersistLinkType()
   .assign link_type_name = persist_link_info.name

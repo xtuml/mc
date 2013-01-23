@@ -22,12 +22,12 @@
 .end if
 #define NUM_OF_XTUML_CLASS_THREADS ${te_thread.number_of_threads}
 #define NUM_OF_TOTAL_THREADS NUM_OF_XTUML_CLASS_THREADS\
-.if ( persistence_needed.result )
+.if ( te_sys.PersistentClassCount > 0 )
  + 1
 #define PERSISTENCE_THREAD_NUMBER NUM_OF_TOTAL_THREADS - 1
 .else
 
-.end if .// persistence_needed
+.end if
 .assign i = 0
 #define SEMAPHORE_FLAVOR_IQUEUE    ${i}
 .assign i = i + 1
@@ -46,10 +46,10 @@
 #define SEMAPHORE_FLAVOR_TIMER     ${i}
 .assign i = i + 1
 #define SEMAPHORE_FLAVOR_ILB       ${i}
-.if ( persistence_needed.result )
+.if ( te_sys.PersistentClassCount > 0 )
 .assign i = i + 1
 #define SEMAPHORE_FLAVOR_PERSIST   ${i}
-.end if .// persistence_needed
+.end if
 .assign i = i + 1
 #define SEMAPHORE_FLAVOR_MAX       ${i}
 

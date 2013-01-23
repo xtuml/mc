@@ -2414,6 +2414,7 @@ CREATE TABLE TE_SYS (
 	VFB	BOOLEAN,
 	SystemCPortsType	STRING,
 	AllPortsPoly	BOOLEAN,
+	DomainClassNumberName	STRING,
 	Sys_ID	UNIQUE_ID );
 
 -- Class:  2005.  Dispatcher
@@ -3141,7 +3142,7 @@ CREATE TABLE TE_MACT (
 	te_evtID	UNIQUE_ID,
 	nextID	UNIQUE_ID );
 
--- Class:  2270.  Interface Instance
+-- Class:  2070.  Interface Instance
 CREATE TABLE TE_IIR (
 	ID	UNIQUE_ID,
 	component_name	STRING,
@@ -3154,6 +3155,26 @@ CREATE TABLE TE_IIR (
 	c_irId	UNIQUE_ID,
 	te_poID	UNIQUE_ID,
 	provider_te_iirID	UNIQUE_ID );
+
+-- Class:  2071.  DomainClassInfo
+CREATE TABLE TE_DCI (
+	te_cID	UNIQUE_ID,
+	class_numbers	STRING,
+	union	STRING,
+	task_list	STRING,
+	task_numbers	STRING,
+	max	STRING,
+	max_models	STRING,
+	init	STRING,
+	array_name	STRING );
+
+-- Class:  2072.  Class Info Array
+CREATE TABLE TE_CIA (
+	class_info_name	STRING,
+	class_info_type	STRING,
+	active_count	STRING,
+	class_count	STRING,
+	count_type	STRING );
 
 
 -- ============================================================================
@@ -3278,7 +3299,7 @@ CREATE TABLE TM_TPV (
 -- Classes In Subsystem:  Translation OAL  
 -- ============================================================================
 
--- Class:  2011.  Extended Block
+-- Class:  2100.  Extended Block
 CREATE TABLE TE_BLK (
 	Block_ID	UNIQUE_ID,
 	first_Statement_ID	UNIQUE_ID,
@@ -3291,22 +3312,7 @@ CREATE TABLE TE_BLK (
 	indentation	STRING,
 	AbaID	UNIQUE_ID );
 
--- Class:  2031.  Extended Statement
-CREATE TABLE TE_SMT (
-	Statement_ID	UNIQUE_ID,
-	OAL	STRING,
-	declaration	STRING,
-	initialization	STRING,
-	deallocation	STRING,
-	buffer	STRING,
-	buffer2	STRING,
-	trace	STRING,
-	next_Statement_ID	UNIQUE_ID,
-	sub_Block_ID	UNIQUE_ID,
-	subtypeKL	STRING,
-	parent_Block_ID	UNIQUE_ID );
-
--- Class:  2034.  Extended Chain Link
+-- Class:  2101.  Extended Chain Link
 CREATE TABLE TE_LNK (
 	ID	UNIQUE_ID,
 	Mult	INTEGER,
@@ -3324,7 +3330,22 @@ CREATE TABLE TE_LNK (
 	last	BOOLEAN,
 	assoc_type	STRING );
 
--- Class:  2070.  OAL assign
+-- Class:  2102.  Extended Statement
+CREATE TABLE TE_SMT (
+	Statement_ID	UNIQUE_ID,
+	OAL	STRING,
+	declaration	STRING,
+	initialization	STRING,
+	deallocation	STRING,
+	buffer	STRING,
+	buffer2	STRING,
+	trace	STRING,
+	next_Statement_ID	UNIQUE_ID,
+	sub_Block_ID	UNIQUE_ID,
+	subtypeKL	STRING,
+	parent_Block_ID	UNIQUE_ID );
+
+-- Class:  2103.  OAL assign
 CREATE TABLE TE_ASSIGN (
 	isImplicit	BOOLEAN,
 	dimensions	INTEGER,
@@ -3336,49 +3357,25 @@ CREATE TABLE TE_ASSIGN (
 	Statement_ID	UNIQUE_ID,
 	rval_dimensions	INTEGER );
 
--- Class:  2071.  OAL for
-CREATE TABLE TE_FOR (
-	isImplicit	BOOLEAN,
-	class_name	STRING,
-	loop_variable	STRING,
-	set_variable	STRING,
+-- Class:  2104.  OAL break
+CREATE TABLE TE_BREAK (
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2072.  OAL if
-CREATE TABLE TE_IF (
-	condition	STRING,
+-- Class:  2105.  OAL bridge
+CREATE TABLE TE_BRIDGE (
+	bridge_name	STRING,
+	parameters	STRING,
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2073.  OAL while
-CREATE TABLE TE_WHILE (
-	condition	STRING,
+-- Class:  2106.  OAL continue
+CREATE TABLE TE_CONTINUE (
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2074.  OAL else
-CREATE TABLE TE_ELSE (
+-- Class:  2107.  OAL control
+CREATE TABLE TE_CONTROL (
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2075.  OAL elif
-CREATE TABLE TE_ELIF (
-	condition	STRING,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2076.  OAL create_instance
-CREATE TABLE TE_CREATE_INSTANCE (
-	o_obj	UNIQUE_ID,
-	is_implicit	BOOLEAN,
-	class_name	STRING,
-	var_name	STRING,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2077.  OAL delete_instance
-CREATE TABLE TE_DELETE_INSTANCE (
-	o_obj	UNIQUE_ID,
-	var_name	STRING,
-	del_count	INTEGER,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2078.  OAL create_event
+-- Class:  2108.  OAL create_event
 CREATE TABLE TE_CREATE_EVENT (
 	sm_evt	UNIQUE_ID,
 	is_implicit	BOOLEAN,
@@ -3390,7 +3387,108 @@ CREATE TABLE TE_CREATE_EVENT (
 	parameters	STRING,
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2079.  OAL relate
+-- Class:  2109.  OAL create_instance
+CREATE TABLE TE_CREATE_INSTANCE (
+	o_obj	UNIQUE_ID,
+	is_implicit	BOOLEAN,
+	class_name	STRING,
+	var_name	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2110.  OAL delete_instance
+CREATE TABLE TE_DELETE_INSTANCE (
+	o_obj	UNIQUE_ID,
+	var_name	STRING,
+	del_count	INTEGER,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2111.  OAL elif
+CREATE TABLE TE_ELIF (
+	condition	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2112.  OAL else
+CREATE TABLE TE_ELSE (
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2113.  OAL event_parameters
+CREATE TABLE TE_EVENT_PARAMETERS (
+	evt_msg_var	STRING,
+	parameter	STRING,
+	value	STRING,
+	value_type	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2114.  OAL for
+CREATE TABLE TE_FOR (
+	isImplicit	BOOLEAN,
+	class_name	STRING,
+	loop_variable	STRING,
+	set_variable	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2115.  OAL function
+CREATE TABLE TE_FUNCTION (
+	method	STRING,
+	parameters	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2116.  OAL generate
+CREATE TABLE TE_GENERATE (
+	sm_evt	UNIQUE_ID,
+	self_directed	BOOLEAN,
+	var_name	STRING,
+	event_label	STRING,
+	event_meaning	STRING,
+	parameters	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2117.  OAL generate_creator_event
+CREATE TABLE TE_GENERATE_CREATOR_EVENT (
+	sm_evt	UNIQUE_ID,
+	self_directed	BOOLEAN,
+	var_name	STRING,
+	event_label	STRING,
+	event_meaning	STRING,
+	parameters	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2118.  OAL generate_precreated_event
+CREATE TABLE TE_GENERATE_PRECREATED_EVENT (
+	self_directed	BOOLEAN,
+	var_name	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2119.  OAL generate_to_class
+CREATE TABLE TE_GENERATE_TO_CLASS (
+	sm_evt	UNIQUE_ID,
+	self_directed	BOOLEAN,
+	var_name	STRING,
+	event_label	STRING,
+	even_meaning	STRING,
+	parameters	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2120.  OAL if
+CREATE TABLE TE_IF (
+	condition	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2121.  OAL iop
+CREATE TABLE TE_IOP (
+	name	STRING,
+	parameters	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2122.  OAL operation
+CREATE TABLE TE_OPERATION (
+	instance_based	BOOLEAN,
+	operation_name	STRING,
+	parameters	STRING,
+	var_name	STRING,
+	Statement_ID	UNIQUE_ID );
+
+-- Class:  2123.  OAL relate
 CREATE TABLE TE_RELATE (
 	one_o_obj	UNIQUE_ID,
 	oth_o_obj	UNIQUE_ID,
@@ -3402,7 +3500,7 @@ CREATE TABLE TE_RELATE (
 	oth_var_name	STRING,
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2080.  OAL relate_using
+-- Class:  2124.  OAL relate_using
 CREATE TABLE TE_RELATE_USING (
 	one_o_obj	UNIQUE_ID,
 	oth_o_obj	UNIQUE_ID,
@@ -3418,35 +3516,14 @@ CREATE TABLE TE_RELATE_USING (
 	oth_rel_phrase	STRING,
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2081.  OAL unrelate
-CREATE TABLE TE_UNRELATE (
-	one_o_obj	UNIQUE_ID,
-	oth_o_obj	UNIQUE_ID,
-	r_rel	UNIQUE_ID,
-	is_inflexive	BOOLEAN,
-	relationship_number	INTEGER,
-	relationship_phrase	STRING,
-	one_var_name	STRING,
-	oth_var_name	STRING,
+-- Class:  2125.  OAL return
+CREATE TABLE TE_RETURN (
+	value	STRING,
+	cast1	STRING,
+	cast2	STRING,
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2082.  OAL urelate_using
-CREATE TABLE TE_UNRELATE_USING (
-	one_o_obj	UNIQUE_ID,
-	oth_o_obj	UNIQUE_ID,
-	ass_o_obj	UNIQUE_ID,
-	r_rel	UNIQUE_ID,
-	is_reflexive	BOOLEAN,
-	relationship_number	INTEGER,
-	relationship_phrase	STRING,
-	one_var_name	STRING,
-	oth_var_name	STRING,
-	ass_var_name	STRING,
-	one_rel_phrase	STRING,
-	oth_rel_phrase	STRING,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2083.  OAL select
+-- Class:  2126.  OAL select
 CREATE TABLE TE_SELECT (
 	o_obj	UNIQUE_ID,
 	is_implicit	BOOLEAN,
@@ -3457,22 +3534,7 @@ CREATE TABLE TE_SELECT (
 	var_name	STRING,
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2085.  OAL select_where
-CREATE TABLE TE_SELECT_WHERE (
-	o_obj	UNIQUE_ID,
-	is_implicit	BOOLEAN,
-	class_name	STRING,
-	oal_var_name	STRING,
-	class_description	STRING,
-	multiplicity	STRING,
-	var_name	STRING,
-	selected_var_name	STRING,
-	where_clause	STRING,
-	special	BOOLEAN,
-	oid_id	INTEGER,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2086.  OAL select_related
+-- Class:  2127.  OAL select_related
 CREATE TABLE TE_SELECT_RELATED (
 	Statement_ID	UNIQUE_ID,
 	link_ID	UNIQUE_ID,
@@ -3492,51 +3554,22 @@ CREATE TABLE TE_SELECT_RELATED (
 	start_var_OAL	STRING,
 	te_classGeneratedName	STRING );
 
--- Class:  2087.  OAL generate_precreated_event
-CREATE TABLE TE_GENERATE_PRECREATED_EVENT (
-	self_directed	BOOLEAN,
+-- Class:  2128.  OAL select_where
+CREATE TABLE TE_SELECT_WHERE (
+	o_obj	UNIQUE_ID,
+	is_implicit	BOOLEAN,
+	class_name	STRING,
+	oal_var_name	STRING,
+	class_description	STRING,
+	multiplicity	STRING,
 	var_name	STRING,
+	selected_var_name	STRING,
+	where_clause	STRING,
+	special	BOOLEAN,
+	oid_id	INTEGER,
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2088.  OAL event_parameters
-CREATE TABLE TE_EVENT_PARAMETERS (
-	evt_msg_var	STRING,
-	parameter	STRING,
-	value	STRING,
-	value_type	STRING,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2089.  OAL generate
-CREATE TABLE TE_GENERATE (
-	sm_evt	UNIQUE_ID,
-	self_directed	BOOLEAN,
-	var_name	STRING,
-	event_label	STRING,
-	event_meaning	STRING,
-	parameters	STRING,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2090.  OAL generate_creator_event
-CREATE TABLE TE_GENERATE_CREATOR_EVENT (
-	sm_evt	UNIQUE_ID,
-	self_directed	BOOLEAN,
-	var_name	STRING,
-	event_label	STRING,
-	event_meaning	STRING,
-	parameters	STRING,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2091.  OAL generate_to_class
-CREATE TABLE TE_GENERATE_TO_CLASS (
-	sm_evt	UNIQUE_ID,
-	self_directed	BOOLEAN,
-	var_name	STRING,
-	event_label	STRING,
-	even_meaning	STRING,
-	parameters	STRING,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2092.  OAL sgn
+-- Class:  2129.  OAL sgn
 CREATE TABLE TE_SGN (
 	sm_evt	UNIQUE_ID,
 	self_directed	BOOLEAN,
@@ -3546,49 +3579,37 @@ CREATE TABLE TE_SGN (
 	parameters	STRING,
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2093.  OAL iop
-CREATE TABLE TE_IOP (
-	name	STRING,
-	parameters	STRING,
+-- Class:  2130.  OAL unrelate
+CREATE TABLE TE_UNRELATE (
+	one_o_obj	UNIQUE_ID,
+	oth_o_obj	UNIQUE_ID,
+	r_rel	UNIQUE_ID,
+	is_inflexive	BOOLEAN,
+	relationship_number	INTEGER,
+	relationship_phrase	STRING,
+	one_var_name	STRING,
+	oth_var_name	STRING,
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2094.  OAL operation
-CREATE TABLE TE_OPERATION (
-	instance_based	BOOLEAN,
-	operation_name	STRING,
-	parameters	STRING,
-	var_name	STRING,
+-- Class:  2140.  OAL urelate_using
+CREATE TABLE TE_UNRELATE_USING (
+	one_o_obj	UNIQUE_ID,
+	oth_o_obj	UNIQUE_ID,
+	ass_o_obj	UNIQUE_ID,
+	r_rel	UNIQUE_ID,
+	is_reflexive	BOOLEAN,
+	relationship_number	INTEGER,
+	relationship_phrase	STRING,
+	one_var_name	STRING,
+	oth_var_name	STRING,
+	ass_var_name	STRING,
+	one_rel_phrase	STRING,
+	oth_rel_phrase	STRING,
 	Statement_ID	UNIQUE_ID );
 
--- Class:  2095.  OAL bridge
-CREATE TABLE TE_BRIDGE (
-	bridge_name	STRING,
-	parameters	STRING,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2096.  OAL function
-CREATE TABLE TE_FUNCTION (
-	method	STRING,
-	parameters	STRING,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2097.  OAL return
-CREATE TABLE TE_RETURN (
-	value	STRING,
-	cast1	STRING,
-	cast2	STRING,
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2098.  OAL control
-CREATE TABLE TE_CONTROL (
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2099.  OAL break
-CREATE TABLE TE_BREAK (
-	Statement_ID	UNIQUE_ID );
-
--- Class:  2100.  OAL continue
-CREATE TABLE TE_CONTINUE (
+-- Class:  2150.  OAL while
+CREATE TABLE TE_WHILE (
+	condition	STRING,
 	Statement_ID	UNIQUE_ID );
 
 
@@ -6228,6 +6249,9 @@ CREATE ROP REF_ID R2088	FROM MC TE_ABA	(te_cID)
 
 CREATE ROP REF_ID R2089	FROM MC TE_BRG	(EE_ID)
 			  TO 1  TE_EE	(EE_ID);
+
+CREATE ROP REF_ID R2090	FROM 1  TE_DCI	(te_cID)
+			  TO 1  TE_C	(ID);
 
 
 -- ============================================================================

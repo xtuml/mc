@@ -40,7 +40,7 @@
     .assign scount = scount + 1
   .end while
   .if ( "SystemC" == te_target.language )
-    .invoke class_numbers_list = GetDomainClassNumberName( te_c.Name )
+    .select one te_dci related by te_c->TE_DCI[R2090]
     .include "${te_file.arc_path}/t.domain_init.factories.c"
   .end if
 .end function
@@ -138,8 +138,7 @@
     .assign object_set_type = object_set_type + 1
   .end while
   .//
-  .invoke class_numbers_list = GetDomainClassNumberName( te_c.Name )
-  .invoke domain_class_info = GetDomainClassInfoName( te_c.Name )
+  .select one te_dci related by te_c->TE_DCI[R2090]
   .// These includes are for MISRA-C compliance.  The above typedefs
   .// normally are enough.
   .for each te_class in te_classes
@@ -177,7 +176,7 @@
   .// Build the domain init file containing data structures collecting
   .// class info for the entire domain.
   .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
-  .invoke dci = GetClassInfoArrayNaming()
+  .select any te_cia from instances of TE_CIA
   .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
   .//
   .// Create file for enums "owned" by this domain.

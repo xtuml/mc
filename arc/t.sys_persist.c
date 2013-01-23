@@ -23,7 +23,7 @@
 #include "${te_file.nvs_bridge}.${te_file.hdr_file_ext}"
 #include "${te_file.persist}.${te_file.hdr_file_ext}"
 
-${persist_class_union.body}
+${persist_class_union}
 #define PERSIST_LARGEST_CLASS sizeof( ${persist_class_union.uname} )
 #define PERSIST_LINK_TYPE 0
 #define PERSIST_INSTANCE_TYPE 1
@@ -47,10 +47,10 @@ ${persist_class_union.body}
  */
 
 /*
- * We need access to the ${dci.class_info_name} to access the instance
+ * We need access to the ${te_cia.class_info_name} to access the instance
  * management structure.
  */
-extern ${dci.class_info_type} * const * const ${dci.class_info_name}[];
+extern ${te_cia.class_info_type} * const * const ${te_cia.class_info_name}[];
 
 /*
  * insts and links are dynamic lists of dirty instances and links
@@ -90,10 +90,10 @@ static bool is_active_class(
 )
 {
   bool rc = false;
-  static const ${te_typemap.object_number_name} ${dci.active_count}[ SYSTEM_DOMAIN_COUNT ] = {
-${active_class_counts.body}\
+  static const ${te_typemap.object_number_name} ${te_cia.active_count}[ SYSTEM_DOMAIN_COUNT ] = {
+${active_class_counts}\
   };
-  if ( class_num < ${dci.active_count}[ ${domain_num_var} ] ) {
+  if ( class_num < ${te_cia.active_count}[ ${domain_num_var} ] ) {
     rc = true;
   }
   return rc;
@@ -114,7 +114,7 @@ static ${te_typemap.instance_index_name} ${te_prefix.result}getindex(
   const ${te_typemap.object_number_name} class_num
 )
 {
-  ${dci.class_info_type} * dci = *( ${dci.class_info_name}[ ${domain_num_var} ] + class_num );
+  ${te_cia.class_info_type} * dci = *( ${te_cia.class_info_name}[ ${domain_num_var} ] + class_num );
   return ( ((c_t *) instance - (c_t *) dci->pool ) / dci->size );
 }
 
@@ -133,7 +133,7 @@ static ${te_instance.handle} ${te_prefix.result}getinstance(
   const ${te_typemap.instance_index_name} index
 )
 {
-  ${dci.class_info_type} * dci = *( ${dci.class_info_name}[ ${domain_num_var} ] + class_num );
+  ${te_cia.class_info_type} * dci = *( ${te_cia.class_info_name}[ ${domain_num_var} ] + class_num );
   return (${te_instance.handle})
     ( (c_t *) dci->pool + ( dci->size * index ) );
 }
@@ -367,7 +367,7 @@ ${te_persist.commit}( void )
       ${te_typemap.domain_number_name} domain_num;
       ${te_typemap.object_number_name} class_num;
       ${te_typemap.instance_index_name} index_num;
-      ${dci.class_info_type} * dci;
+      ${te_cia.class_info_type} * dci;
       node->next = insts_inactive.head; /* Shift item onto inst queue.  */
       insts_inactive.head = node;
 .if ( te_thread.enabled )
@@ -378,7 +378,7 @@ ${te_persist.commit}( void )
       domain_num = ili->inst.inst.instance_identifier.domainnum;
       class_num = ili->inst.inst.instance_identifier.classnum;
       index_num = ili->inst.inst.instance_identifier.index;
-      dci = *( ${dci.class_info_name}[ domain_num ] + class_num );
+      dci = *( ${te_cia.class_info_name}[ domain_num ] + class_num );
       if ( ili->inst.operation == 0x81 ) {
         if ( ( rc = NVS_insert( (domain_num << 24) + (class_num << 16) +
           ili->inst.inst.instance_identifier.index, dci->size_no_rel,
@@ -452,7 +452,7 @@ ${te_persist.restore}( void )
   i_t rc = 0, type;
   c_t buffer[ PERSIST_LARGEST_CLASS + 1 ];
   c_t done = 0;
-  ${dci.class_info_type} * dci;
+  ${te_cia.class_info_type} * dci;
   u4_t key;
   i_t length;
   restoring = true;
@@ -472,7 +472,7 @@ ${te_persist.restore}( void )
       ii = (${te_typemap.instance_index_name}) ( key & 0x0000ffff );
       cn = (${te_typemap.object_number_name}) ( ( key >> 16 ) & 0x000000ff );
       dn = (${te_typemap.domain_number_name}) ( ( key >> 24 ) & 0x000000ff );
-      dci = *( ${dci.class_info_name}[ dn ] + cn );
+      dci = *( ${te_cia.class_info_name}[ dn ] + cn );
       i1->${instid.dirty_name} = ${instid.dirty_clean}; /* Mark as "clean".  */
 .if ( te_sys.CollectionsFlavor == 20 )
       node = dci->container + ii; /* pointer arithmetic */
@@ -504,7 +504,7 @@ ${te_persist.restore}( void )
        */
       ${link_type_name} link;
       ${te_string.memmove}( &link, buffer, sizeof( ${link_type_name} ) );
-      dci = *( ${dci.class_info_name}[ link.owner.domainnum ]
+      dci = *( ${te_cia.class_info_name}[ link.owner.domainnum ]
         + link.owner.classnum );
       dci->link_function( link.owner.index,
         ${te_prefix.result}getinstance(
