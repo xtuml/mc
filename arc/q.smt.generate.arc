@@ -174,7 +174,9 @@
     .if ( 8 == r_te_dt.Core_Typ )
       .// CDS - This should change when generic instance references are converted to IRDTs.
       .select one te_class related by root_v_val->V_IRF[R801]->V_VAR[R808]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019]
-      .assign te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + root_te_val.buffer
+      .if ( not_empty te_class )
+        .assign te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + root_te_val.buffer
+      .end if
     .elif ( 9 == r_te_dt.Core_Typ )
       .// no need to do anything special here, because the type will be vanilla set base class
     .end if

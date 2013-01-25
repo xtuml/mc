@@ -35,7 +35,7 @@ functionality will migrate from RSL to xtUML.
 Model compilers load instance data from input xtUML model files.  The
 MC export API plugins output SQL-format data that is loaded by the model
 compiler.  The current instance loading is limited in speed and capacity.
-Large customer models are pressing into and passing this limit.  At least
+Large customer models are pressing into and past this limit.  At least
 two customers are running into long translation times and memory capacity
 failures while compiling their models.
 

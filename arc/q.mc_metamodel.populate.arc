@@ -1298,8 +1298,9 @@
     .invoke FactoryTE_LNK( act_lnk )
   .end for
   .// Link the chain links together in extensions as in meta-model proper.
-  .for each act_lnk in act_lnks
-    .select one te_lnk related by act_lnk->TE_LNK[R2042]
+  .select many te_lnks from instances of TE_LNK
+  .for each te_lnk in te_lnks
+    .select one act_lnk related by te_lnk->ACT_LNK[R2042]
     .select one next_act_lnk related by act_lnk->ACT_LNK[R604.'succeeds']
     .if ( not_empty next_act_lnk )
       .select one next_te_lnk related by next_act_lnk->TE_LNK[R2042]

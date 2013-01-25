@@ -2201,7 +2201,8 @@ CREATE TABLE SM_SGEVT (
 	SM_ID	UNIQUE_ID,
 	SMspd_ID	UNIQUE_ID,
 	Provided_Signal_Id	UNIQUE_ID,
-	Required_Signal_Id	UNIQUE_ID );
+	Required_Signal_Id	UNIQUE_ID,
+	signal_name	STRING );
 
 -- Class:  529.  Transition Action Home
 CREATE TABLE SM_TAH (
