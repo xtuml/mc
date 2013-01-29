@@ -33,43 +33,73 @@ functionality will migrate from RSL to xtUML.
 4. Background
 -------------
 Model compilers load instance data from input xtUML model files.  The
-MC export API plugins output SQL-format data that is loaded by the model
-compiler.  The current instance loading is limited in speed and capacity.
-Large customer models are pressing into and passing this limit.  At least
-two customers are running into long translation times and memory capacity
-failures while compiling their models.
-
+MC export API plugins output SQL-format data that is then loaded by the
+model compiler.  The current instance loading is limited in speed and
+capacity.  Large models are pressing into and passing this limit.
+At least two customers are running into long translation times (> 1 hour)
+and memory capacity (4GB) failures while compiling their models.
 
 
 5. Requirements
 ---------------
 5.1 Speed
-The model compiler will translate models at least twice as fast as compiled
+The model compiler shall translate models at least twice as fast as compiled
 by the presently shipping version (3.6.0) of BridgePoint.
 
 5.2 Size
-The model compiler will translate models at least 50% larger than handled
+The model compiler shall translate models at least 50% larger than handled
 by version 3.6.0 of BridgePoint.
 
 
 6. Analysis
 -----------
 
-6.1  Breakthrough
-
-6.1.1  Problem
+6.1  Problem
 Even though RSL and OAL are similar, they are not the same.  There are
 conversion challenges with migrating from RSL to xtUML/OAL.  Relationships,
-invocations, parameters, return values, _self_, syntax  and more differ
+invocations, parameters, return values, _self_, syntax and more differ
 between RSL and xtUML/OAL.  RSL is heavily processing-centric with hundreds
 of functions passing many parameters.  Adding functions with parameters into
 an xtUML model is UI labor intensive.  The model compilers contain thousands
 of lines of RSL which must be refactored before it can be converted into OAL.
-This large amount of work represent a barrier blocking the path forward to
+This large amount of work represents a barrier blocking the path forward to
 model-based model compilers.  To make matters worse, we wish to maintain an
 RSL version of a model compiler for some time.
 
-6.1.2  Idea
+6.1.1  Relationships
+In RSL associations are realized using relational data base techniques.
+There is no relate statement.  For an association to have any meaning it
+must exist in the data model and must be formalized using identifiers
+and referentials (foreign keys).  In RSL, setting the referential
+attribute set to the related class identifier is the means for establishing
+a traversable association.
+
+6.1.2  Invocations, Parameters and Return Values
+RSL uses an invoke key word when calling functions.  Parameters are weakly
+typed and passed positionally.  Parameters do not have labels.  Values
+(note multiple) are returned from the function as fields in a return
+"fragment".  These fields can then be read in the context of the caller.
+
+6.1.3  Self and Scoping
+The concept of _self_ does not exist in RSL.  There are instances of
+classes, but each instance must be accessed through a handle from a
+selection or recent creation.  Within a function, scoping behaves
+similarly between RSL and OAL.  However, RSL has some special rules
+for the outer scope.  This includes a limitation on emitting text to
+files from anywhere other than the outer scope.  In the face of this,
+RSL in loops at the outer scope is re-interpretted on each pass.
+
+6.1.4  Substitution Variables and Templating
+RSL supports substitution variables and intermixes templating with
+these sustitution variables and string processing.  The RSL syntax for
+these features is unique to RSL and is orthoganal to OAL syntax.
+These syntax differences represent the "greatest distance" between
+RSL and OAL.
+
+
+6.2  Breakthrough
+
+6.2.1  Idea
 We can maintain both the xtUML/OAL model compiler application and the
 RSL version by generating the RSL version from the xtUML/OAL version.
 xtUML is designed for translation.  So, the conversion can go from xtUML/OAL
