@@ -4,83 +4,52 @@ Copyright 2013 Mentor Graphics Corporation
 
 ---
 
-xtUML Project Analysis Note
+xtUML Project Design Note
 
-Add Instance Dumping to the C Model Compiler
-Leaping the Chasm to MBMCs
-A Significant Baby Step for MBMCs
-Model Compiler Speed-Up
-Translating the OAL and Value Subsystems
+Instance Dumping and Model Compiler Speed-Up
 
 
-1. Abstract
------------
+1.  Abstract
+------------
 Instance loading and dumping capability in the model compiler will be
 added/enhanced to improve translation speed.  The OAL translation
 functionality will migrate from RSL to xtUML.
 
 
-2. History
-----------
-
-
-3. Document References
-----------------------
-[1] Issues 4 <https://github.com/xtuml/mc/issues/4>
-    Create instance dumper for C model compiler.
-
-
-4. Background
--------------
-Model compilers load instance data from input xtUML model files.  The
-MC export API plugins output SQL-format data that is loaded by the model
-compiler.  The current instance loading is limited in speed and capacity.
-Large customer models are pressing into and past this limit.  At least
-two customers are running into long translation times and memory capacity
-failures while compiling their models.
-
-
-
-5. Requirements
----------------
-5.1 Speed
-The model compiler will translate models at least twice as fast as compiled
-by the presently shipping version (3.6.0) of BridgePoint.
-
-5.2 Size
-The model compiler will translate models at least 50% larger than handled
-by version 3.6.0 of BridgePoint.
-
-
-6. Analysis
+2.  History
 -----------
 
-6.1  Breakthrough
 
-6.1.1  Problem
-Even though RSL and OAL are similar, they are not the same.  There are
-conversion challenges with migrating from RSL to xtUML/OAL.  Relationships,
-invocations, parameters, return values, _self_, syntax  and more differ
-between RSL and xtUML/OAL.  RSL is heavily processing-centric with hundreds
-of functions passing many parameters.  Adding functions with parameters into
-an xtUML model is UI labor intensive.  The model compilers contain thousands
-of lines of RSL which must be refactored before it can be converted into OAL.
-This large amount of work represent a barrier blocking the path forward to
-model-based model compilers.  To make matters worse, we wish to maintain an
-RSL version of a model compiler for some time.
+3.  Document References
+-----------------------
+[1] Issues 4 <https://github.com/xtuml/mc/issues/4>
+    Create instance dumper for C model compiler.
+[2] Analysis Note <https://github.com/xtuml/mc/doc/notes/4_cds_instdump_ant.md>
 
-6.1.2  Idea
-We can maintain both the xtUML/OAL model compiler application and the
-RSL version by generating the RSL version from the xtUML/OAL version.
-xtUML is designed for translation.  So, the conversion can go from xtUML/OAL
-to RSL much easier than the other way around.  We will build an RSL
-model compiler.
 
-6.1 Packaging
+4.  Background
+--------------
+See [2].
+
+
+5.  Analysis
+------------
+See [2].
+
+
+6.  Requirements
+----------------
+See [2].
+
+
+7.  Design
+----------
+
+### 7.1 Packaging
 There are several alternatives for packaging the OAL/RSL into
 action bodies.  The two most compelling are functions and operations.
 
-6.1.1  Pros and Cons of Packaging Alternatives
+#### 7.1.1  Pros and Cons of Packaging Alternatives
 Functional cohesion would dictate allocating processing to classes packaged
 into class operations.  This would keep functionality in close proximity
 to the data being operated upon.  However class operations are more widely
@@ -94,7 +63,7 @@ difficult to reallocate the functions to operations in the future.
 We will start with OAL functions with very close mapping to the RSL.
 
 
-6.1 File Naming
+### 7.2 File Naming
 The name of an archetype file needs to be easy to generate.  The
 model of the model compiler will have the information needed to
 generate the RSL file.
@@ -109,18 +78,12 @@ The operation name may have a (sub)pattern.
 6.1.1 Function Name Pattern
 The function can be marked with a file name that will carry the contents
 of the fuction.  The Description field of the function can be given an RSL
+
+
+The function can be marked with a file name that will carry the contents
+of the fuction.  The Description field of the function can be given an RSL
 parse keyword pair to name the file (e.g. file:sys.arc).
-
-
-Outline of Steps
-- (3 days) Eliminate the multi-attr_ approach from RSL.  Use attr_ to return a single
-value only.  Then, using only attr_result/body.  Treat assignment of attr_ as the
-return statement.
-- (3 days) Make consistent parameter naming/labeling.
-- (2 days) Add commented relate statements everywhere in the RSL.
-- (5 days) Refactor RSL MC into appropriate files and functions.
-- (5 days) Test.  Run test cases continually.
-- (10 days) Build RSL MC.
+  
 
 Migrate (RSL->OAL), gen (OAL->RSL), compare (gen'd RSL to edited RSL),
 replace (edited RLS with OAL/gen'd RSL) little by little
@@ -225,16 +188,16 @@ t.smt.c (difficult) [TE_SMT] 29
 q.val.translate.arc (easy but long) [TE_VAL] 34
 
 
+8.  Design Comments
+-------------------
 
-8. Acceptance Test
-------------
-8.1    Timing Test
-8.1.1  Translate xtuml/agilegc/models/gc and achieve a measured translation
-       time half or less than that of 3.6.0
-8.1.2  Translate xtuml/agilegc/models/anyapp and achieve a measured translation
-       time half or less than that of 3.6.0
-8.2    Size Test
-8.2.1  Successfully translate xtuml/agilegc/models/SYS.
+9.  Work Required
+-----------------
+
+10.  Unit Test
+--------------
+
+
 
 End
 ---
