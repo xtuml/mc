@@ -45,11 +45,57 @@ See [2].
 7.  Design
 ----------
 
-### 7.1 Packaging
+- (2 days) Baseline a command line test suite.
+- (10 days) Test.  Run test cases continually.
+- (2 days) Add commented relate statements everywhere in the RSL.
+- (5 days) Eliminate the multi-attr return from all RSL functions.
+- (5 days) Make consistent parameter naming/labeling/typing.
+- (10 days) Segregate mixed queries and templates.
+- (3 days) Migrate top-level transient variables into MC meta-model.
+- (5 days) Refactor RSL into model-based files and functions.
+- (15 days) Build RSL MC.
+- (2 days) Build a tool to easily import function and parameters from
+a text file.
+- (3 days) Refresh arlan to do some conversion of RSL to OAL.
+
+### 7.1 Baseline Test
+- Use https://github.com/xtuml/models/VandMCtest/mctest models.
+- Run the models using the command line interface.  (Or, if preferred,
+simply run xtumlmc_build on the .sql file for each model, thus skipping
+the parse/MC-export step on each test iteration).
+- Store the generated code into a location where it can be easily compared
+with future generated code.
+- Build a script to compare newly generated code with baseline generated
+code reporting differences.
+
+### 7.2 Run Tests
+After each consistent, self-contained RSL change, run the test suite and
+verify that the output generated code is unchanged.  Also check for error
+messages in the translation logs.
+
+### 7.3 Relate Statements
+RSL does not have relate; it simply copies identifiers into referential
+attributes.  The OAL will do both until an RSL model compiler automates
+the generation of the foreign key copy statements.  Identify all places
+in the RSL where these "foreign key" relates are being done and provide
+a comment in the line above that has the correct syntax OAL relate
+statement.
+
+### 7.4 Function Return Data
+- Identify all usage of the attr approach for returning data.
+- Change all RSL to follow these rules:
+  - Only _result_, _body_ and by-reference parameters are valid vehicles
+for returning data.
+
+### 7.5 Parameter Naming and Labeling
+### 7.6 Segregate Queries and Templates
+### 7.7 Migrate Top-Level Transients
+
+### 7.8 Packaging
 There are several alternatives for packaging the OAL/RSL into
 action bodies.  The two most compelling are functions and operations.
 
-#### 7.1.1  Pros and Cons of Packaging Alternatives
+#### 7.8.1  Pros and Cons of Packaging Alternatives
 Functional cohesion would dictate allocating processing to classes packaged
 into class operations.  This would keep functionality in close proximity
 to the data being operated upon.  However class operations are more widely
@@ -62,11 +108,18 @@ difficult to reallocate the functions to operations in the future.
 
 We will start with OAL functions with very close mapping to the RSL.
 
+Using one or a very few function packages, create functions for each
+of the archetype functions.  The parameter and return value signature
+should match.
 
-### 7.2 File Naming
+Use a tool to automate this work.  [See section 7.10.]
+
+#### 7.8.2 File Naming
 The name of an archetype file needs to be easy to generate.  The
 model of the model compiler will have the information needed to
-generate the RSL file.
+generate the RSL file.  The function can be marked with a file
+name that will carry the contents of the fuction.  The Description
+field of the function can be given an RSL file name.
 
 It may be simpler to use fewer archetype files.  However, the
 ordering of the functions in the archetype files might then be a
@@ -75,15 +128,26 @@ challenge.
 <TE_keyletters>_<operation_name>
 The operation name may have a (sub)pattern.
 
-6.1.1 Function Name Pattern
-The function can be marked with a file name that will carry the contents
-of the fuction.  The Description field of the function can be given an RSL
+### 7.9 RSL Model Compiler
+Create an RSL model compiler that converts a set of OAL functions
+into a corresponding set of RSL functions.
+
+### 7.10 Function Prototype Import Tool
+An import tool prototype has already been created that can read a file
+line by line and import functions with the return data types, parameters
+and parameter types.  Solidify this tool for use in the initial import
+of RSL functions into xtUML.  With hundreds of functions to create, one
+or two full days could be spent on a tool.
+
+### 7.11 Refresh arlan (Archetype Language Parser)
+A flex/bison parser was created years ago that can parse RSL (archetype
+language).  A derivative of this parser exists to convert RSL into OAL.
+It is called rsl2oal.  Find this.  Build it.  Establish/Restore its
+usefulness, or abandon it.
 
 
-The function can be marked with a file name that will carry the contents
-of the fuction.  The Description field of the function can be given an RSL
-parse keyword pair to name the file (e.g. file:sys.arc).
-  
+
+
 
 Migrate (RSL->OAL), gen (OAL->RSL), compare (gen'd RSL to edited RSL),
 replace (edited RLS with OAL/gen'd RSL) little by little
@@ -128,18 +192,6 @@ Functionize (OAL) beginning of 3020.
 Test in RSL-only first.
 Rid more transients.
 
-
-
-7. Work Required
-----------------
-
-7.1 Relate Statements
-RSL does not have relate; it simply copies identifiers into referential
-attributes.  The OAL will do both until an RSL model compiler automates
-the generation of the foreign key copy statements.
-
-7.2 Parameter Naming and Labeling
-7.2 RSL Invoke Statement
 
 
 sys.arc (easy) [TE_SYS]
