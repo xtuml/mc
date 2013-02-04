@@ -394,8 +394,12 @@
     .end for
     .if ( generic_packages )
       .select many te_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
+      .select many nested_te_cs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
+      .assign te_cs = te_cs | nested_te_cs
       .select many referenced_te_cs related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
       .assign te_cs = te_cs | referenced_te_cs
+      .select many nested_referenced_te_cs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
+      .assign te_cs = te_cs | nested_referenced_te_cs
     .else
       .select many te_cs related by cp_cp->C_C[R4608]->TE_C[R2054]
       .select many referenced_te_cs related by cp_cp->CL_IC[R4605]->C_C[R4201]->TE_C[R2054]

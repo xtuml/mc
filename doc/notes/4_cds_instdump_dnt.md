@@ -6,7 +6,7 @@ Copyright 2013 Mentor Graphics Corporation
 
 xtUML Project Design Note
 
-Instance Dumping and Model Compiler Speed-Up
+#### Instance Dumping and Model Compiler Speed-Up
 
 
 1.  Abstract
@@ -45,51 +45,78 @@ See [2].
 7.  Design
 ----------
 
-- (2 days) Baseline a command line test suite.
-- (10 days) Test.  Run test cases continually.
-- (2 days) Add commented relate statements everywhere in the RSL.
-- (5 days) Eliminate the multi-attr return from all RSL functions.
-- (5 days) Make consistent parameter naming/labeling/typing.
-- (10 days) Segregate mixed queries and templates.
-- (3 days) Migrate top-level transient variables into MC meta-model.
-- (5 days) Refactor RSL into model-based files and functions.
-- (15 days) Build RSL MC.
-- (2 days) Build a tool to easily import function and parameters from
-a text file.
-- (3 days) Refresh arlan to do some conversion of RSL to OAL.
-
 ### 7.1 Baseline Test
 - Use https://github.com/xtuml/models/VandMCtest/mctest models.
 - Run the models using the command line interface.  (Or, if preferred,
-simply run xtumlmc_build on the .sql file for each model, thus skipping
-the parse/MC-export step on each test iteration).
+  simply run xtumlmc_build on the .sql file for each model, thus skipping
+  the parse/MC-export step on each test iteration).
 - Store the generated code into a location where it can be easily compared
-with future generated code.
+  with future generated code.
 - Build a script to compare newly generated code with baseline generated
-code reporting differences.
+  code reporting differences.
 
 ### 7.2 Run Tests
 After each consistent, self-contained RSL change, run the test suite and
 verify that the output generated code is unchanged.  Also check for error
-messages in the translation logs.
+messages in the translation logs.  Commit the change to configuration
+management.
 
 ### 7.3 Relate Statements
-RSL does not have relate; it simply copies identifiers into referential
-attributes.  The OAL will do both until an RSL model compiler automates
-the generation of the foreign key copy statements.  Identify all places
-in the RSL where these "foreign key" relates are being done and provide
-a comment in the line above that has the correct syntax OAL relate
-statement.
+RSL does not have _relate_; it simply copies identifiers into referential
+attributes.  Identify all places in the RSL where these "foreign key"
+relates are being done and provide a comment in the line above that has
+the correct syntax OAL relate statement.  Place a side comment (// relate)
+on the referential copy statements that identify them as superfluous in the
+presence of _relate_.
 
 ### 7.4 Function Return Data
 - Identify all usage of the attr approach for returning data.
-- Change all RSL to follow these rules:
+- Change RSL to follow these rules:
   - Only _result_, _body_ and by-reference parameters are valid vehicles
-for returning data.
+    for returning data.
+  - Use _body_ only for plain text templating.
+  - Use _.invoke r = f()_ followed by _.assign [var] = r.result_ as the
+    pattern for returning data.
+- If a function is called from more than one place, use the function
+  in a consistent way across all usages (same name for transient, etc.).
+- If a function is called from more than one place, consider storing
+  the return value in model data and calling it only once.
 
 ### 7.5 Parameter Naming and Labeling
+Unlike OAL, parameters are passed in RSL without labels.  They depend
+upon the position of the passed value to align with the declaration of
+the parameter in the function definition.  To enable a clear mapping
+of parameters between OAL and RSL, follow and enforce the following
+rules onto parameter syntax:
+- Use lower case for parameter naming.
+- For parameters of type _inst_ref_, name the parameter as the lower
+  case rendition of the class keyletters of its class type.
+- When more than one parameter are of the same type, prepend one or
+  all of them with distinguishing characters, but keep the lowercase
+  key letters as the ending of the name.  (example:  right_o_obj, left_o_obj)
+
 ### 7.6 Segregate Queries and Templates
+Model compilers use templating languages.  Templating languages can
+be confusing to look at, because the same text file may contain
+instructions from the two languages.  Both the language of the model
+compiler (OAL or RSL) and the language of the target (C, System-C, VHDL, etc.)
+may be present in the text stream.  It is possible and desirable
+(and often difficult) to minimize this mixing of languages.
+
+RSL allows an arbitrary mixing of template with query.  However, OAL
+is more limited in its template support.  Thus, it is necessary to
+separate query from template enough to make the port to OAL.
+
+Separate the template portion (plain text with substitution variables)
+of archetypes into template files.  Name the template files starting
+with "t" and a meta-model naming connection to the imbedding query.
+
 ### 7.7 Migrate Top-Level Transients
+The current model compiler populates transient variables at the top
+level and uses them as global variables.  Any data element important
+enough to be defined globally and used at lower levels is important
+enough to be modeled.  Migrate this data into the translation
+meta-model allocating to existing entities or creating new ones.
 
 ### 7.8 Packaging
 There are several alternatives for packaging the OAL/RSL into
@@ -109,10 +136,8 @@ difficult to reallocate the functions to operations in the future.
 We will start with OAL functions with very close mapping to the RSL.
 
 Using one or a very few function packages, create functions for each
-of the archetype functions.  The parameter and return value signature
-should match.
-
-Use a tool to automate this work.  [See section 7.10.]
+of the archetype functions.  Use a tool to automate this work.
+[See section 7.10.]
 
 #### 7.8.2 File Naming
 The name of an archetype file needs to be easy to generate.  The
@@ -145,21 +170,16 @@ language).  A derivative of this parser exists to convert RSL into OAL.
 It is called rsl2oal.  Find this.  Build it.  Establish/Restore its
 usefulness, or abandon it.
 
+### 7.12 C++ and System-C Branches
+Add the C++ and System-C specialized folders to the git repository
+branch for this work.  Then, make changes as necessary to work with
+the updated set of common RSL archetypes.
 
 
 
 
-Migrate (RSL->OAL), gen (OAL->RSL), compare (gen'd RSL to edited RSL),
-replace (edited RLS with OAL/gen'd RSL) little by little
 
-RSL model compiler:  param ordering, invoke?, param labeling
-Relates need refs in a comment, bridge or actual (until RSL MC generates them).
-
-Consider RSL MC that uses Action_Semantics versus traversing/iterating ACT_SMTs.
-  .invoke r = f(); .assign x = r.result;
-  return x; -> .assign attr_result = x
-
-
+### 7.13  General Notes
 
 Remove domain_CLASS_INFO_INIT macro and simply put the data in the C file.
   batch_relater_init

@@ -145,9 +145,10 @@ step to step.
 - (3 days) Migrate top-level transient variables into MC meta-model.
 - (5 days) Package RSL into model-based files and functions.
 - (15 days) Build RSL MC.
-- (2 days) Build a tool to easily import function and parameters from
-a text file.
+- (2 days) Build a tool to easily import functions and parameters from
+  a text file.
 - (3 days) Refresh arlan to do some conversion of RSL to OAL.
+- (10 days) Bring the C++ and SystemC branches up to date.
 
 
 8.  Acceptance Test
@@ -160,7 +161,8 @@ time half or less than that of 3.6.0
 Translate xtuml/agilegc/models/anyapp and achieve a measured translation
 time half or less than that of 3.6.0
 ### 8.2    Size Test
-#### 8.2.1  Successfully translate xtuml/agilegc/models/SYS.
+#### 8.2.1  SYS Model
+Successfully translate xtuml/agilegc/models/SYS.
 
 End
 ---

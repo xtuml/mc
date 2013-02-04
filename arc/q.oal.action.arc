@@ -30,7 +30,7 @@
         .select one o_dbattr related by te_dbattr->O_DBATTR[R2026]
         .select one te_attr related by o_dbattr->O_BATTR[R107]->O_ATTR[R106]->TE_ATTR[R2033]
         .if ( ( te_attr.Used ) or ( te_c.OptDisabled ) )
-          .if ( 1 = o_dbattr.Suc_Pars )
+          .if ( 1 == o_dbattr.Suc_Pars )
             .select one act_blk related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666]
           .end if
         .end if
