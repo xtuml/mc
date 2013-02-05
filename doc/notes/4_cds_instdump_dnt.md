@@ -54,6 +54,7 @@ See [2].
   with future generated code.
 - Build a script to compare newly generated code with baseline generated
   code reporting differences.
+- Search the ranslation logs for ERRORs.
 
 ### 7.2 Run Tests
 After each consistent, self-contained RSL change, run the test suite and
@@ -81,21 +82,22 @@ mark a copy unless it is correct.)
     pattern for returning data.
 - If a function is called from more than one place, use the function
   in a consistent way across all usages (same name for transient, etc.).
-- If a function is called from more than one place, consider storing
-  the return value in model data and calling it only once.
+- If a function is called from more than one place, consider calling it
+  only once and storing the return value in model data.
 
 ### 7.5 Parameter Naming and Labeling
 Unlike OAL, parameters are passed in RSL without labels.  They depend
 upon the position of the passed value to align with the declaration of
 the parameter in the function definition.  To enable a clear mapping
 of parameters between OAL and RSL, follow and enforce the following
-rules onto parameter syntax:
+rules governing parameter syntax:
 - Use lower case for parameter naming.
 - For parameters of type _inst_ref_, name the parameter as the lower
   case rendition of the class keyletters of its class type.
 - When more than one parameter are of the same type, prepend one or
   all of them with distinguishing characters, but keep the lowercase
   key letters as the ending of the name.  (example:  right_o_obj, left_o_obj)
+- For instance reference sets, add the plural 's' to the name.
 
 ### 7.6 Segregate Queries and Templates
 Model compilers use templating languages.  Templating languages can
@@ -111,14 +113,15 @@ separate query from template enough to make the port to OAL.
 
 Separate the template portion (plain text with substitution variables)
 of archetypes into template files.  Name the template files starting
-with "t" and a meta-model naming connection to the imbedding query.
+with "t" and a model compiler model naming connection to the imbedding query.
+As much as practical perform all queries and then include templates.
 
 ### 7.7 Migrate Top-Level Transients
 The current model compiler populates transient variables at the top
 level and uses them as global variables.  Any data element important
 enough to be defined globally and used at lower levels is important
 enough to be modeled.  Migrate this data into the translation
-meta-model allocating to existing entities or creating new ones.
+model allocating to existing entities or creating new ones.
 
 ### 7.8 Packaging
 There are several alternatives for packaging the OAL/RSL into
