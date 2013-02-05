@@ -65,9 +65,11 @@ management.
 RSL does not have _relate_; it simply copies identifiers into referential
 attributes.  Identify all places in the RSL where these "foreign key"
 relates are being done and provide a comment in the line above that has
-the correct syntax OAL relate statement.  Place a side comment (// relate)
-on the referential copy statements that identify them as superfluous in the
-presence of _relate_.
+the correct syntax OAL relate statement.  Place a comment (.// end relate)
+after the referential copy statements that identify them as superfluous in the
+presence of _relate_.  (Check each association as the relate side comment
+is placed.  Be sure that the correct referentials are being copied.  Do
+mark a copy unless it is correct.)
 
 ### 7.4 Function Return Data
 - Identify all usage of the attr approach for returning data.
@@ -157,6 +159,9 @@ The operation name may have a (sub)pattern.
 Create an RSL model compiler that converts a set of OAL functions
 into a corresponding set of RSL functions.
 
+Consider generating the code using the _OAL_ filed of TE_SMT which
+already re-constructs the OAL from the instance data.
+
 ### 7.10 Function Prototype Import Tool
 An import tool prototype has already been created that can read a file
 line by line and import functions with the return data types, parameters
@@ -180,6 +185,19 @@ the updated set of common RSL archetypes.
 
 
 ### 7.13  General Notes
+
+As opportunity presents it, use TE_* instances in place of OOA
+instances in the MC when possible.  We eventually want the model
+compiler to work from its own model exclusively.
+
+What do we do with RSL that initializes referentials to zero with
+the intention of making sure that they are unrelated?
+
+I expect there will be ambiguity in the reflexive relate statements.
+After conversion to OAL, check coverage on these.
+
+RSL makes an assumption in a few places on the order of colletions.
+Look for comments holding "CDS".
 
 Remove domain_CLASS_INFO_INIT macro and simply put the data in the C file.
   batch_relater_init

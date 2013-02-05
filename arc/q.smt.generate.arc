@@ -102,6 +102,7 @@
   .assign te_smt.buffer = s.body
   .assign te_smt.buffer2 = s.ending
   .// Skip tracing ELSE because it falls between } and else.
+  .//.assign te_smt.OAL = "ELSE"
   .assign te_smt.OAL = ""
 .end function
 .//
