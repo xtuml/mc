@@ -186,6 +186,8 @@ the updated set of common RSL archetypes.
 
 ### 7.13  General Notes
 
+Compare instance dumps.
+
 As opportunity presents it, use TE_* instances in place of OOA
 instances in the MC when possible.  We eventually want the model
 compiler to work from its own model exclusively.
