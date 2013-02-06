@@ -50,12 +50,12 @@
       .end if
       .assign te_blk.initialization = te_blk.initialization + te_smt.initialization
       .if ( "" != te_smt.OAL )
-        .assign te_blk.code = te_blk.code + "${te_blk.indentation}/* ${te_smt.OAL} */\n"
+        .assign te_blk.code = te_blk.code + "${te_blk.indentation}${te_smt.OAL}\n"
         .if ( trace )
           .assign te_blk.code = te_blk.code + "${te_blk.indentation}XTUML_OAL_STMT_TRACE( ${te_blk.depth}, ""${te_smt.OAL}"" );\n"
         .end if
       .end if
-      .assign te_blk.code = te_blk.code + te_smt.buffer
+      .//.assign te_blk.code = te_blk.code + te_smt.buffer
       .select one for_blk related by act_smt->ACT_FOR[R603]->ACT_BLK[R605]
       .if ( not_empty for_blk )
         .invoke r = blck_xlate( trace, for_blk, te_blk.depth )

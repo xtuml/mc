@@ -33,8 +33,8 @@
     .invoke s = t_oal_smt_for( te_smt, te_for, te_blk.indentation )
     .assign te_smt.declaration = s.declaration
     .assign te_smt.buffer = s.body
-    .assign te_smt.buffer2 = s.ending
-    .assign te_smt.OAL = "FOR EACH ${v_var.Name} IN ${set_v_var.Name}"
+    .assign te_smt.buffer2 = ".end for"
+    .assign te_smt.OAL = ".for each ${v_var.Name} in ${set_v_var.Name}"
   .end if
 .end function
 .//
@@ -57,8 +57,8 @@
   .select one condition_te_val related by act_if->V_VAL[R625]->TE_VAL[R2040]
   .invoke s = t_oal_smt_if( condition_te_val.buffer, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.buffer2 = s.ending
-  .assign te_smt.OAL = "IF ( ${condition_te_val.OAL} )"
+  .assign te_smt.buffer2 = ".end if"
+  .assign te_smt.OAL = ".if ( ${condition_te_val.OAL} )"
 .end function
 .// ----------------------------------------------------------
 .// gen while statements
@@ -79,8 +79,8 @@
   .select one condition related by act_whl->V_VAL[R626]->TE_VAL[R2040]
   .invoke s = t_oal_smt_while( condition.buffer, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.buffer2 = s.ending
-  .assign te_smt.OAL = "WHILE ( ${condition.OAL} )"
+  .assign te_smt.buffer2 = ".end while"
+  .assign te_smt.OAL = ".while ( ${condition.OAL} )"
 .end function
 .// ----------------------------------------------------------
 .// gen else statements
@@ -102,8 +102,8 @@
   .assign te_smt.buffer = s.body
   .assign te_smt.buffer2 = s.ending
   .// Skip tracing ELSE because it falls between } and else.
-  .//.assign te_smt.OAL = "ELSE"
-  .assign te_smt.OAL = ""
+  .assign te_smt.OAL = ".else"
+  .//.assign te_smt.OAL = ""
 .end function
 .//
 .// ----------------------------------------------------------
@@ -127,8 +127,8 @@
   .assign te_smt.buffer = s.body
   .assign te_smt.buffer2 = s.ending
   .// Skip tracing ELIF because it falls between } and else.
-  .//.assign te_smt.OAL = "ELIF ( ${condition.OAL} )"
-  .assign te_smt.OAL = ""
+  .assign te_smt.OAL = ".elif ( ${condition.OAL} )"
+  .//.assign te_smt.OAL = ""
 .end function
 .//
 .// --------------------------------------------------------
@@ -194,7 +194,7 @@
   .end if
   .invoke s = t_oal_smt_assign( te_smt, te_assign, te_blk.indentation, element_count, is_parameter )
   .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = "ASSIGN ${l_te_val.OAL} = ${r_te_val.OAL}"
+  .assign te_smt.OAL = ".assign ${l_te_val.OAL} = ${r_te_val.OAL}"
 .end function
 .//
 .// Find the root of the given value instance.  We may need to 
@@ -241,7 +241,7 @@
     .invoke s = t_oal_smt_create_instance( o_obj, act_cr.is_implicit, te_class.GeneratedName, te_var.buffer, te_blk.indentation )
     .assign te_smt.declaration = s.declaration
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "CREATE OBJECT INSTANCE ${v_var.Name} OF ${te_class.Key_Lett}"
+    .assign te_smt.OAL = ".create object instance ${v_var.Name} of ${te_class.Key_Lett}"
   .end if
 .end function
 .//
@@ -275,7 +275,7 @@
   .select one o_obj related by v_int->O_OBJ[R818]
   .invoke s = t_oal_smt_delete_instance( o_obj, te_var.buffer, del_count, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = "DELETE OBJECT INSTANCE ${v_var.Name}"
+  .assign te_smt.OAL = ".delete object instance ${v_var.Name}"
 .end function
 .// --------------------------------------------------------
 .// create event instance to instance statements
@@ -370,7 +370,7 @@
   .invoke s = t_oal_smt_create_event( sm_evt, e_ces.is_implicit, o_obj.Name, sm_evt.Mning, v_var.Name, te_var.buffer, recipient, parameters, te_blk.indentation )
   .assign te_smt.declaration = s.declaration
   .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = "CREATE EVENT INSTANCE ${v_var.Name}( ${parameter_OAL} ) TO ${recipient_OAL}"
+  .assign te_smt.OAL = ".create event instance ${v_var.Name}( ${parameter_OAL} ) to ${recipient_OAL}"
 .end function
 .//
 .// --------------------------------------------------------
@@ -402,7 +402,7 @@
     .invoke is_refl = is_reflexive( r_rel )
     .invoke s = t_oal_smt_relate( one_o_obj, oth_o_obj, r_rel, is_refl.result, r_rel.Numb, act_rel.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, te_blk.indentation )
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R${r_rel.Numb}"
+    .assign te_smt.OAL = ".// RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R${r_rel.Numb}"
   .end if
 .end function
 .//
@@ -460,7 +460,7 @@
   .select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818]
   .invoke s = t_oal_smt_relate_using( one_o_obj, oth_o_obj, ass_o_obj, r_rel, is_refl.result, r_rel.Numb, act_ru.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, ass_te_var.buffer, one_rel_phrase, oth_rel_phrase, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = "RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R${r_rel.Numb} USING ${ass_v_var.Name}"
+  .assign te_smt.OAL = ".// RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R${r_rel.Numb} USING ${ass_v_var.Name};"
 .end function
 .//
 .// --------------------------------------------------------
@@ -492,7 +492,7 @@
     .invoke is_refl = is_reflexive( r_rel )
     .invoke s = t_oal_smt_unrelate( one_o_obj, oth_o_obj, r_rel, is_refl.result, r_rel.Numb, act_unr.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, te_blk.indentation )
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R${r_rel.Numb}"
+    .assign te_smt.OAL = ".// UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R${r_rel.Numb};"
   .end if
 .end function
 .//
@@ -547,7 +547,7 @@
   .select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818]
   .invoke s = t_oal_smt_unrelate_using( one_o_obj, oth_o_obj, ass_o_obj, r_rel, is_refl.result, r_rel.Numb, act_uru.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, ass_te_var.buffer, one_rel_phrase, oth_rel_phrase, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R${r_rel.Numb} USING ${ass_te_var.OAL}"
+  .assign te_smt.OAL = ".// UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R${r_rel.Numb} USING ${ass_te_var.OAL};"
 .end function
 .//
 .// --------------------------------------------------------
@@ -586,7 +586,7 @@
     .// Push deallocation into the block so that it is available at gen time for break/continue/return.
     .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "SELECT ${act_fio.cardinality} ${v_var.Name} FROM INSTANCES OF ${o_obj.Key_Lett}"
+    .assign te_smt.OAL = ".select ${act_fio.cardinality} ${v_var.Name} from instances of ${o_obj.Key_Lett}"
   .end if
 .end function
 .//
@@ -684,7 +684,7 @@
     .// Push deallocation into the block so that it is available at gen time for break/continue/return.
     .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "SELECT ${act_fiw.cardinality} ${v_var.Name} FROM INSTANCES OF ${o_obj.Key_Lett} WHERE ${where_te_val.OAL}"
+    .assign te_smt.OAL = ".select ${act_fiw.cardinality} ${v_var.Name} from instances of ${o_obj.Key_Lett} WHERE ${where_te_val.OAL}"
   .end if
 .end function
 .// --------------------------------------------------------
@@ -1129,7 +1129,7 @@
     .end if
     .invoke s = t_oal_smt_function( name, parameters, te_blk.indentation )
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "::${te_sync.Name}( ${parameter_OAL} )"
+    .assign te_smt.OAL = ".invoke ${te_sync.Name}( ${parameter_OAL} )"
   .end if
 .end function
 .//
@@ -1232,7 +1232,7 @@
   .//
   .invoke s = t_oal_smt_return( value, returnvaltype, intCast1, intCast2, deallocation, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = "RETURN ${value_OAL}"
+  .assign te_smt.OAL = ".assign attr_result = ${value_OAL}"
 .end function
 .//
 .// --------------------------------------------------------
@@ -1289,7 +1289,7 @@
   .end while
   .invoke s = t_oal_smt_break( deallocation, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = "BREAK"
+  .assign te_smt.OAL = ".break"
 .end function
 .//
 .// --------------------------------------------------------
@@ -1466,7 +1466,7 @@
   .// 12m |   T   |  F   |   "many"     |  1:many  |    T     | select many cs related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );
   .// 
   .assign ws = te_blk.indentation
-  .assign te_smt.OAL = "SELECT ${te_select_related.multiplicity} ${te_select_related.result_var_OAL} RELATED BY ${te_select_related.start_var_OAL}"
+  .assign te_smt.OAL = ".select ${te_select_related.multiplicity} ${te_select_related.result_var_OAL} related by ${te_select_related.start_var_OAL}"
   .// declaration
   .assign b = ""
   .if ( te_select_related.is_implicit )
@@ -1740,7 +1740,7 @@
   .end if
   .assign te_smt.buffer = b
   .if ( te_select_related.by_where )
-    .assign te_smt.OAL = te_smt.OAL + " WHERE ( ${te_select_related.where_clause_OAL} )"
+    .assign te_smt.OAL = te_smt.OAL + " where ( ${te_select_related.where_clause_OAL} )"
   .end if
   .end if
 .end function

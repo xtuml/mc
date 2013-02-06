@@ -143,6 +143,13 @@
 .end for
 .//
 .invoke translate_all_oal()
+.select many te_cs from instances of TE_C where ( selected.included_in_build )
+.for each te_c in te_cs
+  .invoke s = CreateSynchronousServiceClassDefinition( te_c )
+  .assign function_definitions = s.body
+  .print "${function_definitions}"
+.end for
+.exit 3
 .//
 .print "dumping instances ${info.date}"
 .include "${te_file.arc_path}/q.class.instance.dump.arc"
