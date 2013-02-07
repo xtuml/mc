@@ -189,6 +189,8 @@ the updated set of common RSL archetypes.
 
 ### 7.13  General Notes
 
+IDs and referentials cannot be read or written arbitrarily.
+
 Compare instance dumps.
 
 As opportunity presents it, use TE_* instances in place of OOA

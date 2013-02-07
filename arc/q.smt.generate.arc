@@ -1391,17 +1391,22 @@
     .select one where_te_val related by act_sel->ACT_SRW[R664]->V_VAL[R611]->TE_VAL[R2040]
     .// relate where_te_val to te_select_related across R2074;
     .assign te_select_related.where_clause_Value_ID = where_te_val.Value_ID
+    .// end relate
     .assign te_select_related.where_clause = where_te_val.buffer
     .assign te_select_related.where_clause_OAL = where_te_val.OAL
   .end if
   .// relate te_select_related to te_smt across R2069;
   .assign te_select_related.Statement_ID = te_smt.Statement_ID
+  .// end relate
   .// relate te_select_related to start_te_val across R2070;
   .assign te_select_related.starting_Value_ID = start_te_val.Value_ID
+  .// end relate
   .// relate te_select_related to start_te_var across R2071;
   .assign te_select_related.starting_Var_ID = start_te_var.Var_ID
+  .// end relate
   .// relate te_select_related to te_lnk across R2073;
   .assign te_select_related.link_ID = te_lnk.ID
+  .// end relate
   .//
   .// RENDER
   .// Truth Table

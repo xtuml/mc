@@ -41,6 +41,7 @@
           .if ( not_empty previous_te_parm )
             .// relate previous_te_parm to te_parm across R2041.'succeeds';
             .assign previous_te_parm.nextID = te_parm.ID
+            .// end relate
           .end if
           .assign previous_te_parm = te_parm
           .select one te_dt related by te_parm->TE_DT[R2049]

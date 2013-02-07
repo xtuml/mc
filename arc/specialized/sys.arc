@@ -109,6 +109,7 @@
     .create object instance cn_dc of CN_DC
     .// relate c_c to s_dom across R4204 using cn_dc;
     .assign cn_dc.Id = c_c.Id
+    .// end relate
     .assign cn_dc.Dom_ID = s_dom.Dom_ID
     .assign c_c.Name = s_dom.Name
     .assign c_c.Descrip = s_dom.Descrip
