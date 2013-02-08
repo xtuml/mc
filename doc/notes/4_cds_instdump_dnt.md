@@ -58,6 +58,9 @@ See [2].
 
 CDS Add more details on the script I have so far.
 Discuss symbolic link to git repo.
+When running in unix, it is great to symbolically link the mc3020/arc
+folder to the arc folder in the git working directory.  The same can
+be done with the mc3020/schema/sql folder.
 
 ### 7.2 Run Tests
 After each consistent, self-contained RSL change, run the test suite and
