@@ -56,6 +56,9 @@ See [2].
   code reporting differences.
 - Search the translation logs for ERRORs.
 
+CDS Add more details on the script I have so far.
+Discuss symbolic link to git repo.
+
 ### 7.2 Run Tests
 After each consistent, self-contained RSL change, run the test suite and
 verify that the output generated code is unchanged.  Also check for error
@@ -75,6 +78,8 @@ mark a copy unless it is correct.)
 There are a few places where _unrelate_ would be used in OAL.  Use the
 same protocol for these unrelate statements (zeroing out referenctials)
 and delimit with .// end unrelate .
+
+CDS Discuss how to find the relate statements.  ("ID"... grep schema ROP statments....)
 
 ### 7.4 Function Return Data
 - Identify all usage of the attr approach for returning data.
@@ -103,6 +108,9 @@ rules governing parameter syntax:
   key letters as the ending of the name.  (example:  right_o_obj, left_o_obj)
 - For instance reference sets, add the plural 's' to the name.
 
+CDS It is O.K. and good to update local transients to follow the
+naming as well.  Just be careful.
+
 ### 7.6 Segregate Queries and Templates
 Model compilers use templating languages.  Templating languages can
 be confusing to look at, because the same text file may contain
@@ -119,6 +127,8 @@ Separate the template portion (plain text with substitution variables)
 of archetypes into template files.  Name the template files starting
 with "t" and a model compiler model naming connection to the imbedding query.
 As much as practical perform all queries and then include templates.
+
+CDS t.smt.c and select related stuff
 
 ### 7.7 Migrate Top-Level Transients
 The current model compiler populates transient variables at the top
@@ -182,10 +192,15 @@ language).  A derivative of this parser exists to convert RSL into OAL.
 It is called rsl2oal.  Find this.  Build it.  Establish/Restore its
 usefulness, or abandon it.
 
+CDS Move this into git into the branch.
+
 ### 7.12 C++ and System-C Branches
 Add the C++ and System-C specialized folders to the git repository
 branch for this work.  Then, make changes as necessary to work with
 the updated set of common RSL archetypes.
+
+This refresh must occur at least once before file names in the RSL
+are changed (if they are changed).
 
 
 
