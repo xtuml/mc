@@ -18,12 +18,12 @@ functionality will migrate from RSL to xtUML.
 
 2.  History
 -----------
-
+None.
 
 3.  Document References
 -----------------------
 [1] Issues 4 <https://github.com/xtuml/mc/issues/4>
-    Create instance dumper for C model compiler.
+    Create instance dumper for C model compiler.  
 [2] Analysis Note <https://github.com/xtuml/mc/doc/notes/4_cds_instdump_ant.md>
 
 
