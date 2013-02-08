@@ -48,7 +48,7 @@
   .select any empty_te_mact from instances of TE_MACT where ( false )
   .select many empty_te_dts from instances of TE_DT where ( false )
   .select many empty_te_parms from instances of TE_PARM where ( false )
-  .// Note that in a multiple-system build, we will get lucky, and the
+  .// CDS - Note that in a multiple-system build, we will get lucky, and the
   .// s_sys from the local project will be selected first.
   .select any s_sys from instances of S_SYS
   .if ( empty s_sys )
