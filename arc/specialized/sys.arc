@@ -343,8 +343,13 @@
 .// types from other systems used via inter-project references.
 .//=============================================================================
 .select many s_syss from instances of S_SYS
+.select many ep_pkgs related by s_syss->EP_PKG[R1401]
+.select many nested_ep_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]
+.select many triply_nested_ep_pkgs related by nested_ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]
+.assign ep_pkgs = ep_pkgs | nested_ep_pkgs
+.assign ep_pkgs = ep_pkgs | triply_nested_ep_pkgs
 .assign enumeration_info = ""
-.select many enumeration_te_dts related by s_syss->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
+.select many enumeration_te_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
 .for each te_dt in enumeration_te_dts
   .invoke r = TE_DT_EnumerationDataTypes( te_dt )
   .assign enumeration_info = enumeration_info + r.body
@@ -355,7 +360,7 @@
   .assign enumeration_info = enumeration_info + r.body
 .end for
 .assign structured_data_types = ""
-.select many structured_te_dts related by s_syss->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
+.select many structured_te_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
 .invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
 .assign structured_data_types = structured_data_types + s.body
 .select many structured_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]

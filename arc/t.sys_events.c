@@ -37,10 +37,13 @@ bool ${te_eq.run_flag} = true; /* Turn this off to exit dispatch loop(s).  */
   .if ( te_thread.enabled and ( "C" == te_target.language ) )
 /* Map the classes to the tasks/threads for each domain.  */
     .for each te_c in te_cs
-      .invoke class_number = GetDomainClassNumberName( te_c.Name )
-static const ${te_typemap.object_number_name} ${class_number.task_list}[ ${class_number.max_models} ] = {
-  ${class_number.task_numbers}
+      .select one te_dci related by te_c->TE_DCI[R2090]
+      .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+      .if ( not_empty te_sm )
+static const ${te_typemap.object_number_name} ${te_dci.task_list}[ ${te_dci.max_models} ] = {
+  ${te_dci.task_numbers}
 };
+      .end if
     .end for
 static const ${te_typemap.object_number_name} * const class_thread_assignment[ SYSTEM_DOMAIN_COUNT ] = {
     .for each te_c in te_cs
@@ -48,8 +51,11 @@ static const ${te_typemap.object_number_name} * const class_thread_assignment[ S
       .if ( not_last te_cs )
         .assign delimiter = ","
       .end if
-      .invoke class_number = GetDomainClassNumberName( te_c.Name )
-  &${class_number.task_list}[0]${delimiter}
+      .select one te_dci related by te_c->TE_DCI[R2090]
+      .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+      .if ( not_empty te_sm )
+  &${te_dci.task_list}[0]${delimiter}
+      .end if
     .end for
 };
   .end if
