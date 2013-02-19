@@ -1,0 +1,156 @@
+<!--
+(C) Copyright Mentor Graphics Corp.  (2006)
+-->
+
+<title id="taskingapi-title">
+Interfacing Generated Code with Outside Tasks
+</title>
+<highlights id="taskingapi-high"><para>
+</para></highlights>
+
+    
+  <section>
+    <title>Introduction</title>
+    <para>BridgePoint xtUML models compiled with MC-3020 can be
+    interfaced with non-modeled code in a number of ways.  All
+    interfacing with external code (modeled or non-modeled) is performed
+    through call-return interfaces.  Models can call code; code can call
+    models.  Models call non-modeled code through bridge operations.
+    Non-modeled code calls models by invoking the domain functions
+    defined in the model.  "User call-outs" supply another mechanism to
+    interface models with non-modeled code.  Lastly, any code can call
+    the "main" function entry point of the modeled system.
+    </para>
+
+    <para>Out-of-the-box MC-3020 supports multi-tasking/threading by
+    enabling this feature with the appropriate markings (EnableTasking,
+    SetTaskPriority and MapClassToTask).  The default behavior is limited
+    to tasking/threading within a single address space.  The C code
+    generated from models with MC-3020 runs in a single process with no
+    modification.  Integrating the generated code with code running in
+    separate (independent memory space) tasks requires additional work
+    by the user.  This report explains how this integration can occur.
+    </para>
+  </section>
+
+  <section>
+    <title>Assumptions</title>
+    <para>These sections assume some familiarity with BridgePoint and
+    MC-3020.  Sections in the MC-3020 User's Guide on Tasking, Bridging,
+    Interrupt Service Routines (ISRs) and Interface Call-outs are
+    especially applicable.
+    </para>
+  </section>
+
+  <section>
+    <title>Interrupt Service Routines</title>
+    <para>MC-3020 generated code is often run in applications with
+    interrupt service routines activated by hardware, timers and other
+    input stimuli.  These interrupt service routines preempt lower
+    priority contexts and run in a context separate from the main
+    application.
+    </para>
+    <para>Interrupt service routines can call domain functions in exactly
+    the same way that other non-modeled code calls domain functions.  It
+    is good design in most cases to minimize the amount of time spent
+    running in an interrupt service routine.  The routine will want to
+    note the source of the interrupt, report it to the main application
+    and drop off (release the context) as quickly as possible.  In
+    modeled applications this usually takes the shape of an invocation to
+    a domain function that simply generates an event.
+    </para>
+    <para>Since interrupt service routines preempt other executing
+    contexts, special care must be taken to avoid interference with data
+    elements shared between contexts.  Without taking care, an interrupt
+    service routine can read or write data that is in an incomplete or
+    unknown state.
+    </para>
+    <para>MC-3020 provides a means of handling high priority
+    interrupt-level invocations of domain functions while maintaining
+    safe and consistent data access.  This is done by marking a domain
+    function as "safe" for interrupt invocation.  To indicate to the
+    model compiler that a domain function is to be called by interrupt
+    service routines, invoke marking function
+    TagSyncServiceSafeForInterrupts.
+    </para>
+    <para>See "Marking a Bridge Safe for Interrupt Invocation" in the
+    MC-3020 User's Guide.
+    </para>
+  </section>
+
+  <section>
+    <title>Task Interfaces</title>
+    <para>The tasking interfaces described here refer to full,
+    "heavy-weight" tasks (or processes) that run in their own virtual
+    address spaces.  As stated above BridgePoint with MC-3020 supports
+    "light-weight" tasking, threads running in a shared address space.
+    However, MC-3020 provides no specific native interfacing for
+    heavy-weight tasking.  Applications running in separate processes
+    must use the inter-process communication facilities of the underlying
+    operating system (e.g. signals and signal handlers).
+    </para>
+
+    <section>
+      <title>Bridging Through Domain Functions</title>
+      <para>The simplest tasking interface follows the same pattern as
+      the interrupt handler interface.  Instead of an interrupt handler,
+      there will be a signal handler.  Upon being signaled or messaged,
+      the handler will invoke a domain function.  Similarly to the
+      ISR-invoked domain function, the domain function that is invoked
+      from the signal handler often simply generates an event.
+      </para>
+    </section>
+
+    <section>
+      <title>Allowing the Process to Suspend</title>
+      <para>Default MC-3020 tasking support allows the BridgePoint
+      modeled application to suspend (go non-busy) when the event queues
+      are empty.  By enabling tasking (threading) with the marking
+      functions, this behavior is enabled.  If tasking/threading is not
+      enabled, the background idle loop of the application will simply
+      spin.
+      </para>
+    </section>
+
+    <section>
+      <title>Resuming the Process</title>
+      <para>A modeled application that has no events in its event queues
+      will suspend.  To wake the application up, an xtUML event must be
+      generated to some state machine within the application.  This is
+      the job of the domain function invocation described above.
+      </para>
+    </section>
+
+    <section>
+      <title>Restarting from Initialization</title>
+      <para>Another method of interfacing MC-3020 generated code with other
+      code is by invoking the beginning of the program each time the user
+      wants the modeled application to run.  This starts the modeled
+      application over from the beginning at each invocation.
+      </para>
+      <para>This method has the advantage of simplicity but the
+      disadvantage of unnecessary re-initialization on every invocation.
+      This method is dependent upon clean exit of the tasks/threads between
+      invocations.  This means that the operating system must have time to
+      allow the process to complete, exit and relinquish resources before
+      being invoked again.  In a single-threaded environment this is not an
+      issue.
+      </para>
+      <section>
+        <title>Steps to Invocation</title>
+        <para>Using this method of integration the user follows the steps
+        listed below.
+        <orderedlist>
+          <listitem><para>Rename the main using the marking file
+          sys_functions.arc.</para></listitem>
+          <listitem><para>Invoke the newly named main by forking/spawning
+          a task with this entry point.  </para></listitem>
+          <listitem><para>Allow the task to exit and clean up.
+          </para></listitem>
+          <listitem><para>Repeat steps 2 and 3 as often as the modeled
+          task is desired to run.  </para></listitem>
+        </orderedlist>
+        </para>
+      </section>
+    </section>
+  </section>

@@ -1,0 +1,333 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<chapter id="Initialization-chapter">
+<title id="Initialization-chapter-title">Initialization and Preexisting Instances</title>
+<highlights id="Initialization-chapter-high"><para>This chapter
+explains how to initialize and start the system.  Initialization
+must deal with bringing up the architecture system code as well
+as initialization for preexisting instances.
+</para></highlights>
+
+<para>
+&escher; supports dynamic and constant initialization of preexisting
+instances.  Dynamic initialization is simple and flexible while
+constant initialization is a powerful optimization allowing for
+reduction in code space and increase in initializationspeed.
+</para>
+
+<section id="Initialization-chapter-Overview-section">
+  <title>Initialization Overview</title>
+  <highlights><para>It is possible to define preexisting instance
+  populations dynamically with action language and constantly with data
+  definitions.  Instance populations can be static, dynamic and/or
+  read-only.</para></highlights>
+
+  <para>&escher; supports two methods of initialization, dynamic and
+  constant.  Both methods provide a means of creating and
+  setting up the preexisting instances required for a system at
+  bring-up time.  Both methods provide a way of creating the preexisting
+  instances, relating them one to another and setting the values of
+  their attributes.  Each method of initialization has advantages and
+  disadvantages.  Each method is useful in design situations that
+  leverage the advantages.  The following sections will describe each
+  method of performing system initialization.</para>
+
+  <section>
+    <title>Preexisting Instances</title>
+    <para>When specifying a system with xtUML models, the analyst is
+    allowed to assume that there are preexisting instances of classes
+    within the models.  &escher; provides two methods for specifying
+    these preexisting instances, the values of their attributes, and
+    the relationships between them.  This dynamic creation, linking
+    and initialization of preexisting instances is described in
+    <xref linkend="Initialization-chapter-DynamicInit-section"/>.</para>
+    
+    <para>The preexisting instances of xtUML classes can be
+    created during system bring-up from the specifications
+    provided by the analysts in
+    the form of initialization functions.  These preexisting instances
+    are created before normal execution of the system is allowed to
+    proceed.  Thus, the xtUML models can assume that all the preexisting
+    instances exist before any events are accepted.</para>
+    
+    <para>Note that &escher; automatically creates a single instance
+    for every assigner in the system.  The analyst does not need to
+    model or mark anything to make this happen.</para>
+  </section>
+
+  <section>
+    <title>Terminology</title>
+    <para>In order to avoid confusion resulting from the following
+    paragraphs as well as in future documentation,
+    the following definitions will be used with respect to
+    instance populations and preexisting instances:
+    <itemizedlist>
+    <listitem><para><emphasis>static instance population:</emphasis>
+    an instance population to which additions or
+    deletions are never made during system execution (after
+    initialization)</para></listitem>
+    <listitem><para><emphasis>implicitly defined static instance
+    population:</emphasis> the use of a static instance
+    population for a class due to the absence of associated
+    create/delete statements in model action
+    language</para></listitem>
+    <listitem><para><emphasis>explicitly defined static instance
+    population:</emphasis> the use of a static instance
+    population (no creates/deletes) for a class based on a
+    <function>TagStaticInstancePopulation</function> mark for that
+    class</para></listitem>
+    <listitem><para><emphasis>dynamic instance
+    population:</emphasis> an instance population to which
+    additions and deletions may be made during system execution
+    (after initialization)</para></listitem>
+    <listitem><para><emphasis>implicitly defined dynamic instance
+    population:</emphasis> the use of a dynamic instance
+    population for a class based on the presence of associated
+    create/delete statements in model action
+    language</para></listitem>
+    <listitem><para><emphasis>preexisting instances defined using
+    executable statements:</emphasis> preexisting instances that are
+    established at run time through the use of an executable
+    initialization routine</para></listitem>
+    <listitem><para><emphasis>dynamic initialization:</emphasis>
+    preexisting instances that are established at run time through the
+    use of an executable initialization routine (same
+    as<emphasis>preexisting instances defined using executable
+    statements</emphasis>)</para></listitem>
+    <listitem><para><emphasis>preexisting instances defined in
+    data:</emphasis> preexisting instances which are established
+    through the use of constant data (in the form of ANSI C
+    initializers)</para></listitem>
+    <listitem><para><emphasis>constant initialization:</emphasis>
+    preexisting instances which are established
+    through the use of constant data (in the form of ANSI C
+    initializers) (same as <emphasis>preexisting instances defined in
+    data</emphasis>)</para></listitem>
+    <listitem><para><emphasis>read-only instance population:</emphasis>
+    instance population that cannot be written</para></listitem>
+    </itemizedlist>
+    </para>
+
+    <para>It is easy to see that many combinations of static/dynamic,
+    read-only, implicit/explicit and preexisting can occur in normal
+    system analysis.</para>
+  </section>
+
+  <section>
+    <title>Constructs Supported</title>
+    <para>In &escher; 3.1 and beyond, preexisting instances can be
+    defined in data for any normal modeling construct supported by
+    &escher;  For example, dynamic or constant initialization can be
+    defined for:
+    <itemizedlist>
+      <listitem><para>simple 1-1 associations</para></listitem>
+      <listitem><para>simple 1-* associations</para></listitem>
+      <listitem><para>associatives (1-1, 1-*, *-*)</para></listitem>
+      <listitem><para>subtypes</para></listitem>
+      <listitem><para>supertypes</para></listitem>
+      <listitem><para>sub/supertypes</para></listitem>
+      <listitem><para>simple reflexive associations</para></listitem>
+      <listitem><para>simple 1-* reflexives</para></listitem>
+      <listitem><para>reflexive associatives</para></listitem>
+      <listitem><para>asymmetric reflexive associatives</para></listitem>
+    </itemizedlist>
+    </para>
+  </section>
+</section>
+
+<section id="Initialization-chapter-DynamicInit-section">
+  <title>Dynamic Initialization</title>
+  <highlights><para>The simples and easiest way to initialize
+  preexisting instance is using dynamic
+  initialization.</para></highlights>
+
+  <section>
+    <title>Dynamic Init Process</title>
+    <para>Dynamic initialization uses sequences of action language
+    statements to create, relate and set attributes of preexisting
+    instances.  This form of initialization has been supported by &escher;
+    since the first release (1.0).</para>
+    <para>Action language statements in initialization functions (or
+    previously in init objects) are executed once when a system first
+    starts.  The action language statements perform
+    <command>create</command> statements to
+    create the preexisting instances.  <command>Relate</command>
+    statements execute to establish associations between these newly
+    created instances.  Action languages statements are executed which
+    write the attribute values of the preexisting instances.</para>
+    <para>When all of the action language statements are complete for all
+    init functions (tagged with
+    <function>TagInitializationFunction</function>), then all preexisting
+    instances are fully established and initialization is complete.</para>
+  </section>
+
+  <section>
+    <title>Pros and Cons of Dynamic Init</title>
+    <para>Advantages to dynamic initialization include:
+    <informaltable frame="none" colsep="0" rowsep="0">
+    <tgroup cols="2">
+    <colspec colwidth="*"/>
+    <colspec colwidth="3*"/>
+    <tbody>
+    <row>
+    <entry>flexibility</entry>
+    <entry>It is easy to add, delete and/or change dynamic initialization.
+    This is done by simply adding, deleting and/or changing the action
+    language in the init functions.</entry>
+    </row>
+    <row>
+    <entry>simplicity</entry>
+    <entry>Dynamic initialization is simple and easy to understand.</entry>
+    </row>
+    </tbody>
+    </tgroup>
+    </informaltable>
+    </para>
+
+    <para>Disadvantages to dynamic initialization include:
+    <informaltable frame="none" colsep="0" rowsep="0">
+    <tgroup cols="2">
+    <colspec colwidth="*"/>
+    <colspec colwidth="3*"/>
+    <tbody>
+    <row>
+    <entry>memory space</entry>
+    <entry>The space in the system instruction store used by the
+    initialization action language statements
+    can be substantial.  This space is not availabe for use after the
+    init process is complete.</entry>
+    </row>
+    <row>
+    <entry>speed</entry>
+    <entry>It takes time (execution time) during bring-up to create,
+    relate and populate the preexisting instances.</entry>
+    </row>
+    </tbody>
+    </tgroup>
+    </informaltable>
+    </para>
+  </section>
+
+  <section>
+    <title>Initialization Functions</title>
+    <para>The basic building block for specifying preexisting instances
+    is the initialization function.  This approach provides the user with
+    the ability to use the same set of preexisting instances for
+    simulation with the &bpmv; as are used during the actual execution
+    of the system on the target platform.</para>
+    
+    <para>Initialization functions
+    contain the action language that describes the set of
+    preexisting instances for the subsystem or domain.
+    Initialization functions are normal functions and can
+    be invoked during normal system execution as well as at
+    start-up.</para>
+  </section>
+  
+  <section>
+    <title>Rules for Creating Initialization Functions</title>
+    <para>The rules for constructing initialization functions are
+    enumerated below.
+    <orderedlist>
+      <listitem><para>Each subsystem can have one to many
+      initialization functions.  The functions will be invoked
+      in alphabetical order during bring-up.
+      Initialization functions are identified by
+      marking in the <filename>domain.mark</filename> marking
+      file.</para></listitem>
+      <listitem><para>Initialization functions are tagged with
+      the marking function <function>TagInitializationFunction</function>.
+      </para></listitem>
+      <listitem><para>Initialization functions can take no
+      arguments.  Return values will be ignored.</para></listitem>
+    </orderedlist></para>
+  </section>
+
+  <section>
+    <title>Example of Dynamic Initialization</title>
+    <para><xref linkend="as2class-figure"/> shows the xtUML class diagram
+    for the autosampler example model.  Note that the autosampler
+    example model can be found in the <filename>examples</filename>
+    directory of your &escher; installation.
+    <xref linkend="as2init-figure"/>
+    shows the action language statements contained in the initialization
+    function for the autosampler domain.  The function is marked as
+    an init function with the statement
+    <programlisting>TagInitializationFunction( "setup" )</programlisting>
+    in the <filename>domain.mark</filename> marking file.
+    This init function executes
+    creates, relates and attribute writes to establish all preexisting
+    instances.  The function runs once and only once at system
+    start.
+
+    <figure id="as2class-figure" float="0" pgwide="1">
+    <title id="as2class-figure-title">Autosampler Class Diagram</title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="as2class.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+
+    <figure id="as2init-figure" float="0">
+    <title id="as2init-figure-title">Autosampler Init Function</title>
+    <informalexample>
+    <para>
+    <programlisting>
+create object instance car of CAR;
+car.carousel_ID=10;
+car.current_position=10;
+create object instance row of ROW;
+relate row to car across R1;
+row.radius=10;
+row.current_sampling_position=0;
+row.maximum_sampling_positions=20;
+row.sampling_time=3000000;  // 3 seconds
+row.needs_probe=false;
+create object instance probe of SP;
+probe.probe_ID=1;
+probe.radial_position=20;
+probe.theta_offset=40;
+probe.current_position="up";
+probe.available = true;
+    </programlisting>
+    </para>
+    </informalexample>
+    </figure>
+
+    </para>
+  </section>
+
+  <section>
+    <title>Multi-Domain Dynamic Initialization</title>
+    <para>In systems with more than one domain, dynamic init is only
+    slightly more complex.  Initialization functions are written for
+    each domain.  These multiple init functions establish the
+    preexisting instances (PEIs) for the multiple domains.  The init
+    functions are each marked with
+    <function>TagInitializationFunction</function> in each domain's
+    corresponding <filename>domain.mark</filename> marking
+    file.</para>
+  </section>
+
+  <section>
+    <title>Multi-Domain Init Sequencing</title>
+    <para>In some systems it is important that certain domains be
+    initialized before other domains.  Or, there may be requirements on
+    the ordering of the initialization between domains.  In these cases,
+    a function in only one domain is tagged as an init function (using
+    <function>TagInitializationFunction</function>).  This function
+    then invokes functions in the other domains, thus imposing the
+    desired order on the initialization sequence.</para>
+  </section>
+
+  <section>
+    <title>Initialization in Simulation</title>
+    <para>To simulate the xtUML models with the same set of preexisting
+    instances that are used on the target system, the analyst must
+    invoke the initialization functions.  &bpmv; provides a facility
+    to do this very easily.</para>
+  </section>
+</section>
+</chapter>

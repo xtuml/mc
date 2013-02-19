@@ -1,0 +1,148 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<chapter id="Enum-chapter">
+<title id="Enum-chapter-title">Enumerated Types</title>
+<highlights id="Enum-chapter-high"><para>&bpmb; allows users
+to define types derived from its set of core data types.
+Support for the &bpmb; interface for defining enumerated types
+is fully supported.</para></highlights>
+
+<section>
+  <title>Overview of Enumeration Support</title>
+  <highlights><para>Enumerations provide the ability to represent
+  discrete component sets in xtUML.  &escher; supports the translation
+  of these enumerated types into ANSI C.</para></highlights>
+  
+  <para>Many systems require the ability to define a data type that can
+  take on a finite number of discrete values.  The current release of
+  &bp; provides support for enumeration data types.  &escher;
+  &escherversion; provides support for the translation of enumerations
+  and provides several extensions that are described here.  Previous
+  versions of &bp; did not support enumerations natively within the
+  tool.  The previous method for specifying enumerations by using
+  strings is no longer documented but is still supported by &escher; for
+  backward compatibility.  Each enumeration specified in the xtUML models
+  is translated into ANSI C defined constants.</para>
+</section>
+
+<section>
+  <title>Specifying Enumerations</title>
+  <highlights><para>To specify an enumeration using the facilities
+  provided by &escher;, use the steps described
+  in the following sections.</para></highlights>
+
+  <para>Use &bpmb; create your enumeration data types.</para>
+  
+  <section>
+    <title>Specifying a Discrete Value for Enumerators</title>
+    <para>&escher; supports the specification of a discrete value for
+    each of the enumerators for an enumeration. There are two ways in
+    which the value can be assigned: 1) through the use of a keyword in
+    the description of the enumerator, and 2) through marking. In the
+    absence of any value specified by the user, &escher; assigns a
+    default.  &escher; gives priority to those values specified via
+    marking.</para>
+
+    <section>
+      <title>Value Keyword</title>
+      <para>&escher; recognizes a special keyword that the analyst
+      places in the description of the enumerator.  The keyword can be
+      any one of the following three: Value, value, or VALUE.  Note that
+      the keyword is case sensitive so using vaLuE will not work
+      properly. The keyword should be used on a single line as in:
+      <blockquote><programlisting>
+Value:  3
+      </programlisting></blockquote>
+      with a colon immediately after the keyword followed by the desired
+      value.</para>
+      <para>Other examples of usage include:
+      <blockquote><programlisting>
+value:  0x4
+Value:  23
+VALUE:  0xFFF
+      </programlisting></blockquote>
+      </para>
+    </section>
+
+    <section>
+      <title>Marking</title>
+      <para>The marking function
+      <function>TagEnumeratorDiscreteValue</function> can also be used
+      to specify the value for an enumerator.  The marking function
+      overrides any value specified in the analysis model.  See <xref
+      linkend="SpecifyingEnumValues-section"/> for complete
+      details on this marking option.</para>
+    </section>
+  </section>
+
+    
+  <section>
+    <title>Accessing an Enumeration from a Non-Modeled Domain</title>
+    <para>Enumerations that are defined within a modeled component can
+    also be used by manually written code.</para>
+
+    <section>
+      <title>Enumeration Header File Name</title>
+      <para>The name of the header file containing the enumerations for
+      a component is of the following form:  <filename>(registered component
+      name)_enums.h</filename>.  For example, the name of the header
+      file containing the enumerations defined in the microwave component
+      with registered name M is <filename>M_enums.h</filename>.  The file
+      is placed in the system-level include directory
+      <filename>system/gen/include</filename>.</para>
+    </section>
+
+    <section>
+      <title>Access to an Enumeration</title>
+      <para>In &escher;, enumerations translate into simple
+      <command>#define</command>s.  Each member (enumerator) of
+      the enumeration is defined to a value.  Each enumerator
+      member uses the name of the enumeration as the part of it
+      own name to prevent name collisions between enumerators in
+      different enumerations.</para>
+      <para>To use the enumerators in a hand-coded C module,
+      simply include the <filename>(component)_enums.h</filename>
+      and use the desired constants defined within.</para>
+    </section>
+  </section>
+</section>
+
+
+<section>
+  <title>Using an Enumeration</title>
+  <highlights><para>An enumeration can be used by the component in which
+  it is defined as well as by other components.  The following sections
+  describe the use of an enumeration.</para></highlights>
+
+  <section>
+    <title>Legal Uses of an Enumeration</title>
+    <para>The user-defined type that represents an enumeration is a
+    legal type for all of the following data items:
+    <itemizedlist>
+      <listitem><para>object attribute</para></listitem>
+      <listitem><para>event supplemental data item</para></listitem>
+      <listitem><para>bridge argument</para></listitem>
+      <listitem><para>bridge return value</para></listitem>
+      <listitem><para>operation argument</para></listitem>
+      <listitem><para>operation return value</para></listitem>
+      <listitem><para>domain function argument</para></listitem>
+      <listitem><para>domain function return value</para></listitem>
+    </itemizedlist>
+    </para>
+
+    <para>Enumerators
+    can also be used in the following operations:
+    <itemizedlist>
+      <listitem><para>comparison for equality and
+      inequality</para></listitem>
+      <listitem><para>assignment to local variable</para></listitem>
+    </itemizedlist>
+    </para>
+  </section>
+
+</section>
+
+</chapter>

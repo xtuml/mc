@@ -1,0 +1,228 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2010)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<chapter id="UsersGuide-chapter">
+<title id="UsersGuide-chapter-title">Users Guide</title>
+<highlights id="UsersGuide-chapter-high"><para>This chapter describes
+the purpose and use of this guide, lists other related documents, and
+presents the conventions used within.</para></highlights>
+
+<section id="UsersGuide-Purpose-section">
+  <title>Purpose and Intended Audience</title>
+  <para>This section explains the intent of this document and describes
+  its usage.</para>
+  
+  <section>
+    <title>Purpose of the Users Guide</title>
+    <para>The purpose of this guide is to enable the user of the
+    &escher; model compiler to generate and execute an ANSI C program
+    from xtUML models specified in the
+    &bpmb;. Essential tasks that this guide will enable the user to
+    perform include the following.
+    <itemizedlist>
+      <listitem><para>Install &escher;.</para></listitem>
+      <listitem><para>Translate xtUML models into ANSI C
+      code.</para></listitem>
+      <listitem><para>Build an executable program.</para></listitem>
+      <listitem><para>Create xtUML models that fully utilize the
+      capabilities of &escher;.</para></listitem>
+    </itemizedlist>
+    </para>
+  </section>
+  
+  <section>
+    <title>Intended Audience</title>
+    <para>This guide is written for software engineers who are using
+    the &sm; development method and will implement their
+    system using the &escher; model compiler.  It assumes that the user
+    is familiar with the ANSI C programming language and general usage
+    of the development platform and its software development
+    utilities.</para>
+    
+    <para>There are various roles that software engineers can play in
+    the course of developing a system.  These roles reflect the
+    different types of tasks that must be undertaken to successfully
+    specify, design, construct, and test a system.  Roles that are
+    relevant to the usage of the &escher; model compiler include the
+    following.
+    <variablelist>
+      <varlistentry><term>Analyst</term><listitem><para>Develops the
+      xtUML models on the &bp; tool set that specify
+      system behavior and that will be used to construct the final
+      system.</para></listitem></varlistentry>
+      <varlistentry><term>Software
+      Architect</term><listitem><para>Installs and maintains the
+      &escher; &mc;.  Frequently assists in its use to
+      translate the xtUML models and build the
+      system.</para></listitem></varlistentry>
+      <varlistentry><term>System Architect</term><listitem><para>Makes
+      system wide decisions about how the xtUML models will be
+      ``marked''
+      to utilize the facilities provided by &escher;.
+      This person frequently assists in the translation and building of the
+      system.</para></listitem></varlistentry>
+      <varlistentry><term>Programmer</term><listitem><para>Designs and
+      develops C or other code that interfaces to the &escher; generated
+      code.</para></listitem></varlistentry>
+      <varlistentry><term>Tester</term><listitem><para>Tests the
+      system.</para></listitem></varlistentry>
+    </variablelist>
+    </para>
+    
+    <para>An engineer in each of these roles will be looking for
+    different types of information in this guide to fulfill the tasks
+    of that role.</para>
+    
+    <para>The <emphasis>Analyst</emphasis> will want to understand how
+    to use &escher; modeling conventions to specify such things as
+    instance initialization and bridge operations. The Analyst will
+    also be interested in understanding the limitations that &escher;
+    places on the xtUML models.</para>
+    
+    <para>The <emphasis>Software Architect</emphasis> will want to
+    understand how to install and run &escher; as well as understand its
+    structure well enough to maintain it.</para>
+    
+    <para>The <emphasis>System Architect</emphasis> will want to
+    understand the underlying software design or architecture provided
+    by &escher; and the marking options that are available for
+    translating the xtUML models into ANSI C code.</para>
+    
+    <para>The <emphasis>Programmer</emphasis> will want to understand
+    the published interfaces to the &escher; generated system and how
+    to use them to successfully interact with the generated
+    components.</para>
+    
+    <para>The <emphasis>Tester</emphasis> will want to understand how
+    to execute and debug the generated system for ``black box'' testing,
+    and how the system is constructed and operates for ``white box''
+    testing.</para>
+    
+    <para>The following section provides guidance on using this guide
+    to meet these needs.</para>
+    
+  </section>
+</section>
+
+<section>
+  <title>Using the Guide</title>
+  <highlights><para>This section describes the general structure of
+  this guide and provides suggestions for its usage in different
+  situations.</para></highlights>
+  
+  <section>
+    <title>Guide Organization</title>
+    <para>The guide is assembled with the more frequently accessed
+    chapters toward the front.  These chapters are in roughly
+    chronological order according to how they will be used.  General
+    &sm; development background is provided toward the end.</para>
+    <para>Here is a short description of each chapter and
+    appendix.</para>
+    <para>
+    <variablelist>
+      <varlistentry><term>
+      <xref linkend="UsersGuide-chapter"/>
+      </term><listitem><para>
+      <xref linkend="UsersGuide-chapter" endterm="UsersGuide-chapter-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="Features-chapter"/>
+      </term><listitem><para>
+      <xref linkend="Features-chapter" endterm="Features-chapter-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="MCGUI-chapter"/>
+      </term><listitem><para>
+      <xref linkend="MCGUI-chapter" endterm="MCGUI-chapter-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="Marking-chapter"/>
+      </term><listitem><para>
+      <xref linkend="Marking-chapter" endterm="Marking-chapter-high"/>
+      </para></listitem></varlistentry>
+
+<!-- We have a hack (HACK) here, because jade or pdfjadetex cannot have    
+    </variablelist>
+    </para>
+    <section><title>Guide Organization Continued</title><para>continuing...</para></section>
+    <para>
+    <variablelist>
+     more than ten varlistentry/xrefs or something....  hack HACK  -->
+
+      <varlistentry><term>
+      <xref linkend="Enum-chapter"/>
+      </term><listitem><para>
+      <xref linkend="Enum-chapter" endterm="Enum-chapter-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="Callout-chapter"/>
+      </term><listitem><para>
+      <xref linkend="Callout-chapter" endterm="Callout-chapter-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="Initialization-chapter"/>
+      </term><listitem><para>
+      <xref linkend="Initialization-chapter" endterm="Initialization-chapter-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="Collections-chapter"/>
+      </term><listitem><para>
+      <xref linkend="Collections-chapter" endterm="Collections-chapter-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="Persistence-chapter"/>
+      </term><listitem><para>
+      <xref linkend="Persistence-chapter" endterm="Persistence-chapter-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="Tasking-chapter"/>
+      </term><listitem><para>
+      <xref linkend="Tasking-chapter" endterm="Tasking-chapter-high"/>
+      </para></listitem></varlistentry>
+    </variablelist>
+    </para>
+  </section>
+  
+  <section>
+    <title>Additional Information</title>
+    <para>Appendices have been provided.
+    <variablelist>
+      <varlistentry><term>
+      <xref linkend="AnalysisGuide-appendix"/>
+      </term><listitem><para>
+      <xref linkend="AnalysisGuide-appendix" endterm="AnalysisGuide-appendix-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="Background-appendix"/>
+      </term><listitem><para>
+      <xref linkend="Background-appendix" endterm="Background-appendix-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="peiinitlisting-appendix"/>
+      </term><listitem><para>
+      <xref linkend="peiinitlisting-appendix" endterm="peiinitlisting-appendix-high"/>
+      </para></listitem></varlistentry>
+
+      <varlistentry><term>
+      <xref linkend="LegalNotice-appendix"/>
+      </term><listitem><para>
+      <xref linkend="LegalNotice-appendix" endterm="LegalNotice-appendix-high"/>
+      </para></listitem></varlistentry>
+    </variablelist>
+    </para>
+  </section>
+</section>
+  
+</chapter>

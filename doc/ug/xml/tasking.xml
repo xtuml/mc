@@ -1,0 +1,181 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<chapter id="Tasking-chapter">
+<title id="Tasking-chapter-title">Tasking/Threading</title>
+<highlights id="Tasking-chapter-high"><para>&escher; supports running
+the xtUML application within multiple tasks or threads.  The tasking
+uses the underlying OS/RTOS when one exists.  &escher; can still run
+without an OS/RTOS, but if preemptive multi-tasking is desired in
+the application, it is available.  The tasking/threading
+capabilities for &escher; are outlined here.</para></highlights>
+
+<section>
+  <title>Introduction</title>
+  <para>A well-modeled xtUML application is inherently concurrent.
+  Actions from any two or more instances are considered to run
+  simultaneously.  This concurrency at the specification level
+  simplifies the task of the developer.  Smaller bits of system can be
+  modeled to run somewhat independently.  The life-cycles of classes in
+  a system can be modeled mostly independently considering only their
+  synchronization with other classes in the system.  For example, the
+  microwave door and the turntable run concurrently and mostly without
+  recognizing or caring that the other exists or is running.  If
+  Developer A is modeling the door, and Developer B is modeling the
+  turntable, they can do their state modeling with loose
+  coupling.</para>
+  <para>To begin using the tasking/threading capability right away,
+  jump to <xref linkend="Tasking-Marking-section"/>.</para>
+  <para>A form of the inherent concurrency of the xtUML model can
+  easily be translated and realized in a single-tasking microcontroller
+  target.  In single-tasking mode, &escher; interleaves the state
+  actions of multiple concurrent instances of executing classes.</para>
+  <para>A single-tasking deployment architecture achieves a level of
+  concurrency in which state actions from actively running class
+  instances are interleaved.  Such a deployment design serves well
+  for applications requiring concurrency at the granularity of a
+  state action.  It is light weight and fast.</para>
+  <para>However, if a finer grained concurrency is desired, it will be
+  necessary to use a multi-tasking deployment system.  In a
+  multi-tasking deployment environment, state actions can run in
+  concurrently executing tasks or threads.  The number of currently
+  executing actions can be equal to the number of executing tasks
+  (instead of just one).</para>
+</section>
+
+<section id="Tasking-Marking-section">
+  <title id="Tasking-Marking-section-title">Marking for Tasking</title>
+  <para>To use tasking/threading with &escher;, the user must mark the
+  feature enabled providing the "flavor" of tasking/threading provided
+  by the underlying operating system (OS) or real-time operating system
+  (RTOS).  Use the marking described <xref
+  linkend="Marking-EnablingTasking-section"/>.</para>
+  <para>Once the tasking/threading capability has been enabled, the
+  priorities of the desired tasks must be established.  Various
+  operating systems (OSes) and real-time operating systems (RTOSes) use
+  different symbology for setting priority.  For example, &nukeplus;
+  uses integer numbers between 0 and 255 to indicate the priority of a
+  task.  (0 is the highest priority; 255 is the lowest.) Use the
+  marking function described in <xref
+  linkend="Marking-TaskPriority-section"/> to set the priority of the
+  tasks in the xtUML generated system.</para>
+  <para>Classes must be mapped to the tasks identified with the marking
+  functions above.  Use the marking function described in <xref
+  linkend="Marking-MappingClassesToTasks-section"/> to map classes to
+  tasks.</para>
+</section>
+  
+<section id="Tasking-Prioritization-section">
+  <title id="Tasking-Prioritization-section-title">Prioritization</title>
+
+  <para>The primary reason for tasking in an xtUML modeled system
+  involves the deployment of prioritization in the generated code.</para>
+
+  <section id="Tasking-PriorityGeneration-section">
+    <title id="Tasking-PriorityGeneration-section-title">Priority in the
+    Generated Code</title>
+    <para>An xtUML model may be inherently concurrent, but it is not
+    inherently prioritized.</para>
+    <para>Simple prioritization of execution of a
+    translated xtUML model can be achieved without multi-tasking.
+    Events can be prioritized to modify the sequencing of state
+    actions.  &escher; provides event prioritization.</para>
+    <para>In a single tasking environment, a state action cannot be
+    preempted.  Therefore, a single task deployment environment is
+    limited by the duration of the longest state action.  Without
+    preemption, a higher priority action may need to wait the entire
+    duration of a state action of lower priority processing.  Sometimes
+    this is not an issue.</para>
+    <para>However, in many embedded applications the limits of a single
+    task cannot be tolerated.  We must map the xtUML application onto a
+    multi-tasking/multi-threading architecture.  By doing so, it is
+    possible to map processing to various tasks based upon the required
+    priorities.  Higher priority action processing can be designed to
+    preempt lower priority actions.  We can take control away from the
+    lower priority action and context switch into the higher priority
+    action running in a higher priority task.</para>
+  </section>
+  
+  <section id="Tasking-Mapping-section">
+    <title id="Tasking-Mapping-section-title">Mapping to Tasks</title>
+    <para>There are many possible strategies for mapping the components
+    of an xtUML application to tasks.  Event-based strategies and
+    strategies based upon sequences of actions have been implemented
+    successfully.  &escher; has supported event based prioritization
+    since version 2.  As of &escher; version 4, prioritization using
+    tasks/threads is supported.  The mapping of xtUML artifacts to
+    these tasks/threads is by class.  Groups of classes are mapped to
+    the tasks/threads running in the generated system.</para>
+    <para>xtUML model marking is used to identify which classes are
+    translated to run in which tasks in the deployment target.  Each
+    class is marked identifying the task in which its generated code
+    runs.  The priority of the action processing of the class is used
+    to determine an appropriate task.  Higher priority classes get
+    mapped to higher priority tasks.  This separation allows for the
+    processing of higher priority classes to preempt the processesing
+    of lower priority classes.</para>
+    <para>Classes with state charts requiring low latency response to
+    application events are mapped to high priority.  Classes with
+    little or no requirement for quick response are mapped to lower
+    priority RTOS tasks.</para>
+  </section>
+
+  <section>
+    <title>How Many Tasks?</title>
+    <para>The number of tasks required by the application is largely
+    driven by prioritization.  Concurrency plays a part in
+    determining the number of tasks needed.  The mapping to
+    tasks must be accomplished with a clear understanding of both the
+    xtUML application and of the deployment target hardware and
+    RTOS.</para>
+    <para>A simple starting point is to have one task for each
+    required level of priority.  Map all classes having the same
+    priority to the same task.  For example map classes with tight
+    coupling to time sensitive hardware to high priority task(s).
+    Map classes that do non-critical "background" types of processing
+    to a low priority task.  Map everything else to a normal priority
+    task.</para>
+  </section>
+  <section>
+    <title>Data Access Issues</title>
+    <para>In an xtUML application concurrency is assumed unless
+    purposefully sequenced.  Access to data that is shared between
+    various classes/actions/functions must be synchronized.  A
+    simple, single-tasking deployment target may hide synchronization
+    issues.  A multi-tasking environment will not hide these modeling
+    defects and indeed may aggravate them.  If an xtUML application
+    has not been properly synchronized, a truly preemptive
+    multi-tasking kernel can uncover the modeling deficiencies.</para>
+    <para>Note that it is wise to map classes with strong processing
+    and data interaction (coupling) into the same task.  An improper
+    mapping of classes to tasks can increase the overhead of
+    processing by introducing undue task switching.</para>
+  </section>
+</section>
+
+<section id="Tasking-Deployment-section">
+  <title>Tasking/Threading in the Generated Code</title>
+  <para>&escher; interfaces to the tasking/threading capabilities of
+  the underlying OS/RTOS through a single interface layer module.
+  The interface module is generated into the generated source of the 
+  system node into a file called <filename>sys_thread.c</filename>.</para>
+  <para>The tasking/threading interface consists of six interfaces.
+  One interface provides for initialization
+  (<function>InitializeThreading</function>).  Another interface
+  provides for creating threads
+  (<function>thread_create</function>).  Two interfaces allow
+  for the locking and unlocking of shared resources such as event
+  and instance queues (<function>mutex_lock/unlock</function>).
+  Two final interfaces allow for the class activities in a task to go
+  "non-busy" using no cycles when there is no work to do
+  (<function>nonbusy_wait/wake</function>) and to "wake up" when new
+  work arrives.</para>
+  <para>The resources that are protected by the locking and unlocking
+  interfaces include instance event queue, self event queue, collection
+  element free list, non-busy lock, serialization lock, instance
+  queues, timers and interleaved bridges.</para>
+</section>
+    
+</chapter>

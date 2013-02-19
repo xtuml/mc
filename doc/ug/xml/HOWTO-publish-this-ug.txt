@@ -1,0 +1,52 @@
+========================================================================
+
+File:      $RCSfile: HOWTO-publish-this-ug.txt,v $
+Version:   $Revision: 1.2 $
+Modified:  $Date: 2012/02/07 19:04:51 $
+
+(c) Copyright 2012 by Mentor Graphics Corp. All rights reserved.
+
+========================================================================
+This document contains information proprietary and confidential to
+Mentor Graphics Corp., and is not for external distribution.
+========================================================================
+
+How to Publish this User Guide
+-------------------------------
+This user guide is distributed inside the BridgePoint release.  The guide is 
+pulled in as an "extra file" during the build creation.  This means that it is
+not rebuilt as part of the nightly BridgePoint plugin build.  It is static data
+that the nightly build process pulls in.
+
+This static data, in the form of a zipfile containing the HTML documentation, is
+built and placed manually whenever someone edits the documentation.  The steps
+below detail how to do this.
+
+
+1) Setup.  This process requires the docbook xslt processor.  You can either use
+   the native one inside cygwin or linux, or you can use the one distributed
+   inside a BridgePoint installation.  The native one for cygwin is in the 
+   cygwin "libxslt" package.  The BridgePoint one is found beneath
+   C:\MentorGraphics\BridgePoint\tools\docgen\docbook.
+   
+2) Steps to generate HTML:
+    _- open a terminal/shell
+    _- cd <CVS>/MC-Documentation/external/mc3020/ug/xml
+    _- xsltproc --nonet --novalid ug.xsl ug.xml
+    
+3) Package the HTML:
+    _- mkdir /tmp/3020ug
+    _- mv *.html /tmp/3020ug
+    _- cp *.png /tmp/3020ug
+    _- cd /tmp/3020ug
+    _- zip -q -r mc3020_doc.zip .
+    
+4) Upload the new docs
+    _- ftp put the mc3020_doc.zip to ftp://mentorweb/pub/BP/dropoff
+    _- ssh <userid>@tucson.wv.mentorg.com
+    _- cd /arch1/products/tiger/extra_files_for_build
+    _- mv mc3020_doc.zip old_file/mc3020_doc.zip.<date>
+    _- wget ftp://mentorweb/pub/BP/dropoff/mc3020_doc.zip 
+    _- chmod 664 mc3020_doc.zip 
+    
+    
