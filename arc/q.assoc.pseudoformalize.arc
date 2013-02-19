@@ -42,16 +42,16 @@
       .assign r_form.Txt_Phrs = r_part.Txt_Phrs
       .//
       .// unrelate r_part from r_rto across R205;
-      .assign r_part.Obj_ID = 0
-      .assign r_part.Rel_ID = 0
-      .assign r_part.OIR_ID = 0
+      .assign r_part.Obj_ID = 00
+      .assign r_part.Rel_ID = 00
+      .assign r_part.OIR_ID = 00
       .// end unrelate
       .// delete object instance r_part;
       .//
       .// unrelate r_rto from r_oir across R203;
-      .assign r_rto.Obj_ID = 0
-      .assign r_rto.Rel_ID = 0
-      .assign r_rto.OIR_ID = 0
+      .assign r_rto.Obj_ID = 00
+      .assign r_rto.Rel_ID = 00
+      .assign r_rto.OIR_ID = 00
       .// end unrelate
       .// delete object instance r_rto;
       .//

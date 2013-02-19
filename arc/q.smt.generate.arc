@@ -663,9 +663,9 @@
     .assign built_in = false
     .assign oid_id = -1
     .if ( built_in )
-      .select any swc related by o_obj->TE_SWC[R2001] where ( selected.Key == "p_where.key" )
-      .assign built_in = swc.Built_In
-      .assign oid_id = swc.Oid_ID
+      .select any te_swc related by o_obj->TE_SWC[R2001] where ( selected.Key == "p_where.key" )
+      .assign built_in = te_swc.Built_In
+      .assign oid_id = te_swc.Oid_ID
     .end if
     .//.assign te_select_where.o_obj = o_obj
     .assign te_select_where.is_implicit = act_fiw.is_implicit
