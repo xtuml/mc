@@ -521,7 +521,7 @@
   .//
   .// Special Where Clause patterns that may be optimized by the model compiler.
   .//
-  .select many te_classes from instances of TE_CLASS
+  .select many te_classes from instances of TE_CLASS where ( not selected.ExcludeFromGen )
   .for each te_class in te_classes
     .select many o_ids related by te_class->O_OBJ[R2019]->O_ID[R104]
     .for each o_id in o_ids
@@ -570,9 +570,11 @@
         .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
         .create object instance te_swc of TE_SWC
         .// relate te_swc to te_class across R2001;
+        .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
         .assign te_swc.Obj_Kl = te_class.Key_Lett
+        .// end relate
         .assign te_swc.Where_Spec = where_spec
-        .assign te_swc.Key = "${where_key}"
+        .assign te_swc.Key = where_key
         .assign te_swc.Ret_Val = FALSE
         .assign te_swc.Built_In = TRUE
         .assign te_swc.Oid_ID = o_id.Oid_ID
@@ -598,13 +600,16 @@
         .end while
         .//
         .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
-        .create object instance t of TE_SWC
-        .assign t.Obj_Kl = te_class.Key_Lett
-        .assign t.Where_Spec = where_spec
-        .assign t.Key = where_key
-        .assign t.Ret_Val = FALSE
-        .assign t.Built_In = TRUE
-        .assign t.Oid_ID = o_id.Oid_ID
+        .create object instance te_swc of TE_SWC
+        .// relate te_swc to te_class across R2001;
+        .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
+        .assign te_swc.Obj_Kl = te_class.Key_Lett
+        .// end relate
+        .assign te_swc.Where_Spec = where_spec
+        .assign te_swc.Key = where_key
+        .assign te_swc.Ret_Val = FALSE
+        .assign te_swc.Built_In = TRUE
+        .assign te_swc.Oid_ID = o_id.Oid_ID
         .//
         .if ( num_ident_attr > 1 )
           .// *** Provide a key parenthesized at outer and inner constructs.
@@ -628,13 +633,16 @@
           .end while
           .//
           .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
-          .create object instance t of TE_SWC
-          .assign t.Obj_Kl = te_class.Key_Lett
-          .assign t.Where_Spec = where_spec
-          .assign t.Key = where_key
-          .assign t.Ret_Val = FALSE
-          .assign t.Built_In = TRUE
-          .assign t.Oid_ID = o_id.Oid_ID
+          .create object instance te_swc of TE_SWC
+          .// relate te_swc to te_class across R2001;
+          .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
+          .assign te_swc.Obj_Kl = te_class.Key_Lett
+          .// end relate
+          .assign te_swc.Where_Spec = where_spec
+          .assign te_swc.Key = where_key
+          .assign te_swc.Ret_Val = FALSE
+          .assign te_swc.Built_In = TRUE
+          .assign te_swc.Oid_ID = o_id.Oid_ID
           .// *** Provide a key parenthesized at just inner constructs.
           .assign where_spec = ""
           .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
@@ -654,15 +662,18 @@
           .end while
           .//
           .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
-          .create object instance t of TE_SWC
-          .assign t.Obj_Kl = te_class.Key_Lett
-          .assign t.Where_Spec = where_spec
-          .assign t.Key = where_key
-          .assign t.Ret_Val = FALSE
-          .assign t.Built_In = TRUE
-          .assign t.Oid_ID = o_id.Oid_ID
+          .create object instance te_swc of TE_SWC
+          .// relate te_swc to te_class across R2001;
+          .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
+          .assign te_swc.Obj_Kl = te_class.Key_Lett
+          .// end relate
+          .assign te_swc.Where_Spec = where_spec
+          .assign te_swc.Key = where_key
+          .assign te_swc.Ret_Val = FALSE
+          .assign te_swc.Built_In = TRUE
+          .assign te_swc.Oid_ID = o_id.Oid_ID
           .//
-        .end if  .// num_ident_attr > 1
+        .end if
       .end if
     .end for
   .end for

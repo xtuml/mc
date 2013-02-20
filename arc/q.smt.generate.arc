@@ -1354,7 +1354,9 @@
   .assign te_select_related.by_where = by_where
   .assign te_select_related.is_implicit = act_sel.is_implicit
   .assign te_select_related.multiplicity = act_sel.cardinality
+  .// relate te_select_related to start_te_class across R2077;
   .assign te_select_related.te_classGeneratedName = start_te_class.GeneratedName
+  .// end relate
   .select one start_te_var related by start_v_var->TE_VAR[R2039]
   .assign te_select_related.start_var = start_te_val.buffer
   .assign te_select_related.start_var_OAL = start_te_val.OAL
