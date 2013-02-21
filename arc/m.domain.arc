@@ -355,9 +355,9 @@
         .assign sibling_te_iir.port_name = port
         .assign sibling_te_iir.interface_name = te_po.InterfaceName
         .assign sibling_te_iir.polymorphic = false
-        .assign sibling_te_iir.cl_iirId = 0
-        .assign sibling_te_iir.c_irId = 0
-        .assign sibling_te_iir.te_poID = 0
+        .assign sibling_te_iir.cl_iirId = 00
+        .assign sibling_te_iir.c_irId = 00
+        .assign sibling_te_iir.te_poID = 00
         .// relate sibling_te_iir to te_iir across R2081.'provides or is delegated';
         .assign sibling_te_iir.provider_te_iirID = te_iir.ID
         .// end relate
@@ -370,9 +370,9 @@
         .assign sibling_te_iir.port_name = port
         .assign sibling_te_iir.interface_name = te_po.InterfaceName
         .assign sibling_te_iir.polymorphic = false
-        .assign sibling_te_iir.cl_iirId = 0
-        .assign sibling_te_iir.c_irId = 0
-          .assign sibling_te_iir.te_poID = 0
+        .assign sibling_te_iir.cl_iirId = 00
+        .assign sibling_te_iir.c_irId = 00
+        .assign sibling_te_iir.te_poID = 00
         .// relate sibling_te_iir to te_iir across R2081.'provides or is delegated';
         .assign sibling_te_iir.provider_te_iirID = te_iir.ID
         .// end relate

@@ -1,0 +1,458 @@
+This report lists assignments that may be referential attributes.
+
+m.bridge.arc:58-    .assign tm_sync.RegisteredDomain = component_name
+m.bridge.arc:59:    .assign tm_sync.Name = function_name
+m.component.arc:135-      .assign tm_c.Package = package_name
+m.component.arc:136:      .assign tm_c.Name = component_name
+m.component.arc:141-      .// relate te_c to tm_c across R2804;
+m.component.arc:142:      .assign tm_c.te_cID = te_c.ID
+m.component.arc:151-    .// relate tm_template to tm_c across R2800;
+m.component.arc:152:    .assign tm_template.tm_cPackage = tm_c.Package
+m.component.arc:183-  .assign tm_if.Package = package_name
+m.component.arc:184:  .assign tm_if.Name = interface_name
+m.component.arc:185-  .// relate tm_if to c_i across R2807;
+m.component.arc:186:  .assign tm_if.c_iId = c_i.Id
+m.component.arc:194-  .// relate tm_template to tm_if across R2802;
+m.component.arc:195:  .assign tm_template.tm_ifPackage = tm_if.Package
+m.component.arc:235-    .// relate tm_tp to tm_template across R2801;
+m.component.arc:236:    .assign tm_tp.tm_templateID = tm_template.ID
+m.component.arc:237-    .assign tm_tp.typename = type_name
+m.component.arc:238:    .assign tm_tp.Name = variable_name
+m.component.arc:284-        .// relate tm_tpv to tm_tp across R2808;
+m.component.arc:285:        .assign tm_tpv.tm_tpID = tm_tp.ID
+m.component.arc:286-        .// relate tm_tpv to te_ci across R2805;
+m.component.arc:287-        .assign tm_tpv.te_ciID = te_ci.ID
+m.component.arc:287:        .assign tm_tpv.te_ciID = te_ci.ID
+m.component.arc:288:        .assign tm_tpv.te_iirID = 0
+m.component.arc:302-        .// relate tm_tpv to tm_tp across R2808;
+m.component.arc:303:        .assign tm_tpv.tm_tpID = tm_tp.ID
+m.component.arc:304-        .// relate tm_tpv to te_iir across R2806;
+m.component.arc:305-        .assign tm_tpv.te_iirID = te_iir.ID
+m.component.arc:305:        .assign tm_tpv.te_iirID = te_iir.ID
+m.component.arc:306:        .assign tm_tpv.te_ciID = 0
+m.component.arc:317-        .// relate tm_tpv to tm_tp across R2808;
+m.component.arc:318:        .assign tm_tpv.tm_tpID = tm_tp.ID
+m.component.arc:319-        .// relate tm_tpv to te_iir across R2806;
+m.component.arc:320-        .assign tm_tpv.te_iirID = te_iir.ID
+m.component.arc:320:        .assign tm_tpv.te_iirID = te_iir.ID
+m.component.arc:321:        .assign tm_tpv.te_ciID = 0
+m.component.arc:332-        .// relate tm_tpv to tm_tp across R2808;
+m.component.arc:333:        .assign tm_tpv.tm_tpID = tm_tp.ID
+m.component.arc:334-        .// relate tm_tpv to te_iir across R2806;
+m.component.arc:335-        .assign tm_tpv.te_iirID = te_iir.ID
+m.component.arc:335:        .assign tm_tpv.te_iirID = te_iir.ID
+m.component.arc:336:        .assign tm_tpv.te_ciID = 0
+m.component.arc:412-        .// relate tm_tpv to tm_tp across R2808;
+m.component.arc:413:        .assign tm_tpv.tm_tpID = tm_tp.ID
+m.component.arc:414-        .// relate tm_tpv to te_ci across R2805;
+m.component.arc:415-        .assign tm_tpv.te_ciID = te_ci.ID
+m.component.arc:415:        .assign tm_tpv.te_ciID = te_ci.ID
+m.component.arc:416:        .assign tm_tpv.te_iirID = 0
+m.component.arc:472-    .// relate tm_tpv to tm_tp across R2808;
+m.component.arc:473:    .assign tm_tpv.tm_tpID = tm_tp.ID
+m.component.arc:474-    .// relate tm_tpv to te_iir across R2806;
+m.component.arc:475-    .assign tm_tpv.te_iirID = te_iir.ID
+m.component.arc:475:    .assign tm_tpv.te_iirID = te_iir.ID
+m.component.arc:476:    .assign tm_tpv.te_ciID = 0
+m.component.arc:659-      .assign tm_c.Package = package_name
+m.component.arc:660:      .assign tm_c.Name = component_name
+m.component.arc:71-      .assign tm_c.Package = package_name
+m.component.arc:72:      .assign tm_c.Name = component_name
+m.component.arc:73-      .// relate te_c to tm_c across R2804;
+m.component.arc:74:      .assign tm_c.te_cID = te_c.ID
+m.domain.arc:357-        .assign sibling_te_iir.polymorphic = false
+m.domain.arc:358-        .assign sibling_te_iir.cl_iirId = 0
+m.domain.arc:358:        .assign sibling_te_iir.cl_iirId = 0
+m.domain.arc:359-        .assign sibling_te_iir.c_irId = 0
+m.domain.arc:359:        .assign sibling_te_iir.c_irId = 0
+m.domain.arc:360:        .assign sibling_te_iir.te_poID = 0
+m.domain.arc:361-        .// relate sibling_te_iir to te_iir across R2081.'provides or is delegated';
+m.domain.arc:362:        .assign sibling_te_iir.provider_te_iirID = te_iir.ID
+m.domain.arc:372-        .assign sibling_te_iir.polymorphic = false
+m.domain.arc:373-        .assign sibling_te_iir.cl_iirId = 0
+m.domain.arc:373:        .assign sibling_te_iir.cl_iirId = 0
+m.domain.arc:374-        .assign sibling_te_iir.c_irId = 0
+m.domain.arc:374:        .assign sibling_te_iir.c_irId = 0
+m.domain.arc:375:          .assign sibling_te_iir.te_poID = 0
+m.domain.arc:376-        .// relate sibling_te_iir to te_iir across R2081.'provides or is delegated';
+m.domain.arc:377:        .assign sibling_te_iir.provider_te_iirID = te_iir.ID
+m.system.arc:39-  .if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) )
+m.system.arc:40:    .assign tm_thread.flavor = flavor
+q.assoc.pseudoformalize.arc:44-      .// unrelate r_part from r_rto across R205;
+q.assoc.pseudoformalize.arc:45-      .assign r_part.Obj_ID = 0
+q.assoc.pseudoformalize.arc:45:      .assign r_part.Obj_ID = 0
+q.assoc.pseudoformalize.arc:46-      .assign r_part.Rel_ID = 0
+q.assoc.pseudoformalize.arc:46:      .assign r_part.Rel_ID = 0
+q.assoc.pseudoformalize.arc:47:      .assign r_part.OIR_ID = 0
+q.assoc.pseudoformalize.arc:51-      .// unrelate r_rto from r_oir across R203;
+q.assoc.pseudoformalize.arc:52-      .assign r_rto.Obj_ID = 0
+q.assoc.pseudoformalize.arc:52:      .assign r_rto.Obj_ID = 0
+q.assoc.pseudoformalize.arc:53-      .assign r_rto.Rel_ID = 0
+q.assoc.pseudoformalize.arc:53:      .assign r_rto.Rel_ID = 0
+q.assoc.pseudoformalize.arc:54:      .assign r_rto.OIR_ID = 0
+q.assoc.pseudoformalize.arc:58-      .// relate r_rgo to r_oir across R203;
+q.assoc.pseudoformalize.arc:59-      .assign r_rgo.Obj_ID = r_oir.Obj_ID
+q.assoc.pseudoformalize.arc:59:      .assign r_rgo.Obj_ID = r_oir.Obj_ID
+q.assoc.pseudoformalize.arc:60-      .assign r_rgo.Rel_ID = r_oir.Rel_ID
+q.assoc.pseudoformalize.arc:60:      .assign r_rgo.Rel_ID = r_oir.Rel_ID
+q.assoc.pseudoformalize.arc:61:      .assign r_rgo.OIR_ID = r_oir.OIR_ID
+q.assoc.pseudoformalize.arc:63-      .// relate r_form to r_rgo across R205;
+q.assoc.pseudoformalize.arc:64-      .assign r_form.Obj_ID = r_rgo.Obj_ID
+q.assoc.pseudoformalize.arc:64:      .assign r_form.Obj_ID = r_rgo.Obj_ID
+q.assoc.pseudoformalize.arc:65-      .assign r_form.Rel_ID = r_rgo.Rel_ID
+q.assoc.pseudoformalize.arc:65:      .assign r_form.Rel_ID = r_rgo.Rel_ID
+q.assoc.pseudoformalize.arc:66:      .assign r_form.OIR_ID = r_rgo.OIR_ID
+q.class.pei.arc:41-    .for each inst in insts
+q.class.pei.arc:42:      .assign inst.Name = "${i}"
+q.mc_metamodel.populate.arc:1006-    .// relate o_tparm to te_parm across R2029;
+q.mc_metamodel.populate.arc:1007:    .assign te_parm.TParm_ID = o_tparm.TParm_ID
+q.mc_metamodel.populate.arc:1026-    .// relate s_sparm to te_parm across R2030;
+q.mc_metamodel.populate.arc:1027:    .assign te_parm.SParm_ID = s_sparm.SParm_ID
+q.mc_metamodel.populate.arc:1048-    .assign te_parm.SMedi_ID = sm_evtdi.SMedi_ID
+q.mc_metamodel.populate.arc:1049:    .assign te_parm.SM_ID = sm_evtdi.SM_ID
+q.mc_metamodel.populate.arc:1068-    .// relate c_pp to te_parm across R2048;
+q.mc_metamodel.populate.arc:1069:    .assign te_parm.PP_Id = c_pp.PP_Id
+q.mc_metamodel.populate.arc:107-    .assign te_thread.serialize = tm_thread.serialize
+q.mc_metamodel.populate.arc:108:    .assign te_thread.flavor = tm_thread.flavor
+q.mc_metamodel.populate.arc:1129-    .// relate te_mact to spr_ro across R2052;
+q.mc_metamodel.populate.arc:1130:    .assign te_mact.SPR_ROId = spr_ro.Id
+q.mc_metamodel.populate.arc:1142-    .// relate te_mact to spr_rs across R2053;
+q.mc_metamodel.populate.arc:1143:    .assign te_mact.SPR_RSId = spr_rs.Id
+q.mc_metamodel.populate.arc:116-    .create object instance te_disp of TE_DISP
+q.mc_metamodel.populate.arc:1162-    .// relate te_mact to spr_po across R2050;
+q.mc_metamodel.populate.arc:1163:    .assign te_mact.SPR_POId = spr_po.Id
+q.mc_metamodel.populate.arc:1175-    .// relate te_mact to spr_ps across R2051;
+q.mc_metamodel.populate.arc:1176:    .assign te_mact.SPR_PSId = spr_ps.Id
+q.mc_metamodel.populate.arc:117:    .assign te_disp.Dispatcher_ID = 1
+q.mc_metamodel.populate.arc:118-    .// relate te_disp to te_sys across R2003;
+q.mc_metamodel.populate.arc:1193-              .// relate previous_te_mact to te_mact across R2083.'succeeds';
+q.mc_metamodel.populate.arc:1194:              .assign previous_te_mact.nextID = te_mact.ID
+q.mc_metamodel.populate.arc:119:    .assign te_disp.SystemID = te_sys.SystemID
+q.mc_metamodel.populate.arc:122-  .assign te_disp.Descrip = "dispatcher"
+q.mc_metamodel.populate.arc:1220-    .// relate r_rel to te_rel across R2034;
+q.mc_metamodel.populate.arc:1221:    .assign te_rel.Rel_ID = r_rel.Rel_ID
+q.mc_metamodel.populate.arc:1230-    .// relate r_oir to te_nav across R2035;
+q.mc_metamodel.populate.arc:1231-    .assign te_nav.Obj_ID = r_oir.Obj_ID
+q.mc_metamodel.populate.arc:1231:    .assign te_nav.Obj_ID = r_oir.Obj_ID
+q.mc_metamodel.populate.arc:1232-    .assign te_nav.Rel_ID = r_oir.Rel_ID
+q.mc_metamodel.populate.arc:1232:    .assign te_nav.Rel_ID = r_oir.Rel_ID
+q.mc_metamodel.populate.arc:1233:    .assign te_nav.OIR_ID = r_oir.OIR_ID
+q.mc_metamodel.populate.arc:123:  .assign te_disp.Name = "main"
+q.mc_metamodel.populate.arc:1241-    .// relate act_blk to te_blk across R2016;
+q.mc_metamodel.populate.arc:1242:    .assign te_blk.Block_ID = act_blk.Block_ID
+q.mc_metamodel.populate.arc:1254-      .// relate act_smt to te_smt across R2038;
+q.mc_metamodel.populate.arc:1255:      .assign te_smt.Statement_ID = act_smt.Statement_ID
+q.mc_metamodel.populate.arc:1258-      .// relate te_smt to te_blk across R2078;
+q.mc_metamodel.populate.arc:1259:      .assign te_smt.parent_Block_ID = te_blk.Block_ID
+q.mc_metamodel.populate.arc:1263-        .// relate te_blk to te_smt across R2014;
+q.mc_metamodel.populate.arc:1264:        .assign te_blk.first_Statement_ID = te_smt.Statement_ID
+q.mc_metamodel.populate.arc:1266-      .else
+q.mc_metamodel.populate.arc:1267:        .assign te_blk.first_Statement_ID = 0
+q.mc_metamodel.populate.arc:1275-      .assign te_smt.trace = ""
+q.mc_metamodel.populate.arc:1276-      .assign te_smt.next_Statement_ID = 0
+q.mc_metamodel.populate.arc:1276:      .assign te_smt.next_Statement_ID = 0
+q.mc_metamodel.populate.arc:1277:      .assign te_smt.sub_Block_ID = 0
+q.mc_metamodel.populate.arc:1285-        .// relate te_smt to next_te_smt across R2012.'succeeds';
+q.mc_metamodel.populate.arc:1286:        .assign te_smt.next_Statement_ID = next_te_smt.Statement_ID
+q.mc_metamodel.populate.arc:129-    .// relate te_queue to te_disp across R2004;
+q.mc_metamodel.populate.arc:1301-    .// relate te_smt to te_blk across R2015;
+q.mc_metamodel.populate.arc:1302:    .assign te_smt.sub_Block_ID = te_blk.Block_ID
+q.mc_metamodel.populate.arc:130:    .assign te_queue.Dispatcher_ID = te_disp.Dispatcher_ID
+q.mc_metamodel.populate.arc:1310-    .// relate te_smt to te_blk across R2015;
+q.mc_metamodel.populate.arc:1311:    .assign te_smt.sub_Block_ID = te_blk.Block_ID
+q.mc_metamodel.populate.arc:1319-    .// relate te_smt to te_blk across R2015;
+q.mc_metamodel.populate.arc:1320:    .assign te_smt.sub_Block_ID = te_blk.Block_ID
+q.mc_metamodel.populate.arc:1328-    .// relate te_smt to te_blk across R2015;
+q.mc_metamodel.populate.arc:1329:    .assign te_smt.sub_Block_ID = te_blk.Block_ID
+q.mc_metamodel.populate.arc:1337-    .// relate te_smt to te_blk across R2015;
+q.mc_metamodel.populate.arc:1338:    .assign te_smt.sub_Block_ID = te_blk.Block_ID
+q.mc_metamodel.populate.arc:134-    .// relate nonself_te_queue to te_disp across R2004;
+q.mc_metamodel.populate.arc:135:    .assign nonself_te_queue.Dispatcher_ID = te_disp.Dispatcher_ID
+q.mc_metamodel.populate.arc:1366-      .// relate te_lnk to next_te_lnk across R2075.'succeeds';
+q.mc_metamodel.populate.arc:1367:      .assign te_lnk.next_ID = next_te_lnk.ID
+q.mc_metamodel.populate.arc:1388-    .// relate v_var to te_var across R2039;
+q.mc_metamodel.populate.arc:1389:    .assign te_var.Var_ID = v_var.Var_ID
+q.mc_metamodel.populate.arc:1412-        .// relate te_dim to te_var across R2057;
+q.mc_metamodel.populate.arc:1413:        .assign te_var.te_dimID = te_dim.te_dimID
+q.mc_metamodel.populate.arc:1473-      .// relate te_sync to te_aba across R2010;
+q.mc_metamodel.populate.arc:1474:      .assign te_sync.AbaID = te_aba.AbaID
+q.mc_metamodel.populate.arc:1523-        .create object instance te_attr of TE_ATTR
+q.mc_metamodel.populate.arc:1524:        .assign te_attr.Name = o_attr.Name
+q.mc_metamodel.populate.arc:1534-        .// relate te_attr to o_attr across R2033;
+q.mc_metamodel.populate.arc:1535-        .assign te_attr.Obj_ID = o_attr.Obj_ID
+q.mc_metamodel.populate.arc:1535:        .assign te_attr.Obj_ID = o_attr.Obj_ID
+q.mc_metamodel.populate.arc:1536:        .assign te_attr.Attr_ID = o_attr.Attr_ID
+q.mc_metamodel.populate.arc:1538-        .// relate te_attr to te_class across R2061;
+q.mc_metamodel.populate.arc:1539:        .assign te_attr.te_classGeneratedName = te_class.GeneratedName
+q.mc_metamodel.populate.arc:1541-        .// CDS nulling out a referential
+q.mc_metamodel.populate.arc:1542:        .assign te_attr.prevID = 0
+q.mc_metamodel.populate.arc:1544-          .// relate te_attr to prev_te_attr across R2087.'succeeds';
+q.mc_metamodel.populate.arc:1545:          .assign te_attr.prevID = prev_te_attr.ID
+q.mc_metamodel.populate.arc:1558-            .// relate te_dim to te_attr across R2055;
+q.mc_metamodel.populate.arc:1559:            .assign te_attr.te_dimID = te_dim.te_dimID
+q.mc_metamodel.populate.arc:1592-          .// relate o_dbattr to te_dbattr across R2026;
+q.mc_metamodel.populate.arc:1593-          .assign te_dbattr.Attr_ID = o_dbattr.Attr_ID
+q.mc_metamodel.populate.arc:1593:          .assign te_dbattr.Attr_ID = o_dbattr.Attr_ID
+q.mc_metamodel.populate.arc:1594:          .assign te_dbattr.Obj_ID = o_dbattr.Obj_ID
+q.mc_metamodel.populate.arc:1600-          .// relate te_dbattr to te_aba across R2010;
+q.mc_metamodel.populate.arc:1601:          .assign te_dbattr.AbaID = te_aba.AbaID
+q.mc_metamodel.populate.arc:1626-        .assign te_tfr.Key_Lett = te_class.Key_Lett
+q.mc_metamodel.populate.arc:1627:        .assign te_tfr.Name = o_tfr.Name
+q.mc_metamodel.populate.arc:1629-        .// relate o_tfr to te_tfr across R2024;
+q.mc_metamodel.populate.arc:163-    .// relate te_c to c_c across R2054;
+q.mc_metamodel.populate.arc:1630:        .assign te_tfr.Tfr_ID = o_tfr.Tfr_ID
+q.mc_metamodel.populate.arc:1636-        .// relate te_tfr to te_aba across R2010;
+q.mc_metamodel.populate.arc:1637:        .assign te_tfr.AbaID = te_aba.AbaID
+q.mc_metamodel.populate.arc:1646-        .// relate o_id to te_where across R2032;
+q.mc_metamodel.populate.arc:1647-        .assign te_where.Obj_ID = o_id.Obj_ID
+q.mc_metamodel.populate.arc:1647:        .assign te_where.Obj_ID = o_id.Obj_ID
+q.mc_metamodel.populate.arc:1648:        .assign te_where.Oid_ID = o_id.Oid_ID
+q.mc_metamodel.populate.arc:164:    .assign te_c.cId = c_c.Id
+q.mc_metamodel.populate.arc:166-    .// relate te_c to te_sys across R2065;
+q.mc_metamodel.populate.arc:1671-  .// relate te_class to o_obj across R2019;
+q.mc_metamodel.populate.arc:1672:  .assign te_class.Obj_ID = o_obj.Obj_ID
+q.mc_metamodel.populate.arc:1673-  .// relate te_class to te_c across R2064;
+q.mc_metamodel.populate.arc:1674:  .assign te_class.te_cID = te_c.ID
+q.mc_metamodel.populate.arc:1677-  .// Copy other attributes for convenience so we can avoid accessing o_obj.
+q.mc_metamodel.populate.arc:1678:  .assign te_class.Name = o_obj.Name
+q.mc_metamodel.populate.arc:167:    .assign te_c.SystemID = te_sys.SystemID
+q.mc_metamodel.populate.arc:168-    .// end relate
+q.mc_metamodel.populate.arc:169:    .assign te_c.Name = "$r{c_c.Name}"
+q.mc_metamodel.populate.arc:1702-    .// relate te_dim to te_dim_predecessor across R2061.'succeeds';
+q.mc_metamodel.populate.arc:1703:    .assign te_dim_predecessor.next_te_dimID = te_dim.te_dimID
+q.mc_metamodel.populate.arc:1721-  .// relate te_sm to te_class across R2072;
+q.mc_metamodel.populate.arc:1722:  .assign te_sm.te_classGeneratedName = te_class.GeneratedName
+q.mc_metamodel.populate.arc:1723-  .// relate te_sm to sm_sm across R2043;
+q.mc_metamodel.populate.arc:1724:  .assign te_sm.SM_ID = sm_sm.SM_ID
+q.mc_metamodel.populate.arc:1741-    .create object instance te_state of TE_STATE
+q.mc_metamodel.populate.arc:1742:    .assign te_state.Name = sm_state.Name
+q.mc_metamodel.populate.arc:1744-    .// relate te_state to sm_state across R2037;
+q.mc_metamodel.populate.arc:1745:    .assign te_state.SM_ID = sm_state.SM_ID
+q.mc_metamodel.populate.arc:1752-    .// relate sm_act to te_act across R2022;
+q.mc_metamodel.populate.arc:1753-    .assign te_act.Act_ID = sm_act.Act_ID
+q.mc_metamodel.populate.arc:1753:    .assign te_act.Act_ID = sm_act.Act_ID
+q.mc_metamodel.populate.arc:1754:    .assign te_act.SM_ID = sm_act.SM_ID
+q.mc_metamodel.populate.arc:1759-    .// relate te_act to te_aba across R2010;
+q.mc_metamodel.populate.arc:1760:    .assign te_act.AbaID = te_aba.AbaID
+q.mc_metamodel.populate.arc:1781-    .// relate sm_act to te_act across R2022;
+q.mc_metamodel.populate.arc:1782-    .assign te_act.Act_ID = sm_act.Act_ID
+q.mc_metamodel.populate.arc:1782:    .assign te_act.Act_ID = sm_act.Act_ID
+q.mc_metamodel.populate.arc:1783:    .assign te_act.SM_ID = sm_act.SM_ID
+q.mc_metamodel.populate.arc:1789-    .// relate te_act to te_aba across R2010;
+q.mc_metamodel.populate.arc:1790:    .assign te_act.AbaID = te_aba.AbaID
+q.mc_metamodel.populate.arc:1800-    .// relate te_evt to te_sm across R2071;
+q.mc_metamodel.populate.arc:1801-    .assign te_evt.te_smID = te_sm.ID
+q.mc_metamodel.populate.arc:1801:    .assign te_evt.te_smID = te_sm.ID
+q.mc_metamodel.populate.arc:1802:    .assign te_evt.Name = sm_evt.Mning
+q.mc_metamodel.populate.arc:1808-    .// relate te_evt to sm_evt across R2036;
+q.mc_metamodel.populate.arc:1809-    .assign te_evt.SMevt_ID = sm_evt.SMevt_ID
+q.mc_metamodel.populate.arc:1809:    .assign te_evt.SMevt_ID = sm_evt.SMevt_ID
+q.mc_metamodel.populate.arc:1810:    .assign te_evt.SM_ID = sm_evt.SM_ID
+q.mc_metamodel.populate.arc:1848-      .// relate te_mact to te_evt across R2082;
+q.mc_metamodel.populate.arc:1849:      .assign te_mact.te_evtID = te_evt.ID
+q.mc_metamodel.populate.arc:1895-  .create object instance te_mact of TE_MACT
+q.mc_metamodel.populate.arc:1896:  .assign te_mact.nextID = 0
+q.mc_metamodel.populate.arc:1898-  .// relate te_mact to te_c across R2002;
+q.mc_metamodel.populate.arc:1899:  .assign te_mact.te_cID = te_c.ID
+q.mc_metamodel.populate.arc:1900-  .// relate te_mact to te_po across R2006;
+q.mc_metamodel.populate.arc:1901-  .assign te_mact.te_poID = te_po.ID
+q.mc_metamodel.populate.arc:1901:  .assign te_mact.te_poID = te_po.ID
+q.mc_metamodel.populate.arc:1902:  .assign te_mact.te_evtID = 0
+q.mc_metamodel.populate.arc:1926-  .assign te_mact.GeneratedName = "$r{te_mact.GeneratedName}"
+q.mc_metamodel.populate.arc:1927:  .assign te_mact.Name = te_mact.GeneratedName
+q.mc_metamodel.populate.arc:1933-      .if ( param_te_dt.Core_Typ == 1 )
+q.mc_metamodel.populate.arc:1934:        .assign te_parm.te_dtID = converted_bool_te_dt.ID
+q.mc_metamodel.populate.arc:1949-  .// relate te_mact to te_aba across R2010;
+q.mc_metamodel.populate.arc:1950:  .assign te_mact.AbaID = te_aba.AbaID
+q.mc_metamodel.populate.arc:1969-  .// allow the code to compile.
+q.mc_metamodel.populate.arc:1970:  .assign te_ee.Name = s_ee.Name
+q.mc_metamodel.populate.arc:1993-    .// relate te_brg to s_brg across R2025;
+q.mc_metamodel.populate.arc:1994:    .assign te_brg.Brg_ID = s_brg.Brg_ID
+q.mc_metamodel.populate.arc:1995-    .// relate te_brg to te_ee across R2089;
+q.mc_metamodel.populate.arc:1996:    .assign te_brg.EE_ID = te_ee.EE_ID
+q.mc_metamodel.populate.arc:1998-    .assign te_brg.EEname = s_ee.Name
+q.mc_metamodel.populate.arc:1999:    .assign te_brg.Name = s_brg.Name
+q.mc_metamodel.populate.arc:2005-    .// relate te_brg to te_aba across R2010;
+q.mc_metamodel.populate.arc:2006:    .assign te_brg.AbaID = te_aba.AbaID
+q.mc_metamodel.populate.arc:201-      .create object instance te_ci of TE_CI
+q.mc_metamodel.populate.arc:2024-  .assign te_aba.subtypeKL = subtypeKL
+q.mc_metamodel.populate.arc:2025:  .assign te_aba.te_cID = 0
+q.mc_metamodel.populate.arc:2027-    .// relate te_aba to te_c across R2088;
+q.mc_metamodel.populate.arc:2028:    .assign te_aba.te_cID = te_c.ID
+q.mc_metamodel.populate.arc:202:      .assign te_ci.Name = te_c.Name
+q.mc_metamodel.populate.arc:2035-      .// relate te_parm to te_aba across R2062;
+q.mc_metamodel.populate.arc:2036:      .assign duplicate_te_parm.AbaID = te_aba.AbaID
+q.mc_metamodel.populate.arc:2040-      .// relate te_parm to te_aba across R2062;
+q.mc_metamodel.populate.arc:2041:      .assign te_parm.AbaID = te_aba.AbaID
+q.mc_metamodel.populate.arc:208-      .// relate te_ci to te_c across R2008;
+q.mc_metamodel.populate.arc:209:      .assign te_ci.te_cID = te_c.ID
+q.mc_metamodel.populate.arc:2101-  .assign te_parm.OALParamBuffer = ""
+q.mc_metamodel.populate.arc:2102:  .assign te_parm.Name = "$r{name}"
+q.mc_metamodel.populate.arc:2105-  .assign te_parm.GeneratedName = prefix + name
+q.mc_metamodel.populate.arc:2106-  .assign te_parm.AbaID = 0
+q.mc_metamodel.populate.arc:2106:  .assign te_parm.AbaID = 0
+q.mc_metamodel.populate.arc:2107-  .assign te_parm.nextID = 0
+q.mc_metamodel.populate.arc:2107:  .assign te_parm.nextID = 0
+q.mc_metamodel.populate.arc:2108:  .assign te_parm.te_dimID = 0
+q.mc_metamodel.populate.arc:2109-  .// relate te_dt to te_parm across R2049;
+q.mc_metamodel.populate.arc:2110:  .assign te_parm.te_dtID = te_dt.ID
+q.mc_metamodel.populate.arc:2122-          .// relate te_dim to te_mbr across R2058;
+q.mc_metamodel.populate.arc:2123:          .assign te_parm.te_dimID = te_dim.te_dimID
+q.mc_metamodel.populate.arc:2152-  .assign duplicate_te_parm.OALParamBuffer = te_parm.OALParamBuffer
+q.mc_metamodel.populate.arc:2153:  .assign duplicate_te_parm.Name = te_parm.Name
+q.mc_metamodel.populate.arc:2157-  .// relate te_dt to te_parm across R2049;
+q.mc_metamodel.populate.arc:2158:  .assign duplicate_te_parm.te_dtID = te_parm.te_dtID
+q.mc_metamodel.populate.arc:2159-  .assign duplicate_te_parm.dimensions = te_parm.dimensions
+q.mc_metamodel.populate.arc:2160:  .assign duplicate_te_parm.te_dimID = te_parm.te_dimID
+q.mc_metamodel.populate.arc:2161-  .assign duplicate_te_parm.array_spec = te_parm.array_spec
+q.mc_metamodel.populate.arc:2162-  .assign duplicate_te_parm.AbaID = te_parm.AbaID
+q.mc_metamodel.populate.arc:2162:  .assign duplicate_te_parm.AbaID = te_parm.AbaID
+q.mc_metamodel.populate.arc:2163:  .assign duplicate_te_parm.nextID = 0
+q.mc_metamodel.populate.arc:2176-    .// relate te_lnk to act_lnk across R2042;
+q.mc_metamodel.populate.arc:2177:    .assign te_lnk.Link_ID = act_lnk.Link_ID
+q.mc_metamodel.populate.arc:2178-    .assign te_lnk.rel_phrase = act_lnk.Rel_Phrase
+q.mc_metamodel.populate.arc:2179:    .assign te_lnk.next_ID = 0
+q.mc_metamodel.populate.arc:2182-    .// relate te_lnk to te_class across R2076;
+q.mc_metamodel.populate.arc:2183:    .assign te_lnk.te_classGeneratedName = te_class.GeneratedName
+q.mc_metamodel.populate.arc:2206-  .// nullify te_lnk to act_lnk across R2042
+q.mc_metamodel.populate.arc:2207:  .assign te_lnk.Link_ID = 0
+q.mc_metamodel.populate.arc:221-        .// relate te_po to c_po across R2044;
+q.mc_metamodel.populate.arc:2210-  .// relate te_lnk to right_te_lnk across R2075.'succeeds';
+q.mc_metamodel.populate.arc:2211:  .assign te_lnk.next_ID = right_te_lnk.ID
+q.mc_metamodel.populate.arc:2216-  .// relate te_lnk to te_class across R2076;
+q.mc_metamodel.populate.arc:2217:  .assign te_lnk.te_classGeneratedName = te_class.GeneratedName
+q.mc_metamodel.populate.arc:2222-    .// relate left_lnk to te_lnk across R2075.'succeeds';
+q.mc_metamodel.populate.arc:2223:    .assign left_te_lnk.next_ID = te_lnk.ID
+q.mc_metamodel.populate.arc:222:        .assign te_po.c_poId = c_po.Id
+q.mc_metamodel.populate.arc:224-        .// relate te_po to te_c across R2005;
+q.mc_metamodel.populate.arc:225:        .assign te_po.te_cID = te_c.ID
+q.mc_metamodel.populate.arc:227-        .// relate te_po to c_i across R2007;
+q.mc_metamodel.populate.arc:228:        .assign te_po.c_iId = c_i.Id
+q.mc_metamodel.populate.arc:238-        .assign te_po.sibling = 0
+q.mc_metamodel.populate.arc:239-        .assign te_po.Name = c_po.Name
+q.mc_metamodel.populate.arc:239:        .assign te_po.Name = c_po.Name
+q.mc_metamodel.populate.arc:240:        .assign te_po.Id = c_po.Id
+q.mc_metamodel.populate.arc:245-          .create object instance te_iir of TE_IIR
+q.mc_metamodel.populate.arc:246:          .assign te_iir.provider_te_iirID = 0
+q.mc_metamodel.populate.arc:248-          .// relate te_iir to c_ir across R2046;
+q.mc_metamodel.populate.arc:249:          .assign te_iir.c_irId = c_ir.Id
+q.mc_metamodel.populate.arc:251-          .// relate te_iir to te_po across R2080;
+q.mc_metamodel.populate.arc:252:          .assign te_iir.te_poID = te_po.ID
+q.mc_metamodel.populate.arc:260-            .create object instance te_iir of TE_IIR
+q.mc_metamodel.populate.arc:261:            .assign te_iir.provider_te_iirID = 0
+q.mc_metamodel.populate.arc:263-            .// relate te_iir to cl_iir across R2013;
+q.mc_metamodel.populate.arc:264:            .assign te_iir.cl_iirId = cl_iir.Id
+q.mc_metamodel.populate.arc:266-            .// relate te_iir to te_po across R2080;
+q.mc_metamodel.populate.arc:267:            .assign te_iir.te_poID = te_po.ID
+q.mc_metamodel.populate.arc:337-          .// relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
+q.mc_metamodel.populate.arc:338:          .assign foreign_te_iir.provider_te_iirID = te_iir.ID
+q.mc_metamodel.populate.arc:354-          .// relate te_iir to foreign_te_iir across R2081.'requires or delegates';
+q.mc_metamodel.populate.arc:355:          .assign te_iir.provider_te_iirID = foreign_te_iir.ID
+q.mc_metamodel.populate.arc:427-    .// Uncomment the line below to use package name instead of project for the top-level files.
+q.mc_metamodel.populate.arc:428:    .//.assign te_sys.Name = "$r{package_to_build}"
+q.mc_metamodel.populate.arc:441-    .// relate te_c to s_dom across R2017;
+q.mc_metamodel.populate.arc:442:    .assign te_c.Dom_ID = s_dom.Dom_ID
+q.mc_metamodel.populate.arc:451-    .// relate te_dt to s_dt across R2021;
+q.mc_metamodel.populate.arc:452:    .assign te_dt.DT_ID = s_dt.DT_ID
+q.mc_metamodel.populate.arc:453-    .// end relate
+q.mc_metamodel.populate.arc:454:    .assign te_dt.Name = s_dt.Name
+q.mc_metamodel.populate.arc:456-    .assign te_dt.string_format = ""
+q.mc_metamodel.populate.arc:457:    .assign te_dt.te_cID = 0
+q.mc_metamodel.populate.arc:477-      .// relate te_dt to te_c across R2086;
+q.mc_metamodel.populate.arc:478:      .assign te_dt.te_cID = te_c.ID
+q.mc_metamodel.populate.arc:519-      .// relate s_sync to te_sync across R2023;
+q.mc_metamodel.populate.arc:520:      .assign te_sync.Sync_ID = s_sync.Sync_ID
+q.mc_metamodel.populate.arc:522-      .// relate te_sync to te_c across R2084;
+q.mc_metamodel.populate.arc:523:      .assign te_sync.te_cID = te_c.ID
+q.mc_metamodel.populate.arc:524-      .// end relate
+q.mc_metamodel.populate.arc:525:      .assign te_sync.Name = s_sync.Name
+q.mc_metamodel.populate.arc:544-      .// relate te_ee to s_ee across R2020;
+q.mc_metamodel.populate.arc:545:      .assign te_ee.EE_ID = s_ee.EE_ID
+q.mc_metamodel.populate.arc:547-      .// Be sure we are not related to any te_c across R2085
+q.mc_metamodel.populate.arc:548:      .assign te_ee.te_cID = 0
+q.mc_metamodel.populate.arc:55-    .create object instance s_sys of S_SYS
+q.mc_metamodel.populate.arc:554-        .// relate te_ee to s_ee across R2020;
+q.mc_metamodel.populate.arc:555:        .assign te_ee.EE_ID = s_ee.EE_ID
+q.mc_metamodel.populate.arc:557-        .// relate te_ee to te_c across R2085;
+q.mc_metamodel.populate.arc:558:        .assign te_ee.te_cID = te_c.ID
+q.mc_metamodel.populate.arc:56:    .assign s_sys.Name = "sys"
+q.mc_metamodel.populate.arc:61-    .create object instance te_sys of TE_SYS
+q.mc_metamodel.populate.arc:62:    .assign te_sys.SystemID = 1
+q.mc_metamodel.populate.arc:64-  .// relate s_sys to te_sys across R2018;
+q.mc_metamodel.populate.arc:65:  .assign te_sys.Sys_ID = s_sys.Sys_ID
+q.mc_metamodel.populate.arc:66-  .// end relate
+q.mc_metamodel.populate.arc:67:  .assign te_sys.Name = "$r{s_sys.Name}"
+q.mc_metamodel.populate.arc:68-  .if ( "" == te_sys.Name )
+q.mc_metamodel.populate.arc:69:    .assign te_sys.Name = "sys"
+q.mc_metamodel.populate.arc:739-      .// relate s_enum to te_enum across R2027;
+q.mc_metamodel.populate.arc:740:      .assign te_enum.Enum_ID = s_enum.Enum_ID
+q.mc_metamodel.populate.arc:741-      .// end relate
+q.mc_metamodel.populate.arc:742:      .assign te_enum.Name = s_enum.Name
+q.mc_metamodel.populate.arc:763-      .// relate s_mbr to te_mbr across R2047;
+q.mc_metamodel.populate.arc:764-      .assign te_mbr.Member_ID = s_mbr.Member_ID
+q.mc_metamodel.populate.arc:764:      .assign te_mbr.Member_ID = s_mbr.Member_ID
+q.mc_metamodel.populate.arc:765:      .assign te_mbr.DT_ID = s_mbr.Parent_DT_DT_ID
+q.mc_metamodel.populate.arc:768-      .// relate te_mbr to mbr_te_dt across R2068;
+q.mc_metamodel.populate.arc:769:      .assign te_mbr.te_dtID = mbr_te_dt.ID
+q.mc_metamodel.populate.arc:776-        .// relate te_mbr to previous_te_mbr across R2067.'precedes';
+q.mc_metamodel.populate.arc:777:        .assign te_mbr.previousID = previous_te_mbr.ID
+q.mc_metamodel.populate.arc:779-      .else
+q.mc_metamodel.populate.arc:780:        .assign te_mbr.previousID = 0
+q.mc_metamodel.populate.arc:781-      .end if
+q.mc_metamodel.populate.arc:782:      .assign te_mbr.Name = s_mbr.Name
+q.mc_metamodel.populate.arc:794-          .// relate te_dim to te_mbr across R2059;
+q.mc_metamodel.populate.arc:795:          .assign te_mbr.te_dimID = te_dim.te_dimID
+q.mc_metamodel.populate.arc:957-    .// relate v_val to te_val across R2040;
+q.mc_metamodel.populate.arc:958:    .assign te_val.Value_ID = v_val.Value_ID
+q.mc_metamodel.populate.arc:967-    .create object instance te_par of TE_PAR
+q.mc_metamodel.populate.arc:968:    .assign te_par.Name = v_par.Name
+q.mc_metamodel.populate.arc:970-    .// relate te_par to v_par across R2063;
+q.mc_metamodel.populate.arc:971:    .assign te_par.Value_ID = v_par.Value_ID
+q.mc_metamodel.populate.arc:986-    .// relate s_bparm to te_parm across R2028;
+q.mc_metamodel.populate.arc:987:    .assign te_parm.BParm_ID = s_bparm.BParm_ID
+q.oal.analyze.arc:571-        .create object instance t of TE_SWC
+q.oal.analyze.arc:572:        .assign t.Obj_Kl = te_class.Key_Lett
+q.oal.analyze.arc:576-        .assign t.Built_In = TRUE
+q.oal.analyze.arc:577:        .assign t.Oid_ID = oid.Oid_ID
+q.oal.analyze.arc:600-        .create object instance t of TE_SWC
+q.oal.analyze.arc:601:        .assign t.Obj_Kl = te_class.Key_Lett
+q.oal.analyze.arc:605-        .assign t.Built_In = TRUE
+q.oal.analyze.arc:606:        .assign t.Oid_ID = oid.Oid_ID
+q.oal.analyze.arc:630-          .create object instance t of TE_SWC
+q.oal.analyze.arc:631:          .assign t.Obj_Kl = te_class.Key_Lett
+q.oal.analyze.arc:635-          .assign t.Built_In = TRUE
+q.oal.analyze.arc:636:          .assign t.Oid_ID = oid.Oid_ID
+q.oal.analyze.arc:656-          .create object instance t of TE_SWC
+q.oal.analyze.arc:657:          .assign t.Obj_Kl = te_class.Key_Lett
+q.oal.analyze.arc:661-          .assign t.Built_In = TRUE
+q.oal.analyze.arc:662:          .assign t.Oid_ID = oid.Oid_ID
+q.parameters.arc:42-            .// relate previous_te_parm to te_parm across R2041.'succeeds';
+q.parameters.arc:43:            .assign previous_te_parm.nextID = te_parm.ID
+q.smt.generate.arc:1356-  .assign te_select_related.multiplicity = act_sel.cardinality
+q.smt.generate.arc:1357:  .assign te_select_related.te_classGeneratedName = start_te_class.GeneratedName
+q.smt.generate.arc:1392-    .// relate where_te_val to te_select_related across R2074;
+q.smt.generate.arc:1393:    .assign te_select_related.where_clause_Value_ID = where_te_val.Value_ID
+q.smt.generate.arc:1398-  .// relate te_select_related to te_smt across R2069;
+q.smt.generate.arc:1399:  .assign te_select_related.Statement_ID = te_smt.Statement_ID
+q.smt.generate.arc:1401-  .// relate te_select_related to start_te_val across R2070;
+q.smt.generate.arc:1402:  .assign te_select_related.starting_Value_ID = start_te_val.Value_ID
+q.smt.generate.arc:1404-  .// relate te_select_related to start_te_var across R2071;
+q.smt.generate.arc:1405:  .assign te_select_related.starting_Var_ID = start_te_var.Var_ID
+q.smt.generate.arc:1407-  .// relate te_select_related to te_lnk across R2073;
+q.smt.generate.arc:1408:  .assign te_select_related.link_ID = te_lnk.ID
+q.val.translate.arc:157-    .assign te_val.array_spec = te_var.array_spec
+q.val.translate.arc:158:    .assign te_val.te_dimID = te_var.te_dimID
+q.val.translate.arc:641-    .if ( not_empty next_te_DIM )
+q.val.translate.arc:642:      .assign te_val.te_dimID = next_te_DIM.te_dimID
+q.val.translate.arc:643-    .else
+q.val.translate.arc:644:      .assign te_val.te_dimID = 0
+specialized/q.mc3020.arc:3-  .param inst_ref te_container
+specialized/q.mc3020.arc:300-  .assign te_thread.enabled = false
+specialized/q.mc3020.arc:301:  .assign te_thread.flavor = "POSIX"
+specialized/q.mc3020.arc:4:  .assign te_container.flavor = ""
+specialized/sys.arc:110-    .// relate c_c to s_dom across R4204 using cn_dc;
+specialized/sys.arc:111:    .assign cn_dc.Id = c_c.Id
+specialized/sys.arc:112-    .// end relate
+specialized/sys.arc:113-    .assign cn_dc.Dom_ID = s_dom.Dom_ID
+specialized/sys.arc:113:    .assign cn_dc.Dom_ID = s_dom.Dom_ID
+specialized/sys.arc:114:    .assign c_c.Name = s_dom.Name

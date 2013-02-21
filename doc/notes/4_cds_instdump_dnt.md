@@ -56,8 +56,30 @@ See [2].
   code reporting differences.
 - Search the translation logs for ERRORs.
 
-CDS Add more details on the script I have so far.
-Discuss symbolic link to git repo.
+#### 7.1.1 Proposed Testing Approach
+Testing is more easily automated with scripting on a unix system than
+on Windows.  On Linux it is possible to link the MC c.source plugin
+mc3020/arc folder to the arc folder in the git working directory.
+The same can be done with mc3020/schema/sql
+
+Here are some excerpts from scripts that do some of this:
+<pre>
+export PATH=$PATH:/home/cort/psf/Home/bp/eclipse
+export PATH=$PATH:/home/cort/psf/Home/bp/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.mc.c.source_3.6.3/mc3020/bin
+export MGLS_DLL=/home/cort/psf/Home/bp/extras/wine_addons/MGLS.DLL
+export MGLS_PKGINFO_FILE=/home/cort/psf/Home/bp/extras/wine_addons/mgc.pkginfo
+export MGLS_LICENSE_FILE=/home/cort/psf/Home/bp/license/license.dat
+
+cd assoc_unformal/gen
+rm -f code_generation/_system.sql; rm -rf code_generation/arc; xtumlmc_build.pl -home /home/cort/psf/Home/bp/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.mc.c.source_3.6.3/ -l3s -e -d code_generation -O ../../src/
+cd ../..
+cd calculator/gen
+rm -f code_generation/_system.sql; rm -rf code_generation/arc; xtumlmc_build.pl -home /home/cort/psf/Home/bp/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.mc.c.source_3.6.3/ -l3s -e -d code_generation -O ../../src/
+cd ../..
+
+diff -rq assoc_unformal/src/ assoc_unformal/src_x
+diff -rq calculator/src calculator/src_x
+</pre>
 
 ### 7.2 Run Tests
 After each consistent, self-contained RSL change, run the test suite and
@@ -79,7 +101,25 @@ There are a few places where _unrelate_ would be used in OAL.  Use the
 same protocol for these unrelate statements (zeroing out referenctials)
 and delimit with .// end unrelate .
 
-CDS Discuss how to find the relate statements.  ("ID"... grep schema ROP statments....)
+To find the relate statements (the copying of IDs into referentials),
+we can search the RSL for the attribute names.  The schema can
+be grepped for the IDs and the referentials (in the ROP statements).
+
+IDs and referentials cannot be read or written arbitrarily in OAL.
+Upon creation of an instance, generator intializes attributes of
+type UNIQUE_ID.  The assigned value is unique for the instance but
+is the same for all attributes of type UNIQUE_ID in the newly
+created instance.  This is a weakness and could even be considered
+a bug in generator.  It seems that generator assumes that a class
+will have only one attribute of type UNIQUE_ID and that that 
+attribute will be the identifier.  However, referential attributes
+often have this same type.  RSL must zero them out, especially
+in the case of a reflexive associations formalized with a referential
+attribute of type UNIQUE_ID.  (In such a scenario, the instance
+is effectively initialized at creation as being related to itself.)
+
+Change all such initializations of referential attributes to use
+a double-zero (00).
 
 ### 7.4 Function Return Data
 - Identify all usage of the attr approach for returning data.
@@ -210,7 +250,6 @@ are changed (if they are changed).
 
 We do set arithmetic in RSL.  We cannot do this in OAL.
 
-IDs and referentials cannot be read or written arbitrarily.
 
 Compare instance dumps.
 
@@ -218,8 +257,6 @@ As opportunity presents it, use TE_* instances in place of OOA
 instances in the MC when possible.  We eventually want the model
 compiler to work from its own model exclusively.
 
-What do we do with RSL that initializes referentials to zero with
-the intention of making sure that they are unrelated?
 
 I expect there will be ambiguity in the reflexive relate statements.
 After conversion to OAL, check coverage on these.
