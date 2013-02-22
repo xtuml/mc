@@ -871,7 +871,7 @@
       .end if
       .if ( ( s_cdt.Core_Typ == 2 ) or ( s_cdt.Core_Typ == 3 ) )
         .invoke r = MapUserSpecifiedDataTypePrecision( te_dt, tm_precision.xName )
-        .assign status_error = r.error
+        .assign status_error = r.result
         .if ( status_error )
           .assign te_dt.ExtName = tm_precision.xName
         .end if
@@ -2062,15 +2062,7 @@
       .assign actual_te_parms = actual_te_parms | te_parm
     .end if
   .end for
-  .invoke params = te_parm_RenderParameters( actual_te_parms )
-  .assign te_aba.ParameterDefinition = params.definition
-  .assign te_aba.ParameterDeclaration = params.declaration
-  .assign te_aba.ParameterInvocation = params.invocation
-  .assign te_aba.ParameterStructure = params.structure
-  .assign te_aba.ParameterTrace = params.parameter_trace
-  .assign te_aba.ParameterFormat = params.string_format
-  .assign te_aba.ParameterAssignment = params.assignment
-  .assign te_aba.ParameterAssignmentBase = params.assignment_base
+  .invoke te_parm_RenderParameters( actual_te_parms, te_aba )
   .assign te_aba.scope = ""
   .if ( ( "C++" == te_target.language ) or ( "SystemC" == te_target.language ) )
     .assign te_aba.scope = scope + "::"

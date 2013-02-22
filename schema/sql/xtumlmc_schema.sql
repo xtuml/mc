@@ -2371,7 +2371,7 @@ CREATE TABLE TE_SWC (
 	Ret_Val	BOOLEAN,
 	Built_In	BOOLEAN,
 	Oid_ID	INTEGER,
-	Obj_ID	UNIQUE_ID );
+	GeneratedName	STRING );
 
 -- Class:  2001.  Component Instance
 CREATE TABLE TE_CI (
@@ -6010,8 +6010,8 @@ CREATE ROP REF_ID R4404	FROM MC SLD_SCINP	(Sys_ID)
 -- Relationships In Subsystem:  Translation Extensions  
 -- ============================================================================
   
-CREATE ROP REF_ID R2001	FROM MC TE_SWC	(Obj_Kl)
-			  TO 1C O_OBJ	(Key_Lett);
+CREATE ROP REF_ID R2001	FROM MC TE_SWC	(GeneratedName)
+			  TO 1C TE_CLASS	(GeneratedName);
 
 CREATE ROP REF_ID R2002	FROM MC TE_MACT	(te_cID)
 			  TO 1  TE_C	(ID);

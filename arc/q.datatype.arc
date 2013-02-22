@@ -18,12 +18,13 @@
 .//============================================================================
 .function GetBaseTypeForUDT
   .param inst_ref s_udt
-  .select one attr_result related by s_udt->S_DT[R18];
-  .select one s_udt related by attr_result->S_UDT[R17];
+  .select one s_dt related by s_udt->S_DT[R18]
+  .select one s_udt related by s_dt->S_UDT[R17]
   .if ( not_empty s_udt )
-    .invoke btype = GetBaseTypeForUDT( s_udt )
-    .assign attr_result = btype.result
+    .invoke r = GetBaseTypeForUDT( s_udt )
+    .assign s_dt = r.result
   .end if
+  .assign attr_result = s_dt
 .end function
 .//
 .//============================================================================
@@ -101,7 +102,7 @@
 .function MapUserSpecifiedDataTypePrecision
   .param inst_ref te_dt
   .param string mapping
-  .assign attr_error = false
+  .assign error = false
   .assign type = mapping
   .if ( (type == "uchar_t") or ((type == "u_char") or (type == "unsignedchar")) )
     .assign te_dt.ExtName      = "unsigned char"
@@ -167,8 +168,9 @@
     .assign te_dt.ExtName      = "volatile unsigned long"
     .//
   .else
-    .assign attr_error = true
+    .assign error = true
   .end if
+  .assign attr_result = error
 .end function
 .//
 .// Return the structure type for persistent links.
@@ -176,9 +178,10 @@
   .select any te_file from instances of TE_FILE
   .assign sys_types_file_name = ( te_file.types + "." ) + te_file.hdr_file_ext
   .select many special_te_dts from instances of TE_DT where ( ( selected.Include_File != "" ) and ( selected.Include_File != sys_types_file_name ) )
-  .assign attr_s = ""
+  .assign s = ""
   .for each special_te_dt in special_te_dts
-    .assign attr_s = ( attr_s + "#include " ) + ( special_te_dt.Include_File + "\n" )
+    .assign s = ( s + "#include " ) + ( special_te_dt.Include_File + "\n" )
   .end for
+  .assign attr_result = s
 .end function
 .//

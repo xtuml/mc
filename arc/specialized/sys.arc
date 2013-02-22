@@ -205,7 +205,8 @@
 .// Generate the system code.
 .//============================================================================
 .invoke main_decl = GetMainTaskEntryDeclaration()
-.invoke return_body = GetMainTaskEntryReturn()
+.invoke r = GetMainTaskEntryReturn()
+.assign return_body = r.body
 .select any te_cia from instances of TE_CIA
 .//
 .// function-based archetype generation
@@ -368,8 +369,8 @@
 .assign structured_data_types = structured_data_types + s.body
 .// Get all components, not just those with internal behavior.
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
-.invoke s = UserSuppliedDataTypeIncludes()
-.assign user_supplied_data_types = s.s
+.invoke r = UserSuppliedDataTypeIncludes()
+.assign user_supplied_data_types = r.result
 .include "${te_file.arc_path}/t.sys_types.h"
 .emit to file "${te_file.system_include_path}/${te_file.types}.${te_file.hdr_file_ext}"
 .//

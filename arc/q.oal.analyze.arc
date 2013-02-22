@@ -570,9 +570,9 @@
         .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
         .create object instance te_swc of TE_SWC
         .// relate te_swc to te_class across R2001;
-        .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
-        .assign te_swc.Obj_Kl = te_class.Key_Lett
+        .assign te_swc.GeneratedName = te_class.GeneratedName
         .// end relate
+        .assign te_swc.Obj_Kl = te_class.Key_Lett
         .assign te_swc.Where_Spec = where_spec
         .assign te_swc.Key = where_key
         .assign te_swc.Ret_Val = FALSE
@@ -602,9 +602,9 @@
         .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
         .create object instance te_swc of TE_SWC
         .// relate te_swc to te_class across R2001;
-        .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
-        .assign te_swc.Obj_Kl = te_class.Key_Lett
+        .assign te_swc.GeneratedName = te_class.GeneratedName
         .// end relate
+        .assign te_swc.Obj_Kl = te_class.Key_Lett
         .assign te_swc.Where_Spec = where_spec
         .assign te_swc.Key = where_key
         .assign te_swc.Ret_Val = FALSE
@@ -635,9 +635,9 @@
           .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
           .create object instance te_swc of TE_SWC
           .// relate te_swc to te_class across R2001;
-          .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
-          .assign te_swc.Obj_Kl = te_class.Key_Lett
+          .assign te_swc.GeneratedName = te_class.GeneratedName
           .// end relate
+          .assign te_swc.Obj_Kl = te_class.Key_Lett
           .assign te_swc.Where_Spec = where_spec
           .assign te_swc.Key = where_key
           .assign te_swc.Ret_Val = FALSE
@@ -664,9 +664,9 @@
           .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
           .create object instance te_swc of TE_SWC
           .// relate te_swc to te_class across R2001;
-          .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
-          .assign te_swc.Obj_Kl = te_class.Key_Lett
+          .assign te_swc.GeneratedName = te_class.GeneratedName
           .// end relate
+          .assign te_swc.Obj_Kl = te_class.Key_Lett
           .assign te_swc.Where_Spec = where_spec
           .assign te_swc.Key = where_key
           .assign te_swc.Ret_Val = FALSE
