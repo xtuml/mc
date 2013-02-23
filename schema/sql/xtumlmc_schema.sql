@@ -2832,7 +2832,19 @@ CREATE TABLE TE_PERSIST (
 	factory_init	STRING,
 	commit	STRING,
 	restore	STRING,
-	remove	STRING );
+	remove	STRING,
+	domainnum_name	STRING,
+	domainnum_type	STRING,
+	classnum_name	STRING,
+	classnum_type	STRING,
+	index_name	STRING,
+	index_type	STRING,
+	instid_type	STRING,
+	instid_name	STRING,
+	dirty_type	STRING,
+	dirty_name	STRING,
+	dirty_dirty	INTEGER,
+	dirty_clean	INTEGER );
 
 -- Class:  2040.  event queue
 CREATE TABLE TE_EQ (

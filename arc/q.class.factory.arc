@@ -91,24 +91,23 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
       .select one o_attr related by te_attr->O_ATTR[R2033]
       .assign persistent = ( "$l{o_attr.Descrip:Persistent}" != "false" )
       .if ( te_attr.translate and persistent )
-        .invoke member_type = GetAttributeCodeGenType( o_attr )
-        .assign cdt = member_type.cdt
-        .assign dt = member_type.dt
-        .if ( empty cdt )
+        .invoke r = GetAttributeCodeGenType( o_attr )
+        .assign s_cdt = r.cdt
+        .if ( empty s_cdt )
           .// sdt
-        .elif ( cdt.Core_Typ == 0 )
+        .elif ( s_cdt.Core_Typ == 0 )
           .// void
-        .elif ( cdt.Core_Typ == 1 )
+        .elif ( s_cdt.Core_Typ == 1 )
           .// boolean
   ${te_instance.self}->${te_attr.GeneratedName} = ( '0' != *avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 2 )
+        .elif ( s_cdt.Core_Typ == 2 )
           .// integer
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 3 )
+        .elif ( s_cdt.Core_Typ == 3 )
           .// real
-        .elif ( cdt.Core_Typ == 4 )
+        .elif ( s_cdt.Core_Typ == 4 )
           .// string
           .if ( "Action_Semantics_internal" == te_attr.Name )
   ${te_instance.self}->${te_attr.GeneratedName} = (c_t *) ${te_dma.allocate}( avlstring[ ${attribute_number} + 1 ] - avlstring[ ${attribute_number} ] );
@@ -119,7 +118,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   ${te_instance.module}${te_string.strcpy}( ${te_instance.self}->${te_attr.GeneratedName}, avlstring[ ${attribute_number} ] );
           .end if
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 5 )
+        .elif ( s_cdt.Core_Typ == 5 )
           .// unique_id
   ${te_instance.self}->${te_attr.GeneratedName} = (${te_instance.handle}) ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 )
@@ -128,27 +127,27 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   return_identifier = ${te_instance.self}->${te_attr.GeneratedName};
           .end if
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 6 )
+        .elif ( s_cdt.Core_Typ == 6 )
           .// current_state
-        .elif ( cdt.Core_Typ == 7 )
+        .elif ( s_cdt.Core_Typ == 7 )
           .// same as base<Attribute>
-        .elif ( cdt.Core_Typ == 8 )
+        .elif ( s_cdt.Core_Typ == 8 )
           .// inst_ref<Object>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 9 )
+        .elif ( s_cdt.Core_Typ == 9 )
           .// inst_ref_set<Object>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 10 )
+        .elif ( s_cdt.Core_Typ == 10 )
           .// inst<Event>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 11 )
+        .elif ( s_cdt.Core_Typ == 11 )
           .// inst<Mapping>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 12 )
+        .elif ( s_cdt.Core_Typ == 12 )
           .// inst_ref<Mapping>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1

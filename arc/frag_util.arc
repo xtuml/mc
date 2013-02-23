@@ -80,37 +80,36 @@ ${indent.result}}
   .param inst_ref te_class
   .param string instance
   .//
-  .assign result = FALSE
+  .assign result = false
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
   .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
   .while ( not_empty te_attr )
     .select one o_attr related by te_attr->O_ATTR[R2033]
     .if ( te_attr.translate )
-      .invoke member_type = GetAttributeCodeGenType( o_attr )
-      .assign cdt = member_type.cdt
-      .if ( not_empty cdt )
-      .if ( cdt.Core_Typ == 5 )
-        .assign dt = member_type.dt
-        .// Core_Typ == 5 is "unique_id"
-        .// CDS:  Note "select any" when there may be more than one.
-        .select any o_oida related by o_attr->O_OIDA[R105]
-        .if ( not_empty o_oida )
-          .select one te_dt related by dt->TE_DT[R2021]
-          .assign result = TRUE
+      .invoke r = GetAttributeCodeGenType( o_attr )
+      .assign s_cdt = r.cdt
+      .assign s_dt = r.dt
+      .if ( not_empty s_cdt )
+        .if ( 5 == s_cdt.Core_Typ )
+          .// unique_id
+          .select any o_oida related by o_attr->O_OIDA[R105]
+          .if ( not_empty o_oida )
+            .select one te_dt related by s_dt->TE_DT[R2021]
+            .assign result = true
 ${instance}->${te_attr.GeneratedName} = (${te_dt.ExtName}) ${instance};
-        .end if
-      .elif ( ( 2 == cdt.Core_Typ ) or ( 3 == cdt.Core_Typ ) )
-        .// integer or real
-        .if ( te_attr.DefaultValue != "" )
+          .end if
+        .elif ( ( 2 == s_cdt.Core_Typ ) or ( 3 == s_cdt.Core_Typ ) )
+          .// integer or real
+          .if ( "" != te_attr.DefaultValue )
 ${instance}->${te_attr.GeneratedName} = ${te_attr.DefaultValue}; /* DefaultValue */
-        .end if
-      .elif ( 4 == cdt.Core_Typ )
-        .// string
-        .if ( te_attr.DefaultValue != "" )
+          .end if
+        .elif ( 4 == s_cdt.Core_Typ )
+          .// string
+          .if ( "" != te_attr.DefaultValue )
 ${te_instance.module}${te_string.strcpy}( ${instance}->${te_attr.GeneratedName}, ${te_attr.DefaultValue} ); /* DefaultValue */
+          .end if
         .end if
-      .end if  .// cdt.Core_Typ == 5 (unique_id)
       .end if
     .end if
     .//
@@ -133,13 +132,10 @@ ${te_instance.module}${te_string.strcpy}( ${instance}->${te_attr.GeneratedName},
     .assign cmp_element = ""
     .select many te_attrs related by o_obj->O_ATTR[R102]->TE_ATTR[R2033] where ( selected.Included )
     .for each te_attr in te_attrs
-      .select one obj_attr related by te_attr->O_ATTR[R2033]
-      .invoke data_type = GetAttributeCodeGenType( obj_attr )
-      .assign dt = data_type.dt
-      .if ( "string" != dt.Name )
-        .assign cmp_element = "${selected_var_name}->${te_attr.GeneratedName} == ${te_attr.ParamBuffer}"
-      .else
+      .if ( 4 == te_attr.Core_Typ )
         .assign cmp_element = "!${te_instance.module}${te_string.strcmp}(${selected_var_name}->${te_attr.GeneratedName}, ${te_attr.ParamBuffer})"
+      .else
+        .assign cmp_element = "${selected_var_name}->${te_attr.GeneratedName} == ${te_attr.ParamBuffer}"
       .end if
       .assign compare_stmt = compare_stmt + cmp_element
       .if ( not_last te_attrs )
@@ -155,18 +151,18 @@ ${compare_stmt}\
   .param inst_ref o_obj
   .param inst_ref o_id
   .//
-  .select many ident_attr_set related by o_id->O_OIDA[R105]->O_ATTR[R105]
-  .assign num_ident_attr = cardinality ident_attr_set
+  .select many o_attrs related by o_id->O_OIDA[R105]->O_ATTR[R105]
+  .assign num_ident_attr = cardinality o_attrs
   .//
   .assign param_list = ""
-  .assign ident_attr_count = 0
+  .assign oida_count = 0
   .//
   .select any te_attr related by o_obj->TE_CLASS[R2019]->TE_ATTR[R2061] where ( selected.prevID == 0 )
   .while ( not_empty te_attr )
     .if ( te_attr.Included )
-      .assign ident_attr_count = ident_attr_count + 1
+      .assign oida_count = oida_count + 1
       .assign param_list = param_list + te_attr.ParamBuffer
-      .if ( ident_attr_count < num_ident_attr )
+      .if ( oida_count < num_ident_attr )
         .assign param_list = param_list + ", "
       .end if
     .end if

@@ -211,7 +211,6 @@
 .//
 .// function-based archetype generation
 .//
-.invoke instid = GetPersistentInstanceIdentifierVariable()
 .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
 .invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
 .invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
@@ -279,7 +278,7 @@
   .invoke persist_link_info = PersistLinkType()
   .assign link_type_name = persist_link_info.name
   .assign link_type_type = persist_link_info.type
-  .assign inst_id_in_handle = "  ${instid.dirty_type} ${instid.dirty_name};\n"
+  .assign inst_id_in_handle = "  ${te_persist.dirty_type} ${te_persist.dirty_name};\n"
   .include "${te_file.arc_path}/t.sys_persist.c"
   .emit to file "${te_file.system_source_path}/${te_file.persist}.${te_file.src_file_ext}"
   .//

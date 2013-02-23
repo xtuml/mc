@@ -81,7 +81,7 @@ ${te_target.c2cplusplus_linkage_end}
     .assign comment = ""
     .select any te_sys from instances of TE_SYS
     .if ( not te_sys.InstanceLoading )
-    .invoke note = GetObjectAttributeInfoComment( o_attr, TRUE )
+    .invoke note = GetObjectAttributeInfoComment( o_attr, true )
     .if ( note.result != "" )
       .assign comment = "/* ${note.result} */"
     .end if
@@ -115,13 +115,13 @@ ${te_target.c2cplusplus_linkage_end}
 .//
 .// Input Parameters:
 .// <obj_attr> Instance reference to O_ATTR.
-.// <do_naming_attr_also> Boolean. If FALSE, comment generated for indentifying
-.//   and referential attributes only. If TRUE, comment generated for
+.// <do_naming_attribs_also> Boolean.  If false, comment generated for indentifying
+.//   and referential attributes only.  If true, comment generated for
 .//  naming attributes.
 .//============================================================================
 .function GetObjectAttributeInfoComment
   .param inst_ref o_attr
-  .param boolean  do_naming_attr_also
+  .param boolean  do_naming_attribs_also
   .//
   .assign result = ""
   .//
@@ -168,7 +168,7 @@ ${te_target.c2cplusplus_linkage_end}
     .end for  .// obj_ref in obj_ref_set
   .end if  .// not_empty ref_attr
   .//
-  .if ( (result == "") and do_naming_attr_also )
+  .if ( (result == "") and do_naming_attribs_also )
     .assign result = "- ${o_attr.Name}"
     .select one dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
     .if ( not_empty dbattr )
@@ -440,7 +440,7 @@ ${file_epilogue.body}
     .select one te_aba related by te_tfr->TE_ABA[R2010]
     .select one o_tfr related by te_tfr->O_TFR[R2024]
     .select one rval_te_dt related by o_tfr->S_DT[R116]->TE_DT[R2021]
-    .assign rval_te_dt.Included = TRUE
+    .assign rval_te_dt.Included = true
     .assign prelude = "class"
     .assign instance_based_self_declaration = ""
     .if ( o_tfr.Instance_Based == 1 )

@@ -34,53 +34,51 @@
 .function GetAttributeCodeGenType
   .param inst_ref o_attr
   .//
-  .select one dt related by o_attr->S_DT[R114]
-  .select one s_udt related by dt->S_UDT[R17]
+  .select one s_dt related by o_attr->S_DT[R114]
+  .select one s_udt related by s_dt->S_UDT[R17]
   .if ( not_empty s_udt )
-    .invoke i = GetBaseTypeForUDT( s_udt )
-    .assign dt = i.result
+    .invoke r = GetBaseTypeForUDT( s_udt )
+    .assign s_dt = r.result
   .end if
-  .select one cdt related by dt->S_CDT[R17]
+  .select one s_cdt related by s_dt->S_CDT[R17]
   .//
-  .if ( empty cdt )
-    .select one edt related by dt->S_EDT[R17]
-    .if ( empty edt )
-      .select one s_sdt related by dt->S_SDT[R17]
+  .if ( empty s_cdt )
+    .select one s_edt related by s_dt->S_EDT[R17]
+    .if ( empty s_edt )
+      .select one s_sdt related by s_dt->S_SDT[R17]
       .if ( empty s_sdt )
-        .select one s_irdt related by dt->S_IRDT[R17]
+        .select one s_irdt related by s_dt->S_IRDT[R17]
         .if ( empty s_irdt )
           .print "Error in attribute ${o_attr.Name}"
-          .print "with data type ${dt.Name}"
+          .print "with data type ${s_dt.Name}"
           .exit 100
         .end if
       .end if
     .else
       .// Enum, use integer type.
-      .select any cdt from instances of S_CDT where ( selected.Core_Typ == 2 )
+      .// CDS Some day we should pass along the enumeration type.
+      .select any s_cdt from instances of S_CDT where ( selected.Core_Typ == 2 )
     .end if
   .end if
   .//
-  .if ( not_empty cdt)
-  .if ( 7 == cdt.Core_Typ )
-    .// cdt.Core_Typ is "same_as<Base_Attribute>"
-    .select one base_attr related by o_attr->O_RATTR[R106]->O_BATTR[R113]->O_ATTR[R106]
-    .if ( empty base_attr )
-      .select one obj related by o_attr->O_OBJ[R102]
-      .print "\nCould not find O_BATTR for object ${obj.Name} (${obj.Key_Lett}) attribute ${o_attr.Name} !"
-      .print "\nDid you combine a referential and then rename the combined attribute?"
-      .exit 101
+  .if ( not_empty s_cdt )
+    .if ( 7 == s_cdt.Core_Typ )
+      .// s_cdt.Core_Typ is "same_as<Base_Attribute>"
+      .select one base_o_attr related by o_attr->O_RATTR[R106]->O_BATTR[R113]->O_ATTR[R106]
+      .if ( empty base_o_attr )
+        .select one o_obj related by o_attr->O_OBJ[R102]
+        .print "\nCould not find O_BATTR for object ${o_obj.Name} (${o_obj.Key_Lett}) attribute ${o_attr.Name} !"
+        .print "\nDid you combine a referential and then rename the combined attribute?"
+        .exit 101
+      .end if
+      .// Note: the following is a recursive call to this function
+      .invoke r = GetAttributeCodeGenType( base_o_attr )
+      .assign s_dt = r.dt
+      .assign s_cdt = r.cdt
     .end if
-    .// Note: the following is a recursive call to this function
-    .invoke baseDataType = GetAttributeCodeGenType( base_attr )
-    .assign dt = baseDataType.dt
-    .assign cdt = baseDataType.cdt
   .end if
-  .end if
-  .select one te_dt related by dt->TE_DT[R2021]
-  .assign te_dt.Included = TRUE
-  .assign attr_dt = dt
-  .assign attr_cdt = cdt
-  .assign attr_result = te_dt.ExtName
+  .assign attr_dt = s_dt
+  .assign attr_cdt = s_cdt
 .end function
 .//
 .//============================================================================
@@ -88,8 +86,8 @@
 .//============================================================================
 .function PersistLinkType
   .select any te_prefix from instances of TE_PREFIX
-  .invoke instid = GetPersistentInstanceIdentifierVariable()
-  .assign attr_type = "struct { ${instid.instid_type} owner, left, right, assoc; }"
+  .select any te_persist from instances of TE_PERSIST
+  .assign attr_type = "struct { ${te_persist.instid_type} owner, left, right, assoc; }"
   .assign attr_name = te_prefix.type + "link_t"
 .end function
 .//

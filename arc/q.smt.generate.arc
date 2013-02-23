@@ -1164,8 +1164,8 @@
     .select any core_s_dt from instances of S_DT where ( false )
     .select one s_udt related by s_dt->S_UDT[R17]
     .if ( not_empty s_udt )
-      .invoke i = GetBaseTypeForUDT( s_udt )
-      .assign core_s_dt = i.result
+      .invoke r = GetBaseTypeForUDT( s_udt )
+      .assign core_s_dt = r.result
     .end if
     .if (not_empty core_s_dt)
       .assign s_dt = core_s_dt

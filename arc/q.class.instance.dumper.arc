@@ -39,8 +39,8 @@ INSERT INTO ${o_obj.Key_Lett} VALUES (\
               .while ( not_empty o_attr )
                 .if ( "${o_attr.Descrip:Persistent}" != "false" )
                   .assign attributename = o_attr.Name
-                  .invoke d = GetAttributeCodeGenType( o_attr )
-                  .assign s_dt = d.dt
+                  .invoke r = GetAttributeCodeGenType( o_attr )
+                  .assign s_dt = r.dt
                   .if ( "string" == s_dt.Name )
                     .if ( ( "Action_Semantics_internal" == attributename ) or ( "Descrip" == attributename ) )
 ${delimiter} ''\\

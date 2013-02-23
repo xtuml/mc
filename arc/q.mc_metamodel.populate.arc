@@ -1118,7 +1118,7 @@
     .select one te_dt related by c_io->S_DT[R4008]->TE_DT[R2021]
     .// If we are using TLM ports, convert booleans to integers
     .if ( "SystemC" == te_target.language )
-      .if ( ( te_dt.Core_Typ == 1 ) and ( te_sys.SystemCPortsType == "TLM" ) )
+      .if ( ( 1 == te_dt.Core_Typ ) and ( te_sys.SystemCPortsType == "TLM" ) )
         .assign te_dt = converted_bool_te_dt
       .end if
     .end if
@@ -1151,7 +1151,7 @@
     .select one te_dt related by c_io->S_DT[R4008]->TE_DT[R2021]
     .// If we are using TLM ports, convert booleans to integers
     .if ( "SystemC" == te_target.language )
-      .if ( ( te_dt.Core_Typ == 1 ) and ( te_sys.SystemCPortsType == "TLM" ) )
+      .if ( ( 1 == te_dt.Core_Typ ) and ( te_sys.SystemCPortsType == "TLM" ) )
         .assign te_dt = converted_bool_te_dt
       .end if
     .end if
@@ -1562,14 +1562,14 @@
         .end while
         .assign te_attr.array_spec = array_spec
         .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
-        .assign te_attr.GeneratedType = te_dt.ExtName
+        .// Potentially substitute data type for base attribute data type.
         .if ( 7 == te_dt.Core_Typ )
           .// referential attribute
           .invoke r = GetAttributeCodeGenType( o_attr )
-          .assign te_attr.GeneratedType = r.result
           .assign s_dt = r.dt
           .select one te_dt related by s_dt->TE_DT[R2021]
         .end if
+        .assign te_attr.GeneratedType = te_dt.ExtName
         .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
         .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
         .// In the C model compiler, treat strings as arrays.
