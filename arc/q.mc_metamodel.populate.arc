@@ -722,6 +722,7 @@
     .else
       .assign te_dt.ExtName = te_dt.Name + "_t"
     .end if
+    .// CDS We should some day pass along the EDT.
     .assign te_dt.Core_Typ = 2
     .assign te_dt.Is_Enum = true 
     .assign te_dt.Initial_Value = ( te_dt.Owning_Dom_Name + "_" ) + ( te_dt.Name + "__UNINITIALIZED__e" )
@@ -1468,7 +1469,7 @@
       .select one te_dt related by s_sync->S_DT[R25]->TE_DT[R2021]
       .select many te_parms related by s_sync->S_SPARM[R24]->TE_PARM[R2030]
       .invoke r = FactoryTE_ABA( te_c, te_parms, te_c.Name, te_sync.GeneratedName, "S_SYNC", te_dt )
-      .assign te_aba = r.te_aba
+      .assign te_aba = r.result
       .// relate te_sync to te_aba across R2010;
       .assign te_sync.AbaID = te_aba.AbaID
       .// end relate
@@ -1566,8 +1567,7 @@
         .if ( 7 == te_dt.Core_Typ )
           .// referential attribute
           .invoke r = GetAttributeCodeGenType( o_attr )
-          .assign s_dt = r.dt
-          .select one te_dt related by s_dt->TE_DT[R2021]
+          .assign te_dt = r.result
         .end if
         .assign te_attr.GeneratedType = te_dt.ExtName
         .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
@@ -1594,7 +1594,7 @@
           .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
           .assign te_parms = empty_te_parms
           .invoke r = FactoryTE_ABA( te_c, te_parms, "", te_dbattr.GeneratedName, "O_DBATTR", te_dt )
-          .assign te_aba = r.te_aba
+          .assign te_aba = r.result
           .// relate te_dbattr to te_aba across R2010;
           .assign te_dbattr.AbaID = te_aba.AbaID
           .// end relate
@@ -1630,7 +1630,7 @@
         .select one te_dt related by o_tfr->S_DT[R116]->TE_DT[R2021]
         .select many te_parms related by o_tfr->O_TPARM[R117]->TE_PARM[R2029]
         .invoke r = FactoryTE_ABA( te_c, te_parms, te_class.GeneratedName, te_tfr.GeneratedName, "O_TFR", te_dt )
-        .assign te_aba = r.te_aba
+        .assign te_aba = r.result
         .// relate te_tfr to te_aba across R2010;
         .assign te_tfr.AbaID = te_aba.AbaID
         .// end relate
@@ -1760,7 +1760,7 @@
     .assign te_act.GeneratedName = ( te_class.GeneratedName + class_based ) + ( "_act" + "${te_state.Numb}" )
     .//.select many te_parms related by sm_state->SM_SEME[R503]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532]->TE_PARM[R2031]
     .invoke r = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
-    .assign te_aba = r.te_aba
+    .assign te_aba = r.result
     .// relate te_act to te_aba across R2010;
     .assign te_act.AbaID = te_aba.AbaID
     .// end relate
@@ -1792,7 +1792,7 @@
     .assign te_act.number = counter
     .//.select many te_parms related by sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532]->TE_PARM[R2031]
     .invoke r = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
-    .assign te_aba = r.te_aba
+    .assign te_aba = r.result
     .// relate te_act to te_aba across R2010;
     .assign te_act.AbaID = te_aba.AbaID
     .// end relate
@@ -1942,7 +1942,7 @@
     .for each te_parm in te_parms
       .// If we are using TLM ports, convert booleans to integers
       .select one param_te_dt related by te_parm->TE_DT[R2049]
-      .if ( param_te_dt.Core_Typ == 1 )
+      .if ( 1 == param_te_dt.Core_Typ )
         .// relate te_part to converted_bool_te_dt across R2049;
         .assign te_parm.te_dtID = converted_bool_te_dt.ID
         .// end relate
@@ -1959,7 +1959,7 @@
     .assign te_parms = te_parms | polymorphic_te_parm
   .end if
   .invoke r = FactoryTE_ABA( te_c, te_parms, te_mact.ComponentName, te_mact.GeneratedName, "TE_MACT", te_dt )
-  .assign te_aba = r.te_aba
+  .assign te_aba = r.result
   .// relate te_mact to te_aba across R2010;
   .assign te_mact.AbaID = te_aba.AbaID
   .// end relate
@@ -2018,7 +2018,7 @@
     .select one te_dt related by s_brg->S_DT[R20]->TE_DT[R2021]
     .select many te_parms related by s_brg->S_BPARM[R21]->TE_PARM[R2028]
     .invoke r = FactoryTE_ABA( te_c, te_parms, te_ee.RegisteredName, te_brg.GeneratedName, "S_BRG", te_dt )
-    .assign te_aba = r.te_aba
+    .assign te_aba = r.result
     .// relate te_brg to te_aba across R2010;
     .assign te_brg.AbaID = te_aba.AbaID
     .// end relate
@@ -2092,7 +2092,7 @@
   .if ( te_aba.dimensions > 0 )
     .assign te_aba.ReturnDataType = te_aba.ReturnDataType + " *"
   .end if
-  .assign attr_te_aba = te_aba
+  .assign attr_result = te_aba
 .end function
 .//
 .//

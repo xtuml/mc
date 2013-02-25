@@ -40,14 +40,14 @@ INSERT INTO ${o_obj.Key_Lett} VALUES (\
                 .if ( "${o_attr.Descrip:Persistent}" != "false" )
                   .assign attributename = o_attr.Name
                   .invoke r = GetAttributeCodeGenType( o_attr )
-                  .assign s_dt = r.dt
-                  .if ( "string" == s_dt.Name )
+                  .assign te_dt = r.result
+                  .if ( "string" == te_dt.Name )
                     .if ( ( "Action_Semantics_internal" == attributename ) or ( "Descrip" == attributename ) )
 ${delimiter} ''\\
                     .else
 ${delimiter} '$${$l{o_obj.Key_Lett}.${attributename}}'\
                     .end if
-                  .elif ( "unique_id" == s_dt.Name )
+                  .elif ( "unique_id" == te_dt.Name )
 \\
   ..if ( "un-initialized" == "$${$l{o_obj.Key_Lett}.${attributename}}" )
 ${delimiter} 0\\

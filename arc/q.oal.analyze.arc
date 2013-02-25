@@ -553,13 +553,13 @@
         .// *** Provide a key without parenthesis.
         .select any first_te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
         .assign te_attr = first_te_attr
-        .assign ident_attr_count = 0
+        .assign oida_count = 0
         .while ( not_empty te_attr )
           .select one o_attr related by te_attr->O_ATTR[R2033]
           .if ( te_attr.Included )
-            .assign ident_attr_count = ident_attr_count + 1
+            .assign oida_count = oida_count + 1
             .assign where_spec = where_spec + "selected.${o_attr.Name} == ?"
-            .if ( ident_attr_count < num_ident_attr )
+            .if ( oida_count < num_ident_attr )
               .assign where_spec = where_spec + " AND "
             .end if
           .end if
@@ -583,13 +583,13 @@
         .assign where_spec = "("
         .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
         .assign te_attr = first_te_attr
-        .assign ident_attr_count = 0
+        .assign oida_count = 0
         .while ( not_empty te_attr )
           .select one o_attr related by te_attr->O_ATTR[R2033]
           .if ( te_attr.Included )
-            .assign ident_attr_count = ident_attr_count + 1
+            .assign oida_count = oida_count + 1
             .assign where_spec = where_spec + "selected.${o_attr.Name} == ?"
-            .if ( ident_attr_count < num_ident_attr )
+            .if ( oida_count < num_ident_attr )
               .assign where_spec = where_spec + " AND "
             .else
               .assign where_spec = where_spec + ")"
@@ -616,13 +616,13 @@
           .assign where_spec = "("
           .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
           .assign te_attr = first_te_attr
-          .assign ident_attr_count = 0
+          .assign oida_count = 0
           .while ( not_empty te_attr )
             .select one o_attr related by te_attr->O_ATTR[R2033]
             .if ( te_attr.Included )
-              .assign ident_attr_count = ident_attr_count + 1
+              .assign oida_count = oida_count + 1
               .assign where_spec = where_spec + "(selected.${o_attr.Name} == ?)"
-              .if ( ident_attr_count < num_ident_attr )
+              .if ( oida_count < num_ident_attr )
                 .assign where_spec = where_spec + " AND "
               .else
                 .assign where_spec = where_spec + ")"
@@ -647,13 +647,13 @@
           .assign where_spec = ""
           .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
           .assign te_attr = first_te_attr
-          .assign ident_attr_count = 0
+          .assign oida_count = 0
           .while ( not_empty te_attr )
             .select one o_attr related by te_attr->O_ATTR[R2033]
             .if ( te_attr.Included )
-              .assign ident_attr_count = ident_attr_count + 1
+              .assign oida_count = oida_count + 1
               .assign where_spec = where_spec + "(selected.${o_attr.Name} == ?)"
-              .if ( ident_attr_count < num_ident_attr )
+              .if ( oida_count < num_ident_attr )
                 .assign where_spec = where_spec + " AND "
               .end if
             .end if

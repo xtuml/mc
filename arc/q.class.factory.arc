@@ -92,22 +92,22 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
       .assign persistent = ( "$l{o_attr.Descrip:Persistent}" != "false" )
       .if ( te_attr.translate and persistent )
         .invoke r = GetAttributeCodeGenType( o_attr )
-        .assign s_cdt = r.cdt
-        .if ( empty s_cdt )
+        .assign te_dt = r.result
+        .if ( te_dt.Core_Typ < 0 )
           .// sdt
-        .elif ( s_cdt.Core_Typ == 0 )
+        .elif ( 0 == te_dt.Core_Typ )
           .// void
-        .elif ( s_cdt.Core_Typ == 1 )
+        .elif ( 1 == te_dt.Core_Typ )
           .// boolean
   ${te_instance.self}->${te_attr.GeneratedName} = ( '0' != *avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( s_cdt.Core_Typ == 2 )
+        .elif ( 2 == te_dt.Core_Typ )
           .// integer
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( s_cdt.Core_Typ == 3 )
+        .elif ( 3 == te_dt.Core_Typ )
           .// real
-        .elif ( s_cdt.Core_Typ == 4 )
+        .elif ( 4 == te_dt.Core_Typ )
           .// string
           .if ( "Action_Semantics_internal" == te_attr.Name )
   ${te_instance.self}->${te_attr.GeneratedName} = (c_t *) ${te_dma.allocate}( avlstring[ ${attribute_number} + 1 ] - avlstring[ ${attribute_number} ] );
@@ -118,7 +118,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   ${te_instance.module}${te_string.strcpy}( ${te_instance.self}->${te_attr.GeneratedName}, avlstring[ ${attribute_number} ] );
           .end if
           .assign attribute_number = attribute_number + 1
-        .elif ( s_cdt.Core_Typ == 5 )
+        .elif ( 5 == te_dt.Core_Typ )
           .// unique_id
   ${te_instance.self}->${te_attr.GeneratedName} = (${te_instance.handle}) ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 )
@@ -127,27 +127,27 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   return_identifier = ${te_instance.self}->${te_attr.GeneratedName};
           .end if
           .assign attribute_number = attribute_number + 1
-        .elif ( s_cdt.Core_Typ == 6 )
+        .elif ( 6 == te_dt.Core_Typ )
           .// current_state
-        .elif ( s_cdt.Core_Typ == 7 )
+        .elif ( 7 == te_dt.Core_Typ )
           .// same as base<Attribute>
-        .elif ( s_cdt.Core_Typ == 8 )
+        .elif ( 8 == te_dt.Core_Typ )
           .// inst_ref<Object>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( s_cdt.Core_Typ == 9 )
+        .elif ( 9 == te_dt.Core_Typ )
           .// inst_ref_set<Object>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( s_cdt.Core_Typ == 10 )
+        .elif ( 10 == te_dt.Core_Typ )
           .// inst<Event>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( s_cdt.Core_Typ == 11 )
+        .elif ( 11 == te_dt.Core_Typ )
           .// inst<Mapping>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( s_cdt.Core_Typ == 12 )
+        .elif ( 12 == te_dt.Core_Typ )
           .// inst_ref<Mapping>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1

@@ -88,23 +88,21 @@ ${indent.result}}
     .select one o_attr related by te_attr->O_ATTR[R2033]
     .if ( te_attr.translate )
       .invoke r = GetAttributeCodeGenType( o_attr )
-      .assign s_cdt = r.cdt
-      .assign s_dt = r.dt
-      .if ( not_empty s_cdt )
-        .if ( 5 == s_cdt.Core_Typ )
+      .assign te_dt = r.result
+      .if ( not_empty te_dt )
+        .if ( 5 == te_dt.Core_Typ )
           .// unique_id
           .select any o_oida related by o_attr->O_OIDA[R105]
           .if ( not_empty o_oida )
-            .select one te_dt related by s_dt->TE_DT[R2021]
             .assign result = true
 ${instance}->${te_attr.GeneratedName} = (${te_dt.ExtName}) ${instance};
           .end if
-        .elif ( ( 2 == s_cdt.Core_Typ ) or ( 3 == s_cdt.Core_Typ ) )
+        .elif ( ( 2 == te_dt.Core_Typ ) or ( 3 == te_dt.Core_Typ ) )
           .// integer or real
           .if ( "" != te_attr.DefaultValue )
 ${instance}->${te_attr.GeneratedName} = ${te_attr.DefaultValue}; /* DefaultValue */
           .end if
-        .elif ( 4 == s_cdt.Core_Typ )
+        .elif ( 4 == te_dt.Core_Typ )
           .// string
           .if ( "" != te_attr.DefaultValue )
 ${te_instance.module}${te_string.strcpy}( ${instance}->${te_attr.GeneratedName}, ${te_attr.DefaultValue} ); /* DefaultValue */

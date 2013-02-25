@@ -875,8 +875,7 @@ ${aoth_fundamentals.body}\
     .if ( ref_te_attr.translate )
       .select one ident_te_attr related by ident_attr->TE_ATTR[R2033]
       .invoke r = GetAttributeCodeGenType( ref_attr )
-      .assign s_dt = r.dt
-      .select one te_dt related by s_dt->TE_DT[R2021]
+      .assign te_dt = r.result
       .assign initial_value = te_dt.Initial_Value
       .include "${te_file.arc_path}/t.class.set_refs.c"
     .end if
@@ -898,8 +897,7 @@ ${aoth_fundamentals.body}\
     .select one ref_te_attr related by ref_attr->TE_ATTR[R2033]
     .if ( ref_te_attr.translate )
       .invoke r = GetAttributeCodeGenType( ref_attr )
-      .assign s_dt = r.dt
-      .select one te_dt related by s_dt->TE_DT[R2021]
+      .assign te_dt = r.result
       .include "${te_file.arc_path}/t.class.reset_refs.c"
     .end if
   .end for  .// ref_attr in ref_attr_set

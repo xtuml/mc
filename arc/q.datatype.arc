@@ -40,6 +40,7 @@
     .invoke r = GetBaseTypeForUDT( s_udt )
     .assign s_dt = r.result
   .end if
+  .select one te_dt related by s_dt->TE_DT[R2021]
   .select one s_cdt related by s_dt->S_CDT[R17]
   .//
   .if ( empty s_cdt )
@@ -73,12 +74,10 @@
       .end if
       .// Note: the following is a recursive call to this function
       .invoke r = GetAttributeCodeGenType( base_o_attr )
-      .assign s_dt = r.dt
-      .assign s_cdt = r.cdt
+      .assign te_dt = r.result
     .end if
   .end if
-  .assign attr_dt = s_dt
-  .assign attr_cdt = s_cdt
+  .assign attr_result = te_dt
 .end function
 .//
 .//============================================================================

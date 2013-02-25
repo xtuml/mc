@@ -165,8 +165,8 @@
   .assign attr_result = "0"
   .// Get the attribute data type.  Strings need to be quoted.
   .invoke r = GetAttributeCodeGenType( o_attr )
-  .assign s_cdt = r.cdt
-  .if ( 4 == s_cdt.Core_Typ )
+  .assign te_dt = r.result
+  .if ( 4 == te_dt.Core_Typ )
     .// string
     .if ( empty i_avl )
       .// In absence of a populated attribute, use the attribute default value.
