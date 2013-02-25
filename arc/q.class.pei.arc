@@ -52,8 +52,8 @@
 .//============================================================================
 .function PEINumberOfPreexistingInstances
   .param inst_ref o_obj
-  .select many inst_set related by o_obj->CSME_CIE[R2961]->I_INS[R2962]
-  .assign attr_result = cardinality inst_set
+  .select many i_inss related by o_obj->CSME_CIE[R2961]->I_INS[R2962]
+  .assign attr_result = cardinality i_inss
   .// .assign msg =       "PEINumberOfPreexistingInstances is ${attr_result} "
   .// .assign msg = msg + "for ${o_obj.Name} (${o_obj.Key_Lett})"
   .// .print "${msg}"
