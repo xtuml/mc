@@ -155,8 +155,8 @@ ${compare_stmt}\
   .param inst_ref o_obj
   .param inst_ref o_id
   .//
-  .select many ident_attr_set related by o_id->O_OIDA[R105]->O_ATTR[R105]
-  .assign num_ident_attr = cardinality ident_attr_set
+  .select many o_attrs related by o_id->O_OIDA[R105]->O_ATTR[R105]
+  .assign num_ident_attr = cardinality o_attrs
   .//
   .assign param_list = ""
   .assign ident_attr_count = 0
