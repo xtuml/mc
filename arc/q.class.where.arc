@@ -50,10 +50,10 @@
   .end for
   .//
   .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
-  .assign ident_attr_count = 0
+  .assign oida_count = 0
   .while ( not_empty te_attr )
     .if ( te_attr.Included )
-      .assign ident_attr_count = ident_attr_count + 1
+      .assign oida_count = oida_count + 1
       .assign param_list = param_list + te_attr.GeneratedType
       .if ( not gen_declaration )
         .if ( te_attr.dimensions == 0 )
@@ -68,7 +68,7 @@
       .end if
       .assign param_list = param_list + te_attr.array_spec
       .//
-      .if ( ident_attr_count < num_ident_attr )
+      .if ( oida_count < num_ident_attr )
         .assign param_list = param_list + ", "
         .assign compare_stmt = compare_stmt + " && "
       .end if

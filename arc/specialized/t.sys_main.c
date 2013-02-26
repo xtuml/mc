@@ -102,7 +102,7 @@ ${te_persist.factory_init}();
   .end if
 .end if
 .if ( ( te_thread.flavor != "Nucleus" ) and ( te_thread.flavor != "AUTOSAR" ) )
-${return_body.body}\
+${return_body}\
 .end if
 .if ( te_sys.AUTOSAR )
 }

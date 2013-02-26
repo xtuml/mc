@@ -205,12 +205,12 @@
 .// Generate the system code.
 .//============================================================================
 .invoke main_decl = GetMainTaskEntryDeclaration()
-.invoke return_body = GetMainTaskEntryReturn()
+.invoke r = GetMainTaskEntryReturn()
+.assign return_body = r.body
 .select any te_cia from instances of TE_CIA
 .//
 .// function-based archetype generation
 .//
-.invoke instid = GetPersistentInstanceIdentifierVariable()
 .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
 .invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
 .invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
@@ -220,8 +220,6 @@
   .assign printf = "NU_printf"
 .end if
 .assign inst_id_in_handle = ""
-.assign link_type_name = ""
-.assign link_type_type = ""
 .//
 .invoke persist_check_mark = GetPersistentCheckMarkPostName()
 .//
@@ -275,10 +273,7 @@
   .invoke r = PersistentClassUnion( active_te_cs )
   .assign persist_class_union = r.result
   .invoke persist_post_link = GetPersistentPostLinkName()
-  .invoke persist_link_info = PersistLinkType()
-  .assign link_type_name = persist_link_info.name
-  .assign link_type_type = persist_link_info.type
-  .assign inst_id_in_handle = "  ${instid.dirty_type} ${instid.dirty_name};\n"
+  .assign inst_id_in_handle = "  ${te_persist.dirty_type} ${te_persist.dirty_name};\n"
   .include "${te_file.arc_path}/t.sys_persist.c"
   .emit to file "${te_file.system_source_path}/${te_file.persist}.${te_file.src_file_ext}"
   .//
@@ -368,8 +363,8 @@
 .assign structured_data_types = structured_data_types + s.body
 .// Get all components, not just those with internal behavior.
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
-.invoke s = UserSuppliedDataTypeIncludes()
-.assign user_supplied_data_types = s.s
+.invoke r = UserSuppliedDataTypeIncludes()
+.assign user_supplied_data_types = r.result
 .include "${te_file.arc_path}/t.sys_types.h"
 .emit to file "${te_file.system_include_path}/${te_file.types}.${te_file.hdr_file_ext}"
 .//

@@ -158,7 +158,7 @@
     .select one te_dim related by te_var->TE_DIM[R2057]
     .if ( not_empty te_dim )
       .// relate te_val to te_dim across R2057;
-      .assign te_val.te_dimID = te_dim.ID
+      .assign te_val.te_dimID = te_dim.te_dimID
       .// end relate
     .else
       .assign te_val.te_dimID = 00

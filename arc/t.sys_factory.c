@@ -87,7 +87,7 @@ ${te_instance.scope}${te_instance.create_persistent}(
 { /* Use this interface to create persistent instances.  */
   ${te_instance.handle} instance = ${te_instance.scope}${te_instance.create}( domain_num, class_num );
   /* Mark the persistent instance as "clean".  */
-  instance->${instid.dirty_name} = ${instid.dirty_clean};
+  instance->${te_persist.dirty_name} = ${te_persist.dirty_clean};
   ${persist_check_mark.name}( instance, ${domain_num_var}, class_num );
   return instance;
 }

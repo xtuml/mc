@@ -446,28 +446,3 @@
   .assign attr_arglist = "  const s1_t operation, const ${te_typemap.domain_number_name} domain,\n  const ${te_typemap.object_number_name} owning_class, const ${te_typemap.instance_index_name} ri,\n  ${te_instance.handle} left, const ${te_typemap.object_number_name} l,\n   ${te_instance.handle} right, const ${te_typemap.object_number_name} r,\n  ${te_instance.handle} assoc, const ${te_typemap.object_number_name} a"
 .end function
 .//
-.//============================================================================
-.// Return the name of the extended attribute variable for use by
-.// the persistent restore operation.  This attribute represents the
-.// instance index of the class extent at time of persistent stowage
-.// together with the class number (across domains) of the class.
-.// Also return the types for this attribute variable.
-.//============================================================================
-.function GetPersistentInstanceIdentifierVariable
-  .//
-  .select any te_typemap from instances of TE_TYPEMAP
-  .assign attr_domainnum_name = "domainnum"
-  .assign attr_domainnum_type = te_typemap.domain_number_name
-  .assign attr_classnum_name = "classnum"
-  .assign attr_classnum_type = te_typemap.object_number_name
-  .assign attr_index_name = "index"
-  .assign attr_index_type = te_typemap.instance_index_name
-  .assign attr_instid_typedef = "struct {\n  ${attr_domainnum_type} ${attr_domainnum_name};\n  ${attr_classnum_type} ${attr_classnum_name};\n  ${attr_index_type} ${attr_index_name};\n}"
-  .assign attr_instid_type = "InstanceIdentifier_t"
-  .assign attr_instid_name = "instance_identifier"
-  .assign attr_dirty_type = "s1_t"
-  .assign attr_dirty_name = "persist_dirty"
-  .assign attr_dirty_dirty = 1
-  .assign attr_dirty_clean = 0
-.end function
-.//

@@ -164,9 +164,9 @@
   .param inst_ref i_avl
   .assign attr_result = "0"
   .// Get the attribute data type.  Strings need to be quoted.
-  .invoke member_type = GetAttributeCodeGenType( o_attr )
-  .assign cdt = member_type.cdt
-  .if ( 4 == cdt.Core_Typ )
+  .invoke r = GetAttributeCodeGenType( o_attr )
+  .assign te_dt = r.result
+  .if ( 4 == te_dt.Core_Typ )
     .// string
     .if ( empty i_avl )
       .// In absence of a populated attribute, use the attribute default value.

@@ -553,13 +553,13 @@
         .// *** Provide a key without parenthesis.
         .select any first_te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
         .assign te_attr = first_te_attr
-        .assign ident_attr_count = 0
+        .assign oida_count = 0
         .while ( not_empty te_attr )
           .select one o_attr related by te_attr->O_ATTR[R2033]
           .if ( te_attr.Included )
-            .assign ident_attr_count = ident_attr_count + 1
+            .assign oida_count = oida_count + 1
             .assign where_spec = where_spec + "selected.${o_attr.Name} == ?"
-            .if ( ident_attr_count < num_ident_attr )
+            .if ( oida_count < num_ident_attr )
               .assign where_spec = where_spec + " AND "
             .end if
           .end if
@@ -570,9 +570,9 @@
         .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
         .create object instance te_swc of TE_SWC
         .// relate te_swc to te_class across R2001;
-        .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
-        .assign te_swc.Obj_Kl = te_class.Key_Lett
+        .assign te_swc.GeneratedName = te_class.GeneratedName
         .// end relate
+        .assign te_swc.Obj_Kl = te_class.Key_Lett
         .assign te_swc.Where_Spec = where_spec
         .assign te_swc.Key = where_key
         .assign te_swc.Ret_Val = FALSE
@@ -583,13 +583,13 @@
         .assign where_spec = "("
         .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
         .assign te_attr = first_te_attr
-        .assign ident_attr_count = 0
+        .assign oida_count = 0
         .while ( not_empty te_attr )
           .select one o_attr related by te_attr->O_ATTR[R2033]
           .if ( te_attr.Included )
-            .assign ident_attr_count = ident_attr_count + 1
+            .assign oida_count = oida_count + 1
             .assign where_spec = where_spec + "selected.${o_attr.Name} == ?"
-            .if ( ident_attr_count < num_ident_attr )
+            .if ( oida_count < num_ident_attr )
               .assign where_spec = where_spec + " AND "
             .else
               .assign where_spec = where_spec + ")"
@@ -602,9 +602,9 @@
         .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
         .create object instance te_swc of TE_SWC
         .// relate te_swc to te_class across R2001;
-        .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
-        .assign te_swc.Obj_Kl = te_class.Key_Lett
+        .assign te_swc.GeneratedName = te_class.GeneratedName
         .// end relate
+        .assign te_swc.Obj_Kl = te_class.Key_Lett
         .assign te_swc.Where_Spec = where_spec
         .assign te_swc.Key = where_key
         .assign te_swc.Ret_Val = FALSE
@@ -616,13 +616,13 @@
           .assign where_spec = "("
           .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
           .assign te_attr = first_te_attr
-          .assign ident_attr_count = 0
+          .assign oida_count = 0
           .while ( not_empty te_attr )
             .select one o_attr related by te_attr->O_ATTR[R2033]
             .if ( te_attr.Included )
-              .assign ident_attr_count = ident_attr_count + 1
+              .assign oida_count = oida_count + 1
               .assign where_spec = where_spec + "(selected.${o_attr.Name} == ?)"
-              .if ( ident_attr_count < num_ident_attr )
+              .if ( oida_count < num_ident_attr )
                 .assign where_spec = where_spec + " AND "
               .else
                 .assign where_spec = where_spec + ")"
@@ -635,9 +635,9 @@
           .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
           .create object instance te_swc of TE_SWC
           .// relate te_swc to te_class across R2001;
-          .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
-          .assign te_swc.Obj_Kl = te_class.Key_Lett
+          .assign te_swc.GeneratedName = te_class.GeneratedName
           .// end relate
+          .assign te_swc.Obj_Kl = te_class.Key_Lett
           .assign te_swc.Where_Spec = where_spec
           .assign te_swc.Key = where_key
           .assign te_swc.Ret_Val = FALSE
@@ -647,13 +647,13 @@
           .assign where_spec = ""
           .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
           .assign te_attr = first_te_attr
-          .assign ident_attr_count = 0
+          .assign oida_count = 0
           .while ( not_empty te_attr )
             .select one o_attr related by te_attr->O_ATTR[R2033]
             .if ( te_attr.Included )
-              .assign ident_attr_count = ident_attr_count + 1
+              .assign oida_count = oida_count + 1
               .assign where_spec = where_spec + "(selected.${o_attr.Name} == ?)"
-              .if ( ident_attr_count < num_ident_attr )
+              .if ( oida_count < num_ident_attr )
                 .assign where_spec = where_spec + " AND "
               .end if
             .end if
@@ -664,9 +664,9 @@
           .// Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
           .create object instance te_swc of TE_SWC
           .// relate te_swc to te_class across R2001;
-          .// CDS We need to move R2001 from O_OBJ to TE_CLASS.
-          .assign te_swc.Obj_Kl = te_class.Key_Lett
+          .assign te_swc.GeneratedName = te_class.GeneratedName
           .// end relate
+          .assign te_swc.Obj_Kl = te_class.Key_Lett
           .assign te_swc.Where_Spec = where_spec
           .assign te_swc.Key = where_key
           .assign te_swc.Ret_Val = FALSE
