@@ -17,6 +17,7 @@
 .//
 .function te_parm_RenderParameters
   .param inst_ref_set te_parms
+  .param inst_ref te_aba
   .// Consider that we may have additional parameters (like for passing "self").
   .assign defn = ""
   .assign decl = " void"
@@ -41,6 +42,7 @@
           .if ( not_empty previous_te_parm )
             .// relate previous_te_parm to te_parm across R2041.'succeeds';
             .assign previous_te_parm.nextID = te_parm.ID
+            .// end relate
           .end if
           .assign previous_te_parm = te_parm
           .select one te_dt related by te_parm->TE_DT[R2049]
@@ -82,13 +84,13 @@
       .assign item_number = item_number + 1
     .end while
   .end if
-  .assign attr_definition = defn + ""
-  .assign attr_declaration = decl + " "
-  .assign attr_invocation = invo
-  .assign attr_structure = stru
-  .assign attr_parameter_trace = parameter_trace
-  .assign attr_string_format = string_format
-  .assign attr_assignment = assn
-  .assign attr_assignment_base = assnbase
+  .assign te_aba.ParameterDefinition = defn + ""
+  .assign te_aba.ParameterDeclaration = decl + " "
+  .assign te_aba.ParameterInvocation = invo
+  .assign te_aba.ParameterStructure = stru
+  .assign te_aba.ParameterTrace = parameter_trace
+  .assign te_aba.ParameterFormat = string_format
+  .assign te_aba.ParameterAssignment = assn
+  .assign te_aba.ParameterAssignmentBase = assnbase
 .end function
 .//

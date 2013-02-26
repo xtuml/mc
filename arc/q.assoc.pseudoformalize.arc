@@ -15,50 +15,61 @@
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
+.// Find the associations that are not formalized.  They are characterized
+.// by the existence of 2 instances of R_PART linked to one R_SIMP.
+.// Migrate the R_PART/R_RTO pair to R_FORM/R_RGO.
+.// It does not matter which participant we choose unless this is a many
+.// association.  Grab the many side of a 1-M or any random R_PART and
+.// migrate it and its parent R_RTO to R_FORM and R_RGO respectively.
 .function PseudoFormalizeUnformalizedAssociations
-  .// Find the associations that are not formalized.  They are characterized
-  .// by the existence of 2 instances of R_PART linked to one R_SIMP.
-  .select many simps from instances of R_SIMP
-  .for each simp in simps
-    .select many parts related by simp->R_PART[R207]
-    .if ( ( cardinality parts ) > 1 )
-      .// It does not matter which participant we choose unless this is a many
-      .// association.  Grab the many side of a 1-M or any random R_PART and
-      .// migrate it and its parent R_RTO to R_FORM and R_RGO respectively.
-      .select any part related by simp->R_PART[R207] where ( selected.Mult == 1 )
-      .if ( empty part )
-        .select any part related by simp->R_PART[R207]
+  .select many r_simps from instances of R_SIMP
+  .for each r_simp in r_simps
+    .select many r_parts related by r_simp->R_PART[R207]
+    .if ( ( cardinality r_parts ) > 1 )
+      .select any r_part related by r_simp->R_PART[R207] where ( selected.Mult == 1 )
+      .if ( empty r_part )
+        .select any r_part related by r_simp->R_PART[R207]
       .end if
-      .select one rto related by part->R_RTO[R204]
+      .select one r_rto related by r_part->R_RTO[R204]
+      .select one r_oir related by r_rto->R_OIR[R203]
       .//
-      .create object instance rgo of R_RGO
-      .create object instance form of R_FORM
+      .create object instance r_rgo of R_RGO
+      .create object instance r_form of R_FORM
       .//
-      .// Copy the RTO to the RGO.
-      .assign rgo.Obj_ID = rto.Obj_ID
-      .assign rgo.Rel_ID = rto.Rel_ID
-      .assign rgo.OIR_ID = rto.OIR_ID
+      .// Copy the R_PART to the new R_FORM.
+      .assign r_form.Mult = r_part.Mult
+      .assign r_form.Cond = r_part.Cond
+      .assign r_form.Txt_Phrs = r_part.Txt_Phrs
       .//
-      .// Unlink and clean out the RTO.
-      .assign rto.Obj_ID = 0
-      .assign rto.Rel_ID = 0
-      .assign rto.OIR_ID = 0
+      .// unrelate r_part from r_rto across R205;
+      .assign r_part.Obj_ID = 00
+      .assign r_part.Rel_ID = 00
+      .assign r_part.OIR_ID = 00
+      .// end unrelate
+      .// delete object instance r_part;
       .//
-      .// Copy the PART to the FORM
-      .assign form.Obj_ID = part.Obj_ID
-      .assign form.Rel_ID = part.Rel_ID
-      .assign form.OIR_ID = part.OIR_ID
-      .assign form.Mult = part.Mult
-      .assign form.Cond = part.Cond
-      .assign form.Txt_Phrs = part.Txt_Phrs
+      .// unrelate r_rto from r_oir across R203;
+      .assign r_rto.Obj_ID = 00
+      .assign r_rto.Rel_ID = 00
+      .assign r_rto.OIR_ID = 00
+      .// end unrelate
+      .// delete object instance r_rto;
       .//
-      .// Unlink and clean out the PART.
-      .assign part.Obj_ID = 0
-      .assign part.Rel_ID = 0
-      .assign part.OIR_ID = 0
-      .assign part.Mult = 0
-      .assign part.Cond = 0
-      .assign part.Txt_Phrs = ""
+      .// relate r_rgo to r_oir across R203;
+      .assign r_rgo.Obj_ID = r_oir.Obj_ID
+      .assign r_rgo.Rel_ID = r_oir.Rel_ID
+      .assign r_rgo.OIR_ID = r_oir.OIR_ID
+      .// end relate
+      .// relate r_form to r_rgo across R205;
+      .assign r_form.Obj_ID = r_rgo.Obj_ID
+      .assign r_form.Rel_ID = r_rgo.Rel_ID
+      .assign r_form.OIR_ID = r_rgo.OIR_ID
+      .// end relate
+      .// relate r_form to r_simp across R207;
+      .if ( r_form.Rel_ID != r_simp.Rel_ID )
+        .print "ERROR:  Pseudoformalization of relationship failed."
+      .end if
+      .// end relate
     .end if
   .end for
 .end function

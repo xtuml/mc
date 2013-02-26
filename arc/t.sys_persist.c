@@ -64,7 +64,7 @@ extern ${te_cia.class_info_type} * const * const ${te_cia.class_info_name}[];
  * instances/links.
  */
 typedef struct {
-  ${instid.instid_type} ${instid.instid_name};
+  ${te_persist.instid_type} ${te_persist.instid_name};
   ${te_instance.handle} instance;
 } persist_instance_t;
 typedef struct { u1_t operation; persist_instance_t inst; } op_inst_t;
@@ -250,8 +250,8 @@ ${persist_check_mark.arglist}
 )
 {
   /* Check if instance is "clean".  If so (first mod), then queue it.  */
-  if ( instance->${instid.dirty_name} == ${instid.dirty_clean} ) {
-    instance->${instid.dirty_name} = ${instid.dirty_dirty}; /* Mark dirty.  */
+  if ( instance->${te_persist.dirty_name} == ${te_persist.dirty_clean} ) {
+    instance->${te_persist.dirty_name} = ${te_persist.dirty_dirty}; /* Mark dirty.  */
     Escher_PostPersistentInstance( instance, domain_num, class_num, 0x81 );
   }
 }
@@ -384,7 +384,7 @@ ${te_persist.commit}( void )
           ili->inst.inst.instance_identifier.index, dci->size_no_rel,
           ( c_t const * ) ili->inst.inst.instance, PERSIST_INSTANCE_TYPE )
            ) >= 0 ) {
-          ili->inst.inst.instance->${instid.dirty_name} = ${instid.dirty_clean};
+          ili->inst.inst.instance->${te_persist.dirty_name} = ${te_persist.dirty_clean};
           rc = 0;
         } else {
           ${te_callout.persistence_error}( rc );
@@ -473,7 +473,7 @@ ${te_persist.restore}( void )
       cn = (${te_typemap.object_number_name}) ( ( key >> 16 ) & 0x000000ff );
       dn = (${te_typemap.domain_number_name}) ( ( key >> 24 ) & 0x000000ff );
       dci = *( ${te_cia.class_info_name}[ dn ] + cn );
-      i1->${instid.dirty_name} = ${instid.dirty_clean}; /* Mark as "clean".  */
+      i1->${te_persist.dirty_name} = ${te_persist.dirty_clean}; /* Mark as "clean".  */
 .if ( te_sys.CollectionsFlavor == 20 )
       node = dci->container + ii; /* pointer arithmetic */
       ${te_dlist.remove_node}( &dci->inactive, node );

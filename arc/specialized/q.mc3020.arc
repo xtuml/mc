@@ -167,18 +167,35 @@
 .function factory_TE_PERSIST
   .param inst_ref te_persist
   .select any te_prefix from instances of TE_PREFIX
+  .select any te_typemap from instances of TE_TYPEMAP
   .assign te_persist.class_union = ""
   .assign te_persist.instance_cache_depth = te_prefix.define_u + "PERSIST_INST_CACHE_DEPTH"
   .assign te_persist.check_mark = "check_mark_post"
   .assign te_persist.post_link = ""
-  .assign te_persist.link_type_name = ""
-  .assign te_persist.link_type_type = ""
+  .assign te_persist.link_type_name = te_prefix.type + "link_t"
   .assign te_persist.persist_file = "sys_persist"
   .assign te_persist.factory_init = te_prefix.result + "PersistFactoryInit"
   .assign te_persist.commit = te_prefix.result + "PersistenceCommit"
   .assign te_persist.restore = te_prefix.result + "PersistenceRestore"
   .assign te_persist.remove = te_prefix.result + "PersistDelete"
   .assign te_persist.link_cache_depth = te_prefix.define_u + "PERSIST_LINK_CACHE_DEPTH"
+  .// Return the name of the extended attribute variable for use by
+  .// the persistent restore operation.  This attribute represents the
+  .// instance index of the class extent at time of persistent stowage
+  .// together with the class number (across domains) of the class.
+  .// Also return the types for this attribute variable.
+  .assign te_persist.domainnum_name = "domainnum"
+  .assign te_persist.domainnum_type = te_typemap.domain_number_name
+  .assign te_persist.classnum_name = "classnum"
+  .assign te_persist.classnum_type = te_typemap.object_number_name
+  .assign te_persist.index_name = "index"
+  .assign te_persist.index_type = te_typemap.instance_index_name
+  .assign te_persist.instid_type = "InstanceIdentifier_t"
+  .assign te_persist.instid_name = "instance_identifier"
+  .assign te_persist.dirty_type = "s1_t"
+  .assign te_persist.dirty_name = "persist_dirty"
+  .assign te_persist.dirty_dirty = 1
+  .assign te_persist.dirty_clean = 0
 .end function
 .//
 .//
@@ -389,6 +406,8 @@
 .function factory_factory
   .create object instance i_te_prefix of TE_PREFIX
   .invoke factory_TE_PREFIX( i_te_prefix )
+  .create object instance i_te_typemap of TE_TYPEMAP
+  .invoke factory_TE_TYPEMAP( i_te_typemap )
   .create object instance i_te_container of TE_CONTAINER
   .invoke factory_TE_CONTAINER( i_te_container )
   .create object instance i_te_copyright of TE_COPYRIGHT
@@ -419,8 +438,6 @@
   .invoke factory_TE_THREAD( i_te_thread )
   .create object instance i_te_tim of TE_TIM
   .invoke factory_TE_TIM( i_te_tim )
-  .create object instance i_te_typemap of TE_TYPEMAP
-  .invoke factory_TE_TYPEMAP( i_te_typemap )
   .create object instance i_te_callout of TE_CALLOUT
   .invoke factory_TE_CALLOUT( i_te_callout )
   .create object instance i_te_trace of TE_TRACE

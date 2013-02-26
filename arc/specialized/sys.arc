@@ -110,6 +110,7 @@
     .// relate c_c to s_dom across R4204 using cn_dc;
     .assign cn_dc.Id = c_c.Id
     .assign cn_dc.Dom_ID = s_dom.Dom_ID
+    .// end relate
     .assign c_c.Name = s_dom.Name
     .assign c_c.Descrip = s_dom.Descrip
   .end if
@@ -211,12 +212,12 @@
 .// Generate the system code.
 .//============================================================================
 .invoke main_decl = GetMainTaskEntryDeclaration()
-.invoke return_body = GetMainTaskEntryReturn()
+.invoke r = GetMainTaskEntryReturn()
+.assign return_body = r.body
 .select any te_cia from instances of TE_CIA
 .//
 .// function-based archetype generation
 .//
-.invoke instid = GetPersistentInstanceIdentifierVariable()
 .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
 .invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
 .invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
@@ -226,8 +227,6 @@
   .assign printf = "NU_printf"
 .end if
 .assign inst_id_in_handle = ""
-.assign link_type_name = ""
-.assign link_type_type = ""
 .//
 .invoke persist_check_mark = GetPersistentCheckMarkPostName()
 .//
@@ -281,10 +280,7 @@
   .invoke r = PersistentClassUnion( active_te_cs )
   .assign persist_class_union = r.result
   .invoke persist_post_link = GetPersistentPostLinkName()
-  .invoke persist_link_info = PersistLinkType()
-  .assign link_type_name = persist_link_info.name
-  .assign link_type_type = persist_link_info.type
-  .assign inst_id_in_handle = "  ${instid.dirty_type} ${instid.dirty_name};\n"
+  .assign inst_id_in_handle = "  ${te_persist.dirty_type} ${te_persist.dirty_name};\n"
   .include "${te_file.arc_path}/t.sys_persist.c"
   .emit to file "${te_file.system_source_path}/${te_file.persist}.${te_file.src_file_ext}"
   .//
@@ -349,8 +345,13 @@
 .// types from other systems used via inter-project references.
 .//=============================================================================
 .select many s_syss from instances of S_SYS
+.select many ep_pkgs related by s_syss->EP_PKG[R1401]
+.select many nested_ep_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]
+.select many triply_nested_ep_pkgs related by nested_ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]
+.assign ep_pkgs = ep_pkgs | nested_ep_pkgs
+.assign ep_pkgs = ep_pkgs | triply_nested_ep_pkgs
 .assign enumeration_info = ""
-.select many enumeration_te_dts related by s_syss->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
+.select many enumeration_te_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
 .for each te_dt in enumeration_te_dts
   .invoke r = TE_DT_EnumerationDataTypes( te_dt )
   .assign enumeration_info = enumeration_info + r.body
@@ -361,7 +362,7 @@
   .assign enumeration_info = enumeration_info + r.body
 .end for
 .assign structured_data_types = ""
-.select many structured_te_dts related by s_syss->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
+.select many structured_te_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
 .invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
 .assign structured_data_types = structured_data_types + s.body
 .select many structured_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
@@ -369,8 +370,8 @@
 .assign structured_data_types = structured_data_types + s.body
 .// Get all components, not just those with internal behavior.
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
-.invoke s = UserSuppliedDataTypeIncludes()
-.assign user_supplied_data_types = s.s
+.invoke r = UserSuppliedDataTypeIncludes()
+.assign user_supplied_data_types = r.result
 .include "${te_file.arc_path}/t.sys_types.h"
 .emit to file "${te_file.system_include_path}/${te_file.types}.${te_file.hdr_file_ext}"
 .//

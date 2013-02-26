@@ -121,9 +121,13 @@ typedef ${te_typemap.event_number_type} ${te_typemap.event_number_name};
 typedef ${te_typemap.event_flags_type} ${te_typemap.event_flags_name};
 typedef ${te_typemap.event_priority_type} ${te_typemap.event_priority_name};
 typedef ${te_typemap.SEM_cell_type} ${te_typemap.SEM_cell_name};
-typedef ${instid.instid_typedef} ${instid.instid_type};
+typedef struct {
+  ${te_persist.domainnum_type} ${te_persist.domainnum_name};
+  ${te_persist.classnum_type} ${te_persist.classnum_name};
+  ${te_persist.index_type} ${te_persist.index_name};
+} ${te_persist.instid_type};
 .if ( te_sys.PersistentClassCount > 0 )
-typedef ${link_type_type} ${link_type_name};
+typedef struct { ${te_persist.instid_type} owner, left, right, assoc; } ${te_persist.link_type_name};
 .end if
 
 typedef struct {

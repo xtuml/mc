@@ -54,7 +54,32 @@ See [2].
   with future generated code.
 - Build a script to compare newly generated code with baseline generated
   code reporting differences.
-- Search the ranslation logs for ERRORs.
+- Search the translation logs for ERRORs.
+
+#### 7.1.1 Proposed Testing Approach
+Testing is more easily automated with scripting on a unix system than
+on Windows.  On Linux it is possible to link the MC c.source plugin
+mc3020/arc folder to the arc folder in the git working directory.
+The same can be done with mc3020/schema/sql
+
+Here are some excerpts from scripts that do some of this:
+<pre>
+export PATH=$PATH:/home/cort/psf/Home/bp/eclipse
+export PATH=$PATH:/home/cort/psf/Home/bp/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.mc.c.source_3.6.3/mc3020/bin
+export MGLS_DLL=/home/cort/psf/Home/bp/extras/wine_addons/MGLS.DLL
+export MGLS_PKGINFO_FILE=/home/cort/psf/Home/bp/extras/wine_addons/mgc.pkginfo
+export MGLS_LICENSE_FILE=/home/cort/psf/Home/bp/license/license.dat
+
+cd assoc_unformal/gen
+rm -f code_generation/_system.sql; rm -rf code_generation/arc; xtumlmc_build.pl -home /home/cort/psf/Home/bp/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.mc.c.source_3.6.3/ -l3s -e -d code_generation -O ../../src/
+cd ../..
+cd calculator/gen
+rm -f code_generation/_system.sql; rm -rf code_generation/arc; xtumlmc_build.pl -home /home/cort/psf/Home/bp/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.mc.c.source_3.6.3/ -l3s -e -d code_generation -O ../../src/
+cd ../..
+
+diff -rq assoc_unformal/src/ assoc_unformal/src_x
+diff -rq calculator/src calculator/src_x
+</pre>
 
 ### 7.2 Run Tests
 After each consistent, self-contained RSL change, run the test suite and
@@ -71,6 +96,30 @@ after the referential copy statements that identify them as superfluous in the
 presence of _relate_.  (Check each association as the relate side comment
 is placed.  Be sure that the correct referentials are being copied.  Do
 mark a copy unless it is correct.)
+
+There are a few places where _unrelate_ would be used in OAL.  Use the
+same protocol for these unrelate statements (zeroing out referenctials)
+and delimit with .// end unrelate .
+
+To find the relate statements (the copying of IDs into referentials),
+we can search the RSL for the attribute names.  The schema can
+be grepped for the IDs and the referentials (in the ROP statements).
+
+IDs and referentials cannot be read or written arbitrarily in OAL.
+Upon creation of an instance, generator intializes attributes of
+type UNIQUE_ID.  The assigned value is unique for the instance but
+is the same for all attributes of type UNIQUE_ID in the newly
+created instance.  This is a weakness and could even be considered
+a bug in generator.  It seems that generator assumes that a class
+will have only one attribute of type UNIQUE_ID and that that 
+attribute will be the identifier.  However, referential attributes
+often have this same type.  RSL must zero them out, especially
+in the case of a reflexive associations formalized with a referential
+attribute of type UNIQUE_ID.  (In such a scenario, the instance
+is effectively initialized at creation as being related to itself.)
+
+Change all such initializations of referential attributes to use
+a double-zero (00).
 
 ### 7.4 Function Return Data
 - Identify all usage of the attr approach for returning data.
@@ -99,6 +148,9 @@ rules governing parameter syntax:
   key letters as the ending of the name.  (example:  right_o_obj, left_o_obj)
 - For instance reference sets, add the plural 's' to the name.
 
+CDS It is O.K. and good to update local transients to follow the
+naming as well.  Just be careful.
+
 ### 7.6 Segregate Queries and Templates
 Model compilers use templating languages.  Templating languages can
 be confusing to look at, because the same text file may contain
@@ -116,9 +168,11 @@ of archetypes into template files.  Name the template files starting
 with "t" and a model compiler model naming connection to the imbedding query.
 As much as practical perform all queries and then include templates.
 
+CDS t.smt.c and select related stuff
+
 ### 7.7 Migrate Top-Level Transients
 The current model compiler populates transient variables at the top
-level and uses them as global variables.  Any data element important
+level and uses them as globals.  Any data element important
 enough to be defined globally and used at lower levels is important
 enough to be modeled.  Migrate this data into the translation
 model allocating to existing entities or creating new ones.
@@ -162,7 +216,7 @@ The operation name may have a (sub)pattern.
 Create an RSL model compiler that converts a set of OAL functions
 into a corresponding set of RSL functions.
 
-Consider generating the code using the _OAL_ filed of TE_SMT which
+Consider generating the code using the _OAL_ field of TE_SMT which
 already re-constructs the OAL from the instance data.
 
 ### 7.10 Function Prototype Import Tool
@@ -178,10 +232,15 @@ language).  A derivative of this parser exists to convert RSL into OAL.
 It is called rsl2oal.  Find this.  Build it.  Establish/Restore its
 usefulness, or abandon it.
 
+CDS Move this into git into the branch.
+
 ### 7.12 C++ and System-C Branches
 Add the C++ and System-C specialized folders to the git repository
 branch for this work.  Then, make changes as necessary to work with
 the updated set of common RSL archetypes.
+
+This refresh must occur at least once before file names in the RSL
+are changed (if they are changed).
 
 
 
@@ -189,14 +248,15 @@ the updated set of common RSL archetypes.
 
 ### 7.13  General Notes
 
+We do set arithmetic in RSL.  We cannot do this in OAL.
+
+
 Compare instance dumps.
 
 As opportunity presents it, use TE_* instances in place of OOA
 instances in the MC when possible.  We eventually want the model
 compiler to work from its own model exclusively.
 
-What do we do with RSL that initializes referentials to zero with
-the intention of making sure that they are unrelated?
 
 I expect there will be ambiguity in the reflexive relate statements.
 After conversion to OAL, check coverage on these.
@@ -209,78 +269,10 @@ Remove domain_CLASS_INFO_INIT macro and simply put the data in the C file.
   instance_loaders
   dispatchers
 
-Each class is going to need an instance dumper.
-  Maybe it should link into class_info.
-  Each data types will have a dumper.
-  Each attribute will call the associated data type dumper.
-
 Consider defining a class to carry a file name and file contents.
 Use this in conjunction with emit-to-file.
 This seems especially appropriate when percolating templates up
 through several layers of invocation/stack.
-
-Use call by reference rather than the attr_ strangeness.
-The call-by-reference mechanism will closely map between OAL
-and RSL.  Consider passing in the instance that will contain the
-output values.
-
-Basically make the RSL actions, functional allocation and file
-naming look as much like the model as feasible.
-  - Use OAL style in the RSL.
-  - Use a precise mapping for the names of the operations.
-  - Pass the same argument names.
-
-Edit docgen to explore.
-Functionize (OAL) beginning of 3020.
-Test in RSL-only first.
-Rid more transients.
-
-
-
-sys.arc (easy) [TE_SYS]
-  Package as function unless emit-to-file prevents it.
-
-marking (hard) [TM_?]
-  Somehow support marking, probably using the same marking files,
-  but maybe not.
-
-factory_factory (easy but option to improve) [TE_SYS + lots of singletons]
-  This has a ton of subroutines that will easily turn
-  into operations on the various classes.  However, this
-  really should be some kind of loadable text file.
-
-q.assoc.pseudoformalize.arc (easy) [TE_REL]
-  This has PseudoFormalizeUnformalizedAssociations.
-
-MC_metamodel_populate (big) [TE_SYS]
-  Should this be made hierarchical with operations delegated down?
-  Yes, we should at least break it out as it is now.
-  All of the functions invoked from this query are fairly OALish.
-
-q.domain.analyze.arc (easy) [TE_C?]
-  Turn this into an operation that calls other operations.
-
-a.oal.analyze.arc (medium) [TE_ABA or TE_SMT]
-  This contains the various operations called by q.domain.analyze.arc.
-  These should be placed onto the appropriate TE_ classes.
-
-CreateSpecialWhereClauseInstances (easy) [TE_SWC]
-  Called from sys.arc, defined in q.oal.analyze.arc.
-
-te_c_CollectLimits (easy) [TE_C]
-  simple roll-up
-
-translate_all_oal (easy) [TE_ABA]
-
-q.oal.translate.arc (easy) [TE_ABA] 4
-
-q.smt.generate.arc (easy except for select_related) [TE_SMT] 69
-  Select related is huge.
-
-t.smt.c (difficult) [TE_SMT] 29
-  Consider making these into "real" templates.
-
-q.val.translate.arc (easy but long) [TE_VAL] 34
 
 
 8.  Design Comments
@@ -289,8 +281,55 @@ q.val.translate.arc (easy but long) [TE_VAL] 34
 9.  Work Required
 -----------------
 
+**sys.arc (easy) [TE_SYS] -**
+  Package as function unless emit-to-file prevents it.
+
+**marking (hard) [TM_?] -**
+  Somehow support marking, probably using the same marking files,
+  but maybe not.
+
+**factory_factory (easy but option to improve) [TE_SYS + lots of singletons] -**
+  This has a ton of subroutines that will easily turn
+  into operations on the various classes.  However, this
+  really should be some kind of loadable text file.
+
+**q.assoc.pseudoformalize.arc (easy) [TE_REL] -**
+  This has PseudoFormalizeUnformalizedAssociations.
+
+**MC_metamodel_populate (big) [TE_SYS] -**
+  Should this be made hierarchical with operations delegated down?
+  Yes, we should at least break it out as it is now.
+  All of the functions invoked from this query are fairly OALish.
+
+**q.domain.analyze.arc (easy) [TE_C?] -**
+  Turn this into an operation that calls other operations.
+
+**a.oal.analyze.arc (medium) [TE_ABA or TE_SMT] -**
+  This contains the various operations called by q.domain.analyze.arc.
+  These should be placed onto the appropriate TE_ classes.
+
+**CreateSpecialWhereClauseInstances (easy) [TE_SWC] -**
+  Called from sys.arc, defined in q.oal.analyze.arc.
+
+**te_c_CollectLimits (easy) [TE_C] -**
+  simple roll-up
+
+**translate_all_oal (easy) [TE_ABA] -**
+
+**q.oal.translate.arc (easy) [TE_ABA] 4 -**
+
+**q.smt.generate.arc (easy except for select_related) [TE_SMT] 69 -**
+  Select related is huge.
+
+**t.smt.c (difficult) [TE_SMT] 29 -**
+  Consider making these into "real" templates.
+
+**q.val.translate.arc (easy but long) [TE_VAL] 34 -**
+
+
 10.  Unit Test
 --------------
+See [2].
 
 
 

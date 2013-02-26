@@ -155,7 +155,14 @@
     .assign te_val.buffer = te_var.buffer
     .assign te_val.dimensions = te_var.dimensions
     .assign te_val.array_spec = te_var.array_spec
-    .assign te_val.te_dimID = te_var.te_dimID
+    .select one te_dim related by te_var->TE_DIM[R2057]
+    .if ( not_empty te_dim )
+      .// relate te_val to te_dim across R2057;
+      .assign te_val.te_dimID = te_dim.te_dimID
+      .// end relate
+    .else
+      .assign te_val.te_dimID = 00
+    .end if
   .end for
 .end function
 .//
@@ -637,11 +644,13 @@
     .// CDS:  do not know how to do this with array_spec
     .assign te_val.array_spec = root_te_val.array_spec
     .assign te_val.dimensions = root_te_val.dimensions - 1
-    .select one next_te_DIM related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'succeeds']
-    .if ( not_empty next_te_DIM )
-      .assign te_val.te_dimID = next_te_DIM.te_dimID
+    .select one next_te_dim related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'succeeds']
+    .if ( not_empty next_te_dim )
+      .// relate te_val to next_te_dim across R2079;
+      .assign te_val.te_dimID = next_te_dim.te_dimID
+      .// end relate
     .else
-      .assign te_val.te_dimID = 0
+      .assign te_val.te_dimID = 00
     .end if
   .end if
 .end function
