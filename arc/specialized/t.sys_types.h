@@ -127,7 +127,7 @@ typedef struct {
   ${te_persist.index_type} ${te_persist.index_name};
 } ${te_persist.instid_type};
 .if ( te_sys.PersistentClassCount > 0 )
-typedef ${link_type_type} ${link_type_name};
+typedef struct { ${te_persist.instid_type} owner, left, right, assoc; } ${te_persist.link_type_name};
 .end if
 
 typedef struct {

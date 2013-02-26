@@ -220,8 +220,6 @@
   .assign printf = "NU_printf"
 .end if
 .assign inst_id_in_handle = ""
-.assign link_type_name = ""
-.assign link_type_type = ""
 .//
 .invoke persist_check_mark = GetPersistentCheckMarkPostName()
 .//
@@ -275,9 +273,6 @@
   .invoke r = PersistentClassUnion( active_te_cs )
   .assign persist_class_union = r.result
   .invoke persist_post_link = GetPersistentPostLinkName()
-  .invoke persist_link_info = PersistLinkType()
-  .assign link_type_name = persist_link_info.name
-  .assign link_type_type = persist_link_info.type
   .assign inst_id_in_handle = "  ${te_persist.dirty_type} ${te_persist.dirty_name};\n"
   .include "${te_file.arc_path}/t.sys_persist.c"
   .emit to file "${te_file.system_source_path}/${te_file.persist}.${te_file.src_file_ext}"

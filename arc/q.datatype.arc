@@ -81,16 +81,6 @@
 .end function
 .//
 .//============================================================================
-.// Return the structure type for persistent links.
-.//============================================================================
-.function PersistLinkType
-  .select any te_prefix from instances of TE_PREFIX
-  .select any te_persist from instances of TE_PERSIST
-  .assign attr_type = "struct { ${te_persist.instid_type} owner, left, right, assoc; }"
-  .assign attr_name = te_prefix.type + "link_t"
-.end function
-.//
-.//============================================================================
 .// Map a user defined data types precision into its corresponding instance
 .// of Data Type (S_DT).
 .// Note:  Might prefer POSIX type support here, but doubt we can count
