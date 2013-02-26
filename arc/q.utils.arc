@@ -7,24 +7,24 @@
 .//====================================================================
 .//
 .function gen_parameter_list
-  .param inst_ref_set parameters
+  .param inst_ref_set v_pars
   .param boolean prefix_param_delimiter
   .param string invocation_flavor
   .//
   .assign attr_OAL = ""
-  .if ( not_empty parameters )
+  .if ( not_empty v_pars )
     .select any te_string from instances of TE_STRING
-    .invoke SortSetAlphabeticallyByNameAttr( parameters )
-    .assign item_count = cardinality parameters
+    .invoke SortSetAlphabeticallyByNameAttr( v_pars )
+    .assign item_count = cardinality v_pars
     .assign item_number = 0
     .assign param_delimiter = ""
     .if(prefix_param_delimiter)
       .assign param_delimiter = ","
     .end if
     .while ( item_number < item_count )
-      .for each parameter in parameters
-        .if ( parameter.Order == item_number )
-          .select one v_val related by parameter->V_VAL[R800]
+      .for each v_par in v_pars
+        .if ( v_par.Order == item_number )
+          .select one v_val related by v_par->V_VAL[R800]
           .select one te_val related by v_val->TE_VAL[R2040]
           .assign attr_OAL = ( attr_OAL + param_delimiter ) + te_val.OAL
           .if ( "" == te_val.buffer )
@@ -37,7 +37,7 @@ ${param_delimiter}\
           .// If so, declare a variable in this scope to hold the return string.
           .// Do so by traversing to the te_blk instance to add the declaration.
           .assign stringbody = false
-          .select one te_par related by parameter->TE_PAR[R2063]
+          .select one te_par related by v_par->TE_PAR[R2063]
           .if ( 0 == te_par.By_Ref )
             .select one te_dt related by v_val->S_DT[R820]->TE_DT[R2021]
             .if ( 4 == te_dt.Core_Typ )
