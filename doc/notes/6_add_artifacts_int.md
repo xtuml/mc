@@ -1,11 +1,11 @@
 ---
 
-Copyright 2012-2013 xtUML.org
+Copyright 2012-2013 Mentor Graphics Corp.  All Rights Reserved. 
 
 ---
 
-xtUML Project Implementation Note  
-Add additional mc artifacts  
+# Add additional mc artifacts  
+### xtUML Project Implementation Note  
 
 
 1. Abstract
