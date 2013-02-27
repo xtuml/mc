@@ -1,0 +1,2045 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<chapter id="Marking-chapter">
+<title id="Marking-chapter-title">Marking</title>
+<highlights id="Marking-chapter-high"><para>&escher; provides
+a rich set of ``knobs and dials'' that can be spun to optimize
+and customize the code generation process.  This chapter
+gives instructions on the use of these marking parameters.</para></highlights>
+
+<para>Formerly termed "coloring", <emphasis>marking</emphasis>
+is the primary means of steering and controlling the
+code generation process.  When there is more than one software
+architecture element into which an xtUML element can be translated,
+<emphasis>marks</emphasis> are used to indicate which translation
+to make.  The name ``mark'' comes from the visualization of using
+a highlighter pen to mark each element that has a particular
+property.  Marks are used to direct the translation to select one
+of two or more branches in the translation rules.  It is through
+marking that design decisions are injected during the translation
+process.</para>
+
+<para>An example of the type of design information that is
+specified through marking is the mapping of analysis data types
+into implementation (e.g., C) data types.  This is
+information that does not belong in either the xtUML models or the
+model compiler itself.</para>
+
+<section id="Marking-How-section">
+  <title id="Marking-How-section-title">How &escher; Provides for Marking</title>
+  <highlights><para>Marking capability can be provided in many
+  different ways.  In &escher; marking input is communicated to the
+  model compiler through marking files read during
+  translation.  Other marking input is provided through key words
+  placed in artifact descriptions with &bpmb;.
+  Marking input steers the code generation by
+  selecting between alternatives during code
+  generation.</para></highlights>
+  
+  <para>Some marking is mandatory; some marking is optional.  In the
+  case of optional marking, the model compiler will assume reasonable
+  defaults.  In the case of mandatory marking, the model compiler is
+  not capable of divining the intent of the user and will abort the
+  translation.</para>
+  
+  <section>
+    <title>Bridge Marking</title>
+    The <filename>bridge.mark</filename> is used to mark interrupt functions.
+    
+    <section>
+      <title>Marking a Bridge Safe for Interrupt Invocation</title>
+      <para>&escher; allows functions
+      to be marked as
+      callable from interrupt handlers or other asynchronous
+      sources (such as other tasks, signal handlers, etc).
+      Functions
+      marked here will generate a short stub interface
+      that will defer execution of the function to be between
+      dispatched state actions.  When a function marked
+      as safe for interrupts is invoked, its action body is
+      posted to a queue for dispatch after any currently running
+      state action completes.  This guarantees architecture
+      data mechanism integrity while maintaining application data
+      access set consistency.</para>
+      <para>Functions marked safe for interrupts
+      cannot return data.  They must be of return type void.
+      However, core data type data
+      can be passed into these functions.
+      Such data is packaged safely at interrupt level and then
+      unpacked during function execution.</para>
+      <para>To indicate to the model compiler that a
+      function
+      may be invoked in a manner safe for
+      invocation from an interrupt handler or other asynchronous
+      activation (one for each function):
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagSyncServiceSafeForInterrupts</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      <paramdef>string <parameter>"function"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        xtUML component name</para></listitem></varlistentry>
+        <varlistentry><term>function</term><listitem><para>is
+        name of the function being tagged
+        as safe for calling.</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Tagging Interrupt Bridges</title>
+        <programlisting>
+.invoke TagSyncServiceSafeForInterrupts( "ILB", "kick_start" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Enabling/Disabling Interrupts</title>
+      <para>To protect data structures for Interrupt Safe Bridges,
+      interrupts are disabled for a very few instructions.
+      The method of disabling interrupts varies from target to
+      target and from compiler to compiler.  Therefore, the
+      responsibility of defining the specific flavor of EI/DI
+      instruction is left to the user.  The marking functions
+      <function>UserEnableInterrupts</function> and
+      <function>UserDisableInterrupts</function> are
+      are provided for specifying the specific way interrupts
+      are enabled and disabled with your specific target.</para>
+      <para>To define the instruction sequence for enabling
+      and disabling interrupts, edit the system-level user
+      defined rule file <filename>sys_functions.arc</filename>.
+      </para>
+    </section>
+    
+    <section>
+      <title>Bit Fields</title>
+      <para>Bit fields provide a means of packing many small
+      value attributes into single words of computer storage.
+      &escher; allows attributes to be stored as bit fields
+      in ANSI C structs.</para>
+      <para>Attributes are marked with &bpmb;.  The string
+      BIT_WIDTH: n is placed within a comment as the first line
+      of the attribute description.  ``n'' is the width in
+      bits required to store the attribute.</para>
+      <para>It should be understood that bit fields are
+      inherently somewhat less portable than most other
+      ANSI C constructs.  Dependence upon ``Endian-ness'',
+      memory models and other compiler/target implementation
+      specifics is not uncommon.  Use bit fields with care.</para>
+      <para>The maximum width for a bit field member attribute
+      is 16 bits.  Bit field members are of type unsigned int.</para>
+    </section>
+    
+    <section>
+      <title>Fixing Class Extents</title>
+      <para>&escher; provides a means of establishing the base
+      memory address of class instance collections (extents).
+      Within &bpmb; the string
+      BASE_ADDRESS: n is placed within a comment as the first
+      line of the class description.  ``n'' is the memory
+      address anchoring the start of the collection of class
+      instances.</para>
+      <para>Two user defined rule file functions at the system-level 
+      define how this number (``n'') will appear in the generated
+      code.  One function (<function>UserFixExtentBaseBegin</function>)
+      is used to insert code before the definition of the class
+      instance collection memory.  Another function
+      (<function>UserFixExtentBaseEnd</function>) is used to 
+      insert code directly after the data definition.  This
+      combination of functions will allow a <command>pragma</command>
+      around the data definition.</para>
+      <para>To define the instruction sequence for fixing the
+      class extent, edit the system-level user
+      defined rule file <filename>sys_functions.arc</filename>.
+      </para>
+    </section>
+
+  </section>
+  
+  <section>
+    <title>Specifying Data Types, Precision and Enumerators</title>
+    <para>&bp; allows the user to define special data
+    types.  Marking is used to define the precision of these data
+    types.  This is particularly useful to reduce the storage
+    (say from 16 or 32 bits to 8 bits) of class attributes when
+    the ranges of the attributes are known to be limited.
+    User defined types which are also enumerations are included
+    in the category of types that can be controlled.
+    The <filename>datatype.mark</filename> provides the means
+    for specifying these data type specializations.</para>
+    
+    <para>Note that core types can be marked with this function as
+    well as user defined types (UDTs).  For example, the core type real
+    can be marked to generate "double" precision.</para>
+
+    <para>The return data type for bridges and operations
+    can be user defined data types.  Empty operations can be
+    used as a sort of variable declaration in conjunction with
+    UDT precision tagging.</para>
+
+    <section>
+      <title>Tagging Precision</title>
+      <para>Mark <function>TagDataTypePrecision</function> may only be
+      used for application analysis data types which are derived from
+      either &bp; core data types of <type>integer</type> or
+      <type>real</type>.
+      Also, user defined types that are enumerations
+      can be marked.  Such data will have core data type
+      <type>string</type>, but will serve as integers.
+      Attempting to use this mark with any other
+      core data type will result in a fatal marking error
+      (translation aborted).  This restriction applies equally to
+      both component specific and system wide use of this mark.</para>
+      <para>Precision tag  <parameter>tagged_name</parameter> may be
+      any standard C/C++ integer or real variable type.  For
+      example, <type>unsigned char</type>, <type>long long</type>,
+      <type>double</type>, etc.  POSIX types are also accepted, such
+      as <type>uchar_t</type>, <type>ulong_t</type>, etc.</para>
+      <para>When an analysis class is instantiated, the default is
+      to initialize attributes of core type <type>integer</type> to
+      0, and attributes of core type <type>real</type> to 0.0
+      (declared as code type <type>float</type>).  Tag
+       <parameter>initial_value</parameter> may be used to re-define
+      the default initialization value.</para>
+      <para>Casting may be used in the tag, such as
+       <parameter>"(unsigned)EACCESS"</parameter>, but should be used
+      only with careful system level discretion.</para>
+      <para>No translation time error checking is performed on
+       <parameter>initial_value</parameter>.  Bogus tags such as
+       <parameter>"@*#$"</parameter> will only be caught during
+      compilation.</para>
+      <para>Invoke <function>TagDataTypePrecision</function> to
+      indicate to the model compiler the precision of a user defined
+      data type.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagDataTypePrecision</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      <paramdef>string <parameter>"dt_name"</parameter></paramdef>
+      <paramdef>string <parameter>"tagged_name"</parameter></paramdef>
+      <paramdef>string <parameter>"initial_value"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        component name (Use ``*'' to indicate a system wide data type to
+        be applied to all components containing the user data
+        type.)</para></listitem></varlistentry>
+        <varlistentry><term>dt_name</term><listitem><para>name of the
+        data type as known in the application
+        analysis</para></listitem></varlistentry>
+        <varlistentry><term>tagged_name</term><listitem><para>name of
+        the data type as known in generated implementation code
+        (e.g. the precision of the data
+        type)</para></listitem></varlistentry>
+        <varlistentry><term>initial_value</term><listitem><para>
+        optional specification of the default value for the data
+        type (Use "" for the architectural default (e.g. 0 for
+        integer, 0.0 for real.)</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Data Type Precision</title>
+        <programlisting>
+.invoke TagDataTypePrecision( "MyDom", "Octet", "uchar_t", "" )
+.invoke TagDataTypePrecision( "MyDom", "FunkyReal", "double", "666.999" )
+.invoke TagDataTypePrecision( "*", "SysWideLong", "long int", "-1" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+  
+    <section>
+      <title>Mapping Pointer Types</title>
+      <para>To allow for pointer reference to arbitrarily shaped
+      masses of data, user-defined data types can be implemented
+      as pointers.  After marking a UDT as a pointer, the pointer
+      typed data can be passed into and returned from operation
+      and bridge operations.
+      Marking is used to tag pointer types.
+      The <filename>datatype.mark</filename> provides the means
+      for specifying these pointer data type specializations.</para>
+    
+      <para>Invoke <function>MapDataTypeAsPointer</function> to
+      indicate to the model compiler that a user defined
+      data type shall be implemented as a pointer.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MapDataTypeAsPointer</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      <paramdef>string <parameter>"dt_name"</parameter></paramdef>
+      <paramdef>string <parameter>"pointer_type"</parameter></paramdef>
+      <paramdef>string <parameter>"include_file"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        component name (Use ``*'' to indicate a system wide data type to
+        be applied to all components containing the user data
+        type.)</para></listitem></varlistentry>
+        <varlistentry><term>dt_name</term><listitem><para>name of the
+        data type as known in the application
+        analysis</para></listitem></varlistentry>
+        <varlistentry><term>pointer_type</term><listitem><para>name of
+        the pointer data type as known in generated implementation code.
+        </para></listitem></varlistentry>
+        <varlistentry><term>include_file</term><listitem><para>
+        optional include file which declares the implementation type
+        of `pointer_type'.</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Mapping Pointer Types</title>
+        <programlisting>
+.invoke MapDataTypeAsPointer( "MyDom", "DataPacket", "char", "" )
+.invoke MapDataTypeAsPointer( "DomA", "AcmeType", "SomeStruct_t", "legacy.h" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section id="SpecifyingUnitialized-section">
+      <title id="SpecifyingUnitialized-section-title">Specifying Uninitialized Enumerators</title>
+      <para>In analysis models, enumerated types defined within &bpmb;
+      (using the Data Type editor available in BP5.0+) have no initial
+      (uninitialized) value.  With marking, it is possible to
+      explicity define this value for uninitialized enumeration
+      variables.  The <filename>datatype.mark</filename> provides the
+      means for specifying this starting value.</para>
+
+      <para>To indicate to the software architecture that the
+      uninitialized enumerator of an enumeration
+      shall have a value other than the default, use the following
+      invocation:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagUninitializedEnumerationValue</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      <paramdef>string <parameter>"enumeration"</parameter></paramdef>
+      <paramdef>string <parameter>"value"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        component name (Use ``*'' to indicate a system wide data type to
+        be applied to all components containing the enumeration data
+        type.)</para></listitem></varlistentry>
+        <varlistentry><term>enumeration</term><listitem><para>is the
+        name of the enumration data type as known in the application
+        analysis.  Use ``*'' to indicate <emphasis>all</emphasis>
+        enumerations in a component or system wide.</para></listitem></varlistentry>
+        <varlistentry><term>value</term><listitem><para>a string
+        containing the value to be assigned to the unitialized
+        enumerator</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Specifying a Value for the Default Uninitialized Enumerator</title>
+        <para>
+        Domain specific:
+        <programlisting>
+.invoke TagUninitializedEnumerationValue( "MO", "wattage", "4" )
+        </programlisting>
+        All Enumerations in Domain:
+        <programlisting>
+.invoke TagUninitializedEnumerationValue( "MO", "*", "0x40" )
+        </programlisting>
+        System Wide:
+        <programlisting>
+.invoke TagUninitializedEnumerationValue( "*", "wattage", "0x20" )
+        </programlisting>
+        All Enumerations in All Domains:
+        <programlisting>
+.invoke TagUninitializedEnumerationValue( "*", "*", "100" )
+        </programlisting>
+        </para>
+      </example>
+      </para>
+    </section>
+
+    <section id="SpecifyingEnumValues-section">
+      <title id="SpecifyingEnumValues-section-title">Specifying Values for Enumerators</title>
+      <para>In some target environments, it may be desirable to
+      select the integer values of the individual enumerators in
+      an enumeration.  &escher; enables the assigning of discrete
+      values to one or more of the enumerators in an enumeration.
+      </para>
+
+      <para>Invoke <function>TagEnumeratorDiscreteValue</function> to
+      indicate to the model compiler that a user defined enumeration data
+      type enumerator shall have a value other than the
+      default.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagEnumeratorDiscreteValue</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      <paramdef>string <parameter>"enumeration"</parameter></paramdef>
+      <paramdef>string <parameter>"enumerator"</parameter></paramdef>
+      <paramdef>string <parameter>"value"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        component name (Use ``*'' to indicate a system wide data type to
+        be applied to all components containing the enumeration data
+        type.)</para></listitem></varlistentry>
+        <varlistentry><term>enumeration</term><listitem><para>is the
+        name of the enumration data type as known in the application
+        analysis.  Use ``*'' to indicate <emphasis>all</emphasis>
+        enumerations in a component or system wide.</para></listitem></varlistentry>
+        <varlistentry><term>value</term><listitem><para>a string
+        containing the value to be assigned to the specified
+        enumerator</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Specifying Enumerator Values</title>
+        <para>
+        Domain specific:
+        <programlisting>
+.invoke TagEnumeratorDiscreteValue( "MO", "wattage", "low", "4" )
+.invoke TagEnumeratorDiscreteValue( "MO", "wattage", "med", "0x20" )
+        </programlisting>
+System Wide:
+        <programlisting>
+.invoke TagEnumeratorDiscreteValue( "*", "wattage", "high", "0x40" )
+        </programlisting>
+        </para>
+      </example>
+      </para>
+    </section>
+
+  </section>
+  
+  <section>
+    <title>System Level Marks</title>
+    <para>There are characteristics of the system as a whole that
+    may need to be controlled during translation.  Several
+    constants define resource allocation and generation constraints.
+    Some constants allow for ``tweaking'' the system to obtain
+    optimal performance in terms of size or speed.  These 
+    constants can be marked as the system architect desires.</para>
+    <para>
+    <filename>system.mark</filename> provides the means for specifying
+    these system constants.</para>
+    
+    <para>Within system marking, the flavor of collection
+    containers can be specified.  Different collection flavors
+    provide optimizations for space or speed.</para>
+    
+    <section id="Marking-SystemConfigurationPackage-section">
+      <title id="Marking-SystemConfigurationPackage-section-title">Specifying a System Build Configuration</title>
+        <para>&escher; allows the user to select a package of components
+        to be used when generating the code for the model.  Such a package
+        is called a "system configuration".</para>
+        <para>A model may contain more components than are needed/required
+        for a particular working configuration of a system.  Often a model
+        will include additional components used for testing.  A user may
+        want multiple versions of components.</para>
+        <para>To assemble a system
+        configuration in &bp;, the user builds a component diagram in a
+        package from component references and wires them together as
+        desired.  Multiple system configurations packages may exist.
+        Each configuration can be different and use only a subset of
+        the components defined in the model.</para>
+        <para>When a component package is marked as the system
+        configuration, code will be generated for components contained in
+        this package and referred to from this package.
+        Components <emphasis>not</emphasis> contained in this package
+        and <emphasis>not</emphasis> referred to from this package will
+        be excluded from code generation.</para>
+    
+      <para>To mark a package as containing the system configuration:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkSystemConfigurationPackage</function></funcdef>
+      <paramdef>string <parameter>system_package</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameter(s) are:
+      
+      <variablelist>
+        <varlistentry><term>system_package</term><listitem><para>is the
+        name of the package containing the components wired together for
+        a system build.
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Marking the System Configuration Package</title>
+        <programlisting>
+.invoke MarkSystemConfigurationPackage( "system1" )
+.invoke MarkSystemConfigurationPackage( "system2" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+    <section id="Marking-EnablingTasking-section">
+      <title id="Marking-EnablingTasking-section-title">Enabling Multi-Tasking</title>
+        <para>&escher; provides for tasking/threading using the
+        capabilities of the target operating system (OS) or real-time
+        operating system (RTOS).  An example of an RTOS is the Nucleus
+        PLUS real-time operating system.  </para>
+        <para>To cause &escher; to generate multi-tasking/threading code,
+        invoke the following marking function.  Pass it arguments that
+        specify the type of multi-tasking environment and whether or not
+        to serialize all action processing (across all tasks).</para>
+      <para>To enable tasking in the generated system:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>EnableTasking</function></funcdef>
+      <paramdef>string <parameter>flavor</parameter></paramdef>
+      <paramdef>string <parameter>serialization</parameter></paramdef>
+      <paramdef>integer <parameter>tasks</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>flavor</term><listitem><para>is the
+        type of tasking environment being integrated ("POSIX", "Nucleus",
+        "Windows" or "SystemC").
+        </para></listitem></varlistentry>
+        <varlistentry><term>serialization</term><listitem><para>is set
+        to "serialize" to force all action across all tasks to be run
+        sequentially.  Note that serializing the action processing
+        reduces data access contention, but can severely reduce the 
+        multi-tasking performance of the generated system.
+        </para></listitem></varlistentry>
+        <varlistentry><term>tasks</term><listitem><para>is the
+        number of tasks/threads in the xtUML generated system.
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Enabling Tasking/Threading</title>
+        <programlisting>
+.invoke EnableTasking( "Nucleus", "", 4 )
+.invoke EnableTasking( "POSIX", "serialize", 2 )
+.invoke EnableTasking( "Windows", "", 3 )
+.invoke EnableTasking( "SystemC", "", 1 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+    <section id="Marking-TaskPriority-section">
+      <title>Establishing Multi-Task Priority</title>
+        <para>Some flavors of tasking/threading allow for differing
+        execution priorities of tasks or threads.
+        &escher; allows the priorities of tasks to be set through
+        marking.
+        In systems that support explicit prioritization of tasks,
+        each task (of the number specified in
+        <function>EnableTasking</function>) can
+        have a priority assigned.  Use the following marking function
+        to set the priority for each task.</para>
+      <para>To specify the priorities of tasks/threads:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>SetTaskPriority</function></funcdef>
+      <paramdef>integer <parameter>task_number</parameter></paramdef>
+      <paramdef>string <parameter>priority</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>task_number</term><listitem><para>is the
+        number of the task starting with zero and going to one less
+        than the number specified in <function>EnableTasking</function>.
+        </para></listitem></varlistentry>
+        <varlistentry><term>priority</term><listitem><para>is a string
+        representing the priority level of the task.  The string type
+        of this argument allows for symbolic as well as numeric
+        representation of task priority.  This representation will be a
+        function of the tasking environment being integrated.
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Setting Task/Thread Priority</title>
+        <programlisting>
+.invoke SetTaskPriority( 0, "100" )
+.invoke SetTaskPriority( 3, "high" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Maximum String Size</title>
+      <para>&escher; tries to use relatively safe methods of
+      manipulating strings.  The ``n'' library functions are used
+      (<function>strncpy, strncpy, strncat</function>) rather than
+      their more dangerous (as regards buffer overruns) counterparts.</para>
+      <para>To specify the maximum length of a string in the system:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagMaximumStringLength</function></funcdef>
+      <paramdef>integer <parameter>max_len</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>max_len</term><listitem><para>is the
+        longest string that will be manipulated by the system.
+        Truncation will occur beyond this length.
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Defining String Length</title>
+        <programlisting>
+.invoke TagMaximumStringLength( 16 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Controlling Collection Sizes</title>
+      <para>Sets of instances are collected for various AL
+      operations.  Relationships with multiplicity MANY require
+      set container mechanisms at the implementation level to
+      manage the collection of related instances.  The maximum
+      number of instances allowed in such collections can be
+      controlled with a mark.</para>
+      <para>To specify the maximum ``relationship extent'' size
+      in the system:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagMaximumRelationshipExtentSize</function></funcdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>value</term><listitem><para>represents
+        the highest number of instances allowed in a MANY
+        relationship.</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Max Relationship Extent</title>
+        <programlisting>
+.invoke TagMaximumRelationshipExtentSize( 8 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Managing Selection Collections</title>
+      <para>Another operation requiring set manipulation is a
+      selection (SELECT MANY) that may result in a collection of multiple
+      instances.</para>
+      <para>To specify the maximum ``selections extent'' size
+      in the system:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagMaximumSelectionExtentSize</function></funcdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>value</term><listitem><para>represents
+        number of containers that will be pre-allocated for AL
+        SELECT statements.</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Max Selections Extent</title>
+        <programlisting>
+.invoke TagMaximumSelectionExtentSize( 12 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section>
+      <title>Changing the Flavor of Collections</title>
+      <para>Collections are maintained with a mechanism of one type
+      or another.  With this mark, the type desired for a particular
+      translation can be specified.  The default is singly linked list
+      container nodes.  Doubly linked list containers can be selected
+      as flavor 20.  Doubly linked lists allow for faster deletion of
+      instances in exchange for an additional pointer size (for ``prev'')
+      per container in the system.</para>
+      <para>To specify the flavor of the collection nodes:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagCollectionsFlavor</function></funcdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>value</term><listitem><para>a numerical
+        representation of a specific type and strategy of collections
+        container.</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Collection Node Type Selection</title>
+        <programlisting>
+.invoke TagCollectionsFlavor( 20 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section>
+      <title>Limiting/Extending Event Queues</title>
+      <para>&escher; attempts to dynamically calculate reasonable
+      and safe values for queue depths within the event generation
+      and delivery mechanism.  However, for optimization purposes
+      the user may wish to override these values.</para>
+      <para>To override the compiler calculated maximum queue
+      depth for the self directed event queue:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagMaximumSelfDirectedEvents</function></funcdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>value</term><listitem><para>which
+        is the hard-coded depth of the self-directed event queue.
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Self-Directed Queue Depth</title>
+        <programlisting>
+.invoke TagMaximumSelfDirectedEvents( 3 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section>
+      <title>Limiting/Extending NonSelf Queue</title>
+      <para>To override the compiler calculated maximum queue
+      depth for the instance directed event queue:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagMaximumNonSelfDirectedEvents</function></funcdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>value</term><listitem><para>which
+        is the hard-coded depth of the non- self-directed event queue.
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Instance Directed Queue Depth</title>
+        <programlisting>
+.invoke TagMaximumNonSelfDirectedEvents( 5 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section>
+      <title>Timer Queue</title>
+      <para>A mark is provided so the system analyst can direct
+      the model compiler to increase or decrease the timer queue
+      used to manage multiple pending xtUML timers (delayed events).
+      To override the compiler calculated queue
+      depth for pending xtUML timers:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagMaximumPendingOoaTimers</function></funcdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>value</term><listitem><para>represents
+        is the hard-coded maximum number of timers that may be pending
+        expiration at any point in time.</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Pending xtUML Timers</title>
+        <programlisting>
+.invoke TagMaximumPendingOoaTimers( 6 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section>
+      <title>Interleaved Bridges</title>
+      <para>Use this mark to expand or reduce the depth of the queue used
+      to interleave ``asynchronous'' bridge operations between state
+      actions.  The default will be a system divined value that should
+      be relatively safe in most cases.</para>
+      <para>To hard-code the depth of the interleaved bridges queue:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagMaximumInterleavedBridges</function></funcdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>value</term><listitem><para>represents
+        the maximum queue depth for safe bridge operations that
+        are interleaved between state actions (to maintain data access
+        set consistency).</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Interleaved Bridges Queue Depth</title>
+        <programlisting>
+.invoke TagMaximumInterleavedBridges( 4 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section>
+      <title>Interleaved Bridge Data</title>
+      <para>Use this mark to define how many bytes of argument data
+      come in across an interleaved bridge operation.  The default is 8.
+      </para>
+      <para>To hard-code the width of the interleaved bridge argument path:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagInterleavedBridgeDataSize</function></funcdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>value</term><listitem><para>represents
+        the maximum number of bytes of arguments that an interleaved
+        bridge may receive during an invocation.
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Interleaved Bridge Argument Data</title>
+        <programlisting>
+.invoke TagInterleavedBridgeDataSize( 2 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+   
+
+    <section id="PeristenceCacheDepth-section">
+      <title id="PeristenceCacheDepth-section-title">Marking Persistence Cache Queue Depth</title>
+      <para>This mark is used to specify the maximum number of instances and
+      links that can be queued waiting to be flushed to non-volatile
+      storage (NVS).  As instances and links become "dirty" they get
+      queued to NVS.  When PERSIST::Commit is called these queues are flushed.
+      </para>
+      <para>To change the default depth (128) to something different:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkPersistenceCacheDepth</function></funcdef>
+      <paramdef>integer <parameter>instance_depth</parameter></paramdef>
+      <paramdef>integer <parameter>link_depth</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+
+      Where the argument:
+
+      <variablelist>
+        <varlistentry><term>instance_depth</term><listitem><para>is
+        the number of instances that can be queued waiting to be flushed
+        to non-volatile storage (NVS).
+        </para></listitem></varlistentry>
+        <varlistentry><term>link_depth</term><listitem><para>is
+        the number of links that can be queued waiting to be flushed
+        to non-volatile storage (NVS).
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Changing Persistence Cache Queue Depth</title>
+        <para>
+        <programlisting>.invoke MarkPersistenceCacheDepth( 16, 32 )</programlisting>
+        <programlisting>.invoke MarkPersistenceCacheDepth( 1000, 500 )</programlisting>
+        </para>
+      </example>
+      </para>
+    </section>
+
+    <section id="DynamicMemoryAllocation-section">
+      <title id="DynamicMemoryAllocation-section-title">Marking Dynamic Memory Allocation On</title>
+      <para>By default, &escher; statically allocates instance data and 
+      all mechanistic collection containers.  This is great for many deeply 
+      embedded applications.  However, some applications require the 
+      flexibility of dynamically allocated storage.  In such an application, 
+      the number of instances of elements from the xtUML model file is not
+      predictable.  Here, the application needs to be able to
+      allocate more memory when the statically allocated memory runs out.
+      </para>
+    
+      <para>To turn on and use dynamic memory allocation:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>TagDynamicMemoryAllocationOn</function></funcdef>
+      <paramdef>integer <parameter>additional_instances</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+
+      Where the argument:
+
+      <variablelist>
+        <varlistentry><term>additional_instances</term><listitem><para>is
+        the number of additional instances to allocate each time space for
+        new instances runs out.</para></listitem></varlistentry>
+      </variablelist>
+
+      <example>
+        <title>Using Dynamic Memory Allocation</title>
+        <para>
+        <programlisting>.invoke TagDynamicMemoryAllocationOn( 2 );</programlisting>
+        </para>
+      </example>
+      </para>
+
+      <para>When dynamic memory allocation is marked off, system 
+      user callout functions are called when a request is made to allocate 
+      resources beyond what is statically available.</para>
+
+      <para>When dynamic memory allocation is marked on, the files
+      <filename>sys_memory.h</filename> and <filename>sys_memory.c</filename>
+      are generated.  <filename>sys_memory.h</filename> contains the
+      <constant>#define ROX_MALLOC_HEAP_SIZE</constant> which allows you 
+      to control how much of the heap is available to your application
+      for consumption.</para>
+    </section>
+	
+    <section id="SystemC-section">
+      <title id="SystemC-section-title">SystemC-specific Markings</title>
+        <section id="SystemC-PortType-section">
+          <title id="SystemC-PortType-section-title">Mark Port Type</title>
+          <para>By default, the SystemC model compiler generates basic 
+          <parameter>sc_interface</parameter> ports.  The tool also supports 
+          generating TLM ports as well as bit level signals.  All ports will be 
+          generated using the given value, so this marking function should 
+          be invoked only once in the marking file.  If the marking is invoked 
+          multiple times, the last one processed is used.
+          </para>
+    
+          <para>Specify the SystemC port type to generate:
+          <funcsynopsis>
+          <funcprototype>
+          <funcdef><function>MarkSystemCPortType</function></funcdef>
+          <paramdef>string <parameter>type</parameter></paramdef>
+          </funcprototype>
+          </funcsynopsis>
+
+          Where the argument:
+
+          <variablelist>
+            <varlistentry><term>type</term><listitem><para>Can be 
+            "sc_interface", "TLM", or "BitLevelSignals". Using 
+            "sc_interface" causes the code generator to create interface classes
+            that implement the interface using vanilla C++.  "TLM" causes the 
+            code generator to create interface classes that conform to the 
+            SystemC Transaction-Level Modeling paradigm.  TLM interfaces provide
+            a means to perform hardware and software module connection and 
+            coverification. Using "BitLevelSignals" causes the code generator to
+            create interfaces that correspond to hardware wires in an 
+            application model of hardware.  It also causes the generation of 
+            additional wires "clk"  and "rst_X" in components that represent 
+            hardware.</para>
+            </listitem></varlistentry>
+          </variablelist>
+
+          <example>
+            <title>Setting the Port Type</title>
+            <para>
+            <programlisting>.invoke MarkSystemCPortType( "sc_interface" );</programlisting>
+            <programlisting>.invoke MarkSystemCPortType( "TLM" );</programlisting>
+            <programlisting>.invoke MarkSystemCPortType( "BitLevelSignals" );</programlisting>
+            </para>
+          </example>
+          </para>
+        </section>
+        
+        <section id="SystemC-AllPortsPoly-section">
+          <title id="SystemC-AllPortsPoly-section-title">Mark All Ports Polymorphic</title>
+          <para>An interface port is said to be "polymorphic" when a component 
+          exposes (provides or requires) the same interface multiple times.  The
+          model compiler treats polymorphic and non-polymorphic ports 
+          differently.  It generates additional checks to resolve ambiguity when
+          messages are sent through polymorphic ports.
+          </para>
+    
+          <para>Specify the SystemC port type to generate:
+          <funcsynopsis>
+          <funcprototype>
+          <funcdef><function>MarkAllPortsPolymorphic</function></funcdef>
+          <void/>
+          </funcprototype>
+          </funcsynopsis>
+
+          No arguments.
+
+          <example>
+            <title>Treat All Ports as Polymorphic</title>
+            <para>
+            <programlisting>.invoke MarkAllPortsPolymorphic();</programlisting>
+            </para>
+          </example>
+          </para>
+        </section>
+
+        <section id="SystemC-ComponentAsChannel-section">
+          <title id="SystemC-ComponentAsChannel-section-title">Mark Component As Channel</title>
+          <para>The SystemC model compiler supports marking individual 
+          components as pre-defined SystemC channels.
+          </para>
+          
+          <para>Components that are marked as pre-defined channels have no 
+          internal behavior generated for them by the model compiler.  Instead, 
+          the implementation is expected to be provided by the referenced 
+          include file.</para>
+
+          <para>In components that make use of pre-defined channels, the channel
+          declaration is bypassed.  In addition, the binding of ports inside the
+          pre-defined channel is bypassed and components that use the 
+          pre-defined channel are bound to the pre-defined channel's name 
+          instead of the channel generated by the model compiler.</para>
+    
+          <para>Specify the component as a SystemC channel:
+          <funcsynopsis>
+          <funcprototype>
+          <funcdef><function>MarkAsChannel</function></funcdef>
+          <paramdef>string <parameter>package</parameter></paramdef>
+          <paramdef>string <parameter>component</parameter></paramdef>
+          <paramdef>string <parameter>include file</parameter></paramdef>
+          </funcprototype>
+          </funcsynopsis>
+
+          Where the arguments:
+
+          <variablelist>
+            <varlistentry><term>package</term><listitem><para>name of the 
+            package being marked</para></listitem></varlistentry>
+            <varlistentry><term>component</term><listitem><para>name of the 
+            component (domain) being marked</para></listitem></varlistentry>
+            <varlistentry><term>include file</term><listitem><para>name of the 
+            include file containing the channel's implementation</para>
+            </listitem></varlistentry>
+          </variablelist>
+
+          <example>
+            <title>Marking a Component as a Channel</title>
+            <para>
+            <programlisting>.invoke MarkAsChannel( "*", "wait_hs", "my_channel.h" );</programlisting>
+            </para>
+          </example>
+          </para>
+        </section>
+
+        <section id="SystemC-InterfacePrefix-section">
+          <title id="SystemC-InterfacePrefix-section-title">Mark Interface Prefix</title>
+          <para>The SystemC model compiler supports adding a prefix to the 
+          generated names of provided ports, required ports, and channels.  Use 
+          this marking to set these prefixes on all elements of these types.
+          </para>
+              
+          <para>Specify the prefixes to use on interface elements:
+          <funcsynopsis>
+          <funcprototype>
+          <funcdef><function>MarkInterfacePrefix</function></funcdef>
+          <paramdef>string <parameter>provided_port</parameter></paramdef>
+          <paramdef>string <parameter>required_port</parameter></paramdef>
+          <paramdef>string <parameter>channel</parameter></paramdef>
+          </funcprototype>
+          </funcsynopsis>
+
+          Where the arguments:
+
+          <variablelist>
+            <varlistentry><term>provided_port</term><listitem><para>text to add 
+            as a prefix on provided port generated names</para></listitem>
+            </varlistentry>
+            <varlistentry><term>required_port</term><listitem><para>text to add 
+            as a prefix on required port generated names</para></listitem>
+            </varlistentry>
+            <varlistentry><term>channel</term><listitem><para>text to add as a 
+            prefix on channel generated names </para></listitem></varlistentry>
+          </variablelist>
+
+          <example>
+            <title>Marking Interface Prefixes</title>
+            <para>
+            <programlisting>.invoke MarkInterfacePrefix( "proPort", "reqPort", "channel" );</programlisting>
+            </para>
+          </example>
+          </para>
+        </section>
+        
+        <section id="SystemC-CPPTemplate-section">
+          <title id="SystemC-CPPTemplate-section-title">C++ Template Feature</title>
+          <para>The SystemC model compiler supports marking components and 
+          interfaces as reusable paramterized C++ templates.</para>
+          
+          <para>To avoid ambiguity between components and component references, 
+          users must set the <parameter>ClassifierName</parameter> to a unique 
+          value in the element's Properties.  Also, be sure to name ports in a 
+          way that they can all be marked.  Do not reuse the same port name when
+          connecting to different interfaces.</para>
+
+          <para>Interface template parameters must be supplied with a default 
+          value which is used in the channel signal declarations.</para>
+
+          <para>Specify the template parameter information:
+          <funcsynopsis>
+          <funcprototype>
+          <funcdef><function>MarkComponentWithTemplate</function></funcdef>
+          <paramdef>string <parameter>package_name</parameter></paramdef>
+          <paramdef>string <parameter>component_name</parameter></paramdef>
+          </funcprototype>
+          </funcsynopsis>
+          <funcsynopsis>
+          <funcsynopsis>
+          <funcprototype>
+          <funcdef><function>MarkInterfaceWithTemplate</function></funcdef>
+          <paramdef>string <parameter>package_name</parameter></paramdef>
+          <paramdef>string <parameter>interface_name</parameter></paramdef>
+          </funcprototype>
+          </funcsynopsis>
+          <funcprototype>
+          <funcdef><function>AddTemplateParameter</function></funcdef>
+          <paramdef>string <parameter>package_name</parameter></paramdef>
+          <paramdef>string <parameter>component_name</parameter></paramdef>
+          <paramdef>string <parameter>type_name</parameter></paramdef>
+          <paramdef>string <parameter>variable_name</parameter></paramdef>
+          <paramdef>string <parameter>default_value</parameter></paramdef>
+          </funcprototype>
+          </funcsynopsis>
+          <funcsynopsis>
+          <funcprototype>
+          <funcdef><function>SetTPV</function></funcdef>
+          <paramdef>string <parameter>package_name</parameter></paramdef>
+          <paramdef>string <parameter>parent_component_name</parameter></paramdef>
+          <paramdef>string <parameter>component_name</parameter></paramdef>
+          <paramdef>string <parameter>classifier_name</parameter></paramdef>
+          <paramdef>string <parameter>port</parameter></paramdef>
+          <paramdef>string <parameter>variable_name</parameter></paramdef>
+          <paramdef>string <parameter>value</parameter></paramdef>
+          </funcprototype>
+          </funcsynopsis>
+
+          Where the arguments:
+
+          <variablelist>
+            <varlistentry><term>package_name</term><listitem><para>Name of the 
+            package being marked.</para></listitem></varlistentry>
+            <varlistentry><term>component_name</term><listitem><para>Name of the
+            component (domain) being marked.</para></listitem></varlistentry>
+            <varlistentry><term>interface_name</term><listitem><para>Name of the
+            interface being marked.</para></listitem></varlistentry>
+            <varlistentry><term>type_name</term><listitem><para>Type of the 
+            given parameterized variable.</para></listitem></varlistentry>
+            <varlistentry><term>variable_name</term><listitem><para>Name of the 
+            template variable being set.</para></listitem></varlistentry>
+            <varlistentry><term>default_value</term><listitem><para>Default type
+            to apply to the template variable. Interface template parameters 
+            must be supplied with a default value which is used in the channel 
+            signal declarations.</para></listitem>
+            </varlistentry>
+            <varlistentry><term>parent_component_name</term><listitem><para>Name
+            of the component package that is a child of the specified 
+            <parameter>package_name</parameter> and the parent of the specified 
+            <parameter>component_name</parameter>.  If 
+            <parameter>component_name</parameter> is a direct child of 
+            <parameter>package_name</parameter>, leave this field empty.  Only
+            use when an extra layer of nesting information must be supplied.
+            </para></listitem></varlistentry>
+            <varlistentry><term>classifier_name</term><listitem><para>Identifies
+            the unique instance of a component (a component reference) that is 
+            the target of the template parameter value (whether for the instance 
+            itself or for one of its ports).</para></listitem></varlistentry>
+            <varlistentry><term>port</term><listitem><para>Is only used when 
+            marking a template parameter value for the usage of an interface 
+            (port). If this parameter is empty, then the template parameter 
+            value will be applied to the component reference. If this parameter 
+            is not empty, then the template parameter value will be applied to 
+            the interface usage (port) found on the targeted component 
+            reference.</para></listitem></varlistentry>
+            <varlistentry><term>value</term><listitem><para>Type to apply
+            to the named template variable.</para></listitem></varlistentry>
+          </variablelist>
+
+          <example>
+            <title>Marking a template parameter</title>
+            <para>
+            <programlisting>
+.// for component reference:
+.invoke MarkComponentWithTemplate( "simtop", "wait_hs" )
+.invoke AddTemplateParameter( "simtop", "wait_hs", "class", "T", "rgb_t")
+.invoke SetTPV( "simtop", "", "wait_hs", "din", "", "T", "abc_t" )
+.invoke SetTPV( "simtop", "", "wait_hs", "din", "", "U", "xyz_t" )
+.// for interface reference:
+.invoke MarkInterfaceWithTemplate( "", "wait_out" )
+.invoke AddTemplateParameter( "", "wait_out", "class", "T", "rgb_t")
+.invoke SetTPV( "simtop", "", "filt_top", "i_filt_top", "din", "T", "my_t" )
+.invoke SetTPV( "simtop", "", "filt_top", "i_filt_top", "dout", "T", "int" )
+            </programlisting>
+            </para>
+          </example>
+          </para>
+        </section>
+        
+    </section>
+  </section>
+
+  <section>
+    <title>Component (Domain) Specializations</title>
+    <para>Within &escher; component level customizations can be
+    applied.  The marking file
+    <filename>domain.mark</filename> is the place to tag
+    the customizations.</para>
+
+    <section>
+      <title>Identifying Initialization Functions</title>
+      <para>Initialization functions provide the analyst a means
+      to specify preexisting instances for production
+      bring-up.  They also serves to set up test scenarios.
+      Domain functions also can be activated/deactivated with marking.
+      Through marking, specific initialization functions can be
+      chosen for system bring-up while others are marked (or erased
+      as the case may be) as not to be translated.</para>
+      <para>Marking a function for initialization does not change
+      the function.  The function remains available for invocation
+      by any of the action semantics that could normally call it.
+      If more than one function is tagged as an initialization function,
+      each will be invoked.  The order of invocation is alphabetical
+      by function name.</para>
+      <para>Identify a function in the component to be used as the an
+      initialization function by invoking the following rule file
+      function in the <filename>domain.mark</filename> marking file.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkInitializationFunction</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      <paramdef>string <parameter>"function_name"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component></term><listitem><para>is 
+        the name of the component (domain) containing the initialization
+        function.</para></listitem></varlistentry>
+        <varlistentry><term>function_name</term><listitem><para>is
+        the name of the function (synchronous service) to be
+        invoking during bring-up.
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Marking Initialization Functions</title>
+        <para>
+        <programlisting>
+.invoke MarkInitializationFunction( "*", "CreateAndPopulate" )
+.invoke MarkInitializationFunction( "SeatHeater", "test" )
+        </programlisting>
+        </para>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Identifying Initialization Objects</title>
+      <para>Initialization objects represent an obsolete 
+      means for the analyst to specify preexisting
+      instances for production bring-up.
+      All of the functionality of the obsolete
+      <function>TagInitializationObject</function>
+      is now provided in functions
+      which can be activated/deactivated and marked for initialization.
+      Use functions instead of initialization objects.
+      See <function>MarkInitializationFunction</function>.</para>
+    </section>
+    
+    <section>
+      <title>Excluding Classes</title>
+      <para>&escher; can be directed to skip code generation for
+      classes marked with the
+      <function>MarkExcludeObjectFromCodeGen</function>
+      invocation.  Combined with selective marking of initialization
+      functions, class exclusion allows for a simple method of
+      providing multiple bring-up scenarios.  Exclude a class from
+      code generation by marking it thusly:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkExcludeObjectFromCodeGen</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      <paramdef>string <parameter>"key_letters"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>name of 
+        component (domain) being marked</para></listitem></varlistentry>
+        <varlistentry><term>key_letters</term><listitem><para>key
+        letters of the excluded class</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Marking Excluded Classes</title>
+        <para>
+        <programlisting>
+.invoke MarkExcludeObjectFromCodeGen( "*", "TST_OBJ" )
+.invoke MarkExcludeObjectFromCodeGen( "MicrowaveOven", "Test" )
+        </programlisting>
+        </para>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Excluding Subsystems</title>
+      <para>To indicate to the model compiler that all classes
+      in a specified subsystem should be excluded from implementation
+      code generation, use the following invocation (one for each
+      excluded subsystem):
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkExcludeSubsystemFromCodeGen</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      <paramdef>string <parameter>"subsystem"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>name
+        of the component (domain) being marked</para></listitem>
+        </varlistentry>
+        <varlistentry><term>subsystem</term><listitem><para>name
+        of the excluded subsystem</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Tagging Excluded Subsystems</title>
+        <para>
+        <programlisting>
+.invoke MarkExcludeSubsystemFromCodeGen( "*", "MyVerifierUnitTests" )
+.invoke MarkExcludeSubsystemFromCodeGen( "GPS", "UI" )
+        </programlisting>
+        </para>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Disabling Function Translation</title>
+      <para>To indicate to the model compiler that the semantic
+      action of a function should not be translated, mark the
+      function with the <function>MarkFunctionTranslationOff</function>
+      marking function.  This is useful for selectively disabling
+      functions used to set up test scenarios.  This is also key
+      for disabling initialization functions after preexisting
+      instances have been created and saved in XML data.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkFunctionTranslationOff</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      <paramdef>string <parameter>"function_name"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>name
+        of the component being marked</para></listitem></varlistentry>
+        <varlistentry><term>function_name</term><listitem><para>name
+        of the excluded function (synchronous
+        service)</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Not Translating a Function</title>
+        <para>
+        <programlisting>
+.invoke MarkFunctionTranslationOff( "*", "CreateRelateInit" )
+.invoke MarkFunctionTranslationOff( "Test", "TestScenarioFive" )
+        </programlisting>
+        </para>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>State Transition Trace</title>
+      <para>To instruct the model compiler to generate
+      state transition tracing information, invoke the
+      following rule file function:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkStateTransitionTracingOn</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>name
+        of the component being marked</para></listitem></varlistentry>
+      </variablelist>
+
+      <example>
+        <title>Enabling State Transition Tracing</title>
+        <para>
+        <programlisting>
+.invoke MarkStateTransitionTracingOn( "*" )
+.invoke MarkStateTransitionTracingOn( "Location" )
+        </programlisting>
+        </para>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Action Language Trace</title>
+      <para>To instruct the model compiler to generate
+      tracing information at the action language statement
+      level, invoke the following rule file function:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkActionStatementTracingOn</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>name
+        of the component being marked</para></listitem></varlistentry>
+      </variablelist>
+
+      <example>
+        <title>Enabling Action Language Tracing</title>
+        <programlisting>
+.invoke MarkActionStatementTracingOn( "*" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Empty Handle Usage</title>
+      <para>It is possible to develop xtUML models that incorrectly attempt
+      to use instance reference variables that are empty (null).  This
+      can occur under several sets of circumstances.  For example,
+      selection across a conditional relationship chain may return
+      an empty instance reference or empty instance reference set.
+      Using such a reference without testing for empty can lead to
+      an invalid operation.  (&escher; does not enforce relationship
+      conditionality at model compilation time.)  It is possible
+      to build models that attempt to send events to empty instance
+      references, or relate or unrelate (link/unlink) instance when
+      one or both references are empty.</para>
+      <para>&escher; provides a markable debug option for detecting
+      and potentially recovering from such empty ``handle'' references.
+      To steer the model compiler into generating debug code that
+      detects the use of empty instance references and instance set
+      references (handles), invoke the following rule file function:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkEmptyHandleDetectionOn</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>name
+        of the component being marked</para></listitem></varlistentry>
+      </variablelist>
+
+      <example>
+        <title>Enabling Empty Reference Usage Detection</title>
+        <programlisting>
+.invoke MarkEmptyHandleDetectionOn( "*" )
+        </programlisting>
+      </example>
+      </para>
+      <para>&escher; will generate detection code and invoke a
+      macro when an improper handle usage is detected.  The
+      macro defaults to invocation of a user callout function,
+      <function>UserEmptyHandleDetectedCallout</function>.
+      The body of this callout function can be (re)defined by
+      the user.</para>
+    </section>
+    
+    <section>
+      <title>Disabling First Pass Optimizations</title>
+      <para>At times it is necessary to carefully study the
+      generated code.  This may be the case when enhancing or extending
+      the default functionality of &escher;.  Under such circumstances,
+      it may be desirable to see the code in its
+      <emphasis>un</emphasis>optimized format.  Note that &escher; has
+      several optimizations that eliminate unused code.  During design,
+      sometimes it is desirable to see what this unused code looks
+      like.  Using <function>MarkFirstPassOptimizationsOff()</function>,
+      it is possible to force &escher; to generate the code in its
+      unoptimized form.</para>
+      <para>
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkFirstPassOptimizationsOff</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>name
+        of the component being marked</para></listitem></varlistentry>
+      </variablelist>
+
+      <example>
+        <title>Forcing Generation Non-Optimal Code</title>
+        <programlisting>
+.invoke MarkFirstPassOptimizationsOff( "ship" )
+        </programlisting>
+      </example>
+      </para>
+      <para>&escher; will generate all code, even if it is
+      not expected to be executed during normal operation.</para>
+    </section>
+    
+    <section>
+      <title>Miscellaneous Domain Marking</title>
+      <para>Additional marking adjustments are available
+      in the <filename>domain.mark</filename> marking file.
+      Marking options that manipulate the style and appearance
+      of the generated code and that control optimizations
+      can be enabled.  See documentation in the marking file
+      for these detailed options.</para>
+      <para>Marking commands for these aesthetic purposes
+      include:
+      <itemizedlist>
+      <listitem><para>MarkStateActionCommentBlocksEnabled( component_name )</para></listitem>
+      <listitem><para>MarkStateActionStatementCommentsDisabled( component_name )</para></listitem>
+      <listitem><para>TagStateActionVariableNamesEnabled()</para></listitem>
+      <listitem><para>TagVerboseReflexivePhrasesEnabled()</para></listitem>
+      </itemizedlist>
+      </para>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>Class Specializations</title>
+    <para>&escher; provides several customizations that can be
+    selected on a class boundary.  The
+    <filename>class.mark</filename> provides the means for marking
+    these class specializations.</para>
+    
+    <section id="Marking-MappingClassesToTasks-section">
+      <title>Mapping Classes to Tasks/Threads</title>
+      <para>When running in a multi-tasking/threading environment
+        the user can cause the generated code for xtUML classes to
+        run in different tasks/threads.  This mappings is accomplished
+        using the <function>MarkClassToTask</function> marking function.
+        Note that mapping tightly coupled classes (where some classes
+        frequently access instance data of the other classes) to different
+        tasks can aggravate data synchronization issues.  Map closely
+        coupled classes to the same task.</para>
+        <para>To map a class or set of classes to a particular task number:
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkClassToTask</function></funcdef>
+      <paramdef>string <parameter>component</parameter></paramdef>
+      <paramdef>string <parameter>ss_name</parameter></paramdef>
+      <paramdef>string <parameter>class_key_letters</parameter></paramdef>
+      <paramdef>integer <parameter>task_number</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        name of component (domain) being marked 
+        </para></listitem></varlistentry>
+        <varlistentry><term>ss_name</term><listitem><para>
+        name of subsystem
+        </para></listitem></varlistentry>
+        <varlistentry><term>class_key_letters</term><listitem><para>
+        keyletters of the class being mapped
+        </para></listitem></varlistentry>
+        <varlistentry><term>task_number</term><listitem><para> is
+        the number (starting with 0) of the task to which the indicated
+        class (or classes) is assigned
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Mapping Classes to Tasks</title>
+        <programlisting>
+.// NOTES:
+.// (1) To map a specific class, use "" for "ss_name"
+.//     and provide the class key letters in "class_key_letters".
+.// (2) To map all classes in the subsystem to the given task, provide
+.//     the subsystem name for "ss_name" and "*" for the "class_key_letters".
+.// (3) To mark all classes in the component as mapped to a task, use "*"
+.//     for "ss_name" and "class_key_letters".
+.//
+.invoke MarkClassToTask( "", "", "MP", 1 )
+.invoke MarkClassToTask( "GPS", "TRACKING", "*", 3 )
+.invoke MarkClassToTask( "*", "*", "*", 0 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Extent Sizes</title>
+      <para>&escher; has limited the use of memory allocation.
+      For memory constrained systems it is convenient to limit the
+      number of instances of a class that can exist at any one
+      time.  The following rule file function invocation will define
+      that maximum number of instances that will ever be allocated
+      for the given class.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkObjectExtentSize</function></funcdef>
+      <paramdef>string <parameter>component</parameter></paramdef>
+      <paramdef>string <parameter>key_letters</parameter></paramdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>name
+        of the component (domain) being marked</para></listitem>
+        </varlistentry>
+        <varlistentry><term>key_letters</term><listitem><para>key
+        letters of the class</para></listitem></varlistentry>
+        <varlistentry><term>value</term><listitem><para>maximum
+        number of instances</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Marking Max Instances</title>
+        <programlisting>
+.invoke MarkObjectExtentSize( "myDomain", "FRODO", 20 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Default Extent Size</title>
+      <para>Early in the development cycle it may not be clear what
+      the maximum number of instances of particular classes may be.
+      &escher; provides a way to establish a default extent size to
+      be used for all classes that do not explicitly define the
+      maximum.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkSystemObjectDefaultExtentSize</function></funcdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>value</term><listitem><para>default size
+        for non-marked classes
+        extents</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Marking Default Extent</title>
+        <programlisting>
+.invoke MarkSystemObjectDefaultExtentSize( 24 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+    <section>
+      <title>Enabling Preexisting Instances</title>
+      <para>Version 3.1 of &escher; supports defining preexisting
+      instances in data.  This saves the time and space overhead of
+      initialization objects.  Mark all classes that have instances
+      pre-defined in data.</para>
+      
+      <para>Use this mark to enable the generation of ANSI C structure
+      initializers to pre-populate instance collections from supplied
+      XML data.  There is no harm in marking a class as having preexisting
+      instances in data even if it does not.  Such marking will have the
+      effect of making the class eligible for population by preexisting
+      instances defined in data.  All classes so marked will query for
+      the existence of preexisting instances and will populate with
+      them when defined.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkPEIsDefinedInData</function></funcdef>
+      <paramdef>string <parameter>component</parameter></paramdef>
+      <paramdef>string <parameter>ss_name</parameter></paramdef>
+      <paramdef>string <parameter>class_key_letters</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        name of component (domain) being marked 
+        </para></listitem></varlistentry>
+        <varlistentry><term>ss_name</term><listitem><para>
+        name of subsystem
+        </para></listitem></varlistentry>
+        <varlistentry><term>class_key_letters</term><listitem><para>
+        keyletters of the class eligible for population by preexisting
+        instances
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Marking Classes as Having PEIs Defined in Data</title>
+        <programlisting>
+.invoke MarkPEIsDefinedInData( "", "", "DOG" )
+.invoke MarkPEIsDefinedInData( "Lab", "VET", "*" )
+.invoke MarkPEIsDefinedInData( "*", "*", "*" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section>
+      <title>Identifying Static Instance Populations</title>
+      <para>Static instance populations are those instance populations
+      to which additions or deletions are never made during system
+      execution.  By marking a class as having a static instance
+      population, error messages will be generated if action language
+      tries to create or delete instances of the marked class.</para>
+      
+      <para>Use this mark to mark a population as having a fixed
+      and unchanging population of instances.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkStaticInstancePopulation</function></funcdef>
+      <paramdef>string <parameter>component</parameter></paramdef>
+      <paramdef>string <parameter>ss_name</parameter></paramdef>
+      <paramdef>string <parameter>class_key_letters</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        name of component (domain) being marked 
+        </para></listitem></varlistentry>
+        <varlistentry><term>ss_name</term><listitem><para>
+        name of subsystem
+        </para></listitem></varlistentry>
+        <varlistentry><term>class_key_letters</term><listitem><para>
+        keyletters of the class having fixed extent
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Marking Classes with Static Instance Populations</title>
+        <programlisting>
+.invoke MarkStaticInstancePopulation( "", "", "EXP" )
+.invoke MarkStaticInstancePopulation( "Imaging", "OCR", "*" )
+.invoke MarkStaticInstancePopulation( "*", "*", "*" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section>
+      <title>Identifying Read Only Instance Populations</title>
+      <para>Read only classes are those classes which cannot be
+      dynamically written or related.
+      By marking a class as read-only,
+      error messages will be generated if action language
+      tries to write or relate instances of the marked class.</para>
+      
+      <para>Use this mark to mark a class as having a read-only
+      instances.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkReadOnly</function></funcdef>
+      <paramdef>string <parameter>component</parameter></paramdef>
+      <paramdef>string <parameter>ss_name</parameter></paramdef>
+      <paramdef>string <parameter>class_key_letters</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        name of component (domain) being marked
+        </para></listitem></varlistentry>
+        <varlistentry><term>ss_name</term><listitem><para>
+        name of subsystem
+        </para></listitem></varlistentry>
+        <varlistentry><term>class_key_letters</term><listitem><para>
+        keyletters of the read-only class
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Marking Read-Only Classes</title>
+        <programlisting>
+.invoke MarkReadOnly( "", "", "BBALL" )
+.invoke MarkReadOnly( "ODMS", "CAB", "*" )
+.invoke MarkReadOnly( "*", "*", "*" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section id="markingpersistence-section">
+      <title id="markingpersistence-section-title">Marking Persistence</title>
+      <para>Persistent classes retain the values of their attributes
+      across power cycles.  This includes the current state of
+      active state machines.
+      Newly created and updated classes are
+      "backed up" to non-volatile storage.  At system start-up time,
+      any classes stored in non-volatile storage are restored before
+      other application initialization occurs.  Individual classes
+      can be marked to be persistent.</para>
+      
+      <para>Use this mark to mark a class as persistent.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef> <function>MarkPersistentClass</function></funcdef>
+      <paramdef>string <parameter>component</parameter></paramdef>
+      <paramdef>string <parameter>ss_name</parameter></paramdef>
+      <paramdef>string <parameter>class_key_letters</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef> <function>MarkNonPersistentClass</function></funcdef>
+      <paramdef>string <parameter>component</parameter></paramdef>
+      <paramdef>string <parameter>ss_name</parameter></paramdef>
+      <paramdef>string <parameter>class_key_letters</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        name of component (domain) being marked
+        </para></listitem></varlistentry>
+        <varlistentry><term>ss_name</term><listitem><para>
+        name of subsystem
+        </para></listitem></varlistentry>
+        <varlistentry><term>class_key_letters</term><listitem><para>
+        keyletters of the persistent class
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Marking (Non-) Persistent Classes</title>
+        <programlisting>
+.// To mark as persistent a specific class, use "" for "component" and 
+.// "ss_name" and provide the class key letters in "class_key_letters".
+.invoke MarkPersistentClass( "", "", "MP" )
+
+.// To mark all classes in the subsystem as persistent, provide
+.// the component name, the subsystem name for "ss_name" and "*" for
+.// the "class_key_letters".
+.invoke MarkPersistentClass( "GPS", "TRACKING", "*" )
+
+.// To mark all classes in the component as persistent, use "*"
+.// for "component", "ss_name" and "class_key_letters".
+.invoke MarkPersistentClass( "*", "*", "*" )
+
+.// To mark as non-persistent a specific class that had previously
+./  been marked as persistent, use "" for "component" and "ss_name" and
+.// provide the class key letters in "class_key_letters".
+.invoke MarkNonPersistentClass( "", "", "ASN" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+
+    <section>
+      <title>Translating Operation and Bridge AL</title>
+      <para>As of version 4.2 of &bpmb; it is possible to
+      translate the AL contained in bridge and operation
+      descriptions.  This conveniently allows testing generated/compiled
+      code in the same way it is tested on the &bpmv;.  Operation
+      (transformer) AL
+      is translated unless marked off; Bridge descriptions
+      are always translated and simply added to the skeletons.</para>
+
+      <para>As of version 3.1 of &escher;, the
+      <function>TagTransformerGeneration</function> is obsolete and
+      does nothing functional other than generate a message.</para>
+      
+      <para>This mark formerly (before version &escher; 3.1)
+      enabled the generation of ANSI C source
+      code from Action Language (AL) embedded in the
+      descriptions of named operation(s).  AL is always translated
+      unless marked off with the command
+      <function>MarkClassOperationTranslationOff</function>.</para>
+
+      <para>To disable the translation of AL in class (or instance)
+      based operations, use the following marking command.
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkClassOperationTranslationOff</function></funcdef>
+      <paramdef>string <parameter>component</parameter></paramdef>
+      <paramdef>string <parameter>class_keyletters</parameter></paramdef>
+      <paramdef>string <parameter>operation name</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>component</term><listitem><para>
+        name of the component (domain) being marked 
+        </para></listitem></varlistentry>
+        <varlistentry><term>class_keyletters</term><listitem><para>
+        keyletters of the class with which operation is associated
+        </para></listitem></varlistentry>
+        <varlistentry><term>operation name</term><listitem><para>
+        operation name for which to disable source generation
+        </para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Not Translating Operations</title>
+        <programlisting>
+.invoke MarkClassOperationTranslationOff( "", "T", "Cooking_Initializing" )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>Event Prioritization</title>
+    <para>&escher; provides prioritization through the marking
+    of events.  Events can be tagged to have priorities that
+    accelerate the delivery of past events of lower priority
+    that are currently outstanding.  This provides the user with
+    a degree of control over the sequencing of xtUML threads of
+    control within the system.
+    <filename>event.mark</filename> provides the means for specifying
+    these event prioritizations.</para>
+    
+    <section>
+      <title>Priority Events</title>
+      <para>To indicate to the model compiler than an event
+      is to be given a priority, use the following invocation
+      (one for each priority event):
+      <funcsynopsis>
+      <funcprototype>
+      <funcdef><function>MarkPriorityEvent</function></funcdef>
+      <paramdef>string <parameter>"component"</parameter></paramdef>
+      <paramdef>string <parameter>"event_label"</parameter></paramdef>
+      <paramdef>integer <parameter>value</parameter></paramdef>
+      </funcprototype>
+      </funcsynopsis>
+      
+      Where the input parameters are:
+      
+      <variablelist>
+        <varlistentry><term>"component"</term><listitem><para>is
+        name of the component (domain) being marked</para>
+        </listitem></varlistentry>
+        <varlistentry><term>"event_label"</term><listitem><para>is
+        the name of the event (with number
+        appended)</para></listitem></varlistentry>
+        <varlistentry><term>value</term><listitem><para>is the
+        relative priority of the event.  Legal values are 0 to 255
+        inclusive.  0 is lowest and default.</para></listitem></varlistentry>
+      </variablelist>
+      
+      <example>
+        <title>Marking a Priority Event</title>
+        <programlisting>
+.invoke MarkPriorityEvent( "autosampler", "CAR1", 4 )
+        </programlisting>
+      </example>
+      </para>
+    </section>
+  </section>
+
+&containoids;
+  
+</section>
+</chapter>

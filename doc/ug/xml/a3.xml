@@ -1,0 +1,50 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<appendix id="AnalysisGuide-appendix">
+<title id="AnalysisGuide-appendix-title">Analysis Guide</title>
+<highlights id="AnalysisGuide-appendix-high"><para>&escher;
+levies certain restrictions upon the analyst.  These restrictions
+and advice for capitalizing upon &escher; features are
+provided.</para></highlights>
+<sect1>
+  <title>Restrictions and Limitations</title>
+  <para>
+  <itemizedlist>
+    <listitem><para>Cannot number an event with 0.</para></listitem>
+    <listitem><para>Prioritization of polymorphic events is not
+    supported.</para></listitem>
+    <listitem><para>Some platforms have no real time clock.  Therefore
+    date and time are not available in standard Gregorian or Caesarian
+    form.</para></listitem>
+    <listitem><para>State machines are optimized for speed rather than
+    space.</para></listitem>
+    <listitem><para>Relationship conditionality is not enforced by
+    the model compiler.</para></listitem>
+    <listitem><para>Actions may not leave identifying attributes
+    inconsistent beyond the end of any action.</para></listitem>
+    <listitem><para>Blind selections (select ... from instances of ...)
+    following a create and in the same
+    scope as the create may not see the newly created instance in the
+    extent.</para></listitem>
+    <listitem><para><command>create object instance of</command>
+     <emphasis>keyletters</emphasis> (create with no return
+    value) is allowed only when the identifier of
+    object <emphasis>keyletters</emphasis> is of type
+    unique_ID.</para></listitem>
+    <listitem><para>The implementation of string expressions
+    is somewhat inelegant.  Strings in expressions are limited to simple
+    binary operations.  For example
+    <programlisting>company = "Mentor" + "Graphics" + "Corp.";</programlisting>
+    results in a compilation error.  The alternative,
+    <programlisting>company = "Mentor" + "Graphics";</programlisting>
+    <programlisting>company = company + "Corp.";</programlisting>
+    must be used to
+    work around this shortcoming.</para></listitem>
+  </itemizedlist>
+  </para>
+</sect1>
+
+</appendix>

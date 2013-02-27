@@ -1,0 +1,179 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2006)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<chapter id="TranslationBuild-chapter">
+<title id="TranslationBuild-chapter-title">Command Line Translation and Build</title>
+<highlights id="TranslationBuild-chapter-high"><para>This chapter
+explains the mechanics of turning xtUML models into C code using
+&escher; on the command line.</para></highlights>
+
+<section>
+  <title>xtumlmc_build:  Command Line Build Automation</title>
+  <para>A build execution utility called xtumlmc_build is available
+  to enable translation from model xtuml and SQL files.</para>
+
+  <section>
+    <title>Utility</title>
+    <para>A command line build utility called <command>xtumlmc_build</command>
+    allows for custom automation of the build process and for
+    building from exported model files.  <command>xtumlmc_build</command>
+    operates on &bp; models exported to <filename>*.xtuml/*.sql/*.bak</filename>
+    files as well as <filename>*.xtuml</filename> files from &bp;
+    version 7 and beyond.  <command>xtumlmc_build</command> will create
+    a build directory,
+    copy in the supplied marking files and translate a model supplied
+    in a file.  This frees the build process from the &bp; model
+    repository.</para>
+
+    <para>One expected use for <command>xtumlmc_build</command> would be
+    automation of batch oriented build operations.  Once marking
+    and configuration of a particular build have been established
+    interactively, <command>xtumlmc_build</command> can be used to
+    repeat the build in a single step.</para>
+
+    <para><command>xtumlmc_build</command> can also be used in
+    conjunction with third-party version control systems (such as
+    CVS, CleareCASE).  <command>xtumlmc_build</command> could also be
+    used when building models extracted from multiple repositories.
+    A build server could use this utility to perform automatic
+    translation of newly checked in materials.  <command>xtumlmc_build
+    </command> also serves in test suite automation.</para>
+    <para>Note that <filename>.mark</filename> is superceding
+    <filename>.clr</filename> for the extension of marking files
+    (formerly coloring files).  <filename>.clr</filename> is maintained
+    for backward compatibility.</para>
+  </section>
+
+  <section>
+    <title>Usage</title>
+    <para>To get the latest syntax for <command>xtumlmc_build</command>
+    run:  <command>xtumlmc_build -h</command>.  Command line help will
+    be supplied.
+    <funcsynopsis><funcprototype>
+    <funcdef><function>xtumlmc_build</function></funcdef>
+    <paramdef><parameter>-h</parameter></paramdef>
+    <paramdef><parameter>-d directory</parameter></paramdef>
+    <paramdef><parameter>-O output directory</parameter></paramdef>
+    <paramdef><parameter>-e</parameter></paramdef>
+    <paramdef><parameter>-m xtUML model file</parameter></paramdef>
+    <paramdef><parameter>-o xtUML_domain</parameter></paramdef>
+    <paramdef><parameter>-s SQL_file</parameter></paramdef>
+    <paramdef><parameter>-r EE</parameter></paramdef>
+    <paramdef><parameter>-f file</parameter></paramdef>
+    </funcprototype></funcsynopsis>
+    Where the command line parameters are:
+    <variablelist>
+      <varlistentry><term>-h</term><listitem><para>
+      Usage help will be printed.</para></listitem></varlistentry>
+      <varlistentry><term>-e</term><listitem><para>
+      This is used to indicate that <command>xtumlmc_build</command>
+      was called from CDT/Eclipse.</para></listitem></varlistentry>
+      <varlistentry><term>directory</term><listitem><para>
+      Directory into which the generated code will be built.
+      This directory will be created.  Be sure it does not 
+      already exist.</para></listitem></varlistentry>
+      <varlistentry><term>output directory</term><listitem><para>
+      Directory/folder into which the generated source files
+      will be copied.  Only the .c and .h files will be copied
+      to this folder.  This folder must already
+      exist.</para></listitem></varlistentry>
+      <varlistentry><term>xtUML model file</term><listitem><para>This is
+      the xtUML model as from &bpmb; version 7 or later.
+      </para></listitem></varlistentry>
+      <varlistentry><term>xtUML_domain</term><listitem><para>This
+      is the domain name as known inside &bpmb; (not the registered
+      domain name).</para></listitem></varlistentry>
+      <varlistentry><term>SQL_file</term><listitem><para>This is
+      the xtUML model as dumped from &bpmb; using the Export
+      capability.</para></listitem></varlistentry>
+      <varlistentry><term>EE</term><listitem><para>EE is a
+      ``realized'' external entity that the current xtUML_domain uses.
+      </para></listitem></varlistentry>
+      <varlistentry><term>file</term><listitem><para>All of the
+      marking files (<filename>bridge.mark, system.mark, etc.</filename>)
+      are each listed with the <command>-f</command> flag.
+      <filename>.c</filename> and <filename>.h</filename> files
+      are listed in the same way.  When running multiple domains,
+      domain marking files must be prepended with their domain
+      name and underscore, for example <filename>-f microwave_domain.mark
+      </filename> or <filename>-f odms_class.mark</filename>.
+      </para></listitem></varlistentry>
+    </variablelist>
+
+    <example>
+      <title>Simple xtumlmc_build Example</title>
+      <programlisting>
+xtumlmc_build -d d -o dogs -m dogs.xtuml -r ARCH -f dogs_domain.mark -f registry.mark 
+      </programlisting>
+    </example>
+    <example>
+      <title>Two Domain xtumlmc_build Example</title>
+      <programlisting>
+xtumlmc_build -d ae1 -o as2 -s as2.sql -r CARPIO -r SPPIO -r UI -f as2_domain.mark
+-f as2_event.mark -f bridge.mark -f registry.mark -f datatype.mark -o exp
+-s exp.sql -f exp_domain.mark -f sys_user_co.c -f sys_user_co.h -f link_sys
+      </programlisting>
+    </example>
+    </para>
+    <para>Note that (-f) files should be listed immediately following their
+    own domain when making a multi-domain build.</para>
+  </section>
+</section>
+
+<section>
+  <title>Sample/Example Timer (TIM)</title>
+  <para>xtUML provides a model of time.  Time can be read, time can
+  be measured and delayed events can be generated.  &bpmb; provides a
+  "standard" interface to time through an external entity (EE) called
+  Time (TIM).  A set of bridge operations on the TIM external entity
+  have become somewhat standardized.  Among these are
+  <command>TIM::timer_start</command>,
+  <command>TIM::get_date</command>,
+  <command>TIM::timer_cancel</command>. etc.</para>
+  <para>Since measuring time is often dependendent upon the target
+  platform, &escher; provides no formal support for time in the
+  generated code.  However, a sample Time EE is generated and can
+  easily be modified by the user.  This sample provides an excellent
+  head start when building a timer on a particular target.</para>
+  <para>In order to use these timers:
+  <itemizedlist>
+    <listitem><para> <filename>TIM_bridge.c</filename> and
+    <filename>TIM_bridge.h</filename> are automatically generated
+    into the <filename>system/skel</filename> folder.
+    </para></listitem>
+    <listitem><para>The generated <filename>TIM_bridge.c</filename>
+    will have a <function>pause</function> and
+    <function>resume</function> that will be used to suspend time)
+    when generated with Model Debugging enabled.</para></listitem>
+    <listitem><para>To use the sample TIM, references to the TIM
+    routines in <filename>sys_user_co.c</filename> must be
+    uncommented.  These calls initialize and periodically "tick" the
+    timer subsystem.  These references are are found in
+    <function>UserInitializationCalloutf</function> and
+    <function>UserBackgroundProcessingCalloutf</function>.</para></listitem>
+    <listitem><para>Modifications made to define timer routines must
+    be made in <filename>sys_user_co.h</filename>
+    (<function>UserInitializationCallout</function>
+    <function>UserBackgroundProcessingCallout</function>). The
+    initial macros defining these routines as empty must be commented
+    out or deleted.</para></listitem>
+    <listitem><para><function>TIM_init</function> must be invoked at
+    start-up (this is normally done by uncommenting the line found in
+    <function>UserInitializationCalloutf</function>.</para></listitem>
+    <listitem><para><function>TIM_tick</function> must be invoked
+    periodically and as often as practical (normally done by
+    uncommenting the line found in
+    <function>UserBackgroundProcessingCalloutf</function>.</para></listitem>
+  </itemizedlist>
+  </para>
+  <para>Many users have enhanced the given sample to be asynchronous.
+  Instead of calling <function>TIM_tick</function> periodically from
+  the background loop, it can be asynchronously invoked with a
+  signal.  It can also be spawned into its own thread.  The TIM as
+  generated for the Nucleus PLUS environment does this.  The user may
+  augument and enhance this sample as desired.</para>
+</section>
+
+</chapter>
