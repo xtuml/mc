@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2012)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\___________________________________________________________________/>
+</~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| Title:               Escher User's Guide                          |>
+<| File Name:           ug.xml                                       |>
+<| Owner:               Cortland D. Starrett                         |>
+<|                                                                   |>
+<| Abstract -                                                        |>
+<|   This document provides usage instructions for model compiler    |>
+<|   users.                                                          |>
+<|                                                                   |>
+<| Notes -                                                           |>
+<|   To change from HTML to PDF do the following:                    |>
+<|     find . -name "*.xml" -exec sedxml {} ../out \;                |>
+<|                                                                   |>
+     jade -t tex -d ug.dsl -E 2000 ug.xml 2> /tmp/o
+     pdfjadetex ug.tex ; pdfjadetex ug.tex ; pdfjadetex ug.tex
+     jade -t xml -i html -d ug.dsl -E 2000 ug.xml 2> /tmp/o
+     xsltproc - -nonet - -novalid ug.xsl ug.xml
+        NOTE: in the above command, remove the space between - -
+        when running the actual command.  The space is required in
+        this example otherwise CVS chokes on this line when the file
+        is checked in.
+<|                                                                   |>
+<| Change Log -                                                      |>
+<|                                                                   |>
+<|   Date       Modifier              Info                Change ID  |>
+<|                                                                   |>
+<|   98-Nov-21  Cortland D. Starrett  create                 create  |>
+<|     initial creation                                              |>
+<|   99-Feb-13  Cortland D. Starrett                                 |>
+<|     split into separate chapters                                  |>
+<|   99-May-16  Cortland D. Starrett                                 |>
+<|     added enumerations chapter and beefed up build                |>
+<|   99-Jun-29  Cortland D. Starrett                                 |>
+<|     added call out chapter and info on prioritization             |>
+<|     and beefed up translation                                     |>
+<|   00-Jan-01  Cortland D. Starrett                                 |>
+<|     Switched to DocBook 3.1.                                      |>
+<|   00-Jul-10  Cortland D. Starrett                                 |>
+<|     Added documentation for 1.3 features.                         |>
+<|   00-Oct-18  Cortland D. Starrett                                 |>
+<|     Cleaned up typos reported by Allen Downs of St Jude.          |>
+<|     Switched from sgml to xml.                                    |>
+<|   01-Jul-09  Cortland D. Starrett                                 |>
+<|     Added documentation for 2.0 features.                         |>
+<|   01-Aug-25  Cortland D. Starrett                                 |>
+<|     Added containoid size and prediction material.                |>
+<|   01-Oct-31  Cortland D. Starrett                                 |>
+<|     Refined before 2.1 release.                                   |>
+<|   01-Dec-15  Cortland D. Starrett                                 |>
+<|     Added clarity of use of interleaved bridges.                  |>
+<|   01-Dec-20  Cortland D. Starrett                                 |>
+<|     Removed unused index.                                         |>
+<|   02-Sep-26  Cortland D. Starrett                                 |>
+<|     Updates for version 3.0 including Lists chapter.              |>
+<|   02-Dec-29  Cortland D. Starrett                                 |>
+<|     Updates for version 3.1 including Debugger and PEI chapters.  |>
+<|   03-Feb-18  Cortland D. Starrett                                 |>
+<|     Fixed some XML/XSLT bugs with xrefs and prologue comments.    |>
+<|   03-Nov-27  Cortland D. Starrett                                 |>
+<|     Made it easier to switch between html and xml by using        |>
+<|     entities for the graphics format and alignment.               |>
+<|     Made changes for 3.3.                                         |>
+<|   03-Dec-23  Cortland D. Starrett                                 |>
+<|     Added substantial documentation for PEIs.                     |>
+<|   04-Jan-18  Cortland D. Starrett                                 |>
+<|     Collapsed chapter 8 into 7.  Changed from graphic to          |>
+<|     mediaobject, imageobject and imagedata.  Use png for all.     |>
+<|   04-Jun-03  Cortland D. Starrett                                 |>
+<|     Changed trademarked names to include Nucleus.                 |>
+<|   04-Nov-03  Cortland D. Starrett                                 |>
+<|     Added persistence chapter.                                    |>
+<|   05-Apr-21  Cortland D. Starrett                                 |>
+<|     Added tasking and updated persistence.                        |>
+<|     Updated to more xtUML nomenclature.                           |>
+<|   05-May-06  Cortland D. Starrett                                 |>
+<|     Prepared for release 4.0.                                     |>
+<|   05-Dec-14  Keith Brown                                          |>
+<|     Added documentation for EDGE/MD support, DMA, inline snippets |>
+<|   06-Mar-02  Keith Brown                                          |>
+<|     Added documentation for XMI Export feature.  Changed most     |>
+<|     trademark names to not include "Nucleus".  Unincluded the     |>
+<|     "Installation" appendix because it is badly out of date.      |>
+<|   10-May-25  Cortland Starrett                                    |>
+<|     Added marking for system build configurations.                |>
+<|     Fixed some small version and readability issues.              |>
+<|   11-Sep-13  Keith Brown                                          |>
+<|     Added markings for SystemC features.                          |>
+<|     Fixed marking function names to match our shipping mark files |>
+<|     as well as add the component param to many marking functions. |>
+<|   12-Feb-7  Cortland Starrett                                     |>
+<|     Removed company citations and did a bit of cleanup.           |>
+<\__________________________________________________________________-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+  "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY bp "BridgePoint">
+<!ENTITY bpgen "BridgePoint Generator">
+<!ENTITY bpmb "BridgePoint Builder">
+<!ENTITY bpmv "BridgePoint Verifier">
+<!ENTITY cdt "CDT">
+<!ENTITY escher "MC-3020">
+<!ENTITY escherversion "4.0">
+<!ENTITY graphicformat "png">
+<!ENTITY mb "Model Builder">
+<!ENTITY mc "Model Compiler">
+<!ENTITY md "Model Debugger">
+<!ENTITY mgc "Mentor Graphics Corporation">
+<!ENTITY mv "Model Verifier">
+<!ENTITY nukeplus "Nucleus PLUS">
+<!ENTITY pt "Mentor Graphics Corporation">
+<!ENTITY sm "Shlaer-Mellor">
+<!ENTITY UserGuideUsage SYSTEM "c1.xml">
+<!ENTITY FeaturesAndComponents SYSTEM "c2.xml">
+<!ENTITY MCGUIChapter SYSTEM "mcgui.xml">
+<!ENTITY Marking SYSTEM "c3.xml">
+<!ENTITY EnumeratedTypes SYSTEM "c4.xml">
+<!ENTITY CallOuts SYSTEM "c5.xml">
+<!ENTITY Build SYSTEM "c6.xml">
+<!ENTITY InitializationAndPreexistingInstances SYSTEM "c7.xml">
+<!ENTITY Collections SYSTEM "lists.xml">
+<!ENTITY containoids SYSTEM "containoids.xml">
+<!ENTITY PersistChapter SYSTEM "persist.xml">
+<!ENTITY TaskingChapter SYSTEM "tasking.xml">
+<!ENTITY ModelingChapter SYSTEM "modelingGuide.xml">
+<!ENTITY appendix3 SYSTEM "a3.xml">
+<!ENTITY bgappendix SYSTEM "c10.xml">
+<!ENTITY appendix4 SYSTEM "a4.xml">
+<!ENTITY appendix6 SYSTEM "a6.xml">
+<!ENTITY appendix_rev_ctrl SYSTEM "revision_control.xml">
+]>
+
+<book id="MC3020UserGuide">
+<title><productname>&bp; Model Compiler</productname> - User's Guide</title>
+<bookinfo>
+  <authorgroup>
+    <corpauthor>&mgc;</corpauthor>
+  </authorgroup>
+  <invpartnumber>&escher;</invpartnumber>
+  <productname>&escher;</productname>
+  <pubdate>February 2012</pubdate>
+  <publisher>
+  <publishername>&mgc;</publishername>
+  <address>
+  <pob>8005 SW Boeckman Road</pob>
+  <city>Wilsonville</city>, <state>OR</state>
+  <postcode>97070</postcode> <country>USA</country>
+  <phone>800-547-4303</phone>
+  <email>support_net@mentor.com</email>
+  </address>
+  </publisher>
+  <copyright><year>1998-2012</year><holder>&mgc;</holder></copyright>
+  <abstract>
+  <para>This guide is the primary reference document
+  for the engineers and scientists translating
+  <trademark class='registered'>&bp;</trademark>
+  xtUML models with the &escher; model compiler. It explains how to use
+  the compiler's features and capabilities.</para>
+  </abstract>
+</bookinfo>
+
+<toc></toc>
+
+
+&UserGuideUsage;
+
+&FeaturesAndComponents;
+
+&MCGUIChapter;
+
+&Marking;
+
+&EnumeratedTypes;
+
+&CallOuts;
+
+&Build;
+
+&InitializationAndPreexistingInstances;
+
+&Collections;
+
+
+
+&PersistChapter;
+
+&TaskingChapter;
+
+&ModelingChapter;
+
+&appendix3;
+
+&bgappendix;
+
+&appendix4;
+
+&appendix_rev_ctrl;
+
+&appendix6;
+
+
+<!-- Index would go here.  -->
+
+</book>

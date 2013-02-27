@@ -1,0 +1,50 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2006)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<chapter id="ModelingGuide-chapter">
+  		<title id="ModelingGuide-section-title">Modeling Guide </title>
+	<sect1>
+	<title>How To Draw a Supertype/Subtype Association</title>
+     <para>We have the following classes: Automobile, Sport and Mini. Mini and
+     Sport are subtypes of the Automobile class.</para>
+    <para>Now, we want to draw the relationships between these classes.</para>
+    <para>In the Class Diagram Toolbar select the "New Supertype" button (second 
+     button from the right). The arrow takes the shape of a pencil. Place the pencil
+     cursor on the Automobile class, press and maintain right click and drag it 
+     outside the class box. You should have now an arrow pointing to the 
+     Automobile class. Next to the arrow you should see "{disjoint, complete}" 
+     and the association number "Rx" as in the next figure: 
+    <figure id="supersub-figure" float="1">
+    <title id="supersub-figure-title">Supertype/Subtype association - figure 1 </title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="supersub.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+    </para>
+    <para>For the subtype association select the "New Subtype" button (last button to the right)
+     place the pencil cursor on the class Sport, press and maintain right click 
+     then drag it outside the class box. Release the mouse then place the cursor
+     on the arrow that points to the Automobile class and right click once. Your class diagram 
+     should look like in next figure:
+    <figure id="supersub1-figure" float="1">
+    <title id="supersub1-figure-title">Supertype/Subtype association - figure 2 </title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="supersub1.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+    </para>
+    <para>Do the same thing for the class Mini and your class diagram should look
+    like in the next figure:
+    <figure id="supersub2-figure" float="1">
+    <title id="supersub2-figure-title">Supertype/Subtype association - figure 3 </title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="supersub2.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+    </para>
+	
+	</sect1>
+	
+</chapter>

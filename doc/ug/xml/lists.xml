@@ -1,0 +1,279 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<chapter id="Collections-chapter">
+<title id="Collections-chapter-title">&escher; Collections</title>
+<highlights id="Collections-chapter-high"><para>Lists are used by &escher;
+to keep track of collections of instances in the system.  Collections
+of instances appear in several contexts including pools of instances
+of classes, sets of instances participating in an association and
+sets of instances resulting from SELECT MANY statements.</para></highlights>
+
+<section>
+  <title>&escher; Collections</title>
+  <highlights><para>&escher; manages collections of instances using
+  various collection mechanisms which are selectable through marking.
+  As of version 3, &escher; provides two flavors of collection
+  container, singly linked lists (slists) and doubly linked lists
+  (dlists).  Each container strategy has advantages and disadvantages
+  with regard to code size and speed.  In general, dlists are faster
+  but take more storage.  In the following sections details of
+  these constructs are outlined.</para></highlights>
+
+<!--
+<section>
+  <title>Overview</title>
+  <highlights><para>&escher; manages collections of instances using
+  markable flavors of collection (container)
+  mechanism.</para></highlights>
+-->
+
+  <section>
+    <title>Containers</title>
+
+    <para>Collections of class instances (objects) must be supported by
+    any model compiler.  Processing performs operations on these
+    sets of data.  Instances can be collected and organized in
+    several ways.  At minimum, a model compiler must be able to
+    support:
+    <itemizedlist>
+      <listitem><para>selection from the existing instances of any
+      specified class</para></listitem>
+      <listitem><para>selection from instances of any associated
+      class</para></listitem>
+      <listitem><para>the analysis variable type <type>inst_ref_set</type>
+      </para></listitem>
+    </itemizedlist>
+    We refer to the first case as instance extents.  The second are
+    referred to as association extents.  The third are
+    transient set variables (often called selection extents).</para>
+
+    <para>As of version 3, &escher; maintains collections in linked
+    lists.  Linked lists are flexible and relatively light
+    weight (small, simple code).</para>
+  </section>
+
+  <section>
+    <title>Sets</title>
+
+    <para>Operations on sets include <function>Insert</function>,
+    <function>Remove</function>, <function>Clear</function>,
+    <function>Copy</function>, <function>Cardinality</function>,
+    <function>IsEmpty</function>, <function>Equality</function>,
+    <function>Contains</function> and <function>Iterate</function>.
+    Some variations on these methods may also be included for various
+    optimizations.</para>
+
+    <para>SELECT MANY makes a copy of an instance extent or
+    association extent into a transient set variable.  Cursors are
+    used to iterate through sets of instances.</para>
+
+    <para>SELECT ANY returns the first element in the instance extent
+    or association extent.</para>
+
+    <para>A set generates a different type of variable than does
+    an element in a set.  This allows for sets to have attributes
+    such as a head (and perhaps a tail and cardinality).  Set
+    elements have attributes such as a link to the next element
+    and a pointer to the substance of the data they contain.</para>
+  </section>
+
+
+  <section>
+    <title>Set Symmetry</title>
+
+    <para>Consistency between the three flavors of collections
+    makes the model compiler simpler.  Simpler usually means
+    smaller code, but there are some exceptions to this general
+    rule.  Up through version 2.2 of &escher;, instance extents,
+    association extents and transient sets were treated almost
+    identically.  In versions above 2.2, instance extents get
+    special treatment so that the model compiler can optimize
+    for size and speed based upon characteristics true only of
+    instance extents.</para>
+
+    <para>Instance extent sets are treated special in
+    that their containers are never returned to the free pool and
+    remain permanently attached to the instance data.  Since the
+    instances basically move between active (animate) and inactive
+    (inanimate) lists, there is no need to detach the container as
+    in association extents and transient set variables.  Although
+    this breaks the symmetry, it enables the generation of
+    smaller and faster code.</para>
+
+    <para>&escher; applies these specializations as
+    marking options to enhance the set operation performance
+    of the model compiler generated code.</para>
+  </section>
+
+
+  <section>
+    <title>Singly Linked Lists</title>
+
+    <para>Singly linked lists are simple and small.  For most of the
+    set operations, singly linked lists are fast because of their
+    simplicity.  The exception to this is the delete operation.  A
+    delete operation on a singly linked set requires the address of
+    the container of the data element being deleted.  Delete also
+    requires the  address of the container preceding the deleted data
+    and the address of the container following the deleted item.  As
+    input we have none of these three addresses but only the address
+    of the data (object) being deleted.</para>
+
+    <para>In &escher; marked with slist containers, this meant that a
+    search for the data element is required.  This search begins at
+    the head of the list and proceeds down the list until the data
+    element is found.  Variables track the current node and previous
+    nodes as the list is traversed.  Once the data element is found,
+    these node variables contain 2 of the 3 three needed container
+    addresses.  A simple dereference of current->next yields the final
+    container address.  The singly linked list delete links the
+    previous container to the next container thus unlinking the
+    current node.</para>
+
+    <para>As collections get large, this linear search involved
+    in set item deletion gets burdensome.</para>
+
+    <figure id="slist-figure" float="1">
+    <title id="slist-figure-title">
+    Singly Linked Lists of Instances</title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="slist.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+
+  </section>
+
+
+  <section>
+    <title>Doubly Linked Lists</title>
+
+    <para>Adding a more capable container node structure 
+    alleviates the delete instance problem.  With a prev pointer
+    together with the next pointer, it is an easy matter to
+    learn the address of the previous and following containers
+    given the address of the container containing the data to be
+    deleted.  Note however, that we are not given the address
+    of the container but the address of the data itself.  Thus,
+    unless a clever mechanism exists for deriving (divining)
+    the container from the data handle, we are relegated to
+    linear searches once again.</para>
+
+    <figure id="dlist-figure" float="1">
+    <title id="dlist-figure-title">
+    Doubly Linked Lists of Instances</title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="dlist.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+
+    <para>If data allocation of instances and containers is
+    performed in a special way, there does exist a mechanism for
+    deriving the address of the container from the address of the
+    data.</para>
+
+    <para>In &escher; versions beyond 2.2, a doubly linked list
+    container is available.  Instances and containers are
+    allocated in memory in a way that relates the instances to
+    their containers mathematically.  One container pool is
+    allocated for each pool of class instances.  These are
+    parallel arrays.  Remember that the container stays
+    attached to the instance for the duration of system run
+    time, since instances from the extents are simply moved from
+    inactive to active and back for create and delete
+    respectively.</para>
+
+    <para>During initialization, containers are linked to instance
+    data in parallel.  Container 0 is the container for instance
+    index 0 of any particular class.  Container 1 is the container
+    for the instance at index two in the class pool array for this
+    class.  In other words, the array indexes for the containers
+    are the same as the array indexes of the instances for which
+    they serve.</para>
+
+    <figure id="parallel-figure" float="1">
+    <title id="parallel-figure-title">
+    Parallel Container/Object Arrays</title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="parallel.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+
+    <para>Thus, if we know the index of an instance data element,
+    we know the index of the instance extent container pointing to
+    it.  We can derive the index of any pointer to an array element
+    through pointer arithmetic.</para>
+
+    <para>
+    <programlisting>
+    index = pointer_to_array_element - address_of( array_element[0] )
+    </programlisting>
+    </para>
+
+    <para>We now have all the information needed to derive the
+    address of an instance container, its previous container and
+    next container all in constant time.  The delete operation on
+    an instance no longer involves a linear search of the
+    extent.</para>
+
+    <para>Note that this "magic" only applies to sets managing
+    instance extents.  Deletions from association extents,
+    UNRELATES, are not helped and still involve a search of the
+    set.  UNRELATES from very large association extents (hundreds
+    or thousands) can suffer from linear search overhead.</para>
+  </section>
+
+  <section>
+    <title>Performance Considerations</title>
+
+    <para>A comparison of the two collection mechanisms in light of
+    deleting instances shows the power of the constant time address
+    derivation.  Once instance extents grow larger than one
+    hundred, the doubly linked collection mechanism with address
+    derivation begins to show benefit.  At extent sizes of ten
+    thousand (10,000), the singly linked collection mechanism
+    becomes two orders of magnitude slower than the doubly linked
+    counterpart.</para>
+  </section>
+
+
+  <section>
+    <title>Merged Containers</title>
+
+    <para>Another clever way to relate the instance containers to the
+    instances themselves is to allocate them
+    <emphasis>inside</emphasis> of the instances themselves.  Under
+    such a scheme, the base instance class would have the container
+    class as its first element.  This would amount to overloading the
+    class with container members as data elements, namely next,
+    prev, and object.  Such a scheme renders trivial the mathematics
+    of deriving the address of the instance from the address of the
+    container.  They are exactly the same.  The address of the
+    container is the address of the instance (and vice versa).</para>
+
+    <figure id="merged-figure" float="1">
+    <title id="merged-figure-title">
+    Containers Merged Into Instance Data</title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="merged.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+
+    <para>Such a scheme suffers a weakness in light of preexisting
+    instance (PEI) support.  The merged containers scheme adds two or
+    three pointer size data elements to every class instance.  To
+    populate the instances with data, it would be necessary to
+    populate the container pointers with the instances.  Even if zero,
+    this would mean 4 to 12 bytes of additional constant initializer
+    data per instance in the system.</para>
+
+    <para>In light of this weakness, &escher; has opted for the
+    parallel array approach to mathematically relating the
+    containers to the instances.  Even though &escher; does not
+    (currently) use merged containers, there remains a great deal
+    of merit in the approach.</para>
+  </section>
+</section>
+</chapter>

@@ -1,0 +1,89 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (2001-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+
+<section id="Containoids-section">
+  <title>&escher; Extent Prediction and Marking</title>
+    <para>First pass translation collects statistics used to
+    conservatively estimate the number of container nodes (containoids)
+    required by the system.</para>
+
+    <para>There are three different uses for instance containoids:
+    class extents, association extents and selection extents.
+    Selection extents govern the total size of transient instance
+    reference set variables in the actions.  This represents values
+    in the variable type <type>inst_ref_set</type>.
+    The required number of containoids for each flavor is summed
+    to provide the upper limit to total containers.
+    <programlisting>#define SYS_MAX_CONTAINERS \
+    ( SYS_MAX_OBJECT_EXTENT + SYS_MAX_RELATIONSHIP_EXTENT + SYS_MAX_TRANSIENT_EXTENT )</programlisting></para>
+
+    <para>SYS_MAX_OBJECT_EXTENT is a sum of all of the extent counts across
+    all the domains of the system, which are sums of the class extents
+    in each domain.  Each class extent is allocated to be the system
+    default for class extents, a marked value of the system default
+    or the marked value for the specific class.</para>
+
+    <para>Selection extents are calculated by multiplying the largest
+    number of selects that can occur in any action by the largest extent
+    of any class.  Thus allowing for the worst case action to select
+    the largest class extent each time.  This value is set in
+    SYS_MAX_TRANSIENT_EXTENT.
+    <programlisting>transient containers = ( max selects ) * ( largest class extent )</programlisting></para>
+
+    <para>Association extents are allowed to be as big as they would
+    need to be if all instances on the MANY side were always
+    participating.  This value is set in SYS_MAX_RELATIONSHIP_EXTENT.
+    <programlisting>association containoids = ( number of MANYs ) * ( largest class extent )</programlisting></para>
+
+    <para>The following marks govern these extent sizes:
+
+    <itemizedlist>
+      <listitem><programlisting>MaxObjectExtentSize( "component", "key_letters", value )</programlisting></listitem>
+      <listitem><programlisting>MaxSystemObjectDefaultExtentSize( value )</programlisting></listitem>
+      <listitem><programlisting>TagMaximumRelationshipExtentSize( value )</programlisting></listitem>
+      <listitem><programlisting>TagMaximumSelectionExtentSize( value )</programlisting></listitem>
+    </itemizedlist>
+    
+    See the proper sections in the &escher; Users Guide for details
+    on these marking parameters.</para>
+
+    <para>Association extents refer to the sets of instances
+    participating
+    in a association with multiplicity MANY.  Sets built from
+    linked lists are used to optimize traversal of associations with
+    multiplicity MANY.  For example, in the following model,
+    A 1---R1---* B,
+    class B does not need an extent set; it simply needs a single
+    pointer reference to the A instance.  The A instance however does
+    need a set of instance references.  Such a set uses "containoids"
+    to collect the B instances related to the A instance.
+    &escher; calculates the worst case (biggest possible) association
+    extent.</para>
+
+    <para>The extent can be marked to be smaller than the worst case
+    maximum using TagMaximumRelationshipExtentSize.
+    <command>MarkObjectExtentSize</command> will also have an effect on
+    the calculated total.</para>
+
+    <para>If no extent size marking is supplied, &escher; will
+    calculate a worst case for a model of a higher number of
+    containers.  &escher; will see R1 and allow for all possible
+    instances of B to participate with instances of A.  (This is the
+    most important point!)</para>
+
+    <para>Another way to understand how &escher; calculates this maximum
+    is as follows:
+    <orderedlist>
+      <listitem><para>Count the number of MANYs (---*) on a class
+      diagram.</para></listitem>
+      <listitem><para> For each MANY (---*), add the maximum class
+      extent on the MANY side (B above).</para></listitem>
+      <listitem><para>There are adjustments to be considered in the
+      case of associative classes.</para></listitem>
+    </orderedlist>
+    This sum across all domains in the system will be the
+    SYS_MAX_RELATIONSHIP_EXTENT.</para>
+</section>

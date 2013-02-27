@@ -1,0 +1,521 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<chapter id="Features-chapter">
+<title id="Features-chapter-title">Features and Components</title>
+<highlights id="Features-chapter-high"><para>This chapter
+provides a concise overview of many of the capabilities built
+into &escher;.  The basic gist of translation strategy for model
+components is given in an outline format.</para></highlights>
+
+<section>
+  <title>Features</title>
+  <para>&escher; delivers translation technology and a set of features
+  and components found in no other model compiler existing to date.  
+  The mix of optimizations, conveniences and simplicity provide a
+  solid foundation upon which ``down on the iron'' embedded designs
+  can be based.</para>
+
+  <section>
+    <title>&escher; Binary and Source Versions</title>
+    <para>The &escher; &mc; is available in two forms: source and binary.  
+    As its name implies, the source version contains the full source code for 
+    the &mc; with rights for the user to modify it to suit their 
+    needs.  The binary version contains full code generation capability, but 
+    does not contain the &mc; source code.  This is manifest in the presence,
+    or not, of the <filename>arc</filename> folder in the installation.</para>
+  </section>
+
+  <section>
+    <title>Multi-Pass Corroborative Translation</title>
+    <para>The translation engine embodied in the &escher; &mc; performs
+    two passes across the xtUML model under translation.  The first pass
+    analyzes the model structure and action language semantics of each
+    component.  The results of this analysis drive the generation in the
+    second pass.  The second pass generates code and data that is
+    minimized and optimized for speed.  Unaccessed data and unneeded
+    code are eliminated.</para>
+    <para>This multi-pass intelligence spans components and allows for
+    optimizations at the system level based on information collected
+    and collated from all components in the system.</para>
+  </section>
+
+  <section>
+    <title>Multi-Tasking/Threading</title>
+    <para>Preemptive multi-tasking is supported on the
+    <trademark class='registered'>&nukeplus;</trademark> real-time
+    operation system (RTOS) and on systems supporting POSIX threading.
+    Single-task operation (with or without and RTOS) is also supported.
+    Tasking supplies a rich means of providing preemptive prioritization
+    among the xtUML classes running in the system.</para>
+  </section>
+
+  <section>
+    <title>Prioritization</title>
+    <para>Preemptive task/thread prioritization is provided in
+    the generated C code.  Groups of xtUML classes are mapped to
+    tasks running at differing priorities.</para>
+    <para>&escher; also provides for prioritization through the
+    marking of events.  Higher priority xtUML threads of control
+    can run without being preempted by lower priority activities.</para>
+  </section>
+
+  <section>
+    <title>Multi-Component Support</title>
+    <para>&escher; cleanly translates large systems consisting of
+    multiple xtUML and realized components.  Support is provided to
+    integrate and interface to hand-craft, legacy and/or off-the-shelf
+    code.</para>
+  </section>
+
+  <section>
+    <title>Persistence</title>
+    <para>&escher; supports the marking of persistent classes.
+    The instance data for classes marked as persistent is restored
+    at power-up from a non-volatile storage (NVS) device.</para>
+  </section>
+
+  <section>
+    <title>Metrics and Reporting</title>
+    <para>A set of metrics can be generated and reported each time the
+    model compiler is run.  Statistics on classes, associations,
+    events and first pass analysis can be produced.</para>
+    <para>Metrics provided can be fed back to the analyst to provide a
+    focus on recognized dangerous practices and fully illegal
+    operations and accesses.  Some of the metrics relate to sizing
+    and complexity.  These metrics could easily be tracked
+    over the life of a project to provide quality and effort related
+    measurements.</para>
+  </section>
+
+  <section>
+    <title>Bridge/Operation Skeleton Generation</title>
+    <para>Based upon information modeled in &bpmb; &escher; automatically
+    generates source code frameworks for operations and outbound bridge
+    implementation.  These skeleton files will actually compile
+    as generated.  The user is saved from delving into generated
+    code to divine interfaces required for these boundary functions.
+    Kind and helpful comments are provided to guide insertion of
+    bridge and operation implementation code.</para>
+    <para>Support is provided for translation of OAL in operation
+    and bridge descriptions.  The same action language used for &bpmv;
+    is translated into the of bodies of the operation C source
+    files and the bridge skeleton files.</para>
+  </section>
+
+  <section>
+    <title>``Call Outs'' for User Code</title>
+    <para>Several hooks have been supplied to allow easy interfacing
+    of user supplied code to the system level generated code.
+    A source module is automatically generated that supplies
+    empty functions which are invoked at various points during
+    initialization, dispatch processing and shut down.  These
+    empty functions can be populated with user code for ``can't
+    happen'' events,
+    hardware bring-up, ``background'' processing, legacy
+    clean-up and more.</para>
+  </section>
+
+  <section>
+    <title>UDT Precision and Pointer Types</title>
+    <para>To allow optimization for space and control over
+    precision, the storage classes of integer and real based
+    user-defined
+    data types (UDTs) can be supplied by the user.
+    &escher; also allows user-defined data types to be
+    implemented as pointers.  The pointer types are very
+    convenient for passing across bridges (in both directions).
+    Precision and pointer information is provided to the
+    model compiler through marking.</para>
+  </section>
+
+  <section>
+    <title>Attribute Bit Fields</title>
+    <para>Further optimization of space is provided through
+    ANSI C bit field support.  Multiple attributes can be packed
+    into a single word of storage.  This feature may also be
+    used (with caution) in conjunction with memory mapped classes
+    to model hardware with xtUML constructs.</para>
+  </section>
+
+  <section>
+    <title>Selection Optimization</title>
+    <para>&escher; attempts to optimize <command>select
+    any [inst_ref] from instances of [key_letters] where
+    [where clause]</command> when the where clause
+    is checking for equality of the identifier.  &escher;
+    optimizes for code space.  In addition,
+    hooks into the scanning routines are provided to enable
+    customizations to the selection search algorithms.
+    Applications dealing with large collections of class
+    instance data (hundreds or thousands) may use these hooks
+    to further speed the selection process.</para>
+  </section>
+
+  <section>
+    <title>Interrupt Handler Bridging</title>
+    <para>&escher; provides a safe way to bridge into the application
+    from interrupt handlers (or other external tasks).  Consistency is
+    maintained in software architecture data structures and
+    application data access sets.</para>
+  </section>
+
+  <section>
+    <title>User Defined Archetypes</title>
+    <para>A means is provided for the user to supply application
+    specific fule file functions.  This capability serves to
+    extend the marking capabilities of &escher;.  It is possible
+    to steer code generation in such a way as to provide customizations
+    characteristic of particular target platforms, compilers and
+    tool sets.</para>
+  </section>
+
+  <section>
+    <title>ANSI C Purity and Simplicity</title>
+    <para>&escher; is purely ANSI C and generates code that can be compiled
+    by any compiler compliant with the ANSI standard.  The core
+    model compiler uses no libraries or system functions.
+    <filename>stdio.h</filename> is included simply for convenience
+    during debug (for <command>printf</command>, etc).  All generated
+    code is simple, native C.</para>
+  </section>
+
+  <section>
+    <title>Preexisting Instances Defined in Data</title>
+    <para>As of version 3.1, &escher; supports initialization of
+    preexisting instances in data.  This provides a substantial
+    optimization in both bring-up execution speed and overall code
+    footprint.  Instead of creating, relating and initializing all
+    of the classes at start-up, pre-existing class instances can be
+    pre-populated with static initializers.  Support is maintained for
+    dynamic initialization using an initialization function (or an
+    initialization object).</para>
+  </section>
+  <section>
+    <title>Target Code Inside Action Language</title>
+    <para>&escher; allows the user to intermix target source code
+    with action language.  These pieces, nicknamed
+    snippets, are delimited by special strings.  Snippets are allowed 
+    anywhere action language is supported: bridge operations, functions, 
+    class and instance-based operations, mathematically-dependent 
+    attributes, and state actions.</para>
+
+    <para>Snippets are delimited by <literal>/*#inline</literal>
+    on a line by itself, followed by the target source code, followed by
+    <literal>*/</literal> on a line by itself.  C++ style comments 
+    (comments preceeded with "<literal>//</literal>") are allowed inside 
+    a snippet.  Here is an example:
+
+    <programlisting>
+    /*#inline
+      // Don't Panic
+      int a = 42;
+      printf( "The answer is %d\n", a ); 
+    */</programlisting></para>
+
+    <para>While the primary use of this feature is to add target code to 
+    action language, it should be noted that &escher; does not 
+    restrict (or care) what is placed inside the snippet.  The key point 
+    is that &escher; simply allows these inline snippets to fall through 
+    the code generation process to the output target code.  No additional 
+    processing of the snippet is provided.</para>
+
+    <para>A compiler directive called <constant>XTUMLMC_INLINE</constant> 
+    is used to allow conditional target compilation of the snippet code.  
+    Each snippet in the generated source code starts with 
+    <programlisting>#if XTUMLMC_INLINE</programlisting> 
+    and ends with 
+    <programlisting>#endif</programlisting>
+    This directive (and, hence, snippet usage) is set active (1) by default 
+    in <filename>sys_user_co.h</filename>.</para>
+
+    <para>Note that entering target-specific code into a model can have 
+    consequences. A good model represents an implementation-independent 
+    specification of the application. Adding target-specific code to the model 
+    can reduce this flexibility.</para>  
+
+    <para>On the other hand, done carefully, code in models can overcome some of
+    the limitations of the action language. For example, code in models can 
+    allow you to access target-specific registers and ISRs, give you access to 
+    unmodelled external code modules, and use target assembler code in an 
+    action.</para>
+
+    <para>In nearly all cases, properly constructed models and action language 
+    can completely describe an application.  Take care when adding code to 
+    models.  Understand the benefits and do not underestimate the costs.</para>
+  </section>
+
+  <section>
+    <title>Dynamic Memory Allocation (Or Not)</title>
+    <para>By default &escher; creates applications that are very
+    restrictive in their memory usage.  This is done by statically 
+    allocating all memory that will be needed when the application 
+    starts. Some applications, however, need the flexibility of being 
+    looser in their memory consumption.  See
+    <xref linkend="DynamicMemoryAllocation-section"/> for information on 
+    how to allow your application to dynamically allocate additional 
+    memory as needed.</para>
+  </section>
+
+  <section>
+    <title>XMI Export</title>
+    <para>XMI is an acronym for XML Metadata Interchange.  &bp; &escher; 
+    supports the ability to export your models in XML format using XMI 2.1.  
+    XMI is an Object Management Group (<ulink url="http://www.omg.org">OMG
+    </ulink>) specification for the use of XML in serializing models so 
+    that they can be imported, exported and interchanged.</para> 
+
+    <para>To export your project using XMI: 
+
+    <itemizedlist>
+      <listitem>Open the <GUIMenuItem>Project &gt; Properties</GUIMenuItem> dialog</listitem>
+      <listitem>Select <GUILabel>Builders</GUILabel></listitem>
+      <listitem>Check the box next to <GUILabel>XMI 2.1 Export</GUILabel></listitem>
+      <listitem>Uncheck the box next to <GUILabel>CDT Builder</GUILabel></listitem>
+      <listitem>Select <GUIButton>OK</GUIButton></listitem>
+      <listitem>Right-click on your project and select <GUIMenuItem>Build Project</GUIMenuItem></listitem>
+    </itemizedlist>
+    </para>
+
+    <para>&escher; will run in a special mode that generates an XML file 
+    for each of your domains.  The files will be placed in the 
+    <filename>src</filename> folder of your project.  The file(s) are named 
+    <filename>&lt;domain&gt;_xmi.xml</filename>.</para>
+
+    <para>Once the export is complete, be sure to uncheck the 
+    <GUILabel>XMI Export</GUILabel> builder and check the <GUILabel>CDT 
+    Builder</GUILabel> to put &escher; back into normal code generation mode.
+    </para> 
+  </section>
+</section>
+
+<section>
+  <title>Components</title>
+  <para>&escher; is a modular software architecture characterized by a
+  distinct effort to maximize component independence.  The coupling
+  between the model compiler components has been minimized while
+  maximizing component cohesion.  A model of the architecture drives the
+  implementation of the generation components.</para>
+
+  <para>To a great extent components can be modified independently.
+  Additional components can be added.  This makes &escher; ideal for
+  extension and modification.  In a limited fashion, individual
+  architecture components can be ``unplugged'' and new or modified
+  components ``plugged in'' to replace them.  For example, the strategy
+  for collecting instances can be changed by modifying or replacing
+  only the localized component.  Names and coding style rules are
+  concentrated into a single component allowing architects to dial
+  in a preferred naming convention and generation style.</para>
+
+  <section>
+    <title>Classes</title>
+    <para> Each class is translated into an ANSI C structure.  Instances
+    are maintained in collections of instances of classes (class
+    extents).  Space for class instances is
+    pre-allocated at bring-up time.</para>
+    
+    <section>
+      <title>Creation</title>
+      <para>Creation occurs in constant time.  Creation can occur
+      synchronously with the create action language statement or
+      asynchronously with a creation event.  In synchronous creation,
+      no action is executed.  In asynchronous creation, a creation
+      state is executed and at minimum initializes the instance
+      identifier.</para>
+    </section>
+    
+    <section>
+      <title>Deletion</title>
+      <para>Instance deletion moves an class instance from the
+      active extent and deactivates it onto a list of inactive
+      (``inanimate'') class instances.  If no action language
+      ever performs deletion of a particular class, no deletion
+      accessor method is generated.</para>
+    </section>
+    
+    <section>
+      <title>Selection</title>
+      <para>Instance selection is optimized for speed when selecting
+      based on the instance identifier.  For unoptimized selections O(N)
+      (linear) time is required.  (&escher; provides
+      O(N) for all ``blind selections'', <command>select any from
+      instances of</command> action language commands.)
+      Hooks are provided for architect replacement of certain
+      signature selection search functions.</para>
+    </section>
+    
+    <section>
+      <title>Attributes</title>
+      <para> Attributes are elements of the translated structure.  Most
+      attributes are translated with no function interface layer.  No
+      call/return overhead is incurred for most attribute read and
+      write operations.  Code is generated to directly access attribute
+      data.  Speed is optimized.</para>
+      <para>In typical models, some attributes are never accessed.
+      &escher; detects this situation and omits the implementation of
+      attribute data elements that are never accessed.  Unused data is
+      optimized away.</para>
+    </section>
+  </section>
+  
+  
+  <section>
+    <title>Associations</title>
+    <para> Associations are optimized by storing a copy of the instance
+    handle as extended attribute data.  This optimization is
+    implemented between sub/super-types as well.</para>
+    <para>As with data attribute elements, &escher; optimizes away
+    unused referential attributes.  Relate, unrelate (link and unlink)
+    and association traversal operations are optimized for low
+    overhead.  These operations are performed directly on instance data
+    when appropriate avoiding the generation and associated run time
+    overhead of function calls.</para>
+  </section>
+  
+  
+  <section>
+    <title>State Models</title>
+    <para> The translated state models are optimized for speed.  State
+    transitions and action dispatches execute in constant time.
+    The state event matrix is implemented as a two dimensional
+    array.  Rows represent states; columns are indexed by event
+    to obtain the transition.</para>
+    
+    <section>
+      <title>Actions</title>
+      <para> Actions are translated into functions associated by
+      name and packaging with the class containing the state model
+      containing the state action.</para>
+    </section>
+    
+    <section>
+      <title>Events</title>
+      <para>Adherence to &sm; event rules is assured in the generated
+      code.  Centralized event queues order events for the entire
+      system.</para>
+      <para>Prioritized events can be marked by the user. 256
+      priority levels are provided.</para>
+    </section>
+    
+    <section>
+      <title>Creation Events</title>
+      <para> Creation events are recognized and treated differently
+      from non-creation events.  The model compiler will create an
+      instance of the class before the event is delivered.  The event
+      will cause a transition into the creation state and execution of
+      the associated action.</para>
+    </section>
+    
+    <section>
+      <title>Final States</title>
+      <para> Final state actions delete self after executing the
+      specified processing.</para>
+    </section>
+  </section>
+  
+  
+  <section>
+    <title>Bridges and Operations</title>
+    <para> Functions (bridges) and operations are listed together, because
+    &escher; treats them with a great deal of symmetry.  Functions and
+    operations translate into C function invocations.  Any number of
+    arguments can be passed.</para>
+    
+    <para>&escher; generates bridge and operation frameworks.  These
+    frameworks provide the entire invocation interface.  A comment is
+    provided to guide the user in where to insert implementation code.
+    These skeletons will compile with or without inserted user code.
+    </para>
+  </section>
+  
+  
+  <section>
+    <title>Miscellaneous</title>
+    <para>These are the unclassified features.</para>
+    <section>
+      <title>Initialization</title>
+      <para> Marking allows &bpmv; flavored initialization objects
+      to be used for system initialization.  In addition, several
+      initialization objects can be defined in the model and
+      only one marked to generate code.</para>
+    </section>
+    
+    <section>
+      <title>Style Dials</title>
+      <para> Various stylistic and implementation conventions are
+      centralized and documented to be easily controlled by the software
+      architect.  Generated file names, directory structure, coding
+      conventions and even coding style can be dialed in by the user.
+      (Look for fule files with the word ``name'' in the file name.)
+      </para>
+    </section>
+    
+    <section>
+      <title>Metrics</title>
+      <para>&escher; is tooled to support a measured development
+      process.  As with style, metrics can be customized easily.
+      &escher; gathers and reports many metrics including statistics
+      quantifying classes, states models, state actions, event flavors,
+      association and marking summary information.</para>
+    </section>
+    
+  </section>
+</section>
+
+
+<section>
+  <title>Restrictions and Limitations</title>
+  <para>See release notes for most recent restrictions and limitations.
+  <itemizedlist>
+    <listitem><para>Dynamic memory allocation is off by default.  System storage space
+    for all instances is pre-allocated at start-up.  This implies
+    marking the OIM to define the maximum number of instances needed
+    for each class.  Note that &escher; intelligently determines
+    rational defaults for instance and event populations.  Sophisticated
+    analysis is performed to size instance, event and queue
+    populations across multiple components.  Marking
+    is used to dial these in tightly.  Dynamic memory allocation can
+    be enabled with marking.</para></listitem>
+    <listitem><para>Some platforms have no real time clock.  Therefore
+    date and time may not be available in standard Gregorian or Caesarian
+    form.</para></listitem>
+    <listitem><para>State machines are optimized for speed rather than
+    space.</para></listitem>
+    <listitem><para>Navigations of composed associations must explicitly
+    use the ``real'' (non-composed) association
+    formalizations.</para></listitem>
+    <listitem><para>Association conditionality is not enforced by
+    the model compiler.</para></listitem>
+    <listitem><para>&escher; attempts to optimize <command>select
+    any [inst_ref] from instances of [key_letters] where
+    [where clause]</command> for code size when the where clause
+    is checking for equality of the identifier.  Future versions
+    of &escher; may provide advanced (hashed) searching techniques
+    to optimize the blind selections for speed.  In &escher;,
+    certain limitations apply to the selection
+    optimization when unnecessary parentheses are used in the
+    where clause expression.  To guarantee the best optimization,
+    avoid unnecessary parentheses in where clauses.</para></listitem>
+    <listitem><para>Blind selections following a create and in the same
+    scope as the create may not see the newly created instance in the
+    extent.</para></listitem>
+    <listitem><para><command>create object instance of</command>
+    <emphasis>keyletters</emphasis> (create with no return
+    value) is allowed only when the identifier of
+    class <emphasis>keyletters</emphasis> is of type
+    unique_ID.</para></listitem>
+    <listitem><para>The implementation of string expressions
+    is somewhat inelegant.  Strings in expressions are limited to simple
+    binary operations.  For example
+    <programlisting>company = "Mentor" + "Graphics" + "Corp.";</programlisting>
+    results in a compilation error.  The alternative,
+    <programlisting>company = "Mentor" + "Graphics";</programlisting>
+    <programlisting>company = company + "Corp.";</programlisting>
+    must be used to
+    work around this shortcoming.</para></listitem>
+  </itemizedlist>
+  </para>
+</section>
+</chapter>
