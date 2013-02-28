@@ -33,7 +33,7 @@
     .invoke s = t_oal_smt_for( te_smt, te_for, te_blk.indentation )
     .assign te_smt.declaration = s.declaration
     .assign te_smt.buffer = s.body
-    .assign te_smt.buffer2 = ".end for"
+    .assign te_smt.buffer2 = te_blk.indentation + ".end for"
     .assign te_smt.OAL = ".for each ${v_var.Name} in ${set_v_var.Name}"
   .end if
 .end function
@@ -57,8 +57,8 @@
   .select one condition_te_val related by act_if->V_VAL[R625]->TE_VAL[R2040]
   .invoke s = t_oal_smt_if( condition_te_val.buffer, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.buffer2 = ".end if"
-  .assign te_smt.OAL = ".if ( ${condition_te_val.OAL} )"
+  .assign te_smt.buffer2 = te_blk.indentation + ".end if"
+  .assign te_smt.OAL = ".if ${condition_te_val.OAL}"
 .end function
 .// ----------------------------------------------------------
 .// gen while statements
@@ -79,8 +79,8 @@
   .select one condition related by act_whl->V_VAL[R626]->TE_VAL[R2040]
   .invoke s = t_oal_smt_while( condition.buffer, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.buffer2 = ".end while"
-  .assign te_smt.OAL = ".while ( ${condition.OAL} )"
+  .assign te_smt.buffer2 = te_blk.indentation + ".end while"
+  .assign te_smt.OAL = ".while ${condition.OAL}"
 .end function
 .// ----------------------------------------------------------
 .// gen else statements
@@ -100,7 +100,7 @@
   .select one te_blk related by te_smt->TE_BLK[R2078]
   .invoke s = t_oal_smt_else( te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.buffer2 = s.ending
+  .assign te_smt.buffer2 = te_blk.indentation + ".end if"
   .// Skip tracing ELSE because it falls between } and else.
   .assign te_smt.OAL = ".else"
   .//.assign te_smt.OAL = ""
@@ -125,9 +125,9 @@
   .select one condition related by act_el->V_VAL[R659]->TE_VAL[R2040]
   .invoke s = t_oal_smt_elif( condition.buffer, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.buffer2 = s.ending
+  .//.assign te_smt.buffer2 = s.ending
   .// Skip tracing ELIF because it falls between } and else.
-  .assign te_smt.OAL = ".elif ( ${condition.OAL} )"
+  .assign te_smt.OAL = ".elif ${condition.OAL}"
   .//.assign te_smt.OAL = ""
 .end function
 .//
@@ -684,7 +684,7 @@
     .// Push deallocation into the block so that it is available at gen time for break/continue/return.
     .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = ".select ${act_fiw.cardinality} ${v_var.Name} from instances of ${o_obj.Key_Lett} WHERE ${where_te_val.OAL}"
+    .assign te_smt.OAL = ".select ${act_fiw.cardinality} ${v_var.Name} from instances of ${o_obj.Key_Lett} where ${where_te_val.OAL}"
   .end if
 .end function
 .// --------------------------------------------------------
@@ -1093,7 +1093,7 @@
     .end if
     .invoke s = t_oal_smt_bridge( te_brg, name, parameters, te_blk.indentation )
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "${te_brg.EEkeyletters}::${te_brg.Name}( ${parameter_OAL} )"
+    .assign te_smt.OAL = ".invoke ${te_brg.EEkeyletters}_${te_brg.Name}( ${parameters} )"
   .end if
 .end function
 .//
@@ -1129,7 +1129,7 @@
     .end if
     .invoke s = t_oal_smt_function( name, parameters, te_blk.indentation )
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = ".invoke ${te_sync.Name}( ${parameter_OAL} )"
+    .assign te_smt.OAL = ".invoke ${te_sync.Name}( ${parameters} )"
   .end if
 .end function
 .//
@@ -1289,7 +1289,8 @@
   .end while
   .invoke s = t_oal_smt_break( deallocation, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = ".break"
+  .// CDS I think break for works when in a while statement...
+  .assign te_smt.OAL = ".break for"
 .end function
 .//
 .// --------------------------------------------------------
@@ -1324,7 +1325,7 @@
   .end while
   .invoke s = t_oal_smt_continue( deallocation, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = "CONTINUE"
+  .assign te_smt.OAL = ".continue"
 .end function
 .//
 .function q_smt_select_related

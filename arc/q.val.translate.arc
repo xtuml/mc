@@ -90,7 +90,7 @@
     .//.assign te_val.OAL = ( "'" + v_lst.Value ) + "'"
     .//.assign te_val.OAL = ( "''" + v_lst.Value ) + "''"
     .//.assign te_val.OAL = ( "&quot;" + v_lst.Value ) + "&quot;"
-    .assign te_val.OAL = ( "" + v_lst.Value ) + ""
+    .assign te_val.OAL = ( """" + v_lst.Value ) + """"
     .assign te_val.buffer = ( """" + v_lst.Value ) + """"
     .assign te_val.dimensions = 1
     .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
@@ -309,7 +309,7 @@
         .assign te_evt.Used = true
       .end if
     .end if
-    .assign te_val.OAL = "PARAM." + te_parm.Name
+    .assign te_val.OAL = te_parm.Name
     .assign te_val.buffer = "rcvd_evt->" + te_parm.GeneratedName
     .assign te_val.dimensions = te_parm.dimensions
     .assign te_val.array_spec = te_parm.array_spec
@@ -334,7 +334,7 @@
     .end if
     .end if
     .end if
-    .assign te_val.OAL = "PARAM." + te_parm.Name
+    .assign te_val.OAL = te_parm.Name
     .assign te_val.buffer = te_parm.GeneratedName
     .assign te_val.dimensions = te_parm.dimensions
     .assign te_val.array_spec = te_parm.array_spec
@@ -394,7 +394,7 @@
         .assign te_val.buffer = op + root_te_val.buffer
       .end if
     .end if
-    .assign te_val.OAL = ( op + " " ) + root_te_val.OAL
+    .assign te_val.OAL = ( ( "( " + op ) + ( " " + root_te_val.OAL ) ) + " )"
     .// future support for vector arithmetic goes here
     .assign te_val.dimensions = root_te_val.dimensions
     .assign te_val.array_spec = root_te_val.array_spec
@@ -496,7 +496,7 @@
     .assign te_ee.Included = true
     .invoke params = gen_parameter_list( v_pars, false, "bridge" )
     .assign parameters = params.body
-    .assign te_val.OAL = "${te_brg.EEkeyletters}::${te_brg.Name}(${params.OAL})"
+    .assign te_val.OAL = "${te_brg.EEkeyletters}_${te_brg.Name}(${params.OAL})"
     .if ( "SystemC" == te_target.language )
       .if ( "TIM" == te_brg.EEkeyletters )
         .assign te_val.buffer = ( "thismodule->tim->" + te_brg.GeneratedName ) + "("
@@ -601,7 +601,7 @@
     .select many v_pars related by v_fnv->V_PAR[R817]
     .select one te_aba related by te_sync->TE_ABA[R2010]
     .invoke params = gen_parameter_list( v_pars, false, "function" )
-    .assign te_val.OAL = "::${te_sync.Name}(${params.OAL})"  
+    .assign te_val.OAL = "${te_sync.Name}(${params.OAL})"  
     .assign name = te_sync.intraface_method
     .if ( "SystemC" == te_target.language )
       .assign name = "thismodule->" + name

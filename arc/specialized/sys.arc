@@ -146,9 +146,30 @@
 .invoke translate_all_oal()
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
-  .invoke s = CreateSynchronousServiceClassDefinition( te_c )
-  .assign function_definitions = s.body
-  .print "${function_definitions}"
+  .assign s = ""
+  .select many te_syncs related by te_c->TE_SYNC[R2084] where ( selected.XlateSemantics )
+  .for each te_sync in te_syncs
+    .select one te_aba related by te_sync->TE_ABA[R2010]
+    .select any s_sparm related by te_aba->TE_PARM[R2062]->S_SPARM[R2030] where ( selected.Previous_SParm_ID == 00 )
+    .assign s = ( s + "\n.function " ) + te_sync.Name
+    .while ( not_empty s_sparm )
+      .select one s_dt related by s_sparm->S_DT[R26]
+      .select one s_irdt related by s_dt->S_IRDT[R17]
+      .assign t = s_dt.Name
+      .if ( not_empty s_irdt )
+        .if ( s_irdt.isSet )
+          .assign t = "inst_ref_set"
+        .else
+          .assign t = "inst_ref"
+        .end if
+      .end if
+      .assign s = ( ( s + "\n  .param " ) + ( t + " " ) ) + s_sparm.Name
+      .select one s_sparm related by s_sparm->S_SPARM[R54.'succeeds']
+    .end while
+    .assign s = ( s + "\n" ) + te_aba.code
+    .assign s = s + ".end function\n"
+  .end for
+  .print "${s}"
 .end for
 .exit 3
 .//

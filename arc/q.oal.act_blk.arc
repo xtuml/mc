@@ -34,12 +34,10 @@
     .select any current_act_if related by act_smt->ACT_IF[R603] where ( false )
     .select any empty_act_smt related by current_act_if->ACT_SMT[R603] where ( false )
     .// Be sure we have the first statement in the block.
-    .while ( not_empty act_smt )
-      .select one s related by act_smt->ACT_SMT[R661.'succeeds']
-      .if ( empty s )
-        .break while
-      .end if
+    .select one s related by act_smt->ACT_SMT[R661.'succeeds']
+    .while ( not_empty s )
       .assign act_smt = s
+      .select one s related by act_smt->ACT_SMT[R661.'succeeds']
     .end while
     .while ( not_empty act_smt )
       .assign next = empty_act_smt
@@ -84,6 +82,9 @@
         .if ( empty next )
           .select one next related by act_if->ACT_E[R683]->ACT_SMT[R603]
         .end if
+        .if ( not_empty next )
+          .assign te_smt.buffer2 = ""
+        .end if
       .else
       .select one eli_blk related by act_smt->ACT_EL[R603]->ACT_BLK[R658]
       .if ( not_empty eli_blk )
@@ -119,13 +120,13 @@
       .assign act_smt = next
     .end while
     .if ( "" != te_blk.deallocation )
-      .assign te_blk.code = ( ( te_blk.code + te_blk.indentation ) + ( te_blk.deallocation + "\n" ) )
+      .//.assign te_blk.code = ( ( te_blk.code + te_blk.indentation ) + ( te_blk.deallocation + "\n" ) )
     .end if
     .if ( "" != te_blk.initialization )
       .assign te_blk.code = ( ( te_blk.indentation + te_blk.initialization ) + ( "\n" + te_blk.code ) )
     .end if
     .if ( "" != te_blk.declaration )
-      .assign te_blk.code = ( ( te_blk.indentation + te_blk.declaration ) + ( "\n" + te_blk.code ) )
+      .//.assign te_blk.code = ( ( te_blk.indentation + te_blk.declaration ) + ( "\n" + te_blk.code ) )
     .end if
     .if ( "" != te_blk.code )
 ${te_blk.code}\
