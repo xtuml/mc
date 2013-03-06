@@ -250,27 +250,7 @@ are changed (if they are changed).
   <li> GET_ENV_VAR() : <em>generator built-in</em>
   <li> factory_factory() : q.mc3020.arc
     <ul>
-    <li> factory_TE_PREFIX() : q.mc3020.arc
-    <li> factory_TE_TYPEMAP() : q.mc3020.arc
-    <li> factory_TE_CONTAINER() : q.mc3020.arc
-    <li> factory_TE_COPYRIGHT() : q.mc3020.arc
-    <li> factory_TE_DLIST() : q.mc3020.arc
-    <li> factory_TE_DMA() : q.mc3020.arc
-    <li> factory_TE_EQ() : q.mc3020.arc
-    <li> factory_TE_FILE() : q.mc3020.arc
-    <li> factory_TE_INSTANCE() : q.mc3020.arc
-    <li> factory_TE_ILB() : q.mc3020.arc
-    <li> factory_TE_PERSIST() : q.mc3020.arc
-    <li> factory_TE_RELSTORE() : q.mc3020.arc
-    <li> factory_TE_SET() : q.mc3020.arc
-    <li> factory_TE_SLIST() : q.mc3020.arc
-    <li> factory_TE_STRING() : q.mc3020.arc
-    <li> factory_TE_THREAD() : q.mc3020.arc
-    <li> factory_TE_TIM() : q.mc3020.arc
-    <li> factory_TE_CALLOUT() : q.mc3020.arc
-    <li> factory_TE_TRACE() : q.mc3020.arc
-    <li> factory_TE_EXTENT() : q.mc3020.arc
-    <li> factory_TE_TARGET() : q.mc3020.arc
+    <li> factory_TE_*() : q.mc3020.arc
     </ul>
   <li> PseudoFormalizeUnformalizedAssociations() : q.assoc.pseudoformalize.arc
   <li> MC_metamodel_populate() : q.mc_metamodel.populate.arc
@@ -323,58 +303,21 @@ are changed (if they are changed).
           </ul> 
         </ul>
       </ul>
-    <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
     <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
-      <ul>
-      <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
-      <li> te_parm_RenderParameters() : q.parameters.arc
-        <ul>
-        <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
-        <li> t_oal_smt_event_parameters() : t.smt.c
-        </ul>
-      </ul>
     <li> TE_EE_init() : q.mc_metamodel.populate.arc
       <ul>
       <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
-        <ul>
-        <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
-        <li> te_parm_RenderParameters() : q.parameters.arc
-          <ul>
-          <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
-          <li> t_oal_smt_event_parameters() : t.smt.c
-          </ul>
-        </ul>
       </ul>
-    <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
     <li> GetAttributeCodeGenType() : q.datatype.arc
       <ul>
       <li> GetBaseTypeForUDT() : q.datatype.arc
       <li> GetAttributeCodeGenType() : q.datatype.arc 
       </ul>
-    <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
-      <ul>
-      <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
-      <li> te_parm_RenderParameters() : q.parameters.arc
-        <ul>
-        <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
-        <li> t_oal_smt_event_parameters() : t.smt.c
-        </ul>
-      </ul>
     <li> FactoryTE_SM() : q.mc_metamodel.populate.arc
       <ul>
       <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
-        <ul>
-        <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
-        <li> te_parm_RenderParameters() : q.parameters.arc
-          <ul>
-          <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
-          <li> t_oal_smt_event_parameters() : t.smt.c
-          </ul>
-        </ul>
       <li> SortSetAscendingByAttr_Numb() : q.class.link.arc
       </ul> 
-    <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
-    <li> TE_EE_init() : q.mc_metamodel.populate.arc
     </ul>
   </ul>
   <li> CreateSpecialWhereClauseInstances() : q.oal.analyze.arc
@@ -392,67 +335,33 @@ are changed (if they are changed).
     <ul>
     <li> translate_values() : q.oal.translate.arc
       <ul>
-      <li> q_val_literal_boolean_values()
-      <li> q_val_literal_integer_values()
-      <li> q_val_literal_real_values()
-      <li> q_val_literal_string_values()
-      <li> q_val_literal_enumerations()
-      <li> q_val_constant_values()
-      <li> q_val_transient_values()
-      <li> q_val_instance_reference_values()
-      <li> q_val_inst_ref_set_values()
-      <li> q_val_selection_test_values()
-      <li> q_val_event_values()
-      <li> q_val_parameter_values()
-      <li> q_val_attribute_values()
-      <li> q_val_member_values()
-      <li> q_val_array_element_references()
-      <li> q_val_array_length_values()
-      <li> q_val_unary_op_values()
-      <li> q_val_binary_op_values()
-      <li> q_val_actual_parameters()
-      <li> q_val_message_values()
-      <li> q_val_bridge_values()
-      <li> q_val_transform_values()
-      <li> q_val_synch_service_values()
+      <li> q_val_*() : q.val.translate.arc
+        <ul>
+        <li> gen_parameter_list() : q.utils.arc
+          <ul>
+          <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
+          <li> gen_value() : q.val.translate.arc
+          </ul>
+        <li> q_render_msg() : q.smt.generate.arc
+          <ul>
+          <li> t_oal_smt_iop() : t.smt.c
+          </ul>
+        </ul>
       </ul>
     <li> translate_control_statements() : q.oal.translate.arc
       <ul>
-      <li> q_smt_ifs()
-      <li> q_smt_elses()
-      <li> q_smt_fors()
-      <li> q_smt_whiles()
-      <li> q_smt_elifs()
+      <li> q_smt_*() : q.smt.generate.arc
+        <ul>
+        <li> detect_and_insert_associator_TE_LNK() : q.mc_metamodel.populate.arc
+        <li> gen_parameter_list() : q.utils.arc
+        <li> GetBaseTypeForUDT() : q.datatype.arc
+        <li> is_reflexive() : q.utils.arc
+        <li> t_oal_smt_* : t.smt.c
+        </ul>
       </ul>
     <li> translate_other_statements() : q.oal.translate.arc
       <ul>
-      <li> q_smt_assigns()
-      <li> q_smt_create_instances()
-      <li> q_smt_delete_instances()
-      <li> q_smt_create_events_to_instance()
-      <li> q_smt_create_events_to_class()
-      <li> q_smt_create_events_to_creator()
-      <li> q_smt_relates()
-      <li> q_smt_unrelates()
-      <li> q_smt_selects()
-      <li> q_smt_select_wheres()
-      <li> q_smt_select_relateds()
-      <li> q_smt_select_related_wheres()
-      <li> q_smt_relate_usings()
-      <li> q_smt_unrelate_usings()
-      <li> q_smt_generate_precreated_events()
-      <li> q_smt_generate_events()
-      <li> q_smt_generate_class_events()
-      <li> q_smt_generate_creator_events()
-      <li> q_smt_sgns()
-      <li> q_smt_iops()
-      <li> q_smt_operates()
-      <li> q_smt_bridges()
-      <li> q_smt_functions()
-      <li> q_smt_returns()
-      <li> q_smt_controls()
-      <li> q_smt_breaks()
-      <li> q_smt_continues()
+      <li> q_smt_*() : q.smt.generate.arc
       </ul>    
     <li> TE_ABA_rollup() : q.oal.action.arc
       <ul>
