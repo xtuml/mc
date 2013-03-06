@@ -243,7 +243,7 @@ This refresh must occur at least once before file names in the RSL
 are changed (if they are changed).
 
 
-### 7.13 Call Tree Up to Instance Dump Action
+### 7.13 Call Tree Up to Instance Dump
 <ul>
 <li> <em>start</em> : sys.arc
   <ul>
@@ -251,28 +251,218 @@ are changed (if they are changed).
   <li> factory_factory() : q.mc3020.arc
     <ul>
     <li> factory_TE_PREFIX() : q.mc3020.arc
-    <li> factory_TE_TYPEMAP():q.mc3020.arc
-    * factory_TE_CONTAINER():q.mc3020.arc
-    * factory_TE_COPYRIGHT():q.mc3020.arc
-    * factory_TE_DLIST():q.mc3020.arc
-    * factory_TE_DMA():q.mc3020.arc
-    * factory_TE_EQ():q.mc3020.arc
-    * factory_TE_FILE():q.mc3020.arc
-    * factory_TE_INSTANCE():q.mc3020.arc
-    * factory_TE_ILB():q.mc3020.arc
-    * factory_TE_PERSIST():q.mc3020.arc
-    * factory_TE_RELSTORE():q.mc3020.arc
-    * factory_TE_SET():q.mc3020.arc
-    * factory_TE_SLIST():q.mc3020.arc
-    * factory_TE_STRING():q.mc3020.arc
-    * factory_TE_THREAD():q.mc3020.arc
-    * factory_TE_TIM():q.mc3020.arc
-    * factory_TE_CALLOUT():q.mc3020.arc
-    * factory_TE_TRACE():q.mc3020.arc
-    * factory_TE_EXTENT():q.mc3020.arc
-    * factory_TE_TARGET():q.mc3020.arc
+    <li> factory_TE_TYPEMAP() : q.mc3020.arc
+    <li> factory_TE_CONTAINER() : q.mc3020.arc
+    <li> factory_TE_COPYRIGHT() : q.mc3020.arc
+    <li> factory_TE_DLIST() : q.mc3020.arc
+    <li> factory_TE_DMA() : q.mc3020.arc
+    <li> factory_TE_EQ() : q.mc3020.arc
+    <li> factory_TE_FILE() : q.mc3020.arc
+    <li> factory_TE_INSTANCE() : q.mc3020.arc
+    <li> factory_TE_ILB() : q.mc3020.arc
+    <li> factory_TE_PERSIST() : q.mc3020.arc
+    <li> factory_TE_RELSTORE() : q.mc3020.arc
+    <li> factory_TE_SET() : q.mc3020.arc
+    <li> factory_TE_SLIST() : q.mc3020.arc
+    <li> factory_TE_STRING() : q.mc3020.arc
+    <li> factory_TE_THREAD() : q.mc3020.arc
+    <li> factory_TE_TIM() : q.mc3020.arc
+    <li> factory_TE_CALLOUT() : q.mc3020.arc
+    <li> factory_TE_TRACE() : q.mc3020.arc
+    <li> factory_TE_EXTENT() : q.mc3020.arc
+    <li> factory_TE_TARGET() : q.mc3020.arc
+    </ul>
+  <li> PseudoFormalizeUnformalizedAssociations() : q.assoc.pseudoformalize.arc
+  <li> MC_metamodel_populate() : q.mc_metamodel.populate.arc
+    <ul>
+    <li> TE_C_mark_nested_system() : q.mc_metamodel.populate.arc
+    <li> TE_C.getContainingComponent() : <em>MC meta-model function</em>
+    <li> FactoryTE_CLASS() : q.mc_metamodel.populate.arc
+    <li> TE_C.getContainingComponent() : <em>MC meta-model function</em>
+    <li> TE_C.getContainingComponent() : <em>MC meta-model function</em>
+    <li> GetBaseTypeForUDT() : q.datatype.arc
+    <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
+    <li> GetBaseTypeForUDT() : q.datatype.arc
+    <li> MapUserSpecifiedDataTypePrecision() : q.datatype.arc
+    <li> FactoryTE_PARM() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
+      </ul>
+    <li> FactoryTE_MACT() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> FactoryTE_PARM() : q.mc_metamodel.populate.arc
+        <ul>
+        <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
+        </ul>
+      <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
+        <ul>
+        <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
+        <li> te_parm_RenderParameters() : q.parameters.arc
+          <ul>
+          <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
+          <li> t_oal_smt_event_parameters() : t.smt.c
+          </ul>
+        </ul>
+      </ul>
+    <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
+    <li> indentwhitespace() : q.oal.act_blk.arc
+    <li> FactoryTE_LNK() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> GetRelationshipDataMemberName() : q.names.arc
+        <ul>
+        <li> GetRelationshipSuffix() : q.names.arc
+        </ul> 
+      </ul>
+    <li> detect_and_insert_associator_TE_LNK() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> associator_TE_LNK() : q.mc_metamodel.populate.arc
+        <ul>
+        <li> GetRelationshipDataMemberName() : q.names.arc
+          <ul>
+          <li> GetRelationshipSuffix() : q.names.arc
+          </ul> 
+        </ul>
+      </ul>
+    <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
+    <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
+      <li> te_parm_RenderParameters() : q.parameters.arc
+        <ul>
+        <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
+        <li> t_oal_smt_event_parameters() : t.smt.c
+        </ul>
+      </ul>
+    <li> TE_EE_init() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
+        <ul>
+        <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
+        <li> te_parm_RenderParameters() : q.parameters.arc
+          <ul>
+          <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
+          <li> t_oal_smt_event_parameters() : t.smt.c
+          </ul>
+        </ul>
+      </ul>
+    <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
+    <li> GetAttributeCodeGenType() : q.datatype.arc
+      <ul>
+      <li> GetBaseTypeForUDT() : q.datatype.arc
+      <li> GetAttributeCodeGenType() : q.datatype.arc 
+      </ul>
+    <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
+      <li> te_parm_RenderParameters() : q.parameters.arc
+        <ul>
+        <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
+        <li> t_oal_smt_event_parameters() : t.smt.c
+        </ul>
+      </ul>
+    <li> FactoryTE_SM() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
+        <ul>
+        <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
+        <li> te_parm_RenderParameters() : q.parameters.arc
+          <ul>
+          <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
+          <li> t_oal_smt_event_parameters() : t.smt.c
+          </ul>
+        </ul>
+      <li> SortSetAscendingByAttr_Numb() : q.class.link.arc
+      </ul> 
+    <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
+    <li> TE_EE_init() : q.mc_metamodel.populate.arc
     </ul>
   </ul>
+  <li> CreateSpecialWhereClauseInstances() : q.oal.analyze.arc
+  <li> te_c_CollectLimits() : q.domain.limits.arc
+    <ul>
+    <li> te_class_analyze_class_extents() : q.domain.limits.arc
+    <li> analyze_timers_events_selects() : q.domain.limits.arc
+      <ul>
+      <li> event_queue_analyze_length() : q.oal.analyze.arc
+      <li> timer_analyze_starts() : q.oal.analyze.arc
+      <li> containoid_select_many_count() : q.oal.analyze.arc
+      </ul>
+    </ul>
+  <li> translate_all_oal() : q.oal.translate.arc
+    <ul>
+    <li> translate_values() : q.oal.translate.arc
+      <ul>
+      <li> q_val_literal_boolean_values()
+      <li> q_val_literal_integer_values()
+      <li> q_val_literal_real_values()
+      <li> q_val_literal_string_values()
+      <li> q_val_literal_enumerations()
+      <li> q_val_constant_values()
+      <li> q_val_transient_values()
+      <li> q_val_instance_reference_values()
+      <li> q_val_inst_ref_set_values()
+      <li> q_val_selection_test_values()
+      <li> q_val_event_values()
+      <li> q_val_parameter_values()
+      <li> q_val_attribute_values()
+      <li> q_val_member_values()
+      <li> q_val_array_element_references()
+      <li> q_val_array_length_values()
+      <li> q_val_unary_op_values()
+      <li> q_val_binary_op_values()
+      <li> q_val_actual_parameters()
+      <li> q_val_message_values()
+      <li> q_val_bridge_values()
+      <li> q_val_transform_values()
+      <li> q_val_synch_service_values()
+      </ul>
+    <li> translate_control_statements() : q.oal.translate.arc
+      <ul>
+      <li> q_smt_ifs()
+      <li> q_smt_elses()
+      <li> q_smt_fors()
+      <li> q_smt_whiles()
+      <li> q_smt_elifs()
+      </ul>
+    <li> translate_other_statements() : q.oal.translate.arc
+      <ul>
+      <li> q_smt_assigns()
+      <li> q_smt_create_instances()
+      <li> q_smt_delete_instances()
+      <li> q_smt_create_events_to_instance()
+      <li> q_smt_create_events_to_class()
+      <li> q_smt_create_events_to_creator()
+      <li> q_smt_relates()
+      <li> q_smt_unrelates()
+      <li> q_smt_selects()
+      <li> q_smt_select_wheres()
+      <li> q_smt_select_relateds()
+      <li> q_smt_select_related_wheres()
+      <li> q_smt_relate_usings()
+      <li> q_smt_unrelate_usings()
+      <li> q_smt_generate_precreated_events()
+      <li> q_smt_generate_events()
+      <li> q_smt_generate_class_events()
+      <li> q_smt_generate_creator_events()
+      <li> q_smt_sgns()
+      <li> q_smt_iops()
+      <li> q_smt_operates()
+      <li> q_smt_bridges()
+      <li> q_smt_functions()
+      <li> q_smt_returns()
+      <li> q_smt_controls()
+      <li> q_smt_breaks()
+      <li> q_smt_continues()
+      </ul>    
+    <li> TE_ABA_rollup() : q.oal.action.arc
+      <ul>
+      <li> blck_xlate() : q.oal.act_blk.arc
+        <ul>
+        <li> <em>Makes recursive calls to blk_xlate()</em>
+        </ul>
+      </ul>
+    </ul>
+  <li> <b>Dump Instances</b>
 </ul>
     
 
