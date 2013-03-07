@@ -379,11 +379,13 @@ are changed (if they are changed).
 
 - q.assoc.pseudoformalize.arc : _can be completely generated_
 - q.class.link.arc : _only the SortSet* functions are used pre-instance-dump, break these out_
+  - *In cds_instancedump_keith_4 these two functions are moved to q.utils.arc*
 - q.datatype.arc : _all functions in this file except UserSuppliedDataTypeIncludes are used pre-instance-dump_
 - q.domain.limits.arc : _can be completely generated_
 - q.mc3020.arc : _can be completely generated_
-- q.mc_metamodel.populate.arc : _all functions in this file except EP_PKG.getContainingPackage are used pre-instance-dump_
+- q.mc_metamodel.populate.arc : _can be completely generated.  Note: EP_PKG.getContainingPackage is not used in MC3020 (perhaps another MC?)_
 - q.names.arc : _only GetRelationship* functions are used pre-instance-dump, break these out_
+  - *In cds_instancedump_keith_4 these two functions are moved to q.names.rels.arc*
 - q.oal.act_blk.arc : _can be completely generated_
 - q.oal.action.arc : _can be completely generated_   
 - q.oal.analyze.arc : _only 4 of the 17 functions in this file are used pre-instance dump, break them out_
