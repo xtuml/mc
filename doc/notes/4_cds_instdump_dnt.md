@@ -256,10 +256,10 @@ are changed (if they are changed).
   <li> MC_metamodel_populate() : q.mc_metamodel.populate.arc
     <ul>
     <li> TE_C_mark_nested_system() : q.mc_metamodel.populate.arc
-    <li> TE_C.getContainingComponent() : <em>MC meta-model function</em>
+    <li> TE_C.getContainingComponent() : <em>q.mc_metamodel.populate.arc</em>
     <li> FactoryTE_CLASS() : q.mc_metamodel.populate.arc
-    <li> TE_C.getContainingComponent() : <em>MC meta-model function</em>
-    <li> TE_C.getContainingComponent() : <em>MC meta-model function</em>
+    <li> TE_C.getContainingComponent() : <em>q.mc_metamodel.populate.arc</em>
+    <li> TE_C.getContainingComponent() : <em>q.mc_metamodel.populate.arc</em>
     <li> GetBaseTypeForUDT() : q.datatype.arc
     <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
     <li> GetBaseTypeForUDT() : q.datatype.arc
@@ -374,9 +374,26 @@ are changed (if they are changed).
   <li> <b>Dump Instances</b>
 </ul>
     
+
 #### 7.13.1 Files
-- q.mc3020.arc : can be completely generated
-- 
+
+- q.assoc.pseudoformalize.arc : _can be completely generated_
+- q.class.link.arc : _only the SortSet* functions are used pre-instance-dump, break these out_
+- q.datatype.arc : _all functions in this file except UserSuppliedDataTypeIncludes are used pre-instance-dump_
+- q.domain.limits.arc : _can be completely generated_
+- q.mc3020.arc : _can be completely generated_
+- q.mc_metamodel.populate.arc : _all functions in this file except EP_PKG.getContainingPackage are used pre-instance-dump_
+- q.names.arc : _only GetRelationship* functions are used pre-instance-dump, break these out_
+- q.oal.act_blk.arc : _can be completely generated_
+- q.oal.action.arc : _can be completely generated_   
+- q.oal.analyze.arc : _only 4 of the 17 functions in this file are used pre-instance dump, break them out_
+- q.oal.translate.arc : _can be completely generated_
+- q.parameters.arc : _can be completely generated_
+- q.smt.generate.arc : _can be completely generated_
+- q.utils.arc : _can be completely generated_
+- q.val.translate.arc : _can be completely generated_
+- sys.arc : _the work up to the point of instance dump must be split out_
+- t.smt.c : _can be completely generated_
 
 
 
