@@ -279,27 +279,27 @@ are changed (if they are changed).
         <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
         <li> te_parm_RenderParameters() : q.parameters.arc
           <ul>
-          <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
+          <li> SortSetAlphabeticallyByNameAttr() : q.utils.arc (<em>Formerly in q.class.link.arc</em>)
           <li> t_oal_smt_event_parameters() : t.smt.c
           </ul>
         </ul>
       </ul>
-    <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
+    <li> SortSetAlphabeticallyByNameAttr() : q.utils.arc (<em>Formerly in q.class.link.arc</em>)
     <li> indentwhitespace() : q.oal.act_blk.arc
     <li> FactoryTE_LNK() : q.mc_metamodel.populate.arc
       <ul>
-      <li> GetRelationshipDataMemberName() : q.names.arc
+      <li> GetRelationshipDataMemberName() : q.names.rels.arc (<em>Formerly in q.names.arc</em>)
         <ul>
-        <li> GetRelationshipSuffix() : q.names.arc
+        <li> GetRelationshipSuffix() : q.names.rels.arc (<em>Formerly in q.names.arc</em>)
         </ul> 
       </ul>
     <li> detect_and_insert_associator_TE_LNK() : q.mc_metamodel.populate.arc
       <ul>
       <li> associator_TE_LNK() : q.mc_metamodel.populate.arc
         <ul>
-        <li> GetRelationshipDataMemberName() : q.names.arc
+        <li> GetRelationshipDataMemberName() : q.names.rels.arc (<em>Formerly in q.names.arc</em>)
           <ul>
-          <li> GetRelationshipSuffix() : q.names.arc
+          <li> GetRelationshipSuffix() : q.names.rels.arc (<em>Formerly in q.names.arc</em>)
           </ul> 
         </ul>
       </ul>
@@ -316,19 +316,19 @@ are changed (if they are changed).
     <li> FactoryTE_SM() : q.mc_metamodel.populate.arc
       <ul>
       <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
-      <li> SortSetAscendingByAttr_Numb() : q.class.link.arc
+      <li> SortSetAscendingByAttr_Numb() : q.utils.arc (<em>Formerly in q.class.link.arc</em>)
       </ul> 
     </ul>
   </ul>
-  <li> CreateSpecialWhereClauseInstances() : q.oal.analyze.arc
+  <li> CreateSpecialWhereClauseInstances() : q.oal.utils.arc (<em>Formerly in q.oal.analyze.arc</em>)
   <li> te_c_CollectLimits() : q.domain.limits.arc
     <ul>
     <li> te_class_analyze_class_extents() : q.domain.limits.arc
     <li> analyze_timers_events_selects() : q.domain.limits.arc
       <ul>
-      <li> event_queue_analyze_length() : q.oal.analyze.arc
-      <li> timer_analyze_starts() : q.oal.analyze.arc
-      <li> containoid_select_many_count() : q.oal.analyze.arc
+      <li> event_queue_analyze_length() : q.oal.utils.arc (<em>Formerly in q.oal.analyze.arc</em>)
+      <li> timer_analyze_starts() : q.oal.utils.arc (<em>Formerly in q.oal.analyze.arc</em>)
+      <li> containoid_select_many_count() : q.oal.utils.arc (<em>Formerly in q.oal.analyze.arc</em>)
       </ul>
     </ul>
   <li> translate_all_oal() : q.oal.translate.arc
@@ -339,7 +339,7 @@ are changed (if they are changed).
         <ul>
         <li> gen_parameter_list() : q.utils.arc
           <ul>
-          <li> SortSetAlphabeticallyByNameAttr() : q.class.link.arc
+          <li> SortSetAlphabeticallyByNameAttr() : q.utils.arc (<em>Formerly in q.class.link.arc</em>)
           <li> gen_value() : q.val.translate.arc
           </ul>
         <li> q_render_msg() : q.smt.generate.arc
