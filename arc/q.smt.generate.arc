@@ -402,7 +402,24 @@
     .invoke is_refl = is_reflexive( r_rel )
     .invoke s = t_oal_smt_relate( one_o_obj, oth_o_obj, r_rel, is_refl.result, r_rel.Numb, act_rel.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, te_blk.indentation )
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = ".// RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R${r_rel.Numb}"
+    .assign te_smt.OAL = ".// relate ${one_v_var.Name} to ${oth_v_var.Name} across R${r_rel.Numb}"
+    .// Select the r_rto and r_rgo based on what we have above.
+    .select any r_rgo related by r_rel->R_OIR[R201]->R_RGO[R203]
+    .select any r_rto related by r_rel->R_OIR[R201]->R_RTO[R203]
+    .// Get set of Object Identifying Attribute(s)
+    .select many o_oidas related by r_rto->O_ID[R109]->O_OIDA[R105]
+    .for each o_oida in o_oidas
+      .// Get the identifying attribute corresponding to this <o_oida> instance.
+      .select any o_attr related by o_oida->O_ATTR[R105] where (selected.Attr_ID == o_oida.Attr_ID)
+      .// Get the Referred To Identifier Attribute (O_RTIDA) instance reference.
+      .select any o_rtida related by r_rto->O_RTIDA[R110] where ((selected.Attr_ID == o_oida.Attr_ID) and ((selected.Obj_ID == o_oida.Obj_ID) and (selected.Oid_ID == o_oida.Oid_ID)))
+      .// There can be more than one valid O_REF here, so get _any_ one.
+      .select any o_ref related by o_rtida->O_REF[R111] where ( (selected.Obj_ID == r_rgo.Obj_ID) and (selected.OIR_ID == r_rgo.OIR_ID) )
+      .// Get the referential attribute corresponding to the current <o_attr>.
+      .select one ref_o_attr related by o_ref->O_RATTR[R108]->O_ATTR[R106]
+      .assign te_smt.OAL = te_smt.OAL + "\n.assign ${one_v_var.Name}.${ref_o_attr.Name} = ${oth_v_var.Name}.${o_attr.Name}"
+    .end for  
+    .assign te_smt.OAL = te_smt.OAL + "\n.// end relate"
   .end if
 .end function
 .//

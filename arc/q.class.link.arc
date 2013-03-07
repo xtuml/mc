@@ -856,30 +856,27 @@ ${aoth_fundamentals.body}\
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
-  .select one oid related by r_rto->O_ID[R109]
-  .assign key_number = oid.Oid_ID + 1
   .// Get set of Object Identifying Attribute(s)
-  .select many oida_set related by oid->O_OIDA[R105]
-  .for each oida in oida_set
-    .// Get the identifying attribute corresponding to this <oida> instance.
-    .select any ident_attr related by oida->O_ATTR[R105] where (selected.Attr_ID == oida.Attr_ID)
+  .select many o_oidas related by r_rto->O_ID[R109]->O_OIDA[R105]
+  .for each o_oida in o_oidas
+    .// Get the identifying attribute corresponding to this <o_oida> instance.
+    .select any o_attr related by o_oida->O_ATTR[R105] where (selected.Attr_ID == o_oida.Attr_ID)
     .// Get the Referred To Identifier Attribute (O_RTIDA) instance reference.
-    .select any rtida related by r_rto->O_RTIDA[R110] where ((selected.Attr_ID == oida.Attr_ID) and ((selected.Obj_ID == oida.Obj_ID) and (selected.Oid_ID == oida.Oid_ID)))
+    .select any o_rtida related by r_rto->O_RTIDA[R110] where ((selected.Attr_ID == o_oida.Attr_ID) and ((selected.Obj_ID == o_oida.Obj_ID) and (selected.Oid_ID == o_oida.Oid_ID)))
     .// There can be more than one valid O_REF here, so get _any_ one.
-    .// Note:  If MANY <rtida>, we need to rip through the (possible) combined referentials,
+    .// Note:  If MANY <o_rtida>, we need to rip through the (possible) combined referentials,
     .// unlinking any non-constrained elements.
-    .select any ref related by rtida->O_REF[R111] where ( (selected.Obj_ID == r_rgo.Obj_ID) and (selected.OIR_ID == r_rgo.OIR_ID) )
-    .// Get the referential attribute corresponding to the current <ident_attr>.
-    .select one ref_attr related by ref->O_RATTR[R108]->O_ATTR[R106]
-    .select one ref_te_attr related by ref_attr->TE_ATTR[R2033]
+    .select any o_ref related by o_rtida->O_REF[R111] where ( (selected.Obj_ID == r_rgo.Obj_ID) and (selected.OIR_ID == r_rgo.OIR_ID) )
+    .// Get the referential attribute corresponding to the current <o_attr>.
+    .select one ref_o_attr related by o_ref->O_RATTR[R108]->O_ATTR[R106]
+    .select one ref_te_attr related by o_ref->TE_ATTR[R2033]
     .if ( ref_te_attr.translate )
-      .select one ident_te_attr related by ident_attr->TE_ATTR[R2033]
-      .invoke r = GetAttributeCodeGenType( ref_attr )
+      .select one ident_te_attr related by o_attr->TE_ATTR[R2033]
+      .invoke r = GetAttributeCodeGenType( ref_o_attr )
       .assign te_dt = r.result
-      .assign initial_value = te_dt.Initial_Value
       .include "${te_file.arc_path}/t.class.set_refs.c"
     .end if
-  .end for  .// ident_attr in oida_set
+  .end for
 .end function
 .//
 .//============================================================================
