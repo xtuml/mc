@@ -288,18 +288,18 @@ are changed (if they are changed).
     <li> indentwhitespace() : q.oal.act_blk.arc
     <li> FactoryTE_LNK() : q.mc_metamodel.populate.arc
       <ul>
-      <li> GetRelationshipDataMemberName() : q.names.rels.arc (<em>Formerly in q.names.arc</em>)
+      <li> GetRelationshipDataMemberName() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)
         <ul>
-        <li> GetRelationshipSuffix() : q.names.rels.arc (<em>Formerly in q.names.arc</em>)
+        <li> GetRelationshipSuffix() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)
         </ul> 
       </ul>
     <li> detect_and_insert_associator_TE_LNK() : q.mc_metamodel.populate.arc
       <ul>
       <li> associator_TE_LNK() : q.mc_metamodel.populate.arc
         <ul>
-        <li> GetRelationshipDataMemberName() : q.names.rels.arc (<em>Formerly in q.names.arc</em>)
+        <li> GetRelationshipDataMemberName() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)
           <ul>
-          <li> GetRelationshipSuffix() : q.names.rels.arc (<em>Formerly in q.names.arc</em>)
+          <li> GetRelationshipSuffix() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)
           </ul> 
         </ul>
       </ul>
@@ -385,7 +385,7 @@ are changed (if they are changed).
 - q.mc3020.arc : _can be completely generated_
 - q.mc_metamodel.populate.arc : _can be completely generated.  Note: EP_PKG.getContainingPackage is not used in MC3020 (perhaps another MC?)_
 - q.names.arc : _only GetRelationship* functions are used pre-instance-dump, break these out_  
-  - *In cds_instancedump_keith_4 these two functions are moved to q.names.rels.arc*  
+  - *In cds_instancedump_keith_4 these two functions are moved to q.r_rel.arc*  
 - q.oal.act_blk.arc : _can be completely generated_
 - q.oal.action.arc : _can be completely generated_   
 - q.oal.analyze.arc : _only 4 of the 17 functions in this file are used pre-instance dump, break them out_
