@@ -57,7 +57,7 @@
 .include "${arc_path}/q.mc_metamodel.populate.arc"
 .include "${arc_path}/q.mc3020.arc"
 .include "${arc_path}/q.names.arc"
-.include "${arc_path}/q.names.rels.arc"
+.include "${arc_path}/q.r_rel.arc"
 .include "${arc_path}/q.oal.act_blk.arc"
 .include "${arc_path}/q.oal.action.arc"
 .include "${arc_path}/q.oal.analyze.arc"

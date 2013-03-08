@@ -626,21 +626,7 @@
   .assign instance_count = cardinality i_inss
   .if ( instance_count > 0 )
     .select one te_class related by o_obj->TE_CLASS[R2019]
-    kj;kajdf
-
-
-
-
-qq
-q
-qq
-q
-q
-q
-
-
-
-assign ContainerIndex = te_class.ContainerIndex
+    .assign ContainerIndex = te_class.ContainerIndex
     .// A container index starting greater than zero means we are not the
     .// first (instance) to be adding linked lists.  Precede with comma.
     .if ( ContainerIndex > 0 )
