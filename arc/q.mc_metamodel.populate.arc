@@ -1690,7 +1690,7 @@
 .//============================================================================
 .function FactoryTE_DIM
   .param inst_ref s_dim
-  .param inst_ref te_dim_predecessor
+  .param inst_ref predecessor_te_dim
   .create object instance te_dim of TE_DIM
   .assign te_dim.elementCount = s_dim.elementCount
   .if ( 0 == te_dim.elementCount )
@@ -1698,9 +1698,9 @@
     .// Add support here.
   .end if
   .assign te_dim.dimensionCount = s_dim.dimensionCount
-  .if ( not_empty te_dim_predecessor )
-    .// relate te_dim to te_dim_predecessor across R2060.'succeeds';
-    .assign te_dim_predecessor.next_te_dimID = te_dim.te_dimID
+  .if ( not_empty predecessor_te_dim )
+    .// relate te_dim to predecessor_te_dim across R2060.'succeeds';
+    .assign predecessor_te_dim.next_te_dimID = te_dim.te_dimID
     .// end relate
   .end if
   .assign attr_result = te_dim
@@ -2372,10 +2372,10 @@
 .// Recursively search upwards through the component hierarcy to find the
 .// containing (parent/owning) package.
 .function EP_PKG.getContainingPackage
-  .param inst_ref element
-  .select one ep_pkg related by element->PE_PE[R8001]->EP_PKG[R8000]
+  .param inst_ref container_c_c
+  .select one ep_pkg related by container_c_c->PE_PE[R8001]->EP_PKG[R8000]
   .if ( empty ep_pkg )
-    .select one c_c related by element->PE_PE[R8001]->C_C[R8003]
+    .select one c_c related by container_c_c->PE_PE[R8001]->C_C[R8003]
     .invoke r = EP_PKG.getContainingPackage( c_c )
     .assign ep_pkg = r.ep_pkg
   .end if

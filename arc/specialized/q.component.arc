@@ -253,8 +253,8 @@
       .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
         .assign autosar_body = "  #ifdef ${te_thread.AUTOSAR_enabled}\n"
         .if (( te_mact.subtypeKL == "SPR_RO" ) or ( te_mact.subtypeKL == "SPR_PO" ))
-          .select any operation from instances of C_IO where ( selected.Name == "${te_mact.MessageName}")
-          .select many te_parms related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
+          .select any c_io from instances of C_IO where ( selected.Name == "${te_mact.MessageName}")
+          .select many te_parms related by c_io->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
           .assign autosar_body = autosar_body + "  u1_t t = MC3020_AUTOSAR_RUNNABLE_NUMBER;\n"
           .if ( "void" != te_aba.ReturnDataType )
             .//create a "returnParam" to retrieve the returned value.
@@ -263,7 +263,7 @@
           .assign autosar_body = autosar_body + "  Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( (Rte_Instance)cache_Rte_self"
           .if ("" != te_aba.ParameterInvocation)
             .// reverse the order of property parameters found in the interface operation.
-            .invoke parameters = te_parm_ReverseParameters(te_parms, operation)
+            .invoke parameters = te_parm_ReverseParameters(te_parms, c_io)
             .assign autosar_body = autosar_body + ",${parameters.invocation}"
           .end if
           .if ( "void" != te_aba.ReturnDataType )
@@ -304,13 +304,13 @@
         .assign parmsCount = 0
         .select many te_parms from instances of TE_PARM where ( false )
         .if ((te_mact.subtypeKL == "SPR_PO") or ( te_mact.subtypeKL == "SPR_RO" ))
-          .select any operation from instances of C_IO where ( selected.Name == "${te_mact.MessageName}")
-          .select many te_parms related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
+          .select any c_io from instances of C_IO where ( selected.Name == "${te_mact.MessageName}")
+          .select many te_parms related by c_io->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
           .if ( "" != te_aba.ParameterInvocation )
             .assign parmsCount = cardinality te_parms
             .if(parmsCount > 1 )
               .// reverse the order of property parameters found in the interface operation.
-              .invoke parameters = te_parm_ReverseParameters(te_parms, operation)
+              .invoke parameters = te_parm_ReverseParameters(te_parms, c_io)
               .//assign the parameters definition in "parmeters_with_dt"
               .assign parameters_with_dt = ",${parameters.definition}"
             .else
@@ -523,7 +523,7 @@
 .//============================================================================
 .function te_parm_ReverseParameters
   .param inst_ref_set te_parms
-  .param inst_ref operation
+  .param inst_ref c_io
   .assign defn = " void"
   .assign invo = ""
   .assign param_delimiter = " "
@@ -531,7 +531,7 @@
   .//
   .// 1. get the last property parameter
   .select any last_c_pp from instances of C_PP where ( false )
-  .select many c_pps related by operation->C_EP[R4004]->C_PP[R4006]
+  .select many c_pps related by c_io->C_EP[R4004]->C_PP[R4006]
   .for each c_pp in c_pps
     .select one next_c_pp related by c_pp->C_PP[R4021.'succeeds']
     .if ( empty next_c_pp )

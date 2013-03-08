@@ -18,12 +18,12 @@ functionality will migrate from RSL to xtUML.
 
 2.  History
 -----------
-
+None.
 
 3.  Document References
 -----------------------
 [1] Issues 4 <https://github.com/xtuml/mc/issues/4>
-    Create instance dumper for C model compiler.
+    Create instance dumper for C model compiler.  
 [2] Analysis Note <https://github.com/xtuml/mc/doc/notes/4_cds_instdump_ant.md>
 
 
@@ -243,10 +243,164 @@ This refresh must occur at least once before file names in the RSL
 are changed (if they are changed).
 
 
+### 7.13 Call Tree Up to Instance Dump
+<ul>
+<li> <em>start</em> : sys.arc
+  <ul>
+  <li> GET_ENV_VAR() : <em>generator built-in</em>
+  <li> factory_factory() : q.mc3020.arc
+    <ul>
+    <li> factory_TE_*() : q.mc3020.arc
+    </ul>
+  <li> PseudoFormalizeUnformalizedAssociations() : q.assoc.pseudoformalize.arc
+  <li> MC_metamodel_populate() : q.mc_metamodel.populate.arc
+    <ul>
+    <li> TE_C_mark_nested_system() : q.mc_metamodel.populate.arc
+    <li> TE_C.getContainingComponent() : <em>q.mc_metamodel.populate.arc</em>
+    <li> FactoryTE_CLASS() : q.mc_metamodel.populate.arc
+    <li> TE_C.getContainingComponent() : <em>q.mc_metamodel.populate.arc</em>
+    <li> TE_C.getContainingComponent() : <em>q.mc_metamodel.populate.arc</em>
+    <li> GetBaseTypeForUDT() : q.datatype.arc
+    <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
+    <li> GetBaseTypeForUDT() : q.datatype.arc
+    <li> MapUserSpecifiedDataTypePrecision() : q.datatype.arc
+    <li> FactoryTE_PARM() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
+      </ul>
+    <li> FactoryTE_MACT() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> FactoryTE_PARM() : q.mc_metamodel.populate.arc
+        <ul>
+        <li> FactoryTE_DIM() : q.mc_metamodel.populate.arc
+        </ul>
+      <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
+        <ul>
+        <li> TE_PARM_duplicate() : q.mc_metamodel.populate.arc
+        <li> te_parm_RenderParameters() : q.parameters.arc
+          <ul>
+          <li> SortSetAlphabeticallyByNameAttr() : q.utils.arc (<em>Formerly in q.class.link.arc</em>)
+          <li> t_oal_smt_event_parameters() : t.smt.c
+          </ul>
+        </ul>
+      </ul>
+    <li> SortSetAlphabeticallyByNameAttr() : q.utils.arc (<em>Formerly in q.class.link.arc</em>)
+    <li> indentwhitespace() : q.oal.act_blk.arc
+    <li> FactoryTE_LNK() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> GetRelationshipDataMemberName() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)
+        <ul>
+        <li> GetRelationshipSuffix() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)
+        </ul> 
+      </ul>
+    <li> detect_and_insert_associator_TE_LNK() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> associator_TE_LNK() : q.mc_metamodel.populate.arc
+        <ul>
+        <li> GetRelationshipDataMemberName() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)
+          <ul>
+          <li> GetRelationshipSuffix() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)
+          </ul> 
+        </ul>
+      </ul>
+    <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
+    <li> TE_EE_init() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
+      </ul>
+    <li> GetAttributeCodeGenType() : q.datatype.arc
+      <ul>
+      <li> GetBaseTypeForUDT() : q.datatype.arc
+      <li> GetAttributeCodeGenType() : q.datatype.arc 
+      </ul>
+    <li> FactoryTE_SM() : q.mc_metamodel.populate.arc
+      <ul>
+      <li> FactoryTE_ABA() : q.mc_metamodel.populate.arc
+      <li> SortSetAscendingByAttr_Numb() : q.utils.arc (<em>Formerly in q.class.link.arc</em>)
+      </ul> 
+    </ul>
+  </ul>
+  <li> CreateSpecialWhereClauseInstances() : q.oal.utils.arc (<em>Formerly in q.oal.analyze.arc</em>)
+  <li> te_c_CollectLimits() : q.domain.limits.arc
+    <ul>
+    <li> te_class_analyze_class_extents() : q.domain.limits.arc
+    <li> analyze_timers_events_selects() : q.domain.limits.arc
+      <ul>
+      <li> event_queue_analyze_length() : q.oal.utils.arc (<em>Formerly in q.oal.analyze.arc</em>)
+      <li> timer_analyze_starts() : q.oal.utils.arc (<em>Formerly in q.oal.analyze.arc</em>)
+      <li> containoid_select_many_count() : q.oal.utils.arc (<em>Formerly in q.oal.analyze.arc</em>)
+      </ul>
+    </ul>
+  <li> translate_all_oal() : q.oal.translate.arc
+    <ul>
+    <li> translate_values() : q.oal.translate.arc
+      <ul>
+      <li> q_val_*() : q.val.translate.arc
+        <ul>
+        <li> gen_parameter_list() : q.utils.arc
+          <ul>
+          <li> SortSetAlphabeticallyByNameAttr() : q.utils.arc (<em>Formerly in q.class.link.arc</em>)
+          <li> gen_value() : q.val.translate.arc
+          </ul>
+        <li> q_render_msg() : q.smt.generate.arc
+          <ul>
+          <li> t_oal_smt_iop() : t.smt.c
+          </ul>
+        </ul>
+      </ul>
+    <li> translate_control_statements() : q.oal.translate.arc
+      <ul>
+      <li> q_smt_*() : q.smt.generate.arc
+        <ul>
+        <li> detect_and_insert_associator_TE_LNK() : q.mc_metamodel.populate.arc
+        <li> gen_parameter_list() : q.utils.arc
+        <li> GetBaseTypeForUDT() : q.datatype.arc
+        <li> is_reflexive() : q.utils.arc
+        <li> t_oal_smt_* : t.smt.c
+        </ul>
+      </ul>
+    <li> translate_other_statements() : q.oal.translate.arc
+      <ul>
+      <li> q_smt_*() : q.smt.generate.arc
+      </ul>    
+    <li> TE_ABA_rollup() : q.oal.action.arc
+      <ul>
+      <li> blck_xlate() : q.oal.act_blk.arc
+        <ul>
+        <li> <em>Makes recursive calls to blk_xlate()</em>
+        </ul>
+      </ul>
+    </ul>
+  <li> <b>Dump Instances</b>
+</ul>
+    
+
+#### 7.13.1 Files
+
+- q.assoc.pseudoformalize.arc : _can be completely generated_
+- q.class.link.arc : _only the SortSet* functions are used pre-instance-dump, break these out_  
+  - *In cds_instancedump_keith_4 these two functions are moved to q.utils.arc*  
+- q.datatype.arc : _all functions in this file except UserSuppliedDataTypeIncludes are used pre-instance-dump_
+- q.domain.limits.arc : _can be completely generated_
+- q.mc3020.arc : _can be completely generated_
+- q.mc_metamodel.populate.arc : _can be completely generated.  Note: EP_PKG.getContainingPackage is not used in MC3020 (perhaps another MC?)_
+- q.names.arc : _only GetRelationship* functions are used pre-instance-dump, break these out_  
+  - *In cds_instancedump_keith_4 these two functions are moved to q.r_rel.arc*  
+- q.oal.act_blk.arc : _can be completely generated_
+- q.oal.action.arc : _can be completely generated_   
+- q.oal.analyze.arc : _only 4 of the 17 functions in this file are used pre-instance dump, break them out_
+  - *In cds_instancedump_keith_4 these 4 functions are moved to q.oal.utils.arc*  
+- q.oal.translate.arc : _can be completely generated_
+- q.parameters.arc : _can be completely generated_
+- q.smt.generate.arc : _can be completely generated_
+- q.utils.arc : _can be completely generated_
+- q.val.translate.arc : _can be completely generated_
+- sys.arc : _the work up to the point of instance dump must be split out_
+- t.smt.c : _can be completely generated_
 
 
 
-### 7.13  General Notes
+### 7.14  General Notes
 
 We do set arithmetic in RSL.  We cannot do this in OAL.
 
