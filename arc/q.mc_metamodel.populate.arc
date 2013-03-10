@@ -1568,6 +1568,7 @@
           .// referential attribute
           .invoke r = GetAttributeCodeGenType( o_attr )
           .assign te_dt = r.result
+          .assign te_attr.DefaultValue = te_dt.Initial_Value
         .end if
         .assign te_attr.GeneratedType = te_dt.ExtName
         .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format

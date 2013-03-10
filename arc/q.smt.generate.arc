@@ -417,9 +417,9 @@
       .select any o_ref related by o_rtida->O_REF[R111] where ( (selected.Obj_ID == r_rgo.Obj_ID) and (selected.OIR_ID == r_rgo.OIR_ID) )
       .// Get the referential attribute corresponding to the current <o_attr>.
       .select one ref_o_attr related by o_ref->O_RATTR[R108]->O_ATTR[R106]
-      .assign te_smt.OAL = te_smt.OAL + "\n.assign ${one_v_var.Name}.${ref_o_attr.Name} = ${oth_v_var.Name}.${o_attr.Name}"
+      .assign te_smt.OAL = ( te_smt.OAL + "\n" ) + ( te_blk.indentation + ".assign ${one_v_var.Name}.${ref_o_attr.Name} = ${oth_v_var.Name}.${o_attr.Name}" )
     .end for  
-    .assign te_smt.OAL = te_smt.OAL + "\n.// end relate"
+    .assign te_smt.OAL = ( te_smt.OAL + "\n" ) + ( te_blk.indentation + ".// end relate" )
   .end if
 .end function
 .//
@@ -509,7 +509,12 @@
     .invoke is_refl = is_reflexive( r_rel )
     .invoke s = t_oal_smt_unrelate( one_o_obj, oth_o_obj, r_rel, is_refl.result, r_rel.Numb, act_unr.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, te_blk.indentation )
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = ".// UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R${r_rel.Numb};"
+    .assign te_smt.OAL = ".// unrelate ${one_v_var.Name} to ${oth_v_var.Name} across R${r_rel.Numb}"
+    .select many te_attrs related by r_rel->R_OIR[R201]->R_RGO[R203]->O_REF[R111]->O_RATTR[R108]->O_ATTR[R106]->TE_ATTR[R2033]
+    .for each te_attr in te_attrs
+      .assign te_smt.OAL = ( te_smt.OAL + "\n" ) + ( te_blk.indentation + ".assign ${one_v_var.Name}.${te_attr.Name} = ${te_attr.DefaultValue}" )
+    .end for
+    .assign te_smt.OAL = ( te_smt.OAL + "\n" ) + ( te_blk.indentation + ".// end unrelate" )
   .end if
 .end function
 .//
