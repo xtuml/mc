@@ -201,31 +201,33 @@
   .param inst_ref r_rel
   .param string   rel_phrase
   .//
-  .assign attr_name = ""
-  .assign attr_result = ""
+  .assign name = ""
+  .assign result = ""
   .assign formalizing_o_obj = left_o_obj
   .assign participant_o_obj = right_o_obj
   .//
-  .invoke link_info = GetLinkParameters( left_o_obj, right_o_obj, r_rel, rel_phrase )
-  .if ( not link_info.left_is_formalizer )
+  .invoke r = TE_REL_IsLeftFormalizer( left_o_obj, right_o_obj, r_rel, rel_phrase )
+  .assign left_is_formalizer = r.result
+  .if ( not left_is_formalizer )
     .assign formalizing_o_obj = right_o_obj
     .assign participant_o_obj = left_o_obj
   .end if
   .//
   .select one te_class related by formalizing_o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
-    .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
-    .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
+    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
+    .assign result = ( te_class.GeneratedName + "::" ) + name
   .end if
   .//
   .invoke suffix = GetRelationshipSuffix( formalizing_o_obj, r_rel, rel_phrase )
   .if ( suffix.result != "" )
-    .assign attr_name = attr_name + "_${suffix.result}"
-    .assign attr_result = attr_result + "_${suffix.result}"
+    .assign name = name + "_${suffix.result}"
+    .assign result = result + "_${suffix.result}"
   .end if
+  .assign attr_result = result
   .select any te_target from instances of TE_TARGET
   .if ( "C" == te_target.language )
-    .assign attr_result = attr_name
+    .assign attr_result = name
   .end if
 .end function
 .//
@@ -246,27 +248,33 @@
   .param inst_ref r_rel
   .param string   rel_phrase
   .//
+  .assign name = ""
+  .assign result = ""
   .assign formalizing_o_obj = left_o_obj
   .assign participant_o_obj = right_o_obj
   .//
-  .invoke link_info = GetLinkParameters( left_o_obj, right_o_obj, r_rel, rel_phrase )
-  .if ( not link_info.left_is_formalizer )
+  .invoke r = TE_REL_IsLeftFormalizer( left_o_obj, right_o_obj, r_rel, rel_phrase )
+  .assign left_is_formalizer = r.result
+  .if ( not left_is_formalizer )
     .assign formalizing_o_obj = right_o_obj
     .assign participant_o_obj = left_o_obj
   .end if
   .//
   .select one te_class related by formalizing_o_obj->TE_CLASS[R2019]
-  .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
-  .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
+  .if ( not_empty te_class )
+    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
+    .assign result = ( te_class.GeneratedName + "::" ) + name
+  .end if
   .//
   .invoke suffix = GetRelationshipSuffix( formalizing_o_obj, r_rel, rel_phrase )
   .if ( suffix.result != "" )
-    .assign attr_name = attr_name + "_${suffix.result}"
-    .assign attr_result = attr_result + "_${suffix.result}"
+    .assign name = name + "_${suffix.result}"
+    .assign result = result + "_${suffix.result}"
   .end if
+  .assign attr_result = result
   .select any te_target from instances of TE_TARGET
   .if ( "C" == te_target.language )
-    .assign attr_result = attr_name
+    .assign attr_result = name
   .end if
 .end function
 .//

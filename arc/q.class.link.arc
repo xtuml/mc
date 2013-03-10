@@ -856,30 +856,27 @@ ${aoth_fundamentals.body}\
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
-  .select one oid related by r_rto->O_ID[R109]
-  .assign key_number = oid.Oid_ID + 1
   .// Get set of Object Identifying Attribute(s)
-  .select many oida_set related by oid->O_OIDA[R105]
-  .for each oida in oida_set
-    .// Get the identifying attribute corresponding to this <oida> instance.
-    .select any ident_attr related by oida->O_ATTR[R105] where (selected.Attr_ID == oida.Attr_ID)
+  .select many o_oidas related by r_rto->O_ID[R109]->O_OIDA[R105]
+  .for each o_oida in o_oidas
+    .// Get the identifying attribute corresponding to this <o_oida> instance.
+    .select any o_attr related by o_oida->O_ATTR[R105] where (selected.Attr_ID == o_oida.Attr_ID)
     .// Get the Referred To Identifier Attribute (O_RTIDA) instance reference.
-    .select any rtida related by r_rto->O_RTIDA[R110] where ((selected.Attr_ID == oida.Attr_ID) and ((selected.Obj_ID == oida.Obj_ID) and (selected.Oid_ID == oida.Oid_ID)))
+    .select any o_rtida related by r_rto->O_RTIDA[R110] where ((selected.Attr_ID == o_oida.Attr_ID) and ((selected.Obj_ID == o_oida.Obj_ID) and (selected.Oid_ID == o_oida.Oid_ID)))
     .// There can be more than one valid O_REF here, so get _any_ one.
-    .// Note:  If MANY <rtida>, we need to rip through the (possible) combined referentials,
+    .// Note:  If MANY <o_rtida>, we need to rip through the (possible) combined referentials,
     .// unlinking any non-constrained elements.
-    .select any ref related by rtida->O_REF[R111] where ( (selected.Obj_ID == r_rgo.Obj_ID) and (selected.OIR_ID == r_rgo.OIR_ID) )
-    .// Get the referential attribute corresponding to the current <ident_attr>.
-    .select one ref_attr related by ref->O_RATTR[R108]->O_ATTR[R106]
-    .select one ref_te_attr related by ref_attr->TE_ATTR[R2033]
+    .select any o_ref related by o_rtida->O_REF[R111] where ( (selected.Obj_ID == r_rgo.Obj_ID) and (selected.OIR_ID == r_rgo.OIR_ID) )
+    .// Get the referential attribute corresponding to the current <o_attr>.
+    .select one ref_o_attr related by o_ref->O_RATTR[R108]->O_ATTR[R106]
+    .select one ref_te_attr related by ref_o_attr->TE_ATTR[R2033]
     .if ( ref_te_attr.translate )
-      .select one ident_te_attr related by ident_attr->TE_ATTR[R2033]
-      .invoke r = GetAttributeCodeGenType( ref_attr )
+      .select one ident_te_attr related by o_attr->TE_ATTR[R2033]
+      .invoke r = GetAttributeCodeGenType( ref_o_attr )
       .assign te_dt = r.result
-      .assign initial_value = te_dt.Initial_Value
       .include "${te_file.arc_path}/t.class.set_refs.c"
     .end if
-  .end for  .// ident_attr in oida_set
+  .end for
 .end function
 .//
 .//============================================================================
@@ -1118,237 +1115,43 @@ ${aoth_fundamentals.body}\
 .end function
 .//
 .//============================================================================
-.// Output Fragment Attributes:
-.// <left_mult> String. Multiplicity of the left object in the
-.//             relationship link.
-.// <right_mult> String. Multiplicity of the right object in the
-.//              relationship link.
-.// <left_is_formalizer> 
-.// <reflexive> 
-.// <rgo> 
-.// <rto> 
-.//
-.// Predicates:
-.// 1) The relationship <rel> is assumed to be formalized (excluding
-.//    composition).
-.// 2) This function should only be used for chain link processing.
-.//    Note that the link processing for traversing an associative relationship
-.//    assures that this function will never see a link from R_AONE to R_OTH;
-.//    to will see two steps through the associator, one link at a time.
+.// Returns whether the left O_OBJ is the formalizer.
 .//=============================================================================
-.function GetLinkParameters
+.function TE_REL_IsLeftFormalizer
   .param inst_ref left_o_obj
   .param inst_ref right_o_obj
   .param inst_ref r_rel
   .param string rel_phrase
   .//
-  .assign attr_left_mult = "one"
-  .assign attr_right_mult = "one"
-  .//
-  .assign attr_left_is_formalizer = FALSE
-  .assign attr_reflexive = FALSE
-  .//
-  .select any attr_rgo from instances of R_RGO
-  .select any attr_rto from instances of R_RTO
-  .//
+  .assign attr_result = false
   .select one simple_rel related by r_rel->R_SIMP[R206]
   .if ( not_empty simple_rel )
     .select one formalizer related by simple_rel->R_FORM[R208]
     .select one participant related by simple_rel->R_PART[R207]
-    .select one attr_rgo related by formalizer->R_RGO[R205]
-    .select one attr_rto related by participant->R_RTO[R204]
-    .//
     .if ( participant.Obj_ID != formalizer.Obj_ID )
       .// *** Normal Simple Relationship
       .if ( left_o_obj.Obj_ID == formalizer.Obj_ID )
         .// Left object is formalizer, right object is participant.
-        .assign attr_left_is_formalizer = TRUE
-        .if ( formalizer.Mult != 0 )
-          .assign attr_left_mult = "many"
-        .end if
-        .if ( participant.Mult != 0 )
-          .assign attr_right_mult = "many"
-        .end if
-      .else
-        .// right_o_obj.Obj_ID == formalizer.Obj_ID
-        .// Left object is participant, right object is formalizer.
-        .if ( formalizer.Mult != 0 )
-          .assign attr_right_mult = "many"
-        .end if
-        .if ( participant.Mult != 0 )
-          .assign attr_left_mult = "many"
-        .end if
+        .assign attr_result = true
       .end if
-      .//
     .else
       .// *** Simple Reflexive Relationship
-      .assign attr_reflexive = TRUE
       .if ( rel_phrase == participant.Txt_Phrs )
         .// Left object is formalizer, right object is participant.
-        .assign attr_left_is_formalizer = TRUE
-        .if ( formalizer.Mult != 0 )
-          .assign attr_left_mult = "many"
-        .end if
-        .if ( participant.Mult != 0 )
-          .assign attr_right_mult = "many"
-        .end if
-      .elif ( rel_phrase == formalizer.Txt_Phrs )
-        .// Left object is participant, right object is formalizer.
-        .if ( formalizer.Mult != 0 )
-          .assign attr_right_mult = "many"
-        .end if
-        .if ( participant.Mult != 0 )
-          .assign attr_left_mult = "many"
-        .end if
-      .else
-        .print "\nLOGIC/SQL ERROR:  Bogus reflexive simple relationship phrase:  ${rel_phrase}."
-        .print "part ${participant.Txt_Phrs} form ${formalizer.Txt_Phrs} rel ${rel_phrase}"
-        .exit 101
+        .assign attr_result = true
       .end if
     .end if
-    .//
   .else
     .select one subtype_supertype_rel related by r_rel->R_SUBSUP[R206]
     .// Subtype-Supertype relationship?
     .if ( not_empty subtype_supertype_rel )
-      .select one attr_rto related by r_rel->R_SUBSUP[R206]->R_SUPER[R212]->R_RTO[R204]
-      .//
       .// Left object is the subtype (formalizer)?
       .select any subtype related by subtype_supertype_rel->R_SUB[R213] where ( selected.Obj_ID == left_o_obj.Obj_ID )
       .if ( not_empty subtype )
-        .assign attr_left_is_formalizer = TRUE
-        .select one attr_rgo related by subtype->R_RGO[R205]
-      .else
-        .// Left is supertype, right is subtype
-        .select any subtype related by subtype_supertype_rel->R_SUB[R213] where ( selected.Obj_ID == right_o_obj.Obj_ID )
-        .select one attr_rgo related by subtype->R_RGO[R205]
+        .assign attr_result = true
       .end if
-    .else
-      .//
-      .select one associative_rel related by r_rel->R_ASSOC[R206]
-      .if ( not_empty associative_rel )
-        .select one one_side related by associative_rel->R_AONE[R209]
-        .select one other_side related by associative_rel->R_AOTH[R210]
-        .select one associator related by associative_rel->R_ASSR[R211]
-        .//
-        .select one attr_rgo related by associator->R_RGO[R205]
-        .//
-        .if ( left_o_obj.Obj_ID == associator.Obj_ID )
-          .// Left object is associator
-          .assign attr_left_is_formalizer = TRUE
-          .if ( one_side.Obj_ID == other_side.Obj_ID )
-            .// Reflexive Associative relationship
-            .if ( rel_phrase == one_side.Txt_Phrs )
-              .// Right object is R_AONE
-              .// Left object is associator R_ASSR
-              .// Leave attr_right_mult = to ONE since always true ?
-              .//
-              .// Associators multiplicity takes on R_AOTH multiplicity
-              .if ( other_side.Mult != 0 )
-                .assign attr_left_mult = "many"
-              .end if
-              .select one attr_rto related by one_side->R_RTO[R204]
-            .elif ( rel_phrase == other_side.Txt_Phrs )
-              .// Right object is R_AOTH
-              .// Left object is associator R_ASSR
-              .// Leave attr_right_mult = to ONE since always true ?
-              .//
-              .// Associators multiplicity takes on R_AONE multiplicity
-              .if ( one_side.Mult != 0 )
-                .assign attr_left_mult = "many"
-              .end if
-              .select one attr_rto related by other_side->R_RTO[R204]
-            .end if
-          .else
-            .// *** Simple Associative
-            .// Left object is associator
-            .// Right object multiplicity is always ONE, do not change attr_right_mult
-           .if ( right_o_obj.Obj_ID == one_side.Obj_ID )
-              .// Right object is R_AONE
-              .// Left object (associator) takes on R_AOTH multiplicity
-              .if ( other_side.Mult != 0 )
-                .assign attr_left_mult = "many"
-              .end if
-              .select one attr_rto related by one_side->R_RTO[R204]
-            .else
-              .// Right object is R_AOTH
-              .// Left object (associator) takes on R_AONE multiplicity
-              .if ( one_side.Mult != 0 )
-                .assign attr_left_mult = "many"
-              .end if
-              .select one attr_rto related by other_side->R_RTO[R204]
-            .end if
-          .end if
-        .elif ( right_o_obj.Obj_ID == associator.Obj_ID )
-          .// Right object is associator
-          .if ( one_side.Obj_ID == other_side.Obj_ID)
-            .// Reflexive Associative
-            .// Leave attr_left_mult = to ONE since always true
-            .// Associators multiplicity takes on R_AOTH multiplicity
-            .if ( one_side.Txt_Phrs != rel_phrase )
-              .// Left object is R_AONE
-              .// Associators multiplicity takes on R_AOTH multiplicity
-              .if ( other_side.Mult != 0 )
-                .assign attr_right_mult = "many"
-              .end if
-              .select one attr_rto related by one_side->R_RTO[R204]
-            .elif ( other_side.Txt_Phrs != rel_phrase )
-              .// Left object is R_AOTH
-              .// Associators multiplicity takes on R_AONE multiplicity
-              .//
-              .if ( one_side.Mult != 0 )
-                .assign attr_right_mult = "many"
-              .end if
-              .select one attr_rto related by other_side->R_RTO[R204]
-            .else
-              .print "\nLOGIC ERROR:  Bogus Associative Reflexive Relationship phrase!"
-              .exit 101
-            .end if   .// one_side.Obj_ID == other_side.Obj_ID
-          .else
-            .// Simple Associative
-            .// Left multiplicity is always ONE, do not change attr_left_mult
-            .if ( left_o_obj.Obj_ID == one_side.Obj_ID )
-              .// Left object is R_AONE
-              .// Right object takes on R_AOTH multiplicity
-              .if ( other_side.Mult != 0 )
-                .assign attr_right_mult = "many"
-              .end if
-              .select one attr_rto related by one_side->R_RTO[R204]
-            .else 
-              .// Left object is R_AOTH
-              .// Right object takes on R_AONE multiplicity
-              .if ( one_side.Mult != 0 )
-                .assign attr_right_mult = "many"
-              .end if
-              .select one attr_rto related by other_side->R_RTO[R204]
-            .end if
-          .end if
-        .else
-          .assign msg = "\nTRANSLATOR LOGIC ERROR!"
-          .assign msg = msg + "\n${left_o_obj.Key_Lett}->${right_o_obj.Key_Lett}[R${r_rel.Numb}]"
-          .assign msg = msg + "\nNeither object is associator in chain link processing!"
-          .print "${msg}"
-          .exit 101
-        .end if
-      .else
-        .select one composed_rel related by r_rel->R_COMP[R206]
-        .if ( not_empty composed_rel )
-          .assign msg = "\nTRANSLATOR SUPPORT ERROR!"
-          .assign msg = msg + "\n${left_o_obj.Key_Lett}->${right_o_obj.Key_Lett}[R${r_rel.Numb}]"
-          .assign msg = msg + "\nComposition navigation not supported!"
-          .print "${msg}"
-          .exit 101
-        .else 
-          .// In case BridgePoint adds a new subtype of R_REL meta-model object.
-          .assign msg = "\nTRANSLATOR LOGIC ERROR!"
-          .assign msg = msg + "\n${left_o_obj.Key_Lett}->${right_o_obj.Key_Lett}[R${r_rel.Numb}]"
-          .assign msg = msg + "\nUnknown relationship type!"
-          .print "${msg}"
-          .exit 101
-        .end if   .// not_empty composed_rel
-      .end if   .// not_empty associative_rel
-    .end if   .// not_empty subtype_supertype_rel
-  .end if   .// not_empty simple_rel
+    .end if
+  .end if
 .end function
 .//
 .//============================================================================
