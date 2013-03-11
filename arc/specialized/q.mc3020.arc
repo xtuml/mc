@@ -232,7 +232,6 @@
   .assign te_relinfo.obj = o_obj
   .select any r_oir from instances of R_OIR where ( false )
   .assign te_relinfo.oir = r_oir
-  .assign te_relinfo.gen_link_methods = false
   .assign te_relinfo.rel_phrase = ""
   .assign te_relinfo.is_formalizer = false
   .assign te_relinfo.is_supertype = false
