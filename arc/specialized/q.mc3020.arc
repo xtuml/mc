@@ -220,18 +220,6 @@
 .function factory_TE_RELINFO
   .param inst_ref te_relinfo
   .assign te_relinfo.multiplicity = 0
-  .select any r_rto from instances of R_RTO where ( false )
-  .assign te_relinfo.rto = r_rto
-  .select any r_rel from instances of R_REL where ( false )
-  .assign te_relinfo.rel = r_rel
-  .select any r_rgo from instances of R_RGO where ( false )
-  .assign te_relinfo.rgo = r_rgo
-  .select any o_obj from instances of O_OBJ where ( false )
-  .assign te_relinfo.related_obj = o_obj
-  .select any o_obj from instances of O_OBJ where ( false )
-  .assign te_relinfo.obj = o_obj
-  .select any r_oir from instances of R_OIR where ( false )
-  .assign te_relinfo.oir = r_oir
   .assign te_relinfo.rel_phrase = ""
   .assign te_relinfo.is_formalizer = false
   .assign te_relinfo.is_supertype = false
@@ -425,6 +413,8 @@
   .invoke factory_TE_ILB( i_te_ilb )
   .create object instance i_te_persist of TE_PERSIST
   .invoke factory_TE_PERSIST( i_te_persist )
+  .create object instance i_te_relinfo of TE_RELINFO
+  .invoke factory_TE_RELINFO( i_te_relinfo )
   .create object instance i_te_relstore of TE_RELSTORE
   .invoke factory_TE_RELSTORE( i_te_relstore )
   .create object instance i_te_set of TE_SET
