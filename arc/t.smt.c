@@ -188,7 +188,10 @@ ${ws}${var_name}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
   .param string one_var_name
   .param string oth_var_name
   .param string ws
-  .invoke rel_info = GetLinkParameters( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .invoke r = GetRelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .assign method = r.result
+  .invoke r = TE_REL_IsLeftFormalizer( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .assign left_is_formalizer = r.result
   .//
   .select any te_target from instances of TE_TARGET
   .assign thismodule = ""
@@ -196,21 +199,13 @@ ${ws}${var_name}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
     .assign thismodule = ", thismodule"
   .end if
   .if ( is_reflexive )
-    .invoke method = GetRelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
-${ws}${method.result}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
   .else
-    .assign form_obj = one_o_obj
-    .assign part_obj = oth_o_obj
-    .if ( not rel_info.left_is_formalizer )
-      .assign form_obj = oth_o_obj
-      .assign part_obj = one_o_obj
-    .end if
-    .invoke method = GetRelateMethodName( form_obj, part_obj, r_rel, relationship_phrase )
-    .if ( rel_info.left_is_formalizer )
-${ws}${method.result}( ${oth_var_name}, ${one_var_name}${thismodule} );
+    .if ( left_is_formalizer )
+${ws}${method}( ${oth_var_name}, ${one_var_name}${thismodule} );
 .// Alf R${r_rel.Numb} -> add ( ${oth_o_obj.Key_Lett}=>${oth_var_name}, ${one_o_obj.Key_Lett}=>${one_var_name} )
     .else
-${ws}${method.result}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
 .// Alf R${r_rel.Numb} -> add ( ${one_o_obj.Key_Lett}=>${one_var_name}, ${oth_o_obj.Key_Lett}=>${oth_var_name} )
     .end if
   .end if
@@ -264,24 +259,18 @@ ${ass_var_name}${thismodule} );
   .if ( "C" != te_target.language )
     .assign thismodule = ", thismodule"
   .end if
-  .invoke rel_info = GetLinkParameters( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
-  .if ( rel_info.reflexive )
-    .invoke method = GetUnrelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
-${ws}${method.result}( ${one_var_name}, ${oth_var_name}${thismodule} );
+  .invoke r = GetUnrelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .assign method = r.result
+  .invoke r = TE_REL_IsLeftFormalizer( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .assign left_is_formalizer = r.result
+  .if ( is_reflexive )
+${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
   .else
-    .assign form_obj = one_o_obj
-    .assign part_obj = oth_o_obj
-    .if ( not rel_info.left_is_formalizer )
-      .assign form_obj = oth_o_obj
-      .assign part_obj = one_o_obj
-    .end if
-    .invoke method = GetUnrelateMethodName( form_obj, part_obj, r_rel, relationship_phrase )
-    .if ( rel_info.left_is_formalizer )
-${ws}${method.result}( ${oth_var_name}, ${one_var_name}${thismodule} );
+    .if ( left_is_formalizer )
+${ws}${method}( ${oth_var_name}, ${one_var_name}${thismodule} );
     .else
-${ws}${method.result}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
     .end if
-     .//
   .end if
 .end function
 .//------------------------------------------------
