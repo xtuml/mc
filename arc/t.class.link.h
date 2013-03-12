@@ -27,6 +27,6 @@
   .end if
 .end if
 .if ( not navigated )
-/* Note:  ${te_class.Key_Lett}->${related_te_class.Key_Lett}[R${rel.Numb}] not navigated */
+/* Note:  ${te_class.Key_Lett}->${related_te_class.Key_Lett}[R${r_rel.Numb}] not navigated */
 .end if
 .//
