@@ -15,7 +15,7 @@
 .// Drill down into component and create object, attributes and the rest.
 .//
 .// Notice:
-.// (C) Copyright 1998-2012 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -38,7 +38,7 @@
   .select any te_target from instances of TE_TARGET
   .select any te_tim from instances of TE_TIM
   .select any empty_cp_cp from instances of CP_CP where ( false )
-  .select any empty_ep_pkg from instances of EP_PKG where ( false )
+  .select many empty_ep_pkgs from instances of EP_PKG where ( false )
   .select any empty_te_c from instances of TE_C where ( false )
   .select any empty_te_dim from instances of TE_DIM where ( false )
   .select any empty_o_obj from instances of O_OBJ where ( false )
@@ -318,14 +318,14 @@
   .// By default, select all components to be translated.  However, if
   .// a package has been marked, translate only the components contained
   .// in the package (or referenced from it).
-  .assign ep_pkg = empty_ep_pkg
+  .assign ep_pkgs = empty_ep_pkgs
   .assign cp_cp = empty_cp_cp
   .assign package_to_build = ""
   .select any tm_build from instances of TM_BUILD
   .if ( not_empty tm_build )
     .if ( generic_packages )
-      .select any ep_pkg from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
-      .if ( empty ep_pkg )
+      .select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
+      .if ( empty ep_pkgs )
         .print "ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting."
         .exit 11
       .end if
@@ -367,9 +367,13 @@
       .assign te_c.included_in_build = false
     .end for
     .if ( generic_packages )
-      .select many te_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
-      .select many referenced_te_cs related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
+      .select many te_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
+      .select many nested_te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
+      .assign te_cs = te_cs | nested_te_cs
+      .select many referenced_te_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
       .assign te_cs = te_cs | referenced_te_cs
+      .select many nested_referenced_te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
+      .assign te_cs = te_cs | nested_referenced_te_cs
     .else
       .select many te_cs related by cp_cp->C_C[R4608]->TE_C[R2054]
       .select many referenced_te_cs related by cp_cp->CL_IC[R4605]->C_C[R4201]->TE_C[R2054]
@@ -1163,7 +1167,7 @@
       .assign te_smt.parent_Block_ID = te_blk.Block_ID
       .if ( first act_smts )
         .// CDS WARNING!! This assumes the gen_erate will give us the first statement first!
-        .// relate act_blk to te_blk across R2016;
+        .// relate te_blk to te_smt across R2014;
         .assign te_blk.first_Statement_ID = te_smt.Statement_ID
       .else
         .assign te_blk.first_Statement_ID = 0
@@ -1253,8 +1257,9 @@
     .invoke FactoryTE_LNK( act_lnk )
   .end for
   .// Link the chain links together in extensions as in meta-model proper.
-  .for each act_lnk in act_lnks
-    .select one te_lnk related by act_lnk->TE_LNK[R2042]
+  .select many te_lnks from instances of TE_LNK
+  .for each te_lnk in te_lnks
+    .select one act_lnk related by te_lnk->ACT_LNK[R2042]
     .select one next_act_lnk related by act_lnk->ACT_LNK[R604.'succeeds']
     .if ( not_empty next_act_lnk )
       .select one next_te_lnk related by next_act_lnk->TE_LNK[R2042]
@@ -1369,7 +1374,7 @@
     .// Create the Generated External Entity instances and link them in.
     .select many te_ees related by te_c->TE_EE[R2085]
     .for each te_ee in te_ees
-      .invoke i = TE_EE_init( te_ee, te_c )
+      .invoke TE_EE_init( te_ee, te_c )
     .end for
     .//
     .// Initialize the Generated Class instances.
@@ -1524,7 +1529,7 @@
   .//
   .select many te_ees from instances of TE_EE where ( selected.te_cID == 0 )
   .for each te_ee in te_ees
-    .invoke i = TE_EE_init( te_ee, empty_te_c )
+    .invoke TE_EE_init( te_ee, empty_te_c )
   .end for
   .//
 .end function
@@ -1641,7 +1646,6 @@
   .//
   .// Create the actions for the transitions.
   .assign counter = 1
-  .//.select many sm_acts related by sm_sm->SM_TXN[R505]->SM_TAH[R530]->SM_AH[R513]->SM_ACT[R514] where ( selected.Action_Semantics != "" )
   .// CDS This is the hairiest traversal we do.  We are finding actions
   .// CDS that actually have action language.
   .select many sm_acts related by sm_sm->SM_TXN[R505]->SM_TAH[R530]->SM_AH[R513]->SM_ACT[R514]->ACT_TAB[R688]->ACT_ACT[R698]->ACT_BLK[R666]->ACT_SMT[R602]->ACT_BLK[R602]->ACT_ACT[R666]->ACT_TAB[R698]->SM_ACT[R688]

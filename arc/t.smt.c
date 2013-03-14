@@ -20,7 +20,7 @@
   .if ( te_for.isImplicit)
     .assign attr_declaration = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" )
   .end if
-  .assign iterator = "iter" + "${info.unique_num}"
+  .assign iterator = ( "iter" + te_for.class_name ) + te_for.loop_variable
 ${ws}{ ${te_set.scope}${te_set.iterator_class_name} ${iterator};
 ${ws}${te_for.class_name} * ${te_for.class_name}${iterator};
 ${ws}${te_set.iterator_reset}( &${iterator}, ${te_for.set_variable} );
@@ -386,7 +386,7 @@ ${ws}${te_set.module}${te_set.clear}( ${te_select_where.var_name} );
     .else
     .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
     .invoke where_comp = ExpandNonOptimizedSpecialWhereComparison( o_obj, te_select_where.special, te_select_where.selected_var_name )
-    .assign iterator = "iter${info.unique_num}_${o_obj.Key_Lett}"
+    .assign iterator = ( "iter" + te_select_where.var_name ) + te_select_where.class_name
     .//
     .// Iterate over the instances in the (extent) collection.
 ${ws}{ ${te_select_where.class_name} * ${te_select_where.selected_var_name};
@@ -653,35 +653,35 @@ ${ws}${method}(\
   .param string cast2
   .param string deallocation
   .param string ws
-  .assign attr_declaration = ""
-  .assign rv = "rv${info.unique_num}"
-  .assign usedeclaredvariable = false
-  .// If there is a return value and if there is deallocation,
-  .// then declare a variable to hold the return value.
-  .// Assign the return value before the deallocation takes
-  .// place.  This is especially important when returning
-  .// expressions involving sets (like cardinality).
-  .if ( "" != deallocation )
-    .if ( ( "" != returnvaltype ) and ( "c_t" != returnvaltype ) )
-      .assign usedeclaredvariable = true
-      .assign attr_declaration = ( returnvaltype + " " ) + ( rv + ";" )
-${ws}${rv} = ${value};
+  .assign rv = value
+  .if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
+    .// If there is a return value and if there is deallocation,
+    .// then declare a variable to hold the return value.
+    .// Assign the return value before the deallocation takes
+    .// place.  This is especially important when returning
+    .// expressions involving sets (like cardinality).
+    .// For strings, add a scope to supress compiler warnings
+    .// about returning the address of a local variable.  Once
+    .// returned, the string buffer will be copied into the
+    .// calling scope immediately.
+    .// This is dubious practice (due to unallocated stack space),
+    .// but is safer than explicit allocation alternatives.
+    .assign rv = "xtumlOALrv"
+    .assign suffix = ""
+    .if ( "c_t" == returnvaltype )
+      .assign suffix = "* "
     .end if
+${ws}{${returnvaltype}${suffix} ${rv} = ${value};
+  .end if
+  .if ( "" != deallocation )
     .// Perform the deallocation (of set containers).
 ${ws}${deallocation}
   .end if
-  .if ( usedeclaredvariable )
-${ws}return ${cast1}${rv}${cast2};
-  .elif ( "c_t" == returnvaltype )
-    .// Add a scope to supress compiler warnings about
-    .// returning the address of a local variable.  Once
-    .// returned, the string buffer will be copied into
-    .// the calling scope immediately.
-    .// This is dubious practice (due to unallocated stack space),
-    .// but is safer than explicit allocation alternatives.
-${ws}{ c_t * scopedstr; scopedstr = ${value}; return scopedstr; }
+${ws}return ${cast1}${rv}${cast2};\
+  .if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
+}
   .else
-${ws}return ${cast1}${value}${cast2};
+
   .end if
 .end function
 .//------------------------------------------------

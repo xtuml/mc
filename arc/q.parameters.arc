@@ -49,8 +49,11 @@
             .assign param_qual = param_qual + " *"
           .else
             .// CDS const correctness goes here
-            .//.assign defn = defn + "const "
-            .//.assign decl = decl + "const "
+            .// Arrays in C are always by ref, so add const to scalars only.
+            .if ( "" == te_parm.array_spec )
+              .assign defn = defn + "const "
+              .assign decl = decl + "const "
+            .end if
           .end if
           .assign defn = ( ( defn + te_dt.ExtName ) + ( param_qual + " " ) ) + ( te_parm.GeneratedName + te_parm.array_spec )
           .assign decl = ( ( decl + te_dt.ExtName ) + ( param_qual + te_parm.array_spec ) )
