@@ -1152,7 +1152,7 @@ INSERT INTO C_C VALUES (\
   .else
 , ${c_c.NestedComponent_Id}\
   .end if
-, '${c_c.Name}', ''\
+, '${c_c.Name}', '${c_c.Descrip}'\
 , ${c_c.Mult}\
   .if ( "un-initialized" == "${c_c.Root_Package_ID}" )
 , 0\
@@ -5573,7 +5573,7 @@ INSERT INTO TE_C VALUES (\
   .else
  ${te_c.ID}\
   .end if
-, '${te_c.Name}', ''\
+, '${te_c.Name}', '${te_c.Descrip}'\
 , ${te_c.number}, ${te_c.StateTrace}, ${te_c.StmtTrace}, ${te_c.DetectEmpty}, ${te_c.OptDisabled}, ${te_c.RawComments}, ${te_c.CodeComments}, ${te_c.CollectionsFlavor}, '${te_c.classes_file}', '${te_c.functions_file}', ${te_c.MaxObjExtent}, ${te_c.MaxRelExtent}, ${te_c.MaxSelectExtent}, ${te_c.MaxSelfEvents}, ${te_c.MaxNonSelfEvents}, ${te_c.MaxPriorityEvents}, ${te_c.MaxTimers}, ${te_c.InterleavedBridges}, ${te_c.PEIClassCount}, ${te_c.PersistentClassCount}, '${te_c.domain_mark_file}', '${te_c.class_mark_file}', '${te_c.events_mark_file}', '${te_c.module_file}', '${te_c.port_file}', '${te_c.include_file}', ${te_c.included_in_build}, ${te_c.internal_behavior}, ${te_c.isRealized}, ${te_c.SystemID}\
   .if ( "un-initialized" == "${te_c.Dom_ID}" )
 , 0\
