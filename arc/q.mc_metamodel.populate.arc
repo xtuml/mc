@@ -556,6 +556,7 @@
       .// void
       .assign te_dt.ExtName = "void"
       .assign te_dt.Initial_Value = "0"
+      .assign te_dt.string_format = ""
     .elif ( 1 == te_dt.Core_Typ )
       .// boolean
       .if (te_sys.AUTOSAR)
@@ -564,6 +565,7 @@
         .assign te_dt.ExtName = "bool"
       .end if
       .assign te_dt.Initial_Value = "false"
+      .assign te_dt.string_format = "%d"
     .elif ( 2 == te_dt.Core_Typ )
       .// integer
       .if (te_sys.AUTOSAR)

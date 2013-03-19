@@ -10,8 +10,7 @@
 .//
 #if ${max_class_number.max} > 0
 /* xtUML class info (collections, sizes, etc.) */
-${dci.class_info_type} * const ${domain_class_info.array_name}[ ${max_class_number.max} ] = {
-  ${domain_class_info.result}
+${dci.class_info_type} * const ${domain_class_info.array_name}[ ${max_class_number.max} ] = {${class_info_init}
 };
 #endif
 
