@@ -31,21 +31,24 @@
   .// Select singletons into scope.
   .select any te_file from instances of TE_FILE
   .select any te_eq from instances of TE_EQ
+  .select any te_extent from instances of TE_EXTENT
   .select any te_instance from instances of TE_INSTANCE
   .select any te_prefix from instances of TE_PREFIX
   .select any te_set from instances of TE_SET
   .select any te_string from instances of TE_STRING
   .select any te_target from instances of TE_TARGET
   .select any te_tim from instances of TE_TIM
+  .select any te_typemap from instances of TE_TYPEMAP
   .select any empty_cp_cp from instances of CP_CP where ( false )
   .select many empty_ep_pkgs from instances of EP_PKG where ( false )
   .select any empty_te_c from instances of TE_C where ( false )
   .select any empty_te_dim from instances of TE_DIM where ( false )
   .select any empty_o_obj from instances of O_OBJ where ( false )
+  .select any empty_te_attr from instances of TE_ATTR where ( false )
   .select any empty_te_mact from instances of TE_MACT where ( false )
   .select many empty_te_dts from instances of TE_DT where ( false )
   .select many empty_te_parms from instances of TE_PARM where ( false )
-  .// Note that in a multiple-system build, we will get lucky, and the
+  .// CDS - Note that in a multiple-system build, we will get lucky, and the
   .// s_sys from the local project will be selected first.
   .select any s_sys from instances of S_SYS
   .if ( empty s_sys )
@@ -60,6 +63,7 @@
   .end if
   .// relate s_sys to te_sys across R2018;
   .assign te_sys.Sys_ID = s_sys.Sys_ID
+  .// end relate
   .assign te_sys.Name = "$r{s_sys.Name}"
   .if ( "" == te_sys.Name )
     .assign te_sys.Name = "sys"
@@ -113,6 +117,7 @@
     .assign te_disp.Dispatcher_ID = 1
     .// relate te_disp to te_sys across R2003;
     .assign te_disp.SystemID = te_sys.SystemID
+    .// end relate
   .end if
   .assign te_disp.Descrip = "dispatcher"
   .assign te_disp.Name = "main"
@@ -123,10 +128,12 @@
     .assign te_queue.Queue_ID = 1
     .// relate te_queue to te_disp across R2004;
     .assign te_queue.Dispatcher_ID = te_disp.Dispatcher_ID
+    .// end relate
     .create object instance nonself_te_queue of TE_QUEUE
     .assign nonself_te_queue.Queue_ID = 2
     .// relate nonself_te_queue to te_disp across R2004;
     .assign nonself_te_queue.Dispatcher_ID = te_disp.Dispatcher_ID
+    .// end relate
   .end if
   .// Self Queue
   .assign te_queue.Descrip = "Self Queue"
@@ -139,6 +146,14 @@
   .assign nonself_te_queue.MaxDepth = 0
   .assign nonself_te_queue.Type = 2
   .//
+  .// Create the (domain) class info array instance.
+  .// CDS - This may end up being part of a component rather than a system.
+  .create object instance te_cia of TE_CIA
+  .assign te_cia.class_info_name = "domain_class_info"
+  .assign te_cia.class_info_type = te_extent.type
+  .assign te_cia.active_count = "active_count"
+  .assign te_cia.class_count = "domain_class_count"
+  .assign te_cia.count_type = te_typemap.object_number_name
   .//
   .//
   .// Create the Extended Component instance(s) and link them up.
@@ -150,7 +165,7 @@
     .// relate te_c to te_sys across R2065;
     .assign te_c.SystemID = te_sys.SystemID
     .assign te_c.Name = "$r{c_c.Name}"
-    .assign te_c.Description = c_c.Descrip
+    .assign te_c.Descrip = c_c.Descrip
     .assign te_c.included_in_build = true
     .select any tm_c from instances of TM_C where ( selected.Name == c_c.Name )
     .if ( not_empty tm_c )
@@ -163,8 +178,21 @@
     .assign te_c.module_file = te_c.Name
     .assign te_c.port_file = te_c.Name
     .assign te_c.classes_file = te_c.Name + "_classes"
-    .assign te_c.UseModelNames = true
     .assign te_c.CodeComments = true
+    .// Create and relate the domain class info to carry details about
+    .// class extents for this component.
+    .create object instance te_dci of TE_DCI
+    .// relate te_dci to te_c across R2090;
+    .assign te_dci.te_cId = te_c.ID
+    .// end relate
+    .assign te_dci.class_numbers = te_c.Name + "_CLASS_NUMBERS"
+    .assign te_dci.union = te_c.Name + "_CLASS_U"
+    .assign te_dci.task_list = te_c.Name + "_task_numbers"
+    .assign te_dci.task_numbers = te_c.Name + "_TASK_NUMBERS"
+    .assign te_dci.max = te_c.Name + "_MAX_CLASS_NUMBERS"
+    .assign te_dci.max_models = te_c.Name + "_STATE_MODELS"
+    .assign te_dci.init = te_c.Name + "_CLASS_INFO_INIT"
+    .assign te_dci.array_name = te_c.Name + "_class_info"
     .// Create the Component Instance instances.
     .select many cl_ics related by c_c->CL_IC[R4201]
     .for each cl_ic in cl_ics
@@ -236,8 +264,11 @@
     .end for
     .// Identify polymorhic ports.
     .// Polymorphic ports exist more than once in the same orientation on a component.
-    .select many te_pos from instances of TE_PO
+    .assign port_counter = 0
+    .select many te_pos related by te_c->TE_PO[R2005]
     .for each te_po in te_pos
+      .assign te_po.Order = port_counter
+      .assign port_counter = port_counter + 1
       .select many poly_te_pos related by te_po->TE_C[R2005]->TE_PO[R2005] where ( ( ( selected.c_iId == te_po.c_iId ) and ( selected.Provision == te_po.Provision ) ) and ( selected.ID != te_po.ID ) )
       .if ( not_empty poly_te_pos )
         .// If we have seen this port already, it will be marked as polymorphic.
@@ -407,6 +438,7 @@
     .assign te_dt.DT_ID = s_dt.DT_ID
     .assign te_dt.Name = s_dt.Name
     .assign te_dt.Core_Typ = -1
+    .assign te_dt.string_format = ""
     .assign te_dt.te_cID = 0
     .// Link the ownership if contained in a component.
     .assign te_c = empty_te_c
@@ -540,6 +572,7 @@
         .assign te_dt.ExtName = "i_t"
       .end if
       .assign te_dt.Initial_Value = "0"
+      .assign te_dt.string_format = "%d"
     .elif ( 3 == te_dt.Core_Typ )
       .// real
       .// float or double:  Default to smaller type for embedded.
@@ -550,48 +583,59 @@
         .assign te_dt.ExtName = "r_t"
       .end if
       .assign te_dt.Initial_Value = "0.0"
+      .assign te_dt.string_format = "%f"
     .elif ( 4 == te_dt.Core_Typ )
       .// string
       .assign te_dt.ExtName = "c_t"
       .assign te_dt.Initial_Value = "CTOR"
+      .assign te_dt.string_format = "'%s'"
     .elif ( 5 == te_dt.Core_Typ )
       .// unique_id
       .assign te_dt.ExtName = te_prefix.type + "UniqueID_t"
       .assign te_dt.Initial_Value = "0"
+      .assign te_dt.string_format = "%p"
       .//
     .elif ( 6 == te_dt.Core_Typ )
       .// current_state
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%d"
     .elif ( 7 == te_dt.Core_Typ )
       .// same as base<Attribute>
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%p"
     .elif ( 8 == te_dt.Core_Typ )
       .// inst_ref<Object>
       .assign te_dt.ExtName = "void *"
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%p"
     .elif ( 9 == te_dt.Core_Typ )
       .// inst_ref_set<Object>
       .assign te_dt.ExtName = te_set.base_class + " *"
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%p"
     .elif ( 10 == te_dt.Core_Typ )
       .// inst<Event>
       .assign te_dt.ExtName = te_eq.base_event_type + " *"
       .assign te_dt.Initial_Value = "0"
+      .assign te_dt.string_format = "%p"
       .//
     .elif ( 11 == te_dt.Core_Typ )
       .// inst<Mapping>
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%d"
     .elif ( 12 == te_dt.Core_Typ )
       .// inst_ref<Mapping>
       .assign te_dt.ExtName = "i_t"
       .assign te_dt.Initial_Value = "0"
+      .assign te_dt.string_format = "%d"
     .else
       .// undefined
       .assign te_dt.ExtName = ""
       .assign te_dt.Initial_Value = ""
+      .assign te_dt.string_format = "%x"
     .end if
   .end for
   .//
@@ -611,6 +655,7 @@
     .assign te_dt.Core_Typ = core_te_dt.Core_Typ
     .assign te_dt.Include_File = core_te_dt.Include_File
     .assign te_dt.ExtName = core_te_dt.ExtName
+    .assign te_dt.string_format = core_te_dt.string_format
     .if ( "" != s_dt.DefaultValue )
       .assign te_dt.Initial_Value = s_dt.DefaultValue
     .else
@@ -655,10 +700,12 @@
     .else
       .assign te_dt.ExtName = te_dt.Name + "_t"
     .end if
+    .// CDS We should some day pass along the EDT.
     .assign te_dt.Core_Typ = 2
     .assign te_dt.Is_Enum = true 
     .assign te_dt.Initial_Value = ( te_dt.Owning_Dom_Name + "_" ) + ( te_dt.Name + "__UNINITIALIZED__e" )
     .assign te_dt.Value = "-1"
+    .assign te_dt.string_format = "%d"
     .if ( te_dt.Owning_Dom_Name == "sys" )
       .assign te_dt.Include_File = ( te_file.types + "." ) + te_file.hdr_file_ext
     .end if
@@ -686,6 +733,7 @@
   .for each s_sdt in s_sdts
     .select one te_dt related by s_sdt->S_DT[R17]->TE_DT[R2021]
     .assign te_dt.ExtName = ( te_dt.Owning_Dom_Name + "_sdt_" ) + te_dt.Name
+    .assign te_dt.string_format = ""
     .select many s_mbrs related by s_sdt->S_MBR[R44]
     .for each s_mbr in s_mbrs
       .create object instance te_mbr of TE_MBR
@@ -1412,8 +1460,10 @@
       .assign te_class.persist_link = te_class.GeneratedName + "_LinkCentral"
       .//
       .// Create the Generated Attribute instances and link them to the real ones.
-      .select many o_attrs related by o_obj->O_ATTR[R102]
-      .for each o_attr in o_attrs
+      .assign delimiter = ""
+      .assign prev_te_attr = empty_te_attr
+      .select any o_attr related by o_obj->O_ATTR[R102] where ( selected.PAttr_ID == 0 )
+      .while ( not_empty o_attr )
         .create object instance te_attr of TE_ATTR
         .assign te_attr.Name = o_attr.Name
         .assign te_attr.GeneratedName = "$r{o_attr.Name}"
@@ -1430,6 +1480,13 @@
         .assign te_attr.Attr_ID = o_attr.Attr_ID
         .// relate te_attr to te_class across R2061;
         .assign te_attr.te_classGeneratedName = te_class.GeneratedName
+        .// end relate
+        .assign te_attr.prevID = 00
+        .if ( not_empty prev_te_attr )
+          .// relate te_attr to prev_te_attr across R2087.'succeeds';
+          .assign te_attr.prevID = prev_te_attr.ID
+          .// end relate
+        .end if
         .select many s_dims related by o_attr->S_DIM[R120]
         .assign array_spec = ""
         .assign te_attr.dimensions = cardinality s_dims
@@ -1448,7 +1505,7 @@
         .end while
         .assign te_attr.array_spec = array_spec
         .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
-        .assign te_attr.GeneratedType = te_dt.ExtName
+        .// Potentially substitute data type for base attribute data type.
         .if ( 7 == te_dt.Core_Typ )
           .// referential attribute
           .invoke a = GetAttributeCodeGenType( o_attr )
@@ -1456,6 +1513,9 @@
           .assign s_dt = a.dt
           .select one te_dt related by s_dt->TE_DT[R2021]
         .end if
+        .assign te_attr.GeneratedType = te_dt.ExtName
+        .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
+        .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
         .// In the C model compiler, treat strings as arrays.
         .if ( 4 == te_dt.Core_Typ )
           .// string
@@ -1481,7 +1541,10 @@
           .// relate te_dbattr to te_aba across R2010;
           .assign te_dbattr.AbaID = te_aba.AbaID
         .end if
-      .end for
+        .assign delimiter = ","
+        .assign prev_te_attr = te_attr
+        .select one o_attr related by o_attr->O_ATTR[R103.'succeeds']
+      .end while
       .//
       .// Create the Generated State Machines and connect them to SM_SM.
       .select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517]
@@ -1784,7 +1847,7 @@
   .else
     .assign te_mact.polymorphic = TRUE
   .end if
-  .assign te_mact.Description = description
+  .assign te_mact.Descrip = description
   .assign te_mact.subtypeKL = subtypeKL
   .assign te_mact.Provision = te_po.provision
   .assign te_mact.Direction = direction
@@ -1867,6 +1930,10 @@
     .create object instance te_brg of TE_BRG
     .// relate s_brg to te_brg across R2025;
     .assign te_brg.Brg_ID = s_brg.Brg_ID
+    .// end relate
+    .// relate te_brg to te_ee across R2089;
+    .assign te_brg.EE_ID = te_ee.EE_ID
+    .// end relate
     .assign te_brg.EEkeyletters = s_ee.Key_Lett
     .assign te_brg.EEname = s_ee.Name
     .assign te_brg.Name = s_brg.Name
@@ -1902,6 +1969,10 @@
   .assign te_aba.ReturnStmtUsed = false
   .assign te_aba.subtypeKL = subtypeKL
   .assign attr_te_aba = te_aba
+  .if ( not_empty te_c )
+    .// relate te_aba to te_c across R2088;
+    .assign te_aba.te_cID = te_c.ID
+  .end if
   .select many actual_te_parms related by te_aba->TE_PARM[R2062] where ( false )
   .for each te_parm in te_parms
     .if ( 0 != te_parm.AbaID )
@@ -1916,13 +1987,7 @@
       .assign actual_te_parms = actual_te_parms | te_parm
     .end if
   .end for
-  .invoke params = te_parm_RenderParameters( actual_te_parms )
-  .assign te_aba.ParameterDefinition = params.definition
-  .assign te_aba.ParameterDeclaration = params.declaration
-  .assign te_aba.ParameterInvocation = params.invocation
-  .assign te_aba.ParameterStructure = params.structure
-  .assign te_aba.ParameterAssignment = params.assignment
-  .assign te_aba.ParameterAssignmentBase = params.assignment_base
+  .invoke te_parm_RenderParameters( actual_te_parms, te_aba )
   .assign te_aba.scope = ""
   .if ( ( "C++" == te_target.language ) or ( "SystemC" == te_target.language ) )
     .assign te_aba.scope = scope + "::"
@@ -1970,7 +2035,7 @@
   .assign te_parm.ParamBuffer = ""
   .assign te_parm.OALParamBuffer = ""
   .assign te_parm.Name = "$r{name}"
-  .assign te_parm.Description = description
+  .assign te_parm.Descrip = description
   .assign te_parm.By_Ref = by_ref
   .assign te_parm.GeneratedName = prefix + name
   .assign te_parm.AbaID = 0
@@ -2021,15 +2086,21 @@
   .assign duplicate_te_parm.ParamBuffer = te_parm.ParamBuffer
   .assign duplicate_te_parm.OALParamBuffer = te_parm.OALParamBuffer
   .assign duplicate_te_parm.Name = te_parm.Name
-  .assign duplicate_te_parm.Description = te_parm.Description
+  .assign duplicate_te_parm.Descrip = te_parm.Descrip
   .assign duplicate_te_parm.By_Ref = te_parm.By_Ref
   .assign duplicate_te_parm.GeneratedName = te_parm.GeneratedName
   .// relate te_dt to te_parm across R2049;
   .assign duplicate_te_parm.te_dtID = te_parm.te_dtID
   .assign duplicate_te_parm.dimensions = te_parm.dimensions
-  .assign duplicate_te_parm.te_dimID = te_parm.te_dimID
+  .select one te_dim related by te_parm->TE_DIM[R2056]
+  .if ( not_empty te_dim )
+    .// relate duplicate_te_parm to te_dim across R2056;
+    .assign duplicate_te_parm.te_dimID = te_dim.te_dimID
+    .// end relate
+  .else
+    .assign duplicate_te_parm.te_dimID = 00
+  .end if
   .assign duplicate_te_parm.array_spec = te_parm.array_spec
-  .assign duplicate_te_parm.AbaID = te_parm.AbaID
   .assign duplicate_te_parm.nextID = 0
   .assign attr_result = duplicate_te_parm
 .end function

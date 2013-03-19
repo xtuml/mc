@@ -1,6 +1,6 @@
 .//============================================================================
 .// Notice:
-.// (C) Copyright 1998-2012 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -16,9 +16,9 @@
  *
  * ${te_copyright.body}
  *--------------------------------------------------------------------------*/
-.if ( "" != te_c.Description )
+.if ( "" != te_c.Descrip )
 /*
- ${te_c.Description}
+ ${te_c.Descrip}
  */
 .end if
 
@@ -61,7 +61,7 @@ ib_${te_c.Name}_ru_${te_c.Name}_Initialize(Rte_Instance self)
 #endif
   .end if
 .end if
-${definitions.body}
+${message_definitions}
 .if ( te_c.internal_behavior )
 .include "${te_file.arc_path}/t.domain.functions.c"
 .include "${te_file.arc_path}/t.domain_init.c"

@@ -60,7 +60,7 @@
   .assign task_numbers = ""
   .assign class_dispatchers = ""
   .assign class_typedefs = ""
-  .assign class_info_init = ""
+  .assign attr_class_info_init = ""
   .assign class_union = "  char ${te_c.Name}_dummy;\\n"
   .assign class_includes = "#include ""${te_c.module_file}.${te_file.hdr_file_ext}"""
   .assign ee_includes = ""
@@ -104,9 +104,9 @@
         .assign type_name = te_class.CBsystem_class_number
         .assign class_name = te_class.CBGeneratedName
         .assign dispatcher = te_class.CBdispatcher
-        .assign class_info_init = ( class_info_init + delimiter ) + "\\n  0"
+        .assign attr_class_info_init = ( attr_class_info_init + delimiter ) + "\n  0"
       .else
-        .assign class_info_init = ( class_info_init + delimiter ) + ( "\\n  &" + extent_info.extent )
+        .assign attr_class_info_init = ( attr_class_info_init + delimiter ) + ( "\n  &" + extent_info.extent )
         .assign type_name = te_class.system_class_number
         .assign class_name = te_class.GeneratedName
         .if ( object_set_type == 0 )

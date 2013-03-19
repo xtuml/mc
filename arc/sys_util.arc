@@ -56,32 +56,8 @@
     .assign pei_class_count = pei_class_count + te_c.PEIClassCount
     .assign persistent_class_count = persistent_class_count + te_c.PersistentClassCount
   .end for
-
   .assign te_sys.PEIClassCount = pei_class_count
   .assign te_sys.PersistentClassCount = persistent_class_count
-  .assign attr_s = attr_s + " *\n"
-  .assign attr_s = attr_s + " * System Name:  ${te_sys.ExecutableName}\n"
-  .assign attr_s = attr_s + " * System ID:    ${te_sys.SystemID}\n"
-  .assign attr_s = attr_s + " * Model Compiler Product Information:\n"
-  .assign attr_s = attr_s + " * Product:  ${te_sys.ModelCompilerName}\n"
-  .assign attr_s = attr_s + " * Version:  ${te_sys.ModelCompilerVersion}\n"
-  .assign attr_s = attr_s + " * S/N:      ${te_sys.ModelCompilerSerNum}\n"
-  .assign attr_s = attr_s + " * System default/colored values:\n"
-  .assign attr_s = attr_s + " * MaxStringLen:  ${te_sys.MaxStringLen}\n"
-  .assign attr_s = attr_s + " * MaxObjExtent:  ${te_sys.MaxObjExtent}\n"
-  .assign attr_s = attr_s + " * MaxRelExtent:  ${te_sys.MaxRelExtent}\n"
-  .assign attr_s = attr_s + " * MaxSelectExtent:  ${te_sys.MaxSelectExtent}\n"
-  .assign attr_s = attr_s + " * MaxSelfEvents:  ${te_sys.MaxSelfEvents}\n"
-  .assign attr_s = attr_s + " * MaxNonSelfEvents:  ${te_sys.MaxNonSelfEvents}\n"
-  .assign attr_s = attr_s + " * MaxTimers:  ${te_sys.MaxTimers}\n"
-  .assign attr_s = attr_s + " * MaxInterleavedBridges:  ${te_sys.MaxInterleavedBridges}\n"
-  .assign attr_s = attr_s + " * MaxInterleavedBridgeDataSize:  ${te_sys.MaxInterleavedBridgeDataSize}\n"
-  .assign attr_s = attr_s + " * CollectionsFlavor:  ${te_sys.CollectionsFlavor}\n"
-  .assign attr_s = attr_s + " * ForcePriorityEvents:  ${te_sys.ForcePriorityEvents}\n"
-  .assign attr_s = attr_s + " * PEIClassCount:  ${te_sys.PEIClassCount}\n"
-  .assign attr_s = attr_s + " * PersistentClassCount:  ${te_sys.PersistentClassCount}\n"
-  .assign attr_s = attr_s + " * PersistInstanceCacheDepth:  ${te_sys.PersistInstanceCacheDepth}\n"
-  .assign attr_s = attr_s + " * PersistLinkCacheDepth:  ${te_sys.PersistLinkCacheDepth}\n"
   .//
   .// *** Container pool requirements
   .assign persist_inst_cache_depth_max = 128
@@ -174,6 +150,29 @@
 #define ${te_ilb.data_define_name} ${te_sys.MaxInterleavedBridgeDataSize}
   .end if
   .//
+  .assign attr_s = attr_s + " *\n"
+  .assign attr_s = attr_s + " * System Name:  ${te_sys.ExecutableName}\n"
+  .assign attr_s = attr_s + " * System ID:    ${te_sys.SystemID}\n"
+  .assign attr_s = attr_s + " * Model Compiler Product Information:\n"
+  .assign attr_s = attr_s + " * Product:  ${te_sys.ModelCompilerName}\n"
+  .assign attr_s = attr_s + " * Version:  ${te_sys.ModelCompilerVersion}\n"
+  .assign attr_s = attr_s + " * S/N:      ${te_sys.ModelCompilerSerNum}\n"
+  .assign attr_s = attr_s + " * System default/colored values:\n"
+  .assign attr_s = attr_s + " * MaxStringLen:  ${te_sys.MaxStringLen}\n"
+  .assign attr_s = attr_s + " * MaxObjExtent:  ${te_sys.MaxObjExtent}\n"
+  .assign attr_s = attr_s + " * MaxRelExtent:  ${te_sys.MaxRelExtent}\n"
+  .assign attr_s = attr_s + " * MaxSelectExtent:  ${te_sys.MaxSelectExtent}\n"
+  .assign attr_s = attr_s + " * MaxSelfEvents:  ${te_sys.MaxSelfEvents}\n"
+  .assign attr_s = attr_s + " * MaxNonSelfEvents:  ${te_sys.MaxNonSelfEvents}\n"
+  .assign attr_s = attr_s + " * MaxTimers:  ${te_sys.MaxTimers}\n"
+  .assign attr_s = attr_s + " * MaxInterleavedBridges:  ${te_sys.MaxInterleavedBridges}\n"
+  .assign attr_s = attr_s + " * MaxInterleavedBridgeDataSize:  ${te_sys.MaxInterleavedBridgeDataSize}\n"
+  .assign attr_s = attr_s + " * CollectionsFlavor:  ${te_sys.CollectionsFlavor}\n"
+  .assign attr_s = attr_s + " * ForcePriorityEvents:  ${te_sys.ForcePriorityEvents}\n"
+  .assign attr_s = attr_s + " * PEIClassCount:  ${te_sys.PEIClassCount}\n"
+  .assign attr_s = attr_s + " * PersistentClassCount:  ${te_sys.PersistentClassCount}\n"
+  .assign attr_s = attr_s + " * PersistInstanceCacheDepth:  ${te_sys.PersistInstanceCacheDepth}\n"
+  .assign attr_s = attr_s + " * PersistLinkCacheDepth:  ${te_sys.PersistLinkCacheDepth}\n"
   .for each te_c in te_cs
     .assign attr_s = attr_s + " *\n"
     .assign attr_s = attr_s + " * Component Name:  ${te_c.Name}\n"

@@ -5,7 +5,7 @@
 .// Component port level query for generating port declaration and definitions.
 .//
 .// Notice:
-.// (C) Copyright 1998-2012 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -58,24 +58,29 @@
   .for each connected_te_c in te_cs
     .assign attr_include_files = attr_include_files + "#include ""${connected_te_c.module_file}.${te_file.hdr_file_ext}""\n"
   .end for
-  .// Add foreign includes derived from marking.
-  .if ( false )
-    .select many required_te_iirs related by local_te_iirs->TE_IIR[R2081.'requires or delegates']
-    .select many provided_te_iirs related by local_te_iirs->TE_IIR[R2081.'provides or is delegated']
-    .assign te_iirs = required_te_iirs | provided_te_iirs
-    .for each te_iir in te_iirs
-      .assign attr_include_files = attr_include_files + "#include ""${te_iir.component_name}.${te_file.hdr_file_ext}""\n"
-    .end for
+  .// CDS agilegc (Add foreign includes derived from marking.)
+  .select many s_syss from instances of S_SYS
+  .assign syscount = cardinality s_syss
+  .if ( ( 2 == syscount ) and ( false ) )
+    .select any te_sys from instances of TE_SYS where ( selected.Name == "SYS" )
+    .if ( not_empty te_sys )
+      .select many required_te_iirs related by local_te_iirs->TE_IIR[R2081.'requires or delegates']
+      .select many provided_te_iirs related by local_te_iirs->TE_IIR[R2081.'provides or is delegated']
+      .assign te_iirs = required_te_iirs | provided_te_iirs
+      .for each te_iir in te_iirs
+        .assign attr_include_files = attr_include_files + "#include ""${te_iir.component_name}.${te_file.hdr_file_ext}""\n"
+      .end for
+    .end if
   .end if
+  .// CDS agilegc end
 .end function
 .//
 .//============================================================================
 .// Build the include file body for the component port action.
 .//============================================================================
 .function TE_MACT_CreateDeclarations
-  .param inst_ref_set te_macts
+  .param inst_ref_set first_te_macts
   .select any te_file from instances of TE_FILE
-  .select many first_te_macts related by te_macts->TE_C[R2002]->TE_MACT[R2002] where ( selected.Order == 0 )
   .for each te_mact in first_te_macts
     .while ( not_empty te_mact )
       .select one te_aba related by te_mact->TE_ABA[R2010]
@@ -89,24 +94,22 @@
 .// Generate the port interface functions.
 .//============================================================================
 .function TE_MACT_CreateDefinition
-  .param inst_ref_set te_macts
+  .param inst_ref te_c
+  .param inst_ref te_po
+  .param inst_ref_set first_te_macts
   .select any te_file from instances of TE_FILE
   .select any te_prefix from instances of TE_PREFIX
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .select any te_thread from instances of TE_THREAD
+  .select any te_trace from instances of TE_TRACE
   .select any te_parm from instances of TE_PARM where ( false )
   .select any empty_sm_evt from instances of SM_EVT where ( false )
   .select any empty_act_blk from instances of ACT_BLK where ( false )
   .select many empty_te_macts from instances of TE_MACT where ( false )
-  .// Use any TE_C to get tracing settings.
-  .select any te_c from instances of TE_C where ( selected.StmtTrace )
-  .assign trace = true
-  .if ( empty te_c )
-    .assign trace = false
-  .end if
   .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
-  .for each te_mact in te_macts
+  .for each te_mact in first_te_macts
+    .while ( not_empty te_mact )
     .assign sm_evt = empty_sm_evt
     .assign foreign_te_macts = empty_te_macts
     .assign act_blk = empty_act_blk
@@ -188,7 +191,7 @@
         .select many foreign_te_macts related by spr_rss->TE_MACT[R2053]
       .end if
     .end if
-    .invoke axret = blck_xlate( trace, act_blk, 0 )
+    .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
     .assign action_body = axret.body
     .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
       .// outbound message
@@ -331,6 +334,8 @@
         .include "${te_file.arc_path}/t.component.port.autosar.c"
       .end if
     .end if
+      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+    .end while
   .end for
 .end function
 .//
@@ -393,7 +398,7 @@
             .end for
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_${te_parm.Name}_MEM_OFFSET"
-            .assign memory_description = "${memory_name} description ${te_mact.Description} - ${te_parm.Description} field"
+            .assign memory_description = "${memory_name} description ${te_mact.Descrip} - ${te_parm.Descrip} field"
             .assign attr_register_declaration = attr_register_declaration + "  declare_memory ${memory_name} ${te_po.name}_i ${memory_offset_name} ${memory_size}\n"
           .elif (not_empty te_dim)
             .assign memory_size = te_dim.elementCount
@@ -401,14 +406,14 @@
             .assign memory_size = memory_size * 4
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_${te_parm.Name}_MEM_OFFSET"
-            .assign memory_description = "${memory_name} description ${te_mact.Description} - ${te_parm.Description} field"
+            .assign memory_description = "${memory_name} description ${te_mact.Descrip} - ${te_parm.Descrip} field"
             .assign attr_register_declaration = attr_register_declaration + "  declare_memory ${memory_name} ${te_po.name}_i ${memory_offset_name} ${memory_size}\n"
           .elif ( "c_t" == te_dt.ExtName )
             .select any te_sys from instances of TE_SYS
             .assign memory_size = te_sys.MaxStringLen;
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_${te_parm.Name}_MEM_OFFSET"
-            .assign memory_description = "${memory_name} description ${te_mact.Description} - ${te_parm.Description} field"
+            .assign memory_description = "${memory_name} description ${te_mact.Descrip} - ${te_parm.Descrip} field"
             .assign attr_register_declaration = attr_register_declaration + "  declare_memory ${memory_name} ${te_po.name}_i ${memory_offset_name} ${memory_size}\n"
           .else
             .assign register_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
@@ -445,7 +450,7 @@
             .assign register_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_return"
             .assign register_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_return_REG_OFFSET"
             .assign register_width = 32
-            .assign register_description = "${te_mact.Description}"
+            .assign register_description = "${te_mact.Descrip}"
             .assign attr_register_declaration = attr_register_declaration + "  declare_register ${te_po.name}_i ${register_name} ${register_offset_name} {} -rw_access r/w -width 32\n"
           .end if
         .end if

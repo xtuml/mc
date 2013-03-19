@@ -179,7 +179,6 @@ ${te_instance.get_dci}(class_num);
 }
 .end if .// te_sys.InstanceLoading
 
-
 /*
  * Initialize object factory services.
  * Initialize class instance storage free pool (inanimate list)

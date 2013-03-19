@@ -16,6 +16,7 @@
 -- manually carried forward across subsequent releases of the Model Compiler.
 -- ============================================================================
 
+
 -- ============================================================================
 -- Classes In Subsystem:  Activity  
 -- ============================================================================
@@ -827,6 +828,7 @@ CREATE TABLE CNST_CIP (
 	Package_ID	UNIQUE_ID );
 
 
+
 -- ============================================================================
 -- Classes In Subsystem:  Domain  
 -- ============================================================================
@@ -1019,7 +1021,7 @@ CREATE TABLE S_DPK (
 	Name	STRING,
 	Dom_ID	UNIQUE_ID,
 	Parent_Package_ID	UNIQUE_ID,
-        Descrip STRING );
+	Descrip	STRING );
 
 -- Class:  26.  Data Type in Package
 CREATE TABLE S_DIP (
@@ -1109,6 +1111,7 @@ CREATE TABLE EP_SPKG (
 CREATE TABLE EP_PIP (
 	Parent_Package_ID	UNIQUE_ID,
 	Child_Package_ID	UNIQUE_ID );
+
 
 
 -- ============================================================================
@@ -1799,6 +1802,7 @@ CREATE TABLE PE_CRS (
 	Type	INTEGER );
 
 
+
 -- ============================================================================
 -- Classes In Subsystem:  Persistence Associations  
 -- ============================================================================
@@ -1817,6 +1821,7 @@ CREATE TABLE PA_SICP (
 CREATE TABLE PA_DIC (
 	Component_Id	UNIQUE_ID,
 	Delegation_Id	UNIQUE_ID );
+
 
 
 -- ============================================================================
@@ -1872,6 +1877,8 @@ CREATE TABLE ACT_URU (
 	associationNumberColumn	INTEGER,
 	associationPhraseLineNumber	INTEGER,
 	associationPhraseColumn	INTEGER );
+
+
 
 
 -- ============================================================================
@@ -2194,7 +2201,8 @@ CREATE TABLE SM_SGEVT (
 	SM_ID	UNIQUE_ID,
 	SMspd_ID	UNIQUE_ID,
 	Provided_Signal_Id	UNIQUE_ID,
-	Required_Signal_Id	UNIQUE_ID );
+	Required_Signal_Id	UNIQUE_ID,
+	signal_name	STRING );
 
 -- Class:  529.  Transition Action Home
 CREATE TABLE SM_TAH (
@@ -2363,7 +2371,7 @@ CREATE TABLE TE_SWC (
 	Ret_Val	BOOLEAN,
 	Built_In	BOOLEAN,
 	Oid_ID	INTEGER,
-	Obj_ID	UNIQUE_ID );
+	GeneratedName	STRING );
 
 -- Class:  2001.  Component Instance
 CREATE TABLE TE_CI (
@@ -2394,7 +2402,6 @@ CREATE TABLE TE_SYS (
 	MaxInterleavedBridges	INTEGER,
 	MaxInterleavedBridgeDataSize	INTEGER,
 	CollectionsFlavor	INTEGER,
-	TargetMonitorEnabled	BOOLEAN,
 	ForcePriorityEvents	BOOLEAN,
 	PEIClassCount	INTEGER,
 	PersistentClassCount	INTEGER,
@@ -2408,6 +2415,7 @@ CREATE TABLE TE_SYS (
 	VFB	BOOLEAN,
 	SystemCPortsType	STRING,
 	AllPortsPoly	BOOLEAN,
+	DomainClassNumberName	STRING,
 	Sys_ID	UNIQUE_ID );
 
 -- Class:  2005.  Dispatcher
@@ -2430,6 +2438,7 @@ CREATE TABLE TE_QUEUE (
 CREATE TABLE TE_ABA (
 	AbaID	UNIQUE_ID,
 	subtypeKL	STRING,
+	te_cID	UNIQUE_ID,
 	SelfEventCount	INTEGER,
 	NonSelfEventCount	INTEGER,
 	SelectManyCount	INTEGER,
@@ -2441,6 +2450,8 @@ CREATE TABLE TE_ABA (
 	ParameterDeclaration	STRING,
 	ParameterDefinition	STRING,
 	ParameterStructure	STRING,
+	ParameterTrace	STRING,
+	ParameterFormat	STRING,
 	ParameterInvocation	STRING,
 	ParameterAssignment	STRING,
 	ParameterAssignmentBase	STRING,
@@ -2449,14 +2460,15 @@ CREATE TABLE TE_ABA (
 	ReturnDataType	STRING,
 	dimensions	INTEGER,
 	te_dimID	UNIQUE_ID,
-	array_spec	STRING );
+	array_spec	STRING,
+	code	STRING );
 
 -- Class:  2012.  Extended Component
 CREATE TABLE TE_C (
 	ID	UNIQUE_ID,
 	Name	STRING,
-	Description	STRING,
-	TypeCode	INTEGER,
+	Descrip	STRING,
+	number	INTEGER,
 	StateTrace	BOOLEAN,
 	StmtTrace	BOOLEAN,
 	DetectEmpty	BOOLEAN,
@@ -2537,7 +2549,7 @@ CREATE TABLE TE_DT (
 	Value	STRING,
 	Is_Enum	BOOLEAN,
 	Owning_Dom_Name	STRING,
-	string_array	STRING,
+	string_format	STRING,
 	generated	BOOLEAN,
 	te_cID	UNIQUE_ID,
 	DT_ID	UNIQUE_ID );
@@ -2583,7 +2595,8 @@ CREATE TABLE TE_BRG (
 	Name	STRING,
 	GeneratedName	STRING,
 	AbaID	UNIQUE_ID,
-	Brg_ID	UNIQUE_ID );
+	Brg_ID	UNIQUE_ID,
+	EE_ID	UNIQUE_ID );
 
 -- Class:  2021.  Extended Derived Attribute
 CREATE TABLE TE_DBATTR (
@@ -2604,7 +2617,7 @@ CREATE TABLE TE_ENUM (
 -- Class:  2023.  Extended Parameter
 CREATE TABLE TE_PARM (
 	Name	STRING,
-	Description	STRING,
+	Descrip	STRING,
 	Order	INTEGER,
 	ParamBuffer	STRING,
 	OALParamBuffer	STRING,
@@ -2633,6 +2646,7 @@ CREATE TABLE TE_WHERE (
 
 -- Class:  2025.  Extended Attribute
 CREATE TABLE TE_ATTR (
+	ID	UNIQUE_ID,
 	Used	BOOLEAN,
 	read	BOOLEAN,
 	written	BOOLEAN,
@@ -2648,6 +2662,7 @@ CREATE TABLE TE_ATTR (
 	array_spec	STRING,
 	te_classGeneratedName	STRING,
 	GeneratedType	STRING,
+	prevID	UNIQUE_ID,
 	Attr_ID	UNIQUE_ID,
 	Obj_ID	UNIQUE_ID );
 
@@ -2703,6 +2718,7 @@ CREATE TABLE TE_PO (
 	Provision	BOOLEAN,
 	polymorphic	BOOLEAN,
 	sibling	INTEGER,
+	Order	INTEGER,
 	te_cID	UNIQUE_ID,
 	c_iId	UNIQUE_ID,
 	c_poId	UNIQUE_ID );
@@ -2769,6 +2785,8 @@ CREATE TABLE TE_CLASS (
 	persist_link	STRING,
 	dispatcher	STRING,
 	CBdispatcher	STRING,
+	attribute_format	STRING,
+	attribute_dump	STRING,
 	te_cID	UNIQUE_ID,
 	Obj_ID	UNIQUE_ID );
 
@@ -2826,7 +2844,19 @@ CREATE TABLE TE_PERSIST (
 	factory_init	STRING,
 	commit	STRING,
 	restore	STRING,
-	remove	STRING );
+	remove	STRING,
+	domainnum_name	STRING,
+	domainnum_type	STRING,
+	classnum_name	STRING,
+	classnum_type	STRING,
+	index_name	STRING,
+	index_type	STRING,
+	instid_type	STRING,
+	instid_name	STRING,
+	dirty_type	STRING,
+	dirty_name	STRING,
+	dirty_dirty	INTEGER,
+	dirty_clean	INTEGER );
 
 -- Class:  2040.  event queue
 CREATE TABLE TE_EQ (
@@ -2955,6 +2985,8 @@ CREATE TABLE TE_STRING (
 
 -- Class:  2046.  trace
 CREATE TABLE TE_TRACE (
+	component_msg_start	STRING,
+	component_msg_end	STRING,
 	state_txn_start	STRING,
 	state_txn_end	STRING,
 	state_txn_event_ignored	STRING,
@@ -3113,7 +3145,7 @@ CREATE TABLE TE_MACT (
 	AbaID	UNIQUE_ID,
 	ID	UNIQUE_ID,
 	Name	STRING,
-	Description	STRING,
+	Descrip	STRING,
 	GeneratedName	STRING,
 	ComponentName	STRING,
 	DomainName	STRING,
@@ -3124,6 +3156,7 @@ CREATE TABLE TE_MACT (
 	Provision	BOOLEAN,
 	subtypeKL	STRING,
 	polymorphic	BOOLEAN,
+	trace	BOOLEAN,
 	Order	INTEGER,
 	SPR_POId	UNIQUE_ID,
 	SPR_PSId	UNIQUE_ID,
@@ -3147,6 +3180,26 @@ CREATE TABLE TE_IIR (
 	c_irId	UNIQUE_ID,
 	te_poID	UNIQUE_ID,
 	provider_te_iirID	UNIQUE_ID );
+
+-- Class:  2071.  DomainClassInfo
+CREATE TABLE TE_DCI (
+	te_cID	UNIQUE_ID,
+	class_numbers	STRING,
+	union	STRING,
+	task_list	STRING,
+	task_numbers	STRING,
+	max	STRING,
+	max_models	STRING,
+	init	STRING,
+	array_name	STRING );
+
+-- Class:  2072.  Class Info Array
+CREATE TABLE TE_CIA (
+	class_info_name	STRING,
+	class_info_type	STRING,
+	active_count	STRING,
+	class_count	STRING,
+	count_type	STRING );
 
 
 -- ============================================================================

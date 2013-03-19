@@ -20,12 +20,13 @@
   .if ( te_for.isImplicit)
     .assign attr_declaration = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" )
   .end if
-  .assign iterator = ( "iter" + te_for.class_name ) + te_for.loop_variable
+  .assign iterator = "iter" + te_for.loop_variable
+  .assign current_instance = "ii" + te_for.loop_variable
 ${ws}{ ${te_set.scope}${te_set.iterator_class_name} ${iterator};
-${ws}${te_for.class_name} * ${te_for.class_name}${iterator};
+${ws}${te_for.class_name} * ${current_instance};
 ${ws}${te_set.iterator_reset}( &${iterator}, ${te_for.set_variable} );
-${ws}while ( (${te_for.class_name}${iterator} = (${te_for.class_name} *)${te_set.module}${te_set.iterator_next}( &${iterator} )) != 0 ) {
-${ws}  ${te_for.loop_variable} = ${te_for.class_name}${iterator}; {
+${ws}while ( (${current_instance} = (${te_for.class_name} *)${te_set.module}${te_set.iterator_next}( &${iterator} )) != 0 ) {
+${ws}  ${te_for.loop_variable} = ${current_instance}; {
 .end function
 .//------------------------------------------------
 .function t_oal_smt_if
@@ -59,6 +60,8 @@ ${ws}else if ( ${condition} ) {
   .param inst_ref te_smt
   .param inst_ref te_assign
   .param string ws
+  .param integer element_count
+  .param boolean is_parameter
   .if ( te_assign.isImplicit )
     .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
   .end if
@@ -72,7 +75,13 @@ ${ws}${te_instance.module}${te_string.strcpy}( ${te_assign.lval}, ${te_assign.rv
       .if ( 0 == te_assign.rval_dimensions )
 ${ws}${te_assign.lval} = ${te_assign.rval};
       .else
-${ws}${te_instance.module}${te_string.memmove}( (void * const) &(${te_assign.lval}), (void const * const) &(${te_assign.rval}), sizeof( ${te_assign.rval} ) );
+        .// We use memmove, because C does not copy arrays very nicely.
+${ws}${te_instance.module}${te_string.memmove}( ${te_assign.lval}, ${te_assign.rval}, \
+        .if ( is_parameter )
+sizeof( ${te_assign.rval}[0] ) * ${element_count} );
+        .else
+sizeof( ${te_assign.rval} ) );
+        .end if
       .end if
     .end if
   .else
