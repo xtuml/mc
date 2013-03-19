@@ -20,12 +20,13 @@
   .if ( te_for.isImplicit)
     .assign attr_declaration = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" )
   .end if
-  .assign iterator = ( "iter" + te_for.class_name ) + te_for.loop_variable
+  .assign iterator = "iter" + te_for.loop_variable
+  .assign current_instance = "ii" + te_for.loop_variable
 ${ws}{ ${te_set.scope}${te_set.iterator_class_name} ${iterator};
-${ws}${te_for.class_name} * ${te_for.class_name}${iterator};
+${ws}${te_for.class_name} * ${current_instance};
 ${ws}${te_set.iterator_reset}( &${iterator}, ${te_for.set_variable} );
-${ws}while ( (${te_for.class_name}${iterator} = (${te_for.class_name} *)${te_set.module}${te_set.iterator_next}( &${iterator} )) != 0 ) {
-${ws}  ${te_for.loop_variable} = ${te_for.class_name}${iterator}; {
+${ws}while ( (${current_instance} = (${te_for.class_name} *)${te_set.module}${te_set.iterator_next}( &${iterator} )) != 0 ) {
+${ws}  ${te_for.loop_variable} = ${current_instance}; {
 .end function
 .//------------------------------------------------
 .function t_oal_smt_if
