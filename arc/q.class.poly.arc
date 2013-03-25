@@ -140,7 +140,10 @@ ${i}      switch ( event_number ) {
             .assign transition = transition + "${i}          ${subtype_te_class.dispatcher}( event );\n"
             .assign transition = transition + "${i}          break; /* after transition */\n"
           .else
-            .print "WARNING:  no transition for non-local event. class:${subtype_te_class.Name}(${subtype_te_class.Key_lett}), event id: ${poly_sm_evt.Drv_Lbl}, event meaning: ${poly_sm_evt.Mning}\n"
+            .select any sm_eign related by sm_nlevt->SM_SEVT[R526]->SM_SEME[R503]->SM_EIGN[R504]
+            .if ( empty sm_eign )
+              .print "error:  no transition for non-local event... this should not be.\n"
+            .end if
           .end if
         .else
           .// Poly has no nonlocal event in this subtype, so must be deeper.
