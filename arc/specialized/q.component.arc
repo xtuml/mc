@@ -24,7 +24,7 @@
   .select any te_sys from instances of TE_SYS
   .select many cn_cics related by te_c->C_C[R2054]->CN_CIC[R4202]
   .select many cl_ics related by te_c->C_C[R2054]->CL_IC[R4205]
-  .assign attr_include_files = ""
+  .assign attr_include_files = "#include ""${te_c.module_file}.${te_file.hdr_file_ext}""\n"
   .for each cn_cic in cn_cics
     .select one nested_te_c related by cn_cic->C_C[R4203]->TE_C[R2054]
     .if ( nested_te_c.included_in_build )
