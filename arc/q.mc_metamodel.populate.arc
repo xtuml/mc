@@ -1083,22 +1083,21 @@
         .for each te_par in te_pars
           .assign te_par.By_Ref = te_parm.By_Ref
         .end for
-      .else
-        .select many spr_peps related by c_pp->C_EP[R4006]->SPR_PEP[R4501]
-        .if ( not_empty spr_peps )
-          .select many te_pars related by spr_peps->SPR_PS[R4503]->ACT_SGN[R663]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-          .for each te_par in te_pars
-            .assign te_par.By_Ref = te_parm.By_Ref
-          .end for
-          .select many te_pars related by spr_peps->SPR_PO[R4503]->ACT_IOP[R680]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-          .for each te_par in te_pars
-            .assign te_par.By_Ref = te_parm.By_Ref
-          .end for
-          .select many te_pars related by spr_peps->V_MSV[R841]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-          .for each te_par in te_pars
-            .assign te_par.By_Ref = te_parm.By_Ref
-          .end for
-        .end if
+      .end if
+      .select many spr_peps related by c_pp->C_EP[R4006]->SPR_PEP[R4501]
+      .if ( not_empty spr_peps )
+        .select many te_pars related by spr_peps->SPR_PS[R4503]->ACT_SGN[R663]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+        .for each te_par in te_pars
+          .assign te_par.By_Ref = te_parm.By_Ref
+        .end for
+        .select many te_pars related by spr_peps->SPR_PO[R4503]->ACT_IOP[R680]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+        .for each te_par in te_pars
+          .assign te_par.By_Ref = te_parm.By_Ref
+        .end for
+        .select many te_pars related by spr_peps->V_MSV[R841]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+        .for each te_par in te_pars
+          .assign te_par.By_Ref = te_parm.By_Ref
+        .end for
       .end if
     .end if
   .end for
