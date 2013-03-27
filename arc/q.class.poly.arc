@@ -142,7 +142,7 @@ ${i}      switch ( event_number ) {
           .else
             .select any sm_eign related by sm_nlevt->SM_SEVT[R526]->SM_SEME[R503]->SM_EIGN[R504]
             .if ( empty sm_eign )
-              .print "error:  no transition for non-local event... this should not be.\n"
+              .print "WARNING:  no transition for non-local event - ${subtype_te_class.Name}(${subtype_te_class.Key_lett}):${poly_sm_evt.Drv_Lbl}.${poly_sm_evt.Mning}\n"
             .end if
           .end if
         .else
