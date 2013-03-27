@@ -82,8 +82,6 @@
         .if ( not_empty act_blk )
           .invoke r = blck_xlate( false, act_blk, 0 )
           .assign te_aba.code = r.body
-        .else
-          .assign te_aba.code = "\n  /* WARNING!  Skipping unsuccessful or unparsed action.  */\n"
         .end if
       .end for
     .end for

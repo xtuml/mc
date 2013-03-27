@@ -1788,7 +1788,7 @@ INSERT INTO S_EE VALUES (\
   .else
  ${s_ee.EE_ID}\
   .end if
-, '${s_ee.Name}', ''\
+, '${s_ee.Name}', '${s_ee.Descrip}'\
 , '${s_ee.Key_Lett}'\
   .if ( "un-initialized" == "${s_ee.Dom_ID}" )
 , 0\
@@ -5634,7 +5634,7 @@ INSERT INTO TE_MBR VALUES (\
 .end for
 .select many te_ees from instances of TE_EE
 .for each te_ee in te_ees
-INSERT INTO TE_EE VALUES ( '${te_ee.Name}', '${te_ee.RegisteredName}', '${te_ee.Key_Lett}', ''\
+INSERT INTO TE_EE VALUES ( '${te_ee.Name}', '${te_ee.RegisteredName}', '${te_ee.Key_Lett}', '${te_ee.Descrip}'\
 , ${te_ee.Included}, '${te_ee.file}', '${te_ee.Include_File}', ${te_ee.Used}\
   .if ( "un-initialized" == "${te_ee.te_cID}" )
 , 0\

@@ -29,9 +29,9 @@ ${te_aba.ReturnDataType}
 ${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
 {
 .if ( te_dt.Name != "void" )
-  .if ( ( s_brg.Suc_Pars == 1 ) and ( "" != bridge_action_body ) )
+  .if ( ( s_brg.Suc_Pars == 1 ) and ( "" != te_aba.code ) )
   /* Replace/Insert the following instructions with your implementation code.  */
-${bridge_action_body}\
+${te_aba.code}\
   .else
     .if ( "CTOR" == te_dt.Initial_Value )
   ${te_aba.ReturnDataType} result = 0;
@@ -92,7 +92,7 @@ ${bridge_action_body}\
   return;
   .end if
   /* Replace/Insert your implementation code here... */
-${bridge_action_body}\
+${te_aba.code}\
 .end if
 }
 

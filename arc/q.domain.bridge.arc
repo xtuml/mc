@@ -92,13 +92,7 @@ class ${te_ee.RegisteredName} {
   .for each te_brg in te_brgs
     .select one te_aba related by te_brg->TE_ABA[R2010]
     .select one te_dt related by te_brg->S_BRG[R2025]->S_DT[R20]->TE_DT[R2021]
-    .assign bridge_action_body = ""
     .select one s_brg related by te_brg->S_BRG[R2025]
-    .if ( s_brg.Suc_Pars == 1 )
-      .select one act_blk related by te_brg->S_BRG[R2025]->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666]
-      .invoke axret = blck_xlate( statement_trace, act_blk, 0 )
-      .assign bridge_action_body = axret.body
-    .end if
     .include "${te_file.arc_path}/t.ee.brg.c"
   .end for
 .end function
