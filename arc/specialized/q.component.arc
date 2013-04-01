@@ -17,7 +17,6 @@
 .//============================================================================
 .//     Create Include List
 .//============================================================================
-.// CDS This needs to learn to use only R2081.
 .function TE_C_CreateIncludeList
   .param inst_ref te_c
   .select any te_file from instances of TE_FILE
@@ -112,46 +111,8 @@
     .assign sm_evt = empty_sm_evt
     .assign foreign_te_macts = empty_te_macts
     .select one te_aba related by te_mact->TE_ABA[R2010]
-    .// CDS This section of code can be simplified by selecting across R2081.
-    .// CDS Also, we are selecting to get the foreign message even when we do not need/use it (inbound).
-    .// CDS So, skip the foreign_te_mact selection here and move to the section below.
-    .// CDS Continue to get act_blk and the mapped event here.
     .if ( te_mact.subtypeKL == "SPR_PO" )
-.if ( false )
-      .select one spr_po related by te_mact->SPR_PO[R2050]
-      .select any te_parm related by spr_po->SPR_PEP[R4503]->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
-      .// Navigate through the satisfaction to find connected/corresponding messages.
-      .select many spr_ros related by spr_po->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->C_R[R4002]->SPR_REP[R4500]->SPR_RO[R4502] where ( selected.Name == spr_po.Name )
-      .select many foreign_te_macts related by spr_ros->TE_MACT[R2052]
-      .if ( empty foreign_te_macts )
-        .// Navigate through the delegation to find parent/child messages.
-        .select one c_ir related by spr_po->SPR_PEP[R4503]->C_P[R4501]->C_IR[R4009]
-        .select many c_irs related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]
-        .if ( empty c_irs )
-          .select many c_irs related by c_ir->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]
-        .end if
-        .select many spr_pos related by c_irs->C_P[R4009]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_po.Name )
-        .select many foreign_te_macts related by spr_pos->TE_MACT[R2050]
-      .end if
-.end if
     .elif ( te_mact.subtypeKL == "SPR_RO" )
-.if ( false )
-      .select one spr_ro related by te_mact->SPR_RO[R2052]
-      .select any te_parm related by spr_ro->SPR_REP[R4502]->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
-      .// Navigate through the satisfaction to find the connected/corresponding message.
-      .select many spr_pos related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_ro.Name )
-      .select many foreign_te_macts related by spr_pos->TE_MACT[R2050]
-      .if ( empty foreign_te_macts )
-        .// Navigate through the delegation to find parent/child messages.
-        .select one c_ir related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_IR[R4009]
-        .select many c_irs related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]
-        .if ( empty c_irs )
-          .select many c_irs related by c_ir->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]
-        .end if
-        .select many spr_ros related by c_irs->C_R[R4009]->SPR_REP[R4500]->SPR_RO[R4502] where ( selected.Name == spr_ro.Name )
-        .select many foreign_te_macts related by spr_ros->TE_MACT[R2052]
-      .end if
-.end if
     .elif ( te_mact.subtypeKL == "SPR_PS" )
       .select one spr_ps related by te_mact->SPR_PS[R2051]
       .select any te_parm related by spr_ps->SPR_PEP[R4503]->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
@@ -159,19 +120,6 @@
       .select many spr_rss related by spr_ps->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->C_R[R4002]->SPR_REP[R4500]->SPR_RS[R4502] where ( selected.Name == spr_ps.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_ps->SM_SGEVT[R528]->SM_SEVT[R526]->SM_EVT[R525]
-.if ( false )
-      .select many foreign_te_macts related by spr_rss->TE_MACT[R2053]
-      .if ( empty foreign_te_macts )
-        .// Navigate through the delegation to find parent/child messages.
-        .select one c_ir related by spr_ps->SPR_PEP[R4503]->C_P[R4501]->C_IR[R4009]
-        .select many c_irs related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]
-        .if ( empty c_irs )
-          .select many c_irs related by c_ir->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]
-        .end if
-        .select many spr_pss related by c_irs->C_P[R4009]->SPR_PEP[R4501]->SPR_PS[R4503] where ( selected.Name == spr_ps.Name )
-        .select many foreign_te_macts related by spr_pss->TE_MACT[R2051]
-      .end if
-.end if
     .elif ( te_mact.subtypeKL == "SPR_RS" )
       .select one spr_rs related by te_mact->SPR_RS[R2053]
       .select any te_parm related by spr_rs->SPR_REP[R4502]->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
@@ -179,19 +127,6 @@
       .select many spr_pss related by spr_rs->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PS[R4503] where ( selected.Name == spr_rs.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_rs->SM_SGEVT[R529]->SM_SEVT[R526]->SM_EVT[R525]
-.if ( false )
-      .select many foreign_te_macts related by spr_pss->TE_MACT[R2051]
-      .if ( empty foreign_te_macts )
-        .// Navigate through the delegation to find parent/child messages.
-        .select one c_ir related by spr_rs->SPR_REP[R4502]->C_R[R4500]->C_IR[R4009]
-        .select many c_irs related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]
-        .if ( empty c_irs )
-          .select many c_irs related by c_ir->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]
-        .end if
-        .select many spr_rss related by c_irs->C_R[R4009]->SPR_REP[R4500]->SPR_RS[R4502] where ( selected.Name == spr_rs.Name )
-        .select many foreign_te_macts related by spr_rss->TE_MACT[R2053]
-      .end if
-.end if
     .end if
     .assign action_body = te_aba.code
     .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
@@ -253,7 +188,7 @@
       .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
         .assign autosar_body = "  #ifdef ${te_thread.AUTOSAR_enabled}\n"
         .if (( te_mact.subtypeKL == "SPR_RO" ) or ( te_mact.subtypeKL == "SPR_PO" ))
-          .select any c_io from instances of C_IO where ( selected.Name == "${te_mact.MessageName}")
+          .select any c_io from instances of C_IO where ( selected.Name == te_mact.MessageName )
           .select many te_parms related by c_io->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
           .assign autosar_body = autosar_body + "  u1_t t = MC3020_AUTOSAR_RUNNABLE_NUMBER;\n"
           .if ( "void" != te_aba.ReturnDataType )
@@ -276,7 +211,7 @@
           .if ( parameter == "dp_signal" )
             .assign autosar_body = autosar_body + "  ${parameterdt} ${parameteri};\n"
           .end if
-          .select any signal from instances of C_AS where ( selected.Name == "${te_mact.MessageName}")
+          .select any signal from instances of C_AS where ( selected.Name == te_mact.MessageName} )
           .select many te_parms related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
           .assign parmsCount = cardinality te_parms
           .if (parmsCount > 1)
@@ -304,7 +239,7 @@
         .assign parmsCount = 0
         .select many te_parms from instances of TE_PARM where ( false )
         .if ((te_mact.subtypeKL == "SPR_PO") or ( te_mact.subtypeKL == "SPR_RO" ))
-          .select any c_io from instances of C_IO where ( selected.Name == "${te_mact.MessageName}")
+          .select any c_io from instances of C_IO where ( selected.Name == te_mact.MessageName )
           .select many te_parms related by c_io->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
           .if ( "" != te_aba.ParameterInvocation )
             .assign parmsCount = cardinality te_parms
@@ -324,16 +259,16 @@
           .end if
           .if ( "void" != te_aba.ReturnDataType )
             .// add a "returnParam" to be able to retrieve the returned value
-            .assign parameters_with_dt = parameters_with_dt +" , ${te_aba.ReturnDataType} * returnParam"
+            .assign parameters_with_dt = parameters_with_dt + " , ${te_aba.ReturnDataType} * returnParam"
           .end if
         .else
-          .select any signal from instances of C_AS where ( selected.Name == "${te_mact.MessageName}")
+          .select any signal from instances of C_AS where ( selected.Name == te_mact.MessageName )
           .select many te_parms related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
           .assign parmsCount = cardinality te_parms
           .if( parmsCount > 1 )
-            .assign paramName = "${te_mact.MessageName}_param"
+            .assign paramName = te_mact.MessageName + "_param"
           .else
-            .assign paramName = "${parameter}"
+            .assign paramName = parameter
           .end if
         .end if
         .include "${te_file.arc_path}/t.component.port.autosar.c"
