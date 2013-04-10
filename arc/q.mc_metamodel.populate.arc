@@ -1832,13 +1832,9 @@
   .// events starting with local then true then polys.
   .select many sm_levts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526]
   .select many local_te_evts related by sm_levts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036]
-  .invoke r = SortSetAscendingByAttr_Numb( local_te_evts )
-  .assign last_event_number = r.last
-  .if ( last_event_number == 0 )
-    .if ( empty local_te_evts )
-      .assign last_event_number = -1
-    .end if
-  .end if
+  .invoke SortSetAscendingByAttr_Numb( local_te_evts )
+  .assign last_event_number = cardinality local_te_evts
+  .assign last_event_number = last_event_number - 1
   .select many sm_sgevts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_SGEVT[R526]
   .select many signal_te_evts related by sm_sgevts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036]
   .for each te_evt in signal_te_evts
@@ -1867,11 +1863,6 @@
     .assign last_event_number = last_event_number + 1
     .assign te_evt.Order = last_event_number
   .end for
-  .if ( last_event_number == 0 )
-    .if ( (empty local_te_evts) and (empty true_te_evts) )
-      .assign last_event_number = -1
-    .end if
-  .end if
   .// Finally, order the polymorphic events.
   .// We need their Order to be greater than local and true events, since
   .// polys are not state event matrix events.

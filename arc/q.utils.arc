@@ -91,7 +91,7 @@ ${te_val.buffer}\
 .function is_reflexive
   .param inst_ref r_rel
   .//
-  .assign attr_result = false
+  .assign result = false
   .select one srel related by r_rel->R_SIMP[R206]
   .if ( not_empty srel )
     .select many part_set related by srel->R_PART[R207]
@@ -99,14 +99,14 @@ ${te_val.buffer}\
       .select any part1 related by srel->R_PART[R207]
       .select any part2 related by srel->R_PART[R207] where (selected.OIR_ID != part1.OIR_ID)
       .if ( part1.Obj_ID == part2.Obj_ID )
-        .assign attr_result = true
+        .assign result = true
       .end if
     .else
       .select any part related by srel->R_PART[R207]
       .select one form related by srel->R_FORM[R208]
       .if ( not_empty form )
         .if ( part.Obj_ID == form.Obj_ID )
-          .assign attr_result = true
+          .assign result = true
         .end if
       .end if
     .end if
@@ -116,10 +116,11 @@ ${te_val.buffer}\
       .select one aone related by arel->R_AONE[R209]
       .select one aoth related by arel->R_AOTH[R210]
       .if ( aone.Obj_ID == aoth.Obj_ID )
-        .assign attr_result = true
+        .assign result = true
       .end if
     .end if
   .end if
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -134,7 +135,6 @@ ${te_val.buffer}\
 .function SortSetAscendingByAttr_Numb
   .param inst_ref_set item_set
   .//
-  .assign attr_last = 0
   .// Clear the Order attribute of all set members.
   .for each item in item_set
     .assign item.Order = 0
@@ -143,13 +143,10 @@ ${te_val.buffer}\
   .assign item_set_copy = item_set
   .for each item in item_set
     .for each item_copy in item_set_copy
-      .if ( item.Numb != item_copy.Numb )
-        .if ( item_copy.Numb > item.Numb )
-          .assign item_copy.Order = item_copy.Order + 1
-        .end if
+      .if ( item_copy.Numb > item.Numb )
+        .assign item_copy.Order = item_copy.Order + 1
       .end if
     .end for
-    .assign attr_last = item_copy.Order
   .end for
 .end function
 .//
@@ -171,10 +168,8 @@ ${te_val.buffer}\
   .assign item_set_copy = item_set
   .for each item in item_set
     .for each item_copy in item_set_copy
-      .if ( item.Name != item_copy.Name )
-        .if ( item_copy.Name > item.Name )
-          .assign item_copy.Order = item_copy.Order + 1
-        .end if
+      .if ( item_copy.Name > item.Name )
+        .assign item_copy.Order = item_copy.Order + 1
       .end if
     .end for
   .end for
