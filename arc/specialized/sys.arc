@@ -149,7 +149,7 @@
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
   .assign s = ""
-  .select many te_syncs related by te_c->TE_SYNC[R2084] where ( selected.XlateSemantics )
+  .select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.XlateSemantics ) and ( selected.Name == "z" ) )
   .for each te_sync in te_syncs
     .select one te_aba related by te_sync->TE_ABA[R2010]
     .select any s_sparm related by te_aba->TE_PARM[R2062]->S_SPARM[R2030] where ( selected.Previous_SParm_ID == 00 )
