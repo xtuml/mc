@@ -113,6 +113,7 @@ int stack_pointer = 0;
                              yylval = (int) yytext;                   \
                              return(x);
 #define RETURN_CVAL(x)       if ( x == ASSIGN ) {                     \
+                               linestr[ strlen(linestr) - 1 ] = 0;    \
                              } else if ( x == FUNCTION ) {            \
                                YYAPPEND1("//")                        \
                              } else if ( x == ENDFUNCTION ) {         \
@@ -202,11 +203,11 @@ dbl_dollar    "$$"
 <comment>{h_white}+                     {WHITE_RETURN(' ');}
 {h_white}+                              {WHITE_RETURN(' ');}
 
-<pc>".// delete object instance"        {yytext++; yytext++; // eat comment marker
+<pc>".// delete object instance"        {yytext+=3; // eat comment marker
                                          CONTROL_RETURN(DELETEOBJ);}
-<pc>".// unrelate"                      {yytext++; yytext++; // eat comment marker
+<pc>".// unrelate"                      {yytext+=3; // eat comment marker
                                          CONTROL_RETURN(UNRELATE);}
-<pc>".// relate"                        {yytext++; yytext++; // eat comment marker
+<pc>".// relate"                        {yytext+=3; // eat comment marker
                                          CONTROL_RETURN(RELATE);}
 <pc>".// end unrelate"                  {return(ENDUNRELATE);}
 <pc>".// end relate"                    {return(ENDRELATE);}
