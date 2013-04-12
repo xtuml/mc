@@ -275,7 +275,7 @@
   .select one o_obj related by v_int->O_OBJ[R818]
   .invoke s = t_oal_smt_delete_instance( o_obj, te_var.buffer, del_count, te_blk.indentation )
   .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = ".delete object instance ${v_var.Name}"
+  .assign te_smt.OAL = ".// delete object instance ${v_var.Name};"
 .end function
 .// --------------------------------------------------------
 .// create event instance to instance statements
@@ -402,7 +402,7 @@
     .invoke is_refl = is_reflexive( r_rel )
     .invoke s = t_oal_smt_relate( one_o_obj, oth_o_obj, r_rel, is_refl.result, r_rel.Numb, act_rel.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, te_blk.indentation )
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = ".// relate ${one_v_var.Name} to ${oth_v_var.Name} across R${r_rel.Numb}"
+    .assign te_smt.OAL = ".// relate ${one_v_var.Name} to ${oth_v_var.Name} across R${r_rel.Numb};"
     .// Select the r_rto and r_rgo based on what we have above.
     .select any r_rgo related by r_rel->R_OIR[R201]->R_RGO[R203]
     .select any r_rto related by r_rel->R_OIR[R201]->R_RTO[R203]
@@ -509,10 +509,15 @@
     .invoke is_refl = is_reflexive( r_rel )
     .invoke s = t_oal_smt_unrelate( one_o_obj, oth_o_obj, r_rel, is_refl.result, r_rel.Numb, act_unr.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, te_blk.indentation )
     .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = ".// unrelate ${one_v_var.Name} to ${oth_v_var.Name} across R${r_rel.Numb}"
-    .select many te_attrs related by r_rel->R_OIR[R201]->R_RGO[R203]->O_REF[R111]->O_RATTR[R108]->O_ATTR[R106]->TE_ATTR[R2033]
+    .assign te_smt.OAL = ".// unrelate ${one_v_var.Name} from ${oth_v_var.Name} across R${r_rel.Numb};"
+    .select any r_rgo related by r_rel->R_OIR[R201]->R_RGO[R203]
+    .select many te_attrs related by r_rgo->O_REF[R111]->O_RATTR[R108]->O_ATTR[R106]->TE_ATTR[R2033]
     .for each te_attr in te_attrs
-      .assign te_smt.OAL = ( te_smt.OAL + "\n" ) + ( te_blk.indentation + ".assign ${one_v_var.Name}.${te_attr.Name} = ${te_attr.DefaultValue}" )
+      .assign te_smt.OAL = te_smt.OAL + "\n"
+      .assign te_smt.OAL = te_smt.OAL + ( te_blk.indentation + ".assign ${one_v_var.Name}.${te_attr.Name} = ${te_attr.DefaultValue}" )
+      .if ( "0" == te_attr.DefaultValue )
+        .assign te_smt.OAL = te_smt.OAL + "0"
+      .end if
     .end for
     .assign te_smt.OAL = ( te_smt.OAL + "\n" ) + ( te_blk.indentation + ".// end unrelate" )
   .end if

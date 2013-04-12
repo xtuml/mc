@@ -277,7 +277,7 @@
   .for each v_slr in v_slrs
     .select one te_val related by v_slr->V_VAL[R801]->TE_VAL[R2040]
     .assign te_val.buffer = "selected"
-    .assign te_val.OAL = "SELECTED"
+    .assign te_val.OAL = "selected"
   .end for
 .end function
 .//
@@ -554,7 +554,7 @@
         .assign te_val.buffer = "selected->${te_val.buffer}"
       .end if
       .assign te_val.buffer = te_val.buffer + "selected"
-      .assign te_val.OAL = "SELECTED."
+      .assign te_val.OAL = "selected."
     .end if
   .else
     .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )

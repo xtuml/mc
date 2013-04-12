@@ -41,7 +41,7 @@
       .assign r_form.Cond = r_part.Cond
       .assign r_form.Txt_Phrs = r_part.Txt_Phrs
       .//
-      .// unrelate r_part from r_rto across R205;
+      .// unrelate r_part from r_rto across R204;
       .assign r_part.Obj_ID = 00
       .assign r_part.Rel_ID = 00
       .assign r_part.OIR_ID = 00
@@ -65,10 +65,8 @@
       .assign r_form.Rel_ID = r_rgo.Rel_ID
       .assign r_form.OIR_ID = r_rgo.OIR_ID
       .// end relate
-      .// relate r_form to r_simp across R207;
-      .if ( r_form.Rel_ID != r_simp.Rel_ID )
-        .print "ERROR:  Pseudoformalization of relationship failed."
-      .end if
+      .// relate r_form to r_simp across R208;
+      .assign r_form.Rel_ID = r_simp.Rel_ID
       .// end relate
     .end if
   .end for
