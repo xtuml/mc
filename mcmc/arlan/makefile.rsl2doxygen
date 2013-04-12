@@ -1,0 +1,17 @@
+CFLAGS= -DRSL2OAL_CONVERT
+LFLAGS= -L/usr/lib -lfl
+
+all:	rsl2doxygen
+
+rsl2doxygen: rsl2doxygen.tab.c rsl2doxygen.tab.h lex.yy.c
+	i686-w64-mingw32-gcc $(CFLAGS) -o rsl2doxygen lex.yy.c rsl2doxygen.tab.c $(LFLAGS)
+
+rsl2doxygen.tab.h rsl2doxygen.tab.c:  rsl2doxygen.y 
+	bison -d rsl2doxygen.y
+	mv rsl2doxygen.tab.h y.tab.h
+
+lex.yy.c: rsl2doxygen.l
+	flex rsl2doxygen.l
+
+clean:
+	rm *.o *.output *.c *.h *.exe
