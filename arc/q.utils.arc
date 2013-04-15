@@ -15,16 +15,23 @@
   .if ( not_empty v_pars )
     .select any te_string from instances of TE_STRING
     .invoke V_PAR_sort( v_pars )
-    .//.invoke SortSetAlphabeticallyByNameAttr( v_pars )
-    .assign item_count = cardinality v_pars
-    .assign item_number = 0
+    .// Be sure we have the first parameter.
+    .for each v_par in v_pars
+      .break for
+    .end for
+    .while ( not_empty v_par )
+      .select one prev_v_par related by v_par->V_PAR[R816.'precedes']
+      .if ( empty prev_v_par )
+        .break while
+      .else
+        .assign v_par = prev_v_par
+      .end if
+    .end while
     .assign param_delimiter = ""
-    .if(prefix_param_delimiter)
+    .if ( prefix_param_delimiter )
       .assign param_delimiter = ","
     .end if
-    .while ( item_number < item_count )
-      .for each v_par in v_pars
-        .if ( v_par.Order == item_number )
+    .while ( not_empty v_par )
           .select one v_val related by v_par->V_VAL[R800]
           .select one te_val related by v_val->TE_VAL[R2040]
           .assign attr_OAL = ( attr_OAL + param_delimiter ) + te_val.OAL
@@ -79,10 +86,7 @@ ${te_val.buffer}\
 &(${te_val.buffer})\
           .end if
           .assign param_delimiter = ", "
-          .break for
-        .end if
-      .end for
-      .assign item_number = item_number + 1
+      .select one v_par related by v_par->V_PAR[R816.'succeeds']
     .end while
   .end if
 .end function
@@ -179,28 +183,18 @@ ${te_val.buffer}\
 .function V_PAR_sort
   .param inst_ref_set v_pars
   .// Declare an empty instance reference.
+  .select any head_v_par related by v_pars->V_PAR[R816.'succeeds'] where ( false )
   .for each v_par in v_pars
-    .assign v_par.Order = 0
     .// select one next_v_par related by v_par->V_PAR[R816.'succeeds'];
     .// if ( not_empty next_v_par )
     .// unrelate v_par from next_v_par across R816.'succeeds';
     .assign v_par.Next_Value_ID = 00
     .// end unrelate
-  .end for
-  .select any head_v_par related by v_pars->V_PAR[R816.'succeeds'] where ( false )
-  .for each v_par in v_pars
     .invoke r = V_PAR_insert( head_v_par, v_par )
     .assign head_v_par = r.result
   .end for
-  .assign Order = 0
-  .assign v_par = head_v_par
-  .while ( not_empty v_par )
-    .assign v_par.Order = Order
-    .assign Order = Order + 1
-    .select one v_par related by v_par->V_PAR[R816.'succeeds']
-  .end while
+  .assign attr_result = head_v_par
 .end function
-.// Assume head is linked up.
 .function V_PAR_insert
   .param inst_ref head_v_par
   .param inst_ref v_par
