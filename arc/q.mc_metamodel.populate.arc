@@ -2052,6 +2052,29 @@
       .assign actual_te_parms = actual_te_parms | te_parm
     .end if
   .end for
+  .// Link up the te_parms into an ordered list based on the order of the 
+  .// modeled parameters.
+  .select one next_te_parm related by te_parm->TE_PARM[R2041.'succeeds'] where ( false )
+  .for each te_parm in actual_te_parms
+    .if ( "TE_MACT" == subtypeKL )
+      .select one next_te_parm related by te_parm->C_PP[R2048]->C_PP[R4021.'succeeds']->TE_PARM[R2048];
+    .elif ( "SM_ACT" == subtypeKL )
+      .select one next_te_parm related by te_parm->SM_EVTDI[R2031]->SM_EVTDI[R533.'succeeds']->TE_PARM[R2031];
+    .elif ( "O_TFR" == subtypeKL )
+      .select one next_te_parm related by te_parm->O_TPARM[R2029]->O_TPARM[R124.'succeeds']->TE_PARM[R2029];
+    .elif ( "S_SYNC" == subtypeKL )
+      .select one next_te_parm related by te_parm->S_SPARM[R2030]->S_SPARM[R54.'succeeds']->TE_PARM[R2030];
+    .elif ( "S_BRG" == subtypeKL )
+      .select one next_te_parm related by te_parm->S_BPARM[R2028]->S_BPARM[R55.'succeeds']->TE_PARM[R2028];
+    .else
+      .// "O_DBATTR" does not carry attributes.
+    .end if
+    .if ( not_empty next_te_parm )
+      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .assign te_parm.nextID = next_te_parm.ID
+      .// end relate
+    .end if
+  .end for
   .invoke te_parm_RenderParameters( actual_te_parms, te_aba )
   .assign te_aba.scope = ""
   .if ( ( "C++" == te_target.language ) or ( "SystemC" == te_target.language ) )

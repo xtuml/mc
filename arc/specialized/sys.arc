@@ -65,6 +65,7 @@
 .include "${arc_path}/q.oal.translate.arc"
 .include "${arc_path}/q.oal.test.arc"
 .include "${arc_path}/q.parameters.arc"
+.include "${arc_path}/q.parameters.sort.arc"
 .include "${arc_path}/q.smt.generate.arc"
 .include "${arc_path}/q.utils.arc"
 .include "${arc_path}/q.val.translate.arc"
@@ -84,6 +85,7 @@
 .//
 .select any te_file from instances of TE_FILE
 .if ( empty te_file )
+.invoke parameters_sort()
 .//
 .// Create the unmarked, standard singletons.
 .invoke factory_factory()
