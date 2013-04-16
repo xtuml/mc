@@ -2036,36 +2036,29 @@
     .assign te_aba.te_cID = te_c.ID
     .// end relate
   .end if
-  .select many actual_te_parms related by te_aba->TE_PARM[R2062] where ( false )
+  .assign duplicates_needed = false
+  .select any empty_te_parm related by te_parms->TE_PARM[R2041.'succeeds'] where ( false )
+  .assign next_te_parm = empty_te_parm
   .for each te_parm in te_parms
-    .if ( 0 != te_parm.AbaID )
-      .invoke r = TE_PARM_duplicate( te_parm )
-      .assign duplicate_te_parm = r.result
-      .// relate te_parm to te_aba across R2062;
-      .assign duplicate_te_parm.AbaID = te_aba.AbaID
-      .// end relate
-      .assign actual_te_parms = actual_te_parms | duplicate_te_parm
-    .else
+    .if ( 0 == te_parm.AbaID )
       .// relate te_parm to te_aba across R2062;
       .assign te_parm.AbaID = te_aba.AbaID
       .// end relate
-      .assign actual_te_parms = actual_te_parms | te_parm
+    .else
+      .assign duplicates_needed = true
     .end if
-  .end for
-  .// Link up the te_parms into an ordered list based on the order of the 
-  .// modeled parameters.
-  .select one next_te_parm related by te_parm->TE_PARM[R2041.'succeeds'] where ( false )
-  .for each te_parm in actual_te_parms
+    .// Link up the te_parms into an ordered list based on the order of the 
+    .// modeled parameters.
     .if ( "TE_MACT" == subtypeKL )
-      .select one next_te_parm related by te_parm->C_PP[R2048]->C_PP[R4021.'succeeds']->TE_PARM[R2048];
+      .select one next_te_parm related by te_parm->C_PP[R2048]->C_PP[R4021.'succeeds']->TE_PARM[R2048]
     .elif ( "SM_ACT" == subtypeKL )
-      .select one next_te_parm related by te_parm->SM_EVTDI[R2031]->SM_EVTDI[R533.'succeeds']->TE_PARM[R2031];
+      .select one next_te_parm related by te_parm->SM_EVTDI[R2031]->SM_EVTDI[R533.'succeeds']->TE_PARM[R2031]
     .elif ( "O_TFR" == subtypeKL )
-      .select one next_te_parm related by te_parm->O_TPARM[R2029]->O_TPARM[R124.'succeeds']->TE_PARM[R2029];
+      .select one next_te_parm related by te_parm->O_TPARM[R2029]->O_TPARM[R124.'succeeds']->TE_PARM[R2029]
     .elif ( "S_SYNC" == subtypeKL )
-      .select one next_te_parm related by te_parm->S_SPARM[R2030]->S_SPARM[R54.'succeeds']->TE_PARM[R2030];
+      .select one next_te_parm related by te_parm->S_SPARM[R2030]->S_SPARM[R54.'succeeds']->TE_PARM[R2030]
     .elif ( "S_BRG" == subtypeKL )
-      .select one next_te_parm related by te_parm->S_BPARM[R2028]->S_BPARM[R55.'succeeds']->TE_PARM[R2028];
+      .select one next_te_parm related by te_parm->S_BPARM[R2028]->S_BPARM[R55.'succeeds']->TE_PARM[R2028]
     .else
       .// "O_DBATTR" does not carry attributes.
     .end if
@@ -2075,6 +2068,42 @@
       .// end relate
     .end if
   .end for
+  .select many actual_te_parms related by te_aba->TE_PARM[R2062] where ( false )
+  .// This duplication is needed because multiple ports can use the same
+  .// interface.  It would be nice to explore a method to avoid duplicating
+  .// the parameter instances.
+  .if ( duplicates_needed )
+    .// Find first te_parm.
+    .for each te_parm in te_parms
+      .break for
+    .end for
+    .while ( not_empty te_parm )
+      .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
+      .if ( empty prev_te_parm )
+        .break while
+      .else
+        .assign te_parm = prev_te_parm
+      .end if
+    .end while
+    .assign prev_te_parm = empty_te_parm
+    .while ( not_empty te_parm )
+      .invoke r = TE_PARM_duplicate( te_parm )
+      .assign duplicate_te_parm = r.result
+      .assign actual_te_parms = actual_te_parms | duplicate_te_parm
+      .// relate duplicate_te_parm to te_aba across R2062;
+      .assign duplicate_te_parm.AbaID = te_aba.AbaID
+      .// end relate
+      .if ( not_empty prev_te_parm )
+        .// relate prev_te_parm to duplicate_te_parm across R2041.'succeeds';
+        .assign prev_te_parm.nextID = duplicate_te_parm.ID
+        .// end relate
+      .end if
+      .assign prev_te_parm = duplicate_te_parm
+      .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
+    .end while
+  .else
+    .assign actual_te_parms = te_parms
+  .end if
   .invoke te_parm_RenderParameters( actual_te_parms, te_aba )
   .assign te_aba.scope = ""
   .if ( ( "C++" == te_target.language ) or ( "SystemC" == te_target.language ) )
