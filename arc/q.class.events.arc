@@ -38,23 +38,27 @@
     .end if
   .end if
   .select any te_string from instances of TE_STRING
-  .if ( not_empty te_parms )
-    .invoke SortSetAlphabeticallyByNameAttr( te_parms )
+  .// Find first te_parm.
+  .for each te_parm in te_parms
+    .break for
+  .end for
+  .while ( not_empty te_parm )
+    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
+    .if ( empty prev_te_parm )
+      .break while
+    .else
+      .assign te_parm = prev_te_parm
+    .end if
+  .end while
+  .while ( not_empty te_parm )
     .assign result = TRUE
-    .assign item_count = cardinality te_parms
-    .assign item_number = 0
-    .while ( item_number < item_count )
-      .for each te_parm in te_parms
-        .// TODO CDS - Do not like this check for the portindex here.  It would be nice to rework this.  
-        .if ( ( te_parm.Order == item_number ) and ( "A00portindex" != te_parm.GeneratedName ) )
-          .select one te_dt related by te_parm->TE_DT[R2049]
+    .// TODO CDS - Do not like this check for the portindex here.  It would be nice to rework this.  
+    .if ( "A00portindex" != te_parm.GeneratedName )
+      .select one te_dt related by te_parm->TE_DT[R2049]
   ${te_dt.ExtName} ${te_parm.GeneratedName}${te_parm.array_spec}; /* ${te_parm.Name} */
-          .break for
-        .end if
-      .end for
-      .assign item_number = item_number + 1
-    .end while
-  .end if
+    .end if
+    .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
+  .end while
   .assign attr_result = result
 .end function
 .//

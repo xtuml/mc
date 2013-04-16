@@ -997,6 +997,16 @@
       .end for
     .end if
   .end for
+  .// Link the event parameters into order.
+  .for each s_bparm in s_bparms
+    .select one te_parm related by s_bparm->TE_PARM[R2028]
+    .select one next_te_parm related by s_bparm->S_BPARM[R55.'succeeds']->TE_PARM[R2028]
+    .if ( not_empty next_te_parm )
+      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .assign te_parm.nextID = next_te_parm.ID
+      .// end relate
+    .end if
+  .end for
   .select many o_tparms from instances of O_TPARM
   .for each o_tparm in o_tparms
     .select many s_dims related by o_tparm->S_DIM[R121]
@@ -1015,6 +1025,16 @@
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
       .end for
+    .end if
+  .end for
+  .// Link the event parameters into order.
+  .for each o_tparm in o_tparms
+    .select one te_parm related by o_tparm->TE_PARM[R2029]
+    .select one next_te_parm related by o_tparm->O_TPARM[R124.'succeeds']->TE_PARM[R2029]
+    .if ( not_empty next_te_parm )
+      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .assign te_parm.nextID = next_te_parm.ID
+      .// end relate
     .end if
   .end for
   .select many s_sparms from instances of S_SPARM
@@ -1037,6 +1057,16 @@
       .end for
     .end if
   .end for
+  .// Link the event parameters into order.
+  .for each s_sparm in s_sparms
+    .select one te_parm related by s_sparm->TE_PARM[R2030]
+    .select one next_te_parm related by s_sparm->S_SPARM[R54.'succeeds']->TE_PARM[R2030]
+    .if ( not_empty next_te_parm )
+      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .assign te_parm.nextID = next_te_parm.ID
+      .// end relate
+    .end if
+  .end for
   .select many sm_evtdis from instances of SM_EVTDI
   .for each sm_evtdi in sm_evtdis
     .select many s_dims related by sm_evtdi->S_DIM[R531]
@@ -1048,6 +1078,16 @@
     .assign te_parm.SMedi_ID = sm_evtdi.SMedi_ID
     .assign te_parm.SM_ID = sm_evtdi.SM_ID
     .// end relate
+  .end for
+  .// Link the event parameters into order.
+  .for each sm_evtdi in sm_evtdis
+    .select one te_parm related by sm_evtdi->TE_PARM[R2031]
+    .select one next_te_parm related by sm_evtdi->SM_EVTDI[R533.'succeeds']->TE_PARM[R2031]
+    .if ( not_empty next_te_parm )
+      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .assign te_parm.nextID = next_te_parm.ID
+      .// end relate
+    .end if
   .end for
   .select many c_pps from instances of C_PP
   .for each c_pp in c_pps
@@ -1099,6 +1139,16 @@
           .assign te_par.By_Ref = te_parm.By_Ref
         .end for
       .end if
+    .end if
+  .end for
+  .// Link the event parameters into order.
+  .for each c_pp in c_pps
+    .select one te_parm related by c_pp->TE_PARM[R2048]
+    .select one next_te_parm related by c_pp->C_PP[R4021.'succeeds']->TE_PARM[R2048]
+    .if ( not_empty next_te_parm )
+      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .assign te_parm.nextID = next_te_parm.ID
+      .// end relate
     .end if
   .end for
   .//
@@ -2037,42 +2087,20 @@
     .// end relate
   .end if
   .assign duplicates_needed = false
-  .select any empty_te_parm related by te_parms->TE_PARM[R2041.'succeeds'] where ( false )
-  .assign next_te_parm = empty_te_parm
   .for each te_parm in te_parms
-    .if ( 0 == te_parm.AbaID )
+    .if ( 00 == te_parm.AbaID )
       .// relate te_parm to te_aba across R2062;
       .assign te_parm.AbaID = te_aba.AbaID
       .// end relate
     .else
       .assign duplicates_needed = true
     .end if
-    .// Link up the te_parms into an ordered list based on the order of the 
-    .// modeled parameters.
-    .if ( "TE_MACT" == subtypeKL )
-      .select one next_te_parm related by te_parm->C_PP[R2048]->C_PP[R4021.'succeeds']->TE_PARM[R2048]
-    .elif ( "SM_ACT" == subtypeKL )
-      .select one next_te_parm related by te_parm->SM_EVTDI[R2031]->SM_EVTDI[R533.'succeeds']->TE_PARM[R2031]
-    .elif ( "O_TFR" == subtypeKL )
-      .select one next_te_parm related by te_parm->O_TPARM[R2029]->O_TPARM[R124.'succeeds']->TE_PARM[R2029]
-    .elif ( "S_SYNC" == subtypeKL )
-      .select one next_te_parm related by te_parm->S_SPARM[R2030]->S_SPARM[R54.'succeeds']->TE_PARM[R2030]
-    .elif ( "S_BRG" == subtypeKL )
-      .select one next_te_parm related by te_parm->S_BPARM[R2028]->S_BPARM[R55.'succeeds']->TE_PARM[R2028]
-    .else
-      .// "O_DBATTR" does not carry attributes.
-    .end if
-    .if ( not_empty next_te_parm )
-      .// relate te_parm to next_te_parm across R2041.'succeeds';
-      .assign te_parm.nextID = next_te_parm.ID
-      .// end relate
-    .end if
   .end for
-  .select many actual_te_parms related by te_aba->TE_PARM[R2062] where ( false )
   .// This duplication is needed because multiple ports can use the same
   .// interface.  It would be nice to explore a method to avoid duplicating
   .// the parameter instances.
   .if ( duplicates_needed )
+    .select many duplicate_te_parms related by te_aba->TE_PARM[R2062] where ( false )
     .// Find first te_parm.
     .for each te_parm in te_parms
       .break for
@@ -2085,11 +2113,11 @@
         .assign te_parm = prev_te_parm
       .end if
     .end while
-    .assign prev_te_parm = empty_te_parm
+    .select any prev_te_parm related by te_parm->TE_PARM[R2041.'precedes'] where ( false )
     .while ( not_empty te_parm )
       .invoke r = TE_PARM_duplicate( te_parm )
       .assign duplicate_te_parm = r.result
-      .assign actual_te_parms = actual_te_parms | duplicate_te_parm
+      .assign duplicate_te_parms = duplicate_te_parms | duplicate_te_parm
       .// relate duplicate_te_parm to te_aba across R2062;
       .assign duplicate_te_parm.AbaID = te_aba.AbaID
       .// end relate
@@ -2101,16 +2129,15 @@
       .assign prev_te_parm = duplicate_te_parm
       .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .end while
-  .else
-    .assign actual_te_parms = te_parms
+    .assign te_parms = duplicate_te_parms
   .end if
-  .invoke te_parm_RenderParameters( actual_te_parms, te_aba )
+  .invoke te_parm_RenderParameters( te_parms, te_aba )
   .assign te_aba.scope = ""
   .if ( ( "C++" == te_target.language ) or ( "SystemC" == te_target.language ) )
     .assign te_aba.scope = scope + "::"
     .if ( not_empty te_c )
       .if ( ( "S_BRG" == te_aba.subtypeKL ) or ( "O_TFR" == te_aba.subtypeKL ) )
-        .if ( empty actual_te_parms )
+        .if ( empty te_parms )
           .assign te_aba.ParameterDefinition = " ${te_c.Name} * thismodule"
           .assign te_aba.ParameterDeclaration = " ${te_c.Name} *"
         .else
