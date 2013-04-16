@@ -1,6 +1,7 @@
 .// CDS temporary code to test ordered parameters
 .function V_PAR_sort
   .param inst_ref_set v_pars
+  .if ( true )
   .// Declare an empty instance reference.
   .select any head_v_par related by v_pars->V_PAR[R816.'succeeds'] where ( false )
   .for each v_par in v_pars
@@ -8,7 +9,7 @@
     .invoke r = V_PAR_insert( head_v_par, v_par )
     .assign head_v_par = r.result
   .end for
-  .assign attr_result = head_v_par
+  .end if
 .end function
 .function V_PAR_insert
   .param inst_ref head_v_par
@@ -58,7 +59,6 @@
     .invoke r = S_SPARM_insert( head_s_sparm, s_sparm )
     .assign head_s_sparm = r.result
   .end for
-  .assign attr_result = head_s_sparm
 .end function
 .function S_SPARM_insert
   .param inst_ref head_s_sparm
@@ -108,7 +108,6 @@
     .invoke r = S_BPARM_insert( head_s_bparm, s_bparm )
     .assign head_s_bparm = r.result
   .end for
-  .assign attr_result = head_s_bparm
 .end function
 .function S_BPARM_insert
   .param inst_ref head_s_bparm
@@ -158,7 +157,6 @@
     .invoke r = O_TPARM_insert( head_o_tparm, o_tparm )
     .assign head_o_tparm = r.result
   .end for
-  .assign attr_result = head_o_tparm
 .end function
 .function O_TPARM_insert
   .param inst_ref head_o_tparm
@@ -208,7 +206,6 @@
     .invoke r = SM_EVTDI_insert( head_sm_evtdi, sm_evtdi )
     .assign head_sm_evtdi = r.result
   .end for
-  .assign attr_result = head_sm_evtdi
 .end function
 .function SM_EVTDI_insert
   .param inst_ref head_sm_evtdi
@@ -258,7 +255,6 @@
     .invoke r = C_PP_insert( head_c_pp, c_pp )
     .assign head_c_pp = r.result
   .end for
-  .assign attr_result = head_c_pp
 .end function
 .function C_PP_insert
   .param inst_ref head_c_pp
@@ -298,30 +294,32 @@
 .//
 .// CDS temporary for sorting model data parameters
 .function parameters_sort
-.select many s_syncs from instances of S_SYNC
-.for each s_sync in s_syncs
-  .select many s_sparms related by s_sync->S_SPARM[R24]
-  .invoke S_SPARM_sort( s_sparms )
-.end for
-.select many s_brgs from instances of S_BRG
-.for each s_brg in s_brgs
-  .select many s_bparms related by s_brg->S_BPARM[R21]
-  .invoke S_BPARM_sort( s_bparms )
-.end for
-.select many o_tfrs from instances of O_TFR
-.for each o_tfr in o_tfrs
-  .select many o_tparms related by o_tfr->O_TPARM[R117]
-  .invoke O_TPARM_sort( o_tparms )
-.end for
-.select many sm_evts from instances of SM_EVT
-.for each sm_evt in sm_evts
-  .select many sm_evtdis related by sm_evt->SM_EVTDI[R532]
-  .invoke SM_EVTDI_sort( sm_evtdis )
-.end for
-.select many c_eps from instances of C_EP
-.for each c_ep in c_eps
-  .select many c_pps related by c_ep->C_PP[R4006]
-  .invoke C_PP_sort( c_pps )
-.end for
+  .if ( true )
+    .select many s_syncs from instances of S_SYNC
+    .for each s_sync in s_syncs
+      .select many s_sparms related by s_sync->S_SPARM[R24]
+      .invoke S_SPARM_sort( s_sparms )
+    .end for
+    .select many s_brgs from instances of S_BRG
+    .for each s_brg in s_brgs
+      .select many s_bparms related by s_brg->S_BPARM[R21]
+      .invoke S_BPARM_sort( s_bparms )
+    .end for
+    .select many o_tfrs from instances of O_TFR
+    .for each o_tfr in o_tfrs
+      .select many o_tparms related by o_tfr->O_TPARM[R117]
+      .invoke O_TPARM_sort( o_tparms )
+    .end for
+    .select many sm_evts from instances of SM_EVT
+    .for each sm_evt in sm_evts
+      .select many sm_evtdis related by sm_evt->SM_EVTDI[R532]
+      .invoke SM_EVTDI_sort( sm_evtdis )
+    .end for
+    .select many c_eps from instances of C_EP
+    .for each c_ep in c_eps
+      .select many c_pps related by c_ep->C_PP[R4006]
+      .invoke C_PP_sort( c_pps )
+    .end for
+  .end if
 .end function
 .// CDS end of temporary sorting of model data parameters

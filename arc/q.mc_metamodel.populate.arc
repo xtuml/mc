@@ -1244,6 +1244,7 @@
               .// end relate
             .end if
             .assign previous_te_mact = te_mact
+            .break for
           .end if
         .end for
         .assign item_number = item_number + 1
