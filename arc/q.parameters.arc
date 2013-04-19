@@ -32,6 +32,7 @@
   .assign assnbase = ""
   .assign param_delimiter = " "
   .assign format_delimiter = ""
+  .assign Order = 0
   .// Be sure we have the first parameter.
   .for each te_parm in te_parms
     .break for
@@ -45,6 +46,8 @@
     .end if
   .end while
   .while ( not_empty te_parm )
+    .assign te_parm.Order = Order
+    .assign Order = Order + 1
     .select one te_dt related by te_parm->TE_DT[R2049]
     .assign te_dt.Included = true
     .assign defn = defn + param_delimiter

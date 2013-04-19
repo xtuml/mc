@@ -232,7 +232,7 @@ language).  A derivative of this parser exists to convert RSL into OAL.
 It is called rsl2oal.  Find this.  Build it.  Establish/Restore its
 usefulness, or abandon it.
 
-CDS Move this into git into the branch.
+Move this into git into the branch.
 
 ### 7.12 C++ and System-C Branches
 Add the C++ and System-C specialized folders to the git repository

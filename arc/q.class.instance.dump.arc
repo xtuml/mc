@@ -6178,11 +6178,17 @@ INSERT INTO TE_DIM VALUES (\
 .end for
 .select many te_pars from instances of TE_PAR
 .for each te_par in te_pars
-INSERT INTO TE_PAR VALUES ( '${te_par.Name}', ${te_par.By_Ref}, '${te_par.buffer}'\
+INSERT INTO TE_PAR VALUES ( '${te_par.Name}', ${te_par.By_Ref}, '${te_par.buffer}', ${te_par.Order}\
   .if ( "un-initialized" == "${te_par.Value_ID}" )
 , 0\
   .else
 , ${te_par.Value_ID}\
+  .end if
+\
+  .if ( "un-initialized" == "${te_par.te_parmID}" )
+, 0\
+  .else
+, ${te_par.te_parmID}\
   .end if
  );
 .end for

@@ -3126,7 +3126,9 @@ CREATE TABLE TE_PAR (
 	Name	STRING,
 	By_Ref	INTEGER,
 	buffer	STRING,
-	Value_ID	UNIQUE_ID );
+	Order	INTEGER,
+	Value_ID	UNIQUE_ID,
+	te_parmID	UNIQUE_ID );
 
 -- Class:  2069.  Extended Message Action
 CREATE TABLE TE_MACT (
@@ -6265,6 +6267,9 @@ CREATE ROP REF_ID R2089	FROM MC TE_BRG	(EE_ID)
 
 CREATE ROP REF_ID R2090	FROM 1  TE_DCI	(te_cID)
 			  TO 1  TE_C	(ID);
+
+CREATE ROP REF_ID R2091	FROM MC TE_PAR	(te_parmID)
+			  TO 1  TE_PARM	(ID);
 
 
 -- ============================================================================

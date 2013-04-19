@@ -986,16 +986,20 @@
     .// relate s_bparm to te_parm across R2028;
     .assign te_parm.BParm_ID = s_bparm.BParm_ID
     .// end relate
-    .if ( 1 == te_parm.By_Ref )
-      .select many te_pars related by s_bparm->S_BRG[R21]->ACT_BRG[R674]->V_PAR[R628]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-      .for each te_par in te_pars
-        .assign te_par.By_Ref = te_parm.By_Ref
-      .end for
-      .select many te_pars related by s_bparm->S_BRG[R21]->V_BRV[R828]->V_PAR[R810]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-      .for each te_par in te_pars
-        .assign te_par.By_Ref = te_parm.By_Ref
-      .end for
-    .end if
+    .select many te_pars related by s_bparm->S_BRG[R21]->ACT_BRG[R674]->V_PAR[R628]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+    .for each te_par in te_pars
+      .assign te_par.By_Ref = te_parm.By_Ref
+      .// relate te_par to te_parm across R2091;
+      .assign te_par.te_parmID = te_parm.ID
+      .// end relate
+    .end for
+    .select many te_pars related by s_bparm->S_BRG[R21]->V_BRV[R828]->V_PAR[R810]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+    .for each te_par in te_pars
+      .assign te_par.By_Ref = te_parm.By_Ref
+      .// relate te_par to te_parm across R2091;
+      .assign te_par.te_parmID = te_parm.ID
+      .// end relate
+    .end for
   .end for
   .// Link the event parameters into order.
   .for each s_bparm in s_bparms
@@ -1016,16 +1020,20 @@
     .// relate o_tparm to te_parm across R2029;
     .assign te_parm.TParm_ID = o_tparm.TParm_ID
     .// end relate
-    .if ( 1 == te_parm.By_Ref )
-      .select many te_pars related by o_tparm->O_TFR[R117]->ACT_TFM[R673]->V_PAR[R627]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-      .for each te_par in te_pars
-        .assign te_par.By_Ref = te_parm.By_Ref
-      .end for
-      .select many te_pars related by o_tparm->O_TFR[R117]->V_TRV[R829]->V_PAR[R811]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-      .for each te_par in te_pars
-        .assign te_par.By_Ref = te_parm.By_Ref
-      .end for
-    .end if
+    .select many te_pars related by o_tparm->O_TFR[R117]->ACT_TFM[R673]->V_PAR[R627]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+    .for each te_par in te_pars
+      .assign te_par.By_Ref = te_parm.By_Ref
+      .// relate te_par to te_parm across R2091;
+      .assign te_par.te_parmID = te_parm.ID
+      .// end relate
+    .end for
+    .select many te_pars related by o_tparm->O_TFR[R117]->V_TRV[R829]->V_PAR[R811]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+    .for each te_par in te_pars
+      .assign te_par.By_Ref = te_parm.By_Ref
+      .// relate te_par to te_parm across R2091;
+      .assign te_par.te_parmID = te_parm.ID
+      .// end relate
+    .end for
   .end for
   .// Link the event parameters into order.
   .for each o_tparm in o_tparms
@@ -1046,16 +1054,20 @@
     .// relate s_sparm to te_parm across R2030;
     .assign te_parm.SParm_ID = s_sparm.SParm_ID
     .// end relate
-    .if ( 1 == te_parm.By_Ref )
-      .select many te_pars related by s_sparm->S_SYNC[R24]->ACT_FNC[R675]->V_PAR[R669]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-      .for each te_par in te_pars
-        .assign te_par.By_Ref = te_parm.By_Ref
-      .end for
-      .select many te_pars related by s_sparm->S_SYNC[R24]->V_FNV[R827]->V_PAR[R817]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-      .for each te_par in te_pars
-        .assign te_par.By_Ref = te_parm.By_Ref
-      .end for
-    .end if
+    .select many te_pars related by s_sparm->S_SYNC[R24]->ACT_FNC[R675]->V_PAR[R669]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+    .for each te_par in te_pars
+      .assign te_par.By_Ref = te_parm.By_Ref
+      .// relate te_par to te_parm across R2091;
+      .assign te_par.te_parmID = te_parm.ID
+      .// end relate
+    .end for
+    .select many te_pars related by s_sparm->S_SYNC[R24]->V_FNV[R827]->V_PAR[R817]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+    .for each te_par in te_pars
+      .assign te_par.By_Ref = te_parm.By_Ref
+      .// relate te_par to te_parm across R2091;
+      .assign te_par.te_parmID = te_parm.ID
+      .// end relate
+    .end for
   .end for
   .// Link the event parameters into order.
   .for each s_sparm in s_sparms
@@ -1108,37 +1120,53 @@
     .// relate c_pp to te_parm across R2048;
     .assign te_parm.PP_Id = c_pp.PP_Id
     .// end relate
-    .if ( 1 == te_parm.By_Ref )
-      .select many spr_reps related by c_pp->C_EP[R4006]->SPR_REP[R4500]
-      .if ( not_empty spr_reps )
-        .select many te_pars related by spr_reps->SPR_RS[R4502]->ACT_SGN[R660]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-        .for each te_par in te_pars
-          .assign te_par.By_Ref = te_parm.By_Ref
-        .end for
-        .select many te_pars related by spr_reps->SPR_RO[R4502]->ACT_IOP[R657]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-        .for each te_par in te_pars
-          .assign te_par.By_Ref = te_parm.By_Ref
-        .end for
-        .select many te_pars related by spr_reps->V_MSV[R845]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-        .for each te_par in te_pars
-          .assign te_par.By_Ref = te_parm.By_Ref
-        .end for
-      .end if
-      .select many spr_peps related by c_pp->C_EP[R4006]->SPR_PEP[R4501]
-      .if ( not_empty spr_peps )
-        .select many te_pars related by spr_peps->SPR_PS[R4503]->ACT_SGN[R663]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-        .for each te_par in te_pars
-          .assign te_par.By_Ref = te_parm.By_Ref
-        .end for
-        .select many te_pars related by spr_peps->SPR_PO[R4503]->ACT_IOP[R680]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-        .for each te_par in te_pars
-          .assign te_par.By_Ref = te_parm.By_Ref
-        .end for
-        .select many te_pars related by spr_peps->V_MSV[R841]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
-        .for each te_par in te_pars
-          .assign te_par.By_Ref = te_parm.By_Ref
-        .end for
-      .end if
+    .select many spr_reps related by c_pp->C_EP[R4006]->SPR_REP[R4500]
+    .if ( not_empty spr_reps )
+      .select many te_pars related by spr_reps->SPR_RS[R4502]->ACT_SGN[R660]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .for each te_par in te_pars
+        .assign te_par.By_Ref = te_parm.By_Ref
+        .// relate te_par to te_parm across R2091;
+        .assign te_par.te_parmID = te_parm.ID
+        .// end relate
+      .end for
+      .select many te_pars related by spr_reps->SPR_RO[R4502]->ACT_IOP[R657]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .for each te_par in te_pars
+        .assign te_par.By_Ref = te_parm.By_Ref
+        .// relate te_par to te_parm across R2091;
+        .assign te_par.te_parmID = te_parm.ID
+        .// end relate
+      .end for
+      .select many te_pars related by spr_reps->V_MSV[R845]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .for each te_par in te_pars
+        .assign te_par.By_Ref = te_parm.By_Ref
+        .// relate te_par to te_parm across R2091;
+        .assign te_par.te_parmID = te_parm.ID
+        .// end relate
+      .end for
+    .end if
+    .select many spr_peps related by c_pp->C_EP[R4006]->SPR_PEP[R4501]
+    .if ( not_empty spr_peps )
+      .select many te_pars related by spr_peps->SPR_PS[R4503]->ACT_SGN[R663]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .for each te_par in te_pars
+        .assign te_par.By_Ref = te_parm.By_Ref
+        .// relate te_par to te_parm across R2091;
+        .assign te_par.te_parmID = te_parm.ID
+        .// end relate
+      .end for
+      .select many te_pars related by spr_peps->SPR_PO[R4503]->ACT_IOP[R680]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .for each te_par in te_pars
+        .assign te_par.By_Ref = te_parm.By_Ref
+        .// relate te_par to te_parm across R2091;
+        .assign te_par.te_parmID = te_parm.ID
+        .// end relate
+      .end for
+      .select many te_pars related by spr_peps->V_MSV[R841]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .for each te_par in te_pars
+        .assign te_par.By_Ref = te_parm.By_Ref
+        .// relate te_par to te_parm across R2091;
+        .assign te_par.te_parmID = te_parm.ID
+        .// end relate
+      .end for
     .end if
   .end for
   .// Link the event parameters into order.
