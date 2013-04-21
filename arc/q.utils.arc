@@ -11,7 +11,7 @@
   .param boolean prefix_param_delimiter
   .param string invocation_flavor
   .//
-  .assign attr_OAL = ""
+  .assign result = ""
   .if ( not_empty v_pars )
     .select any te_string from instances of TE_STRING
     .invoke V_PAR_sort( v_pars )
@@ -32,7 +32,7 @@
         .if ( v_par.Order == item_number )
           .select one v_val related by v_par->V_VAL[R800]
           .select one te_val related by v_val->TE_VAL[R2040]
-          .assign attr_OAL = ( attr_OAL + param_delimiter ) + te_val.OAL
+          .assign result = ( result + param_delimiter ) + te_val.OAL
           .if ( "" == te_val.buffer )
             .invoke gen_value( v_val )
           .end if
@@ -90,6 +90,7 @@ ${te_val.buffer}\
       .assign item_number = item_number + 1
     .end while
   .end if
+  .assign attr_result = result
 .end function
 .//
 .//====================================================================

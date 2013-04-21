@@ -494,9 +494,10 @@
     .select one te_aba related by te_brg->TE_ABA[R2010]
     .select one te_ee related by v_brv->S_BRG[R828]->S_EE[R19]->TE_EE[R2020]
     .assign te_ee.Included = true
-    .invoke params = gen_parameter_list( v_pars, false, "bridge" )
-    .assign parameters = params.body
-    .assign te_val.OAL = "${te_brg.EEkeyletters}::${te_brg.Name}(${params.OAL})"
+    .invoke r = gen_parameter_list( v_pars, false, "bridge" )
+    .assign parameters = r.body
+    .assign params_OAL = r.result
+    .assign te_val.OAL = "${te_brg.EEkeyletters}::${te_brg.Name}(${params_OAL})"
     .if ( "SystemC" == te_target.language )
       .if ( "TIM" == te_brg.EEkeyletters )
         .assign te_val.buffer = ( "thismodule->tim->" + te_brg.GeneratedName ) + "("
@@ -563,9 +564,10 @@
     .end if
     .assign te_val.OAL = te_tfr.Key_Lett + "::"
   .end if
-  .invoke params = gen_parameter_list( v_pars, false, "operation" )
-  .assign parameters = params.body
-  .assign te_val.OAL = te_val.OAL + "${te_tfr.Name}(${params.OAL})"
+  .invoke r = gen_parameter_list( v_pars, false, "operation" )
+  .assign parameters = r.body
+  .assign params_OAL = r.result
+  .assign te_val.OAL = te_val.OAL + "${te_tfr.Name}(${params_OAL})"
   .if ( te_tfr.Instance_Based == 1 )
     .if ( ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) ) or ( "" != parameters ) )
       .assign te_val.buffer = te_val.buffer + ", "
@@ -600,15 +602,17 @@
     .select one te_val related by v_val->TE_VAL[R2040]
     .select many v_pars related by v_fnv->V_PAR[R817]
     .select one te_aba related by te_sync->TE_ABA[R2010]
-    .invoke params = gen_parameter_list( v_pars, false, "function" )
-    .assign te_val.OAL = "::${te_sync.Name}(${params.OAL})"  
+    .invoke r = gen_parameter_list( v_pars, false, "function" )
+    .assign parameters = r.body
+    .assign params_OAL = r.result
+    .assign te_val.OAL = "::${te_sync.Name}(${params_OAL})"  
     .assign name = te_sync.intraface_method
     .if ( "SystemC" == te_target.language )
       .assign name = "thismodule->" + name
     .end if
     .assign te_val.buffer = name + "("
-    .if ( "" != params.body )
-      .assign te_val.buffer = ( te_val.buffer + " " ) + ( params.body + " " )
+    .if ( "" != parameters )
+      .assign te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " )
     .end if
     .assign te_val.buffer = te_val.buffer + ")"
     .assign te_val.dimensions = te_aba.dimensions
