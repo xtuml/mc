@@ -20,13 +20,12 @@
 .// Creates the prologue for the implementation files
 .//============================================================================
 .function CreateFilePrologue
-  .param inst_ref o_obj
+  .param inst_ref te_class
   .param boolean  gen_declaration
   .//
   .select any te_copyright from instances of TE_COPYRIGHT
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
-  .select one te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by te_class->TE_C[R2064]
 /*----------------------------------------------------------------------------
   .if ( gen_declaration )
@@ -73,17 +72,16 @@ ${te_target.c2cplusplus_linkage_end}
 .// appear in the application analysis class diagram.
 .//============================================================================
 .function CreateObjectAttrDataDeclaration
-  .param inst_ref o_obj
+  .param inst_ref te_class
   .select any te_string from instances of TE_STRING
-  .invoke first_attr = GetFirstAttributeInObjectModel( o_obj )
-  .assign current_attr = first_attr.result
-  .while ( not_empty current_attr )
-    .select one te_attr related by current_attr->TE_ATTR[R2033]
-    .select one te_dt related by current_attr->S_DT[R114]->TE_DT[R2021]
+  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .while ( not_empty te_attr )
+    .select one o_attr related by te_attr->O_ATTR[R2033]
+    .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
     .assign comment = ""
     .select any te_sys from instances of TE_SYS
     .if ( not te_sys.InstanceLoading )
-    .invoke note = GetObjectAttributeInfoComment( current_attr, TRUE )
+    .invoke note = GetObjectAttributeInfoComment( o_attr, true )
     .if ( note.result != "" )
       .assign comment = "/* ${note.result} */"
     .end if
@@ -93,7 +91,7 @@ ${te_target.c2cplusplus_linkage_end}
       .if ( te_attr.translate )
         .if ( te_dt.Core_Typ == 2 )
           .// integer type
-          .assign bit_field_width = "${current_attr.Descrip:BIT_WIDTH}"
+          .assign bit_field_width = "${o_attr.Descrip:BIT_WIDTH}"
           .if ( "${bit_field_width}" != "" )
   ui_t ${te_attr.GeneratedName} : ${bit_field_width};  ${comment}
           .else
@@ -107,8 +105,7 @@ ${te_target.c2cplusplus_linkage_end}
       .end if
     .end if
     .// Advance to the next object attribute, if any.
-    .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-    .assign current_attr = next_attr
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
   .end while
 .end function
 .//
@@ -118,66 +115,67 @@ ${te_target.c2cplusplus_linkage_end}
 .//
 .// Input Parameters:
 .// <obj_attr> Instance reference to O_ATTR.
-.// <do_naming_attr_also> Boolean. If FALSE, comment generated for indentifying
-.//   and referential attributes only. If TRUE, comment generated for
+.// <do_naming_attribs_also> Boolean.  If false, comment generated for indentifying
+.//   and referential attributes only.  If true, comment generated for
 .//  naming attributes.
 .//============================================================================
 .function GetObjectAttributeInfoComment
   .param inst_ref o_attr
-  .param boolean  do_naming_attr_also
+  .param boolean  do_naming_attribs_also
   .//
-  .assign attr_result = ""
+  .assign result = ""
   .//
   .// Identifying attribute?  If so, indicate key set(s).
   .select many oid_set related by o_attr->O_OIDA[R105]->O_ID[R105]
   .if ( not_empty oid_set )
     .select any oid related by o_attr->O_OIDA[R105]->O_ID[R105] where (selected.Oid_ID == 0)
     .if ( not_empty oid )
-      .assign attr_result = attr_result + "*"
+      .assign result = result + "*"
     .end if
     .select any oid related by o_attr->O_OIDA[R105]->O_ID[R105] where (selected.Oid_ID == 1)
     .if ( not_empty oid )
-      .assign attr_result = attr_result + "*2"
+      .assign result = result + "*2"
     .end if
     .select any oid related by o_attr->O_OIDA[R105]->O_ID[R105] where (selected.Oid_ID == 2)
     .if ( not_empty oid )
-      .assign attr_result = attr_result + "*3"
+      .assign result = result + "*3"
     .end if
-    .assign attr_result = attr_result + " ${o_attr.Name}"
+    .assign result = result + " ${o_attr.Name}"
     .select one dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
     .if ( not_empty dbattr )
-      .assign attr_result = attr_result + " (M)"
+      .assign result = result + " (M)"
     .end if
   .end if  .// not_empty oid_set
   .//
   .// Referential attribute? If so, indicate from where.
   .select one ref_attr related by o_attr->O_RATTR[R106]
   .if ( not_empty ref_attr )
-    .if ( attr_result != "" )
+    .if ( result != "" )
       .// Referential is also an identifier.
-      .assign attr_result = attr_result + " "
+      .assign result = result + " "
     .else
-      .assign attr_result = attr_result + "- ${o_attr.Name} "
+      .assign result = result + "- ${o_attr.Name} "
     .end if
     .select many obj_ref_set related by ref_attr->O_REF[R108]
     .for each obj_ref in obj_ref_set
       .select any rel related by obj_ref->O_RTIDA[R111]->R_RTO[R110]->R_OIR[R203]->R_REL[R201] where (selected.Rel_ID == obj_ref.Rel_ID)
       .// Not a Constrained referential attribute?
       .if ( not obj_ref.Is_Cstrd )
-        .assign attr_result = attr_result + "(R${rel.Numb})"
+        .assign result = result + "(R${rel.Numb})"
       .else
-        .assign attr_result = attr_result + "(R${rel.Numb}c)"
+        .assign result = result + "(R${rel.Numb}c)"
       .end if  .// not obj_ref.Is_Cstrd
     .end for  .// obj_ref in obj_ref_set
   .end if  .// not_empty ref_attr
   .//
-  .if ( (attr_result == "") and do_naming_attr_also )
-    .assign attr_result = "- ${o_attr.Name}"
+  .if ( (result == "") and do_naming_attribs_also )
+    .assign result = "- ${o_attr.Name}"
     .select one dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
     .if ( not_empty dbattr )
-      .assign attr_result = attr_result + " (M)"
+      .assign result = result + " (M)"
     .end if
   .end if
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -185,7 +183,7 @@ ${te_target.c2cplusplus_linkage_end}
 .//============================================================================
 .function CreateObjectDataClass
   .param inst_ref o_obj
-  .param frag_ref rel_info
+  .param inst_ref te_relstore
     .select any te_instance from instances of TE_INSTANCE
     .select any te_target from instances of TE_TARGET
     .select any te_typemap from instances of TE_TYPEMAP
@@ -206,12 +204,11 @@ ${te_target.c2cplusplus_linkage_end}
       .assign cs = persist.current_state
     .end if
     .// *** Application OIM data members
-    .invoke data_members = CreateObjectAttrDataDeclaration( o_obj )
+    .invoke data_members = CreateObjectAttrDataDeclaration( te_class )
     .assign abody = "  /* application analysis class attributes */\n"
     .assign abody = abody + data_members.body
     .//
     .// *** Relationship storage data members
-    .assign te_relstore = rel_info.te_relstore
     .assign rbody = ""
     .if ( te_relstore.data_declare != "" )
       .assign rbody = rbody + "  /* relationship storage */\n"
@@ -296,14 +293,8 @@ class ${te_c.Name}; // forward reference
         .if ( gen_declaration )
           .include "${te_file.arc_path}/t.class.attribute.mda.h"
         .else
-          .assign dba = ""
-          .if ( dbattr.Suc_Pars == 1 )
-            .select one act_blk related by dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666]
-            .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-            .assign dba = axret.body
-          .else
-            .assign dba = "\n  /* WARNING!  Skipping unsuccessful or unparsed action for attribute ${te_class.Name}.${te_attr.Name} */"
-            .print "${dba}"
+          .if ( dbattr.Suc_Pars != 1 )
+            .assign te_aba.code = "\n  /* WARNING!  Skipping unsuccessful or unparsed action for attribute ${te_class.Name}.${te_attr.Name} */"
           .end if
           .include "${te_file.arc_path}/t.class.attribute.mda.c"
         .end if
@@ -327,7 +318,7 @@ class ${te_c.Name}; // forward reference
   .select one o_obj related by te_class->O_OBJ[R2019]
   .select one sm_ism related by o_obj->SM_ISM[R518]
   .select one sm_asm related by o_obj->SM_ASM[R519]
-  .invoke file_prologue = CreateFilePrologue( o_obj, gen_declaration )
+  .invoke file_prologue = CreateFilePrologue( te_class, gen_declaration )
   .invoke file_epilogue = CreateFileEpilogue( te_class, gen_declaration )
   .assign instance_loader = ""
   .assign batch_relation = ""
@@ -337,15 +328,17 @@ class ${te_c.Name}; // forward reference
   .// This function also returns an instance te_relstore which contains
   .// the appropriate code components for the object class.
   .invoke object_extent   = AddClassExtent( o_obj, gen_declaration )
-  .invoke rel_frag = RenderObjectRelationships( o_obj, gen_declaration )
-  .invoke obj_data_class = CreateObjectDataClass( o_obj, rel_frag )
+  .invoke r = RenderObjectRelationships( o_obj, gen_declaration )
+  .assign te_relstore = r.result
+  .assign rendered_relationships = r.body
+  .invoke obj_data_class = CreateObjectDataClass( o_obj, te_relstore )
   .invoke xforms = TranslateTransformerActions( o_obj, te_class, gen_declaration )
   .invoke mda = CreateMathematicallyDependentAttributeMethods( o_obj, gen_declaration )
   .invoke include_files = ClassAddIncludeFiles( te_c, gen_declaration )
   .if ( te_sys.InstanceLoading )
-    .invoke s = gen_class_instance_loader( o_obj, gen_declaration )
+    .invoke s = gen_class_instance_loader( te_class, gen_declaration )
     .assign instance_loader = s.body
-    .invoke s = gen_class_batch_relate( o_obj, gen_declaration )
+    .invoke s = gen_class_batch_relate( te_class, gen_declaration )
     .assign batch_relation = s.body
   .end if
   .invoke special_where = AddObjectSpecialWhereMethods( o_obj, gen_declaration )
@@ -353,17 +346,19 @@ ${file_prologue.body}\
 ${include_files.body}\
   .if ( gen_declaration )
 ${obj_data_class.body}\
+    .include "${te_file.arc_path}/t.class.instancedumper.h"
   .end if
 ${instance_loader}\
 ${batch_relation}\
 ${special_where.body}\
 ${xforms.body}
-${rel_frag.body}
+${rendered_relationships}
   .if ( gen_declaration )
     .if ( "C" != te_target.language )
 };
     .end if
   .else
+    .include "${te_file.arc_path}/t.class.instancedumper.c"
     .if ( "" != xforms.body )
       .include "${te_file.arc_path}/t.class.ops.c"
     .end if
@@ -428,7 +423,7 @@ ${poly_crackers.body}\
 ${mda.body}\
 ${file_epilogue.body}
   .// Deallocate relationship storage.
-  .invoke FiniRelStorageFragment( rel_frag.te_relstore )
+  .invoke FiniRelStorageFragment( te_relstore )
 .end function
 .//
 .//============================================================================
@@ -445,7 +440,7 @@ ${file_epilogue.body}
     .select one te_aba related by te_tfr->TE_ABA[R2010]
     .select one o_tfr related by te_tfr->O_TFR[R2024]
     .select one rval_te_dt related by o_tfr->S_DT[R116]->TE_DT[R2021]
-    .assign rval_te_dt.Included = TRUE
+    .assign rval_te_dt.Included = true
     .assign prelude = "class"
     .assign instance_based_self_declaration = ""
     .if ( o_tfr.Instance_Based == 1 )
@@ -456,13 +451,8 @@ ${file_epilogue.body}
     .if ( gen_declaration )
       .include "${te_file.arc_path}/t.class.op.h"
     .else
-      .assign op_body = ""
-      .if ( o_tfr.Suc_Pars == 1 )
-        .select one act_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666]
-        .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-        .assign op_body = axret.body
-      .else
-        .print "\n\tWARNING!  Skipping unsuccessful or unparsed operation ${te_tfr.Name}"
+      .if ( o_tfr.Suc_Pars != 1 )
+        .assign te_aba.code = "\n\tWARNING!  Skipping unsuccessful or unparsed operation ${te_tfr.Name}"
       .end if
       .include "${te_file.arc_path}/t.class.op.c"
     .end if

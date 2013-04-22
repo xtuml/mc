@@ -10,5 +10,5 @@
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
-extern ${te_class.GeneratedName} * ${te_where.select_any_where}( ${param_list} );
+${te_class.GeneratedName} * ${te_where.select_any_where}( ${param_list} );
 .//

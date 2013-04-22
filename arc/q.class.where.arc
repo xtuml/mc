@@ -36,27 +36,24 @@
   .assign cmp_element = ""
   .assign temp_ptr = "w"
   .//
-  .select many te_attrs related by o_obj->O_ATTR[R102]->TE_ATTR[R2033]
+  .select many te_attrs related by te_class->TE_ATTR[R2061]
   .for each te_attr in te_attrs
     .assign te_attr.Included = FALSE
   .end for
   .//
   .// Tag the indentifying attribute(s) that comprise this where clause.
-  .select many ident_attr_set related by o_oid->O_OIDA[R105]->O_ATTR[R105]
-  .assign num_ident_attr = cardinality ident_attr_set
-  .for each ident_attr in ident_attr_set
-    .select one te_attr related by ident_attr->TE_ATTR[R2033]
+  .select many ident_te_attrs related by o_oid->O_OIDA[R105]->O_ATTR[R105]->TE_ATTR[R2033]
+  .assign num_ident_attr = cardinality ident_te_attrs
+  .for each te_attr in ident_te_attrs
     .assign te_attr.Included = TRUE
-    .assign te_attr.ParamBuffer = "w_${ident_attr.Name}"
+    .assign te_attr.ParamBuffer = "w_${te_attr.Name}"
   .end for
   .//
-  .invoke first_attr = GetFirstAttributeInObjectModel( o_obj )
-  .assign current_attr = first_attr.result
-  .assign ident_attr_count = 0
-  .while ( not_empty current_attr )
-    .select one te_attr related by current_attr->TE_ATTR[R2033]
+  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .assign oida_count = 0
+  .while ( not_empty te_attr )
     .if ( te_attr.Included )
-      .assign ident_attr_count = ident_attr_count + 1
+      .assign oida_count = oida_count + 1
       .assign param_list = param_list + te_attr.GeneratedType
       .if ( not gen_declaration )
         .if ( te_attr.dimensions == 0 )
@@ -71,20 +68,20 @@
       .end if
       .assign param_list = param_list + te_attr.array_spec
       .//
-      .if ( ident_attr_count < num_ident_attr )
+      .if ( oida_count < num_ident_attr )
         .assign param_list = param_list + ", "
         .assign compare_stmt = compare_stmt + " && "
       .end if
     .end if
-    .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-    .assign current_attr = next_attr
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
   .end while
   .//
   .if ( gen_declaration )
     .include "${te_file.arc_path}/t.class.select_where.h"
   .else
+    .select one o_obj related by te_class->O_OBJ[R2019]
     .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
-    .assign iterator = "iter_${o_obj.Key_Lett}"
+    .assign iterator = "iter_${te_class.Key_Lett}"
     .include "${te_file.arc_path}/t.class.select_where.c"
   .end if  .// gen_declaration
 .end function

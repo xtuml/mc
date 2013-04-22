@@ -145,7 +145,7 @@ ${te_relstore.link_calls}\
 .function PersistCallPostLink
   .param string operation
   .param inst_ref te_relstore
-  .param inst_ref owner
+  .param inst_ref owner_o_obj
   .param inst_ref left_o_obj
   .param string left_var
   .param inst_ref right_o_obj
@@ -153,7 +153,7 @@ ${te_relstore.link_calls}\
   .param inst_ref assoc_o_obj
   .param string assoc_var
   .select any te_instance from instances of TE_INSTANCE
-  .select one owner_te_class related by owner->TE_CLASS[R2019]
+  .select one owner_te_class related by owner_o_obj->TE_CLASS[R2019]
   .select one left_te_class related by left_o_obj->TE_CLASS[R2019]
   .select one right_te_class related by right_o_obj->TE_CLASS[R2019]
   .if ( ( ( owner_te_class.Persistent ) and ( left_te_class.Persistent ) ) and ( right_te_class.Persistent ) )

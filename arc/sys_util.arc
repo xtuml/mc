@@ -20,7 +20,6 @@
 .//============================================================================
 .function RenderSystemLimitsDeclarations
   .param inst_ref_set te_cs
-  .assign attr_s = ""
   .select any te_ilb from instances of TE_ILB
   .select any te_thread from instances of TE_THREAD
   .select any te_set from instances of TE_SET
@@ -32,7 +31,6 @@
   .select any te_sys from instances of TE_SYS
   .//
   .// container allocation
-  .assign max_obj_extent = 0
   .assign max_rel_extent = 0
   .assign max_sel_extent = 0
   .// event allocation (and thus queue sizes)
@@ -46,7 +44,6 @@
   .assign persistent_class_count = 0
   .//
   .for each te_c in te_cs
-    .assign max_obj_extent = max_obj_extent + te_c.MaxObjExtent
     .assign max_rel_extent = max_rel_extent + te_c.MaxRelExtent
     .assign max_sel_extent = max_sel_extent + te_c.MaxSelectExtent
     .assign max_self_events = max_self_events + te_c.MaxSelfEvents
@@ -56,41 +53,16 @@
     .assign pei_class_count = pei_class_count + te_c.PEIClassCount
     .assign persistent_class_count = persistent_class_count + te_c.PersistentClassCount
   .end for
-
   .assign te_sys.PEIClassCount = pei_class_count
   .assign te_sys.PersistentClassCount = persistent_class_count
-  .assign attr_s = attr_s + " *\n"
-  .assign attr_s = attr_s + " * System Name:  ${te_sys.ExecutableName}\n"
-  .assign attr_s = attr_s + " * System ID:    ${te_sys.SystemID}\n"
-  .assign attr_s = attr_s + " * Model Compiler Product Information:\n"
-  .assign attr_s = attr_s + " * Product:  ${te_sys.ModelCompilerName}\n"
-  .assign attr_s = attr_s + " * Version:  ${te_sys.ModelCompilerVersion}\n"
-  .assign attr_s = attr_s + " * S/N:      ${te_sys.ModelCompilerSerNum}\n"
-  .assign attr_s = attr_s + " * System default/colored values:\n"
-  .assign attr_s = attr_s + " * MaxStringLen:  ${te_sys.MaxStringLen}\n"
-  .assign attr_s = attr_s + " * MaxObjExtent:  ${te_sys.MaxObjExtent}\n"
-  .assign attr_s = attr_s + " * MaxRelExtent:  ${te_sys.MaxRelExtent}\n"
-  .assign attr_s = attr_s + " * MaxSelectExtent:  ${te_sys.MaxSelectExtent}\n"
-  .assign attr_s = attr_s + " * MaxSelfEvents:  ${te_sys.MaxSelfEvents}\n"
-  .assign attr_s = attr_s + " * MaxNonSelfEvents:  ${te_sys.MaxNonSelfEvents}\n"
-  .assign attr_s = attr_s + " * MaxTimers:  ${te_sys.MaxTimers}\n"
-  .assign attr_s = attr_s + " * MaxInterleavedBridges:  ${te_sys.MaxInterleavedBridges}\n"
-  .assign attr_s = attr_s + " * MaxInterleavedBridgeDataSize:  ${te_sys.MaxInterleavedBridgeDataSize}\n"
-  .assign attr_s = attr_s + " * CollectionsFlavor:  ${te_sys.CollectionsFlavor}\n"
-  .assign attr_s = attr_s + " * ForcePriorityEvents:  ${te_sys.ForcePriorityEvents}\n"
-  .assign attr_s = attr_s + " * PEIClassCount:  ${te_sys.PEIClassCount}\n"
-  .assign attr_s = attr_s + " * PersistentClassCount:  ${te_sys.PersistentClassCount}\n"
-  .assign attr_s = attr_s + " * PersistInstanceCacheDepth:  ${te_sys.PersistInstanceCacheDepth}\n"
-  .assign attr_s = attr_s + " * PersistLinkCacheDepth:  ${te_sys.PersistLinkCacheDepth}\n"
   .//
   .// *** Container pool requirements
   .assign persist_inst_cache_depth_max = 128
   .assign persist_link_cache_depth_max = 128
-  .invoke persistence_needed = IsPersistenceSupportNeeded()
-  .if ( persistence_needed.result )
+  .if ( te_sys.PersistentClassCount > 0 )
     .assign persist_inst_cache_depth_max = te_sys.PersistInstanceCacheDepth
     .assign persist_link_cache_depth_max = te_sys.PersistLinkCacheDepth
-  .end if .// persistence_needed
+  .end if
 #define ${te_string.max_string_length} ${te_sys.MaxStringLen}
 #define ${te_persist.instance_cache_depth} ${persist_inst_cache_depth_max}
 #define ${te_persist.link_cache_depth} ${persist_link_cache_depth_max}
@@ -173,23 +145,6 @@
     .// Use colored value.
 #define ${te_ilb.data_define_name} ${te_sys.MaxInterleavedBridgeDataSize}
   .end if
-  .//
-  .for each te_c in te_cs
-    .assign attr_s = attr_s + " *\n"
-    .assign attr_s = attr_s + " * Component Name:  ${te_c.Name}\n"
-    .assign attr_s = attr_s + " * MaxObjExtent:  ${te_c.MaxObjExtent}\n"
-    .assign attr_s = attr_s + " * MaxRelExtent:  ${te_c.MaxRelExtent}\n"
-    .assign attr_s = attr_s + " * MaxSelectExtent:  ${te_c.MaxSelectExtent}\n"
-    .assign attr_s = attr_s + " * MaxSelfEvents:  ${te_c.MaxSelfEvents}\n"
-    .assign attr_s = attr_s + " * MaxNonSelfEvents:  ${te_c.MaxNonSelfEvents}\n"
-    .assign attr_s = attr_s + " * MaxPriorityEvents:  ${te_c.MaxPriorityEvents}\n"
-    .assign attr_s = attr_s + " * MaxTimers:  ${te_c.MaxTimers}\n"
-    .assign attr_s = attr_s + " * InterleavedBridges:  ${te_c.InterleavedBridges}\n"
-    .assign attr_s = attr_s + " * PEIClassCount:  ${te_c.PEIClassCount}\n"
-    .assign attr_s = attr_s + " * PersistentClassCount:  ${te_c.PersistentClassCount}\n"
-    .assign attr_s = attr_s + " * InterleavedDataSize:  ${te_sys.MaxInterleavedBridgeDataSize}\n"
-    .assign attr_s = attr_s + " * CollectionsFlavor:  ${te_sys.CollectionsFlavor}\n"
-  .end for
 .end function
 .//
 .//============================================================================
@@ -197,17 +152,17 @@
 .//============================================================================
 .function PersistentClassUnion
   .param inst_ref_set te_cs
-  .assign attr_uname = "sys_largest_class_u"
+  .assign uname = "sys_largest_class_u"
 /*
  * union of persistent class types to get largest size
  */
 typedef union {
   .for each te_c in te_cs
-    .invoke class_number = GetDomainClassNumberName( te_c.Name )
-  ${class_number.union}
+    .select one te_dci related by te_c->TE_DCI[R2090]
+  ${te_dci.union}
   .end for
-} ${attr_uname};
-  .//
+} ${uname};
+  .assign attr_result = uname
 .end function
 .//
 .//============================================================================
@@ -216,8 +171,8 @@ typedef union {
 .function DefineClassInfoArray
   .param inst_ref_set te_cs
   .assign ci = "/* xtUML class info for all of the components (collections, sizes, etc.) */"
-  .invoke dci = GetClassInfoArrayNaming()
-  .assign ci = ci + "\n${dci.class_info_type} * const * const ${dci.class_info_name}[ SYSTEM_DOMAIN_COUNT ] = {"
+  .select any te_cia from instances of TE_CIA
+  .assign ci = ci + "\n${te_cia.class_info_type} * const * const ${te_cia.class_info_name}[ SYSTEM_DOMAIN_COUNT ] = {"
   .for each te_c in te_cs
     .assign delimiter = ""
     .if ( not_last te_cs )
@@ -226,22 +181,22 @@ typedef union {
     .// Include a pointer to the component classes only if component has classes.
     .select any te_class related by te_c->TE_CLASS[R2064]
     .if ( not_empty te_class )
-      .invoke domain_class_info = GetDomainClassInfoName( te_c.Name )
-      .assign ci = ci + "\n  &${domain_class_info.array_name}[0]${delimiter}"
+      .select one te_dci related by te_c->TE_DCI[R2090]
+      .assign ci = ci + "\n  &${te_dci.array_name}[0]${delimiter}"
     .else
       .assign ci = ci + "\n  0${delimiter}"
     .end if
   .end for
   .assign ci = ci + "\n};"
   .assign cc = "/* xtUML class count for all of the components (collections, sizes, etc.) */"
-  .assign cc = "\n  static const ${dci.count_type} ${dci.class_count}[ SYSTEM_DOMAIN_COUNT ] = {"
+  .assign cc = "\n  static const ${te_cia.count_type} ${te_cia.class_count}[ SYSTEM_DOMAIN_COUNT ] = {"
   .for each te_c in te_cs
     .assign delimiter = ""
     .if ( not_last te_cs )
       .assign delimiter = ","
     .end if
-    .invoke count = GetDomainClassNumberName( te_c.Name )
-    .assign cc = cc + "\n    ${count.max}${delimiter}"
+    .select one te_dci related by te_c->TE_DCI[R2090]
+    .assign cc = cc + "\n    ${te_dci.max}${delimiter}"
   .end for
   .assign cc = cc + "\n  };"
   .assign attr_class_info = ci
@@ -253,14 +208,14 @@ typedef union {
 .//============================================================================
 .function DefineActiveClassCountArray
   .param inst_ref_set te_cs
+  .select many te_dcis related by te_cs->TE_DCI[R2090]
     /* count of active classes (having state machines) for each component */
-  .for each te_c in te_cs
+  .for each te_dci in te_dcis
     .assign delimiter = ""
-    .if ( not_last te_cs )
+    .if ( not_last te_dcis )
       .assign delimiter = ","
     .end if
-    .invoke count = GetDomainClassNumberName( te_c.Name )
-    ${count.max}${delimiter}
+    ${te_dci.max}${delimiter}
   .end for
 .end function
 .//
@@ -319,7 +274,7 @@ typedef union {
 .//============================================================================
 .function SetSystemSelfEventQueueParameters
   .param inst_ref_set te_cs
-  .select any te_sys from instances of TE_SYS
+  .select any te_sys related by te_cs->TE_SYS[R2065]
   .if ( not_empty te_sys )
     .assign max_self_events = 0
     .for each te_c in te_cs
@@ -338,35 +293,34 @@ typedef union {
       .end if
     .else
       .print "\n  WARNING: No TE_QUEUE self queue instance found!\n"
-    .end if  .// not_empty self_queue
-  .end if  .// not_empty te_sys
-  .//
+    .end if
+  .end if
 .end function
 .//
 .//============================================================================
 .// Determine whether the non-self event queue is needed.
 .//============================================================================
 .function GetSystemNonSelfEventQueueNeeded
-  .//
-  .assign attr_result = FALSE
-  .assign attr_max_depth = 0
+  .assign result = FALSE
+  .assign max_depth = 0
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .if ( not_empty te_sys )
     .select any non_self_queue related by te_sys->TE_DISP[R2003]->TE_QUEUE[R2004] where ( selected.Type == 2 )
     .if ( not_empty non_self_queue )
-      .assign attr_result = non_self_queue.RenderCode
-      .assign attr_max_depth = non_self_queue.MaxDepth
-      .if ( ( not attr_result ) and ( "SystemC" == te_target.language ) )
+      .assign result = non_self_queue.RenderCode
+      .assign max_depth = non_self_queue.MaxDepth
+      .if ( ( not result ) and ( "SystemC" == te_target.language ) )
         .// For SystemC, we force the code to always use this event queue
-        .assign attr_result = TRUE
-        .assign attr_max_depth = 1
+        .assign result = TRUE
+        .assign max_depth = 1
       .end if
     .else
       .print "\n  WARNING: No TE_QUEUE non-self queue instance found!\n"
     .end if
   .end if
-  .//
+  .assign attr_result = result
+  .assign attr_max_depth = max_depth
 .end function
 .//
 .//============================================================================
@@ -374,7 +328,7 @@ typedef union {
 .//============================================================================
 .function SetSystemNonSelfEventQueueParameters
   .param inst_ref_set te_cs
-  .select any te_sys from instances of TE_SYS
+  .select any te_sys related by te_cs->TE_SYS[R2065]
   .if ( not_empty te_sys )
     .assign max_non_self_events = 0
     .for each te_c in te_cs
@@ -394,8 +348,8 @@ typedef union {
       .end if
     .else
       .print "\n  WARNING: No TE_QUEUE non-self queue instance found!\n"
-    .end if  .// not_empty self_queue
-  .end if  .// not_empty te_sys
+    .end if
+  .end if
   .//
 .end function
 .//
@@ -421,23 +375,6 @@ typedef union {
     .assign attr_result = TRUE
   .end if
   .//
-.end function
-.//
-.//============================================================================
-.// Determine if persistence support is needed.  Learn from
-.// the system or from one of the domains.
-.//============================================================================
-.function IsPersistenceSupportNeeded
-  .assign attr_result = FALSE
-  .select any te_sys from instances of TE_SYS where ( selected.PersistentClassCount > 0 )
-  .if ( not_empty te_sys )
-    .assign attr_result = TRUE
-  .else
-    .select any te_c from instances of TE_C where ( selected.PersistentClassCount > 0 )
-    .if ( not_empty te_c )
-      .assign attr_result = TRUE
-    .end if .// domain
-  .end if .// te_sys
 .end function
 .//
 .//============================================================================

@@ -111,6 +111,8 @@
   .invoke translate_control_statements()
   .print "translating other statements"
   .invoke translate_other_statements()
+  .print "rolling up statements into action bodies"
+  .invoke TE_ABA_rollup()
   .print "done translating statements"
 .end function
 .//

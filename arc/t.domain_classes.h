@@ -28,7 +28,7 @@ ${te_target.c2cplusplus_linkage_begin}
 .end if
 .include "${te_file.arc_path}/t.domain_init.h"
 
-#define ${class_numbers_list.max_models} ${number_of_state_machines}
+#define ${te_dci.max_models} ${number_of_state_machines}
 
 .if ( "SystemC" == te_target.language )
   .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
@@ -37,12 +37,10 @@ ${te_target.c2cplusplus_linkage_begin}
 
 /* Define constants to map to class numbers.  */
 ${class_numbers}\
-#define ${class_numbers_list.max} ${class_number_count}
+#define ${te_dci.max} ${class_number_count}
 
 /* Provide a map of classes to task numbers.  */
-#define ${class_numbers_list.task_numbers} ${task_numbers}
-
-#define ${domain_class_info.result}${class_info_init}
+#define ${te_dci.task_numbers} ${task_numbers}
 
 #define ${te_c.Name}_class_dispatchers${class_dispatchers}
 .if ( te_sys.InstanceLoading )
@@ -56,7 +54,7 @@ ${class_numbers}\
 ${class_typedefs}
 
 /* union of class declarations so we may derive largest class size */
-#define ${class_numbers_list.union} \\
+#define ${te_dci.union} \\
 ${class_union}\
 
 .if ( not_empty enumeration_te_dts )

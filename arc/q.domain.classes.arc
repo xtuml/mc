@@ -40,7 +40,7 @@
     .assign scount = scount + 1
   .end while
   .if ( "SystemC" == te_target.language )
-    .invoke class_numbers_list = GetDomainClassNumberName( te_c.Name )
+    .select one te_dci related by te_c->TE_DCI[R2090]
     .include "${te_file.arc_path}/t.domain_init.factories.c"
   .end if
 .end function
@@ -60,13 +60,14 @@
   .assign task_numbers = ""
   .assign class_dispatchers = ""
   .assign class_typedefs = ""
-  .assign class_info_init = ""
+  .assign attr_class_info_init = ""
   .assign class_union = "  char ${te_c.Name}_dummy;\\n"
   .assign class_includes = "#include ""${te_c.module_file}.${te_file.hdr_file_ext}"""
   .assign ee_includes = ""
   .assign function_include = ""
   .assign instance_loaders = ""
   .assign batch_relaters = ""
+  .assign attr_instance_dumpers = ""
   .assign type_name = ""
   .assign class_name = ""
   .assign number_of_state_machines = 0
@@ -104,9 +105,9 @@
         .assign type_name = te_class.CBsystem_class_number
         .assign class_name = te_class.CBGeneratedName
         .assign dispatcher = te_class.CBdispatcher
-        .assign class_info_init = ( class_info_init + delimiter ) + "\\n  0"
+        .assign attr_class_info_init = ( attr_class_info_init + delimiter ) + "\n  0"
       .else
-        .assign class_info_init = ( class_info_init + delimiter ) + ( "\\n  &" + extent_info.extent )
+        .assign attr_class_info_init = ( attr_class_info_init + delimiter ) + ( "\n  &" + extent_info.extent )
         .assign type_name = te_class.system_class_number
         .assign class_name = te_class.GeneratedName
         .if ( object_set_type == 0 )
@@ -124,6 +125,7 @@
         .assign class_name = te_class.GeneratedName
         .assign instance_loaders = instance_loaders + "${delimiter}\\n {""${o_obj.Key_Lett}"", ${type_name}, ${class_name}_instanceloader}"
         .assign batch_relaters = batch_relaters + "${delimiter}\\n ${class_name}_batch_relate"
+        .assign attr_instance_dumpers = attr_instance_dumpers + "${delimiter}\n  ${class_name}_instancedumper"
       .end if
       .assign class_numbers = class_numbers + "#define ${type_name} ${class_number_count}\n"
       .assign class_number_count = class_number_count + 1
@@ -136,8 +138,7 @@
     .assign object_set_type = object_set_type + 1
   .end while
   .//
-  .invoke class_numbers_list = GetDomainClassNumberName( te_c.Name )
-  .invoke domain_class_info = GetDomainClassInfoName( te_c.Name )
+  .select one te_dci related by te_c->TE_DCI[R2090]
   .// These includes are for MISRA-C compliance.  The above typedefs
   .// normally are enough.
   .for each te_class in te_classes
@@ -155,28 +156,27 @@
   .assign enumeration_info = ""
   .select many enumeration_te_dts related by te_c->TE_DT[R2086] where ( selected.Is_Enum )
   .for each te_dt in enumeration_te_dts
-    .invoke enum_code = TE_DT_EnumerationDataTypes( te_dt )
-    .assign enumeration_info = enumeration_info + enum_code.body
-    .assign enum_code.body = ""
+    .invoke r = TE_DT_EnumerationDataTypes( te_dt )
+    .assign enumeration_info = enumeration_info + r.body
   .end for
   .//
   .select many structured_te_dts related by te_c->TE_DT[R2086]->S_DT[R2021]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
-  .invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
-  .assign structured_data_types = s.body
+  .invoke r = TE_DT_StructuredDataTypes( structured_te_dts )
+  .assign structured_data_types = r.body
   .//
   .// functions
   .assign function_declarations = ""
   .select any te_sync related by te_c->TE_SYNC[R2084]
   .if ( not_empty te_sync )
-    .invoke s = CreateSynchronousServiceClassDeclaration( te_c )
-    .assign function_declarations = s.body
+    .invoke r = CreateSynchronousServiceClassDeclaration( te_c )
+    .assign function_declarations = r.body
     .assign te_sync.Included = true
   .end if
   .//
   .// Build the domain init file containing data structures collecting
   .// class info for the entire domain.
   .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
-  .invoke dci = GetClassInfoArrayNaming()
+  .select any te_cia from instances of TE_CIA
   .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
   .//
   .// Create file for enums "owned" by this domain.

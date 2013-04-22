@@ -20,12 +20,13 @@
   .if ( te_for.isImplicit)
     .assign attr_declaration = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" )
   .end if
-  .assign iterator = ( "iter" + te_for.class_name ) + te_for.loop_variable
+  .assign iterator = "iter" + te_for.loop_variable
+  .assign current_instance = "ii" + te_for.loop_variable
 ${ws}{ ${te_set.scope}${te_set.iterator_class_name} ${iterator};
-${ws}${te_for.class_name} * ${te_for.class_name}${iterator};
+${ws}${te_for.class_name} * ${current_instance};
 ${ws}${te_set.iterator_reset}( &${iterator}, ${te_for.set_variable} );
-${ws}while ( (${te_for.class_name}${iterator} = (${te_for.class_name} *)${te_set.module}${te_set.iterator_next}( &${iterator} )) != 0 ) {
-${ws}  ${te_for.loop_variable} = ${te_for.class_name}${iterator}; {
+${ws}while ( (${current_instance} = (${te_for.class_name} *)${te_set.module}${te_set.iterator_next}( &${iterator} )) != 0 ) {
+${ws}  ${te_for.loop_variable} = ${current_instance}; {
 .end function
 .//------------------------------------------------
 .function t_oal_smt_if
@@ -59,6 +60,8 @@ ${ws}else if ( ${condition} ) {
   .param inst_ref te_smt
   .param inst_ref te_assign
   .param string ws
+  .param integer element_count
+  .param boolean is_parameter
   .if ( te_assign.isImplicit )
     .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
   .end if
@@ -72,7 +75,13 @@ ${ws}${te_instance.module}${te_string.strcpy}( ${te_assign.lval}, ${te_assign.rv
       .if ( 0 == te_assign.rval_dimensions )
 ${ws}${te_assign.lval} = ${te_assign.rval};
       .else
-${ws}${te_instance.module}${te_string.memmove}( (void * const) &(${te_assign.lval}), (void const * const) &(${te_assign.rval}), sizeof( ${te_assign.rval} ) );
+        .// We use memmove, because C does not copy arrays very nicely.
+${ws}${te_instance.module}${te_string.memmove}( ${te_assign.lval}, ${te_assign.rval}, \
+        .if ( is_parameter )
+sizeof( ${te_assign.rval}[0] ) * ${element_count} );
+        .else
+sizeof( ${te_assign.rval} ) );
+        .end if
       .end if
     .end if
   .else
@@ -90,7 +99,7 @@ ${ws}${te_assign.lval} = ${te_assign.rval};
   .select any te_instance from instances of TE_INSTANCE
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .invoke domain_id = GetDomainTypeIDFromString( te_c.Name )
-  .invoke init_uniques = AutoInitializeUniqueIDs( o_obj, var_name )
+  .invoke init_uniques = AutoInitializeUniqueIDs( te_class, var_name )
   .assign attr_declaration = ""
   .if ( is_implicit )
     .assign attr_declaration = "${class_name} * ${var_name};"
@@ -180,7 +189,10 @@ ${ws}${var_name}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
   .param string one_var_name
   .param string oth_var_name
   .param string ws
-  .invoke rel_info = GetLinkParameters( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .invoke r = GetRelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .assign method = r.result
+  .invoke r = TE_REL_IsLeftFormalizer( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .assign left_is_formalizer = r.result
   .//
   .select any te_target from instances of TE_TARGET
   .assign thismodule = ""
@@ -188,21 +200,13 @@ ${ws}${var_name}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
     .assign thismodule = ", thismodule"
   .end if
   .if ( is_reflexive )
-    .invoke method = GetRelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
-${ws}${method.result}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
   .else
-    .assign form_obj = one_o_obj
-    .assign part_obj = oth_o_obj
-    .if ( not rel_info.left_is_formalizer )
-      .assign form_obj = oth_o_obj
-      .assign part_obj = one_o_obj
-    .end if
-    .invoke method = GetRelateMethodName( form_obj, part_obj, r_rel, relationship_phrase )
-    .if ( rel_info.left_is_formalizer )
-${ws}${method.result}( ${oth_var_name}, ${one_var_name}${thismodule} );
+    .if ( left_is_formalizer )
+${ws}${method}( ${oth_var_name}, ${one_var_name}${thismodule} );
 .// Alf R${r_rel.Numb} -> add ( ${oth_o_obj.Key_Lett}=>${oth_var_name}, ${one_o_obj.Key_Lett}=>${one_var_name} )
     .else
-${ws}${method.result}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
 .// Alf R${r_rel.Numb} -> add ( ${one_o_obj.Key_Lett}=>${one_var_name}, ${oth_o_obj.Key_Lett}=>${oth_var_name} )
     .end if
   .end if
@@ -256,24 +260,18 @@ ${ass_var_name}${thismodule} );
   .if ( "C" != te_target.language )
     .assign thismodule = ", thismodule"
   .end if
-  .invoke rel_info = GetLinkParameters( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
-  .if ( rel_info.reflexive )
-    .invoke method = GetUnrelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
-${ws}${method.result}( ${one_var_name}, ${oth_var_name}${thismodule} );
+  .invoke r = GetUnrelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .assign method = r.result
+  .invoke r = TE_REL_IsLeftFormalizer( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .assign left_is_formalizer = r.result
+  .if ( is_reflexive )
+${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
   .else
-    .assign form_obj = one_o_obj
-    .assign part_obj = oth_o_obj
-    .if ( not rel_info.left_is_formalizer )
-      .assign form_obj = oth_o_obj
-      .assign part_obj = one_o_obj
-    .end if
-    .invoke method = GetUnrelateMethodName( form_obj, part_obj, r_rel, relationship_phrase )
-    .if ( rel_info.left_is_formalizer )
-${ws}${method.result}( ${oth_var_name}, ${one_var_name}${thismodule} );
+    .if ( left_is_formalizer )
+${ws}${method}( ${oth_var_name}, ${one_var_name}${thismodule} );
     .else
-${ws}${method.result}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
     .end if
-     .//
   .end if
 .end function
 .//------------------------------------------------
@@ -415,8 +413,9 @@ ${ws}}
     .// *** Built in select any special where clause.
     .select any o_id related by o_obj->O_ID[R104] where ( selected.Oid_ID == oid_id )
     .select one te_where related by o_id->TE_WHERE[R2032]
-    .invoke arguments = CreateSpecialWhereComparisonArguments( o_obj, o_id )
-${ws}${te_select_where.var_name} = ${te_where.select_any_where}( ${arguments.body} );
+    .invoke r = CreateSpecialWhereComparisonArguments( o_obj, o_id )
+    .assign arguments = r.result
+${ws}${te_select_where.var_name} = ${te_where.select_any_where}( ${arguments} );
   .end if
 .end function
 .//------------------------------------------------

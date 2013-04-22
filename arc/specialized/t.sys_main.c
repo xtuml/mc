@@ -35,7 +35,7 @@ static void ApplicationLevelInitialization( void )
   ${te_typemap.object_number_name} c;
 ${system_class_array.class_count}
   for ( d = 0; d < SYSTEM_DOMAIN_COUNT; d++ ) {
-    for ( c = 0; c < ${dci.class_count}[ d ]; c++ ) {
+    for ( c = 0; c < ${te_cia.class_count}[ d ]; c++ ) {
       ${te_instance.scope}${te_instance.factory_init}( d, c );
     }
   }
@@ -76,11 +76,11 @@ if ( false == lazy_initialized ) {
 .if ( non_self_event_queue_needed.result or self_event_queue_needed.result )
   InitializeOoaEventPool();
 .end if
-.if ( persistence_needed.result )
+.if ( te_sys.PersistentClassCount > 0 )
 ${te_persist.factory_init}();
 .end if
   ApplicationLevelInitialization();
-.if ( persistence_needed.result )
+.if ( te_sys.PersistentClassCount > 0 )
   ${te_persist.restore}(); /* Restore persistent instances.  */
 .end if
   ${te_callout.pre_xtUML_initialization}();
@@ -102,7 +102,7 @@ ${te_persist.factory_init}();
   .end if
 .end if
 .if ( ( te_thread.flavor != "Nucleus" ) and ( te_thread.flavor != "AUTOSAR" ) )
-${return_body.body}\
+${return_body}\
 .end if
 .if ( te_sys.AUTOSAR )
 }

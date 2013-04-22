@@ -29,16 +29,16 @@ ${te_aba.ReturnDataType}
 ${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
 {
 .if ( te_dt.Name != "void" )
-  .if ( ( s_brg.Suc_Pars == 1 ) and ( "" != bridge_action_body ) )
+  .if ( ( s_brg.Suc_Pars == 1 ) and ( "" != te_aba.code ) )
   /* Replace/Insert the following instructions with your implementation code.  */
-${bridge_action_body}\
+${te_aba.code}\
   .else
     .if ( "CTOR" == te_dt.Initial_Value )
   ${te_aba.ReturnDataType} result = 0;
     .else
   ${te_aba.ReturnDataType} result = ${te_dt.Initial_Value};
     .end if
-    .if ( persistence_needed.result )
+    .if ( te_sys.PersistentClassCount > 0 )
       .if ( ( te_brg.EEkeyletters == "PERSIST" ) and ( te_brg.Name == "commit" ) )
   result = ${te_prefix.result}PersistenceCommit(${parameters.definition});  /* architectural persist routine */
       .elif ( ( te_brg.EEkeyletters == "PERSIST" ) and ( te_brg.Name == "restore" ) )
@@ -76,7 +76,7 @@ ${bridge_action_body}\
   /* Note:  Customer/User must implement this function.  Calling stub.  */
   result = ${te_prefix.result}NVS_version(${parameters.definition});
       .end if
-    .end if .// persistence_needed
+    .end if
   /* Insert your implementation code here... */
   return result;
     .//
@@ -92,7 +92,7 @@ ${bridge_action_body}\
   return;
   .end if
   /* Replace/Insert your implementation code here... */
-${bridge_action_body}\
+${te_aba.code}\
 .end if
 }
 
