@@ -24,9 +24,7 @@
 .function blck_xlate
   .param boolean trace
   .param inst_ref act_blk
-  .param integer junk_throw_away_later
   .select one te_blk related by act_blk->TE_BLK[R2016]
-  .assign attr_te_blk = te_blk
   .select any act_smt related by act_blk->ACT_SMT[R602] 
   .if ( not_empty act_smt )
     .// We have statements in this block.
@@ -58,14 +56,14 @@
       .assign te_blk.code = te_blk.code + te_smt.buffer
       .select one for_blk related by act_smt->ACT_FOR[R603]->ACT_BLK[R605]
       .if ( not_empty for_blk )
-        .invoke r = blck_xlate( trace, for_blk, te_blk.depth )
-        .assign inner_te_blk = r.te_blk
+        .invoke r = blck_xlate( trace, for_blk )
+        .assign inner_te_blk = r.result
         .assign te_blk.code = te_blk.code + inner_te_blk.code
       .else
       .select one whl_blk related by act_smt->ACT_WHL[R603]->ACT_BLK[R608]
       .if ( not_empty whl_blk )
-        .invoke r = blck_xlate( trace, whl_blk, te_blk.depth )
-        .assign inner_te_blk = r.te_blk
+        .invoke r = blck_xlate( trace, whl_blk )
+        .assign inner_te_blk = r.result
         .assign te_blk.code = te_blk.code + inner_te_blk.code
       .else
       .select one act_if related by act_smt->ACT_IF[R603]
@@ -73,8 +71,8 @@
         .assign current_act_if = act_if
         .select one if_blk related by act_if->ACT_BLK[R607]
         .if ( not_empty if_blk )
-          .invoke r = blck_xlate( trace, if_blk, te_blk.depth )
-          .assign inner_te_blk = r.te_blk
+          .invoke r = blck_xlate( trace, if_blk )
+          .assign inner_te_blk = r.result
           .assign te_blk.code = te_blk.code + inner_te_blk.code
         .end if
         .// ELIF and ELSE are not linked across R661.  So, get the next
@@ -87,8 +85,8 @@
       .else
       .select one eli_blk related by act_smt->ACT_EL[R603]->ACT_BLK[R658]
       .if ( not_empty eli_blk )
-        .invoke r = blck_xlate( trace, eli_blk, te_blk.depth )
-        .assign inner_te_blk = r.te_blk
+        .invoke r = blck_xlate( trace, eli_blk )
+        .assign inner_te_blk = r.result
         .assign te_blk.code = te_blk.code + inner_te_blk.code
         .// CDS Note:  This depends upon the generator storing these in order!
         .select any next related by current_act_if->ACT_EL[R682]->ACT_SMT[R603] where ( selected.LineNumber > act_smt.LineNumber )
@@ -101,8 +99,8 @@
       .else
       .select one else_blk related by act_smt->ACT_E[R603]->ACT_BLK[R606]
       .if ( not_empty else_blk )
-        .invoke r = blck_xlate( trace, else_blk, te_blk.depth )
-        .assign inner_te_blk = r.te_blk
+        .invoke r = blck_xlate( trace, else_blk )
+        .assign inner_te_blk = r.result
         .assign te_blk.code = te_blk.code + inner_te_blk.code
         .select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'precedes']
       .end if
@@ -131,6 +129,7 @@
 ${te_blk.code}\
     .end if
   .end if
+  .assign attr_result = te_blk
 .end function
 .//
 .//
@@ -138,9 +137,10 @@ ${te_blk.code}\
 .//
 .function indentwhitespace
   .param integer indention
-  .assign attr_ws = ""
+  .assign result = ""
   .while ( 0 < indention )
     .assign indention = indention - 1
-    .assign attr_ws = attr_ws + "  "
+    .assign result = result + "  "
   .end while
+  .assign attr_result = result
 .end function

@@ -1426,7 +1426,7 @@
       .select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078]
     .end while
     .invoke r = indentwhitespace( te_blk.depth )
-    .assign te_blk.indentation = r.ws
+    .assign te_blk.indentation = r.result
   .end for
   .//
   .// Create the generated chain links and connect them to the ACT_LNKs.

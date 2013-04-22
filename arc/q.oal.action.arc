@@ -64,7 +64,7 @@
         .exit 101
       .end if
       .if ( not_empty act_blk )
-        .invoke r = blck_xlate( te_c.StmtTrace, act_blk, 0 )
+        .invoke r = blck_xlate( te_c.StmtTrace, act_blk )
         .assign te_aba.code = r.body
       .else
         .assign te_aba.code = "\n  /* WARNING!  Skipping unsuccessful or unparsed action.  */\n"
@@ -80,7 +80,7 @@
         .select one act_blk related by s_brg->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666]
         .select one te_aba related by s_brg->TE_BRG[R2025]->TE_ABA[R2010]
         .if ( not_empty act_blk )
-          .invoke r = blck_xlate( false, act_blk, 0 )
+          .invoke r = blck_xlate( false, act_blk )
           .assign te_aba.code = r.body
         .end if
       .end for

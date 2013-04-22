@@ -25,11 +25,12 @@
   .param string   rel_phrase
   .assign attr_result = ( o_obj.Key_Lett + "_R" ) + "${r_rel.Numb}"
   .assign attr_obj_id = ""
-  .invoke suffix = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
-  .assign attr_Mult = suffix.Mult
-  .assign attr_assoc_type = suffix.assoc_type
-  .if ( suffix.result != "" )
-    .assign attr_result = attr_result + ( "_" + suffix.result )
+  .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
+  .assign suffix = r.result
+  .assign attr_Mult = r.Mult
+  .assign attr_assoc_type = r.assoc_type
+  .if ( "" != suffix )
+    .assign attr_result = attr_result + ( "_" + suffix )
   .end if
   .// Subtype-Supertype relationship?
   .select one subsup_rel related by r_rel->R_SUBSUP[R206]

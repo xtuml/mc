@@ -50,16 +50,18 @@
   .param inst_ref r_rel
   .param string   rel_phrase
   .//
-  .assign attr_result = ""
+  .assign result = ""
   .select one te_c related by to_o_obj->TE_CLASS[R2019]->TE_C[R2064]
   .if ( not_empty te_c )
-    .assign attr_result = "${te_c.Name}_${to_o_obj.Key_Lett}_R${r_rel.Numb}_From_${from_o_obj.Key_Lett}"
+    .assign result = "${te_c.Name}_${to_o_obj.Key_Lett}_R${r_rel.Numb}_From_${from_o_obj.Key_Lett}"
     .//
-    .invoke suffix = GetRelationshipSuffix( to_o_obj, r_rel, rel_phrase )
-    .if ( suffix.result != "" )
-      .assign attr_result = attr_result + "_${suffix.result}"
+    .invoke r = GetRelationshipSuffix( to_o_obj, r_rel, rel_phrase )
+    .assign suffix = r.result
+    .if ( "" != suffix )
+      .assign result = ( result + "_" ) + suffix
     .end if
   .end if
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -93,10 +95,11 @@
     .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
     .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
     .//
-    .invoke suffix = GetRelationshipSuffix( right_o_obj, r_rel, rel_phrase )
-    .if ( suffix.result != "" )
-      .assign attr_name = attr_name + "_${suffix.result}"
-      .assign attr_result = attr_result + "_${suffix.result}"
+    .invoke r = GetRelationshipSuffix( right_o_obj, r_rel, rel_phrase )
+    .assign suffix = r.result
+    .if ( "" != suffix )
+      .assign attr_name = ( attr_name + "_" ) + suffix
+      .assign attr_result = ( attr_result + "_" ) + suffix
     .end if
     .select any te_target from instances of TE_TARGET
     .if ( "C" == te_target.language )
@@ -134,10 +137,11 @@
     .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
     .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
     .//
-    .invoke suffix = GetRelationshipSuffix( right_o_obj, r_rel, rel_phrase )
-    .if ( suffix.result != "" )
-      .assign attr_name = attr_name + "_${suffix.result}"
-      .assign attr_result = attr_result + "_${suffix.result}"
+    .invoke r = GetRelationshipSuffix( right_o_obj, r_rel, rel_phrase )
+    .assign suffix = r.result
+    .if ( "" != suffix )
+      .assign attr_name = ( attr_name + "_" ) + suffix
+      .assign attr_result = ( attr_result + "_" ) + suffix
     .end if
     .select any te_target from instances of TE_TARGET
     .if ( "C" == te_target.language )
@@ -154,10 +158,11 @@
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
   .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
-  .invoke suffix = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
-  .if ( suffix.result != "" )
-    .assign attr_name = attr_name + "_${suffix.result}"
-    .assign attr_result = attr_result + "_${suffix.result}"
+  .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
+  .assign suffix = r.result
+  .if ( "" != suffix )
+    .assign attr_name = ( attr_name + "_" ) + suffix
+    .assign attr_result = ( attr_result + "_" ) + suffix
   .end if
   .select any te_target from instances of TE_TARGET
   .if ( "C" == te_target.language )
@@ -173,10 +178,11 @@
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
   .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
-  .invoke suffix = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
-  .if ( suffix.result != "" )
-    .assign attr_name = attr_name + "_${suffix.result}"
-    .assign attr_result = attr_result + "_${suffix.result}"
+  .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
+  .assign suffix = r.result
+  .if ( "" != suffix )
+    .assign attr_name = ( attr_name + "_" ) + suffix
+    .assign attr_result = ( attr_result + "_" ) + suffix
   .end if
   .select any te_target from instances of TE_TARGET
   .if ( "C" == te_target.language )
@@ -219,10 +225,11 @@
     .assign result = ( te_class.GeneratedName + "::" ) + name
   .end if
   .//
-  .invoke suffix = GetRelationshipSuffix( formalizing_o_obj, r_rel, rel_phrase )
-  .if ( suffix.result != "" )
-    .assign name = name + "_${suffix.result}"
-    .assign result = result + "_${suffix.result}"
+  .invoke r = GetRelationshipSuffix( formalizing_o_obj, r_rel, rel_phrase )
+  .assign suffix = r.result
+  .if ( "" != suffix )
+    .assign name = ( name + "_" ) + suffix
+    .assign result = ( result + "_" ) + suffix
   .end if
   .assign attr_result = result
   .select any te_target from instances of TE_TARGET
@@ -266,10 +273,11 @@
     .assign result = ( te_class.GeneratedName + "::" ) + name
   .end if
   .//
-  .invoke suffix = GetRelationshipSuffix( formalizing_o_obj, r_rel, rel_phrase )
-  .if ( suffix.result != "" )
-    .assign name = name + "_${suffix.result}"
-    .assign result = result + "_${suffix.result}"
+  .invoke r = GetRelationshipSuffix( formalizing_o_obj, r_rel, rel_phrase )
+  .assign suffix = r.result
+  .if ( "" != suffix )
+    .assign name = ( name + "_" ) + suffix
+    .assign result = ( result + "_" ) + suffix
   .end if
   .assign attr_result = result
   .select any te_target from instances of TE_TARGET

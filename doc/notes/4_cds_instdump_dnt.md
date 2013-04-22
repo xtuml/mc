@@ -280,15 +280,15 @@ are changed (if they are changed).
         <li> te_parm_RenderParameters() : q.parameters.arc
           <ul>
           <li> SortSetAlphabeticallyByNameAttr() : q.utils.arc (<em>Formerly in q.class.link.arc</em>)
-          <li> t_oal_smt_event_parameters() : t.smt.c
+          <li> t_oal_smt_event_parameters() : t.smt.c                                                     ooooo CDS
           </ul>
         </ul>
       </ul>
     <li> SortSetAlphabeticallyByNameAttr() : q.utils.arc (<em>Formerly in q.class.link.arc</em>)
     <li> indentwhitespace() : q.oal.act_blk.arc
-    <li> FactoryTE_LNK() : q.mc_metamodel.populate.arc
+    <li> FactoryTE_LNK() : q.mc_metamodel.populate.arc                                                    ***** CDS
       <ul>
-      <li> GetRelationshipDataMemberName() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)
+      <li> GetRelationshipDataMemberName() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)               ooooo CDS
         <ul>
         <li> GetRelationshipSuffix() : q.r_rel.arc (<em>Formerly in q.names.arc</em>)
         </ul> 
