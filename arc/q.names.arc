@@ -50,16 +50,18 @@
   .param inst_ref r_rel
   .param string   rel_phrase
   .//
-  .assign attr_result = ""
+  .assign result = ""
   .select one te_c related by to_o_obj->TE_CLASS[R2019]->TE_C[R2064]
   .if ( not_empty te_c )
-    .assign attr_result = "${te_c.Name}_${to_o_obj.Key_Lett}_R${r_rel.Numb}_From_${from_o_obj.Key_Lett}"
+    .assign result = "${te_c.Name}_${to_o_obj.Key_Lett}_R${r_rel.Numb}_From_${from_o_obj.Key_Lett}"
     .//
-    .invoke suffix = GetRelationshipSuffix( to_o_obj, r_rel, rel_phrase )
-    .if ( suffix.result != "" )
-      .assign attr_result = attr_result + "_${suffix.result}"
+    .invoke r = GetRelationshipSuffix( to_o_obj, r_rel, rel_phrase )
+    .assign suffix = r.result
+    .if ( "" != suffix )
+      .assign result = ( result + "_" ) + suffix
     .end if
   .end if
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -93,10 +95,11 @@
     .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
     .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
     .//
-    .invoke suffix = GetRelationshipSuffix( right_o_obj, r_rel, rel_phrase )
-    .if ( suffix.result != "" )
-      .assign attr_name = attr_name + "_${suffix.result}"
-      .assign attr_result = attr_result + "_${suffix.result}"
+    .invoke r = GetRelationshipSuffix( right_o_obj, r_rel, rel_phrase )
+    .assign suffix = r.result
+    .if ( "" != suffix )
+      .assign attr_name = ( attr_name + "_" ) + suffix
+      .assign attr_result = ( attr_result + "_" ) + suffix
     .end if
     .select any te_target from instances of TE_TARGET
     .if ( "C" == te_target.language )
@@ -134,10 +137,11 @@
     .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
     .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
     .//
-    .invoke suffix = GetRelationshipSuffix( right_o_obj, r_rel, rel_phrase )
-    .if ( suffix.result != "" )
-      .assign attr_name = attr_name + "_${suffix.result}"
-      .assign attr_result = attr_result + "_${suffix.result}"
+    .invoke r = GetRelationshipSuffix( right_o_obj, r_rel, rel_phrase )
+    .assign suffix = r.result
+    .if ( "" != suffix )
+      .assign attr_name = ( attr_name + "_" ) + suffix
+      .assign attr_result = ( attr_result + "_" ) + suffix
     .end if
     .select any te_target from instances of TE_TARGET
     .if ( "C" == te_target.language )
@@ -154,10 +158,11 @@
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
   .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
-  .invoke suffix = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
-  .if ( suffix.result != "" )
-    .assign attr_name = attr_name + "_${suffix.result}"
-    .assign attr_result = attr_result + "_${suffix.result}"
+  .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
+  .assign suffix = r.result
+  .if ( "" != suffix )
+    .assign attr_name = ( attr_name + "_" ) + suffix
+    .assign attr_result = ( attr_result + "_" ) + suffix
   .end if
   .select any te_target from instances of TE_TARGET
   .if ( "C" == te_target.language )
@@ -173,129 +178,16 @@
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
   .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
-  .invoke suffix = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
-  .if ( suffix.result != "" )
-    .assign attr_name = attr_name + "_${suffix.result}"
-    .assign attr_result = attr_result + "_${suffix.result}"
+  .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
+  .assign suffix = r.result
+  .if ( "" != suffix )
+    .assign attr_name = ( attr_name + "_" ) + suffix
+    .assign attr_result = ( attr_result + "_" ) + suffix
   .end if
   .select any te_target from instances of TE_TARGET
   .if ( "C" == te_target.language )
     .assign attr_result = attr_name
   .end if
-.end function
-.//
-.//============================================================================
-.// This function returns the name of the object member data to be used
-.// for (optimized) storage of a link to a related object.
-.//============================================================================
-.function GetRelationshipDataMemberName
-  .param inst_ref o_obj
-  .param inst_ref r_rel
-  .param string   rel_phrase
-  .assign attr_result = ( o_obj.Key_Lett + "_R" ) + "${r_rel.Numb}"
-  .assign attr_obj_id = ""
-  .invoke suffix = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
-  .assign attr_Mult = suffix.Mult
-  .assign attr_assoc_type = suffix.assoc_type
-  .if ( suffix.result != "" )
-    .assign attr_result = attr_result + ( "_" + suffix.result )
-  .end if
-  .// Subtype-Supertype relationship?
-  .select one subsup_rel related by r_rel->R_SUBSUP[R206]
-  .if ( not_empty subsup_rel )
-    .select any subtype related by r_rel->R_SUBSUP[R206]->R_SUB[R213] where ( selected.Obj_ID == o_obj.Obj_ID )
-    .if ( not_empty subtype )
-      .assign attr_result = ( "R" + "${r_rel.Numb}" ) + "_subtype"
-      .assign attr_obj_id = ( "R" + "${r_rel.Numb}" ) + "_object_id"
-    .end if
-  .end if
-.end function
-.//
-.//============================================================================
-.// Given a relationship <rel> and the object at the other (e.g., right)
-.// end <right_obj>, determine the suffix to be used in the relationship
-.// link, unlink, and navigation accessor methods.
-.// Parameter <rel_phrase> is used for reflexive relationships to determine
-.// which "end" of the relationship to get the suffix for.
-.//============================================================================
-.function GetRelationshipSuffix
-  .param inst_ref right_o_obj
-  .param inst_ref r_rel
-  .param string   rel_phrase
-  .//
-  .assign attr_result = ""
-  .// Default to "one" for sub/super.
-  .assign attr_Mult = 0
-  .assign attr_assoc_type = "subsuper"
-  .select one simple_rel related by r_rel->R_SIMP[R206]
-  .if ( not_empty simple_rel )
-    .select one participant related by simple_rel->R_PART[R207]
-    .select one formalizer related by simple_rel->R_FORM[R208]
-    .if ( right_o_obj.Obj_ID == participant.Obj_ID )
-      .assign attr_Mult = participant.Mult
-      .assign attr_assoc_type = "part"
-    .else
-      .assign attr_Mult = formalizer.Mult
-      .assign attr_assoc_type = "form"
-    .end if
-    .if ( participant.Obj_ID == formalizer.Obj_ID )
-      .if ( participant.Txt_Phrs == rel_phrase )
-        .assign attr_Mult = participant.Mult
-        .assign attr_assoc_type = "part"
-        .assign attr_result = "$_{participant.Txt_Phrs}"
-      .elif ( formalizer.Txt_Phrs == rel_phrase )
-        .assign attr_Mult = formalizer.Mult
-        .assign attr_assoc_type = "form"
-        .assign attr_result = "$_{formalizer.Txt_Phrs}"
-      .else
-        .assign msg = "\nTRANSLATION ERROR:  ${right_o_obj.Key_Lett}[R${r_rel.Numb}.'${rel_phrase}']"
-        .assign msg = msg + "\nInternal logic error for reflexive simple relationship."
-        .print "${msg}"
-        .exit 101
-      .end if
-    .end if
-  .else
-    .select one assoc_rel related by r_rel->R_ASSOC[R206]
-    .if ( not_empty assoc_rel )
-      .select one assr related by assoc_rel->R_ASSR[R211]
-      .select one one_side related by assoc_rel->R_AONE[R209]
-      .select one other_side related by assoc_rel->R_AOTH[R210]
-      .if ( one_side.Obj_ID == other_side.Obj_ID )
-        .// Reflexive associative relationship
-        .if ( rel_phrase == one_side.Txt_Phrs )
-          .assign attr_Mult = one_side.Mult
-          .assign attr_assoc_type = "aone"
-          .assign attr_result = "$_{one_side.Txt_Phrs}"
-          .// CDS Consider checking here for one side versus other side.
-          .// In a role-symmetric reflexive associative, the relationship
-          .// phrase may be identical on both ends.
-        .elif ( rel_phrase == other_side.Txt_Phrs )
-          .assign attr_Mult = other_side.Mult
-          .assign attr_assoc_type = "aoth"
-          .assign attr_result = "$_{other_side.Txt_Phrs}"
-        .else
-          .assign msg = "\nTRANSLATION ERROR:  ${right_o_obj.Key_Lett}[R${r_rel.Numb}.'${rel_phrase}']"
-          .assign msg = msg + "\nInternal logic error for reflexive associative relationship."
-          .print "${msg}"
-          .exit 101
-        .end if
-        .if ( right_o_obj.Obj_ID == assr.Obj_ID )
-          .assign attr_assoc_type = "assr"
-        .end if
-      .else
-        .if ( right_o_obj.Obj_ID == one_side.Obj_ID )
-          .assign attr_Mult = one_side.Mult
-          .assign attr_assoc_type = "aone"
-        .elif ( right_o_obj.Obj_ID == other_side.Obj_ID )
-          .assign attr_Mult = other_side.Mult
-          .assign attr_assoc_type = "aoth"
-        .else
-          .assign attr_Mult = assr.Mult
-          .assign attr_assoc_type = "assr"
-        .end if
-      .end if  .// one_side.Obj_ID == other_side.Obj_ID
-    .end if  .// not_empty assoc_rel
-  .end if  .//  not_empty simp_rel
 .end function
 .//
 .//============================================================================
@@ -315,31 +207,34 @@
   .param inst_ref r_rel
   .param string   rel_phrase
   .//
-  .assign attr_name = ""
-  .assign attr_result = ""
+  .assign name = ""
+  .assign result = ""
   .assign formalizing_o_obj = left_o_obj
   .assign participant_o_obj = right_o_obj
   .//
-  .invoke link_info = GetLinkParameters( left_o_obj, right_o_obj, r_rel, rel_phrase )
-  .if ( not link_info.left_is_formalizer )
+  .invoke r = TE_REL_IsLeftFormalizer( left_o_obj, right_o_obj, r_rel, rel_phrase )
+  .assign left_is_formalizer = r.result
+  .if ( not left_is_formalizer )
     .assign formalizing_o_obj = right_o_obj
     .assign participant_o_obj = left_o_obj
   .end if
   .//
   .select one te_class related by formalizing_o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
-    .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
-    .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
+    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
+    .assign result = ( te_class.GeneratedName + "::" ) + name
   .end if
   .//
-  .invoke suffix = GetRelationshipSuffix( formalizing_o_obj, r_rel, rel_phrase )
-  .if ( suffix.result != "" )
-    .assign attr_name = attr_name + "_${suffix.result}"
-    .assign attr_result = attr_result + "_${suffix.result}"
+  .invoke r = GetRelationshipSuffix( formalizing_o_obj, r_rel, rel_phrase )
+  .assign suffix = r.result
+  .if ( "" != suffix )
+    .assign name = ( name + "_" ) + suffix
+    .assign result = ( result + "_" ) + suffix
   .end if
+  .assign attr_result = result
   .select any te_target from instances of TE_TARGET
   .if ( "C" == te_target.language )
-    .assign attr_result = attr_name
+    .assign attr_result = name
   .end if
 .end function
 .//
@@ -360,27 +255,34 @@
   .param inst_ref r_rel
   .param string   rel_phrase
   .//
+  .assign name = ""
+  .assign result = ""
   .assign formalizing_o_obj = left_o_obj
   .assign participant_o_obj = right_o_obj
   .//
-  .invoke link_info = GetLinkParameters( left_o_obj, right_o_obj, r_rel, rel_phrase )
-  .if ( not link_info.left_is_formalizer )
+  .invoke r = TE_REL_IsLeftFormalizer( left_o_obj, right_o_obj, r_rel, rel_phrase )
+  .assign left_is_formalizer = r.result
+  .if ( not left_is_formalizer )
     .assign formalizing_o_obj = right_o_obj
     .assign participant_o_obj = left_o_obj
   .end if
   .//
   .select one te_class related by formalizing_o_obj->TE_CLASS[R2019]
-  .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
-  .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
-  .//
-  .invoke suffix = GetRelationshipSuffix( formalizing_o_obj, r_rel, rel_phrase )
-  .if ( suffix.result != "" )
-    .assign attr_name = attr_name + "_${suffix.result}"
-    .assign attr_result = attr_result + "_${suffix.result}"
+  .if ( not_empty te_class )
+    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
+    .assign result = ( te_class.GeneratedName + "::" ) + name
   .end if
+  .//
+  .invoke r = GetRelationshipSuffix( formalizing_o_obj, r_rel, rel_phrase )
+  .assign suffix = r.result
+  .if ( "" != suffix )
+    .assign name = ( name + "_" ) + suffix
+    .assign result = ( result + "_" ) + suffix
+  .end if
+  .assign attr_result = result
   .select any te_target from instances of TE_TARGET
   .if ( "C" == te_target.language )
-    .assign attr_result = attr_name
+    .assign attr_result = name
   .end if
 .end function
 .//
@@ -419,19 +321,6 @@
 .end function
 .//
 .//============================================================================
-.// Provide the name of the class_info structure and its members.
-.//============================================================================
-.function GetClassInfoArrayNaming
-  .select any te_typemap from instances of TE_TYPEMAP
-  .select any te_extent from instances of TE_EXTENT
-  .assign attr_class_info_name = "domain_class_info"
-  .assign attr_class_info_type = te_extent.type
-  .assign attr_active_count = "active_count"
-  .assign attr_class_count = "domain_class_count"
-  .assign attr_count_type = te_typemap.object_number_name
-.end function
-.//
-.//============================================================================
 .// Provide a name for the routine that will check if an instance is
 .// dirty, mark it if is not and queue it for flusing later.
 .//============================================================================
@@ -457,52 +346,5 @@
   .assign attr_type = "void"
   .assign attr_arglist_types = "  const s1_t, const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}, const ${te_typemap.instance_index_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name}"
   .assign attr_arglist = "  const s1_t operation, const ${te_typemap.domain_number_name} domain,\n  const ${te_typemap.object_number_name} owning_class, const ${te_typemap.instance_index_name} ri,\n  ${te_instance.handle} left, const ${te_typemap.object_number_name} l,\n   ${te_instance.handle} right, const ${te_typemap.object_number_name} r,\n  ${te_instance.handle} assoc, const ${te_typemap.object_number_name} a"
-.end function
-.//
-.//============================================================================
-.// Return the name of the extended attribute variable for use by
-.// the persistent restore operation.  This attribute represents the
-.// instance index of the class extent at time of persistent stowage
-.// together with the class number (across domains) of the class.
-.// Also return the types for this attribute variable.
-.//============================================================================
-.function GetPersistentInstanceIdentifierVariable
-  .//
-  .select any te_typemap from instances of TE_TYPEMAP
-  .assign attr_domainnum_name = "domainnum"
-  .assign attr_domainnum_type = te_typemap.domain_number_name
-  .assign attr_classnum_name = "classnum"
-  .assign attr_classnum_type = te_typemap.object_number_name
-  .assign attr_index_name = "index"
-  .assign attr_index_type = te_typemap.instance_index_name
-  .assign attr_instid_typedef = "struct {\n  ${attr_domainnum_type} ${attr_domainnum_name};\n  ${attr_classnum_type} ${attr_classnum_name};\n  ${attr_index_type} ${attr_index_name};\n}"
-  .assign attr_instid_type = "InstanceIdentifier_t"
-  .assign attr_instid_name = "instance_identifier"
-  .assign attr_dirty_type = "s1_t"
-  .assign attr_dirty_name = "persist_dirty"
-  .assign attr_dirty_dirty = 1
-  .assign attr_dirty_clean = 0
-.end function
-.//
-.//============================================================================
-.// Return the constant name to be used for the domain class number set.
-.//============================================================================
-.function GetDomainClassNumberName
-  .param string registered_domain
-  .assign attr_result = registered_domain + "_CLASS_NUMBERS"
-  .assign attr_union = registered_domain + "_CLASS_U"
-  .assign attr_task_list = registered_domain + "_task_numbers"
-  .assign attr_task_numbers = registered_domain + "_TASK_NUMBERS"
-  .assign attr_max = registered_domain + "_MAX_CLASS_NUMBERS"
-  .assign attr_max_models = registered_domain + "_STATE_MODELS"
-.end function
-.//
-.//============================================================================
-.// Return the constant name to be used for the class information set.
-.//============================================================================
-.function GetDomainClassInfoName
-  .param string registered_domain
-  .assign attr_result = registered_domain + "_CLASS_INFO_INIT"
-  .assign attr_array_name = registered_domain + "_class_info"
 .end function
 .//

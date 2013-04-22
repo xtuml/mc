@@ -395,7 +395,7 @@
     .invoke poly_rels = GetPolymorphicRelationshipCollection( o_obj )
     .assign poly_rel_set = poly_rels.result
     .//
-    .invoke init_uniques = AutoInitializeUniqueIDs( o_obj, "i" )
+    .invoke init_uniques = AutoInitializeUniqueIDs( te_class, "i" )
     .invoke max_event = GetMaxEventInfo( o_obj, TRUE )
     .invoke domain_id = GetDomainTypeIDFromString( te_c.Name )
     .invoke poly_dispatch = CreatePolymorphicEventDispatcher( o_obj, poly_rel_set )

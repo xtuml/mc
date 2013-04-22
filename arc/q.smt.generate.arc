@@ -102,6 +102,7 @@
   .assign te_smt.buffer = s.body
   .assign te_smt.buffer2 = s.ending
   .// Skip tracing ELSE because it falls between } and else.
+  .//.assign te_smt.OAL = "ELSE"
   .assign te_smt.OAL = ""
 .end function
 .//
@@ -181,7 +182,17 @@
       .// no need to do anything special here, because the type will be vanilla set base class
     .end if
   .end if
-  .invoke s = t_oal_smt_assign( te_smt, te_assign, te_blk.indentation )
+  .assign element_count = 0
+  .select one r_te_dim related by r_te_val->TE_DIM[R2079]
+  .if ( not_empty r_te_dim )
+    .assign element_count = r_te_dim.elementCount
+  .end if
+  .assign is_parameter = false
+  .select one v_pvl related by r_v_val->V_PVL[R801]
+  .if ( not_empty v_pvl )
+    .assign is_parameter = true
+  .end if
+  .invoke s = t_oal_smt_assign( te_smt, te_assign, te_blk.indentation, element_count, is_parameter )
   .assign te_smt.buffer = s.body
   .assign te_smt.OAL = "ASSIGN ${l_te_val.OAL} = ${r_te_val.OAL}"
 .end function
@@ -652,9 +663,9 @@
     .assign built_in = false
     .assign oid_id = -1
     .if ( built_in )
-      .select any swc related by o_obj->TE_SWC[R2001] where ( selected.Key == "p_where.key" )
-      .assign built_in = swc.Built_In
-      .assign oid_id = swc.Oid_ID
+      .select any te_swc related by te_class->TE_SWC[R2001] where ( selected.Key == "p_where.key" )
+      .assign built_in = te_swc.Built_In
+      .assign oid_id = te_swc.Oid_ID
     .end if
     .//.assign te_select_where.o_obj = o_obj
     .assign te_select_where.is_implicit = act_fiw.is_implicit
@@ -947,9 +958,9 @@
   .assign attr_parameter_OAL = ""
   .assign attr_smt_buffer = ""
   .if ( not_empty v_pars )
-    .invoke params = gen_parameter_list( v_pars, false, "message" )
-    .assign parameters = params.body
-    .assign attr_parameter_OAL = params.OAL
+    .invoke r = gen_parameter_list( v_pars, false, "message" )
+    .assign parameters = r.body
+    .assign attr_parameter_OAL = r.result
   .end if
   .assign name = te_mact.GeneratedName
   .if ( "SystemC" == te_target.language )
@@ -1017,9 +1028,9 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_tfm->V_PAR[R627]
     .if ( not_empty v_pars )
-      .invoke params = gen_parameter_list( v_pars, false, "operation" )
-      .assign parameters = params.body
-      .assign parameter_OAL = params.OAL
+      .invoke r = gen_parameter_list( v_pars, false, "operation" )
+      .assign parameters = r.body
+      .assign parameter_OAL = r.result
     .end if
     .assign name = te_tfr.GeneratedName
     .assign uses_thismodule = false
@@ -1065,9 +1076,9 @@
     .select one te_ee related by s_brg->S_EE[R19]->TE_EE[R2020]
     .assign te_ee.Included = true
     .select many v_pars related by act_brg->V_PAR[R628]
-    .invoke params = gen_parameter_list( v_pars, false, "bridge" )
-    .assign parameters = params.body
-    .assign parameter_OAL = params.OAL
+    .invoke r = gen_parameter_list( v_pars, false, "bridge" )
+    .assign parameters = r.body
+    .assign parameter_OAL = r.result
     .assign name = te_brg.GeneratedName
     .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
       .assign name = ( te_ee.RegisteredName + "::" ) + name
@@ -1108,9 +1119,9 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_fnc->V_PAR[R669]
     .if ( not_empty v_pars )
-      .invoke params = gen_parameter_list( v_pars, false, "function" )
-      .assign parameters = params.body
-      .assign parameter_OAL = params.OAL
+      .invoke r = gen_parameter_list( v_pars, false, "function" )
+      .assign parameters = r.body
+      .assign parameter_OAL = r.result
     .end if
     .assign name = te_sync.intraface_method
     .if ( "SystemC" == te_target.language )
@@ -1153,8 +1164,8 @@
     .select any core_s_dt from instances of S_DT where ( false )
     .select one s_udt related by s_dt->S_UDT[R17]
     .if ( not_empty s_udt )
-      .invoke i = GetBaseTypeForUDT( s_udt )
-      .assign core_s_dt = i.result
+      .invoke r = GetBaseTypeForUDT( s_udt )
+      .assign core_s_dt = r.result
     .end if
     .if (not_empty core_s_dt)
       .assign s_dt = core_s_dt
@@ -1343,7 +1354,9 @@
   .assign te_select_related.by_where = by_where
   .assign te_select_related.is_implicit = act_sel.is_implicit
   .assign te_select_related.multiplicity = act_sel.cardinality
+  .// relate te_select_related to start_te_class across R2077;
   .assign te_select_related.te_classGeneratedName = start_te_class.GeneratedName
+  .// end relate
   .select one start_te_var related by start_v_var->TE_VAR[R2039]
   .assign te_select_related.start_var = start_te_val.buffer
   .assign te_select_related.start_var_OAL = start_te_val.OAL
@@ -1357,8 +1370,9 @@
   .// associative association.  Insert the associative link between
   .// the starting variable and the first link in the chain.
   .invoke r = detect_and_insert_associator_TE_LNK( empty_te_lnk, te_lnk, empty_act_lnk, act_lnk, start_o_obj )
-  .if ( not_empty r.te_lnk )
-    .assign te_lnk = r.te_lnk
+  .assign assr_te_lnk = r.result
+  .if ( not_empty assr_te_lnk )
+    .assign te_lnk = assr_te_lnk
   .end if
   .// We detect first here.  We detect last in primary query/populate.
   .assign te_lnk.first = true
@@ -1379,17 +1393,22 @@
     .select one where_te_val related by act_sel->ACT_SRW[R664]->V_VAL[R611]->TE_VAL[R2040]
     .// relate where_te_val to te_select_related across R2074;
     .assign te_select_related.where_clause_Value_ID = where_te_val.Value_ID
+    .// end relate
     .assign te_select_related.where_clause = where_te_val.buffer
     .assign te_select_related.where_clause_OAL = where_te_val.OAL
   .end if
   .// relate te_select_related to te_smt across R2069;
   .assign te_select_related.Statement_ID = te_smt.Statement_ID
+  .// end relate
   .// relate te_select_related to start_te_val across R2070;
   .assign te_select_related.starting_Value_ID = start_te_val.Value_ID
+  .// end relate
   .// relate te_select_related to start_te_var across R2071;
   .assign te_select_related.starting_Var_ID = start_te_var.Var_ID
+  .// end relate
   .// relate te_select_related to te_lnk across R2073;
   .assign te_select_related.link_ID = te_lnk.ID
+  .// end relate
   .//
   .// RENDER
   .// Truth Table

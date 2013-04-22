@@ -66,15 +66,14 @@
 .// Generate a routine that will initialize instances from string data.
 .//=============================================================================
 .function gen_class_instance_loader
-  .param inst_ref o_obj
+  .param inst_ref te_class
   .param boolean  gen_declaration
   .//
   .select any te_dma from instances of TE_DMA
   .select any te_string from instances of TE_STRING
   .select any te_instance from instances of TE_INSTANCE
-  .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( gen_declaration )
-extern ${te_instance.handle} ${te_class.GeneratedName}_instanceloader( ${te_instance.handle}, const c_t * [] );
+${te_instance.handle} ${te_class.GeneratedName}_instanceloader( ${te_instance.handle}, const c_t * [] );
   .else
 
 /*
@@ -86,31 +85,29 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   ${te_instance.handle} return_identifier = 0;
   ${te_class.GeneratedName} * ${te_instance.self} = (${te_class.GeneratedName} *) instance;
   /* Initialize application analysis class attributes.  */
-    .invoke first_attr = GetFirstAttributeInObjectModel( o_obj )
-    .assign current_attr = first_attr.result
+    .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
     .assign attribute_number = 1
-    .while ( not_empty current_attr )
-      .select one te_attr related by current_attr->TE_ATTR[R2033]
-      .assign persistent = ( "$l{current_attr.Descrip:Persistent}" != "false" )
+    .while ( not_empty te_attr )
+      .select one o_attr related by te_attr->O_ATTR[R2033]
+      .assign persistent = ( "$l{o_attr.Descrip:Persistent}" != "false" )
       .if ( te_attr.translate and persistent )
-        .invoke member_type = GetAttributeCodeGenType( current_attr )
-        .assign cdt = member_type.cdt
-        .assign dt = member_type.dt
-        .if ( empty cdt )
+        .invoke r = GetAttributeCodeGenType( o_attr )
+        .assign te_dt = r.result
+        .if ( te_dt.Core_Typ < 0 )
           .// sdt
-        .elif ( cdt.Core_Typ == 0 )
+        .elif ( 0 == te_dt.Core_Typ )
           .// void
-        .elif ( cdt.Core_Typ == 1 )
+        .elif ( 1 == te_dt.Core_Typ )
           .// boolean
   ${te_instance.self}->${te_attr.GeneratedName} = ( '0' != *avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 2 )
+        .elif ( 2 == te_dt.Core_Typ )
           .// integer
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 3 )
+        .elif ( 3 == te_dt.Core_Typ )
           .// real
-        .elif ( cdt.Core_Typ == 4 )
+        .elif ( 4 == te_dt.Core_Typ )
           .// string
           .if ( "Action_Semantics_internal" == te_attr.Name )
   ${te_instance.self}->${te_attr.GeneratedName} = (c_t *) ${te_dma.allocate}( avlstring[ ${attribute_number} + 1 ] - avlstring[ ${attribute_number} ] );
@@ -121,48 +118,47 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   ${te_instance.module}${te_string.strcpy}( ${te_instance.self}->${te_attr.GeneratedName}, avlstring[ ${attribute_number} ] );
           .end if
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 5 )
+        .elif ( 5 == te_dt.Core_Typ )
           .// unique_id
   ${te_instance.self}->${te_attr.GeneratedName} = (${te_instance.handle}) ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
-          .select any o_oida related by current_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 )
-          .select one o_rattr related by current_attr->O_RATTR[R106]
+          .select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 0 )
+          .select one o_rattr related by o_attr->O_RATTR[R106]
           .if ( ( not_empty o_oida ) and ( empty o_rattr ) )
   return_identifier = ${te_instance.self}->${te_attr.GeneratedName};
           .end if
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 6 )
+        .elif ( 6 == te_dt.Core_Typ )
           .// current_state
-        .elif ( cdt.Core_Typ == 7 )
+        .elif ( 7 == te_dt.Core_Typ )
           .// same as base<Attribute>
-        .elif ( cdt.Core_Typ == 8 )
+        .elif ( 8 == te_dt.Core_Typ )
           .// inst_ref<Object>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 9 )
+        .elif ( 9 == te_dt.Core_Typ )
           .// inst_ref_set<Object>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 10 )
+        .elif ( 10 == te_dt.Core_Typ )
           .// inst<Event>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 11 )
+        .elif ( 11 == te_dt.Core_Typ )
           .// inst<Mapping>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
-        .elif ( cdt.Core_Typ == 12 )
+        .elif ( 12 == te_dt.Core_Typ )
           .// inst_ref<Mapping>
   ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.atoi}( avlstring[ ${attribute_number} ] );
           .assign attribute_number = attribute_number + 1
         .else
   ${te_instance.module}${te_string.memset}( &${te_instance.self}->${te_attr.GeneratedName}, avlstring[ ${attribute_number} ], sizeof( ${te_instance.self}->${te_attr.GeneratedName} ) );
         .end if
-      .end if  .// code_needed.result
+      .end if
       .//
       .// Advance to the next object attribute, if any.
-      .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-      .assign current_attr = next_attr
-    .end while  .// not_empty current_attr
+      .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+    .end while
   return return_identifier;
 }
   .end if  .// gen_declaration
@@ -171,15 +167,15 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
 .//
 .//
 .function gen_class_batch_relate
-  .param inst_ref o_obj
+  .param inst_ref te_class
   .param boolean gen_declaration
   .select any te_instance from instances of TE_INSTANCE
-  .select one te_class related by o_obj->TE_CLASS[R2019]
+  .select one o_obj related by te_class->O_OBJ[R2019]
   .select many r_rgos related by o_obj->R_OIR[R201]->R_RGO[R203]
   .if ( not_empty r_rgos )
     .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
     .if ( gen_declaration )
-extern void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} );
+void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} );
     .else
 
 /*
@@ -235,27 +231,26 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
           .assign param_list = ""
           .assign delimeter = ""
           .assign nonreferential = false
-          .invoke first_attr = GetFirstAttributeInObjectModel( rto_obj )
-          .assign current_attr = first_attr.result
-          .while ( not_empty current_attr )
+          .select any te_attr related by part_te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+          .while ( not_empty te_attr )
+            .select one current_o_attr related by te_attr->O_ATTR[R2033]
             .for each o_rtida in o_rtidas
               .select one o_attr related by o_rtida->O_OIDA[R110]->O_ATTR[R105]
-              .if ( o_attr == current_attr )
-                .select one o_rattr related by current_attr->O_RATTR[R106]
+              .if ( o_attr == current_o_attr )
+                .select one o_rattr related by current_o_attr->O_RATTR[R106]
                 .if ( empty o_rattr )
                   .assign nonreferential = true
                 .end if
                 .select any o_attr related by o_rtida->O_REF[R111]->O_RATTR[R108]->O_ATTR[R106] where ( selected.Obj_ID == r_rgo.Obj_ID )
-                .select one te_attr related by o_attr->TE_ATTR[R2033]
-                .assign param_list = param_list + "${delimeter}${te_class.GeneratedName}_instance->${te_attr.GeneratedName}"
+                .select one ref_te_attr related by o_attr->TE_ATTR[R2033]
+                .assign param_list = param_list + "${delimeter}${te_class.GeneratedName}_instance->${ref_te_attr.GeneratedName}"
                 .assign delimeter = ", "
               .end if
             .end for
-            .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-            .assign current_attr = next_attr
+            .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
           .end while
           .if ( ( ( 0 == o_id.Oid_ID ) and ( 1 == o_rtida_count ) ) and nonreferential )
-  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance${r_rto_count} = (${part_te_class.GeneratedName} *) Escher_instance_cache[ (int) ${param_list} ];
+  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance${r_rto_count} = (${part_te_class.GeneratedName} *) Escher_instance_cache[ (intptr_t) ${param_list} ];
           .else
   ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance${r_rto_count} = ${te_where.select_any_where}( ${param_list} );
           .end if

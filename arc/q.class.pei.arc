@@ -25,12 +25,12 @@
 .function PEIInstanceSubsystemInit
   .param inst_ref_set o_objs
   .//
-  .for each obj in o_objs
-    .select many insts related by obj->CSME_CIE[R2961]->I_INS[R2962]
+  .for each o_obj in o_objs
+    .select many i_inss related by o_obj->CSME_CIE[R2961]->I_INS[R2962]
     .// Check for preexisting instance population requirement.
     .// The class must have instances and also be colored.
-    .assign i = cardinality insts
-    .select one te_class related by obj->TE_CLASS[R2019]
+    .assign i = cardinality i_inss
+    .select one te_class related by o_obj->TE_CLASS[R2019]
     .if ( ( i > 0 ) and ( te_class.PEIsDefinedInData ) )
       .assign te_class.PEIsDefinedInData = TRUE
     .else
@@ -38,8 +38,8 @@
     .end if
     .//
     .assign i = 0
-    .for each inst in insts
-      .assign inst.Name = "${i}"
+    .for each i_ins in i_inss
+      .assign i_ins.Name = "${i}"
       .assign i = i + 1
     .end for
   .end for
@@ -52,8 +52,8 @@
 .//============================================================================
 .function PEINumberOfPreexistingInstances
   .param inst_ref o_obj
-  .select many inst_set related by o_obj->CSME_CIE[R2961]->I_INS[R2962]
-  .assign attr_result = cardinality inst_set
+  .select many i_inss related by o_obj->CSME_CIE[R2961]->I_INS[R2962]
+  .assign attr_result = cardinality i_inss
   .// .assign msg =       "PEINumberOfPreexistingInstances is ${attr_result} "
   .// .assign msg = msg + "for ${o_obj.Name} (${o_obj.Key_Lett})"
   .// .print "${msg}"
@@ -72,15 +72,15 @@
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( te_class.PEIsDefinedInData )
     .assign inst_count = 0
-    .select many insts related by o_obj->CSME_CIE[R2961]->I_INS[R2962]
-    .assign insts_cardinality = cardinality insts
-    .while ( inst_count < insts_cardinality )
-      .for each inst in insts
-        .if ( inst.Name == "${inst_count}" )
-          .invoke initializercode = PEIRenderInitializerBody( inst, o_obj )
+    .select many i_inss related by o_obj->CSME_CIE[R2961]->I_INS[R2962]
+    .assign i_inss_cardinality = cardinality i_inss
+    .while ( inst_count < i_inss_cardinality )
+      .for each i_ins in i_inss
+        .if ( i_ins.Name == "${inst_count}" )
+          .invoke initializercode = PEIRenderInitializerBody( i_ins, o_obj )
           .assign attr_assset = attr_assset + initializercode.assset
   { ${initializercode.result} }\
-          .if ( last insts )
+          .if ( last i_inss )
 
           .else
 ,
@@ -124,30 +124,27 @@
   .//
   .// Generate the attribute value initializers.
   .//
-  .invoke first_attr = GetFirstAttributeInObjectModel( o_obj )
-  .assign current_attr = first_attr.result
-  .if ( not_empty current_attr )
-    .select one te_attr related by current_attr->TE_ATTR[R2033]
-    .while ( not_empty current_attr )
+  .select any te_attr related by o_obj->TE_CLASS[R2019]-TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .if ( not_empty te_attr )
+    .select one o_attr related by te_attr->O_ATTR[R2033]
+    .while ( not_empty te_attr )
       .if ( te_attr.translate )
-        .select any i_avl related by i_ins->I_AVL[R2909] where ( selected.Attr_ID == current_attr.Attr_ID )
-        .invoke avlcode = PEIRenderInitializerBodyAttribute( current_attr, i_avl )
+        .select any i_avl related by i_ins->I_AVL[R2909] where ( selected.Attr_ID == o_attr.Attr_ID )
+        .invoke avlcode = PEIRenderInitializerBodyAttribute( o_attr, i_avl )
         .assign attr_result = attr_result + avlcode.result
       .end if
       .//
       .// Advance to the next object attribute, if any.
-      .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-      .assign current_attr = next_attr
+      .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
       .//
       .// Generate comma separator.
-      .if ( not_empty current_attr )
-        .select one te_attr related by current_attr->TE_ATTR[R2033]
+      .if ( not_empty te_attr )
         .if ( te_attr.translate )
           .assign attr_result = attr_result + ", "
         .end if
       .end if
     .end while
-  .end if .// not_empty current_attr
+  .end if
   .//
   .// Generate the association linkage (if needed).
   .//
@@ -167,9 +164,9 @@
   .param inst_ref i_avl
   .assign attr_result = "0"
   .// Get the attribute data type.  Strings need to be quoted.
-  .invoke member_type = GetAttributeCodeGenType( o_attr )
-  .assign cdt = member_type.cdt
-  .if ( 4 == cdt.Core_Typ )
+  .invoke r = GetAttributeCodeGenType( o_attr )
+  .assign te_dt = r.result
+  .if ( 4 == te_dt.Core_Typ )
     .// string
     .if ( empty i_avl )
       .// In absence of a populated attribute, use the attribute default value.
@@ -298,23 +295,23 @@
   .//
   .assign attr_result = ""
   .assign attr_assset = ""
-  .select any related_inst from instances of I_INS
+  .select any related_i_ins from instances of I_INS
   .//
   .// Find related instance index.
   .// Traverse the instance to link to instance chain
   .// to get the instance ArrayIndex.
   .if ( multiplicity == 0 )
     .// ONE
-    .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
-    .select one related_inst related by link->I_LIP[R2901]->I_INS[R2958]
-    .if ( empty related_inst )
-      .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
-      .select one related_inst related by link->I_LIP[R2902]->I_INS[R2958]
+    .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+    .select one related_i_ins related by i_lnk->I_LIP[R2901]->I_INS[R2958]
+    .if ( empty related_i_ins )
+      .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+      .select one related_i_ins related by i_lnk->I_LIP[R2902]->I_INS[R2958]
     .end if
-    .if ( not_empty related_inst )
-      .select one related_obj related by related_inst->CSME_CIE[R2962]->O_OBJ[R2961]
-      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_obj )
-      .assign attr_result = ", &${related_extent_info.obj_pool_var_name}[${related_inst.Name}]"
+    .if ( not_empty related_i_ins )
+      .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
+      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
+      .assign attr_result = ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
     .else
       .// not participating
       .assign attr_result = ", 0"
@@ -322,12 +319,12 @@
   .else
     .// MANY
     .// Build linked list of containers pointing to related instances.
-    .select many links related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
-    .select many related_insts1 related by links->I_LIP[R2901]->I_INS[R2958]
-    .select many links related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
-    .select many related_insts2 related by links->I_LIP[R2902]->I_INS[R2958]
-    .assign related_insts = related_insts1 | related_insts2
-    .invoke s = PEIRenderRelationshipManyOptimization( related_insts, o_obj )
+    .select many i_lnks related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+    .select many related1_i_ins related by i_lnks->I_LIP[R2901]->I_INS[R2958]
+    .select many i_lnks related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+    .select many related2_i_inss related by i_lnks->I_LIP[R2902]->I_INS[R2958]
+    .assign related_i_inss = related1_i_ins | related2_i_inss
+    .invoke s = PEIRenderRelationshipManyOptimization( related_i_inss, o_obj )
     .assign attr_result = attr_result + s.result
     .assign attr_assset = attr_assset + s.assset
   .end if
@@ -350,16 +347,16 @@
   .assign attr_result = ""
   .assign attr_assset = ""
   .invoke related_extent_info = GetFixedSizeClassExtentInfo( o_obj )
-  .select any related_inst from instances of I_INS
+  .select any related_i_ins from instances of I_INS
   .//
   .// Link the formalizer to the participant.
   .//
   .if ( r_part.Mult == 0 )
     .// ONE
-    .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
-    .select one related_inst related by link->I_LIP[R2901]->I_INS[R2958]
-    .if ( not_empty related_inst )
-      .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_inst.Name}]"
+    .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+    .select one related_i_ins related by i_lnk->I_LIP[R2901]->I_INS[R2958]
+    .if ( not_empty related_i_ins )
+      .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
     .else
       .// Not participating.
       .assign attr_result = attr_result + ", 0"
@@ -367,9 +364,9 @@
   .else
     .// MANY
     .// Build linked list of containers pointing to related instances.
-    .select many links related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
-    .select many related_insts related by links->I_LIP[R2901]->I_INS[R2958]
-    .invoke s = PEIRenderRelationshipManyOptimization( related_insts, o_obj )
+    .select many i_lnks related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+    .select many related_i_inss related by i_lnks->I_LIP[R2901]->I_INS[R2958]
+    .invoke s = PEIRenderRelationshipManyOptimization( related_i_inss, o_obj )
     .assign attr_result = attr_result + s.result
     .assign attr_assset = attr_assset + s.assset
   .end if
@@ -378,10 +375,10 @@
   .//
   .if ( r_form.Mult == 0 )
     .// ONE
-    .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
-    .select one related_inst related by link->I_LIP[R2902]->I_INS[R2958]
-    .if ( not_empty related_inst )
-      .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_inst.Name}]"
+    .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+    .select one related_i_ins related by i_lnk->I_LIP[R2902]->I_INS[R2958]
+    .if ( not_empty related_i_ins )
+      .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
     .else
       .// Not participating.
       .assign attr_result = attr_result + ", 0"
@@ -389,9 +386,9 @@
   .else
     .// MANY
     .// Build linked list of containers pointing to related instances.
-    .select many links related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
-    .select many related_insts related by links->I_LIP[R2902]->I_INS[R2958]
-    .invoke s = PEIRenderRelationshipManyOptimization( related_insts, o_obj )
+    .select many i_lnks related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+    .select many related_i_inss related by i_lnks->I_LIP[R2902]->I_INS[R2958]
+    .invoke s = PEIRenderRelationshipManyOptimization( related_i_inss, o_obj )
     .assign attr_result = attr_result + s.result
     .assign attr_assset = attr_assset + s.assset
   .end if
@@ -424,24 +421,24 @@
     .// Optimize relationship to associator.
     .if ( ( aone.Mult == 0 ) and ( assr.Mult == 0 ) )
       .// ONE
-      .select any link from instances of I_LNK where ( false )
+      .select any i_lnk from instances of I_LNK where ( false )
       .if ( aone.Obj_ID == aoth.Obj_ID )
         .// reflexive
-        .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
       .else
-        .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
-        .if ( empty link )
-          .select one related_obj related by i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
-          .if ( related_obj.Obj_ID == aoth.Obj_ID )
-            .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .if ( empty i_lnk )
+          .select one related_o_obj related by i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
+          .if ( related_o_obj.Obj_ID == aoth.Obj_ID )
+            .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
           .end if
         .end if  .// not empty
       .end if .// reflexive
-      .if ( not_empty link )
-        .select one related_inst related by link->I_LIP[R2903]->I_INS[R2958]
-        .select one related_obj related by related_inst->CSME_CIE[R2962]->O_OBJ[R2961]
-        .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_obj )
-        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_inst.Name}]"
+      .if ( not_empty i_lnk )
+        .select one related_i_ins related by i_lnk->I_LIP[R2903]->I_INS[R2958]
+        .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
+        .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
+        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
       .else
         .// not participating
         .assign attr_result = attr_result + ", 0"
@@ -449,18 +446,18 @@
     .else
       .// MANY
       .// Build linked list of containers pointing to related instances.
-      .select many links from instances of I_LNK where ( false )
-      .select many related_insts from instances of I_INS where ( false )
+      .select many i_lnks from instances of I_LNK where ( false )
+      .select many related_i_inss from instances of I_INS where ( false )
       .if ( aone.Obj_ID == aoth.Obj_ID )
         .// reflexive
-        .select many links related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .select many i_lnks related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
       .else
-        .select many links1 related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
-        .select many links2 related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
-        .assign links = links1 | links2
+        .select many one_i_lnks related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .select many two_i_lnks related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .assign i_lnks = one_i_lnks | two_i_lnks
       .end if
-      .select many related_insts related by links->I_LIP[R2903]->I_INS[R2958]
-      .invoke s = PEIRenderRelationshipManyOptimization( related_insts, o_obj )
+      .select many related_i_inss related by i_lnks->I_LIP[R2903]->I_INS[R2958]
+      .invoke s = PEIRenderRelationshipManyOptimization( related_i_inss, o_obj )
       .assign attr_result = attr_result + s.result
       .assign attr_assset = attr_assset + s.assset
     .end if
@@ -472,24 +469,24 @@
     .// Optimize relationship to associator.
     .if ( ( aoth.Mult == 0 ) and ( assr.Mult == 0 ) )
       .// ONE
-      .select any link from instances of I_LNK where ( false )
+      .select any i_lnk from instances of I_LNK where ( false )
       .if ( aone.Obj_ID == aoth.Obj_ID )
         .// reflexive
-        .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
       .else
-        .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
-        .if ( empty link )
-          .select one related_obj related by i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
-          .if ( related_obj.Obj_ID == aone.Obj_ID )
-            .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .if ( empty i_lnk )
+          .select one related_o_obj related by i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
+          .if ( related_o_obj.Obj_ID == aone.Obj_ID )
+            .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
           .end if
         .end if
       .end if .// reflexive
-      .if ( not_empty link )
-        .select one related_inst related by link->I_LIP[R2903]->I_INS[R2958]
-        .select one related_obj related by related_inst->CSME_CIE[R2962]->O_OBJ[R2961]
-        .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_obj )
-        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_inst.Name}]"
+      .if ( not_empty i_lnk )
+        .select one related_i_ins related by i_lnk->I_LIP[R2903]->I_INS[R2958]
+        .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
+        .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
+        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
       .else
         .// not participating
         .assign attr_result = attr_result + ", 0"
@@ -497,17 +494,17 @@
     .else
       .// MANY
       .// Build linked list of containers pointing to related instances.
-      .select many links from instances of I_LNK where ( false )
-      .select many related_insts from instances of I_INS where ( false )
+      .select many i_lnks from instances of I_LNK where ( false )
+      .select many related_i_inss from instances of I_INS where ( false )
       .if ( aone.Obj_ID == aoth.Obj_ID )
-        .select many links related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .select many i_lnks related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
       .else
-        .select many links1 related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
-        .select many links2 related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
-        .assign links = links1 | links2
+        .select many one_i_lnks related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .select many two_i_lnks related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+        .assign i_lnks = one_i_lnks | two_i_lnks
       .end if
-      .select many related_insts related by links->I_LIP[R2903]->I_INS[R2958]
-      .invoke s = PEIRenderRelationshipManyOptimization( related_insts, o_obj )
+      .select many related_i_inss related by i_lnks->I_LIP[R2903]->I_INS[R2958]
+      .invoke s = PEIRenderRelationshipManyOptimization( related_i_inss, o_obj )
       .assign attr_result = attr_result + s.result
       .assign attr_assset = attr_assset + s.assset
     .end if
@@ -517,20 +514,20 @@
   .//
   .if ( o_obj.Obj_ID == assr.Obj_ID )
     .// Optimize relationship to both associates.
-    .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2903] where ( selected.Rel_ID == r_rel.Rel_ID )
-    .if ( not_empty link )
-      .select one related_inst related by link->I_LIP[R2901]->I_INS[R2958]
-      .select one related_obj related by related_inst->CSME_CIE[R2962]->O_OBJ[R2961]
-      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_obj )
-      .select one related_inst2 related by link->I_LIP[R2902]->I_INS[R2958]
-      .select one related_obj2 related by related_inst2->CSME_CIE[R2962]->O_OBJ[R2961]
-      .invoke related_extent_info2 = GetFixedSizeClassExtentInfo( related_obj2 )
-      .if ( ( aone.Obj_ID == aoth.Obj_ID ) or ( related_obj2.Obj_ID == aone.Obj_ID ) )
-        .assign attr_result = attr_result + ", &${related_extent_info2.obj_pool_var_name}[${related_inst2.Name}]"
-        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_inst.Name}]"
+    .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2903] where ( selected.Rel_ID == r_rel.Rel_ID )
+    .if ( not_empty i_lnk )
+      .select one related_i_ins related by i_lnk->I_LIP[R2901]->I_INS[R2958]
+      .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
+      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
+      .select one related2_i_ins related by i_lnk->I_LIP[R2902]->I_INS[R2958]
+      .select one related2_o_obj related by related2_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
+      .invoke related_extent_info2 = GetFixedSizeClassExtentInfo( related2_o_obj )
+      .if ( ( aone.Obj_ID == aoth.Obj_ID ) or ( related2_o_obj.Obj_ID == aone.Obj_ID ) )
+        .assign attr_result = attr_result + ", &${related_extent_info2.obj_pool_var_name}[${related2_i_ins.Name}]"
+        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
       .else
-        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_inst.Name}]"
-        .assign attr_result = attr_result + ", &${related_extent_info2.obj_pool_var_name}[${related_inst2.Name}]"
+        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
+        .assign attr_result = attr_result + ", &${related_extent_info2.obj_pool_var_name}[${related2_i_ins.Name}]"
       .end if
     .else
       .// not participating
@@ -557,29 +554,29 @@
   .select one super related by r_subsup->R_SUPER[R212]
   .if ( o_obj.Obj_ID == super.Obj_ID )
     .// Supertype
-    .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
-    .select one related_inst related by link->I_LIP[R2902]->I_INS[R2958]
-    .if ( empty link )
-      .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
-      .select one related_inst related by link->I_LIP[R2901]->I_INS[R2958]
+    .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
+    .select one related_i_ins related by i_lnk->I_LIP[R2902]->I_INS[R2958]
+    .if ( empty i_lnk )
+      .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+      .select one related_i_ins related by i_lnk->I_LIP[R2901]->I_INS[R2958]
     .end if
-    .if ( not_empty link )
-      .select one related_object related by related_inst->CSME_CIE[R2962]->O_OBJ[R2961]
-      .select one te_class related by related_object->TE_CLASS[R2019]
-      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_object )
-      .assign attr_result = ", (void *) &${related_extent_info.obj_pool_var_name}[${related_inst.Name}], ${te_class.system_class_number}"
+    .if ( not_empty i_lnk )
+      .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
+      .select one te_class related by related_o_obj->TE_CLASS[R2019]
+      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
+      .assign attr_result = ", (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}], ${te_class.system_class_number}"
     .else
       .// not participating
       .assign attr_result = ", 0, 0"
     .end if
   .else
     .// Subtype
-    .select any link related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
-    .if ( not_empty link )
-      .select one related_inst related by link->I_LIP[R2901]->I_INS[R2958]
-      .select one related_object related by related_inst->CSME_CIE[R2962]->O_OBJ[R2961]
-      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_object )
-      .assign attr_result = ", &${related_extent_info.obj_pool_var_name}[${related_inst.Name}]"
+    .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
+    .if ( not_empty i_lnk )
+      .select one related_i_ins related by i_lnk->I_LIP[R2901]->I_INS[R2958]
+      .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
+      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
+      .assign attr_result = ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
     .else
       .// not participating
       .assign attr_result = ", 0"
@@ -637,32 +634,32 @@
     .end if
     .invoke rel_set_name = PEIGetRelationshipSetContainerName( te_class )
     .assign attr_result = ", { &${rel_set_name.result}[${ContainerIndex}] }"
-    .for each related_inst in i_inss
+    .for each related_i_ins in i_inss
       .assign ContainerIndex = ContainerIndex + 1
-      .select one related_obj related by related_inst->CSME_CIE[R2962]->O_OBJ[R2961]
-      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_obj )
+      .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
+      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
       .if ( last i_inss )
         .if ( te_sys.CollectionsFlavor == 20 )
           .assign icount = cardinality i_inss
           .if ( icount > 1 )
-            .assign attr_assset = attr_assset + "  { 0, (void *) &${related_extent_info.obj_pool_var_name}[${related_inst.Name}], &${rel_set_name.result}[${ContainerIndex} - 2] }"
+            .assign attr_assset = attr_assset + "  { 0, (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}], &${rel_set_name.result}[${ContainerIndex} - 2] }"
           .else
-            .assign attr_assset = attr_assset + "  { 0, (void *) &${related_extent_info.obj_pool_var_name}[${related_inst.Name}], 0 }"
+            .assign attr_assset = attr_assset + "  { 0, (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}], 0 }"
           .end if .// cardinality i_inss > 1
         .else
-          .assign attr_assset = attr_assset + "  { 0, (void *) &${related_extent_info.obj_pool_var_name}[${related_inst.Name}] }"
+          .assign attr_assset = attr_assset + "  { 0, (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}] }"
         .end if
       .elif ( first i_inss )
         .if ( te_sys.CollectionsFlavor == 20 )
-          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_inst.Name}], 0 },\n"
+          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}], 0 },\n"
         .else
-          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_inst.Name}] },\n"
+          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}] },\n"
         .end if
       .else
         .if ( te_sys.CollectionsFlavor == 20 )
-          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_inst.Name}], &${rel_set_name.result}[${ContainerIndex} - 2] },\n"
+          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}], &${rel_set_name.result}[${ContainerIndex} - 2] },\n"
         .else
-          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_inst.Name}] },\n"
+          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}] },\n"
         .end if
       .end if
     .end for

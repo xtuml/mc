@@ -16,9 +16,9 @@
  *
  * ${te_copyright.body}
  *--------------------------------------------------------------------------*/
-.if ( "" != te_c.Description )
+.if ( "" != te_c.Descrip )
 /*
- ${te_c.Description}
+ ${te_c.Descrip}
  */
 .end if
 

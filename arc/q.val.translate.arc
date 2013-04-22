@@ -87,7 +87,10 @@
   .select many v_lsts from instances of V_LST
   .for each v_lst in v_lsts
     .select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040]
-    .assign te_val.OAL = ( "'" + v_lst.Value ) + "'"
+    .//.assign te_val.OAL = ( "'" + v_lst.Value ) + "'"
+    .//.assign te_val.OAL = ( "''" + v_lst.Value ) + "''"
+    .//.assign te_val.OAL = ( "&quot;" + v_lst.Value ) + "&quot;"
+    .assign te_val.OAL = ( "" + v_lst.Value ) + ""
     .assign te_val.buffer = ( """" + v_lst.Value ) + """"
     .assign te_val.dimensions = 1
     .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
@@ -152,7 +155,14 @@
     .assign te_val.buffer = te_var.buffer
     .assign te_val.dimensions = te_var.dimensions
     .assign te_val.array_spec = te_var.array_spec
-    .assign te_val.te_dimID = te_var.te_dimID
+    .select one te_dim related by te_var->TE_DIM[R2057]
+    .if ( not_empty te_dim )
+      .// relate te_val to te_dim across R2057;
+      .assign te_val.te_dimID = te_dim.te_dimID
+      .// end relate
+    .else
+      .assign te_val.te_dimID = 00
+    .end if
   .end for
 .end function
 .//
@@ -484,9 +494,10 @@
     .select one te_aba related by te_brg->TE_ABA[R2010]
     .select one te_ee related by v_brv->S_BRG[R828]->S_EE[R19]->TE_EE[R2020]
     .assign te_ee.Included = true
-    .invoke params = gen_parameter_list( v_pars, false, "bridge" )
-    .assign parameters = params.body
-    .assign te_val.OAL = "${te_brg.EEkeyletters}::${te_brg.Name}(${params.OAL})"
+    .invoke r = gen_parameter_list( v_pars, false, "bridge" )
+    .assign parameters = r.body
+    .assign params_OAL = r.result
+    .assign te_val.OAL = "${te_brg.EEkeyletters}::${te_brg.Name}(${params_OAL})"
     .if ( "SystemC" == te_target.language )
       .if ( "TIM" == te_brg.EEkeyletters )
         .assign te_val.buffer = ( "thismodule->tim->" + te_brg.GeneratedName ) + "("
@@ -553,9 +564,10 @@
     .end if
     .assign te_val.OAL = te_tfr.Key_Lett + "::"
   .end if
-  .invoke params = gen_parameter_list( v_pars, false, "operation" )
-  .assign parameters = params.body
-  .assign te_val.OAL = te_val.OAL + "${te_tfr.Name}(${params.OAL})"
+  .invoke r = gen_parameter_list( v_pars, false, "operation" )
+  .assign parameters = r.body
+  .assign params_OAL = r.result
+  .assign te_val.OAL = te_val.OAL + "${te_tfr.Name}(${params_OAL})"
   .if ( te_tfr.Instance_Based == 1 )
     .if ( ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) ) or ( "" != parameters ) )
       .assign te_val.buffer = te_val.buffer + ", "
@@ -590,15 +602,17 @@
     .select one te_val related by v_val->TE_VAL[R2040]
     .select many v_pars related by v_fnv->V_PAR[R817]
     .select one te_aba related by te_sync->TE_ABA[R2010]
-    .invoke params = gen_parameter_list( v_pars, false, "function" )
-    .assign te_val.OAL = "::${te_sync.Name}(${params.OAL})"  
+    .invoke r = gen_parameter_list( v_pars, false, "function" )
+    .assign parameters = r.body
+    .assign params_OAL = r.result
+    .assign te_val.OAL = "::${te_sync.Name}(${params_OAL})"  
     .assign name = te_sync.intraface_method
     .if ( "SystemC" == te_target.language )
       .assign name = "thismodule->" + name
     .end if
     .assign te_val.buffer = name + "("
-    .if ( "" != params.body )
-      .assign te_val.buffer = ( te_val.buffer + " " ) + ( params.body + " " )
+    .if ( "" != parameters )
+      .assign te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " )
     .end if
     .assign te_val.buffer = te_val.buffer + ")"
     .assign te_val.dimensions = te_aba.dimensions
@@ -634,11 +648,13 @@
     .// CDS:  do not know how to do this with array_spec
     .assign te_val.array_spec = root_te_val.array_spec
     .assign te_val.dimensions = root_te_val.dimensions - 1
-    .select one next_te_DIM related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'succeeds']
-    .if ( not_empty next_te_DIM )
-      .assign te_val.te_dimID = next_te_DIM.te_dimID
+    .select one next_te_dim related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.'succeeds']
+    .if ( not_empty next_te_dim )
+      .// relate te_val to next_te_dim across R2079;
+      .assign te_val.te_dimID = next_te_dim.te_dimID
+      .// end relate
     .else
-      .assign te_val.te_dimID = 0
+      .assign te_val.te_dimID = 00
     .end if
   .end if
 .end function

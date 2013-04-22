@@ -77,48 +77,44 @@ ${indent.result}}
 .// and therefore need to be automatically set up at create time.
 .//============================================================================
 .function AutoInitializeUniqueIDs
-  .param inst_ref o_obj
+  .param inst_ref te_class
   .param string instance
   .//
-  .assign attr_result = FALSE
+  .assign result = false
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
-  .invoke first_attr = GetFirstAttributeInObjectModel( o_obj )
-  .assign current_attr = first_attr.result
-  .while ( not_empty current_attr )
-    .select one te_attr related by current_attr->TE_ATTR[R2033]
+  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .while ( not_empty te_attr )
+    .select one o_attr related by te_attr->O_ATTR[R2033]
     .if ( te_attr.translate )
-      .invoke member_type = GetAttributeCodeGenType( current_attr )
-      .assign cdt = member_type.cdt
-      .if ( not_empty cdt )
-      .if ( cdt.Core_Typ == 5 )
-        .assign dt = member_type.dt
-        .// Core_Typ == 5 is "unique_id"
-        .// CDS:  Note "select any" when there may be more than one.
-        .select any oida related by current_attr->O_OIDA[R105]
-        .if ( not_empty oida )
-          .select one te_dt related by dt->TE_DT[R2021]
-          .assign attr_result = TRUE
+      .invoke r = GetAttributeCodeGenType( o_attr )
+      .assign te_dt = r.result
+      .if ( not_empty te_dt )
+        .if ( 5 == te_dt.Core_Typ )
+          .// unique_id
+          .select any o_oida related by o_attr->O_OIDA[R105]
+          .if ( not_empty o_oida )
+            .assign result = true
 ${instance}->${te_attr.GeneratedName} = (${te_dt.ExtName}) ${instance};
-        .end if
-      .elif ( ( 2 == cdt.Core_Typ ) or ( 3 == cdt.Core_Typ ) )
-        .// integer or real
-        .if ( te_attr.DefaultValue != "" )
+          .end if
+        .elif ( ( 2 == te_dt.Core_Typ ) or ( 3 == te_dt.Core_Typ ) )
+          .// integer or real
+          .if ( "" != te_attr.DefaultValue )
 ${instance}->${te_attr.GeneratedName} = ${te_attr.DefaultValue}; /* DefaultValue */
-        .end if
-      .elif ( 4 == cdt.Core_Typ )
-        .// string
-        .if ( te_attr.DefaultValue != "" )
+          .end if
+        .elif ( 4 == te_dt.Core_Typ )
+          .// string
+          .if ( "" != te_attr.DefaultValue )
 ${te_instance.module}${te_string.strcpy}( ${instance}->${te_attr.GeneratedName}, ${te_attr.DefaultValue} ); /* DefaultValue */
+          .end if
         .end if
-      .end if  .// cdt.Core_Typ == 5 (unique_id)
       .end if
     .end if
     .//
     .// Advance to the next object attribute, if any.
-    .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-    .assign current_attr = next_attr
-  .end while  .// not_empty current_attr
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+  .end while
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -134,13 +130,10 @@ ${te_instance.module}${te_string.strcpy}( ${instance}->${te_attr.GeneratedName},
     .assign cmp_element = ""
     .select many te_attrs related by o_obj->O_ATTR[R102]->TE_ATTR[R2033] where ( selected.Included )
     .for each te_attr in te_attrs
-      .select one obj_attr related by te_attr->O_ATTR[R2033]
-      .invoke data_type = GetAttributeCodeGenType( obj_attr )
-      .assign dt = data_type.dt
-      .if ( "string" != dt.Name )
-        .assign cmp_element = "${selected_var_name}->${te_attr.GeneratedName} == ${te_attr.ParamBuffer}"
-      .else
+      .if ( 4 == te_attr.Core_Typ )
         .assign cmp_element = "!${te_instance.module}${te_string.strcmp}(${selected_var_name}->${te_attr.GeneratedName}, ${te_attr.ParamBuffer})"
+      .else
+        .assign cmp_element = "${selected_var_name}->${te_attr.GeneratedName} == ${te_attr.ParamBuffer}"
       .end if
       .assign compare_stmt = compare_stmt + cmp_element
       .if ( not_last te_attrs )
@@ -154,29 +147,26 @@ ${compare_stmt}\
 .//============================================================================
 .function CreateSpecialWhereComparisonArguments
   .param inst_ref o_obj
-  .param inst_ref oid
+  .param inst_ref o_id
   .//
-  .select many ident_attr_set related by oid->O_OIDA[R105]->O_ATTR[R105]
-  .assign num_ident_attr = cardinality ident_attr_set
+  .select many o_attrs related by o_id->O_OIDA[R105]->O_ATTR[R105]
+  .assign num_ident_attr = cardinality o_attrs
   .//
   .assign param_list = ""
-  .assign ident_attr_count = 0
+  .assign oida_count = 0
   .//
-  .invoke first_attr = GetFirstAttributeInObjectModel( o_obj )
-  .assign current_attr = first_attr.result
-  .while ( not_empty current_attr )
-    .select one te_attr related by current_attr->TE_ATTR[R2033]
+  .select any te_attr related by o_obj->TE_CLASS[R2019]->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .while ( not_empty te_attr )
     .if ( te_attr.Included )
-      .assign ident_attr_count = ident_attr_count + 1
+      .assign oida_count = oida_count + 1
       .assign param_list = param_list + te_attr.ParamBuffer
-      .if ( ident_attr_count < num_ident_attr )
+      .if ( oida_count < num_ident_attr )
         .assign param_list = param_list + ", "
       .end if
     .end if
-    .select one next_attr related by current_attr->O_ATTR[R103.'succeeds']
-    .assign current_attr = next_attr
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
   .end while
   .//
-${param_list}\
+  .assign attr_result = param_list
 .end function
 .//

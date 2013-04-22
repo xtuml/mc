@@ -13,7 +13,7 @@
  * Initialization services for component:  ${te_c.Name}
  */
   .if ( not_empty te_class )
-extern ${dci.class_info_type} * const ${domain_class_info.array_name}[];
+extern ${te_cia.class_info_type} * const ${te_dci.array_name}[];
   .end if
   .if ( not_empty te_sm )
 extern const ${class_dispatch_array.element_type} ${class_dispatch_array.result}[];

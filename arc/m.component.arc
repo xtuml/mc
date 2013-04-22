@@ -72,6 +72,7 @@
       .assign tm_c.Name = component_name
       .// relate te_c to tm_c across R2804;
       .assign tm_c.te_cID = te_c.ID
+      .// end relate
     .end if
     .assign tm_c.isChannel = true
     .assign tm_c.include_file = inc_file
@@ -140,6 +141,7 @@
     .if ( not_empty te_c )
       .// relate te_c to tm_c across R2804;
       .assign tm_c.te_cID = te_c.ID
+      .// end relate
     .end if
     .// Make the new template the current one for follow-on markings.
     .select many tm_templates from instances of TM_TEMPLATE
@@ -151,6 +153,7 @@
     .// relate tm_template to tm_c across R2800;
     .assign tm_template.tm_cPackage = tm_c.Package
     .assign tm_template.tm_cName = tm_c.Name
+    .// end relate
   .end for
 .end function
 .//
@@ -184,6 +187,7 @@
   .assign tm_if.Name = interface_name
   .// relate tm_if to c_i across R2807;
   .assign tm_if.c_iId = c_i.Id
+  .// end relate
   .// Make the new template the current one for follow-on markings.
   .select many tm_templates from instances of TM_TEMPLATE
   .for each tm_template in tm_templates
@@ -194,6 +198,7 @@
   .// relate tm_template to tm_if across R2802;
   .assign tm_template.tm_ifPackage = tm_if.Package
   .assign tm_template.tm_ifName = tm_if.Name
+  .// end relate
 .end function
 .//
 .//============================================================================
@@ -234,6 +239,7 @@
     .create object instance tm_tp of TM_TP
     .// relate tm_tp to tm_template across R2801;
     .assign tm_tp.tm_templateID = tm_template.ID
+    .// end relate
     .assign tm_tp.typename = type_name
     .assign tm_tp.Name = variable_name
     .assign tm_tp.DefaultValue = default_value
@@ -283,8 +289,10 @@
         .assign tm_tpv.value = value
         .// relate tm_tpv to tm_tp across R2808;
         .assign tm_tpv.tm_tpID = tm_tp.ID
+        .// end relate
         .// relate tm_tpv to te_ci across R2805;
         .assign tm_tpv.te_ciID = te_ci.ID
+        .// end relate
         .assign tm_tpv.te_iirID = 0
       .else
         .print "ERROR:  SetTemplateParameter - no component instance for ${package_name}::${instance} with name ${variable_name}."
@@ -301,8 +309,10 @@
         .assign tm_tpv.value = value
         .// relate tm_tpv to tm_tp across R2808;
         .assign tm_tpv.tm_tpID = tm_tp.ID
+        .// end relate
         .// relate tm_tpv to te_iir across R2806;
         .assign tm_tpv.te_iirID = te_iir.ID
+        .// end relate
         .assign tm_tpv.te_ciID = 0
       .end for
       .select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
@@ -316,8 +326,10 @@
         .assign tm_tpv.value = value
         .// relate tm_tpv to tm_tp across R2808;
         .assign tm_tpv.tm_tpID = tm_tp.ID
+        .// end relate
         .// relate tm_tpv to te_iir across R2806;
         .assign tm_tpv.te_iirID = te_iir.ID
+        .// end relate
         .assign tm_tpv.te_ciID = 0
       .end for
       .select many te_iirs related by cp_cp->PE_PE[R8000]->C_C[R8001]->C_PO[R4010]->C_IR[R4016]->TE_IIR[R2046] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
@@ -331,8 +343,10 @@
         .assign tm_tpv.value = value
         .// relate tm_tpv to tm_tp across R2808;
         .assign tm_tpv.tm_tpID = tm_tp.ID
+        .// end relate
         .// relate tm_tpv to te_iir across R2806;
         .assign tm_tpv.te_iirID = te_iir.ID
+        .// end relate
         .assign tm_tpv.te_ciID = 0
       .end for
     .else
@@ -411,8 +425,10 @@
         .assign tm_tpv.value = value
         .// relate tm_tpv to tm_tp across R2808;
         .assign tm_tpv.tm_tpID = tm_tp.ID
+        .// end relate
         .// relate tm_tpv to te_ci across R2805;
         .assign tm_tpv.te_ciID = te_ci.ID
+        .// end relate
         .assign tm_tpv.te_iirID = 0
       .else
         .print "WARNING:  SetTPV - Template parameter not found for ${package_name}::${parent_component}::${component}:${classifier_name}."
@@ -471,8 +487,10 @@
     .assign tm_tpv.value = value
     .// relate tm_tpv to tm_tp across R2808;
     .assign tm_tpv.tm_tpID = tm_tp.ID
+    .// end relate
     .// relate tm_tpv to te_iir across R2806;
     .assign tm_tpv.te_iirID = te_iir.ID
+    .// end relate
     .assign tm_tpv.te_ciID = 0
     .//
     .// Find a satisfaction or delegation.  Recursively apply the same template parameter value to the connections.
