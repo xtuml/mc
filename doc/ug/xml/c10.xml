@@ -1,0 +1,254 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<appendix id="Background-appendix">
+<title id="Background-appendix-title">Background</title>
+<highlights id="Background-appendix-high"><para>This appendix begins
+by providing a general overview of model compilers (sometimes
+referred to as the <emphasis>software architecture</emphasis>)
+followed by a brief description of the major components of &escher;.
+Next, a more detailed look is taken at the two types of tasks found
+in the &escher; architecture and how they interact.  Finally, the
+general operational nature of each task type is described. The intent
+is to provide the reader with a complete, high level view of the
+&escher; architecture, sufficient to provide a context for the rest
+of this manual.</para></highlights>
+
+<section>
+  <title>Model Compilers (Software Architectures)</title>
+  <highlights><para>This section provides a general overview of how
+  model compilers fit into the &sm; method.</para></highlights>
+  
+  <section>
+    <title>&sm; Development</title>
+    <para>The &sm; approach to software development begins by
+    partitioning the system into separate subject matters referred to
+    as domains.  Each domain is then analyzed using xtUML modeling
+    and finally the system is implemented by translating
+    the xtUML models into the chosen implementation technology (e.g.
+    language, operating system, custom hardware) using the model
+    compiler.</para>
+    
+    <para>The software architecture is that domain which deals with the
+    subject matter of designing and implementing the system.  It
+    abstracts the design and implementation patterns appropriate for
+    the system and defines mapping rules between the xtUML models and
+    these design and implementation patterns.  This approach provides a
+    uniform set of data, function, and control abstractions that are
+    used system wide and forms the basis for translating the xtUML models
+    based on an automation of the mapping rules.</para>
+    
+  </section>
+  
+  <section>
+    <title>Software Architecture Components</title>
+    <para>A software architecture is made up of three main components:
+    mechanisms, rule files (formerly archetypes) and marks.
+    In addition, build and
+    diagnostic components are provided to facilitate constructing and
+    debugging the system.  These components are described in the
+    following subsections.</para>
+    
+    <section>
+      <title>Mechanisms</title>
+      <para>A mechanism is architecture functionality that is specified,
+      designed, coded, and compiled to work with all xtUML models.  It is
+      not customized on an xtUML element boundary.  Examples of mechanisms
+      in an object-oriented ANSI C model compiler include code for 
+      managing circular queues and modules written to perform set
+      manipulation in a generic fashion.</para>
+      
+      <para>In some architectures, pre-compiled mechanisms are not
+      necessary.  All code is generated from rule files or included
+      in uncompiled source form.  This is true of &escher;.</para>
+
+      <para>&escher; is purely ANSI C and generates code that can be
+      compiled by any compiler compliant with the ANSI standard.  The
+      core model compiler now uses no libraries or system functions at
+      all.  Generated code is pure native C.  All string manipulation
+      library functions (memcpy, strcpy, strcat and related) used in
+      previous versions have been eliminated.  Native C functions have
+      replaced these system calls.  This has been accomplished in such
+      a way that a user can redefine the functions with a small
+      rule file change or macro definition.</para>
+
+      <para>This change makes it simpler and easier to integrate with
+      compilers of various makes and models and manufacturers.  In
+      addition, some simpler compilers will link in an entire library
+      of system functions when any single function is accessed from
+      the library.  Only <filename>stdio.h</filename> remains as
+      exposure on this front.</para>
+
+      <para><filename>stdio.h</filename> is included simply for convenience
+      during debug (for <command>printf</command>, etc).  All generated
+      code is simple, native C.  When integrating realized external
+      entities and timer services (TIM), other system libraries will
+      be necessary.  However, the core xtUML generated code remains
+      simple ANSI C.</para>
+    </section>
+    
+    <section>
+      <title>Rule Files (a.k.a. archetypes, templates)</title>
+      <para>A rule file is a combination of an implementation pattern
+      and translation rules for filling out that pattern based upon
+      specifics of the xtUML models.  Thus a rule file is designed to be
+      customized on an xtUML element boundary.  An example of a rule file
+      in an object-oriented ANSI C model compiler is the code pattern for
+      a struct that will be used to represent xtUML classes along with the
+      translation rules for populating that code pattern with such xtUML
+      elements as object name, attribute name, and valid events for that
+      object.</para>
+    </section>
+    
+    <section>
+      <title>Marks</title>
+      <para>When there is more than one software architecture element
+      into which an xtUML element can be translated,
+      <emphasis>marks</emphasis> (formerly "colors") are used to
+      indicate which translation
+      to make.  The name ``mark'' comes from the visualization of using
+      a highlighter pen to mark each element that has a particular
+      property. Marks are used to direct the translation to select one
+      of two or more branches in the translation rules.  It is through
+      marking that design decisions are injected during the translation
+      process.</para>
+      
+      <para>An example of the type of design information that is
+      specified through marking is the mapping of analysis data types
+      into implementation (e.g., C) data types.  Clearly, this is
+      information that does not belong in either the xtUML models or the
+      model compiler itself.  Such information is maintained
+      outside the model compiler and models in marking tables that are
+      accessed during the translation process.</para>
+    </section>
+    
+  </section>
+  
+  <section>
+    <title>Additional Components</title>
+    <para>In addition to the three basic components of a model
+    compiler, the mechanisms, rule files, and marks, there are also
+    two tools which come with an architecture to facilitate the
+    translating and building of the system and provide some diagnostic
+    capabilities for debugging the system.  These are:
+    <itemizedlist>
+      <listitem><para>build tools</para></listitem>
+      <listitem><para>diagnostic tools</para></listitem>
+    </itemizedlist>
+    </para>
+  </section>
+  
+  <section>
+    <title>Model Compiler Analogy</title>
+    <para>Just as assembly language is translated into machine code,
+    and a high level language is translated into assembly code (which
+    is then translated into machine code), the xtUML models and their
+    translation into a high level language can be viewed as the next
+    evolutionary step in language development.  The xtUML models now
+    become the new ``programming language'' and the software architecture
+    the new ``compiler''. This approach is referred to as model based
+    translative development (MBTD).</para>
+    
+    <para>Applying this analogy to the model compiler components,
+    the mechanisms represent the run-time library that comes with a
+    conventional compiler to provide the functions necessary to
+    successfully execute the compiled code in the chosen
+    implementation environment.  Likewise, the rule files represent the
+    translation program or compiler that actually translates the high
+    level source code input to assembly code output.</para>
+    
+    <para>
+    <xref linkend="model-compiler-figure"/>
+    shows an overview of how the model compilation process works in the
+    context of the &bp; tool set.  The xtUML models are read from the
+    repository of the &bpmb; and the translation rule files are
+    fed into the &bpgen;.</para>
+    
+    <figure id="model-compiler-figure" float="1">
+    <title id="model-compiler-figure-title">
+    Model Compiler Analogy with &bp; Tool Set</title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="mcanalog.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+    
+  </section>
+</section>
+
+<section>
+  <title>Components</title>
+  <highlights><para>This section provides a brief overview of the
+  &escher; architecture components by describing the Mechanisms,
+  Archetypes, Marks, Build Tools, and Diagnostic Tools that make up
+  the product.</para></highlights>
+  
+  <section>
+    <title>Mechanisms</title>
+    <para>The mechanisms for &escher; are implemented as ANSI C
+    source code.  This code compiles at build time to provide
+    support for:
+    <itemizedlist>
+      <listitem><para>collections</para></listitem>
+      <listitem><para>xtUML timer interfaces</para></listitem>
+    </itemizedlist>
+    </para>
+  </section>
+  
+  <section>
+    <title>Archetypes</title>
+    <para>The &bp; translation approach employs two different types of
+    rule files, <emphasis>structural rule files</emphasis> and
+    <emphasis>fragment generation</emphasis> rule files.  Structural
+    rule files produce the structure of the system (e.g. structure
+    definitions, function definitions, state transition tables, etc.).
+    Fragment generation rule files are used during the translation of
+    the action language modeling the processing of the system.</para>
+  </section>
+  
+  <section>
+    <title>Marks</title>
+    <para>&escher; provides the capability to direct the translation of
+    the xtUML models by marking them to:
+    <itemizedlist>
+      <listitem><para>register xtUML and non-xtUML
+      domains,</para></listitem>
+      <listitem><para>identify external entities as either xtUML or non-xtUML
+      domains,</para></listitem>
+      <listitem><para>identify bridge objects for use by non-xtUML
+      domains,</para></listitem>
+      <listitem><para>assign domain and system wide data type
+      precisions,</para></listitem>
+      <listitem><para>tag initialization objects and objects to be
+      excluded from translation,</para></listitem>
+      <listitem><para>establish limits to the extents of instance
+      collections,</para></listitem>
+    </itemizedlist>
+    A detailed description of these capabilities is provided in
+    <xref linkend="Marking-chapter"/>
+    </para>
+  </section>
+  
+  <section>
+    <title>Build Tools</title>
+    <para>&escher; is shipped with a set of build tools implemented in
+    the Eclipse IDE used to translate models and compile and
+    link the resulting code.
+    </para>
+  </section>
+  
+  <section>
+    <title>Capabilities</title>
+    <para>After an application has been specified with &sm;
+    xtUML models, &escher; provides the capability to translate those
+    models into ANSI C source code.  This source can be compiled, linked
+    and located to produce an executable load image.  This executable
+    can be run on various targets.  It can be converted into an
+    Intel Hex format file or Motorola S-record format file for
+    loading into an EPROM or flash memory.</para>
+  </section>
+
+</section>
+  
+</appendix>

@@ -1,0 +1,45 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2006)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<appendix id="RevisionControl-appendix">
+<title id="RevisionControl-appendix-title">Revision Controlling the Model</title>
+<highlights id="RevisionControl-appendix-high"><para>Using revision control
+is a prudent part of any development process.  Here we present information about
+using a configuration managment system with model-based development.</para>
+</highlights>
+
+<sect1>
+  <title>Key Files and Directories</title>
+  <para>When using &bp; to do model-based development, the key components that
+  should be placed under revision control are the markings, the model, and the
+  eclipse support files.</para>
+
+  <para>The generated source code does not need to be controlled, as it is
+  always available by compiling the model.</para>
+
+  <para>Here is a sample of the files and directories that should be placed in
+  revision control.
+
+  <itemizedlist>
+    <listitem><para><filename>&lt;project name&gt;</filename>
+      <itemizedlist>
+        <listitem><filename>.externalToolBuilders/</filename></listitem>
+        <listitem><filename>gen/</filename></listitem>
+        <listitem><filename>models/</filename></listitem>
+        <listitem><filename>.project</filename></listitem>
+      </itemizedlist>
+    </para></listitem>
+  </itemizedlist>
+  </para>
+
+  <para>Nearly all files (<filename>*.mark, *.c, *.h</filename>) under
+  the <filename>gen/</filename> folder should be revision controlled.  There
+  is one exception: the subdirectory <filename>code_generation/</filename> and its
+  contents should <emphasis>not</emphasis>.  Therefore, be sure to delete the
+  <filename>code_generation/</filename> directory before checking the project
+  into revision control.
+  </para>
+</sect1>
+</appendix>

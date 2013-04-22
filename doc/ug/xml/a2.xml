@@ -1,0 +1,147 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<appendix id="QuickStart-appendix">
+<title id="QuickStart-appendix-title">Quick Start</title>
+<highlights id="QuickStart-appendix-high"><para>Get &escher; up and
+running right ``out of the box''.  Instructions are provided
+here to build a sample system.  It is a simple matter to substitute
+a different model for the sample provided here.</para></highlights>
+
+<sect1>
+  <title>HOWTO</title>
+  <para>Attention to the following instructions will ensure
+  the most productive installation and evaluation.</para>
+
+<sect2>
+  <title>Fully Automatic Demonstration</title>
+  <para>&escher; comes with a script that will translate two domains
+  and compile them automatically.  On Windows, this will work with
+  no modifications when using GNU gcc.  (By changing only the generated
+  <filename>Makefile.user</filename>, the source can be recompiled
+  with Microsoft Visual C/C++.)  On Sun, this will work
+  with no modification when using GNU gcc.</para>
+
+  <para>This example uses a pair of xtUML domains to model a chemical
+  sampling system.  The autosampler example model is coupled with
+  a domain called experiment.</para>
+  
+  <orderedlist>
+    <listitem><para>Import <filename>as2.sql</filename> and
+    <filename>exp.sql</filename> found in the directory
+    <filename>$ROX_MC_ROOT_DIR/examples/ae/</filename>
+    in the &escher; installation.  Create a configuration view.
+    (When importing a model into &bpmb;, remember
+    that all subsystems, including
+    TIM, must be deleted before importing the .sql.)</para></listitem>
+    <listitem><para>Start up a shell (Cygwin bash).</para></listitem>
+    <listitem><para>Execute
+    <command>$ROX_MC_ROOT_DIR/examples/ae/aedemo</command>.
+    </para></listitem>
+  </orderedlist>
+</sect2>
+
+<sect2>
+  <title>Step By Step</title>
+  <orderedlist>
+    <listitem><para>If translating the autosampler example model provided,
+    import <filename>as2.sql</filename> and <filename>exp.sql</filename>
+    found at <filename>$ROX_MC_ROOT_DIR/examples/ae/*.sql</filename>
+    in the &escher; installation.  Create a configuration view.
+    (When importing a model into &bpmb;, remember
+    that all subsystems, including
+    TIM, must be deleted before importing the sql.)</para></listitem>
+    <listitem><para>Start up a shell.</para></listitem>
+    <listitem><para>Execute <command>$ROX_MC_BIN_DIR/rox_init_node</command>
+    to create an
+    application node.  Provide a directory name for the application
+    node.  Be sure to note any directions given
+    as output from this command.</para></listitem>
+    <listitem><para>Create a domain node by changing directories into
+    your application node (created above) and executing <command>make
+    dom_node domain=xxx</command> where <command>xxx</command> is
+    the name of the model repository in &bpmb;.  If translating
+    the autosampler model provided, the command will be
+    <command>make dom_node domain=as2</command> and
+    <command>make dom_node domain=exp</command></para></listitem>
+    <listitem><para>Edit the system and domain marking files.
+    If translating the example autosampler model, copy
+    bridge.clr, datatype.clr, registry.clr and system.clr from
+    <filename>$ROX_MC_ROOT_DIR/examples/ae/</filename>
+    to
+    (node)<filename>/system/color/</filename>.
+    Copy as2_domain.clr and as2_event.clr from
+    <filename>$ROX_MC_ROOT_DIR/examples/ae/</filename>
+    to
+    (node)<filename>/as2/color</filename>.
+    These are pre-edited
+    marking files that register the domains, wire the bridges and
+    identify initialization and bridge objects.  Default system
+    and domain parameters are established.</para>
+    
+    <para>If necessary for other models, edit the marking files in
+    the directory (node)<filename>/system/color</filename> and
+    (node)<filename>/xxx/color</filename>.  The
+    model compiler provides reasonable defaults for all
+    unmarked artifacts.  However, the defaults do not include
+    bridging and registration.  See examples in
+    <filename>$ROX_MC_ROOT_DIR/examples/ae/gendcode</filename>.
+    </para>
+    <itemizedlist>
+      <listitem><para>Register xtUML domains and realized domains in
+      <filename>register.clr</filename>.  This registration process
+      provides a shorthand name for a domain.  The name and
+      repository of the model (or code) can change; the
+      registration provides indirection between the models and the
+      translated name space and version space.</para></listitem>
+      <listitem><para>To wire bridges across domains (including
+      realized domains), edit
+      <filename>bridges.clr</filename>.</para></listitem>
+      <listitem><para>Provide data type precision information in
+      <filename>datatype.clr</filename>.</para></listitem>
+      <listitem><para>To specify collection sizes for extents, edit
+      <filename>domain.clr</filename>.  Tracing switches as well
+      as other knobs and dials are
+      specified in this file.</para></listitem>
+      <listitem><para>Constrain extent sizes by editing
+      <filename>object.clr</filename>.</para></listitem>
+    </itemizedlist></listitem>
+    <listitem><para>Generate the ANSI C bridge skeletons by
+    invoking
+    <command>make bridge_skel domain=as2 ee=CARPIO</command> and
+    <command>make bridge_skel domain=as2 ee=SPPIO</command> and
+    <command>make bridge_skel domain=as2 ee=UI</command>
+    </para></listitem>
+    <listitem><para>Generate the ANSI C source code by executing
+    <command>make gen_all</command>.</para></listitem>
+    <listitem><para>Copy (node)<filename>/system/skel/*.h</filename> to
+    (node)<filename>/system/user/include</filename>.</para></listitem>
+    <listitem><para>Copy (node)<filename>/system/skel/*.c</filename>
+    to (node)<filename>/system/user/source</filename>.</para></listitem>
+    <listitem><para>Copy sys_user_co.c from
+    <filename>$ROX_MC_ROOT_DIR/examples/ae/</filename>
+    to
+    (node)<filename>/system/user/source/</filename>.</para></listitem>
+    <listitem><para>Copy sys_user_co.h from
+    <filename>$ROX_MC_ROOT_DIR/examples/ae/</filename>
+    to
+    (node)<filename>/system/user/include/</filename>.</para></listitem>
+    <listitem><para>Frameworks for bridge and operation code is
+    generated into these skeleton directories.  Simply add your own
+    bridge and operation source code where directed in the
+    generated file.</para></listitem>
+    <listitem><para>Compile the C source code by executing
+    <command>make all</command>.</para></listitem>
+    <listitem><para>The executable, 
+    <filename>rox.exe</filename>, will be at
+    (node)<filename>/bin/rox.exe</filename>.  Run it on the NT host
+    and see the state trace and action language trace.  For
+    the autosampler, the run ends waiting for the carousel
+    stepper motor (which does not exist) to move the
+    carousel.</para></listitem>
+  </orderedlist>
+ </sect2>
+ </sect1>
+</appendix>

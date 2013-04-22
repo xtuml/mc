@@ -1,0 +1,676 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<chapter id="Persistence-chapter">
+<title id="Persistence-chapter-title">Persistence</title>
+<highlights id="Persistence-chapter-high"><para>This chapter describes
+persistence services for &escher;.  The persistence support in &escher;
+allows instances of classes marked as persistent to survive across
+power cycles.</para></highlights>
+
+<section>
+  <title>Introduction</title>
+  <para>Persistence capability in a model compiler refers to the ability
+  of the model compiler to allow dynamic data to persist across the
+  boundary of a power cycle.  The value of a persistent attribute
+  written before power disconnect or power loss will be restored when
+  the power returns.</para>
+  <para>&escher; does not support persistence of dynamic data
+  in versions 3.3 and earlier.  This section outlines requirements
+  and operation of persistence support.</para>
+</section>
+  
+<section>
+  <title>High-Level Requirements</title>
+  <section>
+    <title>Non-volatile Storage Technology</title>
+    <para>There are a great number of options for non-volatile storage
+    (NVS) technologies in the embedded control world.  Applications
+    exist which use more than one non-volatile storage technology
+    within the same system.  It is required that modularity exist
+    at the
+    interface between general persistence services and the driver
+    level code storing and retrieving data from non-volatile storage.
+    A bridge is defined to allow &escher; users to build or
+    replace this driver layer.</para>
+    <para>An option must be supplied to allow for the persisting of the
+    current state of a persistent class instance or to use the default
+    initial state.  By default &escher; must restore the current state
+    of instances.  But the user must have a way of causing the current
+    state to be the default current state that would normally be
+    established for non-persistent class instances.</para>
+  </section>
+    
+  <section>
+    <title>Granularity</title>
+    <para>Different applications need to persist different amounts of
+    data.  The ability to persist at the class and domain levels
+    allows for both large and small amounts of persistent data.
+    &escher; supports persistence at class, subsystem and domain levels.
+    </para>
+  </section>
+    
+  <section>
+    <title>Balance</title>
+    <para>Some approaches to persistence can add tremendous complexity
+    to the model compiler.  Overly simplistic approaches to
+    persistence support can pollute the application analysis.  &escher;
+    strikes a balance that makes sense for the embedded
+    applications to which &escher; is best suited.</para>
+  </section>
+</section>
+  
+<section>
+  <title>Operational Overview</title>
+  <section>
+    <title>General Scenario</title>
+    <para>Persistence services for &escher; are light weight and
+    flexible in terms of non-volatile storage technology.  The
+    persistence services are broken between two domains, PERSIST
+    and NVS.</para>
+    <para>The PERSIST domain performs the commit and restore
+    operations which commit instances to non-volatile storage
+    and restore instances from non-volatile storage respectively.
+    The PERSIST domain keeps track of which instances have been
+    persisted, which links have been persisted and manages keeping
+    the links synchronized with the instances during the power-up
+    system initialization.</para>
+    <para>The NVS domain supplies a rudimentary but functionally
+    complete persistent data storage and retrieval interface.
+    The interface has characteristics of both a database
+    and of a file system.  The interface is rich enough to
+    provide flexibility in the application of different non-volatile
+    storage technologies.</para>
+    <para>&escher; persistence does not specify or depend upon
+    a specific persistent storage technology.  Therefore, only
+    a standard interface (bridge) is defined.  The user may deploy
+    whatever available technology desired behind the bridge to
+    the NVS domain.  A sample implementation is supplied (in a file
+    called <filename>sys_nvs.c/h</filename>) for use
+    as the developer desires.</para>
+    <para>The domain chart below shows the bridge operations made
+    visible to the application.  <function>commit</function>
+    is the primary function used by the application.</para>
+    <para>The architecture domain (&escher;) automatically
+    performs the <function>insert</function>s, <function>update</function>s
+    and <function>delete</function>s to shuffle instance data between the
+    RAM based collections of the application and the non-volatile
+    persistent storage.  Additionally, &escher; automatically performs the
+    <function>restore</function> operation at power-up time.</para>
+    <para>Other domain interfaces are exposed and may be
+    used at the discretion of the analyst.</para>
+  </section>
+  <section>
+    <title>Manual and Automatic Commit</title>
+    <para>A <emphasis>manual commit</emphasis> occurs when the user
+    forces a commit of instance and link data to non-volatile store
+    by synchronously invoking a PERSIST domain function (e.g.
+    <function>PERSIST::commit()</function>).  An <emphasis>automatic
+    commit</emphasis> occurs when a commit is initiated by the software
+    architecture "behind the scenes" based on pre-defined policy.</para>
+    <para>&escher; supports manual commit operations and performs
+    automatic commits when necessary.  Such automatic commits occur
+    when instance and link delete operations are required.</para>
+    <para>When persistence and tasking are both enabled in the generated
+    system, &escher; performs all commits automatically.  It is not advised
+    to manually commit in a multi-tasking system.</para>
+  </section>
+</section>
+
+<section>
+  <title>Assumptions</title>
+  <para>The implementation and deployment of the Non-Volatile Store (NVS)
+  domain is the responsibility of the user.  &escher; supplies one or more
+  sample implementations of this domain to serve as design examples and
+  source code "head starts".  &mgc; will develop and collect
+  additional samples over time and make these available to users.
+  However, with the variety of non-volatile storage technologies available
+  and broadly differing platform requirements this deployment is left to
+  the user for the purposes of flexibility.</para>
+  <para>Class instances and relationship instances (links) are stored in
+  non-volatile storage.  Their types are kept distinct from the rest of
+  their instance data.  In other words, the NVS domain distinguishes
+  between instance data and link data.</para>
+  <para>Instances and links will be created and deleted in a rigorous 
+  fashion in the action language.  Instances will be deleted only after
+  all links have been "unrelated".</para>
+</section>
+  
+<section>
+  <title>Limitations</title>
+  <para>Only class instances and links between
+  persistent classes are stored/retrieved from NVS.  (Events and
+  timers are not persisted.)</para>
+  <para>&escher; instance storage space is reused.  The memory used to
+  store the data for a class instance is moved from and to a "pool of
+  elements" when creating and deleting class instances.  Thus, after an
+  instance is deleted, another instance may be created that uses the
+  same physical storage.  This poses a challenge when maintain two
+  copies of this data (one in RAM and one in NVS).</para>
+  <para>If associations are not unlinked prior to the associated 
+  instances being deleted, links will be "orphaned" in non-volatile store.
+  As such, this implementation of persistence requires the action
+  language to carefully unlink before deleting.</para>
+</section>
+  
+<section>
+  <title>Persistence Marking Options</title>
+  <para>See <xref linkend="markingpersistence-section"/>
+  and <xref linkend="PeristenceCacheDepth-section"/>
+  for explanation of the persistence marks.</para>
+  <para>A compiler flag exists to change the default behavior of the 
+  generated code with regard to restoring the <emphasis>current_state</emphasis>
+  of persistence class instances.  To turn off this behavior and
+  therefore have the default initial state, compile with
+  <command>-DMC3020_DEFAULT_STATE</command>.</para>
+</section>
+  
+<section>
+  <title>Analysis</title>
+
+  <figure id="persistdomain-figure" float="0" pgwide="1">
+  <title id="persistdomain-figure-title">Persistence Analysis Domain
+  Chart</title>
+  <mediaobject><imageobject>
+  <imagedata format="&graphicformat;" fileref="persistdomain.&graphicformat;"/>
+  </imageobject></mediaobject>
+  </figure>
+
+  <section>
+    <title>Persist Domain Data Analysis</title>
+    <para>
+    <figure id="persistim-figure" float="0" pgwide="1">
+    <title id="persistim-figure-title">Persistence Class Diagram</title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="persistim.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+    </para>
+  </section>
+
+  <section>
+    <title>PERSIST Domain Functions</title>
+    <para>The <function>commit</function> function is called to
+    indicate to the domain that the application wants to commit
+    instances of classes and associations to non-volatile storage.
+    This in turn causes <function>NVS::insert</function> to be called
+    flushing to NVS elements from a list of instances and links that
+    were queued when modified.</para>
+    <para>A return value of 0 indicates success.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>commit</function></funcdef>
+    <void/>
+    </funcprototype>
+    </funcsynopsis>
+    <para>The <function>restore</function> function is called by the
+    architecture during bring-up after a power cycle.  The
+    <function>restore</function> function causes the classes contained
+    in non-volatile storage to be read from store and written to the
+    instance collection list.</para>
+    <para>A return value of 0 indicates success.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>restore</function></funcdef>
+    <paramdef>integer <parameter>class</parameter></paramdef>
+    </funcprototype>
+    </funcsynopsis>
+  </section>
+
+  <section>
+    <title>Non-volatile Storage Domain Data Analysis</title>
+    <para>
+    <figure id="nvsim-figure" float="0" pgwide="1">
+    <title id="nvsim-figure-title">Non-Volatile Storage Class Diagram</title>
+    <mediaobject><imageobject>
+    <imagedata format="&graphicformat;" fileref="nvsim.&graphicformat;"/>
+    </imageobject></mediaobject>
+    </figure>
+    </para>
+  </section>
+
+  <section>
+    <title>Non-volatile Storage Domain Functions</title>
+    <para>Many NVS domain functions return an integer return code.  The
+    values that the return code can take are outlined in the following
+    listing:
+    <programlisting>
+#define NVS_RETURN_SUCCESS    0 /* All is well.                    */
+#define NVS_ERROR_BAD_OPEN   -1 /* Could not open file.            */
+#define NVS_ERROR_ITEM_LONG  -2 /* Data item is too long.          */
+#define NVS_ERROR_BAD_SEEK   -3 /* Could not seek correctly.       */
+#define NVS_ERROR_BAD_WRITE  -4 /* File did not write correctly.   */
+#define NVS_ERROR_NOT_FOUND  -5 /* Did not find searched record.   */
+#define NVS_ERROR_BAD_READ   -6 /* Read incorrect length of data.  */
+#define NVS_ERROR_NO_ROOM    -7 /* Not enough room for insert.     */
+#define NVS_ERROR_LENGTH     -8 /* Length not correct.             */
+    </programlisting>
+    This can be found in the generated
+    <filename>NVS_bridge.h</filename> file.  A positive value is used
+    to indicate the length of a buffer.</para>
+    <para>Function <function>checksum</function> provides a
+    mathematical redundancy check on the integrity of the contents of
+    the non-volatile store (NVS).  This mathematical algorithm and the
+    capabilities of the function are supplied by the implementor of the
+    internals of the NVS module.</para>
+    <para><function>checksum</function> provides an integer return code
+    representing an integrity check on the contents of the NVS.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>checksum</function></funcdef>
+    <paramdef>integer <parameter>first</parameter></paramdef>
+    <paramdef>integer <parameter>second</parameter></paramdef>
+    </funcprototype>
+    </funcsynopsis>
+    <para>The <function>defrag</function> function coalesces deleted
+    records together and written records together.  This allows for
+    small fragments of free storage to be collected into a single
+    contiguous free piece of storage.  This function will typically
+    take significant time to run.  This time is a function of the
+    specific non-volatile storage technology.</para>
+    <para><function>defrag</function> provides an integer return
+    code as listed above.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>defrag</function></funcdef>
+    <void/>
+    </funcprototype>
+    </funcsynopsis>
+    <para><function>delete</function> searches the store for an item
+    matching the input and deletes it.  Deleted items cannot be
+    retrieved from NVS in future invocations of <function>select</function>
+    or <function>search</function>.  <function>delete</function>
+    chooses the item to erase based on two combinations of input
+    arguments.  If the <function>delete</function> is called with a key
+    and a type, then the item in the NVS matching these key and type
+    arguments is erased.  Otherwise, if non-null data is given, the data
+    and type arguments are used to identify the item to delete.  When
+    found, the item is marked as deleted and will not be readable from
+    the store.</para>
+    <para><function>delete</function> provides an integer return code
+    as listed above.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>delete</function></funcdef>
+    <paramdef>integer <parameter>key</parameter></paramdef>
+    <paramdef>integer <parameter>length</parameter></paramdef>
+    <paramdef>string <parameter>pointer</parameter></paramdef>
+    <paramdef>integer <parameter>type</parameter></paramdef>
+    </funcprototype>
+    </funcsynopsis>
+    <para>The <function>format</function> function erases the
+    non-volatile store (NVS).  It is only to be called when it is
+    desired that a new NVS be cleared and prepared for writing for the
+    first time.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>format</function></funcdef>
+    <void/>
+    </funcprototype>
+    </funcsynopsis>
+    <para>The <function>initialize</function> function resets the
+    internal counters of the non-volatile store.  (Note that these
+    internal counters are the responsibility of the implementor of the
+    internal of NVS and can contain information about the amount of
+    data being used, etc.)  No application/user data is written or
+    changed in the store.  This function is called automatically at
+    power-up to prepare the store for access.</para>
+    <para><function>initialize</function> provides an integer return
+    code as listed above.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>initialize</function></funcdef>
+    <void/>
+    </funcprototype>
+    </funcsynopsis>
+    <para>The <function>insert</function> function adds items to the
+    store.  There are four input arguments.  The first,
+    <emphasis>key</emphasis> is the lookup key to the item.  In the
+    case of instance data, this key is a unique identifier for the item
+    being inserted (added to the store).  <emphasis>length</emphasis>
+    is an integer representation of the length of the data byte
+    sequence pointed to by pointer.  <emphasis>type</emphasis> is the
+    class type (instance or link) in integer form.  The data pointed to
+    by <emphasis>pointer</emphasis> is not modified.  If the record
+    being inserted already exists in the non-volatile store, the
+    existing record will be updated.  A return code provides status on
+    the insert.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>insert</function></funcdef>
+    <paramdef>integer <parameter>key</parameter></paramdef>
+    <paramdef>integer <parameter>length</parameter></paramdef>
+    <paramdef>string <parameter>pointer</parameter></paramdef>
+    <paramdef>integer <parameter>type</parameter></paramdef>
+    </funcprototype>
+    </funcsynopsis>
+    <para><function>next</function> provides a way to cycle through
+    reading each item from the store one at a time.  This
+    function returns the item currently being pointed to by the cursor
+    (maintained inside the store).  The buffer space available on the
+    calling side is passed in as the length argument.  If sufficient
+    space is available in the buffer, the next item data will be copied
+    into the given buffer pointed to by pointer.  The length of the
+    written data is returned as the return value.  Also returned are
+    the values of the key and type.  The initialize function resets the
+    internal cursor to the first item in the store.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>next</function></funcdef>
+    <paramdef>integer * <parameter>key</parameter></paramdef>
+    <paramdef>integer <parameter>length</parameter></paramdef>
+    <paramdef>integer * <parameter>pointer</parameter></paramdef>
+    <paramdef>integer * <parameter>type</parameter></paramdef>
+    </funcprototype>
+    </funcsynopsis>
+    <para>The <function>select</function> function searches the store
+    for a specific item with a key and type matching those given as
+    input arguments.  If a record is found that matches, it is copied
+    into the data buffer pointed to by pointer.  The length argument
+    provides the amount of buffer space available on the calling side.
+    The actual length of the returned record (if one is returned) is
+    provided in the return value.  The data behind the pointer argument
+    is modified with the data found in the non-volatile store.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>select</function></funcdef>
+    <paramdef>integer <parameter>key</parameter></paramdef>
+    <paramdef>integer <parameter>length</parameter></paramdef>
+    <paramdef>string * <parameter>pointer</parameter></paramdef>
+    <paramdef>integer <parameter>type</parameter></paramdef>
+    </funcprototype>
+    </funcsynopsis>
+    <para>The <function>space_available</function> function returns an
+    integer representing the number of bytes not being used in the
+    store.  This number of bytes will actually hold fewer bytes due to
+    the overhead of item meta-data (key, type, etc).</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>space_available</function></funcdef>
+    <void/>
+    </funcprototype>
+    </funcsynopsis>
+    <para>The <function>space_total</function> function returns the
+    overall size in bytes of the non-volatile store.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>space_total</function></funcdef>
+    <void/>
+    </funcprototype>
+    </funcsynopsis>
+    <para>The <function>space_used</function> function returns the
+    number of bytes currently written in the store.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>space_used</function></funcdef>
+    <void/>
+    </funcprototype>
+    </funcsynopsis>
+    <para>The <function>update</function> function searches for a
+    record in the store the same way that <function>select</function>
+    does.  When (and if) a record is found, the new data of length
+    length pointed to by pointer is written into the store over the
+    existing item.  Since <function>insert</function> will perform an
+    update when a record exists, it is more often used than
+    <function>update</function>.  No arguments are modified calling
+    this function.</para>
+    <para><function>update</function> provides an integer return code
+    as listed above.</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>update</function></funcdef>
+    <paramdef>integer <parameter>key</parameter></paramdef>
+    <paramdef>integer <parameter>length</parameter></paramdef>
+    <paramdef>string <parameter>pointer</parameter></paramdef>
+    <paramdef>integer <parameter>type</parameter></paramdef>
+    </funcprototype>
+    </funcsynopsis>
+    <para>Function <function>version</function> provides an integer
+    return value indicating the version of the data and/or format
+    of the non-volatile store (NVS).
+    This versioning algorithm and the
+    capabilities of the function are supplied by the implementor of the
+    internals of the NVS module.  Two input arguments are used to
+    provide flexible utility.</para>
+    <para><function>version</function> provides an integer return code
+    representing the version of the NVS (contents).</para>
+    <funcsynopsis>
+    <funcprototype>
+    <funcdef>integer <function>version</function></funcdef>
+    <paramdef>integer <parameter>first</parameter></paramdef>
+    <paramdef>integer <parameter>second</parameter></paramdef>
+    </funcprototype>
+    </funcsynopsis>
+  </section>
+
+</section>
+
+<section id="persistimplementation-section">
+<title id="persistimplementation-section-title">Persistence Design</title>
+
+  <section>
+    <title>Class-Based Create/Delete/Init</title>
+
+    <para>Primary infrastructure changes involve the centralization
+    of the create, delete and initialization of class instances.  The
+    following paragraphs explain this change and its
+    design.  A description of the implementation of the generated code
+    follows with an explanation of the effects on speed, space and
+    execution.</para>
+
+    <para>&escher; 3.3 and before has a class-based create, delete, init
+    design.  The generated code contains a create accessor, delete
+    accessor and factory initializer for each class in the modeled
+    system.  When an instance needs to be created, a routine specific
+    to the class is invoked to allocate the implementation memory for
+    the class instance.  The attributes for the class instance are
+    given reasonable default initial values.  Identifying attributes of
+    type unique_id are initialized to values certain to be unique with
+    the generated system.  The initial state of the new instance state
+    machine is set.</para>
+
+    <para>In &escher; 3.3 and before, when an instance needs to be
+    deleted, a routine specific to the class is called to deallocate
+    the implementation memory for the instance and perform needed
+    clean-up.</para>
+
+    <para>&escher; 3.3 generates "object factory initialization"
+    routines.  There is one of these methods for each class in the
+    modeled domains.  These methods are called exactly once at bring-up
+    time to initialize the instance memory data pool for the collection
+    of instances for the class.  This routine took into consideration
+    the fact that some of the instances in a collection may be
+    allocated and initialized statically as preexisting instances.
+    </para>
+
+    <para>The class-based create/delete/init approach is very flexible.
+    It allows the model compiler designer the liberty of considering
+    only the class in hand when generating the code.  Different
+    profiles of deployment code can be generated based upon the type of
+    class (passive, active, associative, having preexisting instances,
+    etc).  However, having the create, delete and init accessor
+    dispersed to every class is troublesome when considering a
+    persistent restore operation from centralized non-volatile storage
+    (NVS).</para>
+  </section>
+
+
+  <section>
+    <title>Centralized Create/Delete/Init</title>
+
+    <para>&escher; 3.4 and beyond centralizes the create, delete and
+    initialize operations.  This is accomplished by moving the
+    intelligence of the class-based create/delete/init procedures into
+    a class-based data structure.  This class_info array contains
+    information about each class such that centralized operations can
+    intelligently create, delete and initialize classes and
+    instances.</para>
+
+    <para>The information contained in the class_info structure includes:
+    <variablelist>
+      <varlistentry><term>active</term><listitem><para>The head of the
+      list of active instances is used to collect the active instances
+      together.</para></listitem></varlistentry>
+      <varlistentry><term>inactive</term><listitem><para>The head of
+      the list of inactive instances is also maintained and used during
+      create and delete operations.</para></listitem></varlistentry>
+      <varlistentry><term>container</term><listitem><para>Container
+      refers to the head of the list of container elements used to
+      maintain collections.  The base of this list is used to calculate
+      indexes into the array of
+      instances.</para></listitem></varlistentry>
+      <varlistentry><term>pool</term><listitem><para>The base of the
+      array representing the pool of instance data is accessible from
+      the class_info array.  The base of this list also is used to
+      calculate indexes into the array of
+      instances.</para></listitem></varlistentry>
+      <varlistentry><term>size</term><listitem><para>The size of the
+      class (in bytes) is necessary for initialization and for
+      persistence support.</para></listitem></varlistentry>
+      <varlistentry><term>initial_state</term><listitem><para>For
+      active classes, the starting state of state machines must be kept
+      for initialization of newly created active
+      instances.</para></listitem></varlistentry>
+      <varlistentry><term>population</term><listitem><para>Population
+      is the number of instances in the instance
+      collection.</para></listitem></varlistentry>
+      <varlistentry><term>[preexisting
+      instances]</term><listitem><para>Is used when there are
+      preexisting instances defined in data.  This element will inform
+      the global initialization routine how many active instances to
+      expect at power up so that initialization of collections may
+      proceed accordingly.</para></listitem></varlistentry>
+    </variablelist>
+
+    With the above information, it is possible to have centrally
+    defined create, delete and initialization routines.  These central
+    routines rely on class-specific information from the class_info
+    array rather than on class-specific generated procedures.</para>
+  </section>
+
+
+  <section>
+    <title>Implications to Persistence Support</title>
+
+    <para>The persistence restore operation relies heavily upon the
+    centralized create and initialization routines.  Assuming for a
+    moment a system that has no preexisting instances defined in data,
+    a system having persistent classes must restore the class instance
+    data from a central non-volatile storage unit (NVS).</para>
+
+    <para>When a system powers up, it performs the standard system
+    level initialization to bring up event queues and timer support and
+    other system level infrastructure.  The system then initializes the
+    collection mechanisms for all of the classes in the generated
+    system.  This involves linking the instance storage into lists
+    (singly or doubly linked).</para>
+
+    <para>At this point in a non-persistence supporting system the
+    initialization functions would be invoked to allow application
+    level user initialization to occur.  In a persistence supporting
+    system, persistent class instances are restored from
+    non-volatile storage before the user initialization functions are
+    run.</para>
+
+    <para>The process of restoring class instances involves invoking
+    the central create routine and populating the newly created
+    instance with data from NVS.  The data in the NVS needs to be rich
+    enough such that the create routine knows which type of class to
+    create.  Once the type is communicated, the class_info array
+    provides the necessary details to enable the correct instantiation
+    of the new instance.</para>
+  </section>
+
+
+  <section>
+    <title>Implementation</title>
+
+    <para>In &escher; 3.3 the files <filename>*_object.c</filename>
+    contain methods to create, delete and perform factory
+    initialization of class instances.  To compare implementations,
+    view one of these files in 3.3 generated code.</para>
+
+    <para>In &escher; 3.4 and beyond, these routines are centralized.
+    The class_info structure is
+    simply an array of pointers to elements of the structure which
+    reside in the individual <filename>*_class.c</filename>
+    files.</para>
+
+    <para>Each domain is assigned a unique number, and each class
+    within a domain is assigned a unique number.  An array of
+    class_info arrays exists for the system containing information for
+    all classes in all domains.  During translation a domain-unique number
+    is assigned to each class.  This number serves as an index into the
+    class_info array thus allowing centralized create, delete, init and
+    other routines to look up statistics on any class in the
+    modeled system.</para>
+  </section>
+
+
+  <section>
+    <title>Effects</title>
+
+    <para>Centralizing the create, delete and init functions has the
+    intended effect of enabling a persistent restore operation that can
+    rely on these class-independent routines (namely create).  There
+    are positive side-effects of this centralization.</para>
+
+    <para>Code space savings is the primary positive side effect.
+    Instead of three routines for each class, there are now three
+    routines for the entire system.  This saves substantially on code
+    size in the generated system.  This effect will be greatest on
+    systems with a large number of classes.</para>
+
+    <para>Other positive side effects include greater flexibility in
+    features such as persistence.</para>
+  </section>
+
+  <section>
+    <title>Cost Modeling</title>
+    <para>Persistence services have cost in terms of execution speed,
+    instruction store space, data memory and non-volatile storage
+    space.  This section enumerates those costs in as detailed a manner
+    as practical.</para>
+    <section>
+      <title>Data Memory Cost</title>
+      <para>To manage the bookkeeping of persistent instances,
+      additional data is maintained.  The following additional
+      storage is used for each instance of each class.</para>
+      <orderedlist>
+        <listitem><para>The <emphasis>instance index</emphasis> is kept
+        for each instance (all instances in the system).  This value
+        represents the index into the array of instances.  The value is
+        the index of the class instance when it was stored into NVS.
+        This is required during the restore operation.
+        </para></listitem>
+        <listitem><para>The <emphasis>class number</emphasis> is required
+        inside the non-volatile store.</para></listitem>
+        <listitem><para>list of pointers to link functions
+        </para></listitem>
+        <listitem><para>list of class numbers
+        </para></listitem>
+      </orderedlist>
+    </section>
+    <section>
+      <title>Instruction Store (Code Space) Cost</title>
+      <para>NVS domain:  approximated 3000 bytes (on 32 bit Intel)</para>
+      <para>PERSIST domain:  approximated 4000 bytes (on 32 bit Intel)</para>
+      <para>There is significant cost in queueing the modified instances
+      to the NVS cache queue.</para>
+    </section>
+    <section>
+      <title>Cost in Speed</title>
+      <para>The cost in speed is largely driven by the speed of
+      the non-volatile store technology.</para>
+    </section>
+    <section>
+      <title>Non-volatile Memory Cost</title>
+      <para>An instance in NVS is identical in size to an instance in RAM.</para>
+    </section>
+  </section>
+
+</section>
+    
+</chapter>

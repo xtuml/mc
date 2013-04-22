@@ -1,0 +1,31 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
+<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
+<| Property of Mentor Graphics Corporation                           |>
+<| All Rights Reserved.                                              |>
+<\__________________________________________________________________-->
+<appendix id="LegalNotice-appendix">
+<appendixinfo>
+  <legalnotice>
+  <para>Reproduction or copying of "<productname>Model
+  Compiler</productname> User's Guide" is prohibited
+  except by express license agreement with &mgc;.</para>
+  <para>&bp; is a registered trademark of &mgc;.
+  Microsoft Windows is registered trademarks of Microsoft
+  Corporation.  Solaris is a trademark of Sun Microsystems, Inc.</para>
+  <para>Other products or services mentioned in this document are
+  identified by the trademark, service marks, or products names as
+  designated by the companies who market these products.</para>
+  <para>RESTRICTED RIGHTS LEGEND:
+  Use, duplication, or disclosure by the Government is subject
+  to restrictions as set forth in subparagraphs (c)(1)(ii) of the
+  Rights in Technical Data and Computer Software clause at
+  252.227-7013 (48 CFR, Ch.2).</para>
+  <para>Manufacturer is:  &mgc;</para>
+  </legalnotice>
+</appendixinfo>
+<title id="LegalNotice-appendix-title">Legal Notice</title>
+<highlights id="LegalNotice-appendix-high"><para>&escher;
+is commercial software and its use is restricted and limited
+by license.</para></highlights>
+
+</appendix>
