@@ -1,6 +1,6 @@
 .//============================================================================
 .// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
+.// (C) Copyright 1998-2012 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -27,32 +27,43 @@
 #ifndef $u{te_file.tim}_$u{te_file.hdr_file_ext}
 #define $u{te_file.tim}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
+.if ( ( te_target.language == "SystemC" ) or ( te_target.language == "C++" ) )
+#include <sys/timeb.h>
+#include <time.h>
+  .if ( not te_tim.keyed_timer_support )
+    .include "${te_file.arc_path}/t.sys_tim.data.h"
+  .end if
 
+class TIM {
+  public:
+    TIM( i_t number_of_timers ) { timer_count = number_of_timers; swtimers = new ETimer_t[ number_of_timers ]; };
+
+.end if
 /*
  * Bridge method to create an analysis specific date instance.
  */
-${te_prefix.type}Date_t TIM_create_date(
+${te_prefix.type}Date_t create_date(
   const i_t, const i_t, const i_t, const i_t, const i_t, const i_t );
 
 /*
  * Bridge method to get the current date.
  */
-${te_prefix.type}Date_t TIM_current_date( void );
+${te_prefix.type}Date_t current_date( void );
 
 /*
  * Bridge methods to get time piece components of a given date.
  */
-i_t TIM_get_year   ( const ${te_prefix.type}Date_t );
-i_t TIM_get_month  ( const ${te_prefix.type}Date_t );
-i_t TIM_get_day    ( const ${te_prefix.type}Date_t );
-i_t TIM_get_hour   ( const ${te_prefix.type}Date_t );
-i_t TIM_get_minute ( const ${te_prefix.type}Date_t );
-i_t TIM_get_second ( const ${te_prefix.type}Date_t );
+i_t get_year   ( const ${te_prefix.type}Date_t );
+i_t get_month  ( const ${te_prefix.type}Date_t );
+i_t get_day    ( const ${te_prefix.type}Date_t );
+i_t get_hour   ( const ${te_prefix.type}Date_t );
+i_t get_minute ( const ${te_prefix.type}Date_t );
+i_t get_second ( const ${te_prefix.type}Date_t );
 
 /*
  * Bridge method to get the current clock.
  */
-${te_prefix.type}TimeStamp_t TIM_current_clock( void );
+${te_prefix.type}TimeStamp_t current_clock( void );
 
 /*
  * Starts a (one shot) timer to expire in <expression> microseconds,
@@ -61,9 +72,9 @@ ${te_prefix.type}TimeStamp_t TIM_current_clock( void );
  * Returns the instance handle of the non-recurring timer.
  */
 .if ( te_tim.keyed_timer_support )
-${te_prefix.type}Timer_t TIM_timer_start( ${te_eq.base_event_type} *, \
+${te_prefix.type}Timer_t timer_start( ${te_eq.base_event_type} *, \
 .else
-${te_prefix.type}Timer_t * TIM_timer_start( ${te_eq.base_event_type} *, \
+${te_prefix.type}Timer_t * timer_start( ${te_eq.base_event_type} *, \
 .end if
 const ${te_prefix.type}uSec_t );
 
@@ -75,9 +86,9 @@ const ${te_prefix.type}uSec_t );
  * Returns the instance handle of the recurring timer.
  */
 .if ( te_tim.keyed_timer_support )
-${te_prefix.type}Timer_t TIM_timer_start_recurring( ${te_eq.base_event_type} *, \
+${te_prefix.type}Timer_t timer_start_recurring( ${te_eq.base_event_type} *, \
 .else
-${te_prefix.type}Timer_t * TIM_timer_start_recurring( ${te_eq.base_event_type} *, \
+${te_prefix.type}Timer_t * timer_start_recurring( ${te_eq.base_event_type} *, \
 .end if
 const ${te_prefix.type}uSec_t );
 
@@ -90,9 +101,9 @@ const ${te_prefix.type}uSec_t );
  * Respectable analysis must account for this "ships passing" possibility.
  */
 .if ( te_tim.keyed_timer_support )
-${te_prefix.type}uSec_t TIM_timer_remaining_time( const ${te_prefix.type}Timer_t );
+${te_prefix.type}uSec_t timer_remaining_time( const ${te_prefix.type}Timer_t );
 .else
-${te_prefix.type}uSec_t TIM_timer_remaining_time( const ${te_prefix.type}Timer_t * const );
+${te_prefix.type}uSec_t timer_remaining_time( const ${te_prefix.type}Timer_t * const );
 .end if
 
 /*
@@ -105,10 +116,10 @@ ${te_prefix.type}uSec_t TIM_timer_remaining_time( const ${te_prefix.type}Timer_t
  * Respectable analysis must account for this "ships passing" possibility.
  */
 .if ( te_tim.keyed_timer_support ) 
-bool TIM_timer_reset_time( const ${te_prefix.type}uSec_t,
+bool timer_reset_time( const ${te_prefix.type}uSec_t,
                                   const ${te_prefix.type}Timer_t );
 .else
-bool TIM_timer_reset_time( const ${te_prefix.type}uSec_t,
+bool timer_reset_time( const ${te_prefix.type}uSec_t,
                                   ${te_prefix.type}Timer_t * const );
 .end if
 
@@ -122,10 +133,10 @@ bool TIM_timer_reset_time( const ${te_prefix.type}uSec_t,
  * Respectable analysis must account for this "ships passing" possibility.
  */
 .if ( te_tim.keyed_timer_support )
-bool TIM_timer_add_time( const ${te_prefix.type}uSec_t,
+bool timer_add_time( const ${te_prefix.type}uSec_t,
                                 const ${te_prefix.type}Timer_t );
 .else
-bool TIM_timer_add_time( const ${te_prefix.type}uSec_t,
+bool timer_add_time( const ${te_prefix.type}uSec_t,
                                 ${te_prefix.type}Timer_t * const );
 .end if
 
@@ -139,9 +150,9 @@ bool TIM_timer_add_time( const ${te_prefix.type}uSec_t,
  * Respectable analysis must account for this "ships passing" possibility.
  */
 .if ( te_tim.keyed_timer_support )
-bool TIM_timer_cancel( const ${te_prefix.type}Timer_t );
+bool timer_cancel( const ${te_prefix.type}Timer_t );
 .else
-bool TIM_timer_cancel( ${te_prefix.type}Timer_t * const );
+bool timer_cancel( ${te_prefix.type}Timer_t * const );
 .end if
 
 /*
@@ -152,20 +163,20 @@ bool TIM_timer_cancel( ${te_prefix.type}Timer_t * const );
  * appropriate place to make this call is from ${te_callout.background_processing}
  * found among the system callout routines.
  */
-void TIM_tick( void );
+void tick( void );
 
 /*
  * This routine is used by some tasking implementation to get a value
  * to load into a timed wait.
  */
-void * TIM_duration_until_next_timer_pop( void * );
+void * duration_until_next_timer_pop( void * );
 
 /*
  * This method initializes the timer subsystem.  It must be called
  * during system bring-up.  An appropriate place to make this call
  * is from ${te_callout.pre_xtUML_initialization}.
  */
-void TIM_init( \
+void init( \
 .if ( te_target.language == "SystemC" )
 sc_event *\
 .else
@@ -177,7 +188,7 @@ void\
  * Pause all ticking timers.  This is useful during debugging.  It
  * allows timers to freeze during stepping and debug interfacing.
  */
-void TIM_pause( void );
+void pause( void );
 
 /*
  * Resume all ticking timers.  This is useful during debugging.  It
@@ -185,11 +196,49 @@ void TIM_pause( void );
  * Ticking timers will have their expirations adjusted, and ticker
  * will continue ticking.
  */
-void TIM_resume( void );
+void resume( void );
 .if ( te_sys.AUTOSAR )
 
-void TIM_update ( void );
+void update ( void );
 .end if
+
+private:
+.if ( te_sys.AUTOSAR )
+unsigned long msecCounter = 0;
+.end if
+#ifdef USED_TO_ALLOW_PAUSING
+ETimer_time_t start_of_pause;
+bool paused;
+#endif
+ETimer_time_t tinit;
+.if ( te_thread.flavor != "Nucleus" )
+struct timeb systyme;
+.end if
+i_t timer_count;
+ETimer_t * swtimers;
+.if ( te_thread.flavor == "Nucleus" )
+static NU_TIMER nutimers[ ${te_tim.max_timers} ];  /* parallel set of PLUS timers */
+.end if
+ETimer_t * animate, * inanimate;
+.if ( te_tim.keyed_timer_support )
+u4_t timer_access_key;
+.end if
+.if ( te_target.language == "SystemC" )
+sc_event * ${te_tim.event_name}; // pointing to the sc_event in the parent module
+.end if
+
+.if ( te_thread.flavor == "Nucleus" )
+static void nut_expire( unsigned );
+.else
+void timer_insert_sorted( ETimer_t * );
+.end if
+void timer_fire( ETimer_t * const );
+ETimer_t *start( const ETimer_time_t, ${te_eq.base_event_type} * const );
+bool cancel( ETimer_t * const );
+bool timer_find_and_delete( ETimer_t * const );
+ETimer_time_t ETimer_msec_time( void );
+
+};
 
 ${te_target.c2cplusplus_linkage_end}
 #endif   /* $u{te_file.tim}_$u{te_file.hdr_file_ext} */

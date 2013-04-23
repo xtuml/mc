@@ -1,6 +1,6 @@
 .//============================================================================
 .// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
+.// (C) Copyright 1998-2012 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -9,7 +9,7 @@
 .//============================================================================
 .//
 .if ( te_sync.IsSafeForInterrupts )
-extern void ${te_sync.intraface_method}(${te_aba.ParameterDeclaration});
+void ${te_sync.intraface_method}(${te_aba.ParameterDeclaration});
 .end if
-extern ${te_aba.ReturnDataType} ${te_aba.GeneratedName}(${te_aba.ParameterDeclaration});
+  ${te_aba.ReturnDataType} ${te_aba.GeneratedName}(${te_aba.ParameterDeclaration});
 .//

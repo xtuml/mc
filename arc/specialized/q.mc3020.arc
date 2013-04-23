@@ -7,7 +7,7 @@
 .//
 .function factory_TE_COPYRIGHT
   .param inst_ref te_copyright
-  .assign te_copyright.body = "your copyright statement can go here (from te_copyright.body)"
+  .assign te_copyright.body = "(C) Copyright 1998-2012 Mentor Graphics Corporation.  All rights reserved."
 .end function
 .//
 .//
@@ -50,7 +50,7 @@
   .assign te_eq.search_and_destroy = te_prefix.result + "EventSearchAndDestroy"
   .assign te_eq.run_flag = te_prefix.result + "run_flag"
   .assign te_eq.event_message_variable = "e"
-  .assign te_eq.scope = ""
+  .assign te_eq.scope = "sys_events::"
 .end function
 .//
 .//
@@ -85,8 +85,8 @@
   .param inst_ref te_file
   .select any te_prefix from instances of TE_PREFIX
   .assign te_file.hdr_file_ext = "h"
-  .assign te_file.src_file_ext = "c"
-  .assign te_file.sys_main = te_prefix.file + "sys_main"
+  .assign te_file.src_file_ext = "cpp"
+  .assign te_file.sys_main = te_prefix.file + "sc_main"
   .assign te_file.factory = te_prefix.file + "sys_xtuml"
   .assign te_file.events = te_prefix.file + "sys_events"
   .assign te_file.asm_file_ext = "s"
@@ -129,7 +129,7 @@
 .function factory_TE_INSTANCE
   .param inst_ref te_instance
   .select any te_prefix from instances of TE_PREFIX
-  .assign te_instance.scope = ""
+  .assign te_instance.scope = "sys_factory::"
   .assign te_instance.create = te_prefix.result + "CreateInstance"
   .assign te_instance.create_persistent = te_prefix.result + "CreatePersistent"
   .assign te_instance.delete = te_prefix.result + "DeleteInstance"
@@ -147,7 +147,7 @@
   .assign te_instance.max_association_extent = te_prefix.define_u + "SYS_MAX_ASSOCIATION_EXTENT"
   .assign te_instance.max_transient_extent = te_prefix.define_u + "SYS_MAX_TRANSIENT_EXTENT"
   .assign te_instance.current_state = "current_state"
-  .assign te_instance.module = "";
+  .assign te_instance.module = "thismodule->";
 .end function
 .//
 .//
@@ -167,35 +167,18 @@
 .function factory_TE_PERSIST
   .param inst_ref te_persist
   .select any te_prefix from instances of TE_PREFIX
-  .select any te_typemap from instances of TE_TYPEMAP
   .assign te_persist.class_union = ""
   .assign te_persist.instance_cache_depth = te_prefix.define_u + "PERSIST_INST_CACHE_DEPTH"
   .assign te_persist.check_mark = "check_mark_post"
   .assign te_persist.post_link = ""
-  .assign te_persist.link_type_name = te_prefix.type + "link_t"
+  .assign te_persist.link_type_name = ""
+  .assign te_persist.link_type_type = ""
   .assign te_persist.persist_file = "sys_persist"
   .assign te_persist.factory_init = te_prefix.result + "PersistFactoryInit"
   .assign te_persist.commit = te_prefix.result + "PersistenceCommit"
   .assign te_persist.restore = te_prefix.result + "PersistenceRestore"
   .assign te_persist.remove = te_prefix.result + "PersistDelete"
   .assign te_persist.link_cache_depth = te_prefix.define_u + "PERSIST_LINK_CACHE_DEPTH"
-  .// Return the name of the extended attribute variable for use by
-  .// the persistent restore operation.  This attribute represents the
-  .// instance index of the class extent at time of persistent stowage
-  .// together with the class number (across domains) of the class.
-  .// Also return the types for this attribute variable.
-  .assign te_persist.domainnum_name = "domainnum"
-  .assign te_persist.domainnum_type = te_typemap.domain_number_name
-  .assign te_persist.classnum_name = "classnum"
-  .assign te_persist.classnum_type = te_typemap.object_number_name
-  .assign te_persist.index_name = "index"
-  .assign te_persist.index_type = te_typemap.instance_index_name
-  .assign te_persist.instid_type = "InstanceIdentifier_t"
-  .assign te_persist.instid_name = "instance_identifier"
-  .assign te_persist.dirty_type = "s1_t"
-  .assign te_persist.dirty_name = "persist_dirty"
-  .assign te_persist.dirty_dirty = 1
-  .assign te_persist.dirty_clean = 0
 .end function
 .//
 .//
@@ -220,6 +203,19 @@
 .function factory_TE_RELINFO
   .param inst_ref te_relinfo
   .assign te_relinfo.multiplicity = 0
+  .select any r_rto from instances of R_RTO where ( false )
+  .assign te_relinfo.rto = r_rto
+  .select any r_rel from instances of R_REL where ( false )
+  .assign te_relinfo.rel = r_rel
+  .select any r_rgo from instances of R_RGO where ( false )
+  .assign te_relinfo.rgo = r_rgo
+  .select any o_obj from instances of O_OBJ where ( false )
+  .assign te_relinfo.related_obj = o_obj
+  .select any o_obj from instances of O_OBJ where ( false )
+  .assign te_relinfo.obj = o_obj
+  .select any r_oir from instances of R_OIR where ( false )
+  .assign te_relinfo.oir = r_oir
+  .assign te_relinfo.gen_link_methods = false
   .assign te_relinfo.rel_phrase = ""
   .assign te_relinfo.is_formalizer = false
   .assign te_relinfo.is_supertype = false
@@ -242,7 +238,7 @@
 .function factory_TE_SET
   .param inst_ref te_set
   .select any te_prefix from instances of TE_PREFIX
-  .assign te_set.module = "";
+  .assign te_set.module = "thismodule->";
   .assign te_set.copy = te_prefix.result + "CopySet"
   .assign te_set.clear = te_prefix.result + "ClearSet"
   .assign te_set.insert_element = te_prefix.result + "SetInsertElement"
@@ -263,7 +259,7 @@
   .assign te_set.iterator_next = te_prefix.result + "IteratorNext"
   .assign te_set.base_class = te_prefix.result + "ObjectSet_s"
   .assign te_set.element_type = te_prefix.result + "SetElement_s"
-  .assign te_set.scope = ""
+  .assign te_set.scope = "sys_sets::"
 .end function
 .//
 .//
@@ -318,6 +314,8 @@
   .assign te_tim.recurring_timer_support = true
   .assign te_tim.internal_type = "ETimer_t"
   .assign te_tim.timer_event_search_and_destroy = false
+  .assign te_tim.scope = "TIM::"
+  .assign te_tim.event_name = "sc_xtuml_timer_event"
 .end function
 .//
 .//
@@ -373,8 +371,6 @@
 .function factory_TE_TRACE
   .param inst_ref te_trace
   .select any te_prefix from instances of TE_PREFIX
-  .assign te_trace.component_msg_start = te_prefix.define_usw + "COMP_MSG_START_TRACE"
-  .assign te_trace.component_msg_end = te_prefix.define_usw + "COMP_MSG_END_TRACE"
   .assign te_trace.state_txn_start = te_prefix.define_usw + "STATE_TXN_START_TRACE"
   .assign te_trace.oal_trace = te_prefix.define_usw + "OAL_ACTION_TRACE"
   .assign te_trace.state_txn_end = te_prefix.define_usw + "STATE_TXN_END_TRACE"
@@ -384,17 +380,15 @@
 .//
 .function factory_TE_TARGET
   .param inst_ref te_target
-  .assign te_target.language = "C"
-  .assign te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t""C""\t{\n#endif"
-  .assign te_target.c2cplusplus_linkage_end = "#ifdef\t__cplusplus\n}\n#endif"
+  .assign te_target.language = "SystemC"
+  .assign te_target.c2cplusplus_linkage_begin = ""
+  .assign te_target.c2cplusplus_linkage_end = ""
   .assign te_target.main = "main"
 .end function
 .//
 .function factory_factory
   .create object instance i_te_prefix of TE_PREFIX
   .invoke factory_TE_PREFIX( i_te_prefix )
-  .create object instance i_te_typemap of TE_TYPEMAP
-  .invoke factory_TE_TYPEMAP( i_te_typemap )
   .create object instance i_te_container of TE_CONTAINER
   .invoke factory_TE_CONTAINER( i_te_container )
   .create object instance i_te_copyright of TE_COPYRIGHT
@@ -413,8 +407,6 @@
   .invoke factory_TE_ILB( i_te_ilb )
   .create object instance i_te_persist of TE_PERSIST
   .invoke factory_TE_PERSIST( i_te_persist )
-  .create object instance i_te_relinfo of TE_RELINFO
-  .invoke factory_TE_RELINFO( i_te_relinfo )
   .create object instance i_te_relstore of TE_RELSTORE
   .invoke factory_TE_RELSTORE( i_te_relstore )
   .create object instance i_te_set of TE_SET
@@ -427,6 +419,8 @@
   .invoke factory_TE_THREAD( i_te_thread )
   .create object instance i_te_tim of TE_TIM
   .invoke factory_TE_TIM( i_te_tim )
+  .create object instance i_te_typemap of TE_TYPEMAP
+  .invoke factory_TE_TYPEMAP( i_te_typemap )
   .create object instance i_te_callout of TE_CALLOUT
   .invoke factory_TE_CALLOUT( i_te_callout )
   .create object instance i_te_trace of TE_TRACE

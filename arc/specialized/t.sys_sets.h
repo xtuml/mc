@@ -1,6 +1,6 @@
 .//============================================================================
 .// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
+.// (C) Copyright 1998-2012 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -9,11 +9,28 @@
 .//============================================================================
 .//
 .//
+class sys_sets {
+  protected:
+    sys_sets() {
+      // This constructor should only be called by the compiler during static
+      // initialization and never by clients.  Here we don't allocate the
+      // node1s space during static initialization.
+    }
+
+    sys_sets(i_t n1_size) {
+      node1s = new ${te_set.element_type}[ n1_size ];
+      ${te_set.factory}( n1_size );
+    }
+
+    ~sys_sets() {
+      delete [] node1s;
+    }
+
+  public:
 /*
  * This is the most simple and basic container class and
  * represents elements in the set (nodes in the list).
  */
-typedef struct ${te_set.element_type} ${te_set.element_type};
 struct ${te_set.element_type} {
   ${te_set.element_type} * next;
   void * object;
@@ -66,6 +83,9 @@ typedef struct {
   /* not needed without persistence */
 .end if
 } ${te_extent.type};
+
+  ${te_set.base_class} node1_FreeList;
+  ${te_set.element_type}* node1s;
 
 void ${te_set.factory}( const i_t );
 void ${te_set.copy}( ${te_set.base_class} *,
@@ -135,7 +155,6 @@ bool ${te_set.equality}( ${te_set.base_class} * const,
  * The iterator uses a cursor external to the set (or extent).
  * This cursor maintains a flavor of current element.
  */
-typedef struct ${te_set.iterator_class_name} ${te_set.iterator_class_name};
 struct ${te_set.iterator_class_name} {
   ${te_set.element_type} * cursor;
 };
@@ -162,7 +181,7 @@ c_t * ${te_string.stradd}( const c_t *, const c_t * );
    that invoked the compiler (C library) supplied strcmp.  */
 .// #define ${te_string.strcmp}( s1, s2 ) strcmp( s1, s2 )
 c_t ${te_string.strcmp}( const c_t *, const c_t * );
-c_t * ${te_set.scope}${te_string.strget}( void );
+c_t * ${te_string.strget}( void );
 .// not used but good stuff
 .if ( te_sys.InstanceLoading )
 c_t * ${te_string.itoa}( c_t *, s4_t );
@@ -171,3 +190,4 @@ s4_t ${te_string.atoi}( const c_t * );
 .if ( 0 != te_sys.UnitsToDynamicallyAllocate )
 void * ${te_dma.allocate}( const u4_t );
 .end if
+};

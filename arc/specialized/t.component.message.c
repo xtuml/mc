@@ -1,6 +1,6 @@
 .//============================================================================
 .// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
+.// (C) Copyright 1998-2012 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -25,7 +25,7 @@ Port:  ${te_mact.PortName}
 Message:  ${te_mact.MessageName}
  */
 ${te_aba.ReturnDataType}
-${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
+${te_aba.scope}${te_aba.GeneratedName}(${parameter_list})
 {
   .if ( te_aba.NonSelfEventCount > 0 )
     .if ( event_prioritization_needed.result )
@@ -33,9 +33,15 @@ ${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
   static ${te_instance.handle} ${te_instance.self};
     .end if
   .end if
-  .if ( te_mact.trace )
-  /* <message compname="${te_c.Name}" compnum="${te_c.number}" portname="${te_po.Name}" portnum="${te_po.Order}" msgname="${te_mact.MessageName}" msgnum="${te_mact.Order}"/> */
-  ${te_trace.component_msg_start}( "${te_aba.ParameterFormat}", ${te_c.number}, ${te_po.Order}, ${te_mact.Order}${te_aba.ParameterTrace} );
+${thismodule_decl}
+  .if ( te_mact.polymorphic )
+  switch ( A00portindex ) {
+  .end if
+${port_bodies}
+  .if ( te_mact.polymorphic )
+  default:
+    break;
+  }
   .end if
 ${action_body}\
 }

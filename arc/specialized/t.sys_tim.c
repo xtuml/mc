@@ -1,6 +1,6 @@
 .//============================================================================
 .// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
+.// (C) Copyright 1998-2012 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -51,9 +51,6 @@
 #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
 #include "nucleus.h"   /* Nucleus PLUS declarations */
 #endif
-.else
-#include <sys/timeb.h>
-#include <time.h>
 .end if 
 
 .if ( te_thread.flavor == "Nucleus" )
@@ -72,43 +69,6 @@
 /* 1000UL should probably come from some autosar spec */
 #define CALL_PERIOD_MS 1000UL
 .end if
-.if ( not te_tim.keyed_timer_support )
-  .include "${te_file.arc_path}/t.sys_tim.data.h"
-.end if
-
-.if ( te_sys.AUTOSAR )
-static unsigned long msecCounter = 0;
-.end if 
-#ifdef USED_TO_ALLOW_PAUSING
-static ETimer_time_t start_of_pause = 0;
-static bool paused = false;
-#endif
-static ETimer_time_t tinit = 0;
-.if ( te_thread.flavor != "Nucleus" )
-static struct timeb systyme;
-.end if
-#if ${te_tim.max_timers} > 0
-static ETimer_t swtimers[ ${te_tim.max_timers} ];  /* system.clr color */
-.if ( te_thread.flavor == "Nucleus" )
-static NU_TIMER nutimers[ ${te_tim.max_timers} ];  /* parallel set of PLUS timers */
-.end if
-static ETimer_t * animate = 0, * inanimate = 0;
-.if ( te_tim.keyed_timer_support )
-static u4_t timer_access_key = 0;
-.end if
-
-.if ( te_thread.flavor == "Nucleus" )
-static void nut_expire( unsigned );
-.else
-static void timer_insert_sorted( ETimer_t * );
-.end if
-static void timer_fire( ETimer_t * const );
-static ETimer_t *timer_start( const ETimer_time_t, ${te_eq.base_event_type} * const );
-static bool timer_cancel( ETimer_t * const );
-static bool timer_find_and_delete( ETimer_t * const );
-#endif   /* if ${te_tim.max_timers} > 0 */
-static ETimer_time_t ETimer_msec_time( void );
-
 
 #if ${te_tim.max_timers} > 0
 /*=====================================================================
@@ -123,20 +83,20 @@ ${te_prefix.type}Timer_t
 .else
 ${te_prefix.type}Timer_t *
 .end if
-TIM_timer_start(
+TIM::timer_start(
   ${te_eq.base_event_type} * ee_event_inst,
   const ${te_prefix.type}uSec_t ee_microseconds )
 {
   /* Insert implementation specific code here.  */
 .if ( te_tim.keyed_timer_support )
-  ETimer_t * new_timer = timer_start( ee_microseconds/USEC_CONVERT, ee_event_inst );
+  ETimer_t * new_timer = start( ee_microseconds/USEC_CONVERT, ee_event_inst );
   ${te_prefix.type}Timer_t result = { new_timer, new_timer->accesskey };
 .if ( te_tim.recurring_timer_support )
   result->recurrence = 0;
 .end if
   return result;
 .else
-  ETimer_t * t = timer_start( ee_microseconds/USEC_CONVERT, ee_event_inst );
+  ETimer_t * t = start( ee_microseconds/USEC_CONVERT, ee_event_inst );
 .if ( te_tim.recurring_timer_support )
   t->recurrence = 0;
 .end if
@@ -156,19 +116,19 @@ ${te_prefix.type}Timer_t
 .else
 ${te_prefix.type}Timer_t *
 .end if
-TIM_timer_start_recurring(
+TIM::timer_start_recurring(
   ${te_eq.base_event_type} * ee_event_inst,
   const ${te_prefix.type}uSec_t ee_microseconds )
 {
   /* Insert implementation specific code here.  */
 .if ( te_tim.recurring_timer_support )
   .if ( te_tim.keyed_timer_support )
-  ETimer_t * new_timer = timer_start( ee_microseconds/USEC_CONVERT, ee_event_inst );
+  ETimer_t * new_timer = start( ee_microseconds/USEC_CONVERT, ee_event_inst );
   ${te_prefix.type}Timer_t result = { new_timer, new_timer->accesskey };
   result->recurrence = ee_microseconds/USEC_CONVERT;
   return result;
   .else
-  ETimer_t * t = timer_start( ee_microseconds/USEC_CONVERT, ee_event_inst );
+  ETimer_t * t = start( ee_microseconds/USEC_CONVERT, ee_event_inst );
   t->recurrence = ee_microseconds/USEC_CONVERT;
   return (${te_prefix.type}Timer_t *) t;
   .end if
@@ -189,7 +149,7 @@ TIM_timer_start_recurring(
  * Return the remaining time of the specified timer.
  *===================================================================*/
 ${te_prefix.type}uSec_t
-TIM_timer_remaining_time(
+TIM::timer_remaining_time(
 .if ( te_tim.keyed_timer_support )
   const ${te_prefix.type}Timer_t ee_timer_inst )
 .else
@@ -239,7 +199,7 @@ TIM_timer_remaining_time(
  * If successful, return true.
  *===================================================================*/
 bool
-TIM_timer_reset_time(
+TIM::timer_reset_time(
   const ${te_prefix.type}uSec_t ee_microseconds,
 .if ( te_tim.keyed_timer_support )
   const ${te_prefix.type}Timer_t ee_timer_inst )
@@ -279,7 +239,7 @@ TIM_timer_reset_time(
  * If successful, return true.
  *===================================================================*/
 bool
-TIM_timer_add_time(
+TIM::timer_add_time(
   const ${te_prefix.type}uSec_t ee_microseconds,
 .if ( te_tim.keyed_timer_support )
   const ${te_prefix.type}Timer_t ee_timer_inst )
@@ -314,7 +274,7 @@ TIM_timer_add_time(
  * Return true if we actually cancelled the timer.
  *===================================================================*/
 bool
-TIM_timer_cancel(
+TIM::timer_cancel(
 .if ( te_tim.keyed_timer_support )
   const ${te_prefix.type}Timer_t ee_timer_inst )
 .else
@@ -326,11 +286,11 @@ TIM_timer_cancel(
   ETimer_t * p_timer = ee_timer_inst.timer;
   bool rc = false;
   if ( ( p_timer != 0 ) && ( ee_timer_inst.key == p_timer->accesskey ) ) {
-    rc = timer_cancel( p_timer );
+    rc = cancel( p_timer );
   }
   return ( rc );
 .else
-  return timer_cancel( (ETimer_t * const) ee_timer_inst_ref );
+  return cancel( (ETimer_t * const) ee_timer_inst_ref );
 .end if
 }
 #endif   /* if ${te_tim.max_timers} > 0 */
@@ -342,7 +302,7 @@ TIM_timer_cancel(
  * Return a variable representing the current calendar date.
  *===================================================================*/
 ${te_prefix.type}Date_t
-TIM_current_date( void )
+TIM::current_date( void )
 {
   /* Insert implementation specific code here.  */
 .if ( te_thread.flavor == "Nucleus" )
@@ -365,7 +325,7 @@ TIM_current_date( void )
  * by the input components.
  *===================================================================*/
 ${te_prefix.type}Date_t
-TIM_create_date(
+TIM::create_date(
   const i_t ee_day,
   const i_t ee_hour,
   const i_t ee_minute,
@@ -393,10 +353,10 @@ TIM_create_date(
  * BridgePoint Primitive:
  * <integer_var> = TIM::get_second(
  *   date:<integer_var> )
- * Return the second field of the date variable.
+ * Return the year field of the date variable.
  *===================================================================*/
 i_t
-TIM_get_second(
+TIM::get_second(
   const ${te_prefix.type}Date_t ee_date
 )
 {
@@ -414,10 +374,10 @@ TIM_get_second(
  * BridgePoint Primitive:
  * <integer_var> = TIM::get_minute(
  *   date:<integer_var> )
- * Return the minute field of the date variable.
+ * Return the year field of the date variable.
  *===================================================================*/
 i_t
-TIM_get_minute(
+TIM::get_minute(
   const ${te_prefix.type}Date_t ee_date
 )
 {
@@ -435,10 +395,10 @@ TIM_get_minute(
  * BridgePoint Primitive:
  * <integer_var> = TIM::get_hour(
  *   date:<integer_var> )
- * Return the hour field of the date variable.
+ * Return the year field of the date variable.
  *===================================================================*/
 i_t
-TIM_get_hour(
+TIM::get_hour(
   const ${te_prefix.type}Date_t ee_date
 )
 {
@@ -456,10 +416,10 @@ TIM_get_hour(
  * BridgePoint Primitive:
  * <integer_var> = TIM::get_day(
  *   date:<integer_var> )
- * Return the day field of the date variable.
+ * Return the year field of the date variable.
  *===================================================================*/
 i_t
-TIM_get_day(
+TIM::get_day(
   const ${te_prefix.type}Date_t ee_date
 )
 {
@@ -477,10 +437,10 @@ TIM_get_day(
  * BridgePoint Primitive:
  * <integer_var> = TIM::get_month(
  *   date:<integer_var> )
- * Return the month field of the date variable.
+ * Return the year field of the date variable.
  *===================================================================*/
 i_t
-TIM_get_month(
+TIM::get_month(
   const ${te_prefix.type}Date_t ee_date
 )
 {
@@ -501,7 +461,7 @@ TIM_get_month(
  * Return the year field of the date variable.
  *===================================================================*/
 i_t
-TIM_get_year(
+TIM::get_year(
   const ${te_prefix.type}Date_t ee_date
 )
 {
@@ -521,7 +481,7 @@ TIM_get_year(
  * This bridge returns a system dependent time value.
  *===================================================================*/
 ${te_prefix.type}TimeStamp_t
-TIM_current_clock( void )
+TIM::current_clock( void )
 {
   /* Insert implementation specific code here.  */
   return ( ETimer_msec_time() );
@@ -544,13 +504,7 @@ static void nut_expire(
 {
   ETimer_t * t;
   t = &swtimers[ timer_index ];
-  #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
-  ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
-  #endif
   timer_fire( t );
-  #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
-  ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_TIMER );
-  #endif
 }
 .end if
 
@@ -559,8 +513,8 @@ static void nut_expire(
  * expiration time and insert it into its proper location among
  * the currently ticking timers.
  *-------------------------------------------------------------------*/
-static ETimer_t *
-timer_start(
+ETimer_t *
+TIM::start(
   const ETimer_time_t duration,
   ${te_eq.base_event_type} * const event
 )
@@ -628,8 +582,8 @@ timer_start(
  * Insert a timer into the list of ticking timers maintaining
  * an order that fires timers chronologically.
  *-------------------------------------------------------------------*/
-static void
-timer_insert_sorted(
+void
+TIM::timer_insert_sorted(
   ETimer_t * t
 )
 {
@@ -660,8 +614,8 @@ timer_insert_sorted(
 /*---------------------------------------------------------------------
  * Try to find a ticking timer and move to the non-ticking list.
  *-------------------------------------------------------------------*/
-static bool
-timer_find_and_delete( ETimer_t * const t )
+bool
+TIM::timer_find_and_delete( ETimer_t * const t )
 {
   bool rc = false;
   if ( ( t != 0 ) && ( animate != 0 ) ) {
@@ -683,7 +637,7 @@ timer_find_and_delete( ETimer_t * const t )
         if ( cursor == 0 ) {
     .if ( te_tim.timer_event_search_and_destroy )
           /* Timer not found.  It must have expired already!  */
-          return ( ${te_eq.search_and_destroy}( t->event ) );
+          return ( ((sys_events*) t->event->thismodule)->${te_eq.search_and_destroy}( t->event ) );
     .else
           return ( false );
     .end if
@@ -706,12 +660,12 @@ timer_find_and_delete( ETimer_t * const t )
 /*---------------------------------------------------------------------
  * Cancel the given timer if possible.
  *-------------------------------------------------------------------*/
-static bool
-timer_cancel(
+bool
+TIM::cancel(
   ETimer_t * const t
 )
 {
-  bool rc; ${te_eq.base_event_type} * e;
+  bool rc = false;
 .if ( te_thread.flavor == "Nucleus" )
   STATUS status;
 .end if
@@ -720,21 +674,20 @@ timer_cancel(
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
   #endif
 .end if
-  rc = timer_find_and_delete( t );
-  e = t->event;
-.if ( te_thread.enabled )
-  #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
-  ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_TIMER );
-  #endif
-.end if
-  if ( true == rc ) {
-    if ( 0 != e ) {
-      ${te_eq.delete}( e );
+  if ( timer_find_and_delete( t ) == true ) {
+    if ( t->event != 0 ) {
+      ((sys_events*) t->event->thismodule)->${te_eq.delete}( t->event );
+      rc = true;
     }
 .if ( te_thread.flavor == "Nucleus" )
     status = NU_Control_Timer( &nutimers[ t->index ], NU_DISABLE_TIMER );
 .end if
   }
+.if ( te_thread.enabled )
+  #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
+  ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_TIMER );
+  #endif
+.end if
   return ( rc );
 }
 
@@ -743,11 +696,12 @@ timer_cancel(
  * Generate delayed event to the application.
  * Deactivate fired timer.
  *-------------------------------------------------------------------*/
-static void
-timer_fire(
+void
+TIM::timer_fire(
   ETimer_t * const t
 )
 {
+  ((sys_events*) t->event->thismodule)->${te_eq.non_self}( t->event );
 .if ( te_tim.recurring_timer_support )
   t->expiration = ( t->recurrence == 0 ) ? 0 : t->expiration + t->recurrence;
   .if ( te_tim.keyed_timer_support )
@@ -759,11 +713,10 @@ timer_fire(
   t->accesskey = 0;
   .end if
 .end if
-  ${te_eq.non_self}( t->event );
 .if ( te_tim.recurring_timer_support )
   if ( 0 != t->recurrence ) {
-    ${te_eq.base_event_type} * e = ${te_eq.allocate}();
-    ${te_string.memmove}( e, t->event, sizeof( ${te_eq.base_event_type} ) );
+    ${te_eq.base_event_type} * e = ((sys_events*) t->event->thismodule)->${te_eq.allocate}();
+    ((sys_sets*) t->event->thismodule)->${te_string.memmove}( e, t->event, sizeof( ${te_eq.base_event_type} ) );
     t->event = e;
     animate = animate->next;      /* Remove from front of list.    */
     timer_insert_sorted( t );
@@ -792,8 +745,8 @@ timer_fire(
  * at a constant rate.  Substitute code here to read some
  * sort of hardware timer.
  *-------------------------------------------------------------------*/
-static ETimer_time_t
-ETimer_msec_time( void )
+ETimer_time_t
+TIM::ETimer_msec_time( void )
 {
   ETimer_time_t t;
 .if ( te_thread.flavor == "Nucleus" )
@@ -818,7 +771,7 @@ ETimer_msec_time( void )
 
 .if ( te_sys.AUTOSAR )
 void
-TIM_update( void )
+TIM::update( void )
 {
   msecCounter++;
 }
@@ -830,7 +783,7 @@ TIM_update( void )
  * Return remaining duration in timespec format.
  *===================================================================*/
 void *
-TIM_duration_until_next_timer_pop( void * ts_in )
+TIM::duration_until_next_timer_pop( void * ts_in )
 {
   struct timespec * ts = ( struct timespec * ) ts_in;
 #if ${te_tim.max_timers} > 0
@@ -872,7 +825,7 @@ TIM_duration_until_next_timer_pop( void * ts_in )
  * Initialize the tick mechanism and the timer instances.
  *-------------------------------------------------------------------*/
 void
-TIM_init(\
+TIM::init(\
 .if ( te_thread.flavor == "SystemC" )
  sc_event * sc_e\
 .else
@@ -889,7 +842,10 @@ TIM_init(\
   /* Build the collection (linked list) of timers.                   */
   /*-----------------------------------------------------------------*/
   animate = 0; inanimate = 0;
-  for ( i = 0; i < ${te_tim.max_timers}; i++ ) {
+.if ( te_thread.flavor == "SystemC" )
+  ${te_tim.event_name} = sc_e;
+.end if
+  for ( i = 0; i < timer_count; i++ ) {
     swtimers[ i ].expiration = 0;
 .if ( te_tim.recurring_timer_support )
     swtimers[ i ].recurrence = 0;
@@ -933,7 +889,7 @@ TIM_init(\
  * This routine needs to be run periodically.
  *-------------------------------------------------------------------*/
 void
-TIM_tick( void )
+TIM::tick( void )
 {
 .if ( te_thread.flavor != "Nucleus" )
 #if ${te_tim.max_timers} > 0
@@ -946,9 +902,10 @@ TIM_tick( void )
   #endif
   .end if
   if ( animate != 0 ) {
-    if ( animate->expiration <= ETimer_msec_time() ) {
+    // TODO - The fact that this is commented out should be revisted later.
+    //if ( animate->expiration <= ETimer_msec_time() ) {
       timer_fire( animate );
-    }
+    //}
   }
   .if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
@@ -966,7 +923,7 @@ TIM_tick( void )
  * Record the system time when pause begins.
  *-------------------------------------------------------------------*/
 void
-TIM_pause( void )
+TIM::pause( void )
 {
   #if ${te_tim.max_timers} > 0
   paused = true;
@@ -979,7 +936,7 @@ TIM_pause( void )
  * ticking timers.
  *-------------------------------------------------------------------*/
 void
-TIM_resume( void )
+TIM::resume( void )
 {
   #if ${te_tim.max_timers} > 0
   ETimer_t * cursor = animate;
