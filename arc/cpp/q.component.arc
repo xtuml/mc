@@ -5,7 +5,7 @@
 .// Component port level query for generating port declaration and definitions.
 .//
 .// Notice:
-.// (C) Copyright 1998-2010 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -18,11 +18,14 @@
 .// Build the include file body for the component port action.
 .//============================================================================
 .function TE_MACT_CreateDeclarations
-  .param inst_ref_set te_macts
+  .param inst_ref_set first_te_macts
   .select any te_file from instances of TE_FILE
-  .for each te_mact in te_macts
-    .select one te_aba related by te_mact->TE_ABA[R2010]
-    .include "${te_file.arc_path}/t.component.port.h"
+  .for each te_mact in first_te_macts
+    .while ( not_empty te_mact )
+      .select one te_aba related by te_mact->TE_ABA[R2010]
+      .include "${te_file.arc_path}/t.component.message.h"
+      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+    .end while
   .end for
 .end function
 .//
