@@ -20,30 +20,20 @@
 .function TE_C_CreateIncludeList
   .param inst_ref te_c
   .select any te_file from instances of TE_FILE
-  .select any te_sys from instances of TE_SYS
-  .select many cn_cics related by te_c->C_C[R2054]->CN_CIC[R4202]
-  .select many cl_ics related by te_c->C_C[R2054]->CL_IC[R4205]
+  .select one te_sys related by te_c->TE_SYS[R2065]
+  .select many te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
+  .select many nested_ref_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]->TE_C[R2008]
+  .assign te_cs = te_cs | nested_ref_te_cs
   .assign attr_include_files = "#include ""${te_c.module_file}.${te_file.hdr_file_ext}""\n"
-  .for each cn_cic in cn_cics
-    .select one nested_te_c related by cn_cic->C_C[R4203]->TE_C[R2054]
-    .if ( nested_te_c.included_in_build )
-      .if ( te_sys.SystemCPortsType == "TLM" )
-        .assign attr_include_files = attr_include_files + "#include ""${nested_te_c.Name}_bp_pv.${te_file.hdr_file_ext}""\n"
-      .else
-        .assign attr_include_files = attr_include_files + "#include ""${nested_te_c.Name}.${te_file.hdr_file_ext}""\n"
-      .end if
-    .end if
-  .end for
-  .for each cl_ic in cl_ics
-    .select one connected_te_c related by cl_ic->C_C[R4201]->TE_C[R2054] where ( selected.included_in_build )
+  .for each te_c in te_cs
     .if ( te_sys.SystemCPortsType == "TLM" )
-      .assign attr_include_files = attr_include_files + "#include ""${connected_te_c.Name}_bp_pv.${te_file.hdr_file_ext}""\n"
+      .assign attr_include_files = attr_include_files + "#include ""${te_c.Name}_bp_pv.${te_file.hdr_file_ext}""\n"
     .else
-      .assign attr_include_files = attr_include_files + "#include ""${connected_te_c.Name}.${te_file.hdr_file_ext}""\n"
+      .assign attr_include_files = attr_include_files + "#include ""${te_c.Name}.${te_file.hdr_file_ext}""\n"
     .end if
   .end for
   .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
-  .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 0 ) and ( selected.Included ) )
+  .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
   .assign te_ees = te_ees | global_te_ees
   .for each te_ee in te_ees
     .assign attr_include_files = attr_include_files + "#include ""${te_ee.Include_File}""\n"
