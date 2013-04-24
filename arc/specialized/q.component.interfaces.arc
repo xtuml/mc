@@ -30,19 +30,18 @@
   .if ( empty te_po )
     .select any te_po related by c_i->TE_PO[R2007] where ( selected.Provision )
   .end if
-  .select many te_macts related by te_po->TE_MACT[R2006]
+  .select many te_macts related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
   .invoke decs = TE_MACT_CreateDeclarations( te_macts, true, true )
   .assign interface_provision_declarations = decs.body
   .select any te_po related by c_i->TE_PO[R2007] where ( ( not selected.Provision ) and selected.polymorphic )
   .if ( empty te_po )
     .select any te_po related by c_i->TE_PO[R2007] where ( not selected.Provision )
   .end if
-  .select many te_macts related by te_po->TE_MACT[R2006]
+  .select many te_macts related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
   .invoke decs = TE_MACT_CreateDeclarations( te_macts, false, true )
   .assign interface_requirement_declarations = decs.body
   .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
     .select any te_po related by c_i->TE_PO[R2007]
-    .select many te_macts related by te_po->TE_MACT[R2006]
     .invoke decs = TE_MACT_CreateDeclarations( te_macts, false, false )
     .assign interface_channel_declarations = decs.body
   .end if  
@@ -51,17 +50,17 @@
     .select any te_mact related by c_i->TE_PO[R2007]->TE_MACT[R2006] where ( selected.Order == 0 )
     .invoke msg_order = TE_MACT_GenerateTLMMessageOrder ( te_mact )
     .assign TLM_message_order = TLM_message_order + msg_order.message_order
-	.//
-	.select any te_po related by c_i->TE_PO[R2007] where ( not selected.Provision )
-	.if ( not_empty te_po )
-	  .invoke reg_offset = TE_MACT_GenerateRegDefs( c_i, te_po )
-	  .assign register_offset = register_offset + reg_offset.register_offset
-	.end if
-	.select any te_po related by c_i->TE_PO[R2007] where ( selected.Provision )
-	.if ( not_empty te_po )
-	  .invoke reg_offset = TE_MACT_GenerateRegDefs( c_i, te_po )
-	  .assign register_offset = register_offset + reg_offset.register_offset
-	.end if
+    .//
+    .select any te_po related by c_i->TE_PO[R2007] where ( not selected.Provision )
+    .if ( not_empty te_po )
+      .invoke reg_offset = TE_MACT_GenerateRegDefs( c_i, te_po )
+      .assign register_offset = register_offset + reg_offset.register_offset
+    .end if
+    .select any te_po related by c_i->TE_PO[R2007] where ( selected.Provision )
+    .if ( not_empty te_po )
+      .invoke reg_offset = TE_MACT_GenerateRegDefs( c_i, te_po )
+      .assign register_offset = register_offset + reg_offset.register_offset
+    .end if
   .end if
 .end for
 .assign file_epilogue = true

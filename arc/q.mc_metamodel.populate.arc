@@ -1122,21 +1122,21 @@
     .// end relate
     .select many spr_reps related by c_pp->C_EP[R4006]->SPR_REP[R4500]
     .if ( not_empty spr_reps )
-      .select many te_pars related by spr_reps->SPR_RS[R4502]->ACT_SGN[R660]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .select many te_pars related by spr_reps->SPR_RS[R4502]->ACT_SGN[R660]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
         .// relate te_par to te_parm across R2091;
         .assign te_par.te_parmID = te_parm.ID
         .// end relate
       .end for
-      .select many te_pars related by spr_reps->SPR_RO[R4502]->ACT_IOP[R657]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .select many te_pars related by spr_reps->SPR_RO[R4502]->ACT_IOP[R657]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
         .// relate te_par to te_parm across R2091;
         .assign te_par.te_parmID = te_parm.ID
         .// end relate
       .end for
-      .select many te_pars related by spr_reps->V_MSV[R845]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .select many te_pars related by spr_reps->V_MSV[R845]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
         .// relate te_par to te_parm across R2091;
@@ -1146,21 +1146,21 @@
     .end if
     .select many spr_peps related by c_pp->C_EP[R4006]->SPR_PEP[R4501]
     .if ( not_empty spr_peps )
-      .select many te_pars related by spr_peps->SPR_PS[R4503]->ACT_SGN[R663]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .select many te_pars related by spr_peps->SPR_PS[R4503]->ACT_SGN[R663]->V_PAR[R662]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
         .// relate te_par to te_parm across R2091;
         .assign te_par.te_parmID = te_parm.ID
         .// end relate
       .end for
-      .select many te_pars related by spr_peps->SPR_PO[R4503]->ACT_IOP[R680]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .select many te_pars related by spr_peps->SPR_PO[R4503]->ACT_IOP[R680]->V_PAR[R679]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
         .// relate te_par to te_parm across R2091;
         .assign te_par.te_parmID = te_parm.ID
         .// end relate
       .end for
-      .select many te_pars related by spr_peps->V_MSV[R841]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == te_parm.Name )
+      .select many te_pars related by spr_peps->V_MSV[R841]->V_PAR[R842]->TE_PAR[R2063] where ( selected.Name == c_pp.Name )
       .for each te_par in te_pars
         .assign te_par.By_Ref = te_parm.By_Ref
         .// relate te_par to te_parm across R2091;
