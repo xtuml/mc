@@ -1,6 +1,6 @@
 .//============================================================================
 .// Notice:
-.// (C) Copyright 1998-2012 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -24,9 +24,9 @@ class ${te_c.Name}; // forward reference
 ${include_files}
 ${class_type_identifiers}
 
-.if ( "" != te_c.Description )
+.if ( "" != te_c.Descrip )
 /*
-${te_c.Description}
+${te_c.Descrip}
 */
 .end if
 class ${te_c.Name} : public sc_module${port_classes}, public sys_factory, public sys_events {

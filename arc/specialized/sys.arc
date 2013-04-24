@@ -5,7 +5,7 @@
 .// This is the root archetype for generation.
 .//
 .// Notice:
-.// (C) Copyright 1998-2012 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -14,8 +14,9 @@
 .//============================================================================
 .//
 .//
-.invoke arc_env = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
-.assign arc_path = arc_env.result
+.print "starting ${info.date}"
+.invoke r = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
+.assign arc_path = r.result
 .if ( "" == arc_path )
   .print "\nERROR:  Environment variable ROX_MC_ARC_DIR not set."
   .exit 100
@@ -27,19 +28,20 @@
   .exit 100
 .end if
 .//
+.include "${arc_path}/frag_util.arc"
 .include "${arc_path}/m.bridge.arc"
 .include "${arc_path}/m.component.arc"
 .include "${arc_path}/m.datatype.arc"
 .include "${arc_path}/m.domain.arc"
 .include "${arc_path}/m.event.arc"
 .include "${arc_path}/m.class.arc"
-.include "${arc_path}/m.registry.arc"
 .include "${arc_path}/m.system.arc"
 .include "${arc_path}/q.assoc.pseudoformalize.arc"
 .include "${arc_path}/q.class.arc"
 .include "${arc_path}/q.class.cdispatch.arc"
 .include "${arc_path}/q.class.events.arc"
 .include "${arc_path}/q.class.factory.arc"
+.include "${arc_path}/q.class.instance.dumper.arc"
 .include "${arc_path}/q.class.link.arc"
 .include "${arc_path}/q.class.pei.arc"
 .include "${arc_path}/q.class.persist.arc"
@@ -56,11 +58,15 @@
 .include "${arc_path}/q.mc_metamodel.populate.arc"
 .include "${arc_path}/q.mc3020.arc"
 .include "${arc_path}/q.names.arc"
+.include "${arc_path}/q.r_rel.arc"
 .include "${arc_path}/q.oal.act_blk.arc"
+.include "${arc_path}/q.oal.action.arc"
 .include "${arc_path}/q.oal.analyze.arc"
+.include "${arc_path}/q.oal.utils.arc"
 .include "${arc_path}/q.oal.translate.arc"
 .include "${arc_path}/q.oal.test.arc"
 .include "${arc_path}/q.parameters.arc"
+.include "${arc_path}/q.parameters.sort.arc"
 .include "${arc_path}/q.smt.generate.arc"
 .include "${arc_path}/q.tm_template.arc"
 .include "${arc_path}/q.utils.arc"
@@ -68,10 +74,92 @@
 .include "${arc_path}/sys_util.arc"
 .include "${arc_path}/t.smt.c"
 .include "${arc_path}/t.component.message.body.c"
+.// Determine if this is a generic packages model.
+.assign generic_packages = false
+.select any ep_pkg from instances of EP_PKG
+.if ( not_empty ep_pkg )
+  .select many pe_pes from instances of PE_PE
+  .assign pe_count = cardinality pe_pes
+  .if ( pe_count > 20 )
+    .assign generic_packages = true
+  .end if
+.end if
+.//
+.select any te_file from instances of TE_FILE
+.if ( empty te_file )
+.invoke parameters_sort()
 .//
 .// Create the unmarked, standard singletons.
 .invoke factory_factory()
+.select any te_file from instances of TE_FILE
+.assign te_file.arc_path = arc_path
 .//
+.// marking
+.//
+.// Initialize the generator database with marking information.
+.// Note that the order of processing is important here.
+.//
+.// 2) Mark interrupt handlers.
+.include "${te_file.system_color_path}/${te_file.bridge_mark}"
+.// 3) Initiate user data type marking.
+.include "${te_file.system_color_path}/${te_file.datatype_mark}"
+.// 4) Initiate prefix marking (from system marking file).
+.include "${te_file.system_color_path}/${te_file.system_mark}"
+.//
+.invoke PseudoFormalizeUnformalizedAssociations()
+.select many s_doms from instances of S_DOM
+.for each s_dom in s_doms
+  .select one c_c related by s_dom->CN_DC[R4204]->C_C[R4204]
+  .if ( empty c_c )
+    .create object instance c_c of C_C
+    .create object instance cn_dc of CN_DC
+    .// relate c_c to s_dom across R4204 using cn_dc;
+    .assign cn_dc.Id = c_c.Id
+    .assign cn_dc.Dom_ID = s_dom.Dom_ID
+    .// end relate
+    .assign c_c.Name = s_dom.Name
+    .assign c_c.Descrip = s_dom.Descrip
+  .end if
+.end for
+.invoke MC_metamodel_populate( generic_packages )
+.select any te_sys from instances of TE_SYS
+.//
+.// Uncomment the following lines to create an instance dumper archetype.
+.//.invoke r = TE_CLASS_instance_dumper()
+.//${r.body}
+.//.emit to file "../../src/q.class.instance.dump.arc"
+.//.include "${te_file.arc_path}/schema_gen.arc"
+.//.exit 507
+.//
+.// 5) Perform domain level marking.
+.include "${te_file.domain_color_path}/${te_file.domain_mark}"
+.//
+.// 6) Perform class level marking.
+.include "${te_file.domain_color_path}/${te_file.class_mark}"
+.//
+.// 7) Perform event marking.
+.include "${te_file.domain_color_path}/${te_file.event_mark}"
+.//
+.// analyze
+.include "${te_file.arc_path}/q.domain.analyze.arc"
+.invoke CreateSpecialWhereClauseInstances( te_sys )
+.select many te_cs from instances of TE_C where ( selected.included_in_build )
+.for each te_c in te_cs
+  .// Propagate domain information to the system level.
+  .invoke te_c_CollectLimits( te_c )
+.end for
+.//
+.invoke translate_all_oal()
+.//
+.//.print "dumping instances ${info.date}"
+.//.include "${te_file.arc_path}/q.class.instance.dump.arc"
+.//.print "done dumping instances ${info.date}"
+.end if
+.// 8) Include system level user defined archetype functions.
+.include "${te_file.system_color_path}/${te_file.system_functions_mark}"
+.print "System level marking complete."
+.//
+.select any te_sys from instances of TE_SYS
 .// Pull into scope global values from singleton classes.
 .select any te_callout from instances of TE_CALLOUT
 .select any te_container from instances of TE_CONTAINER
@@ -95,77 +183,24 @@
 .select any te_trace from instances of TE_TRACE
 .select any te_typemap from instances of TE_TYPEMAP
 .//
-.// marking
-.//
-.// Initialize the generator database with marking information.
-.// Note that the order of processing is important here.
-.//
-.// 1) Register the domains (coersing names).
-.include "${te_file.system_color_path}/${te_file.registry_mark}"
-.// 2) Mark interrupt handlers.
-.include "${te_file.system_color_path}/${te_file.bridge_mark}"
-.// 3) Initiate user data type marking.
-.include "${te_file.system_color_path}/${te_file.datatype_mark}"
-.// 4) Initiate prefix marking (from system marking file).
-.include "${te_file.system_color_path}/${te_file.system_mark}"
-.//
-.invoke PseudoFormalizeUnformalizedAssociations()
-.select many s_doms from instances of S_DOM
-.for each s_dom in s_doms
-  .select one c_c related by s_dom->CN_DC[R4204]->C_C[R4204]
-  .if ( empty c_c )
-    .create object instance c_c of C_C
-    .create object instance cn_dc of CN_DC
-    .// relate c_c to s_dom across R4204 using cn_dc;
-    .assign cn_dc.Id = c_c.Id
-    .assign cn_dc.Dom_ID = s_dom.Dom_ID
-    .assign c_c.Name = s_dom.Name
-    .assign c_c.Descrip = s_dom.Descrip
-  .end if
-.end for
-.invoke MC_metamodel_populate()
-.select any te_sys from instances of TE_SYS
-.//
-.// Include domain level user defined archetype functions.
-.//.include "${te_file.domain_color_path}/${te_file.domain_functions_mark}"
-.//
-.// 5) Perform domain level marking.
-.include "${te_file.domain_color_path}/${te_file.domain_mark}"
-.//
-.// 6) Perform class level marking.
-.include "${te_file.domain_color_path}/${te_file.class_mark}"
-.//
-.// 7) Perform event marking.
-.include "${te_file.domain_color_path}/${te_file.event_mark}"
-.//
-.// 8) Include system level user defined archetype functions.
-.include "${te_file.system_color_path}/${te_file.system_functions_mark}"
-.print "System level marking complete."
-.//
-.// analyze
-.include "${te_file.arc_path}/q.domain.analyze.arc"
-.invoke CreateSpecialWhereClauseInstances( te_sys )
-.//
-.// Order here is important.  Do not rearrange without knowing
-.// what you are doing.
-.//
-.include "${te_file.arc_path}/frag_util.arc"
-.invoke translate_all_oal()
+.select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
+.invoke SetSystemSelfEventQueueParameters( active_te_cs )
+.invoke SetSystemNonSelfEventQueueParameters( active_te_cs )
+.invoke r = RenderSystemLimitsDeclarations( active_te_cs )
+.assign system_parameters = r.body
+.invoke system_class_array = DefineClassInfoArray( active_te_cs )
+.invoke domain_ids = DeclareDomainIdentityEnums( active_te_cs )
 .//
 .select many te_ees from instances of TE_EE where ( ( ( selected.RegisteredName != "TIM" ) and ( selected.te_cID == 0 ) ) and ( selected.Included ) )
 .if ( not_empty te_ees )
-  .select any te_c from instances of te_c where ( false )
+  .select any te_c from instances of TE_C where ( false )
   .include "${te_file.arc_path}/q.domain.bridges.arc"
 .end if
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
-  .assign te_c.current_component = true
-  .// Propagate domain information to the system level.
-  .invoke te_c_CollectLimits( te_c )
   .select many te_ees related by te_c->TE_EE[R2085] where ( ( selected.RegisteredName != "TIM" ) and ( selected.Included ) )
   .include "${te_file.arc_path}/q.domain.bridges.arc"
   .include "${te_file.arc_path}/q.classes.arc"
-  .assign te_c.current_component = false
 .end for
 .//
 .assign TLM_message_order = ""
@@ -174,37 +209,19 @@
 .// Generate components.
 .include "${te_file.arc_path}/q.components.arc"
 .// Generate system packages.
-.assign generic_packages = false
-.select any pe_pe from instances of PE_PE
-.if ( not_empty pe_pe )
-  .assign generic_packages = true
-.end if
-.if ( generic_packages )
-  .select any pkg from instances of EP_PKG
-  .include "${te_file.arc_path}/q.packages.arc"
-.else
-  .select any pkg from instances of CP_CP
-  .include "${te_file.arc_path}/q.packages.arc"
-.end if
+.include "${te_file.arc_path}/q.packages.arc"
 .//
 .//
 .//============================================================================
 .// Generate the system code.
 .//============================================================================
 .invoke main_decl = GetMainTaskEntryDeclaration()
-.invoke return_body = GetMainTaskEntryReturn()
-.invoke dci = GetClassInfoArrayNaming()
+.invoke r = GetMainTaskEntryReturn()
+.assign return_body = r.body
+.select any te_cia from instances of TE_CIA
 .//
 .// function-based archetype generation
 .//
-.select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
-.invoke SetSystemSelfEventQueueParameters( active_te_cs )
-.invoke SetSystemNonSelfEventQueueParameters( active_te_cs )
-.invoke system_parameters = RenderSystemLimitsDeclarations( active_te_cs )
-.//
-.invoke persistence_needed = IsPersistenceSupportNeeded()
-.assign types = te_typemap
-.invoke instid = GetPersistentInstanceIdentifierVariable()
 .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
 .invoke non_self_event_queue_needed = GetSystemNonSelfEventQueueNeeded()
 .invoke self_event_queue_needed = GetSystemSelfEventQueueNeeded()
@@ -214,21 +231,26 @@
   .assign printf = "NU_printf"
 .end if
 .assign inst_id_in_handle = ""
-.assign link_type_name = ""
-.assign link_type_type = ""
 .//
 .invoke persist_check_mark = GetPersistentCheckMarkPostName()
 .//
 .assign all_domain_include_files = ""
 .assign all_instance_loaders = ""
 .assign all_batch_relaters = ""
+.assign all_instance_dumpersd = ""
+.assign all_instance_dumpers = ""
 .assign all_max_class_numbers = "0"
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
-  .assign all_domain_include_files = all_domain_include_files + "#include ""${te_c.module_file}.${te_file.hdr_file_ext}""\n"
-  .assign all_instance_loaders = all_instance_loaders + "${te_c.Name}_instance_loaders\n"
-  .assign all_batch_relaters = all_batch_relaters + "${te_c.Name}_batch_relaters\n"
-  .assign all_max_class_numbers = all_max_class_numbers + " + ${te_c.Name}_MAX_CLASS_NUMBERS"
+  .if ( te_c.internal_behavior )
+    .select one te_dci related by te_c->TE_DCI[R2090]
+    .assign all_domain_include_files = all_domain_include_files + "#include ""${te_c.classes_file}.${te_file.hdr_file_ext}""\n"
+    .assign all_instance_loaders = all_instance_loaders + "  ${te_c.Name}_instance_loaders,\n"
+    .assign all_batch_relaters = all_batch_relaters + "  ${te_c.Name}_batch_relaters,\n"
+    .assign all_instance_dumpersd = all_instance_dumpersd + "extern ${te_prefix.result}idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ];\n"
+    .assign all_instance_dumpers = all_instance_dumpers + "  ${te_c.Name}_instance_dumpers,\n"
+    .assign all_max_class_numbers = ( all_max_class_numbers + " + " ) + te_dci.max
+  .end if
 .end for
 .//
 .//
@@ -236,13 +258,10 @@
 .// template-based generation
 .//
 .//
-.invoke system_class_array = DefineClassInfoArray( active_te_cs )
-.invoke domain_ids = DeclareDomainIdentityEnums( active_te_cs )
 .//
 .//=============================================================================
 .// Generate main.
 .//=============================================================================
-.select any te_sys from instances of TE_SYS
 .assign sysc_top_includes = ""
 .assign sysc_top_inst_decls = ""
 .assign sysc_top_insts = ""
@@ -261,7 +280,7 @@
   .end if
 .end for
 .invoke class_dispatch_array = GetDomainDispatcherTableName( "" )
-.assign num_ooa_doms = cardinality te_cs
+.assign num_ooa_doms = cardinality active_te_cs
 .assign dom_count = 0
 .assign dq_arg_type = "void"
 .assign dq_arg = ""
@@ -279,16 +298,15 @@
   .emit to file "${te_file.system_source_path}/sysc_main_template.${te_file.src_file_ext}"
 .end if
 .//
-.invoke active_class_counts = DefineActiveClassCountArray( te_cs )
+.invoke r = DefineActiveClassCountArray( te_cs )
+.assign active_class_counts = r.body
 .assign dom_count = cardinality te_cs
 .assign domain_num_var = "domain_num"
-.if ( persistence_needed.result )
-  .invoke persist_class_union = PersistentClassUnion( active_te_cs )
+.if ( te_sys.PersistentClassCount > 0 )
+  .invoke r = PersistentClassUnion( active_te_cs )
+  .assign persist_class_union = r.result
   .invoke persist_post_link = GetPersistentPostLinkName()
-  .invoke persist_link_info = PersistLinkType()
-  .assign link_type_name = "${persist_link_info.name}"
-  .assign link_type_type = "${persist_link_info.type}"
-  .assign inst_id_in_handle = "  ${instid.dirty_type} ${instid.dirty_name};\n"
+  .assign inst_id_in_handle = "  ${te_persist.dirty_type} ${te_persist.dirty_name};\n"
   .include "${te_file.arc_path}/t.sys_persist.c"
   .emit to file "${te_file.system_source_path}/${te_file.persist}.${te_file.src_file_ext}"
   .//
@@ -353,21 +371,24 @@
 .// types from other systems used via inter-project references.
 .//=============================================================================
 .select many s_syss from instances of S_SYS
+.select many ep_pkgs related by s_syss->EP_PKG[R1401]
+.select many nested_ep_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]
+.select many triply_nested_ep_pkgs related by nested_ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]
+.assign ep_pkgs = ep_pkgs | nested_ep_pkgs
+.assign ep_pkgs = ep_pkgs | triply_nested_ep_pkgs
 .assign enumeration_info = ""
-.select many enumeration_te_dts related by s_syss->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
+.select many enumeration_te_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
 .for each te_dt in enumeration_te_dts
-  .invoke enum_code = TE_DT_EnumerationDataTypes( te_dt )
-  .assign enumeration_info = enumeration_info + enum_code.body
-  .assign enum_code.body = ""
+  .invoke r = TE_DT_EnumerationDataTypes( te_dt )
+  .assign enumeration_info = enumeration_info + r.body
 .end for
 .select many enumeration_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
 .for each te_dt in enumeration_te_dts
-  .invoke enum_code = TE_DT_EnumerationDataTypes( te_dt )
-  .assign enumeration_info = enumeration_info + enum_code.body
-  .assign enum_code.body = ""
+  .invoke r = TE_DT_EnumerationDataTypes( te_dt )
+  .assign enumeration_info = enumeration_info + r.body
 .end for
 .assign structured_data_types = ""
-.select many structured_te_dts related by s_syss->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
+.select many structured_te_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
 .invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
 .assign structured_data_types = structured_data_types + s.body
 .select many structured_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
@@ -375,8 +396,8 @@
 .assign structured_data_types = structured_data_types + s.body
 .// Get all components, not just those with internal behavior.
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
-.invoke s = UserSuppliedDataTypeIncludes()
-.assign user_supplied_data_types = s.s
+.invoke r = UserSuppliedDataTypeIncludes()
+.assign user_supplied_data_types = r.result
 .include "${te_file.arc_path}/t.sys_types.h"
 .emit to file "${te_file.system_include_path}/${te_file.types}.${te_file.hdr_file_ext}"
 .//
@@ -419,4 +440,5 @@
 .include "${te_file.arc_path}/t.sys_xtumlload.c"
 .emit to file "${te_file.system_source_path}/${te_file.xtumlload}.${te_file.src_file_ext}"
 .end if
+.print "ending ${info.date}"
 .//

@@ -5,7 +5,7 @@
 .// Component port level query for generating port declaration and definitions.
 .//
 .// Notice:
-.// (C) Copyright 1998-2012 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -21,15 +21,9 @@
   .param inst_ref te_c
   .select any te_file from instances of TE_FILE
   .select one te_sys related by te_c->TE_SYS[R2065]
-  .select many te_cs related by te_c->C_C[R2054]->CN_CIC[R4202]->TE_C[R2054]
-  .select many nested_ref_te_cs related by te_c->C_C[R2054]->CL_IC[R4205]->C_C[R4201]->TE_C[R2054]
+  .select many te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
+  .select many nested_ref_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]->TE_C[R2008]
   .assign te_cs = te_cs | nested_ref_te_cs
-  .if ( empty te_cs )
-    .// Use generic package approach.
-    .select many te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
-    .select many nested_ref_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]->TE_C[R2008]
-    .assign te_cs = te_cs | nested_ref_te_cs
-  .end if
   .assign attr_include_files = "#include ""${te_file.types}.${te_file.hdr_file_ext}""\n"
   .for each te_c in te_cs
     .if ( te_sys.SystemCPortsType == "TLM" )
@@ -38,7 +32,9 @@
       .assign attr_include_files = attr_include_files + "#include ""${te_c.Name}.${te_file.hdr_file_ext}""\n"
     .end if
   .end for
-  .select many te_ees from instances of TE_EE where ( ( selected.Included ) and ( 0 == selected.te_cID ) )
+  .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
+  .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
+  .assign te_ees = te_ees | global_te_ees
   .for each te_ee in te_ees
     .assign attr_include_files = attr_include_files + "#include ""${te_ee.Include_File}""\n"
   .end for
@@ -48,7 +44,7 @@
 .// Build the include file body for the component port action.
 .//============================================================================
 .function TE_MACT_CreateDeclarations
-  .param inst_ref_set te_macts
+  .param inst_ref_set first_te_macts
   .param boolean provision
   .param boolean is_pure_virtual
   .select any te_sys from instances of TE_SYS
@@ -64,15 +60,14 @@
   .assign channels_declaration = ""
   .assign required_reset_port = ""
   .assign provided_reset_port = ""
-  .assign parameter_list = ""
   .if ( is_pure_virtual )
     .assign initializer = " = 0"
     .assign virtual = "virtual "
   .end if
   .select any te_file from instances of TE_FILE
-  .for each te_mact in te_macts
-    .select one te_aba related by te_mact->TE_ABA[R2010]
-    .assign parameter_list = te_aba.ParameterDeclaration
+  .for each te_mact in first_te_macts
+    .while ( not_empty te_mact )
+      .select one te_aba related by te_mact->TE_ABA[R2010]
     .if ( (te_sys.SystemCPortsType == "TLM") or (te_sys.SystemCPortsType == "sc_interface") )
       .if ( ( ( te_mact.Provision ) and ( 0 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 1 == te_mact.Direction ) ) )
         .// inbound message
@@ -101,9 +96,9 @@
             .assign array_spec = ""
             .select one te_mbr related by s_mbr->TE_MBR[R2047]
             .select one te_dt related by te_mbr->TE_DT[R2068]
-            .assign signal_type = "${te_dt.ExtName}"
+            .assign signal_type = te_dt.ExtName
             .assign signal_name = "${te_parm.Name}_${s_mbr.Name}"
-            .assign initializer = "${te_dt.Initial_Value}"
+            .assign initializer = te_dt.Initial_Value
             .if ( 0 < te_mbr.dimensions )
               .assign array_index = "[i]"
               .assign array_spec = te_mbr.array_spec
@@ -124,9 +119,9 @@
             .assign bind_port = bind_port + "    ${for_loop}${signal_name}${array_index}  (c.${signal_name}${array_index});${end_for_loop}\n"
           .end for
         .else
-          .assign signal_type = "${te_dt.ExtName}"
-          .assign signal_name = "${te_parm.Name}"
-          .assign initializer = "${te_dt.Initial_Value}"
+          .assign signal_type = te_dt.ExtName
+          .assign signal_name = te_parm.Name
+          .assign initializer = te_dt.Initial_Value
           .if ( 0 < te_parm.dimensions )
             .assign array_index = "[i]"
             .assign array_spec = te_parm.array_spec
@@ -149,6 +144,8 @@
         .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
       .end while 
     .end if
+      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds'] 
+    .end while
   .end for
   .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
     .include "${te_file.arc_path}/t.component.message.h"
@@ -162,11 +159,7 @@
   .param inst_ref te_c
   .select any te_file from instances of TE_FILE
   .select one te_sys related by te_c->TE_SYS[R2065]
-  .select many nested_te_cs related by te_c->C_C[R2054]->CN_CIC[R4202]->C_C[R4203]->TE_C[R2054]
-  .if ( empty nested_te_cs )
-    .// Use generic package approach.
-    .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
-  .end if
+  .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
   .for each te_c_nested in nested_te_cs
     .if ( te_c_nested.included_in_build )
       .assign comp_name = te_c_nested.Name
@@ -177,11 +170,7 @@
       .include "${te_file.arc_path}/t.component.nestedComponent.h"
     .end if
   .end for
-  .select many te_cis related by te_c->C_C[R2054]->CL_IC[R4205]->TE_CI[R2009]
-  .if ( empty te_cis )
-    .// Use generic package approach.
-    .select many te_cis related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]
-  .end if
+  .select many te_cis related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]
   .for each te_ci in te_cis
     .select one te_c_nested related by te_ci->TE_C[R2008]
     .if ( te_c_nested.included_in_build )
@@ -203,21 +192,13 @@
 .//============================================================================
 .function CN_CC_CreateNestedComponentConstructors   
   .param inst_ref te_c
-  .select many nested_te_cs related by te_c->C_C[R2054]->CN_CIC[R4202]->C_C[R4203]->TE_C[R2054]
-  .if ( empty nested_te_cs )
-    .// Use generic package approach.
-    .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
-  .end if
+  .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
   .assign top_module_inits = ""
   .for each te_c_nested in nested_te_cs
     .assign comp_name = "i" + te_c_nested.Name
     .assign top_module_inits = top_module_inits + ", ${comp_name}(""${comp_name}_module"")"
   .end for
-  .select many te_cis related by te_c->C_C[R2054]->CL_IC[R4205]->TE_CI[r2009]
-  .if ( empty te_cis )
-    .// Use generic package approach.
-    .select many te_cis related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]
-  .end if
+  .select many te_cis related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]
   .for each te_ci in te_cis
     .select one te_c_nested related by te_ci->TE_C[R2008]
     .assign instance_name = te_ci.ClassifierName
@@ -235,11 +216,7 @@ ${top_module_inits}
 .function CN_CC_BindNestedComponentPorts
   .param inst_ref te_c
   .select one parent_c_c related by te_c->C_C[R2054]
-  .select many nested_te_cs related by te_c->C_C[R2054]->CN_CIC[R4202]->C_C[R4203]->TE_C[R2054]
-  .if ( empty nested_te_cs )
-    .// Use generic package approach.
-    .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
-  .end if
+  .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
   .assign attr_port_binding = ""
   .assign attr_bitLevelChannels = ""
   .select any empty_ep_pkg from instances of EP_PKG where ( false )
@@ -249,11 +226,7 @@ ${top_module_inits}
     .assign attr_port_binding = attr_port_binding + bind.port_binding
     .assign attr_bitLevelChannels = attr_bitLevelChannels + bind.bitLevelChannels
   .end for
-  .select many te_cis related by te_c->C_C[R2054]->CL_IC[R4205]->TE_CI[r2009]
-  .if ( empty te_cis )
-    .// Use generic package approach.
-    .select many te_cis related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]
-  .end if
+  .select many te_cis related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]
   .for each te_ci in te_cis
     .select one te_c_nested related by te_ci->TE_C[R2008]
     .invoke bind = TE_C_BindPorts( te_c_nested, te_ci, empty_ep_pkg, parent_c_c )
@@ -268,13 +241,13 @@ ${top_module_inits}
 .function TE_C_BindPorts
   .param inst_ref te_c
   .param inst_ref te_ci
-  .param inst_ref pkg
+  .param inst_ref ep_pkg
   .param inst_ref parent_c_c
   .select any te_sys from instances of TE_SYS
   .assign attr_port_binding = ""
   .assign attr_bitLevelChannels = ""
   .if ( te_c.included_in_build )
-  .assign comp_inst = ""
+    .assign comp_inst = ""
     .if ( empty te_ci )
       .assign comp_inst = "i" + te_c.Name
     .else
@@ -295,13 +268,14 @@ ${top_module_inits}
       .assign other_comp_name = ""
       .assign other_port_name = ""
       .assign empty_connection = false;
-      .invoke other_way = TE_C_GetOtherWayConnection ( te_c, te_ci, te_po, pkg, parent_c_c )
+      .invoke other_way = TE_C_GetOtherWayConnection ( te_c, te_ci, te_po, ep_pkg, parent_c_c )
       .if ( other_way.other_c_c_id == "" )
         .assign empty_connection = true;
       .else
         .select any other_comp_cc from instances of C_C where ( "${selected.Id}" == other_way.other_c_c_id )
-        .select any other_comp_te_c related by other_comp_cc->TE_C[R2054]
-        .select any other_te_po related by other_comp_cc->TE_C[R2054]->TE_PO[R2005]  where ( "${selected.Id}" == other_way.other_c_po_id )
+        .select one other_comp_te_c related by other_comp_cc->TE_C[R2054]
+        .select any other_c_po related by other_comp_cc->C_PO[R4010] where ( "${selected.Id}" == other_way.other_c_po_id )
+        .select any other_te_po related by other_c_po->TE_PO[R2044]
         .assign other_port_name = other_te_po.GeneratedName
         .if ( other_way.other_cl_ic_id == "" )
           .assign other_comp_name = "i" + other_comp_te_c.Name
@@ -362,11 +336,6 @@ ${top_module_inits}
   .param inst_ref pkg
   .param inst_ref parent_c_c
   .//
-  .assign generic_packages = false
-  .select any pe_pe from instances of PE_PE
-  .if ( not_empty pe_pe )
-    .assign generic_packages = true
-  .end if
   .assign other_way_c_po_id = ""
   .assign other_way_c_c_id = ""
   .assign other_way_cl_ic_id = ""
@@ -381,8 +350,10 @@ ${top_module_inits}
     .assign pkg_Id = "${pkg.Package_ID}"
   .end if
   .//
-  .select any c_ir related by te_po->C_I[R2007]->C_IR[R4012] where ( selected.Port_ID == te_po.ID )
-  .select one c_po related by c_ir->C_PO[R4016]
+  .//.select any c_ir related by te_po->C_I[R2007]->C_IR[R4012] where ( selected.Port_ID == te_po.ID )
+  .//.select one c_po related by c_ir->C_PO[R4016]
+  .select one c_po related by te_po->C_PO[R2044]
+  .select any c_ir related by c_po->C_IR[R4016]
   .select one c_i related by c_ir->C_I[R4012]
   .select any delegate_pkg from instances of EP_PKG where ( false )
   .//------------------------------------------------------------------------
@@ -398,30 +369,18 @@ ${top_module_inits}
       .select one delegate_c_c related by cl_iir_provider->C_DG[R4704]->PA_DIC[R9002]->C_C[R9002] where ( "${selected.Id}" == "${parent_c_c_id}" )
       .if ( not_empty delegate_c_c )
         .assign delegate_c_c_id  = "${delegate_c_c.Id}"
-        .select one delegate_pkg_cp related by delegate_c_c->CP_CP[R4604]
-        .if ( empty delegate_pkg_cp )
-          .// Look in generic package.
-          .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
-        .end if
+        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
         .if (not_empty delegate_pkg)
           .assign delegate_pkg_id = "${delegate_pkg.Package_ID}"
-        .elif ( not_empty delegate_pkg_cp )
-          .assign delegate_pkg_id = "${delegate_pkg_cp.Package_ID}"
         .end if
       .end if
     .else
       .select one delegate_c_c related by c_ir->C_DG[R4014]->PA_DIC[R9002]->C_C[R9002] where ( "${selected.Id}" == "${parent_c_c_id}" )
       .if ( not_empty delegate_c_c )
         .assign delegate_c_c_id  = "${delegate_c_c.Id}"
-        .select one delegate_pkg_cp related by delegate_c_c->CP_CP[R4604]
-        .if ( empty delegate_pkg_cp )
-          .// Look in generic package.
-          .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
-        .end if
+        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
         .if (not_empty delegate_pkg)
           .assign delegate_pkg_id = "${delegate_pkg.Package_ID}"
-        .elif ( not_empty delegate_pkg_cp )
-          .assign delegate_pkg_id = "${delegate_pkg_cp.Package_ID}"
         .end if
       .end if
     .end if
@@ -445,20 +404,13 @@ ${top_module_inits}
     .// ------ 2- Since the port is not delegated, bind this port to a signal which its name = port name
       .if(not_empty te_ci )
         .select one cl_iir_provider related by te_ci->CL_IC[R2009]->CL_IIR[R4700] where (selected.Ref_Id == c_ir.Id)
-        .select any cl_ic_requirer related by cl_iir_provider->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->CL_IR[R4706]->CL_IIR[R4703]->CL_IC[R4700] where ( ( "${selected.Component_Package_ID}" == pkg_Id) or ( "${selected.ParentComp_Id}" == parent_c_c_id ) )
-        .select any cn_cic_requirer related by cl_iir_provider->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->CN_CIC[R4203]->C_C[R4202] where ( "${selected.Id}" == parent_c_c_id )
-        .if ( generic_packages )
-          .select any cl_ic_requirer related by cl_iir_provider->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->CL_IR[R4706]->CL_IIR[R4703]->CL_IC[R4700] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.ParentComp_Id}" == parent_c_c_id ) )
-          .select any cn_cic_requirer related by cl_iir_provider->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->PE_PE[R8001]->C_C[R8003] where ( "${selected.Id}" == parent_c_c_id )
-        .end if
+        .select any cl_ic_requirer related by cl_iir_provider->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->CL_IR[R4706]->CL_IIR[R4703]->CL_IC[R4700] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.ParentComp_Id}" == parent_c_c_id ) )
+        .select any cn_cic_requirer related by cl_iir_provider->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->PE_PE[R8001]->C_C[R8003] where ( "${selected.Id}" == parent_c_c_id )
         .assign cn_cic_requirer_id = ""
         .if( not_empty cn_cic_requirer)
           .assign cn_cic_requirer_id = "${cn_cic_requirer.Id}"
         .end if
-        .select one c_c_requirer related by cl_iir_provider->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010] where ( ( "${selected.Package_ID}" == pkg_Id) or ( "${selected.NestedComponent_Id}" == cn_cic_requirer_id ) )
-        .if ( generic_packages )
-          .select one c_c_requirer related by cl_iir_provider->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_requirer_id ) )
-        .end if
+        .select one c_c_requirer related by cl_iir_provider->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_requirer_id ) )
         .//
         .if ( not_empty  cl_ic_requirer )
           .select one c_c_requirer related by cl_ic_requirer->C_C[R4201]
@@ -483,20 +435,13 @@ ${top_module_inits}
         .end if
         .// --- 3- Since you are not a component reference, use c_ir to get the satsifaction
       .else
-        .select any cl_ic_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703]->CL_IC[R4700] where ( ("${selected.Component_Package_ID}" == pkg_Id) or ("${selected.ParentComp_Id}" == parent_c_c_id ) )
-        .select any cn_cic_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->CN_CIC[R4203]->C_C[R4202] where ( "${selected.Id}" == parent_c_c_id )
-        .if ( generic_packages )
-          .select any cl_ic_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703]->CL_IC[R4700] where ( ("${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ("${selected.ParentComp_Id}" == parent_c_c_id ) )
-          .select any cn_cic_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->PE_PE[R8001]->C_C[R8003] where ( "${selected.Id}" == parent_c_c_id )
-        .end if
+        .select any cl_ic_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703]->CL_IC[R4700] where ( ("${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ("${selected.ParentComp_Id}" == parent_c_c_id ) )
+        .select any cn_cic_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->PE_PE[R8001]->C_C[R8003] where ( "${selected.Id}" == parent_c_c_id )
         .assign cn_cic_requirer_id = ""
         .if( not_empty cn_cic_requirer)
           .assign cn_cic_requirer_id = "${cn_cic_requirer.Id}"
         .end if
-        .select any c_c_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010] where ( ( "${selected.Package_ID}" == pkg_Id) or ( "${selected.NestedComponent_Id}" == cn_cic_requirer_id ) )                
-        .if ( generic_packages )
-          .select any c_c_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_requirer_id ) )                
-        .end if
+        .select any c_c_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_requirer_id ) )                
         .if( not_empty cl_ic_requirer ) 
           .select one c_c_requirer related by cl_ic_requirer->C_C[R4201]
           .select one cl_iir_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703] where ( selected.ImportedComp_Id == cl_ic_requirer.Id )
@@ -532,11 +477,7 @@ ${top_module_inits}
       .select one delegate_c_c related by cl_iir_requirer->C_DG[R4704]->PA_DIC[R9002]->C_C[R9002] where ( "${selected.Id}" == "${parent_c_c_id}" )
       .if ( not_empty delegate_c_c )
         .assign delegate_c_c_id  = "${delegate_c_c.Id}"
-        .select one delegate_pkg_cp related by delegate_c_c->CP_CP[R4604]
-        .if ( empty delegate_pkg_cp )
-          .// Look in generic package.
-          .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
-        .end if
+        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
         .if (not_empty delegate_pkg)
           .assign delegate_pkg_id = "${delegate_pkg.Package_ID}"
         .elif ( not_empty delegate_pkg_cp )
@@ -547,11 +488,7 @@ ${top_module_inits}
       .select one delegate_c_c related by c_ir->C_DG[R4014]->PA_DIC[R9002]->C_C[R9002] where ( "${selected.Id}" == "${parent_c_c_id}" )
       .if ( not_empty delegate_c_c )
         .assign delegate_c_c_id  = "${delegate_c_c.Id}"
-        .select one delegate_pkg_cp related by delegate_c_c->CP_CP[R4604]
-        .if ( empty delegate_pkg_cp )
-          .// Look in generic package.
-          .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
-        .end if
+        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
         .if (not_empty delegate_pkg)
           .assign delegate_pkg_id = "${delegate_pkg.Package_ID}"
         .elif ( not_empty delegate_pkg_cp )
@@ -580,20 +517,13 @@ ${top_module_inits}
       .// --- 3- Check if you are a Component Reference, then aquire the cl_iir
       .if(not_empty te_ci)
         .select one cl_iir_requirer related by te_ci->CL_IC[R2009]->CL_IIR[R4700] where (selected.Ref_Id == c_ir.Id)
-        .select one cl_ic_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->CL_IC[R4700] where ( ( "${selected.Component_Package_ID}" == pkg_Id ) or ( "${selected.ParentComp_Id}" == parent_c_c_id ) )
-        .select one cn_cic_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->CN_CIC[R4203]->C_C[R4202] where ( "${selected.Id}" == parent_c_c_id )
-        .if ( generic_packages )
-          .select one cl_ic_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->CL_IC[R4700] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id ) or ( "${selected.ParentComp_Id}" == parent_c_c_id ) )
-          .select one cn_cic_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->PE_PE[R8001]->C_C[R8003] where ( "${selected.Id}" == parent_c_c_id )
-        .end if
+        .select one cl_ic_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->CL_IC[R4700] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id ) or ( "${selected.ParentComp_Id}" == parent_c_c_id ) )
+        .select one cn_cic_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->PE_PE[R8001]->C_C[R8003] where ( "${selected.Id}" == parent_c_c_id )
         .assign cn_cic_provider_id = ""
         .if( not_empty cn_cic_provider)
           .assign cn_cic_provider_id = "${cn_cic_provider.Id}"
         .end if
-        .select one c_c_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]  where ( ( "${selected.Package_ID}" == pkg_Id) or ( "${selected.NestedComponent_Id}" == cn_cic_provider_id ) )
-        .if ( generic_packages )
-          .select one c_c_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]  where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_provider_id ) )
-        .end if
+        .select one c_c_provider related by cl_iir_requirer->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]  where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_provider_id ) )
         .//
         .if (not_empty  cl_ic_provider)
           .select one c_c_requirer related by cl_ic_provider->C_C[R4201]
@@ -618,20 +548,13 @@ ${top_module_inits}
         .end if
       .// --- 3- Since you are not a component reference, use c_ir to get the satsifaction
       .else
-        .select one cl_ic_provider related by c_ir->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->CL_IC[R4700] where ( ("${selected.Component_Package_ID}" == pkg_Id) or ("${selected.ParentComp_Id}" == parent_c_c_id ) )
-        .select one cn_cic_provider related by c_ir->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->CN_CIC[R4203]->C_C[R4202] where ( "${selected.Id}" == parent_c_c_id )
-        .if ( generic_packages )
-          .select one cl_ic_provider related by c_ir->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->CL_IC[R4700] where ( ("${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ("${selected.ParentComp_Id}" == parent_c_c_id ) )
-          .select one cn_cic_provider related by c_ir->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->PE_PE[R8001]->C_C[R8003] where ( "${selected.Id}" == parent_c_c_id )
-        .end if
+        .select one cl_ic_provider related by c_ir->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->CL_IC[R4700] where ( ("${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ("${selected.ParentComp_Id}" == parent_c_c_id ) )
+        .select one cn_cic_provider related by c_ir->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]->PE_PE[R8001]->C_C[R8003] where ( "${selected.Id}" == parent_c_c_id )
         .assign cn_cic_provider_id = ""
         .if( not_empty cn_cic_provider)
           .assign cn_cic_provider_id = "${cn_cic_provider.Id}"
         .end if
-        .select any c_c_provider related by c_ir->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]  where ( ( "${selected.Package_ID}" == pkg_Id) or ( "${selected.NestedComponent_Id}" == cn_cic_provider_id ) )                
-        .if ( generic_packages )
-          .select any c_c_provider related by c_ir->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]  where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_provider_id ) )                
-        .end if
+        .select any c_c_provider related by c_ir->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]  where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_provider_id ) )                
         .if (not_empty cl_ic_provider)
           .// The other way is "Imported Component"
           .select one c_c_requirer related by cl_ic_provider->C_C[R4201]
@@ -672,14 +595,7 @@ ${top_module_inits}
   .param inst_ref te_mact
   .param inst_ref te_po
   .param inst_ref te_aba
-  .select any empty_act_blk from instances of ACT_BLK where ( false )
   .assign action_body = ""
-  .// Use any TE_C to get tracing settings.
-  .select any te_c from instances of TE_C where ( selected.StmtTrace )
-  .assign trace = true
-  .if ( empty te_c )
-    .assign trace = false
-  .end if
   .// If the port is delegated, pass the control to the delegate, otherwise
   .// generate the action body defined in this port
   .select any c_ir_formal related by te_po->C_I[R2007]->C_IR[R4012]
@@ -688,7 +604,7 @@ ${top_module_inits}
   .select one delegate_c_c related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
   .if ( (not_empty delegate_c_c_formal) or (not_empty delegate_c_c) )
     .assign action_body = ""
-    .if ( "void" != "${te_aba.ReturnDataType}" )
+    .if ( "void" != te_aba.ReturnDataType )
       .assign action_body = "  return "
     .else
       .assign action_body = "  "
@@ -699,37 +615,22 @@ ${top_module_inits}
       .assign action_body = action_body + "i${delegate_c_c.Name}"
     .end if
     .assign action_body = action_body + ".${te_mact.GeneratedName}"
-    .if ( "" == "${te_aba.ParameterInvocation}" )
+    .if ( "" == te_aba.ParameterInvocation )
       .assign action_body = action_body + "();"
     .else
-      .assign action_body = ( ( action_body + "(" ) + "${te_aba.ParameterInvocation}" ) + " );"
+      .assign action_body = ( ( action_body + "(" ) + te_aba.ParameterInvocation ) + " );"
     .end if
   .else
     .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
     .// Get the mapped signal event if it exists.
     .select one te_evt related by te_mact->TE_EVT[R2082]
-    .assign act_blk = empty_act_blk
     .// If the signal is mapped, connect it to the state machine.
     .if ( not_empty te_evt )
       .select one sm_evt related by te_evt->SM_EVT[R2036]
-      .invoke s = t_oal_smt_sgn( sm_evt, false, "0", sm_evt.Drv_Lbl, sm_evt.Mning, te_aba.ParameterAssignmentBase, "  " )
-      .assign action_body = s.body
+      .invoke r = t_oal_smt_sgn( sm_evt, false, "0", sm_evt.Drv_Lbl, sm_evt.Mning, te_aba.ParameterAssignmentBase, "  " )
+      .assign action_body = r.body
     .else 
-      .if ( te_mact.subtypeKL == "SPR_PO" )
-        .select one spr_po related by te_mact->SPR_PO[R2050]
-        .select one act_blk related by spr_po->ACT_POB[R687]->ACT_ACT[R698]->ACT_BLK[R666]
-      .elif ( te_mact.subtypeKL == "SPR_RO" )
-        .select one spr_ro related by te_mact->SPR_RO[R2052]
-        .select one act_blk related by spr_ro->ACT_ROB[R685]->ACT_ACT[R698]->ACT_BLK[R666]
-      .elif ( te_mact.subtypeKL == "SPR_PS" )
-        .select one spr_ps related by te_mact->SPR_PS[R2051]
-        .select one act_blk related by spr_ps->ACT_PSB[R686]->ACT_ACT[R698]->ACT_BLK[R666]
-      .elif ( te_mact.subtypeKL == "SPR_RS" )
-        .select one spr_rs related by te_mact->SPR_RS[R2053]
-        .select one act_blk related by spr_rs->ACT_RSB[R684]->ACT_ACT[R698]->ACT_BLK[R666]
-      .end if
-      .invoke axret = blck_xlate( trace, act_blk, 0 )
-      .assign action_body = axret.body
+      .assign action_body = te_aba.code
     .end if
   .end if    
   .invoke port_action = t_oal_port_action( te_mact, te_po, action_body )
@@ -737,113 +638,52 @@ ${port_action.body}
 .end function
 .//
 .function TE_MACT_CreateDefinition
-  .param inst_ref_set te_macts
+  .param inst_ref_set first_te_macts
   .select any te_file from instances of TE_FILE
   .select any te_prefix from instances of TE_PREFIX
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .select any te_thread from instances of TE_THREAD
+  .select any te_trace from instances of TE_TRACE
   .select any te_parm from instances of TE_PARM where ( false )
   .select any empty_sm_evt from instances of SM_EVT where ( false )
-  .select any empty_act_blk from instances of ACT_BLK where ( false )
   .select many empty_te_macts from instances of TE_MACT where ( false )
-  .// Use any TE_C to get tracing settings.
-  .select any te_c from instances of TE_C where ( selected.StmtTrace )
-  .assign trace = true
-  .if ( empty te_c )
-    .assign trace = false
-  .end if
   .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
-  .for each te_mact in te_macts
+  .for each te_mact in first_te_macts
+    .while ( not_empty te_mact )
     .assign sm_evt = empty_sm_evt
     .assign foreign_te_macts = empty_te_macts
-    .assign act_blk = empty_act_blk
     .select one te_aba related by te_mact->TE_ABA[R2010]
     .if ( te_mact.subtypeKL == "SPR_PO" )
-      .select one spr_po related by te_mact->SPR_PO[R2050]
-      .select any te_parm related by spr_po->SPR_PEP[R4503]->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
-      .select one act_blk related by spr_po->ACT_POB[R687]->ACT_ACT[R698]->ACT_BLK[R666]
-      .// Navigate through the satisfaction to find sibling messages.
-      .select many spr_ros related by spr_po->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->C_R[R4002]->SPR_REP[R4500]->SPR_RO[R4502] where ( selected.Name == spr_po.Name )
-      .select many foreign_te_macts related by spr_ros->TE_MACT[R2052]
-      .if ( empty foreign_te_macts )
-        .// Navigate through the delegation to find parent/child messages.
-        .select one c_ir related by spr_po->SPR_PEP[R4503]->C_P[R4501]->C_IR[R4009]
-        .select many c_irs related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]
-        .if ( empty c_irs )
-          .select many c_irs related by c_ir->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]
-        .end if
-        .select many spr_pos related by c_irs->C_P[R4009]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_po.Name )
-        .select many foreign_te_macts related by spr_pos->TE_MACT[R2050]
-      .end if
     .elif ( te_mact.subtypeKL == "SPR_RO" )
-      .select one spr_ro related by te_mact->SPR_RO[R2052]
-      .select any te_parm related by spr_ro->SPR_REP[R4502]->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
-      .select one act_blk related by spr_ro->ACT_ROB[R685]->ACT_ACT[R698]->ACT_BLK[R666]
-      .// Navigate through the satisfaction to find the sibling message.
-      .select many spr_pos related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PO[R4503] where ( selected.Name == spr_ro.Name )
-      .select many foreign_te_macts related by spr_pos->TE_MACT[R2050]
-      .if ( empty foreign_te_macts )
-        .// Navigate through the delegation to find parent/child messages.
-        .select one c_ir related by spr_ro->SPR_REP[R4502]->C_R[R4500]->C_IR[R4009]
-        .select many c_irs related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]
-        .if ( empty c_irs )
-          .select many c_irs related by c_ir->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]
-        .end if
-        .select many spr_ros related by c_irs->C_R[R4009]->SPR_REP[R4500]->SPR_RO[R4502] where ( selected.Name == spr_ro.Name )
-        .select many foreign_te_macts related by spr_ros->TE_MACT[R2052]
-      .end if
     .elif ( te_mact.subtypeKL == "SPR_PS" )
       .select one spr_ps related by te_mact->SPR_PS[R2051]
       .select any te_parm related by spr_ps->SPR_PEP[R4503]->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
-      .select one act_blk related by spr_ps->ACT_PSB[R686]->ACT_ACT[R698]->ACT_BLK[R666]
-      .// Navigate through the satisfaction to find the sibling message.
+      .// Navigate through the satisfaction to find the connected/corresponding message.
       .select many spr_rss related by spr_ps->SPR_PEP[R4503]->C_P[R4501]->C_SF[R4002]->C_R[R4002]->SPR_REP[R4500]->SPR_RS[R4502] where ( selected.Name == spr_ps.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_ps->SM_SGEVT[R528]->SM_SEVT[R526]->SM_EVT[R525]
-      .select many foreign_te_macts related by spr_rss->TE_MACT[R2053]
-      .if ( empty foreign_te_macts )
-        .// Navigate through the delegation to find parent/child messages.
-        .select one c_ir related by spr_ps->SPR_PEP[R4503]->C_P[R4501]->C_IR[R4009]
-        .select many c_irs related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]
-        .if ( empty c_irs )
-          .select many c_irs related by c_ir->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]
-        .end if
-        .select many spr_pss related by c_irs->C_P[R4009]->SPR_PEP[R4501]->SPR_PS[R4503] where ( selected.Name == spr_ps.Name )
-        .select many foreign_te_macts related by spr_pss->TE_MACT[R2051]
-      .end if
     .elif ( te_mact.subtypeKL == "SPR_RS" )
       .select one spr_rs related by te_mact->SPR_RS[R2053]
       .select any te_parm related by spr_rs->SPR_REP[R4502]->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
-      .select one act_blk related by spr_rs->ACT_RSB[R684]->ACT_ACT[R698]->ACT_BLK[R666]
-      .// Navigate through the satisfaction to find the sibling message.
+      .// Navigate through the satisfaction to find the connected/corresponding message.
       .select many spr_pss related by spr_rs->SPR_REP[R4502]->C_R[R4500]->C_SF[R4002]->C_P[R4002]->SPR_PEP[R4501]->SPR_PS[R4503] where ( selected.Name == spr_rs.Name )
       .// Find a local event mapped onto the signal.
       .select one sm_evt related by spr_rs->SM_SGEVT[R529]->SM_SEVT[R526]->SM_EVT[R525]
-      .select many foreign_te_macts related by spr_pss->TE_MACT[R2051]
-      .if ( empty foreign_te_macts )
-        .// Navigate through the delegation to find parent/child messages.
-        .select one c_ir related by spr_rs->SPR_REP[R4502]->C_R[R4500]->C_IR[R4009]
-        .select many c_irs related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]
-        .if ( empty c_irs )
-          .select many c_irs related by c_ir->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]
-        .end if
-        .select many spr_rss related by c_irs->C_R[R4009]->SPR_REP[R4500]->SPR_RS[R4502] where ( selected.Name == spr_rs.Name )
-        .select many foreign_te_macts related by spr_rss->TE_MACT[R2053]
-      .end if
     .end if
     .assign port_bodies = ""
     .// Create the port body for this te_mact whether it is polymorphic or not
     .select one te_po related by te_mact->TE_PO[R2006]
-    .invoke port_action = TE_MACT_CreateSingleDefinition( te_mact, te_po, te_aba )
-    .assign port_bodies = port_bodies + port_action.body    
+    .invoke r = TE_MACT_CreateSingleDefinition( te_mact, te_po, te_aba )
+    .assign port_bodies = port_bodies + r.body    
     .// Find the sibling polymorphic port messages.  Generate port bodies for each one.
     .if ( te_mact.polymorphic )
       .select many poly_te_pos related by te_po->TE_C[R2005]->TE_PO[R2005] where ( ( ( selected.c_iId == te_po.c_iId ) and ( selected.Provision == te_po.Provision ) ) and ( selected.ID != te_po.ID ) )
       .for each poly_te_po in poly_te_pos
         .select any poly_te_mact related by poly_te_po->TE_MACT[R2006] where ( selected.MessageName == te_mact.MessageName )
-        .invoke port_action = TE_MACT_CreateSingleDefinition( poly_te_mact, poly_te_po, te_aba )
-        .assign port_bodies = port_bodies + port_action.body
+        .select one poly_te_aba related by te_mact->TE_ABA[R2010]
+        .invoke r = TE_MACT_CreateSingleDefinition( poly_te_mact, poly_te_po, poly_te_aba )
+        .assign port_bodies = port_bodies + r.body
       .end for
     .end if
     .assign thismodule_decl = ""
@@ -852,41 +692,15 @@ ${port_action.body}
     .end if
     .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
       .// outbound message
-      .//
-      .// TODO SKB - 20110323 - I'm not fully sure what is going on with this if/else, but 
-      .// something's fishy with it.  The if side of the block is basically a no-op. The
-      .// action_body is built up, but never used.  The else side of the block seems to
-      .// only be called when we are in a subcomponent generating for a delegated interface
-      .// and it causes messages from the wrong/unwanted direction to be output to the
-      .// modules .cc file.  Looking at the file history, this file has undergone heavy 
-      .// revision.  It seems to me that this block did not make it through that process
-      .// cleanly.
-      .//
-      .//.if ( not_empty foreign_te_macts )
-      .//  .assign action_body = ""
-      .//  .for each foreign_te_mact in foreign_te_macts
-      .//    .select one te_c related by foreign_te_mact->TE_C[R2002]
-      .//    .if ( te_c.included_in_build )
-      .//      .assign name = ( foreign_te_mact.ComponentName + "::" ) + foreign_te_mact.GeneratedName
-      .//      .invoke s = t_oal_smt_iop( name, te_aba.ParameterInvocation )
-      .//      .if ( "void" != te_aba.ReturnDataType )
-      .//        .assign action_body = "return "
-      .//      .end if
-      .//      .assign action_body = action_body + s.body
-      .//    .end if
-      .//  .end for
-      .//.else
-        .// In SystemC we inherit the foreign component message.
-      .//  .include "${te_file.arc_path}/t.component.message.c"
-      .//.end if
     .elif ( ( ( te_mact.Provision ) and ( 0 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 1 == te_mact.Direction ) ) )
       .// inbound message
-      .assign parameter_list = te_aba.ParameterDefinition
       .assign action_body = ""
       .include "${te_file.arc_path}/t.component.message.c"
     .else
       .print "ERROR:  Detected invalid component port message configuration."
     .end if
+      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+    .end while  
   .end for
 .end function
 .//
@@ -901,15 +715,7 @@ ${port_action.body}
   .//
   .// Sony specific requirement: Default behavior for leaf components
   .select any te_sys from instances of TE_SYS
-  .select any nested_c_c related by te_c->C_C[R2054]->CN_CIC[R4202]->C_C[R4203]
-  .assign generic_packages = false
-  .select any pe_pe from instances of PE_PE
-  .if ( not_empty pe_pe )
-    .assign generic_packages = true
-  .end if
-  .if ( generic_packages )
-    .select any nested_c_c related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]
-  .end if
+  .select any nested_c_c related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]
   .select many cl_ics related by te_c->C_C[R2054]->CL_IC[R4205]
   .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
     .if ( ( empty te_classes ) and ( ( empty nested_c_c ) and  ( empty cl_ics ) ) ) 
@@ -951,15 +757,7 @@ ${port_action.body}
   .//
   .// Sony specific requirement: Default behavior for leaf components
   .select any te_sys from instances of TE_SYS
-  .select any nested_c_c related by te_c->C_C[R2054]->CN_CIC[R4202]->C_C[R4203]
-  .assign generic_packages = false
-  .select any pe_pe from instances of PE_PE
-  .if ( not_empty pe_pe )
-    .assign generic_packages = true
-  .end if
-  .if ( generic_packages )
-    .select any nested_c_c related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]
-  .end if
+  .select any nested_c_c related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]
   .select many cl_ics related by te_c->C_C[R2054]->CL_IC[R4205]
   .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
     .if ( ( empty te_classes ) and ( ( empty nested_c_c ) and  ( empty cl_ics ) ) ) 
@@ -1264,11 +1062,6 @@ ${port_action.body}
   .param inst_ref te_c
   .param boolean generateTemplate
   .//
-  .assign generic_packages = false
-  .select any pe_pe from instances of PE_PE
-  .if ( not_empty pe_pe )
-    .assign generic_packages = true
-  .end if
   .select any te_file from instances of TE_FILE
   .assign class_name = "$$(CLASS_NAME)"
   .assign pvBase_class_name = "$$(PV_BASE_CLASS_NAME)"
@@ -1284,35 +1077,20 @@ ${port_action.body}
     .assign other_port_name = ""
     .assign ep_pkg = empty_ep_pkg
     .select one c_c related by te_c->C_C[R2054]
-    .select one parent_c_c related by te_c->C_C[R2054]->CN_CIC[R4203]->C_C[R4202]
-    .if ( generic_packages )
-      .select one parent_c_c related by te_c->C_C[R2054]->PE_PE[R8001]->C_C[R8003]
-    .end if
+    .select one parent_c_c related by te_c->C_C[R2054]->PE_PE[R8001]->C_C[R8003]
     .if (empty parent_c_c)
       .select one parent_c_c related by te_c->C_C[R2054]->CL_IC[R4201]->C_C[R4205]
     .end if
-    .select one cp_cp related by te_c->C_C[R2054]->CP_CP[R4604]
-    .if ( generic_packages )
-      .select one ep_pkg related by te_c->C_C[R2054]->PE_PE[R8001]->EP_PKG[R8000] 
-    .end if
-    .if ( ( not_empty ep_pkg ) or ( not_empty cp_cp ) )
-      .if ( generic_packages )
-        .select any cl_ic related by ep_pkg->PE_PE[R8000]->CL_IC[R8001] where ( selected.AssignedComp_Id == c_c.Id )
-      .else
-        .select any cl_ic related by cp_cp->CL_IC[R4605] where ( selected.AssignedComp_Id == c_c.Id )
-      .end if
+    .select one ep_pkg related by te_c->C_C[R2054]->PE_PE[R8001]->EP_PKG[R8000] 
+    .if ( not_empty ep_pkg )
+      .select any cl_ic related by ep_pkg->PE_PE[R8000]->CL_IC[R8001] where ( selected.AssignedComp_Id == c_c.Id )
     .else
       .select any cl_ic related by parent_c_c->CL_IC[R4205]  where ( selected.AssignedComp_Id == c_c.Id )
     .end if
     .select one te_ci related by cl_ic->TE_CI[R2009]
     .assign isDelegated = false
-    .if ( generic_packages )
-      .invoke other_way = TE_C_GetOtherWayConnection ( te_c, te_ci, te_po, ep_pkg, parent_c_c )
-      .assign isDelegated = other_way.isDelegated
-    .else
-      .invoke other_way = TE_C_GetOtherWayConnection ( te_c, te_ci, te_po, cp_cp, parent_c_c )
-      .assign isDelegated = other_way.isDelegated
-    .end if
+    .invoke other_way = TE_C_GetOtherWayConnection ( te_c, te_ci, te_po, ep_pkg, parent_c_c )
+    .assign isDelegated = other_way.isDelegated
     .// do not bind the delegated port to the wrapper. This port should be connected to the parent port directly
     .if ( not isDelegated )
       .assign bind_port_to_wrapper = bind_port_to_wrapper + "m_${te_c.Name}.${te_po.name}(m_${te_po.name}_bpCallBackIF);\n"

@@ -51,10 +51,8 @@ int sc_main ( int argc, char* argv[] )
   setTiming();
 .end if
   ${te_callout.initialization}();
-.if ( persistence_needed.result )
+.if ( te_sys.PersistentClassCount > 0 )
   ${te_persist.factory_init}();
-.end if
-.if ( persistence_needed.result )
   ${te_persist.restore}(); /* Restore persistent instances.  */
 .end if
   ${te_callout.pre_xtUML_initialization}();
@@ -84,5 +82,5 @@ ${sysc_top_insts}
   sc_stop();
   ${te_callout.post_shutdown}();
   ${sysc_top_insts_cleanup}\
-${return_body.body}\
+${return_body}\
 }

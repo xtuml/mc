@@ -1,6 +1,6 @@
 .//============================================================================
 .// Notice:
-.// (C) Copyright 1998-2012 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -9,7 +9,7 @@
 .//============================================================================
 .//
 .if ( ( te_sys.SystemCPortsType == "TLM") or ( te_sys.SystemCPortsType == "sc_interface") )
-  ${virtual}${te_aba.ReturnDataType} ${te_aba.GeneratedName}(${parameter_list})${initializer};
+  ${virtual}${te_aba.ReturnDataType} ${te_aba.GeneratedName}(${te_aba.ParameterDeclaration})${initializer};
 .//
 .else
 .if ( gen_struct_channel )

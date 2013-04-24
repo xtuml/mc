@@ -1,6 +1,6 @@
 .//============================================================================
 .// Notice:
-.// (C) Copyright 1998-2012 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -25,7 +25,7 @@ Port:  ${te_mact.PortName}
 Message:  ${te_mact.MessageName}
  */
 ${te_aba.ReturnDataType}
-${te_aba.scope}${te_aba.GeneratedName}(${parameter_list})
+${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
 {
   .if ( te_aba.NonSelfEventCount > 0 )
     .if ( event_prioritization_needed.result )

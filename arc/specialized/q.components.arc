@@ -5,7 +5,7 @@
 .// Component ports top level query.
 .//
 .// Notice:
-.// (C) Copyright 1998-2012 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -24,14 +24,13 @@
 .assign create_model = ""
 .for each te_c in te_cs
   .assign port_classes = ""
-  .assign message_declarations = ""
   .assign message_definitions = ""
+  .assign message_declarations = ""
   .assign sc_port_declarations = ""
   .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
     .assign sc_port_declarations = sc_port_declarations + "  sc_in_clk  clk;\n"
     .assign sc_port_declarations = sc_port_declarations + "  sc_in < bool >  rst_X;\n"
   .end if
-  .//
   .invoke s = TE_C_CreateIncludeList ( te_c )
   .assign include_files = s.include_files
   .// nested components
@@ -58,7 +57,7 @@
       .assign sc_port_declarations = ( ( sc_port_declarations + "  ") + ( te_po.InterfaceName + provreq2 ) ) + ( ( " " + te_po.GeneratedName ) + ";\n" )
     .end if
   .end for
-  .select many te_pos related by te_c->TE_PO[R2005] where ( selected.sibling == 0 )
+  .select many te_pos related by te_c->TE_PO[R2005] where ( selected.sibling == 00 )
   .for each te_po in te_pos
     .assign provreq1 = "_requirement"
     .assign provreq2 = "_provision"
@@ -67,7 +66,7 @@
       .assign provreq2 = "_requirement"
     .end if
   .// messages
-    .select many te_macts related by te_po->TE_MACT[R2006]
+    .select many te_macts related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
     .if ( (te_sys.SystemCPortsType == "TLM") or (te_sys.SystemCPortsType == "sc_interface") )
       .invoke defs = TE_MACT_CreateDefinition( te_macts )
       .assign message_definitions = message_definitions + defs.body
@@ -76,6 +75,7 @@
       .assign port_classes = ( ( port_classes + ", public " ) + ( te_po.InterfaceName + provreq1 ) )
     .end if
   .end for
+  .//
   .// functions
   .select any te_sync related by te_c->TE_SYNC[R2084]
   .assign function_definitions = ""
@@ -93,9 +93,9 @@
   .// top-level domain connection to the rest of the system.
   .select any te_class related by te_c->TE_CLASS[R2064]
   .select any te_sm related by te_class->TE_SM[R2072]
-  .invoke dci = GetClassInfoArrayNaming()
-  .invoke domain_class_info = GetDomainClassInfoName( te_c.Name )
-  .invoke max_class_number = GetDomainClassNumberName( te_c.Name )
+  .select any te_cia from instances of TE_CIA
+  .select one te_dci related by te_c->TE_DCI[R2090]
+  .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
   .select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsInitFunction ) and ( selected.XlateSemantics ) )
   .invoke s = CreateDomainInitSegment( te_c, te_syncs, te_sm )
   .assign init_segment = s.body
@@ -108,14 +108,18 @@
   .assign sc_process_decls = s.sc_process_decls
   .//
   .// initialization
+  .//
+  .assign instance_dumpers = ""
+  .assign class_info_init = ""
   .// Build the domain init information containing data structures collecting
   .// class info for the entire domain.
-  .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
-  .invoke class_numbers = GetDomainClassNumberName( te_c.Name )
-  .invoke decs = CreateClassIdentifierFile( te_c )
-  .assign class_type_identifiers = decs.body
-  .invoke decs = CreateSynchronousServiceClassDeclaration( te_c )
-  .assign function_declarations = decs.body
+  .invoke r = CreateClassIdentifierFile( te_c )
+  .assign class_type_identifiers = r.body
+  .if ( te_c.internal_behavior )
+    .assign class_info_init = r.class_info_init
+  .end if
+  .invoke r = CreateSynchronousServiceClassDeclaration( te_c )
+  .assign function_declarations = r.body
   .assign event_union_name = te_c.Name + "_DomainEvents_u"
   .//
   .include "${arc_path}/t.component.module.h"
