@@ -5,7 +5,7 @@
 .// External Entity bridge body.
 .//
 .// Notice:
-.// (C) Copyright 1998-2010 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and

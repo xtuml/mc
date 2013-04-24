@@ -6,7 +6,7 @@
 .// top-level domain connection to the rest of the system.
 .//
 .// Notice:
-.// (C) Copyright 1998-2010 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and

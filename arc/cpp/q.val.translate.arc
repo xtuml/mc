@@ -2,7 +2,7 @@
 .//
 .// $RCSfile: q.val.translate.arc,v $
 .//
-.// (c) Copyright 1998-2010 Mentor Graphics Corporation  All rights reserved.
+.// (c) Copyright 1998-2013 Mentor Graphics Corporation  All rights reserved.
 .//
 .//====================================================================
 .//

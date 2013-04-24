@@ -1,7 +1,7 @@
 .if (file_epilogue == false)
 /**************************************************************/
 /*                                                            */
-/*      (C) Copyright 1998-2012 Mentor Graphics Corporation   */
+/*      (C) Copyright 1998-2013 Mentor Graphics Corporation   */
 /*                  All Rights Reserved                       */
 /*                                                            */
 /*       THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY      */
