@@ -1,4 +1,5 @@
-.//============================================================================ .// $RCSfile: sys.arc,v $
+.//============================================================================
+.// $RCSfile: sys.arc,v $
 .//
 .// Description:
 .// This is the root archetype for generation.
@@ -67,11 +68,12 @@
 .include "${arc_path}/q.parameters.arc"
 .include "${arc_path}/q.parameters.sort.arc"
 .include "${arc_path}/q.smt.generate.arc"
+.include "${arc_path}/q.tm_template.arc"
 .include "${arc_path}/q.utils.arc"
 .include "${arc_path}/q.val.translate.arc"
 .include "${arc_path}/sys_util.arc"
 .include "${arc_path}/t.smt.c"
-.//
+.include "${arc_path}/t.component.message.body.c"
 .// Determine if this is a generic packages model.
 .assign generic_packages = false
 .select any ep_pkg from instances of EP_PKG
@@ -201,8 +203,13 @@
   .include "${te_file.arc_path}/q.classes.arc"
 .end for
 .//
-.// Generate the interface code between the components.
+.assign TLM_message_order = ""
+.// Generate interface declarations.
+.include "${te_file.arc_path}/q.component.interfaces.arc"
+.// Generate components.
 .include "${te_file.arc_path}/q.components.arc"
+.// Generate system packages.
+.include "${te_file.arc_path}/q.packages.arc"
 .//
 .//
 .//============================================================================
@@ -255,6 +262,23 @@
 .//=============================================================================
 .// Generate main.
 .//=============================================================================
+.assign sysc_top_includes = ""
+.assign sysc_top_inst_decls = ""
+.assign sysc_top_insts = ""
+.assign sysc_top_insts_cleanup = ""
+.assign gen_vista_top_template = false
+.select many tm_build_pkgs from instances of TM_BUILD
+.for each tm_build_pkg in tm_build_pkgs
+  .assign build_pkg_name = "$r{tm_build_pkg.package_obj_name}"
+  .assign sysc_top_includes = "${sysc_top_includes}" + "#include ""${build_pkg_name}.${te_file.hdr_file_ext}""\n"
+  .assign sysc_top_inst_decls = "${sysc_top_inst_decls}" + "${build_pkg_name}* $r{tm_build_pkg.package_inst_name} = 0;\n"
+  .assign sysc_top_insts = "${sysc_top_insts}" + "  $r{tm_build_pkg.package_inst_name} = new ${build_pkg_name}(""${build_pkg_name}"");\n"
+  .assign sysc_top_insts_cleanup = "delete $r{tm_build_pkg.package_inst_name};\n"
+  .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
+    .assign sysc_top_insts = "${sysc_top_insts}" + "  $r{tm_build_pkg.package_inst_name}->clk(clk);\n"
+    .assign sysc_top_insts = "${sysc_top_insts}" + "  $r{tm_build_pkg.package_inst_name}->rst_X(rst_X);\n"
+  .end if
+.end for
 .invoke class_dispatch_array = GetDomainDispatcherTableName( "" )
 .assign num_ooa_doms = cardinality active_te_cs
 .assign dom_count = 0
@@ -266,8 +290,13 @@
   .assign dq_arg = "t "
   .assign thread_number = "t"
 .end if
-.include "${te_file.arc_path}/t.sys_main.c"
+.include "${te_file.arc_path}/t.sysc_main.c"
 .emit to file "${te_file.system_source_path}/${te_file.sys_main}.${te_file.src_file_ext}"
+.if ( te_sys.SystemCPortsType == "TLM" )
+  .assign gen_vista_top_template = true
+  .include "${te_file.arc_path}/t.sysc_main.c"
+  .emit to file "${te_file.system_source_path}/sysc_main_template.${te_file.src_file_ext}"
+.end if
 .//
 .invoke r = DefineActiveClassCountArray( te_cs )
 .assign active_class_counts = r.body

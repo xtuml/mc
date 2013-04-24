@@ -71,7 +71,7 @@
   .// This set of queries drives the generation of initialization and
   .// top-level domain connection to the rest of the system.
   .select any te_class related by te_c->TE_CLASS[R2064]
-  .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+  .select any te_sm related by te_class->TE_SM[R2072]
   .select any te_cia from instances of TE_CIA
   .select one te_dci related by te_c->TE_DCI[R2090]
   .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
