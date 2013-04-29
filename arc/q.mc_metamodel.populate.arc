@@ -365,9 +365,11 @@
   .assign cp_cp = empty_cp_cp
   .assign package_to_build = ""
   .select any tm_build from instances of TM_BUILD
+  .assign markedsystems = 0
   .if ( not_empty tm_build )
     .if ( generic_packages )
       .select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
+      .assign markedsystems = cardinality ep_pkgs
       .if ( empty ep_pkgs )
         .print "ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting."
         .exit 11
@@ -397,9 +399,9 @@
         .assign package_to_build = cp_cp.Name
       .end if
     .end if
-    .if ( markedsystems > 1 )
-      .print "WARNING:  More than one package is marked as a system build... choosing only one."
-    .end if
+  .end if
+  .if ( markedsystems > 1 )
+    .print "WARNING:  More than one package is marked as a system build... choose only one."
   .end if
   .if ( "" != package_to_build )
     .print "Marked configuration package ${package_to_build} found."

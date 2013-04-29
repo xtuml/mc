@@ -232,12 +232,16 @@ typedef union {
   .if ( "SystemC" != te_target.language )
 /* xtUML domain identification numbers */
     .assign enumerated_domain_id = 0
+    .assign delimiter = ""
+    .assign namelist = ""
     .for each te_c in te_cs
       .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
       .assign te_c.number = enumerated_domain_id
 #define ${dom_id.name} ${enumerated_domain_id}
 #define ${dom_id.name}_text "${te_c.Name}"
 #include "${te_c.classes_file}.${te_file.hdr_file_ext}"
+      .assign namelist = namelist + "${delimiter}\\n    ""${te_c.Name}"" " 
+      .assign delimiter = ","
       .assign enumerated_domain_id = enumerated_domain_id + 1
     .end for
   .end if

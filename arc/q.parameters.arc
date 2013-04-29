@@ -69,14 +69,18 @@
     .assign stru = ( ( stru + te_dt.ExtName ) + ( param_qual + " " ) ) + ( ( te_parm.GeneratedName + te_parm.array_spec ) + ";\n" )
     .if ( ( "" != te_dt.string_format ) and ( "" == te_parm.array_spec ) )
       .// Do not trace structures or arrays.
-      .assign parameter_trace = ( parameter_trace + ", " ) + te_parm.GeneratedName
+      .assign dereference = ""
+      .if ( 0 != te_parm.By_Ref )
+        .assign dereference = "*"
+      .end if
+      .assign parameter_trace = ( parameter_trace + ", " ) + ( dereference + te_parm.GeneratedName )
       .assign string_format = ( string_format + format_delimiter ) + te_dt.string_format
     .else
       .assign string_format = ( string_format + format_delimiter ) + "[]"
     .end if
     .invoke s = t_oal_smt_event_parameters( "", te_parm.Name, te_parm.GeneratedName, te_dt.Core_Typ, "  " )
     .assign assn = assn + s.result
-    .if ( "A00portindex" != "${te_parm.Name}" )
+    .if ( "A00portindex" != te_parm.Name )
       .assign assnbase = assnbase + s.result
     .end if
     .assign param_delimiter = ", "

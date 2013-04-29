@@ -277,11 +277,11 @@
   .select one te_sm related by sm_sm->TE_SM[R2043]
   .select many te_states related by sm_sm->SM_STATE[R501]->TE_STATE[R2037]
   .// Watch out for incomplete (or non-active) xtUML models.
+  .assign state_space = te_sm.num_states + 1
+  .assign state_names = ""
   .if ( te_sm.num_states > 0 )
-    .assign state_space = te_sm.num_states + 1
     .assign delimiter = ","
     .assign state_action_rows = ""
-    .assign state_names = ""
     .assign state_count = 0
     .while ( state_count < te_sm.num_states )
       .if ( state_count == ( te_sm.num_states - 1 ) )
@@ -298,9 +298,9 @@
       .assign state_count = state_count + 1
     .end while
     .include "${te_file.arc_path}/t.class.sem.state_action_array.c"
-    .if ( te_c.StateTrace )
-      .include "${te_file.arc_path}/t.class.sem.state_names.c"
-    .end if
+  .end if
+  .if ( te_c.StateTrace )
+    .include "${te_file.arc_path}/t.class.sem.state_names.c"
   .end if
 .end function
 .//

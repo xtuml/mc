@@ -14,7 +14,6 @@
   .assign result = ""
   .if ( not_empty v_pars )
     .select any te_string from instances of TE_STRING
-    .invoke V_PAR_sort( v_pars )
     .for each v_par in v_pars
       .select one te_par related by v_par->TE_PAR[R2063]
       .select one te_parm related by te_par->TE_PARM[R2091]
