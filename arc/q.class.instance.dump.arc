@@ -6299,7 +6299,7 @@ INSERT INTO TE_DCI VALUES (\
   .else
  ${te_dci.te_cID}\
   .end if
-, '${te_dci.class_numbers}', '${te_dci.union}', '${te_dci.task_list}', '${te_dci.task_numbers}', '${te_dci.max}', '${te_dci.max_models}', '${te_dci.init}', '${te_dci.array_name}' );
+, '${te_dci.class_numbers}', '${te_dci.persist_union}', '${te_dci.task_list}', '${te_dci.task_numbers}', '${te_dci.max}', '${te_dci.max_models}', '${te_dci.init}', '${te_dci.array_name}' );
 .end for
 .select many te_cias from instances of TE_CIA
 .for each te_cia in te_cias

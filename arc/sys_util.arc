@@ -159,7 +159,7 @@
 typedef union {
   .for each te_c in te_cs
     .select one te_dci related by te_c->TE_DCI[R2090]
-  ${te_dci.union}
+  ${te_dci.persist_union}
   .end for
 } ${uname};
   .assign attr_result = uname

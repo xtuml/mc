@@ -6046,7 +6046,7 @@ INSERT INTO TE_SET VALUES ( '${te_set.number_of_containoids}', '${te_set.iterato
 .end for
 .select many te_persists from instances of TE_PERSIST
 .for each te_persist in te_persists
-INSERT INTO TE_PERSIST VALUES ( '${te_persist.persist_file}', '${te_persist.class_union}', '${te_persist.instance_cache_depth}', '${te_persist.link_cache_depth}', '${te_persist.check_mark}', '${te_persist.post_link}', '${te_persist.link_type_name}', '${te_persist.link_type_type}', '${te_persist.factory_init}', '${te_persist.commit}', '${te_persist.restore}', '${te_persist.remove}', '${te_persist.domainnum_name}', '${te_persist.domainnum_type}', '${te_persist.classnum_name}', '${te_persist.classnum_type}', '${te_persist.index_name}', '${te_persist.index_type}', '${te_persist.instid_type}', '${te_persist.instid_name}', '${te_persist.dirty_type}', '${te_persist.dirty_name}', ${te_persist.dirty}, ${te_persist.clean} );
+INSERT INTO TE_PERSIST VALUES ( '${te_persist.persist_file}', '${te_persist.class_union}', '${te_persist.instance_cache_depth}', '${te_persist.link_cache_depth}', '${te_persist.check_mark}', '${te_persist.post_link}', '${te_persist.link_type_name}', '${te_persist.link_type_type}', '${te_persist.factory_init}', '${te_persist.commit}', '${te_persist.restore}', '${te_persist.remove}', '${te_persist.domainnum_name}', '${te_persist.domainnum_type}', '${te_persist.classnum_name}', '${te_persist.classnum_type}', '${te_persist.index_name}', '${te_persist.index_type}', '${te_persist.instid_type}', '${te_persist.instid_name}', '${te_persist.dirty_type}', '${te_persist.dirty_name}', ${te_persist.dirty_dirty}, ${te_persist.dirty_clean} );
 .end for
 .select many te_eqs from instances of TE_EQ
 .for each te_eq in te_eqs
@@ -6299,7 +6299,7 @@ INSERT INTO TE_DCI VALUES (\
   .else
  ${te_dci.te_cID}\
   .end if
-, '${te_dci.class_numbers}', '${te_dci.union}', '${te_dci.task_list}', '${te_dci.task_numbers}', '${te_dci.max}', '${te_dci.max_models}', '${te_dci.init}', '${te_dci.array_name}' );
+, '${te_dci.class_numbers}', '${te_dci.persist_union}', '${te_dci.task_list}', '${te_dci.task_numbers}', '${te_dci.max}', '${te_dci.max_models}', '${te_dci.init}', '${te_dci.array_name}' );
 .end for
 .select many te_cias from instances of TE_CIA
 .for each te_cia in te_cias

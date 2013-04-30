@@ -1,5 +1,5 @@
 -- ============================================================================
--- $RCSfile: xtumlmc_schema.sql,v $
+-- $RCSfile: schema_gen.arc,v $
 --
 -- Description:
 -- This file provides an SQL schema suitable for use with the
@@ -2844,8 +2844,8 @@ CREATE TABLE TE_PERSIST (
 	instid_name	STRING,
 	dirty_type	STRING,
 	dirty_name	STRING,
-	dirty	INTEGER,
-	clean	INTEGER );
+	dirty_dirty	INTEGER,
+	dirty_clean	INTEGER );
 
 -- Class:  2040.  event queue
 CREATE TABLE TE_EQ (
@@ -3176,7 +3176,7 @@ CREATE TABLE TE_IIR (
 CREATE TABLE TE_DCI (
 	te_cID	UNIQUE_ID,
 	class_numbers	STRING,
-	union	STRING,
+	persist_union	STRING,
 	task_list	STRING,
 	task_numbers	STRING,
 	max	STRING,
