@@ -1,0 +1,10 @@
+ooaofooa_T_b( "<section>" );
+ooaofooa_T_b( "\n" );
+ooaofooa_T_b( "<title>" );
+ooaofooa_T_b( doc_sec->title );
+ooaofooa_T_b( "</title>" );
+ooaofooa_T_b( "\n" );
+ooaofooa_T_b( "<subtitle>" );
+ooaofooa_T_b( doc_sec->subtitle );
+ooaofooa_T_b( "</subtitle>" );
+ooaofooa_T_b( "\n" );

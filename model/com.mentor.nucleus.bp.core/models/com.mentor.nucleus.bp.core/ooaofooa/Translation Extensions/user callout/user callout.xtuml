@@ -1,0 +1,350 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	'user callout',
+	2044,
+	'TE_CALLOUT',
+	'access:te_prefix
+System user callouts are routines With calls interspersed throughout the
+generated code.  These routines give the user control at various important
+points during execution of the generated system.',
+	"ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef");
+INSERT INTO O_NBATTR
+	VALUES ("b56a2d47-1db3-4783-bfa9-c51047fa514b",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("b56a2d47-1db3-4783-bfa9-c51047fa514b",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("b56a2d47-1db3-4783-bfa9-c51047fa514b",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"49a86b47-adc6-4dfd-b04a-19d68cbca979",
+	'initialization',
+	'',
+	'',
+	'initialization',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserInitializationCallout"');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("0323421c-36d6-40b2-bc80-2d6d0ea526e9",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("0323421c-36d6-40b2-bc80-2d6d0ea526e9",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("0323421c-36d6-40b2-bc80-2d6d0ea526e9",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"b56a2d47-1db3-4783-bfa9-c51047fa514b",
+	'pre_xtUML_initialization',
+	'',
+	'',
+	'pre_xtUML_initialization',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserPreOoaInitializationCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("b5d514e5-7a2d-4b09-8b23-dd2330c16dec",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("b5d514e5-7a2d-4b09-8b23-dd2330c16dec",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("b5d514e5-7a2d-4b09-8b23-dd2330c16dec",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"0323421c-36d6-40b2-bc80-2d6d0ea526e9",
+	'post_xtUML_initialization',
+	'',
+	'',
+	'post_xtUML_initialization',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserPostOoaInitializationCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("8a71062c-8092-4d13-94fb-f76e2bcb8aee",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("8a71062c-8092-4d13-94fb-f76e2bcb8aee",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("8a71062c-8092-4d13-94fb-f76e2bcb8aee",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"b5d514e5-7a2d-4b09-8b23-dd2330c16dec",
+	'background_processing',
+	'',
+	'',
+	'background_processing',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserBackgroundProcessingCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("b793f7b4-ecb4-4e80-a860-b08870603938",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("b793f7b4-ecb4-4e80-a860-b08870603938",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("b793f7b4-ecb4-4e80-a860-b08870603938",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"4c39b788-6a5a-4d9a-94fd-c6ab0d1511a9",
+	'pre_shutdown',
+	'',
+	'',
+	'pre_shutdown',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserPreShutdownCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("5e0a7bf1-48ba-4365-81d7-ec24acfdff1a",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("5e0a7bf1-48ba-4365-81d7-ec24acfdff1a",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("5e0a7bf1-48ba-4365-81d7-ec24acfdff1a",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"2a5d2317-7b5d-4f8b-a223-fbe4b2ccc244",
+	'event_no_instance',
+	'',
+	'',
+	'event_no_instance',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserEventNoInstanceCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("79cdecaf-a9c5-4f71-9bab-b5756a0a7c35",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("79cdecaf-a9c5-4f71-9bab-b5756a0a7c35",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("79cdecaf-a9c5-4f71-9bab-b5756a0a7c35",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"5e0a7bf1-48ba-4365-81d7-ec24acfdff1a",
+	'event_free_list_empty',
+	'',
+	'',
+	'event_free_list_empty',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserEventFreeListEmptyCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("5b629162-fd1d-4960-bfdf-5577ef8b806d",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("5b629162-fd1d-4960-bfdf-5577ef8b806d",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("5b629162-fd1d-4960-bfdf-5577ef8b806d",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"536bb346-f46e-4ab0-9599-c9a2754f62dd",
+	'object_pool_empty',
+	'',
+	'',
+	'object_pool_empty',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserObjectPoolEmptyCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("96a3d023-8812-47c2-a475-bf02dbe5f756",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("96a3d023-8812-47c2-a475-bf02dbe5f756",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("96a3d023-8812-47c2-a475-bf02dbe5f756",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"5b629162-fd1d-4960-bfdf-5577ef8b806d",
+	'node_list_empty',
+	'',
+	'',
+	'node_list_empty',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserNodeListEmptyCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("33a6c85b-ecf3-4ced-9922-368b17ba3692",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("33a6c85b-ecf3-4ced-9922-368b17ba3692",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("33a6c85b-ecf3-4ced-9922-368b17ba3692",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"96a3d023-8812-47c2-a475-bf02dbe5f756",
+	'interleaved_bridge_overflow',
+	'',
+	'',
+	'interleaved_bridge_overflow',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserInterleavedBridgeOverflowCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("3184ece0-e8dd-40b5-8790-4c8f7817cc79",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("3184ece0-e8dd-40b5-8790-4c8f7817cc79",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("3184ece0-e8dd-40b5-8790-4c8f7817cc79",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"33a6c85b-ecf3-4ced-9922-368b17ba3692",
+	'self_event_queue_empty',
+	'',
+	'',
+	'self_event_queue_empty',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserSelfEventQueueEmptyCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("54613494-18db-49e9-b0b3-bd5107041ee3",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("54613494-18db-49e9-b0b3-bd5107041ee3",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("54613494-18db-49e9-b0b3-bd5107041ee3",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"3184ece0-e8dd-40b5-8790-4c8f7817cc79",
+	'non_self_event_queue_empty',
+	'',
+	'',
+	'non_self_event_queue_empty',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserNonSelfEventQueueEmptyCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("97a39882-4f1d-4e1c-8ae9-e54074f9be46",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("97a39882-4f1d-4e1c-8ae9-e54074f9be46",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("97a39882-4f1d-4e1c-8ae9-e54074f9be46",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"54613494-18db-49e9-b0b3-bd5107041ee3",
+	'persistence_error',
+	'',
+	'',
+	'persistence_error',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserPersistenceErrorCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("49a86b47-adc6-4dfd-b04a-19d68cbca979",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("49a86b47-adc6-4dfd-b04a-19d68cbca979",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("49a86b47-adc6-4dfd-b04a-19d68cbca979",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"00000000-0000-0000-0000-000000000000",
+	'file',
+	'This file contains user "hooks" that get called at strategic places throughout
+the generated code.',
+	'',
+	'file',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'"sys_user_co"');
+INSERT INTO O_NBATTR
+	VALUES ("2a5d2317-7b5d-4f8b-a223-fbe4b2ccc244",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("2a5d2317-7b5d-4f8b-a223-fbe4b2ccc244",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("2a5d2317-7b5d-4f8b-a223-fbe4b2ccc244",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"b793f7b4-ecb4-4e80-a860-b08870603938",
+	'post_shutdown',
+	'',
+	'',
+	'post_shutdown',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserPostShutdownCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("4c39b788-6a5a-4d9a-94fd-c6ab0d1511a9",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("4c39b788-6a5a-4d9a-94fd-c6ab0d1511a9",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("4c39b788-6a5a-4d9a-94fd-c6ab0d1511a9",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"8a71062c-8092-4d13-94fb-f76e2bcb8aee",
+	'event_cant_happen',
+	'',
+	'',
+	'event_cant_happen',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserEventCantHappenCallout"');
+INSERT INTO O_NBATTR
+	VALUES ("536bb346-f46e-4ab0-9599-c9a2754f62dd",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_BATTR
+	VALUES ("536bb346-f46e-4ab0-9599-c9a2754f62dd",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ATTR
+	VALUES ("536bb346-f46e-4ab0-9599-c9a2754f62dd",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	"79cdecaf-a9c5-4f71-9bab-b5756a0a7c35",
+	'empty_handle_detected',
+	'',
+	'',
+	'empty_handle_detected',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.symbolsw + "UserEmptyHandleDetectedCallout"');
+INSERT INTO O_ID
+	VALUES (0,
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_OIDA
+	VALUES ("49a86b47-adc6-4dfd-b04a-19d68cbca979",
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c",
+	0,
+	'file');
+INSERT INTO O_ID
+	VALUES (1,
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO O_ID
+	VALUES (2,
+	"5b06cc0f-ce60-4f1b-a6de-21323c17d02c");
+INSERT INTO S_SS_PROXY
+	VALUES ("ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	'TE',
+	2200,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000400008",
+	'../Translation Extensions.xtuml');

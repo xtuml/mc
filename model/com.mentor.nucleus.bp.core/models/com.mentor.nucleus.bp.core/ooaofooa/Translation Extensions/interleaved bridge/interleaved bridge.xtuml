@@ -1,0 +1,174 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("c9f51c56-799e-4db1-9495-fdeb9ac81e82",
+	'interleaved bridge',
+	2041,
+	'TE_ILB',
+	'access:te_prefix
+Interleaved bridges allow for domain functions to be called from other
+contexts.  An example is interrupt handlers.  When an interrupt handler
+calls a domain function, another state action may be in mid stride.  If
+marked appropriately, the domain function can be called from an interrupt
+handler and execution of the function deferred until the current state
+action finishes.  However, the domain function called by the interrupt
+handler (or other context) can return immediately (capturinng input
+arguments).',
+	"ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef");
+INSERT INTO O_NBATTR
+	VALUES ("72455d40-8836-497e-ac1e-03661f8a932b",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_BATTR
+	VALUES ("72455d40-8836-497e-ac1e-03661f8a932b",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_ATTR
+	VALUES ("72455d40-8836-497e-ac1e-03661f8a932b",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82",
+	"00000000-0000-0000-0000-000000000000",
+	'file',
+	'This is the name of the file containing the interleaved bridge queueing code.',
+	'',
+	'file',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'"sys_ilb"');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("8bf2b157-769f-4836-9a04-4e8f908e4773",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_BATTR
+	VALUES ("8bf2b157-769f-4836-9a04-4e8f908e4773",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_ATTR
+	VALUES ("8bf2b157-769f-4836-9a04-4e8f908e4773",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82",
+	"b4e7b53e-e50d-4eb4-8098-911f7077f131",
+	'interleave_bridge',
+	'',
+	'',
+	'interleave_bridge',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'"InterleaveBridge"');
+INSERT INTO O_NBATTR
+	VALUES ("f03511f6-9e31-4f11-9e9b-afd5759cb1e4",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_BATTR
+	VALUES ("f03511f6-9e31-4f11-9e9b-afd5759cb1e4",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_ATTR
+	VALUES ("f03511f6-9e31-4f11-9e9b-afd5759cb1e4",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82",
+	"72455d40-8836-497e-ac1e-03661f8a932b",
+	'define_name',
+	'This defines the depth of the interleaved bridge queue.  No more than
+this many calls from the outsite (i.e. interrupt handlers) can be 
+pending at any one time.',
+	'',
+	'define_name',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGES"');
+INSERT INTO O_NBATTR
+	VALUES ("b4e7b53e-e50d-4eb4-8098-911f7077f131",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_BATTR
+	VALUES ("b4e7b53e-e50d-4eb4-8098-911f7077f131",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_ATTR
+	VALUES ("b4e7b53e-e50d-4eb4-8098-911f7077f131",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82",
+	"f03511f6-9e31-4f11-9e9b-afd5759cb1e4",
+	'data_define_name',
+	'This limits the size of the parameter data that can be passed in on
+an interleaved bridge invocation.',
+	'',
+	'data_define_name',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGE_DATA"');
+INSERT INTO O_NBATTR
+	VALUES ("c8683588-c651-4930-98fe-60f2287c7d15",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_BATTR
+	VALUES ("c8683588-c651-4930-98fe-60f2287c7d15",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_ATTR
+	VALUES ("c8683588-c651-4930-98fe-60f2287c7d15",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82",
+	"8bf2b157-769f-4836-9a04-4e8f908e4773",
+	'interleave_bridge_done',
+	'This routine is called when the domain function is complete.',
+	'',
+	'interleave_bridge_done',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'"InterleaveBridgeDone"');
+INSERT INTO O_NBATTR
+	VALUES ("4a9fdb8a-b9c5-4c21-a946-40b1fdb487a7",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_BATTR
+	VALUES ("4a9fdb8a-b9c5-4c21-a946-40b1fdb487a7",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_ATTR
+	VALUES ("4a9fdb8a-b9c5-4c21-a946-40b1fdb487a7",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82",
+	"c8683588-c651-4930-98fe-60f2287c7d15",
+	'get_data',
+	'This is the accessor to the argument data from the original invocation
+of the domain function.',
+	'',
+	'get_data',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'"GetILBData"');
+INSERT INTO O_NBATTR
+	VALUES ("6f2dc0eb-d91f-4ca0-a06f-1cb97cd104da",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_BATTR
+	VALUES ("6f2dc0eb-d91f-4ca0-a06f-1cb97cd104da",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_ATTR
+	VALUES ("6f2dc0eb-d91f-4ca0-a06f-1cb97cd104da",
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82",
+	"4a9fdb8a-b9c5-4c21-a946-40b1fdb487a7",
+	'dispatch',
+	'This is the routine that executes any pending interleaved domain function
+bridge invocations (called from other contexts such as interrupt handlers).',
+	'',
+	'dispatch',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'"DispatchInterleaveBridge"');
+INSERT INTO O_ID
+	VALUES (0,
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_ID
+	VALUES (1,
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO O_ID
+	VALUES (2,
+	"c9f51c56-799e-4db1-9495-fdeb9ac81e82");
+INSERT INTO S_SS_PROXY
+	VALUES ("ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	'TE',
+	2200,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000400008",
+	'../Translation Extensions.xtuml');

@@ -1,0 +1,142 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("22460b1d-db48-46a1-bc6d-1f92b3f96978",
+	'Activity Node',
+	1101,
+	'A_N',
+	'',
+	"ff5a86d7-6bb8-4818-93a7-db0ed269ab54");
+INSERT INTO O_REF
+	VALUES ("22460b1d-db48-46a1-bc6d-1f92b3f96978",
+	"ba948593-88c4-4b1c-bee7-6a108e45306b",
+	0,
+	"4363377a-5678-4a69-abc2-e0fb3039636f",
+	"0241251c-f90b-40fb-9ff0-1b6a4022db98",
+	"56448d32-934c-4c73-bf6e-994890d6d317",
+	"5fceb8bb-f0b3-4f02-a31b-0face081faa1",
+	"547f758e-00e6-4064-b125-9ed5cfa9210a",
+	"5b9138b9-9bbb-432b-b007-dd3d711909a7",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Activity',
+	'Package_ID',
+	'R1101');
+INSERT INTO R_RGO_PROXY
+	VALUES ("22460b1d-db48-46a1-bc6d-1f92b3f96978",
+	"0241251c-f90b-40fb-9ff0-1b6a4022db98",
+	"56448d32-934c-4c73-bf6e-994890d6d317",
+	'../Activity.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("4363377a-5678-4a69-abc2-e0fb3039636f",
+	"ba948593-88c4-4b1c-bee7-6a108e45306b",
+	0,
+	"0241251c-f90b-40fb-9ff0-1b6a4022db98",
+	"5fceb8bb-f0b3-4f02-a31b-0face081faa1",
+	'../Activity.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("547f758e-00e6-4064-b125-9ed5cfa9210a",
+	"22460b1d-db48-46a1-bc6d-1f92b3f96978",
+	"a5a1b94e-be2f-4750-bd58-cf1c2713558a",
+	"cf4966b0-706a-4373-a2ee-7e706918813c",
+	1,
+	'Package_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("a5a1b94e-be2f-4750-bd58-cf1c2713558a",
+	"cf4966b0-706a-4373-a2ee-7e706918813c",
+	'../../Element Packaging/Specification Package/Specification Package.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("547f758e-00e6-4064-b125-9ed5cfa9210a",
+	"22460b1d-db48-46a1-bc6d-1f92b3f96978",
+	"a5e49891-ecbd-4b0a-9e2c-3182d9baa3bf",
+	'Package_ID',
+	'',
+	'',
+	'Package_ID',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_REF
+	VALUES ("22460b1d-db48-46a1-bc6d-1f92b3f96978",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	0,
+	"5776264f-c7e9-4abe-839f-24d0750e007c",
+	"08087bed-f0b1-4c84-b515-8662480ac484",
+	"aae92a49-0373-4351-84b0-0ee609686187",
+	"28f75ede-123b-4d84-8dcc-b0537a94aa4a",
+	"a5e49891-ecbd-4b0a-9e2c-3182d9baa3bf",
+	"f099af94-2ed7-496e-a21e-98505e9fb8fb",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Packageable Element',
+	'Element_ID',
+	'R8001');
+INSERT INTO R_RGO_PROXY
+	VALUES ("22460b1d-db48-46a1-bc6d-1f92b3f96978",
+	"08087bed-f0b1-4c84-b515-8662480ac484",
+	"aae92a49-0373-4351-84b0-0ee609686187",
+	'../../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	0,
+	"08087bed-f0b1-4c84-b515-8662480ac484",
+	"28f75ede-123b-4d84-8dcc-b0537a94aa4a",
+	'../../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("a5e49891-ecbd-4b0a-9e2c-3182d9baa3bf",
+	"22460b1d-db48-46a1-bc6d-1f92b3f96978",
+	"5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	0,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("a5e49891-ecbd-4b0a-9e2c-3182d9baa3bf",
+	"22460b1d-db48-46a1-bc6d-1f92b3f96978",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"22460b1d-db48-46a1-bc6d-1f92b3f96978");
+INSERT INTO O_OIDA
+	VALUES ("a5e49891-ecbd-4b0a-9e2c-3182d9baa3bf",
+	"22460b1d-db48-46a1-bc6d-1f92b3f96978",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"22460b1d-db48-46a1-bc6d-1f92b3f96978");
+INSERT INTO O_ID
+	VALUES (2,
+	"22460b1d-db48-46a1-bc6d-1f92b3f96978");
+INSERT INTO S_SS_PROXY
+	VALUES ("ff5a86d7-6bb8-4818-93a7-db0ed269ab54",
+	'Activity',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	'A',
+	1100,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000000000",
+	'../Activity.xtuml');

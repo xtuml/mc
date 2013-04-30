@@ -1,0 +1,358 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("76906a8d-a4c4-480b-933a-58c00a111cc4",
+	'section',
+	2301,
+	'DOC_SEC',
+	'',
+	"239a862d-a017-4365-ab16-7665217b66f6");
+INSERT INTO O_TFR
+	VALUES ("32fdfd98-4858-4f3c-8930-d1b6c347b0bb",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	'render',
+	'',
+	"6142a25c-8db7-41c4-af6f-84ef810dc1dd",
+	1,
+	'doc_sec = self;
+doc_doc = param.doc_doc;
+LOG::LogInfo( message:self.title + self.subtitle );
+T::include( file:"docbook/t.section_begin_no_abstract.xml" );
+select one doc_head related by self->DOC_HEAD[R2309];
+if ( not_empty doc_head )
+end if;
+select one doc_foot related by self->DOC_FOOT[R2308];
+if ( not_empty doc_foot )
+end if;
+select one doc_par related by self->DOC_PAR[R2305];
+if ( not_empty doc_par )
+  doc_par.render();
+end if;
+// Render sub-sections starting with the first.
+select one child_doc_sec related by self->DOC_SEC[R2307.''has first child''];
+if ( not_empty child_doc_sec )
+  child_doc_sec.render( doc_doc:doc_doc );
+end if;
+T::include( file:"docbook/t.section_end.xml" );
+
+// Dump buffer to output file.
+T::emit( file:doc_doc.filename );
+
+// Render following section(s).
+select one following_doc_sec related by self->DOC_SEC[R2306.''follows''];
+if ( not_empty following_doc_sec )
+  following_doc_sec.render( doc_doc:doc_doc );
+end if;
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("a720e60d-4786-4927-8f20-4aa2f91d0046",
+	"32fdfd98-4858-4f3c-8930-d1b6c347b0bb",
+	'doc_doc',
+	"07355d68-5133-4ef2-a2c1-036ad8c48433",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("07355d68-5133-4ef2-a2c1-036ad8c48433",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'inst_ref<document>',
+	'',
+	'',
+	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("6142a25c-8db7-41c4-af6f-84ef810dc1dd",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'void',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_TFR
+	VALUES ("453dfc37-a04b-4363-9094-1ca60c7891f1",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	'validate',
+	'',
+	"6142a25c-8db7-41c4-af6f-84ef810dc1dd",
+	0,
+	'// A section my be a child of a document or section or have predecessor.
+select many doc_secs from instances of DOC_SEC;
+for each doc_sec in doc_secs
+  select one predecessor_doc_sec related by doc_sec->DOC_SEC[R2306.''precedes''];
+  if ( empty predecessor_doc_sec )
+    select one parent_doc_sec related by doc_sec->DOC_SEC[R2307.''has parent''];
+  if ( empty parent_doc_sec )
+    select one parent_doc_doc related by doc_sec->DOC_DOC[R2300];
+  if ( empty parent_doc_doc )
+    LOG::LogFailure( message:"!Section " + doc_sec.title + " is not linked." );
+  end if;
+  end if;
+  end if;
+end for;',
+	1,
+	'',
+	"32fdfd98-4858-4f3c-8930-d1b6c347b0bb");
+INSERT INTO O_TFR
+	VALUES ("3f9a294d-1ffb-43bd-9f68-9313620a470b",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	'populate',
+	'',
+	"669816d6-1669-4b5c-a3d8-1f9d4ebb2bff",
+	0,
+	'create object instance doc_sec of DOC_SEC;
+doc_sec.title = param.title;
+doc_sec.subtitle = param.subtitle;
+doc_sec.level = 1;
+
+parent_doc_sec = param.parent_doc_sec;
+if ( not_empty parent_doc_sec )
+  // Determine if this paragraph is the first to be added to the section.
+  // If it is link it to the section.
+  // If one already exists, find and link to the sibling paragraph.
+  select one sibling_doc_sec related by parent_doc_sec->DOC_SEC[R2307.''has first child''];
+  if ( empty sibling_doc_sec )
+    relate doc_sec to parent_doc_sec across R2307.''has parent'';
+    doc_sec.level = parent_doc_sec.level + 1;
+  else
+    next_doc_sec = sibling_doc_sec;
+    while ( not_empty next_doc_sec )
+      sibling_doc_sec = next_doc_sec;
+      select one next_doc_sec related by sibling_doc_sec->DOC_SEC[R2306.''follows''];
+    end while;
+    relate sibling_doc_sec to doc_sec across R2306.''follows'';
+    doc_sec.level = sibling_doc_sec.level;
+  end if;
+end if;
+return doc_sec;
+
+',
+	1,
+	'',
+	"453dfc37-a04b-4363-9094-1ca60c7891f1");
+INSERT INTO O_TPARM
+	VALUES ("12fc8224-69f1-4536-9fcc-3804f8caf5a5",
+	"3f9a294d-1ffb-43bd-9f68-9313620a470b",
+	'title',
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("f4cdef74-b119-407a-a334-2577e58d48ea",
+	"3f9a294d-1ffb-43bd-9f68-9313620a470b",
+	'subtitle',
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	0,
+	'',
+	"12fc8224-69f1-4536-9fcc-3804f8caf5a5",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("f2d44d1e-7077-4608-ab51-7d4778e20d6d",
+	"3f9a294d-1ffb-43bd-9f68-9313620a470b",
+	'parent_doc_sec',
+	"669816d6-1669-4b5c-a3d8-1f9d4ebb2bff",
+	0,
+	'',
+	"f4cdef74-b119-407a-a334-2577e58d48ea",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("669816d6-1669-4b5c-a3d8-1f9d4ebb2bff",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'inst_ref<section>',
+	'',
+	'',
+	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("7bf0fea9-8ae2-45c5-8556-d70b5f6fd3f7",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_BATTR
+	VALUES ("7bf0fea9-8ae2-45c5-8556-d70b5f6fd3f7",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_ATTR
+	VALUES ("7bf0fea9-8ae2-45c5-8556-d70b5f6fd3f7",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	"181d31ff-9144-4302-a967-4701d3fa7c14",
+	'title',
+	'',
+	'',
+	'title',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("05d5d4ff-9c4b-4e55-9a17-53c0e7fc4afc",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_BATTR
+	VALUES ("05d5d4ff-9c4b-4e55-9a17-53c0e7fc4afc",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_ATTR
+	VALUES ("05d5d4ff-9c4b-4e55-9a17-53c0e7fc4afc",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	"7bf0fea9-8ae2-45c5-8556-d70b5f6fd3f7",
+	'subtitle',
+	'',
+	'',
+	'subtitle',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8b390c0b-6784-46e7-a737-1e3dbb6da38a",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_BATTR
+	VALUES ("8b390c0b-6784-46e7-a737-1e3dbb6da38a",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_ATTR
+	VALUES ("8b390c0b-6784-46e7-a737-1e3dbb6da38a",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	"05d5d4ff-9c4b-4e55-9a17-53c0e7fc4afc",
+	'level',
+	'',
+	'',
+	'level',
+	0,
+	"79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'integer',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("a2a5b818-31a3-4b97-a41a-64e215d86293",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_BATTR
+	VALUES ("a2a5b818-31a3-4b97-a41a-64e215d86293",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_ATTR
+	VALUES ("a2a5b818-31a3-4b97-a41a-64e215d86293",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	"00000000-0000-0000-0000-000000000000",
+	'ID',
+	'',
+	'',
+	'ID',
+	0,
+	"a5f314e0-43b6-40bd-8aee-520de6952a24",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a5f314e0-43b6-40bd-8aee-520de6952a24",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'unique_id',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_REF
+	VALUES ("76906a8d-a4c4-480b-933a-58c00a111cc4",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	0,
+	"a2a5b818-31a3-4b97-a41a-64e215d86293",
+	"7f554faf-1743-4b29-905e-6517fc3ab3f5",
+	"63684740-d18f-485c-9697-682ae92c2018",
+	"ce9dbdfb-ea96-4bdc-99b3-95b48d82cfbf",
+	"181d31ff-9144-4302-a967-4701d3fa7c14",
+	"976cce5e-d16f-46a5-9341-d48d64fda37e",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'section',
+	'ID',
+	'R2306');
+INSERT INTO R_RGO_PROXY
+	VALUES ("76906a8d-a4c4-480b-933a-58c00a111cc4",
+	"7f554faf-1743-4b29-905e-6517fc3ab3f5",
+	"63684740-d18f-485c-9697-682ae92c2018",
+	'../Document.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("a2a5b818-31a3-4b97-a41a-64e215d86293",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	0,
+	"7f554faf-1743-4b29-905e-6517fc3ab3f5",
+	"ce9dbdfb-ea96-4bdc-99b3-95b48d82cfbf",
+	'../Document.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("181d31ff-9144-4302-a967-4701d3fa7c14",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	"a2a5b818-31a3-4b97-a41a-64e215d86293",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	1,
+	'ID');
+INSERT INTO O_ATTR
+	VALUES ("181d31ff-9144-4302-a967-4701d3fa7c14",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	"a2a5b818-31a3-4b97-a41a-64e215d86293",
+	'nextID',
+	'',
+	'next',
+	'ID',
+	1,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("92904f69-e46a-4150-9f2d-f1ab1c04b122",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_BATTR
+	VALUES ("92904f69-e46a-4150-9f2d-f1ab1c04b122",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_ATTR
+	VALUES ("92904f69-e46a-4150-9f2d-f1ab1c04b122",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	"8b390c0b-6784-46e7-a737-1e3dbb6da38a",
+	'abstract',
+	'',
+	'',
+	'abstract',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_OIDA
+	VALUES ("a2a5b818-31a3-4b97-a41a-64e215d86293",
+	"76906a8d-a4c4-480b-933a-58c00a111cc4",
+	0,
+	'ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO O_ID
+	VALUES (2,
+	"76906a8d-a4c4-480b-933a-58c00a111cc4");
+INSERT INTO S_SS_PROXY
+	VALUES ("239a862d-a017-4365-ab16-7665217b66f6",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	'DOC',
+	2300,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000000000",
+	'../Document.xtuml');

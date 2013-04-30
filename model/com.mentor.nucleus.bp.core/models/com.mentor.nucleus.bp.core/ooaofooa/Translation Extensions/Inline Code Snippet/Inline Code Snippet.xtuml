@@ -1,0 +1,71 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("3a7430b7-f4e2-43f7-85cd-de149f69bac3",
+	'Inline Code Snippet',
+	2013,
+	'TE_SNIPPET',
+	'',
+	"ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef");
+INSERT INTO O_NBATTR
+	VALUES ("9eeef4db-919e-4dc1-8dbe-d1b1e11109d3",
+	"3a7430b7-f4e2-43f7-85cd-de149f69bac3");
+INSERT INTO O_BATTR
+	VALUES ("9eeef4db-919e-4dc1-8dbe-d1b1e11109d3",
+	"3a7430b7-f4e2-43f7-85cd-de149f69bac3");
+INSERT INTO O_ATTR
+	VALUES ("9eeef4db-919e-4dc1-8dbe-d1b1e11109d3",
+	"3a7430b7-f4e2-43f7-85cd-de149f69bac3",
+	"00000000-0000-0000-0000-000000000000",
+	'Index',
+	'',
+	'',
+	'Index',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("80fcdbd2-12e4-4edb-8cc8-0f63097c14f0",
+	"3a7430b7-f4e2-43f7-85cd-de149f69bac3");
+INSERT INTO O_BATTR
+	VALUES ("80fcdbd2-12e4-4edb-8cc8-0f63097c14f0",
+	"3a7430b7-f4e2-43f7-85cd-de149f69bac3");
+INSERT INTO O_ATTR
+	VALUES ("80fcdbd2-12e4-4edb-8cc8-0f63097c14f0",
+	"3a7430b7-f4e2-43f7-85cd-de149f69bac3",
+	"9eeef4db-919e-4dc1-8dbe-d1b1e11109d3",
+	'Body',
+	'',
+	'',
+	'Body',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"3a7430b7-f4e2-43f7-85cd-de149f69bac3");
+INSERT INTO O_ID
+	VALUES (1,
+	"3a7430b7-f4e2-43f7-85cd-de149f69bac3");
+INSERT INTO O_ID
+	VALUES (2,
+	"3a7430b7-f4e2-43f7-85cd-de149f69bac3");
+INSERT INTO S_SS_PROXY
+	VALUES ("ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	'TE',
+	2200,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000400008",
+	'../Translation Extensions.xtuml');

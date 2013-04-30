@@ -1,0 +1,118 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("6d3444dd-318a-482b-9223-42b910a08f33",
+	'dlist',
+	2050,
+	'TE_DLIST',
+	'access:te_prefix
+One type of container is a doubly-linked list.  Container specializations
+specific to doubly-linked lists are defined here.',
+	"ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef");
+INSERT INTO O_REF
+	VALUES ("6d3444dd-318a-482b-9223-42b910a08f33",
+	"a2d7d735-213a-4da0-892a-004ae443c981",
+	0,
+	"00a85845-4d79-426a-a482-eefcc2cbd848",
+	"f5d77ba1-a2fd-4e33-be41-1e3db8022b0f",
+	"eaaceccb-512d-4f1b-ab32-a57e1b1d5543",
+	"27efd5ee-0874-4420-8e58-9321a1c5faa0",
+	"81c28671-7dec-467a-8ab2-848450da192f",
+	"642e1c5f-30cb-4e6c-81b8-8c3d93a1771e",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'container',
+	'flavor',
+	'R2045');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6d3444dd-318a-482b-9223-42b910a08f33",
+	"f5d77ba1-a2fd-4e33-be41-1e3db8022b0f",
+	"eaaceccb-512d-4f1b-ab32-a57e1b1d5543",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("00a85845-4d79-426a-a482-eefcc2cbd848",
+	"a2d7d735-213a-4da0-892a-004ae443c981",
+	0,
+	"f5d77ba1-a2fd-4e33-be41-1e3db8022b0f",
+	"27efd5ee-0874-4420-8e58-9321a1c5faa0",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("81c28671-7dec-467a-8ab2-848450da192f",
+	"6d3444dd-318a-482b-9223-42b910a08f33",
+	"00a85845-4d79-426a-a482-eefcc2cbd848",
+	"a2d7d735-213a-4da0-892a-004ae443c981",
+	1,
+	'flavor');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("00a85845-4d79-426a-a482-eefcc2cbd848",
+	"a2d7d735-213a-4da0-892a-004ae443c981",
+	'../container/container.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("81c28671-7dec-467a-8ab2-848450da192f",
+	"6d3444dd-318a-482b-9223-42b910a08f33",
+	"00000000-0000-0000-0000-000000000000",
+	'flavor',
+	'The flavor of the container identifies the type (sub-type) of container.',
+	'',
+	'flavor',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("49fbf398-afe2-4c1a-b204-25d6056e2452",
+	"6d3444dd-318a-482b-9223-42b910a08f33");
+INSERT INTO O_BATTR
+	VALUES ("49fbf398-afe2-4c1a-b204-25d6056e2452",
+	"6d3444dd-318a-482b-9223-42b910a08f33");
+INSERT INTO O_ATTR
+	VALUES ("49fbf398-afe2-4c1a-b204-25d6056e2452",
+	"6d3444dd-318a-482b-9223-42b910a08f33",
+	"81c28671-7dec-467a-8ab2-848450da192f",
+	'remove_node',
+	'This is the name of the method that removes a node from a doubly-linked list.',
+	'',
+	'remove_node',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetRemoveDlistNode"');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"6d3444dd-318a-482b-9223-42b910a08f33");
+INSERT INTO O_OIDA
+	VALUES ("81c28671-7dec-467a-8ab2-848450da192f",
+	"6d3444dd-318a-482b-9223-42b910a08f33",
+	0,
+	'flavor');
+INSERT INTO O_ID
+	VALUES (1,
+	"6d3444dd-318a-482b-9223-42b910a08f33");
+INSERT INTO O_ID
+	VALUES (2,
+	"6d3444dd-318a-482b-9223-42b910a08f33");
+INSERT INTO S_SS_PROXY
+	VALUES ("ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	'TE',
+	2200,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000400008",
+	'../Translation Extensions.xtuml');

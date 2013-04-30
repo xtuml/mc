@@ -1,0 +1,107 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("fe30028a-ebb5-4711-b96a-fe893b443dea",
+	'Data Type Pointer',
+	2202,
+	'TM_POINTER',
+	'',
+	"c0c7b9e8-284f-424e-b8b0-9867138bd453");
+INSERT INTO O_NBATTR
+	VALUES ("b9915308-3e80-4607-9568-aa2ddfcf5b7b",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO O_BATTR
+	VALUES ("b9915308-3e80-4607-9568-aa2ddfcf5b7b",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO O_ATTR
+	VALUES ("b9915308-3e80-4607-9568-aa2ddfcf5b7b",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea",
+	"00000000-0000-0000-0000-000000000000",
+	'Domain',
+	'',
+	'',
+	'Domain',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("279d00d7-0809-43da-8154-42a296e39d5f",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO O_BATTR
+	VALUES ("279d00d7-0809-43da-8154-42a296e39d5f",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO O_ATTR
+	VALUES ("279d00d7-0809-43da-8154-42a296e39d5f",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea",
+	"b9915308-3e80-4607-9568-aa2ddfcf5b7b",
+	'DT_name',
+	'',
+	'',
+	'DT_name',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("74cb22d6-912c-4674-8c7d-63eabc42e912",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO O_BATTR
+	VALUES ("74cb22d6-912c-4674-8c7d-63eabc42e912",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO O_ATTR
+	VALUES ("74cb22d6-912c-4674-8c7d-63eabc42e912",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea",
+	"279d00d7-0809-43da-8154-42a296e39d5f",
+	'pointer_type',
+	'',
+	'',
+	'pointer_type',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2a291ccc-8177-489f-a832-72983fc891f9",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO O_BATTR
+	VALUES ("2a291ccc-8177-489f-a832-72983fc891f9",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO O_ATTR
+	VALUES ("2a291ccc-8177-489f-a832-72983fc891f9",
+	"fe30028a-ebb5-4711-b96a-fe893b443dea",
+	"74cb22d6-912c-4674-8c7d-63eabc42e912",
+	'include_file',
+	'',
+	'',
+	'include_file',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO O_ID
+	VALUES (1,
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO O_ID
+	VALUES (2,
+	"fe30028a-ebb5-4711-b96a-fe893b443dea");
+INSERT INTO S_SS_PROXY
+	VALUES ("c0c7b9e8-284f-424e-b8b0-9867138bd453",
+	'Translation Marking',
+	'This subsystem contains classes intended for marking or coloring the user
+model to guide the translation process.',
+	'TM',
+	0,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000000000",
+	'../Translation Marking.xtuml');

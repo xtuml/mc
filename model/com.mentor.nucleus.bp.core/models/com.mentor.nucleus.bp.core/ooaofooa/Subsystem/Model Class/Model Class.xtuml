@@ -1,0 +1,234 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("b7630071-9e2a-4183-9986-779dca14c275",
+	'Model Class',
+	101,
+	'O_OBJ',
+	'A model class represents an abstraction of a real world thing.  All instances of a class have the same characteristics and conform to the same set of rules.  The characteristics of a class are captured as attributes.  Each class within a domain are assigned a unique name, number, and keyletter.',
+	"67eb58de-1d2b-4163-8373-ae8e65e99f84");
+INSERT INTO O_NBATTR
+	VALUES ("abd8f188-4260-4e03-9844-41b21ef751b3",
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO O_BATTR
+	VALUES ("abd8f188-4260-4e03-9844-41b21ef751b3",
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO O_ATTR
+	VALUES ("abd8f188-4260-4e03-9844-41b21ef751b3",
+	"b7630071-9e2a-4183-9986-779dca14c275",
+	"e55a865c-b4e5-4e3f-9b84-2e5672cc7e6c",
+	'Name',
+	'Full Name: Class Name
+Description: Name of the class as entered in the model.',
+	'',
+	'Name',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("86daef32-c5b0-491f-aa23-85f1f65142bb",
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO O_BATTR
+	VALUES ("86daef32-c5b0-491f-aa23-85f1f65142bb",
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO O_ATTR
+	VALUES ("86daef32-c5b0-491f-aa23-85f1f65142bb",
+	"b7630071-9e2a-4183-9986-779dca14c275",
+	"abd8f188-4260-4e03-9844-41b21ef751b3",
+	'Numb',
+	'Full Name: Class Number
+Description: Number of the class as it appears in the model.
+min_value: 0
+max_value: 9999
+',
+	'',
+	'Numb',
+	0,
+	"79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'integer',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("c29afc9b-ccb5-41fc-a9a3-f5bd2727125b",
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO O_BATTR
+	VALUES ("c29afc9b-ccb5-41fc-a9a3-f5bd2727125b",
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO O_ATTR
+	VALUES ("c29afc9b-ccb5-41fc-a9a3-f5bd2727125b",
+	"b7630071-9e2a-4183-9986-779dca14c275",
+	"86daef32-c5b0-491f-aa23-85f1f65142bb",
+	'Key_Lett',
+	'Full Name: Class Key Letters
+Description: Key letters of the class as they appear in the model.',
+	'',
+	'Key_Lett',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("26632e2d-f9a9-4c11-a25b-49a661851bb1",
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO O_BATTR
+	VALUES ("26632e2d-f9a9-4c11-a25b-49a661851bb1",
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO O_ATTR
+	VALUES ("26632e2d-f9a9-4c11-a25b-49a661851bb1",
+	"b7630071-9e2a-4183-9986-779dca14c275",
+	"c29afc9b-ccb5-41fc-a9a3-f5bd2727125b",
+	'Descrip',
+	'Full Name: Class Description
+Description: This is a description of the class as entered by the user.',
+	'',
+	'Descrip',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("b7630071-9e2a-4183-9986-779dca14c275",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	0,
+	"c7b05f2f-7685-4110-b916-e67cfa3caa1d",
+	"b546c771-d03a-49e8-ba24-c221183f06a8",
+	"0e48cfc5-89fd-407e-9dfc-98f8fb40eaca",
+	"1c5bbc07-5033-4bdf-80e4-acdfeead521f",
+	"2111b10e-7e13-454f-b568-10465e7eb2b6",
+	"69af67e3-1e93-415e-a167-aea424b9bd35",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Subsystem',
+	'SS_ID',
+	'R2');
+INSERT INTO R_RGO_PROXY
+	VALUES ("b7630071-9e2a-4183-9986-779dca14c275",
+	"b546c771-d03a-49e8-ba24-c221183f06a8",
+	"0e48cfc5-89fd-407e-9dfc-98f8fb40eaca",
+	'../../Domain/Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("c7b05f2f-7685-4110-b916-e67cfa3caa1d",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	0,
+	"b546c771-d03a-49e8-ba24-c221183f06a8",
+	"1c5bbc07-5033-4bdf-80e4-acdfeead521f",
+	'../../Domain/Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("2111b10e-7e13-454f-b568-10465e7eb2b6",
+	"b7630071-9e2a-4183-9986-779dca14c275",
+	"c7b05f2f-7685-4110-b916-e67cfa3caa1d",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	1,
+	'SS_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("c7b05f2f-7685-4110-b916-e67cfa3caa1d",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	'../../Domain/Subsystem/Subsystem.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("2111b10e-7e13-454f-b568-10465e7eb2b6",
+	"b7630071-9e2a-4183-9986-779dca14c275",
+	"26632e2d-f9a9-4c11-a25b-49a661851bb1",
+	'SS_ID',
+	'',
+	'',
+	'SS_ID',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_REF
+	VALUES ("b7630071-9e2a-4183-9986-779dca14c275",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	0,
+	"5776264f-c7e9-4abe-839f-24d0750e007c",
+	"08087bed-f0b1-4c84-b515-8662480ac484",
+	"eef5b2cc-75b0-4014-8501-f5497f85d10b",
+	"28f75ede-123b-4d84-8dcc-b0537a94aa4a",
+	"e55a865c-b4e5-4e3f-9b84-2e5672cc7e6c",
+	"b63ed15e-d2d6-4f57-80ab-0084537b9a55",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Packageable Element',
+	'Element_ID',
+	'R8001');
+INSERT INTO R_RGO_PROXY
+	VALUES ("b7630071-9e2a-4183-9986-779dca14c275",
+	"08087bed-f0b1-4c84-b515-8662480ac484",
+	"eef5b2cc-75b0-4014-8501-f5497f85d10b",
+	'../../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	0,
+	"08087bed-f0b1-4c84-b515-8662480ac484",
+	"28f75ede-123b-4d84-8dcc-b0537a94aa4a",
+	'../../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("e55a865c-b4e5-4e3f-9b84-2e5672cc7e6c",
+	"b7630071-9e2a-4183-9986-779dca14c275",
+	"5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	0,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("e55a865c-b4e5-4e3f-9b84-2e5672cc7e6c",
+	"b7630071-9e2a-4183-9986-779dca14c275",
+	"00000000-0000-0000-0000-000000000000",
+	'Obj_ID',
+	'',
+	'',
+	'Obj_ID',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO O_OIDA
+	VALUES ("e55a865c-b4e5-4e3f-9b84-2e5672cc7e6c",
+	"b7630071-9e2a-4183-9986-779dca14c275",
+	0,
+	'Obj_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO O_ID
+	VALUES (2,
+	"b7630071-9e2a-4183-9986-779dca14c275");
+INSERT INTO S_SS_PROXY
+	VALUES ("67eb58de-1d2b-4163-8373-ae8e65e99f84",
+	'Subsystem',
+	'A class (O_OBJ)  is an abstraction of a real world thing that has specific attributes (O_ATTR) and, if active, has a lifecycle model as a state machine (SM_SM).  All instances of the class must have the same characteristics and follow the same state behavior.  Classes fall into many categories, some of which are: tangible things, roles, interactions and specifications. ',
+	'O',
+	101,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000300006",
+	'../Subsystem.xtuml');
