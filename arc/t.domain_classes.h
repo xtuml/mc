@@ -54,7 +54,7 @@ ${class_numbers}\
 ${class_typedefs}
 
 /* union of class declarations so we may derive largest class size */
-#define ${te_dci.union} \\
+#define ${te_dci.persist_union} \\
 ${class_union}\
 
 .if ( not_empty enumeration_te_dts )

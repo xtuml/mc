@@ -188,7 +188,7 @@
     .assign te_dci.te_cId = te_c.ID
     .// end relate
     .assign te_dci.class_numbers = te_c.Name + "_CLASS_NUMBERS"
-    .assign te_dci.union = te_c.Name + "_CLASS_U"
+    .assign te_dci.persist_union = te_c.Name + "_CLASS_U"
     .assign te_dci.task_list = te_c.Name + "_task_numbers"
     .assign te_dci.task_numbers = te_c.Name + "_TASK_NUMBERS"
     .assign te_dci.max = te_c.Name + "_MAX_CLASS_NUMBERS"

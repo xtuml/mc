@@ -29,7 +29,7 @@ FILE * outputfile;
  * Bridge:  s
  */
 c_t *
-ooaofooa_T_s( i_t p_i)
+ooaofooa_T_s( const i_t p_i)
 {
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
   return Escher_itoa( tbuf[ current_tbuf ], p_i );
@@ -51,7 +51,7 @@ ooaofooa_T_emit( c_t p_file[ESCHER_SYS_MAX_STRING_LEN])
       ooaofooa_T_exit( 1 );
     }
   }
-  fprintf( outputfile, buffer );
+  fprintf( outputfile, "", buffer );
 //  printf("---\n");
 //  printf("%s", buffer);
 //  printf("---\n");
@@ -105,7 +105,7 @@ ooaofooa_T_print( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  exit
  */
 void
-ooaofooa_T_exit( i_t p_i)
+ooaofooa_T_exit( const i_t p_i)
 {
   Escher_run_flag = false;
 }
