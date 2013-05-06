@@ -1,0 +1,92 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("0aadfb18-60ac-4945-856c-232e582fb150",
+	'Description Engine',
+	9502,
+	'SEN_DE',
+	'',
+	"a8cf68c9-9d01-4a66-88c5-fe49cd8d71e0");
+INSERT INTO O_REF
+	VALUES ("0aadfb18-60ac-4945-856c-232e582fb150",
+	"43dcf905-5d9b-4f80-a260-68543c5fbe15",
+	0,
+	"5650c244-7ad2-4cf5-891d-ad575051d877",
+	"e467799a-d5e0-4e43-bbd5-e268e143de0f",
+	"08547491-4901-457a-8dbb-2192a526fba3",
+	"fb21cb8c-474a-424c-b5a3-748e1aab0170",
+	"5d07f491-17e0-4d64-afbe-ad2eb31ee81c",
+	"0db08673-dda6-4e15-bcac-630e0ba527f7",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Search Engine',
+	'Id',
+	'R9501');
+INSERT INTO R_RGO_PROXY
+	VALUES ("0aadfb18-60ac-4945-856c-232e582fb150",
+	"e467799a-d5e0-4e43-bbd5-e268e143de0f",
+	"08547491-4901-457a-8dbb-2192a526fba3",
+	'../Engine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5650c244-7ad2-4cf5-891d-ad575051d877",
+	"43dcf905-5d9b-4f80-a260-68543c5fbe15",
+	0,
+	"e467799a-d5e0-4e43-bbd5-e268e143de0f",
+	"fb21cb8c-474a-424c-b5a3-748e1aab0170",
+	'../Engine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("5d07f491-17e0-4d64-afbe-ad2eb31ee81c",
+	"0aadfb18-60ac-4945-856c-232e582fb150",
+	"5650c244-7ad2-4cf5-891d-ad575051d877",
+	"43dcf905-5d9b-4f80-a260-68543c5fbe15",
+	1,
+	'Id');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5650c244-7ad2-4cf5-891d-ad575051d877",
+	"43dcf905-5d9b-4f80-a260-68543c5fbe15",
+	'../Search Engine/Search Engine.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("5d07f491-17e0-4d64-afbe-ad2eb31ee81c",
+	"0aadfb18-60ac-4945-856c-232e582fb150",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"0aadfb18-60ac-4945-856c-232e582fb150");
+INSERT INTO O_OIDA
+	VALUES ("5d07f491-17e0-4d64-afbe-ad2eb31ee81c",
+	"0aadfb18-60ac-4945-856c-232e582fb150",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"0aadfb18-60ac-4945-856c-232e582fb150");
+INSERT INTO O_ID
+	VALUES (2,
+	"0aadfb18-60ac-4945-856c-232e582fb150");
+INSERT INTO S_SS_PROXY
+	VALUES ("a8cf68c9-9d01-4a66-88c5-fe49cd8d71e0",
+	'Engine',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE
+',
+	'SEN',
+	9500,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000000000",
+	'../Engine.xtuml');

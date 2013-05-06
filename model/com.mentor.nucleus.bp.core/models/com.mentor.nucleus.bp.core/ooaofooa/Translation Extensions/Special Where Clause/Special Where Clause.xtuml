@@ -1,0 +1,234 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("eb996584-5261-4a2f-a365-5b52d7659f95",
+	'Special Where Clause',
+	2000,
+	'TE_SWC',
+	'',
+	"ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef");
+INSERT INTO O_NBATTR
+	VALUES ("08c194f1-9181-4915-afd6-cae14be99861",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_BATTR
+	VALUES ("08c194f1-9181-4915-afd6-cae14be99861",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_ATTR
+	VALUES ("08c194f1-9181-4915-afd6-cae14be99861",
+	"eb996584-5261-4a2f-a365-5b52d7659f95",
+	"e67b5104-0eff-4efc-a2ec-7480e7ac1d42",
+	'Where_Spec',
+	'Full Name: Where Specification
+The Where Specification is a character string that describes the where clause(s) that the architect has a special implementation for.
+NOTE: The attribute name (in lower case) ''where_spec'' is built in (unfortunately) to the ModelCompiler back end. If one attempts to use a different name for the attribute, the archetype primative ''special_where add <inst_ref>'' will fail.',
+	'',
+	'Where_Spec',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("5037e4a1-54f1-456c-9bb5-896a0cacd176",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_BATTR
+	VALUES ("5037e4a1-54f1-456c-9bb5-896a0cacd176",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_ATTR
+	VALUES ("5037e4a1-54f1-456c-9bb5-896a0cacd176",
+	"eb996584-5261-4a2f-a365-5b52d7659f95",
+	"08c194f1-9181-4915-afd6-cae14be99861",
+	'Key',
+	'Key is a string that identifies a special where clause to the architecture. The action language parser will pass this string back to the architecture when a special where clause is encountered. The Key must uniquely identify each special where clause.
+NOTE: The attribute name (in lower case) ''key'' is built in (unfortunately) to the ModelCompiler back end. If one attempts to use a different name for the attribute, the archetype primative ''special_where add <inst_ref>'' will fail.',
+	'',
+	'Key',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("45f9d13d-7607-4224-b177-ed95e656dc89",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_BATTR
+	VALUES ("45f9d13d-7607-4224-b177-ed95e656dc89",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_ATTR
+	VALUES ("45f9d13d-7607-4224-b177-ed95e656dc89",
+	"eb996584-5261-4a2f-a365-5b52d7659f95",
+	"5037e4a1-54f1-456c-9bb5-896a0cacd176",
+	'Ret_Val',
+	'Full Name: Return Value
+On completion of an archetype command involving a special where, indicates the results of the operation (TRUE for success, FALSE for failure).
+NOTE: The attribute name (in lower case) ''ret_val'' is built in (unfortunately) to the ModelCompiler back end. If one attempts to use a different name for the attribute, the archetype primative ''special_where add <inst_ref>'' will fail.',
+	'',
+	'Ret_Val',
+	0,
+	"8e519c45-7dcf-400b-9d4e-954869dbb7e8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("8e519c45-7dcf-400b-9d4e-954869dbb7e8",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'boolean',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("c5699057-5968-4be5-ac8e-65380ed6c6c7",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_BATTR
+	VALUES ("c5699057-5968-4be5-ac8e-65380ed6c6c7",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_ATTR
+	VALUES ("c5699057-5968-4be5-ac8e-65380ed6c6c7",
+	"eb996584-5261-4a2f-a365-5b52d7659f95",
+	"45f9d13d-7607-4224-b177-ed95e656dc89",
+	'Built_In',
+	'Note: Extendend attribute.
+A flag used by the translation engine to indicate that this instance of ''Special Where Clause'' has been built in by the model compiler. If TRUE, the where clause criteria delineated by ''Where_Spec'' is a generated optimization on the part of the model compiler. If FALSE, the where clause evaluation is assumed to be hand crafted by the system architect.',
+	'',
+	'Built_In',
+	0,
+	"8e519c45-7dcf-400b-9d4e-954869dbb7e8",
+	'',
+	'');
+INSERT INTO O_BATTR
+	VALUES ("b8eb968c-3190-4b59-b2cb-01fcce1d0d8f",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_ATTR
+	VALUES ("b8eb968c-3190-4b59-b2cb-01fcce1d0d8f",
+	"eb996584-5261-4a2f-a365-5b52d7659f95",
+	"c5699057-5968-4be5-ac8e-65380ed6c6c7",
+	'Oid_ID',
+	'A value used to specify the (complete) object identifying attribute set that this where clause is evaluated against. It is mathematically dependent on a coorosponding instance of ''O_ID.Obj_ID'', if the where clause critera maps exclusively to an identifying attribute set.
+
+Data domain of the identifying attribute set number:
+0  = Primary Identifer Set (e.g., *)
+1  = Secondary Identifier Set (e.g., *2)
+2  = Third Identifier Set (e.g., *3)
+-1 = "No such value"',
+	'',
+	'Oid_ID',
+	0,
+	"79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'integer',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("e67b5104-0eff-4efc-a2ec-7480e7ac1d42",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_BATTR
+	VALUES ("e67b5104-0eff-4efc-a2ec-7480e7ac1d42",
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_ATTR
+	VALUES ("e67b5104-0eff-4efc-a2ec-7480e7ac1d42",
+	"eb996584-5261-4a2f-a365-5b52d7659f95",
+	"00000000-0000-0000-0000-000000000000",
+	'Obj_Kl',
+	'',
+	'',
+	'Obj_Kl',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("eb996584-5261-4a2f-a365-5b52d7659f95",
+	"d5182c4e-6b75-49d2-b2b3-d7bd207e52ff",
+	0,
+	"8407136c-65d3-4f33-b7d3-3088a9ded3fb",
+	"bd6ed85e-c8ef-4e5b-b0f6-94f6b5e34546",
+	"22ab78b4-cb99-484b-a634-c41047893bb7",
+	"25d4fae0-c729-42e6-9323-d72eab167593",
+	"d4a4975e-3f20-452d-9f5c-88411c64fa8e",
+	"ffcf9805-179c-4fb1-b9b4-d8f6650c873c",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Extended Class',
+	'GeneratedName',
+	'R2001');
+INSERT INTO R_RGO_PROXY
+	VALUES ("eb996584-5261-4a2f-a365-5b52d7659f95",
+	"bd6ed85e-c8ef-4e5b-b0f6-94f6b5e34546",
+	"22ab78b4-cb99-484b-a634-c41047893bb7",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("8407136c-65d3-4f33-b7d3-3088a9ded3fb",
+	"d5182c4e-6b75-49d2-b2b3-d7bd207e52ff",
+	0,
+	"bd6ed85e-c8ef-4e5b-b0f6-94f6b5e34546",
+	"25d4fae0-c729-42e6-9323-d72eab167593",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("d4a4975e-3f20-452d-9f5c-88411c64fa8e",
+	"eb996584-5261-4a2f-a365-5b52d7659f95",
+	"8407136c-65d3-4f33-b7d3-3088a9ded3fb",
+	"d5182c4e-6b75-49d2-b2b3-d7bd207e52ff",
+	1,
+	'GeneratedName');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("8407136c-65d3-4f33-b7d3-3088a9ded3fb",
+	"d5182c4e-6b75-49d2-b2b3-d7bd207e52ff",
+	'../Extended Class/Extended Class.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("d4a4975e-3f20-452d-9f5c-88411c64fa8e",
+	"eb996584-5261-4a2f-a365-5b52d7659f95",
+	"b8eb968c-3190-4b59-b2cb-01fcce1d0d8f",
+	'GeneratedName',
+	'',
+	'',
+	'GeneratedName',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_OIDA
+	VALUES ("5037e4a1-54f1-456c-9bb5-896a0cacd176",
+	"eb996584-5261-4a2f-a365-5b52d7659f95",
+	0,
+	'Key');
+INSERT INTO O_ID
+	VALUES (1,
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO O_OIDA
+	VALUES ("5037e4a1-54f1-456c-9bb5-896a0cacd176",
+	"eb996584-5261-4a2f-a365-5b52d7659f95",
+	1,
+	'Key');
+INSERT INTO O_ID
+	VALUES (2,
+	"eb996584-5261-4a2f-a365-5b52d7659f95");
+INSERT INTO S_SS_PROXY
+	VALUES ("ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	'TE',
+	2200,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000400008",
+	'../Translation Extensions.xtuml');

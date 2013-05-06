@@ -1,0 +1,7 @@
+<section>
+<sectioninfo>
+<abstract><para>${doc_sec.abstract}</para>
+</abstract>
+</sectioninfo>
+<title>${doc_sec.title}</title>
+<subtitle>${doc_sec.subtitle}</subtitle>

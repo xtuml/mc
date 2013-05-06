@@ -1,0 +1,437 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("775f2d18-5106-4208-a933-6259e5f0fe9e",
+	'set',
+	2038,
+	'TE_SET',
+	'access:te_prefix
+This is the collections class.  It manages sets of instances of anything.
+It knows about strategies for maintaining these collections and can
+insert, remove and find specific elements within a collection.  It knows
+how many elements are in a collection and can help iterate.',
+	"ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef");
+INSERT INTO O_NBATTR
+	VALUES ("2a404e67-e489-40a8-8c6e-acd0b4e2fcbb",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("2a404e67-e489-40a8-8c6e-acd0b4e2fcbb",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("2a404e67-e489-40a8-8c6e-acd0b4e2fcbb",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"e5d71b3c-a1c2-4af7-9250-1f387eb8ef0c",
+	'copy',
+	'Copy one set to another, creating a new one.',
+	'',
+	'copy',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "CopySet"');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("4540fd97-8419-4cfe-8d30-62f2d8985a2a",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("4540fd97-8419-4cfe-8d30-62f2d8985a2a",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("4540fd97-8419-4cfe-8d30-62f2d8985a2a",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"2a404e67-e489-40a8-8c6e-acd0b4e2fcbb",
+	'clear',
+	'Remove and free up the nodes of a collection.',
+	'',
+	'clear',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "ClearSet"');
+INSERT INTO O_NBATTR
+	VALUES ("6fa0e8c8-26a3-4ffb-b1cd-000fc6dc80db",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("6fa0e8c8-26a3-4ffb-b1cd-000fc6dc80db",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("6fa0e8c8-26a3-4ffb-b1cd-000fc6dc80db",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"4540fd97-8419-4cfe-8d30-62f2d8985a2a",
+	'insert_element',
+	'Add an arbitrary data element to the collection.',
+	'',
+	'insert_element',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetInsertElement"');
+INSERT INTO O_NBATTR
+	VALUES ("289af1ba-8d35-4bd9-b106-7b2d992d3cd3",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("289af1ba-8d35-4bd9-b106-7b2d992d3cd3",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("289af1ba-8d35-4bd9-b106-7b2d992d3cd3",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"7b47a4c5-b255-41d1-bb9a-8a259431b32f",
+	'element_count',
+	'Report the count of elements in the set.',
+	'',
+	'element_count',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetCardinality"');
+INSERT INTO O_NBATTR
+	VALUES ("0eb55077-f470-4ff5-8201-a6956c5f58db",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("0eb55077-f470-4ff5-8201-a6956c5f58db",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("0eb55077-f470-4ff5-8201-a6956c5f58db",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"548d337e-6d86-4c95-9bc0-27e7c1aae2db",
+	'iterator_class_name',
+	'',
+	'',
+	'iterator_class_name',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "Iterator_s"');
+INSERT INTO O_NBATTR
+	VALUES ("548d337e-6d86-4c95-9bc0-27e7c1aae2db",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("548d337e-6d86-4c95-9bc0-27e7c1aae2db",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("548d337e-6d86-4c95-9bc0-27e7c1aae2db",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"00000000-0000-0000-0000-000000000000",
+	'number_of_containoids',
+	'default:${te_prefix.define_usw}SYS_MAX_CONTAINERS
+Constant defining the number of containers in the system.
+',
+	'',
+	'number_of_containoids',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.define_usw + "SYS_MAX_CONTAINERS"');
+INSERT INTO O_NBATTR
+	VALUES ("2f91a3f3-9958-40d9-aebe-69de7801db95",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("2f91a3f3-9958-40d9-aebe-69de7801db95",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("2f91a3f3-9958-40d9-aebe-69de7801db95",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"0eb55077-f470-4ff5-8201-a6956c5f58db",
+	'factory',
+	'Architectural initialization.',
+	'',
+	'factory',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetFactoryInit"');
+INSERT INTO O_NBATTR
+	VALUES ("560e08ce-bb44-485f-a597-23fada8dc879",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("560e08ce-bb44-485f-a597-23fada8dc879",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("560e08ce-bb44-485f-a597-23fada8dc879",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"78a753a4-abd8-4786-9c0f-072863841bf2",
+	'insert_block',
+	'Insert a connected collection into a collection.',
+	'',
+	'insert_block',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetInsertBlock"');
+INSERT INTO O_NBATTR
+	VALUES ("7b47a4c5-b255-41d1-bb9a-8a259431b32f",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("7b47a4c5-b255-41d1-bb9a-8a259431b32f",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("7b47a4c5-b255-41d1-bb9a-8a259431b32f",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"78648ae1-7684-412f-9579-686a5143801c",
+	'remove_instance',
+	'Remove an instance from a collection of class instances.',
+	'',
+	'remove_instance',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetRemoveInstance"');
+INSERT INTO O_NBATTR
+	VALUES ("a1e9db26-f7e2-4841-827b-3917b9aefe9d",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("a1e9db26-f7e2-4841-827b-3917b9aefe9d",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("a1e9db26-f7e2-4841-827b-3917b9aefe9d",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"289af1ba-8d35-4bd9-b106-7b2d992d3cd3",
+	'contains',
+	'This methods checks for the existence of a given element.',
+	'',
+	'contains',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetContains"');
+INSERT INTO O_NBATTR
+	VALUES ("cf4e5925-368e-4605-b369-10c7081b8465",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("cf4e5925-368e-4605-b369-10c7081b8465",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("cf4e5925-368e-4605-b369-10c7081b8465",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"a1e9db26-f7e2-4841-827b-3917b9aefe9d",
+	'equality',
+	'This method performs a compare equals operation.',
+	'',
+	'equality',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetEquality"');
+INSERT INTO O_NBATTR
+	VALUES ("e5d71b3c-a1c2-4af7-9250-1f387eb8ef0c",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("e5d71b3c-a1c2-4af7-9250-1f387eb8ef0c",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("e5d71b3c-a1c2-4af7-9250-1f387eb8ef0c",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"2f91a3f3-9958-40d9-aebe-69de7801db95",
+	'init',
+	'Initialize a collection.',
+	'',
+	'init',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "InitSet"');
+INSERT INTO O_NBATTR
+	VALUES ("78a753a4-abd8-4786-9c0f-072863841bf2",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("78a753a4-abd8-4786-9c0f-072863841bf2",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("78a753a4-abd8-4786-9c0f-072863841bf2",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"6fa0e8c8-26a3-4ffb-b1cd-000fc6dc80db",
+	'insert_instance',
+	'Add a class instance to a set of instances.',
+	'',
+	'insert_instance',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetInsertInstance"');
+INSERT INTO O_NBATTR
+	VALUES ("c275418d-eda2-493f-ab96-e3f77f6ab674",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("c275418d-eda2-493f-ab96-e3f77f6ab674",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("c275418d-eda2-493f-ab96-e3f77f6ab674",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"cf4e5925-368e-4605-b369-10c7081b8465",
+	'emptiness',
+	'Check for the absence of elements.  Return true when empty.',
+	'',
+	'emptiness',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetIsEmpty"');
+INSERT INTO O_NBATTR
+	VALUES ("dda72426-daf9-49cc-939d-e32bf55abf3a",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("dda72426-daf9-49cc-939d-e32bf55abf3a",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("dda72426-daf9-49cc-939d-e32bf55abf3a",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"c275418d-eda2-493f-ab96-e3f77f6ab674",
+	'get_any',
+	'This returns an arbitrary element from the collection.',
+	'',
+	'get_any',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetGetAny"');
+INSERT INTO O_NBATTR
+	VALUES ("78648ae1-7684-412f-9579-686a5143801c",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("78648ae1-7684-412f-9579-686a5143801c",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("78648ae1-7684-412f-9579-686a5143801c",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"560e08ce-bb44-485f-a597-23fada8dc879",
+	'remove_element',
+	'Remove a data element from the collection.',
+	'',
+	'remove_element',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetRemoveElement"');
+INSERT INTO O_NBATTR
+	VALUES ("b84b62c9-717e-4abe-97d4-6224c44af01d",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("b84b62c9-717e-4abe-97d4-6224c44af01d",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("b84b62c9-717e-4abe-97d4-6224c44af01d",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"dda72426-daf9-49cc-939d-e32bf55abf3a",
+	'iterator_reset',
+	'This method starts the iterator at the beginning of the collection.',
+	'',
+	'iterator_reset',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "IteratorReset"');
+INSERT INTO O_NBATTR
+	VALUES ("56853fa1-a85c-49e5-a050-2ea0a35fc958",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("56853fa1-a85c-49e5-a050-2ea0a35fc958",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("56853fa1-a85c-49e5-a050-2ea0a35fc958",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"b84b62c9-717e-4abe-97d4-6224c44af01d",
+	'iterator_next',
+	'Move on to the following element in the collection.',
+	'',
+	'iterator_next',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "IteratorNext"');
+INSERT INTO O_NBATTR
+	VALUES ("0374c384-98da-4375-9f59-a2d2d21b7b42",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("0374c384-98da-4375-9f59-a2d2d21b7b42",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("0374c384-98da-4375-9f59-a2d2d21b7b42",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"56853fa1-a85c-49e5-a050-2ea0a35fc958",
+	'base_class',
+	'This is the base collection class name.',
+	'',
+	'base_class',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "ObjectSet_s"');
+INSERT INTO O_NBATTR
+	VALUES ("c8be100d-93e2-49f8-a9f4-52c0a550928e",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("c8be100d-93e2-49f8-a9f4-52c0a550928e",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("c8be100d-93e2-49f8-a9f4-52c0a550928e",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"0374c384-98da-4375-9f59-a2d2d21b7b42",
+	'element_type',
+	'',
+	'',
+	'element_type',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'te_prefix.result + "SetElement_s"');
+INSERT INTO O_NBATTR
+	VALUES ("7df90ab4-7297-4bba-a966-5e7b52b34b1f",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("7df90ab4-7297-4bba-a966-5e7b52b34b1f",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("7df90ab4-7297-4bba-a966-5e7b52b34b1f",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"c8be100d-93e2-49f8-a9f4-52c0a550928e",
+	'scope',
+	'',
+	'',
+	'scope',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7df3b30b-e8f4-4964-b759-a94bc3a2b30e",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_BATTR
+	VALUES ("7df3b30b-e8f4-4964-b759-a94bc3a2b30e",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ATTR
+	VALUES ("7df3b30b-e8f4-4964-b759-a94bc3a2b30e",
+	"775f2d18-5106-4208-a933-6259e5f0fe9e",
+	"7df90ab4-7297-4bba-a966-5e7b52b34b1f",
+	'module',
+	'',
+	'',
+	'module',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ID
+	VALUES (1,
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO O_ID
+	VALUES (2,
+	"775f2d18-5106-4208-a933-6259e5f0fe9e");
+INSERT INTO S_SS_PROXY
+	VALUES ("ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	'TE',
+	2200,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000400008",
+	'../Translation Extensions.xtuml');

@@ -1,0 +1,226 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	'Subsystem',
+	2,
+	'S_SS',
+	'A subsystem (S_SS) is based on the partitioning of an entire domain (S_DOM). The number of subsystems in a domain is dependent upon the domain subject matter and complexity. A subsystem is composed of classes which tend to cluster, i.e., classes which have many  associations with one another but few associations with classes in different clusters. Inter-subsystem associations, asynchronous communications, and synchronous accesses are captured in the Subsystem Relationship Model, Subsystem Communication Model and Subsystem Access Model, respectively.',
+	"703df30a-ee7e-44ec-a7cf-22d2171bb270");
+INSERT INTO O_NBATTR
+	VALUES ("c7b05f2f-7685-4110-b916-e67cfa3caa1d",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_BATTR
+	VALUES ("c7b05f2f-7685-4110-b916-e67cfa3caa1d",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_ATTR
+	VALUES ("c7b05f2f-7685-4110-b916-e67cfa3caa1d",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	"00000000-0000-0000-0000-000000000000",
+	'SS_ID',
+	'Full Name: Subsystem Identifier
+Description: Unique identifier for the subsystem within the domain',
+	'',
+	'SS_ID',
+	0,
+	"a5f314e0-43b6-40bd-8aee-520de6952a24",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a5f314e0-43b6-40bd-8aee-520de6952a24",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'unique_id',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("71d0c271-8a5d-49cc-8a36-0201680b59a8",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_BATTR
+	VALUES ("71d0c271-8a5d-49cc-8a36-0201680b59a8",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_ATTR
+	VALUES ("71d0c271-8a5d-49cc-8a36-0201680b59a8",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	"c7b05f2f-7685-4110-b916-e67cfa3caa1d",
+	'Name',
+	'Full Name: Subsystem Name',
+	'',
+	'Name',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("8888c449-66a9-430b-93e6-f451e276372e",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_BATTR
+	VALUES ("8888c449-66a9-430b-93e6-f451e276372e",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_ATTR
+	VALUES ("8888c449-66a9-430b-93e6-f451e276372e",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	"71d0c271-8a5d-49cc-8a36-0201680b59a8",
+	'Descrip',
+	'Full Name: Subsystem Description',
+	'',
+	'Descrip',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f2956d79-dc4b-4757-8e6d-f36fee61c8fd",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_BATTR
+	VALUES ("f2956d79-dc4b-4757-8e6d-f36fee61c8fd",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_ATTR
+	VALUES ("f2956d79-dc4b-4757-8e6d-f36fee61c8fd",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	"8888c449-66a9-430b-93e6-f451e276372e",
+	'Prefix',
+	'Full Name: Subsystem Prefix
+Description: The subsystem keyletter prefix is used when classes are created in the subsystem.  The subsystem keyletter prefix is used as the default prefix in the class keyletters.
+',
+	'',
+	'Prefix',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("11923149-9e73-4f53-8291-ab8701ace1a4",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_BATTR
+	VALUES ("11923149-9e73-4f53-8291-ab8701ace1a4",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_ATTR
+	VALUES ("11923149-9e73-4f53-8291-ab8701ace1a4",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	"f2956d79-dc4b-4757-8e6d-f36fee61c8fd",
+	'Num_Rng',
+	'Full Name: Number Range
+Description:  The subsystem number range start is used when classes and associations are created in the subsystem.  The subsystem number range start is used as the default auto-numbering start value in for the newly created class number and newly created association number. 
+min_value: 0
+max_value: 9999
+',
+	'',
+	'Num_Rng',
+	0,
+	"79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'integer',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_REF
+	VALUES ("7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	"07cf2195-f012-4bf5-83c7-f89dd30a8839",
+	0,
+	"4c399c05-3fb3-4c71-9ce8-04c9ec0b59f5",
+	"da413166-5343-4eb9-b628-16d1c6a5c104",
+	"d09a38b5-76b1-4745-a8a8-8408fa595c55",
+	"82f3976f-81fc-4e31-ad05-41c7094504f0",
+	"0b032f85-2d13-43fb-a502-b5177caee7c4",
+	"07b0088f-7627-47a2-a8c6-4464800be1fd",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Domain',
+	'Dom_ID',
+	'R1');
+INSERT INTO R_RGO_PROXY
+	VALUES ("7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	"da413166-5343-4eb9-b628-16d1c6a5c104",
+	"d09a38b5-76b1-4745-a8a8-8408fa595c55",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("4c399c05-3fb3-4c71-9ce8-04c9ec0b59f5",
+	"07cf2195-f012-4bf5-83c7-f89dd30a8839",
+	0,
+	"da413166-5343-4eb9-b628-16d1c6a5c104",
+	"82f3976f-81fc-4e31-ad05-41c7094504f0",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("0b032f85-2d13-43fb-a502-b5177caee7c4",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	"4c399c05-3fb3-4c71-9ce8-04c9ec0b59f5",
+	"07cf2195-f012-4bf5-83c7-f89dd30a8839",
+	1,
+	'Dom_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("4c399c05-3fb3-4c71-9ce8-04c9ec0b59f5",
+	"07cf2195-f012-4bf5-83c7-f89dd30a8839",
+	'../Domain/Domain.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("0b032f85-2d13-43fb-a502-b5177caee7c4",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	"11923149-9e73-4f53-8291-ab8701ace1a4",
+	'Dom_ID',
+	'',
+	'',
+	'Dom_ID',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("71af4e86-30d0-4983-b145-8d43dd3bc62c",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_BATTR
+	VALUES ("71af4e86-30d0-4983-b145-8d43dd3bc62c",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_ATTR
+	VALUES ("71af4e86-30d0-4983-b145-8d43dd3bc62c",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	"0b032f85-2d13-43fb-a502-b5177caee7c4",
+	'Config_ID',
+	'Full Name: Configuration Identifier',
+	'',
+	'Config_ID',
+	0,
+	"a5f314e0-43b6-40bd-8aee-520de6952a24",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_OIDA
+	VALUES ("c7b05f2f-7685-4110-b916-e67cfa3caa1d",
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43",
+	0,
+	'SS_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO O_ID
+	VALUES (2,
+	"7e99ac2e-ed50-4cf2-9877-651b49f4fb43");
+INSERT INTO S_SS_PROXY
+	VALUES ("703df30a-ee7e-44ec-a7cf-22d2171bb270",
+	'Domain',
+	'A domain (S_DOM) consists of one or more subsystems (S_SS) that each contain an information model that abstracts a portion of the data for the domain: classes (O_OBJ), associations (R_REL), etc.  Breaking a domain into subsystems allows the complexity of the domain to be more easily managed: 1) subsystems are components and can be checked out individually allowing parallelism in development of the models and 2) breaking up a domain into smaller units is easier to understand.  A subsystem is composed of classes that tend to cluster, i.e., they have few associations that span subsystem boundaries.  Inter-subsystem associations, communications, and accesses are captured in the Subsystem Relationship Model (SRM), Subsystem Communication Model (SCM), and Subsystem Access Model (SAM) respectively.',
+	'S',
+	1,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000100002",
+	'../Domain.xtuml');

@@ -1,0 +1,117 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("c08a1bc3-a6e2-4b92-9c4f-84958c62da99",
+	'Generalization',
+	1207,
+	'UC_G',
+	'',
+	"2597fe35-f53f-4878-817d-73f2d7a1fa0f");
+INSERT INTO O_NBATTR
+	VALUES ("77326959-2d58-40d8-953e-d25361e551eb",
+	"c08a1bc3-a6e2-4b92-9c4f-84958c62da99");
+INSERT INTO O_BATTR
+	VALUES ("77326959-2d58-40d8-953e-d25361e551eb",
+	"c08a1bc3-a6e2-4b92-9c4f-84958c62da99");
+INSERT INTO O_ATTR
+	VALUES ("77326959-2d58-40d8-953e-d25361e551eb",
+	"c08a1bc3-a6e2-4b92-9c4f-84958c62da99",
+	"a9c7d7d3-7069-449c-980d-d7df87b2ae79",
+	'Descrip',
+	'Full Name: Generalization Description
+Description: A textual description of this generalization.',
+	'',
+	'Descrip',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_REF
+	VALUES ("c08a1bc3-a6e2-4b92-9c4f-84958c62da99",
+	"0fd3603a-e543-4a86-9042-2f16f4b80852",
+	0,
+	"0797f9e8-e79a-4d97-81e0-89f2e2aa8490",
+	"81363fda-e743-4d3d-aa4f-4cf0f0dd5817",
+	"8f13a470-f3eb-485e-aefb-05ef0a4178ce",
+	"a0e49463-1c0b-4c72-b827-a226c02ae9ce",
+	"a9c7d7d3-7069-449c-980d-d7df87b2ae79",
+	"b2acd859-f523-481f-9401-a85852075fa8",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Use Case Association',
+	'Assoc_ID',
+	'R1210');
+INSERT INTO R_RGO_PROXY
+	VALUES ("c08a1bc3-a6e2-4b92-9c4f-84958c62da99",
+	"81363fda-e743-4d3d-aa4f-4cf0f0dd5817",
+	"8f13a470-f3eb-485e-aefb-05ef0a4178ce",
+	'../Use Case.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("0797f9e8-e79a-4d97-81e0-89f2e2aa8490",
+	"0fd3603a-e543-4a86-9042-2f16f4b80852",
+	0,
+	"81363fda-e743-4d3d-aa4f-4cf0f0dd5817",
+	"a0e49463-1c0b-4c72-b827-a226c02ae9ce",
+	'../Use Case.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("a9c7d7d3-7069-449c-980d-d7df87b2ae79",
+	"c08a1bc3-a6e2-4b92-9c4f-84958c62da99",
+	"5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("a9c7d7d3-7069-449c-980d-d7df87b2ae79",
+	"c08a1bc3-a6e2-4b92-9c4f-84958c62da99",
+	"00000000-0000-0000-0000-000000000000",
+	'Assoc_ID',
+	'',
+	'',
+	'Element_ID',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"c08a1bc3-a6e2-4b92-9c4f-84958c62da99");
+INSERT INTO O_OIDA
+	VALUES ("a9c7d7d3-7069-449c-980d-d7df87b2ae79",
+	"c08a1bc3-a6e2-4b92-9c4f-84958c62da99",
+	0,
+	'Assoc_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"c08a1bc3-a6e2-4b92-9c4f-84958c62da99");
+INSERT INTO O_ID
+	VALUES (2,
+	"c08a1bc3-a6e2-4b92-9c4f-84958c62da99");
+INSERT INTO S_SS_PROXY
+	VALUES ("2597fe35-f53f-4878-817d-73f2d7a1fa0f",
+	'Use Case',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	'UC',
+	1200,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000000000",
+	'../Use Case.xtuml');

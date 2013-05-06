@@ -3175,7 +3175,7 @@ CREATE TABLE TE_IIR (
 CREATE TABLE TE_DCI (
 	te_cID	UNIQUE_ID,
 	class_numbers	STRING,
-	union	STRING,
+	persist_union	STRING,
 	task_list	STRING,
 	task_numbers	STRING,
 	max	STRING,

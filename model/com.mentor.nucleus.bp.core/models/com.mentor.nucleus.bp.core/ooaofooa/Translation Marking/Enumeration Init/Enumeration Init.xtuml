@@ -1,0 +1,89 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("2489e0ea-7feb-4dd0-947d-967581e79c54",
+	'Enumeration Init',
+	2205,
+	'TM_ENUMINIT',
+	'',
+	"c0c7b9e8-284f-424e-b8b0-9867138bd453");
+INSERT INTO O_NBATTR
+	VALUES ("c69d4bb5-6175-4aad-b6e0-1b948688aedc",
+	"2489e0ea-7feb-4dd0-947d-967581e79c54");
+INSERT INTO O_BATTR
+	VALUES ("c69d4bb5-6175-4aad-b6e0-1b948688aedc",
+	"2489e0ea-7feb-4dd0-947d-967581e79c54");
+INSERT INTO O_ATTR
+	VALUES ("c69d4bb5-6175-4aad-b6e0-1b948688aedc",
+	"2489e0ea-7feb-4dd0-947d-967581e79c54",
+	"00000000-0000-0000-0000-000000000000",
+	'Domain',
+	'',
+	'',
+	'Domain',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("bf4adca1-5b5d-4828-af4f-a6a0c6551be2",
+	"2489e0ea-7feb-4dd0-947d-967581e79c54");
+INSERT INTO O_BATTR
+	VALUES ("bf4adca1-5b5d-4828-af4f-a6a0c6551be2",
+	"2489e0ea-7feb-4dd0-947d-967581e79c54");
+INSERT INTO O_ATTR
+	VALUES ("bf4adca1-5b5d-4828-af4f-a6a0c6551be2",
+	"2489e0ea-7feb-4dd0-947d-967581e79c54",
+	"c69d4bb5-6175-4aad-b6e0-1b948688aedc",
+	'enumeration',
+	'',
+	'',
+	'enumeration',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("06aa9277-8068-4b02-9bec-1a89e86c9caf",
+	"2489e0ea-7feb-4dd0-947d-967581e79c54");
+INSERT INTO O_BATTR
+	VALUES ("06aa9277-8068-4b02-9bec-1a89e86c9caf",
+	"2489e0ea-7feb-4dd0-947d-967581e79c54");
+INSERT INTO O_ATTR
+	VALUES ("06aa9277-8068-4b02-9bec-1a89e86c9caf",
+	"2489e0ea-7feb-4dd0-947d-967581e79c54",
+	"bf4adca1-5b5d-4828-af4f-a6a0c6551be2",
+	'value',
+	'',
+	'',
+	'value',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"2489e0ea-7feb-4dd0-947d-967581e79c54");
+INSERT INTO O_ID
+	VALUES (1,
+	"2489e0ea-7feb-4dd0-947d-967581e79c54");
+INSERT INTO O_ID
+	VALUES (2,
+	"2489e0ea-7feb-4dd0-947d-967581e79c54");
+INSERT INTO S_SS_PROXY
+	VALUES ("c0c7b9e8-284f-424e-b8b0-9867138bd453",
+	'Translation Marking',
+	'This subsystem contains classes intended for marking or coloring the user
+model to guide the translation process.',
+	'TM',
+	0,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000000000",
+	'../Translation Marking.xtuml');

@@ -1,0 +1,107 @@
+HOWTO Create the Special Branch for the Model Compilers and DocGen
+===
+
+---
+This note describes the steps to create the special branch used for the model
+compilers and DocGen along with instructions for generating the model compiler
+schema and the graphical meta-model that ships with the tool.
+
+---
+
+Creating the Branch
+--------------------
+* It is suggested to create a new workspace for this work when you start eclipse
+* Switch to model explorer
+* Make sure Build Automatically is OFF
+* Check out bp.core (or replace bp.core with the latest) from HEAD
+* Branch bp.core to MC-<name>
+* Switch to Java perspective
+* Delete the following files and directories:
+  * Code packages underneath src/
+  * arc/
+  * color/
+  * contexts/
+  * doc/
+  * icons/
+  * md/
+  * schema/
+  * sql/
+  * tools/
+  * generate_context_menus.bat
+* Merge bp.core with the previous version of the MC-<name> branch
+  * Merge in the new files under src/
+  * Merge in the updates (if any) in .externalToolBuilders/
+  * Merge in the updates under gen/
+  * Merge in the updates under libsrc/
+  * Merge in the updates under META-INF/
+  * Merge in the updates to .classpath
+  * Merge in the updates to .cproject
+  * Merge in the updates to .project
+  * Merge in the changes to the MC-specific additions under models/ :
+    * context_menu
+    * DocGen
+    * Document
+    * Document Data Types
+    * Instance Reference Data Types
+    * Local
+    * MC
+    * MCfunctions
+    * RuntimeValue
+    * Search
+      * Engine
+      * Participation
+      * Query
+      * Result
+    * Translation Extensions
+    * Translation Marking
+    * Translation OAL
+    * ooaofooa_hierarchy
+  * You may need to merge ooaofooa.xtuml to pick up changes to domain.
+  * Any other model conflicts (ooaofooa and Datatypes) should most likely be 
+    ignored.  Select them all and choose "Mark as Merged" from the context menu.
+  * Sometimes the xtUML Model perspective gets confused at this point and a
+    restart is required.
+
+    
+    
+Generating the Schema
+---------------------
+* Go to Properties->Builders and turn off all builders except for
+  the Model Compiler Pre-Build and Model Compiler.
+* From the C/C++ Projects perspective, find .externalToolBuilders and refresh.
+* Expand `src/`.  If `xtumlmc_schema.sql` is not the same as the latest versioned
+  copy of the file, copy the file to an appropriately versioned file in the same
+  folder.
+* Build Project now, this will generate the schema.
+* Fix up the schema by hand
+  1.  E_GEE... somebody re-formalized an association and switched the order
+      (at some point).  But, E_GEE is not supported by the tool, so leave this
+      one alone.
+  2.  O_RAVR gets deleted. It has no attributes and generator can't handle this.
+  3.  Places where C (conditionality) has been added is because we have gotten 
+      MC errors that we should not.  In some cases, it's possible the ooaofoaa 
+      is wrong but have not resolved.
+  4.  ROP TE_SWC to O_OBJ.  Cort forgets exactly why we make this change, but 
+       there is a reason.
+* Compare the newly created schema file with the existing version.  Make sure 
+  all the changes make sense.
+   
+   
+
+Exporting the Model for Customers
+----------------------------------
+* See com.mentor.nuclues.bp.welcome/README.txt
+
+
+
+Building DocGen
+---------------
+* See ./HOWTO Create docgen exe.txt
+
+
+
+NOTES
+-----
+* We have seen cases in the pase of orphaned referential attributes on the 
+  Translation Extensions Class Diagram after merging.  If any are found, 
+  unformalize and re-formalize the necessary association.

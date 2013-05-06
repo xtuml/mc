@@ -1,0 +1,165 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("6e1f9b12-bc84-48ed-af2d-02831c049629",
+	'Provided Executable Property',
+	4501,
+	'SPR_PEP',
+	'',
+	"6a43182c-b832-4648-b478-ab0441b8613c");
+INSERT INTO O_REF
+	VALUES ("6e1f9b12-bc84-48ed-af2d-02831c049629",
+	"30125d4c-7b45-4f34-b9a1-802a670a7614",
+	0,
+	"98e35966-ecb5-4116-a587-a4f47306b28f",
+	"b524e642-a1fa-4d42-be11-06872de28544",
+	"2aa7af94-100d-4f23-8a3c-883a063e59f9",
+	"8f1ae2fc-08b2-4035-941e-d71e68561d3d",
+	"304a8be8-40d8-40fe-af33-e6b8e66f8dd9",
+	"255cbee8-d5be-4f3e-b6bf-32d8e7e08043",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Executable Property',
+	'Id',
+	'R4501');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6e1f9b12-bc84-48ed-af2d-02831c049629",
+	"b524e642-a1fa-4d42-be11-06872de28544",
+	"2aa7af94-100d-4f23-8a3c-883a063e59f9",
+	'../Signal Provisions and Requirements.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("98e35966-ecb5-4116-a587-a4f47306b28f",
+	"30125d4c-7b45-4f34-b9a1-802a670a7614",
+	0,
+	"b524e642-a1fa-4d42-be11-06872de28544",
+	"8f1ae2fc-08b2-4035-941e-d71e68561d3d",
+	'../Signal Provisions and Requirements.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("304a8be8-40d8-40fe-af33-e6b8e66f8dd9",
+	"6e1f9b12-bc84-48ed-af2d-02831c049629",
+	"98e35966-ecb5-4116-a587-a4f47306b28f",
+	"30125d4c-7b45-4f34-b9a1-802a670a7614",
+	1,
+	'Id');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("98e35966-ecb5-4116-a587-a4f47306b28f",
+	"30125d4c-7b45-4f34-b9a1-802a670a7614",
+	'../../Executable Property/Executable Property.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("304a8be8-40d8-40fe-af33-e6b8e66f8dd9",
+	"6e1f9b12-bc84-48ed-af2d-02831c049629",
+	"67a67b41-0ad5-4731-9748-c98aad60eb92",
+	'ExecutableProperty_Id',
+	'',
+	'ExecutableProperty_',
+	'Id',
+	1,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("67a67b41-0ad5-4731-9748-c98aad60eb92",
+	"6e1f9b12-bc84-48ed-af2d-02831c049629");
+INSERT INTO O_BATTR
+	VALUES ("67a67b41-0ad5-4731-9748-c98aad60eb92",
+	"6e1f9b12-bc84-48ed-af2d-02831c049629");
+INSERT INTO O_ATTR
+	VALUES ("67a67b41-0ad5-4731-9748-c98aad60eb92",
+	"6e1f9b12-bc84-48ed-af2d-02831c049629",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"a5f314e0-43b6-40bd-8aee-520de6952a24",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a5f314e0-43b6-40bd-8aee-520de6952a24",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'unique_id',
+	'',
+	'',
+	'../../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_REF
+	VALUES ("6e1f9b12-bc84-48ed-af2d-02831c049629",
+	"8969f73f-606a-4e4e-a698-aafd54115472",
+	0,
+	"3159b65f-6b8d-4aa9-b0bd-8b8b37f4c9be",
+	"b524e642-a1fa-4d42-be11-06872de28544",
+	"2aa7af94-100d-4f23-8a3c-883a063e59f9",
+	"40267f0f-88e0-4489-80a9-4bcbad31da63",
+	"c4d6d813-2c5e-4ce8-b84b-aa3bd8956465",
+	"6dca00a8-5afa-4087-83ee-8750d9ff5c60",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Provision',
+	'Provision_Id',
+	'R4501');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("3159b65f-6b8d-4aa9-b0bd-8b8b37f4c9be",
+	"8969f73f-606a-4e4e-a698-aafd54115472",
+	0,
+	"b524e642-a1fa-4d42-be11-06872de28544",
+	"40267f0f-88e0-4489-80a9-4bcbad31da63",
+	'../Signal Provisions and Requirements.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("c4d6d813-2c5e-4ce8-b84b-aa3bd8956465",
+	"6e1f9b12-bc84-48ed-af2d-02831c049629",
+	"5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	'../../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("c4d6d813-2c5e-4ce8-b84b-aa3bd8956465",
+	"6e1f9b12-bc84-48ed-af2d-02831c049629",
+	"304a8be8-40d8-40fe-af33-e6b8e66f8dd9",
+	'Provision_Id',
+	'',
+	'',
+	'Provision_Id',
+	2,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"6e1f9b12-bc84-48ed-af2d-02831c049629");
+INSERT INTO O_OIDA
+	VALUES ("67a67b41-0ad5-4731-9748-c98aad60eb92",
+	"6e1f9b12-bc84-48ed-af2d-02831c049629",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"6e1f9b12-bc84-48ed-af2d-02831c049629");
+INSERT INTO O_ID
+	VALUES (2,
+	"6e1f9b12-bc84-48ed-af2d-02831c049629");
+INSERT INTO S_SS_PROXY
+	VALUES ("6a43182c-b832-4648-b478-ab0441b8613c",
+	'Signal Provisions and Requirements',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+
+The Signal Provisions and Requirements subsystem captures data which will be
+used to define the implementation of provided and required interfaces.',
+	'SPR',
+	4500,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000000000",
+	'../Signal Provisions and Requirements.xtuml');

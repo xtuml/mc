@@ -1,0 +1,171 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("8969f73f-606a-4e4e-a698-aafd54115472",
+	'Provision',
+	4002,
+	'C_P',
+	'Provisions are used to represent provided interfaces on a Component Diagram.
+When they are formal, that is related to a defined interface on an interface
+diagram, an association is setup between the component that provides the
+interface and any number of components that require the same interface.',
+	"01aecea1-07ec-46e6-a719-cece731803c9");
+INSERT INTO O_BATTR
+	VALUES ("27631bb9-8516-4e83-8464-65ea2aeaa5f9",
+	"8969f73f-606a-4e4e-a698-aafd54115472");
+INSERT INTO O_ATTR
+	VALUES ("27631bb9-8516-4e83-8464-65ea2aeaa5f9",
+	"8969f73f-606a-4e4e-a698-aafd54115472",
+	"3159b65f-6b8d-4aa9-b0bd-8b8b37f4c9be",
+	'Name',
+	'User_Visible:false',
+	'',
+	'Name',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("5bda9646-3658-4ee4-8679-68f0b8f6e01e",
+	"8969f73f-606a-4e4e-a698-aafd54115472");
+INSERT INTO O_BATTR
+	VALUES ("5bda9646-3658-4ee4-8679-68f0b8f6e01e",
+	"8969f73f-606a-4e4e-a698-aafd54115472");
+INSERT INTO O_ATTR
+	VALUES ("5bda9646-3658-4ee4-8679-68f0b8f6e01e",
+	"8969f73f-606a-4e4e-a698-aafd54115472",
+	"62d9ba99-a8f6-4b2f-b039-fd52609d7afd",
+	'Descrip',
+	'Full Name: Interface Description
+Description: A textual description of this provided interface.',
+	'',
+	'Descrip',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("62d9ba99-a8f6-4b2f-b039-fd52609d7afd",
+	"8969f73f-606a-4e4e-a698-aafd54115472");
+INSERT INTO O_BATTR
+	VALUES ("62d9ba99-a8f6-4b2f-b039-fd52609d7afd",
+	"8969f73f-606a-4e4e-a698-aafd54115472");
+INSERT INTO O_ATTR
+	VALUES ("62d9ba99-a8f6-4b2f-b039-fd52609d7afd",
+	"8969f73f-606a-4e4e-a698-aafd54115472",
+	"27631bb9-8516-4e83-8464-65ea2aeaa5f9",
+	'InformalName',
+	'Full Name: Informal Interface Name',
+	'',
+	'InformalName',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("8969f73f-606a-4e4e-a698-aafd54115472",
+	"d45618a1-5ecf-4b4d-95a8-ab89b70dec11",
+	0,
+	"79ea6409-f6d5-47f6-a3e1-4fc015199794",
+	"06ffad16-e2d7-4e9f-9598-821be8235c20",
+	"a6bb800e-573d-4df5-8d0d-785bc7a65494",
+	"b044594e-bd82-4e04-bd62-466948efaaba",
+	"3159b65f-6b8d-4aa9-b0bd-8b8b37f4c9be",
+	"e1cf9df8-30c6-47b2-9ef2-ace853d0b3b1",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Interface Reference',
+	'Id',
+	'R4009');
+INSERT INTO R_RGO_PROXY
+	VALUES ("8969f73f-606a-4e4e-a698-aafd54115472",
+	"06ffad16-e2d7-4e9f-9598-821be8235c20",
+	"a6bb800e-573d-4df5-8d0d-785bc7a65494",
+	'../Component.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("79ea6409-f6d5-47f6-a3e1-4fc015199794",
+	"d45618a1-5ecf-4b4d-95a8-ab89b70dec11",
+	0,
+	"06ffad16-e2d7-4e9f-9598-821be8235c20",
+	"b044594e-bd82-4e04-bd62-466948efaaba",
+	'../Component.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("3159b65f-6b8d-4aa9-b0bd-8b8b37f4c9be",
+	"8969f73f-606a-4e4e-a698-aafd54115472",
+	"79ea6409-f6d5-47f6-a3e1-4fc015199794",
+	"d45618a1-5ecf-4b4d-95a8-ab89b70dec11",
+	0,
+	'Id');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("79ea6409-f6d5-47f6-a3e1-4fc015199794",
+	"d45618a1-5ecf-4b4d-95a8-ab89b70dec11",
+	'../Interface Reference/Interface Reference.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("3159b65f-6b8d-4aa9-b0bd-8b8b37f4c9be",
+	"8969f73f-606a-4e4e-a698-aafd54115472",
+	"00000000-0000-0000-0000-000000000000",
+	'Provision_Id',
+	'',
+	'Provision_',
+	'Id',
+	1,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_BATTR
+	VALUES ("fb43772a-2100-4437-bcf5-a68f381a547b",
+	"8969f73f-606a-4e4e-a698-aafd54115472");
+INSERT INTO O_ATTR
+	VALUES ("fb43772a-2100-4437-bcf5-a68f381a547b",
+	"8969f73f-606a-4e4e-a698-aafd54115472",
+	"5bda9646-3658-4ee4-8679-68f0b8f6e01e",
+	'pathFromComponent',
+	'User_Visible:false',
+	'',
+	'pathFromComponent',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"8969f73f-606a-4e4e-a698-aafd54115472");
+INSERT INTO O_OIDA
+	VALUES ("3159b65f-6b8d-4aa9-b0bd-8b8b37f4c9be",
+	"8969f73f-606a-4e4e-a698-aafd54115472",
+	0,
+	'Provision_Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"8969f73f-606a-4e4e-a698-aafd54115472");
+INSERT INTO O_ID
+	VALUES (2,
+	"8969f73f-606a-4e4e-a698-aafd54115472");
+INSERT INTO S_SS_PROXY
+	VALUES ("01aecea1-07ec-46e6-a719-cece731803c9",
+	'Component',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+
+The component subsystem contains the classes necessary to capture the data
+required for modeling components.',
+	'C',
+	4000,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000000000",
+	'../Component.xtuml');

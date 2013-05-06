@@ -1,0 +1,99 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("982386b4-db03-44d6-827b-fbe9d059c7ff",
+	'Continue',
+	630,
+	'ACT_CON',
+	'This class generates a continue statement within a block.',
+	"76583c73-7a99-4c81-b260-8109e6cef5ca");
+INSERT INTO O_REF
+	VALUES ("982386b4-db03-44d6-827b-fbe9d059c7ff",
+	"e9011b75-e798-45a3-ac83-92ba7c04db4e",
+	0,
+	"57ac4fbc-42e9-46ec-a929-7875093e348c",
+	"63067dfa-ea5b-4c48-bd8c-138b8b76196c",
+	"92312feb-5479-47d5-a49e-df4417f0a54e",
+	"fe55fe0e-8913-466e-aa7c-a04d957a07ce",
+	"1c316a4e-896f-4540-bedf-b8615871338e",
+	"b9b89856-f4f6-495e-840e-460a18952b00",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Statement',
+	'Statement_ID',
+	'R603');
+INSERT INTO R_RGO_PROXY
+	VALUES ("982386b4-db03-44d6-827b-fbe9d059c7ff",
+	"63067dfa-ea5b-4c48-bd8c-138b8b76196c",
+	"92312feb-5479-47d5-a49e-df4417f0a54e",
+	'../Body.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("57ac4fbc-42e9-46ec-a929-7875093e348c",
+	"e9011b75-e798-45a3-ac83-92ba7c04db4e",
+	0,
+	"63067dfa-ea5b-4c48-bd8c-138b8b76196c",
+	"fe55fe0e-8913-466e-aa7c-a04d957a07ce",
+	'../Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("1c316a4e-896f-4540-bedf-b8615871338e",
+	"982386b4-db03-44d6-827b-fbe9d059c7ff",
+	"57ac4fbc-42e9-46ec-a929-7875093e348c",
+	"e9011b75-e798-45a3-ac83-92ba7c04db4e",
+	1,
+	'Statement_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("57ac4fbc-42e9-46ec-a929-7875093e348c",
+	"e9011b75-e798-45a3-ac83-92ba7c04db4e",
+	'../Statement/Statement.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("1c316a4e-896f-4540-bedf-b8615871338e",
+	"982386b4-db03-44d6-827b-fbe9d059c7ff",
+	"00000000-0000-0000-0000-000000000000",
+	'Statement_ID',
+	'
+
+',
+	'',
+	'Statement_ID',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"982386b4-db03-44d6-827b-fbe9d059c7ff");
+INSERT INTO O_OIDA
+	VALUES ("1c316a4e-896f-4540-bedf-b8615871338e",
+	"982386b4-db03-44d6-827b-fbe9d059c7ff",
+	0,
+	'Statement_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"982386b4-db03-44d6-827b-fbe9d059c7ff");
+INSERT INTO O_ID
+	VALUES (2,
+	"982386b4-db03-44d6-827b-fbe9d059c7ff");
+INSERT INTO S_SS_PROXY
+	VALUES ("76583c73-7a99-4c81-b260-8109e6cef5ca",
+	'Body',
+	'This subsystem abstracts the action itself, the blocks and statements
+it contains together with the flow of control statements such as ''while'',
+''for each'' and ''if''.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	'ACT',
+	600,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000380007",
+	'../Body.xtuml');

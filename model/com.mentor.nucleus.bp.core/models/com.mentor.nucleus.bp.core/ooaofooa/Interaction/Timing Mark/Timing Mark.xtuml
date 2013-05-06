@@ -1,0 +1,161 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("7d2889ad-2fdb-4613-b5ec-a76356184055",
+	'Timing Mark',
+	904,
+	'SQ_TM',
+	'This class represents a mark somewhere on a lifespan.  They are used to capture
+a point in time during an instance''s life.',
+	"90afcd0d-03fa-49d5-ac2c-0fd20beede15");
+INSERT INTO O_NBATTR
+	VALUES ("adfb54ab-a4cc-4dd6-a79a-38928a53c5e9",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055");
+INSERT INTO O_BATTR
+	VALUES ("adfb54ab-a4cc-4dd6-a79a-38928a53c5e9",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055");
+INSERT INTO O_ATTR
+	VALUES ("adfb54ab-a4cc-4dd6-a79a-38928a53c5e9",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055",
+	"b59ec048-a32a-4af9-9c28-02f9a65be514",
+	'Name',
+	'Full Name: Timing Mark Label',
+	'',
+	'Name',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("a80e23d9-2130-4621-b890-3d3573e37ea7",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055");
+INSERT INTO O_BATTR
+	VALUES ("a80e23d9-2130-4621-b890-3d3573e37ea7",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055");
+INSERT INTO O_ATTR
+	VALUES ("a80e23d9-2130-4621-b890-3d3573e37ea7",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055",
+	"fe0cf7ee-47f5-4c7b-8a27-7364089aef82",
+	'Descrip',
+	'Full Name: Timing Mark Description
+Description: A textual description of this timing mark.',
+	'',
+	'Descrip',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("7d2889ad-2fdb-4613-b5ec-a76356184055",
+	"2e229f31-74d7-4262-b3e5-6aec62ebb037",
+	0,
+	"c434bead-3177-4457-940e-66f10ece2fac",
+	"540e0ba3-2b0c-4670-926c-c6fd082629b4",
+	"c5a588b2-97e7-4c75-97bb-3a54d4e885bc",
+	"65ccc829-a599-4b7d-800c-7350a49efaa8",
+	"fe0cf7ee-47f5-4c7b-8a27-7364089aef82",
+	"a6afdc52-2d13-4a1a-9d06-bfdeb3cab753",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Lifespan',
+	'Part_ID',
+	'R931');
+INSERT INTO R_RGO_PROXY
+	VALUES ("7d2889ad-2fdb-4613-b5ec-a76356184055",
+	"540e0ba3-2b0c-4670-926c-c6fd082629b4",
+	"c5a588b2-97e7-4c75-97bb-3a54d4e885bc",
+	'../Interaction.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("c434bead-3177-4457-940e-66f10ece2fac",
+	"2e229f31-74d7-4262-b3e5-6aec62ebb037",
+	0,
+	"540e0ba3-2b0c-4670-926c-c6fd082629b4",
+	"65ccc829-a599-4b7d-800c-7350a49efaa8",
+	'../Interaction.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("fe0cf7ee-47f5-4c7b-8a27-7364089aef82",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055",
+	"5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5776264f-c7e9-4abe-839f-24d0750e007c",
+	"5ada8d43-9e86-43cb-91a2-fac19a8e30f6",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("fe0cf7ee-47f5-4c7b-8a27-7364089aef82",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055",
+	"adfb54ab-a4cc-4dd6-a79a-38928a53c5e9",
+	'Part_ID',
+	'',
+	'',
+	'Part_ID',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("b59ec048-a32a-4af9-9c28-02f9a65be514",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055");
+INSERT INTO O_BATTR
+	VALUES ("b59ec048-a32a-4af9-9c28-02f9a65be514",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055");
+INSERT INTO O_ATTR
+	VALUES ("b59ec048-a32a-4af9-9c28-02f9a65be514",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055",
+	"00000000-0000-0000-0000-000000000000",
+	'Mark_ID',
+	'',
+	'',
+	'Mark_ID',
+	0,
+	"a5f314e0-43b6-40bd-8aee-520de6952a24",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a5f314e0-43b6-40bd-8aee-520de6952a24",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'unique_id',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"7d2889ad-2fdb-4613-b5ec-a76356184055");
+INSERT INTO O_OIDA
+	VALUES ("b59ec048-a32a-4af9-9c28-02f9a65be514",
+	"7d2889ad-2fdb-4613-b5ec-a76356184055",
+	0,
+	'Mark_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"7d2889ad-2fdb-4613-b5ec-a76356184055");
+INSERT INTO O_ID
+	VALUES (2,
+	"7d2889ad-2fdb-4613-b5ec-a76356184055");
+INSERT INTO S_SS_PROXY
+	VALUES ("90afcd0d-03fa-49d5-ac2c-0fd20beede15",
+	'Interaction',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	'IA',
+	930,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000000000",
+	'../Interaction.xtuml');
