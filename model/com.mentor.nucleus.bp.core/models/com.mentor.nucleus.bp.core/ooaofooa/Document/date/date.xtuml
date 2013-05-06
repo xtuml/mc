@@ -1,0 +1,116 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("a49be6d3-3d1c-4fec-a040-33ec91aefb90",
+	'date',
+	2302,
+	'DOC_DATE',
+	'',
+	"239a862d-a017-4365-ab16-7665217b66f6");
+INSERT INTO O_NBATTR
+	VALUES ("ab9ce048-31b3-48bf-8ce2-07a433799152",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO O_BATTR
+	VALUES ("ab9ce048-31b3-48bf-8ce2-07a433799152",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO O_ATTR
+	VALUES ("ab9ce048-31b3-48bf-8ce2-07a433799152",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90",
+	"00000000-0000-0000-0000-000000000000",
+	'year',
+	'',
+	'',
+	'year',
+	0,
+	"79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'integer',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("10e010c1-5bc8-4e2a-b374-6d105ec4c1af",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO O_BATTR
+	VALUES ("10e010c1-5bc8-4e2a-b374-6d105ec4c1af",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO O_ATTR
+	VALUES ("10e010c1-5bc8-4e2a-b374-6d105ec4c1af",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90",
+	"ab9ce048-31b3-48bf-8ce2-07a433799152",
+	'month',
+	'',
+	'',
+	'month',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("61b779a8-00af-44ca-9052-e70b7ab6e521",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO O_BATTR
+	VALUES ("61b779a8-00af-44ca-9052-e70b7ab6e521",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO O_ATTR
+	VALUES ("61b779a8-00af-44ca-9052-e70b7ab6e521",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90",
+	"10e010c1-5bc8-4e2a-b374-6d105ec4c1af",
+	'day',
+	'',
+	'',
+	'day',
+	0,
+	"79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4e30ce04-ea6f-45f5-a5a7-f444efd1b620",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO O_BATTR
+	VALUES ("4e30ce04-ea6f-45f5-a5a7-f444efd1b620",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO O_ATTR
+	VALUES ("4e30ce04-ea6f-45f5-a5a7-f444efd1b620",
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90",
+	"61b779a8-00af-44ca-9052-e70b7ab6e521",
+	'time',
+	'',
+	'',
+	'time',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO O_ID
+	VALUES (1,
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO O_ID
+	VALUES (2,
+	"a49be6d3-3d1c-4fec-a040-33ec91aefb90");
+INSERT INTO S_SS_PROXY
+	VALUES ("239a862d-a017-4365-ab16-7665217b66f6",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	'DOC',
+	2300,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000000000",
+	'../Document.xtuml');

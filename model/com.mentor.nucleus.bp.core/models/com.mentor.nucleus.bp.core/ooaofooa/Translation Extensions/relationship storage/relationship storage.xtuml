@@ -1,0 +1,150 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("a755383d-36fd-4789-9d5f-5cd202cb8254",
+	'relationship storage',
+	2061,
+	'TE_RELSTORE',
+	'',
+	"ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef");
+INSERT INTO O_NBATTR
+	VALUES ("def41f32-7c01-4d6d-ae64-554ad5dbcdb6",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_BATTR
+	VALUES ("def41f32-7c01-4d6d-ae64-554ad5dbcdb6",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_ATTR
+	VALUES ("def41f32-7c01-4d6d-ae64-554ad5dbcdb6",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254",
+	"5f306ec7-75fa-47af-8e12-975b1cd03b89",
+	'data_init',
+	'default:',
+	'',
+	'data_init',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'""');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("928677f0-2232-49b9-bb7a-0e4c9b154225",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_BATTR
+	VALUES ("928677f0-2232-49b9-bb7a-0e4c9b154225",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_ATTR
+	VALUES ("928677f0-2232-49b9-bb7a-0e4c9b154225",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254",
+	"def41f32-7c01-4d6d-ae64-554ad5dbcdb6",
+	'link_calls',
+	'default:',
+	'',
+	'link_calls',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'""');
+INSERT INTO O_NBATTR
+	VALUES ("a2006326-bc0f-4124-aabf-2e86ab589b6c",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_BATTR
+	VALUES ("a2006326-bc0f-4124-aabf-2e86ab589b6c",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_ATTR
+	VALUES ("a2006326-bc0f-4124-aabf-2e86ab589b6c",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254",
+	"928677f0-2232-49b9-bb7a-0e4c9b154225",
+	'link_index',
+	'default:0',
+	'',
+	'link_index',
+	0,
+	"79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	'',
+	'0');
+INSERT INTO S_DT_PROXY
+	VALUES ("79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'integer',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("77c9fbb7-7c62-41c3-a59b-7b40a69d7958",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_BATTR
+	VALUES ("77c9fbb7-7c62-41c3-a59b-7b40a69d7958",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_ATTR
+	VALUES ("77c9fbb7-7c62-41c3-a59b-7b40a69d7958",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254",
+	"a2006326-bc0f-4124-aabf-2e86ab589b6c",
+	'data_fini',
+	'',
+	'',
+	'data_fini',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'""');
+INSERT INTO O_NBATTR
+	VALUES ("4b7132d2-7fdb-4e45-996b-262b7b542439",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_BATTR
+	VALUES ("4b7132d2-7fdb-4e45-996b-262b7b542439",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_ATTR
+	VALUES ("4b7132d2-7fdb-4e45-996b-262b7b542439",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254",
+	"77c9fbb7-7c62-41c3-a59b-7b40a69d7958",
+	'self_name',
+	'',
+	'',
+	'self_name',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'"self"');
+INSERT INTO O_NBATTR
+	VALUES ("5f306ec7-75fa-47af-8e12-975b1cd03b89",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_BATTR
+	VALUES ("5f306ec7-75fa-47af-8e12-975b1cd03b89",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_ATTR
+	VALUES ("5f306ec7-75fa-47af-8e12-975b1cd03b89",
+	"a755383d-36fd-4789-9d5f-5cd202cb8254",
+	"00000000-0000-0000-0000-000000000000",
+	'data_declare',
+	'default:',
+	'',
+	'data_declare',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'""');
+INSERT INTO O_ID
+	VALUES (0,
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_ID
+	VALUES (1,
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO O_ID
+	VALUES (2,
+	"a755383d-36fd-4789-9d5f-5cd202cb8254");
+INSERT INTO S_SS_PROXY
+	VALUES ("ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	'TE',
+	2200,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000400008",
+	'../Translation Extensions.xtuml');

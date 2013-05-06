@@ -1,0 +1,96 @@
+.//============================================================================
+.// Notice:
+.// (C) Copyright 1998-2008 Mentor Graphics Corporation
+.//     All rights reserved.
+.//
+.// This document contains confidential and proprietary information and
+.// property of Mentor Graphics Corp.  No part of this document may be
+.// reproduced without the express written permission of Mentor Graphics Corp.
+.//============================================================================
+.//
+.// template function
+.//
+.function class_model_data
+  .param inst_ref c .// O_OBJ
+  .param inst_ref_set as .// O_ATTR
+  .//
+  .assign key_word_assign = ".assign"
+  .assign key_word_comment = ".//"
+  .assign key_word_function = ".function"
+  .assign key_word_endfunction = ".end function"
+  .assign key_word_param = ".param"
+  .assign key_word_select = ".select"
+  .//
+  .if ( not_empty as )
+${key_word_comment}
+${key_word_function} factory_$_{c.Key_Lett}
+  ${key_word_param} inst_ref $l{c.Key_Lett}
+    .// The following generates a call inside the model function.
+    .// This allows access to other data components from within the class.
+    .if ( "" != "${c.Descrip:access}" )
+      .select any accessclass from instances of O_OBJ where ( selected.Name == "${c.Descrip:access}" )
+      .if ( not_empty accessclass )
+  ${key_word_select} any $_{c.Descrip:access} from instances of ${accessclass.Key_Lett}
+      .else
+        .select any accessclass from instances of O_OBJ where ( selected.Key_Lett == "$u{c.Descrip:access}" )
+        .if ( not_empty accessclass )
+  ${key_word_select} any $_{c.Descrip:access} from instances of ${accessclass.Key_Lett}
+        .else
+          .print "Could not find ${c.Descrip:access}."
+        .end if
+      .end if
+    .end if
+    .//
+    .assign DefaultValue = ""
+    .for each a in as
+      .if ( "" != a.DefaultValue )
+        .assign DefaultValue = a.DefaultValue
+      .else
+        .assign DefaultValue = """${a.Descrip:default}"""
+      .end if
+      .select one dt related by a->S_DT[R114]
+      .if ( "string" == dt.Name )
+  ${key_word_assign} $l{c.Key_Lett}.${a.Name} = ${DefaultValue}
+      .elif ( ( "boolean" == dt.Name ) or ( "integer" == dt.Name ) )
+        .if ( "" != DefaultValue )
+  ${key_word_assign} $l{c.Key_Lett}.${a.Name} = ${DefaultValue}
+        .end if
+      .elif ( "unique_id" == dt.Name )
+        .if ( "" != DefaultValue )
+  ${key_word_select} any $l{DefaultValue} from instances of $u{DefaultValue} where ( false )
+  ${key_word_assign} $l{c.Key_Lett}.${a.Name} = $l{DefaultValue}
+        .end if
+      .end if
+    .end for
+${key_word_endfunction}
+${key_word_comment}
+  .end if
+.end function
+.//
+.// query
+.//
+.select any ss from instances of S_SS where ( selected.Name == "Translation Extensions" )
+.select many cs related by ss->O_OBJ[R2] where ( ( selected.Numb > 2036 ) and ( selected.Numb <= 2065 ) )
+.for each c in cs
+  .select many as related by c->O_ATTR[R102]
+  .invoke model = class_model_data( c, as )
+  .//
+  .// render
+  .//
+${model.body}\
+  .//
+.end for
+.//
+.assign key_word_create = ".create object instance"
+.assign key_word_invoke = ".invoke"
+.assign key_word_function = ".function"
+.assign key_word_endfunction = ".end function"
+${key_word_function} factory_factory
+.for each c in cs
+  ${key_word_create} i_$l{c.Key_Lett} of ${c.Key_Lett}
+  ${key_word_invoke} factory_$_{c.Key_Lett}( i_$l{c.Key_Lett} )
+.end for
+${key_word_endfunction}
+.//
+.emit to file "../../src/q.mc3020.arc"
+.//

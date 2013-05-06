@@ -1,0 +1,213 @@
+-- BP 7.1 content: ModelClass syschar: 3 persistence-version: 7.1.5
+
+INSERT INTO O_OBJ
+	VALUES ("8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	'Message Queue',
+	2006,
+	'TE_QUEUE',
+	'',
+	"ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef");
+INSERT INTO O_NBATTR
+	VALUES ("33e339d4-e3ea-4d48-9650-c96a63d6719a",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_BATTR
+	VALUES ("33e339d4-e3ea-4d48-9650-c96a63d6719a",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_ATTR
+	VALUES ("33e339d4-e3ea-4d48-9650-c96a63d6719a",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	"00000000-0000-0000-0000-000000000000",
+	'Queue_ID',
+	'',
+	'',
+	'Queue_ID',
+	0,
+	"79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'integer',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_REF
+	VALUES ("8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	"cea874ba-cd4f-4050-a5e5-c2f67fc0ed64",
+	0,
+	"26b71db4-c4c0-46fa-9e80-10f9f7d8ce8d",
+	"c33e9d2f-7a46-4971-b318-98b8f87b6b34",
+	"2c381a53-b8c5-477f-b3f5-4401a0ef5272",
+	"fa3a2fc8-46e8-45e1-9c9c-ef7462ef47cd",
+	"4d4ed1c5-0c85-47db-bc1e-17431d807a74",
+	"d43f41b4-f349-4334-819a-0e9235ba9402",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Dispatcher',
+	'Dispatcher_ID',
+	'R2004');
+INSERT INTO R_RGO_PROXY
+	VALUES ("8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	"c33e9d2f-7a46-4971-b318-98b8f87b6b34",
+	"2c381a53-b8c5-477f-b3f5-4401a0ef5272",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("26b71db4-c4c0-46fa-9e80-10f9f7d8ce8d",
+	"cea874ba-cd4f-4050-a5e5-c2f67fc0ed64",
+	0,
+	"c33e9d2f-7a46-4971-b318-98b8f87b6b34",
+	"fa3a2fc8-46e8-45e1-9c9c-ef7462ef47cd",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("4d4ed1c5-0c85-47db-bc1e-17431d807a74",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	"26b71db4-c4c0-46fa-9e80-10f9f7d8ce8d",
+	"cea874ba-cd4f-4050-a5e5-c2f67fc0ed64",
+	1,
+	'Dispatcher_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("26b71db4-c4c0-46fa-9e80-10f9f7d8ce8d",
+	"cea874ba-cd4f-4050-a5e5-c2f67fc0ed64",
+	'../Dispatcher/Dispatcher.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("4d4ed1c5-0c85-47db-bc1e-17431d807a74",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	"33e339d4-e3ea-4d48-9650-c96a63d6719a",
+	'Dispatcher_ID',
+	'',
+	'',
+	'Dispatcher_ID',
+	0,
+	"df379511-9dda-46ee-a114-9d591239938d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("df379511-9dda-46ee-a114-9d591239938d",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'same_as<Base_Attribute>',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("7168b93d-e449-4927-947d-2fcb26ce6b80",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_BATTR
+	VALUES ("7168b93d-e449-4927-947d-2fcb26ce6b80",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_ATTR
+	VALUES ("7168b93d-e449-4927-947d-2fcb26ce6b80",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	"4d4ed1c5-0c85-47db-bc1e-17431d807a74",
+	'Type',
+	'The type of the queue.
+
+Data Domain:
+0  = Undefined
+1  = Self directed OOA events
+2  = Non-self directed OOA events
+3  = System control
+4  = External non-OOA task communications',
+	'',
+	'Type',
+	0,
+	"79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("13aefc2c-175c-4dfd-80d2-c7bfc1a2df27",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_BATTR
+	VALUES ("13aefc2c-175c-4dfd-80d2-c7bfc1a2df27",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_ATTR
+	VALUES ("13aefc2c-175c-4dfd-80d2-c7bfc1a2df27",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	"7168b93d-e449-4927-947d-2fcb26ce6b80",
+	'Descrip',
+	'Full Name: Description
+
+A textual description of this message queue.',
+	'',
+	'Descrip',
+	0,
+	"528ced7e-5308-4195-8093-ca0c55401f58",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("528ced7e-5308-4195-8093-ca0c55401f58",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'string',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("34a46602-8a63-4a08-bf66-8f373c0b144d",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_BATTR
+	VALUES ("34a46602-8a63-4a08-bf66-8f373c0b144d",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_ATTR
+	VALUES ("34a46602-8a63-4a08-bf66-8f373c0b144d",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	"13aefc2c-175c-4dfd-80d2-c7bfc1a2df27",
+	'RenderCode',
+	'A flag used by the translation engine to indicate that this message queue needs to be rendered in the generated code.',
+	'',
+	'RenderCode',
+	0,
+	"8e519c45-7dcf-400b-9d4e-954869dbb7e8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("8e519c45-7dcf-400b-9d4e-954869dbb7e8",
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	'boolean',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("6bb865f3-553f-4289-afa1-15f20e2444f0",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_BATTR
+	VALUES ("6bb865f3-553f-4289-afa1-15f20e2444f0",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_ATTR
+	VALUES ("6bb865f3-553f-4289-afa1-15f20e2444f0",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	"34a46602-8a63-4a08-bf66-8f373c0b144d",
+	'MaxDepth',
+	'Full Name: Maximum Queue Depth
+
+A value of zero (0) indicates that this queue has no predefined maximum depth.',
+	'',
+	'MaxDepth',
+	0,
+	"79904a6c-8631-4ce7-a3ee-faf5eaa46dd8",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_OIDA
+	VALUES ("33e339d4-e3ea-4d48-9650-c96a63d6719a",
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f",
+	0,
+	'Queue_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO O_ID
+	VALUES (2,
+	"8ee61842-4f3f-4d9d-bf5a-4b7f0efba00f");
+INSERT INTO S_SS_PROXY
+	VALUES ("ea9c764b-3e0c-4d9f-84c3-5893c7bca0ef",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	'TE',
+	2200,
+	"d6e77a0a-4222-4ed5-87a0-cc22fcb66c43",
+	"00000000-0000-0000-0000-000000400008",
+	'../Translation Extensions.xtuml');

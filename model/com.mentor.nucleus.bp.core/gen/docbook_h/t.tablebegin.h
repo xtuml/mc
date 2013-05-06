@@ -1,0 +1,10 @@
+ooaofooa_T_b( "<table frame='all'>" );
+ooaofooa_T_b( "\n" );
+ooaofooa_T_b( "<title>" );
+ooaofooa_T_b( ooaofooa_T_xmlify( doc_tbl->title ) );
+ooaofooa_T_b( "</title>" );
+ooaofooa_T_b( "\n" );
+ooaofooa_T_b( "<tgroup cols='" );
+ooaofooa_T_b( ooaofooa_T_s( doc_tbl->num_cols ) );
+ooaofooa_T_b( "' align='left' colsep='0' rowsep='0'>" );
+ooaofooa_T_b( "\n" );
