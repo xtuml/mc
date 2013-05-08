@@ -58,7 +58,7 @@
     .else
       .// CDS const correctness goes here
       .// Arrays in C are always by ref, so add const to scalars only.
-      .if ( ( "" == te_parm.array_spec ) and ( ( 1 <= te_dt.CoreTyp ) and ( te_dt.Core_Typ <= 3 ) ) )
+      .if ( ( "" == te_parm.array_spec ) and ( ( 1 <= te_dt.Core_Typ ) and ( te_dt.Core_Typ <= 3 ) ) )
         .assign defn = defn + "const "
         .assign decl = decl + "const "
       .end if
