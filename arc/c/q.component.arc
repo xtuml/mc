@@ -25,11 +25,11 @@
   .select many nested_ref_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]->TE_C[R2008]
   .assign te_cs = te_cs | nested_ref_te_cs
   .assign attr_include_files = "#include ""${te_c.module_file}.${te_file.hdr_file_ext}""\n"
-  .for each te_c in te_cs
+  .for each local_te_c in te_cs
     .if ( te_sys.SystemCPortsType == "TLM" )
-      .assign attr_include_files = attr_include_files + "#include ""${te_c.Name}_bp_pv.${te_file.hdr_file_ext}""\n"
+      .assign attr_include_files = attr_include_files + "#include ""${local_te_c.Name}_bp_pv.${te_file.hdr_file_ext}""\n"
     .else
-      .assign attr_include_files = attr_include_files + "#include ""${te_c.Name}.${te_file.hdr_file_ext}""\n"
+      .assign attr_include_files = attr_include_files + "#include ""${local_te_c.Name}.${te_file.hdr_file_ext}""\n"
     .end if
   .end for
   .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
