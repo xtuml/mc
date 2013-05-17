@@ -435,10 +435,18 @@
         .assign te_val.buffer = "( ${te_instance.module}${te_string.strcmp}( ${l_te_val.buffer}, ${r_te_val.buffer} ) ${v_bin.Operator} 0 )"
       .end if
     .else
+      .select any te_target from instances of TE_TARGET
       .if ( "and" == "$r{v_bin.Operator}" )
         .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " && " + r_te_val.buffer ) ) + " )"
       .elif ( "or" == "$r{v_bin.Operator}" )
         .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " || " + r_te_val.buffer ) ) + " )"
+      .elif ( ( ( ( "==" == "$r{v_bin.Operator}" ) or ( "!=" == "$r{v_bin.Operator}" ) ) and ( "C" == te_target.language ) ) and ( l_te_val.dimensions != 0 ) )
+        .assign element_count = 0
+        .select one r_te_dim related by r_te_val->TE_DIM[R2079]
+        .if ( not_empty r_te_dim )
+          .assign element_count = r_te_dim.elementCount
+        .end if
+        .assign te_val.buffer = "( memcmp( ${l_te_val.buffer}, ${r_te_val.buffer}, sizeof(${l_te_val.buffer}[0]) * ${element_count} ) ${v_bin.Operator} 0 )"
       .else
         .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.buffer ) + " )" )
       .end if
