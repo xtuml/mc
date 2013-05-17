@@ -2027,6 +2027,13 @@
     .select any portindex_te_dt from instances of TE_DT where ( selected.Name == "integer" )
     .invoke r = FactoryTE_PARM( s_dims, portindex_te_dt, "", "A00portindex", "architectural port selector", 0 )
     .assign polymorphic_te_parm = r.result
+    .for each te_parm in te_parms
+      .if ( 0 == te_parm.Order )
+        .// relate polymorphic_te_parm to first_te_parm across R2041.'succeeds';
+        .assign polymorphic_te_parm.nextID = te_parm.ID
+        .// end relate
+      .end if
+    .end for
     .assign te_parms = te_parms | polymorphic_te_parm
   .end if
   .invoke r = FactoryTE_ABA( te_c, te_parms, te_mact.ComponentName, te_mact.GeneratedName, "TE_MACT", te_dt )
