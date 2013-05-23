@@ -41,7 +41,7 @@ Notes -
 <para><figure id='GPSWatch-UseCases-PackageDiagram-figure'>
 <title id='GPSWatch-UseCases-PackageDiagram-figure-title'>Use Cases Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Use Cases-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Use Cases-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -55,7 +55,7 @@ Notes -
 <para><figure id='GPSWatch-UseCases-RecordInfo-PackageDiagram-figure'>
 <title id='GPSWatch-UseCases-RecordInfo-PackageDiagram-figure-title'>Record Info Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Use Cases-Record Info-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Use Cases-Record Info-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -68,7 +68,7 @@ Notes -
 <para><figure id='GPSWatch-UIInterfaces-PackageDiagram-figure'>
 <title id='GPSWatch-UIInterfaces-PackageDiagram-figure-title'>UIInterfaces Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-UIInterfaces-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-UIInterfaces-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -83,7 +83,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Message.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Message.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -102,7 +102,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -119,7 +119,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -136,7 +136,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -153,7 +153,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -170,7 +170,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -187,7 +187,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Operation.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Operation.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -204,7 +204,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Operation.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Operation.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -221,7 +221,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Operation.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Operation.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -247,7 +247,7 @@ Notes -
 <para><figure id='GPSWatch-UIDataTypes-PackageDiagram-figure'>
 <title id='GPSWatch-UIDataTypes-PackageDiagram-figure-title'>UIDataTypes Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-UIDataTypes-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-UIDataTypes-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -258,7 +258,7 @@ Notes -
 <para><figure id='GPSWatch-System-PackageDiagram-figure'>
 <title id='GPSWatch-System-PackageDiagram-figure-title'>System Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-System-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-System-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -269,7 +269,7 @@ Notes -
 <para><figure id='GPSWatch-SharedEEs-PackageDiagram-figure'>
 <title id='GPSWatch-SharedEEs-PackageDiagram-figure-title'>Shared EEs Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Shared EEs-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Shared EEs-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -283,7 +283,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -302,7 +302,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -319,7 +319,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -336,7 +336,7 @@ Notes -
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -441,7 +441,7 @@ handle of the timer.</para>
 <para><figure id='GPSWatch-Sequences-PackageDiagram-figure'>
 <title id='GPSWatch-Sequences-PackageDiagram-figure-title'>Sequences Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Sequences-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Sequences-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -455,7 +455,7 @@ handle of the timer.</para>
 <para><figure id='GPSWatch-Sequences-Stopwatch-PackageDiagram-figure'>
 <title id='GPSWatch-Sequences-Stopwatch-PackageDiagram-figure-title'>Stopwatch Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Sequences-Stopwatch-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Sequences-Stopwatch-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -466,7 +466,7 @@ handle of the timer.</para>
 <para><figure id='GPSWatch-Sequences-StartStopResetFormalized-PackageDiagram-figure'>
 <title id='GPSWatch-Sequences-StartStopResetFormalized-PackageDiagram-figure-title'>Start Stop Reset Formalized Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Sequences-Start Stop Reset Formalized-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Sequences-Start Stop Reset Formalized-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -477,7 +477,7 @@ handle of the timer.</para>
 <para><figure id='GPSWatch-Sequences-Backlight-PackageDiagram-figure'>
 <title id='GPSWatch-Sequences-Backlight-PackageDiagram-figure-title'>Backlight Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Sequences-Backlight-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Sequences-Backlight-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -490,7 +490,7 @@ handle of the timer.</para>
 <para><figure id='GPSWatch-LocationInterfaces-PackageDiagram-figure'>
 <title id='GPSWatch-LocationInterfaces-PackageDiagram-figure-title'>LocationInterfaces Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-LocationInterfaces-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-LocationInterfaces-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -505,7 +505,7 @@ handle of the timer.</para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Message.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Message.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -524,7 +524,7 @@ handle of the timer.</para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Operation.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Operation.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -554,7 +554,7 @@ handle of the timer.</para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Message.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Message.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -573,7 +573,7 @@ handle of the timer.</para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -590,7 +590,7 @@ handle of the timer.</para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -607,7 +607,7 @@ handle of the timer.</para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -633,7 +633,7 @@ handle of the timer.</para>
 <para><figure id='GPSWatch-LocationDataTypes-PackageDiagram-figure'>
 <title id='GPSWatch-LocationDataTypes-PackageDiagram-figure-title'>LocationDataTypes Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-LocationDataTypes-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-LocationDataTypes-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -656,7 +656,7 @@ self.timer = TIM::timer_start_recurring(event_inst: timeout, microseconds: self.
 // ########### END OAL_1 #####<figure id='GPSWatch-Library-PackageDiagram-figure'>
 <title id='GPSWatch-Library-PackageDiagram-figure-title'>Library Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -670,7 +670,7 @@ There are also handwritten C code that implments parts of this component to
 allow generated code to connect to the exact same GUI.<figure id='GPSWatch-Library-UI-ComponentDiagram-figure'>
 <title id='GPSWatch-Library-UI-ComponentDiagram-figure-title'>UI Component Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-UI-Component Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-UI-Component Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -681,7 +681,7 @@ allow generated code to connect to the exact same GUI.<figure id='GPSWatch-Libra
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Port.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Port.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -703,7 +703,7 @@ allow generated code to connect to the exact same GUI.<figure id='GPSWatch-Libra
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Provision.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Provision.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -822,7 +822,7 @@ end if;
 <para><figure id='GPSWatch-Library-UI-ExternalEntities-PackageDiagram-figure'>
 <title id='GPSWatch-Library-UI-ExternalEntities-PackageDiagram-figure-title'>External Entities Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-UI-External Entities-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-UI-External Entities-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -836,7 +836,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -855,7 +855,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/ExternalEntity.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -924,7 +924,7 @@ end if;
 <para><figure id='GPSWatch-Library-UI-TestCases-PackageDiagram-figure'>
 <title id='GPSWatch-Library-UI-TestCases-PackageDiagram-figure-title'>TestCases Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-UI-TestCases-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-UI-TestCases-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -938,7 +938,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Function.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Function.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -954,7 +954,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Function.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Function.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -968,7 +968,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Function.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Function.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1009,7 +1009,7 @@ end if;
 <para><figure id='GPSWatch-Library-UI-UI-PackageDiagram-figure'>
 <title id='GPSWatch-Library-UI-UI-PackageDiagram-figure-title'>UI Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-UI-UI-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-UI-UI-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -1020,7 +1020,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1036,7 +1036,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1050,7 +1050,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1068,14 +1068,14 @@ end if;
 <para><figure id='GPSWatch-Library-UI-UI-UI-ClassStateMachine-figure'>
 <title id='GPSWatch-Library-UI-UI-UI-ClassStateMachine-figure-title'>UI UI Class State Machine</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-UI-UI-UI-Class State Machine.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-UI-UI-UI-Class State Machine.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
 <para><figure id='GPSWatch-Library-UI-UI-TestCase-InstanceStateMachine-figure'>
 <title id='GPSWatch-Library-UI-UI-TestCase-InstanceStateMachine-figure-title'>UI TestCase Instance State Machine</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-UI-UI-TestCase-Instance State Machine.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-UI-UI-TestCase-Instance State Machine.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -1232,7 +1232,7 @@ only component in the system from which code will be generated for the final
 product.<figure id='GPSWatch-Library-Tracking-ComponentDiagram-figure'>
 <title id='GPSWatch-Library-Tracking-ComponentDiagram-figure-title'>Tracking Component Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-Tracking-Component Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-Tracking-Component Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -1243,7 +1243,7 @@ product.<figure id='GPSWatch-Library-Tracking-ComponentDiagram-figure'>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Port.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Port.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1265,7 +1265,7 @@ product.<figure id='GPSWatch-Library-Tracking-ComponentDiagram-figure'>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Requirement.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Requirement.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1285,7 +1285,7 @@ product.<figure id='GPSWatch-Library-Tracking-ComponentDiagram-figure'>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Requirement.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Requirement.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1305,7 +1305,7 @@ product.<figure id='GPSWatch-Library-Tracking-ComponentDiagram-figure'>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Requirement.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Requirement.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1325,7 +1325,7 @@ product.<figure id='GPSWatch-Library-Tracking-ComponentDiagram-figure'>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Requirement.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Requirement.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1484,7 +1484,7 @@ end if;
 <para><figure id='GPSWatch-Library-Tracking-Tracking-PackageDiagram-figure'>
 <title id='GPSWatch-Library-Tracking-Tracking-PackageDiagram-figure-title'>Tracking Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-Tracking-Tracking-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-Tracking-Tracking-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -1495,7 +1495,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1511,7 +1511,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1532,7 +1532,7 @@ time. Time can only be reset while being inactive.  </para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1546,7 +1546,7 @@ time. Time can only be reset while being inactive.  </para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1565,7 +1565,7 @@ from the sequence of events that has occurred.</para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1579,7 +1579,7 @@ from the sequence of events that has occurred.</para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1593,7 +1593,7 @@ from the sequence of events that has occurred.</para>
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -1611,14 +1611,14 @@ from the sequence of events that has occurred.</para>
 <para><figure id='GPSWatch-Library-Tracking-Tracking-WorkoutTimer-InstanceStateMachine-figure'>
 <title id='GPSWatch-Library-Tracking-Tracking-WorkoutTimer-InstanceStateMachine-figure-title'>Tracking WorkoutTimer Instance State Machine</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-Tracking-Tracking-WorkoutTimer-Instance State Machine.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-Tracking-Tracking-WorkoutTimer-Instance State Machine.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
 <para><figure id='GPSWatch-Library-Tracking-Tracking-Display-ClassStateMachine-figure'>
 <title id='GPSWatch-Library-Tracking-Tracking-Display-ClassStateMachine-figure-title'>Tracking Display Class State Machine</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-Tracking-Tracking-Display-Class State Machine.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-Tracking-Tracking-Display-Class State Machine.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -1985,7 +1985,7 @@ end if;
 <para>Simulates a the GPS hardware/firmware. This component is only behavioral and included for testing purposes.<figure id='GPSWatch-Library-Location-ComponentDiagram-figure'>
 <title id='GPSWatch-Library-Location-ComponentDiagram-figure-title'>Location Component Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-Location-Component Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-Location-Component Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -1996,7 +1996,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Port.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Port.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2018,7 +2018,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Provision.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Provision.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2038,7 +2038,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Provision.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Provision.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2109,7 +2109,7 @@ end if;
 <para><figure id='GPSWatch-Library-Location-Location-PackageDiagram-figure'>
 <title id='GPSWatch-Library-Location-Location-PackageDiagram-figure-title'>Location Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-Location-Location-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-Location-Location-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -2120,7 +2120,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2136,7 +2136,7 @@ end if;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2154,7 +2154,7 @@ end if;
 <para><figure id='GPSWatch-Library-Location-Location-GPS-ClassStateMachine-figure'>
 <title id='GPSWatch-Library-Location-Location-GPS-ClassStateMachine-figure-title'>Location GPS Class State Machine</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-Location-Location-GPS-Class State Machine.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-Location-Location-GPS-Class State Machine.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -2233,7 +2233,7 @@ LOG::LogInfo(message: &quot;Location listener unregistered.&quot;);
 <para>Simulates a pulse monitor hardware/firmware. This component is only behavioral and included for testing purposes.<figure id='GPSWatch-Library-HeartRateMonitor-ComponentDiagram-figure'>
 <title id='GPSWatch-Library-HeartRateMonitor-ComponentDiagram-figure-title'>HeartRateMonitor Component Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-HeartRateMonitor-Component Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-HeartRateMonitor-Component Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -2244,7 +2244,7 @@ LOG::LogInfo(message: &quot;Location listener unregistered.&quot;);
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Port.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Port.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2266,7 +2266,7 @@ LOG::LogInfo(message: &quot;Location listener unregistered.&quot;);
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Provision.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Provision.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2326,7 +2326,7 @@ LOG::LogInfo(message: &quot;Location listener unregistered.&quot;);
 <para><figure id='GPSWatch-Library-HeartRateMonitor-HeartRateMonitor-PackageDiagram-figure'>
 <title id='GPSWatch-Library-HeartRateMonitor-HeartRateMonitor-PackageDiagram-figure-title'>HeartRateMonitor Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-HeartRateMonitor-HeartRateMonitor-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-HeartRateMonitor-HeartRateMonitor-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -2337,7 +2337,7 @@ LOG::LogInfo(message: &quot;Location listener unregistered.&quot;);
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2353,7 +2353,7 @@ LOG::LogInfo(message: &quot;Location listener unregistered.&quot;);
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Class.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Class.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2371,7 +2371,7 @@ LOG::LogInfo(message: &quot;Location listener unregistered.&quot;);
 <para><figure id='GPSWatch-Library-HeartRateMonitor-HeartRateMonitor-HeartRateMonitor-ClassStateMachine-figure'>
 <title id='GPSWatch-Library-HeartRateMonitor-HeartRateMonitor-HeartRateMonitor-ClassStateMachine-figure-title'>HeartRateMonitor HeartRateMonitor Class State Machine</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Library-HeartRateMonitor-HeartRateMonitor-HeartRateMonitor-Class State Machine.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Library-HeartRateMonitor-HeartRateMonitor-HeartRateMonitor-Class State Machine.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -2436,7 +2436,7 @@ monitor.recentHeartRate = monitor.recentHeartRate + 1.0;
 <para><figure id='GPSWatch-HeartRateMonitorInterfaces-PackageDiagram-figure'>
 <title id='GPSWatch-HeartRateMonitorInterfaces-PackageDiagram-figure-title'>HeartRateMonitorInterfaces Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-HeartRateMonitorInterfaces-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-HeartRateMonitorInterfaces-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -2451,7 +2451,7 @@ monitor.recentHeartRate = monitor.recentHeartRate + 1.0;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/Message.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/Message.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2470,7 +2470,7 @@ monitor.recentHeartRate = monitor.recentHeartRate + 1.0;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2487,7 +2487,7 @@ monitor.recentHeartRate = monitor.recentHeartRate + 1.0;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2504,7 +2504,7 @@ monitor.recentHeartRate = monitor.recentHeartRate + 1.0;
 <row>
 <entry>
 <para><mediaobject><imageobject>
-<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%'/>
+<imagedata fileref='images/SendSignal.gif' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </para>
 </entry>
@@ -2530,7 +2530,7 @@ monitor.recentHeartRate = monitor.recentHeartRate + 1.0;
 <para><figure id='GPSWatch-Analysis-PackageDiagram-figure'>
 <title id='GPSWatch-Analysis-PackageDiagram-figure-title'>Analysis Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Analysis-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Analysis-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -2544,7 +2544,7 @@ monitor.recentHeartRate = monitor.recentHeartRate + 1.0;
 <para><figure id='GPSWatch-Analysis-StartStopReset-PackageDiagram-figure'>
 <title id='GPSWatch-Analysis-StartStopReset-PackageDiagram-figure-title'>Start Stop Reset Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Analysis-Start Stop Reset-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Analysis-Start Stop Reset-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -2557,7 +2557,7 @@ monitor.recentHeartRate = monitor.recentHeartRate + 1.0;
 <para><figure id='GPSWatch-Activities-PackageDiagram-figure'>
 <title id='GPSWatch-Activities-PackageDiagram-figure-title'>Activities Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Activities-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Activities-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>
@@ -2571,7 +2571,7 @@ monitor.recentHeartRate = monitor.recentHeartRate + 1.0;
 <para>This activity expands on the generic use case: Perform exercise routine.<figure id='GPSWatch-Activities-Exercise-PackageDiagram-figure'>
 <title id='GPSWatch-Activities-Exercise-PackageDiagram-figure-title'>Exercise Package Diagram</title>
 <mediaobject><imageobject>
-<imagedata fileref='images/GPS Watch-Activities-Exercise-Package Diagram.png' scalefit='1' width='100%'/>
+<imagedata fileref='images/GPS Watch-Activities-Exercise-Package Diagram.png' scalefit='1' width='100%%'/>
 </imageobject></mediaobject>
 </figure>
 </para>

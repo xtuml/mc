@@ -1,0 +1,69 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("3e26d34c-7c7c-4729-8dfc-5ff4e6d47992",
+	'Inline Code Snippet',
+	2013,
+	'TE_SNIPPET',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("a27695c9-000d-4f06-93e5-28f926e39337",
+	"3e26d34c-7c7c-4729-8dfc-5ff4e6d47992");
+INSERT INTO O_BATTR
+	VALUES ("a27695c9-000d-4f06-93e5-28f926e39337",
+	"3e26d34c-7c7c-4729-8dfc-5ff4e6d47992");
+INSERT INTO O_ATTR
+	VALUES ("a27695c9-000d-4f06-93e5-28f926e39337",
+	"3e26d34c-7c7c-4729-8dfc-5ff4e6d47992",
+	"00000000-0000-0000-0000-000000000000",
+	'Index',
+	'',
+	'',
+	'Index',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7e002959-837d-482d-a3ef-14f958a826d1",
+	"3e26d34c-7c7c-4729-8dfc-5ff4e6d47992");
+INSERT INTO O_BATTR
+	VALUES ("7e002959-837d-482d-a3ef-14f958a826d1",
+	"3e26d34c-7c7c-4729-8dfc-5ff4e6d47992");
+INSERT INTO O_ATTR
+	VALUES ("7e002959-837d-482d-a3ef-14f958a826d1",
+	"3e26d34c-7c7c-4729-8dfc-5ff4e6d47992",
+	"a27695c9-000d-4f06-93e5-28f926e39337",
+	'Body',
+	'',
+	'',
+	'Body',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"3e26d34c-7c7c-4729-8dfc-5ff4e6d47992");
+INSERT INTO O_ID
+	VALUES (1,
+	"3e26d34c-7c7c-4729-8dfc-5ff4e6d47992");
+INSERT INTO O_ID
+	VALUES (2,
+	"3e26d34c-7c7c-4729-8dfc-5ff4e6d47992");
+INSERT INTO PE_PE
+	VALUES ("3e26d34c-7c7c-4729-8dfc-5ff4e6d47992",
+	1,
+	"a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

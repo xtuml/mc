@@ -51,7 +51,7 @@ ooaofooa_T_emit( c_t p_file[ESCHER_SYS_MAX_STRING_LEN])
       ooaofooa_T_exit( 1 );
     }
   }
-  fprintf( outputfile, "", buffer );
+  fprintf( outputfile, "%s", buffer );
 //  printf("---\n");
 //  printf("%s", buffer);
 //  printf("---\n");
