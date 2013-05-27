@@ -84,14 +84,11 @@
     .assign addOrder = true
   .elif ( obj_key_lett == "C_EP" )
     .assign addOrder = true
-  .elif ( obj_key_lett == "S_SS" )
-    .assign addOrder = true
-  .elif ( obj_key_lett == "S_DPK" )
-    .// This is for Sony.  It will go away when we move to generic packages.
-    .assign addDescrip = true
   .elif ( obj_key_lett == "O_OBJ" )
     .assign addOrder = true
   .elif ( obj_key_lett == "V_PAR" )
+    .assign addOrder = true
+  .elif ( obj_key_lett == "EP_PKG" )
     .assign addOrder = true
   .end if
   .if ( addOrder )
@@ -262,18 +259,18 @@ CREATE ROP REF_ID R${rel_num}	FROM ${from_mc} $ru{from_obj_kl}	(${ref_attrs}\
 .//   Create <body> the SQL object tables for all objects in the subsystem <ss>.
 .//============================================================================
 .function CreateSQLObjectTablesForSubsystem
-  .param inst_ref ss
+  .param inst_ref ep_pkg
   .//
   .assign translate = "TRUE"
-  .assign translate = "${ss.descrip:TRANSLATE}"
+  .assign translate = "${ep_pkg.descrip:TRANSLATE}"
   .if ( translate != "FALSE" )
+  .assign translate_for_ext = "${ep_pkg.descrip:TRANSLATE_FOR_EXTERNAL_USE}"
+  .select many obj_set related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001]
+  .if ( not_empty obj_set )
 -- ============================================================================
--- Classes In Subsystem:  ${ss.Name}  
+-- Classes In Package:  ${ep_pkg.Name}  
 -- ============================================================================
 
-  .assign translate_for_ext = "${ss.descrip:TRANSLATE_FOR_EXTERNAL_USE}"
-  .select many obj_set related by ss->O_OBJ[R2]
-  .if ( not_empty obj_set )
     .invoke SortAscendingByNumbAttr( obj_set )
     .assign item_count = cardinality obj_set
     .assign item_number = 0
@@ -297,17 +294,17 @@ ${obj_sql_table.body}
 .// relationships in the subsystem <ss>.
 .//============================================================================
 .function CreateSQLRelationshipsForSubsystem
-  .param inst_ref ss
+  .param inst_ref ep_pkg
   .//
   .assign translate = "TRUE"
-  .assign translate = "${ss.descrip:TRANSLATE}"
+  .assign translate = "${ep_pkg.descrip:TRANSLATE}"
   .if ( translate != "FALSE" )
+    .select many relationship_set related by ep_pkg->PE_PE[R8000]->R_REL[R8001]
+    .if ( not_empty relationship_set )
 -- ============================================================================
--- Relationships In Subsystem:  ${ss.Name}  
+-- Relationships In Package:  ${ep_pkg.Name}  
 -- ============================================================================
   
-    .select many relationship_set related by ss->R_REL[R4]
-    .if ( not_empty relationship_set )
       .invoke SortAscendingByNumbAttr( relationship_set )
       .assign item_count = cardinality relationship_set
       .assign item_number = 0
@@ -847,25 +844,25 @@ ${rop.body}
 .end function
 .//
 .//============================================================================
-.//   Sort the subsystems instance set <ss_set> in ascending numeric
+.//   Sort the subsystems instance set <ep_pkgs> in ascending numeric
 .// order, based on the value of the object number range of the subsystems.
 .// The "Order" (integer) attribute value of each subsystem instance will
 .// be set to contain a value relative to "Num_Rng", indicating the position
 .// the subsystem instance has in the ordered set.
 .//============================================================================
 .function SortSubsystemByObjNumber
-  .param inst_ref_set ss_set
+  .param inst_ref_set ep_pkgs
   .//
-  .for each ss in ss_set
-    .assign ss.Order = 0
+  .for each ep_pkg in ep_pkgs
+    .assign ep_pkg.Order = 0
   .end for
   .//
-  .assign ss_set_2 = ss_set
-  .for each ss in ss_set
-    .for each ss_2 in ss_set_2
-      .if ( ss.Num_Rng != ss_2.Num_Rng )
-        .if ( ss_2.Num_Rng > ss.Num_Rng )
-          .assign ss_2.Order = ss_2.Order + 1
+  .assign copy_ep_pkgs = ep_pkgs
+  .for each ep_pkg in ep_pkgs
+    .for each copy_ep_pkg in copy_ep_pkgs
+      .if ( ss.Num_Rng != copy_ep_pkg.Num_Rng )
+        .if ( copy_ep_pkg.Num_Rng > ep_pkg.Num_Rng )
+          .assign copy_ep_pkg.Order = copy_ep_pkg.Order + 1
         .end if 
       .end if
     .end for
@@ -907,7 +904,6 @@ ${rop.body}
 .function CreateFileHeader
   .//
 .invoke schema_file = GetSchemaFileName()
-.select any dom from instances of S_DOM
 -- ============================================================================
 -- $$RCSfile: schema_gen.arc,v $$
 --
@@ -918,7 +914,7 @@ ${rop.body}
 -- Model Data:  ooaofooa
 --
 -- Notice:
---   (C) Copyright 1998-2012 Mentor Graphics Corporation
+--   (C) Copyright 1998-2013 Mentor Graphics Corporation
 --   All rights reserved.
 --
 --              !!! THIS IS AN AUTO-GENERATED FILE. !!!
@@ -937,48 +933,44 @@ ${rop.body}
 .invoke header = CreateFileHeader()
 ${header.body}
 .//
-.select many dom_set from instances of S_DOM
-.for each dom in dom_set
-  .assign translate = "TRUE"
-  .assign translate = "${dom.descrip:TRANSLATE}"
-  .if ( translate != "FALSE" )
-
+.select any ep_pkg from instances of EP_PKG where ( selected.Name == "ooaofooa" )
+.assign translate = "TRUE"
+.assign translate = "${ep_pkg.Descrip:TRANSLATE}"
+.if ( translate != "FALSE" )
   .//
   .// Sort the subsystems into assending order
-  .//.select many ss_set related by dom->S_SS[R1] where ( selected.Name != "Translation Extensions" ) and ( selected.Name != "Translation Marking" ) and ( selected.Name != "Translation OAL" )
+  .//.select many ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name != "Translation Extensions" ) and ( selected.Name != "Translation Marking" ) and ( selected.Name != "Translation OAL" )
   .//
-  .select many ss_set related by dom->S_SS[R1]
-  .invoke SortSetAlphabeticallyByNameAttrib( ss_set )
-  .assign ss_count  = cardinality ss_set
-  .assign ss_number = 0
+  .select many ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001]
+  .invoke SortSetAlphabeticallyByNameAttrib( ep_pkgs )
+  .assign count  = cardinality ep_pkgs
+  .assign number = 0
   .//
-  .while ( ss_number < ss_count )
-    .for each ss in ss_set
-      .if ( ss.Order == ss_number )
-        .invoke obj_table = CreateSQLObjectTablesForSubsystem( ss )
+  .while ( number < count )
+    .for each ep_pkg in ep_pkgs
+      .if ( ep_pkg.Order == number )
+        .invoke obj_table = CreateSQLObjectTablesForSubsystem( ep_pkg )
 ${obj_table.body}
         .break for
       .end if
     .end for
-    .assign ss_number = ss_number + 1
+    .assign number = number + 1
   .end while
   .//
   .// *** Relationships
-  .assign ss_number = 0
+  .assign number = 0
   .//
-  .while ( ss_number < ss_count )
-    .for each ss in ss_set
-      .if ( ss.Order == ss_number )
-        .invoke obj_table = CreateSQLRelationshipsForSubsystem( ss )
+  .while ( number < count )
+    .for each ep_pkg in ep_pkgs
+      .if ( ep_pkg.Order == number )
+        .invoke obj_table = CreateSQLRelationshipsForSubsystem( ep_pkg )
 ${obj_table.body}
         .break for
       .end if
     .end for
-    .assign ss_number = ss_number + 1
+    .assign number = number + 1
   .end while
-  .//
-  .end if
-.end for
+.end if
 .//
 .emit to file "${schema_path.result}/${schema_file.result}"
 .//

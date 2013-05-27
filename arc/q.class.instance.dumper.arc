@@ -16,15 +16,16 @@
 .function TE_CLASS_instance_dumper
   .assign dollarcurly = "$${"
 ..print "dumping class instances into SQL format..."
-  .select many s_sss from instances of S_SS where ( ( ( ( selected.Name != "Value" ) and ( selected.Name != "Body" ) ) and ( ( selected.Name != "Event" ) and ( selected.Name != "Selection" ) ) ) and ( ( ( selected.Name != "Instance Access" ) and ( selected.Name != "Relate and Unrelate" ) ) and ( selected.Name != "Translation OAL" ) ) )
-  .invoke SortSetAlphabeticallyByNameAttr( s_sss )
-  .assign s_ss_count = cardinality s_sss
-  .assign s_ss_number = 0
-  .while ( s_ss_number < s_ss_count )
-    .for each s_ss in s_sss
-      .if ( s_ss.Order == s_ss_number )
-..print "${s_ss.Name}"
-        .select many o_objs related by s_ss->O_OBJ[R2] where ( ( selected.Key_Lett != "TE_VAL" ) and ( selected.Key_Lett != "TE_VAR" ) )
+  .select any ep_pkg from instances of EP_PKG where ( selected.Name == "ooaofooa" )
+  .select many ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001] where ( ( ( ( selected.Name != "Value" ) and ( selected.Name != "Body" ) ) and ( ( selected.Name != "Event" ) and ( selected.Name != "Selection" ) ) ) and ( ( ( selected.Name != "Instance Access" ) and ( selected.Name != "Relate and Unrelate" ) ) and ( selected.Name != "Translation OAL" ) ) )
+  .invoke SortSetAlphabeticallyByNameAttr( ep_pkgs )
+  .assign count = cardinality ep_pkgs
+  .assign number = 0
+  .while ( number < count )
+    .for each ep_pkg in ep_pkgs
+      .if ( ep_pkg.Order == number )
+..print "${ep_pkg.Name}"
+        .select many o_objs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where ( ( selected.Key_Lett != "TE_VAL" ) and ( selected.Key_Lett != "TE_VAR" ) )
         .invoke SortSetAscendingByAttr_Numb( o_objs )
         .assign o_obj_count = cardinality o_objs
         .assign o_obj_number = 0
@@ -71,7 +72,7 @@ ${delimiter} ${dollarcurly}$l{o_obj.Key_Lett}.${attributename}}\
         .break for
       .end if
     .end for
-    .assign s_ss_number = s_ss_number + 1
+    .assign number = number + 1
   .end while
 ..emit to file "_system.sql"
 ..exit 508

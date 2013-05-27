@@ -6305,6 +6305,16 @@ INSERT INTO TE_DCI VALUES (\
 .for each te_cia in te_cias
 INSERT INTO TE_CIA VALUES ( '${te_cia.class_info_name}', '${te_cia.class_info_type}', '${te_cia.active_count}', '${te_cia.class_count}', '${te_cia.count_type}' );
 .end for
+.select many te_outfiles from instances of TE_OUTFILE
+.for each te_outfile in te_outfiles
+INSERT INTO TE_OUTFILE VALUES (\
+  .if ( "un-initialized" == "${te_outfile.ID}" )
+ 0\
+  .else
+ ${te_outfile.ID}\
+  .end if
+, '${te_outfile.Name}', '${te_outfile.body}', ${te_outfile.Order} );
+.end for
 .print "Translation Marking"
 .select many tm_cs from instances of TM_C
 .for each tm_c in tm_cs
