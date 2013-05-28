@@ -14,7 +14,45 @@
  *
  * ${te_copyright.body}
  *
-${system_parameters.s}\
+ *
+ * System Name:  ${te_sys.ExecutableName}
+ * System ID:    ${te_sys.SystemID}
+ * Model Compiler Product Information:
+ * Product:  ${te_sys.ModelCompilerName}
+ * Version:  ${te_sys.ModelCompilerVersion}
+ * S/N:      ${te_sys.ModelCompilerSerNum}
+ * System default/colored values:
+ * MaxStringLen:  ${te_sys.MaxStringLen}
+ * MaxObjExtent:  ${te_sys.MaxObjExtent}
+ * MaxRelExtent:  ${te_sys.MaxRelExtent}
+ * MaxSelectExtent:  ${te_sys.MaxSelectExtent}
+ * MaxSelfEvents:  ${te_sys.MaxSelfEvents}
+ * MaxNonSelfEvents:  ${te_sys.MaxNonSelfEvents}
+ * MaxTimers:  ${te_sys.MaxTimers}
+ * MaxInterleavedBridges:  ${te_sys.MaxInterleavedBridges}
+ * MaxInterleavedBridgeDataSize:  ${te_sys.MaxInterleavedBridgeDataSize}
+ * CollectionsFlavor:  ${te_sys.CollectionsFlavor}
+ * ForcePriorityEvents:  ${te_sys.ForcePriorityEvents}
+ * PEIClassCount:  ${te_sys.PEIClassCount}
+ * PersistentClassCount:  ${te_sys.PersistentClassCount}
+ * PersistInstanceCacheDepth:  ${te_sys.PersistInstanceCacheDepth}
+ * PersistLinkCacheDepth:  ${te_sys.PersistLinkCacheDepth}
+.for each te_c in active_te_cs
+ *
+ * Component Name:  ${te_c.Name}
+ * MaxObjExtent:  ${te_c.MaxObjExtent}
+ * MaxRelExtent:  ${te_c.MaxRelExtent}
+ * MaxSelectExtent:  ${te_c.MaxSelectExtent}
+ * MaxSelfEvents:  ${te_c.MaxSelfEvents}
+ * MaxNonSelfEvents:  ${te_c.MaxNonSelfEvents}
+ * MaxPriorityEvents:  ${te_c.MaxPriorityEvents}
+ * MaxTimers:  ${te_c.MaxTimers}
+ * InterleavedBridges:  ${te_c.InterleavedBridges}
+ * PEIClassCount:  ${te_c.PEIClassCount}
+ * PersistentClassCount:  ${te_c.PersistentClassCount}
+ * InterleavedDataSize:  ${te_sys.MaxInterleavedBridgeDataSize}
+ * CollectionsFlavor:  ${te_sys.CollectionsFlavor}
+.end for
  *--------------------------------------------------------------------------*/
 
 #ifndef ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext}
@@ -24,7 +62,7 @@ ${te_target.c2cplusplus_linkage_begin}
 #define boolean bool
 #endif
 
-${system_parameters.body}
+${system_parameters}
 
 /*
  * Core types with byte widths defined for MISRA-C compliance.
@@ -41,6 +79,7 @@ typedef   signed short  s2_t;
 typedef unsigned short  u2_t;
 typedef   signed long   s4_t;
 typedef unsigned long   u4_t;
+typedef          double r_t;
 typedef          float  r4_t;
 typedef          double r8_t;
 
@@ -56,9 +95,13 @@ typedef ${te_typemap.event_number_type} ${te_typemap.event_number_name};
 typedef ${te_typemap.event_flags_type} ${te_typemap.event_flags_name};
 typedef ${te_typemap.event_priority_type} ${te_typemap.event_priority_name};
 typedef ${te_typemap.SEM_cell_type} ${te_typemap.SEM_cell_name};
-typedef ${instid.instid_typedef} ${instid.instid_type};
-.if ( persistence_needed.result )
-typedef ${link_type_type} ${link_type_name};
+typedef struct {
+  ${te_persist.domainnum_type} ${te_persist.domainnum_name};
+  ${te_persist.classnum_type} ${te_persist.classnum_name};
+  ${te_persist.index_type} ${te_persist.index_name};
+} ${te_persist.instid_type};
+.if ( te_sys.PersistentClassCount > 0 )
+typedef struct { ${te_persist.instid_type} owner, left, right, assoc; } ${te_persist.link_type_name};
 .end if
 
 typedef struct {
@@ -67,6 +110,7 @@ ${inst_id_in_handle}\
 } ${te_instance.base};
 typedef ${te_instance.base} * ${te_instance.handle};
 typedef ${te_instance.handle} ${te_prefix.type}UniqueID_t;
+typedef void (*Escher_idf)( Escher_iHandle_t ); 
 
 /* Return code type for dispatch of a polymorphic event (see ${te_file.events}.${te_file.hdr_file_ext}).  */
 typedef ${te_typemap.poly_return_type} ${te_typemap.poly_return_name};
@@ -98,21 +142,25 @@ typedef u4_t ${te_prefix.type}uSec_t;
  * Note we include stdio.h for printf.  Otherwise, it is not needed.
  */
 #include <stdio.h>
+.if ( te_sys.InstanceLoading )
+#include <stdint.h>
+#include <string.h>
 .end if
-#include "${te_file.sets}.${te_file.hdr_file_ext}"
-#include "${te_file.callout}.${te_file.hdr_file_ext}"
-#include "${te_file.trace}.${te_file.hdr_file_ext}"
+${te_typemap.user_supplied_data_types}\
+.end if
 #include "${te_file.factory}.${te_file.hdr_file_ext}"
-#include "${te_file.events}.${te_file.hdr_file_ext}"
+#include "${te_file.callout}.${te_file.hdr_file_ext}"
+.include "${te_file.arc_path}/t.sys_events.h"
 .if( te_sys.AUTOSAR )
 #include "Rte_Type.${te_file.hdr_file_ext}"
 .end if
 
-${enumeration_info}
+${te_typemap.enumeration_info}
 
-${structured_data_types}
-
+${te_typemap.structured_data_types}
 ${domain_ids.body}
+.// Include the macros for tracing.
+.include "${te_file.arc_path}/t.sys_trace.h"
 
 ${te_target.c2cplusplus_linkage_end}
 #endif  /* ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext} */

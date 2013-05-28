@@ -281,7 +281,6 @@
 .end for
 .invoke class_dispatch_array = GetDomainDispatcherTableName( "" )
 .assign num_ooa_doms = cardinality active_te_cs
-.assign dom_count = 0
 .assign dq_arg_type = "void"
 .assign dq_arg = ""
 .assign thread_number = ""
@@ -300,7 +299,6 @@
 .//
 .invoke r = DefineActiveClassCountArray( te_cs )
 .assign active_class_counts = r.body
-.assign dom_count = cardinality te_cs
 .assign domain_num_var = "domain_num"
 .if ( te_sys.PersistentClassCount > 0 )
   .invoke r = PersistentClassUnion( active_te_cs )
@@ -376,28 +374,26 @@
 .select many triply_nested_ep_pkgs related by nested_ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]
 .assign ep_pkgs = ep_pkgs | nested_ep_pkgs
 .assign ep_pkgs = ep_pkgs | triply_nested_ep_pkgs
-.assign enumeration_info = ""
 .select many enumeration_te_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
 .for each te_dt in enumeration_te_dts
   .invoke r = TE_DT_EnumerationDataTypes( te_dt )
-  .assign enumeration_info = enumeration_info + r.body
+  .assign te_typemap.enumeration_info = te_typemap.enumeration_info + r.body
 .end for
 .select many enumeration_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
 .for each te_dt in enumeration_te_dts
   .invoke r = TE_DT_EnumerationDataTypes( te_dt )
-  .assign enumeration_info = enumeration_info + r.body
+  .assign te_typemap.enumeration_info = te_typemap.enumeration_info + r.body
 .end for
-.assign structured_data_types = ""
 .select many structured_te_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
 .invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
-.assign structured_data_types = structured_data_types + s.body
+.assign te_typemap.structured_data_types = te_typemap.structured_data_types + s.body
 .select many structured_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
 .invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
-.assign structured_data_types = structured_data_types + s.body
+.assign te_typemap.structured_data_types = te_typemap.structured_data_types + s.body
 .// Get all components, not just those with internal behavior.
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .invoke r = UserSuppliedDataTypeIncludes()
-.assign user_supplied_data_types = r.result
+.assign te_typemap.user_supplied_data_types = r.result
 .include "${te_file.arc_path}/t.sys_types.h"
 .emit to file "${te_file.system_include_path}/${te_file.types}.${te_file.hdr_file_ext}"
 .//

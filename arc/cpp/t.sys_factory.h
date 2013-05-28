@@ -21,11 +21,12 @@
 #define $u{te_file.factory}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
 
-.if ( persistence_needed.result )
+.include "${te_file.arc_path}/t.sys_sets.h"
+.if ( te_sys.PersistentClassCount > 0 )
 #include "${te_file.persist}.${te_file.hdr_file_ext}"
 .end if
 .if ( te_sys.InstanceLoading )
-extern Escher_iHandle_t Escher_instance_cache[ 1000000 ];
+${te_instance.handle} ${te_prefix.result}instance_cache[ 1000000 ];
 .end if
 
 class sys_factory {

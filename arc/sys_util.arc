@@ -227,8 +227,8 @@ typedef union {
   .param inst_ref_set te_cs
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
-  .assign dom_count = cardinality te_cs
-#define SYSTEM_DOMAIN_COUNT ${dom_count}
+  .assign system_domain_count = cardinality te_cs
+#define SYSTEM_DOMAIN_COUNT ${system_domain_count}
   .if ( "SystemC" != te_target.language )
 /* xtUML domain identification numbers */
     .assign enumerated_domain_id = 0

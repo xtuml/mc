@@ -388,16 +388,15 @@
 .//=============================================================================
 .// Generate sys_types.h containing the system-level declared types.
 .//=============================================================================
-.assign enumeration_info = ""
 .select many s_edts related by s_sys->SLD_SDINP[R4402]->S_DT[R4401]->S_EDT[R17]
 .for each s_edt in s_edts
   .invoke enum_code = TE_DT_EnumerationDataTypes( s_edt )
-  .assign enumeration_info = enumeration_info + enum_code.body
+  .assign te_typemap.enumeration_info = te_typemap.enumeration_info + enum_code.body
   .assign enum_code.body = ""
 .end for
 .select many s_sdts related by s_sys->SLD_SDINP[R4402]->S_DT[R4401]->S_SDT[R17]
 .invoke s = TE_DT_StructuredDataTypes( s_sdts )
-.assign structured_data_types = s.body
+.assign te_typemap.structured_data_types = s.body
 .// Get all components, not just those with internal behavior.
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .include "${te_file.arc_path}/t.sys_types.h"

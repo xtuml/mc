@@ -566,11 +566,10 @@ static void ooa_loop( void )
       .else
       0\
       .end if
-      .assign dom_count = dom_count + 1
-      .if ( dom_count != num_ooa_doms )
-,
-      .else
+      .if ( last active_te_cs )
 
+      .else
+,
       .end if
     .end for
     };
