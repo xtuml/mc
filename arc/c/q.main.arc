@@ -20,7 +20,7 @@
   .include "${te_file.system_color_path}/${te_file.system_mark}"
   .//
   .invoke PseudoFormalizeUnformalizedAssociations()
-  .invoke MC_metamodel_populate( true )
+  .invoke sys_populate()
   .select any te_sys from instances of TE_SYS
   .//
   .// 5) Perform domain level marking.

@@ -26,8 +26,7 @@
 .//
 .// Create the system interfaces (sys, dom, ee).
 .//
-.function MC_metamodel_populate
-  .param boolean generic_packages
+.function sys_populate
   .// Select singletons into scope.
   .select any te_file from instances of TE_FILE
   .select any te_eq from instances of TE_EQ
@@ -367,37 +366,19 @@
   .select any tm_build from instances of TM_BUILD
   .assign markedsystems = 0
   .if ( not_empty tm_build )
-    .if ( generic_packages )
-      .select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
-      .assign markedsystems = cardinality ep_pkgs
-      .if ( empty ep_pkgs )
-        .print "ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting."
-        .exit 11
-      .end if
-    .else
-      .select any cp_cp from instances of CP_CP where ( selected.Name == tm_build.package_to_build )
-      .if ( empty cp_cp )
-        .print "ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting."
-        .exit 11
-      .end if
+    .select many ep_pkgs from instances of EP_PKG where ( selected.Name == tm_build.package_to_build )
+    .assign markedsystems = cardinality ep_pkgs
+    .if ( empty ep_pkgs )
+      .print "ERROR:  Marked configuration package ${tm_build.package_to_build} was not found in model.  Exiting."
+      .exit 11
     .end if
     .assign package_to_build = tm_build.package_to_build
   .else
-    .assign markedsystems = 0
-    .if ( generic_packages )
-      .select many ep_pkgs from instances of EP_PKG where ( "${selected.Descrip:build}" == "system" )
-      .assign markedsystems = cardinality ep_pkgs
-      .if ( markedsystems >= 1 )
-        .select any ep_pkg from instances of EP_PKG where ( "${selected.Descrip:build}" == "system" )
-        .assign package_to_build = ep_pkg.Name
-      .end if
-    .else
-      .select many cp_cps from instances of CP_CP where ( "${selected.Descrip:build}" == "system" )
-      .assign markedsystems = cardinality cp_cps
-      .if ( markedsystems >= 1 )
-        .select any cp_cp from instances of CP_CP where ( "${selected.Descrip:build}" == "system" )
-        .assign package_to_build = cp_cp.Name
-      .end if
+    .select many ep_pkgs from instances of EP_PKG where ( "${selected.Descrip:build}" == "system" )
+    .assign markedsystems = cardinality ep_pkgs
+    .if ( markedsystems >= 1 )
+      .select any ep_pkg from instances of EP_PKG where ( "${selected.Descrip:build}" == "system" )
+      .assign package_to_build = ep_pkg.Name
     .end if
   .end if
   .if ( markedsystems > 1 )
@@ -411,19 +392,13 @@
     .for each te_c in te_cs
       .assign te_c.included_in_build = false
     .end for
-    .if ( generic_packages )
-      .select many te_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
-      .select many nested_te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
-      .assign te_cs = te_cs | nested_te_cs
-      .select many referenced_te_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
-      .assign te_cs = te_cs | referenced_te_cs
-      .select many nested_referenced_te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
-      .assign te_cs = te_cs | nested_referenced_te_cs
-    .else
-      .select many te_cs related by cp_cp->C_C[R4608]->TE_C[R2054]
-      .select many referenced_te_cs related by cp_cp->CL_IC[R4605]->C_C[R4201]->TE_C[R2054]
-      .assign te_cs = te_cs | referenced_te_cs
-    .end if
+    .select many te_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
+    .select many nested_te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054]
+    .assign te_cs = te_cs | nested_te_cs
+    .select many referenced_te_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
+    .assign te_cs = te_cs | referenced_te_cs
+    .select many nested_referenced_te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
+    .assign te_cs = te_cs | nested_referenced_te_cs
     .invoke TE_C_mark_nested_system( te_cs )
     .// Uncomment the line below to use package name instead of project for the top-level files.
     .//.assign te_sys.Name = "$r{package_to_build}"
@@ -436,14 +411,6 @@
   .// Create and link the Extended model compiler instances.
   .// Do not fully initialize, yet.  Create and link and mark.
   .// These artifacts contain important naming that must propagate.
-  .select many s_doms from instances of S_DOM
-  .for each s_dom in s_doms
-    .select one te_c related by s_dom->CN_DC[R4204]->C_C[R4204]->TE_C[R2054]
-    .// relate te_c to s_dom across R2017;
-    .assign te_c.Dom_ID = s_dom.Dom_ID
-    .// end relate
-    .assign te_c.internal_behavior = true
-  .end for
   .//
   .// Create the Generated Data Type instances and link them in.
   .select many s_dts from instances of S_DT
@@ -458,17 +425,13 @@
     .assign te_dt.te_cID = 0
     .// Link the ownership if contained in a component.
     .assign te_c = empty_te_c
-    .if ( generic_packages )
-      .select one sld_sdinp related by s_dt->SLD_SDINP[R4401]
-      .if ( empty sld_sdinp )
-        .select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000]
-        .if ( not_empty ep_pkg )
-          .invoke r = TE_C.getContainingComponent( ep_pkg )
-          .assign te_c = r.result
-        .end if
+    .select one sld_sdinp related by s_dt->SLD_SDINP[R4401]
+    .if ( empty sld_sdinp )
+      .select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000]
+      .if ( not_empty ep_pkg )
+        .invoke r = TE_C.getContainingComponent( ep_pkg )
+        .assign te_c = r.result
       .end if
-    .else
-      .select one te_c related by s_dt->S_DOM[R14]->TE_C[R2017]
     .end if
     .if ( empty te_c )
       .// Default the owner to be the system.
@@ -485,13 +448,9 @@
   .select many o_objs from instances of O_OBJ
   .for each o_obj in o_objs
     .assign te_c = empty_te_c
-    .if ( generic_packages )
-      .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
-      .invoke r = TE_C.getContainingComponent( ep_pkg )
-      .assign te_c = r.result
-    .else
-      .select one te_c related by o_obj->S_SS[R2]->S_DOM[R1]->TE_C[R2017]
-    .end if
+    .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
+    .invoke r = TE_C.getContainingComponent( ep_pkg )
+    .assign te_c = r.result
     .if ( not_empty te_c )
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
         .assign te_c.internal_behavior = true
@@ -505,13 +464,9 @@
   .select many s_syncs from instances of S_SYNC
   .for each s_sync in s_syncs
     .assign te_c = empty_te_c
-    .if ( generic_packages )
-      .select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000]
-      .invoke r = TE_C.getContainingComponent( ep_pkg )
-      .assign te_c = r.result
-    .else
-      .select one te_c related by s_sync->S_DOM[R23]->TE_C[R2017]
-    .end if
+    .select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000]
+    .invoke r = TE_C.getContainingComponent( ep_pkg )
+    .assign te_c = r.result
     .if ( not_empty te_c )
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
       .assign te_c.internal_behavior = true
@@ -531,14 +486,9 @@
   .//
   .select many s_ees from instances of S_EE
   .for each s_ee in s_ees
-    .assign te_c = empty_te_c
-    .if ( generic_packages )
-      .select one ep_pkg related by s_ee->PE_PE[R8001]->EP_PKG[R8000]
-      .invoke r = TE_C.getContainingComponent( ep_pkg )
-      .assign te_c = r.result
-    .else
-      .select one te_c related by s_ee->S_DOM[R8]->TE_C[R2017]
-    .end if
+    .select one ep_pkg related by s_ee->PE_PE[R8001]->EP_PKG[R8000]
+    .invoke r = TE_C.getContainingComponent( ep_pkg )
+    .assign te_c = r.result
     .if ( empty te_c )
       .// Here we have an EE in a package outside of a component.
       .create object instance te_ee of TE_EE
@@ -833,11 +783,8 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_precision.DT_name )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_precision.Domain )
-      .select many te_dts related by te_c->S_DOM[R2017]->S_DT[R14]->TE_DT[R2021] where ( selected.Name == tm_precision.DT_name )
-      .if ( generic_packages )
-        .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-        .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_precision.DT_name )
-      .end if
+      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
+      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_precision.DT_name )
     .end if
     .for each te_dt in te_dts
       .// Only allow precision specification of core types integer
@@ -893,11 +840,8 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_pointer.DT_name )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_pointer.Domain )
-      .select many te_dts related by te_c->S_DOM[R2017]->S_DT[R14]->TE_DT[R2021] where ( selected.Name == tm_pointer.DT_name )
-      .if ( generic_packages )
-        .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-        .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_pointer.DT_name )
-      .end if
+      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
+      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_pointer.DT_name )
     .end if
     .for each te_dt in te_dts
       .assign te_dt.ExtName = tm_pointer.pointer_type + " *"
@@ -919,11 +863,8 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_enumval.enumeration )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_enumval.Domain )
-      .select many te_dts related by te_c->S_DOM[R2017]->S_DT[R14]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021] where ( selected.Name == tm_enumval.enumeration )
-      .if ( generic_packages )
-        .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-        .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_enumval.enumeration )
-      .end if
+      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
+      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_enumval.enumeration )
     .end if
     .for each te_dt in te_dts
       .select any te_enum related by te_dt->S_DT[R2021]->S_EDT[R17]->S_ENUM[R27]->TE_ENUM[R2027] where ( selected.Name == tm_enumval.enumerator )
@@ -941,11 +882,8 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_enuminit.enumeration )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_enuminit.Domain )
-      .select many te_dts related by te_c->S_DOM[R2017]->S_DT[R14]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021] where ( selected.Name == tm_enuminit.enumeration )
-      .if ( generic_packages )
-        .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-        .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021] where ( selected.Name == tm_enuminit.enumeration )
-      .end if
+      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
+      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021] where ( selected.Name == tm_enuminit.enumeration )
     .end if
     .for each te_dt in te_dts
       .assign te_dt.Value = tm_enuminit.value
@@ -2435,11 +2373,6 @@
   .param inst_ref_set te_cs
   .for each te_c in te_cs
     .assign te_c.included_in_build = true
-    .select many nested_te_cs related by te_c->C_C[R2054]->CN_CIC[R4202]->C_C[R4203]->TE_C[R2054]
-    .invoke TE_C_mark_nested_system( nested_te_cs )
-    .select many nested_te_cs related by te_c->C_C[R2054]->CL_IC[R4205]->C_C[R4201]->TE_C[R2054]
-    .invoke TE_C_mark_nested_system( nested_te_cs )
-    .// Next, check nesting via generic packages
     .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
     .invoke TE_C_mark_nested_system( nested_te_cs )
     .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
