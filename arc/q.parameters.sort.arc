@@ -1,4 +1,4 @@
-.// CDS temporary code to test ordered parameters
+.// CDS temporarily order parameters alphabetically for backwards compatibility
 .function S_SPARM_sort
   .param inst_ref_set s_sparms
   .for each s_sparm in s_sparms

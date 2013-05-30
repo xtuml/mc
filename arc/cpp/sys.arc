@@ -106,20 +106,6 @@
 .include "${te_file.system_color_path}/${te_file.system_mark}"
 .//
 .invoke PseudoFormalizeUnformalizedAssociations()
-.select many s_doms from instances of S_DOM
-.for each s_dom in s_doms
-  .select one c_c related by s_dom->CN_DC[R4204]->C_C[R4204]
-  .if ( empty c_c )
-    .create object instance c_c of C_C
-    .create object instance cn_dc of CN_DC
-    .// relate c_c to s_dom across R4204 using cn_dc;
-    .assign cn_dc.Id = c_c.Id
-    .assign cn_dc.Dom_ID = s_dom.Dom_ID
-    .// end relate
-    .assign c_c.Name = s_dom.Name
-    .assign c_c.Descrip = s_dom.Descrip
-  .end if
-.end for
 .invoke MC_metamodel_populate( generic_packages )
 .select any te_sys from instances of TE_SYS
 .//

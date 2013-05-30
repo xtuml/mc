@@ -75,9 +75,17 @@
   .// Get collections of active classes, assigner/class-based classes
   .// and passive classes.
   .select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+  .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+  .// Find first te_class.
+  .assign first_te_class = te_class
+  .while ( not_empty te_class )
+    .assign first_te_class = te_class
+    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
+  .end while
   .select many o_objs related by te_classes->O_OBJ[R2019]
   .select many ism_o_objs related by o_objs->SM_ISM[R518]->O_OBJ[R518]
   .select many asm_o_objs related by o_objs->SM_ASM[R519]->O_OBJ[R519]
+  .// CDS - Use OAL-compatible arithmetic here.
   .assign passive_o_objs = o_objs - ism_o_objs
   .assign passive_o_objs = passive_o_objs - asm_o_objs
   .assign sm_o_objs = o_objs - passive_o_objs
@@ -141,9 +149,12 @@
   .select one te_dci related by te_c->TE_DCI[R2090]
   .// These includes are for MISRA-C compliance.  The above typedefs
   .// normally are enough.
-  .for each te_class in te_classes
+  .assign te_class = first_te_class
+  .while ( not_empty te_class )
     .assign class_includes = class_includes + "\n#include ""${te_class.class_file}.${te_file.hdr_file_ext}"""
-  .end for
+    .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+  .end while
+  .assign te_class = first_te_class
   .invoke event_unions = CreateUnionOfDomainEvents( te_c )
   .// TE_C may have no associated behavior/datatypes, accordingly include ${te_c.datatypes_file} should be omitted
   .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )

@@ -5575,10 +5575,10 @@ INSERT INTO TE_C VALUES (\
   .end if
 , '${te_c.Name}', '${te_c.Descrip}'\
 , ${te_c.number}, ${te_c.StateTrace}, ${te_c.StmtTrace}, ${te_c.DetectEmpty}, ${te_c.OptDisabled}, ${te_c.RawComments}, ${te_c.CodeComments}, ${te_c.CollectionsFlavor}, '${te_c.classes_file}', '${te_c.functions_file}', ${te_c.MaxObjExtent}, ${te_c.MaxRelExtent}, ${te_c.MaxSelectExtent}, ${te_c.MaxSelfEvents}, ${te_c.MaxNonSelfEvents}, ${te_c.MaxPriorityEvents}, ${te_c.MaxTimers}, ${te_c.InterleavedBridges}, ${te_c.PEIClassCount}, ${te_c.PersistentClassCount}, '${te_c.domain_mark_file}', '${te_c.class_mark_file}', '${te_c.events_mark_file}', '${te_c.module_file}', '${te_c.port_file}', '${te_c.include_file}', ${te_c.included_in_build}, ${te_c.internal_behavior}, ${te_c.isRealized}, ${te_c.SystemID}\
-  .if ( "un-initialized" == "${te_c.Dom_ID}" )
+  .if ( "un-initialized" == "${te_c.next_ID}" )
 , 0\
   .else
-, ${te_c.Dom_ID}\
+, ${te_c.next_ID}\
   .end if
 \
   .if ( "un-initialized" == "${te_c.cId}" )
@@ -5586,7 +5586,7 @@ INSERT INTO TE_C VALUES (\
   .else
 , ${te_c.cId}\
   .end if
- );
+, ${te_c.Order} );
 .end for
 .select many te_mbrs from instances of TE_MBR
 .for each te_mbr in te_mbrs
@@ -6030,7 +6030,7 @@ INSERT INTO TE_CLASS VALUES ( '${te_class.Name}', ${te_class.Numb}, '${te_class.
   .else
 , ${te_class.Obj_ID}\
   .end if
- );
+, '${te_class.nextGeneratedName}' );
 .end for
 .select many te_prefixs from instances of TE_PREFIX
 .for each te_prefix in te_prefixs

@@ -299,37 +299,43 @@ typedef union {
 .function CreateUnionOfDomainEvents
   .param inst_ref te_c
   .assign union_name = te_c.Name + "_DomainEvents_u"
+  .assign ism_unions = ""
+  .assign asm_unions = ""
+  .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+  .assign prev_te_class = te_class
+  .while ( not_empty prev_te_class )
+    .assign te_class = prev_te_class
+    .select one prev_te_class related by te_class->TE_CLASS[R2092.'precedes']
+  .end while
+  .while ( not_empty te_class )
+    .select one o_obj related by te_class->O_OBJ[R2019]
+    .select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517]
+    .select one te_sm related by sm_sm->TE_SM[R2043]
+    .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036] where ( selected.Used )
+    .if ( te_c.OptDisabled )
+      .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036]
+    .end if
+    .if ( not_empty te_evt )
+      .assign ism_unions = ism_unions + "  ${te_sm.events_union} ${te_sm.events_union}_namespace;\n"
+    .end if
+    .select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517]
+    .select one te_sm related by sm_sm->TE_SM[R2043]
+    .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036] where ( selected.Used )
+    .if ( te_c.OptDisabled )
+      .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036]
+    .end if
+    .if ( not_empty te_evt )
+      .assign asm_unions = asm_unions + "  ${te_sm.events_union} ${te_sm.events_union}_namespace;\n"
+    .end if
+    .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+  .end while
 
 /*
  * roll-up of all events (with their parameters) for domain ${te_c.Name}
  */
 typedef union {
-  .select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
-  .select many ism_obj_set related by te_classes->O_OBJ[R2019]->SM_ISM[R518]->O_OBJ[R518]
-  .for each obj in ism_obj_set
-    .select one sm_sm related by obj->SM_ISM[R518]->SM_SM[R517]
-    .select one te_sm related by sm_sm->TE_SM[R2043]
-    .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036] where ( selected.Used )
-    .if ( te_c.OptDisabled )
-      .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036]
-    .end if
-    .if ( not_empty te_evt )
-  ${te_sm.events_union} ${te_sm.events_union}_namespace;
-    .end if
-  .end for
-  .select many asm_obj_set related by te_classes->O_OBJ[R2019]->SM_ASM[R519]->O_OBJ[R519]
-  .for each obj in asm_obj_set
-    .select one sm_sm related by obj->SM_ASM[R519]->SM_SM[R517]
-    .select one te_sm related by sm_sm->TE_SM[R2043]
-    .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036] where ( selected.Used )
-    .if ( te_c.OptDisabled )
-      .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036]
-    .end if
-    .//
-    .if ( not_empty te_evt )
-  ${te_sm.events_union} ${te_sm.events_union}_namespace;
-    .end if
-  .end for
+${ism_unions}\
+${asm_unions}\
 } ${union_name};
 .end function
 .//

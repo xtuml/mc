@@ -116,12 +116,15 @@
 .select any te_typemap from instances of TE_TYPEMAP
 .//
 .select many active_te_cs from instances of TE_C where ( ( selected.internal_behavior ) and ( selected.included_in_build ) )
+.invoke r = TE_C_sort( active_te_cs )
+.assign first_te_c = r.result
+.assign num_ooa_doms = cardinality active_te_cs
 .invoke SetSystemSelfEventQueueParameters( active_te_cs )
 .invoke SetSystemNonSelfEventQueueParameters( active_te_cs )
 .invoke r = RenderSystemLimitsDeclarations( active_te_cs )
 .assign system_parameters = r.body
-.invoke system_class_array = DefineClassInfoArray( active_te_cs )
-.invoke domain_ids = DeclareDomainIdentityEnums( active_te_cs )
+.invoke system_class_array = DefineClassInfoArray( first_te_c )
+.invoke domain_ids = DeclareDomainIdentityEnums( first_te_c, num_ooa_doms )
 .//
 .select many te_ees from instances of TE_EE where ( ( ( selected.RegisteredName != "TIM" ) and ( selected.te_cID == 0 ) ) and ( selected.Included ) )
 .if ( not_empty te_ees )
@@ -190,7 +193,6 @@
 .// Generate main.
 .//=============================================================================
 .invoke class_dispatch_array = GetDomainDispatcherTableName( "" )
-.assign num_ooa_doms = cardinality active_te_cs
 .assign dq_arg_type = "void"
 .assign dq_arg = ""
 .assign thread_number = ""

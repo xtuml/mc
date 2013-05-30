@@ -169,35 +169,39 @@ typedef union {
 .// Output initialization for an array of system class information.
 .//============================================================================
 .function DefineClassInfoArray
-  .param inst_ref_set te_cs
+  .param inst_ref first_te_c
   .assign ci = "/* xtUML class info for all of the components (collections, sizes, etc.) */"
   .select any te_cia from instances of TE_CIA
   .assign ci = ci + "\n${te_cia.class_info_type} * const * const ${te_cia.class_info_name}[ SYSTEM_DOMAIN_COUNT ] = {"
-  .for each te_c in te_cs
-    .assign delimiter = ""
-    .if ( not_last te_cs )
-      .assign delimiter = ","
-    .end if
+  .assign te_c = first_te_c
+  .while ( not_empty te_c )
     .// Include a pointer to the component classes only if component has classes.
     .select any te_class related by te_c->TE_CLASS[R2064]
+    .select one te_dci related by te_c->TE_DCI[R2090]
+    .select one te_c related by te_c->TE_C[R2017.'succeeds']
+    .assign delimiter = ""
+    .if ( not_empty te_c )
+      .assign delimiter = ","
+    .end if
     .if ( not_empty te_class )
-      .select one te_dci related by te_c->TE_DCI[R2090]
       .assign ci = ci + "\n  &${te_dci.array_name}[0]${delimiter}"
     .else
       .assign ci = ci + "\n  0${delimiter}"
     .end if
-  .end for
+  .end while
   .assign ci = ci + "\n};"
   .assign cc = "/* xtUML class count for all of the components (collections, sizes, etc.) */"
   .assign cc = "\n  static const ${te_cia.count_type} ${te_cia.class_count}[ SYSTEM_DOMAIN_COUNT ] = {"
-  .for each te_c in te_cs
+  .assign te_c = first_te_c
+  .while ( not_empty te_c )
+    .select one te_dci related by te_c->TE_DCI[R2090]
+    .select one te_c related by te_c->TE_C[R2017.'succeeds']
     .assign delimiter = ""
-    .if ( not_last te_cs )
+    .if ( not_empty te_c )
       .assign delimiter = ","
     .end if
-    .select one te_dci related by te_c->TE_DCI[R2090]
     .assign cc = cc + "\n    ${te_dci.max}${delimiter}"
-  .end for
+  .end while
   .assign cc = cc + "\n  };"
   .assign attr_class_info = ci
   .assign attr_class_count = cc
@@ -224,17 +228,18 @@ typedef union {
 .// and classes for the entire system.
 .//============================================================================
 .function DeclareDomainIdentityEnums
-  .param inst_ref_set te_cs
+  .param inst_ref first_te_c
+  .param integer num_ooa_doms
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
-  .assign system_domain_count = cardinality te_cs
-#define SYSTEM_DOMAIN_COUNT ${system_domain_count}
+#define SYSTEM_DOMAIN_COUNT ${num_ooa_doms}
   .if ( "SystemC" != te_target.language )
 /* xtUML domain identification numbers */
     .assign enumerated_domain_id = 0
     .assign delimiter = ""
     .assign namelist = ""
-    .for each te_c in te_cs
+    .assign te_c = first_te_c
+    .while ( not_empty te_c )
       .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
       .assign te_c.number = enumerated_domain_id
 #define ${dom_id.name} ${enumerated_domain_id}
@@ -243,7 +248,8 @@ typedef union {
       .assign namelist = namelist + "${delimiter}\\n    ""${te_c.Name}"" " 
       .assign delimiter = ","
       .assign enumerated_domain_id = enumerated_domain_id + 1
-    .end for
+      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+    .end while
   .end if
 .end function
 .//

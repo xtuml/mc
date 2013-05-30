@@ -168,6 +168,7 @@
     .assign te_c.Name = "$r{c_c.Name}"
     .assign te_c.Descrip = c_c.Descrip
     .assign te_c.included_in_build = true
+    .assign te_c.next_ID = 00
     .select any tm_c from instances of TM_C where ( selected.Name == c_c.Name )
     .if ( not_empty tm_c )
       .if ( ( tm_c.isRealized ) or ( c_c.isRealized ) )
@@ -1699,6 +1700,7 @@
   .// Initialize model compiler extension attributes.
   .assign te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett
   .assign te_class.CBGeneratedName = te_class.GeneratedName + "_CB"
+  .assign te_class.nextGeneratedName = ""
   .assign attr_result = te_class
 .end function
 .//
@@ -2413,4 +2415,98 @@
     .assign ep_pkg = r.ep_pkg
   .end if
   .assign attr_result = ep_pkg
+.end function
+.//
+.// Sort a list of TE_Cs.
+.function TE_C_sort
+  .param inst_ref_set te_cs
+  .// Declare an empty instance reference.
+  .select any head_te_c related by te_cs->TE_C[R2017.'succeeds'] where ( false )
+  .for each te_c in te_cs
+    .invoke r = TE_C_insert( head_te_c, te_c )
+    .assign head_te_c = r.result
+  .end for
+  .assign attr_result = head_te_c
+.end function
+.function TE_C_insert
+  .param inst_ref head_te_c
+  .param inst_ref te_c
+  .assign result = te_c
+  .if ( empty head_te_c )
+    .// Just starting.  Return te_c as head.
+  .elif ( te_c.Name <= head_te_c.Name )
+    .// insert before
+    .// relate te_c to head_te_c across R2017.'succeeds';
+    .assign te_c.next_ID = head_te_c.ID
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_c
+    .assign prev_te_c = head_te_c
+    .select one cursor_te_c related by head_te_c->TE_C[R2017.'succeeds']
+    .while ( not_empty cursor_te_c )
+      .if ( te_c.Name <= cursor_te_c.Name )
+        .break while
+      .else
+        .assign prev_te_c = cursor_te_c
+        .select one cursor_te_c related by cursor_te_c->TE_C[R2017.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_c to te_c across R2017.'succeeds';
+    .assign prev_te_c.next_ID = te_c.ID
+    .// end relate
+    .if ( not_empty cursor_te_c )
+      .// relate te_c to cursor_te_c across R2017.'succeeds';
+      .assign te_c.next_ID = cursor_te_c.ID
+      .// end relate
+    .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// Sort a list of TE_CLASSes.
+.function TE_CLASS_sort
+  .param inst_ref_set te_classes
+  .// Declare an empty instance reference.
+  .select any head_te_class related by te_classes->TE_CLASS[R2092.'succeeds'] where ( false )
+  .for each te_class in te_classes
+    .invoke r = TE_CLASS_insert( head_te_class, te_class )
+    .assign head_te_class = r.result
+  .end for
+  .assign attr_result = head_te_class
+.end function
+.function TE_CLASS_insert
+  .param inst_ref head_te_class
+  .param inst_ref te_class
+  .assign result = te_class
+  .if ( empty head_te_class )
+    .// Just starting.  Return te_class as head.
+  .elif ( te_class.Numb <= head_te_class.Numb )
+    .// insert before
+    .// relate te_class to head_te_class across R2092.'succeeds';
+    .assign te_class.nextGeneratedName = head_te_class.GeneratedName
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_class
+    .assign prev_te_class = head_te_class
+    .select one cursor_te_class related by head_te_class->TE_CLASS[R2092.'succeeds']
+    .while ( not_empty cursor_te_class )
+      .if ( te_class.Numb <= cursor_te_class.Numb )
+        .break while
+      .else
+        .assign prev_te_class = cursor_te_class
+        .select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_class to te_class across R2092.'succeeds';
+    .assign prev_te_class.nextGeneratedName = te_class.GeneratedName
+    .// end relate
+    .if ( not_empty cursor_te_class )
+      .// relate te_class to cursor_te_class across R2092.'succeeds';
+      .assign te_class.nextGeneratedName = cursor_te_class.GeneratedName
+      .// end relate
+    .end if
+  .end if
+  .assign attr_result = result
 .end function
