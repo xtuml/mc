@@ -2486,13 +2486,9 @@ CREATE TABLE TE_C (
 	internal_behavior	BOOLEAN,
 	isRealized	BOOLEAN,
 	SystemID	INTEGER,
-	Dom_ID	UNIQUE_ID,
-	cId	UNIQUE_ID );
-
--- Class:  2013.  Inline Code Snippet
-CREATE TABLE TE_SNIPPET (
-	Index	STRING,
-	Body	STRING );
+	next_ID	UNIQUE_ID,
+	cId	UNIQUE_ID,
+	Order	INTEGER );
 
 -- Class:  2014.  Extended Member
 CREATE TABLE TE_MBR (
@@ -2743,6 +2739,7 @@ CREATE TABLE TE_SM (
 
 -- Class:  2036.  Extended Class
 CREATE TABLE TE_CLASS (
+	ID	UNIQUE_ID,
 	Name	STRING,
 	Numb	INTEGER,
 	Key_Lett	STRING,
@@ -2770,7 +2767,8 @@ CREATE TABLE TE_CLASS (
 	attribute_format	STRING,
 	attribute_dump	STRING,
 	te_cID	UNIQUE_ID,
-	Obj_ID	UNIQUE_ID );
+	Obj_ID	UNIQUE_ID,
+	nextID	UNIQUE_ID );
 
 -- Class:  2037.  prefix
 CREATE TABLE TE_PREFIX (
@@ -3085,7 +3083,10 @@ CREATE TABLE TE_TYPEMAP (
 	poly_return_name	STRING,
 	poly_return_type	STRING,
 	SEM_cell_name	STRING,
-	SEM_cell_type	STRING );
+	SEM_cell_type	STRING,
+	structured_data_types	STRING,
+	enumeration_info	STRING,
+	user_supplied_data_types	STRING );
 
 -- Class:  2065.  extent
 CREATE TABLE TE_EXTENT (
@@ -6070,8 +6071,8 @@ CREATE ROP REF_ID R2010	FROM 1C TE_MACT	(AbaID)
 CREATE ROP REF_ID R2013	FROM 1C TE_IIR	(cl_iirId)
 			  TO 1C CL_IIR	(Id);
 
-CREATE ROP REF_ID R2017	FROM 1C TE_C	(Dom_ID)
-			  TO 1C S_DOM	(Dom_ID);
+CREATE ROP REF_ID R2017	FROM 1C TE_C	(next_ID) PHRASE 'precedes'
+			  TO 1C TE_C	(ID) PHRASE 'succeeds';
 
 CREATE ROP REF_ID R2018	FROM 1C TE_SYS	(Sys_ID)
 			  TO 1C S_SYS	(Sys_ID);
@@ -6268,6 +6269,9 @@ CREATE ROP REF_ID R2090	FROM 1  TE_DCI	(te_cID)
 
 CREATE ROP REF_ID R2091	FROM MC TE_PAR	(te_parmID)
 			  TO 1  TE_PARM	(ID);
+
+CREATE ROP REF_ID R2092	FROM 1C TE_CLASS	(nextID) PHRASE 'precedes'
+			  TO 1C TE_CLASS	(ID) PHRASE 'succeeds';
 
 
 -- ============================================================================

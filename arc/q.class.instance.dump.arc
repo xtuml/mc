@@ -5586,7 +5586,7 @@ INSERT INTO TE_C VALUES (\
   .else
 , ${te_c.cId}\
   .end if
-, ${te_c.Order} );
+ );
 .end for
 .select many te_mbrs from instances of TE_MBR
 .for each te_mbr in te_mbrs
@@ -6018,7 +6018,13 @@ INSERT INTO TE_SM VALUES (\
 .end for
 .select many te_classs from instances of TE_CLASS
 .for each te_class in te_classs
-INSERT INTO TE_CLASS VALUES ( '${te_class.Name}', ${te_class.Numb}, '${te_class.Key_Lett}', '${te_class.GeneratedName}', '${te_class.CBGeneratedName}', ${te_class.Included}, ${te_class.PEIsDefinedInData}, ${te_class.IsFixedPopulation}, ${te_class.IsReadOnly}, ${te_class.ExcludeFromGen}, ${te_class.MaxExtentSize}, ${te_class.SelfCreated}, ${te_class.NonSelfCreated}, ${te_class.Persistent}, ${te_class.Order}, ${te_class.IsTrace}, ${te_class.ContainerIndex}, ${te_class.Task}, '${te_class.class_file}', '${te_class.system_class_number}', '${te_class.CBsystem_class_number}', '${te_class.persist_link}', '${te_class.dispatcher}', '${te_class.CBdispatcher}', '${te_class.attribute_format}', '${te_class.attribute_dump}'\
+INSERT INTO TE_CLASS VALUES (\
+  .if ( "un-initialized" == "${te_class.ID}" )
+ 0\
+  .else
+ ${te_class.ID}\
+  .end if
+, '${te_class.Name}', ${te_class.Numb}, '${te_class.Key_Lett}', '${te_class.GeneratedName}', '${te_class.CBGeneratedName}', ${te_class.Included}, ${te_class.PEIsDefinedInData}, ${te_class.IsFixedPopulation}, ${te_class.IsReadOnly}, ${te_class.ExcludeFromGen}, ${te_class.MaxExtentSize}, ${te_class.SelfCreated}, ${te_class.NonSelfCreated}, ${te_class.Persistent}, ${te_class.Order}, ${te_class.IsTrace}, ${te_class.ContainerIndex}, ${te_class.Task}, '${te_class.class_file}', '${te_class.system_class_number}', '${te_class.CBsystem_class_number}', '${te_class.persist_link}', '${te_class.dispatcher}', '${te_class.CBdispatcher}', '${te_class.attribute_format}', '${te_class.attribute_dump}'\
   .if ( "un-initialized" == "${te_class.te_cID}" )
 , 0\
   .else
@@ -6030,7 +6036,13 @@ INSERT INTO TE_CLASS VALUES ( '${te_class.Name}', ${te_class.Numb}, '${te_class.
   .else
 , ${te_class.Obj_ID}\
   .end if
-, '${te_class.nextGeneratedName}' );
+\
+  .if ( "un-initialized" == "${te_class.nextID}" )
+, 0\
+  .else
+, ${te_class.nextID}\
+  .end if
+ );
 .end for
 .select many te_prefixs from instances of TE_PREFIX
 .for each te_prefix in te_prefixs

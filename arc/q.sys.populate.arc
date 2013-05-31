@@ -1700,7 +1700,7 @@
   .// Initialize model compiler extension attributes.
   .assign te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett
   .assign te_class.CBGeneratedName = te_class.GeneratedName + "_CB"
-  .assign te_class.nextGeneratedName = ""
+  .assign te_class.nextID = 00
   .assign attr_result = te_class
 .end function
 .//
@@ -2470,6 +2470,9 @@
   .// Declare an empty instance reference.
   .select any head_te_class related by te_classes->TE_CLASS[R2092.'succeeds'] where ( false )
   .for each te_class in te_classes
+    .assign te_class.nextID = 00
+  .end for
+  .for each te_class in te_classes
     .invoke r = TE_CLASS_insert( head_te_class, te_class )
     .assign head_te_class = r.result
   .end for
@@ -2484,7 +2487,7 @@
   .elif ( te_class.Numb <= head_te_class.Numb )
     .// insert before
     .// relate te_class to head_te_class across R2092.'succeeds';
-    .assign te_class.nextGeneratedName = head_te_class.GeneratedName
+    .assign te_class.nextID = head_te_class.ID
     .// end relate
   .else
     .// find bigger
@@ -2500,11 +2503,11 @@
       .end if
     .end while
     .// relate prev_te_class to te_class across R2092.'succeeds';
-    .assign prev_te_class.nextGeneratedName = te_class.GeneratedName
+    .assign prev_te_class.nextID = te_class.ID
     .// end relate
     .if ( not_empty cursor_te_class )
       .// relate te_class to cursor_te_class across R2092.'succeeds';
-      .assign te_class.nextGeneratedName = cursor_te_class.GeneratedName
+      .assign te_class.nextID = cursor_te_class.ID
       .// end relate
     .end if
   .end if
