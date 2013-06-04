@@ -17,7 +17,7 @@
   .select any te_set from instances of TE_SET
   .assign attr_declaration = ""
   .assign attr_ending = ws + "}}}"
-  .if ( te_for.isImplicit)
+  .if ( te_for.isImplicit )
     .assign attr_declaration = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" )
   .end if
   .assign iterator = "iter" + te_for.loop_variable

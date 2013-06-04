@@ -6,16 +6,16 @@
 .// ----------------------------------------------------------
 .// gen for statements
 .// ----------------------------------------------------------
-.function q_smt_fors
+.function smt_fors
 .select many act_fors from instances of ACT_FOR
 .for each act_for in act_fors
-  .invoke q_smt_for( act_for )
+  .invoke smt_for( act_for )
 .end for
 .end function
 .// --------------------------------------------------------
 .// gen for statement
 .// --------------------------------------------------------
-.function q_smt_for
+.function smt_for
   .param inst_ref act_for
   .select any te_for from instances of TE_FOR
   .select one te_smt related by act_for->ACT_SMT[R603]->TE_SMT[R2038]
@@ -41,16 +41,16 @@
 .// ----------------------------------------------------------
 .// gen if statements
 .// ----------------------------------------------------------
-.function q_smt_ifs
+.function smt_ifs
 .select many act_ifs from instances of ACT_IF
 .for each act_if in act_ifs
-  .invoke q_smt_if( act_if )
+  .invoke smt_if( act_if )
 .end for
 .end function
 .// --------------------------------------------------------
 .// gen if statement
 .// --------------------------------------------------------
-.function q_smt_if
+.function smt_if
   .param inst_ref act_if
   .select one te_smt related by act_if->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -63,16 +63,16 @@
 .// ----------------------------------------------------------
 .// gen while statements
 .// ----------------------------------------------------------
-.function q_smt_whiles
+.function smt_whiles
 .select many act_whls from instances of ACT_WHL
 .for each act_whl in act_whls
-  .invoke q_smt_while( act_whl )
+  .invoke smt_while( act_whl )
 .end for
 .end function
 .// --------------------------------------------------------
 .// gen while statement
 .// --------------------------------------------------------
-.function q_smt_while
+.function smt_while
   .param inst_ref act_whl
   .select one te_smt related by act_whl->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -85,16 +85,16 @@
 .// ----------------------------------------------------------
 .// gen else statements
 .// ----------------------------------------------------------
-.function q_smt_elses
+.function smt_elses
 .select many act_es from instances of ACT_E
 .for each act_e in act_es
-  .invoke q_smt_else( act_e )
+  .invoke smt_else( act_e )
 .end for
 .end function
 .// --------------------------------------------------------
 .// gen else statement
 .// --------------------------------------------------------
-.function q_smt_else
+.function smt_else
   .param inst_ref act_e
   .select one te_smt related by act_e->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -109,16 +109,16 @@
 .// ----------------------------------------------------------
 .// gen elif statements
 .// ----------------------------------------------------------
-.function q_smt_elifs
+.function smt_elifs
 .select many act_els from instances of ACT_EL
 .for each act_el in act_els
-  .invoke q_smt_elif(act_el)
+  .invoke smt_elif(act_el)
 .end for
 .end function
 .// --------------------------------------------------------
 .// gen elif statement
 .// --------------------------------------------------------
-.function q_smt_elif
+.function smt_elif
   .param inst_ref act_el
   .select one te_smt related by act_el->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -134,17 +134,17 @@
 .// --------------------------------------------------------
 .// assignment to attribute statements
 .// --------------------------------------------------------
-.function q_smt_assigns
+.function smt_assigns
 .select many act_ais from instances of ACT_AI
 .for each act_ai in act_ais
-  .invoke q_smt_assign( act_ai )
+  .invoke smt_assign( act_ai )
 .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// gen_asgn_attr_statement
 .// --------------------------------------------------------
-.function q_smt_assign
+.function smt_assign
   .param inst_ref act_ai
   .select any te_assign from instances of TE_ASSIGN
   .select one te_smt related by act_ai->ACT_SMT[R603]->TE_SMT[R2038]
@@ -219,17 +219,17 @@
 .// --------------------------------------------------------
 .// create instance statements
 .// --------------------------------------------------------
-.function q_smt_create_instances
+.function smt_create_instances
   .select many act_crs from instances of ACT_CR
   .for each act_cr in act_crs
-    .invoke q_smt_create_instance( act_cr )
+    .invoke smt_create_instance( act_cr )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// create instance statement
 .// --------------------------------------------------------
-.function q_smt_create_instance
+.function smt_create_instance
   .param inst_ref act_cr
   .select one te_smt related by act_cr->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -248,11 +248,11 @@
 .// --------------------------------------------------------
 .// delete instance statements
 .// --------------------------------------------------------
-.function q_smt_delete_instances
+.function smt_delete_instances
   .select many act_dels from instances of ACT_DEL
   .assign del_count = 0
   .for each act_del in act_dels
-    .invoke q_smt_delete_instance( act_del, del_count )
+    .invoke smt_delete_instance( act_del, del_count )
     .assign del_count = del_count + 1
   .end for
 .end function
@@ -260,7 +260,7 @@
 .// --------------------------------------------------------
 .// delete instance statement
 .// --------------------------------------------------------
-.function q_smt_delete_instance
+.function smt_delete_instance
   .param inst_ref act_del
   .param integer del_count
   .select one te_smt related by act_del->ACT_SMT[R603]->TE_SMT[R2038]
@@ -280,58 +280,58 @@
 .// --------------------------------------------------------
 .// create event instance to instance statements
 .// --------------------------------------------------------
-.function q_smt_create_events_to_instance
+.function smt_create_events_to_instance
   .select many e_ceis from instances of E_CEI
   .for each e_cei in e_ceis
-    .invoke q_smt_create_event_to_instance( e_cei )
+    .invoke smt_create_event_to_instance( e_cei )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// create event instance to class statements
 .// --------------------------------------------------------
-.function q_smt_create_events_to_class
+.function smt_create_events_to_class
   .select many e_ceas from instances of E_CEA
   .for each e_cea in e_ceas
-    .invoke q_smt_create_event_to_class( e_cea )
+    .invoke smt_create_event_to_class( e_cea )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// create event instance to creator statements
 .// --------------------------------------------------------
-.function q_smt_create_events_to_creator
+.function smt_create_events_to_creator
   .select many e_cecs from instances of E_CEC
   .for each e_cec in e_cecs
-    .invoke q_smt_create_event_to_creator( e_cec )
+    .invoke smt_create_event_to_creator( e_cec )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// create event instance statement
 .// --------------------------------------------------------
-.function q_smt_create_event_to_instance
+.function smt_create_event_to_instance
   .param inst_ref e_cei
   .select one e_csme related by e_cei->E_CSME[R704]
   .select one recipient_v_var related by e_cei->V_VAR[R711]
   .select one recipient_te_var related by recipient_v_var->TE_VAR[R2039]
-  .invoke q_smt_create_event( e_csme, recipient_te_var.buffer, recipient_v_var.Name )
+  .invoke smt_create_event( e_csme, recipient_te_var.buffer, recipient_v_var.Name )
 .end function
-.function q_smt_create_event_to_class
+.function smt_create_event_to_class
   .param inst_ref e_cea
   .select one e_csme related by e_cea->E_CSME[R704]
-  .invoke q_smt_create_event( e_csme, "0", "CLASS" )
+  .invoke smt_create_event( e_csme, "0", "CLASS" )
 .end function
-.function q_smt_create_event_to_creator
+.function smt_create_event_to_creator
   .param inst_ref e_cec
   .select one e_csme related by e_cec->E_CSME[R704]
-  .invoke q_smt_create_event( e_csme, "0", "CREATOR" )
+  .invoke smt_create_event( e_csme, "0", "CREATOR" )
 .end function
 .//
 .// --------------------------------------------------------
 .// create event instance statement
 .// --------------------------------------------------------
-.function q_smt_create_event
+.function smt_create_event
   .param inst_ref e_csme
   .param string recipient
   .param string recipient_OAL
@@ -376,17 +376,17 @@
 .// --------------------------------------------------------
 .//  relate statements
 .// --------------------------------------------------------
-.function q_smt_relates
+.function smt_relates
   .select many act_rels from instances of ACT_REL
   .for each act_rel in act_rels
-    .invoke q_smt_relate( act_rel )
+    .invoke smt_relate( act_rel )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .//  relate statement
 .// --------------------------------------------------------
-.function q_smt_relate
+.function smt_relate
   .param inst_ref act_rel
   .select one te_smt related by act_rel->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -409,17 +409,17 @@
 .// --------------------------------------------------------
 .// relate using statements
 .// --------------------------------------------------------
-.function q_smt_relate_usings
+.function smt_relate_usings
   .select many act_rus from instances of ACT_RU
   .for each act_ru in act_rus
-    .invoke q_smt_relate_using( act_ru )
+    .invoke smt_relate_using( act_ru )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// relate using statement
 .// --------------------------------------------------------
-.function q_smt_relate_using
+.function smt_relate_using
   .param inst_ref act_ru
   .select one te_smt related by act_ru->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -466,17 +466,17 @@
 .// --------------------------------------------------------
 .// unrelate statements
 .// --------------------------------------------------------
-.function q_smt_unrelates
+.function smt_unrelates
   .select many act_unrs from instances of ACT_UNR
   .for each act_unr in act_unrs
-    .invoke result = q_smt_unrelate( act_unr ) 
+    .invoke result = smt_unrelate( act_unr ) 
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// unrelate statement
 .// --------------------------------------------------------
-.function q_smt_unrelate
+.function smt_unrelate
   .param inst_ref act_unr
   .select one te_smt related by act_unr->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -499,14 +499,14 @@
 .// --------------------------------------------------------
 .// unrelate using statements
 .// --------------------------------------------------------
-.function q_smt_unrelate_usings
+.function smt_unrelate_usings
   .select many act_urus from instances of ACT_URU
   .for each act_uru in act_urus
-    .invoke q_smt_unrelate_using( act_uru )
+    .invoke smt_unrelate_using( act_uru )
   .end for
 .end function
 .//
-.function q_smt_unrelate_using
+.function smt_unrelate_using
   .param inst_ref act_uru
   .select one te_smt related by act_uru->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -553,17 +553,17 @@
 .// --------------------------------------------------------
 .// select statements
 .// --------------------------------------------------------
-.function q_smt_selects
+.function smt_selects
   .select many act_fios from instances of ACT_FIO
   .for each act_fio in act_fios
-    .invoke q_smt_select( act_fio )
+    .invoke smt_select( act_fio )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// select instance statement
 .// --------------------------------------------------------
-.function q_smt_select
+.function smt_select
   .param inst_ref act_fio
   .select any te_select from instances of TE_SELECT
   .select one te_smt related by act_fio->ACT_SMT[R603]->TE_SMT[R2038]
@@ -593,10 +593,10 @@
 .// --------------------------------------------------------
 .// select instance where statements
 .// --------------------------------------------------------
-.function q_smt_select_wheres
+.function smt_select_wheres
   .select many act_fiws from instances of ACT_FIW
   .for each act_fiw in act_fiws
-    .invoke q_smt_select_where( act_fiw )
+    .invoke smt_select_where( act_fiw )
   .end for
 .end function
 .//
@@ -647,7 +647,7 @@
 .// --------------------------------------------------------
 .// select instance where statement
 .// --------------------------------------------------------
-.function q_smt_select_where
+.function smt_select_where
   .param inst_ref act_fiw
   .select any te_select_where from instances of TE_SELECT_WHERE
   .select one te_smt related by act_fiw->ACT_SMT[R603]->TE_SMT[R2038]
@@ -660,13 +660,7 @@
     .select any where_v_val related by act_fiw->V_VAL[R610]
     .select any where_te_val related by where_v_val->TE_VAL[R2040]
     .invoke r = v_val_find_v_slr_return_buffer( where_v_val )
-    .assign built_in = false
     .assign oid_id = -1
-    .if ( built_in )
-      .select any te_swc related by te_class->TE_SWC[R2001] where ( selected.Key == "p_where.key" )
-      .assign built_in = te_swc.Built_In
-      .assign oid_id = te_swc.Oid_ID
-    .end if
     .//.assign te_select_where.o_obj = o_obj
     .assign te_select_where.is_implicit = act_fiw.is_implicit
     .assign te_select_where.class_name = te_class.GeneratedName
@@ -676,7 +670,7 @@
     .assign te_select_where.var_name = te_var.buffer
     .assign te_select_where.selected_var_name = r.slrname
     .assign te_select_where.where_clause = where_te_val.buffer
-    .assign te_select_where.special = built_in
+    .assign te_select_where.special = false
     .assign te_select_where.oid_id = oid_id
     .invoke s = t_oal_smt_select_where( o_obj, te_smt, te_select_where, te_blk.indentation )
     .assign te_smt.declaration = s.declaration
@@ -690,36 +684,36 @@
 .// --------------------------------------------------------
 .// select instance related by statement
 .// --------------------------------------------------------
-.function q_smt_select_relateds
+.function smt_select_relateds
   .select many act_srs from instances of ACT_SR
   .for each act_sr in act_srs
     .select one act_sel related by act_sr->ACT_SEL[R664]
-    .invoke q_smt_select_related( act_sel, false )
+    .invoke smt_select_related( act_sel, false )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// select related by where statements
 .// --------------------------------------------------------
-.function q_smt_select_related_wheres
+.function smt_select_related_wheres
   .select many act_srws from instances of ACT_SRW
   .for each act_srw in act_srws
     .select one act_sel related by act_srw->ACT_SEL[R664]
-    .invoke q_smt_select_related( act_sel, true )
+    .invoke smt_select_related( act_sel, true )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// generate pre-created event statements
 .// --------------------------------------------------------
-.function q_smt_generate_precreated_events
+.function smt_generate_precreated_events
   .select many e_gprs from instances of E_GPR
   .for each e_gpr in e_gprs
-    .invoke q_smt_generate_precreated_event( e_gpr )
+    .invoke smt_generate_precreated_event( e_gpr )
   .end for
 .end function
 .//
-.function q_smt_generate_precreated_event
+.function smt_generate_precreated_event
   .param inst_ref e_gpr
   .select one te_smt related by e_gpr->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -738,10 +732,10 @@
 .// --------------------------------------------------------
 .// generate event statements
 .// --------------------------------------------------------
-.function q_smt_generate_events
+.function smt_generate_events
   .select many e_gens from instances of E_GEN
   .for each e_gen in e_gens
-    .invoke q_smt_generate_event( e_gen )
+    .invoke smt_generate_event( e_gen )
   .end for
 .end function
 .//
@@ -762,7 +756,7 @@
   .end while
 .end function
 .//
-.function q_smt_generate_event
+.function smt_generate_event
   .param inst_ref e_gen
   .select one e_gsme related by e_gen->E_GSME[R705]
   .select one e_ess related by e_gsme->E_GES[R703]->E_ESS[R701]
@@ -803,18 +797,18 @@
 .// --------------------------------------------------------
 .// generate creator event statement
 .// --------------------------------------------------------
-.function q_smt_generate_creator_events
+.function smt_generate_creator_events
   .select many e_gecs from instances of E_GEC
   .for each e_gec in e_gecs
-    .invoke q_smt_generate_creator_event( e_gec )
+    .invoke smt_generate_creator_event( e_gec )
   .end for
 .end function
 .//
-.function q_smt_generate_creator_event
+.function smt_generate_creator_event
   .param inst_ref e_gec
   .select one te_smt related by e_gec->E_GSME[R705]->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
-  .invoke p = q_smt_generate_class_event( e_gec )
+  .invoke p = smt_generate_class_event( e_gec )
   .if ( p.valid )
     .assign sm_evt = p.sm_evt
     .assign tgt_o_obj = p.tgt_o_obj
@@ -827,18 +821,18 @@
 .// --------------------------------------------------------
 .// generate class event statement
 .// --------------------------------------------------------
-.function q_smt_generate_class_events
+.function smt_generate_class_events
   .select many e_gars from instances of E_GAR
   .for each e_gar in e_gars
-    .invoke q_smt_generate_event_to_class( e_gar )
+    .invoke smt_generate_event_to_class( e_gar )
   .end for
 .end function
 .//
-.function q_smt_generate_event_to_class
+.function smt_generate_event_to_class
   .param inst_ref act_smt
   .select one te_smt related by act_smt->E_GSME[R705]->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
-  .invoke p = q_smt_generate_class_event( act_smt )
+  .invoke p = smt_generate_class_event( act_smt )
   .if ( p.valid )
     .assign sm_evt = p.sm_evt
     .assign tgt_o_obj = p.tgt_o_obj
@@ -848,7 +842,7 @@
   .end if
 .end function
 .//
-.function q_smt_generate_class_event
+.function smt_generate_class_event
   .param inst_ref e_gar
   .assign attr_parameters = ""
   .assign attr_parameter_OAL = ""
@@ -899,14 +893,14 @@
 .// --------------------------------------------------------
 .// inter-component interface signal
 .// --------------------------------------------------------
-.function q_smt_sgns
+.function smt_sgns
   .select many act_sgns from instances of ACT_SGN
   .for each act_sgn in act_sgns
-    .invoke q_smt_sgn( act_sgn )
+    .invoke smt_sgn( act_sgn )
   .end for
 .end function
 .//
-.function q_smt_sgn
+.function smt_sgn
   .param inst_ref act_sgn
   .select one te_smt related by act_sgn->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -923,14 +917,14 @@
 .// --------------------------------------------------------
 .// inter-component interface operation
 .// --------------------------------------------------------
-.function q_smt_iops
+.function smt_iops
   .select many act_iops from instances of ACT_IOP
   .for each act_iop in act_iops
-    .invoke q_smt_iop( act_iop )
+    .invoke smt_iop( act_iop )
   .end for
 .end function
 .//
-.function q_smt_iop
+.function smt_iop
   .param inst_ref act_iop
   .select one te_smt related by act_iop->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -1001,14 +995,14 @@
 .// --------------------------------------------------------
 .// class operation statement
 .// --------------------------------------------------------
-.function q_smt_operates
+.function smt_operates
   .select many act_tfms from instances of ACT_TFM
   .for each act_tfm in act_tfms
-    .invoke q_smt_operate( act_tfm )
+    .invoke smt_operate( act_tfm )
   .end for
 .end function
 .//
-.function q_smt_operate
+.function smt_operate
   .param inst_ref act_tfm
   .select any te_target from instances of TE_TARGET
   .select one te_smt related by act_tfm->ACT_SMT[R603]->TE_SMT[R2038]
@@ -1058,14 +1052,14 @@
 .// --------------------------------------------------------
 .// bridge statement
 .// --------------------------------------------------------
-.function q_smt_bridges
+.function smt_bridges
   .select many act_brgs from instances of ACT_BRG
   .for each act_brg in act_brgs
-    .invoke result = q_smt_bridge( act_brg )
+    .invoke result = smt_bridge( act_brg )
   .end for
 .end function
 .//
-.function q_smt_bridge
+.function smt_bridge
   .param inst_ref act_brg
   .select any te_target from instances of TE_TARGET
   .select one te_smt related by act_brg->ACT_SMT[R603]->TE_SMT[R2038]
@@ -1100,14 +1094,14 @@
 .// --------------------------------------------------------
 .// function statement
 .// --------------------------------------------------------
-.function q_smt_functions
+.function smt_functions
   .select many act_fncs from instances of ACT_FNC
   .for each act_fnc in act_fncs
-    .invoke result = q_smt_function( act_fnc )
+    .invoke result = smt_function( act_fnc )
   .end for
 .end function
 .//
-.function q_smt_function
+.function smt_function
   .param inst_ref act_fnc
   .//
   .select any te_target from instances of TE_TARGET
@@ -1136,17 +1130,17 @@
 .// --------------------------------------------------------
 .// return statements
 .// --------------------------------------------------------
-.function q_smt_returns
+.function smt_returns
 .select many act_rets from instances of ACT_RET
 .for each act_ret in act_rets
-  .invoke q_smt_return( act_ret )
+  .invoke smt_return( act_ret )
 .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// return statement
 .// --------------------------------------------------------
-.function q_smt_return
+.function smt_return
   .param inst_ref act_ret
   .select one te_smt related by act_ret->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -1238,17 +1232,17 @@
 .// --------------------------------------------------------
 .// control statements
 .// --------------------------------------------------------
-.function q_smt_controls
+.function smt_controls
 .select many act_ctls from instances of ACT_CTL
 .for each act_ctl in act_ctls
-  .invoke q_smt_control( act_ctl )
+  .invoke smt_control( act_ctl )
 .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// control statement
 .// --------------------------------------------------------
-.function q_smt_control
+.function smt_control
   .param inst_ref act_ctl
   .select one te_smt related by act_ctl->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -1260,17 +1254,17 @@
 .// --------------------------------------------------------
 .// break statements
 .// --------------------------------------------------------
-.function q_smt_breaks
+.function smt_breaks
   .select many act_brks from instances of ACT_BRK
   .for each act_brk in act_brks
-    .invoke q_smt_break( act_brk )
+    .invoke smt_break( act_brk )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// break statement
 .// --------------------------------------------------------
-.function q_smt_break
+.function smt_break
   .param inst_ref act_brk
   .select one te_smt related by act_brk->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -1295,17 +1289,17 @@
 .// --------------------------------------------------------
 .// continue statements
 .// --------------------------------------------------------
-.function q_smt_continues
+.function smt_continues
   .select many act_cons from instances of ACT_CON
   .for each act_con in act_cons
-    .invoke q_smt_continue( act_con )
+    .invoke smt_continue( act_con )
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// continue statement
 .// --------------------------------------------------------
-.function q_smt_continue
+.function smt_continue
   .param inst_ref act_con
   .select one te_smt related by act_con->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -1327,7 +1321,7 @@
   .assign te_smt.OAL = "CONTINUE"
 .end function
 .//
-.function q_smt_select_related
+.function smt_select_related
   .param inst_ref act_sel
   .param boolean by_where
   .select any te_file from instances of TE_FILE

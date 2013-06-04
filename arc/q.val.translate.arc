@@ -22,43 +22,43 @@
   .param inst_ref v_val
   .select one v_mvl related by v_val->V_MVL[R801]
   .if ( not_empty v_mvl )
-    .invoke q_val_member_value( v_mvl )
+    .invoke val_member_value( v_mvl )
   .else
   .select one v_avl related by v_val->V_AVL[R801]
   .if ( not_empty v_avl )
-    .invoke q_val_attribute_value( v_avl )
+    .invoke val_attribute_value( v_avl )
   .else
   .select one v_aer related by v_val->V_AER[R801]
   .if ( not_empty v_aer )
-    .invoke q_val_array_element_reference( v_aer )
+    .invoke val_array_element_reference( v_aer )
   .else
   .select one v_alv related by v_val->V_ALV[R801]
   .if ( not_empty v_alv )
-    .invoke q_val_array_length_value( v_alv )
+    .invoke val_array_length_value( v_alv )
   .else
   .select one v_uny related by v_val->V_UNY[R801]
   .if ( not_empty v_uny )
-    .invoke q_val_unary_op_value( v_uny )
+    .invoke val_unary_op_value( v_uny )
   .else
   .select one v_bin related by v_val->V_BIN[R801]
   .if ( not_empty v_bin )
-    .invoke q_val_binary_op_value( v_bin )
+    .invoke val_binary_op_value( v_bin )
   .else
   .select one v_trv related by v_val->V_TRV[R801]
   .if ( not_empty v_trv )
-    .invoke q_val_transform_value( v_trv )
+    .invoke val_transform_value( v_trv )
   .else
   .select one v_msv related by v_val->V_MSV[R801]
   .if ( not_empty v_msv )
-    .invoke q_val_message_value( v_msv )
+    .invoke val_message_value( v_msv )
   .else
   .select one v_brv related by v_val->V_BRV[R801]
   .if ( not_empty v_brv )
-    .invoke q_val_bridge_value( v_brv )
+    .invoke val_bridge_value( v_brv )
   .else
   .select one v_fnv related by v_val->V_FNV[R801]
   .if ( not_empty v_fnv )
-    .invoke q_val_synch_service_value( v_fnv )
+    .invoke val_synch_service_value( v_fnv )
   .else
     .print "ERROR:  Recursive V_VAL resolution issue."
   .end if
@@ -73,7 +73,7 @@
   .end if
 .end function
 .//
-.function q_val_literal_boolean_values
+.function val_literal_boolean_values
   .select many v_lbos from instances of V_LBO
   .for each v_lbo in v_lbos
     .select one te_val related by v_lbo->V_VAL[R801]->TE_VAL[R2040]
@@ -82,7 +82,7 @@
   .end for
 .end function
 .//
-.function q_val_literal_string_values
+.function val_literal_string_values
   .select any te_string from instances of TE_STRING
   .select many v_lsts from instances of V_LST
   .for each v_lst in v_lsts
@@ -98,7 +98,7 @@
   .end for
 .end function
 .//
-.function q_val_literal_integer_values
+.function val_literal_integer_values
   .select many v_lins from instances of V_LIN
   .for each v_lin in v_lins
     .select one te_val related by v_lin->V_VAL[R801]->TE_VAL[R2040]
@@ -107,7 +107,7 @@
   .end for
 .end function
 .//
-.function q_val_literal_real_values
+.function val_literal_real_values
   .select many v_lrls from instances of V_LRL
   .for each v_lrl in v_lrls
     .select one te_val related by v_lrl->V_VAL[R801]->TE_VAL[R2040]
@@ -116,7 +116,7 @@
   .end for
 .end function
 .//
-.function q_val_literal_enumerations
+.function val_literal_enumerations
   .select many v_lens from instances of V_LEN
   .for each v_len in v_lens
     .select one te_val related by v_len->V_VAL[R801]->TE_VAL[R2040]
@@ -126,7 +126,7 @@
   .end for
 .end function
 .//
-.function q_val_constant_values
+.function val_constant_values
   .select many v_scvs from instances of V_SCV
   .for each v_scv in v_scvs
     .select one te_val related by v_scv->V_VAL[R801]->TE_VAL[R2040]
@@ -145,7 +145,7 @@
   .end for
 .end function
 .//
-.function q_val_transient_values
+.function val_transient_values
   .select many v_tvls from instances of V_TVL
   .for each v_tvl in v_tvls
     .select one v_var related by v_tvl->V_VAR[R805]
@@ -166,7 +166,7 @@
   .end for
 .end function
 .//
-.function q_val_actual_parameters
+.function val_actual_parameters
   .select many v_pars from instances of V_PAR
   .for each v_par in v_pars
     .select one te_par related by v_par->TE_PAR[R2063]
@@ -181,14 +181,14 @@
   .end for
 .end function
 .//
-.function q_val_attribute_values
+.function val_attribute_values
   .select many v_avls from instances of V_AVL
   .for each v_avl in v_avls
-    .invoke q_val_attribute_value( v_avl )
+    .invoke val_attribute_value( v_avl )
   .end for
 .end function
 .//
-.function q_val_attribute_value
+.function val_attribute_value
   .param inst_ref v_avl
   .select one v_val related by v_avl->V_VAL[R801]
   .select one te_val related by v_val->TE_VAL[R2040]
@@ -232,14 +232,14 @@
   .end if 
 .end function
 .//
-.function q_val_member_values
+.function val_member_values
   .select many v_mvls from instances of V_MVL
   .for each v_mvl in v_mvls
-    .invoke q_val_member_value( v_mvl )
+    .invoke val_member_value( v_mvl )
   .end for
 .end function
 .//
-.function q_val_member_value
+.function val_member_value
   .param inst_ref v_mvl
   .select one te_val related by v_mvl->V_VAL[R801]->TE_VAL[R2040]
   .if ( "" == te_val.buffer )
@@ -257,7 +257,7 @@
   .end if
 .end function
 .//
-.function q_val_instance_reference_values
+.function val_instance_reference_values
   .select many v_irfs from instances of V_IRF
   .for each v_irf in v_irfs
     .select one te_val related by v_irf->V_VAL[R801]->TE_VAL[R2040]
@@ -272,7 +272,7 @@
   .end for
 .end function
 .//
-.function q_val_selection_test_values
+.function val_selection_test_values
   .select many v_slrs from instances of V_SLR
   .for each v_slr in v_slrs
     .select one te_val related by v_slr->V_VAL[R801]->TE_VAL[R2040]
@@ -281,7 +281,7 @@
   .end for
 .end function
 .//
-.function q_val_inst_ref_set_values
+.function val_inst_ref_set_values
   .select many v_isrs from instances of V_ISR
   .for each v_isr in v_isrs
     .select one te_var related by v_isr->V_VAR[R809]->TE_VAR[R2039]
@@ -291,7 +291,7 @@
   .end for
 .end function
 .//
-.function q_val_event_values
+.function val_event_values
   .select many v_edvs from instances of V_EDV
   .for each v_edv in v_edvs
     .select one te_val related by v_edv->V_VAL[R801]->TE_VAL[R2040]
@@ -317,7 +317,7 @@
   .end for
 .end function
 .//
-.function q_val_parameter_values
+.function val_parameter_values
   .select many v_pvls from instances of V_PVL
   .for each v_pvl in v_pvls
     .select one te_val related by v_pvl->V_VAL[R801]->TE_VAL[R2040]
@@ -345,14 +345,14 @@
   .end for
 .end function
 .//
-.function q_val_unary_op_values
+.function val_unary_op_values
   .select many v_unys from instances of V_UNY
   .for each v_uny in v_unys
-    .invoke q_val_unary_op_value( v_uny )
+    .invoke val_unary_op_value( v_uny )
   .end for
 .end function
 .//
-.function q_val_unary_op_value
+.function val_unary_op_value
   .param inst_ref v_uny
   .select one te_val related by v_uny->V_VAL[R801]->TE_VAL[R2040]
   .if ( "" == te_val.buffer )
@@ -402,14 +402,14 @@
   .end if
 .end function
 .//
-.function q_val_binary_op_values
+.function val_binary_op_values
   .select many v_bins from instances of V_BIN
   .for each v_bin in v_bins
-    .invoke q_val_binary_op_value( v_bin )
+    .invoke val_binary_op_value( v_bin )
   .end for
 .end function
 .//
-.function q_val_binary_op_value
+.function val_binary_op_value
   .param inst_ref v_bin
   .select one te_val related by v_bin->V_VAL[R801]->TE_VAL[R2040]
   .if ( "" == te_val.buffer )
@@ -459,14 +459,14 @@
   .end if
 .end function
 .//
-.function q_val_message_values
+.function val_message_values
 .select many v_msvs from instances of V_MSV
 .for each v_msv in v_msvs
-  .invoke q_val_message_value( v_msv )
+  .invoke val_message_value( v_msv )
 .end for
 .end function
 .//
-.function q_val_message_value
+.function val_message_value
   .param inst_ref v_msv
   .select one v_val related by v_msv->V_VAL[R801]
   .select one te_val related by v_val->TE_VAL[R2040]
@@ -484,14 +484,14 @@
   .assign te_val.te_dimID   = te_aba.te_dimID
 .end function
 .//
-.function q_val_bridge_values
+.function val_bridge_values
   .select many v_brvs from instances of V_BRV
   .for each v_brv in v_brvs
-    .invoke q_val_bridge_value( v_brv )
+    .invoke val_bridge_value( v_brv )
   .end for
 .end function
 .//
-.function q_val_bridge_value
+.function val_bridge_value
   .param inst_ref v_brv
   .select one te_brg related by v_brv->S_BRG[R828]->TE_BRG[R2025]
   .if ( not_empty te_brg )
@@ -532,14 +532,14 @@
   .end if
 .end function
 .//
-.function q_val_transform_values
+.function val_transform_values
   .select many v_trvs from instances of V_TRV
   .for each v_trv in v_trvs
-    .invoke q_val_transform_value( v_trv )
+    .invoke val_transform_value( v_trv )
   .end for
 .end function
 .//
-.function q_val_transform_value
+.function val_transform_value
   .param inst_ref v_trv
   .select one te_tfr related by v_trv->O_TFR[R829]->TE_TFR[R2024]
   .if ( not_empty te_tfr )
@@ -594,14 +594,14 @@
   .end if
 .end function
 .//
-.function q_val_synch_service_values
+.function val_synch_service_values
   .select many v_fnvs from instances of V_FNV
   .for each v_fnv in v_fnvs
-    .invoke q_val_synch_service_value( v_fnv )
+    .invoke val_synch_service_value( v_fnv )
   .end for
 .end function
 .//
-.function q_val_synch_service_value
+.function val_synch_service_value
   .param inst_ref v_fnv
   .select one te_sync related by v_fnv->S_SYNC[R827]->TE_SYNC[R2023]
   .if ( not_empty te_sync )
@@ -629,14 +629,14 @@
   .end if
 .end function
 .//
-.function q_val_array_element_references
+.function val_array_element_references
   .select many v_aers from instances of V_AER
   .for each v_aer in v_aers
-    .invoke q_val_array_element_reference( v_aer )
+    .invoke val_array_element_reference( v_aer )
   .end for
 .end function
 .//
-.function q_val_array_element_reference
+.function val_array_element_reference
   .param inst_ref v_aer
   .select one te_val related by v_aer->V_VAL[R801]->TE_VAL[R2040]
   .if ( "" == te_val.buffer )
@@ -667,14 +667,14 @@
   .end if
 .end function
 .//
-.function q_val_array_length_values
+.function val_array_length_values
   .select many v_alvs from instances of V_ALV
   .for each v_alv in v_alvs
-    .invoke q_val_array_length_value( v_alv )
+    .invoke val_array_length_value( v_alv )
   .end for
 .end function
 .//
-.function q_val_array_length_value
+.function val_array_length_value
   .param inst_ref v_alv
   .select one te_val related by v_alv->V_VAL[R801]->TE_VAL[R2040]
   .if ( "" == te_val.buffer )

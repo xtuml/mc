@@ -34,7 +34,6 @@
   .//
   .// analyze
   .include "${te_file.arc_path}/q.domain.analyze.arc"
-  .invoke CreateSpecialWhereClauseInstances( te_sys )
   .select many te_cs from instances of TE_C where ( selected.included_in_build )
   .for each te_c in te_cs
     .// Propagate domain information to the system level.
@@ -42,5 +41,5 @@
     .select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
     .invoke TE_CLASS_sort( te_classes )
   .end for
-  .invoke translate_all_oal()
+  .invoke oal_translate()
 .end function

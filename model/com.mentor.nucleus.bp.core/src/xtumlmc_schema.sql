@@ -8,7 +8,7 @@
 -- Model Data:  ooaofooa
 --
 -- Notice:
---   (C) Copyright 1998-2012 Mentor Graphics Corporation
+--   (C) Copyright 1998-2013 Mentor Graphics Corporation
 --   All rights reserved.
 --
 --              !!! THIS IS AN AUTO-GENERATED FILE. !!!
@@ -16,9 +16,8 @@
 -- manually carried forward across subsequent releases of the Model Compiler.
 -- ============================================================================
 
-
 -- ============================================================================
--- Classes In Subsystem:  Activity  
+-- Classes In Package:  Activity  
 -- ============================================================================
 
 -- Class:  1100.  Activity
@@ -129,7 +128,7 @@ CREATE TABLE A_AEA (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Association  
+-- Classes In Package:  Association  
 -- ============================================================================
 
 -- Class:  201.  Association
@@ -252,7 +251,7 @@ CREATE TABLE R_COTH (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Body  
+-- Classes In Package:  Body  
 -- ============================================================================
 
 -- Class:  600.  Block
@@ -414,7 +413,7 @@ CREATE TABLE ACT_BIE (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Breakpoint  
+-- Classes In Package:  Breakpoint  
 -- ============================================================================
 
 -- Class:  3100.  Breakpoint
@@ -455,32 +454,7 @@ CREATE TABLE BP_ST (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Class State Machine Execution  
--- ============================================================================
-
--- Class:  2917.  Class Monitor
-CREATE TABLE CSME_CLM (
-	Execution_Engine_ID	UNIQUE_ID,
-	CIE_ID	UNIQUE_ID );
-
--- Class:  2960.  Class In Engine
-CREATE TABLE CSME_CIE (
-	CIE_ID	UNIQUE_ID,
-	Execution_Engine_ID	UNIQUE_ID,
-	Obj_ID	UNIQUE_ID,
-	Package_ID	UNIQUE_ID,
-	Label	STRING );
-
--- Class:  2961.  Class In State
-CREATE TABLE CSME_CIS (
-	SM_ID	UNIQUE_ID,
-	SMstt_ID	UNIQUE_ID,
-	Trans_ID	UNIQUE_ID,
-	CIE_ID	UNIQUE_ID );
-
-
--- ============================================================================
--- Classes In Subsystem:  Communication  
+-- Classes In Package:  Communication  
 -- ============================================================================
 
 -- Class:  1125.  Communication
@@ -525,7 +499,7 @@ CREATE TABLE COMM_PIC (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Communication And Access  
+-- Classes In Package:  Communication And Access  
 -- ============================================================================
 
 -- Class:  401.  Communication Path
@@ -604,7 +578,7 @@ CREATE TABLE CA_SMEED (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Component  
+-- Classes In Package:  Component  
 -- ============================================================================
 
 -- Class:  4000.  Component
@@ -715,84 +689,7 @@ CREATE TABLE C_RID (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Component Library  
--- ============================================================================
-
--- Class:  4700.  Imported Provision In Satisfaction
-CREATE TABLE CL_IPINS (
-	Satisfaction_Id	UNIQUE_ID,
-	ImportedProvision_Id	UNIQUE_ID );
-
--- Class:  4701.  Imported Provision
-CREATE TABLE CL_IP (
-	Id	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING );
-
--- Class:  4702.  Imported Requirement
-CREATE TABLE CL_IR (
-	Id	UNIQUE_ID,
-	Satisfaction_Element_Id	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING );
-
--- Class:  4703.  Imported Reference
-CREATE TABLE CL_IIR (
-	Id	UNIQUE_ID,
-	Ref_Id	UNIQUE_ID,
-	ImportedComp_Id	UNIQUE_ID,
-	Delegation_Id	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING );
-
--- Class:  4704.  Component Reference
-CREATE TABLE CL_IC (
-	Id	UNIQUE_ID,
-	AssignedComp_Id	UNIQUE_ID,
-	ParentComp_Id	UNIQUE_ID,
-	Component_Package_ID	UNIQUE_ID,
-	Mult	INTEGER,
-	ClassifierName	STRING,
-	Name	STRING,
-	Descrip	STRING );
-
-
--- ============================================================================
--- Classes In Subsystem:  Component Nesting  
--- ============================================================================
-
--- Class:  4202.  Component in Component
-CREATE TABLE CN_CIC (
-	Id	UNIQUE_ID,
-	Parent_Id	UNIQUE_ID );
-
--- Class:  4203.  Domain As Component
-CREATE TABLE CN_DC (
-	Id	UNIQUE_ID,
-	Dom_ID	UNIQUE_ID );
-
-
--- ============================================================================
--- Classes In Subsystem:  Component Packaging  
--- ============================================================================
-
--- Class:  4600.  Component Package
-CREATE TABLE CP_CP (
-	Package_ID	UNIQUE_ID,
-	ParentLink_Id	UNIQUE_ID,
-	Sys_ID	UNIQUE_ID,
-	Containing_Sys_ID	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING );
-
--- Class:  4601.  Component Package in Package
-CREATE TABLE CP_CPINP (
-	Id	UNIQUE_ID,
-	Parent_Package_ID	UNIQUE_ID );
-
-
--- ============================================================================
--- Classes In Subsystem:  Constants  
+-- Classes In Package:  Constants  
 -- ============================================================================
 
 -- Class:  1500.  Constant Specification
@@ -829,8 +726,11 @@ CREATE TABLE CNST_CIP (
 
 
 
+
+
+
 -- ============================================================================
--- Classes In Subsystem:  Domain  
+-- Classes In Package:  Domain  
 -- ============================================================================
 
 -- Class:  1.  Domain
@@ -850,8 +750,7 @@ CREATE TABLE S_SS (
 	Prefix	STRING,
 	Num_Rng	INTEGER,
 	Dom_ID	UNIQUE_ID,
-	Config_ID	UNIQUE_ID,
-	Order	INTEGER );
+	Config_ID	UNIQUE_ID );
 
 -- Class:  3.  External Entity
 CREATE TABLE S_EE (
@@ -1020,8 +919,7 @@ CREATE TABLE S_DPK (
 	Package_ID	UNIQUE_ID,
 	Name	STRING,
 	Dom_ID	UNIQUE_ID,
-	Parent_Package_ID	UNIQUE_ID,
-	Descrip	STRING );
+	Parent_Package_ID	UNIQUE_ID );
 
 -- Class:  26.  Data Type in Package
 CREATE TABLE S_DIP (
@@ -1090,7 +988,7 @@ CREATE TABLE S_DIM (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Element Packaging  
+-- Classes In Package:  Element Packaging  
 -- ============================================================================
 
 -- Class:  1400.  Package
@@ -1100,7 +998,8 @@ CREATE TABLE EP_PKG (
 	Direct_Sys_ID	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING,
-	Num_Rng	INTEGER );
+	Num_Rng	INTEGER,
+	Order	INTEGER );
 
 -- Class:  1401.  Specification Package
 CREATE TABLE EP_SPKG (
@@ -1113,9 +1012,8 @@ CREATE TABLE EP_PIP (
 	Child_Package_ID	UNIQUE_ID );
 
 
-
 -- ============================================================================
--- Classes In Subsystem:  Event  
+-- Classes In Package:  Event  
 -- ============================================================================
 
 -- Class:  700.  Create Event to Instance
@@ -1198,8 +1096,10 @@ CREATE TABLE E_GSME (
 	SMevt_ID	UNIQUE_ID );
 
 
+
+
 -- ============================================================================
--- Classes In Subsystem:  Globals  
+-- Classes In Package:  Globals  
 -- ============================================================================
 
 -- Class:  1.  Global Element in System
@@ -1209,7 +1109,7 @@ CREATE TABLE G_EIS (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Instance  
+-- Classes In Package:  Instance  
 -- ============================================================================
 
 -- Class:  2901.  Link
@@ -1370,7 +1270,7 @@ CREATE TABLE I_ICQE (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Instance Access  
+-- Classes In Package:  Instance Access  
 -- ============================================================================
 
 -- Class:  603.  Assign to Member
@@ -1403,8 +1303,9 @@ CREATE TABLE ACT_DEL (
 	Var_ID	UNIQUE_ID );
 
 
+
 -- ============================================================================
--- Classes In Subsystem:  Interaction  
+-- Classes In Package:  Interaction  
 -- ============================================================================
 
 -- Class:  901.  Lifespan
@@ -1541,7 +1442,7 @@ CREATE TABLE SQ_PP (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Interface Package  
+-- Classes In Package:  Interface Package  
 -- ============================================================================
 
 -- Class:  4300.  Interface Package
@@ -1561,7 +1462,7 @@ CREATE TABLE IP_IPINIP (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Invocation  
+-- Classes In Package:  Invocation  
 -- ============================================================================
 
 -- Class:  618.  Operation Invocation
@@ -1618,8 +1519,10 @@ CREATE TABLE ACT_SGN (
 	Value_ID	UNIQUE_ID );
 
 
+
+
 -- ============================================================================
--- Classes In Subsystem:  Message  
+-- Classes In Package:  Message  
 -- ============================================================================
 
 -- Class:  1000.  Message
@@ -1744,22 +1647,7 @@ CREATE TABLE MSG_EPA (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Package Linking  
--- ============================================================================
-
--- Class:  1.  External Entity Package in Domain
-CREATE TABLE PL_EEPID (
-	Dom_ID	UNIQUE_ID,
-	EEPack_ID	UNIQUE_ID );
-
--- Class:  300.  Function Package in Domain
-CREATE TABLE PL_FPID (
-	FunPack_ID	UNIQUE_ID,
-	Dom_ID	UNIQUE_ID );
-
-
--- ============================================================================
--- Classes In Subsystem:  Packageable Element  
+-- Classes In Package:  Packageable Element  
 -- ============================================================================
 
 -- Class:  8000.  Packageable Element
@@ -1799,9 +1687,8 @@ CREATE TABLE PE_CRS (
 	Type	INTEGER );
 
 
-
 -- ============================================================================
--- Classes In Subsystem:  Persistence Associations  
+-- Classes In Package:  Persistence Associations  
 -- ============================================================================
 
 -- Class:  9000.  Satisfaction In Component
@@ -1820,9 +1707,8 @@ CREATE TABLE PA_DIC (
 	Delegation_Id	UNIQUE_ID );
 
 
-
 -- ============================================================================
--- Classes In Subsystem:  Relate And Unrelate  
+-- Classes In Package:  Relate And Unrelate  
 -- ============================================================================
 
 -- Class:  608.  Relate
@@ -1877,9 +1763,8 @@ CREATE TABLE ACT_URU (
 
 
 
-
 -- ============================================================================
--- Classes In Subsystem:  Selection  
+-- Classes In Package:  Selection  
 -- ============================================================================
 
 -- Class:  604.  Select Related Where
@@ -1938,7 +1823,7 @@ CREATE TABLE ACT_LNK (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Sequence  
+-- Classes In Package:  Sequence  
 -- ============================================================================
 
 -- Class:  900.  Sequence
@@ -1964,56 +1849,7 @@ CREATE TABLE SQ_MIS (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Signal Provisions and Requirements  
--- ============================================================================
-
--- Class:  4500.  Required Executable Property
-CREATE TABLE SPR_REP (
-	Id	UNIQUE_ID,
-	ExecutableProperty_Id	UNIQUE_ID,
-	Requirement_Id	UNIQUE_ID );
-
--- Class:  4501.  Provided Executable Property
-CREATE TABLE SPR_PEP (
-	Id	UNIQUE_ID,
-	ExecutableProperty_Id	UNIQUE_ID,
-	Provision_Id	UNIQUE_ID );
-
--- Class:  4502.  Required Operation
-CREATE TABLE SPR_RO (
-	Id	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING,
-	Action_Semantics	STRING,
-	Suc_Pars	INTEGER );
-
--- Class:  4503.  Required Signal
-CREATE TABLE SPR_RS (
-	Id	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING,
-	Action_Semantics	STRING,
-	Suc_Pars	INTEGER );
-
--- Class:  4504.  Provided Operation
-CREATE TABLE SPR_PO (
-	Id	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING,
-	Action_Semantics	STRING,
-	Suc_Pars	INTEGER );
-
--- Class:  4505.  Provided Signal
-CREATE TABLE SPR_PS (
-	Id	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING,
-	Action_Semantics	STRING,
-	Suc_Pars	INTEGER );
-
-
--- ============================================================================
--- Classes In Subsystem:  State Machine  
+-- Classes In Package:  State Machine  
 -- ============================================================================
 
 -- Class:  501.  State Machine
@@ -2209,7 +2045,7 @@ CREATE TABLE SM_TAH (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Subsystem  
+-- Classes In Package:  Subsystem  
 -- ============================================================================
 
 -- Class:  101.  Model Class
@@ -2339,7 +2175,7 @@ CREATE TABLE O_RAVR (
 
 
 -- ============================================================================
--- Classes In Subsystem:  System Level Datatypes  
+-- Classes In Package:  System Level Datatypes  
 -- ============================================================================
 
 -- Class:  4400.  System Datatype Package
@@ -2361,7 +2197,7 @@ CREATE TABLE SLD_SCINP (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Translation Extensions  
+-- Classes In Package:  Translation Extensions  
 -- ============================================================================
 
 -- Class:  2000.  Special Where Clause
@@ -2493,13 +2329,8 @@ CREATE TABLE TE_C (
 	internal_behavior	BOOLEAN,
 	isRealized	BOOLEAN,
 	SystemID	INTEGER,
-	Dom_ID	UNIQUE_ID,
+	next_ID	UNIQUE_ID,
 	cId	UNIQUE_ID );
-
--- Class:  2013.  Inline Code Snippet
-CREATE TABLE TE_SNIPPET (
-	Index	STRING,
-	Body	STRING );
 
 -- Class:  2014.  Extended Member
 CREATE TABLE TE_MBR (
@@ -2750,6 +2581,7 @@ CREATE TABLE TE_SM (
 
 -- Class:  2036.  Extended Class
 CREATE TABLE TE_CLASS (
+	ID	UNIQUE_ID,
 	Name	STRING,
 	Numb	INTEGER,
 	Key_Lett	STRING,
@@ -2777,7 +2609,8 @@ CREATE TABLE TE_CLASS (
 	attribute_format	STRING,
 	attribute_dump	STRING,
 	te_cID	UNIQUE_ID,
-	Obj_ID	UNIQUE_ID );
+	Obj_ID	UNIQUE_ID,
+	nextID	UNIQUE_ID );
 
 -- Class:  2037.  prefix
 CREATE TABLE TE_PREFIX (
@@ -3092,7 +2925,10 @@ CREATE TABLE TE_TYPEMAP (
 	poly_return_name	STRING,
 	poly_return_type	STRING,
 	SEM_cell_name	STRING,
-	SEM_cell_type	STRING );
+	SEM_cell_type	STRING,
+	structured_data_types	STRING,
+	enumeration_info	STRING,
+	user_supplied_data_types	STRING );
 
 -- Class:  2065.  extent
 CREATE TABLE TE_EXTENT (
@@ -3192,9 +3028,16 @@ CREATE TABLE TE_CIA (
 	class_count	STRING,
 	count_type	STRING );
 
+-- Class:  2200.  output file
+CREATE TABLE TE_OUTFILE (
+	ID	UNIQUE_ID,
+	Name	STRING,
+	body	STRING,
+	Order	INTEGER );
+
 
 -- ============================================================================
--- Classes In Subsystem:  Translation Marking  
+-- Classes In Package:  Translation Marking  
 -- ============================================================================
 
 -- Class:  2200.  Component Mark
@@ -3312,7 +3155,7 @@ CREATE TABLE TM_TPV (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Translation OAL  
+-- Classes In Package:  Translation OAL  
 -- ============================================================================
 
 -- Class:  2100.  Extended Block
@@ -3630,7 +3473,7 @@ CREATE TABLE TE_WHILE (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Use Case  
+-- Classes In Package:  Use Case  
 -- ============================================================================
 
 -- Class:  1200.  Use Case Diagram
@@ -3687,7 +3530,7 @@ CREATE TABLE UC_AIUC (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Value  
+-- Classes In Package:  Value  
 -- ============================================================================
 
 -- Class:  800.  Value
@@ -3896,7 +3739,7 @@ CREATE TABLE V_SCV (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Wiring  
+-- Classes In Package:  Wiring  
 -- ============================================================================
 
 -- Class:  3200.  Automatic Wiring
@@ -3906,7 +3749,7 @@ CREATE TABLE S_AW (
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Activity  
+-- Relationships In Package:  Activity  
 -- ============================================================================
   
 CREATE ROP REF_ID R1100	FROM MC A_A	(Dom_ID)
@@ -3986,7 +3829,7 @@ CREATE ROP REF_ID R1115	FROM MC A_A	(Component_Id)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Association  
+-- Relationships In Package:  Association  
 -- ============================================================================
   
 CREATE ROP REF_ID R201	FROM M  R_OIR	(Rel_ID)
@@ -4072,7 +3915,7 @@ CREATE ROP REF_ID R215	FROM 1  R_COTH	(Rel_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Body  
+-- Relationships In Package:  Body  
 -- ============================================================================
   
 CREATE ROP REF_ID R601	FROM MC ACT_BLK	(Action_ID)
@@ -4296,7 +4139,7 @@ CREATE ROP REF_ID R699	FROM 1C ACT_ACT	(CurrentScope_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Breakpoint  
+-- Relationships In Package:  Breakpoint  
 -- ============================================================================
   
 CREATE ROP REF_ID R3100	FROM 1C BP_CON	(Breakpoint_ID)
@@ -4322,45 +4165,7 @@ CREATE ROP REF_ID R3104	FROM 1C BP_ST	(SM_ID, SMstt_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Class State Machine Execution  
--- ============================================================================
-  
-CREATE ROP REF_ID R2931	FROM MC I_EVI	(Sent_By_CIE_ID)
-			  TO 1C CSME_CIE	(CIE_ID);
-
-CREATE ROP REF_ID R2932	FROM 1C CSME_CIS	(CIE_ID)
-			  TO 1  CSME_CIE	(CIE_ID);
-
-CREATE ROP REF_ID R2932	FROM 1C CSME_CIS	(SM_ID, SMstt_ID)
-			  TO 1  SM_STATE	(SM_ID, SMstt_ID);
-
-CREATE ROP REF_ID R2938	FROM MC I_EVI	(CIE_ID)
-			  TO 1C CSME_CIE	(CIE_ID);
-
-CREATE ROP REF_ID R2950	FROM 1C CSME_CLM	(CIE_ID)
-			  TO 1  CSME_CIE	(CIE_ID);
-
-CREATE ROP REF_ID R2950	FROM MC CSME_CLM	(Execution_Engine_ID)
-			  TO 1  I_EXE	(Execution_Engine_ID);
-
-CREATE ROP REF_ID R2952	FROM MC CSME_CIS	(Trans_ID, SM_ID)
-			  TO 1  SM_TXN	(Trans_ID, SM_ID);
-
-CREATE ROP REF_ID R2960	FROM MC CSME_CIE	(Execution_Engine_ID)
-			  TO 1  I_EXE	(Execution_Engine_ID);
-
-CREATE ROP REF_ID R2961	FROM MC CSME_CIE	(Obj_ID)
-			  TO 1  O_OBJ	(Obj_ID);
-
-CREATE ROP REF_ID R2962	FROM MC I_INS	(CIE_ID)
-			  TO 1  CSME_CIE	(CIE_ID);
-
-CREATE ROP REF_ID R2971	FROM MC CSME_CIE	(Package_ID)
-			  TO 1C EP_PKG	(Package_ID);
-
-
--- ============================================================================
--- Relationships In Subsystem:  Communication  
+-- Relationships In Package:  Communication  
 -- ============================================================================
   
 CREATE ROP REF_ID R1126	FROM MC COMM_PIC	(Package_ID)
@@ -4407,7 +4212,7 @@ CREATE ROP REF_ID R1138	FROM MC COMM_COMM	(Component_Id)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Communication And Access  
+-- Relationships In Package:  Communication And Access  
 -- ============================================================================
   
 CREATE ROP REF_ID R401	FROM 1C CA_EESMC	(CPath_ID)
@@ -4496,7 +4301,7 @@ CREATE ROP REF_ID R425	FROM MC CA_ACC	(IObj_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Component  
+-- Relationships In Package:  Component  
 -- ============================================================================
   
 CREATE ROP REF_ID R4002	FROM MC C_SF	(Requirement_Id)
@@ -4564,91 +4369,7 @@ CREATE ROP REF_ID R4021	FROM 1C C_PP	(Previous_PP_Id) PHRASE 'succeeds'
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Component Library  
--- ============================================================================
-  
-CREATE ROP REF_ID R4700	FROM MC CL_IIR	(ImportedComp_Id)
-			  TO 1  CL_IC	(Id);
-
-CREATE ROP REF_ID R4701	FROM MC CL_IIR	(Ref_Id)
-			  TO 1C C_IR	(Id);
-
-CREATE ROP REF_ID R4703	FROM 1C CL_IP	(Id)
-			  TO 1  CL_IIR	(Id);
-
-CREATE ROP REF_ID R4703	FROM 1C CL_IR	(Id)
-			  TO 1  CL_IIR	(Id);
-
-CREATE ROP REF_ID R4704	FROM 1C CL_IIR	(Delegation_Id)
-			  TO 1C C_DG	(Id);
-
-CREATE ROP REF_ID R4705	FROM 1C CL_IPINS	(Satisfaction_Id)
-			  TO 1  C_SF	(Id);
-
-CREATE ROP REF_ID R4705	FROM MC CL_IPINS	(ImportedProvision_Id)
-			  TO 1  CL_IP	(Id);
-
-CREATE ROP REF_ID R4706	FROM 1C CL_IR	(Satisfaction_Element_Id)
-			  TO 1C C_SF	(Id);
-
-
--- ============================================================================
--- Relationships In Subsystem:  Component Nesting  
--- ============================================================================
-  
-CREATE ROP REF_ID R4201	FROM MC CL_IC	(AssignedComp_Id)
-			  TO 1C C_C	(Id);
-
-CREATE ROP REF_ID R4202	FROM MC CN_CIC	(Parent_Id)
-			  TO 1  C_C	(Id);
-
-CREATE ROP REF_ID R4203	FROM 1  C_C	(NestedComponent_Id)
-			  TO 1C CN_CIC	(Id);
-
-CREATE ROP REF_ID R4204	FROM 1C CN_DC	(Id)
-			  TO 1  C_C	(Id);
-
-CREATE ROP REF_ID R4204	FROM 1C CN_DC	(Dom_ID)
-			  TO 1  S_DOM	(Dom_ID);
-
-CREATE ROP REF_ID R4205	FROM MC CL_IC	(ParentComp_Id)
-			  TO 1C C_C	(Id);
-
-CREATE ROP REF_ID R4206	FROM MC IP_IP	(Component_Id)
-			  TO 1C C_C	(Id);
-
-
--- ============================================================================
--- Relationships In Subsystem:  Component Packaging  
--- ============================================================================
-  
-CREATE ROP REF_ID R4600	FROM MC CP_CPINP	(Parent_Package_ID)
-			  TO 1  CP_CP	(Package_ID);
-
-CREATE ROP REF_ID R4601	FROM 1  CP_CP	(ParentLink_Id)
-			  TO 1C CP_CPINP	(Id);
-
-CREATE ROP REF_ID R4602	FROM MC CP_CP	(Sys_ID)
-			  TO 1C S_SYS	(Sys_ID);
-
-CREATE ROP REF_ID R4604	FROM MC C_C	(Package_ID)
-			  TO 1C CP_CP	(Package_ID);
-
-CREATE ROP REF_ID R4605	FROM MC CL_IC	(Component_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
-
-CREATE ROP REF_ID R4606	FROM MC CP_CP	(Containing_Sys_ID)
-			  TO 1  S_SYS	(Sys_ID);
-
-CREATE ROP REF_ID R4607	FROM MC IP_IP	(Component_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
-
-CREATE ROP REF_ID R4608	FROM MC C_C	(Root_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
-
-
--- ============================================================================
--- Relationships In Subsystem:  Constants  
+-- Relationships In Package:  Constants  
 -- ============================================================================
   
 CREATE ROP REF_ID R1500	FROM MC CNST_SYC	(DT_ID)
@@ -4674,8 +4395,11 @@ CREATE ROP REF_ID R1506	FROM MC CNST_CIP	(Package_ID)
 
 
 
+
+
+
 -- ============================================================================
--- Relationships In Subsystem:  Domain  
+-- Relationships In Package:  Domain  
 -- ============================================================================
   
 CREATE ROP REF_ID R1	FROM MC S_SS	(Dom_ID)
@@ -4875,7 +4599,7 @@ CREATE ROP REF_ID R56	FROM 1C S_ENUM	(Previous_Enum_ID) PHRASE 'succeeds'
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Element Packaging  
+-- Relationships In Package:  Element Packaging  
 -- ============================================================================
   
 CREATE ROP REF_ID R1400	FROM MC EP_SPKG	(Container_Package_ID)
@@ -4915,9 +4639,8 @@ CREATE ROP REF_ID R1405	FROM MC EP_PKG	(Direct_Sys_ID)
 			  TO 1  S_SYS	(Sys_ID);
 
 
-
 -- ============================================================================
--- Relationships In Subsystem:  Event  
+-- Relationships In Package:  Event  
 -- ============================================================================
   
 CREATE ROP REF_ID R700	FROM MC V_PAR	(Statement_ID)
@@ -4984,8 +4707,10 @@ CREATE ROP REF_ID R714	FROM 1C E_GPR	(Value_ID)
 			  TO 1C V_VAL	(Value_ID);
 
 
+
+
 -- ============================================================================
--- Relationships In Subsystem:  Globals  
+-- Relationships In Package:  Globals  
 -- ============================================================================
   
 CREATE ROP REF_ID R9100	FROM MC G_EIS	(Element_ID)
@@ -4996,7 +4721,7 @@ CREATE ROP REF_ID R9100	FROM MC G_EIS	(Sys_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Instance  
+-- Relationships In Package:  Instance  
 -- ============================================================================
   
 CREATE ROP REF_ID R2901	FROM MC I_LNK	(fromInst_ID, Rel_ID)
@@ -5172,7 +4897,7 @@ CREATE ROP REF_ID R2978	FROM MC I_VSF	(Value_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Instance Access  
+-- Relationships In Package:  Instance Access  
 -- ============================================================================
   
 CREATE ROP REF_ID R609	FROM 1C ACT_AI	(r_Value_ID)
@@ -5194,8 +4919,9 @@ CREATE ROP REF_ID R689	FROM 1C ACT_AI	(l_Value_ID)
 			  TO 1  V_VAL	(Value_ID);
 
 
+
 -- ============================================================================
--- Relationships In Subsystem:  Interaction  
+-- Relationships In Package:  Interaction  
 -- ============================================================================
   
 CREATE ROP REF_ID R930	FROM 1C SQ_CIP	(Part_ID)
@@ -5284,7 +5010,7 @@ CREATE ROP REF_ID R956	FROM MC SQ_PP	(Package_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Interface Package  
+-- Relationships In Package:  Interface Package  
 -- ============================================================================
   
 CREATE ROP REF_ID R4300	FROM 1C IP_IPINIP	(Package_ID)
@@ -5304,7 +5030,7 @@ CREATE ROP REF_ID R4304	FROM MC IP_IP	(Sys_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Invocation  
+-- Relationships In Package:  Invocation  
 -- ============================================================================
   
 CREATE ROP REF_ID R627	FROM MC V_PAR	(Statement_ID)
@@ -5356,8 +5082,10 @@ CREATE ROP REF_ID R680	FROM MC ACT_IOP	(ProvidedOp_Id)
 			  TO 1C SPR_PO	(Id);
 
 
+
+
 -- ============================================================================
--- Relationships In Subsystem:  Message  
+-- Relationships In Package:  Message  
 -- ============================================================================
   
 CREATE ROP REF_ID R1000	FROM MC MSG_A	(Informal_Msg_ID)
@@ -5458,24 +5186,7 @@ CREATE ROP REF_ID R1023	FROM MC MSG_EPA	(PP_Id)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Package Linking  
--- ============================================================================
-  
-CREATE ROP REF_ID R300	FROM MC PL_EEPID	(Dom_ID)
-			  TO 1  S_DOM	(Dom_ID);
-
-CREATE ROP REF_ID R300	FROM 1  PL_EEPID	(EEPack_ID)
-			  TO 1  S_EEPK	(EEPack_ID);
-
-CREATE ROP REF_ID R301	FROM 1  PL_FPID	(FunPack_ID)
-			  TO 1  S_FPK	(FunPack_ID);
-
-CREATE ROP REF_ID R301	FROM MC PL_FPID	(Dom_ID)
-			  TO 1  S_DOM	(Dom_ID);
-
-
--- ============================================================================
--- Relationships In Subsystem:  Packageable Element  
+-- Relationships In Package:  Packageable Element  
 -- ============================================================================
   
 CREATE ROP REF_ID R8000	FROM MC PE_PE	(Package_ID)
@@ -5566,9 +5277,8 @@ CREATE ROP REF_ID R8008	FROM MC PE_CVS	(Name, Type, Id)
 			  TO 1  PE_CRS	(Name, Type, Id);
 
 
-
 -- ============================================================================
--- Relationships In Subsystem:  Persistence Associations  
+-- Relationships In Package:  Persistence Associations  
 -- ============================================================================
   
 CREATE ROP REF_ID R9000	FROM MC PA_SIC	(Component_Id)
@@ -5590,9 +5300,8 @@ CREATE ROP REF_ID R9002	FROM 1  PA_DIC	(Delegation_Id)
 			  TO 1  C_DG	(Id);
 
 
-
 -- ============================================================================
--- Relationships In Subsystem:  Relate And Unrelate  
+-- Relationships In Package:  Relate And Unrelate  
 -- ============================================================================
   
 CREATE ROP REF_ID R615	FROM MC ACT_REL	(One_Side_Var_ID)
@@ -5639,9 +5348,8 @@ CREATE ROP REF_ID R656	FROM MC ACT_URU	(Rel_ID)
 
 
 
-
 -- ============================================================================
--- Relationships In Subsystem:  Selection  
+-- Relationships In Package:  Selection  
 -- ============================================================================
   
 CREATE ROP REF_ID R604	FROM 1C ACT_LNK	(Next_Link_ID) PHRASE 'precedes'
@@ -5688,7 +5396,7 @@ CREATE ROP REF_ID R681	FROM MC ACT_LNK	(Rel_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Sequence  
+-- Relationships In Package:  Sequence  
 -- ============================================================================
   
 CREATE ROP REF_ID R911	FROM 1C SQ_SIS	(Package_ID)
@@ -5723,36 +5431,7 @@ CREATE ROP REF_ID R954	FROM 1C SQ_MIS	(Msg_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Signal Provisions and Requirements  
--- ============================================================================
-  
-CREATE ROP REF_ID R4500	FROM MC SPR_REP	(ExecutableProperty_Id)
-			  TO 1  C_EP	(Id);
-
-CREATE ROP REF_ID R4500	FROM MC SPR_REP	(Requirement_Id)
-			  TO 1  C_R	(Requirement_Id);
-
-CREATE ROP REF_ID R4501	FROM MC SPR_PEP	(ExecutableProperty_Id)
-			  TO 1  C_EP	(Id);
-
-CREATE ROP REF_ID R4501	FROM MC SPR_PEP	(Provision_Id)
-			  TO 1  C_P	(Provision_Id);
-
-CREATE ROP REF_ID R4502	FROM 1C SPR_RS	(Id)
-			  TO 1  SPR_REP	(Id);
-
-CREATE ROP REF_ID R4502	FROM 1C SPR_RO	(Id)
-			  TO 1  SPR_REP	(Id);
-
-CREATE ROP REF_ID R4503	FROM 1C SPR_PO	(Id)
-			  TO 1  SPR_PEP	(Id);
-
-CREATE ROP REF_ID R4503	FROM 1C SPR_PS	(Id)
-			  TO 1  SPR_PEP	(Id);
-
-
--- ============================================================================
--- Relationships In Subsystem:  State Machine  
+-- Relationships In Package:  State Machine  
 -- ============================================================================
   
 CREATE ROP REF_ID R501	FROM MC SM_STATE	(SM_ID)
@@ -5901,7 +5580,7 @@ CREATE ROP REF_ID R533	FROM 1C SM_EVTDI	(SM_ID, Previous_SMedi_ID) PHRASE 'succe
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Subsystem  
+-- Relationships In Package:  Subsystem  
 -- ============================================================================
   
 CREATE ROP REF_ID R101	FROM MC O_IOBJ	(Obj_ID)
@@ -5996,7 +5675,7 @@ CREATE ROP REF_ID R125	FROM 1C O_TFR	(Previous_Tfr_ID) PHRASE 'succeeds'
 
 
 -- ============================================================================
--- Relationships In Subsystem:  System Level Datatypes  
+-- Relationships In Package:  System Level Datatypes  
 -- ============================================================================
   
 CREATE ROP REF_ID R4400	FROM MC SLD_SDP	(Sys_ID)
@@ -6025,7 +5704,7 @@ CREATE ROP REF_ID R4404	FROM MC SLD_SCINP	(Sys_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Translation Extensions  
+-- Relationships In Package:  Translation Extensions  
 -- ============================================================================
   
 CREATE ROP REF_ID R2001	FROM MC TE_SWC	(GeneratedName)
@@ -6076,8 +5755,8 @@ CREATE ROP REF_ID R2010	FROM 1C TE_MACT	(AbaID)
 CREATE ROP REF_ID R2013	FROM 1C TE_IIR	(cl_iirId)
 			  TO 1C CL_IIR	(Id);
 
-CREATE ROP REF_ID R2017	FROM 1C TE_C	(Dom_ID)
-			  TO 1C S_DOM	(Dom_ID);
+CREATE ROP REF_ID R2017	FROM 1C TE_C	(next_ID) PHRASE 'precedes'
+			  TO 1C TE_C	(ID) PHRASE 'succeeds';
 
 CREATE ROP REF_ID R2018	FROM 1C TE_SYS	(Sys_ID)
 			  TO 1C S_SYS	(Sys_ID);
@@ -6275,9 +5954,12 @@ CREATE ROP REF_ID R2090	FROM 1  TE_DCI	(te_cID)
 CREATE ROP REF_ID R2091	FROM MC TE_PAR	(te_parmID)
 			  TO 1  TE_PARM	(ID);
 
+CREATE ROP REF_ID R2092	FROM 1C TE_CLASS	(nextID) PHRASE 'precedes'
+			  TO 1C TE_CLASS	(ID) PHRASE 'succeeds';
+
 
 -- ============================================================================
--- Relationships In Subsystem:  Translation Marking  
+-- Relationships In Package:  Translation Marking  
 -- ============================================================================
   
 CREATE ROP REF_ID R2800	FROM 1C TM_TEMPLATE	(tm_cPackage, tm_cName)
@@ -6306,7 +5988,7 @@ CREATE ROP REF_ID R2808	FROM MC TM_TPV	(tm_tpID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Translation OAL  
+-- Relationships In Package:  Translation OAL  
 -- ============================================================================
   
 CREATE ROP REF_ID R2011	FROM 1C TE_BLK	(AbaID)
@@ -6449,7 +6131,7 @@ CREATE ROP REF_ID R2078	FROM MC TE_SMT	(parent_Block_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Use Case  
+-- Relationships In Package:  Use Case  
 -- ============================================================================
   
 CREATE ROP REF_ID R1201	FROM MC UC_UCC	(Dom_ID)
@@ -6505,7 +6187,7 @@ CREATE ROP REF_ID R1215	FROM 1C UC_AIUC	(Assoc_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Value  
+-- Relationships In Package:  Value  
 -- ============================================================================
   
 CREATE ROP REF_ID R800	FROM 1C V_PAR	(Value_ID)
@@ -6726,7 +6408,7 @@ CREATE ROP REF_ID R851	FROM MC V_MSV	(Target_Value_ID)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  Wiring  
+-- Relationships In Package:  Wiring  
 -- ============================================================================
   
 CREATE ROP REF_ID R3200	FROM 1C S_AW	(Brg_ID)

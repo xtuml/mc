@@ -87,7 +87,10 @@
     .assign format_delimiter = ","
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
   .end while
-  .assign te_aba.ParameterDefinition = defn + ""
+  .if ( "" != defn )
+    .assign defn = defn + " "
+  .end if
+  .assign te_aba.ParameterDefinition = defn
   .assign te_aba.ParameterDeclaration = decl + " "
   .assign te_aba.ParameterInvocation = invo
   .assign te_aba.ParameterStructure = stru

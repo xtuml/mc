@@ -48,6 +48,156 @@ INSERT INTO PE_PE
 	"afb58833-a7f0-46f3-9e67-d8b8280f1dcb",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("210c6bfa-f8e6-46d5-8060-851dc97adc0c",
+	"00000000-0000-0000-0000-000000000000",
+	'mc_main',
+	'',
+	'arc_path = param.arc_path;
+::parameters_sort();
+//
+// Create the unmarked, standard singletons.
+::sys_singletons();
+select any te_file from instances of TE_FILE;
+te_file.arc_path = arc_path;
+//
+::rel_pseudoformalize();
+::sys_populate();
+select any te_sys from instances of TE_SYS;
+//
+// analyze
+T::include(file: "T::s(i:te_file.arc_path)/q.domain.analyze.arc" );
+select many te_cs from instances of TE_C where ( selected.included_in_build );
+for each te_c in te_cs
+// Propagate domain information to the system level.
+::te_c_CollectLimits(  );
+select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
+::TE_CLASS_sort(  );
+end for;
+::oal_translate();',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0cbe1725-7c54-4ecf-970b-47b6a0a0fa47",
+	"210c6bfa-f8e6-46d5-8060-851dc97adc0c",
+	'arc_path',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("210c6bfa-f8e6-46d5-8060-851dc97adc0c",
+	1,
+	"afb58833-a7f0-46f3-9e67-d8b8280f1dcb",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f1a7c28b-2e0b-405b-9509-5cf52b93e42c",
+	"00000000-0000-0000-0000-000000000000",
+	'oal_translate',
+	'',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	3,
+	'');
+INSERT INTO PE_PE
+	VALUES ("f1a7c28b-2e0b-405b-9509-5cf52b93e42c",
+	1,
+	"afb58833-a7f0-46f3-9e67-d8b8280f1dcb",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1460011d-877f-4fbe-8527-ff1f593bc04b",
+	"00000000-0000-0000-0000-000000000000",
+	'TE_CLASS_sort',
+	'',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	3,
+	'');
+INSERT INTO PE_PE
+	VALUES ("1460011d-877f-4fbe-8527-ff1f593bc04b",
+	1,
+	"afb58833-a7f0-46f3-9e67-d8b8280f1dcb",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("04222c17-9f3d-4c2a-a871-50a5c100e261",
+	"00000000-0000-0000-0000-000000000000",
+	'te_c_CollectLimits',
+	'',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	3,
+	'');
+INSERT INTO PE_PE
+	VALUES ("04222c17-9f3d-4c2a-a871-50a5c100e261",
+	1,
+	"afb58833-a7f0-46f3-9e67-d8b8280f1dcb",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("af266d2f-1bee-4ab8-991c-bb5dc0ff8e74",
+	"00000000-0000-0000-0000-000000000000",
+	'sys_populate',
+	'',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	3,
+	'');
+INSERT INTO PE_PE
+	VALUES ("af266d2f-1bee-4ab8-991c-bb5dc0ff8e74",
+	1,
+	"afb58833-a7f0-46f3-9e67-d8b8280f1dcb",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f055bddf-3280-4264-801d-15d8ebef8887",
+	"00000000-0000-0000-0000-000000000000",
+	'rel_pseudoformalize',
+	'',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	3,
+	'');
+INSERT INTO PE_PE
+	VALUES ("f055bddf-3280-4264-801d-15d8ebef8887",
+	1,
+	"afb58833-a7f0-46f3-9e67-d8b8280f1dcb",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ed997881-3994-43ea-becd-676020a24204",
+	"00000000-0000-0000-0000-000000000000",
+	'sys_singletons',
+	'',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	3,
+	'');
+INSERT INTO PE_PE
+	VALUES ("ed997881-3994-43ea-becd-676020a24204",
+	1,
+	"afb58833-a7f0-46f3-9e67-d8b8280f1dcb",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("51d56ec0-aa91-4126-a195-c41a4a67fbe8",
+	"00000000-0000-0000-0000-000000000000",
+	'parameters_sort',
+	'',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	3,
+	'');
+INSERT INTO PE_PE
+	VALUES ("51d56ec0-aa91-4126-a195-c41a4a67fbe8",
+	1,
+	"afb58833-a7f0-46f3-9e67-d8b8280f1dcb",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("afb58833-a7f0-46f3-9e67-d8b8280f1dcb",
 	1,

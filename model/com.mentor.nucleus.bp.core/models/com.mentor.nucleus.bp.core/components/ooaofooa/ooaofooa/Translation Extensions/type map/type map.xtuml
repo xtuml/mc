@@ -367,6 +367,60 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'te_prefix.type + "SEMcell_t"');
+INSERT INTO O_NBATTR
+	VALUES ("737d12bd-5a9c-4074-82df-0fa72d9f84ac",
+	"ec45e812-3bf7-4961-b9c9-823af625f4ab");
+INSERT INTO O_BATTR
+	VALUES ("737d12bd-5a9c-4074-82df-0fa72d9f84ac",
+	"ec45e812-3bf7-4961-b9c9-823af625f4ab");
+INSERT INTO O_ATTR
+	VALUES ("737d12bd-5a9c-4074-82df-0fa72d9f84ac",
+	"ec45e812-3bf7-4961-b9c9-823af625f4ab",
+	"47867acd-b639-4e77-9b46-115a99eb76f6",
+	'structured_data_types',
+	'',
+	'',
+	'structured_data_types',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("c6fa338d-6bdc-4d66-980c-05c4bccdca19",
+	"ec45e812-3bf7-4961-b9c9-823af625f4ab");
+INSERT INTO O_BATTR
+	VALUES ("c6fa338d-6bdc-4d66-980c-05c4bccdca19",
+	"ec45e812-3bf7-4961-b9c9-823af625f4ab");
+INSERT INTO O_ATTR
+	VALUES ("c6fa338d-6bdc-4d66-980c-05c4bccdca19",
+	"ec45e812-3bf7-4961-b9c9-823af625f4ab",
+	"737d12bd-5a9c-4074-82df-0fa72d9f84ac",
+	'enumeration_info',
+	'',
+	'',
+	'enumeration_info',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6559e87f-72d8-4bbc-8ad8-35a9204becbf",
+	"ec45e812-3bf7-4961-b9c9-823af625f4ab");
+INSERT INTO O_BATTR
+	VALUES ("6559e87f-72d8-4bbc-8ad8-35a9204becbf",
+	"ec45e812-3bf7-4961-b9c9-823af625f4ab");
+INSERT INTO O_ATTR
+	VALUES ("6559e87f-72d8-4bbc-8ad8-35a9204becbf",
+	"ec45e812-3bf7-4961-b9c9-823af625f4ab",
+	"c6fa338d-6bdc-4d66-980c-05c4bccdca19",
+	'user_supplied_data_types',
+	'',
+	'',
+	'user_supplied_data_types',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"ec45e812-3bf7-4961-b9c9-823af625f4ab");
