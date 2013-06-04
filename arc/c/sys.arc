@@ -36,7 +36,6 @@
 .include "${arc_path}/m.event.arc"
 .include "${arc_path}/m.class.arc"
 .include "${arc_path}/m.system.arc"
-.include "${arc_path}/q.assoc.pseudoformalize.arc"
 .include "${arc_path}/q.class.arc"
 .include "${arc_path}/q.class.cdispatch.arc"
 .include "${arc_path}/q.class.events.arc"
@@ -55,7 +54,7 @@
 .include "${arc_path}/q.domain.datatype.arc"
 .include "${arc_path}/q.domain.limits.arc"
 .include "${arc_path}/q.domain.sync.arc"
-.include "${arc_path}/q.mc3020.arc"
+.include "${arc_path}/q.main.arc"
 .include "${arc_path}/q.names.arc"
 .include "${arc_path}/q.r_rel.arc"
 .include "${arc_path}/q.oal.act_blk.arc"
@@ -66,13 +65,14 @@
 .include "${arc_path}/q.oal.test.arc"
 .include "${arc_path}/q.parameters.arc"
 .include "${arc_path}/q.parameters.sort.arc"
+.include "${arc_path}/q.rel.pseudoformalize.arc"
 .include "${arc_path}/q.smt.generate.arc"
 .include "${arc_path}/q.sys.populate.arc"
+.include "${arc_path}/q.sys.singletons.arc"
 .include "${arc_path}/q.utils.arc"
 .include "${arc_path}/q.val.translate.arc"
 .include "${arc_path}/sys_util.arc"
 .include "${arc_path}/t.smt.c"
-.include "${arc_path}/q.main.arc"
 .//
 .select any te_file from instances of TE_FILE
 .if ( empty te_file )

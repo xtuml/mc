@@ -3,7 +3,7 @@
   .invoke parameters_sort()
   .//
   .// Create the unmarked, standard singletons.
-  .invoke factory_factory()
+  .invoke sys_singletons()
   .select any te_file from instances of TE_FILE
   .assign te_file.arc_path = arc_path
   .//
@@ -19,7 +19,7 @@
   .// 4) Initiate prefix marking (from system marking file).
   .include "${te_file.system_color_path}/${te_file.system_mark}"
   .//
-  .invoke PseudoFormalizeUnformalizedAssociations()
+  .invoke rel_pseudoformalize()
   .invoke sys_populate()
   .select any te_sys from instances of TE_SYS
   .//

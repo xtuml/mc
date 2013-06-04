@@ -27,6 +27,7 @@ Message:  ${te_mact.MessageName}
 ${te_aba.ReturnDataType}
 ${te_aba.scope}${te_aba.GeneratedName}(${te_aba.ParameterDefinition})
 {
+.if ( "" != port_bodies )
   .if ( te_aba.NonSelfEventCount > 0 )
     .if ( event_prioritization_needed.result )
   /* Set up instance handle for priority event generation.  */
@@ -43,5 +44,5 @@ ${port_bodies}
     break;
   }
   .end if
-${action_body}\
+.end if
 }

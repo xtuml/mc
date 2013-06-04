@@ -390,7 +390,7 @@
   .assign te_target.main = "main"
 .end function
 .//
-.function factory_factory
+.function sys_singletons
   .create object instance i_te_prefix of TE_PREFIX
   .invoke factory_TE_PREFIX( i_te_prefix )
   .create object instance i_te_typemap of TE_TYPEMAP

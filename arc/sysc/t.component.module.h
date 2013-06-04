@@ -22,14 +22,18 @@ ${te_target.c2cplusplus_linkage_begin}
 
 class ${te_c.Name}; // forward reference
 ${include_files}
-${class_type_identifiers}
+${class_type_identifiers}\
 
 .if ( "" != te_c.Descrip )
 /*
 ${te_c.Descrip}
 */
 .end if
-class ${te_c.Name} : public sc_module${port_classes}, public sys_factory, public sys_events {
+class ${te_c.Name} : public sc_module${port_classes}\
+  .if ( te_c.internal_behavior )
+, public sys_factory, public sys_events\
+  .end if
+ {
   public:
 ${sc_port_declarations}
 ${nestedComponent_declarations}  
@@ -40,10 +44,16 @@ ${has_process_declaration}\
 ${port_binding}  
 ${sc_process}\
 .else
-  ${te_c.Name}( sc_module_name name ) : sc_module( name ), sys_factory(${te_set.number_of_containoids}) ${nestedComponent_constructors} {
+  ${te_c.Name}( sc_module_name name ) : sc_module( name )\
+  .if ( te_c.internal_behavior )
+, sys_factory(${te_set.number_of_containoids})\
+  .end if
+${nestedComponent_constructors} {
 ${port_binding}
 .end if
+.if ( te_c.internal_behavior )
 ${init_segment}\
+.end if
 .// CDS - Factor this into a template and/or make it conditional.
 .if ( te_c.MaxTimers > 0 )
     tim = new TIM( ESCHER_SYS_MAX_XTUML_TIMERS );
@@ -57,13 +67,17 @@ ${init_segment}\
   }
 .end if
 ${message_declarations}
+  .if ( te_c.internal_behavior )
 ${function_declarations}\
   // state machine process entry points
 ${sc_process_decls}\
-${sc_event_declarations}
+  .end if
+${sc_event_declarations}\
+  .if ( te_c.internal_behavior )
   sc_event ${te_tim.event_name};
   TIM * tim;
 .include "${te_file.arc_path}/t.domain_init.dci.h"
+  .end if
 };
 
 ${te_target.c2cplusplus_linkage_end}

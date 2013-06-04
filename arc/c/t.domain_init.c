@@ -14,7 +14,7 @@ Escher_idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ] = {${instance_dumpers}
 };
 .end if
 /* xtUML class info (collections, sizes, etc.) */
-${te_cia.class_info_type} * const ${te_dci.array_name}[ ${te_dci.max} ] = {${class_info_init}
+${te_set.scope}${te_cia.class_info_type} * const ${te_dci.array_name}[ ${te_dci.max} ] = {${class_info_init}
 };
 #endif
 

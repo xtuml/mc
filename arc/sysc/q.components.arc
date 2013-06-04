@@ -109,25 +109,25 @@
   .//
   .// initialization
   .//
+  .assign class_type_identifiers = ""
   .assign instance_dumpers = ""
   .assign class_info_init = ""
-  .// Build the domain init information containing data structures collecting
-  .// class info for the entire domain.
-  .invoke r = CreateClassIdentifierFile( te_c )
-  .assign class_type_identifiers = r.body
+  .assign function_declarations = ""
   .if ( te_c.internal_behavior )
+    .// Build the domain init information containing data structures collecting
+    .// class info for the entire domain.
+    .invoke r = CreateClassIdentifierFile( te_c )
+    .assign class_type_identifiers = r.body
     .assign class_info_init = r.class_info_init
+    .invoke r = CreateSynchronousServiceClassDeclaration( te_c )
+    .assign function_declarations = r.body
   .end if
-  .invoke r = CreateSynchronousServiceClassDeclaration( te_c )
-  .assign function_declarations = r.body
   .assign event_union_name = te_c.Name + "_DomainEvents_u"
   .//
   .include "${arc_path}/t.component.module.h"
   .emit to file "${te_file.system_include_path}/${te_c.module_file}.${te_file.hdr_file_ext}"
   .//
   .include "${arc_path}/t.component.messages.c"
-  .include "${te_file.arc_path}/t.domain_init.c"
-  .include "${te_file.arc_path}/t.domain.functions.c"
 ${sc_process_defn}
   .emit to file "${te_file.system_source_path}/${te_c.module_file}.${te_file.src_file_ext}"
   .//

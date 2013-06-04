@@ -21,7 +21,7 @@
 .// It does not matter which participant we choose unless this is a many
 .// association.  Grab the many side of a 1-M or any random R_PART and
 .// migrate it and its parent R_RTO to R_FORM and R_RGO respectively.
-.function PseudoFormalizeUnformalizedAssociations
+.function rel_pseudoformalize
   .select many r_simps from instances of R_SIMP
   .for each r_simp in r_simps
     .select many r_parts related by r_simp->R_PART[R207]
