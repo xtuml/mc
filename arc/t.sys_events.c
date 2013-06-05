@@ -168,8 +168,8 @@ ${te_eq.base_event_type} * ${te_eq.scope}${te_eq.allocate}( void )
   .if ( te_thread.enabled )
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_FREELIST );
   .end if
-  if ( free_event_list == 0 ) {
-  .if ( te_sys.UnitsToDynamicallyAllocate != 0 )
+  if ( 0 == free_event_list ) {
+  .if ( 0 != te_sys.UnitsToDynamicallyAllocate )
     ${te_eq.base_event_type} * new_mem = (${te_eq.base_event_type} *) ${te_dma.allocate}( ${te_sys.UnitsToDynamicallyAllocate} * sizeof( ${te_eq.system_events_union}_t ) );
 
     if ( 0 == new_mem ) {
@@ -181,15 +181,17 @@ ${te_eq.base_event_type} * ${te_eq.scope}${te_eq.allocate}( void )
       }
       new_mem[ ${te_sys.UnitsToDynamicallyAllocate} - 1 ].next = 0;
       free_event_list = new_mem;
-      event = ${te_eq.allocate}();
     }
+  }
+  event = free_event_list;       /* Grab front of the free list.  */
+  free_event_list = event->next; /* Unlink from front of free list.  */
   .else
     ${te_callout.event_free_list_empty}();   /* Bad news!  No more events.  */
-  .end if
   } else {
     event = free_event_list;       /* Grab front of the free list.  */
     free_event_list = event->next; /* Unlink from front of free list.  */
   }
+  .end if
   .if ( te_thread.enabled )
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_FREELIST );
   .end if .// te_thread.enabled

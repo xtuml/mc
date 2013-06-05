@@ -82,32 +82,14 @@
     .assign first_te_class = te_class
     .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
   .end while
-  .select many o_objs related by te_classes->O_OBJ[R2019]
-  .select many ism_o_objs related by o_objs->SM_ISM[R518]->O_OBJ[R518]
-  .select many asm_o_objs related by o_objs->SM_ASM[R519]->O_OBJ[R519]
-  .// CDS - Use OAL-compatible arithmetic here.
-  .assign passive_o_objs = o_objs - ism_o_objs
-  .assign passive_o_objs = passive_o_objs - asm_o_objs
-  .assign sm_o_objs = o_objs - passive_o_objs
   .assign object_set_type = 0
   .while ( object_set_type < 3 )
-    .if ( object_set_type == 0 )
-      .assign o_objs = sm_o_objs
-    .elif ( object_set_type == 1 )
-      .assign o_objs = asm_o_objs
-    .elif ( object_set_type == 2 )
-      .assign o_objs = passive_o_objs
-    .else
-      .print "Logic error with O_OBJ subset types."
-      .exit 100
-    .end if
-    .if ( object_set_type < 2 )
-      .assign number_of_state_machines = number_of_state_machines + ( cardinality o_objs )
-    .end if
-    .for each o_obj in o_objs
+    .assign te_class = first_te_class
+    .while ( not_empty te_class )
+      .if ( ( ( ( 0 == object_set_type ) and ( "" != te_class.dispatcher ) ) or ( ( 1 == object_set_type ) and ( "" != te_class.CBdispatcher ) ) ) or ( ( 2 == object_set_type ) and ( "" == ( te_class.dispatcher + te_class.CBdispatcher ) ) ) )
+      .select one o_obj related by te_class->O_OBJ[R2019]
       .assign dispatcher = "0"
       .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
-      .select one te_class related by o_obj->TE_CLASS[R2019]
       .if ( object_set_type == 1 )
         .// assigner
         .assign type_name = te_class.CBsystem_class_number
@@ -128,6 +110,7 @@
       .if ( object_set_type < 2 )
         .assign class_dispatchers = class_dispatchers + "${delimiter}\\n  ${dispatcher}"
         .assign task_numbers = task_numbers + "${delimiter} ${te_class.Task}"
+        .assign number_of_state_machines = number_of_state_machines + 1
       .end if
       .if ( ( 0 == object_set_type ) or ( 2 == object_set_type ) )
         .assign class_name = te_class.GeneratedName
@@ -142,7 +125,9 @@
         .assign class_union = class_union + "\\n  ${class_name} ${class_name}_u;"
       .end if
       .assign delimiter = ","
-    .end for
+      .end if
+      .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+    .end while
     .assign object_set_type = object_set_type + 1
   .end while
   .//

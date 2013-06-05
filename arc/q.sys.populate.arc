@@ -1522,8 +1522,8 @@
       .assign te_class.class_file = te_class.GeneratedName + "_class"
       .assign te_class.system_class_number = te_class.GeneratedName + "_CLASS_NUMBER"
       .assign te_class.CBsystem_class_number = te_class.GeneratedName + "_CLASS_NUMBER_CB"
-      .assign te_class.dispatcher = te_class.GeneratedName + "0"
-      .assign te_class.dispatcher = te_class.GeneratedName + "0"
+      .assign te_class.dispatcher = ""
+      .assign te_class.CBdispatcher = ""
       .select one sm_ism related by o_obj->SM_ISM[R518]
       .if ( not_empty sm_ism )
         .assign te_class.dispatcher = te_class.GeneratedName + "_Dispatch"
