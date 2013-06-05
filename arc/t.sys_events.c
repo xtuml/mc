@@ -36,7 +36,8 @@ bool ${te_eq.run_flag} = true; /* Turn this off to exit dispatch loop(s).  */
   .//
   .if ( te_thread.enabled and ( "C" == te_target.language ) )
 /* Map the classes to the tasks/threads for each domain.  */
-    .for each te_c in te_cs
+    .assign te_c = first_te_c
+    .while ( not_empty te_c )
       .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
       .if ( not_empty te_sm )
         .select one te_dci related by te_c->TE_DCI[R2090]
@@ -44,19 +45,22 @@ static const ${te_typemap.object_number_name} ${te_dci.task_list}[ ${te_dci.max_
   ${te_dci.task_numbers}
 };
       .end if
-    .end for
+      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+    .end while
 static const ${te_typemap.object_number_name} * const class_thread_assignment[ SYSTEM_DOMAIN_COUNT ] = {
-    .for each te_c in te_cs
-      .assign delimiter = ""
-      .if ( not_last te_cs )
-        .assign delimiter = ","
-      .end if
+    .assign delimiter = ","
+    .assign te_c = first_te_c
+    .while ( not_empty te_c )
       .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+      .select one te_dci related by te_c->TE_DCI[R2090]
+      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .if ( empty te_c )
+        .assign delimiter = ""
+      .end if
       .if ( not_empty te_sm )
-        .select one te_dci related by te_c->TE_DCI[R2090]
   &${te_dci.task_list}[0]${delimiter}
       .end if
-    .end for
+    .end while
 };
   .end if
   .// Define self reference storage and method.
@@ -73,12 +77,14 @@ static ${te_instance.handle} ${te_prefix.result}self;
  * size of any xtUML event in the system.  */
 typedef union {
   ${te_eq.base_event_type} ${te_eq.base_variable};
-  .for each te_c in active_te_cs
+  .assign te_c = first_te_c
+  .while ( not_empty te_c )
     .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071]
     .if ( not_empty te_evt )
   ${te_c.Name}_DomainEvents_u mc_events_in_domain_${te_c.Name};
     .end if
-  .end for
+    .select one te_c related by te_c->TE_C[R2017.'succeeds']
+  .end while
 } ${te_eq.system_events_union}_t;
 
 /* anchor declaration for front and back of list of events */
@@ -558,7 +564,8 @@ static void ooa_loop( void )
    */
   static const ${class_dispatch_array.element_type} * DomainClassDispatcherTable[ ${num_ooa_doms} ] =
     {
-    .for each te_c in active_te_cs
+    .assign te_c = first_te_c
+    .while ( not_empty te_c )
       .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071]
       .if ( not_empty te_evt )
         .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
@@ -566,12 +573,13 @@ static void ooa_loop( void )
       .else
       0\
       .end if
-      .if ( last active_te_cs )
+      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .if ( empty te_c )
 
       .else
 ,
       .end if
-    .end for
+    .end while
     };
   .end if
   ${te_eq.base_event_type} * event;

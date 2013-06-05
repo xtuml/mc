@@ -2491,7 +2491,10 @@
   .assign result = te_class
   .if ( empty head_te_class )
     .// Just starting.  Return te_class as head.
-  .elif ( te_class.Numb <= head_te_class.Numb )
+  .else
+  .assign lkey = "${te_class.Numb}" + te_class.GeneratedName
+  .assign rkey = "${head_te_class.Numb}" + head_te_class.GeneratedName
+  .if ( lkey <= rkey )
     .// insert before
     .// relate te_class to head_te_class across R2092.'succeeds';
     .assign te_class.nextID = head_te_class.ID
@@ -2502,7 +2505,8 @@
     .assign prev_te_class = head_te_class
     .select one cursor_te_class related by head_te_class->TE_CLASS[R2092.'succeeds']
     .while ( not_empty cursor_te_class )
-      .if ( te_class.Numb <= cursor_te_class.Numb )
+      .assign rkey = "${cursor_te_class.Numb}" + cursor_te_class.GeneratedName
+      .if ( lkey <= rkey )
         .break while
       .else
         .assign prev_te_class = cursor_te_class
@@ -2517,6 +2521,7 @@
       .assign te_class.nextID = cursor_te_class.ID
       .// end relate
     .end if
+  .end if
   .end if
   .assign attr_result = result
 .end function
