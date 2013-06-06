@@ -86,7 +86,8 @@
   .while ( object_set_type < 3 )
     .assign te_class = first_te_class
     .while ( not_empty te_class )
-      .if ( ( ( ( 0 == object_set_type ) and ( "" != te_class.dispatcher ) ) or ( ( 1 == object_set_type ) and ( "" != te_class.CBdispatcher ) ) ) or ( ( 2 == object_set_type ) and ( "" == ( te_class.dispatcher + te_class.CBdispatcher ) ) ) )
+      .assign combineddispatchers = te_class.dispatcher + te_class.CBdispatcher
+      .if ( ( ( ( 0 == object_set_type ) and ( "" != combineddispatchers ) ) or ( ( 1 == object_set_type ) and ( "" != te_class.CBdispatcher ) ) ) or ( ( 2 == object_set_type ) and ( "" == combineddispatchers ) ) )
       .select one o_obj related by te_class->O_OBJ[R2019]
       .assign dispatcher = "0"
       .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
@@ -101,8 +102,7 @@
         .assign type_name = te_class.system_class_number
         .assign class_name = te_class.GeneratedName
         .if ( object_set_type == 0 )
-          .select one sm_ism related by o_obj->SM_ISM[R518]
-          .if ( not_empty sm_ism )
+          .if ( "" != te_class.dispatcher )
             .assign dispatcher = te_class.dispatcher
           .end if
         .end if

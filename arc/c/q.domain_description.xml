@@ -25,7 +25,8 @@
   .while ( object_set_type < 3 )
     .assign te_class = first_te_class
     .while ( not_empty te_class )
-      .if ( ( ( ( 0 == object_set_type ) and ( "" != te_class.dispatcher ) ) or ( ( 1 == object_set_type ) and ( "" != te_class.CBdispatcher ) ) ) or ( ( 2 == object_set_type ) and ( "" == ( te_class.dispatcher + te_class.CBdispatcher ) ) ) )
+      .assign combineddispatchers = te_class.dispatcher + te_class.CBdispatcher
+      .if ( ( ( ( 0 == object_set_type ) and ( "" != combineddispatchers ) ) or ( ( 1 == object_set_type ) and ( "" != te_class.CBdispatcher ) ) ) or ( ( 2 == object_set_type ) and ( "" == combineddispatchers ) ) )
       .select one o_obj related by te_class->O_OBJ[R2019]
       .assign sm_type = ""
       .if (object_set_type == 0)
