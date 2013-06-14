@@ -1,6 +1,7 @@
 .function mc_main
   .param string arc_path
-  .invoke parameters_sort()
+  .invoke parm_sort()
+  .invoke rel_pseudoformalize()
   .//
   .// Create the unmarked, standard singletons.
   .invoke sys_singletons()
@@ -19,7 +20,6 @@
   .// 4) Initiate prefix marking (from system marking file).
   .include "${te_file.system_color_path}/${te_file.system_mark}"
   .//
-  .invoke rel_pseudoformalize()
   .invoke sys_populate()
   .select any te_sys from instances of TE_SYS
   .//
@@ -34,6 +34,7 @@
   .//
   .// analyze
   .include "${te_file.arc_path}/q.domain.analyze.arc"
+  .invoke CreateSpecialWhereClauseInstances( te_sys )
   .select many te_cs from instances of TE_C where ( selected.included_in_build )
   .for each te_c in te_cs
     .// Propagate domain information to the system level.

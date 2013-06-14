@@ -33,6 +33,7 @@
     .select any empty_act_smt related by current_act_if->ACT_SMT[R603] where ( false )
     .// Be sure we have the first statement in the block.
     .while ( not_empty act_smt )
+      .// CDS - Note that R661 is wacky.
       .select one s related by act_smt->ACT_SMT[R661.'succeeds']
       .if ( empty s )
         .break while

@@ -1,24 +1,24 @@
 .//
-.function factory_TE_CONTAINER
+.function container_factory
   .param inst_ref te_container
   .assign te_container.flavor = ""
 .end function
 .//
 .//
-.function factory_TE_COPYRIGHT
+.function copyright_factory
   .param inst_ref te_copyright
   .assign te_copyright.body = "your copyright statement can go here (from te_copyright.body)"
 .end function
 .//
 .//
-.function factory_TE_DLIST
+.function dlist_factory
   .param inst_ref te_dlist
   .select any te_prefix from instances of TE_PREFIX
   .assign te_dlist.remove_node = te_prefix.result + "SetRemoveDlistNode"
 .end function
 .//
 .//
-.function factory_TE_DMA
+.function dma_factory
   .param inst_ref te_dma
   .select any te_prefix from instances of TE_PREFIX
   .assign te_dma.file = "sys_memory"
@@ -28,7 +28,7 @@
 .end function
 .//
 .//
-.function factory_TE_EQ
+.function eq_factory
   .param inst_ref te_eq
   .select any te_prefix from instances of TE_PREFIX
   .assign te_eq.ignored = "EVENT_IS_IGNORED"
@@ -54,7 +54,7 @@
 .end function
 .//
 .//
-.function factory_TE_EXTENT
+.function extent_factory
   .param inst_ref te_extent
   .select any te_prefix from instances of TE_PREFIX
   .select any te_set from instances of TE_SET
@@ -81,7 +81,7 @@
 .end function
 .//
 .//
-.function factory_TE_FILE
+.function file_factory
   .param inst_ref te_file
   .select any te_prefix from instances of TE_PREFIX
   .assign te_file.hdr_file_ext = "h"
@@ -126,7 +126,7 @@
 .end function
 .//
 .//
-.function factory_TE_INSTANCE
+.function instance_factory
   .param inst_ref te_instance
   .select any te_prefix from instances of TE_PREFIX
   .assign te_instance.scope = ""
@@ -147,11 +147,11 @@
   .assign te_instance.max_association_extent = te_prefix.define_u + "SYS_MAX_ASSOCIATION_EXTENT"
   .assign te_instance.max_transient_extent = te_prefix.define_u + "SYS_MAX_TRANSIENT_EXTENT"
   .assign te_instance.current_state = "current_state"
-  .assign te_instance.module = "";
+  .assign te_instance.module = ""
 .end function
 .//
 .//
-.function factory_TE_ILB
+.function ilb_factory
   .param inst_ref te_ilb
   .select any te_prefix from instances of TE_PREFIX
   .assign te_ilb.file = "sys_ilb"
@@ -164,7 +164,7 @@
 .end function
 .//
 .//
-.function factory_TE_PERSIST
+.function persist_factory
   .param inst_ref te_persist
   .select any te_prefix from instances of TE_PREFIX
   .select any te_typemap from instances of TE_TYPEMAP
@@ -199,7 +199,7 @@
 .end function
 .//
 .//
-.function factory_TE_PREFIX
+.function prefix_factory
   .param inst_ref te_prefix
   .assign te_prefix.symbol = "Escher_"
   .assign te_prefix.type = "Escher_"
@@ -217,7 +217,7 @@
 .end function
 .//
 .//
-.function factory_TE_RELINFO
+.function relinfo_factory
   .param inst_ref te_relinfo
   .assign te_relinfo.multiplicity = 0
   .assign te_relinfo.rel_phrase = ""
@@ -228,7 +228,7 @@
 .end function
 .//
 .//
-.function factory_TE_RELSTORE
+.function relstore_factory
   .param inst_ref te_relstore
   .assign te_relstore.data_init = ""
   .assign te_relstore.link_calls = ""
@@ -239,10 +239,10 @@
 .end function
 .//
 .//
-.function factory_TE_SET
+.function set_factory
   .param inst_ref te_set
   .select any te_prefix from instances of TE_PREFIX
-  .assign te_set.module = "";
+  .assign te_set.module = ""
   .assign te_set.copy = te_prefix.result + "CopySet"
   .assign te_set.clear = te_prefix.result + "ClearSet"
   .assign te_set.insert_element = te_prefix.result + "SetInsertElement"
@@ -267,14 +267,14 @@
 .end function
 .//
 .//
-.function factory_TE_SLIST
+.function slist_factory
   .param inst_ref te_slist
   .select any te_prefix from instances of TE_PREFIX
   .assign te_slist.remove_node = te_prefix.result + "SetRemoveNode"
 .end function
 .//
 .//
-.function factory_TE_STRING
+.function string_factory
   .param inst_ref te_string
   .select any te_prefix from instances of TE_PREFIX
   .assign te_string.memset = te_prefix.result + "memset"
@@ -291,7 +291,7 @@
 .end function
 .//
 .//
-.function factory_TE_THREAD
+.function thread_factory
   .param inst_ref te_thread
   .select any te_prefix from instances of TE_PREFIX
   .assign te_thread.file = "sys_thread"
@@ -310,7 +310,7 @@
 .end function
 .//
 .//
-.function factory_TE_TIM
+.function tim_factory
   .param inst_ref te_tim
   .select any te_prefix from instances of TE_PREFIX
   .assign te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS"
@@ -321,7 +321,7 @@
 .end function
 .//
 .//
-.function factory_TE_TYPEMAP
+.function typemap_factory
   .param inst_ref te_typemap
   .select any te_prefix from instances of TE_PREFIX
   .assign te_typemap.instance_index_name = te_prefix.result + "InstanceIndex_t"
@@ -347,7 +347,7 @@
 .end function
 .//
 .//
-.function factory_TE_CALLOUT
+.function callout_factory
   .param inst_ref te_callout
   .select any te_prefix from instances of TE_PREFIX
   .assign te_callout.initialization = te_prefix.symbolsw + "UserInitializationCallout"
@@ -370,7 +370,7 @@
 .end function
 .//
 .//
-.function factory_TE_TRACE
+.function trace_factory
   .param inst_ref te_trace
   .select any te_prefix from instances of TE_PREFIX
   .assign te_trace.component_msg_start = te_prefix.define_usw + "COMP_MSG_START_TRACE"
@@ -382,7 +382,7 @@
   .assign te_trace.state_txn_cant_happen = te_prefix.define_usw + "STATE_TXN_CH_TRACE"
 .end function
 .//
-.function factory_TE_TARGET
+.function target_factory
   .param inst_ref te_target
   .assign te_target.language = "C"
   .assign te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t""C""\t{\n#endif"
@@ -392,49 +392,49 @@
 .//
 .function sys_singletons
   .create object instance i_te_prefix of TE_PREFIX
-  .invoke factory_TE_PREFIX( i_te_prefix )
+  .invoke prefix_factory( i_te_prefix )
   .create object instance i_te_typemap of TE_TYPEMAP
-  .invoke factory_TE_TYPEMAP( i_te_typemap )
+  .invoke typemap_factory( i_te_typemap )
   .create object instance i_te_container of TE_CONTAINER
-  .invoke factory_TE_CONTAINER( i_te_container )
+  .invoke container_factory( i_te_container )
   .create object instance i_te_copyright of TE_COPYRIGHT
-  .invoke factory_TE_COPYRIGHT( i_te_copyright )
+  .invoke copyright_factory( i_te_copyright )
   .create object instance i_te_dlist of TE_DLIST
-  .invoke factory_TE_DLIST( i_te_dlist )
+  .invoke dlist_factory( i_te_dlist )
   .create object instance i_te_dma of TE_DMA
-  .invoke factory_TE_DMA( i_te_dma )
+  .invoke dma_factory( i_te_dma )
   .create object instance i_te_eq of TE_EQ
-  .invoke factory_TE_EQ( i_te_eq )
+  .invoke eq_factory( i_te_eq )
   .create object instance i_te_file of TE_FILE
-  .invoke factory_TE_FILE( i_te_file )
+  .invoke file_factory( i_te_file )
   .create object instance i_te_instance of TE_INSTANCE
-  .invoke factory_TE_INSTANCE( i_te_instance )
+  .invoke instance_factory( i_te_instance )
   .create object instance i_te_ilb of TE_ILB
-  .invoke factory_TE_ILB( i_te_ilb )
+  .invoke ilb_factory( i_te_ilb )
   .create object instance i_te_persist of TE_PERSIST
-  .invoke factory_TE_PERSIST( i_te_persist )
+  .invoke persist_factory( i_te_persist )
   .create object instance i_te_relinfo of TE_RELINFO
-  .invoke factory_TE_RELINFO( i_te_relinfo )
+  .invoke relinfo_factory( i_te_relinfo )
   .create object instance i_te_relstore of TE_RELSTORE
-  .invoke factory_TE_RELSTORE( i_te_relstore )
+  .invoke relstore_factory( i_te_relstore )
   .create object instance i_te_set of TE_SET
-  .invoke factory_TE_SET( i_te_set )
+  .invoke set_factory( i_te_set )
   .create object instance i_te_slist of TE_SLIST
-  .invoke factory_TE_SLIST( i_te_slist )
+  .invoke slist_factory( i_te_slist )
   .create object instance i_te_string of TE_STRING
-  .invoke factory_TE_STRING( i_te_string )
+  .invoke string_factory( i_te_string )
   .create object instance i_te_thread of TE_THREAD
-  .invoke factory_TE_THREAD( i_te_thread )
+  .invoke thread_factory( i_te_thread )
   .create object instance i_te_tim of TE_TIM
-  .invoke factory_TE_TIM( i_te_tim )
+  .invoke tim_factory( i_te_tim )
   .create object instance i_te_callout of TE_CALLOUT
-  .invoke factory_TE_CALLOUT( i_te_callout )
+  .invoke callout_factory( i_te_callout )
   .create object instance i_te_trace of TE_TRACE
-  .invoke factory_TE_TRACE( i_te_trace )
+  .invoke trace_factory( i_te_trace )
   .create object instance i_te_extent of TE_EXTENT
-  .invoke factory_TE_EXTENT( i_te_extent )
+  .invoke extent_factory( i_te_extent )
   .create object instance i_te_target of TE_TARGET
-  .invoke factory_TE_TARGET( i_te_target )
+  .invoke target_factory( i_te_target )
   .//
   .create object instance i_te_assign of TE_ASSIGN
   .create object instance i_te_create_instance of TE_CREATE_INSTANCE

@@ -84,6 +84,7 @@ ${indent.result}}
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
   .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .select any te_sys from instances of TE_SYS
   .while ( not_empty te_attr )
     .select one o_attr related by te_attr->O_ATTR[R2033]
     .if ( te_attr.translate )
@@ -99,12 +100,12 @@ ${instance}->${te_attr.GeneratedName} = (${te_dt.ExtName}) ${instance};
           .end if
         .elif ( ( 2 == te_dt.Core_Typ ) or ( 3 == te_dt.Core_Typ ) )
           .// integer or real
-          .if ( "" != te_attr.DefaultValue )
+          .if ( ( "" != te_attr.DefaultValue ) and ( not te_sys.InstanceLoading ) )
 ${instance}->${te_attr.GeneratedName} = ${te_attr.DefaultValue}; /* DefaultValue */
           .end if
         .elif ( 4 == te_dt.Core_Typ )
           .// string
-          .if ( "" != te_attr.DefaultValue )
+          .if ( ( "" != te_attr.DefaultValue ) and ( not te_sys.InstanceLoading ) )
 ${te_instance.module}${te_string.strcpy}( ${instance}->${te_attr.GeneratedName}, ${te_attr.DefaultValue} ); /* DefaultValue */
           .end if
         .end if

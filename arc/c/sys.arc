@@ -64,7 +64,7 @@
 .include "${arc_path}/q.oal.translate.arc"
 .include "${arc_path}/q.oal.test.arc"
 .include "${arc_path}/q.parameters.arc"
-.include "${arc_path}/q.parameters.sort.arc"
+.include "${arc_path}/q.parm.sort.arc"
 .include "${arc_path}/q.rel.pseudoformalize.arc"
 .include "${arc_path}/q.smt.generate.arc"
 .include "${arc_path}/q.sys.populate.arc"
@@ -75,7 +75,7 @@
 .include "${arc_path}/t.smt.c"
 .//
 .select any te_file from instances of TE_FILE
-.if ( empty te_file )
+.//.if ( empty te_file )
   .invoke mc_main( arc_path )
   .select any te_file from instances of TE_FILE
   .// Uncomment the following lines to create an instance dumper archetype.
@@ -84,9 +84,9 @@
   .//.emit to file "../../src/q.class.instance.dump.arc"
   .//.include "${te_file.arc_path}/schema_gen.arc"
   .//.exit 507
-  .print "dumping instances ${info.date}"
-  .include "${te_file.arc_path}/q.class.instance.dump.arc"
-.end if
+  .//.print "dumping instances ${info.date}"
+  .//.include "${te_file.arc_path}/q.class.instance.dump.arc"
+.//.end if
 .// 8) Include system level user defined archetype functions.
 .include "${te_file.system_color_path}/${te_file.system_functions_mark}"
 .print "System level marking complete."

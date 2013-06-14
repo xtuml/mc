@@ -1035,7 +1035,7 @@ ${aoth_fundamentals.body}\
 .//
 .function FactoryTE_RELINFO
   .select any te_relinfo from instances of TE_RELINFO
-  .invoke factory_TE_RELINFO( te_relinfo )
+  .invoke relinfo_factory( te_relinfo )
   .assign attr_result = te_relinfo
 .end function
 .//

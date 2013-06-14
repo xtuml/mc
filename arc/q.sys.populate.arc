@@ -426,13 +426,10 @@
     .assign te_dt.te_cID = 0
     .// Link the ownership if contained in a component.
     .assign te_c = empty_te_c
-    .select one sld_sdinp related by s_dt->SLD_SDINP[R4401]
-    .if ( empty sld_sdinp )
-      .select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000]
-      .if ( not_empty ep_pkg )
-        .invoke r = TE_C.getContainingComponent( ep_pkg )
-        .assign te_c = r.result
-      .end if
+    .select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000]
+    .if ( not_empty ep_pkg )
+      .invoke r = TE_C.getContainingComponent( ep_pkg )
+      .assign te_c = r.result
     .end if
     .if ( empty te_c )
       .// Default the owner to be the system.
@@ -1589,8 +1586,15 @@
           .assign te_dt = r.result
         .end if
         .assign te_attr.GeneratedType = te_dt.ExtName
-        .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
-        .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
+        .if ( "%p" == te_dt.string_format )
+          .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld"
+          .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    (long)self->" ) + te_attr.GeneratedName
+        .else
+          .if ( "${o_attr.Descrip:Persistent}" != "false" )
+            .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
+            .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
+          .end if
+        .end if
         .// In the C model compiler, treat strings as arrays.
         .if ( 4 == te_dt.Core_Typ )
           .// string
