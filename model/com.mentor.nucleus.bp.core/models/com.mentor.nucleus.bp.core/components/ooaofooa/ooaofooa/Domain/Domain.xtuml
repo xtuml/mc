@@ -9086,6 +9086,86 @@ INSERT INTO DIM_DIA
 	1389.000000,
 	413.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("f822fb34-452f-42a9-8480-07154f3890a4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function Parameter>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f822fb34-452f-42a9-8480-07154f3890a4",
+	0,
+	"f1193fd8-a059-4bb7-91d8-6a97f5193e38");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("f1193fd8-a059-4bb7-91d8-6a97f5193e38",
+	'Function Parameter',
+	17,
+	'S_SPARM',
+	'A parameter to a function (S_SYNC) is called a function parameter (S_SPARM).  Function parameters are either passed in by value, or by reference.  Function parameters can be accessed by using the param keyword from within a function action specification.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Function Parameter/Function Parameter.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f822fb34-452f-42a9-8480-07154f3890a4",
+	1,
+	"ee1f21a2-2b66-42cf-8123-6ef271f3113c",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("a397ce5f-c02a-4167-b722-9876a55f62c0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Function Parameter>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("a397ce5f-c02a-4167-b722-9876a55f62c0",
+	1,
+	"f1193fd8-a059-4bb7-91d8-6a97f5193e38");
+INSERT INTO PE_PE
+	VALUES ("a397ce5f-c02a-4167-b722-9876a55f62c0",
+	1,
+	"ee1f21a2-2b66-42cf-8123-6ef271f3113c",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("6ba9a48e-9b83-47fe-a1ac-915dbf9d3ef3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Bridge Parameter>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("6ba9a48e-9b83-47fe-a1ac-915dbf9d3ef3",
+	0,
+	"a64dbecd-eafa-4f62-8e04-12d11f61e91a");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a64dbecd-eafa-4f62-8e04-12d11f61e91a",
+	'Bridge Parameter',
+	13,
+	'S_BPARM',
+	'A parameter to a bridge (S_BRG) is called a bridge parameter.  Bridge parameters are either passed in by value, or by reference.  Bridge parameters can be accessed by using the param keyword from within a bridge action specification.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Bridge Parameter/Bridge Parameter.xtuml');
+INSERT INTO PE_PE
+	VALUES ("6ba9a48e-9b83-47fe-a1ac-915dbf9d3ef3",
+	1,
+	"ee1f21a2-2b66-42cf-8123-6ef271f3113c",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("15271e51-8d77-4dc6-bc1d-a9cb226962e3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Bridge Parameter>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("15271e51-8d77-4dc6-bc1d-a9cb226962e3",
+	1,
+	"a64dbecd-eafa-4f62-8e04-12d11f61e91a");
+INSERT INTO PE_PE
+	VALUES ("15271e51-8d77-4dc6-bc1d-a9cb226962e3",
+	1,
+	"ee1f21a2-2b66-42cf-8123-6ef271f3113c",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("8259cb78-6749-4439-996e-01eac180e569");
 INSERT INTO R_REL
@@ -9853,14 +9933,6 @@ INSERT INTO R_OIR
 	"3f7ec730-826b-4ce1-95ac-31376e90ca22",
 	"fb7faf95-40d6-4f4e-9a53-4aa89d7a3f6e",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a64dbecd-eafa-4f62-8e04-12d11f61e91a",
-	'Bridge Parameter',
-	13,
-	'S_BPARM',
-	'A parameter to a bridge (S_BRG) is called a bridge parameter.  Bridge parameters are either passed in by value, or by reference.  Bridge parameters can be accessed by using the param keyword from within a bridge action specification.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Bridge Parameter/Bridge Parameter.xtuml');
 INSERT INTO PE_PE
 	VALUES ("3f7ec730-826b-4ce1-95ac-31376e90ca22",
 	1,
@@ -10754,14 +10826,6 @@ INSERT INTO R_OIR
 	"8192182d-1d90-43b1-862d-216247553a5e",
 	"bfeac34b-4720-4de2-9cad-b54375a4b22f",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("f1193fd8-a059-4bb7-91d8-6a97f5193e38",
-	'Function Parameter',
-	17,
-	'S_SPARM',
-	'A parameter to a function (S_SYNC) is called a function parameter (S_SPARM).  Function parameters are either passed in by value, or by reference.  Function parameters can be accessed by using the param keyword from within a function action specification.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Function Parameter/Function Parameter.xtuml');
 INSERT INTO PE_PE
 	VALUES ("8192182d-1d90-43b1-862d-216247553a5e",
 	1,

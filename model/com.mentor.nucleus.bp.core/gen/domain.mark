@@ -1,4 +1,5 @@
-.invoke MarkInitializationFunction( "ooaofooa", "docgen" )
+.//.invoke MarkInitializationFunction( "ooaofooa", "docgen" )
+.invoke MarkInitializationFunction( "ooaofooa", "sys_singletons" )
 .invoke MarkFirstPassOptimizationsOff( "*" )
 .//
 .//

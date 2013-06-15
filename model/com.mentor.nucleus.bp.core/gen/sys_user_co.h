@@ -110,8 +110,8 @@ void UserBackgroundProcessingCalloutf( void );
 void UserPreShutdownCalloutf( void );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
-   hook for this callout.  */
 #define UserPreShutdownCallout()
+   hook for this callout.  */
 
 #ifndef UserPreShutdownCallout
 #define UserPreShutdownCallout() UserPreShutdownCalloutf()
@@ -125,8 +125,8 @@ void UserPreShutdownCalloutf( void );
 void UserPostShutdownCalloutf( void );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
-   hook for this callout.  */
 #define UserPostShutdownCallout()
+   hook for this callout.  */
 
 #ifndef UserPostShutdownCallout
 #define UserPostShutdownCallout() UserPostShutdownCalloutf()

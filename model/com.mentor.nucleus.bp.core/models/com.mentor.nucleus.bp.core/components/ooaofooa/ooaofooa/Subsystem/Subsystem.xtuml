@@ -4322,6 +4322,46 @@ INSERT INTO DIM_DIA
 	727.000000,
 	898.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("3f86efb0-5d9c-4ace-b91a-14a50aa50c48",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Operation Parameter>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("3f86efb0-5d9c-4ace-b91a-14a50aa50c48",
+	0,
+	"fbc7ca2b-3c56-4d18-ac12-86af9847fd0e");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("fbc7ca2b-3c56-4d18-ac12-86af9847fd0e",
+	'Operation Parameter',
+	113,
+	'O_TPARM',
+	'Each operation (O_TFR) can have one or more parameters (O_TPARM).  A parameter to an operation is called an operation parameter.  Operation parameters are either passed in by value, or by reference.  Operation parameters can be accessed by using the param keyword from within an operation action specification.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Operation Parameter/Operation Parameter.xtuml');
+INSERT INTO PE_PE
+	VALUES ("3f86efb0-5d9c-4ace-b91a-14a50aa50c48",
+	1,
+	"3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8223e432-cc81-4a56-a7e3-7dbfcea931f2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Operation Parameter>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8223e432-cc81-4a56-a7e3-7dbfcea931f2",
+	1,
+	"fbc7ca2b-3c56-4d18-ac12-86af9847fd0e");
+INSERT INTO PE_PE
+	VALUES ("8223e432-cc81-4a56-a7e3-7dbfcea931f2",
+	1,
+	"3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("4cba0fe2-a192-4630-ac17-c5b6bbb8d6a4");
 INSERT INTO R_REL
@@ -4386,14 +4426,6 @@ INSERT INTO R_OIR
 	"4cba0fe2-a192-4630-ac17-c5b6bbb8d6a4",
 	"110313de-27a4-4c21-aebc-af1f2b5bcf6b",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("fbc7ca2b-3c56-4d18-ac12-86af9847fd0e",
-	'Operation Parameter',
-	113,
-	'O_TPARM',
-	'Each operation (O_TFR) can have one or more parameters (O_TPARM).  A parameter to an operation is called an operation parameter.  Operation parameters are either passed in by value, or by reference.  Operation parameters can be accessed by using the param keyword from within an operation action specification.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Operation Parameter/Operation Parameter.xtuml');
 INSERT INTO PE_PE
 	VALUES ("4cba0fe2-a192-4630-ac17-c5b6bbb8d6a4",
 	1,

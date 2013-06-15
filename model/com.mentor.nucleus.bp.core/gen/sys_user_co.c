@@ -126,6 +126,8 @@ UserPreShutdownCalloutf( void )
 void
 UserPostShutdownCalloutf( void )
 {
+  int i;
+  for ( i = 0; i < ooaofooa_MAX_CLASS_NUMBERS; i++ ) Escher_dump_instances( 0, i );
   /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "UserPostShutdownCallout\n" )
 }

@@ -7298,6 +7298,46 @@ INSERT INTO DIM_DIA
 	0.000000,
 	1288.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("aa498bc5-0f18-424e-9588-09bbffb0b5ec",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine Event Data Item>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("aa498bc5-0f18-424e-9588-09bbffb0b5ec",
+	0,
+	"7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3",
+	'State Machine Event Data Item',
+	517,
+	'SM_EVTDI',
+	'Each state machine (SM_SM) has a pool of event data items that can be used as supplemental data (SM_SUPDT) for the events (SM_EVT) of the state machine.  When an event data item is used as supplemental data for an event an instance of SM_SDI is created.',
+	"00000000-0000-0000-0000-000000000000",
+	'./State Machine Event Data Item/State Machine Event Data Item.xtuml');
+INSERT INTO PE_PE
+	VALUES ("aa498bc5-0f18-424e-9588-09bbffb0b5ec",
+	1,
+	"ab469178-a47f-4ae8-a56d-630aafb7f3e6",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8d48c15e-5425-419d-a407-d6d4338150d4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<State Machine Event Data Item>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8d48c15e-5425-419d-a407-d6d4338150d4",
+	1,
+	"7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3");
+INSERT INTO PE_PE
+	VALUES ("8d48c15e-5425-419d-a407-d6d4338150d4",
+	1,
+	"ab469178-a47f-4ae8-a56d-630aafb7f3e6",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("dbcb8cd5-c83a-4ab3-a680-f8103ec7638a");
 INSERT INTO R_REL
@@ -8649,14 +8689,6 @@ INSERT INTO R_OIR
 	"41429f48-9f0b-4a12-b576-260254a3b3a6",
 	"84f44d30-badd-4706-9472-2764ce9c88c2",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3",
-	'State Machine Event Data Item',
-	517,
-	'SM_EVTDI',
-	'Each state machine (SM_SM) has a pool of event data items that can be used as supplemental data (SM_SUPDT) for the events (SM_EVT) of the state machine.  When an event data item is used as supplemental data for an event an instance of SM_SDI is created.',
-	"00000000-0000-0000-0000-000000000000",
-	'./State Machine Event Data Item/State Machine Event Data Item.xtuml');
 INSERT INTO R_PART
 	VALUES ("e6a05b2a-a5b1-4801-bfa2-05634a816c39",
 	"41429f48-9f0b-4a12-b576-260254a3b3a6",
