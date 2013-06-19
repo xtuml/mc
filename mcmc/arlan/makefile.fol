@@ -1,0 +1,93 @@
+#*/~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\*#
+#*| Title:               Makefile (Dependency Resolution)           |*#
+#*| File Name:           makefile                                   |*#
+#*| Owner:               Cortland D. Starrett                       |*#
+#*|                                                                 |*#
+#*| Abstract -                                                      |*#
+#*|   This is a makefile.  Typing "make" will cause files in        |*#
+#*|   the current directory to be processed.                        |*#
+#*|                                                                 |*#
+#*| Notes -                                                         |*#
+#*\_________________________________________________________________/*#
+
+
+SHELL        = /bin/sh
+LEX          = flex
+LEXFLAGS     =
+#LEXFLAGS     = -d
+YACC         = byacc
+CC           = cc
+CFLAGS       = -O -c
+LINKER       = cc
+LOCALGRAMMAR = fold.l arlan.y
+LOCALSOURCES = lex.yy.c y.tab.c
+LOCALOBJS    = lex.yy.o y.tab.o
+OBJS         = $(LOCALOBJS)
+EXE          = arfold
+
+
+#----------------------------------------------------------
+#  Default stanza to make the world.
+#----------------------------------------------------------
+.PHONY:  all
+all:  main
+
+.PHONY:  arfold
+arfold:  $(LOCALOBJS)
+
+#-------------------------------------------------------------
+#  Link the executable.
+#-------------------------------------------------------------
+main:  $(OBJS)
+	$(LINKER) $(OBJS) -lfl -o $(EXE)
+
+FORCE:
+
+#-------------------------------------------------------------
+#  Build source "compile" stanzas.
+#-------------------------------------------------------------
+lex.yy.c:  fold.l
+	$(LEX) $(LEXFLAGS) fold.l
+
+y.tab.c:  arlan.y
+	$(YACC) arlan.y
+
+lex.yy.o:  lex.yy.c
+	$(CC) $(CFLAGS) lex.yy.c
+
+y.tab.o:  y.tab.c
+	$(CC) $(CFLAGS) y.tab.c
+
+#-------------------------------------------------------------
+#  Clean up the trash.
+#-------------------------------------------------------------
+clean:
+	rm *.o
+
+#
+# Identity and Version Information -
+# $Id: makefile.fol,v 1.1 2006/03/28 18:35:13 cstarret Exp $
+#
+# Revision History -
+# $Log: makefile.fol,v $
+# Revision 1.1  2006/03/28 18:35:13  cstarret
+# Job:1865
+# Adding arlan to CVS.
+#  ----------------------------------------------------------------------
+#  Added Files:
+#  	arlan.l arlan.y classes.l classes.y fold.l gen.l gen.y
+#  	makefile.arl makefile.arlan makefile.classes makefile.fol
+#  	makefile.fra makefile.fun makefile.gen makefile.ind
+#  	makefile.template template_engine.l template_engine.y
+#  ----------------------------------------------------------------------
+#
+# Revision 1.2  1995/12/16  05:39:04  cort
+# Mostly changed to not have file name in main prologue.
+#
+# Revision 1.1  1995/11/17  03:27:42  cort
+# Supported formatting output (indenting).
+#
+# Revision 1.5  1995/09/22  04:47:50  cort
+# Fully functional.  Shipping to PT.
+#
+#

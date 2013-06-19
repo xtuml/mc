@@ -1,0 +1,110 @@
+#* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *#
+#*| Title:               Makefile (Dependency Resolution)           |*#
+#*| File Name:           makefile                                   |*#
+#*| Owner:               Cortland D. Starrett                       |*#
+#*|                                                                 |*#
+#*| Abstract -                                                      |*#
+#*|   This is a makefile.  Typing "make" will cause files in        |*#
+#*|   the current directory to be processed.                        |*#
+#*|                                                                 |*#
+#*| Notes -                                                         |*#
+#*|   Lex should work in place of flex.  I have not tried it.       |*#
+#* _________________________________________________________________ *#
+
+
+SHELL        = /bin/sh
+LEX          = flex
+LEXFLAGS     =
+#LEXFLAGS     = -d
+YACC         = yacc
+CC           = cc
+CFLAGS       = -O -c -DGEN
+LINKER       = cc
+LOCALGRAMMAR = gen.l gen.y
+LOCALSOURCES = lex.yy.c y.tab.c
+LOCALOBJS    = lex.yy.o y.tab.o
+OBJS         = $(LOCALOBJS)
+EXE          = gen
+
+
+#----------------------------------------------------------
+#  Default stanza to make the world.
+#----------------------------------------------------------
+.PHONY:  all
+all:  main
+
+.PHONY:  gen
+gen:  $(LOCALOBJS)
+
+#-------------------------------------------------------------
+#  Link the executable.
+#-------------------------------------------------------------
+main:  $(OBJS)
+	$(LINKER) $(OBJS) -lfl -o $(EXE)
+
+FORCE:
+
+#-------------------------------------------------------------
+#  Build source "compile" stanzas.
+#-------------------------------------------------------------
+lex.yy.c:  gen.l
+	$(LEX) $(LEXFLAGS) gen.l
+
+y.tab.c:  gen.y
+	$(YACC) gen.y
+
+lex.yy.o:  lex.yy.c
+	$(CC) $(CFLAGS) lex.yy.c
+
+y.tab.o:  y.tab.c
+	$(CC) $(CFLAGS) y.tab.c
+
+#-------------------------------------------------------------
+#  Clean up the trash.
+#-------------------------------------------------------------
+clean:
+	rm *.o
+
+#
+# Identity and Version Information -
+# $Id: makefile.gen,v 1.2 2011/09/21 15:13:28 cstarret Exp $
+#
+# Revision History -
+# $Log: makefile.gen,v $
+# Revision 1.2  2011/09/21 15:13:28  cstarret
+# job:dts0100794066
+# The modified files are clean-ups.
+# The added files provide a parser that processes RSL into a C-ish
+# dialect that can be processed by doxygen.  doxygen generates
+# call graphs and dependency graphs of the archetype functionality.
+# ----------------------------------------------------------------------
+# Enter Log.  Lines beginning with `CVS:' are removed automatically
+#
+# Committing in .
+#
+# Modified Files:
+# 	arlan.l arlan.y gen.l gen.y makefile.gen
+# Added Files:
+# 	SystemC_MC_Arcs.cfg build_mc_doxygen.sh endfunction letter.txt
+# 	makefile.rsl2doxygen readme_doxygen.txt rsl2doxygen.l
+# 	rsl2doxygen.y rsl2oal.l.passthru rsl2oal.y.passthru
+# ----------------------------------------------------------------------
+#
+# Revision 1.1  2006/03/28 18:35:13  cstarret
+# Job:1865
+# Adding arlan to CVS.
+#  ----------------------------------------------------------------------
+#  Added Files:
+#  	arlan.l arlan.y classes.l classes.y fold.l gen.l gen.y
+#  	makefile.arl makefile.arlan makefile.classes makefile.fol
+#  	makefile.fra makefile.fun makefile.gen makefile.ind
+#  	makefile.template template_engine.l template_engine.y
+#  ----------------------------------------------------------------------
+#
+# Revision 1.1  1995/11/16  04:36:54  cort
+# Added gen (refman tag generator) and fixed 2 in scanners.
+#
+# Revision 1.5  1995/09/22  04:47:50  cort
+# Fully functional.  Shipping to PT.
+#
+#

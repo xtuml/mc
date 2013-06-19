@@ -1,0 +1,11 @@
+Dec 23, 2008
+
+Dear ${cat.name},
+
+${dog.name} chased.  I weigh ${cat.weight} and am a ${cat.breed}.
+
+Sincerely,
+${prefix.define_c}
+
+/* hello */
+

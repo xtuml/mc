@@ -1,0 +1,17 @@
+CFLAGS=
+LFLAGS= -lfl
+
+all:	classes
+
+classes: classes.tab.c classes.tab.h lex.yy.c
+	gcc $(CFLAGS) -o classes lex.yy.c classes.tab.c $(LFLAGS)
+
+classes.tab.h classes.tab.c:  classes.y 
+	bison -dv classes.y 
+	mv classes.tab.h y.tab.h
+
+lex.yy.c: classes.l
+	flex classes.l 
+
+clean:
+	rm *.o *.output *.c *.h *.exe

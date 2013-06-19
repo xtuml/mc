@@ -1,0 +1,17 @@
+CFLAGS= -DTEMPLATE_ENGINE
+LFLAGS= -lfl
+
+all:	template_engine
+
+template_engine: template_engine.tab.c template_engine.tab.h lex.yy.c
+	gcc $(CFLAGS) -o template_engine lex.yy.c template_engine.tab.c $(LFLAGS)
+
+template_engine.tab.h template_engine.tab.c:  template_engine.y 
+	bison -dv template_engine.y
+	mv template_engine.tab.h y.tab.h
+
+lex.yy.c: template_engine.l
+	flex template_engine.l
+
+clean:
+	rm *.o *.output *.c *.h *.exe
