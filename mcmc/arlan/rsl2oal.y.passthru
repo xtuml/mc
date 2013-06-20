@@ -18,6 +18,9 @@ int i0 = 0;                     /* indent for current line           */
 int i1 = 0;                     /* indent for next line              */
 int line_number = 1;
 char lw[ 256 ];                 /* leading whitespace                */
+int column;
+char linestr[ 1024 ];
+int skip = 0;
 
 %}
 %{
@@ -30,8 +33,22 @@ char lw[ 256 ];                 /* leading whitespace                */
 #define YYSTYPE char * /* Interface with flex: should be in header.  */
 #endif
 extern char yytext[];
-#define P(x) printf( "%s", x );
+#define P(x) printf( "%s", x )
 #define PW(x) printf( "%s%s", lw, x ); {int i; for (i=0;i<256;i++) lw[i]=0;}
+
+#define P0 ""
+#define P1(a) a
+#define P2(a,b) stradd( a, b )
+#define P3(a,b,c) stradd( P2( a, b ), c )
+#define P4(a,b,c,d) stradd( P3( a, b, c ), d )
+#define P5(a,b,c,d,e) stradd( P4( a, b, c, d ), e )
+#define P6(a,b,c,d,e,f) stradd( P5( a, b, c, d, e ), f )
+#define P7(a,b,c,d,e,f,g) stradd( P6( a, b, c, d, e, f ), g )
+#define P8(a,b,c,d,e,f,g,h) stradd( P7( a, b, c, d, e, f, g ), h )
+#define P9(a,b,c,d,e,f,g,h,i) stradd( P8( a, b, c, d, e, f, g, h ), i )
+#define P10(a,b,c,d,e,f,g,h,i,j) stradd( P9( a, b, c, d, e, f, g, h, i ), j )
+#define P11(a,b,c,d,e,f,g,h,i,j,k) stradd( P10( a, b, c, d, e, f, g, h, i, j ), k )
+#define P12(a,b,c,d,e,f,g,h,i,j,k,l) stradd( P11( a, b, c, d, e, f, g, h, i, j, k ), l )
 
 /*-------------------------------------------------------------------*/
 %}
@@ -44,8 +61,9 @@ extern char yytext[];
 %token ENDFUNCTION     FROMINSTOF      TEXT            INCLUDE
 %token ASSIGN          PRINTTOK        EXITTOK         EMIT
 %token CLEARTOK        INVOKE          IN              UOP
-%token RELTRANS        ALXLATE         SPECIALWHERE
+%token RELTRAV         ALXLATE         SPECIALWHERE    DELETEOBJ
 %token WHILE           ENDWHILE        BREAKWHILE
+%token RELATE ENDRELATE UNRELATE ENDUNRELATE TO FROM ACROSS
 %token WORD            LITERAL         REALconstant    INTconstant
 %token ARROW                    /*  ->                               */
 %token LE GE EQ NE              /*  <=       >=        ==        !=  */
@@ -63,7 +81,7 @@ archetypeprogram:
         ;
 
 comment:
-        COMMENT commentbody '\n' {PW($1)}
+        COMMENT commentbody '\n' {PW($1);}
         ;
 
 commentbody:
@@ -83,25 +101,28 @@ code:
         ;
 
 statement:
-        selectstatement '\n' {PW($1)}
-        | IF condition '\n' {PW($1)} code elifclause elseclause endiffer '\n' {PW($8)}
-        | FUNCTION identifier '\n' {PW($1)} fparameters fbody ENDFUNCTION '\n' { PW($7)}
-        | FOR inst_ref_var IN inst_ref_set_var '\n' {PW($1)} code endforrer '\n' {PW($8)}
-        | BREAKFOR '\n' {PW($1)}
-        | BREAKFOR COMMENT commentbody '\n' {PW($1)}
-        | BREAKWHILE '\n' {PW($1)}
-        | WHILE condition '\n' {PW($1)} code endwhiler '\n' {PW($6)}
-        | CLEARTOK '\n' {PW($1)}
-        | INCLUDE string '\n' {PW($1)}
-        | PRINTTOK string '\n' {PW($1)}
-        | EXITTOK sexpr '\n' {PW($1)}
-        | EMIT string '\n' {PW($1)}
-        | ASSIGN variable '=' expr '\n' {PW($1)}
-        | INVOKE identifier '(' aparameters ')' '\n' {PW($1)}
-        | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {PW($1)}
-        | ALXLATE activity_type inst_ref_var '\n' {PW($1)}
-        | SPECIALWHERE WORD WORD '\n' {PW($1)}
-        | CREATEOBJ inst_ref_var OF obj_keyletters '\n' {PW($1)}
+        selectstatement '\n' {PW($1);}
+        | IF condition '\n' {PW($1);} code elifclause elseclause endiffer '\n' {PW($8);}
+        | FUNCTION identifier '\n' {PW($1);} fparameters fbody ENDFUNCTION '\n' { PW($7);}
+        | FOR inst_ref_var IN inst_ref_set_var '\n' {PW($1);} code endforrer '\n' {PW($8);}
+        | BREAKFOR '\n' {PW($1);}
+        | BREAKFOR COMMENT commentbody '\n' {PW($1);}
+        | BREAKWHILE '\n' {PW($1);}
+        | WHILE condition '\n' {PW($1);} code endwhiler '\n' {PW($6);}
+        | CLEARTOK '\n' {PW($1);}
+        | INCLUDE string '\n' {PW($1);}
+        | PRINTTOK string '\n' {PW($1);}
+        | EXITTOK sexpr '\n' {PW($1);}
+        | EMIT string '\n' {PW($1);}
+        | ASSIGN variable '=' expr '\n' {PW($1);}
+        | INVOKE identifier '(' aparameters ')' '\n' {PW($1);}
+        | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {PW($1);}
+        | ALXLATE activity_type inst_ref_var '\n' {PW($1);}
+        | SPECIALWHERE WORD WORD '\n' {PW($1);}
+        | CREATEOBJ inst_ref_var OF obj_keyletters '\n' {PW($1);}
+        | DELETEOBJ inst_ref_var ';' '\n' {PW($1);}
+        | RELATE inst_ref_var TO inst_ref_var ACROSS reltraversal ';' '\n' code ENDRELATE '\n' {PW($1);}
+        | UNRELATE inst_ref_var FROM inst_ref_var ACROSS reltraversal ';' '\n' code ENDUNRELATE '\n' {PW($1);}
         ;
 
 selectstatement:
@@ -119,8 +140,8 @@ whereclause:
 
 fparameters:
         /* empty */
-        | fparameters PARAM TYPE param_name COMMENT commentbody '\n' {PW($2)}
-        | fparameters PARAM TYPE param_name '\n' {PW($2)}
+        | fparameters PARAM TYPE param_name COMMENT commentbody '\n' {PW($2);}
+        | fparameters PARAM TYPE param_name '\n' {PW($2);}
         | fparameters comment
         ;
 
@@ -138,12 +159,12 @@ aparameters:
 
 elifclause:
         /* empty */
-        | elifclause ELIF condition '\n' {PW($2)} code
+        | elifclause ELIF condition '\n' {PW($2);} code
         ;
 
 elseclause:
         /* empty */
-        | elseclause ELSE '\n' {PW($2)} code
+        | elseclause ELSE '\n' {PW($2);} code
         ;
 
 endiffer:
@@ -192,9 +213,9 @@ term:
         ;
 
 reltraversal:
-        RELTRANS
-        | RELTRANS '.' '\'' WORD '\''
-        | RELTRANS '.' RELTRANS
+        RELTRAV
+        | RELTRAV '.' '\'' WORD '\''
+        | RELTRAV '.' RELTRAV
         ;
 
 attribute:
@@ -261,7 +282,7 @@ bop:
         ;
 
 literal:
-        LITERAL literalbody '\n' {PW($1)}
+        LITERAL literalbody '\n' {PW($1);}
         | '\n' {puts("");}
         ;
 
@@ -294,13 +315,12 @@ stringbody:
 /*===================================================================*/
 yyerror(char *string)
 {
-  printf("rsl2oal:  %s, at \"%s\" near line %d.\n",
+  fprintf( stderr, "rsl2oal:  %s, at \"%s\" near line %d.\n",
     string, yytext, line_number );
 }
 
-
 /*===================================================================*/
-/* Dummy main program to call yyparse.                               */
+/* main program to call yyparse                                      */
 /*===================================================================*/
 int
 main( int argc, char ** argv )
@@ -308,68 +328,3 @@ main( int argc, char ** argv )
   yyparse();
 }
 
-
-/*
-  Identity and Version Information -
-  $Id: rsl2oal.y.passthru,v 1.1 2011/09/21 15:13:28 cstarret Exp $
-
-  Revision History -
-  $Log: rsl2oal.y.passthru,v $
-  Revision 1.1  2011/09/21 15:13:28  cstarret
-  job:dts0100794066
-  The modified files are clean-ups.
-  The added files provide a parser that processes RSL into a C-ish
-  dialect that can be processed by doxygen.  doxygen generates
-  call graphs and dependency graphs of the archetype functionality.
-  ----------------------------------------------------------------------
-  Enter Log.  Lines beginning with `CVS:' are removed automatically
-
-  Committing in .
-
-  Modified Files:
-  	arlan.l arlan.y gen.l gen.y makefile.gen
-  Added Files:
-  	SystemC_MC_Arcs.cfg build_mc_doxygen.sh endfunction letter.txt
-  	makefile.rsl2doxygen readme_doxygen.txt rsl2doxygen.l
-  	rsl2doxygen.y rsl2oal.l.passthru rsl2oal.y.passthru
-  ----------------------------------------------------------------------
-
-  Revision 1.2  2008/08/08 21:19:02  cstarret
-  job:3371
-  updates, this is a "pass-thru" parser
-
-  Revision 1.1  2008/08/08 18:19:21  cstarret
-  job:3371
-  Adding archetype language parser for conversion of RSL to OAL.
-
-  Revision 1.1  2006/03/28 18:35:13  cstarret
-  Job:1865
-  Adding arlan to CVS.
-   ----------------------------------------------------------------------
-   Added Files:
-   	arlan.l arlan.y classes.l classes.y fold.l gen.l gen.y
-   	makefile.arl makefile.arlan makefile.classes makefile.fol
-   	makefile.fra makefile.fun makefile.gen makefile.ind
-   	makefile.template template_engine.l template_engine.y
-   ----------------------------------------------------------------------
-
- * Revision 1.15  1995/11/17  03:26:22  cort
- * Supported formatting output (indenting).
- *
- * Revision 1.14  1995/11/16  04:35:31  cort
- * Added while statement and enhanced capabilities.
- *
- * Revision 1.13  1995/11/03  03:57:07  cort
- * Enhanced while working on refman tag generator.
- *
- * Revision 1.12  1995/10/04  05:44:46  cort
- * Added support for comments between PARAMs.
- * Re-enabled recognition of FROM INSTANCES OF in comments.
- *
- * Revision 1.11  1995/09/27  05:58:15  cort
- * Improved specificity in "identifier" like tokens.
- *
- * Revision 1.10  1995/09/22  04:47:49  cort
- * Fully functional.  Shipping to PT.
- *
-*/

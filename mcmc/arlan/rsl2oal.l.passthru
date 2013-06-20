@@ -25,8 +25,11 @@
 #include <string.h>
 #include "y.tab.h"
 
-extern int i0, i1, line_number;
+extern int i0, i1, line_number, column;
 extern char lw[];
+extern char linestr[];
+static char b[256][1024];
+static unsigned char j;
 /*-------------------------------------------------------------------*/
 /* The following counter tells us when we are in a FOR statement.    */
 /* A counter is used to support nesting.  The counter is zero (0)    */
@@ -39,13 +42,13 @@ int wilcnt = 0;
 /* continue scanning in the previous state.  This is especially      */
 /* handy for embedded strings and substitution variables.            */
 /*-------------------------------------------------------------------*/
-int current_state = INITIAL;    /* storage for current state         */
+int current_state = 0;          /* storage for current state         */
 int saved_state[ 256 ];         /* stack for previous states         */
 int stack_pointer = 0;
 #ifdef RSL2OAL_CONVERT
-#define RSL2OAL_SKIP 1
+#define RSL2OAL 1
 #else
-#define RSL2OAL_SKIP 0
+#define RSL2OAL 0
 #endif
     
 #define NSBEGIN(x)           stack_pointer = 0;                       \
@@ -73,24 +76,24 @@ int stack_pointer = 0;
 #define TEXT_RETURN(x)       {                                        \
                              RETURN_VAL(x)                            \
                              }
-#define ASCIIOP_RETURN(x)    RETURN_VAL((int)*yytext)
+#define ASCIIOP_RETURN(x)    RETURN_VAL(x)
 #define NAMEDOP_RETURN(x)    RETURN_VAL(x)  /* multichar operator    */
 #define NUMERICAL_RETURN(x)  RETURN_VAL(x)  /* some sort of constant */
 #define LITERAL_RETURN(x)    {                                        \
                              NSBEGIN(literal);                        \
                              RETURN_VAL(x)                            \
                              }
-#define NEW_LINE_RETURN(x)   { int i;                                 \
-                             line_number++;                           \
+#define NEW_LINE_RETURN(x)   line_number++;                           \
                              if ((current_state == control) ||        \
                                  (current_state == pc) ||             \
-                                 (current_state == comment))          \
-                             NSBEGIN(INITIAL);                        \
+                                 (current_state == comment)) {        \
+                               NSBEGIN(INITIAL);                      \
+                             }                                        \
                              i0 = i1;                                 \
-                             return(x); }
+                             return(x);
 #define RETURN_VAL(x)        yylval = (int) yytext;                   \
                              return(x);
-#define RETURN_CVAL(x)       yylval = (int) (yytext + RSL2OAL_SKIP);  \
+#define RETURN_CVAL(x)       yylval = (int) yytext;                   \
                              return(x);
 
 %}
@@ -142,13 +145,21 @@ dbl_dollar    "$$"
 ^{h_white}*/{dbl_dot}                   {LITERAL_RETURN(LITERAL);}
 <literal>[^$\n]*|{dbl_dollar}*          {TEXT_RETURN(LITERAL);}
 ^{h_white}*/"."                         {strncpy(lw,yytext,yyleng);
-                                        NSBEGIN(pc);
+                                         NSBEGIN(pc);
                                         }
 <control>{h_white}+                     {CWHITE_RETURN(' ');}
 <comment>[^ \n]*                        {TEXT_RETURN(TEXT);}
 <comment>{h_white}+                     {WHITE_RETURN(' ');}
 {h_white}+                              {WHITE_RETURN(' ');}
 
+<pc>".// delete object instance"        {           // eat comment marker
+                                         CONTROL_RETURN(DELETEOBJ);}
+<pc>".// unrelate"                      {           // eat comment marker
+                                         CONTROL_RETURN(UNRELATE);}
+<pc>".// relate"                        {           // eat comment marker
+                                         CONTROL_RETURN(RELATE);}
+<pc>".// end unrelate"                  {return(ENDUNRELATE);}
+<pc>".// end relate"                    {return(ENDRELATE);}
 <pc,control>".//"                       {COMMENT_RETURN(COMMENT);}
 <pc>".comment"|".COMMENT"               {COMMENT_RETURN(COMMENT);}
 <pc>".function"|".FUNCTION"             {i0 = 0; i1= 1;
@@ -184,7 +195,7 @@ dbl_dollar    "$$"
 <pc>".print"|".PRINT"                   {CONTROL_RETURN(PRINTTOK);}
 <pc>".exit"|".EXIT"                     {CONTROL_RETURN(EXITTOK);}
 <pc>".emit to file"|".EMIT TO FILE"     {CONTROL_RETURN(EMIT);}
-<pc>".al_xlate"|".AL_XLATE"|".AL_xlate"  {CONTROL_RETURN(ALXLATE);}
+<pc>".al_xlate"|".AL_XLATE"|".AL_xlate" {CONTROL_RETURN(ALXLATE);}
 <pc>".special_where"|".SPECIAL_WHERE"   {CONTROL_RETURN(SPECIALWHERE);}
 <pc>".create object instance"           {CONTROL_RETURN(CREATEOBJ);}
 <pc>"."{word}                           {WORD_RETURN(WORD);}
@@ -193,6 +204,9 @@ dbl_dollar    "$$"
 <control>"from instances of"|"FROM INSTANCES OF" {KEYWORD_RETURN(FROMINSTOF);}
 <control>"in"|"IN"                      {KEYWORD_RETURN(IN);}
 <control>"of"|"OF"                      {KEYWORD_RETURN(OF);}
+<control>"to"|"TO"                      {KEYWORD_RETURN(TO);}
+<control>"from"|"FROM"                  {KEYWORD_RETURN(FROM);}
+<control>"across"|"ACROSS"              {KEYWORD_RETURN(ACROSS);}
 <control>"boolean"|"BOOLEAN"            {TYPE_RETURN(TYPE);}
 <control>"integer"|"INTEGER"            {TYPE_RETURN(TYPE);}
 <control>"real"|"REAL"                  {TYPE_RETURN(TYPE);}
@@ -211,6 +225,9 @@ dbl_dollar    "$$"
 <control>"not_last"|"NOT_LAST"          {OPERATOR_RETURN(UOP);}
 <control>"cardinality"|"CARDINALITY"    {OPERATOR_RETURN(UOP);}
 
+<control>"R"{dec_digits}                {KEYWORD_RETURN(RELTRAV);}
+<control>"'"                            {ASCIIOP_RETURN('\'');}
+
 <control>{dec_digits}         {NUMERICAL_RETURN(INTconstant);}
 <control>{floater}            {NUMERICAL_RETURN(REALconstant);}
 <control,str,sv>{word}        {WORD_RETURN(WORD);}
@@ -222,15 +239,15 @@ dbl_dollar    "$$"
 
 <comment,literal>"$" {SBEGIN(psv); ASCIIOP_RETURN('$');}
 "$"                  {SBEGIN(psv); ASCIIOP_RETURN('$');}
-<psv>[CcLlRrTtUu_]*("nosplat"|"xmlquot"|"xmlclean")* {KEYWORD_RETURN(FORMAT);}
+<psv>[CcLlRrTtUu_]   {KEYWORD_RETURN(FORMAT);}
 <psv>"{"             {SRETURN(); SBEGIN(sv); ASCIIOP_RETURN('{');}
 
 <sv>"}"              {SRETURN(); ASCIIOP_RETURN('}');}
 
 "["                  {SBEGIN(rt); ASCIIOP_RETURN('[');}
-<rt>"R"{dec_digits}  {KEYWORD_RETURN(RELTRANS);}
+<rt>"R"{dec_digits}  {KEYWORD_RETURN(RELTRAV);}
 <rt>"."              {ASCIIOP_RETURN('.');}
-<rt>"RI"|"IR"        {KEYWORD_RETURN(RELTRANS);}
+<rt>"RI"|"IR"        {KEYWORD_RETURN(RELTRAV);}
 <rt>"'"              {ASCIIOP_RETURN('\'');}
 <rt>{word}           {WORD_RETURN(WORD);}
 <rt>"]"              {SRETURN(); ASCIIOP_RETURN(']');}
@@ -239,7 +256,7 @@ dbl_dollar    "$$"
 ","                  {ASCIIOP_RETURN(',');}
 "("                  {ASCIIOP_RETURN('(');}
 ")"                  {ASCIIOP_RETURN(')');}
-"{"                  {ASCIIOP_RETURN('}');}
+"{"                  {ASCIIOP_RETURN('{');}
 "}"                  {ASCIIOP_RETURN('}');}
 "*"                  {ASCIIOP_RETURN('*');}
 "+"                  {ASCIIOP_RETURN('+');}
@@ -262,58 +279,3 @@ dbl_dollar    "$$"
 
 %%
 
-
-/*
-  Identity and Version Information -
-  $Id: rsl2oal.l.passthru,v 1.1 2011/09/21 15:13:28 cstarret Exp $
-
-  Revision History -
-  $Log: rsl2oal.l.passthru,v $
-  Revision 1.1  2011/09/21 15:13:28  cstarret
-  job:dts0100794066
-  The modified files are clean-ups.
-  The added files provide a parser that processes RSL into a C-ish
-  dialect that can be processed by doxygen.  doxygen generates
-  call graphs and dependency graphs of the archetype functionality.
-  ----------------------------------------------------------------------
-  Enter Log.  Lines beginning with `CVS:' are removed automatically
-
-  Committing in .
-
-  Modified Files:
-  	arlan.l arlan.y gen.l gen.y makefile.gen
-  Added Files:
-  	SystemC_MC_Arcs.cfg build_mc_doxygen.sh endfunction letter.txt
-  	makefile.rsl2doxygen readme_doxygen.txt rsl2doxygen.l
-  	rsl2doxygen.y rsl2oal.l.passthru rsl2oal.y.passthru
-  ----------------------------------------------------------------------
-
-  Revision 1.2  2008/08/08 21:19:02  cstarret
-  job:3371
-  updates, this is a "pass-thru" parser
-
-  Revision 1.1  2008/08/08 18:19:21  cstarret
-  job:3371
-  Adding archetype language parser for conversion of RSL to OAL.
-
-  Revision 1.1  2006/03/28 18:35:13  cstarret
-  Job:1865
-  Adding arlan to CVS.
-   ----------------------------------------------------------------------
-   Added Files:
-   arlan.l arlan.y classes.l classes.y fold.l gen.l gen.y
-   makefile.arl makefile.arlan makefile.classes makefile.fol
-   makefile.fra makefile.fun makefile.gen makefile.ind
-   makefile.template template_engine.l template_engine.y
-   ----------------------------------------------------------------------
-
- * Revision 1.18  1995/12/16  05:39:03  cort
- * Mostly changed to not have file name in main prologue.
- *
- * Revision 1.17  1995/11/27  02:57:01  cort
- * Latest folder and formatter.
- *
- * Revision 1.16  1995/11/17  03:26:22  cort
- * Supported formatting output (indenting).
- *
-*/

@@ -27,6 +27,8 @@
 
 extern int i0, i1, line_number, column;
 extern char linestr[];
+static char b[256][1024];
+static unsigned char j;
 /*-------------------------------------------------------------------*/
 /* The following counter tells us when we are in a FOR statement.    */
 /* A counter is used to support nesting.  The counter is zero (0)    */
@@ -82,14 +84,16 @@ int stack_pointer = 0;
                              NSBEGIN(literal);                        \
                              RETURN_VAL(x)                            \
                              }
-#define NEW_LINE_RETURN(x)   { int i;                                 \
-                             line_number++;                           \
+#define NEW_LINE_RETURN(x)   line_number++;                           \
                              if ((current_state == control) ||        \
                                  (current_state == pc) ||             \
-                                 (current_state == comment))          \
-                             NSBEGIN(INITIAL);                        \
+                                 (current_state == comment)) {        \
+                               NSBEGIN(INITIAL);                      \
+                             }                                        \
                              i0 = i1;                                 \
-                             return(x); }
+                             yytext=strncpy(b[j],yytext,yyleng);      \
+                             yylval = (int) b[j++];                   \
+                             return(x);
 #define RETURN_VAL(x)        if ( '{' == x ) {                        \
                                if ( '$' == *(yytext-1) ) {            \
                                  linestr[ strlen(linestr) - 1 ] = 0;  \
@@ -110,7 +114,8 @@ int stack_pointer = 0;
                              } else {                                 \
                                YYAPPEND(yytext,yyleng)                \
                              }                                        \
-                             yylval = (int) yytext;                   \
+                             yytext=strncpy(b[j],yytext,yyleng);      \
+                             yylval = (int) b[j++];                   \
                              return(x);
 #define RETURN_CVAL(x)       if ( x == ASSIGN ) {                     \
                              } else if ( x == FUNCTION ) {            \
@@ -131,7 +136,7 @@ int stack_pointer = 0;
                                strncat(linestr,yytext+RSL2OAL,yyleng-RSL2OAL);\
                                column = column + yyleng - RSL2OAL;    \
                              }                                        \
-                             yylval = (int) yytext;                   \
+                             yytext=strncpy(b[j],yytext,yyleng);yylval = (int) b[j++];                   \
                              return(x);
 
 %}
@@ -175,7 +180,7 @@ dbl_dollar    "$$"
 
 %%
 
-<<EOF>>                                 {return (0);}
+<<EOF>>                                 {yytext=strncpy(b[j],yytext,yyleng);return(0);}
 
 <comment,literal,INITIAL,pc,control>"\n" {NEW_LINE_RETURN('\n');}
 
@@ -200,14 +205,14 @@ dbl_dollar    "$$"
 <comment>{h_white}+                     {WHITE_RETURN(' ');}
 {h_white}+                              {WHITE_RETURN(' ');}
 
-<pc>".// delete object instance"        {yytext++; yytext++; // eat comment marker
+<pc>".// delete object instance"        {yytext+=3; // eat comment marker
                                          CONTROL_RETURN(DELETEOBJ);}
-<pc>".// unrelate"                      {yytext++; yytext++; // eat comment marker
+<pc>".// unrelate"                      {yytext+=3; // eat comment marker
                                          CONTROL_RETURN(UNRELATE);}
-<pc>".// relate"                        {yytext++; yytext++; // eat comment marker
+<pc>".// relate"                        {yytext+=3; // eat comment marker
                                          CONTROL_RETURN(RELATE);}
-<pc>".// end unrelate"                  {return(ENDUNRELATE);}
-<pc>".// end relate"                    {return(ENDRELATE);}
+<pc>".// end unrelate"                  {yytext=strncpy(b[j],yytext,yyleng);return(ENDUNRELATE);}
+<pc>".// end relate"                    {yytext=strncpy(b[j],yytext,yyleng);return(ENDRELATE);}
 <pc,control>".//"                       {COMMENT_RETURN(COMMENT);}
 <pc>".comment"|".COMMENT"               {COMMENT_RETURN(COMMENT);}
 <pc>".function"|".FUNCTION"             {i0 = 0; i1= 1;
@@ -215,12 +220,12 @@ dbl_dollar    "$$"
 <pc>".param"|".PARAM"                   {CONTROL_RETURN(PARAM);}
 <pc>".end function"|".END FUNCTION"     {i0 = 0; i1 = 0;
                                          ECONTROL_RETURN(ENDFUNCTION);}
-<pc>".invoke"|".INVOKE"                 {CONTROL_RETURN(INVOKE);yytext++;}
+<pc>".invoke"|".INVOKE"                 {CONTROL_RETURN(INVOKE);}
 <pc>".clear"|".CLEAR"                   {CONTROL_RETURN(CLEARTOK);}
 <pc>".select one"|".SELECT ONE"         {CONTROL_RETURN(SELECTONE);}
 <pc>".select any"|".SELECT ANY"         {CONTROL_RETURN(SELECTANY);}
 <pc>".select many"|".SELECT MANY"       {CONTROL_RETURN(SELECTMANY);}
-<pc>".if"|".IF"                         {i1++; CONTROL_RETURN(IF);}
+<pc>(".if"|".IF")[ ]*                   {i1++; CONTROL_RETURN(IF);}
 <pc>".elif"|".ELIF"                     {i0--; CONTROL_RETURN(ELIF);}
 <pc>".else"|".ELSE"                     {i0--; CONTROL_RETURN(ELSE);}
 <pc>".end if"|".END IF"                 {i0--; i1--; ECONTROL_RETURN(ENDIF);}
@@ -239,7 +244,7 @@ dbl_dollar    "$$"
 <pc>".end while"|".END WHILE"           {i0--; i1--; wilcnt--;
                                          ECONTROL_RETURN(ENDWHILE);}
 <pc>".include"|".INCLUDE"               {CONTROL_RETURN(INCLUDE);}
-<pc>".assign"|".ASSIGN"                 {CONTROL_RETURN(ASSIGN);}
+<pc>(".assign"|".ASSIGN")[ ]*           {CONTROL_RETURN(ASSIGN);}
 <pc>".print"|".PRINT"                   {CONTROL_RETURN(PRINTTOK);}
 <pc>".exit"|".EXIT"                     {CONTROL_RETURN(EXITTOK);}
 <pc>".emit to file"|".EMIT TO FILE"     {CONTROL_RETURN(EMIT);}
@@ -315,7 +320,7 @@ dbl_dollar    "$$"
 "<"                  {ASCIIOP_RETURN('<');}
 ">"                  {ASCIIOP_RETURN('>');}
 ":"                  {ASCIIOP_RETURN(':');}
-";"                  {yytext++; ASCIIOP_RETURN(';');}
+";"                  {ASCIIOP_RETURN(';');}
 "="                  {ASCIIOP_RETURN('=');}
 "_"                  {ASCIIOP_RETURN('_');}
 
