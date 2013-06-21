@@ -28,8 +28,21 @@
 extern int i0, i1, line_number, column;
 extern char lw[];
 extern char linestr[];
-static char b[256][1024];
-static unsigned char j;
+static char * s( char *, int );
+static char * s( char * sin, int len )
+{
+  static char b[ 1000000 ]; static int j;
+  char * s = &b[j];
+  j+= len + 1;
+  if ( j >= 100000 ) {
+    s = &b[0];
+    j = len + 1;
+  }
+  strncpy(s,sin,len);
+  b[j] = 0;
+  return s;
+}
+
 /*-------------------------------------------------------------------*/
 /* The following counter tells us when we are in a FOR statement.    */
 /* A counter is used to support nesting.  The counter is zero (0)    */
@@ -45,11 +58,6 @@ int wilcnt = 0;
 int current_state = 0;          /* storage for current state         */
 int saved_state[ 256 ];         /* stack for previous states         */
 int stack_pointer = 0;
-#ifdef RSL2OAL_CONVERT
-#define RSL2OAL 1
-#else
-#define RSL2OAL 0
-#endif
     
 #define NSBEGIN(x)           stack_pointer = 0;                       \
                              saved_state[ stack_pointer ] = x;        \
@@ -73,9 +81,7 @@ int stack_pointer = 0;
                              }
 #define OPERATOR_RETURN(x)   RETURN_VAL(x)
 #define TYPE_RETURN(x)       RETURN_VAL(x)
-#define TEXT_RETURN(x)       {                                        \
-                             RETURN_VAL(x)                            \
-                             }
+#define TEXT_RETURN(x)       RETURN_VAL(x)
 #define ASCIIOP_RETURN(x)    RETURN_VAL(x)
 #define NAMEDOP_RETURN(x)    RETURN_VAL(x)  /* multichar operator    */
 #define NUMERICAL_RETURN(x)  RETURN_VAL(x)  /* some sort of constant */
@@ -172,7 +178,7 @@ dbl_dollar    "$$"
 <pc>".select one"|".SELECT ONE"         {CONTROL_RETURN(SELECTONE);}
 <pc>".select any"|".SELECT ANY"         {CONTROL_RETURN(SELECTANY);}
 <pc>".select many"|".SELECT MANY"       {CONTROL_RETURN(SELECTMANY);}
-<pc>".if"|".IF"                         {i1++; CONTROL_RETURN(IF);}
+<pc>(".if"|".IF")                       {i1++; CONTROL_RETURN(IF);}
 <pc>".elif"|".ELIF"                     {i0--; CONTROL_RETURN(ELIF);}
 <pc>".else"|".ELSE"                     {i0--; CONTROL_RETURN(ELSE);}
 <pc>".end if"|".END IF"                 {i0--; i1--; ECONTROL_RETURN(ENDIF);}

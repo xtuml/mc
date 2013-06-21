@@ -17,6 +17,7 @@
 int i0 = 0;                     /* indent for current line           */
 int i1 = 0;                     /* indent for next line              */
 int line_number = 1;
+char lw[ 256 ];                 /* leading whitespace                */
 int column;
 char linestr[ 1024 ];
 int skip = 0;
@@ -33,6 +34,7 @@ int skip = 0;
 #endif
 extern char yytext[];
 #define P(x) strncat(bp,linestr,1024);strncat(bp,x,1024);bp=bp+strlen(linestr)+strlen(x);
+#define PW(x) printf( "%s%s", lw, x ); {int i; for (i=0;i<256;i++) lw[i]=0;}
 #define PL strncat(bp,linestr,1024); strcat(bp,"\n"); bp+=strlen(linestr)+1;
 #define PS strncat(bp,linestr,1024); strcat(bp,";\n"); bp+=strlen(linestr)+2;
 #define PI(x) insert_double_colon( x );
@@ -55,7 +57,7 @@ extern char yytext[];
 
 char oalbuffer[ 128000 ];
 char * bp = oalbuffer;
-char * stradd( char *, char * );
+static char * stradd( char *, char * );
 
 /*-------------------------------------------------------------------*/
 %}
@@ -110,26 +112,25 @@ code:
 statement:
         selectstatement '\n' {$$=P2($1,$2);}
         | IF condition '\n' code elifclause elseclause endiffer '\n' {$$=P8($1,$2,$3,$4,$5,$6,$7,$8);}
-        | FUNCTION identifier '\n' fparameters fbody ENDFUNCTION '\n' {$$=P7($1,$2,$3,$4,$5,$6,$7);}
+        | FUNCTION identifier '\n' fparameters fbody ENDFUNCTION '\n' {$$=P5($2,"@void@@",$4,"@@@\n",$5);}
         | FOR inst_ref_var IN inst_ref_set_var '\n' code endforrer '\n' {$$=P8($1,$2,$3,$4,$5,$6,$7,$8);}
         | BREAKFOR '\n' {$$=P2($1,$2);}
-        | BREAKFOR COMMENT commentbody '\n' {$$=P4($1,$2,$3,$4);}
         | BREAKWHILE '\n' {$$=P2($1,$2);}
         | WHILE condition '\n' code endwhiler '\n' {$$=P6($1,$2,$3,$4,$5,$6);}
-        | CLEARTOK '\n' {$$=P2($1,$2);}
-        | INCLUDE string '\n' {$$=P3($1,$2,$3);}
-        | PRINTTOK string '\n' {$$=P3($1,$2,$3);}
-        | EXITTOK sexpr '\n' {$$=P3($1,$2,$3);}
-        | EMIT string '\n' {$$=P3($1,$2,$3);}
-        | ASSIGN variable '=' expr '\n' {$$=P5($1,$2,$3,$4,$5);}
-        | INVOKE identifier '(' aparameters ')' '\n' {$$=P6($1,$2,$3,$4,$5,$6);}
-        | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {$$=P8($1,$2,$3,$4,$5,$6,$7,$8);}
+        | CLEARTOK '\n' {$$=P3(lw,"T::clear();",$2);}
+        | INCLUDE string '\n' {$$=P5(lw,"T::include(s:",$2,");",$3);}
+        | PRINTTOK string '\n' {$$=P5(lw,"T::print(s:",$2,");",$3);}
+        | EXITTOK sexpr '\n' {$$=P5(lw,"T::exit(i:",$2,")",$3);}
+        | EMIT string '\n' {$$=P5(lw,"T::emit(s:",$2,");",$3);}
+        | ASSIGN variable '=' expr '\n' {if (!skip) $$=P5(lw,$2,$3,$4,$5);}
+        | INVOKE identifier '(' aparameters ')' '\n' {$$=P7(lw,"::",$2,$3,$4,$5,$6);}
+        | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {$$=P9(lw,"::",$2,$3,$4,$5,$6,$7,$8);}
         | ALXLATE activity_type inst_ref_var '\n' {$$=P4($1,$2,$3,$4);}
         | SPECIALWHERE WORD WORD '\n' {$$=P4($1,$2,$3,$4);}
         | CREATEOBJ inst_ref_var OF obj_keyletters '\n' {$$=P5($1,$2,$3,$4,$5);}
         | DELETEOBJ inst_ref_var ';' '\n' {$$=P4($1,$2,$3,$4);}
-        | RELATE inst_ref_var TO inst_ref_var ACROSS reltraversal ';' '\n' code ENDRELATE '\n' {$$=P11($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);}
-        | UNRELATE inst_ref_var FROM inst_ref_var ACROSS reltraversal ';' '\n' code ENDUNRELATE '\n' {$$=P11($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);}
+        | RELATE inst_ref_var TO inst_ref_var ACROSS reltraversal ';' '\n' {skip=1;} code ENDRELATE '\n' {skip=0; $$=P10($1,$2,$3,$4,$5,$6,$7,$8,$10,$12);}
+        | UNRELATE inst_ref_var FROM inst_ref_var ACROSS reltraversal ';' '\n' {skip=1;} code ENDUNRELATE '\n' {skip=0; $$=P10($1,$2,$3,$4,$5,$6,$7,$8,$10,$12);}
         ;
 
 selectstatement:
@@ -147,8 +148,8 @@ whereclause:
 
 fparameters:
         /* empty */ {$$=P0;}
-        | fparameters PARAM TYPE param_name COMMENT commentbody '\n' {$$=P7($1,$2,$3,$4,$5,$6,$7);}
-        | fparameters PARAM TYPE param_name '\n' {$$=P4($1,$2,$3,$4);}
+        | fparameters PARAM TYPE param_name COMMENT commentbody '\n' {$$=P7($1,$4," = param.",$4,$5,$6,";\n");}
+        | fparameters PARAM TYPE param_name '\n' {$$=P6(lw,$1,$4," = param.",$4,";\n");}
         | fparameters comment {$$=P2($1,$2);}
         ;
 
@@ -289,7 +290,7 @@ bop:
         ;
 
 literal:
-        LITERAL literalbody '\n' {$$=P3($1,$2,$3);}
+        LITERAL literalbody '\n' {$$=P5("T::b(s:",$1,$2,");",$3);}
         | '\n'
         ;
 
@@ -317,8 +318,25 @@ stringbody:
 
 %%
 
-char *
-stradd( char * s1, char * s2 )
+static char * stradd( char * s1, char * s2 )
+{
+  static int i = 0;
+  static char b[1000000];
+  char * s = &b[i];
+  int len = strlen( s1 ) + strlen( s2 );
+  b[i]=0;
+  i = i + len + 1;
+  if ( i >= 1000000 ) {
+    s = &b[0];
+    i = len + 1;
+  }
+  strcpy( s, s1 );
+  strcat( s, s2 );
+  b[i]=0;
+  return s;
+}
+static char * stradd2( char * , char * );
+static char * stradd2( char * s1, char * s2 )
 {
   int len1 = strlen( s1 );
   int len2 = strlen( s2 );

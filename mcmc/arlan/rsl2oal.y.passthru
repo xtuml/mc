@@ -106,7 +106,6 @@ statement:
         | FUNCTION identifier '\n' {PW($1);} fparameters fbody ENDFUNCTION '\n' { PW($7);}
         | FOR inst_ref_var IN inst_ref_set_var '\n' {PW($1);} code endforrer '\n' {PW($8);}
         | BREAKFOR '\n' {PW($1);}
-        | BREAKFOR COMMENT commentbody '\n' {PW($1);}
         | BREAKWHILE '\n' {PW($1);}
         | WHILE condition '\n' {PW($1);} code endwhiler '\n' {PW($6);}
         | CLEARTOK '\n' {PW($1);}

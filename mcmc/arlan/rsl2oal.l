@@ -26,9 +26,23 @@
 #include "y.tab.h"
 
 extern int i0, i1, line_number, column;
+extern char lw[];
 extern char linestr[];
-static char b[256][1024];
-static unsigned char j;
+static char * s( char *, int );
+static char * s( char * sin, int len )
+{
+  static char b[ 100000 ]; static int j;
+  char * s = &b[j];
+  j+= len + 1;
+  if ( j >= 100000 ) {
+    s = &b[0];
+    j = len + 1;
+  }
+  strncpy(s,sin,len);
+  b[j] = 0;
+  return s;
+}
+
 /*-------------------------------------------------------------------*/
 /* The following counter tells us when we are in a FOR statement.    */
 /* A counter is used to support nesting.  The counter is zero (0)    */
@@ -44,14 +58,9 @@ int wilcnt = 0;
 int current_state = 0;          /* storage for current state         */
 int saved_state[ 256 ];         /* stack for previous states         */
 int stack_pointer = 0;
-#ifdef RSL2OAL_CONVERT
-#define RSL2OAL 1
-#else
-#define RSL2OAL 0
-#endif
     
-#define YYAPPEND(s,l)        strncat(linestr,s,l); column=column+l+1;linestr[column]=0;
-#define YYAPPEND1(s)         strcat(linestr,s); column=column+strlen(s);linestr[column]=0;
+#define YYAPPEND(s,l)
+#define YYAPPEND1(s)
 #define NSBEGIN(x)           stack_pointer = 0;                       \
                              saved_state[ stack_pointer ] = x;        \
                              current_state = x;                       \
@@ -63,8 +72,8 @@ int stack_pointer = 0;
 #define SRETURN()            current_state =                          \
                              saved_state[ stack_pointer-- ];          \
                              BEGIN(current_state)
-#define WHITE_RETURN(x)      YYAPPEND(yytext,yyleng)
-#define CWHITE_RETURN(x)     YYAPPEND(yytext,yyleng)
+#define WHITE_RETURN(x)      
+#define CWHITE_RETURN(x)     
 #define CONTROL_RETURN(x)    NSBEGIN(control); RETURN_CVAL(x)
 #define ECONTROL_RETURN(x)   NSBEGIN(pc); RETURN_CVAL(x)
 #define KEYWORD_RETURN(x)    RETURN_VAL(x)
@@ -74,9 +83,7 @@ int stack_pointer = 0;
                              }
 #define OPERATOR_RETURN(x)   RETURN_VAL(x)
 #define TYPE_RETURN(x)       RETURN_VAL(x)
-#define TEXT_RETURN(x)       {                                        \
-                             RETURN_VAL(x)                            \
-                             }
+#define TEXT_RETURN(x)       RETURN_VAL(x)
 #define ASCIIOP_RETURN(x)    RETURN_VAL(x)
 #define NAMEDOP_RETURN(x)    RETURN_VAL(x)  /* multichar operator    */
 #define NUMERICAL_RETURN(x)  RETURN_VAL(x)  /* some sort of constant */
@@ -91,8 +98,8 @@ int stack_pointer = 0;
                                NSBEGIN(INITIAL);                      \
                              }                                        \
                              i0 = i1;                                 \
-                             yytext=strncpy(b[j],yytext,yyleng);      \
-                             yylval = (int) b[j++];                   \
+                             yytext=s(yytext,yyleng);                 \
+                             yylval = (int) yytext;                   \
                              return(x);
 #define RETURN_VAL(x)        if ( '{' == x ) {                        \
                                if ( '$' == *(yytext-1) ) {            \
@@ -110,33 +117,17 @@ int stack_pointer = 0;
                                YYAPPEND1(")")                         \
                              } else if ( ( '"' == x ) &&              \
                                  ( '}' == *(yytext-1) ) ) {           \
-                             } else if ( '$' == x ) {                 \
                              } else {                                 \
                                YYAPPEND(yytext,yyleng)                \
                              }                                        \
-                             yytext=strncpy(b[j],yytext,yyleng);      \
-                             yylval = (int) b[j++];                   \
+                             yytext=s(yytext,yyleng);                 \
+                             yylval = (int) yytext;                   \
                              return(x);
-#define RETURN_CVAL(x)       if ( x == ASSIGN ) {                     \
-                             } else if ( x == FUNCTION ) {            \
-                             } else if ( x == ENDFUNCTION ) {         \
-                             } else if ( x == INVOKE ) {              \
-                             } else if ( x == PARAM ) {               \
-                             } else if ( x == CLEARTOK ) {            \
-                               YYAPPEND1("T::clear();");              \
-                             } else if ( x == INCLUDE ) {             \
-                               YYAPPEND1("T::include(s:");            \
-                             } else if ( x == PRINTTOK ) {            \
-                               YYAPPEND1("T::print(s:");              \
-                             } else if ( x == EMIT ) {                \
-                               YYAPPEND1("T::emit(s:");               \
-                             } else if ( x == EXITTOK ) {             \
-                               YYAPPEND1("T::exit(i:");               \
-                             } else {                                 \
-                               strncat(linestr,yytext+RSL2OAL,yyleng-RSL2OAL);\
-                               column = column + yyleng - RSL2OAL;    \
-                             }                                        \
-                             yytext=strncpy(b[j],yytext,yyleng);yylval = (int) b[j++];                   \
+#define RETURN_CVAL(x)       strncat(linestr,yytext+1,yyleng-1);      \
+                             column = column + yyleng - 1;            \
+                             yytext++; /* Skip leading dot.  */       \
+                             yytext=s(yytext,yyleng-1);               \
+                             yylval = (int) yytext;                   \
                              return(x);
 
 %}
@@ -180,29 +171,20 @@ dbl_dollar    "$$"
 
 %%
 
-<<EOF>>                                 {yytext=strncpy(b[j],yytext,yyleng);return(0);}
+<<EOF>>                                 {return (0);}
 
 <comment,literal,INITIAL,pc,control>"\n" {NEW_LINE_RETURN('\n');}
 
-^{h_white}*/[^\.\n]                     {column=0; linestr[0]=0;
-                                         YYAPPEND1("T::b(s: \"");
-                                         YYAPPEND(yytext,yyleng);
-                                         LITERAL_RETURN(LITERAL);}
-
-^{h_white}*/{dbl_dot}                   {column=0; linestr[0]=0;
-                                         YYAPPEND1("T::b(s: ");
-                                         YYAPPEND(yytext,yyleng)
-                                         LITERAL_RETURN(LITERAL);}
-
+^{h_white}*/[^\.\n]                     {column=0; linestr[0]=0; LITERAL_RETURN(LITERAL);}
+^{h_white}*/{dbl_dot}                   {LITERAL_RETURN(LITERAL);}
 <literal>[^$\n]*|{dbl_dollar}*          {TEXT_RETURN(LITERAL);}
 ^{h_white}*/"."                         {column=0; linestr[0]=0;
-                                         YYAPPEND(yytext,yyleng);
-                                         linestr[yyleng] = 0;
+                                         strncpy(lw,yytext,yyleng);
+                                         linestr[yyleng]=0;
                                          NSBEGIN(pc);
                                         }
 <control>{h_white}+                     {CWHITE_RETURN(' ');}
-<comment>[^ \n]*                        {TEXT_RETURN(TEXT);}
-<comment>{h_white}+                     {WHITE_RETURN(' ');}
+<comment>[^\n]*                         {TEXT_RETURN(TEXT);}
 {h_white}+                              {WHITE_RETURN(' ');}
 
 <pc>".// delete object instance"        {yytext+=3; // eat comment marker
@@ -211,8 +193,8 @@ dbl_dollar    "$$"
                                          CONTROL_RETURN(UNRELATE);}
 <pc>".// relate"                        {yytext+=3; // eat comment marker
                                          CONTROL_RETURN(RELATE);}
-<pc>".// end unrelate"                  {yytext=strncpy(b[j],yytext,yyleng);return(ENDUNRELATE);}
-<pc>".// end relate"                    {yytext=strncpy(b[j],yytext,yyleng);return(ENDRELATE);}
+<pc>".// end unrelate"                  {yytext=s(yytext,yyleng);yylval=(int)yytext;return(ENDUNRELATE);}
+<pc>".// end relate"                    {yytext=s(yytext,yyleng);yylval=(int)yytext;return(ENDRELATE);}
 <pc,control>".//"                       {COMMENT_RETURN(COMMENT);}
 <pc>".comment"|".COMMENT"               {COMMENT_RETURN(COMMENT);}
 <pc>".function"|".FUNCTION"             {i0 = 0; i1= 1;
@@ -225,7 +207,7 @@ dbl_dollar    "$$"
 <pc>".select one"|".SELECT ONE"         {CONTROL_RETURN(SELECTONE);}
 <pc>".select any"|".SELECT ANY"         {CONTROL_RETURN(SELECTANY);}
 <pc>".select many"|".SELECT MANY"       {CONTROL_RETURN(SELECTMANY);}
-<pc>(".if"|".IF")[ ]*                   {i1++; CONTROL_RETURN(IF);}
+<pc>(".if"|".IF")                       {i1++; CONTROL_RETURN(IF);}
 <pc>".elif"|".ELIF"                     {i0--; CONTROL_RETURN(ELIF);}
 <pc>".else"|".ELSE"                     {i0--; CONTROL_RETURN(ELSE);}
 <pc>".end if"|".END IF"                 {i0--; i1--; ECONTROL_RETURN(ENDIF);}
@@ -244,7 +226,7 @@ dbl_dollar    "$$"
 <pc>".end while"|".END WHILE"           {i0--; i1--; wilcnt--;
                                          ECONTROL_RETURN(ENDWHILE);}
 <pc>".include"|".INCLUDE"               {CONTROL_RETURN(INCLUDE);}
-<pc>(".assign"|".ASSIGN")[ ]*           {CONTROL_RETURN(ASSIGN);}
+<pc>".assign"|".ASSIGN"                 {CONTROL_RETURN(ASSIGN);}
 <pc>".print"|".PRINT"                   {CONTROL_RETURN(PRINTTOK);}
 <pc>".exit"|".EXIT"                     {CONTROL_RETURN(EXITTOK);}
 <pc>".emit to file"|".EMIT TO FILE"     {CONTROL_RETURN(EMIT);}
