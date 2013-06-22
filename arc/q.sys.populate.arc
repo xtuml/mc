@@ -1692,6 +1692,7 @@
   .create object instance te_class of TE_CLASS
   .// relate te_class to o_obj across R2019;
   .assign te_class.Obj_ID = o_obj.Obj_ID
+  .// end relate
   .// relate te_class to te_c across R2064;
   .assign te_class.te_cID = te_c.ID
   .// end relate
@@ -1831,6 +1832,7 @@
     .create object instance te_evt of TE_EVT
     .// relate te_evt to te_sm across R2071;
     .assign te_evt.te_smID = te_sm.ID
+    .// end relate
     .assign te_evt.Name = sm_evt.Mning
     .assign te_evt.Numb = sm_evt.Numb
     .assign te_evt.Order = 0

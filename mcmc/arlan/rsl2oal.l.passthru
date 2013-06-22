@@ -76,9 +76,7 @@ int stack_pointer = 0;
 #define ECONTROL_RETURN(x)   NSBEGIN(pc); RETURN_CVAL(x)
 #define KEYWORD_RETURN(x)    RETURN_VAL(x)
 #define COMMENT_RETURN(x)    NSBEGIN(comment); RETURN_CVAL(x)
-#define WORD_RETURN(x)       {                                        \
-                             RETURN_VAL(x)                            \
-                             }
+#define WORD_RETURN(x)       RETURN_VAL(x)
 #define OPERATOR_RETURN(x)   RETURN_VAL(x)
 #define TYPE_RETURN(x)       RETURN_VAL(x)
 #define TEXT_RETURN(x)       RETURN_VAL(x)

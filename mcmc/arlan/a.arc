@@ -8,6 +8,11 @@
   .invoke g()
   .select any o_obj from instances of O_OBJ
   .select many o_attrs related by o_obj->O_ATTR[R1000]
+       .if ( not_empty foreign_te_iir )
+          .// relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
+          .assign foreign_te_iir.provider_te_iirID = te_iir.ID
+          .// end relate
+        .end if
   .for each o_attr in o_attrs
     .invoke fun( 1, a, "sss" )
     .break for

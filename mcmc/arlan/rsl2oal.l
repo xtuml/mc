@@ -31,10 +31,10 @@ extern char linestr[];
 static char * s( char *, int );
 static char * s( char * sin, int len )
 {
-  static char b[ 100000 ]; static int j;
+  static char b[ 1000000 ]; static int j;
   char * s = &b[j];
   j+= len + 1;
-  if ( j >= 100000 ) {
+  if ( j >= 1000000 ) {
     s = &b[0];
     j = len + 1;
   }
@@ -78,9 +78,7 @@ int stack_pointer = 0;
 #define ECONTROL_RETURN(x)   NSBEGIN(pc); RETURN_CVAL(x)
 #define KEYWORD_RETURN(x)    RETURN_VAL(x)
 #define COMMENT_RETURN(x)    NSBEGIN(comment); RETURN_CVAL(x)
-#define WORD_RETURN(x)       {                                        \
-                             RETURN_VAL(x)                            \
-                             }
+#define WORD_RETURN(x)       RETURN_VAL(x)
 #define OPERATOR_RETURN(x)   RETURN_VAL(x)
 #define TYPE_RETURN(x)       RETURN_VAL(x)
 #define TEXT_RETURN(x)       RETURN_VAL(x)
@@ -187,14 +185,11 @@ dbl_dollar    "$$"
 <comment>[^\n]*                         {TEXT_RETURN(TEXT);}
 {h_white}+                              {WHITE_RETURN(' ');}
 
-<pc>".// delete object instance"        {yytext+=3; // eat comment marker
-                                         CONTROL_RETURN(DELETEOBJ);}
-<pc>".// unrelate"                      {yytext+=3; // eat comment marker
-                                         CONTROL_RETURN(UNRELATE);}
-<pc>".// relate"                        {yytext+=3; // eat comment marker
-                                         CONTROL_RETURN(RELATE);}
-<pc>".// end unrelate"                  {yytext=s(yytext,yyleng);yylval=(int)yytext;return(ENDUNRELATE);}
-<pc>".// end relate"                    {yytext=s(yytext,yyleng);yylval=(int)yytext;return(ENDRELATE);}
+<pc>".// delete object instance"        {CONTROL_RETURN(DELETEOBJ);}
+<pc>".// unrelate"                      {CONTROL_RETURN(UNRELATE);}
+<pc>".// relate"                        {CONTROL_RETURN(RELATE);}
+<pc>".// end unrelate"                  {CONTROL_RETURN(ENDUNRELATE);}
+<pc>".// end relate"                    {CONTROL_RETURN(ENDRELATE);}
 <pc,control>".//"                       {COMMENT_RETURN(COMMENT);}
 <pc>".comment"|".COMMENT"               {COMMENT_RETURN(COMMENT);}
 <pc>".function"|".FUNCTION"             {i0 = 0; i1= 1;
