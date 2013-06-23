@@ -30,7 +30,6 @@ int line_number = 1;
 char lw[ 256 ];                 /* leading whitespace                */
 int column;
 char linestr[ 1024 ];
-int skip = 0;
 
 %}
 %{
@@ -98,7 +97,7 @@ static char * stradd( char * [], int );
 %%
 
 archetypeprogram:
-        archetypebody { printf( "%s", $1 ); }
+        archetypebody
         ;
 
 comment:
@@ -119,7 +118,7 @@ code:
         | code statement {$$=P3($1,ws[indent],$2);}
         | code comment {$$=P3($1,ws[indent],$2);}
         | code literal {$$=P2($1,$2);}
-        | code FUNCTION identifier '\n' fparameters fbody ENDFUNCTION '\n' {$$=P6($1,$3,"@void",$5,"@@@\n",$6);}
+        | code FUNCTION identifier '\n' fparameters fbody ENDFUNCTION '\n' {$$=""; printf( "%s", P6($1,$3,"@void",$5,"@@@\n",$6));}
         ;
 
 statement:
@@ -134,15 +133,15 @@ statement:
         | PRINTTOK string '\n' {$$=P3("T::print(s:",$2,");\n");}
         | EXITTOK sexpr '\n' {$$=P3("T::exit(i:",$2,");\n");}
         | EMIT string '\n' {$$=P3("T::emit(s:",$2,");\n");}
-        | ASSIGN variable '=' expr '\n' {if (!skip) $$=P6($2," ",$3," ",$4,";\n"); else $$=P0;}
+        | ASSIGN variable '=' expr '\n' {$$=P6($2," ",$3," ",$4,";\n");}
         | INVOKE identifier '(' aparameters ')' '\n' {$$=P6("::",$2,$3,$4,$5,";\n");}
         | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {$$=P8($2,$3,"::",$4,$5,$6,$7,";\n");}
         | ALXLATE activity_type inst_ref_var '\n' {$$=P4($1,$2,$3,";\n");}
         | SPECIALWHERE WORD WORD '\n' {$$=P4($1,$2,$3,$4);}
         | CREATEOBJ inst_ref_var OF obj_keyletters '\n' {$$=P8($1," ",$2," ",$3," ",$4,";\n");}
         | DELETEOBJ inst_ref_var ';' '\n' {$$=P4("delete object instance ",$2,$3,$4);}
-        | RELATE inst_ref_var TO inst_ref_var ACROSS reltraversal ';' '\n' {skip=1;} code ENDRELATE '\n' {skip=0; $$=P13("relate ",$2," ",$3," ",$4," ",$5," ",$6,$7,$8,$10);}
-        | UNRELATE inst_ref_var FROM inst_ref_var ACROSS reltraversal ';' '\n' {skip=1;} code ENDUNRELATE '\n' {skip=0; $$=P13("unrelate ",$2," ",$3," ",$4," ",$5," ",$6,$7,$8,$10);}
+        | RELATE inst_ref_var TO inst_ref_var ACROSS reltraversal ';' '\n' code ENDRELATE '\n' {$$=P12("relate ",$2," ",$3," ",$4," ",$5," ",$6,$7,$8);}
+        | UNRELATE inst_ref_var FROM inst_ref_var ACROSS reltraversal ';' '\n' code ENDUNRELATE '\n' {$$=P12("unrelate ",$2," ",$3," ",$4," ",$5," ",$6,$7,$8);}
         ;
 
 selectstatement:
@@ -179,12 +178,12 @@ aparameters:
 
 elifclause:
         /* empty */ {$$=P0;}
-        | elifclause ELIF condition '\n' {indent++;} code {indent--; $$=P6($1,$2," ",$3,$4,$6);}
+        | elifclause ELIF condition '\n' {indent++;} code {indent--; $$=P7($1,ws[indent],$2," ",$3,$4,$6);}
         ;
 
 elseclause:
         /* empty */ {$$=P0;}
-        | elseclause ELSE '\n' {indent++;} code {indent--; $$=P4($1,$2,$3,$5);}
+        | elseclause ELSE '\n' {indent++;} code {indent--; $$=P5($1,ws[indent],$2,$3,$5);}
         ;
 
 endiffer:
@@ -331,7 +330,6 @@ string:
 stringbody:
         /* empty */ {$$=P0;}
         | stringbody TEXT {$$=P2($1,$2);}
-        | stringbody WORD {$$=P2($1,$2);}
         | stringbody substitutionvariable {$$=P2($1,$2);}
         ;
 
@@ -339,24 +337,24 @@ stringbody:
 
 static char * stradd( char * sin[], int n )
 {
-  static int i = 0;
-  static char b[100000];
-  char * s = &b[i];
+  static char b[10000000];
+  static int ii = 0;
+  char * s = &b[ii];
   int len = 0;
   int j;
   for ( j = 0; j < n; j++ ) {
     len = len + strlen( sin[ j ] );
   }
-  i = i + len + 1;
-  if ( i >= 100000 ) {
+  ii = ii + len + 1;
+  if ( ii >= 10000000 ) {
     s = &b[0];
-    i = len + 1;
+    ii = len + 1;
   }
   *s = 0;
   for ( j = 0; j < n; j++ ) {
     strcat( s, sin[ j ] );
   }
-  b[i]=0;
+  b[ii]=0;
   return s;
 }
 static char * stradd2( char *, char * );

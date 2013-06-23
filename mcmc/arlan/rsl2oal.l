@@ -260,11 +260,11 @@ dbl_dollar    "$$"
 
 <control>{dec_digits}         {NUMERICAL_RETURN(INTconstant);}
 <control>{floater}            {NUMERICAL_RETURN(REALconstant);}
-<control,str,sv>{word}        {WORD_RETURN(WORD);}
+<control,sv>{word}            {WORD_RETURN(WORD);}
 
 
 <control>["]                  {SBEGIN(str); ASCIIOP_RETURN('"');}
-<str>[^ $\n"]*|{dbl_quote}*   {TEXT_RETURN(TEXT);}
+<str>[^$\n"]*|{dbl_quote}*    {TEXT_RETURN(TEXT);}
 <str>["]                      {SRETURN(); ASCIIOP_RETURN('"');}
 
 <comment,literal>"$" {SBEGIN(psv); ASCIIOP_RETURN('$');}
