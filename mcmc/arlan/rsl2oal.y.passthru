@@ -19,16 +19,14 @@ int i1 = 0;                     /* indent for next line              */
 int line_number = 1;
 char lw[ 256 ];                 /* leading whitespace                */
 int column;
-char linestr[ 1024 ];
-int skip = 0;
 
 %}
 %{
 /*-------------------------------------------------------------------*/
 #include <stdio.h>
 #include <string.h>
-#define YYDEBUG_LEXER_TEXT (yylval)
-#define YYDEBUG 1               /* Force debugging code to compile.  */
+//#define YYDEBUG_LEXER_TEXT (yylval)
+#define YYDEBUG 1   // ...and uncomment yydebug = 1 in main
 #ifndef YYSTYPE
 #define YYSTYPE char * /* Interface with flex: should be in header.  */
 #endif
@@ -98,12 +96,12 @@ code:
         | code statement
         | code comment
         | code literal
+        | code FUNCTION identifier '\n' {PW($1);} fparameters fbody ENDFUNCTION '\n' { PW($7);}
         ;
 
 statement:
         selectstatement '\n' {PW($1);}
         | IF condition '\n' {PW($1);} code elifclause elseclause endiffer '\n' {PW($8);}
-        | FUNCTION identifier '\n' {PW($1);} fparameters fbody ENDFUNCTION '\n' { PW($7);}
         | FOR inst_ref_var IN inst_ref_set_var '\n' {PW($1);} code endforrer '\n' {PW($8);}
         | BREAKFOR '\n' {PW($1);}
         | BREAKWHILE '\n' {PW($1);}
@@ -141,12 +139,12 @@ fparameters:
         /* empty */
         | fparameters PARAM TYPE param_name COMMENT commentbody '\n' {PW($2);}
         | fparameters PARAM TYPE param_name '\n' {PW($2);}
-        | fparameters comment
         ;
 
 fbody:
         /* empty */
         | statement code
+        | comment code
         | literal code
         ;
 
@@ -213,8 +211,15 @@ term:
 
 reltraversal:
         RELTRAV
-        | RELTRAV '.' '\'' WORD '\''
+        | RELTRAV '.' '\'' relphrase '\''
         | RELTRAV '.' RELTRAV
+        ;
+
+relphrase:
+        WORD
+        | keyword
+        | relphrase WORD
+        | relphrase keyword
         ;
 
 attribute:
@@ -238,7 +243,7 @@ variable:
         ;
 
 keyword:
-        UOP | TYPE | WHERE | IN
+        UOP | TYPE | WHERE | IN | AND | OR
         ;
 
 param_name:
@@ -303,7 +308,6 @@ string:
 stringbody:
         /* empty */
         | stringbody TEXT
-        | stringbody WORD
         | stringbody substitutionvariable
         ;
 

@@ -29,7 +29,7 @@ char * ws[] = {
 int line_number = 1;
 char lw[ 256 ];                 /* leading whitespace                */
 int column;
-char linestr[ 1024 ];
+static char pi[ 1024 ];         /* parameter initialization          */
 
 %}
 %{
@@ -42,12 +42,6 @@ char linestr[ 1024 ];
 #define YYSTYPE char * /* Interface with flex: should be in header.  */
 #endif
 extern char yytext[];
-#define P(x) strncat(bp,linestr,1024);strncat(bp,x,1024);bp=bp+strlen(linestr)+strlen(x);
-#define PW(x) printf( "%s%s", lw, x ); {int i; for (i=0;i<256;i++) lw[i]=0;}
-#define PL strncat(bp,linestr,1024); strcat(bp,"\n"); bp+=strlen(linestr)+1;
-#define PS strncat(bp,linestr,1024); strcat(bp,";\n"); bp+=strlen(linestr)+2;
-#define PI(x) insert_double_colon( x );
-#define POAL printf( "%s", oalbuffer ); bp = oalbuffer; oalbuffer[0]=0;
 
 #define P0 ""
 #define P1(a) a
@@ -66,8 +60,6 @@ extern char yytext[];
 #define P14(a,b,c,d,e,f,g,h,i,j,k,l,m,n) ({char * s[]={a,b,c,d,e,f,g,h,i,j,k,l,m,n}; stradd( s, 14 );})
 #define P15(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o) ({char * s[]={a,b,c,d,e,f,g,h,i,j,k,l,m,n,o}; stradd( s, 15 );})
 
-char oalbuffer[ 128000 ];
-char * bp = oalbuffer;
 static char * stradd( char * [], int );
 
 /*-------------------------------------------------------------------*/
@@ -118,7 +110,7 @@ code:
         | code statement {$$=P3($1,ws[indent],$2);}
         | code comment {$$=P3($1,ws[indent],$2);}
         | code literal {$$=P2($1,$2);}
-        | code FUNCTION identifier '\n' fparameters fbody ENDFUNCTION '\n' {$$=""; printf( "%s", P6($1,$3,"@void",$5,"@@@\n",$6));}
+        | code FUNCTION identifier '\n' {pi[0]=0;} fparameters fbody ENDFUNCTION '\n' {$$=""; printf( "%s", P7($3,"@void",$6,"@@@\n",$1,pi,$7));}
         ;
 
 statement:
@@ -133,9 +125,9 @@ statement:
         | PRINTTOK string '\n' {$$=P3("T::print(s:",$2,");\n");}
         | EXITTOK sexpr '\n' {$$=P3("T::exit(i:",$2,");\n");}
         | EMIT string '\n' {$$=P3("T::emit(s:",$2,");\n");}
-        | ASSIGN variable '=' expr '\n' {$$=P6($2," ",$3," ",$4,";\n");}
+        | ASSIGN variable '=' expr '\n' {$$ = ( 0 == strncmp( $2, "attr_", 5 ) ) ? P3("return ",$4,";\n") : P4($2," = ",$4,";\n");}
         | INVOKE identifier '(' aparameters ')' '\n' {$$=P6("::",$2,$3,$4,$5,";\n");}
-        | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {$$=P8($2,$3,"::",$4,$5,$6,$7,";\n");}
+        | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {$$=P7($2," = ::",$4,$5,$6,$7,";\n");}
         | ALXLATE activity_type inst_ref_var '\n' {$$=P4($1,$2,$3,";\n");}
         | SPECIALWHERE WORD WORD '\n' {$$=P4($1,$2,$3,$4);}
         | CREATEOBJ inst_ref_var OF obj_keyletters '\n' {$$=P8($1," ",$2," ",$3," ",$4,";\n");}
@@ -159,14 +151,14 @@ whereclause:
 
 fparameters:
         /* empty */ {$$=P0;}
-        | fparameters PARAM TYPE param_name COMMENT commentbody '\n' {$$=P9($1,"@@",$4,"@",$3,$4," = param.",$4,";\n");}
-        | fparameters PARAM TYPE param_name '\n' {$$=P9($1,"@@",$4,"@",$3,$4," = param.",$4,";\n");}
-        | fparameters comment {$$=P2($1,$2);}
+        | fparameters PARAM TYPE param_name COMMENT commentbody '\n' {$$=P5($1,"@@",$4,"@",$3); strcat(pi,P6($4," = param.",$4,"; // ",$6,"\n"));}
+        | fparameters PARAM TYPE param_name '\n' {$$=P5($1,"@@",$4,"@",$3); strcat(pi,P4($4," = param.",$4,";\n"));}
         ;
 
 fbody:
         /* empty */ {$$=P0;}
         | statement code {$$=P3(ws[indent],$1,$2);}
+        | comment code {$$=P3(ws[indent],$1,$2);}
         | literal code {$$=P2($1,$2);}
         ;
 
@@ -228,7 +220,7 @@ term:
         | REALconstant
         | term ARROW identifier {$$=P3($1,$2,$3);}
         | term ':' parsekeyword {$$=P3($1,$2,$3);}
-        | term '.' attribute {$$=P3($1,$2,$3);}
+        | term '.' attribute {$$ = ( ( 0 == strcmp( $1, "r" ) ) && ( 0 == strcmp( $3, "result" ) ) ) ? "r" : P3($1,$2,$3);}
         ;
 
 reltraversal:
@@ -246,6 +238,7 @@ relphrase:
 
 attribute:
         identifier
+        | keyword
         ;
 
 parsekeyword:
@@ -260,7 +253,8 @@ format:
 
 variable:
         identifier
-        | identifier '.' identifier {$$=P3($1,$2,$3);}
+        | identifier '.' identifier {$$ = ( ( 0 == strcmp( $1, "r" ) ) && ( 0 == strcmp( $3, "result" ) ) ) ? "r" : P3($1,$2,$3);}
+        | identifier '.' keyword {$$=P3($1,$2,$3);}
         | keyword               /* This practice is not recommended. */
         ;
 
@@ -319,12 +313,12 @@ literalbody:
         ;
 
 substitutionvariable:
-        '$' format '{' term '}' {$$=P3("T::s(",$4,")");}
+        '$' format '{' term '}' {char * f = $2; if ( 0 == strcmp( $2, "" ) ) f = "s"; $$=P5("T::",f,"(",$4,")");}
         ;
 
 
 string:
-        '"' stringbody '"' {$$=P3($1,$2,$3);}
+        '"' stringbody '"' {$$ = ( 0 == strncmp( $2, "T::", 3 ) ) ? P1($2) : P3($1,$2,$3);}
         ;
 
 stringbody:

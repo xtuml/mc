@@ -27,7 +27,6 @@
 
 extern int i0, i1, line_number, column;
 extern char lw[];
-extern char linestr[];
 static char * s( char *, int );
 static char * s( char * sin, int len )
 {
@@ -110,7 +109,7 @@ int stack_pointer = 0;
 
 %}
 
-word          [a-zA-Z][0-9a-zA-Z_]*|[a-zA-Z][0-9a-zA-Z_"."]*[0-9a-zA-Z_]+
+word          [a-zA-Z][0-9a-zA-Z_]*|[a-zA-Z][0-9a-zA-Z_]*[0-9a-zA-Z_]+
 exponent      [eE][-+]?[0-9]+
 fraction      ([0-9]*"."[0-9]+)|([0-9]+".")
 floater       (({fraction}{exponent}?)|([0-9]+{exponent}))[FfLl]?
@@ -153,12 +152,11 @@ dbl_dollar    "$$"
 
 <comment,literal,INITIAL,pc,control>"\n" {NEW_LINE_RETURN('\n');}
 
-^{h_white}*/[^\.\n]                     {column=0; linestr[0]=0; LITERAL_RETURN(LITERAL);}
+^{h_white}*/[^\.\n]                     {column=0; LITERAL_RETURN(LITERAL);}
 ^{h_white}*/{dbl_dot}                   {LITERAL_RETURN(LITERAL);}
 <literal>[^$\n]*|{dbl_dollar}*          {TEXT_RETURN(LITERAL);}
-^{h_white}*/"."                         {column=0; linestr[0]=0;
+^{h_white}*/"."                         {column=0;
                                          strncpy(lw,yytext,yyleng);
-                                         linestr[yyleng]=0;
                                          NSBEGIN(pc);
                                         }
 <control>{h_white}+                     {CWHITE_RETURN(' ');}
