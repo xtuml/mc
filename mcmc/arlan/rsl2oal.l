@@ -92,6 +92,7 @@ int stack_pointer = 0;
 #define NEW_LINE_RETURN(x)   line_number++;                           \
                              if ((current_state == control) ||        \
                                  (current_state == pc) ||             \
+                                 (current_state == literal) ||        \
                                  (current_state == comment)) {        \
                                NSBEGIN(INITIAL);                      \
                              }                                        \
@@ -99,31 +100,10 @@ int stack_pointer = 0;
                              yytext=s(yytext,yyleng);                 \
                              yylval = (int) yytext;                   \
                              return(x);
-#define RETURN_VAL(x)        if ( '{' == x ) {                        \
-                               if ( '$' == *(yytext-1) ) {            \
-                                 linestr[ strlen(linestr) - 1 ] = 0;  \
-                                 YYAPPEND1("T::s(i:")                 \
-                               } else {                               \
-                                 linestr[ strlen(linestr) - 1 ] = 0;  \
-                                 if ( '"' == *(yytext-3) )            \
-                                   linestr[ strlen(linestr) - 1 ] = 0;\
-                                 YYAPPEND1("T::")                     \
-                                 YYAPPEND(yytext-1,1)                 \
-                                 YYAPPEND1("(s:")                     \
-                               }                                      \
-                             } else if ( '}' == x ) {                 \
-                               YYAPPEND1(")")                         \
-                             } else if ( ( '"' == x ) &&              \
-                                 ( '}' == *(yytext-1) ) ) {           \
-                             } else {                                 \
-                               YYAPPEND(yytext,yyleng)                \
-                             }                                        \
-                             yytext=s(yytext,yyleng);                 \
+#define RETURN_VAL(x)        yytext=s(yytext,yyleng);                 \
                              yylval = (int) yytext;                   \
                              return(x);
-#define RETURN_CVAL(x)       strncat(linestr,yytext+1,yyleng-1);      \
-                             column = column + yyleng - 1;            \
-                             yytext++; /* Skip leading dot.  */       \
+#define RETURN_CVAL(x)       yytext++; /* Skip leading dot.  */       \
                              yytext=s(yytext,yyleng-1);               \
                              yylval = (int) yytext;                   \
                              return(x);
@@ -202,7 +182,7 @@ dbl_dollar    "$$"
 <pc>".select one"|".SELECT ONE"         {CONTROL_RETURN(SELECTONE);}
 <pc>".select any"|".SELECT ANY"         {CONTROL_RETURN(SELECTANY);}
 <pc>".select many"|".SELECT MANY"       {CONTROL_RETURN(SELECTMANY);}
-<pc>(".if"|".IF")                       {i1++; CONTROL_RETURN(IF);}
+<pc>".if"|".IF"                         {i1++; CONTROL_RETURN(IF);}
 <pc>".elif"|".ELIF"                     {i0--; CONTROL_RETURN(ELIF);}
 <pc>".else"|".ELSE"                     {i0--; CONTROL_RETURN(ELSE);}
 <pc>".end if"|".END IF"                 {i0--; i1--; ECONTROL_RETURN(ENDIF);}

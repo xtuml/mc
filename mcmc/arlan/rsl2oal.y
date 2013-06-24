@@ -36,8 +36,8 @@ char linestr[ 1024 ];
 /*-------------------------------------------------------------------*/
 #include <stdio.h>
 #include <string.h>
-#define YYDEBUG_LEXER_TEXT (yylval)
-//#define YYDEBUG 1   // ...and uncomment yydebug = 1 in main
+//#define YYDEBUG_LEXER_TEXT (yylval)
+#define YYDEBUG 1   // ...and uncomment yydebug = 1 in main
 #ifndef YYSTYPE
 #define YYSTYPE char * /* Interface with flex: should be in header.  */
 #endif
@@ -319,7 +319,7 @@ literalbody:
         ;
 
 substitutionvariable:
-        '$' format '{' term '}' {$$=P5($1,$2,$3,$4,$5);}
+        '$' format '{' term '}' {$$=P3("T::s(",$4,")");}
         ;
 
 

@@ -34,7 +34,7 @@ static char * s( char * sin, int len )
   static char b[ 1000000 ]; static int j;
   char * s = &b[j];
   j+= len + 1;
-  if ( j >= 100000 ) {
+  if ( j >= 1000000 ) {
     s = &b[0];
     j = len + 1;
   }
@@ -152,18 +152,14 @@ dbl_dollar    "$$"
                                          NSBEGIN(pc);
                                         }
 <control>{h_white}+                     {CWHITE_RETURN(' ');}
-<comment>[^ \n]*                        {TEXT_RETURN(TEXT);}
-<comment>{h_white}+                     {WHITE_RETURN(' ');}
+<comment>[^\n]*                         {TEXT_RETURN(TEXT);}
 {h_white}+                              {WHITE_RETURN(' ');}
 
-<pc>".// delete object instance"        {           // eat comment marker
-                                         CONTROL_RETURN(DELETEOBJ);}
-<pc>".// unrelate"                      {           // eat comment marker
-                                         CONTROL_RETURN(UNRELATE);}
-<pc>".// relate"                        {           // eat comment marker
-                                         CONTROL_RETURN(RELATE);}
-<pc>".// end unrelate"                  {return(ENDUNRELATE);}
-<pc>".// end relate"                    {return(ENDRELATE);}
+<pc>".// delete object instance"        {CONTROL_RETURN(DELETEOBJ);}
+<pc>".// unrelate"                      {CONTROL_RETURN(UNRELATE);}
+<pc>".// relate"                        {CONTROL_RETURN(RELATE);}
+<pc>".// end unrelate"                  {CONTROL_RETURN(ENDUNRELATE);}
+<pc>".// end relate"                    {CONTROL_RETURN(ENDRELATE);}
 <pc,control>".//"                       {COMMENT_RETURN(COMMENT);}
 <pc>".comment"|".COMMENT"               {COMMENT_RETURN(COMMENT);}
 <pc>".function"|".FUNCTION"             {i0 = 0; i1= 1;
@@ -234,11 +230,11 @@ dbl_dollar    "$$"
 
 <control>{dec_digits}         {NUMERICAL_RETURN(INTconstant);}
 <control>{floater}            {NUMERICAL_RETURN(REALconstant);}
-<control,str,sv>{word}        {WORD_RETURN(WORD);}
+<control,sv>{word}            {WORD_RETURN(WORD);}
 
 
 <control>["]                  {SBEGIN(str); ASCIIOP_RETURN('"');}
-<str>[^ $\n"]*|{dbl_quote}*   {TEXT_RETURN(TEXT);}
+<str>[^$\n"]*|{dbl_quote}*    {TEXT_RETURN(TEXT);}
 <str>["]                      {SRETURN(); ASCIIOP_RETURN('"');}
 
 <comment,literal>"$" {SBEGIN(psv); ASCIIOP_RETURN('$');}
