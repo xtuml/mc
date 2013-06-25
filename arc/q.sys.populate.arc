@@ -428,7 +428,7 @@
     .assign te_c = empty_te_c
     .select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000]
     .if ( not_empty ep_pkg )
-      .invoke r = TE_C.getContainingComponent( ep_pkg )
+      .invoke r = TE_C_getContainingComponent( ep_pkg )
       .assign te_c = r.result
     .end if
     .if ( empty te_c )
@@ -447,7 +447,7 @@
   .for each o_obj in o_objs
     .assign te_c = empty_te_c
     .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
-    .invoke r = TE_C.getContainingComponent( ep_pkg )
+    .invoke r = TE_C_getContainingComponent( ep_pkg )
     .assign te_c = r.result
     .if ( not_empty te_c )
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
@@ -463,7 +463,7 @@
   .for each s_sync in s_syncs
     .assign te_c = empty_te_c
     .select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000]
-    .invoke r = TE_C.getContainingComponent( ep_pkg )
+    .invoke r = TE_C_getContainingComponent( ep_pkg )
     .assign te_c = r.result
     .if ( not_empty te_c )
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
@@ -485,7 +485,7 @@
   .select many s_ees from instances of S_EE
   .for each s_ee in s_ees
     .select one ep_pkg related by s_ee->PE_PE[R8001]->EP_PKG[R8000]
-    .invoke r = TE_C.getContainingComponent( ep_pkg )
+    .invoke r = TE_C_getContainingComponent( ep_pkg )
     .assign te_c = r.result
     .if ( empty te_c )
       .// Here we have an EE in a package outside of a component.
@@ -2399,7 +2399,7 @@
 .//
 .// Recursively search upwards through the package hierarchy to find the
 .// containing (parent/owning) component.
-.function TE_C.getContainingComponent
+.function TE_C_getContainingComponent
   .param inst_ref ep_pkg
   .select any te_c from instances of TE_C where ( false )
   .// Return empty te_c for a top-level package with no containing package or component.
@@ -2409,7 +2409,7 @@
     .if ( empty te_c )
       .select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000]
       .if ( not_empty parent_ep_pkg )
-        .invoke r = TE_C.getContainingComponent( parent_ep_pkg )
+        .invoke r = TE_C_getContainingComponent( parent_ep_pkg )
         .assign te_c = r.result
       .end if
     .end if
@@ -2419,12 +2419,12 @@
 .//
 .// Recursively search upwards through the component hierarcy to find the
 .// containing (parent/owning) package.
-.function EP_PKG.getContainingPackage
+.function EP_PKG_getContainingPackage
   .param inst_ref container_c_c
   .select one ep_pkg related by container_c_c->PE_PE[R8001]->EP_PKG[R8000]
   .if ( empty ep_pkg )
     .select one c_c related by container_c_c->PE_PE[R8001]->C_C[R8003]
-    .invoke r = EP_PKG.getContainingPackage( c_c )
+    .invoke r = EP_PKG_getContainingPackage( c_c )
     .assign ep_pkg = r.ep_pkg
   .end if
   .assign attr_result = ep_pkg

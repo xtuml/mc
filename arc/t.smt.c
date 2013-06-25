@@ -443,7 +443,7 @@ ${te_instance.module}${te_eq.non_self}( \
   .param string value
   .param integer value_type
   .param string ws
-  .assign attr_result = ""
+  .assign result = ""
   .select any te_eq from instances of TE_EQ
   .if ( "" == evt_msg_var )
     .assign evt_msg_var = te_eq.event_message_variable
@@ -452,10 +452,11 @@ ${te_instance.module}${te_eq.non_self}( \
     .// string
     .select any te_string from instances of TE_STRING
     .select any te_instance from instances of TE_INSTANCE
-    .assign attr_result = "${ws}  ${te_instance.module}${te_string.strcpy}( ${evt_msg_var}->p_$_{parameter}, ${value} );"
+    .assign result = "${ws}  ${te_instance.module}${te_string.strcpy}( ${evt_msg_var}->p_$_{parameter}, ${value} );"
   .else
-    .assign attr_result = "${ws}  ${evt_msg_var}->p_${parameter} = ${value};"
+    .assign result = "${ws}  ${evt_msg_var}->p_${parameter} = ${value};"
   .end if
+  .assign attr_result = result
 .end function
 .//------------------------------------------------
 .function t_oal_smt_generate

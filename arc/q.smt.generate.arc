@@ -201,18 +201,19 @@
 .// recurse down in the case of structures and arrays.
 .function V_VAL_drill_for_V_VAL_root
   .param inst_ref v_val
-  .assign attr_result = v_val
+  .assign result = v_val
   .select one root_v_val related by v_val->V_AER[R801]->V_VAL[R838]
   .if ( not_empty root_v_val )
     .invoke r = V_VAL_drill_for_V_VAL_root( root_v_val )
-    .assign attr_result = r.result
+    .assign result = r.result
   .else
     .select one root_v_val related by v_val->V_MVL[R801]->V_VAL[R837]
     .if ( not_empty root_v_val )
       .invoke r = V_VAL_drill_for_V_VAL_root( root_v_val )
-      .assign attr_result = r.result
+      .assign result = r.result
     .end if
   .end if
+  .assign attr_result = result
 .end function
 .//
 .//
