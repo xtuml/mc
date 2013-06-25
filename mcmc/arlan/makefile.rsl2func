@@ -15,4 +15,4 @@ lex.yy.c: rsl2oal.l
 	flex rsl2oal.l
 
 clean:
-	rm *.o *.output *.c *.h *.exe
+	rm *.o *.output y.tab.c lex.yy.c *.h *.exe

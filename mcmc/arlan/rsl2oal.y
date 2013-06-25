@@ -61,6 +61,8 @@ extern char yytext[];
 #define P15(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o) ({char * s[]={a,b,c,d,e,f,g,h,i,j,k,l,m,n,o}; stradd( s, 15 );})
 
 static char * stradd( char * [], int );
+extern char * dtKLname( char * );
+extern void loadtable( void );
 
 /*-------------------------------------------------------------------*/
 %}
@@ -110,7 +112,7 @@ code:
         | code statement {$$=P3($1,ws[indent],$2);}
         | code comment {$$=P3($1,ws[indent],$2);}
         | code literal {$$=P2($1,$2);}
-        | code FUNCTION identifier '\n' {pi[0]=0;} fparameters fbody ENDFUNCTION '\n' {$$=""; printf( "%s", P7($3,"@void",$6,"@@@\n",$1,pi,$7));}
+        | code FUNCTION identifier '\n' {pi[0]=0;} fparameters fbody ENDFUNCTION '\n' {$$=""; printf( "%s", P8($3,"@void",$6,"@@@\n",$1,pi,$7,"@@@\n"));}
         ;
 
 statement:
@@ -126,8 +128,8 @@ statement:
         | EXITTOK sexpr '\n' {$$=P3("T::exit(i:",$2,");\n");}
         | EMIT string '\n' {$$=P3("T::emit(s:",$2,");\n");}
         | ASSIGN variable '=' expr '\n' {$$ = ( 0 == strncmp( $2, "attr_", 5 ) ) ? P3("return ",$4,";\n") : P4($2," = ",$4,";\n");}
-        | INVOKE identifier '(' aparameters ')' '\n' {$$=P6("::",$2,$3,$4,$5,";\n");}
-        | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {$$=P7($2," = ::",$4,$5,$6,$7,";\n");}
+        | INVOKE identifier '(' aparameters ')' '\n' {$$ = (strlen($4)>0) ? P5("::",$2,"( ",$4," );\n") : P6("::",$2,$3,$4,$5,";\n");}
+        | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {$$ = (strlen($6)>0) ? P6($2," = ::",$4,"( ",$6," );\n") : P7($2," = ::",$4,$5,$6,$7,";\n");}
         | ALXLATE activity_type inst_ref_var '\n' {$$=P4($1,$2,$3,";\n");}
         | SPECIALWHERE WORD WORD '\n' {$$=P4($1,$2,$3,$4);}
         | CREATEOBJ inst_ref_var OF obj_keyletters '\n' {$$=P8($1," ",$2," ",$3," ",$4,";\n");}
@@ -152,7 +154,15 @@ whereclause:
 fparameters:
         /* empty */ {$$=P0;}
         | fparameters PARAM TYPE param_name COMMENT commentbody '\n' {$$=P5($1,"@@",$4,"@",$3); strcat(pi,P6($4," = param.",$4,"; // ",$6,"\n"));}
-        | fparameters PARAM TYPE param_name '\n' {$$=P5($1,"@@",$4,"@",$3); strcat(pi,P4($4," = param.",$4,";\n"));}
+        | fparameters PARAM TYPE param_name '\n' {
+          if ( 0 == strncmp($3,"inst_ref",8) ) {
+            char * t = dtKLname($4);
+            $$=P8($1,"@@",$4,"@",$3,"<",dtKLname($4),">");
+          } else {
+            $$=P5($1,"@@",$4,"@",$3);
+          }
+          strcat(pi,P4($4," = param.",$4,";\n"));
+        }
         ;
 
 fbody:
@@ -164,8 +174,8 @@ fbody:
 
 aparameters:
         /* empty */ {$$=P0;}
-        | term aparameters {$$=P2($1,$2);}
-        | ',' term aparameters {$$=P4($1," ",$2,$3);}
+        | term aparameters {$$=P4($1,":",$1,$2);}
+        | ',' term aparameters {$$=P5(", ",$2,":",$2,$3);}
         ;
 
 elifclause:
@@ -399,6 +409,7 @@ int
 main( int argc, char ** argv )
 {
   //yydebug = 1;
+  loadtable();
   yyparse();
 }
 
