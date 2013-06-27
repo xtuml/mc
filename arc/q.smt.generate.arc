@@ -769,7 +769,7 @@
   .select one te_var related by v_var->TE_VAR[R2039]
   .select any te_class related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019]
   .if ( not_empty te_class )
-    .assign te_class.Included = TRUE
+    .assign te_class.Included = true
     .select many v_pars related by e_ess->V_PAR[R700]
     .assign parameters = ""
     .assign parameter_OAL = ""
@@ -865,7 +865,7 @@
   .end if
   .select one te_class related by attr_tgt_o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
-    .assign te_class.Included = TRUE
+    .assign te_class.Included = true
     .assign attr_valid = true
     .if ( act_act.Type == "state" )
       .if ( o_obj == attr_tgt_o_obj )

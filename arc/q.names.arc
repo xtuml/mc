@@ -74,8 +74,8 @@
   .param inst_ref r_rel
   .param string   rel_phrase
   .//
-  .assign attr_left_obj_is_aone = FALSE
-  .assign attr_reflexive = FALSE
+  .assign attr_left_obj_is_aone = false
+  .assign attr_reflexive = false
   .assign attr_name = ""
   .assign attr_result = ""
   .//
@@ -84,12 +84,12 @@
     .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
     .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
     .if ( left_o_obj.Obj_Id == aone.Obj_ID )
-      .assign attr_left_obj_is_aone = TRUE
+      .assign attr_left_obj_is_aone = true
     .end if
     .//
-    .assign associative_reflexive = FALSE
+    .assign associative_reflexive = false
     .if ( aone.Obj_Id == aoth.Obj_Id )
-      .assign attr_reflexive = TRUE
+      .assign attr_reflexive = true
     .end if
     .//
     .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
@@ -116,8 +116,8 @@
   .param inst_ref r_rel
   .param string   rel_phrase
   .//
-  .assign attr_left_obj_is_aone = FALSE
-  .assign attr_reflexive = FALSE
+  .assign attr_left_obj_is_aone = false
+  .assign attr_reflexive = false
   .assign attr_name = ""
   .assign attr_result = ""
   .//
@@ -126,12 +126,12 @@
     .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
     .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
     .if ( left_o_obj.Obj_Id == aone.Obj_ID )
-      .assign attr_left_obj_is_aone = TRUE
+      .assign attr_left_obj_is_aone = true
     .end if
     .//
-    .assign associative_reflexive = FALSE
+    .assign associative_reflexive = false
     .if ( aone.Obj_Id == aoth.Obj_Id )
-      .assign attr_reflexive = TRUE
+      .assign attr_reflexive = true
     .end if
     .//
     .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"

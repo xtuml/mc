@@ -1936,9 +1936,9 @@
   .select one c_i related by te_po->C_I[R2007]
   .select any te_po_poly related by c_i->TE_PO[R2007] where ( ( selected.Provision == te_po.Provision) and selected.polymorphic )
   .if ( empty te_po_poly )
-    .assign te_mact.polymorphic = FALSE
+    .assign te_mact.polymorphic = false
   .else
-    .assign te_mact.polymorphic = TRUE
+    .assign te_mact.polymorphic = true
   .end if
   .assign te_mact.Descrip = description
   .assign te_mact.subtypeKL = subtypeKL

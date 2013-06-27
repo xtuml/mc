@@ -121,12 +121,12 @@ ${persist_link_function.body}\
       .// object as Simple Participant, get formalizing object.
       .select one related_o_obj related by formalizer->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
       .assign te_relinfo.multiplicity = formalizer.Mult
-      .assign te_relinfo.is_formalizer = FALSE
+      .assign te_relinfo.is_formalizer = false
     .else
       .// object as Simple Formalizer, get participant object.
       .select one related_o_obj related by r_rto->R_OIR[R203]->O_OBJ[R201]
       .assign te_relinfo.multiplicity = participant.Mult
-      .assign te_relinfo.is_formalizer = TRUE
+      .assign te_relinfo.is_formalizer = true
       .//
       .invoke links = CreateSimpleFormalizerMethods( te_relstore, o_obj, r_rel, gen_declaration )
 ${links.body}\
@@ -156,14 +156,14 @@ ${methods.body}\
     .// Handle participant side
     .assign te_relinfo.multiplicity = participant.Mult
     .assign te_relinfo.rel_phrase = participant.Txt_Phrs
-    .assign te_relinfo.is_formalizer = FALSE
+    .assign te_relinfo.is_formalizer = false
     .invoke part_links = CreateSimpleReflexiveFormalizerMethods( te_relstore, o_obj, r_rel, participant.Txt_Phrs, gen_declaration )
     .invoke part_fundamentals = ImplementRelationshipFundamentals( o_obj, o_obj, r_rto, r_rgo, r_rel, te_relinfo, te_relstore )
     .//
     .// Handle formalizer side
     .assign te_relinfo.multiplicity = formalizer.Mult
     .assign te_relinfo.rel_phrase = formalizer.Txt_Phrs
-    .assign te_relinfo.is_formalizer = TRUE
+    .assign te_relinfo.is_formalizer = true
     .invoke form_links = CreateSimpleReflexiveFormalizerMethods( te_relstore, o_obj, r_rel, formalizer.Txt_Phrs, gen_declaration )
     .invoke form_fundamentals = ImplementRelationshipFundamentals( o_obj, o_obj, r_rto, r_rgo, r_rel, te_relinfo, te_relstore )
     .//
@@ -194,11 +194,11 @@ ${form_fundamentals.body}\
   .//
   .if ( o_obj.Obj_ID == r_super.Obj_ID )
     .// object as supertype in relationship.
-    .assign te_relinfo.is_supertype = TRUE
-    .assign te_relinfo.generate_subtype = TRUE
-    .assign te_relinfo.is_formalizer = FALSE
+    .assign te_relinfo.is_supertype = true
+    .assign te_relinfo.generate_subtype = true
+    .assign te_relinfo.is_formalizer = false
     .select many subtype_set related by r_rel->R_SUBSUP[R206]->R_SUB[R213]
-    .assign blurped_comment = FALSE
+    .assign blurped_comment = false
     .for each subtype in subtype_set
       .select one r_rgo related by subtype->R_RGO[R205]
       .select one sub_o_obj related by subtype->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
@@ -206,7 +206,7 @@ ${form_fundamentals.body}\
       .if ( not blurped_comment )
 
 /* Accessors to ${o_obj.Key_Lett}[R${r_rel.Numb}] subtypes */
-        .assign blurped_comment = TRUE
+        .assign blurped_comment = true
       .end if
 ${methods.body}\
     .end for
@@ -215,7 +215,7 @@ ${methods.body}\
     .// object as subtype in relationship
     .select any r_rgo related by r_rel->R_SUBSUP[R206]->R_SUB[R213]->R_RGO[R205] where ( selected.Obj_ID == o_obj.Obj_ID )
     .select one supertype_o_obj related by r_super->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]
-    .assign te_relinfo.is_formalizer = TRUE
+    .assign te_relinfo.is_formalizer = true
     .invoke AddRelationshipStorage( o_obj, supertype_o_obj, r_rto, r_rgo, r_rel, te_relinfo, te_relstore )
     .invoke methods = CreateSubtypeFormalizerMethods( te_relstore, o_obj, r_rel, gen_declaration )
 ${methods.body}\
@@ -256,20 +256,20 @@ ${methods.body}\
   .//        ...unless dealing with a class that is discluded from gen.
   .if ( not aone_te_class.ExcludeFromGen )
     .select one te_nav related by aone_oir->TE_NAV[R2035]
-    .assign te_nav.NavigatedTo = TRUE
+    .assign te_nav.NavigatedTo = true
   .end if
   .if ( not aoth_te_class.ExcludeFromGen )
     .select one te_nav related by aoth_oir->TE_NAV[R2035]
-    .assign te_nav.NavigatedTo = TRUE
+    .assign te_nav.NavigatedTo = true
   .end if
   .if ( not assr_te_class.ExcludeFromGen )
     .select one te_nav related by assr_oir->TE_NAV[R2035]
-    .assign te_nav.NavigatedTo = TRUE
+    .assign te_nav.NavigatedTo = true
   .end if
   .//
-  .assign associative_reflexive = FALSE
+  .assign associative_reflexive = false
   .if ( aone.Obj_Id == aoth.Obj_Id )
-    .assign associative_reflexive = TRUE
+    .assign associative_reflexive = true
   .end if
   .//
   .invoke r = FactoryTE_RELINFO()
@@ -281,7 +281,7 @@ ${methods.body}\
     .if ( not associative_reflexive )
       .//
       .assign te_relinfo.multiplicity = 0
-      .assign te_relinfo.is_formalizer = TRUE
+      .assign te_relinfo.is_formalizer = true
       .invoke assr_methods = CreateAssociativeFormalizerMethods( te_relstore, r_rel, "", gen_declaration )
       .//
       .// Handle Object As Associated One Side (R_AONE)
@@ -297,7 +297,7 @@ ${aoth_fundamentals.body}\
     .else
       .// reflexive associative relationship
       .assign te_relinfo.multiplicity = 0
-      .assign te_relinfo.is_formalizer = TRUE
+      .assign te_relinfo.is_formalizer = true
       .//
       .if ( gen_declaration )
         .select one aone_oid related by aone->R_RTO[R204]->O_ID[R109]
@@ -557,10 +557,10 @@ ${aoth_fundamentals.body}\
     .if ( "C" == te_target.language )
       .assign thismodule = ""
     .end if
-    .assign left_is_formalizer = FALSE
+    .assign left_is_formalizer = false
     .if ( rel_phrase == part.Txt_Phrs )
       .// Left is formalizer, right is participant
-      .assign left_is_formalizer = TRUE
+      .assign left_is_formalizer = true
     .end if
     .select any assoc from instances of O_OBJ where ( false )
     .assign link_call = "${relate_method.result}( (${te_class.GeneratedName} *) l, (${te_class.GeneratedName} *) r )"
@@ -889,7 +889,7 @@ ${aoth_fundamentals.body}\
   .// Get the base names of the data member(s) to be generated.
   .invoke member_data_name = GetRelationshipDataMemberName( related_o_obj, rel, te_relinfo.rel_phrase )
   .//
-  .assign storage_needed = FALSE
+  .assign storage_needed = false
   .assign phrase = ""
   .if ( "" != te_relinfo.rel_phrase )
     .// Include relationship phrase in reflexive relationship commenting.
@@ -901,27 +901,27 @@ ${aoth_fundamentals.body}\
     .if ( te_relinfo.is_formalizer )
       .select one te_nav related by rto->R_OIR[R203]->TE_NAV[R2035]
       .if ( te_nav.NavigatedTo or te_c.OptDisabled )
-        .assign storage_needed = TRUE
+        .assign storage_needed = true
       .else
         .select one super related by rto->R_SUPER[R204]
         .if ( not_empty super )
-          .assign storage_needed = TRUE
+          .assign storage_needed = true
         .end if
       .end if
     .else
       .select one te_nav related by rgo->R_OIR[R203]->TE_NAV[R2035]
       .if ( te_nav.NavigatedTo or te_c.OptDisabled )
-        .assign storage_needed = TRUE
+        .assign storage_needed = true
       .else
         .select one sub related by rgo->R_SUB[R205]
         .if ( not_empty sub )
-          .assign storage_needed = TRUE
+          .assign storage_needed = true
         .end if
       .end if
     .end if
   .else
     .// Reflexive - always need bi-directional linkage
-    .assign storage_needed = TRUE
+    .assign storage_needed = true
   .end if
   .//
   .if ( te_relinfo.gen_declaration )
@@ -941,7 +941,7 @@ ${aoth_fundamentals.body}\
         .if ( te_relinfo.generate_subtype )
           .// optimized relationship storage for link to a subtype
           .assign data_declare = "  void * ${member_data_name.result};\n  ${te_typemap.object_number_name} ${member_data_name.obj_id};\n"
-          .assign te_relinfo.generate_subtype = FALSE
+          .assign te_relinfo.generate_subtype = false
         .end if
       .end if
     .else
@@ -972,7 +972,7 @@ ${aoth_fundamentals.body}\
           .assign data_init = "  ${te_instance.self}->${member_data_name.result} = 0;\n  ${te_instance.self}->${member_data_name.obj_id} = 0;\n"
           .if ( storage_needed )
             .assign data_fini = "  ${te_instance.self}->${member_data_name.result} = 0;\n  ${te_instance.self}->${member_data_name.obj_id} = 0;\n"
-            .assign te_relinfo.generate_subtype = FALSE
+            .assign te_relinfo.generate_subtype = false
           .end if
         .end if
       .end if
@@ -1012,9 +1012,9 @@ ${aoth_fundamentals.body}\
   .// Append relationship data storage components to te_relstore instance.
   .invoke AddRelationshipStorage( this_o_obj, related_o_obj, r_rto, r_rgo, r_rel, te_relinfo, te_relstore )
   .if ( te_relinfo.gen_declaration )
-    .assign gen_navigate = FALSE
+    .assign gen_navigate = false
     .if ( te_relinfo.is_supertype or ( te_relinfo.multiplicity != 0 ) )
-      .assign gen_navigate = TRUE
+      .assign gen_navigate = true
     .end if
     .if ( gen_navigate )
       .// Get the base names of the methods and data members to be generated.

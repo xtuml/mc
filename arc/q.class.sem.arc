@@ -98,13 +98,13 @@
   .param inst_ref sm_sm
   .//
   .select many te_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525]->TE_EVT[R2036]
-  .assign attr_no_events = TRUE
+  .assign attr_no_events = true
   .assign event_order = 0
   .if ( not_empty te_evts )
 /*
  * enumeration of state model event numbers
  */
-    .assign attr_no_events = FALSE
+    .assign attr_no_events = false
     .assign num_events = cardinality te_evts
     .assign event_count = 0
     .assign last_order = 0
@@ -134,7 +134,7 @@
 /*
  * Enumeration of polymorphic event numbers
  */
-    .assign attr_no_events = FALSE
+    .assign attr_no_events = false
     .for each event in poly_event_set
       .select one te_evt related by event->TE_EVT[R2036]
       .assign event_comment = event.Drv_Lbl
@@ -145,7 +145,7 @@
       .assign event_order = event_order + 1
     .end for
   .end if
-  .if ( attr_no_events == TRUE )
+  .if ( attr_no_events == true )
 /* note:  no events defined in state model */
   .end if
 .end function
@@ -396,7 +396,7 @@
     .assign poly_rel_set = poly_rels.result
     .//
     .invoke init_uniques = AutoInitializeUniqueIDs( te_class, "i" )
-    .invoke max_event = GetMaxEventInfo( o_obj, TRUE )
+    .invoke max_event = GetMaxEventInfo( o_obj, true )
     .invoke domain_id = GetDomainTypeIDFromString( te_c.Name )
     .invoke poly_dispatch = CreatePolymorphicEventDispatcher( o_obj, poly_rel_set )
     .assign poly_dispatcher = poly_dispatch.body

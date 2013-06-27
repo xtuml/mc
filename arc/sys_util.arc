@@ -257,26 +257,25 @@ typedef union {
 .// Determine whether the self event queue is needed.
 .//============================================================================
 .function GetSystemSelfEventQueueNeeded
-  .//
-  .assign attr_result = FALSE
+  .assign result = false
   .assign attr_max_depth = 0
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .if ( not_empty te_sys )
     .select any self_queue related by te_sys->TE_DISP[R2003]->TE_QUEUE[R2004] where ( selected.Type == 1 )
     .if ( not_empty self_queue )
-      .assign attr_result = self_queue.RenderCode
+      .assign result = self_queue.RenderCode
       .assign attr_max_depth = self_queue.MaxDepth
-      .if ( ( not attr_result ) and ( "SystemC" == te_target.language ) )
+      .if ( ( not result ) and ( "SystemC" == te_target.language ) )
         .// For SystemC, we force the code to always use this event queue
-        .assign attr_result = TRUE
+        .assign result = true
         .assign attr_max_depth = 1
       .end if
     .else
       .print "\n  WARNING: No TE_QUEUE self queue instance found!\n"
     .end if
   .end if
-  .//
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -298,7 +297,7 @@ typedef union {
     .select any self_queue related by te_sys->TE_DISP[R2003]->TE_QUEUE[R2004] where ( selected.Type == 1 )
     .if ( not_empty self_queue )
       .if ( max_self_events > 0 )
-        .assign self_queue.RenderCode = TRUE
+        .assign self_queue.RenderCode = true
         .assign self_queue.MaxDepth = max_self_events
       .end if
     .else
@@ -311,7 +310,7 @@ typedef union {
 .// Determine whether the non-self event queue is needed.
 .//============================================================================
 .function GetSystemNonSelfEventQueueNeeded
-  .assign result = FALSE
+  .assign result = false
   .assign max_depth = 0
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
@@ -322,7 +321,7 @@ typedef union {
       .assign max_depth = non_self_queue.MaxDepth
       .if ( ( not result ) and ( "SystemC" == te_target.language ) )
         .// For SystemC, we force the code to always use this event queue
-        .assign result = TRUE
+        .assign result = true
         .assign max_depth = 1
       .end if
     .else
@@ -353,7 +352,7 @@ typedef union {
     .if ( not_empty non_self_queue )
       .select any te_evt from instances of TE_EVT
       .if ( ( max_non_self_events > 0 ) or ( not_empty te_evt ) )
-        .assign non_self_queue.RenderCode = TRUE
+        .assign non_self_queue.RenderCode = true
         .assign non_self_queue.MaxDepth = max_non_self_events
       .end if
     .else
@@ -368,33 +367,33 @@ typedef union {
 .// one of the domains marked a priority event.
 .//============================================================================
 .function GetSystemEventPrioritizationNeeded
-  .//
-  .assign attr_result = FALSE
+  .assign result = false
   .select any te_sys from instances of TE_SYS
   .if ( not_empty te_sys )
     .if ( te_sys.ForcePriorityEvents )
-      .assign attr_result = TRUE
+      .assign result = true
     .end if
   .end if
   .select any te_c from instances of TE_C where ( selected.MaxPriorityEvents > 0 )
   .if ( not_empty te_c )
-    .assign attr_result = TRUE
+    .assign result = true
   .end if
   .select any te_evt from instances of TE_EVT where ( selected.Priority > 0 )
   .if ( not_empty te_evt )
-    .assign attr_result = TRUE
+    .assign result = true
   .end if
-  .//
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
-.// Return TRUE when event prioritization is needed.
+.// Return true when event prioritization is needed.
 .//============================================================================
 .function GetEventPrioritizationNeeded
-  .assign attr_result = false
+  .assign result = false
   .select any te_evt from instances of TE_EVT where ( selected.Priority != 0 )
   .if ( not_empty te_evt )
-    .assign attr_result = true
+    .assign result = true
   .end if
+  .assign attr_result = result
 .end function
 .//

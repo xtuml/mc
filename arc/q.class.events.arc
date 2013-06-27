@@ -22,7 +22,7 @@
 .function DeclareEventSupDataMembers
   .param inst_ref sm_evt
   .param string flavor
-  .assign result = FALSE
+  .assign result = false
   .select many te_parms related by sm_evt->SM_EVTDI[R532]->TE_PARM[R2031]
   .if ( ( "class-based" == flavor ) and ( empty te_parms ) )
     .// This is a signal, so get the parameters from the Component subsystem.
@@ -51,7 +51,7 @@
     .end if
   .end while
   .while ( not_empty te_parm )
-    .assign result = TRUE
+    .assign result = true
     .// TODO CDS - Do not like this check for the portindex here.  It would be nice to rework this.  
     .if ( "A00portindex" != te_parm.GeneratedName )
       .select one te_dt related by te_parm->TE_DT[R2049]
@@ -79,10 +79,10 @@
   .select one te_evt related by sm_evt->TE_EVT[R2036]
   .if ( te_evt.Used or te_c.OptDisabled )
     .if ( "instance" == flavor )
-      .invoke ec = CreateInstanceEventAllocationConstant( te_class, sm_evt, FALSE, gen_declaration )
+      .invoke ec = CreateInstanceEventAllocationConstant( te_class, sm_evt, false, gen_declaration )
       .assign event_constant = ec.body
     .elif ( "creation" == flavor )
-      .invoke ec = CreateInstanceEventAllocationConstant( te_class, sm_evt, TRUE, gen_declaration )
+      .invoke ec = CreateInstanceEventAllocationConstant( te_class, sm_evt, true, gen_declaration )
       .assign event_constant = ec.body
     .elif ( "class-based" == flavor )
       .invoke ec = CreateAssignerEventAllocationConstant( te_class, sm_evt, gen_declaration )
@@ -138,7 +138,7 @@ ${event_code.body}
 ${event_code.body}
     .end if
   .end for
-  .invoke event_union = CreateUnionOfObjectEvents( o_obj, TRUE, gen_declaration )
+  .invoke event_union = CreateUnionOfObjectEvents( o_obj, true, gen_declaration )
 ${event_union.body}
 .end function
 .//
@@ -155,7 +155,7 @@ ${event_union.body}
     .invoke event_code = TE_EVT_CreateEventClass( te_class, sm_evt, gen_declaration, "class-based" )
 ${event_code.body}
   .end for
-  .invoke event_union = CreateUnionOfObjectEvents( o_obj, FALSE, gen_declaration )
+  .invoke event_union = CreateUnionOfObjectEvents( o_obj, false, gen_declaration )
 ${event_union.body}
 .end function
 .//

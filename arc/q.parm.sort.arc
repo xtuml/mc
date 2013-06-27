@@ -2,16 +2,22 @@
 .function sparm_sort
   .param inst_ref_set s_sparms
   .for each s_sparm in s_sparms
-    .assign s_sparm.Previous_SParm_ID = 00
+    .select one prev_s_sparm related by s_sparm->S_SPARM[R54.'precedes']
+    .if ( not_empty prev_s_sparm )
+      .// unrelate s_sparm from prev_s_sparm across R54.'precedes';
+      .assign s_sparm.Previous_SParm_ID = 00
+      .assign s_sparm.Previous_SParm_ID = 00
+      .// end unrelate
+    .end if
   .end for
   .// Declare an empty instance reference.
-  .select any head_s_sparm related by s_sparms->S_SPARM[R54.'succeeds'] where ( false )
+  .select any head_s_sparm related by s_sparms->S_SPARM[R54.'precedes'] where ( false )
   .for each s_sparm in s_sparms
     .invoke r = sparm_insert( head_s_sparm, s_sparm )
     .assign head_s_sparm = r.result
   .end for
 .end function
-.function sparm_insert
+.function sparm_insert  .// s_sparm
   .param inst_ref head_s_sparm
   .param inst_ref s_sparm
   .assign result = s_sparm
@@ -51,16 +57,22 @@
 .function bparm_sort
   .param inst_ref_set s_bparms
   .for each s_bparm in s_bparms
-    .assign s_bparm.Previous_BParm_ID = 00
+    .select one prev_s_bparm related by s_bparm->S_BPARM[R55.'precedes']
+    .if ( not_empty prev_s_bparm )
+      .// unrelate s_bparm from prev_s_bparm across R55.'precedes';
+      .assign s_bparm.Previous_BParm_ID = 00
+      .assign s_bparm.Previous_BParm_ID = 00
+      .// end unrelate
+    .end if
   .end for
   .// Declare an empty instance reference.
-  .select any head_s_bparm related by s_bparms->S_BPARM[R55.'succeeds'] where ( false )
+  .select any head_s_bparm related by s_bparms->S_BPARM[R55.'precedes'] where ( false )
   .for each s_bparm in s_bparms
     .invoke r = bparm_insert( head_s_bparm, s_bparm )
     .assign head_s_bparm = r.result
   .end for
 .end function
-.function bparm_insert
+.function bparm_insert .// s_bparm
   .param inst_ref head_s_bparm
   .param inst_ref s_bparm
   .assign result = s_bparm
@@ -100,16 +112,22 @@
 .function tparm_sort
   .param inst_ref_set o_tparms
   .for each o_tparm in o_tparms
-    .assign o_tparm.Previous_TParm_ID = 00
+    .select one prev_o_tparm related by o_tparm->O_TPARM[R124.'precedes']
+    .if ( not_empty prev_o_tparm )
+      .// unrelate o_tparm from prev_o_tparm across R124.'precedes';
+      .assign o_tparm.Previous_TParm_ID = 00
+      .assign o_tparm.Previous_TParm_ID = 00
+      .// end unrelate
+    .end if
   .end for
   .// Declare an empty instance reference.
-  .select any head_o_tparm related by o_tparms->O_TPARM[R124.'succeeds'] where ( false )
+  .select any head_o_tparm related by o_tparms->O_TPARM[R124.'precedes'] where ( false )
   .for each o_tparm in o_tparms
     .invoke r = tparm_insert( head_o_tparm, o_tparm )
     .assign head_o_tparm = r.result
   .end for
 .end function
-.function tparm_insert
+.function tparm_insert .// o_tparm
   .param inst_ref head_o_tparm
   .param inst_ref o_tparm
   .assign result = o_tparm
@@ -149,16 +167,22 @@
 .function evtdi_sort
   .param inst_ref_set sm_evtdis
   .for each sm_evtdi in sm_evtdis
-    .assign sm_evtdi.Previous_SMedi_ID = 00
+    .select one prev_sm_evtdi related by sm_evtdi->SM_EVTDI[R533.'precedes']
+    .if ( not_empty prev_sm_evtdi )
+      .// unrelate sm_evtdi from prev_sm_evtdi across R533.'precedes';
+      .assign sm_evtdi.Previous_SMedi_ID = 00
+      .assign sm_evtdi.Previous_SMedi_ID = 00
+      .// end unrelate
+    .end if
   .end for
   .// Declare an empty instance reference.
-  .select any head_sm_evtdi related by sm_evtdis->SM_EVTDI[R533.'succeeds'] where ( false )
+  .select any head_sm_evtdi related by sm_evtdis->SM_EVTDI[R533.'precedes'] where ( false )
   .for each sm_evtdi in sm_evtdis
     .invoke r = evtdi_insert( head_sm_evtdi, sm_evtdi )
     .assign head_sm_evtdi = r.result
   .end for
 .end function
-.function evtdi_insert
+.function evtdi_insert .// sm_evtdi
   .param inst_ref head_sm_evtdi
   .param inst_ref sm_evtdi
   .assign result = sm_evtdi
@@ -198,16 +222,22 @@
 .function pp_sort
   .param inst_ref_set c_pps
   .for each c_pp in c_pps
-    .assign c_pp.Previous_PP_Id = 00
+    .select one prev_c_pp related by c_pp->C_PP[R4021.'precedes']
+    .if ( not_empty prev_c_pp )
+      .// unrelate c_pp from prev_c_pp across R4021.'precedes';
+      .assign c_pp.Previous_PP_Id = 00
+      .assign c_pp.Previous_PP_Id = 00
+      .// end unrelate
+    .end if
   .end for
   .// Declare an empty instance reference.
-  .select any head_c_pp related by c_pps->C_PP[R4021.'succeeds'] where ( false )
+  .select any head_c_pp related by c_pps->C_PP[R4021.'precedes'] where ( false )
   .for each c_pp in c_pps
     .invoke r = pp_insert( head_c_pp, c_pp )
     .assign head_c_pp = r.result
   .end for
 .end function
-.function pp_insert
+.function pp_insert .// c_pp
   .param inst_ref head_c_pp
   .param inst_ref c_pp
   .assign result = c_pp

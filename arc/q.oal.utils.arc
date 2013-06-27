@@ -147,13 +147,13 @@
         .//
         .select many te_attrs related by te_class->TE_ATTR[R2061]
         .for each te_attr in te_attrs
-          .assign te_attr.Included = FALSE
+          .assign te_attr.Included = false
         .end for
         .//
         .select many te_attrs related by o_id->O_OIDA[R105]->O_ATTR[R105]->TE_ATTR[R2033]
         .assign num_ident_attr = cardinality te_attrs
         .for each te_attr in te_attrs
-          .assign te_attr.Included = TRUE
+          .assign te_attr.Included = true
         .end for
         .//
         .// *** Provide a key without parenthesis.
@@ -181,8 +181,8 @@
         .assign te_swc.Obj_Kl = te_class.Key_Lett
         .assign te_swc.Where_Spec = where_spec
         .assign te_swc.Key = where_key
-        .assign te_swc.Ret_Val = FALSE
-        .assign te_swc.Built_In = TRUE
+        .assign te_swc.Ret_Val = false
+        .assign te_swc.Built_In = true
         .assign te_swc.Oid_ID = o_id.Oid_ID
         .//
         .// *** Provide a key parenthesized at the outer construct.
@@ -213,8 +213,8 @@
         .assign te_swc.Obj_Kl = te_class.Key_Lett
         .assign te_swc.Where_Spec = where_spec
         .assign te_swc.Key = where_key
-        .assign te_swc.Ret_Val = FALSE
-        .assign te_swc.Built_In = TRUE
+        .assign te_swc.Ret_Val = false
+        .assign te_swc.Built_In = true
         .assign te_swc.Oid_ID = o_id.Oid_ID
         .//
         .if ( num_ident_attr > 1 )
@@ -246,8 +246,8 @@
           .assign te_swc.Obj_Kl = te_class.Key_Lett
           .assign te_swc.Where_Spec = where_spec
           .assign te_swc.Key = where_key
-          .assign te_swc.Ret_Val = FALSE
-          .assign te_swc.Built_In = TRUE
+          .assign te_swc.Ret_Val = false
+          .assign te_swc.Built_In = true
           .assign te_swc.Oid_ID = o_id.Oid_ID
           .// *** Provide a key parenthesized at just inner constructs.
           .assign where_spec = ""
@@ -275,8 +275,8 @@
           .assign te_swc.Obj_Kl = te_class.Key_Lett
           .assign te_swc.Where_Spec = where_spec
           .assign te_swc.Key = where_key
-          .assign te_swc.Ret_Val = FALSE
-          .assign te_swc.Built_In = TRUE
+          .assign te_swc.Ret_Val = false
+          .assign te_swc.Built_In = true
           .assign te_swc.Oid_ID = o_id.Oid_ID
           .//
         .end if
