@@ -391,74 +391,74 @@
 .end function
 .//
 .function sys_singletons
-  .create object instance i_te_prefix of TE_PREFIX
-  .invoke prefix_factory( i_te_prefix )
-  .create object instance i_te_typemap of TE_TYPEMAP
-  .invoke typemap_factory( i_te_typemap )
-  .create object instance i_te_container of TE_CONTAINER
-  .invoke container_factory( i_te_container )
-  .create object instance i_te_copyright of TE_COPYRIGHT
-  .invoke copyright_factory( i_te_copyright )
-  .create object instance i_te_dlist of TE_DLIST
-  .invoke dlist_factory( i_te_dlist )
-  .create object instance i_te_dma of TE_DMA
-  .invoke dma_factory( i_te_dma )
-  .create object instance i_te_eq of TE_EQ
-  .invoke eq_factory( i_te_eq )
-  .create object instance i_te_file of TE_FILE
-  .invoke file_factory( i_te_file )
-  .create object instance i_te_instance of TE_INSTANCE
-  .invoke instance_factory( i_te_instance )
-  .create object instance i_te_ilb of TE_ILB
-  .invoke ilb_factory( i_te_ilb )
-  .create object instance i_te_persist of TE_PERSIST
-  .invoke persist_factory( i_te_persist )
-  .create object instance i_te_relinfo of TE_RELINFO
-  .invoke relinfo_factory( i_te_relinfo )
-  .create object instance i_te_relstore of TE_RELSTORE
-  .invoke relstore_factory( i_te_relstore )
-  .create object instance i_te_set of TE_SET
-  .invoke set_factory( i_te_set )
-  .create object instance i_te_slist of TE_SLIST
-  .invoke slist_factory( i_te_slist )
-  .create object instance i_te_string of TE_STRING
-  .invoke string_factory( i_te_string )
-  .create object instance i_te_thread of TE_THREAD
-  .invoke thread_factory( i_te_thread )
-  .create object instance i_te_tim of TE_TIM
-  .invoke tim_factory( i_te_tim )
-  .create object instance i_te_callout of TE_CALLOUT
-  .invoke callout_factory( i_te_callout )
-  .create object instance i_te_trace of TE_TRACE
-  .invoke trace_factory( i_te_trace )
-  .create object instance i_te_extent of TE_EXTENT
-  .invoke extent_factory( i_te_extent )
-  .create object instance i_te_target of TE_TARGET
-  .invoke target_factory( i_te_target )
+  .create object instance te_prefix of TE_PREFIX
+  .invoke prefix_factory( te_prefix )
+  .create object instance te_typemap of TE_TYPEMAP
+  .invoke typemap_factory( te_typemap )
+  .create object instance te_container of TE_CONTAINER
+  .invoke container_factory( te_container )
+  .create object instance te_copyright of TE_COPYRIGHT
+  .invoke copyright_factory( te_copyright )
+  .create object instance te_dlist of TE_DLIST
+  .invoke dlist_factory( te_dlist )
+  .create object instance te_dma of TE_DMA
+  .invoke dma_factory( te_dma )
+  .create object instance te_eq of TE_EQ
+  .invoke eq_factory( te_eq )
+  .create object instance te_file of TE_FILE
+  .invoke file_factory( te_file )
+  .create object instance te_instance of TE_INSTANCE
+  .invoke instance_factory( te_instance )
+  .create object instance te_ilb of TE_ILB
+  .invoke ilb_factory( te_ilb )
+  .create object instance te_persist of TE_PERSIST
+  .invoke persist_factory( te_persist )
+  .create object instance te_relinfo of TE_RELINFO
+  .invoke relinfo_factory( te_relinfo )
+  .create object instance te_relstore of TE_RELSTORE
+  .invoke relstore_factory( te_relstore )
+  .create object instance te_set of TE_SET
+  .invoke set_factory( te_set )
+  .create object instance te_slist of TE_SLIST
+  .invoke slist_factory( te_slist )
+  .create object instance te_string of TE_STRING
+  .invoke string_factory( te_string )
+  .create object instance te_thread of TE_THREAD
+  .invoke thread_factory( te_thread )
+  .create object instance te_tim of TE_TIM
+  .invoke tim_factory( te_tim )
+  .create object instance te_callout of TE_CALLOUT
+  .invoke callout_factory( te_callout )
+  .create object instance te_trace of TE_TRACE
+  .invoke trace_factory( te_trace )
+  .create object instance te_extent of TE_EXTENT
+  .invoke extent_factory( te_extent )
+  .create object instance te_target of TE_TARGET
+  .invoke target_factory( te_target )
   .//
-  .create object instance i_te_assign of TE_ASSIGN
-  .create object instance i_te_create_instance of TE_CREATE_INSTANCE
-  .create object instance i_te_for of TE_FOR
-  .create object instance i_te_if of TE_IF
-  .create object instance i_te_while of TE_WHILE
-  .create object instance i_te_elif of TE_ELIF
-  .create object instance i_te_delete_instance of TE_DELETE_INSTANCE
-  .create object instance i_te_create_event of TE_CREATE_EVENT
-  .create object instance i_te_relate of TE_RELATE
-  .create object instance i_te_relate_using of TE_RELATE_USING
-  .create object instance i_te_unrelate of TE_UNRELATE
-  .create object instance i_te_unrelate_using of TE_UNRELATE_USING
-  .create object instance i_te_select of TE_SELECT
-  .create object instance i_te_select_where of TE_SELECT_WHERE
-  .create object instance i_te_generate_precreated_event of TE_GENERATE_PRECREATED_EVENT
-  .create object instance i_te_event_parameters of TE_EVENT_PARAMETERS
-  .create object instance i_te_generate of TE_GENERATE
-  .create object instance i_te_generate_creator_event of TE_GENERATE_CREATOR_EVENT
-  .create object instance i_te_generate_to_class of TE_GENERATE_TO_CLASS
-  .create object instance i_te_sgn of TE_SGN
-  .create object instance i_te_iop of TE_IOP
-  .create object instance i_te_operation of TE_OPERATION
-  .create object instance i_te_bridge of TE_BRIDGE
-  .create object instance i_te_function of TE_FUNCTION
-  .create object instance i_te_return of TE_RETURN
+  .create object instance te_assign of TE_ASSIGN
+  .create object instance te_create_instance of TE_CREATE_INSTANCE
+  .create object instance te_for of TE_FOR
+  .create object instance te_if of TE_IF
+  .create object instance te_while of TE_WHILE
+  .create object instance te_elif of TE_ELIF
+  .create object instance te_delete_instance of TE_DELETE_INSTANCE
+  .create object instance te_create_event of TE_CREATE_EVENT
+  .create object instance te_relate of TE_RELATE
+  .create object instance te_relate_using of TE_RELATE_USING
+  .create object instance te_unrelate of TE_UNRELATE
+  .create object instance te_unrelate_using of TE_UNRELATE_USING
+  .create object instance te_select of TE_SELECT
+  .create object instance te_select_where of TE_SELECT_WHERE
+  .create object instance te_generate_precreated_event of TE_GENERATE_PRECREATED_EVENT
+  .create object instance te_event_parameters of TE_EVENT_PARAMETERS
+  .create object instance te_generate of TE_GENERATE
+  .create object instance te_generate_creator_event of TE_GENERATE_CREATOR_EVENT
+  .create object instance te_generate_to_class of TE_GENERATE_TO_CLASS
+  .create object instance te_sgn of TE_SGN
+  .create object instance te_iop of TE_IOP
+  .create object instance te_operation of TE_OPERATION
+  .create object instance te_bridge of TE_BRIDGE
+  .create object instance te_function of TE_FUNCTION
+  .create object instance te_return of TE_RETURN
 .end function

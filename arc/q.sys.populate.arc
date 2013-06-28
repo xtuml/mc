@@ -1586,11 +1586,11 @@
           .assign te_dt = r.result
         .end if
         .assign te_attr.GeneratedType = te_dt.ExtName
-        .if ( "%p" == te_dt.string_format )
-          .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld"
-          .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    (long)self->" ) + te_attr.GeneratedName
-        .else
-          .if ( "${o_attr.Descrip:Persistent}" != "false" )
+        .if ( "${o_attr.Descrip:Persistent}" != "false" )
+          .if ( "%p" == te_dt.string_format )
+            .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld"
+            .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    (long)self->" ) + te_attr.GeneratedName
+          .else
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
           .end if

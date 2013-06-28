@@ -35,7 +35,7 @@
 ..select many $l{o_obj.Key_Lett}s from instances of ${o_obj.Key_Lett}
 ..for each $l{o_obj.Key_Lett} in $l{o_obj.Key_Lett}s
 INSERT INTO ${o_obj.Key_Lett} VALUES (\
-              .select one o_attr related by o_obj->O_ATTR[R102] where ( selected.PAttr_ID == 0 )
+              .select one o_attr related by o_obj->O_ATTR[R102] where ( selected.PAttr_ID == 00 )
               .assign delimiter = ""
               .while ( not_empty o_attr )
                 .if ( "${o_attr.Descrip:Persistent}" != "false" )

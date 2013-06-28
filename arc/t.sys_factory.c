@@ -192,21 +192,19 @@ void ${te_prefix.result}dump_instances(
   const ${te_typemap.object_number_name} class_num
 )
 {
-  ${te_typemap.instance_index_name} i;
   ${te_set.iterator_class_name} iterator;
   ${te_instance.handle} instance;
-  ${te_prefix.result}idf * instance_dumper;
+  ${te_prefix.result}idf * instance_dumper = instance_dumpers[ domain_num ];
   ${te_cia.class_info_type} * dci = \
 .if ( "SystemC" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ domain_num ] + class_num);
 .end if
-  ${te_set.iterator_reset}( &iterator, &dci->${te_extent.active} );
-  /* Cycle through the active list of instances of this class.  */
-  while ( (instance = ${te_set.iterator_next}( &iterator )) != 0 ) {
-    instance_dumper = instance_dumpers[ domain_num ];
-    if ( 0 != *instance_dumper[ class_num ] ) {
+  if ( 0 != *instance_dumper[ class_num ] ) {
+    ${te_set.iterator_reset}( &iterator, &dci->${te_extent.active} );
+    /* Cycle through the active list of instances of this class.  */
+    while ( (instance = ${te_set.iterator_next}( &iterator )) != 0 ) {
       (*instance_dumper[ class_num ])( instance );
     }
   }

@@ -1,10 +1,10 @@
 .function mc_main
   .param string arc_path
-  .invoke parm_sort()
-  .invoke rel_pseudoformalize()
+.//  .invoke parm_sort()
+.//  .invoke rel_pseudoformalize()
   .//
   .// Create the unmarked, standard singletons.
-  .invoke sys_singletons()
+.//  .invoke sys_singletons()
   .select any te_file from instances of TE_FILE
   .assign te_file.arc_path = arc_path
   .//

@@ -258,6 +258,10 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
           .assign null_test_conjunction = " && "
           .if ( r_rto_count < 2 )
             .assign parameters = "${part_te_class.GeneratedName}related_instance${r_rto_count}"
+            .select one r_part related by r_rto->R_PART[R204]
+            .if ( not_empty r_part )
+              .assign rel_phrase = r_part.Txt_Phrs
+            .end if
           .else
             .select one r_aone related by r_rto->R_AONE[R204]
             .if ( empty r_aone )
