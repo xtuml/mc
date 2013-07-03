@@ -132,16 +132,3 @@ ${te_blk.code}\
   .end if
   .assign attr_result = te_blk
 .end function
-.//
-.//
-.// indention maker
-.//
-.function indentwhitespace
-  .param integer indention
-  .assign result = ""
-  .while ( 0 < indention )
-    .assign indention = indention - 1
-    .assign result = result + "  "
-  .end while
-  .assign attr_result = result
-.end function

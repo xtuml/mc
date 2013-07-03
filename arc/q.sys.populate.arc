@@ -1363,7 +1363,7 @@
       .assign te_blk.depth = te_blk.depth + 1
       .select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078]
     .end while
-    .invoke r = indentwhitespace( te_blk.depth )
+    .invoke r = blk_indentwhitespace( te_blk.depth )
     .assign te_blk.indentation = r.result
   .end for
   .//
@@ -1685,7 +1685,7 @@
 .//============================================================================
 .// New and return instance of TE_CLASS.
 .//============================================================================
-.function FactoryTE_CLASS
+.function FactoryTE_CLASS .// te_class
   .param inst_ref o_obj
   .param inst_ref te_c
   .// Create the Generated Class instance and link it to the model one.
@@ -1713,7 +1713,7 @@
 .//============================================================================
 .// New and return instance of TE_DIM.
 .//============================================================================
-.function FactoryTE_DIM
+.function FactoryTE_DIM .// te_dim
   .param inst_ref s_dim
   .param inst_ref predecessor_te_dim
   .create object instance te_dim of TE_DIM
@@ -1736,7 +1736,7 @@
 .// New and link state machine instances.
 .// Allocate and link state instances (in numerically sorted order).
 .//============================================================================
-.function FactoryTE_SM
+.function FactoryTE_SM .// te_sm
   .param boolean is_ism
   .param inst_ref sm_sm
   .param inst_ref te_class
@@ -1907,7 +1907,7 @@
 .//============================================================================
 .// New and link message actions.
 .//============================================================================
-.function FactoryTE_MACT
+.function FactoryTE_MACT .// te_mact
   .param inst_ref_set te_parms
   .param inst_ref te_dt
   .param inst_ref te_c
@@ -2052,7 +2052,7 @@
 .//============================================================================
 .// New and return instance of TE_ABA.
 .//============================================================================
-.function FactoryTE_ABA
+.function FactoryTE_ABA .// te_aba
   .param inst_ref te_c
   .param inst_ref_set te_parms
   .param string scope
@@ -2152,7 +2152,7 @@
 .//============================================================================
 .// New and link up extended parameter.
 .//============================================================================
-.function FactoryTE_PARM
+.function FactoryTE_PARM .// te_parm
   .param inst_ref_set s_dims
   .param inst_ref te_dt
   .param string prefix
@@ -2210,7 +2210,7 @@
 .//============================================================================
 .// Duplicate (copy) an instance of TE_PARM.
 .//============================================================================
-.function TE_PARM_duplicate
+.function TE_PARM_duplicate .// te_parm
   .param inst_ref te_parm
   .create object instance duplicate_te_parm of TE_PARM
   .assign duplicate_te_parm.Order = te_parm.Order
@@ -2240,7 +2240,7 @@
 .//============================================================================
 .// New and return instance of TE_LNK.
 .//============================================================================
-.function FactoryTE_LNK
+.function FactoryTE_LNK .// te_lnk
   .param inst_ref act_lnk
   .select one o_obj related by act_lnk->O_OBJ[R678]
   .select one te_class related by o_obj->TE_CLASS[R2019]
@@ -2274,7 +2274,7 @@
 .//============================================================================
 .// Create and insert a new TE_LNK between these two (for associator).
 .//============================================================================
-.function associator_TE_LNK
+.function associator_TE_LNK .// te_lnk
   .param inst_ref left_te_lnk
   .param inst_ref right_te_lnk
   .create object instance te_lnk of TE_LNK
@@ -2319,7 +2319,7 @@
 .// attributes according to the flavor of associative traversal.
 .// Accept a pair of te_lnk instances or a start_o_obj and one next_te_lnk.
 .//============================================================================
-.function detect_and_insert_associator_TE_LNK
+.function detect_and_insert_associator_TE_LNK .// te_lnk
   .param inst_ref te_lnk
   .param inst_ref next_te_lnk
   .param inst_ref act_lnk
@@ -2399,7 +2399,7 @@
 .//
 .// Recursively search upwards through the package hierarchy to find the
 .// containing (parent/owning) component.
-.function TE_C_getContainingComponent
+.function TE_C_getContainingComponent .// te_c
   .param inst_ref ep_pkg
   .select any te_c from instances of TE_C where ( false )
   .// Return empty te_c for a top-level package with no containing package or component.
@@ -2419,7 +2419,7 @@
 .//
 .// Recursively search upwards through the component hierarcy to find the
 .// containing (parent/owning) package.
-.function EP_PKG_getContainingPackage
+.function EP_PKG_getContainingPackage .// ep_pkg
   .param inst_ref container_c_c
   .select one ep_pkg related by container_c_c->PE_PE[R8001]->EP_PKG[R8000]
   .if ( empty ep_pkg )
@@ -2431,7 +2431,7 @@
 .end function
 .//
 .// Sort a list of TE_Cs.
-.function TE_C_sort
+.function TE_C_sort .// te_c
   .param inst_ref_set te_cs
   .// Declare an empty instance reference.
   .select any head_te_c related by te_cs->TE_C[R2017.'succeeds'] where ( false )
@@ -2441,7 +2441,7 @@
   .end for
   .assign attr_result = head_te_c
 .end function
-.function TE_C_insert
+.function TE_C_insert .// te_c
   .param inst_ref head_te_c
   .param inst_ref te_c
   .assign result = te_c
@@ -2478,7 +2478,7 @@
 .end function
 .//
 .// Sort a list of TE_CLASSes.
-.function TE_CLASS_sort
+.function TE_CLASS_sort .// te_class
   .param inst_ref_set te_classes
   .// Declare an empty instance reference.
   .select any head_te_class related by te_classes->TE_CLASS[R2092.'succeeds'] where ( false )
@@ -2491,7 +2491,7 @@
   .end for
   .assign attr_result = head_te_class
 .end function
-.function TE_CLASS_insert
+.function TE_CLASS_insert .// te_class
   .param inst_ref head_te_class
   .param inst_ref te_class
   .assign result = te_class
@@ -2529,5 +2529,17 @@
     .end if
   .end if
   .end if
+  .assign attr_result = result
+.end function
+.//
+.// indention maker
+.//
+.function blk_indentwhitespace .// string
+  .param integer indention
+  .assign result = ""
+  .while ( 0 < indention )
+    .assign indention = indention - 1
+    .assign result = result + "  "
+  .end while
   .assign attr_result = result
 .end function
