@@ -24,7 +24,9 @@ char * ws[] = {
   "      ",
   "        ",
   "          ",
-  "            "
+  "            ",
+  "              ",
+  "                "
 };
 int line_number = 1;
 char lw[ 256 ];                 /* leading whitespace                */
@@ -112,15 +114,24 @@ code:
         | code statement {$$=P3($1,ws[indent],$2);}
         | code comment {$$=P3($1,ws[indent],$2);}
         | code literal {$$=P2($1,$2);}
-        | code FUNCTION identifier '\n' {pi[0]=0;} fparameters fbody ENDFUNCTION '\n' {$$=""; printf( "%s", P8($3,"@void",$6,"@@@\n",$1,pi,$7,"@@@\n"));}
+        | code FUNCTION identifier freturntype {pi[0]=0;} fparameters fbody ENDFUNCTION '\n' {$$=""; printf( "%s", P9($3,"@",$4,$6,"@@@\n",$1,pi,$7,"@@@\n"));}
+        ;
+
+freturntype:
+        '\n' {$$=P1("void");}
+        | COMMENT TEXT '\n' {if (strstr($2,"boolean")) $$=P1("boolean");
+                             else if (strstr($2,"integer")) $$=P1("integer");
+                             else if (strstr($2,"real")) $$=P1("real");
+                             else if (strstr($2,"string")) $$=P1("string");
+                             else $$=P3("inst_ref<",dtKLname($2),">");}
         ;
 
 statement:
         selectstatement '\n' {$$=P2($1,";\n");}
         | IF condition '\n' {indent++;} code {indent--;} elifclause elseclause endiffer '\n' {$$=P10($1," ",$2,$3,$5,$7,$8,ws[indent],$9,$10);}
         | FOR inst_ref_var IN inst_ref_set_var '\n' {indent++;} code {indent--;} endforrer '\n' {$$=P12($1," ",$2," ",$3," ",$4,$5,$7,ws[indent],$9,$10);}
-        | BREAKFOR '\n' {$$=P2($1,";\n");}
-        | BREAKWHILE '\n' {$$=P2($1,";\n");}
+        | BREAKFOR '\n' {$$=P1("break;\n");}
+        | BREAKWHILE '\n' {$$=P1("break;\n");}
         | WHILE condition '\n' {indent++;} code {indent--;} endwhiler '\n' {$$=P8($1," ",$2,$3,$5,ws[indent],$7,$8);}
         | CLEARTOK '\n' {$$=P1("T::clear();\n");}
         | INCLUDE string '\n' {$$=P3("T::include(s:",$2,");\n");}
@@ -148,7 +159,7 @@ selectstatement:
 
 whereclause:
         /* empty */ {$$=P0;}
-        | WHERE condition {$$=P3($1," ",$2);}
+        | WHERE condition {$$=P4(" ",$1," ",$2);}
         ;
 
 fparameters:
