@@ -334,7 +334,7 @@ literalbody:
         ;
 
 substitutionvariable:
-        '$' format '{' term '}' {char * f = $2; if ( 0 == strcmp( $2, "" ) ) f = "s"; $$=P5("T::",f,"(",$4,")");}
+        '$' format '{' term '}' {char * f = $2; if ( 0 == strcmp( $2, "" ) ) f = "s"; $$=P5("T::",f,"(i:",$4,")");}
         ;
 
 
