@@ -4362,6 +4362,46 @@ INSERT INTO PE_PE
 	"3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("762333a7-f4cc-4afe-a9d0-416a7b8aff02",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Base Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("762333a7-f4cc-4afe-a9d0-416a7b8aff02",
+	0,
+	"de203b5e-02a9-4733-addf-ab1311cf6596");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("de203b5e-02a9-4733-addf-ab1311cf6596",
+	'Base Attribute',
+	106,
+	'O_BATTR',
+	'A Base attribute is a non-referential attribute.  Base attributes are either derived base attributes (O_DBATTR) or non-derived base attributes (O_NBATTR).',
+	"00000000-0000-0000-0000-000000000000",
+	'./Base Attribute/Base Attribute.xtuml');
+INSERT INTO PE_PE
+	VALUES ("762333a7-f4cc-4afe-a9d0-416a7b8aff02",
+	1,
+	"3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("c6854216-e54f-45b8-8a56-e4f2f6e385cf",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Base Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("c6854216-e54f-45b8-8a56-e4f2f6e385cf",
+	1,
+	"de203b5e-02a9-4733-addf-ab1311cf6596");
+INSERT INTO PE_PE
+	VALUES ("c6854216-e54f-45b8-8a56-e4f2f6e385cf",
+	1,
+	"3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("4cba0fe2-a192-4630-ac17-c5b6bbb8d6a4");
 INSERT INTO R_REL
@@ -4856,14 +4896,6 @@ INSERT INTO R_OIR
 	"71bd1f41-1e47-43d0-99c5-3831ec8a68ae",
 	"cfca1221-895e-4591-a830-4426308274ba",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("de203b5e-02a9-4733-addf-ab1311cf6596",
-	'Base Attribute',
-	106,
-	'O_BATTR',
-	'A Base attribute is a non-referential attribute.  Base attributes are either derived base attributes (O_DBATTR) or non-derived base attributes (O_NBATTR).',
-	"00000000-0000-0000-0000-000000000000",
-	'./Base Attribute/Base Attribute.xtuml');
 INSERT INTO R_SUB
 	VALUES ("75317fd6-e502-4bf6-b00b-a5be155c479a",
 	"71bd1f41-1e47-43d0-99c5-3831ec8a68ae",

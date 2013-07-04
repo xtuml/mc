@@ -9166,6 +9166,46 @@ INSERT INTO PE_PE
 	"ee1f21a2-2b66-42cf-8123-6ef271f3113c",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("fbb3cc5a-c0d2-405d-a9fd-46fcd925a160",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<User Data Type>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("fbb3cc5a-c0d2-405d-a9fd-46fcd925a160",
+	0,
+	"e9682ef6-ce48-46fb-85b2-485bae2f9673");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("e9682ef6-ce48-46fb-85b2-485bae2f9673",
+	'User Data Type',
+	11,
+	'S_UDT',
+	'User Data Types are those data types which have been created by the analyst and derived from the core data types.  ',
+	"00000000-0000-0000-0000-000000000000",
+	'./User Data Type/User Data Type.xtuml');
+INSERT INTO PE_PE
+	VALUES ("fbb3cc5a-c0d2-405d-a9fd-46fcd925a160",
+	1,
+	"ee1f21a2-2b66-42cf-8123-6ef271f3113c",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("2f33b01c-3fbb-4e52-8ac7-dd248fc8599b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<User Data Type>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2f33b01c-3fbb-4e52-8ac7-dd248fc8599b",
+	1,
+	"e9682ef6-ce48-46fb-85b2-485bae2f9673");
+INSERT INTO PE_PE
+	VALUES ("2f33b01c-3fbb-4e52-8ac7-dd248fc8599b",
+	1,
+	"ee1f21a2-2b66-42cf-8123-6ef271f3113c",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("8259cb78-6749-4439-996e-01eac180e569");
 INSERT INTO R_REL
@@ -9739,14 +9779,6 @@ INSERT INTO R_OIR
 	"b3676623-87dc-4114-9181-73793318fdd4",
 	"7590fb2e-0c4c-4556-9b15-2fec691abdbc",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("e9682ef6-ce48-46fb-85b2-485bae2f9673",
-	'User Data Type',
-	11,
-	'S_UDT',
-	'User Data Types are those data types which have been created by the analyst and derived from the core data types.  ',
-	"00000000-0000-0000-0000-000000000000",
-	'./User Data Type/User Data Type.xtuml');
 INSERT INTO R_SUB
 	VALUES ("d160874b-4622-4070-bb6e-fe919cd6d814",
 	"b3676623-87dc-4114-9181-73793318fdd4",

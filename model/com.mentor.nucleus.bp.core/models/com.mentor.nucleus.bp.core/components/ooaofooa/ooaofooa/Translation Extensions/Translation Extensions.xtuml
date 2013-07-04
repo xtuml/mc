@@ -13643,6 +13643,126 @@ INSERT INTO PE_PE
 	"a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("5b20f7fb-179b-4254-a8de-922a50a1225d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended Data Type>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("5b20f7fb-179b-4254-a8de-922a50a1225d",
+	0,
+	"dc4eacad-fb4f-4525-8051-fe9ac1293b5a");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("dc4eacad-fb4f-4525-8051-fe9ac1293b5a",
+	'Extended Data Type',
+	2016,
+	'TE_DT',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Data Type/Extended Data Type.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5b20f7fb-179b-4254-a8de-922a50a1225d",
+	1,
+	"a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("5e0f27d4-b6df-450f-aeaf-bc76352d4892",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Extended Data Type>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("5e0f27d4-b6df-450f-aeaf-bc76352d4892",
+	1,
+	"dc4eacad-fb4f-4525-8051-fe9ac1293b5a");
+INSERT INTO PE_PE
+	VALUES ("5e0f27d4-b6df-450f-aeaf-bc76352d4892",
+	1,
+	"a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("195cd118-2bf6-483c-9efd-4ec7a5cd069a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended System>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("195cd118-2bf6-483c-9efd-4ec7a5cd069a",
+	0,
+	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
+	'Extended System',
+	2004,
+	'TE_SYS',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended System/Extended System.xtuml');
+INSERT INTO PE_PE
+	VALUES ("195cd118-2bf6-483c-9efd-4ec7a5cd069a",
+	1,
+	"a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("e8a9d1b5-5aae-4b2a-bb7f-a548956bde5f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Extended System>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("e8a9d1b5-5aae-4b2a-bb7f-a548956bde5f",
+	1,
+	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
+INSERT INTO PE_PE
+	VALUES ("e8a9d1b5-5aae-4b2a-bb7f-a548956bde5f",
+	1,
+	"a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("242db6ca-4acc-4d5a-ac1e-4c1915622cc0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("242db6ca-4acc-4d5a-ac1e-4c1915622cc0",
+	0,
+	"30c797bd-3f56-472e-b8c8-1d5eb3b3a3cb");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("30c797bd-3f56-472e-b8c8-1d5eb3b3a3cb",
+	'Extended Attribute',
+	2025,
+	'TE_ATTR',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Attribute/Extended Attribute.xtuml');
+INSERT INTO PE_PE
+	VALUES ("242db6ca-4acc-4d5a-ac1e-4c1915622cc0",
+	1,
+	"a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("bf322c0c-22b1-489c-9be2-e07a3cb62801",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Extended Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("bf322c0c-22b1-489c-9be2-e07a3cb62801",
+	1,
+	"30c797bd-3f56-472e-b8c8-1d5eb3b3a3cb");
+INSERT INTO PE_PE
+	VALUES ("bf322c0c-22b1-489c-9be2-e07a3cb62801",
+	1,
+	"a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("72150114-96ca-4ccd-be20-1e5b907d92bd");
 INSERT INTO R_REL
@@ -13683,14 +13803,6 @@ INSERT INTO R_OIR
 	"72150114-96ca-4ccd-be20-1e5b907d92bd",
 	"869a2812-6bd4-49b6-b05c-d5a94abcfd7c",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
-	'Extended System',
-	2004,
-	'TE_SYS',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended System/Extended System.xtuml');
 INSERT INTO R_FORM
 	VALUES ("f3eb11fd-445b-46f5-9b5d-9bb2a1f69ea9",
 	"72150114-96ca-4ccd-be20-1e5b907d92bd",
@@ -14069,14 +14181,6 @@ INSERT INTO R_OIR
 	"dcaece89-0e37-4380-9a1a-c81655c5d5e8",
 	"4a7886f1-b7b2-44d8-adfb-10eb989faa30",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("30c797bd-3f56-472e-b8c8-1d5eb3b3a3cb",
-	'Extended Attribute',
-	2025,
-	'TE_ATTR',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Attribute/Extended Attribute.xtuml');
 INSERT INTO R_PART
 	VALUES ("68da4b64-d021-4cc8-a93c-93f2cc77b70a",
 	"dcaece89-0e37-4380-9a1a-c81655c5d5e8",
@@ -14623,14 +14727,6 @@ INSERT INTO R_OIR
 	"6fdb793e-0f44-427d-9349-b8370def4dc7",
 	"066b8fb1-2a02-4144-ba7a-0067ab4eee8e",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("dc4eacad-fb4f-4525-8051-fe9ac1293b5a",
-	'Extended Data Type',
-	2016,
-	'TE_DT',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Data Type/Extended Data Type.xtuml');
 INSERT INTO R_PART
 	VALUES ("a2fcb0c7-a33d-4861-ac4c-36985f92521a",
 	"6fdb793e-0f44-427d-9349-b8370def4dc7",
