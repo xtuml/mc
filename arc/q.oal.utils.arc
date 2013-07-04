@@ -18,8 +18,10 @@
 .// Find the maximum number of "select many" statements expressed in
 .// one action body.  We will use this number to estimate the container
 .// pool.
+.// CDS - This gets called for each component but uses all actions in 
+.// the system.  And it gets called too many times.
 .//
-.function containoid_select_many_count
+.function containoid_select_many_count .// integer
   .assign result = 0
   .select many act_acts from instances of ACT_ACT
   .for each act_act in act_acts
@@ -43,7 +45,7 @@
 .// Count up the number of places where a timer is started (or started
 .// in recurring mode).
 .//
-.function timer_analyze_starts
+.function timer_analyze_starts .// integer
   .assign result = 0
   .select many s_ees from instances of S_EE where ( selected.Key_Lett == "TIM" )
   .for each s_ee in s_ees
@@ -84,6 +86,7 @@
   .//
   .// Special Where Clause patterns that may be optimized by the model compiler.
   .//
+  .assign unique_num = 0
   .select many te_classes from instances of TE_CLASS where ( not selected.ExcludeFromGen )
   .for each te_class in te_classes
     .select many o_ids related by te_class->O_OBJ[R2019]->O_ID[R104]
@@ -100,7 +103,8 @@
       .if ( te_where.WhereKey )
         .assign key_number = o_id.Oid_ID + 1
         .assign where_spec = ""
-        .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
+        .assign unique_num = unique_num + 1
+        .assign where_key = ( ( te_class.Key_Lett + "${key_number}" ) + ( "_mcw" + "${unique_num}" ) )
         .//
         .select many te_attrs related by te_class->TE_ATTR[R2061]
         .for each te_attr in te_attrs
@@ -114,7 +118,15 @@
         .end for
         .//
         .// *** Provide a key without parenthesis.
-        .select any first_te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+        .// Be sure we have the first attribute in the class.
+        .select any first_te_attr related by te_class->TE_ATTR[R2061]
+        .while ( not_empty first_te_attr )
+          .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes']
+          .if ( empty prev_te_attr )
+            .break while
+          .end if
+          .assign first_te_attr = prev_te_attr
+        .end while
         .assign te_attr = first_te_attr
         .assign oida_count = 0
         .while ( not_empty te_attr )
@@ -144,7 +156,8 @@
         .//
         .// *** Provide a key parenthesized at the outer construct.
         .assign where_spec = "("
-        .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
+        .assign unique_num = unique_num + 1
+        .assign where_key = ( ( te_class.Key_Lett + "${key_number}" ) + ( "_mcw" + "${unique_num}" ) )
         .assign te_attr = first_te_attr
         .assign oida_count = 0
         .while ( not_empty te_attr )
@@ -177,7 +190,8 @@
         .if ( num_ident_attr > 1 )
           .// *** Provide a key parenthesized at outer and inner constructs.
           .assign where_spec = "("
-          .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
+          .assign unique_num = unique_num + 1
+          .assign where_key = ( ( te_class.Key_Lett + "${key_number}" ) + ( "_mcw" + "${unique_num}" ) )
           .assign te_attr = first_te_attr
           .assign oida_count = 0
           .while ( not_empty te_attr )
@@ -208,7 +222,8 @@
           .assign te_swc.Oid_ID = o_id.Oid_ID
           .// *** Provide a key parenthesized at just inner constructs.
           .assign where_spec = ""
-          .assign where_key = "${te_class.Key_Lett}_Key${key_number}_mcw${info.unique_num}"
+          .assign unique_num = unique_num + 1
+          .assign where_key = ( ( te_class.Key_Lett + "${key_number}" ) + ( "_mcw" + "${unique_num}" ) )
           .assign te_attr = first_te_attr
           .assign oida_count = 0
           .while ( not_empty te_attr )
