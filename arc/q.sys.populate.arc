@@ -326,7 +326,7 @@
           .// We are dealing with TE_IIRs that may be on non-imported interface references (connected to C_Cs).
           .select any foreign_te_iir related by te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046]
           .if ( empty foreign_te_iir )
-            .select one foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046]
+            .select any foreign_te_iir related by te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046]
             .if ( empty foreign_te_iir )
               .select any foreign_te_iir related by te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013]
             .end if
@@ -1191,31 +1191,11 @@
     .assign te_mact.SPR_PSId = spr_ps.Id
     .// end relate
   .end for
-  .// All the te_pos and te_macts are created now.  Order the te_macts alphabetically inside the port.
+  .// All the te_pos and te_macts are created now.  Order the te_macts alphabetically inside the ports.
   .select many te_pos from instances of TE_PO
   .for each te_po in te_pos
     .select many te_macts related by te_po->TE_MACT[R2006]
-    .assign item_number = 0    
-    .assign item_count = cardinality te_macts
-    .if ( 0 < item_count )
-      .invoke SortSetAlphabeticallyByNameAttr( te_macts )
-      .assign previous_te_mact = empty_te_mact
-      .while ( item_number < item_count )
-        .for each te_mact in te_macts
-          .if ( te_mact.Order == item_number )
-            .// Link te_macts together in sequence.
-            .if ( not_empty previous_te_mact )
-              .// relate previous_te_mact to te_mact across R2083.'succeeds';
-              .assign previous_te_mact.nextID = te_mact.ID
-              .// end relate
-            .end if
-            .assign previous_te_mact = te_mact
-            .break for
-          .end if
-        .end for
-        .assign item_number = item_number + 1
-      .end while
-    .end if
+    .invoke mact_sort( te_macts )
   .end for
   .//
   .//
@@ -1512,7 +1492,6 @@
       .assign te_class.MaxExtentSize = 10
       .assign te_class.Persistent = false
       .assign te_class.ExcludeFromGen = false
-      .assign te_class.Order = 0
       .assign te_class.IsTrace = true
       .assign te_class.ContainerIndex = 0
       .assign te_class.Task = 0
@@ -1793,7 +1772,28 @@
   .//
   .// Sort the states for later state event matrix generation.
   .select many te_states related by sm_states->TE_STATE[R2037]
-  .invoke SortSetAscendingByAttr_Numb( te_states )
+  .//   Sort the instances in the instance set <item_set> in ascending numeric
+  .// order, based on the value of the Numb (integer) attribute value of
+  .// each instance. The Order (integer) attribute value of each instance will
+  .// be set to contain a value relative to Numb, indicating the position
+  .// the instance has in the ordered set.
+  .//   This function is definately *slow*, but will work with any objects
+  .// which contain integer attributes <Numb> and <Order>.
+  .assign item_set = te_states
+  .//
+  .// Clear the Order attribute of all set members.
+  .for each item in item_set
+    .assign item.Order = 0
+  .end for
+  .// simple pseudo bubble sort
+  .assign item_set_copy = item_set
+  .for each item in item_set
+    .for each item_copy in item_set_copy
+      .if ( item_copy.Numb > item.Numb )
+        .assign item_copy.Order = item_copy.Order + 1
+      .end if
+    .end for
+  .end for
   .for each te_state in te_states
     .assign te_state.number = te_state.Order + 1
     .if ( 0 == te_state.Order )
@@ -1859,7 +1859,28 @@
   .// events starting with local then true then polys.
   .select many sm_levts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_LEVT[R526]
   .select many local_te_evts related by sm_levts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036]
-  .invoke SortSetAscendingByAttr_Numb( local_te_evts )
+  .//   Sort the instances in the instance set <item_set> in ascending numeric
+  .// order, based on the value of the Numb (integer) attribute value of
+  .// each instance. The Order (integer) attribute value of each instance will
+  .// be set to contain a value relative to Numb, indicating the position
+  .// the instance has in the ordered set.
+  .//   This function is definately *slow*, but will work with any objects
+  .// which contain integer attributes <Numb> and <Order>.
+  .assign item_set1 = local_te_evts
+  .//
+  .// Clear the Order attribute of all set members.
+  .for each item1 in item_set1
+    .assign item1.Order = 0
+  .end for
+  .// simple pseudo bubble sort
+  .assign item_set1_copy = item_set1
+  .for each item1 in item_set1
+    .for each item1_copy in item_set1_copy
+      .if ( item1_copy.Numb > item1.Numb )
+        .assign item1_copy.Order = item1_copy.Order + 1
+      .end if
+    .end for
+  .end for
   .assign last_event_number = cardinality local_te_evts
   .assign last_event_number = last_event_number - 1
   .select many sm_sgevts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_SGEVT[R526]
@@ -1921,7 +1942,6 @@
   .select any te_target from instances of TE_TARGET
   .create object instance te_mact of TE_MACT
   .assign te_mact.nextID = 00
-  .assign te_mact.Order = 0
   .// relate te_mact to te_c across R2002;
   .assign te_mact.te_cID = te_c.ID
   .// end relate
@@ -2420,12 +2440,12 @@
 .// Recursively search upwards through the component hierarcy to find the
 .// containing (parent/owning) package.
 .function EP_PKG_getContainingPackage .// ep_pkg
-  .param inst_ref container_c_c
-  .select one ep_pkg related by container_c_c->PE_PE[R8001]->EP_PKG[R8000]
+  .param inst_ref c_c
+  .select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000]
   .if ( empty ep_pkg )
-    .select one c_c related by container_c_c->PE_PE[R8001]->C_C[R8003]
+    .select one c_c related by c_c->PE_PE[R8001]->C_C[R8003]
     .invoke r = EP_PKG_getContainingPackage( c_c )
-    .assign ep_pkg = r.ep_pkg
+    .assign ep_pkg = r.result
   .end if
   .assign attr_result = ep_pkg
 .end function
@@ -2478,7 +2498,7 @@
 .end function
 .//
 .// Sort a list of TE_CLASSes.
-.function TE_CLASS_sort .// te_class
+.function class_sort .// te_class
   .param inst_ref_set te_classes
   .// Declare an empty instance reference.
   .select any head_te_class related by te_classes->TE_CLASS[R2092.'succeeds'] where ( false )
@@ -2486,12 +2506,12 @@
     .assign te_class.nextID = 00
   .end for
   .for each te_class in te_classes
-    .invoke r = TE_CLASS_insert( head_te_class, te_class )
+    .invoke r = class_insert( head_te_class, te_class )
     .assign head_te_class = r.result
   .end for
   .assign attr_result = head_te_class
 .end function
-.function TE_CLASS_insert .// te_class
+.function class_insert .// te_class
   .param inst_ref head_te_class
   .param inst_ref te_class
   .assign result = te_class
@@ -2525,6 +2545,68 @@
     .if ( not_empty cursor_te_class )
       .// relate te_class to cursor_te_class across R2092.'succeeds';
       .assign te_class.nextID = cursor_te_class.ID
+      .// end relate
+    .end if
+  .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// Sort a list of TE_MACTs.
+.function mact_sort .// te_mact
+  .param inst_ref_set te_macts
+  .// Declare an empty instance reference.
+  .select any head_te_mact related by te_macts->TE_MACT[R2083.'succeeds'] where ( false )
+  .for each te_mact in te_macts
+    .assign te_mact.nextID = 00
+  .end for
+  .for each te_mact in te_macts
+    .invoke r = mact_insert( head_te_mact, te_mact )
+    .assign head_te_mact = r.result
+  .end for
+  .assign counter = 0
+  .assign te_mact = head_te_mact
+  .while ( not_empty te_mact )
+    .assign te_mact.Order = counter
+    .assign counter = counter + 1
+    .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+  .end while
+  .assign attr_result = head_te_mact
+.end function
+.function mact_insert .// te_mact
+  .param inst_ref head_te_mact
+  .param inst_ref te_mact
+  .assign result = te_mact
+  .if ( empty head_te_mact )
+    .// Just starting.  Return te_mact as head.
+  .else
+  .assign lkey = te_mact.Name
+  .assign rkey = head_te_mact.Name
+  .if ( lkey <= rkey )
+    .// insert before
+    .// relate te_mact to head_te_mact across R2083.'succeeds';
+    .assign te_mact.nextID = head_te_mact.ID
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_mact
+    .assign prev_te_mact = head_te_mact
+    .select one cursor_te_mact related by head_te_mact->TE_MACT[R2083.'succeeds']
+    .while ( not_empty cursor_te_mact )
+      .assign rkey = cursor_te_mact.Name
+      .if ( lkey <= rkey )
+        .break while
+      .else
+        .assign prev_te_mact = cursor_te_mact
+        .select one cursor_te_mact related by cursor_te_mact->TE_MACT[R2083.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_mact to te_mact across R2083.'succeeds';
+    .assign prev_te_mact.nextID = te_mact.ID
+    .// end relate
+    .if ( not_empty cursor_te_mact )
+      .// relate te_mact to cursor_te_mact across R2083.'succeeds';
+      .assign te_mact.nextID = cursor_te_mact.ID
       .// end relate
     .end if
   .end if

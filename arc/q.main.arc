@@ -40,7 +40,7 @@
     .// Propagate domain information to the system level.
     .invoke te_c_CollectLimits( te_c )
     .select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
-    .invoke TE_CLASS_sort( te_classes )
+    .invoke class_sort( te_classes )
   .end for
   .invoke oal_translate()
 .end function

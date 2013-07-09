@@ -77,3 +77,56 @@ ${delimiter} ${dollarcurly}$l{o_obj.Key_Lett}.${attributename}}\
 ..emit to file "_system.sql"
 ..exit 508
 .end function
+.//
+.//============================================================================
+.//   Sort the instances in the instance set <item_set> in ascending numeric
+.// order, based on the value of the Numb (integer) attribute value of
+.// each instance. The Order (integer) attribute value of each instance will
+.// be set to contain a value relative to Numb, indicating the position
+.// the instance has in the ordered set.
+.//   This function is definately *slow*, but will work with any objects
+.// which contain integer attributes <Numb> and <Order>.
+.//============================================================================
+.function SortSetAscendingByAttr_Numb
+  .param inst_ref_set item_set
+  .//
+  .// Clear the Order attribute of all set members.
+  .for each item in item_set
+    .assign item.Order = 0
+  .end for
+  .// simple pseudo bubble sort
+  .assign item_set_copy = item_set
+  .for each item in item_set
+    .for each item_copy in item_set_copy
+      .if ( item_copy.Numb > item.Numb )
+        .assign item_copy.Order = item_copy.Order + 1
+      .end if
+    .end for
+  .end for
+.end function
+.//
+.//============================================================================
+.// Given a set of instances, sets the attribute Order to
+.// a value corresponding to the alphabetical order its Name attribute
+.// is in the set
+.//
+.// <item_set> - from instances of anything with Name and Order attributes
+.//============================================================================
+.function SortSetAlphabeticallyByNameAttr
+  .param inst_ref_set item_set
+  .//
+  .// Clear the Order attribute of all set members.
+  .for each item in item_set
+    .assign item.Order = 0
+  .end for
+  .//
+  .assign item_set_copy = item_set
+  .for each item in item_set
+    .for each item_copy in item_set_copy
+      .if ( item_copy.Name > item.Name )
+        .assign item_copy.Order = item_copy.Order + 1
+      .end if
+    .end for
+  .end for
+.end function
+.//

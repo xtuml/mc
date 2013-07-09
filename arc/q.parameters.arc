@@ -78,10 +78,10 @@
     .else
       .assign string_format = ( string_format + format_delimiter ) + "[]"
     .end if
-    .invoke s = t_oal_smt_event_parameters( "", te_parm.Name, te_parm.GeneratedName, te_dt.Core_Typ, "  " )
-    .assign assn = assn + s.result
+    .invoke r = t_oal_smt_event_parameters( "", te_parm.Name, te_parm.GeneratedName, te_dt.Core_Typ, "  " )
+    .assign assn = assn + r.result
     .if ( "A00portindex" != te_parm.Name )
-      .assign assnbase = assnbase + s.result
+      .assign assnbase = assnbase + r.result
     .end if
     .assign param_delimiter = ", "
     .assign format_delimiter = ","
