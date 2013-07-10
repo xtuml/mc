@@ -338,15 +338,15 @@
 .//
 .// Here we mark which classes are navigated across associations in each
 .// direction, from the formalizer or from the participant.  The results
-.// are stored in instances linked to instances of R_OIR (TE_NAV).
+.// are stored in instances linked to instances of R_OIR (TE_OIR).
 .//
 .function association_R_OIR_mark_navigated
   .select many act_lnks from instances of ACT_LNK
   .for each act_lnk in act_lnks
     .select any r_oir related by act_lnk->R_REL[R681]->R_OIR[R201] where ( selected.Obj_ID == act_lnk.Obj_ID )
-    .select one te_nav related by r_oir->TE_NAV[R2035]
-    .if ( not_empty te_nav )
-      .assign te_nav.NavigatedTo = true
+    .select one te_oir related by r_oir->TE_OIR[R2035]
+    .if ( not_empty te_oir )
+      .assign te_oir.NavigatedTo = true
     .end if
   .end for
 .end function

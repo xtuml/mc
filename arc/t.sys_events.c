@@ -170,17 +170,17 @@ ${te_eq.base_event_type} * ${te_eq.scope}${te_eq.allocate}( void )
   .end if
   if ( 0 == free_event_list ) {
   .if ( 0 != te_sys.UnitsToDynamicallyAllocate )
-    ${te_eq.base_event_type} * new_mem = (${te_eq.base_event_type} *) ${te_dma.allocate}( ${te_sys.UnitsToDynamicallyAllocate} * sizeof( ${te_eq.system_events_union}_t ) );
+    ${te_eq.system_events_union}_t * new_mem = (${te_eq.system_events_union}_t *) ${te_dma.allocate}( ${te_sys.UnitsToDynamicallyAllocate} * sizeof( ${te_eq.system_events_union}_t ) );
 
     if ( 0 == new_mem ) {
       ${te_callout.event_free_list_empty}();   /* Bad news!  No more heap space.  */
     } else {
       u1_t i;
       for ( i = 0; i < ${te_sys.UnitsToDynamicallyAllocate} - 1; i++ ) {
-        new_mem[ i ].next = (${te_eq.base_event_type} *) &(new_mem[ i + 1 ]);
+        new_mem[ i ].mc_event_base.next = (${te_eq.base_event_type} *) &(new_mem[ i + 1 ]);
       }
-      new_mem[ ${te_sys.UnitsToDynamicallyAllocate} - 1 ].next = 0;
-      free_event_list = new_mem;
+      new_mem[ ${te_sys.UnitsToDynamicallyAllocate} - 1 ].mc_event_base.next = 0;
+      free_event_list = (${te_eq.base_event_type} *) new_mem;
     }
   }
   event = free_event_list;       /* Grab front of the free list.  */

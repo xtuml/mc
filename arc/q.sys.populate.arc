@@ -1221,13 +1221,78 @@
   .// Create the navigations and connect them to the R_OIRs.
   .select many r_oirs from instances of R_OIR
   .for each r_oir in r_oirs
-    .create object instance te_nav of TE_NAV
-    .assign te_nav.NavigatedTo = false
-    .// relate r_oir to te_nav across R2035;
-    .assign te_nav.Obj_ID = r_oir.Obj_ID
-    .assign te_nav.Rel_ID = r_oir.Rel_ID
-    .assign te_nav.OIR_ID = r_oir.OIR_ID
+    .create object instance te_oir of TE_OIR
+    .select one o_obj related by r_oir->O_OBJ[R201]
+    .select one r_rel related by r_oir->R_REL[R201]
+    .assign te_oir.data_member = ( o_obj.Key_Lett + "_R" ) + "${r_rel.Numb}"
+    .assign te_oir.assoc_type = ""
+    .assign te_oir.Mult = 0
+    .assign te_oir.object_id = ""
+    .assign te_oir.NavigatedTo = false
+    .// relate r_oir to te_oir across R2035;
+    .assign te_oir.Obj_ID = r_oir.Obj_ID
+    .assign te_oir.Rel_ID = r_oir.Rel_ID
+    .assign te_oir.OIR_ID = r_oir.OIR_ID
     .// end relate
+  .end for
+  .select many r_parts from instances of R_PART where ( selected.Rel_ID != 00 )
+  .for each r_part in r_parts
+    .select one te_oir related by r_part->R_RTO[R204]->R_OIR[R203]->TE_OIR[R2035]
+    .assign te_oir.assoc_type = "part"
+    .assign te_oir.rel_phrase = "$_{r_part.Txt_Phrs}"
+    .assign te_oir.Mult = r_part.Mult
+    .if ( "" != te_oir.rel_phrase )
+      .assign te_oir.data_member = ( te_oir.data_member + "_" ) + te_oir.rel_phrase
+    .end if
+  .end for
+  .select many r_forms from instances of R_FORM
+  .for each r_form in r_forms
+    .select one te_oir related by r_form->R_RGO[R205]->R_OIR[R203]->TE_OIR[R2035]
+    .assign te_oir.assoc_type = "form"
+    .assign te_oir.rel_phrase = "$_{r_form.Txt_Phrs}"
+    .assign te_oir.Mult = r_form.Mult
+    .if ( "" != te_oir.rel_phrase )
+      .assign te_oir.data_member = ( te_oir.data_member + "_" ) + te_oir.rel_phrase
+    .end if
+  .end for
+  .select many r_aones from instances of R_AONE
+  .for each r_aone in r_aones
+    .select one te_oir related by r_aone->R_RTO[R204]->R_OIR[R203]->TE_OIR[R2035]
+    .assign te_oir.assoc_type = "aone"
+    .assign te_oir.rel_phrase = "$_{r_aone.Txt_Phrs}"
+    .assign te_oir.Mult = r_aone.Mult
+    .if ( "" != te_oir.rel_phrase )
+      .assign te_oir.data_member = ( te_oir.data_member + "_" ) + te_oir.rel_phrase
+    .end if
+  .end for
+  .select many r_aoths from instances of R_AOTH
+  .for each r_aoth in r_aoths
+    .select one te_oir related by r_aoth->R_RTO[R204]->R_OIR[R203]->TE_OIR[R2035]
+    .assign te_oir.assoc_type = "aoth"
+    .assign te_oir.rel_phrase = "$_{r_aoth.Txt_Phrs}"
+    .assign te_oir.Mult = r_aoth.Mult
+    .if ( "" != te_oir.rel_phrase )
+      .assign te_oir.data_member = ( te_oir.data_member + "_" ) + te_oir.rel_phrase
+    .end if
+  .end for
+  .select many r_assrs from instances of R_ASSR
+  .for each r_assr in r_assrs
+    .select one te_oir related by r_assr->R_RGO[R205]->R_OIR[R203]->TE_OIR[R2035]
+    .assign te_oir.assoc_type = "assr"
+    .assign te_oir.Mult = r_assr.Mult
+  .end for
+  .select many r_subs from instances of R_SUB
+  .for each r_sub in r_subs
+    .select one te_oir related by r_sub->R_RGO[R205]->R_OIR[R203]->TE_OIR[R2035]
+    .select one r_rel related by r_sub->R_SUBSUP[R213]->R_REL[R206]
+    .assign te_oir.assoc_type = "subsuper"
+    .assign te_oir.object_id = ( "R" + "${r_rel.Numb}" ) + "_object_id"
+    .assign te_oir.data_member = ( "R" + "${r_rel.Numb}" ) + "_subtype"
+  .end for
+  .select many r_supers from instances of R_SUPER
+  .for each r_super in r_supers
+    .select one te_oir related by r_super->R_RTO[R204]->R_OIR[R203]->TE_OIR[R2035]
+    .assign te_oir.assoc_type = "subsuper"
   .end for
   .//
   .// Create the blocks and connect them to the ACT_BLKs.
@@ -2276,6 +2341,8 @@
     .// relate te_lnk to te_class across R2076;
     .assign te_lnk.te_classGeneratedName = te_class.GeneratedName
     .// end relate
+    .assign rel_phrase = "$_{te_lnk.rel_phrase}"
+    .select any te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == o_obj.Obj_ID )
     .assign te_lnk.OAL = ( ( "->" + te_class.Key_Lett ) + ( "[R" + "${te_lnk.rel_number}" ) )
     .invoke r = GetRelationshipDataMemberName( o_obj, r_rel, te_lnk.rel_phrase )
     .assign te_lnk.linkage = r.result
@@ -2312,10 +2379,11 @@
   .assign te_lnk.te_classGeneratedName = te_class.GeneratedName
   .// end relate
   .// Leave OAL blank, because real OAL is not showing this link.
+  .select any te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == o_obj.Obj_ID )
   .assign te_lnk.OAL = ""
   .invoke r = GetRelationshipDataMemberName( o_obj, r_rel, right_te_lnk.rel_phrase )
   .if ( not_empty left_te_lnk )
-    .// relate left_lnk to te_lnk across R2075.'succeeds';
+    .// relate left_te_lnk to te_lnk across R2075.'succeeds';
     .assign left_te_lnk.next_ID = te_lnk.ID
     .// end relate
     .assign te_lnk.left = left_te_lnk.linkage

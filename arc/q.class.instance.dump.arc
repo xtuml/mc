@@ -1379,188 +1379,6 @@ INSERT INTO C_RID VALUES (\
   .end if
  );
 .end for
-.print "Component Library"
-.select many cl_ipinss from instances of CL_IPINS
-.for each cl_ipins in cl_ipinss
-INSERT INTO CL_IPINS VALUES (\
-  .if ( "un-initialized" == "${cl_ipins.Satisfaction_Id}" )
- 0\
-  .else
- ${cl_ipins.Satisfaction_Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cl_ipins.ImportedProvision_Id}" )
-, 0\
-  .else
-, ${cl_ipins.ImportedProvision_Id}\
-  .end if
- );
-.end for
-.select many cl_ips from instances of CL_IP
-.for each cl_ip in cl_ips
-INSERT INTO CL_IP VALUES (\
-  .if ( "un-initialized" == "${cl_ip.Id}" )
- 0\
-  .else
- ${cl_ip.Id}\
-  .end if
-, '${cl_ip.Name}', ''\
- );
-.end for
-.select many cl_irs from instances of CL_IR
-.for each cl_ir in cl_irs
-INSERT INTO CL_IR VALUES (\
-  .if ( "un-initialized" == "${cl_ir.Id}" )
- 0\
-  .else
- ${cl_ir.Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cl_ir.Satisfaction_Element_Id}" )
-, 0\
-  .else
-, ${cl_ir.Satisfaction_Element_Id}\
-  .end if
-, '${cl_ir.Name}', ''\
- );
-.end for
-.select many cl_iirs from instances of CL_IIR
-.for each cl_iir in cl_iirs
-INSERT INTO CL_IIR VALUES (\
-  .if ( "un-initialized" == "${cl_iir.Id}" )
- 0\
-  .else
- ${cl_iir.Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cl_iir.Ref_Id}" )
-, 0\
-  .else
-, ${cl_iir.Ref_Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cl_iir.ImportedComp_Id}" )
-, 0\
-  .else
-, ${cl_iir.ImportedComp_Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cl_iir.Delegation_Id}" )
-, 0\
-  .else
-, ${cl_iir.Delegation_Id}\
-  .end if
-, '${cl_iir.Name}', ''\
- );
-.end for
-.select many cl_ics from instances of CL_IC
-.for each cl_ic in cl_ics
-INSERT INTO CL_IC VALUES (\
-  .if ( "un-initialized" == "${cl_ic.Id}" )
- 0\
-  .else
- ${cl_ic.Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cl_ic.AssignedComp_Id}" )
-, 0\
-  .else
-, ${cl_ic.AssignedComp_Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cl_ic.ParentComp_Id}" )
-, 0\
-  .else
-, ${cl_ic.ParentComp_Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cl_ic.Component_Package_ID}" )
-, 0\
-  .else
-, ${cl_ic.Component_Package_ID}\
-  .end if
-, ${cl_ic.Mult}, '${cl_ic.ClassifierName}', '${cl_ic.Name}', ''\
- );
-.end for
-.print "Component Nesting"
-.select many cn_cics from instances of CN_CIC
-.for each cn_cic in cn_cics
-INSERT INTO CN_CIC VALUES (\
-  .if ( "un-initialized" == "${cn_cic.Id}" )
- 0\
-  .else
- ${cn_cic.Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cn_cic.Parent_Id}" )
-, 0\
-  .else
-, ${cn_cic.Parent_Id}\
-  .end if
- );
-.end for
-.select many cn_dcs from instances of CN_DC
-.for each cn_dc in cn_dcs
-INSERT INTO CN_DC VALUES (\
-  .if ( "un-initialized" == "${cn_dc.Id}" )
- 0\
-  .else
- ${cn_dc.Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cn_dc.Dom_ID}" )
-, 0\
-  .else
-, ${cn_dc.Dom_ID}\
-  .end if
- );
-.end for
-.print "Component Packaging"
-.select many cp_cps from instances of CP_CP
-.for each cp_cp in cp_cps
-INSERT INTO CP_CP VALUES (\
-  .if ( "un-initialized" == "${cp_cp.Package_ID}" )
- 0\
-  .else
- ${cp_cp.Package_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${cp_cp.ParentLink_Id}" )
-, 0\
-  .else
-, ${cp_cp.ParentLink_Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cp_cp.Sys_ID}" )
-, 0\
-  .else
-, ${cp_cp.Sys_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${cp_cp.Containing_Sys_ID}" )
-, 0\
-  .else
-, ${cp_cp.Containing_Sys_ID}\
-  .end if
-, '${cp_cp.Name}', ''\
- );
-.end for
-.select many cp_cpinps from instances of CP_CPINP
-.for each cp_cpinp in cp_cpinps
-INSERT INTO CP_CPINP VALUES (\
-  .if ( "un-initialized" == "${cp_cpinp.Id}" )
- 0\
-  .else
- ${cp_cpinp.Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${cp_cpinp.Parent_Package_ID}" )
-, 0\
-  .else
-, ${cp_cpinp.Parent_Package_ID}\
-  .end if
- );
-.end for
 .print "Constants"
 .select many cnst_csps from instances of CNST_CSP
 .for each cnst_csp in cnst_csps
@@ -3976,49 +3794,6 @@ INSERT INTO PE_CRS VALUES (\
   .end if
 , '${pe_crs.Name}', ${pe_crs.Type} );
 .end for
-.print "Participation"
-.select many sp_sps from instances of SP_SP
-.for each sp_sp in sp_sps
-INSERT INTO SP_SP VALUES (\
-  .if ( "un-initialized" == "${sp_sp.Id}" )
- 0\
-  .else
- ${sp_sp.Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${sp_sp.Engine_Id}" )
-, 0\
-  .else
-, ${sp_sp.Engine_Id}\
-  .end if
- );
-.end for
-.select many sp_ses from instances of SP_SE
-.for each sp_se in sp_ses
-INSERT INTO SP_SE VALUES (\
-  .if ( "un-initialized" == "${sp_se.Id}" )
- 0\
-  .else
- ${sp_se.Id}\
-  .end if
-\
-  .if ( "un-initialized" == "${sp_se.Participant_Id}" )
-, 0\
-  .else
-, ${sp_se.Participant_Id}\
-  .end if
-, '${sp_se.modelRootId}', '${sp_se.className}', ${sp_se.elementId} );
-.end for
-.select many sp_alss from instances of SP_ALS
-.for each sp_als in sp_alss
-INSERT INTO SP_ALS VALUES (\
-  .if ( "un-initialized" == "${sp_als.Id}" )
- 0\
-  .else
- ${sp_als.Id}\
-  .end if
-, '${sp_als.searchableValue}' );
-.end for
 .print "Persistence Associations"
 .select many pa_sics from instances of PA_SIC
 .for each pa_sic in pa_sics
@@ -5523,6 +5298,28 @@ INSERT INTO TE_CI VALUES (\
   .end if
  );
 .end for
+.select many te_oirs from instances of TE_OIR
+.for each te_oir in te_oirs
+INSERT INTO TE_OIR VALUES ( '${te_oir.data_member}', '${te_oir.assoc_type}', '${te_oir.object_id}', ${te_oir.Mult}, ${te_oir.NavigatedTo}\
+  .if ( "un-initialized" == "${te_oir.OIR_ID}" )
+, 0\
+  .else
+, ${te_oir.OIR_ID}\
+  .end if
+\
+  .if ( "un-initialized" == "${te_oir.Obj_ID}" )
+, 0\
+  .else
+, ${te_oir.Obj_ID}\
+  .end if
+\
+  .if ( "un-initialized" == "${te_oir.Rel_ID}" )
+, 0\
+  .else
+, ${te_oir.Rel_ID}\
+  .end if
+ );
+.end for
 .select many te_syss from instances of TE_SYS
 .for each te_sys in te_syss
 INSERT INTO TE_SYS VALUES ( ${te_sys.SystemID}, '${te_sys.ModelCompilerName}', '${te_sys.ModelCompilerVersion}', '${te_sys.ModelCompilerSerNum}', '${te_sys.ModelCompilerKey}', '${te_sys.BridgePointLicenseKey}', '${te_sys.ExecutableName}', ${te_sys.MaxStringLen}, ${te_sys.MaxObjExtent}, ${te_sys.MaxRelExtent}, ${te_sys.MaxSelectExtent}, ${te_sys.TotalContainers}, ${te_sys.MaxSelfEvents}, ${te_sys.MaxNonSelfEvents}, ${te_sys.MaxTimers}, ${te_sys.MaxInterleavedBridges}, ${te_sys.MaxInterleavedBridgeDataSize}, ${te_sys.CollectionsFlavor}, ${te_sys.ForcePriorityEvents}, ${te_sys.PEIClassCount}, ${te_sys.PersistentClassCount}, ${te_sys.PersistInstanceCacheDepth}, ${te_sys.PersistLinkCacheDepth}, ${te_sys.UnitsToDynamicallyAllocate}, ${te_sys.InstanceLoading}, '${te_sys.self_name}', '${te_sys.Name}', ${te_sys.AUTOSAR}, ${te_sys.VFB}, '${te_sys.SystemCPortsType}', ${te_sys.AllPortsPoly}, '${te_sys.DomainClassNumberName}'\
@@ -5903,28 +5700,6 @@ INSERT INTO TE_REL VALUES ( ${te_rel.Numb}, ${te_rel.LinkNeeded}, ${te_rel.Unlin
 , 0\
   .else
 , ${te_rel.Rel_ID}\
-  .end if
- );
-.end for
-.select many te_navs from instances of TE_NAV
-.for each te_nav in te_navs
-INSERT INTO TE_NAV VALUES ( ${te_nav.NavigatedTo}\
-  .if ( "un-initialized" == "${te_nav.OIR_ID}" )
-, 0\
-  .else
-, ${te_nav.OIR_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${te_nav.Obj_ID}" )
-, 0\
-  .else
-, ${te_nav.Obj_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${te_nav.Rel_ID}" )
-, 0\
-  .else
-, ${te_nav.Rel_ID}\
   .end if
  );
 .end for

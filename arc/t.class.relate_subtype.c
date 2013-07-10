@@ -51,12 +51,12 @@ ${unrelate_method.result}( ${super_te_class.GeneratedName} * supertype, ${sub_te
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
   .end if
 ${reset_referentials}\
-  .if ( rto_NavigatedTo or te_c.OptDisabled )
+  .if ( super_te_oir.NavigatedTo or te_c.OptDisabled )
   subtype->${subtype_data_member.result} = 0;
   .else
   /* Note:  ${sub_te_class.Key_Lett}->${super_te_class.Key_Lett}[R${te_rel.Numb}] not navigated */
   .end if
-  .if ( rgo_NavigatedTo or te_c.OptDisabled )
+  .if ( sub_te_oir.NavigatedTo or te_c.OptDisabled )
   supertype->${supertype_data_member.result} = 0;
   supertype->${supertype_data_member.obj_id} = 0;
   .else

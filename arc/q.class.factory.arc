@@ -194,8 +194,8 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
         .assign rel_phrase = r_form.Txt_Phrs
       .end if
       .assign navigation_needed = false
-      .select one te_nav related by r_rgo->R_OIR[R203]->TE_NAV[R2035]
-      .assign rgo_NavigatedTo = te_nav.NavigatedTo
+      .select one te_oir related by r_rgo->R_OIR[R203]->TE_OIR[R2035]
+      .assign rgo_NavigatedTo = te_oir.NavigatedTo
       .if ( 0 < r_rgo_count )
   {
       .end if
@@ -209,8 +209,8 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
       .assign parameters_delimeter = ""
       .assign r_rto_count = 1
       .for each r_rto in r_rtos
-        .select one te_nav related by r_rto->R_OIR[R203]->TE_NAV[R2035]
-        .assign rto_NavigatedTo = te_nav.NavigatedTo
+        .select one te_oir related by r_rto->R_OIR[R203]->TE_OIR[R2035]
+        .assign rto_NavigatedTo = te_oir.NavigatedTo
         .//.if ( rto_NavigatedTo or rgo_NavigatedTo )
           .assign navigation_needed = true
           .select one rto_obj related by r_rto->R_OIR[R203]->O_OBJ[R201]

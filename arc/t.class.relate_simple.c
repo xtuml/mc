@@ -25,7 +25,7 @@ ${relate_method.result}( ${part_te_class.GeneratedName} * part, ${form_te_class.
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
   .end if
 ${set_referentials}\
-  .if ( rto_NavigatedTo or te_c.OptDisabled )
+  .if ( part_te_oir.NavigatedTo or te_c.OptDisabled )
     .if ( part.Mult == 0 )
   form->${form_data_member.result} = part;
     .else
@@ -34,7 +34,7 @@ ${set_referentials}\
   .else
   /* Note:  ${form_te_class.Key_Lett}->${part_te_class.Key_Lett}[R${te_rel.Numb}] not navigated */
   .end if
-  .if ( rgo_NavigatedTo or te_c.OptDisabled )
+  .if ( form_te_oir.NavigatedTo or te_c.OptDisabled )
     .if ( form.Mult == 0 )
   part->${part_data_member.result} = form;
     .else
@@ -63,7 +63,7 @@ ${unrelate_method.result}( ${part_te_class.GeneratedName} * part, ${form_te_clas
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
   .end if
 ${reset_referentials}\
-  .if ( rto_NavigatedTo or te_c.OptDisabled )
+  .if ( part_te_oir.NavigatedTo or te_c.OptDisabled )
     .if ( part.Mult == 0 )
   form->${form_data_member.result} = 0;
     .else
@@ -72,7 +72,7 @@ ${reset_referentials}\
   .else
   /* Note:  ${form_te_class.Key_Lett}->${part_te_class.Key_Lett}[R${te_rel.Numb}] not navigated */
   .end if
-  .if ( rgo_NavigatedTo or te_c.OptDisabled )
+  .if ( form_te_oir.NavigatedTo or te_c.OptDisabled )
     .if ( form.Mult == 0 )
   part->${part_data_member.result} = 0;
     .else
