@@ -180,19 +180,23 @@ ${ws}${var_name}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
 .end function
 .//------------------------------------------------
 .function t_oal_smt_relate
-  .param inst_ref one_o_obj
-  .param inst_ref oth_o_obj
+  .param inst_ref left_o_obj
+  .param inst_ref right_o_obj
   .param inst_ref r_rel
   .param boolean is_reflexive
   .param integer relationship_number
   .param string relationship_phrase
-  .param string one_var_name
-  .param string oth_var_name
+  .param string left_var_name
+  .param string right_var_name
   .param string ws
-  .invoke r = GetRelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
-  .assign method = r.result
-  .invoke r = TE_REL_IsLeftFormalizer( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .invoke r = TE_REL_IsLeftFormalizer( left_o_obj, r_rel, relationship_phrase )
   .assign left_is_formalizer = r.result
+  .assign o_obj = right_o_obj
+  .if ( left_is_formalizer )
+    .assign o_obj = left_o_obj
+  .end if
+  .invoke s = GetRelateToName( o_obj, r_rel, relationship_phrase )
+  .assign method = s.result
   .//
   .select any te_target from instances of TE_TARGET
   .assign thismodule = ""
@@ -200,14 +204,14 @@ ${ws}${var_name}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
     .assign thismodule = ", thismodule"
   .end if
   .if ( is_reflexive )
-${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${left_var_name}, ${right_var_name}${thismodule} );
   .else
     .if ( left_is_formalizer )
-${ws}${method}( ${oth_var_name}, ${one_var_name}${thismodule} );
-.// Alf R${r_rel.Numb} -> add ( ${oth_o_obj.Key_Lett}=>${oth_var_name}, ${one_o_obj.Key_Lett}=>${one_var_name} )
+${ws}${method}( ${right_var_name}, ${left_var_name}${thismodule} );
+.// Alf R${r_rel.Numb} -> add ( ${right_o_obj.Key_Lett}=>${right_var_name}, ${left_o_obj.Key_Lett}=>${left_var_name} )
     .else
-${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
-.// Alf R${r_rel.Numb} -> add ( ${one_o_obj.Key_Lett}=>${one_var_name}, ${oth_o_obj.Key_Lett}=>${oth_var_name} )
+${ws}${method}( ${left_var_name}, ${right_var_name}${thismodule} );
+.// Alf R${r_rel.Numb} -> add ( ${left_o_obj.Key_Lett}=>${left_var_name}, ${right_o_obj.Key_Lett}=>${right_var_name} )
     .end if
   .end if
 .end function
@@ -246,31 +250,35 @@ ${ass_var_name}${thismodule} );
 .end function
 .//------------------------------------------------
 .function t_oal_smt_unrelate
-  .param inst_ref one_o_obj
-  .param inst_ref oth_o_obj
+  .param inst_ref left_o_obj
+  .param inst_ref right_o_obj
   .param inst_ref r_rel
   .param boolean is_reflexive
   .param integer relationship_number
   .param string relationship_phrase
-  .param string one_var_name
-  .param string oth_var_name
+  .param string left_var_name
+  .param string right_var_name
   .param string ws
   .select any te_target from instances of TE_TARGET
   .assign thismodule = ""
   .if ( "C" != te_target.language )
     .assign thismodule = ", thismodule"
   .end if
-  .invoke r = GetUnrelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
-  .assign method = r.result
-  .invoke r = TE_REL_IsLeftFormalizer( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .invoke r = TE_REL_IsLeftFormalizer( left_o_obj, r_rel, relationship_phrase )
   .assign left_is_formalizer = r.result
+  .assign o_obj = right_o_obj
+  .if ( left_is_formalizer )
+    .assign o_obj = left_o_obj
+  .end if
+  .invoke r = GetUnrelateFromName( o_obj, r_rel, relationship_phrase )
+  .assign method = r.result
   .if ( is_reflexive )
-${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${left_var_name}, ${right_var_name}${thismodule} );
   .else
     .if ( left_is_formalizer )
-${ws}${method}( ${oth_var_name}, ${one_var_name}${thismodule} );
+${ws}${method}( ${right_var_name}, ${left_var_name}${thismodule} );
     .else
-${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${left_var_name}, ${right_var_name}${thismodule} );
     .end if
   .end if
 .end function

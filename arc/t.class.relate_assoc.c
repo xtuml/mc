@@ -27,17 +27,17 @@ ${link_method.result}( ${aone_te_class.GeneratedName} * aone, ${aoth_te_class.Ge
 ${set_aone_referentials}\
 ${set_aoth_referentials}\
   /* Initialize optimized relationship storage extended attributes */
-  assr->${aone_data.result} = aone;
-  assr->${aoth_data.result} = aoth;
+  assr->${aone_te_oir.data_member} = aone;
+  assr->${aoth_te_oir.data_member} = aoth;
   .if ( aoth.Mult == 0 )
-  aone->${assr_data.result} = assr;
+  aone->${assr_te_oir.data_member} = assr;
   .else
-  ${te_set.module}${te_set.insert_element}( &aone->${assr_data.result}, assr );
+  ${te_set.module}${te_set.insert_element}( &aone->${assr_te_oir.data_member}, assr );
   .end if
   .if ( aone.Mult == 0 )
-  aoth->${assr_data.result} = assr;
+  aoth->${assr_te_oir.data_member} = assr;
   .else
-  ${te_set.module}${te_set.insert_element}( &aoth->${assr_data.result}, assr );
+  ${te_set.module}${te_set.insert_element}( &aoth->${assr_te_oir.data_member}, assr );
   .end if
 ${persist_relate.body}\
 }
@@ -62,17 +62,17 @@ ${unlink_method.result}( ${aone_te_class.GeneratedName} * aone, ${aoth_te_class.
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
   .end if
 ${reset_referentials}\
-  assr->${aone_data.result} = 0;
-  assr->${aoth_data.result} = 0;
+  assr->${aone_te_oir.data_member} = 0;
+  assr->${aoth_te_oir.data_member} = 0;
   .if ( aoth.Mult == 0 )
-  aone->${assr_data.result} = 0;
+  aone->${assr_te_oir.data_member} = 0;
   .else
-  ${te_set.module}${te_set.remove_element}( &aone->${assr_data.result}, assr );
+  ${te_set.module}${te_set.remove_element}( &aone->${assr_te_oir.data_member}, assr );
   .end if
   .if ( aone.Mult == 0 )
-  aoth->${assr_data.result} = 0;
+  aoth->${assr_te_oir.data_member} = 0;
   .else
-  ${te_set.module}${te_set.remove_element}( &aoth->${assr_data.result}, assr );
+  ${te_set.module}${te_set.remove_element}( &aoth->${assr_te_oir.data_member}, assr );
   .end if
 ${persist_unrelate.body}\
 }

@@ -673,6 +673,10 @@ ${aoth_fundamentals.body}\
   .select one aoth_rto related by aoth->R_RTO[R204]
   .select one assr_rgo related by assr->R_RGO[R205]
   .//
+  .select one aone_te_oir related by aone_rto->R_OIR[R203]->TE_OIR[R2035]
+  .select one aoth_te_oir related by aoth_rto->R_OIR[R203]->TE_OIR[R2035]
+  .select one assr_te_oir related by assr_rgo->R_OIR[R203]->TE_OIR[R2035]
+  .//
   .select one aone_obj related by aone_rto->R_OIR[R203]->O_OBJ[R201]
   .select one aoth_obj related by aoth_rto->R_OIR[R203]->O_OBJ[R201]
   .select one assr_obj related by assr_rgo->R_OIR[R203]->O_OBJ[R201]
@@ -681,8 +685,8 @@ ${aoth_fundamentals.body}\
   .select one aoth_te_class related by aoth_obj->TE_CLASS[R2019]
   .select one assr_te_class related by assr_obj->TE_CLASS[R2019]
   .select one te_c related by assr_te_class->TE_C[R2064]
-  .invoke link_method = GetAssociativeLinkMethodName( aone_obj, aoth_obj, assr_obj, r_rel, rel_phrase )
-  .invoke unlink_method = GetAssociativeUnlinkMethodName( aone_obj, aoth_obj, assr_obj, r_rel, rel_phrase )
+  .invoke link_method   = GetRelateToName( assr_obj, r_rel, "" )
+  .invoke unlink_method = GetUnrelateFromName( assr_obj, r_rel, "" )
   .//
   .if ( gen_declaration )
     .assign externstatic = "static "
@@ -698,9 +702,6 @@ ${aoth_fundamentals.body}\
       .assign thismodule = ""
     .end if
     .//
-    .invoke aone_data = GetRelationshipDataMemberName( aone_obj, r_rel, rel_phrase )
-    .invoke aoth_data = GetRelationshipDataMemberName( aoth_obj, r_rel, rel_phrase )
-    .invoke assr_data = GetRelationshipDataMemberName( assr_obj, r_rel, rel_phrase )
     .assign link_call = "${link_method.result}( (${aone_te_class.GeneratedName} *) l, (${aoth_te_class.GeneratedName} *) r, (${assr_te_class.GeneratedName} *) a )"
     .invoke PersistAddLinkCalls( aone_obj, aoth_obj, assr_obj, te_relstore, link_call )
     .select any oref related by assr_rgo->O_REF[R111]
@@ -1058,7 +1059,6 @@ ${aoth_fundamentals.body}\
 .//=============================================================================
 .function TE_REL_IsLeftFormalizer
   .param inst_ref left_o_obj
-  .param inst_ref right_o_obj
   .param inst_ref r_rel
   .param string rel_phrase
   .//

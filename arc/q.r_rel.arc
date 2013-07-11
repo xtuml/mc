@@ -120,9 +120,11 @@
         .if ( right_o_obj.Obj_ID == one_side.Obj_ID )
           .assign attr_Mult = one_side.Mult
           .assign attr_assoc_type = "aone"
+          .assign attr_result = "$_{one_side.Txt_Phrs}"
         .elif ( right_o_obj.Obj_ID == other_side.Obj_ID )
           .assign attr_Mult = other_side.Mult
           .assign attr_assoc_type = "aoth"
+          .assign attr_result = "$_{other_side.Txt_Phrs}"
         .else
           .assign attr_Mult = assr.Mult
           .assign attr_assoc_type = "assr"
