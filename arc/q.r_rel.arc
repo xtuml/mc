@@ -66,9 +66,11 @@
     .if ( right_o_obj.Obj_ID == participant.Obj_ID )
       .assign attr_Mult = participant.Mult
       .assign attr_assoc_type = "part"
+      .assign attr_result = "$_{participant.Txt_Phrs}"
     .else
       .assign attr_Mult = formalizer.Mult
       .assign attr_assoc_type = "form"
+      .assign attr_result = "$_{formalizer.Txt_Phrs}"
     .end if
     .if ( participant.Obj_ID == formalizer.Obj_ID )
       .if ( participant.Txt_Phrs == rel_phrase )

@@ -26,10 +26,10 @@ ${relate_method.result}( ${super_te_class.GeneratedName} * supertype, ${sub_te_c
   .end if
 ${set_referentials}\
   /* Optimized linkage for ${sub_te_class.Key_Lett}->${super_te_class.Key_Lett}[R${te_rel.Numb}] */
-  subtype->${subtype_data_member.result} = supertype;
+  subtype->${super_te_oir.data_member} = supertype;
   /* Optimized linkage for ${super_te_class.Key_Lett}->${sub_te_class.Key_Lett}[R${te_rel.Numb}] */
-  supertype->${supertype_data_member.result} = subtype;
-  supertype->${supertype_data_member.obj_id} = ${sub_te_class.system_class_number};
+  supertype->${sub_te_oir.data_member} = subtype;
+  supertype->${sub_te_oir.object_id} = ${sub_te_class.system_class_number};
 ${persist_relate.body}\
 }
 
@@ -52,13 +52,13 @@ ${unrelate_method.result}( ${super_te_class.GeneratedName} * supertype, ${sub_te
   .end if
 ${reset_referentials}\
   .if ( super_te_oir.NavigatedTo or te_c.OptDisabled )
-  subtype->${subtype_data_member.result} = 0;
+  subtype->${super_te_oir.data_member} = 0;
   .else
   /* Note:  ${sub_te_class.Key_Lett}->${super_te_class.Key_Lett}[R${te_rel.Numb}] not navigated */
   .end if
   .if ( sub_te_oir.NavigatedTo or te_c.OptDisabled )
-  supertype->${supertype_data_member.result} = 0;
-  supertype->${supertype_data_member.obj_id} = 0;
+  supertype->${sub_te_oir.data_member} = 0;
+  supertype->${sub_te_oir.object_id} = 0;
   .else
   /* Note:  ${super_te_class.Key_Lett}->${sub_te_class.Key_Lett}[R${te_rel.Numb}] not navigated */
   .end if

@@ -27,18 +27,18 @@ ${relate_method.result}( ${part_te_class.GeneratedName} * part, ${form_te_class.
 ${set_referentials}\
   .if ( part_te_oir.NavigatedTo or te_c.OptDisabled )
     .if ( part.Mult == 0 )
-  form->${form_data_member.result} = part;
+  form->${part_te_oir.data_member} = part;
     .else
-  ${te_set.module}${te_set.insert_element}( &form->${form_data_member.result}, (${te_set.scope}${te_set.base_class} *) part );
+  ${te_set.module}${te_set.insert_element}( &form->${part_te_oir.data_member}, (${te_set.scope}${te_set.base_class} *) part );
     .end if
   .else
   /* Note:  ${form_te_class.Key_Lett}->${part_te_class.Key_Lett}[R${te_rel.Numb}] not navigated */
   .end if
   .if ( form_te_oir.NavigatedTo or te_c.OptDisabled )
     .if ( form.Mult == 0 )
-  part->${part_data_member.result} = form;
+  part->${form_te_oir.data_member} = form;
     .else
-  ${te_set.module}${te_set.insert_element}( &part->${part_data_member.result}, (${te_set.scope}${te_set.base_class} *) form );
+  ${te_set.module}${te_set.insert_element}( &part->${form_te_oir.data_member}, (${te_set.scope}${te_set.base_class} *) form );
     .end if
   .else
   /* Note:  ${part_te_class.Key_Lett}->${form_te_class.Key_Lett}[R${te_rel.Numb}] not navigated */
@@ -65,18 +65,18 @@ ${unrelate_method.result}( ${part_te_class.GeneratedName} * part, ${form_te_clas
 ${reset_referentials}\
   .if ( part_te_oir.NavigatedTo or te_c.OptDisabled )
     .if ( part.Mult == 0 )
-  form->${form_data_member.result} = 0;
+  form->${part_te_oir.data_member} = 0;
     .else
-  ${te_set.module}${te_set.remove_element}( &form->${form_data_member.result}, (${te_set.scope}${te_set.base_class} *) part );
+  ${te_set.module}${te_set.remove_element}( &form->${part_te_oir.data_member}, (${te_set.scope}${te_set.base_class} *) part );
     .end if
   .else
   /* Note:  ${form_te_class.Key_Lett}->${part_te_class.Key_Lett}[R${te_rel.Numb}] not navigated */
   .end if
   .if ( form_te_oir.NavigatedTo or te_c.OptDisabled )
     .if ( form.Mult == 0 )
-  part->${part_data_member.result} = 0;
+  part->${form_te_oir.data_member} = 0;
     .else
-  ${te_set.module}${te_set.remove_element}( &part->${part_data_member.result}, (${te_set.scope}${te_set.base_class} *) form );
+  ${te_set.module}${te_set.remove_element}( &part->${form_te_oir.data_member}, (${te_set.scope}${te_set.base_class} *) form );
     .end if
   .else
   /* Note:  ${part_te_class.Key_Lett}->${form_te_class.Key_Lett}[R${te_rel.Numb}] not navigated */

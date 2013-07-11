@@ -492,8 +492,6 @@ ${aoth_fundamentals.body}\
     .if ( "C" == te_target.language )
       .assign thismodule = ""
     .end if
-    .invoke form_data_member = GetRelationshipDataMemberName( part_obj, r_rel, "" )
-    .invoke part_data_member = GetRelationshipDataMemberName( o_obj, r_rel, "" )
     .assign link_call = "${relate_method.result}( (${part_te_class.GeneratedName} *) l, (${form_te_class.GeneratedName} *) r )"
     .select any assoc from instances of O_OBJ where ( false )
     .invoke PersistAddLinkCalls( o_obj, part_obj, assoc, te_relstore, link_call )
@@ -634,8 +632,6 @@ ${aoth_fundamentals.body}\
     .if ( "C" == te_target.language )
       .assign thismodule = ""
     .end if
-    .invoke subtype_data_member = GetRelationshipDataMemberName( supertype_obj, r_rel, "" )
-    .invoke supertype_data_member = GetRelationshipDataMemberName( o_obj, r_rel, "" )
     .select one subtype_te_class related by o_obj->TE_CLASS[R2019]
     .assign link_call = "${relate_method.result}( (${super_te_class.GeneratedName} *) l, (${sub_te_class.GeneratedName} *) r )"
     .select any assoc from instances of O_OBJ where ( false )
