@@ -538,8 +538,6 @@ ${aoth_fundamentals.body}\
   .//
   .invoke relate_method = GetRelateToName( o_obj, r_rel, rel_phrase )
   .invoke unrelate_method = GetUnrelateFromName( o_obj, r_rel, rel_phrase )
-  .invoke part_data_member = GetRelationshipDataMemberName( o_obj, r_rel, part.Txt_Phrs )
-  .invoke form_data_member = GetRelationshipDataMemberName( o_obj, r_rel, form.Txt_Phrs )
     .//
   .//
   .if ( gen_declaration )
@@ -770,10 +768,9 @@ ${aoth_fundamentals.body}\
     .// CDS Here we need to distinguish between aone and aother for role symmetric
     .// reflexive relationships (where the relationship phrase is identical on both
     .// ends of the relationship).
-    .invoke aone_data = GetRelationshipDataMemberName( assoc_obj, r_rel, aone.Txt_Phrs )
-    .invoke aoth_data = GetRelationshipDataMemberName( assoc_obj, r_rel, aoth.Txt_Phrs )
-    .invoke aone_assr_data = GetRelationshipDataMemberName( assr_obj, r_rel, aone.Txt_Phrs  )
-    .invoke aoth_assr_data = GetRelationshipDataMemberName( assr_obj, r_rel, aoth.Txt_Phrs  )
+    .select any aone_te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( ( selected.Obj_ID == assoc_obj.Obj_ID ) and ( selected.rel_phrase == "$_{aone.Txt_Phrs}" ) )
+    .select any aoth_te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( ( selected.Obj_ID == assoc_obj.Obj_ID ) and ( selected.rel_phrase == "$_{aoth.Txt_Phrs}" ) )
+    .select any assr_te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == assr_obj.Obj_ID )
     .assign link_call = "${link_method.result}( (${assoc_te_class.GeneratedName} *) l, (${assoc_te_class.GeneratedName} *) r, (${assr_te_class.GeneratedName} *) a )"
     .invoke PersistAddLinkCalls( assoc_obj, assoc_obj, assr_obj, te_relstore, link_call )
     .invoke persist_relate = PersistCallPostLink( "0", te_relstore, assr_obj, assoc_obj, "left", assoc_obj, "right", assr_obj, "assr" )
@@ -887,7 +884,10 @@ ${aoth_fundamentals.body}\
   .select any te_typemap from instances of TE_TYPEMAP
   .//
   .// Get the base names of the data member(s) to be generated.
-  .select any te_oir related by rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == related_o_obj.Obj_ID )
+  .select any te_oir related by rel->R_OIR[R201]->TE_OIR[R2035] where ( ( selected.Obj_ID == related_o_obj.Obj_ID ) and ( selected.rel_phrase == "$_{te_relinfo.rel_phrase}" ) )
+  .if ( empty te_oir )
+    .select any te_oir related by rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == related_o_obj.Obj_ID )
+  .end if
   .invoke member_data_name = GetRelationshipDataMemberName( related_o_obj, rel, te_relinfo.rel_phrase )
   .//
   .assign storage_needed = false

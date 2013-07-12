@@ -2341,13 +2341,7 @@
     .// relate te_lnk to te_class across R2076;
     .assign te_lnk.te_classGeneratedName = te_class.GeneratedName
     .// end relate
-    .assign rel_phrase = "$_{te_lnk.rel_phrase}"
-    .select any te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == o_obj.Obj_ID )
     .assign te_lnk.OAL = ( ( "->" + te_class.Key_Lett ) + ( "[R" + "${te_lnk.rel_number}" ) )
-    .invoke r = GetRelationshipDataMemberName( o_obj, r_rel, te_lnk.rel_phrase )
-    .assign te_lnk.linkage = r.result
-    .assign te_lnk.Mult = r.Mult
-    .assign te_lnk.assoc_type = r.assoc_type
     .if ( "" != te_lnk.rel_phrase )
       .assign te_lnk.OAL = ( te_lnk.OAL + "." ) + te_lnk.rel_phrase
     .end if
@@ -2355,6 +2349,32 @@
     .assign te_lnk.iterator = "i" + te_lnk.linkage
     .assign te_lnk.first = false
     .assign te_lnk.last = false
+    .assign rel_phrase = "$_{te_lnk.rel_phrase}"
+    .select any te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( ( selected.Obj_ID == o_obj.Obj_ID ) and ( selected.rel_phrase == rel_phrase ) )
+    .if ( empty te_oir )
+      .select any te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == o_obj.Obj_ID )
+    .end if
+    .assign te_lnk.linkage = te_oir.data_member
+    .assign te_lnk.Mult = te_oir.Mult
+    .assign te_lnk.assoc_type = te_oir.assoc_type
+    .// Deal with associative reflexives.
+    .if ( "assr" == te_oir.assoc_type )
+      .invoke r = is_reflexive( r_rel )
+      .assign reflexive = r.result
+      .if ( reflexive )
+        .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
+        .select one r_aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
+        .if ( te_lnk.rel_phrase == r_aone.Txt_Phrs )
+          .assign te_lnk.Mult = r_aone.Mult
+        .elif ( te_lnk.rel_phrase == r_aoth.Txt_Phrs )
+          .assign te_lnk.Mult = r_aoth.Mult
+        .else
+          .print "ERROR:  Unrecognized reflexive association:  R${r_rel.Numb}."
+          .exit 13
+        .end if
+        .assign te_lnk.linkage = ( te_oir.data_member + "_" ) + rel_phrase
+      .end if
+    .end if
   .end if
 .end function
 .//
@@ -2373,15 +2393,20 @@
   .// end relate
   .select one r_rel related by right_te_lnk->ACT_LNK[R2042]->R_REL[R681]
   .assign te_lnk.rel_number = right_te_lnk.rel_number
-  .select one o_obj related by r_rel->R_ASSOC[R206]->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
-  .select one te_class related by o_obj->TE_CLASS[R2019]
+  .select one te_class related by r_rel->R_ASSOC[R206]->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->TE_CLASS[R2019]
   .// relate te_lnk to te_class across R2076;
   .assign te_lnk.te_classGeneratedName = te_class.GeneratedName
   .// end relate
   .// Leave OAL blank, because real OAL is not showing this link.
-  .select any te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == o_obj.Obj_ID )
   .assign te_lnk.OAL = ""
-  .invoke r = GetRelationshipDataMemberName( o_obj, r_rel, right_te_lnk.rel_phrase )
+  .select one te_oir related by r_rel->R_OIR[R201]->R_RGO[R203]->R_OIR[R203]->TE_OIR[R2035]
+  .assign te_lnk.linkage = te_oir.data_member
+  .assign te_lnk.Mult = te_oir.Mult
+  .assign te_lnk.assoc_type = te_oir.assoc_type
+  .// Reflexive associatives put the relationship phrase onto the AONE/AOTH data members.
+  .if ( "" != right_te_lnk.rel_phrase )
+    .assign te_lnk.linkage = ( te_lnk.linkage + "_" ) + "$_{right_te_lnk.rel_phrase}"
+  .end if
   .if ( not_empty left_te_lnk )
     .// relate left_te_lnk to te_lnk across R2075.'succeeds';
     .assign left_te_lnk.next_ID = te_lnk.ID
@@ -2389,12 +2414,10 @@
     .assign te_lnk.left = left_te_lnk.linkage
     .assign te_lnk.first = false
   .else
-    .assign te_lnk.left = r.result
+    .assign te_lnk.left = te_lnk.linkage
     .assign te_lnk.first = true
   .end if
   .assign te_lnk.last = false
-  .assign te_lnk.linkage = r.result
-  .assign te_lnk.assoc_type = r.assoc_type
   .assign te_lnk.iterator = "i" + te_lnk.linkage
   .assign te_lnk.Mult = right_te_lnk.Mult
   .assign right_te_lnk.Mult = 0
