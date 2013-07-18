@@ -46,6 +46,8 @@
       .assign r_part.Rel_ID = 00
       .assign r_part.OIR_ID = 00
       .// end unrelate
+      .// unrelate r_part from r_simp across R207;
+      .// end unrelate
       .// delete object instance r_part;
       .//
       .// unrelate r_rto from r_oir across R203;

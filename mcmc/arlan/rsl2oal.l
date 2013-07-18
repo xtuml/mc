@@ -161,6 +161,7 @@ dbl_dollar    "$$"
                                         }
 <control>{h_white}+                     {CWHITE_RETURN(' ');}
 <comment>[^\n]*                         {TEXT_RETURN(TEXT);}
+<str>{h_white}+                         {TEXT_RETURN(TEXT);}
 {h_white}+                              {WHITE_RETURN(' ');}
 
 <pc>".// delete object instance"        {CONTROL_RETURN(DELETEOBJ);}
@@ -169,7 +170,7 @@ dbl_dollar    "$$"
 <pc>".// end unrelate"                  {CONTROL_RETURN(ENDUNRELATE);}
 <pc>".// end relate"                    {CONTROL_RETURN(ENDRELATE);}
 <pc,control>".//"                       {COMMENT_RETURN(COMMENT);}
-<pc>".comment"|".COMMENT"               {COMMENT_RETURN(COMMENT);}
+<pc,control>".comment"|".COMMENT"       {COMMENT_RETURN(COMMENT);}
 <pc>".function"|".FUNCTION"             {i0 = 0; i1= 1;
                                          CONTROL_RETURN(FUNCTION);}
 <pc>".param"|".PARAM"                   {CONTROL_RETURN(PARAM);}

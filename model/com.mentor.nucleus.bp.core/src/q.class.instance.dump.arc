@@ -3266,7 +3266,6 @@ INSERT INTO ACT_SGN VALUES (\
  );
 .end for
 .print "MC"
-.print "MCfunctions"
 .print "Message"
 .select many msg_ms from instances of MSG_M
 .for each msg_m in msg_ms
@@ -4930,6 +4929,28 @@ INSERT INTO TE_CI VALUES (\
   .end if
  );
 .end for
+.select many te_oirs from instances of TE_OIR
+.for each te_oir in te_oirs
+INSERT INTO TE_OIR VALUES ( '${te_oir.data_member}', '${te_oir.assoc_type}', '${te_oir.object_id}', ${te_oir.Mult}, ${te_oir.NavigatedTo}\
+  .if ( "un-initialized" == "${te_oir.OIR_ID}" )
+, 0\
+  .else
+, ${te_oir.OIR_ID}\
+  .end if
+\
+  .if ( "un-initialized" == "${te_oir.Obj_ID}" )
+, 0\
+  .else
+, ${te_oir.Obj_ID}\
+  .end if
+\
+  .if ( "un-initialized" == "${te_oir.Rel_ID}" )
+, 0\
+  .else
+, ${te_oir.Rel_ID}\
+  .end if
+ );
+.end for
 .select many te_syss from instances of TE_SYS
 .for each te_sys in te_syss
 INSERT INTO TE_SYS VALUES ( ${te_sys.SystemID}, '${te_sys.ModelCompilerName}', '${te_sys.ModelCompilerVersion}', '${te_sys.ModelCompilerSerNum}', '${te_sys.ModelCompilerKey}', '${te_sys.BridgePointLicenseKey}', '${te_sys.ExecutableName}', ${te_sys.MaxStringLen}, ${te_sys.MaxObjExtent}, ${te_sys.MaxRelExtent}, ${te_sys.MaxSelectExtent}, ${te_sys.TotalContainers}, ${te_sys.MaxSelfEvents}, ${te_sys.MaxNonSelfEvents}, ${te_sys.MaxTimers}, ${te_sys.MaxInterleavedBridges}, ${te_sys.MaxInterleavedBridgeDataSize}, ${te_sys.CollectionsFlavor}, ${te_sys.ForcePriorityEvents}, ${te_sys.PEIClassCount}, ${te_sys.PersistentClassCount}, ${te_sys.PersistInstanceCacheDepth}, ${te_sys.PersistLinkCacheDepth}, ${te_sys.UnitsToDynamicallyAllocate}, ${te_sys.InstanceLoading}, '${te_sys.self_name}', '${te_sys.Name}', ${te_sys.AUTOSAR}, ${te_sys.VFB}, '${te_sys.SystemCPortsType}', ${te_sys.AllPortsPoly}, '${te_sys.DomainClassNumberName}'\
@@ -5310,28 +5331,6 @@ INSERT INTO TE_REL VALUES ( ${te_rel.Numb}, ${te_rel.LinkNeeded}, ${te_rel.Unlin
 , 0\
   .else
 , ${te_rel.Rel_ID}\
-  .end if
- );
-.end for
-.select many te_navs from instances of TE_NAV
-.for each te_nav in te_navs
-INSERT INTO TE_NAV VALUES ( ${te_nav.NavigatedTo}\
-  .if ( "un-initialized" == "${te_nav.OIR_ID}" )
-, 0\
-  .else
-, ${te_nav.OIR_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${te_nav.Obj_ID}" )
-, 0\
-  .else
-, ${te_nav.Obj_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${te_nav.Rel_ID}" )
-, 0\
-  .else
-, ${te_nav.Rel_ID}\
   .end if
  );
 .end for
@@ -6010,6 +6009,7 @@ INSERT INTO S_AW VALUES (\
   .end if
  );
 .end for
+.print "afun"
 .emit to file "_system.sql"
 .exit 508
 

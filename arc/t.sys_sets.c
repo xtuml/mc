@@ -418,11 +418,13 @@ ${te_set.scope}${te_string.strcpy}( c_t * dst, const c_t * src )
 {
   c_t * s = dst;
   s2_t i = ${te_string.max_string_length} - 1;
-  while ( ( i > 0 ) && ( *src != '\0' ) ) {
-    --i;
-    *dst++ = *src++;
+  if ( ( 0 != src ) && ( 0 != dst ) ) {
+    while ( ( i > 0 ) && ( *src != '\0' ) ) {
+      --i;
+      *dst++ = *src++;
+    }
+    *dst = '\0';  /* Ensure delimiter.  */
   }
-  *dst = '\0';  /* Ensure delimiter.  */
   return s;
 }
 
@@ -476,8 +478,8 @@ c_t *
 ${te_set.scope}${te_string.strget}( void )
 {
   static u1_t i = 0;
-  static c_t s[ 4 ][ ${te_string.max_string_length} ];
-  i = ( i + 1 ) % 4;
+  static c_t s[ 16 ][ ${te_string.max_string_length} ];
+  i = ( i + 1 ) % 16;
   return ( &s[ i ][ 0 ] );
 }
 

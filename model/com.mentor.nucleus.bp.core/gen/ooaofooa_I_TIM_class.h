@@ -30,14 +30,14 @@ struct ooaofooa_I_TIM {
   l_t expiration;  
 
   /* relationship storage */
-  ooaofooa_I_EVI * I_EVI_R2940;
+  ooaofooa_I_EVI * I_EVI_R2940_provides_delayed_delivery_of;
 };
 void ooaofooa_I_TIM_instancedumper( Escher_iHandle_t );
 Escher_iHandle_t ooaofooa_I_TIM_instanceloader( Escher_iHandle_t, const c_t * [] );
 void ooaofooa_I_TIM_batch_relate( Escher_iHandle_t );
 
-void ooaofooa_I_TIM_R2940_Link( ooaofooa_I_EVI *, ooaofooa_I_TIM * );
-void ooaofooa_I_TIM_R2940_Unlink( ooaofooa_I_EVI *, ooaofooa_I_TIM * );
+void ooaofooa_I_TIM_R2940_Link_delivered_by( ooaofooa_I_EVI *, ooaofooa_I_TIM * );
+void ooaofooa_I_TIM_R2940_Unlink_delivered_by( ooaofooa_I_EVI *, ooaofooa_I_TIM * );
 
 
 #define ooaofooa_I_TIM_MAX_EXTENT_SIZE 10

@@ -374,13 +374,6 @@
       .exit 11
     .end if
     .assign package_to_build = tm_build.package_to_build
-  .else
-    .select many ep_pkgs from instances of EP_PKG where ( "${selected.Descrip:build}" == "system" )
-    .assign markedsystems = cardinality ep_pkgs
-    .if ( markedsystems >= 1 )
-      .select any ep_pkg from instances of EP_PKG where ( "${selected.Descrip:build}" == "system" )
-      .assign package_to_build = ep_pkg.Name
-    .end if
   .end if
   .if ( markedsystems > 1 )
     .print "WARNING:  More than one package is marked as a system build... choose only one."
@@ -423,7 +416,7 @@
     .assign te_dt.Name = s_dt.Name
     .assign te_dt.Core_Typ = -1
     .assign te_dt.string_format = ""
-    .assign te_dt.te_cID = 0
+    .assign te_dt.te_cID = 00
     .// Link the ownership if contained in a component.
     .assign te_c = empty_te_c
     .select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000]
@@ -453,8 +446,8 @@
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
         .assign te_c.internal_behavior = true
         .// Create the Generated Class instance and link it to the real one.
-        .invoke r = FactoryTE_CLASS( o_obj, te_c )
-        .assign te_class = r.result
+        .invoke r1 = FactoryTE_CLASS( o_obj, te_c )
+        .assign te_class = r1.result
       .end if
     .end if
   .end for
@@ -494,7 +487,7 @@
       .assign te_ee.EE_ID = s_ee.EE_ID
       .// end relate
       .// Be sure we are not related to any te_c across R2085
-      .assign te_ee.te_cID = 0
+      .assign te_ee.te_cID = 00
     .else
       .if ( ( te_c.included_in_build ) and ( not te_c.isRealized ) )
         .assign te_c.internal_behavior = true
@@ -1139,8 +1132,9 @@
       .end if
     .end if
     .select many te_parms related by spr_rep->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
-    .invoke r = FactoryTE_MACT( te_parms, te_dt, te_c, te_po, spr_ro.Name, c_io.Descrip, c_io.direction, "SPR_RO" )
+    .invoke r = FactoryTE_MACT( te_parms, te_dt, te_c, te_po, spr_ro.Name, c_io.Descrip, "SPR_RO" )
     .assign te_mact = r.result
+    .assign te_mact.Direction = c_io.Direction
     .// relate te_mact to spr_ro across R2052;
     .assign te_mact.SPR_ROId = spr_ro.Id
     .// end relate
@@ -1152,8 +1146,9 @@
     .select one te_c related by te_po->TE_C[R2005]
     .select one c_as related by spr_rep->C_EP[R4500]->C_AS[R4004]
     .select many te_parms related by spr_rep->C_EP[R4500]->C_PP[R4006]->TE_PARM[R2048]
-    .invoke r = FactoryTE_MACT( te_parms, void_te_dt, te_c, te_po, spr_rs.Name, c_as.Descrip, c_as.direction, "SPR_RS" )
+    .invoke r = FactoryTE_MACT( te_parms, void_te_dt, te_c, te_po, spr_rs.Name, c_as.Descrip, "SPR_RS" )
     .assign te_mact = r.result
+    .assign te_mact.Direction = c_as.Direction
     .// relate te_mact to spr_rs across R2053;
     .assign te_mact.SPR_RSId = spr_rs.Id
     .// end relate
@@ -1172,8 +1167,9 @@
       .end if
     .end if
     .select many te_parms related by spr_pep->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
-    .invoke r = FactoryTE_MACT( te_parms, te_dt, te_c, te_po, spr_po.Name, c_io.Descrip, c_io.direction, "SPR_PO" )
+    .invoke r = FactoryTE_MACT( te_parms, te_dt, te_c, te_po, spr_po.Name, c_io.Descrip, "SPR_PO" )
     .assign te_mact = r.result
+    .assign te_mact.Direction = c_io.Direction
     .// relate te_mact to spr_po across R2050;
     .assign te_mact.SPR_POId = spr_po.Id
     .// end relate
@@ -1185,8 +1181,9 @@
     .select one te_c related by te_po->TE_C[R2005]
     .select one c_as related by spr_pep->C_EP[R4501]->C_AS[R4004]
     .select many te_parms related by spr_pep->C_EP[R4501]->C_PP[R4006]->TE_PARM[R2048]
-    .invoke r = FactoryTE_MACT( te_parms, void_te_dt, te_c, te_po, spr_ps.Name, c_as.Descrip, c_as.direction, "SPR_PS" )
+    .invoke r = FactoryTE_MACT( te_parms, void_te_dt, te_c, te_po, spr_ps.Name, c_as.Descrip, "SPR_PS" )
     .assign te_mact = r.result
+    .assign te_mact.Direction = c_as.Direction
     .// relate te_mact to spr_ps across R2051;
     .assign te_mact.SPR_PSId = spr_ps.Id
     .// end relate
@@ -1235,7 +1232,7 @@
     .assign te_oir.OIR_ID = r_oir.OIR_ID
     .// end relate
   .end for
-  .select many r_parts from instances of R_PART where ( selected.Rel_ID != 00 )
+  .select many r_parts related by r_rels->R_SIMP[R206]->R_PART[R207]
   .for each r_part in r_parts
     .select one te_oir related by r_part->R_RTO[R204]->R_OIR[R203]->TE_OIR[R2035]
     .assign te_oir.assoc_type = "part"
@@ -1308,6 +1305,7 @@
     .assign te_blk.deallocation = ""
     .assign te_blk.code = ""
     .assign te_blk.depth = 1
+    .assign first_smt = true
     .// Create the statements and connect them to the ACT_SMTs.
     .select many act_smts related by act_blk->ACT_SMT[R602]
     .for each act_smt in act_smts
@@ -1319,11 +1317,12 @@
       .// relate te_smt to te_blk across R2078;
       .assign te_smt.parent_Block_ID = te_blk.Block_ID
       .// end relate
-      .if ( first act_smts )
+      .if ( first_smt )
         .// CDS WARNING!! This assumes the gen_erate will give us the first statement first!
         .// relate te_blk to te_smt across R2014;
         .assign te_blk.first_Statement_ID = te_smt.Statement_ID
         .// end relate
+        .assign first_smt = false
       .else
         .assign te_blk.first_Statement_ID = 00
       .end if
@@ -1432,7 +1431,8 @@
       .// We may have traversed directly from aoth to aone (or vice versa)
       .// across an associative association.  If so, insert the associative
       .// link between the two ends to enable the traversal.
-      .invoke detect_and_insert_associator_TE_LNK( te_lnk, next_te_lnk, act_lnk, next_act_lnk, empty_o_obj )
+      .invoke r = detect_and_insert_associator_TE_LNK( te_lnk, next_te_lnk, act_lnk, next_act_lnk, empty_o_obj )
+      .assign discard = r.result
     .else
       .// We can detect the end of the chain here.
       .// We will detect the beginning during statement linkage.
@@ -1543,8 +1543,8 @@
     .end for
     .//
     .// Initialize the Generated Class instances.
-    .select many te_classes related by te_c->TE_CLASS[R2064]
-    .for each te_class in te_classes
+    .select many te_classs related by te_c->TE_CLASS[R2064]
+    .for each te_class in te_classs
       .select one o_obj related by te_class->O_OBJ[R2019]
       .// Initialize model compiler extension attributes.
       .assign te_class.SelfCreated    = false
@@ -1578,7 +1578,15 @@
       .// Create the Generated Attribute instances and link them to the real ones.
       .assign delimiter = ""
       .assign prev_te_attr = empty_te_attr
-      .select any o_attr related by o_obj->O_ATTR[R102] where ( selected.PAttr_ID == 0 )
+      .// Find first o_attr.
+      .select any o_attr related by o_obj->O_ATTR[R102]
+      .while ( not_empty o_attr )
+        .select one prev_o_attr related by o_attr->O_ATTR[R103.'precedes']
+        .if ( empty prev_o_attr )
+          .break while
+        .end if
+        .assign o_attr = prev_o_attr
+      .end while
       .while ( not_empty o_attr )
         .create object instance te_attr of TE_ATTR
         .assign te_attr.Name = o_attr.Name
@@ -1630,7 +1638,8 @@
           .assign te_dt = r.result
         .end if
         .assign te_attr.GeneratedType = te_dt.ExtName
-        .if ( "${o_attr.Descrip:Persistent}" != "false" )
+        .assign o_attr_Descrip_Persistent = "${o_attr.Descrip:Persistent}"
+        .if ( o_attr_Descrip_Persistent != "false" )
           .if ( "%p" == te_dt.string_format )
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld"
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    (long)self->" ) + te_attr.GeneratedName
@@ -1687,7 +1696,12 @@
         .create object instance te_tfr of TE_TFR
         .assign te_tfr.Included = false
         .assign te_tfr.XlateSemantics = true
-        .assign te_tfr.Instance_Based = o_tfr.Instance_Based
+        .assign ib = ( 1 ) .COMMENT Scope::Instance
+        .if ( ib == o_tfr.Instance_Based )
+          .assign te_tfr.Instance_Based = 1
+        .else
+          .assign te_tfr.Instance_Based = 0
+        .end if
         .assign te_tfr.Key_Lett = te_class.Key_Lett
         .assign te_tfr.Name = o_tfr.Name
         .assign te_tfr.GeneratedName = ( ( te_c.Name + "_" ) + ( te_tfr.Key_Lett + "_op_" ) ) + te_tfr.Name
@@ -1718,9 +1732,12 @@
     .end for
   .end for
   .//
-  .select many te_ees from instances of TE_EE where ( selected.te_cID == 0 )
+  .select many te_ees from instances of TE_EE
   .for each te_ee in te_ees
-    .invoke TE_EE_init( te_ee, empty_te_c )
+    .select one te_c related by te_ee->TE_C[R2085]
+    .if ( empty te_c )
+      .invoke TE_EE_init( te_ee, empty_te_c )
+    .end if
   .end for
   .//
 .end function
@@ -1906,8 +1923,8 @@
     .assign te_evt.Priority = 0
     .// relate te_evt to sm_evt across R2036;
     .assign te_evt.SMevt_ID = sm_evt.SMevt_ID
-    .// end relate
     .assign te_evt.SM_ID = sm_evt.SM_ID
+    .// end relate
     .assign suffix = "${te_evt.Numb}"
     .select one sm_nlevt related by sm_evt->SM_SEVT[R525]->SM_NLEVT[R526]
     .if ( not_empty sm_nlevt )
@@ -2000,7 +2017,6 @@
   .param inst_ref te_po
   .param string message_name
   .param string description
-  .param integer direction
   .param string subtypeKL
   .select any te_file from instances of TE_FILE
   .select any te_sys from instances of TE_SYS
@@ -2027,8 +2043,7 @@
   .end if
   .assign te_mact.Descrip = description
   .assign te_mact.subtypeKL = subtypeKL
-  .assign te_mact.Provision = te_po.provision
-  .assign te_mact.Direction = direction
+  .assign te_mact.Provision = te_po.Provision
   .assign te_mact.MessageName = message_name
   .assign te_mact.InterfaceName = te_po.InterfaceName
   .assign te_mact.PortName = te_po.GeneratedName
@@ -2045,7 +2060,7 @@
       .// If we are using TLM ports, convert booleans to integers
       .select one param_te_dt related by te_parm->TE_DT[R2049]
       .if ( 1 == param_te_dt.Core_Typ )
-        .// relate te_part to converted_bool_te_dt across R2049;
+        .// relate te_parm to converted_bool_te_dt across R2049;
         .assign te_parm.te_dtID = converted_bool_te_dt.ID
         .// end relate
       .end if
@@ -2060,7 +2075,7 @@
     .assign polymorphic_te_parm = r.result
     .for each te_parm in te_parms
       .if ( 0 == te_parm.Order )
-        .// relate polymorphic_te_parm to first_te_parm across R2041.'succeeds';
+        .// relate polymorphic_te_parm to te_parm across R2041.'succeeds';
         .assign polymorphic_te_parm.nextID = te_parm.ID
         .// end relate
       .end if
@@ -2157,7 +2172,8 @@
   .end if
   .assign duplicates_needed = false
   .for each te_parm in te_parms
-    .if ( 00 == te_parm.AbaID )
+    .select one existing_te_aba related by te_parm->TE_ABA[R2062]
+    .if ( empty existing_te_aba )
       .// relate te_parm to te_aba across R2062;
       .assign te_parm.AbaID = te_aba.AbaID
       .// end relate
@@ -2182,7 +2198,7 @@
         .assign te_parm = prev_te_parm
       .end if
     .end while
-    .select any prev_te_parm related by te_parm->TE_PARM[R2041.'precedes'] where ( false )
+    .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes'] where ( false )
     .while ( not_empty te_parm )
       .invoke r = TE_PARM_duplicate( te_parm )
       .assign duplicate_te_parm = r.result
@@ -2207,11 +2223,11 @@
     .if ( not_empty te_c )
       .if ( ( "S_BRG" == te_aba.subtypeKL ) or ( "O_TFR" == te_aba.subtypeKL ) )
         .if ( empty te_parms )
-          .assign te_aba.ParameterDefinition = " ${te_c.Name} * thismodule"
-          .assign te_aba.ParameterDeclaration = " ${te_c.Name} *"
+          .assign te_aba.ParameterDefinition = ( " " + te_c.Name ) + " * thismodule"
+          .assign te_aba.ParameterDeclaration = ( " " + te_c.Name ) + " *"
         .else
-          .assign te_aba.ParameterDefinition = " ${te_c.Name} * thismodule," + te_aba.ParameterDefinition
-          .assign te_aba.ParameterDeclaration = " ${te_c.Name} *," + te_aba.ParameterDeclaration
+          .assign te_aba.ParameterDefinition = ( ( " " + te_c.Name ) + ( " * thismodule," + te_aba.ParameterDefinition ) )
+          .assign te_aba.ParameterDeclaration = ( ( " " + te_c.Name ) + ( " *," + te_aba.ParameterDeclaration ) )
         .end if
       .end if
     .end if
@@ -2255,13 +2271,13 @@
   .assign te_parm.AbaID = 00
   .assign te_parm.nextID = 00
   .assign te_parm.te_dimID = 00
-  .// relate te_dt to te_parm across R2049;
+  .// relate te_parm to te_dt across R2049;
   .assign te_parm.te_dtID = te_dt.ID
   .// end relate
   .// Set up the array dimensions for the parameter.
   .assign te_parm.dimensions = cardinality s_dims
   .assign array_spec = ""
-  .select any te_dim related by te_parm->TE_DIM[R2056] where ( false )
+  .select one te_dim related by te_parm->TE_DIM[R2056] where ( false )
   .assign dim_index = 0
   .while ( dim_index < te_parm.dimensions )
     .for each s_dim in s_dims
@@ -2305,8 +2321,9 @@
   .assign duplicate_te_parm.Descrip = te_parm.Descrip
   .assign duplicate_te_parm.By_Ref = te_parm.By_Ref
   .assign duplicate_te_parm.GeneratedName = te_parm.GeneratedName
-  .// relate te_dt to te_parm across R2049;
-  .assign duplicate_te_parm.te_dtID = te_parm.te_dtID
+  .select one te_dt related by te_parm->TE_DT[R2049]
+  .// relate duplicate_te_parm to te_dt across R2049;
+  .assign duplicate_te_parm.te_dtID = te_dt.ID
   .// end relate
   .assign duplicate_te_parm.dimensions = te_parm.dimensions
   .select one te_dim related by te_parm->TE_DIM[R2056]
@@ -2325,7 +2342,7 @@
 .//============================================================================
 .// New and return instance of TE_LNK.
 .//============================================================================
-.function FactoryTE_LNK .// te_lnk
+.function FactoryTE_LNK
   .param inst_ref act_lnk
   .select one o_obj related by act_lnk->O_OBJ[R678]
   .select one te_class related by o_obj->TE_CLASS[R2019]
@@ -2399,7 +2416,7 @@
   .// end relate
   .// Leave OAL blank, because real OAL is not showing this link.
   .assign te_lnk.OAL = ""
-  .select one te_oir related by r_rel->R_OIR[R201]->R_RGO[R203]->R_OIR[R203]->TE_OIR[R2035]
+  .select any te_oir related by r_rel->R_OIR[R201]->R_RGO[R203]->R_OIR[R203]->TE_OIR[R2035]
   .assign te_lnk.linkage = te_oir.data_member
   .assign te_lnk.Mult = te_oir.Mult
   .assign te_lnk.assoc_type = te_oir.assoc_type
@@ -2471,9 +2488,9 @@
     .select one r_aoth related by next_act_lnk->R_REL[R681]->R_ASSOC[R206]->R_AOTH[R210]
     .if ( r_aone.Obj_ID == r_aoth.Obj_ID )
       .// reflexive associative going from aone/aoth to assr
-      .if ( r_aone.Txt_phrs == next_te_lnk.rel_phrase )
+      .if ( r_aone.Txt_Phrs == next_te_lnk.rel_phrase )
         .assign next_te_lnk.Mult = r_aone.Mult
-      .elif ( r_aoth.Txt_phrs == next_te_lnk.rel_phrase )
+      .elif ( r_aoth.Txt_Phrs == next_te_lnk.rel_phrase )
         .assign next_te_lnk.Mult = r_aoth.Mult
       .else
         .print "Invalid associative reflexive traversal from ${start_o_obj.Name}/${start_o_obj.Key_Lett} to ${next_te_lnk.te_classGeneratedName}."
@@ -2590,13 +2607,13 @@
 .//
 .// Sort a list of TE_CLASSes.
 .function class_sort .// te_class
-  .param inst_ref_set te_classes
+  .param inst_ref_set te_classs
   .// Declare an empty instance reference.
-  .select any head_te_class related by te_classes->TE_CLASS[R2092.'succeeds'] where ( false )
-  .for each te_class in te_classes
+  .select any head_te_class related by te_classs->TE_CLASS[R2092.'succeeds'] where ( false )
+  .for each te_class in te_classs
     .assign te_class.nextID = 00
   .end for
-  .for each te_class in te_classes
+  .for each te_class in te_classs
     .invoke r = class_insert( head_te_class, te_class )
     .assign head_te_class = r.result
   .end for
@@ -2644,7 +2661,7 @@
 .end function
 .//
 .// Sort a list of TE_MACTs.
-.function mact_sort .// te_mact
+.function mact_sort
   .param inst_ref_set te_macts
   .// Declare an empty instance reference.
   .select any head_te_mact related by te_macts->TE_MACT[R2083.'succeeds'] where ( false )
@@ -2662,7 +2679,6 @@
     .assign counter = counter + 1
     .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
   .end while
-  .assign attr_result = head_te_mact
 .end function
 .function mact_insert .// te_mact
   .param inst_ref head_te_mact
@@ -2705,13 +2721,13 @@
   .assign attr_result = result
 .end function
 .//
-.// indention maker
+.// indentation maker
 .//
 .function blk_indentwhitespace .// string
-  .param integer indention
+  .param integer indentation
   .assign result = ""
-  .while ( 0 < indention )
-    .assign indention = indention - 1
+  .while ( 0 < indentation )
+    .assign indentation = indentation - 1
     .assign result = result + "  "
   .end while
   .assign attr_result = result

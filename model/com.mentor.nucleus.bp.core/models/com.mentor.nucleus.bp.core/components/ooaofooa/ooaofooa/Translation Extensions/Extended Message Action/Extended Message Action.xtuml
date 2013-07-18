@@ -199,9 +199,25 @@ INSERT INTO O_ATTR
 	'',
 	'Direction',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000002",
+	"255e9135-87a1-455e-9233-5a5c2518a2d5",
 	'',
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("255e9135-87a1-455e-9233-5a5c2518a2d5",
+	"00000000-0000-0000-0000-000000000000",
+	'IFDirectionType',
+	'BridgePoint allows the user to specify communication direction of individual 
+elements in an interface as opposed to on the interface as a whole (which is 
+what UML does).  For example, in UML when an interface is specified as being 
+provided, all that interface''s operations are one way (from server to 
+client).  Likewise, when a interface is specified as being required, all the 
+operations are one way (from client to server).  In reality, interfaces are 
+not often like this. There is a mixture of client to server and server to 
+client in one interface.     This enum is used at the operation/signal level 
+to determine if it is to be used for client to server or server to client 
+communication.',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("f23c5917-b2a8-42ce-a6b6-bd3d4ab34958",
 	"cd731911-bfb7-4a37-9e53-69c7c725d36e");

@@ -443,30 +443,6 @@ ${te_instance.module}${te_eq.non_self}( \
 (${te_eq.base_event_type} *) ${var_name} );
 .end function
 .//------------------------------------------------
-.// Note the use of p_ here.  It is hard-coded and depends upon
-.// matching the prefix used in initialization population query.
-.function t_oal_smt_event_parameters
-  .param string evt_msg_var
-  .param string parameter
-  .param string value
-  .param integer value_type
-  .param string ws
-  .assign result = ""
-  .select any te_eq from instances of TE_EQ
-  .if ( "" == evt_msg_var )
-    .assign evt_msg_var = te_eq.event_message_variable
-  .end if
-  .if ( 4 == value_type )
-    .// string
-    .select any te_string from instances of TE_STRING
-    .select any te_instance from instances of TE_INSTANCE
-    .assign result = "${ws}  ${te_instance.module}${te_string.strcpy}( ${evt_msg_var}->p_$_{parameter}, ${value} );"
-  .else
-    .assign result = "${ws}  ${evt_msg_var}->p_${parameter} = ${value};"
-  .end if
-  .assign attr_result = result
-.end function
-.//------------------------------------------------
 .function t_oal_smt_generate
   .param inst_ref sm_evt
   .param boolean self_directed

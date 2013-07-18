@@ -10683,6 +10683,128 @@ INSERT INTO DIM_DIA
 	1646.000000,
 	632.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("207500c6-1a45-48bc-803f-a6c31bc58ff1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Actual Parameter>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("207500c6-1a45-48bc-803f-a6c31bc58ff1",
+	0,
+	"0aee54bd-0b57-4345-aa15-0261702f2128");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("0aee54bd-0b57-4345-aa15-0261702f2128",
+	'Actual Parameter',
+	801,
+	'V_PAR',
+	'This class represents the actual parameter value passed to a Function, Bridge or an Operation.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Actual Parameter/Actual Parameter.xtuml');
+INSERT INTO PE_PE
+	VALUES ("207500c6-1a45-48bc-803f-a6c31bc58ff1",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("ae5b840e-5312-4865-ae17-5c9bba997543",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Actual Parameter>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ae5b840e-5312-4865-ae17-5c9bba997543",
+	1,
+	"0aee54bd-0b57-4345-aa15-0261702f2128");
+INSERT INTO PE_PE
+	VALUES ("ae5b840e-5312-4865-ae17-5c9bba997543",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("6c890e9d-8533-4087-ac72-ea19e3290a3c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("6c890e9d-8533-4087-ac72-ea19e3290a3c",
+	0,
+	"92c84494-204f-410c-a272-a04ae1fc102d");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("92c84494-204f-410c-a272-a04ae1fc102d",
+	'Value',
+	800,
+	'V_VAL',
+	'A value (r-value) may be assigned to a variable, attribute or parameter
+(l-values). There are many different kinds of value in a model. This class
+captures this observation in a supertype.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("6c890e9d-8533-4087-ac72-ea19e3290a3c",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("fa6babe9-7162-49b4-9464-a91b939fd343",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("fa6babe9-7162-49b4-9464-a91b939fd343",
+	1,
+	"92c84494-204f-410c-a272-a04ae1fc102d");
+INSERT INTO PE_PE
+	VALUES ("fa6babe9-7162-49b4-9464-a91b939fd343",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("3bf21b28-c786-45f7-bb66-edff2ed7f896",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Variable>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("3bf21b28-c786-45f7-bb66-edff2ed7f896",
+	0,
+	"202c7c94-3f8a-4f9d-804d-7c559a723444");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("202c7c94-3f8a-4f9d-804d-7c559a723444",
+	'Variable',
+	815,
+	'V_VAR',
+	'This class represents a temporary variable or an instance.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Variable/Variable.xtuml');
+INSERT INTO PE_PE
+	VALUES ("3bf21b28-c786-45f7-bb66-edff2ed7f896",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("c75a4ff9-fb0a-45a9-a03f-e0256bde02a1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Variable>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("c75a4ff9-fb0a-45a9-a03f-e0256bde02a1",
+	1,
+	"202c7c94-3f8a-4f9d-804d-7c559a723444");
+INSERT INTO PE_PE
+	VALUES ("c75a4ff9-fb0a-45a9-a03f-e0256bde02a1",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("ae0857ea-f4d4-4215-a6b0-992124057a79");
 INSERT INTO R_REL
@@ -10706,14 +10828,6 @@ INSERT INTO R_OIR
 	"ae0857ea-f4d4-4215-a6b0-992124057a79",
 	"8b3b2f00-94d7-413e-82f3-4ce08adf1543",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("0aee54bd-0b57-4345-aa15-0261702f2128",
-	'Actual Parameter',
-	801,
-	'V_PAR',
-	'This class represents the actual parameter value passed to a Function, Bridge or an Operation.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Actual Parameter/Actual Parameter.xtuml');
 INSERT INTO R_PART
 	VALUES ("92c84494-204f-410c-a272-a04ae1fc102d",
 	"ae0857ea-f4d4-4215-a6b0-992124057a79",
@@ -10747,16 +10861,6 @@ INSERT INTO R_OIR
 	"ae0857ea-f4d4-4215-a6b0-992124057a79",
 	"8576c697-8bc5-44c6-b6ee-c50babd7ff6c",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("92c84494-204f-410c-a272-a04ae1fc102d",
-	'Value',
-	800,
-	'V_VAL',
-	'A value (r-value) may be assigned to a variable, attribute or parameter
-(l-values). There are many different kinds of value in a model. This class
-captures this observation in a supertype.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("ae0857ea-f4d4-4215-a6b0-992124057a79",
 	1,
@@ -11454,14 +11558,6 @@ INSERT INTO R_OIR
 	"5e7530a6-165c-4bd8-8fab-9c34527af733",
 	"2a3db6c0-a77d-4179-a2b8-5c809f54a82f",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("202c7c94-3f8a-4f9d-804d-7c559a723444",
-	'Variable',
-	815,
-	'V_VAR',
-	'This class represents a temporary variable or an instance.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Variable/Variable.xtuml');
 INSERT INTO R_SUB
 	VALUES ("ca8f8cd7-1ad7-4a32-a868-b157f213c7da",
 	"5e7530a6-165c-4bd8-8fab-9c34527af733",

@@ -2042,6 +2042,46 @@ INSERT INTO DIM_DIA
 	1390.000000,
 	964.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("44344236-6d4d-42b5-b14f-246447643355",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Chain Link>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("44344236-6d4d-42b5-b14f-246447643355",
+	0,
+	"0f1425d2-0879-47db-a58e-9a0d839bda6c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("0f1425d2-0879-47db-a58e-9a0d839bda6c",
+	'Chain Link',
+	627,
+	'ACT_LNK',
+	'This class represents a link in an association chain. In the string "self->O_OND[R5]->D_D[R7]", there are two chain links, one from the current instance to an instance (or set) of the class with keyletters "D_OND" found by traversing association "R5" and from there to an instance or set of the class with keyletters "D_D", crossing "R7". Each link is captured as an instance of this meta-model class. The target class is captured for each link, as is the association used for the traversal. The order of traversal is significant and is also captured.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Chain Link/Chain Link.xtuml');
+INSERT INTO PE_PE
+	VALUES ("44344236-6d4d-42b5-b14f-246447643355",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("34cf6ec1-ec5a-4fe0-98f3-b4886f6e75bb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Chain Link>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("34cf6ec1-ec5a-4fe0-98f3-b4886f6e75bb",
+	1,
+	"0f1425d2-0879-47db-a58e-9a0d839bda6c");
+INSERT INTO PE_PE
+	VALUES ("34cf6ec1-ec5a-4fe0-98f3-b4886f6e75bb",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("be47bce3-afa1-4dc1-b6f3-2c751c05fa93");
 INSERT INTO R_REL
@@ -2082,14 +2122,6 @@ INSERT INTO R_OIR
 	"be47bce3-afa1-4dc1-b6f3-2c751c05fa93",
 	"bac65b60-7571-4cdb-afce-65582c4e4a48",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("0f1425d2-0879-47db-a58e-9a0d839bda6c",
-	'Chain Link',
-	627,
-	'ACT_LNK',
-	'This class represents a link in an association chain. In the string "self->O_OND[R5]->D_D[R7]", there are two chain links, one from the current instance to an instance (or set) of the class with keyletters "D_OND" found by traversing association "R5" and from there to an instance or set of the class with keyletters "D_D", crossing "R7". Each link is captured as an instance of this meta-model class. The target class is captured for each link, as is the association used for the traversal. The order of traversal is significant and is also captured.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Chain Link/Chain Link.xtuml');
 INSERT INTO R_FORM
 	VALUES ("0f1425d2-0879-47db-a58e-9a0d839bda6c",
 	"be47bce3-afa1-4dc1-b6f3-2c751c05fa93",

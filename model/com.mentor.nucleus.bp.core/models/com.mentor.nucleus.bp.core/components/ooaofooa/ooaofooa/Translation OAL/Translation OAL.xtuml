@@ -24,7 +24,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	0,
-	'3.3.3',
+	'4.0.0',
 	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Translation OAL');
 INSERT INTO GD_GE
 	VALUES ("f54bb5ea-1586-499a-a311-18d60548ff5b",
@@ -5130,7 +5130,7 @@ INSERT INTO GD_GE
 	"504ff886-fc9d-4719-8d81-d0a22f977058",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Translation OAL::R2071');
+	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Translation OAL::R2094');
 INSERT INTO GD_CON
 	VALUES ("e843ec2e-ebdd-4b2a-8b13-3e3b21f3ab61",
 	"00000000-0000-0000-0000-000000000000");
@@ -5230,7 +5230,7 @@ INSERT INTO GD_GE
 	"cf639806-7e9a-43e7-af11-99841f498ad6",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Translation OAL::R2072');
+	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Translation OAL::R2093');
 INSERT INTO GD_CON
 	VALUES ("85bce129-1b13-4791-af7c-49cde60e3381",
 	"00000000-0000-0000-0000-000000000000");
@@ -6887,6 +6887,46 @@ INSERT INTO DIM_DIA
 	2607.000000,
 	1449.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("7fafab07-49e2-4355-8187-c89c6b120460",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended Chain Link>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7fafab07-49e2-4355-8187-c89c6b120460",
+	0,
+	"e7df8c01-0cfb-4a38-96c0-f0f88ba136da");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("e7df8c01-0cfb-4a38-96c0-f0f88ba136da",
+	'Extended Chain Link',
+	2101,
+	'TE_LNK',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Extended Chain Link/Extended Chain Link.xtuml');
+INSERT INTO PE_PE
+	VALUES ("7fafab07-49e2-4355-8187-c89c6b120460",
+	1,
+	"70f07798-0444-4b1a-901e-bd1854193205",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("a0809e6d-44bd-4dfd-bf0b-12f9980b2eee",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Extended Chain Link>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("a0809e6d-44bd-4dfd-bf0b-12f9980b2eee",
+	1,
+	"e7df8c01-0cfb-4a38-96c0-f0f88ba136da");
+INSERT INTO PE_PE
+	VALUES ("a0809e6d-44bd-4dfd-bf0b-12f9980b2eee",
+	1,
+	"70f07798-0444-4b1a-901e-bd1854193205",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("4a097bfb-a769-4ac1-adba-6e998d2683c3");
 INSERT INTO R_REL
@@ -7712,7 +7752,7 @@ INSERT INTO R_SIMP
 	VALUES ("504ff886-fc9d-4719-8d81-d0a22f977058");
 INSERT INTO R_REL
 	VALUES ("504ff886-fc9d-4719-8d81-d0a22f977058",
-	2071,
+	2094,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO R_FORM
@@ -7782,7 +7822,7 @@ INSERT INTO R_SIMP
 	VALUES ("cf639806-7e9a-43e7-af11-99841f498ad6");
 INSERT INTO R_REL
 	VALUES ("cf639806-7e9a-43e7-af11-99841f498ad6",
-	2072,
+	2093,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO R_FORM
@@ -7853,14 +7893,6 @@ INSERT INTO R_OIR
 	"d339269c-35b6-4e17-b90e-48f1fdc1bc07",
 	"abff6acb-032b-4b31-abbb-89dfeced9679",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("e7df8c01-0cfb-4a38-96c0-f0f88ba136da",
-	'Extended Chain Link',
-	2101,
-	'TE_LNK',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Extended Chain Link/Extended Chain Link.xtuml');
 INSERT INTO R_PART
 	VALUES ("0f1425d2-0879-47db-a58e-9a0d839bda6c",
 	"d339269c-35b6-4e17-b90e-48f1fdc1bc07",

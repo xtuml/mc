@@ -7338,6 +7338,46 @@ INSERT INTO PE_PE
 	"ab469178-a47f-4ae8-a56d-630aafb7f3e6",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("bf37869c-96be-4535-a678-ac4311589cbb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("bf37869c-96be-4535-a678-ac4311589cbb",
+	0,
+	"e6a05b2a-a5b1-4801-bfa2-05634a816c39");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("e6a05b2a-a5b1-4801-bfa2-05634a816c39",
+	'State Machine',
+	501,
+	'SM_SM',
+	'A State Machine represents the lifecycle of a class in terms of states, transitions, events, and actions.',
+	"00000000-0000-0000-0000-000000000000",
+	'./State Machine/State Machine.xtuml');
+INSERT INTO PE_PE
+	VALUES ("bf37869c-96be-4535-a678-ac4311589cbb",
+	1,
+	"ab469178-a47f-4ae8-a56d-630aafb7f3e6",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("615a803c-f894-4358-8220-9376ed95e0a8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<State Machine>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("615a803c-f894-4358-8220-9376ed95e0a8",
+	1,
+	"e6a05b2a-a5b1-4801-bfa2-05634a816c39");
+INSERT INTO PE_PE
+	VALUES ("615a803c-f894-4358-8220-9376ed95e0a8",
+	1,
+	"ab469178-a47f-4ae8-a56d-630aafb7f3e6",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("dbcb8cd5-c83a-4ab3-a680-f8103ec7638a");
 INSERT INTO R_REL
@@ -7402,14 +7442,6 @@ INSERT INTO R_OIR
 	"dbcb8cd5-c83a-4ab3-a680-f8103ec7638a",
 	"ac649b07-7b54-440a-8fab-0628923d6a4e",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("e6a05b2a-a5b1-4801-bfa2-05634a816c39",
-	'State Machine',
-	501,
-	'SM_SM',
-	'A State Machine represents the lifecycle of a class in terms of states, transitions, events, and actions.',
-	"00000000-0000-0000-0000-000000000000",
-	'./State Machine/State Machine.xtuml');
 INSERT INTO PE_PE
 	VALUES ("dbcb8cd5-c83a-4ab3-a680-f8103ec7638a",
 	1,

@@ -40,18 +40,9 @@ INSERT INTO O_ATTR
 	'',
 	'Mult',
 	0,
-	"9783a2d8-2a90-4fe9-bea4-b1227c01fcaa",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("9783a2d8-2a90-4fe9-bea4-b1227c01fcaa",
-	"00000000-0000-0000-0000-000000000000",
-	'Multiplicity',
-	'The Multiplicity data type allows specification of the range of allowable cardinality values.
---------------------------------------------------------------
-Bridge:GD, ALS',
-	'',
-	'../../Datatypes/Datatypes.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("3945fe45-b336-41cd-bd3f-3715ea9cf991",
 	"e7df8c01-0cfb-4a38-96c0-f0f88ba136da");

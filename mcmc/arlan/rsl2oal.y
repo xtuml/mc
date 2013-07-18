@@ -26,7 +26,10 @@ char * ws[] = {
   "          ",
   "            ",
   "              ",
-  "                "
+  "                ",
+  "                  ",
+  "                    ",
+  "                      "
 };
 int line_number = 1;
 char lw[ 256 ];                 /* leading whitespace                */
@@ -65,6 +68,8 @@ extern char yytext[];
 static char * stradd( char * [], int );
 extern char * dtKLname( char * );
 extern void loadtable( void );
+extern struct { char * s[16]; } cfuncsig;
+int aparmindex;
 
 /*-------------------------------------------------------------------*/
 %}
@@ -138,9 +143,12 @@ statement:
         | PRINTTOK string '\n' {$$=P3("T::print(s:",$2,");\n");}
         | EXITTOK sexpr '\n' {$$=P3("T::exit(i:",$2,");\n");}
         | EMIT string '\n' {$$=P3("T::emit(s:",$2,");\n");}
-        | ASSIGN variable '=' expr '\n' {$$ = ( 0 == strncmp( $2, "attr_", 5 ) ) ? P3("return ",$4,";\n") : P4($2," = ",$4,";\n");}
-        | INVOKE identifier '(' aparameters ')' '\n' {$$ = (strlen($4)>0) ? P5("::",$2,"( ",$4," );\n") : P6("::",$2,$3,$4,$5,";\n");}
-        | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {$$ = (strlen($6)>0) ? P6($2," = ::",$4,"( ",$6," );\n") : P7($2," = ::",$4,$5,$6,$7,";\n");}
+        | ASSIGN variable '=' expr '\n' {if (0==strncmp($2,"attr_",5)) $$=P3("return ",$4,";\n");
+                                         else if (0==strcmp($4,"00")) $$="";
+                                         else $$=P4($2," = ",$4,";\n");}
+        | ASSIGN variable '=' expr COMMENT TEXT '\n' {if (strstr($6,"::")) $$=P4($2," =",$6,";\n");}
+        | INVOKE identifier {funcsig($2);aparmindex=0;} '(' aparameters ')' '\n' {$$ = (strlen($5)>0) ? P5("::",$2,"( ",$5," );\n") : P3("::",$2,"();\n");}
+        | INVOKE frag_ref_var '=' identifier {funcsig($4);aparmindex=0;} '(' aparameters ')' '\n' {$$ = (strlen($7)>0) ? P6($2," = ::",$4,"( ",$7," );\n") : P4($2," = ::",$4,"();\n");}
         | ALXLATE activity_type inst_ref_var '\n' {$$=P4($1,$2,$3,";\n");}
         | SPECIALWHERE WORD WORD '\n' {$$=P4($1,$2,$3,$4);}
         | CREATEOBJ inst_ref_var OF obj_keyletters '\n' {$$=P8($1," ",$2," ",$3," ",$4,";\n");}
@@ -185,8 +193,8 @@ fbody:
 
 aparameters:
         /* empty */ {$$=P0;}
-        | term aparameters {$$=P4($1,":",$1,$2);}
-        | ',' term aparameters {$$=P5(", ",$2,":",$2,$3);}
+        | aparameters term {$$=P4($1,cfuncsig.s[++aparmindex],":",$2);}
+        | aparameters ',' term {$$=P5($1,", ",cfuncsig.s[++aparmindex],":",$3);}
         ;
 
 elifclause:
@@ -240,8 +248,8 @@ term:
         | INTconstant
         | REALconstant
         | term ARROW identifier {$$=P3($1,$2,$3);}
-        | term ':' parsekeyword {$$=P3($1,$2,$3);}
-        | term '.' attribute {$$ = ( ( 0 == strcmp( $1, "r" ) ) && ( 0 == strcmp( $3, "result" ) ) ) ? "r" : P3($1,$2,$3);}
+        | term ':' parsekeyword {$$=P5("T::parsekeyword(s:",$1,",key:\"",$3,"\")");}
+        | term '.' attribute {$$ = ( ( 0 == strncmp( $1, "r", 1 ) ) && ( 0 == strcmp( $3, "result" ) ) ) ? P1($1) : P3($1,$2,$3);}
         ;
 
 reltraversal:
@@ -274,7 +282,7 @@ format:
 
 variable:
         identifier
-        | identifier '.' identifier {$$ = ( ( 0 == strcmp( $1, "r" ) ) && ( 0 == strcmp( $3, "result" ) ) ) ? "r" : P3($1,$2,$3);}
+        | identifier '.' identifier {$$ = ( ( 0 == strncmp( $1, "r", 1 ) ) && ( 0 == strcmp( $3, "result" ) ) ) ? P1($1) : P3($1,$2,$3);}
         | identifier '.' keyword {$$=P3($1,$2,$3);}
         | keyword               /* This practice is not recommended. */
         ;
@@ -334,7 +342,13 @@ literalbody:
         ;
 
 substitutionvariable:
-        '$' format '{' term '}' {char * f = $2; if ( 0 == strcmp( $2, "" ) ) f = "s"; $$=P5("T::",f,"(i:",$4,")");}
+        '$' format '{' term '}' {char * p="i", * f=$2;
+                                 if (0==strcmp(f,"")) f="s";
+                                 else if (0==strcmp(f,"r")) p="s";
+                                 else if (0==strcmp(f,"l")) p="s";
+                                 else if (0==strcmp(f,"u")) p="s";
+                                 else if (0==strcmp(f,"_")) {f="underscore";p="s";}
+                                 $$=P7("T::",f,"(",p,":",$4,")");}
         ;
 
 

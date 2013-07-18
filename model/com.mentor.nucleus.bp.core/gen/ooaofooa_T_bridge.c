@@ -289,3 +289,17 @@ ooaofooa_T_xmlify( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
 }
 
 
+/*
+ * Bridge:  parsekeyword
+ */
+c_t *
+ooaofooa_T_parsekeyword( c_t p_key[ESCHER_SYS_MAX_STRING_LEN], c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t * s = "";
+  if ( strstr( p_s, p_key ) ) {
+    s = strstr( p_s, ":" ) + 1;
+  }
+  return s;
+}
+
+

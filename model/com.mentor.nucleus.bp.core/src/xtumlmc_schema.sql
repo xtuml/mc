@@ -1520,7 +1520,6 @@ CREATE TABLE ACT_SGN (
 
 
 
-
 -- ============================================================================
 -- Classes In Package:  Message  
 -- ============================================================================
@@ -2219,6 +2218,17 @@ CREATE TABLE TE_CI (
 	te_cID	UNIQUE_ID,
 	cl_icId	UNIQUE_ID );
 
+-- Class:  2002.  Extended Object In Relation
+CREATE TABLE TE_OIR (
+	data_member	STRING,
+	assoc_type	STRING,
+	object_id	STRING,
+	Mult	INTEGER,
+	NavigatedTo	BOOLEAN,
+	OIR_ID	UNIQUE_ID,
+	Obj_ID	UNIQUE_ID,
+	Rel_ID	UNIQUE_ID );
+
 -- Class:  2004.  Extended System
 CREATE TABLE TE_SYS (
 	SystemID	INTEGER,
@@ -2495,13 +2505,6 @@ CREATE TABLE TE_REL (
 	Navigated	BOOLEAN,
 	Order	INTEGER,
 	storage_needed	BOOLEAN,
-	Rel_ID	UNIQUE_ID );
-
--- Class:  2027.  Navigation
-CREATE TABLE TE_NAV (
-	NavigatedTo	BOOLEAN,
-	OIR_ID	UNIQUE_ID,
-	Obj_ID	UNIQUE_ID,
 	Rel_ID	UNIQUE_ID );
 
 -- Class:  2028.  Extended Event
@@ -3746,6 +3749,7 @@ CREATE TABLE V_SCV (
 CREATE TABLE S_AW (
 	Brg_ID	UNIQUE_ID,
 	Sync_ID	UNIQUE_ID );
+
 
 
 -- ============================================================================
@@ -5083,7 +5087,6 @@ CREATE ROP REF_ID R680	FROM MC ACT_IOP	(ProvidedOp_Id)
 
 
 
-
 -- ============================================================================
 -- Relationships In Package:  Message  
 -- ============================================================================
@@ -5809,7 +5812,7 @@ CREATE ROP REF_ID R2033	FROM 1C TE_ATTR	(Attr_ID, Obj_ID)
 CREATE ROP REF_ID R2034	FROM 1C TE_REL	(Rel_ID)
 			  TO 1  R_REL	(Rel_ID);
 
-CREATE ROP REF_ID R2035	FROM 1C TE_NAV	(OIR_ID, Obj_ID, Rel_ID)
+CREATE ROP REF_ID R2035	FROM 1C TE_OIR	(OIR_ID, Obj_ID, Rel_ID)
 			  TO 1  R_OIR	(OIR_ID, Obj_ID, Rel_ID);
 
 CREATE ROP REF_ID R2036	FROM 1C TE_EVT	(SMevt_ID)
@@ -6416,5 +6419,6 @@ CREATE ROP REF_ID R3200	FROM 1C S_AW	(Brg_ID)
 
 CREATE ROP REF_ID R3201	FROM MC S_AW	(Sync_ID)
 			  TO 1C S_SYNC	(Sync_ID);
+
 
 
