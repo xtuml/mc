@@ -10805,6 +10805,46 @@ INSERT INTO PE_PE
 	"5f529d51-32b6-4bef-8f54-26bad1a41300",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("a6e95352-7701-470f-a154-2a42ea44c24d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Binary Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("a6e95352-7701-470f-a154-2a42ea44c24d",
+	0,
+	"624962c1-5d6a-41ba-ba85-e772a16fc610");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("624962c1-5d6a-41ba-ba85-e772a16fc610",
+	'Binary Operation',
+	802,
+	'V_BIN',
+	'Values are yielded by simple or compound expressions. Compound expressions are made up of nested binary operations. This class represents such as binary operations. The operator attribute contains the string identifier of the operation to be carried out.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Binary Operation/Binary Operation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("a6e95352-7701-470f-a154-2a42ea44c24d",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0065a1a6-a241-45c0-86cb-44cfe1724e9d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Binary Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0065a1a6-a241-45c0-86cb-44cfe1724e9d",
+	1,
+	"624962c1-5d6a-41ba-ba85-e772a16fc610");
+INSERT INTO PE_PE
+	VALUES ("0065a1a6-a241-45c0-86cb-44cfe1724e9d",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("ae0857ea-f4d4-4215-a6b0-992124057a79");
 INSERT INTO R_REL
@@ -10973,14 +11013,6 @@ INSERT INTO R_OIR
 	"74a15866-b987-4755-a347-c369e94b3663",
 	"0b7e33aa-d6e1-4376-b255-cf5a3ef5e0df",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("624962c1-5d6a-41ba-ba85-e772a16fc610",
-	'Binary Operation',
-	802,
-	'V_BIN',
-	'Values are yielded by simple or compound expressions. Compound expressions are made up of nested binary operations. This class represents such as binary operations. The operator attribute contains the string identifier of the operation to be carried out.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Binary Operation/Binary Operation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("74a15866-b987-4755-a347-c369e94b3663",
 	1,

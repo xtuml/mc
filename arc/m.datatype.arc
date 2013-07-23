@@ -151,9 +151,7 @@
 .//============================================================================
 .function AssignDirectToUDTPackage
   .param string package_name
-  .select any s_dpk from instances of S_DPK where ( selected.name == package_name )
-  .if ( not_empty s_dpk )
-    .assign s_dpk.Descrip = "type:direct"
-  .end if
+  .print "AssignDirectToUDTPackage is not a supported marking function."
+  .exit 1
 .end function
 .//

@@ -41,6 +41,29 @@ INSERT INTO S_SYNC
 	'::parm_sort();
 ::rel_pseudoformalize();
 ::sys_singletons();
+
+// These are markings that are for the model-based MC.
+select any stringpointer_s_dt from instances of S_DT where ( selected.Name == "stringpointer" );
+if ( not_empty stringpointer_s_dt )
+  select many o_attrs from instances of O_ATTR where ( selected.Name == "Action_Semantics_internal" );
+  for each o_attr in o_attrs
+    select one s_dt related by o_attr->S_DT[R114];
+    unrelate o_attr from s_dt across R114;
+    // o_attr.DT_ID = 00
+    relate o_attr to stringpointer_s_dt across R114;
+    // o_attr.DT_ID = s_dt.DT_ID
+  end for;
+  ::MapDataTypeAsPointer( component_name:"*", dt_name:"stringpointer", pointer_type:"c_t", include_file:"" );
+end if;
+
+select any s_sys from instances of S_SYS;
+if ( "sys" == s_sys.Name )
+  ::TagDynamicMemoryAllocationOn( units_to_allocate:10 );
+  ::TagInstanceLoading();
+  ::TagMaximumStringLength( max_len:512 );
+end if;
+
+
 ::sys_populate();',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -2780,7 +2803,7 @@ for each s_cdt in s_cdts
     // string
     te_dt.ExtName = "c_t";
     te_dt.Initial_Value = "CTOR";
-    te_dt.string_format = "''%s''";
+    te_dt.string_format = "%s";
   elif ( 5 == te_dt.Core_Typ )
     // unique_id
     te_dt.ExtName = te_prefix.type + "UniqueID_t";
@@ -3717,7 +3740,7 @@ for each te_c in te_cs
       relate te_attr to o_attr across R2033;
       relate te_attr to te_class across R2061;
             if ( not_empty prev_te_attr )
-        relate te_attr to prev_te_attr across R2087.''succeeds'';
+        relate prev_te_attr to te_attr across R2087.''succeeds'';
       end if;
       select many s_dims related by o_attr->S_DIM[R120];
       array_spec = "";
@@ -3748,6 +3771,9 @@ for each te_c in te_cs
         if ( "%p" == te_dt.string_format )
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld";
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    (long)self->" ) + te_attr.GeneratedName;
+        elif ( "%s" == te_dt.string_format )
+          te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''''" + te_dt.string_format ) ) + "''''";
+          te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
         else
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
@@ -5558,7 +5584,7 @@ indentation = param.indentation;
 result = "";
 while ( 0 < indentation )
   indentation = indentation - 1;
-  result = result + "";
+  result = result + "  ";
 end while;
 return result;
 ',
@@ -5860,6 +5886,1043 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("2cc51add-ff40-4565-96e1-babbc9c3fae7",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("df4654af-10d5-41a2-b0da-0fb0cc7d9d70",
+	"00000000-0000-0000-0000-000000000000",
+	'TagDataTypePrecision',
+	'',
+	'//============================================================================
+// $RCSfile: m.datatype.arc,v $
+//
+// Description:
+// This archetype file contains the implementation functions for marks
+// specified in the (user supplied/modified) datatype.clr file.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//============================================================================
+component_name = param.component_name;
+dt_name = param.dt_name;
+tagged_name = param.tagged_name;
+initial_value = param.initial_value;
+component_name = T::r(s:component_name);
+select any tm_precision from instances of TM_PRECISION where ( ( selected.Domain == component_name ) and ( selected.DT_name == dt_name ) );
+if ( empty tm_precision )
+  create object instance tm_precision of TM_PRECISION;
+end if;
+tm_precision.Domain = component_name;
+tm_precision.DT_name = dt_name;
+tm_precision.xName = tagged_name;
+tm_precision.initial_value = initial_value;
+T::print(s:"TagDataTypePrecision:  T::s(i:dt_name) in T::s(i:component_name) given T::s(i:tagged_name) precision with T::s(i:initial_value).");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c1caa67a-e86d-4f9f-b8c2-e53b8145ef58",
+	"df4654af-10d5-41a2-b0da-0fb0cc7d9d70",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e2bd85f5-fb43-4b1a-8030-7ed8a37549a9",
+	"df4654af-10d5-41a2-b0da-0fb0cc7d9d70",
+	'dt_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c1caa67a-e86d-4f9f-b8c2-e53b8145ef58",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e9d4d19f-665d-4e92-b0c2-6b005845c761",
+	"df4654af-10d5-41a2-b0da-0fb0cc7d9d70",
+	'tagged_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e2bd85f5-fb43-4b1a-8030-7ed8a37549a9",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8b893b47-cbc0-480e-9472-2cd7f6a89af3",
+	"df4654af-10d5-41a2-b0da-0fb0cc7d9d70",
+	'initial_value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e9d4d19f-665d-4e92-b0c2-6b005845c761",
+	'');
+INSERT INTO PE_PE
+	VALUES ("df4654af-10d5-41a2-b0da-0fb0cc7d9d70",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7d2733d2-ca0d-4074-bed2-f3173f170173",
+	"00000000-0000-0000-0000-000000000000",
+	'MapDataTypeAsPointer',
+	'',
+	'//
+//============================================================================
+// Map a user defined data type to a pointer.  This allows the system
+// to pass arbitrarily shaped data around by simply pointing to it.
+//============================================================================
+component_name = param.component_name;
+dt_name = param.dt_name;
+pointer_type = param.pointer_type;
+include_file = param.include_file;
+component_name = T::r(s:component_name);
+select any tm_pointer from instances of TM_POINTER where ( ( selected.Domain == component_name ) and ( selected.DT_name == dt_name ) );
+if ( empty tm_pointer )
+  create object instance tm_pointer of TM_POINTER;
+end if;
+tm_pointer.Domain = component_name;
+tm_pointer.DT_name = dt_name;
+tm_pointer.pointer_type = pointer_type;
+tm_pointer.include_file = include_file;
+T::print(s:"MapDataTypeAsPointer:  T::s(i:dt_name) in T::s(i:component_name) given T::s(i:pointer_type) mapping (T::s(i:include_file)).");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a9b04f4a-6947-4379-855c-5f67f130026d",
+	"7d2733d2-ca0d-4074-bed2-f3173f170173",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7b0cf213-9fc3-40cf-889d-8140f466be40",
+	"7d2733d2-ca0d-4074-bed2-f3173f170173",
+	'dt_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a9b04f4a-6947-4379-855c-5f67f130026d",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f2ae465a-2d0f-4110-9b29-c4aecd55072c",
+	"7d2733d2-ca0d-4074-bed2-f3173f170173",
+	'pointer_type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7b0cf213-9fc3-40cf-889d-8140f466be40",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8b543df2-91bb-48e3-91e6-11421b608cd8",
+	"7d2733d2-ca0d-4074-bed2-f3173f170173",
+	'include_file',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f2ae465a-2d0f-4110-9b29-c4aecd55072c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("7d2733d2-ca0d-4074-bed2-f3173f170173",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("8102403f-c0c6-45ae-97bf-0cc6696b4b24",
+	"00000000-0000-0000-0000-000000000000",
+	'TagEnumeratorDiscreteValue',
+	'',
+	'//
+//============================================================================
+// Specifying Values for Enumerators
+//
+// To indicate to the model compiler that a user defined enumeration
+// data type enumerator (defined in the BridgePoint Subsystem Partitioning
+// Model (SPM) component data editor) shall have a value other than the default,
+// use the following invocation:
+//
+// TagEnumeratorDiscreteValue( "component", "enumeration", "enumerator", "value"
+//
+// Where the input parameters are:
+//   component - Registered component name.  Use "*" to indicate a system wide
+//     enumeration data type (to be applied to all components containing
+//     the user defined enumeration data type).
+//   enumeration - name of the enumeration data type as known in the
+//     application analysis
+//   enumerator - name of the enumerator as known in the application analysis
+//   value - a string containing the value to be assigned to the enumerator
+//
+// Examples:
+//  Domain specific:
+//   .invoke TagEnumeratorDiscreteValue( "MO", "tube_wattage", "low", "4" )
+//   .invoke TagEnumeratorDiscreteValue( "MO", "tube_wattage", "med", "0x20" )
+//  System Wide:
+//   .invoke TagEnumeratorDiscreteValue( "*", "tube_wattage", "high", "0x40" )
+//
+//============================================================================
+component_name = param.component_name;
+enumeration = param.enumeration;
+enumerator = param.enumerator;
+value = param.value;
+component_name = T::r(s:component_name);
+select any tm_enumval from instances of TM_ENUMVAL where ( ( ( selected.Domain == component_name ) and ( selected.enumeration == enumeration ) ) and ( selected.enumerator == enumerator ) );
+if ( empty tm_enumval )
+  create object instance tm_enumval of TM_ENUMVAL;
+end if;
+tm_enumval.Domain = component_name;
+tm_enumval.enumeration = enumeration;
+tm_enumval.enumerator = enumerator;
+tm_enumval.value = value;
+T::print(s:"TagEnumeratorDiscreteValue:  T::s(i:enumeration)::T::s(i:enumerator) in T::s(i:component_name) given discrete value T::s(i:value).");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ffec6ea3-cedc-4dc5-80a3-ed004bdcf780",
+	"8102403f-c0c6-45ae-97bf-0cc6696b4b24",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c7ee170a-2c5d-4e59-9099-e1a596a27148",
+	"8102403f-c0c6-45ae-97bf-0cc6696b4b24",
+	'enumeration',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ffec6ea3-cedc-4dc5-80a3-ed004bdcf780",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("413a519d-f40c-49b3-b715-2a4cd15767b7",
+	"8102403f-c0c6-45ae-97bf-0cc6696b4b24",
+	'enumerator',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c7ee170a-2c5d-4e59-9099-e1a596a27148",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("338b57dd-923a-4774-8abc-f5e88f02a4f7",
+	"8102403f-c0c6-45ae-97bf-0cc6696b4b24",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"413a519d-f40c-49b3-b715-2a4cd15767b7",
+	'');
+INSERT INTO PE_PE
+	VALUES ("8102403f-c0c6-45ae-97bf-0cc6696b4b24",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e3418cda-ba96-4286-ac30-464dfe189f25",
+	"00000000-0000-0000-0000-000000000000",
+	'TagUninitializedEnumerationValue',
+	'',
+	'//
+//============================================================================
+// Specifying Value for the Default Un-Initialized Enumerator
+//
+// To indicate to the software architecture that the un-initialized enumerator
+// of an enumeration (defined in the BridgePoint Subsystem Partitioning Model
+// (SPM) component data editor) shall have a value other than the default,
+// use the following invocation:
+//
+// TagUninitializedEnumerationValue( "component", "enumeration", "value" )
+//
+// Where the input parameters are:
+//   component - Registered component name.  Use "*" to indicate a system wide
+//     enumeration data type (to be applied to all components containing
+//     the user defined enumeration data type).
+//   enumeration - Name of the enumeration data type as known in the
+//     application analysis. Use "*" to indicate ALL enumerations.
+//   value - A string containing the value to be assigned to the uninitialized
+//     enumerator.
+//
+// Examples:
+//  Domain specific:
+//   .invoke TagUninitializedEnumerationValue( "MO", "tube_wattage", "4" )
+//  All Enumerations in Domain:
+//   .invoke TagUninitializedEnumerationValue( "MO", "*", "40" )
+//  System Wide:
+//   .invoke TagUninitializedEnumerationValue( "*", "tube_wattage", "20" )
+//  All Enumerations in All Domains:
+//   .invoke TagUninitializedEnumerationValue( "*", "*", "100" )
+//
+//============================================================================
+component_name = param.component_name;
+enumeration = param.enumeration;
+value = param.value;
+component_name = T::r(s:component_name);
+select any tm_enuminit from instances of TM_ENUMINIT where ( ( selected.Domain == component_name ) and ( selected.enumeration == enumeration ) );
+if ( empty tm_enuminit )
+  create object instance tm_enuminit of TM_ENUMINIT;
+end if;
+tm_enuminit.Domain = component_name;
+tm_enuminit.enumeration = enumeration;
+tm_enuminit.value = value;
+T::print(s:"TagUninitializedEnumerationValue:  T::s(i:enumeration) in T::s(i:component_name) given default uninitialized value T::s(i:value).");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("541c35fb-a110-4944-9b6d-9c987c04de3d",
+	"e3418cda-ba96-4286-ac30-464dfe189f25",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6ad09589-7762-4027-adf3-7fb20ff454d3",
+	"e3418cda-ba96-4286-ac30-464dfe189f25",
+	'enumeration',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"541c35fb-a110-4944-9b6d-9c987c04de3d",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("41287ebb-e6b0-4971-82d6-957e197b195c",
+	"e3418cda-ba96-4286-ac30-464dfe189f25",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6ad09589-7762-4027-adf3-7fb20ff454d3",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e3418cda-ba96-4286-ac30-464dfe189f25",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b9121584-4116-4988-aef2-e20af3bb7759",
+	"00000000-0000-0000-0000-000000000000",
+	'AssignDirectToUDTPackage',
+	'',
+	'//
+//
+//============================================================================
+// Specifying "Direct" manipulation to "SystemC UDT Pacakage"
+//
+// to indicate that this UDT package should be generated using its name
+// instead of core type
+//============================================================================
+package_name = param.package_name;
+select any s_dpk from instances of S_DPK where ( selected.Name == package_name );
+if ( not_empty s_dpk )
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("54a014b8-98e1-4088-89d6-46bd558a429e",
+	"b9121584-4116-4988-aef2-e20af3bb7759",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("b9121584-4116-4988-aef2-e20af3bb7759",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1f2c48fc-22d9-4865-b6af-121ff608992f",
+	"00000000-0000-0000-0000-000000000000",
+	'EnableTasking',
+	'',
+	'//============================================================================
+// $RCSfile: m.system.arc,v $
+//
+// Description:
+// System level coloring functions are found here.
+// Notice that the colors that would normally update TE_SYS are active.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+// Enhancements provided by TOYO Corporation.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//
+//============================================================================
+// Enable tasking/threading.
+//============================================================================
+flavor = param.flavor;
+serialize = param.serialize;
+number_of_threads = param.number_of_threads;
+//
+T::print(s:"EnableTasking( T::s(i:flavor), T::s(i:serialize), T::s(i:number_of_threads) )");
+select any tm_thread from instances of TM_THREAD;
+if ( empty tm_thread )
+  create object instance tm_thread of TM_THREAD;
+  tm_thread.extra_initialization = "";
+end if;
+tm_thread.number_of_threads = number_of_threads;
+if ( T::l(s:serialize) == "serialize" )
+  tm_thread.serialize = true;
+else
+  tm_thread.serialize = false;
+end if;
+if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) )
+  tm_thread.flavor = flavor;
+  if ( "SystemC" == flavor )
+    // SystemC uses a single thread inside each component.
+    // So, no need for an array of threads.
+    tm_thread.number_of_threads = 1;
+    tm_thread.enabled = false;
+  else
+    tm_thread.enabled = true;
+  end if;
+else
+  T::print(s:"ERROR:  system.mark:EnableTasking has incorrect tasking/threading type:T::s(i:flavor).\n");
+  T::exit(i:100);
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0f66725e-5303-465b-b6a7-784876df76eb",
+	"1f2c48fc-22d9-4865-b6af-121ff608992f",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f8754ec6-b46d-42de-a9f3-6f3b98aaee02",
+	"1f2c48fc-22d9-4865-b6af-121ff608992f",
+	'serialize',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0f66725e-5303-465b-b6a7-784876df76eb",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("45fbcee2-a7da-401d-99fc-fabaa1515725",
+	"1f2c48fc-22d9-4865-b6af-121ff608992f",
+	'number_of_threads',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"f8754ec6-b46d-42de-a9f3-6f3b98aaee02",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1f2c48fc-22d9-4865-b6af-121ff608992f",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("12158634-526b-4de5-9ab2-22c8917e920c",
+	"00000000-0000-0000-0000-000000000000",
+	'SetTaskPriority',
+	'',
+	'//
+//============================================================================
+// Establish task priority.
+//============================================================================
+task_number = param.task_number;
+priority = param.priority;
+T::print(s:"SetTaskPriority( T::s(i:task_number), T::s(i:priority) )");
+select any tm_thread from instances of TM_THREAD;
+if ( empty tm_thread )
+  create object instance tm_thread of TM_THREAD;
+end if;
+tm_thread.extra_initialization = tm_thread.extra_initialization + "  xtUML_task_priorities[ T::s(i:task_number) ] = T::s(i:priority);\n";
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("06b39ab9-9501-4b58-9294-2833bec818ba",
+	"12158634-526b-4de5-9ab2-22c8917e920c",
+	'task_number',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3bfa7b3a-6726-4f99-af6c-70775a5b1ef9",
+	"12158634-526b-4de5-9ab2-22c8917e920c",
+	'priority',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"06b39ab9-9501-4b58-9294-2833bec818ba",
+	'');
+INSERT INTO PE_PE
+	VALUES ("12158634-526b-4de5-9ab2-22c8917e920c",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0884c45b-0b37-4d57-b493-04495abff284",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumStringLength',
+	'',
+	'//
+//============================================================================
+max_len = param.max_len;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxStringLen = max_len;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7393505c-3d15-42fd-9976-c9cacdc24524",
+	"0884c45b-0b37-4d57-b493-04495abff284",
+	'max_len',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("0884c45b-0b37-4d57-b493-04495abff284",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0b155ea6-c30d-42b9-81f9-b9ea8935cb38",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumRelationshipExtentSize',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxRelExtent = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fcf5bfe3-bd7c-4ce4-a420-ad511c20cfdc",
+	"0b155ea6-c30d-42b9-81f9-b9ea8935cb38",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("0b155ea6-c30d-42b9-81f9-b9ea8935cb38",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6b089599-59d8-40be-b9f1-373b56245538",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumSelectionExtentSize',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxSelectExtent = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("55ee3979-7fff-4c0e-ad96-91ebdafd3c63",
+	"6b089599-59d8-40be-b9f1-373b56245538",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6b089599-59d8-40be-b9f1-373b56245538",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6eca80e5-a9fb-4010-9ad2-124adedfcf1a",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumSelfDirectedEvents',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxSelfEvents = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("04cda3ce-03fb-4456-8acd-2e5bbe640a75",
+	"6eca80e5-a9fb-4010-9ad2-124adedfcf1a",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6eca80e5-a9fb-4010-9ad2-124adedfcf1a",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("043ebefd-6d58-4698-b6f9-8bd17a0b018f",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumNonSelfDirectedEvents',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxNonSelfEvents = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4d325bca-d4a2-45e9-a1dd-9975659b1f12",
+	"043ebefd-6d58-4698-b6f9-8bd17a0b018f",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("043ebefd-6d58-4698-b6f9-8bd17a0b018f",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f6b5e9aa-8b58-4c67-ac97-c661a53271ab",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumPendingOoaTimers',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxTimers = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c86eae4b-ad98-4da2-bc46-9c64040b5b95",
+	"f6b5e9aa-8b58-4c67-ac97-c661a53271ab",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f6b5e9aa-8b58-4c67-ac97-c661a53271ab",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c70ea01f-35b3-42bd-a0fe-09ac1cda666b",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumInterleavedBridges',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxInterleavedBridges = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("26c7e570-8d13-45ae-9c50-37a9f799a3cd",
+	"c70ea01f-35b3-42bd-a0fe-09ac1cda666b",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c70ea01f-35b3-42bd-a0fe-09ac1cda666b",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b66db479-def7-496e-a87e-175e28aad0fb",
+	"00000000-0000-0000-0000-000000000000",
+	'TagInterleavedBridgeDataSize',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxInterleavedBridgeDataSize = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0cdd26bc-c5c4-4733-a454-92aed7181fc6",
+	"b66db479-def7-496e-a87e-175e28aad0fb",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("b66db479-def7-496e-a87e-175e28aad0fb",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("55133280-f73e-4c8e-abb5-ab238ffb3589",
+	"00000000-0000-0000-0000-000000000000",
+	'TagCollectionsFlavor',
+	'',
+	'//
+//============================================================================
+// Use doubly linked lists for collections.  This speeds up deletes.
+//============================================================================
+collections_flavor = param.collections_flavor;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.CollectionsFlavor = collections_flavor;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5608cbaa-f061-4aa6-a629-7f03a5546589",
+	"55133280-f73e-4c8e-abb5-ab238ffb3589",
+	'collections_flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("55133280-f73e-4c8e-abb5-ab238ffb3589",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9e3e2e0c-8b1a-4022-8899-da48d07c0495",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkPersistenceCacheDepth',
+	'',
+	'//
+//============================================================================
+// Mark Depth of Persistence Cache Queue
+//
+// This color is used to specify the maximum number of instances and
+// links that can be queued waiting to be flushed to non-volatile
+// storage (NVS).  As instances and links become "dirty" they get
+// queued to NVS.  When Persist::Commit is called this queue is flushed.
+//
+// MarkPersistenceCacheDepth( instance_depth, link_depth )
+//
+// Where the input parameter(s) are:
+//   instance_depth = the integer depth of the linked list of instances
+//   link_depth = the integer depth of the linked list of persistent links
+//============================================================================
+instance_depth = param.instance_depth;
+link_depth = param.link_depth;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.PersistInstanceCacheDepth = instance_depth;
+tm_systag.PersistLinkCacheDepth = link_depth;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c0f08399-2493-4046-9e9d-bd9c897c73ec",
+	"9e3e2e0c-8b1a-4022-8899-da48d07c0495",
+	'instance_depth',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ff815127-4a84-46d8-ac9c-ae6ef2ddaf7d",
+	"9e3e2e0c-8b1a-4022-8899-da48d07c0495",
+	'link_depth',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"c0f08399-2493-4046-9e9d-bd9c897c73ec",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9e3e2e0c-8b1a-4022-8899-da48d07c0495",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0b8b89f8-2e6d-4b8e-9308-08863318ac00",
+	"00000000-0000-0000-0000-000000000000",
+	'TagDynamicMemoryAllocationOn',
+	'',
+	'//
+//============================================================================
+units_to_allocate = param.units_to_allocate;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.UnitsToDynamicallyAllocate = units_to_allocate;
+if ( tm_systag.UnitsToDynamicallyAllocate < 1 )
+  tm_systag.UnitsToDynamicallyAllocate = 1;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e21b6b27-6192-4372-bd04-0b8e419d2809",
+	"0b8b89f8-2e6d-4b8e-9308-08863318ac00",
+	'units_to_allocate',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("0b8b89f8-2e6d-4b8e-9308-08863318ac00",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("915d8c9f-49af-4c37-92c0-a190dbfbe07f",
+	"00000000-0000-0000-0000-000000000000",
+	'TagInstanceLoading',
+	'',
+	'//
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.InstanceLoading = true;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("915d8c9f-49af-4c37-92c0-a190dbfbe07f",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a6928637-a5e1-4162-9216-cba96e9ea542",
+	"00000000-0000-0000-0000-000000000000",
+	'VFBEnable',
+	'',
+	'//
+//============================================================================
+// Enable Virtual Function Bus (VFB) for AUTOSAR.
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.VFB = true;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("a6928637-a5e1-4162-9216-cba96e9ea542",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2367c5ac-2416-45c3-a226-9dbd59907d99",
+	"00000000-0000-0000-0000-000000000000",
+	'TM_SYSTAG_select',
+	'',
+	'//
+select any tm_systag from instances of TM_SYSTAG;
+if ( empty tm_systag )
+  create object instance tm_systag of TM_SYSTAG;
+  tm_systag.MaxStringLen = 32;
+  tm_systag.PersistInstanceCacheDepth = 128;
+  tm_systag.PersistLinkCacheDepth = 128;
+  tm_systag.SystemCPortsType = "sc_interface";
+end if;
+return tm_systag;
+',
+	"67a6ef0a-7a73-4370-9d87-d743c0801099",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("2367c5ac-2416-45c3-a226-9dbd59907d99",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("67a6ef0a-7a73-4370-9d87-d743c0801099",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<System Tags>',
+	'',
+	'',
+	'../Translation Marking/Translation Marking.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("97e2408c-b2b3-4d73-b84b-91e8aa5b9c03",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkSystemConfigurationPackage',
+	'',
+	'//
+//============================================================================
+// Mark a package as containing the system configuration.  Code will be
+// generated for components contained in this package (and referred to
+// from this package).
+//============================================================================
+package_name = param.package_name;
+select any tm_build from instances of TM_BUILD;
+if ( empty tm_build )
+  create object instance tm_build of TM_BUILD;
+else
+  T::print(s:"Warning:  Re-marking system configuration.  Last configuration marked will be built.");
+end if;
+tm_build.package_to_build = package_name;
+tm_build.package_obj_name = package_name + "_sys";
+tm_build.package_inst_name = package_name + "_top";
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b700146c-c43e-45d8-a45d-f218bb11e6eb",
+	"97e2408c-b2b3-4d73-b84b-91e8aa5b9c03",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("97e2408c-b2b3-4d73-b84b-91e8aa5b9c03",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6952494e-0951-4dc6-a23a-02c02336f51e",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkSystemCPortType',
+	'',
+	'//
+//============================================================================
+// Enable Channel binding instead of Signal Binding.
+//============================================================================
+port_type = param.port_type;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+if ( ( ( port_type == "TLM" ) or ( port_type == "BitLevelSignals" ) ) or ( port_type == "sc_interface" ) )
+  tm_systag.SystemCPortsType = port_type;
+else
+  T::print(s:"Warning:  Unrecognized SystemC Port Type(T::s(i:port_type)). Please choose either TLM, BitLevelSignals or sc_interface. Default configuration will be used.");
+  tm_systag.SystemCPortsType = "sc_interface";
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("dd431a09-991a-47bc-ae9b-d909c68963ee",
+	"6952494e-0951-4dc6-a23a-02c02336f51e",
+	'port_type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6952494e-0951-4dc6-a23a-02c02336f51e",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("db874153-3411-4cdc-b35d-7f0e28ba7329",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkAllPortsPolymorphic',
+	'',
+	'//
+//============================================================================
+// Force all ports to be polymorphic (where a component implements the same 
+// interface going in the same direction more than once). 
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.AllPortsPoly = true;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("db874153-3411-4cdc-b35d-7f0e28ba7329",
 	1,
 	"e0e8a924-f549-4e50-9ee0-af61843ab967",
 	"00000000-0000-0000-0000-000000000000",

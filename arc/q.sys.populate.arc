@@ -553,7 +553,7 @@
       .// string
       .assign te_dt.ExtName = "c_t"
       .assign te_dt.Initial_Value = "CTOR"
-      .assign te_dt.string_format = "'%s'"
+      .assign te_dt.string_format = "%s"
     .elif ( 5 == te_dt.Core_Typ )
       .// unique_id
       .assign te_dt.ExtName = te_prefix.type + "UniqueID_t"
@@ -1608,7 +1608,7 @@
         .// end relate
         .assign te_attr.prevID = 00
         .if ( not_empty prev_te_attr )
-          .// relate te_attr to prev_te_attr across R2087.'succeeds';
+          .// relate prev_te_attr to te_attr across R2087.'succeeds';
           .assign te_attr.prevID = prev_te_attr.ID
           .// end relate
         .end if
@@ -1643,6 +1643,10 @@
           .if ( "%p" == te_dt.string_format )
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld"
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    (long)self->" ) + te_attr.GeneratedName
+          .elif ( "%s" == te_dt.string_format )
+            .// Place an escaped tick mark around the %s in the attribute format string.
+            .assign te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''" + te_dt.string_format ) ) + "''"
+            .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
           .else
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName

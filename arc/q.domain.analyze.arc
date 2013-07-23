@@ -36,16 +36,8 @@
 .// Identify associations that are navigated (in either or both directions).
 .invoke association_R_OIR_mark_navigated()
 .// Find which event queues are necessary.
-.invoke qs = event_queue_analyze_needed()
-.if ( qs.self_queue_needed )
-  .print "Self queue is needed."
-.end if
-.if ( qs.nonself_queue_needed )
-  .print "Nonself queue is needed."
-.end if
+.invoke event_queue_analyze_needed()
 .invoke as = te_attr_analyze_accesses()
-.print "Attributes read is ${as.attributes_read_count}."
-.print "Attributes written is ${as.attributes_written_count}."
 .invoke asopt = te_attr_analyze_codegen( te_sys )
 .print "${asopt.optimized_out_count} attributes got optimized out."
 .invoke TE_TXN_used()

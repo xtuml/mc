@@ -74,7 +74,7 @@ ${te_target.c2cplusplus_linkage_end}
 .function CreateObjectAttrDataDeclaration
   .param inst_ref te_class
   .select any te_string from instances of TE_STRING
-  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 00 )
   .while ( not_empty te_attr )
     .select one o_attr related by te_attr->O_ATTR[R2033]
     .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
@@ -256,7 +256,7 @@ class ${te_c.Name}; // forward reference
 #include "${te_c.Name}.${te_file.hdr_file_ext}"
     .end if
     .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
-    .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 0 ) and ( selected.Included ) )
+    .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
     .assign te_ees = te_ees | global_te_ees
     .for each te_ee in te_ees
 #include "${te_ee.Include_File}"

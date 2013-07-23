@@ -1,18 +1,15 @@
-Wed Jul 17 21:44:57 2013
+Mon Jul 22 23:05:05 2013
 xtumlmc_build -home /media/psf/Home/bpu/bp/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.mc.c.source_4.0.0/ -l3s -e -d code_generation -O ../../src/
 Upgrading translation workspace:  code_generation
-Copying model to a.xtuml...p11-kit: couldn't load module: /usr/lib/i386-linux-gnu/pkcs11/gnome-keyring-pkcs11.so: /usr/lib/i386-linux-gnu/pkcs11/gnome-keyring-pkcs11.so: cannot open shared object file: No such file or directory
+Copying model to a.xtuml...MapDataTypeAsPointer:  T::s(i:dt_name) in T::s(i:component_name) given T::s(i:pointer_type) mapping (T::s(i:include_file)).
+p11-kit: couldn't load module: /usr/lib/i386-linux-gnu/pkcs11/gnome-keyring-pkcs11.so: /usr/lib/i386-linux-gnu/pkcs11/gnome-keyring-pkcs11.so: cannot open shared object file: No such file or directory
 NOTE: Domain code 0 allocated for this import.
 NOTE: The domain code you have entered has already been used/allocated, but will allow this import to proceed normally.
-sys.arc: 17:  INFO:  starting Wed Jul 17 21:45:08 2013
-datatype.mark: 1:  INFO:  data type mark
-m.datatype.arc: 53:  INFO:  MapDataTypeAsPointer:  stringpointer in * given c_t mapping ().
+sys.arc: 17:  INFO:  starting Mon Jul 22 23:05:18 2013
 m.domain.arc: 97:  INFO:  Function a0 marked as initialization function.
 m.domain.arc: 267:  INFO:  Code optimizations DISABLED for component ooaofooa
 q.domain.analyze.arc: 23:  INFO:  Analyzing model and making optimizations....
-q.domain.analyze.arc: 47:  INFO:  Attributes read is 2457.
-q.domain.analyze.arc: 48:  INFO:  Attributes written is 2457.
-q.domain.analyze.arc: 50:  INFO:  0 attributes got optimized out.
+q.domain.analyze.arc: 42:  INFO:  0 attributes got optimized out.
 q.oal.translate.arc: 106:  INFO:  translating values
 q.oal.translate.arc: 110:  INFO:  translating control statements
 q.oal.translate.arc: 112:  INFO:  translating other statements
@@ -38,6 +35,6 @@ sys.arc: 323:  INFO:  File '_ch/TIM_bridge.h'  CREATED.
 sys.arc: 329:  INFO:  File '_ch/TIM_bridge.c'  CREATED.
 sys.arc: 336:  INFO:  File '_ch/sys_xtumlload.h'  CREATED.
 sys.arc: 344:  INFO:  File '_ch/sys_xtumlload.c'  CREATED.
-sys.arc: 346:  INFO:  ending Wed Jul 17 21:51:55 2013
+sys.arc: 346:  INFO:  ending Mon Jul 22 23:10:42 2013
 Code generation complete.
-Wed Jul 17 21:51:56 2013
+Mon Jul 22 23:10:43 2013

@@ -14,11 +14,11 @@
   .// Note that the order of processing is important here.
   .//
   .// 2) Mark interrupt handlers.
-  .include "${te_file.system_color_path}/${te_file.bridge_mark}"
+.//  .include "${te_file.system_color_path}/${te_file.bridge_mark}"
   .// 3) Initiate user data type marking.
-  .include "${te_file.system_color_path}/${te_file.datatype_mark}"
+.//  .include "${te_file.system_color_path}/${te_file.datatype_mark}"
   .// 4) Initiate prefix marking (from system marking file).
-  .include "${te_file.system_color_path}/${te_file.system_mark}"
+.//  .include "${te_file.system_color_path}/${te_file.system_mark}"
   .//
 .//  .invoke sys_populate()
   .select any te_sys from instances of TE_SYS

@@ -374,8 +374,8 @@ c_t *
 Escher_strget( void )
 {
   static u1_t i = 0;
-  static c_t s[ 4 ][ ESCHER_SYS_MAX_STRING_LEN ];
-  i = ( i + 1 ) % 4;
+  static c_t s[ 16 ][ ESCHER_SYS_MAX_STRING_LEN ];
+  i = ( i + 1 ) % 16;
   return ( &s[ i ][ 0 ] );
 }
 

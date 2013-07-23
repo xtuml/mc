@@ -97,7 +97,7 @@ ooaofooa_T_b( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
 void
 ooaofooa_T_print( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
 {
-  printf( "%s\n", p_s );
+  fprintf( stderr,"%s\n", p_s );
 }
 
 
@@ -295,11 +295,17 @@ ooaofooa_T_xmlify( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
 c_t *
 ooaofooa_T_parsekeyword( c_t p_key[ESCHER_SYS_MAX_STRING_LEN], c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
-  c_t * s = "";
-  if ( strstr( p_s, p_key ) ) {
-    s = strstr( p_s, ":" ) + 1;
+  c_t * s = strstr( p_s, p_key );
+  if ( 0 != s ) {
+    i_t i = 0;
+    s = Escher_strcpy( Escher_strget(), strstr( s, ":" ) );
+    s++;
+    while ( ( i < ESCHER_SYS_MAX_STRING_LEN ) && ( 0 != *(s+i) ) ) {
+      if ( ( '\n' == *(s+i) ) || ( ' ' == *(s+i) ) ) { *(s+i) = 0; break; }
+      i++;
+    }
   }
-  return s;
+  return ( 0 != s ) ? s : "";
 }
 
 

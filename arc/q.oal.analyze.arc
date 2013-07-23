@@ -158,22 +158,22 @@
 .//
 .function class_smt_created
   .select many act_crs from instances of ACT_CR
-  .select many te_classes related by act_crs->O_OBJ[R671]->TE_CLASS[R2019]
-  .invoke class_smt_crdel_check( te_classes )
-  .for each te_class in te_classes
+  .select many te_classs related by act_crs->O_OBJ[R671]->TE_CLASS[R2019]
+  .invoke class_smt_crdel_check( te_classs )
+  .for each te_class in te_classs
     .assign te_class.NonSelfCreated = true
   .end for
   .select many act_cnvs from instances of ACT_CNV
-  .select many te_classes related by act_cnvs->O_OBJ[R672]->TE_CLASS[R2019]
-  .invoke class_smt_crdel_check( te_classes )
-  .for each te_class in te_classes
+  .select many te_classs related by act_cnvs->O_OBJ[R672]->TE_CLASS[R2019]
+  .invoke class_smt_crdel_check( te_classs )
+  .for each te_class in te_classs
     .assign te_class.NonSelfCreated = true
   .end for
   .// Now find any creator events to classes.
   .select many e_gecs from instances of E_GEC
-  .select many te_classes related by e_gecs->E_GSME[R705]->SM_EVT[R707]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019]
-  .invoke class_smt_crdel_check( te_classes )
-  .for each te_class in te_classes
+  .select many te_classs related by e_gecs->E_GSME[R705]->SM_EVT[R707]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019]
+  .invoke class_smt_crdel_check( te_classs )
+  .for each te_class in te_classs
     .assign te_class.SelfCreated = true
   .end for
 .end function
@@ -183,13 +183,13 @@
 .//
 .function class_smt_deleted
   .select many act_dels from instances of ACT_DEL
-  .select many te_classes related by act_dels->V_VAR[R634]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019]
-  .invoke class_smt_crdel_check( te_classes )
+  .select many te_classs related by act_dels->V_VAR[R634]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019]
+  .invoke class_smt_crdel_check( te_classs )
 .end function
 .//
 .function class_smt_crdel_check
-  .param inst_ref_set te_classes
-  .for each te_class in te_classes
+  .param inst_ref_set te_classs
+  .for each te_class in te_classs
     .if ( te_class.IsReadOnly )
       .select one o_obj related by te_class->O_OBJ[R2019]
       .print "ERROR:  Attempt to create/delete read-only object ${o_obj.Name} (${o_obj.Key_Lett})"
@@ -206,43 +206,33 @@
 .// Also count up the self versus nonself events.
 .//
 .function event_queue_analyze_needed
-  .assign attr_self_queue_needed = false
-  .assign attr_nonself_queue_needed = false
+  .assign self_queue_needed = false
+  .assign nonself_queue_needed = false
   .select many e_gens from instances of E_GEN
-  .for each e_gen in e_gens
-    .select one v_var related by e_gen->V_VAR[R712] where ( selected.Name == "self" )
-    .if ( not_empty v_var )
-      .assign attr_self_queue_needed = true
-      .if ( attr_self_queue_needed and attr_nonself_queue_needed )
-        .break for
-      .end if
-    .end if
-    .select one v_var related by e_gen->V_VAR[R712] where ( selected.Name != "self" )
-    .if ( not_empty v_var )
-      .assign attr_nonself_queue_needed = true
-      .if ( attr_self_queue_needed and attr_nonself_queue_needed )
-        .break for
-      .end if
-    .end if
-  .end for
-  .if ( not ( attr_self_queue_needed and attr_nonself_queue_needed ) )
+  .select any v_var related by e_gens->V_VAR[R712] where ( selected.Name == "self" )
+  .if ( not_empty v_var )
+    .assign self_queue_needed = true
+  .end if
+  .select any v_var related by e_gens->V_VAR[R712] where ( selected.Name != "self" )
+  .if ( not_empty v_var )
+    .assign nonself_queue_needed = true
+  .end if
+  .if ( not ( self_queue_needed and nonself_queue_needed ) )
     .select many e_ceis from instances of E_CEI
-    .for each e_cei in e_ceis
-      .select one v_var related by e_cei->V_VAR[R711] where ( selected.Name == "self" )
-      .if ( not_empty v_var )
-        .assign attr_self_queue_needed = true
-        .if ( attr_self_queue_needed and attr_nonself_queue_needed )
-          .break for
-        .end if
-      .end if
-      .select one v_var related by e_cei->V_VAR[R711] where ( selected.Name != "self" )
-      .if ( not_empty v_var )
-        .assign attr_nonself_queue_needed = true
-        .if ( attr_self_queue_needed and attr_nonself_queue_needed )
-          .break for
-        .end if
-      .end if
-    .end for
+    .select any v_var related by e_ceis->V_VAR[R711] where ( selected.Name == "self" )
+    .if ( not_empty v_var )
+      .assign self_queue_needed = true
+    .end if
+    .select one v_var related by e_ceis->V_VAR[R711] where ( selected.Name != "self" )
+    .if ( not_empty v_var )
+      .assign nonself_queue_needed = true
+    .end if
+  .end if
+  .if ( self_queue_needed )
+    .print "Self event queue needed."
+  .end if
+  .if ( nonself_queue_needed )
+    .print "Instance event queue needed."
   .end if
 .end function
 .//
