@@ -101,9 +101,9 @@ doc_sec.level = 1;
 
 parent_doc_sec = param.parent_doc_sec;
 if ( not_empty parent_doc_sec )
-  // Determine if this paragraph is the first to be added to the section.
+  // Determine if this section is the first to be added to the section.
   // If it is link it to the section.
-  // If one already exists, find and link to the sibling paragraph.
+  // If one already exists, find and link to the sibling section.
   select one sibling_doc_sec related by parent_doc_sec->DOC_SEC[R2307.''has first child''];
   if ( empty sibling_doc_sec )
     relate doc_sec to parent_doc_sec across R2307.''has parent'';

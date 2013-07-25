@@ -24,7 +24,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	0,
-	'',
+	'4.0.0',
 	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::DocGen');
 INSERT INTO DIM_DIA
 	VALUES ("96dd2b17-c5ff-4c93-ad02-28f36668c7d0",
@@ -115,106 +115,8 @@ else
   LOG::LogInfo( message:"no element packages" );
 end if;
 
-// component packages in the system
-// Add the component packages in a subsection to the system section.
-// Include the component diagrams as figures.
-select many cp_cps related by s_sys->CP_CP[R4606];
-if ( not_empty cp_cps )
-  doc_sec1 = DOC_SEC::populate( title:"System-Level Component Packages", subtitle:"", parent_doc_sec:doc_sec );
-  ::docgen_component_packages( cp_cps:cp_cps, doc_sec:doc_sec1 );
-end if;
-
-// interface packages in the system
-// Add the interface packages as a sibling to the component packages section.
-// Include the interface diagrams as figures.
-select many ip_ips related by s_sys->IP_IP[R4304];
-if ( not_empty ip_ips )
-  doc_sec1 = DOC_SEC::populate( title:"System-Level Interface Packages", subtitle:"", parent_doc_sec:doc_sec );
-  ::docgen_interface_packages( ip_ips:ip_ips, doc_sec:doc_sec1 );
-end if;
-
-// data type packages in the system
-// Add the data type packages as a sibling to the component packages section.
-select many s_dpks related by s_sys->SLD_SDP[R4400]->S_DPK[R4400];
-if ( not_empty s_dpks )
-  doc_sec1 = DOC_SEC::populate( title:"System-Level Data Type Packages", subtitle:"", parent_doc_sec:doc_sec );
-  select any empty_s_dom from instances of S_DOM where ( false );
-  ::docgen_datatype_packages( s_sys:s_sys, s_dom:empty_s_dom, s_dpks:s_dpks, doc_sec:doc_sec1 );
-end if;
-
-// system-level constant specifications
-select many cnst_csps related by s_sys->SLD_SCINP[R4404]->CNST_CSP[R4403];
-for each cnst_csp in cnst_csps
-end for;
-
-// domains (components with internal behavior)
-select many s_doms related by s_sys->CP_CP[R4602]->C_C[R4608]->CN_DC[R4204]->S_DOM[R4204];
-if ( not_empty s_doms )
-  doc_sec1 = DOC_SEC::populate( title:s_sys.Name + " Component Domains", subtitle:"Components with Domain Behavior", parent_doc_sec:doc_sec );
-  doc_par1 = DOC_PAR::populate( text:"This section renders the components having internal domain behavior.", predecessor:empty_doc_par, doc_sec:doc_sec1 );
-  ::docgen_domain( s_sys:s_sys, s_doms:s_doms, doc_sec:doc_sec1 );
-  for each s_dom in s_doms
-    s_dom.Full_Der = 77;
-  end for;
-end if;
-
 LOG::LogInfo( message:"ending system" );
 end for;
-
-// Now handle SP stuff as one big blob for all the systems
-// domains (unformalized/bare)
-doc_sec = DOC_SEC::populate( title:s_sys.Name, subtitle:"Specialized Package Based Analysis Diagrams for All Systems", parent_doc_sec:empty_doc_sec );
-select many bare_s_doms from instances of S_DOM where ( selected.Full_Der != 77 );
-if ( not_empty bare_s_doms )
-  doc_sec1 = DOC_SEC::populate( title:"Unformalized Domains", subtitle:"Unformalized Domains", parent_doc_sec:doc_sec );
-  doc_par1 = DOC_PAR::populate( text:"This section renders the unformalized domains for the system.", predecessor:empty_doc_par, doc_sec:doc_sec1 );
-  ::docgen_domain( s_sys:s_sys, s_doms:bare_s_doms, doc_sec:doc_sec1 );
-end if;
-
-// use cases
-select many uc_uccs from instances of UC_UCC;
-if ( not_empty uc_uccs )
-  doc_sec1 = DOC_SEC::populate( title:"Use Cases", subtitle:"", parent_doc_sec:doc_sec );
-  ::docgen_use_cases( s_sys:s_sys, uc_uccs:uc_uccs, doc_sec:doc_sec1 );
-end if;
-
-// sequence diagrams
-select many sq_ss from instances of SQ_S;
-if ( not_empty sq_ss )
-  doc_sec1 = DOC_SEC::populate( title:"Sequence Diagrams", subtitle:"", parent_doc_sec:doc_sec );
-  ::docgen_sequences( s_sys:s_sys, sq_ss:sq_ss, doc_sec:doc_sec1 );
-end if;
-
-// communication diagrams
-select many comm_comms from instances of COMM_COMM;
-if ( not_empty comm_comms )
-  doc_sec1 = DOC_SEC::populate( title:"Communication Diagrams", subtitle:"", parent_doc_sec:doc_sec );
-  ::docgen_communications( s_sys:s_sys, comm_comms:comm_comms, doc_sec:doc_sec1 );
-end if;
-
-// activity diagrams
-select many a_as from instances of A_A;
-if ( not_empty a_as )
-  doc_sec1 = DOC_SEC::populate( title:"Activity Diagrams", subtitle:"", parent_doc_sec:doc_sec );
-  ::docgen_activities( s_sys:s_sys, a_as:a_as, doc_sec:doc_sec1 );
-end if;
-
-
-// experimental
-/*
-// experimental
-/*
-select many o_attrs from instances of O_ATTR;
-count = cardinality o_attrs;
-accessed = ::O_ATTR_analyze_accesses();
-optimized_out = ::O_ATTR_codegen();
-doc_sec4 = DOC_SEC::populate( title:"Optimizations", subtitle:"Attributes", parent:empty_doc_sec, predecessor:predecessor );
-doc_par4 = DOC_PAR::populate( text:"Optimization of attributes...", predecessor:empty_doc_par, doc_sec:doc_sec4 );
-doc_par4.text = doc_par4.text + "Of " + T::s(i:count) + " in the system, ";
-doc_par4.text = doc_par4.text + T::s(i:accessed) + " attributes are accessed.  ";
-doc_par4.text = doc_par4.text + T::s(i:optimized_out) + " attributes are candidates to be removed or optimized out of classes in this system.";
-*/
-// experimental
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -226,181 +128,244 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f1db926c-85c6-44fc-acb4-5b8453937347",
+	VALUES ("525020c7-efcd-4599-b8b4-cc1dcecb1f94",
 	"00000000-0000-0000-0000-000000000000",
-	'docgen_domain',
+	'docgen_interaction_participants',
 	'',
-	'LOG::LogInfo( message:"starting docgen_domain" );
-s_sys = param.s_sys;
-s_doms = param.s_doms;
-select any empty_doc_sec from instances of DOC_SEC where ( false );
-select any empty_doc_par from instances of DOC_PAR where ( false );
-select any empty_doc_row from instances of DOC_ROW where ( false );
-
-// domains
-// Add the component/domain packages as subsections to the system section.
-// Include the component/domain diagrams as figures.
-// Nest the class diagrams.
-for each s_dom in s_doms
-  select one c_c related by s_dom->CN_DC[R4204]->C_C[R4204];
-  // Make this section a child of the domains section.
-  name = s_dom.Name;
-  image_name = ::getContainerListForS_DOM(dom:s_dom, container_list:"");
-  if ( not_empty c_c )
-    name = c_c.Name;
-    image_name = ::getContainerListForC_C(comp:c_c, container_list:"");
-  end if;
-  doc_sec1 = DOC_SEC::populate( title:name + " Domain", subtitle:"", parent_doc_sec:param.doc_sec );
-  doc_par1 = DOC_PAR::populate( text:s_dom.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec1 );
-  doc_fig1 = DOC_FIG::populate( title:name + " Domain Package Diagram", image_target:image_name + "-Domain Package Diagram", doc_par:doc_par1 );
-
-  // List the datatype packages and the data types contained in this domain.
-  // data type packages in the system
-  // Add the data type packages as a sibling to this domains section.
-  select many s_dpks related by s_dom->S_DPK[R40];
-  if ( not_empty s_dpks )
-    doc_sec2 = DOC_SEC::populate( title:s_dom.Name + " Domain-Level Data Type Packages", subtitle:"", parent_doc_sec:doc_sec1 );
-    ::docgen_datatype_packages( s_sys:s_sys, s_dom:s_dom, s_dpks:s_dpks, doc_sec:doc_sec2 );
-  end if;
-
-  // List the function packages
-  select many s_fpks related by s_dom->S_FPK[R29];
-  for each s_fpk in s_fpks
-    select many s_syncs related by s_fpk->S_FIP[R31]->S_SYNC[R31];
-    if ( not_empty s_syncs )
-      doc_sec2 = DOC_SEC::populate( title:s_fpk.Name + " Functions", subtitle:"Function Package", parent_doc_sec:doc_sec1 );
-      doc_par2 = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec2 );
-      doc_tbl = DOC_TBL::populate( title:s_dom.Name + " " + s_fpk.Name, num_cols:3, doc_par:doc_par2 );
-      doc_row = empty_doc_row;
-      // Add a header row to the table.
-      format[ 2 ] = "text";
-      format[ 1 ] = "text";
-      format[ 0 ] = "image";
-      columns[ 2 ] = "Description";
-      columns[ 1 ] = "Name";
-      columns[ 0 ] = "Function.gif";
-      doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row );
-      relate doc_row1 to doc_tbl across R2317;
-      for each s_sync in s_syncs
-        columns[ 2 ] = s_sync.Descrip;
-        columns[ 1 ] = s_sync.Name + "(";
-        select many s_sparms related by s_sync->S_SPARM[R24];
-        delimiter = "";
-        for each s_sparm in s_sparms
-          columns[ 1 ] = columns[ 1 ] + delimiter + s_sparm.Name;
-          delimeter = ", ";
-        end for;
-        columns[ 1 ] = columns[ 1 ] + ")";
+	'ep_pkg = param.ep_pkg;
+select many sq_ps related by ep_pkg->PE_PE[R8000]->SQ_P[R8001];
+select many msg_ms related by ep_pkg->PE_PE[R8000]->MSG_M[R8001];
+if ( ( not_empty sq_ps ) or ( not_empty msg_ms ) )
+  select any empty_doc_par from instances of DOC_PAR where ( false );
+  select any empty_doc_row from instances of DOC_ROW where ( false );
+  doc_sec = DOC_SEC::populate( title:param.title, subtitle:"", parent_doc_sec:param.doc_sec );
+  doc_par = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec );
+  doc_tbl = DOC_TBL::populate( title:param.title, num_cols:3, doc_par:doc_par );
+  // Add a header row to the table.  (Set last column first to allocate the array correctly.)
+  format[ 2 ] = "text";
+  format[ 1 ] = "text";
+  format[ 0 ] = "image";
+  columns[ 2 ] = "Description";
+  columns[ 1 ] = "Name";
+  columns[ 0 ] = "Package.gif";
+  doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:empty_doc_row );
+  relate doc_row1 to doc_tbl across R2317;
+  for each sq_p in sq_ps
+    // Actor Participant
+    select one sq_ap related by sq_p->SQ_AP[R930];
+    if ( not_empty sq_ap )
+      columns[ 2 ] = sq_ap.Descrip;
+      columns[ 1 ] = sq_ap.Name;
+      columns[ 0 ] = "Actor.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
+    else
+    // Class Instance Participant
+    select one sq_cip related by sq_p->SQ_CIP[R930];
+    if ( not_empty sq_cip )
+      columns[ 2 ] = sq_cip.Descrip;
+      columns[ 1 ] = sq_cip.Name;
+      columns[ 0 ] = "Instance.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
+    else
+    // Class Participant
+    select one sq_cp related by sq_p->SQ_CP[R930];
+    if ( not_empty sq_cp )
+      select one o_obj related by sq_cp->O_OBJ[R939];
+      name = sq_cp.InformalName;
+      description = sq_cp.Descrip;
+      if ( not_empty o_obj )
+        name = o_obj.Name;
+        if ( "" == description )
+          description = o_obj.Descrip;
+        end if;
+      end if;
+      columns[ 2 ] = description;
+      columns[ 1 ] = name;
+      columns[ 0 ] = "Class.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
+      // Class Participant Attributes
+      select many sq_cpas related by sq_cp->SQ_CPA[R935];
+      for each sq_cpa in sq_cpas
+        columns[ 2 ] = sq_cpa.Descrip;
+        columns[ 1 ] = sq_cpa.Name + ":" + sq_cpa.Type;
+        columns[ 0 ] = "Attribute.gif";
         doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
         doc_row1 = doc_row2;
       end for;
-        
-      doc_sec2 = DOC_SEC::populate( title:"Domain Function Activities", subtitle:"", parent_doc_sec:doc_sec1 );
-      for each s_sync in s_syncs
-        if ( ( "" != s_sync.Action_Semantics_internal ) or ( "" != s_sync.Descrip ) )
-          title = s_sync.Name;
-          doc_sec3 = DOC_SEC::populate( title:title, subtitle:"", parent_doc_sec:doc_sec2 );
-          doc_par2 = DOC_PAR::populate( text:s_sync.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec3 );
-          doc_par3 = DOC_PAR::populate( text:s_sync.Action_Semantics_internal, predecessor:doc_par2, doc_sec:empty_doc_sec );
-          doc_par3.formatted = false;
+    else
+    // Component Participant
+    select one sq_cop related by sq_p->SQ_COP[R930];
+    if ( not_empty sq_cop )
+      select one c_c related by sq_cop->C_C[R955];
+      name = sq_cop.InformalComponentName;
+      description = sq_cop.Descrip;
+      if ( not_empty c_c )
+        name = c_c.Name;
+        if ( "" == description )
+          description = c_c.Descrip;
+        end if;
+      end if;
+      columns[ 2 ] = description;
+      columns[ 1 ] = name;
+      columns[ 0 ] = "Component.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
+    else
+    // External Entity Participant
+    select one sq_eep related by sq_p->SQ_EEP[R930];
+    if ( not_empty sq_eep )
+      name = sq_eep.InformalName;
+      description = sq_eep.Descrip;
+      select one s_ee related by sq_eep->S_EE[R933];
+      if ( not_empty s_ee )
+        name = s_ee.Name;
+        if ( "" == description )
+          description = s_ee.Descrip;
+        end if;
+      end if;
+      columns[ 2 ] = description;
+      columns[ 1 ] = name;
+      columns[ 0 ] = "ExternalEntity.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
+    else
+    // Package Participant
+    select one sq_pp related by sq_p->SQ_PP[R930];
+    if ( not_empty sq_pp )
+      name = sq_pp.InformalName;
+      description = sq_pp.Descrip;
+      select one ep_pkg related by sq_pp->EP_PKG[R956];
+      if ( not_empty ep_pkg )
+        name = ep_pkg.Name;
+        if ( "" == description )
+          description = ep_pkg.Descrip;
+        end if;
+      end if;
+      columns[ 2 ] = description;
+      columns[ 1 ] = name;
+      columns[ 0 ] = "Package.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
+    else
+    // Lifespan
+    select one sq_ls related by sq_p->SQ_LS[R930];
+    if ( not_empty sq_ls )
+      if ( "" != sq_ls.Descrip )
+        columns[ 2 ] = sq_ls.Descrip;
+        columns[ 1 ] = "";
+        columns[ 0 ] = "Lifespan.gif";
+        doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+        doc_row1 = doc_row2;
+      end if;
+      // Timing Marks
+      select many sq_tms related by sq_ls->SQ_TM[R931];
+      for each sq_tm in sq_tms
+        if ( "" != sq_tm.Descrip )
+          columns[ 2 ] = sq_tm.Descrip;
+          columns[ 1 ] = sq_tm.Name;
+          columns[ 0 ] = "TimeingMark.gif";
+          doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+          doc_row1 = doc_row2;
         end if;
       end for;
+      // Time Spans
+      select many sq_tss related by sq_ls->SQ_TM[R931]->SQ_TS[R941];
+      for each sq_ts in sq_tss
+        if ( "" != sq_tm.Descrip )
+          columns[ 2 ] = sq_ts.Descrip;
+          columns[ 1 ] = sq_ts.Name;
+          columns[ 0 ] = "TimeSpan.gif";
+          doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+          doc_row1 = doc_row2;
+        end if;
+      end for;
+    else
+    // Use Case Participant
+    select one ia_ucp related by sq_p->IA_UCP[R930];
+    if ( not_empty ia_ucp )
+      columns[ 2 ] = ia_ucp.Descrip;
+      columns[ 1 ] = ia_ucp.Name;
+      columns[ 0 ] = "UseCase.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
+    end if;
+    end if;
+    end if;
+    end if;
+    end if;
+    end if;
+    end if;
     end if;
   end for;
-
-  // Document subsystems in their own (child) section.
-  select many s_sss related by s_dom->S_SS[R1];
-  if ( not_empty s_sss )
-    doc_sec2 = DOC_SEC::populate( title:s_dom.Name + " Subsystems", subtitle:"", parent_doc_sec:doc_sec1 );
-    doc_par2 = DOC_PAR::populate( text:"Rendered here are the subsystem class diagrams.", predecessor:empty_doc_par, doc_sec:doc_sec2 );
-    ::docgen_subsystem( c_c:c_c, s_dom:s_dom, s_sss:s_sss, doc_sec:doc_sec2 );
-  end if;
-
-  // List the external entities
-  select many s_eepks related by s_dom->S_EEPK[R36];
-  for each s_eepk in s_eepks
-    // List the EEs
-    select many s_ees related by s_eepk->S_EEIP[R33]->S_EE[R33];
-    if ( not_empty s_ees )
-      doc_sec2 = DOC_SEC::populate( title:s_eepk.Name + " EEs", subtitle:"External Entity Package", parent_doc_sec:doc_sec1 );
-      doc_par2 = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec2 );
-      image_name = ::getContainerListForS_EEPK(eepk:s_eepk, container_list:"External Entity Package Diagram");
-      doc_fig2 = DOC_FIG::populate( title:s_dom.Name + " " + s_eepk.Name + " External Entity Package Diagram", image_target:image_name, doc_par:doc_par2 );
-      doc_par3 = DOC_PAR::populate( text:"", predecessor:doc_par2, doc_sec:empty_doc_sec );
-      doc_tbl = DOC_TBL::populate( title:s_dom.Name + " " + s_eepk.Name, num_cols:4, doc_par:doc_par3 );
-      doc_row = empty_doc_row;
-      // Add a header row to the table.
-      format[ 3 ] = "text";
-      format[ 2 ] = "text";
-      format[ 1 ] = "text";
-      format[ 0 ] = "image";
-      columns[ 3 ] = "Bridges";
-      columns[ 2 ] = "Description";
-      columns[ 1 ] = "Name";
-      columns[ 0 ] = "ExternalEntity.gif";
-      doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row );
-      relate doc_row1 to doc_tbl across R2317;
-      for each s_ee in s_ees
-        columns[ 3 ] = "";
-        select many s_brgs related by s_ee->S_BRG[R19];
-        delimiter = "";
-        for each s_brg in s_brgs
-          columns[ 3 ] = columns[ 3 ] + delimiter + s_brg.Name;
-          delimiter = ", ";
-        end for;
-        columns[ 2 ] = s_ee.Descrip;
-        columns[ 1 ] = s_ee.Name;
-        doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
-        doc_row1 = doc_row2;
-      end for;
-      
-      doc_sec3 = DOC_SEC::populate( title:"External Entity Activities", subtitle:"", parent_doc_sec:doc_sec2 );
-      for each s_ee in s_ees
-        doc_sec4 = DOC_SEC::populate( title:s_ee.Name + " Activities", subtitle:"", parent_doc_sec:doc_sec3 );
-        select many s_brgs related by s_ee->S_BRG[R19];
-        for each s_brg in s_brgs
-          if ( ( "" != s_brg.Action_Semantics_internal ) or ( "" != s_brg.Descrip ) )
-            title = s_brg.Name;
-            doc_sec5 = DOC_SEC::populate( title:title, subtitle:"", parent_doc_sec:doc_sec4 );
-            doc_par4 = DOC_PAR::populate( text:s_brg.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec5 );
-            doc_par5 = DOC_PAR::populate( text:s_brg.Action_Semantics_internal, predecessor:doc_par4, doc_sec:empty_doc_sec );
-            doc_par5.formatted = false;
-          end if;
-        end for;
-      end for;
-    end if;
+  // Messages
+  // Asynchronous Message
+  select many msg_ams related by msg_ms->MSG_AM[R1018];
+  for each msg_am in msg_ams
+    name = msg_am.InformalName;
+    description = msg_am.Descrip;
+    // select formalizations
+    columns[ 2 ] = description;
+    columns[ 1 ] = name;
+    columns[ 0 ] = "AsynchronousMessage.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
   end for;
-end for;
-
-LOG::LogInfo( message:"ending docgen_domain" );
+  // Synchronous Message
+  select many msg_sms related by msg_ms->MSG_SM[R1018];
+  for each msg_sm in msg_sms
+    name = msg_sm.InformalName;
+    description = msg_sm.Descrip;
+    // select formalizations
+    columns[ 2 ] = description;
+    columns[ 1 ] = name;
+    columns[ 0 ] = "SynchronousMessage.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  // Return Message
+  select many msg_rs related by msg_ms->MSG_R[R1018];
+  for each msg_r in msg_rs
+    name = msg_r.Name;
+    description = msg_r.Descrip;
+    // select formalizations
+    columns[ 2 ] = description;
+    columns[ 1 ] = name;
+    columns[ 0 ] = "ReturnMessage.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("2813c85f-fffa-4552-b4d1-df35f141c3aa",
-	"f1db926c-85c6-44fc-acb4-5b8453937347",
-	's_sys',
-	"d42ab735-48fa-4768-949f-19ee3a87e108",
+	VALUES ("34b5f987-e85a-42eb-8341-193cdcb70ad4",
+	"525020c7-efcd-4599-b8b4-cc1dcecb1f94",
+	'ep_pkg',
+	"bc235622-5914-4c46-87f7-e7209f83a876",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("d42ab735-48fa-4768-949f-19ee3a87e108",
+	VALUES ("bc235622-5914-4c46-87f7-e7209f83a876",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<System Model>',
+	'inst_ref<Package>',
 	'',
 	'',
 	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("5210a6b1-757f-40b4-ad25-efb49730a630",
-	"f1db926c-85c6-44fc-acb4-5b8453937347",
+	VALUES ("beffb055-86d5-40d1-a7cb-6fcd6593f93e",
+	"525020c7-efcd-4599-b8b4-cc1dcecb1f94",
 	'doc_sec',
 	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
 	0,
 	'',
-	"7231f04f-f395-4679-93d3-0a9e7ca5b0c2",
+	"34b5f987-e85a-42eb-8341-193cdcb70ad4",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
@@ -410,895 +375,16 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("7231f04f-f395-4679-93d3-0a9e7ca5b0c2",
-	"f1db926c-85c6-44fc-acb4-5b8453937347",
-	's_doms',
-	"842e59f0-7f03-4648-95ed-5b388262332c",
-	0,
-	'',
-	"2813c85f-fffa-4552-b4d1-df35f141c3aa",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("842e59f0-7f03-4648-95ed-5b388262332c",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Domain>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO PE_PE
-	VALUES ("f1db926c-85c6-44fc-acb4-5b8453937347",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("0cbd5f30-4ed8-4892-8a0a-1565318088d1",
-	"00000000-0000-0000-0000-000000000000",
-	'docgen_subsystem',
-	'',
-	'LOG::LogInfo( message:"starting docgen_subsystem" );
-c_c = param.c_c;
-s_dom = param.s_dom;
-s_sss = param.s_sss;
-select any empty_doc_sec from instances of DOC_SEC where ( false );
-select any empty_doc_par from instances of DOC_PAR where ( false );
-select any empty_doc_row from instances of DOC_ROW where ( false );
-
-// subsystems
-// Add the subsystem packages as subsections to the system section.
-// Include the class diagrams as figures.
-name = s_dom.Name;
-if ( not_empty c_c )
-  name = c_c.Name;
-end if;
-for each s_ss in s_sss
-  // Make this section a child to the domains sections.
-  doc_sec = DOC_SEC::populate( title:name + " " + s_ss.Name, subtitle:"Subsystem", parent_doc_sec:param.doc_sec );
-  // Only the first child of a section is related.  The rest are peers of this child.
-  previous_doc_par = empty_doc_par;
-  doc_par = DOC_PAR::populate( text:s_ss.Descrip, predecessor:previous_doc_par, doc_sec:doc_sec );
-  image_name = ::getContainerListForS_SS(ss:s_ss, container_list:"Class Diagram");
-  doc_fig = DOC_FIG::populate( title:name + " " + s_ss.Name + " Class Diagram", image_target:image_name, doc_par:doc_par );
-  // List the classes
-  select many o_objs related by s_ss->O_OBJ[R2];
-  if ( not_empty o_objs )
-    doc_par1 = DOC_PAR::populate( text:"", predecessor:doc_par, doc_sec:empty_doc_sec );
-    doc_tbl = DOC_TBL::populate( title:s_dom.Name + " " + s_ss.Name, num_cols:3, doc_par:doc_par1 );
-    doc_row = empty_doc_row;
-    // Add a header row to the table.
-    format[ 2 ] = "text";
-    format[ 1 ] = "text";
-    format[ 0 ] = "image";
-    columns[ 2 ] = "Description";
-    columns[ 1 ] = "Name";
-    columns[ 0 ] = "Class.gif";
-    doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row );
-    relate doc_row1 to doc_tbl across R2317;
-    for each o_obj in o_objs
-      // Set last column first to allocate the array correctly.
-      columns[ 2 ] = o_obj.Descrip;
-      columns[ 1 ] = o_obj.Name;
-      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
-      doc_row1 = doc_row2;
-    end for;
-    previous_doc_par = doc_par1;
-    // state machines
-    for each o_obj in o_objs
-      prefix = ::getContainerListForS_SS(ss:s_ss, container_list:"");
-      prefix = prefix + "-" + o_obj.Name;
-      select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517];
-      if ( not_empty sm_sm )
-        doc_par2 = DOC_PAR::populate( text:"", predecessor:previous_doc_par, doc_sec:empty_doc_sec );
-        doc_fig1 = DOC_FIG::populate( title:name + " " + o_obj.Name + " Class State Machine", image_target:prefix + "-Class State Machine", doc_par:doc_par2 );
-        previous_doc_par = doc_par2;
-      end if;
-      select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
-      if ( not_empty sm_sm )
-        doc_par2 = DOC_PAR::populate( text:"", predecessor:previous_doc_par, doc_sec:empty_doc_sec );
-        doc_fig1 = DOC_FIG::populate( title:name + " " + o_obj.Name + " Instance State Machine", image_target:prefix + "-Instance State Machine", doc_par:doc_par2 );
-        previous_doc_par = doc_par2;
-      end if;
-    end for;
-  end if;
-  previous_doc_par = doc_par;
-end for;
-
-',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("76b6905d-3e00-436d-a88d-5f93b44e208e",
-	"0cbd5f30-4ed8-4892-8a0a-1565318088d1",
-	's_dom',
-	"80b0e4ef-c793-461e-ac26-dfebe84e8edb",
-	0,
-	'',
-	"920fab39-ebd8-4145-934a-ed1dbf5a4b1c",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("80b0e4ef-c793-461e-ac26-dfebe84e8edb",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Domain>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("de3ffb79-e7fb-44c6-be87-5f8f047cfe3a",
-	"0cbd5f30-4ed8-4892-8a0a-1565318088d1",
-	'doc_sec',
-	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
-	0,
-	'',
-	"c5f7bdc7-35e2-407f-b6f4-462ac0899a05",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("920fab39-ebd8-4145-934a-ed1dbf5a4b1c",
-	"0cbd5f30-4ed8-4892-8a0a-1565318088d1",
-	'c_c',
-	"3a196930-4610-45a6-baf8-3062a2ef9851",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("3a196930-4610-45a6-baf8-3062a2ef9851",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Component>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("c5f7bdc7-35e2-407f-b6f4-462ac0899a05",
-	"0cbd5f30-4ed8-4892-8a0a-1565318088d1",
-	's_sss',
-	"171a964a-4927-46af-b910-364afcea4f51",
-	0,
-	'',
-	"76b6905d-3e00-436d-a88d-5f93b44e208e",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("171a964a-4927-46af-b910-364afcea4f51",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Subsystem>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO PE_PE
-	VALUES ("0cbd5f30-4ed8-4892-8a0a-1565318088d1",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("c735a32f-f16f-41d9-b49e-35fbdb101695",
-	"00000000-0000-0000-0000-000000000000",
-	'docgen_component_packages',
-	'',
-	'select any empty_doc_sec from instances of DOC_SEC where ( false );
-select any empty_doc_par from instances of DOC_PAR where ( false );
-select any empty_doc_row from instances of DOC_ROW where ( false );
-
-// component packages in the system
-// Add the component packages as subsections to the input section.
-// Include the component diagrams as figures.
-cp_cps = param.cp_cps;
-for each cp_cp in cp_cps
-  // Make this section a child of the system section.
-  doc_sec = DOC_SEC::populate( title:cp_cp.Name, subtitle:"Component Package", parent_doc_sec:param.doc_sec );
-  doc_par = DOC_PAR::populate( text:cp_cp.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec );
-  image_name = ::getContainerListForCP_CP(cpk:cp_cp, container_list:"Component Package Diagram");
-  doc_fig1 = DOC_FIG::populate( title:cp_cp.Name + " Component Package Diagram", image_target:image_name, doc_par:doc_par );
-  // components
-  select many c_cs related by cp_cp->C_C[R4608];
-  ::docgen_components(c_cs:c_cs, doc_sec:doc_sec);
-end for;
-',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("96a6ff48-3261-4ab5-b673-5d901454f1c4",
-	"c735a32f-f16f-41d9-b49e-35fbdb101695",
-	'cp_cps',
-	"a850a181-8a8c-4628-aacc-53ec9b2243e5",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("a850a181-8a8c-4628-aacc-53ec9b2243e5",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Component Package>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("eb27a5cd-1da2-4ea9-b932-c219d77a776d",
-	"c735a32f-f16f-41d9-b49e-35fbdb101695",
-	'doc_sec',
-	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
-	0,
-	'',
-	"96a6ff48-3261-4ab5-b673-5d901454f1c4",
-	'');
-INSERT INTO PE_PE
-	VALUES ("c735a32f-f16f-41d9-b49e-35fbdb101695",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("6ee54f2d-2244-42a6-9893-d4e55bf63d3f",
-	"00000000-0000-0000-0000-000000000000",
-	'docgen_interface_packages',
-	'',
-	'select any empty_doc_sec from instances of DOC_SEC where ( false );
-select any empty_doc_par from instances of DOC_PAR where ( false );
-select any empty_doc_row from instances of DOC_ROW where ( false );
-
-// interface packages
-ip_ips = param.ip_ips;
-for each ip_ip in ip_ips
-  // interfaces
-  doc_sec1 = DOC_SEC::populate( title:ip_ip.Name, subtitle:"Interface Package", parent_doc_sec:param.doc_sec );
-  doc_par1 = DOC_PAR::populate( text:ip_ip.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec1 );
-  image_name = ::getContainerListForIP_IP(ipk:ip_ip, container_list:"Interface Package Diagram");
-  doc_fig1 = DOC_FIG::populate( title:ip_ip.Name + " Interface Package Diagram", image_target:image_name, doc_par:doc_par1 );
-  select many c_is related by ip_ip->C_I[R4303];
-  ::docgen_interfaces(c_is:c_is, doc_sec:doc_sec1);
-end for;
-',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("6511c114-4f87-4e93-b6af-4f4a53bcafd8",
-	"6ee54f2d-2244-42a6-9893-d4e55bf63d3f",
-	'ip_ips',
-	"77630e5a-9b82-49a9-9ad5-0d2455dbd039",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("77630e5a-9b82-49a9-9ad5-0d2455dbd039",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Interface Package>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("0503d85e-b2e8-4e6e-be59-3af1b92c375d",
-	"6ee54f2d-2244-42a6-9893-d4e55bf63d3f",
-	'doc_sec',
-	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
-	0,
-	'',
-	"6511c114-4f87-4e93-b6af-4f4a53bcafd8",
-	'');
-INSERT INTO PE_PE
-	VALUES ("6ee54f2d-2244-42a6-9893-d4e55bf63d3f",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("d5ebf6a6-8154-42f0-91c3-f01bf325aef2",
-	"00000000-0000-0000-0000-000000000000",
-	'docgen_datatype_packages',
-	'',
-	's_sys = param.s_sys;
-s_dom = param.s_dom;
-select any empty_doc_sec from instances of DOC_SEC where ( false );
-select any empty_doc_par from instances of DOC_PAR where ( false );
-select any empty_doc_row from instances of DOC_ROW where ( false );
-
-// data type packages
-s_dpks = param.s_dpks;
-// List the data type packages and the data types contained therein.
-for each s_dpk in s_dpks
-  doc_sec1 = DOC_SEC::populate( title:s_dpk.Name, subtitle:"Data Types Package", parent_doc_sec:param.doc_sec );
-  doc_par1 = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec1 );
-  image_name = ::getContainerListForS_DPK(dpk:s_dpk, container_list:"Data Type Package Diagram");
-  doc_fig1 = DOC_FIG::populate( title:s_dpk.Name + " Data Type Package Diagram", image_target:image_name, doc_par:doc_par1 );
-  // domain-level data types
-  select many s_dts related by s_dpk->S_DIP[R39]->S_DT[R39];
-  if ( empty s_dom )
-    // system-level data types
-    select many s_dts related by s_dpk->SLD_SDINP[R4401]->S_DT[R4401];
-  end if;
-  ::docgen_datatypes(s_dts:s_dts, doc_sec:empty_doc_sec, predecessor:doc_par1, title:s_dpk.Name);
-end for;
-',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("38a3a52e-5b13-4ab7-b978-b2fda0aa8bcd",
-	"d5ebf6a6-8154-42f0-91c3-f01bf325aef2",
-	's_dpks',
-	"8b99253d-4e28-4bdb-b304-b8226bce012d",
-	0,
-	'',
-	"caa48f79-c0bb-44bc-a75b-a03360791ff4",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("8b99253d-4e28-4bdb-b304-b8226bce012d",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Data Type Package>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("9462eb85-f7b7-405b-a187-cac860779bde",
-	"d5ebf6a6-8154-42f0-91c3-f01bf325aef2",
-	'doc_sec',
-	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
-	0,
-	'',
-	"38a3a52e-5b13-4ab7-b978-b2fda0aa8bcd",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("d13d0f52-f859-43e0-a03b-79745e4d95cc",
-	"d5ebf6a6-8154-42f0-91c3-f01bf325aef2",
-	's_sys',
-	"d42ab735-48fa-4768-949f-19ee3a87e108",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("caa48f79-c0bb-44bc-a75b-a03360791ff4",
-	"d5ebf6a6-8154-42f0-91c3-f01bf325aef2",
-	's_dom',
-	"80b0e4ef-c793-461e-ac26-dfebe84e8edb",
-	0,
-	'',
-	"d13d0f52-f859-43e0-a03b-79745e4d95cc",
-	'');
-INSERT INTO PE_PE
-	VALUES ("d5ebf6a6-8154-42f0-91c3-f01bf325aef2",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("d5c0dd6e-be05-4f7a-8a5e-4881decfee85",
-	"00000000-0000-0000-0000-000000000000",
-	'docgen_use_cases',
-	'',
-	'select any empty_doc_par from instances of DOC_PAR where ( false );
-
-s_sys = param.s_sys;
-uc_uccs = param.uc_uccs;
-for each uc_ucc in uc_uccs
-  // Make this section a child of the system section.
-  doc_sec = DOC_SEC::populate( title:uc_ucc.Name, subtitle:"Use Case", parent_doc_sec:param.doc_sec );
-  doc_par = DOC_PAR::populate( text:uc_ucc.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec );
-  image_name = ::getContainerListForUC_UCC(uc:uc_ucc, container_list:"Use Case Diagram");
-  doc_fig1 = DOC_FIG::populate( title:uc_ucc.Name + " Use Case Diagram", image_target:image_name, doc_par:doc_par );
-end for;',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("5aa96399-a641-467c-bbe7-5d9ea24a202f",
-	"d5c0dd6e-be05-4f7a-8a5e-4881decfee85",
-	's_sys',
-	"d42ab735-48fa-4768-949f-19ee3a87e108",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("1a2f843a-ae82-4558-a8c1-150dc049ad9e",
-	"d5c0dd6e-be05-4f7a-8a5e-4881decfee85",
-	'doc_sec',
-	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
-	0,
-	'',
-	"d826685f-2984-47ff-8891-6726aa300c7d",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("d826685f-2984-47ff-8891-6726aa300c7d",
-	"d5c0dd6e-be05-4f7a-8a5e-4881decfee85",
-	'uc_uccs',
-	"13e51e51-7cac-4166-8c2d-f2157d9d027d",
-	0,
-	'',
-	"5aa96399-a641-467c-bbe7-5d9ea24a202f",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("13e51e51-7cac-4166-8c2d-f2157d9d027d",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Use Case Diagram>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO PE_PE
-	VALUES ("d5c0dd6e-be05-4f7a-8a5e-4881decfee85",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("df29ea67-3d12-486e-bb87-8e0c97d0867b",
-	"00000000-0000-0000-0000-000000000000",
-	'docgen_activities',
-	'',
-	'select any empty_doc_par from instances of DOC_PAR where ( false );
-
-s_sys = param.s_sys;
-a_as = param.a_as;
-for each a_a in a_as
-  // Make this section a child of the system section.
-  doc_sec = DOC_SEC::populate( title:a_a.Name, subtitle:"Activity", parent_doc_sec:param.doc_sec );
-  doc_par = DOC_PAR::populate( text:a_a.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec );
-  image_name = ::getContainerListForA_A(activity:a_a, container_list:"Activity Diagram");
-  doc_fig1 = DOC_FIG::populate( title:a_a.Name + " Activity Diagram", image_target:image_name, doc_par:doc_par );
-end for;',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("b53e9b6b-2dbb-418c-9d16-f0eee7c217be",
-	"df29ea67-3d12-486e-bb87-8e0c97d0867b",
-	's_sys',
-	"d42ab735-48fa-4768-949f-19ee3a87e108",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("4b6b8e09-dbed-40a4-aa83-8358a577106b",
-	"df29ea67-3d12-486e-bb87-8e0c97d0867b",
-	'doc_sec',
-	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
-	0,
-	'',
-	"7850ff3e-5a99-4a86-8e30-ce3846abd595",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("7850ff3e-5a99-4a86-8e30-ce3846abd595",
-	"df29ea67-3d12-486e-bb87-8e0c97d0867b",
-	'a_as',
-	"4d0f2957-7eed-4ddb-826c-a265e965f0aa",
-	0,
-	'',
-	"b53e9b6b-2dbb-418c-9d16-f0eee7c217be",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("4d0f2957-7eed-4ddb-826c-a265e965f0aa",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Activity>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO PE_PE
-	VALUES ("df29ea67-3d12-486e-bb87-8e0c97d0867b",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("525020c7-efcd-4599-b8b4-cc1dcecb1f94",
-	"00000000-0000-0000-0000-000000000000",
-	'docgen_sequences',
-	'',
-	'select any empty_doc_par from instances of DOC_PAR where ( false );
-
-s_sys = param.s_sys;
-sq_ss = param.sq_ss;
-for each sq_s in sq_ss
-  // Make this section a child of the system section.
-  doc_sec = DOC_SEC::populate( title:sq_s.Name, subtitle:"Sequence", parent_doc_sec:param.doc_sec );
-  doc_par = DOC_PAR::populate( text:sq_s.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec );
-  image_name = ::getContainerListForSQ_S(sq:sq_s, container_list:"Sequence Diagram");
-  doc_fig1 = DOC_FIG::populate( title:sq_s.Name + " Sequence Diagram", image_target:image_name, doc_par:doc_par );
-end for;',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("ea0394e8-b15c-48d2-ad72-68f7a17eba98",
+	VALUES ("80eea372-563b-4ea0-bb05-fc60d9bc0fce",
 	"525020c7-efcd-4599-b8b4-cc1dcecb1f94",
-	's_sys',
-	"d42ab735-48fa-4768-949f-19ee3a87e108",
+	'title',
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"beffb055-86d5-40d1-a7cb-6fcd6593f93e",
 	'');
-INSERT INTO S_SPARM
-	VALUES ("245ce3e9-4348-41b7-8679-24163dedd656",
-	"525020c7-efcd-4599-b8b4-cc1dcecb1f94",
-	'doc_sec',
-	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
-	0,
-	'',
-	"884a20cb-5089-4970-85f6-9d1ab9ec22b5",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("884a20cb-5089-4970-85f6-9d1ab9ec22b5",
-	"525020c7-efcd-4599-b8b4-cc1dcecb1f94",
-	'sq_ss',
-	"015dab5b-42d1-47fc-8e04-356af35271b3",
-	0,
-	'',
-	"ea0394e8-b15c-48d2-ad72-68f7a17eba98",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("015dab5b-42d1-47fc-8e04-356af35271b3",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Sequence>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
 INSERT INTO PE_PE
 	VALUES ("525020c7-efcd-4599-b8b4-cc1dcecb1f94",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("3cc84d96-732f-4583-a4ea-61dbfa98dfdb",
-	"00000000-0000-0000-0000-000000000000",
-	'docgen_communications',
-	'',
-	'select any empty_doc_par from instances of DOC_PAR where ( false );
-
-s_sys = param.s_sys;
-comm_comms = param.comm_comms;
-for each comm_comm in comm_comms
-  // Make this section a child of the system section.
-  doc_sec = DOC_SEC::populate( title:comm_comm.Name, subtitle:"Communication", parent_doc_sec:param.doc_sec );
-  doc_par = DOC_PAR::populate( text:comm_comm.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec );
-  image_name = ::getContainerListForCOMM_COMM(comm:comm_comm, container_list:"Communication Diagram");
-  doc_fig1 = DOC_FIG::populate( title:comm_comm.Name + " Communication Diagram", image_target:image_name, doc_par:doc_par );
-end for;',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("42323794-e738-4040-b9b5-5eab4e86f29a",
-	"3cc84d96-732f-4583-a4ea-61dbfa98dfdb",
-	's_sys',
-	"d42ab735-48fa-4768-949f-19ee3a87e108",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("8b48c101-84ab-455e-8b3b-832bdbb7a30f",
-	"3cc84d96-732f-4583-a4ea-61dbfa98dfdb",
-	'doc_sec',
-	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
-	0,
-	'',
-	"b8893fd6-1ad1-4c80-b45a-46af0aec22ba",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("b8893fd6-1ad1-4c80-b45a-46af0aec22ba",
-	"3cc84d96-732f-4583-a4ea-61dbfa98dfdb",
-	'comm_comms',
-	"fbd5098c-db6f-4e0f-80a3-76a52d2dbbc2",
-	0,
-	'',
-	"42323794-e738-4040-b9b5-5eab4e86f29a",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("fbd5098c-db6f-4e0f-80a3-76a52d2dbbc2",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Communication>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO PE_PE
-	VALUES ("3cc84d96-732f-4583-a4ea-61dbfa98dfdb",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("d3575631-53f7-4538-9376-49be7b24b83f",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForS_SS',
-	'',
-	'//  getContainerListForS_SS
-//
-//  Subsystem parents can be:
-//    - Domain
-//    - Subsystem
-//
-ss = param.ss;
-list = ss.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one domain related by ss->S_SID[R43]->S_DOM[R43];
-select one spkg related by ss->S_SIS[R42]->S_SS[R41];
-if(not_empty domain)
-  list = ::getContainerListForS_DOM(dom:domain, container_list:list);
-elif(not_empty spkg)
-  list = ::getContainerListForS_SS(ss:spkg, container_list:list);
-end if;
-return list;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("ee23e311-cba2-458c-903e-b29f91d8dcef",
-	"d3575631-53f7-4538-9376-49be7b24b83f",
-	'ss',
-	"8d376b2e-1803-40b9-ac9b-1fd8305a837d",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("8d376b2e-1803-40b9-ac9b-1fd8305a837d",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Subsystem>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("d56c2144-9d6b-44ac-8d6b-1454807794ec",
-	"d3575631-53f7-4538-9376-49be7b24b83f",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"ee23e311-cba2-458c-903e-b29f91d8dcef",
-	'');
-INSERT INTO PE_PE
-	VALUES ("d3575631-53f7-4538-9376-49be7b24b83f",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("9438b4b2-97a4-42af-8078-9233391e5be0",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForS_DOM',
-	'',
-	'//  getContainerListForS_DOM
-//
-//  Domain parents can be:
-//    - System
-//    - Component
-//
-dom = param.dom;
-list = dom.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one s_sys related by dom->S_SYS[R28];
-if ( not_empty s_sys )
-  list = ::getContainerListForS_SYS( sys:s_sys, container_list:list );
-else
-  select one c_c related by dom->CN_DC[R4204]->C_C[R4204];
-  if ( not_empty c_c )
-    list = ::getContainerListForC_C( comp:c_c, container_list:list );
-  end if;
-end if;
-return list;
-',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("844f6864-681d-42e4-bbdf-6d68024f672e",
-	"9438b4b2-97a4-42af-8078-9233391e5be0",
-	'dom',
-	"80b0e4ef-c793-461e-ac26-dfebe84e8edb",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("0ef5a890-4db3-4ff1-bd93-61cd66383ec8",
-	"9438b4b2-97a4-42af-8078-9233391e5be0",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"844f6864-681d-42e4-bbdf-6d68024f672e",
-	'');
-INSERT INTO PE_PE
-	VALUES ("9438b4b2-97a4-42af-8078-9233391e5be0",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("c1a8ceb9-ea31-4051-8733-14a3da237687",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForS_DPK',
-	'',
-	'//  getContainerListForS_DPK
-//
-//  Datatype package parents can be:
-//    - Domain
-//    - System
-//    - Datatype package
-//    - Element Package
-//
-dpk = param.dpk;
-list = dpk.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one domain related by dpk->S_DOM[R40];
-if(not_empty domain)
-  list = ::getContainerListForS_DOM(dom:domain, container_list:list);
-else
-select one system related by dpk->SLD_SDP[R4400]->S_SYS[R4400];
-if (not_empty system)
-  list = ::getContainerListForS_SYS(sys:system, container_list:list);
-else
-select one dpkg related by dpk->S_DPIP[R38]->S_DPK[R37];
-if(not_empty dpkg)
-  list = ::getContainerListForS_DPK(dpk:dpkg, container_list:list);
-else
-select one epkg related by dpk->EP_SPKG[R1402]->EP_PKG[R1400];
-if (not_empty epkg)
-  list = ::getContainerListForEP_PKG(epk:epkg, container_list:list);
-end if;
-end if;
-end if;
-end if;
-return list;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("c7dd3edf-a146-46f5-ace6-6e853b030f6d",
-	"c1a8ceb9-ea31-4051-8733-14a3da237687",
-	'dpk',
-	"61fe5058-75e3-4262-8551-a5eecc8e591e",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("61fe5058-75e3-4262-8551-a5eecc8e591e",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Data Type Package>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("c07ff5d2-c555-41fa-b317-16cd086efd98",
-	"c1a8ceb9-ea31-4051-8733-14a3da237687",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"c7dd3edf-a146-46f5-ace6-6e853b030f6d",
-	'');
-INSERT INTO PE_PE
-	VALUES ("c1a8ceb9-ea31-4051-8733-14a3da237687",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("98da2db2-a740-4479-8867-b779723f7f51",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForS_FPK',
-	'',
-	'//  getContainerListForS_FPK
-//
-//  Function package parents can be:
-//    - Domain
-//    - Function package
-//
-fpk = param.fpk;
-list = fpk.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one domain related by fpk->S_DOM[R29];
-if(not_empty domain)
-  list = ::getContainerListForS_DOM(dom:domain, container_list:list);
-else
-select one fpkg related by fpk->S_FPIP[R32]->S_FPK[R30];
-if(not_empty fpkg)
-  list = ::getContainerListForS_FPK(fpk:fpkg, container_list:list);
-end if;
-end if;
-return list;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("2e34839f-5fc0-4b9d-b68c-6abefbbefe61",
-	"98da2db2-a740-4479-8867-b779723f7f51",
-	'fpk',
-	"83ec407a-242d-4b60-b10a-94b9a71f229c",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("83ec407a-242d-4b60-b10a-94b9a71f229c",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Function Package>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("c2f97ff1-6af0-40dd-8433-65f0f3e4fd00",
-	"98da2db2-a740-4479-8867-b779723f7f51",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"2e34839f-5fc0-4b9d-b68c-6abefbbefe61",
-	'');
-INSERT INTO PE_PE
-	VALUES ("98da2db2-a740-4479-8867-b779723f7f51",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("fc2a34d9-a107-492d-94e5-60b04edfaa6f",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForS_EEPK',
-	'',
-	'//  getContainerListForS_EEPK
-//
-//  External Entity package parents can be:
-//    - Domain
-//    - External Entity package
-//
-eepk = param.eepk;
-list = eepk.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one domain related by eepk->S_DOM[R36];
-if(not_empty domain)
-  list = ::getContainerListForS_DOM(dom:domain, container_list:list);
-else
-select one eepkg related by eepk->S_EEPIP[R35]->S_EEPK[R34];
-if(not_empty eepkg)
-  list = ::getContainerListForS_EEPK(eepk:eepkg, container_list:list);
-end if;
-end if;
-return list;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("aa472577-00f8-4b9c-891c-7ef9f2bbb870",
-	"fc2a34d9-a107-492d-94e5-60b04edfaa6f",
-	'eepk',
-	"d3c0e416-58c7-4f82-bd63-ddedba4985ca",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("d3c0e416-58c7-4f82-bd63-ddedba4985ca",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<External Entity Package>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("c8efb441-3177-4a20-8ca0-5b14af08f9f7",
-	"fc2a34d9-a107-492d-94e5-60b04edfaa6f",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"aa472577-00f8-4b9c-891c-7ef9f2bbb870",
-	'');
-INSERT INTO PE_PE
-	VALUES ("fc2a34d9-a107-492d-94e5-60b04edfaa6f",
 	1,
 	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
 	"00000000-0000-0000-0000-000000000000",
@@ -1331,6 +417,13 @@ INSERT INTO S_SPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("d42ab735-48fa-4768-949f-19ee3a87e108",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<System Model>',
+	'',
+	'',
+	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("106b12d3-7fa0-48bf-a6a3-8db307aa78d1",
 	"d44f679d-8639-426f-947d-e45f563e2019",
@@ -1364,15 +457,9 @@ list = comp.Name;
 if ( "" != param.container_list )
   list = list + "-" + param.container_list;
 end if;
-select one c_c_sp related by comp->CN_CIC[R4203]->C_C[R4202];
-select one cpkg related by comp->CP_CP[R4608];
 select one c_c related by comp->PE_PE[R8001]->C_C[R8003];
 select one ep_pkg related by comp->PE_PE[R8001]->EP_PKG[R8000];
-if ( not_empty c_c_sp )
-  list = ::getContainerListForC_C( comp:c_c_sp, container_list:list );
-elif ( not_empty cpkg )
-  list = ::getContainerListForCP_CP(cpk:cpkg, container_list:list);
-elif ( not_empty c_c )
+if ( not_empty c_c )
   list = ::getContainerListForC_C( comp:c_c, container_list:list );
 elif ( not_empty ep_pkg )
   list = ::getContainerListForEP_PKG(epk:ep_pkg, container_list:list);
@@ -1391,6 +478,13 @@ INSERT INTO S_SPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3a196930-4610-45a6-baf8-3062a2ef9851",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Component>',
+	'',
+	'',
+	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("773741f8-be80-4946-80fc-5ae145082120",
 	"095df8c1-f9be-49e5-9700-d76c705e6715",
@@ -1402,69 +496,6 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("095df8c1-f9be-49e5-9700-d76c705e6715",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("44484381-562e-4a8a-a32a-b3896ec3c6a2",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForCP_CP',
-	'',
-	'//  getContainerListForCP_CP
-//
-//  Component package parents can be:
-//    - System
-//    - Component package
-//    - Element package
-//
-cpk = param.cpk;
-list = cpk.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one system related by cpk->S_SYS[R4602];
-select one cpkg related by cpk->CP_CPINP[R4601]->CP_CP[R4600];
-select one epkg related by cpk->EP_SPKG[R1402]->EP_PKG[R1400];
-if(not_empty system)
-  list = ::getContainerListForS_SYS(sys:system, container_list:list);
-elif(not_empty cpkg)
-  list = ::getContainerListForCP_CP(cpk:cpkg, container_list:list);
-elif(not_empty epkg)
-  list = ::getContainerListForEP_PKG(epk:epkg, container_list:list);
-end if;
-return list;
-',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("bb96321b-ece5-49d1-8849-541a0f29c5d1",
-	"44484381-562e-4a8a-a32a-b3896ec3c6a2",
-	'cpk',
-	"583adf7c-f186-4f2b-8b78-f154140b8994",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("583adf7c-f186-4f2b-8b78-f154140b8994",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Component Package>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("b39e27e8-7d7e-454a-9fb1-35b55813393f",
-	"44484381-562e-4a8a-a32a-b3896ec3c6a2",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"bb96321b-ece5-49d1-8849-541a0f29c5d1",
-	'');
-INSERT INTO PE_PE
-	VALUES ("44484381-562e-4a8a-a32a-b3896ec3c6a2",
 	1,
 	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
 	"00000000-0000-0000-0000-000000000000",
@@ -1513,13 +544,6 @@ INSERT INTO S_SPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("bc235622-5914-4c46-87f7-e7209f83a876",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Package>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("bcc6cd52-96c8-46df-9cb4-e3d267ffd3a7",
 	"dae1fd53-8e0e-4335-9ce6-95140d002433",
@@ -1531,77 +555,6 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("dae1fd53-8e0e-4335-9ce6-95140d002433",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("859f5f11-8e01-4298-b786-d58a68baa001",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForIP_IP',
-	'',
-	'//  getContainerListForIP_IP()
-//
-//  Interface package parents can be:
-//    - System
-//    - Interface package
-//    - Element package
-//    - Component package
-//    - Unformalized Component
-//
-ipk = param.ipk;
-list = ipk.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one system related by ipk->S_SYS[R4302];
-select one ipkg related by ipk->IP_IPINIP[R4301]->IP_IP[R4300];
-select one epkg related by ipk->EP_SPKG[R1402]->EP_PKG[R1400];
-select one cpkg related by ipk->CP_CP[R4607];
-select one component related by ipk->C_C[R4206];
-if(not_empty system)
-  list = ::getContainerListForS_SYS(sys:system, container_list:list);
-elif(not_empty ipkg)
-  list = ::getContainerListForIP_IP(ipk:ipkg, container_list:list);
-elif(not_empty epkg)
-  list = ::getContainerListForEP_PKG(epk:epkg, container_list:list);
-elif (not_empty cpkg)
-  list = ::getContainerListForCP_CP(cpk:cpkg, container_list:list);
-elif (not_empty component)
-  list = ::getContainerListForC_C(comp:component, container_list:list);
-end if;
-return list;
-',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("0751e940-e71e-43d6-8718-58b5a1e5078e",
-	"859f5f11-8e01-4298-b786-d58a68baa001",
-	'ipk',
-	"93d5b04c-78e2-43dc-91a4-79f8cdfc820c",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("93d5b04c-78e2-43dc-91a4-79f8cdfc820c",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Interface Package>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("cde77480-3ed5-4ca8-bec1-191b24b9e18b",
-	"859f5f11-8e01-4298-b786-d58a68baa001",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"0751e940-e71e-43d6-8718-58b5a1e5078e",
-	'');
-INSERT INTO PE_PE
-	VALUES ("859f5f11-8e01-4298-b786-d58a68baa001",
 	1,
 	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
 	"00000000-0000-0000-0000-000000000000",
@@ -1734,6 +687,11 @@ for each ep_pkg in ep_pkgs
   select many c_is related by ep_pkg->PE_PE[R8000]->C_I[R8001];
   ::docgen_interfaces(c_is:c_is, doc_sec:doc_sec);
   
+  // List the contained activity elements in this package.
+  ::docgen_activity_elements( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"Activity Elements");
+  // List the contained interaction participants in this package.
+  ::docgen_interaction_participants( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"Interaction Participants");
+  
   // Traverse down to contained packages in this package
   select many child_ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001];
   if ( not_empty child_ep_pkgs ) 
@@ -1775,330 +733,6 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("b93db82a-8ee1-4466-ba0f-8f9031e1efa2",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("9551f55f-afb2-4103-8da3-969a3c98fdd4",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForA_A',
-	'',
-	'//  getContainerListForA_A
-//
-//  Activity parents can be:
-//    - Domain
-//    - System
-//    - Component
-//    - Component Package
-//    - Subsystem
-//    - Activity
-//    - Element Package
-//
-activity = param.activity;
-list = activity.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one domain related by activity->S_DOM[R1100];
-if (not_empty domain)
-  list = ::getContainerListForS_DOM(dom:domain, container_list:list);
-else
-select one system related by activity->S_SYS[R1113];
-if (not_empty system)
-  list = ::getContainerListForS_SYS(sys:system, container_list:list);
-else
-select one component related by activity->C_C[R1115];
-if (not_empty component)
-  list = ::getContainerListForC_C(comp:component, container_list:list);
-else
-select one component_package related by activity->CP_CP[R1114];
-if (not_empty component_package)
-  list = ::getContainerListForCP_CP(cpk:component_package, container_list:list);
-else
-select one subsystem related by activity->S_SS[R1108];
-if (not_empty subsystem)
-  list = ::getContainerListForS_SS(ss:subsystem, container_list:list);
-else
-select one act related by activity->A_AIA[R1110]->A_A[R1109];
-if (not_empty act)
-  list = ::getContainerListForA_A(activity:act, container_list:list);
-else
-select one epkg related by activity->EP_SPKG[R1402]->EP_PKG[R1400];
-if (not_empty epkg)
-  list = ::getContainerListForEP_PKG(epk:epkg, container_list:list);
-end if;
-end if;
-end if;
-end if;
-end if;
-end if;
-end if;
-return list;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("0f5724b6-e7db-40c2-81e5-32a872084e7f",
-	"9551f55f-afb2-4103-8da3-969a3c98fdd4",
-	'activity',
-	"5df0f0e8-4178-4332-a630-2729cfc4454e",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("5df0f0e8-4178-4332-a630-2729cfc4454e",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Activity>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("6332a111-ec1f-4d38-8ab3-63013f1fb7aa",
-	"9551f55f-afb2-4103-8da3-969a3c98fdd4",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"0f5724b6-e7db-40c2-81e5-32a872084e7f",
-	'');
-INSERT INTO PE_PE
-	VALUES ("9551f55f-afb2-4103-8da3-969a3c98fdd4",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("ee49e157-87d5-4c74-b75c-d922cb6d0367",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForCOMM_COMM',
-	'',
-	'//  getContainerListForCOMM_COMM
-//
-//  Communication parents can be:
-//    - Domain
-//    - System
-//    - Communication
-//    - Component
-//    - Component Package
-//    - Subsystem
-//    - Element Package
-//
-comm = param.comm;
-list = comm.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one domain related by comm->S_DOM[R1132];
-select one system related by comm->S_SYS[R1136];
-select one component related by comm->C_C[R1138];
-select one component_package related by comm->CP_CP[R1137];
-select one subsystem related by comm->S_SS[R1131];
-select one com related by comm->COMM_CIC[R1129]->COMM_COMM[R1130];
-select one epkg related by comm->EP_SPKG[R1402]->EP_PKG[R1400];
-if(not_empty domain)
-  list = ::getContainerListForS_DOM(dom:domain, container_list:list);
-elif (not_empty system)
-  list = ::getContainerListForS_SYS(sys:system, container_list:list);
-elif (not_empty component)
-  list = ::getContainerListForC_C(comp:component, container_list:list);
-elif (not_empty component_package)
-  list = ::getContainerListForCP_CP(cpk:component_package, container_list:list);
-elif (not_empty subsystem)
-  list = ::getContainerListForS_SS(ss:subsystem, container_list:list);
-elif (not_empty com)
-  list = ::getContainerListForCOMM_COMM(comm:com, container_list:list);
-elif (not_empty epkg)
-  list = ::getContainerListForEP_PKG(epk:epkg, container_list:list);
-end if;
-return list;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("b4456336-8f0c-41e3-bcd3-ad2902fe4458",
-	"ee49e157-87d5-4c74-b75c-d922cb6d0367",
-	'comm',
-	"9e0c7cae-6aba-4f18-9197-80de75ff8cf3",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("9e0c7cae-6aba-4f18-9197-80de75ff8cf3",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Communication>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("a96ab8b6-e50f-41a7-820c-72c2a8d7c7c0",
-	"ee49e157-87d5-4c74-b75c-d922cb6d0367",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"b4456336-8f0c-41e3-bcd3-ad2902fe4458",
-	'');
-INSERT INTO PE_PE
-	VALUES ("ee49e157-87d5-4c74-b75c-d922cb6d0367",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("c91ec3a0-880d-47d3-a2f6-2a1d3e99ba82",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForSQ_S',
-	'',
-	'//  getContainerListForSQ_S
-//
-//  Sequence parents can be:
-//    - Domain
-//    - System
-//    - Component
-//    - Component Package
-//    - Subsystem
-//    - Sequence
-//    - Element Package
-//
-sq = param.sq;
-list = sq.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one domain related by sq->S_DOM[R913];
-select one system related by sq->S_SYS[R950];
-select one component related by sq->C_C[R952];
-select one component_package related by sq->CP_CP[R951];
-select one subsystem related by sq->S_SS[R914];
-select one seq related by sq->SQ_SIS[R928]->SQ_S[R911];
-select one epkg related by sq->EP_SPKG[R1402]->EP_PKG[R1400];
-if(not_empty domain)
-  list = ::getContainerListForS_DOM(dom:domain, container_list:list);
-elif (not_empty system)
-  list = ::getContainerListForS_SYS(sys:system, container_list:list);
-elif (not_empty component)
-  list = ::getContainerListForC_C(comp:component, container_list:list);
-elif (not_empty component_package)
-  list = ::getContainerListForCP_CP(cpk:component_package, container_list:list);
-elif (not_empty subsystem)
-  list = ::getContainerListForS_SS(ss:subsystem, container_list:list);
-elif (not_empty seq)
-  list = ::getContainerListForSQ_S(sq:seq, container_list:list);
-elif (not_empty epkg)
-  list = ::getContainerListForEP_PKG(epk:epkg, container_list:list);
-end if;
-return list;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("f9f796e3-d27f-4df0-b4f9-12af67310ca1",
-	"c91ec3a0-880d-47d3-a2f6-2a1d3e99ba82",
-	'sq',
-	"0f5568ca-15e1-40bd-821d-a4900b8a5e68",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("0f5568ca-15e1-40bd-821d-a4900b8a5e68",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Sequence>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("f8b32c0d-2060-401f-b2f0-f675020b0eb4",
-	"c91ec3a0-880d-47d3-a2f6-2a1d3e99ba82",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"f9f796e3-d27f-4df0-b4f9-12af67310ca1",
-	'');
-INSERT INTO PE_PE
-	VALUES ("c91ec3a0-880d-47d3-a2f6-2a1d3e99ba82",
-	1,
-	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("69f71e49-1af4-42ff-944d-22c5ead9d004",
-	"00000000-0000-0000-0000-000000000000",
-	'getContainerListForUC_UCC',
-	'',
-	'//  getContainerListForUC_UCC
-//
-//  Use Case parents can be:
-//    - Domain
-//    - System
-//    - Component
-//    - Component Package
-//    - Subsystem
-//    - Use Case Diagram
-//    - Element Package
-//
-uc = param.uc;
-list = uc.Name;
-if(param.container_list != "")
-  list = list + "-" + param.container_list;
-end if;
-select one domain related by uc->S_DOM[R1201];
-select one system related by uc->S_SYS[R1211];
-select one component related by uc->C_C[R1213];
-select one component_package related by uc->CP_CP[R1212];
-select one subsystem related by uc->S_SS[R1202];
-select one ucc related by uc->UC_UIU[R1209]->UC_UCC[R1208];
-select one epkg related by uc->EP_SPKG[R1402]->EP_PKG[R1400];
-if(not_empty domain)
-  list = ::getContainerListForS_DOM(dom:domain, container_list:list);
-elif (not_empty system)
-  list = ::getContainerListForS_SYS(sys:system, container_list:list);
-elif (not_empty component)
-  list = ::getContainerListForC_C(comp:component, container_list:list);
-elif (not_empty component_package)
-  list = ::getContainerListForCP_CP(cpk:component_package, container_list:list);
-elif (not_empty subsystem)
-  list = ::getContainerListForS_SS(ss:subsystem, container_list:list);
-elif (not_empty ucc)
-  list = ::getContainerListForUC_UCC(uc:ucc, container_list:list);
-elif (not_empty epkg)
-  list = ::getContainerListForEP_PKG(epk:epkg, container_list:list);
-end if;
-return list;',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("7784a1f1-0d9a-42e8-9e7f-f649b8a8a7fa",
-	"69f71e49-1af4-42ff-944d-22c5ead9d004",
-	'uc',
-	"4657195b-b150-4cc3-a40b-bf26ced98ae9",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("4657195b-b150-4cc3-a40b-bf26ced98ae9",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Use Case Diagram>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("af545d79-9396-46e1-ab54-b53fd1d307d0",
-	"69f71e49-1af4-42ff-944d-22c5ead9d004",
-	'container_list',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"7784a1f1-0d9a-42e8-9e7f-f649b8a8a7fa",
-	'');
-INSERT INTO PE_PE
-	VALUES ("69f71e49-1af4-42ff-944d-22c5ead9d004",
 	1,
 	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
 	"00000000-0000-0000-0000-000000000000",
@@ -2238,13 +872,7 @@ for each c_c in c_cs
   // Make this section a child of the component packages section.
   doc_sec1 = DOC_SEC::populate( title:c_c.Name, subtitle:"Component", parent_doc_sec:param.doc_sec );
   doc_par1 = DOC_PAR::populate( text:c_c.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec1 );
-  image_name = "";
-  select one s_dom related by c_c->CN_DC[R4204]->S_DOM[R4204];
-  if ( empty s_dom )
-    image_name = ::getContainerListForC_C(comp:c_c, container_list:"Component Diagram");
-  else
-    image_name = ::getContainerListForS_DOM(dom:s_dom, container_list:"Component Diagram");
-  end if;
+  image_name = ::getContainerListForC_C(comp:c_c, container_list:"Component Diagram");
   doc_fig = DOC_FIG::populate( title:c_c.Name + " Component Diagram", image_target:image_name, doc_par:doc_par1 );
   // ports
   doc_par2 = DOC_PAR::populate( text:"", predecessor:doc_par1, doc_sec:empty_doc_sec );
@@ -2511,6 +1139,7 @@ INSERT INTO S_SYNC
 	'select any empty_doc_sec from instances of DOC_SEC where ( false );
 select any empty_doc_par from instances of DOC_PAR where ( false );
 select any empty_doc_row from instances of DOC_ROW where ( false );
+select any empty_o_attr from instances of O_ATTR where ( false );
 
 o_objs = param.o_objs;
 ep_pkg = param.pkg;
@@ -2533,8 +1162,29 @@ if ( not_empty o_objs )
     // Set last column first to allocate the array correctly.
     columns[ 2 ] = o_obj.Descrip;
     columns[ 1 ] = o_obj.Name;
+    columns[ 0 ] = "Class.gif";
     doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
     doc_row1 = doc_row2;
+    // attribute names and descriptions
+    prev_o_attr = empty_o_attr;
+    // Find first o_attr.
+    select any o_attr related by o_obj->O_ATTR[R102];
+    while ( not_empty o_attr )
+      select one prev_o_attr related by o_attr->O_ATTR[R103.''precedes''];
+      if ( empty prev_o_attr )
+        break;
+      end if;
+      o_attr = prev_o_attr;
+    end while;
+    while ( not_empty o_attr )
+      select one s_dt related by o_attr->S_DT[R114];
+      columns[ 2 ] = o_attr.Descrip;
+      columns[ 1 ] = o_attr.Name + ":" + s_dt.Name;
+      columns[ 0 ] = "Attribute.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
+      select one o_attr related by o_attr->O_ATTR[R103.''succeeds''];
+    end while;
   end for;
   previous_doc_par = doc_par1;
   for each o_obj in o_objs
@@ -2722,6 +1372,168 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("874f066b-ccb5-4744-8544-9b4b70bc587f",
+	1,
+	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c53badf6-6a2d-4a29-a505-8544a8812663",
+	"00000000-0000-0000-0000-000000000000",
+	'docgen_activity_elements',
+	'',
+	'ep_pkg = param.ep_pkg;
+select many a_es related by ep_pkg->PE_PE[R8000]->A_E[R8001];
+select many a_ns related by ep_pkg->PE_PE[R8000]->A_N[R8001];
+select many a_aps related by ep_pkg->PE_PE[R8000]->A_AP[R8001];
+if ( ( not_empty a_es ) or ( not_empty a_ns ) or ( not_empty a_aps ) )
+  select any empty_doc_par from instances of DOC_PAR where ( false );
+  select any empty_doc_row from instances of DOC_ROW where ( false );
+  doc_sec = DOC_SEC::populate( title:param.title, subtitle:"", parent_doc_sec:param.doc_sec );
+  doc_par = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec );
+  doc_tbl = DOC_TBL::populate( title:param.title, num_cols:3, doc_par:doc_par );
+  // Add a header row to the table.  (Set last column first to allocate the array correctly.)
+  format[ 2 ] = "text";
+  format[ 1 ] = "text";
+  format[ 0 ] = "image";
+  columns[ 2 ] = "Description";
+  columns[ 1 ] = "Name";
+  columns[ 0 ] = "Activity.gif";
+  doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:empty_doc_row );
+  relate doc_row1 to doc_tbl across R2317;
+  for each a_e in a_es
+    // Activity Edge
+    if ( ( "" == a_e.Guard ) and ( "" == a_e.Descrip ) )
+      columns[ 2 ] = a_e.Descrip;
+      columns[ 1 ] = a_e.Guard;
+      columns[ 0 ] = "ActivityEdge.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
+    end if;
+  end for;
+  select many a_gas related by a_ns->A_ACT[R1105]->A_GA[R1107];
+  for each a_ga in a_gas
+    // Activity Action
+    columns[ 2 ] = a_ga.Descrip;
+    columns[ 1 ] = a_ga.Name;
+    columns[ 0 ] = "Action.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  select many a_ates related by a_ns->A_ACT[R1105]->A_AE[R1107]->A_ATE[R1112];
+  for each a_ate in a_ates
+    // Accept Time Event
+    columns[ 2 ] = a_ate.Descrip;
+    columns[ 1 ] = a_ate.Name;
+    columns[ 0 ] = "AcceptTimeEvent.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  select many a_aeas related by a_ns->A_ACT[R1105]->A_AE[R1107]->A_AEA[R1112];
+  for each a_aea in a_aeas
+    // Accept Event
+    columns[ 2 ] = a_aea.Descrip;
+    columns[ 1 ] = a_aea.Name;
+    columns[ 0 ] = "AcceptEvent.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  select many a_sss related by a_ns->A_ACT[R1105]->A_SS[R1107];
+  for each a_ss in a_sss
+    // Send Signal
+    columns[ 2 ] = a_ss.Descrip;
+    columns[ 1 ] = a_ss.Name;
+    columns[ 0 ] = "SendSignal.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  select many a_objs related by a_ns->A_OBJ[R1105];
+  for each a_obj in a_objs
+    // Activity Object
+    columns[ 2 ] = a_obj.Descrip;
+    columns[ 1 ] = a_obj.Name;
+    columns[ 0 ] = "ObjectNode.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  select many a_inis related by a_ns->A_CTL[R1105]->A_INI[R1106] where ( selected.Descrip != "" );
+  for each a_ini in a_inis
+    // Initial Node
+    columns[ 2 ] = a_ini.Descrip;
+    columns[ 1 ] = "";
+    columns[ 0 ] = "InitialNode.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  select many a_afs related by a_ns->A_CTL[R1105]->A_AF[R1106] where ( selected.Descrip != "" );
+  for each a_af in a_afs
+    // Final Node
+    columns[ 2 ] = a_af.Descrip;
+    columns[ 1 ] = "";
+    columns[ 0 ] = "FinalNode.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  select many a_ffs related by a_ns->A_CTL[R1105]->A_FF[R1106] where ( selected.Descrip != "" );
+  for each a_ff in a_ffs
+    // Flow Final Node
+    columns[ 2 ] = a_ff.Descrip;
+    columns[ 1 ] = "";
+    columns[ 0 ] = "FlowFinalNode.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  select many a_dms related by a_ns->A_CTL[R1105]->A_DM[R1106] where ( selected.Descrip != "" );
+  for each a_dm in a_dms
+    // Decision Merge
+    columns[ 2 ] = a_dm.Descrip;
+    columns[ 1 ] = "";
+    columns[ 0 ] = "DecisionMergeNode.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  select many a_fjs related by a_ns->A_CTL[R1105]->A_FJ[R1106] where ( selected.Descrip != "" );
+  for each a_fj in a_fjs
+    // Decision Merge
+    columns[ 2 ] = a_fj.Descrip;
+    columns[ 1 ] = "";
+    columns[ 0 ] = "ForkJoinNode.gif";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a289540f-2c36-45ed-827b-79f8512ef0bc",
+	"c53badf6-6a2d-4a29-a505-8544a8812663",
+	'ep_pkg',
+	"bc235622-5914-4c46-87f7-e7209f83a876",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5f47de8e-49e7-4ac7-aaa0-5a0eaa01f07a",
+	"c53badf6-6a2d-4a29-a505-8544a8812663",
+	'doc_sec',
+	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
+	0,
+	'',
+	"a289540f-2c36-45ed-827b-79f8512ef0bc",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8d9c1f06-c4c5-4fe7-b3f5-ba46b31cacba",
+	"c53badf6-6a2d-4a29-a505-8544a8812663",
+	'title',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"5f47de8e-49e7-4ac7-aaa0-5a0eaa01f07a",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c53badf6-6a2d-4a29-a505-8544a8812663",
 	1,
 	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
 	"00000000-0000-0000-0000-000000000000",

@@ -60,11 +60,15 @@ select any s_sys from instances of S_SYS;
 if ( "sys" == s_sys.Name )
   ::TagDynamicMemoryAllocationOn( units_to_allocate:10 );
   ::TagInstanceLoading();
-  ::TagMaximumStringLength( max_len:512 );
+  ::TagMaximumStringLength( max_len:840 );
 end if;
 
 
-::sys_populate();',
+::sys_populate();
+
+select any te_sys from instances of TE_SYS;
+::sys_analyze( te_sys:te_sys );
+::CreateSpecialWhereClauseInstances( te_sys:te_sys );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
@@ -6923,6 +6927,981 @@ tm_systag.AllPortsPoly = true;
 	'');
 INSERT INTO PE_PE
 	VALUES ("db874153-3411-4cdc-b35d-7f0e28ba7329",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c9d62596-acb6-4d54-80d5-f49bd056963c",
+	"00000000-0000-0000-0000-000000000000",
+	'selection_whereclause_identify_special',
+	'',
+	'//============================================================================
+// $RCSfile: q.oal.analyze.arc,v $
+//
+// Description:
+// The query/transformations in this file analyze the action language
+// of the customer model and gather statistics for use in optimized
+// code generation.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//
+//
+// Identify (special) where clauses that can be optimized.
+//
+// Select the class from which extent we are selecting.
+//  Mark its identifying attributes.
+// Select the blind select statements having where clauses.
+// Select the values that represent the where clauses that
+// are binary expressions where the operator is == or AND.
+// BUG:  R676 and R677 should be unconditional on the O_OBJ side.
+// Select the V_SLRs and their attributes.
+// Compare the two sets.
+//
+select many act_fiws from instances of ACT_FIW;
+for each act_fiw in act_fiws
+  select one v_bin related by act_fiw->V_VAL[R610]->V_BIN[R801] where ( ( selected.Operator == "and" ) or ( selected.Operator == "==" ) );
+  if ( not_empty v_bin )
+    select one o_obj related by act_fiw->O_OBJ[R676];
+    // Select the TE_WHEREs, because we can check to see if we have
+    // already marked a special where.
+    select many te_wheres related by o_obj->O_ID[R104]->TE_WHERE[R2032] where ( not selected.WhereKey );
+    if ( not_empty te_wheres )
+      // Clear out the included flag on all attributes of this class.
+      select many te_attrs related by o_obj->O_ATTR[R102]->TE_ATTR[R2033];
+      for each te_attr in te_attrs
+        te_attr.Included = false;
+      end for;
+      // Call a routine that will recursively drill down and mark any
+      // attributes compared in the where clause.
+      ::where_clause_mark_selected_attributes( v_bin:v_bin );
+      select many te_attrs related by o_obj->O_ATTR[R102]->TE_ATTR[R2033] where ( selected.Included );
+      if ( not_empty te_attrs )
+        for each te_where in te_wheres
+          select many identifying_te_attrs related by te_where->O_ID[R2032]->O_OIDA[R105]->O_ATTR[R105]->TE_ATTR[R2033];
+          if ( te_attrs == identifying_te_attrs )
+            T::print(s:"marking SPECIAL where on T::s(i:o_obj.Key_Lett):T::s(i:o_obj.Name)");
+            te_where.WhereKey = true;
+          end if;
+        end for;
+      end if;
+    end if;
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("c9d62596-acb6-4d54-80d5-f49bd056963c",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("637d6e27-205b-40b7-9e6b-45a1be61902e",
+	"00000000-0000-0000-0000-000000000000",
+	'where_clause_mark_selected_attributes',
+	'',
+	'//
+//
+// Recursively drill down into the where clause expression marking
+// selected attributes along the way.
+//
+v_bin = param.v_bin;
+if ( v_bin.Operator == "and" )
+  select one left_v_val related by v_bin->V_VAL[R802];
+  select one right_v_val related by v_bin->V_VAL[R803];
+  select one v_bin related by left_v_val->V_BIN[R801];
+  if ( not_empty v_bin )
+    ::where_clause_mark_selected_attributes( v_bin:v_bin );
+  end if;
+  select one v_bin related by right_v_val->V_BIN[R801];
+  if ( not_empty v_bin )
+    ::where_clause_mark_selected_attributes( v_bin:v_bin );
+  end if;
+elif ( v_bin.Operator == "==" )
+  select one te_attr related by v_bin->V_VAL[R802]->V_SLR[R801]->O_ATTR[R812]->TE_ATTR[R2033];
+  if ( not_empty te_attr )
+    te_attr.Included = true;
+  end if;
+  select one te_attr related by v_bin->V_VAL[R803]->V_SLR[R801]->O_ATTR[R812]->TE_ATTR[R2033];
+  if ( not_empty te_attr )
+    te_attr.Included = true;
+  end if;
+else
+  // allow return
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("969f7f15-f4cb-4370-b242-99515536d2e5",
+	"637d6e27-205b-40b7-9e6b-45a1be61902e",
+	'v_bin',
+	"a6e95352-7701-470f-a154-2a42ea44c24d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a6e95352-7701-470f-a154-2a42ea44c24d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Binary Operation>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("637d6e27-205b-40b7-9e6b-45a1be61902e",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b73afd18-957e-4661-8719-f3d773bf121e",
+	"00000000-0000-0000-0000-000000000000",
+	'SM_SM_mark_valid',
+	'',
+	'//
+//
+// Find valid state machines and mark them thusly.
+// Such state machines have at least one each of state, event and transition.
+//
+// Select only the state machines that have been configured for generation.
+select many te_sms from instances of TE_SM;
+for each te_sm in te_sms
+  select one sm_sm related by te_sm->SM_SM[R2043];
+  select any sm_state related by sm_sm->SM_STATE[R501];
+  if ( not_empty sm_state )
+    select any sm_txn related by sm_sm->SM_TXN[R505];
+    if ( not_empty sm_txn )
+      select any sm_evt related by sm_sm->SM_EVT[R502];
+      if ( not_empty sm_evt )
+        te_sm.complete = true;
+      end if;
+    end if;
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("b73afd18-957e-4661-8719-f3d773bf121e",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e2aba1e7-7785-46d1-9b91-f9edb7b72dbe",
+	"00000000-0000-0000-0000-000000000000",
+	'TE_TXN_used',
+	'',
+	'//
+//
+// Update the size of SEM cells when transition actions are present.
+//
+select any te_sm from instances of TE_SM where ( selected.txn_action_count > 0 );
+if ( not_empty te_sm )
+  select any te_typemap from instances of TE_TYPEMAP;
+  te_typemap.SEM_cell_type = "u2_t";
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("e2aba1e7-7785-46d1-9b91-f9edb7b72dbe",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5a851132-ce42-4d56-9d64-14aa087e6eee",
+	"00000000-0000-0000-0000-000000000000",
+	'event_smt_used',
+	'',
+	'//
+//
+// Find and mark/count events that are used in action language.
+// Even though we store the information in a count, this query
+// only counts each event once.
+//
+select many e_gsmes from instances of E_GSME;
+select many te_evts related by e_gsmes->SM_EVT[R707]->TE_EVT[R2036];
+for each te_evt in te_evts
+  te_evt.UsedCount = te_evt.UsedCount + 1;
+  te_evt.Used = true;
+end for;
+select many e_csmes from instances of E_CSME;
+select many te_evts related by e_csmes->SM_EVT[R706]->TE_EVT[R2036];
+for each te_evt in te_evts
+  te_evt.UsedCount = te_evt.UsedCount + 1;
+  te_evt.Used = true;
+end for;
+// Mark all of the signals (inter-component class-based events) as used.
+select many sm_sgevts from instances of SM_SGEVT;
+select many te_evts related by sm_sgevts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036];
+for each te_evt in te_evts
+  te_evt.UsedCount = te_evt.UsedCount + 1;
+  te_evt.Used = true;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("5a851132-ce42-4d56-9d64-14aa087e6eee",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e9d3ba61-921b-4020-909c-2351c1608839",
+	"00000000-0000-0000-0000-000000000000",
+	'class_smt_created',
+	'',
+	'//
+//
+// Mark classes that are created synchronously (nonself) or
+// asynchronously (self).
+//
+select many act_crs from instances of ACT_CR;
+select many te_classs related by act_crs->O_OBJ[R671]->TE_CLASS[R2019];
+::class_smt_crdel_check( te_classs:te_classs );
+for each te_class in te_classs
+  te_class.NonSelfCreated = true;
+end for;
+select many act_cnvs from instances of ACT_CNV;
+select many te_classs related by act_cnvs->O_OBJ[R672]->TE_CLASS[R2019];
+::class_smt_crdel_check( te_classs:te_classs );
+for each te_class in te_classs
+  te_class.NonSelfCreated = true;
+end for;
+// Now find any creator events to classes.
+select many e_gecs from instances of E_GEC;
+select many te_classs related by e_gecs->E_GSME[R705]->SM_EVT[R707]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019];
+::class_smt_crdel_check( te_classs:te_classs );
+for each te_class in te_classs
+  te_class.SelfCreated = true;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("e9d3ba61-921b-4020-909c-2351c1608839",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("35634c66-43fe-4116-840a-86b0b6dc8d82",
+	"00000000-0000-0000-0000-000000000000",
+	'class_smt_deleted',
+	'',
+	'//
+//
+// Check for classes that are deleted synchronously and should not be.
+//
+select many act_dels from instances of ACT_DEL;
+select many te_classs related by act_dels->V_VAR[R634]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019];
+::class_smt_crdel_check( te_classs:te_classs );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("35634c66-43fe-4116-840a-86b0b6dc8d82",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bd418799-8dad-44b7-8ce1-c305810f2c88",
+	"00000000-0000-0000-0000-000000000000",
+	'class_smt_crdel_check',
+	'',
+	'//
+te_classs = param.te_classs;
+for each te_class in te_classs
+  if ( te_class.IsReadOnly )
+    select one o_obj related by te_class->O_OBJ[R2019];
+    T::print(s:"ERROR:  Attempt to create/delete read-only object T::s(i:o_obj.Name) (T::s(i:o_obj.Key_Lett))");
+  end if;
+  if ( te_class.IsFixedPopulation )
+    select one o_obj related by te_class->O_OBJ[R2019];
+    T::print(s:"ERROR:  Attempt to create/delete object T::s(i:o_obj.Name) (T::s(i:o_obj.Key_Lett)) within static instance population.");
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("945f1d23-5b57-48fc-920d-d6a349503a1c",
+	"bd418799-8dad-44b7-8ce1-c305810f2c88",
+	'te_classs',
+	"54de650e-cdb2-4d65-ad98-5eb87386d7e7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("bd418799-8dad-44b7-8ce1-c305810f2c88",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("3b8025d8-0726-4b33-aac2-76c92ae70938",
+	"00000000-0000-0000-0000-000000000000",
+	'event_queue_analyze_needed',
+	'',
+	'//
+// Count up all the places that events are either generated directly (E_GEN)
+// or where they are created for deferred generation (E_CEI).
+// Also count up the self versus nonself events.
+//
+self_queue_needed = false;
+nonself_queue_needed = false;
+select many e_gens from instances of E_GEN;
+select any v_var related by e_gens->V_VAR[R712] where ( selected.Name == "self" );
+if ( not_empty v_var )
+  self_queue_needed = true;
+end if;
+select any v_var related by e_gens->V_VAR[R712] where ( selected.Name != "self" );
+if ( not_empty v_var )
+  nonself_queue_needed = true;
+end if;
+if ( not ( self_queue_needed and nonself_queue_needed ) )
+  select many e_ceis from instances of E_CEI;
+  select any v_var related by e_ceis->V_VAR[R711] where ( selected.Name == "self" );
+  if ( not_empty v_var )
+    self_queue_needed = true;
+  end if;
+  select any v_var related by e_ceis->V_VAR[R711] where ( selected.Name != "self" );
+  if ( not_empty v_var )
+    nonself_queue_needed = true;
+  end if;
+end if;
+if ( self_queue_needed )
+  T::print(s:"Self event queue needed.");
+end if;
+if ( nonself_queue_needed )
+  T::print(s:"Instance event queue needed.");
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("3b8025d8-0726-4b33-aac2-76c92ae70938",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("312ca9e6-0d94-495c-ada7-281b264b1a24",
+	"00000000-0000-0000-0000-000000000000",
+	'attr_analyze_accesses',
+	'',
+	'//
+//
+// Analyze and mark the attributes of the customer model to flag which
+// attributes are read and/or written.  We will use this information
+// later to optimize out member data access code that is not needed.
+// Also, mark attributes participating as identifiers as used.
+// Mark written, read and Used attributes to TE_ATTR.
+//
+attributes_read_count = 0;
+attributes_written_count = 0;
+//
+// Select all the attribute values references.
+// Cycle through them marking their associated attributes as being read.
+// Then, see if they are written by determining whether they participate
+// as an lval in an assignment.
+// Note, there can be several V_AVLs for each O_ATTR.
+//
+select many te_attrs from instances of TE_ATTR;
+for each te_attr in te_attrs
+  select many v_avls related by te_attrs->O_ATTR[R2033]->V_AVL[R806];
+  if ( not_empty v_avls )
+    if ( not te_attr.read )
+      attributes_read_count = attributes_read_count + 1;
+    end if;
+    te_attr.read = true;
+    te_attr.Used = true;
+  end if;
+  // attributes written
+  select any act_ai related by v_avls->V_VAL[R801]->ACT_AI[R689];
+  if ( not_empty act_ai )
+    if ( not te_attr.written )
+      attributes_written_count = attributes_written_count + 1;
+      select one te_class related by te_attr->TE_CLASS[R2061];
+      if ( te_class.IsReadOnly )
+        T::print(s:"ERROR:  Attempt to write to read-only object T::s(i:te_class.Name) (T::s(i:te_class.Key_Lett)).");
+      end if;
+    end if;
+    te_attr.written = true;
+  end if;
+end for;
+// Identifying attributes are copied across in RELATE statements
+// even if they are never read or written.
+select many o_oidas from instances of O_OIDA;
+select many te_attrs related by o_oidas->O_ATTR[R105]->TE_ATTR[R2033];
+for each te_attr in te_attrs
+  te_attr.Used = true;
+end for;
+msg = T::s(i:attributes_read_count) + " attributes read";
+T::print(s:msg);
+msg = T::s(i:attributes_written_count) + " attributes written";
+T::print(s:msg);
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("312ca9e6-0d94-495c-ada7-281b264b1a24",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6cef05cb-b694-485f-919f-567392ae7d10",
+	"00000000-0000-0000-0000-000000000000",
+	'attr_analyze_codegen',
+	'',
+	'//
+//
+// Mark attributes that are not used, needed and should be optimized out.
+//
+te_sys = param.te_sys;
+optimized_out_count = 0;
+select many te_cs from instances of TE_C where ( not selected.OptDisabled );
+select many te_attrs related by te_cs->TE_CLASS[R2064]->TE_ATTR[R2061];
+for each te_attr in te_attrs
+  select one o_attr related by te_attr->O_ATTR[R2033];
+  // Do not translate current_state attributes.
+  select one s_cdt related by o_attr->S_DT[R114]->S_CDT[R17] where ( selected.Core_Typ == 6 );
+  if ( not_empty s_cdt )
+    te_attr.translate = false;
+    optimized_out_count = optimized_out_count + 1;
+  end if;
+  if ( not te_attr.Used )
+    // not accessed?
+    te_attr.translate = false;
+    optimized_out_count = optimized_out_count + 1;
+  else
+    // referential attribute?
+    select one o_rattr related by o_attr->O_RATTR[R106];
+    if ( not_empty o_rattr )
+      // Is referential not also an identifying attribute?
+      select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Attr_ID == o_rattr.Attr_ID );
+      if ( ( empty o_oida ) and ( not te_attr.Used ) )
+        if ( not te_sys.InstanceLoading )
+          te_attr.translate = false;
+          optimized_out_count = optimized_out_count + 1;
+        end if;
+      end if;
+    end if;
+  end if;
+end for;
+msg = T::s(i:optimized_out_count) + " attributes optimized out";
+T::print(s:msg);
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("58cd38b1-6086-4aa6-b872-7fae3a79e0b2",
+	"6cef05cb-b694-485f-919f-567392ae7d10",
+	'te_sys',
+	"195cd118-2bf6-483c-9efd-4ec7a5cd069a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("195cd118-2bf6-483c-9efd-4ec7a5cd069a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended System>',
+	'',
+	'',
+	'../Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO PE_PE
+	VALUES ("6cef05cb-b694-485f-919f-567392ae7d10",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("83e83506-095d-442a-b2c8-296c98c86d04",
+	"00000000-0000-0000-0000-000000000000",
+	'association_R_OIR_mark_navigated',
+	'',
+	'//
+//
+// Here we mark which classes are navigated across associations in each
+// direction, from the formalizer or from the participant.  The results
+// are stored in instances linked to instances of R_OIR (TE_OIR).
+//
+select many act_lnks from instances of ACT_LNK;
+for each act_lnk in act_lnks
+  select any r_oir related by act_lnk->R_REL[R681]->R_OIR[R201] where ( selected.Obj_ID == act_lnk.Obj_ID );
+  select one te_oir related by r_oir->TE_OIR[R2035];
+  if ( not_empty te_oir )
+    te_oir.NavigatedTo = true;
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("83e83506-095d-442a-b2c8-296c98c86d04",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("825defb3-cdec-4b89-8914-faa59b6ed81f",
+	"00000000-0000-0000-0000-000000000000",
+	'association_mark_link_unlink_needed',
+	'',
+	'//
+//
+// Select all of the association instances and mark the ones that
+// actually get linked with the relate/unrelate OAL statements.
+//
+// Mark all navigation (across a particular association).
+// Mark all assocations that get navigated.
+//
+select many te_rels from instances of TE_REL;
+select many r_rels related by te_rels->R_REL[R2034];
+for each r_rel in r_rels
+  link_needed = false;
+  unlink_needed = false;
+  navigated = false;
+  // Check if navigated.
+  select any act_lnk related by r_rel->ACT_LNK[R681];
+  if ( not_empty act_lnk )
+    navigated = true;
+  end if;
+  // Check if related.
+  select any act_rel related by r_rel->ACT_REL[R653];
+  if ( not_empty act_rel )
+    link_needed = true;
+  else
+    select any act_ru related by r_rel->ACT_RU[R654];
+    if ( not_empty act_ru )
+      link_needed = true;
+    end if;
+  end if;
+  // Check if unrelated.
+  select any act_unr related by r_rel->ACT_UNR[R655];
+  if ( not_empty act_unr )
+    unlink_needed = true;
+  else
+    select any act_uru related by r_rel->ACT_URU[R656];
+    if ( not_empty act_uru )
+      unlink_needed = true;
+    end if;
+  end if;
+  // Apply results to TE_REL.
+  if ( ( link_needed or unlink_needed ) or navigated )
+    select one te_rel related by r_rel->TE_REL[R2034];
+    if ( navigated )
+      te_rel.Navigated = true;
+    end if;
+    if ( link_needed )
+      te_rel.LinkNeeded = true;
+    end if;
+    if ( unlink_needed )
+      te_rel.UnlinkNeeded = true;
+    end if;
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("825defb3-cdec-4b89-8914-faa59b6ed81f",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("996c1e35-4846-468d-952d-8b5329972b1f",
+	"00000000-0000-0000-0000-000000000000",
+	'sys_analyze',
+	'',
+	'//============================================================================
+// File:  $RCSfile: q.domain.analyze.arc,v $
+//
+// Description:
+// This query file provides the "first pass" of a multi-pass translation
+// model compiler.  The first pass analyzes the action semantics embodied
+// in the analysis domain, and applies optimization algorithms to the
+// action language statements encountered.  The results of these algorithmic
+// operations are then leveraged by subsequent passes of the structural
+// queries and templates to realize time/space/performance trade offs in
+// the generated application code.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//
+te_sys = param.te_sys;
+T::print(s:"Analyzing model and making optimizations....");
+// Identify state models having at least one state, event and transition.
+::SM_SM_mark_valid();
+// Count up how many times each event is created/generated.
+::event_smt_used();
+// Find classes that are created in some way and identify invalid creates.
+::class_smt_created();
+// Detect invalid deletions.
+::class_smt_deleted();
+// Track down optimizable where clauses.
+::selection_whereclause_identify_special();
+// Identify the associations that need link and/or unlink methods.
+::association_mark_link_unlink_needed();
+// Identify associations that are navigated (in either or both directions).
+::association_R_OIR_mark_navigated();
+// Find which event queues are necessary.
+::event_queue_analyze_needed();
+::attr_analyze_accesses();
+//.invoke attr_analyze_codegen( te_sys )
+::TE_TXN_used();
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ca7da73d-3fc7-4ad0-a00d-a2be49cb0830",
+	"996c1e35-4846-468d-952d-8b5329972b1f",
+	'te_sys',
+	"195cd118-2bf6-483c-9efd-4ec7a5cd069a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("996c1e35-4846-468d-952d-8b5329972b1f",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e213853a-7000-4452-8c96-c36875536ee3",
+	"00000000-0000-0000-0000-000000000000",
+	'containoid_select_many_count',
+	'',
+	'//============================================================================
+// $RCSfile: q.oal.utils.arc,v $
+//
+// Description:
+// Utility functions specifically for OAL analysis.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//
+//
+// Find the maximum number of "select many" statements expressed in
+// one action body.  We will use this number to estimate the container
+// pool.
+// CDS - This gets called for each component but uses all actions in 
+// the system.  And it gets called too many times.
+//
+result = 0;
+select many act_acts from instances of ACT_ACT;
+for each act_act in act_acts
+  select many act_smts related by act_act->ACT_BLK[R601]->ACT_SMT[R602];
+  select many act_sels related by act_smts->ACT_SEL[R603] where ( ( selected.cardinality == "many" ) and ( selected.is_implicit ) );
+  select many act_fios related by act_smts->ACT_FIO[R603] where ( ( selected.cardinality == "many" ) and ( selected.is_implicit ) );
+  select many act_fiws related by act_smts->ACT_FIW[R603] where ( ( selected.cardinality == "many" ) and ( selected.is_implicit ) );
+  count = cardinality act_sels;
+  c1 = cardinality act_fios;
+  count = count + c1;
+  c1 = cardinality act_fiws;
+  count = count + c1;
+  if ( count > result )
+    result = count;
+  end if;
+end for;
+return result;
+',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("e213853a-7000-4452-8c96-c36875536ee3",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a752c994-1569-4bfd-baef-93f67af555b4",
+	"00000000-0000-0000-0000-000000000000",
+	'timer_analyze_starts',
+	'',
+	'//
+//
+// Count up the number of places where a timer is started (or started
+// in recurring mode).
+//
+result = 0;
+select many s_ees from instances of S_EE where ( selected.Key_Lett == "TIM" );
+for each s_ee in s_ees
+  select any s_brg related by s_ee->S_BRG[R19] where ( selected.Name == "timer_start" );
+  if ( not_empty s_brg )
+    select many timer_invocations related by s_brg->V_BRV[R828];
+    c = cardinality timer_invocations;
+    result = result + c;
+  end if;
+  select any s_brg related by s_ee->S_BRG[R19] where ( selected.Name == "timer_start_recurring" );
+  if ( not_empty s_brg )
+    select many timer_invocations related by s_brg->V_BRV[R828];
+    c = cardinality timer_invocations;
+    result = result + c;
+  end if;
+end for;
+return result;
+',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("a752c994-1569-4bfd-baef-93f67af555b4",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("89be0ec3-0822-401d-bb59-d8f0a53e2fb1",
+	"00000000-0000-0000-0000-000000000000",
+	'CreateSpecialWhereClauseInstances',
+	'',
+	'//
+//============================================================================
+// Class: 2000.  Special Where Clause
+// CREATE TABLE TE_SWC (
+// 	Obj_Kl		STRING,
+// 	Where_Spec	STRING,
+// 	Key	        STRING,
+// 	Ret_Val	        BOOLEAN,
+//	Built_In	BOOLEAN,
+//	Oid_ID	        INTEGER );
+//
+// Notes:
+// (1) The selected attributes of the where clause _Key_ are specified in the
+//     same order as they appear on the OIM. This convention allows other
+//     archetypes a _rule_ for dealing with the positional parameter
+//     information provided during fragment parsing of a special where clause.
+//============================================================================
+te_sys = param.te_sys;
+//
+// Special Where Clause patterns that may be optimized by the model compiler.
+//
+unique_num = 0;
+select many te_classes from instances of TE_CLASS where ( not selected.ExcludeFromGen );
+for each te_class in te_classes
+  select many o_ids related by te_class->O_OBJ[R2019]->O_ID[R104];
+  for each o_id in o_ids
+    select one te_where related by o_id->TE_WHERE[R2032];
+    // Get all special wheres when loading instances even if they are
+    // not seen in the OAL.  We need them for batch_relate.
+    if ( te_sys.InstanceLoading )
+      select any r_rto related by o_id->R_RTO[R109];
+      if ( not_empty r_rto )
+        te_where.WhereKey = true;
+      end if;
+    end if;
+    if ( te_where.WhereKey )
+      key_number = o_id.Oid_ID + 1;
+      where_spec = "";
+      unique_num = unique_num + 1;
+      where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
+      //
+      select many te_attrs related by te_class->TE_ATTR[R2061];
+      for each te_attr in te_attrs
+        te_attr.Included = false;
+      end for;
+      //
+      select many te_attrs related by o_id->O_OIDA[R105]->O_ATTR[R105]->TE_ATTR[R2033];
+      num_ident_attr = cardinality te_attrs;
+      for each te_attr in te_attrs
+        te_attr.Included = true;
+      end for;
+      //
+      // *** Provide a key without parenthesis.
+      // Be sure we have the first attribute in the class.
+      select any first_te_attr related by te_class->TE_ATTR[R2061];
+      while ( not_empty first_te_attr )
+        select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.''precedes''];
+        if ( empty prev_te_attr )
+          break;
+        end if;
+        first_te_attr = prev_te_attr;
+      end while;
+      te_attr = first_te_attr;
+      oida_count = 0;
+      while ( not_empty te_attr )
+        select one o_attr related by te_attr->O_ATTR[R2033];
+        if ( te_attr.Included )
+          oida_count = oida_count + 1;
+          where_spec = where_spec + "selected.T::s(i:o_attr.Name) == ?";
+          if ( oida_count < num_ident_attr )
+            where_spec = where_spec + " AND ";
+          end if;
+        end if;
+        //
+        select one te_attr related by te_attr->TE_ATTR[R2087.''succeeds''];
+      end while;
+      //
+      // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
+      create object instance te_swc of TE_SWC;
+      relate te_swc to te_class across R2001;
+      te_swc.Obj_Kl = te_class.Key_Lett;
+      te_swc.Where_Spec = where_spec;
+      te_swc.Key = where_key;
+      te_swc.Ret_Val = false;
+      te_swc.Built_In = true;
+      te_swc.Oid_ID = o_id.Oid_ID;
+      //
+      // *** Provide a key parenthesized at the outer construct.
+      where_spec = "(";
+      unique_num = unique_num + 1;
+      where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
+      te_attr = first_te_attr;
+      oida_count = 0;
+      while ( not_empty te_attr )
+        select one o_attr related by te_attr->O_ATTR[R2033];
+        if ( te_attr.Included )
+          oida_count = oida_count + 1;
+          where_spec = where_spec + "selected.T::s(i:o_attr.Name) == ?";
+          if ( oida_count < num_ident_attr )
+            where_spec = where_spec + " AND ";
+          else
+            where_spec = where_spec + ")";
+          end if;
+        end if;
+        //
+        select one te_attr related by te_attr->TE_ATTR[R2087.''succeeds''];
+      end while;
+      //
+      // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
+      create object instance te_swc of TE_SWC;
+      relate te_swc to te_class across R2001;
+      te_swc.Obj_Kl = te_class.Key_Lett;
+      te_swc.Where_Spec = where_spec;
+      te_swc.Key = where_key;
+      te_swc.Ret_Val = false;
+      te_swc.Built_In = true;
+      te_swc.Oid_ID = o_id.Oid_ID;
+      //
+      if ( num_ident_attr > 1 )
+        // *** Provide a key parenthesized at outer and inner constructs.
+        where_spec = "(";
+        unique_num = unique_num + 1;
+        where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
+        te_attr = first_te_attr;
+        oida_count = 0;
+        while ( not_empty te_attr )
+          select one o_attr related by te_attr->O_ATTR[R2033];
+          if ( te_attr.Included )
+            oida_count = oida_count + 1;
+            where_spec = where_spec + "(selected.T::s(i:o_attr.Name) == ?)";
+            if ( oida_count < num_ident_attr )
+              where_spec = where_spec + " AND ";
+            else
+              where_spec = where_spec + ")";
+            end if;
+          end if;
+          //
+          select one te_attr related by te_attr->TE_ATTR[R2087.''succeeds''];
+        end while;
+        //
+        // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
+        create object instance te_swc of TE_SWC;
+        relate te_swc to te_class across R2001;
+        te_swc.Obj_Kl = te_class.Key_Lett;
+        te_swc.Where_Spec = where_spec;
+        te_swc.Key = where_key;
+        te_swc.Ret_Val = false;
+        te_swc.Built_In = true;
+        te_swc.Oid_ID = o_id.Oid_ID;
+        // *** Provide a key parenthesized at just inner constructs.
+        where_spec = "";
+        unique_num = unique_num + 1;
+        where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
+        te_attr = first_te_attr;
+        oida_count = 0;
+        while ( not_empty te_attr )
+          select one o_attr related by te_attr->O_ATTR[R2033];
+          if ( te_attr.Included )
+            oida_count = oida_count + 1;
+            where_spec = where_spec + "(selected.T::s(i:o_attr.Name) == ?)";
+            if ( oida_count < num_ident_attr )
+              where_spec = where_spec + " AND ";
+            end if;
+          end if;
+          //
+          select one te_attr related by te_attr->TE_ATTR[R2087.''succeeds''];
+        end while;
+        //
+        // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
+        create object instance te_swc of TE_SWC;
+        relate te_swc to te_class across R2001;
+        te_swc.Obj_Kl = te_class.Key_Lett;
+        te_swc.Where_Spec = where_spec;
+        te_swc.Key = where_key;
+        te_swc.Ret_Val = false;
+        te_swc.Built_In = true;
+        te_swc.Oid_ID = o_id.Oid_ID;
+        //
+      end if;
+    end if;
+  end for;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("dbecb0bd-b88a-4348-8a5b-1dbdcf0c690f",
+	"89be0ec3-0822-401d-bb59-d8f0a53e2fb1",
+	'te_sys',
+	"195cd118-2bf6-483c-9efd-4ec7a5cd069a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("89be0ec3-0822-401d-bb59-d8f0a53e2fb1",
 	1,
 	"e0e8a924-f549-4e50-9ee0-af61843ab967",
 	"00000000-0000-0000-0000-000000000000",
