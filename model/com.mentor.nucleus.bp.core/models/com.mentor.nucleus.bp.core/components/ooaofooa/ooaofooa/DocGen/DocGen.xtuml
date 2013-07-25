@@ -307,6 +307,17 @@ if ( ( not_empty sq_ps ) or ( not_empty msg_ms ) )
     name = msg_am.InformalName;
     description = msg_am.Descrip;
     // select formalizations
+    select one sm_evt related by msg_am->MSG_E[R1019]->SM_EVT[R1009];
+    if ( not_empty sm_evt )
+      name = sm_evt.Mning;
+      description = sm_evt.Unq_Lbl;
+    else
+    select one c_as related by msg_am->MSG_SIG[R1019]->C_AS[R1021];
+    if ( not_empty c_as )
+      name = c_as.Name;
+      description = c_as.Descrip;
+    end if;
+    end if;
     columns[ 2 ] = description;
     columns[ 1 ] = name;
     columns[ 0 ] = "AsynchronousMessage.gif";
@@ -319,6 +330,29 @@ if ( ( not_empty sq_ps ) or ( not_empty msg_ms ) )
     name = msg_sm.InformalName;
     description = msg_sm.Descrip;
     // select formalizations
+    select one s_sync related by msg_sm->MSG_F[R1020]->S_SYNC[R1010];
+    if ( not_empty s_sync )
+      name = s_sync.Name;
+      description = s_sync.Descrip;
+    else
+    select one o_tfr related by msg_sm->MSG_O[R1020]->O_TFR[R1011];
+    if ( not_empty o_tfr )
+      name = o_tfr.Name;
+      description = o_tfr.Descrip;
+    else
+    select one s_brg related by msg_sm->MSG_B[R1020]->S_BRG[R1012];
+    if ( not_empty s_brg )
+      name = s_brg.Name;
+      description = s_brg.Descrip;
+    else
+    select one c_io related by msg_sm->MSG_IOP[R1020]->C_IO[R1022];
+    if ( not_empty c_io )
+      name = c_io.Name;
+      description = c_io.Descrip;
+    end if;
+    end if;
+    end if;
+    end if;
     columns[ 2 ] = description;
     columns[ 1 ] = name;
     columns[ 0 ] = "SynchronousMessage.gif";
@@ -509,7 +543,6 @@ INSERT INTO S_SYNC
 //
 //  Element package parents can be:
 //    - System
-//    - Element package
 //    - Component
 //    - Package
 //
@@ -519,13 +552,10 @@ if(param.container_list != "")
   list = list + "-" + param.container_list;
 end if;
 select one system related by epk->S_SYS[R1401];
-select one epkg related by epk->EP_PIP[R1404]->EP_PKG[R1403];
 select one c_c related by epk->PE_PE[R8001]->C_C[R8003];
 select one ep_pkg related by epk->PE_PE[R8001]->EP_PKG[R8000];
 if(not_empty system)
   list = ::getContainerListForS_SYS(sys:system, container_list:list);
-elif(not_empty epkg)
-  list = ::getContainerListForEP_PKG(epk:epkg, container_list:list);
 elif(not_empty c_c)
   list = ::getContainerListForC_C(comp:c_c, container_list:list);
 elif(not_empty ep_pkg)
