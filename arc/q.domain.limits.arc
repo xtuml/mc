@@ -26,12 +26,12 @@
   .//
   .// Analyze maximums for extents.
   .// The extents should be analyzed only *after* extent size coloring!
-  .select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+  .select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
   .assign object_class_extents = 0
   .assign relationship_extents = 0
   .assign largest_object_extent = 0
   .//
-  .for each te_class in te_classes
+  .for each te_class in te_classs
     .select one o_obj related by te_class->O_OBJ[R2019]
     .assign object_class_extents = object_class_extents + te_class.MaxExtentSize
     .if ( te_class.MaxExtentSize > largest_object_extent )
@@ -129,12 +129,12 @@
   .assign total_priority_events = cardinality te_evts
   .//
   .// Count up the classes using preexisting instances defined in data (PEIs).
-  .select many te_classes related by te_c->TE_CLASS[R2064] where ( ( not selected.ExcludeFromGen ) and ( selected.PEIsDefinedInData ) )
-  .assign pei_class_count = cardinality te_classes
+  .select many te_classs related by te_c->TE_CLASS[R2064] where ( ( not selected.ExcludeFromGen ) and ( selected.PEIsDefinedInData ) )
+  .assign pei_class_count = cardinality te_classs
   .//
   .// Count up the persistent classes.
-  .select many te_classes related by te_c->TE_CLASS[R2064] where ( ( not selected.ExcludeFromGen ) and ( selected.Persistent ) )
-  .assign persist_class_count = cardinality te_classes
+  .select many te_classs related by te_c->TE_CLASS[R2064] where ( ( not selected.ExcludeFromGen ) and ( selected.Persistent ) )
+  .assign persist_class_count = cardinality te_classs
   .//
   .assign te_c.MaxObjExtent         = object_class_extents
   .assign te_c.MaxRelExtent         = relationship_extents

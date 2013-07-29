@@ -61,7 +61,7 @@ ${te_instance.get_dci}(class_num);
       ${te_callout.object_pool_empty}( ${domain_num_var}, class_num );
     } else {
       ${te_string.memset}( pool, 0, ${te_sys.UnitsToDynamicallyAllocate} * dci->${te_extent.size_name} );
-      dci->${te_extent.inactive}.head = ${te_set.insert_block}( 
+      dci->${te_extent.inactive}.head = ${te_set.insert_block}(
         container, (const u1_t *) pool, dci->${te_extent.size_name}, ${te_sys.UnitsToDynamicallyAllocate} );
       node = dci->${te_extent.inactive}.head;
     }
@@ -72,8 +72,23 @@ ${te_instance.get_dci}(class_num);
 
   dci->${te_extent.inactive}.head = dci->${te_extent.inactive}.head->next;
   instance = (${te_instance.handle}) node->object;
-  instance->${te_instance.current_state} = dci->${te_extent.istate_name};
+  if ( 0 != dci->${te_extent.istate_name} ) {
+    instance->${te_instance.current_state} = dci->${te_extent.istate_name};
+  }
+.if ( te_sys.InstanceLoading )
+  if ( 0 != dci->initial_state ) {
+    instance->current_state = dci->initial_state;
+  }
+  if ( 0 == dci->active.head ) {
+    dci->${te_extent.active}.head = node;
+  } else {
+    dci->${te_extent.active}.tail->next = node;
+  }
+  dci->${te_extent.active}.tail = node;
+  node->next = 0;
+.else
   ${te_set.insert_instance}( &dci->${te_extent.active}, node );
+.end if
 .if ( te_thread.enabled )
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
 .end if
@@ -243,19 +258,19 @@ ${te_instance.get_dci}(class_num);
 .end if
 .if ( te_sys.PEIClassCount > 0 )
     int i = (intptr_t) dci->${te_extent.active}.head;
-    dci->${te_extent.active}.head = ${te_set.insert_block}( 
+    dci->${te_extent.active}.head = ${te_set.insert_block}(
       dci->${te_extent.container_name},
       (const u1_t *) dci->${te_extent.pool_name},
       dci->${te_extent.size_name},
       i );
-    dci->${te_extent.inactive}.head = ${te_set.insert_block}( 
+    dci->${te_extent.inactive}.head = ${te_set.insert_block}(
       dci->${te_extent.container_name} + i,
       (const u1_t *) dci->${te_extent.pool_name} + ( i * dci->${te_extent.size_name} ),
       dci->${te_extent.size_name},
       dci->${te_extent.population_name} - i );
 .else
   dci->${te_extent.active}.head = 0;
-  dci->${te_extent.inactive}.head = ${te_set.insert_block}( 
+  dci->${te_extent.inactive}.head = ${te_set.insert_block}(
     dci->${te_extent.container_name},
     (const u1_t *) dci->${te_extent.pool_name},
     dci->${te_extent.size_name},

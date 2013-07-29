@@ -31,7 +31,7 @@
   .//
   .select many act_fiws from instances of ACT_FIW
   .for each act_fiw in act_fiws
-    .select any v_bin related by act_fiw->V_VAL[R610]->V_BIN[R801] where ( ( selected.Operator == "and" ) or ( selected.Operator == "==" ) )
+    .select one v_bin related by act_fiw->V_VAL[R610]->V_BIN[R801] where ( ( selected.Operator == "and" ) or ( selected.Operator == "==" ) )
     .if ( not_empty v_bin )
       .select one o_obj related by act_fiw->O_OBJ[R676]
       .// Select the TE_WHEREs, because we can check to see if we have
@@ -223,7 +223,7 @@
     .if ( not_empty v_var )
       .assign self_queue_needed = true
     .end if
-    .select one v_var related by e_ceis->V_VAR[R711] where ( selected.Name != "self" )
+    .select any v_var related by e_ceis->V_VAR[R711] where ( selected.Name != "self" )
     .if ( not_empty v_var )
       .assign nonself_queue_needed = true
     .end if
@@ -243,9 +243,9 @@
 .// Also, mark attributes participating as identifiers as used.
 .// Mark written, read and Used attributes to TE_ATTR.
 .//
-.function te_attr_analyze_accesses
-  .assign attr_attributes_read_count = 0
-  .assign attr_attributes_written_count = 0
+.function attr_analyze_accesses
+  .assign attributes_read_count = 0
+  .assign attributes_written_count = 0
   .//
   .// Select all the attribute values references.
   .// Cycle through them marking their associated attributes as being read.
@@ -258,7 +258,7 @@
     .select many v_avls related by te_attrs->O_ATTR[R2033]->V_AVL[R806]
     .if ( not_empty v_avls )
       .if ( not te_attr.read )
-        .assign attr_attributes_read_count = attr_attributes_read_count + 1
+        .assign attributes_read_count = attributes_read_count + 1
       .end if
       .assign te_attr.read = true
       .assign te_attr.Used = true
@@ -267,7 +267,7 @@
     .select any act_ai related by v_avls->V_VAL[R801]->ACT_AI[R689]
     .if ( not_empty act_ai )
       .if ( not te_attr.written )
-        .assign attr_attributes_written_count = attr_attributes_written_count + 1
+        .assign attributes_written_count = attributes_written_count + 1
         .select one te_class related by te_attr->TE_CLASS[R2061]
         .if ( te_class.IsReadOnly )
           .print "ERROR:  Attempt to write to read-only object ${te_class.Name} (${te_class.Key_Lett})."
@@ -283,46 +283,49 @@
   .for each te_attr in te_attrs
     .assign te_attr.Used = true
   .end for
+  .assign msg = "${attributes_read_count}" + " attributes read"
+  .print "${msg}"
+  .assign msg = "${attributes_written_count}" + " attributes written"
+  .print "${msg}"
 .end function
 .//
 .//
 .// Mark attributes that are not used, needed and should be optimized out.
 .//
-.function te_attr_analyze_codegen
+.function attr_analyze_codegen
   .param inst_ref te_sys
-  .assign attr_optimized_out_count = 0
+  .assign optimized_out_count = 0
   .select many te_cs from instances of TE_C where ( not selected.OptDisabled )
-  .for each te_c in te_cs
-  .select many te_attrs related by te_c->TE_CLASS[R2064]->TE_ATTR[R2061]
+  .select many te_attrs related by te_cs->TE_CLASS[R2064]->TE_ATTR[R2061]
   .for each te_attr in te_attrs
     .select one o_attr related by te_attr->O_ATTR[R2033]
     .// Do not translate current_state attributes.
     .select one s_cdt related by o_attr->S_DT[R114]->S_CDT[R17] where ( selected.Core_Typ == 6 )
     .if ( not_empty s_cdt )
       .assign te_attr.translate = false
-      .assign attr_optimized_out_count = attr_optimized_out_count + 1
-    .elif ( not te_c.OptDisabled )
-      .if ( not te_attr.Used )
-        .// not accessed?
-        .assign te_attr.translate = false
-        .assign attr_optimized_out_count = attr_optimized_out_count + 1
-      .else
-        .// referential attribute?
-        .select one o_rattr related by o_attr->O_RATTR[R106]
-        .if ( not_empty o_rattr )
-          .// Is referential not also an identifying attribute?
-          .select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Attr_ID == o_rattr.Attr_ID )
-          .if ( ( empty o_oida ) and ( not te_attr.Used ) )
-            .if ( not te_sys.InstanceLoading )
-              .assign te_attr.translate = false
-              .assign attr_optimized_out_count = attr_optimized_out_count + 1
-            .end if
+      .assign optimized_out_count = optimized_out_count + 1
+    .end if
+    .if ( not te_attr.Used )
+      .// not accessed?
+      .assign te_attr.translate = false
+      .assign optimized_out_count = optimized_out_count + 1
+    .else
+      .// referential attribute?
+      .select one o_rattr related by o_attr->O_RATTR[R106]
+      .if ( not_empty o_rattr )
+        .// Is referential not also an identifying attribute?
+        .select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Attr_ID == o_rattr.Attr_ID )
+        .if ( ( empty o_oida ) and ( not te_attr.Used ) )
+          .if ( not te_sys.InstanceLoading )
+            .assign te_attr.translate = false
+            .assign optimized_out_count = optimized_out_count + 1
           .end if
         .end if
       .end if
     .end if
   .end for
-  .end for
+  .assign msg = "${optimized_out_count}" + " attributes optimized out"
+  .print "${msg}"
 .end function
 .//
 .//

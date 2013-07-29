@@ -49,6 +49,7 @@
 .include "${arc_path}/q.class.where.arc"
 .include "${arc_path}/q.component.arc"
 .include "${arc_path}/q.datatype.arc"
+.include "${arc_path}/q.domain.analyze.arc"
 .include "${arc_path}/q.domain.bridge.arc"
 .include "${arc_path}/q.domain.classes.arc"
 .include "${arc_path}/q.domain.datatype.arc"

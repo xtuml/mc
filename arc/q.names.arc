@@ -34,7 +34,6 @@
   .assign attr_extent_type = te_extent.sets_type
   .assign attr_extent = ( "pG_" + te_class.GeneratedName ) + "_extent"
   .assign attr_extent_var_name = "${attr_extent}.${te_extent.active}"
-  .assign attr_extent_init = te_extent.initializer
   .assign attr_active_extent_type = te_extent.sets_type
   .assign attr_free_extent_type = te_extent.sets_type
   .assign attr_free_extent_var_name = "${attr_extent}.${te_extent.inactive}"

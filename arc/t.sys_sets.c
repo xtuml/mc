@@ -246,6 +246,11 @@ ${te_set.scope}${te_slist.remove_node}(
     } while ( t->object != d );
     t_old->next = t->next;      /* Unlink element from the list.     */
   }
+.if ( te_sys.InstanceLoading )
+  if ( set->tail == t ) {
+    set->tail = t->next;
+  }
+.end if
   return t;
 }
 

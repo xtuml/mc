@@ -33,14 +33,14 @@
   .include "${te_file.domain_color_path}/${te_file.event_mark}"
   .//
   .// analyze
-  .include "${te_file.arc_path}/q.domain.analyze.arc"
-  .invoke CreateSpecialWhereClauseInstances( te_sys )
+.//  .invoke sys_analyze( te_sys )
+.//  .invoke CreateSpecialWhereClauseInstances( te_sys )
   .select many te_cs from instances of TE_C where ( selected.included_in_build )
   .for each te_c in te_cs
     .// Propagate domain information to the system level.
     .invoke te_c_CollectLimits( te_c )
-    .select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
-    .invoke class_sort( te_classes )
+    .select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+    .invoke class_sort( te_classs )
   .end for
   .invoke oal_translate()
 .end function

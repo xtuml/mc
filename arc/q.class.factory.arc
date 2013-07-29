@@ -30,6 +30,7 @@
   .select any te_instance from instances of TE_INSTANCE
   .select any te_set from instances of TE_SET
   .select one te_class related by o_obj->TE_CLASS[R2019]
+  .select one te_sys related by te_class->TE_C[R2064]->TE_SYS[R2065]
   .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
   .if ( gen_declaration )
     .include "${te_file.arc_path}/t.class.extent.h"

@@ -64,7 +64,6 @@
   .assign te_extent.type = te_prefix.result + "Extent_t"
   .assign te_extent.active = "active"
   .assign te_extent.inactive = "inactive"
-  .assign te_extent.initializer = "{0}"
   .assign te_extent.size_type = te_typemap.object_size_name
   .assign te_extent.istate_type = te_typemap.state_number_name
   .assign te_extent.istate_name = "initial_state"

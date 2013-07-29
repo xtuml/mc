@@ -40,7 +40,13 @@ ${fixed_extent_end}\
 .// We will assign the active extent pointer to the count just for bringup.
 .//
 ${extent_info.type} ${extent_info.extent} = {
-  {${pei_counter}}, ${extent_info.extent_init}, &${extent_info.container_name}[ 0 ],
+  {${pei_counter}\
+.if ( te_sys.InstanceLoading )
+,0}, {0,0},\
+.else
+}, {0},\
+.end if
+ &${extent_info.container_name}[ 0 ],
   (${te_instance.handle}) &${extent_info.obj_pool_var_name},
   sizeof( ${te_class.GeneratedName} ), ${state_init}, ${extent_info.max_size_name}${persistent_extent_attrs.body}
   };
