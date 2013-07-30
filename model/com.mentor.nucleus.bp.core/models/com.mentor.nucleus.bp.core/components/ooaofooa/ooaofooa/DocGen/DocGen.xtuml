@@ -610,105 +610,6 @@ for each ep_pkg in ep_pkgs
   image_name = ::getContainerListForEP_PKG(epk:ep_pkg, container_list:"Package Diagram");
   doc_fig1 = DOC_FIG::populate( title:ep_pkg.Name + " Package Diagram", image_target:image_name, doc_par:doc_par );
 
-  // List the contained types
-  select many s_dts related by ep_pkg->PE_PE[R8000]->S_DT[R8001];
-  ::docgen_datatypes(s_dts:s_dts, doc_sec:empty_doc_sec, predecessor:empty_doc_par, title:"Datatypes");  
-
-  // List the contained functions
-  // SKB - could break out to docgen_functions... would have to create new inst_ref<Function> type
-  select many s_syncs related by ep_pkg->PE_PE[R8000]->S_SYNC[R8001];
-  if ( not_empty s_syncs )
-    doc_sec1 = DOC_SEC::populate( title:ep_pkg.Name + " Functions", subtitle:"Function Package", parent_doc_sec:doc_sec );
-    doc_par1 = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec1 );
-    doc_tbl = DOC_TBL::populate( title:ep_pkg.Name, num_cols:3, doc_par:doc_par1 );
-    doc_row = empty_doc_row;
-    // Add a header row to the table.
-    format[ 2 ] = "text";
-    format[ 1 ] = "text";
-    format[ 0 ] = "image";
-    columns[ 2 ] = "Description";
-    columns[ 1 ] = "Name";
-    columns[ 0 ] = "Function.gif";
-    doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row );
-    relate doc_row1 to doc_tbl across R2317;
-    for each s_sync in s_syncs
-      columns[ 2 ] = s_sync.Descrip;
-      columns[ 1 ] = s_sync.Name + "(";
-      select many s_sparms related by s_sync->S_SPARM[R24];
-      delimiter = "";
-      for each s_sparm in s_sparms
-        columns[ 1 ] = columns[ 1 ] + delimiter + s_sparm.Name;
-        delimeter = ", ";
-      end for;
-      columns[ 1 ] = columns[ 1 ] + ")";
-      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
-      doc_row1 = doc_row2;
-    end for;
-    doc_sec2 = DOC_SEC::populate( title:"Domain Function Activities", subtitle:"", parent_doc_sec:doc_sec1 );
-    for each s_sync in s_syncs
-      if ( ( "" != s_sync.Action_Semantics_internal ) or ( "" != s_sync.Descrip ) )
-        title = s_sync.Name;
-        doc_sec3 = DOC_SEC::populate( title:title, subtitle:"", parent_doc_sec:doc_sec2 );
-        doc_par2 = DOC_PAR::populate( text:s_sync.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec3 );
-        doc_par3 = DOC_PAR::populate( text:s_sync.Action_Semantics_internal, predecessor:doc_par2, doc_sec:empty_doc_sec );
-        doc_par3.formatted = false;
-      end if;
-    end for;     
-  end if;
-
-  // List the contained EEs in this package
-  // SKB - could break out to docgen_external_entities... would have to create new inst_ref<External Entity> type
-  select many s_ees related by ep_pkg->PE_PE[R8000]->S_EE[R8001];
-  if ( not_empty s_ees )
-    doc_sec1 = DOC_SEC::populate( title:ep_pkg.Name + " External Entities", subtitle:"External Entity Package", parent_doc_sec:doc_sec );
-    doc_par1 = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec1 );
-    doc_tbl = DOC_TBL::populate( title:ep_pkg.Name, num_cols:4, doc_par:doc_par1 );
-    doc_row = empty_doc_row;
-    // Add a header row to the table.
-    format[ 3 ] = "text";
-    format[ 2 ] = "text";
-    format[ 1 ] = "text";
-    format[ 0 ] = "image";
-    columns[ 3 ] = "Bridges";
-    columns[ 2 ] = "Description";
-    columns[ 1 ] = "Name";
-    columns[ 0 ] = "ExternalEntity.gif";
-    doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row );
-    relate doc_row1 to doc_tbl across R2317;
-    for each s_ee in s_ees
-      columns[ 3 ] = "";
-      select many s_brgs related by s_ee->S_BRG[R19];
-      delimiter = "";
-      for each s_brg in s_brgs
-        columns[ 3 ] = columns[ 3 ] + delimiter + s_brg.Name;
-        delimiter = ", ";
-      end for;
-      columns[ 2 ] = s_ee.Descrip;
-      columns[ 1 ] = s_ee.Name;
-      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
-      doc_row1 = doc_row2;
-    end for;
-    
-    doc_sec2 = DOC_SEC::populate( title:"External Entity Activities", subtitle:"", parent_doc_sec:doc_sec1 );
-    for each s_ee in s_ees
-      doc_sec3 = DOC_SEC::populate( title:s_ee.Name + " Activities", subtitle:"", parent_doc_sec:doc_sec2 );
-      select many s_brgs related by s_ee->S_BRG[R19];
-      for each s_brg in s_brgs
-        if ( ( "" != s_brg.Action_Semantics_internal ) or ( "" != s_brg.Descrip ) )
-          title = s_brg.Name;
-          doc_sec4 = DOC_SEC::populate( title:title, subtitle:"", parent_doc_sec:doc_sec3 );
-          doc_par2 = DOC_PAR::populate( text:s_brg.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec4 );
-          doc_par3 = DOC_PAR::populate( text:s_brg.Action_Semantics_internal, predecessor:doc_par2, doc_sec:empty_doc_sec );
-          doc_par3.formatted = false;
-        end if;
-      end for;
-    end for;
-  end if;
-  
-  // Handle the contained classes in this package
-  select many o_objs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001];
-  ::docgen_classes(o_objs:o_objs, doc_sec:doc_sec, predecessor:doc_par, pkg:ep_pkg);
-  
   // List the contained components in this package
   select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001];
   ::docgen_components(c_cs:c_cs, doc_sec:doc_sec);
@@ -717,10 +618,25 @@ for each ep_pkg in ep_pkgs
   select many c_is related by ep_pkg->PE_PE[R8000]->C_I[R8001];
   ::docgen_interfaces(c_is:c_is, doc_sec:doc_sec);
   
+  // List the contained types
+  ::docgen_datatypes( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"Datatypes" );
+
+  // Handle the contained classes in this package
+  ::docgen_classes( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"Classes" );
+  
+  // Handle the contained classes in this package
+  ::docgen_associations( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"Associations" );
+  
+  // List the contained functions in this package.
+  ::docgen_functions( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"Functions" );
+
+  // List the contained external entities in this package.
+  ::docgen_external_entities( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"External Entities" );
+
   // List the contained activity elements in this package.
-  ::docgen_activity_elements( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"Activity Elements");
+  ::docgen_activity_elements( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"Activity Elements" );
   // List the contained interaction participants in this package.
-  ::docgen_interaction_participants( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"Interaction Participants");
+  ::docgen_interaction_participants( ep_pkg:ep_pkg, doc_sec:doc_sec, title:"Interaction Participants" );
   
   // Traverse down to contained packages in this package
   select many child_ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001];
@@ -904,7 +820,10 @@ for each c_c in c_cs
   doc_par1 = DOC_PAR::populate( text:c_c.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec1 );
   image_name = ::getContainerListForC_C(comp:c_c, container_list:"Component Diagram");
   doc_fig = DOC_FIG::populate( title:c_c.Name + " Component Diagram", image_target:image_name, doc_par:doc_par1 );
+  
   // ports
+  select many c_pos related by c_c->C_PO[R4010];
+  if ( not_empty c_pos )
   doc_par2 = DOC_PAR::populate( text:"", predecessor:doc_par1, doc_sec:empty_doc_sec );
   doc_tbl = DOC_TBL::populate( title:c_c.Name + " " + "Ports", num_cols:5, doc_par:doc_par2 );
   // Add a header row to the table.
@@ -920,7 +839,6 @@ for each c_c in c_cs
   columns[ 0 ] = "Port.gif";
   doc_row = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:empty_doc_row );
   relate doc_row to doc_tbl across R2317;
-  select many c_pos related by c_c->C_PO[R4010];
   for each c_po in c_pos
     if_name = "< not formalized >";
     select any c_ir related by c_po->C_IR[R4016];
@@ -999,10 +917,7 @@ for each c_c in c_cs
       end for;
     end if;
   end for;
-  
-  // List the contained types
-  select many s_dts related by c_c->PE_PE[R8003]->S_DT[R8001];
-  ::docgen_datatypes(s_dts:s_dts, doc_sec:empty_doc_sec, predecessor:doc_par2, title:"Datatypes");  
+  end if;
   
   // List the contained components in this package
   select many child_c_cs related by c_c->PE_PE[R8003]->C_C[R8001];
@@ -1060,15 +975,14 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'docgen_datatypes',
 	'',
-	'select any empty_doc_sec from instances of DOC_SEC where ( false );
-select any empty_doc_par from instances of DOC_PAR where ( false );
-select any empty_doc_row from instances of DOC_ROW where ( false );
-
-s_dts = param.s_dts;
+	'ep_pkg = param.ep_pkg;
+select many s_dts related by ep_pkg->PE_PE[R8000]->S_DT[R8001];
 if ( not_empty s_dts )
-  doc_par2 = DOC_PAR::populate( text:"", predecessor:param.predecessor, doc_sec:param.doc_sec );
-  doc_tbl = DOC_TBL::populate( title:param.title, num_cols:3, doc_par:doc_par2 );
-  doc_row = empty_doc_row;
+  select any empty_doc_par from instances of DOC_PAR where ( false );
+  select any empty_doc_row from instances of DOC_ROW where ( false );
+  doc_sec = DOC_SEC::populate( title:param.title, subtitle:"", parent_doc_sec:param.doc_sec );
+  doc_par = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec );
+  doc_tbl = DOC_TBL::populate( title:param.title, num_cols:3, doc_par:doc_par );
   // Add a header row to the table.
   format[ 2 ] = "text";
   format[ 1 ] = "text";
@@ -1076,7 +990,7 @@ if ( not_empty s_dts )
   columns[ 2 ] = "Description";
   columns[ 1 ] = "Name";
   columns[ 0 ] = "DataType.gif";
-  doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row );
+  doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:empty_doc_row );
   relate doc_row1 to doc_tbl across R2317;
   for each s_dt in s_dts
     // Set last column first to allocate the array correctly.
@@ -1086,19 +1000,23 @@ if ( not_empty s_dts )
     select one s_sdt related by s_dt->S_SDT[R17];
     if ( not_empty s_sdt )
       columns[ 0 ] = "StructuredDataType.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
     else
-      select one s_edt related by s_dt->S_EDT[R17];
-      if ( not_empty s_edt )
-        columns[ 0 ] = "Enumeration.gif";
-      else
-        select one s_udt related by s_dt->S_UDT[R17];
-        if ( not_empty s_udt )
-          columns[ 0 ] = "UserDefinedDataType.gif";
-        end if;
-      end if;
+    select one s_edt related by s_dt->S_EDT[R17];
+    if ( not_empty s_edt )
+      columns[ 0 ] = "Enumeration.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
+    else
+    select one s_udt related by s_dt->S_UDT[R17];
+    if ( not_empty s_udt )
+      columns[ 0 ] = "UserDefinedDataType.gif";
+      doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+      doc_row1 = doc_row2;
     end if;
-    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
-    doc_row1 = doc_row2;
+    end if;
+    end if;
   end for;
 end if;
 ',
@@ -1106,54 +1024,31 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("908739dc-0453-4eed-b27b-d2c0e449bd22",
+	VALUES ("b06582d2-ba4e-4291-87d7-22e9528b7e9d",
 	"a1275d3f-4d99-4a29-8b13-4d39a9a39357",
-	's_dts',
-	"0ecd08f9-bf86-4e83-b356-b8a281d33768",
+	'ep_pkg',
+	"bc235622-5914-4c46-87f7-e7209f83a876",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("0ecd08f9-bf86-4e83-b356-b8a281d33768",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Data Type>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("61ae1927-15ae-4f8b-aa2c-22a4433f450a",
+	VALUES ("28f11c0f-4460-4bbe-a1f7-691d43c661a0",
 	"a1275d3f-4d99-4a29-8b13-4d39a9a39357",
 	'doc_sec',
 	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
 	0,
 	'',
-	"908739dc-0453-4eed-b27b-d2c0e449bd22",
+	"b06582d2-ba4e-4291-87d7-22e9528b7e9d",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("853a07c1-b22c-43b1-8a24-085ccdccdf7b",
-	"a1275d3f-4d99-4a29-8b13-4d39a9a39357",
-	'predecessor',
-	"fc8f254f-ad5a-402f-b0df-ec3dbd65b4cd",
-	0,
-	'',
-	"61ae1927-15ae-4f8b-aa2c-22a4433f450a",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("fc8f254f-ad5a-402f-b0df-ec3dbd65b4cd",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<paragraph>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("b877a815-f8fe-4730-8753-7d496800c06a",
+	VALUES ("3353c67f-f6a4-4791-aa98-3f7d1eb835a2",
 	"a1275d3f-4d99-4a29-8b13-4d39a9a39357",
 	'title',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"853a07c1-b22c-43b1-8a24-085ccdccdf7b",
+	"28f11c0f-4460-4bbe-a1f7-691d43c661a0",
 	'');
 INSERT INTO PE_PE
 	VALUES ("a1275d3f-4d99-4a29-8b13-4d39a9a39357",
@@ -1166,18 +1061,16 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'docgen_classes',
 	'',
-	'select any empty_doc_sec from instances of DOC_SEC where ( false );
-select any empty_doc_par from instances of DOC_PAR where ( false );
-select any empty_doc_row from instances of DOC_ROW where ( false );
-select any empty_o_attr from instances of O_ATTR where ( false );
-
-o_objs = param.o_objs;
-ep_pkg = param.pkg;
-
+	'ep_pkg = param.ep_pkg;
+select many o_objs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001];
 if ( not_empty o_objs )
-  doc_sec1 = DOC_SEC::populate( title:ep_pkg.Name + " Classes", subtitle:"Class Package", parent_doc_sec:param.doc_sec );
-  doc_par1 = DOC_PAR::populate( text:"", predecessor:param.predecessor, doc_sec:empty_doc_sec );
-  doc_tbl = DOC_TBL::populate( title:ep_pkg.Name, num_cols:3, doc_par:doc_par1 );
+  select any empty_doc_sec from instances of DOC_SEC where ( false );
+  select any empty_doc_par from instances of DOC_PAR where ( false );
+  select any empty_doc_row from instances of DOC_ROW where ( false );
+  select any empty_o_attr from instances of O_ATTR where ( false );
+  doc_sec1 = DOC_SEC::populate( title:param.title, subtitle:"", parent_doc_sec:param.doc_sec );
+  doc_par1 = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec1 );
+  doc_tbl = DOC_TBL::populate( title:param.title, num_cols:3, doc_par:doc_par1 );
   doc_row = empty_doc_row;
   // Add a header row to the table.
   format[ 2 ] = "text";
@@ -1234,11 +1127,15 @@ if ( not_empty o_objs )
     end if;
     
     // activities
-    doc_sec2 = DOC_SEC::populate( title:"Class Activities", subtitle:"", parent_doc_sec:doc_sec1 );
-    doc_par3 = DOC_PAR::populate( text:"Here are listings of all of the activies in the class and its state machine(s).", predecessor:empty_doc_par, doc_sec:doc_sec2 );
+    select many sm_ismacts related by o_obj->SM_ISM[R518]->SM_SM[R517]->SM_ACT[R515];
+    select many sm_asmacts related by o_obj->SM_ASM[R519]->SM_SM[R517]->SM_ACT[R515];
+    select many o_tfrs related by o_obj->O_TFR[R115];
+    select many o_dbattrs related by o_obj->O_ATTR[R102]->O_BATTR[R106]->O_DBATTR[R107];
+    if ( ( not_empty sm_ismacts ) or ( not_empty sm_asmacts ) or ( not_empty o_tfrs ) or ( not_empty o_dbattrs ) )
+      doc_sec2 = DOC_SEC::populate( title:"Class Activities", subtitle:"", parent_doc_sec:doc_sec1 );
+      doc_par3 = DOC_PAR::populate( text:"Here are listings of all of the activies in the class and its state machine(s).", predecessor:empty_doc_par, doc_sec:doc_sec2 );
     
     // state actions
-    select many sm_ismacts related by o_obj->SM_ISM[R518]->SM_SM[R517]->SM_ACT[R515];
     if ( not_empty sm_ismacts )
       doc_sec3 = DOC_SEC::populate( title:"Instance State Machine Actions", subtitle:"", parent_doc_sec:doc_sec2 );
       for each sm_act in sm_ismacts
@@ -1265,7 +1162,6 @@ if ( not_empty o_objs )
       end for;
     end if;
 
-    select many sm_asmacts related by o_obj->SM_ASM[R519]->SM_SM[R517]->SM_ACT[R515];
     if ( not_empty sm_asmacts )
       doc_sec3 = DOC_SEC::populate( title:"Class State Machine Actions", subtitle:"", parent_doc_sec:doc_sec2 );
       for each sm_act in sm_asmacts
@@ -1293,7 +1189,6 @@ if ( not_empty o_objs )
     end if;
 
     // class operations
-    select many o_tfrs related by o_obj->O_TFR[R115];
     if ( not_empty o_tfrs )
       doc_sec3 = DOC_SEC::populate( title:"Class Operations", subtitle:"", parent_doc_sec:doc_sec2 );
       for each o_tfr in o_tfrs
@@ -1323,7 +1218,6 @@ if ( not_empty o_objs )
     end if;
 
     // dbattrs
-    select many o_dbattrs related by o_obj->O_ATTR[R102]->O_BATTR[R106]->O_DBATTR[R107];
     if ( not_empty o_dbattrs )
       doc_sec3 = DOC_SEC::populate( title:"Derived (Mathematically Dependent) Attributes", subtitle:"", parent_doc_sec:doc_sec2 );
       for each o_dbattr in o_dbattrs
@@ -1351,6 +1245,7 @@ if ( not_empty o_objs )
         end if;
       end for;
     end if;
+    end if;
   end for;
 end if;
 ',
@@ -1358,47 +1253,31 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8f95b315-3d6a-4dca-9a6e-22f586fbd805",
-	"874f066b-ccb5-4744-8544-9b4b70bc587f",
-	'o_objs',
-	"6f187e64-ff60-43e7-84d2-439e422efbe5",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("6f187e64-ff60-43e7-84d2-439e422efbe5",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Model Class>',
-	'',
-	'',
-	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
-INSERT INTO S_SPARM
 	VALUES ("0976ac05-b130-4280-92f8-d54c8a9fa70b",
 	"874f066b-ccb5-4744-8544-9b4b70bc587f",
 	'doc_sec',
 	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
 	0,
 	'',
-	"8f95b315-3d6a-4dca-9a6e-22f586fbd805",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("d5d8ffd2-b284-4d78-8765-b7c07d4c29e9",
-	"874f066b-ccb5-4744-8544-9b4b70bc587f",
-	'predecessor',
-	"fc8f254f-ad5a-402f-b0df-ec3dbd65b4cd",
-	0,
-	'',
-	"0976ac05-b130-4280-92f8-d54c8a9fa70b",
+	"f096e913-6a57-446c-9ddd-e2aa488c382c",
 	'');
 INSERT INTO S_SPARM
 	VALUES ("f096e913-6a57-446c-9ddd-e2aa488c382c",
 	"874f066b-ccb5-4744-8544-9b4b70bc587f",
-	'pkg',
+	'ep_pkg',
 	"bc235622-5914-4c46-87f7-e7209f83a876",
 	0,
 	'',
-	"d5d8ffd2-b284-4d78-8765-b7c07d4c29e9",
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("734df26c-64da-45da-8fb0-9c42923fef9c",
+	"874f066b-ccb5-4744-8544-9b4b70bc587f",
+	'title',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0976ac05-b130-4280-92f8-d54c8a9fa70b",
 	'');
 INSERT INTO PE_PE
 	VALUES ("874f066b-ccb5-4744-8544-9b4b70bc587f",
@@ -1432,7 +1311,7 @@ if ( ( not_empty a_es ) or ( not_empty a_ns ) or ( not_empty a_aps ) )
   relate doc_row1 to doc_tbl across R2317;
   for each a_e in a_es
     // Activity Edge
-    if ( ( "" == a_e.Guard ) and ( "" == a_e.Descrip ) )
+    if ( ( "" != a_e.Guard ) or ( "" != a_e.Descrip ) )
       columns[ 2 ] = a_e.Descrip;
       columns[ 1 ] = a_e.Guard;
       columns[ 0 ] = "ActivityEdge.gif";
@@ -1445,7 +1324,7 @@ if ( ( not_empty a_es ) or ( not_empty a_ns ) or ( not_empty a_aps ) )
     // Activity Action
     columns[ 2 ] = a_ga.Descrip;
     columns[ 1 ] = a_ga.Name;
-    columns[ 0 ] = "Action.gif";
+    columns[ 0 ] = "GenericAction.gif";
     doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
     doc_row1 = doc_row2;
   end for;
@@ -1564,6 +1443,250 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("c53badf6-6a2d-4a29-a505-8544a8812663",
+	1,
+	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fe083390-dff5-4828-84db-aa317520a8d3",
+	"00000000-0000-0000-0000-000000000000",
+	'docgen_functions',
+	'',
+	'ep_pkg = param.ep_pkg;
+select many s_syncs related by ep_pkg->PE_PE[R8000]->S_SYNC[R8001];
+if ( not_empty s_syncs )
+  select any empty_doc_sec from instances of DOC_SEC where ( false );
+  select any empty_doc_par from instances of DOC_PAR where ( false );
+  select any empty_doc_row from instances of DOC_ROW where ( false );
+  doc_sec1 = DOC_SEC::populate( title:param.title, subtitle:"Functions", parent_doc_sec:param.doc_sec );
+  doc_par1 = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec1 );
+  doc_tbl = DOC_TBL::populate( title:ep_pkg.Name, num_cols:3, doc_par:doc_par1 );
+  doc_row = empty_doc_row;
+  // Add a header row to the table.
+  format[ 2 ] = "text";
+  format[ 1 ] = "text";
+  format[ 0 ] = "image";
+  columns[ 2 ] = "Description";
+  columns[ 1 ] = "Name";
+  columns[ 0 ] = "Function.gif";
+  doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row );
+  relate doc_row1 to doc_tbl across R2317;
+  for each s_sync in s_syncs
+    columns[ 2 ] = s_sync.Descrip;
+    columns[ 1 ] = s_sync.Name + "(";
+    select many s_sparms related by s_sync->S_SPARM[R24];
+    delimiter = "";
+    for each s_sparm in s_sparms
+      columns[ 1 ] = columns[ 1 ] + delimiter + s_sparm.Name;
+      delimeter = ", ";
+    end for;
+    columns[ 1 ] = columns[ 1 ] + ")";
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  doc_sec2 = DOC_SEC::populate( title:"Function Activities", subtitle:"", parent_doc_sec:doc_sec1 );
+  for each s_sync in s_syncs
+    if ( ( "" != s_sync.Action_Semantics_internal ) or ( "" != s_sync.Descrip ) )
+      title = s_sync.Name;
+      doc_sec3 = DOC_SEC::populate( title:title, subtitle:"", parent_doc_sec:doc_sec2 );
+      doc_par2 = DOC_PAR::populate( text:s_sync.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec3 );
+      doc_par3 = DOC_PAR::populate( text:s_sync.Action_Semantics_internal, predecessor:doc_par2, doc_sec:empty_doc_sec );
+      doc_par3.formatted = false;
+    end if;
+  end for;     
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7b4e2333-076b-448c-9c0c-9f562a354ad5",
+	"fe083390-dff5-4828-84db-aa317520a8d3",
+	'ep_pkg',
+	"bc235622-5914-4c46-87f7-e7209f83a876",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0a8aa6aa-79ff-443c-bf70-bac7018be94f",
+	"fe083390-dff5-4828-84db-aa317520a8d3",
+	'doc_sec',
+	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
+	0,
+	'',
+	"7b4e2333-076b-448c-9c0c-9f562a354ad5",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("89e301b9-4594-4ad4-b281-a844072ffac6",
+	"fe083390-dff5-4828-84db-aa317520a8d3",
+	'title',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0a8aa6aa-79ff-443c-bf70-bac7018be94f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fe083390-dff5-4828-84db-aa317520a8d3",
+	1,
+	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d4436a81-33b0-4855-8873-77fadf5f78b6",
+	"00000000-0000-0000-0000-000000000000",
+	'docgen_external_entities',
+	'',
+	'ep_pkg = param.ep_pkg;
+select many s_ees related by ep_pkg->PE_PE[R8000]->S_EE[R8001];
+if ( not_empty s_ees )
+  select any empty_doc_sec from instances of DOC_SEC where ( false );
+  select any empty_doc_par from instances of DOC_PAR where ( false );
+  select any empty_doc_row from instances of DOC_ROW where ( false );
+  doc_sec1 = DOC_SEC::populate( title:param.title, subtitle:"External Entity", parent_doc_sec:param.doc_sec );
+  doc_par1 = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec1 );
+  doc_tbl = DOC_TBL::populate( title:ep_pkg.Name, num_cols:4, doc_par:doc_par1 );
+  doc_row = empty_doc_row;
+  // Add a header row to the table.
+  format[ 3 ] = "text";
+  format[ 2 ] = "text";
+  format[ 1 ] = "text";
+  format[ 0 ] = "image";
+  columns[ 3 ] = "Bridges";
+  columns[ 2 ] = "Description";
+  columns[ 1 ] = "Name";
+  columns[ 0 ] = "ExternalEntity.gif";
+  doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row );
+  relate doc_row1 to doc_tbl across R2317;
+  for each s_ee in s_ees
+    columns[ 3 ] = "";
+    select many s_brgs related by s_ee->S_BRG[R19];
+    delimiter = "";
+    for each s_brg in s_brgs
+      columns[ 3 ] = columns[ 3 ] + delimiter + s_brg.Name;
+      delimiter = ", ";
+    end for;
+    columns[ 2 ] = s_ee.Descrip;
+    columns[ 1 ] = s_ee.Name;
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+  doc_sec2 = DOC_SEC::populate( title:"External Entity Activities", subtitle:"", parent_doc_sec:doc_sec1 );
+  for each s_ee in s_ees
+    doc_sec3 = DOC_SEC::populate( title:s_ee.Name + " Activities", subtitle:"", parent_doc_sec:doc_sec2 );
+    select many s_brgs related by s_ee->S_BRG[R19];
+    for each s_brg in s_brgs
+      if ( ( "" != s_brg.Action_Semantics_internal ) or ( "" != s_brg.Descrip ) )
+        title = s_brg.Name;
+        doc_sec4 = DOC_SEC::populate( title:title, subtitle:"", parent_doc_sec:doc_sec3 );
+        doc_par2 = DOC_PAR::populate( text:s_brg.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec4 );
+        doc_par3 = DOC_PAR::populate( text:s_brg.Action_Semantics_internal, predecessor:doc_par2, doc_sec:empty_doc_sec );
+        doc_par3.formatted = false;
+      end if;
+    end for;
+  end for;
+end if;
+  
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f64e8e72-c5c2-405a-bd54-45879e5f9297",
+	"d4436a81-33b0-4855-8873-77fadf5f78b6",
+	'ep_pkg',
+	"bc235622-5914-4c46-87f7-e7209f83a876",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("01ce2f51-4feb-4252-b4a0-fa0cfde101b7",
+	"d4436a81-33b0-4855-8873-77fadf5f78b6",
+	'doc_sec',
+	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
+	0,
+	'',
+	"f64e8e72-c5c2-405a-bd54-45879e5f9297",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a63f5f74-5e8f-4a34-acac-e2004b942aec",
+	"d4436a81-33b0-4855-8873-77fadf5f78b6",
+	'title',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"01ce2f51-4feb-4252-b4a0-fa0cfde101b7",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d4436a81-33b0-4855-8873-77fadf5f78b6",
+	1,
+	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("622e8ac9-d59a-4797-98ec-d9d2b53095d2",
+	"00000000-0000-0000-0000-000000000000",
+	'docgen_associations',
+	'',
+	'ep_pkg = param.ep_pkg;
+select many r_rels related by ep_pkg->PE_PE[R8000]->R_REL[R8001];
+if ( not_empty r_rels )
+  select any empty_doc_sec from instances of DOC_SEC where ( false );
+  select any empty_doc_par from instances of DOC_PAR where ( false );
+  select any empty_doc_row from instances of DOC_ROW where ( false );
+  doc_sec = DOC_SEC::populate( title:param.title, subtitle:"Associations", parent_doc_sec:param.doc_sec );
+  doc_par = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:doc_sec );
+  doc_tbl = DOC_TBL::populate( title:ep_pkg.Name, num_cols:3, doc_par:doc_par );
+  // Add a header row to the table.
+  format[ 2 ] = "text";
+  format[ 1 ] = "text";
+  format[ 0 ] = "image";
+  columns[ 2 ] = "Description";
+  columns[ 1 ] = "Name";
+  columns[ 0 ] = "Association.gif";
+  doc_row1 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:empty_doc_row );
+  relate doc_row1 to doc_tbl across R2317;
+  for each r_rel in r_rels
+    columns[ 2 ] = r_rel.Descrip;
+    columns[ 1 ] = T::s(i:r_rel.Numb);
+    doc_row2 = DOC_ROW::populate( count:doc_tbl.num_cols, format:format, columns:columns, predecessor:doc_row1 );
+    doc_row1 = doc_row2;
+  end for;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("35897ccb-6c71-48fe-859c-7fbb196394b0",
+	"622e8ac9-d59a-4797-98ec-d9d2b53095d2",
+	'ep_pkg',
+	"bc235622-5914-4c46-87f7-e7209f83a876",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ecca87a0-7006-4190-9f14-a2717b7038b2",
+	"622e8ac9-d59a-4797-98ec-d9d2b53095d2",
+	'doc_sec',
+	"e05eb182-a6ee-4eeb-9323-eb9e8c44805f",
+	0,
+	'',
+	"35897ccb-6c71-48fe-859c-7fbb196394b0",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c932abf3-e5c8-4602-9c93-47f22e6ef358",
+	"622e8ac9-d59a-4797-98ec-d9d2b53095d2",
+	'title',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ecca87a0-7006-4190-9f14-a2717b7038b2",
+	'');
+INSERT INTO PE_PE
+	VALUES ("622e8ac9-d59a-4797-98ec-d9d2b53095d2",
 	1,
 	"aeb131b9-784c-4d92-9f9c-4a3b154536ca",
 	"00000000-0000-0000-0000-000000000000",
