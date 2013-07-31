@@ -54,7 +54,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("7d2c37fa-f6d7-495b-94f8-841f100a5631",
 	"14d35548-e937-431f-a7a6-9a8041751bfc",
-	"ee5c9035-a933-4154-b499-3edb8da72368",
+	"a9383345-78ba-43fa-b4fa-b6acc3938e1d",
 	'sys_main',
 	'',
 	'',
@@ -101,34 +101,15 @@ INSERT INTO O_ATTR
 	'',
 	'te_prefix.file + "sys_events"');
 INSERT INTO O_NBATTR
-	VALUES ("b891fef4-cfc5-4780-8f96-e9bb57c1b313",
+	VALUES ("a9383345-78ba-43fa-b4fa-b6acc3938e1d",
 	"14d35548-e937-431f-a7a6-9a8041751bfc");
 INSERT INTO O_BATTR
-	VALUES ("b891fef4-cfc5-4780-8f96-e9bb57c1b313",
+	VALUES ("a9383345-78ba-43fa-b4fa-b6acc3938e1d",
 	"14d35548-e937-431f-a7a6-9a8041751bfc");
 INSERT INTO O_ATTR
-	VALUES ("b891fef4-cfc5-4780-8f96-e9bb57c1b313",
+	VALUES ("a9383345-78ba-43fa-b4fa-b6acc3938e1d",
 	"14d35548-e937-431f-a7a6-9a8041751bfc",
 	"d70bb146-4d0f-4f1e-8535-ca2dfd67e2eb",
-	'asm_file_ext',
-	'Some C compilers output assembly language source files as an intermediate
-step on the way to object.',
-	'',
-	'asm_file_ext',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'"s"');
-INSERT INTO O_NBATTR
-	VALUES ("a9383345-78ba-43fa-b4fa-b6acc3938e1d",
-	"14d35548-e937-431f-a7a6-9a8041751bfc");
-INSERT INTO O_BATTR
-	VALUES ("a9383345-78ba-43fa-b4fa-b6acc3938e1d",
-	"14d35548-e937-431f-a7a6-9a8041751bfc");
-INSERT INTO O_ATTR
-	VALUES ("a9383345-78ba-43fa-b4fa-b6acc3938e1d",
-	"14d35548-e937-431f-a7a6-9a8041751bfc",
-	"b891fef4-cfc5-4780-8f96-e9bb57c1b313",
 	'obj_file_ext',
 	'This is file suffix for compiled object files.',
 	'',
@@ -137,24 +118,6 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'"o"');
-INSERT INTO O_NBATTR
-	VALUES ("ee5c9035-a933-4154-b499-3edb8da72368",
-	"14d35548-e937-431f-a7a6-9a8041751bfc");
-INSERT INTO O_BATTR
-	VALUES ("ee5c9035-a933-4154-b499-3edb8da72368",
-	"14d35548-e937-431f-a7a6-9a8041751bfc");
-INSERT INTO O_ATTR
-	VALUES ("ee5c9035-a933-4154-b499-3edb8da72368",
-	"14d35548-e937-431f-a7a6-9a8041751bfc",
-	"a9383345-78ba-43fa-b4fa-b6acc3938e1d",
-	'rpt_file_ext',
-	'This is the file extension for generated report files.',
-	'',
-	'rpt_file_ext',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'"rpt"');
 INSERT INTO O_NBATTR
 	VALUES ("dffd6665-acec-445b-9b0e-61ca77217d27",
 	"14d35548-e937-431f-a7a6-9a8041751bfc");
@@ -463,33 +426,15 @@ INSERT INTO O_ATTR
 	'',
 	'"."');
 INSERT INTO O_NBATTR
-	VALUES ("4bfb0594-9645-4538-ac86-655ef55d208b",
+	VALUES ("72052822-1665-4182-bfb6-4de207a506f5",
 	"14d35548-e937-431f-a7a6-9a8041751bfc");
 INSERT INTO O_BATTR
-	VALUES ("4bfb0594-9645-4538-ac86-655ef55d208b",
+	VALUES ("72052822-1665-4182-bfb6-4de207a506f5",
 	"14d35548-e937-431f-a7a6-9a8041751bfc");
 INSERT INTO O_ATTR
-	VALUES ("4bfb0594-9645-4538-ac86-655ef55d208b",
+	VALUES ("72052822-1665-4182-bfb6-4de207a506f5",
 	"14d35548-e937-431f-a7a6-9a8041751bfc",
 	"dd27db86-0e37-482d-a131-514f2e1bd7d0",
-	'registry_mark',
-	'',
-	'',
-	'registry_mark',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'"registry.mark"');
-INSERT INTO O_NBATTR
-	VALUES ("72052822-1665-4182-bfb6-4de207a506f5",
-	"14d35548-e937-431f-a7a6-9a8041751bfc");
-INSERT INTO O_BATTR
-	VALUES ("72052822-1665-4182-bfb6-4de207a506f5",
-	"14d35548-e937-431f-a7a6-9a8041751bfc");
-INSERT INTO O_ATTR
-	VALUES ("72052822-1665-4182-bfb6-4de207a506f5",
-	"14d35548-e937-431f-a7a6-9a8041751bfc",
-	"4bfb0594-9645-4538-ac86-655ef55d208b",
 	'system_mark',
 	'',
 	'',
@@ -571,33 +516,15 @@ INSERT INTO O_ATTR
 	'',
 	'"domain.mark"');
 INSERT INTO O_NBATTR
-	VALUES ("4fdc9eb0-fa05-41e5-a5a4-cd481ad176d1",
+	VALUES ("0e352db3-acae-47e7-bef4-5015b9eed3d2",
 	"14d35548-e937-431f-a7a6-9a8041751bfc");
 INSERT INTO O_BATTR
-	VALUES ("4fdc9eb0-fa05-41e5-a5a4-cd481ad176d1",
+	VALUES ("0e352db3-acae-47e7-bef4-5015b9eed3d2",
 	"14d35548-e937-431f-a7a6-9a8041751bfc");
 INSERT INTO O_ATTR
-	VALUES ("4fdc9eb0-fa05-41e5-a5a4-cd481ad176d1",
+	VALUES ("0e352db3-acae-47e7-bef4-5015b9eed3d2",
 	"14d35548-e937-431f-a7a6-9a8041751bfc",
 	"1b57ba0a-7a92-4887-9067-c89cd19b8eae",
-	'domain_functions_mark',
-	'',
-	'',
-	'domain_functions_mark',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'"dom_functions.arc"');
-INSERT INTO O_NBATTR
-	VALUES ("0e352db3-acae-47e7-bef4-5015b9eed3d2",
-	"14d35548-e937-431f-a7a6-9a8041751bfc");
-INSERT INTO O_BATTR
-	VALUES ("0e352db3-acae-47e7-bef4-5015b9eed3d2",
-	"14d35548-e937-431f-a7a6-9a8041751bfc");
-INSERT INTO O_ATTR
-	VALUES ("0e352db3-acae-47e7-bef4-5015b9eed3d2",
-	"14d35548-e937-431f-a7a6-9a8041751bfc",
-	"4fdc9eb0-fa05-41e5-a5a4-cd481ad176d1",
 	'system_functions_mark',
 	'',
 	'',

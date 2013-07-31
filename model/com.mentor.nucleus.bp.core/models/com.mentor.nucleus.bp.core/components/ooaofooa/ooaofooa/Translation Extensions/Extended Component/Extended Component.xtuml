@@ -387,60 +387,6 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("79a9ca61-326a-4d4d-8b73-0cb4bedeae5c",
-	"1d8a3916-cffc-4a74-8c26-e42b86aea190");
-INSERT INTO O_BATTR
-	VALUES ("79a9ca61-326a-4d4d-8b73-0cb4bedeae5c",
-	"1d8a3916-cffc-4a74-8c26-e42b86aea190");
-INSERT INTO O_ATTR
-	VALUES ("79a9ca61-326a-4d4d-8b73-0cb4bedeae5c",
-	"1d8a3916-cffc-4a74-8c26-e42b86aea190",
-	"16ab5dd9-acb3-421f-9986-ced31652011d",
-	'domain_mark_file',
-	'',
-	'',
-	'domain_mark_file',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'"domain.mark"');
-INSERT INTO O_NBATTR
-	VALUES ("6ee54398-0561-4541-bd4f-c33677dff609",
-	"1d8a3916-cffc-4a74-8c26-e42b86aea190");
-INSERT INTO O_BATTR
-	VALUES ("6ee54398-0561-4541-bd4f-c33677dff609",
-	"1d8a3916-cffc-4a74-8c26-e42b86aea190");
-INSERT INTO O_ATTR
-	VALUES ("6ee54398-0561-4541-bd4f-c33677dff609",
-	"1d8a3916-cffc-4a74-8c26-e42b86aea190",
-	"79a9ca61-326a-4d4d-8b73-0cb4bedeae5c",
-	'class_mark_file',
-	'',
-	'',
-	'class_mark_file',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'"class.mark"');
-INSERT INTO O_NBATTR
-	VALUES ("c5785643-75b8-4371-b987-7e67b4a6e214",
-	"1d8a3916-cffc-4a74-8c26-e42b86aea190");
-INSERT INTO O_BATTR
-	VALUES ("c5785643-75b8-4371-b987-7e67b4a6e214",
-	"1d8a3916-cffc-4a74-8c26-e42b86aea190");
-INSERT INTO O_ATTR
-	VALUES ("c5785643-75b8-4371-b987-7e67b4a6e214",
-	"1d8a3916-cffc-4a74-8c26-e42b86aea190",
-	"6ee54398-0561-4541-bd4f-c33677dff609",
-	'events_mark_file',
-	'',
-	'',
-	'events_mark_file',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'"events.mark"');
-INSERT INTO O_NBATTR
 	VALUES ("f3e15b83-9ace-4a5d-99b8-6c4a21068fc3",
 	"1d8a3916-cffc-4a74-8c26-e42b86aea190");
 INSERT INTO O_BATTR
@@ -623,7 +569,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("41628583-eb34-498a-a88c-d410354d469b",
 	"1d8a3916-cffc-4a74-8c26-e42b86aea190",
-	"c5785643-75b8-4371-b987-7e67b4a6e214",
+	"16ab5dd9-acb3-421f-9986-ced31652011d",
 	'module_file',
 	'',
 	'',

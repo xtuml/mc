@@ -63,12 +63,22 @@ if ( "sys" == s_sys.Name )
   ::TagMaximumStringLength( max_len:840 );
 end if;
 
-
 ::sys_populate();
 
 select any te_sys from instances of TE_SYS;
 ::sys_analyze( te_sys:te_sys );
-::CreateSpecialWhereClauseInstances( te_sys:te_sys );',
+::CreateSpecialWhereClauseInstances( te_sys:te_sys );
+
+select many te_cs from instances of TE_C where ( selected.included_in_build );
+for each te_c in te_cs
+  // Propagate domain information to the system level.
+  ::te_c_CollectLimits( te_c:te_c );
+  select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
+  c = ::class_sort( te_classs:te_classs );
+end for;
+
+::val_translate();
+',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
@@ -1024,9 +1034,7 @@ te_file.src_file_ext = "c";
 te_file.sys_main = te_prefix.file + "sys_main";
 te_file.factory = te_prefix.file + "sys_xtuml";
 te_file.events = te_prefix.file + "sys_events";
-te_file.asm_file_ext = "s";
 te_file.obj_file_ext = "o";
-te_file.rpt_file_ext = "rpt";
 te_file.nvs = te_prefix.file + "sys_nvs";
 te_file.sets = te_prefix.file + "sys_sets";
 te_file.types = te_prefix.file + "sys_types";
@@ -1046,13 +1054,11 @@ te_file.domain_sql_path = "schema/sql";
 te_file.system_source_path = "_ch";
 te_file.system_include_path = "_ch";
 te_file.system_color_path = ".";
-te_file.registry_mark = "registry.mark";
 te_file.system_mark = "system.mark";
 te_file.datatype_mark = "datatype.mark";
 te_file.event_mark = "event.mark";
 te_file.class_mark = "class.mark";
 te_file.domain_mark = "domain.mark";
-te_file.domain_functions_mark = "dom_functions.arc";
 te_file.system_functions_mark = "sys_functions.arc";
 te_file.bridge_mark = "bridge.mark";
 te_file.nvs_bridge = te_prefix.file + "NVS_bridge";
@@ -5611,290 +5617,6 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("56a681eb-2262-459e-9e10-48763f79f597",
-	"00000000-0000-0000-0000-000000000000",
-	'gen_parameter_list',
-	'',
-	'//====================================================================
-//
-// $RCSfile: q.utils.arc,v $
-//
-// (c) Copyright 1998-2013 Mentor Graphics Corporation  All rights reserved.
-//
-//====================================================================
-//
-v_pars = param.v_pars;
-prefix_param_delimiter = param.prefix_param_delimiter;
-invocation_flavor = param.invocation_flavor;
-//
-result = "";
-if ( not_empty v_pars )
-  select any te_string from instances of TE_STRING;
-  item_count = 0;
-  select many te_pars related by v_pars->TE_PAR[R2063];
-  for each te_par in te_pars
-    select one te_parm related by te_par->TE_PARM[R2091];
-    te_par.Order = te_parm.Order;
-    item_count = item_count + 1;
-  end for;
-  item_number = 0;
-  param_delimiter = "";
-  if ( prefix_param_delimiter )
-    param_delimiter = ",";
-  end if;
-  while ( item_number < item_count )
-    select any te_par related by v_pars->TE_PAR[R2063] where ( selected.Order == item_number );
-    select one v_par related by te_par->V_PAR[R2063];
-    select one v_val related by v_par->V_VAL[R800];
-    select one te_val related by v_val->TE_VAL[R2040];
-    result = ( result + param_delimiter ) + te_val.OAL;
-    if ( "" == te_val.buffer )
-      //::gen_value( v_val:v_val );
-    end if;
-//T::b(s:T::s(i:param_delimiter)\);
-    //
-    // Determine if the parameter is of type string.
-    // If string, check to see if this parameter is actually a function.
-    // If so, declare a variable in this scope to hold the return string.
-    // Do so by traversing to the te_blk instance to add the declaration.
-    stringbody = false;
-    if ( 0 == te_par.By_Ref )
-      select one te_dt related by v_val->S_DT[R820]->TE_DT[R2021];
-      if ( 4 == te_dt.Core_Typ )
-        // Check the four types of returnable action bodies for string.
-        select one v_trv related by v_val->V_TRV[R801];
-        if ( not_empty v_trv )
-          stringbody = true;
-        else
-          select one v_msv related by v_val->V_MSV[R801];
-          if ( not_empty v_msv )
-            stringbody = true;
-          else
-            select one v_brv related by v_val->V_BRV[R801];
-            if ( not_empty v_brv )
-              stringbody = true;
-            else
-              select one v_fnv related by v_val->V_FNV[R801];
-              if ( not_empty v_fnv )
-                stringbody = true;
-              end if;
-            end if;
-          end if;
-        end if;
-        if ( stringbody )
-          te_par.buffer = "v_sretval"; // + T::s(i:info.unique_num);
-          select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
-          te_blk.declaration = ( ( ( te_blk.declaration + te_dt.ExtName ) + ( "" + te_par.buffer ) ) + ( "[" + te_string.max_string_length ) ) + "];";
-//T::b(s:T::s(i:te_string.strcpy)( T::s(i:te_par.buffer), \);
-        end if;
-      end if;
-      //
-      //
-//T::b(s:T::s(i:te_val.buffer)\);
-      if ( stringbody )
-//T::b(s:)\);
-      end if;
-    else
-//T::b(s:&(T::s(i:te_val.buffer))\);
-    end if;
-    param_delimiter = ", ";
-    item_number = item_number + 1;
-  end while;
-end if;
-return result;
-',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("a3f37cb6-a86b-4642-9c3b-46fe24800d5d",
-	"56a681eb-2262-459e-9e10-48763f79f597",
-	'v_pars',
-	"ae5b840e-5312-4865-ae17-5c9bba997543",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("ae5b840e-5312-4865-ae17-5c9bba997543",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<Actual Parameter>',
-	'',
-	'',
-	'../Value/Value.xtuml');
-INSERT INTO S_SPARM
-	VALUES ("b701654f-0e68-404a-9aab-17de39761098",
-	"56a681eb-2262-459e-9e10-48763f79f597",
-	'prefix_param_delimiter',
-	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
-	'',
-	"a3f37cb6-a86b-4642-9c3b-46fe24800d5d",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("078bc0b7-a68f-4008-84b8-cdd040b0d8ba",
-	"56a681eb-2262-459e-9e10-48763f79f597",
-	'invocation_flavor',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"b701654f-0e68-404a-9aab-17de39761098",
-	'');
-INSERT INTO PE_PE
-	VALUES ("56a681eb-2262-459e-9e10-48763f79f597",
-	1,
-	"e0e8a924-f549-4e50-9ee0-af61843ab967",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("c096ad7d-eedf-4cc9-81bd-d20d3e71f1fd",
-	"00000000-0000-0000-0000-000000000000",
-	'is_reflexive',
-	'',
-	'//
-//====================================================================
-//
-r_rel = param.r_rel;
-//
-result = false;
-select one r_simp related by r_rel->R_SIMP[R206];
-if ( not_empty r_simp )
-  select many r_parts related by r_simp->R_PART[R207];
-  if ( ( cardinality r_parts ) > 1 )
-    select any first_r_part related by r_simp->R_PART[R207];
-    select any second_r_part related by r_simp->R_PART[R207] where ( selected.OIR_ID != first_r_part.OIR_ID );
-    if ( first_r_part.Obj_ID == second_r_part.Obj_ID )
-      result = true;
-    end if;
-  else
-    select any r_part related by r_simp->R_PART[R207];
-    select one r_form related by r_simp->R_FORM[R208];
-    if ( not_empty r_form )
-      if ( r_part.Obj_ID == r_form.Obj_ID )
-        result = true;
-      end if;
-    end if;
-  end if;
-else
-  select one r_assoc related by r_rel->R_ASSOC[R206];
-  if ( not_empty r_assoc )
-    select one r_aone related by r_assoc->R_AONE[R209];
-    select one r_aoth related by r_assoc->R_AOTH[R210];
-    if ( r_aone.Obj_ID == r_aoth.Obj_ID )
-      result = true;
-    end if;
-  end if;
-end if;
-return result;
-',
-	"ba5eda7a-def5-0000-0000-000000000001",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("daeb0783-b364-40dd-9f72-7511c9e5a23f",
-	"c096ad7d-eedf-4cc9-81bd-d20d3e71f1fd",
-	'r_rel',
-	"620e9be8-e289-47ed-9279-69b359c269c5",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("620e9be8-e289-47ed-9279-69b359c269c5",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Association>',
-	'',
-	'',
-	'../Association/Association.xtuml');
-INSERT INTO PE_PE
-	VALUES ("c096ad7d-eedf-4cc9-81bd-d20d3e71f1fd",
-	1,
-	"e0e8a924-f549-4e50-9ee0-af61843ab967",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("2cc51add-ff40-4565-96e1-babbc9c3fae7",
-	"00000000-0000-0000-0000-000000000000",
-	't_oal_smt_event_parameters',
-	'',
-	'//------------------------------------------------
-// Note the use of p_ here.  It is hard-coded and depends upon
-// matching the prefix used in initialization population query.
-evt_msg_var = param.evt_msg_var;
-parameter = param.parameter;
-value = param.value;
-value_type = param.value_type;
-ws = param.ws;
-result = "";
-select any te_eq from instances of TE_EQ;
-if ( "" == evt_msg_var )
-  evt_msg_var = te_eq.event_message_variable;
-end if;
-if ( 4 == value_type )
-  // string
-  select any te_string from instances of TE_STRING;
-  select any te_instance from instances of TE_INSTANCE;
-  result = ""; // T::s(i:ws)T::s(i:te_instance.module)T::s(i:te_string.strcpy)( T::s(i:evt_msg_var)->p_T::underscore(s:parameter), T::s(i:value) );;
-else
-  result = ""; // T::s(i:ws)T::s(i:evt_msg_var)->p_T::s(i:parameter) = T::s(i:value);;
-end if;
-return result;
-',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("077903fc-ccdc-488c-939e-1efe2b1709e6",
-	"2cc51add-ff40-4565-96e1-babbc9c3fae7",
-	'evt_msg_var',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("8f5d3922-2572-4b60-b589-95f37452bbb3",
-	"2cc51add-ff40-4565-96e1-babbc9c3fae7",
-	'parameter',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"077903fc-ccdc-488c-939e-1efe2b1709e6",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("bc651f0c-8f90-400e-92f1-a1ae9236b80b",
-	"2cc51add-ff40-4565-96e1-babbc9c3fae7",
-	'value',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"8f5d3922-2572-4b60-b589-95f37452bbb3",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("52682aa3-0fa0-47f7-a274-81e0f85e7764",
-	"2cc51add-ff40-4565-96e1-babbc9c3fae7",
-	'value_type',
-	"ba5eda7a-def5-0000-0000-000000000002",
-	0,
-	'',
-	"bc651f0c-8f90-400e-92f1-a1ae9236b80b",
-	'');
-INSERT INTO S_SPARM
-	VALUES ("20af1681-81fa-493f-9a45-bdb0ce21fd76",
-	"2cc51add-ff40-4565-96e1-babbc9c3fae7",
-	'ws',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"52682aa3-0fa0-47f7-a274-81e0f85e7764",
-	'');
-INSERT INTO PE_PE
-	VALUES ("2cc51add-ff40-4565-96e1-babbc9c3fae7",
-	1,
-	"e0e8a924-f549-4e50-9ee0-af61843ab967",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
 	VALUES ("df4654af-10d5-41a2-b0da-0fb0cc7d9d70",
 	"00000000-0000-0000-0000-000000000000",
 	'TagDataTypePrecision',
@@ -7902,6 +7624,466 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("89be0ec3-0822-401d-bb59-d8f0a53e2fb1",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("3bc07817-64da-4feb-8658-be841483be34",
+	"00000000-0000-0000-0000-000000000000",
+	'te_c_CollectLimits',
+	'',
+	'//============================================================================
+// $RCSfile: q.domain.limits.arc,v $
+//
+// Description:
+// These queries collect static analysis information and propagate it
+// forward to the system build step by outputting a set of INSERT
+// statements that will populate the system build gen database.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//
+//============================================================================
+// Store statistics into TE_C.
+//============================================================================
+te_c = param.te_c;
+//
+select any te_file from instances of TE_FILE;
+//
+// Analyze maximums for extents.
+// The extents should be analyzed only *after* extent size coloring!
+select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
+object_class_extents = 0;
+relationship_extents = 0;
+largest_object_extent = 0;
+//
+for each te_class in te_classs
+  select one o_obj related by te_class->O_OBJ[R2019];
+  object_class_extents = object_class_extents + te_class.MaxExtentSize;
+  if ( te_class.MaxExtentSize > largest_object_extent )
+    largest_object_extent = te_class.MaxExtentSize;
+  end if;
+  // Calculate maximum extents required for objects on "MANY" side of a relationship.
+  select many r_rgos related by o_obj->R_OIR[R201]->R_RGO[R203] where ( selected.Obj_ID == o_obj.Obj_ID );
+  for each r_rgo in r_rgos
+    select one form related by r_rgo->R_FORM[R205];
+    if ( not_empty form )
+      if ( form.Mult == 1 )
+        relationship_extents = relationship_extents + te_class.MaxExtentSize;
+      end if;
+    end if;
+    select one assr related by r_rgo->R_ASSR[R205];
+    if ( not_empty assr )
+      if ( assr.Mult == 1 )
+        relationship_extents = relationship_extents + te_class.MaxExtentSize;
+      end if;
+    end if;
+  end for;
+  select many r_rtos related by o_obj->R_OIR[R201]->R_RTO[R203] where ( selected.Obj_ID == o_obj.Obj_ID );
+  for each r_rto in r_rtos
+    select one aone related by r_rto->R_AONE[R204];
+    if ( not_empty aone )
+      if ( aone.Mult == 1 )
+        relationship_extents = relationship_extents + te_class.MaxExtentSize;
+      end if;
+    end if;
+    select one aoth related by r_rto->R_AOTH[R204];
+    if ( not_empty aoth )
+      if ( aoth.Mult == 1 )
+        relationship_extents = relationship_extents + te_class.MaxExtentSize;
+      end if;
+    end if;
+  end for;
+end for;
+//
+// analyze timers events selects
+r = ::timer_analyze_starts();
+total_timer_starts = r;
+//
+// Count up the event specification statements which is the supertype
+// of generated and deferred events.  This will give us a starting point
+// on allocating event queue resources.
+// CDS - We are (re)counting the events for each component, but this code is not component-specific.
+// CDS - The event counts should be "harvested" while processing the action language.
+max_events = 0;
+max_self_events = 0;
+max_nonself_events = 0;
+select many act_acts from instances of ACT_ACT;
+for each act_act in act_acts
+  select many event_specification_statements related by act_act->ACT_BLK[R601]->ACT_SMT[R602]->E_ESS[R603];
+  all_events_count = cardinality event_specification_statements;
+  select many act_sgns related by act_act->ACT_BLK[R601]->ACT_SMT[R602]->ACT_SGN[R603];
+  all_events_count = all_events_count + ( cardinality act_sgns );
+  if ( all_events_count > max_events )
+    max_events = all_events_count;
+  end if;
+  // Count up the self events in this body.
+  count = 0;
+  for each e_ess in event_specification_statements
+    select one v_var related by e_ess->E_GES[R701]->E_GSME[R703]->E_GEN[R705]->V_VAR[R712] where ( T::l(s:selected.Name) == "self" );
+    if ( not_empty v_var )
+      count = count + 1;
+    else
+      select any v_var related by event_specification_statements->E_CES[R701]->E_CSME[R702]->E_CEI[R704]->V_VAR[R711] where ( T::l(s:selected.Name) == "self" );
+      if ( not_empty v_var )
+        count = count + 1;
+      end if;
+    end if;
+  end for;
+  if ( count > max_self_events )
+    max_self_events = count;
+  end if;
+  count = all_events_count - count;
+  if ( count > max_nonself_events )
+    max_nonself_events = count;
+  end if;
+  select one te_aba related by act_act->ACT_FNB[R698]->S_SYNC[R695]->TE_SYNC[R2023]->TE_ABA[R2010];
+  if ( not_empty te_aba )
+    te_aba.NonSelfEventCount = count;
+  end if;
+end for;
+//
+r = ::containoid_select_many_count();
+max_select_many = r;
+//
+// functions
+select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsSafeForInterrupts ) and ( selected.XlateSemantics ) );
+total_interleaved_bridges = cardinality te_syncs;
+//
+// Count up the priority events.
+select many te_evts from instances of TE_EVT where ( selected.Priority != 0 );
+total_priority_events = cardinality te_evts;
+//
+// Count up the classes using preexisting instances defined in data (PEIs).
+select many te_classs related by te_c->TE_CLASS[R2064] where ( ( not selected.ExcludeFromGen ) and ( selected.PEIsDefinedInData ) );
+pei_class_count = cardinality te_classs;
+//
+// Count up the persistent classes.
+select many te_classs related by te_c->TE_CLASS[R2064] where ( ( not selected.ExcludeFromGen ) and ( selected.Persistent ) );
+persist_class_count = cardinality te_classs;
+//
+te_c.MaxObjExtent = object_class_extents;
+te_c.MaxRelExtent = relationship_extents;
+te_c.MaxSelectExtent = max_select_many * largest_object_extent;
+te_c.MaxSelfEvents = max_self_events;
+te_c.MaxNonSelfEvents = max_nonself_events;
+te_c.MaxPriorityEvents = total_priority_events;
+te_c.MaxTimers = total_timer_starts;
+te_c.InterleavedBridges = total_interleaved_bridges;
+te_c.PEIClassCount = pei_class_count;
+te_c.PersistentClassCount = persist_class_count;
+//
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6360ac48-8b19-48fa-a159-d078cc0382ff",
+	"3bc07817-64da-4feb-8658-be841483be34",
+	'te_c',
+	"af13e9b7-f940-4a62-b6da-d8fb321a8a39",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("3bc07817-64da-4feb-8658-be841483be34",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fc964141-bddf-4fe8-a3ff-38dd32989544",
+	"00000000-0000-0000-0000-000000000000",
+	'gen_parameter_list',
+	'',
+	'//====================================================================
+//
+// $RCSfile: q.utils.arc,v $
+//
+// (c) Copyright 1998-2013 Mentor Graphics Corporation  All rights reserved.
+//
+//====================================================================
+//
+v_pars = param.v_pars;
+prefix_param_delimiter = param.prefix_param_delimiter;
+invocation_flavor = param.invocation_flavor;
+//
+code = "";
+OAL = "";
+select any te_parm from instances of TE_PARM;
+if ( not_empty v_pars )
+  select any te_string from instances of TE_STRING;
+  item_count = 0;
+  select many te_pars related by v_pars->TE_PAR[R2063];
+  for each te_par in te_pars
+    select one te_parm related by te_par->TE_PARM[R2091];
+    te_par.Order = te_parm.Order;
+    item_count = item_count + 1;
+  end for;
+  item_number = 0;
+  param_delimiter = "";
+  if ( prefix_param_delimiter )
+    param_delimiter = ",";
+  end if;
+  while ( item_number < item_count )
+    select any te_par related by v_pars->TE_PAR[R2063] where ( selected.Order == item_number );
+    select one v_par related by te_par->V_PAR[R2063];
+    select one v_val related by v_par->V_VAL[R800];
+    select one te_val related by v_val->TE_VAL[R2040];
+    OAL = ( OAL + param_delimiter ) + te_val.OAL;
+    if ( "" == te_val.buffer )
+      ::gen_value( v_val:v_val );
+    end if;
+    code = code + param_delimiter;
+    //
+    // Determine if the parameter is of type string.
+    // If string, check to see if this parameter is actually a function.
+    // If so, declare a variable in this scope to hold the return string.
+    // Do so by traversing to the te_blk instance to add the declaration.
+    stringbody = false;
+    if ( 0 == te_par.By_Ref )
+      select one te_dt related by v_val->S_DT[R820]->TE_DT[R2021];
+      if ( 4 == te_dt.Core_Typ )
+        // Check the four types of returnable action bodies for string.
+        select one v_trv related by v_val->V_TRV[R801];
+        if ( not_empty v_trv )
+          stringbody = true;
+        else
+          select one v_msv related by v_val->V_MSV[R801];
+          if ( not_empty v_msv )
+            stringbody = true;
+          else
+            select one v_brv related by v_val->V_BRV[R801];
+            if ( not_empty v_brv )
+              stringbody = true;
+            else
+              select one v_fnv related by v_val->V_FNV[R801];
+              if ( not_empty v_fnv )
+                stringbody = true;
+              end if;
+            end if;
+          end if;
+        end if;
+        if ( stringbody )
+          te_par.buffer = "v_sretval"; // + T::s(i:info.unique_num);
+          select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
+          te_blk.declaration = ( ( ( te_blk.declaration + te_dt.ExtName ) + ( " " + te_par.buffer ) ) + ( "[" + te_string.max_string_length ) ) + "];";
+          code = ( ( code + te_string.strcpy ) + ( "( " + te_par.buffer ) ) + ", ";
+        end if;
+      end if;
+      //
+      //
+      code = code + te_val.buffer;
+      if ( stringbody )
+        code = code + ")";
+      end if;
+    else
+      code = ( ( code + "&(" ) + ( te_val.buffer + ")" ) );
+    end if;
+    param_delimiter = ", ";
+    item_number = item_number + 1;
+  end while;
+end if;
+te_parm.ParamBuffer = code;
+te_parm.OALParamBuffer = OAL;
+return te_parm;
+',
+	"c1ec5f30-73a6-4381-a1e9-87b18c00ec88",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3b9a937c-3c0f-4cc2-870e-f45be20de3a7",
+	"fc964141-bddf-4fe8-a3ff-38dd32989544",
+	'v_pars',
+	"ae5b840e-5312-4865-ae17-5c9bba997543",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ae5b840e-5312-4865-ae17-5c9bba997543",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Actual Parameter>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("7506ac36-4c72-47db-8840-0abdd2e93f94",
+	"fc964141-bddf-4fe8-a3ff-38dd32989544",
+	'prefix_param_delimiter',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"3b9a937c-3c0f-4cc2-870e-f45be20de3a7",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1c7fceef-b102-4231-b022-e2f3e008fda9",
+	"fc964141-bddf-4fe8-a3ff-38dd32989544",
+	'invocation_flavor',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7506ac36-4c72-47db-8840-0abdd2e93f94",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fc964141-bddf-4fe8-a3ff-38dd32989544",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4e7a6ea4-ff4f-4125-b14d-fc1f2bde70f0",
+	"00000000-0000-0000-0000-000000000000",
+	'is_reflexive',
+	'',
+	'//
+//====================================================================
+//
+r_rel = param.r_rel;
+//
+result = false;
+select one r_simp related by r_rel->R_SIMP[R206];
+if ( not_empty r_simp )
+  select many r_parts related by r_simp->R_PART[R207];
+  if ( ( cardinality r_parts ) > 1 )
+    select any first_r_part related by r_simp->R_PART[R207];
+    select any second_r_part related by r_simp->R_PART[R207] where ( selected.OIR_ID != first_r_part.OIR_ID );
+    if ( first_r_part.Obj_ID == second_r_part.Obj_ID )
+      result = true;
+    end if;
+  else
+    select any r_part related by r_simp->R_PART[R207];
+    select one r_form related by r_simp->R_FORM[R208];
+    if ( not_empty r_form )
+      if ( r_part.Obj_ID == r_form.Obj_ID )
+        result = true;
+      end if;
+    end if;
+  end if;
+else
+  select one r_assoc related by r_rel->R_ASSOC[R206];
+  if ( not_empty r_assoc )
+    select one r_aone related by r_assoc->R_AONE[R209];
+    select one r_aoth related by r_assoc->R_AOTH[R210];
+    if ( r_aone.Obj_ID == r_aoth.Obj_ID )
+      result = true;
+    end if;
+  end if;
+end if;
+return result;
+',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8b612d3f-6026-4924-850b-ca0ae98d6d95",
+	"4e7a6ea4-ff4f-4125-b14d-fc1f2bde70f0",
+	'r_rel',
+	"620e9be8-e289-47ed-9279-69b359c269c5",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("620e9be8-e289-47ed-9279-69b359c269c5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Association>',
+	'',
+	'',
+	'../Association/Association.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4e7a6ea4-ff4f-4125-b14d-fc1f2bde70f0",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("668664c4-74d7-45c1-88a7-5f3761151c0a",
+	"00000000-0000-0000-0000-000000000000",
+	't_oal_smt_event_parameters',
+	'',
+	'//------------------------------------------------
+// Note the use of p_ here.  It is hard-coded and depends upon
+// matching the prefix used in initialization population query.
+evt_msg_var = param.evt_msg_var;
+parameter = param.parameter;
+value = param.value;
+value_type = param.value_type;
+ws = param.ws;
+result = "";
+select any te_eq from instances of TE_EQ;
+if ( "" == evt_msg_var )
+  evt_msg_var = te_eq.event_message_variable;
+end if;
+if ( 4 == value_type )
+  // string
+  select any te_string from instances of TE_STRING;
+  select any te_instance from instances of TE_INSTANCE;
+  result = ws; // T::s(i:te_instance.module)T::s(i:te_string.strcpy)( T::s(i:evt_msg_var)->p_T::underscore(s:parameter), T::s(i:value) );;
+else
+  result = ws; // T::s(i:evt_msg_var)->p_T::s(i:parameter) = T::s(i:value);;
+end if;
+return result;
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("36e36c11-7814-4d3f-ad1c-4cda41a3e5c8",
+	"668664c4-74d7-45c1-88a7-5f3761151c0a",
+	'evt_msg_var',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ffe1e710-14c2-4bd2-8d3b-b7a03a1b5364",
+	"668664c4-74d7-45c1-88a7-5f3761151c0a",
+	'parameter',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"36e36c11-7814-4d3f-ad1c-4cda41a3e5c8",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("45718f1f-f1d4-4f2a-ac16-33fc5459310d",
+	"668664c4-74d7-45c1-88a7-5f3761151c0a",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ffe1e710-14c2-4bd2-8d3b-b7a03a1b5364",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d4f9f0c5-d658-412f-a7b2-464c8376f5a6",
+	"668664c4-74d7-45c1-88a7-5f3761151c0a",
+	'value_type',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"45718f1f-f1d4-4f2a-ac16-33fc5459310d",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5b1779dd-6578-4013-8812-7f7494360d45",
+	"668664c4-74d7-45c1-88a7-5f3761151c0a",
+	'ws',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d4f9f0c5-d658-412f-a7b2-464c8376f5a6",
+	'');
+INSERT INTO PE_PE
+	VALUES ("668664c4-74d7-45c1-88a7-5f3761151c0a",
 	1,
 	"e0e8a924-f549-4e50-9ee0-af61843ab967",
 	"00000000-0000-0000-0000-000000000000",

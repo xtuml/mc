@@ -44,87 +44,15 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("bc2c0516-3462-46b6-b5ca-27a9d349fdae",
+	VALUES ("affee00e-0fe6-4b36-a379-c4bef89eb416",
 	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
 INSERT INTO O_BATTR
-	VALUES ("bc2c0516-3462-46b6-b5ca-27a9d349fdae",
+	VALUES ("affee00e-0fe6-4b36-a379-c4bef89eb416",
 	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
 INSERT INTO O_ATTR
-	VALUES ("bc2c0516-3462-46b6-b5ca-27a9d349fdae",
+	VALUES ("affee00e-0fe6-4b36-a379-c4bef89eb416",
 	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
 	"09ee255e-5d79-409b-b7ef-04ac17684c66",
-	'ModelCompilerVersion',
-	'',
-	'',
-	'ModelCompilerVersion',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("97401f74-2924-4af3-b8e2-75e130bf4b43",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
-INSERT INTO O_BATTR
-	VALUES ("97401f74-2924-4af3-b8e2-75e130bf4b43",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
-INSERT INTO O_ATTR
-	VALUES ("97401f74-2924-4af3-b8e2-75e130bf4b43",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
-	"bc2c0516-3462-46b6-b5ca-27a9d349fdae",
-	'ModelCompilerSerNum',
-	'',
-	'',
-	'ModelCompilerSerNum',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("e7310ae4-0ca6-474b-b6db-7747fbebda7a",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
-INSERT INTO O_BATTR
-	VALUES ("e7310ae4-0ca6-474b-b6db-7747fbebda7a",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
-INSERT INTO O_ATTR
-	VALUES ("e7310ae4-0ca6-474b-b6db-7747fbebda7a",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
-	"97401f74-2924-4af3-b8e2-75e130bf4b43",
-	'ModelCompilerKey',
-	'',
-	'',
-	'ModelCompilerKey',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("112eee46-67c8-42fd-979d-faadf27beadb",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
-INSERT INTO O_BATTR
-	VALUES ("112eee46-67c8-42fd-979d-faadf27beadb",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
-INSERT INTO O_ATTR
-	VALUES ("112eee46-67c8-42fd-979d-faadf27beadb",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
-	"e7310ae4-0ca6-474b-b6db-7747fbebda7a",
-	'BridgePointLicenseKey',
-	'',
-	'',
-	'BridgePointLicenseKey',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("affee00e-0fe6-4b36-a379-c4bef89eb416",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
-INSERT INTO O_BATTR
-	VALUES ("affee00e-0fe6-4b36-a379-c4bef89eb416",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
-INSERT INTO O_ATTR
-	VALUES ("affee00e-0fe6-4b36-a379-c4bef89eb416",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
-	"112eee46-67c8-42fd-979d-faadf27beadb",
 	'ExecutableName',
 	'',
 	'',

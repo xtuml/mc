@@ -10845,6 +10845,1013 @@ INSERT INTO PE_PE
 	"5f529d51-32b6-4bef-8f54-26bad1a41300",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("82564ebb-6eea-4bb1-a100-101e3e967fbb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Array Element Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("82564ebb-6eea-4bb1-a100-101e3e967fbb",
+	0,
+	"a7c49503-ff78-4282-af82-2cdce6f1c943");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a7c49503-ff78-4282-af82-2cdce6f1c943",
+	'Array Element Reference',
+	826,
+	'V_AER',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Array Element Reference/Array Element Reference.xtuml');
+INSERT INTO PE_PE
+	VALUES ("82564ebb-6eea-4bb1-a100-101e3e967fbb",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("56ba211c-03aa-452c-bed3-e9d6c1b858ff",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Array Element Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("56ba211c-03aa-452c-bed3-e9d6c1b858ff",
+	1,
+	"a7c49503-ff78-4282-af82-2cdce6f1c943");
+INSERT INTO PE_PE
+	VALUES ("56ba211c-03aa-452c-bed3-e9d6c1b858ff",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("4e9dfb3b-a92b-483c-a582-6176a684fb06",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Array Length Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("4e9dfb3b-a92b-483c-a582-6176a684fb06",
+	0,
+	"006e00b9-b809-4ada-b7b5-9b08ad28aa20");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("006e00b9-b809-4ada-b7b5-9b08ad28aa20",
+	'Array Length Value',
+	828,
+	'V_ALV',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Array Length Value/Array Length Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4e9dfb3b-a92b-483c-a582-6176a684fb06",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("f926bec0-dbba-43e1-8215-552e57fb54c4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Array Length Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f926bec0-dbba-43e1-8215-552e57fb54c4",
+	1,
+	"006e00b9-b809-4ada-b7b5-9b08ad28aa20");
+INSERT INTO PE_PE
+	VALUES ("f926bec0-dbba-43e1-8215-552e57fb54c4",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("6fd240aa-6b20-4fd2-abeb-6fe6d413637b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Attribute Value Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("6fd240aa-6b20-4fd2-abeb-6fe6d413637b",
+	0,
+	"c3ef762d-918f-4f25-823b-5bb004929797");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("c3ef762d-918f-4f25-823b-5bb004929797",
+	'Attribute Value Reference',
+	812,
+	'V_AVL',
+	'This class represents a value held in an attribute of an instance being used on the right hand side of an assignment or an expression.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Attribute Value Reference/Attribute Value Reference.xtuml');
+INSERT INTO PE_PE
+	VALUES ("6fd240aa-6b20-4fd2-abeb-6fe6d413637b",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("73621b66-0f5c-4456-9f7c-6b61088db1ee",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Attribute Value Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("73621b66-0f5c-4456-9f7c-6b61088db1ee",
+	1,
+	"c3ef762d-918f-4f25-823b-5bb004929797");
+INSERT INTO PE_PE
+	VALUES ("73621b66-0f5c-4456-9f7c-6b61088db1ee",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("f379d69e-6f89-4ad8-9a75-30f08ee3f8c9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Bridge Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f379d69e-6f89-4ad8-9a75-30f08ee3f8c9",
+	0,
+	"505bd63b-b7cb-426f-892c-c91e341f8a72");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("505bd63b-b7cb-426f-892c-c91e341f8a72",
+	'Bridge Value',
+	814,
+	'V_BRV',
+	'This class represents the value returned by a bridge invocation.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Bridge Value/Bridge Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f379d69e-6f89-4ad8-9a75-30f08ee3f8c9",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("63111b46-c9f1-410e-8752-3728731b31d2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Bridge Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("63111b46-c9f1-410e-8752-3728731b31d2",
+	1,
+	"505bd63b-b7cb-426f-892c-c91e341f8a72");
+INSERT INTO PE_PE
+	VALUES ("63111b46-c9f1-410e-8752-3728731b31d2",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("ef15ba0a-a2f3-4c25-9d1f-d8c620c1f01a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Event Datum Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ef15ba0a-a2f3-4c25-9d1f-d8c620c1f01a",
+	0,
+	"0bb9e883-51d2-4ce3-a1f5-a81f7829a14c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("0bb9e883-51d2-4ce3-a1f5-a81f7829a14c",
+	'Event Datum Value',
+	806,
+	'V_EDV',
+	'This class represents the value of an event datum.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Event Datum Value/Event Datum Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("ef15ba0a-a2f3-4c25-9d1f-d8c620c1f01a",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("666f7376-f20d-4f25-9895-dc921d6b21fa",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Event Datum Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("666f7376-f20d-4f25-9895-dc921d6b21fa",
+	1,
+	"0bb9e883-51d2-4ce3-a1f5-a81f7829a14c");
+INSERT INTO PE_PE
+	VALUES ("666f7376-f20d-4f25-9895-dc921d6b21fa",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("ce0f4204-98c4-4ba9-bdec-c5e6575536df",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Event Parameter Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ce0f4204-98c4-4ba9-bdec-c5e6575536df",
+	0,
+	"9901df8f-2a16-4fa0-9c47-2a9513de326b");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("9901df8f-2a16-4fa0-9c47-2a9513de326b",
+	'Event Parameter Reference',
+	830,
+	'V_EPR',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Event Parameter Reference/Event Parameter Reference.xtuml');
+INSERT INTO PE_PE
+	VALUES ("ce0f4204-98c4-4ba9-bdec-c5e6575536df",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8fc9980a-757d-48a0-9289-788b246f729e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Event Parameter Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8fc9980a-757d-48a0-9289-788b246f729e",
+	1,
+	"9901df8f-2a16-4fa0-9c47-2a9513de326b");
+INSERT INTO PE_PE
+	VALUES ("8fc9980a-757d-48a0-9289-788b246f729e",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("b6ef4c93-c3d0-4cda-8b0a-99eccecd77dd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("b6ef4c93-c3d0-4cda-8b0a-99eccecd77dd",
+	0,
+	"3045eb69-c809-4f38-a708-5744f951941a");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("3045eb69-c809-4f38-a708-5744f951941a",
+	'Function Value',
+	822,
+	'V_FNV',
+	'This class represents the value returned by a function invocation.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Function Value/Function Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("b6ef4c93-c3d0-4cda-8b0a-99eccecd77dd",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("4442a2f7-73a7-44d5-b8f9-b517fd4b09fa",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Function Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("4442a2f7-73a7-44d5-b8f9-b517fd4b09fa",
+	1,
+	"3045eb69-c809-4f38-a708-5744f951941a");
+INSERT INTO PE_PE
+	VALUES ("4442a2f7-73a7-44d5-b8f9-b517fd4b09fa",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("f62846f2-c1fe-4e40-9e23-20af525df6e8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Instance Handle>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f62846f2-c1fe-4e40-9e23-20af525df6e8",
+	0,
+	"ca8f8cd7-1ad7-4a32-a868-b157f213c7da");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("ca8f8cd7-1ad7-4a32-a868-b157f213c7da",
+	'Instance Handle',
+	816,
+	'V_INT',
+	'This class represents an instance.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Instance Handle/Instance Handle.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f62846f2-c1fe-4e40-9e23-20af525df6e8",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7f9661b3-9ed3-42df-adf6-764f0d339d5a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Instance Handle>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7f9661b3-9ed3-42df-adf6-764f0d339d5a",
+	1,
+	"ca8f8cd7-1ad7-4a32-a868-b157f213c7da");
+INSERT INTO PE_PE
+	VALUES ("7f9661b3-9ed3-42df-adf6-764f0d339d5a",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("90909feb-2b43-4302-892e-6f06b458bba6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Instance Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("90909feb-2b43-4302-892e-6f06b458bba6",
+	0,
+	"04b1f58f-9a45-4f1e-8837-d1f4d98601a4");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("04b1f58f-9a45-4f1e-8837-d1f4d98601a4",
+	'Instance Reference',
+	813,
+	'V_IRF',
+	'This class represents an instance reference, the result of a select one or select any statement.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Instance Reference/Instance Reference.xtuml');
+INSERT INTO PE_PE
+	VALUES ("90909feb-2b43-4302-892e-6f06b458bba6",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("2528df71-9b68-4969-ae30-63bbb437fa85",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Instance Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2528df71-9b68-4969-ae30-63bbb437fa85",
+	1,
+	"04b1f58f-9a45-4f1e-8837-d1f4d98601a4");
+INSERT INTO PE_PE
+	VALUES ("2528df71-9b68-4969-ae30-63bbb437fa85",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("11052f76-2ab7-4b0c-bfef-3f17dc13fa96",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Instance Set>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("11052f76-2ab7-4b0c-bfef-3f17dc13fa96",
+	0,
+	"1cf77f0a-8b97-42e3-aa69-a07fc1404b7c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("1cf77f0a-8b97-42e3-aa69-a07fc1404b7c",
+	'Instance Set',
+	817,
+	'V_INS',
+	'This class represents a set of instances.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Instance Set/Instance Set.xtuml');
+INSERT INTO PE_PE
+	VALUES ("11052f76-2ab7-4b0c-bfef-3f17dc13fa96",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("11ea24cf-395a-4f97-919e-1510a8dee0b2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Instance Set>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("11ea24cf-395a-4f97-919e-1510a8dee0b2",
+	1,
+	"1cf77f0a-8b97-42e3-aa69-a07fc1404b7c");
+INSERT INTO PE_PE
+	VALUES ("11ea24cf-395a-4f97-919e-1510a8dee0b2",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("d0fd8c6c-a6db-4055-b174-0fad6ef0a86a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Instance Set Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("d0fd8c6c-a6db-4055-b174-0fad6ef0a86a",
+	0,
+	"d3a34bcc-7b76-4e9d-beca-d692efd107bb");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("d3a34bcc-7b76-4e9d-beca-d692efd107bb",
+	'Instance Set Reference',
+	807,
+	'V_ISR',
+	'This class represents a set of instance references, the result of a select many statement.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Instance Set Reference/Instance Set Reference.xtuml');
+INSERT INTO PE_PE
+	VALUES ("d0fd8c6c-a6db-4055-b174-0fad6ef0a86a",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("9c6ccc0b-0ac9-48d0-99c1-fc3631a0ca06",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Instance Set Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9c6ccc0b-0ac9-48d0-99c1-fc3631a0ca06",
+	1,
+	"d3a34bcc-7b76-4e9d-beca-d692efd107bb");
+INSERT INTO PE_PE
+	VALUES ("9c6ccc0b-0ac9-48d0-99c1-fc3631a0ca06",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("c20b8875-62a8-4eaa-9081-de85209cc03e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Literal Boolean>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("c20b8875-62a8-4eaa-9081-de85209cc03e",
+	0,
+	"20caa3f0-0c8c-4a8f-9958-9ac1da3754b7");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("20caa3f0-0c8c-4a8f-9958-9ac1da3754b7",
+	'Literal Boolean',
+	803,
+	'V_LBO',
+	'This class represents a literal boolean, may take the values true or false only.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Literal Boolean/Literal Boolean.xtuml');
+INSERT INTO PE_PE
+	VALUES ("c20b8875-62a8-4eaa-9081-de85209cc03e",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("bb8c4124-b060-4bf6-a468-2aca279a2268",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Literal Boolean>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("bb8c4124-b060-4bf6-a468-2aca279a2268",
+	1,
+	"20caa3f0-0c8c-4a8f-9958-9ac1da3754b7");
+INSERT INTO PE_PE
+	VALUES ("bb8c4124-b060-4bf6-a468-2aca279a2268",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("47e60553-dad1-49c3-9ee4-d6a2e5a45123",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Literal Enumerator>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("47e60553-dad1-49c3-9ee4-d6a2e5a45123",
+	0,
+	"170020f9-79e6-465a-a50c-9a60ddda2ef6");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("170020f9-79e6-465a-a50c-9a60ddda2ef6",
+	'Literal Enumerator',
+	823,
+	'V_LEN',
+	'This class represents a literal enumerated value.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Literal Enumerator/Literal Enumerator.xtuml');
+INSERT INTO PE_PE
+	VALUES ("47e60553-dad1-49c3-9ee4-d6a2e5a45123",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("4e01dacf-92f2-4a0e-bddf-c558a5cdfbef",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Literal Enumerator>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("4e01dacf-92f2-4a0e-bddf-c558a5cdfbef",
+	1,
+	"170020f9-79e6-465a-a50c-9a60ddda2ef6");
+INSERT INTO PE_PE
+	VALUES ("4e01dacf-92f2-4a0e-bddf-c558a5cdfbef",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("2d2f8dc3-777f-43f1-9cbd-3043bcd304ee",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Literal Integer>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2d2f8dc3-777f-43f1-9cbd-3043bcd304ee",
+	0,
+	"5f04d7a2-b13e-4dca-a8bb-5caf53ac3ed6");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("5f04d7a2-b13e-4dca-a8bb-5caf53ac3ed6",
+	'Literal Integer',
+	811,
+	'V_LIN',
+	'This class represents a literal integer, represented by a sequence of numeric characters.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Literal Integer/Literal Integer.xtuml');
+INSERT INTO PE_PE
+	VALUES ("2d2f8dc3-777f-43f1-9cbd-3043bcd304ee",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("039b009c-12d6-4fd8-8c78-7b45eb5aeee2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Literal Integer>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("039b009c-12d6-4fd8-8c78-7b45eb5aeee2",
+	1,
+	"5f04d7a2-b13e-4dca-a8bb-5caf53ac3ed6");
+INSERT INTO PE_PE
+	VALUES ("039b009c-12d6-4fd8-8c78-7b45eb5aeee2",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("1ca57183-2844-4e94-9989-86841ad11543",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Literal Real>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("1ca57183-2844-4e94-9989-86841ad11543",
+	0,
+	"48850a00-428e-469d-a46e-1aeb401c81a4");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("48850a00-428e-469d-a46e-1aeb401c81a4",
+	'Literal Real',
+	804,
+	'V_LRL',
+	'This class represents a literal real, may be a sequence of numeric characters with a decimal point appearing once somewhere in the sequence.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Literal Real/Literal Real.xtuml');
+INSERT INTO PE_PE
+	VALUES ("1ca57183-2844-4e94-9989-86841ad11543",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("e014038c-e394-4078-b8a6-75e55ee1bd00",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Literal Real>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("e014038c-e394-4078-b8a6-75e55ee1bd00",
+	1,
+	"48850a00-428e-469d-a46e-1aeb401c81a4");
+INSERT INTO PE_PE
+	VALUES ("e014038c-e394-4078-b8a6-75e55ee1bd00",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("77e13bf8-5154-4a06-a857-fd8576a9b015",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Literal String>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("77e13bf8-5154-4a06-a857-fd8576a9b015",
+	0,
+	"9b7c47ef-49f7-4614-8876-99c160462902");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("9b7c47ef-49f7-4614-8876-99c160462902",
+	'Literal String',
+	810,
+	'V_LST',
+	'This class represents a literal string, may take any sequence of characters as a value.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Literal String/Literal String.xtuml');
+INSERT INTO PE_PE
+	VALUES ("77e13bf8-5154-4a06-a857-fd8576a9b015",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("1cd379bc-c8b2-456d-b86f-27e6cd6e7ebc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Literal String>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("1cd379bc-c8b2-456d-b86f-27e6cd6e7ebc",
+	1,
+	"9b7c47ef-49f7-4614-8876-99c160462902");
+INSERT INTO PE_PE
+	VALUES ("1cd379bc-c8b2-456d-b86f-27e6cd6e7ebc",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("b260aaa9-5416-49e1-8262-694a17a972f3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Member Value Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("b260aaa9-5416-49e1-8262-694a17a972f3",
+	0,
+	"8a082723-6830-46f2-b8c3-1b3b2ab68fef");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("8a082723-6830-46f2-b8c3-1b3b2ab68fef",
+	'Member Value Reference',
+	825,
+	'V_MVL',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Member Value Reference/Member Value Reference.xtuml');
+INSERT INTO PE_PE
+	VALUES ("b260aaa9-5416-49e1-8262-694a17a972f3",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("f7195379-ad6a-473d-8164-74b5056cba08",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Member Value Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f7195379-ad6a-473d-8164-74b5056cba08",
+	1,
+	"8a082723-6830-46f2-b8c3-1b3b2ab68fef");
+INSERT INTO PE_PE
+	VALUES ("f7195379-ad6a-473d-8164-74b5056cba08",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("bc2a0111-818c-47bb-9bbe-9a3092f8f2ac",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Message Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("bc2a0111-818c-47bb-9bbe-9a3092f8f2ac",
+	0,
+	"ce455593-8e22-4186-bd85-caa136aeaf03");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("ce455593-8e22-4186-bd85-caa136aeaf03",
+	'Message Value',
+	829,
+	'V_MSV',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Message Value/Message Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("bc2a0111-818c-47bb-9bbe-9a3092f8f2ac",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("68ddf0d7-11fb-42a5-bee3-355d27c6f947",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Message Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("68ddf0d7-11fb-42a5-bee3-355d27c6f947",
+	1,
+	"ce455593-8e22-4186-bd85-caa136aeaf03");
+INSERT INTO PE_PE
+	VALUES ("68ddf0d7-11fb-42a5-bee3-355d27c6f947",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("d22be5fe-283c-469a-8029-2fcaa2c689ba",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Operation Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("d22be5fe-283c-469a-8029-2fcaa2c689ba",
+	0,
+	"9997c8d0-aef4-4660-afe7-d86130526c8e");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("9997c8d0-aef4-4660-afe7-d86130526c8e",
+	'Operation Value',
+	808,
+	'V_TRV',
+	'This class represents the value returned by an operation invocation.
+--------------------------------------------------------------------------------
+Bridge:ALS',
+	"00000000-0000-0000-0000-000000000000",
+	'./Operation Value/Operation Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("d22be5fe-283c-469a-8029-2fcaa2c689ba",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("43b46769-5840-43ed-8ad2-e2039d2ec0d0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Operation Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("43b46769-5840-43ed-8ad2-e2039d2ec0d0",
+	1,
+	"9997c8d0-aef4-4660-afe7-d86130526c8e");
+INSERT INTO PE_PE
+	VALUES ("43b46769-5840-43ed-8ad2-e2039d2ec0d0",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("9e5581fb-3da2-45bf-8e09-68fa949a7c4d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Parameter Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9e5581fb-3da2-45bf-8e09-68fa949a7c4d",
+	0,
+	"6cb944b0-9815-47a9-af95-06bd6f09d4f4");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("6cb944b0-9815-47a9-af95-06bd6f09d4f4",
+	'Parameter Value',
+	821,
+	'V_PVL',
+	'This class represents the value of a parameter.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Parameter Value/Parameter Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9e5581fb-3da2-45bf-8e09-68fa949a7c4d",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("bc2c18ca-4886-4412-8652-bb93f160eda6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Parameter Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("bc2c18ca-4886-4412-8652-bb93f160eda6",
+	1,
+	"6cb944b0-9815-47a9-af95-06bd6f09d4f4");
+INSERT INTO PE_PE
+	VALUES ("bc2c18ca-4886-4412-8652-bb93f160eda6",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("cbeb7475-1a5d-4732-8beb-df6354f79aaa",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Selected Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("cbeb7475-1a5d-4732-8beb-df6354f79aaa",
+	0,
+	"3548f23d-8369-4d22-9253-b64617c6021a");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("3548f23d-8369-4d22-9253-b64617c6021a",
+	'Selected Reference',
+	820,
+	'V_SLR',
+	'Similar to an attribute value but the instance in this case is the ''selected''
+variable of a where clause.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Selected Reference/Selected Reference.xtuml');
+INSERT INTO PE_PE
+	VALUES ("cbeb7475-1a5d-4732-8beb-df6354f79aaa",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8b7e8587-0da7-4bb3-99c1-1f6846045422",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Selected Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8b7e8587-0da7-4bb3-99c1-1f6846045422",
+	1,
+	"3548f23d-8369-4d22-9253-b64617c6021a");
+INSERT INTO PE_PE
+	VALUES ("8b7e8587-0da7-4bb3-99c1-1f6846045422",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0a8382b1-7019-44bb-96df-c0a9fa7779b8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Symbolic Constant Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0a8382b1-7019-44bb-96df-c0a9fa7779b8",
+	0,
+	"bc0b19b3-dad0-4416-9747-e3acd7f00084");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("bc0b19b3-dad0-4416-9747-e3acd7f00084",
+	'Symbolic Constant Value',
+	831,
+	'V_SCV',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Symbolic Constant Value/Symbolic Constant Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("0a8382b1-7019-44bb-96df-c0a9fa7779b8",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0bb5fff4-1993-4df4-8557-c1310d15de3e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Symbolic Constant Value>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0bb5fff4-1993-4df4-8557-c1310d15de3e",
+	1,
+	"bc0b19b3-dad0-4416-9747-e3acd7f00084");
+INSERT INTO PE_PE
+	VALUES ("0bb5fff4-1993-4df4-8557-c1310d15de3e",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("e27cdd0d-fa1b-449d-9f6a-1ed4efc06e3b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Transient Value Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("e27cdd0d-fa1b-449d-9f6a-1ed4efc06e3b",
+	0,
+	"6afbd1b9-b8dc-4ef5-93e3-1465b8cdff6e");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("6afbd1b9-b8dc-4ef5-93e3-1465b8cdff6e",
+	'Transient Value Reference',
+	805,
+	'V_TVL',
+	'This class represents a value held in a local variable being used on the right hand side of an assignment or an expression.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Transient Value Reference/Transient Value Reference.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e27cdd0d-fa1b-449d-9f6a-1ed4efc06e3b",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("2a7b75b9-7d37-4605-a157-7bd13356d87a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Transient Value Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2a7b75b9-7d37-4605-a157-7bd13356d87a",
+	1,
+	"6afbd1b9-b8dc-4ef5-93e3-1465b8cdff6e");
+INSERT INTO PE_PE
+	VALUES ("2a7b75b9-7d37-4605-a157-7bd13356d87a",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("97ee893b-74d0-41a9-9639-3f1992b41048",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Transient Var>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("97ee893b-74d0-41a9-9639-3f1992b41048",
+	0,
+	"87bb9c68-336f-419c-9a90-cb907d272ecd");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("87bb9c68-336f-419c-9a90-cb907d272ecd",
+	'Transient Var',
+	818,
+	'V_TRN',
+	'A variable that is created within a block of an action.
+It has visibility equal to the scope of the block. Once
+execution has passed out of the block in which the
+transient is first assigned a value, the variable no longer
+exists.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Transient Var/Transient Var.xtuml');
+INSERT INTO PE_PE
+	VALUES ("97ee893b-74d0-41a9-9639-3f1992b41048",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("c0d19474-3692-435a-86c0-8ed2e79f2271",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Transient Var>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("c0d19474-3692-435a-86c0-8ed2e79f2271",
+	1,
+	"87bb9c68-336f-419c-9a90-cb907d272ecd");
+INSERT INTO PE_PE
+	VALUES ("c0d19474-3692-435a-86c0-8ed2e79f2271",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("b1b11e61-c0ec-45a4-bbec-99baac48c51d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Unary Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("b1b11e61-c0ec-45a4-bbec-99baac48c51d",
+	0,
+	"46a96d6e-54ed-4ee8-a176-741ba26a59e3");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("46a96d6e-54ed-4ee8-a176-741ba26a59e3",
+	'Unary Operation',
+	809,
+	'V_UNY',
+	'Like binary operators, unary operators modify the value in some way, but in this case only a single value is needed. One example is - (unary minus) which negates any numeric value. However other unary operators include the empty and not_empty set operators.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Unary Operation/Unary Operation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("b1b11e61-c0ec-45a4-bbec-99baac48c51d",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7fb085c9-9d7c-4a32-b77f-ad8ca5afb096",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Unary Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7fb085c9-9d7c-4a32-b77f-ad8ca5afb096",
+	1,
+	"46a96d6e-54ed-4ee8-a176-741ba26a59e3");
+INSERT INTO PE_PE
+	VALUES ("7fb085c9-9d7c-4a32-b77f-ad8ca5afb096",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("ae0857ea-f4d4-4215-a6b0-992124057a79");
 INSERT INTO R_REL
@@ -10953,14 +11960,6 @@ INSERT INTO R_OIR
 	"ed36e7e8-471d-44cf-b2d1-d8919e7ba742",
 	"ee53c99b-ba82-4582-b466-a1d186f8224e",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("46a96d6e-54ed-4ee8-a176-741ba26a59e3",
-	'Unary Operation',
-	809,
-	'V_UNY',
-	'Like binary operators, unary operators modify the value in some way, but in this case only a single value is needed. One example is - (unary minus) which negates any numeric value. However other unary operators include the empty and not_empty set operators.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Unary Operation/Unary Operation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("ed36e7e8-471d-44cf-b2d1-d8919e7ba742",
 	1,
@@ -11111,14 +12110,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"2e9efacc-0d58-45de-9146-9829778ffbd3",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("3045eb69-c809-4f38-a708-5744f951941a",
-	'Function Value',
-	822,
-	'V_FNV',
-	'This class represents the value returned by a function invocation.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Function Value/Function Value.xtuml');
 INSERT INTO R_SUB
 	VALUES ("6cb944b0-9815-47a9-af95-06bd6f09d4f4",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11132,14 +12123,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"fec34a64-be17-480d-b7e5-3052a3aeba7f",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("6cb944b0-9815-47a9-af95-06bd6f09d4f4",
-	'Parameter Value',
-	821,
-	'V_PVL',
-	'This class represents the value of a parameter.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Parameter Value/Parameter Value.xtuml');
 INSERT INTO R_SUB
 	VALUES ("3548f23d-8369-4d22-9253-b64617c6021a",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11153,15 +12136,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"01afe2c4-bf00-483c-8d3b-934dff3cf814",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("3548f23d-8369-4d22-9253-b64617c6021a",
-	'Selected Reference',
-	820,
-	'V_SLR',
-	'Similar to an attribute value but the instance in this case is the ''selected''
-variable of a where clause.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Selected Reference/Selected Reference.xtuml');
 INSERT INTO R_SUB
 	VALUES ("505bd63b-b7cb-426f-892c-c91e341f8a72",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11175,14 +12149,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"6d250db2-a493-4775-b642-9075b97ac42c",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("505bd63b-b7cb-426f-892c-c91e341f8a72",
-	'Bridge Value',
-	814,
-	'V_BRV',
-	'This class represents the value returned by a bridge invocation.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Bridge Value/Bridge Value.xtuml');
 INSERT INTO R_SUB
 	VALUES ("04b1f58f-9a45-4f1e-8837-d1f4d98601a4",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11196,14 +12162,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"4ccdb697-6f08-415c-ab83-8f2830b0b2e5",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("04b1f58f-9a45-4f1e-8837-d1f4d98601a4",
-	'Instance Reference',
-	813,
-	'V_IRF',
-	'This class represents an instance reference, the result of a select one or select any statement.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Instance Reference/Instance Reference.xtuml');
 INSERT INTO R_SUB
 	VALUES ("c3ef762d-918f-4f25-823b-5bb004929797",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11217,14 +12175,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"ab722949-5b20-475b-ba40-4c457d1cfa62",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("c3ef762d-918f-4f25-823b-5bb004929797",
-	'Attribute Value Reference',
-	812,
-	'V_AVL',
-	'This class represents a value held in an attribute of an instance being used on the right hand side of an assignment or an expression.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Attribute Value Reference/Attribute Value Reference.xtuml');
 INSERT INTO R_SUB
 	VALUES ("5f04d7a2-b13e-4dca-a8bb-5caf53ac3ed6",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11238,14 +12188,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"1c3cdd92-1052-4858-8a50-0075de2d6617",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("5f04d7a2-b13e-4dca-a8bb-5caf53ac3ed6",
-	'Literal Integer',
-	811,
-	'V_LIN',
-	'This class represents a literal integer, represented by a sequence of numeric characters.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Literal Integer/Literal Integer.xtuml');
 INSERT INTO R_SUB
 	VALUES ("9b7c47ef-49f7-4614-8876-99c160462902",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11259,14 +12201,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"4b8e1800-fb8a-4d6b-8d8f-18b330105507",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("9b7c47ef-49f7-4614-8876-99c160462902",
-	'Literal String',
-	810,
-	'V_LST',
-	'This class represents a literal string, may take any sequence of characters as a value.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Literal String/Literal String.xtuml');
 INSERT INTO R_SUB
 	VALUES ("46a96d6e-54ed-4ee8-a176-741ba26a59e3",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11293,16 +12227,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"a3fca6db-9350-48a5-92c3-1e4f4ee73992",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("9997c8d0-aef4-4660-afe7-d86130526c8e",
-	'Operation Value',
-	808,
-	'V_TRV',
-	'This class represents the value returned by an operation invocation.
---------------------------------------------------------------------------------
-Bridge:ALS',
-	"00000000-0000-0000-0000-000000000000",
-	'./Operation Value/Operation Value.xtuml');
 INSERT INTO R_SUB
 	VALUES ("d3a34bcc-7b76-4e9d-beca-d692efd107bb",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11316,14 +12240,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"6a63791b-2b8b-4ef7-90cf-4af16446dc4c",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("d3a34bcc-7b76-4e9d-beca-d692efd107bb",
-	'Instance Set Reference',
-	807,
-	'V_ISR',
-	'This class represents a set of instance references, the result of a select many statement.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Instance Set Reference/Instance Set Reference.xtuml');
 INSERT INTO R_SUB
 	VALUES ("0bb9e883-51d2-4ce3-a1f5-a81f7829a14c",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11337,14 +12253,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"2f5c34e8-3c35-4b0a-a619-b41a6b1a59f2",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("0bb9e883-51d2-4ce3-a1f5-a81f7829a14c",
-	'Event Datum Value',
-	806,
-	'V_EDV',
-	'This class represents the value of an event datum.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Event Datum Value/Event Datum Value.xtuml');
 INSERT INTO R_SUB
 	VALUES ("6afbd1b9-b8dc-4ef5-93e3-1465b8cdff6e",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11358,14 +12266,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"dd3d2606-ec20-47ff-8729-46711428d6ab",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("6afbd1b9-b8dc-4ef5-93e3-1465b8cdff6e",
-	'Transient Value Reference',
-	805,
-	'V_TVL',
-	'This class represents a value held in a local variable being used on the right hand side of an assignment or an expression.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Transient Value Reference/Transient Value Reference.xtuml');
 INSERT INTO R_SUB
 	VALUES ("48850a00-428e-469d-a46e-1aeb401c81a4",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11379,14 +12279,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"8f870135-1d37-4dfc-85e9-caf141a54696",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("48850a00-428e-469d-a46e-1aeb401c81a4",
-	'Literal Real',
-	804,
-	'V_LRL',
-	'This class represents a literal real, may be a sequence of numeric characters with a decimal point appearing once somewhere in the sequence.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Literal Real/Literal Real.xtuml');
 INSERT INTO R_SUB
 	VALUES ("20caa3f0-0c8c-4a8f-9958-9ac1da3754b7",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11400,14 +12292,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"39e761de-ec74-41e8-ad5f-d73bcb1fb3c5",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("20caa3f0-0c8c-4a8f-9958-9ac1da3754b7",
-	'Literal Boolean',
-	803,
-	'V_LBO',
-	'This class represents a literal boolean, may take the values true or false only.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Literal Boolean/Literal Boolean.xtuml');
 INSERT INTO R_SUB
 	VALUES ("624962c1-5d6a-41ba-ba85-e772a16fc610",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11434,14 +12318,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"5ab9adc8-031b-41a2-92cb-d1cffc79efc1",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("170020f9-79e6-465a-a50c-9a60ddda2ef6",
-	'Literal Enumerator',
-	823,
-	'V_LEN',
-	'This class represents a literal enumerated value.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Literal Enumerator/Literal Enumerator.xtuml');
 INSERT INTO R_SUB
 	VALUES ("8a082723-6830-46f2-b8c3-1b3b2ab68fef",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11455,14 +12331,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"8faaa294-a3a5-49de-9459-492063490b6c",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("8a082723-6830-46f2-b8c3-1b3b2ab68fef",
-	'Member Value Reference',
-	825,
-	'V_MVL',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Member Value Reference/Member Value Reference.xtuml');
 INSERT INTO R_SUB
 	VALUES ("a7c49503-ff78-4282-af82-2cdce6f1c943",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11476,14 +12344,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"9fa7ed74-cc1b-4acc-8e75-c50b2041a758",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a7c49503-ff78-4282-af82-2cdce6f1c943",
-	'Array Element Reference',
-	826,
-	'V_AER',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Array Element Reference/Array Element Reference.xtuml');
 INSERT INTO R_SUB
 	VALUES ("006e00b9-b809-4ada-b7b5-9b08ad28aa20",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11497,14 +12357,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"8e691cde-eec2-4f29-a423-6501b9f0d91e",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("006e00b9-b809-4ada-b7b5-9b08ad28aa20",
-	'Array Length Value',
-	828,
-	'V_ALV',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Array Length Value/Array Length Value.xtuml');
 INSERT INTO R_SUB
 	VALUES ("ce455593-8e22-4186-bd85-caa136aeaf03",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11518,14 +12370,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"61d2df18-3994-4ae1-85f1-4041f4d085ef",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("ce455593-8e22-4186-bd85-caa136aeaf03",
-	'Message Value',
-	829,
-	'V_MSV',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Message Value/Message Value.xtuml');
 INSERT INTO R_SUB
 	VALUES ("bc0b19b3-dad0-4416-9747-e3acd7f00084",
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
@@ -11539,14 +12383,6 @@ INSERT INTO R_OIR
 	"74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	"b728c6d3-888a-4969-a34a-5a69dfc660ad",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("bc0b19b3-dad0-4416-9747-e3acd7f00084",
-	'Symbolic Constant Value',
-	831,
-	'V_SCV',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Symbolic Constant Value/Symbolic Constant Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("74998c4d-43fb-4db0-8937-b3c41dc5bf92",
 	1,
@@ -11603,14 +12439,6 @@ INSERT INTO R_OIR
 	"5e7530a6-165c-4bd8-8fab-9c34527af733",
 	"cd1c3bf6-2813-4fad-8519-3684ce4e5013",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("ca8f8cd7-1ad7-4a32-a868-b157f213c7da",
-	'Instance Handle',
-	816,
-	'V_INT',
-	'This class represents an instance.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Instance Handle/Instance Handle.xtuml');
 INSERT INTO R_SUB
 	VALUES ("1cf77f0a-8b97-42e3-aa69-a07fc1404b7c",
 	"5e7530a6-165c-4bd8-8fab-9c34527af733",
@@ -11624,14 +12452,6 @@ INSERT INTO R_OIR
 	"5e7530a6-165c-4bd8-8fab-9c34527af733",
 	"d1cd8b52-80b0-407b-8cfd-97a31df509f9",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("1cf77f0a-8b97-42e3-aa69-a07fc1404b7c",
-	'Instance Set',
-	817,
-	'V_INS',
-	'This class represents a set of instances.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Instance Set/Instance Set.xtuml');
 INSERT INTO R_SUB
 	VALUES ("87bb9c68-336f-419c-9a90-cb907d272ecd",
 	"5e7530a6-165c-4bd8-8fab-9c34527af733",
@@ -11645,18 +12465,6 @@ INSERT INTO R_OIR
 	"5e7530a6-165c-4bd8-8fab-9c34527af733",
 	"1d0fe7ef-7432-4bff-8cc3-4722c98aaefd",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("87bb9c68-336f-419c-9a90-cb907d272ecd",
-	'Transient Var',
-	818,
-	'V_TRN',
-	'A variable that is created within a block of an action.
-It has visibility equal to the scope of the block. Once
-execution has passed out of the block in which the
-transient is first assigned a value, the variable no longer
-exists.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Transient Var/Transient Var.xtuml');
 INSERT INTO PE_PE
 	VALUES ("5e7530a6-165c-4bd8-8fab-9c34527af733",
 	1,
@@ -13976,14 +14784,6 @@ INSERT INTO R_OIR
 	"78dfecfa-f64b-49cf-a5e4-22be9adc6c9a",
 	"a19d2369-297f-486f-8c29-2e2703a13e40",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("9901df8f-2a16-4fa0-9c47-2a9513de326b",
-	'Event Parameter Reference',
-	830,
-	'V_EPR',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Event Parameter Reference/Event Parameter Reference.xtuml');
 INSERT INTO PE_PE
 	VALUES ("78dfecfa-f64b-49cf-a5e4-22be9adc6c9a",
 	1,
