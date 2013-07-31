@@ -77,7 +77,7 @@ typedef unsigned char bool;
 #define FALSE ( (bool) 0 )
 #define TRUE  ( (bool) (!FALSE) )
 
-#define ESCHER_SYS_MAX_STRING_LEN 800
+#define ESCHER_SYS_MAX_STRING_LEN 840
 #define ESCHER_PERSIST_INST_CACHE_DEPTH 128
 #define ESCHER_PERSIST_LINK_CACHE_DEPTH 128
 #define ESCHER_SYS_MAX_ASSOCIATION_EXTENT 4340
