@@ -31,37 +31,6 @@
 .//
 .//============================================================================
 .//
-.function val_translate
-  .// Translate "leaf" values first.
-  .invoke val_literal_boolean_values()
-  .invoke val_literal_integer_values()
-  .invoke val_literal_real_values()
-  .invoke val_literal_string_values()
-  .invoke val_literal_enumerations()
-  .invoke val_constant_values()
-  .invoke val_transient_values()
-  .invoke val_instance_reference_values()
-  .invoke val_inst_ref_set_values()
-  .invoke val_selection_test_values()
-  .invoke val_event_values()
-  .invoke val_parameter_values()
-  .// The following may be recursed.
-  .invoke val_attribute_values()
-  .invoke val_member_values()
-  .invoke val_array_element_references()
-  .invoke val_array_length_values()
-  .invoke val_unary_op_values()
-  .invoke val_binary_op_values()
-  .// V_PARs depend upon values being populated.
-  .invoke val_actual_parameters()
-  .// These use V_PARs.
-  .invoke val_message_values()
-  .invoke val_bridge_values()
-  .invoke val_transform_values()
-  .invoke val_synch_service_values()
-.end function
-.//
-.//
 .function smt_translate_control_statements
   .invoke smt_ifs()
   .invoke smt_elses()
@@ -103,8 +72,8 @@
 .// 
 .function oal_translate
   .//
-  .print "translating values"
-  .invoke val_translate()
+  .//.print "translating values"
+  .//.invoke val_translate()
   .//.print "showing values"
   .//.invoke oal_v_val_test()
   .print "translating control statements"

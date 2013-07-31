@@ -954,8 +954,9 @@
   .assign attr_smt_buffer = ""
   .if ( not_empty v_pars )
     .invoke r = gen_parameter_list( v_pars, false, "message" )
-    .assign parameters = r.body
-    .assign attr_parameter_OAL = r.result
+    .assign te_parm = r.result
+    .assign parameters = te_parm.ParamBuffer
+    .assign attr_parameter_OAL = te_parm.OALParamBuffer
   .end if
   .assign name = te_mact.GeneratedName
   .if ( "SystemC" == te_target.language )
@@ -1024,8 +1025,9 @@
     .select many v_pars related by act_tfm->V_PAR[R627]
     .if ( not_empty v_pars )
       .invoke r = gen_parameter_list( v_pars, false, "operation" )
-      .assign parameters = r.body
-      .assign parameter_OAL = r.result
+      .assign te_parm = r.result
+      .assign parameters = te_parm.ParamBuffer
+      .assign parameter_OAL = te_parm.OALParamBuffer
     .end if
     .assign name = te_tfr.GeneratedName
     .assign uses_thismodule = false
@@ -1070,10 +1072,15 @@
   .if ( not_empty te_brg )
     .select one te_ee related by s_brg->S_EE[R19]->TE_EE[R2020]
     .assign te_ee.Included = true
+    .assign parameters = ""
+    .assign parameter_OAL = ""
     .select many v_pars related by act_brg->V_PAR[R628]
-    .invoke r = gen_parameter_list( v_pars, false, "bridge" )
-    .assign parameters = r.body
-    .assign parameter_OAL = r.result
+    .if ( not_empty v_pars )
+      .invoke r = gen_parameter_list( v_pars, false, "bridge" )
+      .assign te_parm = r.result
+      .assign parameters = te_parm.ParamBuffer
+      .assign parameter_OAL = te_parm.OALParamBuffer
+    .end if
     .assign name = te_brg.GeneratedName
     .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
       .assign name = ( te_ee.RegisteredName + "::" ) + name
@@ -1115,8 +1122,9 @@
     .select many v_pars related by act_fnc->V_PAR[R669]
     .if ( not_empty v_pars )
       .invoke r = gen_parameter_list( v_pars, false, "function" )
-      .assign parameters = r.body
-      .assign parameter_OAL = r.result
+      .assign te_parm = r.result
+      .assign parameters = te_parm.ParamBuffer
+      .assign parameter_OAL = te_parm.OALParamBuffer
     .end if
     .assign name = te_sync.intraface_method
     .if ( "SystemC" == te_target.language )

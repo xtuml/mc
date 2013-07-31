@@ -6,12 +6,14 @@
 .//
 .//====================================================================
 .//
-.function gen_parameter_list .// string
+.function gen_parameter_list .// te_parm
   .param inst_ref_set v_pars
   .param boolean prefix_param_delimiter
   .param string invocation_flavor
   .//
-  .assign result = ""
+  .assign code = ""
+  .assign OAL = ""
+  .select any te_parm from instances of TE_PARM
   .if ( not_empty v_pars )
     .select any te_string from instances of TE_STRING
     .assign item_count = 0
@@ -27,65 +29,67 @@
       .assign param_delimiter = ","
     .end if
     .while ( item_number < item_count )
-          .select any te_par related by v_pars->TE_PAR[R2063] where ( selected.Order == item_number )
-          .select one v_par related by te_par->V_PAR[R2063]
-          .select one v_val related by v_par->V_VAL[R800]
-          .select one te_val related by v_val->TE_VAL[R2040]
-          .assign result = ( result + param_delimiter ) + te_val.OAL
-          .if ( "" == te_val.buffer )
-            .invoke gen_value( v_val )
-          .end if
-${param_delimiter}\
-          .//
-          .// Determine if the parameter is of type string.
-          .// If string, check to see if this parameter is actually a function.
-          .// If so, declare a variable in this scope to hold the return string.
-          .// Do so by traversing to the te_blk instance to add the declaration.
-          .assign stringbody = false
-          .if ( 0 == te_par.By_Ref )
-            .select one te_dt related by v_val->S_DT[R820]->TE_DT[R2021]
-            .if ( 4 == te_dt.Core_Typ )
-              .// Check the four types of returnable action bodies for string.
-              .select one v_trv related by v_val->V_TRV[R801]
-              .if ( not_empty v_trv )
-                .assign stringbody = true
-              .else
-              .select one v_msv related by v_val->V_MSV[R801]
-              .if ( not_empty v_msv )
-                .assign stringbody = true
-              .else
-              .select one v_brv related by v_val->V_BRV[R801]
-              .if ( not_empty v_brv )
-                .assign stringbody = true
-              .else
-              .select one v_fnv related by v_val->V_FNV[R801]
-              .if ( not_empty v_fnv )
-                .assign stringbody = true
-              .end if
-              .end if
-              .end if
-              .end if
-              .if ( stringbody )
-                .assign te_par.buffer = "v_sretval" + "${info.unique_num}"
-                .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]
-                .assign te_blk.declaration = ( ( ( te_blk.declaration + te_dt.ExtName ) + ( " " + te_par.buffer ) ) + ( "[" + te_string.max_string_length ) ) + "];"
-${te_string.strcpy}( ${te_par.buffer}, \
-              .end if
-            .end if
-            .//
-            .//
-${te_val.buffer}\
-            .if ( stringbody )
-)\
-            .end if
+      .select any te_par related by v_pars->TE_PAR[R2063] where ( selected.Order == item_number )
+      .select one v_par related by te_par->V_PAR[R2063]
+      .select one v_val related by v_par->V_VAL[R800]
+      .select one te_val related by v_val->TE_VAL[R2040]
+      .assign OAL = ( OAL + param_delimiter ) + te_val.OAL
+      .if ( "" == te_val.buffer )
+        .invoke gen_value( v_val )
+      .end if
+      .assign code = code + param_delimiter
+      .//
+      .// Determine if the parameter is of type string.
+      .// If string, check to see if this parameter is actually a function.
+      .// If so, declare a variable in this scope to hold the return string.
+      .// Do so by traversing to the te_blk instance to add the declaration.
+      .assign stringbody = false
+      .if ( 0 == te_par.By_Ref )
+        .select one te_dt related by v_val->S_DT[R820]->TE_DT[R2021]
+        .if ( 4 == te_dt.Core_Typ )
+          .// Check the four types of returnable action bodies for string.
+          .select one v_trv related by v_val->V_TRV[R801]
+          .if ( not_empty v_trv )
+            .assign stringbody = true
           .else
-&(${te_val.buffer})\
+          .select one v_msv related by v_val->V_MSV[R801]
+          .if ( not_empty v_msv )
+            .assign stringbody = true
+          .else
+          .select one v_brv related by v_val->V_BRV[R801]
+          .if ( not_empty v_brv )
+            .assign stringbody = true
+          .else
+          .select one v_fnv related by v_val->V_FNV[R801]
+          .if ( not_empty v_fnv )
+            .assign stringbody = true
           .end if
-          .assign param_delimiter = ", "
+          .end if
+          .end if
+          .end if
+          .if ( stringbody )
+            .assign te_par.buffer = "v_sretval" + "${info.unique_num}"
+            .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]
+            .assign te_blk.declaration = ( ( ( te_blk.declaration + te_dt.ExtName ) + ( " " + te_par.buffer ) ) + ( "[" + te_string.max_string_length ) ) + "];"
+            .assign code = ( ( code + te_string.strcpy ) + ( "( " + te_par.buffer) ) + ", "
+          .end if
+        .end if
+        .//
+        .//
+        .assign code = code + te_val.buffer
+        .if ( stringbody )
+          .assign code = code + ")"
+        .end if
+      .else
+        .assign code = ( ( code + "&(" ) + ( te_val.buffer + ")" ) )
+      .end if
+      .assign param_delimiter = ", "
       .assign item_number = item_number + 1
     .end while
   .end if
-  .assign attr_result = result
+  .assign te_parm.ParamBuffer = code
+  .assign te_parm.OALParamBuffer = OAL
+  .assign attr_result = te_parm
 .end function
 .//
 .//====================================================================

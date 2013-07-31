@@ -19,8 +19,6 @@
  * System ID:    ${te_sys.SystemID}
  * Model Compiler Product Information:
  * Product:  ${te_sys.ModelCompilerName}
- * Version:  ${te_sys.ModelCompilerVersion}
- * S/N:      ${te_sys.ModelCompilerSerNum}
  * System default/colored values:
  * MaxStringLen:  ${te_sys.MaxStringLen}
  * MaxObjExtent:  ${te_sys.MaxObjExtent}
@@ -137,7 +135,7 @@ typedef u4_t ${te_prefix.type}uSec_t;
 #define _reentrant
 #endif
 
-.if ( te_thread.flavor != "Nucleus" )
+.if ( ( te_thread.flavor != "Nucleus" ) and ( te_sys.SystemCPortsType != "BitLevelSignals" ) )
 /*
  * Note we include stdio.h for printf.  Otherwise, it is not needed.
  */
@@ -148,9 +146,11 @@ typedef u4_t ${te_prefix.type}uSec_t;
 .end if
 ${te_typemap.user_supplied_data_types}\
 .end if
+.if ( te_sys.SystemCPortsType != "BitLevelSignals" )
 #include "${te_file.factory}.${te_file.hdr_file_ext}"
 #include "${te_file.callout}.${te_file.hdr_file_ext}"
 .include "${te_file.arc_path}/t.sys_events.h"
+.end if
 .if( te_sys.AUTOSAR )
 #include "Rte_Type.${te_file.hdr_file_ext}"
 .end if
@@ -158,6 +158,9 @@ ${te_typemap.user_supplied_data_types}\
 ${te_typemap.enumeration_info}
 
 ${te_typemap.structured_data_types}
+.if ( "SystemC" == te_thread.flavor )
+#include "${te_file.interfaces}.${te_file.hdr_file_ext}"
+.end if
 ${domain_ids.body}
 .// Include the macros for tracing.
 .include "${te_file.arc_path}/t.sys_trace.h"

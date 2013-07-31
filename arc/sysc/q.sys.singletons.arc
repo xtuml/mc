@@ -1,24 +1,24 @@
 .//
-.function factory_TE_CONTAINER
+.function container_factory
   .param inst_ref te_container
   .assign te_container.flavor = ""
 .end function
 .//
 .//
-.function factory_TE_COPYRIGHT
+.function copyright_factory
   .param inst_ref te_copyright
   .assign te_copyright.body = "your copyright statement can go here (from te_copyright.body)"
 .end function
 .//
 .//
-.function factory_TE_DLIST
+.function dlist_factory
   .param inst_ref te_dlist
   .select any te_prefix from instances of TE_PREFIX
   .assign te_dlist.remove_node = te_prefix.result + "SetRemoveDlistNode"
 .end function
 .//
 .//
-.function factory_TE_DMA
+.function dma_factory
   .param inst_ref te_dma
   .select any te_prefix from instances of TE_PREFIX
   .assign te_dma.file = "sys_memory"
@@ -28,7 +28,7 @@
 .end function
 .//
 .//
-.function factory_TE_EQ
+.function eq_factory
   .param inst_ref te_eq
   .select any te_prefix from instances of TE_PREFIX
   .assign te_eq.ignored = "EVENT_IS_IGNORED"
@@ -54,7 +54,7 @@
 .end function
 .//
 .//
-.function factory_TE_EXTENT
+.function extent_factory
   .param inst_ref te_extent
   .select any te_prefix from instances of TE_PREFIX
   .select any te_set from instances of TE_SET
@@ -64,7 +64,6 @@
   .assign te_extent.type = te_prefix.result + "Extent_t"
   .assign te_extent.active = "active"
   .assign te_extent.inactive = "inactive"
-  .assign te_extent.initializer = "{0}"
   .assign te_extent.size_type = te_typemap.object_size_name
   .assign te_extent.istate_type = te_typemap.state_number_name
   .assign te_extent.istate_name = "initial_state"
@@ -81,7 +80,7 @@
 .end function
 .//
 .//
-.function factory_TE_FILE
+.function file_factory
   .param inst_ref te_file
   .select any te_prefix from instances of TE_PREFIX
   .assign te_file.hdr_file_ext = "h"
@@ -89,9 +88,7 @@
   .assign te_file.sys_main = te_prefix.file + "sc_main"
   .assign te_file.factory = te_prefix.file + "sys_xtuml"
   .assign te_file.events = te_prefix.file + "sys_events"
-  .assign te_file.asm_file_ext = "s"
   .assign te_file.obj_file_ext = "o"
-  .assign te_file.rpt_file_ext = "rpt"
   .assign te_file.nvs = te_prefix.file + "sys_nvs"
   .assign te_file.sets = te_prefix.file + "sys_sets"
   .assign te_file.types = te_prefix.file + "sys_types"
@@ -107,17 +104,14 @@
   .assign te_file.domain_color_path = "."
   .assign te_file.domain_source_path = "_ch"
   .assign te_file.domain_include_path = "_ch"
-  .assign te_file.domain_sql_path = "schema/sql"
   .assign te_file.system_source_path = "_ch"
   .assign te_file.system_include_path = "_ch"
   .assign te_file.system_color_path = "."
-  .assign te_file.registry_mark = "registry.mark"
   .assign te_file.system_mark = "system.mark"
   .assign te_file.datatype_mark = "datatype.mark"
   .assign te_file.event_mark = "event.mark"
   .assign te_file.class_mark = "class.mark"
   .assign te_file.domain_mark = "domain.mark"
-  .assign te_file.domain_functions_mark = "dom_functions.arc"
   .assign te_file.system_functions_mark = "sys_functions.arc"
   .assign te_file.bridge_mark = "bridge.mark"
   .assign te_file.nvs_bridge = te_prefix.file + "NVS_bridge"
@@ -126,7 +120,7 @@
 .end function
 .//
 .//
-.function factory_TE_INSTANCE
+.function instance_factory
   .param inst_ref te_instance
   .select any te_prefix from instances of TE_PREFIX
   .assign te_instance.scope = "sys_factory::"
@@ -151,7 +145,7 @@
 .end function
 .//
 .//
-.function factory_TE_ILB
+.function ilb_factory
   .param inst_ref te_ilb
   .select any te_prefix from instances of TE_PREFIX
   .assign te_ilb.file = "sys_ilb"
@@ -164,7 +158,7 @@
 .end function
 .//
 .//
-.function factory_TE_PERSIST
+.function persist_factory
   .param inst_ref te_persist
   .select any te_prefix from instances of TE_PREFIX
   .select any te_typemap from instances of TE_TYPEMAP
@@ -199,7 +193,7 @@
 .end function
 .//
 .//
-.function factory_TE_PREFIX
+.function prefix_factory
   .param inst_ref te_prefix
   .assign te_prefix.symbol = "Escher_"
   .assign te_prefix.type = "Escher_"
@@ -217,7 +211,7 @@
 .end function
 .//
 .//
-.function factory_TE_RELINFO
+.function relinfo_factory
   .param inst_ref te_relinfo
   .assign te_relinfo.multiplicity = 0
   .assign te_relinfo.rel_phrase = ""
@@ -228,7 +222,7 @@
 .end function
 .//
 .//
-.function factory_TE_RELSTORE
+.function relstore_factory
   .param inst_ref te_relstore
   .assign te_relstore.data_init = ""
   .assign te_relstore.link_calls = ""
@@ -239,7 +233,7 @@
 .end function
 .//
 .//
-.function factory_TE_SET
+.function set_factory
   .param inst_ref te_set
   .select any te_prefix from instances of TE_PREFIX
   .assign te_set.module = "thismodule->";
@@ -267,14 +261,14 @@
 .end function
 .//
 .//
-.function factory_TE_SLIST
+.function slist_factory
   .param inst_ref te_slist
   .select any te_prefix from instances of TE_PREFIX
   .assign te_slist.remove_node = te_prefix.result + "SetRemoveNode"
 .end function
 .//
 .//
-.function factory_TE_STRING
+.function string_factory
   .param inst_ref te_string
   .select any te_prefix from instances of TE_PREFIX
   .assign te_string.memset = te_prefix.result + "memset"
@@ -291,7 +285,7 @@
 .end function
 .//
 .//
-.function factory_TE_THREAD
+.function thread_factory
   .param inst_ref te_thread
   .select any te_prefix from instances of TE_PREFIX
   .assign te_thread.file = "sys_thread"
@@ -310,7 +304,7 @@
 .end function
 .//
 .//
-.function factory_TE_TIM
+.function tim_factory
   .param inst_ref te_tim
   .select any te_prefix from instances of TE_PREFIX
   .assign te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS"
@@ -323,7 +317,7 @@
 .end function
 .//
 .//
-.function factory_TE_TYPEMAP
+.function typemap_factory
   .param inst_ref te_typemap
   .select any te_prefix from instances of TE_PREFIX
   .assign te_typemap.instance_index_name = te_prefix.result + "InstanceIndex_t"
@@ -349,7 +343,7 @@
 .end function
 .//
 .//
-.function factory_TE_CALLOUT
+.function callout_factory
   .param inst_ref te_callout
   .select any te_prefix from instances of TE_PREFIX
   .assign te_callout.initialization = te_prefix.symbolsw + "UserInitializationCallout"
@@ -372,7 +366,7 @@
 .end function
 .//
 .//
-.function factory_TE_TRACE
+.function trace_factory
   .param inst_ref te_trace
   .select any te_prefix from instances of TE_PREFIX
   .assign te_trace.component_msg_start = te_prefix.define_usw + "COMP_MSG_START_TRACE"
@@ -384,7 +378,7 @@
   .assign te_trace.state_txn_cant_happen = te_prefix.define_usw + "STATE_TXN_CH_TRACE"
 .end function
 .//
-.function factory_TE_TARGET
+.function target_factory
   .param inst_ref te_target
   .assign te_target.language = "SystemC"
   .assign te_target.c2cplusplus_linkage_begin = ""
@@ -393,74 +387,74 @@
 .end function
 .//
 .function sys_singletons
-  .create object instance i_te_prefix of TE_PREFIX
-  .invoke factory_TE_PREFIX( i_te_prefix )
-  .create object instance i_te_typemap of TE_TYPEMAP
-  .invoke factory_TE_TYPEMAP( i_te_typemap )
-  .create object instance i_te_container of TE_CONTAINER
-  .invoke factory_TE_CONTAINER( i_te_container )
-  .create object instance i_te_copyright of TE_COPYRIGHT
-  .invoke factory_TE_COPYRIGHT( i_te_copyright )
-  .create object instance i_te_dlist of TE_DLIST
-  .invoke factory_TE_DLIST( i_te_dlist )
-  .create object instance i_te_dma of TE_DMA
-  .invoke factory_TE_DMA( i_te_dma )
-  .create object instance i_te_eq of TE_EQ
-  .invoke factory_TE_EQ( i_te_eq )
-  .create object instance i_te_file of TE_FILE
-  .invoke factory_TE_FILE( i_te_file )
-  .create object instance i_te_instance of TE_INSTANCE
-  .invoke factory_TE_INSTANCE( i_te_instance )
-  .create object instance i_te_ilb of TE_ILB
-  .invoke factory_TE_ILB( i_te_ilb )
-  .create object instance i_te_persist of TE_PERSIST
-  .invoke factory_TE_PERSIST( i_te_persist )
-  .create object instance i_te_relinfo of TE_RELINFO
-  .invoke factory_TE_RELINFO( i_te_relinfo )
-  .create object instance i_te_relstore of TE_RELSTORE
-  .invoke factory_TE_RELSTORE( i_te_relstore )
-  .create object instance i_te_set of TE_SET
-  .invoke factory_TE_SET( i_te_set )
-  .create object instance i_te_slist of TE_SLIST
-  .invoke factory_TE_SLIST( i_te_slist )
-  .create object instance i_te_string of TE_STRING
-  .invoke factory_TE_STRING( i_te_string )
-  .create object instance i_te_thread of TE_THREAD
-  .invoke factory_TE_THREAD( i_te_thread )
-  .create object instance i_te_tim of TE_TIM
-  .invoke factory_TE_TIM( i_te_tim )
-  .create object instance i_te_callout of TE_CALLOUT
-  .invoke factory_TE_CALLOUT( i_te_callout )
-  .create object instance i_te_trace of TE_TRACE
-  .invoke factory_TE_TRACE( i_te_trace )
-  .create object instance i_te_extent of TE_EXTENT
-  .invoke factory_TE_EXTENT( i_te_extent )
-  .create object instance i_te_target of TE_TARGET
-  .invoke factory_TE_TARGET( i_te_target )
+  .create object instance te_prefix of TE_PREFIX
+  .invoke prefix_factory( te_prefix )
+  .create object instance te_typemap of TE_TYPEMAP
+  .invoke typemap_factory( te_typemap )
+  .create object instance te_container of TE_CONTAINER
+  .invoke container_factory( te_container )
+  .create object instance te_copyright of TE_COPYRIGHT
+  .invoke copyright_factory( te_copyright )
+  .create object instance te_dlist of TE_DLIST
+  .invoke dlist_factory( te_dlist )
+  .create object instance te_dma of TE_DMA
+  .invoke dma_factory( te_dma )
+  .create object instance te_eq of TE_EQ
+  .invoke eq_factory( te_eq )
+  .create object instance te_file of TE_FILE
+  .invoke file_factory( te_file )
+  .create object instance te_instance of TE_INSTANCE
+  .invoke instance_factory( te_instance )
+  .create object instance te_ilb of TE_ILB
+  .invoke ilb_factory( te_ilb )
+  .create object instance te_persist of TE_PERSIST
+  .invoke persist_factory( te_persist )
+  .create object instance te_relinfo of TE_RELINFO
+  .invoke relinfo_factory( te_relinfo )
+  .create object instance te_relstore of TE_RELSTORE
+  .invoke relstore_factory( te_relstore )
+  .create object instance te_set of TE_SET
+  .invoke set_factory( te_set )
+  .create object instance te_slist of TE_SLIST
+  .invoke slist_factory( te_slist )
+  .create object instance te_string of TE_STRING
+  .invoke string_factory( te_string )
+  .create object instance te_thread of TE_THREAD
+  .invoke thread_factory( te_thread )
+  .create object instance te_tim of TE_TIM
+  .invoke tim_factory( te_tim )
+  .create object instance te_callout of TE_CALLOUT
+  .invoke callout_factory( te_callout )
+  .create object instance te_trace of TE_TRACE
+  .invoke trace_factory( te_trace )
+  .create object instance te_extent of TE_EXTENT
+  .invoke extent_factory( te_extent )
+  .create object instance te_target of TE_TARGET
+  .invoke target_factory( te_target )
   .//
-  .create object instance i_te_assign of TE_ASSIGN
-  .create object instance i_te_create_instance of TE_CREATE_INSTANCE
-  .create object instance i_te_for of TE_FOR
-  .create object instance i_te_if of TE_IF
-  .create object instance i_te_while of TE_WHILE
-  .create object instance i_te_elif of TE_ELIF
-  .create object instance i_te_delete_instance of TE_DELETE_INSTANCE
-  .create object instance i_te_create_event of TE_CREATE_EVENT
-  .create object instance i_te_relate of TE_RELATE
-  .create object instance i_te_relate_using of TE_RELATE_USING
-  .create object instance i_te_unrelate of TE_UNRELATE
-  .create object instance i_te_unrelate_using of TE_UNRELATE_USING
-  .create object instance i_te_select of TE_SELECT
-  .create object instance i_te_select_where of TE_SELECT_WHERE
-  .create object instance i_te_generate_precreated_event of TE_GENERATE_PRECREATED_EVENT
-  .create object instance i_te_event_parameters of TE_EVENT_PARAMETERS
-  .create object instance i_te_generate of TE_GENERATE
-  .create object instance i_te_generate_creator_event of TE_GENERATE_CREATOR_EVENT
-  .create object instance i_te_generate_to_class of TE_GENERATE_TO_CLASS
-  .create object instance i_te_sgn of TE_SGN
-  .create object instance i_te_iop of TE_IOP
-  .create object instance i_te_operation of TE_OPERATION
-  .create object instance i_te_bridge of TE_BRIDGE
-  .create object instance i_te_function of TE_FUNCTION
-  .create object instance i_te_return of TE_RETURN
+  .create object instance te_assign of TE_ASSIGN
+  .create object instance te_create_instance of TE_CREATE_INSTANCE
+  .create object instance te_for of TE_FOR
+  .create object instance te_if of TE_IF
+  .create object instance te_while of TE_WHILE
+  .create object instance te_elif of TE_ELIF
+  .create object instance te_delete_instance of TE_DELETE_INSTANCE
+  .create object instance te_create_event of TE_CREATE_EVENT
+  .create object instance te_relate of TE_RELATE
+  .create object instance te_relate_using of TE_RELATE_USING
+  .create object instance te_unrelate of TE_UNRELATE
+  .create object instance te_unrelate_using of TE_UNRELATE_USING
+  .create object instance te_select of TE_SELECT
+  .create object instance te_select_where of TE_SELECT_WHERE
+  .create object instance te_generate_precreated_event of TE_GENERATE_PRECREATED_EVENT
+  .create object instance te_event_parameters of TE_EVENT_PARAMETERS
+  .create object instance te_generate of TE_GENERATE
+  .create object instance te_generate_creator_event of TE_GENERATE_CREATOR_EVENT
+  .create object instance te_generate_to_class of TE_GENERATE_TO_CLASS
+  .create object instance te_sgn of TE_SGN
+  .create object instance te_iop of TE_IOP
+  .create object instance te_operation of TE_OPERATION
+  .create object instance te_bridge of TE_BRIDGE
+  .create object instance te_function of TE_FUNCTION
+  .create object instance te_return of TE_RETURN
 .end function

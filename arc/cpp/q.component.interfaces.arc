@@ -22,13 +22,13 @@
   .assign message_declarations = ""
   .select any te_file from instances of TE_FILE
   .select any te_po related by c_i->TE_PO[R2007] where ( selected.Provision )
-  .select many te_macts related by te_po->TE_MACT[R2006]
-  .invoke decs = TE_MACT_CreateDeclarations( te_macts, true, true )
-  .assign interface_provision_declarations = decs.body
+  .select many te_macts related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
+  .invoke r = TE_MACT_CreateDeclarations( te_macts )
+  .assign interface_provision_declarations = r.body
   .select any te_po related by c_i->TE_PO[R2007] where ( not selected.Provision )
-  .select many te_macts related by te_po->TE_MACT[R2006]
-  .invoke decs = TE_MACT_CreateDeclarations( te_macts, false, true )
-  .assign interface_requirement_declarations = decs.body
+  .select many te_macts related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
+  .invoke r = TE_MACT_CreateDeclarations( te_macts )
+  .assign interface_requirement_declarations = r.body
   .include "${te_file.arc_path}/t.component.interfaces.h"
 .end for
 .emit to file "${te_file.system_include_path}/${te_file.interfaces}.${te_file.hdr_file_ext}"

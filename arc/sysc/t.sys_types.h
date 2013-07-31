@@ -19,8 +19,6 @@
  * System ID:    ${te_sys.SystemID}
  * Model Compiler Product Information:
  * Product:  ${te_sys.ModelCompilerName}
- * Version:  ${te_sys.ModelCompilerVersion}
- * S/N:      ${te_sys.ModelCompilerSerNum}
  * System default/colored values:
  * MaxStringLen:  ${te_sys.MaxStringLen}
  * MaxObjExtent:  ${te_sys.MaxObjExtent}

@@ -12,7 +12,35 @@
 .//==================================================================== 
 .//
 .//
-.//==================================================================== 
+.function val_translate
+  .// Translate "leaf" values first.
+  .invoke val_literal_boolean_values()
+  .invoke val_literal_integer_values()
+  .invoke val_literal_real_values()
+  .invoke val_literal_string_values()
+  .invoke val_literal_enumerations()
+  .invoke val_constant_values()
+  .invoke val_transient_values()
+  .invoke val_instance_reference_values()
+  .invoke val_inst_ref_set_values()
+  .invoke val_selection_test_values()
+  .invoke val_event_values()
+  .invoke val_parameter_values()
+  .// The following may be recursed.
+  .invoke val_attribute_values()
+  .invoke val_member_values()
+  .invoke val_array_element_references()
+  .invoke val_array_length_values()
+  .invoke val_unary_op_values()
+  .invoke val_binary_op_values()
+  .// V_PARs depend upon values being populated.
+  .invoke val_actual_parameters()
+  .// These use V_PARs.
+  .invoke val_message_values()
+  .invoke val_bridge_values()
+  .invoke val_transform_values()
+  .invoke val_synch_service_values()
+.end function
 .//
 .//--------------------------------------------------------------------
 .// Percolate the values from the "leaves" up into the combined
@@ -77,8 +105,8 @@
   .select many v_lbos from instances of V_LBO
   .for each v_lbo in v_lbos
     .select one te_val related by v_lbo->V_VAL[R801]->TE_VAL[R2040]
-    .assign te_val.OAL = v_lbo.value
-    .assign te_val.buffer = v_lbo.value
+    .assign te_val.OAL = v_lbo.Value
+    .assign te_val.buffer = v_lbo.Value
   .end for
 .end function
 .//
@@ -157,7 +185,7 @@
     .assign te_val.array_spec = te_var.array_spec
     .select one te_dim related by te_var->TE_DIM[R2057]
     .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2057;
+      .// relate te_val to te_dim across R2079;
       .assign te_val.te_dimID = te_dim.te_dimID
       .// end relate
     .else
@@ -214,7 +242,14 @@
     .end if 
     .assign te_val.dimensions = te_attr.dimensions
     .assign te_val.array_spec = te_attr.array_spec
-    .assign te_val.te_dimID   = te_attr.te_dimID
+    .select one te_dim related by te_attr->TE_DIM[R2055]
+    .if ( not_empty te_dim )
+      .// relate te_val to te_dim across R2079;
+      .assign te_val.te_dimID = te_dim.te_dimID
+      .// end relate
+    .else
+      .assign te_val.te_dimID = 00
+    .end if
     .// Maybe attribute value is actually derived.
     .select one o_dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107]
     .if ( not_empty o_dbattr )
@@ -225,7 +260,14 @@
         .assign te_val.buffer = ( te_aba.GeneratedName + "( " ) + ( root + " )" )
         .assign te_val.dimensions = te_aba.dimensions
         .assign te_val.array_spec = te_aba.array_spec
-        .assign te_val.te_dimID   = te_aba.te_dimID
+        .select one te_dim related by te_aba->TE_DIM[R2058]
+        .if ( not_empty te_dim )
+          .// relate te_val to te_dim across R2079;
+          .assign te_val.te_dimID = te_dim.te_dimID
+          .// end relate
+        .else
+          .assign te_val.te_dimID = 00
+        .end if
       .end if
     .end if
     .end if
@@ -251,7 +293,14 @@
     .select one te_mbr related by v_mvl->S_MBR[R836]->TE_MBR[R2047]
     .assign te_val.dimensions = te_mbr.dimensions
     .assign te_val.array_spec = te_mbr.array_spec
-    .assign te_val.te_dimID   = te_mbr.te_dimID
+    .select one te_dim related by te_mbr->TE_DIM[R2059]
+    .if ( not_empty te_dim )
+      .// relate te_val to te_dim across R2079;
+      .assign te_val.te_dimID = te_dim.te_dimID
+      .// end relate
+    .else
+      .assign te_val.te_dimID = 00
+    .end if
     .assign te_val.OAL = ( root_te_val.OAL + "." ) + te_mbr.Name
     .assign te_val.buffer = ( root_te_val.buffer + "." ) + te_mbr.GeneratedName
   .end if
@@ -300,7 +349,7 @@
     .// any of them; they have the same names.
     .select any te_parm related by v_edv->V_EPR[R834]->SM_EVTDI[R846]->TE_PARM[R2031]
     .if ( empty te_parm )
-      .select one te_parm related by v_edv->V_EPR[R834]->C_PP[R847]->TE_PARM[R2048]
+      .select any te_parm related by v_edv->V_EPR[R834]->C_PP[R847]->TE_PARM[R2048]
     .else
       .// Mark the event as used.
       .select one te_evt related by te_parm->SM_EVTDI[R2031]->SM_EVT[R532]->TE_EVT[R2036]
@@ -313,7 +362,14 @@
     .assign te_val.buffer = "rcvd_evt->" + te_parm.GeneratedName
     .assign te_val.dimensions = te_parm.dimensions
     .assign te_val.array_spec = te_parm.array_spec
-    .assign te_val.te_dimID   = te_parm.te_dimID
+    .select one te_dim related by te_parm->TE_DIM[R2056]
+    .if ( not_empty te_dim )
+      .// relate te_val to te_dim across R2079;
+      .assign te_val.te_dimID = te_dim.te_dimID
+      .// end relate
+    .else
+      .assign te_val.te_dimID = 00
+    .end if
   .end for
 .end function
 .//
@@ -338,7 +394,14 @@
     .assign te_val.buffer = te_parm.GeneratedName
     .assign te_val.dimensions = te_parm.dimensions
     .assign te_val.array_spec = te_parm.array_spec
-    .assign te_val.te_dimID   = te_parm.te_dimID
+    .select one te_dim related by te_parm->TE_DIM[R2056]
+    .if ( not_empty te_dim )
+      .// relate te_val to te_dim across R2079;
+      .assign te_val.te_dimID = te_dim.te_dimID
+      .// end relate
+    .else
+      .assign te_val.te_dimID = 00
+    .end if
     .if ( 1 == te_parm.By_Ref )
       .assign te_val.buffer = ( "(*" + te_parm.GeneratedName ) + ")"
     .end if
@@ -369,21 +432,21 @@
     .select one v_isr related by root_v_val->V_ISR[R801]
     .if ( not_empty v_irf )
       .if ( op == "not_empty" )
-        .assign te_val.buffer = "( 0 != ${root_te_val.buffer} )"
+        .assign te_val.buffer = ( "( 0 != " + root_te_val.buffer ) + " )"
       .elif ( op == "empty" )
-        .assign te_val.buffer = "( 0 == ${root_te_val.buffer} )"
+        .assign te_val.buffer = ( "( 0 == " + root_te_val.buffer ) + " )"
       .elif ( op == "cardinality" )
-        .assign te_val.buffer = "( 0 != ${root_te_val.buffer} )"
+        .assign te_val.buffer = ( "( 0 != " + root_te_val.buffer ) + " )"
       .else
         .print "ERROR:  Unary set operator ${v_uny.Operator} is not supported."
       .end if
     .elif ( not_empty v_isr )
       .if ( op == "not_empty" )
-        .assign te_val.buffer = "( ! ${te_set.emptiness}( ${root_te_val.buffer} ) )"
+        .assign te_val.buffer = ( ( "( ! " + te_set.emptiness ) + ( "( " + root_te_val.buffer ) ) + " ) )"
       .elif ( op == "empty" )
-        .assign te_val.buffer = "${te_set.emptiness}( ${root_te_val.buffer} )"
+        .assign te_val.buffer = ( ( te_set.emptiness + "( " ) + ( root_te_val.buffer + " )" ) )
       .elif ( op == "cardinality" )
-        .assign te_val.buffer = "${te_set.module}${te_set.element_count}( ${root_te_val.buffer} )"
+        .assign te_val.buffer = ( ( te_set.module + te_set.element_count ) + ( "( " + root_te_val.buffer ) ) + " )"
       .else
         .print "ERROR:  Unary set operator ${v_uny.Operator} is not supported."
       .end if
@@ -398,7 +461,14 @@
     .// future support for vector arithmetic goes here
     .assign te_val.dimensions = root_te_val.dimensions
     .assign te_val.array_spec = root_te_val.array_spec
-    .assign te_val.te_dimID   = root_te_val.te_dimID
+    .select one te_dim related by root_te_val->TE_DIM[R2079]
+    .if ( not_empty te_dim )
+      .// relate te_val to te_dim across R2079;
+      .assign te_val.te_dimID = te_dim.te_dimID
+      .// end relate
+    .else
+      .assign te_val.te_dimID = 00
+    .end if
   .end if
 .end function
 .//
@@ -430,9 +500,9 @@
       .select any te_string from instances of TE_STRING
       .select any te_instance from instances of TE_INSTANCE
       .if ( "+" == "$r{v_bin.Operator}" )
-        .assign te_val.buffer = "${te_instance.module}${te_string.stradd}( ${l_te_val.buffer}, ${r_te_val.buffer} )"
+        .assign te_val.buffer = ( ( ( te_instance.module + te_string.stradd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )"
       .else
-        .assign te_val.buffer = "( ${te_instance.module}${te_string.strcmp}( ${l_te_val.buffer}, ${r_te_val.buffer} ) ${v_bin.Operator} 0 )"
+        .assign te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" )
       .end if
     .else
       .select any te_target from instances of TE_TARGET
@@ -446,7 +516,7 @@
         .if ( not_empty r_te_dim )
           .assign element_count = r_te_dim.elementCount
         .end if
-        .assign te_val.buffer = "( memcmp( ${l_te_val.buffer}, ${r_te_val.buffer}, sizeof(${l_te_val.buffer}[0]) * ${element_count} ) ${v_bin.Operator} 0 )"
+        .assign te_val.buffer = ( ( ( "( memcmp( " + l_te_val.buffer ) + ( ", " + r_te_val.buffer ) ) + ( ( ", sizeof(" + l_te_val.buffer ) + ( "[0]) * " + "${element_count}" ) ) ) + ( ( ") " + v_bin.Operator ) + " 0 )" )
       .else
         .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.buffer ) + " )" )
       .end if
@@ -454,7 +524,14 @@
     .// future support for vector arithmetic goes here
     .assign te_val.dimensions = r_te_val.dimensions
     .assign te_val.array_spec = r_te_val.array_spec
-    .assign te_val.te_dimID   = r_te_val.te_dimID
+    .select one te_dim related by r_te_val->TE_DIM[R2079]
+    .if ( not_empty te_dim )
+      .// relate te_val to te_dim across R2079;
+      .assign te_val.te_dimID = te_dim.te_dimID
+      .// end relate
+    .else
+      .assign te_val.te_dimID = 00
+    .end if
     .assign te_val.OAL = ( ( "( " + l_te_val.OAL ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.OAL ) + " )" )
   .end if
 .end function
@@ -478,10 +555,17 @@
   .select one te_aba related by te_mact->TE_ABA[R2010]
   .invoke rm = q_render_msg( te_mact, v_pars, "", false )
   .assign te_val.buffer = rm.smt_buffer
-  .assign te_val.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${rm.parameter_OAL})"
+  .assign te_val.OAL = ( ( te_mact.PortName + "::" ) + ( te_mact.MessageName + "(" ) ) + ( rm.parameter_OAL + ")" )
   .assign te_val.dimensions = te_aba.dimensions
   .assign te_val.array_spec = te_aba.array_spec
-  .assign te_val.te_dimID   = te_aba.te_dimID
+  .select one te_dim related by te_aba->TE_DIM[R2058]
+  .if ( not_empty te_dim )
+    .// relate te_val to te_dim across R2079;
+    .assign te_val.te_dimID = te_dim.te_dimID
+    .// end relate
+  .else
+    .assign te_val.te_dimID = 00
+  .end if
 .end function
 .//
 .function val_bridge_values
@@ -503,9 +587,10 @@
     .select one te_ee related by v_brv->S_BRG[R828]->S_EE[R19]->TE_EE[R2020]
     .assign te_ee.Included = true
     .invoke r = gen_parameter_list( v_pars, false, "bridge" )
-    .assign parameters = r.body
-    .assign params_OAL = r.result
-    .assign te_val.OAL = "${te_brg.EEkeyletters}::${te_brg.Name}(${params_OAL})"
+    .assign te_parm = r.result
+    .assign parameters = te_parm.ParamBuffer
+    .assign params_OAL = te_parm.OALParamBuffer
+    .assign te_val.OAL = ( ( te_brg.EEkeyletters + "::" ) + ( te_brg.Name + "(" ) ) + ( params_OAL + ")" )
     .if ( "SystemC" == te_target.language )
       .if ( "TIM" == te_brg.EEkeyletters )
         .assign te_val.buffer = ( "thismodule->tim->" + te_brg.GeneratedName ) + "("
@@ -528,7 +613,14 @@
     .assign te_val.buffer = te_val.buffer + ")"
     .assign te_val.dimensions = te_aba.dimensions
     .assign te_val.array_spec = te_aba.array_spec
-    .assign te_val.te_dimID   = te_aba.te_dimID
+    .select one te_dim related by te_aba->TE_DIM[R2058]
+    .if ( not_empty te_dim )
+      .// relate te_val to te_dim across R2079;
+      .assign te_val.te_dimID = te_dim.te_dimID
+      .// end relate
+    .else
+      .assign te_val.te_dimID = 00
+    .end if
   .end if
 .end function
 .//
@@ -560,7 +652,7 @@
     .else
       .// no variable, must be selection (selected reference)
       .if ( "SystemC" == te_target.language )
-        .assign te_val.buffer = "selected->${te_val.buffer}"
+        .assign te_val.buffer = "selected->" + te_val.buffer
       .end if
       .assign te_val.buffer = te_val.buffer + "selected"
       .assign te_val.OAL = "SELECTED."
@@ -573,9 +665,10 @@
     .assign te_val.OAL = te_tfr.Key_Lett + "::"
   .end if
   .invoke r = gen_parameter_list( v_pars, false, "operation" )
-  .assign parameters = r.body
-  .assign params_OAL = r.result
-  .assign te_val.OAL = te_val.OAL + "${te_tfr.Name}(${params_OAL})"
+  .assign te_parm = r.result
+  .assign parameters = te_parm.ParamBuffer
+  .assign params_OAL = te_parm.OALParamBuffer
+  .assign te_val.OAL = ( ( te_val.OAL + te_tfr.Name ) + ( "(" + params_OAL ) ) + ")"
   .if ( te_tfr.Instance_Based == 1 )
     .if ( ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) ) or ( "" != parameters ) )
       .assign te_val.buffer = te_val.buffer + ", "
@@ -590,7 +683,14 @@
   .assign te_val.buffer = ( te_val.buffer + parameters ) + ")"
   .assign te_val.dimensions = te_aba.dimensions
   .assign te_val.array_spec = te_aba.array_spec
-  .assign te_val.te_dimID   = te_aba.te_dimID
+  .select one te_dim related by te_aba->TE_DIM[R2058]
+  .if ( not_empty te_dim )
+    .// relate te_val to te_dim across R2079;
+    .assign te_val.te_dimID = te_dim.te_dimID
+    .// end relate
+  .else
+    .assign te_val.te_dimID = 00
+  .end if
   .end if
 .end function
 .//
@@ -611,9 +711,10 @@
     .select many v_pars related by v_fnv->V_PAR[R817]
     .select one te_aba related by te_sync->TE_ABA[R2010]
     .invoke r = gen_parameter_list( v_pars, false, "function" )
-    .assign parameters = r.body
-    .assign params_OAL = r.result
-    .assign te_val.OAL = "::${te_sync.Name}(${params_OAL})"  
+    .assign te_parm = r.result
+    .assign parameters = te_parm.ParamBuffer
+    .assign params_OAL = te_parm.OALParamBuffer
+    .assign te_val.OAL = ( ( "::" + te_sync.Name ) + ( "(" + params_OAL ) ) + ")"  
     .assign name = te_sync.intraface_method
     .if ( "SystemC" == te_target.language )
       .assign name = "thismodule->" + name
@@ -625,7 +726,14 @@
     .assign te_val.buffer = te_val.buffer + ")"
     .assign te_val.dimensions = te_aba.dimensions
     .assign te_val.array_spec = te_aba.array_spec
-    .assign te_val.te_dimID   = te_aba.te_dimID
+    .select one te_dim related by te_aba->TE_DIM[R2058]
+    .if ( not_empty te_dim )
+      .// relate te_val to te_dim across R2079;
+      .assign te_val.te_dimID = te_dim.te_dimID
+      .// end relate
+    .else
+      .assign te_val.te_dimID = 00
+    .end if
   .end if
 .end function
 .//
@@ -688,7 +796,7 @@
     .if ( "C" == te_target.language )
       .select one te_dim related by root_te_val->TE_DIM[R2079]
       .if ( not_empty te_dim )
-        .assign te_val.buffer = "${te_dim.elementCount} /* ${te_val.OAL} */ "
+        .assign te_val.buffer = ( ( "${te_dim.elementCount}" + " /" ) + ( "* " + te_val.OAL ) ) + ( " *" + "/ " )
       .else
         .assign te_val.buffer = root_te_val.buffer + ".ARRAY_LENGTH_NOT_FOUND()"
         .print "ERROR:  C model compiler does not support length operator for OAL value:  ${te_val.OAL}"
