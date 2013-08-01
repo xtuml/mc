@@ -69,7 +69,7 @@ ${function_include}
 ${ee_includes}
 ${class_includes}
 
-${event_unions.body}\
+${event_unions}\
 .if ( "C" == te_target.language )
 ${te_target.c2cplusplus_linkage_end}
 

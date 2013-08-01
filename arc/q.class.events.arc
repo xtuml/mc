@@ -294,7 +294,7 @@ typedef union {
 .end function
 .//
 .//============================================================================
-.// Create the roll-up of all events in this domain.
+.// Create the roll-up of all events in this component.
 .//============================================================================
 .function CreateUnionOfDomainEvents
   .param inst_ref te_c
@@ -329,14 +329,16 @@ typedef union {
     .end if
     .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
   .end while
+  .if ( ( "" != asm_unions ) or ( "" != ism_unions ) )
 
 /*
- * roll-up of all events (with their parameters) for domain ${te_c.Name}
+ * roll-up of all events (with their parameters) for component ${te_c.Name}
  */
 typedef union {
 ${ism_unions}\
 ${asm_unions}\
 } ${union_name};
+  .end if
 .end function
 .//
 .//============================================================================

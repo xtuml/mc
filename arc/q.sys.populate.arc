@@ -2055,6 +2055,8 @@
   .assign te_mact.GeneratedName = ( ( te_mact.ComponentName + "_" ) + ( te_mact.PortName + "_" ) ) + message_name
   .if ( "SystemC" == te_target.language )
     .assign te_mact.GeneratedName = ( te_mact.InterfaceName + "_" ) + message_name
+  .elif ( "C++" == te_target.language )
+    .assign te_mact.GeneratedName = ( te_mact.PortName + "_" ) + message_name
   .end if
   .assign te_mact.GeneratedName = "$r{te_mact.GeneratedName}"
   .assign te_mact.Name = te_mact.GeneratedName

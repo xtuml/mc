@@ -9,7 +9,7 @@
 .//============================================================================
 .//
 .if ( te_sync.IsSafeForInterrupts )
-extern void ${te_sync.intraface_method}(${te_aba.ParameterDeclaration});
+void ${te_sync.intraface_method}(${te_aba.ParameterDeclaration});
 .end if
-extern ${te_aba.ReturnDataType} ${te_aba.GeneratedName}(${te_aba.ParameterDeclaration});
+  static ${te_aba.ReturnDataType} ${te_aba.GeneratedName}(${te_aba.ParameterDeclaration});
 .//

@@ -11,17 +11,15 @@
 /*--------------------------------------------------------------------------
  * File:  ${te_file.sys_main}.${te_file.src_file_ext}
  *
- * Description:  main and system inititialization
+ * Description:  main, system initialization (and idle loop)
  * ${te_copyright.body}
  *--------------------------------------------------------------------------*/
 
 #include "${te_file.types}.${te_file.hdr_file_ext}"
-.if ( te_thread.enabled )
-#include "${te_file.thread}.${te_file.hdr_file_ext}"
-.end if
 .for each te_c in te_cs
-#include "${te_c.init_file}.${te_file.hdr_file_ext}"
+  .if ( te_c.internal_behavior )
 #include "${te_c.classes_file}.${te_file.hdr_file_ext}"
+  .end if
 .end for
 
 /*
@@ -37,8 +35,8 @@ static void ApplicationLevelInitialization( void )
   ${te_typemap.object_number_name} c;
 ${system_class_array.class_count}
   for ( d = 0; d < SYSTEM_DOMAIN_COUNT; d++ ) {
-    for ( c = 0; c < ${dci.class_count}[ d ]; c++ ) {
-      sys_factory::${te_instance.factory_init}( d, c );
+    for ( c = 0; c < ${te_cia.class_count}[ d ]; c++ ) {
+      ${te_instance.scope}${te_instance.factory_init}( d, c );
     }
   }
 .end if
@@ -70,39 +68,41 @@ ${main_decl.body}\
 if ( false == lazy_initialized ) {
   lazy_initialized = true;
 .end if
-  ${te_callout.initialization}()
-  ${te_set.factory}();
+  ${te_callout.initialization}();
+  ${te_set.factory}( ${te_set.number_of_containoids} );
 .if ( te_thread.enabled )
   ${te_prefix.result}InitializeThreading();
 .end if
 .if ( non_self_event_queue_needed.result or self_event_queue_needed.result )
-  InitializeOoaEventPool();
+  ${te_eq.scope}InitializeOoaEventPool();
 .end if
-.if ( persistence_needed.result )
+.if ( te_sys.PersistentClassCount > 0 )
 ${te_persist.factory_init}();
 .end if
   ApplicationLevelInitialization();
-.if ( persistence_needed.result )
+.if ( te_sys.PersistentClassCount > 0 )
   ${te_persist.restore}(); /* Restore persistent instances.  */
 .end if
-  ${te_callout.pre_xtUML_initialization}()
+  ${te_callout.pre_xtUML_initialization}();
 .for each te_c in te_cs
-  ${te_c.Name}_dom_init();
+  .if ( te_c.internal_behavior )
+  ${te_c.Name}::${te_c.Name}_execute_initialization();
+  .end if
 .end for
-  ${te_callout.post_xtUML_initialization}()
+  ${te_callout.post_xtUML_initialization}();
 .if ( te_sys.AUTOSAR )
 .else
   .if ( non_self_event_queue_needed.result or self_event_queue_needed.result )
   ${te_prefix.result}xtUML_run(); /* This is the primary event dispatch loop.  */
   .end if
-  ${te_callout.pre_shutdown}()
-  ${te_callout.post_shutdown}()
+  ${te_callout.pre_shutdown}();
+  ${te_callout.post_shutdown}();
   .if ( te_thread.enabled )
   ${te_thread.shutdown}();
   .end if
 .end if
 .if ( ( te_thread.flavor != "Nucleus" ) and ( te_thread.flavor != "AUTOSAR" ) )
-${return_body.body}\
+${return_body}\
 .end if
 .if ( te_sys.AUTOSAR )
 }

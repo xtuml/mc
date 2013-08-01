@@ -31,49 +31,11 @@ ${te_instance.handle} ${te_prefix.result}instance_cache[ 1000000 ];
 
 class sys_factory {
   public:
-#define ${te_instance.create}( d, c ) sys_factory::${te_instance.create}f(\
-.if ( multi_domain )
- d,\
-.end if
- c )
-    static ${te_instance.handle} ${te_instance.create}f(
-.if ( multi_domain )
-  const ${te_typemap.domain_number_name},
-.end if
-  const ${te_typemap.object_number_name} );
-#define ${te_instance.delete}( i, d, c ) sys_factory::${te_instance.delete}f( i,\
-.if ( multi_domain )
- d,\
-.end if
- c )
-    static void ${te_instance.delete}f(
-  ${te_instance.handle},
-.if ( multi_domain )
-  const ${te_typemap.domain_number_name},
-.end if
-  const ${te_typemap.object_number_name} );
-.if ( persistence_needed.result )
-#define ${te_instance.create_persistent}( d, c ) sys_factory::${te_instance.create_persistent}f(\
-  .if ( multi_domain )
- d,\
-  .end if
- c )
-    static ${te_instance.handle} ${te_instance.create_persistent}f(
-  .if ( multi_domain )
-  const ${te_typemap.domain_number_name},
-  .end if
-  const ${te_typemap.object_number_name} );
-#define ${te_instance.delete_persistent}( i, d, c ) sys_factory::${te_instance.delete_persistent}f( i,\
-  .if ( multi_domain )
- d,\
-  .end if
- c )
-    static void ${te_instance.delete_persistent}f(
-  ${te_instance.handle},
-  .if ( multi_domain )
-  const ${te_typemap.domain_number_name},
-  .end if
-  const ${te_typemap.object_number_name} );
+    static ${te_instance.handle} ${te_instance.create}( const ${te_typemap.domain_number_name}, const ${te_typemap.object_number_name} );
+    static void ${te_instance.delete}( ${te_instance.handle}, const ${te_typemap.domain_number_name}, const ${te_typemap.object_number_name} );
+.if ( te_sys.PersistentClassCount > 0 )
+    static ${te_instance.handle} ${te_instance.create_persistent}( const ${te_typemap.domain_number_name}, const ${te_typemap.object_number_name} );
+    static void ${te_instance.delete_persistent}( ${te_instance.handle}, const ${te_typemap.domain_number_name}, const ${te_typemap.object_number_name} );
 .end if
 /*
  * Initialize object factory services.
@@ -87,4 +49,3 @@ class sys_factory {
 
 ${te_target.c2cplusplus_linkage_end}
 #endif   /* $u{te_file.factory}_$u{te_file.hdr_file_ext} */
-.//

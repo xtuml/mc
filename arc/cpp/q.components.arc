@@ -16,50 +16,98 @@
 .//
 .//
 .assign port_declarations = ""
+.assign register_offset = ""
+.assign TLM_message_order = ""
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
-  .assign port_declarations = port_declarations + "#include ""${te_c.port_file}.${te_file.hdr_file_ext}""\n"
-.end for
-.// invoke VFB related files generation function
-.if ( te_sys.VFB )
-  .invoke VFB_Target_Functions_Files = Create_VFB_Target_Functions_File()
-  ${VFB_Target_Functions_Files.vfb_Functions_H_comments}
-  ${VFB_Target_Functions_Files.functions_header}
-  .emit to file "${te_file.system_include_path}/Functions_vfb.h"
-  ${VFB_Target_Functions_Files.vfb_Target_comments}
-  ${VFB_Target_Functions_Files.target_header}
-  .emit to file "${te_file.system_include_path}/target.h"
-  ${VFB_Target_Functions_Files.vfb_Functions_C_comments}
-  ${VFB_Target_Functions_Files.functions_C}
-  .emit to file "${te_file.system_include_path}/Functions_vfb.c"
-.end if
-.//
-.for each te_c in te_cs
-  .select any te_class related by te_c->TE_CLASS[R2064]
-  .select many te_macts related by te_c->TE_MACT[R2002]
-  .invoke declarations = TE_MACT_CreateDeclarations( te_macts )
-  .include "${arc_path}/t.component.ports.h"
-  .emit to file "${te_file.system_include_path}/${te_c.port_file}.${te_file.hdr_file_ext}"
+  .assign message_definitions = ""
+  .assign message_declarations = ""
+  .invoke s = TE_C_CreateIncludeList ( te_c )
+  .assign include_files = s.include_files
+  .// nested components
+  .// ports
+  .// messages
+  .select many te_pos related by te_c->TE_PO[R2005]
+  .for each te_po in te_pos
+    .// Get the first te_mact(s) in the port.
+    .select many te_macts related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
+    .invoke s = TE_MACT_CreateDeclarations( te_macts )
+    .assign message_declarations = message_declarations + s.body
+  .end for
+  .invoke r = CreateSynchronousServiceClassDeclaration( te_c )
+  .assign function_declarations = r.body
+  .include "${arc_path}/t.component.module.h"
+  .emit to file "${te_file.system_include_path}/${te_c.module_file}.${te_file.hdr_file_ext}"
   .//
-  .invoke definitions = TE_MACT_CreateDefinition( te_macts )
-  .invoke include_files = ClassAddIncludeFiles( te_c, FALSE )
-  .include "${arc_path}/t.component.ports.c"
-  .emit to file "${te_file.system_source_path}/${te_c.port_file}.${te_file.src_file_ext}"
-  .// invoke VFB header and C files generation function
-  .if ( te_sys.VFB )
-    .invoke Create_VFB_Rte_Header= Create_VFB_Rte_Header( te_macts, te_c )
-    ${Create_VFB_Rte_Header.vfb_header_comments}
-    ${Create_VFB_Rte_Header.autosar_vfb}
-    .emit to file "${te_file.system_include_path}/Rte_co_${te_c.Name}.h"
-    .invoke Create_VFB_Rte_Header= Create_VFB_Rte_Header( te_macts, te_c )
-    ${Create_VFB_Rte_Header.autosar_vfb_dataType_header}
-    .emit to file "${te_file.system_include_path}/Rte_Type.h"
-    .invoke Rte_VFB_C =Create_VFB_Rte_C( te_macts, te_c)
-    ${Rte_VFB_C.vfb_C_comments}
-    ${Rte_VFB_C.include_header}
-    ${Rte_VFB_C.parameters_save_with_dt}
-    ${Rte_VFB_C.autosar_vfb}
-    .emit to file "${te_file.system_include_path}/${te_c.Name}_vfb.c"
+  .for each te_po in te_pos
+    .// Get the first te_mact(s) in the port.
+    .select many te_macts related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
+    .invoke s = TE_MACT_CreateDefinition( te_c, te_po, te_macts )
+    .assign message_definitions = message_definitions + s.body
+    .assign portisr = ""
+    .if ( "TLM" == te_sys.SystemCPortsType )
+      .invoke s = TE_MACT_CreateISR( te_macts )
+      .assign portisr = s.body
+      .invoke wrapper = Vista_TLM_CreateTCLFiles ( te_c )
+      .assign register_offset = register_offset + wrapper.register_offset
+      .// CDS This is not general purpose yet.  We need to handle multiple ports and ordering within ports and polymorphism.
+      .select any first_te_mact related by te_macts->TE_C[R2002]->TE_MACT[R2002] where ( selected.Order == 0 )
+      .invoke mo = TE_MACT_GenerateTLMMessageOrder( first_te_mact )
+      .assign TLM_message_order = TLM_message_order + mo.message_order
+    .end if
+  .end for
+  .//
+  .// functions
+  .select any te_sync related by te_c->TE_SYNC[R2084]
+  .assign function_definitions = ""
+  .if ( not_empty te_sync )
+    .assign te_sync.Included = true
+    .select any te_sync related by te_c->TE_SYNC[R2084] where ( selected.IsSafeForInterrupts )
+    .invoke s = CreateSynchronousServiceClassDefinition( te_c )
+    .assign function_definitions = s.body
   .end if
+  .//
+  .// initialization
+  .// Build the domain init information containing data structures collecting
+  .// class info for the entire domain.
+  .// This set of queries drives the generation of initialization and
+  .// top-level domain connection to the rest of the system.
+  .select any te_class related by te_c->TE_CLASS[R2064]
+  .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+  .select any te_cia from instances of TE_CIA
+  .select one te_dci related by te_c->TE_DCI[R2090]
+  .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
+  .select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsInitFunction ) and ( selected.XlateSemantics ) )
+  .invoke s = CreateDomainInitSegment( te_c, te_syncs, te_sm )
+  .assign init_segment = s.body
+  .//
+  .// internal classes
+  .//
+  .assign instance_dumpers = ""
+  .assign class_info_init = ""
+  .if ( te_c.internal_behavior )
+    .invoke class_type_identifiers = CreateClassIdentifierFile( te_c )
+    .assign instance_dumpers = class_type_identifiers.instance_dumpers
+    .assign class_info_init = class_type_identifiers.class_info_init
+${class_type_identifiers.body}
+    .emit to file "${te_file.domain_include_path}/${te_c.classes_file}.${te_file.hdr_file_ext}"
+  .end if
+  .//
+  .include "${te_file.arc_path}/t.component.messages.c"
+  .if ( te_c.isRealized )
+    .emit to file "${te_file.system_source_path}/${te_c.module_file}_realized.${te_file.src_file_ext}"
+  .else
+    .emit to file "${te_file.system_source_path}/${te_c.module_file}.${te_file.src_file_ext}"
+  .end if
+  .// AUTOSAR VFB ports
+  .//.include "${te_file.arc_path}/q.autosar.vfb_ports.arc"
 .end for
 .//
+.// ISR/TLM/AUTOSAR/SVX
+.// AUTOSAR VFB functions
+.//.include "${te_file.arc_path}/q.autosar.vfb_functions.arc"
+.if ( te_sys.SystemCPortsType == "TLM" )
+  .include "${te_file.arc_path}/t.component.regdefs.h"
+  .emit to file "${te_file.system_source_path}/${te_file.registers}.${te_file.hdr_file_ext}"
+.end if
+.// registers/memory

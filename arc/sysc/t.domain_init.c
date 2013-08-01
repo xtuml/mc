@@ -8,22 +8,23 @@
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
+.if ( not_empty te_class )
 #if ${te_dci.max} > 0
-.if ( te_sys.InstanceLoading )
+  .if ( te_sys.InstanceLoading )
 Escher_idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ] = {${instance_dumpers}
 };
-.end if
+  .end if
 /* xtUML class info (collections, sizes, etc.) */
 ${te_set.scope}${te_cia.class_info_type} * const ${te_c.Name}::${te_dci.array_name}[ ${te_dci.max} ] = {${class_info_init}
 };
 #endif
 
-.if ( not_empty te_sm )
-  .if ( te_thread.enabled )
+  .if ( not_empty te_sm )
+    .if ( te_thread.enabled )
 ${te_typemap.object_number_name} ${te_c.Name}::${te_dci.task_list}[ ${te_dci.max_models} ] = {
   ${te_dci.task_numbers}
 };
-  .end if
+    .end if
 
 /*
  * Array of pointers to the class event dispatcher method.
@@ -32,4 +33,5 @@ ${te_typemap.object_number_name} ${te_c.Name}::${te_dci.task_list}[ ${te_dci.max
 ${class_dispatch_array.element_type} ${te_c.Name}::${class_dispatch_array.result}[ ${te_dci.max_models} ] = {
   ${te_c.Name}_class_dispatchers
 };
+  .end if
 .end if

@@ -140,7 +140,8 @@
     .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
   .end while
   .assign te_class = first_te_class
-  .invoke event_unions = CreateUnionOfDomainEvents( te_c )
+  .invoke r = CreateUnionOfDomainEvents( te_c )
+  .invoke event_unions = r.body
   .// TE_C may have no associated behavior/datatypes, accordingly include ${te_c.datatypes_file} should be omitted
   .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
   .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 0 ) and ( selected.Included ) )

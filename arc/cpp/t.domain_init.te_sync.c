@@ -13,5 +13,4 @@
    * Component:  ${te_c.Name}
    */
   ${te_sync.intraface_method}();
-
 .//

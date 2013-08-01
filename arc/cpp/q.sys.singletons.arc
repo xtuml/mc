@@ -50,7 +50,7 @@
   .assign te_eq.search_and_destroy = te_prefix.result + "EventSearchAndDestroy"
   .assign te_eq.run_flag = te_prefix.result + "run_flag"
   .assign te_eq.event_message_variable = "e"
-  .assign te_eq.scope = ""
+  .assign te_eq.scope = "sys_events::"
 .end function
 .//
 .//
@@ -123,7 +123,7 @@
 .function instance_factory
   .param inst_ref te_instance
   .select any te_prefix from instances of TE_PREFIX
-  .assign te_instance.scope = ""
+  .assign te_instance.scope = "sys_factory::"
   .assign te_instance.create = te_prefix.result + "CreateInstance"
   .assign te_instance.create_persistent = te_prefix.result + "CreatePersistent"
   .assign te_instance.delete = te_prefix.result + "DeleteInstance"
@@ -257,7 +257,7 @@
   .assign te_set.iterator_next = te_prefix.result + "IteratorNext"
   .assign te_set.base_class = te_prefix.result + "ObjectSet_s"
   .assign te_set.element_type = te_prefix.result + "SetElement_s"
-  .assign te_set.scope = ""
+  .assign te_set.scope = "sys_sets::"
 .end function
 .//
 .//
