@@ -18,12 +18,11 @@
 
 #ifndef $u{te_c.module_file}_$u{te_file.hdr_file_ext}
 #define $u{te_c.module_file}_$u{te_file.hdr_file_ext}
-${te_target.c2cplusplus_linkage_begin}
+${te_target.c2cplusplus_linkage_begin}\
 
 class ${te_c.Name}; // forward reference
-${include_files}
+${include_files}\
 ${class_type_identifiers}\
-
 .if ( "" != te_c.Descrip )
 /*
 ${te_c.Descrip}
@@ -35,13 +34,13 @@ class ${te_c.Name} : public sc_module${port_classes}\
   .end if
  {
   public:
-${sc_port_declarations}
-${nestedComponent_declarations}  
+${sc_port_declarations}\
+${nestedComponent_declarations}\
 ${bitLevelChannels}\
 ${has_process_declaration}\
 .if ( not_empty te_sm )
   ${te_c.Name}( sc_module_name name ) : sc_module( name ), sys_factory(${te_set.number_of_containoids}), sys_events(sizeof(${event_union_name}), ${te_eq.max_events}, NUM_OF_XTUML_CLASS_THREADS) ${nestedComponent_constructors} {
-${port_binding}  
+${port_binding}\
 ${sc_process}\
 .else
   ${te_c.Name}( sc_module_name name ) : sc_module( name )\
@@ -49,7 +48,7 @@ ${sc_process}\
 , sys_factory(${te_set.number_of_containoids})\
   .end if
 ${nestedComponent_constructors} {
-${port_binding}
+${port_binding}\
 .end if
 .if ( te_c.internal_behavior )
 ${init_segment}\
@@ -66,14 +65,16 @@ ${init_segment}\
 .else
   }
 .end if
-${message_declarations}
+${message_declarations}\
   .if ( te_c.internal_behavior )
 ${function_declarations}\
+    .if ( not_empty te_sm )
   // state machine process entry points
 ${sc_process_decls}\
+    .end if
   .end if
 ${sc_event_declarations}\
-  .if ( te_c.internal_behavior )
+  .if ( ( te_c.internal_behavior ) and ( not_empty te_class ) )
   sc_event ${te_tim.event_name};
   TIM * tim;
 .include "${te_file.arc_path}/t.domain_init.dci.h"

@@ -8,5 +8,5 @@
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
-    SC_THREAD(${te_sync.intraface_method});
+    SC_THREAD( ${te_sync.intraface_method} );
 .//

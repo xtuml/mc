@@ -78,7 +78,6 @@
 .//
 .select any te_file from instances of TE_FILE
 .if ( empty te_file )
-  .print "empty TE_FILE"
   .invoke mc_main( arc_path )
   .select any te_file from instances of TE_FILE
   .// Uncomment the following lines to create an instance dumper archetype.
@@ -89,10 +88,11 @@
   .//.exit 507
   .//.print "dumping instances ${info.date}"
   .//.include "${te_file.arc_path}/q.class.instance.dump.arc"
+  .// CDS - The following belongs inside main when using the RSL instance dumper.
+  .//.print "translating values/expressions"
+  .invoke val_translate()
 .else
-  .print "found TE_FILE"
   .assign te_file.arc_path = arc_path
-  .print "TE_FILE arc_path is ${te_file.arc_path}"
   .//.include "${te_file.system_color_path}/${te_file.bridge_mark}"
   .//.include "${te_file.system_color_path}/${te_file.datatype_mark}"
   .include "${te_file.system_color_path}/${te_file.system_mark}"
@@ -100,9 +100,6 @@
 .include "${te_file.domain_color_path}/${te_file.domain_mark}"
 .include "${te_file.domain_color_path}/${te_file.class_mark}"
 .include "${te_file.domain_color_path}/${te_file.event_mark}"
-.// CDS - The following belongs inside main when using the RSL instance dumper.
-.//.print "translating values/expressions"
-.invoke val_translate()
 .invoke oal_translate()
 .// 8) Include system level user defined archetype functions.
 .include "${te_file.system_color_path}/${te_file.system_functions_mark}"

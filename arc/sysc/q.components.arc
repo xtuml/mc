@@ -16,7 +16,6 @@
 .//
 .//
 .select many empty_c_cs from instances of C_C where ( false )
-.invoke TM_TEMPLATE_populate()
 .//
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .assign vistaWrapper = ""

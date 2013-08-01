@@ -40,8 +40,11 @@
     .assign scount = scount + 1
   .end while
   .if ( "SystemC" == te_target.language )
-    .select one te_dci related by te_c->TE_DCI[R2090]
-    .include "${te_file.arc_path}/t.domain_init.factories.c"
+    .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+    .if ( not_empty te_class )
+      .select one te_dci related by te_c->TE_DCI[R2090]
+      .include "${te_file.arc_path}/t.domain_init.factories.c"
+    .end if
   .end if
 .end function
 .//
@@ -52,8 +55,11 @@
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .assign class_or_struct = "struct"
+  .assign class_includes = ""
   .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
     .assign class_or_struct = "class"
+  .else
+    .assign class_includes = "#include ""${te_c.module_file}.${te_file.hdr_file_ext}"""
   .end if
   .assign class_numbers = ""
   .assign class_number_count = 0
@@ -62,9 +68,7 @@
   .assign class_typedefs = ""
   .assign attr_class_info_init = ""
   .assign class_union = "  char ${te_c.Name}_dummy;\\n"
-  .assign class_includes = "#include ""${te_c.module_file}.${te_file.hdr_file_ext}"""
   .assign ee_includes = ""
-  .assign function_include = ""
   .assign instance_loaders = ""
   .assign batch_relaters = ""
   .assign attr_instance_dumpers = ""
@@ -74,7 +78,6 @@
   .assign delimiter = ""
   .// Get collections of active classes, assigner/class-based classes
   .// and passive classes.
-  .select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
   .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
   .// Find first te_class.
   .assign first_te_class = te_class
@@ -141,7 +144,7 @@
   .end while
   .assign te_class = first_te_class
   .invoke r = CreateUnionOfDomainEvents( te_c )
-  .invoke event_unions = r.body
+  .assign event_unions = r.body
   .// TE_C may have no associated behavior/datatypes, accordingly include ${te_c.datatypes_file} should be omitted
   .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
   .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 0 ) and ( selected.Included ) )
