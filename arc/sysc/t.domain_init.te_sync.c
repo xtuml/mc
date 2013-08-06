@@ -8,5 +8,9 @@
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
+.if ( "SystemC" == te_thread.flavor )
     SC_THREAD( ${te_sync.intraface_method} );
+.else
+    ${te_sync.intraface_method};
+.end if
 .//

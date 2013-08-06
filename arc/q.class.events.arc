@@ -204,7 +204,7 @@ const ${te_eq.constant_type} ${te_evt.GeneratedName}c = {
   ESCHER_IS_INSTANCE_EVENT + ESCHER_IS_POLYMORPHIC_EVENT\
         .end if
       .end if
-      .if ( "SystemC" == te_target.language )
+      .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
 , 0\
       .end if
       .if ( event_prioritization_needed.result )
@@ -237,7 +237,7 @@ const ${te_eq.constant_type} ${te_evt.GeneratedName}c = {
       .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
   ${dom_id.name}, ${te_class.CBsystem_class_number}, ${te_evt.Enumerator},
   ESCHER_IS_ASSIGNER_EVENT\
-      .if ( "SystemC" == te_target.language )
+      .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
 , 0\
       .end if
       .if ( event_prioritization_needed.result )

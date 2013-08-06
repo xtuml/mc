@@ -33,8 +33,10 @@ typedef struct {
   ${te_typemap.object_number_name} destination_object_number;
   ${te_typemap.event_number_name} event_number;
   ${te_typemap.event_flags_name} event_flags;
-.if ( "SystemC" == te_target.language )
+.if ( "SystemC" == te_thread.flavor )
   sc_event * sc_e;
+.end if
+.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
   void * thismodule;
 .end if
 .if ( event_prioritization_needed.result )
@@ -57,8 +59,10 @@ typedef struct {
   ${te_typemap.object_number_name} destination_object_number;\\
   ${te_typemap.event_number_name} event_number;\\
   ${te_typemap.event_flags_name} event_flags;\\
-.if ( "SystemC" == te_target.language )
+.if ( "SystemC" == te_thread.flavor )
   sc_event * sc_e;\\
+.end if
+.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
   void * thismodule;\\
 .end if
 .if ( event_prioritization_needed.result )
@@ -217,8 +221,8 @@ bool ${te_eq.search_and_destroy}( ${te_eq.base_event_type} * );
 .end if
 .if ( te_sys.AUTOSAR )
 void * ooa_loop( void * );
-.elif ( "SystemC" == te_target.language )
-  void ooa_loop( const u1_t, const u1_t, void * );
+.elif ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  void ooa_loop( void * );
   virtual EventTaker_t * ${te_instance.get_event_dispatcher}( void ) { return 0; }
   .if ( te_thread.enabled )
   virtual ${te_typemap.object_number_name} * ${te_instance.get_thread_assignment}( void ) { return 0; }
@@ -229,4 +233,6 @@ void * ooa_loop( void * );
 .end if
 
 .include "${te_file.arc_path}/t.sys_thread.h"
+.if ( not_empty tim_v_brv )
 #include "${te_file.tim}.${te_file.hdr_file_ext}"
+.end if

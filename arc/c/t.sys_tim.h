@@ -166,7 +166,7 @@ void * TIM_duration_until_next_timer_pop( void * );
  * is from ${te_callout.pre_xtUML_initialization}.
  */
 void TIM_init( \
-.if ( te_target.language == "SystemC" )
+.if ( "SystemC" == te_thread.flavor )
 sc_event *\
 .else
 void\

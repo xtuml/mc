@@ -16,7 +16,7 @@
 void
 ${te_class.dispatcher}( ${te_eq.base_event_type} * event )
 {
-  .if ( "SystemC" == te_target.language )
+  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
   ${te_c.Name} * thismodule = (${te_c.Name} *) event->thismodule;
   .end if
   .if ( can_self_create )
@@ -40,7 +40,7 @@ ${te_instance.create_persistent}\
     .else
 ${te_instance.create}\
     .end if
-( ${domain_id.name}, ${te_class.system_class_number} );
+( ${dom_id.name}, ${te_class.system_class_number} );
     if ( 0 != instance ) {
     .if ( init_uniques.result )
       ${te_class.GeneratedName} * i = (${te_class.GeneratedName} *) instance;
@@ -104,7 +104,7 @@ ${te_instance.delete_persistent}\
     .else
 ${te_instance.delete}\
     .end if
-( instance, ${domain_id.name}, ${te_class.system_class_number} );
+( instance, ${dom_id.name}, ${te_class.system_class_number} );
         } else {
           instance->${te_instance.current_state} = next_state;
         }

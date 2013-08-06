@@ -51,7 +51,7 @@
       .assign provreq2 = "_requirement"
     .end if
     .if ( (te_sys.SystemCPortsType == "TLM") or (te_sys.SystemCPortsType == "sc_interface") )
-      .assign sc_port_declarations = ( ( sc_port_declarations + "  sc_port< " ) + ( te_po.InterfaceName + provreq2 ) ) + ( ( " > " + te_po.GeneratedName ) + ";\n" )
+      .assign sc_port_declarations = ( ( sc_port_declarations + "  xtuml_port < " ) + ( te_po.InterfaceName + provreq2 ) ) + ( ( " > " + te_po.GeneratedName ) + ";\n" )
     .else
       .assign sc_port_declarations = ( ( sc_port_declarations + "  ") + ( te_po.InterfaceName + provreq2 ) ) + ( ( " " + te_po.GeneratedName ) + ";\n" )
     .end if
@@ -99,9 +99,13 @@
   .invoke s = CreateDomainInitSegment( te_c, te_syncs, te_sm )
   .assign init_segment = s.body
   .assign has_process_declaration = s.has_process_declaration
-  .invoke s = TE_C_StateMachines( te_c )
-  .assign sc_process = s.body
-  .assign sc_event_declarations = s.sc_event_declarations
+  .assign sc_process = ""
+  .assign sc_event_declarations = ""
+  .if ( "SystemC" == te_thread.flavor )
+    .invoke r = TE_C_StateMachines( te_c )
+    .assign sc_process = r.body
+    .assign sc_event_declarations = r.result
+  .end if
   .invoke s = TE_C_StateMachinesProcess( te_c )
   .assign sc_process_defn = s.body
   .assign sc_process_decls = s.sc_process_decls
@@ -112,6 +116,7 @@
   .assign instance_dumpers = ""
   .assign class_info_init = ""
   .assign function_declarations = ""
+  .assign event_union_name = "0"
   .if ( te_c.internal_behavior )
     .// Build the domain init information containing data structures collecting
     .// class info for the entire domain.
@@ -120,8 +125,11 @@
     .assign class_info_init = r.class_info_init
     .invoke r = CreateSynchronousServiceClassDeclaration( te_c )
     .assign function_declarations = r.body
+    .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071] where ( selected.Used )
+    .if ( not_empty te_evt )
+      .assign event_union_name = te_c.Name + "_DomainEvents_u"
+    .end if
   .end if
-  .assign event_union_name = te_c.Name + "_DomainEvents_u"
   .//
   .include "${arc_path}/t.component.module.h"
   .emit to file "${te_file.system_include_path}/${te_c.module_file}.${te_file.hdr_file_ext}"

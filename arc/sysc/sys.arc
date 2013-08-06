@@ -138,7 +138,6 @@
 .invoke r = RenderSystemLimitsDeclarations( active_te_cs )
 .assign system_parameters = r.body
 .invoke system_class_array = DefineClassInfoArray( first_te_c )
-.invoke domain_ids = DeclareDomainIdentityEnums( first_te_c, num_ooa_doms )
 .//
 .select many te_ees from instances of TE_EE where ( ( ( selected.RegisteredName != "TIM" ) and ( selected.te_cID == 0 ) ) and ( selected.Included ) )
 .if ( not_empty te_ees )
@@ -152,6 +151,8 @@
   .include "${te_file.arc_path}/q.classes.arc"
 .end for
 .//
+.select many tim_te_brgs from instances of TE_BRG where ( selected.EEkeyletters == "TIM" )
+.select any tim_v_brv related by tim_te_brgs->S_BRG[R2025]->V_BRV[R828]
 .assign TLM_message_order = ""
 .// Generate interface declarations.
 .include "${te_file.arc_path}/q.component.interfaces.arc"
@@ -361,6 +362,7 @@
 .//=============================================================================
 .// Generate TIM_bridge.h into system include.
 .//=============================================================================
+.if ( not_empty tim_v_brv )
 .include "${te_file.arc_path}/t.sys_tim.h"
 .emit to file "${te_file.system_include_path}/${te_file.tim}.${te_file.hdr_file_ext}"
 .//
@@ -369,6 +371,7 @@
 .//=============================================================================
 .include "${te_file.arc_path}/t.sys_tim.c"
 .emit to file "${te_file.system_include_path}/${te_file.tim}.${te_file.src_file_ext}"
+.end if
 .//
 .//=============================================================================
 .// Generate sys_xtumlload.h into system gen includes.

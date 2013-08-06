@@ -959,7 +959,7 @@
     .assign attr_parameter_OAL = te_parm.OALParamBuffer
   .end if
   .assign name = te_mact.GeneratedName
-  .if ( "SystemC" == te_target.language )
+  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
     .// Now navigate out across the satisfaction to get the port index of the
     .// foreign component (instance).
     .select one te_po related by te_mact->TE_PO[R2006]
@@ -1127,7 +1127,7 @@
       .assign parameter_OAL = te_parm.OALParamBuffer
     .end if
     .assign name = te_sync.intraface_method
-    .if ( "SystemC" == te_target.language )
+    .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
       .assign name = "thismodule->" + name
     .end if
     .invoke s = t_oal_smt_function( name, parameters, te_blk.indentation )

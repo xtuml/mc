@@ -397,7 +397,7 @@
     .//
     .invoke init_uniques = AutoInitializeUniqueIDs( te_class, "i" )
     .invoke max_event = GetMaxEventInfo( o_obj, true )
-    .invoke domain_id = GetDomainTypeIDFromString( te_c.Name )
+    .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
     .invoke poly_dispatch = CreatePolymorphicEventDispatcher( o_obj, poly_rel_set )
     .assign poly_dispatcher = poly_dispatch.body
     .//

@@ -228,9 +228,7 @@
 .//============================================================================
 .function GetDomainTypeIDFromString
   .param string dom_name
-  .select any te_typemap from instances of TE_TYPEMAP
   .assign attr_name = "$r{dom_name}" + "_DOMAIN_ID"
-  .assign attr_type = te_typemap.domain_number_name
 .end function
 .//
 .//============================================================================

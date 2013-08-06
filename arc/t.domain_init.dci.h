@@ -10,9 +10,7 @@
 .//
 
   public:
-#if ${te_dci.max} > 0
     virtual ${te_extent.type} * ${te_instance.get_dci}( const ${te_typemap.object_number_name} cn ) { return ${te_dci.array_name}[cn]; }
-#endif
     .if ( not_empty te_sm )
       .if ( te_thread.enabled )
     virtual ${te_typemap.object_number_name} * ${te_instance.get_thread_assignment}( void ) { return &${te_dci.task_list}[0]; }
@@ -25,9 +23,7 @@
     .// but failed to get the kinks worked out.  The problems mostly had to do with
     .// trying to initialize this array in the constructor.  It didn't like the way
     .// the module's class extents were pulled in.
-#if ${te_dci.max} > 0
     static ${te_cia.class_info_type} * const ${te_dci.array_name}[];
-#endif
     .if ( not_empty te_sm )
       .if ( te_thread.enabled )
     static ${te_typemap.object_number_name} ${te_dci.task_list}[];

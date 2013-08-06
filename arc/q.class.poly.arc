@@ -105,7 +105,7 @@ void
 ${method_name.result}( const ${te_class.GeneratedName} * const ${supertype}, ${te_eq.base_event_type} * event )
 {
   ${te_typemap.event_number_name} event_number = GetOoaEventNumber( event );
-      .if ( "SystemC" == te_target.language )
+      .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
   ${te_c.Name} * thismodule = (${te_c.Name} *) event->thismodule;
       .end if
     .end if
@@ -134,7 +134,7 @@ ${i}      switch ( event_number ) {
             .assign transition = transition + "${i}        case ${poly_te_evt.Enumerator}:${note}\n"
             .assign transition = transition + "${i}          event = ${te_instance.module}${te_eq.modify}( event, &${true_te_evt.GeneratedName}c );\n"
             .assign transition = transition + "${i}          SetEventTargetInstance( event, ${supertype}->${supertype_data_member.result} );\n"
-            .if ( "SystemC" == te_target.language )
+            .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
               .assign transition = transition + "${i}          event->thismodule = thismodule;\n"
             .end if
             .assign transition = transition + "${i}          ${subtype_te_class.dispatcher}( event );\n"

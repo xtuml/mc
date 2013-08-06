@@ -687,10 +687,7 @@ ${port_action.body}
         .assign port_bodies = port_bodies + r.body
       .end for
     .end if
-    .assign thismodule_decl = ""
-    .if ( "SystemC" == te_target.language )
-      .assign thismodule_decl = "  ${te_mact.ComponentName} * thismodule = this;"
-    .end if
+    .assign thismodule_decl = "  ${te_mact.ComponentName} * thismodule = this;"
     .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
       .// outbound message
     .elif ( ( ( te_mact.Provision ) and ( 0 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 1 == te_mact.Direction ) ) )
@@ -710,10 +707,8 @@ ${port_action.body}
 .function TE_C_StateMachines
   .param inst_ref te_c
   .select any te_file from instances of TE_FILE
-  .assign attr_sc_event_declarations = ""
+  .assign result = ""
   .select many te_classes related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_CLASS[R2072]
-  .//
-  .// Sony specific requirement: Default behavior for leaf components
   .select any te_sys from instances of TE_SYS
   .select any nested_c_c related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]
   .select many cl_ics related by te_c->C_C[R2054]->CL_IC[R4205]
@@ -730,18 +725,19 @@ ${port_action.body}
     .assign sc_event_sensitivity = ""
     .select many te_evts related by te_class->TE_SM[R2072]->TE_EVT[R2071]
     .if ( not_empty te_evts )
-      .assign attr_sc_event_declarations = attr_sc_event_declarations + "  sc_event "
+      .assign result = result + "  sc_event "
     .end if
     .for each te_evt in te_evts
       .assign sc_event_sensitivity = ( sc_event_sensitivity + " << " ) + ( "sc_" + te_evt.GeneratedName )
-      .assign attr_sc_event_declarations = ( attr_sc_event_declarations + delimiter ) + ( "sc_" + te_evt.GeneratedName )
+      .assign result = ( result + delimiter ) + ( "sc_" + te_evt.GeneratedName )
       .assign delimiter = ", "
     .end for
     .include "${te_file.arc_path}/t.component.class.sm.h"
     .if ( not_empty te_evts )
-      .assign attr_sc_event_declarations = attr_sc_event_declarations + ";\n"
+      .assign result = result + ";\n"
     .end if
   .end for
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -1047,8 +1043,8 @@ ${port_action.body}
     .else
       .assign channel_include = "public sc_channel, public ${te_po.InterfaceName}_provision"
     .end if
-    .assign bpCallBackIF = bpCallBackIF + "class ${te_po.name}_bpCallBackIF: ${channel_include} {\n  public:\n  ${te_po.name}_bpCallBackIF(sc_module_name name, ${class_name} *mbmodule) :"
-    .assign bpCallBackIF = bpCallBackIF + "    sc_module(name),\n    m_mbmodule(mbmodule)\n    {}\n${outgoing_port_call_declaration}\n  private:\n  ${class_name} *m_mbmodule;\n   } m_${te_po.name}_bpCallBackIF;\n\n"
+    .assign bpCallBackIF = bpCallBackIF + "class ${te_po.name}_bpCallBackIF: ${channel_include} {\n  public:\n  ${te_po.name}_bpCallBackIF(xtuml_module_name name, ${class_name} *mbmodule) :"
+    .assign bpCallBackIF = bpCallBackIF + "    xtuml_module(name),\n    m_mbmodule(mbmodule)\n    {}\n${outgoing_port_call_declaration}\n  private:\n  ${class_name} *m_mbmodule;\n   } m_${te_po.name}_bpCallBackIF;\n\n"
   .end for
   .include "${te_file.arc_path}/t.component.vista.pv_template.port.h"
   .assign file_epilogue = true

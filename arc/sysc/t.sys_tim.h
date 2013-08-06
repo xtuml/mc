@@ -27,7 +27,7 @@
 #ifndef $u{te_file.tim}_$u{te_file.hdr_file_ext}
 #define $u{te_file.tim}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
-.if ( ( te_target.language == "SystemC" ) or ( te_target.language == "C++" ) )
+.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
 #include <sys/timeb.h>
 #include <time.h>
   .if ( not te_tim.keyed_timer_support )
@@ -177,7 +177,7 @@ void * duration_until_next_timer_pop( void * );
  * is from ${te_callout.pre_xtUML_initialization}.
  */
 void init( \
-.if ( te_target.language == "SystemC" )
+.if ( "SystemC" == te_thread.flavor )
 sc_event *\
 .else
 void\
@@ -223,7 +223,7 @@ ETimer_t * animate, * inanimate;
 .if ( te_tim.keyed_timer_support )
 u4_t timer_access_key;
 .end if
-.if ( te_target.language == "SystemC" )
+.if ( "SystemC" == te_thread.flavor )
 sc_event * ${te_tim.event_name}; // pointing to the sc_event in the parent module
 .end if
 

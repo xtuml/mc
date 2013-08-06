@@ -353,7 +353,7 @@ TIM::create_date(
  * BridgePoint Primitive:
  * <integer_var> = TIM::get_second(
  *   date:<integer_var> )
- * Return the year field of the date variable.
+ * Return the second field of the date variable.
  *===================================================================*/
 i_t
 TIM::get_second(
@@ -374,7 +374,7 @@ TIM::get_second(
  * BridgePoint Primitive:
  * <integer_var> = TIM::get_minute(
  *   date:<integer_var> )
- * Return the year field of the date variable.
+ * Return the minute field of the date variable.
  *===================================================================*/
 i_t
 TIM::get_minute(
@@ -395,7 +395,7 @@ TIM::get_minute(
  * BridgePoint Primitive:
  * <integer_var> = TIM::get_hour(
  *   date:<integer_var> )
- * Return the year field of the date variable.
+ * Return the hour field of the date variable.
  *===================================================================*/
 i_t
 TIM::get_hour(
@@ -416,7 +416,7 @@ TIM::get_hour(
  * BridgePoint Primitive:
  * <integer_var> = TIM::get_day(
  *   date:<integer_var> )
- * Return the year field of the date variable.
+ * Return the day field of the date variable.
  *===================================================================*/
 i_t
 TIM::get_day(
@@ -437,7 +437,7 @@ TIM::get_day(
  * BridgePoint Primitive:
  * <integer_var> = TIM::get_month(
  *   date:<integer_var> )
- * Return the year field of the date variable.
+ * Return the month field of the date variable.
  *===================================================================*/
 i_t
 TIM::get_month(
@@ -665,7 +665,7 @@ TIM::cancel(
   ETimer_t * const t
 )
 {
-  bool rc = false;
+  bool rc; ${te_eq.base_event_type} * e;
 .if ( te_thread.flavor == "Nucleus" )
   STATUS status;
 .end if
@@ -674,20 +674,21 @@ TIM::cancel(
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
   #endif
 .end if
-  if ( timer_find_and_delete( t ) == true ) {
-    if ( t->event != 0 ) {
-      ((sys_events*) t->event->thismodule)->${te_eq.delete}( t->event );
-      rc = true;
-    }
-.if ( te_thread.flavor == "Nucleus" )
-    status = NU_Control_Timer( &nutimers[ t->index ], NU_DISABLE_TIMER );
-.end if
-  }
+  rc = timer_find_and_delete( t );
+  e = t->event;
 .if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_TIMER );
   #endif
 .end if
+  if ( true == rc ) {
+    if ( 0 != e ) {
+      ((sys_events*) e->thismodule)->${te_eq.delete}( t->event );
+    }
+.if ( te_thread.flavor == "Nucleus" )
+    status = NU_Control_Timer( &nutimers[ t->index ], NU_DISABLE_TIMER );
+.end if
+  }
   return ( rc );
 }
 
@@ -701,7 +702,6 @@ TIM::timer_fire(
   ETimer_t * const t
 )
 {
-  ((sys_events*) t->event->thismodule)->${te_eq.non_self}( t->event );
 .if ( te_tim.recurring_timer_support )
   t->expiration = ( t->recurrence == 0 ) ? 0 : t->expiration + t->recurrence;
   .if ( te_tim.keyed_timer_support )
@@ -713,6 +713,7 @@ TIM::timer_fire(
   t->accesskey = 0;
   .end if
 .end if
+  ((sys_events*) t->event->thismodule)->${te_eq.non_self}( t->event );
 .if ( te_tim.recurring_timer_support )
   if ( 0 != t->recurrence ) {
     ${te_eq.base_event_type} * e = ((sys_events*) t->event->thismodule)->${te_eq.allocate}();
@@ -842,7 +843,7 @@ TIM::init(\
   /* Build the collection (linked list) of timers.                   */
   /*-----------------------------------------------------------------*/
   animate = 0; inanimate = 0;
-.if ( te_thread.flavor == "SystemC" )
+.if ( "SystemC" == te_thread.flavor )
   ${te_tim.event_name} = sc_e;
 .end if
   for ( i = 0; i < timer_count; i++ ) {

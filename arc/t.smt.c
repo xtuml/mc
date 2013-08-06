@@ -98,7 +98,7 @@ ${ws}${te_assign.lval} = ${te_assign.rval};
   .select one te_c related by o_obj->TE_CLASS[R2019]->TE_C[R2064]
   .select any te_instance from instances of TE_INSTANCE
   .select one te_class related by o_obj->TE_CLASS[R2019]
-  .invoke domain_id = GetDomainTypeIDFromString( te_c.Name )
+  .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
   .invoke init_uniques = AutoInitializeUniqueIDs( te_class, var_name )
   .assign attr_declaration = ""
   .if ( is_implicit )
@@ -110,7 +110,7 @@ ${te_instance.create_persistent}\
   .else
 ${te_instance.create}\
   .end if
-( ${domain_id.name}, ${te_class.system_class_number} );
+( ${dom_id.name}, ${te_class.system_class_number} );
   .if ( "" != init_uniques.body )
 ${ws}${init_uniques.body}\
   .end if
@@ -125,7 +125,7 @@ ${ws}${init_uniques.body}\
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by o_obj->TE_CLASS[R2019]->TE_C[R2064]
   .if ( not_empty te_c )
-    .invoke domain_id = GetDomainTypeIDFromString( te_c.Name )
+    .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
     .if ( te_c.DetectEmpty )
 ${ws}if ( 0 == ${var_name} ) {
 ${ws}  XTUML_EMPTY_HANDLE_TRACE( "${o_obj.Key_Lett}", "${te_instance.delete}" );
@@ -137,7 +137,7 @@ ${te_instance.delete_persistent}\
     .else
 ${te_instance.delete}\
     .end if
-( (${te_instance.handle}) ${var_name}, ${domain_id.name}, ${te_class.system_class_number} );
+( (${te_instance.handle}) ${var_name}, ${dom_id.name}, ${te_class.system_class_number} );
   .end if
 .end function
 .//------------------------------------------------
@@ -152,7 +152,7 @@ ${te_instance.delete}\
   .param string parameters
   .param string ws
   .select any te_eq from instances of TE_EQ
-  .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .select any te_instance from instances of TE_INSTANCE
   .select one te_evt related by sm_evt->TE_EVT[R2036]
   .assign attr_declaration = ""
@@ -173,7 +173,7 @@ ${ws}${parameters}\
       .end if
 ${ws}${var_name} = ${te_instance.module}${te_eq.new}( (void *) ${recipient_var_name}, &${te_evt.GeneratedName}c );
     .end if
-    .if ( "SystemC" == te_target.language )
+    .if ( "SystemC" == te_thread.flavor )
 ${ws}${var_name}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
     .end if
   .end if
@@ -452,7 +452,7 @@ ${te_instance.module}${te_eq.non_self}( \
   .param string parameters
   .param string ws
   .assign attr_declaration = ""
-  .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .select any te_instance from instances of TE_INSTANCE
   .select any te_eq from instances of TE_EQ
   .select one te_evt related by sm_evt->TE_EVT[R2036]
@@ -472,7 +472,7 @@ ${parameters}
     .// No special casting will then be required.  Good for MISRA.
  ${te_eq.base_event_type} * ${te_eq.event_message_variable} = ${te_instance.module}${te_eq.new}( ${void_cast}${var_name}, &${te_evt.GeneratedName}c );
   .end if
-  .if ( "SystemC" == te_target.language )
+  .if ( "SystemC" == te_thread.flavor )
   ${te_eq.event_message_variable}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
   .end if
   .//
@@ -672,8 +672,8 @@ ${ws}return ${cast1}${rv}${cast2};\
 .function t_oal_smt_control
   .param string ws
   .// the only command defined is "STOP";
-  .select any te_target from instances of TE_TARGET
-  .if ( "SystemC" != te_target.language )
+  .select any te_thread from instances of TE_THREAD
+  .if ( "SystemC" != te_thread.flavor )
 ${ws}ARCH_shutdown();
   .end if
 .end function

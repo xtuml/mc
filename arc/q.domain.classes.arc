@@ -22,13 +22,21 @@
   .select any te_instance from instances of TE_INSTANCE
   .select any te_set from instances of TE_SET
   .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .invoke SortSetAlphabeticallyByNameAttr( te_syncs )
   .assign scount = 0
   .assign scardinality = cardinality te_syncs
   .assign attr_has_process_declaration = ""
-  .if ( ( not_empty te_sm ) or ( scardinality > 0 ) )
-    .if ( "SystemC" == te_target.language )
+  .if ( "SystemC" == te_thread.flavor )
+    .if ( ( not_empty te_sm ) or ( scardinality > 0 ) )
       .assign attr_has_process_declaration = "  SC_HAS_PROCESS( ${te_c.Name} );\n"
+    .end if
+  .end if
+  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+    .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+    .if ( not_empty te_class )
+      .select one te_dci related by te_c->TE_DCI[R2090]
+      .include "${te_file.arc_path}/t.domain_init.factories.c"
     .end if
   .end if
   .while ( scount < scardinality )
@@ -39,13 +47,6 @@
     .end for
     .assign scount = scount + 1
   .end while
-  .if ( "SystemC" == te_target.language )
-    .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
-    .if ( not_empty te_class )
-      .select one te_dci related by te_c->TE_DCI[R2090]
-      .include "${te_file.arc_path}/t.domain_init.factories.c"
-    .end if
-  .end if
 .end function
 .//
 .function CreateClassIdentifierFile

@@ -45,13 +45,13 @@ void ${te_callout.initialization}f( void );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
    hook for this callout.
-.if ( "SystemC" == te_target.language )
- */
-#define ${te_callout.initialization}()
-.else
+.if ( "C" == te_target.language )
    (activated by default...  Uncomment to deactivate.)
 #define ${te_callout.initialization}()
  */
+.else
+ */
+#define ${te_callout.initialization}()
 .end if
 
 #ifndef ${te_callout.initialization}
@@ -104,13 +104,13 @@ void ${te_callout.background_processing}f( void );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
    hook for this callout.
-.if ( "SystemC" == te_target.language )
- */
-#define ${te_callout.background_processing}()
-.else
+.if ( "C" == te_target.language )
    (activated by default...  Uncomment to deactivate.)
 #define ${te_callout.background_processing}()
  */
+.else
+ */
+#define ${te_callout.background_processing}()
 .end if
 
 #ifndef ${te_callout.background_processing}

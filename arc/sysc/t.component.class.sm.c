@@ -8,15 +8,13 @@
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
-.if ( default_behavior == false )
+.if ( false == default_behavior )
 // state machine dispatcher process for ${te_class.Name}
 void ${te_c.Name}::${te_class.GeneratedName}_sm()
 {
-  .if ( "SystemC" == te_target.language )
   ${te_c.Name} * thismodule = this;
-  .end if
   while ( true ) {
-    ${te_instance.module}ooa_loop( ${te_c.Name}_DOMAIN_ID, ${te_class.system_class_number}, (void *) this );
+    ${te_instance.module}ooa_loop( (void *) this );
     wait();
   }
 }

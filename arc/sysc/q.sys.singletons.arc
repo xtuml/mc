@@ -99,7 +99,7 @@
   .assign te_file.ilb = te_prefix.file + "sys_ilb"
   .assign te_file.persist = te_prefix.file + "sys_persist"
   .assign te_file.xtumlload = te_prefix.file + "sys_xtumlload"
-  .assign te_file.interfaces = te_prefix.file + "sysc_interfaces"
+  .assign te_file.interfaces = te_prefix.file + "sys_interfaces"
   .assign te_file.registers = te_prefix.file + "RegDefs"
   .assign te_file.domain_color_path = "."
   .assign te_file.domain_source_path = "_ch"

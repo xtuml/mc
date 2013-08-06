@@ -22,7 +22,7 @@ ${te_target.c2cplusplus_linkage_begin}
 
 ${include_files}
 
-class ${pkg_name} : public sc_module {
+class ${pkg_name} : public xtuml_module {
   public:
 ${top_module_instances}
   SC_HAS_PROCESS( ${pkg_name} );
@@ -31,7 +31,7 @@ ${top_module_instances}
   sc_in < bool >  rst_X;
 .end if
 ${bitLevelChannels}
-  ${pkg_name}( sc_module_name name ) : sc_module( name )${top_module_inits} {
+  ${pkg_name}( xtuml_module_name name ) : xtuml_module( name )${top_module_inits} {
 ${port_binding}\
   }
 };

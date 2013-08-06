@@ -52,7 +52,7 @@ ${te_sync.intraface_method}(${te_aba.ParameterDefinition})
   static ${te_instance.handle} ${te_instance.self};
     .end if
   .end if
-  .if ( "SystemC" == te_target.language )
+  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
   ${te_c.Name} * thismodule = this;
   .end if
 ${function_body}

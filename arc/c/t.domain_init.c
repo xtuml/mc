@@ -9,7 +9,6 @@
 .//============================================================================
 .//
 .if ( not_empty te_class )
-#if ${te_dci.max} > 0
   .if ( te_sys.InstanceLoading )
 Escher_idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ] = {${instance_dumpers}
 };
@@ -17,7 +16,6 @@ Escher_idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ] = {${instance_dumpers}
 /* xtUML class info (collections, sizes, etc.) */
 ${te_set.scope}${te_cia.class_info_type} * const ${te_dci.array_name}[ ${te_dci.max} ] = {${class_info_init}
 };
-#endif
 
   .if ( not_empty te_sm )
 /*

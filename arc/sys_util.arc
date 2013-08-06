@@ -194,13 +194,18 @@ typedef union {
   .assign cc = "\n  static const ${te_cia.count_type} ${te_cia.class_count}[ SYSTEM_DOMAIN_COUNT ] = {"
   .assign te_c = first_te_c
   .while ( not_empty te_c )
+    .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
     .select one te_dci related by te_c->TE_DCI[R2090]
     .select one te_c related by te_c->TE_C[R2017.'succeeds']
     .assign delimiter = ""
     .if ( not_empty te_c )
       .assign delimiter = ","
     .end if
-    .assign cc = cc + "\n    ${te_dci.max}${delimiter}"
+    .if ( empty te_class )
+      .assign cc = cc + "\n    0${delimiter}"
+    .else
+      .assign cc = cc + "\n    ${te_dci.max}${delimiter}"
+    .end if
   .end while
   .assign cc = cc + "\n  };"
   .assign attr_class_info = ci
@@ -233,7 +238,7 @@ typedef union {
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
 #define SYSTEM_DOMAIN_COUNT ${num_ooa_doms}
-  .if ( "SystemC" != te_target.language )
+  .if ( "C" == te_target.language )
 /* xtUML domain identification numbers */
     .assign enumerated_domain_id = 0
     .assign delimiter = ""
@@ -260,13 +265,13 @@ typedef union {
   .assign result = false
   .assign attr_max_depth = 0
   .select any te_sys from instances of TE_SYS
-  .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .if ( not_empty te_sys )
     .select any self_queue related by te_sys->TE_DISP[R2003]->TE_QUEUE[R2004] where ( selected.Type == 1 )
     .if ( not_empty self_queue )
       .assign result = self_queue.RenderCode
       .assign attr_max_depth = self_queue.MaxDepth
-      .if ( ( not result ) and ( "SystemC" == te_target.language ) )
+      .if ( ( not result ) and ( "SystemC" == te_thread.flavor ) )
         .// For SystemC, we force the code to always use this event queue
         .assign result = true
         .assign attr_max_depth = 1
@@ -313,13 +318,13 @@ typedef union {
   .assign result = false
   .assign max_depth = 0
   .select any te_sys from instances of TE_SYS
-  .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .if ( not_empty te_sys )
     .select any non_self_queue related by te_sys->TE_DISP[R2003]->TE_QUEUE[R2004] where ( selected.Type == 2 )
     .if ( not_empty non_self_queue )
       .assign result = non_self_queue.RenderCode
       .assign max_depth = non_self_queue.MaxDepth
-      .if ( ( not result ) and ( "SystemC" == te_target.language ) )
+      .if ( ( not result ) and ( "SystemC" == te_thread.flavor ) )
         .// For SystemC, we force the code to always use this event queue
         .assign result = true
         .assign max_depth = 1

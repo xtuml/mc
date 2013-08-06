@@ -83,10 +83,10 @@ ${te_aba.code}\
   .end if
 .else
   .if ( ( te_brg.EEkeyletters == "ARCH" ) and ( te_brg.Name == "shutdown" ) )
-    .if ( ( "SystemC" == te_target.language ) and ( not_empty te_c ) )
+    .if ( ( "C" != te_target.language ) and ( not_empty te_c ) )
   ${te_instance.module}${te_eq.run_flag} = false; /* default automatic action for this bridge */
     .end if
-    .if ( "SystemC" != te_target.language )
+    .if ( "C" == te_target.language )
   ${te_eq.run_flag} = false; /* default automatic action for this bridge */
     .end if
   return;

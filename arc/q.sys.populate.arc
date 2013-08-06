@@ -36,6 +36,7 @@
   .select any te_set from instances of TE_SET
   .select any te_string from instances of TE_STRING
   .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .select any te_tim from instances of TE_TIM
   .select any te_typemap from instances of TE_TYPEMAP
   .select any empty_cp_cp from instances of CP_CP where ( false )
@@ -96,10 +97,13 @@
     .assign te_sys.SystemCPortsType = "sc_interface"
   .end if
   .//
+  .if ( "SystemC" == te_target.language )
+    .assign te_thread.flavor = "SystemC"
+  .end if
+  .//
   .//Update the tasking threads based on marking.
   .select any tm_thread from instances of TM_THREAD
   .if ( not_empty tm_thread )
-    .select any te_thread from instances of TE_THREAD
     .assign te_thread.extra_initialization = tm_thread.extra_initialization
     .assign te_thread.number_of_threads = tm_thread.number_of_threads
     .assign te_thread.enabled = tm_thread.enabled
@@ -1037,7 +1041,7 @@
     .select many s_dims related by c_pp->S_DIM[R4017]
     .select one te_dt related by c_pp->S_DT[R4007]->TE_DT[R2021]
     .assign c_pp_name = c_pp.Name
-    .if ( "SystemC" == te_target.language )
+    .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
       .select one c_as related by c_pp->C_EP[R4006]->C_AS[R4004]
       .if ( not_empty c_as )
         .assign c_pp_name = ( c_as.Name + "_" ) + c_pp_name
@@ -1126,7 +1130,7 @@
     .select one c_io related by spr_rep->C_EP[R4500]->C_IO[R4004]
     .select one te_dt related by c_io->S_DT[R4008]->TE_DT[R2021]
     .// If we are using TLM ports, convert booleans to integers
-    .if ( "SystemC" == te_target.language )
+    .if ( "SystemC" == te_thread.flavor )
       .if ( ( 1 == te_dt.Core_Typ ) and ( te_sys.SystemCPortsType == "TLM" ) )
         .assign te_dt = converted_bool_te_dt
       .end if
@@ -1161,7 +1165,7 @@
     .select one c_io related by spr_pep->C_EP[R4501]->C_IO[R4004]
     .select one te_dt related by c_io->S_DT[R4008]->TE_DT[R2021]
     .// If we are using TLM ports, convert booleans to integers
-    .if ( "SystemC" == te_target.language )
+    .if ( "SystemC" == te_thread.flavor )
       .if ( ( 1 == te_dt.Core_Typ ) and ( te_sys.SystemCPortsType == "TLM" ) )
         .assign te_dt = converted_bool_te_dt
       .end if
@@ -1455,7 +1459,7 @@
     .else
       .assign te_var.OAL = v_var.Name
       .assign te_var.buffer = "$_{v_var.Name}"
-      .if ( "SystemC" == te_target.language )
+      .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
         .// This prepends characters to transients in case the modeler used a C keyword.
         .assign te_var.buffer = "v_" + te_var.buffer
       .end if
@@ -2053,15 +2057,13 @@
   .assign te_mact.PortName = te_po.GeneratedName
   .assign te_mact.ComponentName = te_c.Name
   .assign te_mact.GeneratedName = ( ( te_mact.ComponentName + "_" ) + ( te_mact.PortName + "_" ) ) + message_name
-  .if ( "SystemC" == te_target.language )
+  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
     .assign te_mact.GeneratedName = ( te_mact.InterfaceName + "_" ) + message_name
-  .elif ( "C++" == te_target.language )
-    .assign te_mact.GeneratedName = ( te_mact.PortName + "_" ) + message_name
   .end if
   .assign te_mact.GeneratedName = "$r{te_mact.GeneratedName}"
   .assign te_mact.Name = te_mact.GeneratedName
   .select any converted_bool_te_dt from instances of TE_DT where ( selected.Name == "integer" )
-  .if ( ( "SystemC" == te_target.language ) and ( te_sys.SystemCPortsType == "TLM" ) )
+  .if ( ( "SystemC" == te_thread.flavor ) and ( te_sys.SystemCPortsType == "TLM" ) )
     .for each te_parm in te_parms
       .// If we are using TLM ports, convert booleans to integers
       .select one param_te_dt related by te_parm->TE_DT[R2049]
@@ -2072,7 +2074,7 @@
       .end if
     .end for
   .end if
-  .if ( ( te_mact.polymorphic ) and ( "SystemC" == te_target.language ) )
+  .if ( ( te_mact.polymorphic ) and ( "SystemC" == te_thread.flavor ) )
     .// If polymorphic, then add a parameter that we can use to distinguish 
     .// which port the message came in through.
     .select many s_dims from instances of S_DIM where ( false )
@@ -2224,7 +2226,7 @@
   .end if
   .invoke te_parm_RenderParameters( te_parms, te_aba )
   .assign te_aba.scope = ""
-  .if ( ( "C++" == te_target.language ) or ( "SystemC" == te_target.language ) )
+  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
     .assign te_aba.scope = scope + "::"
     .if ( not_empty te_c )
       .if ( ( "S_BRG" == te_aba.subtypeKL ) or ( "O_TFR" == te_aba.subtypeKL ) )

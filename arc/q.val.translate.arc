@@ -591,7 +591,7 @@
     .assign parameters = te_parm.ParamBuffer
     .assign params_OAL = te_parm.OALParamBuffer
     .assign te_val.OAL = ( ( te_brg.EEkeyletters + "::" ) + ( te_brg.Name + "(" ) ) + ( params_OAL + ")" )
-    .if ( "SystemC" == te_target.language )
+    .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
       .if ( "TIM" == te_brg.EEkeyletters )
         .assign te_val.buffer = ( "thismodule->tim->" + te_brg.GeneratedName ) + "("
       .else
@@ -644,14 +644,14 @@
   .if ( te_tfr.Instance_Based == 1 )
     .select one te_var related by v_trv->V_VAR[R830]->TE_VAR[R2039]
     .if ( not_empty te_var )
-      .if ( "SystemC" == te_target.language )
+      .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
         .assign te_val.buffer = ( te_var.buffer + "->" ) + te_val.buffer
       .end if
       .assign te_val.buffer = te_val.buffer + te_var.buffer
       .assign te_val.OAL = te_var.OAL + "."
     .else
       .// no variable, must be selection (selected reference)
-      .if ( "SystemC" == te_target.language )
+      .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
         .assign te_val.buffer = "selected->" + te_val.buffer
       .end if
       .assign te_val.buffer = te_val.buffer + "selected"
@@ -716,7 +716,7 @@
     .assign params_OAL = te_parm.OALParamBuffer
     .assign te_val.OAL = ( ( "::" + te_sync.Name ) + ( "(" + params_OAL ) ) + ")"  
     .assign name = te_sync.intraface_method
-    .if ( "SystemC" == te_target.language )
+    .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
       .assign name = "thismodule->" + name
     .end if
     .assign te_val.buffer = name + "("
