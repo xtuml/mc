@@ -154,7 +154,7 @@ typedef u4_t ${te_prefix.type}uSec_t;
 #include <string.h>
   .end if
   .if ( "C++" == te_target.language )
-    .if ( "SystemC" = te_thread.flavor )
+    .if ( "SystemC" == te_thread.flavor )
 /* The following prescribes fixed point arithmetic.
  * However, support for this has been spotty in SystemC.
  */

@@ -39,7 +39,7 @@
         .if ( "" == comp_inst )
           .assign comp_inst = "i" + te_c.Name
         .end if
-        .assign top_module_inits = top_module_inits + ", ${comp_inst}(""${te_c.Name}_module"")"
+        .assign top_module_inits = top_module_inits + ", ${comp_inst}( ""${te_c.Name}_module"" )"
         .if ( "TLM" == te_sys.SystemCPortsType )
           .assign include_files = include_files + "#include ""${te_c.Name}_bp_model.${te_file.hdr_file_ext}""\n"
           .assign top_module_instances = top_module_instances + "  ${te_c.Name}_bp_pvt ${comp_inst};\n"
@@ -58,7 +58,7 @@
         .assign comp_inst = ""
         .for each te_c in te_cs
           .assign comp_inst = "i" + te_c.Name
-          .assign top_module_inits = top_module_inits + ", ${comp_inst}(""${te_c.Name}_module"")"
+          .assign top_module_inits = top_module_inits + ", ${comp_inst}( ""${te_c.Name}_module"" )"
           .if ( "TLM" == te_sys.SystemCPortsType )
             .assign include_files = include_files + "#include ""${te_c.Name}_bp_model.${te_file.hdr_file_ext}""\n"
             .assign top_module_instances = top_module_instances + "  ${te_c.Name}_bp_pvt ${comp_inst};\n"

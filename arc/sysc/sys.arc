@@ -222,7 +222,7 @@
   .assign build_pkg_name = "$r{tm_build_pkg.package_obj_name}"
   .assign sysc_top_includes = "${sysc_top_includes}" + "#include ""${build_pkg_name}.${te_file.hdr_file_ext}""\n"
   .assign sysc_top_inst_decls = "${sysc_top_inst_decls}" + "${build_pkg_name}* $r{tm_build_pkg.package_inst_name} = 0;\n"
-  .assign sysc_top_insts = "${sysc_top_insts}" + "  $r{tm_build_pkg.package_inst_name} = new ${build_pkg_name}(""${build_pkg_name}"");\n"
+  .assign sysc_top_insts = "${sysc_top_insts}" + "  $r{tm_build_pkg.package_inst_name} = new ${build_pkg_name}( ""${build_pkg_name}"" );\n"
   .assign sysc_top_insts_cleanup = "delete $r{tm_build_pkg.package_inst_name};\n"
   .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
     .assign sysc_top_insts = "${sysc_top_insts}" + "  $r{tm_build_pkg.package_inst_name}->clk(clk);\n"

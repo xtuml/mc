@@ -25,7 +25,9 @@ ${include_files}
 class ${pkg_name} : public xtuml_module {
   public:
 ${top_module_instances}
+.if ( "SystemC" == te_thread.flavor )
   SC_HAS_PROCESS( ${pkg_name} );
+.end if
 .if ( "BitLevelSignals" == te_sys.SystemCPortsType )
   sc_in < bool >  clk;
   sc_in < bool >  rst_X;

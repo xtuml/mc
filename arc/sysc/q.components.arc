@@ -101,14 +101,16 @@
   .assign has_process_declaration = s.has_process_declaration
   .assign sc_process = ""
   .assign sc_event_declarations = ""
+  .assign sc_process_defn = ""
+  .assign sc_process_decls = ""
   .if ( "SystemC" == te_thread.flavor )
     .invoke r = TE_C_StateMachines( te_c )
     .assign sc_process = r.body
     .assign sc_event_declarations = r.result
+    .invoke r = TE_C_StateMachinesProcess( te_c )
+    .assign sc_process_defn = r.body
+    .assign sc_process_decls = r.result
   .end if
-  .invoke s = TE_C_StateMachinesProcess( te_c )
-  .assign sc_process_defn = s.body
-  .assign sc_process_decls = s.sc_process_decls
   .//
   .// initialization
   .//

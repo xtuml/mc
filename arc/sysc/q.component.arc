@@ -712,7 +712,7 @@ ${port_action.body}
   .select any te_sys from instances of TE_SYS
   .select any nested_c_c related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]
   .select many cl_ics related by te_c->C_C[R2054]->CL_IC[R4205]
-  .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
+  .if ( "BitLevelSignals" == te_sys.SystemCPortsType )
     .if ( ( empty te_classes ) and ( ( empty nested_c_c ) and  ( empty cl_ics ) ) )
       .assign default_behavior = true;
       .include "${te_file.arc_path}/t.component.class.sm.h"
@@ -745,7 +745,7 @@ ${port_action.body}
 .//============================================================================
 .function TE_C_StateMachinesProcess
   .param inst_ref te_c
-  .assign attr_sc_process_decls = ""
+  .assign result = "  // state machine process entry points\n"
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
   .select any te_instance from instances of TE_INSTANCE
@@ -764,15 +764,16 @@ ${port_action.body}
         .assign port_reset = port_reset + "  ${te_po.GeneratedName}.reset();\n"
       .end for
       .include "${te_file.arc_path}/t.component.class.sm.c"
-      .assign attr_sc_process_decls = attr_sc_process_decls + "  void component_main( void );\n"
+      .assign result = result + "  void component_main( void );\n"
     .end if
   .end if
   .assign default_behavior = false;
   .//
   .for each te_class in te_classes
     .include "${te_file.arc_path}/t.component.class.sm.c"
-    .assign attr_sc_process_decls = attr_sc_process_decls + "  void ${te_class.GeneratedName}_sm( void );\n"
+    .assign result = result + "  void ${te_class.GeneratedName}_sm( void );\n"
   .end for
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================

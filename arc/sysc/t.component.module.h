@@ -73,7 +73,6 @@ ${message_declarations}\
   .if ( te_c.internal_behavior )
 ${function_declarations}\
     .if ( not_empty te_sm )
-  // state machine process entry points
 ${sc_process_decls}\
     .end if
   .end if
