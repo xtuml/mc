@@ -42,7 +42,7 @@ ${te_instance.scope}${te_instance.create}(
   ${te_set.element_type} * node;
   ${te_instance.handle} instance;
   ${te_cia.class_info_type} * dci = \
-.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+.if ( "C++" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ ${domain_num_var} ] + class_num);
@@ -120,7 +120,7 @@ ${te_instance.scope}${te_instance.delete}(
 {
   ${te_set.element_type} * node;
   ${te_cia.class_info_type} * dci = \
-.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+.if ( "C++" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ ${domain_num_var} ] + class_num);
@@ -179,7 +179,7 @@ void ${te_prefix.result}batch_relate(
   ${te_set.iterator_class_name} iterator;
   ${te_instance.handle} instance;
   ${te_cia.class_info_type} * dci = \
-.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+.if ( "C++" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ domain_num ] + class_num);
@@ -211,7 +211,7 @@ void ${te_prefix.result}dump_instances(
   ${te_instance.handle} instance;
   ${te_prefix.result}idf * instance_dumper = instance_dumpers[ domain_num ];
   ${te_cia.class_info_type} * dci = \
-.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+.if ( "C++" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ domain_num ] + class_num);
@@ -244,7 +244,7 @@ ${te_instance.scope}${te_instance.factory_init}(
 .// instances (if any) to use the front of the array.
 .//
   ${te_cia.class_info_type} * dci = \
-.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+.if ( "C++" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ domain_num ] + class_num);

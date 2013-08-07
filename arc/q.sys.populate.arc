@@ -97,10 +97,6 @@
     .assign te_sys.SystemCPortsType = "sc_interface"
   .end if
   .//
-  .if ( "SystemC" == te_target.language )
-    .assign te_thread.flavor = "SystemC"
-  .end if
-  .//
   .//Update the tasking threads based on marking.
   .select any tm_thread from instances of TM_THREAD
   .if ( not_empty tm_thread )
@@ -1041,7 +1037,7 @@
     .select many s_dims related by c_pp->S_DIM[R4017]
     .select one te_dt related by c_pp->S_DT[R4007]->TE_DT[R2021]
     .assign c_pp_name = c_pp.Name
-    .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+    .if ( "C++" == te_target.language )
       .select one c_as related by c_pp->C_EP[R4006]->C_AS[R4004]
       .if ( not_empty c_as )
         .assign c_pp_name = ( c_as.Name + "_" ) + c_pp_name
@@ -1459,7 +1455,7 @@
     .else
       .assign te_var.OAL = v_var.Name
       .assign te_var.buffer = "$_{v_var.Name}"
-      .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+      .if ( "C++" == te_target.language )
         .// This prepends characters to transients in case the modeler used a C keyword.
         .assign te_var.buffer = "v_" + te_var.buffer
       .end if
@@ -2029,6 +2025,7 @@
   .select any te_file from instances of TE_FILE
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .create object instance te_mact of TE_MACT
   .assign te_mact.nextID = 00
   .// relate te_mact to te_c across R2002;
@@ -2057,7 +2054,7 @@
   .assign te_mact.PortName = te_po.GeneratedName
   .assign te_mact.ComponentName = te_c.Name
   .assign te_mact.GeneratedName = ( ( te_mact.ComponentName + "_" ) + ( te_mact.PortName + "_" ) ) + message_name
-  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  .if ( "C++" == te_target.language )
     .assign te_mact.GeneratedName = ( te_mact.InterfaceName + "_" ) + message_name
   .end if
   .assign te_mact.GeneratedName = "$r{te_mact.GeneratedName}"
@@ -2226,7 +2223,7 @@
   .end if
   .invoke te_parm_RenderParameters( te_parms, te_aba )
   .assign te_aba.scope = ""
-  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  .if ( "C++" == te_target.language )
     .assign te_aba.scope = scope + "::"
     .if ( not_empty te_c )
       .if ( ( "S_BRG" == te_aba.subtypeKL ) or ( "O_TFR" == te_aba.subtypeKL ) )

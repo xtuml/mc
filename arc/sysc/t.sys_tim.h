@@ -27,7 +27,7 @@
 #ifndef $u{te_file.tim}_$u{te_file.hdr_file_ext}
 #define $u{te_file.tim}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
-.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+.if ( "C++" == te_target.language )
 #include <sys/timeb.h>
 #include <time.h>
   .if ( not te_tim.keyed_timer_support )

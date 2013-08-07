@@ -153,7 +153,8 @@ typedef u4_t ${te_prefix.type}uSec_t;
 #include <stdint.h>
 #include <string.h>
   .end if
-  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  .if ( "C++" == te_target.language )
+    .if ( "SystemC" = te_thread.flavor )
 /* The following prescribes fixed point arithmetic.
  * However, support for this has been spotty in SystemC.
  */
@@ -163,15 +164,10 @@ typedef sc_module xtuml_module;
 typedef sc_module_name xtuml_module_name;
 typedef sc_interface xtuml_interface;
 #define xtuml_port sc_port
-  .//.else
+    .else
 /*
-#define SC_HAS_PROCESS( a )
-#define SC_THREAD( a )
-#define sc_main main
-#define sc_start()
-#define sc_stop()
-#define wait()
-#define dont_initialize()
+ * These types can be overloaded to add capability to xtUML translated elements.
+ */
 typedef char const * xtuml_module_name;
 
 class sc_event {
@@ -180,14 +176,12 @@ class sc_event {
 };
 inline void sc_event::notify() {};
 
-//---------
 class xtuml_module {
   public:
     xtuml_module( xtuml_module_name name );
 };
 inline xtuml_module::xtuml_module( const char * name ) {};
 
-//---------
 class xtuml_interface {
 };
 
@@ -208,7 +202,7 @@ inline IF* sc_port_b<IF>::operator -> ()
 
 template <class IF> class xtuml_port : public sc_port_b<IF> {
 };
-*/
+    .end if
   .end if
 ${te_typemap.user_supplied_data_types}\
 .end if
@@ -223,7 +217,7 @@ ${te_typemap.user_supplied_data_types}\
 ${te_typemap.enumeration_info}
 
 ${te_typemap.structured_data_types}
-.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+.if ( "C++" == te_target.language )
 #include "${te_file.interfaces}.${te_file.hdr_file_ext}"
 .end if
 .// Include the macros for tracing.

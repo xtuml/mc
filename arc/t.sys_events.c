@@ -217,7 +217,7 @@ ${te_eq.scope}${te_eq.new}( const void * const destination,
   .if ( "SystemC" == te_thread.flavor )
   event->sc_e = event_info->sc_e;
   .end if
-  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  .if ( "C++" == te_target.language )
   event->thismodule = this;
   .end if
   return event;
@@ -240,7 +240,7 @@ ${te_eq.scope}${te_eq.modify}( ${te_eq.base_event_type} * event,
   .if ( "SystemC" == te_thread.flavor )
   event->sc_e = event_info->sc_e;
   .end if
-  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  .if ( "C++" == te_target.language )
   event->thismodule = event_info->thismodule;
   .end if
   return event;
@@ -554,7 +554,7 @@ static void * ooa_loop( void * );
 static void * ooa_loop( void * thread )
     .end if
   .else
-    .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+    .if ( "C++" == te_target.language )
 void ${te_eq.scope}ooa_loop( void * thismodule )
     .else
 static void ooa_loop( void );
@@ -627,7 +627,7 @@ static void ooa_loop( void )
       ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_DISPATCH );
       #endif
   .end if
-  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  .if ( "C++" == te_target.language )
       event->thismodule = thismodule;
   .end if
   .if ( "C" == te_target.language )

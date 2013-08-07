@@ -380,7 +380,7 @@
 .//
 .function target_factory
   .param inst_ref te_target
-  .assign te_target.language = "SystemC"
+  .assign te_target.language = "C++"
   .assign te_target.c2cplusplus_linkage_begin = ""
   .assign te_target.c2cplusplus_linkage_end = ""
   .assign te_target.main = "main"

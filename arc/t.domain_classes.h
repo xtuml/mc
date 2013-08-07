@@ -30,7 +30,7 @@ ${te_target.c2cplusplus_linkage_begin}
 
 .if ( not_empty first_te_class )
 #define ${te_dci.max_models} ${number_of_state_machines}
-  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  .if ( "C++" == te_target.language )
     .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
 #define ${dom_id.name} 0
   .end if

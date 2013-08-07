@@ -16,7 +16,7 @@
 void
 ${te_class.dispatcher}( ${te_eq.base_event_type} * event )
 {
-  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  .if ( "C++" == te_target.language )
   ${te_c.Name} * thismodule = (${te_c.Name} *) event->thismodule;
   .end if
   .if ( can_self_create )

@@ -36,7 +36,7 @@ typedef struct {
 .if ( "SystemC" == te_thread.flavor )
   sc_event * sc_e;
 .end if
-.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+.if ( "C++" == te_target.language )
   void * thismodule;
 .end if
 .if ( event_prioritization_needed.result )
@@ -62,7 +62,7 @@ typedef struct {
 .if ( "SystemC" == te_thread.flavor )
   sc_event * sc_e;\\
 .end if
-.if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+.if ( "C++" == te_target.language )
   void * thismodule;\\
 .end if
 .if ( event_prioritization_needed.result )
@@ -221,7 +221,7 @@ bool ${te_eq.search_and_destroy}( ${te_eq.base_event_type} * );
 .end if
 .if ( te_sys.AUTOSAR )
 void * ooa_loop( void * );
-.elif ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+.elif ( "C++" == te_target.language )
   void ooa_loop( void * );
   virtual EventTaker_t * ${te_instance.get_event_dispatcher}( void ) { return 0; }
   .if ( te_thread.enabled )

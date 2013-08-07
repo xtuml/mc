@@ -32,7 +32,7 @@
       .assign attr_has_process_declaration = "  SC_HAS_PROCESS( ${te_c.Name} );\n"
     .end if
   .end if
-  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  .if ( "C++" == te_target.language )
     .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
     .if ( not_empty te_class )
       .select one te_dci related by te_c->TE_DCI[R2090]
@@ -57,7 +57,7 @@
   .select any te_target from instances of TE_TARGET
   .assign class_or_struct = "struct"
   .assign class_includes = ""
-  .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+  .if ( "C++" == te_target.language )
     .assign class_or_struct = "class"
   .else
     .assign class_includes = "#include ""${te_c.module_file}.${te_file.hdr_file_ext}"""
