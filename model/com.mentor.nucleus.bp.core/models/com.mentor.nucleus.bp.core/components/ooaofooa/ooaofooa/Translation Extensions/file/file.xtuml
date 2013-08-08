@@ -353,34 +353,15 @@ INSERT INTO O_ATTR
 	'',
 	'"_ch"');
 INSERT INTO O_NBATTR
-	VALUES ("4808ca07-0c57-461d-afd0-22b072f7e00a",
+	VALUES ("72787f10-dc83-4995-ace5-acda1ba41426",
 	"14d35548-e937-431f-a7a6-9a8041751bfc");
 INSERT INTO O_BATTR
-	VALUES ("4808ca07-0c57-461d-afd0-22b072f7e00a",
+	VALUES ("72787f10-dc83-4995-ace5-acda1ba41426",
 	"14d35548-e937-431f-a7a6-9a8041751bfc");
 INSERT INTO O_ATTR
-	VALUES ("4808ca07-0c57-461d-afd0-22b072f7e00a",
+	VALUES ("72787f10-dc83-4995-ace5-acda1ba41426",
 	"14d35548-e937-431f-a7a6-9a8041751bfc",
 	"0092d0d6-69fc-495a-9017-7c90360fcd3f",
-	'domain_sql_path',
-	'This is a path to the location where output SQL data is stored and forwarded
-to system level code generation.',
-	'',
-	'domain_sql_path',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'"schema/sql"');
-INSERT INTO O_NBATTR
-	VALUES ("72787f10-dc83-4995-ace5-acda1ba41426",
-	"14d35548-e937-431f-a7a6-9a8041751bfc");
-INSERT INTO O_BATTR
-	VALUES ("72787f10-dc83-4995-ace5-acda1ba41426",
-	"14d35548-e937-431f-a7a6-9a8041751bfc");
-INSERT INTO O_ATTR
-	VALUES ("72787f10-dc83-4995-ace5-acda1ba41426",
-	"14d35548-e937-431f-a7a6-9a8041751bfc",
-	"4808ca07-0c57-461d-afd0-22b072f7e00a",
 	'system_source_path',
 	'This is the path to the folder containing C files for the system level code.',
 	'',

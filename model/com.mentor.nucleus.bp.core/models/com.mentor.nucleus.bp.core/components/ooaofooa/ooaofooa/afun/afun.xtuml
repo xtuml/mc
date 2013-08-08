@@ -1050,7 +1050,6 @@ te_file.registers = te_prefix.file + "RegDefs";
 te_file.domain_color_path = ".";
 te_file.domain_source_path = "_ch";
 te_file.domain_include_path = "_ch";
-te_file.domain_sql_path = "schema/sql";
 te_file.system_source_path = "_ch";
 te_file.system_include_path = "_ch";
 te_file.system_color_path = ".";
@@ -2664,11 +2663,17 @@ if ( "" != package_to_build )
   end for;
   select many te_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->TE_C[R2054];
   select many nested_te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->C_C[R8001]->TE_C[R2054];
-  te_cs = te_cs;
+  if ( not_empty nested_te_cs )
+    te_cs = nested_te_cs;
+  end if;
   select many referenced_te_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054];
-  te_cs = te_cs;
+  if ( not_empty referenced_te_cs )
+    te_cs = referenced_te_cs;
+  end if;
   select many nested_referenced_te_cs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054];
-  te_cs = te_cs;
+  if ( not_empty nested_referenced_te_cs )
+    te_cs = nested_referenced_te_cs;
+  end if;
   ::TE_C_mark_nested_system( te_cs:te_cs );
   // Uncomment the line below to use package name instead of project for the top-level files.
   //.assign te_sys.Name = "$r{package_to_build}"
@@ -3000,7 +3005,9 @@ for each s_irdt in s_irdts
   select one te_class related by s_irdt->O_OBJ[R123]->TE_CLASS[R2019];
   if ( s_irdt.isSet )
     te_dt.ExtName = te_set.base_class + " *";
+    te_dt.Core_Typ = 21;
   else
+    te_dt.Core_Typ = 20;
     if ( not_empty te_class )
       te_dt.ExtName = te_class.GeneratedName + " *";
     end if;
@@ -7056,7 +7063,7 @@ attributes_written_count = 0;
 //
 select many te_attrs from instances of TE_ATTR;
 for each te_attr in te_attrs
-  select many v_avls related by te_attrs->O_ATTR[R2033]->V_AVL[R806];
+  select many v_avls related by te_attr->O_ATTR[R2033]->V_AVL[R806];
   if ( not_empty v_avls )
     if ( not te_attr.read )
       attributes_read_count = attributes_read_count + 1;
