@@ -759,7 +759,9 @@
     .select one te_class related by s_irdt->O_OBJ[R123]->TE_CLASS[R2019]
     .if ( s_irdt.isSet )
       .assign te_dt.ExtName = te_set.base_class + " *"
+      .assign te_dt.Core_Typ = 21
     .else
+      .assign te_dt.Core_Typ = 20
       .if ( not_empty te_class )
         .assign te_dt.ExtName = te_class.GeneratedName + " *"
       .end if

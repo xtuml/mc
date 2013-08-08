@@ -178,8 +178,6 @@
       .if ( not_empty te_class )
         .assign te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + root_te_val.buffer
       .end if
-    .elif ( 9 == r_te_dt.Core_Typ )
-      .// no need to do anything special here, because the type will be vanilla set base class
     .end if
   .end if
   .assign element_count = 0
@@ -194,6 +192,7 @@
   .end if
   .invoke s = t_oal_smt_assign( te_smt, te_assign, te_blk.indentation, element_count, is_parameter )
   .assign te_smt.buffer = s.body
+  .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
   .assign te_smt.OAL = "ASSIGN ${l_te_val.OAL} = ${r_te_val.OAL}"
 .end function
 .//

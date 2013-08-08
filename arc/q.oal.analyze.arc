@@ -255,7 +255,7 @@
   .//
   .select many te_attrs from instances of TE_ATTR
   .for each te_attr in te_attrs
-    .select many v_avls related by te_attrs->O_ATTR[R2033]->V_AVL[R806]
+    .select many v_avls related by te_attr->O_ATTR[R2033]->V_AVL[R806]
     .if ( not_empty v_avls )
       .if ( not te_attr.read )
         .assign attributes_read_count = attributes_read_count + 1

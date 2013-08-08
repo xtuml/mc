@@ -62,8 +62,15 @@ ${ws}else if ( ${condition} ) {
   .param string ws
   .param integer element_count
   .param boolean is_parameter
+  .select any te_set from instances of TE_SET
   .if ( te_assign.isImplicit )
-    .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
+    .if ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
+      .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
+      .assign te_smt.declaration = "${te_set.scope}${te_set.base_class} ${te_assign.lval}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_assign.lval} = &${te_assign.lval}_space;"
+      .assign te_smt.deallocation = "${te_set.module}${te_set.clear}( ${te_assign.lval} );"
+    .else
+      .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
+    .end if
   .end if
   .if ( "" != te_assign.array_spec )
     .select any te_string from instances of TE_STRING
@@ -84,6 +91,8 @@ sizeof( ${te_assign.rval} ) );
         .end if
       .end if
     .end if
+  .elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
+${ws}${te_set.scope}${te_set.copy}( ${te_assign.lval}, ${te_assign.rval} );
   .else
 ${ws}${te_assign.lval} = ${te_assign.rval};
   .end if
