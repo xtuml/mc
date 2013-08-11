@@ -14,4 +14,4 @@ lex.yy.c: template_engine.l
 	flex template_engine.l
 
 clean:
-	rm *.o *.output *.c *.h *.exe
+	rm *.o *.output *.tab.h *.yy.c template_engine.exe

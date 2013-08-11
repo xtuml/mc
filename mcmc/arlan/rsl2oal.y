@@ -69,7 +69,7 @@ static char * stradd( char * [], int );
 extern char * dtKLname( char * );
 extern void loadtable( void );
 extern struct { char * s[16]; } cfuncsig;
-int aparmindex;
+int aparmindex, literaldetected;
 
 /*-------------------------------------------------------------------*/
 %}
@@ -118,8 +118,8 @@ code:
         /* empty */ {$$=P0;}
         | code statement {$$=P3($1,ws[indent],$2);}
         | code comment {$$=P3($1,ws[indent],$2);}
-        | code literal {$$=P2($1,$2);}
-        | code FUNCTION identifier freturntype {pi[0]=0;} fparameters fbody ENDFUNCTION '\n' {$$=""; printf( "%s", P9($3,"@",$4,$6,"@@@\n",$1,pi,$7,"@@@\n"));}
+        | code literal {literaldetected=1;$$=P2($1,$2);}
+        | code FUNCTION identifier freturntype {pi[0]=0; literaldetected=0;} fparameters fbody ENDFUNCTION '\n' {$$=""; {char*rb="",*rt=$4;if(literaldetected){rb="return ooaofooa_T_body();\n";rt="string";} printf( "%s", P10($3,"@",rt,$6,"@@@\n",$1,pi,$7,rb,"@@@\n"));}}
         ;
 
 freturntype:

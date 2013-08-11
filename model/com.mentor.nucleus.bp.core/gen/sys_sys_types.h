@@ -8,10 +8,8 @@
  * System ID:    1
  * Model Compiler Product Information:
  * Product:  
- * Version:  
- * S/N:      
  * System default/colored values:
- * MaxStringLen:  512
+ * MaxStringLen:  840
  * MaxObjExtent:  0
  * MaxRelExtent:  0
  * MaxSelectExtent:  0
@@ -30,7 +28,7 @@
  * Component Name:  ooaofooa
  * MaxObjExtent:  4780
  * MaxRelExtent:  4340
- * MaxSelectExtent:  120
+ * MaxSelectExtent:  920
  * MaxSelfEvents:  0
  * MaxNonSelfEvents:  0
  * MaxPriorityEvents:  0
@@ -302,7 +300,6 @@ void Escher_thread_shutdown( void );
 #define pthread_mutex_lock( X ) 0
 #define pthread_mutex_unlock( X ) 0
 #endif
-#include "TIM_bridge.h"
 
 
 

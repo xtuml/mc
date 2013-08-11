@@ -422,6 +422,16 @@ INSERT INTO S_BPARM
 	'',
 	"3d9883cd-54d0-4b21-9125-c6e63a934393",
 	'');
+INSERT INTO S_BRG
+	VALUES ("dae7d219-4625-49f7-84e2-2ee5403d5ebf",
+	"e393aa86-4604-4bcf-97da-f89843dce425",
+	'body',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	3,
+	'');
 INSERT INTO PE_PE
 	VALUES ("e393aa86-4604-4bcf-97da-f89843dce425",
 	1,

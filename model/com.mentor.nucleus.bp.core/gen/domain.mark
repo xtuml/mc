@@ -1,4 +1,4 @@
-.//.invoke MarkInitializationFunction( "ooaofooa", "docgen" )
+.invoke MarkInitializationFunction( "ooaofooa", "docgen" )
 .invoke MarkInitializationFunction( "ooaofooa", "a0" )
 .invoke MarkFirstPassOptimizationsOff( "*" )
 .//

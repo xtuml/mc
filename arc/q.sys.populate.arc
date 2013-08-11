@@ -684,13 +684,14 @@
       .// end relate
       .assign te_enum.Name = s_enum.Name
       .assign te_enum.GeneratedName = ( ( te_dt.Owning_Dom_Name + "_" ) + ( te_dt.Name + "_" ) ) + ( "$r{te_enum.Name}" + "_e" )
-      .if ( "$r{s_enum.Descrip:value}" != "" )
-        .assign te_enum.Value = "$r{s_enum.Descrip:value}"
-      .elif ( "$r{s_enum.Descrip:Value}" != "" )
-        .assign te_enum.Value = "$r{s_enum.Descrip:Value}"
-      .elif ( "$r{s_enum.Descrip:VALUE}" != "" )
-        .assign te_enum.Value = "$r{s_enum.Descrip:VALUE}"
+      .assign value = "${s_enum.Descrip:value}"
+      .if ( "" == value )
+        .assign value = "${s_enum.Descrip:Value}"
+        .if ( "" == value )
+          .assign value = "${s_enum.Descrip:VALUE}"
+        .end if
       .end if
+      .assign te_enum.Value = value
     .end for
   .end for
   .//

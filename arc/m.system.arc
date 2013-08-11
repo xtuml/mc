@@ -190,7 +190,7 @@
   .assign tm_systag.VFB = true
 .end function
 .//
-.function TM_SYSTAG_select
+.function TM_SYSTAG_select .// tm_systag
   .select any tm_systag from instances of TM_SYSTAG
   .if ( empty tm_systag )
     .create object instance tm_systag of TM_SYSTAG

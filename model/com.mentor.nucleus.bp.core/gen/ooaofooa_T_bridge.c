@@ -26,6 +26,17 @@ static char tbuf[ T_number_of_bufs ][ T_tbuf_size ];
 FILE * outputfile;
 
 /*
+ * Bridge:  body
+ */
+c_t *
+ooaofooa_T_body( void )
+{
+  buffer_index = 0;
+  return buffer;
+}
+
+
+/*
  * Bridge:  s
  */
 c_t *
