@@ -19,31 +19,13 @@
 .// Return a information on variables and types used in defining the
 .// instance collections for a class.
 .//============================================================================
-.function GetFixedSizeClassExtentInfo
-  .param inst_ref o_obj
-  .//
-  .select any te_extent from instances of TE_EXTENT
-  .select any te_set from instances of TE_SET
-  .select one te_class related by o_obj->TE_CLASS[R2019]
-  .assign attr_max_size_name  = te_class.GeneratedName + "_MAX_EXTENT_SIZE"
-  .assign attr_max_size_value = te_class.MaxExtentSize
-  .if ( attr_max_size_value == 0 )
-    .assign attr_max_size_value = 1
-  .end if
-  .assign attr_element_type = te_extent.container_type
-  .assign attr_extent_type = te_extent.sets_type
-  .assign attr_extent = ( "pG_" + te_class.GeneratedName ) + "_extent"
-  .assign attr_extent_var_name = "${attr_extent}.${te_extent.active}"
-  .assign attr_active_extent_type = te_extent.sets_type
-  .assign attr_free_extent_type = te_extent.sets_type
-  .assign attr_free_extent_var_name = "${attr_extent}.${te_extent.inactive}"
-  .assign attr_obj_pool_var_name = te_class.GeneratedName + "_instances"
-  .assign attr_container_name = te_class.GeneratedName + "_container"
-  .assign attr_type = te_set.scope + te_extent.type
+.function GetFixedSizeClassExtentInfo .// string
+  .param inst_ref te_class
+  .assign attr_result = ( "pG_" + te_class.GeneratedName ) + "_extent"
 .end function
 .//
 .//============================================================================
-.function GetNavigateLinkMethodName
+.function GetNavigateLinkMethodName .// string
   .param inst_ref from_o_obj
   .param inst_ref to_o_obj
   .param inst_ref r_rel
@@ -66,87 +48,65 @@
 .//============================================================================
 .// Return the name of the associative relationship link method.
 .//============================================================================
-.function GetAssociativeLinkMethodName
+.function GetAssociativeLinkMethodName .// string
   .param inst_ref left_o_obj
   .param inst_ref right_o_obj
   .param inst_ref assoc_o_obj
   .param inst_ref r_rel
   .param string   rel_phrase
   .//
-  .assign attr_left_obj_is_aone = false
-  .assign attr_reflexive = false
-  .assign attr_name = ""
-  .assign attr_result = ""
-  .//
+  .assign result = ""
   .select one te_class related by assoc_o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
     .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
     .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
-    .if ( left_o_obj.Obj_Id == aone.Obj_ID )
-      .assign attr_left_obj_is_aone = true
-    .end if
     .//
-    .assign associative_reflexive = false
-    .if ( aone.Obj_Id == aoth.Obj_Id )
-      .assign attr_reflexive = true
-    .end if
-    .//
-    .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
-    .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
+    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
+    .assign result = ( te_class.GeneratedName + "::" ) + name
     .//
     .invoke r = GetRelationshipSuffix( assoc_o_obj, r_rel, rel_phrase )
     .assign suffix = r.result
     .if ( "" != suffix )
-      .assign attr_name = ( attr_name + "_" ) + suffix
-      .assign attr_result = ( attr_result + "_" ) + suffix
+      .assign name = ( name + "_" ) + suffix
+      .assign result = ( result + "_" ) + suffix
     .end if
     .select any te_target from instances of TE_TARGET
     .if ( "C" == te_target.language )
-      .assign attr_result = attr_name
+      .assign result = name
     .end if
   .end if
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
-.function GetAssociativeUnlinkMethodName
+.function GetAssociativeUnlinkMethodName .// string
   .param inst_ref left_o_obj
   .param inst_ref right_o_obj
   .param inst_ref assoc_o_obj
   .param inst_ref r_rel
   .param string   rel_phrase
   .//
-  .assign attr_left_obj_is_aone = false
-  .assign attr_reflexive = false
-  .assign attr_name = ""
-  .assign attr_result = ""
-  .//
+  .assign result = ""
   .select one te_class related by assoc_o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
     .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
     .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
-    .if ( left_o_obj.Obj_Id == aone.Obj_ID )
-      .assign attr_left_obj_is_aone = true
-    .end if
     .//
-    .assign associative_reflexive = false
-    .if ( aone.Obj_Id == aoth.Obj_Id )
-      .assign attr_reflexive = true
-    .end if
-    .//
-    .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
-    .assign attr_result = ( te_class.GeneratedName + "::" ) + attr_name
+    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
+    .assign result = ( te_class.GeneratedName + "::" ) + name
     .//
     .invoke r = GetRelationshipSuffix( assoc_o_obj, r_rel, rel_phrase )
     .assign suffix = r.result
     .if ( "" != suffix )
-      .assign attr_name = ( attr_name + "_" ) + suffix
-      .assign attr_result = ( attr_result + "_" ) + suffix
+      .assign name = ( name + "_" ) + suffix
+      .assign result = ( result + "_" ) + suffix
     .end if
     .select any te_target from instances of TE_TARGET
     .if ( "C" == te_target.language )
-      .assign attr_result = attr_name
+      .assign result = name
     .end if
   .end if
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -155,20 +115,19 @@
   .param inst_ref r_rel
   .param string   rel_phrase
   .assign result = ""
-  .assign attr_name = ""
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
-    .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
-    .assign result = ( te_class.GeneratedName + "::" ) + attr_name
+    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
+    .assign result = ( te_class.GeneratedName + "::" ) + name
     .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
     .assign suffix = r.result
     .if ( "" != suffix )
-      .assign attr_name = ( attr_name + "_" ) + suffix
+      .assign name = ( name + "_" ) + suffix
       .assign result = ( result + "_" ) + suffix
     .end if
     .select any te_target from instances of TE_TARGET
     .if ( "C" == te_target.language )
-      .assign result = attr_name
+      .assign result = name
     .end if
   .end if
   .assign attr_result = result
@@ -180,20 +139,19 @@
   .param inst_ref r_rel
   .param string   rel_phrase
   .assign result = ""
-  .assign attr_name = ""
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
-    .assign attr_name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
-    .assign result = ( te_class.GeneratedName + "::" ) + attr_name
+    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
+    .assign result = ( te_class.GeneratedName + "::" ) + name
     .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
     .assign suffix = r.result
     .if ( "" != suffix )
-      .assign attr_name = ( attr_name + "_" ) + suffix
+      .assign name = ( name + "_" ) + suffix
       .assign result = ( result + "_" ) + suffix
     .end if
     .select any te_target from instances of TE_TARGET
     .if ( "C" == te_target.language )
-      .assign result = attr_name
+      .assign result = name
     .end if
   .end if
   .assign attr_result = result
@@ -204,7 +162,7 @@
 .// This array of containoids is used to optimize relationships when
 .// there are preexisting instances.
 .//============================================================================
-.function PEIGetRelationshipSetContainerName
+.function PEIGetRelationshipSetContainerName .// string
   .param inst_ref te_class
   .assign attr_result = te_class.GeneratedName + "_rel_set_lists"
 .end function
@@ -212,23 +170,23 @@
 .//============================================================================
 .// Return the name and type of the domain dispatcher.
 .//============================================================================
-.function GetDomainDispatcherTableName
+.function GetDomainDispatcherTableName .// string
   .param string registered_name
   .assign attr_result = registered_name + "_EventDispatcher"
   .assign attr_element_type = "EventTaker_t"
 .end function
 .//
 .//============================================================================
-.function GetSuperTypePolymorphicEventMethodName
+.function GetSuperTypePolymorphicEventMethodName .// string
   .param inst_ref te_class
   .param inst_ref r_rel
   .assign attr_result = te_class.GeneratedName + "_R${r_rel.Numb}PolymorphicEvent"
 .end function
 .//
 .//============================================================================
-.function GetDomainTypeIDFromString
+.function GetDomainTypeIDFromString .// string
   .param string dom_name
-  .assign attr_name = "$r{dom_name}" + "_DOMAIN_ID"
+  .assign attr_result = "$r{dom_name}" + "_DOMAIN_ID"
 .end function
 .//
 .//============================================================================

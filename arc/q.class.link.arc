@@ -466,8 +466,10 @@ ${aoth_fundamentals.body}\
   .select one form_te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by form_te_class->TE_C[R2064]
   .//
-  .invoke relate_method   = GetRelateToName( o_obj, r_rel, "" )
-  .invoke unrelate_method = GetUnrelateFromName( o_obj, r_rel, "" )
+  .invoke r = GetRelateToName( o_obj, r_rel, "" )
+  .assign relate_method = r.result
+  .invoke r = GetUnrelateFromName( o_obj, r_rel, "" )
+  .assign unrelate_method = r.result
   .//
   .select one part_te_oir related by rto->R_OIR[R203]->TE_OIR[R2035]
   .select one form_te_oir related by rgo->R_OIR[R203]->TE_OIR[R2035]
@@ -492,7 +494,7 @@ ${aoth_fundamentals.body}\
     .if ( "C" == te_target.language )
       .assign thismodule = ""
     .end if
-    .assign link_call = "${relate_method.result}( (${part_te_class.GeneratedName} *) l, (${form_te_class.GeneratedName} *) r )"
+    .assign link_call = "${relate_method}( (${part_te_class.GeneratedName} *) l, (${form_te_class.GeneratedName} *) r )"
     .select any assoc from instances of O_OBJ where ( false )
     .invoke PersistAddLinkCalls( o_obj, part_obj, assoc, te_relstore, link_call )
     .select any oref related by rgo->O_REF[R111]
@@ -536,8 +538,10 @@ ${aoth_fundamentals.body}\
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by te_class->TE_C[R2064]
   .//
-  .invoke relate_method = GetRelateToName( o_obj, r_rel, rel_phrase )
-  .invoke unrelate_method = GetUnrelateFromName( o_obj, r_rel, rel_phrase )
+  .invoke r = GetRelateToName( o_obj, r_rel, rel_phrase )
+  .assign relate_method = r.result
+  .invoke r = GetUnrelateFromName( o_obj, r_rel, rel_phrase )
+  .assign unrelate_method = r.result
     .//
   .//
   .if ( gen_declaration )
@@ -559,7 +563,7 @@ ${aoth_fundamentals.body}\
       .assign left_is_formalizer = true
     .end if
     .select any assoc from instances of O_OBJ where ( false )
-    .assign link_call = "${relate_method.result}( (${te_class.GeneratedName} *) l, (${te_class.GeneratedName} *) r )"
+    .assign link_call = "${relate_method}( (${te_class.GeneratedName} *) l, (${te_class.GeneratedName} *) r )"
     .invoke persist_relate = PersistCallPostLink( "0", te_relstore, o_obj, o_obj, "left", o_obj, "right", assoc, "" )
     .invoke persist_unrelate = PersistCallPostLink( "1", te_relstore, o_obj, o_obj, "left", o_obj, "right", assoc, "" )
     .invoke PersistAddLinkCalls( o_obj, o_obj, assoc, te_relstore, link_call )
@@ -612,8 +616,10 @@ ${aoth_fundamentals.body}\
   .select one sub_te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by sub_te_class->TE_C[R2064]
   .//
-  .invoke relate_method   = GetRelateToName( o_obj, r_rel, "" )
-  .invoke unrelate_method = GetUnrelateFromName( o_obj, r_rel, "" )
+  .invoke r = GetRelateToName( o_obj, r_rel, "" )
+  .assign relate_method = r.result
+  .invoke r = GetUnrelateFromName( o_obj, r_rel, "" )
+  .assign unrelate_method = r.result
   .//
   .select one super_te_oir related by rto->R_OIR[R203]->TE_OIR[R2035]
   .select one sub_te_oir related by rgo->R_OIR[R203]->TE_OIR[R2035]
@@ -631,7 +637,7 @@ ${aoth_fundamentals.body}\
       .assign thismodule = ""
     .end if
     .select one subtype_te_class related by o_obj->TE_CLASS[R2019]
-    .assign link_call = "${relate_method.result}( (${super_te_class.GeneratedName} *) l, (${sub_te_class.GeneratedName} *) r )"
+    .assign link_call = "${relate_method}( (${super_te_class.GeneratedName} *) l, (${sub_te_class.GeneratedName} *) r )"
     .select any assoc from instances of O_OBJ where ( false )
     .invoke PersistAddLinkCalls( supertype_obj, o_obj, assoc, te_relstore, link_call )
     .select any oref related by rgo->O_REF[R111]
@@ -683,8 +689,10 @@ ${aoth_fundamentals.body}\
   .select one aoth_te_class related by aoth_obj->TE_CLASS[R2019]
   .select one assr_te_class related by assr_obj->TE_CLASS[R2019]
   .select one te_c related by assr_te_class->TE_C[R2064]
-  .invoke link_method   = GetRelateToName( assr_obj, r_rel, "" )
-  .invoke unlink_method = GetUnrelateFromName( assr_obj, r_rel, "" )
+  .invoke r = GetRelateToName( assr_obj, r_rel, "" )
+  .assign relate_method = r.result
+  .invoke r = GetUnrelateFromName( assr_obj, r_rel, "" )
+  .assign unrelate_method = r.result
   .//
   .if ( gen_declaration )
     .assign externstatic = "static "
@@ -700,7 +708,7 @@ ${aoth_fundamentals.body}\
       .assign thismodule = ""
     .end if
     .//
-    .assign link_call = "${link_method.result}( (${aone_te_class.GeneratedName} *) l, (${aoth_te_class.GeneratedName} *) r, (${assr_te_class.GeneratedName} *) a )"
+    .assign link_call = "${relate_method}( (${aone_te_class.GeneratedName} *) l, (${aoth_te_class.GeneratedName} *) r, (${assr_te_class.GeneratedName} *) a )"
     .invoke PersistAddLinkCalls( aone_obj, aoth_obj, assr_obj, te_relstore, link_call )
     .select any oref related by assr_rgo->O_REF[R111]
     .assign set_aone_referentials = ""
@@ -749,8 +757,10 @@ ${aoth_fundamentals.body}\
   .select one te_c related by assr_te_class->TE_C[R2064]
   .select one te_rel related by r_rel->TE_REL[R2034]
   .//
-  .invoke link_method = GetAssociativeLinkMethodName( assoc_obj, assoc_obj, assr_obj, r_rel, rel_phrase )
-  .invoke unlink_method = GetAssociativeUnlinkMethodName( assoc_obj, assoc_obj, assr_obj, r_rel, rel_phrase )
+  .invoke r = GetAssociativeLinkMethodName( assoc_obj, assoc_obj, assr_obj, r_rel, rel_phrase )
+  .assign relate_method = r.result
+  .invoke r = GetAssociativeUnlinkMethodName( assoc_obj, assoc_obj, assr_obj, r_rel, rel_phrase )
+  .assign unrelate_method = r.result
   .//
   .if ( gen_declaration )
     .assign externstatic = "static "
@@ -771,7 +781,7 @@ ${aoth_fundamentals.body}\
     .select any aone_te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( ( selected.Obj_ID == assoc_obj.Obj_ID ) and ( selected.rel_phrase == "$_{aone.Txt_Phrs}" ) )
     .select any aoth_te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( ( selected.Obj_ID == assoc_obj.Obj_ID ) and ( selected.rel_phrase == "$_{aoth.Txt_Phrs}" ) )
     .select any assr_te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == assr_obj.Obj_ID )
-    .assign link_call = "${link_method.result}( (${assoc_te_class.GeneratedName} *) l, (${assoc_te_class.GeneratedName} *) r, (${assr_te_class.GeneratedName} *) a )"
+    .assign link_call = "${relate_method}( (${assoc_te_class.GeneratedName} *) l, (${assoc_te_class.GeneratedName} *) r, (${assr_te_class.GeneratedName} *) a )"
     .invoke PersistAddLinkCalls( assoc_obj, assoc_obj, assr_obj, te_relstore, link_call )
     .invoke persist_relate = PersistCallPostLink( "0", te_relstore, assr_obj, assoc_obj, "left", assoc_obj, "right", assr_obj, "assr" )
     .invoke persist_unrelate = PersistCallPostLink( "1", te_relstore, assr_obj, assoc_obj, "left", assoc_obj, "right", assr_obj, "assr" )

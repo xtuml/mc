@@ -310,8 +310,8 @@
     .end if
     .if ( not_empty related_i_ins )
       .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
-      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
-      .assign attr_result = ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
+      .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
+      .assign attr_result = ", &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}]"
     .else
       .// not participating
       .assign attr_result = ", 0"
@@ -346,7 +346,7 @@
   .//
   .assign attr_result = ""
   .assign attr_assset = ""
-  .invoke related_extent_info = GetFixedSizeClassExtentInfo( o_obj )
+  .select one related_te_class related by o_obj->TE_CLASS[R2019]
   .select any related_i_ins from instances of I_INS
   .//
   .// Link the formalizer to the participant.
@@ -356,7 +356,7 @@
     .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2902] where ( selected.Rel_ID == r_rel.Rel_ID )
     .select one related_i_ins related by i_lnk->I_LIP[R2901]->I_INS[R2958]
     .if ( not_empty related_i_ins )
-      .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
+      .assign attr_result = attr_result + ", &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}]"
     .else
       .// Not participating.
       .assign attr_result = attr_result + ", 0"
@@ -378,7 +378,7 @@
     .select any i_lnk related by i_ins->I_LIP[R2958]->I_LNK[R2901] where ( selected.Rel_ID == r_rel.Rel_ID )
     .select one related_i_ins related by i_lnk->I_LIP[R2902]->I_INS[R2958]
     .if ( not_empty related_i_ins )
-      .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
+      .assign attr_result = attr_result + ", &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}]"
     .else
       .// Not participating.
       .assign attr_result = attr_result + ", 0"
@@ -437,8 +437,8 @@
       .if ( not_empty i_lnk )
         .select one related_i_ins related by i_lnk->I_LIP[R2903]->I_INS[R2958]
         .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
-        .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
-        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
+        .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
+        .assign attr_result = attr_result + ", &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}]"
       .else
         .// not participating
         .assign attr_result = attr_result + ", 0"
@@ -485,8 +485,8 @@
       .if ( not_empty i_lnk )
         .select one related_i_ins related by i_lnk->I_LIP[R2903]->I_INS[R2958]
         .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
-        .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
-        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
+        .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
+        .assign attr_result = attr_result + ", &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}]"
       .else
         .// not participating
         .assign attr_result = attr_result + ", 0"
@@ -518,16 +518,16 @@
     .if ( not_empty i_lnk )
       .select one related_i_ins related by i_lnk->I_LIP[R2901]->I_INS[R2958]
       .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
-      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
+      .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
       .select one related2_i_ins related by i_lnk->I_LIP[R2902]->I_INS[R2958]
       .select one related2_o_obj related by related2_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
-      .invoke related_extent_info2 = GetFixedSizeClassExtentInfo( related2_o_obj )
+      .select one related2_te_class related by related2_o_obj->TE_CLASS[R2019]
       .if ( ( aone.Obj_ID == aoth.Obj_ID ) or ( related2_o_obj.Obj_ID == aone.Obj_ID ) )
-        .assign attr_result = attr_result + ", &${related_extent_info2.obj_pool_var_name}[${related2_i_ins.Name}]"
-        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
+        .assign attr_result = attr_result + ", &${related2_te_class.GeneratedName}_instances[${related2_i_ins.Name}]"
+        .assign attr_result = attr_result + ", &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}]"
       .else
-        .assign attr_result = attr_result + ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
-        .assign attr_result = attr_result + ", &${related_extent_info2.obj_pool_var_name}[${related2_i_ins.Name}]"
+        .assign attr_result = attr_result + ", &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}]"
+        .assign attr_result = attr_result + ", &${related2_te_class.GeneratedName}_instances[${related2_i_ins.Name}]"
       .end if
     .else
       .// not participating
@@ -562,9 +562,8 @@
     .end if
     .if ( not_empty i_lnk )
       .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
-      .select one te_class related by related_o_obj->TE_CLASS[R2019]
-      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
-      .assign attr_result = ", (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}], ${te_class.system_class_number}"
+      .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
+      .assign attr_result = ", (void *) &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}], ${related_te_class.system_class_number}"
     .else
       .// not participating
       .assign attr_result = ", 0, 0"
@@ -575,8 +574,8 @@
     .if ( not_empty i_lnk )
       .select one related_i_ins related by i_lnk->I_LIP[R2901]->I_INS[R2958]
       .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
-      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
-      .assign attr_result = ", &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}]"
+      .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
+      .assign attr_result = ", &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}]"
     .else
       .// not participating
       .assign attr_result = ", 0"
@@ -637,29 +636,29 @@
     .for each related_i_ins in i_inss
       .assign ContainerIndex = ContainerIndex + 1
       .select one related_o_obj related by related_i_ins->CSME_CIE[R2962]->O_OBJ[R2961]
-      .invoke related_extent_info = GetFixedSizeClassExtentInfo( related_o_obj )
+      .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
       .if ( last i_inss )
         .if ( te_sys.CollectionsFlavor == 20 )
           .assign icount = cardinality i_inss
           .if ( icount > 1 )
-            .assign attr_assset = attr_assset + "  { 0, (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}], &${rel_set_name.result}[${ContainerIndex} - 2] }"
+            .assign attr_assset = attr_assset + "  { 0, (void *) &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}], &${rel_set_name.result}[${ContainerIndex} - 2] }"
           .else
-            .assign attr_assset = attr_assset + "  { 0, (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}], 0 }"
+            .assign attr_assset = attr_assset + "  { 0, (void *) &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}], 0 }"
           .end if .// cardinality i_inss > 1
         .else
-          .assign attr_assset = attr_assset + "  { 0, (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}] }"
+          .assign attr_assset = attr_assset + "  { 0, (void *) &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}] }"
         .end if
       .elif ( first i_inss )
         .if ( te_sys.CollectionsFlavor == 20 )
-          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}], 0 },\n"
+          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}], 0 },\n"
         .else
-          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}] },\n"
+          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}] },\n"
         .end if
       .else
         .if ( te_sys.CollectionsFlavor == 20 )
-          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}], &${rel_set_name.result}[${ContainerIndex} - 2] },\n"
+          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}], &${rel_set_name.result}[${ContainerIndex} - 2] },\n"
         .else
-          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_extent_info.obj_pool_var_name}[${related_i_ins.Name}] },\n"
+          .assign attr_assset = attr_assset + "  { &${rel_set_name.result}[${ContainerIndex}], (void *) &${related_te_class.GeneratedName}_instances[${related_i_ins.Name}] },\n"
         .end if
       .end if
     .end for

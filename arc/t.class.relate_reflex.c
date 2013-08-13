@@ -14,11 +14,11 @@
  * RELATE <left> ${te_class.Key_Lett} TO <right> ${te_class.Key_Lett} ACROSS R${te_rel.Numb}.'${rel_phrase}'
  */
 void
-${relate_method.result}( ${te_class.GeneratedName} * left, ${te_class.GeneratedName} * right${thismodule} )
+${relate_method}( ${te_class.GeneratedName} * left, ${te_class.GeneratedName} * right${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (left == 0) || (right == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "${te_class.Key_Lett}", "${relate_method.result}" );
+    XTUML_EMPTY_HANDLE_TRACE( "${te_class.Key_Lett}", "${relate_method}" );
     return;
   }
   .else
@@ -59,11 +59,11 @@ ${persist_relate.body}\
  * UNRELATE <left> ${te_class.Key_Lett} FROM <right> ${te_class.Key_Lett} ACROSS R${te_rel.Numb}.'${rel_phrase}'
  */
 void
-${unrelate_method.result}( ${te_class.GeneratedName} * left, ${te_class.GeneratedName} * right${thismodule} )
+${unrelate_method}( ${te_class.GeneratedName} * left, ${te_class.GeneratedName} * right${thismodule} )
 {
     .if ( te_c.DetectEmpty )
   if ( (left == 0) || (right == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "${te_class.Key_Lett}", "${unrelate_method.result}" );
+    XTUML_EMPTY_HANDLE_TRACE( "${te_class.Key_Lett}", "${unrelate_method}" );
     return;
   }
     .else

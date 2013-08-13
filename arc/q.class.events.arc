@@ -179,10 +179,11 @@ extern const ${te_eq.constant_type} ${te_evt.GeneratedName}c;
   .else
     .if ( te_evt.Used or te_c.OptDisabled )
       .// Initialize event base class/header
-      .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+      .invoke r = GetDomainTypeIDFromString( te_c.Name )
+      .assign dom_id = r.result
       .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
 const ${te_eq.constant_type} ${te_evt.GeneratedName}c = {
-  ${dom_id.name}, ${te_class.system_class_number}, ${te_evt.Enumerator},
+  ${dom_id}, ${te_class.system_class_number}, ${te_evt.Enumerator},
       .if ( is_creation )
   ESCHER_IS_CREATION_EVENT\
       .else
@@ -233,9 +234,10 @@ extern const ${te_eq.constant_type} ${te_evt.GeneratedName}c;
     .if ( te_evt.Used or te_c.OptDisabled )
 const ${te_eq.constant_type} ${te_evt.GeneratedName}c = {
       .// Initialize event base class/header
-      .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+      .invoke r = GetDomainTypeIDFromString( te_c.Name )
+      .assign dom_id = r.result
       .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
-  ${dom_id.name}, ${te_class.CBsystem_class_number}, ${te_evt.Enumerator},
+  ${dom_id}, ${te_class.CBsystem_class_number}, ${te_evt.Enumerator},
   ESCHER_IS_ASSIGNER_EVENT\
       .if ( "C++" == te_target.language )
 , 0\

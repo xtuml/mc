@@ -395,9 +395,11 @@
     .invoke poly_rels = GetPolymorphicRelationshipCollection( o_obj )
     .assign poly_rel_set = poly_rels.result
     .//
-    .invoke init_uniques = AutoInitializeUniqueIDs( te_class, "i" )
+    .invoke r = AutoInitializeUniqueIDs( te_class, "i" )
+    .assign init_uniques = r.body
     .invoke max_event = GetMaxEventInfo( o_obj, true )
-    .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+    .invoke r = GetDomainTypeIDFromString( te_c.Name )
+    .assign dom_id = r.result
     .invoke poly_dispatch = CreatePolymorphicEventDispatcher( o_obj, poly_rel_set )
     .assign poly_dispatcher = poly_dispatch.body
     .//

@@ -14,11 +14,11 @@
  * RELATE ${super_te_class.Key_Lett} TO ${sub_te_class.Key_Lett} ACROSS R${te_rel.Numb}
  */
 void
-${relate_method.result}( ${super_te_class.GeneratedName} * supertype, ${sub_te_class.GeneratedName} * subtype${thismodule} )
+${relate_method}( ${super_te_class.GeneratedName} * supertype, ${sub_te_class.GeneratedName} * subtype${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (supertype == 0) || (subtype == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "${sub_te_class.Key_Lett}", "${relate_method.result}" );
+    XTUML_EMPTY_HANDLE_TRACE( "${sub_te_class.Key_Lett}", "${relate_method}" );
     return;
   }
   .else
@@ -40,11 +40,11 @@ ${persist_relate.body}\
  * UNRELATE ${super_te_class.Key_Lett} FROM ${sub_te_class.Key_Lett} ACROSS R${te_rel.Numb}
  */
 void
-${unrelate_method.result}( ${super_te_class.GeneratedName} * supertype, ${sub_te_class.GeneratedName} * subtype${thismodule} )
+${unrelate_method}( ${super_te_class.GeneratedName} * supertype, ${sub_te_class.GeneratedName} * subtype${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (supertype == 0) || (subtype == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "${sub_te_class.Key_Lett}", "${unrelate_method.result}" );
+    XTUML_EMPTY_HANDLE_TRACE( "${sub_te_class.Key_Lett}", "${unrelate_method}" );
     return;
   }
   .else

@@ -245,10 +245,11 @@ typedef union {
     .assign namelist = ""
     .assign te_c = first_te_c
     .while ( not_empty te_c )
-      .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+      .invoke r = GetDomainTypeIDFromString( te_c.Name )
+      .assign dom_id = r.result
       .assign te_c.number = enumerated_domain_id
-#define ${dom_id.name} ${enumerated_domain_id}
-#define ${dom_id.name}_text "${te_c.Name}"
+#define ${dom_id} ${enumerated_domain_id}
+#define ${dom_id}_text "${te_c.Name}"
 #include "${te_c.classes_file}.${te_file.hdr_file_ext}"
       .assign namelist = namelist + "${delimiter}\\n    ""${te_c.Name}"" " 
       .assign delimiter = ","

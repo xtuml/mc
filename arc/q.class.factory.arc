@@ -26,12 +26,14 @@
 .function AddClassExtent
   .param inst_ref o_obj
   .param boolean  gen_declaration
+  .select any te_extent from instances of TE_EXTENT
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_set from instances of TE_SET
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .select one te_sys related by te_class->TE_C[R2064]->TE_SYS[R2065]
-  .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
+  .invoke r = GetFixedSizeClassExtentInfo( te_class )
+  .assign extent = r.result
   .if ( gen_declaration )
     .include "${te_file.arc_path}/t.class.extent.h"
   .else
@@ -56,7 +58,7 @@
     .assign pei_counter = "0"
     .if ( te_class.PEIsDefinedInData )
       .invoke count_instances = PEINumberOfPreexistingInstances( o_obj )
-      .assign pei_counter = ( "(" + extent_info.element_type ) + ( ")" + count_instances.result )
+      .assign pei_counter = ( "(" + te_extent.container_type ) + ( ")" + count_instances.result )
     .end if
     .include "${te_file.arc_path}/t.class.extent.c"
   .end if
@@ -174,7 +176,6 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   .select one o_obj related by te_class->O_OBJ[R2019]
   .select many r_rgos related by o_obj->R_OIR[R201]->R_RGO[R203]
   .if ( not_empty r_rgos )
-    .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
     .if ( gen_declaration )
 void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} );
     .else
@@ -282,8 +283,9 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
       .if ( navigation_needed or te_rel.LinkNeeded )
         .if ( batch_relate )
   if ( ${null_test} ) {
-      .invoke method = GetRelateToName( o_obj, r_rel, rel_phrase )
-    ${method.result}( ${parameters}, ${te_class.GeneratedName}_instance );
+      .invoke r = GetRelateToName( o_obj, r_rel, rel_phrase )
+      .assign method = r.result
+    ${method}( ${parameters}, ${te_class.GeneratedName}_instance );
   }
         .end if
       .end if

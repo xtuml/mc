@@ -201,7 +201,8 @@
     .if ( 8 == r_te_dt.Core_Typ )
       .select one te_class related by root_v_val->V_IRF[R801]->V_VAR[R808]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019]
       .if ( not_empty te_class )
-        .assign te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + root_te_val.buffer
+        .assign te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + ( root_te_val.buffer + ";" )
+        .assign te_smt.declaration = te_assign.left_declaration
       .end if
     .elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) ) 
       .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
@@ -275,7 +276,8 @@
     .select one te_var related by v_var->TE_VAR[R2039]
     .select one te_c related by te_class->TE_C[R2064]
     .select any te_instance from instances of TE_INSTANCE
-    .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+    .invoke r = GetDomainTypeIDFromString( te_c.Name )
+    .assign dom_id = r.result
     .invoke r = AutoInitializeUniqueIDs( te_class, te_var.buffer )
     .assign init_uniques = r.body
     .if ( act_cr.is_implicit )
@@ -294,7 +296,7 @@
   .assign del_count = 0
   .for each act_del in act_dels
     .select one te_smt related by act_del->ACT_SMT[R603]->TE_SMT[R2038]
-    .invoke smt_delete_instance( te_smt, act_del )
+    .invoke r = smt_delete_instance( te_smt, act_del )
     .assign te_smt.buffer = r.body
   .end for
 .end function
@@ -314,7 +316,8 @@
     .assign ws = te_blk.indentation
     .select one te_var related by v_var->TE_VAR[R2039]
     .select one te_c related by te_class->TE_C[R2064]
-    .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+    .invoke r = GetDomainTypeIDFromString( te_c.Name )
+    .assign dom_id = r.result
     .include "${te_file.arc_path}/t.smt.delete_instance.c"
     .assign te_smt.OAL = "DELETE OBJECT INSTANCE ${v_var.Name}"
   .end if
@@ -325,7 +328,12 @@
 .function smt_create_events_to_instance
   .select many e_ceis from instances of E_CEI
   .for each e_cei in e_ceis
-    .invoke smt_create_event_to_instance( e_cei )
+    .select one e_csme related by e_cei->E_CSME[R704]
+    .select one te_smt related by e_csme->E_CES[R702]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
+    .select one recipient_v_var related by e_cei->V_VAR[R711]
+    .select one recipient_te_var related by recipient_v_var->TE_VAR[R2039]
+    .invoke r = smt_create_event( te_smt, e_csme, recipient_te_var.buffer, recipient_v_var.Name )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
@@ -335,7 +343,10 @@
 .function smt_create_events_to_class
   .select many e_ceas from instances of E_CEA
   .for each e_cea in e_ceas
-    .invoke smt_create_event_to_class( e_cea )
+    .select one e_csme related by e_cea->E_CSME[R704]
+    .select one te_smt related by e_csme->E_CES[R702]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_create_event( te_smt, e_csme, "0", "CLASS" )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
@@ -345,74 +356,72 @@
 .function smt_create_events_to_creator
   .select many e_cecs from instances of E_CEC
   .for each e_cec in e_cecs
-    .invoke smt_create_event_to_creator( e_cec )
+    .select one e_csme related by e_cec->E_CSME[R704]
+    .select one te_smt related by e_csme->E_CES[R702]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_create_event( te_smt, e_csme, "0", "CREATOR" )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// create event instance statement
 .// --------------------------------------------------------
-.function smt_create_event_to_instance
-  .param inst_ref e_cei
-  .select one e_csme related by e_cei->E_CSME[R704]
-  .select one recipient_v_var related by e_cei->V_VAR[R711]
-  .select one recipient_te_var related by recipient_v_var->TE_VAR[R2039]
-  .invoke smt_create_event( e_csme, recipient_te_var.buffer, recipient_v_var.Name )
-.end function
-.function smt_create_event_to_class
-  .param inst_ref e_cea
-  .select one e_csme related by e_cea->E_CSME[R704]
-  .invoke smt_create_event( e_csme, "0", "CLASS" )
-.end function
-.function smt_create_event_to_creator
-  .param inst_ref e_cec
-  .select one e_csme related by e_cec->E_CSME[R704]
-  .invoke smt_create_event( e_csme, "0", "CREATOR" )
-.end function
-.//
-.// --------------------------------------------------------
-.// create event instance statement
-.// --------------------------------------------------------
 .function smt_create_event
+  .param inst_ref te_smt
   .param inst_ref e_csme
   .param string recipient
   .param string recipient_OAL
   .select one e_ces related by e_csme->E_CES[R702]
   .select one e_ess related by e_ces->E_ESS[R701]
-  .select one te_smt related by e_ess->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
   .select one sm_evt related by e_csme->SM_EVT[R706]
   .select one o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]
-  .select one v_var related by e_ces->V_VAR[R710]
-  .select one te_var related by v_var->TE_VAR[R2039]
-  .select many v_pars related by e_ess->V_PAR[R700]
-  .assign parameters = ""
-  .assign parameter_OAL = ""
-  .if ( not_empty v_pars )
-    .assign delimeter = ""
-    .for each v_par in v_pars
-      .select one par_te_dt related by v_par->V_VAL[R800]->S_DT[R820]->TE_DT[R2021]
-      .select one par_te_val related by v_par->V_VAL[R800]->TE_VAL[R2040]
-      .invoke r = t_oal_smt_event_parameters( te_var.buffer, v_par.Name, par_te_val.buffer, par_te_dt.Core_Typ, te_blk.indentation )
-      .assign parameters = parameters + r.result
-      .assign parameter_OAL = ( parameter_OAL + delimeter ) + par_te_val.OAL
-      .assign delimeter = ", "
-    .end for
-  .end if
   .if ( empty o_obj )
     .select one o_obj related by sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519]
   .end if
-  .select one sm_pevt related by sm_evt->SM_PEVT[R525]
-  .if ( not_empty sm_pevt )
-    .select any poly_sm_evt related by o_obj->SM_ISM[R518]->SM_SM[R517]->SM_EVT[R502] where ( selected.Drv_Lbl == "${event.Drv_Lbl}*" )
-    .if ( not_empty poly_sm_evt )
-      .assign sm_evt = poly_sm_evt
+  .select one te_class related by o_obj->TE_CLASS[R2019]
+  .if ( not_empty te_class )
+    .select one sm_pevt related by sm_evt->SM_PEVT[R525]
+    .if ( not_empty sm_pevt )
+      .select any poly_sm_evt related by o_obj->SM_ISM[R518]->SM_SM[R517]->SM_EVT[R502] where ( selected.Drv_Lbl == ( sm_evt.Drv_Lbl + "*" ) )
+      .if ( not_empty poly_sm_evt )
+        .assign sm_evt = poly_sm_evt
+      .end if
+    .end if
+    .select one te_evt related by sm_evt->TE_EVT[R2036]
+    .if ( te_evt.Used )
+      .select any te_file from instances of TE_FILE
+      .select any te_eq from instances of TE_EQ
+      .select any te_thread from instances of TE_THREAD
+      .select any te_instance from instances of TE_INSTANCE
+      .select one te_blk related by te_smt->TE_BLK[R2078]
+      .assign ws = te_blk.indentation
+      .select one v_var related by e_ces->V_VAR[R710]
+      .select one te_var related by v_var->TE_VAR[R2039]
+      .select many v_pars related by e_ess->V_PAR[R700]
+      .assign parameters = ""
+      .assign parameter_OAL = ""
+      .if ( not_empty v_pars )
+        .assign delimeter = ""
+        .for each v_par in v_pars
+          .select one par_te_dt related by v_par->V_VAL[R800]->S_DT[R820]->TE_DT[R2021]
+          .select one par_te_val related by v_par->V_VAL[R800]->TE_VAL[R2040]
+          .invoke r = t_oal_smt_event_parameters( te_var.buffer, v_par.Name, par_te_val.buffer, par_te_dt.Core_Typ, te_blk.indentation )
+          .assign parameters = parameters + r.result
+          .assign parameter_OAL = ( parameter_OAL + delimeter ) + par_te_val.OAL
+          .assign delimeter = ", "
+        .end for
+      .end if
+      .if ( e_ces.is_implicit )
+        .if ( "" == parameters )
+          .assign te_smt.declaration = ( ( te_eq.base_event_type + " * " ) + ( te_var.buffer + ";" ) )
+        .else
+          .assign te_smt.declaration = ( ( te_evt.GeneratedName + " * " ) + ( te_var.buffer + ";" ) )
+        .end if
+      .end if
+      .include "${te_file.arc_path}/t.smt.create_event.c"
+      .assign te_smt.OAL = "CREATE EVENT INSTANCE ${v_var.Name}( ${parameter_OAL} ) TO ${recipient_OAL}"
     .end if
   .end if
-  .invoke s = t_oal_smt_create_event( sm_evt, e_ces.is_implicit, o_obj.Name, sm_evt.Mning, v_var.Name, te_var.buffer, recipient, parameters, te_blk.indentation )
-  .assign te_smt.declaration = s.declaration
-  .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = "CREATE EVENT INSTANCE ${v_var.Name}( ${parameter_OAL} ) TO ${recipient_OAL}"
 .end function
 .//
 .// --------------------------------------------------------
@@ -421,7 +430,9 @@
 .function smt_relates
   .select many act_rels from instances of ACT_REL
   .for each act_rel in act_rels
-    .invoke smt_relate( act_rel )
+    .select one te_smt related by act_rel->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_relate( te_smt, act_rel )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
@@ -429,47 +440,62 @@
 .//  relate statement
 .// --------------------------------------------------------
 .function smt_relate
+  .param inst_ref te_smt
   .param inst_ref act_rel
-  .select one te_smt related by act_rel->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
   .select one one_v_var related by act_rel->V_VAR[R615]
-  .select one one_te_var related by one_v_var->TE_VAR[R2039]
   .select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818]
   .select one te_class related by one_o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
+    .select any te_file from instances of TE_FILE
+    .select any te_target from instances of TE_TARGET
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
+    .select one one_te_var related by one_v_var->TE_VAR[R2039]
     .select one oth_v_var related by act_rel->V_VAR[R616]
     .select one oth_te_var related by oth_v_var->TE_VAR[R2039]
     .select one oth_o_obj related by oth_v_var->V_INT[R814]->O_OBJ[R818]
     .select one r_rel related by act_rel->R_REL[R653]
-    .invoke is_refl = is_reflexive( r_rel )
-    .invoke s = t_oal_smt_relate( one_o_obj, oth_o_obj, r_rel, is_refl.result, r_rel.Numb, act_rel.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, te_blk.indentation )
-    .assign te_smt.buffer = s.body
+    .invoke r1 = is_reflexive( r_rel )
+    .assign is_reflexive = r1.result
+    .invoke r2 = TE_REL_IsLeftFormalizer( one_o_obj, r_rel, act_rel.relationship_phrase )
+    .assign left_is_formalizer = r2.result
+    .assign o_obj = oth_o_obj
+    .if ( left_is_formalizer )
+      .assign o_obj = one_o_obj
+    .end if
+    .invoke r = GetRelateToName( o_obj, r_rel, act_rel.relationship_phrase )
+    .assign relate_method = r.result
+    .assign thismodule = ""
+    .if ( "C" != te_target.language )
+      .assign thismodule = ", thismodule"
+    .end if
+    .include "${te_file.arc_path}/t.smt.relate.c"
     .assign te_smt.OAL = "RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R${r_rel.Numb}"
   .end if
 .end function
 .//
 .// --------------------------------------------------------
-.// relate using statements
-.// --------------------------------------------------------
 .function smt_relate_usings
   .select many act_rus from instances of ACT_RU
   .for each act_ru in act_rus
-    .invoke smt_relate_using( act_ru )
+    .select one te_smt related by act_ru->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_relate_using( te_smt, act_ru )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
 .// --------------------------------------------------------
-.// relate using statement
-.// --------------------------------------------------------
 .function smt_relate_using
+  .param inst_ref te_smt
   .param inst_ref act_ru
-  .select one te_smt related by act_ru->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
+  .assign ws = te_blk.indentation
   .select one r_rel related by act_ru->R_REL[R654]
-  .invoke is_refl = is_reflexive( r_rel )
+  .invoke r = is_reflexive( r_rel )
+  .assign is_reflexive = r.result
   .assign one_rel_phrase = ""
   .assign oth_rel_phrase = ""
-  .if ( is_refl.result )
+  .if ( is_reflexive )
     .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
     .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
     .select one one_obj related by act_ru->V_VAR[R617]->V_INT[R814]->O_OBJ[R818]
@@ -500,63 +526,90 @@
   .select one ass_v_var related by act_ru->V_VAR[R619]
   .select one ass_te_var related by ass_v_var->TE_VAR[R2039]
   .select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818]
-  .invoke s = t_oal_smt_relate_using( one_o_obj, oth_o_obj, ass_o_obj, r_rel, is_refl.result, r_rel.Numb, act_ru.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, ass_te_var.buffer, one_rel_phrase, oth_rel_phrase, te_blk.indentation )
-  .assign te_smt.buffer = s.body
-  .assign te_smt.OAL = "RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R${r_rel.Numb} USING ${ass_v_var.Name}"
+  .select any te_file from instances of TE_FILE
+  .select any te_target from instances of TE_TARGET
+  .assign thismodule = ""
+  .if ( "C" != te_target.language )
+    .assign thismodule = ", thismodule"
+  .end if
+  .invoke r = GetAssociativeLinkMethodName( one_o_obj, oth_o_obj, ass_o_obj, r_rel, act_ru.relationship_phrase )
+  .assign method = r.result
+  .assign left_obj_is_aone = false
+  .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
+  .if ( one_o_obj.Obj_Id == r_aone.Obj_ID )
+    .assign left_obj_is_aone = true
+  .end if
+  .include "${te_file.arc_path}/t.smt.relate_using.c"
+  .assign te_smt.OAL = "RELATE ${one_te_var.OAL} TO ${oth_te_var.OAL} ACROSS R${r_rel.Numb} USING ${ass_te_var.OAL}"
 .end function
 .//
-.// --------------------------------------------------------
-.// unrelate statements
 .// --------------------------------------------------------
 .function smt_unrelates
   .select many act_unrs from instances of ACT_UNR
   .for each act_unr in act_unrs
-    .invoke result = smt_unrelate( act_unr ) 
+    .select one te_smt related by act_unr->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_unrelate( te_smt, act_unr ) 
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
 .// --------------------------------------------------------
-.// unrelate statement
-.// --------------------------------------------------------
 .function smt_unrelate
+  .param inst_ref te_smt
   .param inst_ref act_unr
-  .select one te_smt related by act_unr->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
   .select one one_v_var related by act_unr->V_VAR[R620]
-  .select one one_te_var related by one_v_var->TE_VAR[R2039]
   .select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818]
   .select one te_class related by one_o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
+    .select any te_file from instances of TE_FILE
+    .select any te_target from instances of TE_TARGET
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
+    .select one one_te_var related by one_v_var->TE_VAR[R2039]
     .select one oth_v_var related by act_unr->V_VAR[R621]
     .select one oth_te_var related by oth_v_var->TE_VAR[R2039]
     .select one oth_o_obj related by oth_v_var->V_INT[R814]->O_OBJ[R818]
     .select one r_rel related by act_unr->R_REL[R655]
-    .invoke is_refl = is_reflexive( r_rel )
-    .invoke s = t_oal_smt_unrelate( one_o_obj, oth_o_obj, r_rel, is_refl.result, r_rel.Numb, act_unr.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, te_blk.indentation )
-    .assign te_smt.buffer = s.body
+    .invoke r1 = is_reflexive( r_rel )
+    .assign is_reflexive = r1.result
+    .invoke r2 = TE_REL_IsLeftFormalizer( one_o_obj, r_rel, act_unr.relationship_phrase )
+    .assign left_is_formalizer = r2.result
+    .assign o_obj = oth_o_obj
+    .if ( left_is_formalizer )
+      .assign o_obj = one_o_obj
+    .end if
+    .invoke r = GetUnrelateFromName( o_obj, r_rel, act_unr.relationship_phrase )
+    .assign method = r.result
+    .assign thismodule = ""
+    .if ( "C" != te_target.language )
+      .assign thismodule = ", thismodule"
+    .end if
+    .include "${te_file.arc_path}/t.smt.unrelate.c"
     .assign te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R${r_rel.Numb}"
   .end if
 .end function
 .//
 .// --------------------------------------------------------
-.// unrelate using statements
-.// --------------------------------------------------------
 .function smt_unrelate_usings
   .select many act_urus from instances of ACT_URU
   .for each act_uru in act_urus
-    .invoke smt_unrelate_using( act_uru )
+    .select one te_smt related by act_uru->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_unrelate_using( act_uru )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
 .function smt_unrelate_using
+  .param inst_ref te_smt
   .param inst_ref act_uru
-  .select one te_smt related by act_uru->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
+  .assign ws = te_blk.indentation
   .select one r_rel related by act_uru->R_REL[R656]
-  .invoke is_refl = is_reflexive( r_rel )
+  .invoke r = is_reflexive( r_rel )
+  .assign is_reflexive = r.result
   .assign one_rel_phrase = ""
   .assign oth_rel_phrase = ""
-  .if ( is_refl.result )
+  .if ( is_reflexive )
     .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
     .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
     .select one one_obj related by act_uru->V_VAR[R622]->V_INT[R814]->O_OBJ[R818]
@@ -580,15 +633,27 @@
   .end if
   .select one one_v_var related by act_uru->V_VAR[R622]
   .select one one_te_var related by one_v_var->TE_VAR[R2039]
+  .select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818]
   .select one oth_v_var related by act_uru->V_VAR[R623]
   .select one oth_te_var related by oth_v_var->TE_VAR[R2039]
+  .select one oth_o_obj related by oth_v_var->V_INT[R814]->O_OBJ[R818]
   .select one ass_v_var related by act_uru->V_VAR[R624]
   .select one ass_te_var related by ass_v_var->TE_VAR[R2039]
-  .select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818]
-  .select one oth_o_obj related by oth_v_var->V_INT[R814]->O_OBJ[R818]
   .select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818]
-  .invoke s = t_oal_smt_unrelate_using( one_o_obj, oth_o_obj, ass_o_obj, r_rel, is_refl.result, r_rel.Numb, act_uru.relationship_phrase, one_te_var.buffer, oth_te_var.buffer, ass_te_var.buffer, one_rel_phrase, oth_rel_phrase, te_blk.indentation )
-  .assign te_smt.buffer = s.body
+  .select any te_file from instances of TE_FILE
+  .select any te_target from instances of TE_TARGET
+  .assign thismodule = ""
+  .if ( "C" != te_target.language )
+    .assign thismodule = ", thismodule"
+  .end if
+  .invoke r = GetAssociativeUnlinkMethodName( one_o_obj, oth_o_obj, ass_o_obj, r_rel, act_ru.relationship_phrase )
+  .assign method = r.result
+  .assign left_obj_is_aone = false
+  .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
+  .if ( one_o_obj.Obj_Id == r_aone.Obj_ID )
+    .assign left_obj_is_aone = true
+  .end if
+  .include "${te_file.arc_path}/t.smt.unrelate_using.c"
   .assign te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R${r_rel.Numb} USING ${ass_te_var.OAL}"
 .end function
 .//
@@ -598,7 +663,9 @@
 .function smt_selects
   .select many act_fios from instances of ACT_FIO
   .for each act_fio in act_fios
-    .invoke smt_select( act_fio )
+    .select one te_smt related by act_fio->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_select( te_smt, act_fio )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
@@ -606,29 +673,45 @@
 .// select instance statement
 .// --------------------------------------------------------
 .function smt_select
+  .param inst_ref te_smt
   .param inst_ref act_fio
-  .select any te_select from instances of TE_SELECT
-  .select one te_smt related by act_fio->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
   .select one o_obj related by act_fio->O_OBJ[R677]
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
+    .select any te_file from instances of TE_FILE
+    .select any te_extent from instances of TE_EXTENT
+    .select any te_select from instances of TE_SELECT
+    .select any te_set from instances of TE_SET
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
     .select one v_var related by act_fio->V_VAR[R639]
     .select one te_var related by v_var->TE_VAR[R2039]
-    .//.assign te_select.o_obj = o_obj
     .assign te_select.is_implicit = act_fio.is_implicit
     .assign te_select.class_name = te_class.GeneratedName
-    .assign te_select.target_class_name = o_obj.Name
-    .assign te_select.class_description = o_obj.Descrip
+    .assign te_select.target_class_name = te_class.Name
     .assign te_select.multiplicity = act_fio.cardinality
     .assign te_select.var_name = te_var.buffer
-    .invoke s = t_oal_smt_select( o_obj, te_smt, te_select, te_blk.indentation )
-    .assign te_smt.declaration = s.declaration
-    .assign te_smt.deallocation = s.deallocation
-    .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-    .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
-    .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "SELECT ${act_fio.cardinality} ${v_var.Name} FROM INSTANCES OF ${o_obj.Key_Lett}"
+    .invoke r = GetFixedSizeClassExtentInfo( te_class )
+    .assign extent = r.result
+    .if ( te_select.multiplicity == "any" ) 
+      .if ( te_select.is_implicit ) 
+        .// Declare (first OAL usage of) inst_ref<Object> handle variable.
+        .assign te_smt.declaration = "${te_select.class_name} * ${te_select.var_name}=0;"
+      .end if
+    .elif ( te_select.multiplicity == "many" ) 
+      .if ( te_select.is_implicit ) 
+        .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
+        .assign te_smt.declaration = "${te_set.scope}${te_set.base_class} ${te_select.var_name}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select.var_name} = &${te_select.var_name}_space; /* ${te_select.var_name} (${te_class.Key_Lett}) */"
+        .assign te_smt.deallocation = "${te_set.module}${te_set.clear}( ${te_select.var_name} );"
+        .// Push deallocation into the block so that it is available at gen time for break/continue/return.
+        .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
+      .end if
+    .else
+      .print "\nERROR:  select ${multiplicity} is not any or many."
+      .exit 101
+    .end if
+    .include "${te_file.arc_path}/t.smt.select.c"
+    .assign te_smt.OAL = "SELECT ${act_fio.cardinality} ${v_var.Name} FROM INSTANCES OF ${te_class.Key_Lett}"
   .end if
 .end function
 .//
@@ -638,7 +721,9 @@
 .function smt_select_wheres
   .select many act_fiws from instances of ACT_FIW
   .for each act_fiw in act_fiws
-    .invoke smt_select_where( act_fiw )
+    .select one te_smt related by act_fiw->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_select_where( te_smt, act_fiw )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
@@ -649,78 +734,99 @@
 .//
 .function v_val_find_v_slr_return_buffer
   .param inst_ref v_val
-  .assign attr_slrname = "selected"
-  .assign attr_found = false
+  .assign result = "selected"
   .select one v_slr related by v_val->V_SLR[R801]
   .if ( not_empty v_slr )
     .select one te_val related by v_val->TE_VAL[R2040]
-    .assign attr_slrname = te_val.buffer
-    .assign attr_found = true
+    .assign result = te_val.buffer
   .else
     .select one v_avl related by v_val->V_AVL[R801]
     .if ( not_empty v_avl )
       .select one root_v_val related by v_avl->V_VAL[R807]
       .invoke r = v_val_find_v_slr_return_buffer( root_v_val )
-      .assign attr_slrname = r.slrname
-      .assign attr_found = true
+      .assign result = r.result
     .else
     .select one v_bin related by v_val->V_BIN[R801]
     .if ( not_empty v_bin )
       .select one left_v_val related by v_bin->V_VAL[R802]
       .invoke r = v_val_find_v_slr_return_buffer( left_v_val )
-      .if ( not r.found )
+      .assign result = r.result
+      .if ( "selected" != result )
         .select one right_v_val related by v_bin->V_VAL[R803]
         .invoke r = v_val_find_v_slr_return_buffer( right_v_val )
+        .assign result = r.result
       .end if
-      .assign attr_slrname = r.slrname
-      .assign attr_found = true
     .else
     .select one v_uny related by v_val->V_BIN[R801]
     .if ( not_empty v_uny )
       .select one uny_v_val related by v_uny->V_VAL[R804]
       .invoke r = v_val_find_v_slr_return_buffer( uny_v_val )
-      .assign attr_slrname = r.slrname
-      .assign attr_found = true
+      .assign result = r.result
     .end if
     .end if
     .end if
   .end if
+  .assign attr_result = result
 .end function
 .// --------------------------------------------------------
 .// select instance where statement
 .// --------------------------------------------------------
 .function smt_select_where
+  .param inst_ref te_smt
   .param inst_ref act_fiw
-  .select any te_select_where from instances of TE_SELECT_WHERE
-  .select one te_smt related by act_fiw->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
   .select one o_obj related by act_fiw->O_OBJ[R676]
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
+    .select any te_extent from instances of TE_EXTENT
+    .select any te_file from instances of TE_FILE
+    .select any te_select_where from instances of TE_SELECT_WHERE
+    .select any te_set from instances of TE_SET
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
     .select one v_var related by act_fiw->V_VAR[R665]
     .select one te_var related by v_var->TE_VAR[R2039]
     .select any where_v_val related by act_fiw->V_VAL[R610]
     .select any where_te_val related by where_v_val->TE_VAL[R2040]
     .invoke r = v_val_find_v_slr_return_buffer( where_v_val )
-    .assign oid_id = -1
-    .//.assign te_select_where.o_obj = o_obj
+    .assign slrname = r.result
     .assign te_select_where.is_implicit = act_fiw.is_implicit
     .assign te_select_where.class_name = te_class.GeneratedName
     .assign te_select_where.oal_var_name = o_obj.Name
     .assign te_select_where.class_description = o_obj.Descrip
     .assign te_select_where.multiplicity = act_fiw.cardinality
     .assign te_select_where.var_name = te_var.buffer
-    .assign te_select_where.selected_var_name = r.slrname
+    .assign te_select_where.selected_var_name = slrname
     .assign te_select_where.where_clause = where_te_val.buffer
     .assign te_select_where.special = false
-    .assign te_select_where.oid_id = oid_id
-    .invoke s = t_oal_smt_select_where( o_obj, te_smt, te_select_where, te_blk.indentation )
-    .assign te_smt.declaration = s.declaration
-    .assign te_smt.deallocation = s.deallocation
-    .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-    .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
-    .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "SELECT ${act_fiw.cardinality} ${v_var.Name} FROM INSTANCES OF ${o_obj.Key_Lett} WHERE ${where_te_val.OAL}"
+    .if ( "any" == te_select_where.multiplicity )
+      .if ( te_select_where.is_implicit )
+        .// Declare (first OAL usage of) inst_ref<Object> handle variable.
+        .assign te_smt.declaration = "${te_select_where.class_name} * ${te_select_where.var_name}=0;"
+      .end if
+    .elif ( "many" == te_select_where.multiplicity )
+      .if ( te_select_where.is_implicit )
+        .// First OAL usage of inst_ref_set<Object> handle set
+        .assign te_smt.declaration = "${te_set.scope}${te_set.base_class} ${te_select_where.var_name}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select_where.var_name} = &${te_select_where.var_name}_space; /* ${te_select_where.oal_var_name} (${o_obj.Key_Lett}) */"
+        .assign te_smt.deallocation = "${te_set.module}${te_set.clear}( ${te_select_where.var_name} );  /* Clear set: ${te_select_where.oal_var_name} */"
+        .// Push deallocation into the block so that it is available at gen time for break/continue/return.
+        .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
+      .end if
+    .else
+      .print "\nERROR:  stmt_select_from_instances_of_where: Select ${multiplicity} is not any or many."
+      .exit 101
+    .end if
+    .invoke r = GetFixedSizeClassExtentInfo( te_class )
+    .assign extent = r.result
+    .invoke r = ExpandNonOptimizedSpecialWhereComparison( o_obj, te_select_where.special, te_select_where.selected_var_name )
+    .assign where_comp = r.body
+    .assign iterator = ( "iter" + te_select_where.var_name ) + te_select_where.class_name
+    .// *** Built in select any special where clause.
+    .select any o_id related by o_obj->O_ID[R104] where ( selected.Oid_ID == -1 )
+    .select one te_where related by o_id->TE_WHERE[R2032]
+    .invoke r = CreateSpecialWhereComparisonArguments( te_class, o_id )
+    .assign arguments = r.result
+    .include "${te_file.arc_path}/t.smt.select_where.c"
+    .assign te_smt.OAL = "SELECT ${act_fiw.cardinality} ${v_var.Name} FROM INSTANCES OF ${te_class.Key_Lett} WHERE ${where_te_val.OAL}"
   .end if
 .end function
 .// --------------------------------------------------------
@@ -730,7 +836,9 @@
   .select many act_srs from instances of ACT_SR
   .for each act_sr in act_srs
     .select one act_sel related by act_sr->ACT_SEL[R664]
-    .invoke smt_select_related( act_sel, false )
+    .select one te_smt related by act_sel->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_select_related( te_smt, act_sel, false )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
@@ -741,7 +849,9 @@
   .select many act_srws from instances of ACT_SRW
   .for each act_srw in act_srws
     .select one act_sel related by act_srw->ACT_SEL[R664]
-    .invoke smt_select_related( act_sel, true )
+    .select one te_smt related by act_sel->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_select_related( te_smt, act_sel, true )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
@@ -751,22 +861,27 @@
 .function smt_generate_precreated_events
   .select many e_gprs from instances of E_GPR
   .for each e_gpr in e_gprs
-    .invoke smt_generate_precreated_event( e_gpr )
+    .select one te_smt related by e_gpr->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_generate_precreated_event( te_smt, e_gpr )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
 .function smt_generate_precreated_event
+  .param inst_ref te_smt
   .param inst_ref e_gpr
-  .select one te_smt related by e_gpr->ACT_SMT[R603]->TE_SMT[R2038]
+  .select any te_file from instances of TE_FILE
+  .select any te_eq from instances of TE_EQ
+  .select any te_instance from instances of TE_INSTANCE
   .select one te_blk related by te_smt->TE_BLK[R2078]
+  .assign ws = te_blk.indentation
   .select one te_val related by e_gpr->V_VAL[R714]->TE_VAL[R2040]
-  .// May need to do some investigating to see how to tell if
+  .// CDS - May need to do some investigating to see how to tell if
   .// this event is self-directed or not.
   .assign self_directed = false
-  .// Also may need to dig inside, get the sm_evt and then see if this
+  .// CDS - Also may need to dig inside, get the sm_evt and then see if this
   .// event is polymorphic.
-  .invoke s = t_oal_smt_generate_precreated_event( self_directed, te_val.buffer, te_blk.indentation )
-  .assign te_smt.buffer = s.body
+  .include "${te_file.arc_path}/t.smt.generate_precreated_event.c"
   .assign te_smt.OAL = "GENERATE ${te_val.OAL}"
 .end function
 .//
@@ -777,7 +892,9 @@
 .function smt_generate_events
   .select many e_gens from instances of E_GEN
   .for each e_gen in e_gens
-    .invoke smt_generate_event( e_gen )
+    .select one te_smt related by e_gen->E_GSME[R705]->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_generate_event( te_smt, e_gen )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
@@ -799,17 +916,22 @@
 .end function
 .//
 .function smt_generate_event
+  .param inst_ref te_smt
   .param inst_ref e_gen
   .select one e_gsme related by e_gen->E_GSME[R705]
   .select one e_ess related by e_gsme->E_GES[R703]->E_ESS[R701]
-  .select one act_smt related by e_ess->ACT_SMT[R603]
-  .select one te_smt related by act_smt->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
   .select one sm_evt related by e_gsme->SM_EVT[R707]
-  .select one v_var related by e_gen->V_VAR[R712]
-  .select one te_var related by v_var->TE_VAR[R2039]
   .select any te_class related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019]
-  .if ( not_empty te_class )
+  .select one te_evt related by sm_evt->TE_EVT[R2036]
+  .if ( ( not_empty te_class ) and ( not_empty te_evt ) )
+    .select any te_file from instances of TE_FILE
+    .select any te_eq from instances of TE_EQ
+    .select any te_instance from instances of TE_INSTANCE
+    .select any te_thread from instances of TE_THREAD
+    .select one v_var related by e_gen->V_VAR[R712]
+    .select one te_var related by v_var->TE_VAR[R2039]
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
     .assign te_class.Included = true
     .select many v_pars related by e_ess->V_PAR[R700]
     .assign parameters = ""
@@ -827,11 +949,11 @@
     .end if
     .assign self_directed = false
     .if ( "self" == "$l{v_var.Name}" )
+      .// CDS - This is a simplistic way to detect event-to-self.
       .assign self_directed = true
     .end if
-    .invoke s = t_oal_smt_generate( sm_evt, self_directed, te_var.buffer, sm_evt.Drv_Lbl, sm_evt.Mning, parameters, te_blk.indentation )
-    .assign te_smt.declaration = s.declaration
-    .assign te_smt.buffer = s.body
+    .assign var_name = te_var.buffer
+    .include "${te_file.arc_path}/t.smt.generate.c"
     .assign te_smt.OAL = "GENERATE ${sm_evt.Drv_Lbl}:${sm_evt.Mning}(${parameter_OAL}) TO ${v_var.Name}"
   .end if
 .end function
@@ -848,16 +970,11 @@
 .//
 .function smt_generate_creator_event
   .param inst_ref e_gec
-  .select one te_smt related by e_gec->E_GSME[R705]->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
-  .invoke p = smt_generate_class_event( e_gec )
-  .if ( p.valid )
-    .assign sm_evt = p.sm_evt
-    .assign tgt_o_obj = p.tgt_o_obj
-    .invoke s = t_oal_smt_generate_creator_event( p.sm_evt, p.self_directed, "0", sm_evt.Drv_Lbl, sm_evt.Mning, p.parameters, te_blk.indentation )
-    .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "GENERATE ${sm_evt.Drv_Lbl}:${sm_evt.Mning}(${p.parameter_OAL}) TO ${tgt_o_obj.Key_Lett} CREATOR"
-  .end if
+  .select one e_gsme related by e_gec->E_GSME[R705]
+  .select one te_smt related by e_gsme->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
+  .invoke r = smt_generate_class_event( te_smt, e_gsme )
+  .assign te_smt.buffer = r.body
+  .assign te_smt.OAL = te_smt.OAL + " CREATOR"
 .end function
 .//
 .// --------------------------------------------------------
@@ -871,50 +988,50 @@
 .end function
 .//
 .function smt_generate_event_to_class
-  .param inst_ref act_smt
-  .select one te_smt related by act_smt->E_GSME[R705]->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
-  .invoke p = smt_generate_class_event( act_smt )
-  .if ( p.valid )
-    .assign sm_evt = p.sm_evt
-    .assign tgt_o_obj = p.tgt_o_obj
-    .invoke s = t_oal_smt_generate_to_class( p.sm_evt, p.self_directed, "0", sm_evt.Drv_Lbl, sm_evt.Mning, p.parameters, te_blk.indentation )
-    .assign te_smt.buffer = s.body
-    .assign te_smt.OAL = "GENERATE ${sm_evt.Drv_Lbl}:${sm_evt.Mning}(${p.parameter_OAL}) TO ${tgt_o_obj.Key_Lett} CLASS"
-  .end if
+  .param inst_ref e_gar
+  .select one e_gsme related by e_gar->E_GSME[R705]
+  .select one te_smt related by e_gsme->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
+  .invoke r = smt_generate_class_event( te_smt, e_gsme )
+  .assign te_smt.buffer = r.body
+  .assign te_smt.OAL = te_smt.OAL + " CLASS"
 .end function
 .//
 .function smt_generate_class_event
-  .param inst_ref e_gar
-  .assign attr_parameters = ""
-  .assign attr_parameter_OAL = ""
-  .assign attr_self_directed = false
-  .assign attr_valid = false
-  .select one e_ess related by e_gar->E_GSME[R705]->E_GES[R703]->E_ESS[R701]
+  .param inst_ref te_smt
+  .param inst_ref e_gsme
+  .select one e_ess related by e_gsme->E_GES[R703]->E_ESS[R701]
   .select one te_smt related by e_ess->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
   .select one act_act related by e_ess->ACT_SMT[R603]->ACT_BLK[R602]->ACT_ACT[R601]
   .select one act_sab related by act_act->ACT_SAB[R698]
-  .select one attr_sm_evt related by e_gar->E_GSME[R705]->SM_EVT[R707]
+  .select one sm_evt related by e_gsme->SM_EVT[R707]
   .select one o_obj related by act_sab->SM_ACT[R691]->SM_SM[R515]->SM_ISM[R517]->O_OBJ[R518]
   .if ( empty o_obj )
     .select one o_obj related by act_sab->SM_ACT[R691]->SM_SM[R515]->SM_ASM[R517]->O_OBJ[R519]
   .end if
-  .select any attr_tgt_o_obj related by attr_sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]
-  .if ( empty attr_tgt_o_obj )
-    .select any attr_tgt_o_obj related by attr_sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519]
+  .select any tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]
+  .if ( empty tgt_o_obj )
+    .select any tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519]
   .end if
-  .select one te_class related by attr_tgt_o_obj->TE_CLASS[R2019]
-  .if ( not_empty te_class )
+  .select one te_class related by tgt_o_obj->TE_CLASS[R2019]
+  .select one te_evt related by sm_evt->TE_EVT[R2036]
+  .if ( ( not_empty te_class ) and ( not_empty te_evt ) )
+    .select any te_eq from instances of TE_EQ
+    .select any te_file from instances of TE_FILE
+    .select any te_instance from instances of TE_INSTANCE
+    .select any te_thread from instances of TE_THREAD
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
+    .assign parameters = ""
+    .assign parameter_OAL = ""
+    .assign self_directed = false
     .assign te_class.Included = true
-    .assign attr_valid = true
     .if ( act_act.Type == "state" )
-      .if ( o_obj == attr_tgt_o_obj )
-        .assign attr_self_directed = true
+      .if ( o_obj == tgt_o_obj )
+        .assign self_directed = true
       .end if
     .elif ( act_act.Type == "transition" )
-      .if ( o_obj == attr_tgt_o_obj )
-        .assign attr_self_directed = true
+      .if ( o_obj == tgt_o_obj )
+        .assign self_directed = true
       .end if
     .end if
     .select many v_pars related by e_ess->V_PAR[R700]
@@ -923,12 +1040,15 @@
       .for each v_par in v_pars
         .select one par_te_dt related by v_par->V_VAL[R800]->S_DT[R820]->TE_DT[R2021]
         .select one par_te_val related by v_par->V_VAL[R800]->TE_VAL[R2040]
-        .invoke r = t_oal_smt_event_parameters( "", v_par.Name, par_te_val.buffer, par_te_dt.Core_Typ, te_blk.indentation )
-        .assign attr_parameters = attr_parameters + r.result
-        .assign attr_parameter_OAL = ( attr_parameter_OAL + delimeter ) + par_te_val.OAL
+        .invoke r = t_oal_smt_event_parameters( "", v_par.Name, par_te_val.buffer, par_te_dt.Core_Typ, ws )
+        .assign parameters = parameters + r.result
+        .assign parameter_OAL = ( parameter_OAL + delimeter ) + par_te_val.OAL
         .assign delimeter = ", "
       .end for
     .end if
+    .assign var_name = "0"
+    .include "${te_file.arc_path}/t.smt.generate.c"
+    .assign te_smt.OAL = "GENERATE ${sm_evt.Drv_Lbl}:${sm_evt.Mning}(${parameter_OAL}) TO ${tgt_o_obj.Key_Lett}"
   .end if
 .end function
 .//
@@ -951,9 +1071,9 @@
     .select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053]
   .end if
   .select many v_pars related by act_sgn->V_PAR[R662]
-  .invoke rm = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
-  .assign te_smt.buffer = rm.smt_buffer
-  .assign te_smt.OAL = " SEND ${te_mact.PortName}::${te_mact.MessageName}(${rm.parameter_OAL})"
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
+  .assign te_smt.buffer = r.body
+  .assign te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
 .//
 .// --------------------------------------------------------
@@ -975,9 +1095,9 @@
     .select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050]
   .end if
   .select many v_pars related by act_iop->V_PAR[R679]
-  .invoke rm = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
-  .assign te_smt.buffer = rm.smt_buffer
-  .assign te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${rm.parameter_OAL})"
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
+  .assign te_smt.buffer = r.body
+  .assign te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
 .//
 .// -------------------------------------------------------------------
@@ -988,16 +1108,16 @@
   .param inst_ref_set v_pars
   .param string ws
   .param boolean is_statement
+  .select any te_file from instances of TE_FILE
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .assign parameters = ""
-  .assign attr_parameter_OAL = ""
-  .assign attr_smt_buffer = ""
+  .assign te_mact.OALParamBuffer = ""
   .if ( not_empty v_pars )
     .invoke r = gen_parameter_list( v_pars, false, "message" )
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
-    .assign attr_parameter_OAL = te_parm.OALParamBuffer
+    .assign te_mact.OALParamBuffer = te_parm.OALParamBuffer
   .end if
   .assign name = te_mact.GeneratedName
   .if ( "C++" == te_target.language )
@@ -1031,8 +1151,7 @@
       .assign parameters = "0" + parameters
     .end if
   .end if
-  .invoke s = t_oal_smt_iop( name, parameters, ws, is_statement )
-  .assign attr_smt_buffer = s.body
+  .include "${te_file.arc_path}/t.smt.iop.c"
 .end function
 .//
 .// --------------------------------------------------------
@@ -1041,25 +1160,29 @@
 .function smt_operates
   .select many act_tfms from instances of ACT_TFM
   .for each act_tfm in act_tfms
-    .invoke smt_operate( act_tfm )
+    .select one te_smt related by act_tfm->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_operate( te_smt, act_tfm )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
 .function smt_operate
+  .param inst_ref te_smt
   .param inst_ref act_tfm
-  .select any te_target from instances of TE_TARGET
-  .select one te_smt related by act_tfm->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
-  .select one te_var related by act_tfm->V_VAR[R667]->TE_VAR[R2039]
   .select one o_tfr related by act_tfm->O_TFR[R673]
   .select one te_tfr related by o_tfr->TE_TFR[R2024]
-  .if ( not_empty te_tfr )
-    .select one o_obj related by o_tfr->O_OBJ[R115]
-    .assign variable = ""
+  .select one te_class related by o_tfr->O_OBJ[R115]->TE_CLASS[R2019]
+  .if ( ( not_empty te_tfr ) and ( not_empty te_class ) )
+    .select any te_file from instances of TE_FILE
+    .select any te_target from instances of TE_TARGET
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
+    .select one te_var related by act_tfm->V_VAR[R667]->TE_VAR[R2039]
+    .assign var_name = ""
     .assign instance_based = false
-    .if ( o_tfr.Instance_Based == 1 )
+    .if ( te_tfr.Instance_Based == 1 )
       .assign instance_based = true
-      .assign variable = te_var.buffer
+      .assign var_name = te_var.buffer
     .end if
     .assign parameters = ""
     .assign parameter_OAL = ""
@@ -1070,21 +1193,19 @@
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
     .end if
-    .assign name = te_tfr.GeneratedName
+    .assign operation_name = te_tfr.GeneratedName
     .assign uses_thismodule = false
     .if ( "C++" == te_target.language )
       .assign uses_thismodule = true
       .if ( not instance_based )
-        .select one te_class related by o_obj->TE_CLASS[R2019]
-        .assign name = ( te_class.GeneratedName + "::" ) + te_tfr.GeneratedName
+        .assign operation_name = ( te_class.GeneratedName + "::" ) + te_tfr.GeneratedName
       .end if
     .end if
-    .invoke s = t_oal_smt_operation( instance_based, name, parameters, variable, uses_thismodule, te_blk.indentation )
-    .assign te_smt.buffer = s.body
+    .include "${te_file.arc_path}/t.smt.operation.c"
     .if ( instance_based )
       .assign te_smt.OAL = ( te_var.OAL + "." ) + ( te_tfr.Name + "(" )
     .else
-      .assign te_smt.OAL = ( o_obj.Key_Lett + "::" ) + ( te_tfr.Name + "(" )
+      .assign te_smt.OAL = ( te_class.Key_Lett + "::" ) + ( te_tfr.Name + "(" )
     .end if
     .if ( "" != parameter_OAL )
       .assign te_smt.OAL = ( te_smt.OAL + " " ) + ( parameter_OAL + " " )
@@ -1099,18 +1220,22 @@
 .function smt_bridges
   .select many act_brgs from instances of ACT_BRG
   .for each act_brg in act_brgs
-    .invoke result = smt_bridge( act_brg )
+    .select one te_smt related by act_brg->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_bridge( te_smt, act_brg )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
 .function smt_bridge
+  .param inst_ref te_smt
   .param inst_ref act_brg
-  .select any te_target from instances of TE_TARGET
-  .select one te_smt related by act_brg->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
   .select one s_brg related by act_brg->S_BRG[R674]
   .select one te_brg related by s_brg->TE_BRG[R2025]
   .if ( not_empty te_brg )
+    .select any te_file from instances of TE_FILE
+    .select any te_target from instances of TE_TARGET
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
     .select one te_ee related by s_brg->S_EE[R19]->TE_EE[R2020]
     .assign te_ee.Included = true
     .assign parameters = ""
@@ -1122,9 +1247,9 @@
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
     .end if
-    .assign name = te_brg.GeneratedName
+    .assign bridge_name = te_brg.GeneratedName
     .if ( "C++" == te_target.language )
-      .assign name = ( te_ee.RegisteredName + "::" ) + name
+      .assign bridge_name = ( te_ee.RegisteredName + "::" ) + bridge_name
       .select one te_c related by te_ee->TE_C[R2085]
       .if ( ( "TIM" != te_brg.EEkeyletters ) and ( not_empty te_c ) )
         .if ( "" == parameters )
@@ -1134,8 +1259,7 @@
         .end if
       .end if
     .end if
-    .invoke s = t_oal_smt_bridge( te_brg, name, parameters, te_blk.indentation )
-    .assign te_smt.buffer = s.body
+    .include "${te_file.arc_path}/t.smt.bridge.c"
     .assign te_smt.OAL = "${te_brg.EEkeyletters}::${te_brg.Name}( ${parameter_OAL} )"
   .end if
 .end function
@@ -1146,18 +1270,22 @@
 .function smt_functions
   .select many act_fncs from instances of ACT_FNC
   .for each act_fnc in act_fncs
-    .invoke result = smt_function( act_fnc )
+    .select one te_smt related by act_fnc->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_function( te_smt, act_fnc )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
 .function smt_function
+  .param inst_ref te_smt
   .param inst_ref act_fnc
   .//
-  .select any te_target from instances of TE_TARGET
-  .select one te_smt related by act_fnc->ACT_SMT[R603]->TE_SMT[R2038]
-  .select one te_blk related by te_smt->TE_BLK[R2078]
   .select one te_sync related by act_fnc->S_SYNC[R675]->TE_SYNC[R2023]
   .if ( not_empty te_sync )
+    .select any te_file from instances of TE_FILE
+    .select any te_target from instances of TE_TARGET
+    .select one te_blk related by te_smt->TE_BLK[R2078]
+    .assign ws = te_blk.indentation
     .assign parameters = ""
     .assign parameter_OAL = ""
     .select many v_pars related by act_fnc->V_PAR[R669]
@@ -1167,12 +1295,11 @@
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
     .end if
-    .assign name = te_sync.intraface_method
+    .assign function_name = te_sync.intraface_method
     .if ( "C++" == te_target.language )
-      .assign name = "thismodule->" + name
+      .assign function_name = "thismodule->" + function_name
     .end if
-    .invoke s = t_oal_smt_function( name, parameters, te_blk.indentation )
-    .assign te_smt.buffer = s.body
+    .include "${te_file.arc_path}/t.smt.function.c"
     .assign te_smt.OAL = "::${te_sync.Name}( ${parameter_OAL} )"
   .end if
 .end function
@@ -1181,26 +1308,30 @@
 .// return statements
 .// --------------------------------------------------------
 .function smt_returns
-.select many act_rets from instances of ACT_RET
-.for each act_ret in act_rets
-  .invoke smt_return( act_ret )
-.end for
+  .select many act_rets from instances of ACT_RET
+  .for each act_ret in act_rets
+    .select one te_smt related by act_ret->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_return( te_smt, act_ret )
+    .assign te_smt.buffer = r.body
+  .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// return statement
 .// --------------------------------------------------------
 .function smt_return
+  .param inst_ref te_smt
   .param inst_ref act_ret
-  .select one te_smt related by act_ret->ACT_SMT[R603]->TE_SMT[R2038]
+  .select any te_file from instances of TE_FILE
   .select one te_blk related by te_smt->TE_BLK[R2078]
+  .assign ws = te_blk.indentation
   .select one v_val related by act_ret->V_VAL[R668]
   .assign intCast1 = ""
   .assign intCast2 = ""
   .assign value = ""
   .assign value_OAL = ""
   .assign returnvaltype = ""
-  .if (not_empty v_val)
+  .if ( not_empty v_val )
     .//
     .// resolve the core data type of v_val
     .select one s_dt related by v_val->S_DT[R820]
@@ -1218,7 +1349,7 @@
     .assign returnvaltype = te_dt.ExtName
     .//
     .// if the value is of the _real_ type
-    .if (s_dt.Name == "real")
+    .if ( "real" == s_dt.Name )
       .// if we can resolve the name of the data type of the return type of the enclosing body
       .select one act_smt related by act_ret->ACT_SMT[R603]
       .// Get the return _statement_ data type name.
@@ -1246,8 +1377,8 @@
         .select any core_s_dt from instances of S_DT where ( false )
         .select one s_udt related by return_s_dt->S_UDT[R17]
         .if ( not_empty s_udt )
-          .invoke i = GetBaseTypeForUDT( s_udt )
-          .assign core_s_dt = i.result
+          .invoke r = GetBaseTypeForUDT( s_udt )
+          .assign core_s_dt = r.result
         .end if
         .if (not_empty core_s_dt)
           .assign return_s_dt = core_s_dt
@@ -1274,8 +1405,8 @@
     .select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078]
   .end while
   .//
-  .invoke s = t_oal_smt_return( value, returnvaltype, intCast1, intCast2, deallocation, te_blk.indentation )
-  .assign te_smt.buffer = s.body
+  .assign rv = value
+  .include "${te_file.arc_path}/t.smt.return.c"
   .assign te_smt.OAL = "RETURN ${value_OAL}"
 .end function
 .//
@@ -1283,21 +1414,25 @@
 .// control statements
 .// --------------------------------------------------------
 .function smt_controls
-.select many act_ctls from instances of ACT_CTL
-.for each act_ctl in act_ctls
-  .invoke smt_control( act_ctl )
-.end for
+  .select many act_ctls from instances of ACT_CTL
+  .for each act_ctl in act_ctls
+    .select one te_smt related by act_ctl->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_control( te_smt, act_ctl )
+    .assign te_smt.buffer = r.body
+  .end for
 .end function
 .//
 .// --------------------------------------------------------
 .// control statement
 .// --------------------------------------------------------
 .function smt_control
+  .param inst_ref te_smt
   .param inst_ref act_ctl
-  .select one te_smt related by act_ctl->ACT_SMT[R603]->TE_SMT[R2038]
+  .select any te_file from instances of TE_FILE
+  .select any te_thread from instances of TE_THREAD
   .select one te_blk related by te_smt->TE_BLK[R2078]
-  .invoke s = t_oal_smt_control( te_blk.indentation )
-  .assign te_smt.buffer = s.body
+  .assign ws = te_blk.indentation
+  .include "${te_file.arc_path}/t.smt.control.c"
   .assign te_smt.OAL = "CONTROL"
 .end function
 .//
@@ -1307,7 +1442,9 @@
 .function smt_breaks
   .select many act_brks from instances of ACT_BRK
   .for each act_brk in act_brks
-    .invoke smt_break( act_brk )
+    .select one te_smt related by act_brk->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_break( te_smt, act_brk )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
@@ -1315,9 +1452,11 @@
 .// break statement
 .// --------------------------------------------------------
 .function smt_break
+  .param inst_ref te_smt
   .param inst_ref act_brk
-  .select one te_smt related by act_brk->ACT_SMT[R603]->TE_SMT[R2038]
+  .select any te_file from instances of TE_FILE
   .select one te_blk related by te_smt->TE_BLK[R2078]
+  .assign ws = te_blk.indentation
   .// Deallocate any variables allocated from this block and higher blocks up to containing WHILE or FOR.
   .assign deallocation = te_blk.deallocation
   .select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078]
@@ -1331,8 +1470,7 @@
     .end if
     .select one parent_te_blk related by parent_te_smt->TE_BLK[R2078]
   .end while
-  .invoke s = t_oal_smt_break( deallocation, te_blk.indentation )
-  .assign te_smt.buffer = s.body
+  .include "${te_file.arc_path}/t.smt.break.c"
   .assign te_smt.OAL = "BREAK"
 .end function
 .//
@@ -1342,7 +1480,9 @@
 .function smt_continues
   .select many act_cons from instances of ACT_CON
   .for each act_con in act_cons
-    .invoke smt_continue( act_con )
+    .select one te_smt related by act_con->ACT_SMT[R603]->TE_SMT[R2038]
+    .invoke r = smt_continue( te_smt, act_con )
+    .assign te_smt.buffer = r.body
   .end for
 .end function
 .//
@@ -1350,9 +1490,11 @@
 .// continue statement
 .// --------------------------------------------------------
 .function smt_continue
+  .param inst_ref te_smt
   .param inst_ref act_con
-  .select one te_smt related by act_con->ACT_SMT[R603]->TE_SMT[R2038]
+  .select any te_file from instances of TE_FILE
   .select one te_blk related by te_smt->TE_BLK[R2078]
+  .assign ws = te_blk.indentation
   .// Deallocate any variables allocated from this block and higher blocks up to containing WHILE or FOR.
   .assign deallocation = te_blk.deallocation
   .select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078]
@@ -1366,19 +1508,18 @@
     .end if
     .select one parent_te_blk related by parent_te_smt->TE_BLK[R2078]
   .end while
-  .invoke s = t_oal_smt_continue( deallocation, te_blk.indentation )
-  .assign te_smt.buffer = s.body
+  .include "${te_file.arc_path}/t.smt.continue.c"
   .assign te_smt.OAL = "CONTINUE"
 .end function
 .//
 .function smt_select_related
+  .param inst_ref te_smt
   .param inst_ref act_sel
   .param boolean by_where
   .select any te_file from instances of TE_FILE
   .select any te_set from instances of TE_SET
   .select any empty_te_lnk from instances of TE_LNK where ( false )
   .select any empty_act_lnk from instances of ACT_LNK where ( false )
-  .select one te_smt related by act_sel->ACT_SMT[R603]->TE_SMT[R2038]
   .select one te_blk related by te_smt->TE_BLK[R2078]
   .select one start_v_val related by act_sel->V_VAL[R613]
   .select one start_te_val related by start_v_val->TE_VAL[R2040]
@@ -1795,7 +1936,7 @@
     .end while
     .assign b = b + "\n"
   .end if
-  .assign te_smt.buffer = b
+${b}\
   .if ( te_select_related.by_where )
     .assign te_smt.OAL = te_smt.OAL + " WHERE ( ${te_select_related.where_clause_OAL} )"
   .end if

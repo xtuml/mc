@@ -15,11 +15,11 @@
 R${te_rel.Numb}.'${rel_phrase}' USING ${assr_obj.Key_Lett}
  */
 void
-${link_method.result}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
+${relate_method}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (left == 0) || (right == 0) || (assr == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "${assr_obj.Key_Lett}", "${link_method.result}" );
+    XTUML_EMPTY_HANDLE_TRACE( "${assr_obj.Key_Lett}", "${relate_method}" );
     return;
   }
   .else
@@ -73,11 +73,11 @@ ${persist_relate.body}\
 R${te_rel.Numb}.'${rel_phrase}' USING ${assr_obj.Key_Lett}
  */
 void
-${unlink_method.result}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
+${unrelate_method}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (left == 0) || (right == 0) || (assr == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "${assr_obj.Key_Lett}", "${unlink_method.result}" );
+    XTUML_EMPTY_HANDLE_TRACE( "${assr_obj.Key_Lett}", "${unrelate_method}" );
     return;
   }
   .else

@@ -40,11 +40,11 @@ ${te_instance.create_persistent}\
     .else
 ${te_instance.create}\
     .end if
-( ${dom_id.name}, ${te_class.system_class_number} );
+( ${dom_id}, ${te_class.system_class_number} );
     if ( 0 != instance ) {
-    .if ( init_uniques.result )
+    .if ( "" != init_uniques )
       ${te_class.GeneratedName} * i = (${te_class.GeneratedName} *) instance;
-${init_uniques.body}\
+${init_uniques}\
     .end if
       instance->${te_instance.current_state} = UNINITIALIZED_STATE;
       SetEventTargetInstance( event, instance );
@@ -104,7 +104,7 @@ ${te_instance.delete_persistent}\
     .else
 ${te_instance.delete}\
     .end if
-( instance, ${dom_id.name}, ${te_class.system_class_number} );
+( instance, ${dom_id}, ${te_class.system_class_number} );
         } else {
           instance->${te_instance.current_state} = next_state;
         }

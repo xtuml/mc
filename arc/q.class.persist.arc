@@ -160,8 +160,9 @@ ${te_relstore.link_calls}\
     .invoke post_link = GetPersistentPostLinkName()
   ${post_link.name}(
     .select one te_c related by owner_te_class->TE_C[R2064]
-    .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
-    ${operation}, ${dom_id.name}, ${owner_te_class.system_class_number}, ${te_relstore.link_index},
+    .invoke r = GetDomainTypeIDFromString( te_c.Name )
+    .assign dom_id = r.result
+    ${operation}, ${dom_id}, ${owner_te_class.system_class_number}, ${te_relstore.link_index},
     (${te_instance.handle}) ${left_var}, ${left_te_class.system_class_number},
     (${te_instance.handle}) ${right_var}, ${right_te_class.system_class_number},
     .if ( not_empty assoc_o_obj )

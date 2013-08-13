@@ -94,7 +94,6 @@
       .if ( ( ( ( 0 == object_set_type ) and ( "" != combineddispatchers ) ) or ( ( 1 == object_set_type ) and ( "" != te_class.CBdispatcher ) ) ) or ( ( 2 == object_set_type ) and ( "" == combineddispatchers ) ) )
       .select one o_obj related by te_class->O_OBJ[R2019]
       .assign dispatcher = "0"
-      .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
       .if ( object_set_type == 1 )
         .// assigner
         .assign type_name = te_class.CBsystem_class_number
@@ -102,7 +101,9 @@
         .assign dispatcher = te_class.CBdispatcher
         .assign attr_class_info_init = ( attr_class_info_init + delimiter ) + "\n  0"
       .else
-        .assign attr_class_info_init = ( attr_class_info_init + delimiter ) + ( "\n  &" + extent_info.extent )
+        .invoke r = GetFixedSizeClassExtentInfo( te_class )
+        .assign extent = r.result
+        .assign attr_class_info_init = ( attr_class_info_init + delimiter ) + ( "\n  &" + extent )
         .assign type_name = te_class.system_class_number
         .assign class_name = te_class.GeneratedName
         .if ( object_set_type == 0 )

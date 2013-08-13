@@ -107,7 +107,8 @@ ${ws}${te_assign.lval} = ${te_assign.rval};
   .select one te_c related by o_obj->TE_CLASS[R2019]->TE_C[R2064]
   .select any te_instance from instances of TE_INSTANCE
   .select one te_class related by o_obj->TE_CLASS[R2019]
-  .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+  .invoke r = GetDomainTypeIDFromString( te_c.Name )
+  .assign dom_id = r.result
   .invoke init_uniques = AutoInitializeUniqueIDs( te_class, var_name )
   .assign attr_declaration = ""
   .if ( is_implicit )
@@ -119,7 +120,7 @@ ${te_instance.create_persistent}\
   .else
 ${te_instance.create}\
   .end if
-( ${dom_id.name}, ${te_class.system_class_number} );
+( ${dom_id}, ${te_class.system_class_number} );
   .if ( "" != init_uniques.body )
 ${ws}${init_uniques.body}\
   .end if
@@ -134,7 +135,8 @@ ${ws}${init_uniques.body}\
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by o_obj->TE_CLASS[R2019]->TE_C[R2064]
   .if ( not_empty te_c )
-    .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+    .invoke r = GetDomainTypeIDFromString( te_c.Name )
+    .assign dom_id = r.result
     .if ( te_c.DetectEmpty )
 ${ws}if ( 0 == ${var_name} ) {
 ${ws}  XTUML_EMPTY_HANDLE_TRACE( "${o_obj.Key_Lett}", "${te_instance.delete}" );
@@ -146,7 +148,7 @@ ${te_instance.delete_persistent}\
     .else
 ${te_instance.delete}\
     .end if
-( (${te_instance.handle}) ${var_name}, ${dom_id.name}, ${te_class.system_class_number} );
+( (${te_instance.handle}) ${var_name}, ${dom_id}, ${te_class.system_class_number} );
   .end if
 .end function
 .//------------------------------------------------

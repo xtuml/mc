@@ -25,6 +25,7 @@
   .param inst_ref o_oid
   .param boolean  gen_declaration
   .//
+  .select any te_extent from instances of TE_EXTENT
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_set from instances of TE_SET
@@ -79,8 +80,8 @@
   .if ( gen_declaration )
     .include "${te_file.arc_path}/t.class.select_where.h"
   .else
-    .select one o_obj related by te_class->O_OBJ[R2019]
-    .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
+    .invoke r = GetFixedSizeClassExtentInfo( te_class )
+    .assign extent = r.result
     .assign iterator = "iter_${te_class.Key_Lett}"
     .include "${te_file.arc_path}/t.class.select_where.c"
   .end if  .// gen_declaration

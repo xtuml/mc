@@ -9,4 +9,4 @@ ${te_instance.delete_persistent}\
 .else
 ${te_instance.delete}\
 .end if
-( (${te_instance.handle}) ${te_var.buffer}, ${dom_id.name}, ${te_class.system_class_number} );
+( (${te_instance.handle}) ${te_var.buffer}, ${dom_id}, ${te_class.system_class_number} );
