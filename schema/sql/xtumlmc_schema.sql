@@ -3125,7 +3125,7 @@ CREATE TABLE TE_MACT (
 	Descrip	STRING,
 	GeneratedName	STRING,
 	ComponentName	STRING,
-	DomainName	STRING,
+	OALParamBuffer	STRING,
 	PortName	STRING,
 	InterfaceName	STRING,
 	MessageName	STRING,
