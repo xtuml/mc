@@ -17,4 +17,9 @@ rsl2oal < ../../arc/frag_util.arc >> o.oal
 rsl2oal < ../../arc/q.val.translate.arc > o2.oal
 
 # Third list for afunsmt
-rsl2oal < ../../arc/q.smt.generate.arc > o3.oal
+rsl2oal < ../../arc/q.oal.translate.arc > o3.oal
+rsl2oal < ../../arc/q.oal.action.arc >> o3.oal
+rsl2oal < ../../arc/q.oal.act_blk.arc >> o3.oal
+rsl2oal < ../../arc/q.smt.generate.arc >> o3.oal
+rsl2oal < ../../arc/q.r_rel.arc >> o3.oal
+rsl2oal < ../../arc/q.names.arc >> o3.oal

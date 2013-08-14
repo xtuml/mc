@@ -3478,6 +3478,449 @@ INSERT INTO DIM_DIA
 	2000.000000,
 	667.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("ef4df26d-7f96-40e9-b9bf-70e868657751",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Create Event Statement>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ef4df26d-7f96-40e9-b9bf-70e868657751",
+	0,
+	"47a19101-2227-4bec-a0e1-96f688ce8b26");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("47a19101-2227-4bec-a0e1-96f688ce8b26",
+	'Create Event Statement',
+	710,
+	'E_CES',
+	'This class captures the data for a statement that creates an instance
+of an event.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Create Event Statement/Create Event Statement.xtuml');
+INSERT INTO PE_PE
+	VALUES ("ef4df26d-7f96-40e9-b9bf-70e868657751",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("a770b672-7b4d-4c3f-b389-2fbd0943d001",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Create Event Statement>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("a770b672-7b4d-4c3f-b389-2fbd0943d001",
+	1,
+	"47a19101-2227-4bec-a0e1-96f688ce8b26");
+INSERT INTO PE_PE
+	VALUES ("a770b672-7b4d-4c3f-b389-2fbd0943d001",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("27f03619-c915-43fc-9390-0d97572100fe",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Create Event to Class>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("27f03619-c915-43fc-9390-0d97572100fe",
+	0,
+	"504fc66e-2125-4510-853a-5d2d7a550be0");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("504fc66e-2125-4510-853a-5d2d7a550be0",
+	'Create Event to Class',
+	703,
+	'E_CEA',
+	'This class represents the precreation of an event to a class for later delivery. Uses the same concepts as Generate to Class but does not actually generate the event. It instead yields an event instance that can be generated later using Generate Preexisting Event.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Create Event to Class/Create Event to Class.xtuml');
+INSERT INTO PE_PE
+	VALUES ("27f03619-c915-43fc-9390-0d97572100fe",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7976e7b9-515b-4af7-83f2-16cf5e97c4d0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Create Event to Class>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7976e7b9-515b-4af7-83f2-16cf5e97c4d0",
+	1,
+	"504fc66e-2125-4510-853a-5d2d7a550be0");
+INSERT INTO PE_PE
+	VALUES ("7976e7b9-515b-4af7-83f2-16cf5e97c4d0",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("e0ca4ef9-a176-448f-9780-8d9a324a8b4b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Create Event to Creator>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("e0ca4ef9-a176-448f-9780-8d9a324a8b4b",
+	0,
+	"0109289c-061e-4b1c-9e5a-8dbca75e62e8");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("0109289c-061e-4b1c-9e5a-8dbca75e62e8",
+	'Create Event to Creator',
+	708,
+	'E_CEC',
+	'This class specifies the precreation of a creation event to a class for later delivery. Uses the same concepts as Generate to Creator but does not actually generate the event. It instead yields an event instance that can be generated later using Generate Preexisting Event.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Create Event to Creator/Create Event to Creator.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e0ca4ef9-a176-448f-9780-8d9a324a8b4b",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8a68fc6f-9262-4219-8b33-714ec8b2f8b8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Create Event to Creator>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8a68fc6f-9262-4219-8b33-714ec8b2f8b8",
+	1,
+	"0109289c-061e-4b1c-9e5a-8dbca75e62e8");
+INSERT INTO PE_PE
+	VALUES ("8a68fc6f-9262-4219-8b33-714ec8b2f8b8",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8d166633-4ccf-42f4-88f1-76927b474583",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Create Event to Instance>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8d166633-4ccf-42f4-88f1-76927b474583",
+	0,
+	"e3dcdb1b-6995-40a4-829d-e3d24b6c4890");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	'Create Event to Instance',
+	700,
+	'E_CEI',
+	'This class represents the precreation of an event to an instance for later delivery. Uses the same concepts as Generate but does not actually generate the event. It instead yields an event instance that can be generated later using Generate Preexisting Event.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Create Event to Instance/Create Event to Instance.xtuml');
+INSERT INTO PE_PE
+	VALUES ("8d166633-4ccf-42f4-88f1-76927b474583",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("3cc4dd8c-a355-44ab-9306-d8288129b54e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Create Event to Instance>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("3cc4dd8c-a355-44ab-9306-d8288129b54e",
+	1,
+	"e3dcdb1b-6995-40a4-829d-e3d24b6c4890");
+INSERT INTO PE_PE
+	VALUES ("3cc4dd8c-a355-44ab-9306-d8288129b54e",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("2e981d36-5dd1-42db-b777-f4ebdad03733",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Create SM Event Statement>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2e981d36-5dd1-42db-b777-f4ebdad03733",
+	0,
+	"c70d6d60-7f61-4c0e-8822-ddb5ea21804c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("c70d6d60-7f61-4c0e-8822-ddb5ea21804c",
+	'Create SM Event Statement',
+	712,
+	'E_CSME',
+	'This class captures the common data (the event being created) for a
+statement that creates an instance of an event to a statechart.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Create SM Event Statement/Create SM Event Statement.xtuml');
+INSERT INTO PE_PE
+	VALUES ("2e981d36-5dd1-42db-b777-f4ebdad03733",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("9776b664-6834-4c3b-8074-18ea24d7bdd3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Create SM Event Statement>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9776b664-6834-4c3b-8074-18ea24d7bdd3",
+	1,
+	"c70d6d60-7f61-4c0e-8822-ddb5ea21804c");
+INSERT INTO PE_PE
+	VALUES ("9776b664-6834-4c3b-8074-18ea24d7bdd3",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("c518d401-e546-4ce8-871f-8901dc269705",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("c518d401-e546-4ce8-871f-8901dc269705",
+	0,
+	"b7510f6e-2bf4-46b7-a6a9-912e59b67d91");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("b7510f6e-2bf4-46b7-a6a9-912e59b67d91",
+	'Generate',
+	701,
+	'E_GEN',
+	'This class represents the generation of an event to a target instance.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Generate/Generate.xtuml');
+INSERT INTO PE_PE
+	VALUES ("c518d401-e546-4ce8-871f-8901dc269705",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("87956615-752b-4fbc-8d0a-25a64f356f57",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Generate>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("87956615-752b-4fbc-8d0a-25a64f356f57",
+	1,
+	"b7510f6e-2bf4-46b7-a6a9-912e59b67d91");
+INSERT INTO PE_PE
+	VALUES ("87956615-752b-4fbc-8d0a-25a64f356f57",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("17947aef-e45b-4079-8839-085bcf4a5065",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate Event Statement>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("17947aef-e45b-4079-8839-085bcf4a5065",
+	0,
+	"1cf52a77-f565-44de-913c-8629b46f9579");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("1cf52a77-f565-44de-913c-8629b46f9579",
+	'Generate Event Statement',
+	711,
+	'E_GES',
+	'This class captures the common data for all statements that generate an event.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Generate Event Statement/Generate Event Statement.xtuml');
+INSERT INTO PE_PE
+	VALUES ("17947aef-e45b-4079-8839-085bcf4a5065",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("330827df-75a8-40ee-871e-bfded3710c66",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Generate Event Statement>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("330827df-75a8-40ee-871e-bfded3710c66",
+	1,
+	"1cf52a77-f565-44de-913c-8629b46f9579");
+INSERT INTO PE_PE
+	VALUES ("330827df-75a8-40ee-871e-bfded3710c66",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8b663a15-3d11-4c95-8407-3642dfeeadd7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate Preexisting Event>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8b663a15-3d11-4c95-8407-3642dfeeadd7",
+	0,
+	"64c97785-a087-4da8-a95f-c31259f310b6");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("64c97785-a087-4da8-a95f-c31259f310b6",
+	'Generate Preexisting Event',
+	702,
+	'E_GPR',
+	'Generates a preexisting event. The event instance captures the event, its data and its target.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Generate Preexisting Event/Generate Preexisting Event.xtuml');
+INSERT INTO PE_PE
+	VALUES ("8b663a15-3d11-4c95-8407-3642dfeeadd7",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7235a3e4-68ce-4b09-b602-332043ca02c3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Generate Preexisting Event>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7235a3e4-68ce-4b09-b602-332043ca02c3",
+	1,
+	"64c97785-a087-4da8-a95f-c31259f310b6");
+INSERT INTO PE_PE
+	VALUES ("7235a3e4-68ce-4b09-b602-332043ca02c3",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("63675bcb-23a0-4df6-88c0-07e6816d0db2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate SM Event Statement>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("63675bcb-23a0-4df6-88c0-07e6816d0db2",
+	0,
+	"2cf271a4-0d82-421b-8dad-55aff2a2c22c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("2cf271a4-0d82-421b-8dad-55aff2a2c22c",
+	'Generate SM Event Statement',
+	713,
+	'E_GSME',
+	'This class captures the common data (the event being generated) for a
+statement that generates an event to a statechart.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Generate SM Event Statement/Generate SM Event Statement.xtuml');
+INSERT INTO PE_PE
+	VALUES ("63675bcb-23a0-4df6-88c0-07e6816d0db2",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8a71811b-96a9-43fa-9503-4a8a4f2f6bd9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Generate SM Event Statement>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8a71811b-96a9-43fa-9503-4a8a4f2f6bd9",
+	1,
+	"2cf271a4-0d82-421b-8dad-55aff2a2c22c");
+INSERT INTO PE_PE
+	VALUES ("8a71811b-96a9-43fa-9503-4a8a4f2f6bd9",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("43ed0054-aa11-45eb-adfc-7ef5fbdd4c26",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate to Class>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("43ed0054-aa11-45eb-adfc-7ef5fbdd4c26",
+	0,
+	"b5b8b40c-c056-4175-ab9a-4a702a4f5dd6");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("b5b8b40c-c056-4175-ab9a-4a702a4f5dd6",
+	'Generate to Class',
+	704,
+	'E_GAR',
+	'This class represents the generation of an event to a target class.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Generate to Class/Generate to Class.xtuml');
+INSERT INTO PE_PE
+	VALUES ("43ed0054-aa11-45eb-adfc-7ef5fbdd4c26",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("9954a9a5-6672-4e4a-abdc-213bf3eeee63",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Generate to Class>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9954a9a5-6672-4e4a-abdc-213bf3eeee63",
+	1,
+	"b5b8b40c-c056-4175-ab9a-4a702a4f5dd6");
+INSERT INTO PE_PE
+	VALUES ("9954a9a5-6672-4e4a-abdc-213bf3eeee63",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("9e39f4c4-cdf9-4fec-a290-ce5267810440",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate to Creator>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9e39f4c4-cdf9-4fec-a290-ce5267810440",
+	0,
+	"8bf3f8e3-831b-4ea9-9384-a99568ae4719");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("8bf3f8e3-831b-4ea9-9384-a99568ae4719",
+	'Generate to Creator',
+	705,
+	'E_GEC',
+	'This class represents the generation of a creation event to a target class. This has the effect of creating an instance and then delivering the event to the instance.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Generate to Creator/Generate to Creator.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9e39f4c4-cdf9-4fec-a290-ce5267810440",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("85953fce-d7a2-42da-b0c3-e4f38e537472",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Generate to Creator>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("85953fce-d7a2-42da-b0c3-e4f38e537472",
+	1,
+	"8bf3f8e3-831b-4ea9-9384-a99568ae4719");
+INSERT INTO PE_PE
+	VALUES ("85953fce-d7a2-42da-b0c3-e4f38e537472",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("930166bf-dec4-494f-b003-97918aa79d52");
 INSERT INTO R_REL
@@ -3501,14 +3944,6 @@ INSERT INTO R_OIR
 	"930166bf-dec4-494f-b003-97918aa79d52",
 	"bdfe4514-9b7c-4108-9a22-0976560fe225",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("b7510f6e-2bf4-46b7-a6a9-912e59b67d91",
-	'Generate',
-	701,
-	'E_GEN',
-	'This class represents the generation of an event to a target instance.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Generate/Generate.xtuml');
 INSERT INTO R_PART
 	VALUES ("202c7c94-3f8a-4f9d-804d-7c559a723444",
 	"930166bf-dec4-494f-b003-97918aa79d52",
@@ -3579,14 +4014,6 @@ INSERT INTO R_OIR
 	"ba0e93a0-d6ca-4099-9410-d43af4b86a3e",
 	"82de5dbf-8752-4fc9-a0d7-574d6e87beda",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
-	'Create Event to Instance',
-	700,
-	'E_CEI',
-	'This class represents the precreation of an event to an instance for later delivery. Uses the same concepts as Generate but does not actually generate the event. It instead yields an event instance that can be generated later using Generate Preexisting Event.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Create Event to Instance/Create Event to Instance.xtuml');
 INSERT INTO R_PART
 	VALUES ("202c7c94-3f8a-4f9d-804d-7c559a723444",
 	"ba0e93a0-d6ca-4099-9410-d43af4b86a3e",
@@ -3831,15 +4258,6 @@ INSERT INTO R_OIR
 	"2931e19a-8138-4c00-bd01-d3f5393dd95b",
 	"11da26ce-e167-40e8-b97c-65df8f3cef77",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("47a19101-2227-4bec-a0e1-96f688ce8b26",
-	'Create Event Statement',
-	710,
-	'E_CES',
-	'This class captures the data for a statement that creates an instance
-of an event.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Create Event Statement/Create Event Statement.xtuml');
 INSERT INTO R_SUB
 	VALUES ("1cf52a77-f565-44de-913c-8629b46f9579",
 	"2931e19a-8138-4c00-bd01-d3f5393dd95b",
@@ -3853,14 +4271,6 @@ INSERT INTO R_OIR
 	"2931e19a-8138-4c00-bd01-d3f5393dd95b",
 	"a6db697f-aead-453f-a06d-4d73a505a83d",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("1cf52a77-f565-44de-913c-8629b46f9579",
-	'Generate Event Statement',
-	711,
-	'E_GES',
-	'This class captures the common data for all statements that generate an event.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Generate Event Statement/Generate Event Statement.xtuml');
 INSERT INTO PE_PE
 	VALUES ("2931e19a-8138-4c00-bd01-d3f5393dd95b",
 	1,
@@ -3982,15 +4392,6 @@ INSERT INTO R_OIR
 	"c43c9733-8234-42ca-ad84-c3f582d5f1cc",
 	"c3bde75f-52fa-41e5-9b75-94f44e7a611b",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("c70d6d60-7f61-4c0e-8822-ddb5ea21804c",
-	'Create SM Event Statement',
-	712,
-	'E_CSME',
-	'This class captures the common data (the event being created) for a
-statement that creates an instance of an event to a statechart.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Create SM Event Statement/Create SM Event Statement.xtuml');
 INSERT INTO PE_PE
 	VALUES ("c43c9733-8234-42ca-ad84-c3f582d5f1cc",
 	1,
@@ -4060,15 +4461,6 @@ INSERT INTO R_OIR
 	"881d9540-420c-4c1c-8495-ca0b24e2dc13",
 	"d7bcf166-5674-4000-b5f9-ba5558897381",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("2cf271a4-0d82-421b-8dad-55aff2a2c22c",
-	'Generate SM Event Statement',
-	713,
-	'E_GSME',
-	'This class captures the common data (the event being generated) for a
-statement that generates an event to a statechart.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Generate SM Event Statement/Generate SM Event Statement.xtuml');
 INSERT INTO PE_PE
 	VALUES ("881d9540-420c-4c1c-8495-ca0b24e2dc13",
 	1,
@@ -4208,14 +4600,6 @@ INSERT INTO R_OIR
 	"691647b3-ae12-4182-b4aa-ae8798f75e20",
 	"114df5bf-d388-4fe1-a6d8-2e0f7fc9aa01",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("504fc66e-2125-4510-853a-5d2d7a550be0",
-	'Create Event to Class',
-	703,
-	'E_CEA',
-	'This class represents the precreation of an event to a class for later delivery. Uses the same concepts as Generate to Class but does not actually generate the event. It instead yields an event instance that can be generated later using Generate Preexisting Event.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Create Event to Class/Create Event to Class.xtuml');
 INSERT INTO R_SUB
 	VALUES ("0109289c-061e-4b1c-9e5a-8dbca75e62e8",
 	"691647b3-ae12-4182-b4aa-ae8798f75e20",
@@ -4229,14 +4613,6 @@ INSERT INTO R_OIR
 	"691647b3-ae12-4182-b4aa-ae8798f75e20",
 	"0d01d691-c758-4ada-90ff-b3ecdfebdc42",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("0109289c-061e-4b1c-9e5a-8dbca75e62e8",
-	'Create Event to Creator',
-	708,
-	'E_CEC',
-	'This class specifies the precreation of a creation event to a class for later delivery. Uses the same concepts as Generate to Creator but does not actually generate the event. It instead yields an event instance that can be generated later using Generate Preexisting Event.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Create Event to Creator/Create Event to Creator.xtuml');
 INSERT INTO PE_PE
 	VALUES ("691647b3-ae12-4182-b4aa-ae8798f75e20",
 	1,
@@ -4306,14 +4682,6 @@ INSERT INTO R_OIR
 	"303fb70e-9d9b-446b-8414-40f869566eac",
 	"ed0e7b36-b27c-47df-bef2-8ad5774615a3",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("b5b8b40c-c056-4175-ab9a-4a702a4f5dd6",
-	'Generate to Class',
-	704,
-	'E_GAR',
-	'This class represents the generation of an event to a target class.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Generate to Class/Generate to Class.xtuml');
 INSERT INTO R_SUB
 	VALUES ("8bf3f8e3-831b-4ea9-9384-a99568ae4719",
 	"303fb70e-9d9b-446b-8414-40f869566eac",
@@ -4327,14 +4695,6 @@ INSERT INTO R_OIR
 	"303fb70e-9d9b-446b-8414-40f869566eac",
 	"70701176-3ad1-4584-a073-7d1c97af6ff9",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("8bf3f8e3-831b-4ea9-9384-a99568ae4719",
-	'Generate to Creator',
-	705,
-	'E_GEC',
-	'This class represents the generation of a creation event to a target class. This has the effect of creating an instance and then delivering the event to the instance.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Generate to Creator/Generate to Creator.xtuml');
 INSERT INTO PE_PE
 	VALUES ("303fb70e-9d9b-446b-8414-40f869566eac",
 	1,
@@ -4476,14 +4836,6 @@ INSERT INTO R_OIR
 	"2313b520-b016-4ae6-abd8-b46dd46d5615",
 	"ce7d2b25-0fd5-4b41-9707-d85ed742a641",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("64c97785-a087-4da8-a95f-c31259f310b6",
-	'Generate Preexisting Event',
-	702,
-	'E_GPR',
-	'Generates a preexisting event. The event instance captures the event, its data and its target.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Generate Preexisting Event/Generate Preexisting Event.xtuml');
 INSERT INTO R_PART
 	VALUES ("92c84494-204f-410c-a272-a04ae1fc102d",
 	"2313b520-b016-4ae6-abd8-b46dd46d5615",

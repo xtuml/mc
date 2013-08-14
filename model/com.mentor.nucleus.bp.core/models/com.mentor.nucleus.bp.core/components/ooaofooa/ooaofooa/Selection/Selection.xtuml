@@ -2082,6 +2082,208 @@ INSERT INTO PE_PE
 	"a91406b1-941c-4387-b953-617ef5dc37eb",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("601e1da3-d769-4742-b08f-666e38588da0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Select>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("601e1da3-d769-4742-b08f-666e38588da0",
+	0,
+	"2f7613a1-023e-45f9-8923-e7bdd95a4497");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("2f7613a1-023e-45f9-8923-e7bdd95a4497",
+	'Select',
+	605,
+	'ACT_SEL',
+	'This class represents a statement that selects a set of  instances.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Select/Select.xtuml');
+INSERT INTO PE_PE
+	VALUES ("601e1da3-d769-4742-b08f-666e38588da0",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("76783b6a-4311-4b29-805f-dc77d9ae7644",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Select>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("76783b6a-4311-4b29-805f-dc77d9ae7644",
+	1,
+	"2f7613a1-023e-45f9-8923-e7bdd95a4497");
+INSERT INTO PE_PE
+	VALUES ("76783b6a-4311-4b29-805f-dc77d9ae7644",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7c224141-b812-43f9-b35b-3b50adc6266d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Select From Instances>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7c224141-b812-43f9-b35b-3b50adc6266d",
+	0,
+	"129a43ad-7566-4fe3-ae47-a7644f92d7a7");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("129a43ad-7566-4fe3-ae47-a7644f92d7a7",
+	'Select From Instances',
+	612,
+	'ACT_FIO',
+	'This class represents a statement that selects a set of  instances from a class extent.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Select From Instances/Select From Instances.xtuml');
+INSERT INTO PE_PE
+	VALUES ("7c224141-b812-43f9-b35b-3b50adc6266d",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("218b2b2d-a1c6-41fe-a9dc-7ff9328f8319",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Select From Instances>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("218b2b2d-a1c6-41fe-a9dc-7ff9328f8319",
+	1,
+	"129a43ad-7566-4fe3-ae47-a7644f92d7a7");
+INSERT INTO PE_PE
+	VALUES ("218b2b2d-a1c6-41fe-a9dc-7ff9328f8319",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("95efa184-df88-42fe-8068-f0050e6fff8a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Select From Instances Where>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("95efa184-df88-42fe-8068-f0050e6fff8a",
+	0,
+	"394f0532-a919-4930-9471-0ea61182d959");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("394f0532-a919-4930-9471-0ea61182d959",
+	'Select From Instances Where',
+	611,
+	'ACT_FIW',
+	'This class represents a statement that selects a set of  instances from a class extent with the support of a where clause.  The where clause consists of a boolean expression containing the special instance handle ''selected''. If the expression evaluates to true, the instance represented by ''selected '' is added to the result set of the statement.
+',
+	"00000000-0000-0000-0000-000000000000",
+	'./Select From Instances Where/Select From Instances Where.xtuml');
+INSERT INTO PE_PE
+	VALUES ("95efa184-df88-42fe-8068-f0050e6fff8a",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0705f436-8892-4965-b555-23f8b3e27631",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Select From Instances Where>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0705f436-8892-4965-b555-23f8b3e27631",
+	1,
+	"394f0532-a919-4930-9471-0ea61182d959");
+INSERT INTO PE_PE
+	VALUES ("0705f436-8892-4965-b555-23f8b3e27631",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("59c9be72-440c-48ba-bd1e-0242388b865e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Select Related By>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("59c9be72-440c-48ba-bd1e-0242388b865e",
+	0,
+	"a664d01b-e8d1-4662-9a8d-9fb0d26da420");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a664d01b-e8d1-4662-9a8d-9fb0d26da420",
+	'Select Related By',
+	623,
+	'ACT_SR',
+	'This class represents a statement that selects a set of instances related across one or more associations.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Select Related By/Select Related By.xtuml');
+INSERT INTO PE_PE
+	VALUES ("59c9be72-440c-48ba-bd1e-0242388b865e",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("f45ee1a7-5d21-4e80-8c76-e7cf50b25ec8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Select Related By>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f45ee1a7-5d21-4e80-8c76-e7cf50b25ec8",
+	1,
+	"a664d01b-e8d1-4662-9a8d-9fb0d26da420");
+INSERT INTO PE_PE
+	VALUES ("f45ee1a7-5d21-4e80-8c76-e7cf50b25ec8",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("61d68936-4049-44d8-b7ab-f55f9a81d548",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Select Related Where>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("61d68936-4049-44d8-b7ab-f55f9a81d548",
+	0,
+	"e8da86cb-882a-462b-a838-7ef4b8184a13");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("e8da86cb-882a-462b-a838-7ef4b8184a13",
+	'Select Related Where',
+	604,
+	'ACT_SRW',
+	'This class represents a statement that selects a set of instances related across one or more associations with the support of a where clause.  The where clause consists of a boolean expression containing the special instance handle ''selected''. If the expression evaluates to true, the instance represented by ''selected '' is added to the result set of the statement.
+',
+	"00000000-0000-0000-0000-000000000000",
+	'./Select Related Where/Select Related Where.xtuml');
+INSERT INTO PE_PE
+	VALUES ("61d68936-4049-44d8-b7ab-f55f9a81d548",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("1dadae3f-e968-4a36-bd3c-c507f0ab827b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Select Related Where>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("1dadae3f-e968-4a36-bd3c-c507f0ab827b",
+	1,
+	"e8da86cb-882a-462b-a838-7ef4b8184a13");
+INSERT INTO PE_PE
+	VALUES ("1dadae3f-e968-4a36-bd3c-c507f0ab827b",
+	1,
+	"a91406b1-941c-4387-b953-617ef5dc37eb",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("be47bce3-afa1-4dc1-b6f3-2c751c05fa93");
 INSERT INTO R_REL
@@ -2181,14 +2383,6 @@ INSERT INTO R_OIR
 	"403c0184-ccee-4ef3-812d-af1146aede89",
 	"731fb7fa-c639-4fb1-80a2-bb40db77d01a",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("2f7613a1-023e-45f9-8923-e7bdd95a4497",
-	'Select',
-	605,
-	'ACT_SEL',
-	'This class represents a statement that selects a set of  instances.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Select/Select.xtuml');
 INSERT INTO R_SUB
 	VALUES ("e8da86cb-882a-462b-a838-7ef4b8184a13",
 	"403c0184-ccee-4ef3-812d-af1146aede89",
@@ -2202,15 +2396,6 @@ INSERT INTO R_OIR
 	"403c0184-ccee-4ef3-812d-af1146aede89",
 	"1220da6f-4954-4759-80ab-f8d8c6c93be2",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("e8da86cb-882a-462b-a838-7ef4b8184a13",
-	'Select Related Where',
-	604,
-	'ACT_SRW',
-	'This class represents a statement that selects a set of instances related across one or more associations with the support of a where clause.  The where clause consists of a boolean expression containing the special instance handle ''selected''. If the expression evaluates to true, the instance represented by ''selected '' is added to the result set of the statement.
-',
-	"00000000-0000-0000-0000-000000000000",
-	'./Select Related Where/Select Related Where.xtuml');
 INSERT INTO R_SUB
 	VALUES ("a664d01b-e8d1-4662-9a8d-9fb0d26da420",
 	"403c0184-ccee-4ef3-812d-af1146aede89",
@@ -2224,14 +2409,6 @@ INSERT INTO R_OIR
 	"403c0184-ccee-4ef3-812d-af1146aede89",
 	"a36ab825-7beb-42b5-986f-e9cf714a901a",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a664d01b-e8d1-4662-9a8d-9fb0d26da420",
-	'Select Related By',
-	623,
-	'ACT_SR',
-	'This class represents a statement that selects a set of instances related across one or more associations.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Select Related By/Select Related By.xtuml');
 INSERT INTO PE_PE
 	VALUES ("403c0184-ccee-4ef3-812d-af1146aede89",
 	1,
@@ -2261,15 +2438,6 @@ INSERT INTO R_OIR
 	"5dca5d22-4908-465a-8436-7df97bf9fd77",
 	"1aefa136-1c8c-417d-8d94-e1ed23fc2e96",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("394f0532-a919-4930-9471-0ea61182d959",
-	'Select From Instances Where',
-	611,
-	'ACT_FIW',
-	'This class represents a statement that selects a set of  instances from a class extent with the support of a where clause.  The where clause consists of a boolean expression containing the special instance handle ''selected''. If the expression evaluates to true, the instance represented by ''selected '' is added to the result set of the statement.
-',
-	"00000000-0000-0000-0000-000000000000",
-	'./Select From Instances Where/Select From Instances Where.xtuml');
 INSERT INTO R_PART
 	VALUES ("92c84494-204f-410c-a272-a04ae1fc102d",
 	"5dca5d22-4908-465a-8436-7df97bf9fd77",
@@ -2464,14 +2632,6 @@ INSERT INTO R_OIR
 	"b02a1cff-a41e-45d4-b8ef-e6583bc88827",
 	"dec7845f-bd11-41ea-a159-762de9d593dd",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("129a43ad-7566-4fe3-ae47-a7644f92d7a7",
-	'Select From Instances',
-	612,
-	'ACT_FIO',
-	'This class represents a statement that selects a set of  instances from a class extent.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Select From Instances/Select From Instances.xtuml');
 INSERT INTO R_PART
 	VALUES ("202c7c94-3f8a-4f9d-804d-7c559a723444",
 	"b02a1cff-a41e-45d4-b8ef-e6583bc88827",

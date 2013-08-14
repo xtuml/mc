@@ -2292,6 +2292,248 @@ INSERT INTO DIM_DIA
 	1573.000000,
 	1607.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("b1cfda35-28f8-45ab-b2b4-5a862d70a718",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Return Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("b1cfda35-28f8-45ab-b2b4-5a862d70a718",
+	0,
+	"f834c381-1d14-4833-b338-186079054489");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("f834c381-1d14-4833-b338-186079054489",
+	'Return Stmt',
+	624,
+	'ACT_RET',
+	'Represents a return statement. It has an optional relationship with a value
+because returns may bear a value depending on whether the callee
+returns void or not.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Return Stmt/Return Stmt.xtuml');
+INSERT INTO PE_PE
+	VALUES ("b1cfda35-28f8-45ab-b2b4-5a862d70a718",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0b673ac7-6944-4940-b218-8d8929d7a18f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Return Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0b673ac7-6944-4940-b218-8d8929d7a18f",
+	1,
+	"f834c381-1d14-4833-b338-186079054489");
+INSERT INTO PE_PE
+	VALUES ("0b673ac7-6944-4940-b218-8d8929d7a18f",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("75356ebb-c686-49a4-95c7-6a54deaa4225",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Signal Invocation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("75356ebb-c686-49a4-95c7-6a54deaa4225",
+	0,
+	"549da0d7-80cb-4412-9bf0-f66e635a54a3");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("549da0d7-80cb-4412-9bf0-f66e635a54a3",
+	'Signal Invocation',
+	627,
+	'ACT_SGN',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Signal Invocation/Signal Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("75356ebb-c686-49a4-95c7-6a54deaa4225",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("9a6617d0-f2c8-4541-9f27-00fc87b99311",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Signal Invocation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9a6617d0-f2c8-4541-9f27-00fc87b99311",
+	1,
+	"549da0d7-80cb-4412-9bf0-f66e635a54a3");
+INSERT INTO PE_PE
+	VALUES ("9a6617d0-f2c8-4541-9f27-00fc87b99311",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("1090fd76-cbf2-431b-8b76-774d8967448d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Operation Invocation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("1090fd76-cbf2-431b-8b76-774d8967448d",
+	0,
+	"6ff0ad9f-b67b-49df-971a-cb31519776b9");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("6ff0ad9f-b67b-49df-971a-cb31519776b9",
+	'Operation Invocation',
+	618,
+	'ACT_TFM',
+	'This class represents the invocation of an operation.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Operation Invocation/Operation Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("1090fd76-cbf2-431b-8b76-774d8967448d",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("cd56d3c7-1270-4380-8eab-dca6fa244373",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Operation Invocation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("cd56d3c7-1270-4380-8eab-dca6fa244373",
+	1,
+	"6ff0ad9f-b67b-49df-971a-cb31519776b9");
+INSERT INTO PE_PE
+	VALUES ("cd56d3c7-1270-4380-8eab-dca6fa244373",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("45d7ef3c-6fb3-48f3-b2ca-de2c2efcc6dd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Interface Operation Invocation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("45d7ef3c-6fb3-48f3-b2ca-de2c2efcc6dd",
+	0,
+	"a3b6571f-b5cc-491a-aff5-ffd884d8affd");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a3b6571f-b5cc-491a-aff5-ffd884d8affd",
+	'Interface Operation Invocation',
+	626,
+	'ACT_IOP',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Interface Operation Invocation/Interface Operation Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("45d7ef3c-6fb3-48f3-b2ca-de2c2efcc6dd",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0162e2d6-f878-41a9-b80a-b22b295df5a5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Interface Operation Invocation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0162e2d6-f878-41a9-b80a-b22b295df5a5",
+	1,
+	"a3b6571f-b5cc-491a-aff5-ffd884d8affd");
+INSERT INTO PE_PE
+	VALUES ("0162e2d6-f878-41a9-b80a-b22b295df5a5",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0261bf9d-1ddb-4836-a9fe-ea608a52d9c3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function Invocation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0261bf9d-1ddb-4836-a9fe-ea608a52d9c3",
+	0,
+	"adc39991-31bc-40b3-a839-da213fd82552");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("adc39991-31bc-40b3-a839-da213fd82552",
+	'Function Invocation',
+	625,
+	'ACT_FNC',
+	'This class represents the invocation of a function.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Function Invocation/Function Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("0261bf9d-1ddb-4836-a9fe-ea608a52d9c3",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("4521c646-d817-4223-a90c-e7d273856828",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Function Invocation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("4521c646-d817-4223-a90c-e7d273856828",
+	1,
+	"adc39991-31bc-40b3-a839-da213fd82552");
+INSERT INTO PE_PE
+	VALUES ("4521c646-d817-4223-a90c-e7d273856828",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("87af29ba-2da9-411e-9287-ee0b2ca1dd65",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Bridge Invocation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("87af29ba-2da9-411e-9287-ee0b2ca1dd65",
+	0,
+	"82b2640a-c2fb-4010-84fa-8e6f6a89ee81");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("82b2640a-c2fb-4010-84fa-8e6f6a89ee81",
+	'Bridge Invocation',
+	620,
+	'ACT_BRG',
+	'This class represents the invocation of an External Entity Bridge.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Bridge Invocation/Bridge Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("87af29ba-2da9-411e-9287-ee0b2ca1dd65",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("915caa1e-9af0-4320-a258-1a5ad5990f0c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Bridge Invocation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("915caa1e-9af0-4320-a258-1a5ad5990f0c",
+	1,
+	"82b2640a-c2fb-4010-84fa-8e6f6a89ee81");
+INSERT INTO PE_PE
+	VALUES ("915caa1e-9af0-4320-a258-1a5ad5990f0c",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("7ffbc099-aec4-48d7-9f5d-0864a7fe1ea5");
 INSERT INTO R_REL
@@ -2315,16 +2557,6 @@ INSERT INTO R_OIR
 	"7ffbc099-aec4-48d7-9f5d-0864a7fe1ea5",
 	"980edc38-589a-4a86-8115-76f1bd5f2d1f",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("f834c381-1d14-4833-b338-186079054489",
-	'Return Stmt',
-	624,
-	'ACT_RET',
-	'Represents a return statement. It has an optional relationship with a value
-because returns may bear a value depending on whether the callee
-returns void or not.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Return Stmt/Return Stmt.xtuml');
 INSERT INTO R_PART
 	VALUES ("92c84494-204f-410c-a272-a04ae1fc102d",
 	"7ffbc099-aec4-48d7-9f5d-0864a7fe1ea5",
@@ -2414,14 +2646,6 @@ INSERT INTO R_OIR
 	"480c0c76-eb2d-43eb-ba02-62be104baf6a",
 	"2abcb0f7-d059-4627-bc08-b91f5acff5a8",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("adc39991-31bc-40b3-a839-da213fd82552",
-	'Function Invocation',
-	625,
-	'ACT_FNC',
-	'This class represents the invocation of a function.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Function Invocation/Function Invocation.xtuml');
 INSERT INTO R_FORM
 	VALUES ("0aee54bd-0b57-4345-aa15-0261702f2128",
 	"480c0c76-eb2d-43eb-ba02-62be104baf6a",
@@ -2492,14 +2716,6 @@ INSERT INTO R_OIR
 	"78446ff6-77fa-4e52-8dde-79e671f419a5",
 	"88ef8a9c-5cc0-42d7-8763-ec7ee4ebf1db",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("82b2640a-c2fb-4010-84fa-8e6f6a89ee81",
-	'Bridge Invocation',
-	620,
-	'ACT_BRG',
-	'This class represents the invocation of an External Entity Bridge.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Bridge Invocation/Bridge Invocation.xtuml');
 INSERT INTO R_FORM
 	VALUES ("0aee54bd-0b57-4345-aa15-0261702f2128",
 	"78446ff6-77fa-4e52-8dde-79e671f419a5",
@@ -2562,14 +2778,6 @@ INSERT INTO R_OIR
 	"40fb9dbe-9e4f-46b6-a599-9f78bc1515f9",
 	"9a5c5f2f-3b69-4e7b-bd4b-f5d338be34cb",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("6ff0ad9f-b67b-49df-971a-cb31519776b9",
-	'Operation Invocation',
-	618,
-	'ACT_TFM',
-	'This class represents the invocation of an operation.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Operation Invocation/Operation Invocation.xtuml');
 INSERT INTO R_FORM
 	VALUES ("0aee54bd-0b57-4345-aa15-0261702f2128",
 	"40fb9dbe-9e4f-46b6-a599-9f78bc1515f9",
@@ -2928,14 +3136,6 @@ INSERT INTO R_OIR
 	"e62c4ef2-d631-45e4-bee5-515d88ad2df1",
 	"be92ae94-ce58-4b6f-9c6f-89520078ae37",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a3b6571f-b5cc-491a-aff5-ffd884d8affd",
-	'Interface Operation Invocation',
-	626,
-	'ACT_IOP',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Interface Operation Invocation/Interface Operation Invocation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("e62c4ef2-d631-45e4-bee5-515d88ad2df1",
 	1,
@@ -2998,14 +3198,6 @@ INSERT INTO R_OIR
 	"0e5e49fe-13d5-4d40-978f-852e7b077bb2",
 	"56f4d823-9bf2-47a4-a1f2-53885917c68f",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("549da0d7-80cb-4412-9bf0-f66e635a54a3",
-	'Signal Invocation',
-	627,
-	'ACT_SGN',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Signal Invocation/Signal Invocation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("0e5e49fe-13d5-4d40-978f-852e7b077bb2",
 	1,

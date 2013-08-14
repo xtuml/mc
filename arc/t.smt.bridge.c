@@ -3,7 +3,7 @@
 .else
 ${ws}${bridge_name}(\
   .if ( "" != parameters )
-${parameters} \
+ ${parameters} \
   .end if
 );
 .end if

@@ -230,7 +230,7 @@
 .//
 .// Find the root of the given value instance.  We may need to 
 .// recurse down in the case of structures and arrays.
-.function V_VAL_drill_for_V_VAL_root
+.function V_VAL_drill_for_V_VAL_root .// v_val
   .param inst_ref v_val
   .assign result = v_val
   .select one root_v_val related by v_val->V_AER[R801]->V_VAL[R838]
@@ -536,7 +536,7 @@
   .assign method = r.result
   .assign left_obj_is_aone = false
   .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
-  .if ( one_o_obj.Obj_Id == r_aone.Obj_ID )
+  .if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
     .assign left_obj_is_aone = true
   .end if
   .include "${te_file.arc_path}/t.smt.relate_using.c"
@@ -594,7 +594,7 @@
   .select many act_urus from instances of ACT_URU
   .for each act_uru in act_urus
     .select one te_smt related by act_uru->ACT_SMT[R603]->TE_SMT[R2038]
-    .invoke r = smt_unrelate_using( act_uru )
+    .invoke r = smt_unrelate_using( te_smt, act_uru )
     .assign te_smt.buffer = r.body
   .end for
 .end function
@@ -646,11 +646,11 @@
   .if ( "C" != te_target.language )
     .assign thismodule = ", thismodule"
   .end if
-  .invoke r = GetAssociativeUnlinkMethodName( one_o_obj, oth_o_obj, ass_o_obj, r_rel, act_ru.relationship_phrase )
+  .invoke r = GetAssociativeUnlinkMethodName( one_o_obj, oth_o_obj, ass_o_obj, r_rel, act_uru.relationship_phrase )
   .assign method = r.result
   .assign left_obj_is_aone = false
   .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
-  .if ( one_o_obj.Obj_Id == r_aone.Obj_ID )
+  .if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
     .assign left_obj_is_aone = true
   .end if
   .include "${te_file.arc_path}/t.smt.unrelate_using.c"
@@ -732,7 +732,7 @@
 .// Recursively drill down into the where clause expression marking
 .// selected attributes along the way.
 .//
-.function v_val_find_v_slr_return_buffer
+.function v_val_find_v_slr_return_buffer .// string
   .param inst_ref v_val
   .assign result = "selected"
   .select one v_slr related by v_val->V_SLR[R801]
@@ -757,7 +757,7 @@
         .assign result = r.result
       .end if
     .else
-    .select one v_uny related by v_val->V_BIN[R801]
+    .select one v_uny related by v_val->V_UNY[R801]
     .if ( not_empty v_uny )
       .select one uny_v_val related by v_uny->V_VAL[R804]
       .invoke r = v_val_find_v_slr_return_buffer( uny_v_val )
@@ -785,8 +785,8 @@
     .assign ws = te_blk.indentation
     .select one v_var related by act_fiw->V_VAR[R665]
     .select one te_var related by v_var->TE_VAR[R2039]
-    .select any where_v_val related by act_fiw->V_VAL[R610]
-    .select any where_te_val related by where_v_val->TE_VAL[R2040]
+    .select one where_v_val related by act_fiw->V_VAL[R610]
+    .select one where_te_val related by where_v_val->TE_VAL[R2040]
     .invoke r = v_val_find_v_slr_return_buffer( where_v_val )
     .assign slrname = r.result
     .assign te_select_where.is_implicit = act_fiw.is_implicit
@@ -906,7 +906,7 @@
       .assign done = true
     .else
       .print "-=-=-=-=-=-=-=-=-=-=-=-=-=- v_par is ${v_par.Name}"
-      .select one sm_evtdi related by v_par->V_VAL[R800]->V_EDV[R801]->V_EPR[R834]->SM_EVTDI[R846]
+      .select any sm_evtdi related by v_par->V_VAL[R800]->V_EDV[R801]->V_EPR[R834]->SM_EVTDI[R846]
       .if (not_empty sm_evtdi)
       .print "-=m=m=m=-=-=-=-=-=-=-=-=-=- sm_evtdi is ${sm_evtdi.Name}"
       .end if
@@ -921,7 +921,7 @@
   .select one e_gsme related by e_gen->E_GSME[R705]
   .select one e_ess related by e_gsme->E_GES[R703]->E_ESS[R701]
   .select one sm_evt related by e_gsme->SM_EVT[R707]
-  .select any te_class related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019]
+  .select one te_class related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019]
   .select one te_evt related by sm_evt->TE_EVT[R2036]
   .if ( ( not_empty te_class ) and ( not_empty te_evt ) )
     .select any te_file from instances of TE_FILE
@@ -1008,9 +1008,9 @@
   .if ( empty o_obj )
     .select one o_obj related by act_sab->SM_ACT[R691]->SM_SM[R515]->SM_ASM[R517]->O_OBJ[R519]
   .end if
-  .select any tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]
+  .select one tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]
   .if ( empty tgt_o_obj )
-    .select any tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519]
+    .select one tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519]
   .end if
   .select one te_class related by tgt_o_obj->TE_CLASS[R2019]
   .select one te_evt related by sm_evt->TE_EVT[R2036]
@@ -1103,7 +1103,7 @@
 .// -------------------------------------------------------------------
 .// Render the call and parameter list for an inter-component message
 .// -------------------------------------------------------------------
-.function q_render_msg
+.function q_render_msg .// string
   .param inst_ref te_mact
   .param inst_ref_set v_pars
   .param string ws
@@ -1588,7 +1588,7 @@
   .// relate te_select_related to start_te_val across R2070;
   .assign te_select_related.starting_Value_ID = start_te_val.Value_ID
   .// end relate
-  .// relate te_select_related to start_te_var across R2071;
+  .// relate te_select_related to start_te_var across R2094;
   .assign te_select_related.starting_Var_ID = start_te_var.Var_ID
   .// end relate
   .// relate te_select_related to te_lnk across R2073;

@@ -30,7 +30,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	0,
-	'',
+	'4.0.0',
 	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Relate And Unrelate');
 INSERT INTO GD_GE
 	VALUES ("d796c0bf-ae59-4010-ba12-963c2cefd7ef",
@@ -1749,6 +1749,166 @@ INSERT INTO DIM_DIA
 	1212.000000,
 	1270.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("f1fd3e4e-7abd-4897-838f-91d7ad1f8bdd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Relate>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f1fd3e4e-7abd-4897-838f-91d7ad1f8bdd",
+	0,
+	"2248887e-03d9-40d6-ac23-243a7e050f40");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("2248887e-03d9-40d6-ac23-243a7e050f40",
+	'Relate',
+	608,
+	'ACT_REL',
+	'This class represents a statement that relates two instances together.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Relate/Relate.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f1fd3e4e-7abd-4897-838f-91d7ad1f8bdd",
+	1,
+	"4c5fdaab-ef8d-4f13-9488-1de4b30d2287",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("dcaec5b3-cc28-4403-991e-32902d3d483d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Relate>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("dcaec5b3-cc28-4403-991e-32902d3d483d",
+	1,
+	"2248887e-03d9-40d6-ac23-243a7e050f40");
+INSERT INTO PE_PE
+	VALUES ("dcaec5b3-cc28-4403-991e-32902d3d483d",
+	1,
+	"4c5fdaab-ef8d-4f13-9488-1de4b30d2287",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0bc12e99-e525-4061-9a2f-722aa9576102",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Relate Using>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0bc12e99-e525-4061-9a2f-722aa9576102",
+	0,
+	"151eabe2-1b13-4be1-a3f0-172c9a192fe9");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("151eabe2-1b13-4be1-a3f0-172c9a192fe9",
+	'Relate Using',
+	615,
+	'ACT_RU',
+	'This class represents a statement that relates two instances together, using a third as a link class instance.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Relate Using/Relate Using.xtuml');
+INSERT INTO PE_PE
+	VALUES ("0bc12e99-e525-4061-9a2f-722aa9576102",
+	1,
+	"4c5fdaab-ef8d-4f13-9488-1de4b30d2287",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("bbe6c7f0-b999-4538-8734-cf5d671f757c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Relate Using>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("bbe6c7f0-b999-4538-8734-cf5d671f757c",
+	1,
+	"151eabe2-1b13-4be1-a3f0-172c9a192fe9");
+INSERT INTO PE_PE
+	VALUES ("bbe6c7f0-b999-4538-8734-cf5d671f757c",
+	1,
+	"4c5fdaab-ef8d-4f13-9488-1de4b30d2287",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("027da7b2-41e8-496d-bd23-4e885028c3fa",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Unrelate>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("027da7b2-41e8-496d-bd23-4e885028c3fa",
+	0,
+	"c58a811c-0d2c-4880-9c20-74bbf3b18e93");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("c58a811c-0d2c-4880-9c20-74bbf3b18e93",
+	'Unrelate',
+	609,
+	'ACT_UNR',
+	'This class represents a statement that unrelates two instances that were related together.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Unrelate/Unrelate.xtuml');
+INSERT INTO PE_PE
+	VALUES ("027da7b2-41e8-496d-bd23-4e885028c3fa",
+	1,
+	"4c5fdaab-ef8d-4f13-9488-1de4b30d2287",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("cfe243ea-8022-4f20-ad1f-c931aa25323a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Unrelate>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("cfe243ea-8022-4f20-ad1f-c931aa25323a",
+	1,
+	"c58a811c-0d2c-4880-9c20-74bbf3b18e93");
+INSERT INTO PE_PE
+	VALUES ("cfe243ea-8022-4f20-ad1f-c931aa25323a",
+	1,
+	"4c5fdaab-ef8d-4f13-9488-1de4b30d2287",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0241bbac-67e0-4ca8-a2ab-5ee6aac4a6a4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Unrelate Using>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0241bbac-67e0-4ca8-a2ab-5ee6aac4a6a4",
+	0,
+	"3524cc7c-89bb-44f5-8873-7cb58c11a2d4");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("3524cc7c-89bb-44f5-8873-7cb58c11a2d4",
+	'Unrelate Using',
+	616,
+	'ACT_URU',
+	'This class represents a statement that unrelates two instances that were related together, using a third as a link class instance.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Unrelate Using/Unrelate Using.xtuml');
+INSERT INTO PE_PE
+	VALUES ("0241bbac-67e0-4ca8-a2ab-5ee6aac4a6a4",
+	1,
+	"4c5fdaab-ef8d-4f13-9488-1de4b30d2287",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("d684cc2b-1684-467c-a965-715fc0d5caee",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Unrelate Using>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("d684cc2b-1684-467c-a965-715fc0d5caee",
+	1,
+	"3524cc7c-89bb-44f5-8873-7cb58c11a2d4");
+INSERT INTO PE_PE
+	VALUES ("d684cc2b-1684-467c-a965-715fc0d5caee",
+	1,
+	"4c5fdaab-ef8d-4f13-9488-1de4b30d2287",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("7906b1f3-6a8f-4f02-b60f-e945db5e29f2");
 INSERT INTO R_REL
@@ -1772,14 +1932,6 @@ INSERT INTO R_OIR
 	"7906b1f3-6a8f-4f02-b60f-e945db5e29f2",
 	"36d35c7f-7731-4d42-bab9-78890fe851c8",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("2248887e-03d9-40d6-ac23-243a7e050f40",
-	'Relate',
-	608,
-	'ACT_REL',
-	'This class represents a statement that relates two instances together.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Relate/Relate.xtuml');
 INSERT INTO R_PART
 	VALUES ("202c7c94-3f8a-4f9d-804d-7c559a723444",
 	"7906b1f3-6a8f-4f02-b60f-e945db5e29f2",
@@ -1902,14 +2054,6 @@ INSERT INTO R_OIR
 	"5b6131fc-966c-4d07-8349-b5a0ddff5bc7",
 	"21d0fd40-661f-4fdf-8d32-52ef47505c33",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("151eabe2-1b13-4be1-a3f0-172c9a192fe9",
-	'Relate Using',
-	615,
-	'ACT_RU',
-	'This class represents a statement that relates two instances together, using a third as a link class instance.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Relate Using/Relate Using.xtuml');
 INSERT INTO R_PART
 	VALUES ("202c7c94-3f8a-4f9d-804d-7c559a723444",
 	"5b6131fc-966c-4d07-8349-b5a0ddff5bc7",
@@ -2066,14 +2210,6 @@ INSERT INTO R_OIR
 	"b7dc1737-1194-496c-a412-e4ba7a5642c8",
 	"ee313cd1-1491-47cd-b071-766a7f3c30c2",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("c58a811c-0d2c-4880-9c20-74bbf3b18e93",
-	'Unrelate',
-	609,
-	'ACT_UNR',
-	'This class represents a statement that unrelates two instances that were related together.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Unrelate/Unrelate.xtuml');
 INSERT INTO R_PART
 	VALUES ("202c7c94-3f8a-4f9d-804d-7c559a723444",
 	"b7dc1737-1194-496c-a412-e4ba7a5642c8",
@@ -2178,14 +2314,6 @@ INSERT INTO R_OIR
 	"f535aff7-5ce3-42dd-a54a-917fc9579d14",
 	"d56c606b-85b4-4e43-ab09-aa25c4ed213b",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("3524cc7c-89bb-44f5-8873-7cb58c11a2d4",
-	'Unrelate Using',
-	616,
-	'ACT_URU',
-	'This class represents a statement that unrelates two instances that were related together, using a third as a link class instance.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Unrelate Using/Unrelate Using.xtuml');
 INSERT INTO R_PART
 	VALUES ("202c7c94-3f8a-4f9d-804d-7c559a723444",
 	"f535aff7-5ce3-42dd-a54a-917fc9579d14",

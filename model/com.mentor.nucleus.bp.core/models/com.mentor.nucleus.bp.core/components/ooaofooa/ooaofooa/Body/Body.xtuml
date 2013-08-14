@@ -10797,6 +10797,326 @@ INSERT INTO DIM_DIA
 	1263.000000,
 	449.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("4928f995-a119-4cb9-96e3-0d5ac8c9bcb6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<While Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("4928f995-a119-4cb9-96e3-0d5ac8c9bcb6",
+	0,
+	"a7a71b35-07aa-455a-a6de-a7f8c4af780a");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a7a71b35-07aa-455a-a6de-a7f8c4af780a",
+	'While Stmt',
+	619,
+	'ACT_WHL',
+	'This class represents a while statement in a block of action language.',
+	"00000000-0000-0000-0000-000000000000",
+	'./While Stmt/While Stmt.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4928f995-a119-4cb9-96e3-0d5ac8c9bcb6",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("e5e48580-03c1-46d4-bb1a-62f1fdea91d1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<While Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("e5e48580-03c1-46d4-bb1a-62f1fdea91d1",
+	1,
+	"a7a71b35-07aa-455a-a6de-a7f8c4af780a");
+INSERT INTO PE_PE
+	VALUES ("e5e48580-03c1-46d4-bb1a-62f1fdea91d1",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("93460d33-1ae8-436f-a8be-11dbbfad9306",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<If Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("93460d33-1ae8-436f-a8be-11dbbfad9306",
+	0,
+	"0cd49c8b-7b78-4ce8-9421-1caebb340422");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("0cd49c8b-7b78-4ce8-9421-1caebb340422",
+	'If Stmt',
+	617,
+	'ACT_IF',
+	'The class represents an if statement in a block of action language.',
+	"00000000-0000-0000-0000-000000000000",
+	'./If Stmt/If Stmt.xtuml');
+INSERT INTO PE_PE
+	VALUES ("93460d33-1ae8-436f-a8be-11dbbfad9306",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("e2ec22a4-09b6-48c9-a161-535733e701db",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<If Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("e2ec22a4-09b6-48c9-a161-535733e701db",
+	1,
+	"0cd49c8b-7b78-4ce8-9421-1caebb340422");
+INSERT INTO PE_PE
+	VALUES ("e2ec22a4-09b6-48c9-a161-535733e701db",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("cdc78e42-9cd6-4373-9b04-eba50aba4501",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<For Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("cdc78e42-9cd6-4373-9b04-eba50aba4501",
+	0,
+	"9df32305-fe60-4ff4-a20b-32c2f12c1de9");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("9df32305-fe60-4ff4-a20b-32c2f12c1de9",
+	'For Stmt',
+	606,
+	'ACT_FOR',
+	'The class represents a for statement in a block of action language.',
+	"00000000-0000-0000-0000-000000000000",
+	'./For Stmt/For Stmt.xtuml');
+INSERT INTO PE_PE
+	VALUES ("cdc78e42-9cd6-4373-9b04-eba50aba4501",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("da5f5391-10d9-4ba9-8492-e644a9f5d3fe",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<For Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("da5f5391-10d9-4ba9-8492-e644a9f5d3fe",
+	1,
+	"9df32305-fe60-4ff4-a20b-32c2f12c1de9");
+INSERT INTO PE_PE
+	VALUES ("da5f5391-10d9-4ba9-8492-e644a9f5d3fe",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("17a98c4a-2218-46ab-b38b-b353ab34586a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ElseIf Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("17a98c4a-2218-46ab-b38b-b353ab34586a",
+	0,
+	"cdefd233-420b-46c0-b57c-f28fcc971069");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("cdefd233-420b-46c0-b57c-f28fcc971069",
+	'ElseIf Stmt',
+	622,
+	'ACT_EL',
+	'The class represents an else if statement in a block of action language.',
+	"00000000-0000-0000-0000-000000000000",
+	'./ElseIf Stmt/ElseIf Stmt.xtuml');
+INSERT INTO PE_PE
+	VALUES ("17a98c4a-2218-46ab-b38b-b353ab34586a",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("4f9f1215-f968-42aa-a701-df64e4cda02e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<ElseIf Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("4f9f1215-f968-42aa-a701-df64e4cda02e",
+	1,
+	"cdefd233-420b-46c0-b57c-f28fcc971069");
+INSERT INTO PE_PE
+	VALUES ("4f9f1215-f968-42aa-a701-df64e4cda02e",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("226ec964-d322-4524-b102-3584d0ef9d20",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Else Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("226ec964-d322-4524-b102-3584d0ef9d20",
+	0,
+	"af08d774-f1ff-46c4-a63c-fef31ed156d2");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("af08d774-f1ff-46c4-a63c-fef31ed156d2",
+	'Else Stmt',
+	610,
+	'ACT_E',
+	'The class represents an else statement in a block of action language.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Else Stmt/Else Stmt.xtuml');
+INSERT INTO PE_PE
+	VALUES ("226ec964-d322-4524-b102-3584d0ef9d20",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("f1788239-7dae-4e6c-b724-c5635845c472",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Else Stmt>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f1788239-7dae-4e6c-b724-c5635845c472",
+	1,
+	"af08d774-f1ff-46c4-a63c-fef31ed156d2");
+INSERT INTO PE_PE
+	VALUES ("f1788239-7dae-4e6c-b724-c5635845c472",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("db293f8e-a7c9-42f5-af85-1cea7adfc77d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Control>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("db293f8e-a7c9-42f5-af85-1cea7adfc77d",
+	0,
+	"002b3f14-b928-4bf1-a983-557971bf336c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("002b3f14-b928-4bf1-a983-557971bf336c",
+	'Control',
+	628,
+	'ACT_CTL',
+	'This class generates a control statement within a block.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Control/Control.xtuml');
+INSERT INTO PE_PE
+	VALUES ("db293f8e-a7c9-42f5-af85-1cea7adfc77d",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("5d18b4c5-800f-4c6b-8d7b-1bac1f5182cc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Control>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("5d18b4c5-800f-4c6b-8d7b-1bac1f5182cc",
+	1,
+	"002b3f14-b928-4bf1-a983-557971bf336c");
+INSERT INTO PE_PE
+	VALUES ("5d18b4c5-800f-4c6b-8d7b-1bac1f5182cc",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("812ed5f2-7905-41fd-9351-05a93ad65d56",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Continue>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("812ed5f2-7905-41fd-9351-05a93ad65d56",
+	0,
+	"b5a4272b-ed18-4324-956a-428a24b73a17");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("b5a4272b-ed18-4324-956a-428a24b73a17",
+	'Continue',
+	630,
+	'ACT_CON',
+	'This class generates a continue statement within a block.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Continue/Continue.xtuml');
+INSERT INTO PE_PE
+	VALUES ("812ed5f2-7905-41fd-9351-05a93ad65d56",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("36be8dee-ae68-4626-8d1a-067a09ad188b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Continue>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("36be8dee-ae68-4626-8d1a-067a09ad188b",
+	1,
+	"b5a4272b-ed18-4324-956a-428a24b73a17");
+INSERT INTO PE_PE
+	VALUES ("36be8dee-ae68-4626-8d1a-067a09ad188b",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("48514e79-7302-419e-a905-0948bfc7c063",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Break>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("48514e79-7302-419e-a905-0948bfc7c063",
+	0,
+	"82d09e85-4103-449c-aebb-d954150dc841");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("82d09e85-4103-449c-aebb-d954150dc841",
+	'Break',
+	629,
+	'ACT_BRK',
+	'This class generates a break statement within a block.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Break/Break.xtuml');
+INSERT INTO PE_PE
+	VALUES ("48514e79-7302-419e-a905-0948bfc7c063",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("2247d2f3-a1f9-45f3-96a3-fab7597a6ef3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Break>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2247d2f3-a1f9-45f3-96a3-fab7597a6ef3",
+	1,
+	"82d09e85-4103-449c-aebb-d954150dc841");
+INSERT INTO PE_PE
+	VALUES ("2247d2f3-a1f9-45f3-96a3-fab7597a6ef3",
+	1,
+	"b5ed08bf-6a5d-48db-ab6c-090b57c026c4",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("a3b2d860-d740-4381-8dab-201182377056");
 INSERT INTO R_REL
@@ -11015,14 +11335,6 @@ INSERT INTO R_OIR
 	"344bf1c6-f76c-4b3e-8ef1-ed939b855e1f",
 	"cbe59ac1-c2ba-451b-9230-d3887cd5db4a",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("cdefd233-420b-46c0-b57c-f28fcc971069",
-	'ElseIf Stmt',
-	622,
-	'ACT_EL',
-	'The class represents an else if statement in a block of action language.',
-	"00000000-0000-0000-0000-000000000000",
-	'./ElseIf Stmt/ElseIf Stmt.xtuml');
 INSERT INTO PE_PE
 	VALUES ("344bf1c6-f76c-4b3e-8ef1-ed939b855e1f",
 	1,
@@ -11052,14 +11364,6 @@ INSERT INTO R_OIR
 	"44603400-3f8e-4b08-a3e4-fe1747a2d192",
 	"adc8afb5-0834-48dc-b560-162cb0e3311b",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a7a71b35-07aa-455a-a6de-a7f8c4af780a",
-	'While Stmt',
-	619,
-	'ACT_WHL',
-	'This class represents a while statement in a block of action language.',
-	"00000000-0000-0000-0000-000000000000",
-	'./While Stmt/While Stmt.xtuml');
 INSERT INTO R_PART
 	VALUES ("d90fbb1a-0b27-4ddc-9f5c-5d52bae6f097",
 	"44603400-3f8e-4b08-a3e4-fe1747a2d192",
@@ -11112,14 +11416,6 @@ INSERT INTO R_OIR
 	"ba4469fa-08ac-41dd-b49f-c241bb7138c7",
 	"27e28f40-7a8a-4585-98da-d6cc7a2350c1",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("af08d774-f1ff-46c4-a63c-fef31ed156d2",
-	'Else Stmt',
-	610,
-	'ACT_E',
-	'The class represents an else statement in a block of action language.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Else Stmt/Else Stmt.xtuml');
 INSERT INTO R_PART
 	VALUES ("d90fbb1a-0b27-4ddc-9f5c-5d52bae6f097",
 	"ba4469fa-08ac-41dd-b49f-c241bb7138c7",
@@ -11172,14 +11468,6 @@ INSERT INTO R_OIR
 	"aa191a1a-56ad-4baf-8cf6-e2fbd3d0ac97",
 	"1e75f1f9-d3ca-4ecb-a0eb-d7b62cb94317",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("9df32305-fe60-4ff4-a20b-32c2f12c1de9",
-	'For Stmt',
-	606,
-	'ACT_FOR',
-	'The class represents a for statement in a block of action language.',
-	"00000000-0000-0000-0000-000000000000",
-	'./For Stmt/For Stmt.xtuml');
 INSERT INTO R_PART
 	VALUES ("d90fbb1a-0b27-4ddc-9f5c-5d52bae6f097",
 	"aa191a1a-56ad-4baf-8cf6-e2fbd3d0ac97",
@@ -11232,14 +11520,6 @@ INSERT INTO R_OIR
 	"20691814-c681-4633-b46d-fc57b81bcb8c",
 	"e0588e05-8db0-4b67-8f65-aab131239688",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("0cd49c8b-7b78-4ce8-9421-1caebb340422",
-	'If Stmt',
-	617,
-	'ACT_IF',
-	'The class represents an if statement in a block of action language.',
-	"00000000-0000-0000-0000-000000000000",
-	'./If Stmt/If Stmt.xtuml');
 INSERT INTO R_PART
 	VALUES ("d90fbb1a-0b27-4ddc-9f5c-5d52bae6f097",
 	"20691814-c681-4633-b46d-fc57b81bcb8c",
@@ -11754,14 +12034,6 @@ INSERT INTO R_OIR
 	"9c31614d-6885-4aa7-b05d-1480d41e4416",
 	"cdbc9181-9553-4015-b8f6-49d0d7f56a08",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("002b3f14-b928-4bf1-a983-557971bf336c",
-	'Control',
-	628,
-	'ACT_CTL',
-	'This class generates a control statement within a block.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Control/Control.xtuml');
 INSERT INTO R_SUB
 	VALUES ("82d09e85-4103-449c-aebb-d954150dc841",
 	"9c31614d-6885-4aa7-b05d-1480d41e4416",
@@ -11775,14 +12047,6 @@ INSERT INTO R_OIR
 	"9c31614d-6885-4aa7-b05d-1480d41e4416",
 	"4c2c8ff0-80ed-4303-b3a7-5d3d0e18a7a2",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("82d09e85-4103-449c-aebb-d954150dc841",
-	'Break',
-	629,
-	'ACT_BRK',
-	'This class generates a break statement within a block.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Break/Break.xtuml');
 INSERT INTO R_SUB
 	VALUES ("b5a4272b-ed18-4324-956a-428a24b73a17",
 	"9c31614d-6885-4aa7-b05d-1480d41e4416",
@@ -11796,14 +12060,6 @@ INSERT INTO R_OIR
 	"9c31614d-6885-4aa7-b05d-1480d41e4416",
 	"fd9aaaa0-205b-44f6-8d0f-58996c0ed8c4",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("b5a4272b-ed18-4324-956a-428a24b73a17",
-	'Continue',
-	630,
-	'ACT_CON',
-	'This class generates a continue statement within a block.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Continue/Continue.xtuml');
 INSERT INTO R_SUB
 	VALUES ("75a6e466-3e8a-44b6-a78c-9811a0005a64",
 	"9c31614d-6885-4aa7-b05d-1480d41e4416",

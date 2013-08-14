@@ -1,6 +1,6 @@
 ${ws}${name}(\
 .if ( "" != parameters )
-${parameters} \
+ ${parameters} \
 .end if
 )\
 .if ( is_statement )

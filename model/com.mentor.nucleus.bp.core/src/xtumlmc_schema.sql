@@ -2223,6 +2223,7 @@ CREATE TABLE TE_OIR (
 	data_member	STRING,
 	assoc_type	STRING,
 	object_id	STRING,
+	rel_phrase	STRING,
 	Mult	INTEGER,
 	NavigatedTo	BOOLEAN,
 	OIR_ID	UNIQUE_ID,
@@ -2233,10 +2234,6 @@ CREATE TABLE TE_OIR (
 CREATE TABLE TE_SYS (
 	SystemID	INTEGER,
 	ModelCompilerName	STRING,
-	ModelCompilerVersion	STRING,
-	ModelCompilerSerNum	STRING,
-	ModelCompilerKey	STRING,
-	BridgePointLicenseKey	STRING,
 	ExecutableName	STRING,
 	MaxStringLen	INTEGER,
 	MaxObjExtent	INTEGER,
@@ -2329,9 +2326,6 @@ CREATE TABLE TE_C (
 	InterleavedBridges	INTEGER,
 	PEIClassCount	INTEGER,
 	PersistentClassCount	INTEGER,
-	domain_mark_file	STRING,
-	class_mark_file	STRING,
-	events_mark_file	STRING,
 	module_file	STRING,
 	port_file	STRING,
 	include_file	STRING,
@@ -2736,9 +2730,7 @@ CREATE TABLE TE_THREAD (
 CREATE TABLE TE_FILE (
 	hdr_file_ext	STRING,
 	src_file_ext	STRING,
-	asm_file_ext	STRING,
 	obj_file_ext	STRING,
-	rpt_file_ext	STRING,
 	sys_main	STRING,
 	factory	STRING,
 	events	STRING,
@@ -2758,18 +2750,15 @@ CREATE TABLE TE_FILE (
 	domain_color_path	STRING,
 	domain_source_path	STRING,
 	domain_include_path	STRING,
-	domain_sql_path	STRING,
 	system_source_path	STRING,
 	system_include_path	STRING,
 	system_color_path	STRING,
 	bridge_mark	STRING,
-	registry_mark	STRING,
 	system_mark	STRING,
 	datatype_mark	STRING,
 	event_mark	STRING,
 	class_mark	STRING,
 	domain_mark	STRING,
-	domain_functions_mark	STRING,
 	system_functions_mark	STRING,
 	arc_path	STRING,
 	root_path	STRING );
@@ -2978,7 +2967,7 @@ CREATE TABLE TE_MACT (
 	Descrip	STRING,
 	GeneratedName	STRING,
 	ComponentName	STRING,
-	DomainName	STRING,
+	OALParamBuffer	STRING,
 	PortName	STRING,
 	InterfaceName	STRING,
 	MessageName	STRING,
@@ -3749,6 +3738,8 @@ CREATE TABLE V_SCV (
 CREATE TABLE S_AW (
 	Brg_ID	UNIQUE_ID,
 	Sync_ID	UNIQUE_ID );
+
+
 
 
 
@@ -5891,7 +5882,7 @@ CREATE ROP REF_ID R2061	FROM MC TE_ATTR	(te_classGeneratedName)
 			  TO 1  TE_CLASS	(GeneratedName);
 
 CREATE ROP REF_ID R2062	FROM MC TE_PARM	(AbaID)
-			  TO 1  TE_ABA	(AbaID);
+			  TO 1C TE_ABA	(AbaID);
 
 CREATE ROP REF_ID R2063	FROM 1C TE_PAR	(Value_ID)
 			  TO 1  V_PAR	(Value_ID);
@@ -6108,12 +6099,6 @@ CREATE ROP REF_ID R2069	FROM 1C TE_CONTINUE	(Statement_ID)
 CREATE ROP REF_ID R2070	FROM 1C TE_SELECT_RELATED	(starting_Value_ID)
 			  TO 1  TE_VAL	(Value_ID);
 
-CREATE ROP REF_ID R2071	FROM 1C TE_SELECT_RELATED	(starting_Var_ID)
-			  TO 1  TE_VAR	(Var_ID);
-
-CREATE ROP REF_ID R2072	FROM 1C TE_SELECT_RELATED	(result_Var_ID)
-			  TO 1  TE_VAR	(Var_ID);
-
 CREATE ROP REF_ID R2073	FROM 1  TE_SELECT_RELATED	(link_ID)
 			  TO 1  TE_LNK	(ID);
 
@@ -6131,6 +6116,12 @@ CREATE ROP REF_ID R2077	FROM 1C TE_SELECT_RELATED	(te_classGeneratedName)
 
 CREATE ROP REF_ID R2078	FROM MC TE_SMT	(parent_Block_ID)
 			  TO 1  TE_BLK	(Block_ID);
+
+CREATE ROP REF_ID R2093	FROM 1C TE_SELECT_RELATED	(result_Var_ID)
+			  TO 1  TE_VAR	(Var_ID);
+
+CREATE ROP REF_ID R2094	FROM 1C TE_SELECT_RELATED	(starting_Var_ID)
+			  TO 1  TE_VAR	(Var_ID);
 
 
 -- ============================================================================
@@ -6419,6 +6410,8 @@ CREATE ROP REF_ID R3200	FROM 1C S_AW	(Brg_ID)
 
 CREATE ROP REF_ID R3201	FROM MC S_AW	(Sync_ID)
 			  TO 1C S_SYNC	(Sync_ID);
+
+
 
 
 

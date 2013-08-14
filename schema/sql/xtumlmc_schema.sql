@@ -1744,22 +1744,7 @@ CREATE TABLE MSG_EPA (
 
 
 -- ============================================================================
--- Classes In Package:  Package Linking  
--- ============================================================================
-
--- Class:  1.  External Entity Package in Domain
-CREATE TABLE PL_EEPID (
-	Dom_ID	UNIQUE_ID,
-	EEPack_ID	UNIQUE_ID );
-
--- Class:  300.  Function Package in Domain
-CREATE TABLE PL_FPID (
-	FunPack_ID	UNIQUE_ID,
-	Dom_ID	UNIQUE_ID );
-
-
--- ============================================================================
--- Classes In Subsystem:  Packageable Element  
+-- Classes In Package:  Packageable Element
 -- ============================================================================
 
 -- Class:  8000.  Packageable Element
@@ -1961,7 +1946,7 @@ CREATE TABLE SQ_MIS (
 
 
 -- ============================================================================
--- Classes In Subsystem:  Signal Provisions and Requirements  
+-- Classes In Package:  Signal Provisions and Requirements
 -- ============================================================================
 
 -- Class:  4500.  Required Executable Property
@@ -5450,23 +5435,6 @@ CREATE ROP REF_ID R1023	FROM MC MSG_EPA	(PP_Id)
 
 
 -- ============================================================================
--- Relationships In Package:  Package Linking  
--- ============================================================================
-  
-CREATE ROP REF_ID R300	FROM MC PL_EEPID	(Dom_ID)
-			  TO 1  S_DOM	(Dom_ID);
-
-CREATE ROP REF_ID R300	FROM 1  PL_EEPID	(EEPack_ID)
-			  TO 1  S_EEPK	(EEPack_ID);
-
-CREATE ROP REF_ID R301	FROM 1  PL_FPID	(FunPack_ID)
-			  TO 1  S_FPK	(FunPack_ID);
-
-CREATE ROP REF_ID R301	FROM MC PL_FPID	(Dom_ID)
-			  TO 1  S_DOM	(Dom_ID);
-
-
--- ============================================================================
 -- Relationships In Package:  Packageable Element  
 -- ============================================================================
   
@@ -6413,12 +6381,6 @@ CREATE ROP REF_ID R2069	FROM 1C TE_CONTINUE	(Statement_ID)
 CREATE ROP REF_ID R2070	FROM 1C TE_SELECT_RELATED	(starting_Value_ID)
 			  TO 1  TE_VAL	(Value_ID);
 
-CREATE ROP REF_ID R2071	FROM 1C TE_SELECT_RELATED	(starting_Var_ID)
-			  TO 1  TE_VAR	(Var_ID);
-
-CREATE ROP REF_ID R2093	FROM 1C TE_SELECT_RELATED	(result_Var_ID)
-			  TO 1  TE_VAR	(Var_ID);
-
 CREATE ROP REF_ID R2073	FROM 1  TE_SELECT_RELATED	(link_ID)
 			  TO 1  TE_LNK	(ID);
 
@@ -6436,6 +6398,12 @@ CREATE ROP REF_ID R2077	FROM 1C TE_SELECT_RELATED	(te_classGeneratedName)
 
 CREATE ROP REF_ID R2078	FROM MC TE_SMT	(parent_Block_ID)
 			  TO 1  TE_BLK	(Block_ID);
+
+CREATE ROP REF_ID R2093	FROM 1C TE_SELECT_RELATED	(result_Var_ID)
+			  TO 1  TE_VAR	(Var_ID);
+
+CREATE ROP REF_ID R2094	FROM 1C TE_SELECT_RELATED	(starting_Var_ID)
+			  TO 1  TE_VAR	(Var_ID);
 
 
 -- ============================================================================

@@ -1065,45 +1065,6 @@ ${aoth_fundamentals.body}\
 .end function
 .//
 .//============================================================================
-.// Returns whether the left O_OBJ is the formalizer.
-.//=============================================================================
-.function TE_REL_IsLeftFormalizer
-  .param inst_ref left_o_obj
-  .param inst_ref r_rel
-  .param string rel_phrase
-  .//
-  .assign attr_result = false
-  .select one r_simp related by r_rel->R_SIMP[R206]
-  .if ( not_empty r_simp )
-    .select one formalizer related by r_simp->R_FORM[R208]
-    .select one participant related by r_simp->R_PART[R207]
-    .if ( participant.Obj_ID != formalizer.Obj_ID )
-      .// *** Normal Simple Relationship
-      .if ( left_o_obj.Obj_ID == formalizer.Obj_ID )
-        .// Left object is formalizer, right object is participant.
-        .assign attr_result = true
-      .end if
-    .else
-      .// *** Simple Reflexive Relationship
-      .if ( rel_phrase == participant.Txt_Phrs )
-        .// Left object is formalizer, right object is participant.
-        .assign attr_result = true
-      .end if
-    .end if
-  .else
-    .select one subtype_supertype_rel related by r_rel->R_SUBSUP[R206]
-    .// Subtype-Supertype relationship?
-    .if ( not_empty subtype_supertype_rel )
-      .// Left object is the subtype (formalizer)?
-      .select any subtype related by subtype_supertype_rel->R_SUB[R213] where ( selected.Obj_ID == left_o_obj.Obj_ID )
-      .if ( not_empty subtype )
-        .assign attr_result = true
-      .end if
-    .end if
-  .end if
-.end function
-.//
-.//============================================================================
 .// Return <result> the multiplicity/conditionality string.
 .//
 .// Inputs:

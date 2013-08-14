@@ -110,7 +110,7 @@
 .end function
 .//
 .//============================================================================
-.function GetRelateToName
+.function GetRelateToName .// string
   .param inst_ref o_obj
   .param inst_ref r_rel
   .param string   rel_phrase
@@ -134,7 +134,7 @@
 .end function
 .//
 .//============================================================================
-.function GetUnrelateFromName
+.function GetUnrelateFromName .// string
   .param inst_ref o_obj
   .param inst_ref r_rel
   .param string   rel_phrase
@@ -193,7 +193,7 @@
 .// Provide a name for the routine that will check if an instance is
 .// dirty, mark it if is not and queue it for flusing later.
 .//============================================================================
-.function GetPersistentCheckMarkPostName
+.function GetPersistentCheckMarkPostName .// string
   .select any te_instance from instances of TE_INSTANCE
   .select any te_prefix from instances of TE_PREFIX
   .select any te_typemap from instances of TE_TYPEMAP
@@ -207,7 +207,7 @@
 .// Provide a name for the routine that will post links to the persistence
 .// flush queue.
 .//============================================================================
-.function GetPersistentPostLinkName
+.function GetPersistentPostLinkName .// string
   .select any te_instance from instances of TE_INSTANCE
   .select any te_prefix from instances of TE_PREFIX
   .select any te_typemap from instances of TE_TYPEMAP
@@ -216,4 +216,3 @@
   .assign attr_arglist_types = "  const s1_t, const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}, const ${te_typemap.instance_index_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name}"
   .assign attr_arglist = "  const s1_t operation, const ${te_typemap.domain_number_name} domain,\n  const ${te_typemap.object_number_name} owning_class, const ${te_typemap.instance_index_name} ri,\n  ${te_instance.handle} left, const ${te_typemap.object_number_name} l,\n   ${te_instance.handle} right, const ${te_typemap.object_number_name} r,\n  ${te_instance.handle} assoc, const ${te_typemap.object_number_name} a"
 .end function
-.//

@@ -4402,6 +4402,46 @@ INSERT INTO PE_PE
 	"3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("65d0a895-bf6c-48fa-ba74-80985a75698b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class Identifier>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("65d0a895-bf6c-48fa-ba74-80985a75698b",
+	0,
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("7f071402-9bab-43f3-bf34-e69f50b0b3ac",
+	'Class Identifier',
+	104,
+	'O_ID',
+	'A set of one or more Attributes which uniquely distinguishes each instance of a class is a class identifier.  A class may have several identifiers.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Class Identifier/Class Identifier.xtuml');
+INSERT INTO PE_PE
+	VALUES ("65d0a895-bf6c-48fa-ba74-80985a75698b",
+	1,
+	"3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("015d1d58-493a-4420-a709-62490250755d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Class Identifier>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("015d1d58-493a-4420-a709-62490250755d",
+	1,
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac");
+INSERT INTO PE_PE
+	VALUES ("015d1d58-493a-4420-a709-62490250755d",
+	1,
+	"3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("4cba0fe2-a192-4630-ac17-c5b6bbb8d6a4");
 INSERT INTO R_REL
@@ -5303,14 +5343,6 @@ INSERT INTO R_OIR
 	"96074011-d60c-42a6-8fc3-e7527f8c2b13",
 	"c455b4ac-3c5b-42c0-88f5-ddb3077f1bd0",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("7f071402-9bab-43f3-bf34-e69f50b0b3ac",
-	'Class Identifier',
-	104,
-	'O_ID',
-	'A set of one or more Attributes which uniquely distinguishes each instance of a class is a class identifier.  A class may have several identifiers.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Class Identifier/Class Identifier.xtuml');
 INSERT INTO R_ASSR
 	VALUES ("e1b47872-848d-4064-affe-0bf35b38ed73",
 	"96074011-d60c-42a6-8fc3-e7527f8c2b13",

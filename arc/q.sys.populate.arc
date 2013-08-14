@@ -691,7 +691,7 @@
           .assign value = "${s_enum.Descrip:VALUE}"
         .end if
       .end if
-      .assign te_enum.Value = value
+      .assign te_enum.Value = "$r{value}"
     .end for
   .end for
   .//

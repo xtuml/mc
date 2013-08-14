@@ -119,7 +119,7 @@ code:
         | code statement {$$=P3($1,ws[indent],$2);}
         | code comment {$$=P3($1,ws[indent],$2);}
         | code literal {literaldetected=1;$$=P2($1,$2);}
-        | code FUNCTION identifier freturntype {pi[0]=0; literaldetected=0;} fparameters fbody ENDFUNCTION '\n' {$$=""; {char*rb="",*rt=$4;if(literaldetected){rb="return ooaofooa_T_body();\n";rt="string";} printf( "%s", P10($3,"@",rt,$6,"@@@\n",$1,pi,$7,rb,"@@@\n"));}}
+        | code FUNCTION identifier freturntype {pi[0]=0; literaldetected=0;} fparameters fbody ENDFUNCTION '\n' {$$=""; {char*rb="",*rt=$4;if(literaldetected){rb="return T::body();\n";rt="string";} printf( "%s", P10($3,"@",rt,$6,"@@@\n",$1,pi,$7,rb,"@@@\n"));}}
         ;
 
 freturntype:
@@ -139,7 +139,7 @@ statement:
         | BREAKWHILE '\n' {$$=P1("break;\n");}
         | WHILE condition '\n' {indent++;} code {indent--;} endwhiler '\n' {$$=P8($1," ",$2,$3,$5,ws[indent],$7,$8);}
         | CLEARTOK '\n' {$$=P1("T::clear();\n");}
-        | INCLUDE string '\n' {$$=P3("T::include(s:",$2,");\n");}
+        | INCLUDE string '\n' {literaldetected=1;$$=P3("T::include(file:",$2,");\n");}
         | PRINTTOK string '\n' {$$=P3("T::print(s:",$2,");\n");}
         | EXITTOK sexpr '\n' {$$=P3("T::exit(i:",$2,");\n");}
         | EMIT string '\n' {$$=P3("T::emit(s:",$2,");\n");}
@@ -249,7 +249,7 @@ term:
         | REALconstant
         | term ARROW identifier {$$=P3($1,$2,$3);}
         | term ':' parsekeyword {$$=P5("T::parsekeyword(s:",$1,",key:\"",$3,"\")");}
-        | term '.' attribute {$$ = ( ( 0 == strncmp( $1, "r", 1 ) ) && ( 0 == strcmp( $3, "result" ) ) ) ? P1($1) : P3($1,$2,$3);}
+        | term '.' attribute {$$ = ( ( 0 == strncmp( $1, "r", 1 ) ) && ( ( 0 == strcmp( $3, "result" ) ) || ( 0 == strcmp( $3, "body" ) ) ) ) ? P1($1) : P3($1,$2,$3);}
         ;
 
 reltraversal:
@@ -343,12 +343,12 @@ literalbody:
 
 substitutionvariable:
         '$' format '{' term '}' {char * p="i", * f=$2;
-                                 if (0==strcmp(f,"")) f="s";
-                                 else if (0==strcmp(f,"r")) p="s";
-                                 else if (0==strcmp(f,"l")) p="s";
-                                 else if (0==strcmp(f,"u")) p="s";
-                                 else if (0==strcmp(f,"_")) {f="underscore";p="s";}
-                                 $$=P7("T::",f,"(",p,":",$4,")");}
+                                 if (0==strcmp(f,"")) {$$=P1($4);}
+                                 else if (0==strcmp(f,"r")) {p="s";$$=P7("T::",f,"(",p,":",$4,")");}
+                                 else if (0==strcmp(f,"l")) {p="s";$$=P7("T::",f,"(",p,":",$4,")");}
+                                 else if (0==strcmp(f,"u")) {p="s";$$=P7("T::",f,"(",p,":",$4,")");}
+                                 else if (0==strcmp(f,"_")) {f="underscore";p="s";$$=P7("T::",f,"(",p,":",$4,")");}
+                                 else {$$=P7("T::",f,"(",p,":",$4,")");}}
         ;
 
 
