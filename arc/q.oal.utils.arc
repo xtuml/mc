@@ -104,7 +104,7 @@
         .assign key_number = o_id.Oid_ID + 1
         .assign where_spec = ""
         .assign unique_num = unique_num + 1
-        .assign where_key = ( ( te_class.Key_Lett + "${key_number}" ) + ( "_mcw" + "${unique_num}" ) )
+        .assign where_key = ( ( te_class.Key_Lett + "$t{key_number}" ) + ( "_mcw" + "$t{unique_num}" ) )
         .//
         .select many te_attrs related by te_class->TE_ATTR[R2061]
         .for each te_attr in te_attrs
@@ -157,7 +157,7 @@
         .// *** Provide a key parenthesized at the outer construct.
         .assign where_spec = "("
         .assign unique_num = unique_num + 1
-        .assign where_key = ( ( te_class.Key_Lett + "${key_number}" ) + ( "_mcw" + "${unique_num}" ) )
+        .assign where_key = ( ( te_class.Key_Lett + "$t{key_number}" ) + ( "_mcw" + "$t{unique_num}" ) )
         .assign te_attr = first_te_attr
         .assign oida_count = 0
         .while ( not_empty te_attr )
@@ -191,7 +191,7 @@
           .// *** Provide a key parenthesized at outer and inner constructs.
           .assign where_spec = "("
           .assign unique_num = unique_num + 1
-          .assign where_key = ( ( te_class.Key_Lett + "${key_number}" ) + ( "_mcw" + "${unique_num}" ) )
+          .assign where_key = ( ( te_class.Key_Lett + "$t{key_number}" ) + ( "_mcw" + "$t{unique_num}" ) )
           .assign te_attr = first_te_attr
           .assign oida_count = 0
           .while ( not_empty te_attr )
@@ -223,7 +223,7 @@
           .// *** Provide a key parenthesized at just inner constructs.
           .assign where_spec = ""
           .assign unique_num = unique_num + 1
-          .assign where_key = ( ( te_class.Key_Lett + "${key_number}" ) + ( "_mcw" + "${unique_num}" ) )
+          .assign where_key = ( ( te_class.Key_Lett + "$t{key_number}" ) + ( "_mcw" + "$t{unique_num}" ) )
           .assign te_attr = first_te_attr
           .assign oida_count = 0
           .while ( not_empty te_attr )

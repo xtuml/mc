@@ -69,6 +69,7 @@ UserPreOoaInitializationCalloutf( void )
   /* Insert implementation specific code here.  */
   static char * a[2] = { "UserPostOoaInitializationCalloutf", "a.xtuml" };
   Escher_xtUML_load( 2, a );
+  printf( "\n--" );
   SYS_USER_CO_PRINTF( "UserPreOoaInitializationCallout\n" )
 }
 
@@ -127,6 +128,7 @@ void
 UserPostShutdownCalloutf( void )
 {
   int i;
+  printf( "--\n" );
   for ( i = 0; i < ooaofooa_MAX_CLASS_NUMBERS; i++ ) Escher_dump_instances( 0, i );
   /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "UserPostShutdownCallout\n" )

@@ -76,7 +76,7 @@
     .assign i_inss_cardinality = cardinality i_inss
     .while ( inst_count < i_inss_cardinality )
       .for each i_ins in i_inss
-        .if ( i_ins.Name == "${inst_count}" )
+        .if ( i_ins.Name == "$t{inst_count}" )
           .invoke initializercode = PEIRenderInitializerBody( i_ins, o_obj )
           .assign attr_assset = attr_assset + initializercode.assset
   { ${initializercode.result} }\

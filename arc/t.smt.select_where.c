@@ -33,7 +33,7 @@ ${ws}    if ( ${te_select_where.where_clause} ) \
 ${ws}    if ( ${where_comp} ) \
     .end if
 {
-    .if ( te_select_where.multiplicity == "any" )
+    .if ( "any" == te_select_where.multiplicity )
       .// Expression satisfied. Assign to OAL select inst_ref<Object> handle and terminate search.
 ${ws}      ${te_select_where.var_name} = ${te_select_where.selected_var_name};
 ${ws}      break;

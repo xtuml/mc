@@ -34,7 +34,7 @@ INSERT INTO DIM_DIA
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO S_SYNC
-	VALUES ("39bccb4c-67c0-4a66-8cbb-c4e361a7293a",
+	VALUES ("b4a6ba90-94a3-493d-a7b3-1f1cffbceb90",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_translate_control_statements',
 	'',
@@ -81,13 +81,13 @@ INSERT INTO S_SYNC
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("39bccb4c-67c0-4a66-8cbb-c4e361a7293a",
+	VALUES ("b4a6ba90-94a3-493d-a7b3-1f1cffbceb90",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f5288e2c-9c30-4df3-898e-a31c7635939b",
+	VALUES ("0f49f8f0-9e54-4f32-af1a-aa5ebe67fc89",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_translate_other_statements',
 	'',
@@ -124,13 +124,13 @@ INSERT INTO S_SYNC
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("f5288e2c-9c30-4df3-898e-a31c7635939b",
+	VALUES ("0f49f8f0-9e54-4f32-af1a-aa5ebe67fc89",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("9697a4fe-f337-4edf-9c69-7425d751c7aa",
+	VALUES ("7f1a6c60-1c8b-44f3-a688-8d20bf66251e",
 	"00000000-0000-0000-0000-000000000000",
 	'oal_translate',
 	'',
@@ -153,13 +153,13 @@ T::print(s:"done translating statements");
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("9697a4fe-f337-4edf-9c69-7425d751c7aa",
+	VALUES ("7f1a6c60-1c8b-44f3-a688-8d20bf66251e",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("b8248ca2-dba7-48c1-9290-77a2b718b6e4",
+	VALUES ("5c336c04-82a8-45dd-a227-0707ce75f73b",
 	"00000000-0000-0000-0000-000000000000",
 	'TE_ABA_rollup',
 	'',
@@ -181,6 +181,7 @@ INSERT INTO S_SYNC
 //============================================================================
 //
 //
+parseSuccessful = ParseStatus::parseSuccessful;
 select any empty_act_blk from instances of ACT_BLK where ( false );
 select many te_cs from instances of TE_C where ( selected.included_in_build );
 for each te_c in te_cs
@@ -194,13 +195,13 @@ for each te_c in te_cs
       select one o_dbattr related by te_dbattr->O_DBATTR[R2026];
       select one te_attr related by o_dbattr->O_BATTR[R107]->O_ATTR[R106]->TE_ATTR[R2033];
       if ( ( te_attr.Used ) or ( te_c.OptDisabled ) )
-        if ( ParseStatus::parseSuccessful == o_dbattr.Suc_Pars )
+        if ( parseSuccessful == o_dbattr.Suc_Pars )
           select one act_blk related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666];
         end if;
       end if;
     elif ( "O_TFR" == te_aba.subtypeKL )
       select one o_tfr related by te_aba->TE_TFR[R2010]->O_TFR[R2024];
-      if ( ParseStatus::parseSuccessful == o_tfr.Suc_Pars )
+      if ( parseSuccessful == o_tfr.Suc_Pars )
         select one act_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666];
       end if;
     elif ( "SM_ACT" == te_aba.subtypeKL )
@@ -224,7 +225,7 @@ for each te_c in te_cs
     elif ( "S_BRG" == te_aba.subtypeKL )
       select one act_blk related by te_aba->TE_BRG[R2010]->S_BRG[R2025]->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666];
     else
-      T::print(s:"ERROR:  TE_ABA.subtypeKL (te_aba.subtypeKL) out of range.");
+      T::print(s:"ERROR:  TE_ABA.subtypeKL (${te_aba.subtypeKL}) out of range.");
       T::exit(i:101);
     end if;
     if ( not_empty act_blk )
@@ -258,13 +259,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("b8248ca2-dba7-48c1-9290-77a2b718b6e4",
+	VALUES ("5c336c04-82a8-45dd-a227-0707ce75f73b",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c807f7c0-001f-4e2e-8e7d-e54b74438bc1",
+	VALUES ("89fa91a6-27e5-4e57-8bac-11fae105b542",
 	"00000000-0000-0000-0000-000000000000",
 	'blck_xlate',
 	'',
@@ -293,6 +294,10 @@ INSERT INTO S_SYNC
 //
 trace = param.trace;
 te_blk = param.te_blk;
+code = "";
+if ( "" != te_blk.declaration )
+  code = ( te_blk.indentation + te_blk.declaration ) + "\n";
+end if;
 select any act_smt related by te_blk->ACT_BLK[R2016]->ACT_SMT[R602];
 if ( not_empty act_smt )
   // We have statements in this block.
@@ -311,27 +316,22 @@ if ( not_empty act_smt )
   while ( not_empty act_smt )
     next = empty_act_smt;
     select one te_smt related by act_smt->TE_SMT[R2038];
-    te_blk.OAL = te_blk.OAL + te_smt.OAL;
-    if ( "" != te_smt.declaration )
-      te_blk.declaration = ( te_blk.declaration + te_smt.declaration ) + " ";
-    end if;
-    te_blk.initialization = te_blk.initialization + te_smt.initialization;
     if ( "" != te_smt.OAL )
-      te_blk.code = te_blk.code + "te_blk.indentation/* te_smt.OAL */\n";
+      code = ( ( ( code + te_blk.indentation ) + ( "/" + "* " ) ) + ( ( te_smt.OAL + " *" ) + "/\n" ) );
       if ( trace )
-        te_blk.code = te_blk.code + "te_blk.indentationXTUML_OAL_STMT_TRACE( " + T::s(i:te_blk.depth) + ", " + te_smt.OAL + " );\n";
+        code = ( ( ( code + te_blk.indentation ) + ( "XTUML_OAL_STMT_TRACE( " + T::s(i:te_blk.depth) ) ) + ( ", &quot;" + te_smt.OAL ) ) + "&quot; );\n";
       end if;
     end if;
-    te_blk.code = te_blk.code + te_smt.buffer;
+    code = code + te_smt.buffer;
     select one for_te_blk related by act_smt->ACT_FOR[R603]->ACT_BLK[R605]->TE_BLK[R2016];
     if ( not_empty for_te_blk )
       r = ::blck_xlate( trace:trace, te_blk:for_te_blk );
-      te_blk.code = te_blk.code + for_te_blk.code;
+      code = code + r;
     else
       select one whl_te_blk related by act_smt->ACT_WHL[R603]->ACT_BLK[R608]->TE_BLK[R2016];
       if ( not_empty whl_te_blk )
         r = ::blck_xlate( trace:trace, te_blk:whl_te_blk );
-        te_blk.code = te_blk.code + whl_te_blk.code;
+        code = code + r;
       else
         select one act_if related by act_smt->ACT_IF[R603];
         if ( not_empty act_if )
@@ -339,7 +339,7 @@ if ( not_empty act_smt )
           select one if_te_blk related by act_if->ACT_BLK[R607]->TE_BLK[R2016];
           if ( not_empty if_te_blk )
             r = ::blck_xlate( trace:trace, te_blk:if_te_blk );
-            te_blk.code = te_blk.code + if_te_blk.code;
+            code = code + r;
           end if;
           // ELIF and ELSE are not linked across R661.  So, get the next
           // one from here.
@@ -352,7 +352,7 @@ if ( not_empty act_smt )
           select one eli_te_blk related by act_smt->ACT_EL[R603]->ACT_BLK[R658]->TE_BLK[R2016];
           if ( not_empty eli_te_blk )
             r = ::blck_xlate( trace:trace, te_blk:eli_te_blk );
-            te_blk.code = te_blk.code + eli_te_blk.code;
+            code = code + r;
             // CDS Note:  This depends upon the generator storing these in order!
             select any next related by current_act_if->ACT_EL[R682]->ACT_SMT[R603] where ( selected.LineNumber > act_smt.LineNumber );
             if ( empty next )
@@ -365,7 +365,7 @@ if ( not_empty act_smt )
             select one else_te_blk related by act_smt->ACT_E[R603]->ACT_BLK[R606]->TE_BLK[R2016];
             if ( not_empty else_te_blk )
               r = ::blck_xlate( trace:trace, te_blk:else_te_blk );
-              te_blk.code = te_blk.code + else_te_blk.code;
+              code = code + r;
               select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.''precedes''];
             end if;
           end if;
@@ -373,7 +373,7 @@ if ( not_empty act_smt )
       end if;
     end if;
     if ( "" != te_smt.buffer2 )
-      te_blk.code = ( ( te_blk.code + te_smt.buffer2 ) + "\n" );
+      code = ( code + te_smt.buffer2 ) + "\n";
     end if;
     if ( empty next )
       select one next related by act_smt->ACT_SMT[R661.''precedes''];
@@ -381,26 +381,17 @@ if ( not_empty act_smt )
     act_smt = next;
   end while;
   if ( "" != te_blk.deallocation )
-    te_blk.code = ( ( te_blk.code + te_blk.indentation ) + ( te_blk.deallocation + "\n" ) );
-  end if;
-  if ( "" != te_blk.initialization )
-    te_blk.code = ( ( te_blk.indentation + te_blk.initialization ) + ( "\n" + te_blk.code ) );
-  end if;
-  if ( "" != te_blk.declaration )
-    te_blk.code = ( ( te_blk.indentation + te_blk.declaration ) + ( "\n" + te_blk.code ) );
-  end if;
-  if ( "" != te_blk.code )
-T::b(s:te_blk.code);
+    code = ( code + te_blk.indentation ) + ( te_blk.deallocation + "\n" );
   end if;
 end if;
-return T::body();
+return code;
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4a928c7a-43b7-40a5-b6a7-3b3442a7e99c",
-	"c807f7c0-001f-4e2e-8e7d-e54b74438bc1",
+	VALUES ("34ba6c6d-0dbe-43d8-a2cb-e78878171cf0",
+	"89fa91a6-27e5-4e57-8bac-11fae105b542",
 	'trace',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
@@ -408,13 +399,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("b4a3d94d-557a-4cd2-9367-89de47bc2259",
-	"c807f7c0-001f-4e2e-8e7d-e54b74438bc1",
+	VALUES ("aba66162-cba4-4e74-b00e-e9a41e9a788c",
+	"89fa91a6-27e5-4e57-8bac-11fae105b542",
 	'te_blk',
 	"5a29d9fb-8b19-4624-9076-30bd2407c215",
 	0,
 	'',
-	"4a928c7a-43b7-40a5-b6a7-3b3442a7e99c",
+	"34ba6c6d-0dbe-43d8-a2cb-e78878171cf0",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("5a29d9fb-8b19-4624-9076-30bd2407c215",
@@ -424,13 +415,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Translation OAL/Translation OAL.xtuml');
 INSERT INTO PE_PE
-	VALUES ("c807f7c0-001f-4e2e-8e7d-e54b74438bc1",
+	VALUES ("89fa91a6-27e5-4e57-8bac-11fae105b542",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7ac679fe-fe90-4589-9321-da458daeb5f9",
+	VALUES ("4f058ca9-d705-4d79-b02f-e8b01f5e67dd",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_fors',
 	'',
@@ -453,13 +444,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("7ac679fe-fe90-4589-9321-da458daeb5f9",
+	VALUES ("4f058ca9-d705-4d79-b02f-e8b01f5e67dd",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("70f7aa28-6131-4be0-809e-6f9a75700f44",
+	VALUES ("c00b5d26-54c5-4d2e-a907-4352c1ceca07",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_for',
 	'',
@@ -485,12 +476,12 @@ if ( not_empty te_class )
   ws = te_blk.indentation;
   te_smt.buffer2 = ws + "}}}";
   if ( te_for.isImplicit )
-    te_smt.declaration = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" );
+    te_blk.declaration = ( ( te_blk.declaration + te_for.class_name ) + ( " * " + te_for.loop_variable ) ) + "=0;";
   end if;
   iterator = "iter" + te_for.loop_variable;
   current_instance = "ii" + te_for.loop_variable;
-  T::include(file:"te_file.arc_path/t.smt.for.c");
-  te_smt.OAL = "FOR EACH v_var.Name IN set_v_var.Name";
+  T::include(file:"c/t.smt.for.c");
+  te_smt.OAL = "FOR EACH ${v_var.Name} IN ${set_v_var.Name}";
 end if;
 return T::body();
 ',
@@ -498,8 +489,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a0fe11c4-6d9f-4efd-8a3c-cda3a723abbd",
-	"70f7aa28-6131-4be0-809e-6f9a75700f44",
+	VALUES ("8a5b2c0f-ec4f-428e-91b5-29a9266be3b8",
+	"c00b5d26-54c5-4d2e-a907-4352c1ceca07",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -514,13 +505,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Translation OAL/Translation OAL.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("5d1f7b17-a841-4e67-9ef4-5bc59ddfdae3",
-	"70f7aa28-6131-4be0-809e-6f9a75700f44",
+	VALUES ("45b2d9e4-e0a6-4a46-9b49-d0700e829aab",
+	"c00b5d26-54c5-4d2e-a907-4352c1ceca07",
 	'act_for',
 	"cdc78e42-9cd6-4373-9b04-eba50aba4501",
 	0,
 	'',
-	"a0fe11c4-6d9f-4efd-8a3c-cda3a723abbd",
+	"8a5b2c0f-ec4f-428e-91b5-29a9266be3b8",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("cdc78e42-9cd6-4373-9b04-eba50aba4501",
@@ -530,13 +521,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Body/Body.xtuml');
 INSERT INTO PE_PE
-	VALUES ("70f7aa28-6131-4be0-809e-6f9a75700f44",
+	VALUES ("c00b5d26-54c5-4d2e-a907-4352c1ceca07",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("6a89d994-666d-4169-bca4-987766fcf7a3",
+	VALUES ("724317c3-3809-4ee1-a04d-99fc7b71ec68",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_ifs',
 	'',
@@ -555,13 +546,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("6a89d994-666d-4169-bca4-987766fcf7a3",
+	VALUES ("724317c3-3809-4ee1-a04d-99fc7b71ec68",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("0f9f642f-dc63-4733-903d-47d48180e0eb",
+	VALUES ("7de31775-35c7-41cb-87a6-6ffed311d3c5",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_if',
 	'',
@@ -575,16 +566,16 @@ select one condition_te_val related by act_if->V_VAL[R625]->TE_VAL[R2040];
 select one te_blk related by te_smt->TE_BLK[R2078];
 ws = te_blk.indentation;
 te_smt.buffer2 = ws + "}";
-T::include(file:"te_file.arc_path/t.smt.if.c");
-te_smt.OAL = "IF ( condition_te_val.OAL )";
+T::include(file:"c/t.smt.if.c");
+te_smt.OAL = "IF ( ${condition_te_val.OAL} )";
 return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("148d9b7f-a71a-4ef5-a16a-929ea8d1aa21",
-	"0f9f642f-dc63-4733-903d-47d48180e0eb",
+	VALUES ("d9b351ce-c917-466f-b175-92d3db803b94",
+	"7de31775-35c7-41cb-87a6-6ffed311d3c5",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -592,13 +583,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("7068e5fb-9d9c-4870-81d0-658d8441bc94",
-	"0f9f642f-dc63-4733-903d-47d48180e0eb",
+	VALUES ("c4dcc6db-7ee7-4171-aa4e-1220bfd021da",
+	"7de31775-35c7-41cb-87a6-6ffed311d3c5",
 	'act_if',
 	"93460d33-1ae8-436f-a8be-11dbbfad9306",
 	0,
 	'',
-	"148d9b7f-a71a-4ef5-a16a-929ea8d1aa21",
+	"d9b351ce-c917-466f-b175-92d3db803b94",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("93460d33-1ae8-436f-a8be-11dbbfad9306",
@@ -608,13 +599,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Body/Body.xtuml');
 INSERT INTO PE_PE
-	VALUES ("0f9f642f-dc63-4733-903d-47d48180e0eb",
+	VALUES ("7de31775-35c7-41cb-87a6-6ffed311d3c5",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c1c5fc04-ede7-4b9c-a6b8-ebb0e587f3c5",
+	VALUES ("d47e76ce-0a93-459b-b9ea-18867036b815",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_whiles',
 	'',
@@ -632,13 +623,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("c1c5fc04-ede7-4b9c-a6b8-ebb0e587f3c5",
+	VALUES ("d47e76ce-0a93-459b-b9ea-18867036b815",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("451d7d1f-10aa-466b-849c-28fdffc328c2",
+	VALUES ("d9c678dc-2262-441c-a064-d116d1141a9b",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_while',
 	'',
@@ -652,16 +643,16 @@ select one condition_te_val related by act_whl->V_VAL[R626]->TE_VAL[R2040];
 select one te_blk related by te_smt->TE_BLK[R2078];
 ws = te_blk.indentation;
 te_smt.buffer2 = ws + "}";
-T::include(file:"te_file.arc_path/t.smt.while.c");
-te_smt.OAL = "WHILE ( condition_te_val.OAL )";
+T::include(file:"c/t.smt.while.c");
+te_smt.OAL = "WHILE ( ${condition_te_val.OAL} )";
 return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("dd5fe890-0274-467d-be85-e903278dd1b4",
-	"451d7d1f-10aa-466b-849c-28fdffc328c2",
+	VALUES ("bd2aa91a-2c7a-4326-a094-2379a9d9446a",
+	"d9c678dc-2262-441c-a064-d116d1141a9b",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -669,13 +660,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0d88c159-2a9b-4b37-ba40-d10a3cc56eee",
-	"451d7d1f-10aa-466b-849c-28fdffc328c2",
+	VALUES ("3f1adf31-2435-4606-8248-007656b5d04b",
+	"d9c678dc-2262-441c-a064-d116d1141a9b",
 	'act_whl',
 	"4928f995-a119-4cb9-96e3-0d5ac8c9bcb6",
 	0,
 	'',
-	"dd5fe890-0274-467d-be85-e903278dd1b4",
+	"bd2aa91a-2c7a-4326-a094-2379a9d9446a",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("4928f995-a119-4cb9-96e3-0d5ac8c9bcb6",
@@ -685,13 +676,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Body/Body.xtuml');
 INSERT INTO PE_PE
-	VALUES ("451d7d1f-10aa-466b-849c-28fdffc328c2",
+	VALUES ("d9c678dc-2262-441c-a064-d116d1141a9b",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("0c3ae430-6470-42e2-acde-8eb59a742fee",
+	VALUES ("f80dd4e8-3f60-45bb-a847-01a687ece966",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_elses',
 	'',
@@ -709,13 +700,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("0c3ae430-6470-42e2-acde-8eb59a742fee",
+	VALUES ("f80dd4e8-3f60-45bb-a847-01a687ece966",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("b336a975-fd3a-496c-9d5e-c9b38bf10d82",
+	VALUES ("b2c7c0cb-251b-480c-bdeb-a4e204a37ed9",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_else',
 	'',
@@ -728,7 +719,7 @@ select any te_file from instances of TE_FILE;
 select one te_blk related by te_smt->TE_BLK[R2078];
 ws = te_blk.indentation;
 te_smt.buffer2 = ws + "}";
-T::include(file:"te_file.arc_path/t.smt.else.c");
+T::include(file:"c/t.smt.else.c");
 // Skip tracing ELSE because it falls between } and else.
 //.assign te_smt.OAL = "ELSE"
 te_smt.OAL = "";
@@ -738,8 +729,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("99643f83-3594-4809-8f9e-224533439a8a",
-	"b336a975-fd3a-496c-9d5e-c9b38bf10d82",
+	VALUES ("c17ffb3e-5e54-42a9-bda9-91a9a69d6482",
+	"b2c7c0cb-251b-480c-bdeb-a4e204a37ed9",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -747,13 +738,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d9de2de2-f22a-484a-b199-7511694db2a7",
-	"b336a975-fd3a-496c-9d5e-c9b38bf10d82",
+	VALUES ("cbf4163c-0322-45ed-b4a9-996cc2c2f4ab",
+	"b2c7c0cb-251b-480c-bdeb-a4e204a37ed9",
 	'act_e',
 	"226ec964-d322-4524-b102-3584d0ef9d20",
 	0,
 	'',
-	"99643f83-3594-4809-8f9e-224533439a8a",
+	"c17ffb3e-5e54-42a9-bda9-91a9a69d6482",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("226ec964-d322-4524-b102-3584d0ef9d20",
@@ -763,13 +754,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Body/Body.xtuml');
 INSERT INTO PE_PE
-	VALUES ("b336a975-fd3a-496c-9d5e-c9b38bf10d82",
+	VALUES ("b2c7c0cb-251b-480c-bdeb-a4e204a37ed9",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7b923a1c-7b2b-4ae3-bcc1-b14cc5b3f584",
+	VALUES ("3fbaf9a8-67d9-4e0a-8260-e053ac04dee6",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_elifs',
 	'',
@@ -788,13 +779,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("7b923a1c-7b2b-4ae3-bcc1-b14cc5b3f584",
+	VALUES ("3fbaf9a8-67d9-4e0a-8260-e053ac04dee6",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f8ac27fb-bf60-4705-8bc4-134f56a0bc25",
+	VALUES ("9d04f405-9cb9-40b2-9b57-b69669c16376",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_elif',
 	'',
@@ -808,7 +799,7 @@ select one condition_te_val related by act_el->V_VAL[R659]->TE_VAL[R2040];
 select one te_blk related by te_smt->TE_BLK[R2078];
 ws = te_blk.indentation;
 te_smt.buffer2 = ws + "}";
-T::include(file:"te_file.arc_path/t.smt.elif.c");
+T::include(file:"c/t.smt.elif.c");
 // Skip tracing ELIF because it falls between } and else.
 //.assign te_smt.OAL = "ELIF ( ${condition.OAL} )"
 te_smt.OAL = "";
@@ -818,8 +809,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("b6bf2b23-4500-41fc-b669-017964d16b48",
-	"f8ac27fb-bf60-4705-8bc4-134f56a0bc25",
+	VALUES ("f049a962-265c-448f-abfa-5a7dc8db34a6",
+	"9d04f405-9cb9-40b2-9b57-b69669c16376",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -827,13 +818,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d9880796-3435-47f1-b4a8-b7baa67fc58b",
-	"f8ac27fb-bf60-4705-8bc4-134f56a0bc25",
+	VALUES ("22525377-9d6d-48c5-9517-c93bca4c4c4c",
+	"9d04f405-9cb9-40b2-9b57-b69669c16376",
 	'act_el',
 	"17a98c4a-2218-46ab-b38b-b353ab34586a",
 	0,
 	'',
-	"b6bf2b23-4500-41fc-b669-017964d16b48",
+	"f049a962-265c-448f-abfa-5a7dc8db34a6",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("17a98c4a-2218-46ab-b38b-b353ab34586a",
@@ -843,13 +834,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Body/Body.xtuml');
 INSERT INTO PE_PE
-	VALUES ("f8ac27fb-bf60-4705-8bc4-134f56a0bc25",
+	VALUES ("9d04f405-9cb9-40b2-9b57-b69669c16376",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("370cdaa6-2215-4973-b7a4-7e20e7e6d68d",
+	VALUES ("8d8d4abc-6525-487b-bb70-e19d07d9997c",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_assigns',
 	'',
@@ -868,13 +859,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("370cdaa6-2215-4973-b7a4-7e20e7e6d68d",
+	VALUES ("8d8d4abc-6525-487b-bb70-e19d07d9997c",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7c0a972e-9abb-49e8-8d41-f03d9dd2663b",
+	VALUES ("c9145df9-4478-4c5a-a760-c57d39fcb4d8",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_assign',
 	'',
@@ -917,16 +908,18 @@ if ( te_assign.isImplicit )
     select one te_class related by root_v_val->V_IRF[R801]->V_VAR[R808]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019];
     if ( not_empty te_class )
       te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + ( root_te_val.buffer + ";" );
-      te_smt.declaration = te_assign.left_declaration;
+      te_blk.declaration = te_blk.declaration + te_assign.left_declaration;
     end if;
   elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
     // First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
-    te_smt.declaration = "te_set.scopete_set.base_class te_assign.lval_space={0}; te_set.scopete_set.base_class * te_assign.lval = &te_assign.lval_space;";
-    te_smt.deallocation = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );";
+    T::clear();
+    selection_result_variable = te_assign.lval;
+    T::include(file:"c/t.smt.set_declaration.c");
+    te_blk.declaration = te_blk.declaration + T::body();
     // Push deallocation into the block so that it is available at gen time for break/continue/return.
-    te_blk.deallocation = te_blk.deallocation + te_smt.deallocation;
+    te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) ) + ( te_assign.lval + " );" );
   else
-    te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";";
+    te_blk.declaration = ( te_blk.declaration + te_assign.left_declaration ) + ( te_assign.array_spec + ";" );
   end if;
 end if;
 element_count = 0;
@@ -939,16 +932,16 @@ select one v_pvl related by r_v_val->V_PVL[R801];
 if ( not_empty v_pvl )
   is_parameter = true;
 end if;
-T::include(file:"te_file.arc_path/t.smt.assign.c");
-te_smt.OAL = "ASSIGN l_te_val.OAL = r_te_val.OAL";
+T::include(file:"c/t.smt.assign.c");
+te_smt.OAL = "ASSIGN ${l_te_val.OAL} = ${r_te_val.OAL}";
 return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5be87dde-3b91-4a0d-bcfa-b05af310de87",
-	"7c0a972e-9abb-49e8-8d41-f03d9dd2663b",
+	VALUES ("a3dbc39e-37e3-49dc-8e15-d237000cb535",
+	"c9145df9-4478-4c5a-a760-c57d39fcb4d8",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -956,13 +949,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("dc071136-1d11-4589-a9e8-7f808dba7520",
-	"7c0a972e-9abb-49e8-8d41-f03d9dd2663b",
+	VALUES ("748fb714-faef-458e-83ed-a492b20afd64",
+	"c9145df9-4478-4c5a-a760-c57d39fcb4d8",
 	'act_ai',
 	"7bee7ca6-822c-4add-96b4-6f0703edad25",
 	0,
 	'',
-	"5be87dde-3b91-4a0d-bcfa-b05af310de87",
+	"a3dbc39e-37e3-49dc-8e15-d237000cb535",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("7bee7ca6-822c-4add-96b4-6f0703edad25",
@@ -972,18 +965,18 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Instance Access/Instance Access.xtuml');
 INSERT INTO PE_PE
-	VALUES ("7c0a972e-9abb-49e8-8d41-f03d9dd2663b",
+	VALUES ("c9145df9-4478-4c5a-a760-c57d39fcb4d8",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f70e560e-8b1b-464a-ac67-e9db0f7113fb",
+	VALUES ("b36eefd9-d9c1-46b8-9e8b-e224d3cb2d39",
 	"00000000-0000-0000-0000-000000000000",
 	'V_VAL_drill_for_V_VAL_root',
 	'',
 	'//
-// Find the root of the given value instance.  We may need to 
+// Find the root of the given value instance.  We may need to
 // recurse down in the case of structures and arrays.
 v_val = param.v_val;
 result = v_val;
@@ -1004,8 +997,8 @@ return result;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("225a9854-fd39-44f1-8156-98b4c77c974a",
-	"f70e560e-8b1b-464a-ac67-e9db0f7113fb",
+	VALUES ("52d71143-7831-4ba9-b806-e0eed2330e66",
+	"b36eefd9-d9c1-46b8-9e8b-e224d3cb2d39",
 	'v_val',
 	"6c890e9d-8533-4087-ac72-ea19e3290a3c",
 	0,
@@ -1020,13 +1013,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("f70e560e-8b1b-464a-ac67-e9db0f7113fb",
+	VALUES ("b36eefd9-d9c1-46b8-9e8b-e224d3cb2d39",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("64551f58-aeb2-47a7-8b28-b2bf08415700",
+	VALUES ("6d77e434-d462-4ae9-8a59-be908d61a570",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_create_instances',
 	'',
@@ -1046,13 +1039,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("64551f58-aeb2-47a7-8b28-b2bf08415700",
+	VALUES ("6d77e434-d462-4ae9-8a59-be908d61a570",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("58e1ed37-0355-4b3b-9856-812a87710995",
+	VALUES ("54bc2d16-2cb4-49f4-89d9-dbbcf8619514",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_create_instance',
 	'',
@@ -1077,10 +1070,10 @@ if ( not_empty te_class )
   r = ::AutoInitializeUniqueIDs( te_class:te_class, instance:te_var.buffer );
   init_uniques = r;
   if ( act_cr.is_implicit )
-    te_smt.declaration = ( ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" ) );
+    te_blk.declaration = ( ( te_blk.declaration + te_class.GeneratedName ) + ( " * " + te_var.buffer ) ) + ";";
   end if;
-  T::include(file:"te_file.arc_path/t.smt.create_instance.c");
-  te_smt.OAL = "CREATE OBJECT INSTANCE v_var.Name OF te_class.Key_Lett";
+  T::include(file:"c/t.smt.create_instance.c");
+  te_smt.OAL = "CREATE OBJECT INSTANCE ${v_var.Name} OF ${te_class.Key_Lett}";
 end if;
 return T::body();
 ',
@@ -1088,8 +1081,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("b8d13458-a4f6-4f74-88d6-a6bb893d0154",
-	"58e1ed37-0355-4b3b-9856-812a87710995",
+	VALUES ("9f11c9e2-95e1-44b3-8785-0c1c2566c2c0",
+	"54bc2d16-2cb4-49f4-89d9-dbbcf8619514",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -1097,13 +1090,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("023e607e-b78d-4d2e-9edf-23f299e5f638",
-	"58e1ed37-0355-4b3b-9856-812a87710995",
+	VALUES ("508f26aa-83fe-4802-a5ce-2fd1251dd893",
+	"54bc2d16-2cb4-49f4-89d9-dbbcf8619514",
 	'act_cr',
 	"528c3b46-471a-4fed-92ed-ff4b84dc5137",
 	0,
 	'',
-	"b8d13458-a4f6-4f74-88d6-a6bb893d0154",
+	"9f11c9e2-95e1-44b3-8785-0c1c2566c2c0",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("528c3b46-471a-4fed-92ed-ff4b84dc5137",
@@ -1113,13 +1106,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Instance Access/Instance Access.xtuml');
 INSERT INTO PE_PE
-	VALUES ("58e1ed37-0355-4b3b-9856-812a87710995",
+	VALUES ("54bc2d16-2cb4-49f4-89d9-dbbcf8619514",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("fe5a0587-9e01-4d9f-b0f6-48621f84672d",
+	VALUES ("77fb9a45-a180-4304-8ecd-a67cb6021e20",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_delete_instances',
 	'',
@@ -1139,13 +1132,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("fe5a0587-9e01-4d9f-b0f6-48621f84672d",
+	VALUES ("77fb9a45-a180-4304-8ecd-a67cb6021e20",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("249836fc-7954-46a5-b22f-562d6fe9ade5",
+	VALUES ("ad67befe-3c7e-4f1f-8ea2-c98beddf9fef",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_delete_instance',
 	'',
@@ -1166,8 +1159,8 @@ if ( not_empty te_class )
   select one te_c related by te_class->TE_C[R2064];
   r = ::GetDomainTypeIDFromString( dom_name:te_c.Name );
   dom_id = r;
-  T::include(file:"te_file.arc_path/t.smt.delete_instance.c");
-  te_smt.OAL = "DELETE OBJECT INSTANCE v_var.Name";
+  T::include(file:"c/t.smt.delete_instance.c");
+  te_smt.OAL = "DELETE OBJECT INSTANCE ${v_var.Name}";
 end if;
 return T::body();
 ',
@@ -1175,8 +1168,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d1591805-f14b-4326-ad83-5127ff8e9e0d",
-	"249836fc-7954-46a5-b22f-562d6fe9ade5",
+	VALUES ("8ede0ff6-2cc8-4fac-ba7d-fdc77c12d0cc",
+	"ad67befe-3c7e-4f1f-8ea2-c98beddf9fef",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -1184,13 +1177,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("dc192725-613c-46db-aa01-a0a3f7805783",
-	"249836fc-7954-46a5-b22f-562d6fe9ade5",
+	VALUES ("b6a3ef03-9b87-4934-9201-e5592b2f9f12",
+	"ad67befe-3c7e-4f1f-8ea2-c98beddf9fef",
 	'act_del',
 	"e208c327-0aa9-4cd5-9c95-47be6ada1cd5",
 	0,
 	'',
-	"d1591805-f14b-4326-ad83-5127ff8e9e0d",
+	"8ede0ff6-2cc8-4fac-ba7d-fdc77c12d0cc",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("e208c327-0aa9-4cd5-9c95-47be6ada1cd5",
@@ -1200,13 +1193,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Instance Access/Instance Access.xtuml');
 INSERT INTO PE_PE
-	VALUES ("249836fc-7954-46a5-b22f-562d6fe9ade5",
+	VALUES ("ad67befe-3c7e-4f1f-8ea2-c98beddf9fef",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("184b01eb-d5b3-4b16-9f79-6dc8cf2f9d87",
+	VALUES ("181ca6b0-264d-49e6-ac5e-cbdf1b1a4b58",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_create_events_to_instance',
 	'',
@@ -1227,13 +1220,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("184b01eb-d5b3-4b16-9f79-6dc8cf2f9d87",
+	VALUES ("181ca6b0-264d-49e6-ac5e-cbdf1b1a4b58",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("490358cc-3e1e-48ae-8e8a-8d044e201047",
+	VALUES ("ec19dc41-520c-49ed-9ef7-6c22e7918864",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_create_events_to_class',
 	'',
@@ -1253,13 +1246,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("490358cc-3e1e-48ae-8e8a-8d044e201047",
+	VALUES ("ec19dc41-520c-49ed-9ef7-6c22e7918864",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("a2c5ecfb-ea40-4e1a-a018-d988e4a366f0",
+	VALUES ("4c54bc48-d4cb-4079-b35a-cbe39bacf742",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_create_events_to_creator',
 	'',
@@ -1279,13 +1272,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("a2c5ecfb-ea40-4e1a-a018-d988e4a366f0",
+	VALUES ("4c54bc48-d4cb-4079-b35a-cbe39bacf742",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("772b83fb-bd5d-4573-8b6b-de9e250c1352",
+	VALUES ("d89d5d3e-2250-4cb2-a3fb-69d4cf0dee1b",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_create_event',
 	'',
@@ -1339,13 +1332,13 @@ if ( not_empty te_class )
     end if;
     if ( e_ces.is_implicit )
       if ( "" == parameters )
-        te_smt.declaration = ( ( te_eq.base_event_type + " * " ) + ( te_var.buffer + ";" ) );
+        te_blk.declaration = ( ( te_blk.declaration + te_eq.base_event_type ) + ( " * " + te_var.buffer ) ) + ";";
       else
-        te_smt.declaration = ( ( te_evt.GeneratedName + " * " ) + ( te_var.buffer + ";" ) );
+        te_blk.declaration = ( ( te_blk.declaration + te_evt.GeneratedName ) + ( " * " + te_var.buffer ) ) + ";";
       end if;
     end if;
-    T::include(file:"te_file.arc_path/t.smt.create_event.c");
-    te_smt.OAL = "CREATE EVENT INSTANCE v_var.Name( parameter_OAL ) TO recipient_OAL";
+    T::include(file:"c/t.smt.create_event.c");
+    te_smt.OAL = "CREATE EVENT INSTANCE ${v_var.Name}( ${parameter_OAL} ) TO ${recipient_OAL}";
   end if;
 end if;
 return T::body();
@@ -1354,8 +1347,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("48daefd3-b1fe-410e-b6b0-f0409773fdfd",
-	"772b83fb-bd5d-4573-8b6b-de9e250c1352",
+	VALUES ("6b283b13-4ba5-4f75-8d24-769b6f095600",
+	"d89d5d3e-2250-4cb2-a3fb-69d4cf0dee1b",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -1363,13 +1356,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("48ce4ce4-31a8-46d4-98b0-29d81c91d659",
-	"772b83fb-bd5d-4573-8b6b-de9e250c1352",
+	VALUES ("e417ac3a-5d4c-4610-95cb-fda16ea64511",
+	"d89d5d3e-2250-4cb2-a3fb-69d4cf0dee1b",
 	'e_csme',
 	"2e981d36-5dd1-42db-b777-f4ebdad03733",
 	0,
 	'',
-	"48daefd3-b1fe-410e-b6b0-f0409773fdfd",
+	"6b283b13-4ba5-4f75-8d24-769b6f095600",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("2e981d36-5dd1-42db-b777-f4ebdad03733",
@@ -1379,31 +1372,31 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Event/Event.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("9a669e1b-c0a8-4f47-88b9-f6c13c7f8d48",
-	"772b83fb-bd5d-4573-8b6b-de9e250c1352",
+	VALUES ("dbfc70f4-0990-418b-bad0-de5253e05dc6",
+	"d89d5d3e-2250-4cb2-a3fb-69d4cf0dee1b",
 	'recipient',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"48ce4ce4-31a8-46d4-98b0-29d81c91d659",
+	"e417ac3a-5d4c-4610-95cb-fda16ea64511",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("af72f436-e9ae-46aa-a869-f4b360a02079",
-	"772b83fb-bd5d-4573-8b6b-de9e250c1352",
+	VALUES ("502e2330-ad75-488e-85b9-245e973ee98c",
+	"d89d5d3e-2250-4cb2-a3fb-69d4cf0dee1b",
 	'recipient_OAL',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"9a669e1b-c0a8-4f47-88b9-f6c13c7f8d48",
+	"dbfc70f4-0990-418b-bad0-de5253e05dc6",
 	'');
 INSERT INTO PE_PE
-	VALUES ("772b83fb-bd5d-4573-8b6b-de9e250c1352",
+	VALUES ("d89d5d3e-2250-4cb2-a3fb-69d4cf0dee1b",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("bb601ae9-d3d1-4952-83cc-a313b0c57d3c",
+	VALUES ("8df59675-6b50-4173-b421-f23f1e14e089",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_relates',
 	'',
@@ -1422,13 +1415,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("bb601ae9-d3d1-4952-83cc-a313b0c57d3c",
+	VALUES ("8df59675-6b50-4173-b421-f23f1e14e089",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("2ee03d89-db9f-42ec-848e-ddd3c5eebc7b",
+	VALUES ("4fa24443-d200-4abd-82d4-b2b81e147ce5",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_relate',
 	'',
@@ -1465,8 +1458,8 @@ if ( not_empty te_class )
   if ( "C" != te_target.language )
     thismodule = ", thismodule";
   end if;
-  T::include(file:"te_file.arc_path/t.smt.relate.c");
-  te_smt.OAL = "RELATE one_v_var.Name TO oth_v_var.Name ACROSS Rr_rel.Numb";
+  T::include(file:"c/t.smt.relate.c");
+  te_smt.OAL = "RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R$t{r_rel.Numb}";
 end if;
 return T::body();
 ',
@@ -1474,8 +1467,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("80be595a-f156-4df7-9e0b-eeef0728300c",
-	"2ee03d89-db9f-42ec-848e-ddd3c5eebc7b",
+	VALUES ("d20d747b-2288-4801-bf99-d8088e08bd64",
+	"4fa24443-d200-4abd-82d4-b2b81e147ce5",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -1483,13 +1476,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("1d3d0e23-82e7-45ae-a2a5-1b89a1bb1771",
-	"2ee03d89-db9f-42ec-848e-ddd3c5eebc7b",
+	VALUES ("5ac293e5-e87f-41a1-8a36-c9f4db47b57d",
+	"4fa24443-d200-4abd-82d4-b2b81e147ce5",
 	'act_rel',
 	"f1fd3e4e-7abd-4897-838f-91d7ad1f8bdd",
 	0,
 	'',
-	"80be595a-f156-4df7-9e0b-eeef0728300c",
+	"d20d747b-2288-4801-bf99-d8088e08bd64",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("f1fd3e4e-7abd-4897-838f-91d7ad1f8bdd",
@@ -1499,13 +1492,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Relate And Unrelate/Relate And Unrelate.xtuml');
 INSERT INTO PE_PE
-	VALUES ("2ee03d89-db9f-42ec-848e-ddd3c5eebc7b",
+	VALUES ("4fa24443-d200-4abd-82d4-b2b81e147ce5",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("40da513f-2c1d-4fb7-ab6b-c1cc57b18bf6",
+	VALUES ("f145f2eb-c50e-4c2d-bc6a-a3eaa2f21aed",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_relate_usings',
 	'',
@@ -1522,13 +1515,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("40da513f-2c1d-4fb7-ab6b-c1cc57b18bf6",
+	VALUES ("f145f2eb-c50e-4c2d-bc6a-a3eaa2f21aed",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("d0b754ce-675a-47e4-b235-39fde9988a60",
+	VALUES ("29e12929-b884-463f-b65e-defd53c6bb9f",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_relate_using',
 	'',
@@ -1587,16 +1580,16 @@ select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
 if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
   left_obj_is_aone = true;
 end if;
-T::include(file:"te_file.arc_path/t.smt.relate_using.c");
-te_smt.OAL = "RELATE one_te_var.OAL TO oth_te_var.OAL ACROSS Rr_rel.Numb USING ass_te_var.OAL";
+T::include(file:"c/t.smt.relate_using.c");
+te_smt.OAL = "RELATE ${one_te_var.OAL} TO ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}";
 return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("346d573a-85bf-41d4-bf6c-6b9390622af8",
-	"d0b754ce-675a-47e4-b235-39fde9988a60",
+	VALUES ("52adc701-7212-4986-9619-2756b5af16f8",
+	"29e12929-b884-463f-b65e-defd53c6bb9f",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -1604,13 +1597,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("030ce0ed-2391-434a-9e48-04772c4641f3",
-	"d0b754ce-675a-47e4-b235-39fde9988a60",
+	VALUES ("1dc2e334-dca7-4d79-be90-147e15cde808",
+	"29e12929-b884-463f-b65e-defd53c6bb9f",
 	'act_ru',
 	"0bc12e99-e525-4061-9a2f-722aa9576102",
 	0,
 	'',
-	"346d573a-85bf-41d4-bf6c-6b9390622af8",
+	"52adc701-7212-4986-9619-2756b5af16f8",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("0bc12e99-e525-4061-9a2f-722aa9576102",
@@ -1620,13 +1613,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Relate And Unrelate/Relate And Unrelate.xtuml');
 INSERT INTO PE_PE
-	VALUES ("d0b754ce-675a-47e4-b235-39fde9988a60",
+	VALUES ("29e12929-b884-463f-b65e-defd53c6bb9f",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("ea31de33-08cf-4404-b762-f9b221488c5b",
+	VALUES ("4d4fcaaa-b968-4332-ae81-2ceb5b5876d3",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_unrelates',
 	'',
@@ -1643,13 +1636,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("ea31de33-08cf-4404-b762-f9b221488c5b",
+	VALUES ("4d4fcaaa-b968-4332-ae81-2ceb5b5876d3",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("ed0d1ed1-e571-4f2d-bd7b-3406a13d2050",
+	VALUES ("faab528f-eb21-42bd-98a4-fd2b68c2484f",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_unrelate',
 	'',
@@ -1684,8 +1677,8 @@ if ( not_empty te_class )
   if ( "C" != te_target.language )
     thismodule = ", thismodule";
   end if;
-  T::include(file:"te_file.arc_path/t.smt.unrelate.c");
-  te_smt.OAL = "UNRELATE one_te_var.OAL FROM oth_te_var.OAL ACROSS Rr_rel.Numb";
+  T::include(file:"c/t.smt.unrelate.c");
+  te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb}";
 end if;
 return T::body();
 ',
@@ -1693,8 +1686,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("432bbf40-9679-442d-a3fa-cdaa86cb0348",
-	"ed0d1ed1-e571-4f2d-bd7b-3406a13d2050",
+	VALUES ("4a5ba83e-5f8f-45a9-ba6f-caf4856843f4",
+	"faab528f-eb21-42bd-98a4-fd2b68c2484f",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -1702,13 +1695,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8e13f21d-4968-4e55-8bc8-8fca6c6b3722",
-	"ed0d1ed1-e571-4f2d-bd7b-3406a13d2050",
+	VALUES ("c7322b77-9427-49de-b278-e1715e8853ae",
+	"faab528f-eb21-42bd-98a4-fd2b68c2484f",
 	'act_unr',
 	"027da7b2-41e8-496d-bd23-4e885028c3fa",
 	0,
 	'',
-	"432bbf40-9679-442d-a3fa-cdaa86cb0348",
+	"4a5ba83e-5f8f-45a9-ba6f-caf4856843f4",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("027da7b2-41e8-496d-bd23-4e885028c3fa",
@@ -1718,13 +1711,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Relate And Unrelate/Relate And Unrelate.xtuml');
 INSERT INTO PE_PE
-	VALUES ("ed0d1ed1-e571-4f2d-bd7b-3406a13d2050",
+	VALUES ("faab528f-eb21-42bd-98a4-fd2b68c2484f",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("36c564fc-8db1-4dca-a63a-47372efddb5b",
+	VALUES ("946b64aa-1081-4d24-ad7d-115245c81900",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_unrelate_usings',
 	'',
@@ -1741,13 +1734,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("36c564fc-8db1-4dca-a63a-47372efddb5b",
+	VALUES ("946b64aa-1081-4d24-ad7d-115245c81900",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("49e72d41-52d0-4b96-8047-888d43cbb5bf",
+	VALUES ("479fd96d-b45a-453b-b376-59c45d5705c6",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_unrelate_using',
 	'',
@@ -1805,16 +1798,16 @@ select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
 if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
   left_obj_is_aone = true;
 end if;
-T::include(file:"te_file.arc_path/t.smt.unrelate_using.c");
-te_smt.OAL = "UNRELATE one_te_var.OAL FROM oth_te_var.OAL ACROSS Rr_rel.Numb USING ass_te_var.OAL";
+T::include(file:"c/t.smt.unrelate_using.c");
+te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}";
 return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("c8adfb43-8320-4b99-9aed-a876d4a38063",
-	"49e72d41-52d0-4b96-8047-888d43cbb5bf",
+	VALUES ("842cd9bb-d820-4dc3-b563-1f663452256f",
+	"479fd96d-b45a-453b-b376-59c45d5705c6",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -1822,13 +1815,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5fd7d3be-c316-4ad4-88fb-996a2fe9010e",
-	"49e72d41-52d0-4b96-8047-888d43cbb5bf",
+	VALUES ("46c2fbfe-68f6-4106-97b7-b371eddb0a2c",
+	"479fd96d-b45a-453b-b376-59c45d5705c6",
 	'act_uru',
 	"0241bbac-67e0-4ca8-a2ab-5ee6aac4a6a4",
 	0,
 	'',
-	"c8adfb43-8320-4b99-9aed-a876d4a38063",
+	"842cd9bb-d820-4dc3-b563-1f663452256f",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("0241bbac-67e0-4ca8-a2ab-5ee6aac4a6a4",
@@ -1838,13 +1831,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Relate And Unrelate/Relate And Unrelate.xtuml');
 INSERT INTO PE_PE
-	VALUES ("49e72d41-52d0-4b96-8047-888d43cbb5bf",
+	VALUES ("479fd96d-b45a-453b-b376-59c45d5705c6",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("04050d72-58be-4830-a66a-4f9bd85b964b",
+	VALUES ("30a2ea56-19f6-4359-9a0d-a90375e0e3d7",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_selects',
 	'',
@@ -1863,13 +1856,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("04050d72-58be-4830-a66a-4f9bd85b964b",
+	VALUES ("30a2ea56-19f6-4359-9a0d-a90375e0e3d7",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("37520d1a-3e95-4197-98c5-0281b8e10b5d",
+	VALUES ("d70441e4-25ad-4bbd-8b2f-4b9104ad9a00",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_select',
 	'',
@@ -1900,22 +1893,24 @@ if ( not_empty te_class )
   if ( te_select.multiplicity == "any" )
     if ( te_select.is_implicit )
       // Declare (first OAL usage of) inst_ref<Object> handle variable.
-      te_smt.declaration = "te_select.class_name * te_select.var_name=0;";
+      te_blk.declaration = ( ( te_blk.declaration + te_select.class_name ) + ( " * " + te_select.var_name ) ) + "=0;";
     end if;
   elif ( te_select.multiplicity == "many" )
     if ( te_select.is_implicit )
       // First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
-      te_smt.declaration = "te_set.scopete_set.base_class te_select.var_name_space={0}; te_set.scopete_set.base_class * te_select.var_name = &te_select.var_name_space; /* te_select.var_name (te_class.Key_Lett) */";
-      te_smt.deallocation = "te_set.modulete_set.clear( te_select.var_name );";
+      T::clear();
+      selection_result_variable = te_select.var_name;
+      T::include(file:"c/t.smt.set_declaration.c");
+      te_blk.declaration = te_blk.declaration + T::body();
       // Push deallocation into the block so that it is available at gen time for break/continue/return.
-      te_blk.deallocation = te_blk.deallocation + te_smt.deallocation;
+      te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) ) + ( te_select.var_name + " );" );
     end if;
   else
-    T::print(s:"\nERROR:  select multiplicity is not any or many.");
+    T::print(s:"\nERROR:  select ${te_select.multiplicity} is not any or many.");
     T::exit(i:101);
   end if;
-  T::include(file:"te_file.arc_path/t.smt.select.c");
-  te_smt.OAL = "SELECT act_fio.cardinality v_var.Name FROM INSTANCES OF te_class.Key_Lett";
+  T::include(file:"c/t.smt.select.c");
+  te_smt.OAL = "SELECT ${act_fio.cardinality} ${v_var.Name} FROM INSTANCES OF ${te_class.Key_Lett}";
 end if;
 return T::body();
 ',
@@ -1923,8 +1918,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d04b280b-0e67-4e51-a383-98fe957cb997",
-	"37520d1a-3e95-4197-98c5-0281b8e10b5d",
+	VALUES ("a26e8a5d-7648-433a-9280-0eeac022f544",
+	"d70441e4-25ad-4bbd-8b2f-4b9104ad9a00",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -1932,13 +1927,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9b09bb62-ac7d-4ae7-bbd4-4bb1dcc51760",
-	"37520d1a-3e95-4197-98c5-0281b8e10b5d",
+	VALUES ("6ab79cd5-f61e-4b7e-8a0d-3cd897cc84b4",
+	"d70441e4-25ad-4bbd-8b2f-4b9104ad9a00",
 	'act_fio',
 	"7c224141-b812-43f9-b35b-3b50adc6266d",
 	0,
 	'',
-	"d04b280b-0e67-4e51-a383-98fe957cb997",
+	"a26e8a5d-7648-433a-9280-0eeac022f544",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("7c224141-b812-43f9-b35b-3b50adc6266d",
@@ -1948,13 +1943,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Selection/Selection.xtuml');
 INSERT INTO PE_PE
-	VALUES ("37520d1a-3e95-4197-98c5-0281b8e10b5d",
+	VALUES ("d70441e4-25ad-4bbd-8b2f-4b9104ad9a00",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("326ff648-4cfd-426a-936a-efcc7adb6659",
+	VALUES ("ea2b27c2-8bd4-4f1a-804d-87e84133d42d",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_select_wheres',
 	'',
@@ -1973,13 +1968,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("326ff648-4cfd-426a-936a-efcc7adb6659",
+	VALUES ("ea2b27c2-8bd4-4f1a-804d-87e84133d42d",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("747ba7d9-56dd-4f41-a9b5-5f4e8dda17c8",
+	VALUES ("4d761a3b-1227-46b9-8250-55ad5b697666",
 	"00000000-0000-0000-0000-000000000000",
 	'v_val_find_v_slr_return_buffer',
 	'',
@@ -2028,8 +2023,8 @@ return result;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("1d91174f-54d0-488a-9b12-3e9494f351ad",
-	"747ba7d9-56dd-4f41-a9b5-5f4e8dda17c8",
+	VALUES ("e616e047-54e3-40d1-b053-893e14e83d0f",
+	"4d761a3b-1227-46b9-8250-55ad5b697666",
 	'v_val',
 	"6c890e9d-8533-4087-ac72-ea19e3290a3c",
 	0,
@@ -2037,13 +2032,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("747ba7d9-56dd-4f41-a9b5-5f4e8dda17c8",
+	VALUES ("4d761a3b-1227-46b9-8250-55ad5b697666",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("1835a1d7-243e-4178-8552-0680a7c8d863",
+	VALUES ("da286ccf-a57f-4c23-a14b-12eae89cb7ad",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_select_where',
 	'',
@@ -2079,18 +2074,20 @@ if ( not_empty te_class )
   if ( "any" == te_select_where.multiplicity )
     if ( te_select_where.is_implicit )
       // Declare (first OAL usage of) inst_ref<Object> handle variable.
-      te_smt.declaration = "te_select_where.class_name * te_select_where.var_name=0;";
+      te_blk.declaration = ( ( te_blk.declaration + te_select_where.class_name ) + ( " * " + te_select_where.var_name ) ) + "=0;";
     end if;
   elif ( "many" == te_select_where.multiplicity )
     if ( te_select_where.is_implicit )
       // First OAL usage of inst_ref_set<Object> handle set
-      te_smt.declaration = "te_set.scopete_set.base_class te_select_where.var_name_space={0}; te_set.scopete_set.base_class * te_select_where.var_name = &te_select_where.var_name_space; /* te_select_where.oal_var_name (o_obj.Key_Lett) */";
-      te_smt.deallocation = "te_set.modulete_set.clear( te_select_where.var_name );  /* Clear set: te_select_where.oal_var_name */";
+      T::clear();
+      selection_result_variable = te_select_where.var_name;
+      T::include(file:"c/t.smt.set_declaration.c");
+      te_blk.declaration = te_blk.declaration + T::body();
       // Push deallocation into the block so that it is available at gen time for break/continue/return.
-      te_blk.deallocation = te_blk.deallocation + te_smt.deallocation;
+      te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) ) + ( te_select_where.var_name + " );" );
     end if;
   else
-    T::print(s:"\nERROR:  stmt_select_from_instances_of_where: Select multiplicity is not any or many.");
+    T::print(s:"\nERROR:  stmt_select_from_instances_of_where: Select ${te_select_where.multiplicity} is not any or many.");
     T::exit(i:101);
   end if;
   r = ::GetFixedSizeClassExtentInfo( te_class:te_class );
@@ -2103,8 +2100,8 @@ if ( not_empty te_class )
   select one te_where related by o_id->TE_WHERE[R2032];
   r = ::CreateSpecialWhereComparisonArguments( te_class:te_class, o_id:o_id );
   arguments = r;
-  T::include(file:"te_file.arc_path/t.smt.select_where.c");
-  te_smt.OAL = "SELECT act_fiw.cardinality v_var.Name FROM INSTANCES OF te_class.Key_Lett WHERE where_te_val.OAL";
+  T::include(file:"c/t.smt.select_where.c");
+  te_smt.OAL = "SELECT ${act_fiw.cardinality} ${v_var.Name} FROM INSTANCES OF ${te_class.Key_Lett} WHERE ${where_te_val.OAL}";
 end if;
 return T::body();
 ',
@@ -2112,8 +2109,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("14e82e9e-5375-4cab-9de8-3cb4eeac106e",
-	"1835a1d7-243e-4178-8552-0680a7c8d863",
+	VALUES ("dbdc6a04-586d-49dd-98e3-e7d64e805206",
+	"da286ccf-a57f-4c23-a14b-12eae89cb7ad",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -2121,13 +2118,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("e726f213-a3b1-477e-b5b7-4a3d7e966c1c",
-	"1835a1d7-243e-4178-8552-0680a7c8d863",
+	VALUES ("d9d988dd-0091-40ea-8783-656e351250ee",
+	"da286ccf-a57f-4c23-a14b-12eae89cb7ad",
 	'act_fiw',
 	"95efa184-df88-42fe-8068-f0050e6fff8a",
 	0,
 	'',
-	"14e82e9e-5375-4cab-9de8-3cb4eeac106e",
+	"dbdc6a04-586d-49dd-98e3-e7d64e805206",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("95efa184-df88-42fe-8068-f0050e6fff8a",
@@ -2137,13 +2134,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Selection/Selection.xtuml');
 INSERT INTO PE_PE
-	VALUES ("1835a1d7-243e-4178-8552-0680a7c8d863",
+	VALUES ("da286ccf-a57f-4c23-a14b-12eae89cb7ad",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c0e17a74-76f9-4a4d-bcd3-0a9667829530",
+	VALUES ("c180f3a9-adc6-4aa6-8fd3-4f2fa3499ff5",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_select_relateds',
 	'',
@@ -2162,13 +2159,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("c0e17a74-76f9-4a4d-bcd3-0a9667829530",
+	VALUES ("c180f3a9-adc6-4aa6-8fd3-4f2fa3499ff5",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("793104ee-f8e7-4d7e-98c9-ae3075160e05",
+	VALUES ("915856ff-79c2-4b8f-bcbd-74137d0373dc",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_select_related_wheres',
 	'',
@@ -2188,13 +2185,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("793104ee-f8e7-4d7e-98c9-ae3075160e05",
+	VALUES ("915856ff-79c2-4b8f-bcbd-74137d0373dc",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("9356d2a6-7096-44d5-8866-c1f8c50e5bf5",
+	VALUES ("564a2c47-1434-4134-98ab-d2d29635cf18",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_generate_precreated_events',
 	'',
@@ -2213,13 +2210,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("9356d2a6-7096-44d5-8866-c1f8c50e5bf5",
+	VALUES ("564a2c47-1434-4134-98ab-d2d29635cf18",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("4fb962b6-1fe5-4cea-8da1-e7fd01f9890e",
+	VALUES ("4407e295-e014-4ead-8059-6571382acda6",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_generate_precreated_event',
 	'',
@@ -2237,16 +2234,16 @@ select one te_val related by e_gpr->V_VAL[R714]->TE_VAL[R2040];
 self_directed = false;
 // CDS - Also may need to dig inside, get the sm_evt and then see if this
 // event is polymorphic.
-T::include(file:"te_file.arc_path/t.smt.generate_precreated_event.c");
-te_smt.OAL = "GENERATE te_val.OAL";
+T::include(file:"c/t.smt.generate_precreated_event.c");
+te_smt.OAL = "GENERATE ${te_val.OAL}";
 return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8bff7c39-74b9-438d-93f0-0754765a3799",
-	"4fb962b6-1fe5-4cea-8da1-e7fd01f9890e",
+	VALUES ("631d1d5c-5f89-40f3-994e-4a89e742b789",
+	"4407e295-e014-4ead-8059-6571382acda6",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -2254,13 +2251,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a2a6ea64-427f-4e78-a0ab-9075e6aa3883",
-	"4fb962b6-1fe5-4cea-8da1-e7fd01f9890e",
+	VALUES ("2384d096-ddf6-4ef6-b04d-88e9e889bdf0",
+	"4407e295-e014-4ead-8059-6571382acda6",
 	'e_gpr',
 	"8b663a15-3d11-4c95-8407-3642dfeeadd7",
 	0,
 	'',
-	"8bff7c39-74b9-438d-93f0-0754765a3799",
+	"631d1d5c-5f89-40f3-994e-4a89e742b789",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("8b663a15-3d11-4c95-8407-3642dfeeadd7",
@@ -2270,13 +2267,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Event/Event.xtuml');
 INSERT INTO PE_PE
-	VALUES ("4fb962b6-1fe5-4cea-8da1-e7fd01f9890e",
+	VALUES ("4407e295-e014-4ead-8059-6571382acda6",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("488d48fa-d87d-4559-aa63-1f5278a9764e",
+	VALUES ("74d354b3-73e0-48f3-a52f-bd66f28050dd",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_generate_events',
 	'',
@@ -2296,13 +2293,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("488d48fa-d87d-4559-aa63-1f5278a9764e",
+	VALUES ("74d354b3-73e0-48f3-a52f-bd66f28050dd",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("49e9fe28-cbfe-4ecb-aa12-b4e1034453c2",
+	VALUES ("404b5af4-38c9-44df-89f7-5e7da9d26620",
 	"00000000-0000-0000-0000-000000000000",
 	'print_v_pars',
 	'',
@@ -2313,10 +2310,10 @@ while ( not done )
   if ( empty v_par )
     done = true;
   else
-    T::print(s:"-=-=-=-=-=-=-=-=-=-=-=-=-=- v_par is v_par.Name");
+    T::print(s:"-=-=-=-=-=-=-=-=-=-=-=-=-=- v_par is ${v_par.Name}");
     select any sm_evtdi related by v_par->V_VAL[R800]->V_EDV[R801]->V_EPR[R834]->SM_EVTDI[R846];
     if ( not_empty sm_evtdi )
-      T::print(s:"-=m=m=m=-=-=-=-=-=-=-=-=-=- sm_evtdi is sm_evtdi.Name");
+      T::print(s:"-=m=m=m=-=-=-=-=-=-=-=-=-=- sm_evtdi is ${sm_evtdi.Name}");
     end if;
     select one v_par related by v_par->V_PAR[R816.''succeeds''];
   end if;
@@ -2326,8 +2323,8 @@ end while;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("1c2af020-27a6-4189-8386-1a21810748f2",
-	"49e9fe28-cbfe-4ecb-aa12-b4e1034453c2",
+	VALUES ("755ece3b-b553-4d72-bd57-e7cb5375def0",
+	"404b5af4-38c9-44df-89f7-5e7da9d26620",
 	'v_par',
 	"207500c6-1a45-48bc-803f-a6c31bc58ff1",
 	0,
@@ -2342,13 +2339,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("49e9fe28-cbfe-4ecb-aa12-b4e1034453c2",
+	VALUES ("404b5af4-38c9-44df-89f7-5e7da9d26620",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("594b5a60-ba74-4b32-b126-ae1b105df4be",
+	VALUES ("c0937920-a57b-4623-a0de-c57a5b8d23f4",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_generate_event',
 	'',
@@ -2390,8 +2387,8 @@ if ( ( not_empty te_class ) and ( not_empty te_evt ) )
     self_directed = true;
   end if;
   var_name = te_var.buffer;
-  T::include(file:"te_file.arc_path/t.smt.generate.c");
-  te_smt.OAL = "GENERATE sm_evt.Drv_Lbl:sm_evt.Mning(parameter_OAL) TO v_var.Name";
+  T::include(file:"c/t.smt.generate.c");
+  te_smt.OAL = "GENERATE ${sm_evt.Drv_Lbl}:${sm_evt.Mning}(${parameter_OAL}) TO ${v_var.Name}";
 end if;
 return T::body();
 ',
@@ -2399,8 +2396,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("fbedc196-39b8-4d91-9e7b-5168e67b233f",
-	"594b5a60-ba74-4b32-b126-ae1b105df4be",
+	VALUES ("ee93e843-c84f-44db-982e-24a60a8ad825",
+	"c0937920-a57b-4623-a0de-c57a5b8d23f4",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -2408,13 +2405,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d27cdfee-d595-4c04-be36-221da0127447",
-	"594b5a60-ba74-4b32-b126-ae1b105df4be",
+	VALUES ("e07306a7-b7a1-4e1b-8f04-64823d08ed27",
+	"c0937920-a57b-4623-a0de-c57a5b8d23f4",
 	'e_gen',
 	"c518d401-e546-4ce8-871f-8901dc269705",
 	0,
 	'',
-	"fbedc196-39b8-4d91-9e7b-5168e67b233f",
+	"ee93e843-c84f-44db-982e-24a60a8ad825",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("c518d401-e546-4ce8-871f-8901dc269705",
@@ -2424,13 +2421,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Event/Event.xtuml');
 INSERT INTO PE_PE
-	VALUES ("594b5a60-ba74-4b32-b126-ae1b105df4be",
+	VALUES ("c0937920-a57b-4623-a0de-c57a5b8d23f4",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c651b7d7-30b5-41d4-806a-345e907c6f0c",
+	VALUES ("854b5223-ce48-47e3-b315-38a456db359f",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_generate_creator_events',
 	'',
@@ -2447,13 +2444,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("c651b7d7-30b5-41d4-806a-345e907c6f0c",
+	VALUES ("854b5223-ce48-47e3-b315-38a456db359f",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c2f02ffa-1ffb-4184-abff-b71bad8eca86",
+	VALUES ("08e1b139-332a-469b-b064-dc9b4f23bbee",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_generate_creator_event',
 	'',
@@ -2469,8 +2466,8 @@ te_smt.OAL = te_smt.OAL + " CREATOR";
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("60b6fb88-06ac-4f8e-81eb-b57a7bcf7908",
-	"c2f02ffa-1ffb-4184-abff-b71bad8eca86",
+	VALUES ("70f3a379-6a27-48b6-9ef0-79fa23d9aad2",
+	"08e1b139-332a-469b-b064-dc9b4f23bbee",
 	'e_gec',
 	"9e39f4c4-cdf9-4fec-a290-ce5267810440",
 	0,
@@ -2485,13 +2482,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Event/Event.xtuml');
 INSERT INTO PE_PE
-	VALUES ("c2f02ffa-1ffb-4184-abff-b71bad8eca86",
+	VALUES ("08e1b139-332a-469b-b064-dc9b4f23bbee",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("623d48c2-c0e2-4e6e-a34e-5a466209c96b",
+	VALUES ("f7e70329-f541-4158-8d1c-d610854ae21d",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_generate_class_events',
 	'',
@@ -2508,13 +2505,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("623d48c2-c0e2-4e6e-a34e-5a466209c96b",
+	VALUES ("f7e70329-f541-4158-8d1c-d610854ae21d",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("54ea90d4-0619-4a60-a0b2-c228f8ba08f6",
+	VALUES ("3e1c7cf6-889f-4a08-9d2f-41674b04ff1d",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_generate_event_to_class',
 	'',
@@ -2530,8 +2527,8 @@ te_smt.OAL = te_smt.OAL + " CLASS";
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("af3dab2d-d7c6-42cd-bedd-bf53d41f70f8",
-	"54ea90d4-0619-4a60-a0b2-c228f8ba08f6",
+	VALUES ("96a20d96-ac00-41f8-8339-af776dcd6ee6",
+	"3e1c7cf6-889f-4a08-9d2f-41674b04ff1d",
 	'e_gar',
 	"43ed0054-aa11-45eb-adfc-7ef5fbdd4c26",
 	0,
@@ -2546,13 +2543,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Event/Event.xtuml');
 INSERT INTO PE_PE
-	VALUES ("54ea90d4-0619-4a60-a0b2-c228f8ba08f6",
+	VALUES ("3e1c7cf6-889f-4a08-9d2f-41674b04ff1d",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("333162df-273c-44e2-bb9b-a394b5a727a5",
+	VALUES ("217cb583-ac62-432d-bfc4-d88bbf5a0bfb",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_generate_class_event',
 	'',
@@ -2607,8 +2604,8 @@ if ( ( not_empty te_class ) and ( not_empty te_evt ) )
     end for;
   end if;
   var_name = "0";
-  T::include(file:"te_file.arc_path/t.smt.generate.c");
-  te_smt.OAL = "GENERATE sm_evt.Drv_Lbl:sm_evt.Mning(parameter_OAL) TO tgt_o_obj.Key_Lett";
+  T::include(file:"c/t.smt.generate.c");
+  te_smt.OAL = "GENERATE ${sm_evt.Drv_Lbl}:${sm_evt.Mning}(${parameter_OAL}) TO ${tgt_o_obj.Key_Lett}";
 end if;
 return T::body();
 ',
@@ -2616,8 +2613,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4faf6a55-8140-49db-accf-01783d44ef03",
-	"333162df-273c-44e2-bb9b-a394b5a727a5",
+	VALUES ("f3aaf4ed-58ab-4393-86fc-6617bf3686ab",
+	"217cb583-ac62-432d-bfc4-d88bbf5a0bfb",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -2625,13 +2622,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4dd92587-2d2d-43f4-8ade-241df63a5ad4",
-	"333162df-273c-44e2-bb9b-a394b5a727a5",
+	VALUES ("5f731193-05a4-4cef-bbf1-dc57acf22716",
+	"217cb583-ac62-432d-bfc4-d88bbf5a0bfb",
 	'e_gsme',
 	"63675bcb-23a0-4df6-88c0-07e6816d0db2",
 	0,
 	'',
-	"4faf6a55-8140-49db-accf-01783d44ef03",
+	"f3aaf4ed-58ab-4393-86fc-6617bf3686ab",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("63675bcb-23a0-4df6-88c0-07e6816d0db2",
@@ -2641,13 +2638,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Event/Event.xtuml');
 INSERT INTO PE_PE
-	VALUES ("333162df-273c-44e2-bb9b-a394b5a727a5",
+	VALUES ("217cb583-ac62-432d-bfc4-d88bbf5a0bfb",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("fa079816-4de8-4edc-85ad-de885bac2910",
+	VALUES ("011414d3-b6db-4942-a55d-6ec49400886d",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_sgns',
 	'',
@@ -2664,13 +2661,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("fa079816-4de8-4edc-85ad-de885bac2910",
+	VALUES ("011414d3-b6db-4942-a55d-6ec49400886d",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("a53ea5f0-ba8c-4769-a84e-23c81e9516be",
+	VALUES ("ed9f6300-bbbf-4e08-aed6-a59482ae74b0",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_sgn',
 	'',
@@ -2685,14 +2682,14 @@ end if;
 select many v_pars related by act_sgn->V_PAR[R662];
 r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true );
 te_smt.buffer = r;
-te_smt.OAL = "SEND te_mact.PortName::te_mact.MessageName(te_mact.OALParamBuffer)";
+te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})";
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("f235eced-1e5d-47ae-9dde-2037a034aea6",
-	"a53ea5f0-ba8c-4769-a84e-23c81e9516be",
+	VALUES ("d8bdd1d5-4454-4568-b525-a29b7ba60c0c",
+	"ed9f6300-bbbf-4e08-aed6-a59482ae74b0",
 	'act_sgn',
 	"75356ebb-c686-49a4-95c7-6a54deaa4225",
 	0,
@@ -2707,13 +2704,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
-	VALUES ("a53ea5f0-ba8c-4769-a84e-23c81e9516be",
+	VALUES ("ed9f6300-bbbf-4e08-aed6-a59482ae74b0",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("d6f925ec-692a-44e1-ab50-e150f7d68fc8",
+	VALUES ("b9e2d46a-4254-4841-96c0-f510992e77c2",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_iops',
 	'',
@@ -2730,13 +2727,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("d6f925ec-692a-44e1-ab50-e150f7d68fc8",
+	VALUES ("b9e2d46a-4254-4841-96c0-f510992e77c2",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("1379789f-1e89-43fe-8746-b398c7260d92",
+	VALUES ("b772c110-933b-4eb9-834b-527cc13857c8",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_iop',
 	'',
@@ -2751,14 +2748,14 @@ end if;
 select many v_pars related by act_iop->V_PAR[R679];
 r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true );
 te_smt.buffer = r;
-te_smt.OAL = "te_mact.PortName::te_mact.MessageName(te_mact.OALParamBuffer)";
+te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})";
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("589be75e-7e48-4604-ae0d-84cbfb2bc0b9",
-	"1379789f-1e89-43fe-8746-b398c7260d92",
+	VALUES ("68b2863c-4a48-4636-814f-8adf429f4788",
+	"b772c110-933b-4eb9-834b-527cc13857c8",
 	'act_iop',
 	"45d7ef3c-6fb3-48f3-b2ca-de2c2efcc6dd",
 	0,
@@ -2773,13 +2770,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
-	VALUES ("1379789f-1e89-43fe-8746-b398c7260d92",
+	VALUES ("b772c110-933b-4eb9-834b-527cc13857c8",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("36854686-e63d-4902-9f07-fb7b4e96ad47",
+	VALUES ("9a304ba5-8efa-47e6-ae1f-eec1693cfa0a",
 	"00000000-0000-0000-0000-000000000000",
 	'q_render_msg',
 	'',
@@ -2809,12 +2806,14 @@ if ( "C++" == te_target.language )
   select one te_po related by te_mact->TE_PO[R2006];
   foreign_te_po = te_po;
   if ( te_po.Provision )
-    if ( IFDirectionType::ServerClient == te_mact.Direction )
+    direction = IFDirectionType::ServerClient;
+    if ( direction == te_mact.Direction )
       name = ( te_mact.PortName + "->" ) + name;
     end if;
     select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.''requires or delegates'']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
   else
-    if ( IFDirectionType::ClientServer == te_mact.Direction )
+    direction = IFDirectionType::ClientServer;
+    if ( direction == te_mact.Direction )
       name = ( te_mact.PortName + "->" ) + name;
     end if;
     select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.''provides or is delegated'']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
@@ -2825,7 +2824,7 @@ if ( "C++" == te_target.language )
       if ( "" != parameters )
         parameters = ", " + parameters;
       end if;
-      parameters = "foreign_te_po.sibling" + parameters;
+      parameters = "${foreign_te_po.sibling}" + parameters;
     end if;
   elif ( te_sys.AllPortsPoly == true )
     if ( "" != parameters )
@@ -2834,15 +2833,15 @@ if ( "C++" == te_target.language )
     parameters = "0" + parameters;
   end if;
 end if;
-T::include(file:"te_file.arc_path/t.smt.iop.c");
+T::include(file:"c/t.smt.iop.c");
 return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("7da1d3a2-300c-4d57-9316-3a6a4f44fe0b",
-	"36854686-e63d-4902-9f07-fb7b4e96ad47",
+	VALUES ("ad33c96b-63bc-4d2c-b970-da2d12926c06",
+	"9a304ba5-8efa-47e6-ae1f-eec1693cfa0a",
 	'te_mact',
 	"7268e543-f48e-4464-ba70-227deff22727",
 	0,
@@ -2857,13 +2856,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Translation Extensions/Translation Extensions.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("d8808cc7-44ae-4223-893c-0821925e00e7",
-	"36854686-e63d-4902-9f07-fb7b4e96ad47",
+	VALUES ("43cc5c1a-6925-45a6-a2f0-d46fb5603886",
+	"9a304ba5-8efa-47e6-ae1f-eec1693cfa0a",
 	'v_pars',
 	"ae5b840e-5312-4865-ae17-5c9bba997543",
 	0,
 	'',
-	"7da1d3a2-300c-4d57-9316-3a6a4f44fe0b",
+	"ad33c96b-63bc-4d2c-b970-da2d12926c06",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("ae5b840e-5312-4865-ae17-5c9bba997543",
@@ -2873,31 +2872,31 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("dbbb3a2f-298b-4a67-99a9-fa287f2cd54e",
-	"36854686-e63d-4902-9f07-fb7b4e96ad47",
+	VALUES ("7c8759e7-6e7e-4de4-a3f2-b416aeedeac3",
+	"9a304ba5-8efa-47e6-ae1f-eec1693cfa0a",
 	'ws',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"d8808cc7-44ae-4223-893c-0821925e00e7",
+	"43cc5c1a-6925-45a6-a2f0-d46fb5603886",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0f7dcc57-e0cf-48ad-a234-0bb05412cd3f",
-	"36854686-e63d-4902-9f07-fb7b4e96ad47",
+	VALUES ("fb46e875-0a9e-4d09-84cf-6bde5a4ba0ea",
+	"9a304ba5-8efa-47e6-ae1f-eec1693cfa0a",
 	'is_statement',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'',
-	"dbbb3a2f-298b-4a67-99a9-fa287f2cd54e",
+	"7c8759e7-6e7e-4de4-a3f2-b416aeedeac3",
 	'');
 INSERT INTO PE_PE
-	VALUES ("36854686-e63d-4902-9f07-fb7b4e96ad47",
+	VALUES ("9a304ba5-8efa-47e6-ae1f-eec1693cfa0a",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("dd2d0038-f3c9-4397-b976-67872527735d",
+	VALUES ("e808f3a7-6828-40f1-af2b-bc607eeefe52",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_operates',
 	'',
@@ -2916,13 +2915,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("dd2d0038-f3c9-4397-b976-67872527735d",
+	VALUES ("e808f3a7-6828-40f1-af2b-bc607eeefe52",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e29e6654-7dce-495f-a57f-844ecd850c35",
+	VALUES ("1035f2aa-17df-4283-a58e-9e70162d9220",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_operate',
 	'',
@@ -2961,7 +2960,7 @@ if ( ( not_empty te_tfr ) and ( not_empty te_class ) )
       operation_name = ( te_class.GeneratedName + "::" ) + te_tfr.GeneratedName;
     end if;
   end if;
-  T::include(file:"te_file.arc_path/t.smt.operation.c");
+  T::include(file:"c/t.smt.operation.c");
   if ( instance_based )
     te_smt.OAL = ( te_var.OAL + "." ) + ( te_tfr.Name + "(" );
   else
@@ -2978,8 +2977,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("fbe1e2e3-d6f1-4432-bd74-d8748a94da17",
-	"e29e6654-7dce-495f-a57f-844ecd850c35",
+	VALUES ("75dbe521-31ee-44a1-a55c-4c8ede01fd91",
+	"1035f2aa-17df-4283-a58e-9e70162d9220",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -2987,13 +2986,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("6425f797-57ed-423d-9377-bd671e003ccc",
-	"e29e6654-7dce-495f-a57f-844ecd850c35",
+	VALUES ("202db713-b9d0-4df7-ae50-361e2c227a77",
+	"1035f2aa-17df-4283-a58e-9e70162d9220",
 	'act_tfm',
 	"1090fd76-cbf2-431b-8b76-774d8967448d",
 	0,
 	'',
-	"fbe1e2e3-d6f1-4432-bd74-d8748a94da17",
+	"75dbe521-31ee-44a1-a55c-4c8ede01fd91",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("1090fd76-cbf2-431b-8b76-774d8967448d",
@@ -3003,13 +3002,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
-	VALUES ("e29e6654-7dce-495f-a57f-844ecd850c35",
+	VALUES ("1035f2aa-17df-4283-a58e-9e70162d9220",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("1b60bc2c-f548-4851-900f-0a1f58c65534",
+	VALUES ("929ee521-8afa-4f61-bfa7-b7941611eca7",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_bridges',
 	'',
@@ -3028,13 +3027,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("1b60bc2c-f548-4851-900f-0a1f58c65534",
+	VALUES ("929ee521-8afa-4f61-bfa7-b7941611eca7",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("66e87070-28b3-47ba-bc5a-1e8c4db39626",
+	VALUES ("d96c81e1-0345-4a8a-a628-b86bf92ae48d",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_bridge',
 	'',
@@ -3071,8 +3070,8 @@ if ( not_empty te_brg )
       end if;
     end if;
   end if;
-  T::include(file:"te_file.arc_path/t.smt.bridge.c");
-  te_smt.OAL = "te_brg.EEkeyletters::te_brg.Name( parameter_OAL )";
+  T::include(file:"c/t.smt.bridge.c");
+  te_smt.OAL = "${te_brg.EEkeyletters}::${te_brg.Name}( ${parameter_OAL} )";
 end if;
 return T::body();
 ',
@@ -3080,8 +3079,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("322bceed-61ec-4cf8-8677-2702db253589",
-	"66e87070-28b3-47ba-bc5a-1e8c4db39626",
+	VALUES ("4ccd321d-eb54-4553-86ec-9a2c5f7cff09",
+	"d96c81e1-0345-4a8a-a628-b86bf92ae48d",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -3089,13 +3088,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9da1aed6-84fe-46db-83d7-367acb8610dd",
-	"66e87070-28b3-47ba-bc5a-1e8c4db39626",
+	VALUES ("ff29af70-c410-42d3-9982-2f31c38464e3",
+	"d96c81e1-0345-4a8a-a628-b86bf92ae48d",
 	'act_brg',
 	"87af29ba-2da9-411e-9287-ee0b2ca1dd65",
 	0,
 	'',
-	"322bceed-61ec-4cf8-8677-2702db253589",
+	"4ccd321d-eb54-4553-86ec-9a2c5f7cff09",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("87af29ba-2da9-411e-9287-ee0b2ca1dd65",
@@ -3105,13 +3104,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
-	VALUES ("66e87070-28b3-47ba-bc5a-1e8c4db39626",
+	VALUES ("d96c81e1-0345-4a8a-a628-b86bf92ae48d",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f8d3aefc-f378-43d5-9b5f-f374f44342cc",
+	VALUES ("61ecbc1a-accd-4098-8572-7b8023fc041d",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_functions',
 	'',
@@ -3130,13 +3129,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("f8d3aefc-f378-43d5-9b5f-f374f44342cc",
+	VALUES ("61ecbc1a-accd-4098-8572-7b8023fc041d",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("3631056a-b84c-46e7-8985-c6d917aababc",
+	VALUES ("72b69d68-2794-49f1-95db-61205473667a",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_function',
 	'',
@@ -3163,8 +3162,8 @@ if ( not_empty te_sync )
   if ( "C++" == te_target.language )
     function_name = "thismodule->" + function_name;
   end if;
-  T::include(file:"te_file.arc_path/t.smt.function.c");
-  te_smt.OAL = "::te_sync.Name( parameter_OAL )";
+  T::include(file:"c/t.smt.function.c");
+  te_smt.OAL = "::${te_sync.Name}( ${parameter_OAL} )";
 end if;
 return T::body();
 ',
@@ -3172,8 +3171,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a136e672-4cda-4467-a750-b6eb1c0e66c9",
-	"3631056a-b84c-46e7-8985-c6d917aababc",
+	VALUES ("693ad0c3-2447-4854-9694-ec25cde0b7da",
+	"72b69d68-2794-49f1-95db-61205473667a",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -3181,13 +3180,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a3264dde-91ee-40d8-8b08-7007abac2ca2",
-	"3631056a-b84c-46e7-8985-c6d917aababc",
+	VALUES ("b342b398-5cbe-402e-af1d-759c38288dca",
+	"72b69d68-2794-49f1-95db-61205473667a",
 	'act_fnc',
 	"0261bf9d-1ddb-4836-a9fe-ea608a52d9c3",
 	0,
 	'',
-	"a136e672-4cda-4467-a750-b6eb1c0e66c9",
+	"693ad0c3-2447-4854-9694-ec25cde0b7da",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("0261bf9d-1ddb-4836-a9fe-ea608a52d9c3",
@@ -3197,13 +3196,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
-	VALUES ("3631056a-b84c-46e7-8985-c6d917aababc",
+	VALUES ("72b69d68-2794-49f1-95db-61205473667a",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("3373f176-9e3a-424e-8751-a5fdf8f60b9a",
+	VALUES ("60af1c12-6373-4296-a3c6-f663c0160fc5",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_returns',
 	'',
@@ -3222,13 +3221,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("3373f176-9e3a-424e-8751-a5fdf8f60b9a",
+	VALUES ("60af1c12-6373-4296-a3c6-f663c0160fc5",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("8881413a-8d00-4995-a000-aa8b2126fe35",
+	VALUES ("dae8c55c-f680-4602-9773-3857b979d3de",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_return',
 	'',
@@ -3322,16 +3321,16 @@ while ( not_empty parent_te_blk )
 end while;
 //
 rv = value;
-T::include(file:"te_file.arc_path/t.smt.return.c");
-te_smt.OAL = "RETURN value_OAL";
+T::include(file:"c/t.smt.return.c");
+te_smt.OAL = "RETURN ${value_OAL}";
 return T::body();
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8e5014f1-f87c-4c78-a4d9-a40cff3e23b6",
-	"8881413a-8d00-4995-a000-aa8b2126fe35",
+	VALUES ("106942a9-c18f-4422-ac4d-0664efc75b82",
+	"dae8c55c-f680-4602-9773-3857b979d3de",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -3339,13 +3338,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a546cdd7-9fc9-4f11-80c5-65fe0dab8e5e",
-	"8881413a-8d00-4995-a000-aa8b2126fe35",
+	VALUES ("7c26aa85-c1d8-44c2-ba15-8aaff4876e8d",
+	"dae8c55c-f680-4602-9773-3857b979d3de",
 	'act_ret',
 	"b1cfda35-28f8-45ab-b2b4-5a862d70a718",
 	0,
 	'',
-	"8e5014f1-f87c-4c78-a4d9-a40cff3e23b6",
+	"106942a9-c18f-4422-ac4d-0664efc75b82",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("b1cfda35-28f8-45ab-b2b4-5a862d70a718",
@@ -3355,13 +3354,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
-	VALUES ("8881413a-8d00-4995-a000-aa8b2126fe35",
+	VALUES ("dae8c55c-f680-4602-9773-3857b979d3de",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("36813351-122a-4c45-a39e-600d96d35d70",
+	VALUES ("19871ee2-4cfc-4c01-84bb-5a262d07b446",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_controls',
 	'',
@@ -3380,13 +3379,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("36813351-122a-4c45-a39e-600d96d35d70",
+	VALUES ("19871ee2-4cfc-4c01-84bb-5a262d07b446",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("0fdb2a9d-8e24-427e-8e97-c3de708431f3",
+	VALUES ("c491ac80-09aa-46ee-81eb-03bcc911c1c9",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_control',
 	'',
@@ -3400,7 +3399,7 @@ select any te_file from instances of TE_FILE;
 select any te_thread from instances of TE_THREAD;
 select one te_blk related by te_smt->TE_BLK[R2078];
 ws = te_blk.indentation;
-T::include(file:"te_file.arc_path/t.smt.control.c");
+T::include(file:"c/t.smt.control.c");
 te_smt.OAL = "CONTROL";
 return T::body();
 ',
@@ -3408,8 +3407,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5c9ba581-48aa-4bd1-a9a8-524202ea1778",
-	"0fdb2a9d-8e24-427e-8e97-c3de708431f3",
+	VALUES ("d72e8bd9-93da-4ce2-a717-eb5bd65427c9",
+	"c491ac80-09aa-46ee-81eb-03bcc911c1c9",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -3417,13 +3416,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0c40c60a-0486-4046-8eac-90e7009cb148",
-	"0fdb2a9d-8e24-427e-8e97-c3de708431f3",
+	VALUES ("84127518-cc45-4c0b-ac5f-4355d38b78ba",
+	"c491ac80-09aa-46ee-81eb-03bcc911c1c9",
 	'act_ctl',
 	"db293f8e-a7c9-42f5-af85-1cea7adfc77d",
 	0,
 	'',
-	"5c9ba581-48aa-4bd1-a9a8-524202ea1778",
+	"d72e8bd9-93da-4ce2-a717-eb5bd65427c9",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("db293f8e-a7c9-42f5-af85-1cea7adfc77d",
@@ -3433,13 +3432,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Body/Body.xtuml');
 INSERT INTO PE_PE
-	VALUES ("0fdb2a9d-8e24-427e-8e97-c3de708431f3",
+	VALUES ("c491ac80-09aa-46ee-81eb-03bcc911c1c9",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("b0137724-6cb5-4600-ae45-818ae10493a3",
+	VALUES ("96e93132-aa96-4d9d-95ba-e5912114d9d1",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_breaks',
 	'',
@@ -3458,13 +3457,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("b0137724-6cb5-4600-ae45-818ae10493a3",
+	VALUES ("96e93132-aa96-4d9d-95ba-e5912114d9d1",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7c45bdc4-57ef-4005-a85c-be4bb0256fc5",
+	VALUES ("b658a27a-944e-4bb8-9526-d13e05f2af91",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_break',
 	'',
@@ -3490,7 +3489,7 @@ while ( not_empty parent_te_blk )
   end if;
   select one parent_te_blk related by parent_te_smt->TE_BLK[R2078];
 end while;
-T::include(file:"te_file.arc_path/t.smt.break.c");
+T::include(file:"c/t.smt.break.c");
 te_smt.OAL = "BREAK";
 return T::body();
 ',
@@ -3498,8 +3497,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("43435762-33d0-4a83-87c2-53a7a52d3831",
-	"7c45bdc4-57ef-4005-a85c-be4bb0256fc5",
+	VALUES ("d234666e-47f6-4850-8f14-ca8f0317c549",
+	"b658a27a-944e-4bb8-9526-d13e05f2af91",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -3507,13 +3506,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("e15d02ef-40ba-416b-89cd-592980afdf5a",
-	"7c45bdc4-57ef-4005-a85c-be4bb0256fc5",
+	VALUES ("62f641d4-55f6-48a3-9a80-d7b544ef7a43",
+	"b658a27a-944e-4bb8-9526-d13e05f2af91",
 	'act_brk',
 	"48514e79-7302-419e-a905-0948bfc7c063",
 	0,
 	'',
-	"43435762-33d0-4a83-87c2-53a7a52d3831",
+	"d234666e-47f6-4850-8f14-ca8f0317c549",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("48514e79-7302-419e-a905-0948bfc7c063",
@@ -3523,13 +3522,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Body/Body.xtuml');
 INSERT INTO PE_PE
-	VALUES ("7c45bdc4-57ef-4005-a85c-be4bb0256fc5",
+	VALUES ("b658a27a-944e-4bb8-9526-d13e05f2af91",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e5aaf14c-bbca-42be-9614-dcdb7453ac51",
+	VALUES ("4ad9f3a5-e6c9-4b50-b6f2-ce23dd4f01e8",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_continues',
 	'',
@@ -3548,13 +3547,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("e5aaf14c-bbca-42be-9614-dcdb7453ac51",
+	VALUES ("4ad9f3a5-e6c9-4b50-b6f2-ce23dd4f01e8",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("b81c2ec4-79cd-42be-bc2e-b86fa40a114d",
+	VALUES ("8d07e8d3-e9f2-4638-856d-7d9c6aab015a",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_continue',
 	'',
@@ -3580,7 +3579,7 @@ while ( not_empty parent_te_blk )
   end if;
   select one parent_te_blk related by parent_te_smt->TE_BLK[R2078];
 end while;
-T::include(file:"te_file.arc_path/t.smt.continue.c");
+T::include(file:"c/t.smt.continue.c");
 te_smt.OAL = "CONTINUE";
 return T::body();
 ',
@@ -3588,8 +3587,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("89c39811-8ef8-4cf7-9278-3ebfc8a05431",
-	"b81c2ec4-79cd-42be-bc2e-b86fa40a114d",
+	VALUES ("1cb84122-df82-4aa5-a6dc-953fcf2f52e4",
+	"8d07e8d3-e9f2-4638-856d-7d9c6aab015a",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -3597,13 +3596,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("c5efca65-76bd-4a31-920b-ef4cad71564f",
-	"b81c2ec4-79cd-42be-bc2e-b86fa40a114d",
+	VALUES ("67e21ac2-fd87-4206-97d4-101d6848d723",
+	"8d07e8d3-e9f2-4638-856d-7d9c6aab015a",
 	'act_con',
 	"812ed5f2-7905-41fd-9351-05a93ad65d56",
 	0,
 	'',
-	"89c39811-8ef8-4cf7-9278-3ebfc8a05431",
+	"1cb84122-df82-4aa5-a6dc-953fcf2f52e4",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("812ed5f2-7905-41fd-9351-05a93ad65d56",
@@ -3613,13 +3612,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Body/Body.xtuml');
 INSERT INTO PE_PE
-	VALUES ("b81c2ec4-79cd-42be-bc2e-b86fa40a114d",
+	VALUES ("8d07e8d3-e9f2-4638-856d-7d9c6aab015a",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("3df91501-9dc0-4c3a-ab00-32130d46d977",
+	VALUES ("42342138-6c8a-4781-86da-11e0a12b2943",
 	"00000000-0000-0000-0000-000000000000",
 	'smt_select_related',
 	'',
@@ -3707,10 +3706,10 @@ if ( not_empty start_te_class )
   //    not be allowed by the OAL parser.  However, maybe a parser will
   //    miss it.  Therefore, we will do something that makes sense.  We
   //    treat it like the "any" case in the code generator.
-  // 
+  //
   //   A <*----R1----1> B <*----R2----1> C
-  //     <1----R9----*>   <1----R8----*>  
-  // 
+  //     <1----R9----*>   <1----R8----*>
+  //
   // single-link chains
   // Declaration based upon multiplicity.
   //  #  | first | last | startmany | multiplicity | linkmult | by_where | example
@@ -3755,23 +3754,23 @@ if ( not_empty start_te_class )
   // 10m |   T   |  F   |   "many"     |  0:one   |    T     | select many cs related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );  // Note 1
   // 11m |   T   |  F   |   "many"     |  1:many  |    F     | select many cs related by a(s)->B[R9]->C[R8];
   // 12m |   T   |  F   |   "many"     |  1:many  |    T     | select many cs related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );
-  // 
+  //
   ws = te_blk.indentation;
-  te_smt.OAL = "SELECT te_select_related.multiplicity te_select_related.result_var_OAL RELATED BY te_select_related.start_var_OAL";
+  te_smt.OAL = "SELECT ${te_select_related.multiplicity} ${te_select_related.result_var_OAL} RELATED BY ${te_select_related.start_var_OAL}";
   // declaration
+  T::clear();
   b = "";
   if ( te_select_related.is_implicit )
     if ( "many" == te_select_related.multiplicity )
-      T::include(file:"te_file.arc_path/t.smt_sr.declare_set.c");
-      te_smt.declaration = b;
-      b = "";
-      T::include(file:"te_file.arc_path/t.smt_sr.deallocate_set.c");
-      te_smt.deallocation = b;
+      T::include(file:"c/t.smt_sr.declare_set.c");
+      te_blk.declaration = te_blk.declaration + b;
+      T::clear();
+      T::include(file:"c/t.smt_sr.deallocate_set.c");
       // Push deallocation into the block so that it is available at gen time for break/continue/return.
-      te_blk.deallocation = te_blk.deallocation + te_smt.deallocation;
+      te_blk.deallocation = te_blk.deallocation + b;
     else
-      T::include(file:"te_file.arc_path/t.smt_sr.declare_ref.c");
-      te_smt.declaration = b;
+      T::include(file:"c/t.smt_sr.declare_ref.c");
+      te_blk.declaration = te_blk.declaration + b;
     end if;
   end if;
   cast = "";
@@ -3782,10 +3781,10 @@ if ( not_empty start_te_class )
     if ( not_empty sub_r_rel )
       lnk_te_class = te_class;
       cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) ";
-      T::include(file:"te_file.arc_path/t.smt_sr.subtypecheck.c");
+      T::include(file:"c/t.smt_sr.subtypecheck.c");
     end if;
   end if;
-  b = "";
+  T::clear();
   // single-link chains
   //  #  | first | last | startmany | multiplicity | linkmult | by_where | example
   if ( ( te_lnk.first ) and ( te_lnk.last ) )
@@ -3794,63 +3793,63 @@ if ( not_empty start_te_class )
       if ( "one" == te_select_related.multiplicity )
         if ( 0 == te_lnk.Mult )
           if ( not_empty sub_r_rel )
-            T::include(file:"te_file.arc_path/t.smt_sr.result_ref_init.c");
+            T::include(file:"c/t.smt_sr.result_ref_init.c");
             b = b + subtypecheck;
           end if;
           if ( not te_select_related.by_where )
             //  1  |   T   |  T   |     F     |   "one"      |  0:one   |    F     | select one b related by a->B[R1];
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_atob1.c");
+            T::include(file:"c/t.smt_sr.oneany_atob1.c");
           else
             //  2  |   T   |  T   |     F     |   "one"      |  0:one   |    T     | select one b related by a->B[R1] where ( selected.i == 7 );
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_atob1where.c");
+            T::include(file:"c/t.smt_sr.oneany_atob1where.c");
           end if;
         else
           if ( not te_select_related.by_where )
             //  3  |   T   |  T   |     F     | "one"->"any" |  1:many  |    F     | select one b related by a->B[R9];                              // Note 2
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_atobm.c");
+            T::include(file:"c/t.smt_sr.oneany_atobm.c");
           else
             //  4  |   T   |  T   |     F     | "one"->"any" |  1:many  |    T     | select one b related by a->B[R9] where ( selected.i == 7 );    // Note 2
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_atobmwhere.c");
+            T::include(file:"c/t.smt_sr.oneany_atobmwhere.c");
           end if;
         end if;
       elif ( "any" == te_select_related.multiplicity )
         if ( 0 == te_lnk.Mult )
           if ( not_empty sub_r_rel )
-            T::include(file:"te_file.arc_path/t.smt_sr.result_ref_init.c");
+            T::include(file:"c/t.smt_sr.result_ref_init.c");
             b = b + subtypecheck;
           end if;
           if ( not te_select_related.by_where )
             //  5  |   T   |  T   |     F     |   "any"      |  0:one   |    F     | select any b related by a->B[R1];                              // Note 1
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_atob1.c");
+            T::include(file:"c/t.smt_sr.oneany_atob1.c");
           else
             //  6  |   T   |  T   |     F     |   "any"      |  0:one   |    T     | select any b related by a->B[R1] where ( selected.i == 7 );    // Note 1
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_atob1where.c");
+            T::include(file:"c/t.smt_sr.oneany_atob1where.c");
           end if;
         else
           if ( not te_select_related.by_where )
             //  7  |   T   |  T   |     F     |   "any"      |  1:many  |    F     | select any b related by a->B[R9];
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_atobm.c");
+            T::include(file:"c/t.smt_sr.oneany_atobm.c");
           else
             //  8  |   T   |  T   |     F     |   "any"      |  1:many  |    T     | select any b related by a->B[R9] where ( selected.i == 7 );
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_atobmwhere.c");
+            T::include(file:"c/t.smt_sr.oneany_atobmwhere.c");
           end if;
         end if;
       else
         if ( 0 == te_lnk.Mult )
           if ( not te_select_related.by_where )
             //  9  |   T   |  T   |     F     |   "many"     |  0:one   |    F     | select many bs related by a->B[R1];                            // Note 1
-            T::include(file:"te_file.arc_path/t.smt_sr.many_atob1.c");
+            T::include(file:"c/t.smt_sr.many_atob1.c");
           else
             // 10  |   T   |  T   |     F     |   "many"     |  0:one   |    T     | select many bs related by a->B[R1] where ( selected.i == 7 );  // Note 1
-            T::include(file:"te_file.arc_path/t.smt_sr.many_atob1where.c");
+            T::include(file:"c/t.smt_sr.many_atob1where.c");
           end if;
         else
           if ( not te_select_related.by_where )
             // 11  |   T   |  T   |     F     |   "many"     |  1:many  |    F     | select many bs related by a->B[R9];
-            T::include(file:"te_file.arc_path/t.smt_sr.many_atobm.c");
+            T::include(file:"c/t.smt_sr.many_atobm.c");
           else
             // 12  |   T   |  T   |     F     |   "many"     |  1:many  |    T     | select many bs related by a->B[R9] where ( selected.i == 7 );
-            T::include(file:"te_file.arc_path/t.smt_sr.many_atobmwhere.c");
+            T::include(file:"c/t.smt_sr.many_atobmwhere.c");
           end if;
         end if;
       end if;
@@ -3859,54 +3858,54 @@ if ( not_empty start_te_class )
         if ( 0 == te_lnk.Mult )
           if ( not te_select_related.by_where )
             // 13  |   T   |  T   |     T     | "one"->"any" |  0:one   |    F     | select one b related by as->B[R1];                             // Note 2
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_astob1.c");
+            T::include(file:"c/t.smt_sr.oneany_astob1.c");
           else
             // 14  |   T   |  T   |     T     | "one"->"any" |  0:one   |    T     | select one b related by as->B[R1] where ( selected.i == 7 );   // Note 2
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_astob1where.c");
+            T::include(file:"c/t.smt_sr.oneany_astob1where.c");
           end if;
         else
           if ( not te_select_related.by_where )
             // 15  |   T   |  T   |     T     | "one"->"any" |  1:many  |    F     | select one b related by as->B[R9];                             // Note 2
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_astobm.c");
+            T::include(file:"c/t.smt_sr.oneany_astobm.c");
           else
             // 16  |   T   |  T   |     T     | "one"->"any" |  1:many  |    T     | select one b related by as->B[R9] where ( selected.i == 7 );   // Note 2
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_astobmwhere.c");
+            T::include(file:"c/t.smt_sr.oneany_astobmwhere.c");
           end if;
         end if;
       elif ( "any" == te_select_related.multiplicity )
         if ( 0 == te_lnk.Mult )
           if ( not te_select_related.by_where )
             // 17  |   T   |  T   |     T     |   "any"      |  0:one   |    F     | select any b related by as->B[R1];
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_astob1.c");
+            T::include(file:"c/t.smt_sr.oneany_astob1.c");
           else
             // 18  |   T   |  T   |     T     |   "any"      |  0:one   |    T     | select any b related by as->B[R1] where ( selected.i == 7 );
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_astob1where.c");
+            T::include(file:"c/t.smt_sr.oneany_astob1where.c");
           end if;
         else
           if ( not te_select_related.by_where )
             // 19  |   T   |  T   |     T     |   "any"      |  1:many  |    F     | select any b related by as->B[R9];
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_astobm.c");
+            T::include(file:"c/t.smt_sr.oneany_astobm.c");
           else
             // 20  |   T   |  T   |     T     |   "any"      |  1:many  |    T     | select any b related by as->B[R9] where ( selected.i == 7 );
-            T::include(file:"te_file.arc_path/t.smt_sr.oneany_astobmwhere.c");
+            T::include(file:"c/t.smt_sr.oneany_astobmwhere.c");
           end if;
         end if;
       else
         if ( 0 == te_lnk.Mult )
           if ( not te_select_related.by_where )
             // 21  |   T   |  T   |     T     |   "many"     |  0:one   |    F     | select many bs related by as->B[R1];
-            T::include(file:"te_file.arc_path/t.smt_sr.many_astob1.c");
+            T::include(file:"c/t.smt_sr.many_astob1.c");
           else
             // 22  |   T   |  T   |     T     |   "many"     |  0:one   |    T     | select many bs related by as->B[R1] where ( selected.i == 7 );
-            T::include(file:"te_file.arc_path/t.smt_sr.many_astob1where.c");
+            T::include(file:"c/t.smt_sr.many_astob1where.c");
           end if;
         else
           if ( not te_select_related.by_where )
             // 23  |   T   |  T   |     T     |   "many"     |  1:many  |    F     | select many bs related by as->B[R9];
-            T::include(file:"te_file.arc_path/t.smt_sr.many_astobm.c");
+            T::include(file:"c/t.smt_sr.many_astobm.c");
           else
             // 24  |   T   |  T   |     T     |   "many"     |  1:many  |    T     | select many bs related by as->B[R9] where ( selected.i == 7 );
-            T::include(file:"te_file.arc_path/t.smt_sr.many_astobmwhere.c");
+            T::include(file:"c/t.smt_sr.many_astobmwhere.c");
           end if; // by_where
         end if; // last link mult
       end if; // one, any, many
@@ -3918,18 +3917,18 @@ if ( not_empty start_te_class )
     // This may need to be refactored to remove some degree of control.
     depth = 0;
     if ( "many" == te_select_related.multiplicity )
-      T::include(file:"te_file.arc_path/t.smt_sr.result_set_init.c");
+      T::include(file:"c/t.smt_sr.result_set_init.c");
     else
-      T::include(file:"te_file.arc_path/t.smt_sr.result_ref_init.c");
+      T::include(file:"c/t.smt_sr.result_ref_init.c");
     end if;
-    b = b + "ws{";
+    b = b + "${ws}{";
     depth = depth + 1;
     if ( te_select_related.start_many )
       depth = depth + 1;
-      T::include(file:"te_file.arc_path/t.smt_sr.start_many.c");
+      T::include(file:"c/t.smt_sr.start_many.c");
     else
       depth = depth + 1;
-      T::include(file:"te_file.arc_path/t.smt_sr.start_one.c");
+      T::include(file:"c/t.smt_sr.start_one.c");
     end if;
     // drill through the chained links
     while ( not te_lnk.last )
@@ -3943,12 +3942,12 @@ if ( not_empty start_te_class )
           select any sub_r_rel related by lnk_te_class->O_OBJ[R2019]->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_REL[R206] where ( selected.Numb == te_lnk.rel_number );
           if ( not_empty sub_r_rel )
             cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) ";
-            T::include(file:"te_file.arc_path/t.smt_sr.subtypecheck.c");
+            T::include(file:"c/t.smt_sr.subtypecheck.c");
           end if;
         end if;
-        T::include(file:"te_file.arc_path/t.smt_sr.chainto1.c");
+        T::include(file:"c/t.smt_sr.chainto1.c");
       else
-        T::include(file:"te_file.arc_path/t.smt_sr.chaintom.c");
+        T::include(file:"c/t.smt_sr.chaintom.c");
       end if;
       select one te_lnk related by te_lnk->TE_LNK[R2075.''succeeds''];
     end while;
@@ -3960,7 +3959,7 @@ if ( not_empty start_te_class )
       if ( not_empty sub_r_rel )
         lnk_te_class = te_class;
         cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) ";
-        T::include(file:"te_file.arc_path/t.smt_sr.subtypecheck.c");
+        T::include(file:"c/t.smt_sr.subtypecheck.c");
       end if;
     end if;
     // now finish up
@@ -3971,18 +3970,18 @@ if ( not_empty start_te_class )
         end if;
         if ( not te_select_related.by_where )
           //  1m |   T   |  F   |   "one"      |  0:one   |    F     | select one c related by a(s)->B[R1]->C[R2];
-          T::include(file:"te_file.arc_path/t.smt_sr.multi_oneany_astob1.c");
+          T::include(file:"c/t.smt_sr.multi_oneany_astob1.c");
         else
           //  2m |   T   |  F   |   "one"      |  0:one   |    T     | select one c related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );
-          T::include(file:"te_file.arc_path/t.smt_sr.multi_oneany_astob1where.c");
+          T::include(file:"c/t.smt_sr.multi_oneany_astob1where.c");
         end if;
       else
         if ( not te_select_related.by_where )
           //  3m |   T   |  F   | "one"->"any" |  1:many  |    F     | select one c related by a(s)->B[R9]->C[R8];                              // Note 2
-          T::include(file:"te_file.arc_path/t.smt_sr.oneany_atobm.c");
+          T::include(file:"c/t.smt_sr.oneany_atobm.c");
         else
           //  4m |   T   |  F   | "one"->"any" |  1:many  |    T     | select one c related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );    // Note 2
-          T::include(file:"te_file.arc_path/t.smt_sr.multi_oneany_astobmwhere.c");
+          T::include(file:"c/t.smt_sr.multi_oneany_astobmwhere.c");
         end if;
       end if;
     elif ( "any" == te_select_related.multiplicity )
@@ -3992,18 +3991,18 @@ if ( not_empty start_te_class )
         end if;
         if ( not te_select_related.by_where )
           //  5m |   T   |  F   |   "any"      |  0:one   |    F     | select any c related by a(s)->B[R1]->C[R2];                              // Note 1, 2
-          T::include(file:"te_file.arc_path/t.smt_sr.multi_oneany_astob1.c");
+          T::include(file:"c/t.smt_sr.multi_oneany_astob1.c");
         else
           //  6m |   T   |  F   |   "any"      |  0:one   |    T     | select any c related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );    // Note 1, 2
-          T::include(file:"te_file.arc_path/t.smt_sr.multi_oneany_astob1where.c");
+          T::include(file:"c/t.smt_sr.multi_oneany_astob1where.c");
         end if;
       else
         if ( not te_select_related.by_where )
           //  7m |   T   |  F   |   "any"      |  1:many  |    F     | select any c related by a(s)->B[R9]->C[R8];
-          T::include(file:"te_file.arc_path/t.smt_sr.oneany_atobm.c");
+          T::include(file:"c/t.smt_sr.oneany_atobm.c");
         else
           //  8m |   T   |  F   |   "any"      |  1:many  |    T     | select any c related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );
-          T::include(file:"te_file.arc_path/t.smt_sr.multi_oneany_astobmwhere.c");
+          T::include(file:"c/t.smt_sr.multi_oneany_astobmwhere.c");
         end if;
       end if;
     else
@@ -4013,18 +4012,18 @@ if ( not_empty start_te_class )
         end if;
         if ( not te_select_related.by_where )
           //  9m |   T   |  F   |   "many"     |  0:one   |    F     | select many cs related by a(s)->B[R1]->C[R2];                            // Note 1
-          T::include(file:"te_file.arc_path/t.smt_sr.multi_many_astob1.c");
+          T::include(file:"c/t.smt_sr.multi_many_astob1.c");
         else
           // 10m |   T   |  F   |   "many"     |  0:one   |    T     | select many cs related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );  // Note 1
-          T::include(file:"te_file.arc_path/t.smt_sr.multi_many_astob1where.c");
+          T::include(file:"c/t.smt_sr.multi_many_astob1where.c");
         end if;
       else
         if ( not te_select_related.by_where )
           // 11m |   T   |  F   |   "many"     |  1:many  |    F     | select many cs related by a(s)->B[R9]->C[R8];
-          T::include(file:"te_file.arc_path/t.smt_sr.multi_many_astobm.c");
+          T::include(file:"c/t.smt_sr.multi_many_astobm.c");
         else
           // 12m |   T   |  F   |   "many"     |  1:many  |    T     | select many cs related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );
-          T::include(file:"te_file.arc_path/t.smt_sr.multi_many_astobmwhere.c");
+          T::include(file:"c/t.smt_sr.multi_many_astobmwhere.c");
         end if; // by_where
       end if; // last link mult
     end if; // one, any, many
@@ -4037,7 +4036,7 @@ if ( not_empty start_te_class )
   end if;
 T::b(s:b);
   if ( te_select_related.by_where )
-    te_smt.OAL = te_smt.OAL + " WHERE ( te_select_related.where_clause_OAL )";
+    te_smt.OAL = te_smt.OAL + " WHERE ( ${te_select_related.where_clause_OAL} )";
   end if;
 end if;
 return T::body();
@@ -4046,8 +4045,8 @@ return T::body();
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("f15e9e27-1006-4b53-8783-8d9d1f0f651b",
-	"3df91501-9dc0-4c3a-ab00-32130d46d977",
+	VALUES ("ad96a586-93e3-4e6c-80ee-30f291ada4e9",
+	"42342138-6c8a-4781-86da-11e0a12b2943",
 	'te_smt',
 	"20eb7827-fd8a-4b79-b705-c928064fb55d",
 	0,
@@ -4055,13 +4054,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a7344b99-ef19-4763-9929-d6823f820231",
-	"3df91501-9dc0-4c3a-ab00-32130d46d977",
+	VALUES ("1495e26a-c9a0-4ee8-909b-41984551bc83",
+	"42342138-6c8a-4781-86da-11e0a12b2943",
 	'act_sel',
 	"601e1da3-d769-4742-b08f-666e38588da0",
 	0,
 	'',
-	"f15e9e27-1006-4b53-8783-8d9d1f0f651b",
+	"ad96a586-93e3-4e6c-80ee-30f291ada4e9",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("601e1da3-d769-4742-b08f-666e38588da0",
@@ -4071,22 +4070,22 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Selection/Selection.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("4284e93d-d19e-4c46-8b91-54eab4d5aecd",
-	"3df91501-9dc0-4c3a-ab00-32130d46d977",
+	VALUES ("b25e759a-1283-4076-8232-c01ed49aad59",
+	"42342138-6c8a-4781-86da-11e0a12b2943",
 	'by_where',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'',
-	"a7344b99-ef19-4763-9929-d6823f820231",
+	"1495e26a-c9a0-4ee8-909b-41984551bc83",
 	'');
 INSERT INTO PE_PE
-	VALUES ("3df91501-9dc0-4c3a-ab00-32130d46d977",
+	VALUES ("42342138-6c8a-4781-86da-11e0a12b2943",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("a717cbc2-9cec-4a1e-9b2c-4a7ac0cc4442",
+	VALUES ("45c44904-1d67-4d85-8db4-b58fabe4ba19",
 	"00000000-0000-0000-0000-000000000000",
 	'GetRelationshipDataMemberName',
 	'',
@@ -4114,7 +4113,8 @@ INSERT INTO S_SYNC
 o_obj = param.o_obj;
 r_rel = param.r_rel;
 rel_phrase = param.rel_phrase;
-result = ( o_obj.Key_Lett + "_R" ) + "r_rel.Numb";
+result = ( o_obj.Key_Lett + "_R" ) + T::s(i:r_rel.Numb);
+obj_id = "";
 r = ::GetRelationshipSuffix( right_o_obj:o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
 suffix = r;
 if ( "" != suffix )
@@ -4125,17 +4125,19 @@ select one subsup_rel related by r_rel->R_SUBSUP[R206];
 if ( not_empty subsup_rel )
   select any subtype related by r_rel->R_SUBSUP[R206]->R_SUB[R213] where ( selected.Obj_ID == o_obj.Obj_ID );
   if ( not_empty subtype )
-    result = ( "R" + "r_rel.Numb" ) + "_subtype";
+    result = ( "R" + T::s(i:r_rel.Numb) ) + "_subtype";
+    obj_id = ( "R" + T::s(i:r_rel.Numb) ) + "_object_id";
   end if;
 end if;
 return result;
+return obj_id;
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("255a1ebb-45a8-4716-86f7-f52d319a96bc",
-	"a717cbc2-9cec-4a1e-9b2c-4a7ac0cc4442",
+	VALUES ("55d3c5ad-656f-4381-8061-33e9dcf98cc6",
+	"45c44904-1d67-4d85-8db4-b58fabe4ba19",
 	'o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
@@ -4150,13 +4152,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Instance Reference Data Types/Instance Reference Data Types.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("672a24f6-4dbb-4594-97b0-a116a8d5abb8",
-	"a717cbc2-9cec-4a1e-9b2c-4a7ac0cc4442",
+	VALUES ("4068a4f5-c3ba-4afe-b806-892f4d7524c9",
+	"45c44904-1d67-4d85-8db4-b58fabe4ba19",
 	'r_rel',
 	"620e9be8-e289-47ed-9279-69b359c269c5",
 	0,
 	'',
-	"255a1ebb-45a8-4716-86f7-f52d319a96bc",
+	"55d3c5ad-656f-4381-8061-33e9dcf98cc6",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("620e9be8-e289-47ed-9279-69b359c269c5",
@@ -4166,22 +4168,22 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Association/Association.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("37b02165-7121-4a47-8538-838e3a743126",
-	"a717cbc2-9cec-4a1e-9b2c-4a7ac0cc4442",
+	VALUES ("7607aa4e-41f4-4653-9815-4ae3d831c34a",
+	"45c44904-1d67-4d85-8db4-b58fabe4ba19",
 	'rel_phrase',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"672a24f6-4dbb-4594-97b0-a116a8d5abb8",
+	"4068a4f5-c3ba-4afe-b806-892f4d7524c9",
 	'');
 INSERT INTO PE_PE
-	VALUES ("a717cbc2-9cec-4a1e-9b2c-4a7ac0cc4442",
+	VALUES ("45c44904-1d67-4d85-8db4-b58fabe4ba19",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c0b966d8-5f43-4f4b-837d-14d18884da13",
+	VALUES ("2676b565-c01a-4f17-a530-776d1bed494e",
 	"00000000-0000-0000-0000-000000000000",
 	'GetRelationshipSuffix',
 	'',
@@ -4213,9 +4215,9 @@ if ( not_empty simple_rel )
     elif ( formalizer.Txt_Phrs == rel_phrase )
       result = T::underscore(s:formalizer.Txt_Phrs);
     else
-      msg = "\nTRANSLATION ERROR:  right_o_obj.Key_Lett[Rr_rel.Numb.''rel_phrase'']";
+      msg = "\nTRANSLATION ERROR:  ${right_o_obj.Key_Lett}[R$t{r_rel.Numb}.''${rel_phrase}'']";
       msg = msg + "\nInternal logic error for reflexive simple relationship.";
-      T::print(s:"msg");
+      T::print(s:"${msg}");
       T::exit(i:101);
     end if;
   end if;
@@ -4235,9 +4237,9 @@ else
       elif ( rel_phrase == other_side.Txt_Phrs )
         result = T::underscore(s:other_side.Txt_Phrs);
       else
-        msg = "\nTRANSLATION ERROR:  right_o_obj.Key_Lett[Rr_rel.Numb.''rel_phrase'']";
+        msg = "\nTRANSLATION ERROR:  ${right_o_obj.Key_Lett}[R$t{r_rel.Numb}.''${rel_phrase}'']";
         msg = msg + "\nInternal logic error for reflexive associative relationship.";
-        T::print(s:"msg");
+        T::print(s:"${msg}");
         T::exit(i:101);
       end if;
       if ( right_o_obj.Obj_ID == assr.Obj_ID )
@@ -4257,8 +4259,8 @@ return result;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("675395bc-78a3-4964-ba30-1353d99485b8",
-	"c0b966d8-5f43-4f4b-837d-14d18884da13",
+	VALUES ("f1e461ad-d66c-4575-8b7b-69e99543858e",
+	"2676b565-c01a-4f17-a530-776d1bed494e",
 	'right_o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
@@ -4266,31 +4268,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("7f53d71e-41e7-4bf1-8dd5-e732f5d0a0a2",
-	"c0b966d8-5f43-4f4b-837d-14d18884da13",
+	VALUES ("6a5c01db-ce34-4b2e-b00e-9f244c3d983a",
+	"2676b565-c01a-4f17-a530-776d1bed494e",
 	'r_rel',
 	"620e9be8-e289-47ed-9279-69b359c269c5",
 	0,
 	'',
-	"675395bc-78a3-4964-ba30-1353d99485b8",
+	"f1e461ad-d66c-4575-8b7b-69e99543858e",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("62b2b942-9122-4fcb-841c-b778a392ecd6",
-	"c0b966d8-5f43-4f4b-837d-14d18884da13",
+	VALUES ("c420b840-0303-4fe6-8f5f-c08c7550c87c",
+	"2676b565-c01a-4f17-a530-776d1bed494e",
 	'rel_phrase',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"7f53d71e-41e7-4bf1-8dd5-e732f5d0a0a2",
+	"6a5c01db-ce34-4b2e-b00e-9f244c3d983a",
 	'');
 INSERT INTO PE_PE
-	VALUES ("c0b966d8-5f43-4f4b-837d-14d18884da13",
+	VALUES ("2676b565-c01a-4f17-a530-776d1bed494e",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("5d28e5cd-afd8-42de-86de-a64f7c196b20",
+	VALUES ("9d86d8eb-3b6b-4d88-9a4c-688ec58a7959",
 	"00000000-0000-0000-0000-000000000000",
 	'TE_REL_IsLeftFormalizer',
 	'',
@@ -4337,8 +4339,8 @@ return result;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a3a04209-d152-494e-ac7f-987b92b0e198",
-	"5d28e5cd-afd8-42de-86de-a64f7c196b20",
+	VALUES ("7bf2c923-bdda-4abd-bcf4-bb7bba5e77e8",
+	"9d86d8eb-3b6b-4d88-9a4c-688ec58a7959",
 	'left_o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
@@ -4346,31 +4348,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8824d76c-7e74-4658-b12c-fbc002f057cb",
-	"5d28e5cd-afd8-42de-86de-a64f7c196b20",
+	VALUES ("a83e5476-ed57-429c-b204-f55c7bc04eca",
+	"9d86d8eb-3b6b-4d88-9a4c-688ec58a7959",
 	'r_rel',
 	"620e9be8-e289-47ed-9279-69b359c269c5",
 	0,
 	'',
-	"a3a04209-d152-494e-ac7f-987b92b0e198",
+	"7bf2c923-bdda-4abd-bcf4-bb7bba5e77e8",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("dc45046d-99c3-45e6-9702-42bb8a66ad81",
-	"5d28e5cd-afd8-42de-86de-a64f7c196b20",
+	VALUES ("7a00bca1-e20a-4d58-8135-e0124693570c",
+	"9d86d8eb-3b6b-4d88-9a4c-688ec58a7959",
 	'rel_phrase',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"8824d76c-7e74-4658-b12c-fbc002f057cb",
+	"a83e5476-ed57-429c-b204-f55c7bc04eca",
 	'');
 INSERT INTO PE_PE
-	VALUES ("5d28e5cd-afd8-42de-86de-a64f7c196b20",
+	VALUES ("9d86d8eb-3b6b-4d88-9a4c-688ec58a7959",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e64e8479-bfe1-4be4-bb48-f5dd3e7f0bf9",
+	VALUES ("3fa74bf6-0615-4310-b08d-b20a5edc0747",
 	"00000000-0000-0000-0000-000000000000",
 	'GetFixedSizeClassExtentInfo',
 	'',
@@ -4402,8 +4404,8 @@ return ( "pG_" + te_class.GeneratedName ) + "_extent";
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("1ab24acc-1484-4d26-bf5e-211066233202",
-	"e64e8479-bfe1-4be4-bb48-f5dd3e7f0bf9",
+	VALUES ("9585b220-175f-4ed3-a1c6-f8c0e6006544",
+	"3fa74bf6-0615-4310-b08d-b20a5edc0747",
 	'te_class',
 	"f975acb7-4246-4a87-9c5a-75481f096785",
 	0,
@@ -4418,13 +4420,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Translation Extensions/Translation Extensions.xtuml');
 INSERT INTO PE_PE
-	VALUES ("e64e8479-bfe1-4be4-bb48-f5dd3e7f0bf9",
+	VALUES ("3fa74bf6-0615-4310-b08d-b20a5edc0747",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("118fa67e-e9af-4c7c-bfd5-adff7a1c3f32",
+	VALUES ("ae18c686-edef-4e34-b5fd-64b1314a3d91",
 	"00000000-0000-0000-0000-000000000000",
 	'GetNavigateLinkMethodName',
 	'',
@@ -4438,7 +4440,7 @@ rel_phrase = param.rel_phrase;
 result = "";
 select one te_c related by to_o_obj->TE_CLASS[R2019]->TE_C[R2064];
 if ( not_empty te_c )
-  result = "te_c.Name_to_o_obj.Key_Lett_Rr_rel.Numb_From_from_o_obj.Key_Lett";
+  result = "${te_c.Name}_${to_o_obj.Key_Lett}_R$t{r_rel.Numb}_From_${from_o_obj.Key_Lett}";
   //
   r = ::GetRelationshipSuffix( right_o_obj:to_o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
   suffix = r;
@@ -4452,8 +4454,8 @@ return result;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a10bb93b-3503-4fa5-bd42-5948c5ace49c",
-	"118fa67e-e9af-4c7c-bfd5-adff7a1c3f32",
+	VALUES ("8ab47c22-bbdb-4a4b-8c15-904508bb2692",
+	"ae18c686-edef-4e34-b5fd-64b1314a3d91",
 	'from_o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
@@ -4461,40 +4463,40 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0b792da2-cf1f-4c4a-a864-c57d4b4f46b8",
-	"118fa67e-e9af-4c7c-bfd5-adff7a1c3f32",
+	VALUES ("824a9bc4-736d-417f-bb1e-9c271f379179",
+	"ae18c686-edef-4e34-b5fd-64b1314a3d91",
 	'to_o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
 	'',
-	"a10bb93b-3503-4fa5-bd42-5948c5ace49c",
+	"8ab47c22-bbdb-4a4b-8c15-904508bb2692",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("007deb11-28eb-4403-aa47-a0df4c023541",
-	"118fa67e-e9af-4c7c-bfd5-adff7a1c3f32",
+	VALUES ("adbbafb5-b866-4f53-9383-6d4ce1e21736",
+	"ae18c686-edef-4e34-b5fd-64b1314a3d91",
 	'r_rel',
 	"620e9be8-e289-47ed-9279-69b359c269c5",
 	0,
 	'',
-	"0b792da2-cf1f-4c4a-a864-c57d4b4f46b8",
+	"824a9bc4-736d-417f-bb1e-9c271f379179",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ea93cb82-4f41-4c04-baba-40341fa75664",
-	"118fa67e-e9af-4c7c-bfd5-adff7a1c3f32",
+	VALUES ("b78a5a8d-a56f-48ff-be8b-03f4ae1b793c",
+	"ae18c686-edef-4e34-b5fd-64b1314a3d91",
 	'rel_phrase',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"007deb11-28eb-4403-aa47-a0df4c023541",
+	"adbbafb5-b866-4f53-9383-6d4ce1e21736",
 	'');
 INSERT INTO PE_PE
-	VALUES ("118fa67e-e9af-4c7c-bfd5-adff7a1c3f32",
+	VALUES ("ae18c686-edef-4e34-b5fd-64b1314a3d91",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("3cc95ed8-6fd0-4b5c-970f-24e49a644564",
+	VALUES ("53dca344-a47a-47be-ba35-a800c10b2adc",
 	"00000000-0000-0000-0000-000000000000",
 	'GetAssociativeLinkMethodName',
 	'',
@@ -4514,7 +4516,7 @@ if ( not_empty te_class )
   select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
   select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210];
   //
-  name = te_class.GeneratedName + "_Rr_rel.Numb_Link";
+  name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Link";
   result = ( te_class.GeneratedName + "::" ) + name;
   //
   r = ::GetRelationshipSuffix( right_o_obj:assoc_o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
@@ -4534,8 +4536,8 @@ return result;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("42f8201e-242b-4985-a2fa-0f8962a8b4a6",
-	"3cc95ed8-6fd0-4b5c-970f-24e49a644564",
+	VALUES ("7601615e-3ff2-4b50-a7d2-561d224bbe55",
+	"53dca344-a47a-47be-ba35-a800c10b2adc",
 	'left_o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
@@ -4543,49 +4545,49 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("93b6c0fe-50ef-4629-a255-cff1e8438483",
-	"3cc95ed8-6fd0-4b5c-970f-24e49a644564",
+	VALUES ("0a0a5aee-67cc-41dc-ba99-404ade3429ee",
+	"53dca344-a47a-47be-ba35-a800c10b2adc",
 	'right_o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
 	'',
-	"42f8201e-242b-4985-a2fa-0f8962a8b4a6",
+	"7601615e-3ff2-4b50-a7d2-561d224bbe55",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("83896937-9eef-4500-8ba5-2e2eb027a52b",
-	"3cc95ed8-6fd0-4b5c-970f-24e49a644564",
+	VALUES ("b90ae33f-8058-4453-860c-04ca5399fa58",
+	"53dca344-a47a-47be-ba35-a800c10b2adc",
 	'assoc_o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
 	'',
-	"93b6c0fe-50ef-4629-a255-cff1e8438483",
+	"0a0a5aee-67cc-41dc-ba99-404ade3429ee",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5fcc03d9-8e77-4b3b-ba8c-f83756d4e28b",
-	"3cc95ed8-6fd0-4b5c-970f-24e49a644564",
+	VALUES ("d0d12a05-8bdf-4eb5-babd-5fe6df3a4b79",
+	"53dca344-a47a-47be-ba35-a800c10b2adc",
 	'r_rel',
 	"620e9be8-e289-47ed-9279-69b359c269c5",
 	0,
 	'',
-	"83896937-9eef-4500-8ba5-2e2eb027a52b",
+	"b90ae33f-8058-4453-860c-04ca5399fa58",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9cb81d56-b1ab-4086-813c-eb193cfbee54",
-	"3cc95ed8-6fd0-4b5c-970f-24e49a644564",
+	VALUES ("9bca3673-b047-420f-8dca-fb0f4b36a190",
+	"53dca344-a47a-47be-ba35-a800c10b2adc",
 	'rel_phrase',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"5fcc03d9-8e77-4b3b-ba8c-f83756d4e28b",
+	"d0d12a05-8bdf-4eb5-babd-5fe6df3a4b79",
 	'');
 INSERT INTO PE_PE
-	VALUES ("3cc95ed8-6fd0-4b5c-970f-24e49a644564",
+	VALUES ("53dca344-a47a-47be-ba35-a800c10b2adc",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("ca98d16e-e3f4-4bca-9fd0-43f7972baba1",
+	VALUES ("3dd607d0-3fa9-481e-a5c8-31b9c94d44b7",
 	"00000000-0000-0000-0000-000000000000",
 	'GetAssociativeUnlinkMethodName',
 	'',
@@ -4603,7 +4605,7 @@ if ( not_empty te_class )
   select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
   select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210];
   //
-  name = te_class.GeneratedName + "_Rr_rel.Numb_Unlink";
+  name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Unlink";
   result = ( te_class.GeneratedName + "::" ) + name;
   //
   r = ::GetRelationshipSuffix( right_o_obj:assoc_o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
@@ -4623,8 +4625,8 @@ return result;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("162f11d2-3645-4f52-b6b4-d57027571301",
-	"ca98d16e-e3f4-4bca-9fd0-43f7972baba1",
+	VALUES ("a03e9d40-80b2-4e09-9942-1ec80e93984d",
+	"3dd607d0-3fa9-481e-a5c8-31b9c94d44b7",
 	'left_o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
@@ -4632,49 +4634,49 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("27179596-517e-470f-91cc-fe329ef4d738",
-	"ca98d16e-e3f4-4bca-9fd0-43f7972baba1",
+	VALUES ("fe3e7a44-9971-44d4-a5f0-7e14475e3e6a",
+	"3dd607d0-3fa9-481e-a5c8-31b9c94d44b7",
 	'right_o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
 	'',
-	"162f11d2-3645-4f52-b6b4-d57027571301",
+	"a03e9d40-80b2-4e09-9942-1ec80e93984d",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("37c7754c-737c-423d-ae3f-951bbf51e587",
-	"ca98d16e-e3f4-4bca-9fd0-43f7972baba1",
+	VALUES ("5f2df9a9-3cbe-4c3c-bac1-5b6845f5ccdf",
+	"3dd607d0-3fa9-481e-a5c8-31b9c94d44b7",
 	'assoc_o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
 	'',
-	"27179596-517e-470f-91cc-fe329ef4d738",
+	"fe3e7a44-9971-44d4-a5f0-7e14475e3e6a",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("685a1aad-8d6e-48cc-9359-487d56886698",
-	"ca98d16e-e3f4-4bca-9fd0-43f7972baba1",
+	VALUES ("ebf86214-fd08-4b59-8976-603ca4108413",
+	"3dd607d0-3fa9-481e-a5c8-31b9c94d44b7",
 	'r_rel',
 	"620e9be8-e289-47ed-9279-69b359c269c5",
 	0,
 	'',
-	"37c7754c-737c-423d-ae3f-951bbf51e587",
+	"5f2df9a9-3cbe-4c3c-bac1-5b6845f5ccdf",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("1081e0ff-3443-4ac1-9960-ca5541de16ed",
-	"ca98d16e-e3f4-4bca-9fd0-43f7972baba1",
+	VALUES ("b61fc10f-df28-4495-8c8f-5efdf822e89a",
+	"3dd607d0-3fa9-481e-a5c8-31b9c94d44b7",
 	'rel_phrase',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"685a1aad-8d6e-48cc-9359-487d56886698",
+	"ebf86214-fd08-4b59-8976-603ca4108413",
 	'');
 INSERT INTO PE_PE
-	VALUES ("ca98d16e-e3f4-4bca-9fd0-43f7972baba1",
+	VALUES ("3dd607d0-3fa9-481e-a5c8-31b9c94d44b7",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("92bd8600-bc9a-4314-8aa3-525433f268a8",
+	VALUES ("2f6eea17-1472-4612-b49e-a4d31f50e0f2",
 	"00000000-0000-0000-0000-000000000000",
 	'GetRelateToName',
 	'',
@@ -4686,7 +4688,7 @@ rel_phrase = param.rel_phrase;
 result = "";
 select one te_class related by o_obj->TE_CLASS[R2019];
 if ( not_empty te_class )
-  name = te_class.GeneratedName + "_Rr_rel.Numb_Link";
+  name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Link";
   result = ( te_class.GeneratedName + "::" ) + name;
   r = ::GetRelationshipSuffix( right_o_obj:o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
   suffix = r;
@@ -4705,8 +4707,8 @@ return result;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("875a0801-fe48-43b1-8d17-6ddbdea9da3b",
-	"92bd8600-bc9a-4314-8aa3-525433f268a8",
+	VALUES ("76489f53-8c3c-4655-99bb-a3cfc36041d6",
+	"2f6eea17-1472-4612-b49e-a4d31f50e0f2",
 	'o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
@@ -4714,31 +4716,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4161ea05-0e25-45d6-afcf-37b57639d6c7",
-	"92bd8600-bc9a-4314-8aa3-525433f268a8",
+	VALUES ("9b9d59f8-701e-4751-aceb-3f64f5ade976",
+	"2f6eea17-1472-4612-b49e-a4d31f50e0f2",
 	'r_rel',
 	"620e9be8-e289-47ed-9279-69b359c269c5",
 	0,
 	'',
-	"875a0801-fe48-43b1-8d17-6ddbdea9da3b",
+	"76489f53-8c3c-4655-99bb-a3cfc36041d6",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("95715623-326d-42cc-97c3-d0f2ab18bb76",
-	"92bd8600-bc9a-4314-8aa3-525433f268a8",
+	VALUES ("738a45c0-4f10-4f87-aba0-72b3e2d86898",
+	"2f6eea17-1472-4612-b49e-a4d31f50e0f2",
 	'rel_phrase',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"4161ea05-0e25-45d6-afcf-37b57639d6c7",
+	"9b9d59f8-701e-4751-aceb-3f64f5ade976",
 	'');
 INSERT INTO PE_PE
-	VALUES ("92bd8600-bc9a-4314-8aa3-525433f268a8",
+	VALUES ("2f6eea17-1472-4612-b49e-a4d31f50e0f2",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f082720c-e9e9-4a52-afd7-2acffc3a255a",
+	VALUES ("4672e643-48d7-4214-a5eb-d49c818de529",
 	"00000000-0000-0000-0000-000000000000",
 	'GetUnrelateFromName',
 	'',
@@ -4750,7 +4752,7 @@ rel_phrase = param.rel_phrase;
 result = "";
 select one te_class related by o_obj->TE_CLASS[R2019];
 if ( not_empty te_class )
-  name = te_class.GeneratedName + "_Rr_rel.Numb_Unlink";
+  name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Unlink";
   result = ( te_class.GeneratedName + "::" ) + name;
   r = ::GetRelationshipSuffix( right_o_obj:o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
   suffix = r;
@@ -4769,8 +4771,8 @@ return result;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a894bbd7-40ff-4513-9ff8-9f3960f7267e",
-	"f082720c-e9e9-4a52-afd7-2acffc3a255a",
+	VALUES ("3e6fc60d-e10d-4e3e-bab0-22dcf14eba39",
+	"4672e643-48d7-4214-a5eb-d49c818de529",
 	'o_obj',
 	"d6b21eeb-39da-43bf-b503-c7bbc9ddf242",
 	0,
@@ -4778,31 +4780,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("017634ad-7ec9-40ed-87d2-9df5c87ccd58",
-	"f082720c-e9e9-4a52-afd7-2acffc3a255a",
+	VALUES ("d4c26781-1ab8-46d5-a644-bd0c85b7fcc0",
+	"4672e643-48d7-4214-a5eb-d49c818de529",
 	'r_rel',
 	"620e9be8-e289-47ed-9279-69b359c269c5",
 	0,
 	'',
-	"a894bbd7-40ff-4513-9ff8-9f3960f7267e",
+	"3e6fc60d-e10d-4e3e-bab0-22dcf14eba39",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d3cb6fd1-6439-4bca-88b4-717ae1c7bde4",
-	"f082720c-e9e9-4a52-afd7-2acffc3a255a",
+	VALUES ("558ff881-e2b7-4bfb-b090-bf3540111474",
+	"4672e643-48d7-4214-a5eb-d49c818de529",
 	'rel_phrase',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"017634ad-7ec9-40ed-87d2-9df5c87ccd58",
+	"d4c26781-1ab8-46d5-a644-bd0c85b7fcc0",
 	'');
 INSERT INTO PE_PE
-	VALUES ("f082720c-e9e9-4a52-afd7-2acffc3a255a",
+	VALUES ("4672e643-48d7-4214-a5eb-d49c818de529",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("2ef13e10-8f02-4f96-9228-a37c8deb173f",
+	VALUES ("e681e6d4-b4ac-4731-bf4f-756a9cc4ef79",
 	"00000000-0000-0000-0000-000000000000",
 	'PEIGetRelationshipSetContainerName',
 	'',
@@ -4819,8 +4821,8 @@ return te_class.GeneratedName + "_rel_set_lists";
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4c013151-1476-401b-83e6-a082f88db193",
-	"2ef13e10-8f02-4f96-9228-a37c8deb173f",
+	VALUES ("178eecb3-5c8e-48fc-8799-bae028a5cf61",
+	"e681e6d4-b4ac-4731-bf4f-756a9cc4ef79",
 	'te_class',
 	"f975acb7-4246-4a87-9c5a-75481f096785",
 	0,
@@ -4828,13 +4830,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("2ef13e10-8f02-4f96-9228-a37c8deb173f",
+	VALUES ("e681e6d4-b4ac-4731-bf4f-756a9cc4ef79",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f2b12053-64c1-4ded-976b-69a8b8b93b95",
+	VALUES ("03ef17f2-aaec-4f85-bf29-d87ca1c41f58",
 	"00000000-0000-0000-0000-000000000000",
 	'GetDomainDispatcherTableName',
 	'',
@@ -4850,8 +4852,8 @@ return "EventTaker_t";
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("fb6bfbef-7502-4413-94cb-e732491144b5",
-	"f2b12053-64c1-4ded-976b-69a8b8b93b95",
+	VALUES ("57063694-be58-43fc-bc92-a861b8ee8d6d",
+	"03ef17f2-aaec-4f85-bf29-d87ca1c41f58",
 	'registered_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -4859,13 +4861,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("f2b12053-64c1-4ded-976b-69a8b8b93b95",
+	VALUES ("03ef17f2-aaec-4f85-bf29-d87ca1c41f58",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("346526ed-cd32-4e36-b7af-68a000563381",
+	VALUES ("d61d00bc-7470-49c2-bcac-13155a981d0a",
 	"00000000-0000-0000-0000-000000000000",
 	'GetSuperTypePolymorphicEventMethodName',
 	'',
@@ -4873,14 +4875,14 @@ INSERT INTO S_SYNC
 //============================================================================
 te_class = param.te_class;
 r_rel = param.r_rel;
-return te_class.GeneratedName + "_Rr_rel.NumbPolymorphicEvent";
+return te_class.GeneratedName + "_R$t{r_rel.Numb}PolymorphicEvent";
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("11dc3732-49dd-4dc3-9ff3-aaf1d5f46ec9",
-	"346526ed-cd32-4e36-b7af-68a000563381",
+	VALUES ("a513d96f-6765-41b5-a61e-f0c262e83fad",
+	"d61d00bc-7470-49c2-bcac-13155a981d0a",
 	'te_class',
 	"f975acb7-4246-4a87-9c5a-75481f096785",
 	0,
@@ -4888,22 +4890,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d4bb62d6-9627-41e4-b8f0-3fea285bba32",
-	"346526ed-cd32-4e36-b7af-68a000563381",
+	VALUES ("1bd25e37-1dfb-4a26-becb-b51df71ded82",
+	"d61d00bc-7470-49c2-bcac-13155a981d0a",
 	'r_rel',
 	"620e9be8-e289-47ed-9279-69b359c269c5",
 	0,
 	'',
-	"11dc3732-49dd-4dc3-9ff3-aaf1d5f46ec9",
+	"a513d96f-6765-41b5-a61e-f0c262e83fad",
 	'');
 INSERT INTO PE_PE
-	VALUES ("346526ed-cd32-4e36-b7af-68a000563381",
+	VALUES ("d61d00bc-7470-49c2-bcac-13155a981d0a",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("b2f0a175-c1b7-488a-9cda-ac4944387e12",
+	VALUES ("3c873fe7-2c34-42b6-8aae-b813bbb4a004",
 	"00000000-0000-0000-0000-000000000000",
 	'GetDomainTypeIDFromString',
 	'',
@@ -4916,8 +4918,8 @@ return T::r(s:dom_name) + "_DOMAIN_ID";
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("74289565-9b92-4bc8-bedc-00003dca1fbe",
-	"b2f0a175-c1b7-488a-9cda-ac4944387e12",
+	VALUES ("ca9c1a3c-31d7-4970-8cf8-70ad0cfd8e28",
+	"3c873fe7-2c34-42b6-8aae-b813bbb4a004",
 	'dom_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -4925,13 +4927,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("b2f0a175-c1b7-488a-9cda-ac4944387e12",
+	VALUES ("3c873fe7-2c34-42b6-8aae-b813bbb4a004",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("dca0ec06-d9cc-40dc-b142-aadfd8009c37",
+	VALUES ("d71596b6-1494-4283-a39b-b3f88c9f2257",
 	"00000000-0000-0000-0000-000000000000",
 	'GetPersistentCheckMarkPostName',
 	'',
@@ -4945,20 +4947,20 @@ select any te_prefix from instances of TE_PREFIX;
 select any te_typemap from instances of TE_TYPEMAP;
 return te_prefix.result + "PersistenceCheckMarkPost";
 return "void";
-return "  te_instance.handle,\n  const te_typemap.domain_number_name,\n  const te_typemap.object_number_name";
-return "  te_instance.handle instance,\n  const te_typemap.domain_number_name domain_num,\n  const te_typemap.object_number_name class_num";
+return "  ${te_instance.handle},\n  const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}";
+return "  ${te_instance.handle} instance,\n  const ${te_typemap.domain_number_name} domain_num,\n  const ${te_typemap.object_number_name} class_num";
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("dca0ec06-d9cc-40dc-b142-aadfd8009c37",
+	VALUES ("d71596b6-1494-4283-a39b-b3f88c9f2257",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("27009b90-c569-41e2-89be-e2dd247610f8",
+	VALUES ("d6c0ba5a-692f-423f-a61b-a8296dcd4d68",
 	"00000000-0000-0000-0000-000000000000",
 	'GetPersistentPostLinkName',
 	'',
@@ -4972,14 +4974,14 @@ select any te_prefix from instances of TE_PREFIX;
 select any te_typemap from instances of TE_TYPEMAP;
 return te_prefix.result + "PersistencePostLink";
 return "void";
-return "  const s1_t, const te_typemap.domain_number_name,\n  const te_typemap.object_number_name, const te_typemap.instance_index_name,\n  te_instance.handle, const te_typemap.object_number_name,\n  te_instance.handle, const te_typemap.object_number_name,\n  te_instance.handle, const te_typemap.object_number_name";
-return "  const s1_t operation, const te_typemap.domain_number_name domain,\n  const te_typemap.object_number_name owning_class, const te_typemap.instance_index_name ri,\n  te_instance.handle left, const te_typemap.object_number_name l,\n   te_instance.handle right, const te_typemap.object_number_name r,\n  te_instance.handle assoc, const te_typemap.object_number_name a";
+return "  const s1_t, const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}, const ${te_typemap.instance_index_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name}";
+return "  const s1_t operation, const ${te_typemap.domain_number_name} domain,\n  const ${te_typemap.object_number_name} owning_class, const ${te_typemap.instance_index_name} ri,\n  ${te_instance.handle} left, const ${te_typemap.object_number_name} l,\n   ${te_instance.handle} right, const ${te_typemap.object_number_name} r,\n  ${te_instance.handle} assoc, const ${te_typemap.object_number_name} a";
 ',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("27009b90-c569-41e2-89be-e2dd247610f8",
+	VALUES ("d6c0ba5a-692f-423f-a61b-a8296dcd4d68",
 	1,
 	"bef5d53f-9578-4ea0-a43b-ea0935733f9d",
 	"00000000-0000-0000-0000-000000000000",

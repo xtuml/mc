@@ -17,6 +17,7 @@
 .//
 .//
 .function TE_ABA_rollup
+  .assign parseSuccessful = ( 1 ) .COMMENT ParseStatus::parseSuccessful
   .select any empty_act_blk from instances of ACT_BLK where ( false )
   .select many te_cs from instances of TE_C where ( selected.included_in_build )
   .for each te_c in te_cs
@@ -30,13 +31,13 @@
         .select one o_dbattr related by te_dbattr->O_DBATTR[R2026]
         .select one te_attr related by o_dbattr->O_BATTR[R107]->O_ATTR[R106]->TE_ATTR[R2033]
         .if ( ( te_attr.Used ) or ( te_c.OptDisabled ) )
-          .if ( 1 == o_dbattr.Suc_Pars )
+          .if ( parseSuccessful == o_dbattr.Suc_Pars )
             .select one act_blk related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666]
           .end if
         .end if
       .elif ( "O_TFR" == te_aba.subtypeKL )
         .select one o_tfr related by te_aba->TE_TFR[R2010]->O_TFR[R2024]
-        .if ( 1 == o_tfr.Suc_Pars )
+        .if ( parseSuccessful == o_tfr.Suc_Pars )
           .select one act_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666]
         .end if
       .elif ( "SM_ACT" == te_aba.subtypeKL )
@@ -66,9 +67,9 @@
       .if ( not_empty act_blk )
         .select one te_blk related by act_blk->TE_BLK[R2016]
         .invoke r = blck_xlate( te_c.StmtTrace, te_blk )
-        .assign te_aba.code = r.body
+        .assign te_aba.code = r.result
       .else
-        .assign te_aba.code = "\n  /* WARNING!  Skipping unsuccessful or unparsed action.  */\n"
+        .assign te_aba.code = ( "\n  /" + "* WARNING!  Skipping unsuccessful or unparsed action.  *" ) + "/\n"
       .end if
     .end for
   .end for
@@ -84,7 +85,7 @@
         .if ( not_empty act_blk )
           .select one te_blk related by act_blk->TE_BLK[R2016]
           .invoke r = blck_xlate( false, te_blk )
-          .assign te_aba.code = r.body
+          .assign te_aba.code = r.result
         .end if
       .end for
     .end if

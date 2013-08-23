@@ -1,7 +1,7 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*| MGC Confidential                                                |*/
 /*| Property of Mentor Graphics Corp.                               |*/
-/*| (C) Copyright Mentor Graphics Corp.  (2006-2008)                |*/
+/*| (C) Copyright Mentor Graphics Corp.  (2006-2013)                |*/
 /* _________________________________________________________________ */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*| Title:               Archetype Scanner                          |*/
@@ -25,8 +25,7 @@
 #include <string.h>
 #include "y.tab.h"
 
-extern int i0, i1, line_number, column;
-extern char lw[];
+extern int i0, i1, line_number;
 static char * s( char *, int );
 static char * s( char * sin, int len )
 {
@@ -125,11 +124,6 @@ dbl_quote     "\"\""
 dbl_dollar    "$$"
 
 /*-------------------------------------------------------------------*/
-/* Turn off the scan string function.  We will not use it.           */
-/*-------------------------------------------------------------------*/
-%option noyy_scan_string
-
-/*-------------------------------------------------------------------*/
 /* These ExCLUSIVE states effectively form three mini-scanners       */
 /* separate from the main scanner.                                   */
 /* pc and control are INCLUsIVE states.                              */
@@ -152,11 +146,10 @@ dbl_dollar    "$$"
 
 <comment,literal,INITIAL,pc,control>"\n" {NEW_LINE_RETURN('\n');}
 
-^{h_white}*/[^\.\n]                     {column=0; LITERAL_RETURN(LITERAL);}
+^{h_white}*/[^\.\n]                     {LITERAL_RETURN(LITERAL);}
 ^{h_white}*/{dbl_dot}                   {LITERAL_RETURN(LITERAL);}
 <literal>[^$\n]*|{dbl_dollar}*          {TEXT_RETURN(LITERAL);}
-^{h_white}*/"."                         {column=0;
-                                         strncpy(lw,yytext,yyleng);
+^{h_white}*/"."                         {
                                          NSBEGIN(pc);
                                         }
 <control>{h_white}+                     {CWHITE_RETURN(' ');}

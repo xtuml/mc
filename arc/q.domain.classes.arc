@@ -123,7 +123,7 @@
         .assign batch_relaters = batch_relaters + "${delimiter}\\n ${class_name}_batch_relate"
         .assign attr_instance_dumpers = attr_instance_dumpers + "${delimiter}\n  ${class_name}_instancedumper"
       .end if
-      .assign class_numbers = class_numbers + "#define ${type_name} ${class_number_count}\n"
+      .assign class_numbers = class_numbers + "#define ${type_name} $t{class_number_count}\n"
       .assign class_number_count = class_number_count + 1
       .assign class_typedefs = class_typedefs + "\ntypedef ${class_or_struct} ${class_name} ${class_name};"
       .if ( te_class.Persistent )

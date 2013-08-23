@@ -115,11 +115,15 @@
   .select many v_lsts from instances of V_LST
   .for each v_lst in v_lsts
     .select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040]
-    .//.assign te_val.OAL = ( "'" + v_lst.Value ) + "'"
-    .//.assign te_val.OAL = ( "''" + v_lst.Value ) + "''"
-    .//.assign te_val.OAL = ( "&quot;" + v_lst.Value ) + "&quot;"
+    .// s = T::t( s:v_lst.Value );
+    .assign s = v_lst.Value
+    .// if ( strstr( s, "({" ) )
+    .if ( "({" == s )
+      .assign te_val.buffer = s
+    .else
+      .assign te_val.buffer = ( """" + v_lst.Value ) + """"
+    .end if
     .assign te_val.OAL = ( "" + v_lst.Value ) + ""
-    .assign te_val.buffer = ( """" + v_lst.Value ) + """"
     .assign te_val.dimensions = 1
     .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
     .//TODO assign dimension
@@ -307,6 +311,7 @@
 .end function
 .//
 .function val_instance_reference_values
+  .assign unique_num = 0
   .select many v_irfs from instances of V_IRF
   .for each v_irf in v_irfs
     .select one te_val related by v_irf->V_VAL[R801]->TE_VAL[R2040]
@@ -316,7 +321,8 @@
       .assign te_val.buffer = te_var.buffer
     .else
       .print "CDS:  Understand why we do not have V_VAR here."
-      .assign te_val.buffer = "v_" + "${info.unique_num}"
+      .assign te_val.buffer = "v_irf_" + "$t{unique_num}"
+      .assign unique_num = unique_num + 1
     .end if
   .end for
 .end function
@@ -516,7 +522,7 @@
         .if ( not_empty r_te_dim )
           .assign element_count = r_te_dim.elementCount
         .end if
-        .assign te_val.buffer = ( ( ( "( memcmp( " + l_te_val.buffer ) + ( ", " + r_te_val.buffer ) ) + ( ( ", sizeof(" + l_te_val.buffer ) + ( "[0]) * " + "${element_count}" ) ) ) + ( ( ") " + v_bin.Operator ) + " 0 )" )
+        .assign te_val.buffer = ( ( ( "( memcmp( " + l_te_val.buffer ) + ( ", " + r_te_val.buffer ) ) + ( ( ", sizeof(" + l_te_val.buffer ) + ( "[0]) * " + "$t{element_count}" ) ) ) + ( ( ") " + v_bin.Operator ) + " 0 )" )
       .else
         .assign te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.buffer ) + " )" )
       .end if
@@ -796,7 +802,7 @@
     .if ( "C" == te_target.language )
       .select one te_dim related by root_te_val->TE_DIM[R2079]
       .if ( not_empty te_dim )
-        .assign te_val.buffer = ( ( "${te_dim.elementCount}" + " /" ) + ( "* " + te_val.OAL ) ) + ( " *" + "/ " )
+        .assign te_val.buffer = ( ( ( "$t{te_dim.elementCount}" + " /" ) + ( "* " + te_val.OAL ) ) + ( " *" + "/" ) )
       .else
         .assign te_val.buffer = root_te_val.buffer + ".ARRAY_LENGTH_NOT_FOUND()"
         .print "ERROR:  C model compiler does not support length operator for OAL value:  ${te_val.OAL}"

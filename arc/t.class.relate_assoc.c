@@ -11,7 +11,7 @@
 .if ( te_rel.LinkNeeded or te_c.OptDisabled )
 
 /*
- * RELATE ${aone_te_class.Key_Lett} TO ${aoth_te_class.Key_Lett} ACROSS R${r_rel.Numb} USING ${assr_te_class.Key_Lett}
+ * RELATE ${aone_te_class.Key_Lett} TO ${aoth_te_class.Key_Lett} ACROSS R$t{r_rel.Numb} USING ${assr_te_class.Key_Lett}
  */
 void
 ${relate_method}( ${aone_te_class.GeneratedName} * aone, ${aoth_te_class.GeneratedName} * aoth, ${assr_te_class.GeneratedName} * assr${thismodule} )
@@ -42,13 +42,13 @@ ${set_aoth_referentials}\
 ${persist_relate.body}\
 }
 .else
-/* Note:  Link ${aone_te_class.Key_Lett} to ${aoth_te_class.Key_Lett} across R${r_rel.Numb} using ${assr_te_class.Key_Lett} not needed.  */
+/* Note:  Link ${aone_te_class.Key_Lett} to ${aoth_te_class.Key_Lett} across R$t{r_rel.Numb} using ${assr_te_class.Key_Lett} not needed.  */
 .end if
 
 .if ( te_rel.UnlinkNeeded or te_c.OptDisabled )
 /*
  * UNRELATE ${aone_te_class.Key_Lett} FROM ${aoth_te_class.Key_Lett} ACROSS \
-R${r_rel.Numb} USING ${assr_te_class.Key_Lett}
+R$t{r_rel.Numb} USING ${assr_te_class.Key_Lett}
  */
 void
 ${unrelate_method}( ${aone_te_class.GeneratedName} * aone, ${aoth_te_class.GeneratedName} * aoth, ${assr_te_class.GeneratedName} * assr${thismodule} )
@@ -77,6 +77,6 @@ ${reset_referentials}\
 ${persist_unrelate.body}\
 }
 .else
-/* Note:  Unlink ${aone_te_class.Key_Lett} from ${aoth_te_class.Key_Lett} across R${r_rel.Numb} using ${assr_te_class.Key_Lett} not needed.  */
+/* Note:  Unlink ${aone_te_class.Key_Lett} from ${aoth_te_class.Key_Lett} across R$t{r_rel.Numb} using ${assr_te_class.Key_Lett} not needed.  */
 .end if
 .//

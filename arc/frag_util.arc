@@ -60,30 +60,44 @@
 .end function
 .//
 .//============================================================================
-.function ExpandNonOptimizedSpecialWhereComparison
+.function ExpandNonOptimizedSpecialWhereComparison .// string
   .param inst_ref o_obj
   .param boolean special
   .param string selected_var_name
   .//
+  .assign compare_stmt = ""
   .if ( special )
     .select any te_instance from instances of TE_INSTANCE
     .select any te_string from instances of TE_STRING
     .assign compare_stmt = ""
     .assign cmp_element = ""
-    .select many te_attrs related by o_obj->O_ATTR[R102]->TE_ATTR[R2033] where ( selected.Included )
-    .for each te_attr in te_attrs
-      .if ( 4 == te_attr.Core_Typ )
+    .select one te_class related by o_obj->TE_CLASS[R2019]
+    .// Be sure we have the first attribute in the class.
+    .select any first_te_attr related by te_class->TE_ATTR[R2061]
+    .while ( not_empty first_te_attr )
+      .select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes']
+      .if ( empty prev_te_attr )
+        .break while
+      .end if
+      .assign first_te_attr = prev_te_attr
+    .end while
+    .assign te_attr = first_te_attr
+    .while ( not_empty te_attr )
+      .//.if ( 4 == te_attr.Core_Typ )
+      .if ( 4 == 4 )
         .assign cmp_element = "!${te_instance.module}${te_string.strcmp}(${selected_var_name}->${te_attr.GeneratedName}, ${te_attr.ParamBuffer})"
       .else
         .assign cmp_element = "${selected_var_name}->${te_attr.GeneratedName} == ${te_attr.ParamBuffer}"
       .end if
       .assign compare_stmt = compare_stmt + cmp_element
-      .if ( not_last te_attrs )
+      .// Advance to the next object attribute, if any.
+      .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+      .if ( not_empty te_attr )
         .assign compare_stmt = compare_stmt + " && "
       .end if
-    .end for
-${compare_stmt}\
+    .end while
   .end if
+  .assign attr_result = compare_stmt
 .end function
 .//
 .//============================================================================

@@ -37,7 +37,7 @@
     .assign ws = te_blk.indentation
     .assign te_smt.buffer2 = ws + "}}}"
     .if ( te_for.isImplicit )
-      .assign te_smt.declaration = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" )
+      .assign te_blk.declaration = ( ( te_blk.declaration + te_for.class_name ) + ( " * " + te_for.loop_variable ) ) + "=0;"
     .end if
     .assign iterator = "iter" + te_for.loop_variable
     .assign current_instance = "ii" + te_for.loop_variable
@@ -195,6 +195,7 @@
   .invoke r = V_VAL_drill_for_V_VAL_root( l_v_val )
   .assign root_v_val = r.result
   .assign te_assign.isImplicit = root_v_val.isImplicit
+  .assign b = " "
   .if ( te_assign.isImplicit )
     .select one root_te_val related by root_v_val->TE_VAL[R2040]
     .assign te_assign.left_declaration = ( r_te_dt.ExtName + " " ) + root_te_val.buffer
@@ -202,16 +203,19 @@
       .select one te_class related by root_v_val->V_IRF[R801]->V_VAR[R808]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019]
       .if ( not_empty te_class )
         .assign te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + ( root_te_val.buffer + ";" )
-        .assign te_smt.declaration = te_assign.left_declaration
+        .assign te_blk.declaration = te_blk.declaration + te_assign.left_declaration
       .end if
-    .elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) ) 
+    .elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
       .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
-      .assign te_smt.declaration = "${te_set.scope}${te_set.base_class} ${te_assign.lval}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_assign.lval} = &${te_assign.lval}_space;"
-      .assign te_smt.deallocation = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"
+      .assign b = ""
+      .assign selection_result_variable = te_assign.lval
+      .include "${te_file.arc_path}/t.smt.set_declaration.c"
+      .assign d = b
+      .assign te_blk.declaration = te_blk.declaration + d
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-      .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
+      .assign te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) ) + ( te_assign.lval + " );" )
     .else
-      .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
+      .assign te_blk.declaration = ( te_blk.declaration + te_assign.left_declaration ) + ( te_assign.array_spec + ";" )
     .end if
   .end if
   .assign element_count = 0
@@ -228,7 +232,7 @@
   .assign te_smt.OAL = "ASSIGN ${l_te_val.OAL} = ${r_te_val.OAL}"
 .end function
 .//
-.// Find the root of the given value instance.  We may need to 
+.// Find the root of the given value instance.  We may need to
 .// recurse down in the case of structures and arrays.
 .function V_VAL_drill_for_V_VAL_root .// v_val
   .param inst_ref v_val
@@ -281,7 +285,7 @@
     .invoke r = AutoInitializeUniqueIDs( te_class, te_var.buffer )
     .assign init_uniques = r.body
     .if ( act_cr.is_implicit )
-      .assign te_smt.declaration = ( ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" ) )
+      .assign te_blk.declaration = ( ( te_blk.declaration + te_class.GeneratedName ) + ( " * " + te_var.buffer ) ) + ";"
     .end if
     .include "${te_file.arc_path}/t.smt.create_instance.c"
     .assign te_smt.OAL = "CREATE OBJECT INSTANCE ${v_var.Name} OF ${te_class.Key_Lett}"
@@ -413,9 +417,9 @@
       .end if
       .if ( e_ces.is_implicit )
         .if ( "" == parameters )
-          .assign te_smt.declaration = ( ( te_eq.base_event_type + " * " ) + ( te_var.buffer + ";" ) )
+          .assign te_blk.declaration = ( ( te_blk.declaration + te_eq.base_event_type ) + ( " * " + te_var.buffer ) ) + ";"
         .else
-          .assign te_smt.declaration = ( ( te_evt.GeneratedName + " * " ) + ( te_var.buffer + ";" ) )
+          .assign te_blk.declaration = ( ( te_blk.declaration + te_evt.GeneratedName ) + ( " * " + te_var.buffer ) ) + ";"
         .end if
       .end if
       .include "${te_file.arc_path}/t.smt.create_event.c"
@@ -470,7 +474,7 @@
       .assign thismodule = ", thismodule"
     .end if
     .include "${te_file.arc_path}/t.smt.relate.c"
-    .assign te_smt.OAL = "RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R${r_rel.Numb}"
+    .assign te_smt.OAL = "RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R$t{r_rel.Numb}"
   .end if
 .end function
 .//
@@ -532,15 +536,15 @@
   .if ( "C" != te_target.language )
     .assign thismodule = ", thismodule"
   .end if
-  .invoke r = GetAssociativeLinkMethodName( one_o_obj, oth_o_obj, ass_o_obj, r_rel, act_ru.relationship_phrase )
-  .assign method = r.result
+  .invoke r1 = GetAssociativeLinkMethodName( one_o_obj, oth_o_obj, ass_o_obj, r_rel, act_ru.relationship_phrase )
+  .assign method = r1.result
   .assign left_obj_is_aone = false
   .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
   .if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
     .assign left_obj_is_aone = true
   .end if
   .include "${te_file.arc_path}/t.smt.relate_using.c"
-  .assign te_smt.OAL = "RELATE ${one_te_var.OAL} TO ${oth_te_var.OAL} ACROSS R${r_rel.Numb} USING ${ass_te_var.OAL}"
+  .assign te_smt.OAL = "RELATE ${one_te_var.OAL} TO ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}"
 .end function
 .//
 .// --------------------------------------------------------
@@ -548,7 +552,7 @@
   .select many act_unrs from instances of ACT_UNR
   .for each act_unr in act_unrs
     .select one te_smt related by act_unr->ACT_SMT[R603]->TE_SMT[R2038]
-    .invoke r = smt_unrelate( te_smt, act_unr ) 
+    .invoke r = smt_unrelate( te_smt, act_unr )
     .assign te_smt.buffer = r.body
   .end for
 .end function
@@ -585,7 +589,7 @@
       .assign thismodule = ", thismodule"
     .end if
     .include "${te_file.arc_path}/t.smt.unrelate.c"
-    .assign te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R${r_rel.Numb}"
+    .assign te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb}"
   .end if
 .end function
 .//
@@ -646,15 +650,15 @@
   .if ( "C" != te_target.language )
     .assign thismodule = ", thismodule"
   .end if
-  .invoke r = GetAssociativeUnlinkMethodName( one_o_obj, oth_o_obj, ass_o_obj, r_rel, act_uru.relationship_phrase )
-  .assign method = r.result
+  .invoke r1 = GetAssociativeUnlinkMethodName( one_o_obj, oth_o_obj, ass_o_obj, r_rel, act_uru.relationship_phrase )
+  .assign method = r1.result
   .assign left_obj_is_aone = false
   .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
   .if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
     .assign left_obj_is_aone = true
   .end if
   .include "${te_file.arc_path}/t.smt.unrelate_using.c"
-  .assign te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R${r_rel.Numb} USING ${ass_te_var.OAL}"
+  .assign te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}"
 .end function
 .//
 .// --------------------------------------------------------
@@ -693,21 +697,24 @@
     .assign te_select.var_name = te_var.buffer
     .invoke r = GetFixedSizeClassExtentInfo( te_class )
     .assign extent = r.result
-    .if ( te_select.multiplicity == "any" ) 
-      .if ( te_select.is_implicit ) 
+    .if ( "any" == te_select.multiplicity )
+      .if ( te_select.is_implicit )
         .// Declare (first OAL usage of) inst_ref<Object> handle variable.
-        .assign te_smt.declaration = "${te_select.class_name} * ${te_select.var_name}=0;"
+        .assign te_blk.declaration = ( ( te_blk.declaration + te_select.class_name ) + ( " * " + te_select.var_name ) ) + "=0;"
       .end if
-    .elif ( te_select.multiplicity == "many" ) 
-      .if ( te_select.is_implicit ) 
+    .elif ( "many" == te_select.multiplicity )
+      .if ( te_select.is_implicit )
         .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
-        .assign te_smt.declaration = "${te_set.scope}${te_set.base_class} ${te_select.var_name}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select.var_name} = &${te_select.var_name}_space; /* ${te_select.var_name} (${te_class.Key_Lett}) */"
-        .assign te_smt.deallocation = "${te_set.module}${te_set.clear}( ${te_select.var_name} );"
+        .assign b = ""
+        .assign selection_result_variable = te_select.var_name
+        .include "${te_file.arc_path}/t.smt.set_declaration.c"
+        .assign d = b
+        .assign te_blk.declaration = te_blk.declaration + d
         .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-        .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
+        .assign te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) ) + ( te_select.var_name + " );" )
       .end if
     .else
-      .print "\nERROR:  select ${multiplicity} is not any or many."
+      .print "\nERROR:  select ${te_select.multiplicity} is not any or many."
       .exit 101
     .end if
     .include "${te_file.arc_path}/t.smt.select.c"
@@ -801,24 +808,27 @@
     .if ( "any" == te_select_where.multiplicity )
       .if ( te_select_where.is_implicit )
         .// Declare (first OAL usage of) inst_ref<Object> handle variable.
-        .assign te_smt.declaration = "${te_select_where.class_name} * ${te_select_where.var_name}=0;"
+        .assign te_blk.declaration = ( ( te_blk.declaration + te_select_where.class_name ) + ( " * " + te_select_where.var_name ) ) + "=0;"
       .end if
     .elif ( "many" == te_select_where.multiplicity )
       .if ( te_select_where.is_implicit )
         .// First OAL usage of inst_ref_set<Object> handle set
-        .assign te_smt.declaration = "${te_set.scope}${te_set.base_class} ${te_select_where.var_name}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select_where.var_name} = &${te_select_where.var_name}_space; /* ${te_select_where.oal_var_name} (${o_obj.Key_Lett}) */"
-        .assign te_smt.deallocation = "${te_set.module}${te_set.clear}( ${te_select_where.var_name} );  /* Clear set: ${te_select_where.oal_var_name} */"
+        .assign b = ""
+        .assign selection_result_variable = te_select_where.var_name
+        .include "${te_file.arc_path}/t.smt.set_declaration.c"
+        .assign d = b
+        .assign te_blk.declaration = te_blk.declaration + d
         .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-        .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
+        .assign te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) )  + ( te_select_where.var_name + " );" )
       .end if
     .else
-      .print "\nERROR:  stmt_select_from_instances_of_where: Select ${multiplicity} is not any or many."
+      .print "\nERROR:  stmt_select_from_instances_of_where: Select ${te_select_where.multiplicity} is not any or many."
       .exit 101
     .end if
     .invoke r = GetFixedSizeClassExtentInfo( te_class )
     .assign extent = r.result
     .invoke r = ExpandNonOptimizedSpecialWhereComparison( o_obj, te_select_where.special, te_select_where.selected_var_name )
-    .assign where_comp = r.body
+    .assign where_comp = r.result
     .assign iterator = ( "iter" + te_select_where.var_name ) + te_select_where.class_name
     .// *** Built in select any special where clause.
     .select any o_id related by o_obj->O_ID[R104] where ( selected.Oid_ID == -1 )
@@ -1025,11 +1035,11 @@
     .assign parameter_OAL = ""
     .assign self_directed = false
     .assign te_class.Included = true
-    .if ( act_act.Type == "state" )
+    .if ( "state" == act_act.Type )
       .if ( o_obj == tgt_o_obj )
         .assign self_directed = true
       .end if
-    .elif ( act_act.Type == "transition" )
+    .elif ( "transition" == act_act.Type )
       .if ( o_obj == tgt_o_obj )
         .assign self_directed = true
       .end if
@@ -1126,12 +1136,14 @@
     .select one te_po related by te_mact->TE_PO[R2006]
     .assign foreign_te_po = te_po
     .if ( te_po.Provision )
-      .if ( 1 == te_mact.Direction )
+      .assign direction = ( 1 ) .COMMENT IFDirectionType::ServerClient
+      .if ( direction == te_mact.Direction )
         .assign name = ( te_mact.PortName + "->" ) + name
       .end if
       .select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) )
     .else
-      .if ( 0 == te_mact.Direction )
+      .assign direction = ( 0 ) .COMMENT IFDirectionType::ClientServer
+      .if ( direction == te_mact.Direction )
         .assign name = ( te_mact.PortName + "->" ) + name
       .end if
       .select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) )
@@ -1142,7 +1154,7 @@
         .if ( "" != parameters )
           .assign parameters = ", " + parameters
         .end if
-        .assign parameters = "${foreign_te_po.sibling}" + parameters
+        .assign parameters = "$t{foreign_te_po.sibling}" + parameters
       .end if
     .elif( te_sys.AllPortsPoly == true )
       .if ( "" != parameters )
@@ -1356,23 +1368,23 @@
       .select one act_act related by act_smt->ACT_BLK[R602]->ACT_ACT[R601]
       .// "class transition", "transition", "class state", "state", "signal" use void
       .assign return_smt_dt_name = "void"
-      .if ( (act_act.Type == "class operation") or (act_act.Type == "operation") )
+      .if ( ( "class operation" == act_act.Type ) or ( "operation" == act_act.Type ) )
         .select one return_s_dt related by act_act->ACT_OPB[R698]->O_TFR[R696]->S_DT[R116]
         .assign return_smt_dt_name = return_s_dt.Name
-      .elif ( act_act.Type == "function" )
+      .elif ( "function" == act_act.Type )
         .select one return_s_dt related by act_act->ACT_FNB[R698]->S_SYNC[R695]->S_DT[R25]
         .assign return_smt_dt_name = return_s_dt.Name
-      .elif ( act_act.Type == "interface operation" )
+      .elif ( "interface operation" == act_act.Type )
         .select one return_s_dt related by act_act->ACT_ROB[R698]->SPR_RO[R685]->SPR_REP[R4502]->C_EP[R4500]->C_IO[R4004]->S_DT[R4008]
         .if ( empty return_s_dt )
           .select one return_s_dt related by act_act->ACT_POB[R698]->SPR_PO[R687]->SPR_PEP[R4503]->C_EP[R4501]->C_IO[R4004]->S_DT[R4008]
         .end if
         .assign return_smt_dt_name = return_s_dt.Name
-      .elif ( act_act.Type == "bridge" )
+      .elif ( "bridge" == act_act.Type )
         .select one return_s_dt related by act_act->ACT_BRB[R698]->S_BRG[R697]->S_DT[R20]
         .assign return_smt_dt_name = return_s_dt.Name
       .end if
-      .if ( return_smt_dt_name != "" )
+      .if ( "" != return_smt_dt_name )
         .// resolve the core type of the return type
         .select any core_s_dt from instances of S_DT where ( false )
         .select one s_udt related by return_s_dt->S_UDT[R17]
@@ -1392,7 +1404,7 @@
           .assign intCast2 = ")"
         .end if
       .end if
-    .end if 
+    .end if
     .select one te_val related by v_val->TE_VAL[R2040]
     .assign value = te_val.buffer
     .assign value_OAL = te_val.OAL
@@ -1608,10 +1620,10 @@
   .//    not be allowed by the OAL parser.  However, maybe a parser will
   .//    miss it.  Therefore, we will do something that makes sense.  We
   .//    treat it like the "any" case in the code generator.
-  .// 
+  .//
   .//   A <*----R1----1> B <*----R2----1> C
-  .//     <1----R9----*>   <1----R8----*>  
-  .// 
+  .//     <1----R9----*>   <1----R8----*>
+  .//
   .// single-link chains
   .// Declaration based upon multiplicity.
   .//  #  | first | last | startmany | multiplicity | linkmult | by_where | example
@@ -1656,7 +1668,7 @@
   .// 10m |   T   |  F   |   "many"     |  0:one   |    T     | select many cs related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );  // Note 1
   .// 11m |   T   |  F   |   "many"     |  1:many  |    F     | select many cs related by a(s)->B[R9]->C[R8];
   .// 12m |   T   |  F   |   "many"     |  1:many  |    T     | select many cs related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );
-  .// 
+  .//
   .assign ws = te_blk.indentation
   .assign te_smt.OAL = "SELECT ${te_select_related.multiplicity} ${te_select_related.result_var_OAL} RELATED BY ${te_select_related.start_var_OAL}"
   .// declaration
@@ -1664,15 +1676,14 @@
   .if ( te_select_related.is_implicit )
     .if ( "many" == te_select_related.multiplicity )
       .include "${te_file.arc_path}/t.smt_sr.declare_set.c"
-      .assign te_smt.declaration = b
+      .assign te_blk.declaration = te_blk.declaration + b
       .assign b = ""
       .include "${te_file.arc_path}/t.smt_sr.deallocate_set.c"
-      .assign te_smt.deallocation = b
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-      .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
+      .assign te_blk.deallocation = te_blk.deallocation + b
     .else
       .include "${te_file.arc_path}/t.smt_sr.declare_ref.c"
-      .assign te_smt.declaration = b
+      .assign te_blk.declaration = te_blk.declaration + b
     .end if
   .end if
   .assign cast = ""
@@ -1683,7 +1694,7 @@
     .if ( not_empty sub_r_rel )
       .assign lnk_te_class = te_class
       .assign cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) "
-      .include "${te_file.arc_path}/t.smt_sr.subtypecheck.c"
+      .assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )"
     .end if
   .end if
   .assign b = ""
@@ -1844,7 +1855,7 @@
           .select any sub_r_rel related by lnk_te_class->O_OBJ[R2019]->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_REL[R206] where ( selected.Numb == te_lnk.rel_number )
           .if ( not_empty sub_r_rel )
             .assign cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) "
-            .include "${te_file.arc_path}/t.smt_sr.subtypecheck.c"
+            .assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )"
           .end if
         .end if
         .include "${te_file.arc_path}/t.smt_sr.chainto1.c"
@@ -1861,7 +1872,7 @@
       .if ( not_empty sub_r_rel )
         .assign lnk_te_class = te_class
         .assign cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) "
-        .include "${te_file.arc_path}/t.smt_sr.subtypecheck.c"
+        .assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )"
       .end if
     .end if
     .// now finish up

@@ -34,7 +34,7 @@ INSERT INTO DIM_DIA
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO S_SYNC
-	VALUES ("ee7e8e4e-60f5-476c-b8f2-13e001deefbc",
+	VALUES ("387bf230-49b0-4f21-83fd-ec4eb36cb6bf",
 	"00000000-0000-0000-0000-000000000000",
 	'val_translate',
 	'',
@@ -84,13 +84,13 @@ INSERT INTO S_SYNC
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("ee7e8e4e-60f5-476c-b8f2-13e001deefbc",
+	VALUES ("387bf230-49b0-4f21-83fd-ec4eb36cb6bf",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("59d2362c-1016-486b-88a8-c78fc4d6f6ba",
+	VALUES ("5bcdec67-87fe-4919-bca4-b9f054c66de2",
 	"00000000-0000-0000-0000-000000000000",
 	'gen_value',
 	'',
@@ -156,8 +156,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("87207ac5-2b36-4809-8cef-4eb453d57c99",
-	"59d2362c-1016-486b-88a8-c78fc4d6f6ba",
+	VALUES ("6e809b51-b801-4dec-9476-381e2de04233",
+	"5bcdec67-87fe-4919-bca4-b9f054c66de2",
 	'v_val',
 	"6c890e9d-8533-4087-ac72-ea19e3290a3c",
 	0,
@@ -172,13 +172,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("59d2362c-1016-486b-88a8-c78fc4d6f6ba",
+	VALUES ("5bcdec67-87fe-4919-bca4-b9f054c66de2",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c3ae1017-fc9a-434e-984d-02239aed14e3",
+	VALUES ("bb5ec4a8-72ee-49bb-9f06-a149f105149e",
 	"00000000-0000-0000-0000-000000000000",
 	'val_literal_boolean_values',
 	'',
@@ -194,13 +194,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("c3ae1017-fc9a-434e-984d-02239aed14e3",
+	VALUES ("bb5ec4a8-72ee-49bb-9f06-a149f105149e",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("641fb042-8c72-4a79-a1f5-db19721fee98",
+	VALUES ("afb14aa4-25bd-4284-833e-7d75cdee555c",
 	"00000000-0000-0000-0000-000000000000",
 	'val_literal_string_values',
 	'',
@@ -209,11 +209,15 @@ select any te_string from instances of TE_STRING;
 select many v_lsts from instances of V_LST;
 for each v_lst in v_lsts
   select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040];
-  //.assign te_val.OAL = ( "''" + v_lst.Value ) + "''"
-  //.assign te_val.OAL = ( "''''" + v_lst.Value ) + "''''"
-  //.assign te_val.OAL = ( "&quot;" + v_lst.Value ) + "&quot;"
+  // s = T::t( s:v_lst.Value );
+  s = v_lst.Value;
+  // if ( strstr( s, "({" ) )
+  if ( "({" == s )
+    te_val.buffer = s;
+  else
+    te_val.buffer = ( "&quot;" + v_lst.Value ) + "&quot;";
+  end if;
   te_val.OAL = ( "" + v_lst.Value ) + "";
-  te_val.buffer = ( "&quot;" + v_lst.Value ) + "&quot;";
   te_val.dimensions = 1;
   te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
   //TODO assign dimension
@@ -223,13 +227,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("641fb042-8c72-4a79-a1f5-db19721fee98",
+	VALUES ("afb14aa4-25bd-4284-833e-7d75cdee555c",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("aafebe7e-28fa-45eb-82ab-e983387b0dc6",
+	VALUES ("4f936690-f435-40ae-9414-ed43ab4a5763",
 	"00000000-0000-0000-0000-000000000000",
 	'val_literal_integer_values',
 	'',
@@ -245,13 +249,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("aafebe7e-28fa-45eb-82ab-e983387b0dc6",
+	VALUES ("4f936690-f435-40ae-9414-ed43ab4a5763",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("3d39ae20-7f92-4b72-bc87-4ef66161083e",
+	VALUES ("47ef6824-ed42-4347-b165-2e61a92928ff",
 	"00000000-0000-0000-0000-000000000000",
 	'val_literal_real_values',
 	'',
@@ -267,13 +271,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("3d39ae20-7f92-4b72-bc87-4ef66161083e",
+	VALUES ("47ef6824-ed42-4347-b165-2e61a92928ff",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("017a585c-7999-4c85-8e73-03ef687d6419",
+	VALUES ("6889269c-1a3f-48fe-906a-d2706593c90a",
 	"00000000-0000-0000-0000-000000000000",
 	'val_literal_enumerations',
 	'',
@@ -290,13 +294,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("017a585c-7999-4c85-8e73-03ef687d6419",
+	VALUES ("6889269c-1a3f-48fe-906a-d2706593c90a",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("d3c2023e-51cb-4756-96be-33f6880e2248",
+	VALUES ("e689a8f4-ca20-4790-af5d-cec549db69b2",
 	"00000000-0000-0000-0000-000000000000",
 	'val_constant_values',
 	'',
@@ -322,13 +326,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("d3c2023e-51cb-4756-96be-33f6880e2248",
+	VALUES ("e689a8f4-ca20-4790-af5d-cec549db69b2",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("6fff286a-a70d-4009-8ed9-c08a633ce843",
+	VALUES ("9bbf31f4-c986-4d24-867d-09d764eaf9eb",
 	"00000000-0000-0000-0000-000000000000",
 	'val_transient_values',
 	'',
@@ -353,13 +357,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("6fff286a-a70d-4009-8ed9-c08a633ce843",
+	VALUES ("9bbf31f4-c986-4d24-867d-09d764eaf9eb",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("bda4680b-f863-4418-96e7-db8e82e035c7",
+	VALUES ("0f17ed68-8aaa-4e1c-a8eb-9bcc1b6995ac",
 	"00000000-0000-0000-0000-000000000000",
 	'val_actual_parameters',
 	'',
@@ -381,13 +385,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("bda4680b-f863-4418-96e7-db8e82e035c7",
+	VALUES ("0f17ed68-8aaa-4e1c-a8eb-9bcc1b6995ac",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7999788d-f619-4640-b69d-a9e2eef6a477",
+	VALUES ("01023ebd-c952-42d7-b481-79d5e6bc7d0b",
 	"00000000-0000-0000-0000-000000000000",
 	'val_attribute_values',
 	'',
@@ -401,13 +405,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("7999788d-f619-4640-b69d-a9e2eef6a477",
+	VALUES ("01023ebd-c952-42d7-b481-79d5e6bc7d0b",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e0836f2b-3f85-4502-8f98-4e81b0193175",
+	VALUES ("20bdae24-8155-4064-af78-21457e3d77b9",
 	"00000000-0000-0000-0000-000000000000",
 	'val_attribute_value',
 	'',
@@ -466,8 +470,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ebbe50c3-cf5a-4aee-be41-50d70c82a266",
-	"e0836f2b-3f85-4502-8f98-4e81b0193175",
+	VALUES ("7d65279f-7760-4b34-b398-78ceacdd8b0f",
+	"20bdae24-8155-4064-af78-21457e3d77b9",
 	'v_avl',
 	"6fd240aa-6b20-4fd2-abeb-6fe6d413637b",
 	0,
@@ -482,13 +486,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("e0836f2b-3f85-4502-8f98-4e81b0193175",
+	VALUES ("20bdae24-8155-4064-af78-21457e3d77b9",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("2b482e83-d6d1-468e-994d-4e92ed58db6b",
+	VALUES ("a0b6cac1-58af-48b1-85b8-9c6786d4c892",
 	"00000000-0000-0000-0000-000000000000",
 	'val_member_values',
 	'',
@@ -502,13 +506,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("2b482e83-d6d1-468e-994d-4e92ed58db6b",
+	VALUES ("a0b6cac1-58af-48b1-85b8-9c6786d4c892",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("2ade3186-ef90-43d3-a64c-4d0e62e57563",
+	VALUES ("9936071e-c26f-4c20-a9be-0f9d889854ae",
 	"00000000-0000-0000-0000-000000000000",
 	'val_member_value',
 	'',
@@ -537,8 +541,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("3a0c7573-a4ec-4ba8-9ba2-f0ab1feb4fd4",
-	"2ade3186-ef90-43d3-a64c-4d0e62e57563",
+	VALUES ("7eb2533b-0015-4270-87b6-dedaf31655a8",
+	"9936071e-c26f-4c20-a9be-0f9d889854ae",
 	'v_mvl',
 	"b260aaa9-5416-49e1-8262-694a17a972f3",
 	0,
@@ -553,17 +557,18 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("2ade3186-ef90-43d3-a64c-4d0e62e57563",
+	VALUES ("9936071e-c26f-4c20-a9be-0f9d889854ae",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f9b9f3c2-3894-4aaa-969d-2a005f2bc4cf",
+	VALUES ("ba04757c-a4c9-4603-bbd9-5e1db9bd3797",
 	"00000000-0000-0000-0000-000000000000",
 	'val_instance_reference_values',
 	'',
 	'//
+unique_num = 0;
 select many v_irfs from instances of V_IRF;
 for each v_irf in v_irfs
   select one te_val related by v_irf->V_VAL[R801]->TE_VAL[R2040];
@@ -573,7 +578,8 @@ for each v_irf in v_irfs
     te_val.buffer = te_var.buffer;
   else
     T::print(s:"CDS:  Understand why we do not have V_VAR here.");
-    te_val.buffer = "v_1"; // + T::s(i:info.unique_num);
+    te_val.buffer = "v_irf_" + T::s(i:unique_num);
+    unique_num = unique_num + 1;
   end if;
 end for;
 ',
@@ -581,13 +587,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("f9b9f3c2-3894-4aaa-969d-2a005f2bc4cf",
+	VALUES ("ba04757c-a4c9-4603-bbd9-5e1db9bd3797",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("0b855398-c975-4818-8e77-13b7b13d70a1",
+	VALUES ("d696e7fa-2c1f-49e4-91b7-0d6d11ef67b4",
 	"00000000-0000-0000-0000-000000000000",
 	'val_selection_test_values',
 	'',
@@ -603,13 +609,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("0b855398-c975-4818-8e77-13b7b13d70a1",
+	VALUES ("d696e7fa-2c1f-49e4-91b7-0d6d11ef67b4",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("0f924eda-8e22-454f-bc02-4ab83e7906cb",
+	VALUES ("6031c8a6-53d6-4408-996d-b2338a68bcad",
 	"00000000-0000-0000-0000-000000000000",
 	'val_inst_ref_set_values',
 	'',
@@ -626,13 +632,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("0f924eda-8e22-454f-bc02-4ab83e7906cb",
+	VALUES ("6031c8a6-53d6-4408-996d-b2338a68bcad",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("5777b20f-52cb-4dcd-a101-bf61d644122f",
+	VALUES ("0bb27cc5-f299-4986-ad71-75c9194d6e47",
 	"00000000-0000-0000-0000-000000000000",
 	'val_event_values',
 	'',
@@ -669,13 +675,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("5777b20f-52cb-4dcd-a101-bf61d644122f",
+	VALUES ("0bb27cc5-f299-4986-ad71-75c9194d6e47",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e3b22f34-ab97-409b-b4aa-f9af70b996d1",
+	VALUES ("3943df8b-3f2a-42b3-a601-c1fb7b397dfe",
 	"00000000-0000-0000-0000-000000000000",
 	'val_parameter_values',
 	'',
@@ -714,13 +720,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("e3b22f34-ab97-409b-b4aa-f9af70b996d1",
+	VALUES ("3943df8b-3f2a-42b3-a601-c1fb7b397dfe",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("5ba5315d-8746-45dd-9999-1d96673e95fc",
+	VALUES ("5254d83a-b64a-4a53-8b55-52a0f1045daf",
 	"00000000-0000-0000-0000-000000000000",
 	'val_unary_op_values',
 	'',
@@ -734,13 +740,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("5ba5315d-8746-45dd-9999-1d96673e95fc",
+	VALUES ("5254d83a-b64a-4a53-8b55-52a0f1045daf",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7b3ebcff-708d-4fab-a84a-14c250054892",
+	VALUES ("70459184-dc85-40dd-81db-c36d83282894",
 	"00000000-0000-0000-0000-000000000000",
 	'val_unary_op_value',
 	'',
@@ -767,7 +773,7 @@ if ( "" == te_val.buffer )
     elif ( op == "cardinality" )
       te_val.buffer = ( "( 0 != " + root_te_val.buffer ) + " )";
     else
-      T::print(s:"ERROR:  Unary set operator T::s(i:v_uny.Operator) is not supported.");
+      T::print(s:"ERROR:  Unary set operator ${v_uny.Operator} is not supported.");
     end if;
   elif ( not_empty v_isr )
     if ( op == "not_empty" )
@@ -777,7 +783,7 @@ if ( "" == te_val.buffer )
     elif ( op == "cardinality" )
       te_val.buffer = ( ( te_set.module + te_set.element_count ) + ( "( " + root_te_val.buffer ) ) + " )";
     else
-      T::print(s:"ERROR:  Unary set operator T::s(i:v_uny.Operator) is not supported.");
+      T::print(s:"ERROR:  Unary set operator ${v_uny.Operator} is not supported.");
     end if;
   else
     if ( op == "not" )
@@ -801,8 +807,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("412d375f-ecfc-41a2-a0bd-f4572041f4e2",
-	"7b3ebcff-708d-4fab-a84a-14c250054892",
+	VALUES ("3cd34fbf-27d7-444f-808a-c0003e7e8aa8",
+	"70459184-dc85-40dd-81db-c36d83282894",
 	'v_uny',
 	"b1b11e61-c0ec-45a4-bbec-99baac48c51d",
 	0,
@@ -817,13 +823,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("7b3ebcff-708d-4fab-a84a-14c250054892",
+	VALUES ("70459184-dc85-40dd-81db-c36d83282894",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("397a97b1-cf35-49f7-867a-f0a90d83ff25",
+	VALUES ("32a3faa4-8602-4e7e-8566-a859729cce37",
 	"00000000-0000-0000-0000-000000000000",
 	'val_binary_op_values',
 	'',
@@ -837,13 +843,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("397a97b1-cf35-49f7-867a-f0a90d83ff25",
+	VALUES ("32a3faa4-8602-4e7e-8566-a859729cce37",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("837e3066-c239-4d40-9d77-364d6f2c9836",
+	VALUES ("b9f503f9-99d2-4b9f-86e6-e9890477b919",
 	"00000000-0000-0000-0000-000000000000",
 	'val_binary_op_value',
 	'',
@@ -904,8 +910,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0274933e-7625-4738-8407-81cffdfaf66c",
-	"837e3066-c239-4d40-9d77-364d6f2c9836",
+	VALUES ("5c987f02-9112-402e-a004-e2f01dfa7a7a",
+	"b9f503f9-99d2-4b9f-86e6-e9890477b919",
 	'v_bin',
 	"a6e95352-7701-470f-a154-2a42ea44c24d",
 	0,
@@ -920,13 +926,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("837e3066-c239-4d40-9d77-364d6f2c9836",
+	VALUES ("b9f503f9-99d2-4b9f-86e6-e9890477b919",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("46c6dd81-6506-4efc-bb13-2518b9beca8d",
+	VALUES ("b998576f-0f65-4abd-b632-0e871f9bd3d0",
 	"00000000-0000-0000-0000-000000000000",
 	'val_message_values',
 	'',
@@ -940,13 +946,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("46c6dd81-6506-4efc-bb13-2518b9beca8d",
+	VALUES ("b998576f-0f65-4abd-b632-0e871f9bd3d0",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("d57b82a8-7606-4c4c-b508-1fe76ba0ecc5",
+	VALUES ("044d3304-64aa-440f-8784-a7b9dfed5643",
 	"00000000-0000-0000-0000-000000000000",
 	'val_message_value',
 	'',
@@ -975,8 +981,8 @@ else
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("dfdca039-bc22-4586-a93f-4d23b9335ca9",
-	"d57b82a8-7606-4c4c-b508-1fe76ba0ecc5",
+	VALUES ("90bccea0-9877-4014-8d53-1532cbc4c3ae",
+	"044d3304-64aa-440f-8784-a7b9dfed5643",
 	'v_msv',
 	"bc2a0111-818c-47bb-9bbe-9a3092f8f2ac",
 	0,
@@ -991,13 +997,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("d57b82a8-7606-4c4c-b508-1fe76ba0ecc5",
+	VALUES ("044d3304-64aa-440f-8784-a7b9dfed5643",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("2dadaa9a-5309-4d90-825e-5e6edb74b2ac",
+	VALUES ("6c73d5ed-e7ba-435a-a249-fa6d5b5268c5",
 	"00000000-0000-0000-0000-000000000000",
 	'val_bridge_values',
 	'',
@@ -1011,13 +1017,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("2dadaa9a-5309-4d90-825e-5e6edb74b2ac",
+	VALUES ("6c73d5ed-e7ba-435a-a249-fa6d5b5268c5",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("4b4a3b39-4fc6-4fb6-9b57-aa9976ddc32c",
+	VALUES ("a68f5fdb-f9b4-43c6-9ba0-11b66b587e11",
 	"00000000-0000-0000-0000-000000000000",
 	'val_bridge_value',
 	'',
@@ -1070,8 +1076,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("984b7ee6-8743-4813-8fa1-5100feb3e2fd",
-	"4b4a3b39-4fc6-4fb6-9b57-aa9976ddc32c",
+	VALUES ("74835316-20d2-4aff-80fc-00d9ab5442d8",
+	"a68f5fdb-f9b4-43c6-9ba0-11b66b587e11",
 	'v_brv',
 	"f379d69e-6f89-4ad8-9a75-30f08ee3f8c9",
 	0,
@@ -1086,13 +1092,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("4b4a3b39-4fc6-4fb6-9b57-aa9976ddc32c",
+	VALUES ("a68f5fdb-f9b4-43c6-9ba0-11b66b587e11",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("93d878b8-300c-4974-9f3e-19ae1c98d978",
+	VALUES ("6a4536f9-e069-46a5-8ca3-246c6ccca207",
 	"00000000-0000-0000-0000-000000000000",
 	'val_transform_values',
 	'',
@@ -1106,13 +1112,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("93d878b8-300c-4974-9f3e-19ae1c98d978",
+	VALUES ("6a4536f9-e069-46a5-8ca3-246c6ccca207",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f579ff24-14cb-493a-b8a4-6f3df6de6034",
+	VALUES ("7debd685-a975-4903-aecf-f4a550e5a0ae",
 	"00000000-0000-0000-0000-000000000000",
 	'val_transform_value',
 	'',
@@ -1179,8 +1185,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a0c84eb7-82da-4d37-8356-76e37291e5d2",
-	"f579ff24-14cb-493a-b8a4-6f3df6de6034",
+	VALUES ("193a7143-94c8-4f47-a19f-105b35884af8",
+	"7debd685-a975-4903-aecf-f4a550e5a0ae",
 	'v_trv',
 	"d22be5fe-283c-469a-8029-2fcaa2c689ba",
 	0,
@@ -1195,13 +1201,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("f579ff24-14cb-493a-b8a4-6f3df6de6034",
+	VALUES ("7debd685-a975-4903-aecf-f4a550e5a0ae",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("37c90767-8986-4b07-a934-3ee93337c5b9",
+	VALUES ("c8eef41a-52dd-401c-8d91-c903dd902fb2",
 	"00000000-0000-0000-0000-000000000000",
 	'val_synch_service_values',
 	'',
@@ -1215,13 +1221,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("37c90767-8986-4b07-a934-3ee93337c5b9",
+	VALUES ("c8eef41a-52dd-401c-8d91-c903dd902fb2",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7e8b3d1a-eab3-49cc-9b94-a7c58a77efec",
+	VALUES ("3a363f9f-337f-49d1-b01f-684970e3c806",
 	"00000000-0000-0000-0000-000000000000",
 	'val_synch_service_value',
 	'',
@@ -1261,8 +1267,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("66ccbd21-6e32-492d-a4f6-6aa6bd94f8c7",
-	"7e8b3d1a-eab3-49cc-9b94-a7c58a77efec",
+	VALUES ("6ee44218-e454-45a4-9d69-f589ea0dea17",
+	"3a363f9f-337f-49d1-b01f-684970e3c806",
 	'v_fnv',
 	"b6ef4c93-c3d0-4cda-8b0a-99eccecd77dd",
 	0,
@@ -1277,13 +1283,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("7e8b3d1a-eab3-49cc-9b94-a7c58a77efec",
+	VALUES ("3a363f9f-337f-49d1-b01f-684970e3c806",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("6be20a7b-1a9d-4d61-ac83-fb2b1c206da0",
+	VALUES ("4a0a3a3d-c4a0-490f-99ba-982a05270269",
 	"00000000-0000-0000-0000-000000000000",
 	'val_array_element_references',
 	'',
@@ -1297,13 +1303,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("6be20a7b-1a9d-4d61-ac83-fb2b1c206da0",
+	VALUES ("4a0a3a3d-c4a0-490f-99ba-982a05270269",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("baa160ed-1173-4805-8506-41a862f0a300",
+	VALUES ("d92dad10-a923-440b-97db-e1b466e69a2c",
 	"00000000-0000-0000-0000-000000000000",
 	'val_array_element_reference',
 	'',
@@ -1338,8 +1344,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8c56ed5b-accd-47f9-8b9b-1a19422d1f88",
-	"baa160ed-1173-4805-8506-41a862f0a300",
+	VALUES ("a4706cfc-5ff6-43d4-8372-a01be976b033",
+	"d92dad10-a923-440b-97db-e1b466e69a2c",
 	'v_aer',
 	"82564ebb-6eea-4bb1-a100-101e3e967fbb",
 	0,
@@ -1354,13 +1360,13 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("baa160ed-1173-4805-8506-41a862f0a300",
+	VALUES ("d92dad10-a923-440b-97db-e1b466e69a2c",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("1893f58a-afcd-466a-b1ec-102696168258",
+	VALUES ("fa84d8bd-5725-4b40-90fe-43fbca4d9f6b",
 	"00000000-0000-0000-0000-000000000000",
 	'val_array_length_values',
 	'',
@@ -1374,13 +1380,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("1893f58a-afcd-466a-b1ec-102696168258",
+	VALUES ("fa84d8bd-5725-4b40-90fe-43fbca4d9f6b",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("cecf30d3-be80-4f2b-9f8d-445d8782d43b",
+	VALUES ("70d7300c-f5de-474b-96e2-1249e8935226",
 	"00000000-0000-0000-0000-000000000000",
 	'val_array_length_value',
 	'',
@@ -1398,10 +1404,10 @@ if ( "" == te_val.buffer )
   if ( "C" == te_target.language )
     select one te_dim related by root_te_val->TE_DIM[R2079];
     if ( not_empty te_dim )
-      te_val.buffer = ( ( T::s(i:te_dim.elementCount) + " /" ) + ( "* " + te_val.OAL ) ) + ( " *" + "/ " );
+      te_val.buffer = ( ( ( T::s(i:te_dim.elementCount) + " /" ) + ( "* " + te_val.OAL ) ) + ( " *" + "/" ) );
     else
       te_val.buffer = root_te_val.buffer + ".ARRAY_LENGTH_NOT_FOUND()";
-      T::print(s:"ERROR:  C model compiler does not support length operator for OAL value:  T::s(i:te_val.OAL)");
+      T::print(s:"ERROR:  C model compiler does not support length operator for OAL value:  ${te_val.OAL}");
       T::exit(i:101);
     end if;
   else
@@ -1413,8 +1419,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d4bd1fa0-2f7b-420d-b71b-30176ab1cd14",
-	"cecf30d3-be80-4f2b-9f8d-445d8782d43b",
+	VALUES ("ae9ba12b-4144-4c85-91a2-e34899338a8a",
+	"70d7300c-f5de-474b-96e2-1249e8935226",
 	'v_alv',
 	"4e9dfb3b-a92b-483c-a582-6176a684fb06",
 	0,
@@ -1429,7 +1435,7 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Value/Value.xtuml');
 INSERT INTO PE_PE
-	VALUES ("cecf30d3-be80-4f2b-9f8d-445d8782d43b",
+	VALUES ("70d7300c-f5de-474b-96e2-1249e8935226",
 	1,
 	"d5dc7ad8-f580-4285-beac-ab600df434c5",
 	"00000000-0000-0000-0000-000000000000",

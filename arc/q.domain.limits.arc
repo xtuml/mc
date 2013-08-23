@@ -94,11 +94,11 @@
     .// Count up the self events in this body.
     .assign count = 0
     .for each e_ess in event_specification_statements
-      .select one v_var related by e_ess->E_GES[R701]->E_GSME[R703]->E_GEN[R705]->V_VAR[R712] where ( "$l{selected.Name}" == "self" )
+      .select one v_var related by e_ess->E_GES[R701]->E_GSME[R703]->E_GEN[R705]->V_VAR[R712] where ( "self" == "$l{selected.Name}" )
       .if ( not_empty v_var )
         .assign count = count + 1
       .else
-        .select any v_var related by event_specification_statements->E_CES[R701]->E_CSME[R702]->E_CEI[R704]->V_VAR[R711] where ( "$l{selected.Name}" == "self" )
+        .select any v_var related by event_specification_statements->E_CES[R701]->E_CSME[R702]->E_CEI[R704]->V_VAR[R711] where ( "self" == "$l{selected.Name}" )
         .if ( not_empty v_var )
           .assign count = count + 1
         .end if

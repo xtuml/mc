@@ -34,7 +34,7 @@
   .assign result = ""
   .select one te_c related by to_o_obj->TE_CLASS[R2019]->TE_C[R2064]
   .if ( not_empty te_c )
-    .assign result = "${te_c.Name}_${to_o_obj.Key_Lett}_R${r_rel.Numb}_From_${from_o_obj.Key_Lett}"
+    .assign result = "${te_c.Name}_${to_o_obj.Key_Lett}_R$t{r_rel.Numb}_From_${from_o_obj.Key_Lett}"
     .//
     .invoke r = GetRelationshipSuffix( to_o_obj, r_rel, rel_phrase )
     .assign suffix = r.result
@@ -61,7 +61,7 @@
     .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
     .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
     .//
-    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
+    .assign name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Link"
     .assign result = ( te_class.GeneratedName + "::" ) + name
     .//
     .invoke r = GetRelationshipSuffix( assoc_o_obj, r_rel, rel_phrase )
@@ -92,7 +92,7 @@
     .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
     .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
     .//
-    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
+    .assign name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Unlink"
     .assign result = ( te_class.GeneratedName + "::" ) + name
     .//
     .invoke r = GetRelationshipSuffix( assoc_o_obj, r_rel, rel_phrase )
@@ -117,7 +117,7 @@
   .assign result = ""
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
-    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Link"
+    .assign name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Link"
     .assign result = ( te_class.GeneratedName + "::" ) + name
     .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
     .assign suffix = r.result
@@ -141,7 +141,7 @@
   .assign result = ""
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
-    .assign name = te_class.GeneratedName + "_R${r_rel.Numb}_Unlink"
+    .assign name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Unlink"
     .assign result = ( te_class.GeneratedName + "::" ) + name
     .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
     .assign suffix = r.result
@@ -180,7 +180,7 @@
 .function GetSuperTypePolymorphicEventMethodName .// string
   .param inst_ref te_class
   .param inst_ref r_rel
-  .assign attr_result = te_class.GeneratedName + "_R${r_rel.Numb}PolymorphicEvent"
+  .assign attr_result = te_class.GeneratedName + "_R$t{r_rel.Numb}PolymorphicEvent"
 .end function
 .//
 .//============================================================================

@@ -1,7 +1,7 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*| MGC Confidential                                                |*/
 /*| Property of Mentor Graphics Corp.                               |*/
-/*| (C) Copyright Mentor Graphics Corp.  (2006-2008)                |*/
+/*| (C) Copyright Mentor Graphics Corp.  (2006-2013)                |*/
 /* _________________________________________________________________ */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*| Title:               Archetype to OAL Conversion Parser         |*/
@@ -32,9 +32,6 @@ char * ws[] = {
   "                      "
 };
 int line_number = 1;
-char lw[ 256 ];                 /* leading whitespace                */
-int column;
-static char pi[ 1024 ];         /* parameter initialization          */
 
 %}
 %{
@@ -69,7 +66,10 @@ static char * stradd( char * [], int );
 extern char * dtKLname( char * );
 extern void loadtable( void );
 extern struct { char * s[16]; } cfuncsig;
-int aparmindex, literaldetected;
+static char pi[ 1024 ];         /* parameter initialization          */
+static char b[ 128000 ];        /* output buffer                     */
+static char sv[ 2 ][ 128 ];     /* substitution variable             */
+static int aparmindex, literaldetected, infunction, strcnt, svi;
 
 /*-------------------------------------------------------------------*/
 %}
@@ -119,7 +119,7 @@ code:
         | code statement {$$=P3($1,ws[indent],$2);}
         | code comment {$$=P3($1,ws[indent],$2);}
         | code literal {literaldetected=1;$$=P2($1,$2);}
-        | code FUNCTION identifier freturntype {pi[0]=0; literaldetected=0;} fparameters fbody ENDFUNCTION '\n' {$$=""; {char*rb="",*rt=$4;if(literaldetected){rb="return T::body();\n";rt="string";} printf( "%s", P10($3,"@",rt,$6,"@@@\n",$1,pi,$7,rb,"@@@\n"));}}
+        | code FUNCTION identifier freturntype {pi[0]=0; literaldetected=0; infunction=1;} fparameters fbody ENDFUNCTION '\n' {$$=""; {char*rb="",*rt=$4;if(literaldetected){rb="return T::body();\n";rt="string";} strcat(b,P10($3,"@",rt,$6,"@@@\n",$1,pi,$7,rb,"@@@\n"));}infunction=0;}
         ;
 
 freturntype:
@@ -145,6 +145,8 @@ statement:
         | EMIT string '\n' {$$=P3("T::emit(s:",$2,");\n");}
         | ASSIGN variable '=' expr '\n' {if (0==strncmp($2,"attr_",5)) $$=P3("return ",$4,";\n");
                                          else if (0==strcmp($4,"00")) $$="";
+                                         else if (0==strcmp($4,"b")) $$=P2($2," = T::body();\n");
+                                         else if ((0==strcmp($2,"b"))&&(0==strcmp($4,"\"\""))) $$=P1("T::clear();\n");
                                          else $$=P4($2," = ",$4,";\n");}
         | ASSIGN variable '=' expr COMMENT TEXT '\n' {if (strstr($6,"::")) $$=P4($2," =",$6,";\n");}
         | INVOKE identifier {funcsig($2);aparmindex=0;} '(' aparameters ')' '\n' {$$ = (strlen($5)>0) ? P5("::",$2,"( ",$5," );\n") : P3("::",$2,"();\n");}
@@ -331,35 +333,62 @@ bop:
         ;
 
 literal:
-        LITERAL literalbody '\n' {$$=P4("T::b(s:",$1,$2,");\n");}
+        LITERAL literalbody '\n' {if (infunction) {$$=P4("T::b(s:",$1,$2,");\n");
+                                  } else {
+          /* CDS - $2 here could have embedded substitution vars.  */
+          char s[1024];
+          strncpy(s,$1,1024);
+          strncpy(s,$2,1024);
+          int len = strlen( s );
+          if ( 0 == len ) {
+            printf( "T_b( \"\\n\" );\n" );
+          } else {
+            if ( '\\' == s[ len - 1 ] ) s[ len - 1 ] = 0;
+            printf( "T_b( \"%s\" );\n", s ); }
+          $$=P2($1,$2);}
+        }
         | '\n'
         ;
 
 literalbody:
         /* empty */ {$$=P0;}
-        | literalbody LITERAL {$$=P2($1,$2);}
+        | literalbody LITERAL {if (!infunction)
+          /* CDS - $1 here could have embedded substitution vars.  */
+        { char s[1024];
+          strncpy(s,$1,1024);
+          strncpy(s,$2,1024);
+          int len = strlen( s );
+          if ( 0 == len ) {
+            printf( "T_b( \"\\n\" );\n" );
+          } else {
+            if ( '\\' == s[ len - 1 ] ) s[ len - 1 ] = 0;
+            printf( "T_b( \"%s\" );\n", s ); }
+        } $$=P2($1,$2);}
         | literalbody substitutionvariable {$$=P2($1,$2);}
         ;
 
 substitutionvariable:
-        '$' format '{' term '}' {char * p="i", * f=$2;
-                                 if (0==strcmp(f,"")) {$$=P1($4);}
-                                 else if (0==strcmp(f,"r")) {p="s";$$=P7("T::",f,"(",p,":",$4,")");}
-                                 else if (0==strcmp(f,"l")) {p="s";$$=P7("T::",f,"(",p,":",$4,")");}
-                                 else if (0==strcmp(f,"u")) {p="s";$$=P7("T::",f,"(",p,":",$4,")");}
-                                 else if (0==strcmp(f,"_")) {f="underscore";p="s";$$=P7("T::",f,"(",p,":",$4,")");}
-                                 else {$$=P7("T::",f,"(",p,":",$4,")");}}
+        '$' format '{' term '}'
+        {char * p="i", * f=$2;
+         if (0==strcmp(f,"")) {strcpy(sv[svi],P1($4));}
+         else if (0==strcmp(f,"l")) {p="s";strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
+         else if (0==strcmp(f,"r")) {p="s";strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
+         else if (0==strcmp(f,"t")) {f="s";p="i";strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
+         else if (0==strcmp(f,"u")) {p="s";strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
+         else if (0==strcmp(f,"_")) {f="underscore";p="s";strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
+         else {strcpy(sv[svi],P7("T::",f,"(",p,":",$4,")"));}
+         $$=P5($1,$2,$3,$4,$5);}
         ;
 
 
 string:
-        '"' stringbody '"' {$$ = ( 0 == strncmp( $2, "T::", 3 ) ) ? P1($2) : P3($1,$2,$3);}
+        '"' {sv[svi][0]=0;strcnt=0;} stringbody '"' {if ((2==strcnt)&&(0==strncmp(sv[svi],"T::",3))){$$=sv[svi];}else{$$=P3($1,$3,$4);}svi=(svi+1)%2;}
         ;
 
 stringbody:
-        /* empty */ {$$=P0;}
-        | stringbody TEXT {$$=P2($1,$2);}
-        | stringbody substitutionvariable {$$=P2($1,$2);}
+        /* empty */ {strcnt++;$$=P0;}
+        | stringbody TEXT {strcnt++;$$=P2($1,$2);}
+        | stringbody substitutionvariable {strcnt++;$$=P2($1,$2);}
         ;
 
 %%
@@ -413,7 +442,7 @@ static char * stradd3( char * s1, char * s2 )
     strcat( s, s1 );
     strcat( s, s2 );
   } else {
-    printf( "Failed to allocate memory.\n" );
+    fprintf( stderr, "Failed to allocate memory.\n" );
   }
   return s;
 }
@@ -435,6 +464,11 @@ main( int argc, char ** argv )
 {
   //yydebug = 1;
   loadtable();
+  if ( argc > 1 ) {
+    yy_scan_string(argv[1]);
+  }
   yyparse();
+  printf("%s",b);
+  return 0;
 }
 

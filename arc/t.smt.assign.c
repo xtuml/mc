@@ -9,7 +9,7 @@ ${ws}${te_assign.lval} = ${te_assign.rval};
       .// We use memmove, because C does not copy arrays very nicely.
 ${ws}${te_instance.module}${te_string.memmove}( ${te_assign.lval}, ${te_assign.rval}, \
       .if ( is_parameter )
-sizeof( ${te_assign.rval}[0] ) * ${element_count} );
+sizeof( ${te_assign.rval}[0] ) * $t{element_count} );
       .else
 sizeof( ${te_assign.rval} ) );
       .end if

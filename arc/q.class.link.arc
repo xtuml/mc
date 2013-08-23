@@ -143,7 +143,7 @@ ${methods.body}\
       .invoke form_mc = GetMultCondString( formalizer.Mult, formalizer.Cond )
       
 /*
- * R${r_rel.Numb} is Simple Reflexive:  ${part_mc.result}:${form_mc.result}
+ * R$t{r_rel.Numb} is Simple Reflexive:  ${part_mc.result}:${form_mc.result}
       .// Check for OOA96 compliance
       .if ( participant.Mult != formalizer.Mult )
  * Note:  Reflexive association is asymmetric.
@@ -205,7 +205,7 @@ ${form_fundamentals.body}\
       .invoke methods = ImplementRelationshipFundamentals( o_obj, sub_o_obj, r_rto, r_rgo, r_rel, te_relinfo, te_relstore )
       .if ( not blurped_comment )
 
-/* Accessors to ${o_obj.Key_Lett}[R${r_rel.Numb}] subtypes */
+/* Accessors to ${o_obj.Key_Lett}[R$t{r_rel.Numb}] subtypes */
         .assign blurped_comment = true
       .end if
 ${methods.body}\
@@ -309,7 +309,7 @@ ${aoth_fundamentals.body}\
           .invoke one_mc = GetMultCondString( aone.Mult, aone.Cond )
           .invoke other_mc = GetMultCondString( aoth.Mult, aoth.Cond )
 
- * R${r_rel.Numb} is Associative Reflexive:  \
+ * R$t{r_rel.Numb} is Associative Reflexive:  \
           .if ( assr.Mult == 0 )
 1-(${one_mc.result}:${other_mc.result})
           .else
@@ -323,13 +323,13 @@ M-(${one_mc.result}:${other_mc.result})
           .for each aone_ref in aone_ref_set
             .select one one_ref_attr_obj related by aone_ref->O_OBJ[R102]
  *  Referential attribute ${one_ref_attr_obj.Name}.${aone_ref.Name}
- *    refers across R${r_rel.Numb} in the direction of ${aone.Txt_Phrs} (R_AONE)
+ *    refers across R$t{r_rel.Numb} in the direction of ${aone.Txt_Phrs} (R_AONE)
           .end for
  *
           .for each aoth_ref in aoth_ref_set
             .select one other_ref_attr_obj related by aoth_ref->O_OBJ[R102]
  *  Referential attribute ${other_ref_attr_obj.Name}.${aoth_ref.Name}
- *    refers across R${r_rel.Numb} in the direction of ${aoth.Txt_Phrs} (R_AOTH)
+ *    refers across R$t{r_rel.Numb} in the direction of ${aoth.Txt_Phrs} (R_AOTH)
           .end for
           .//
         .else
@@ -426,8 +426,8 @@ ${aoth_fundamentals.body}\
     .invoke other_mc = GetMultCondString( other_side.Mult, other_side.Cond )
     .select any other_obj from instances of O_OBJ where ( selected.Obj_ID == other_side_oir.Obj_ID )
     .//
-    .assign msg1 = "WARNING:  R${r_rel.Numb} is COMPOSITION - No code generated"
-    .assign msg2 = "R${r_rel.Numb} = ${comp.Rel_Chn} is ${one_mc.result}:${other_mc.result} from (${one_obj.Key_Lett}) to (${other_obj.Key_Lett})"
+    .assign msg1 = "WARNING:  R$t{r_rel.Numb} is COMPOSITION - No code generated"
+    .assign msg2 = "R$t{r_rel.Numb} = ${comp.Rel_Chn} is ${one_mc.result}:${other_mc.result} from (${one_obj.Key_Lett}) to (${other_obj.Key_Lett})"
     .print "\n  ${msg1}\n  ${msg2}"
 /* ${msg1} */
 /* ${msg2} */

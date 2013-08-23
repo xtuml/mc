@@ -96,7 +96,7 @@ extern void ${method_name.result}( const ${te_class.GeneratedName} * const, ${te
     .invoke supertype_data_member = GetRelationshipDataMemberName( any_subtype_o_obj, r_rel, "" )
     .if ( firsttime )
 /*
- * Transfer a polymorphic event down the R${r_rel.Numb} subtype hierarchy
+ * Transfer a polymorphic event down the R$t{r_rel.Numb} subtype hierarchy
  * to the dispatcher of the subtype that responds to the polymorphic event.
  * Modify the event to use the event constants of the receiving subtype
  * class.

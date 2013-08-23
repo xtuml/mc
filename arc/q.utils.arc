@@ -68,7 +68,7 @@
           .end if
           .end if
           .if ( stringbody )
-            .assign te_par.buffer = "v_sretval" + "${info.unique_num}"
+            .assign te_par.buffer = ( "v_sretval" + invocation_flavor ) + "$t{item_number}"
             .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]
             .assign te_blk.declaration = ( ( ( te_blk.declaration + te_dt.ExtName ) + ( " " + te_par.buffer ) ) + ( "[" + te_string.max_string_length ) ) + "];"
             .assign code = ( ( code + te_string.strcpy ) + ( "( " + te_par.buffer) ) + ", "

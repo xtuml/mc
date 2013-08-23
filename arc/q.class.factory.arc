@@ -112,7 +112,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
           .// real
         .elif ( 4 == te_dt.Core_Typ )
           .// string
-          .if ( "Action_Semantics_internal" == te_attr.Name )
+          .if ( ( "Action_Semantics_internal" == te_attr.Name ) or ( "Descrip" == te_attr.Name ) )
   ${te_instance.self}->${te_attr.GeneratedName} = (c_t *) ${te_dma.allocate}( avlstring[ ${attribute_number} + 1 ] - avlstring[ ${attribute_number} ] );
   {i_t i; for ( i = 0; i < avlstring[ ${attribute_number} + 1 ] - avlstring[ ${attribute_number} ]; i++ )
     ${te_instance.self}->${te_attr.GeneratedName}[ i ] = avlstring[ ${attribute_number} ][ i ];
@@ -252,14 +252,14 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
             .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
           .end while
           .if ( ( ( 0 == o_id.Oid_ID ) and ( 1 == o_rtida_count ) ) and nonreferential )
-  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance${r_rto_count} = (${part_te_class.GeneratedName} *) Escher_instance_cache[ (intptr_t) ${param_list} ];
+  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance$t{r_rto_count} = (${part_te_class.GeneratedName} *) Escher_instance_cache[ (intptr_t) ${param_list} ];
           .else
-  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance${r_rto_count} = ${te_where.select_any_where}( ${param_list} );
+  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance$t{r_rto_count} = ${te_where.select_any_where}( ${param_list} );
           .end if
-          .assign null_test = null_test + "${null_test_conjunction}${part_te_class.GeneratedName}related_instance${r_rto_count}"
+          .assign null_test = null_test + "${null_test_conjunction}${part_te_class.GeneratedName}related_instance$t{r_rto_count}"
           .assign null_test_conjunction = " && "
           .if ( r_rto_count < 2 )
-            .assign parameters = "${part_te_class.GeneratedName}related_instance${r_rto_count}"
+            .assign parameters = "${part_te_class.GeneratedName}related_instance$t{r_rto_count}"
             .select one r_part related by r_rto->R_PART[R204]
             .if ( not_empty r_part )
               .assign rel_phrase = r_part.Txt_Phrs
@@ -269,10 +269,10 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
             .if ( empty r_aone )
               .select one r_aoth related by r_rto->R_AOTH[R204]
               .assign rel_phrase = r_aoth.Txt_Phrs
-              .assign parameters = parameters + "${parameters_delimeter}${part_te_class.GeneratedName}related_instance${r_rto_count}"
+              .assign parameters = parameters + "${parameters_delimeter}${part_te_class.GeneratedName}related_instance$t{r_rto_count}"
             .else
               .assign rel_phrase = r_aone.Txt_Phrs
-              .assign parameters = "${part_te_class.GeneratedName}related_instance${r_rto_count}${parameters_delimeter}" + parameters
+              .assign parameters = "${part_te_class.GeneratedName}related_instance$t{r_rto_count}${parameters_delimeter}" + parameters
             .end if
           .end if
           .assign parameters_delimeter = ", "

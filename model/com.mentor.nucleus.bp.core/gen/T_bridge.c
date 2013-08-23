@@ -6,7 +6,7 @@
  *
  * External Entity:  template (T)
  * 
- * (C) Copyright 1998-2012 Mentor Graphics Corporation.  All rights reserved.
+ * (C) Copyright 1998-2013 Mentor Graphics Corporation.  All rights reserved.
  *--------------------------------------------------------------------------*/
 
 #include "sys_sys_types.h"
@@ -23,16 +23,6 @@ static i_t buffer_index = 0;
 static char buffer[ 256000 ];
 static char tbuf[ T_number_of_bufs ][ T_tbuf_size ];
 FILE * outputfile;
-
-/*
- * Bridge:  body
- */
-c_t *
-T_body( void )
-{
-  buffer_index = 0;
-  return buffer;
-}
 
 
 /*
@@ -301,17 +291,60 @@ T_xmlify( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
 c_t *
 T_parsekeyword( c_t p_key[ESCHER_SYS_MAX_STRING_LEN], c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
-  c_t * s = strstr( p_s, p_key );
-  if ( 0 != s ) {
-    i_t i = 0;
-    s = Escher_strcpy( Escher_strget(), strstr( s, ":" ) );
-    s++;
-    while ( ( i < ESCHER_SYS_MAX_STRING_LEN ) && ( 0 != *(s+i) ) ) {
-      if ( ( '\n' == *(s+i) ) || ( ' ' == *(s+i) ) ) { *(s+i) = 0; break; }
-      i++;
+  c_t * s = 0;
+  if ( strlen( p_s ) ) {
+    c_t * key = Escher_strget();
+    strcpy( key, p_key );
+    strcat( key, ":" );
+    s = strstr( p_s, key );
+    if ( 0 != s ) {
+      i_t i = 0;
+      s = strstr( s, ":" );
+      if ( 0 != s ) s++; /* increment past : */
+      if ( 0 != *s ) {
+        /* Skip past blanks but watch for end of line and and of string and string max.  */
+        while ( ( i < ESCHER_SYS_MAX_STRING_LEN ) && ( ' ' == *s ) && ( 0 != *s ) && ( '\n' != *s ) ) {
+          s++; i++;
+        }
+        while ( ( i < ESCHER_SYS_MAX_STRING_LEN ) && ( 0 != *(s+i) ) ) {
+          if ( ( '\n' == *(s+i) ) || ( ' ' == *(s+i) ) ) { *(s+i) = 0; break; }
+          i++;
+        }
+      }
     }
   }
   return ( 0 != s ) ? s : "";
 }
 
 
+/*
+ * Bridge:  body
+ */
+c_t *
+T_body( void )
+{
+  buffer_index = 0;
+  return buffer;
+}
+
+
+extern char * template_engine( char * );
+extern int yyparse( void );
+extern char * templatebuffer;
+
+/*
+ * Bridge:  t
+ */
+c_t *
+T_t( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t * result = 0;
+  if ( ( strlen( p_s ) > 0 ) && strchr( p_s, '$' ) && strchr( p_s, '{' ) && strchr( p_s, '}' ) ) {
+    c_t s[1024];
+    strcpy(s,p_s);strcat(s,"\n");
+    result = template_engine( s );
+  } else {
+    result = p_s;
+  }
+  return result;
+}

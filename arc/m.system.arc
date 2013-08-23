@@ -24,12 +24,12 @@
   .param string serialize
   .param integer number_of_threads
   .//
-  .print "EnableTasking( ${flavor}, ${serialize}, ${number_of_threads} )"  
+  .print "EnableTasking( ${flavor}, ${serialize}, $t{number_of_threads} )"
   .select any tm_thread from instances of TM_THREAD
   .if ( empty tm_thread )
     .create object instance tm_thread of TM_THREAD
     .assign tm_thread.extra_initialization = ""
-  .end if  
+  .end if
   .assign tm_thread.number_of_threads = number_of_threads
   .if ( "$l{serialize}" == "serialize" )
     .assign tm_thread.serialize = true
@@ -58,12 +58,12 @@
 .function SetTaskPriority
   .param integer task_number
   .param string priority
-  .print "SetTaskPriority( ${task_number}, ${priority} )"
+  .print "SetTaskPriority( $t{task_number}, ${priority} )"
   .select any tm_thread from instances of TM_THREAD
   .if ( empty tm_thread )
     .create object instance tm_thread of TM_THREAD
-  .end if  
-  .assign tm_thread.extra_initialization = tm_thread.extra_initialization + "  xtUML_task_priorities[ ${task_number} ] = ${priority};\n"
+  .end if
+  .assign tm_thread.extra_initialization = tm_thread.extra_initialization + "  xtUML_task_priorities[ $t{task_number} ] = ${priority};\n"
 .end function
 .//
 .//============================================================================

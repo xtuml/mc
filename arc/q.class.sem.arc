@@ -62,7 +62,7 @@
     .while ( state_count < te_sm.num_states )
       .for each te_state in te_states
         .if ( te_state.Order == state_count )
-#define ${te_state.enumerator} ${te_state.number}  /* state [${te_state.Numb}]:  (${te_state.Name}) */
+#define ${te_state.enumerator} ${te_state.number}  /* state [$t{te_state.Numb}]:  (${te_state.Name}) */
           .assign max_state_value = te_state.enumerator
           .break for
         .end if

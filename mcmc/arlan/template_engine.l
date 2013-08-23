@@ -1,7 +1,7 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*| MGC Confidential                                                |*/
 /*| Property of Mentor Graphics Corp.                               |*/
-/*| (C) Copyright Mentor Graphics Corp.  (2006-2009)                |*/
+/*| (C) Copyright Mentor Graphics Corp.  (2006-2013)                |*/
 /* _________________________________________________________________ */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*| Title:               Archetype Scanner                          |*/
@@ -30,6 +30,7 @@ extern char literalstr[];
 extern int svarnum;
 extern char svar[2][256];
 extern int i0, i1, line_number;
+extern char formatcharacter;
 /*-------------------------------------------------------------------*/
 /* The following counter tells us when we are in a FOR statement.    */
 /* A counter is used to support nesting.  The counter is zero (0)    */
@@ -122,11 +123,6 @@ dbl_quote     "\"\""
 dbl_dollar    "$$"
 
 /*-------------------------------------------------------------------*/
-/* Turn off the scan string function.  We will not use it.           */
-/*-------------------------------------------------------------------*/
-%option noyy_scan_string
-
-/*-------------------------------------------------------------------*/
 /* These ExCLUSIVE states effectively form three mini-scanners       */
 /* separate from the main scanner.                                   */
 /* pc and control are INCLUsIVE states.                              */
@@ -140,7 +136,7 @@ dbl_dollar    "$$"
 /* control     control (action language instruction)                 */
 /* str         string delimited by quotation marks                   */
 /*-------------------------------------------------------------------*/
-%x comment paramext literal rt psv
+%x comment literal rt psv
 %s pc control str sv
 
 %%
@@ -157,14 +153,16 @@ dbl_dollar    "$$"
                                         }
 <control>{h_white}+                     {CWHITE_RETURN(' ');}
 {h_white}+                              {WHITE_RETURN(' ');}
-<paramext>{h_white}+                    {WHITE_RETURN(' ');}
-<paramext>{word}                        {SRETURN(); WORD_RETURN(WORD);}
 <comment>[^ \n]*                        {TEXT_RETURN(TEXT);}
 <comment>{h_white}+                     {WHITE_RETURN(' ');}
-{h_white}+                              {WHITE_RETURN(' ');}
 
+<pc>".// delete object instance"        {CONTROL_RETURN(DELETEOBJ);}
+<pc>".// unrelate"                      {CONTROL_RETURN(UNRELATE);}
+<pc>".// relate"                        {CONTROL_RETURN(RELATE);}
+<pc>".// end unrelate"                  {CONTROL_RETURN(ENDUNRELATE);}
+<pc>".// end relate"                    {CONTROL_RETURN(ENDRELATE);}
 <pc,control>".//"                       {COMMENT_RETURN(COMMENT);}
-<pc>".comment"|".COMMENT"               {COMMENT_RETURN(COMMENT);}
+<pc,control>".comment"|".COMMENT"       {COMMENT_RETURN(COMMENT);}
 <pc>".function"|".FUNCTION"             {i0 = 0; i1= 1;
                                          CONTROL_RETURN(FUNCTION);}
 <pc>".param"|".PARAM"                   {CONTROL_RETURN(PARAM);}
@@ -198,7 +196,7 @@ dbl_dollar    "$$"
 <pc>".print"|".PRINT"                   {CONTROL_RETURN(PRINTTOK);}
 <pc>".exit"|".EXIT"                     {CONTROL_RETURN(EXITTOK);}
 <pc>".emit to file"|".EMIT TO FILE"     {CONTROL_RETURN(EMIT);}
-<pc>".al_xlate"|".AL_XLATE"|".AL_xlate"  {CONTROL_RETURN(ALXLATE);}
+<pc>".al_xlate"|".AL_XLATE"|".AL_xlate" {CONTROL_RETURN(ALXLATE);}
 <pc>".special_where"|".SPECIAL_WHERE"   {CONTROL_RETURN(SPECIALWHERE);}
 <pc>".create object instance"           {CONTROL_RETURN(CREATEOBJ);}
 <pc>"."{word}                           {WORD_RETURN(WORD);}
@@ -207,6 +205,9 @@ dbl_dollar    "$$"
 <control>"from instances of"|"FROM INSTANCES OF" {KEYWORD_RETURN(FROMINSTOF);}
 <control>"in"|"IN"                      {KEYWORD_RETURN(IN);}
 <control>"of"|"OF"                      {KEYWORD_RETURN(OF);}
+<control>"to"|"TO"                      {KEYWORD_RETURN(TO);}
+<control>"from"|"FROM"                  {KEYWORD_RETURN(FROM);}
+<control>"across"|"ACROSS"              {KEYWORD_RETURN(ACROSS);}
 <control>"boolean"|"BOOLEAN"            {TYPE_RETURN(TYPE);}
 <control>"integer"|"INTEGER"            {TYPE_RETURN(TYPE);}
 <control>"real"|"REAL"                  {TYPE_RETURN(TYPE);}
@@ -225,6 +226,9 @@ dbl_dollar    "$$"
 <control>"not_last"|"NOT_LAST"          {OPERATOR_RETURN(UOP);}
 <control>"cardinality"|"CARDINALITY"    {OPERATOR_RETURN(UOP);}
 
+<control>"R"{dec_digits}                {KEYWORD_RETURN(RELTRAV);}
+<control>"'"                            {ASCIIOP_RETURN('\'');}
+
 <control>{dec_digits}         {NUMERICAL_RETURN(INTconstant);}
 <control>{floater}            {NUMERICAL_RETURN(REALconstant);}
 <control,str,sv>{word}        {WORD_RETURN(WORD);}
@@ -236,15 +240,15 @@ dbl_dollar    "$$"
 
 <comment,literal>"$" {SBEGIN(psv); ASCIIOP_RETURN('$');}
 "$"                  {SBEGIN(psv); ASCIIOP_RETURN('$');}
-<psv>[CcLlRrsTtUu_]*("nosplat"|"xmlquot"|"xmlclean")* {KEYWORD_RETURN(FORMAT);}
+<psv>[CcLlRrTtUu_]   {formatcharacter=*yytext;KEYWORD_RETURN(FORMAT);}
 <psv>"{"             {SRETURN(); SBEGIN(sv); ASCIIOP_RETURN('{');}
 
 <sv>"}"              {SRETURN(); ASCIIOP_RETURN('}');}
 
 "["                  {SBEGIN(rt); ASCIIOP_RETURN('[');}
-<rt>"R"{dec_digits}  {KEYWORD_RETURN(RELTRANS);}
+<rt>"R"{dec_digits}  {KEYWORD_RETURN(RELTRAV);}
 <rt>"."              {ASCIIOP_RETURN('.');}
-<rt>"RI"|"IR"        {KEYWORD_RETURN(RELTRANS);}
+<rt>"RI"|"IR"        {KEYWORD_RETURN(RELTRAV);}
 <rt>"'"              {ASCIIOP_RETURN('\'');}
 <rt>{word}           {WORD_RETURN(WORD);}
 <rt>"]"              {SRETURN(); ASCIIOP_RETURN(']');}
@@ -253,7 +257,7 @@ dbl_dollar    "$$"
 ","                  {ASCIIOP_RETURN(',');}
 "("                  {ASCIIOP_RETURN('(');}
 ")"                  {ASCIIOP_RETURN(')');}
-"{"                  {ASCIIOP_RETURN('}');}
+"{"                  {ASCIIOP_RETURN('{');}
 "}"                  {ASCIIOP_RETURN('}');}
 "*"                  {ASCIIOP_RETURN('*');}
 "+"                  {ASCIIOP_RETURN('+');}
@@ -276,45 +280,3 @@ dbl_dollar    "$$"
 
 %%
 
-
-/*
-  Identity and Version Information -
-  $Id: template_engine.l,v 1.3 2009/11/25 15:34:16 cstarret Exp $
-
-  Revision History -
-  $Log: template_engine.l,v $
-  Revision 1.3  2009/11/25 15:34:16  cstarret
-  job:dts0100624946
-  Updating with latest template engine for conversion for mc3020.
-  ----------------------------------------------------------------------
-  Modified Files:
-  template_engine.l template_engine.y
-  ----------------------------------------------------------------------
-
-  Revision 1.2  2008/09/03 21:12:30  cstarret
-  job:3371
-  Adding parser to build SQL inserts for functions, parameters
-  and return structured data types.
-  Updating rsl2oal parser.
-
-  Revision 1.1  2006/03/28 18:35:13  cstarret
-  Job:1865
-  Adding arlan to CVS.
-   ----------------------------------------------------------------------
-   Added Files:
-   	arlan.l arlan.y classes.l classes.y fold.l gen.l gen.y
-   	makefile.arl makefile.arlan makefile.classes makefile.fol
-   	makefile.fra makefile.fun makefile.gen makefile.ind
-   	makefile.template template_engine.l template_engine.y
-   ----------------------------------------------------------------------
-
- * Revision 1.18  1995/12/16  05:39:03  cort
- * Mostly changed to not have file name in main prologue.
- *
- * Revision 1.17  1995/11/27  02:57:01  cort
- * Latest folder and formatter.
- *
- * Revision 1.16  1995/11/17  03:26:22  cort
- * Supported formatting output (indenting).
- *
-*/

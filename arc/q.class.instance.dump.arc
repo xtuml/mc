@@ -662,79 +662,6 @@ INSERT INTO BP_ST VALUES (\
   .end if
  );
 .end for
-.print "Class State Machine Execution"
-.select many csme_clms from instances of CSME_CLM
-.for each csme_clm in csme_clms
-INSERT INTO CSME_CLM VALUES (\
-  .if ( "un-initialized" == "${csme_clm.Execution_Engine_ID}" )
- 0\
-  .else
- ${csme_clm.Execution_Engine_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${csme_clm.CIE_ID}" )
-, 0\
-  .else
-, ${csme_clm.CIE_ID}\
-  .end if
- );
-.end for
-.select many csme_cies from instances of CSME_CIE
-.for each csme_cie in csme_cies
-INSERT INTO CSME_CIE VALUES (\
-  .if ( "un-initialized" == "${csme_cie.CIE_ID}" )
- 0\
-  .else
- ${csme_cie.CIE_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${csme_cie.Execution_Engine_ID}" )
-, 0\
-  .else
-, ${csme_cie.Execution_Engine_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${csme_cie.Obj_ID}" )
-, 0\
-  .else
-, ${csme_cie.Obj_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${csme_cie.Package_ID}" )
-, 0\
-  .else
-, ${csme_cie.Package_ID}\
-  .end if
-, '${csme_cie.Label}' );
-.end for
-.select many csme_ciss from instances of CSME_CIS
-.for each csme_cis in csme_ciss
-INSERT INTO CSME_CIS VALUES (\
-  .if ( "un-initialized" == "${csme_cis.SM_ID}" )
- 0\
-  .else
- ${csme_cis.SM_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${csme_cis.SMstt_ID}" )
-, 0\
-  .else
-, ${csme_cis.SMstt_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${csme_cis.Trans_ID}" )
-, 0\
-  .else
-, ${csme_cis.Trans_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${csme_cis.CIE_ID}" )
-, 0\
-  .else
-, ${csme_cis.CIE_ID}\
-  .end if
- );
-.end for
 .print "Communication"
 .select many comm_comms from instances of COMM_COMM
 .for each comm_comm in comm_comms
@@ -2314,57 +2241,6 @@ INSERT INTO EP_PIP VALUES (\
 , 0\
   .else
 , ${ep_pip.Child_Package_ID}\
-  .end if
- );
-.end for
-.print "Engine"
-.select many sen_es from instances of SEN_E
-.for each sen_e in sen_es
-INSERT INTO SEN_E VALUES (\
-  .if ( "un-initialized" == "${sen_e.Id}" )
- 0\
-  .else
- ${sen_e.Id}\
-  .end if
- );
-.end for
-.select many sen_ales from instances of SEN_ALE
-.for each sen_ale in sen_ales
-INSERT INTO SEN_ALE VALUES (\
-  .if ( "un-initialized" == "${sen_ale.Id}" )
- 0\
-  .else
- ${sen_ale.Id}\
-  .end if
- );
-.end for
-.select many sen_des from instances of SEN_DE
-.for each sen_de in sen_des
-INSERT INTO SEN_DE VALUES (\
-  .if ( "un-initialized" == "${sen_de.Id}" )
- 0\
-  .else
- ${sen_de.Id}\
-  .end if
- );
-.end for
-.select many sen_dces from instances of SEN_DCE
-.for each sen_dce in sen_dces
-INSERT INTO SEN_DCE VALUES (\
-  .if ( "un-initialized" == "${sen_dce.Id}" )
- 0\
-  .else
- ${sen_dce.Id}\
-  .end if
- );
-.end for
-.select many sen_res from instances of SEN_RE
-.for each sen_re in sen_res
-INSERT INTO SEN_RE VALUES (\
-  .if ( "un-initialized" == "${sen_re.Id}" )
- 0\
-  .else
- ${sen_re.Id}\
   .end if
  );
 .end for

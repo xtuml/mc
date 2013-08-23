@@ -982,7 +982,7 @@ ${port_action.body}
             .assign register_address = "${offset_name}_MEM_OFFSET"
           .elif(not_empty te_dim)
             .assign casting = "(unsigned char *)"
-            .assign payload_size = ", (sizeof(${te_dt.ExtName}) * ${te_dim.elementCount} )"
+            .assign payload_size = ", (sizeof(${te_dt.ExtName}) * $t{te_dim.elementCount} )"
             .assign register_address = "${offset_name}_MEM_OFFSET"
           .elif(not_empty s_edt)
             .assign casting = "(int)"

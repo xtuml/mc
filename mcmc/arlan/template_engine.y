@@ -1,14 +1,13 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*| MGC Confidential                                                |*/
 /*| Property of Mentor Graphics Corp.                               |*/
-/*| (C) Copyright Mentor Graphics Corp.  (2006-2009)                |*/
+/*| (C) Copyright Mentor Graphics Corp.  (2006-2013)                |*/
 /* _________________________________________________________________ */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*| Title:               Archetype Parser                           |*/
 /*|                                                                 |*/
 /*| Abstract -                                                      |*/
-/*|   This is the yacc source file for the archetype action         |*/
-/*|   language parser.                                              |*/
+/*|   This bison parser assists in the conversion of RSL to C.      |*/
 /*|                                                                 |*/
 /*| Notes -                                                         |*/
 /* _________________________________________________________________ */
@@ -23,9 +22,13 @@ char linestr[4096];
 char a[16384];
 char s[16384];
 #ifdef TEMPLATE_ENGINE
+static char b[128000];
+char * templatebuffer = b;
 char literalstr[64000];
 char svar[2][256];
 int svarnum = 0;
+int stringmode = 0;
+char * SSS = "T_b(";
 char formatcharacter = 0;
 #endif
 
@@ -57,8 +60,9 @@ extern char *yytext;
 %token ENDFUNCTION     FROMINSTOF      TEXT            INCLUDE
 %token ASSIGN          PRINTTOK        EXITTOK         EMIT
 %token CLEARTOK        INVOKE          IN              UOP
-%token RELTRANS        ALXLATE         SPECIALWHERE
+%token RELTRAV         ALXLATE         SPECIALWHERE    DELETEOBJ
 %token WHILE           ENDWHILE        BREAKWHILE
+%token RELATE ENDRELATE UNRELATE ENDUNRELATE TO FROM ACROSS
 %token WORD            LITERAL         REALconstant    INTconstant
 %token ARROW                    /*  ->                               */
 %token LE GE EQ NE              /*  <=       >=        ==        !=  */
@@ -97,7 +101,7 @@ code:
 
 statement:
         selectstatement
-        | IF condition {printf("if %s {\n",$2);} code elifclause elseclause endiffer {printf("}\n");}
+        | IF condition {strcat(b,"if ");strcat(b,$2);strcat(b," {\n");} code elifclause elseclause endiffer {strcat(b,"}\n");}
         | FUNCTION identifier
           {
           #ifdef FUN
@@ -157,12 +161,12 @@ aparameters:
 
 elifclause:
         /* empty */
-        | elifclause ELIF condition {printf("} else if %s {\n",$3);} code
+        | elifclause ELIF condition {strcat(b,"} else if ");strcat(b,$3);strcat(b," {\n");} code
         ;
 
 elseclause:
         /* empty */
-        | elseclause ELSE {printf("} else {\n");} code
+        | elseclause ELSE {strcat(b,"} else {\n");} code
         ;
 
 endiffer:
@@ -211,9 +215,9 @@ term:
         ;
 
 reltraversal:
-        RELTRANS
-        | RELTRANS '.' '\'' WORD '\''
-        | RELTRANS '.' RELTRANS
+        RELTRAV
+        | RELTRAV '.' '\'' WORD '\''
+        | RELTRAV '.' RELTRAV
         ;
 
 attribute:
@@ -227,8 +231,7 @@ parsekeyword:
 
 format:
         /* empty */
-        | FORMAT
-        { formatcharacter = *$1; }
+        | FORMAT /* {if ($1) formatcharacter=*$1;} */
         ;
 
 variable:
@@ -238,7 +241,7 @@ variable:
         ;
 
 keyword:
-        UOP | TYPE | WHERE | IN
+        UOP | TYPE | WHERE | IN | AND | OR
         ;
 
 param_name:
@@ -282,38 +285,63 @@ bop:
 
 literal:
         LITERAL literalbody '\n'
-        { if ( strlen( literalstr ) == 0 ) {
-          printf( "T_b( \"\\n\" );\n" );
-        } else {
-          printf("T_b( \"%s\" );\n", literalstr);
+        { int len = strlen( literalstr );
+          if ( 0 == len ) {
+            /*
+            if ( !stringmode ) {
+              strcat(b,SSS);strcat(b,"\"\\n\");\n");
+            }
+            */
+          } else {
+            if ( '\\' == literalstr[ len - 1 ] ) literalstr[ len - 1 ] = 0;
+            strcat(b,SSS);strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");
+            if ( !stringmode ) strcat(b,"\n");
         }}
         | '\n'
         ;
 
 literalbody:
         /* empty */
+        {if (strlen(literalstr)) {strcat(b,SSS);strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");if(!stringmode)strcat(b,"\n");}}
         | literalbody LITERAL
-        { printf( "T_b( \"%s\" );\n", literalstr ); }
+        { int len = strlen( literalstr );
+          strcat(b,SSS);
+          if ( 0 == len ) {
+            /*
+            if ( !stringmode ) {
+              strcat(b,SSS);strcat(b,"\"\\n\");\n");
+            }
+            */
+          } else {
+            if ( '\\' == literalstr[ len - 1 ] ) literalstr[ len - 1 ] = 0;
+            strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");
+            if ( !stringmode ) strcat(b,"\n");
+          }
+        }
         | literalbody substitutionvariable
         ;
 
 substitutionvariable:
         '$' format '{' term '}'
-        { if ( '_' == formatcharacter ) {
-            printf( "T_underscore( T_xmlify( %s", &svar[ 0 ][ 0 ] );
-          } else if ( 's' == formatcharacter ) {
-            printf( "T_b( T_s( %s", &svar[ 0 ][ 0 ] );
-          } else {
-            printf( "T_b( T_xmlify( %s", &svar[ 0 ][ 0 ] );
+         {strcat(b,SSS);
+          if ( '_' == formatcharacter ) {
+            strcat(b,"T_underscore(");
+          } else if ( 't' == formatcharacter ) {
+            strcat(b,"T_s(");
           }
-          formatcharacter = 0;
+          strcat(b,&svar[0][0]);
           if ( svarnum > 1 ) {
-            printf( "->%s", &svar[ 1 ][ 0 ] );
+            strcat(b,"->");strcat(b,&svar[1][0]);
           }
-          printf( " ) );\n" );
+          if ( ( '_' == formatcharacter ) || ( 't' == formatcharacter ) ) {
+            strcat(b,")");
+          }
+          strcat(b,");");
+          if ( !stringmode ) strcat(b,"\n");
           svarnum = 0;
           svar[ 0 ][ 0 ] = 0;
           svar[ 1 ][ 0 ] = 0;
+          formatcharacter = 0;
         }
         ;
 
@@ -336,69 +364,22 @@ stringbody:
 /*===================================================================*/
 yyerror(char *string)
 {
-  printf("arlan:  %s, at \"%s\" near line %d.\n",
+  fprintf( stderr, "template_engine:  %s, at \"%s\" near line %d.\n",
     string, yytext, line_number );
 }
 
-
-/*===================================================================*/
-/* Dummy main program to call yyparse.                               */
-/*===================================================================*/
-int
-main( int argc, char ** argv )
+char * template_engine( char * );
+char * template_engine( char * s )
 {
+  //yydebug = 1;
+  SSS = "T_T(";
+  stringmode = 1;
+  b[0]=0;
+  literalstr[0]=0;
+  strcat(b,"({char s[512]={0};");
+  yy_scan_string( s );
   yyparse();
+  strcat(b,"})");
+  stringmode = 0;
+  return b;
 }
-
-
-/*
-  Identity and Version Information -
-  $Id: template_engine.y,v 1.3 2009/11/25 15:34:16 cstarret Exp $
-
-  Revision History -
-  $Log: template_engine.y,v $
-  Revision 1.3  2009/11/25 15:34:16  cstarret
-  job:dts0100624946
-  Updating with latest template engine for conversion for mc3020.
-  ----------------------------------------------------------------------
-  Modified Files:
-  template_engine.l template_engine.y
-  ----------------------------------------------------------------------
-
-  Revision 1.2  2008/09/03 21:12:30  cstarret
-  job:3371
-  Adding parser to build SQL inserts for functions, parameters
-  and return structured data types.
-  Updating rsl2oal parser.
-
-  Revision 1.1  2006/03/28 18:35:13  cstarret
-  Job:1865
-  Adding arlan to CVS.
-   ----------------------------------------------------------------------
-   Added Files:
-   	arlan.l arlan.y classes.l classes.y fold.l gen.l gen.y
-   	makefile.arl makefile.arlan makefile.classes makefile.fol
-   	makefile.fra makefile.fun makefile.gen makefile.ind
-   	makefile.template template_engine.l template_engine.y
-   ----------------------------------------------------------------------
-
- * Revision 1.15  1995/11/17  03:26:22  cort
- * Supported formatting output (indenting).
- *
- * Revision 1.14  1995/11/16  04:35:31  cort
- * Added while statement and enhanced capabilities.
- *
- * Revision 1.13  1995/11/03  03:57:07  cort
- * Enhanced while working on refman tag generator.
- *
- * Revision 1.12  1995/10/04  05:44:46  cort
- * Added support for comments between PARAMs.
- * Re-enabled recognition of FROM INSTANCES OF in comments.
- *
- * Revision 1.11  1995/09/27  05:58:15  cort
- * Improved specificity in "identifier" like tokens.
- *
- * Revision 1.10  1995/09/22  04:47:49  cort
- * Fully functional.  Shipping to PT.
- *
-*/

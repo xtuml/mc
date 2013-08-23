@@ -32,18 +32,18 @@ ${te_eq.event_message_variable} );
     .// operations use GetSelf.  All others use the variable self.
     .// CDS:  Deal with event prioritization and semantics type.
     .if ( false )
-      .if ( semantics_type.result == 3 )
+      .if ( 1 == 3 )
 ${ws}  ${te_instance.self} = (${te_instance.handle}) ${te_instance.global_self}();
   if ( ${te_instance.self} == 0 ) { ${te_instance.self} = (${te_instance.handle}) &${te_instance.self}; }
       .end if
-      .if ( ( ( semantics_type.result == 5 ) or ( semantics_type.result == 4 ) ) or ( semantics_type.result == 2 ) )
+      .if ( ( ( 1 == 5 ) or ( 1 == 4 ) ) or ( 1 == 2 ) )
 ${ws}  SetEventSendingInstance( ${te_eq.event_message_variable}, ${te_instance.global_self}() );
-      .elif ( ( ( semantics_type.result == 3 ) or ( semantics_type.result == 1 ) ) or ( semantics_type.result == 0 ) )
+      .elif ( ( ( 1 == 3 ) or ( 1 == 1 ) ) or ( 1 == 0 ) )
 ${ws}  SetEventSendingInstance( ${te_eq.event_message_variable}, ${te_instance.self} );
       .else
-        .// "WARNING:  Unrecognized action semantics type ${semantics_type.result}."
-      .end if .// which type of semantic
-    .end if .// prioritization needed
+        .// "WARNING:  Unrecognized action semantics type."
+      .end if
+    .end if
 ${ws}  ${te_instance.module}${te_eq.non_self}( \
     .if ( "" != parameters )
       .// Cast the event, because we used the class type.  (MISRA)

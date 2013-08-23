@@ -757,40 +757,6 @@ CREATE TABLE CL_IC (
 
 
 -- ============================================================================
--- Classes In Package:  Component Nesting  
--- ============================================================================
-
--- Class:  4202.  Component in Component
-CREATE TABLE CN_CIC (
-	Id	UNIQUE_ID,
-	Parent_Id	UNIQUE_ID );
-
--- Class:  4203.  Domain As Component
-CREATE TABLE CN_DC (
-	Id	UNIQUE_ID,
-	Dom_ID	UNIQUE_ID );
-
-
--- ============================================================================
--- Classes In Package:  Component Packaging  
--- ============================================================================
-
--- Class:  4600.  Component Package
-CREATE TABLE CP_CP (
-	Package_ID	UNIQUE_ID,
-	ParentLink_Id	UNIQUE_ID,
-	Sys_ID	UNIQUE_ID,
-	Containing_Sys_ID	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING );
-
--- Class:  4601.  Component Package in Package
-CREATE TABLE CP_CPINP (
-	Id	UNIQUE_ID,
-	Parent_Package_ID	UNIQUE_ID );
-
-
--- ============================================================================
 -- Classes In Package:  Constants  
 -- ============================================================================
 
@@ -3297,11 +3263,8 @@ CREATE TABLE TM_TPV (
 CREATE TABLE TE_BLK (
 	Block_ID	UNIQUE_ID,
 	first_Statement_ID	UNIQUE_ID,
-	OAL	STRING,
 	declaration	STRING,
-	initialization	STRING,
 	deallocation	STRING,
-	code	STRING,
 	depth	INTEGER,
 	indentation	STRING,
 	AbaID	UNIQUE_ID );
@@ -3328,9 +3291,6 @@ CREATE TABLE TE_LNK (
 CREATE TABLE TE_SMT (
 	Statement_ID	UNIQUE_ID,
 	OAL	STRING,
-	declaration	STRING,
-	initialization	STRING,
-	deallocation	STRING,
 	buffer	STRING,
 	buffer2	STRING,
 	trace	STRING,
@@ -3956,9 +3916,6 @@ CREATE ROP REF_ID R1112	FROM 1C A_AEA	(Id)
 CREATE ROP REF_ID R1113	FROM MC A_A	(Sys_ID)
 			  TO 1C S_SYS	(Sys_ID);
 
-CREATE ROP REF_ID R1114	FROM MC A_A	(Component_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
-
 CREATE ROP REF_ID R1115	FROM MC A_A	(Component_Id)
 			  TO 1C C_C	(Id);
 
@@ -4300,45 +4257,7 @@ CREATE ROP REF_ID R3104	FROM 1C BP_ST	(SM_ID, SMstt_ID)
 
 
 -- ============================================================================
--- Relationships In Package:  Class State Machine Execution  
--- ============================================================================
-  
-CREATE ROP REF_ID R2931	FROM MC I_EVI	(Sent_By_CIE_ID)
-			  TO 1C CSME_CIE	(CIE_ID);
-
-CREATE ROP REF_ID R2932	FROM 1C CSME_CIS	(CIE_ID)
-			  TO 1  CSME_CIE	(CIE_ID);
-
-CREATE ROP REF_ID R2932	FROM 1C CSME_CIS	(SM_ID, SMstt_ID)
-			  TO 1  SM_STATE	(SM_ID, SMstt_ID);
-
-CREATE ROP REF_ID R2938	FROM MC I_EVI	(CIE_ID)
-			  TO 1C CSME_CIE	(CIE_ID);
-
-CREATE ROP REF_ID R2950	FROM 1C CSME_CLM	(CIE_ID)
-			  TO 1  CSME_CIE	(CIE_ID);
-
-CREATE ROP REF_ID R2950	FROM MC CSME_CLM	(Execution_Engine_ID)
-			  TO 1  I_EXE	(Execution_Engine_ID);
-
-CREATE ROP REF_ID R2952	FROM MC CSME_CIS	(Trans_ID, SM_ID)
-			  TO 1  SM_TXN	(Trans_ID, SM_ID);
-
-CREATE ROP REF_ID R2960	FROM MC CSME_CIE	(Execution_Engine_ID)
-			  TO 1  I_EXE	(Execution_Engine_ID);
-
-CREATE ROP REF_ID R2961	FROM MC CSME_CIE	(Obj_ID)
-			  TO 1  O_OBJ	(Obj_ID);
-
-CREATE ROP REF_ID R2962	FROM MC I_INS	(CIE_ID)
-			  TO 1  CSME_CIE	(CIE_ID);
-
-CREATE ROP REF_ID R2971	FROM MC CSME_CIE	(Package_ID)
-			  TO 1C EP_PKG	(Package_ID);
-
-
--- ============================================================================
--- Relationships In Subsystem:  Communication  
+-- Relationships In Package:  Communication  
 -- ============================================================================
   
 CREATE ROP REF_ID R1126	FROM MC COMM_PIC	(Package_ID)
@@ -4376,9 +4295,6 @@ CREATE ROP REF_ID R1135	FROM 1C COMM_MIC	(Msg_ID)
 
 CREATE ROP REF_ID R1136	FROM MC COMM_COMM	(Sys_ID)
 			  TO 1C S_SYS	(Sys_ID);
-
-CREATE ROP REF_ID R1137	FROM MC COMM_COMM	(Component_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
 
 CREATE ROP REF_ID R1138	FROM MC COMM_COMM	(Component_Id)
 			  TO 1C C_C	(Id);
@@ -4577,56 +4493,12 @@ CREATE ROP REF_ID R4706	FROM 1C CL_IR	(Satisfaction_Element_Id)
 CREATE ROP REF_ID R4201	FROM MC CL_IC	(AssignedComp_Id)
 			  TO 1C C_C	(Id);
 
-CREATE ROP REF_ID R4202	FROM MC CN_CIC	(Parent_Id)
-			  TO 1  C_C	(Id);
-
-CREATE ROP REF_ID R4203	FROM 1  C_C	(NestedComponent_Id)
-			  TO 1C CN_CIC	(Id);
-
-CREATE ROP REF_ID R4204	FROM 1C CN_DC	(Id)
-			  TO 1  C_C	(Id);
-
-CREATE ROP REF_ID R4204	FROM 1C CN_DC	(Dom_ID)
-			  TO 1  S_DOM	(Dom_ID);
-
 CREATE ROP REF_ID R4205	FROM MC CL_IC	(ParentComp_Id)
 			  TO 1C C_C	(Id);
 
-CREATE ROP REF_ID R4206	FROM MC IP_IP	(Component_Id)
-			  TO 1C C_C	(Id);
-
 
 -- ============================================================================
--- Relationships In Subsystem:  Component Packaging  
--- ============================================================================
-  
-CREATE ROP REF_ID R4600	FROM MC CP_CPINP	(Parent_Package_ID)
-			  TO 1  CP_CP	(Package_ID);
-
-CREATE ROP REF_ID R4601	FROM 1  CP_CP	(ParentLink_Id)
-			  TO 1C CP_CPINP	(Id);
-
-CREATE ROP REF_ID R4602	FROM MC CP_CP	(Sys_ID)
-			  TO 1C S_SYS	(Sys_ID);
-
-CREATE ROP REF_ID R4604	FROM MC C_C	(Package_ID)
-			  TO 1C CP_CP	(Package_ID);
-
-CREATE ROP REF_ID R4605	FROM MC CL_IC	(Component_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
-
-CREATE ROP REF_ID R4606	FROM MC CP_CP	(Containing_Sys_ID)
-			  TO 1  S_SYS	(Sys_ID);
-
-CREATE ROP REF_ID R4607	FROM MC IP_IP	(Component_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
-
-CREATE ROP REF_ID R4608	FROM MC C_C	(Root_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
-
-
--- ============================================================================
--- Relationships In Subsystem:  Constants  
+-- Relationships In Package:  Constants  
 -- ============================================================================
   
 CREATE ROP REF_ID R1500	FROM MC CNST_SYC	(DT_ID)
@@ -4866,9 +4738,6 @@ CREATE ROP REF_ID R1402	FROM 1C A_A	(Package_ID)
 			  TO 1  EP_SPKG	(Package_ID);
 
 CREATE ROP REF_ID R1402	FROM 1C COMM_COMM	(Package_ID)
-			  TO 1  EP_SPKG	(Package_ID);
-
-CREATE ROP REF_ID R1402	FROM 1C CP_CP	(Package_ID)
 			  TO 1  EP_SPKG	(Package_ID);
 
 CREATE ROP REF_ID R1402	FROM 1C S_DPK	(Package_ID)
@@ -5540,9 +5409,6 @@ CREATE ROP REF_ID R9000	FROM 1C PA_SIC	(Satisfaction_Id)
 CREATE ROP REF_ID R9001	FROM 1C PA_SICP	(Satisfaction_Id)
 			  TO 1  C_SF	(Id);
 
-CREATE ROP REF_ID R9001	FROM MC PA_SICP	(ComponentPackage_ID)
-			  TO 1  CP_CP	(Package_ID);
-
 CREATE ROP REF_ID R9002	FROM MC PA_DIC	(Component_Id)
 			  TO 1  C_C	(Id);
 
@@ -5666,9 +5532,6 @@ CREATE ROP REF_ID R929	FROM MC SQ_P	(Sequence_Package_ID)
 
 CREATE ROP REF_ID R950	FROM MC SQ_S	(Sys_ID)
 			  TO 1C S_SYS	(Sys_ID);
-
-CREATE ROP REF_ID R951	FROM MC SQ_S	(Component_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
 
 CREATE ROP REF_ID R952	FROM MC SQ_S	(Component_Id)
 			  TO 1C C_C	(Id);
@@ -6448,9 +6311,6 @@ CREATE ROP REF_ID R1210	FROM 1C UC_BA	(Assoc_ID)
 
 CREATE ROP REF_ID R1211	FROM MC UC_UCC	(Sys_ID)
 			  TO 1C S_SYS	(Sys_ID);
-
-CREATE ROP REF_ID R1212	FROM MC UC_UCC	(Component_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
 
 CREATE ROP REF_ID R1213	FROM MC UC_UCC	(Component_Id)
 			  TO 1C C_C	(Id);

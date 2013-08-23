@@ -8,42 +8,6 @@ INSERT INTO O_OBJ
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_NBATTR
-	VALUES ("3b837ca2-cd00-45b5-9c3c-fb6067acc10b",
-	"09593d06-5908-4d7b-a27f-d033f38873f1");
-INSERT INTO O_BATTR
-	VALUES ("3b837ca2-cd00-45b5-9c3c-fb6067acc10b",
-	"09593d06-5908-4d7b-a27f-d033f38873f1");
-INSERT INTO O_ATTR
-	VALUES ("3b837ca2-cd00-45b5-9c3c-fb6067acc10b",
-	"09593d06-5908-4d7b-a27f-d033f38873f1",
-	"e2f0705a-a65e-446f-a4ce-dee122415d35",
-	'declaration',
-	'',
-	'',
-	'declaration',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("e331993c-78f7-4f7f-ac31-18276f2cb1ed",
-	"09593d06-5908-4d7b-a27f-d033f38873f1");
-INSERT INTO O_BATTR
-	VALUES ("e331993c-78f7-4f7f-ac31-18276f2cb1ed",
-	"09593d06-5908-4d7b-a27f-d033f38873f1");
-INSERT INTO O_ATTR
-	VALUES ("e331993c-78f7-4f7f-ac31-18276f2cb1ed",
-	"09593d06-5908-4d7b-a27f-d033f38873f1",
-	"3b837ca2-cd00-45b5-9c3c-fb6067acc10b",
-	'initialization',
-	'',
-	'',
-	'initialization',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
 	VALUES ("e2f0705a-a65e-446f-a4ce-dee122415d35",
 	"09593d06-5908-4d7b-a27f-d033f38873f1");
 INSERT INTO O_BATTR
@@ -62,24 +26,6 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("2e9e3e8e-cd59-4060-9fa9-42eb6fcf86df",
-	"09593d06-5908-4d7b-a27f-d033f38873f1");
-INSERT INTO O_BATTR
-	VALUES ("2e9e3e8e-cd59-4060-9fa9-42eb6fcf86df",
-	"09593d06-5908-4d7b-a27f-d033f38873f1");
-INSERT INTO O_ATTR
-	VALUES ("2e9e3e8e-cd59-4060-9fa9-42eb6fcf86df",
-	"09593d06-5908-4d7b-a27f-d033f38873f1",
-	"e331993c-78f7-4f7f-ac31-18276f2cb1ed",
-	'deallocation',
-	'',
-	'',
-	'deallocation',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
 	VALUES ("fb029e91-c1b8-42d2-8860-deb347e4ef40",
 	"09593d06-5908-4d7b-a27f-d033f38873f1");
 INSERT INTO O_BATTR
@@ -88,7 +34,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("fb029e91-c1b8-42d2-8860-deb347e4ef40",
 	"09593d06-5908-4d7b-a27f-d033f38873f1",
-	"2e9e3e8e-cd59-4060-9fa9-42eb6fcf86df",
+	"e2f0705a-a65e-446f-a4ce-dee122415d35",
 	'buffer',
 	'',
 	'',

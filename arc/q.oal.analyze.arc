@@ -283,9 +283,9 @@
   .for each te_attr in te_attrs
     .assign te_attr.Used = true
   .end for
-  .assign msg = "${attributes_read_count}" + " attributes read"
+  .assign msg = "$t{attributes_read_count}" + " attributes read"
   .print "${msg}"
-  .assign msg = "${attributes_written_count}" + " attributes written"
+  .assign msg = "$t{attributes_written_count}" + " attributes written"
   .print "${msg}"
 .end function
 .//
@@ -324,7 +324,7 @@
       .end if
     .end if
   .end for
-  .assign msg = "${optimized_out_count}" + " attributes optimized out"
+  .assign msg = "$t{optimized_out_count}" + " attributes optimized out"
   .print "${msg}"
 .end function
 .//

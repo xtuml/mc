@@ -9,4 +9,4 @@
 .// property of Mentor Graphics Corp.  No part of this document may be
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
-.assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R${te_lnk.rel_number}_object_id )"
+.assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )"

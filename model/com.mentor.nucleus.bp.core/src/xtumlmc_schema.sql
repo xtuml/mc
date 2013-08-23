@@ -1519,7 +1519,6 @@ CREATE TABLE ACT_SGN (
 	Value_ID	UNIQUE_ID );
 
 
-
 -- ============================================================================
 -- Classes In Package:  Message  
 -- ============================================================================
@@ -3154,11 +3153,7 @@ CREATE TABLE TM_TPV (
 CREATE TABLE TE_BLK (
 	Block_ID	UNIQUE_ID,
 	first_Statement_ID	UNIQUE_ID,
-	OAL	STRING,
-	declaration	STRING,
-	initialization	STRING,
 	deallocation	STRING,
-	code	STRING,
 	depth	INTEGER,
 	indentation	STRING,
 	AbaID	UNIQUE_ID );
@@ -3186,8 +3181,6 @@ CREATE TABLE TE_SMT (
 	Statement_ID	UNIQUE_ID,
 	OAL	STRING,
 	declaration	STRING,
-	initialization	STRING,
-	deallocation	STRING,
 	buffer	STRING,
 	buffer2	STRING,
 	trace	STRING,
@@ -5075,7 +5068,6 @@ CREATE ROP REF_ID R679	FROM MC V_PAR	(Statement_ID)
 
 CREATE ROP REF_ID R680	FROM MC ACT_IOP	(ProvidedOp_Id)
 			  TO 1C SPR_PO	(Id);
-
 
 
 -- ============================================================================

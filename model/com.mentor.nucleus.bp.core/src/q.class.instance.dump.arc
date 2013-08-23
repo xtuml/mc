@@ -2247,8 +2247,6 @@ INSERT INTO EP_PIP VALUES (\
   .end if
  );
 .end for
-.print "External Entities"
-.print "Functions"
 .print "Globals"
 .select many g_eiss from instances of G_EIS
 .for each g_eis in g_eiss
@@ -3265,7 +3263,6 @@ INSERT INTO ACT_SGN VALUES (\
   .end if
  );
 .end for
-.print "MC"
 .print "Message"
 .select many msg_ms from instances of MSG_M
 .for each msg_m in msg_ms

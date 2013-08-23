@@ -23,7 +23,7 @@
   .param inst_ref o_obj
   .param inst_ref r_rel
   .param string   rel_phrase
-  .assign result = ( o_obj.Key_Lett + "_R" ) + "${r_rel.Numb}"
+  .assign result = ( o_obj.Key_Lett + "_R" ) + "$t{r_rel.Numb}"
   .assign obj_id = ""
   .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
   .assign suffix = r.result
@@ -35,8 +35,8 @@
   .if ( not_empty subsup_rel )
     .select any subtype related by r_rel->R_SUBSUP[R206]->R_SUB[R213] where ( selected.Obj_ID == o_obj.Obj_ID )
     .if ( not_empty subtype )
-      .assign result = ( "R" + "${r_rel.Numb}" ) + "_subtype"
-      .assign obj_id = ( "R" + "${r_rel.Numb}" ) + "_object_id"
+      .assign result = ( "R" + "$t{r_rel.Numb}" ) + "_subtype"
+      .assign obj_id = ( "R" + "$t{r_rel.Numb}" ) + "_object_id"
     .end if
   .end if
   .assign attr_result = result
@@ -58,7 +58,7 @@
   .assign result = ""
   .select one simple_rel related by r_rel->R_SIMP[R206]
   .if ( not_empty simple_rel )
-    .select one participant related by simple_rel->R_PART[R207]
+    .select any participant related by simple_rel->R_PART[R207]
     .select one formalizer related by simple_rel->R_FORM[R208]
     .if ( right_o_obj.Obj_ID == participant.Obj_ID )
       .assign result = "$_{participant.Txt_Phrs}"
@@ -71,7 +71,7 @@
       .elif ( formalizer.Txt_Phrs == rel_phrase )
         .assign result = "$_{formalizer.Txt_Phrs}"
       .else
-        .assign msg = "\nTRANSLATION ERROR:  ${right_o_obj.Key_Lett}[R${r_rel.Numb}.'${rel_phrase}']"
+        .assign msg = "\nTRANSLATION ERROR:  ${right_o_obj.Key_Lett}[R$t{r_rel.Numb}.'${rel_phrase}']"
         .assign msg = msg + "\nInternal logic error for reflexive simple relationship."
         .print "${msg}"
         .exit 101
@@ -93,7 +93,7 @@
         .elif ( rel_phrase == other_side.Txt_Phrs )
           .assign result = "$_{other_side.Txt_Phrs}"
         .else
-          .assign msg = "\nTRANSLATION ERROR:  ${right_o_obj.Key_Lett}[R${r_rel.Numb}.'${rel_phrase}']"
+          .assign msg = "\nTRANSLATION ERROR:  ${right_o_obj.Key_Lett}[R$t{r_rel.Numb}.'${rel_phrase}']"
           .assign msg = msg + "\nInternal logic error for reflexive associative relationship."
           .print "${msg}"
           .exit 101

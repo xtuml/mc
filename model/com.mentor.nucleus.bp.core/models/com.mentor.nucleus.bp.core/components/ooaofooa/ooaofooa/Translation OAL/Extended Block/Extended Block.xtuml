@@ -110,42 +110,6 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("677daa1f-037f-4168-99e0-4a446ef819fb",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
-INSERT INTO O_BATTR
-	VALUES ("677daa1f-037f-4168-99e0-4a446ef819fb",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
-INSERT INTO O_ATTR
-	VALUES ("677daa1f-037f-4168-99e0-4a446ef819fb",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f",
-	"08554d8d-66d8-4947-8c2c-c6ba1710b199",
-	'declaration',
-	'',
-	'',
-	'declaration',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("414d9171-8522-4028-80af-38da07fc8392",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
-INSERT INTO O_BATTR
-	VALUES ("414d9171-8522-4028-80af-38da07fc8392",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
-INSERT INTO O_ATTR
-	VALUES ("414d9171-8522-4028-80af-38da07fc8392",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f",
-	"677daa1f-037f-4168-99e0-4a446ef819fb",
-	'initialization',
-	'',
-	'',
-	'initialization',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
 	VALUES ("a97132cf-08fc-4b8c-b8b2-a3d8f170753f",
 	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
 INSERT INTO O_BATTR
@@ -154,7 +118,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("a97132cf-08fc-4b8c-b8b2-a3d8f170753f",
 	"7923ed6f-c521-4fe4-a43c-44f1602ee07f",
-	"414d9171-8522-4028-80af-38da07fc8392",
+	"5ef7e2da-7aaa-4fcc-84c8-46e59c918f5d",
 	'deallocation',
 	'',
 	'',
@@ -164,51 +128,15 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("d99d9b31-542c-4172-91d3-1fdd4663227c",
+	VALUES ("dfcded47-d1d1-4625-b4cd-54ad7e3860e8",
 	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
 INSERT INTO O_BATTR
-	VALUES ("d99d9b31-542c-4172-91d3-1fdd4663227c",
+	VALUES ("dfcded47-d1d1-4625-b4cd-54ad7e3860e8",
 	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
 INSERT INTO O_ATTR
-	VALUES ("d99d9b31-542c-4172-91d3-1fdd4663227c",
+	VALUES ("dfcded47-d1d1-4625-b4cd-54ad7e3860e8",
 	"7923ed6f-c521-4fe4-a43c-44f1602ee07f",
 	"a97132cf-08fc-4b8c-b8b2-a3d8f170753f",
-	'code',
-	'',
-	'',
-	'code',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("08554d8d-66d8-4947-8c2c-c6ba1710b199",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
-INSERT INTO O_BATTR
-	VALUES ("08554d8d-66d8-4947-8c2c-c6ba1710b199",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
-INSERT INTO O_ATTR
-	VALUES ("08554d8d-66d8-4947-8c2c-c6ba1710b199",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f",
-	"be02f515-22f6-4a20-8294-71fc0abd6c9b",
-	'OAL',
-	'',
-	'',
-	'OAL',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("dfcded47-d1d1-4625-b4cd-54ad7e3860e8",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
-INSERT INTO O_BATTR
-	VALUES ("dfcded47-d1d1-4625-b4cd-54ad7e3860e8",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
-INSERT INTO O_ATTR
-	VALUES ("dfcded47-d1d1-4625-b4cd-54ad7e3860e8",
-	"7923ed6f-c521-4fe4-a43c-44f1602ee07f",
-	"d99d9b31-542c-4172-91d3-1fdd4663227c",
 	'depth',
 	'',
 	'',
@@ -282,6 +210,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'indentation',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5ef7e2da-7aaa-4fcc-84c8-46e59c918f5d",
+	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
+INSERT INTO O_BATTR
+	VALUES ("5ef7e2da-7aaa-4fcc-84c8-46e59c918f5d",
+	"7923ed6f-c521-4fe4-a43c-44f1602ee07f");
+INSERT INTO O_ATTR
+	VALUES ("5ef7e2da-7aaa-4fcc-84c8-46e59c918f5d",
+	"7923ed6f-c521-4fe4-a43c-44f1602ee07f",
+	"be02f515-22f6-4a20-8294-71fc0abd6c9b",
+	'declaration',
+	'',
+	'',
+	'declaration',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
