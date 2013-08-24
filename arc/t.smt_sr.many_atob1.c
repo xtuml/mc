@@ -9,7 +9,7 @@
 .// property of Mentor Graphics Corp.  No part of this document may be
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
-.assign b = b + "${ws}${te_set.module}${te_set.clear}( ${te_select_related.result_var} );\n"
-.assign b = b + "${ws}if ( 0 != ${te_lnk.linkage} ) {\n"
-.assign b = b + "${ws}  ${te_set.module}${te_set.insert_element}( (${te_set.scope}${te_set.base_class} *) ${te_select_related.result_var}, ${te_lnk.linkage} );\n"
-.assign b = b + "${ws}}\n"
+${ws}${te_set.module}${te_set.clear}( ${te_select_related.result_var} );
+${ws}if ( 0 != ${te_lnk.linkage} ) {
+${ws}  ${te_set.module}${te_set.insert_element}( (${te_set.scope}${te_set.base_class} *) ${te_select_related.result_var}, ${te_lnk.linkage} );
+${ws}}

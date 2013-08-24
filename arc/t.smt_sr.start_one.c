@@ -9,4 +9,4 @@
 .// property of Mentor Graphics Corp.  No part of this document may be
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
-.assign b = b + "${ws}if ( 0 != ${te_lnk.left} ) {\n"
+${ws}if ( 0 != ${te_lnk.left} ) {

@@ -9,4 +9,4 @@
 .// property of Mentor Graphics Corp.  No part of this document may be
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
-.assign b = b + "${ws}${te_select_related.result_var} = 0;\n"
+${ws}${te_select_related.result_var} = 0;

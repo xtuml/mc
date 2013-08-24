@@ -195,7 +195,6 @@
   .invoke r = V_VAL_drill_for_V_VAL_root( l_v_val )
   .assign root_v_val = r.result
   .assign te_assign.isImplicit = root_v_val.isImplicit
-  .assign b = " "
   .if ( te_assign.isImplicit )
     .select one root_te_val related by root_v_val->TE_VAL[R2040]
     .assign te_assign.left_declaration = ( r_te_dt.ExtName + " " ) + root_te_val.buffer
@@ -207,10 +206,8 @@
       .end if
     .elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
       .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
-      .assign b = ""
       .assign selection_result_variable = te_assign.lval
-      .include "${te_file.arc_path}/t.smt.set_declaration.c"
-      .assign d = b
+      .assign d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
       .assign te_blk.declaration = te_blk.declaration + d
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
       .assign te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) ) + ( te_assign.lval + " );" )
@@ -705,10 +702,8 @@
     .elif ( "many" == te_select.multiplicity )
       .if ( te_select.is_implicit )
         .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
-        .assign b = ""
         .assign selection_result_variable = te_select.var_name
-        .include "${te_file.arc_path}/t.smt.set_declaration.c"
-        .assign d = b
+        .assign d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
         .assign te_blk.declaration = te_blk.declaration + d
         .// Push deallocation into the block so that it is available at gen time for break/continue/return.
         .assign te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) ) + ( te_select.var_name + " );" )
@@ -813,10 +808,8 @@
     .elif ( "many" == te_select_where.multiplicity )
       .if ( te_select_where.is_implicit )
         .// First OAL usage of inst_ref_set<Object> handle set
-        .assign b = ""
         .assign selection_result_variable = te_select_where.var_name
-        .include "${te_file.arc_path}/t.smt.set_declaration.c"
-        .assign d = b
+        .assign d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
         .assign te_blk.declaration = te_blk.declaration + d
         .// Push deallocation into the block so that it is available at gen time for break/continue/return.
         .assign te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) )  + ( te_select_where.var_name + " );" )
@@ -1672,18 +1665,16 @@
   .assign ws = te_blk.indentation
   .assign te_smt.OAL = "SELECT ${te_select_related.multiplicity} ${te_select_related.result_var_OAL} RELATED BY ${te_select_related.start_var_OAL}"
   .// declaration
-  .assign b = ""
   .if ( te_select_related.is_implicit )
     .if ( "many" == te_select_related.multiplicity )
-      .include "${te_file.arc_path}/t.smt_sr.declare_set.c"
-      .assign te_blk.declaration = te_blk.declaration + b
-      .assign b = ""
-      .include "${te_file.arc_path}/t.smt_sr.deallocate_set.c"
+      .assign d = "${ws}${te_set.scope}${te_set.base_class} ${te_select_related.result_var}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select_related.result_var} = &${te_select_related.result_var}_space;\n"
+      .assign te_blk.declaration = te_blk.declaration + d
+      .assign d = "${ws}${te_set.module}${te_set.clear}( ${te_select_related.result_var} );\n"
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-      .assign te_blk.deallocation = te_blk.deallocation + b
+      .assign te_blk.deallocation = te_blk.deallocation + d
     .else
-      .include "${te_file.arc_path}/t.smt_sr.declare_ref.c"
-      .assign te_blk.declaration = te_blk.declaration + b
+      .assign d = "${ws}${te_class.GeneratedName} * ${te_select_related.result_var}=0;\n"
+      .assign te_blk.declaration = te_blk.declaration + d
     .end if
   .end if
   .assign cast = ""
@@ -1697,7 +1688,6 @@
       .assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )"
     .end if
   .end if
-  .assign b = ""
   .// single-link chains
   .//  #  | first | last | startmany | multiplicity | linkmult | by_where | example
   .if ( ( te_lnk.first ) and ( te_lnk.last ) )
@@ -1707,7 +1697,7 @@
         .if ( 0 == te_lnk.Mult )
           .if ( not_empty sub_r_rel )
             .include "${te_file.arc_path}/t.smt_sr.result_ref_init.c"
-            .assign b = b + subtypecheck
+${subtypecheck}
           .end if
           .if ( not te_select_related.by_where )
   .//  1  |   T   |  T   |     F     |   "one"      |  0:one   |    F     | select one b related by a->B[R1];
@@ -1729,7 +1719,7 @@
         .if ( 0 == te_lnk.Mult )
           .if ( not_empty sub_r_rel )
             .include "${te_file.arc_path}/t.smt_sr.result_ref_init.c"
-            .assign b = b + subtypecheck
+${subtypecheck}
           .end if
           .if ( not te_select_related.by_where )
   .//  5  |   T   |  T   |     F     |   "any"      |  0:one   |    F     | select any b related by a->B[R1];                              // Note 1
@@ -1834,7 +1824,7 @@
     .else
       .include "${te_file.arc_path}/t.smt_sr.result_ref_init.c"
     .end if
-    .assign b = b + "${ws}{"
+${ws}{
     .assign depth = depth + 1
     .if ( te_select_related.start_many )
       .assign depth = depth + 1
@@ -1879,7 +1869,7 @@
     .if ( "one" == te_select_related.multiplicity )
       .if ( 0 == te_lnk.Mult )
         .if ( not_empty sub_r_rel )
-          .assign b = b + subtypecheck
+${subtypecheck}
         .end if
         .if ( not te_select_related.by_where )
   .//  1m |   T   |  F   |   "one"      |  0:one   |    F     | select one c related by a(s)->B[R1]->C[R2];
@@ -1900,7 +1890,7 @@
     .elif ( "any" == te_select_related.multiplicity )
       .if ( 0 == te_lnk.Mult )
         .if ( not_empty sub_r_rel )
-          .assign b = b + subtypecheck
+${subtypecheck}
         .end if
         .if ( not te_select_related.by_where )
   .//  5m |   T   |  F   |   "any"      |  0:one   |    F     | select any c related by a(s)->B[R1]->C[R2];                              // Note 1, 2
@@ -1921,7 +1911,7 @@
     .else
       .if ( 0 == te_lnk.Mult )
         .if ( not_empty sub_r_rel )
-          .assign b = b + subtypecheck
+${subtypecheck}
         .end if
         .if ( not te_select_related.by_where )
   .//  9m |   T   |  F   |   "many"     |  0:one   |    F     | select many cs related by a(s)->B[R1]->C[R2];                            // Note 1
@@ -1942,12 +1932,11 @@
     .end if .// one, any, many
     .//
     .while ( depth > 0 )
-      .assign b = b + "}"
+}
       .assign depth = depth - 1
     .end while
-    .assign b = b + "\n"
+
   .end if
-${b}\
   .if ( te_select_related.by_where )
     .assign te_smt.OAL = te_smt.OAL + " WHERE ( ${te_select_related.where_clause_OAL} )"
   .end if
