@@ -26,7 +26,7 @@
 #include "y.tab.h"
 
 extern char linestr[];
-extern char literalstr[];
+extern char literalstr[64000];
 extern int svarnum;
 extern char svar[2][256];
 extern int i0, i1, line_number;
@@ -50,12 +50,12 @@ int stack_pointer = 0;
 #define NSBEGIN(x)           stack_pointer = 0;                       \
                              saved_state[ stack_pointer ] = x;        \
                              current_state = x;                       \
-                             literalstr[0] = '\0';                    \
+                             literalstr[0] = 0;                       \
                              BEGIN(x)
 #define SBEGIN(x)            saved_state[ ++stack_pointer ] =         \
                              current_state;                           \
                              current_state = x;                       \
-                             literalstr[0] = '\0';                    \
+                             literalstr[0] = 0;                       \
                              BEGIN(x)
 #define SRETURN()            current_state =                          \
                              saved_state[ stack_pointer-- ];          \

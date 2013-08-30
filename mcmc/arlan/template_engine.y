@@ -24,7 +24,7 @@ char s[16384];
 #ifdef TEMPLATE_ENGINE
 static char b[128000];
 char * templatebuffer = b;
-char literalstr[64000];
+char literalstr[64000] = {0};
 char svar[2][256];
 int svarnum = 0;
 int stringmode = 0;
@@ -285,27 +285,14 @@ bop:
 
 literal:
         LITERAL literalbody '\n'
-        { int len = strlen( literalstr );
-          if ( 0 == len ) {
-            /*
-            if ( !stringmode ) {
-              strcat(b,SSS);strcat(b,"\"\\n\");\n");
-            }
-            */
-          } else {
-            if ( '\\' == literalstr[ len - 1 ] ) literalstr[ len - 1 ] = 0;
-            strcat(b,SSS);strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");
-            if ( !stringmode ) strcat(b,"\n");
-        }}
         | '\n'
         ;
 
 literalbody:
         /* empty */
-        {if (strlen(literalstr)) {strcat(b,SSS);strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");if(!stringmode)strcat(b,"\n");}}
+        {if (0 && strlen(literalstr)) {strcat(b,SSS);strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");if(!stringmode)strcat(b,"\n");literalstr[0]=0;}}
         | literalbody LITERAL
         { int len = strlen( literalstr );
-          strcat(b,SSS);
           if ( 0 == len ) {
             /*
             if ( !stringmode ) {
@@ -313,8 +300,10 @@ literalbody:
             }
             */
           } else {
+            /* CDS - Here we seem to be detecting a trailing backslash.  Set a flag and then skip appending line return.  */
             if ( '\\' == literalstr[ len - 1 ] ) literalstr[ len - 1 ] = 0;
-            strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");
+            /*strcat(b,SSS);strcat(b,"\"");strcat(b,"555");strcat(b,literalstr);strcat(b,"666");strcat(b,"\");");fprintf(stderr,"7 7%s8 8\n",literalstr);literalstr[0]=0;*/
+            strcat(b,SSS);strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");literalstr[0]=0;
             if ( !stringmode ) strcat(b,"\n");
           }
         }

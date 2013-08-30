@@ -1,13 +1,13 @@
-CFLAGS= -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast -g
+CFLAGS= -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast
 LFLAGS= -lfl
 
 all:	template_engine
 
-template_engine: template_engine.tab.c template_engine.tab.h lex.yy.c
+template_engine: template_engine.tab.c y.tab.h lex.yy.c
 	gcc $(CFLAGS) -c lex.yy.c template_engine.tab.c template_engine.c
 	gcc -o template_engine lex.yy.o template_engine.tab.o template_engine.o $(LFLAGS)
 
-template_engine.tab.h template_engine.tab.c:  template_engine.y 
+y.tab.h template_engine.tab.c:  template_engine.y 
 	bison -dv template_engine.y
 	mv template_engine.tab.h y.tab.h
 
