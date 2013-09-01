@@ -53,14 +53,14 @@ void UserInitializationCalloutf( char * );
  * This function is invoked immediately prior to executing any xtUML
  * initialization functions.
  */
-void UserPreOoaInitializationCalloutf( void );
+void UserPreOoaInitializationCalloutf( char * );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
 #define UserPreOoaInitializationCallout()
    hook for this callout.  */
 
 #ifndef UserPreOoaInitializationCallout
-#define UserPreOoaInitializationCallout() UserPreOoaInitializationCalloutf()
+#define UserPreOoaInitializationCallout() UserPreOoaInitializationCalloutf( *argv )
 #endif
 
 /*

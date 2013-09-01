@@ -3347,9 +3347,9 @@ ooaofooa_smt_continues()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_continue(act_con:act_con, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_continue( act_con, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_continue( act_con, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_continue( act_con, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_cons );
 
@@ -3433,9 +3433,9 @@ ooaofooa_smt_breaks()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_break(act_brk:act_brk, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_break( act_brk, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_break( act_brk, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_break( act_brk, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_brks );
 
@@ -3494,9 +3494,9 @@ ooaofooa_smt_controls()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_control(act_ctl:act_ctl, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_control( act_ctl, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_control( act_ctl, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_control( act_ctl, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_ctls );
 
@@ -3749,9 +3749,9 @@ ooaofooa_smt_returns()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_return(act_ret:act_ret, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_return( act_ret, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_return( act_ret, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_return( act_ret, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_rets );
 
@@ -3850,9 +3850,9 @@ ooaofooa_smt_functions()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_function(act_fnc:act_fnc, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_function( act_fnc, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_function( act_fnc, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_function( act_fnc, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_fncs );
 
@@ -3972,9 +3972,9 @@ ooaofooa_smt_bridges()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_bridge(act_brg:act_brg, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_bridge( act_brg, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_bridge( act_brg, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_bridge( act_brg, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_brgs );
 
@@ -4116,9 +4116,9 @@ ooaofooa_smt_operates()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_operate(act_tfm:act_tfm, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_operate( act_tfm, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_operate( act_tfm, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_operate( act_tfm, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_tfms );
 
@@ -4297,9 +4297,9 @@ ooaofooa_smt_iop( ooaofooa_ACT_IOP * p_act_iop )
     Escher_CopySet( v_pars, &act_iop->V_PAR_R679_takes );
   }
   /* ASSIGN r = ::q_render_msg(is_statement:TRUE, te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation) */
-  //Escher_strcpy( r, ooaofooa_q_render_msg( TRUE, te_mact, v_pars, te_blk->indentation ) );
+  Escher_strcpy( r, ooaofooa_q_render_msg( TRUE, te_mact, v_pars, te_blk->indentation ) );
   /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-  ooaofooa_smt_buffer_append( ooaofooa_q_render_msg( TRUE, te_mact, v_pars, te_blk->indentation ), te_smt );
+  ooaofooa_smt_buffer_append( r, te_smt );
   /* ASSIGN te_smt.OAL = ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer}) */
   Escher_strcpy( te_smt->OAL, ({char s[512]={0};T_T(te_mact->PortName);T_T("::");T_T(te_mact->MessageName);T_T("(");T_T(te_mact->OALParamBuffer);T_T(")");}) );
   Escher_ClearSet( v_pars ); 
@@ -4369,9 +4369,9 @@ ooaofooa_smt_sgn( ooaofooa_ACT_SGN * p_act_sgn )
     Escher_CopySet( v_pars, &act_sgn->V_PAR_R662_takes );
   }
   /* ASSIGN r = ::q_render_msg(is_statement:TRUE, te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation) */
-  //Escher_strcpy( r, ooaofooa_q_render_msg( TRUE, te_mact, v_pars, te_blk->indentation ) );
+  Escher_strcpy( r, ooaofooa_q_render_msg( TRUE, te_mact, v_pars, te_blk->indentation ) );
   /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-  ooaofooa_smt_buffer_append( ooaofooa_q_render_msg( TRUE, te_mact, v_pars, te_blk->indentation ), te_smt );
+  ooaofooa_smt_buffer_append( r, te_smt );
   /* ASSIGN te_smt.OAL = SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer}) */
   Escher_strcpy( te_smt->OAL, ({char s[512]={0};T_T("SEND ");T_T(te_mact->PortName);T_T("::");T_T(te_mact->MessageName);T_T("(");T_T(te_mact->OALParamBuffer);T_T(")");}) );
   Escher_ClearSet( v_pars ); 
@@ -4607,9 +4607,9 @@ ooaofooa_smt_generate_event_to_class( ooaofooa_E_GAR * p_e_gar )
   te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}}}
   /* ASSIGN r = ::smt_generate_class_event(e_gsme:e_gsme, te_smt:te_smt) */
-  //Escher_strcpy( r, ooaofooa_smt_generate_class_event( e_gsme, te_smt ) );
+  Escher_strcpy( r, ooaofooa_smt_generate_class_event( e_gsme, te_smt ) );
   /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-  ooaofooa_smt_buffer_append( ooaofooa_smt_generate_class_event( e_gsme, te_smt ), te_smt );
+  ooaofooa_smt_buffer_append( r, te_smt );
   /* ASSIGN te_smt.OAL = ( te_smt.OAL +  CLASS ) */
   Escher_strcpy( te_smt->OAL, Escher_stradd( te_smt->OAL, " CLASS" ) );
 
@@ -4660,9 +4660,9 @@ ooaofooa_smt_generate_creator_event( ooaofooa_E_GEC * p_e_gec )
   te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}}}
   /* ASSIGN r = ::smt_generate_class_event(e_gsme:e_gsme, te_smt:te_smt) */
-  //Escher_strcpy( r, ooaofooa_smt_generate_class_event( e_gsme, te_smt ) );
+  Escher_strcpy( r, ooaofooa_smt_generate_class_event( e_gsme, te_smt ) );
   /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-  ooaofooa_smt_buffer_append( ooaofooa_smt_generate_class_event( e_gsme, te_smt ), te_smt );
+  ooaofooa_smt_buffer_append( r, te_smt );
   /* ASSIGN te_smt.OAL = ( te_smt.OAL +  CREATOR ) */
   Escher_strcpy( te_smt->OAL, Escher_stradd( te_smt->OAL, " CREATOR" ) );
 
@@ -4891,9 +4891,9 @@ ooaofooa_smt_generate_events()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}}}}
     /* ASSIGN r = ::smt_generate_event(e_gen:e_gen, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_generate_event( e_gen, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_generate_event( e_gen, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_generate_event( e_gen, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( e_gens );
 
@@ -4963,9 +4963,9 @@ ooaofooa_smt_generate_precreated_events()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_generate_precreated_event(e_gpr:e_gpr, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_generate_precreated_event( e_gpr, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_generate_precreated_event( e_gpr, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_generate_precreated_event( e_gpr, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( e_gprs );
 
@@ -4997,9 +4997,9 @@ ooaofooa_smt_select_related_wheres()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_select_related(act_sel:act_sel, by_where:TRUE, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_select_related( act_sel, TRUE, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_select_related( act_sel, TRUE, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_select_related( act_sel, TRUE, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_srws );
 
@@ -5031,9 +5031,9 @@ ooaofooa_smt_select_relateds()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_select_related(act_sel:act_sel, by_where:FALSE, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_select_related( act_sel, FALSE, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_select_related( act_sel, FALSE, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_select_related( act_sel, FALSE, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_srs );
 
@@ -5280,9 +5280,9 @@ ooaofooa_smt_select_wheres()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_select_where(act_fiw:act_fiw, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_select_where( act_fiw, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_select_where( act_fiw, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_select_where( act_fiw, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_fiws );
 
@@ -5404,9 +5404,9 @@ ooaofooa_smt_selects()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_select(act_fio:act_fio, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_select( act_fio, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_select( act_fio, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_select( act_fio, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_fios );
 
@@ -5591,9 +5591,9 @@ ooaofooa_smt_unrelate_usings()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_unrelate_using(act_uru:act_uru, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_unrelate_using( act_uru, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_unrelate_using( act_uru, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_unrelate_using( act_uru, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_urus );
 
@@ -5708,9 +5708,9 @@ ooaofooa_smt_unrelates()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_unrelate(act_unr:act_unr, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_unrelate( act_unr, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_unrelate( act_unr, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_unrelate( act_unr, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_unrs );
 
@@ -5895,9 +5895,9 @@ ooaofooa_smt_relate_usings()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_relate_using(act_ru:act_ru, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_relate_using( act_ru, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_relate_using( act_ru, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_relate_using( act_ru, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_rus );
 
@@ -6012,9 +6012,9 @@ ooaofooa_smt_relates()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_relate(act_rel:act_rel, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_relate( act_rel, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_relate( act_rel, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_relate( act_rel, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_rels );
 
@@ -6223,9 +6223,9 @@ ooaofooa_smt_create_events_to_creator()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}}}
     /* ASSIGN r = ::smt_create_event(e_csme:e_csme, recipient:0, recipient_OAL:CREATOR, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_create_event( e_csme, "0", "CREATOR", te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_create_event( e_csme, "0", "CREATOR", te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_create_event( e_csme, "0", "CREATOR", te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( e_cecs );
 
@@ -6261,9 +6261,9 @@ ooaofooa_smt_create_events_to_class()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}}}
     /* ASSIGN r = ::smt_create_event(e_csme:e_csme, recipient:0, recipient_OAL:CLASS, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_create_event( e_csme, "0", "CLASS", te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_create_event( e_csme, "0", "CLASS", te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_create_event( e_csme, "0", "CLASS", te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( e_ceas );
 
@@ -6303,9 +6303,9 @@ ooaofooa_smt_create_events_to_instance()
     /* SELECT one recipient_te_var RELATED BY recipient_v_var->TE_VAR[R2039] */
     recipient_te_var = ( 0 != recipient_v_var ) ? recipient_v_var->TE_VAR_R2039 : 0;
     /* ASSIGN r = ::smt_create_event(e_csme:e_csme, recipient:recipient_te_var.buffer, recipient_OAL:recipient_v_var.Name, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_create_event( e_csme, recipient_te_var->buffer, recipient_v_var->Name, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_create_event( e_csme, recipient_te_var->buffer, recipient_v_var->Name, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_create_event( e_csme, recipient_te_var->buffer, recipient_v_var->Name, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( e_ceis );
 
@@ -6389,9 +6389,9 @@ ooaofooa_smt_delete_instances()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_delete_instance(act_del:act_del, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_delete_instance( act_del, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_delete_instance( act_del, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_delete_instance( act_del, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_dels );
 
@@ -6480,9 +6480,9 @@ ooaofooa_smt_create_instances()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_create_instance(act_cr:act_cr, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_create_instance( act_cr, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_create_instance( act_cr, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_create_instance( act_cr, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_crs );
 
@@ -6713,9 +6713,9 @@ ooaofooa_smt_assigns()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_assign(act_ai:act_ai, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_assign( act_ai, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_assign( act_ai, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_assign( act_ai, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_ais );
 
@@ -6781,9 +6781,9 @@ ooaofooa_smt_elifs()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_elif(act_el:act_el, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_elif( act_el, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_elif( act_el, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_elif( act_el, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_els );
 
@@ -6842,9 +6842,9 @@ ooaofooa_smt_elses()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_else(act_e:act_e, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_else( act_e, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_else( act_e, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_else( act_e, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_es );
 
@@ -6910,9 +6910,9 @@ ooaofooa_smt_whiles()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_while(act_whl:act_whl, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_while( act_whl, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_while( act_whl, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_while( act_whl, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_whls );
 
@@ -6978,9 +6978,9 @@ ooaofooa_smt_ifs()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_if(act_if:act_if, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_if( act_if, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_if( act_if, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_if( act_if, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_ifs );
 
@@ -7082,9 +7082,9 @@ ooaofooa_smt_fors()
     te_smt = ACT_SMT_R603->TE_SMT_R2038;
 }}}
     /* ASSIGN r = ::smt_for(act_for:act_for, te_smt:te_smt) */
-    //Escher_strcpy( r, ooaofooa_smt_for( act_for, te_smt ) );
+    Escher_strcpy( r, ooaofooa_smt_for( act_for, te_smt ) );
     /* ::smt_buffer_append( s:r, te_smt:te_smt ) */
-    ooaofooa_smt_buffer_append( ooaofooa_smt_for( act_for, te_smt ), te_smt );
+    ooaofooa_smt_buffer_append( r, te_smt );
   }}}
   Escher_ClearSet( act_fors );
 
@@ -7096,9 +7096,9 @@ ooaofooa_smt_fors()
 void
 ooaofooa_aba_code_append( c_t p_s[ESCHER_SYS_MAX_STRING_LEN], ooaofooa_TE_ABA * p_te_aba )
 {
-  //ooaofooa_TE_ABA * te_aba;c_t s[ESCHER_SYS_MAX_STRING_LEN];
+  c_t s[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TE_ABA * te_aba;
   /* ASSIGN te_aba = PARAM.te_aba */
-  //te_aba = p_te_aba;
+  te_aba = p_te_aba;
   /* ASSIGN s = PARAM.s */
   //Escher_strcpy( s, p_s );
   /* ASSIGN te_aba.code = ( te_aba.code + s ) */
@@ -7117,9 +7117,9 @@ ooaofooa_aba_code_append( c_t p_s[ESCHER_SYS_MAX_STRING_LEN], ooaofooa_TE_ABA * 
 void
 ooaofooa_blk_deallocation_append( c_t p_s[ESCHER_SYS_MAX_STRING_LEN], ooaofooa_TE_BLK * p_te_blk )
 {
-  //ooaofooa_TE_BLK * te_blk;c_t s[ESCHER_SYS_MAX_STRING_LEN];
+  c_t s[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TE_BLK * te_blk;
   /* ASSIGN te_blk = PARAM.te_blk */
-  //te_blk = p_te_blk;
+  te_blk = p_te_blk;
   /* ASSIGN s = PARAM.s */
   //Escher_strcpy( s, p_s );
   /* ASSIGN te_blk.deallocation = ( te_blk.deallocation + s ) */
@@ -7135,9 +7135,9 @@ ooaofooa_blk_deallocation_append( c_t p_s[ESCHER_SYS_MAX_STRING_LEN], ooaofooa_T
 void
 ooaofooa_blk_declaration_append( c_t p_s[ESCHER_SYS_MAX_STRING_LEN], ooaofooa_TE_BLK * p_te_blk )
 {
-  //ooaofooa_TE_BLK * te_blk;c_t s[ESCHER_SYS_MAX_STRING_LEN];
+  c_t s[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TE_BLK * te_blk;
   /* ASSIGN te_blk = PARAM.te_blk */
-  //te_blk = p_te_blk;
+  te_blk = p_te_blk;
   /* ASSIGN s = PARAM.s */
   //Escher_strcpy( s, p_s );
   /* ASSIGN te_blk.declaration = ( te_blk.declaration + s ) */
@@ -7153,9 +7153,9 @@ ooaofooa_blk_declaration_append( c_t p_s[ESCHER_SYS_MAX_STRING_LEN], ooaofooa_TE
 void
 ooaofooa_smt_buffer_append( c_t p_s[ESCHER_SYS_MAX_STRING_LEN], ooaofooa_TE_SMT * p_te_smt )
 {
-  //ooaofooa_TE_SMT * te_smt;c_t s[ESCHER_SYS_MAX_STRING_LEN];
+  c_t s[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TE_SMT * te_smt;
   /* ASSIGN te_smt = PARAM.te_smt */
-  //te_smt = p_te_smt;
+  te_smt = p_te_smt;
   /* ASSIGN s = PARAM.s */
   //Escher_strcpy( s, p_s );
   /* ASSIGN te_smt.buffer = ( te_smt.buffer + s ) */
@@ -7163,7 +7163,7 @@ ooaofooa_smt_buffer_append( c_t p_s[ESCHER_SYS_MAX_STRING_LEN], ooaofooa_TE_SMT 
   if ( i > 1500 ) {
     fprintf( stderr, "TE_SMT:  Buffer is too big!\n" );
   } else {
-    strcat( p_te_smt->buffer, p_s );
+    strcat( p_te_smt->buffer, T_body() );
   }
 
 }
@@ -7892,6 +7892,5814 @@ ooaofooa_smt_translate_control_statements()
 }
 
 /*
+ * Domain Function:  T_atoi
+ */
+i_t
+ooaofooa_T_atoi( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t s[ESCHER_SYS_MAX_STRING_LEN];
+  /* ASSIGN s = PARAM.s */
+  Escher_strcpy( s, p_s );
+  /* RETURN 314 */
+  return 314;
+
+}
+
+/*
+ * Domain Function:  mark_all
+ */
+void
+ooaofooa_mark_all( c_t p_f[ESCHER_SYS_MAX_STRING_LEN], c_t p_p1[ESCHER_SYS_MAX_STRING_LEN], c_t p_p2[ESCHER_SYS_MAX_STRING_LEN], c_t p_p3[ESCHER_SYS_MAX_STRING_LEN], c_t p_p4[ESCHER_SYS_MAX_STRING_LEN], c_t p_p5[ESCHER_SYS_MAX_STRING_LEN], c_t p_pass[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t p5[ESCHER_SYS_MAX_STRING_LEN];c_t p4[ESCHER_SYS_MAX_STRING_LEN];c_t p3[ESCHER_SYS_MAX_STRING_LEN];c_t p2[ESCHER_SYS_MAX_STRING_LEN];c_t p1[ESCHER_SYS_MAX_STRING_LEN];c_t f[ESCHER_SYS_MAX_STRING_LEN];c_t pass[ESCHER_SYS_MAX_STRING_LEN];
+  /* ASSIGN pass = PARAM.pass */
+  Escher_strcpy( pass, p_pass );
+  /* ASSIGN f = PARAM.f */
+  Escher_strcpy( f, p_f );
+  /* ASSIGN p1 = PARAM.p1 */
+  Escher_strcpy( p1, p_p1 );
+  /* ASSIGN p2 = PARAM.p2 */
+  Escher_strcpy( p2, p_p2 );
+  /* ASSIGN p3 = PARAM.p3 */
+  Escher_strcpy( p3, p_p3 );
+  /* ASSIGN p4 = PARAM.p4 */
+  Escher_strcpy( p4, p_p4 );
+  /* ASSIGN p5 = PARAM.p5 */
+  Escher_strcpy( p5, p_p5 );
+  /* IF ( ( 1 == pass ) ) */
+  if ( ( Escher_strcmp( "1", pass ) == 0 ) ) {
+    /* IF ( ( WireSynchServiceOoaBridge == f ) ) */
+    if ( ( Escher_strcmp( "WireSynchServiceOoaBridge", f ) == 0 ) ) {
+    /* ::WireSynchServiceOoaBridge( ee_key_letters:p2, initiant:p1, recipient:p3 ) */
+    ooaofooa_WireSynchServiceOoaBridge( p2, p1, p3 );
+    }
+    else if ( ( Escher_strcmp( "WireRealizeExternalEntity", f ) == 0 ) ) {
+    /* ::WireRealizeExternalEntity( a:p1, b:p2, c:p3, d:p4, e:p5 ) */
+    ooaofooa_WireRealizeExternalEntity( p1, p2, p3, p4, p5 );
+    }
+    else if ( ( Escher_strcmp( "WireRealizedExternalEntity", f ) == 0 ) ) {
+    /* ::WireRealizedExternalEntity( a:p1, b:p2, c:p3, d:p4, e:p5 ) */
+    ooaofooa_WireRealizedExternalEntity( p1, p2, p3, p4, p5 );
+    }
+    else if ( ( Escher_strcmp( "TagSyncServiceSafeForInterrupts", f ) == 0 ) ) {
+    /* ::TagSyncServiceSafeForInterrupts( component_name:p1, function_name:p2 ) */
+    ooaofooa_TagSyncServiceSafeForInterrupts( p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagDataTypePrecision", f ) == 0 ) ) {
+    /* ::TagDataTypePrecision( component_name:p1, dt_name:p2, initial_value:p4, tagged_name:p3 ) */
+    ooaofooa_TagDataTypePrecision( p1, p2, p4, p3 );
+    }
+    else if ( ( Escher_strcmp( "MapDataTypeAsPointer", f ) == 0 ) ) {
+    /* ::MapDataTypeAsPointer( component_name:p1, dt_name:p2, include_file:p4, pointer_type:p3 ) */
+    ooaofooa_MapDataTypeAsPointer( p1, p2, p4, p3 );
+    }
+    else if ( ( Escher_strcmp( "TagEnumeratorDiscreteValue", f ) == 0 ) ) {
+    /* ::TagEnumeratorDiscreteValue( component_name:p1, enumeration:p2, enumerator:p3, value:p4 ) */
+    ooaofooa_TagEnumeratorDiscreteValue( p1, p2, p3, p4 );
+    }
+    else if ( ( Escher_strcmp( "TagUninitializedEnumerationValue", f ) == 0 ) ) {
+    /* ::TagUninitializedEnumerationValue( component_name:p1, enumeration:p2, value:p3 ) */
+    ooaofooa_TagUninitializedEnumerationValue( p1, p2, p3 );
+    }
+    else if ( ( Escher_strcmp( "AssignDirectToUDTPackage", f ) == 0 ) ) {
+    /* ::AssignDirectToUDTPackage( package_name:p1 ) */
+    ooaofooa_AssignDirectToUDTPackage( p1 );
+    }
+    else if ( ( Escher_strcmp( "EnableTasking", f ) == 0 ) ) {
+    i_t i3;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p3) */
+    r = ooaofooa_T_atoi( p3 );
+    /* ASSIGN i3 = r */
+    i3 = r;
+    /* ::EnableTasking( flavor:p1, number_of_threads:i3, serialize:p2 ) */
+    ooaofooa_EnableTasking( p1, i3, p2 );
+    }
+    else if ( ( Escher_strcmp( "SetTaskPriority", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::SetTaskPriority( priority:p2, task_number:i1 ) */
+    ooaofooa_SetTaskPriority( p2, i1 );
+    }
+    else if ( ( Escher_strcmp( "TagMaximumStringLength", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagMaximumStringLength( max_len:i1 ) */
+    ooaofooa_TagMaximumStringLength( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagMaximumRelationshipExtentSize", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagMaximumRelationshipExtentSize( user_specified_size:i1 ) */
+    ooaofooa_TagMaximumRelationshipExtentSize( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagMaximumSelectionExtentSize", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagMaximumSelectionExtentSize( user_specified_size:i1 ) */
+    ooaofooa_TagMaximumSelectionExtentSize( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagMaximumSelfDirectedEvents", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagMaximumSelfDirectedEvents( user_specified_size:i1 ) */
+    ooaofooa_TagMaximumSelfDirectedEvents( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagMaximumNonSelfDirectedEvents", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagMaximumNonSelfDirectedEvents( user_specified_size:i1 ) */
+    ooaofooa_TagMaximumNonSelfDirectedEvents( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagMaximumPendingOoaTimers", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagMaximumPendingOoaTimers( user_specified_size:i1 ) */
+    ooaofooa_TagMaximumPendingOoaTimers( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagMaximumInterleavedBridges", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagMaximumInterleavedBridges( user_specified_size:i1 ) */
+    ooaofooa_TagMaximumInterleavedBridges( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagInterleavedBridgeDataSize", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagInterleavedBridgeDataSize( user_specified_size:i1 ) */
+    ooaofooa_TagInterleavedBridgeDataSize( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagCollectionsFlavor", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagCollectionsFlavor( collections_flavor:i1 ) */
+    ooaofooa_TagCollectionsFlavor( i1 );
+    }
+    else if ( ( Escher_strcmp( "MarkPersistenceCacheDepth", f ) == 0 ) ) {
+    i_t i2;i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ASSIGN r = ::T_atoi(s:p2) */
+    r = ooaofooa_T_atoi( p2 );
+    /* ASSIGN i2 = r */
+    i2 = r;
+    /* ::MarkPersistenceCacheDepth( instance_depth:i1, link_depth:i2 ) */
+    ooaofooa_MarkPersistenceCacheDepth( i1, i2 );
+    }
+    else if ( ( Escher_strcmp( "TagDynamicMemoryAllocationOn", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagDynamicMemoryAllocationOn( units_to_allocate:i1 ) */
+    ooaofooa_TagDynamicMemoryAllocationOn( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagInstanceLoading", f ) == 0 ) ) {
+    /* ::TagInstanceLoading(  ) */
+    ooaofooa_TagInstanceLoading();
+    }
+    else if ( ( Escher_strcmp( "VFBEnable", f ) == 0 ) ) {
+    /* ::VFBEnable(  ) */
+    ooaofooa_VFBEnable();
+    }
+    else if ( ( Escher_strcmp( "MarkSystemConfigurationPackage", f ) == 0 ) ) {
+    /* ::MarkSystemConfigurationPackage( package_name:p1 ) */
+    ooaofooa_MarkSystemConfigurationPackage( p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkSystemCPortType", f ) == 0 ) ) {
+    /* ::MarkSystemCPortType( port_type:p1 ) */
+    ooaofooa_MarkSystemCPortType( p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkAllPortsPolymorphic", f ) == 0 ) ) {
+    /* ::MarkAllPortsPolymorphic(  ) */
+    ooaofooa_MarkAllPortsPolymorphic();
+    }
+    else if ( ( Escher_strcmp( "MarkAsChannel", f ) == 0 ) ) {
+    /* ::MarkAsChannel( component_name:p2, inc_file:p3, package_name:p1 ) */
+    ooaofooa_MarkAsChannel( p2, p3, p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkComponentAsChannel", f ) == 0 ) ) {
+    /* ::MarkComponentAsChannel( component_name:p2, inc_file:p3, package_name:p1 ) */
+    ooaofooa_MarkComponentAsChannel( p2, p3, p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkComponentWithTemplate", f ) == 0 ) ) {
+    /* ::MarkComponentWithTemplate( component_name:p2, package_name:p1 ) */
+    ooaofooa_MarkComponentWithTemplate( p2, p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkInterfaceWithTemplate", f ) == 0 ) ) {
+    /* ::MarkInterfaceWithTemplate( interface_name:p2, package_name:p1 ) */
+    ooaofooa_MarkInterfaceWithTemplate( p2, p1 );
+    }
+    else if ( ( Escher_strcmp( "AddTemplateParameter", f ) == 0 ) ) {
+    /* ::AddTemplateParameter( component_name:p2, default_value:p5, package_name:p1, type_name:p3, variable_name:p4 ) */
+    ooaofooa_AddTemplateParameter( p2, p5, p1, p3, p4 );
+    }
+    else if ( ( Escher_strcmp( "SetTemplateParameter", f ) == 0 ) ) {
+    /* ::SetTemplateParameter( instance:p2, package_name:p1, value:p4, variable_name:p3 ) */
+    ooaofooa_SetTemplateParameter( p2, p1, p4, p3 );
+    }
+    else if ( ( Escher_strcmp( "SetTPV", f ) == 0 ) ) {
+    /* ::SetTPV( classifier_name:p4, component:p3, package_name:p1, parent_component:p2, port:p5, value:, variable_name: ) */
+    ooaofooa_SetTPV( p4, p3, p1, p2, p5, "", "" );
+    }
+    else if ( ( Escher_strcmp( "MarkInterfacePrefix", f ) == 0 ) ) {
+    /* ::MarkInterfacePrefix( channel:p3, provided_port:p1, required_port:p2 ) */
+    ooaofooa_MarkInterfacePrefix( p3, p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "MarkComponentAsRealized", f ) == 0 ) ) {
+    /* ::MarkComponentAsRealized( component_name:p2, inc_file:p3, package_name:p1 ) */
+    ooaofooa_MarkComponentAsRealized( p2, p3, p1 );
+    }
+    else {
+    }
+  }
+  else {
+    /* IF ( ( TagSystemObjectDefaultExtentSize == f ) ) */
+    if ( ( Escher_strcmp( "TagSystemObjectDefaultExtentSize", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagSystemObjectDefaultExtentSize( extent_size:i1 ) */
+    ooaofooa_TagSystemObjectDefaultExtentSize( i1 );
+    }
+    else if ( ( Escher_strcmp( "MarkSystemObjectDefaultExtentSize", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::MarkSystemObjectDefaultExtentSize( extent_size:i1 ) */
+    ooaofooa_MarkSystemObjectDefaultExtentSize( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagObjectExtentSize", f ) == 0 ) ) {
+    i_t i2;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p2) */
+    r = ooaofooa_T_atoi( p2 );
+    /* ASSIGN i2 = r */
+    i2 = r;
+    /* ::TagObjectExtentSize( extent_size:i2, obj_key_letters:p1 ) */
+    ooaofooa_TagObjectExtentSize( i2, p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkObjectExtentSize", f ) == 0 ) ) {
+    i_t i3;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p3) */
+    r = ooaofooa_T_atoi( p3 );
+    /* ASSIGN i3 = r */
+    i3 = r;
+    /* ::MarkObjectExtentSize( component_name:p1, extent_size:i3, obj_key_letters:p2 ) */
+    ooaofooa_MarkObjectExtentSize( p1, i3, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagTransformerGeneration", f ) == 0 ) ) {
+    /* ::TagTransformerGeneration( obj_key_letters:p1, transformer_name:p2 ) */
+    ooaofooa_TagTransformerGeneration( p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagClassOperationTranslationOff", f ) == 0 ) ) {
+    /* ::TagClassOperationTranslationOff( obj_key_letters:p1, op_name:p2 ) */
+    ooaofooa_TagClassOperationTranslationOff( p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "MarkClassOperationTranslationOff", f ) == 0 ) ) {
+    /* ::MarkClassOperationTranslationOff( component_name:p1, obj_key_letters:p2, op_name:p3 ) */
+    ooaofooa_MarkClassOperationTranslationOff( p1, p2, p3 );
+    }
+    else if ( ( Escher_strcmp( "TagObjectTraceOff", f ) == 0 ) ) {
+    /* ::TagObjectTraceOff( obj_key_letters:p1 ) */
+    ooaofooa_TagObjectTraceOff( p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkObjectTraceOff", f ) == 0 ) ) {
+    /* ::MarkObjectTraceOff( component_name:p1, obj_key_letters:p2 ) */
+    ooaofooa_MarkObjectTraceOff( p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagObjectTraceOn", f ) == 0 ) ) {
+    /* ::TagObjectTraceOn( obj_key_letters:p1 ) */
+    ooaofooa_TagObjectTraceOn( p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkObjectTraceOn", f ) == 0 ) ) {
+    /* ::MarkObjectTraceOn( component_name:p1, obj_key_letters:p2 ) */
+    ooaofooa_MarkObjectTraceOn( p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagPEIsDefinedInData", f ) == 0 ) ) {
+    /* ::TagPEIsDefinedInData( obj_key_letters:p2, ss_prefix:p1 ) */
+    ooaofooa_TagPEIsDefinedInData( p2, p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkPEIsDefinedInData", f ) == 0 ) ) {
+    /* ::MarkPEIsDefinedInData( component_name:p1, obj_key_letters:p3, ss_prefix:p2 ) */
+    ooaofooa_MarkPEIsDefinedInData( p1, p3, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagStaticInstancePopulation", f ) == 0 ) ) {
+    /* ::TagStaticInstancePopulation( obj_key_letters:p2, ss_prefix:p1 ) */
+    ooaofooa_TagStaticInstancePopulation( p2, p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkStaticInstancePopulation", f ) == 0 ) ) {
+    /* ::MarkStaticInstancePopulation( component_name:p1, obj_key_letters:p3, ss_prefix:p2 ) */
+    ooaofooa_MarkStaticInstancePopulation( p1, p3, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagReadOnly", f ) == 0 ) ) {
+    /* ::TagReadOnly( obj_key_letters:p2, ss_prefix:p1 ) */
+    ooaofooa_TagReadOnly( p2, p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkReadOnly", f ) == 0 ) ) {
+    /* ::MarkReadOnly( component_name:p1, obj_key_letters:p3, ss_prefix:p2 ) */
+    ooaofooa_MarkReadOnly( p1, p3, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagPersistentClass", f ) == 0 ) ) {
+    /* ::TagPersistentClass( obj_key_letters:p2, ss_prefix:p1 ) */
+    ooaofooa_TagPersistentClass( p2, p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkPersistentClass", f ) == 0 ) ) {
+    /* ::MarkPersistentClass( component_name:p1, obj_key_letters:p3, ss_prefix:p2 ) */
+    ooaofooa_MarkPersistentClass( p1, p3, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagNonPersistentClass", f ) == 0 ) ) {
+    /* ::TagNonPersistentClass( obj_key_letters:p2, ss_prefix:p1 ) */
+    ooaofooa_TagNonPersistentClass( p2, p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkNonPersistentClass", f ) == 0 ) ) {
+    /* ::MarkNonPersistentClass( component_name:p1, obj_key_letters:p3, ss_prefix:p2 ) */
+    ooaofooa_MarkNonPersistentClass( p1, p3, p2 );
+    }
+    else if ( ( Escher_strcmp( "MapClassToTask", f ) == 0 ) ) {
+    i_t i3;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p3) */
+    r = ooaofooa_T_atoi( p3 );
+    /* ASSIGN i3 = r */
+    i3 = r;
+    /* ::MapClassToTask( obj_key_letters:p2, ss_prefix:p1, task:i3 ) */
+    ooaofooa_MapClassToTask( p2, p1, i3 );
+    }
+    else if ( ( Escher_strcmp( "MarkClassToTask", f ) == 0 ) ) {
+    i_t i4;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p4) */
+    r = ooaofooa_T_atoi( p4 );
+    /* ASSIGN i4 = r */
+    i4 = r;
+    /* ::MarkClassToTask( component_name:p1, obj_key_letters:p3, ss_prefix:p2, task:i4 ) */
+    ooaofooa_MarkClassToTask( p1, p3, p2, i4 );
+    }
+    else if ( ( Escher_strcmp( "TagFunctionTranslationOff", f ) == 0 ) ) {
+    /* ::TagFunctionTranslationOff( function_name:p1 ) */
+    ooaofooa_TagFunctionTranslationOff( p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkFunctionTranslationOff", f ) == 0 ) ) {
+    /* ::MarkFunctionTranslationOff( component_name:p1, function_name:p2 ) */
+    ooaofooa_MarkFunctionTranslationOff( p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagInitializationFunction", f ) == 0 ) ) {
+    /* ::TagInitializationFunction( function_name:p1 ) */
+    ooaofooa_TagInitializationFunction( p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkInitializationFunction", f ) == 0 ) ) {
+    /* ::MarkInitializationFunction( component_name:p1, function_name:p2 ) */
+    ooaofooa_MarkInitializationFunction( p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagExcludeObjectFromCodeGen", f ) == 0 ) ) {
+    /* ::TagExcludeObjectFromCodeGen( obj_key_letters:p1 ) */
+    ooaofooa_TagExcludeObjectFromCodeGen( p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkExcludeObjectFromCodeGen", f ) == 0 ) ) {
+    /* ::MarkExcludeObjectFromCodeGen( component_name:p1, obj_key_letters:p2 ) */
+    ooaofooa_MarkExcludeObjectFromCodeGen( p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagExcludeSubsystemFromCodeGen", f ) == 0 ) ) {
+    /* ::TagExcludeSubsystemFromCodeGen( subsystem_name:p1 ) */
+    ooaofooa_TagExcludeSubsystemFromCodeGen( p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkExcludeSubsystemFromCodeGen", f ) == 0 ) ) {
+    /* ::MarkExcludeSubsystemFromCodeGen( component_name:p1, subsystem_name:p2 ) */
+    ooaofooa_MarkExcludeSubsystemFromCodeGen( p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagStateTransitionTracingOn", f ) == 0 ) ) {
+    /* ::TagStateTransitionTracingOn(  ) */
+    ooaofooa_TagStateTransitionTracingOn();
+    }
+    else if ( ( Escher_strcmp( "MarkStateTransitionTracingOn", f ) == 0 ) ) {
+    /* ::MarkStateTransitionTracingOn( component_name:p1 ) */
+    ooaofooa_MarkStateTransitionTracingOn( p1 );
+    }
+    else if ( ( Escher_strcmp( "TagActionStatementTracingOn", f ) == 0 ) ) {
+    /* ::TagActionStatementTracingOn(  ) */
+    ooaofooa_TagActionStatementTracingOn();
+    }
+    else if ( ( Escher_strcmp( "MarkActionStatementTracingOn", f ) == 0 ) ) {
+    /* ::MarkActionStatementTracingOn( component_name:p1 ) */
+    ooaofooa_MarkActionStatementTracingOn( p1 );
+    }
+    else if ( ( Escher_strcmp( "MarkMessageTracingOn", f ) == 0 ) ) {
+    /* ::MarkMessageTracingOn( component_name:p1, message_name:p3, port_name:p2 ) */
+    ooaofooa_MarkMessageTracingOn( p1, p3, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagEmptyHandleDetectionOn", f ) == 0 ) ) {
+    /* ::TagEmptyHandleDetectionOn(  ) */
+    ooaofooa_TagEmptyHandleDetectionOn();
+    }
+    else if ( ( Escher_strcmp( "MarkEmptyHandleDetectionOn", f ) == 0 ) ) {
+    /* ::MarkEmptyHandleDetectionOn( component_name:p1 ) */
+    ooaofooa_MarkEmptyHandleDetectionOn( p1 );
+    }
+    else if ( ( Escher_strcmp( "TagFirstPassOptimizationsOff", f ) == 0 ) ) {
+    /* ::TagFirstPassOptimizationsOff(  ) */
+    ooaofooa_TagFirstPassOptimizationsOff();
+    }
+    else if ( ( Escher_strcmp( "MarkFirstPassOptimizationsOff", f ) == 0 ) ) {
+    /* ::MarkFirstPassOptimizationsOff( component_name:p1 ) */
+    ooaofooa_MarkFirstPassOptimizationsOff( p1 );
+    }
+    else if ( ( Escher_strcmp( "TagStateActionCommentBlocksEnabled", f ) == 0 ) ) {
+    /* ::TagStateActionCommentBlocksEnabled(  ) */
+    ooaofooa_TagStateActionCommentBlocksEnabled();
+    }
+    else if ( ( Escher_strcmp( "MarkStateActionCommentBlocksEnabled", f ) == 0 ) ) {
+    /* ::MarkStateActionCommentBlocksEnabled( component_name:p1 ) */
+    ooaofooa_MarkStateActionCommentBlocksEnabled( p1 );
+    }
+    else if ( ( Escher_strcmp( "TagStateActionStatementCommentsDisabled", f ) == 0 ) ) {
+    /* ::TagStateActionStatementCommentsDisabled(  ) */
+    ooaofooa_TagStateActionStatementCommentsDisabled();
+    }
+    else if ( ( Escher_strcmp( "MarkStateActionStatementCommentsDisabled", f ) == 0 ) ) {
+    /* ::MarkStateActionStatementCommentsDisabled( component_name:p1 ) */
+    ooaofooa_MarkStateActionStatementCommentsDisabled( p1 );
+    }
+    else if ( ( Escher_strcmp( "TagStateActionVariableNamesEnabled", f ) == 0 ) ) {
+    /* ::TagStateActionVariableNamesEnabled(  ) */
+    ooaofooa_TagStateActionVariableNamesEnabled();
+    }
+    else if ( ( Escher_strcmp( "TagVerboseReflexivePhrasesEnabled", f ) == 0 ) ) {
+    /* ::TagVerboseReflexivePhrasesEnabled(  ) */
+    ooaofooa_TagVerboseReflexivePhrasesEnabled();
+    }
+    else if ( ( Escher_strcmp( "MarkPortWiring", f ) == 0 ) ) {
+    /* ::MarkPortWiring( foreign_component:p3, foreign_port:p4, home_component:p1, home_port:p2 ) */
+    ooaofooa_MarkPortWiring( p3, p4, p1, p2 );
+    }
+    else if ( ( Escher_strcmp( "TagDispatchFlavor", f ) == 0 ) ) {
+    i_t i1;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p1) */
+    r = ooaofooa_T_atoi( p1 );
+    /* ASSIGN i1 = r */
+    i1 = r;
+    /* ::TagDispatchFlavor( flavor:i1 ) */
+    ooaofooa_TagDispatchFlavor( i1 );
+    }
+    else if ( ( Escher_strcmp( "TagPriorityEvent", f ) == 0 ) ) {
+    i_t i2;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p2) */
+    r = ooaofooa_T_atoi( p2 );
+    /* ASSIGN i2 = r */
+    i2 = r;
+    /* ::TagPriorityEvent( evt_label:p1, priority_value:i2 ) */
+    ooaofooa_TagPriorityEvent( p1, i2 );
+    }
+    else if ( ( Escher_strcmp( "MarkPriorityEvent", f ) == 0 ) ) {
+    i_t i3;i_t r;
+    /* ASSIGN r = ::T_atoi(s:p3) */
+    r = ooaofooa_T_atoi( p3 );
+    /* ASSIGN i3 = r */
+    i3 = r;
+    /* ::MarkPriorityEvent( component_name:p1, evt_label:p2, priority_value:i3 ) */
+    ooaofooa_MarkPriorityEvent( p1, p2, i3 );
+    }
+    else {
+    }
+  }
+
+}
+
+/*
+ * Domain Function:  MarkAllPortsPolymorphic
+ */
+void
+ooaofooa_MarkAllPortsPolymorphic()
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.AllPortsPoly = TRUE */
+  tm_systag->AllPortsPoly = TRUE;
+
+}
+
+/*
+ * Domain Function:  MarkSystemCPortType
+ */
+void
+ooaofooa_MarkSystemCPortType( c_t p_port_type[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;c_t port_type[ESCHER_SYS_MAX_STRING_LEN];
+  /* ASSIGN port_type = PARAM.port_type */
+  Escher_strcpy( port_type, p_port_type );
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* IF ( ( ( ( port_type == TLM ) or ( port_type == BitLevelSignals ) ) or ( port_type == sc_interface ) ) ) */
+  if ( ( ( ( Escher_strcmp( port_type, "TLM" ) == 0 ) || ( Escher_strcmp( port_type, "BitLevelSignals" ) == 0 ) ) || ( Escher_strcmp( port_type, "sc_interface" ) == 0 ) ) ) {
+    /* ASSIGN tm_systag.SystemCPortsType = port_type */
+    Escher_strcpy( tm_systag->SystemCPortsType, port_type );
+  }
+  else {
+    /* T::print( s:Warning:  Unrecognized SystemC Port Type(${port_type}). Please choose either TLM, BitLevelSignals or sc_interface. Default configuration will be used. ) */
+    T_print( ({char s[512]={0};T_T("Warning:  Unrecognized SystemC Port Type(");T_T(port_type);T_T("). Please choose either TLM, BitLevelSignals or sc_interface. Default configuration will be used.");}) );
+    /* ASSIGN tm_systag.SystemCPortsType = sc_interface */
+    Escher_strcpy( tm_systag->SystemCPortsType, "sc_interface" );
+  }
+
+}
+
+/*
+ * Domain Function:  MarkSystemConfigurationPackage
+ */
+void
+ooaofooa_MarkSystemConfigurationPackage( c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t package_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_BUILD * tm_build=0;
+  /* ASSIGN package_name = PARAM.package_name */
+  Escher_strcpy( package_name, p_package_name );
+  /* SELECT any tm_build FROM INSTANCES OF TM_BUILD */
+  tm_build = (ooaofooa_TM_BUILD *) Escher_SetGetAny( &pG_ooaofooa_TM_BUILD_extent.active );
+  /* IF ( empty tm_build ) */
+  if ( ( 0 == tm_build ) ) {
+    /* CREATE OBJECT INSTANCE tm_build OF TM_BUILD */
+    tm_build = (ooaofooa_TM_BUILD *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_BUILD_CLASS_NUMBER );
+  }
+  else {
+    /* T::print( s:Warning:  Re-marking system configuration.  Last configuration marked will be built. ) */
+    T_print( "Warning:  Re-marking system configuration.  Last configuration marked will be built." );
+  }
+  /* ASSIGN tm_build.package_to_build = package_name */
+  Escher_strcpy( tm_build->package_to_build, package_name );
+  /* ASSIGN tm_build.package_obj_name = ( package_name + _sys ) */
+  Escher_strcpy( tm_build->package_obj_name, Escher_stradd( package_name, "_sys" ) );
+  /* ASSIGN tm_build.package_inst_name = ( package_name + _top ) */
+  Escher_strcpy( tm_build->package_inst_name, Escher_stradd( package_name, "_top" ) );
+
+}
+
+/*
+ * Domain Function:  TM_SYSTAG_select
+ */
+ooaofooa_TM_SYSTAG *
+ooaofooa_TM_SYSTAG_select()
+{
+  ooaofooa_TM_SYSTAG * tm_systag=0;
+  /* SELECT any tm_systag FROM INSTANCES OF TM_SYSTAG */
+  tm_systag = (ooaofooa_TM_SYSTAG *) Escher_SetGetAny( &pG_ooaofooa_TM_SYSTAG_extent.active );
+  /* IF ( empty tm_systag ) */
+  if ( ( 0 == tm_systag ) ) {
+    /* CREATE OBJECT INSTANCE tm_systag OF TM_SYSTAG */
+    tm_systag = (ooaofooa_TM_SYSTAG *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_SYSTAG_CLASS_NUMBER );
+    /* ASSIGN tm_systag.MaxStringLen = 32 */
+    tm_systag->MaxStringLen = 32;
+    /* ASSIGN tm_systag.PersistInstanceCacheDepth = 128 */
+    tm_systag->PersistInstanceCacheDepth = 128;
+    /* ASSIGN tm_systag.PersistLinkCacheDepth = 128 */
+    tm_systag->PersistLinkCacheDepth = 128;
+    /* ASSIGN tm_systag.SystemCPortsType = sc_interface */
+    Escher_strcpy( tm_systag->SystemCPortsType, "sc_interface" );
+  }
+  /* RETURN tm_systag */
+  return tm_systag;
+
+}
+
+/*
+ * Domain Function:  VFBEnable
+ */
+void
+ooaofooa_VFBEnable()
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.VFB = TRUE */
+  tm_systag->VFB = TRUE;
+
+}
+
+/*
+ * Domain Function:  TagInstanceLoading
+ */
+void
+ooaofooa_TagInstanceLoading()
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.InstanceLoading = TRUE */
+  tm_systag->InstanceLoading = TRUE;
+
+}
+
+/*
+ * Domain Function:  TagDynamicMemoryAllocationOn
+ */
+void
+ooaofooa_TagDynamicMemoryAllocationOn( const i_t p_units_to_allocate )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t units_to_allocate;
+  /* ASSIGN units_to_allocate = PARAM.units_to_allocate */
+  units_to_allocate = p_units_to_allocate;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.UnitsToDynamicallyAllocate = units_to_allocate */
+  tm_systag->UnitsToDynamicallyAllocate = units_to_allocate;
+  /* IF ( ( tm_systag.UnitsToDynamicallyAllocate < 1 ) ) */
+  if ( ( tm_systag->UnitsToDynamicallyAllocate < 1 ) ) {
+    /* ASSIGN tm_systag.UnitsToDynamicallyAllocate = 1 */
+    tm_systag->UnitsToDynamicallyAllocate = 1;
+  }
+
+}
+
+/*
+ * Domain Function:  MarkPersistenceCacheDepth
+ */
+void
+ooaofooa_MarkPersistenceCacheDepth( const i_t p_instance_depth, const i_t p_link_depth )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t link_depth;i_t instance_depth;
+  /* ASSIGN instance_depth = PARAM.instance_depth */
+  instance_depth = p_instance_depth;
+  /* ASSIGN link_depth = PARAM.link_depth */
+  link_depth = p_link_depth;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.PersistInstanceCacheDepth = instance_depth */
+  tm_systag->PersistInstanceCacheDepth = instance_depth;
+  /* ASSIGN tm_systag.PersistLinkCacheDepth = link_depth */
+  tm_systag->PersistLinkCacheDepth = link_depth;
+
+}
+
+/*
+ * Domain Function:  TagCollectionsFlavor
+ */
+void
+ooaofooa_TagCollectionsFlavor( const i_t p_collections_flavor )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t collections_flavor;
+  /* ASSIGN collections_flavor = PARAM.collections_flavor */
+  collections_flavor = p_collections_flavor;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.CollectionsFlavor = collections_flavor */
+  tm_systag->CollectionsFlavor = collections_flavor;
+
+}
+
+/*
+ * Domain Function:  TagInterleavedBridgeDataSize
+ */
+void
+ooaofooa_TagInterleavedBridgeDataSize( const i_t p_user_specified_size )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
+  /* ASSIGN user_specified_size = PARAM.user_specified_size */
+  user_specified_size = p_user_specified_size;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.MaxInterleavedBridgeDataSize = user_specified_size */
+  tm_systag->MaxInterleavedBridgeDataSize = user_specified_size;
+
+}
+
+/*
+ * Domain Function:  TagMaximumInterleavedBridges
+ */
+void
+ooaofooa_TagMaximumInterleavedBridges( const i_t p_user_specified_size )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
+  /* ASSIGN user_specified_size = PARAM.user_specified_size */
+  user_specified_size = p_user_specified_size;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.MaxInterleavedBridges = user_specified_size */
+  tm_systag->MaxInterleavedBridges = user_specified_size;
+
+}
+
+/*
+ * Domain Function:  TagMaximumPendingOoaTimers
+ */
+void
+ooaofooa_TagMaximumPendingOoaTimers( const i_t p_user_specified_size )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
+  /* ASSIGN user_specified_size = PARAM.user_specified_size */
+  user_specified_size = p_user_specified_size;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.MaxTimers = user_specified_size */
+  tm_systag->MaxTimers = user_specified_size;
+
+}
+
+/*
+ * Domain Function:  TagMaximumNonSelfDirectedEvents
+ */
+void
+ooaofooa_TagMaximumNonSelfDirectedEvents( const i_t p_user_specified_size )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
+  /* ASSIGN user_specified_size = PARAM.user_specified_size */
+  user_specified_size = p_user_specified_size;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.MaxNonSelfEvents = user_specified_size */
+  tm_systag->MaxNonSelfEvents = user_specified_size;
+
+}
+
+/*
+ * Domain Function:  TagMaximumSelfDirectedEvents
+ */
+void
+ooaofooa_TagMaximumSelfDirectedEvents( const i_t p_user_specified_size )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
+  /* ASSIGN user_specified_size = PARAM.user_specified_size */
+  user_specified_size = p_user_specified_size;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.MaxSelfEvents = user_specified_size */
+  tm_systag->MaxSelfEvents = user_specified_size;
+
+}
+
+/*
+ * Domain Function:  TagMaximumSelectionExtentSize
+ */
+void
+ooaofooa_TagMaximumSelectionExtentSize( const i_t p_user_specified_size )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
+  /* ASSIGN user_specified_size = PARAM.user_specified_size */
+  user_specified_size = p_user_specified_size;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.MaxSelectExtent = user_specified_size */
+  tm_systag->MaxSelectExtent = user_specified_size;
+
+}
+
+/*
+ * Domain Function:  TagMaximumRelationshipExtentSize
+ */
+void
+ooaofooa_TagMaximumRelationshipExtentSize( const i_t p_user_specified_size )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
+  /* ASSIGN user_specified_size = PARAM.user_specified_size */
+  user_specified_size = p_user_specified_size;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.MaxRelExtent = user_specified_size */
+  tm_systag->MaxRelExtent = user_specified_size;
+
+}
+
+/*
+ * Domain Function:  TagMaximumStringLength
+ */
+void
+ooaofooa_TagMaximumStringLength( const i_t p_max_len )
+{
+  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t max_len;
+  /* ASSIGN max_len = PARAM.max_len */
+  max_len = p_max_len;
+  /* ASSIGN r = ::TM_SYSTAG_select() */
+  r = ooaofooa_TM_SYSTAG_select();
+  /* ASSIGN tm_systag = r */
+  tm_systag = r;
+  /* ASSIGN tm_systag.MaxStringLen = max_len */
+  tm_systag->MaxStringLen = max_len;
+
+}
+
+/*
+ * Domain Function:  SetTaskPriority
+ */
+void
+ooaofooa_SetTaskPriority( c_t p_priority[ESCHER_SYS_MAX_STRING_LEN], const i_t p_task_number )
+{
+  c_t priority[ESCHER_SYS_MAX_STRING_LEN];i_t task_number;ooaofooa_TM_THREAD * tm_thread=0;
+  /* ASSIGN task_number = PARAM.task_number */
+  task_number = p_task_number;
+  /* ASSIGN priority = PARAM.priority */
+  Escher_strcpy( priority, p_priority );
+  /* T::print( s:SetTaskPriority( $t{task_number}, ${priority} ) ) */
+  T_print( ({char s[512]={0};T_T("SetTaskPriority( ");T_T(T_s(task_number));T_T(", ");T_T(priority);T_T(" )");}) );
+  /* SELECT any tm_thread FROM INSTANCES OF TM_THREAD */
+  tm_thread = (ooaofooa_TM_THREAD *) Escher_SetGetAny( &pG_ooaofooa_TM_THREAD_extent.active );
+  /* IF ( empty tm_thread ) */
+  if ( ( 0 == tm_thread ) ) {
+    /* CREATE OBJECT INSTANCE tm_thread OF TM_THREAD */
+    tm_thread = (ooaofooa_TM_THREAD *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_THREAD_CLASS_NUMBER );
+  }
+  /* ASSIGN tm_thread.extra_initialization = ( tm_thread.extra_initialization +   xtUML_task_priorities[ $t{task_number} ] = ${priority};\n ) */
+  Escher_strcpy( tm_thread->extra_initialization, Escher_stradd( tm_thread->extra_initialization, ({char s[512]={0};T_T("  xtUML_task_priorities[ ");T_T(T_s(task_number));T_T(" ] = ");T_T(priority);T_T(";\n");}) ) );
+
+}
+
+/*
+ * Domain Function:  EnableTasking
+ */
+void
+ooaofooa_EnableTasking( c_t p_flavor[ESCHER_SYS_MAX_STRING_LEN], const i_t p_number_of_threads, c_t p_serialize[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  i_t number_of_threads;c_t serialize[ESCHER_SYS_MAX_STRING_LEN];c_t flavor[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_THREAD * tm_thread=0;
+  /* ASSIGN flavor = PARAM.flavor */
+  Escher_strcpy( flavor, p_flavor );
+  /* ASSIGN serialize = PARAM.serialize */
+  Escher_strcpy( serialize, p_serialize );
+  /* ASSIGN number_of_threads = PARAM.number_of_threads */
+  number_of_threads = p_number_of_threads;
+  /* T::print( s:EnableTasking( ${flavor}, ${serialize}, $t{number_of_threads} ) ) */
+  T_print( ({char s[512]={0};T_T("EnableTasking( ");T_T(flavor);T_T(", ");T_T(serialize);T_T(", ");T_T(T_s(number_of_threads));T_T(" )");}) );
+  /* SELECT any tm_thread FROM INSTANCES OF TM_THREAD */
+  tm_thread = (ooaofooa_TM_THREAD *) Escher_SetGetAny( &pG_ooaofooa_TM_THREAD_extent.active );
+  /* IF ( empty tm_thread ) */
+  if ( ( 0 == tm_thread ) ) {
+    /* CREATE OBJECT INSTANCE tm_thread OF TM_THREAD */
+    tm_thread = (ooaofooa_TM_THREAD *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_THREAD_CLASS_NUMBER );
+    /* ASSIGN tm_thread.extra_initialization =  */
+    Escher_strcpy( tm_thread->extra_initialization, "" );
+  }
+  /* ASSIGN tm_thread.number_of_threads = number_of_threads */
+  tm_thread->number_of_threads = number_of_threads;
+  /* IF ( ( T::l(serialize) == serialize ) ) */
+  if ( ( Escher_strcmp( T_l( serialize ), "serialize" ) == 0 ) ) {
+    /* ASSIGN tm_thread.serialize = TRUE */
+    tm_thread->serialize = TRUE;
+  }
+  else {
+    /* ASSIGN tm_thread.serialize = FALSE */
+    tm_thread->serialize = FALSE;
+  }
+  /* IF ( ( ( ( ( Nucleus == flavor ) or ( POSIX == flavor ) ) or ( ( OSX == flavor ) or ( Windows == flavor ) ) ) or ( ( AUTOSAR == flavor ) or ( SystemC == flavor ) ) ) ) */
+  if ( ( ( ( ( Escher_strcmp( "Nucleus", flavor ) == 0 ) || ( Escher_strcmp( "POSIX", flavor ) == 0 ) ) || ( ( Escher_strcmp( "OSX", flavor ) == 0 ) || ( Escher_strcmp( "Windows", flavor ) == 0 ) ) ) || ( ( Escher_strcmp( "AUTOSAR", flavor ) == 0 ) || ( Escher_strcmp( "SystemC", flavor ) == 0 ) ) ) ) {
+    /* ASSIGN tm_thread.flavor = flavor */
+    Escher_strcpy( tm_thread->flavor, flavor );
+    /* IF ( ( SystemC == flavor ) ) */
+    if ( ( Escher_strcmp( "SystemC", flavor ) == 0 ) ) {
+    /* ASSIGN tm_thread.number_of_threads = 1 */
+    tm_thread->number_of_threads = 1;
+    /* ASSIGN tm_thread.enabled = FALSE */
+    tm_thread->enabled = FALSE;
+    }
+    else {
+    /* ASSIGN tm_thread.enabled = TRUE */
+    tm_thread->enabled = TRUE;
+    }
+  }
+  else {
+    /* T::print( s:ERROR:  system.mark:EnableTasking has incorrect tasking/threading type:${flavor}.\n ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  system.mark:EnableTasking has incorrect tasking/threading type:");T_T(flavor);T_T(".\n");}) );
+    /* T::exit( i:100 ) */
+    T_exit( 100 );
+  }
+
+}
+
+/*
+ * Domain Function:  MarkPriorityEvent
+ */
+void
+ooaofooa_MarkPriorityEvent( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_evt_label[ESCHER_SYS_MAX_STRING_LEN], const i_t p_priority_value )
+{
+  ooaofooa_TE_C * te_c=0;i_t priority_value;c_t evt_label[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN evt_label = PARAM.evt_label */
+  Escher_strcpy( evt_label, p_evt_label );
+  /* ASSIGN priority_value = PARAM.priority_value */
+  priority_value = p_priority_value;
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    c_t msg[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_SM_EVT * sm_evt=0;
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* IF ( ( ( priority_value > 255 ) or ( priority_value < 0 ) ) ) */
+    if ( ( ( priority_value > 255 ) || ( priority_value < 0 ) ) ) {
+    /* ASSIGN msg = ERROR:  Priority ($t{priority_value}) out of legal range (0-255). */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Priority (");T_T(T_s(priority_value));T_T(") out of legal range (0-255).");}) );
+    }
+    /* SELECT any sm_evt RELATED BY te_c->TE_CLASS[R2064]->O_OBJ[R2019]->SM_ISM[R518]->SM_SM[R517]->SM_EVT[R502] WHERE ( ( SELECTED.Drv_Lbl == evt_label ) ) */
+    sm_evt = 0;
+    {    if ( 0 != te_c ) {
+    ooaofooa_TE_CLASS * TE_CLASS_R2064;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( ( 0 == sm_evt ) && ( 0 != ( TE_CLASS_R2064 = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_O_OBJ * O_OBJ_R2019 = TE_CLASS_R2064->O_OBJ_R2019;
+    if ( 0 != O_OBJ_R2019 ) {
+    ooaofooa_SM_ISM * SM_ISM_R518 = O_OBJ_R2019->SM_ISM_R518;
+    if ( 0 != SM_ISM_R518 ) {
+    ooaofooa_SM_SM * SM_SM_R517 = SM_ISM_R518->SM_SM_R517;
+    if ( 0 != SM_SM_R517 ) {
+    ooaofooa_SM_EVT * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &SM_SM_R517->SM_EVT_R502_can_be_communicated_to_via );
+    while ( 0 != ( selected = (ooaofooa_SM_EVT *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Drv_Lbl, evt_label ) == 0 ) ) {
+        sm_evt = selected;
+        break;
+    }}
+}}}}}}
+    /* IF ( empty sm_evt ) */
+    if ( ( 0 == sm_evt ) ) {
+    /* SELECT any sm_evt RELATED BY te_c->TE_CLASS[R2064]->O_OBJ[R2019]->SM_ASM[R519]->SM_SM[R517]->SM_EVT[R502] WHERE ( ( SELECTED.Drv_Lbl == evt_label ) ) */
+    sm_evt = 0;
+    {    if ( 0 != te_c ) {
+    ooaofooa_TE_CLASS * TE_CLASS_R2064;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( ( 0 == sm_evt ) && ( 0 != ( TE_CLASS_R2064 = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_O_OBJ * O_OBJ_R2019 = TE_CLASS_R2064->O_OBJ_R2019;
+    if ( 0 != O_OBJ_R2019 ) {
+    ooaofooa_SM_ASM * SM_ASM_R519 = O_OBJ_R2019->SM_ASM_R519;
+    if ( 0 != SM_ASM_R519 ) {
+    ooaofooa_SM_SM * SM_SM_R517 = SM_ASM_R519->SM_SM_R517;
+    if ( 0 != SM_SM_R517 ) {
+    ooaofooa_SM_EVT * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &SM_SM_R517->SM_EVT_R502_can_be_communicated_to_via );
+    while ( 0 != ( selected = (ooaofooa_SM_EVT *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Drv_Lbl, evt_label ) == 0 ) ) {
+        sm_evt = selected;
+        break;
+    }}
+}}}}}}
+    }
+    /* IF ( not_empty sm_evt ) */
+    if ( ( 0 != sm_evt ) ) {
+    ooaofooa_TE_EVT * te_evt=0;ooaofooa_SM_PEVT * sm_pevt=0;
+    /* SELECT one sm_pevt RELATED BY sm_evt->SM_PEVT[R525] */
+    sm_pevt = 0;
+    if ( ooaofooa_SM_PEVT_CLASS_NUMBER == sm_evt->R525_object_id )    sm_pevt = ( 0 != sm_evt ) ? (ooaofooa_SM_PEVT *) sm_evt->R525_subtype : 0;
+    /* IF ( not_empty sm_pevt ) */
+    if ( ( 0 != sm_pevt ) ) {
+    /* ASSIGN msg = ERROR:  Prioritized Polymorphic Event (${evt_label}) component ${te_c.Name} */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Prioritized Polymorphic Event (");T_T(evt_label);T_T(") component ");T_T(te_c->Name);}) );
+    /* ASSIGN msg = ( msg + \nPriority Polys are not supported. ) */
+    Escher_strcpy( msg, Escher_stradd( msg, "\nPriority Polys are not supported." ) );
+    }
+    /* SELECT one te_evt RELATED BY sm_evt->TE_EVT[R2036] */
+    te_evt = ( 0 != sm_evt ) ? sm_evt->TE_EVT_R2036 : 0;
+    /* ASSIGN te_evt.Priority = priority_value */
+    te_evt->Priority = priority_value;
+    /* ASSIGN msg = Event ${sm_evt.Drv_Lbl}:${sm_evt.Mning} marked as priority event. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Event ");T_T(sm_evt->Drv_Lbl);T_T(":");T_T(sm_evt->Mning);T_T(" marked as priority event.");}) );
+    }
+    else {
+    /* ASSIGN msg = ERROR:  Event (${evt_label}) not found in component ${te_c.Name} */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Event (");T_T(evt_label);T_T(") not found in component ");T_T(te_c->Name);}) );
+    }
+    /* ASSIGN msg = ( msg +  => TagPriorityEvent( ${evt_label}, $t{priority_value} ) ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T(" => TagPriorityEvent( ");T_T(evt_label);T_T(", ");T_T(T_s(priority_value));T_T(" )");}) ) );
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagPriorityEvent
+ */
+void
+ooaofooa_TagPriorityEvent( c_t p_evt_label[ESCHER_SYS_MAX_STRING_LEN], const i_t p_priority_value )
+{
+  ooaofooa_TE_C * te_c=0;i_t priority_value;c_t evt_label[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN evt_label = PARAM.evt_label */
+  Escher_strcpy( evt_label, p_evt_label );
+  /* ASSIGN priority_value = PARAM.priority_value */
+  priority_value = p_priority_value;
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkPriorityEvent( component_name:te_c.Name, evt_label:evt_label, priority_value:priority_value ) */
+    ooaofooa_MarkPriorityEvent( te_c->Name, evt_label, priority_value );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagDispatchFlavor
+ */
+void
+ooaofooa_TagDispatchFlavor( const i_t p_flavor )
+{
+  i_t flavor;
+  /* ASSIGN flavor = PARAM.flavor */
+  flavor = p_flavor;
+
+}
+
+/*
+ * Domain Function:  MarkPortWiringForPort
+ */
+void
+ooaofooa_MarkPortWiringForPort( c_t p_component[ESCHER_SYS_MAX_STRING_LEN], c_t p_port[ESCHER_SYS_MAX_STRING_LEN], Escher_ObjectSet_s * p_te_pos )
+{
+  ooaofooa_TE_PO * te_po=0;c_t port[ESCHER_SYS_MAX_STRING_LEN];c_t component[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;
+  /* ASSIGN te_pos = PARAM.te_pos */
+  Escher_CopySet( te_pos, p_te_pos );
+  /* ASSIGN component = PARAM.component */
+  Escher_strcpy( component, p_component );
+  /* ASSIGN port = PARAM.port */
+  Escher_strcpy( port, p_port );
+  /* FOR EACH te_po IN te_pos */
+  { Escher_Iterator_s iterte_po;
+  ooaofooa_TE_PO * iite_po;
+  Escher_IteratorReset( &iterte_po, te_pos );
+  while ( (iite_po = (ooaofooa_TE_PO *)Escher_IteratorNext( &iterte_po )) != 0 ) {
+    te_po = iite_po; {
+    ooaofooa_TE_IIR * te_iir=0;Escher_ObjectSet_s te_iirs_space={0}; Escher_ObjectSet_s * te_iirs = &te_iirs_space;
+    /* SELECT many te_iirs RELATED BY te_po->TE_IIR[R2080] */
+    Escher_ClearSet( te_iirs );
+    if ( 0 != te_po ) {
+      Escher_CopySet( te_iirs, &te_po->TE_IIR_R2080 );
+    }
+    /* FOR EACH te_iir IN te_iirs */
+    { Escher_Iterator_s iterte_iir;
+    ooaofooa_TE_IIR * iite_iir;
+    Escher_IteratorReset( &iterte_iir, te_iirs );
+    while ( (iite_iir = (ooaofooa_TE_IIR *)Escher_IteratorNext( &iterte_iir )) != 0 ) {
+      te_iir = iite_iir; {
+    /* IF ( te_po.Provision ) */
+    if ( te_po->Provision ) {
+    Escher_ObjectSet_s sibling_te_iirs_space={0}; Escher_ObjectSet_s * sibling_te_iirs = &sibling_te_iirs_space;
+    /* SELECT many sibling_te_iirs RELATED BY te_iir->TE_IIR[R2081.provides or is delegated] */
+    Escher_ClearSet( sibling_te_iirs );
+    if ( 0 != te_iir ) {
+      Escher_CopySet( sibling_te_iirs, &te_iir->TE_IIR_R2081_provides_or_is_delegated );
+    }
+    /* IF ( empty sibling_te_iirs ) */
+    if ( Escher_SetIsEmpty( sibling_te_iirs ) ) {
+    ooaofooa_TE_IIR * sibling_te_iir;
+    /* CREATE OBJECT INSTANCE sibling_te_iir OF TE_IIR */
+    sibling_te_iir = (ooaofooa_TE_IIR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_IIR_CLASS_NUMBER );
+    sibling_te_iir->ID = (Escher_UniqueID_t) sibling_te_iir;
+    /* ASSIGN sibling_te_iir.component_name = component */
+    Escher_strcpy( sibling_te_iir->component_name, component );
+    /* ASSIGN sibling_te_iir.port_name = port */
+    Escher_strcpy( sibling_te_iir->port_name, port );
+    /* ASSIGN sibling_te_iir.interface_name = te_po.InterfaceName */
+    Escher_strcpy( sibling_te_iir->interface_name, te_po->InterfaceName );
+    /* ASSIGN sibling_te_iir.polymorphic = FALSE */
+    sibling_te_iir->polymorphic = FALSE;
+    /* RELATE sibling_te_iir TO te_iir ACROSS R2081 */
+    ooaofooa_TE_IIR_R2081_Link_provides_or_is_delegated( sibling_te_iir, te_iir );
+    }
+    Escher_ClearSet( sibling_te_iirs ); 
+    }
+    else {
+    ooaofooa_TE_IIR * sibling_te_iir=0;
+    /* SELECT one sibling_te_iir RELATED BY te_iir->TE_IIR[R2081.requires or delegates] */
+    sibling_te_iir = ( 0 != te_iir ) ? te_iir->TE_IIR_R2081_requires_or_delegates : 0;
+    /* IF ( empty sibling_te_iir ) */
+    if ( ( 0 == sibling_te_iir ) ) {
+    /* CREATE OBJECT INSTANCE sibling_te_iir OF TE_IIR */
+    sibling_te_iir = (ooaofooa_TE_IIR *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_IIR_CLASS_NUMBER );
+    sibling_te_iir->ID = (Escher_UniqueID_t) sibling_te_iir;
+    /* ASSIGN sibling_te_iir.component_name = component */
+    Escher_strcpy( sibling_te_iir->component_name, component );
+    /* ASSIGN sibling_te_iir.port_name = port */
+    Escher_strcpy( sibling_te_iir->port_name, port );
+    /* ASSIGN sibling_te_iir.interface_name = te_po.InterfaceName */
+    Escher_strcpy( sibling_te_iir->interface_name, te_po->InterfaceName );
+    /* ASSIGN sibling_te_iir.polymorphic = FALSE */
+    sibling_te_iir->polymorphic = FALSE;
+    /* RELATE sibling_te_iir TO te_iir ACROSS R2081 */
+    ooaofooa_TE_IIR_R2081_Link_provides_or_is_delegated( sibling_te_iir, te_iir );
+    }
+    }
+    }}}
+    Escher_ClearSet( te_iirs ); 
+  }}}
+  Escher_ClearSet( te_pos );
+
+}
+
+/*
+ * Domain Function:  MarkPortWiring
+ */
+void
+ooaofooa_MarkPortWiring( c_t p_foreign_component[ESCHER_SYS_MAX_STRING_LEN], c_t p_foreign_port[ESCHER_SYS_MAX_STRING_LEN], c_t p_home_component[ESCHER_SYS_MAX_STRING_LEN], c_t p_home_port[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t foreign_port[ESCHER_SYS_MAX_STRING_LEN];c_t foreign_component[ESCHER_SYS_MAX_STRING_LEN];c_t home_port[ESCHER_SYS_MAX_STRING_LEN];c_t home_component[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;
+  /* ASSIGN home_component = PARAM.home_component */
+  Escher_strcpy( home_component, p_home_component );
+  /* ASSIGN home_port = PARAM.home_port */
+  Escher_strcpy( home_port, p_home_port );
+  /* ASSIGN foreign_component = PARAM.foreign_component */
+  Escher_strcpy( foreign_component, p_foreign_component );
+  /* ASSIGN foreign_port = PARAM.foreign_port */
+  Escher_strcpy( foreign_port, p_foreign_port );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( ( SELECTED.Name == home_component ) and SELECTED.included_in_build ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( ( Escher_strcmp( selected->Name, home_component ) == 0 ) && selected->included_in_build ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* SELECT many te_pos RELATED BY te_cs->TE_PO[R2005] WHERE ( ( SELECTED.Name == home_port ) ) */
+  Escher_ClearSet( te_pos );
+  {ooaofooa_TE_C * ooaofooa_TE_C_linkage;
+  Escher_Iterator_s start_many_iterator;
+  Escher_IteratorReset( &start_many_iterator, te_cs );
+  while ( 0 != ( ooaofooa_TE_C_linkage = (ooaofooa_TE_C *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_TE_PO * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_TE_C_linkage->TE_PO_R2005 );
+    while ( 0 != ( selected = (ooaofooa_TE_PO *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Name, home_port ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_pos, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_pos, selected );
+  }}}}}
+  /* ::MarkPortWiringForPort( component:foreign_component, port:foreign_port, te_pos:te_pos ) */
+  ooaofooa_MarkPortWiringForPort( foreign_component, foreign_port, te_pos );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( ( SELECTED.Name == foreign_component ) and SELECTED.included_in_build ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( ( Escher_strcmp( selected->Name, foreign_component ) == 0 ) && selected->included_in_build ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* SELECT many te_pos RELATED BY te_cs->TE_PO[R2005] WHERE ( ( SELECTED.Name == foreign_port ) ) */
+  Escher_ClearSet( te_pos );
+  {ooaofooa_TE_C * ooaofooa_TE_C_linkage;
+  Escher_Iterator_s start_many_iterator;
+  Escher_IteratorReset( &start_many_iterator, te_cs );
+  while ( 0 != ( ooaofooa_TE_C_linkage = (ooaofooa_TE_C *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_TE_PO * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_TE_C_linkage->TE_PO_R2005 );
+    while ( 0 != ( selected = (ooaofooa_TE_PO *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Name, foreign_port ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_pos, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_pos, selected );
+  }}}}}
+  /* ::MarkPortWiringForPort( component:home_component, port:home_port, te_pos:te_pos ) */
+  ooaofooa_MarkPortWiringForPort( home_component, home_port, te_pos );
+  Escher_ClearSet( te_cs );Escher_ClearSet( te_pos ); 
+
+}
+
+/*
+ * Domain Function:  TagVerboseReflexivePhrasesEnabled
+ */
+void
+ooaofooa_TagVerboseReflexivePhrasesEnabled()
+{
+
+}
+
+/*
+ * Domain Function:  TagStateActionVariableNamesEnabled
+ */
+void
+ooaofooa_TagStateActionVariableNamesEnabled()
+{
+
+}
+
+/*
+ * Domain Function:  MarkStateActionStatementCommentsDisabled
+ */
+void
+ooaofooa_MarkStateActionStatementCommentsDisabled( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ASSIGN te_c.CodeComments = FALSE */
+    te_c->CodeComments = FALSE;
+    /* T::print( s:State action statement level comments disabled for component ${te_c.Name} ) */
+    T_print( ({char s[512]={0};T_T("State action statement level comments disabled for component ");T_T(te_c->Name);}) );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagStateActionStatementCommentsDisabled
+ */
+void
+ooaofooa_TagStateActionStatementCommentsDisabled()
+{
+  ooaofooa_TE_C * te_c=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkStateActionStatementCommentsDisabled( component_name:te_c.Name ) */
+    ooaofooa_MarkStateActionStatementCommentsDisabled( te_c->Name );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkStateActionCommentBlocksEnabled
+ */
+void
+ooaofooa_MarkStateActionCommentBlocksEnabled( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ASSIGN te_c.RawComments = TRUE */
+    te_c->RawComments = TRUE;
+    /* T::print( s:State action sematics will be included as comments for component ${te_c.Name}. ) */
+    T_print( ({char s[512]={0};T_T("State action sematics will be included as comments for component ");T_T(te_c->Name);T_T(".");}) );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagStateActionCommentBlocksEnabled
+ */
+void
+ooaofooa_TagStateActionCommentBlocksEnabled()
+{
+  ooaofooa_TE_C * te_c=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkStateActionCommentBlocksEnabled( component_name:te_c.Name ) */
+    ooaofooa_MarkStateActionCommentBlocksEnabled( te_c->Name );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkFirstPassOptimizationsOff
+ */
+void
+ooaofooa_MarkFirstPassOptimizationsOff( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ASSIGN te_c.OptDisabled = TRUE */
+    te_c->OptDisabled = TRUE;
+    /* T::print( s:Code optimizations DISABLED for component ${te_c.Name} ) */
+    T_print( ({char s[512]={0};T_T("Code optimizations DISABLED for component ");T_T(te_c->Name);}) );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagFirstPassOptimizationsOff
+ */
+void
+ooaofooa_TagFirstPassOptimizationsOff()
+{
+  ooaofooa_TE_C * te_c=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkFirstPassOptimizationsOff( component_name:te_c.Name ) */
+    ooaofooa_MarkFirstPassOptimizationsOff( te_c->Name );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkEmptyHandleDetectionOn
+ */
+void
+ooaofooa_MarkEmptyHandleDetectionOn( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* T::print( s:Enabling detection of empty handles for component(s) ${component_name}. ) */
+  T_print( ({char s[512]={0};T_T("Enabling detection of empty handles for component(s) ");T_T(component_name);T_T(".");}) );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ASSIGN te_c.DetectEmpty = TRUE */
+    te_c->DetectEmpty = TRUE;
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagEmptyHandleDetectionOn
+ */
+void
+ooaofooa_TagEmptyHandleDetectionOn()
+{
+  ooaofooa_TE_C * te_c=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkEmptyHandleDetectionOn( component_name:te_c.Name ) */
+    ooaofooa_MarkEmptyHandleDetectionOn( te_c->Name );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkMessageTracingOn
+ */
+void
+ooaofooa_MarkMessageTracingOn( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_message_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_port_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_MACT * te_mact=0;c_t message_name[ESCHER_SYS_MAX_STRING_LEN];c_t port_name[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;Escher_ObjectSet_s te_macts_space={0}; Escher_ObjectSet_s * te_macts = &te_macts_space;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN port_name = PARAM.port_name */
+  Escher_strcpy( port_name, p_port_name );
+  /* ASSIGN message_name = PARAM.message_name */
+  Escher_strcpy( message_name, p_message_name );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* SELECT many te_pos RELATED BY te_cs->TE_PO[R2005] WHERE ( ( SELECTED.Name == port_name ) ) */
+  Escher_ClearSet( te_pos );
+  {ooaofooa_TE_C * ooaofooa_TE_C_linkage;
+  Escher_Iterator_s start_many_iterator;
+  Escher_IteratorReset( &start_many_iterator, te_cs );
+  while ( 0 != ( ooaofooa_TE_C_linkage = (ooaofooa_TE_C *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_TE_PO * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_TE_C_linkage->TE_PO_R2005 );
+    while ( 0 != ( selected = (ooaofooa_TE_PO *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Name, port_name ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_pos, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_pos, selected );
+  }}}}}
+  /* IF ( ( (  == port_name ) or ( * == port_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", port_name ) == 0 ) || ( Escher_strcmp( "*", port_name ) == 0 ) ) ) {
+    /* SELECT many te_pos RELATED BY te_cs->TE_PO[R2005] */
+    Escher_ClearSet( te_pos );
+    {ooaofooa_TE_C * ooaofooa_TE_C_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, te_cs );
+    while ( 0 != ( ooaofooa_TE_C_linkage = (ooaofooa_TE_C *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+      ooaofooa_TE_PO * TE_PO_R2005;
+      Escher_Iterator_s i;
+      Escher_IteratorReset( &i, &ooaofooa_TE_C_linkage->TE_PO_R2005 );
+      while ( 0 != ( TE_PO_R2005 = (ooaofooa_TE_PO *) Escher_IteratorNext( &i ) ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_pos, TE_PO_R2005 ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_pos, TE_PO_R2005 );
+    }}}}
+  }
+  /* SELECT many te_macts RELATED BY te_pos->TE_MACT[R2006] WHERE ( ( SELECTED.MessageName == message_name ) ) */
+  Escher_ClearSet( te_macts );
+  {ooaofooa_TE_PO * ooaofooa_TE_PO_linkage;
+  Escher_Iterator_s start_many_iterator;
+  Escher_IteratorReset( &start_many_iterator, te_pos );
+  while ( 0 != ( ooaofooa_TE_PO_linkage = (ooaofooa_TE_PO *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_TE_MACT * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_TE_PO_linkage->TE_MACT_R2006 );
+    while ( 0 != ( selected = (ooaofooa_TE_MACT *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->MessageName, message_name ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_macts, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_macts, selected );
+  }}}}}
+  /* IF ( ( (  == message_name ) or ( * == message_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", message_name ) == 0 ) || ( Escher_strcmp( "*", message_name ) == 0 ) ) ) {
+    /* SELECT many te_macts RELATED BY te_pos->TE_MACT[R2006] */
+    Escher_ClearSet( te_macts );
+    {ooaofooa_TE_PO * ooaofooa_TE_PO_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, te_pos );
+    while ( 0 != ( ooaofooa_TE_PO_linkage = (ooaofooa_TE_PO *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+      ooaofooa_TE_MACT * TE_MACT_R2006;
+      Escher_Iterator_s i;
+      Escher_IteratorReset( &i, &ooaofooa_TE_PO_linkage->TE_MACT_R2006 );
+      while ( 0 != ( TE_MACT_R2006 = (ooaofooa_TE_MACT *) Escher_IteratorNext( &i ) ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_macts, TE_MACT_R2006 ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_macts, TE_MACT_R2006 );
+    }}}}
+  }
+  /* FOR EACH te_mact IN te_macts */
+  { Escher_Iterator_s iterte_mact;
+  ooaofooa_TE_MACT * iite_mact;
+  Escher_IteratorReset( &iterte_mact, te_macts );
+  while ( (iite_mact = (ooaofooa_TE_MACT *)Escher_IteratorNext( &iterte_mact )) != 0 ) {
+    te_mact = iite_mact; {
+    /* ASSIGN te_mact.trace = TRUE */
+    te_mact->trace = TRUE;
+  }}}
+  /* IF ( empty te_macts ) */
+  if ( Escher_SetIsEmpty( te_macts ) ) {
+    /* T::print( s:Warning:  No messages found to trace for ${component_name}::${port_name}::${message_name}. ) */
+    T_print( ({char s[512]={0};T_T("Warning:  No messages found to trace for ");T_T(component_name);T_T("::");T_T(port_name);T_T("::");T_T(message_name);T_T(".");}) );
+  }
+  else {
+    /* T::print( s:Message tracing enabled for ${component_name}::${port_name}::${message_name}. ) */
+    T_print( ({char s[512]={0};T_T("Message tracing enabled for ");T_T(component_name);T_T("::");T_T(port_name);T_T("::");T_T(message_name);T_T(".");}) );
+  }
+  Escher_ClearSet( te_cs );Escher_ClearSet( te_macts ); Escher_ClearSet( te_pos ); 
+
+}
+
+/*
+ * Domain Function:  MarkActionStatementTracingOn
+ */
+void
+ooaofooa_MarkActionStatementTracingOn( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ASSIGN te_c.StmtTrace = TRUE */
+    te_c->StmtTrace = TRUE;
+    /* T::print( s:Action statement tracing enabled for component ${te_c.Name}. ) */
+    T_print( ({char s[512]={0};T_T("Action statement tracing enabled for component ");T_T(te_c->Name);T_T(".");}) );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagActionStatementTracingOn
+ */
+void
+ooaofooa_TagActionStatementTracingOn()
+{
+  ooaofooa_TE_C * te_c=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkActionStatementTracingOn( component_name:te_c.Name ) */
+    ooaofooa_MarkActionStatementTracingOn( te_c->Name );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkStateTransitionTracingOn
+ */
+void
+ooaofooa_MarkStateTransitionTracingOn( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* T::print( s:Enabling state transition tracing for component(s) ${component_name}. ) */
+  T_print( ({char s[512]={0};T_T("Enabling state transition tracing for component(s) ");T_T(component_name);T_T(".");}) );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ASSIGN te_c.StateTrace = TRUE */
+    te_c->StateTrace = TRUE;
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagStateTransitionTracingOn
+ */
+void
+ooaofooa_TagStateTransitionTracingOn()
+{
+  ooaofooa_TE_C * te_c=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkStateTransitionTracingOn( component_name:te_c.Name ) */
+    ooaofooa_MarkStateTransitionTracingOn( te_c->Name );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkExcludeSubsystemFromCodeGen
+ */
+void
+ooaofooa_MarkExcludeSubsystemFromCodeGen( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_subsystem_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t subsystem_name[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN subsystem_name = PARAM.subsystem_name */
+  Escher_strcpy( subsystem_name, p_subsystem_name );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    c_t msg[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* SELECT many ep_pkgs RELATED BY te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == subsystem_name ) ) */
+    Escher_ClearSet( ep_pkgs );
+    {    if ( 0 != te_c ) {
+    ooaofooa_C_C * C_C_R2054 = te_c->C_C_R2054;
+    if ( 0 != C_C_R2054 ) {
+    ooaofooa_PE_PE * PE_PE_R8003_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_C_R2054->PE_PE_R8003_contains );
+    while ( 0 != ( PE_PE_R8003_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_EP_PKG * R8001_subtype = (ooaofooa_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
+    if ( 0 != R8001_subtype )    if ( ooaofooa_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &R8001_subtype->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    if ( ooaofooa_EP_PKG_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id )    {ooaofooa_EP_PKG * selected = PE_PE_R8000_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, subsystem_name ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) ep_pkgs, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) ep_pkgs, selected );
+    }}}
+}}}}}}
+    /* IF ( not_empty ep_pkgs ) */
+    if ( ( ! Escher_SetIsEmpty( ep_pkgs ) ) ) {
+    ooaofooa_TE_CLASS * te_class=0;Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+    /* SELECT many te_classes RELATED BY ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019] */
+    Escher_ClearSet( te_classes );
+    {    ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, ep_pkgs );
+    while ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_EP_PKG_linkage->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_O_OBJ * R8001_subtype = (ooaofooa_O_OBJ *) PE_PE_R8000_contains->R8001_subtype;
+    if ( 0 != R8001_subtype )    if ( ooaofooa_O_OBJ_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
+    {ooaofooa_TE_CLASS * TE_CLASS_R2019 = R8001_subtype->TE_CLASS_R2019;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, TE_CLASS_R2019 ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, TE_CLASS_R2019 );
+    }}}}}}
+    /* FOR EACH te_class IN te_classes */
+    { Escher_Iterator_s iterte_class;
+    ooaofooa_TE_CLASS * iite_class;
+    Escher_IteratorReset( &iterte_class, te_classes );
+    while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+      te_class = iite_class; {
+    /* ASSIGN te_class.ExcludeFromGen = TRUE */
+    te_class->ExcludeFromGen = TRUE;
+    }}}
+    /* ASSIGN msg = All classes in subsystem ${subsystem_name} excluded from code generation. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("All classes in subsystem ");T_T(subsystem_name);T_T(" excluded from code generation.");}) );
+    Escher_ClearSet( te_classes ); 
+    }
+    else {
+    /* ASSIGN msg = ERROR:  Subsystem ${subsystem_name} not found in component ${te_c.Name}. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Subsystem ");T_T(subsystem_name);T_T(" not found in component ");T_T(te_c->Name);T_T(".");}) );
+    /* ASSIGN msg = ( msg + \n => TagExcludeSubsystemFromCodeGen( ${subsystem_name} ) ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("\n => TagExcludeSubsystemFromCodeGen( ");T_T(subsystem_name);T_T(" )");}) ) );
+    }
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+    Escher_ClearSet( ep_pkgs ); 
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagExcludeSubsystemFromCodeGen
+ */
+void
+ooaofooa_TagExcludeSubsystemFromCodeGen( c_t p_subsystem_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t subsystem_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN subsystem_name = PARAM.subsystem_name */
+  Escher_strcpy( subsystem_name, p_subsystem_name );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkExcludeSubsystemFromCodeGen( component_name:te_c.Name, subsystem_name:subsystem_name ) */
+    ooaofooa_MarkExcludeSubsystemFromCodeGen( te_c->Name, subsystem_name );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkExcludeObjectFromCodeGen
+ */
+void
+ooaofooa_MarkExcludeObjectFromCodeGen( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    c_t msg[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TE_CLASS * te_class=0;
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* SELECT any te_class RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    te_class = 0;
+    if ( 0 != te_c ) {
+      ooaofooa_TE_CLASS * selected;
+      Escher_Iterator_s i;
+      Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+      while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+        if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+          te_class = selected;
+          break;
+    }}}
+    /* IF ( not_empty te_class ) */
+    if ( ( 0 != te_class ) ) {
+    /* ASSIGN te_class.ExcludeFromGen = TRUE */
+    te_class->ExcludeFromGen = TRUE;
+    /* ASSIGN msg = Object ${te_class.Name} (${te_class.Key_Lett}) excluded from code generation. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Object ");T_T(te_class->Name);T_T(" (");T_T(te_class->Key_Lett);T_T(") excluded from code generation.");}) );
+    }
+    else {
+    /* ASSIGN msg = ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name} */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Class (");T_T(obj_key_letters);T_T(") not found in component ");T_T(te_c->Name);}) );
+    /* ASSIGN msg = ( msg + \n => TagExcludeObjectFromCodeGen( ${obj_key_letters} ) ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("\n => TagExcludeObjectFromCodeGen( ");T_T(obj_key_letters);T_T(" )");}) ) );
+    }
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagExcludeObjectFromCodeGen
+ */
+void
+ooaofooa_TagExcludeObjectFromCodeGen( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkExcludeObjectFromCodeGen( component_name:te_c.Name, obj_key_letters:obj_key_letters ) */
+    ooaofooa_MarkExcludeObjectFromCodeGen( te_c->Name, obj_key_letters );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkInitializationFunction
+ */
+void
+ooaofooa_MarkInitializationFunction( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_function_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t function_name[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN function_name = PARAM.function_name */
+  Escher_strcpy( function_name, p_function_name );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    c_t msg[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TE_SYNC * te_sync=0;
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* SELECT any te_sync RELATED BY te_c->TE_SYNC[R2084] WHERE ( ( SELECTED.Name == function_name ) ) */
+    te_sync = 0;
+    if ( 0 != te_c ) {
+      ooaofooa_TE_SYNC * selected;
+      Escher_Iterator_s i;
+      Escher_IteratorReset( &i, &te_c->TE_SYNC_R2084 );
+      while ( 0 != ( selected = (ooaofooa_TE_SYNC *) Escher_IteratorNext( &i ) ) ) {
+        if ( ( Escher_strcmp( selected->Name, function_name ) == 0 ) ) {
+          te_sync = selected;
+          break;
+    }}}
+    /* IF ( not_empty te_sync ) */
+    if ( ( 0 != te_sync ) ) {
+    ooaofooa_TE_PARM * te_parm=0;
+    /* SELECT any te_parm RELATED BY te_sync->TE_ABA[R2010]->TE_PARM[R2062] */
+    te_parm = 0;
+    {    if ( 0 != te_sync ) {
+    ooaofooa_TE_ABA * TE_ABA_R2010 = te_sync->TE_ABA_R2010;
+    if ( 0 != TE_ABA_R2010 ) {
+    te_parm = ( 0 != TE_ABA_R2010 ) ? (ooaofooa_TE_PARM *) Escher_SetGetAny( &TE_ABA_R2010->TE_PARM_R2062 ) : 0;
+}}}
+    /* IF ( empty te_parm ) */
+    if ( ( 0 == te_parm ) ) {
+    /* ASSIGN te_sync.IsInitFunction = TRUE */
+    te_sync->IsInitFunction = TRUE;
+    /* ASSIGN msg = Function ${te_sync.Name} marked as initialization function. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Function ");T_T(te_sync->Name);T_T(" marked as initialization function.");}) );
+    }
+    else {
+    /* ASSIGN msg = ERROR:  Initialization function (${function_name}) in component ${te_c.Name} */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Initialization function (");T_T(function_name);T_T(") in component ");T_T(te_c->Name);}) );
+    /* ASSIGN msg = ( msg + \ntakes arguments.  This is not allowed at initialization. ) */
+    Escher_strcpy( msg, Escher_stradd( msg, "\ntakes arguments.  This is not allowed at initialization." ) );
+    /* ASSIGN msg = ( msg + \n  => TagInitializationFunction( ${function_name} ) ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("\n  => TagInitializationFunction( ");T_T(function_name);T_T(" )");}) ) );
+    }
+    }
+    else {
+    /* ASSIGN msg = ERROR:  Initialization function (${function_name}) not found in component ${te_c.Name}. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Initialization function (");T_T(function_name);T_T(") not found in component ");T_T(te_c->Name);T_T(".");}) );
+    /* ASSIGN msg = ( msg + \n  => TagInitializationFunction( ${function_name} ) ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("\n  => TagInitializationFunction( ");T_T(function_name);T_T(" )");}) ) );
+    }
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagInitializationFunction
+ */
+void
+ooaofooa_TagInitializationFunction( c_t p_function_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t function_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN function_name = PARAM.function_name */
+  Escher_strcpy( function_name, p_function_name );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkInitializationFunction( component_name:te_c.Name, function_name:function_name ) */
+    ooaofooa_MarkInitializationFunction( te_c->Name, function_name );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkFunctionTranslationOff
+ */
+void
+ooaofooa_MarkFunctionTranslationOff( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_function_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t function_name[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN function_name = PARAM.function_name */
+  Escher_strcpy( function_name, p_function_name );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    c_t msg[ESCHER_SYS_MAX_STRING_LEN];
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* IF ( ( * == function_name ) ) */
+    if ( ( Escher_strcmp( "*", function_name ) == 0 ) ) {
+    ooaofooa_TE_SYNC * te_sync=0;Escher_ObjectSet_s te_syncs_space={0}; Escher_ObjectSet_s * te_syncs = &te_syncs_space;
+    /* SELECT many te_syncs RELATED BY te_c->TE_SYNC[R2084] */
+    Escher_ClearSet( te_syncs );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_syncs, &te_c->TE_SYNC_R2084 );
+    }
+    /* FOR EACH te_sync IN te_syncs */
+    { Escher_Iterator_s iterte_sync;
+    ooaofooa_TE_SYNC * iite_sync;
+    Escher_IteratorReset( &iterte_sync, te_syncs );
+    while ( (iite_sync = (ooaofooa_TE_SYNC *)Escher_IteratorNext( &iterte_sync )) != 0 ) {
+      te_sync = iite_sync; {
+    /* ASSIGN te_sync.XlateSemantics = FALSE */
+    te_sync->XlateSemantics = FALSE;
+    /* ASSIGN msg = Turned off translation of ${te_sync.Name} function semantics. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Turned off translation of ");T_T(te_sync->Name);T_T(" function semantics.");}) );
+    }}}
+    Escher_ClearSet( te_syncs ); 
+    }
+    else {
+    ooaofooa_TE_SYNC * te_sync=0;
+    /* SELECT any te_sync RELATED BY te_c->TE_SYNC[R2084] WHERE ( ( SELECTED.Name == function_name ) ) */
+    te_sync = 0;
+    if ( 0 != te_c ) {
+      ooaofooa_TE_SYNC * selected;
+      Escher_Iterator_s i;
+      Escher_IteratorReset( &i, &te_c->TE_SYNC_R2084 );
+      while ( 0 != ( selected = (ooaofooa_TE_SYNC *) Escher_IteratorNext( &i ) ) ) {
+        if ( ( Escher_strcmp( selected->Name, function_name ) == 0 ) ) {
+          te_sync = selected;
+          break;
+    }}}
+    /* IF ( not_empty te_sync ) */
+    if ( ( 0 != te_sync ) ) {
+    /* ASSIGN te_sync.XlateSemantics = FALSE */
+    te_sync->XlateSemantics = FALSE;
+    /* ASSIGN msg = Turned off translation of ${function_name} function semantics. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Turned off translation of ");T_T(function_name);T_T(" function semantics.");}) );
+    }
+    else {
+    /* ASSIGN msg = ERROR:  Function (${function_name}) not found in component ${te_c.Name}. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Function (");T_T(function_name);T_T(") not found in component ");T_T(te_c->Name);T_T(".");}) );
+    /* ASSIGN msg = ( msg + \n  => TagFunctionTranslationOff( ${function_name} ) ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("\n  => TagFunctionTranslationOff( ");T_T(function_name);T_T(" )");}) ) );
+    }
+    }
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagFunctionTranslationOff
+ */
+void
+ooaofooa_TagFunctionTranslationOff( c_t p_function_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t function_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN function_name = PARAM.function_name */
+  Escher_strcpy( function_name, p_function_name );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkFunctionTranslationOff( component_name:te_c.Name, function_name:function_name ) */
+    ooaofooa_MarkFunctionTranslationOff( te_c->Name, function_name );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  AssignDirectToUDTPackage
+ */
+void
+ooaofooa_AssignDirectToUDTPackage( c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t package_name[ESCHER_SYS_MAX_STRING_LEN];
+  /* ASSIGN package_name = PARAM.package_name */
+  Escher_strcpy( package_name, p_package_name );
+  /* T::print( s:AssignDirectToUDTPackage is not a supported marking function. ) */
+  T_print( "AssignDirectToUDTPackage is not a supported marking function." );
+  /* T::exit( i:1 ) */
+  T_exit( 1 );
+
+}
+
+/*
+ * Domain Function:  TagUninitializedEnumerationValue
+ */
+void
+ooaofooa_TagUninitializedEnumerationValue( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_enumeration[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t value[ESCHER_SYS_MAX_STRING_LEN];c_t enumeration[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_ENUMINIT * tm_enuminit=0;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN enumeration = PARAM.enumeration */
+  Escher_strcpy( enumeration, p_enumeration );
+  /* ASSIGN value = PARAM.value */
+  Escher_strcpy( value, p_value );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT any tm_enuminit FROM INSTANCES OF TM_ENUMINIT WHERE ( ( SELECTED.Domain == component_name ) and ( SELECTED.enumeration == enumeration ) ) */
+  tm_enuminit = 0;
+  { ooaofooa_TM_ENUMINIT * selected;
+    Escher_Iterator_s itertm_enuminitooaofooa_TM_ENUMINIT;
+    Escher_IteratorReset( &itertm_enuminitooaofooa_TM_ENUMINIT, &pG_ooaofooa_TM_ENUMINIT_extent.active );
+    while ( (selected = (ooaofooa_TM_ENUMINIT *) Escher_IteratorNext( &itertm_enuminitooaofooa_TM_ENUMINIT )) != 0 ) {
+      if ( ( ( Escher_strcmp( selected->Domain, component_name ) == 0 ) && ( Escher_strcmp( selected->enumeration, enumeration ) == 0 ) ) ) {
+        tm_enuminit = selected;
+        break;
+      }
+    }
+  }
+  /* IF ( empty tm_enuminit ) */
+  if ( ( 0 == tm_enuminit ) ) {
+    /* CREATE OBJECT INSTANCE tm_enuminit OF TM_ENUMINIT */
+    tm_enuminit = (ooaofooa_TM_ENUMINIT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_ENUMINIT_CLASS_NUMBER );
+  }
+  /* ASSIGN tm_enuminit.Domain = component_name */
+  Escher_strcpy( tm_enuminit->Domain, component_name );
+  /* ASSIGN tm_enuminit.enumeration = enumeration */
+  Escher_strcpy( tm_enuminit->enumeration, enumeration );
+  /* ASSIGN tm_enuminit.value = value */
+  Escher_strcpy( tm_enuminit->value, value );
+  /* T::print( s:TagUninitializedEnumerationValue:  ${enumeration} in ${component_name} given default uninitialized value ${value}. ) */
+  T_print( ({char s[512]={0};T_T("TagUninitializedEnumerationValue:  ");T_T(enumeration);T_T(" in ");T_T(component_name);T_T(" given default uninitialized value ");T_T(value);T_T(".");}) );
+
+}
+
+/*
+ * Domain Function:  TagEnumeratorDiscreteValue
+ */
+void
+ooaofooa_TagEnumeratorDiscreteValue( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_enumeration[ESCHER_SYS_MAX_STRING_LEN], c_t p_enumerator[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t value[ESCHER_SYS_MAX_STRING_LEN];c_t enumerator[ESCHER_SYS_MAX_STRING_LEN];c_t enumeration[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_ENUMVAL * tm_enumval=0;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN enumeration = PARAM.enumeration */
+  Escher_strcpy( enumeration, p_enumeration );
+  /* ASSIGN enumerator = PARAM.enumerator */
+  Escher_strcpy( enumerator, p_enumerator );
+  /* ASSIGN value = PARAM.value */
+  Escher_strcpy( value, p_value );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT any tm_enumval FROM INSTANCES OF TM_ENUMVAL WHERE ( ( ( SELECTED.Domain == component_name ) and ( SELECTED.enumeration == enumeration ) ) and ( SELECTED.enumerator == enumerator ) ) */
+  tm_enumval = 0;
+  { ooaofooa_TM_ENUMVAL * selected;
+    Escher_Iterator_s itertm_enumvalooaofooa_TM_ENUMVAL;
+    Escher_IteratorReset( &itertm_enumvalooaofooa_TM_ENUMVAL, &pG_ooaofooa_TM_ENUMVAL_extent.active );
+    while ( (selected = (ooaofooa_TM_ENUMVAL *) Escher_IteratorNext( &itertm_enumvalooaofooa_TM_ENUMVAL )) != 0 ) {
+      if ( ( ( ( Escher_strcmp( selected->Domain, component_name ) == 0 ) && ( Escher_strcmp( selected->enumeration, enumeration ) == 0 ) ) && ( Escher_strcmp( selected->enumerator, enumerator ) == 0 ) ) ) {
+        tm_enumval = selected;
+        break;
+      }
+    }
+  }
+  /* IF ( empty tm_enumval ) */
+  if ( ( 0 == tm_enumval ) ) {
+    /* CREATE OBJECT INSTANCE tm_enumval OF TM_ENUMVAL */
+    tm_enumval = (ooaofooa_TM_ENUMVAL *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_ENUMVAL_CLASS_NUMBER );
+  }
+  /* ASSIGN tm_enumval.Domain = component_name */
+  Escher_strcpy( tm_enumval->Domain, component_name );
+  /* ASSIGN tm_enumval.enumeration = enumeration */
+  Escher_strcpy( tm_enumval->enumeration, enumeration );
+  /* ASSIGN tm_enumval.enumerator = enumerator */
+  Escher_strcpy( tm_enumval->enumerator, enumerator );
+  /* ASSIGN tm_enumval.value = value */
+  Escher_strcpy( tm_enumval->value, value );
+  /* T::print( s:TagEnumeratorDiscreteValue:  ${enumeration}::${enumerator} in ${component_name} given discrete value ${value}. ) */
+  T_print( ({char s[512]={0};T_T("TagEnumeratorDiscreteValue:  ");T_T(enumeration);T_T("::");T_T(enumerator);T_T(" in ");T_T(component_name);T_T(" given discrete value ");T_T(value);T_T(".");}) );
+
+}
+
+/*
+ * Domain Function:  MapDataTypeAsPointer
+ */
+void
+ooaofooa_MapDataTypeAsPointer( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_dt_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_include_file[ESCHER_SYS_MAX_STRING_LEN], c_t p_pointer_type[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t include_file[ESCHER_SYS_MAX_STRING_LEN];c_t pointer_type[ESCHER_SYS_MAX_STRING_LEN];c_t dt_name[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_POINTER * tm_pointer=0;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN dt_name = PARAM.dt_name */
+  Escher_strcpy( dt_name, p_dt_name );
+  /* ASSIGN pointer_type = PARAM.pointer_type */
+  Escher_strcpy( pointer_type, p_pointer_type );
+  /* ASSIGN include_file = PARAM.include_file */
+  Escher_strcpy( include_file, p_include_file );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT any tm_pointer FROM INSTANCES OF TM_POINTER WHERE ( ( SELECTED.Domain == component_name ) and ( SELECTED.DT_name == dt_name ) ) */
+  tm_pointer = 0;
+  { ooaofooa_TM_POINTER * selected;
+    Escher_Iterator_s itertm_pointerooaofooa_TM_POINTER;
+    Escher_IteratorReset( &itertm_pointerooaofooa_TM_POINTER, &pG_ooaofooa_TM_POINTER_extent.active );
+    while ( (selected = (ooaofooa_TM_POINTER *) Escher_IteratorNext( &itertm_pointerooaofooa_TM_POINTER )) != 0 ) {
+      if ( ( ( Escher_strcmp( selected->Domain, component_name ) == 0 ) && ( Escher_strcmp( selected->DT_name, dt_name ) == 0 ) ) ) {
+        tm_pointer = selected;
+        break;
+      }
+    }
+  }
+  /* IF ( empty tm_pointer ) */
+  if ( ( 0 == tm_pointer ) ) {
+    /* CREATE OBJECT INSTANCE tm_pointer OF TM_POINTER */
+    tm_pointer = (ooaofooa_TM_POINTER *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_POINTER_CLASS_NUMBER );
+  }
+  /* ASSIGN tm_pointer.Domain = component_name */
+  Escher_strcpy( tm_pointer->Domain, component_name );
+  /* ASSIGN tm_pointer.DT_name = dt_name */
+  Escher_strcpy( tm_pointer->DT_name, dt_name );
+  /* ASSIGN tm_pointer.pointer_type = pointer_type */
+  Escher_strcpy( tm_pointer->pointer_type, pointer_type );
+  /* ASSIGN tm_pointer.include_file = include_file */
+  Escher_strcpy( tm_pointer->include_file, include_file );
+  /* T::print( s:MapDataTypeAsPointer:  ${dt_name} in ${component_name} given ${pointer_type} mapping (${include_file}). ) */
+  T_print( ({char s[512]={0};T_T("MapDataTypeAsPointer:  ");T_T(dt_name);T_T(" in ");T_T(component_name);T_T(" given ");T_T(pointer_type);T_T(" mapping (");T_T(include_file);T_T(").");}) );
+
+}
+
+/*
+ * Domain Function:  TagDataTypePrecision
+ */
+void
+ooaofooa_TagDataTypePrecision( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_dt_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_initial_value[ESCHER_SYS_MAX_STRING_LEN], c_t p_tagged_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t initial_value[ESCHER_SYS_MAX_STRING_LEN];c_t tagged_name[ESCHER_SYS_MAX_STRING_LEN];c_t dt_name[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_PRECISION * tm_precision=0;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN dt_name = PARAM.dt_name */
+  Escher_strcpy( dt_name, p_dt_name );
+  /* ASSIGN tagged_name = PARAM.tagged_name */
+  Escher_strcpy( tagged_name, p_tagged_name );
+  /* ASSIGN initial_value = PARAM.initial_value */
+  Escher_strcpy( initial_value, p_initial_value );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT any tm_precision FROM INSTANCES OF TM_PRECISION WHERE ( ( SELECTED.Domain == component_name ) and ( SELECTED.DT_name == dt_name ) ) */
+  tm_precision = 0;
+  { ooaofooa_TM_PRECISION * selected;
+    Escher_Iterator_s itertm_precisionooaofooa_TM_PRECISION;
+    Escher_IteratorReset( &itertm_precisionooaofooa_TM_PRECISION, &pG_ooaofooa_TM_PRECISION_extent.active );
+    while ( (selected = (ooaofooa_TM_PRECISION *) Escher_IteratorNext( &itertm_precisionooaofooa_TM_PRECISION )) != 0 ) {
+      if ( ( ( Escher_strcmp( selected->Domain, component_name ) == 0 ) && ( Escher_strcmp( selected->DT_name, dt_name ) == 0 ) ) ) {
+        tm_precision = selected;
+        break;
+      }
+    }
+  }
+  /* IF ( empty tm_precision ) */
+  if ( ( 0 == tm_precision ) ) {
+    /* CREATE OBJECT INSTANCE tm_precision OF TM_PRECISION */
+    tm_precision = (ooaofooa_TM_PRECISION *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_PRECISION_CLASS_NUMBER );
+  }
+  /* ASSIGN tm_precision.Domain = component_name */
+  Escher_strcpy( tm_precision->Domain, component_name );
+  /* ASSIGN tm_precision.DT_name = dt_name */
+  Escher_strcpy( tm_precision->DT_name, dt_name );
+  /* ASSIGN tm_precision.xName = tagged_name */
+  Escher_strcpy( tm_precision->xName, tagged_name );
+  /* ASSIGN tm_precision.initial_value = initial_value */
+  Escher_strcpy( tm_precision->initial_value, initial_value );
+  /* T::print( s:TagDataTypePrecision:  ${dt_name} in ${component_name} given ${tagged_name} precision with ${initial_value}. ) */
+  T_print( ({char s[512]={0};T_T("TagDataTypePrecision:  ");T_T(dt_name);T_T(" in ");T_T(component_name);T_T(" given ");T_T(tagged_name);T_T(" precision with ");T_T(initial_value);T_T(".");}) );
+
+}
+
+/*
+ * Domain Function:  MarkComponentAsRealized
+ */
+void
+ooaofooa_MarkComponentAsRealized( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_inc_file[ESCHER_SYS_MAX_STRING_LEN], c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_C_C * c_c=0;c_t inc_file[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];c_t package_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;
+  /* ASSIGN package_name = PARAM.package_name */
+  Escher_strcpy( package_name, p_package_name );
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN inc_file = PARAM.inc_file */
+  Escher_strcpy( inc_file, p_inc_file );
+  /* SELECT many c_cs FROM INSTANCES OF C_C WHERE FALSE */
+  Escher_ClearSet( c_cs );
+  /* IF ( ( ( (  == package_name ) and (  == component_name ) ) or ( ( * == package_name ) and ( * == component_name ) ) ) ) */
+  if ( ( ( ( Escher_strcmp( "", package_name ) == 0 ) && ( Escher_strcmp( "", component_name ) == 0 ) ) || ( ( Escher_strcmp( "*", package_name ) == 0 ) && ( Escher_strcmp( "*", component_name ) == 0 ) ) ) ) {
+    /* SELECT many c_cs FROM INSTANCES OF C_C */
+    Escher_CopySet( c_cs, &pG_ooaofooa_C_C_extent.active );
+  }
+  else if ( ( ( Escher_strcmp( "", package_name ) == 0 ) || ( Escher_strcmp( "*", package_name ) == 0 ) ) ) {
+    /* SELECT many c_cs FROM INSTANCES OF C_C WHERE ( SELECTED.Name == component_name ) */
+    Escher_ClearSet( c_cs );
+    { ooaofooa_C_C * selected;
+      Escher_Iterator_s iterc_csooaofooa_C_C;
+      Escher_IteratorReset( &iterc_csooaofooa_C_C, &pG_ooaofooa_C_C_extent.active );
+      while ( (selected = (ooaofooa_C_C *) Escher_IteratorNext( &iterc_csooaofooa_C_C )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+          Escher_SetInsertElement( c_cs, selected );
+        }
+      }
+    }
+  }
+  else if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
+    /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == package_name ) */
+    Escher_ClearSet( ep_pkgs );
+    { ooaofooa_EP_PKG * selected;
+      Escher_Iterator_s iterep_pkgsooaofooa_EP_PKG;
+      Escher_IteratorReset( &iterep_pkgsooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
+      while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgsooaofooa_EP_PKG )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, package_name ) == 0 ) ) {
+          Escher_SetInsertElement( ep_pkgs, selected );
+        }
+      }
+    }
+    /* SELECT many c_cs RELATED BY ep_pkgs->PE_PE[R8000]->C_C[R8001] */
+    Escher_ClearSet( c_cs );
+    {    ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, ep_pkgs );
+    while ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_EP_PKG_linkage->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id )    {ooaofooa_C_C * R8001_subtype = PE_PE_R8000_contains->R8001_subtype;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_cs, R8001_subtype ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) c_cs, R8001_subtype );
+    }}}}}
+    Escher_ClearSet( ep_pkgs );
+  }
+  else {
+    Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
+    /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == package_name ) */
+    Escher_ClearSet( ep_pkgs );
+    { ooaofooa_EP_PKG * selected;
+      Escher_Iterator_s iterep_pkgsooaofooa_EP_PKG;
+      Escher_IteratorReset( &iterep_pkgsooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
+      while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgsooaofooa_EP_PKG )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, package_name ) == 0 ) ) {
+          Escher_SetInsertElement( ep_pkgs, selected );
+        }
+      }
+    }
+    /* SELECT many c_cs RELATED BY ep_pkgs->PE_PE[R8000]->C_C[R8001] WHERE ( ( SELECTED.Name == component_name ) ) */
+    Escher_ClearSet( c_cs );
+    {    ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, ep_pkgs );
+    while ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_EP_PKG_linkage->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id )    {ooaofooa_C_C * selected = PE_PE_R8000_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_cs, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) c_cs, selected );
+    }}}
+}}}
+    Escher_ClearSet( ep_pkgs );
+  }
+  /* IF ( empty c_cs ) */
+  if ( Escher_SetIsEmpty( c_cs ) ) {
+    /* T::print( s:WARNING:  MarkComponentAsRealized - Could not find component ${package_name}::${component_name}. ) */
+    T_print( ({char s[512]={0};T_T("WARNING:  MarkComponentAsRealized - Could not find component ");T_T(package_name);T_T("::");T_T(component_name);T_T(".");}) );
+  }
+  /* FOR EACH c_c IN c_cs */
+  { Escher_Iterator_s iterc_c;
+  ooaofooa_C_C * iic_c;
+  Escher_IteratorReset( &iterc_c, c_cs );
+  while ( (iic_c = (ooaofooa_C_C *)Escher_IteratorNext( &iterc_c )) != 0 ) {
+    c_c = iic_c; {
+    ooaofooa_TM_C * tm_c=0;
+    /* SELECT any tm_c FROM INSTANCES OF TM_C WHERE ( ( SELECTED.Name == component_name ) and ( SELECTED.Package == package_name ) ) */
+    tm_c = 0;
+    { ooaofooa_TM_C * selected;
+      Escher_Iterator_s itertm_cooaofooa_TM_C;
+      Escher_IteratorReset( &itertm_cooaofooa_TM_C, &pG_ooaofooa_TM_C_extent.active );
+      while ( (selected = (ooaofooa_TM_C *) Escher_IteratorNext( &itertm_cooaofooa_TM_C )) != 0 ) {
+        if ( ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) && ( Escher_strcmp( selected->Package, package_name ) == 0 ) ) ) {
+          tm_c = selected;
+          break;
+        }
+      }
+    }
+    /* IF ( empty tm_c ) */
+    if ( ( 0 == tm_c ) ) {
+    /* CREATE OBJECT INSTANCE tm_c OF TM_C */
+    tm_c = (ooaofooa_TM_C *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_C_CLASS_NUMBER );
+    /* ASSIGN tm_c.Package = package_name */
+    Escher_strcpy( tm_c->Package, package_name );
+    /* ASSIGN tm_c.Name = component_name */
+    Escher_strcpy( tm_c->Name, component_name );
+    }
+    /* ASSIGN tm_c.isRealized = TRUE */
+    tm_c->isRealized = TRUE;
+    /* ASSIGN tm_c.include_file = inc_file */
+    Escher_strcpy( tm_c->include_file, inc_file );
+  }}}
+  Escher_ClearSet( c_cs );
+
+}
+
+/*
+ * Domain Function:  MarkInterfacePrefix
+ */
+void
+ooaofooa_MarkInterfacePrefix( c_t p_channel[ESCHER_SYS_MAX_STRING_LEN], c_t p_provided_port[ESCHER_SYS_MAX_STRING_LEN], c_t p_required_port[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t channel[ESCHER_SYS_MAX_STRING_LEN];c_t required_port[ESCHER_SYS_MAX_STRING_LEN];c_t provided_port[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TE_PREFIX * te_prefix=0;
+  /* ASSIGN provided_port = PARAM.provided_port */
+  Escher_strcpy( provided_port, p_provided_port );
+  /* ASSIGN required_port = PARAM.required_port */
+  Escher_strcpy( required_port, p_required_port );
+  /* ASSIGN channel = PARAM.channel */
+  Escher_strcpy( channel, p_channel );
+  /* SELECT any te_prefix FROM INSTANCES OF TE_PREFIX */
+  te_prefix = (ooaofooa_TE_PREFIX *) Escher_SetGetAny( &pG_ooaofooa_TE_PREFIX_extent.active );
+  /* ASSIGN te_prefix.provided_port = provided_port */
+  Escher_strcpy( te_prefix->provided_port, provided_port );
+  /* ASSIGN te_prefix.required_port = required_port */
+  Escher_strcpy( te_prefix->required_port, required_port );
+  /* ASSIGN te_prefix.channel = channel */
+  Escher_strcpy( te_prefix->channel, channel );
+
+}
+
+/*
+ * Domain Function:  SetTPV_for_channel_connection
+ */
+void
+ooaofooa_SetTPV_for_channel_connection( const i_t p_flavor, ooaofooa_TE_IIR * p_te_iir, c_t p_trace[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[ESCHER_SYS_MAX_STRING_LEN], c_t p_variable_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  bool isChannel;i_t flavor;c_t trace[ESCHER_SYS_MAX_STRING_LEN];c_t value[ESCHER_SYS_MAX_STRING_LEN];c_t variable_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TE_IIR * te_iir;Escher_ObjectSet_s delegated_te_iirs_space={0}; Escher_ObjectSet_s * delegated_te_iirs = &delegated_te_iirs_space;ooaofooa_TM_C * tm_c=0;ooaofooa_TM_TPV * tm_tpv=0;ooaofooa_TM_TP * tm_tp=0;
+  /* ASSIGN te_iir = PARAM.te_iir */
+  te_iir = p_te_iir;
+  /* ASSIGN variable_name = PARAM.variable_name */
+  Escher_strcpy( variable_name, p_variable_name );
+  /* ASSIGN value = PARAM.value */
+  Escher_strcpy( value, p_value );
+  /* ASSIGN trace = PARAM.trace */
+  Escher_strcpy( trace, p_trace );
+  /* ASSIGN flavor = PARAM.flavor */
+  flavor = p_flavor;
+  /* SELECT many delegated_te_iirs FROM INSTANCES OF TE_IIR WHERE FALSE */
+  Escher_ClearSet( delegated_te_iirs );
+  /* SELECT any tm_tp RELATED BY te_iir->C_IR[R2046]->C_I[R4012]->TM_IF[R2807]->TM_TEMPLATE[R2802]->TM_TP[R2801] WHERE ( ( SELECTED.Name == variable_name ) ) */
+  tm_tp = 0;
+  {  if ( 0 != te_iir ) {
+  ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
+  if ( 0 != C_IR_R2046 ) {
+  ooaofooa_C_I * C_I_R4012_may_be_defined_by = C_IR_R2046->C_I_R4012_may_be_defined_by;
+  if ( 0 != C_I_R4012_may_be_defined_by ) {
+  ooaofooa_TM_IF * TM_IF_R2807 = C_I_R4012_may_be_defined_by->TM_IF_R2807;
+  if ( 0 != TM_IF_R2807 ) {
+  ooaofooa_TM_TEMPLATE * TM_TEMPLATE_R2802 = TM_IF_R2807->TM_TEMPLATE_R2802;
+  if ( 0 != TM_TEMPLATE_R2802 ) {
+  ooaofooa_TM_TP * selected;
+  Escher_Iterator_s i;
+  Escher_IteratorReset( &i, &TM_TEMPLATE_R2802->TM_TP_R2801 );
+  while ( 0 != ( selected = (ooaofooa_TM_TP *) Escher_IteratorNext( &i ) ) ) {
+    if ( ( Escher_strcmp( selected->Name, variable_name ) == 0 ) ) {
+      tm_tp = selected;
+      break;
+  }}
+}}}}}}
+  /* IF ( empty tm_tp ) */
+  if ( ( 0 == tm_tp ) ) {
+    /* SELECT any tm_tp RELATED BY te_iir->CL_IIR[R2013]->C_IR[R4701]->C_I[R4012]->TM_IF[R2807]->TM_TEMPLATE[R2802]->TM_TP[R2801] WHERE ( ( SELECTED.Name == variable_name ) ) */
+    tm_tp = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_C_IR * C_IR_R4701_imports = CL_IIR_R2013->C_IR_R4701_imports;
+    if ( 0 != C_IR_R4701_imports ) {
+    ooaofooa_C_I * C_I_R4012_may_be_defined_by = C_IR_R4701_imports->C_I_R4012_may_be_defined_by;
+    if ( 0 != C_I_R4012_may_be_defined_by ) {
+    ooaofooa_TM_IF * TM_IF_R2807 = C_I_R4012_may_be_defined_by->TM_IF_R2807;
+    if ( 0 != TM_IF_R2807 ) {
+    ooaofooa_TM_TEMPLATE * TM_TEMPLATE_R2802 = TM_IF_R2807->TM_TEMPLATE_R2802;
+    if ( 0 != TM_TEMPLATE_R2802 ) {
+    ooaofooa_TM_TP * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &TM_TEMPLATE_R2802->TM_TP_R2801 );
+    while ( 0 != ( selected = (ooaofooa_TM_TP *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Name, variable_name ) == 0 ) ) {
+        tm_tp = selected;
+        break;
+    }}
+}}}}}}}
+    /* IF ( empty tm_tp ) */
+    if ( ( 0 == tm_tp ) ) {
+    /* T::print( s:WARNING:  SetTPV - Template parameter not found for ${trace}. ) */
+    T_print( ({char s[512]={0};T_T("WARNING:  SetTPV - Template parameter not found for ");T_T(trace);T_T(".");}) );
+    }
+  }
+  /* SELECT one tm_c RELATED BY te_iir->TE_PO[R2080]->TE_C[R2005]->TM_C[R2804] */
+  tm_c = 0;
+  {  if ( 0 != te_iir ) {
+  ooaofooa_TE_PO * TE_PO_R2080 = te_iir->TE_PO_R2080;
+  if ( 0 != TE_PO_R2080 ) {
+  ooaofooa_TE_C * TE_C_R2005 = TE_PO_R2080->TE_C_R2005;
+  if ( 0 != TE_C_R2005 ) {
+  tm_c = TE_C_R2005->TM_C_R2804;
+}}}}
+  /* ASSIGN isChannel = FALSE */
+  isChannel = FALSE;
+  /* IF ( not_empty tm_c ) */
+  if ( ( 0 != tm_c ) ) {
+    /* ASSIGN isChannel = tm_c.isChannel */
+    isChannel = tm_c->isChannel;
+  }
+  /* SELECT any tm_tpv RELATED BY te_iir->TM_TPV[R2806] WHERE ( ( ( SELECTED.instance == te_iir.interface_name ) and ( SELECTED.tm_tpID == tm_tp.ID ) ) ) */
+  tm_tpv = 0;
+  if ( 0 != te_iir ) {
+    ooaofooa_TM_TPV * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_iir->TM_TPV_R2806 );
+    while ( 0 != ( selected = (ooaofooa_TM_TPV *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( ( Escher_strcmp( selected->instance, te_iir->interface_name ) == 0 ) && ( selected->tm_tpID == tm_tp->ID ) ) ) {
+        tm_tpv = selected;
+        break;
+  }}}
+  /* IF ( ( ( ( empty tm_tpv and not_empty tm_tp ) and not isChannel ) or ( 0 == flavor ) ) ) */
+  if ( ( ( ( ( 0 == tm_tpv ) && ( 0 != tm_tp ) ) && !isChannel ) || ( 0 == flavor ) ) ) {
+    ooaofooa_TE_IIR * satisfied_te_iir=0;
+    /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
+    tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
+    tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+    /* ASSIGN tm_tpv.instance = te_iir.interface_name */
+    Escher_strcpy( tm_tpv->instance, te_iir->interface_name );
+    /* ASSIGN tm_tpv.value = value */
+    Escher_strcpy( tm_tpv->value, value );
+    /* RELATE tm_tpv TO tm_tp ACROSS R2808 */
+    ooaofooa_TM_TPV_R2808_Link_has_value( tm_tp, tm_tpv );
+    /* RELATE tm_tpv TO te_iir ACROSS R2806 */
+    ooaofooa_TM_TPV_R2806_Link( te_iir, tm_tpv );
+    /* SELECT one satisfied_te_iir RELATED BY te_iir->TE_IIR[R2081.requires or delegates] WHERE ( FALSE ) */
+    {satisfied_te_iir = 0;
+    {ooaofooa_TE_IIR * selected = ( 0 != te_iir ) ? te_iir->TE_IIR_R2081_requires_or_delegates : 0;
+    if ( ( 0 != selected ) && FALSE ) {
+      satisfied_te_iir = selected;
+    }}}
+    /* IF ( ( ( 0 == flavor ) or ( 2 == flavor ) ) ) */
+    if ( ( ( 0 == flavor ) || ( 2 == flavor ) ) ) {
+    Escher_ObjectSet_s satisfied_te_iirs_space={0}; Escher_ObjectSet_s * satisfied_te_iirs = &satisfied_te_iirs_space;
+    /* SELECT many satisfied_te_iirs RELATED BY te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013] */
+    Escher_ClearSet( satisfied_te_iirs );
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_CL_IP * R4703_subtype = (ooaofooa_CL_IP *) CL_IIR_R2013->R4703_subtype;
+    if ( 0 != R4703_subtype )    if ( ooaofooa_CL_IP_CLASS_NUMBER == CL_IIR_R2013->R4703_object_id ) {
+    ooaofooa_CL_IPINS * CL_IPINS_R4705;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &R4703_subtype->CL_IPINS_R4705 );
+    while ( 0 != ( CL_IPINS_R4705 = (ooaofooa_CL_IPINS *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_C_SF * C_SF_R4705_provides_satisfaction_through = CL_IPINS_R4705->C_SF_R4705_provides_satisfaction_through;
+    if ( 0 != C_SF_R4705_provides_satisfaction_through ) {
+    ooaofooa_CL_IR * CL_IR_R4706_satisfaction_made_with = C_SF_R4705_provides_satisfaction_through->CL_IR_R4706_satisfaction_made_with;
+    if ( 0 != CL_IR_R4706_satisfaction_made_with ) {
+    ooaofooa_CL_IIR * CL_IIR_R4703 = CL_IR_R4706_satisfaction_made_with->CL_IIR_R4703;
+    if ( 0 != CL_IIR_R4703 ) {
+    {ooaofooa_TE_IIR * TE_IIR_R2013 = CL_IIR_R4703->TE_IIR_R2013;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) satisfied_te_iirs, TE_IIR_R2013 ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) satisfied_te_iirs, TE_IIR_R2013 );
+    }}}}}}}}}}
+    /* IF ( not_empty satisfied_te_iirs ) */
+    if ( ( ! Escher_SetIsEmpty( satisfied_te_iirs ) ) ) {
+    /* FOR EACH satisfied_te_iir IN satisfied_te_iirs */
+    { Escher_Iterator_s itersatisfied_te_iir;
+    ooaofooa_TE_IIR * iisatisfied_te_iir;
+    Escher_IteratorReset( &itersatisfied_te_iir, satisfied_te_iirs );
+    while ( (iisatisfied_te_iir = (ooaofooa_TE_IIR *)Escher_IteratorNext( &itersatisfied_te_iir )) != 0 ) {
+      satisfied_te_iir = iisatisfied_te_iir; {
+    /* ::SetTPV_for_channel_connection( flavor:1, te_iir:satisfied_te_iir, trace: 1${trace}, value:value, variable_name:variable_name ) */
+    ooaofooa_SetTPV_for_channel_connection( 1, satisfied_te_iir, ({char s[512]={0};T_T(" 1");T_T(trace);}), value, variable_name );
+    }}}
+    }
+    else {
+    /* SELECT one satisfied_te_iir RELATED BY te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013] */
+    satisfied_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_CL_IR * R4703_subtype = (ooaofooa_CL_IR *) CL_IIR_R2013->R4703_subtype;
+    if ( 0 != R4703_subtype )    if ( ooaofooa_CL_IR_CLASS_NUMBER == CL_IIR_R2013->R4703_object_id ) {
+    ooaofooa_C_SF * C_SF_R4706_provides_satisfaction_through = R4703_subtype->C_SF_R4706_provides_satisfaction_through;
+    if ( 0 != C_SF_R4706_provides_satisfaction_through ) {
+    ooaofooa_CL_IPINS * CL_IPINS_R4705 = C_SF_R4706_provides_satisfaction_through->CL_IPINS_R4705;
+    if ( 0 != CL_IPINS_R4705 ) {
+    ooaofooa_CL_IP * CL_IP_R4705_satisfaction_made_with = CL_IPINS_R4705->CL_IP_R4705_satisfaction_made_with;
+    if ( 0 != CL_IP_R4705_satisfaction_made_with ) {
+    ooaofooa_CL_IIR * CL_IIR_R4703 = CL_IP_R4705_satisfaction_made_with->CL_IIR_R4703;
+    if ( 0 != CL_IIR_R4703 ) {
+    satisfied_te_iir = CL_IIR_R4703->TE_IIR_R2013;
+}}}}}}}}
+    /* IF ( not_empty satisfied_te_iir ) */
+    if ( ( 0 != satisfied_te_iir ) ) {
+    /* ::SetTPV_for_channel_connection( flavor:1, te_iir:satisfied_te_iir, trace: 2${trace}, value:value, variable_name:variable_name ) */
+    ooaofooa_SetTPV_for_channel_connection( 1, satisfied_te_iir, ({char s[512]={0};T_T(" 2");T_T(trace);}), value, variable_name );
+    }
+    else {
+    /* SELECT many satisfied_te_iirs RELATED BY te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046] */
+    Escher_ClearSet( satisfied_te_iirs );
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_CL_IP * R4703_subtype = (ooaofooa_CL_IP *) CL_IIR_R2013->R4703_subtype;
+    if ( 0 != R4703_subtype )    if ( ooaofooa_CL_IP_CLASS_NUMBER == CL_IIR_R2013->R4703_object_id ) {
+    ooaofooa_CL_IPINS * CL_IPINS_R4705;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &R4703_subtype->CL_IPINS_R4705 );
+    while ( 0 != ( CL_IPINS_R4705 = (ooaofooa_CL_IPINS *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_C_SF * C_SF_R4705_provides_satisfaction_through = CL_IPINS_R4705->C_SF_R4705_provides_satisfaction_through;
+    if ( 0 != C_SF_R4705_provides_satisfaction_through ) {
+    ooaofooa_C_R * C_R_R4002_defines_required_satisfication = C_SF_R4705_provides_satisfaction_through->C_R_R4002_defines_required_satisfication;
+    if ( 0 != C_R_R4002_defines_required_satisfication ) {
+    ooaofooa_C_IR * C_IR_R4009 = C_R_R4002_defines_required_satisfication->C_IR_R4009;
+    if ( 0 != C_IR_R4009 ) {
+    {ooaofooa_TE_IIR * TE_IIR_R2046 = C_IR_R4009->TE_IIR_R2046;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) satisfied_te_iirs, TE_IIR_R2046 ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) satisfied_te_iirs, TE_IIR_R2046 );
+    }}}}}}}}}}
+    /* IF ( not_empty satisfied_te_iirs ) */
+    if ( ( ! Escher_SetIsEmpty( satisfied_te_iirs ) ) ) {
+    /* FOR EACH satisfied_te_iir IN satisfied_te_iirs */
+    { Escher_Iterator_s itersatisfied_te_iir;
+    ooaofooa_TE_IIR * iisatisfied_te_iir;
+    Escher_IteratorReset( &itersatisfied_te_iir, satisfied_te_iirs );
+    while ( (iisatisfied_te_iir = (ooaofooa_TE_IIR *)Escher_IteratorNext( &itersatisfied_te_iir )) != 0 ) {
+      satisfied_te_iir = iisatisfied_te_iir; {
+    /* ::SetTPV_for_channel_connection( flavor:1, te_iir:satisfied_te_iir, trace: 3${trace}, value:value, variable_name:variable_name ) */
+    ooaofooa_SetTPV_for_channel_connection( 1, satisfied_te_iir, ({char s[512]={0};T_T(" 3");T_T(trace);}), value, variable_name );
+    }}}
+    }
+    else {
+    /* SELECT one satisfied_te_iir RELATED BY te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046] */
+    satisfied_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_CL_IR * R4703_subtype = (ooaofooa_CL_IR *) CL_IIR_R2013->R4703_subtype;
+    if ( 0 != R4703_subtype )    if ( ooaofooa_CL_IR_CLASS_NUMBER == CL_IIR_R2013->R4703_object_id ) {
+    ooaofooa_C_SF * C_SF_R4706_provides_satisfaction_through = R4703_subtype->C_SF_R4706_provides_satisfaction_through;
+    if ( 0 != C_SF_R4706_provides_satisfaction_through ) {
+    ooaofooa_C_P * C_P_R4002_satisfies = C_SF_R4706_provides_satisfaction_through->C_P_R4002_satisfies;
+    if ( 0 != C_P_R4002_satisfies ) {
+    ooaofooa_C_IR * C_IR_R4009 = C_P_R4002_satisfies->C_IR_R4009;
+    if ( 0 != C_IR_R4009 ) {
+    satisfied_te_iir = C_IR_R4009->TE_IIR_R2046;
+}}}}}}}
+    /* IF ( not_empty satisfied_te_iir ) */
+    if ( ( 0 != satisfied_te_iir ) ) {
+    /* ::SetTPV_for_channel_connection( flavor:1, te_iir:satisfied_te_iir, trace: 4${trace}, value:value, variable_name:variable_name ) */
+    ooaofooa_SetTPV_for_channel_connection( 1, satisfied_te_iir, ({char s[512]={0};T_T(" 4");T_T(trace);}), value, variable_name );
+    }
+    else {
+    /* SELECT any satisfied_te_iir RELATED BY te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046] */
+    satisfied_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
+    if ( 0 != C_IR_R2046 ) {
+    ooaofooa_C_P * R4009_subtype = (ooaofooa_C_P *) C_IR_R2046->R4009_subtype;
+    if ( 0 != R4009_subtype )    if ( ooaofooa_C_P_CLASS_NUMBER == C_IR_R2046->R4009_object_id ) {
+    ooaofooa_C_SF * C_SF_R4002;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &R4009_subtype->C_SF_R4002 );
+    while ( ( 0 == satisfied_te_iir ) && ( 0 != ( C_SF_R4002 = (ooaofooa_C_SF *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_R * C_R_R4002_defines_required_satisfication = C_SF_R4002->C_R_R4002_defines_required_satisfication;
+    if ( 0 != C_R_R4002_defines_required_satisfication ) {
+    ooaofooa_C_IR * C_IR_R4009 = C_R_R4002_defines_required_satisfication->C_IR_R4009;
+    if ( 0 != C_IR_R4009 ) {
+    satisfied_te_iir = C_IR_R4009->TE_IIR_R2046;
+}}}}}}}
+    /* IF ( not_empty satisfied_te_iir ) */
+    if ( ( 0 != satisfied_te_iir ) ) {
+    /* ::SetTPV_for_channel_connection( flavor:1, te_iir:satisfied_te_iir, trace: 4a${trace}, value:value, variable_name:variable_name ) */
+    ooaofooa_SetTPV_for_channel_connection( 1, satisfied_te_iir, ({char s[512]={0};T_T(" 4a");T_T(trace);}), value, variable_name );
+    }
+    else {
+    /* SELECT any satisfied_te_iir RELATED BY te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046] */
+    satisfied_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
+    if ( 0 != C_IR_R2046 ) {
+    ooaofooa_C_R * R4009_subtype = (ooaofooa_C_R *) C_IR_R2046->R4009_subtype;
+    if ( 0 != R4009_subtype )    if ( ooaofooa_C_R_CLASS_NUMBER == C_IR_R2046->R4009_object_id ) {
+    ooaofooa_C_SF * C_SF_R4002;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &R4009_subtype->C_SF_R4002 );
+    while ( ( 0 == satisfied_te_iir ) && ( 0 != ( C_SF_R4002 = (ooaofooa_C_SF *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_P * C_P_R4002_satisfies = C_SF_R4002->C_P_R4002_satisfies;
+    if ( 0 != C_P_R4002_satisfies ) {
+    ooaofooa_C_IR * C_IR_R4009 = C_P_R4002_satisfies->C_IR_R4009;
+    if ( 0 != C_IR_R4009 ) {
+    satisfied_te_iir = C_IR_R4009->TE_IIR_R2046;
+}}}}}}}
+    /* IF ( not_empty satisfied_te_iir ) */
+    if ( ( 0 != satisfied_te_iir ) ) {
+    /* ::SetTPV_for_channel_connection( flavor:1, te_iir:satisfied_te_iir, trace: 4b${trace}, value:value, variable_name:variable_name ) */
+    ooaofooa_SetTPV_for_channel_connection( 1, satisfied_te_iir, ({char s[512]={0};T_T(" 4b");T_T(trace);}), value, variable_name );
+    }
+    else {
+    /* IF ( not_empty satisfied_te_iir ) */
+    if ( ( 0 != satisfied_te_iir ) ) {
+    /* ::SetTPV_for_channel_connection( flavor:1, te_iir:satisfied_te_iir, trace: 5${trace}, value:value, variable_name:variable_name ) */
+    ooaofooa_SetTPV_for_channel_connection( 1, satisfied_te_iir, ({char s[512]={0};T_T(" 5");T_T(trace);}), value, variable_name );
+    }
+    else {
+    /* IF ( not_empty satisfied_te_iir ) */
+    if ( ( 0 != satisfied_te_iir ) ) {
+    /* ::SetTPV_for_channel_connection( flavor:1, te_iir:satisfied_te_iir, trace: 6${trace}, value:value, variable_name:variable_name ) */
+    ooaofooa_SetTPV_for_channel_connection( 1, satisfied_te_iir, ({char s[512]={0};T_T(" 6");T_T(trace);}), value, variable_name );
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    Escher_ClearSet( satisfied_te_iirs ); 
+    }
+    /* IF ( empty satisfied_te_iir ) */
+    if ( ( 0 == satisfied_te_iir ) ) {
+    Escher_ObjectSet_s more_delegated_te_iirs_space={0}; Escher_ObjectSet_s * more_delegated_te_iirs = &more_delegated_te_iirs_space;ooaofooa_TE_IIR * delegated_te_iir=0;
+    /* SELECT one delegated_te_iir RELATED BY satisfied_te_iir->TE_IIR[R2081.requires or delegates] WHERE ( FALSE ) */
+    {delegated_te_iir = 0;
+    {ooaofooa_TE_IIR * selected = ( 0 != satisfied_te_iir ) ? satisfied_te_iir->TE_IIR_R2081_requires_or_delegates : 0;
+    if ( ( 0 != selected ) && FALSE ) {
+      delegated_te_iir = selected;
+    }}}
+    /* SELECT any delegated_te_iir RELATED BY te_iir->CL_IIR[R2013]->C_DG[R4704]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046] */
+    delegated_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_C_DG * C_DG_R4704_accepts_communication_through = CL_IIR_R2013->C_DG_R4704_accepts_communication_through;
+    if ( 0 != C_DG_R4704_accepts_communication_through ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_DG_R4704_accepts_communication_through->C_RID_R4013 );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_IR * C_IR_R4013_handles_delegation_for = C_RID_R4013->C_IR_R4013_handles_delegation_for;
+    if ( 0 != C_IR_R4013_handles_delegation_for ) {
+    delegated_te_iir = C_IR_R4013_handles_delegation_for->TE_IIR_R2046;
+}}}}}}
+    /* IF ( not_empty delegated_te_iir ) */
+    if ( ( 0 != delegated_te_iir ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( 7a  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "7a ", trace ) );
+    }
+    /* SELECT any delegated_te_iir RELATED BY te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->CL_IIR[R4704]->TE_IIR[R2013] */
+    delegated_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_C_IR * C_IR_R4701_imports = CL_IIR_R2013->C_IR_R4701_imports;
+    if ( 0 != C_IR_R4701_imports ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_IR_R4701_imports->C_RID_R4013 );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_DG * C_DG_R4013_may_delegate_through = C_RID_R4013->C_DG_R4013_may_delegate_through;
+    if ( 0 != C_DG_R4013_may_delegate_through ) {
+    ooaofooa_CL_IIR * CL_IIR_R4704_delivers_communication_through = C_DG_R4013_may_delegate_through->CL_IIR_R4704_delivers_communication_through;
+    if ( 0 != CL_IIR_R4704_delivers_communication_through ) {
+    delegated_te_iir = CL_IIR_R4704_delivers_communication_through->TE_IIR_R2013;
+}}}}}}}
+    /* IF ( not_empty delegated_te_iir ) */
+    if ( ( 0 != delegated_te_iir ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( 7b  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "7b ", trace ) );
+    }
+    /* SELECT any delegated_te_iir RELATED BY te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046] */
+    delegated_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
+    if ( 0 != C_IR_R2046 ) {
+    ooaofooa_C_DG * C_DG_R4014_receives_delegation_via = C_IR_R2046->C_DG_R4014_receives_delegation_via;
+    if ( 0 != C_DG_R4014_receives_delegation_via ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_DG_R4014_receives_delegation_via->C_RID_R4013 );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_IR * C_IR_R4013_handles_delegation_for = C_RID_R4013->C_IR_R4013_handles_delegation_for;
+    if ( 0 != C_IR_R4013_handles_delegation_for ) {
+    delegated_te_iir = C_IR_R4013_handles_delegation_for->TE_IIR_R2046;
+}}}}}}
+    /* IF ( not_empty delegated_te_iir ) */
+    if ( ( 0 != delegated_te_iir ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( 8a  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "8a ", trace ) );
+    }
+    /* SELECT any delegated_te_iir RELATED BY te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046] */
+    delegated_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
+    if ( 0 != C_IR_R2046 ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_IR_R2046->C_RID_R4013 );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_DG * C_DG_R4013_may_delegate_through = C_RID_R4013->C_DG_R4013_may_delegate_through;
+    if ( 0 != C_DG_R4013_may_delegate_through ) {
+    ooaofooa_C_IR * C_IR_R4014_provides_delegation_to;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_DG_R4013_may_delegate_through->C_IR_R4014_provides_delegation_to );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( C_IR_R4014_provides_delegation_to = (ooaofooa_C_IR *) Escher_IteratorNext( &i ) ) ) ) {
+    delegated_te_iir = C_IR_R4014_provides_delegation_to->TE_IIR_R2046;
+}}}}}}
+    /* IF ( not_empty delegated_te_iir ) */
+    if ( ( 0 != delegated_te_iir ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( 8b  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "8b ", trace ) );
+    }
+    /* SELECT any delegated_te_iir RELATED BY te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046] */
+    delegated_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_C_IR * C_IR_R4701_imports = CL_IIR_R2013->C_IR_R4701_imports;
+    if ( 0 != C_IR_R4701_imports ) {
+    ooaofooa_C_DG * C_DG_R4014_receives_delegation_via = C_IR_R4701_imports->C_DG_R4014_receives_delegation_via;
+    if ( 0 != C_DG_R4014_receives_delegation_via ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_DG_R4014_receives_delegation_via->C_RID_R4013 );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_IR * C_IR_R4013_handles_delegation_for = C_RID_R4013->C_IR_R4013_handles_delegation_for;
+    if ( 0 != C_IR_R4013_handles_delegation_for ) {
+    delegated_te_iir = C_IR_R4013_handles_delegation_for->TE_IIR_R2046;
+}}}}}}}
+    /* IF ( not_empty delegated_te_iir ) */
+    if ( ( 0 != delegated_te_iir ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( 8c  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "8c ", trace ) );
+    }
+    /* SELECT any delegated_te_iir RELATED BY te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013] */
+    delegated_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
+    if ( 0 != C_IR_R2046 ) {
+    ooaofooa_C_DG * C_DG_R4014_receives_delegation_via = C_IR_R2046->C_DG_R4014_receives_delegation_via;
+    if ( 0 != C_DG_R4014_receives_delegation_via ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_DG_R4014_receives_delegation_via->C_RID_R4013 );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_IR * C_IR_R4013_handles_delegation_for = C_RID_R4013->C_IR_R4013_handles_delegation_for;
+    if ( 0 != C_IR_R4013_handles_delegation_for ) {
+    ooaofooa_CL_IIR * CL_IIR_R4701_is_imported;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_IR_R4013_handles_delegation_for->CL_IIR_R4701_is_imported );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( CL_IIR_R4701_is_imported = (ooaofooa_CL_IIR *) Escher_IteratorNext( &i ) ) ) ) {
+    delegated_te_iir = CL_IIR_R4701_is_imported->TE_IIR_R2013;
+}}}}}}}
+    /* IF ( not_empty delegated_te_iir ) */
+    if ( ( 0 != delegated_te_iir ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( 8d  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "8d ", trace ) );
+    }
+    /* SELECT many more_delegated_te_iirs RELATED BY te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046] */
+    Escher_ClearSet( more_delegated_te_iirs );
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_C_IR * C_IR_R4701_imports = CL_IIR_R2013->C_IR_R4701_imports;
+    if ( 0 != C_IR_R4701_imports ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_IR_R4701_imports->C_RID_R4013 );
+    while ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_C_DG * C_DG_R4013_may_delegate_through = C_RID_R4013->C_DG_R4013_may_delegate_through;
+    if ( 0 != C_DG_R4013_may_delegate_through ) {
+    ooaofooa_C_IR * C_IR_R4014_provides_delegation_to;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_DG_R4013_may_delegate_through->C_IR_R4014_provides_delegation_to );
+    while ( 0 != ( C_IR_R4014_provides_delegation_to = (ooaofooa_C_IR *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_IIR * TE_IIR_R2046 = C_IR_R4014_provides_delegation_to->TE_IIR_R2046;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) more_delegated_te_iirs, TE_IIR_R2046 ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) more_delegated_te_iirs, TE_IIR_R2046 );
+    }}}}}}}}}
+    /* IF ( not_empty more_delegated_te_iirs ) */
+    if ( ( ! Escher_SetIsEmpty( more_delegated_te_iirs ) ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( 8e  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "8e ", trace ) );
+    }
+    /* SELECT many more_delegated_te_iirs RELATED BY te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->CL_IIR[R4701]->TE_IIR[R2013] */
+    Escher_ClearSet( more_delegated_te_iirs );
+    {    if ( 0 != te_iir ) {
+    ooaofooa_C_IR * C_IR_R2046 = te_iir->C_IR_R2046;
+    if ( 0 != C_IR_R2046 ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_IR_R2046->C_RID_R4013 );
+    while ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_C_DG * C_DG_R4013_may_delegate_through = C_RID_R4013->C_DG_R4013_may_delegate_through;
+    if ( 0 != C_DG_R4013_may_delegate_through ) {
+    ooaofooa_C_IR * C_IR_R4014_provides_delegation_to;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_DG_R4013_may_delegate_through->C_IR_R4014_provides_delegation_to );
+    while ( 0 != ( C_IR_R4014_provides_delegation_to = (ooaofooa_C_IR *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_CL_IIR * CL_IIR_R4701_is_imported;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_IR_R4014_provides_delegation_to->CL_IIR_R4701_is_imported );
+    while ( 0 != ( CL_IIR_R4701_is_imported = (ooaofooa_CL_IIR *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_IIR * TE_IIR_R2013 = CL_IIR_R4701_is_imported->TE_IIR_R2013;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) more_delegated_te_iirs, TE_IIR_R2013 ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) more_delegated_te_iirs, TE_IIR_R2013 );
+    }}}}}}}}}
+    /* IF ( not_empty more_delegated_te_iirs ) */
+    if ( ( ! Escher_SetIsEmpty( more_delegated_te_iirs ) ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( 8f  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "8f ", trace ) );
+    }
+    /* SELECT any delegated_te_iir RELATED BY te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013] */
+    delegated_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_C_IR * C_IR_R4701_imports = CL_IIR_R2013->C_IR_R4701_imports;
+    if ( 0 != C_IR_R4701_imports ) {
+    ooaofooa_C_DG * C_DG_R4014_receives_delegation_via = C_IR_R4701_imports->C_DG_R4014_receives_delegation_via;
+    if ( 0 != C_DG_R4014_receives_delegation_via ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_DG_R4014_receives_delegation_via->C_RID_R4013 );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_IR * C_IR_R4013_handles_delegation_for = C_RID_R4013->C_IR_R4013_handles_delegation_for;
+    if ( 0 != C_IR_R4013_handles_delegation_for ) {
+    ooaofooa_CL_IIR * CL_IIR_R4701_is_imported;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_IR_R4013_handles_delegation_for->CL_IIR_R4701_is_imported );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( CL_IIR_R4701_is_imported = (ooaofooa_CL_IIR *) Escher_IteratorNext( &i ) ) ) ) {
+    delegated_te_iir = CL_IIR_R4701_is_imported->TE_IIR_R2013;
+}}}}}}}}
+    /* IF ( not_empty delegated_te_iir ) */
+    if ( ( 0 != delegated_te_iir ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( 8g  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "8g ", trace ) );
+    }
+    /* SELECT many more_delegated_te_iirs RELATED BY te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->CL_IIR[R4701]->TE_IIR[R2013] */
+    Escher_ClearSet( more_delegated_te_iirs );
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_C_IR * C_IR_R4701_imports = CL_IIR_R2013->C_IR_R4701_imports;
+    if ( 0 != C_IR_R4701_imports ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_IR_R4701_imports->C_RID_R4013 );
+    while ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_C_DG * C_DG_R4013_may_delegate_through = C_RID_R4013->C_DG_R4013_may_delegate_through;
+    if ( 0 != C_DG_R4013_may_delegate_through ) {
+    ooaofooa_C_IR * C_IR_R4014_provides_delegation_to;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_DG_R4013_may_delegate_through->C_IR_R4014_provides_delegation_to );
+    while ( 0 != ( C_IR_R4014_provides_delegation_to = (ooaofooa_C_IR *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_CL_IIR * CL_IIR_R4701_is_imported;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_IR_R4014_provides_delegation_to->CL_IIR_R4701_is_imported );
+    while ( 0 != ( CL_IIR_R4701_is_imported = (ooaofooa_CL_IIR *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_IIR * TE_IIR_R2013 = CL_IIR_R4701_is_imported->TE_IIR_R2013;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) more_delegated_te_iirs, TE_IIR_R2013 ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) more_delegated_te_iirs, TE_IIR_R2013 );
+    }}}}}}}}}}
+    /* IF ( not_empty more_delegated_te_iirs ) */
+    if ( ( ! Escher_SetIsEmpty( more_delegated_te_iirs ) ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( 8h  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "8h ", trace ) );
+    }
+    /* SELECT any delegated_te_iir RELATED BY te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046] */
+    delegated_te_iir = 0;
+    {    if ( 0 != te_iir ) {
+    ooaofooa_CL_IIR * CL_IIR_R2013 = te_iir->CL_IIR_R2013;
+    if ( 0 != CL_IIR_R2013 ) {
+    ooaofooa_C_IR * C_IR_R4701_imports = CL_IIR_R2013->C_IR_R4701_imports;
+    if ( 0 != C_IR_R4701_imports ) {
+    ooaofooa_C_RID * C_RID_R4013;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_IR_R4701_imports->C_RID_R4013 );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( C_RID_R4013 = (ooaofooa_C_RID *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_DG * C_DG_R4013_may_delegate_through = C_RID_R4013->C_DG_R4013_may_delegate_through;
+    if ( 0 != C_DG_R4013_may_delegate_through ) {
+    ooaofooa_C_IR * C_IR_R4014_provides_delegation_to;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_DG_R4013_may_delegate_through->C_IR_R4014_provides_delegation_to );
+    while ( ( 0 == delegated_te_iir ) && ( 0 != ( C_IR_R4014_provides_delegation_to = (ooaofooa_C_IR *) Escher_IteratorNext( &i ) ) ) ) {
+    delegated_te_iir = C_IR_R4014_provides_delegation_to->TE_IIR_R2046;
+}}}}}}}
+    /* IF ( not_empty delegated_te_iir ) */
+    if ( ( 0 != delegated_te_iir ) ) {
+    /* ASSIGN delegated_te_iirs = delegated_te_iirs */
+    Escher_CopySet( delegated_te_iirs, delegated_te_iirs );
+    /* ASSIGN trace = ( B  + trace ) */
+    Escher_strcpy( trace, Escher_stradd( "B ", trace ) );
+    }
+    /* FOR EACH delegated_te_iir IN delegated_te_iirs */
+    { Escher_Iterator_s iterdelegated_te_iir;
+    ooaofooa_TE_IIR * iidelegated_te_iir;
+    Escher_IteratorReset( &iterdelegated_te_iir, delegated_te_iirs );
+    while ( (iidelegated_te_iir = (ooaofooa_TE_IIR *)Escher_IteratorNext( &iterdelegated_te_iir )) != 0 ) {
+      delegated_te_iir = iidelegated_te_iir; {
+    /* ::SetTPV_for_channel_connection( flavor:2, te_iir:delegated_te_iir, trace:${trace}, value:value, variable_name:variable_name ) */
+    ooaofooa_SetTPV_for_channel_connection( 2, delegated_te_iir, ({char s[512]={0};T_T(trace);}), value, variable_name );
+    }}}
+    Escher_ClearSet( more_delegated_te_iirs ); 
+    }
+  }
+  else {
+    /* IF ( empty tm_tp ) */
+    if ( ( 0 == tm_tp ) ) {
+    /* T::print( s:SetTPV:  warning - no variable ${te_iir.port_name} ${te_iir.interface_name} ) */
+    T_print( ({char s[512]={0};T_T("SetTPV:  warning - no variable ");T_T(te_iir->port_name);T_T(" ");T_T(te_iir->interface_name);}) );
+    }
+  }
+  Escher_ClearSet( delegated_te_iirs );
+
+}
+
+/*
+ * Domain Function:  SetTPV
+ */
+void
+ooaofooa_SetTPV( c_t p_classifier_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_component[ESCHER_SYS_MAX_STRING_LEN], c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_parent_component[ESCHER_SYS_MAX_STRING_LEN], c_t p_port[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[ESCHER_SYS_MAX_STRING_LEN], c_t p_variable_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t trace[ESCHER_SYS_MAX_STRING_LEN];c_t value[ESCHER_SYS_MAX_STRING_LEN];c_t variable_name[ESCHER_SYS_MAX_STRING_LEN];c_t port[ESCHER_SYS_MAX_STRING_LEN];c_t classifier_name[ESCHER_SYS_MAX_STRING_LEN];c_t component[ESCHER_SYS_MAX_STRING_LEN];c_t parent_component[ESCHER_SYS_MAX_STRING_LEN];c_t package_name[ESCHER_SYS_MAX_STRING_LEN];
+  /* ASSIGN package_name = PARAM.package_name */
+  Escher_strcpy( package_name, p_package_name );
+  /* ASSIGN parent_component = PARAM.parent_component */
+  Escher_strcpy( parent_component, p_parent_component );
+  /* ASSIGN component = PARAM.component */
+  Escher_strcpy( component, p_component );
+  /* ASSIGN classifier_name = PARAM.classifier_name */
+  Escher_strcpy( classifier_name, p_classifier_name );
+  /* ASSIGN port = PARAM.port */
+  Escher_strcpy( port, p_port );
+  /* ASSIGN variable_name = PARAM.variable_name */
+  Escher_strcpy( variable_name, p_variable_name );
+  /* ASSIGN value = PARAM.value */
+  Escher_strcpy( value, p_value );
+  /* ASSIGN trace = ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} value ${value} (and port ${port}) */
+  Escher_strcpy( trace, ({char s[512]={0};T_T(package_name);T_T("::");T_T(parent_component);T_T("::");T_T(component);T_T(":");T_T(classifier_name);T_T(".");T_T(variable_name);T_T(" value ");T_T(value);T_T(" (and port ");T_T(port);T_T(")");}) );
+  /* IF ( ( ( (  == package_name ) or (  == component ) ) or ( (  == classifier_name ) or ( (  == variable_name ) or (  == value ) ) ) ) ) */
+  if ( ( ( ( Escher_strcmp( "", package_name ) == 0 ) || ( Escher_strcmp( "", component ) == 0 ) ) || ( ( Escher_strcmp( "", classifier_name ) == 0 ) || ( ( Escher_strcmp( "", variable_name ) == 0 ) || ( Escher_strcmp( "", value ) == 0 ) ) ) ) ) {
+    /* T::print( s:ERROR:  SetTPV - Must provide valid strings for all arguments except the optional port, ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} to value ${value} (and port ${port}). ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  SetTPV - Must provide valid strings for all arguments except the optional port, ");T_T(package_name);T_T("::");T_T(parent_component);T_T("::");T_T(component);T_T(":");T_T(classifier_name);T_T(".");T_T(variable_name);T_T(" to value ");T_T(value);T_T(" (and port ");T_T(port);T_T(").");}) );
+  }
+  else {
+    i_t te_cis_count;ooaofooa_EP_PKG * ep_pkg=0;Escher_ObjectSet_s te_cis_space={0}; Escher_ObjectSet_s * te_cis = &te_cis_space;
+    /* SELECT any ep_pkg FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == package_name ) */
+    ep_pkg = 0;
+    { ooaofooa_EP_PKG * selected;
+      Escher_Iterator_s iterep_pkgooaofooa_EP_PKG;
+      Escher_IteratorReset( &iterep_pkgooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
+      while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgooaofooa_EP_PKG )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, package_name ) == 0 ) ) {
+          ep_pkg = selected;
+          break;
+        }
+      }
+    }
+    /* IF ( empty ep_pkg ) */
+    if ( ( 0 == ep_pkg ) ) {
+    /* T::print( s:ERROR:  SetTPV -  Package, ${package_name}, not found for ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} to value ${value}. ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  SetTPV -  Package, ");T_T(package_name);T_T(", not found for ");T_T(package_name);T_T("::");T_T(parent_component);T_T("::");T_T(component);T_T(":");T_T(classifier_name);T_T(".");T_T(variable_name);T_T(" to value ");T_T(value);T_T(".");}) );
+    }
+    /* SELECT many te_cis RELATED BY ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] WHERE ( ( ( SELECTED.Name == component ) and ( SELECTED.ClassifierName == classifier_name ) ) ) */
+    Escher_ClearSet( te_cis );
+    {    if ( 0 != ep_pkg ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ep_pkg->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_CL_IC * R8001_subtype = (ooaofooa_CL_IC *) PE_PE_R8000_contains->R8001_subtype;
+    if ( 0 != R8001_subtype )    if ( ooaofooa_CL_IC_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
+    {ooaofooa_TE_CI * selected = R8001_subtype->TE_CI_R2009;
+    if ( ( 0 != selected ) && ( ( Escher_strcmp( selected->Name, component ) == 0 ) && ( Escher_strcmp( selected->ClassifierName, classifier_name ) == 0 ) ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_cis, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_cis, selected );
+    }}}
+}}}}
+    /* IF ( (  != parent_component ) ) */
+    if ( ( Escher_strcmp( "", parent_component ) != 0 ) ) {
+    Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;
+    /* SELECT many c_cs RELATED BY ep_pkg->PE_PE[R8000]->C_C[R8001] WHERE ( ( SELECTED.Name == parent_component ) ) */
+    Escher_ClearSet( c_cs );
+    {    if ( 0 != ep_pkg ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ep_pkg->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id )    {ooaofooa_C_C * selected = PE_PE_R8000_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, parent_component ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_cs, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) c_cs, selected );
+    }}}
+}}}
+    /* SELECT many te_cis RELATED BY c_cs->CL_IC[R4205]->TE_CI[R2009] WHERE ( ( ( SELECTED.Name == component ) and ( SELECTED.ClassifierName == classifier_name ) ) ) */
+    Escher_ClearSet( te_cis );
+    {    ooaofooa_C_C * ooaofooa_C_C_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, c_cs );
+    while ( 0 != ( ooaofooa_C_C_linkage = (ooaofooa_C_C *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_CL_IC * CL_IC_R4205_nests;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_C_C_linkage->CL_IC_R4205_nests );
+    while ( 0 != ( CL_IC_R4205_nests = (ooaofooa_CL_IC *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_CI * selected = CL_IC_R4205_nests->TE_CI_R2009;
+    if ( ( 0 != selected ) && ( ( Escher_strcmp( selected->Name, component ) == 0 ) && ( Escher_strcmp( selected->ClassifierName, classifier_name ) == 0 ) ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_cis, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_cis, selected );
+    }}}
+}}}
+    Escher_ClearSet( c_cs ); 
+    }
+    else {
+    /* IF ( empty te_cis ) */
+    if ( Escher_SetIsEmpty( te_cis ) ) {
+    /* SELECT many te_cis RELATED BY ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] WHERE ( ( ( SELECTED.Name == component ) and ( SELECTED.ClassifierName == classifier_name ) ) ) */
+    Escher_ClearSet( te_cis );
+    {    if ( 0 != ep_pkg ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ep_pkg->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_C_C * R8001_subtype = (ooaofooa_C_C *) PE_PE_R8000_contains->R8001_subtype;
+    if ( 0 != R8001_subtype )    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
+    ooaofooa_CL_IC * CL_IC_R4205_nests;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &R8001_subtype->CL_IC_R4205_nests );
+    while ( 0 != ( CL_IC_R4205_nests = (ooaofooa_CL_IC *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_CI * selected = CL_IC_R4205_nests->TE_CI_R2009;
+    if ( ( 0 != selected ) && ( ( Escher_strcmp( selected->Name, component ) == 0 ) && ( Escher_strcmp( selected->ClassifierName, classifier_name ) == 0 ) ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_cis, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_cis, selected );
+    }}}
+}}}}}
+    }
+    }
+    /* ASSIGN te_cis_count = cardinality te_cis */
+    te_cis_count = Escher_SetCardinality( te_cis );
+    /* IF ( ( te_cis_count > 1 ) ) */
+    if ( ( te_cis_count > 1 ) ) {
+    /* T::print( s:WARNING:  SetTPV - More than one instantiation found for ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} to value ${value}. ) */
+    T_print( ({char s[512]={0};T_T("WARNING:  SetTPV - More than one instantiation found for ");T_T(package_name);T_T("::");T_T(parent_component);T_T("::");T_T(component);T_T(":");T_T(classifier_name);T_T(".");T_T(variable_name);T_T(" to value ");T_T(value);T_T(".");}) );
+    /* T::print( s:                   All instantiations will be marked to receive the same template parameter value. ) */
+    T_print( "                   All instantiations will be marked to receive the same template parameter value." );
+    }
+    else if ( ( 0 == te_cis_count ) ) {
+    /* T::print( s:ERROR:  SetTPV - Component instance not found for ${package_name}::${parent_component}::${component}:${classifier_name}. ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  SetTPV - Component instance not found for ");T_T(package_name);T_T("::");T_T(parent_component);T_T("::");T_T(component);T_T(":");T_T(classifier_name);T_T(".");}) );
+    }
+    /* IF ( (  == port ) ) */
+    if ( ( Escher_strcmp( "", port ) == 0 ) ) {
+    ooaofooa_TE_CI * te_ci=0;
+    /* FOR EACH te_ci IN te_cis */
+    { Escher_Iterator_s iterte_ci;
+    ooaofooa_TE_CI * iite_ci;
+    Escher_IteratorReset( &iterte_ci, te_cis );
+    while ( (iite_ci = (ooaofooa_TE_CI *)Escher_IteratorNext( &iterte_ci )) != 0 ) {
+      te_ci = iite_ci; {
+    ooaofooa_TM_TEMPLATE * tm_template=0;ooaofooa_TM_TP * tm_tp=0;
+    /* SELECT one tm_template RELATED BY te_ci->TE_C[R2008]->TM_C[R2804]->TM_TEMPLATE[R2800] */
+    tm_template = 0;
+    {    if ( 0 != te_ci ) {
+    ooaofooa_TE_C * TE_C_R2008 = te_ci->TE_C_R2008;
+    if ( 0 != TE_C_R2008 ) {
+    ooaofooa_TM_C * TM_C_R2804 = TE_C_R2008->TM_C_R2804;
+    if ( 0 != TM_C_R2804 ) {
+    tm_template = TM_C_R2804->TM_TEMPLATE_R2800;
+}}}}
+    /* SELECT any tm_tp RELATED BY tm_template->TM_TP[R2801] WHERE ( ( SELECTED.Name == variable_name ) ) */
+    tm_tp = 0;
+    if ( 0 != tm_template ) {
+      ooaofooa_TM_TP * selected;
+      Escher_Iterator_s i;
+      Escher_IteratorReset( &i, &tm_template->TM_TP_R2801 );
+      while ( 0 != ( selected = (ooaofooa_TM_TP *) Escher_IteratorNext( &i ) ) ) {
+        if ( ( Escher_strcmp( selected->Name, variable_name ) == 0 ) ) {
+          tm_tp = selected;
+          break;
+    }}}
+    /* IF ( not_empty tm_tp ) */
+    if ( ( 0 != tm_tp ) ) {
+    ooaofooa_TM_TPV * tm_tpv;
+    /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
+    tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
+    tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+    /* ASSIGN tm_tpv.instance = component */
+    Escher_strcpy( tm_tpv->instance, component );
+    /* ASSIGN tm_tpv.value = value */
+    Escher_strcpy( tm_tpv->value, value );
+    /* RELATE tm_tpv TO tm_tp ACROSS R2808 */
+    ooaofooa_TM_TPV_R2808_Link_has_value( tm_tp, tm_tpv );
+    /* RELATE tm_tpv TO te_ci ACROSS R2805 */
+    ooaofooa_TM_TPV_R2805_Link( te_ci, tm_tpv );
+    }
+    else {
+    /* T::print( s:WARNING:  SetTPV - Template parameter not found for ${package_name}::${parent_component}::${component}:${classifier_name}. ) */
+    T_print( ({char s[512]={0};T_T("WARNING:  SetTPV - Template parameter not found for ");T_T(package_name);T_T("::");T_T(parent_component);T_T("::");T_T(component);T_T(":");T_T(classifier_name);T_T(".");}) );
+    }
+    }}}
+    }
+    else {
+    ooaofooa_TE_CI * te_ci=0;
+    /* FOR EACH te_ci IN te_cis */
+    { Escher_Iterator_s iterte_ci;
+    ooaofooa_TE_CI * iite_ci;
+    Escher_IteratorReset( &iterte_ci, te_cis );
+    while ( (iite_ci = (ooaofooa_TE_CI *)Escher_IteratorNext( &iterte_ci )) != 0 ) {
+      te_ci = iite_ci; {
+    ooaofooa_TE_IIR * te_iir=0;
+    /* SELECT any te_iir RELATED BY te_ci->CL_IC[R2009]->CL_IIR[R4700]->TE_IIR[R2013] WHERE ( ( SELECTED.port_name == port ) ) */
+    te_iir = 0;
+    {    if ( 0 != te_ci ) {
+    ooaofooa_CL_IC * CL_IC_R2009 = te_ci->CL_IC_R2009;
+    if ( 0 != CL_IC_R2009 ) {
+    ooaofooa_CL_IIR * CL_IIR_R4700_communicates_through;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &CL_IC_R2009->CL_IIR_R4700_communicates_through );
+    while ( ( 0 == te_iir ) && ( 0 != ( CL_IIR_R4700_communicates_through = (ooaofooa_CL_IIR *) Escher_IteratorNext( &i ) ) ) ) {
+    {ooaofooa_TE_IIR * selected = CL_IIR_R4700_communicates_through->TE_IIR_R2013;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->port_name, port ) == 0 ) ) {
+      te_iir = selected;
+    }}
+}}}}
+    /* ::SetTPV_for_channel_connection( flavor:0, te_iir:te_iir, trace:trace, value:value, variable_name:variable_name ) */
+    ooaofooa_SetTPV_for_channel_connection( 0, te_iir, trace, value, variable_name );
+    }}}
+    }
+    Escher_ClearSet( te_cis ); 
+  }
+
+}
+
+/*
+ * Domain Function:  SetTemplateParameter
+ */
+void
+ooaofooa_SetTemplateParameter( c_t p_instance[ESCHER_SYS_MAX_STRING_LEN], c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[ESCHER_SYS_MAX_STRING_LEN], c_t p_variable_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t value[ESCHER_SYS_MAX_STRING_LEN];c_t variable_name[ESCHER_SYS_MAX_STRING_LEN];c_t instance[ESCHER_SYS_MAX_STRING_LEN];c_t package_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_TEMPLATE * tm_template=0;ooaofooa_TM_IF * tm_if=0;ooaofooa_TM_C * tm_c=0;ooaofooa_TM_TP * tm_tp=0;
+  /* ASSIGN package_name = PARAM.package_name */
+  Escher_strcpy( package_name, p_package_name );
+  /* ASSIGN instance = PARAM.instance */
+  Escher_strcpy( instance, p_instance );
+  /* ASSIGN variable_name = PARAM.variable_name */
+  Escher_strcpy( variable_name, p_variable_name );
+  /* ASSIGN value = PARAM.value */
+  Escher_strcpy( value, p_value );
+  /* SELECT any tm_template FROM INSTANCES OF TM_TEMPLATE WHERE SELECTED.current */
+  tm_template = 0;
+  { ooaofooa_TM_TEMPLATE * selected;
+    Escher_Iterator_s itertm_templateooaofooa_TM_TEMPLATE;
+    Escher_IteratorReset( &itertm_templateooaofooa_TM_TEMPLATE, &pG_ooaofooa_TM_TEMPLATE_extent.active );
+    while ( (selected = (ooaofooa_TM_TEMPLATE *) Escher_IteratorNext( &itertm_templateooaofooa_TM_TEMPLATE )) != 0 ) {
+      if ( selected->current ) {
+        tm_template = selected;
+        break;
+      }
+    }
+  }
+  /* SELECT one tm_c RELATED BY tm_template->TM_C[R2800] */
+  tm_c = ( 0 != tm_template ) ? tm_template->TM_C_R2800 : 0;
+  /* SELECT one tm_if RELATED BY tm_template->TM_IF[R2802] */
+  tm_if = ( 0 != tm_template ) ? tm_template->TM_IF_R2802 : 0;
+  /* SELECT any tm_tp RELATED BY tm_template->TM_TP[R2801] WHERE ( ( SELECTED.Name == variable_name ) ) */
+  tm_tp = 0;
+  if ( 0 != tm_template ) {
+    ooaofooa_TM_TP * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &tm_template->TM_TP_R2801 );
+    while ( 0 != ( selected = (ooaofooa_TM_TP *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Name, variable_name ) == 0 ) ) {
+        tm_tp = selected;
+        break;
+  }}}
+  /* IF ( ( ( (  == package_name ) or (  == instance ) ) or ( (  == variable_name ) or (  == value ) ) ) ) */
+  if ( ( ( ( Escher_strcmp( "", package_name ) == 0 ) || ( Escher_strcmp( "", instance ) == 0 ) ) || ( ( Escher_strcmp( "", variable_name ) == 0 ) || ( Escher_strcmp( "", value ) == 0 ) ) ) ) {
+    /* T::print( s:ERROR:  SetTemplateParameter -  Must provide valid strings for all arguments. ${package_name}::${instance}.${variable_name} to value ${value}. ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  SetTemplateParameter -  Must provide valid strings for all arguments. ");T_T(package_name);T_T("::");T_T(instance);T_T(".");T_T(variable_name);T_T(" to value ");T_T(value);T_T(".");}) );
+  }
+  else {
+    ooaofooa_EP_PKG * ep_pkg=0;
+    /* SELECT any ep_pkg FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == package_name ) */
+    ep_pkg = 0;
+    { ooaofooa_EP_PKG * selected;
+      Escher_Iterator_s iterep_pkgooaofooa_EP_PKG;
+      Escher_IteratorReset( &iterep_pkgooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
+      while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgooaofooa_EP_PKG )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, package_name ) == 0 ) ) {
+          ep_pkg = selected;
+          break;
+        }
+      }
+    }
+    /* IF ( empty ep_pkg ) */
+    if ( ( 0 == ep_pkg ) ) {
+    /* T::print( s:ERROR:  SetTemplateParameter -  Package, ${package_name}, not found for ${package_name}::${instance}.${variable_name} to value ${value}. ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  SetTemplateParameter -  Package, ");T_T(package_name);T_T(", not found for ");T_T(package_name);T_T("::");T_T(instance);T_T(".");T_T(variable_name);T_T(" to value ");T_T(value);T_T(".");}) );
+    }
+    /* IF ( not_empty tm_tp ) */
+    if ( ( 0 != tm_tp ) ) {
+    /* IF ( not_empty tm_c ) */
+    if ( ( 0 != tm_c ) ) {
+    ooaofooa_TE_CI * te_ci=0;
+    /* SELECT any te_ci RELATED BY ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] WHERE ( ( SELECTED.ClassifierName == instance ) ) */
+    te_ci = 0;
+    {    if ( 0 != ep_pkg ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ep_pkg->PE_PE_R8000_contains );
+    while ( ( 0 == te_ci ) && ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_CL_IC * R8001_subtype = (ooaofooa_CL_IC *) PE_PE_R8000_contains->R8001_subtype;
+    if ( 0 != R8001_subtype )    if ( ooaofooa_CL_IC_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
+    {ooaofooa_TE_CI * selected = R8001_subtype->TE_CI_R2009;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->ClassifierName, instance ) == 0 ) ) {
+      te_ci = selected;
+    }}
+}}}}
+    /* IF ( empty te_ci ) */
+    if ( ( 0 == te_ci ) ) {
+    /* SELECT any te_ci RELATED BY ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] WHERE ( ( SELECTED.ClassifierName == instance ) ) */
+    te_ci = 0;
+    {    if ( 0 != ep_pkg ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ep_pkg->PE_PE_R8000_contains );
+    while ( ( 0 == te_ci ) && ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) ) {
+    ooaofooa_C_C * R8001_subtype = (ooaofooa_C_C *) PE_PE_R8000_contains->R8001_subtype;
+    if ( 0 != R8001_subtype )    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
+    ooaofooa_CL_IC * CL_IC_R4205_nests;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &R8001_subtype->CL_IC_R4205_nests );
+    while ( ( 0 == te_ci ) && ( 0 != ( CL_IC_R4205_nests = (ooaofooa_CL_IC *) Escher_IteratorNext( &i ) ) ) ) {
+    {ooaofooa_TE_CI * selected = CL_IC_R4205_nests->TE_CI_R2009;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->ClassifierName, instance ) == 0 ) ) {
+      te_ci = selected;
+    }}
+}}}}}
+    }
+    /* IF ( not_empty te_ci ) */
+    if ( ( 0 != te_ci ) ) {
+    ooaofooa_TM_TPV * tm_tpv;
+    /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
+    tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
+    tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+    /* ASSIGN tm_tpv.instance = instance */
+    Escher_strcpy( tm_tpv->instance, instance );
+    /* ASSIGN tm_tpv.value = value */
+    Escher_strcpy( tm_tpv->value, value );
+    /* RELATE tm_tpv TO tm_tp ACROSS R2808 */
+    ooaofooa_TM_TPV_R2808_Link_has_value( tm_tp, tm_tpv );
+    /* RELATE tm_tpv TO te_ci ACROSS R2805 */
+    ooaofooa_TM_TPV_R2805_Link( te_ci, tm_tpv );
+    }
+    else {
+    /* T::print( s:ERROR:  SetTemplateParameter - no component instance for ${package_name}::${instance} with name ${variable_name}. ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  SetTemplateParameter - no component instance for ");T_T(package_name);T_T("::");T_T(instance);T_T(" with name ");T_T(variable_name);T_T(".");}) );
+    }
+    }
+    else if ( ( 0 != tm_if ) ) {
+    ooaofooa_TE_IIR * te_iir=0;Escher_ObjectSet_s te_iirs_space={0}; Escher_ObjectSet_s * te_iirs = &te_iirs_space;
+    /* SELECT many te_iirs RELATED BY ep_pkg->PE_PE[R8000]->CL_IC[R8001]->CL_IIR[R4700]->TE_IIR[R2013] WHERE ( ( ( SELECTED.port_name == instance ) and ( SELECTED.interface_name == tm_if.Name ) ) ) */
+    Escher_ClearSet( te_iirs );
+    {    if ( 0 != ep_pkg ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ep_pkg->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_CL_IC * R8001_subtype = (ooaofooa_CL_IC *) PE_PE_R8000_contains->R8001_subtype;
+    if ( 0 != R8001_subtype )    if ( ooaofooa_CL_IC_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
+    ooaofooa_CL_IIR * CL_IIR_R4700_communicates_through;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &R8001_subtype->CL_IIR_R4700_communicates_through );
+    while ( 0 != ( CL_IIR_R4700_communicates_through = (ooaofooa_CL_IIR *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_IIR * selected = CL_IIR_R4700_communicates_through->TE_IIR_R2013;
+    if ( ( 0 != selected ) && ( ( Escher_strcmp( selected->port_name, instance ) == 0 ) && ( Escher_strcmp( selected->interface_name, tm_if->Name ) == 0 ) ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_iirs, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_iirs, selected );
+    }}}
+}}}}}
+    /* FOR EACH te_iir IN te_iirs */
+    { Escher_Iterator_s iterte_iir;
+    ooaofooa_TE_IIR * iite_iir;
+    Escher_IteratorReset( &iterte_iir, te_iirs );
+    while ( (iite_iir = (ooaofooa_TE_IIR *)Escher_IteratorNext( &iterte_iir )) != 0 ) {
+      te_iir = iite_iir; {
+    ooaofooa_TM_TPV * tm_tpv;
+    /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
+    tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
+    tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+    /* ASSIGN tm_tpv.instance = instance */
+    Escher_strcpy( tm_tpv->instance, instance );
+    /* ASSIGN tm_tpv.value = value */
+    Escher_strcpy( tm_tpv->value, value );
+    /* RELATE tm_tpv TO tm_tp ACROSS R2808 */
+    ooaofooa_TM_TPV_R2808_Link_has_value( tm_tp, tm_tpv );
+    /* RELATE tm_tpv TO te_iir ACROSS R2806 */
+    ooaofooa_TM_TPV_R2806_Link( te_iir, tm_tpv );
+    }}}
+    /* SELECT many te_iirs RELATED BY ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->CL_IIR[R4700]->TE_IIR[R2013] WHERE ( ( ( SELECTED.port_name == instance ) and ( SELECTED.interface_name == tm_if.Name ) ) ) */
+    Escher_ClearSet( te_iirs );
+    {    if ( 0 != ep_pkg ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ep_pkg->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_C_C * R8001_subtype = (ooaofooa_C_C *) PE_PE_R8000_contains->R8001_subtype;
+    if ( 0 != R8001_subtype )    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
+    ooaofooa_CL_IC * CL_IC_R4205_nests;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &R8001_subtype->CL_IC_R4205_nests );
+    while ( 0 != ( CL_IC_R4205_nests = (ooaofooa_CL_IC *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_CL_IIR * CL_IIR_R4700_communicates_through;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &CL_IC_R4205_nests->CL_IIR_R4700_communicates_through );
+    while ( 0 != ( CL_IIR_R4700_communicates_through = (ooaofooa_CL_IIR *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_IIR * selected = CL_IIR_R4700_communicates_through->TE_IIR_R2013;
+    if ( ( 0 != selected ) && ( ( Escher_strcmp( selected->port_name, instance ) == 0 ) && ( Escher_strcmp( selected->interface_name, tm_if->Name ) == 0 ) ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_iirs, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_iirs, selected );
+    }}}
+}}}}}}
+    /* FOR EACH te_iir IN te_iirs */
+    { Escher_Iterator_s iterte_iir;
+    ooaofooa_TE_IIR * iite_iir;
+    Escher_IteratorReset( &iterte_iir, te_iirs );
+    while ( (iite_iir = (ooaofooa_TE_IIR *)Escher_IteratorNext( &iterte_iir )) != 0 ) {
+      te_iir = iite_iir; {
+    ooaofooa_TM_TPV * tm_tpv;
+    /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
+    tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
+    tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+    /* ASSIGN tm_tpv.instance = instance */
+    Escher_strcpy( tm_tpv->instance, instance );
+    /* ASSIGN tm_tpv.value = value */
+    Escher_strcpy( tm_tpv->value, value );
+    /* RELATE tm_tpv TO tm_tp ACROSS R2808 */
+    ooaofooa_TM_TPV_R2808_Link_has_value( tm_tp, tm_tpv );
+    /* RELATE tm_tpv TO te_iir ACROSS R2806 */
+    ooaofooa_TM_TPV_R2806_Link( te_iir, tm_tpv );
+    }}}
+    /* SELECT many te_iirs RELATED BY ep_pkg->PE_PE[R8000]->C_C[R8001]->C_PO[R4010]->C_IR[R4016]->TE_IIR[R2046] WHERE ( ( ( SELECTED.port_name == instance ) and ( SELECTED.interface_name == tm_if.Name ) ) ) */
+    Escher_ClearSet( te_iirs );
+    {    if ( 0 != ep_pkg ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ep_pkg->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_C_C * R8001_subtype = (ooaofooa_C_C *) PE_PE_R8000_contains->R8001_subtype;
+    if ( 0 != R8001_subtype )    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
+    ooaofooa_C_PO * C_PO_R4010_communicates_through;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &R8001_subtype->C_PO_R4010_communicates_through );
+    while ( 0 != ( C_PO_R4010_communicates_through = (ooaofooa_C_PO *) Escher_IteratorNext( &i ) ) ) {
+    ooaofooa_C_IR * C_IR_R4016_exposes;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &C_PO_R4010_communicates_through->C_IR_R4016_exposes );
+    while ( 0 != ( C_IR_R4016_exposes = (ooaofooa_C_IR *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_IIR * selected = C_IR_R4016_exposes->TE_IIR_R2046;
+    if ( ( 0 != selected ) && ( ( Escher_strcmp( selected->port_name, instance ) == 0 ) && ( Escher_strcmp( selected->interface_name, tm_if->Name ) == 0 ) ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_iirs, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_iirs, selected );
+    }}}
+}}}}}}
+    /* FOR EACH te_iir IN te_iirs */
+    { Escher_Iterator_s iterte_iir;
+    ooaofooa_TE_IIR * iite_iir;
+    Escher_IteratorReset( &iterte_iir, te_iirs );
+    while ( (iite_iir = (ooaofooa_TE_IIR *)Escher_IteratorNext( &iterte_iir )) != 0 ) {
+      te_iir = iite_iir; {
+    ooaofooa_TM_TPV * tm_tpv;
+    /* CREATE OBJECT INSTANCE tm_tpv OF TM_TPV */
+    tm_tpv = (ooaofooa_TM_TPV *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TPV_CLASS_NUMBER );
+    tm_tpv->ID = (Escher_UniqueID_t) tm_tpv;
+    /* ASSIGN tm_tpv.instance = instance */
+    Escher_strcpy( tm_tpv->instance, instance );
+    /* ASSIGN tm_tpv.value = value */
+    Escher_strcpy( tm_tpv->value, value );
+    /* RELATE tm_tpv TO tm_tp ACROSS R2808 */
+    ooaofooa_TM_TPV_R2808_Link_has_value( tm_tp, tm_tpv );
+    /* RELATE tm_tpv TO te_iir ACROSS R2806 */
+    ooaofooa_TM_TPV_R2806_Link( te_iir, tm_tpv );
+    }}}
+    Escher_ClearSet( te_iirs ); 
+    }
+    else {
+    /* T::print( s:ERROR:  SetTemplateParameter - Found a template parameter for a template that is orphaned. ) */
+    T_print( "ERROR:  SetTemplateParameter - Found a template parameter for a template that is orphaned." );
+    }
+    }
+    else {
+    /* T::print( s:WARNING:  SetTemplateParameter - Did NOT find template parameter for package ${package_name}::${instance} with name ${variable_name}. ) */
+    T_print( ({char s[512]={0};T_T("WARNING:  SetTemplateParameter - Did NOT find template parameter for package ");T_T(package_name);T_T("::");T_T(instance);T_T(" with name ");T_T(variable_name);T_T(".");}) );
+    }
+  }
+
+}
+
+/*
+ * Domain Function:  AddTemplateParameter
+ */
+void
+ooaofooa_AddTemplateParameter( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_default_value[ESCHER_SYS_MAX_STRING_LEN], c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_type_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_variable_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t default_value[ESCHER_SYS_MAX_STRING_LEN];c_t variable_name[ESCHER_SYS_MAX_STRING_LEN];c_t type_name[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];c_t package_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_C * tm_c=0;ooaofooa_TM_TEMPLATE * tm_template=0;
+  /* ASSIGN package_name = PARAM.package_name */
+  Escher_strcpy( package_name, p_package_name );
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN type_name = PARAM.type_name */
+  Escher_strcpy( type_name, p_type_name );
+  /* ASSIGN variable_name = PARAM.variable_name */
+  Escher_strcpy( variable_name, p_variable_name );
+  /* ASSIGN default_value = PARAM.default_value */
+  Escher_strcpy( default_value, p_default_value );
+  /* SELECT any tm_template FROM INSTANCES OF TM_TEMPLATE WHERE SELECTED.current */
+  tm_template = 0;
+  { ooaofooa_TM_TEMPLATE * selected;
+    Escher_Iterator_s itertm_templateooaofooa_TM_TEMPLATE;
+    Escher_IteratorReset( &itertm_templateooaofooa_TM_TEMPLATE, &pG_ooaofooa_TM_TEMPLATE_extent.active );
+    while ( (selected = (ooaofooa_TM_TEMPLATE *) Escher_IteratorNext( &itertm_templateooaofooa_TM_TEMPLATE )) != 0 ) {
+      if ( selected->current ) {
+        tm_template = selected;
+        break;
+      }
+    }
+  }
+  /* SELECT any tm_c FROM INSTANCES OF TM_C WHERE ( ( SELECTED.Package == package_name ) and ( SELECTED.Name == component_name ) ) */
+  tm_c = 0;
+  { ooaofooa_TM_C * selected;
+    Escher_Iterator_s itertm_cooaofooa_TM_C;
+    Escher_IteratorReset( &itertm_cooaofooa_TM_C, &pG_ooaofooa_TM_C_extent.active );
+    while ( (selected = (ooaofooa_TM_C *) Escher_IteratorNext( &itertm_cooaofooa_TM_C )) != 0 ) {
+      if ( ( ( Escher_strcmp( selected->Package, package_name ) == 0 ) && ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) ) {
+        tm_c = selected;
+        break;
+      }
+    }
+  }
+  /* IF ( ( (  == package_name ) or ( * == package_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", package_name ) == 0 ) || ( Escher_strcmp( "*", package_name ) == 0 ) ) ) {
+    /* SELECT any tm_c FROM INSTANCES OF TM_C WHERE ( SELECTED.Name == component_name ) */
+    tm_c = 0;
+    { ooaofooa_TM_C * selected;
+      Escher_Iterator_s itertm_cooaofooa_TM_C;
+      Escher_IteratorReset( &itertm_cooaofooa_TM_C, &pG_ooaofooa_TM_C_extent.active );
+      while ( (selected = (ooaofooa_TM_C *) Escher_IteratorNext( &itertm_cooaofooa_TM_C )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+          tm_c = selected;
+          break;
+        }
+      }
+    }
+    /* IF ( empty tm_c ) */
+    if ( ( 0 == tm_c ) ) {
+    /* SELECT one tm_c RELATED BY tm_template->TM_C[R2800] */
+    tm_c = ( 0 != tm_template ) ? tm_template->TM_C_R2800 : 0;
+    }
+  }
+  /* IF ( empty tm_c ) */
+  if ( ( 0 == tm_c ) ) {
+    ooaofooa_TM_IF * tm_if=0;
+    /* SELECT any tm_if FROM INSTANCES OF TM_IF WHERE ( ( SELECTED.Package == package_name ) and ( SELECTED.Name == component_name ) ) */
+    tm_if = 0;
+    { ooaofooa_TM_IF * selected;
+      Escher_Iterator_s itertm_ifooaofooa_TM_IF;
+      Escher_IteratorReset( &itertm_ifooaofooa_TM_IF, &pG_ooaofooa_TM_IF_extent.active );
+      while ( (selected = (ooaofooa_TM_IF *) Escher_IteratorNext( &itertm_ifooaofooa_TM_IF )) != 0 ) {
+        if ( ( ( Escher_strcmp( selected->Package, package_name ) == 0 ) && ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) ) {
+          tm_if = selected;
+          break;
+        }
+      }
+    }
+    /* IF ( ( (  == package_name ) or ( * == package_name ) ) ) */
+    if ( ( ( Escher_strcmp( "", package_name ) == 0 ) || ( Escher_strcmp( "*", package_name ) == 0 ) ) ) {
+    /* SELECT any tm_if FROM INSTANCES OF TM_IF WHERE ( SELECTED.Name == component_name ) */
+    tm_if = 0;
+    { ooaofooa_TM_IF * selected;
+      Escher_Iterator_s itertm_ifooaofooa_TM_IF;
+      Escher_IteratorReset( &itertm_ifooaofooa_TM_IF, &pG_ooaofooa_TM_IF_extent.active );
+      while ( (selected = (ooaofooa_TM_IF *) Escher_IteratorNext( &itertm_ifooaofooa_TM_IF )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+          tm_if = selected;
+          break;
+        }
+      }
+    }
+    /* IF ( empty tm_if ) */
+    if ( ( 0 == tm_if ) ) {
+    /* SELECT one tm_if RELATED BY tm_template->TM_IF[R2802] */
+    tm_if = ( 0 != tm_template ) ? tm_template->TM_IF_R2802 : 0;
+    }
+    }
+    /* IF ( empty tm_if ) */
+    if ( ( 0 == tm_if ) ) {
+    /* T::print( s:ERROR:  AddTemplateParameter - Could not find element (component or interface) ${package_name}::${component_name}. ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  AddTemplateParameter - Could not find element (component or interface) ");T_T(package_name);T_T("::");T_T(component_name);T_T(".");}) );
+    }
+    else {
+    /* SELECT one tm_template RELATED BY tm_if->TM_TEMPLATE[R2802] */
+    tm_template = ( 0 != tm_if ) ? tm_if->TM_TEMPLATE_R2802 : 0;
+    }
+  }
+  else {
+    /* SELECT one tm_template RELATED BY tm_c->TM_TEMPLATE[R2800] */
+    tm_template = ( 0 != tm_c ) ? tm_c->TM_TEMPLATE_R2800 : 0;
+  }
+  /* IF ( not_empty tm_template ) */
+  if ( ( 0 != tm_template ) ) {
+    ooaofooa_TM_TP * tm_tp;
+    /* CREATE OBJECT INSTANCE tm_tp OF TM_TP */
+    tm_tp = (ooaofooa_TM_TP *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TP_CLASS_NUMBER );
+    tm_tp->ID = (Escher_UniqueID_t) tm_tp;
+    /* RELATE tm_tp TO tm_template ACROSS R2801 */
+    ooaofooa_TM_TP_R2801_Link( tm_template, tm_tp );
+    /* ASSIGN tm_tp.typename = type_name */
+    Escher_strcpy( tm_tp->typename, type_name );
+    /* ASSIGN tm_tp.Name = variable_name */
+    Escher_strcpy( tm_tp->Name, variable_name );
+    /* ASSIGN tm_tp.DefaultValue = default_value */
+    Escher_strcpy( tm_tp->DefaultValue, default_value );
+  }
+  else {
+    /* T::print( s:ERROR:  AddTemplateParameter - Could not find template for element ${package_name}::${component_name}. ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  AddTemplateParameter - Could not find template for element ");T_T(package_name);T_T("::");T_T(component_name);T_T(".");}) );
+  }
+
+}
+
+/*
+ * Domain Function:  MarkInterfaceWithTemplate
+ */
+void
+ooaofooa_MarkInterfaceWithTemplate( c_t p_interface_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TM_TEMPLATE * tm_template=0;c_t interface_name[ESCHER_SYS_MAX_STRING_LEN];c_t package_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_IF * tm_if;Escher_ObjectSet_s tm_templates_space={0}; Escher_ObjectSet_s * tm_templates = &tm_templates_space;ooaofooa_C_I * c_i=0;
+  /* ASSIGN package_name = PARAM.package_name */
+  Escher_strcpy( package_name, p_package_name );
+  /* ASSIGN interface_name = PARAM.interface_name */
+  Escher_strcpy( interface_name, p_interface_name );
+  /* SELECT any c_i FROM INSTANCES OF C_I WHERE FALSE */
+  c_i = 0;
+  /* IF ( ( (  == package_name ) or ( * == package_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", package_name ) == 0 ) || ( Escher_strcmp( "*", package_name ) == 0 ) ) ) {
+    /* SELECT any c_i FROM INSTANCES OF C_I WHERE ( SELECTED.Name == interface_name ) */
+    c_i = 0;
+    { ooaofooa_C_I * selected;
+      Escher_Iterator_s iterc_iooaofooa_C_I;
+      Escher_IteratorReset( &iterc_iooaofooa_C_I, &pG_ooaofooa_C_I_extent.active );
+      while ( (selected = (ooaofooa_C_I *) Escher_IteratorNext( &iterc_iooaofooa_C_I )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, interface_name ) == 0 ) ) {
+          c_i = selected;
+          break;
+        }
+      }
+    }
+  }
+  else {
+    Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
+    /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == package_name ) */
+    Escher_ClearSet( ep_pkgs );
+    { ooaofooa_EP_PKG * selected;
+      Escher_Iterator_s iterep_pkgsooaofooa_EP_PKG;
+      Escher_IteratorReset( &iterep_pkgsooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
+      while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgsooaofooa_EP_PKG )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, package_name ) == 0 ) ) {
+          Escher_SetInsertElement( ep_pkgs, selected );
+        }
+      }
+    }
+    /* SELECT any c_i RELATED BY ep_pkgs->PE_PE[R8000]->C_I[R8001] WHERE ( ( SELECTED.Name == interface_name ) ) */
+    c_i = 0;
+    {    ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, ep_pkgs );
+    while ( ( 0 == c_i ) && ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_EP_PKG_linkage->PE_PE_R8000_contains );
+    while ( ( 0 == c_i ) && ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) ) {
+    if ( ooaofooa_C_I_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id )    {ooaofooa_C_I * selected = (ooaofooa_C_I *) PE_PE_R8000_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, interface_name ) == 0 ) ) {
+      c_i = selected;
+    }}
+}}}
+    Escher_ClearSet( ep_pkgs );
+  }
+  /* IF ( empty c_i ) */
+  if ( ( 0 == c_i ) ) {
+    /* T::print( s:WARNING:  MarkInterfaceWithTemplate - Could not find interface ${package_name}::${interface_name}. ) */
+    T_print( ({char s[512]={0};T_T("WARNING:  MarkInterfaceWithTemplate - Could not find interface ");T_T(package_name);T_T("::");T_T(interface_name);T_T(".");}) );
+  }
+  /* CREATE OBJECT INSTANCE tm_if OF TM_IF */
+  tm_if = (ooaofooa_TM_IF *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_IF_CLASS_NUMBER );
+  /* ASSIGN tm_if.Package = package_name */
+  Escher_strcpy( tm_if->Package, package_name );
+  /* ASSIGN tm_if.Name = interface_name */
+  Escher_strcpy( tm_if->Name, interface_name );
+  /* RELATE tm_if TO c_i ACROSS R2807 */
+  ooaofooa_TM_IF_R2807_Link( c_i, tm_if );
+  /* SELECT many tm_templates FROM INSTANCES OF TM_TEMPLATE */
+  Escher_CopySet( tm_templates, &pG_ooaofooa_TM_TEMPLATE_extent.active );
+  /* FOR EACH tm_template IN tm_templates */
+  { Escher_Iterator_s itertm_template;
+  ooaofooa_TM_TEMPLATE * iitm_template;
+  Escher_IteratorReset( &itertm_template, tm_templates );
+  while ( (iitm_template = (ooaofooa_TM_TEMPLATE *)Escher_IteratorNext( &itertm_template )) != 0 ) {
+    tm_template = iitm_template; {
+    /* ASSIGN tm_template.current = FALSE */
+    tm_template->current = FALSE;
+  }}}
+  /* CREATE OBJECT INSTANCE tm_template OF TM_TEMPLATE */
+  tm_template = (ooaofooa_TM_TEMPLATE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TEMPLATE_CLASS_NUMBER );
+  tm_template->ID = (Escher_UniqueID_t) tm_template;
+  /* ASSIGN tm_template.current = TRUE */
+  tm_template->current = TRUE;
+  /* RELATE tm_template TO tm_if ACROSS R2802 */
+  ooaofooa_TM_TEMPLATE_R2802_Link( tm_if, tm_template );
+  Escher_ClearSet( tm_templates );
+
+}
+
+/*
+ * Domain Function:  MarkComponentWithTemplate
+ */
+void
+ooaofooa_MarkComponentWithTemplate( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t component_name[ESCHER_SYS_MAX_STRING_LEN];c_t package_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN package_name = PARAM.package_name */
+  Escher_strcpy( package_name, p_package_name );
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* SELECT many c_cs FROM INSTANCES OF C_C WHERE FALSE */
+  Escher_ClearSet( c_cs );
+  /* IF ( ( ( (  == package_name ) and (  == component_name ) ) or ( ( * == package_name ) and ( * == component_name ) ) ) ) */
+  if ( ( ( ( Escher_strcmp( "", package_name ) == 0 ) && ( Escher_strcmp( "", component_name ) == 0 ) ) || ( ( Escher_strcmp( "*", package_name ) == 0 ) && ( Escher_strcmp( "*", component_name ) == 0 ) ) ) ) {
+    /* SELECT many c_cs FROM INSTANCES OF C_C */
+    Escher_CopySet( c_cs, &pG_ooaofooa_C_C_extent.active );
+  }
+  else if ( ( ( Escher_strcmp( "", package_name ) == 0 ) || ( Escher_strcmp( "*", package_name ) == 0 ) ) ) {
+    /* SELECT many c_cs FROM INSTANCES OF C_C WHERE ( SELECTED.Name == component_name ) */
+    Escher_ClearSet( c_cs );
+    { ooaofooa_C_C * selected;
+      Escher_Iterator_s iterc_csooaofooa_C_C;
+      Escher_IteratorReset( &iterc_csooaofooa_C_C, &pG_ooaofooa_C_C_extent.active );
+      while ( (selected = (ooaofooa_C_C *) Escher_IteratorNext( &iterc_csooaofooa_C_C )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+          Escher_SetInsertElement( c_cs, selected );
+        }
+      }
+    }
+  }
+  else if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
+    /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == package_name ) */
+    Escher_ClearSet( ep_pkgs );
+    { ooaofooa_EP_PKG * selected;
+      Escher_Iterator_s iterep_pkgsooaofooa_EP_PKG;
+      Escher_IteratorReset( &iterep_pkgsooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
+      while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgsooaofooa_EP_PKG )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, package_name ) == 0 ) ) {
+          Escher_SetInsertElement( ep_pkgs, selected );
+        }
+      }
+    }
+    /* SELECT many c_cs RELATED BY ep_pkgs->PE_PE[R8000]->C_C[R8001] */
+    Escher_ClearSet( c_cs );
+    {    ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, ep_pkgs );
+    while ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_EP_PKG_linkage->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id )    {ooaofooa_C_C * R8001_subtype = PE_PE_R8000_contains->R8001_subtype;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_cs, R8001_subtype ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) c_cs, R8001_subtype );
+    }}}}}
+    Escher_ClearSet( ep_pkgs );
+  }
+  else {
+    Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
+    /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == package_name ) */
+    Escher_ClearSet( ep_pkgs );
+    { ooaofooa_EP_PKG * selected;
+      Escher_Iterator_s iterep_pkgsooaofooa_EP_PKG;
+      Escher_IteratorReset( &iterep_pkgsooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
+      while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgsooaofooa_EP_PKG )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, package_name ) == 0 ) ) {
+          Escher_SetInsertElement( ep_pkgs, selected );
+        }
+      }
+    }
+    /* SELECT many c_cs RELATED BY ep_pkgs->PE_PE[R8000]->C_C[R8001] WHERE ( ( SELECTED.Name == component_name ) ) */
+    Escher_ClearSet( c_cs );
+    {    ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, ep_pkgs );
+    while ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_EP_PKG_linkage->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id )    {ooaofooa_C_C * selected = PE_PE_R8000_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_cs, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) c_cs, selected );
+    }}}
+}}}
+    Escher_ClearSet( ep_pkgs );
+  }
+  /* SELECT many te_cs RELATED BY c_cs->TE_C[R2054] */
+  Escher_ClearSet( te_cs );
+  {ooaofooa_C_C * ooaofooa_C_C_linkage;
+  Escher_Iterator_s start_many_iterator;
+  Escher_IteratorReset( &start_many_iterator, c_cs );
+  while ( 0 != ( ooaofooa_C_C_linkage = (ooaofooa_C_C *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    {ooaofooa_TE_C * TE_C_R2054 = ooaofooa_C_C_linkage->TE_C_R2054;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_cs, TE_C_R2054 ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) te_cs, TE_C_R2054 );
+  }}}}
+  /* IF ( empty te_cs ) */
+  if ( Escher_SetIsEmpty( te_cs ) ) {
+    /* T::print( s:WARNING:  MarkComponentWithTemplate - Could not find component ${package_name}::${component_name}. ) */
+    T_print( ({char s[512]={0};T_T("WARNING:  MarkComponentWithTemplate - Could not find component ");T_T(package_name);T_T("::");T_T(component_name);T_T(".");}) );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    ooaofooa_TM_TEMPLATE * tm_template=0;Escher_ObjectSet_s tm_templates_space={0}; Escher_ObjectSet_s * tm_templates = &tm_templates_space;ooaofooa_TM_C * tm_c=0;
+    /* SELECT one tm_c RELATED BY te_c->TM_C[R2804] */
+    tm_c = ( 0 != te_c ) ? te_c->TM_C_R2804 : 0;
+    /* IF ( empty tm_c ) */
+    if ( ( 0 == tm_c ) ) {
+    /* CREATE OBJECT INSTANCE tm_c OF TM_C */
+    tm_c = (ooaofooa_TM_C *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_C_CLASS_NUMBER );
+    /* ASSIGN tm_c.Package = package_name */
+    Escher_strcpy( tm_c->Package, package_name );
+    /* ASSIGN tm_c.Name = component_name */
+    Escher_strcpy( tm_c->Name, component_name );
+    /* ASSIGN tm_c.isChannel = FALSE */
+    tm_c->isChannel = FALSE;
+    /* ASSIGN tm_c.include_file =  */
+    Escher_strcpy( tm_c->include_file, "" );
+    }
+    /* IF ( not_empty te_c ) */
+    if ( ( 0 != te_c ) ) {
+    /* RELATE te_c TO tm_c ACROSS R2804 */
+    ooaofooa_TM_C_R2804_Link( te_c, tm_c );
+    }
+    /* SELECT many tm_templates FROM INSTANCES OF TM_TEMPLATE */
+    Escher_CopySet( tm_templates, &pG_ooaofooa_TM_TEMPLATE_extent.active );
+    /* FOR EACH tm_template IN tm_templates */
+    { Escher_Iterator_s itertm_template;
+    ooaofooa_TM_TEMPLATE * iitm_template;
+    Escher_IteratorReset( &itertm_template, tm_templates );
+    while ( (iitm_template = (ooaofooa_TM_TEMPLATE *)Escher_IteratorNext( &itertm_template )) != 0 ) {
+      tm_template = iitm_template; {
+    /* ASSIGN tm_template.current = FALSE */
+    tm_template->current = FALSE;
+    }}}
+    /* CREATE OBJECT INSTANCE tm_template OF TM_TEMPLATE */
+    tm_template = (ooaofooa_TM_TEMPLATE *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_TEMPLATE_CLASS_NUMBER );
+    tm_template->ID = (Escher_UniqueID_t) tm_template;
+    /* ASSIGN tm_template.current = TRUE */
+    tm_template->current = TRUE;
+    /* RELATE tm_template TO tm_c ACROSS R2800 */
+    ooaofooa_TM_TEMPLATE_R2800_Link( tm_c, tm_template );
+    Escher_ClearSet( tm_templates );
+  }}}
+  Escher_ClearSet( c_cs );Escher_ClearSet( te_cs ); 
+
+}
+
+/*
+ * Domain Function:  MarkComponentAsChannel
+ */
+void
+ooaofooa_MarkComponentAsChannel( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_inc_file[ESCHER_SYS_MAX_STRING_LEN], c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t inc_file[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];c_t package_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN package_name = PARAM.package_name */
+  Escher_strcpy( package_name, p_package_name );
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN inc_file = PARAM.inc_file */
+  Escher_strcpy( inc_file, p_inc_file );
+  /* SELECT many c_cs FROM INSTANCES OF C_C WHERE FALSE */
+  Escher_ClearSet( c_cs );
+  /* IF ( ( ( (  == package_name ) and (  == component_name ) ) or ( ( * == package_name ) and ( * == component_name ) ) ) ) */
+  if ( ( ( ( Escher_strcmp( "", package_name ) == 0 ) && ( Escher_strcmp( "", component_name ) == 0 ) ) || ( ( Escher_strcmp( "*", package_name ) == 0 ) && ( Escher_strcmp( "*", component_name ) == 0 ) ) ) ) {
+    /* SELECT many c_cs FROM INSTANCES OF C_C */
+    Escher_CopySet( c_cs, &pG_ooaofooa_C_C_extent.active );
+  }
+  else if ( ( ( Escher_strcmp( "", package_name ) == 0 ) || ( Escher_strcmp( "*", package_name ) == 0 ) ) ) {
+    /* SELECT many c_cs FROM INSTANCES OF C_C WHERE ( SELECTED.Name == component_name ) */
+    Escher_ClearSet( c_cs );
+    { ooaofooa_C_C * selected;
+      Escher_Iterator_s iterc_csooaofooa_C_C;
+      Escher_IteratorReset( &iterc_csooaofooa_C_C, &pG_ooaofooa_C_C_extent.active );
+      while ( (selected = (ooaofooa_C_C *) Escher_IteratorNext( &iterc_csooaofooa_C_C )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+          Escher_SetInsertElement( c_cs, selected );
+        }
+      }
+    }
+  }
+  else if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
+    /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == package_name ) */
+    Escher_ClearSet( ep_pkgs );
+    { ooaofooa_EP_PKG * selected;
+      Escher_Iterator_s iterep_pkgsooaofooa_EP_PKG;
+      Escher_IteratorReset( &iterep_pkgsooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
+      while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgsooaofooa_EP_PKG )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, package_name ) == 0 ) ) {
+          Escher_SetInsertElement( ep_pkgs, selected );
+        }
+      }
+    }
+    /* SELECT many c_cs RELATED BY ep_pkgs->PE_PE[R8000]->C_C[R8001] */
+    Escher_ClearSet( c_cs );
+    {    ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, ep_pkgs );
+    while ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_EP_PKG_linkage->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id )    {ooaofooa_C_C * R8001_subtype = PE_PE_R8000_contains->R8001_subtype;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_cs, R8001_subtype ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) c_cs, R8001_subtype );
+    }}}}}
+    Escher_ClearSet( ep_pkgs );
+  }
+  else {
+    Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;
+    /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == package_name ) */
+    Escher_ClearSet( ep_pkgs );
+    { ooaofooa_EP_PKG * selected;
+      Escher_Iterator_s iterep_pkgsooaofooa_EP_PKG;
+      Escher_IteratorReset( &iterep_pkgsooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
+      while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgsooaofooa_EP_PKG )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, package_name ) == 0 ) ) {
+          Escher_SetInsertElement( ep_pkgs, selected );
+        }
+      }
+    }
+    /* SELECT many c_cs RELATED BY ep_pkgs->PE_PE[R8000]->C_C[R8001] WHERE ( ( SELECTED.Name == component_name ) ) */
+    Escher_ClearSet( c_cs );
+    {    ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+    Escher_Iterator_s start_many_iterator;
+    Escher_IteratorReset( &start_many_iterator, ep_pkgs );
+    while ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    ooaofooa_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &ooaofooa_EP_PKG_linkage->PE_PE_R8000_contains );
+    while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &i ) ) ) {
+    if ( ooaofooa_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id )    {ooaofooa_C_C * selected = PE_PE_R8000_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_cs, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) c_cs, selected );
+    }}}
+}}}
+    Escher_ClearSet( ep_pkgs );
+  }
+  /* SELECT many te_cs RELATED BY c_cs->TE_C[R2054] */
+  Escher_ClearSet( te_cs );
+  {ooaofooa_C_C * ooaofooa_C_C_linkage;
+  Escher_Iterator_s start_many_iterator;
+  Escher_IteratorReset( &start_many_iterator, c_cs );
+  while ( 0 != ( ooaofooa_C_C_linkage = (ooaofooa_C_C *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+    {ooaofooa_TE_C * TE_C_R2054 = ooaofooa_C_C_linkage->TE_C_R2054;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_cs, TE_C_R2054 ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) te_cs, TE_C_R2054 );
+  }}}}
+  /* IF ( empty te_cs ) */
+  if ( Escher_SetIsEmpty( te_cs ) ) {
+    /* T::print( s:WARNING:  MarkComponentAsChannel - Could not find component ${package_name}::${component_name}. ) */
+    T_print( ({char s[512]={0};T_T("WARNING:  MarkComponentAsChannel - Could not find component ");T_T(package_name);T_T("::");T_T(component_name);T_T(".");}) );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    ooaofooa_TE_MACT * te_mact=0;Escher_ObjectSet_s te_macts_space={0}; Escher_ObjectSet_s * te_macts = &te_macts_space;ooaofooa_TM_C * tm_c=0;
+    /* SELECT one tm_c RELATED BY te_c->TM_C[R2804] */
+    tm_c = ( 0 != te_c ) ? te_c->TM_C_R2804 : 0;
+    /* IF ( empty tm_c ) */
+    if ( ( 0 == tm_c ) ) {
+    /* CREATE OBJECT INSTANCE tm_c OF TM_C */
+    tm_c = (ooaofooa_TM_C *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_C_CLASS_NUMBER );
+    /* ASSIGN tm_c.Package = package_name */
+    Escher_strcpy( tm_c->Package, package_name );
+    /* ASSIGN tm_c.Name = component_name */
+    Escher_strcpy( tm_c->Name, component_name );
+    /* RELATE te_c TO tm_c ACROSS R2804 */
+    ooaofooa_TM_C_R2804_Link( te_c, tm_c );
+    }
+    /* ASSIGN tm_c.isChannel = TRUE */
+    tm_c->isChannel = TRUE;
+    /* ASSIGN tm_c.include_file = inc_file */
+    Escher_strcpy( tm_c->include_file, inc_file );
+    /* SELECT many te_macts RELATED BY te_c->TE_MACT[R2002] */
+    Escher_ClearSet( te_macts );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_macts, &te_c->TE_MACT_R2002 );
+    }
+    /* FOR EACH te_mact IN te_macts */
+    { Escher_Iterator_s iterte_mact;
+    ooaofooa_TE_MACT * iite_mact;
+    Escher_IteratorReset( &iterte_mact, te_macts );
+    while ( (iite_mact = (ooaofooa_TE_MACT *)Escher_IteratorNext( &iterte_mact )) != 0 ) {
+      te_mact = iite_mact; {
+    ooaofooa_TE_ABA * te_aba=0;
+    /* SELECT one te_aba RELATED BY te_mact->TE_ABA[R2010] */
+    te_aba = ( 0 != te_mact ) ? te_mact->TE_ABA_R2010 : 0;
+    /* ASSIGN te_mact.GeneratedName = te_mact.MessageName */
+    Escher_strcpy( te_mact->GeneratedName, te_mact->MessageName );
+    /* ASSIGN te_mact.GeneratedName = T::r(s:te_mact.GeneratedName) */
+    Escher_strcpy( te_mact->GeneratedName, T_r( te_mact->GeneratedName ) );
+    /* ASSIGN te_aba.GeneratedName = te_mact.GeneratedName */
+    Escher_strcpy( te_aba->GeneratedName, te_mact->GeneratedName );
+    }}}
+    Escher_ClearSet( te_macts ); 
+  }}}
+  Escher_ClearSet( c_cs );Escher_ClearSet( te_cs ); 
+
+}
+
+/*
+ * Domain Function:  MarkAsChannel
+ */
+void
+ooaofooa_MarkAsChannel( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_inc_file[ESCHER_SYS_MAX_STRING_LEN], c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t inc_file[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];c_t package_name[ESCHER_SYS_MAX_STRING_LEN];
+  /* ASSIGN package_name = PARAM.package_name */
+  Escher_strcpy( package_name, p_package_name );
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN inc_file = PARAM.inc_file */
+  Escher_strcpy( inc_file, p_inc_file );
+  /* ::MarkComponentAsChannel( component_name:component_name, inc_file:inc_file, package_name:package_name ) */
+  ooaofooa_MarkComponentAsChannel( component_name, inc_file, package_name );
+
+}
+
+/*
+ * Domain Function:  MarkClassToTask
+ */
+void
+ooaofooa_MarkClassToTask( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN], const i_t p_task )
+{
+  ooaofooa_TE_C * te_c=0;i_t task;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN task = PARAM.task */
+  task = p_task;
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    ooaofooa_TE_CLASS * te_class=0;Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( FALSE ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    /* IF ( ( ( * == ss_prefix ) and ( * == obj_key_letters ) ) ) */
+    if ( ( ( Escher_strcmp( "*", ss_prefix ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
+    Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_classes, &te_c->TE_CLASS_R2064 );
+    }
+    }
+    else if ( ( Escher_strcmp( "", ss_prefix ) == 0 ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    }
+    else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
+    ooaofooa_S_SS * s_ss=0;
+    /* SELECT any s_ss FROM INSTANCES OF S_SS WHERE ( SELECTED.Name == ss_prefix ) */
+    s_ss = 0;
+    { ooaofooa_S_SS * selected;
+      Escher_Iterator_s iters_ssooaofooa_S_SS;
+      Escher_IteratorReset( &iters_ssooaofooa_S_SS, &pG_ooaofooa_S_SS_extent.active );
+      while ( (selected = (ooaofooa_S_SS *) Escher_IteratorNext( &iters_ssooaofooa_S_SS )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, ss_prefix ) == 0 ) ) {
+          s_ss = selected;
+          break;
+        }
+      }
+    }
+    /* SELECT many te_classes RELATED BY s_ss->O_OBJ[R2]->TE_CLASS[R2019] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {    if ( 0 != s_ss ) {
+    ooaofooa_O_OBJ * O_OBJ_R2_is_decomposed_into;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &s_ss->O_OBJ_R2_is_decomposed_into );
+    while ( 0 != ( O_OBJ_R2_is_decomposed_into = (ooaofooa_O_OBJ *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_CLASS * selected = O_OBJ_R2_is_decomposed_into->TE_CLASS_R2019;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}
+}}}
+    }
+    else {
+    /* T::print( s:ERROR:  MapClassToTask( ${ss_prefix}, ${obj_key_letters}, $t{task} ) in component ${te_c.Name}\n ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  MapClassToTask( ");T_T(ss_prefix);T_T(", ");T_T(obj_key_letters);T_T(", ");T_T(T_s(task));T_T(" ) in component ");T_T(te_c->Name);T_T("\n");}) );
+    }
+    /* FOR EACH te_class IN te_classes */
+    { Escher_Iterator_s iterte_class;
+    ooaofooa_TE_CLASS * iite_class;
+    Escher_IteratorReset( &iterte_class, te_classes );
+    while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+      te_class = iite_class; {
+    /* ASSIGN te_class.Task = task */
+    te_class->Task = task;
+    }}}
+    Escher_ClearSet( te_classes ); 
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MapClassToTask
+ */
+void
+ooaofooa_MapClassToTask( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN], const i_t p_task )
+{
+  ooaofooa_TE_C * te_c=0;i_t task;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN task = PARAM.task */
+  task = p_task;
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkClassToTask( component_name:te_c.Name, obj_key_letters:obj_key_letters, ss_prefix:ss_prefix, task:task ) */
+    ooaofooa_MarkClassToTask( te_c->Name, obj_key_letters, ss_prefix, task );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkNonPersistentClass
+ */
+void
+ooaofooa_MarkNonPersistentClass( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    ooaofooa_TE_CLASS * te_class=0;c_t msg[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( FALSE ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    /* IF ( ( ( * == ss_prefix ) and ( * == obj_key_letters ) ) ) */
+    if ( ( ( Escher_strcmp( "*", ss_prefix ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
+    Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_classes, &te_c->TE_CLASS_R2064 );
+    }
+    }
+    else if ( ( Escher_strcmp( "", ss_prefix ) == 0 ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    }
+    else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
+    ooaofooa_S_SS * s_ss=0;
+    /* SELECT any s_ss FROM INSTANCES OF S_SS WHERE ( SELECTED.Name == ss_prefix ) */
+    s_ss = 0;
+    { ooaofooa_S_SS * selected;
+      Escher_Iterator_s iters_ssooaofooa_S_SS;
+      Escher_IteratorReset( &iters_ssooaofooa_S_SS, &pG_ooaofooa_S_SS_extent.active );
+      while ( (selected = (ooaofooa_S_SS *) Escher_IteratorNext( &iters_ssooaofooa_S_SS )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, ss_prefix ) == 0 ) ) {
+          s_ss = selected;
+          break;
+        }
+      }
+    }
+    /* SELECT many te_classes RELATED BY s_ss->O_OBJ[R2]->TE_CLASS[R2019] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {    if ( 0 != s_ss ) {
+    ooaofooa_O_OBJ * O_OBJ_R2_is_decomposed_into;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &s_ss->O_OBJ_R2_is_decomposed_into );
+    while ( 0 != ( O_OBJ_R2_is_decomposed_into = (ooaofooa_O_OBJ *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_CLASS * selected = O_OBJ_R2_is_decomposed_into->TE_CLASS_R2019;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}
+}}}
+    }
+    else {
+    /* ASSIGN msg = ( msg + ERROR:  MarkNonPersistentClass( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("ERROR:  MarkNonPersistentClass( ");T_T(ss_prefix);T_T(", ");T_T(obj_key_letters);T_T(" ) in component ");T_T(te_c->Name);T_T("\n");}) ) );
+    }
+    /* FOR EACH te_class IN te_classes */
+    { Escher_Iterator_s iterte_class;
+    ooaofooa_TE_CLASS * iite_class;
+    Escher_IteratorReset( &iterte_class, te_classes );
+    while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+      te_class = iite_class; {
+    /* ASSIGN te_class.Persistent = FALSE */
+    te_class->Persistent = FALSE;
+    /* ASSIGN msg = ( msg + Class ${te_class.Name} (${te_class.Key_Lett}) in component ${te_c.Name} marked as not persistent.\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("Class ");T_T(te_class->Name);T_T(" (");T_T(te_class->Key_Lett);T_T(") in component ");T_T(te_c->Name);T_T(" marked as not persistent.\n");}) ) );
+    }}}
+    /* IF ( (  != msg ) ) */
+    if ( ( Escher_strcmp( "", msg ) != 0 ) ) {
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+    }
+    Escher_ClearSet( te_classes ); 
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagNonPersistentClass
+ */
+void
+ooaofooa_TagNonPersistentClass( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkNonPersistentClass( component_name:te_c.Name, obj_key_letters:obj_key_letters, ss_prefix:ss_prefix ) */
+    ooaofooa_MarkNonPersistentClass( te_c->Name, obj_key_letters, ss_prefix );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkPersistentClass
+ */
+void
+ooaofooa_MarkPersistentClass( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    ooaofooa_TE_CLASS * te_class=0;c_t msg[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( FALSE ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    /* IF ( ( ( * == ss_prefix ) and ( * == obj_key_letters ) ) ) */
+    if ( ( ( Escher_strcmp( "*", ss_prefix ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
+    Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_classes, &te_c->TE_CLASS_R2064 );
+    }
+    }
+    else if ( ( Escher_strcmp( "", ss_prefix ) == 0 ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    }
+    else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
+    ooaofooa_S_SS * s_ss=0;
+    /* SELECT any s_ss FROM INSTANCES OF S_SS WHERE ( SELECTED.Name == ss_prefix ) */
+    s_ss = 0;
+    { ooaofooa_S_SS * selected;
+      Escher_Iterator_s iters_ssooaofooa_S_SS;
+      Escher_IteratorReset( &iters_ssooaofooa_S_SS, &pG_ooaofooa_S_SS_extent.active );
+      while ( (selected = (ooaofooa_S_SS *) Escher_IteratorNext( &iters_ssooaofooa_S_SS )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, ss_prefix ) == 0 ) ) {
+          s_ss = selected;
+          break;
+        }
+      }
+    }
+    /* SELECT many te_classes RELATED BY s_ss->O_OBJ[R2]->TE_CLASS[R2019] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {    if ( 0 != s_ss ) {
+    ooaofooa_O_OBJ * O_OBJ_R2_is_decomposed_into;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &s_ss->O_OBJ_R2_is_decomposed_into );
+    while ( 0 != ( O_OBJ_R2_is_decomposed_into = (ooaofooa_O_OBJ *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_CLASS * selected = O_OBJ_R2_is_decomposed_into->TE_CLASS_R2019;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}
+}}}
+    }
+    else {
+    /* ASSIGN msg = ( msg + ERROR:  MarkPersistentClass( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("ERROR:  MarkPersistentClass( ");T_T(ss_prefix);T_T(", ");T_T(obj_key_letters);T_T(" ) in component ");T_T(te_c->Name);T_T("\n");}) ) );
+    }
+    /* FOR EACH te_class IN te_classes */
+    { Escher_Iterator_s iterte_class;
+    ooaofooa_TE_CLASS * iite_class;
+    Escher_IteratorReset( &iterte_class, te_classes );
+    while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+      te_class = iite_class; {
+    /* ASSIGN te_class.Persistent = TRUE */
+    te_class->Persistent = TRUE;
+    /* ASSIGN msg = ( msg + Class ${te_class.Name} (${te_class.Key_Lett}) in component ${te_c.Name} marked as persistent.\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("Class ");T_T(te_class->Name);T_T(" (");T_T(te_class->Key_Lett);T_T(") in component ");T_T(te_c->Name);T_T(" marked as persistent.\n");}) ) );
+    }}}
+    /* IF ( (  != msg ) ) */
+    if ( ( Escher_strcmp( "", msg ) != 0 ) ) {
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+    }
+    Escher_ClearSet( te_classes ); 
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagPersistentClass
+ */
+void
+ooaofooa_TagPersistentClass( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkPersistentClass( component_name:te_c.Name, obj_key_letters:obj_key_letters, ss_prefix:ss_prefix ) */
+    ooaofooa_MarkPersistentClass( te_c->Name, obj_key_letters, ss_prefix );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkReadOnly
+ */
+void
+ooaofooa_MarkReadOnly( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    ooaofooa_TE_CLASS * te_class=0;c_t msg[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( FALSE ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    /* IF ( ( ( * == ss_prefix ) and ( * == obj_key_letters ) ) ) */
+    if ( ( ( Escher_strcmp( "*", ss_prefix ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
+    Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_classes, &te_c->TE_CLASS_R2064 );
+    }
+    }
+    else if ( ( Escher_strcmp( "", ss_prefix ) == 0 ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    }
+    else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
+    ooaofooa_S_SS * s_ss=0;
+    /* SELECT any s_ss FROM INSTANCES OF S_SS WHERE ( SELECTED.Name == ss_prefix ) */
+    s_ss = 0;
+    { ooaofooa_S_SS * selected;
+      Escher_Iterator_s iters_ssooaofooa_S_SS;
+      Escher_IteratorReset( &iters_ssooaofooa_S_SS, &pG_ooaofooa_S_SS_extent.active );
+      while ( (selected = (ooaofooa_S_SS *) Escher_IteratorNext( &iters_ssooaofooa_S_SS )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, ss_prefix ) == 0 ) ) {
+          s_ss = selected;
+          break;
+        }
+      }
+    }
+    /* SELECT many te_classes RELATED BY s_ss->O_OBJ[R2]->TE_CLASS[R2019] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {    if ( 0 != s_ss ) {
+    ooaofooa_O_OBJ * O_OBJ_R2_is_decomposed_into;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &s_ss->O_OBJ_R2_is_decomposed_into );
+    while ( 0 != ( O_OBJ_R2_is_decomposed_into = (ooaofooa_O_OBJ *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_CLASS * selected = O_OBJ_R2_is_decomposed_into->TE_CLASS_R2019;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}
+}}}
+    }
+    else {
+    /* ASSIGN msg = ( msg + ERROR:  MarkReadOnly( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("ERROR:  MarkReadOnly( ");T_T(ss_prefix);T_T(", ");T_T(obj_key_letters);T_T(" ) in component ");T_T(te_c->Name);T_T("\n");}) ) );
+    }
+    /* FOR EACH te_class IN te_classes */
+    { Escher_Iterator_s iterte_class;
+    ooaofooa_TE_CLASS * iite_class;
+    Escher_IteratorReset( &iterte_class, te_classes );
+    while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+      te_class = iite_class; {
+    /* ASSIGN te_class.IsReadOnly = TRUE */
+    te_class->IsReadOnly = TRUE;
+    /* ASSIGN msg = ( msg + Class ${te_class.Name} (${te_class.Key_Lett}) in component ${te_c.Name} marked as read only.\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("Class ");T_T(te_class->Name);T_T(" (");T_T(te_class->Key_Lett);T_T(") in component ");T_T(te_c->Name);T_T(" marked as read only.\n");}) ) );
+    }}}
+    /* IF ( (  != msg ) ) */
+    if ( ( Escher_strcmp( "", msg ) != 0 ) ) {
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+    }
+    Escher_ClearSet( te_classes ); 
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagReadOnly
+ */
+void
+ooaofooa_TagReadOnly( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkReadOnly( component_name:te_c.Name, obj_key_letters:obj_key_letters, ss_prefix:ss_prefix ) */
+    ooaofooa_MarkReadOnly( te_c->Name, obj_key_letters, ss_prefix );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkStaticInstancePopulation
+ */
+void
+ooaofooa_MarkStaticInstancePopulation( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    ooaofooa_TE_CLASS * te_class=0;c_t msg[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( FALSE ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    /* IF ( ( ( * == ss_prefix ) and ( * == obj_key_letters ) ) ) */
+    if ( ( ( Escher_strcmp( "*", ss_prefix ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
+    Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_classes, &te_c->TE_CLASS_R2064 );
+    }
+    }
+    else if ( ( Escher_strcmp( "", ss_prefix ) == 0 ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    }
+    else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
+    ooaofooa_S_SS * s_ss=0;
+    /* SELECT any s_ss FROM INSTANCES OF S_SS WHERE ( SELECTED.Name == ss_prefix ) */
+    s_ss = 0;
+    { ooaofooa_S_SS * selected;
+      Escher_Iterator_s iters_ssooaofooa_S_SS;
+      Escher_IteratorReset( &iters_ssooaofooa_S_SS, &pG_ooaofooa_S_SS_extent.active );
+      while ( (selected = (ooaofooa_S_SS *) Escher_IteratorNext( &iters_ssooaofooa_S_SS )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, ss_prefix ) == 0 ) ) {
+          s_ss = selected;
+          break;
+        }
+      }
+    }
+    /* SELECT many te_classes RELATED BY s_ss->O_OBJ[R2]->TE_CLASS[R2019] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {    if ( 0 != s_ss ) {
+    ooaofooa_O_OBJ * O_OBJ_R2_is_decomposed_into;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &s_ss->O_OBJ_R2_is_decomposed_into );
+    while ( 0 != ( O_OBJ_R2_is_decomposed_into = (ooaofooa_O_OBJ *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_CLASS * selected = O_OBJ_R2_is_decomposed_into->TE_CLASS_R2019;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}
+}}}
+    }
+    else {
+    /* ASSIGN msg = ( msg + ERROR:  MarkStaticInstancePopulation( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("ERROR:  MarkStaticInstancePopulation( ");T_T(ss_prefix);T_T(", ");T_T(obj_key_letters);T_T(" ) in component ");T_T(te_c->Name);T_T("\n");}) ) );
+    }
+    /* FOR EACH te_class IN te_classes */
+    { Escher_Iterator_s iterte_class;
+    ooaofooa_TE_CLASS * iite_class;
+    Escher_IteratorReset( &iterte_class, te_classes );
+    while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+      te_class = iite_class; {
+    /* ASSIGN te_class.IsFixedPopulation = TRUE */
+    te_class->IsFixedPopulation = TRUE;
+    /* ASSIGN msg = ( msg + Class ${te_class.Name} (${te_class.Key_Lett}) in component ${te_c.Name} marked as\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("Class ");T_T(te_class->Name);T_T(" (");T_T(te_class->Key_Lett);T_T(") in component ");T_T(te_c->Name);T_T(" marked as\n");}) ) );
+    /* ASSIGN msg = ( msg + as having a static instance population.\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, "as having a static instance population.\n" ) );
+    }}}
+    /* IF ( (  != msg ) ) */
+    if ( ( Escher_strcmp( "", msg ) != 0 ) ) {
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+    }
+    Escher_ClearSet( te_classes ); 
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagStaticInstancePopulation
+ */
+void
+ooaofooa_TagStaticInstancePopulation( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkStaticInstancePopulation( component_name:te_c.Name, obj_key_letters:obj_key_letters, ss_prefix:ss_prefix ) */
+    ooaofooa_MarkStaticInstancePopulation( te_c->Name, obj_key_letters, ss_prefix );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkPEIsDefinedInData
+ */
+void
+ooaofooa_MarkPEIsDefinedInData( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    ooaofooa_TE_CLASS * te_class=0;c_t msg[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( FALSE ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    /* IF ( ( ( * == ss_prefix ) and ( * == obj_key_letters ) ) ) */
+    if ( ( ( Escher_strcmp( "*", ss_prefix ) == 0 ) && ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
+    Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_classes, &te_c->TE_CLASS_R2064 );
+    }
+    }
+    else if ( ( Escher_strcmp( "", ss_prefix ) == 0 ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    }
+    else if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
+    ooaofooa_S_SS * s_ss=0;
+    /* SELECT any s_ss FROM INSTANCES OF S_SS WHERE ( SELECTED.Name == ss_prefix ) */
+    s_ss = 0;
+    { ooaofooa_S_SS * selected;
+      Escher_Iterator_s iters_ssooaofooa_S_SS;
+      Escher_IteratorReset( &iters_ssooaofooa_S_SS, &pG_ooaofooa_S_SS_extent.active );
+      while ( (selected = (ooaofooa_S_SS *) Escher_IteratorNext( &iters_ssooaofooa_S_SS )) != 0 ) {
+        if ( ( Escher_strcmp( selected->Name, ss_prefix ) == 0 ) ) {
+          s_ss = selected;
+          break;
+        }
+      }
+    }
+    /* SELECT many te_classes RELATED BY s_ss->O_OBJ[R2]->TE_CLASS[R2019] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {    if ( 0 != s_ss ) {
+    ooaofooa_O_OBJ * O_OBJ_R2_is_decomposed_into;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &s_ss->O_OBJ_R2_is_decomposed_into );
+    while ( 0 != ( O_OBJ_R2_is_decomposed_into = (ooaofooa_O_OBJ *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_CLASS * selected = O_OBJ_R2_is_decomposed_into->TE_CLASS_R2019;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+      if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+        Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}
+}}}
+    }
+    else {
+    /* ASSIGN msg = ( msg + ERROR:  MarkPEIsDefinedInData( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("ERROR:  MarkPEIsDefinedInData( ");T_T(ss_prefix);T_T(", ");T_T(obj_key_letters);T_T(" ) in component ");T_T(te_c->Name);T_T("\n");}) ) );
+    }
+    /* FOR EACH te_class IN te_classes */
+    { Escher_Iterator_s iterte_class;
+    ooaofooa_TE_CLASS * iite_class;
+    Escher_IteratorReset( &iterte_class, te_classes );
+    while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+      te_class = iite_class; {
+    /* ASSIGN te_class.PEIsDefinedInData = TRUE */
+    te_class->PEIsDefinedInData = TRUE;
+    /* ASSIGN msg = ( msg + Class ${te_class.Name} (${te_class.Key_Lett}) in component ${te_c.Name} marked to enable PEIs in data.\n ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("Class ");T_T(te_class->Name);T_T(" (");T_T(te_class->Key_Lett);T_T(") in component ");T_T(te_c->Name);T_T(" marked to enable PEIs in data.\n");}) ) );
+    }}}
+    /* IF ( (  != msg ) ) */
+    if ( ( Escher_strcmp( "", msg ) != 0 ) ) {
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+    }
+    Escher_ClearSet( te_classes ); 
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagPEIsDefinedInData
+ */
+void
+ooaofooa_TagPEIsDefinedInData( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_ss_prefix[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t ss_prefix[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN ss_prefix = PARAM.ss_prefix */
+  Escher_strcpy( ss_prefix, p_ss_prefix );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkPEIsDefinedInData( component_name:te_c.Name, obj_key_letters:obj_key_letters, ss_prefix:ss_prefix ) */
+    ooaofooa_MarkPEIsDefinedInData( te_c->Name, obj_key_letters, ss_prefix );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkObjectTraceOn
+ */
+void
+ooaofooa_MarkObjectTraceOn( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    c_t msg[ESCHER_SYS_MAX_STRING_LEN];
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* IF ( ( * == obj_key_letters ) ) */
+    if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
+    ooaofooa_TE_CLASS * te_class=0;Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
+    Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_classes, &te_c->TE_CLASS_R2064 );
+    }
+    /* FOR EACH te_class IN te_classes */
+    { Escher_Iterator_s iterte_class;
+    ooaofooa_TE_CLASS * iite_class;
+    Escher_IteratorReset( &iterte_class, te_classes );
+    while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+      te_class = iite_class; {
+    /* ASSIGN te_class.IsTrace = TRUE */
+    te_class->IsTrace = TRUE;
+    }}}
+    /* ASSIGN msg = Class tracing for all is enabled in component ${te_c.Name}. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Class tracing for all is enabled in component ");T_T(te_c->Name);T_T(".");}) );
+    Escher_ClearSet( te_classes ); 
+    }
+    else {
+    ooaofooa_TE_CLASS * te_class=0;
+    /* SELECT any te_class RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    te_class = 0;
+    if ( 0 != te_c ) {
+      ooaofooa_TE_CLASS * selected;
+      Escher_Iterator_s i;
+      Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+      while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+        if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+          te_class = selected;
+          break;
+    }}}
+    /* IF ( not_empty te_class ) */
+    if ( ( 0 != te_class ) ) {
+    /* ASSIGN te_class.IsTrace = TRUE */
+    te_class->IsTrace = TRUE;
+    /* ASSIGN msg = Class ${te_class.Name} (${te_class.Key_Lett}) tracing is enabled. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Class ");T_T(te_class->Name);T_T(" (");T_T(te_class->Key_Lett);T_T(") tracing is enabled.");}) );
+    }
+    else {
+    /* ASSIGN msg = ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Class (");T_T(obj_key_letters);T_T(") not found in component ");T_T(te_c->Name);T_T(".");}) );
+    /* ASSIGN msg = ( msg + \n => MarkObjectTraceOn( ${obj_key_letters} ) ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("\n => MarkObjectTraceOn( ");T_T(obj_key_letters);T_T(" )");}) ) );
+    }
+    }
+    /* IF ( (  != msg ) ) */
+    if ( ( Escher_strcmp( "", msg ) != 0 ) ) {
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+    }
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagObjectTraceOn
+ */
+void
+ooaofooa_TagObjectTraceOn( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkObjectTraceOn( component_name:te_c.Name, obj_key_letters:obj_key_letters ) */
+    ooaofooa_MarkObjectTraceOn( te_c->Name, obj_key_letters );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkObjectTraceOff
+ */
+void
+ooaofooa_MarkObjectTraceOff( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    c_t msg[ESCHER_SYS_MAX_STRING_LEN];
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* IF ( ( * == obj_key_letters ) ) */
+    if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
+    ooaofooa_TE_CLASS * te_class=0;Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
+    Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_classes, &te_c->TE_CLASS_R2064 );
+    }
+    /* FOR EACH te_class IN te_classes */
+    { Escher_Iterator_s iterte_class;
+    ooaofooa_TE_CLASS * iite_class;
+    Escher_IteratorReset( &iterte_class, te_classes );
+    while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+      te_class = iite_class; {
+    /* ASSIGN te_class.IsTrace = FALSE */
+    te_class->IsTrace = FALSE;
+    }}}
+    /* ASSIGN msg = Class tracing for all is disabled in component ${te_c.Name}. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Class tracing for all is disabled in component ");T_T(te_c->Name);T_T(".");}) );
+    Escher_ClearSet( te_classes ); 
+    }
+    else {
+    ooaofooa_TE_CLASS * te_class=0;
+    /* SELECT any te_class RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    te_class = 0;
+    if ( 0 != te_c ) {
+      ooaofooa_TE_CLASS * selected;
+      Escher_Iterator_s i;
+      Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+      while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+        if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+          te_class = selected;
+          break;
+    }}}
+    /* IF ( not_empty te_class ) */
+    if ( ( 0 != te_class ) ) {
+    /* ASSIGN te_class.IsTrace = FALSE */
+    te_class->IsTrace = FALSE;
+    /* ASSIGN msg = Class ${te_class.Name} (${te_class.Key_Lett}) tracing is disabled. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Class ");T_T(te_class->Name);T_T(" (");T_T(te_class->Key_Lett);T_T(") tracing is disabled.");}) );
+    }
+    else {
+    /* ASSIGN msg = ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Class (");T_T(obj_key_letters);T_T(") not found in component ");T_T(te_c->Name);T_T(".");}) );
+    /* ASSIGN msg = ( msg + \n => MarkObjectTraceOff( ${obj_key_letters} ) ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("\n => MarkObjectTraceOff( ");T_T(obj_key_letters);T_T(" )");}) ) );
+    }
+    }
+    /* IF ( (  != msg ) ) */
+    if ( ( Escher_strcmp( "", msg ) != 0 ) ) {
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+    }
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagObjectTraceOff
+ */
+void
+ooaofooa_TagObjectTraceOff( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkObjectTraceOff( component_name:te_c.Name, obj_key_letters:obj_key_letters ) */
+    ooaofooa_MarkObjectTraceOff( te_c->Name, obj_key_letters );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkClassOperationTranslationOff
+ */
+void
+ooaofooa_MarkClassOperationTranslationOff( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_op_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t op_name[ESCHER_SYS_MAX_STRING_LEN];c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN op_name = PARAM.op_name */
+  Escher_strcpy( op_name, p_op_name );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    ooaofooa_TE_CLASS * te_class=0;c_t msg[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+    /* ASSIGN msg =  */
+    Escher_strcpy( msg, "" );
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( FALSE ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( FALSE ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    /* IF ( ( * == obj_key_letters ) ) */
+    if ( ( Escher_strcmp( "*", obj_key_letters ) == 0 ) ) {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] */
+    Escher_ClearSet( te_classes );
+    if ( 0 != te_c ) {
+      Escher_CopySet( te_classes, &te_c->TE_CLASS_R2064 );
+    }
+    }
+    else {
+    /* SELECT many te_classes RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    Escher_ClearSet( te_classes );
+    {ooaofooa_TE_CLASS * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+    while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_classes, selected ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_classes, selected );
+    }}}}
+    }
+    /* IF ( empty te_classes ) */
+    if ( Escher_SetIsEmpty( te_classes ) ) {
+    /* ASSIGN msg = ERROR:  Class ${obj_key_letters} not found in component. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Class ");T_T(obj_key_letters);T_T(" not found in component.");}) );
+    /* ASSIGN msg = ( msg + \n => MarkClassOperationTranslationOff( ${obj_key_letters}, ${op_name} ) ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("\n => MarkClassOperationTranslationOff( ");T_T(obj_key_letters);T_T(", ");T_T(op_name);T_T(" )");}) ) );
+    }
+    /* FOR EACH te_class IN te_classes */
+    { Escher_Iterator_s iterte_class;
+    ooaofooa_TE_CLASS * iite_class;
+    Escher_IteratorReset( &iterte_class, te_classes );
+    while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+      te_class = iite_class; {
+    /* IF ( ( * == op_name ) ) */
+    if ( ( Escher_strcmp( "*", op_name ) == 0 ) ) {
+    Escher_ObjectSet_s te_tfrs_space={0}; Escher_ObjectSet_s * te_tfrs = &te_tfrs_space;
+    /* SELECT many te_tfrs RELATED BY te_class->O_OBJ[R2019]->O_TFR[R115]->TE_TFR[R2024] */
+    Escher_ClearSet( te_tfrs );
+    {    if ( 0 != te_class ) {
+    ooaofooa_O_OBJ * O_OBJ_R2019 = te_class->O_OBJ_R2019;
+    if ( 0 != O_OBJ_R2019 ) {
+    ooaofooa_O_TFR * O_TFR_R115_may_contain;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &O_OBJ_R2019->O_TFR_R115_may_contain );
+    while ( 0 != ( O_TFR_R115_may_contain = (ooaofooa_O_TFR *) Escher_IteratorNext( &i ) ) ) {
+    {ooaofooa_TE_TFR * TE_TFR_R2024 = O_TFR_R115_may_contain->TE_TFR_R2024;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_tfrs, TE_TFR_R2024 ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) te_tfrs, TE_TFR_R2024 );
+    }}}}}}
+    /* IF ( not_empty te_tfrs ) */
+    if ( ( ! Escher_SetIsEmpty( te_tfrs ) ) ) {
+    ooaofooa_TE_TFR * te_tfr=0;
+    /* FOR EACH te_tfr IN te_tfrs */
+    { Escher_Iterator_s iterte_tfr;
+    ooaofooa_TE_TFR * iite_tfr;
+    Escher_IteratorReset( &iterte_tfr, te_tfrs );
+    while ( (iite_tfr = (ooaofooa_TE_TFR *)Escher_IteratorNext( &iterte_tfr )) != 0 ) {
+      te_tfr = iite_tfr; {
+    /* ASSIGN te_tfr.XlateSemantics = FALSE */
+    te_tfr->XlateSemantics = FALSE;
+    }}}
+    /* ASSIGN msg = Class ${te_class.Name} (${te_class.Key_Lett}) all operation semantics disabled. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Class ");T_T(te_class->Name);T_T(" (");T_T(te_class->Key_Lett);T_T(") all operation semantics disabled.");}) );
+    }
+    Escher_ClearSet( te_tfrs ); 
+    }
+    else {
+    ooaofooa_O_TFR * o_tfr=0;
+    /* SELECT any o_tfr RELATED BY te_class->O_OBJ[R2019]->O_TFR[R115] WHERE ( ( SELECTED.Name == op_name ) ) */
+    o_tfr = 0;
+    {    if ( 0 != te_class ) {
+    ooaofooa_O_OBJ * O_OBJ_R2019 = te_class->O_OBJ_R2019;
+    if ( 0 != O_OBJ_R2019 ) {
+    ooaofooa_O_TFR * selected;
+    Escher_Iterator_s i;
+    Escher_IteratorReset( &i, &O_OBJ_R2019->O_TFR_R115_may_contain );
+    while ( 0 != ( selected = (ooaofooa_O_TFR *) Escher_IteratorNext( &i ) ) ) {
+      if ( ( Escher_strcmp( selected->Name, op_name ) == 0 ) ) {
+        o_tfr = selected;
+        break;
+    }}
+}}}
+    /* IF ( not_empty o_tfr ) */
+    if ( ( 0 != o_tfr ) ) {
+    ooaofooa_TE_TFR * te_tfr=0;
+    /* SELECT one te_tfr RELATED BY o_tfr->TE_TFR[R2024] */
+    te_tfr = ( 0 != o_tfr ) ? o_tfr->TE_TFR_R2024 : 0;
+    /* ASSIGN te_tfr.XlateSemantics = FALSE */
+    te_tfr->XlateSemantics = FALSE;
+    /* ASSIGN msg = Class Operation ${te_class.Name} ${te_class.Key_Lett}::${te_tfr.Name} semantics disabled. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("Class Operation ");T_T(te_class->Name);T_T(" ");T_T(te_class->Key_Lett);T_T("::");T_T(te_tfr->Name);T_T(" semantics disabled.");}) );
+    }
+    else {
+    /* ASSIGN msg = ERROR:  Class Operation ${te_class.Name} ${te_class.Key_Lett}::${op_name} is not defined. */
+    Escher_strcpy( msg, ({char s[512]={0};T_T("ERROR:  Class Operation ");T_T(te_class->Name);T_T(" ");T_T(te_class->Key_Lett);T_T("::");T_T(op_name);T_T(" is not defined.");}) );
+    /* ASSIGN msg = ( msg + \n  => MarkClassOperationTranslationOff( ${obj_key_letters}, ${op_name} ) ) */
+    Escher_strcpy( msg, Escher_stradd( msg, ({char s[512]={0};T_T("\n  => MarkClassOperationTranslationOff( ");T_T(obj_key_letters);T_T(", ");T_T(op_name);T_T(" )");}) ) );
+    }
+    }
+    }}}
+    /* IF ( ( msg !=  ) ) */
+    if ( ( Escher_strcmp( msg, "" ) != 0 ) ) {
+    /* T::print( s:${msg} ) */
+    T_print( ({char s[512]={0};T_T(msg);}) );
+    }
+    Escher_ClearSet( te_classes ); 
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagClassOperationTranslationOff
+ */
+void
+ooaofooa_TagClassOperationTranslationOff( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_op_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;c_t op_name[ESCHER_SYS_MAX_STRING_LEN];c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN op_name = PARAM.op_name */
+  Escher_strcpy( op_name, p_op_name );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkClassOperationTranslationOff( component_name:te_c.Name, obj_key_letters:obj_key_letters, op_name:op_name ) */
+    ooaofooa_MarkClassOperationTranslationOff( te_c->Name, obj_key_letters, op_name );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagTransformerGeneration
+ */
+void
+ooaofooa_TagTransformerGeneration( c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_transformer_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t transformer_name[ESCHER_SYS_MAX_STRING_LEN];c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN transformer_name = PARAM.transformer_name */
+  Escher_strcpy( transformer_name, p_transformer_name );
+  /* T::print( s:Note:  TagTransformerGeneration is no longer used.  Please use ) */
+  T_print( "Note:  TagTransformerGeneration is no longer used.  Please use" );
+  /* T::print( s:MarkClassOperationTranslationOff to control semantic translation. ) */
+  T_print( "MarkClassOperationTranslationOff to control semantic translation." );
+
+}
+
+/*
+ * Domain Function:  MarkObjectExtentSize
+ */
+void
+ooaofooa_MarkObjectExtentSize( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], const i_t p_extent_size, c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;i_t extent_size;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN extent_size = PARAM.extent_size */
+  extent_size = p_extent_size;
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE ( SELECTED.Name == component_name ) */
+  Escher_ClearSet( te_cs );
+  { ooaofooa_TE_C * selected;
+    Escher_Iterator_s iterte_csooaofooa_TE_C;
+    Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+    while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, component_name ) == 0 ) ) {
+        Escher_SetInsertElement( te_cs, selected );
+      }
+    }
+  }
+  /* IF ( ( (  == component_name ) or ( * == component_name ) ) ) */
+  if ( ( ( Escher_strcmp( "", component_name ) == 0 ) || ( Escher_strcmp( "*", component_name ) == 0 ) ) ) {
+    /* SELECT many te_cs FROM INSTANCES OF TE_C */
+    Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  }
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    ooaofooa_TE_CLASS * te_class=0;
+    /* SELECT any te_class RELATED BY te_c->TE_CLASS[R2064] WHERE ( ( SELECTED.Key_Lett == obj_key_letters ) ) */
+    te_class = 0;
+    if ( 0 != te_c ) {
+      ooaofooa_TE_CLASS * selected;
+      Escher_Iterator_s i;
+      Escher_IteratorReset( &i, &te_c->TE_CLASS_R2064 );
+      while ( 0 != ( selected = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &i ) ) ) {
+        if ( ( Escher_strcmp( selected->Key_Lett, obj_key_letters ) == 0 ) ) {
+          te_class = selected;
+          break;
+    }}}
+    /* IF ( not_empty te_class ) */
+    if ( ( 0 != te_class ) ) {
+    /* ASSIGN te_class.MaxExtentSize = extent_size */
+    te_class->MaxExtentSize = extent_size;
+    /* T::print( s:Class '${te_class.Name}' (${te_class.Key_Lett}) extent size is $t{extent_size} ) */
+    T_print( ({char s[512]={0};T_T("Class '");T_T(te_class->Name);T_T("' (");T_T(te_class->Key_Lett);T_T(") extent size is ");T_T(T_s(extent_size));}) );
+    }
+    else {
+    /* T::print( s:ERROR:  Class (${obj_key_letters}) not found in component '${te_c.Name}'. ) */
+    T_print( ({char s[512]={0};T_T("ERROR:  Class (");T_T(obj_key_letters);T_T(") not found in component '");T_T(te_c->Name);T_T("'.");}) );
+    /* T::print( s:      => MarkObjectExtentSize( ${obj_key_letters}, $t{extent_size} ) ) */
+    T_print( ({char s[512]={0};T_T("      => MarkObjectExtentSize( ");T_T(obj_key_letters);T_T(", ");T_T(T_s(extent_size));T_T(" )");}) );
+    }
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  TagObjectExtentSize
+ */
+void
+ooaofooa_TagObjectExtentSize( const i_t p_extent_size, c_t p_obj_key_letters[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  ooaofooa_TE_C * te_c=0;i_t extent_size;c_t obj_key_letters[ESCHER_SYS_MAX_STRING_LEN];Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+  /* ASSIGN obj_key_letters = PARAM.obj_key_letters */
+  Escher_strcpy( obj_key_letters, p_obj_key_letters );
+  /* ASSIGN extent_size = PARAM.extent_size */
+  extent_size = p_extent_size;
+  /* SELECT many te_cs FROM INSTANCES OF TE_C */
+  Escher_CopySet( te_cs, &pG_ooaofooa_TE_C_extent.active );
+  /* FOR EACH te_c IN te_cs */
+  { Escher_Iterator_s iterte_c;
+  ooaofooa_TE_C * iite_c;
+  Escher_IteratorReset( &iterte_c, te_cs );
+  while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+    te_c = iite_c; {
+    /* ::MarkObjectExtentSize( component_name:te_c.Name, extent_size:extent_size, obj_key_letters:obj_key_letters ) */
+    ooaofooa_MarkObjectExtentSize( te_c->Name, extent_size, obj_key_letters );
+  }}}
+  Escher_ClearSet( te_cs );
+
+}
+
+/*
+ * Domain Function:  MarkSystemObjectDefaultExtentSize
+ */
+void
+ooaofooa_MarkSystemObjectDefaultExtentSize( const i_t p_extent_size )
+{
+  ooaofooa_TE_CLASS * te_class=0;i_t extent_size;Escher_ObjectSet_s te_classes_space={0}; Escher_ObjectSet_s * te_classes = &te_classes_space;
+  /* ASSIGN extent_size = PARAM.extent_size */
+  extent_size = p_extent_size;
+  /* SELECT many te_classes FROM INSTANCES OF TE_CLASS */
+  Escher_CopySet( te_classes, &pG_ooaofooa_TE_CLASS_extent.active );
+  /* FOR EACH te_class IN te_classes */
+  { Escher_Iterator_s iterte_class;
+  ooaofooa_TE_CLASS * iite_class;
+  Escher_IteratorReset( &iterte_class, te_classes );
+  while ( (iite_class = (ooaofooa_TE_CLASS *)Escher_IteratorNext( &iterte_class )) != 0 ) {
+    te_class = iite_class; {
+    /* ASSIGN te_class.MaxExtentSize = extent_size */
+    te_class->MaxExtentSize = extent_size;
+  }}}
+  /* T::print( s:Class default extent size is $t{extent_size} for _all_ classes. ) */
+  T_print( ({char s[512]={0};T_T("Class default extent size is ");T_T(T_s(extent_size));T_T(" for _all_ classes.");}) );
+  Escher_ClearSet( te_classes );
+
+}
+
+/*
+ * Domain Function:  TagSystemObjectDefaultExtentSize
+ */
+void
+ooaofooa_TagSystemObjectDefaultExtentSize( const i_t p_extent_size )
+{
+  i_t extent_size;
+  /* ASSIGN extent_size = PARAM.extent_size */
+  extent_size = p_extent_size;
+  /* ::MarkSystemObjectDefaultExtentSize( extent_size:extent_size ) */
+  ooaofooa_MarkSystemObjectDefaultExtentSize( extent_size );
+
+}
+
+/*
+ * Domain Function:  TagSyncServiceSafeForInterrupts
+ */
+void
+ooaofooa_TagSyncServiceSafeForInterrupts( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_function_name[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t function_name[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_SYNC * tm_sync=0;
+  /* ASSIGN component_name = PARAM.component_name */
+  Escher_strcpy( component_name, p_component_name );
+  /* ASSIGN function_name = PARAM.function_name */
+  Escher_strcpy( function_name, p_function_name );
+  /* ASSIGN component_name = T::r(s:component_name) */
+  Escher_strcpy( component_name, T_r( component_name ) );
+  /* SELECT any tm_sync FROM INSTANCES OF TM_SYNC WHERE ( ( SELECTED.RegisteredDomain == component_name ) and ( SELECTED.Name == function_name ) ) */
+  tm_sync = 0;
+  { ooaofooa_TM_SYNC * selected;
+    Escher_Iterator_s itertm_syncooaofooa_TM_SYNC;
+    Escher_IteratorReset( &itertm_syncooaofooa_TM_SYNC, &pG_ooaofooa_TM_SYNC_extent.active );
+    while ( (selected = (ooaofooa_TM_SYNC *) Escher_IteratorNext( &itertm_syncooaofooa_TM_SYNC )) != 0 ) {
+      if ( ( ( Escher_strcmp( selected->RegisteredDomain, component_name ) == 0 ) && ( Escher_strcmp( selected->Name, function_name ) == 0 ) ) ) {
+        tm_sync = selected;
+        break;
+      }
+    }
+  }
+  /* IF ( empty tm_sync ) */
+  if ( ( 0 == tm_sync ) ) {
+    /* CREATE OBJECT INSTANCE tm_sync OF TM_SYNC */
+    tm_sync = (ooaofooa_TM_SYNC *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_SYNC_CLASS_NUMBER );
+    /* ASSIGN tm_sync.RegisteredDomain = component_name */
+    Escher_strcpy( tm_sync->RegisteredDomain, component_name );
+    /* ASSIGN tm_sync.Name = function_name */
+    Escher_strcpy( tm_sync->Name, function_name );
+  }
+  /* ASSIGN tm_sync.IsSafeForInterrupts = TRUE */
+  tm_sync->IsSafeForInterrupts = TRUE;
+  /* T::print( s:Function ${function_name} in component ${component_name} marked as safe for interrupt invocation. ) */
+  T_print( ({char s[512]={0};T_T("Function ");T_T(function_name);T_T(" in component ");T_T(component_name);T_T(" marked as safe for interrupt invocation.");}) );
+
+}
+
+/*
+ * Domain Function:  WireRealizedExternalEntity
+ */
+void
+ooaofooa_WireRealizedExternalEntity( c_t p_a[ESCHER_SYS_MAX_STRING_LEN], c_t p_b[ESCHER_SYS_MAX_STRING_LEN], c_t p_c[ESCHER_SYS_MAX_STRING_LEN], c_t p_d[ESCHER_SYS_MAX_STRING_LEN], c_t p_e[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t e[ESCHER_SYS_MAX_STRING_LEN];c_t d[ESCHER_SYS_MAX_STRING_LEN];c_t c[ESCHER_SYS_MAX_STRING_LEN];c_t b[ESCHER_SYS_MAX_STRING_LEN];c_t a[ESCHER_SYS_MAX_STRING_LEN];
+  /* ASSIGN a = PARAM.a */
+  Escher_strcpy( a, p_a );
+  /* ASSIGN b = PARAM.b */
+  Escher_strcpy( b, p_b );
+  /* ASSIGN c = PARAM.c */
+  Escher_strcpy( c, p_c );
+  /* ASSIGN d = PARAM.d */
+  Escher_strcpy( d, p_d );
+  /* ASSIGN e = PARAM.e */
+  Escher_strcpy( e, p_e );
+  /* T::print( s:Note:  WireRealizeExternalEntity is no longer supported.  Use components and interfaces. ) */
+  T_print( "Note:  WireRealizeExternalEntity is no longer supported.  Use components and interfaces." );
+
+}
+
+/*
+ * Domain Function:  WireRealizeExternalEntity
+ */
+void
+ooaofooa_WireRealizeExternalEntity( c_t p_a[ESCHER_SYS_MAX_STRING_LEN], c_t p_b[ESCHER_SYS_MAX_STRING_LEN], c_t p_c[ESCHER_SYS_MAX_STRING_LEN], c_t p_d[ESCHER_SYS_MAX_STRING_LEN], c_t p_e[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t e[ESCHER_SYS_MAX_STRING_LEN];c_t d[ESCHER_SYS_MAX_STRING_LEN];c_t c[ESCHER_SYS_MAX_STRING_LEN];c_t b[ESCHER_SYS_MAX_STRING_LEN];c_t a[ESCHER_SYS_MAX_STRING_LEN];
+  /* ASSIGN a = PARAM.a */
+  Escher_strcpy( a, p_a );
+  /* ASSIGN b = PARAM.b */
+  Escher_strcpy( b, p_b );
+  /* ASSIGN c = PARAM.c */
+  Escher_strcpy( c, p_c );
+  /* ASSIGN d = PARAM.d */
+  Escher_strcpy( d, p_d );
+  /* ASSIGN e = PARAM.e */
+  Escher_strcpy( e, p_e );
+  /* T::print( s:Note:  WireRealizeExternalEntity is no longer supported.  Use components and interfaces. ) */
+  T_print( "Note:  WireRealizeExternalEntity is no longer supported.  Use components and interfaces." );
+
+}
+
+/*
+ * Domain Function:  WireSynchServiceOoaBridge
+ */
+void
+ooaofooa_WireSynchServiceOoaBridge( c_t p_ee_key_letters[ESCHER_SYS_MAX_STRING_LEN], c_t p_initiant[ESCHER_SYS_MAX_STRING_LEN], c_t p_recipient[ESCHER_SYS_MAX_STRING_LEN] )
+{
+  c_t recipient[ESCHER_SYS_MAX_STRING_LEN];c_t ee_key_letters[ESCHER_SYS_MAX_STRING_LEN];c_t initiant[ESCHER_SYS_MAX_STRING_LEN];
+  /* ASSIGN initiant = PARAM.initiant */
+  Escher_strcpy( initiant, p_initiant );
+  /* ASSIGN ee_key_letters = PARAM.ee_key_letters */
+  Escher_strcpy( ee_key_letters, p_ee_key_letters );
+  /* ASSIGN recipient = PARAM.recipient */
+  Escher_strcpy( recipient, p_recipient );
+  /* T::print( s:Note:  WireSynchServiceOoaBridge is no longer supported.  Use components and interfaces. ) */
+  T_print( "Note:  WireSynchServiceOoaBridge is no longer supported.  Use components and interfaces." );
+
+}
+
+/*
  * Domain Function:  CreateSpecialWhereComparisonArguments
  */
 c_t *
@@ -8041,7 +13849,7 @@ c_t *
 ooaofooa_AutoInitializeUniqueIDs( c_t p_instance[ESCHER_SYS_MAX_STRING_LEN], ooaofooa_TE_CLASS * p_te_class )
 {
   ooaofooa_TE_ATTR * te_attr;c_t instance[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TE_CLASS * te_class;ooaofooa_TE_SYS * te_sys=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_FILE * te_file=0;ooaofooa_TE_ATTR * first_te_attr=0;
-T_clear();
+T_clear(); 
   /* ASSIGN te_class = PARAM.te_class */
   te_class = p_te_class;
   /* ASSIGN instance = PARAM.instance */
@@ -9973,629 +15781,6 @@ ooaofooa_sys_analyze( ooaofooa_TE_SYS * p_te_sys )
   ooaofooa_attr_analyze_accesses();
   /* ::TE_TXN_used(  ) */
   ooaofooa_TE_TXN_used();
-
-}
-
-/*
- * Domain Function:  MarkAllPortsPolymorphic
- */
-void
-ooaofooa_MarkAllPortsPolymorphic()
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.AllPortsPoly = TRUE */
-  tm_systag->AllPortsPoly = TRUE;
-
-}
-
-/*
- * Domain Function:  MarkSystemCPortType
- */
-void
-ooaofooa_MarkSystemCPortType( c_t p_port_type[ESCHER_SYS_MAX_STRING_LEN] )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;c_t port_type[ESCHER_SYS_MAX_STRING_LEN];
-  /* ASSIGN port_type = PARAM.port_type */
-  Escher_strcpy( port_type, p_port_type );
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* IF ( ( ( ( port_type == TLM ) or ( port_type == BitLevelSignals ) ) or ( port_type == sc_interface ) ) ) */
-  if ( ( ( ( Escher_strcmp( port_type, "TLM" ) == 0 ) || ( Escher_strcmp( port_type, "BitLevelSignals" ) == 0 ) ) || ( Escher_strcmp( port_type, "sc_interface" ) == 0 ) ) ) {
-    /* ASSIGN tm_systag.SystemCPortsType = port_type */
-    Escher_strcpy( tm_systag->SystemCPortsType, port_type );
-  }
-  else {
-    /* T::print( s:Warning:  Unrecognized SystemC Port Type(${port_type}). Please choose either TLM, BitLevelSignals or sc_interface. Default configuration will be used. ) */
-    T_print( ({char s[512]={0};T_T("Warning:  Unrecognized SystemC Port Type(");T_T(port_type);T_T("). Please choose either TLM, BitLevelSignals or sc_interface. Default configuration will be used.");}) );
-    /* ASSIGN tm_systag.SystemCPortsType = sc_interface */
-    Escher_strcpy( tm_systag->SystemCPortsType, "sc_interface" );
-  }
-
-}
-
-/*
- * Domain Function:  MarkSystemConfigurationPackage
- */
-void
-ooaofooa_MarkSystemConfigurationPackage( c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN] )
-{
-  c_t package_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_BUILD * tm_build=0;
-  /* ASSIGN package_name = PARAM.package_name */
-  Escher_strcpy( package_name, p_package_name );
-  /* SELECT any tm_build FROM INSTANCES OF TM_BUILD */
-  tm_build = (ooaofooa_TM_BUILD *) Escher_SetGetAny( &pG_ooaofooa_TM_BUILD_extent.active );
-  /* IF ( empty tm_build ) */
-  if ( ( 0 == tm_build ) ) {
-    /* CREATE OBJECT INSTANCE tm_build OF TM_BUILD */
-    tm_build = (ooaofooa_TM_BUILD *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_BUILD_CLASS_NUMBER );
-  }
-  else {
-    /* T::print( s:Warning:  Re-marking system configuration.  Last configuration marked will be built. ) */
-    T_print( "Warning:  Re-marking system configuration.  Last configuration marked will be built." );
-  }
-  /* ASSIGN tm_build.package_to_build = package_name */
-  Escher_strcpy( tm_build->package_to_build, package_name );
-  /* ASSIGN tm_build.package_obj_name = ( package_name + _sys ) */
-  Escher_strcpy( tm_build->package_obj_name, Escher_stradd( package_name, "_sys" ) );
-  /* ASSIGN tm_build.package_inst_name = ( package_name + _top ) */
-  Escher_strcpy( tm_build->package_inst_name, Escher_stradd( package_name, "_top" ) );
-
-}
-
-/*
- * Domain Function:  TM_SYSTAG_select
- */
-ooaofooa_TM_SYSTAG *
-ooaofooa_TM_SYSTAG_select()
-{
-  ooaofooa_TM_SYSTAG * tm_systag=0;
-  /* SELECT any tm_systag FROM INSTANCES OF TM_SYSTAG */
-  tm_systag = (ooaofooa_TM_SYSTAG *) Escher_SetGetAny( &pG_ooaofooa_TM_SYSTAG_extent.active );
-  /* IF ( empty tm_systag ) */
-  if ( ( 0 == tm_systag ) ) {
-    /* CREATE OBJECT INSTANCE tm_systag OF TM_SYSTAG */
-    tm_systag = (ooaofooa_TM_SYSTAG *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_SYSTAG_CLASS_NUMBER );
-    /* ASSIGN tm_systag.MaxStringLen = 32 */
-    tm_systag->MaxStringLen = 32;
-    /* ASSIGN tm_systag.PersistInstanceCacheDepth = 128 */
-    tm_systag->PersistInstanceCacheDepth = 128;
-    /* ASSIGN tm_systag.PersistLinkCacheDepth = 128 */
-    tm_systag->PersistLinkCacheDepth = 128;
-    /* ASSIGN tm_systag.SystemCPortsType = sc_interface */
-    Escher_strcpy( tm_systag->SystemCPortsType, "sc_interface" );
-  }
-  /* RETURN tm_systag */
-  return tm_systag;
-
-}
-
-/*
- * Domain Function:  VFBEnable
- */
-void
-ooaofooa_VFBEnable()
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.VFB = TRUE */
-  tm_systag->VFB = TRUE;
-
-}
-
-/*
- * Domain Function:  TagInstanceLoading
- */
-void
-ooaofooa_TagInstanceLoading()
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.InstanceLoading = TRUE */
-  tm_systag->InstanceLoading = TRUE;
-
-}
-
-/*
- * Domain Function:  TagDynamicMemoryAllocationOn
- */
-void
-ooaofooa_TagDynamicMemoryAllocationOn( const i_t p_units_to_allocate )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t units_to_allocate;
-  /* ASSIGN units_to_allocate = PARAM.units_to_allocate */
-  units_to_allocate = p_units_to_allocate;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.UnitsToDynamicallyAllocate = units_to_allocate */
-  tm_systag->UnitsToDynamicallyAllocate = units_to_allocate;
-  /* IF ( ( tm_systag.UnitsToDynamicallyAllocate < 1 ) ) */
-  if ( ( tm_systag->UnitsToDynamicallyAllocate < 1 ) ) {
-    /* ASSIGN tm_systag.UnitsToDynamicallyAllocate = 1 */
-    tm_systag->UnitsToDynamicallyAllocate = 1;
-  }
-
-}
-
-/*
- * Domain Function:  MarkPersistenceCacheDepth
- */
-void
-ooaofooa_MarkPersistenceCacheDepth( const i_t p_instance_depth, const i_t p_link_depth )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t link_depth;i_t instance_depth;
-  /* ASSIGN instance_depth = PARAM.instance_depth */
-  instance_depth = p_instance_depth;
-  /* ASSIGN link_depth = PARAM.link_depth */
-  link_depth = p_link_depth;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.PersistInstanceCacheDepth = instance_depth */
-  tm_systag->PersistInstanceCacheDepth = instance_depth;
-  /* ASSIGN tm_systag.PersistLinkCacheDepth = link_depth */
-  tm_systag->PersistLinkCacheDepth = link_depth;
-
-}
-
-/*
- * Domain Function:  TagCollectionsFlavor
- */
-void
-ooaofooa_TagCollectionsFlavor( const i_t p_collections_flavor )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t collections_flavor;
-  /* ASSIGN collections_flavor = PARAM.collections_flavor */
-  collections_flavor = p_collections_flavor;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.CollectionsFlavor = collections_flavor */
-  tm_systag->CollectionsFlavor = collections_flavor;
-
-}
-
-/*
- * Domain Function:  TagInterleavedBridgeDataSize
- */
-void
-ooaofooa_TagInterleavedBridgeDataSize( const i_t p_user_specified_size )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
-  /* ASSIGN user_specified_size = PARAM.user_specified_size */
-  user_specified_size = p_user_specified_size;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.MaxInterleavedBridgeDataSize = user_specified_size */
-  tm_systag->MaxInterleavedBridgeDataSize = user_specified_size;
-
-}
-
-/*
- * Domain Function:  TagMaximumInterleavedBridges
- */
-void
-ooaofooa_TagMaximumInterleavedBridges( const i_t p_user_specified_size )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
-  /* ASSIGN user_specified_size = PARAM.user_specified_size */
-  user_specified_size = p_user_specified_size;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.MaxInterleavedBridges = user_specified_size */
-  tm_systag->MaxInterleavedBridges = user_specified_size;
-
-}
-
-/*
- * Domain Function:  TagMaximumPendingOoaTimers
- */
-void
-ooaofooa_TagMaximumPendingOoaTimers( const i_t p_user_specified_size )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
-  /* ASSIGN user_specified_size = PARAM.user_specified_size */
-  user_specified_size = p_user_specified_size;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.MaxTimers = user_specified_size */
-  tm_systag->MaxTimers = user_specified_size;
-
-}
-
-/*
- * Domain Function:  TagMaximumNonSelfDirectedEvents
- */
-void
-ooaofooa_TagMaximumNonSelfDirectedEvents( const i_t p_user_specified_size )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
-  /* ASSIGN user_specified_size = PARAM.user_specified_size */
-  user_specified_size = p_user_specified_size;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.MaxNonSelfEvents = user_specified_size */
-  tm_systag->MaxNonSelfEvents = user_specified_size;
-
-}
-
-/*
- * Domain Function:  TagMaximumSelfDirectedEvents
- */
-void
-ooaofooa_TagMaximumSelfDirectedEvents( const i_t p_user_specified_size )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
-  /* ASSIGN user_specified_size = PARAM.user_specified_size */
-  user_specified_size = p_user_specified_size;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.MaxSelfEvents = user_specified_size */
-  tm_systag->MaxSelfEvents = user_specified_size;
-
-}
-
-/*
- * Domain Function:  TagMaximumSelectionExtentSize
- */
-void
-ooaofooa_TagMaximumSelectionExtentSize( const i_t p_user_specified_size )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
-  /* ASSIGN user_specified_size = PARAM.user_specified_size */
-  user_specified_size = p_user_specified_size;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.MaxSelectExtent = user_specified_size */
-  tm_systag->MaxSelectExtent = user_specified_size;
-
-}
-
-/*
- * Domain Function:  TagMaximumRelationshipExtentSize
- */
-void
-ooaofooa_TagMaximumRelationshipExtentSize( const i_t p_user_specified_size )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t user_specified_size;
-  /* ASSIGN user_specified_size = PARAM.user_specified_size */
-  user_specified_size = p_user_specified_size;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.MaxRelExtent = user_specified_size */
-  tm_systag->MaxRelExtent = user_specified_size;
-
-}
-
-/*
- * Domain Function:  TagMaximumStringLength
- */
-void
-ooaofooa_TagMaximumStringLength( const i_t p_max_len )
-{
-  ooaofooa_TM_SYSTAG * tm_systag;ooaofooa_TM_SYSTAG * r;i_t max_len;
-  /* ASSIGN max_len = PARAM.max_len */
-  max_len = p_max_len;
-  /* ASSIGN r = ::TM_SYSTAG_select() */
-  r = ooaofooa_TM_SYSTAG_select();
-  /* ASSIGN tm_systag = r */
-  tm_systag = r;
-  /* ASSIGN tm_systag.MaxStringLen = max_len */
-  tm_systag->MaxStringLen = max_len;
-
-}
-
-/*
- * Domain Function:  SetTaskPriority
- */
-void
-ooaofooa_SetTaskPriority( c_t p_priority[ESCHER_SYS_MAX_STRING_LEN], const i_t p_task_number )
-{
-  c_t priority[ESCHER_SYS_MAX_STRING_LEN];i_t task_number;ooaofooa_TM_THREAD * tm_thread=0;
-  /* ASSIGN task_number = PARAM.task_number */
-  task_number = p_task_number;
-  /* ASSIGN priority = PARAM.priority */
-  Escher_strcpy( priority, p_priority );
-  /* T::print( s:SetTaskPriority( $t{task_number}, ${priority} ) ) */
-  T_print( ({char s[512]={0};T_T("SetTaskPriority( ");T_T(T_s(task_number));T_T(", ");T_T(priority);T_T(" )");}) );
-  /* SELECT any tm_thread FROM INSTANCES OF TM_THREAD */
-  tm_thread = (ooaofooa_TM_THREAD *) Escher_SetGetAny( &pG_ooaofooa_TM_THREAD_extent.active );
-  /* IF ( empty tm_thread ) */
-  if ( ( 0 == tm_thread ) ) {
-    /* CREATE OBJECT INSTANCE tm_thread OF TM_THREAD */
-    tm_thread = (ooaofooa_TM_THREAD *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_THREAD_CLASS_NUMBER );
-  }
-  /* ASSIGN tm_thread.extra_initialization = ( tm_thread.extra_initialization +   xtUML_task_priorities[ $t{task_number} ] = ${priority};\n ) */
-  Escher_strcpy( tm_thread->extra_initialization, Escher_stradd( tm_thread->extra_initialization, ({char s[512]={0};T_T("  xtUML_task_priorities[ ");T_T(T_s(task_number));T_T(" ] = ");T_T(priority);T_T(";\n");}) ) );
-
-}
-
-/*
- * Domain Function:  EnableTasking
- */
-void
-ooaofooa_EnableTasking( c_t p_flavor[ESCHER_SYS_MAX_STRING_LEN], const i_t p_number_of_threads, c_t p_serialize[ESCHER_SYS_MAX_STRING_LEN] )
-{
-  i_t number_of_threads;c_t serialize[ESCHER_SYS_MAX_STRING_LEN];c_t flavor[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_THREAD * tm_thread=0;
-  /* ASSIGN flavor = PARAM.flavor */
-  Escher_strcpy( flavor, p_flavor );
-  /* ASSIGN serialize = PARAM.serialize */
-  Escher_strcpy( serialize, p_serialize );
-  /* ASSIGN number_of_threads = PARAM.number_of_threads */
-  number_of_threads = p_number_of_threads;
-  /* T::print( s:EnableTasking( ${flavor}, ${serialize}, $t{number_of_threads} ) ) */
-  T_print( ({char s[512]={0};T_T("EnableTasking( ");T_T(flavor);T_T(", ");T_T(serialize);T_T(", ");T_T(T_s(number_of_threads));T_T(" )");}) );
-  /* SELECT any tm_thread FROM INSTANCES OF TM_THREAD */
-  tm_thread = (ooaofooa_TM_THREAD *) Escher_SetGetAny( &pG_ooaofooa_TM_THREAD_extent.active );
-  /* IF ( empty tm_thread ) */
-  if ( ( 0 == tm_thread ) ) {
-    /* CREATE OBJECT INSTANCE tm_thread OF TM_THREAD */
-    tm_thread = (ooaofooa_TM_THREAD *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_THREAD_CLASS_NUMBER );
-    /* ASSIGN tm_thread.extra_initialization =  */
-    Escher_strcpy( tm_thread->extra_initialization, "" );
-  }
-  /* ASSIGN tm_thread.number_of_threads = number_of_threads */
-  tm_thread->number_of_threads = number_of_threads;
-  /* IF ( ( T::l(serialize) == serialize ) ) */
-  if ( ( Escher_strcmp( T_l( serialize ), "serialize" ) == 0 ) ) {
-    /* ASSIGN tm_thread.serialize = TRUE */
-    tm_thread->serialize = TRUE;
-  }
-  else {
-    /* ASSIGN tm_thread.serialize = FALSE */
-    tm_thread->serialize = FALSE;
-  }
-  /* IF ( ( ( ( ( Nucleus == flavor ) or ( POSIX == flavor ) ) or ( ( OSX == flavor ) or ( Windows == flavor ) ) ) or ( ( AUTOSAR == flavor ) or ( SystemC == flavor ) ) ) ) */
-  if ( ( ( ( ( Escher_strcmp( "Nucleus", flavor ) == 0 ) || ( Escher_strcmp( "POSIX", flavor ) == 0 ) ) || ( ( Escher_strcmp( "OSX", flavor ) == 0 ) || ( Escher_strcmp( "Windows", flavor ) == 0 ) ) ) || ( ( Escher_strcmp( "AUTOSAR", flavor ) == 0 ) || ( Escher_strcmp( "SystemC", flavor ) == 0 ) ) ) ) {
-    /* ASSIGN tm_thread.flavor = flavor */
-    Escher_strcpy( tm_thread->flavor, flavor );
-    /* IF ( ( SystemC == flavor ) ) */
-    if ( ( Escher_strcmp( "SystemC", flavor ) == 0 ) ) {
-    /* ASSIGN tm_thread.number_of_threads = 1 */
-    tm_thread->number_of_threads = 1;
-    /* ASSIGN tm_thread.enabled = FALSE */
-    tm_thread->enabled = FALSE;
-    }
-    else {
-    /* ASSIGN tm_thread.enabled = TRUE */
-    tm_thread->enabled = TRUE;
-    }
-  }
-  else {
-    /* T::print( s:ERROR:  system.mark:EnableTasking has incorrect tasking/threading type:${flavor}.\n ) */
-    T_print( ({char s[512]={0};T_T("ERROR:  system.mark:EnableTasking has incorrect tasking/threading type:");T_T(flavor);T_T(".\n");}) );
-    /* T::exit( i:100 ) */
-    T_exit( 100 );
-  }
-
-}
-
-/*
- * Domain Function:  AssignDirectToUDTPackage
- */
-void
-ooaofooa_AssignDirectToUDTPackage( c_t p_package_name[ESCHER_SYS_MAX_STRING_LEN] )
-{
-  c_t package_name[ESCHER_SYS_MAX_STRING_LEN];
-  /* ASSIGN package_name = PARAM.package_name */
-  Escher_strcpy( package_name, p_package_name );
-  /* T::print( s:AssignDirectToUDTPackage is not a supported marking function. ) */
-  T_print( "AssignDirectToUDTPackage is not a supported marking function." );
-  /* T::exit( i:1 ) */
-  T_exit( 1 );
-
-}
-
-/*
- * Domain Function:  TagUninitializedEnumerationValue
- */
-void
-ooaofooa_TagUninitializedEnumerationValue( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_enumeration[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[ESCHER_SYS_MAX_STRING_LEN] )
-{
-  c_t value[ESCHER_SYS_MAX_STRING_LEN];c_t enumeration[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_ENUMINIT * tm_enuminit=0;
-  /* ASSIGN component_name = PARAM.component_name */
-  Escher_strcpy( component_name, p_component_name );
-  /* ASSIGN enumeration = PARAM.enumeration */
-  Escher_strcpy( enumeration, p_enumeration );
-  /* ASSIGN value = PARAM.value */
-  Escher_strcpy( value, p_value );
-  /* ASSIGN component_name = T::r(s:component_name) */
-  Escher_strcpy( component_name, T_r( component_name ) );
-  /* SELECT any tm_enuminit FROM INSTANCES OF TM_ENUMINIT WHERE ( ( SELECTED.Domain == component_name ) and ( SELECTED.enumeration == enumeration ) ) */
-  tm_enuminit = 0;
-  { ooaofooa_TM_ENUMINIT * selected;
-    Escher_Iterator_s itertm_enuminitooaofooa_TM_ENUMINIT;
-    Escher_IteratorReset( &itertm_enuminitooaofooa_TM_ENUMINIT, &pG_ooaofooa_TM_ENUMINIT_extent.active );
-    while ( (selected = (ooaofooa_TM_ENUMINIT *) Escher_IteratorNext( &itertm_enuminitooaofooa_TM_ENUMINIT )) != 0 ) {
-      if ( ( ( Escher_strcmp( selected->Domain, component_name ) == 0 ) && ( Escher_strcmp( selected->enumeration, enumeration ) == 0 ) ) ) {
-        tm_enuminit = selected;
-        break;
-      }
-    }
-  }
-  /* IF ( empty tm_enuminit ) */
-  if ( ( 0 == tm_enuminit ) ) {
-    /* CREATE OBJECT INSTANCE tm_enuminit OF TM_ENUMINIT */
-    tm_enuminit = (ooaofooa_TM_ENUMINIT *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_ENUMINIT_CLASS_NUMBER );
-  }
-  /* ASSIGN tm_enuminit.Domain = component_name */
-  Escher_strcpy( tm_enuminit->Domain, component_name );
-  /* ASSIGN tm_enuminit.enumeration = enumeration */
-  Escher_strcpy( tm_enuminit->enumeration, enumeration );
-  /* ASSIGN tm_enuminit.value = value */
-  Escher_strcpy( tm_enuminit->value, value );
-  /* T::print( s:TagUninitializedEnumerationValue:  ${enumeration} in ${component_name} given default uninitialized value ${value}. ) */
-  T_print( ({char s[512]={0};T_T("TagUninitializedEnumerationValue:  ");T_T(enumeration);T_T(" in ");T_T(component_name);T_T(" given default uninitialized value ");T_T(value);T_T(".");}) );
-
-}
-
-/*
- * Domain Function:  TagEnumeratorDiscreteValue
- */
-void
-ooaofooa_TagEnumeratorDiscreteValue( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_enumeration[ESCHER_SYS_MAX_STRING_LEN], c_t p_enumerator[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[ESCHER_SYS_MAX_STRING_LEN] )
-{
-  c_t value[ESCHER_SYS_MAX_STRING_LEN];c_t enumerator[ESCHER_SYS_MAX_STRING_LEN];c_t enumeration[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_ENUMVAL * tm_enumval=0;
-  /* ASSIGN component_name = PARAM.component_name */
-  Escher_strcpy( component_name, p_component_name );
-  /* ASSIGN enumeration = PARAM.enumeration */
-  Escher_strcpy( enumeration, p_enumeration );
-  /* ASSIGN enumerator = PARAM.enumerator */
-  Escher_strcpy( enumerator, p_enumerator );
-  /* ASSIGN value = PARAM.value */
-  Escher_strcpy( value, p_value );
-  /* ASSIGN component_name = T::r(s:component_name) */
-  Escher_strcpy( component_name, T_r( component_name ) );
-  /* SELECT any tm_enumval FROM INSTANCES OF TM_ENUMVAL WHERE ( ( ( SELECTED.Domain == component_name ) and ( SELECTED.enumeration == enumeration ) ) and ( SELECTED.enumerator == enumerator ) ) */
-  tm_enumval = 0;
-  { ooaofooa_TM_ENUMVAL * selected;
-    Escher_Iterator_s itertm_enumvalooaofooa_TM_ENUMVAL;
-    Escher_IteratorReset( &itertm_enumvalooaofooa_TM_ENUMVAL, &pG_ooaofooa_TM_ENUMVAL_extent.active );
-    while ( (selected = (ooaofooa_TM_ENUMVAL *) Escher_IteratorNext( &itertm_enumvalooaofooa_TM_ENUMVAL )) != 0 ) {
-      if ( ( ( ( Escher_strcmp( selected->Domain, component_name ) == 0 ) && ( Escher_strcmp( selected->enumeration, enumeration ) == 0 ) ) && ( Escher_strcmp( selected->enumerator, enumerator ) == 0 ) ) ) {
-        tm_enumval = selected;
-        break;
-      }
-    }
-  }
-  /* IF ( empty tm_enumval ) */
-  if ( ( 0 == tm_enumval ) ) {
-    /* CREATE OBJECT INSTANCE tm_enumval OF TM_ENUMVAL */
-    tm_enumval = (ooaofooa_TM_ENUMVAL *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_ENUMVAL_CLASS_NUMBER );
-  }
-  /* ASSIGN tm_enumval.Domain = component_name */
-  Escher_strcpy( tm_enumval->Domain, component_name );
-  /* ASSIGN tm_enumval.enumeration = enumeration */
-  Escher_strcpy( tm_enumval->enumeration, enumeration );
-  /* ASSIGN tm_enumval.enumerator = enumerator */
-  Escher_strcpy( tm_enumval->enumerator, enumerator );
-  /* ASSIGN tm_enumval.value = value */
-  Escher_strcpy( tm_enumval->value, value );
-  /* T::print( s:TagEnumeratorDiscreteValue:  ${enumeration}::${enumerator} in ${component_name} given discrete value ${value}. ) */
-  T_print( ({char s[512]={0};T_T("TagEnumeratorDiscreteValue:  ");T_T(enumeration);T_T("::");T_T(enumerator);T_T(" in ");T_T(component_name);T_T(" given discrete value ");T_T(value);T_T(".");}) );
-
-}
-
-/*
- * Domain Function:  MapDataTypeAsPointer
- */
-void
-ooaofooa_MapDataTypeAsPointer( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_dt_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_include_file[ESCHER_SYS_MAX_STRING_LEN], c_t p_pointer_type[ESCHER_SYS_MAX_STRING_LEN] )
-{
-  c_t include_file[ESCHER_SYS_MAX_STRING_LEN];c_t pointer_type[ESCHER_SYS_MAX_STRING_LEN];c_t dt_name[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_POINTER * tm_pointer=0;
-  /* ASSIGN component_name = PARAM.component_name */
-  Escher_strcpy( component_name, p_component_name );
-  /* ASSIGN dt_name = PARAM.dt_name */
-  Escher_strcpy( dt_name, p_dt_name );
-  /* ASSIGN pointer_type = PARAM.pointer_type */
-  Escher_strcpy( pointer_type, p_pointer_type );
-  /* ASSIGN include_file = PARAM.include_file */
-  Escher_strcpy( include_file, p_include_file );
-  /* ASSIGN component_name = T::r(s:component_name) */
-  Escher_strcpy( component_name, T_r( component_name ) );
-  /* SELECT any tm_pointer FROM INSTANCES OF TM_POINTER WHERE ( ( SELECTED.Domain == component_name ) and ( SELECTED.DT_name == dt_name ) ) */
-  tm_pointer = 0;
-  { ooaofooa_TM_POINTER * selected;
-    Escher_Iterator_s itertm_pointerooaofooa_TM_POINTER;
-    Escher_IteratorReset( &itertm_pointerooaofooa_TM_POINTER, &pG_ooaofooa_TM_POINTER_extent.active );
-    while ( (selected = (ooaofooa_TM_POINTER *) Escher_IteratorNext( &itertm_pointerooaofooa_TM_POINTER )) != 0 ) {
-      if ( ( ( Escher_strcmp( selected->Domain, component_name ) == 0 ) && ( Escher_strcmp( selected->DT_name, dt_name ) == 0 ) ) ) {
-        tm_pointer = selected;
-        break;
-      }
-    }
-  }
-  /* IF ( empty tm_pointer ) */
-  if ( ( 0 == tm_pointer ) ) {
-    /* CREATE OBJECT INSTANCE tm_pointer OF TM_POINTER */
-    tm_pointer = (ooaofooa_TM_POINTER *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_POINTER_CLASS_NUMBER );
-  }
-  /* ASSIGN tm_pointer.Domain = component_name */
-  Escher_strcpy( tm_pointer->Domain, component_name );
-  /* ASSIGN tm_pointer.DT_name = dt_name */
-  Escher_strcpy( tm_pointer->DT_name, dt_name );
-  /* ASSIGN tm_pointer.pointer_type = pointer_type */
-  Escher_strcpy( tm_pointer->pointer_type, pointer_type );
-  /* ASSIGN tm_pointer.include_file = include_file */
-  Escher_strcpy( tm_pointer->include_file, include_file );
-  /* T::print( s:MapDataTypeAsPointer:  ${dt_name} in ${component_name} given ${pointer_type} mapping (${include_file}). ) */
-  T_print( ({char s[512]={0};T_T("MapDataTypeAsPointer:  ");T_T(dt_name);T_T(" in ");T_T(component_name);T_T(" given ");T_T(pointer_type);T_T(" mapping (");T_T(include_file);T_T(").");}) );
-
-}
-
-/*
- * Domain Function:  TagDataTypePrecision
- */
-void
-ooaofooa_TagDataTypePrecision( c_t p_component_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_dt_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_initial_value[ESCHER_SYS_MAX_STRING_LEN], c_t p_tagged_name[ESCHER_SYS_MAX_STRING_LEN] )
-{
-  c_t initial_value[ESCHER_SYS_MAX_STRING_LEN];c_t tagged_name[ESCHER_SYS_MAX_STRING_LEN];c_t dt_name[ESCHER_SYS_MAX_STRING_LEN];c_t component_name[ESCHER_SYS_MAX_STRING_LEN];ooaofooa_TM_PRECISION * tm_precision=0;
-  /* ASSIGN component_name = PARAM.component_name */
-  Escher_strcpy( component_name, p_component_name );
-  /* ASSIGN dt_name = PARAM.dt_name */
-  Escher_strcpy( dt_name, p_dt_name );
-  /* ASSIGN tagged_name = PARAM.tagged_name */
-  Escher_strcpy( tagged_name, p_tagged_name );
-  /* ASSIGN initial_value = PARAM.initial_value */
-  Escher_strcpy( initial_value, p_initial_value );
-  /* ASSIGN component_name = T::r(s:component_name) */
-  Escher_strcpy( component_name, T_r( component_name ) );
-  /* SELECT any tm_precision FROM INSTANCES OF TM_PRECISION WHERE ( ( SELECTED.Domain == component_name ) and ( SELECTED.DT_name == dt_name ) ) */
-  tm_precision = 0;
-  { ooaofooa_TM_PRECISION * selected;
-    Escher_Iterator_s itertm_precisionooaofooa_TM_PRECISION;
-    Escher_IteratorReset( &itertm_precisionooaofooa_TM_PRECISION, &pG_ooaofooa_TM_PRECISION_extent.active );
-    while ( (selected = (ooaofooa_TM_PRECISION *) Escher_IteratorNext( &itertm_precisionooaofooa_TM_PRECISION )) != 0 ) {
-      if ( ( ( Escher_strcmp( selected->Domain, component_name ) == 0 ) && ( Escher_strcmp( selected->DT_name, dt_name ) == 0 ) ) ) {
-        tm_precision = selected;
-        break;
-      }
-    }
-  }
-  /* IF ( empty tm_precision ) */
-  if ( ( 0 == tm_precision ) ) {
-    /* CREATE OBJECT INSTANCE tm_precision OF TM_PRECISION */
-    tm_precision = (ooaofooa_TM_PRECISION *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_PRECISION_CLASS_NUMBER );
-  }
-  /* ASSIGN tm_precision.Domain = component_name */
-  Escher_strcpy( tm_precision->Domain, component_name );
-  /* ASSIGN tm_precision.DT_name = dt_name */
-  Escher_strcpy( tm_precision->DT_name, dt_name );
-  /* ASSIGN tm_precision.xName = tagged_name */
-  Escher_strcpy( tm_precision->xName, tagged_name );
-  /* ASSIGN tm_precision.initial_value = initial_value */
-  Escher_strcpy( tm_precision->initial_value, initial_value );
-  /* T::print( s:TagDataTypePrecision:  ${dt_name} in ${component_name} given ${tagged_name} precision with ${initial_value}. ) */
-  T_print( ({char s[512]={0};T_T("TagDataTypePrecision:  ");T_T(dt_name);T_T(" in ");T_T(component_name);T_T(" given ");T_T(tagged_name);T_T(" precision with ");T_T(initial_value);T_T(".");}) );
 
 }
 
@@ -23079,16 +28264,4 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
 
 void ooaofooa_execute_initialization()
 {
-  /*
-   * Initialization Function:  a0
-   * Component:  ooaofooa
-   */
-  ooaofooa_a0();
-
-  /*
-   * Initialization Function:  docgen
-   * Component:  ooaofooa
-   */
-  //ooaofooa_docgen();
-
 }

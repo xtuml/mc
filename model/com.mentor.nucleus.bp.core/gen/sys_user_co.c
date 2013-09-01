@@ -64,12 +64,16 @@ UserInitializationCalloutf( c_t * argv0 )
  * initialization functions.
  */
 void
-UserPreOoaInitializationCalloutf( void )
+UserPreOoaInitializationCalloutf( c_t * argv0 )
 {
   /* Insert implementation specific code here.  */
   static char * a[2] = { "UserPostOoaInitializationCalloutf", "a.xtuml" };
   Escher_xtUML_load( 2, a );
-  printf( "\n--" );
+  if ( strstr( argv0, "docgen" ) ) {
+    ooaofooa_docgen();
+  } else if ( strstr( argv0, "mc" ) ) {
+    ooaofooa_a0();
+  }
   SYS_USER_CO_PRINTF( "UserPreOoaInitializationCallout\n" )
 }
 
@@ -128,8 +132,16 @@ void
 UserPostShutdownCalloutf( void )
 {
   int i;
-  printf( "--\n" );
-  for ( i = 0; i < ooaofooa_MAX_CLASS_NUMBERS; i++ ) Escher_dump_instances( 0, i );
+  for ( i = 0; i < ooaofooa_MAX_CLASS_NUMBERS; i++ ) {
+    if ( 0 || (
+         ( i != ooaofooa_TE_VAL_CLASS_NUMBER ) &&
+         ! ( ( ooaofooa_V_VAL_CLASS_NUMBER <= i ) && ( i <= ooaofooa_V_SCV_CLASS_NUMBER ) ) &&
+         ( i != ooaofooa_ACT_SMT_CLASS_NUMBER ) &&
+         ( i != ooaofooa_TE_SMT_CLASS_NUMBER ) &&
+         ( i != ooaofooa_V_VAR_CLASS_NUMBER ) &&
+         ( i != ooaofooa_TE_VAR_CLASS_NUMBER ) ) )
+    Escher_dump_instances( 0, i );
+  }
   /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "UserPostShutdownCallout\n" )
 }
