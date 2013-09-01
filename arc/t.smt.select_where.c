@@ -37,7 +37,7 @@ ${ws}    if ( ${where_comp} ) \
       .// Expression satisfied. Assign to OAL select inst_ref<Object> handle and terminate search.
 ${ws}      ${te_select_where.var_name} = ${te_select_where.selected_var_name};
 ${ws}      break;
-    .elif ( te_select_where.multiplicity == "many" )
+    .elif ( "many" == te_select_where.multiplicity )
       .// Expression satisfied. Append instance to OAL select inst_ref<Object> handle set.
 ${ws}      ${te_set.module}${te_set.insert_element}( ${te_select_where.var_name}, ${te_select_where.selected_var_name} );
     .end if

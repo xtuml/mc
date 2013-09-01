@@ -11,7 +11,7 @@
   .for each act_for in act_fors
     .select one te_smt related by act_for->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_for( te_smt, act_for )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .// --------------------------------------------------------
@@ -37,7 +37,8 @@
     .assign ws = te_blk.indentation
     .assign te_smt.buffer2 = ws + "}}}"
     .if ( te_for.isImplicit )
-      .assign te_blk.declaration = ( ( te_blk.declaration + te_for.class_name ) + ( " * " + te_for.loop_variable ) ) + "=0;"
+      .assign d = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" )
+      .invoke blk_declaration_append( te_blk, d )
     .end if
     .assign iterator = "iter" + te_for.loop_variable
     .assign current_instance = "ii" + te_for.loop_variable
@@ -54,7 +55,7 @@
   .for each act_if in act_ifs
     .select one te_smt related by act_if->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_if( te_smt, act_if )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .// --------------------------------------------------------
@@ -79,7 +80,7 @@
   .for each act_whl in act_whls
     .select one te_smt related by act_whl->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_while( te_smt, act_whl )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .// --------------------------------------------------------
@@ -104,7 +105,7 @@
   .for each act_e in act_es
     .select one te_smt related by act_e->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_else( te_smt, act_e )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .// --------------------------------------------------------
@@ -131,7 +132,7 @@
   .for each act_el in act_els
     .select one te_smt related by act_el->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_elif( te_smt, act_el )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .// --------------------------------------------------------
@@ -159,7 +160,7 @@
   .for each act_ai in act_ais
     .select one te_smt related by act_ai->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_assign( te_smt, act_ai )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -202,17 +203,19 @@
       .select one te_class related by root_v_val->V_IRF[R801]->V_VAR[R808]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019]
       .if ( not_empty te_class )
         .assign te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + ( root_te_val.buffer + ";" )
-        .assign te_blk.declaration = te_blk.declaration + te_assign.left_declaration
+        .invoke blk_declaration_append( te_blk, te_assign.left_declaration )
       .end if
     .elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
       .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
       .assign selection_result_variable = te_assign.lval
       .assign d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
-      .assign te_blk.declaration = te_blk.declaration + d
+      .invoke blk_declaration_append( te_blk, d )
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-      .assign te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) ) + ( te_assign.lval + " );" )
+      .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"
+      .invoke blk_deallocation_append( te_blk, d )
     .else
-      .assign te_blk.declaration = ( te_blk.declaration + te_assign.left_declaration ) + ( te_assign.array_spec + ";" )
+      .assign d = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
+      .invoke blk_declaration_append( te_blk, d )
     .end if
   .end if
   .assign element_count = 0
@@ -257,7 +260,7 @@
   .for each act_cr in act_crs
     .select one te_smt related by act_cr->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_create_instance( te_smt, act_cr )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -282,7 +285,8 @@
     .invoke r = AutoInitializeUniqueIDs( te_class, te_var.buffer )
     .assign init_uniques = r.body
     .if ( act_cr.is_implicit )
-      .assign te_blk.declaration = ( ( te_blk.declaration + te_class.GeneratedName ) + ( " * " + te_var.buffer ) ) + ";"
+      .assign d = ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" )
+      .invoke blk_declaration_append( te_blk, d )
     .end if
     .include "${te_file.arc_path}/t.smt.create_instance.c"
     .assign te_smt.OAL = "CREATE OBJECT INSTANCE ${v_var.Name} OF ${te_class.Key_Lett}"
@@ -298,7 +302,7 @@
   .for each act_del in act_dels
     .select one te_smt related by act_del->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_delete_instance( te_smt, act_del )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -334,7 +338,7 @@
     .select one recipient_v_var related by e_cei->V_VAR[R711]
     .select one recipient_te_var related by recipient_v_var->TE_VAR[R2039]
     .invoke r = smt_create_event( te_smt, e_csme, recipient_te_var.buffer, recipient_v_var.Name )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -347,7 +351,7 @@
     .select one e_csme related by e_cea->E_CSME[R704]
     .select one te_smt related by e_csme->E_CES[R702]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_create_event( te_smt, e_csme, "0", "CLASS" )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -360,7 +364,7 @@
     .select one e_csme related by e_cec->E_CSME[R704]
     .select one te_smt related by e_csme->E_CES[R702]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_create_event( te_smt, e_csme, "0", "CREATOR" )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -413,11 +417,13 @@
         .end for
       .end if
       .if ( e_ces.is_implicit )
+        .assign d = ""
         .if ( "" == parameters )
-          .assign te_blk.declaration = ( ( te_blk.declaration + te_eq.base_event_type ) + ( " * " + te_var.buffer ) ) + ";"
+          .assign d = ( te_eq.base_event_type + " * " ) + ( te_var.buffer + ";" )
         .else
-          .assign te_blk.declaration = ( ( te_blk.declaration + te_evt.GeneratedName ) + ( " * " + te_var.buffer ) ) + ";"
+          .assign d = ( te_evt.GeneratedName + " * " ) + ( te_var.buffer + ";" )
         .end if
+        .invoke blk_declaration_append( te_blk, d )
       .end if
       .include "${te_file.arc_path}/t.smt.create_event.c"
       .assign te_smt.OAL = "CREATE EVENT INSTANCE ${v_var.Name}( ${parameter_OAL} ) TO ${recipient_OAL}"
@@ -433,7 +439,7 @@
   .for each act_rel in act_rels
     .select one te_smt related by act_rel->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_relate( te_smt, act_rel )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -481,7 +487,7 @@
   .for each act_ru in act_rus
     .select one te_smt related by act_ru->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_relate_using( te_smt, act_ru )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -550,7 +556,7 @@
   .for each act_unr in act_unrs
     .select one te_smt related by act_unr->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_unrelate( te_smt, act_unr )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -596,7 +602,7 @@
   .for each act_uru in act_urus
     .select one te_smt related by act_uru->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_unrelate_using( te_smt, act_uru )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -666,7 +672,7 @@
   .for each act_fio in act_fios
     .select one te_smt related by act_fio->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_select( te_smt, act_fio )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -697,16 +703,18 @@
     .if ( "any" == te_select.multiplicity )
       .if ( te_select.is_implicit )
         .// Declare (first OAL usage of) inst_ref<Object> handle variable.
-        .assign te_blk.declaration = ( ( te_blk.declaration + te_select.class_name ) + ( " * " + te_select.var_name ) ) + "=0;"
+        .assign d = ( te_select.class_name + " * " ) + ( te_select.var_name + "=0;" )
+        .invoke blk_declaration_append( te_blk, d )
       .end if
     .elif ( "many" == te_select.multiplicity )
       .if ( te_select.is_implicit )
         .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
         .assign selection_result_variable = te_select.var_name
         .assign d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
-        .assign te_blk.declaration = te_blk.declaration + d
+        .invoke blk_declaration_append( te_blk, d )
         .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-        .assign te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) ) + ( te_select.var_name + " );" )
+        .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select.var_name ) ) + " );"
+        .invoke blk_deallocation_append( te_blk, d )
       .end if
     .else
       .print "\nERROR:  select ${te_select.multiplicity} is not any or many."
@@ -725,7 +733,7 @@
   .for each act_fiw in act_fiws
     .select one te_smt related by act_fiw->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_select_where( te_smt, act_fiw )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -803,16 +811,18 @@
     .if ( "any" == te_select_where.multiplicity )
       .if ( te_select_where.is_implicit )
         .// Declare (first OAL usage of) inst_ref<Object> handle variable.
-        .assign te_blk.declaration = ( ( te_blk.declaration + te_select_where.class_name ) + ( " * " + te_select_where.var_name ) ) + "=0;"
+        .assign d = ( te_select_where.class_name + " * " ) + ( te_select_where.var_name + "=0;" )
+        .invoke blk_declaration_append( te_blk, d )
       .end if
     .elif ( "many" == te_select_where.multiplicity )
       .if ( te_select_where.is_implicit )
         .// First OAL usage of inst_ref_set<Object> handle set
         .assign selection_result_variable = te_select_where.var_name
         .assign d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
-        .assign te_blk.declaration = te_blk.declaration + d
+        .invoke blk_declaration_append( te_blk, d )
         .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-        .assign te_blk.deallocation = ( ( te_blk.deallocation + te_set.module ) + ( te_set.clear + "( " ) )  + ( te_select_where.var_name + " );" )
+        .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select_where.var_name ) ) + " );"
+        .invoke blk_deallocation_append( te_blk, d )
       .end if
     .else
       .print "\nERROR:  stmt_select_from_instances_of_where: Select ${te_select_where.multiplicity} is not any or many."
@@ -841,7 +851,7 @@
     .select one act_sel related by act_sr->ACT_SEL[R664]
     .select one te_smt related by act_sel->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_select_related( te_smt, act_sel, false )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -854,7 +864,7 @@
     .select one act_sel related by act_srw->ACT_SEL[R664]
     .select one te_smt related by act_sel->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_select_related( te_smt, act_sel, true )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -866,7 +876,7 @@
   .for each e_gpr in e_gprs
     .select one te_smt related by e_gpr->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_generate_precreated_event( te_smt, e_gpr )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -897,7 +907,7 @@
   .for each e_gen in e_gens
     .select one te_smt related by e_gen->E_GSME[R705]->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_generate_event( te_smt, e_gen )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -976,7 +986,7 @@
   .select one e_gsme related by e_gec->E_GSME[R705]
   .select one te_smt related by e_gsme->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
   .invoke r = smt_generate_class_event( te_smt, e_gsme )
-  .assign te_smt.buffer = r.body
+  .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = te_smt.OAL + " CREATOR"
 .end function
 .//
@@ -995,7 +1005,7 @@
   .select one e_gsme related by e_gar->E_GSME[R705]
   .select one te_smt related by e_gsme->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038]
   .invoke r = smt_generate_class_event( te_smt, e_gsme )
-  .assign te_smt.buffer = r.body
+  .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = te_smt.OAL + " CLASS"
 .end function
 .//
@@ -1075,7 +1085,7 @@
   .end if
   .select many v_pars related by act_sgn->V_PAR[R662]
   .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
-  .assign te_smt.buffer = r.body
+  .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
 .//
@@ -1099,7 +1109,7 @@
   .end if
   .select many v_pars related by act_iop->V_PAR[R679]
   .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
-  .assign te_smt.buffer = r.body
+  .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
 .//
@@ -1167,7 +1177,7 @@
   .for each act_tfm in act_tfms
     .select one te_smt related by act_tfm->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_operate( te_smt, act_tfm )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -1227,7 +1237,7 @@
   .for each act_brg in act_brgs
     .select one te_smt related by act_brg->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_bridge( te_smt, act_brg )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -1277,7 +1287,7 @@
   .for each act_fnc in act_fncs
     .select one te_smt related by act_fnc->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_function( te_smt, act_fnc )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -1317,7 +1327,7 @@
   .for each act_ret in act_rets
     .select one te_smt related by act_ret->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_return( te_smt, act_ret )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -1411,6 +1421,9 @@
   .end while
   .//
   .assign rv = value
+  .if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
+    .assign rv = "xtumlOALrv"
+  .end if
   .include "${te_file.arc_path}/t.smt.return.c"
   .assign te_smt.OAL = "RETURN ${value_OAL}"
 .end function
@@ -1423,7 +1436,7 @@
   .for each act_ctl in act_ctls
     .select one te_smt related by act_ctl->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_control( te_smt, act_ctl )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -1449,7 +1462,7 @@
   .for each act_brk in act_brks
     .select one te_smt related by act_brk->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_break( te_smt, act_brk )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -1487,7 +1500,7 @@
   .for each act_con in act_cons
     .select one te_smt related by act_con->ACT_SMT[R603]->TE_SMT[R2038]
     .invoke r = smt_continue( te_smt, act_con )
-    .assign te_smt.buffer = r.body
+    .invoke smt_buffer_append( te_smt, r.body )
   .end for
 .end function
 .//
@@ -1667,14 +1680,14 @@
   .// declaration
   .if ( te_select_related.is_implicit )
     .if ( "many" == te_select_related.multiplicity )
-      .assign d = "${ws}${te_set.scope}${te_set.base_class} ${te_select_related.result_var}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select_related.result_var} = &${te_select_related.result_var}_space;\n"
-      .assign te_blk.declaration = te_blk.declaration + d
-      .assign d = "${ws}${te_set.module}${te_set.clear}( ${te_select_related.result_var} );\n"
+      .assign d = "${te_set.scope}${te_set.base_class} ${te_select_related.result_var}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select_related.result_var} = &${te_select_related.result_var}_space;"
+      .invoke blk_declaration_append( te_blk, d )
+      .assign d = "${te_set.module}${te_set.clear}( ${te_select_related.result_var} ); "
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-      .assign te_blk.deallocation = te_blk.deallocation + d
+      .invoke blk_deallocation_append( te_blk, d )
     .else
-      .assign d = "${ws}${te_class.GeneratedName} * ${te_select_related.result_var}=0;\n"
-      .assign te_blk.declaration = te_blk.declaration + d
+      .assign d = "${te_class.GeneratedName} * ${te_select_related.result_var}=0;"
+      .invoke blk_declaration_append( te_blk, d )
     .end if
   .end if
   .assign cast = ""
@@ -1697,7 +1710,7 @@
         .if ( 0 == te_lnk.Mult )
           .if ( not_empty sub_r_rel )
             .include "${te_file.arc_path}/t.smt_sr.result_ref_init.c"
-${subtypecheck}
+${subtypecheck}\
           .end if
           .if ( not te_select_related.by_where )
   .//  1  |   T   |  T   |     F     |   "one"      |  0:one   |    F     | select one b related by a->B[R1];
@@ -1719,7 +1732,7 @@ ${subtypecheck}
         .if ( 0 == te_lnk.Mult )
           .if ( not_empty sub_r_rel )
             .include "${te_file.arc_path}/t.smt_sr.result_ref_init.c"
-${subtypecheck}
+${subtypecheck}\
           .end if
           .if ( not te_select_related.by_where )
   .//  5  |   T   |  T   |     F     |   "any"      |  0:one   |    F     | select any b related by a->B[R1];                              // Note 1
@@ -1824,7 +1837,7 @@ ${subtypecheck}
     .else
       .include "${te_file.arc_path}/t.smt_sr.result_ref_init.c"
     .end if
-${ws}{
+${ws}{\
     .assign depth = depth + 1
     .if ( te_select_related.start_many )
       .assign depth = depth + 1
@@ -1869,7 +1882,7 @@ ${ws}{
     .if ( "one" == te_select_related.multiplicity )
       .if ( 0 == te_lnk.Mult )
         .if ( not_empty sub_r_rel )
-${subtypecheck}
+${subtypecheck}\
         .end if
         .if ( not te_select_related.by_where )
   .//  1m |   T   |  F   |   "one"      |  0:one   |    F     | select one c related by a(s)->B[R1]->C[R2];
@@ -1890,7 +1903,7 @@ ${subtypecheck}
     .elif ( "any" == te_select_related.multiplicity )
       .if ( 0 == te_lnk.Mult )
         .if ( not_empty sub_r_rel )
-${subtypecheck}
+${subtypecheck}\
         .end if
         .if ( not te_select_related.by_where )
   .//  5m |   T   |  F   |   "any"      |  0:one   |    F     | select any c related by a(s)->B[R1]->C[R2];                              // Note 1, 2
@@ -1911,7 +1924,7 @@ ${subtypecheck}
     .else
       .if ( 0 == te_lnk.Mult )
         .if ( not_empty sub_r_rel )
-${subtypecheck}
+${subtypecheck}\
         .end if
         .if ( not te_select_related.by_where )
   .//  9m |   T   |  F   |   "many"     |  0:one   |    F     | select many cs related by a(s)->B[R1]->C[R2];                            // Note 1
@@ -1932,7 +1945,7 @@ ${subtypecheck}
     .end if .// one, any, many
     .//
     .while ( depth > 0 )
-}
+}\
       .assign depth = depth - 1
     .end while
 

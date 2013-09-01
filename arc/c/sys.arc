@@ -87,23 +87,18 @@
   .//.exit 507
   .//.print "dumping instances ${info.date}"
   .//.include "${te_file.arc_path}/q.class.instance.dump.arc"
-  .// CDS - The following belongs inside main when using the RSL instance dumper.
-  .print "translating values/expressions"
-  .invoke val_translate()
 .else
   .assign te_file.arc_path = arc_path
-  .//.include "${te_file.system_color_path}/${te_file.bridge_mark}"
   .//.include "${te_file.system_color_path}/${te_file.datatype_mark}"
   .include "${te_file.system_color_path}/${te_file.system_mark}"
+  .include "${te_file.domain_color_path}/${te_file.domain_mark}"
+  .include "${te_file.domain_color_path}/${te_file.class_mark}"
+  .include "${te_file.domain_color_path}/${te_file.event_mark}"
 .end if
-.include "${te_file.domain_color_path}/${te_file.domain_mark}"
-.include "${te_file.domain_color_path}/${te_file.class_mark}"
-.include "${te_file.domain_color_path}/${te_file.event_mark}"
 .// 8) Include system level user defined archetype functions.
 .include "${te_file.system_color_path}/${te_file.system_functions_mark}"
 .print "System level marking complete."
 .//
-.invoke oal_translate()
 .select any te_sys from instances of TE_SYS
 .// Pull into scope global values from singleton classes.
 .select any te_callout from instances of TE_CALLOUT

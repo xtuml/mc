@@ -146,7 +146,7 @@
     .// string
     .select any te_string from instances of TE_STRING
     .select any te_instance from instances of TE_INSTANCE
-    .assign result = "${ws}  ${te_instance.module}${te_string.strcpy}( ${evt_msg_var}->p_$_{parameter}, ${value} );"
+    .assign result = "${ws}  ${te_instance.module}${te_string.strcpy}( ${evt_msg_var}->p_${parameter}, ${value} );"
   .else
     .assign result = "${ws}  ${evt_msg_var}->p_${parameter} = ${value};"
   .end if

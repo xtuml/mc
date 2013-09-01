@@ -66,8 +66,7 @@
       .end if
       .if ( not_empty act_blk )
         .select one te_blk related by act_blk->TE_BLK[R2016]
-        .invoke r = blck_xlate( te_c.StmtTrace, te_blk )
-        .assign te_aba.code = r.result
+        .invoke blck_xlate( te_c.StmtTrace, te_blk, te_aba )
       .else
         .assign te_aba.code = ( "\n  /" + "* WARNING!  Skipping unsuccessful or unparsed action.  *" ) + "/\n"
       .end if
@@ -84,8 +83,7 @@
         .select one te_aba related by s_brg->TE_BRG[R2025]->TE_ABA[R2010]
         .if ( not_empty act_blk )
           .select one te_blk related by act_blk->TE_BLK[R2016]
-          .invoke r = blck_xlate( false, te_blk )
-          .assign te_aba.code = r.result
+          .invoke blck_xlate( false, te_blk, te_aba )
         .end if
       .end for
     .end if

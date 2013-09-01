@@ -44,7 +44,7 @@ ${class_numbers}\
 
 #define ${te_c.Name}_class_dispatchers${class_dispatchers}
   .if ( te_sys.InstanceLoading )
-
+#define ESCHER_IDDUMP_MASK 0x0fffffff
 #define ${te_c.Name}_instance_loaders${instance_loaders}
 
 #define ${te_c.Name}_batch_relaters${batch_relaters}

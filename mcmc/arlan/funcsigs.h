@@ -124,6 +124,8 @@
 {"MarkSystemConfigurationPackage","package_name"},
 {"MarkSystemCPortType","port_type"},
 {"MarkAllPortsPolymorphic"},
+{"mark_all","pass","f","p1","p2","p3","p4","p5"},
+{"T_atoi","s"},
 {"SortAscendingByNumbAttr","item_set"},
 {"class_model_data","c","as"},
 {"CreateFilePrologue","te_class","gen_declaration"},

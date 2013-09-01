@@ -5,8 +5,6 @@
 ./rsl2oal < ../../arc/q.parameters.arc >> o.oal
 ./rsl2oal < ../../arc/q.sys.populate.arc >> o.oal
 ./rsl2oal < ../../arc/q.utils.arc >> o.oal
-./rsl2oal < ../../arc/m.datatype.arc >> o.oal
-./rsl2oal < ../../arc/m.system.arc >> o.oal
 ./rsl2oal < ../../arc/q.domain.analyze.arc >> o.oal
 ./rsl2oal < ../../arc/q.oal.analyze.arc >> o.oal
 ./rsl2oal < ../../arc/q.oal.utils.arc >> o.oal
@@ -23,3 +21,12 @@
 ./rsl2oal < ../../arc/q.smt.generate.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
 ./rsl2oal < ../../arc/q.r_rel.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
 ./rsl2oal < ../../arc/q.names.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
+
+# Fourth list for marking
+./rsl2oal < ../../arc/m.bridge.arc > o4.oal
+./rsl2oal < ../../arc/m.class.arc >> o4.oal
+./rsl2oal < ../../arc/m.component.arc >> o4.oal
+./rsl2oal < ../../arc/m.datatype.arc >> o4.oal
+./rsl2oal < ../../arc/m.domain.arc >> o4.oal
+./rsl2oal < ../../arc/m.event.arc >> o4.oal
+./rsl2oal < ../../arc/m.system.arc >> o4.oal

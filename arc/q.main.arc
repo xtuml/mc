@@ -42,4 +42,7 @@
     .select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
     .invoke class_sort( te_classs )
   .end for
+  .print "translating values/expressions"
+  .invoke val_translate()
+  .invoke oal_translate()
 .end function

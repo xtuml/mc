@@ -10,7 +10,6 @@
   .// calling scope immediately.
   .// This is dubious practice (due to unallocated stack space),
   .// but is safer than explicit allocation alternatives.
-  .assign rv = "xtumlOALrv"
   .if ( "c_t" == returnvaltype )
 ${ws}{${returnvaltype} * ${rv} = ${value};
   .else

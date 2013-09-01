@@ -1332,8 +1332,6 @@
         .assign te_blk.first_Statement_ID = te_smt.Statement_ID
         .// end relate
         .assign first_smt = false
-      .else
-        .assign te_blk.first_Statement_ID = 00
       .end if
       .assign te_smt.OAL = ""
       .assign te_smt.buffer = ""
@@ -1649,7 +1647,7 @@
         .if ( o_attr_Descrip_Persistent != "false" )
           .if ( "%p" == te_dt.string_format )
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + "%ld"
-            .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    ((long)self->" ) + ( te_attr.GeneratedName + " & 0x3fffffff)" )
+            .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    ((long)self->" ) + ( te_attr.GeneratedName + " & ESCHER_IDDUMP_MASK)" )
           .elif ( "%s" == te_dt.string_format )
             .// Place an escaped tick mark around the %s in the attribute format string.
             .assign te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''" + te_dt.string_format ) ) + "''"

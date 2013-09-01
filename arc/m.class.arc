@@ -28,7 +28,7 @@
   .for each te_class in te_classes
     .assign te_class.MaxExtentSize = extent_size
   .end for
-  .print "Class default extent size is ${extent_size} for _all_ classes."
+  .print "Class default extent size is $t{extent_size} for _all_ classes."
 .end function
 .//
 .//============================================================================
@@ -53,10 +53,10 @@
     .select any te_class related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters )
     .if ( not_empty te_class )
       .assign te_class.MaxExtentSize = extent_size
-      .print "Class '${te_class.Name}' (${te_class.Key_Lett}) extent size is ${extent_size}"
+      .print "Class '${te_class.Name}' (${te_class.Key_Lett}) extent size is $t{extent_size}"
     .else
       .print "ERROR:  Class (${obj_key_letters}) not found in component '${te_c.Name}'."
-      .print "      => MarkObjectExtentSize( ""${obj_key_letters}"", ${extent_size} )"
+      .print "      => MarkObjectExtentSize( ${obj_key_letters}, $t{extent_size} )"
     .end if
   .end for
 .end function
@@ -105,7 +105,7 @@
     .end if
     .if ( empty te_classes )
       .assign msg = "ERROR:  Class ${obj_key_letters} not found in component."
-      .assign msg = msg + "\n => MarkClassOperationTranslationOff( ""${obj_key_letters}"", ""${op_name}"" )"
+      .assign msg = msg + "\n => MarkClassOperationTranslationOff( ${obj_key_letters}, ${op_name} )"
     .end if
     .for each te_class in te_classes
       .if ( "*" == op_name )
@@ -124,7 +124,7 @@
           .assign msg = "Class Operation ${te_class.Name} ${te_class.Key_Lett}::${te_tfr.Name} semantics disabled."
         .else
           .assign msg = "ERROR:  Class Operation ${te_class.Name} ${te_class.Key_Lett}::${op_name} is not defined."
-          .assign msg = msg + "\n  => MarkClassOperationTranslationOff( ""${obj_key_letters}"", ""${op_name}"" )"
+          .assign msg = msg + "\n  => MarkClassOperationTranslationOff( ${obj_key_letters}, ${op_name} )"
         .end if
       .end if
     .end for
@@ -165,7 +165,7 @@
         .assign msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is disabled."
       .else
         .assign msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}."
-        .assign msg = msg + "\n => MarkObjectTraceOff( ""${obj_key_letters}"" )"
+        .assign msg = msg + "\n => MarkObjectTraceOff( ${obj_key_letters} )"
       .end if
     .end if
     .if ( "" != msg )
@@ -205,7 +205,7 @@
         .assign msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is enabled."
       .else
         .assign msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}."
-        .assign msg = msg + "\n => MarkObjectTraceOn( ""${obj_key_letters}"" )"
+        .assign msg = msg + "\n => MarkObjectTraceOn( ${obj_key_letters} )"
       .end if
     .end if
     .if ( "" != msg )
@@ -500,7 +500,7 @@
       .select any s_ss from instances of S_SS where ( selected.Name == ss_prefix )
       .select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters )
     .else
-      .print "ERROR:  MapClassToTask( ${ss_prefix}, ${obj_key_letters}, ${task} ) in component ${te_c.Name}\n"
+      .print "ERROR:  MapClassToTask( ${ss_prefix}, ${obj_key_letters}, $t{task} ) in component ${te_c.Name}\n"
     .end if
     .for each te_class in te_classes
       .assign te_class.Task = task
