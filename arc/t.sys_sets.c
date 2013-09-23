@@ -485,6 +485,7 @@ ${te_set.scope}${te_string.strget}( void )
   static u1_t i = 0;
   static c_t s[ 16 ][ ${te_string.max_string_length} ];
   i = ( i + 1 ) % 16;
+  s[ i ][ 0 ] = 0;
   return ( &s[ i ][ 0 ] );
 }
 

@@ -214,6 +214,8 @@
   .assign event_count = 0
   .assign row = ""
   .assign delimiter = ""
+  .select any empty_sm_txn from instances of SM_TXN where ( false )
+  .select any empty_sm_eign from instances of SM_EIGN where ( false )
   .// Here we use event_count and event_number, because we may skip events
   .// that are not used.  Soon there will be a reflexive on TE_EVT.
   .// Guard by limiting loop to 256 events.
@@ -223,8 +225,8 @@
     .for each te_evt in te_evts
       .if ( te_evt.Order == event_number )
         .assign found = true
-        .select any sm_txn from instances of SM_TXN where ( false )
-        .select any sm_eign from instances of SM_EIGN where ( false )
+        .assign sm_txn = empty_sm_txn
+        .assign sm_eign = empty_sm_eign
         .if ( 0 == order )
           .// Deal with creation event transitions.
           .select one sm_txn related by te_evt->SM_EVT[R2036]->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509]->SM_TXN[R507]

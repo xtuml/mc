@@ -89,11 +89,6 @@
   .//.include "${te_file.arc_path}/q.class.instance.dump.arc"
 .else
   .assign te_file.arc_path = arc_path
-  .//.include "${te_file.system_color_path}/${te_file.datatype_mark}"
-  .include "${te_file.system_color_path}/${te_file.system_mark}"
-  .include "${te_file.domain_color_path}/${te_file.domain_mark}"
-  .include "${te_file.domain_color_path}/${te_file.class_mark}"
-  .include "${te_file.domain_color_path}/${te_file.event_mark}"
 .end if
 .// 8) Include system level user defined archetype functions.
 .include "${te_file.system_color_path}/${te_file.system_functions_mark}"
