@@ -34,7 +34,7 @@ main( int argc, char ** argv )
         printf("%s\n",s);
       }
     } else {
-      strcpy(b,argv[1]);strcat(b,"\n");
+      strncpy(b,argv[1],1024-1);strcat(b,"\n");
       char * s = template_engine( b );
       printf("%s\n",s);
     }

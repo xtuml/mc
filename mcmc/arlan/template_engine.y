@@ -28,6 +28,7 @@ char literalstr[64000] = {0};
 char svar[2][256];
 int svarnum = 0;
 int stringmode = 0;
+int backslash = 0;
 char * SSS = "T_b(";
 char formatcharacter = 0;
 #endif
@@ -284,27 +285,20 @@ bop:
         ;
 
 literal:
-        LITERAL literalbody '\n'
+        LITERAL literalbody '\n' {if(!backslash && !stringmode){strcat(b,SSS);strcat(b,"\"\\n\");\n");}backslash=0;}
         | '\n'
         ;
 
 literalbody:
         /* empty */
-        {if (0 && strlen(literalstr)) {strcat(b,SSS);strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");if(!stringmode)strcat(b,"\n");literalstr[0]=0;}}
+        {if (1 && strlen(literalstr)) {strcat(b,SSS);strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");if(!stringmode)strcat(b,"\n");literalstr[0]=0;}}
         | literalbody LITERAL
         { int len = strlen( literalstr );
-          if ( 0 == len ) {
-            /*
-            if ( !stringmode ) {
-              strcat(b,SSS);strcat(b,"\"\\n\");\n");
-            }
-            */
-          } else {
+          if ( 0 != len ) {
             /* CDS - Here we seem to be detecting a trailing backslash.  Set a flag and then skip appending line return.  */
-            if ( '\\' == literalstr[ len - 1 ] ) literalstr[ len - 1 ] = 0;
-            /*strcat(b,SSS);strcat(b,"\"");strcat(b,"555");strcat(b,literalstr);strcat(b,"666");strcat(b,"\");");fprintf(stderr,"7 7%s8 8\n",literalstr);literalstr[0]=0;*/
+            if ( '\\' == literalstr[len-1] ) { literalstr[len-1]=0;backslash=1; }
             strcat(b,SSS);strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");literalstr[0]=0;
-            if ( !stringmode ) strcat(b,"\n");
+            if(!stringmode)strcat(b,"\n");
           }
         }
         | literalbody substitutionvariable
@@ -365,7 +359,7 @@ char * template_engine( char * s )
   stringmode = 1;
   b[0]=0;
   literalstr[0]=0;
-  strcat(b,"({char s[512]={0};");
+  strcat(b,"({c_t*s=Escher_strget();");
   yy_scan_string( s );
   yyparse();
   strcat(b,"})");
