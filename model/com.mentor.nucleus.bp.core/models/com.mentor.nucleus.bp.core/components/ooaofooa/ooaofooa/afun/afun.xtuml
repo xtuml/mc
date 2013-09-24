@@ -56,13 +56,6 @@ if ( not_empty stringpointer_s_dt )
   ::MapDataTypeAsPointer( component_name:"*", dt_name:"stringpointer", pointer_type:"c_t", include_file:"" );
 end if;
 
-select any s_sys from instances of S_SYS;
-if ( "sys" == s_sys.Name )
-  ::TagDynamicMemoryAllocationOn( units_to_allocate:10 );
-  ::TagInstanceLoading();
-  ::TagMaximumStringLength( max_len:840 );
-end if;
-
 ::sys_populate();
 
 select any te_sys from instances of TE_SYS;
