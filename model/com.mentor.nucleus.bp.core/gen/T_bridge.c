@@ -330,7 +330,6 @@ T_body( void )
 
 extern char * template_engine( char * );
 extern int yyparse( void );
-extern char * templatebuffer;
 
 /*
  * Bridge:  t
@@ -340,8 +339,8 @@ T_t( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * result = 0;
   if ( ( strlen( p_s ) > 0 ) && strchr( p_s, '$' ) && strchr( p_s, '{' ) && strchr( p_s, '}' ) ) {
-    c_t s[1024];
-    strcpy(s,p_s);strcat(s,"\n");
+    c_t s[ESCHER_SYS_MAX_STRING_LEN];
+    strncpy(s,p_s,ESCHER_SYS_MAX_STRING_LEN-1);strcat(s,"\n");
     result = template_engine( s );
   } else {
     result = p_s;

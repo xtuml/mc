@@ -69,6 +69,7 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
   /* Insert implementation specific code here.  */
   static char * a[2] = { "UserPostOoaInitializationCalloutf", "a.xtuml" };
   Escher_xtUML_load( 2, a );
+  read_marking_invocations();
   if ( strstr( argv0, "docgen" ) ) {
     ooaofooa_docgen();
   } else if ( strstr( argv0, "mc" ) ) {
@@ -279,4 +280,20 @@ UserPersistenceErrorCalloutf( i_t error_code )
 {
   /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "UserPersistenceErrorCallout\n" )
+}
+
+c_t marking_invocations[ 256 ][ ESCHER_SYS_MAX_STRING_LEN ];
+int marking_invocations_index = 0;
+static void read_marking_invocations( void );
+static void read_marking_invocations( void )
+{
+  FILE * m_txt;
+  if ( 0 == ( m_txt = fopen( "m.txt", "r" ) ) ) {
+    int i = 0;
+    fprintf( stderr, "failed to open m.txt\n" );
+  } else {
+    while ( 0 != fgets( marking_invocations[ marking_invocations_index ], ESCHER_SYS_MAX_STRING_LEN, m_txt ) ) {
+      marking_invocations_index++;
+    }
+  }
 }
