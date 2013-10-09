@@ -472,6 +472,7 @@
     .end if
     .invoke r = GetRelateToName( o_obj, r_rel, act_rel.relationship_phrase )
     .assign relate_method = r.result
+    .select one te_class related by o_obj->TE_CLASS[R2019]
     .assign thismodule = ""
     .if ( "C" != te_target.language )
       .assign thismodule = ", thismodule"
@@ -533,14 +534,15 @@
   .select one ass_v_var related by act_ru->V_VAR[R619]
   .select one ass_te_var related by ass_v_var->TE_VAR[R2039]
   .select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818]
+  .select one ass_te_class related by ass_o_obj->TE_CLASS[R2019]
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
   .assign thismodule = ""
   .if ( "C" != te_target.language )
     .assign thismodule = ", thismodule"
   .end if
-  .invoke r1 = GetAssociativeLinkMethodName( one_o_obj, oth_o_obj, ass_o_obj, r_rel, act_ru.relationship_phrase )
-  .assign method = r1.result
+  .invoke r1 = GetRelateToName( ass_o_obj, r_rel, act_ru.relationship_phrase )
+  .assign relate_method = r1.result
   .assign left_obj_is_aone = false
   .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
   .if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
@@ -586,7 +588,7 @@
       .assign o_obj = one_o_obj
     .end if
     .invoke r = GetUnrelateFromName( o_obj, r_rel, act_unr.relationship_phrase )
-    .assign method = r.result
+    .assign unrelate_method = r.result
     .assign thismodule = ""
     .if ( "C" != te_target.language )
       .assign thismodule = ", thismodule"
@@ -647,14 +649,15 @@
   .select one ass_v_var related by act_uru->V_VAR[R624]
   .select one ass_te_var related by ass_v_var->TE_VAR[R2039]
   .select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818]
+  .select one ass_te_class related by ass_o_obj->TE_CLASS[R2019]
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
   .assign thismodule = ""
   .if ( "C" != te_target.language )
     .assign thismodule = ", thismodule"
   .end if
-  .invoke r1 = GetAssociativeUnlinkMethodName( one_o_obj, oth_o_obj, ass_o_obj, r_rel, act_uru.relationship_phrase )
-  .assign method = r1.result
+  .invoke r1 = GetUnrelateFromName( ass_o_obj, r_rel, act_uru.relationship_phrase )
+  .assign unrelate_method = r1.result
   .assign left_obj_is_aone = false
   .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
   .if ( one_o_obj.Obj_ID == r_aone.Obj_ID )

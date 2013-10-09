@@ -2691,6 +2691,7 @@ CREATE TABLE TE_CLASS (
 	Name	STRING,
 	Numb	INTEGER,
 	Key_Lett	STRING,
+	scope	STRING,
 	GeneratedName	STRING,
 	CBGeneratedName	STRING,
 	Included	BOOLEAN,

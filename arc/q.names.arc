@@ -46,70 +46,6 @@
 .end function
 .//
 .//============================================================================
-.// Return the name of the associative relationship link method.
-.//============================================================================
-.function GetAssociativeLinkMethodName .// string
-  .param inst_ref left_o_obj
-  .param inst_ref right_o_obj
-  .param inst_ref assoc_o_obj
-  .param inst_ref r_rel
-  .param string   rel_phrase
-  .//
-  .assign result = ""
-  .select one te_class related by assoc_o_obj->TE_CLASS[R2019]
-  .if ( not_empty te_class )
-    .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
-    .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
-    .//
-    .assign name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Link"
-    .assign result = ( te_class.GeneratedName + "::" ) + name
-    .//
-    .invoke r = GetRelationshipSuffix( assoc_o_obj, r_rel, rel_phrase )
-    .assign suffix = r.result
-    .if ( "" != suffix )
-      .assign name = ( name + "_" ) + suffix
-      .assign result = ( result + "_" ) + suffix
-    .end if
-    .select any te_target from instances of TE_TARGET
-    .if ( "C" == te_target.language )
-      .assign result = name
-    .end if
-  .end if
-  .assign attr_result = result
-.end function
-.//
-.//============================================================================
-.function GetAssociativeUnlinkMethodName .// string
-  .param inst_ref left_o_obj
-  .param inst_ref right_o_obj
-  .param inst_ref assoc_o_obj
-  .param inst_ref r_rel
-  .param string   rel_phrase
-  .//
-  .assign result = ""
-  .select one te_class related by assoc_o_obj->TE_CLASS[R2019]
-  .if ( not_empty te_class )
-    .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
-    .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
-    .//
-    .assign name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Unlink"
-    .assign result = ( te_class.GeneratedName + "::" ) + name
-    .//
-    .invoke r = GetRelationshipSuffix( assoc_o_obj, r_rel, rel_phrase )
-    .assign suffix = r.result
-    .if ( "" != suffix )
-      .assign name = ( name + "_" ) + suffix
-      .assign result = ( result + "_" ) + suffix
-    .end if
-    .select any te_target from instances of TE_TARGET
-    .if ( "C" == te_target.language )
-      .assign result = name
-    .end if
-  .end if
-  .assign attr_result = result
-.end function
-.//
-.//============================================================================
 .function GetRelateToName .// string
   .param inst_ref o_obj
   .param inst_ref r_rel
@@ -117,17 +53,11 @@
   .assign result = ""
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
-    .assign name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Link"
-    .assign result = ( te_class.GeneratedName + "::" ) + name
+    .assign result = te_class.GeneratedName + "_R$t{r_rel.Numb}_Link"
     .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
     .assign suffix = r.result
     .if ( "" != suffix )
-      .assign name = ( name + "_" ) + suffix
       .assign result = ( result + "_" ) + suffix
-    .end if
-    .select any te_target from instances of TE_TARGET
-    .if ( "C" == te_target.language )
-      .assign result = name
     .end if
   .end if
   .assign attr_result = result
@@ -141,17 +71,11 @@
   .assign result = ""
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .if ( not_empty te_class )
-    .assign name = te_class.GeneratedName + "_R$t{r_rel.Numb}_Unlink"
-    .assign result = ( te_class.GeneratedName + "::" ) + name
+    .assign result = te_class.GeneratedName + "_R$t{r_rel.Numb}_Unlink"
     .invoke r = GetRelationshipSuffix( o_obj, r_rel, rel_phrase )
     .assign suffix = r.result
     .if ( "" != suffix )
-      .assign name = ( name + "_" ) + suffix
       .assign result = ( result + "_" ) + suffix
-    .end if
-    .select any te_target from instances of TE_TARGET
-    .if ( "C" == te_target.language )
-      .assign result = name
     .end if
   .end if
   .assign attr_result = result

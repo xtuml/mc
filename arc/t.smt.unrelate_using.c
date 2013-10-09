@@ -1,4 +1,4 @@
-${ws}${method}( \
+${ws}${ass_te_class.scope}${unrelate_method}( \
 .if ( is_reflexive )
 ${one_te_var.buffer}, ${oth_te_var.buffer}, \
 .else

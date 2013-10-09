@@ -448,6 +448,9 @@
         .// Create the Generated Class instance and link it to the real one.
         .invoke r1 = FactoryTE_CLASS( o_obj, te_c )
         .assign te_class = r1.result
+        .if ( "C++" == te_target.language )
+          .assign te_class.scope = te_class.GeneratedName + "::"
+        .end if
       .end if
     .end if
   .end for
@@ -1775,6 +1778,7 @@
   .// Initialize model compiler extension attributes.
   .assign te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett
   .assign te_class.CBGeneratedName = te_class.GeneratedName + "_CB"
+  .assign te_class.scope = ""
   .assign te_class.nextID = 00
   .assign attr_result = te_class
 .end function

@@ -14,7 +14,7 @@
  * RELATE ${super_te_class.Key_Lett} TO ${sub_te_class.Key_Lett} ACROSS R${te_rel.Numb}
  */
 void
-${relate_method}( ${super_te_class.GeneratedName} * supertype, ${sub_te_class.GeneratedName} * subtype${thismodule} )
+${sub_te_class.scope}${relate_method}( ${super_te_class.GeneratedName} * supertype, ${sub_te_class.GeneratedName} * subtype${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (supertype == 0) || (subtype == 0) ) {
@@ -40,7 +40,7 @@ ${persist_relate.body}\
  * UNRELATE ${super_te_class.Key_Lett} FROM ${sub_te_class.Key_Lett} ACROSS R${te_rel.Numb}
  */
 void
-${unrelate_method}( ${super_te_class.GeneratedName} * supertype, ${sub_te_class.GeneratedName} * subtype${thismodule} )
+${sub_te_class.scope}${unrelate_method}( ${super_te_class.GeneratedName} * supertype, ${sub_te_class.GeneratedName} * subtype${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (supertype == 0) || (subtype == 0) ) {

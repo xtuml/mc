@@ -14,7 +14,7 @@
  * RELATE ${part_te_class.Key_Lett} TO ${form_te_class.Key_Lett} ACROSS R${te_rel.Numb}
  */
 void
-${relate_method}( ${part_te_class.GeneratedName} * part, ${form_te_class.GeneratedName} * form${thismodule} )
+${form_te_class.scope}${relate_method}( ${part_te_class.GeneratedName} * part, ${form_te_class.GeneratedName} * form${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (part == 0) || (form == 0) ) {
@@ -52,7 +52,7 @@ ${persist_relate.body}\
  * UNRELATE ${part_te_class.Key_Lett} FROM ${form_te_class.Key_Lett} ACROSS R${te_rel.Numb}
  */
 void
-${unrelate_method}( ${part_te_class.GeneratedName} * part, ${form_te_class.GeneratedName} * form${thismodule} )
+${form_te_class.scope}${unrelate_method}( ${part_te_class.GeneratedName} * part, ${form_te_class.GeneratedName} * form${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (part == 0) || (form == 0) ) {

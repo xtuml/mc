@@ -14,7 +14,7 @@
  * RELATE ${aone_te_class.Key_Lett} TO ${aoth_te_class.Key_Lett} ACROSS R$t{r_rel.Numb} USING ${assr_te_class.Key_Lett}
  */
 void
-${relate_method}( ${aone_te_class.GeneratedName} * aone, ${aoth_te_class.GeneratedName} * aoth, ${assr_te_class.GeneratedName} * assr${thismodule} )
+${assr_te_class.scope}${relate_method}( ${aone_te_class.GeneratedName} * aone, ${aoth_te_class.GeneratedName} * aoth, ${assr_te_class.GeneratedName} * assr${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (aone == 0) || (aoth == 0) || (assr == 0) ) {
@@ -51,7 +51,7 @@ ${persist_relate.body}\
 R$t{r_rel.Numb} USING ${assr_te_class.Key_Lett}
  */
 void
-${unrelate_method}( ${aone_te_class.GeneratedName} * aone, ${aoth_te_class.GeneratedName} * aoth, ${assr_te_class.GeneratedName} * assr${thismodule} )
+${assr_te_class.scope}${unrelate_method}( ${aone_te_class.GeneratedName} * aone, ${aoth_te_class.GeneratedName} * aoth, ${assr_te_class.GeneratedName} * assr${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (aone == 0) || (aoth == 0) || (assr == 0) ) {

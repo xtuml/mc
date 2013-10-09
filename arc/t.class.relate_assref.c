@@ -15,7 +15,7 @@
 R${te_rel.Numb}.'${rel_phrase}' USING ${assr_obj.Key_Lett}
  */
 void
-${relate_method}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
+${assr_te_class.scope}${relate_method}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (left == 0) || (right == 0) || (assr == 0) ) {
@@ -73,7 +73,7 @@ ${persist_relate.body}\
 R${te_rel.Numb}.'${rel_phrase}' USING ${assr_obj.Key_Lett}
  */
 void
-${unrelate_method}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
+${assr_te_class.scope}${unrelate_method}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (left == 0) || (right == 0) || (assr == 0) ) {
