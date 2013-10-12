@@ -11,7 +11,7 @@
 /*
  * UML Domain Functions (Synchronous Services)
  */
-.if ( not_empty te_sync )
+.if ( not_empty ilb_te_sync )
 #include "${te_file.ilb}.${te_file.hdr_file_ext}"
 .end if
 ${function_definitions}

@@ -169,6 +169,8 @@
     .assign te_c.Descrip = c_c.Descrip
     .assign te_c.included_in_build = true
     .assign te_c.next_ID = 00
+    .assign te_c.first_syncID = 00
+    .assign te_c.first_eeID = 00
     .select any tm_c from instances of TM_C where ( selected.Name == c_c.Name )
     .if ( not_empty tm_c )
       .if ( ( tm_c.isRealized ) or ( c_c.isRealized ) )
@@ -1509,9 +1511,15 @@
   .for each te_c in te_cs
     .// Initialize the te_sync instances.
     .select many te_syncs related by te_c->TE_SYNC[R2084]
+    .invoke r = sync_sort( te_syncs )
+    .assign te_sync = r.result
+    .if ( not_empty te_sync )
+      .// relate te_c to te_sync across R2097;
+      .assign te_c.first_syncID = te_sync.ID
+      .// end relate
+    .end if
     .for each te_sync in te_syncs
       .select one s_sync related by te_sync->S_SYNC[R2023]
-      .assign te_sync.Included = false
       .assign te_sync.IsInitFunction = false
       .assign te_sync.IsSafeForInterrupts = false
       .assign te_sync.XlateSemantics = true
@@ -1546,6 +1554,13 @@
     .//
     .// Create the Generated External Entity instances and link them in.
     .select many te_ees related by te_c->TE_EE[R2085]
+    .invoke r = ee_sort( te_ees )
+    .assign te_ee = r.result
+    .if ( not_empty te_ee )
+      .// relate te_c to te_sync across R2098;
+      .assign te_c.first_eeID = te_ee.ID
+      .// end relate
+    .end if
     .for each te_ee in te_ees
       .invoke TE_EE_init( te_ee, te_c )
     .end for
@@ -2723,6 +2738,116 @@
     .if ( not_empty cursor_te_mact )
       .// relate te_mact to cursor_te_mact across R2083.'succeeds';
       .assign te_mact.nextID = cursor_te_mact.ID
+      .// end relate
+    .end if
+  .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// Sort a list of TE_SYNCs.
+.function sync_sort .// te_sync
+  .param inst_ref_set te_syncs
+  .// Declare an empty instance reference.
+  .select any head_te_sync related by te_syncs->TE_SYNC[R2095.'succeeds'] where ( false )
+  .for each te_sync in te_syncs
+    .assign te_sync.nextID = 00
+  .end for
+  .for each te_sync in te_syncs
+    .invoke r = sync_insert( head_te_sync, te_sync )
+    .assign head_te_sync = r.result
+  .end for
+  .assign attr_result = head_te_sync
+.end function
+.function sync_insert .// te_sync
+  .param inst_ref head_te_sync
+  .param inst_ref te_sync
+  .assign result = te_sync
+  .if ( empty head_te_sync )
+    .// Just starting.  Return te_sync as head.
+  .else
+  .assign lkey = te_sync.Name
+  .assign rkey = head_te_sync.Name
+  .if ( lkey <= rkey )
+    .// insert before
+    .// relate te_sync to head_te_sync across R2095.'succeeds';
+    .assign te_sync.nextID = head_te_sync.ID
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_sync
+    .assign prev_te_sync = head_te_sync
+    .select one cursor_te_sync related by head_te_sync->TE_SYNC[R2095.'succeeds']
+    .while ( not_empty cursor_te_sync )
+      .assign rkey = cursor_te_sync.Name
+      .if ( lkey <= rkey )
+        .break while
+      .else
+        .assign prev_te_sync = cursor_te_sync
+        .select one cursor_te_sync related by cursor_te_sync->TE_SYNC[R2095.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_sync to te_sync across R2095.'succeeds';
+    .assign prev_te_sync.nextID = te_sync.ID
+    .// end relate
+    .if ( not_empty cursor_te_sync )
+      .// relate te_sync to cursor_te_sync across R2095.'succeeds';
+      .assign te_sync.nextID = cursor_te_sync.ID
+      .// end relate
+    .end if
+  .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// Sort a list of TE_EEs.
+.function ee_sort .// te_ee
+  .param inst_ref_set te_ees
+  .// Declare an empty instance reference.
+  .select any head_te_ee related by te_ees->TE_EE[R2096.'succeeds'] where ( false )
+  .for each te_ee in te_ees
+    .assign te_ee.nextID = 00
+  .end for
+  .for each te_ee in te_ees
+    .invoke r = ee_insert( head_te_ee, te_ee )
+    .assign head_te_ee = r.result
+  .end for
+  .assign attr_result = head_te_ee
+.end function
+.function ee_insert .// te_ee
+  .param inst_ref head_te_ee
+  .param inst_ref te_ee
+  .assign result = te_ee
+  .if ( empty head_te_ee )
+    .// Just starting.  Return te_ee as head.
+  .else
+  .assign lkey = te_ee.Name
+  .assign rkey = head_te_ee.Name
+  .if ( lkey <= rkey )
+    .// insert before
+    .// relate te_ee to head_te_ee across R2096.'succeeds';
+    .assign te_ee.nextID = head_te_ee.ID
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_ee
+    .assign prev_te_ee = head_te_ee
+    .select one cursor_te_ee related by head_te_ee->TE_EE[R2096.'succeeds']
+    .while ( not_empty cursor_te_ee )
+      .assign rkey = cursor_te_ee.Name
+      .if ( lkey <= rkey )
+        .break while
+      .else
+        .assign prev_te_ee = cursor_te_ee
+        .select one cursor_te_ee related by cursor_te_ee->TE_EE[R2096.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_ee to te_ee across R2096.'succeeds';
+    .assign prev_te_ee.nextID = te_ee.ID
+    .// end relate
+    .if ( not_empty cursor_te_ee )
+      .// relate te_ee to cursor_te_ee across R2096.'succeeds';
+      .assign te_ee.nextID = cursor_te_ee.ID
       .// end relate
     .end if
   .end if

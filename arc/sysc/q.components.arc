@@ -75,16 +75,6 @@
     .end if
   .end for
   .//
-  .// functions
-  .select any te_sync related by te_c->TE_SYNC[R2084]
-  .assign function_definitions = ""
-  .if ( not_empty te_sync )
-    .assign te_sync.Included = true
-    .select any te_sync related by te_c->TE_SYNC[R2084] where ( selected.IsSafeForInterrupts )
-    .invoke s = CreateSynchronousServiceClassDefinition( te_c )
-    .assign function_definitions = s.body
-  .end if
-  .//
   .// initialization
   .// Build the domain init information containing data structures collecting
   .// class info for the entire domain.
@@ -95,8 +85,8 @@
   .select any te_cia from instances of TE_CIA
   .select one te_dci related by te_c->TE_DCI[R2090]
   .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
-  .select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsInitFunction ) and ( selected.XlateSemantics ) )
-  .invoke s = CreateDomainInitSegment( te_c, te_syncs, te_sm )
+  .select one te_sync related by te_c->TE_SYNC[R2097]
+  .invoke s = CreateDomainInitSegment( te_c, te_sync, te_sm )
   .assign init_segment = s.body
   .assign has_process_declaration = s.has_process_declaration
   .assign sc_process = ""
@@ -118,14 +108,20 @@
   .assign instance_dumpers = ""
   .assign class_info_init = ""
   .assign function_declarations = ""
+  .assign function_definitions = ""
   .assign event_union_name = "0"
   .if ( te_c.internal_behavior )
+    .// functions
+    .if ( not_empty te_sync )
+      .invoke r = CreateSynchronousServiceClassDefinition( te_c, te_sync )
+      .assign function_definitions = r.body
+    .end if
     .// Build the domain init information containing data structures collecting
     .// class info for the entire domain.
-    .invoke r = CreateClassIdentifierFile( te_c )
+    .invoke r = CreateClassIdentifierFile( te_c, te_sync )
     .assign class_type_identifiers = r.body
     .assign class_info_init = r.class_info_init
-    .invoke r = CreateSynchronousServiceClassDeclaration( te_c )
+    .invoke r = CreateSynchronousServiceClassDeclaration( te_c, te_sync )
     .assign function_declarations = r.body
     .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071] where ( selected.Used )
     .if ( not_empty te_evt )
@@ -136,6 +132,7 @@
   .include "${arc_path}/t.component.module.h"
   .emit to file "${te_file.system_include_path}/${te_c.module_file}.${te_file.hdr_file_ext}"
   .//
+  .select any ilb_te_sync related by te_c->TE_SYNC[R2084] where ( selected.IsSafeForInterrupts )
   .include "${arc_path}/t.component.messages.c"
 ${sc_process_defn}
   .emit to file "${te_file.system_source_path}/${te_c.module_file}.${te_file.src_file_ext}"

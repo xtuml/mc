@@ -77,9 +77,11 @@
 .//
 .select any te_file from instances of TE_FILE
 .if ( empty te_file )
+  .// Comment out main and uncomment the following lines to create schema/dumper.
   .invoke mc_main( arc_path )
+  .//.invoke sys_singletons()
   .select any te_file from instances of TE_FILE
-  .// Uncomment the following lines to create an instance dumper archetype.
+  .//.assign te_file.arc_path = arc_path
   .//.invoke r = TE_CLASS_instance_dumper()
   .//${r.body}
   .//.emit to file "../../src/q.class.instance.dump.arc"
