@@ -47,6 +47,7 @@
 
 #include "${te_file.types}.${te_file.hdr_file_ext}"
 #include "${te_file.tim}.${te_file.hdr_file_ext}"
+.//#include "${te_file.callout}.${te_file.hdr_file_ext}"
 .if ( te_thread.flavor == "Nucleus" )
 #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
 #include "nucleus.h"   /* Nucleus PLUS declarations */
@@ -106,6 +107,7 @@ static void timer_fire( ETimer_t * const );
 static ETimer_t *timer_start( const ETimer_time_t, ${te_eq.base_event_type} * const );
 static bool timer_cancel( ETimer_t * const );
 static bool timer_find_and_delete( ETimer_t * const );
+static bool timer_find_and_reinsert_sorted( ETimer_t * const );
 #endif   /* if ${te_tim.max_timers} > 0 */
 static ETimer_time_t ETimer_msec_time( void );
 
@@ -128,18 +130,16 @@ TIM_timer_start(
   const ${te_prefix.type}uSec_t ee_microseconds )
 {
   /* Insert implementation specific code here.  */
-.if ( te_tim.keyed_timer_support )
-  ETimer_t * new_timer = timer_start( ee_microseconds/USEC_CONVERT, ee_event_inst );
-  ${te_prefix.type}Timer_t result = { new_timer, new_timer->accesskey };
-.if ( te_tim.recurring_timer_support )
-  result->recurrence = 0;
-.end if
-  return result;
-.else
   ETimer_t * t = timer_start( ee_microseconds/USEC_CONVERT, ee_event_inst );
+.if ( te_tim.keyed_timer_support )
+  ${te_prefix.type}Timer_t result = { t, t->accesskey };
+.end if
 .if ( te_tim.recurring_timer_support )
   t->recurrence = 0;
 .end if
+.if ( te_tim.keyed_timer_support )
+  return result;
+.else
   return (${te_prefix.type}Timer_t *) t;
 .end if  
 }
@@ -162,13 +162,12 @@ TIM_timer_start_recurring(
 {
   /* Insert implementation specific code here.  */
 .if ( te_tim.recurring_timer_support )
+  ETimer_t * t = timer_start( ee_microseconds/USEC_CONVERT, ee_event_inst );
   .if ( te_tim.keyed_timer_support )
-  ETimer_t * new_timer = timer_start( ee_microseconds/USEC_CONVERT, ee_event_inst );
-  ${te_prefix.type}Timer_t result = { new_timer, new_timer->accesskey };
-  result->recurrence = ee_microseconds/USEC_CONVERT;
+  ${te_prefix.type}Timer_t result = { t, t->accesskey };
+  t->recurrence = ee_microseconds/USEC_CONVERT;
   return result;
   .else
-  ETimer_t * t = timer_start( ee_microseconds/USEC_CONVERT, ee_event_inst );
   t->recurrence = ee_microseconds/USEC_CONVERT;
   return (${te_prefix.type}Timer_t *) t;
   .end if
@@ -197,37 +196,28 @@ TIM_timer_remaining_time(
 .end if
 {
   /* Insert implementation specific code here.  */
-  ${te_prefix.type}uSec_t t = 0UL;
+  ${te_prefix.type}uSec_t rv = 0UL;
 .if ( te_thread.flavor == "Nucleus" )
   NU_TIMER * nt;
 .end if
+  ETimer_t * t;
 .if ( te_tim.keyed_timer_support )
-  ETimer_t * p_timer = ee_timer_inst.timer;
-    
-  if ( ( p_timer != 0 ) && ( ee_timer_inst.key == p_timer->accesskey ) ) {
-  .if ( te_thread.flavor == "Nucleus" )
-    nt = &nutimers[ p_timer->index ];
-    NU_Get_Remaining_Time( nt, &t );
-    t = t * USEC_CONVERT;
-  .else
-    t = ETimer_msec_time();
-    t = ( p_timer->expiration > t ) ? USEC_CONVERT * ( p_timer->expiration - t ) : 0UL;
-  .end if
+  t = ee_timer_inst.timer;
+  if ( ( 0 != t ) && ( ee_timer_inst.key == t->accesskey ) ) {
 .else
-  if ( ee_timer_inst_ref != 0 ) {
-  .if ( te_thread.flavor == "Nucleus" )
-    nt = &nutimers[ ( (ETimer_t *) ee_timer_inst_ref )->index ];
-    NU_Get_Remaining_Time( nt, &t );
-    t = t * USEC_CONVERT;
-  .else
-    t = ETimer_msec_time();
-    t = ( ((ETimer_t *) ee_timer_inst_ref)->expiration > t ) ?
-      USEC_CONVERT * ( ((ETimer_t *) ee_timer_inst_ref)->expiration - t ) :
-      0UL;
-  .end if
+  t = (ETimer_t *) ee_timer_inst_ref;
+  if ( 0 != t ) {
+.end if
+.if ( te_thread.flavor == "Nucleus" )
+    nt = &nutimers[ t->index ];
+    NU_Get_Remaining_Time( nt, &rv );
+    rv = rv * USEC_CONVERT;
+.else
+    rv = ETimer_msec_time();
+    rv = ( t->expiration > rv ) ?  USEC_CONVERT * ( t->expiration - rv ) : 0UL;
 .end if
   }
-  return ( t );  
+  return ( rv );  
 }
 
 /*=====================================================================
@@ -248,24 +238,36 @@ TIM_timer_reset_time(
 .end if
 {
   /* Insert implementation specific code here.  */
+  bool rc = false;
+  ETimer_t * t;
+.if ( te_thread.enabled )
+  .if ( te_thread.flavor == "Nucleus" )
+  NU_TIMER * nt;
+  STATUS status;
+  .end if
+  #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
+  ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
+  #endif
+.end if
 .if ( te_tim.keyed_timer_support )
-  ETimer_t * p_timer = ee_timer_inst.timer;
-  bool rc = false;
-  if ( ( p_timer != 0 ) && ( ee_timer_inst.key == p_timer->accesskey ) && ( p_timer->expiration > 0UL ) ) {
-    p_timer->expiration = ETimer_msec_time() + ee_microseconds/USEC_CONVERT + 1UL;
-    rc = true;
-  }
-.else
-  ETimer_t * t = (ETimer_t *) ee_timer_inst_ref;
-  bool rc = false;
-  if ( ( t != 0 ) && ( t->expiration > 0UL ) ) {
-    .if ( te_thread.flavor == "SystemC" )
-    t->expiration = ETimer_msec_time() + ee_microseconds/USEC_CONVERT;
-    .else
+  t = ee_timer_inst.timer;
+  if ( ( 0 != t ) && ( ee_timer_inst.key == t->accesskey ) && ( t->expiration > 0UL ) ) {
     t->expiration = ETimer_msec_time() + ee_microseconds/USEC_CONVERT + 1UL;
-    .end if
-    rc = true;
+.else
+  t = (ETimer_t *) ee_timer_inst_ref;
+  if ( ( 0 != t ) && ( t->expiration > 0UL ) ) {
+  .if ( "SystemC" == te_thread.flavor )
+    t->expiration = ETimer_msec_time() + ee_microseconds/USEC_CONVERT;
+  .else
+    t->expiration = ETimer_msec_time() + ee_microseconds/USEC_CONVERT + 1UL;
+  .end if
+.end if
+    rc = timer_find_and_reinsert_sorted( t );
   }
+.if ( te_thread.enabled )
+  #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
+  ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_TIMER );
+  #endif
 .end if
   return ( rc );
 }
@@ -288,20 +290,31 @@ TIM_timer_add_time(
 .end if
 {
   /* Insert implementation specific code here.  */
+  bool rc = false;
+  ETimer_t * t;
+.if ( te_thread.enabled )
+  .if ( te_thread.flavor == "Nucleus" )
+  NU_TIMER * nt;
+  STATUS status;
+  .end if
+  #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
+  ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
+  #endif
+.end if
 .if ( te_tim.keyed_timer_support )
-  ETimer_t * p_timer = ee_timer_inst.timer;
-  bool rc = false;
-  if ( ( p_timer != 0 ) && ( ee_timer_inst.key == p_timer->accesskey ) && ( p_timer->expiration > 0UL ) ) {
-    p_timer->expiration += ee_microseconds/USEC_CONVERT;
-    rc = true;
-  }
+  t = ee_timer_inst.timer;
+  if ( ( 0 != t ) && ( ee_timer_inst.key == t->accesskey ) && ( t->expiration > 0UL ) ) {
 .else
-  ETimer_t * t = (ETimer_t *) ee_timer_inst_ref;
-  bool rc = false;
-  if ( ( t != 0 ) && ( t->expiration > 0UL ) ) {
+  t = (ETimer_t *) ee_timer_inst_ref;
+  if ( ( 0 != t ) && ( t->expiration > 0UL ) ) {
+.end if
     t->expiration += ee_microseconds/USEC_CONVERT;
-    rc = true;
+    rc = timer_find_and_reinsert_sorted( t );
   }
+.if ( te_thread.enabled )
+  #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
+  ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_TIMER );
+  #endif
 .end if
   return ( rc );
 }
@@ -323,10 +336,10 @@ TIM_timer_cancel(
 {
   /* Insert implementation specific code here.  */
 .if ( te_tim.keyed_timer_support )
-  ETimer_t * p_timer = ee_timer_inst.timer;
+  ETimer_t * t = ee_timer_inst.timer;
   bool rc = false;
-  if ( ( p_timer != 0 ) && ( ee_timer_inst.key == p_timer->accesskey ) ) {
-    rc = timer_cancel( p_timer );
+  if ( ( 0 != t ) && ( ee_timer_inst.key == t->accesskey ) ) {
+    rc = timer_cancel( t );
   }
   return ( rc );
 .else
@@ -576,11 +589,11 @@ timer_start(
   #endif
 .end if
   t = inanimate;
-  if ( t != 0 ) {
+  if ( 0 != t ) {
 .if ( te_thread.flavor == "Nucleus" )
     ETimer_time_t reschedule = 0;
   .if ( te_tim.recurring_timer_support )
-    reschedule = ( t->recurrence == 0 ) ? 0 : duration;
+    reschedule = ( 0 == t->recurrence ) ? 0 : duration;
   .end if
 .end if
     inanimate = inanimate->next;
@@ -611,6 +624,8 @@ timer_start(
     ${te_tim.event_name}->notify( animate->expiration - ETimer_msec_time(), SC_MS );
     .end if
 .end if
+  } else {
+    /* no timers left */
   }
 .if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
@@ -633,7 +648,7 @@ timer_insert_sorted(
   ETimer_t * t
 )
 {
-  if ( animate == 0 ) {                              /* empty list   */
+  if ( 0 == animate ) {                              /* empty list   */
     t->next = 0;
     animate = t;
   } else {
@@ -664,7 +679,7 @@ static bool
 timer_find_and_delete( ETimer_t * const t )
 {
   bool rc = false;
-  if ( ( t != 0 ) && ( animate != 0 ) ) {
+  if ( ( 0 != t ) && ( 0 != animate ) ) {
     /*---------------------------------------------------------------*/
     /* Check to see if the timer has already been reset.  This       */
     /* check is probabilistic; it could have a hole if multitasked.  */
@@ -680,7 +695,7 @@ timer_find_and_delete( ETimer_t * const t )
       ETimer_t * prev = animate;
       ETimer_t * cursor;
       while ( ( cursor = prev->next ) != t ) {           /* find */
-        if ( cursor == 0 ) {
+        if ( 0 == cursor ) {
     .if ( te_tim.timer_event_search_and_destroy )
           /* Timer not found.  It must have expired already!  */
           return ( ${te_eq.search_and_destroy}( t->event ) );
@@ -698,6 +713,37 @@ timer_find_and_delete( ETimer_t * const t )
     .end if
     t->next = inanimate;
     inanimate = t;
+    rc = true;
+  }
+  return rc;
+}
+
+/*---------------------------------------------------------------------
+ * Try to find a ticking timer and re-insert it in the ticking list.
+ *-------------------------------------------------------------------*/
+static bool
+timer_find_and_reinsert_sorted( ETimer_t * const t )
+{
+  bool rc = false;
+  if ( ( 0 != t ) && ( 0 != animate ) ) {
+    /*---------------------------------------------------------------*/
+    /* Try to find the timer in the list                             */
+    /* If found, remove it from the list, and insert it sorted       */
+    /*---------------------------------------------------------------*/
+    if ( t == animate ) {
+      animate = animate->next;
+    } else {
+      ETimer_t * prev = animate;
+      ETimer_t * cursor;
+      while ( ( cursor = prev->next ) != t ) {           /* find */
+        if ( 0 == cursor ) {
+          return ( false );
+        }
+        prev = cursor;
+      }
+      prev->next = t->next;                             /* unlink */
+    }
+    timer_insert_sorted( t );           /* re-insert item in list */
     rc = true;
   }
   return rc;
@@ -749,9 +795,9 @@ timer_fire(
 )
 {
 .if ( te_tim.recurring_timer_support )
-  t->expiration = ( t->recurrence == 0 ) ? 0 : t->expiration + t->recurrence;
+  t->expiration = ( 0 == t->recurrence ) ? 0 : t->expiration + t->recurrence;
   .if ( te_tim.keyed_timer_support )
-  t->accesskey = (t->recurrence == 0 ) ? 0 : t->accesskey;
+  t->accesskey = ( 0 == t->recurrence ) ? 0 : t->accesskey;
   .end if
 .else
   t->expiration = 0;              /* Reset and mark inactive.      */
@@ -780,7 +826,7 @@ timer_fire(
   }
 .end if
 .if ( te_thread.flavor == "SystemC" )
-  if ( animate != 0 ) {
+  if ( 0 != animate ) {
     ${te_tim.event_name}->notify( animate->expiration - ETimer_msec_time(), SC_MS );
   }
 .end if
@@ -838,13 +884,13 @@ TIM_duration_until_next_timer_pop( void * ts_in )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
   #endif
-  if ( animate != 0 ) {
+  if ( 0 != animate ) {
     t = animate->expiration;
   }
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_TIMER );
   #endif
-  if ( t == 0 ) {
+  if ( 0 == t ) {
     ts = 0;   /* Return zero to indicate no timers ticking.  */
   } else {
     ETimer_time_t tnow = ETimer_msec_time();
@@ -858,7 +904,7 @@ TIM_duration_until_next_timer_pop( void * ts_in )
         ts->tv_sec++; ts->tv_nsec -= 1000;
       }
     }
-    ts->tv_nsec *= 1000;            /* Now convert to nanoseconds.  */
+    ts->tv_nsec *= 1000000;         /* Now convert to nanoseconds.  */
   }
 #else
   ts = 0;   /* Return zero to indicate no timers (ticking).  */
@@ -945,7 +991,7 @@ TIM_tick( void )
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
   #endif
   .end if
-  if ( animate != 0 ) {
+  if ( 0 != animate ) {
     if ( animate->expiration <= ETimer_msec_time() ) {
       timer_fire( animate );
     }
@@ -985,7 +1031,7 @@ TIM_resume( void )
   ETimer_t * cursor = animate;
   ETimer_time_t t;      /* difference between now and start of pause */
   t = ETimer_msec_time() - start_of_pause;
-  while ( cursor != 0 ) {
+  while ( 0 != cursor ) {
     cursor->expiration += t;
     cursor = cursor->next;
   }

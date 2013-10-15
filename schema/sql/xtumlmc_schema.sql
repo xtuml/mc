@@ -454,31 +454,6 @@ CREATE TABLE BP_ST (
 
 
 -- ============================================================================
--- Classes In Package:  Class State Machine Execution  
--- ============================================================================
-
--- Class:  2917.  Class Monitor
-CREATE TABLE CSME_CLM (
-	Execution_Engine_ID	UNIQUE_ID,
-	CIE_ID	UNIQUE_ID );
-
--- Class:  2960.  Class In Engine
-CREATE TABLE CSME_CIE (
-	CIE_ID	UNIQUE_ID,
-	Execution_Engine_ID	UNIQUE_ID,
-	Obj_ID	UNIQUE_ID,
-	Package_ID	UNIQUE_ID,
-	Label	STRING );
-
--- Class:  2961.  Class In State
-CREATE TABLE CSME_CIS (
-	SM_ID	UNIQUE_ID,
-	SMstt_ID	UNIQUE_ID,
-	Trans_ID	UNIQUE_ID,
-	CIE_ID	UNIQUE_ID );
-
-
--- ============================================================================
 -- Classes In Package:  Communication  
 -- ============================================================================
 
@@ -2443,7 +2418,9 @@ CREATE TABLE TE_C (
 	isRealized	BOOLEAN,
 	SystemID	INTEGER,
 	next_ID	UNIQUE_ID,
-	cId	UNIQUE_ID );
+	cId	UNIQUE_ID,
+	first_eeID	UNIQUE_ID,
+	first_syncID	UNIQUE_ID );
 
 -- Class:  2014.  Extended Member
 CREATE TABLE TE_MBR (
@@ -2469,7 +2446,9 @@ CREATE TABLE TE_EE (
 	Include_File	STRING,
 	Used	BOOLEAN,
 	te_cID	UNIQUE_ID,
-	EE_ID	UNIQUE_ID );
+	EE_ID	UNIQUE_ID,
+	ID	UNIQUE_ID,
+	nextID	UNIQUE_ID );
 
 -- Class:  2016.  Extended Data Type
 CREATE TABLE TE_DT (
@@ -2509,7 +2488,9 @@ CREATE TABLE TE_SYNC (
 	intraface_method	STRING,
 	deferred_method	STRING,
 	te_cID	UNIQUE_ID,
-	Sync_ID	UNIQUE_ID );
+	Sync_ID	UNIQUE_ID,
+	ID	UNIQUE_ID,
+	nextID	UNIQUE_ID );
 
 -- Class:  2019.  Extended Operation
 CREATE TABLE TE_TFR (
@@ -5396,7 +5377,6 @@ CREATE ROP REF_ID R8008	FROM MC PE_CVS	(Name, Type, Id)
 			  TO 1  PE_CRS	(Name, Type, Id);
 
 
-
 -- ============================================================================
 -- Relationships In Package:  Persistence Associations  
 -- ============================================================================
@@ -6096,6 +6076,18 @@ CREATE ROP REF_ID R2091	FROM MC TE_PAR	(te_parmID)
 
 CREATE ROP REF_ID R2092	FROM 1C TE_CLASS	(nextID) PHRASE 'precedes'
 			  TO 1C TE_CLASS	(ID) PHRASE 'succeeds';
+
+CREATE ROP REF_ID R2095	FROM 1C TE_SYNC	(nextID) PHRASE 'precedes'
+			  TO 1C TE_SYNC	(ID) PHRASE 'succeeds';
+
+CREATE ROP REF_ID R2096	FROM 1C TE_EE	(nextID) PHRASE 'precedes'
+			  TO 1C TE_EE	(ID) PHRASE 'succeeds';
+
+CREATE ROP REF_ID R2097	FROM 1  TE_C	(first_syncID)
+			  TO 1C TE_SYNC	(ID);
+
+CREATE ROP REF_ID R2098	FROM 1C TE_C	(first_eeID)
+			  TO 1C TE_EE	(ID);
 
 
 -- ============================================================================
