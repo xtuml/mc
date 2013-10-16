@@ -45,7 +45,11 @@ ${sysc_top_includes}
  * of bringup, run and shutdown.
  *
  */
+.if ( "SystemC" == te_thread.flavor )
 int sc_main ( int argc, char* argv[] )
+.else
+int main ( int argc, char* argv[] )
+.end if
 {
 .if ( gen_vista_top_template )
   setTiming();

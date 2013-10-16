@@ -312,6 +312,7 @@
   .assign te_tim.recurring_timer_support = true
   .assign te_tim.internal_type = "ETimer_t"
   .assign te_tim.timer_event_search_and_destroy = false
+  .assign te_tim.event_name = ""
 .end function
 .//
 .//
@@ -379,7 +380,8 @@
 .function target_factory
   .param inst_ref te_target
   .assign te_target.language = "C"
-  .assign te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t&quot;C&quot;\t{\n#endif"
+  .assign te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t""C""\t{\n#endif"
+  .//.assign te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t&quot;C&quot;\t{\n#endif"
   .assign te_target.c2cplusplus_linkage_end = "#ifdef\t__cplusplus\n}\n#endif"
   .assign te_target.main = "main"
 .end function

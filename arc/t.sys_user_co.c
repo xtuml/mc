@@ -102,7 +102,7 @@ ${te_callout.background_processing}f( void )
   .if ( "SystemC" != te_thread.flavor )
   /* Activate this invocation to periodically tick the example simple TIM.  */
   #if ${te_tim.max_timers} > 0
-  TIM::tick();
+  //TIM::tick();
   #endif
   .end if
 .elif ( "C" == te_target.language )

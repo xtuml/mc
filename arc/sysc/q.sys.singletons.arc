@@ -312,7 +312,6 @@
   .assign te_tim.recurring_timer_support = true
   .assign te_tim.internal_type = "ETimer_t"
   .assign te_tim.timer_event_search_and_destroy = false
-  .assign te_tim.scope = "TIM::"
   .assign te_tim.event_name = "sc_xtuml_timer_event"
 .end function
 .//

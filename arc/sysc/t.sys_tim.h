@@ -211,12 +211,12 @@ ETimer_time_t start_of_pause;
 bool paused;
 #endif
 ETimer_time_t tinit;
-.if ( te_thread.flavor != "Nucleus" )
+.if ( ( "Nucleus" != te_thread.flavor ) and ( "SystemC" != te_thread.flavor ) )
 struct timeb systyme;
 .end if
 i_t timer_count;
 ETimer_t * swtimers;
-.if ( te_thread.flavor == "Nucleus" )
+.if ( "Nucleus" == te_thread.flavor )
 static NU_TIMER nutimers[ ${te_tim.max_timers} ];  /* parallel set of PLUS timers */
 .end if
 ETimer_t * animate, * inanimate;
@@ -227,10 +227,11 @@ u4_t timer_access_key;
 sc_event * ${te_tim.event_name}; // pointing to the sc_event in the parent module
 .end if
 
-.if ( te_thread.flavor == "Nucleus" )
+.if ( "Nucleus" == te_thread.flavor )
 static void nut_expire( unsigned );
 .else
 void timer_insert_sorted( ETimer_t * );
+bool timer_find_and_reinsert_sorted( ETimer_t * const );
 .end if
 void timer_fire( ETimer_t * const );
 ETimer_t *start( const ETimer_time_t, ${te_eq.base_event_type} * const );

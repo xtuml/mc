@@ -60,8 +60,10 @@ ${init_segment}\
     SC_THREAD( timspin );
       dont_initialize();
       sensitive << ${te_tim.event_name};
-  .end if
     tim->init( &${te_tim.event_name} );
+  .else
+    tim->init();
+  .end if
   }
   .if ( "SystemC" == te_thread.flavor )
   void timspin( void ) { while ( true ) { tim->tick(); wait(); } }
