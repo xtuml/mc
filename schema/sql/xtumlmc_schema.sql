@@ -798,7 +798,8 @@ CREATE TABLE S_EE (
 	Name	STRING,
 	Descrip	STRING,
 	Key_Lett	STRING,
-	Dom_ID	UNIQUE_ID );
+	Dom_ID	UNIQUE_ID,
+	Realized_Class_Path	STRING );
 
 -- Class:  4.  External Entity in Model
 CREATE TABLE S_EEM (

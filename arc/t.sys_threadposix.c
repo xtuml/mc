@@ -22,7 +22,9 @@
 
 #include <pthread.h>   /* POSIX thread declarations */
 #include "${te_file.types}.${te_file.hdr_file_ext}"
+.if ( te_sys.MaxTimers > 0 )
 #include "${te_file.tim}.${te_file.hdr_file_ext}"
+.end if
 
 static pthread_mutex_t mutices[ SEMAPHORE_FLAVOR_MAX ];
 static pthread_cond_t nonbusy_wait_cond[ NUM_OF_TOTAL_THREADS ];
@@ -75,6 +77,7 @@ void ${te_thread.nonbusy_wait}( const u1_t thread )
   void * vp = 0;
   pthread_cond_t * dwc = &nonbusy_wait_cond[ thread ];
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_NONBUSY );
+.if ( te_sys.MaxTimers > 0 )
   if ( thread == 0 ) {
     struct timespec ts;
     vp = TIM_duration_until_next_timer_pop( ( void * ) &ts );
@@ -83,6 +86,7 @@ void ${te_thread.nonbusy_wait}( const u1_t thread )
         dwc, &mutices[ SEMAPHORE_FLAVOR_NONBUSY ], &ts );
     }
   }
+.end if
   if ( ( thread != 0 ) || ( vp == 0 ) ) {
     rc = pthread_cond_wait( dwc, &mutices[ SEMAPHORE_FLAVOR_NONBUSY ] );
   }

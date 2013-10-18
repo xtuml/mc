@@ -21,7 +21,9 @@
  *-------------------------------------------------------------------*/
 
 #include "${te_file.types}.${te_file.hdr_file_ext}"
+.if ( te_sys.MaxTimers > 0 )
 #include "${te_file.tim}.${te_file.hdr_file_ext}"
+.end if
 
 static u1_t threadnumber[ NUM_OF_TOTAL_THREADS ];
 
