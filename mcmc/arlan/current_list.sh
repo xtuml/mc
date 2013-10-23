@@ -1,6 +1,7 @@
+# first for afun
 ./rsl2oal < ../../arc/q.parm.sort.arc > o.oal
 ./rsl2oal < ../../arc/q.rel.pseudoformalize.arc >> o.oal
-./rsl2oal < ../../arc/c/q.sys.singletons.arc >> o.oal
+./rsl2oal < ../../arc/c/q.sys.singletons.arc | sed 's/""C""/\&quot;C\&quot;/' >> o.oal
 ./rsl2oal < ../../arc/q.datatype.arc >> o.oal
 ./rsl2oal < ../../arc/q.parameters.arc >> o.oal
 ./rsl2oal < ../../arc/q.sys.populate.arc >> o.oal
@@ -11,18 +12,18 @@
 ./rsl2oal < ../../arc/q.domain.limits.arc >> o.oal
 ./rsl2oal < ../../arc/frag_util.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o.oal
 
-# Second list for afunval.
-./rsl2oal < ../../arc/q.val.translate.arc | sed 's/""""/"&quot;"/g' > o2.oal
+# second list for afunval
+./rsl2oal < ../../arc/q.val.translate.arc | sed 's/""""/"\&quot;"/g' > o2.oal
 
-# Third list for afunsmt
+# third list for afunsmt
 ./rsl2oal < ../../arc/q.oal.translate.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' > o3.oal
 ./rsl2oal < ../../arc/q.oal.action.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
-./rsl2oal < ../../arc/q.oal.act_blk.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
+./rsl2oal < ../../arc/q.oal.act_blk.arc | sed 's/, """/, \&quot;"/' | sed 's/+ """/+ "\&quot;/' | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
 ./rsl2oal < ../../arc/q.smt.generate.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
 ./rsl2oal < ../../arc/q.r_rel.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
 ./rsl2oal < ../../arc/q.names.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' >> o3.oal
 
-# Fourth list for marking
+# fourth list for afunmark
 ./rsl2oal < ../../arc/m.bridge.arc > o4.oal
 ./rsl2oal < ../../arc/m.class.arc >> o4.oal
 ./rsl2oal < ../../arc/m.component.arc >> o4.oal
