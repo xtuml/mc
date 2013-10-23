@@ -737,8 +737,8 @@
       .assign dim_index = 0
       .while ( dim_index < te_mbr.dimensions )
         .select any s_dim related by s_mbr->S_DIM[R53] where ( selected.dimensionCount == dim_index )
-        .invoke r = FactoryTE_DIM( s_dim, te_dim )
-        .assign te_dim = r.result
+        .invoke r1 = FactoryTE_DIM( s_dim, te_dim )
+        .assign te_dim = r1.result
         .if ( dim_index == 0 )
           .// relate te_dim to te_mbr across R2059;
           .assign te_mbr.te_dimID = te_dim.te_dimID
@@ -1545,8 +1545,8 @@
       .end if
       .select one te_dt related by s_sync->S_DT[R25]->TE_DT[R2021]
       .select many te_parms related by s_sync->S_SPARM[R24]->TE_PARM[R2030]
-      .invoke r = FactoryTE_ABA( te_c, te_parms, te_c.Name, te_sync.GeneratedName, "S_SYNC", te_dt )
-      .assign te_aba = r.result
+      .invoke r1 = FactoryTE_ABA( te_c, te_parms, te_c.Name, te_sync.GeneratedName, "S_SYNC", te_dt )
+      .assign te_aba = r1.result
       .// relate te_sync to te_aba across R2010;
       .assign te_sync.AbaID = te_aba.AbaID
       .// end relate
@@ -1554,10 +1554,10 @@
     .//
     .// Create the Generated External Entity instances and link them in.
     .select many te_ees related by te_c->TE_EE[R2085]
-    .invoke r = ee_sort( te_ees )
-    .assign te_ee = r.result
+    .invoke r1 = ee_sort( te_ees )
+    .assign te_ee = r1.result
     .if ( not_empty te_ee )
-      .// relate te_c to te_sync across R2098;
+      .// relate te_c to te_ee across R2098;
       .assign te_c.first_eeID = te_ee.ID
       .// end relate
     .end if
@@ -1642,8 +1642,8 @@
         .assign dim_index = 0
         .while ( dim_index < te_attr.dimensions )
           .select any s_dim related by o_attr->S_DIM[R120] where ( selected.dimensionCount == dim_index )
-          .invoke r = FactoryTE_DIM( s_dim, te_dim )
-          .assign te_dim = r.result
+          .invoke r2 = FactoryTE_DIM( s_dim, te_dim )
+          .assign te_dim = r2.result
           .if ( dim_index == 0 )
             .// relate te_dim to te_attr across R2055;
             .assign te_attr.te_dimID = te_dim.te_dimID
@@ -1657,8 +1657,8 @@
         .// Potentially substitute data type for base attribute data type.
         .if ( 7 == te_dt.Core_Typ )
           .// referential attribute
-          .invoke r = GetAttributeCodeGenType( o_attr )
-          .assign te_dt = r.result
+          .invoke r2 = GetAttributeCodeGenType( o_attr )
+          .assign te_dt = r2.result
         .end if
         .assign te_attr.GeneratedType = te_dt.ExtName
         .assign o_attr_Descrip_Persistent = "${o_attr.Descrip:Persistent}"
@@ -1696,8 +1696,8 @@
           .// end relate
           .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
           .assign te_parms = empty_te_parms
-          .invoke r = FactoryTE_ABA( te_c, te_parms, "", te_dbattr.GeneratedName, "O_DBATTR", te_dt )
-          .assign te_aba = r.result
+          .invoke r2 = FactoryTE_ABA( te_c, te_parms, "", te_dbattr.GeneratedName, "O_DBATTR", te_dt )
+          .assign te_aba = r2.result
           .// relate te_dbattr to te_aba across R2010;
           .assign te_dbattr.AbaID = te_aba.AbaID
           .// end relate
@@ -1737,8 +1737,8 @@
         .// end relate
         .select one te_dt related by o_tfr->S_DT[R116]->TE_DT[R2021]
         .select many te_parms related by o_tfr->O_TPARM[R117]->TE_PARM[R2029]
-        .invoke r = FactoryTE_ABA( te_c, te_parms, te_class.GeneratedName, te_tfr.GeneratedName, "O_TFR", te_dt )
-        .assign te_aba = r.result
+        .invoke r2 = FactoryTE_ABA( te_c, te_parms, te_class.GeneratedName, te_tfr.GeneratedName, "O_TFR", te_dt )
+        .assign te_aba = r2.result
         .// relate te_tfr to te_aba across R2010;
         .assign te_tfr.AbaID = te_aba.AbaID
         .// end relate
@@ -2098,8 +2098,8 @@
     .// which port the message came in through.
     .select many s_dims from instances of S_DIM where ( false )
     .select any portindex_te_dt from instances of TE_DT where ( selected.Name == "integer" )
-    .invoke r = FactoryTE_PARM( s_dims, portindex_te_dt, "", "A00portindex", 0 )
-    .assign polymorphic_te_parm = r.result
+    .invoke r1 = FactoryTE_PARM( s_dims, portindex_te_dt, "", "A00portindex", 0 )
+    .assign polymorphic_te_parm = r1.result
     .assign polymorphic_te_parm.Descrip = "architectural port selector"
     .for each te_parm in te_parms
       .if ( 0 == te_parm.Order )
@@ -2387,7 +2387,6 @@
       .assign te_lnk.OAL = ( te_lnk.OAL + "." ) + te_lnk.rel_phrase
     .end if
     .assign te_lnk.OAL = te_lnk.OAL + "]"
-    .assign te_lnk.iterator = "i" + te_lnk.linkage
     .assign te_lnk.first = false
     .assign te_lnk.last = false
     .assign rel_phrase = "$_{te_lnk.rel_phrase}"
@@ -2416,6 +2415,7 @@
         .assign te_lnk.linkage = ( te_oir.data_member + "_" ) + rel_phrase
       .end if
     .end if
+    .assign te_lnk.iterator = "i" + te_lnk.linkage
   .end if
 .end function
 .//
