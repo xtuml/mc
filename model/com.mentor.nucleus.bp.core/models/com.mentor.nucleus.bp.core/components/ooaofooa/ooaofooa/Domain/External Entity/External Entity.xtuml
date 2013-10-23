@@ -167,6 +167,42 @@ Description: Uniquely identifies the external entity in the domain.',
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("fa7f2675-32cc-4152-bf77-eda1598865f4",
+	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3");
+INSERT INTO O_BATTR
+	VALUES ("fa7f2675-32cc-4152-bf77-eda1598865f4",
+	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3");
+INSERT INTO O_ATTR
+	VALUES ("fa7f2675-32cc-4152-bf77-eda1598865f4",
+	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3",
+	"1f24986f-a7ae-4b7b-889b-04037e74b8a4",
+	'Realized_Class_Path',
+	'',
+	'',
+	'Realized_Class_Path',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a8707f9f-e401-41ff-9ed3-ef18e591116f",
+	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3");
+INSERT INTO O_BATTR
+	VALUES ("a8707f9f-e401-41ff-9ed3-ef18e591116f",
+	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3");
+INSERT INTO O_ATTR
+	VALUES ("a8707f9f-e401-41ff-9ed3-ef18e591116f",
+	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3",
+	"fa7f2675-32cc-4152-bf77-eda1598865f4",
+	'Label',
+	'',
+	'',
+	'Label',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3");
