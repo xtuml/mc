@@ -958,6 +958,7 @@ sub xtumlmc_cleanse_model($$)
       next OUTER;
     } else {
       if ( $v_lst && /\'docbook\/t\..*\.xml\'/ ) { s/.xml/.h/; $v_lst = 0; }
+      # Substitute triple-tick with single-tick but only when something is inside.
       s/'''([a-zA-Z0-9_ ]+)'''/'\1'/g;
       # Just a normal line, send it on through.
       print $O "$_";
@@ -1434,6 +1435,37 @@ if ( -d "$specialized_arcdir" ) {
 #---------------------------------------------------------------------------
 # Generate the system node and then compile.
 #---------------------------------------------------------------------------
+# Check for compiled model-based model compiler executable.
+# If it exists, use it.  Otherwise, use archetypes.
+$mccmd = "$ENV{'ROX_MC_BIN_DIR'}/mcmc";
+if ( -f $mccmd ) {
+  # Get the marks from the marking files to be parsed by mcmc.
+  # grep '^ *\.invoke ' *.mark > m.txt
+  my $outFile = xtumlmc_open( ">" . "m.txt" );
+  my $DIR = xtumlmc_opendir( "." ); my @entries = readdir $DIR;
+  my @filtered_entries = grep{/\.mark/i} @entries;
+  foreach my $i ( @filtered_entries ) {
+    my $inFile = xtumlmc_open( "<" . "$i" );
+    while ( <$inFile> ) { if ( /^ *\.invoke / ) { print $outFile "$_"; } }
+  }
+  close $outFile;
+  # If we are compiling the model compiler itself, change the system name
+  # and substitute &quot; symbols.
+  if ( -f "com.mentor.nucleus.bp.core.sql" ) {
+    # sed s/com.mentor.nucleus.bp.core/sys/ _system.sql > a.xtuml
+    my $inFile = xtumlmc_open( "<" . "$modelBeingTranslated" ); my $outFile = xtumlmc_open( ">" . "a.xtuml" );
+    while ( <$inFile> ) { s/com.mentor.nucleus.bp.core/sys/; print $outFile "$_"; }
+    # Run compiled model compiler.
+    system( "$mccmd > _system.pre" );
+    # sed "s/&quot;/\\\\\"/g" _system.pre > _system.sql
+    my $inFile = xtumlmc_open( "<" . "_system.pre" ); my $outFile = xtumlmc_open( ">" . "$modelBeingTranslated" );
+    while ( <$inFile> ) { s/&quot;/\\\\\"/g; print $outFile "$_"; }
+  } else {
+    xtumlmc_move( "$modelBeingTranslated", "a.xtuml" );
+    # Run compiled model compiler.
+    system( "$mccmd > $modelBeingTranslated" );
+  }
+}
 xtumlmc_gen_erate( "$license_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} -arch \"$arcdir/sys.arc\"" );
 
 #---------------------------------------------------------------------------
