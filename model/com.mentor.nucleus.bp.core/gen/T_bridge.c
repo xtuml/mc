@@ -10,9 +10,9 @@
  *--------------------------------------------------------------------------*/
 
 #include "sys_sys_types.h"
-#include "T_bridge.h"
 #include "LOG_bridge.h"
 #include "POP_bridge.h"
+#include "T_bridge.h"
 #include "ooaofooa_classes.h"
 
 extern bool Escher_run_flag;
@@ -29,7 +29,7 @@ FILE * outputfile;
  * Bridge:  s
  */
 c_t *
-T_s( const i_t p_i)
+T_s( const i_t p_i )
 {
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
   return Escher_itoa( tbuf[ current_tbuf ], p_i );
@@ -40,7 +40,7 @@ T_s( const i_t p_i)
  * Bridge:  emit
  */
 void
-T_emit( c_t p_file[ESCHER_SYS_MAX_STRING_LEN])
+T_emit( c_t p_file[ESCHER_SYS_MAX_STRING_LEN] )
 {
 	//printf("Emitting to file: %s\n", p_file);
   static int first = 0;
@@ -80,7 +80,7 @@ T_clear()
  * Bridge:  b
  */
 void
-T_b( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
+T_b( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   //printf("Adding to buffer: %s\n", p_s);
   i_t i = 0;
@@ -95,7 +95,7 @@ T_b( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  print
  */
 void
-T_print( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
+T_print( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   fprintf( stderr,"%s\n", p_s );
 }
@@ -105,7 +105,7 @@ T_print( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  exit
  */
 void
-T_exit( const i_t p_i)
+T_exit( const i_t p_i )
 {
   Escher_run_flag = false;
 }
@@ -115,7 +115,7 @@ T_exit( const i_t p_i)
  * Bridge:  include
  */
 void
-T_include( c_t p_file[ESCHER_SYS_MAX_STRING_LEN])
+T_include( c_t p_file[ESCHER_SYS_MAX_STRING_LEN] )
 {
   /* No implementation here.  The model compiler overrides calls to T::include
    * to be actual #include calls.  See t_oal_smt_brg in the MC.
@@ -127,7 +127,7 @@ T_include( c_t p_file[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  r
  */
 c_t *
-T_r( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
+T_r( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * p = p_s;
   i_t i = 0;
@@ -145,7 +145,7 @@ T_r( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  u
  */
 c_t *
-T_u( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
+T_u( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * p = p_s;
   i_t i = 0;
@@ -161,7 +161,7 @@ T_u( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  l
  */
 c_t *
-T_l( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
+T_l( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * p = p_s;
   i_t i = 0;
@@ -177,7 +177,7 @@ T_l( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  underscore
  */
 c_t *
-T_underscore( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
+T_underscore( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * p = p_s;
   i_t i = 0;
@@ -193,7 +193,7 @@ T_underscore( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  u_
  */
 c_t *
-T_u_( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
+T_u_( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * p = p_s;
   i_t i = 0;
@@ -213,7 +213,7 @@ T_u_( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  c
  */
 c_t *
-T_c( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
+T_c( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * p = p_s;
   i_t i = 0;
@@ -238,7 +238,7 @@ T_c( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
  * Bridge:  xmlify
  */
 c_t *
-T_xmlify( c_t p_s[ESCHER_SYS_MAX_STRING_LEN])
+T_xmlify( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * p = p_s;
   i_t i = 0;
