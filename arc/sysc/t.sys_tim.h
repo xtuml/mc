@@ -211,7 +211,7 @@ ETimer_time_t start_of_pause;
 bool paused;
 #endif
 ETimer_time_t tinit;
-.if ( ( "Nucleus" != te_thread.flavor ) and ( "SystemC" != te_thread.flavor ) )
+.if ( "Nucleus" != te_thread.flavor )
 struct timeb systyme;
 .end if
 i_t timer_count;

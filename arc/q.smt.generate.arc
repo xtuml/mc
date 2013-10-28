@@ -1162,11 +1162,6 @@
         .end if
         .assign parameters = "$t{foreign_te_po.sibling}" + parameters
       .end if
-    .elif( te_sys.AllPortsPoly == true )
-      .if ( "" != parameters )
-        .assign parameters = ", " + parameters
-      .end if
-      .assign parameters = "0" + parameters
     .end if
   .end if
   .include "${te_file.arc_path}/t.smt.iop.c"
