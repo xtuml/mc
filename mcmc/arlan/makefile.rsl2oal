@@ -1,11 +1,12 @@
-CFLAGS= -DRSL2OAL_CONVERT -g
-#CFLAGS= -mno-cygwin
+CFLAGS= -DRSL2OAL_CONVERT -c
 LFLAGS= -lfl
+#GCC= i686-pc-mingw32-gcc
+GCC= gcc
 
 all:	rsl2oal
 
 rsl2oal: y.tab.c y.tab.h lex.yy.c rsl2func_util.c
-	gcc $(CFLAGS) -Wno-pointer-to-int-cast -o rsl2oal lex.yy.c y.tab.c rsl2func_util.c $(LFLAGS)
+	$(GCC) $(CFLAGS) -Wno-pointer-to-int-cast -o rsl2oal lex.yy.c y.tab.c rsl2func_util.c $(LFLAGS)
 
 y.tab.h y.tab.c:  rsl2oal.y
 	bison -d -o y.tab.c rsl2oal.y
