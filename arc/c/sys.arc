@@ -143,8 +143,7 @@
   .include "${te_file.arc_path}/q.classes.arc"
 .end for
 .//
-.select many tim_te_brgs from instances of TE_BRG where ( selected.EEkeyletters == "TIM" )
-.select any tim_v_brv related by tim_te_brgs->S_BRG[R2025]->V_BRV[R828]
+.select any tim_te_ee from instances of TE_EE where ( ( selected.RegisteredName == "TIM" ) and ( selected.Included ) )
 .// Generate the interface code between the components.
 .include "${te_file.arc_path}/q.components.arc"
 .//
@@ -326,7 +325,7 @@
 .//=============================================================================
 .// Generate TIM_bridge.h into system include.
 .//=============================================================================
-.if ( not_empty tim_v_brv )
+.if ( not_empty tim_te_ee )
 .include "${te_file.arc_path}/t.sys_tim.h"
 .emit to file "${te_file.system_include_path}/${te_file.tim}.${te_file.hdr_file_ext}"
 .//

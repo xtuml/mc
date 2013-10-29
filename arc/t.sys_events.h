@@ -233,6 +233,6 @@ void * ooa_loop( void * );
 .end if
 
 .include "${te_file.arc_path}/t.sys_thread.h"
-.if ( not_empty tim_v_brv )
+.if ( not_empty tim_te_ee )
 #include "${te_file.tim}.${te_file.hdr_file_ext}"
 .end if

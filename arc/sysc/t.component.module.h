@@ -80,7 +80,7 @@ ${sc_process_decls}\
   .end if
 ${sc_event_declarations}\
   .if ( ( te_c.internal_behavior ) and ( not_empty te_class ) )
-    .if ( not_empty tim_v_brv )
+    .if ( not_empty tim_te_ee )
   sc_event ${te_tim.event_name};
   TIM * tim;
     .end if
