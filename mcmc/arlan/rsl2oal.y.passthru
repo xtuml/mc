@@ -1,0 +1,333 @@
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*| MGC Confidential                                                |*/
+/*| Property of Mentor Graphics Corp.                               |*/
+/*| (C) Copyright Mentor Graphics Corp.  (2006-2008)                |*/
+/* _________________________________________________________________ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*| Title:               Archetype to OAL Conversion Parser         |*/
+/*|                                                                 |*/
+/*| Abstract -                                                      |*/
+/*|   This bison parser assists in the conversion of RSL to OAL.    |*/
+/*|                                                                 |*/
+/*| Notes -                                                         |*/
+/* _________________________________________________________________ */
+
+%{
+
+int i0 = 0;                     /* indent for current line           */
+int i1 = 0;                     /* indent for next line              */
+int line_number = 1;
+char lw[ 256 ];                 /* leading whitespace                */
+int column;
+
+%}
+%{
+/*-------------------------------------------------------------------*/
+#include <stdio.h>
+#include <string.h>
+//#define YYDEBUG_LEXER_TEXT (yylval)
+#define YYDEBUG 1   // ...and uncomment yydebug = 1 in main
+#ifndef YYSTYPE
+#define YYSTYPE char * /* Interface with flex: should be in header.  */
+#endif
+extern char yytext[];
+#define P(x) printf( "%s", x )
+#define PW(x) printf( "%s%s", lw, x ); {int i; for (i=0;i<256;i++) lw[i]=0;}
+
+#define P0 ""
+#define P1(a) a
+#define P2(a,b) stradd( a, b )
+#define P3(a,b,c) stradd( P2( a, b ), c )
+#define P4(a,b,c,d) stradd( P3( a, b, c ), d )
+#define P5(a,b,c,d,e) stradd( P4( a, b, c, d ), e )
+#define P6(a,b,c,d,e,f) stradd( P5( a, b, c, d, e ), f )
+#define P7(a,b,c,d,e,f,g) stradd( P6( a, b, c, d, e, f ), g )
+#define P8(a,b,c,d,e,f,g,h) stradd( P7( a, b, c, d, e, f, g ), h )
+#define P9(a,b,c,d,e,f,g,h,i) stradd( P8( a, b, c, d, e, f, g, h ), i )
+#define P10(a,b,c,d,e,f,g,h,i,j) stradd( P9( a, b, c, d, e, f, g, h, i ), j )
+#define P11(a,b,c,d,e,f,g,h,i,j,k) stradd( P10( a, b, c, d, e, f, g, h, i, j ), k )
+#define P12(a,b,c,d,e,f,g,h,i,j,k,l) stradd( P11( a, b, c, d, e, f, g, h, i, j, k ), l )
+
+/*-------------------------------------------------------------------*/
+%}
+
+%token SELECTONE       SELECTANY       SELECTMANY      CREATEOBJ
+%token OF              IF              FOR             TYPE
+%token RELATEDBY       ELIF            ENDFOR          FORMAT
+%token FUNCTION        ELSE            BREAKFOR        BAD
+%token PARAM           ENDIF           COMMENT         WHERE
+%token ENDFUNCTION     FROMINSTOF      TEXT            INCLUDE
+%token ASSIGN          PRINTTOK        EXITTOK         EMIT
+%token CLEARTOK        INVOKE          IN              UOP
+%token RELTRAV         ALXLATE         SPECIALWHERE    DELETEOBJ
+%token WHILE           ENDWHILE        BREAKWHILE
+%token RELATE ENDRELATE UNRELATE ENDUNRELATE TO FROM ACROSS
+%token WORD            LITERAL         REALconstant    INTconstant
+%token ARROW                    /*  ->                               */
+%token LE GE EQ NE              /*  <=       >=        ==        !=  */
+%token AND OR                   /*  and      or                      */
+
+%left UOP
+%left UMINUS
+ 
+%start archetypeprogram
+
+%%
+
+archetypeprogram:
+        archetypebody
+        ;
+
+comment:
+        COMMENT commentbody '\n' {PW($1);}
+        ;
+
+commentbody:
+        /* empty */
+        | commentbody TEXT
+        ;
+
+archetypebody:
+        code
+        ;
+
+code:
+        /* empty */
+        | code statement
+        | code comment
+        | code literal
+        | code FUNCTION identifier '\n' {PW($1);} fparameters fbody ENDFUNCTION '\n' { PW($7);}
+        ;
+
+statement:
+        selectstatement '\n' {PW($1);}
+        | IF condition '\n' {PW($1);} code elifclause elseclause endiffer '\n' {PW($8);}
+        | FOR inst_ref_var IN inst_ref_set_var '\n' {PW($1);} code endforrer '\n' {PW($8);}
+        | BREAKFOR '\n' {PW($1);}
+        | BREAKWHILE '\n' {PW($1);}
+        | WHILE condition '\n' {PW($1);} code endwhiler '\n' {PW($6);}
+        | CLEARTOK '\n' {PW($1);}
+        | INCLUDE string '\n' {PW($1);}
+        | PRINTTOK string '\n' {PW($1);}
+        | EXITTOK sexpr '\n' {PW($1);}
+        | EMIT string '\n' {PW($1);}
+        | ASSIGN variable '=' expr '\n' {PW($1);}
+        | INVOKE identifier '(' aparameters ')' '\n' {PW($1);}
+        | INVOKE frag_ref_var '=' identifier '(' aparameters ')' '\n' {PW($1);}
+        | ALXLATE activity_type inst_ref_var '\n' {PW($1);}
+        | SPECIALWHERE WORD WORD '\n' {PW($1);}
+        | CREATEOBJ inst_ref_var OF obj_keyletters '\n' {PW($1);}
+        | DELETEOBJ inst_ref_var ';' '\n' {PW($1);}
+        | RELATE inst_ref_var TO inst_ref_var ACROSS reltraversal ';' '\n' code ENDRELATE '\n' {PW($1);}
+        | UNRELATE inst_ref_var FROM inst_ref_var ACROSS reltraversal ';' '\n' code ENDUNRELATE '\n' {PW($1);}
+        ;
+
+selectstatement:
+        SELECTONE inst_ref_var RELATEDBY inst_chain whereclause
+        | SELECTANY inst_ref_var RELATEDBY inst_chain whereclause
+        | SELECTMANY inst_ref_set_var RELATEDBY inst_chain whereclause
+        | SELECTANY inst_ref_var FROMINSTOF obj_keyletters whereclause
+        | SELECTMANY inst_ref_set_var FROMINSTOF obj_keyletters whereclause
+        ;
+
+whereclause:
+        /* empty */
+        | WHERE condition
+        ;
+
+fparameters:
+        /* empty */
+        | fparameters PARAM TYPE param_name COMMENT commentbody '\n' {PW($2);}
+        | fparameters PARAM TYPE param_name '\n' {PW($2);}
+        ;
+
+fbody:
+        /* empty */
+        | statement code
+        | comment code
+        | literal code
+        ;
+
+aparameters:
+        /* empty */
+        | term aparameters
+        | ',' term aparameters
+        ;
+
+elifclause:
+        /* empty */
+        | elifclause ELIF condition '\n' {PW($2);} code
+        ;
+
+elseclause:
+        /* empty */
+        | elseclause ELSE '\n' {PW($2);} code
+        ;
+
+endiffer:
+        ENDIF
+        | ENDIF COMMENT commentbody
+        ;
+
+endwhiler:
+        ENDWHILE
+        | ENDWHILE COMMENT commentbody
+        ;
+
+endforrer:
+        ENDFOR
+        | ENDFOR COMMENT commentbody
+        ;
+
+condition:
+        '(' expr ')'
+        ;
+
+sexpr:
+        UOP term
+        | '-' term %prec UMINUS
+        | term bop expr
+        | term
+        | inst_ref_set_var '|' inst_ref_set_var
+        ;
+
+expr:
+        '(' expr ')'
+        | UOP '(' expr ')'
+        | '(' expr ')' bop expr
+        | sexpr
+        ;
+
+term:
+        string
+        | identifier
+        | substitutionvariable
+        | INTconstant
+        | REALconstant
+        | term ARROW identifier
+        | term ':' parsekeyword
+        | term '.' attribute
+        ;
+
+reltraversal:
+        RELTRAV
+        | RELTRAV '.' '\'' relphrase '\''
+        | RELTRAV '.' RELTRAV
+        ;
+
+relphrase:
+        WORD
+        | keyword
+        | relphrase WORD
+        | relphrase keyword
+        ;
+
+attribute:
+        identifier
+        ;
+
+parsekeyword:
+        identifier
+        | substitutionvariable
+        ;
+
+format:
+        /* empty */
+        | FORMAT
+        ;
+
+variable:
+        identifier
+        | identifier '.' identifier
+        | keyword               /* This practice is not recommended. */
+        ;
+
+keyword:
+        UOP | TYPE | WHERE | IN | AND | OR
+        ;
+
+param_name:
+        WORD
+        ;
+
+frag_ref_var:
+        WORD
+        ;
+
+inst_ref_var:
+        WORD
+        ;
+
+inst_ref_set_var:
+        WORD
+        ;
+
+inst_chain:
+        WORD
+        | inst_chain ARROW WORD '[' reltraversal ']'
+        ;
+
+obj_keyletters:
+        WORD
+        ;
+
+activity_type:
+        WORD
+        ;
+
+identifier:
+        WORD
+        | WORD '[' reltraversal ']'
+        ;
+
+bop:
+        LE | GE | EQ | NE | AND | OR
+        | '>' | '<' | '+' | '-' | '*' | '/'
+        ;
+
+literal:
+        LITERAL literalbody '\n' {PW($1);}
+        | '\n' {puts("");}
+        ;
+
+literalbody:
+        /* empty */
+        | literalbody LITERAL
+        | literalbody substitutionvariable
+        ;
+
+substitutionvariable:
+        '$' format '{' term '}'
+        ;
+
+
+string:
+        '"' stringbody '"'
+        ;
+
+stringbody:
+        /* empty */
+        | stringbody TEXT
+        | stringbody substitutionvariable
+        ;
+
+%%
+
+/*===================================================================*/
+/* Error recovery routine.                                           */
+/*===================================================================*/
+yyerror(char *string)
+{
+  fprintf( stderr, "rsl2oal:  %s, at \"%s\" near line %d.\n",
+    string, yytext, line_number );
+}
+
+/*===================================================================*/
+/* main program to call yyparse                                      */
+/*===================================================================*/
+int
+main( int argc, char ** argv )
+{
+  yyparse();
+}
+

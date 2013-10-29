@@ -106,7 +106,7 @@
               .assign end_for_loop = "}}"
             .end if
             .//0 = To provider,  1 = From Provider
-            .if(te_mact.Direction == 0) 
+            .if(te_mact.Direction == 0)
               .assign provided_port_declaration = provided_port_declaration + "  sc_out < ${signal_type} >  ${signal_name}${array_spec};\n"
               .assign required_port_declaration = required_port_declaration + "  sc_in < ${signal_type} >  ${signal_name}${array_spec};\n"
               .assign provided_reset_port = provided_reset_port + " ${for_loop}\n\t${signal_name}${array_index}.write(${initializer});\n\t${end_for_loop}"
@@ -129,7 +129,7 @@
             .assign end_for_loop = "}}"
           .end if
           .//0 = To provider,  1 = From Provider
-          .if(te_mact.Direction == 0) 
+          .if(te_mact.Direction == 0)
             .assign provided_port_declaration = provided_port_declaration + "  sc_out < ${signal_type} >  ${signal_name}${array_spec};\n"
             .assign required_port_declaration = required_port_declaration + "  sc_in < ${signal_type} >  ${signal_name}${array_spec};\n"
             .assign provided_reset_port = provided_reset_port + "   ${for_loop}\n\t${signal_name}${array_index}.write(${initializer});\n\t${end_for_loop}"
@@ -142,9 +142,9 @@
           .assign bind_port = bind_port + "    ${for_loop}${signal_name}${array_index}  (c.${signal_name}${array_index});${end_for_loop}\n"
         .end if
         .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
-      .end while 
+      .end while
     .end if
-      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds'] 
+      .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
     .end while
   .end for
   .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
@@ -155,7 +155,7 @@
 .//============================================================================
 .// Generate Nested Component Instances
 .//============================================================================
-.function CN_CC_CreateNestedComponentInstances  
+.function CN_CC_CreateNestedComponentInstances
   .param inst_ref te_c
   .select any te_file from instances of TE_FILE
   .select one te_sys related by te_c->TE_SYS[R2065]
@@ -190,7 +190,7 @@
 .//============================================================================
 .// Generate Nested Component Instances
 .//============================================================================
-.function CN_CC_CreateNestedComponentConstructors   
+.function CN_CC_CreateNestedComponentConstructors
   .param inst_ref te_c
   .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
   .assign top_module_inits = ""
@@ -207,7 +207,7 @@
     .end if
     .assign top_module_inits = top_module_inits + ", ${instance_name}(""${instance_name}_module"")"
   .end for
-${top_module_inits}
+${top_module_inits}\
 .end function
 .//
 .//============================================================================
@@ -369,7 +369,7 @@ ${top_module_inits}
       .select one delegate_c_c related by cl_iir_provider->C_DG[R4704]->PA_DIC[R9002]->C_C[R9002] where ( "${selected.Id}" == "${parent_c_c_id}" )
       .if ( not_empty delegate_c_c )
         .assign delegate_c_c_id  = "${delegate_c_c.Id}"
-        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
+        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000]
         .if (not_empty delegate_pkg)
           .assign delegate_pkg_id = "${delegate_pkg.Package_ID}"
         .end if
@@ -378,7 +378,7 @@ ${top_module_inits}
       .select one delegate_c_c related by c_ir->C_DG[R4014]->PA_DIC[R9002]->C_C[R9002] where ( "${selected.Id}" == "${parent_c_c_id}" )
       .if ( not_empty delegate_c_c )
         .assign delegate_c_c_id  = "${delegate_c_c.Id}"
-        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
+        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000]
         .if (not_empty delegate_pkg)
           .assign delegate_pkg_id = "${delegate_pkg.Package_ID}"
         .end if
@@ -421,7 +421,7 @@ ${top_module_inits}
           .assign other_way_c_c_id   = "${c_c_requirer.Id}"
           .assign other_way_cl_ic_id = "${cl_ic_requirer.Id}"
           .assign isDelegated = false
-        .elif (not_empty c_c_requirer) 
+        .elif (not_empty c_c_requirer)
           .select one other_way_c_po related by cl_iir_provider->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->C_PO[R4016] where ( selected.Component_Id == c_c_requirer.Id )
           .assign other_way_c_po_id  = "${other_way_c_po.Id}"
           .assign other_way_c_c_id   = "${c_c_requirer.Id}"
@@ -441,8 +441,8 @@ ${top_module_inits}
         .if( not_empty cn_cic_requirer)
           .assign cn_cic_requirer_id = "${cn_cic_requirer.Id}"
         .end if
-        .select any c_c_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_requirer_id ) )                
-        .if( not_empty cl_ic_requirer ) 
+        .select any c_c_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010] where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_requirer_id ) )
+        .if( not_empty cl_ic_requirer )
           .select one c_c_requirer related by cl_ic_requirer->C_C[R4201]
           .select one cl_iir_requirer related by c_ir->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703] where ( selected.ImportedComp_Id == cl_ic_requirer.Id )
           .select one other_way_c_r related by cl_iir_requirer->C_IR[R4701]->C_R[R4009]
@@ -477,7 +477,7 @@ ${top_module_inits}
       .select one delegate_c_c related by cl_iir_requirer->C_DG[R4704]->PA_DIC[R9002]->C_C[R9002] where ( "${selected.Id}" == "${parent_c_c_id}" )
       .if ( not_empty delegate_c_c )
         .assign delegate_c_c_id  = "${delegate_c_c.Id}"
-        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
+        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000]
         .if (not_empty delegate_pkg)
           .assign delegate_pkg_id = "${delegate_pkg.Package_ID}"
         .elif ( not_empty delegate_pkg_cp )
@@ -488,7 +488,7 @@ ${top_module_inits}
       .select one delegate_c_c related by c_ir->C_DG[R4014]->PA_DIC[R9002]->C_C[R9002] where ( "${selected.Id}" == "${parent_c_c_id}" )
       .if ( not_empty delegate_c_c )
         .assign delegate_c_c_id  = "${delegate_c_c.Id}"
-        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000] 
+        .select one delegate_pkg related by delegate_c_c->PE_PE[R8001]->EP_PKG[R8000]
         .if (not_empty delegate_pkg)
           .assign delegate_pkg_id = "${delegate_pkg.Package_ID}"
         .elif ( not_empty delegate_pkg_cp )
@@ -554,7 +554,7 @@ ${top_module_inits}
         .if( not_empty cn_cic_provider)
           .assign cn_cic_provider_id = "${cn_cic_provider.Id}"
         .end if
-        .select any c_c_provider related by c_ir->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]  where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_provider_id ) )                
+        .select any c_c_provider related by c_ir->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->C_PO[R4016]->C_C[R4010]  where ( ( "${selected->PE_PE[R8001].Package_ID}" == pkg_Id) or ( "${selected.Id}" == cn_cic_provider_id ) )
         .if (not_empty cl_ic_provider)
           .// The other way is "Imported Component"
           .select one c_c_requirer related by cl_ic_provider->C_C[R4201]
@@ -600,10 +600,9 @@ ${top_module_inits}
   .// generate the action body defined in this port
   .select any c_ir_formal related by te_po->C_I[R2007]->C_IR[R4012]
   .select any c_ir related by te_po->C_PO[R2044]->C_IR[R4016]
-  .select one delegate_c_c_formal related by c_ir_formal->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]  
+  .select one delegate_c_c_formal related by c_ir_formal->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
   .select one delegate_c_c related by c_ir->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->C_PO[R4016]->C_C[R4010]->TE_C[R2054]
   .if ( (not_empty delegate_c_c_formal) or (not_empty delegate_c_c) )
-    .assign action_body = ""
     .if ( "void" != te_aba.ReturnDataType )
       .assign action_body = "  return "
     .else
@@ -629,12 +628,14 @@ ${top_module_inits}
       .select one sm_evt related by te_evt->SM_EVT[R2036]
       .invoke r = t_oal_smt_sgn( sm_evt, false, "0", sm_evt.Drv_Lbl, sm_evt.Mning, te_aba.ParameterAssignmentBase, "  " )
       .assign action_body = r.body
-    .else 
+    .else
       .assign action_body = te_aba.code
     .end if
-  .end if    
+  .end if
+  .if ( "" != action_body )
   .invoke port_action = t_oal_port_action( te_mact, te_po, action_body )
 ${port_action.body}
+  .end if
 .end function
 .//
 .function TE_MACT_CreateDefinition
@@ -675,7 +676,7 @@ ${port_action.body}
     .// Create the port body for this te_mact whether it is polymorphic or not
     .select one te_po related by te_mact->TE_PO[R2006]
     .invoke r = TE_MACT_CreateSingleDefinition( te_mact, te_po, te_aba )
-    .assign port_bodies = port_bodies + r.body    
+    .assign port_bodies = port_bodies + r.body
     .// Find the sibling polymorphic port messages.  Generate port bodies for each one.
     .if ( te_mact.polymorphic )
       .select many poly_te_pos related by te_po->TE_C[R2005]->TE_PO[R2005] where ( ( ( selected.c_iId == te_po.c_iId ) and ( selected.Provision == te_po.Provision ) ) and ( selected.ID != te_po.ID ) )
@@ -686,21 +687,17 @@ ${port_action.body}
         .assign port_bodies = port_bodies + r.body
       .end for
     .end if
-    .assign thismodule_decl = ""
-    .if ( "SystemC" == te_target.language )
-      .assign thismodule_decl = "  ${te_mact.ComponentName} * thismodule = this;"
-    .end if
+    .assign thismodule_decl = "  ${te_mact.ComponentName} * thismodule = this;"
     .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
       .// outbound message
     .elif ( ( ( te_mact.Provision ) and ( 0 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 1 == te_mact.Direction ) ) )
       .// inbound message
-      .assign action_body = ""
       .include "${te_file.arc_path}/t.component.message.c"
     .else
       .print "ERROR:  Detected invalid component port message configuration."
     .end if
       .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
-    .end while  
+    .end while
   .end for
 .end function
 .//
@@ -710,15 +707,13 @@ ${port_action.body}
 .function TE_C_StateMachines
   .param inst_ref te_c
   .select any te_file from instances of TE_FILE
-  .assign attr_sc_event_declarations = ""
+  .assign result = ""
   .select many te_classes related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_CLASS[R2072]
-  .//
-  .// Sony specific requirement: Default behavior for leaf components
   .select any te_sys from instances of TE_SYS
   .select any nested_c_c related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]
   .select many cl_ics related by te_c->C_C[R2054]->CL_IC[R4205]
-  .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
-    .if ( ( empty te_classes ) and ( ( empty nested_c_c ) and  ( empty cl_ics ) ) ) 
+  .if ( "BitLevelSignals" == te_sys.SystemCPortsType )
+    .if ( ( empty te_classes ) and ( ( empty nested_c_c ) and  ( empty cl_ics ) ) )
       .assign default_behavior = true;
       .include "${te_file.arc_path}/t.component.class.sm.h"
     .end if
@@ -730,18 +725,19 @@ ${port_action.body}
     .assign sc_event_sensitivity = ""
     .select many te_evts related by te_class->TE_SM[R2072]->TE_EVT[R2071]
     .if ( not_empty te_evts )
-      .assign attr_sc_event_declarations = attr_sc_event_declarations + "  sc_event "
+      .assign result = result + "  sc_event "
     .end if
     .for each te_evt in te_evts
       .assign sc_event_sensitivity = ( sc_event_sensitivity + " << " ) + ( "sc_" + te_evt.GeneratedName )
-      .assign attr_sc_event_declarations = ( attr_sc_event_declarations + delimiter ) + ( "sc_" + te_evt.GeneratedName )
+      .assign result = ( result + delimiter ) + ( "sc_" + te_evt.GeneratedName )
       .assign delimiter = ", "
     .end for
     .include "${te_file.arc_path}/t.component.class.sm.h"
     .if ( not_empty te_evts )
-      .assign attr_sc_event_declarations = attr_sc_event_declarations + ";\n"
+      .assign result = result + ";\n"
     .end if
   .end for
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -749,7 +745,7 @@ ${port_action.body}
 .//============================================================================
 .function TE_C_StateMachinesProcess
   .param inst_ref te_c
-  .assign attr_sc_process_decls = ""
+  .assign result = "  // state machine process entry points\n"
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
   .select any te_instance from instances of TE_INSTANCE
@@ -760,23 +756,24 @@ ${port_action.body}
   .select any nested_c_c related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]
   .select many cl_ics related by te_c->C_C[R2054]->CL_IC[R4205]
   .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
-    .if ( ( empty te_classes ) and ( ( empty nested_c_c ) and  ( empty cl_ics ) ) ) 
-      .assign default_behavior = true; 
+    .if ( ( empty te_classes ) and ( ( empty nested_c_c ) and  ( empty cl_ics ) ) )
+      .assign default_behavior = true
       .assign port_reset = ""
       .select many te_pos related by te_c->TE_PO[R2005]
       .for each te_po in te_pos
         .assign port_reset = port_reset + "  ${te_po.GeneratedName}.reset();\n"
       .end for
       .include "${te_file.arc_path}/t.component.class.sm.c"
-      .assign attr_sc_process_decls = attr_sc_process_decls + "  void component_main( void );\n"
+      .assign result = result + "  void component_main( void );\n"
     .end if
   .end if
   .assign default_behavior = false;
   .//
   .for each te_class in te_classes
     .include "${te_file.arc_path}/t.component.class.sm.c"
-    .assign attr_sc_process_decls = attr_sc_process_decls + "  void ${te_class.GeneratedName}_sm( void );\n"
+    .assign result = result + "  void ${te_class.GeneratedName}_sm( void );\n"
   .end for
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -818,7 +815,7 @@ ${port_action.body}
     .assign register_offset_name = "$r{c_i.Name}_${direction}_PULSE_REG_OFFSET"
     .assign register_description = "${register_name} signals the completion of a message transfer"
     .assign register_width = 32
-    .assign attr_register_declaration = attr_register_declaration + "  declare_register ${te_po.name}_i ${register_name} ${register_offset_name} {} -rw_access w -is_trigger -width ${register_width}\n" 
+    .assign attr_register_declaration = attr_register_declaration + "  declare_register ${te_po.name}_i ${register_name} ${register_offset_name} {} -rw_access w -is_trigger -width ${register_width}\n"
     .//
     .select any te_mact related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
     .while ( not_empty te_mact )
@@ -985,7 +982,7 @@ ${port_action.body}
             .assign register_address = "${offset_name}_MEM_OFFSET"
           .elif(not_empty te_dim)
             .assign casting = "(unsigned char *)"
-            .assign payload_size = ", (sizeof(${te_dt.ExtName}) * ${te_dim.elementCount} )"
+            .assign payload_size = ", (sizeof(${te_dt.ExtName}) * $t{te_dim.elementCount} )"
             .assign register_address = "${offset_name}_MEM_OFFSET"
           .elif(not_empty s_edt)
             .assign casting = "(int)"
@@ -1015,7 +1012,7 @@ ${port_action.body}
           .else
             .assign casting = ""
             .assign return_size = ""
-            .assign register_address = "${offset_name}_REG_OFFSET"            
+            .assign register_address = "${offset_name}_REG_OFFSET"
             .if( "r4_t" == te_aba.ReturnDataType )
               .assign casting = "(unsigned char *)&"
               .assign return_size = ", sizeof(${te_mact.MessageName}_return)"
@@ -1047,8 +1044,8 @@ ${port_action.body}
     .else
       .assign channel_include = "public sc_channel, public ${te_po.InterfaceName}_provision"
     .end if
-    .assign bpCallBackIF = bpCallBackIF + "class ${te_po.name}_bpCallBackIF: ${channel_include} {\n  public:\n  ${te_po.name}_bpCallBackIF(sc_module_name name, ${class_name} *mbmodule) :"
-    .assign bpCallBackIF = bpCallBackIF + "    sc_module(name),\n    m_mbmodule(mbmodule)\n    {}\n${outgoing_port_call_declaration}\n  private:\n  ${class_name} *m_mbmodule;\n   } m_${te_po.name}_bpCallBackIF;\n\n"
+    .assign bpCallBackIF = bpCallBackIF + "class ${te_po.name}_bpCallBackIF: ${channel_include} {\n  public:\n  ${te_po.name}_bpCallBackIF(xtuml_module_name name, ${class_name} *mbmodule) :"
+    .assign bpCallBackIF = bpCallBackIF + "    xtuml_module(name),\n    m_mbmodule(mbmodule)\n    {}\n${outgoing_port_call_declaration}\n  private:\n  ${class_name} *m_mbmodule;\n   } m_${te_po.name}_bpCallBackIF;\n\n"
   .end for
   .include "${te_file.arc_path}/t.component.vista.pv_template.port.h"
   .assign file_epilogue = true
@@ -1081,7 +1078,7 @@ ${port_action.body}
     .if (empty parent_c_c)
       .select one parent_c_c related by te_c->C_C[R2054]->CL_IC[R4201]->C_C[R4205]
     .end if
-    .select one ep_pkg related by te_c->C_C[R2054]->PE_PE[R8001]->EP_PKG[R8000] 
+    .select one ep_pkg related by te_c->C_C[R2054]->PE_PE[R8001]->EP_PKG[R8000]
     .if ( not_empty ep_pkg )
       .select any cl_ic related by ep_pkg->PE_PE[R8000]->CL_IC[R8001] where ( selected.AssignedComp_Id == c_c.Id )
     .else
@@ -1242,7 +1239,7 @@ ${port_action.body}
     .assign direction  = "required"
   .end if
   .assign register_offset_name = "$r{c_i.Name}_${direction}_PULSE_REG_OFFSET"
-  .assign attr_register_offset = "#define  ${register_offset_name} 0\n"  
+  .assign attr_register_offset = "#define  ${register_offset_name} 0\n"
   .//
   .select any te_mact related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
   .while ( not_empty te_mact )
@@ -1352,7 +1349,7 @@ ${port_action.body}
   .for each te_po in te_pos
     .assign register_address = 0
     .//
-    .// create register entry for pulse register of message based on spirit schema 
+    .// create register entry for pulse register of message based on spirit schema
     .//
     .select any te_mact related by te_po->TE_MACT[R2006] where ( selected.Order == 0 )
     .while ( not_empty te_mact )
@@ -1365,7 +1362,7 @@ ${port_action.body}
           .select one s_sdt related by te_dt->S_DT[R2021]->S_SDT[R17]
           .select one te_dim related by te_parm->TE_DIM[R2056]
           .if ( not_empty s_sdt )
-            .// multi-element structured datatypes. 
+            .// multi-element structured datatypes.
             .assign memory_size = 0
             .select many s_mbrs related by s_sdt->S_MBR[R44]
             .for each s_mbr in s_mbrs
@@ -1392,7 +1389,7 @@ ${port_action.body}
           .select any te_dt_return from instances of TE_DT where ( selected.ExtName == "${te_aba.ReturnDataType}" )
           .select one s_sdt_return related by te_dt_return->S_DT[R2021]->S_SDT[R17]
           .if (not_empty s_sdt_return )
-            .//  mbrs datatypes. 
+            .//  mbrs datatypes.
             .assign memory_size = 0
             .select many s_mbrs related by s_sdt_return->S_MBR[R44]
             .for each s_mbr in s_mbrs
@@ -1415,7 +1412,7 @@ ${port_action.body}
     .assign address_width = 1
     .assign total_available_addressing = 2
     .while (total_available_addressing < address_space_range)
-      .assign address_width = 1 +  address_width 
+      .assign address_width = 1 +  address_width
       .assign total_available_addressing = 2*total_available_addressing ;
     .end while
     .include "${te_file.arc_path}/t.component.ipxact.busInterface.xml"
@@ -1438,7 +1435,7 @@ ${port_action.body}
     .assign memory_declaration = ""
     .assign register_declaration = ""
     .//
-    .// create register entry for pulse register of message based on spirit schema 
+    .// create register entry for pulse register of message based on spirit schema
     .//
     .assign register_name = "${te_c.Name}_${te_po.Name}_PULSE"
     .assign register_offset_name = "${te_c.Name}_${te_po.Name}_PULSE_REG_OFFSET"
@@ -1457,7 +1454,7 @@ ${port_action.body}
           .select one te_dim related by te_parm->TE_DIM[R2056]
           .if ( not_empty s_sdt )
             .// Create MEMORY declaration for multi-element structured datatypes. These require more than 32-bits of storage
-            .// and must span multiple locations. 
+            .// and must span multiple locations.
             .assign register_address = register_address + 4
             .assign memory_size = 0
             .select many s_mbrs related by s_sdt->S_MBR[R44]
@@ -1473,7 +1470,7 @@ ${port_action.body}
           .elif (not_empty te_dim)
             .//
             .// Create MEMORY declaration for array datatypes. These require more than 32-bits of storage
-            .// and must span multiple locations. 
+            .// and must span multiple locations.
             .assign register_address = register_address + 4
             .assign memory_size = te_dim.elementCount
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"

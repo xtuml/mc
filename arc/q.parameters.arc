@@ -78,16 +78,19 @@
     .else
       .assign string_format = ( string_format + format_delimiter ) + "[]"
     .end if
-    .invoke s = t_oal_smt_event_parameters( "", te_parm.Name, te_parm.GeneratedName, te_dt.Core_Typ, "  " )
-    .assign assn = assn + s.result
+    .invoke r = t_oal_smt_event_parameters( "", te_parm.Name, te_parm.GeneratedName, te_dt.Core_Typ, "  " )
+    .assign assn = assn + r.result
     .if ( "A00portindex" != te_parm.Name )
-      .assign assnbase = assnbase + s.result
+      .assign assnbase = assnbase + r.result
     .end if
     .assign param_delimiter = ", "
     .assign format_delimiter = ","
     .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
   .end while
-  .assign te_aba.ParameterDefinition = defn + ""
+  .if ( "" != defn )
+    .assign defn = defn + " "
+  .end if
+  .assign te_aba.ParameterDefinition = defn
   .assign te_aba.ParameterDeclaration = decl + " "
   .assign te_aba.ParameterInvocation = invo
   .assign te_aba.ParameterStructure = stru

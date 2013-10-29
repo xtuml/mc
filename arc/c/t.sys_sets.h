@@ -31,6 +31,9 @@ struct ${te_set.element_type} {
  */
 typedef struct {
   ${te_set.element_type} * head;
+.if ( te_sys.InstanceLoading )
+  ${te_set.element_type} * tail;
+.end if
 } ${te_set.base_class};
 
 /*
@@ -162,7 +165,7 @@ c_t * ${te_string.stradd}( const c_t *, const c_t * );
    that invoked the compiler (C library) supplied strcmp.  */
 .// #define ${te_string.strcmp}( s1, s2 ) strcmp( s1, s2 )
 c_t ${te_string.strcmp}( const c_t *, const c_t * );
-c_t * ${te_set.scope}${te_string.strget}( void );
+c_t * ${te_string.strget}( void );
 .// not used but good stuff
 .if ( te_sys.InstanceLoading )
 c_t * ${te_string.itoa}( c_t *, s4_t );

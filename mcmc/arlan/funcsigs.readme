@@ -1,0 +1,3 @@
+# Here is how to extract the function signatures from the RSL into a C-friendly list of string structure members.
+
+egrep -r -e "^\.function " -e "^ *\.param " -e ".end function" * | awk '{if ($1 ~ ".function") printf("{\"%s\"",$2); else if ($0 ~ "\.param ") printf(",\"%s\"",$4); else if ($1 ~ ".end" && $2 ~ "function") printf("},\n");}' > ~/funcsigs.h

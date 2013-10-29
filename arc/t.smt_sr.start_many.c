@@ -9,11 +9,11 @@
 .// property of Mentor Graphics Corp.  No part of this document may be
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
-.assign b = b + "${ws}${te_select_related.te_classGeneratedName} * ${te_lnk.left};\n"
-.assign b = b + "${ws}${te_set.scope}${te_set.iterator_class_name} start_many_iterator;\n"
-.assign b = b + "${ws}${te_set.iterator_reset}( &start_many_iterator, ${te_select_related.start_var} );\n"
+${ws}${te_select_related.te_classGeneratedName} * ${te_lnk.left};
+${ws}${te_set.scope}${te_set.iterator_class_name} start_many_iterator;
+${ws}${te_set.iterator_reset}( &start_many_iterator, ${te_select_related.start_var} );
 .if ( "any" == te_select_related.multiplicity )
-  .assign b = b + "${ws}while ( ( 0 == ${te_select_related.result_var} ) && ( 0 != ( ${te_lnk.left} = (${te_select_related.te_classGeneratedName} *) ${te_set.module}${te_set.iterator_next}( &start_many_iterator ) ) ) ) {\n"
+${ws}while ( ( 0 == ${te_select_related.result_var} ) && ( 0 != ( ${te_lnk.left} = (${te_select_related.te_classGeneratedName} *) ${te_set.module}${te_set.iterator_next}( &start_many_iterator ) ) ) ) {
 .else
-  .assign b = b + "${ws}while ( 0 != ( ${te_lnk.left} = (${te_select_related.te_classGeneratedName} *) ${te_set.module}${te_set.iterator_next}( &start_many_iterator ) ) ) {\n"
+${ws}while ( 0 != ( ${te_lnk.left} = (${te_select_related.te_classGeneratedName} *) ${te_set.module}${te_set.iterator_next}( &start_many_iterator ) ) ) {
 .end if

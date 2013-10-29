@@ -29,14 +29,16 @@ typedef struct ETimer_s ${te_tim.internal_type};
 struct ETimer_s {
   ${te_tim.internal_type} * next;
   ETimer_time_t expiration;
-  .if ( te_tim.recurring_timer_support )
+.if ( te_tim.recurring_timer_support )
   ETimer_time_t recurrence;
-  .end if
+.end if
   ${te_eq.base_event_type} * event;
-  .if ( te_thread.flavor == "Nucleus" )
+.if ( te_thread.flavor == "Nucleus" )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
   unsigned index;
   #endif
-  .end if
+.end if
+.if ( te_tim.keyed_timer_support )
   u4_t accesskey;
+.end if
 };

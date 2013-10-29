@@ -48,6 +48,9 @@ struct ${te_set.element_type} {
  */
 typedef struct {
   ${te_set.element_type} * head;
+.if ( te_sys.InstanceLoading )
+  ${te_set.element_type} * tail;
+.end if
 } ${te_set.base_class};
 
 /*

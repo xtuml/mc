@@ -50,7 +50,7 @@
     .// Check for legal range on input priority.
     .//
     .if ( ( priority_value > 255 ) or ( priority_value < 0 ) )
-      .assign msg = "ERROR:  Priority (${priority_value}) out of legal range (0-255)."
+      .assign msg = "ERROR:  Priority ($t{priority_value}) out of legal range (0-255)."
     .end if
     .//
     .// Store the priority of the event in an attribute.
@@ -74,7 +74,7 @@
     .else
       .assign msg = "ERROR:  Event (${evt_label}) not found in component ${te_c.Name}"
     .end if
-    .assign msg = msg + " => TagPriorityEvent( ""${evt_label}"", ${priority_value} )"
+    .assign msg = msg + " => TagPriorityEvent( ${evt_label}, $t{priority_value} )"
     .print "${msg}"
   .end for
 .end function

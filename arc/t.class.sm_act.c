@@ -45,7 +45,7 @@ ${te_act.GeneratedName}( ${te_class.GeneratedName} * ${te_instance.self}, const 
 {
   .if ( not_empty sm_act )
     .if ( sm_act.Suc_Pars == 1 )
-      .if ( "SystemC" == te_target.language )
+      .if ( "C++" == te_target.language )
   ${te_c.Name} * thismodule = (${te_c.Name} *) event->thismodule;
       .end if
 ${received_event_declaration}\

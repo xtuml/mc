@@ -62,7 +62,7 @@
     .while ( state_count < te_sm.num_states )
       .for each te_state in te_states
         .if ( te_state.Order == state_count )
-#define ${te_state.enumerator} ${te_state.number}  /* state [${te_state.Numb}]:  (${te_state.Name}) */
+#define ${te_state.enumerator} ${te_state.number}  /* state [$t{te_state.Numb}]:  (${te_state.Name}) */
           .assign max_state_value = te_state.enumerator
           .break for
         .end if
@@ -98,13 +98,13 @@
   .param inst_ref sm_sm
   .//
   .select many te_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525]->TE_EVT[R2036]
-  .assign attr_no_events = TRUE
+  .assign attr_no_events = true
   .assign event_order = 0
   .if ( not_empty te_evts )
 /*
  * enumeration of state model event numbers
  */
-    .assign attr_no_events = FALSE
+    .assign attr_no_events = false
     .assign num_events = cardinality te_evts
     .assign event_count = 0
     .assign last_order = 0
@@ -134,7 +134,7 @@
 /*
  * Enumeration of polymorphic event numbers
  */
-    .assign attr_no_events = FALSE
+    .assign attr_no_events = false
     .for each event in poly_event_set
       .select one te_evt related by event->TE_EVT[R2036]
       .assign event_comment = event.Drv_Lbl
@@ -145,7 +145,7 @@
       .assign event_order = event_order + 1
     .end for
   .end if
-  .if ( attr_no_events == TRUE )
+  .if ( attr_no_events == true )
 /* note:  no events defined in state model */
   .end if
 .end function
@@ -214,6 +214,8 @@
   .assign event_count = 0
   .assign row = ""
   .assign delimiter = ""
+  .select any empty_sm_txn from instances of SM_TXN where ( false )
+  .select any empty_sm_eign from instances of SM_EIGN where ( false )
   .// Here we use event_count and event_number, because we may skip events
   .// that are not used.  Soon there will be a reflexive on TE_EVT.
   .// Guard by limiting loop to 256 events.
@@ -223,8 +225,8 @@
     .for each te_evt in te_evts
       .if ( te_evt.Order == event_number )
         .assign found = true
-        .select any sm_txn from instances of SM_TXN where ( false )
-        .select any sm_eign from instances of SM_EIGN where ( false )
+        .assign sm_txn = empty_sm_txn
+        .assign sm_eign = empty_sm_eign
         .if ( 0 == order )
           .// Deal with creation event transitions.
           .select one sm_txn related by te_evt->SM_EVT[R2036]->SM_SEVT[R525]->SM_LEVT[R526]->SM_CRTXN[R509]->SM_TXN[R507]
@@ -395,9 +397,11 @@
     .invoke poly_rels = GetPolymorphicRelationshipCollection( o_obj )
     .assign poly_rel_set = poly_rels.result
     .//
-    .invoke init_uniques = AutoInitializeUniqueIDs( te_class, "i" )
-    .invoke max_event = GetMaxEventInfo( o_obj, TRUE )
-    .invoke domain_id = GetDomainTypeIDFromString( te_c.Name )
+    .invoke r = AutoInitializeUniqueIDs( te_class, "i" )
+    .assign init_uniques = r.body
+    .invoke max_event = GetMaxEventInfo( o_obj, true )
+    .invoke r = GetDomainTypeIDFromString( te_c.Name )
+    .assign dom_id = r.result
     .invoke poly_dispatch = CreatePolymorphicEventDispatcher( o_obj, poly_rel_set )
     .assign poly_dispatcher = poly_dispatch.body
     .//

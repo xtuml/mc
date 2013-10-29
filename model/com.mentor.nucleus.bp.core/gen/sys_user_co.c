@@ -19,6 +19,9 @@
 #include "sys_sys_types.h"
 #include "sys_user_co.h"
 
+static void read_marking_invocations( void );
+static void mark_parse( c_t * );
+
 #ifdef SYS_USER_CO_PRINTF_ON
 #include <stdio.h>
 #define SYS_USER_CO_PRINTF( s ) printf( s );
@@ -64,11 +67,28 @@ UserInitializationCalloutf( c_t * argv0 )
  * initialization functions.
  */
 void
-UserPreOoaInitializationCalloutf( void )
+UserPreOoaInitializationCalloutf( c_t * argv0 )
 {
   /* Insert implementation specific code here.  */
   static char * a[2] = { "UserPostOoaInitializationCalloutf", "a.xtuml" };
   Escher_xtUML_load( 2, a );
+  read_marking_invocations();
+  if ( strstr( argv0, "docgen" ) ) {
+    ooaofooa_docgen();
+  } else if ( strstr( argv0, "mcmc" ) ) {
+    int i;
+    ooaofooa_a0();
+    for ( i = 0; i < ooaofooa_MAX_CLASS_NUMBERS; i++ ) {
+      if ( 0 || (
+           ( i != ooaofooa_TE_VAL_CLASS_NUMBER ) &&
+           ! ( ( ooaofooa_V_VAL_CLASS_NUMBER <= i ) && ( i <= ooaofooa_V_SCV_CLASS_NUMBER ) ) &&
+           ( i != ooaofooa_ACT_SMT_CLASS_NUMBER ) &&
+           ( i != ooaofooa_TE_SMT_CLASS_NUMBER ) &&
+           ( i != ooaofooa_V_VAR_CLASS_NUMBER ) &&
+           ( i != ooaofooa_TE_VAR_CLASS_NUMBER ) ) )
+      Escher_dump_instances( 0, i );
+    }
+  }
   SYS_USER_CO_PRINTF( "UserPreOoaInitializationCallout\n" )
 }
 
@@ -264,3 +284,75 @@ UserPersistenceErrorCalloutf( i_t error_code )
   /* Insert implementation specific code here.  */
   SYS_USER_CO_PRINTF( "UserPersistenceErrorCallout\n" )
 }
+
+c_t * marking_invocations[ 100 ][ 6 ];
+int marking_invocations_index = 0;
+
+static void read_marking_invocations( void )
+{
+  FILE * m_txt;
+  static c_t marking_strings[ 100 ][ ESCHER_SYS_MAX_STRING_LEN ];
+  if ( 0 == ( m_txt = fopen( "m.txt", "r" ) ) ) {
+    fprintf( stderr, "failed to open m.txt\n" );
+  } else {
+    while ( 0 != fgets( marking_strings[ marking_invocations_index ], ESCHER_SYS_MAX_STRING_LEN, m_txt ) ) {
+      mark_parse( marking_strings[ marking_invocations_index ] );
+      marking_invocations_index++;
+    }
+  }
+}
+
+static void mark_parse( c_t * line )
+{
+  c_t * s = strstr( line, ".invoke " );
+  marking_invocations[ marking_invocations_index ][ 0 ] = 0;
+  marking_invocations[ marking_invocations_index ][ 1 ] = 0;
+  marking_invocations[ marking_invocations_index ][ 2 ] = 0;
+  marking_invocations[ marking_invocations_index ][ 3 ] = 0;
+  marking_invocations[ marking_invocations_index ][ 4 ] = 0;
+  marking_invocations[ marking_invocations_index ][ 5 ] = 0;
+  if ( 0 != s ) {
+    int pnum;
+    s = s + 7; /* Get past ".invoke".  */
+    while ( ( 0 != *s ) && ( ' ' == *s ) ) s++; /* Skip blanks.  */
+    marking_invocations[ marking_invocations_index ][ 0 ] = s;
+    /* Find end of function name.  */
+    while ( ( 0 != *s ) && ( '(' != *s ) && ( ' ' != *s ) ) s++;
+    if ( 0 == *s ) return;
+    while ( ' ' == *s ) *s++ = 0; /* Delimit function name.  */
+    if ( '(' == *s ) *s++ = 0; /* Delimit function name.  */
+    while ( ' ' == *s ) s++;
+    if ( ')' == *s ) return;
+    for ( pnum = 1; pnum <= 5; pnum++ ) {
+      /* parameter */
+      if ( '"' == *s ) {
+        s++;
+        if ( '"' != *s ) marking_invocations[ marking_invocations_index ][ pnum ] = s;
+        while ( ( 0 != *s ) && ( '"' != *s ) ) s++;
+        if ( '"' == *s ) *s++ = 0;
+      } else {
+        if ( '"' != *s ) marking_invocations[ marking_invocations_index ][ pnum ] = s;
+        while ( ( 0 != *s ) && ( ',' != *s ) && ( ' ' != *s ) && ( ')' != *s ) ) s++;
+      }
+      while ( ' ' == *s ) *s++ = 0;
+      if ( ')' == *s ) { *s = 0; return; }
+      if ( ',' == *s ) *s++ = 0;
+      while ( ' ' == *s ) s++;
+    }
+  }
+}
+
+void mark_pass( c_t * );
+void mark_pass( c_t * pass )
+{ int i;
+for ( i = marking_invocations_index - 1; i >= 0; i-- ) {
+  ooaofooa_mark_all(
+    marking_invocations[ i ][ 0 ],
+    marking_invocations[ i ][ 1 ],
+    marking_invocations[ i ][ 2 ],
+    marking_invocations[ i ][ 3 ],
+    marking_invocations[ i ][ 4 ],
+    marking_invocations[ i ][ 5 ],
+    pass );
+}}
+

@@ -20,7 +20,7 @@ ${c_i.Descrip}
 // messages for interface reference ${c_i.Name} (provision)
 class $r{c_i.Name}_provision\
 .if ( (te_sys.SystemCPortsType == "TLM") or (te_sys.SystemCPortsType == "sc_interface") )
- : virtual public sc_interface \
+ : virtual public xtuml_interface \
 .end if
 {
   public:
@@ -35,7 +35,7 @@ ${interface_provision_declarations}\
 // messages for interface reference ${c_i.Name} (requirement)
 class $r{c_i.Name}_requirement\
 .if ( (te_sys.SystemCPortsType == "TLM") or (te_sys.SystemCPortsType == "sc_interface") )
- : virtual public sc_interface \
+ : virtual public xtuml_interface \
 .end if
 {
   public:

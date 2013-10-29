@@ -15,11 +15,11 @@
 R${te_rel.Numb}.'${rel_phrase}' USING ${assr_obj.Key_Lett}
  */
 void
-${link_method.result}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
+${assr_te_class.scope}${relate_method}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (left == 0) || (right == 0) || (assr == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "${assr_obj.Key_Lett}", "${link_method.result}" );
+    XTUML_EMPTY_HANDLE_TRACE( "${assr_obj.Key_Lett}", "${relate_method}" );
     return;
   }
   .else
@@ -29,36 +29,36 @@ ${set_aone_referentials}\
 ${set_aoth_referentials}\
   /* Initialize optimized relationship storage extended attributes */
   .if ( not towards_aone )
-  assr->${aone_data.result} = left;  /* RAL 1 */
-  assr->${aoth_data.result} = right; /* RAL 2 */
+  assr->${aone_te_oir.data_member} = left;  /* RAL 1 */
+  assr->${aoth_te_oir.data_member} = right; /* RAL 2 */
   .else
-  assr->${aone_data.result} = right; /* RAL 3 */
-  assr->${aoth_data.result} = left;  /* RAL 4 */
+  assr->${aone_te_oir.data_member} = right; /* RAL 3 */
+  assr->${aoth_te_oir.data_member} = left;  /* RAL 4 */
   .end if  .// not towards_aone
   .if ( aone.Mult == 0 )
     .if ( towards_aone )
-  left->${aone_assr_data.result} = assr; /* RAL 5 */
+  left->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase} = assr; /* RAL 5 */
     .else
-  right->${aone_assr_data.result} = assr; /* RAL 6 */
+  right->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase} = assr; /* RAL 6 */
     .end if
   .else
     .if ( towards_aone )
-  ${te_set.module}${te_set.insert_element}( &left->${aone_assr_data.result}, assr ); /* RAL 7 */
+  ${te_set.module}${te_set.insert_element}( &left->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase}, assr ); /* RAL 7 */
     .else
-  ${te_set.module}${te_set.insert_element}( &right->${aone_assr_data.result}, assr ); /* RAL 8 */
+  ${te_set.module}${te_set.insert_element}( &right->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase}, assr ); /* RAL 8 */
     .end if
   .end if
   .if ( aoth.Mult == 0 )
     .if ( towards_aone )
-  right->${aoth_assr_data.result} = assr; /* RAL 9 */
+  right->${assr_te_oir.data_member}_${aoth_te_oir.rel_phrase} = assr; /* RAL 9 */
     .else
-  left->${aoth_assr_data.result} = assr; /* RAL 10 */
+  left->${assr_te_oir.data_member}_${aoth_te_oir.rel_phrase} = assr; /* RAL 10 */
     .end if
   .else
     .if ( towards_aone )
-  ${te_set.module}${te_set.insert_element}( &right->${aoth_assr_data.result}, assr ); /* RAL 11 */
+  ${te_set.module}${te_set.insert_element}( &right->${assr_te_oir.data_member}_${aoth_te_oir.rel_phrase}, assr ); /* RAL 11 */
     .else
-  ${te_set.module}${te_set.insert_element}( &left->${aoth_assr_data.result}, assr ); /* RAL 12 */
+  ${te_set.module}${te_set.insert_element}( &left->${assr_te_oir.data_member}_${aoth_te_oir.rel_phrase}, assr ); /* RAL 12 */
     .end if
   .end if
 ${persist_relate.body}\
@@ -73,11 +73,11 @@ ${persist_relate.body}\
 R${te_rel.Numb}.'${rel_phrase}' USING ${assr_obj.Key_Lett}
  */
 void
-${unlink_method.result}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
+${assr_te_class.scope}${unrelate_method}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_class.GeneratedName} * right, ${assr_te_class.GeneratedName} * assr${thismodule} )
 {
   .if ( te_c.DetectEmpty )
   if ( (left == 0) || (right == 0) || (assr == 0) ) {
-    XTUML_EMPTY_HANDLE_TRACE( "${assr_obj.Key_Lett}", "${unlink_method.result}" );
+    XTUML_EMPTY_HANDLE_TRACE( "${assr_obj.Key_Lett}", "${unrelate_method}" );
     return;
   }
   .else
@@ -85,36 +85,36 @@ ${unlink_method.result}( ${assoc_te_class.GeneratedName} * left, ${assoc_te_clas
   .end if
 ${reset_referentials}\
   .if ( not towards_aone )
-  assr->${aone_data.result} = 0; /* RAU 1 */
-  assr->${aoth_data.result} = 0; /* RAU 2 */
+  assr->${aone_te_oir.data_member} = 0; /* RAU 1 */
+  assr->${aoth_te_oir.data_member} = 0; /* RAU 2 */
   .else
-  assr->${aone_data.result} = 0; /* RAU 3 */
-  assr->${aoth_data.result} = 0; /* RAU 4 */
+  assr->${aone_te_oir.data_member} = 0; /* RAU 3 */
+  assr->${aoth_te_oir.data_member} = 0; /* RAU 4 */
   .end if  .// not towards_aone 
   .if ( aone.Mult == 0 )
     .if ( towards_aone )
-  left->${aone_assr_data.result} = 0; /* RAU 5 */
+  left->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase} = 0; /* RAU 5 */
     .else
-  right->${aone_assr_data.result} = 0; /* RAU 6 */
+  right->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase} = 0; /* RAU 6 */
     .end if
   .else
     .if ( towards_aone )
-  ${te_set.module}${te_set.remove_element}( &left->${aone_assr_data.result}, assr ); /* RAU 7 */
+  ${te_set.module}${te_set.remove_element}( &left->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase}, assr ); /* RAU 7 */
     .else
-  ${te_set.module}${te_set.remove_element}( &right->${aone_assr_data.result}, assr ); /* RAU 8 */
+  ${te_set.module}${te_set.remove_element}( &right->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase}, assr ); /* RAU 8 */
   .end if
   .end if
   .if ( aoth.Mult == 0 )
     .if ( towards_aone )
-  right->${aoth_assr_data.result} = 0; /* RAU 9 */
+  right->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase} = 0; /* RAU 9 */
     .else
-  left->${aoth_assr_data.result} = 0; /* RAU 10 */
+  left->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase} = 0; /* RAU 10 */
     .end if
   .else
     .if ( towards_aone )
-  ${te_set.module}${te_set.remove_element}( &right->${aoth_assr_data.result}, assr ); /* RAU 11 */
+  ${te_set.module}${te_set.remove_element}( &right->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase}, assr ); /* RAU 11 */
     .else
-  ${te_set.module}${te_set.remove_element}( &left->${aoth_assr_data.result}, assr ); /* RAU 12 */
+  ${te_set.module}${te_set.remove_element}( &left->${assr_te_oir.data_member}_${aone_te_oir.rel_phrase}, assr ); /* RAU 12 */
     .end if
   .end if
 ${persist_unrelate.body}\

@@ -17,6 +17,7 @@
 .//
 .//
 .function TE_ABA_rollup
+  .assign parseSuccessful = ( 1 ) .COMMENT ParseStatus::parseSuccessful
   .select any empty_act_blk from instances of ACT_BLK where ( false )
   .select many te_cs from instances of TE_C where ( selected.included_in_build )
   .for each te_c in te_cs
@@ -30,13 +31,13 @@
         .select one o_dbattr related by te_dbattr->O_DBATTR[R2026]
         .select one te_attr related by o_dbattr->O_BATTR[R107]->O_ATTR[R106]->TE_ATTR[R2033]
         .if ( ( te_attr.Used ) or ( te_c.OptDisabled ) )
-          .if ( 1 == o_dbattr.Suc_Pars )
+          .if ( parseSuccessful == o_dbattr.Suc_Pars )
             .select one act_blk related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666]
           .end if
         .end if
       .elif ( "O_TFR" == te_aba.subtypeKL )
         .select one o_tfr related by te_aba->TE_TFR[R2010]->O_TFR[R2024]
-        .if ( 1 == o_tfr.Suc_Pars )
+        .if ( parseSuccessful == o_tfr.Suc_Pars )
           .select one act_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666]
         .end if
       .elif ( "SM_ACT" == te_aba.subtypeKL )
@@ -64,26 +65,27 @@
         .exit 101
       .end if
       .if ( not_empty act_blk )
-        .invoke r = blck_xlate( te_c.StmtTrace, act_blk )
-        .assign te_aba.code = r.body
+        .select one te_blk related by act_blk->TE_BLK[R2016]
+        .invoke blck_xlate( te_c.StmtTrace, te_blk, te_aba )
       .else
-        .assign te_aba.code = "\n  /* WARNING!  Skipping unsuccessful or unparsed action.  */\n"
+        .assign te_aba.code = ( "\n  /" + "* WARNING!  Skipping unsuccessful or unparsed action.  *" ) + "/\n"
       .end if
     .end for
   .end for
-  .select many te_ees from instances of TE_EE where ( ( ( selected.RegisteredName != "TIM" ) and ( selected.te_cID == 0 ) ) and ( selected.Included ) )
-  .if ( not_empty te_ees )
-    .select any te_c from instances of TE_C where ( false )
-    .for each te_ee in te_ees
+  .// Process EEs outside of components.
+  .select many te_ees from instances of TE_EE where ( ( selected.RegisteredName != "TIM" ) and selected.Included )
+  .for each te_ee in te_ees
+    .select one te_c related by te_ee->TE_C[R2085]
+    .if ( empty te_c )
       .select many s_brgs related by te_ee->S_EE[R2020]->S_BRG[R19]
       .for each s_brg in s_brgs
         .select one act_blk related by s_brg->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666]
         .select one te_aba related by s_brg->TE_BRG[R2025]->TE_ABA[R2010]
         .if ( not_empty act_blk )
-          .invoke r = blck_xlate( false, act_blk )
-          .assign te_aba.code = r.body
+          .select one te_blk related by act_blk->TE_BLK[R2016]
+          .invoke blck_xlate( false, te_blk, te_aba )
         .end if
       .end for
-    .end for
-  .end if
+    .end if
+  .end for
 .end function

@@ -169,35 +169,44 @@ typedef union {
 .// Output initialization for an array of system class information.
 .//============================================================================
 .function DefineClassInfoArray
-  .param inst_ref_set te_cs
+  .param inst_ref first_te_c
   .assign ci = "/* xtUML class info for all of the components (collections, sizes, etc.) */"
   .select any te_cia from instances of TE_CIA
   .assign ci = ci + "\n${te_cia.class_info_type} * const * const ${te_cia.class_info_name}[ SYSTEM_DOMAIN_COUNT ] = {"
-  .for each te_c in te_cs
-    .assign delimiter = ""
-    .if ( not_last te_cs )
-      .assign delimiter = ","
-    .end if
+  .assign te_c = first_te_c
+  .while ( not_empty te_c )
     .// Include a pointer to the component classes only if component has classes.
     .select any te_class related by te_c->TE_CLASS[R2064]
+    .select one te_dci related by te_c->TE_DCI[R2090]
+    .select one te_c related by te_c->TE_C[R2017.'succeeds']
+    .assign delimiter = ""
+    .if ( not_empty te_c )
+      .assign delimiter = ","
+    .end if
     .if ( not_empty te_class )
-      .select one te_dci related by te_c->TE_DCI[R2090]
       .assign ci = ci + "\n  &${te_dci.array_name}[0]${delimiter}"
     .else
       .assign ci = ci + "\n  0${delimiter}"
     .end if
-  .end for
+  .end while
   .assign ci = ci + "\n};"
   .assign cc = "/* xtUML class count for all of the components (collections, sizes, etc.) */"
   .assign cc = "\n  static const ${te_cia.count_type} ${te_cia.class_count}[ SYSTEM_DOMAIN_COUNT ] = {"
-  .for each te_c in te_cs
+  .assign te_c = first_te_c
+  .while ( not_empty te_c )
+    .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+    .select one te_dci related by te_c->TE_DCI[R2090]
+    .select one te_c related by te_c->TE_C[R2017.'succeeds']
     .assign delimiter = ""
-    .if ( not_last te_cs )
+    .if ( not_empty te_c )
       .assign delimiter = ","
     .end if
-    .select one te_dci related by te_c->TE_DCI[R2090]
-    .assign cc = cc + "\n    ${te_dci.max}${delimiter}"
-  .end for
+    .if ( empty te_class )
+      .assign cc = cc + "\n    0${delimiter}"
+    .else
+      .assign cc = cc + "\n    ${te_dci.max}${delimiter}"
+    .end if
+  .end while
   .assign cc = cc + "\n  };"
   .assign attr_class_info = ci
   .assign attr_class_count = cc
@@ -224,26 +233,29 @@ typedef union {
 .// and classes for the entire system.
 .//============================================================================
 .function DeclareDomainIdentityEnums
-  .param inst_ref_set te_cs
+  .param inst_ref first_te_c
+  .param integer num_ooa_doms
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
-  .assign dom_count = cardinality te_cs
-#define SYSTEM_DOMAIN_COUNT ${dom_count}
-  .if ( "SystemC" != te_target.language )
+#define SYSTEM_DOMAIN_COUNT ${num_ooa_doms}
+  .if ( "C" == te_target.language )
 /* xtUML domain identification numbers */
     .assign enumerated_domain_id = 0
     .assign delimiter = ""
     .assign namelist = ""
-    .for each te_c in te_cs
-      .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+    .assign te_c = first_te_c
+    .while ( not_empty te_c )
+      .invoke r = GetDomainTypeIDFromString( te_c.Name )
+      .assign dom_id = r.result
       .assign te_c.number = enumerated_domain_id
-#define ${dom_id.name} ${enumerated_domain_id}
-#define ${dom_id.name}_text "${te_c.Name}"
+#define ${dom_id} ${enumerated_domain_id}
+#define ${dom_id}_text "${te_c.Name}"
 #include "${te_c.classes_file}.${te_file.hdr_file_ext}"
       .assign namelist = namelist + "${delimiter}\\n    ""${te_c.Name}"" " 
       .assign delimiter = ","
       .assign enumerated_domain_id = enumerated_domain_id + 1
-    .end for
+      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+    .end while
   .end if
 .end function
 .//
@@ -251,26 +263,25 @@ typedef union {
 .// Determine whether the self event queue is needed.
 .//============================================================================
 .function GetSystemSelfEventQueueNeeded
-  .//
-  .assign attr_result = FALSE
+  .assign result = false
   .assign attr_max_depth = 0
   .select any te_sys from instances of TE_SYS
-  .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .if ( not_empty te_sys )
     .select any self_queue related by te_sys->TE_DISP[R2003]->TE_QUEUE[R2004] where ( selected.Type == 1 )
     .if ( not_empty self_queue )
-      .assign attr_result = self_queue.RenderCode
+      .assign result = self_queue.RenderCode
       .assign attr_max_depth = self_queue.MaxDepth
-      .if ( ( not attr_result ) and ( "SystemC" == te_target.language ) )
+      .if ( ( not result ) and ( "SystemC" == te_thread.flavor ) )
         .// For SystemC, we force the code to always use this event queue
-        .assign attr_result = TRUE
+        .assign result = true
         .assign attr_max_depth = 1
       .end if
     .else
       .print "\n  WARNING: No TE_QUEUE self queue instance found!\n"
     .end if
   .end if
-  .//
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
@@ -292,7 +303,7 @@ typedef union {
     .select any self_queue related by te_sys->TE_DISP[R2003]->TE_QUEUE[R2004] where ( selected.Type == 1 )
     .if ( not_empty self_queue )
       .if ( max_self_events > 0 )
-        .assign self_queue.RenderCode = TRUE
+        .assign self_queue.RenderCode = true
         .assign self_queue.MaxDepth = max_self_events
       .end if
     .else
@@ -305,18 +316,18 @@ typedef union {
 .// Determine whether the non-self event queue is needed.
 .//============================================================================
 .function GetSystemNonSelfEventQueueNeeded
-  .assign result = FALSE
+  .assign result = false
   .assign max_depth = 0
   .select any te_sys from instances of TE_SYS
-  .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .if ( not_empty te_sys )
     .select any non_self_queue related by te_sys->TE_DISP[R2003]->TE_QUEUE[R2004] where ( selected.Type == 2 )
     .if ( not_empty non_self_queue )
       .assign result = non_self_queue.RenderCode
       .assign max_depth = non_self_queue.MaxDepth
-      .if ( ( not result ) and ( "SystemC" == te_target.language ) )
+      .if ( ( not result ) and ( "SystemC" == te_thread.flavor ) )
         .// For SystemC, we force the code to always use this event queue
-        .assign result = TRUE
+        .assign result = true
         .assign max_depth = 1
       .end if
     .else
@@ -347,7 +358,7 @@ typedef union {
     .if ( not_empty non_self_queue )
       .select any te_evt from instances of TE_EVT
       .if ( ( max_non_self_events > 0 ) or ( not_empty te_evt ) )
-        .assign non_self_queue.RenderCode = TRUE
+        .assign non_self_queue.RenderCode = true
         .assign non_self_queue.MaxDepth = max_non_self_events
       .end if
     .else
@@ -362,33 +373,33 @@ typedef union {
 .// one of the domains marked a priority event.
 .//============================================================================
 .function GetSystemEventPrioritizationNeeded
-  .//
-  .assign attr_result = FALSE
+  .assign result = false
   .select any te_sys from instances of TE_SYS
   .if ( not_empty te_sys )
     .if ( te_sys.ForcePriorityEvents )
-      .assign attr_result = TRUE
+      .assign result = true
     .end if
   .end if
   .select any te_c from instances of TE_C where ( selected.MaxPriorityEvents > 0 )
   .if ( not_empty te_c )
-    .assign attr_result = TRUE
+    .assign result = true
   .end if
   .select any te_evt from instances of TE_EVT where ( selected.Priority > 0 )
   .if ( not_empty te_evt )
-    .assign attr_result = TRUE
+    .assign result = true
   .end if
-  .//
+  .assign attr_result = result
 .end function
 .//
 .//============================================================================
-.// Return TRUE when event prioritization is needed.
+.// Return true when event prioritization is needed.
 .//============================================================================
 .function GetEventPrioritizationNeeded
-  .assign attr_result = false
+  .assign result = false
   .select any te_evt from instances of TE_EVT where ( selected.Priority != 0 )
   .if ( not_empty te_evt )
-    .assign attr_result = true
+    .assign result = true
   .end if
+  .assign attr_result = result
 .end function
 .//

@@ -24,3 +24,7 @@
 
 #include "${te_c.module_file}.${te_file.hdr_file_ext}"
 ${message_definitions}
+.if ( te_c.internal_behavior )
+.include "${te_file.arc_path}/t.domain.functions.c"
+.include "${te_file.arc_path}/t.domain_init.c"
+.end if

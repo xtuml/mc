@@ -16,7 +16,7 @@
 .// chain. Traverses up through UDTs based on UDTs until we find the underlying
 .// S_DT instance (which may actually be EDT, SDT, IRDT or CDT).
 .//============================================================================
-.function GetBaseTypeForUDT
+.function GetBaseTypeForUDT .// s_dt
   .param inst_ref s_udt
   .select one s_dt related by s_udt->S_DT[R18]
   .select one s_udt related by s_dt->S_UDT[R17]
@@ -31,7 +31,7 @@
 .//   Get the S_DT and S_CDT object references for a given attribute
 .//   (O_ATTR) instance.
 .//============================================================================
-.function GetAttributeCodeGenType
+.function GetAttributeCodeGenType .// te_dt
   .param inst_ref o_attr
   .//
   .select one s_dt related by o_attr->S_DT[R114]
@@ -86,7 +86,7 @@
 .// Note:  Might prefer POSIX type support here, but doubt we can count
 .// on most embedded targets thinking this way.  Thus brute force the types.
 .//============================================================================
-.function MapUserSpecifiedDataTypePrecision
+.function MapUserSpecifiedDataTypePrecision .// boolean
   .param inst_ref te_dt
   .param string mapping
   .assign error = false
@@ -161,7 +161,7 @@
 .end function
 .//
 .// Return the structure type for persistent links.
-.function UserSuppliedDataTypeIncludes
+.function UserSuppliedDataTypeIncludes .// string
   .select any te_file from instances of TE_FILE
   .assign sys_types_file_name = ( te_file.types + "." ) + te_file.hdr_file_ext
   .select many special_te_dts from instances of TE_DT where ( ( selected.Include_File != "" ) and ( selected.Include_File != sys_types_file_name ) )

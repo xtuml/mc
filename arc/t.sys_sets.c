@@ -9,7 +9,7 @@
 .//============================================================================
 .//
 .//
-.if ( "SystemC" != te_target.language )
+.if ( "C" == te_target.language )
   .// If the number of containoids needed is zero (0), then
   .// do not allocate any.  In such a case, we need to eliminate
   .// the definition of this variable as it is illegal to define
@@ -34,11 +34,11 @@ static ${te_set.element_type} node1s[ ${te_set.number_of_containoids} ];
 void
 ${te_set.scope}${te_set.factory}( const i_t n1_size )
 {
-.if ( ( te_sys.TotalContainers > 0 ) or ( "SystemC" == te_target.language ) )
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
   u2_t i;
   node1_FreeList.head = &node1s[ 0 ];
   /* Build the collection (linked list) of node1 instances.  */
-  .if ( ( te_sys.TotalContainers > 1 ) or ( "SystemC" == te_target.language ) )
+  .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
   for ( i = 0; i < ( n1_size - 1 ); i++ ) {
     node1s[ i ].next = &node1s[ i + 1 ];
     node1s[ i ].object = 0;
@@ -57,7 +57,7 @@ ${te_set.scope}${te_set.factory}( const i_t n1_size )
  * The new set will use containoids from the free list.
  */
     .// If no containers to manage, do not generate code.
-.if ( ( te_sys.TotalContainers > 0 ) or ( "SystemC" == te_target.language ) )
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 void 
 ${te_set.scope}${te_set.copy}( ${te_set.base_class} * to_set,
                 ${te_set.base_class} * const from_set )
@@ -79,7 +79,7 @@ ${te_set.scope}${te_set.copy}( ${te_set.base_class} * to_set,
  * Release all nodes in the given set back to the free pool.
  */
 .// If no containers to manage, do not generate code.
-.if ( ( te_sys.TotalContainers > 0 ) or ( "SystemC" == te_target.language ) )
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 void
 ${te_set.scope}${te_set.clear}( ${te_set.base_class} * set )
 {
@@ -107,7 +107,7 @@ ${te_set.scope}${te_set.clear}( ${te_set.base_class} * set )
  * to link in the element.
  */
 .// If no containers to manage, do not generate code.
-.if ( ( te_sys.TotalContainers > 0 ) or ( "SystemC" == te_target.language ) )
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 void
 ${te_set.scope}${te_set.insert_element}(
   ${te_set.base_class} * set,
@@ -156,7 +156,7 @@ ${te_set.scope}${te_set.insert_element}(
  * data into the supplied containers.
  * Return a pointer to the linked set.
  */
-.if ( ( not_empty te_cs ) or ( "SystemC" == te_target.language ) )
+.if ( ( not_empty te_cs ) or ( "C++" == te_target.language ) )
 ${te_set.scope}${te_set.element_type} *
 ${te_set.scope}${te_set.insert_block}( ${te_set.element_type} * container,
                        const u1_t * instance,
@@ -246,6 +246,11 @@ ${te_set.scope}${te_slist.remove_node}(
     } while ( t->object != d );
     t_old->next = t->next;      /* Unlink element from the list.     */
   }
+.if ( te_sys.InstanceLoading )
+  if ( set->tail == t ) {
+    set->tail = t->next;
+  }
+.end if
   return t;
 }
 
@@ -256,7 +261,7 @@ ${te_set.scope}${te_slist.remove_node}(
  * in extent management).
  */
 .// If no containers to manage, do not generate code.
-.if ( ( te_sys.TotalContainers > 0 ) or ( "SystemC" == te_target.language ) )
+.if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
 void
 ${te_set.scope}${te_set.remove_element}(
   ${te_set.base_class} * set,
@@ -287,7 +292,7 @@ ${te_set.scope}${te_set.remove_element}(
  * Return a pointer to the found element when the set contains the 
  * given data element.
  */
-.if ( ( not_empty te_cs ) or ( "SystemC" == te_target.language ) )
+.if ( ( not_empty te_cs ) or ( "C++" == te_target.language ) )
 const void *
 ${te_set.scope}${te_set.contains}(
   const ${te_set.base_class} * const set,
@@ -309,7 +314,7 @@ ${te_set.scope}${te_set.contains}(
  * Count the elements in the set.  Return that count.
  * This routine counts nodes.
  */
-.if ( ( not_empty te_cs ) or ( "SystemC" == te_target.language ) )
+.if ( ( not_empty te_cs ) or ( "C++" == te_target.language ) )
 u2_t 
 ${te_set.scope}${te_set.element_count}( const ${te_set.base_class} * const set )
 {
@@ -329,7 +334,7 @@ ${te_set.scope}${te_set.element_count}( const ${te_set.base_class} * const set )
  * Return true when the left and right set are equivalent.
  * Note:  This currently is not implemented.
  */
-.if ( ( not_empty te_cs ) or ( "SystemC" == te_target.language ) )
+.if ( ( not_empty te_cs ) or ( "C++" == te_target.language ) )
 bool
 ${te_set.scope}${te_set.equality}( ${te_set.base_class} * const left_set,
                     ${te_set.base_class} * const right_set )
@@ -418,11 +423,13 @@ ${te_set.scope}${te_string.strcpy}( c_t * dst, const c_t * src )
 {
   c_t * s = dst;
   s2_t i = ${te_string.max_string_length} - 1;
-  while ( ( i > 0 ) && ( *src != '\0' ) ) {
-    --i;
-    *dst++ = *src++;
+  if ( ( 0 != src ) && ( 0 != dst ) ) {
+    while ( ( i > 0 ) && ( *src != '\0' ) ) {
+      --i;
+      *dst++ = *src++;
+    }
+    *dst = '\0';  /* Ensure delimiter.  */
   }
-  *dst = '\0';  /* Ensure delimiter.  */
   return s;
 }
 
@@ -476,8 +483,9 @@ c_t *
 ${te_set.scope}${te_string.strget}( void )
 {
   static u1_t i = 0;
-  static c_t s[ 4 ][ ${te_string.max_string_length} ];
-  i = ( i + 1 ) % 4;
+  static c_t s[ 16 ][ ${te_string.max_string_length} ];
+  i = ( i + 1 ) % 16;
+  s[ i ][ 0 ] = 0;
   return ( &s[ i ][ 0 ] );
 }
 

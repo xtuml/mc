@@ -19,8 +19,6 @@
  * System ID:    ${te_sys.SystemID}
  * Model Compiler Product Information:
  * Product:  ${te_sys.ModelCompilerName}
- * Version:  ${te_sys.ModelCompilerVersion}
- * S/N:      ${te_sys.ModelCompilerSerNum}
  * System default/colored values:
  * MaxStringLen:  ${te_sys.MaxStringLen}
  * MaxObjExtent:  ${te_sys.MaxObjExtent}
@@ -58,11 +56,6 @@
 #ifndef ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext}
 #define ${te_prefix.define_usw}$u{te_file.types}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
-
-// The following prescribes fixed point arithmetic.
-// However, support for this has been spotty in SystemC.
-//#define SC_INCLUDE_FX
-#include "systemc.h"
 
 .if ( "TLM" != te_sys.SystemCPortsType )
 #define FALSE ( (bool) 0 )
@@ -156,11 +149,62 @@ typedef u4_t ${te_prefix.type}uSec_t;
  * Note we include stdio.h for printf.  Otherwise, it is not needed.
  */
 #include <stdio.h>
-.if ( te_sys.InstanceLoading )
+  .if ( te_sys.InstanceLoading )
 #include <stdint.h>
 #include <string.h>
-.end if
-${user_supplied_data_types}\
+  .end if
+  .if ( "C++" == te_target.language )
+    .if ( "SystemC" == te_thread.flavor )
+/* The following prescribes fixed point arithmetic.
+ * However, support for this has been spotty in SystemC.
+ */
+//#define SC_INCLUDE_FX
+#include "systemc.h"
+typedef sc_module xtuml_module;
+typedef sc_module_name xtuml_module_name;
+typedef sc_interface xtuml_interface;
+#define xtuml_port sc_port
+    .else
+/*
+ * These types can be overloaded to add capability to xtUML translated elements.
+ */
+typedef char const * xtuml_module_name;
+
+class sc_event {
+  public:
+    void notify();
+};
+inline void sc_event::notify() {};
+
+class xtuml_module {
+  public:
+    xtuml_module( xtuml_module_name name );
+};
+inline xtuml_module::xtuml_module( const char * name ) {};
+
+class xtuml_interface {
+};
+
+template <class IF>
+class sc_port_b {
+  public:
+    void operator () ( IF& interface_ ) { this->m_interface = &interface_; }
+    IF* operator -> ();
+  private:
+    IF* m_interface;
+};
+
+template <class IF>
+inline IF* sc_port_b<IF>::operator -> ()
+{
+  return m_interface;
+}
+
+template <class IF> class xtuml_port : public sc_port_b<IF> {
+};
+    .end if
+  .end if
+${te_typemap.user_supplied_data_types}\
 .end if
 .if ( te_sys.SystemCPortsType != "BitLevelSignals" )
 #include "${te_file.factory}.${te_file.hdr_file_ext}"
@@ -170,13 +214,12 @@ ${user_supplied_data_types}\
 #include "Rte_Type.${te_file.hdr_file_ext}"
 .end if
 
-${enumeration_info}
+${te_typemap.enumeration_info}
 
-${structured_data_types}
-.if ( "SystemC" == te_thread.flavor )
+${te_typemap.structured_data_types}
+.if ( "C++" == te_target.language )
 #include "${te_file.interfaces}.${te_file.hdr_file_ext}"
 .end if
-${domain_ids.body}
 .// Include the macros for tracing.
 .include "${te_file.arc_path}/t.sys_trace.h"
 

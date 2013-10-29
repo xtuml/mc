@@ -16,7 +16,7 @@
  *--------------------------------------------------------------------------*/
 
 #include "${te_file.types}.${te_file.hdr_file_ext}"
-.if ( "SystemC" != te_target.language )
+.if ( "C" == te_target.language )
 ${all_domain_include_files}
 .end if
 
@@ -25,7 +25,7 @@ ${all_domain_include_files}
 Escher_iHandle_t Escher_instance_cache[ 1000000 ];
 .end if
 
-.if ( "SystemC" != te_target.language )
+.if ( "C" == te_target.language )
 ${system_class_array.class_info}
 .end if
 
@@ -42,7 +42,7 @@ ${te_instance.scope}${te_instance.create}(
   ${te_set.element_type} * node;
   ${te_instance.handle} instance;
   ${te_cia.class_info_type} * dci = \
-.if ( "SystemC" == te_target.language )
+.if ( "C++" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ ${domain_num_var} ] + class_num);
@@ -61,7 +61,7 @@ ${te_instance.get_dci}(class_num);
       ${te_callout.object_pool_empty}( ${domain_num_var}, class_num );
     } else {
       ${te_string.memset}( pool, 0, ${te_sys.UnitsToDynamicallyAllocate} * dci->${te_extent.size_name} );
-      dci->${te_extent.inactive}.head = ${te_set.insert_block}( 
+      dci->${te_extent.inactive}.head = ${te_set.insert_block}(
         container, (const u1_t *) pool, dci->${te_extent.size_name}, ${te_sys.UnitsToDynamicallyAllocate} );
       node = dci->${te_extent.inactive}.head;
     }
@@ -72,8 +72,23 @@ ${te_instance.get_dci}(class_num);
 
   dci->${te_extent.inactive}.head = dci->${te_extent.inactive}.head->next;
   instance = (${te_instance.handle}) node->object;
-  instance->${te_instance.current_state} = dci->${te_extent.istate_name};
+  if ( 0 != dci->${te_extent.istate_name} ) {
+    instance->${te_instance.current_state} = dci->${te_extent.istate_name};
+  }
+.if ( te_sys.InstanceLoading )
+  if ( 0 != dci->initial_state ) {
+    instance->current_state = dci->initial_state;
+  }
+  if ( 0 == dci->active.head ) {
+    dci->${te_extent.active}.head = node;
+  } else {
+    dci->${te_extent.active}.tail->next = node;
+  }
+  dci->${te_extent.active}.tail = node;
+  node->next = 0;
+.else
   ${te_set.insert_instance}( &dci->${te_extent.active}, node );
+.end if
 .if ( te_thread.enabled )
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
 .end if
@@ -105,7 +120,7 @@ ${te_instance.scope}${te_instance.delete}(
 {
   ${te_set.element_type} * node;
   ${te_cia.class_info_type} * dci = \
-.if ( "SystemC" == te_target.language )
+.if ( "C++" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ ${domain_num_var} ] + class_num);
@@ -164,7 +179,7 @@ void ${te_prefix.result}batch_relate(
   ${te_set.iterator_class_name} iterator;
   ${te_instance.handle} instance;
   ${te_cia.class_info_type} * dci = \
-.if ( "SystemC" == te_target.language )
+.if ( "C++" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ domain_num ] + class_num);
@@ -192,21 +207,19 @@ void ${te_prefix.result}dump_instances(
   const ${te_typemap.object_number_name} class_num
 )
 {
-  ${te_typemap.instance_index_name} i;
   ${te_set.iterator_class_name} iterator;
   ${te_instance.handle} instance;
-  ${te_prefix.result}idf * instance_dumper;
+  ${te_prefix.result}idf * instance_dumper = instance_dumpers[ domain_num ];
   ${te_cia.class_info_type} * dci = \
-.if ( "SystemC" == te_target.language )
+.if ( "C++" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ domain_num ] + class_num);
 .end if
-  ${te_set.iterator_reset}( &iterator, &dci->${te_extent.active} );
-  /* Cycle through the active list of instances of this class.  */
-  while ( (instance = ${te_set.iterator_next}( &iterator )) != 0 ) {
-    instance_dumper = instance_dumpers[ domain_num ];
-    if ( 0 != *instance_dumper[ class_num ] ) {
+  if ( 0 != *instance_dumper[ class_num ] ) {
+    ${te_set.iterator_reset}( &iterator, &dci->${te_extent.active} );
+    /* Cycle through the active list of instances of this class.  */
+    while ( (instance = ${te_set.iterator_next}( &iterator )) != 0 ) {
       (*instance_dumper[ class_num ])( instance );
     }
   }
@@ -231,7 +244,7 @@ ${te_instance.scope}${te_instance.factory_init}(
 .// instances (if any) to use the front of the array.
 .//
   ${te_cia.class_info_type} * dci = \
-.if ( "SystemC" == te_target.language )
+.if ( "C++" == te_target.language )
 ${te_instance.get_dci}(class_num);
 .else
 *(${te_cia.class_info_name}[ domain_num ] + class_num);
@@ -245,19 +258,19 @@ ${te_instance.get_dci}(class_num);
 .end if
 .if ( te_sys.PEIClassCount > 0 )
     int i = (intptr_t) dci->${te_extent.active}.head;
-    dci->${te_extent.active}.head = ${te_set.insert_block}( 
+    dci->${te_extent.active}.head = ${te_set.insert_block}(
       dci->${te_extent.container_name},
       (const u1_t *) dci->${te_extent.pool_name},
       dci->${te_extent.size_name},
       i );
-    dci->${te_extent.inactive}.head = ${te_set.insert_block}( 
+    dci->${te_extent.inactive}.head = ${te_set.insert_block}(
       dci->${te_extent.container_name} + i,
       (const u1_t *) dci->${te_extent.pool_name} + ( i * dci->${te_extent.size_name} ),
       dci->${te_extent.size_name},
       dci->${te_extent.population_name} - i );
 .else
   dci->${te_extent.active}.head = 0;
-  dci->${te_extent.inactive}.head = ${te_set.insert_block}( 
+  dci->${te_extent.inactive}.head = ${te_set.insert_block}(
     dci->${te_extent.container_name},
     (const u1_t *) dci->${te_extent.pool_name},
     dci->${te_extent.size_name},

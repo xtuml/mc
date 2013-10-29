@@ -26,12 +26,9 @@ ${te_where.select_any_where}( ${param_list} )
 {
   ${te_class.GeneratedName} * ${temp_ptr}; 
   ${te_set.scope}${te_set.iterator_class_name} ${iterator};
-  ${te_set.iterator_reset}( &${iterator}, &${extent_info.extent_var_name} );
-
-  while ( (${temp_ptr} = (${te_class.GeneratedName} *) ${te_set.module}${te_set.iterator_next}( &${iterator} )) != 0 )
-  {
-    if ( ${compare_stmt} )
-    {
+  ${te_set.iterator_reset}( &${iterator}, &${extent}.${te_extent.active} );
+  while ( (${temp_ptr} = (${te_class.GeneratedName} *) ${te_set.module}${te_set.iterator_next}( &${iterator} )) != 0 ) {
+    if ( ${compare_stmt} ) {
       return ${temp_ptr};
     }
   }

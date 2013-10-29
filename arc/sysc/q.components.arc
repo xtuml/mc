@@ -16,7 +16,6 @@
 .//
 .//
 .select many empty_c_cs from instances of C_C where ( false )
-.invoke TM_TEMPLATE_populate()
 .//
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .assign vistaWrapper = ""
@@ -52,7 +51,7 @@
       .assign provreq2 = "_requirement"
     .end if
     .if ( (te_sys.SystemCPortsType == "TLM") or (te_sys.SystemCPortsType == "sc_interface") )
-      .assign sc_port_declarations = ( ( sc_port_declarations + "  sc_port< " ) + ( te_po.InterfaceName + provreq2 ) ) + ( ( " > " + te_po.GeneratedName ) + ";\n" )
+      .assign sc_port_declarations = ( ( sc_port_declarations + "  xtuml_port < " ) + ( te_po.InterfaceName + provreq2 ) ) + ( ( " > " + te_po.GeneratedName ) + ";\n" )
     .else
       .assign sc_port_declarations = ( ( sc_port_declarations + "  ") + ( te_po.InterfaceName + provreq2 ) ) + ( ( " " + te_po.GeneratedName ) + ";\n" )
     .end if
@@ -76,16 +75,6 @@
     .end if
   .end for
   .//
-  .// functions
-  .select any te_sync related by te_c->TE_SYNC[R2084]
-  .assign function_definitions = ""
-  .if ( not_empty te_sync )
-    .assign te_sync.Included = true
-    .select any te_sync related by te_c->TE_SYNC[R2084] where ( selected.IsSafeForInterrupts )
-    .invoke s = CreateSynchronousServiceClassDefinition( te_c )
-    .assign function_definitions = s.body
-  .end if
-  .//
   .// initialization
   .// Build the domain init information containing data structures collecting
   .// class info for the entire domain.
@@ -96,38 +85,55 @@
   .select any te_cia from instances of TE_CIA
   .select one te_dci related by te_c->TE_DCI[R2090]
   .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
-  .select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsInitFunction ) and ( selected.XlateSemantics ) )
-  .invoke s = CreateDomainInitSegment( te_c, te_syncs, te_sm )
+  .select one te_sync related by te_c->TE_SYNC[R2097]
+  .invoke s = CreateDomainInitSegment( te_c, te_sync, te_sm )
   .assign init_segment = s.body
   .assign has_process_declaration = s.has_process_declaration
-  .invoke s = TE_C_StateMachines( te_c )
-  .assign sc_process = s.body
-  .assign sc_event_declarations = s.sc_event_declarations
-  .invoke s = TE_C_StateMachinesProcess( te_c )
-  .assign sc_process_defn = s.body
-  .assign sc_process_decls = s.sc_process_decls
+  .assign sc_process = ""
+  .assign sc_event_declarations = ""
+  .assign sc_process_defn = ""
+  .assign sc_process_decls = ""
+  .if ( "SystemC" == te_thread.flavor )
+    .invoke r = TE_C_StateMachines( te_c )
+    .assign sc_process = r.body
+    .assign sc_event_declarations = r.result
+    .invoke r = TE_C_StateMachinesProcess( te_c )
+    .assign sc_process_defn = r.body
+    .assign sc_process_decls = r.result
+  .end if
   .//
   .// initialization
   .//
+  .assign class_type_identifiers = ""
   .assign instance_dumpers = ""
   .assign class_info_init = ""
-  .// Build the domain init information containing data structures collecting
-  .// class info for the entire domain.
-  .invoke r = CreateClassIdentifierFile( te_c )
-  .assign class_type_identifiers = r.body
+  .assign function_declarations = ""
+  .assign function_definitions = ""
+  .assign event_union_name = "0"
   .if ( te_c.internal_behavior )
+    .// functions
+    .if ( not_empty te_sync )
+      .invoke r = CreateSynchronousServiceClassDefinition( te_c, te_sync )
+      .assign function_definitions = r.body
+    .end if
+    .// Build the domain init information containing data structures collecting
+    .// class info for the entire domain.
+    .invoke r = CreateClassIdentifierFile( te_c, te_sync )
+    .assign class_type_identifiers = r.body
     .assign class_info_init = r.class_info_init
+    .invoke r = CreateSynchronousServiceClassDeclaration( te_c, te_sync )
+    .assign function_declarations = r.body
+    .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071] where ( selected.Used )
+    .if ( not_empty te_evt )
+      .assign event_union_name = te_c.Name + "_DomainEvents_u"
+    .end if
   .end if
-  .invoke r = CreateSynchronousServiceClassDeclaration( te_c )
-  .assign function_declarations = r.body
-  .assign event_union_name = te_c.Name + "_DomainEvents_u"
   .//
   .include "${arc_path}/t.component.module.h"
   .emit to file "${te_file.system_include_path}/${te_c.module_file}.${te_file.hdr_file_ext}"
   .//
+  .select any ilb_te_sync related by te_c->TE_SYNC[R2084] where ( selected.IsSafeForInterrupts )
   .include "${arc_path}/t.component.messages.c"
-  .include "${te_file.arc_path}/t.domain_init.c"
-  .include "${te_file.arc_path}/t.domain.functions.c"
 ${sc_process_defn}
   .emit to file "${te_file.system_source_path}/${te_c.module_file}.${te_file.src_file_ext}"
   .//

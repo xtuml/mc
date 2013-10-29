@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #===========================================================================
-my $file_version = '$RCSfile: xtumlmc_build,v $ $Revision: 1.57 $';
+my $file_version = '$RCSfile: xtumlmc_build,v $ $Revision: 1.58 $';
 #
 # Description:
 # Run this file to build using SQL and marking input alone.  No
@@ -11,10 +11,6 @@ my $file_version = '$RCSfile: xtumlmc_build,v $ $Revision: 1.57 $';
 # This utility makes for a long command line, but it serves nicely
 # when integrating with automated build environments.
 #
-# Any marking files that are domain specific (object, domain, event)
-# in multi-domain builds must be named with the domain prepended with
-# an underscore (e.g. sumo_domain.mark).
-#
 # xtumlmc_build can also be used in conjunction with third-party version
 # control systems (such as CVS, CleareCASE).  xtumlmc_build could also be
 # used when building models extracted from multiple repositories.  A
@@ -24,7 +20,7 @@ my $file_version = '$RCSfile: xtumlmc_build,v $ $Revision: 1.57 $';
 #
 #
 # Notice:
-# Copyright 2002-2011 Mentor Graphics Corporation
+# Copyright 2002-2013 Mentor Graphics Corporation
 #     All rights reserved.
 #===========================================================================
 
@@ -375,10 +371,6 @@ sub ROX_InstallSystemColorTemplates($)
   if ((! -f "$app_color_dir/datatype.mark" ) && (-f "$rox_mc_clr_dir/datatype.mark")) {
     xtumlmc_copy("$rox_mc_clr_dir/datatype.mark","$app_color_dir/datatype.mark");
     chmod 0666,"$app_color_dir/datatype.mark";
-  }
-  if ((! -f "$app_color_dir/registry.mark") && (-f "$rox_mc_clr_dir/registry.mark")) {
-    xtumlmc_copy("$rox_mc_clr_dir/registry.mark","$app_color_dir/registry.mark");
-    chmod 0666,"$app_color_dir/registry.mark";
   }
   if ((! -f "$app_color_dir/system.mark" ) && (-f "$rox_mc_clr_dir/system.mark")) {
     xtumlmc_copy("$rox_mc_clr_dir/system.mark","$app_color_dir/system.mark");
@@ -942,6 +934,7 @@ sub xtumlmc_cleanse_model($$)
                 ( /^INSERT INTO SQ_/ ) ||
                 ( /^INSERT INTO S_/ ) ||
                 ( /^INSERT INTO TE_/ ) ||
+                ( /^INSERT INTO TM_/ ) ||
                 ( /^INSERT INTO UC_/ ) ||
                 ( /^INSERT INTO V_/ )
            ) ) {
@@ -965,7 +958,8 @@ sub xtumlmc_cleanse_model($$)
       next OUTER;
     } else {
       if ( $v_lst && /\'docbook\/t\..*\.xml\'/ ) { s/.xml/.h/; $v_lst = 0; }
-      s/'''/'/g;
+      # Substitute triple-tick with single-tick but only when something is inside.
+      s/'''([a-zA-Z0-9_ ]+)'''/'\1'/g;
       # Just a normal line, send it on through.
       print $O "$_";
     }
@@ -1066,14 +1060,12 @@ sub determineBuildFileType($);
 sub determineBuildFileType($)
 {
     my $optarg = shift;
-    if ($optarg =~ /(bridge|datatype|registry|system|autosar)\.(mark|clr)/ ) {
+    if ($optarg =~ /(bridge|datatype|system|autosar)\.mark/ ) {
       @system_mark = ( @system_mark, $optarg );
-    } elsif ( $optarg =~ /(domain\.clr|event\.clr|object\.clr|class\.clr)/ ) {
-      @global_mark = ( @global_mark, $optarg );
     } elsif ( $optarg =~ /\.mark/ ) {
       @mark = ( @mark, $optarg );
       if ( $optarg =~ /_/ ) {
-        @s = split( "_(domain|class|event|object)", $optarg );
+        @s = split( "_(domain|class|event)", $optarg );
         @ooas = ( @ooas, $s[0] );
       }
     } elsif ( $optarg =~ /(sys_functions\.arc|dom_functions\.arc|populate\.arc)/ ) {
@@ -1273,7 +1265,7 @@ if ( 0 == scalar(@sqls) ) {
     die "No models to compile.  Exiting...\n";
   } else {
     foreach $entry ( @entries ) {
-      if ( $entry =~ /(\.bak|\.mdl|\.sql|\.xtuml)/ ) {
+      if ( $entry =~ /(\.sql|\.xtuml)/ ) {
         @sqls = ( @sqls, $build_directory . "/" . $entry );
       }
     }
@@ -1322,7 +1314,6 @@ mkpath( "_ch" ) if ( ! -d "_ch" );
 #
 xtumlmc_open(">bridge.mark");
 xtumlmc_open(">datatype.mark");
-xtumlmc_open(">registry.mark");
 xtumlmc_open(">system.mark");
 xtumlmc_open(">autosar.mark");
 xtumlmc_open(">domain.mark");
@@ -1333,56 +1324,14 @@ xtumlmc_open(">class.mark");
 # Copy in marking files.
 #---------------------------------------------------------------------------
 foreach $file ( @system_mark ) {
-  if ( $file =~ /bridge\.(clr|mark)/ ) {
+  if ( $file =~ /bridge\.mark/ ) {
     xtumlmc_concat( "../$file", "bridge.mark" );
-  } elsif ( $file =~ /datatype\.(clr|mark)/) {
+  } elsif ( $file =~ /datatype\.mark/) {
     xtumlmc_concat( "../$file", "datatype.mark" );
-  } elsif ( $file =~ /registry\.(clr|mark)/ ) {
-    xtumlmc_concat( "../$file", "registry.mark" );
-  } elsif ( $file =~ /system\.(clr|mark)/ ){
+  } elsif ( $file =~ /system\.mark/ ){
     xtumlmc_concat( "../$file", "system.mark");
-  } elsif ( $file =~ /autosar\.(clr|mark)/ ){
+  } elsif ( $file =~ /autosar\.mark/ ){
     xtumlmc_concat( "../$file", "autosar.mark");
-  }
-}
-
-#
-# check for "old-style" domain-specific marking files
-# if any exist concatentate them in with a select
-# state that tells the archetypes which domain to use
-#
-foreach $ooa ( @ooas ) {
-  #
-  # Copy in the domain-level marking files.
-  # Remove the marking file from the list as we go.  We will check
-  # if anything is left over when we are done.
-  #
-  for ( my $j = 0; $j < @mark; $j++ ) {
-    my $destinationFile = "";
-    if ( $mark[$j] =~ /sys_functions\.arc/ ) {
-      xtumlmc_copy( "../$mark[$j]", "sys_functions.arc" );
-      $mark[$j] = "";
-    } elsif ( $mark[$j] =~ /dom_functions\.arc/ ) {
-      xtumlmc_copy( "../$mark[$j]", "dom_functions.arc" );
-      $mark[$j] = "";
-    } elsif ( $mark[$j] =~ /${ooa}_domain\.(clr|mark)/ ) {
-      $destinationFile = "domain.mark";
-    } elsif ( $mark[$j] =~ /${ooa}_event\.(clr|mark)/ ) {
-      $destinationFile = "event.mark";
-    } elsif ( $mark[$j] =~ /${ooa}_class\.mark/ || $mark[$j] =~ /${ooa}_object\.clr/ ) {
-      $destinationFile = "class.mark";
-    }
-    
-    if ($destinationFile ne "") {
-        my $MARKINGFILE = xtumlmc_open(">>$destinationFile");
-        print $MARKINGFILE ".select any te_dom from instances of TE_DOM where ( selected.Name == \"${ooa}\" )\n";
-        print $MARKINGFILE ".if ( not_empty te_dom )\n";
-        print $MARKINGFILE "  .assign te_dom.current_domain = true\n";
-        print $MARKINGFILE ".end if\n";
-        close($MARKINGFILE);
-        xtumlmc_concat( "../$mark[$j]", "$destinationFile");
-        $mark[$j] = "";
-    }
   }
 }
 
@@ -1411,18 +1360,6 @@ for ( my $j = 0; $j < @mark; $j++ ) {
   }
 }
 
-#
-# Append the global domain marks to all domains.
-#
-foreach $gmark ( @global_mark ) {
-  # This allows for both an events and a domain_events file to exist.
-  my $FILE1 = xtumlmc_open( "<../$gmark" );
-  $gmark =~ s/clr/mark/;
-  my $FILE2 = xtumlmc_open( ">>$gmark" );
-  while ( <$FILE1> ) {
-    print $FILE2 $_;
-  }
-}
 #
 # Check for any marking files left over.  If so, report a warning.
 #
@@ -1498,6 +1435,37 @@ if ( -d "$specialized_arcdir" ) {
 #---------------------------------------------------------------------------
 # Generate the system node and then compile.
 #---------------------------------------------------------------------------
+# Check for compiled model-based model compiler executable.
+# If it exists, use it.  Otherwise, use archetypes.
+$mccmd = "$ENV{'ROX_MC_BIN_DIR'}/mcmc";
+if ( -f $mccmd ) {
+  # Get the marks from the marking files to be parsed by mcmc.
+  # grep '^ *\.invoke ' *.mark > m.txt
+  my $outFile = xtumlmc_open( ">" . "m.txt" );
+  my $DIR = xtumlmc_opendir( "." ); my @entries = readdir $DIR;
+  my @filtered_entries = grep{/\.mark/i} @entries;
+  foreach my $i ( @filtered_entries ) {
+    my $inFile = xtumlmc_open( "<" . "$i" );
+    while ( <$inFile> ) { if ( /^ *\.invoke / ) { print $outFile "$_"; } }
+  }
+  close $outFile;
+  # If we are compiling the model compiler itself, change the system name
+  # and substitute &quot; symbols.
+  if ( -f "com.mentor.nucleus.bp.core.sql" ) {
+    # sed s/com.mentor.nucleus.bp.core/sys/ _system.sql > a.xtuml
+    my $inFile = xtumlmc_open( "<" . "$modelBeingTranslated" ); my $outFile = xtumlmc_open( ">" . "a.xtuml" );
+    while ( <$inFile> ) { s/com.mentor.nucleus.bp.core/sys/; print $outFile "$_"; }
+    # Run compiled model compiler.
+    system( "$mccmd > _system.pre" );
+    # sed "s/&quot;/\\\\\"/g" _system.pre > _system.sql
+    my $inFile = xtumlmc_open( "<" . "_system.pre" ); my $outFile = xtumlmc_open( ">" . "$modelBeingTranslated" );
+    while ( <$inFile> ) { s/&quot;/\\\\\"/g; print $outFile "$_"; }
+  } else {
+    xtumlmc_move( "$modelBeingTranslated", "a.xtuml" );
+    # Run compiled model compiler.
+    system( "$mccmd > $modelBeingTranslated" );
+  }
+}
 xtumlmc_gen_erate( "$license_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} -arch \"$arcdir/sys.arc\"" );
 
 #---------------------------------------------------------------------------

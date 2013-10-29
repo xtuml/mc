@@ -8,7 +8,6 @@
 .// Notice:
 .// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
-.// Enhancements provided by TOYO Corporation.
 .//
 .// This document contains confidential and proprietary information and
 .// property of Mentor Graphics Corp.  No part of this document may be
@@ -26,12 +25,12 @@
 .end if
 .for each te_class in te_classes
   .// Generate declaration implementation file.
-  .invoke implementation = CreateObjectImplementation( te_class, te_c, TRUE )
+  .invoke implementation = CreateObjectImplementation( te_class, te_c, true )
 ${implementation.body}
   .emit to file "${te_file.domain_include_path}/${te_class.class_file}.${te_file.hdr_file_ext}"
   .//
   .// Generate definition implementation.
-  .invoke implementation = CreateObjectImplementation( te_class, te_c, FALSE )
+  .invoke implementation = CreateObjectImplementation( te_class, te_c, false )
 ${implementation.body}
   .emit to file "${te_file.domain_source_path}/${te_class.class_file}.${te_file.src_file_ext}"
 .end for

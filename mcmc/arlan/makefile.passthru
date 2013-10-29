@@ -1,0 +1,18 @@
+CFLAGS= -DRSL2OAL_CONVERT -g
+#CFLAGS= -mno-cygwin
+LFLAGS= -lfl
+
+all:	rsl2oal
+
+rsl2oal: rsl2oal.tab.c y.tab.h lex.yy.c
+	gcc $(CFLAGS) -Wno-pointer-to-int-cast -o rsl2oal lex.yy.c rsl2oal.tab.c $(LFLAGS)
+
+y.tab.h rsl2oal.tab.c:  rsl2oal.y.passthru
+	bison -d -o rsl2oal.tab.c rsl2oal.y.passthru
+	mv rsl2oal.tab.h y.tab.h
+
+lex.yy.c: rsl2oal.l.passthru
+	flex rsl2oal.l.passthru
+
+clean:
+	rm *.o *.output *.c *.h *.exe

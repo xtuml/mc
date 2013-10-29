@@ -49,7 +49,7 @@
         .assign msg = "Turned off translation of ${function_name} function semantics."
       .else
         .assign msg = "ERROR:  Function (${function_name}) not found in component ${te_c.Name}."
-        .assign msg = msg + "\n  => TagFunctionTranslationOff( ""${function_name}"" )"
+        .assign msg = msg + "\n  => TagFunctionTranslationOff( ${function_name} )"
       .end if
     .end if
     .print "${msg}"
@@ -88,11 +88,11 @@
       .else
         .assign msg = "ERROR:  Initialization function (${function_name}) in component ${te_c.Name}"
         .assign msg = msg + "\ntakes arguments.  This is not allowed at initialization."
-        .assign msg = msg + "\n  => TagInitializationFunction( ""${function_name}"" )"
+        .assign msg = msg + "\n  => TagInitializationFunction( ${function_name} )"
       .end if
     .else
       .assign msg = "ERROR:  Initialization function (${function_name}) not found in component ${te_c.Name}."
-      .assign msg = msg + "\n  => TagInitializationFunction( ""${function_name}"" )"
+      .assign msg = msg + "\n  => TagInitializationFunction( ${function_name} )"
     .end if
     .print "${msg}"
   .end for
@@ -122,7 +122,7 @@
       .assign msg = "Object ${te_class.Name} (${te_class.Key_Lett}) excluded from code generation."
     .else
       .assign msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}"
-      .assign msg = msg + "\n => TagExcludeObjectFromCodeGen( ""${obj_key_letters}"" )"
+      .assign msg = msg + "\n => TagExcludeObjectFromCodeGen( ${obj_key_letters} )"
     .end if
     .print "${msg}"
   .end for
@@ -146,16 +146,16 @@
   .end if
   .for each te_c in te_cs
     .assign msg = ""
-    .select any s_ss related by te_c->S_DOM[R2017]->S_SS[R1] where ( selected.Name == subsystem_name )
-    .if ( not_empty s_ss )
-      .select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019]
+    .select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == subsystem_name )
+    .if ( not_empty ep_pkgs )
+      .select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019]
       .for each te_class in te_classes
         .assign te_class.ExcludeFromGen = true
       .end for
       .assign msg = "All classes in subsystem ${subsystem_name} excluded from code generation."
     .else
       .assign msg = "ERROR:  Subsystem ${subsystem_name} not found in component ${te_c.Name}."
-      .assign msg = msg + "\n => TagExcludeSubsystemFromCodeGen( ""${subsystem_name}"" )"
+      .assign msg = msg + "\n => TagExcludeSubsystemFromCodeGen( ${subsystem_name} )"
     .end if
     .print "${msg}"
   .end for
@@ -363,8 +363,8 @@
         .// end relate
       .end if
     .else
-      .select many sibling_te_iirs related by te_iir->TE_IIR[R2081.'requires or delegates']
-      .if ( empty sibling_te_iirs )
+      .select one sibling_te_iir related by te_iir->TE_IIR[R2081.'requires or delegates']
+      .if ( empty sibling_te_iir )
         .create object instance sibling_te_iir of TE_IIR
         .assign sibling_te_iir.component_name = component
         .assign sibling_te_iir.port_name = port

@@ -22,7 +22,9 @@
 
 #include <osx.h>   /* OSX declarations */
 #include "${te_file.types}.${te_file.hdr_file_ext}"
+.if ( te_sys.MaxTimers > 0 )
 #include "${te_file.tim}.${te_file.hdr_file_ext}"
+.end if
 
 static osxHANDLE mutices[ SEMAPHORE_FLAVOR_MAX ];
 static osxHANDLE nonbusy_wait_cond[ NUM_OF_TOTAL_THREADS ];

@@ -1,0 +1,18 @@
+CFLAGS= -mno-cygwin -g
+LFLAGS= -lfl
+
+all:	rsl2func
+
+rsl2func: rsl2func.tab.c rsl2func.tab.h lex.yy.c rsl2func_util.c
+	gcc $(CFLAGS) -o rsl2func lex.yy.c rsl2func.tab.c rsl2func_util.c $(LFLAGS)
+
+rsl2func.tab.h rsl2func.tab.c:  rsl2func.y 
+	bison -d rsl2func.y
+	mv rsl2func.tab.h y.tab.h
+
+# Note, we are using the same vanilla scanner.
+lex.yy.c: rsl2oal.l
+	flex rsl2oal.l
+
+clean:
+	rm *.o *.output y.tab.c lex.yy.c *.h *.exe

@@ -22,7 +22,7 @@
 .function DeclareEventSupDataMembers
   .param inst_ref sm_evt
   .param string flavor
-  .assign result = FALSE
+  .assign result = false
   .select many te_parms related by sm_evt->SM_EVTDI[R532]->TE_PARM[R2031]
   .if ( ( "class-based" == flavor ) and ( empty te_parms ) )
     .// This is a signal, so get the parameters from the Component subsystem.
@@ -51,7 +51,7 @@
     .end if
   .end while
   .while ( not_empty te_parm )
-    .assign result = TRUE
+    .assign result = true
     .// TODO CDS - Do not like this check for the portindex here.  It would be nice to rework this.  
     .if ( "A00portindex" != te_parm.GeneratedName )
       .select one te_dt related by te_parm->TE_DT[R2049]
@@ -79,10 +79,10 @@
   .select one te_evt related by sm_evt->TE_EVT[R2036]
   .if ( te_evt.Used or te_c.OptDisabled )
     .if ( "instance" == flavor )
-      .invoke ec = CreateInstanceEventAllocationConstant( te_class, sm_evt, FALSE, gen_declaration )
+      .invoke ec = CreateInstanceEventAllocationConstant( te_class, sm_evt, false, gen_declaration )
       .assign event_constant = ec.body
     .elif ( "creation" == flavor )
-      .invoke ec = CreateInstanceEventAllocationConstant( te_class, sm_evt, TRUE, gen_declaration )
+      .invoke ec = CreateInstanceEventAllocationConstant( te_class, sm_evt, true, gen_declaration )
       .assign event_constant = ec.body
     .elif ( "class-based" == flavor )
       .invoke ec = CreateAssignerEventAllocationConstant( te_class, sm_evt, gen_declaration )
@@ -138,7 +138,7 @@ ${event_code.body}
 ${event_code.body}
     .end if
   .end for
-  .invoke event_union = CreateUnionOfObjectEvents( o_obj, TRUE, gen_declaration )
+  .invoke event_union = CreateUnionOfObjectEvents( o_obj, true, gen_declaration )
 ${event_union.body}
 .end function
 .//
@@ -155,7 +155,7 @@ ${event_union.body}
     .invoke event_code = TE_EVT_CreateEventClass( te_class, sm_evt, gen_declaration, "class-based" )
 ${event_code.body}
   .end for
-  .invoke event_union = CreateUnionOfObjectEvents( o_obj, FALSE, gen_declaration )
+  .invoke event_union = CreateUnionOfObjectEvents( o_obj, false, gen_declaration )
 ${event_union.body}
 .end function
 .//
@@ -179,10 +179,11 @@ extern const ${te_eq.constant_type} ${te_evt.GeneratedName}c;
   .else
     .if ( te_evt.Used or te_c.OptDisabled )
       .// Initialize event base class/header
-      .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+      .invoke r = GetDomainTypeIDFromString( te_c.Name )
+      .assign dom_id = r.result
       .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
 const ${te_eq.constant_type} ${te_evt.GeneratedName}c = {
-  ${dom_id.name}, ${te_class.system_class_number}, ${te_evt.Enumerator},
+  ${dom_id}, ${te_class.system_class_number}, ${te_evt.Enumerator},
       .if ( is_creation )
   ESCHER_IS_CREATION_EVENT\
       .else
@@ -204,7 +205,7 @@ const ${te_eq.constant_type} ${te_evt.GeneratedName}c = {
   ESCHER_IS_INSTANCE_EVENT + ESCHER_IS_POLYMORPHIC_EVENT\
         .end if
       .end if
-      .if ( "SystemC" == te_target.language )
+      .if ( "C++" == te_target.language )
 , 0\
       .end if
       .if ( event_prioritization_needed.result )
@@ -233,11 +234,12 @@ extern const ${te_eq.constant_type} ${te_evt.GeneratedName}c;
     .if ( te_evt.Used or te_c.OptDisabled )
 const ${te_eq.constant_type} ${te_evt.GeneratedName}c = {
       .// Initialize event base class/header
-      .invoke dom_id = GetDomainTypeIDFromString( te_c.Name )
+      .invoke r = GetDomainTypeIDFromString( te_c.Name )
+      .assign dom_id = r.result
       .invoke event_prioritization_needed = GetSystemEventPrioritizationNeeded()
-  ${dom_id.name}, ${te_class.CBsystem_class_number}, ${te_evt.Enumerator},
+  ${dom_id}, ${te_class.CBsystem_class_number}, ${te_evt.Enumerator},
   ESCHER_IS_ASSIGNER_EVENT\
-      .if ( "SystemC" == te_target.language )
+      .if ( "C++" == te_target.language )
 , 0\
       .end if
       .if ( event_prioritization_needed.result )
@@ -294,43 +296,51 @@ typedef union {
 .end function
 .//
 .//============================================================================
-.// Create the roll-up of all events in this domain.
+.// Create the roll-up of all events in this component.
 .//============================================================================
 .function CreateUnionOfDomainEvents
   .param inst_ref te_c
   .assign union_name = te_c.Name + "_DomainEvents_u"
+  .assign ism_unions = ""
+  .assign asm_unions = ""
+  .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+  .assign prev_te_class = te_class
+  .while ( not_empty prev_te_class )
+    .assign te_class = prev_te_class
+    .select one prev_te_class related by te_class->TE_CLASS[R2092.'precedes']
+  .end while
+  .while ( not_empty te_class )
+    .select one o_obj related by te_class->O_OBJ[R2019]
+    .select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517]
+    .select one te_sm related by sm_sm->TE_SM[R2043]
+    .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036] where ( selected.Used )
+    .if ( te_c.OptDisabled )
+      .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036]
+    .end if
+    .if ( not_empty te_evt )
+      .assign ism_unions = ism_unions + "  ${te_sm.events_union} ${te_sm.events_union}_namespace;\n"
+    .end if
+    .select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517]
+    .select one te_sm related by sm_sm->TE_SM[R2043]
+    .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036] where ( selected.Used )
+    .if ( te_c.OptDisabled )
+      .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036]
+    .end if
+    .if ( not_empty te_evt )
+      .assign asm_unions = asm_unions + "  ${te_sm.events_union} ${te_sm.events_union}_namespace;\n"
+    .end if
+    .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+  .end while
+  .if ( ( "" != asm_unions ) or ( "" != ism_unions ) )
 
 /*
- * roll-up of all events (with their parameters) for domain ${te_c.Name}
+ * roll-up of all events (with their parameters) for component ${te_c.Name}
  */
 typedef union {
-  .select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
-  .select many ism_obj_set related by te_classes->O_OBJ[R2019]->SM_ISM[R518]->O_OBJ[R518]
-  .for each obj in ism_obj_set
-    .select one sm_sm related by obj->SM_ISM[R518]->SM_SM[R517]
-    .select one te_sm related by sm_sm->TE_SM[R2043]
-    .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036] where ( selected.Used )
-    .if ( te_c.OptDisabled )
-      .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036]
-    .end if
-    .if ( not_empty te_evt )
-  ${te_sm.events_union} ${te_sm.events_union}_namespace;
-    .end if
-  .end for
-  .select many asm_obj_set related by te_classes->O_OBJ[R2019]->SM_ASM[R519]->O_OBJ[R519]
-  .for each obj in asm_obj_set
-    .select one sm_sm related by obj->SM_ASM[R519]->SM_SM[R517]
-    .select one te_sm related by sm_sm->TE_SM[R2043]
-    .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036] where ( selected.Used )
-    .if ( te_c.OptDisabled )
-      .select any te_evt related by sm_sm->SM_EVT[R502]->TE_EVT[R2036]
-    .end if
-    .//
-    .if ( not_empty te_evt )
-  ${te_sm.events_union} ${te_sm.events_union}_namespace;
-    .end if
-  .end for
+${ism_unions}\
+${asm_unions}\
 } ${union_name};
+  .end if
 .end function
 .//
 .//============================================================================

@@ -4,5 +4,5 @@
 .end for
 .invoke TagDynamicMemoryAllocationOn( 10 )
 .invoke TagInstanceLoading()
-.invoke TagMaximumStringLength( 512 )
+.invoke TagMaximumStringLength( 840 )
 .//

@@ -26,11 +26,14 @@
 .function AddClassExtent
   .param inst_ref o_obj
   .param boolean  gen_declaration
+  .select any te_extent from instances of TE_EXTENT
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_set from instances of TE_SET
   .select one te_class related by o_obj->TE_CLASS[R2019]
-  .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
+  .select one te_sys related by te_class->TE_C[R2064]->TE_SYS[R2065]
+  .invoke r = GetFixedSizeClassExtentInfo( te_class )
+  .assign extent = r.result
   .if ( gen_declaration )
     .include "${te_file.arc_path}/t.class.extent.h"
   .else
@@ -55,7 +58,7 @@
     .assign pei_counter = "0"
     .if ( te_class.PEIsDefinedInData )
       .invoke count_instances = PEINumberOfPreexistingInstances( o_obj )
-      .assign pei_counter = ( "(" + extent_info.element_type ) + ( ")" + count_instances.result )
+      .assign pei_counter = ( "(" + te_extent.container_type ) + ( ")" + count_instances.result )
     .end if
     .include "${te_file.arc_path}/t.class.extent.c"
   .end if
@@ -85,7 +88,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   ${te_instance.handle} return_identifier = 0;
   ${te_class.GeneratedName} * ${te_instance.self} = (${te_class.GeneratedName} *) instance;
   /* Initialize application analysis class attributes.  */
-    .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+    .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 00 )
     .assign attribute_number = 1
     .while ( not_empty te_attr )
       .select one o_attr related by te_attr->O_ATTR[R2033]
@@ -109,7 +112,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
           .// real
         .elif ( 4 == te_dt.Core_Typ )
           .// string
-          .if ( "Action_Semantics_internal" == te_attr.Name )
+          .if ( ( "Action_Semantics_internal" == te_attr.Name ) or ( "Descrip" == te_attr.Name ) )
   ${te_instance.self}->${te_attr.GeneratedName} = (c_t *) ${te_dma.allocate}( avlstring[ ${attribute_number} + 1 ] - avlstring[ ${attribute_number} ] );
   {i_t i; for ( i = 0; i < avlstring[ ${attribute_number} + 1 ] - avlstring[ ${attribute_number} ]; i++ )
     ${te_instance.self}->${te_attr.GeneratedName}[ i ] = avlstring[ ${attribute_number} ][ i ];
@@ -173,7 +176,6 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   .select one o_obj related by te_class->O_OBJ[R2019]
   .select many r_rgos related by o_obj->R_OIR[R201]->R_RGO[R203]
   .if ( not_empty r_rgos )
-    .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
     .if ( gen_declaration )
 void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} );
     .else
@@ -194,8 +196,8 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
         .assign rel_phrase = r_form.Txt_Phrs
       .end if
       .assign navigation_needed = false
-      .select one te_nav related by r_rgo->R_OIR[R203]->TE_NAV[R2035]
-      .assign rgo_NavigatedTo = te_nav.NavigatedTo
+      .select one te_oir related by r_rgo->R_OIR[R203]->TE_OIR[R2035]
+      .assign rgo_NavigatedTo = te_oir.NavigatedTo
       .if ( 0 < r_rgo_count )
   {
       .end if
@@ -209,8 +211,8 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
       .assign parameters_delimeter = ""
       .assign r_rto_count = 1
       .for each r_rto in r_rtos
-        .select one te_nav related by r_rto->R_OIR[R203]->TE_NAV[R2035]
-        .assign rto_NavigatedTo = te_nav.NavigatedTo
+        .select one te_oir related by r_rto->R_OIR[R203]->TE_OIR[R2035]
+        .assign rto_NavigatedTo = te_oir.NavigatedTo
         .//.if ( rto_NavigatedTo or rgo_NavigatedTo )
           .assign navigation_needed = true
           .select one rto_obj related by r_rto->R_OIR[R203]->O_OBJ[R201]
@@ -231,7 +233,7 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
           .assign param_list = ""
           .assign delimeter = ""
           .assign nonreferential = false
-          .select any te_attr related by part_te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+          .select any te_attr related by part_te_class->TE_ATTR[R2061] where ( selected.prevID == 00 )
           .while ( not_empty te_attr )
             .select one current_o_attr related by te_attr->O_ATTR[R2033]
             .for each o_rtida in o_rtidas
@@ -250,23 +252,27 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
             .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
           .end while
           .if ( ( ( 0 == o_id.Oid_ID ) and ( 1 == o_rtida_count ) ) and nonreferential )
-  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance${r_rto_count} = (${part_te_class.GeneratedName} *) Escher_instance_cache[ (intptr_t) ${param_list} ];
+  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance$t{r_rto_count} = (${part_te_class.GeneratedName} *) Escher_instance_cache[ (intptr_t) ${param_list} ];
           .else
-  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance${r_rto_count} = ${te_where.select_any_where}( ${param_list} );
+  ${part_te_class.GeneratedName} * ${part_te_class.GeneratedName}related_instance$t{r_rto_count} = ${te_where.select_any_where}( ${param_list} );
           .end if
-          .assign null_test = null_test + "${null_test_conjunction}${part_te_class.GeneratedName}related_instance${r_rto_count}"
+          .assign null_test = null_test + "${null_test_conjunction}${part_te_class.GeneratedName}related_instance$t{r_rto_count}"
           .assign null_test_conjunction = " && "
           .if ( r_rto_count < 2 )
-            .assign parameters = "${part_te_class.GeneratedName}related_instance${r_rto_count}"
+            .assign parameters = "${part_te_class.GeneratedName}related_instance$t{r_rto_count}"
+            .select one r_part related by r_rto->R_PART[R204]
+            .if ( not_empty r_part )
+              .assign rel_phrase = r_part.Txt_Phrs
+            .end if
           .else
             .select one r_aone related by r_rto->R_AONE[R204]
             .if ( empty r_aone )
               .select one r_aoth related by r_rto->R_AOTH[R204]
               .assign rel_phrase = r_aoth.Txt_Phrs
-              .assign parameters = parameters + "${parameters_delimeter}${part_te_class.GeneratedName}related_instance${r_rto_count}"
+              .assign parameters = parameters + "${parameters_delimeter}${part_te_class.GeneratedName}related_instance$t{r_rto_count}"
             .else
               .assign rel_phrase = r_aone.Txt_Phrs
-              .assign parameters = "${part_te_class.GeneratedName}related_instance${r_rto_count}${parameters_delimeter}" + parameters
+              .assign parameters = "${part_te_class.GeneratedName}related_instance$t{r_rto_count}${parameters_delimeter}" + parameters
             .end if
           .end if
           .assign parameters_delimeter = ", "
@@ -277,8 +283,9 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
       .if ( navigation_needed or te_rel.LinkNeeded )
         .if ( batch_relate )
   if ( ${null_test} ) {
-      .invoke method = GetRelateToName( o_obj, r_rel, rel_phrase )
-    ${method.result}( ${parameters}, ${te_class.GeneratedName}_instance );
+      .invoke r = GetRelateToName( o_obj, r_rel, rel_phrase )
+      .assign method = r.result
+    ${method}( ${parameters}, ${te_class.GeneratedName}_instance );
   }
         .end if
       .end if

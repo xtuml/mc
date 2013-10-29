@@ -19,8 +19,6 @@
  * System ID:    ${te_sys.SystemID}
  * Model Compiler Product Information:
  * Product:  ${te_sys.ModelCompilerName}
- * Version:  ${te_sys.ModelCompilerVersion}
- * S/N:      ${te_sys.ModelCompilerSerNum}
  * System default/colored values:
  * MaxStringLen:  ${te_sys.MaxStringLen}
  * MaxObjExtent:  ${te_sys.MaxObjExtent}
@@ -172,7 +170,7 @@ typedef u4_t ${te_prefix.type}uSec_t;
 #include <stdint.h>
 #include <string.h>
 .end if
-${user_supplied_data_types}\
+${te_typemap.user_supplied_data_types}\
 .end if
 .if ( te_sys.SystemCPortsType != "BitLevelSignals" )
 #include "${te_file.factory}.${te_file.hdr_file_ext}"
@@ -183,9 +181,9 @@ ${user_supplied_data_types}\
 #include "Rte_Type.${te_file.hdr_file_ext}"
 .end if
 
-${enumeration_info}
+${te_typemap.enumeration_info}
 
-${structured_data_types}
+${te_typemap.structured_data_types}
 .if ( "SystemC" == te_thread.flavor )
 #include "${te_file.interfaces}.${te_file.hdr_file_ext}"
 .end if

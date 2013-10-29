@@ -27,7 +27,7 @@
 #ifndef $u{te_file.tim}_$u{te_file.hdr_file_ext}
 #define $u{te_file.tim}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
-.if ( ( te_target.language == "SystemC" ) or ( te_target.language == "C++" ) )
+.if ( "C++" == te_target.language )
 #include <sys/timeb.h>
 #include <time.h>
   .if ( not te_tim.keyed_timer_support )
@@ -177,7 +177,7 @@ void * duration_until_next_timer_pop( void * );
  * is from ${te_callout.pre_xtUML_initialization}.
  */
 void init( \
-.if ( te_target.language == "SystemC" )
+.if ( "SystemC" == te_thread.flavor )
 sc_event *\
 .else
 void\
@@ -211,26 +211,27 @@ ETimer_time_t start_of_pause;
 bool paused;
 #endif
 ETimer_time_t tinit;
-.if ( te_thread.flavor != "Nucleus" )
+.if ( "Nucleus" != te_thread.flavor )
 struct timeb systyme;
 .end if
 i_t timer_count;
 ETimer_t * swtimers;
-.if ( te_thread.flavor == "Nucleus" )
+.if ( "Nucleus" == te_thread.flavor )
 static NU_TIMER nutimers[ ${te_tim.max_timers} ];  /* parallel set of PLUS timers */
 .end if
 ETimer_t * animate, * inanimate;
 .if ( te_tim.keyed_timer_support )
 u4_t timer_access_key;
 .end if
-.if ( te_target.language == "SystemC" )
+.if ( "SystemC" == te_thread.flavor )
 sc_event * ${te_tim.event_name}; // pointing to the sc_event in the parent module
 .end if
 
-.if ( te_thread.flavor == "Nucleus" )
+.if ( "Nucleus" == te_thread.flavor )
 static void nut_expire( unsigned );
 .else
 void timer_insert_sorted( ETimer_t * );
+bool timer_find_and_reinsert_sorted( ETimer_t * const );
 .end if
 void timer_fire( ETimer_t * const );
 ETimer_t *start( const ETimer_time_t, ${te_eq.base_event_type} * const );

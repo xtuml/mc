@@ -37,7 +37,7 @@
 #include "${te_file.nvs}.${te_file.hdr_file_ext}"
       .end if
     .end if
-    .if ( ( "ARCH" == te_ee.Key_Lett ) and ( "SystemC" != te_target.language ) )
+    .if ( ( "ARCH" == te_ee.Key_Lett ) and ( "C" == te_target.language ) )
 extern bool ${te_eq.run_flag}; /* Turn this false to stop the event queues.  */
     .end if
   .end if
@@ -53,13 +53,13 @@ extern bool ${te_eq.run_flag}; /* Turn this false to stop the event queues.  */
   .select any te_target from instances of TE_TARGET
   .for each te_brg in te_brgs
     .if ( first te_brgs )
-      .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+      .if ( "C++" == te_target.language )
 class ${te_ee.RegisteredName} {
   public:
       .end if
     .end if
     .select one te_aba related by te_brg->TE_ABA[R2010]
-    .if ( ( "SystemC" == te_target.language ) or ( "C++" == te_target.language ) )
+    .if ( "C++" == te_target.language )
       .include "${te_file.arc_path}/t.ee.bridge.h"
       .if ( last te_brgs )
 };

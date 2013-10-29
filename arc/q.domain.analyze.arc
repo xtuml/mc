@@ -20,33 +20,27 @@
 .//============================================================================
 .//
 .//
-.print "Analyzing model and making optimizations...."
-.// Identify state models having at least one state, event and transition.
-.invoke SM_SM_mark_valid()
-.// Count up how many times each event is created/generated.
-.invoke event_smt_used()
-.// Find classes that are created in some way and identify invalid creates.
-.invoke class_smt_created()
-.// Detect invalid deletions.
-.invoke class_smt_deleted()
-.// Track down optimizable where clauses.
-.invoke selection_whereclause_identify_special()
-.// Identify the associations that need link and/or unlink methods.
-.invoke association_mark_link_unlink_needed()
-.// Identify associations that are navigated (in either or both directions).
-.invoke association_R_OIR_mark_navigated()
-.// Find which event queues are necessary.
-.invoke qs = event_queue_analyze_needed()
-.if ( qs.self_queue_needed )
-  .print "Self queue is needed."
-.end if
-.if ( qs.nonself_queue_needed )
-  .print "Nonself queue is needed."
-.end if
-.invoke as = te_attr_analyze_accesses()
-.print "Attributes read is ${as.attributes_read_count}."
-.print "Attributes written is ${as.attributes_written_count}."
-.invoke asopt = te_attr_analyze_codegen( te_sys )
-.print "${asopt.optimized_out_count} attributes got optimized out."
-.invoke TE_TXN_used()
+.function sys_analyze
+  .param inst_ref te_sys
+  .print "Analyzing model and making optimizations...."
+  .// Identify state models having at least one state, event and transition.
+  .invoke SM_SM_mark_valid()
+  .// Count up how many times each event is created/generated.
+  .invoke event_smt_used()
+  .// Find classes that are created in some way and identify invalid creates.
+  .invoke class_smt_created()
+  .// Detect invalid deletions.
+  .invoke class_smt_deleted()
+  .// Track down optimizable where clauses.
+  .invoke selection_whereclause_identify_special()
+  .// Identify the associations that need link and/or unlink methods.
+  .invoke association_mark_link_unlink_needed()
+  .// Identify associations that are navigated (in either or both directions).
+  .invoke association_R_OIR_mark_navigated()
+  .// Find which event queues are necessary.
+  .invoke event_queue_analyze_needed()
+  .invoke attr_analyze_accesses()
+  .//.invoke attr_analyze_codegen( te_sys )
+  .invoke TE_TXN_used()
+.end function
 .//

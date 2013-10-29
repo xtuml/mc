@@ -22,7 +22,7 @@
 .if ( te_sys.MaxInterleavedBridges > 0 )
 #include "${te_file.ilb}.${te_file.hdr_file_ext}"
 .end if
-.if ( "SystemC" != te_target.language )
+.if ( "C" == te_target.language )
 
 bool ${te_eq.run_flag} = true; /* Turn this off to exit dispatch loop(s).  */
 .end if
@@ -36,7 +36,8 @@ bool ${te_eq.run_flag} = true; /* Turn this off to exit dispatch loop(s).  */
   .//
   .if ( te_thread.enabled and ( "C" == te_target.language ) )
 /* Map the classes to the tasks/threads for each domain.  */
-    .for each te_c in te_cs
+    .assign te_c = first_te_c
+    .while ( not_empty te_c )
       .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
       .if ( not_empty te_sm )
         .select one te_dci related by te_c->TE_DCI[R2090]
@@ -44,19 +45,22 @@ static const ${te_typemap.object_number_name} ${te_dci.task_list}[ ${te_dci.max_
   ${te_dci.task_numbers}
 };
       .end if
-    .end for
+      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+    .end while
 static const ${te_typemap.object_number_name} * const class_thread_assignment[ SYSTEM_DOMAIN_COUNT ] = {
-    .for each te_c in te_cs
-      .assign delimiter = ""
-      .if ( not_last te_cs )
-        .assign delimiter = ","
-      .end if
+    .assign delimiter = ","
+    .assign te_c = first_te_c
+    .while ( not_empty te_c )
       .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+      .select one te_dci related by te_c->TE_DCI[R2090]
+      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .if ( empty te_c )
+        .assign delimiter = ""
+      .end if
       .if ( not_empty te_sm )
-        .select one te_dci related by te_c->TE_DCI[R2090]
   &${te_dci.task_list}[0]${delimiter}
       .end if
-    .end for
+    .end while
 };
   .end if
   .// Define self reference storage and method.
@@ -73,12 +77,14 @@ static ${te_instance.handle} ${te_prefix.result}self;
  * size of any xtUML event in the system.  */
 typedef union {
   ${te_eq.base_event_type} ${te_eq.base_variable};
-  .for each te_c in active_te_cs
-    .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071]
+  .assign te_c = first_te_c
+  .while ( not_empty te_c )
+    .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071] where ( selected.Used )
     .if ( not_empty te_evt )
   ${te_c.Name}_DomainEvents_u mc_events_in_domain_${te_c.Name};
     .end if
-  .end for
+    .select one te_c related by te_c->TE_C[R2017.'succeeds']
+  .end while
 } ${te_eq.system_events_union}_t;
 
 /* anchor declaration for front and back of list of events */
@@ -162,28 +168,30 @@ ${te_eq.base_event_type} * ${te_eq.scope}${te_eq.allocate}( void )
   .if ( te_thread.enabled )
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_FREELIST );
   .end if
-  if ( free_event_list == 0 ) {
-  .if ( te_sys.UnitsToDynamicallyAllocate != 0 )
-    ${te_eq.base_event_type} * new_mem = (${te_eq.base_event_type} *) ${te_dma.allocate}( ${te_sys.UnitsToDynamicallyAllocate} * sizeof( ${te_eq.system_events_union}_t ) );
+  if ( 0 == free_event_list ) {
+  .if ( 0 != te_sys.UnitsToDynamicallyAllocate )
+    ${te_eq.system_events_union}_t * new_mem = (${te_eq.system_events_union}_t *) ${te_dma.allocate}( ${te_sys.UnitsToDynamicallyAllocate} * sizeof( ${te_eq.system_events_union}_t ) );
 
     if ( 0 == new_mem ) {
       ${te_callout.event_free_list_empty}();   /* Bad news!  No more heap space.  */
     } else {
       u1_t i;
       for ( i = 0; i < ${te_sys.UnitsToDynamicallyAllocate} - 1; i++ ) {
-        new_mem[ i ].next = (${te_eq.base_event_type} *) &(new_mem[ i + 1 ]);
+        new_mem[ i ].mc_event_base.next = (${te_eq.base_event_type} *) &(new_mem[ i + 1 ]);
       }
-      new_mem[ ${te_sys.UnitsToDynamicallyAllocate} - 1 ].next = 0;
-      free_event_list = new_mem;
-      event = ${te_eq.allocate}();
+      new_mem[ ${te_sys.UnitsToDynamicallyAllocate} - 1 ].mc_event_base.next = 0;
+      free_event_list = (${te_eq.base_event_type} *) new_mem;
     }
+  }
+  event = free_event_list;       /* Grab front of the free list.  */
+  free_event_list = event->next; /* Unlink from front of free list.  */
   .else
     ${te_callout.event_free_list_empty}();   /* Bad news!  No more events.  */
-  .end if
   } else {
     event = free_event_list;       /* Grab front of the free list.  */
     free_event_list = event->next; /* Unlink from front of free list.  */
   }
+  .end if
   .if ( te_thread.enabled )
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_FREELIST );
   .end if .// te_thread.enabled
@@ -206,8 +214,10 @@ ${te_eq.scope}${te_eq.new}( const void * const destination,
   .if ( event_prioritization_needed.result )
   SetOoaEventPriority( event, event_info->priority );
   .end if
-  .if ( "SystemC" == te_target.language )
+  .if ( "SystemC" == te_thread.flavor )
   event->sc_e = event_info->sc_e;
+  .end if
+  .if ( "C++" == te_target.language )
   event->thismodule = this;
   .end if
   return event;
@@ -227,8 +237,10 @@ ${te_eq.scope}${te_eq.modify}( ${te_eq.base_event_type} * event,
   .if ( event_prioritization_needed.result )
   SetOoaEventPriority( event, event_info->priority );
   .end if
-  .if ( "SystemC" == te_target.language )
+  .if ( "SystemC" == te_thread.flavor )
   event->sc_e = event_info->sc_e;
+  .end if
+  .if ( "C++" == te_target.language )
   event->thismodule = event_info->thismodule;
   .end if
   return event;
@@ -275,7 +287,7 @@ ${te_eq.scope}${te_eq.delete}( ${te_eq.base_event_type} * event )
 void
 ${te_eq.scope}${te_eq.non_self}( ${te_eq.base_event_type} * event )
 {
-  .if ( "SystemC" == te_target.language )
+  .if ( "SystemC" == te_thread.flavor )
   sc_event * sc_e = event->sc_e;
   .end if
   .if ( te_thread.enabled )
@@ -362,7 +374,7 @@ ${te_eq.scope}${te_eq.non_self}( ${te_eq.base_event_type} * event )
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_IQUEUE );
   ${te_thread.nonbusy_wake}( t );
   .end if
-  .if ( "SystemC" == te_target.language )
+  .if ( "SystemC" == te_thread.flavor )
   sc_e->notify();
   .end if
 }
@@ -431,7 +443,7 @@ ${dq_arg}\
 void
 ${te_eq.scope}${te_eq.self}( ${te_eq.base_event_type} * event )
 {
-  .if ( "SystemC" == te_target.language )
+  .if ( "SystemC" == te_thread.flavor )
   sc_event * sc_e = event->sc_e;
   .end if
   .if ( te_thread.enabled )
@@ -461,7 +473,7 @@ ${te_eq.scope}${te_eq.self}( ${te_eq.base_event_type} * event )
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_SQUEUE );
   ${te_thread.nonbusy_wake}( t );
   .end if .// te_thread.enabled
-  .if ( "SystemC" == te_target.language )
+  .if ( "SystemC" == te_thread.flavor )
   sc_e->notify();
   .end if
 }
@@ -542,8 +554,8 @@ static void * ooa_loop( void * );
 static void * ooa_loop( void * thread )
     .end if
   .else
-    .if ( "SystemC" == te_target.language )
-void ${te_eq.scope}ooa_loop( const u1_t d, const u1_t c, void * thismodule )
+    .if ( "C++" == te_target.language )
+void ${te_eq.scope}ooa_loop( void * thismodule )
     .else
 static void ooa_loop( void );
 static void ooa_loop( void )
@@ -558,7 +570,8 @@ static void ooa_loop( void )
    */
   static const ${class_dispatch_array.element_type} * DomainClassDispatcherTable[ ${num_ooa_doms} ] =
     {
-    .for each te_c in active_te_cs
+    .assign te_c = first_te_c
+    .while ( not_empty te_c )
       .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071]
       .if ( not_empty te_evt )
         .invoke class_dispatch_array = GetDomainDispatcherTableName( te_c.Name )
@@ -566,13 +579,13 @@ static void ooa_loop( void )
       .else
       0\
       .end if
-      .assign dom_count = dom_count + 1
-      .if ( dom_count != num_ooa_doms )
-,
-      .else
+      .select one te_c related by te_c->TE_C[R2017.'succeeds']
+      .if ( empty te_c )
 
+      .else
+,
       .end if
-    .end for
+    .end while
     };
   .end if
   ${te_eq.base_event_type} * event;
@@ -584,9 +597,11 @@ static void ooa_loop( void )
     .end if
   .end if .// te_thread.enabled
   /* Start consuming events and dispatching background processes.  */
-    .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_target.language ) )
+    .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_thread.flavor ) )
   bool events_remaining_in_queue = true;
   while ( (true == events_remaining_in_queue) && (true == ${te_eq.run_flag}) ) {
+    .elif ( "C++" == te_target.language )
+  if ( true == ${te_eq.run_flag} ) {
     .else
   while ( true == ${te_eq.run_flag} ) {
     .end if
@@ -594,10 +609,10 @@ static void ooa_loop( void )
     event = DequeueOoaSelfEvent(${thread_number}); /* Self first.  */
     if ( 0 == event ) {
   \
-  .end if .// self_event_queue_needed.result
+  .end if
   .if ( non_self_event_queue_needed.result )
     event = DequeueOoaNonSelfEvent(${thread_number}); /* Instance next.  */
-  .end if .// non_self_event_queue_needed.result
+  .end if
   .if ( self_event_queue_needed.result )
     }
   .end if .// self_event_queue_needed.result
@@ -606,13 +621,13 @@ static void ooa_loop( void )
   .if ( event_prioritization_needed.result )
       /* Set up self reference for use by prioritized events (and others).  */
       ${te_prefix.result}self = GetEventTargetInstance( event );
-  .end if  .// prioritization_needed
+  .end if
   .if ( te_thread.serialize )
       #ifdef ESCHER_SERIALIZE_DISPATCH
       ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_DISPATCH );
       #endif
   .end if
-  .if ( "SystemC" == te_target.language )
+  .if ( "C++" == te_target.language )
       event->thismodule = thismodule;
   .end if
   .if ( "C" == te_target.language )
@@ -627,7 +642,7 @@ static void ooa_loop( void )
   .end if
       ${te_eq.delete}( event );
     } else {
-  .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_target.language ) )
+  .if ( ( te_sys.AUTOSAR ) or ( "SystemC" == te_thread.flavor ) )
       events_remaining_in_queue = false;
   .end if
   .if ( te_thread.enabled )
@@ -647,7 +662,7 @@ static void ooa_loop( void )
     ${more_indent}/* Launch (interrupt) bridge actions that occurred during state.  */
     ${more_indent}${te_ilb.dispatch}();
   .end if .// te_sys.MaxInterleavedBridges > 0
-  .if ( "SystemC" != te_target.language )
+  .if ( "SystemC" != te_thread.flavor )
     ${more_indent}${te_callout.background_processing}();
   .end if
   .if ( te_thread.enabled )
@@ -655,37 +670,37 @@ static void ooa_loop( void )
   .end if .// te_thread.enabled
   }
   .if ( te_thread.enabled )
-    .if ( ( te_thread.flavor != "Nucleus" ) and ( "SystemC" != te_target.language ) )
+    .if ( ( te_thread.flavor != "Nucleus" ) and ( "SystemC" != te_thread.flavor ) )
   return 0;
     .end if
   .end if
 }
 
+  .if ( "C" == te_target.language )
 /*
  * Load up the threads with event dispatchers and/or specific functionality.
  */
 void ${te_eq.scope}${te_prefix.result}xtUML_run( void )
 {
-  .assign tasking_arguments = ""
-  .assign return_code_assignment = ""
-  .if ( te_thread.enabled )
-    .if ( te_thread.flavor == "Nucleus" )
-      .assign tasking_arguments = " 0, (void *) &i "
-    .else
-      .assign tasking_arguments = " (void *) &i "
-      .assign return_code_assignment = "vp = "
+    .assign tasking_arguments = ""
+    .assign return_code_assignment = ""
+    .if ( te_thread.enabled )
+      .if ( te_thread.flavor == "Nucleus" )
+        .assign tasking_arguments = " 0, (void *) &i "
+      .else
+        .assign tasking_arguments = " (void *) &i "
+        .assign return_code_assignment = "vp = "
   void * vp;
-    .end if
+      .end if
   u1_t i;
   /* Create threads in reverse order saving thread 0 for default.  */
   for ( i = NUM_OF_XTUML_CLASS_THREADS - 1; i > 0; i-- ) {
     ${te_thread.create}( ooa_loop, i );
   }
   i = 0;
-  .end if
-  .if ( "SystemC" != te_target.language )
+    .end if
   ${return_code_assignment}ooa_loop(${tasking_arguments});
-  .end if
 }
+  .end if
 .end if
 .//

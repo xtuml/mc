@@ -134,7 +134,7 @@ int Escher_xtUML_load(
     return 1;
   }
   init();               /* Initialize the xml storage area.      */
-  printf( "Read %s on the %s command line.\n", argv[1], argv[0] );
+  printf( "-- Read %s on the %s command line.\n", argv[1], argv[0] );
   /*
    * Read a record.  Parse it.  Pass it.  Repeat until end of file.
    */

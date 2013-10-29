@@ -39,26 +39,10 @@
     .// all components in packages with given name
     .select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name )
     .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]
-    .if ( empty c_cs )
-      .// Look in specialized packages.
-      .select many cp_cps from instances of CP_CP where ( selected.Name == package_name )
-      .select many c_cs related by cp_cps->C_C[R4604]
-    .end if
   .else
     .// particular component in particular package(s)
     .select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name )
     .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001] where ( selected.Name == component_name )
-    .if ( empty c_cs )
-      .// Look in specialized packages.
-      .select many cp_cps from instances of CP_CP where ( selected.Name == package_name )
-      .select many c_cs related by cp_cps->C_C[R4604] where ( selected.Name == component_name )
-    .end if
-    .if ( empty c_cs )
-      .select many c_cs related by cp_cps->C_C[R4604]->CN_CIC[R4202]->C_C[R4203] where ( selected.Name == component_name )
-      .if ( empty c_cs )
-        .select many c_cs related by cp_cps->C_C[R4604]->CN_CIC[R4202]->C_C[R4203]->CN_CIC[R4202]->C_C[R4203] where ( selected.Name == component_name )
-      .end if
-    .end if
   .end if
   .select many te_cs related by c_cs->TE_C[R2054]
   .if ( empty te_cs )
@@ -104,26 +88,10 @@
     .// all components in packages with given name
     .select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name )
     .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]
-    .if ( empty c_cs )
-      .// Look in specialized packages.
-      .select many cp_cps from instances of CP_CP where ( selected.Name == package_name )
-      .select many c_cs related by cp_cps->C_C[R4604]
-    .end if
   .else
     .// particular component in particular package(s)
     .select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name )
     .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001] where ( selected.Name == component_name )
-    .if ( empty c_cs )
-      .// Look in specialized packages.
-      .select many cp_cps from instances of CP_CP where ( selected.Name == package_name )
-      .select many c_cs related by cp_cps->C_C[R4604] where ( selected.Name == component_name )
-    .end if
-    .if ( empty c_cs )
-      .select many c_cs related by cp_cps->C_C[R4604]->CN_CIC[R4202]->C_C[R4203] where ( selected.Name == component_name )
-      .if ( empty c_cs )
-        .select many c_cs related by cp_cps->C_C[R4604]->CN_CIC[R4202]->C_C[R4203]->CN_CIC[R4202]->C_C[R4203] where ( selected.Name == component_name )
-      .end if
-    .end if
   .end if
   .select many te_cs related by c_cs->TE_C[R2054]
   .if ( empty te_cs )
@@ -169,15 +137,6 @@
   .else
     .select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name )
     .select any c_i related by ep_pkgs->PE_PE[R8000]->C_I[R8001] where ( selected.Name == interface_name )
-    .if ( empty c_i )
-      .// Look in specialized packages.
-      .select many ip_ips from instances of IP_IP where ( selected.Name == package_name )
-      .select any c_i related by ip_ips->C_I[R4303] where ( selected.Name == interface_name )
-      .if ( empty c_i )
-        .// CDS This only drills one level of nested packaging.  Drill recursively.
-        .select any c_i related by ip_ip->IP_IPINIP[R4300]->IP_IP[R4301]->C_I[R4303] where ( selected.Name == interface_name )
-      .end if
-    .end if
   .end if
   .if ( empty c_i )
     .print "WARNING:  MarkInterfaceWithTemplate - Could not find interface ${package_name}::${interface_name}."
@@ -266,9 +225,8 @@
   .if ( ( ( "" == package_name ) or ( "" == instance ) ) or ( ( "" == variable_name ) or ( "" == value ) ) )
     .print "ERROR:  SetTemplateParameter -  Must provide valid strings for all arguments. ${package_name}::${instance}.${variable_name} to value ${value}."
   .else
-  .select any cp_cp from instances of CP_CP where ( selected.Name == package_name )
   .select any ep_pkg from instances of EP_PKG where ( selected.Name == package_name )
-  .if ( ( empty ep_pkg ) and ( empty cp_cp ) )
+  .if ( empty ep_pkg )
     .print "ERROR:  SetTemplateParameter -  Package, ${package_name}, not found for ${package_name}::${instance}.${variable_name} to value ${value}."
   .end if
   .if ( not_empty tm_tp )
@@ -276,12 +234,6 @@
       .select any te_ci related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance )
       .if ( empty te_ci )
         .select any te_ci related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] where ( selected.ClassifierName == instance )
-        .if ( empty te_ci )
-          .select any te_ci related by cp_cp->CL_IC[R4605]->TE_CI[R2009] where ( selected.ClassifierName == instance )
-          .if ( empty te_ci )
-            .select any te_ci related by cp_cp->C_C[R4604]->CL_IC[R4205]->TE_CI[R2009] where ( selected.ClassifierName == instance )
-          .end if
-        .end if
       .end if
       .if ( not_empty te_ci )
         .create object instance tm_tpv of TM_TPV
@@ -293,16 +245,12 @@
         .// relate tm_tpv to te_ci across R2805;
         .assign tm_tpv.te_ciID = te_ci.ID
         .// end relate
-        .assign tm_tpv.te_iirID = 0
+        .assign tm_tpv.te_iirID = 00
       .else
         .print "ERROR:  SetTemplateParameter - no component instance for ${package_name}::${instance} with name ${variable_name}."
       .end if
     .elif ( not_empty tm_if )
       .select many te_iirs related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
-      .if ( empty te_iirs )
-        .// Look in specialized package.
-        .select many te_iirs related by cp_cp->CL_IC[R4605]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
-      .end if
       .for each te_iir in te_iirs
         .create object instance tm_tpv of TM_TPV
         .assign tm_tpv.instance = instance
@@ -313,13 +261,9 @@
         .// relate tm_tpv to te_iir across R2806;
         .assign tm_tpv.te_iirID = te_iir.ID
         .// end relate
-        .assign tm_tpv.te_ciID = 0
+        .assign tm_tpv.te_ciID = 00
       .end for
       .select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
-      .if ( empty te_iirs )
-        .// Look in specialized package.
-        .select many te_iirs related by cp_cp->C_C[R4604]->CL_IC[R4205]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
-      .end if
       .for each te_iir in te_iirs
         .create object instance tm_tpv of TM_TPV
         .assign tm_tpv.instance = instance
@@ -330,13 +274,9 @@
         .// relate tm_tpv to te_iir across R2806;
         .assign tm_tpv.te_iirID = te_iir.ID
         .// end relate
-        .assign tm_tpv.te_ciID = 0
+        .assign tm_tpv.te_ciID = 00
       .end for
-      .select many te_iirs related by cp_cp->PE_PE[R8000]->C_C[R8001]->C_PO[R4010]->C_IR[R4016]->TE_IIR[R2046] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
-      .if ( empty te_iirs )
-        .// Look in specialized package.
-        .select many te_iirs related by cp_cp->C_C[R4604]->C_PO[R4010]->C_IR[R4016]->TE_IIR[R2046] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
-      .end if
+      .select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->C_PO[R4010]->C_IR[R4016]->TE_IIR[R2046] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
       .for each te_iir in te_iirs
         .create object instance tm_tpv of TM_TPV
         .assign tm_tpv.instance = instance
@@ -347,7 +287,7 @@
         .// relate tm_tpv to te_iir across R2806;
         .assign tm_tpv.te_iirID = te_iir.ID
         .// end relate
-        .assign tm_tpv.te_ciID = 0
+        .assign tm_tpv.te_ciID = 00
       .end for
     .else
       .print "ERROR:  SetTemplateParameter - Found a template parameter for a template that is orphaned."
@@ -380,30 +320,17 @@
   .if ( ( ( "" == package_name ) or ( "" == component ) ) or ( ( "" == classifier_name ) or ( ( ( "" == variable_name ) or (  "" == value ) ) ) ) )
     .print "ERROR:  SetTPV - Must provide valid strings for all arguments except the optional port, ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} to value ${value} (and port ${port})."
   .else
-  .select any cp_cp from instances of CP_CP where ( selected.Name == package_name )
   .select any ep_pkg from instances of EP_PKG where ( selected.Name == package_name )
-  .if ( ( empty ep_pkg ) and ( empty cp_cp ) )
+  .if ( empty ep_pkg )
     .print "ERROR:  SetTPV -  Package, ${package_name}, not found for ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} to value ${value}."
   .end if
   .select many te_cis related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
-  .if ( empty te_cis )
-    .// Look in specialized package.
-    .select many te_cis related by cp_cp->CL_IC[R4605]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
-  .end if
   .if ( "" != parent_component )
     .select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001] where ( selected.Name == parent_component )
-    .if ( empty c_cs )
-      .// Look in specialized package.
-      .select many c_cs related by cp_cp->C_C[R4608] where ( selected.Name == parent_component )
-    .end if
     .select many te_cis related by c_cs->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
   .else
     .if ( empty te_cis )
-      .select many te_cis related by ep_pkg->PE_PE[R8000]->->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
-      .if ( empty c_cs )
-        .// Look in specialized package.
-        .select many te_cis related by cp_cp->C_C[R4608]->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
-      .end if
+      .select many te_cis related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
     .end if
   .end if
   .assign te_cis_count = cardinality te_cis
@@ -429,7 +356,7 @@
         .// relate tm_tpv to te_ci across R2805;
         .assign tm_tpv.te_ciID = te_ci.ID
         .// end relate
-        .assign tm_tpv.te_iirID = 0
+        .assign tm_tpv.te_iirID = 00
       .else
         .print "WARNING:  SetTPV - Template parameter not found for ${package_name}::${parent_component}::${component}:${classifier_name}."
       .end if
@@ -438,7 +365,7 @@
     .// We are setting a value for an interface template.
     .for each te_ci in te_cis
       .select any te_iir related by te_ci->CL_IC[R2009]->CL_IIR[R4700]->TE_IIR[R2013] where ( selected.port_name == port )
-      .invoke SetTPV_for_channel_connection( te_iir, variable_name, value, " ${trace}", 0 )
+      .invoke SetTPV_for_channel_connection( te_iir, variable_name, value, trace, 0 )
     .end for
   .end if
   .end if
@@ -461,6 +388,7 @@
   .param string value
   .param string trace
   .param integer flavor
+  .select many delegated_te_iirs from instances of TE_IIR where ( false )
   .// flavors:  0:firstcall, 1:coming from satisfaction, 2:coming from delegation
   .select any tm_tp related by te_iir->C_IR[R2046]->C_I[R4012]->TM_IF[R2807]->TM_TEMPLATE[R2802]->TM_TP[R2801] where ( selected.Name == variable_name )
   .if ( empty tm_tp )
@@ -491,7 +419,7 @@
     .// relate tm_tpv to te_iir across R2806;
     .assign tm_tpv.te_iirID = te_iir.ID
     .// end relate
-    .assign tm_tpv.te_ciID = 0
+    .assign tm_tpv.te_ciID = 00
     .//
     .// Find a satisfaction or delegation.  Recursively apply the same template parameter value to the connections.
     .select one satisfied_te_iir related by te_iir->TE_IIR[R2081.'requires or delegates'] where ( false )
@@ -528,7 +456,7 @@
         .invoke SetTPV_for_channel_connection( satisfied_te_iir, variable_name, value, " 4a${trace}", 1 )
       .else
       .// Search from reference across satisfaction to reference requirement to provision.
-      .select one satisfied_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046]
+      .select any satisfied_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046]
       .if ( not_empty satisfied_te_iir )
         .invoke SetTPV_for_channel_connection( satisfied_te_iir, variable_name, value, " 4b${trace}", 1 )
       .else
@@ -554,9 +482,9 @@
     .end if
     .// delegation
     .if ( empty satisfied_te_iir )
-      .select many delegated_te_iirs related by satisfied_te_iir->TE_IIR[R2081.'requires or delegates'] where ( false )
+      .select one delegated_te_iir related by satisfied_te_iir->TE_IIR[R2081.'requires or delegates'] where ( false )
       .// IIR IR DG  RID IR
-      .select one delegated_te_iir related by te_iir->CL_IIR[R2013]->C_DG[R4704]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046]
+      .select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_DG[R4704]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046]
       .if ( not_empty delegated_te_iir )
         .assign delegated_te_iirs = delegated_te_iirs | delegated_te_iir
         .assign trace = "7a " + trace
@@ -567,25 +495,25 @@
         .assign trace = "7b " + trace
       .end if
       .//     IR DG  RID IR
-      .select one delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046]
+      .select any delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046]
       .if ( not_empty delegated_te_iir )
         .assign delegated_te_iirs = delegated_te_iirs | delegated_te_iir
         .assign trace = "8a " + trace
       .end if
       .//     IR RID DG  IR
-      .select one delegated_te_iir related by te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046]
+      .select any delegated_te_iir related by te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046]
       .if ( not_empty delegated_te_iir )
         .assign delegated_te_iirs = delegated_te_iirs | delegated_te_iir
         .assign trace = "8b " + trace
       .end if
       .// IIR IR DG  RID IR
-      .select one delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046]
+      .select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046]
       .if ( not_empty delegated_te_iir )
         .assign delegated_te_iirs = delegated_te_iirs | delegated_te_iir
         .assign trace = "8c " + trace
       .end if
       .//     IR DG  RID IR IIR
-      .select one delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013]
+      .select any delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013]
       .if ( not_empty delegated_te_iir )
         .assign delegated_te_iirs = delegated_te_iirs | delegated_te_iir
         .assign trace = "8d " + trace
@@ -603,7 +531,7 @@
         .assign trace = "8f " + trace
       .end if
       .// IIR IR DG  RID IR IIR
-      .select one delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013]
+      .select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013]
       .if ( not_empty delegated_te_iir )
         .assign delegated_te_iirs = delegated_te_iirs | delegated_te_iir
         .assign trace = "8g " + trace

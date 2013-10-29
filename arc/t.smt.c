@@ -17,7 +17,7 @@
   .select any te_set from instances of TE_SET
   .assign attr_declaration = ""
   .assign attr_ending = ws + "}}}"
-  .if ( te_for.isImplicit)
+  .if ( te_for.isImplicit )
     .assign attr_declaration = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" )
   .end if
   .assign iterator = "iter" + te_for.loop_variable
@@ -62,8 +62,15 @@ ${ws}else if ( ${condition} ) {
   .param string ws
   .param integer element_count
   .param boolean is_parameter
+  .select any te_set from instances of TE_SET
   .if ( te_assign.isImplicit )
-    .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
+    .if ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
+      .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
+      .assign te_smt.declaration = "${te_set.scope}${te_set.base_class} ${te_assign.lval}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_assign.lval} = &${te_assign.lval}_space;"
+      .assign te_smt.deallocation = "${te_set.module}${te_set.clear}( ${te_assign.lval} );"
+    .else
+      .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
+    .end if
   .end if
   .if ( "" != te_assign.array_spec )
     .select any te_string from instances of TE_STRING
@@ -84,6 +91,8 @@ sizeof( ${te_assign.rval} ) );
         .end if
       .end if
     .end if
+  .elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
+${ws}${te_set.scope}${te_set.copy}( ${te_assign.lval}, ${te_assign.rval} );
   .else
 ${ws}${te_assign.lval} = ${te_assign.rval};
   .end if
@@ -98,7 +107,8 @@ ${ws}${te_assign.lval} = ${te_assign.rval};
   .select one te_c related by o_obj->TE_CLASS[R2019]->TE_C[R2064]
   .select any te_instance from instances of TE_INSTANCE
   .select one te_class related by o_obj->TE_CLASS[R2019]
-  .invoke domain_id = GetDomainTypeIDFromString( te_c.Name )
+  .invoke r = GetDomainTypeIDFromString( te_c.Name )
+  .assign dom_id = r.result
   .invoke init_uniques = AutoInitializeUniqueIDs( te_class, var_name )
   .assign attr_declaration = ""
   .if ( is_implicit )
@@ -110,7 +120,7 @@ ${te_instance.create_persistent}\
   .else
 ${te_instance.create}\
   .end if
-( ${domain_id.name}, ${te_class.system_class_number} );
+( ${dom_id}, ${te_class.system_class_number} );
   .if ( "" != init_uniques.body )
 ${ws}${init_uniques.body}\
   .end if
@@ -125,7 +135,8 @@ ${ws}${init_uniques.body}\
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by o_obj->TE_CLASS[R2019]->TE_C[R2064]
   .if ( not_empty te_c )
-    .invoke domain_id = GetDomainTypeIDFromString( te_c.Name )
+    .invoke r = GetDomainTypeIDFromString( te_c.Name )
+    .assign dom_id = r.result
     .if ( te_c.DetectEmpty )
 ${ws}if ( 0 == ${var_name} ) {
 ${ws}  XTUML_EMPTY_HANDLE_TRACE( "${o_obj.Key_Lett}", "${te_instance.delete}" );
@@ -137,7 +148,7 @@ ${te_instance.delete_persistent}\
     .else
 ${te_instance.delete}\
     .end if
-( (${te_instance.handle}) ${var_name}, ${domain_id.name}, ${te_class.system_class_number} );
+( (${te_instance.handle}) ${var_name}, ${dom_id}, ${te_class.system_class_number} );
   .end if
 .end function
 .//------------------------------------------------
@@ -152,7 +163,7 @@ ${te_instance.delete}\
   .param string parameters
   .param string ws
   .select any te_eq from instances of TE_EQ
-  .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .select any te_instance from instances of TE_INSTANCE
   .select one te_evt related by sm_evt->TE_EVT[R2036]
   .assign attr_declaration = ""
@@ -173,26 +184,30 @@ ${ws}${parameters}\
       .end if
 ${ws}${var_name} = ${te_instance.module}${te_eq.new}( (void *) ${recipient_var_name}, &${te_evt.GeneratedName}c );
     .end if
-    .if ( "SystemC" == te_target.language )
+    .if ( "SystemC" == te_thread.flavor )
 ${ws}${var_name}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
     .end if
   .end if
 .end function
 .//------------------------------------------------
 .function t_oal_smt_relate
-  .param inst_ref one_o_obj
-  .param inst_ref oth_o_obj
+  .param inst_ref left_o_obj
+  .param inst_ref right_o_obj
   .param inst_ref r_rel
   .param boolean is_reflexive
   .param integer relationship_number
   .param string relationship_phrase
-  .param string one_var_name
-  .param string oth_var_name
+  .param string left_var_name
+  .param string right_var_name
   .param string ws
-  .invoke r = GetRelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
-  .assign method = r.result
-  .invoke r = TE_REL_IsLeftFormalizer( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .invoke r = TE_REL_IsLeftFormalizer( left_o_obj, r_rel, relationship_phrase )
   .assign left_is_formalizer = r.result
+  .assign o_obj = right_o_obj
+  .if ( left_is_formalizer )
+    .assign o_obj = left_o_obj
+  .end if
+  .invoke s = GetRelateToName( o_obj, r_rel, relationship_phrase )
+  .assign method = s.result
   .//
   .select any te_target from instances of TE_TARGET
   .assign thismodule = ""
@@ -200,14 +215,14 @@ ${ws}${var_name}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
     .assign thismodule = ", thismodule"
   .end if
   .if ( is_reflexive )
-${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${left_var_name}, ${right_var_name}${thismodule} );
   .else
     .if ( left_is_formalizer )
-${ws}${method}( ${oth_var_name}, ${one_var_name}${thismodule} );
-.// Alf R${r_rel.Numb} -> add ( ${oth_o_obj.Key_Lett}=>${oth_var_name}, ${one_o_obj.Key_Lett}=>${one_var_name} )
+${ws}${method}( ${right_var_name}, ${left_var_name}${thismodule} );
+.// Alf R${r_rel.Numb} -> add ( ${right_o_obj.Key_Lett}=>${right_var_name}, ${left_o_obj.Key_Lett}=>${left_var_name} )
     .else
-${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
-.// Alf R${r_rel.Numb} -> add ( ${one_o_obj.Key_Lett}=>${one_var_name}, ${oth_o_obj.Key_Lett}=>${oth_var_name} )
+${ws}${method}( ${left_var_name}, ${right_var_name}${thismodule} );
+.// Alf R${r_rel.Numb} -> add ( ${left_o_obj.Key_Lett}=>${left_var_name}, ${right_o_obj.Key_Lett}=>${right_var_name} )
     .end if
   .end if
 .end function
@@ -246,31 +261,35 @@ ${ass_var_name}${thismodule} );
 .end function
 .//------------------------------------------------
 .function t_oal_smt_unrelate
-  .param inst_ref one_o_obj
-  .param inst_ref oth_o_obj
+  .param inst_ref left_o_obj
+  .param inst_ref right_o_obj
   .param inst_ref r_rel
   .param boolean is_reflexive
   .param integer relationship_number
   .param string relationship_phrase
-  .param string one_var_name
-  .param string oth_var_name
+  .param string left_var_name
+  .param string right_var_name
   .param string ws
   .select any te_target from instances of TE_TARGET
   .assign thismodule = ""
   .if ( "C" != te_target.language )
     .assign thismodule = ", thismodule"
   .end if
-  .invoke r = GetUnrelateMethodName( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
-  .assign method = r.result
-  .invoke r = TE_REL_IsLeftFormalizer( one_o_obj, oth_o_obj, r_rel, relationship_phrase )
+  .invoke r = TE_REL_IsLeftFormalizer( left_o_obj, r_rel, relationship_phrase )
   .assign left_is_formalizer = r.result
+  .assign o_obj = right_o_obj
+  .if ( left_is_formalizer )
+    .assign o_obj = left_o_obj
+  .end if
+  .invoke r = GetUnrelateFromName( o_obj, r_rel, relationship_phrase )
+  .assign method = r.result
   .if ( is_reflexive )
-${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${left_var_name}, ${right_var_name}${thismodule} );
   .else
     .if ( left_is_formalizer )
-${ws}${method}( ${oth_var_name}, ${one_var_name}${thismodule} );
+${ws}${method}( ${right_var_name}, ${left_var_name}${thismodule} );
     .else
-${ws}${method}( ${one_var_name}, ${oth_var_name}${thismodule} );
+${ws}${method}( ${left_var_name}, ${right_var_name}${thismodule} );
     .end if
   .end if
 .end function
@@ -435,29 +454,6 @@ ${te_instance.module}${te_eq.non_self}( \
 (${te_eq.base_event_type} *) ${var_name} );
 .end function
 .//------------------------------------------------
-.// Note the use of p_ here.  It is hard-coded and depends upon
-.// matching the prefix used in initialization population query.
-.function t_oal_smt_event_parameters
-  .param string evt_msg_var
-  .param string parameter
-  .param string value
-  .param integer value_type
-  .param string ws
-  .assign attr_result = ""
-  .select any te_eq from instances of TE_EQ
-  .if ( "" == evt_msg_var )
-    .assign evt_msg_var = te_eq.event_message_variable
-  .end if
-  .if ( 4 == value_type )
-    .// string
-    .select any te_string from instances of TE_STRING
-    .select any te_instance from instances of TE_INSTANCE
-    .assign attr_result = "${ws}  ${te_instance.module}${te_string.strcpy}( ${evt_msg_var}->p_$_{parameter}, ${value} );"
-  .else
-    .assign attr_result = "${ws}  ${evt_msg_var}->p_${parameter} = ${value};"
-  .end if
-.end function
-.//------------------------------------------------
 .function t_oal_smt_generate
   .param inst_ref sm_evt
   .param boolean self_directed
@@ -467,7 +463,7 @@ ${te_instance.module}${te_eq.non_self}( \
   .param string parameters
   .param string ws
   .assign attr_declaration = ""
-  .select any te_target from instances of TE_TARGET
+  .select any te_thread from instances of TE_THREAD
   .select any te_instance from instances of TE_INSTANCE
   .select any te_eq from instances of TE_EQ
   .select one te_evt related by sm_evt->TE_EVT[R2036]
@@ -487,7 +483,7 @@ ${parameters}
     .// No special casting will then be required.  Good for MISRA.
  ${te_eq.base_event_type} * ${te_eq.event_message_variable} = ${te_instance.module}${te_eq.new}( ${void_cast}${var_name}, &${te_evt.GeneratedName}c );
   .end if
-  .if ( "SystemC" == te_target.language )
+  .if ( "SystemC" == te_thread.flavor )
   ${te_eq.event_message_variable}->sc_e = &(${te_instance.module}sc_${te_evt.GeneratedName});
   .end if
   .//
@@ -687,8 +683,8 @@ ${ws}return ${cast1}${rv}${cast2};\
 .function t_oal_smt_control
   .param string ws
   .// the only command defined is "STOP";
-  .select any te_target from instances of TE_TARGET
-  .if ( "SystemC" != te_target.language )
+  .select any te_thread from instances of TE_THREAD
+  .if ( "SystemC" != te_thread.flavor )
 ${ws}ARCH_shutdown();
   .end if
 .end function

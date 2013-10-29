@@ -121,12 +121,12 @@ ${persist_link_function.body}\
       .// object as Simple Participant, get formalizing object.
       .select one related_o_obj related by formalizer->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
       .assign te_relinfo.multiplicity = formalizer.Mult
-      .assign te_relinfo.is_formalizer = FALSE
+      .assign te_relinfo.is_formalizer = false
     .else
       .// object as Simple Formalizer, get participant object.
       .select one related_o_obj related by r_rto->R_OIR[R203]->O_OBJ[R201]
       .assign te_relinfo.multiplicity = participant.Mult
-      .assign te_relinfo.is_formalizer = TRUE
+      .assign te_relinfo.is_formalizer = true
       .//
       .invoke links = CreateSimpleFormalizerMethods( te_relstore, o_obj, r_rel, gen_declaration )
 ${links.body}\
@@ -143,7 +143,7 @@ ${methods.body}\
       .invoke form_mc = GetMultCondString( formalizer.Mult, formalizer.Cond )
       
 /*
- * R${r_rel.Numb} is Simple Reflexive:  ${part_mc.result}:${form_mc.result}
+ * R$t{r_rel.Numb} is Simple Reflexive:  ${part_mc.result}:${form_mc.result}
       .// Check for OOA96 compliance
       .if ( participant.Mult != formalizer.Mult )
  * Note:  Reflexive association is asymmetric.
@@ -156,14 +156,14 @@ ${methods.body}\
     .// Handle participant side
     .assign te_relinfo.multiplicity = participant.Mult
     .assign te_relinfo.rel_phrase = participant.Txt_Phrs
-    .assign te_relinfo.is_formalizer = FALSE
+    .assign te_relinfo.is_formalizer = false
     .invoke part_links = CreateSimpleReflexiveFormalizerMethods( te_relstore, o_obj, r_rel, participant.Txt_Phrs, gen_declaration )
     .invoke part_fundamentals = ImplementRelationshipFundamentals( o_obj, o_obj, r_rto, r_rgo, r_rel, te_relinfo, te_relstore )
     .//
     .// Handle formalizer side
     .assign te_relinfo.multiplicity = formalizer.Mult
     .assign te_relinfo.rel_phrase = formalizer.Txt_Phrs
-    .assign te_relinfo.is_formalizer = TRUE
+    .assign te_relinfo.is_formalizer = true
     .invoke form_links = CreateSimpleReflexiveFormalizerMethods( te_relstore, o_obj, r_rel, formalizer.Txt_Phrs, gen_declaration )
     .invoke form_fundamentals = ImplementRelationshipFundamentals( o_obj, o_obj, r_rto, r_rgo, r_rel, te_relinfo, te_relstore )
     .//
@@ -194,19 +194,19 @@ ${form_fundamentals.body}\
   .//
   .if ( o_obj.Obj_ID == r_super.Obj_ID )
     .// object as supertype in relationship.
-    .assign te_relinfo.is_supertype = TRUE
-    .assign te_relinfo.generate_subtype = TRUE
-    .assign te_relinfo.is_formalizer = FALSE
+    .assign te_relinfo.is_supertype = true
+    .assign te_relinfo.generate_subtype = true
+    .assign te_relinfo.is_formalizer = false
     .select many subtype_set related by r_rel->R_SUBSUP[R206]->R_SUB[R213]
-    .assign blurped_comment = FALSE
+    .assign blurped_comment = false
     .for each subtype in subtype_set
       .select one r_rgo related by subtype->R_RGO[R205]
       .select one sub_o_obj related by subtype->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
       .invoke methods = ImplementRelationshipFundamentals( o_obj, sub_o_obj, r_rto, r_rgo, r_rel, te_relinfo, te_relstore )
       .if ( not blurped_comment )
 
-/* Accessors to ${o_obj.Key_Lett}[R${r_rel.Numb}] subtypes */
-        .assign blurped_comment = TRUE
+/* Accessors to ${o_obj.Key_Lett}[R$t{r_rel.Numb}] subtypes */
+        .assign blurped_comment = true
       .end if
 ${methods.body}\
     .end for
@@ -215,7 +215,7 @@ ${methods.body}\
     .// object as subtype in relationship
     .select any r_rgo related by r_rel->R_SUBSUP[R206]->R_SUB[R213]->R_RGO[R205] where ( selected.Obj_ID == o_obj.Obj_ID )
     .select one supertype_o_obj related by r_super->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]
-    .assign te_relinfo.is_formalizer = TRUE
+    .assign te_relinfo.is_formalizer = true
     .invoke AddRelationshipStorage( o_obj, supertype_o_obj, r_rto, r_rgo, r_rel, te_relinfo, te_relstore )
     .invoke methods = CreateSubtypeFormalizerMethods( te_relstore, o_obj, r_rel, gen_declaration )
 ${methods.body}\
@@ -255,21 +255,21 @@ ${methods.body}\
   .//        Punch in as NavigatedTo to assure functional code...
   .//        ...unless dealing with a class that is discluded from gen.
   .if ( not aone_te_class.ExcludeFromGen )
-    .select one te_nav related by aone_oir->TE_NAV[R2035]
-    .assign te_nav.NavigatedTo = TRUE
+    .select one te_oir related by aone_oir->TE_OIR[R2035]
+    .assign te_oir.NavigatedTo = true
   .end if
   .if ( not aoth_te_class.ExcludeFromGen )
-    .select one te_nav related by aoth_oir->TE_NAV[R2035]
-    .assign te_nav.NavigatedTo = TRUE
+    .select one te_oir related by aoth_oir->TE_OIR[R2035]
+    .assign te_oir.NavigatedTo = true
   .end if
   .if ( not assr_te_class.ExcludeFromGen )
-    .select one te_nav related by assr_oir->TE_NAV[R2035]
-    .assign te_nav.NavigatedTo = TRUE
+    .select one te_oir related by assr_oir->TE_OIR[R2035]
+    .assign te_oir.NavigatedTo = true
   .end if
   .//
-  .assign associative_reflexive = FALSE
+  .assign associative_reflexive = false
   .if ( aone.Obj_Id == aoth.Obj_Id )
-    .assign associative_reflexive = TRUE
+    .assign associative_reflexive = true
   .end if
   .//
   .invoke r = FactoryTE_RELINFO()
@@ -281,7 +281,7 @@ ${methods.body}\
     .if ( not associative_reflexive )
       .//
       .assign te_relinfo.multiplicity = 0
-      .assign te_relinfo.is_formalizer = TRUE
+      .assign te_relinfo.is_formalizer = true
       .invoke assr_methods = CreateAssociativeFormalizerMethods( te_relstore, r_rel, "", gen_declaration )
       .//
       .// Handle Object As Associated One Side (R_AONE)
@@ -297,7 +297,7 @@ ${aoth_fundamentals.body}\
     .else
       .// reflexive associative relationship
       .assign te_relinfo.multiplicity = 0
-      .assign te_relinfo.is_formalizer = TRUE
+      .assign te_relinfo.is_formalizer = true
       .//
       .if ( gen_declaration )
         .select one aone_oid related by aone->R_RTO[R204]->O_ID[R109]
@@ -309,7 +309,7 @@ ${aoth_fundamentals.body}\
           .invoke one_mc = GetMultCondString( aone.Mult, aone.Cond )
           .invoke other_mc = GetMultCondString( aoth.Mult, aoth.Cond )
 
- * R${r_rel.Numb} is Associative Reflexive:  \
+ * R$t{r_rel.Numb} is Associative Reflexive:  \
           .if ( assr.Mult == 0 )
 1-(${one_mc.result}:${other_mc.result})
           .else
@@ -323,17 +323,17 @@ M-(${one_mc.result}:${other_mc.result})
           .for each aone_ref in aone_ref_set
             .select one one_ref_attr_obj related by aone_ref->O_OBJ[R102]
  *  Referential attribute ${one_ref_attr_obj.Name}.${aone_ref.Name}
- *    refers across R${r_rel.Numb} in the direction of ${aone.Txt_Phrs} (R_AONE)
+ *    refers across R$t{r_rel.Numb} in the direction of ${aone.Txt_Phrs} (R_AONE)
           .end for
  *
           .for each aoth_ref in aoth_ref_set
             .select one other_ref_attr_obj related by aoth_ref->O_OBJ[R102]
  *  Referential attribute ${other_ref_attr_obj.Name}.${aoth_ref.Name}
- *    refers across R${r_rel.Numb} in the direction of ${aoth.Txt_Phrs} (R_AOTH)
+ *    refers across R$t{r_rel.Numb} in the direction of ${aoth.Txt_Phrs} (R_AOTH)
           .end for
           .//
         .else
- * Note:  Relationship is not formalized!
+          .// Relationship is not formalized.
         .end if  .// (not_empty aone_oid) and (not_empty aoth_oid)
  */
         .//
@@ -426,8 +426,8 @@ ${aoth_fundamentals.body}\
     .invoke other_mc = GetMultCondString( other_side.Mult, other_side.Cond )
     .select any other_obj from instances of O_OBJ where ( selected.Obj_ID == other_side_oir.Obj_ID )
     .//
-    .assign msg1 = "WARNING:  R${r_rel.Numb} is COMPOSITION - No code generated"
-    .assign msg2 = "R${r_rel.Numb} = ${comp.Rel_Chn} is ${one_mc.result}:${other_mc.result} from (${one_obj.Key_Lett}) to (${other_obj.Key_Lett})"
+    .assign msg1 = "WARNING:  R$t{r_rel.Numb} is COMPOSITION - No code generated"
+    .assign msg2 = "R$t{r_rel.Numb} = ${comp.Rel_Chn} is ${one_mc.result}:${other_mc.result} from (${one_obj.Key_Lett}) to (${other_obj.Key_Lett})"
     .print "\n  ${msg1}\n  ${msg2}"
 /* ${msg1} */
 /* ${msg2} */
@@ -466,13 +466,13 @@ ${aoth_fundamentals.body}\
   .select one form_te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by form_te_class->TE_C[R2064]
   .//
-  .invoke relate_method   = GetRelateToName( o_obj, r_rel, "" )
-  .invoke unrelate_method = GetUnrelateFromName( o_obj, r_rel, "" )
+  .invoke r = GetRelateToName( o_obj, r_rel, "" )
+  .assign relate_method = r.result
+  .invoke r = GetUnrelateFromName( o_obj, r_rel, "" )
+  .assign unrelate_method = r.result
   .//
-  .select one te_nav related by rto->R_OIR[R203]->TE_NAV[R2035]
-  .assign rto_NavigatedTo = te_nav.NavigatedTo
-  .select one te_nav related by rgo->R_OIR[R203]->TE_NAV[R2035]
-  .assign rgo_NavigatedTo = te_nav.NavigatedTo
+  .select one part_te_oir related by rto->R_OIR[R203]->TE_OIR[R2035]
+  .select one form_te_oir related by rgo->R_OIR[R203]->TE_OIR[R2035]
   .if ( gen_declaration )
     .assign part_mult_cmt = "<-"
     .if ( part.Mult != 0 )
@@ -494,9 +494,7 @@ ${aoth_fundamentals.body}\
     .if ( "C" == te_target.language )
       .assign thismodule = ""
     .end if
-    .invoke form_data_member = GetRelationshipDataMemberName( part_obj, r_rel, "" )
-    .invoke part_data_member = GetRelationshipDataMemberName( o_obj, r_rel, "" )
-    .assign link_call = "${relate_method.result}( (${part_te_class.GeneratedName} *) l, (${form_te_class.GeneratedName} *) r )"
+    .assign link_call = "${form_te_class.scope}${relate_method}( (${part_te_class.GeneratedName} *) l, (${form_te_class.GeneratedName} *) r )"
     .select any assoc from instances of O_OBJ where ( false )
     .invoke PersistAddLinkCalls( o_obj, part_obj, assoc, te_relstore, link_call )
     .select any oref related by rgo->O_REF[R111]
@@ -535,13 +533,15 @@ ${aoth_fundamentals.body}\
   .select one part related by r_rel->R_SIMP[R206]->R_PART[R207]
   .select one rto related by part->R_RTO[R204]
   .select one rgo related by form->R_RGO[R205]
+  .select one part_te_oir related by rto->R_OIR[R203]->TE_OIR[R2035]
+  .select one form_te_oir related by rgo->R_OIR[R203]->TE_OIR[R2035]
   .select one te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by te_class->TE_C[R2064]
   .//
-  .invoke relate_method = GetRelateToName( o_obj, r_rel, rel_phrase )
-  .invoke unrelate_method = GetUnrelateFromName( o_obj, r_rel, rel_phrase )
-  .invoke part_data_member = GetRelationshipDataMemberName( o_obj, r_rel, part.Txt_Phrs )
-  .invoke form_data_member = GetRelationshipDataMemberName( o_obj, r_rel, form.Txt_Phrs )
+  .invoke r = GetRelateToName( o_obj, r_rel, rel_phrase )
+  .assign relate_method = r.result
+  .invoke r = GetUnrelateFromName( o_obj, r_rel, rel_phrase )
+  .assign unrelate_method = r.result
     .//
   .//
   .if ( gen_declaration )
@@ -557,13 +557,13 @@ ${aoth_fundamentals.body}\
     .if ( "C" == te_target.language )
       .assign thismodule = ""
     .end if
-    .assign left_is_formalizer = FALSE
+    .assign left_is_formalizer = false
     .if ( rel_phrase == part.Txt_Phrs )
       .// Left is formalizer, right is participant
-      .assign left_is_formalizer = TRUE
+      .assign left_is_formalizer = true
     .end if
     .select any assoc from instances of O_OBJ where ( false )
-    .assign link_call = "${relate_method.result}( (${te_class.GeneratedName} *) l, (${te_class.GeneratedName} *) r )"
+    .assign link_call = "${te_class.scope}${relate_method}( (${te_class.GeneratedName} *) l, (${te_class.GeneratedName} *) r )"
     .invoke persist_relate = PersistCallPostLink( "0", te_relstore, o_obj, o_obj, "left", o_obj, "right", assoc, "" )
     .invoke persist_unrelate = PersistCallPostLink( "1", te_relstore, o_obj, o_obj, "left", o_obj, "right", assoc, "" )
     .invoke PersistAddLinkCalls( o_obj, o_obj, assoc, te_relstore, link_call )
@@ -571,12 +571,10 @@ ${aoth_fundamentals.body}\
     .assign set_referentials = ""
     .assign reset_referentials = ""
     .if ( not_empty oref )
-      .invoke set_refs = SetReferentialAttributes( "right", "left", rto, rgo )
-      .if ( rel_phrase == form.Txt_Phrs )
-        .invoke set_refs = SetReferentialAttributes( "left", "right", rto, rgo )
-      .end if
+      .invoke set_refs = SetReferentialAttributes( "left", "right", rto, rgo )
       .invoke reset_refs = ResetReferentialAttributes( "right", rgo )
-      .if ( rel_phrase == part.Txt_Phrs )
+      .if ( rel_phrase == form.Txt_Phrs )
+        .invoke set_refs = SetReferentialAttributes( "right", "left", rto, rgo )
         .invoke reset_refs = ResetReferentialAttributes( "left", rgo )
       .end if
       .assign set_referentials = set_refs.body
@@ -618,13 +616,13 @@ ${aoth_fundamentals.body}\
   .select one sub_te_class related by o_obj->TE_CLASS[R2019]
   .select one te_c related by sub_te_class->TE_C[R2064]
   .//
-  .invoke relate_method   = GetRelateToName( o_obj, r_rel, "" )
-  .invoke unrelate_method = GetUnrelateFromName( o_obj, r_rel, "" )
+  .invoke r = GetRelateToName( o_obj, r_rel, "" )
+  .assign relate_method = r.result
+  .invoke r = GetUnrelateFromName( o_obj, r_rel, "" )
+  .assign unrelate_method = r.result
   .//
-  .select one te_nav related by rto->R_OIR[R203]->TE_NAV[R2035]
-  .assign rto_NavigatedTo = te_nav.NavigatedTo
-  .select one te_nav related by rgo->R_OIR[R203]->TE_NAV[R2035]
-  .assign rgo_NavigatedTo = te_nav.NavigatedTo
+  .select one super_te_oir related by rto->R_OIR[R203]->TE_OIR[R2035]
+  .select one sub_te_oir related by rgo->R_OIR[R203]->TE_OIR[R2035]
   .if ( gen_declaration )
     .assign externstatic = "static "
     .assign thismodule = ", ${te_c.Name} *"
@@ -638,10 +636,8 @@ ${aoth_fundamentals.body}\
     .if ( "C" == te_target.language )
       .assign thismodule = ""
     .end if
-    .invoke subtype_data_member = GetRelationshipDataMemberName( supertype_obj, r_rel, "" )
-    .invoke supertype_data_member = GetRelationshipDataMemberName( o_obj, r_rel, "" )
     .select one subtype_te_class related by o_obj->TE_CLASS[R2019]
-    .assign link_call = "${relate_method.result}( (${super_te_class.GeneratedName} *) l, (${sub_te_class.GeneratedName} *) r )"
+    .assign link_call = "${sub_te_class.scope}${relate_method}( (${super_te_class.GeneratedName} *) l, (${sub_te_class.GeneratedName} *) r )"
     .select any assoc from instances of O_OBJ where ( false )
     .invoke PersistAddLinkCalls( supertype_obj, o_obj, assoc, te_relstore, link_call )
     .select any oref related by rgo->O_REF[R111]
@@ -681,6 +677,10 @@ ${aoth_fundamentals.body}\
   .select one aoth_rto related by aoth->R_RTO[R204]
   .select one assr_rgo related by assr->R_RGO[R205]
   .//
+  .select one aone_te_oir related by aone_rto->R_OIR[R203]->TE_OIR[R2035]
+  .select one aoth_te_oir related by aoth_rto->R_OIR[R203]->TE_OIR[R2035]
+  .select one assr_te_oir related by assr_rgo->R_OIR[R203]->TE_OIR[R2035]
+  .//
   .select one aone_obj related by aone_rto->R_OIR[R203]->O_OBJ[R201]
   .select one aoth_obj related by aoth_rto->R_OIR[R203]->O_OBJ[R201]
   .select one assr_obj related by assr_rgo->R_OIR[R203]->O_OBJ[R201]
@@ -689,8 +689,10 @@ ${aoth_fundamentals.body}\
   .select one aoth_te_class related by aoth_obj->TE_CLASS[R2019]
   .select one assr_te_class related by assr_obj->TE_CLASS[R2019]
   .select one te_c related by assr_te_class->TE_C[R2064]
-  .invoke link_method = GetAssociativeLinkMethodName( aone_obj, aoth_obj, assr_obj, r_rel, rel_phrase )
-  .invoke unlink_method = GetAssociativeUnlinkMethodName( aone_obj, aoth_obj, assr_obj, r_rel, rel_phrase )
+  .invoke r = GetRelateToName( assr_obj, r_rel, "" )
+  .assign relate_method = r.result
+  .invoke r = GetUnrelateFromName( assr_obj, r_rel, "" )
+  .assign unrelate_method = r.result
   .//
   .if ( gen_declaration )
     .assign externstatic = "static "
@@ -706,10 +708,7 @@ ${aoth_fundamentals.body}\
       .assign thismodule = ""
     .end if
     .//
-    .invoke aone_data = GetRelationshipDataMemberName( aone_obj, r_rel, rel_phrase )
-    .invoke aoth_data = GetRelationshipDataMemberName( aoth_obj, r_rel, rel_phrase )
-    .invoke assr_data = GetRelationshipDataMemberName( assr_obj, r_rel, rel_phrase )
-    .assign link_call = "${link_method.result}( (${aone_te_class.GeneratedName} *) l, (${aoth_te_class.GeneratedName} *) r, (${assr_te_class.GeneratedName} *) a )"
+    .assign link_call = "${assr_te_class.scope}${relate_method}( (${aone_te_class.GeneratedName} *) l, (${aoth_te_class.GeneratedName} *) r, (${assr_te_class.GeneratedName} *) a )"
     .invoke PersistAddLinkCalls( aone_obj, aoth_obj, assr_obj, te_relstore, link_call )
     .select any oref related by assr_rgo->O_REF[R111]
     .assign set_aone_referentials = ""
@@ -758,8 +757,10 @@ ${aoth_fundamentals.body}\
   .select one te_c related by assr_te_class->TE_C[R2064]
   .select one te_rel related by r_rel->TE_REL[R2034]
   .//
-  .invoke link_method = GetAssociativeLinkMethodName( assoc_obj, assoc_obj, assr_obj, r_rel, rel_phrase )
-  .invoke unlink_method = GetAssociativeUnlinkMethodName( assoc_obj, assoc_obj, assr_obj, r_rel, rel_phrase )
+  .invoke r = GetRelateToName( assr_obj, r_rel, rel_phrase )
+  .assign relate_method = r.result
+  .invoke r = GetUnrelateFromName( assr_obj, r_rel, rel_phrase )
+  .assign unrelate_method = r.result
   .//
   .if ( gen_declaration )
     .assign externstatic = "static "
@@ -777,11 +778,10 @@ ${aoth_fundamentals.body}\
     .// CDS Here we need to distinguish between aone and aother for role symmetric
     .// reflexive relationships (where the relationship phrase is identical on both
     .// ends of the relationship).
-    .invoke aone_data = GetRelationshipDataMemberName( assoc_obj, r_rel, aone.Txt_Phrs )
-    .invoke aoth_data = GetRelationshipDataMemberName( assoc_obj, r_rel, aoth.Txt_Phrs )
-    .invoke aone_assr_data = GetRelationshipDataMemberName( assr_obj, r_rel, aone.Txt_Phrs  )
-    .invoke aoth_assr_data = GetRelationshipDataMemberName( assr_obj, r_rel, aoth.Txt_Phrs  )
-    .assign link_call = "${link_method.result}( (${assoc_te_class.GeneratedName} *) l, (${assoc_te_class.GeneratedName} *) r, (${assr_te_class.GeneratedName} *) a )"
+    .select any aone_te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( ( selected.Obj_ID == assoc_obj.Obj_ID ) and ( selected.rel_phrase == "$_{aone.Txt_Phrs}" ) )
+    .select any aoth_te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( ( selected.Obj_ID == assoc_obj.Obj_ID ) and ( selected.rel_phrase == "$_{aoth.Txt_Phrs}" ) )
+    .select any assr_te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == assr_obj.Obj_ID )
+    .assign link_call = "${assr_te_class.scope}${relate_method}( (${assoc_te_class.GeneratedName} *) l, (${assoc_te_class.GeneratedName} *) r, (${assr_te_class.GeneratedName} *) a )"
     .invoke PersistAddLinkCalls( assoc_obj, assoc_obj, assr_obj, te_relstore, link_call )
     .invoke persist_relate = PersistCallPostLink( "0", te_relstore, assr_obj, assoc_obj, "left", assoc_obj, "right", assr_obj, "assr" )
     .invoke persist_unrelate = PersistCallPostLink( "1", te_relstore, assr_obj, assoc_obj, "left", assoc_obj, "right", assr_obj, "assr" )
@@ -856,15 +856,22 @@ ${aoth_fundamentals.body}\
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
-  .select many ref_attr_set related by r_rgo->O_REF[R111]->O_RATTR[R108]->O_ATTR[R106]
-  .for each ref_attr in ref_attr_set
-    .select one ref_te_attr related by ref_attr->TE_ATTR[R2033]
+  .select many o_attrs related by r_rgo->O_REF[R111]->O_RATTR[R108]->O_ATTR[R106]
+  .for each o_attr in o_attrs
+    .select one ref_te_attr related by o_attr->TE_ATTR[R2033]
     .if ( ref_te_attr.translate )
-      .invoke r = GetAttributeCodeGenType( ref_attr )
-      .assign te_dt = r.result
-      .include "${te_file.arc_path}/t.class.reset_refs.c"
+      .select many o_refs related by o_attr->O_RATTR[R106]->O_REF[R108]
+      .assign c = cardinality o_refs
+      .if ( c == 1 )
+        .select any o_oida related by o_attr->O_OIDA[R105]
+        .if ( empty o_oida )
+          .invoke r = GetAttributeCodeGenType( o_attr )
+          .assign te_dt = r.result
+          .include "${te_file.arc_path}/t.class.reset_refs.c"
+        .end if
+      .end if
     .end if
-  .end for  .// ref_attr in ref_attr_set
+  .end for
 .end function
 .//
 .//============================================================================
@@ -887,9 +894,13 @@ ${aoth_fundamentals.body}\
   .select any te_typemap from instances of TE_TYPEMAP
   .//
   .// Get the base names of the data member(s) to be generated.
+  .select any te_oir related by rel->R_OIR[R201]->TE_OIR[R2035] where ( ( selected.Obj_ID == related_o_obj.Obj_ID ) and ( selected.rel_phrase == "$_{te_relinfo.rel_phrase}" ) )
+  .if ( empty te_oir )
+    .select any te_oir related by rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == related_o_obj.Obj_ID )
+  .end if
   .invoke member_data_name = GetRelationshipDataMemberName( related_o_obj, rel, te_relinfo.rel_phrase )
   .//
-  .assign storage_needed = FALSE
+  .assign storage_needed = false
   .assign phrase = ""
   .if ( "" != te_relinfo.rel_phrase )
     .// Include relationship phrase in reflexive relationship commenting.
@@ -899,29 +910,29 @@ ${aoth_fundamentals.body}\
   .if ( this_o_obj.Obj_ID != related_o_obj.Obj_ID )
     .// Non-reflexive - linkage based on navigation needs
     .if ( te_relinfo.is_formalizer )
-      .select one te_nav related by rto->R_OIR[R203]->TE_NAV[R2035]
-      .if ( te_nav.NavigatedTo or te_c.OptDisabled )
-        .assign storage_needed = TRUE
+      .select one rto_te_oir related by rto->R_OIR[R203]->TE_OIR[R2035]
+      .if ( rto_te_oir.NavigatedTo or te_c.OptDisabled )
+        .assign storage_needed = true
       .else
         .select one super related by rto->R_SUPER[R204]
         .if ( not_empty super )
-          .assign storage_needed = TRUE
+          .assign storage_needed = true
         .end if
       .end if
     .else
-      .select one te_nav related by rgo->R_OIR[R203]->TE_NAV[R2035]
-      .if ( te_nav.NavigatedTo or te_c.OptDisabled )
-        .assign storage_needed = TRUE
+      .select one rgo_te_oir related by rgo->R_OIR[R203]->TE_OIR[R2035]
+      .if ( rgo_te_oir.NavigatedTo or te_c.OptDisabled )
+        .assign storage_needed = true
       .else
         .select one sub related by rgo->R_SUB[R205]
         .if ( not_empty sub )
-          .assign storage_needed = TRUE
+          .assign storage_needed = true
         .end if
       .end if
     .end if
   .else
     .// Reflexive - always need bi-directional linkage
-    .assign storage_needed = TRUE
+    .assign storage_needed = true
   .end if
   .//
   .if ( te_relinfo.gen_declaration )
@@ -941,7 +952,7 @@ ${aoth_fundamentals.body}\
         .if ( te_relinfo.generate_subtype )
           .// optimized relationship storage for link to a subtype
           .assign data_declare = "  void * ${member_data_name.result};\n  ${te_typemap.object_number_name} ${member_data_name.obj_id};\n"
-          .assign te_relinfo.generate_subtype = FALSE
+          .assign te_relinfo.generate_subtype = false
         .end if
       .end if
     .else
@@ -972,7 +983,7 @@ ${aoth_fundamentals.body}\
           .assign data_init = "  ${te_instance.self}->${member_data_name.result} = 0;\n  ${te_instance.self}->${member_data_name.obj_id} = 0;\n"
           .if ( storage_needed )
             .assign data_fini = "  ${te_instance.self}->${member_data_name.result} = 0;\n  ${te_instance.self}->${member_data_name.obj_id} = 0;\n"
-            .assign te_relinfo.generate_subtype = FALSE
+            .assign te_relinfo.generate_subtype = false
           .end if
         .end if
       .end if
@@ -1012,12 +1023,13 @@ ${aoth_fundamentals.body}\
   .// Append relationship data storage components to te_relstore instance.
   .invoke AddRelationshipStorage( this_o_obj, related_o_obj, r_rto, r_rgo, r_rel, te_relinfo, te_relstore )
   .if ( te_relinfo.gen_declaration )
-    .assign gen_navigate = FALSE
+    .assign gen_navigate = false
     .if ( te_relinfo.is_supertype or ( te_relinfo.multiplicity != 0 ) )
-      .assign gen_navigate = TRUE
+      .assign gen_navigate = true
     .end if
     .if ( gen_navigate )
       .// Get the base names of the methods and data members to be generated.
+      .select any te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == related_o_obj.Obj_ID )
       .invoke navigate_method  = GetNavigateLinkMethodName( this_o_obj, related_o_obj, r_rel, te_relinfo.rel_phrase )
       .invoke member_data_name = GetRelationshipDataMemberName( related_o_obj, r_rel, te_relinfo.rel_phrase )
       .//
@@ -1025,9 +1037,9 @@ ${aoth_fundamentals.body}\
       .select one te_class related by this_o_obj->TE_CLASS[R2019]
       .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
       .select one te_c related by te_class->TE_C[R2064]
-      .select one te_nav1 related by r_rto->R_OIR[R203]->TE_NAV[R2035]
-      .select one te_nav2 related by r_rgo->R_OIR[R203]->TE_NAV[R2035]
-      .assign navigated = ( te_nav1.NavigatedTo or te_nav2.NavigatedTo )
+      .select one te_oir1 related by r_rto->R_OIR[R203]->TE_OIR[R2035]
+      .select one te_oir2 related by r_rgo->R_OIR[R203]->TE_OIR[R2035]
+      .assign navigated = ( te_oir1.NavigatedTo or te_oir2.NavigatedTo )
       .include "${te_file.arc_path}/t.class.link.h"
     .end if
   .end if
@@ -1035,7 +1047,7 @@ ${aoth_fundamentals.body}\
 .//
 .function FactoryTE_RELINFO
   .select any te_relinfo from instances of TE_RELINFO
-  .invoke factory_TE_RELINFO( te_relinfo )
+  .invoke relinfo_factory( te_relinfo )
   .assign attr_result = te_relinfo
 .end function
 .//
@@ -1050,46 +1062,6 @@ ${aoth_fundamentals.body}\
   .assign te_relstore.data_fini    = ""
   .assign te_relstore.link_calls   = ""
   .assign te_relstore.link_index   = 0
-.end function
-.//
-.//============================================================================
-.// Returns whether the left O_OBJ is the formalizer.
-.//=============================================================================
-.function TE_REL_IsLeftFormalizer
-  .param inst_ref left_o_obj
-  .param inst_ref right_o_obj
-  .param inst_ref r_rel
-  .param string rel_phrase
-  .//
-  .assign attr_result = false
-  .select one r_simp related by r_rel->R_SIMP[R206]
-  .if ( not_empty r_simp )
-    .select one formalizer related by r_simp->R_FORM[R208]
-    .select one participant related by r_simp->R_PART[R207]
-    .if ( participant.Obj_ID != formalizer.Obj_ID )
-      .// *** Normal Simple Relationship
-      .if ( left_o_obj.Obj_ID == formalizer.Obj_ID )
-        .// Left object is formalizer, right object is participant.
-        .assign attr_result = true
-      .end if
-    .else
-      .// *** Simple Reflexive Relationship
-      .if ( rel_phrase == participant.Txt_Phrs )
-        .// Left object is formalizer, right object is participant.
-        .assign attr_result = true
-      .end if
-    .end if
-  .else
-    .select one subtype_supertype_rel related by r_rel->R_SUBSUP[R206]
-    .// Subtype-Supertype relationship?
-    .if ( not_empty subtype_supertype_rel )
-      .// Left object is the subtype (formalizer)?
-      .select any subtype related by subtype_supertype_rel->R_SUB[R213] where ( selected.Obj_ID == left_o_obj.Obj_ID )
-      .if ( not_empty subtype )
-        .assign attr_result = true
-      .end if
-    .end if
-  .end if
 .end function
 .//
 .//============================================================================

@@ -74,7 +74,7 @@ ${te_target.c2cplusplus_linkage_end}
 .function CreateObjectAttrDataDeclaration
   .param inst_ref te_class
   .select any te_string from instances of TE_STRING
-  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 00 )
   .while ( not_empty te_attr )
     .select one o_attr related by te_attr->O_ATTR[R2033]
     .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
@@ -255,12 +255,20 @@ class ${te_c.Name}; // forward reference
     .if ( ( "C" != te_target.language ) and ( not_empty te_c ) )
 #include "${te_c.Name}.${te_file.hdr_file_ext}"
     .end if
-    .select many te_ees related by te_c->TE_EE[R2085] where ( selected.Included )
-    .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 0 ) and ( selected.Included ) )
-    .assign te_ees = te_ees | global_te_ees
-    .for each te_ee in te_ees
+    .select many te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
+    .invoke r = ee_sort( te_ees )
+    .assign te_ee = r.result
+    .while ( not_empty te_ee )
 #include "${te_ee.Include_File}"
-    .end for
+      .select one te_ee related by te_ee->TE_EE[R2096.'succeeds']
+    .end while
+    .select one te_ee related by te_c->TE_EE[R2098]
+    .while ( not_empty te_ee )
+      .if ( te_ee.Included )
+#include "${te_ee.Include_File}"
+      .end if
+      .select one te_ee related by te_ee->TE_EE[R2096.'succeeds']
+    .end while
     .if ( "C" == te_target.language )
       .select any te_sync related by te_c->TE_SYNC[R2084]
       .select any te_class related by te_c->TE_CLASS[R2064]

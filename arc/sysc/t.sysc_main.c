@@ -45,7 +45,11 @@ ${sysc_top_includes}
  * of bringup, run and shutdown.
  *
  */
+.if ( "SystemC" == te_thread.flavor )
 int sc_main ( int argc, char* argv[] )
+.else
+int main ( int argc, char* argv[] )
+.end if
 {
 .if ( gen_vista_top_template )
   setTiming();
@@ -65,7 +69,7 @@ int sc_main ( int argc, char* argv[] )
   $r{tm_build_pkg.package_inst_name} = new ENTER_SCHEMATIC_NAME_HERE("top");
 .else
   ${sysc_top_inst_decls}\
-${sysc_top_insts}
+${sysc_top_insts}\
 .end if
   ${te_callout.post_xtUML_initialization}();
 .if ( "BitLevelSignals" == te_sys.SystemCPortsType )  
@@ -76,10 +80,13 @@ ${sysc_top_insts}
   sc_start(1);
   rst_X.write(1);
 .end if
-  //--- Steady State Simulation
+.if ( "SystemC" == te_thread.flavor )
   sc_start();
+.end if
   ${te_callout.pre_shutdown}();
+.if ( "SystemC" == te_thread.flavor )
   sc_stop();
+.end if
   ${te_callout.post_shutdown}();
   ${sysc_top_insts_cleanup}\
 ${return_body}\

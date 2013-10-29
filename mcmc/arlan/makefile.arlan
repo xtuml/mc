@@ -1,0 +1,17 @@
+CFLAGS=
+LFLAGS= -lfl
+
+all:	arlan
+
+arlan: arlan.tab.c arlan.tab.h lex.yy.c
+	gcc $(CFLAGS) -o arlan lex.yy.c arlan.tab.c $(LFLAGS)
+
+arlan.tab.h arlan.tab.c:  arlan.y 
+	bison -dv arlan.y 
+	mv arlan.tab.h y.tab.h
+
+lex.yy.c: arlan.l
+	flex arlan.l 
+
+clean:
+	rm *.o *.output *.c *.h *.exe

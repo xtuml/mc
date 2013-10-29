@@ -11,37 +11,29 @@
   .end for
   </Port>
 .end for
-.//select all classes in exactly the same order as in q.domain.classes.arc
-  .select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
-  .select many o_objs related by te_classes->O_OBJ[R2019]
-  .select many ism_o_objs related by o_objs->SM_ISM[R518]->O_OBJ[R518]
-  .select many asm_o_objs related by o_objs->SM_ASM[R519]->O_OBJ[R519]
-  .assign passive_o_objs = o_objs - ism_o_objs
-  .assign passive_o_objs = passive_o_objs - asm_o_objs
-  .assign sm_o_objs = o_objs - passive_o_objs
 
+.//select all classes in exactly the same order as in q.domain.classes.arc
+  .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+  .// Find first te_class.
+  .assign first_te_class = te_class
+  .while ( not_empty te_class )
+    .assign first_te_class = te_class
+    .select one te_class related by te_class->TE_CLASS[R2092.'precedes']
+  .end while
   .assign object_set_type = 0
   .assign class_number_count = 0
   .while ( object_set_type < 3 )
-    .if ( object_set_type == 0 )
-      .assign o_objs = sm_o_objs
-    .elif ( object_set_type == 1 )
-      .assign o_objs = asm_o_objs
-    .elif ( object_set_type == 2 )
-      .assign o_objs = passive_o_objs
-    .else
-      .print "Logic error with O_OBJ subset types."
-      .exit 100
-    .end if
-    .for each o_obj in o_objs
-      .select one te_class related by o_obj->TE_CLASS[R2019]
+    .assign te_class = first_te_class
+    .while ( not_empty te_class )
+      .assign combineddispatchers = te_class.dispatcher + te_class.CBdispatcher
+      .if ( ( ( ( 0 == object_set_type ) and ( "" != combineddispatchers ) ) or ( ( 1 == object_set_type ) and ( "" != te_class.CBdispatcher ) ) ) or ( ( 2 == object_set_type ) and ( "" == combineddispatchers ) ) )
+      .select one o_obj related by te_class->O_OBJ[R2019]
       .assign sm_type = ""
       .if (object_set_type == 0)
         .assign sm_type = "Instance"
       .elif (object_set_type == 1) 
         .assign sm_type = "Class"
       .end if
-      .select any o_obj related by te_class->O_OBJ[R2019]
   <Class keyletter="${o_obj.Key_Lett}" name="${te_class.Name}" number="${class_number_count}" statemachine_type="${sm_type}">
     <description>${o_obj.Descrip}</description>
       .select many te_sms related by te_class->TE_SM[R2072]
@@ -60,7 +52,9 @@
       .end for
   </Class>
       .assign class_number_count = class_number_count + 1
-    .end for
+      .end if
+      .select one te_class related by te_class->TE_CLASS[R2092.'succeeds']
+    .end while
     .assign object_set_type = object_set_type + 1
   .end while
 </TraceTranslationData>
