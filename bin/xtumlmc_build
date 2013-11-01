@@ -1463,7 +1463,10 @@ if ( -f $mccmd ) {
   } else {
     xtumlmc_move( "$modelBeingTranslated", "a.xtuml" );
     # Run compiled model compiler.
-    system( "$mccmd > $modelBeingTranslated" );
+    system( "$mccmd > $modelBeingTranslated 2> mcconsole.txt" );
+    my $inFile = xtumlmc_open( "<" . "mcconsole.txt" );
+    while ( <$inFile> ) { print; }
+    close $inFile
   }
 }
 xtumlmc_gen_erate( "$license_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} -arch \"$arcdir/sys.arc\"" );
