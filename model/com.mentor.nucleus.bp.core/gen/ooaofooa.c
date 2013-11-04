@@ -831,6 +831,7 @@ ooaofooa_FactoryTE_ABA( c_t p_name[ESCHER_SYS_MAX_STRING_LEN], c_t p_scope[ESCHE
   te_aba = (ooaofooa_TE_ABA *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_ABA_CLASS_NUMBER );
   te_aba->AbaID = (Escher_UniqueID_t) te_aba;
   te_aba->code = (c_t *) Escher_malloc( 400000 );
+  *te_aba->code = 0;
   /* ASSIGN te_aba.SelfEventCount = 0 */
   te_aba->SelfEventCount = 0;
   /* ASSIGN te_aba.NonSelfEventCount = 0 */
@@ -12823,8 +12824,8 @@ ooaofooa_docgen_system()
   Escher_strcpy( doc_doc->font_family, "Arial" );
   /* ASSIGN doc_doc.company = Mentor Graphics */
   Escher_strcpy( doc_doc->company, "Mentor Graphics" );
-  /* ASSIGN doc_doc.copyright = Copyright (c) Mentor Graphics Corporation 2012.  All Rights Reserved. */
-  Escher_strcpy( doc_doc->copyright, "Copyright (c) Mentor Graphics Corporation 2012.  All Rights Reserved." );
+  /* ASSIGN doc_doc.copyright = Copyright (c) Mentor Graphics Corporation 2013.  All Rights Reserved. */
+  Escher_strcpy( doc_doc->copyright, "Copyright (c) Mentor Graphics Corporation 2013.  All Rights Reserved." );
   /* ASSIGN doc_doc.filename = doc.xml */
   Escher_strcpy( doc_doc->filename, "doc.xml" );
   /* ASSIGN doc_doc.model_image_ext = .png */

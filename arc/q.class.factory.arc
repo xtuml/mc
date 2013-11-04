@@ -113,9 +113,9 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
         .elif ( 4 == te_dt.Core_Typ )
           .// string
           .if ( ( "Action_Semantics_internal" == te_attr.Name ) or ( "Descrip" == te_attr.Name ) )
-  ${te_instance.self}->${te_attr.GeneratedName} = (c_t *) ${te_dma.allocate}( avlstring[ ${attribute_number} + 1 ] - avlstring[ ${attribute_number} ] );
-  {i_t i; for ( i = 0; i < avlstring[ ${attribute_number} + 1 ] - avlstring[ ${attribute_number} ]; i++ )
-    ${te_instance.self}->${te_attr.GeneratedName}[ i ] = avlstring[ ${attribute_number} ][ i ];
+  {i_t i = avlstring[ ${attribute_number} + 1 ] - avlstring[ ${attribute_number} ];
+  ${te_instance.self}->${te_attr.GeneratedName} = ( i > 0 ) ? (c_t *) ${te_dma.allocate}( i ) : "";
+  while ( --i >= 0 ) { ${te_instance.self}->${te_attr.GeneratedName}[ i ] = avlstring[ ${attribute_number} ][ i ]; }
   }
           .else
   ${te_instance.module}${te_string.strcpy}( ${te_instance.self}->${te_attr.GeneratedName}, avlstring[ ${attribute_number} ] );
