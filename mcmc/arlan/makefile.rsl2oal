@@ -1,6 +1,6 @@
 CFLAGS= -DRSL2OAL_CONVERT -c
 LFLAGS= -lfl
-#GCC= i686-pc-mingw32-gcc
+#GCC= i686-w64-mingw32-gcc
 GCC= gcc
 
 all:	rsl2oal

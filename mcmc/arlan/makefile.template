@@ -1,6 +1,6 @@
 CFLAGS= -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast
 LFLAGS= -lfl
-#GCC= i686-pc-mingw32-gcc
+#GCC= i686-w64-mingw32-gcc
 GCC= gcc
 
 all:	template_engine
