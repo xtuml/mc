@@ -337,13 +337,11 @@ extern int yyparse( void );
 c_t *
 T_t( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
-  c_t * result = 0;
+  c_t * result = p_s;
   if ( ( strlen( p_s ) > 0 ) && strchr( p_s, '$' ) && strchr( p_s, '{' ) && strchr( p_s, '}' ) ) {
     c_t s[ESCHER_SYS_MAX_STRING_LEN];
     strncpy(s,p_s,ESCHER_SYS_MAX_STRING_LEN-1);strcat(s,"\n");
     result = template_engine( s );
-  } else {
-    result = p_s;
   }
   return result;
 }

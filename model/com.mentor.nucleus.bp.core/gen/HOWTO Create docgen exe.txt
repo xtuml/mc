@@ -59,7 +59,7 @@ To build on the command line using cygwin
     - gcc *.o
 
     To do a release build:
-    - gcc -O2 -mno-cygwin *.c -o docgen.exe
+    - gcc -O2 -mno-cygwin *.c -o docgen.exe // on Linux, i686-w64-mingw32-gcc
 
 
 
@@ -95,25 +95,39 @@ Running DocGen
 
 
 
+Building mcmc (which serves to be both mcmc and docgen).
+-------------
+
+Summary:
+- Convert RSL queries into OAL and import into model of model compiler.
+- Convert RSL templates into C code templates.
+- Build dynamic template engine.
+- Generate C code from model compiler model.
+- Compile and link.
 
 Needed:
 - rsl2oal (xtuml/mc/mcmc/arlan)
 - current_list.sh (xtuml/mc/mcmc/arlan)
-- template_engine (xtuml/mc/mcmc/arlan)
-- 
+- convert_templates.sh (xtuml/mc/mcmc/arlan)
+- Linux BridgePoint installation (primary)
+- golden source from previous build (xtuml/mc/model/com.mentor.nucleus.bp.core/src410)
 
-Update rsl2oal translator.
-- Create function signatures for OAL from the RSL by running:
+Update the RSL-to-OAL translator.
+- Create function signatures for OAL from the RSL by running the
+  the following in the mc/arc folder:
   + egrep -r -e "^\.function " -e "^ *\.param " -e ".end function" * | awk '{if ($1 ~ ".function") printf("{\"%s\"",$2); else if ($0 ~ "\.param ") printf(",\"%s\"",$4); else if ($1 ~ ".end" && $2 ~ "function") printf("},\n");}' > ~/funcsigs.h
   + Then, vimdiff into funcsig.h in the xtuml/mc/mcmc/arlan directory.
   + make -f makefile.rsl2oal
+  + Copy lex.yy.c
 
-
-- Run convert_templates.sh to translate RSL templates into C code templates.
+Run the rsl2oal translator.
 - Run current_list.sh to translate RSL to OAL.
-  + diff with old version of o.oal, o2.oal, o3.oal, o4.oal looking for extra blank space.
-- Delete functions from afun, afunmark, afunsmt, afunval but leave afun::a0.
-- Right click on the function packages and import OAL:
+  + diff with old version of o.oal, o2.oal, o3.oal, o4.oal looking for extra
+    blank space.  (Clean up that extra blank space.)
+- In the MC model, delete functions from afun, afunmark, afunsmt, afunval
+  but leave afun::a0.
+- Right click on the function packages and import OAL using the BridgePoint
+  utility:
   + afun gets o.oal
   + afunval gets o2.oal
   + afunsmt gets o3.oal
@@ -121,6 +135,11 @@ Update rsl2oal translator.
   Parse all activities.  Fix the following by hand-editing:
     afunstmt:  ${subtypecheck}
     afunstmt:  ${ws}
+
+Update the template engine.
+- make -f makefile.template
+- Copy lex.yy.c and template_engine.tab.c to /src folder.
+- Run convert_templates.sh to translate RSL templates into C code templates.
 
 - Edit ooaofooa.c to get diffs similar to those listed below
 - Edit ooaofooa_TE_ABA_class.h:
@@ -131,7 +150,7 @@ Update rsl2oal translator.
 - Edit ooaofooa_TE_SMT_class.h:
   + c_t buffer[2500];
 
-
+- gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -lfl -o mcmc
 
 
 
