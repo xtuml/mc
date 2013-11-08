@@ -1319,16 +1319,8 @@ end for;
 // foreign interface references.
 select many te_pos from instances of TE_PO;
 for each te_po in te_pos
-  // CDS - review/remove
-  if ( te_sys.AllPortsPoly )
-    te_po.polymorphic = true;
-  end if;
   select many te_iirs related by te_po->TE_IIR[R2080];
   for each te_iir in te_iirs
-    // CDS - review/remove
-    if ( te_sys.AllPortsPoly )
-      te_iir.polymorphic = true;
-    end if;
     // Select across the satisfaction to get the related TE_IIR.
     if ( te_po.Provision )
       // provision side first

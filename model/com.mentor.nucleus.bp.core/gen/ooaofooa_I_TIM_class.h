@@ -27,7 +27,7 @@ struct ooaofooa_I_TIM {
   bool recurring;  
   Escher_UniqueID_t Event_ID;  
   c_t Label[ESCHER_SYS_MAX_STRING_LEN];  
-  l_t expiration;  
+  i_t expiration;  
 
   /* relationship storage */
   ooaofooa_I_EVI * I_EVI_R2940_provides_delayed_delivery_of;

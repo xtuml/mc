@@ -17,14 +17,13 @@ extern	"C"	{
 
 #include "sys_sys_types.h"
 
-#define T_T(x) strcat(s,x)
-void T_clear( void );
-void T_include( c_t[ESCHER_SYS_MAX_STRING_LEN] );
+c_t * T_s( const i_t );
 void T_emit( c_t[ESCHER_SYS_MAX_STRING_LEN] );
+void T_clear( void );
+void T_b( c_t[ESCHER_SYS_MAX_STRING_LEN] );
 void T_print( c_t[ESCHER_SYS_MAX_STRING_LEN] );
 void T_exit( const i_t );
-void T_b( c_t[ESCHER_SYS_MAX_STRING_LEN] );
-c_t * T_s( const i_t );
+void T_include( c_t[ESCHER_SYS_MAX_STRING_LEN] );
 c_t * T_r( c_t[ESCHER_SYS_MAX_STRING_LEN] );
 c_t * T_u( c_t[ESCHER_SYS_MAX_STRING_LEN] );
 c_t * T_l( c_t[ESCHER_SYS_MAX_STRING_LEN] );

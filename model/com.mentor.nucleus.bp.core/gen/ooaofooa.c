@@ -15,6 +15,7 @@
 #include "ooaofooa_classes.h"
 
 extern void mark_pass( c_t * );
+#define T_T(x) strcat(s,x)
 
 /*
  * UML Domain Functions (Synchronous Services)
@@ -12824,8 +12825,8 @@ ooaofooa_docgen_system()
   Escher_strcpy( doc_doc->font_family, "Arial" );
   /* ASSIGN doc_doc.company = Mentor Graphics */
   Escher_strcpy( doc_doc->company, "Mentor Graphics" );
-  /* ASSIGN doc_doc.copyright = Copyright (c) Mentor Graphics Corporation 2013.  All Rights Reserved. */
-  Escher_strcpy( doc_doc->copyright, "Copyright (c) Mentor Graphics Corporation 2013.  All Rights Reserved." );
+  /* ASSIGN doc_doc.copyright = */
+  Escher_strcpy( doc_doc->copyright, "" );
   /* ASSIGN doc_doc.filename = doc.xml */
   Escher_strcpy( doc_doc->filename, "doc.xml" );
   /* ASSIGN doc_doc.model_image_ext = .png */
@@ -20601,11 +20602,6 @@ te_c->cId = (Escher_UniqueID_t) te_c;
   while ( (iite_po = (ooaofooa_TE_PO *)Escher_IteratorNext( &iterte_po )) != 0 ) {
     te_po = iite_po; {
     ooaofooa_TE_IIR * te_iir=0;Escher_ObjectSet_s te_iirs_space={0}; Escher_ObjectSet_s * te_iirs = &te_iirs_space;
-    /* IF ( te_sys.AllPortsPoly ) */
-    if ( te_sys->AllPortsPoly ) {
-    /* ASSIGN te_po.polymorphic = TRUE */
-    te_po->polymorphic = TRUE;
-    }
     /* SELECT many te_iirs RELATED BY te_po->TE_IIR[R2080] */
     Escher_ClearSet( te_iirs );
     if ( 0 != te_po ) {
@@ -20617,11 +20613,6 @@ te_c->cId = (Escher_UniqueID_t) te_c;
     Escher_IteratorReset( &iterte_iir, te_iirs );
     while ( (iite_iir = (ooaofooa_TE_IIR *)Escher_IteratorNext( &iterte_iir )) != 0 ) {
       te_iir = iite_iir; {
-    /* IF ( te_sys.AllPortsPoly ) */
-    if ( te_sys->AllPortsPoly ) {
-    /* ASSIGN te_iir.polymorphic = TRUE */
-    te_iir->polymorphic = TRUE;
-    }
     /* IF ( te_po.Provision ) */
     if ( te_po->Provision ) {
     ooaofooa_TE_IIR * foreign_te_iir=0;

@@ -15,6 +15,7 @@
 #include "ooaofooa_classes.h"
 
 extern void mark_pass( c_t * );
+#define T_T(x) strcat(s,x)
 
 /*
  * UML Domain Functions (Synchronous Services)
@@ -12824,8 +12825,8 @@ ooaofooa_docgen_system()
   Escher_strcpy( doc_doc->font_family, "Arial" );
   /* ASSIGN doc_doc.company = Mentor Graphics */
   Escher_strcpy( doc_doc->company, "Mentor Graphics" );
-  /* ASSIGN doc_doc.copyright = Copyright (c) Mentor Graphics Corporation 2013.  All Rights Reserved. */
-  Escher_strcpy( doc_doc->copyright, "Copyright (c) Mentor Graphics Corporation 2013.  All Rights Reserved." );
+  /* ASSIGN doc_doc.copyright = */
+  Escher_strcpy( doc_doc->copyright, "" );
   /* ASSIGN doc_doc.filename = doc.xml */
   Escher_strcpy( doc_doc->filename, "doc.xml" );
   /* ASSIGN doc_doc.model_image_ext = .png */

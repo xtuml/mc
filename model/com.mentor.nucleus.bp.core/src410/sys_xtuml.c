@@ -357,11 +357,10 @@ Escher_stradd( const c_t * left, const c_t * right )
 c_t
 Escher_strcmp( const c_t *p1, const c_t *p2 )
 {
-  const c_t * s1 = p1;
-  const c_t * s2 = p2;
-  c_t c1 = 0, c2 = 0;
+  const c_t *s1 = p1;
+  const c_t *s2 = p2;
+  c_t c1, c2;
   s2_t i = ESCHER_SYS_MAX_STRING_LEN;
-  if ( p1 && p2 )
   do {
     c1 = *s1++;
     c2 = *s2++;
