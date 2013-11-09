@@ -126,6 +126,7 @@ Update the RSL-to-OAL translator.
 Run the rsl2oal translator.
 - Run current_list.sh to translate RSL to OAL.
   + Copy old o*.oal to a backup location (in /tmp/).
+  + sh ./current_list.sh
   + diff with old version of o.oal, o2.oal, o3.oal, o4.oal looking for extra
     blank space.  (Clean up that extra blank space.)
 - In the MC model, delete functions from afun, afunmark, afunsmt, afunval
@@ -137,8 +138,9 @@ Run the rsl2oal translator.
   + afunsmt gets o3.oal
   + afunmark gets o4.oal
   Parse all activities.  Fix the following by hand-editing:
-    afunstmt:  ${subtypecheck}\ // subtypecheck
+    afunstmt:  ${subtypecheck}\ // subtypecheck 5 or 6 times
     afunstmt:  ${ws}}\ // ws + "}"
+    afunstmt:  }\ // "}"
     T_atoi:  STRING_TO_INTEGER // Comment this out and return 0.
 
 Update the template engine.
@@ -149,18 +151,20 @@ Update the template engine.
 
 Generate the code.
 - In BP project com.mentor.nucleus.bp.core, Build Project
-- Edit ooaofooa.c to get diffs similar to those listed below
-- Edit ooaofooa_TE_ABA_class.h:
-  + c_t * code;
-- Edit ooaofooa_TE_BLK_class.h:
-  + c_t declaration[16000];
-  + c_t deallocation[8000];
-- Edit ooaofooa_TE_SMT_class.h:
-  + c_t buffer[2500];
-- vimdiff ../src410/ooaofooa_TE_C_class.c ooaofooa_TE_C_class.c:
-  + Add back in the attributes at the end of the class.
-- vimdiff ../src410/c/t.smt_sr.multi_many_astob1.c c/t.smt_sr.multi_many_astob1.c
-- vimdiff ../src410/c/t.smt_sr.multi_many_astobm.c c/t.smt_sr.multi_many_astobm.c
+- The following diffs come from files in the gen folder.
+  + Edit ooaofooa.c to get diffs similar to those listed below
+  + Edit ooaofooa_TE_ABA_class.h:
+    c_t * code;
+  + Edit ooaofooa_TE_BLK_class.h:
+    c_t declaration[16000];
+    c_t deallocation[8000];
+  + Edit ooaofooa_TE_SMT_class.h:
+    c_t buffer[2500];
+- Add back in the attributes at the end of the TE_C class.
+  + vimdiff ../src410/ooaofooa_TE_C_class.c ooaofooa_TE_C_class.c:
+- Remove an extraneous line feed in 2 templates.
+  + vimdiff ../src410/c/t.smt_sr.multi_many_astob1.c c/t.smt_sr.multi_many_astob1.c
+  + vimdiff ../src410/c/t.smt_sr.multi_many_astobm.c c/t.smt_sr.multi_many_astobm.c
 - Copy gen/docbook_h to src/docbook.
 
 Compile the code.

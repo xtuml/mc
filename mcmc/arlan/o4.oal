@@ -570,7 +570,7 @@ for each te_c in te_cs
   end for;
 end for;
 @@@
-    MarkAsChannel@void@@package_name@string@@component_name@string@@inc_file@string@@@
+MarkAsChannel@void@@package_name@string@@component_name@string@@inc_file@string@@@
 //============================================================================
 // $RCSfile: m.component.arc,v $
 //
@@ -1293,7 +1293,7 @@ package_name = param.package_name;
 T::print(s:"AssignDirectToUDTPackage is not a supported marking function.");
 T::exit(i:1);
 @@@
-     TagFunctionTranslationOff@void@@function_name@string@@@
+TagFunctionTranslationOff@void@@function_name@string@@@
 //============================================================================
 // $RCSfile: m.domain.arc,v $
 //
