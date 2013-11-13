@@ -1506,11 +1506,6 @@ if ( "C++" == te_target.language )
       end if;
       parameters = T::s(i:foreign_te_po.sibling) + parameters;
     end if;
-  elif ( te_sys.AllPortsPoly == true )
-    if ( "" != parameters )
-      parameters = ", " + parameters;
-    end if;
-    parameters = "0" + parameters;
   end if;
 end if;
 T::include(file:"c/t.smt.iop.c");

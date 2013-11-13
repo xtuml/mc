@@ -77,7 +77,7 @@ doc_doc.subtitle = "";
 doc_doc.author = "Mentor Graphics";
 doc_doc.font_family = "Arial";
 doc_doc.company = "Mentor Graphics";
-doc_doc.copyright = "Copyright (c) Mentor Graphics Corporation 2012.  All Rights Reserved.";
+doc_doc.copyright = "";
 doc_doc.filename = "doc.xml";
 doc_doc.model_image_ext = ".png";
 
