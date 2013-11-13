@@ -3,7 +3,7 @@ LFLAGS= -lfl
 #GCC= i686-w64-mingw32-gcc
 GCC= gcc
 
-all:	rsl2oal
+all:	freshenup rsl2oal
 
 rsl2oal: y.tab.c y.tab.h lex.yy.c rsl2func_util.c
 	$(GCC) $(CFLAGS) -Wno-pointer-to-int-cast -o rsl2oal lex.yy.c y.tab.c rsl2func_util.c $(LFLAGS)
@@ -13,6 +13,9 @@ y.tab.h y.tab.c:  rsl2oal.y
 
 lex.yy.c: rsl2oal.l
 	flex rsl2oal.l
+
+freshenup: 
+	touch rsl2oal.l rsl2oal.y
 
 clean:
 	rm *.o *.output y.tab.c lex.yy.c *.h *.exe
