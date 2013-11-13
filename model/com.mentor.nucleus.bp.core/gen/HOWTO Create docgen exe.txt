@@ -114,6 +114,7 @@ Needed:
 - current_list.sh (lives in xtuml/mc/mcmc/arlan)
 - convert_templates.sh (lives in xtuml/mc/mcmc/arlan)
 - golden source from previous build (xtuml/mc/model/com.mentor.nucleus.bp.core/src410)
+- flex (>=2.5.35) & bison (>=2.5)
 
 Update the RSL-to-OAL translator.
 - Create function signatures for OAL from the RSL by running the
@@ -159,7 +160,7 @@ Generate the code.
     c_t deallocation[8000];
   + Edit ooaofooa_TE_SMT_class.h:
     c_t buffer[2500];
-- Add back in the attributes at the end of the TE_C class.  There are two sections in the file where changes need to come across.
+- Add back in the attributes at the end of the TE_C class.  Make sure to transfer all places where changes need to come across.
   + vimdiff ../src410/ooaofooa_TE_C_class.c ooaofooa_TE_C_class.c:
 - Remove an extraneous line feed in 2 templates.
   + vimdiff ../src410/c/t.smt_sr.multi_many_astob1.c c/t.smt_sr.multi_many_astob1.c
