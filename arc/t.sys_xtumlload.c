@@ -272,6 +272,7 @@ static bool value( void )
 {
   DEVELOPER_DEBUG( "value() %s\n", cursor );
   if ( ! ( unique_id() || number() || stringvalue() ) ) return false;
+  word[ wordindex ] = cursor; /* mark end of element */
   return true;
 }
 
