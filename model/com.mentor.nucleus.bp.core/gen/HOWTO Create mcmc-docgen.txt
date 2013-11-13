@@ -1,35 +1,3 @@
-Running DocGen
---------------
-- To run DocGen inside Verifier
-  o Create src/lib/
-  o Copy libsrc/*.java to src/lib/
-  o Build the project with the Java Builder only
-  o Check out <SVN>/trunk/Models/Test/DocGenTest
-  o Create a Model Verifier Application launch configuration for the bp.core project
-  o Run this launch config
-  o In session explorer, expand bp.core/ooaofooa/DocGen
-  o Execute docgen_load_project
-  o Execute docgen
-  o doc.xml will be created in the gen/ folder of the project
-  
-  NOTE: You can use other models, but they must be a sibling to the bp.core 
-        project in the workspace and they must be (re)named DocGenTest or you 
-        must modify docgen_load_project for the model name you want to use.
-  NOTE2: doc.xml is appended to each time docgen is run.  You must manually
-         delete it between runs.
-               
-- If you need to run docgen.exe by hand for testing, build your sample model
-  with MC3020, this will give you gen/code_generation/_system.sql
-  o To debug with CDT inside eclipse, copy this _system.sql to 
-    com.mentor.nucleus.bp.core/a.xtuml, then create a debug launch configuration
-    of type C/C++ Application that points to Debug/docgen.exe
-  o To run via the command line, copy this _system.sql to a.xtuml as a directory
-    sibling of docgen.exe, then just execute ./docgen.exe
-
-
-
-
-
 Building mcmc (which serves to be both mcmc and docgen).
 -------------
 
@@ -109,5 +77,39 @@ to a dummy routine to satisfy the link for Windows.
 - cd com.mentor.nucleus.bp.core/src
 - i686-w64-mingw32-gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -o mcmc
 - gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -lfl -o mcmc
+
+
+
+
+Running DocGen
+--------------
+- To run DocGen inside Verifier
+  o Create src/lib/
+  o Copy libsrc/*.java to src/lib/
+  o Build the project with the Java Builder only
+  o Check out <SVN>/trunk/Models/Test/DocGenTest
+  o Create a Model Verifier Application launch configuration for the bp.core project
+  o Run this launch config
+  o In session explorer, expand bp.core/ooaofooa/DocGen
+  o Execute docgen_load_project
+  o Execute docgen
+  o doc.xml will be created in the gen/ folder of the project
+  
+  NOTE: You can use other models, but they must be a sibling to the bp.core 
+        project in the workspace and they must be (re)named DocGenTest or you 
+        must modify docgen_load_project for the model name you want to use.
+  NOTE2: doc.xml is appended to each time docgen is run.  You must manually
+         delete it between runs.
+               
+- If you need to run docgen.exe by hand for testing, build your sample model
+  with MC3020, this will give you gen/code_generation/_system.sql
+  o To debug with CDT inside eclipse, copy this _system.sql to 
+    com.mentor.nucleus.bp.core/a.xtuml, then create a debug launch configuration
+    of type C/C++ Application that points to Debug/docgen.exe
+  o To run via the command line, copy this _system.sql to a.xtuml as a directory
+    sibling of docgen.exe, then just execute ./docgen.exe
+
+
+
 
 
