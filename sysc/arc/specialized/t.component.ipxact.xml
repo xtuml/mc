@@ -1,0 +1,35 @@
+.//============================================================================
+.// $RCSfile: t.component.ipxact.xml,v $
+.//
+.// Notice:
+.// (C) Copyright 1998-2011 Mentor Graphics Corporation
+.//     All rights reserved.
+.//
+.// This document contains confidential and proprietary information and
+.// property of Mentor Graphics Corp.  No part of this document may be
+.// reproduced without the express written permission of Mentor Graphics Corp.
+.//============================================================================
+<?xml version="1.0" encoding="UTF-8" ?>
+<spirit:component xmlns:soc="http://www.duolog.com/2011/05/socrates"
+                  xmlns:soc2009="http://www.duolog.com/2009/02/socrates"
+                  xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009">
+   <spirit:vendor>mentor.com</spirit:vendor>
+   <spirit:library>bridgepoint</spirit:library>
+   <spirit:name>${te_c.Name}</spirit:name>
+   <spirit:version>1.0</spirit:version>
+   <spirit:busInterfaces>
+${bus_interfaces}
+   </spirit:busInterfaces>
+   <spirit:memoryMaps>
+${memory_maps}
+   </spirit:memoryMaps>
+   <spirit:model/>
+   <spirit:vendorExtensions>
+      <soc:registers/>
+      <soc:memories/>
+      <soc:virtual>false</soc:virtual>
+      <soc:componentType/>
+      <soc:common>false</soc:common>
+      <soc:version>1.0</soc:version>
+   </spirit:vendorExtensions>
+</spirit:component>
