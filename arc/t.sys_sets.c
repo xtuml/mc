@@ -121,28 +121,25 @@ ${te_set.scope}${te_set.insert_element}(
   if ( 0 == node1_FreeList.head ) {
   .if ( te_sys.UnitsToDynamicallyAllocate != 0 )
     ${te_set.element_type} * new_mem = ( ${te_set.element_type} *) ${te_dma.allocate}( ${te_sys.UnitsToDynamicallyAllocate} * sizeof( ${te_set.element_type} ) );
-
     if ( 0 == new_mem ) {
       ${te_callout.node_list_empty}(); /* Bad news!  No more heap space.  */
     } else {
-      u1_t i;
+      i_t i;
       for ( i = 0; i < ${te_sys.UnitsToDynamicallyAllocate} - 1; i++ ) {
         new_mem[ i ].next = (${te_set.element_type} *) &(new_mem[ i + 1 ]);
       }
       new_mem[ ${te_sys.UnitsToDynamicallyAllocate} - 1 ].next = 0;
       node1_FreeList.head = new_mem;
-      ${te_set.insert_element}( set, substance );
     }
   .else
     ${te_callout.node_list_empty}(); /* Bad news!  No more nodes.         */
   .end if
-  } else {
-    slot = node1_FreeList.head; /* Extract node from free list head. */
-    node1_FreeList.head = node1_FreeList.head->next;
-    slot->object = substance;
-    slot->next = set->head;     /* Insert substance at list front.   */
-    set->head = slot;
   }
+  slot = node1_FreeList.head; /* Extract node from free list head. */
+  node1_FreeList.head = node1_FreeList.head->next;
+  slot->object = substance;
+  slot->next = set->head;     /* Insert substance at list front.   */
+  set->head = slot;
 .if ( te_thread.enabled )
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
 .end if
