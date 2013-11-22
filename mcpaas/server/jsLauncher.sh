@@ -1,5 +1,5 @@
 #!/bin/bash
-BPHOMEDIR="/home/kbrown/MentorGraphics/BridgePoint"
+BPHOMEDIR="/usr/local/MentorGraphics/BridgePoint"
 BP_VERSION="4.1.0"
 
 function die() {
@@ -27,7 +27,6 @@ fi
 # with MC3020
 MGLS_LICENSE_FILE=`echo $MGLS_LICENSE_FILE | sed 's/:/,/g'`
 
-MGLS_LICENSE_FILE=1717@wv-lic-01.wv.mentorg.com,1717@wv-lic-02.wv.mentorg.com
 export MGLS_LICENSE_FILE
 
 [ $MGLS_LICENSE_FILE ] || die "No license is setup (missing \$LM_LICENSE_FILE)"
