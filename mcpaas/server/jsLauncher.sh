@@ -48,10 +48,13 @@ export BP_JVM=$BPHOMEDIR/jre/lib/i386/client/libjvm.so
 
 export BPMCHOME=$BPHOMEDIR/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.mc.c.binary_4.1.0/
 rm -f src/*
+rm -f src/.mcpaas_done
 cd gen
-$BPMCHOME/mc3020/bin/xtumlmc_build -home $BPMCHOME -l3b -e -d code_generation -O ../../src/
-cd ../
-touch src/.mcpaas_done
+rm -f code_generation/_system.sql
+rm -rf code_generation/_ch
+$BPMCHOME/mc3020/bin/xtumlmc_build -home $BPMCHOME -l3b -e -d code_generation -O ../../src/ 
+cd ..
+date > src/.mcpaas_done
 
 # Restore the path
 export PATH=$ORIGINAL_PATH
