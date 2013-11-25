@@ -52,9 +52,9 @@ rm -f src/.mcpaas_done
 cd gen
 rm -f code_generation/_system.sql
 rm -rf code_generation/_ch
-$BPMCHOME/mc3020/bin/xtumlmc_build -home $BPMCHOME -l3b -e -d code_generation -O ../../src/ 
+$BPMCHOME/mc3020/bin/xtumlmc_build -home $BPMCHOME -l3b -e -d code_generation -O ../../src/  > ../xb_log.txt
 cd ..
-date > src/.mcpaas_done
+mv xb_log.txt src/.mcpaas_done
 
 # Restore the path
 export PATH=$ORIGINAL_PATH
