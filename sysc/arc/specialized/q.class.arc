@@ -6,7 +6,7 @@
 .// analysis object implementation declaration and definition files.
 .//
 .// Notice:
-.// (C) Copyright 1998-2011 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .// Enhancements provided by TOYO Corporation.
 .//
@@ -428,43 +428,26 @@ ${file_epilogue.body}
   .param boolean gen_declaration
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
+  .select any te_target from instances of TE_TARGET
   .select one te_c related by te_class->TE_C[R2064]
   .select many te_tfrs related by o_obj->O_TFR[R115]->TE_TFR[R2024] where ( selected.XlateSemantics )
   .for each te_tfr in te_tfrs
     .select one te_aba related by te_tfr->TE_ABA[R2010]
     .select one o_tfr related by te_tfr->O_TFR[R2024]
     .select one rval_te_dt related by o_tfr->S_DT[R116]->TE_DT[R2021]
-    .assign rval_te_dt.Included = TRUE
+    .assign rval_te_dt.Included = true
     .assign prelude = "class"
     .assign instance_based_self_declaration = ""
     .if ( o_tfr.Instance_Based == 1 )
       .assign instance_based_self_declaration = te_class.GeneratedName + " *"
       .assign prelude = "instance"
     .end if
-    .select any te_target from instances of TE_TARGET
     .select any o_tparm related by o_tfr->O_TPARM[R117]
     .if ( gen_declaration )
-      .assign thismod = ""
-      .assign thismodp = ""
-      .if ( "SystemC" == te_target.language )
-        .assign thismod = "void *"
-        .assign thismodp = "void *, "
-      .end if
       .include "${te_file.arc_path}/t.class.op.h"
     .else
-      .assign op_body = ""
-      .if ( o_tfr.Suc_Pars == 1 )
-        .select one act_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666]
-        .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-        .assign op_body = axret.body
-      .else
-        .print "\n\tWARNING!  Skipping unsuccessful or unparsed operation ${te_tfr.Name}"
-      .end if
-      .assign thismod = " void "
-      .assign thismodp = ""
-      .if ( "SystemC" == te_target.language )
-        .assign thismod = "void * thismod"
-        .assign thismodp = "void * thismod, "
+      .if ( o_tfr.Suc_Pars != 1 )
+        .assign te_aba.code = "\n\tWARNING!  Skipping unsuccessful or unparsed operation ${te_tfr.Name}"
       .end if
       .include "${te_file.arc_path}/t.class.op.c"
     .end if

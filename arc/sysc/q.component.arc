@@ -188,7 +188,7 @@
 .end function
 .//
 .//============================================================================
-.// Generate Nested Component Instances
+.// Generate Nested Component Constructors
 .//============================================================================
 .function CN_CC_CreateNestedComponentConstructors
   .param inst_ref te_c
@@ -210,8 +210,6 @@
 ${top_module_inits}\
 .end function
 .//
-.//============================================================================
-.// Generate Nested Component Instances
 .//============================================================================
 .function CN_CC_BindNestedComponentPorts
   .param inst_ref te_c

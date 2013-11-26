@@ -15,7 +15,7 @@
 .// Drill down into component and create object, attributes and the rest.
 .//
 .// Notice:
-.// (C) Copyright 1998-2011 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -150,7 +150,7 @@
     .// relate te_c to te_sys across R2065;
     .assign te_c.SystemID = te_sys.SystemID
     .assign te_c.Name = "$r{c_c.Name}"
-    .assign te_c.Description = c_c.Descrip
+    .assign te_c.Descrip = c_c.Descrip
     .if ( generic_packages )
       .select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000]
     .else
@@ -165,9 +165,14 @@
     .assign te_c.module_file = te_c.Name
     .assign te_c.port_file = te_c.Name
     .assign te_c.classes_file = te_c.Name + "_classes"
-    .assign te_c.UseModelNames = true
     .assign te_c.CodeComments = true
     .assign te_c.included_in_build = true
+    .// Create and relate the domain class info to carry details about
+    .// class extents for this component.
+    .create object instance te_dci of TE_DCI
+    .// relate te_dci to te_c across R2090;
+    .assign te_dci.te_cId = te_c.ID
+    .// end relate
     .// Create the Component Instance instances.
     .select many cl_ics related by c_c->CL_IC[R4201]
     .for each cl_ic in cl_ics
@@ -410,8 +415,8 @@
         .if ( not_empty ep_pkg )
           .select one s_sys related by ep_pkg->S_SYS[R1401]
           .if ( empty s_sys )
-            .invoke i = EP_PKG.getContainingComponent( ep_pkg )
-            .assign te_c = i.te_c
+            .invoke i = TE_C_getContainingComponent( ep_pkg )
+            .assign te_c = i.result
           .end if
         .end if
       .end if
@@ -433,8 +438,8 @@
     .assign te_c = empty_te_c
     .if ( generic_packages )
       .select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000]
-      .invoke i = EP_PKG.getContainingComponent( ep_pkg )
-      .assign te_c = i.te_c
+      .invoke i = TE_C_getContainingComponent( ep_pkg )
+      .assign te_c = i.result
     .else
       .select one te_c related by o_obj->S_SS[R2]->S_DOM[R1]->TE_C[R2017]
     .end if
@@ -451,8 +456,8 @@
     .assign te_c = empty_te_c
     .if ( generic_packages )
       .select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000]
-      .invoke i = EP_PKG.getContainingComponent( ep_pkg )
-      .assign te_c = i.te_c
+      .invoke i = TE_C_getContainingComponent( ep_pkg )
+      .assign te_c = i.result
     .else
       .select one te_c related by s_sync->S_DOM[R23]->TE_C[R2017]
     .end if
@@ -474,8 +479,8 @@
     .assign te_c = empty_te_c
     .if ( generic_packages )
       .select one ep_pkg related by s_ee->PE_PE[R8001]->EP_PKG[R8000]
-      .invoke i = EP_PKG.getContainingComponent( ep_pkg )
-      .assign te_c = i.te_c
+      .invoke i = TE_C_getContainingComponent( ep_pkg )
+      .assign te_c = i.result
     .else
       .select one te_c related by s_ee->S_DOM[R8]->TE_C[R2017]
     .end if
@@ -580,7 +585,10 @@
   .// Initialize information for user data types.
   .select many s_udts from instances of S_UDT
   .for each s_udt in s_udts
-    .select one core_te_dt related by s_udt->S_CDT[R18]->S_DT[R17]->TE_DT[R2021]
+    .//.select one core_te_dt related by s_udt->S_CDT[R18]->S_DT[R17]->TE_DT[R2021]
+    .invoke r = GetBaseTypeForUDT( s_udt )
+    .assign base_s_dt = r.result
+    .select one core_te_dt related by base_s_dt->TE_DT[R2021]
     .// Given a user data type (S_UDT) and a core data type (S_CDT), set
     .// the C typedef that the user data type is known by in the generated
     .// code.  Also set the initial value of the attribute.
@@ -1098,12 +1106,12 @@
   .// Create the navigations and connect them to the R_OIRs.
   .select many r_oirs from instances of R_OIR
   .for each r_oir in r_oirs
-    .create object instance te_nav of TE_NAV
-    .assign te_nav.NavigatedTo = false
-    .// relate r_oir to te_nav across R2035;
-    .assign te_nav.Obj_ID = r_oir.Obj_ID
-    .assign te_nav.Rel_ID = r_oir.Rel_ID
-    .assign te_nav.OIR_ID = r_oir.OIR_ID
+    .create object instance te_oir of TE_OIR
+    .assign te_oir.NavigatedTo = false
+    .// relate r_oir to te_oir across R2035;
+    .assign te_oir.Obj_ID = r_oir.Obj_ID
+    .assign te_oir.Rel_ID = r_oir.Rel_ID
+    .assign te_oir.OIR_ID = r_oir.OIR_ID
   .end for
   .//
   .// Create the blocks and connect them to the ACT_BLKs.
@@ -1112,11 +1120,8 @@
     .create object instance te_blk of TE_BLK
     .// relate act_blk to te_blk across R2016;
     .assign te_blk.Block_ID = act_blk.Block_ID
-    .assign te_blk.OAL = ""
     .assign te_blk.declaration = ""
-    .assign te_blk.initialization = ""
     .assign te_blk.deallocation = ""
-    .assign te_blk.code = ""
     .assign te_blk.depth = 1
     .// Create the statements and connect them to the ACT_SMTs.
     .select many act_smts related by act_blk->ACT_SMT[R602]
@@ -1135,9 +1140,6 @@
         .assign te_blk.first_Statement_ID = 0
       .end if
       .assign te_smt.OAL = ""
-      .assign te_smt.declaration = ""
-      .assign te_smt.initialization = ""
-      .assign te_smt.deallocation = ""
       .assign te_smt.buffer = ""
       .assign te_smt.buffer2 = ""
       .assign te_smt.trace = ""
@@ -1209,8 +1211,8 @@
       .assign te_blk.depth = te_blk.depth + 1
       .select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078]
     .end while
-    .invoke margin = indentwhitespace( te_blk.depth )
-    .assign te_blk.indentation = margin.ws
+    .invoke r = blk_indentwhitespace( te_blk.depth )
+    .assign te_blk.indentation = r.result
   .end for
   .//
   .// Create the generated chain links and connect them to the ACT_LNKs.
@@ -1336,7 +1338,6 @@
       .// allow the code to compile.
       .assign te_ee.RegisteredName = "$r{s_ee.Key_Lett}"
       .// Default to TypeCode of 10, realized external entity.
-      .assign te_ee.TypeCode = 10
       .assign te_ee.Included = false
       .assign te_ee.Used = false
       .assign te_ee.file = s_ee.Key_Lett + "_bridge"
@@ -1767,7 +1768,7 @@
   .else
     .assign te_mact.polymorphic = TRUE
   .end if
-  .assign te_mact.Description = description
+  .assign te_mact.Descrip = description
   .assign te_mact.subtypeKL = subtypeKL
   .assign te_mact.Provision = te_po.provision
   .assign te_mact.Direction = direction
@@ -1821,12 +1822,6 @@
   .create object instance te_aba of TE_ABA
   .assign te_aba.SelfEventCount = 0
   .assign te_aba.NonSelfEventCount = 0
-  .assign te_aba.SelectManyCount = 0
-  .assign te_aba.SelectAnyWhereCount = 0
-  .assign te_aba.TimerStartCount = 0
-  .assign te_aba.BreakStmtUsed = false
-  .assign te_aba.ContinueStmtUsed = false
-  .assign te_aba.ReturnStmtUsed = false
   .assign te_aba.subtypeKL = subtypeKL
   .assign attr_te_aba = te_aba
   .select many actual_te_parms related by te_aba->TE_PARM[R2062] where ( false )
@@ -1886,7 +1881,7 @@
   .assign te_parm.ParamBuffer = ""
   .assign te_parm.OALParamBuffer = ""
   .assign te_parm.Name = "$r{name}"
-  .assign te_parm.Description = description
+  .assign te_parm.Descrip = description
   .assign te_parm.By_Ref = by_ref
   .assign te_parm.GeneratedName = prefix + name
   .assign te_parm.AbaID = 0
@@ -1937,7 +1932,7 @@
   .assign duplicate_te_parm.ParamBuffer = te_parm.ParamBuffer
   .assign duplicate_te_parm.OALParamBuffer = te_parm.OALParamBuffer
   .assign duplicate_te_parm.Name = te_parm.Name
-  .assign duplicate_te_parm.Description = te_parm.Description
+  .assign duplicate_te_parm.Descrip = te_parm.Descrip
   .assign duplicate_te_parm.By_Ref = te_parm.By_Ref
   .assign duplicate_te_parm.GeneratedName = te_parm.GeneratedName
   .// relate te_dt to te_parm across R2049;
@@ -2097,23 +2092,327 @@
   .param inst_ref_set te_cs
   .for each te_c in te_cs
     .assign te_c.included_in_build = true
-    .select many nested_te_cs related by te_c->C_C[R2054]->CN_CIC[R4202]->C_C[R4203]->TE_C[R2054]
+    .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
     .invoke TE_C_mark_nested_system( nested_te_cs )
-    .select many nested_te_cs related by te_c->C_C[R2054]->CL_IC[R4205]->C_C[R4201]->TE_C[R2054]
+    .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009]->TE_C[R2008]
     .invoke TE_C_mark_nested_system( nested_te_cs )
   .end for
 .end function
 .//
-.// Recursively search upwards through the package hierarcy to find the
+.// Recursively search upwards through the package hierarchy to find the
 .// containing (parent/owning) component.
-.function EP_PKG.getContainingComponent
+.function TE_C_getContainingComponent .// te_c
   .param inst_ref ep_pkg
-  .select one attr_te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
-  .if ( empty attr_te_c )
-    .select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000]
-    .if ( not_empty parent_ep_pkg )
-      .invoke i = EP_PKG.getContainingComponent( parent_ep_pkg )
-      .assign attr_te_c = i.c_c
+  .select any te_c from instances of TE_C where ( false )
+  .// Return empty te_c for a top-level package with no containing package or component.
+  .select one s_sys related by ep_pkg->S_SYS[R1401]
+  .if ( empty s_sys )
+    .select one te_c related by ep_pkg->PE_PE[R8001]->C_C[R8003]->TE_C[R2054]
+    .if ( empty te_c )
+      .select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000]
+      .if ( not_empty parent_ep_pkg )
+        .invoke r = TE_C_getContainingComponent( parent_ep_pkg )
+        .assign te_c = r.result
+      .end if
     .end if
   .end if
+  .assign attr_result = te_c
+.end function
+.//
+.// Recursively search upwards through the component hierarcy to find the
+.// containing (parent/owning) package.
+.function EP_PKG_getContainingPackage .// ep_pkg
+  .param inst_ref c_c
+  .select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000]
+  .if ( empty ep_pkg )
+    .select one c_c related by c_c->PE_PE[R8001]->C_C[R8003]
+    .invoke r = EP_PKG_getContainingPackage( c_c )
+    .assign ep_pkg = r.result
+  .end if
+  .assign attr_result = ep_pkg
+.end function
+.//
+.// Sort a list of TE_Cs.
+.function TE_C_sort .// te_c
+  .param inst_ref_set te_cs
+  .// Declare an empty instance reference.
+  .select any head_te_c related by te_cs->TE_C[R2017.'succeeds'] where ( false )
+  .for each te_c in te_cs
+    .invoke r = TE_C_insert( head_te_c, te_c )
+    .assign head_te_c = r.result
+  .end for
+  .assign attr_result = head_te_c
+.end function
+.function TE_C_insert .// te_c
+  .param inst_ref head_te_c
+  .param inst_ref te_c
+  .assign result = te_c
+  .if ( empty head_te_c )
+    .// Just starting.  Return te_c as head.
+  .elif ( te_c.Name <= head_te_c.Name )
+    .// insert before
+    .// relate te_c to head_te_c across R2017.'succeeds';
+    .assign te_c.next_ID = head_te_c.ID
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_c
+    .assign prev_te_c = head_te_c
+    .select one cursor_te_c related by head_te_c->TE_C[R2017.'succeeds']
+    .while ( not_empty cursor_te_c )
+      .if ( te_c.Name <= cursor_te_c.Name )
+        .break while
+      .else
+        .assign prev_te_c = cursor_te_c
+        .select one cursor_te_c related by cursor_te_c->TE_C[R2017.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_c to te_c across R2017.'succeeds';
+    .assign prev_te_c.next_ID = te_c.ID
+    .// end relate
+    .if ( not_empty cursor_te_c )
+      .// relate te_c to cursor_te_c across R2017.'succeeds';
+      .assign te_c.next_ID = cursor_te_c.ID
+      .// end relate
+    .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// Sort a list of TE_CLASSes.
+.function class_sort .// te_class
+  .param inst_ref_set te_classs
+  .// Declare an empty instance reference.
+  .select any head_te_class related by te_classs->TE_CLASS[R2092.'succeeds'] where ( false )
+  .for each te_class in te_classs
+    .assign te_class.nextID = 00
+  .end for
+  .for each te_class in te_classs
+    .invoke r = class_insert( head_te_class, te_class )
+    .assign head_te_class = r.result
+  .end for
+  .assign attr_result = head_te_class
+.end function
+.function class_insert .// te_class
+  .param inst_ref head_te_class
+  .param inst_ref te_class
+  .assign result = te_class
+  .if ( empty head_te_class )
+    .// Just starting.  Return te_class as head.
+  .else
+  .assign lkey = "$t{te_class.Numb}" + te_class.GeneratedName
+  .assign rkey = "$t{head_te_class.Numb}" + head_te_class.GeneratedName
+  .if ( lkey <= rkey )
+    .// insert before
+    .// relate te_class to head_te_class across R2092.'succeeds';
+    .assign te_class.nextID = head_te_class.ID
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_class
+    .assign prev_te_class = head_te_class
+    .select one cursor_te_class related by head_te_class->TE_CLASS[R2092.'succeeds']
+    .while ( not_empty cursor_te_class )
+      .assign rkey = "$t{cursor_te_class.Numb}" + cursor_te_class.GeneratedName
+      .if ( lkey <= rkey )
+        .break while
+      .else
+        .assign prev_te_class = cursor_te_class
+        .select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_class to te_class across R2092.'succeeds';
+    .assign prev_te_class.nextID = te_class.ID
+    .// end relate
+    .if ( not_empty cursor_te_class )
+      .// relate te_class to cursor_te_class across R2092.'succeeds';
+      .assign te_class.nextID = cursor_te_class.ID
+      .// end relate
+    .end if
+  .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// Sort a list of TE_MACTs.
+.function mact_sort
+  .param inst_ref_set te_macts
+  .// Declare an empty instance reference.
+  .select any head_te_mact related by te_macts->TE_MACT[R2083.'succeeds'] where ( false )
+  .for each te_mact in te_macts
+    .assign te_mact.nextID = 00
+  .end for
+  .for each te_mact in te_macts
+    .invoke r = mact_insert( head_te_mact, te_mact )
+    .assign head_te_mact = r.result
+  .end for
+  .assign counter = 0
+  .assign te_mact = head_te_mact
+  .while ( not_empty te_mact )
+    .assign te_mact.Order = counter
+    .assign counter = counter + 1
+    .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
+  .end while
+.end function
+.function mact_insert .// te_mact
+  .param inst_ref head_te_mact
+  .param inst_ref te_mact
+  .assign result = te_mact
+  .if ( empty head_te_mact )
+    .// Just starting.  Return te_mact as head.
+  .else
+  .assign lkey = te_mact.Name
+  .assign rkey = head_te_mact.Name
+  .if ( lkey <= rkey )
+    .// insert before
+    .// relate te_mact to head_te_mact across R2083.'succeeds';
+    .assign te_mact.nextID = head_te_mact.ID
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_mact
+    .assign prev_te_mact = head_te_mact
+    .select one cursor_te_mact related by head_te_mact->TE_MACT[R2083.'succeeds']
+    .while ( not_empty cursor_te_mact )
+      .assign rkey = cursor_te_mact.Name
+      .if ( lkey <= rkey )
+        .break while
+      .else
+        .assign prev_te_mact = cursor_te_mact
+        .select one cursor_te_mact related by cursor_te_mact->TE_MACT[R2083.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_mact to te_mact across R2083.'succeeds';
+    .assign prev_te_mact.nextID = te_mact.ID
+    .// end relate
+    .if ( not_empty cursor_te_mact )
+      .// relate te_mact to cursor_te_mact across R2083.'succeeds';
+      .assign te_mact.nextID = cursor_te_mact.ID
+      .// end relate
+    .end if
+  .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// Sort a list of TE_SYNCs.
+.function sync_sort .// te_sync
+  .param inst_ref_set te_syncs
+  .// Declare an empty instance reference.
+  .select any head_te_sync related by te_syncs->TE_SYNC[R2095.'succeeds'] where ( false )
+  .for each te_sync in te_syncs
+    .assign te_sync.nextID = 00
+  .end for
+  .for each te_sync in te_syncs
+    .invoke r = sync_insert( head_te_sync, te_sync )
+    .assign head_te_sync = r.result
+  .end for
+  .assign attr_result = head_te_sync
+.end function
+.function sync_insert .// te_sync
+  .param inst_ref head_te_sync
+  .param inst_ref te_sync
+  .assign result = te_sync
+  .if ( empty head_te_sync )
+    .// Just starting.  Return te_sync as head.
+  .else
+  .assign lkey = te_sync.Name
+  .assign rkey = head_te_sync.Name
+  .if ( lkey <= rkey )
+    .// insert before
+    .// relate te_sync to head_te_sync across R2095.'succeeds';
+    .assign te_sync.nextID = head_te_sync.ID
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_sync
+    .assign prev_te_sync = head_te_sync
+    .select one cursor_te_sync related by head_te_sync->TE_SYNC[R2095.'succeeds']
+    .while ( not_empty cursor_te_sync )
+      .assign rkey = cursor_te_sync.Name
+      .if ( lkey <= rkey )
+        .break while
+      .else
+        .assign prev_te_sync = cursor_te_sync
+        .select one cursor_te_sync related by cursor_te_sync->TE_SYNC[R2095.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_sync to te_sync across R2095.'succeeds';
+    .assign prev_te_sync.nextID = te_sync.ID
+    .// end relate
+    .if ( not_empty cursor_te_sync )
+      .// relate te_sync to cursor_te_sync across R2095.'succeeds';
+      .assign te_sync.nextID = cursor_te_sync.ID
+      .// end relate
+    .end if
+  .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// Sort a list of TE_EEs.
+.function ee_sort .// te_ee
+  .param inst_ref_set te_ees
+  .// Declare an empty instance reference.
+  .select any head_te_ee related by te_ees->TE_EE[R2096.'succeeds'] where ( false )
+  .for each te_ee in te_ees
+    .assign te_ee.nextID = 00
+  .end for
+  .for each te_ee in te_ees
+    .invoke r = ee_insert( head_te_ee, te_ee )
+    .assign head_te_ee = r.result
+  .end for
+  .assign attr_result = head_te_ee
+.end function
+.function ee_insert .// te_ee
+  .param inst_ref head_te_ee
+  .param inst_ref te_ee
+  .assign result = te_ee
+  .if ( empty head_te_ee )
+    .// Just starting.  Return te_ee as head.
+  .else
+  .assign lkey = te_ee.Name
+  .assign rkey = head_te_ee.Name
+  .if ( lkey <= rkey )
+    .// insert before
+    .// relate te_ee to head_te_ee across R2096.'succeeds';
+    .assign te_ee.nextID = head_te_ee.ID
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_ee
+    .assign prev_te_ee = head_te_ee
+    .select one cursor_te_ee related by head_te_ee->TE_EE[R2096.'succeeds']
+    .while ( not_empty cursor_te_ee )
+      .assign rkey = cursor_te_ee.Name
+      .if ( lkey <= rkey )
+        .break while
+      .else
+        .assign prev_te_ee = cursor_te_ee
+        .select one cursor_te_ee related by cursor_te_ee->TE_EE[R2096.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_ee to te_ee across R2096.'succeeds';
+    .assign prev_te_ee.nextID = te_ee.ID
+    .// end relate
+    .if ( not_empty cursor_te_ee )
+      .// relate te_ee to cursor_te_ee across R2096.'succeeds';
+      .assign te_ee.nextID = cursor_te_ee.ID
+      .// end relate
+    .end if
+  .end if
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.// indentation maker
+.//
+.function blk_indentwhitespace .// string
+  .param integer indentation
+  .assign result = ""
+  .while ( 0 < indentation )
+    .assign indentation = indentation - 1
+    .assign result = result + "  "
+  .end while
+  .assign attr_result = result
 .end function

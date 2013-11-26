@@ -86,9 +86,6 @@ int sc_main ( int argc, char* argv[] )
 .if ( gen_vista_top_template )
   setTiming();
 .end if
-.if ( non_self_event_queue_needed.result or self_event_queue_needed.result )
-  InitializeOoaEventPool();
-.end if
 .if ( persistence_needed.result )
   ${te_persist.factory_init}();
 .end if
@@ -110,9 +107,7 @@ ${bind_signals_top}
   .if ( "BitLevelSignals" == te_sys.SystemCPortsType )
   //--- General Reset Action
   rst_X.write(1);
-  sc_start(1);
   rst_X.write(0);
-  sc_start(1);
   rst_X.write(1);
   .end if
   //--- Steady State Simulation

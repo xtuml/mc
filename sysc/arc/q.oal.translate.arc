@@ -2,7 +2,7 @@
 .//
 .// File:      $RCSfile: q.oal.translate.arc,v $
 .//
-.// (c) Copyright 1998-2011 Mentor Graphics Corporation  All rights reserved.
+.// (c) Copyright 1998-2013 Mentor Graphics Corporation  All rights reserved.
 .//
 .//====================================================================
 .//
@@ -14,9 +14,9 @@
 .//  These functions are part one of a two-step translation of
 .//  the action language from the model of OAL.  Each of the invoked
 .//  functions below translate a specific part of the OAL.  For
-.//  example the q_val_literal_boolean_values() function generates all
+.//  example the val_literal_boolean_values() function generates all
 .//  of the code for each literal boolean value found in all of the
-.//  actions for a domain.  The function q_smt_ifs()
+.//  actions for a domain.  The function smt_ifs()
 .//  generates the code for all of the if statements found in the
 .//  actions for a domain.  
 .//
@@ -30,36 +30,6 @@
 .//  blck_xlate is called to order the statements.
 .//
 .//============================================================================
-.//
-.function translate_values
-  .// Translate "leaf" values first.
-  .invoke q_val_literal_boolean_values()
-  .invoke q_val_literal_integer_values()
-  .invoke q_val_literal_real_values()
-  .invoke q_val_literal_string_values()
-  .invoke q_val_literal_enumerations()
-  .invoke q_val_constant_values()
-  .invoke q_val_transient_values()
-  .invoke q_val_instance_reference_values()
-  .invoke q_val_inst_ref_set_values()
-  .invoke q_val_selection_test_values()
-  .invoke q_val_event_values()
-  .invoke q_val_parameter_values()
-  .// The following may be recursed.
-  .invoke q_val_attribute_values()
-  .invoke q_val_member_values()
-  .invoke q_val_array_element_references()
-  .invoke q_val_array_length_values()
-  .invoke q_val_unary_op_values()
-  .invoke q_val_binary_op_values()
-  .// V_PARs depend upon values being populated.
-  .invoke q_val_actual_parameters()
-  .// These use V_PARs.
-  .invoke q_val_message_values()
-  .invoke q_val_bridge_values()
-  .invoke q_val_transform_values()
-  .invoke q_val_synch_service_values()
-.end function
 .//
 .//
 .function translate_control_statements
@@ -104,7 +74,7 @@
 .function translate_all_oal
   .//
   .print "translating values"
-  .invoke translate_values()
+  .invoke val_translate()
   .//.print "showing values"
   .//.invoke oal_v_val_test()
   .print "translating control statements"

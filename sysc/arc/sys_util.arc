@@ -64,8 +64,6 @@
   .assign attr_s = attr_s + " * System ID:    ${te_sys.SystemID}\n"
   .assign attr_s = attr_s + " * Model Compiler Product Information:\n"
   .assign attr_s = attr_s + " * Product:  ${te_sys.ModelCompilerName}\n"
-  .assign attr_s = attr_s + " * Version:  ${te_sys.ModelCompilerVersion}\n"
-  .assign attr_s = attr_s + " * S/N:      ${te_sys.ModelCompilerSerNum}\n"
   .assign attr_s = attr_s + " * System default/colored values:\n"
   .assign attr_s = attr_s + " * MaxStringLen:  ${te_sys.MaxStringLen}\n"
   .assign attr_s = attr_s + " * MaxObjExtent:  ${te_sys.MaxObjExtent}\n"

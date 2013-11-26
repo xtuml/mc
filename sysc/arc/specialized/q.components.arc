@@ -16,7 +16,7 @@
 .//
 .//
 .select many empty_c_cs from instances of C_C where ( false )
-.select many empty_cn_cics related by empty_c_cs->CN_CIC[R4202]
+.select many empty_te_cs from instances of TE_C where ( false )
 .invoke TM_TEMPLATE_populate()
 .//
 .assign port_declarations = ""
@@ -29,7 +29,7 @@
   .select one c_c related by te_c->C_C[R2054]
   .select many te_classes related by te_c->TE_CLASS[R2064]
   .select many te_macts related by te_c->TE_MACT[R2002]
-  .select many cn_cics related by c_c->CN_CIC[R4202]
+  .select many nested_te_cs related by c_c->PE_PE[R8003]->C_C[R8001]->TE_C[R2054]
   .select many cl_ics related by c_c->CL_IC[R4205]
   .select one tm_c related by te_c->TM_C[R2804]
   .assign is_channel = false
@@ -54,25 +54,23 @@
     .//-----------------------------------------------------------------------
     .// Step2: Instantiate internal components
     .//-----------------------------------------------------------------------
-    .invoke nested_instances = CN_CC_CreateNestedComponentInstances ( cn_cics,  cl_ics )
+    .invoke nested_instances = CN_CC_CreateNestedComponentInstances ( te_c )
     .//-----------------------------------------------------------------------
     .// Step3: Generate required signals to connect instances
     .//-----------------------------------------------------------------------
-    .invoke signals = TE_MACT_CreateSignals ( cn_cics,  cl_ics )
+    .invoke signals = TE_MACT_CreateSignals ( te_c )
     .//-----------------------------------------------------------------------
     .// Step4: Bind signals to nested componets ports
     .//-----------------------------------------------------------------------
-    .invoke nested_instances_constructor = TE_MACT_ConstructInstances ( cn_cics,  cl_ics )
-    .invoke bind_signals = TE_MACT_BindSignals ( cn_cics,  cl_ics , c_c )
+    .invoke nested_instances_constructor = TE_MACT_ConstructInstances ( te_c )
+    .invoke bind_signals = TE_MACT_BindSignals ( te_c )
     .//-----------------------------------------------------------------------
     .// Step5: Prepare required include statment
     .//-----------------------------------------------------------------------
-    .invoke includes = TE_MACT_CreateIncludeList ( empty_c_cs, cn_cics,  cl_ics )
+    .invoke includes = TE_MACT_CreateIncludeList ( empty_c_cs, nested_te_cs,  cl_ics )
     .//-----------------------------------------------------------------------
     .// Step6: Component Behaviour functions
     .//-----------------------------------------------------------------------
-    .select one s_dom related by te_c->S_DOM[R2017]
-    .select any s_sync related by s_dom->S_SYNC[R23]
     .invoke comp_functions = CreateComponentFunctionsDeclarations( te_c )
     .invoke comp_functions_sens = CreateComponentFunctionsSensitivity ( te_c )
     .//-----------------------------------------------------------------------
@@ -96,6 +94,7 @@
     .assign sm_definition = ""
     .assign sm_implementation = ""
     .assign sm_actionArray = ""
+    .if ( false )
     .for each te_class in te_classes
 	  .invoke state_machine_instance_dispatcher_process = SM_SM_RegisterInstanceDispatcherFunction ( te_c, te_class )
 	  .assign sm_dispatcher = sm_dispatcher + "${state_machine_instance_dispatcher_process.body}"
@@ -120,6 +119,7 @@
 		.assign sm_actionArray = sm_actionArray + "${action_array.body}"
 	  .end if
     .end for
+    .end if
     .//.invoke state_machine_variables = SM_SM_CreateStateVariables ( te_c, te_class )
     .//.invoke state_machine_function_prototype = SM_SM_CreateFunctionPrototype ( te_c, te_class )
     .//.invoke state_machine_function_sensList = SM_SM_CreateFunctionSensitivityList ( te_c, te_class )
@@ -151,7 +151,7 @@
 .select any cp_cp from instances of CP_CP where ( "${selected.Descrip:build}" == "system" )
 .select many top_c_cs related by cp_cp->C_C[R4604]
 .select many cl_ics_top related by cp_cp->CL_IC[R4605]
-.invoke s = TE_MACT_CreateIncludeList( top_c_cs, empty_cn_cics,  cl_ics_top )
+.invoke s = TE_MACT_CreateIncludeList( top_c_cs, empty_te_cs,  cl_ics_top )
 .assign includes_top = s.body
 .invoke s = CN_CC_CreateNestedComponentInstances_FromPackage ( top_c_cs,  cl_ics_top )
 .assign nested_instances_top = s.body

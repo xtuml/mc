@@ -2,7 +2,7 @@
 .// $RCSfile: q.datatype.arc,v $
 .//
 .// Notice:
-.// (C) Copyright 1998-2011 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -10,6 +10,22 @@
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
+.//
+.//============================================================================
+.// Recursively locate the datatype at the base of the UDT type definition 
+.// chain. Traverses up through UDTs based on UDTs until we find the underlying
+.// S_DT instance (which may actually be EDT, SDT, IRDT or CDT).
+.//============================================================================
+.function GetBaseTypeForUDT .// s_dt
+  .param inst_ref s_udt
+  .select one s_dt related by s_udt->S_DT[R18]
+  .select one s_udt related by s_dt->S_UDT[R17]
+  .if ( not_empty s_udt )
+    .invoke r = GetBaseTypeForUDT( s_udt )
+    .assign s_dt = r.result
+  .end if
+  .assign attr_result = s_dt
+.end function
 .//
 .//============================================================================
 .//   Get the S_DT and S_CDT object references for a given attribute
@@ -24,7 +40,7 @@
   .select one s_sdt related by dt->S_SDT[R17]
   .select one s_irdt related by dt->S_IRDT[R17]
   .if ( empty cdt )
-    .select one cdt related by dt->S_UDT[R17]->S_CDT[R18]
+    .select one cdt related by dt->S_UDT[R17]->S_DT[R18]->S_CDT[R17]
   .end if
   .//
   .if ( empty cdt )

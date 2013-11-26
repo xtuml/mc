@@ -2,7 +2,7 @@
 .// $RCSfile: t.class.op.c,v $
 .//
 .// Notice:
-.// (C) Copyright 1998-2011 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -20,35 +20,21 @@
 ${o_tfr.Action_Semantics}
 .end if
  */
-.if ( gen_declaration )
-extern \
-.end if
 ${te_aba.ReturnDataType}
-${te_aba.scope}${te_aba.GeneratedName}\
-.if ( not_empty o_tparm )
-  .if ( te_tfr.Instance_Based == 0 )
-(${thismodp}\
-  .else
-(
-  ${thismodp}${te_class.GeneratedName} * ${te_instance.self},\
-  .end if
-${te_aba.ParameterDefinition})
-.else
-  .// No te_tfr data parameters
-  .if ( te_tfr.Instance_Based == 0 )
-( ${thismod} )
-  .else
-( ${thismodp}${te_class.GeneratedName} * ${te_instance.self} )
-  .end if
+${te_aba.scope}${te_aba.GeneratedName}(\
+.if ( 0 != te_tfr.Instance_Based )
+ ${te_class.GeneratedName} * ${te_instance.self}\
+   .if ( "" != te_aba.ParameterDefinition )
+,\
+   .end if
 .end if
+${te_aba.ParameterDefinition})
 {
   .if ( o_tfr.Suc_Pars == 1 )
-    .if ( "SystemC" == te_target.language )
-  ${te_c.Name} * thismodule = (${te_c.Name} *)thismod;
-    .end if
-${op_body}
+${te_aba.code}
   .else
-  /* WARNING!  Skipping unsuccessful or unparsed operation ${te_tfr.Name} */
+  /* WARNING!  Skipping unsuccessful or unparsed operation ${te_c.Name}::${te_class.Name}::${te_tfr.Name} */
+    .print "WARNING:  unsuccessful or unparsed operation ${te_c.Name}::${te_class.Name}::${te_tfr.Name}"
   .end if
 }
 .//

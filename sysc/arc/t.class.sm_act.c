@@ -6,7 +6,7 @@
 .// for the Finite State Machine (FSM) implementation of xtUML state models.
 .//
 .// Notice:
-.// (C) Copyright 1998-2011 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -45,11 +45,11 @@ ${te_act.GeneratedName}( ${te_class.GeneratedName} * ${te_instance.self}, const 
 {
   .if ( not_empty sm_act )
     .if ( sm_act.Suc_Pars == 1 )
-      .if ( "SystemC" == te_target.language )
-  ${te_c.Name} * thismodule = (${te_c.Name} *)event->thismodule;
+      .if ( "C++" == te_target.language )
+  ${te_c.Name} * thismodule = (${te_c.Name} *) event->thismodule;
       .end if
 ${received_event_declaration}\
-${action_body}\
+${te_aba.code}\
     .else
       .print "\n  WARNING!  Skipping unsuccessful or unparsed action for class ${te_class.Name} (${te_class.Key_Lett}) state ${te_state.Name}"
   /* WARNING!  Skipping unsuccessful or unparsed action for class ${te_class.Name} (${te_class.Key_Lett}) state ${te_state.Name}" */

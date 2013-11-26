@@ -39,34 +39,16 @@
     .// all components in packages with given name
     .select many c_cs from instances of C_C
     .select any ep_pkg related by c_cs->PE_PE[R8001]->EP_PKG{R8000] where ( selected.Name == package_name )
-    .if ( empty ep_pkg )
-      .// specialized packages will go away
-      .select any cp_cp related by c_cs->CP_CP[R4608] where ( selected.Name == package_name )
-      .select many c_cs related by cp_cp->C_C[R4608]
-    .else
-      .select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001]
-    .end if
+    .select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001]
   .else
     .// particular component in particular package(s)
     .select many c_cs from instances of C_C where ( selected.Name == component_name )
     .select many ep_pkgs related by c_cs->PE_PE[R8001]->EP_PKG{R8000] where ( selected.Name == package_name )
-    .if ( empty ep_pkgs )
-      .// specialized packages will go away
-      .select many cp_cps related by c_cs->CP_CP[R4608] where ( selected.Name == package_name )
-      .select many c_cs related by cp_cps->C_C[R4608] where ( selected.Name == component_name )
+    .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001] where ( selected.Name == component_name )
+    .if ( empty c_cs )
+      .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->C_C[R8001] where ( selected.Name == component_name )
       .if ( empty c_cs )
-        .select many c_cs related by cp_cps->C_C[R4608]->CN_CIC[R4202]->C_C[R4203] where ( selected.Name == component_name )
-        .if ( empty c_cs )
-          .select many c_cs related by cp_cps->C_C[R4608]->CN_CIC[R4202]->C_C[R4203]->CN_CIC[R4202]->C_C[R4203] where ( selected.Name == component_name )
-        .end if
-      .end if
-    .else
-      .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001] where ( selected.Name == component_name )
-      .if ( empty c_cs )
-        .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->CN_CIC[R4202]->C_C[R4203] where ( selected.Name == component_name )
-        .if ( empty c_cs )
-          .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->CN_CIC[R4202]->C_C[R4203]->CN_CIC[R4202]->C_C[R4203] where ( selected.Name == component_name )
-        .end if
+        .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->C_C[R8001]->PE_PE[R8003]->C_C[R8001] where ( selected.Name == component_name )
       .end if
     .end if
   .end if
@@ -78,8 +60,6 @@
     .select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000]
     .if ( not_empty ep_pkg )
       .assign package = ep_pkg.Name
-    .else
-      .select one cp_cp related by c_c->CP_CP[R4608]
     .end if
     .select any tm_c from instance of TM_C where ( ( selected.Package = package ) and ( selected.Name == c_c.Name ) )
     .if ( empty tm_c )
@@ -117,16 +97,16 @@
     .select many c_cs from instances of C_C where ( selected.Name == component_name )
   .elif ( ( "" == component_name ) or ( "*" == component_name ) )
     .// all components in packages with given name
-    .select many cp_cps from instances of CP_CP where ( selected.Name == package_name )
-    .select many c_cs related by cp_cps->C_C[R4608]
+    .select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name )
+    .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]
   .else
     .// specific component in specific package(s)
-    .select many cp_cps from instances of CP_CP where ( selected.Name == package_name )
-    .select many c_cs related by cp_cps->C_C[R4608] where ( selected.Name == component_name )
+    .select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name )
+    .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001] where ( selected.Name == component_name )
     .if ( empty c_cs )
-      .select many c_cs related by cp_cps->C_C[R4608]->CN_CIC[R4202]->C_C[R4203] where ( selected.Name == component_name )
+      .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->C_C[R8001] where ( selected.Name == component_name )
       .if ( empty c_cs )
-        .select many c_cs related by cp_cps->C_C[R4608]->CN_CIC[R4202]->C_C[R4203]->CN_CIC[R4202]->C_C[R4203] where ( selected.Name == component_name )
+        .select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->C_C[R8001]->PE_PE[R8003]->C_C[R8001] where ( selected.Name == component_name )
       .end if
     .end if
   .end if
@@ -263,15 +243,15 @@
   .if ( ( ( "" == package_name ) or ( "" == instance ) ) or ( ( "" == variable_name ) or ( "" == value ) ) )
     .print "ERROR:  SetTemplateParameter -  Must provide valid strings for all arguments. ${package_name}::${instance}.${variable_name} to value ${value}."
   .else
-  .select any cp_cp from instances of CP_CP where ( selected.Name == package_name )
-  .if ( empty cp_cp )
+  .select any ep_pkg from instances of EP_PKG where ( selected.Name == package_name )
+  .if ( empty ep_pkg )
     .print "ERROR:  SetTemplateParameter -  Package, ${package_name}, not found for ${package_name}::${instance}.${variable_name} to value ${value}."
   .end if
   .if ( not_empty tm_tp )
     .if ( not_empty tm_c )
-      .select any te_ci related by cp_cp->CL_IC[R4605]->TE_CI[R2009] where ( selected.ClassifierName == instance )
+      .select any te_ci related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance )
       .if ( empty te_ci )
-        .select any te_ci related by cp_cp->C_C[R4604]->CL_IC[R4205]->TE_CI[R2009] where ( selected.ClassifierName == instance )
+        .select any te_ci related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance )
       .end if
       .if ( not_empty te_ci )
         .create object instance tm_tpv of TM_TPV
@@ -286,7 +266,7 @@
         .print "ERROR:  SetTemplateParameter - no component instance for ${package_name}::${instance} with name ${variable_name}."
       .end if
     .elif ( not_empty tm_if )
-      .select many te_iirs related by cp_cp->CL_IC[R4605]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
+      .select many te_iirs related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
       .for each te_iir in te_iirs
         .create object instance tm_tpv of TM_TPV
         .assign tm_tpv.instance = instance
@@ -297,7 +277,7 @@
         .assign tm_tpv.te_iirID = te_iir.ID
         .assign tm_tpv.te_ciID = 0
       .end for
-      .select many te_iirs related by cp_cp->C_C[R4604]->CL_IC[R4205]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
+      .select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
       .for each te_iir in te_iirs
         .create object instance tm_tpv of TM_TPV
         .assign tm_tpv.instance = instance
@@ -308,7 +288,7 @@
         .assign tm_tpv.te_iirID = te_iir.ID
         .assign tm_tpv.te_ciID = 0
       .end for
-      .select many te_iirs related by cp_cp->C_C[R4604]->C_PO[R4010]->C_IR[R4016]->TE_IIR[R2046] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
+      .select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->C_PO[R4010]->C_IR[R4016]->TE_IIR[R2046] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
       .for each te_iir in te_iirs
         .create object instance tm_tpv of TM_TPV
         .assign tm_tpv.instance = instance
@@ -350,17 +330,17 @@
   .if ( ( ( "" == package_name ) or ( "" == component ) ) or ( ( "" == classifier_name ) or ( ( ( "" == variable_name ) or (  "" == value ) ) ) ) )
     .print "ERROR:  SetTPV - Must provide valid strings for all arguments except the optional port, ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} to value ${value} (and port ${port})."
   .else
-  .select any cp_cp from instances of CP_CP where ( selected.Name == package_name )
-  .if ( empty cp_cp )
+  .select any ep_pkg from instances of EP_PKG where ( selected.Name == package_name )
+  .if ( empty ep_pkg )
     .print "ERROR:  SetTPV -  Package, ${package_name}, not found for ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} to value ${value}."
   .end if
-  .select many te_cis related by cp_cp->CL_IC[R4605]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
+  .select many te_cis related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
   .if ( "" != parent_component )
-    .select many c_cs related by cp_cp->C_C[R4608] where ( selected.Name == parent_component )
+    .select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001] where ( selected.Name == parent_component )
     .select many te_cis related by c_cs->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
   .else
     .if ( empty te_cis )
-      .select many te_cis related by cp_cp->C_C[R4608]->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
+      .select many te_cis related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
     .end if
   .end if
   .assign te_cis_count = cardinality te_cis

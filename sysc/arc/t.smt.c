@@ -60,7 +60,7 @@ ${ws}else if ( ${condition} ) {
   .param inst_ref te_assign
   .param string ws
   .if ( te_assign.isImplicit )
-    .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
+    .//.assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
   .end if
   .if ( "" != te_assign.array_spec )
     .select any te_string from instances of TE_STRING

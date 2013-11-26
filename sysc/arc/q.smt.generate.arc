@@ -30,7 +30,6 @@
   .assign te_for.loop_variable = te_var.buffer
   .assign te_for.set_variable = set_te_var.buffer
   .invoke s = t_oal_smt_for( te_smt, te_for, te_blk.indentation )
-  .assign te_smt.declaration = s.declaration
   .assign te_smt.buffer = s.body
   .assign te_smt.buffer2 = s.ending
   .assign te_smt.OAL = "FOR EACH ${v_var.Name} IN ${set_v_var.Name}"
@@ -223,7 +222,6 @@
   .select one v_var related by act_cr->V_VAR[R633]
   .select one te_var related by v_var->TE_VAR[R2039]
   .invoke s = t_oal_smt_create_instance( o_obj, act_cr.is_implicit, te_class.GeneratedName, te_var.buffer, te_blk.indentation )
-  .assign te_smt.declaration = s.declaration
   .assign te_smt.buffer = s.body
   .assign te_smt.OAL = "CREATE OBJECT INSTANCE ${v_var.Name} OF ${te_class.Key_Lett}"
 .end function
@@ -351,7 +349,6 @@
     .end if
   .end if
   .invoke s = t_oal_smt_create_event( sm_evt, e_ces.is_implicit, o_obj.Name, sm_evt.Mning, v_var.Name, te_var.buffer, recipient, parameters, te_blk.indentation )
-  .assign te_smt.declaration = s.declaration
   .assign te_smt.buffer = s.body
   .assign te_smt.OAL = "CREATE EVENT INSTANCE ${v_var.Name}( ${parameter_OAL} ) TO ${recipient_OAL}"
 .end function
@@ -557,7 +554,6 @@
   .assign te_select.multiplicity = act_fio.cardinality
   .assign te_select.var_name = te_var.buffer
   .invoke s = t_oal_smt_select( o_obj, te_smt, te_select, te_blk.indentation )
-  .assign te_smt.declaration = s.declaration
   .assign te_smt.deallocation = s.deallocation
   .// Push deallocation into the block so that it is available at gen time for break/continue/return.
   .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
@@ -653,7 +649,6 @@
   .assign te_select_where.special = built_in
   .assign te_select_where.oid_id = oid_id
   .invoke s = t_oal_smt_select_where( o_obj, te_smt, te_select_where, te_blk.indentation )
-  .assign te_smt.declaration = s.declaration
   .assign te_smt.deallocation = s.deallocation
   .// Push deallocation into the block so that it is available at gen time for break/continue/return.
   .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
@@ -766,7 +761,6 @@
     .assign self_directed = true
   .end if
   .invoke s = t_oal_smt_generate( sm_evt, self_directed, te_var.buffer, sm_evt.Drv_Lbl, sm_evt.Mning, parameters, te_blk.indentation )
-  .assign te_smt.declaration = s.declaration
   .assign te_smt.buffer = s.body
   .assign te_smt.OAL = "GENERATE ${sm_evt.Drv_Lbl}:${sm_evt.Mning}(${parameter_OAL}) TO ${v_var.Name}"
 .end function
@@ -1423,7 +1417,6 @@
   .if ( te_select_related.is_implicit )
     .if ( "many" == te_select_related.multiplicity )
       .include "${te_file.arc_path}/t.smt_sr.declare_set.c"
-      .assign te_smt.declaration = b
       .assign b = ""
       .include "${te_file.arc_path}/t.smt_sr.deallocate_set.c"
       .assign te_smt.deallocation = b
@@ -1431,7 +1424,6 @@
       .assign te_blk.deallocation = te_blk.deallocation + te_smt.deallocation
     .else
       .include "${te_file.arc_path}/t.smt_sr.declare_ref.c"
-      .assign te_smt.declaration = b
     .end if
   .end if
   .assign b = ""

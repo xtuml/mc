@@ -6,7 +6,7 @@
 .// association link methods and member data implementation code.
 .//
 .// Notice:
-.// (C) Copyright 1998-2011 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -46,8 +46,8 @@
         .select one rel related by te_rel->R_REL[R2034]
         .if ( te_rel.Order == rel_count )
           .// Simple relationship?
-          .select one simple_rel related by rel->R_SIMP[R206]
-          .if ( not_empty simple_rel )
+          .select one r_simp related by rel->R_SIMP[R206]
+          .if ( not_empty r_simp )
             .invoke methods = SimpleRelationshipMethods( o_obj, rel, te_relstore, gen_declaration )
 ${methods.body}\
           .else
@@ -268,15 +268,15 @@ ${methods.body}\
   .//        Punch in as NavigatedTo to assure functional code...
   .//        ...unless dealing with a class that is discluded from gen.
   .if ( not aone_te_class.ExcludeFromGen )
-    .select one te_nav related by aone_oir->TE_NAV[R2035]
+    .select one te_nav related by aone_oir->TE_OIR[R2035]
     .assign te_nav.NavigatedTo = TRUE
   .end if
   .if ( not aoth_te_class.ExcludeFromGen )
-    .select one te_nav related by aoth_oir->TE_NAV[R2035]
+    .select one te_nav related by aoth_oir->TE_OIR[R2035]
     .assign te_nav.NavigatedTo = TRUE
   .end if
   .if ( not assr_te_class.ExcludeFromGen )
-    .select one te_nav related by assr_oir->TE_NAV[R2035]
+    .select one te_nav related by assr_oir->TE_OIR[R2035]
     .assign te_nav.NavigatedTo = TRUE
   .end if
   .//
@@ -501,9 +501,9 @@ ${aoth_fundamentals.body}\
   .invoke relate_method   = GetRelateToName( o_obj, r_rel, "" )
   .invoke unrelate_method = GetUnrelateFromName( o_obj, r_rel, "" )
   .//
-  .select one te_nav related by rto->R_OIR[R203]->TE_NAV[R2035]
+  .select one te_nav related by rto->R_OIR[R203]->TE_OIR[R2035]
   .assign rto_NavigatedTo = te_nav.NavigatedTo
-  .select one te_nav related by rgo->R_OIR[R203]->TE_NAV[R2035]
+  .select one te_nav related by rgo->R_OIR[R203]->TE_OIR[R2035]
   .assign rgo_NavigatedTo = te_nav.NavigatedTo
   .if ( gen_declaration )
     .assign part_mult_cmt = "<-"
@@ -642,9 +642,9 @@ ${aoth_fundamentals.body}\
   .invoke relate_method   = GetRelateToName( o_obj, r_rel, "" )
   .invoke unrelate_method = GetUnrelateFromName( o_obj, r_rel, "" )
   .//
-  .select one te_nav related by rto->R_OIR[R203]->TE_NAV[R2035]
+  .select one te_nav related by rto->R_OIR[R203]->TE_OIR[R2035]
   .assign rto_NavigatedTo = te_nav.NavigatedTo
-  .select one te_nav related by rgo->R_OIR[R203]->TE_NAV[R2035]
+  .select one te_nav related by rgo->R_OIR[R203]->TE_OIR[R2035]
   .assign rgo_NavigatedTo = te_nav.NavigatedTo
   .if ( gen_declaration )
     .select any te_target from instances of TE_TARGET
@@ -907,7 +907,7 @@ ${aoth_fundamentals.body}\
   .if ( this_obj.Obj_ID != related_obj.Obj_ID )
     .// Non-reflexive - linkage based on navigation needs
     .if ( rel_info.is_formalizer )
-      .select one te_nav related by rto->R_OIR[R203]->TE_NAV[R2035]
+      .select one te_nav related by rto->R_OIR[R203]->TE_OIR[R2035]
       .if ( te_nav.NavigatedTo or te_c.OptDisabled )
         .assign storage_needed = TRUE
       .else
@@ -917,7 +917,7 @@ ${aoth_fundamentals.body}\
         .end if
       .end if
     .else
-      .select one te_nav related by rgo->R_OIR[R203]->TE_NAV[R2035]
+      .select one te_nav related by rgo->R_OIR[R203]->TE_OIR[R2035]
       .if ( te_nav.NavigatedTo or te_c.OptDisabled )
         .assign storage_needed = TRUE
       .else
@@ -1035,8 +1035,8 @@ ${aoth_fundamentals.body}\
       .select one te_class related by this_object->TE_CLASS[R2019]
       .select one related_te_class related by related_object->TE_CLASS[R2019]
       .select one te_c related by te_class->TE_C[R2064]
-      .select one te_nav1 related by rto->R_OIR[R203]->TE_NAV[R2035]
-      .select one te_nav2 related by rgo->R_OIR[R203]->TE_NAV[R2035]
+      .select one te_nav1 related by rto->R_OIR[R203]->TE_OIR[R2035]
+      .select one te_nav2 related by rgo->R_OIR[R203]->TE_OIR[R2035]
       .assign navigated = ( te_nav1.NavigatedTo or te_nav2.NavigatedTo )
       .include "${te_file.arc_path}/t.class.link.h"
     .end if  .// gen_navigate

@@ -6,7 +6,7 @@
 .// State Machine (FSM) implementation of xtUML state models.
 .//
 .// Notice:
-.// (C) Copyright 1998-2011 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -25,9 +25,7 @@
   .select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514]
   .select one te_act related by sm_act->TE_ACT[R2022]
   .if ( not_empty te_act )
-    .select one act_blk related by sm_act->ACT_SAB[R691]->ACT_ACT[R698]->ACT_BLK[R666]
-    .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-    .assign action_body = axret.body
+    .select one te_aba related by te_act->TE_ABA[R2010]
     .// CDS relaxed same data needed
     .select any sm_txn related by sm_state->SM_TXN[R506]
     .invoke red = TE_EVT_ReceivedEventDataDeclaration( sm_txn, sm_act )
@@ -43,9 +41,7 @@
   .select one sm_act related by sm_txn->SM_TAH[R530]->SM_AH[R513]->SM_ACT[R514]
   .select one te_act related by sm_act->TE_ACT[R2022]
   .if ( not_empty te_act )
-    .select one act_blk related by sm_act->ACT_TAB[R688]->ACT_ACT[R698]->ACT_BLK[R666]
-    .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-    .assign action_body = axret.body
+    .select one te_aba related by te_act->TE_ABA[R2010]
     .invoke red = TE_EVT_ReceivedEventDataDeclaration( sm_txn, sm_act )
     .assign received_event_declaration = red.body
     .include "${te_file.arc_path}/t.class.sm_act.c"
@@ -59,9 +55,7 @@
   .select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514]
   .select one te_act related by sm_act->TE_ACT[R2022]
   .if ( not_empty te_act )
-    .select one act_blk related by sm_act->ACT_SAB[R691]->ACT_ACT[R698]->ACT_BLK[R666]
-    .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-    .assign action_body = axret.body
+    .select one te_aba related by te_act->TE_ABA[R2010]
     .// CDS relaxed same data needed
     .select any sm_txn related by sm_state->SM_TXN[R506]
     .invoke red = TE_EVT_ReceivedEventDataDeclaration( sm_txn, sm_act )
@@ -76,9 +70,7 @@
   .select one sm_act related by sm_txn->SM_TAH[R530]->SM_AH[R513]->SM_ACT[R514]
   .select one te_act related by sm_act->TE_ACT[R2022]
   .if ( not_empty te_act )
-    .select one act_blk related by sm_act->ACT_TAB[R688]->ACT_ACT[R698]->ACT_BLK[R666]
-    .invoke axret = blck_xlate( te_c.StmtTrace, act_blk, 0 )
-    .assign action_body = axret.body
+    .select one te_aba related by te_act->TE_ABA[R2010]
     .invoke red = TE_EVT_ReceivedEventDataDeclaration( sm_txn, sm_act )
     .assign received_event_declaration = red.body
     .include "${te_file.arc_path}/t.class.sm_act.c"

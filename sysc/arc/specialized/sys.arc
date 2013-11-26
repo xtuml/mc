@@ -5,7 +5,7 @@
 .// This is the root archetype for generation.
 .//
 .// Notice:
-.// (C) Copyright 1998-2011 Mentor Graphics Corporation
+.// (C) Copyright 1998-2013 Mentor Graphics Corporation
 .//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
@@ -14,8 +14,9 @@
 .//============================================================================
 .//
 .//
-.invoke arc_env = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
-.assign arc_path = arc_env.result
+.print "starting ${info.date}"
+.invoke r = GET_ENV_VAR( "ROX_MC_ARC_DIR" )
+.assign arc_path = r.result
 .if ( "" == arc_path )
   .print "\nERROR:  Environment variable ROX_MC_ARC_DIR not set."
   .exit 100
@@ -33,7 +34,6 @@
 .include "${arc_path}/m.domain.arc"
 .include "${arc_path}/m.event.arc"
 .include "${arc_path}/m.class.arc"
-.include "${arc_path}/m.registry.arc"
 .include "${arc_path}/m.system.arc"
 .include "${arc_path}/q.assoc.pseudoformalize.arc"
 .include "${arc_path}/q.class.arc"
@@ -48,6 +48,7 @@
 .include "${arc_path}/q.class.where.arc"
 .include "${arc_path}/q.component.arc"
 .include "${arc_path}/q.datatype.arc"
+.include "${arc_path}/q.domain.analyze.arc"
 .include "${arc_path}/q.domain.bridge.arc"
 .include "${arc_path}/q.domain.classes.arc"
 .include "${arc_path}/q.domain.datatype.arc"
@@ -100,27 +101,12 @@
 .// Initialize the generator database with marking information.
 .// Note that the order of processing is important here.
 .//
-.// 1) Register the domains (coersing names).
-.include "${te_file.system_color_path}/${te_file.registry_mark}"
 .// 2) Mark interrupt handlers.
 .include "${te_file.system_color_path}/${te_file.bridge_mark}"
 .// 3) Initiate user data type marking.
 .include "${te_file.system_color_path}/${te_file.datatype_mark}"
 .//
 .invoke PseudoFormalizeUnformalizedAssociations()
-.select many s_doms from instances of S_DOM
-.for each s_dom in s_doms
-  .select one c_c related by s_dom->CN_DC[R4204]->C_C[R4204]
-  .if ( empty c_c )
-    .create object instance c_c of C_C
-    .create object instance cn_dc of CN_DC
-    .// relate c_c to s_dom across R4204 using cn_dc;
-    .assign cn_dc.Id = c_c.Id
-    .assign cn_dc.Dom_ID = s_dom.Dom_ID
-    .assign c_c.Name = s_dom.Name
-    .assign c_c.Descrip = s_dom.Descrip
-  .end if
-.end for
 .invoke MarkSystemCPortType( "BitLevelSignals" )
 .invoke MC_metamodel_populate()
 .invoke UpdateDirectUDT()
@@ -157,25 +143,22 @@
 .print "System level marking complete."
 .//
 .// analyze
-.include "${te_file.arc_path}/q.domain.analyze.arc"
-.invoke CreateSpecialWhereClauseInstances( te_sys )
+.//.invoke sys_analyze( te_sys )
 .//
 .// Order here is important.  Do not rearrange without knowing
 .// what you are doing.
 .//
 .include "${te_file.arc_path}/frag_util.arc"
-.invoke translate_all_oal()
+.//.invoke translate_all_oal()
 .//
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
-  .assign te_c.current_component = true
-  .// Propagate domain information to the system level.
-  .invoke te_c_CollectLimits( te_c )
-  .include "${te_file.arc_path}/q.domain.bridges.arc"
-  .include "${te_file.arc_path}/q.classes.arc"
-  .assign te_c.current_component = false
+  .select many te_ees related by te_c->TE_EE[R2085] where ( ( selected.RegisteredName != "TIM" ) and ( selected.Included ) )
+  .//.include "${te_file.arc_path}/q.domain.bridges.arc"
+  .//.include "${te_file.arc_path}/q.classes.arc"
 .end for
 .//
+.select any tim_te_ee from instances of TE_EE where ( ( selected.RegisteredName == "TIM" ) and ( selected.Included ) )
 .assign TLM_message_order = ""
 .// Generate interface declarations.
 .//.include "${te_file.arc_path}/q.component.interfaces.arc"
@@ -233,10 +216,13 @@
 .assign all_max_class_numbers = "0"
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .for each te_c in te_cs
+  .if ( te_c.internal_behavior )
+    .select one te_dci related by te_c->TE_DCI[R2090]
   .assign all_domain_include_files = all_domain_include_files + "#include ""${te_c.module_file}.${te_file.hdr_file_ext}""\n"
   .assign all_instance_loaders = all_instance_loaders + "${te_c.Name}_instance_loaders\n"
   .assign all_batch_relaters = all_batch_relaters + "${te_c.Name}_batch_relaters\n"
   .assign all_max_class_numbers = all_max_class_numbers + " + ${te_c.Name}_MAX_CLASS_NUMBERS"
+  .end if
 .end for
 .//
 .//
@@ -248,7 +234,7 @@
 .invoke domain_ids = DeclareDomainIdentityEnums( active_te_cs )
 .//
 .//=============================================================================
-.// Generate sysc_main.c.
+.// Generate main.
 .//=============================================================================
 .select any te_sys from instances of TE_SYS
 .assign sysc_top_includes = ""
@@ -273,10 +259,8 @@
 .emit to file "${te_file.system_source_path}/${te_file.sys_main}.${te_file.src_file_ext}"
 .if ( te_sys.SystemCPortsType == "TLM" )
   .assign gen_vista_top_template = true
-  .assign te_file.sys_main = te_prefix.file + "sysc_main_template"
   .include "${te_file.arc_path}/t.sysc_main.c"
-  .emit to file "${te_file.system_source_path}/${te_file.sys_main}.${te_file.src_file_ext}"
-  .assign te_file.sys_main = te_prefix.file + "sysc_main"
+  .emit to file "${te_file.system_source_path}/sysc_main_template.${te_file.src_file_ext}"
 .end if
 .//
 .invoke active_class_counts = DefineActiveClassCountArray( te_cs )
@@ -303,6 +287,7 @@
 .end if
 .//
 .if ( te_thread.enabled )
+  .// System-C provides its own threading.
   .if ( te_thread.flavor == "POSIX" )
     .include "${te_file.arc_path}/t.sys_threadposix.c"
   .elif ( te_thread.flavor == "Nucleus" )
@@ -389,16 +374,16 @@
 .//=============================================================================
 .// Generate TIM_bridge.h into system include.
 .//=============================================================================
-.assign timer_evt_name = "sc_timer_event"
+.if ( not_empty tim_te_ee )
 .//.include "${te_file.arc_path}/t.sys_tim.h"
 .//.emit to file "${te_file.system_include_path}/${te_file.tim}.${te_file.hdr_file_ext}"
 .//
 .//=============================================================================
 .// Generate TIM_bridge.c to system source directory.
 .//=============================================================================
-.assign tim_inst = "systimer"
 .//.include "${te_file.arc_path}/t.sys_tim.c"
 .//.emit to file "${te_file.system_include_path}/${te_file.tim}.${te_file.src_file_ext}"
+.end if
 .//
 .//=============================================================================
 .// Generate sys_xtumlload.h into system gen includes.
@@ -415,4 +400,5 @@
 .include "${te_file.arc_path}/t.sys_xtumlload.c"
 .emit to file "${te_file.system_source_path}/${te_file.xtumlload}.${te_file.src_file_ext}"
 .end if
+.print "ending ${info.date}"
 .//
