@@ -1087,7 +1087,7 @@
     .select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053]
   .end if
   .select many v_pars related by act_sgn->V_PAR[R662]
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true, "sgn" )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1111,7 +1111,7 @@
     .select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050]
   .end if
   .select many v_pars related by act_iop->V_PAR[R679]
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true, "iop" )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1124,13 +1124,14 @@
   .param inst_ref_set v_pars
   .param string ws
   .param boolean is_statement
+  .param string salt
   .select any te_file from instances of TE_FILE
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .assign parameters = ""
   .assign te_mact.OALParamBuffer = ""
   .if ( not_empty v_pars )
-    .invoke r = gen_parameter_list( v_pars, false, "message" )
+    .invoke r = gen_parameter_list( v_pars, false, salt )
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign te_mact.OALParamBuffer = te_parm.OALParamBuffer
