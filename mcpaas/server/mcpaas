@@ -7,7 +7,7 @@
 DAEMON_PATH="/home/keith/git/xtuml/mc/mcpaas/server"
 
 DAEMON=nodejs
-DAEMONOPTS="bpbuild.js"
+DAEMONOPTS="server.js"
 
 NAME=mcpaas
 DESC="The Runs the MC-PaaS server"

@@ -1,5 +1,6 @@
 #!/bin/bash
-BPHOMEDIR="/usr/local/MentorGraphics/BridgePoint"
+#AWS - BPHOMEDIR="/usr/local/MentorGraphics/BridgePoint"
+BPHOMEDIR="/home/kbrown/MentorGraphics/BridgePoint"
 BP_VERSION="4.1.0"
 
 function die() {
@@ -44,17 +45,28 @@ export MGC_HOME=
 export MGLS_HOME=$BPHOMEDIR/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.core.linux.x86_$BP_VERSION/os/linux/x86
 export BP_JVM=$BPHOMEDIR/jre/lib/i386/client/libjvm.so
 
-#$BPHOMEDIR/eclipse/eclipse -vm $BP_JVM $1 $2 $3 $4 $5 $6 $7 $8 $9
-
 export BPMCHOME=$BPHOMEDIR/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.mc.c.binary_4.1.0/
-rm -f src/*
-rm -f src/.mcpaas_done
+
+# Prepare for building
+cd public/incoming
+PROJ_NAME=`echo $1 | sed 's/\.zip//g'`
+unzip -d ${PROJ_NAME} $1
+cd ${PROJ_NAME}
+mkdir src
 cd gen
 rm -f code_generation/_system.sql
 rm -rf code_generation/_ch
-$BPMCHOME/mc3020/bin/xtumlmc_build -home $BPMCHOME -l3b -e -d code_generation -O ../../src/  > ../xb_log.txt
+
+# Build
+$BPMCHOME/mc3020/bin/xtumlmc_build -home $BPMCHOME -l3b -e -d code_generation -O ../../src/  > ../build_log.txt
 cd ..
-mv xb_log.txt src/.mcpaas_done
+mv -f build_log.txt src/build_log.txt
+
+# Prepare the file to send back
+zip -r src src
+mv -f src.zip ../../outgoing/${PROJ_NAME}.zip
+
+# TODO - Clean up? Delete incoming zipfile and build dir...
 
 # Restore the path
 export PATH=$ORIGINAL_PATH
