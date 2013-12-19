@@ -23,8 +23,9 @@ None.
 ----------------------
 [1] Issues 40 <https://github.com/xtuml/mc/issues/40>  
 [2] CQ DEI dts0101019117  
-[3] Bugzilla bug 1281. <http://tucson.wv.mentorg.com/bugzilla/show_bug.cgi?id=1281>  
+[3] Bugzilla bug 1281 (Mesquite: /*#inline, */ for inlining C code). <http://tucson.wv.mentorg.com/bugzilla/show_bug.cgi?id=1281>  
 [4] Analysis note for 1281. < Tucson CVS >/MC-Documentation/internal/technical/mc3020/i1281.ant  
+[5] CQ DEI dts0101019678 - Comment //** in OAL causes syntax highlighting problem  
 
 4. Background
 -------------
@@ -44,7 +45,7 @@ None.
 4.3  While investigating this issue, I found that the problematic comment marker ```//**``` can be dealt with in
   xtumlmc_build.  The OAL parser is able to handle this and treat it as a single-line comment.  However, the OAL
   syntax highlighting plug-in chokes on this comment marker and treats all lines following it up to a ```*/``` as a 
-  comment.  This work will not address fixing that syntax highlighting plug-in.  
+  comment.  This work will not address fixing that syntax highlighting plug-in.  Raised [5] to capture this bug.  
 4.4  In C source code, when a comment block is started with ```/*```, extra begin comment markers inside the already
   started comment can cause compiler warnings, but they are not considered compiler errors.  
 
@@ -72,6 +73,13 @@ if ( /\/\// ) {
 } 
 ```
 
+6.2  It should be noted that the above code will affect every line in the input file.  This means it may modify data
+  that is not in an OAL block.  For example, if a V_LST is created by OAL such as ```s = "abc // def */ ghi";```, the 
+  above will change the string in the output code to ```s = "abc // def   ghi";```.
+6.2.1  We decided that this is a very small window and not worth the effort or code complexity to fix.  Especially
+  because xtumlmc_build may be going away.  In addition, we noted that our existing comment processing has existed
+  for 8 years and exposes the same type of potential problem and we have never had a complaint about it.  
+  
 7. Implementation Comments
 --------------------------
 None.
