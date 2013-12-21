@@ -644,7 +644,7 @@
   .for each v_trv in v_trvs
     .assign salt = "$t{n}" + "trv"
     .assign n = n + 1
-    .invoke val_transform_value( v_trv )
+    .invoke val_transform_value( v_trv, salt )
   .end for
 .end function
 .//
