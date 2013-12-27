@@ -213,6 +213,10 @@
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
       .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"
       .invoke blk_deallocation_append( te_blk, d )
+    .elif ( 4 == r_te_dt.Core_Typ )
+      .// string
+      .assign d = ( te_assign.left_declaration + te_assign.array_spec ) + "=0;"
+      .invoke blk_declaration_append( te_blk, d )
     .else
       .assign d = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
       .invoke blk_declaration_append( te_blk, d )

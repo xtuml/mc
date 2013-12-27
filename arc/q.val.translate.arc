@@ -74,19 +74,19 @@
   .else
   .select one v_trv related by v_val->V_TRV[R801]
   .if ( not_empty v_trv )
-    .invoke val_transform_value( v_trv )
+    .invoke val_transform_value( v_trv, "TRV" )
   .else
   .select one v_msv related by v_val->V_MSV[R801]
   .if ( not_empty v_msv )
-    .invoke val_message_value( v_msv )
+    .invoke val_message_value( v_msv, "MSV" )
   .else
   .select one v_brv related by v_val->V_BRV[R801]
   .if ( not_empty v_brv )
-    .invoke val_bridge_value( v_brv )
+    .invoke val_bridge_value( v_brv, "BRV" )
   .else
   .select one v_fnv related by v_val->V_FNV[R801]
   .if ( not_empty v_fnv )
-    .invoke val_synch_service_value( v_fnv )
+    .invoke val_synch_service_value( v_fnv, "FNV" )
   .else
     .print "ERROR:  Recursive V_VAL resolution issue."
   .end if

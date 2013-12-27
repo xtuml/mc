@@ -118,7 +118,7 @@ ${te_class.GeneratedName}_instanceloader( ${te_instance.handle} instance, const 
   while ( --i >= 0 ) { ${te_instance.self}->${te_attr.GeneratedName}[ i ] = avlstring[ ${attribute_number} ][ i ]; }
   }
           .else
-  ${te_instance.module}${te_string.strcpy}( ${te_instance.self}->${te_attr.GeneratedName}, avlstring[ ${attribute_number} ] );
+  ${te_instance.self}->${te_attr.GeneratedName} = ${te_instance.module}${te_string.strcpy}( ${te_instance.self}->${te_attr.GeneratedName}, avlstring[ ${attribute_number} ] );
           .end if
           .assign attribute_number = attribute_number + 1
         .elif ( 5 == te_dt.Core_Typ )

@@ -548,7 +548,7 @@
       .assign te_dt.string_format = "%f"
     .elif ( 4 == te_dt.Core_Typ )
       .// string
-      .assign te_dt.ExtName = "c_t"
+      .assign te_dt.ExtName = "c_t *"
       .assign te_dt.Initial_Value = "CTOR"
       .assign te_dt.string_format = "%s"
     .elif ( 5 == te_dt.Core_Typ )
@@ -744,8 +744,8 @@
       .select one mbr_te_dt related by s_mbr->S_DT[R45]->TE_DT[R2021]
       .if ( 4 == mbr_te_dt.Core_Typ )
         .// string
-        .assign te_mbr.dimensions = te_mbr.dimensions + 1
-        .assign te_mbr.array_spec = ( te_mbr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+        .//.assign te_mbr.dimensions = te_mbr.dimensions + 1
+        .//.assign te_mbr.array_spec = ( te_mbr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
       .end if
     .end for
   .end for
@@ -1484,8 +1484,8 @@
       .// In the C model compiler, treat strings as arrays.
       .if ( 4 == te_dt.Core_Typ )
         .// string
-        .assign te_var.dimensions = te_var.dimensions + 1
-        .assign te_var.array_spec = ( te_var.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+        .//.assign te_var.dimensions = te_var.dimensions + 1
+        .//.assign te_var.array_spec = ( te_var.array_spec + "[" ) + ( te_string.max_string_length + "]" )
       .end if
     .else
       .assign msg = ( "\nERROR:  Did not find a datatype associated with variable " + v_var.Name ) + ".\n"
@@ -1670,8 +1670,8 @@
         .// In the C model compiler, treat strings as arrays.
         .if ( 4 == te_dt.Core_Typ )
           .// string
-          .assign te_attr.dimensions = te_attr.dimensions + 1
-          .assign te_attr.array_spec = ( te_attr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+          .//.assign te_attr.dimensions = te_attr.dimensions + 1
+          .//.assign te_attr.array_spec = ( te_attr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
         .end if
         .//
         .// Create the Action Block Anchors associated with each action
@@ -2257,8 +2257,8 @@
   .if ( 4 == te_dt.Core_Typ )
     .// string
     .select any te_string from instances of TE_STRING
-    .assign te_aba.dimensions = te_aba.dimensions + 1
-    .assign te_aba.array_spec = ( te_aba.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+    .//.assign te_aba.dimensions = te_aba.dimensions + 1
+    .//.assign te_aba.array_spec = ( te_aba.array_spec + "[" ) + ( te_string.max_string_length + "]" )
   .end if
   .// Allow arrays (including strings) to be returned as pointers.
   .if ( te_aba.dimensions > 0 )
@@ -2316,8 +2316,8 @@
   .if ( 4 == te_dt.Core_Typ )
     .// string
     .select any te_string from instances of TE_STRING
-    .assign te_parm.dimensions = te_parm.dimensions + 1
-    .assign te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+    .//.assign te_parm.dimensions = te_parm.dimensions + 1
+    .//.assign te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" )
     .// In C (and other languages) arrays are never values but references.
     .assign te_parm.By_Ref = 0
   .end if

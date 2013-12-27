@@ -422,8 +422,10 @@ c_t *
 ${te_set.scope}${te_string.strcpy}( c_t * dst, const c_t * src )
 {
   c_t * s = dst;
-  s2_t i = ${te_string.max_string_length} - 1;
-  if ( ( 0 != src ) && ( 0 != dst ) ) {
+  if ( 0 != src ) {
+    i_t i = ${te_set.scope}${te_string.strlen}( src ) + 1;
+    s = ${te_set.scope}${te_dma.allocate}( i );
+    dst = s;
     while ( ( i > 0 ) && ( *src != '\0' ) ) {
       --i;
       *dst++ = *src++;
@@ -467,6 +469,14 @@ ${te_set.scope}${te_string.strcmp}( const c_t *p1, const c_t *p2 )
   const c_t *s2 = p2;
   c_t c1, c2;
   s2_t i = ${te_string.max_string_length};
+  if ( 0 == p1 ) {
+    s1 = "";
+    fprintf( stderr, "strcmp p1 0\n" );
+  }
+  if ( 0 == p2 ) {
+    s2 = "";
+    fprintf( stderr, "strcmp p2 0\n" );
+  }
   do {
     c1 = *s1++;
     c2 = *s2++;
@@ -489,7 +499,7 @@ ${te_set.scope}${te_string.strget}( void )
   return ( &s[ i ][ 0 ] );
 }
 
-.if ( te_sys.InstanceLoading )
+.if ( ( te_sys.InstanceLoading ) or ( 0 != te_sys.UnitsToDynamicallyAllocate ) )
 /*
  * Measure the length of the given string.
  */
@@ -508,6 +518,8 @@ ${te_set.scope}${te_string.strlen}( const c_t * s )
   return len;
 }
 
+.end if
+.if ( te_sys.InstanceLoading )
 #define ${te_prefix.define_u}ATOI_RADIX 10
 c_t *
 ${te_set.scope}${te_string.itoa}( c_t * string, s4_t value )
