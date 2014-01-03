@@ -316,8 +316,10 @@ c_t *
 Escher_strcpy( c_t * dst, const c_t * src )
 {
   c_t * s = dst;
-  s2_t i = ESCHER_SYS_MAX_STRING_LEN - 1;
-  if ( ( 0 != src ) && ( 0 != dst ) ) {
+  if ( 0 != src ) {
+    i_t i = Escher_strlen( src ) + 1;
+    s = Escher_malloc( i );
+    dst = s;
     while ( ( i > 0 ) && ( *src != '\0' ) ) {
       --i;
       *dst++ = *src++;
@@ -336,6 +338,14 @@ Escher_stradd( const c_t * left, const c_t * right )
   s2_t i = ESCHER_SYS_MAX_STRING_LEN - 1;
   c_t * s = Escher_strget();
   c_t * dst = s;
+  if ( 0 == left ) {
+    left = "";
+    fprintf( stderr, "stradd left 0\n" );
+  }
+  if ( 0 == right ) {
+    right = "";
+    fprintf( stderr, "stradd right 0\n" );
+  }
   while ( ( i > 0 ) && ( *left != '\0' ) ) {
     --i;
     *dst++ = *left++;
@@ -361,6 +371,14 @@ Escher_strcmp( const c_t *p1, const c_t *p2 )
   const c_t *s2 = p2;
   c_t c1, c2;
   s2_t i = ESCHER_SYS_MAX_STRING_LEN;
+  if ( 0 == p1 ) {
+    s1 = "";
+    fprintf( stderr, "strcmp p1 0\n" );
+  }
+  if ( 0 == p2 ) {
+    s2 = "";
+    fprintf( stderr, "strcmp p2 0\n" );
+  }
   do {
     c1 = *s1++;
     c2 = *s2++;
@@ -522,9 +540,6 @@ Escher_CreateInstance(
 
   dci->inactive.head = dci->inactive.head->next;
   instance = (Escher_iHandle_t) node->object;
-  if ( 0 != dci->initial_state ) {
-    instance->current_state = dci->initial_state;
-  }
   if ( 0 != dci->initial_state ) {
     instance->current_state = dci->initial_state;
   }

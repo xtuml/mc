@@ -544,6 +544,10 @@ if ( te_assign.isImplicit )
     // Push deallocation into the block so that it is available at gen time for break/continue/return.
     d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );";
     ::blk_deallocation_append( te_blk:te_blk, s:d );
+  elif ( 4 == te_assign.Core_Typ )
+    // string
+    d = ( te_assign.left_declaration + te_assign.array_spec ) + "=0;";
+    ::blk_declaration_append( te_blk:te_blk, s:d );
   else
     d = ( te_assign.left_declaration + te_assign.array_spec ) + ";";
     ::blk_declaration_append( te_blk:te_blk, s:d );
@@ -1431,7 +1435,7 @@ if ( empty te_mact )
   select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053];
 end if;
 select many v_pars related by act_sgn->V_PAR[R662];
-r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true );
+r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true, salt:"sgn" );
 ::smt_buffer_append( te_smt:te_smt, s:r );
 te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})";
 @@@
@@ -1455,11 +1459,11 @@ if ( empty te_mact )
   select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050];
 end if;
 select many v_pars related by act_iop->V_PAR[R679];
-r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true );
+r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true, salt:"iop" );
 ::smt_buffer_append( te_smt:te_smt, s:r );
 te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})";
 @@@
-q_render_msg@string@@te_mact@inst_ref<Extended Message Action>@@v_pars@inst_ref_set<Actual Parameter>@@ws@string@@is_statement@boolean@@@
+q_render_msg@string@@te_mact@inst_ref<Extended Message Action>@@v_pars@inst_ref_set<Actual Parameter>@@ws@string@@is_statement@boolean@@salt@string@@@
 //
 // -------------------------------------------------------------------
 // Render the call and parameter list for an inter-component message
@@ -1468,13 +1472,14 @@ te_mact = param.te_mact;
 v_pars = param.v_pars;
 ws = param.ws;
 is_statement = param.is_statement;
+salt = param.salt;
 select any te_file from instances of TE_FILE;
 select any te_sys from instances of TE_SYS;
 select any te_target from instances of TE_TARGET;
 parameters = "";
 te_mact.OALParamBuffer = "";
 if ( not_empty v_pars )
-  r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"message" );
+  r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:salt );
   te_parm = r;
   parameters = te_parm.ParamBuffer;
   te_mact.OALParamBuffer = te_parm.OALParamBuffer;
