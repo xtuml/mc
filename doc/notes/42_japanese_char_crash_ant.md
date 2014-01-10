@@ -102,7 +102,7 @@ typedef _error _error;  /* (vportVCHAR_CODESET is unknown!) */
   - __Pre-build exporter__.  Change it so we don't export any description fields to 
   <project>.sql since they aren't used by code gen anyway.  Make sure any OAL
   fields have a newline as the last character.
-    - Drawbacks: This could solve 5.1.1 and 5.1.2, but not 5.1.3
+    - Drawbacks: This could solve 5.1.1 and 5.1.2, but not 5.1.3  
   - __mcmc, Option 1__.  Strip Japanese characters.
     - Drawbacks: Draconian
     - Advantages: Solves all 3 problem cases
@@ -112,17 +112,17 @@ typedef _error _error;  /* (vportVCHAR_CODESET is unknown!) */
   - __generator, Option 1__. Try to modify the code (gs_imp.cc:1791) to look for the end
   tick differently, in a manner that avoids character-width issues/functions and
   instead just inspects the underlying in-memory data.
-    - Drawbacks: Does not solve 5.1.3.  We are hacking around Galaxy string handling.
-    - Advantages: Leaves Japanese characters intact for use with ```MarkStateActionCommentBlocksEnabled```
+    - Drawbacks: Does not solve 5.1.3.  We are hacking around Galaxy string handling.  
+    - Advantages: Leaves Japanese characters intact for use with ```MarkStateActionCommentBlocksEnabled```  
   - __generator, Option 2__.  Try to force generator to use ```vportCODESET_ISO_10646```
   as called out in 5.3 so ```vchar``` contains enough bytes to hold UTF-8 characters
   properly.
     - Drawbacks: Going to this much larger fixed-width encoding could cause performance
     or memory consumption issues.  Cannot yet say if this will help for 5.1.3
-    or not.
+    or not.  
     - Advantages: the ```vchar``` type is guaranteed to have enough space to store
-    UTF-8 characters.  Don't have to strip Japanese characters from the model data.
-  - __xtuml_build__.  Do work called out in mcmc Option 1 here instead.
+    UTF-8 characters.  Don't have to strip Japanese characters from the model data.  
+  - __xtuml_build__.  Do work called out in mcmc Option 1 here instead.  
 
   
 6. Work Required
