@@ -20,12 +20,16 @@ can cause generator to crash.
 [3] UTF-8, http://en.wikipedia.org/wiki/UTF-8  
 [4] UTF-8 Everywhere, http://www.utf8everywhere.org/  
 [5] Fundamental Types (VC++), http://msdn.microsoft.com/en-us/library/cc953fe1.aspx  
+[6] http://www.joelonsoftware.com/articles/Unicode.html  
 
 3. Background
 -------------
 FujiXerox is attempting to migrate from BridgePoint 5.x to eclipse-based 
 BridgePoint 4.1.0.  During this process, they have hit cases where Japanese 
-characters in their model data have caused generator to crash.
+characters in their model data have caused generator to crash.  
+
+A number of informative resources exist about file encodings and data handling.  The 
+author found [3], [4], and [6] particularly interesting.  
 
 4. Requirements
 ---------------
@@ -40,7 +44,7 @@ characters in their model data have caused generator to crash.
   thinks the field does not end with a tick character.  If one inspects the 
   _system.sql file, you find the Japanese character immediately followed by a 
   tick.        
-5.1.2  Same as 5.1.1, except in a modeled element's description field.
+5.1.2  Same as 5.1.1, except in a modeled element's description field.  
 5.1.3  When some Japanese characters end a line (not the last line of a field), 
   they cause an error during code generation where the file being created is 
   simply truncated after the character.  No error is reported during code 
@@ -54,10 +58,21 @@ characters in their model data have caused generator to crash.
   is immediately followed by a tick.  It also has no problem with the character
   sequence that causes file truncation in generator output.
   
-5.3  UTF-8 uses variable length encoding from 1 - 4 bytes per character.  
-  Generator is set up to work on fixed-length encoding.
+5.3  UTF-8 uses variable length encoding from 1 - 4 bytes per character (see [3]). Generator 
+  is set up to work on fixed-length encoding.  
 5.3.1  Specifically, the place where it looks for an end tick ```gs_imp.cc:1791``` relies on this code:
-  ```if (attr_value_str.char_at(attr_value_str.length () - 1) != '\'')```
+  ```if (attr_value_str.char_at(attr_value_str.length () - 1) != '\'')```.  Where
+```
+vchar char_at(t_uint position) const
+    { return text[position]; }
+    
+t_uint Description::length () const
+{
+    return cur_length; 
+}
+
+// cur_length is is a t_uint that is modified and manipulated by many functions in u_desc.cc
+```
 5.3.2  Generator, at ```u_tspec.cc:34``` and Galaxy at ```vchar.h:58``` uses this
  block:
 ```
@@ -81,7 +96,7 @@ typedef _error _error;  /* (vportVCHAR_CODESET is unknown!) */
 ```
   vchar is the underlying type that is used throughout generator for characters
   and character arrays/strings.  According to [5], only ```unsigned long``` is 4
-  bytes.  The rest are 2 or less.
+  bytes.  The rest are 2 or less.  
   
 5.4  Possible solution points:
   - __Pre-build exporter__.  Change it so we don't export any description fields to 
