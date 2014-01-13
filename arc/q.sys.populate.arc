@@ -1233,6 +1233,7 @@
     .assign te_oir.data_member = ( o_obj.Key_Lett + "_R" ) + "$t{r_rel.Numb}"
     .assign te_oir.assoc_type = ""
     .assign te_oir.Mult = 0
+    .assign te_oir.rel_phrase = ""
     .assign te_oir.object_id = ""
     .assign te_oir.NavigatedTo = false
     .// relate r_oir to te_oir across R2035;
@@ -1546,6 +1547,9 @@
     .//
     .// Create the Generated External Entity instances and link them in.
     .select many te_ees related by te_c->TE_EE[R2085]
+    .for each te_ee in te_ees
+      .invoke TE_EE_init( te_ee, te_c )
+    .end for
     .invoke r1 = ee_sort( te_ees )
     .assign te_ee = r1.result
     .if ( not_empty te_ee )
@@ -1553,9 +1557,6 @@
       .assign te_c.first_eeID = te_ee.ID
       .// end relate
     .end if
-    .for each te_ee in te_ees
-      .invoke TE_EE_init( te_ee, te_c )
-    .end for
     .//
     .// Initialize the Generated Class instances.
     .select many te_classs related by te_c->TE_CLASS[R2064]
@@ -1661,7 +1662,7 @@
           .elif ( "%s" == te_dt.string_format )
             .// Place an escaped tick mark around the %s in the attribute format string.
             .assign te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''" + te_dt.string_format ) ) + "''"
-            .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
+            .assign te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( te_attr.GeneratedName + " : """"" ) )
           .else
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
@@ -1786,6 +1787,7 @@
   .assign te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett
   .assign te_class.CBGeneratedName = te_class.GeneratedName + "_CB"
   .assign te_class.scope = ""
+  .assign te_class.attribute_format = ""
   .assign te_class.nextID = 00
   .assign attr_result = te_class
 .end function
@@ -2798,7 +2800,12 @@
   .// Declare an empty instance reference.
   .select any head_te_ee related by te_ees->TE_EE[R2096.'succeeds'] where ( false )
   .for each te_ee in te_ees
-    .assign te_ee.nextID = 00
+    .select one next_te_ee related by te_ee->TE_EE[R2096.'succeeds']
+    .if ( not_empty next_te_ee )
+      .// unrelate te_ee from te_ee across R2096.'succeeds';
+      .assign te_ee.nextID = 00
+      .// end unrelate
+    .end if
   .end for
   .for each te_ee in te_ees
     .invoke r = ee_insert( head_te_ee, te_ee )

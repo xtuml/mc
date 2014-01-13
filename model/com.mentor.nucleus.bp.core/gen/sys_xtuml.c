@@ -340,11 +340,9 @@ Escher_stradd( const c_t * left, const c_t * right )
   c_t * dst = s;
   if ( 0 == left ) {
     left = "";
-    fprintf( stderr, "stradd left 0\n" );
   }
   if ( 0 == right ) {
     right = "";
-    fprintf( stderr, "stradd right 0\n" );
   }
   while ( ( i > 0 ) && ( *left != '\0' ) ) {
     --i;
@@ -373,11 +371,9 @@ Escher_strcmp( const c_t *p1, const c_t *p2 )
   s2_t i = ESCHER_SYS_MAX_STRING_LEN;
   if ( 0 == p1 ) {
     s1 = "";
-    fprintf( stderr, "strcmp p1 0\n" );
   }
   if ( 0 == p2 ) {
     s2 = "";
-    fprintf( stderr, "strcmp p2 0\n" );
   }
   do {
     c1 = *s1++;
@@ -409,7 +405,8 @@ u2_t
 Escher_strlen( const c_t * s )
 {
   u2_t len = 0;
-  s2_t i = ESCHER_SYS_MAX_STRING_LEN * 4;
+  //s2_t i = ESCHER_SYS_MAX_STRING_LEN * 4;
+  u2_t i = 64000;
   if ( s != 0 ) {
     while ( ( *s != 0 ) && ( i >= 0 ) ) {
       s++;
