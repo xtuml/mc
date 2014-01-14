@@ -175,6 +175,7 @@
   .select any te_instance from instances of TE_INSTANCE
   .select any te_set from instances of TE_SET
   .select any te_string from instances of TE_STRING
+  .select any te_sys from instances of TE_SYS
   .select one te_blk related by te_smt->TE_BLK[R2078]
   .assign ws = te_blk.indentation
   .select one r_v_val related by act_ai->V_VAL[R609]
@@ -213,7 +214,7 @@
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
       .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"
       .invoke blk_deallocation_append( te_blk, d )
-    .elif ( 4 == r_te_dt.Core_Typ )
+    .elif ( ( 4 == r_te_dt.Core_Typ ) and ( te_sys.InstanceLoading ) )
       .// string
       .assign d = ( te_assign.left_declaration + te_assign.array_spec ) + "=0;"
       .invoke blk_declaration_append( te_blk, d )
@@ -1425,6 +1426,7 @@
   .//
   .assign rv = value
   .if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
+    .// Use when deallocating or when returning an array (even array of char).
     .assign rv = "xtumlOALrv"
   .end if
   .include "${te_file.arc_path}/t.smt.return.c"
@@ -1838,7 +1840,10 @@ ${subtypecheck}\
     .if ( "many" == te_select_related.multiplicity )
       .include "${te_file.arc_path}/t.smt_sr.result_set_init.c"
     .else
-      .include "${te_file.arc_path}/t.smt_sr.result_ref_init.c"
+      .if ( te_select_related.result_var != te_select_related.start_var )
+        .// Do not initialize result when it is the same as starting variable.
+        .include "${te_file.arc_path}/t.smt_sr.result_ref_init.c"
+      .end if
     .end if
 ${ws}{\
     .assign depth = depth + 1
@@ -1863,6 +1868,10 @@ ${ws}{\
             .assign cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) "
             .assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )"
           .end if
+        .end if
+        .assign result_equals_start = false
+        .if ( te_select_related.result_var == te_lnk.left )
+          .assign result_equals_start = true
         .end if
         .include "${te_file.arc_path}/t.smt_sr.chainto1.c"
       .else

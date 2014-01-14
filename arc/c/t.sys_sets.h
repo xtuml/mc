@@ -148,7 +148,7 @@ void * ${te_set.iterator_next}( ${te_set.iterator_class_name} * const );
 /* We could easily replace this function declaration with a macro
    that invoked the compiler (C library) supplied strlen.  */
 .// #define ${te_string.strlen}( s ) strlen( s )
-u2_t ${te_string.strlen}( const c_t * );
+i_t ${te_string.strlen}( const c_t * );
 
 /* We could easily replace this function declaration with a macro
    that invoked the compiler (C library) supplied memset.  */

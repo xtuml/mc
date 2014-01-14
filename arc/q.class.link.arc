@@ -823,6 +823,7 @@ ${aoth_fundamentals.body}\
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
+  .select any te_sys from instances of TE_SYS
   .// Get set of Object Identifying Attribute(s)
   .select many o_oidas related by r_rto->O_ID[R109]->O_OIDA[R105]
   .for each o_oida in o_oidas

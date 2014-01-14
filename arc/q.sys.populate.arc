@@ -548,7 +548,10 @@
       .assign te_dt.string_format = "%f"
     .elif ( 4 == te_dt.Core_Typ )
       .// string
-      .assign te_dt.ExtName = "c_t *"
+      .assign te_dt.ExtName = "c_t"
+      .if ( te_sys.InstanceLoading )
+        .assign te_dt.ExtName = "c_t *"
+      .end if
       .assign te_dt.Initial_Value = "CTOR"
       .assign te_dt.string_format = "%s"
     .elif ( 5 == te_dt.Core_Typ )
@@ -742,10 +745,10 @@
       .assign te_mbr.array_spec = array_spec
       .// In the C model compiler, treat strings as arrays.
       .select one mbr_te_dt related by s_mbr->S_DT[R45]->TE_DT[R2021]
-      .if ( 4 == mbr_te_dt.Core_Typ )
+      .if ( ( 4 == mbr_te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
         .// string
-        .//.assign te_mbr.dimensions = te_mbr.dimensions + 1
-        .//.assign te_mbr.array_spec = ( te_mbr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+        .assign te_mbr.dimensions = te_mbr.dimensions + 1
+        .assign te_mbr.array_spec = ( te_mbr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
       .end if
     .end for
   .end for
@@ -1483,10 +1486,10 @@
     .select one te_dt related by v_var->S_DT[R848]->TE_DT[R2021]
     .if ( not_empty te_dt )
       .// In the C model compiler, treat strings as arrays.
-      .if ( 4 == te_dt.Core_Typ )
+      .if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
         .// string
-        .//.assign te_var.dimensions = te_var.dimensions + 1
-        .//.assign te_var.array_spec = ( te_var.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+        .assign te_var.dimensions = te_var.dimensions + 1
+        .assign te_var.array_spec = ( te_var.array_spec + "[" ) + ( te_string.max_string_length + "]" )
       .end if
     .else
       .assign msg = ( "\nERROR:  Did not find a datatype associated with variable " + v_var.Name ) + ".\n"
@@ -1662,17 +1665,17 @@
           .elif ( "%s" == te_dt.string_format )
             .// Place an escaped tick mark around the %s in the attribute format string.
             .assign te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''" + te_dt.string_format ) ) + "''"
-            .assign te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( te_attr.GeneratedName + " : """"" ) )
+            .assign te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( ( te_attr.GeneratedName + " : """ ) + """" ) )
           .else
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
           .end if
         .end if
         .// In the C model compiler, treat strings as arrays.
-        .if ( 4 == te_dt.Core_Typ )
+        .if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) ) 
           .// string
-          .//.assign te_attr.dimensions = te_attr.dimensions + 1
-          .//.assign te_attr.array_spec = ( te_attr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+          .assign te_attr.dimensions = te_attr.dimensions + 1
+          .assign te_attr.array_spec = ( te_attr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
         .end if
         .//
         .// Create the Action Block Anchors associated with each action
@@ -2181,6 +2184,7 @@
   .param string name
   .param string subtypeKL
   .param inst_ref te_dt
+  .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .create object instance te_aba of TE_ABA
   .assign te_aba.SelfEventCount = 0
@@ -2256,11 +2260,11 @@
   .assign te_aba.ReturnDataType = te_dt.ExtName
   .assign te_aba.dimensions = 0
   .// In the C model compiler, treat strings as arrays.
-  .if ( 4 == te_dt.Core_Typ )
+  .if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
     .// string
     .select any te_string from instances of TE_STRING
-    .//.assign te_aba.dimensions = te_aba.dimensions + 1
-    .//.assign te_aba.array_spec = ( te_aba.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+    .assign te_aba.dimensions = te_aba.dimensions + 1
+    .assign te_aba.array_spec = ( te_aba.array_spec + "[" ) + ( te_string.max_string_length + "]" )
   .end if
   .// Allow arrays (including strings) to be returned as pointers.
   .if ( te_aba.dimensions > 0 )
@@ -2316,12 +2320,13 @@
   .assign te_parm.array_spec = array_spec
   .// In the C model compiler, treat strings as arrays.
   .if ( 4 == te_dt.Core_Typ )
-    .// string
-    .select any te_string from instances of TE_STRING
-    .//.assign te_parm.dimensions = te_parm.dimensions + 1
-    .//.assign te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" )
-    .// In C (and other languages) arrays are never values but references.
-    .assign te_parm.By_Ref = 0
+    .select any te_sys from instances of TE_SYS
+    .if ( not te_sys.InstanceLoading )
+      .// string
+      .select any te_string from instances of TE_STRING
+      .assign te_parm.dimensions = te_parm.dimensions + 1
+      .assign te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+    .end if
   .end if
   .assign attr_result = te_parm
 .end function
