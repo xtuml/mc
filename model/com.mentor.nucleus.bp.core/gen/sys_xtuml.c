@@ -335,7 +335,8 @@ Escher_strcpy( c_t * dst, const c_t * src )
 c_t *
 Escher_stradd( const c_t * left, const c_t * right )
 {
-  s2_t i = ESCHER_SYS_MAX_STRING_LEN - 1;
+  //s2_t i = ESCHER_SYS_MAX_STRING_LEN - 1;
+  i_t i = 400000 - 1;
   c_t * s = Escher_strget();
   c_t * dst = s;
   if ( 0 == left ) {
@@ -392,8 +393,8 @@ Escher_strget( void )
 {
   static u1_t i = 0;
   //static c_t s[ 16 ][ ESCHER_SYS_MAX_STRING_LEN ];
-  static c_t s[ 16 ][ 4000 ];
-  i = ( i + 1 ) % 16;
+  static c_t s[ 32 ][ 400000 ];
+  i = ( i + 1 ) % 32;
   s[ i ][ 0 ] = 0;
   return ( &s[ i ][ 0 ] );
 }
@@ -401,12 +402,11 @@ Escher_strget( void )
 /*
  * Measure the length of the given string.
  */
-u2_t
+i_t
 Escher_strlen( const c_t * s )
 {
-  u2_t len = 0;
-  //s2_t i = ESCHER_SYS_MAX_STRING_LEN * 4;
-  u2_t i = 64000;
+  i_t len = 0;
+  i_t i = 400000;
   if ( s != 0 ) {
     while ( ( *s != 0 ) && ( i >= 0 ) ) {
       s++;
@@ -496,6 +496,10 @@ Escher_malloc( const u4_t b )
   size_t bytes = ( size_t ) b;
 
   new_mem = malloc( bytes );
+  if ( 0 == new_mem ) {
+    fprintf( stderr, "Escher_malloc:  out of memory\n" );
+    exit( 1 );
+  }
 
   return new_mem;
 }

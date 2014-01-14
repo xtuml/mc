@@ -506,6 +506,7 @@ select any te_file from instances of TE_FILE;
 select any te_instance from instances of TE_INSTANCE;
 select any te_set from instances of TE_SET;
 select any te_string from instances of TE_STRING;
+select any te_sys from instances of TE_SYS;
 select one te_blk related by te_smt->TE_BLK[R2078];
 ws = te_blk.indentation;
 select one r_v_val related by act_ai->V_VAL[R609];
@@ -544,7 +545,7 @@ if ( te_assign.isImplicit )
     // Push deallocation into the block so that it is available at gen time for break/continue/return.
     d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );";
     ::blk_deallocation_append( te_blk:te_blk, s:d );
-  elif ( 4 == te_assign.Core_Typ )
+  elif ( ( 4 == r_te_dt.Core_Typ ) and ( te_sys.InstanceLoading ) )
     // string
     d = ( te_assign.left_declaration + te_assign.array_spec ) + "=0;";
     ::blk_declaration_append( te_blk:te_blk, s:d );
@@ -1773,6 +1774,7 @@ end while;
 //
 rv = value;
 if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
+  // Use when deallocating or when returning an array (even array of char).
   rv = "xtumlOALrv";
 end if;
 T::include(file:"c/t.smt.return.c");
@@ -2178,7 +2180,10 @@ T::b(s:${subtypecheck}\);
     if ( "many" == te_select_related.multiplicity )
       T::include(file:"c/t.smt_sr.result_set_init.c");
     else
-      T::include(file:"c/t.smt_sr.result_ref_init.c");
+      if ( te_select_related.result_var != te_select_related.start_var )
+        // Do not initialize result when it is the same as starting variable.
+        T::include(file:"c/t.smt_sr.result_ref_init.c");
+      end if;
     end if;
 T::b(s:${ws}{\);
     depth = depth + 1;
@@ -2203,6 +2208,10 @@ T::b(s:${ws}{\);
             cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) ";
             subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )";
           end if;
+        end if;
+        result_equals_start = false;
+        if ( te_select_related.result_var == te_lnk.left )
+          result_equals_start = true;
         end if;
         T::include(file:"c/t.smt_sr.chainto1.c");
       else

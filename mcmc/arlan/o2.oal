@@ -74,19 +74,19 @@ else
           else
             select one v_trv related by v_val->V_TRV[R801];
             if ( not_empty v_trv )
-              ::val_transform_value( v_trv:v_trv );
+              ::val_transform_value( v_trv:v_trv, salt:"TRV" );
             else
               select one v_msv related by v_val->V_MSV[R801];
               if ( not_empty v_msv )
-                ::val_message_value( v_msv:v_msv );
+                ::val_message_value( v_msv:v_msv, salt:"MSV" );
               else
                 select one v_brv related by v_val->V_BRV[R801];
                 if ( not_empty v_brv )
-                  ::val_bridge_value( v_brv:v_brv );
+                  ::val_bridge_value( v_brv:v_brv, salt:"BRV" );
                 else
                   select one v_fnv related by v_val->V_FNV[R801];
                   if ( not_empty v_fnv )
-                    ::val_synch_service_value( v_fnv:v_fnv );
+                    ::val_synch_service_value( v_fnv:v_fnv, salt:"FNV" );
                   else
                     T::print(s:"ERROR:  Recursive V_VAL resolution issue.");
                   end if;
