@@ -6731,6 +6731,7 @@ void
 ooaofooa_TE_ABA_rollup()
 {
   ooaofooa_TE_EE * te_ee=0;ooaofooa_TE_C * te_c=0;sys_ParseStatus_t parseSuccessful;Escher_ObjectSet_s te_ees_space={0}; Escher_ObjectSet_s * te_ees = &te_ees_space;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;ooaofooa_ACT_BLK * empty_act_blk=0;
+  char b[1000000];
   /* ASSIGN parseSuccessful = parseSuccessful */
   parseSuccessful = ooaofooa_ParseStatus_parseSuccessful_e;
   /* SELECT any empty_act_blk FROM INSTANCES OF ACT_BLK WHERE FALSE */
@@ -6961,8 +6962,11 @@ ooaofooa_TE_ABA_rollup()
         ooaofooa_TE_BLK * te_blk=0;
         /* SELECT one te_blk RELATED BY act_blk->TE_BLK[R2016] */
         te_blk = ( 0 != act_blk ) ? act_blk->TE_BLK_R2016 : 0;
+        te_aba->code = &b[0];
+        *te_aba->code = 0;
         /* ::blck_xlate( te_aba:te_aba, te_blk:te_blk, trace:te_c.StmtTrace ) */
         ooaofooa_blck_xlate( te_aba, te_blk, te_c->StmtTrace );
+        te_aba->code = Escher_strcpy( te_aba->code, &b[0] );
       }
       else {
         /* ASSIGN te_aba.code = ( ( \n  / + * WARNING!  Skipping unsuccessful or unparsed action.  * ) + /\n ) */
@@ -7033,8 +7037,11 @@ ooaofooa_TE_ABA_rollup()
           ooaofooa_TE_BLK * te_blk=0;
           /* SELECT one te_blk RELATED BY act_blk->TE_BLK[R2016] */
           te_blk = ( 0 != act_blk ) ? act_blk->TE_BLK_R2016 : 0;
+          te_aba->code = &b[0];
+          *te_aba->code = 0;
           /* ::blck_xlate( te_aba:te_aba, te_blk:te_blk, trace:FALSE ) */
           ooaofooa_blck_xlate( te_aba, te_blk, FALSE );
+          te_aba->code = Escher_strcpy( te_aba->code, &b[0] );
         }
       }}}
       Escher_ClearSet( s_brgs ); 
@@ -8753,9 +8760,10 @@ ooaofooa_aba_code_append( c_t * p_s, ooaofooa_TE_ABA * p_te_aba )
   /* ASSIGN te_aba = PARAM.te_aba */
   te_aba = p_te_aba;
   /* ASSIGN s = PARAM.s */
-  s = Escher_strcpy( s, p_s );
+  //s = Escher_strcpy( s, p_s );
   /* ASSIGN te_aba.code = ( te_aba.code + s ) */
-  te_aba->code = Escher_strcpy( te_aba->code, Escher_stradd( te_aba->code, s ) );
+  //te_aba->code = Escher_strcpy( te_aba->code, Escher_stradd( te_aba->code, s ) );
+  strcat( te_aba->code, p_s );
 
 }
 
