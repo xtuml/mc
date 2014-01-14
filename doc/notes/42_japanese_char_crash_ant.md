@@ -21,6 +21,8 @@ can cause generator to crash.
 [4] UTF-8 Everywhere, http://www.utf8everywhere.org/  
 [5] Fundamental Types (VC++), http://msdn.microsoft.com/en-us/library/cc953fe1.aspx  
 [6] http://www.joelonsoftware.com/articles/Unicode.html  
+[7] perlre - Perl Regular Expressions, http://perldoc.perl.org/perlre.html  
+[8] perlrecharclass - Perl Regular Expression Character Classes, http://perldoc.perl.org/perlrecharclass.html  
 
 3. Background
 -------------
@@ -49,7 +51,9 @@ author found [3], [4], and [6] particularly interesting.
   they cause an error during code generation where the file being created is 
   simply truncated after the character.  No error is reported during code 
   generation for this problem.  
-5.1.3.1  This error case is still not understood.
+5.1.3.1  This error case is still not understood.  But it is clear that some 
+  string handling inside generator is failing due to a character sequence it 
+  does not understand.
 
 5.2  The file (_system.sql) contains valid UTF-8.  When the file is opened in an
   editor that understands UTF-8 (like Notepad++ or the built in eclipse text 
@@ -98,11 +102,17 @@ typedef _error _error;  /* (vportVCHAR_CODESET is unknown!) */
   and character arrays/strings.  According to [5], only ```unsigned long``` is 4
   bytes.  The rest are 2 or less.  
   
-5.4  Possible solution points:
+5.4  The customer has also submitted a case where they would like to use Japanese
+  characters in relationship phrases and corresponding traversals across that 
+  relationship (with Japanese phase specified) in OAL.
+  
+6. Work Required
+----------------
+6.1  Possible solution points:
   - __Pre-build exporter__.  Change it so we don't export any description fields to 
   <project>.sql since they aren't used by code gen anyway.  Make sure any OAL
-  fields have a newline as the last character.
-    - Drawbacks: This could solve 5.1.1 and 5.1.2, but not 5.1.3  
+  fields have a newline as the last character.  
+    - Drawbacks: This could solve 5.1.1 and 5.1.2, but not 5.1.3
   - __mcmc, Option 1__.  Strip Japanese characters.
     - Drawbacks: Draconian
     - Advantages: Solves all 3 problem cases
@@ -122,11 +132,12 @@ typedef _error _error;  /* (vportVCHAR_CODESET is unknown!) */
     or not.  
     - Advantages: the ```vchar``` type is guaranteed to have enough space to store
     UTF-8 characters.  Don't have to strip Japanese characters from the model data.  
-  - __xtuml_build__.  Do work called out in mcmc Option 1 here instead.  
-
-  
-6. Work Required
-----------------
+  - __xtuml_build__.  Strip/Substitute Japanese characters.  Perl regular expressions
+  ([7][8]) can be used to process the input UTF-8 and fold the Japanese characters 
+  down to a single ASCII character or some sort of unique ASCII identifier ("J1", "J2", etc)
+  for each Japanese character it encounters.
+    - Drawbacks: we lose Japanese chars in the output C
+    - Advantages: solves all 3 problem cases
 
 7. Acceptance Test
 ------------------
