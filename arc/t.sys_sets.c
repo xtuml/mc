@@ -509,8 +509,8 @@ ${te_set.scope}${te_string.strget}( void )
 i_t
 ${te_set.scope}${te_string.strlen}( const c_t * s )
 {
-  u2_t len = 0;
-  s2_t i = ${te_string.max_string_length} * 4;
+  i_t len = 0;
+  i_t i = ${te_string.max_string_length} * 4;
   if ( s != 0 ) {
     while ( ( *s != 0 ) && ( i >= 0 ) ) {
       s++;
@@ -616,6 +616,10 @@ ${te_set.scope}${te_dma.allocate}( const u4_t b )
   } 
   .else
   new_mem = malloc( bytes );
+  if ( 0 != new_mem ) {
+    // fprintf( stderr, "Escher_malloc:  out of memory\n" );
+    // exit( 1 );
+  }
   .end if
 
   return new_mem;
