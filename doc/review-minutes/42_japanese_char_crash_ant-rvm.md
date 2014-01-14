@@ -13,7 +13,7 @@ Present:   Keith, Bob, Cort
 <pre>
 
 -- Num Type  Who  Section  Comment
-_- 01  min   Bob  2.6      Add brief description.
+x- 01  min   Bob  2.6      Add brief description.
 
 This is a tough issue.  There was significant discussion regarding
 various approaches to solving the issue and to the specific "character
