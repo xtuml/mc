@@ -882,7 +882,23 @@ sub xtumlmc_cleanse_model($$)
   my $v_lst = 0;
 
   OUTER: while ( <$I> ) {
-    if ( /\/\*(.*)\*\// ) {
+    # NOTE: We must convert C-Style comments in OAL to C++-style in case the 
+    # user has MarkStateActionCommentBlocksEnabled turned on.  That way we 
+    # won't have OAL C-style comments inside the output code's C-Style 
+    # function comment blocks.
+    if ( /\/\// ) {
+      # Handle a C++-style comment. If a C-style end comment is inside this 
+      # line, replace it with a space, otherwise just output the original line.
+      my $pre = $`;
+      my $post = $';
+      my $line = $_;
+      if ( $line =~ /\*\// ) {
+        $post =~ s/\*\// /g;
+        print $O "$pre//$post"; 
+      } else {
+        print $O "$line";
+      }
+    } elsif ( /\/\*(.*)\*\// ) {
       # Handle a line one-line C-style comment
       print $O "$`//$1\n";
       my $post = $'; chop($post);
