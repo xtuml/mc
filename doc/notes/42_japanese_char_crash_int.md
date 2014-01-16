@@ -1,6 +1,6 @@
 ---
 
-Copyright 2013 Mentor Graphics Corp.  All Rights Reserved.
+Copyright 2014 Mentor Graphics Corp.  All Rights Reserved.
 
 ---
 
@@ -74,12 +74,16 @@ As stated in [3], there is only one requirement:
   - __R__ No code generation errors
   - Build project "MicrowaveOven"
   - __R__ No code generation errors
+  - __R__ No code compilation errors
+  - Build project "GPS Watch"
+  - __R__ No code generation errors
+  - __R__ No code compilation errors
   - Build project "ipocdeploy_new"
   - __R__ No code generation errors
 
 8. Code Changes
 ---------------
-Branch name: 42_japanese_char_crash
+Branch name: 42_japanese_char_crash  
 Repository: xtuml/mc  
 
 <pre>
