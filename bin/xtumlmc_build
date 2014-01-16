@@ -884,6 +884,12 @@ sub xtumlmc_cleanse_model($$$)
 
   OUTER: while ( <$I> ) {
     if ( $stripNonAscii eq 'true' ) {
+      # A note about this substitution... It reads characters (UTF-8 chars, not
+      # simply bytes).  The ord(EXPR) function "Returns the numeric value of the 
+      # first character of EXPR)".  So, read a character, put it into $1, then
+      # evaluate if it is ASCII (value less than 128). If it is, just put the
+      # character back down.  If it is not, put the ASCII string "c<hex value>" 
+      # in it's place.
       s/(.)/ord($1) < 128 ? $1 : sprintf("c%X", ord($1))/ge;
     }
     # NOTE: We must convert C-Style comments in OAL to C++-style in case the 

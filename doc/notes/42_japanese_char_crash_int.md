@@ -60,12 +60,12 @@ As stated in [3], there is only one requirement:
   in our document generation tool.  Specifically, the ```doc.xml``` file created
   by docgen.exe contains properly encoded UTF-8, but the ```doc.html``` file that
   comes out of xsltproc.exe does not.  Thus, what is displayed to the user is 
-  not good data.  Issue [4] is moved to the upcoming release list "Hercules" to
+  not good data.  Issue [4] is moved to the upcoming release list "Indus" to
   address this.  
   
 7. Unit Test
 ------------
-7.1  Compile the new script, see [6].
+7.1  Compile the new script, see [6].  
 7.2  Test build
   - Log in to kbrown-vm-w7-jp
   - Put the new xtumlmc_build.exe into place in the BridgePoint 4.1.0 installation
