@@ -46,11 +46,13 @@ UserInitializationCalloutf( c_t * argv0 )
      Also use only forward slashes.  */
   char * continuation;
   i_t i = 0;
-  Escher_strcpy( DTD, argv0 );
+  strcpy( DTD, argv0 );
   continuation = strstr( DTD, "docgen" );
-  Escher_strcpy( continuation, "docgen/docbook/docbook-xml-4.5/docbookx.dtd" );
-  for ( i = 0; i < 256, 0 != DTD[ i ]; i++ ) {
-    DTD[ i ] = ( DTD[ i ] == '\\' ) ? '/' : DTD[ i ];
+  if ( 0 != continuation ) {
+    strcpy( continuation, "docgen/docbook/docbook-xml-4.5/docbookx.dtd" );
+    for ( i = 0; i < 256, 0 != DTD[ i ]; i++ ) {
+      DTD[ i ] = ( DTD[ i ] == '\\' ) ? '/' : DTD[ i ];
+    }
   }
   /* Activate this invocation to initialize the example simple TIM.  */
   #if ESCHER_SYS_MAX_XTUML_TIMERS > 0

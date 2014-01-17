@@ -196,6 +196,11 @@
   .assign te_assign.rval = r_te_val.buffer
   .invoke r = V_VAL_drill_for_V_VAL_root( l_v_val )
   .assign root_v_val = r.result
+  .assign element_count = 0
+  .select one r_te_dim related by r_te_val->TE_DIM[R2079]
+  .if ( not_empty r_te_dim )
+    .assign element_count = r_te_dim.elementCount
+  .end if
   .assign te_assign.isImplicit = root_v_val.isImplicit
   .if ( te_assign.isImplicit )
     .select one root_te_val related by root_v_val->TE_VAL[R2040]
@@ -215,18 +220,31 @@
       .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"
       .invoke blk_deallocation_append( te_blk, d )
     .elif ( ( 4 == r_te_dt.Core_Typ ) and ( te_sys.InstanceLoading ) )
+      .// CDS This needs work.
       .// string
-      .assign d = ( te_assign.left_declaration + te_assign.array_spec ) + "=0;"
+      .assign d = te_assign.left_declaration + te_assign.array_spec
+      .if ( "" == te_assign.array_spec )
+        .assign d = d + "=0"
+      .else
+        .if ( te_sys.InstanceLoading )
+          .assign d = d + "={0"
+          .if ( element_count < 128 )
+            .assign i = element_count - 1
+            .// Only provide initializer for arrays of reasonable size.
+            .while ( i > 0 )
+              .assign i = i - 1
+              .assign d = d + ",0"
+            .end while
+          .end if
+          .assign d = d + "}"
+        .end if
+      .end if
+      .assign d = d + ";"
       .invoke blk_declaration_append( te_blk, d )
     .else
       .assign d = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
       .invoke blk_declaration_append( te_blk, d )
     .end if
-  .end if
-  .assign element_count = 0
-  .select one r_te_dim related by r_te_val->TE_DIM[R2079]
-  .if ( not_empty r_te_dim )
-    .assign element_count = r_te_dim.elementCount
   .end if
   .assign is_parameter = false
   .select one v_pvl related by r_v_val->V_PVL[R801]
@@ -1207,7 +1225,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_tfm->V_PAR[R627]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "operation" )
+      .invoke r = gen_parameter_list( v_pars, false, "sop" )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1261,7 +1279,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_brg->V_PAR[R628]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "bridge" )
+      .invoke r = gen_parameter_list( v_pars, false, "sbg" )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1309,7 +1327,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_fnc->V_PAR[R669]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "function" )
+      .invoke r = gen_parameter_list( v_pars, false, "sfn" )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer

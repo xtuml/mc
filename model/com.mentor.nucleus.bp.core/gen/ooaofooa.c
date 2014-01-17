@@ -1417,7 +1417,7 @@ ooaofooa_FactoryTE_PARM( const i_t p_by_ref, c_t * p_name, c_t * p_prefix, Esche
     ooaofooa_TE_SYS * te_sys=0;
     /* SELECT any te_sys FROM INSTANCES OF TE_SYS */
     te_sys = (ooaofooa_TE_SYS *) Escher_SetGetAny( &pG_ooaofooa_TE_SYS_extent.active );
-    /* IF ( te_sys.InstanceLoading ) */
+    /* IF ( not te_sys.InstanceLoading ) */
     if ( !te_sys->InstanceLoading ) {
       ooaofooa_TE_STRING * te_string=0;
       /* SELECT any te_string FROM INSTANCES OF TE_STRING */
@@ -1427,6 +1427,8 @@ ooaofooa_FactoryTE_PARM( const i_t p_by_ref, c_t * p_name, c_t * p_prefix, Esche
       /* ASSIGN te_parm.array_spec = ( ( te_parm.array_spec + [ ) + ( te_string.max_string_length + ] ) ) */
       te_parm->array_spec = Escher_strcpy( te_parm->array_spec, Escher_stradd( Escher_stradd( te_parm->array_spec, "[" ), Escher_stradd( te_string->max_string_length, "]" ) ) );
     }
+    /* ASSIGN te_parm.By_Ref = 0 */
+    te_parm->By_Ref = 0;
   }
   /* RETURN te_parm */
   {ooaofooa_TE_PARM * xtumlOALrv = te_parm;
@@ -8505,8 +8507,8 @@ ooaofooa_UserSuppliedDataTypeIncludes()
   Escher_IteratorReset( &iterspecial_te_dt, special_te_dts );
   while ( (iispecial_te_dt = (ooaofooa_TE_DT *)Escher_IteratorNext( &iterspecial_te_dt )) != 0 ) {
     special_te_dt = iispecial_te_dt; {
-    /* ASSIGN s = ( ( s + #include  ) + ( special_te_dt.Include_File + \n ) ) */
-    s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, "#include " ), Escher_stradd( special_te_dt->Include_File, "\n" ) ) );
+    /* ASSIGN s = ( ( s + #include \" ) + ( special_te_dt.Include_File + \"\n ) ) */
+    s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, "#include \"" ), Escher_stradd( special_te_dt->Include_File, "\"\n" ) ) );
   }}}
   /* RETURN s */
   {c_t * xtumlOALrv = s;
@@ -13611,8 +13613,8 @@ ooaofooa_gen_parameter_list( c_t * p_invocation_flavor, const bool p_prefix_para
           /* IF ( stringbody ) */
           if ( stringbody ) {
             ooaofooa_TE_BLK * te_blk=0;
-            /* ASSIGN te_par.buffer = ( ( v_sretval + invocation_flavor ) + T::s(item_number) ) */
-            te_par->buffer = Escher_strcpy( te_par->buffer, Escher_stradd( Escher_stradd( "v_sretval", invocation_flavor ), T_s( item_number ) ) );
+            /* ASSIGN te_par.buffer = ( ( v_sretval + T::s(v_par.labelLineNumber) ) + ( invocation_flavor + T::s(v_par.labelColumn) ) ) */
+            te_par->buffer = Escher_strcpy( te_par->buffer, Escher_stradd( Escher_stradd( "v_sretval", T_s( v_par->labelLineNumber ) ), Escher_stradd( invocation_flavor, T_s( v_par->labelColumn ) ) ) );
             /* SELECT one te_blk RELATED BY v_val->ACT_BLK[R826]->TE_BLK[R2016] */
             te_blk = 0;
             {            if ( 0 != v_val ) {
@@ -15576,6 +15578,15 @@ ooaofooa_smt_assign( ooaofooa_ACT_AI * p_act_ai, ooaofooa_TE_SMT * p_te_smt )
   r = ooaofooa_V_VAL_drill_for_V_VAL_root( l_v_val );
   /* ASSIGN root_v_val = r */
   root_v_val = r;
+  /* ASSIGN element_count = 0 */
+  element_count = 0;
+  /* SELECT one r_te_dim RELATED BY r_te_val->TE_DIM[R2079] */
+  r_te_dim = ( 0 != r_te_val ) ? r_te_val->TE_DIM_R2079 : 0;
+  /* IF ( not_empty r_te_dim ) */
+  if ( ( 0 != r_te_dim ) ) {
+    /* ASSIGN element_count = r_te_dim.elementCount */
+    element_count = r_te_dim->elementCount;
+  }
   /* ASSIGN te_assign.isImplicit = root_v_val.isImplicit */
   te_assign->isImplicit = root_v_val->isImplicit;
   /* IF ( te_assign.isImplicit ) */
@@ -15636,15 +15647,6 @@ ooaofooa_smt_assign( ooaofooa_ACT_AI * p_act_ai, ooaofooa_TE_SMT * p_te_smt )
       /* ::blk_declaration_append( s:d, te_blk:te_blk ) */
       ooaofooa_blk_declaration_append( d, te_blk );
     }
-  }
-  /* ASSIGN element_count = 0 */
-  element_count = 0;
-  /* SELECT one r_te_dim RELATED BY r_te_val->TE_DIM[R2079] */
-  r_te_dim = ( 0 != r_te_val ) ? r_te_val->TE_DIM_R2079 : 0;
-  /* IF ( not_empty r_te_dim ) */
-  if ( ( 0 != r_te_dim ) ) {
-    /* ASSIGN element_count = r_te_dim.elementCount */
-    element_count = r_te_dim->elementCount;
   }
   /* ASSIGN is_parameter = FALSE */
   is_parameter = FALSE;
@@ -15827,8 +15829,8 @@ ooaofooa_smt_bridge( ooaofooa_ACT_BRG * p_act_brg, ooaofooa_TE_SMT * p_te_smt )
     /* IF ( not_empty v_pars ) */
     if ( ( ! Escher_SetIsEmpty( v_pars ) ) ) {
       ooaofooa_TE_PARM * te_parm;ooaofooa_TE_PARM * r;
-      /* ASSIGN r = ::gen_parameter_list(invocation_flavor:bridge, prefix_param_delimiter:FALSE, v_pars:v_pars) */
-      r = ooaofooa_gen_parameter_list( "bridge", FALSE, v_pars );
+      /* ASSIGN r = ::gen_parameter_list(invocation_flavor:sbg, prefix_param_delimiter:FALSE, v_pars:v_pars) */
+      r = ooaofooa_gen_parameter_list( "sbg", FALSE, v_pars );
       /* ASSIGN te_parm = r */
       te_parm = r;
       /* ASSIGN parameters = te_parm.ParamBuffer */
@@ -16789,8 +16791,8 @@ ooaofooa_smt_function( ooaofooa_ACT_FNC * p_act_fnc, ooaofooa_TE_SMT * p_te_smt 
     /* IF ( not_empty v_pars ) */
     if ( ( ! Escher_SetIsEmpty( v_pars ) ) ) {
       ooaofooa_TE_PARM * te_parm;ooaofooa_TE_PARM * r;
-      /* ASSIGN r = ::gen_parameter_list(invocation_flavor:function, prefix_param_delimiter:FALSE, v_pars:v_pars) */
-      r = ooaofooa_gen_parameter_list( "function", FALSE, v_pars );
+      /* ASSIGN r = ::gen_parameter_list(invocation_flavor:sfn, prefix_param_delimiter:FALSE, v_pars:v_pars) */
+      r = ooaofooa_gen_parameter_list( "sfn", FALSE, v_pars );
       /* ASSIGN te_parm = r */
       te_parm = r;
       /* ASSIGN parameters = te_parm.ParamBuffer */
@@ -17566,8 +17568,8 @@ ooaofooa_smt_operate( ooaofooa_ACT_TFM * p_act_tfm, ooaofooa_TE_SMT * p_te_smt )
     /* IF ( not_empty v_pars ) */
     if ( ( ! Escher_SetIsEmpty( v_pars ) ) ) {
       ooaofooa_TE_PARM * te_parm;ooaofooa_TE_PARM * r;
-      /* ASSIGN r = ::gen_parameter_list(invocation_flavor:operation, prefix_param_delimiter:FALSE, v_pars:v_pars) */
-      r = ooaofooa_gen_parameter_list( "operation", FALSE, v_pars );
+      /* ASSIGN r = ::gen_parameter_list(invocation_flavor:sop, prefix_param_delimiter:FALSE, v_pars:v_pars) */
+      r = ooaofooa_gen_parameter_list( "sop", FALSE, v_pars );
       /* ASSIGN te_parm = r */
       te_parm = r;
       /* ASSIGN parameters = te_parm.ParamBuffer */
@@ -20627,7 +20629,7 @@ te_c->cId = (Escher_UniqueID_t) te_c;
         /* IF ( not_empty foreign_te_iir ) */
         if ( ( 0 != foreign_te_iir ) ) {
           /* RELATE te_iir TO foreign_te_iir ACROSS R2081 */
-          ooaofooa_TE_IIR_R2081_Link_provides_or_is_delegated( te_iir, foreign_te_iir );
+          ooaofooa_TE_IIR_R2081_Link_requires_or_delegates( te_iir, foreign_te_iir );
         }
       }
       else {
@@ -20712,7 +20714,7 @@ te_c->cId = (Escher_UniqueID_t) te_c;
         /* IF ( not_empty foreign_te_iir ) */
         if ( ( 0 != foreign_te_iir ) ) {
           /* RELATE te_iir TO foreign_te_iir ACROSS R2081 */
-          ooaofooa_TE_IIR_R2081_Link_requires_or_delegates( te_iir, foreign_te_iir );
+          ooaofooa_TE_IIR_R2081_Link_provides_or_is_delegated( te_iir, foreign_te_iir );
         }
       }
     }}}
@@ -21592,29 +21594,16 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
           }
         }
       }
-      /* SELECT many te_dts RELATED BY te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] WHERE ( ( SELECTED.Name == tm_precision.DT_name ) ) */
+      /* SELECT many te_dts RELATED BY te_c->TE_DT[R2086] WHERE ( ( SELECTED.Name == tm_precision.DT_name ) ) */
       Escher_ClearSet( te_dts );
-      {      if ( 0 != te_c ) {
-      ooaofooa_C_C * C_C_R2054 = te_c->C_C_R2054;
-      if ( 0 != C_C_R2054 ) {
-      ooaofooa_PE_PE * PE_PE_R8003_contains;
-      Escher_Iterator_s iPE_PE_R8003_contains;
-      Escher_IteratorReset( &iPE_PE_R8003_contains, &C_C_R2054->PE_PE_R8003_contains );
-      while ( 0 != ( PE_PE_R8003_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) {
-      ooaofooa_EP_PKG * R8001_subtype = (ooaofooa_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
-      if ( 0 != R8001_subtype )      if ( ooaofooa_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) {
-      ooaofooa_PE_PE * PE_PE_R8000_contains;
-      Escher_Iterator_s iPE_PE_R8000_contains;
-      Escher_IteratorReset( &iPE_PE_R8000_contains, &R8001_subtype->PE_PE_R8000_contains );
-      while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
-      ooaofooa_S_DT * R8001_subtype = (ooaofooa_S_DT *) PE_PE_R8000_contains->R8001_subtype;
-      if ( 0 != R8001_subtype )      if ( ooaofooa_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
-      {ooaofooa_TE_DT * selected = R8001_subtype->TE_DT_R2021;
-      if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, tm_precision->DT_name ) == 0 ) ) {
-        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
-          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
-      }}}
-}}}}}}}
+      {ooaofooa_TE_DT * selected;
+      Escher_Iterator_s iTE_DT_R2086;
+      Escher_IteratorReset( &iTE_DT_R2086, &te_c->TE_DT_R2086 );
+      while ( 0 != ( selected = (ooaofooa_TE_DT *) Escher_IteratorNext( &iTE_DT_R2086 ) ) ) {
+        if ( ( Escher_strcmp( selected->Name, tm_precision->DT_name ) == 0 ) ) {
+          if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
+            Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
+      }}}}
     }
     /* FOR EACH te_dt IN te_dts */
     { Escher_Iterator_s iterte_dt;
@@ -21766,29 +21755,16 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
           }
         }
       }
-      /* SELECT many te_dts RELATED BY te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] WHERE ( ( SELECTED.Name == tm_pointer.DT_name ) ) */
+      /* SELECT many te_dts RELATED BY te_c->TE_DT[R2086] WHERE ( ( SELECTED.Name == tm_pointer.DT_name ) ) */
       Escher_ClearSet( te_dts );
-      {      if ( 0 != te_c ) {
-      ooaofooa_C_C * C_C_R2054 = te_c->C_C_R2054;
-      if ( 0 != C_C_R2054 ) {
-      ooaofooa_PE_PE * PE_PE_R8003_contains;
-      Escher_Iterator_s iPE_PE_R8003_contains;
-      Escher_IteratorReset( &iPE_PE_R8003_contains, &C_C_R2054->PE_PE_R8003_contains );
-      while ( 0 != ( PE_PE_R8003_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) {
-      ooaofooa_EP_PKG * R8001_subtype = (ooaofooa_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
-      if ( 0 != R8001_subtype )      if ( ooaofooa_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) {
-      ooaofooa_PE_PE * PE_PE_R8000_contains;
-      Escher_Iterator_s iPE_PE_R8000_contains;
-      Escher_IteratorReset( &iPE_PE_R8000_contains, &R8001_subtype->PE_PE_R8000_contains );
-      while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
-      ooaofooa_S_DT * R8001_subtype = (ooaofooa_S_DT *) PE_PE_R8000_contains->R8001_subtype;
-      if ( 0 != R8001_subtype )      if ( ooaofooa_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
-      {ooaofooa_TE_DT * selected = R8001_subtype->TE_DT_R2021;
-      if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, tm_pointer->DT_name ) == 0 ) ) {
-        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
-          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
-      }}}
-}}}}}}}
+      {ooaofooa_TE_DT * selected;
+      Escher_Iterator_s iTE_DT_R2086;
+      Escher_IteratorReset( &iTE_DT_R2086, &te_c->TE_DT_R2086 );
+      while ( 0 != ( selected = (ooaofooa_TE_DT *) Escher_IteratorNext( &iTE_DT_R2086 ) ) ) {
+        if ( ( Escher_strcmp( selected->Name, tm_pointer->DT_name ) == 0 ) ) {
+          if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
+            Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
+      }}}}
     }
     /* FOR EACH te_dt IN te_dts */
     { Escher_Iterator_s iterte_dt;
@@ -25989,9 +25965,7 @@ ooaofooa_val_bridge_value( c_t * p_salt, ooaofooa_V_BRV * p_v_brv )
 void
 ooaofooa_val_bridge_values()
 {
-  ooaofooa_V_BRV * v_brv=0;i_t n;Escher_ObjectSet_s v_brvs_space={0}; Escher_ObjectSet_s * v_brvs = &v_brvs_space;
-  /* ASSIGN n = 0 */
-  n = 0;
+  ooaofooa_V_BRV * v_brv=0;Escher_ObjectSet_s v_brvs_space={0}; Escher_ObjectSet_s * v_brvs = &v_brvs_space;
   /* SELECT many v_brvs FROM INSTANCES OF V_BRV */
   Escher_CopySet( v_brvs, &pG_ooaofooa_V_BRV_extent.active );
   /* FOR EACH v_brv IN v_brvs */
@@ -26000,13 +25974,8 @@ ooaofooa_val_bridge_values()
   Escher_IteratorReset( &iterv_brv, v_brvs );
   while ( (iiv_brv = (ooaofooa_V_BRV *)Escher_IteratorNext( &iterv_brv )) != 0 ) {
     v_brv = iiv_brv; {
-    c_t * salt=0;
-    /* ASSIGN salt = ( T::s(n) + brv ) */
-    salt = Escher_strcpy( salt, Escher_stradd( T_s( n ), "brv" ) );
-    /* ASSIGN n = ( n + 1 ) */
-    n = ( n + 1 );
-    /* ::val_bridge_value( salt:salt, v_brv:v_brv ) */
-    ooaofooa_val_bridge_value( salt, v_brv );
+    /* ::val_bridge_value( salt:brv, v_brv:v_brv ) */
+    ooaofooa_val_bridge_value( "brv", v_brv );
   }}}
   Escher_ClearSet( v_brvs );
 
@@ -26584,9 +26553,7 @@ ooaofooa_val_message_value( c_t * p_salt, ooaofooa_V_MSV * p_v_msv )
 void
 ooaofooa_val_message_values()
 {
-  ooaofooa_V_MSV * v_msv=0;i_t n;Escher_ObjectSet_s v_msvs_space={0}; Escher_ObjectSet_s * v_msvs = &v_msvs_space;
-  /* ASSIGN n = 0 */
-  n = 0;
+  ooaofooa_V_MSV * v_msv=0;Escher_ObjectSet_s v_msvs_space={0}; Escher_ObjectSet_s * v_msvs = &v_msvs_space;
   /* SELECT many v_msvs FROM INSTANCES OF V_MSV */
   Escher_CopySet( v_msvs, &pG_ooaofooa_V_MSV_extent.active );
   /* FOR EACH v_msv IN v_msvs */
@@ -26595,13 +26562,8 @@ ooaofooa_val_message_values()
   Escher_IteratorReset( &iterv_msv, v_msvs );
   while ( (iiv_msv = (ooaofooa_V_MSV *)Escher_IteratorNext( &iterv_msv )) != 0 ) {
     v_msv = iiv_msv; {
-    c_t * salt=0;
-    /* ASSIGN salt = ( T::s(n) + msv ) */
-    salt = Escher_strcpy( salt, Escher_stradd( T_s( n ), "msv" ) );
-    /* ASSIGN n = ( n + 1 ) */
-    n = ( n + 1 );
-    /* ::val_message_value( salt:salt, v_msv:v_msv ) */
-    ooaofooa_val_message_value( salt, v_msv );
+    /* ::val_message_value( salt:msv, v_msv:v_msv ) */
+    ooaofooa_val_message_value( "msv", v_msv );
   }}}
   Escher_ClearSet( v_msvs );
 
@@ -26815,9 +26777,7 @@ ooaofooa_val_synch_service_value( c_t * p_salt, ooaofooa_V_FNV * p_v_fnv )
 void
 ooaofooa_val_synch_service_values()
 {
-  ooaofooa_V_FNV * v_fnv=0;i_t n;Escher_ObjectSet_s v_fnvs_space={0}; Escher_ObjectSet_s * v_fnvs = &v_fnvs_space;
-  /* ASSIGN n = 0 */
-  n = 0;
+  ooaofooa_V_FNV * v_fnv=0;Escher_ObjectSet_s v_fnvs_space={0}; Escher_ObjectSet_s * v_fnvs = &v_fnvs_space;
   /* SELECT many v_fnvs FROM INSTANCES OF V_FNV */
   Escher_CopySet( v_fnvs, &pG_ooaofooa_V_FNV_extent.active );
   /* FOR EACH v_fnv IN v_fnvs */
@@ -26826,13 +26786,8 @@ ooaofooa_val_synch_service_values()
   Escher_IteratorReset( &iterv_fnv, v_fnvs );
   while ( (iiv_fnv = (ooaofooa_V_FNV *)Escher_IteratorNext( &iterv_fnv )) != 0 ) {
     v_fnv = iiv_fnv; {
-    c_t * salt=0;
-    /* ASSIGN salt = ( T::s(n) + fnv ) */
-    salt = Escher_strcpy( salt, Escher_stradd( T_s( n ), "fnv" ) );
-    /* ASSIGN n = ( n + 1 ) */
-    n = ( n + 1 );
-    /* ::val_synch_service_value( salt:salt, v_fnv:v_fnv ) */
-    ooaofooa_val_synch_service_value( salt, v_fnv );
+    /* ::val_synch_service_value( salt:fnv, v_fnv:v_fnv ) */
+    ooaofooa_val_synch_service_value( "fnv", v_fnv );
   }}}
   Escher_ClearSet( v_fnvs );
 
@@ -26981,9 +26936,7 @@ ooaofooa_val_transform_value( c_t * p_salt, ooaofooa_V_TRV * p_v_trv )
 void
 ooaofooa_val_transform_values()
 {
-  ooaofooa_V_TRV * v_trv=0;i_t n;Escher_ObjectSet_s v_trvs_space={0}; Escher_ObjectSet_s * v_trvs = &v_trvs_space;
-  /* ASSIGN n = 0 */
-  n = 0;
+  ooaofooa_V_TRV * v_trv=0;Escher_ObjectSet_s v_trvs_space={0}; Escher_ObjectSet_s * v_trvs = &v_trvs_space;
   /* SELECT many v_trvs FROM INSTANCES OF V_TRV */
   Escher_CopySet( v_trvs, &pG_ooaofooa_V_TRV_extent.active );
   /* FOR EACH v_trv IN v_trvs */
@@ -26992,13 +26945,8 @@ ooaofooa_val_transform_values()
   Escher_IteratorReset( &iterv_trv, v_trvs );
   while ( (iiv_trv = (ooaofooa_V_TRV *)Escher_IteratorNext( &iterv_trv )) != 0 ) {
     v_trv = iiv_trv; {
-    c_t * salt=0;
-    /* ASSIGN salt = ( T::s(n) + trv ) */
-    salt = Escher_strcpy( salt, Escher_stradd( T_s( n ), "trv" ) );
-    /* ASSIGN n = ( n + 1 ) */
-    n = ( n + 1 );
-    /* ::val_transform_value( salt:salt, v_trv:v_trv ) */
-    ooaofooa_val_transform_value( salt, v_trv );
+    /* ::val_transform_value( salt:trv, v_trv:v_trv ) */
+    ooaofooa_val_transform_value( "trv", v_trv );
   }}}
   Escher_ClearSet( v_trvs );
 

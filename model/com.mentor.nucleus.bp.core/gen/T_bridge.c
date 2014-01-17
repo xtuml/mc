@@ -40,7 +40,7 @@ T_s( const i_t p_i )
  * Bridge:  emit
  */
 void
-T_emit( c_t p_file[ESCHER_SYS_MAX_STRING_LEN] )
+T_emit( c_t * p_file )
 {
 	//printf("Emitting to file: %s\n", p_file);
   static int first = 0;
@@ -80,10 +80,11 @@ T_clear()
  * Bridge:  b
  */
 void
-T_b( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_b( c_t * p_s )
 {
   //printf("Adding to buffer: %s\n", p_s);
   i_t i = 0;
+  if ( 0 == p_s ) p_s = "";
   while ( ( i < T_tbuf_size ) && ( 0 != p_s[ i ] ) ) {
     buffer[ buffer_index++ ] = p_s[ i++ ];
   }
@@ -95,8 +96,9 @@ T_b( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  print
  */
 void
-T_print( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_print( c_t * p_s )
 {
+  if ( 0 == p_s ) p_s = "";
   fprintf( stderr,"%s\n", p_s );
 }
 
@@ -115,7 +117,7 @@ T_exit( const i_t p_i )
  * Bridge:  include
  */
 void
-T_include( c_t p_file[ESCHER_SYS_MAX_STRING_LEN] )
+T_include( c_t * p_file )
 {
   /* No implementation here.  The model compiler overrides calls to T::include
    * to be actual #include calls.  See t_oal_smt_brg in the MC.
@@ -127,10 +129,11 @@ T_include( c_t p_file[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  r
  */
 c_t *
-T_r( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_r( c_t * p_s )
 {
   c_t * p = p_s;
   i_t i = 0;
+  if ( 0 == p ) p = "";
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
   do {
     if ( ' ' != *p ) {
@@ -145,10 +148,11 @@ T_r( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  u
  */
 c_t *
-T_u( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_u( c_t * p_s )
 {
   c_t * p = p_s;
   i_t i = 0;
+  if ( 0 == p ) p = "";
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
   do {
     tbuf[ current_tbuf ][ i++ ] = toupper(*p);
@@ -161,10 +165,11 @@ T_u( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  l
  */
 c_t *
-T_l( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_l( c_t * p_s )
 {
   c_t * p = p_s;
   i_t i = 0;
+  if ( 0 == p ) p = "";
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
   do {
     tbuf[ current_tbuf ][ i++ ] = tolower(*p);
@@ -177,10 +182,11 @@ T_l( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  underscore
  */
 c_t *
-T_underscore( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_underscore( c_t * p_s )
 {
   c_t * p = p_s;
   i_t i = 0;
+  if ( 0 == p ) p = "";
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
   do {
     tbuf[ current_tbuf ][ i++ ] = ( ' ' == *p ) ? '_' : *p;
@@ -193,10 +199,11 @@ T_underscore( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  u_
  */
 c_t *
-T_u_( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_u_( c_t * p_s )
 {
   c_t * p = p_s;
   i_t i = 0;
+  if ( 0 == p ) p = "";
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
   do {
     if ( ' ' == *p ) {
@@ -213,11 +220,12 @@ T_u_( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  c
  */
 c_t *
-T_c( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_c( c_t * p_s )
 {
   c_t * p = p_s;
   i_t i = 0;
   i_t toChange=1;
+  if ( 0 == p ) p = "";
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
   do {
     if ( ( toChange != 0 ) && ( ' ' != *p ) ) {
@@ -238,10 +246,11 @@ T_c( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  xmlify
  */
 c_t *
-T_xmlify( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_xmlify( c_t * p_s )
 {
   c_t * p = p_s;
   i_t i = 0;
+  if ( 0 == p ) p = "";
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
   do {
     if ( *p == '<' ) {
@@ -289,9 +298,11 @@ T_xmlify( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  parsekeyword
  */
 c_t *
-T_parsekeyword( c_t p_key[ESCHER_SYS_MAX_STRING_LEN], c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_parsekeyword( c_t * p_key, c_t * p_s )
 {
   c_t * s = 0;
+  if ( 0 == p_s ) p_s = "";
+  if ( 0 == p_key ) p_key = "";
   if ( strlen( p_s ) ) {
     c_t * key = Escher_strget();
     strcpy( key, p_key );
@@ -335,9 +346,10 @@ extern int yyparse( void );
  * Bridge:  t
  */
 c_t *
-T_t( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
+T_t( c_t * p_s )
 {
-  c_t * result = p_s;
+  c_t * result = ( 0 == p_s ) ? "" : p_s;
+  if ( 0 == p_s ) p_s = "";
   if ( ( strlen( p_s ) > 0 ) && strchr( p_s, '$' ) && strchr( p_s, '{' ) && strchr( p_s, '}' ) ) {
     c_t s[ESCHER_SYS_MAX_STRING_LEN];
     strncpy(s,p_s,ESCHER_SYS_MAX_STRING_LEN-1);strcat(s,"\n");

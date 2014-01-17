@@ -327,7 +327,7 @@
           .end if
         .end if
         .if ( not_empty foreign_te_iir )
-          .// relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
+          .// relate te_iir to foreign_te_iir across R2081.'requires or delegates';
           .assign foreign_te_iir.provider_te_iirID = te_iir.ID
           .// end relate
         .end if
@@ -344,7 +344,7 @@
           .end if
         .end if
         .if ( not_empty foreign_te_iir )
-          .// relate te_iir to foreign_te_iir across R2081.'requires or delegates';
+          .// relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
           .assign te_iir.provider_te_iirID = foreign_te_iir.ID
           .// end relate
         .end if
@@ -777,8 +777,7 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_precision.DT_name )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_precision.Domain )
-      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_precision.DT_name )
+      .select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_precision.DT_name )
     .end if
     .for each te_dt in te_dts
       .// Only allow precision specification of core types integer
@@ -834,8 +833,7 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_pointer.DT_name )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_pointer.Domain )
-      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_pointer.DT_name )
+      .select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_pointer.DT_name )
     .end if
     .for each te_dt in te_dts
       .assign te_dt.ExtName = tm_pointer.pointer_type + " *"
@@ -2327,6 +2325,8 @@
       .assign te_parm.dimensions = te_parm.dimensions + 1
       .assign te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" )
     .end if
+    .// strings are already by-ref
+    .assign te_parm.By_Ref = 0
   .end if
   .assign attr_result = te_parm
 .end function

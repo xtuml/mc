@@ -543,12 +543,9 @@
 .end function
 .//
 .function val_message_values
-  .assign n = 0
   .select many v_msvs from instances of V_MSV
   .for each v_msv in v_msvs
-    .assign salt = "$t{n}" + "msv"
-    .assign n = n + 1
-    .invoke val_message_value( v_msv, salt )
+    .invoke val_message_value( v_msv, "msv" )
   .end for
 .end function
 .//
@@ -579,12 +576,9 @@
 .end function
 .//
 .function val_bridge_values
-  .assign n = 0
   .select many v_brvs from instances of V_BRV
   .for each v_brv in v_brvs
-    .assign salt = "$t{n}" + "brv"
-    .assign n = n + 1
-    .invoke val_bridge_value( v_brv, salt )
+    .invoke val_bridge_value( v_brv, "brv" )
   .end for
 .end function
 .//
@@ -639,12 +633,9 @@
 .end function
 .//
 .function val_transform_values
-  .assign n = 0
   .select many v_trvs from instances of V_TRV
   .for each v_trv in v_trvs
-    .assign salt = "$t{n}" + "trv"
-    .assign n = n + 1
-    .invoke val_transform_value( v_trv, salt )
+    .invoke val_transform_value( v_trv, "trv" )
   .end for
 .end function
 .//
@@ -713,12 +704,9 @@
 .end function
 .//
 .function val_synch_service_values
-  .assign n = 0
   .select many v_fnvs from instances of V_FNV
   .for each v_fnv in v_fnvs
-    .assign salt = "$t{n}" + "fnv"
-    .assign n = n + 1
-    .invoke val_synch_service_value( v_fnv, salt )
+    .invoke val_synch_service_value( v_fnv, "fnv" )
   .end for
 .end function
 .//

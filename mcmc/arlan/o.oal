@@ -942,7 +942,7 @@ sys_types_file_name = ( te_file.types + "." ) + te_file.hdr_file_ext;
 select many special_te_dts from instances of TE_DT where ( ( selected.Include_File != "" ) and ( selected.Include_File != sys_types_file_name ) );
 s = "";
 for each special_te_dt in special_te_dts
-  s = ( s + "#include " ) + ( special_te_dt.Include_File + "\n" );
+  s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" );
 end for;
 return s;
 @@@
@@ -1337,7 +1337,7 @@ for each te_po in te_pos
         end if;
       end if;
       if ( not_empty foreign_te_iir )
-        relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
+        relate te_iir to foreign_te_iir across R2081.'requires or delegates';
       end if;
     else
       // requirement side first
@@ -1352,7 +1352,7 @@ for each te_po in te_pos
         end if;
       end if;
       if ( not_empty foreign_te_iir )
-        relate te_iir to foreign_te_iir across R2081.'requires or delegates';
+        relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
       end if;
     end if;
   end for;
@@ -1755,8 +1755,7 @@ for each tm_precision in tm_precisions
     select many te_dts from instances of TE_DT where ( selected.Name == tm_precision.DT_name );
   else
     select any te_c from instances of TE_C where ( selected.Name == tm_precision.Domain );
-    // TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-    select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_precision.DT_name );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_precision.DT_name );
   end if;
   for each te_dt in te_dts
     // Only allow precision specification of core types integer
@@ -1812,8 +1811,7 @@ for each tm_pointer in tm_pointers
     select many te_dts from instances of TE_DT where ( selected.Name == tm_pointer.DT_name );
   else
     select any te_c from instances of TE_C where ( selected.Name == tm_pointer.Domain );
-    // TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-    select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_pointer.DT_name );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_pointer.DT_name );
   end if;
   for each te_dt in te_dts
     te_dt.ExtName = tm_pointer.pointer_type + " *";
@@ -3121,6 +3119,8 @@ if ( 4 == te_dt.Core_Typ )
     te_parm.dimensions = te_parm.dimensions + 1;
     te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" );
   end if;
+  // strings are already by-ref
+  te_parm.By_Ref = 0;
 end if;
 return te_parm;
 @@@
@@ -3681,7 +3681,7 @@ if ( not_empty v_pars )
           end if;
         end if;
         if ( stringbody )
-          te_par.buffer = ( "v_sretval" + invocation_flavor ) + T::s(i:item_number);
+          te_par.buffer = ( "v_sretval" + T::s(i:v_par.labelLineNumber) ) + ( invocation_flavor + T::s(i:v_par.labelColumn) );
           select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
           te_blk.declaration = ( ( ( te_blk.declaration + te_dt.ExtName ) + ( " " + te_par.buffer ) ) + ( "[" + te_string.max_string_length ) ) + "];";
           code = ( ( code + te_string.strcpy ) + ( "( " + te_par.buffer ) ) + ", ";

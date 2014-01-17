@@ -519,12 +519,9 @@ end if;
 @@@
 val_message_values@void@@@
 //
-n = 0;
 select many v_msvs from instances of V_MSV;
 for each v_msv in v_msvs
-  salt = T::s(i:n) + "msv";
-  n = n + 1;
-  ::val_message_value( v_msv:v_msv, salt:salt );
+  ::val_message_value( v_msv:v_msv, salt:"msv" );
 end for;
 @@@
 val_message_value@void@@v_msv@inst_ref<Message Value>@@salt@string@@@
@@ -552,12 +549,9 @@ else
 @@@
 val_bridge_values@void@@@
 //
-n = 0;
 select many v_brvs from instances of V_BRV;
 for each v_brv in v_brvs
-  salt = T::s(i:n) + "brv";
-  n = n + 1;
-  ::val_bridge_value( v_brv:v_brv, salt:salt );
+  ::val_bridge_value( v_brv:v_brv, salt:"brv" );
 end for;
 @@@
 val_bridge_value@void@@v_brv@inst_ref<Bridge Value>@@salt@string@@@
@@ -609,12 +603,9 @@ end if;
 @@@
 val_transform_values@void@@@
 //
-n = 0;
 select many v_trvs from instances of V_TRV;
 for each v_trv in v_trvs
-  salt = T::s(i:n) + "trv";
-  n = n + 1;
-  ::val_transform_value( v_trv:v_trv, salt:salt );
+  ::val_transform_value( v_trv:v_trv, salt:"trv" );
 end for;
 @@@
 val_transform_value@void@@v_trv@inst_ref<Operation Value>@@salt@string@@@
@@ -680,12 +671,9 @@ end if;
 @@@
 val_synch_service_values@void@@@
 //
-n = 0;
 select many v_fnvs from instances of V_FNV;
 for each v_fnv in v_fnvs
-  salt = T::s(i:n) + "fnv";
-  n = n + 1;
-  ::val_synch_service_value( v_fnv:v_fnv, salt:salt );
+  ::val_synch_service_value( v_fnv:v_fnv, salt:"fnv" );
 end for;
 @@@
 val_synch_service_value@void@@v_fnv@inst_ref<Function Value>@@salt@string@@@

@@ -339,12 +339,8 @@ Escher_stradd( const c_t * left, const c_t * right )
   i_t i = 400000 - 1;
   c_t * s = Escher_strget();
   c_t * dst = s;
-  if ( 0 == left ) {
-    left = "";
-  }
-  if ( 0 == right ) {
-    right = "";
-  }
+  if ( 0 == left ) left = "";
+  if ( 0 == right ) right = "";
   while ( ( i > 0 ) && ( *left != '\0' ) ) {
     --i;
     *dst++ = *left++;
@@ -369,13 +365,9 @@ Escher_strcmp( const c_t *p1, const c_t *p2 )
   const c_t *s1 = p1;
   const c_t *s2 = p2;
   c_t c1, c2;
-  s2_t i = ESCHER_SYS_MAX_STRING_LEN;
-  if ( 0 == p1 ) {
-    s1 = "";
-  }
-  if ( 0 == p2 ) {
-    s2 = "";
-  }
+  i_t i = ESCHER_SYS_MAX_STRING_LEN;
+  if ( 0 == p1 ) s1 = "";
+  if ( 0 == p2 ) s2 = "";
   do {
     c1 = *s1++;
     c2 = *s2++;
