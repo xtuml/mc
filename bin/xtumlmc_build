@@ -874,14 +874,24 @@ sub internal_cleanse_for_bp($$)
 # Parse through the model removing graphics elements and proxy statements,
 # handle inline blocks in action language.
 #---------------------------------------------------------------------------
-sub xtumlmc_cleanse_model($$);
-sub xtumlmc_cleanse_model($$)
+sub xtumlmc_cleanse_model($$$);
+sub xtumlmc_cleanse_model($$$)
 {
   my $I = xtumlmc_open( "<" . shift );
   my $O = xtumlmc_open( ">" . shift );
+  my $stripNonAscii = shift || 'false';
   my $v_lst = 0;
 
   OUTER: while ( <$I> ) {
+    if ( $stripNonAscii eq 'true' ) {
+      # A note about this substitution... It reads characters (UTF-8 chars, not
+      # simply bytes).  The ord(EXPR) function "Returns the numeric value of the 
+      # first character of EXPR)".  So, read a character, put it into $1, then
+      # evaluate if it is ASCII (value less than 128). If it is, just put the
+      # character back down.  If it is not, put the ASCII string "c<hex value>" 
+      # in it's place.
+      s/(.)/ord($1) < 128 ? $1 : sprintf("c%X", ord($1))/ge;
+    }
     # NOTE: We must convert C-Style comments in OAL to C++-style in case the 
     # user has MarkStateActionCommentBlocksEnabled turned on.  That way we 
     # won't have OAL C-style comments inside the output code's C-Style 
@@ -908,6 +918,9 @@ sub xtumlmc_cleanse_model($$)
       # C++-style comments
       print $O "$`//$'";
       while ( <$I> ) {
+        if ( $stripNonAscii eq 'true' ) {
+          s/(.)/ord($1) < 128 ? $1 : sprintf("c%X", ord($1))/ge;
+        }
         if ( /\*\// ) {
           print $O "// $`";
           if ( $' ne "" ) { print $O "\n$'"; }
@@ -1307,8 +1320,8 @@ foreach my $sql ( @sqls ) {
     # replace UUIDs with 32-bit values
     ReplaceUUIDWithLong( $sql, $tempUUIDfile );
 
-    # Get rid of graphics entries in the model file.
-    xtumlmc_cleanse_model( $tempUUIDfile, ">$build_directory/$modelBeingTranslated" );
+    # Get rid of graphics & proxy entries and non-ASCII characters in the model file.
+    xtumlmc_cleanse_model( $tempUUIDfile, ">$build_directory/$modelBeingTranslated", 'true' );
 
     # Remove the temporary UUID file
     xtumlmc_rm( $tempUUIDfile );
