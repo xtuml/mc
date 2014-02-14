@@ -89,7 +89,7 @@ extern void ${method_name.result}( const ${te_class.GeneratedName} * const, ${te
       .// Remove any passive subtypes
       .select one sm_ism related by subtype_o_obj->SM_ISM[R518]
       .if ( empty sm_ism )
-        .assign subtype_o_objs = subtype_o_objs - subtype
+        .assign subtype_o_objs = subtype_o_objs - subtype_o_obj
       .end if
     .end for
     .select any any_subtype_o_obj related by r_rel->R_SUBSUP[R206]->R_SUB[R213]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]
