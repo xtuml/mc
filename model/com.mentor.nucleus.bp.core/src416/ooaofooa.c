@@ -15633,10 +15633,39 @@ ooaofooa_smt_assign( ooaofooa_ACT_AI * p_act_ai, ooaofooa_TE_SMT * p_te_smt )
       /* ::blk_deallocation_append( s:d, te_blk:te_blk ) */
       ooaofooa_blk_deallocation_append( d, te_blk );
     }
-    else if ( ( ( 4 == r_te_dt->Core_Typ ) && te_sys->InstanceLoading ) ) {
+    else if ( ( 4 == r_te_dt->Core_Typ ) ) {
       c_t * d=0;
-      /* ASSIGN d = ( ( te_assign.left_declaration + te_assign.array_spec ) + =0; ) */
-      d = Escher_strcpy( d, Escher_stradd( Escher_stradd( te_assign->left_declaration, te_assign->array_spec ), "=0;" ) );
+      /* ASSIGN d = ( te_assign.left_declaration + te_assign.array_spec ) */
+      d = Escher_strcpy( d, Escher_stradd( te_assign->left_declaration, te_assign->array_spec ) );
+      /* IF ( (  == te_assign.array_spec ) ) */
+      if ( ( Escher_strcmp( "", te_assign->array_spec ) == 0 ) ) {
+        /* ASSIGN d = ( d + =0 ) */
+        d = Escher_strcpy( d, Escher_stradd( d, "=0" ) );
+      }
+      else {
+        /* IF ( te_sys.InstanceLoading ) */
+        if ( te_sys->InstanceLoading ) {
+          /* ASSIGN d = ( d + ={0 ) */
+          d = Escher_strcpy( d, Escher_stradd( d, "={0" ) );
+          /* IF ( ( element_count < 128 ) ) */
+          if ( ( element_count < 128 ) ) {
+            i_t i;
+            /* ASSIGN i = ( element_count - 1 ) */
+            i = ( element_count - 1 );
+            /* WHILE ( ( i > 0 ) ) */
+            while ( ( i > 0 ) ) {
+              /* ASSIGN i = ( i - 1 ) */
+              i = ( i - 1 );
+              /* ASSIGN d = ( d + ,0 ) */
+              d = Escher_strcpy( d, Escher_stradd( d, ",0" ) );
+            }
+          }
+          /* ASSIGN d = ( d + } ) */
+          d = Escher_strcpy( d, Escher_stradd( d, "}" ) );
+        }
+      }
+      /* ASSIGN d = ( d + ; ) */
+      d = Escher_strcpy( d, Escher_stradd( d, ";" ) );
       /* ::blk_declaration_append( s:d, te_blk:te_blk ) */
       ooaofooa_blk_declaration_append( d, te_blk );
     }
@@ -21827,29 +21856,16 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
           }
         }
       }
-      /* SELECT many te_dts RELATED BY te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] WHERE ( ( SELECTED.Name == tm_enumval.enumeration ) ) */
+      /* SELECT many te_dts RELATED BY te_c->TE_DT[R2086] WHERE ( ( SELECTED.Name == tm_enumval.enumeration ) ) */
       Escher_ClearSet( te_dts );
-      {      if ( 0 != te_c ) {
-      ooaofooa_C_C * C_C_R2054 = te_c->C_C_R2054;
-      if ( 0 != C_C_R2054 ) {
-      ooaofooa_PE_PE * PE_PE_R8003_contains;
-      Escher_Iterator_s iPE_PE_R8003_contains;
-      Escher_IteratorReset( &iPE_PE_R8003_contains, &C_C_R2054->PE_PE_R8003_contains );
-      while ( 0 != ( PE_PE_R8003_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) {
-      ooaofooa_EP_PKG * R8001_subtype = (ooaofooa_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
-      if ( 0 != R8001_subtype )      if ( ooaofooa_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) {
-      ooaofooa_PE_PE * PE_PE_R8000_contains;
-      Escher_Iterator_s iPE_PE_R8000_contains;
-      Escher_IteratorReset( &iPE_PE_R8000_contains, &R8001_subtype->PE_PE_R8000_contains );
-      while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
-      ooaofooa_S_DT * R8001_subtype = (ooaofooa_S_DT *) PE_PE_R8000_contains->R8001_subtype;
-      if ( 0 != R8001_subtype )      if ( ooaofooa_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
-      {ooaofooa_TE_DT * selected = R8001_subtype->TE_DT_R2021;
-      if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, tm_enumval->enumeration ) == 0 ) ) {
-        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
-          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
-      }}}
-}}}}}}}
+      {ooaofooa_TE_DT * selected;
+      Escher_Iterator_s iTE_DT_R2086;
+      Escher_IteratorReset( &iTE_DT_R2086, &te_c->TE_DT_R2086 );
+      while ( 0 != ( selected = (ooaofooa_TE_DT *) Escher_IteratorNext( &iTE_DT_R2086 ) ) ) {
+        if ( ( Escher_strcmp( selected->Name, tm_enumval->enumeration ) == 0 ) ) {
+          if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
+            Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
+      }}}}
     }
     /* FOR EACH te_dt IN te_dts */
     { Escher_Iterator_s iterte_dt;
@@ -21921,33 +21937,16 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
           }
         }
       }
-      /* SELECT many te_dts RELATED BY te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021] WHERE ( ( SELECTED.Name == tm_enuminit.enumeration ) ) */
+      /* SELECT many te_dts RELATED BY te_c->TE_DT[R2086] WHERE ( ( SELECTED.Name == tm_enuminit.enumeration ) ) */
       Escher_ClearSet( te_dts );
-      {      if ( 0 != te_c ) {
-      ooaofooa_C_C * C_C_R2054 = te_c->C_C_R2054;
-      if ( 0 != C_C_R2054 ) {
-      ooaofooa_PE_PE * PE_PE_R8003_contains;
-      Escher_Iterator_s iPE_PE_R8003_contains;
-      Escher_IteratorReset( &iPE_PE_R8003_contains, &C_C_R2054->PE_PE_R8003_contains );
-      while ( 0 != ( PE_PE_R8003_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) {
-      ooaofooa_EP_PKG * R8001_subtype = (ooaofooa_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
-      if ( 0 != R8001_subtype )      if ( ooaofooa_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) {
-      ooaofooa_PE_PE * PE_PE_R8000_contains;
-      Escher_Iterator_s iPE_PE_R8000_contains;
-      Escher_IteratorReset( &iPE_PE_R8000_contains, &R8001_subtype->PE_PE_R8000_contains );
-      while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
-      ooaofooa_S_DT * R8001_subtype = (ooaofooa_S_DT *) PE_PE_R8000_contains->R8001_subtype;
-      if ( 0 != R8001_subtype )      if ( ooaofooa_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) {
-      ooaofooa_S_EDT * R17_subtype = (ooaofooa_S_EDT *) R8001_subtype->R17_subtype;
-      if ( 0 != R17_subtype )      if ( ooaofooa_S_EDT_CLASS_NUMBER == R8001_subtype->R17_object_id ) {
-      ooaofooa_S_DT * S_DT_R17 = R17_subtype->S_DT_R17;
-      if ( 0 != S_DT_R17 ) {
-      {ooaofooa_TE_DT * selected = S_DT_R17->TE_DT_R2021;
-      if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, tm_enuminit->enumeration ) == 0 ) ) {
-        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
-          Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
-      }}}
-}}}}}}}}}
+      {ooaofooa_TE_DT * selected;
+      Escher_Iterator_s iTE_DT_R2086;
+      Escher_IteratorReset( &iTE_DT_R2086, &te_c->TE_DT_R2086 );
+      while ( 0 != ( selected = (ooaofooa_TE_DT *) Escher_IteratorNext( &iTE_DT_R2086 ) ) ) {
+        if ( ( Escher_strcmp( selected->Name, tm_enuminit->enumeration ) == 0 ) ) {
+          if ( ! Escher_SetContains( (Escher_ObjectSet_s *) te_dts, selected ) ) {
+            Escher_SetInsertElement( (Escher_ObjectSet_s *) te_dts, selected );
+      }}}}
     }
     /* FOR EACH te_dt IN te_dts */
     { Escher_Iterator_s iterte_dt;

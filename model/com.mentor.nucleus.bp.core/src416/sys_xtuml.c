@@ -329,14 +329,14 @@ Escher_strcpy( c_t * dst, const c_t * src )
   return s;
 }
 
+#define MAXRECORDLENGTH 400000
 /*
  * Add two strings.  Allocate a temporary memory variable to return the value.
  */
 c_t *
 Escher_stradd( const c_t * left, const c_t * right )
 {
-  //s2_t i = ESCHER_SYS_MAX_STRING_LEN - 1;
-  i_t i = 400000 - 1;
+  i_t i = MAXRECORDLENGTH - 1;
   c_t * s = Escher_strget();
   c_t * dst = s;
   if ( 0 == left ) left = "";
@@ -384,8 +384,7 @@ c_t *
 Escher_strget( void )
 {
   static u1_t i = 0;
-  //static c_t s[ 16 ][ ESCHER_SYS_MAX_STRING_LEN ];
-  static c_t s[ 32 ][ 400000 ];
+  static c_t s[ 32 ][ MAXRECORDLENGTH ];
   i = ( i + 1 ) % 32;
   s[ i ][ 0 ] = 0;
   return ( &s[ i ][ 0 ] );
@@ -398,7 +397,7 @@ i_t
 Escher_strlen( const c_t * s )
 {
   i_t len = 0;
-  i_t i = 400000;
+  i_t i = MAXRECORDLENGTH;
   if ( s != 0 ) {
     while ( ( *s != 0 ) && ( i >= 0 ) ) {
       s++;

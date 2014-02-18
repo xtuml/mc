@@ -216,15 +216,6 @@ T_b("}");
 T_b("\n");
 if ( te_sys->InstanceLoading ) {
 T_b("  ");
-T_b("if ( 0 != dci->initial_state ) {");
-T_b("\n");
-T_b("    ");
-T_b("instance->current_state = dci->initial_state;");
-T_b("\n");
-T_b("  ");
-T_b("}");
-T_b("\n");
-T_b("  ");
 T_b("if ( 0 == dci->active->head ) {");
 T_b("\n");
 T_b("    ");

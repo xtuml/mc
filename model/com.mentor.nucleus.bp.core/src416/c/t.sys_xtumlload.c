@@ -394,7 +394,7 @@ T_b("\n");
 T_b("{");
 T_b("\n");
 T_b("  ");
-T_b("#define MAXRECORDLENGTH 100000");
+T_b("#define MAXRECORDLENGTH 400000");
 T_b("\n");
 T_b("  ");
 T_b("static c_t record[ MAXRECORDLENGTH ] = {0};");

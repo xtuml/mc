@@ -573,7 +573,7 @@ ${aoth_fundamentals.body}\
     .if ( not_empty oref )
       .invoke set_refs = SetReferentialAttributes( "left", "right", rto, rgo )
       .invoke reset_refs = ResetReferentialAttributes( "right", rgo )
-      .if ( rel_phrase == part.Txt_Phrs )
+      .if ( rel_phrase == form.Txt_Phrs )
         .invoke set_refs = SetReferentialAttributes( "right", "left", rto, rgo )
         .invoke reset_refs = ResetReferentialAttributes( "left", rgo )
       .end if

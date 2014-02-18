@@ -220,7 +220,8 @@
       .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"
       .invoke blk_deallocation_append( te_blk, d )
     .elif ( ( 4 == r_te_dt.Core_Typ ) and ( te_sys.InstanceLoading ) )
-      .// CDS This needs work.
+      .// CDS 128 is a bit arbitrary.  It is intended to be a reasonable
+      .// maximum for a transient array of strings needing initialization.
       .// string
       .assign d = te_assign.left_declaration + te_assign.array_spec
       .if ( "" == te_assign.array_spec )

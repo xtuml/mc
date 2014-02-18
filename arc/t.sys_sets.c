@@ -616,7 +616,7 @@ ${te_set.scope}${te_dma.allocate}( const u4_t b )
   } 
   .else
   new_mem = malloc( bytes );
-  if ( 0 != new_mem ) {
+  if ( 0 == new_mem ) {
     // fprintf( stderr, "Escher_malloc:  out of memory\n" );
     // exit( 1 );
   }

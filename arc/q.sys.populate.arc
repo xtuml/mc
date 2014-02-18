@@ -855,8 +855,7 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_enumval.enumeration )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_enumval.Domain )
-      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_enumval.enumeration )
+      .select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_enumval.enumeration )
     .end if
     .for each te_dt in te_dts
       .select any te_enum related by te_dt->S_DT[R2021]->S_EDT[R17]->S_ENUM[R27]->TE_ENUM[R2027] where ( selected.Name == tm_enumval.enumerator )
@@ -874,8 +873,7 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_enuminit.enumeration )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_enuminit.Domain )
-      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021] where ( selected.Name == tm_enuminit.enumeration )
+      .select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_enuminit.enumeration )
     .end if
     .for each te_dt in te_dts
       .assign te_dt.Value = tm_enuminit.value
@@ -2543,8 +2541,6 @@
     .invoke TE_C_mark_nested_system( nested_te_cs )
     .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
     .invoke TE_C_mark_nested_system( nested_te_cs )
-    .// TODO - SKB: What about components that are nested under package(s) inside this component?  The above 2
-    .// traversals assume the nested component or component reference is right under the component we're processing.
   .end for
 .end function
 .//
