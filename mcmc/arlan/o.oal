@@ -942,7 +942,7 @@ sys_types_file_name = ( te_file.types + "." ) + te_file.hdr_file_ext;
 select many special_te_dts from instances of TE_DT where ( ( selected.Include_File != "" ) and ( selected.Include_File != sys_types_file_name ) );
 s = "";
 for each special_te_dt in special_te_dts
-  s = ( s + "#include " ) + ( special_te_dt.Include_File + "\n" );
+  s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" );
 end for;
 return s;
 @@@
@@ -1205,7 +1205,7 @@ for each c_c in c_cs
   te_c.Name = T::r(s:c_c.Name);
   te_c.Descrip = c_c.Descrip;
   te_c.included_in_build = true;
-    select any tm_c from instances of TM_C where ( selected.Name == c_c.Name );
+        select any tm_c from instances of TM_C where ( selected.Name == c_c.Name );
   if ( not_empty tm_c )
     if ( ( tm_c.isRealized ) or ( c_c.isRealized ) )
       // Component is realized, so skip translation of internals.
@@ -1337,7 +1337,7 @@ for each te_po in te_pos
         end if;
       end if;
       if ( not_empty foreign_te_iir )
-        relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
+        relate te_iir to foreign_te_iir across R2081.'requires or delegates';
       end if;
     else
       // requirement side first
@@ -1352,7 +1352,7 @@ for each te_po in te_pos
         end if;
       end if;
       if ( not_empty foreign_te_iir )
-        relate te_iir to foreign_te_iir across R2081.'requires or delegates';
+        relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
       end if;
     end if;
   end for;
@@ -1539,6 +1539,9 @@ for each s_cdt in s_cdts
   elif ( 4 == te_dt.Core_Typ )
     // string
     te_dt.ExtName = "c_t";
+    if ( te_sys.InstanceLoading )
+      te_dt.ExtName = "c_t *";
+    end if;
     te_dt.Initial_Value = "CTOR";
     te_dt.string_format = "%s";
   elif ( 5 == te_dt.Core_Typ )
@@ -1720,7 +1723,7 @@ for each s_sdt in s_sdts
     te_mbr.array_spec = array_spec;
     // In the C model compiler, treat strings as arrays.
     select one mbr_te_dt related by s_mbr->S_DT[R45]->TE_DT[R2021];
-    if ( 4 == mbr_te_dt.Core_Typ )
+    if ( ( 4 == mbr_te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
       // string
       te_mbr.dimensions = te_mbr.dimensions + 1;
       te_mbr.array_spec = ( te_mbr.array_spec + "[" ) + ( te_string.max_string_length + "]" );
@@ -1752,8 +1755,7 @@ for each tm_precision in tm_precisions
     select many te_dts from instances of TE_DT where ( selected.Name == tm_precision.DT_name );
   else
     select any te_c from instances of TE_C where ( selected.Name == tm_precision.Domain );
-    // TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-    select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_precision.DT_name );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_precision.DT_name );
   end if;
   for each te_dt in te_dts
     // Only allow precision specification of core types integer
@@ -1809,8 +1811,7 @@ for each tm_pointer in tm_pointers
     select many te_dts from instances of TE_DT where ( selected.Name == tm_pointer.DT_name );
   else
     select any te_c from instances of TE_C where ( selected.Name == tm_pointer.Domain );
-    // TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-    select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_pointer.DT_name );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_pointer.DT_name );
   end if;
   for each te_dt in te_dts
     te_dt.ExtName = tm_pointer.pointer_type + " *";
@@ -1832,8 +1833,7 @@ for each tm_enumval in tm_enumvals
     select many te_dts from instances of TE_DT where ( selected.Name == tm_enumval.enumeration );
   else
     select any te_c from instances of TE_C where ( selected.Name == tm_enumval.Domain );
-    // TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-    select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_enumval.enumeration );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_enumval.enumeration );
   end if;
   for each te_dt in te_dts
     select any te_enum related by te_dt->S_DT[R2021]->S_EDT[R17]->S_ENUM[R27]->TE_ENUM[R2027] where ( selected.Name == tm_enumval.enumerator );
@@ -1851,8 +1851,7 @@ for each tm_enuminit in tm_enuminits
     select many te_dts from instances of TE_DT where ( selected.Name == tm_enuminit.enumeration );
   else
     select any te_c from instances of TE_C where ( selected.Name == tm_enuminit.Domain );
-    // TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-    select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021] where ( selected.Name == tm_enuminit.enumeration );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_enuminit.enumeration );
   end if;
   for each te_dt in te_dts
     te_dt.Value = tm_enuminit.value;
@@ -2152,6 +2151,7 @@ for each r_oir in r_oirs
   te_oir.data_member = ( o_obj.Key_Lett + "_R" ) + T::s(i:r_rel.Numb);
   te_oir.assoc_type = "";
   te_oir.Mult = 0;
+  te_oir.rel_phrase = "";
   te_oir.object_id = "";
   te_oir.NavigatedTo = false;
   relate r_oir to te_oir across R2035;
@@ -2369,7 +2369,7 @@ for each v_var in v_vars
   select one te_dt related by v_var->S_DT[R848]->TE_DT[R2021];
   if ( not_empty te_dt )
     // In the C model compiler, treat strings as arrays.
-    if ( 4 == te_dt.Core_Typ )
+    if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
       // string
       te_var.dimensions = te_var.dimensions + 1;
       te_var.array_spec = ( te_var.array_spec + "[" ) + ( te_string.max_string_length + "]" );
@@ -2429,14 +2429,14 @@ for each te_c in te_cs
   //
   // Create the Generated External Entity instances and link them in.
   select many te_ees related by te_c->TE_EE[R2085];
+  for each te_ee in te_ees
+    ::TE_EE_init( te_ee:te_ee, te_c:te_c );
+  end for;
   r1 = ::ee_sort( te_ees:te_ees );
   te_ee = r1;
   if ( not_empty te_ee )
     relate te_c to te_ee across R2098;
   end if;
-  for each te_ee in te_ees
-    ::TE_EE_init( te_ee:te_ee, te_c:te_c );
-  end for;
   //
   // Initialize the Generated Class instances.
   select many te_classs related by te_c->TE_CLASS[R2064];
@@ -2532,14 +2532,14 @@ for each te_c in te_cs
         elif ( "%s" == te_dt.string_format )
           // Place an escaped tick mark around the %s in the attribute format string.
           te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''" + te_dt.string_format ) ) + "''";
-          te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
+          te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( ( te_attr.GeneratedName + " : """ ) + """" ) );
         else
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
         end if;
       end if;
       // In the C model compiler, treat strings as arrays.
-      if ( 4 == te_dt.Core_Typ )
+      if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
         // string
         te_attr.dimensions = te_attr.dimensions + 1;
         te_attr.array_spec = ( te_attr.array_spec + "[" ) + ( te_string.max_string_length + "]" );
@@ -2641,6 +2641,7 @@ te_class.Key_Lett = T::r(s:te_class.Key_Lett);
 te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett;
 te_class.CBGeneratedName = te_class.GeneratedName + "_CB";
 te_class.scope = "";
+te_class.attribute_format = "";
 return te_class;
 @@@
 FactoryTE_DIM@inst_ref<Extended Dimension>@@s_dim@inst_ref<Dimensions>@@predecessor_te_dim@inst_ref<Extended Dimension>@@@
@@ -2989,6 +2990,7 @@ scope = param.scope;
 name = param.name;
 subtypeKL = param.subtypeKL;
 te_dt = param.te_dt;
+select any te_sys from instances of TE_SYS;
 select any te_target from instances of TE_TARGET;
 create object instance te_aba of TE_ABA;
 te_aba.SelfEventCount = 0;
@@ -3055,7 +3057,7 @@ te_aba.GeneratedName = name;
 te_aba.ReturnDataType = te_dt.ExtName;
 te_aba.dimensions = 0;
 // In the C model compiler, treat strings as arrays.
-if ( 4 == te_dt.Core_Typ )
+if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
   // string
   select any te_string from instances of TE_STRING;
   te_aba.dimensions = te_aba.dimensions + 1;
@@ -3108,11 +3110,14 @@ end while;
 te_parm.array_spec = array_spec;
 // In the C model compiler, treat strings as arrays.
 if ( 4 == te_dt.Core_Typ )
-  // string
-  select any te_string from instances of TE_STRING;
-  te_parm.dimensions = te_parm.dimensions + 1;
-  te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" );
-  // In C (and other languages) arrays are never values but references.
+  select any te_sys from instances of TE_SYS;
+  if ( not te_sys.InstanceLoading )
+    // string
+    select any te_string from instances of TE_STRING;
+    te_parm.dimensions = te_parm.dimensions + 1;
+    te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" );
+  end if;
+  // strings are already by-ref
   te_parm.By_Ref = 0;
 end if;
 return te_parm;
@@ -3312,8 +3317,6 @@ for each te_c in te_cs
   ::TE_C_mark_nested_system( te_cs:nested_te_cs );
   select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054];
   ::TE_C_mark_nested_system( te_cs:nested_te_cs );
-  // TODO - SKB: What about components that are nested under package(s) inside this component?  The above 2
-  // traversals assume the nested component or component reference is right under the component we're processing.
 end for;
 @@@
 TE_C_getContainingComponent@inst_ref<Extended Component>@@ep_pkg@inst_ref<Package>@@@
@@ -3547,7 +3550,11 @@ te_ees = param.te_ees;
 // Declare an empty instance reference.
 select any head_te_ee related by te_ees->TE_EE[R2096.'succeeds'] where ( false );
 for each te_ee in te_ees
-  end for;
+  select one next_te_ee related by te_ee->TE_EE[R2096.'succeeds'];
+  if ( not_empty next_te_ee )
+    unrelate te_ee from te_ee across R2096.'succeeds';
+  end if;
+end for;
 for each te_ee in te_ees
   r = ::ee_insert( head_te_ee:head_te_ee, te_ee:te_ee );
   head_te_ee = r;
@@ -3670,7 +3677,7 @@ if ( not_empty v_pars )
           end if;
         end if;
         if ( stringbody )
-          te_par.buffer = ( "v_sretval" + invocation_flavor ) + T::s(i:item_number);
+          te_par.buffer = ( "v_sretval" + T::s(i:v_par.labelLineNumber) ) + ( invocation_flavor + T::s(i:v_par.labelColumn) );
           select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
           te_blk.declaration = ( ( ( te_blk.declaration + te_dt.ExtName ) + ( " " + te_par.buffer ) ) + ( "[" + te_string.max_string_length ) ) + "];";
           code = ( ( code + te_string.strcpy ) + ( "( " + te_par.buffer ) ) + ", ";

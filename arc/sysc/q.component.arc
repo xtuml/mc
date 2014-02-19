@@ -835,7 +835,7 @@ ${port_action.body}
             .end for
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_${te_parm.Name}_MEM_OFFSET"
-            .assign memory_description = "${memory_name} description ${te_mact.Description} - ${te_parm.Description} field"
+            .assign memory_description = "${memory_name} description ${te_mact.Descrip} - ${te_parm.Descrip} field"
             .assign attr_register_declaration = attr_register_declaration + "  declare_memory ${memory_name} ${te_po.name}_i ${memory_offset_name} ${memory_size}\n"
           .elif (not_empty te_dim)
             .assign memory_size = te_dim.elementCount
@@ -843,14 +843,14 @@ ${port_action.body}
             .assign memory_size = memory_size * 4
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_${te_parm.Name}_MEM_OFFSET"
-            .assign memory_description = "${memory_name} description ${te_mact.Description} - ${te_parm.Description} field"
+            .assign memory_description = "${memory_name} description ${te_mact.Descrip} - ${te_parm.Descrip} field"
             .assign attr_register_declaration = attr_register_declaration + "  declare_memory ${memory_name} ${te_po.name}_i ${memory_offset_name} ${memory_size}\n"
-          .elif ( "c_t" == te_dt.ExtName )
+          .elif ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
             .select any te_sys from instances of TE_SYS
             .assign memory_size = te_sys.MaxStringLen;
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
             .assign memory_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_${te_parm.Name}_MEM_OFFSET"
-            .assign memory_description = "${memory_name} description ${te_mact.Description} - ${te_parm.Description} field"
+            .assign memory_description = "${memory_name} description ${te_mact.Descrip} - ${te_parm.Descrip} field"
             .assign attr_register_declaration = attr_register_declaration + "  declare_memory ${memory_name} ${te_po.name}_i ${memory_offset_name} ${memory_size}\n"
           .else
             .assign register_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_${te_parm.Name}"
@@ -875,8 +875,8 @@ ${port_action.body}
             .assign memory_description = "${memory_name} description field"
             .assign attr_register_declaration = attr_register_declaration + "  declare_memory ${memory_name} ${te_po.name}_i ${memory_offset_name} ${memory_size}\n"
           .//.elif (not_empty te_dim)
-            .// returning array till not supported
-          .elif ( "c_t *" == te_aba.ReturnDataType )
+            .// returning array here not supported
+          .elif ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
             .select any te_sys from instances of TE_SYS
             .assign memory_size = te_sys.MaxStringLen;
             .assign memory_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_return"
@@ -887,7 +887,7 @@ ${port_action.body}
             .assign register_name = "${te_c.Name}_${te_po.Name}_${te_mact.MessageName}_return"
             .assign register_offset_name = "$r{c_i.Name}_${direction}_${te_mact.MessageName}_return_REG_OFFSET"
             .assign register_width = 32
-            .assign register_description = "${te_mact.Description}"
+            .assign register_description = "${te_mact.Descrip}"
             .assign attr_register_declaration = attr_register_declaration + "  declare_register ${te_po.name}_i ${register_name} ${register_offset_name} {} -rw_access r/w -width 32\n"
           .end if
         .end if

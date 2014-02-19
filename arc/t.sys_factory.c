@@ -76,9 +76,6 @@ ${te_instance.get_dci}(class_num);
     instance->${te_instance.current_state} = dci->${te_extent.istate_name};
   }
 .if ( te_sys.InstanceLoading )
-  if ( 0 != dci->initial_state ) {
-    instance->current_state = dci->initial_state;
-  }
   if ( 0 == dci->active.head ) {
     dci->${te_extent.active}.head = node;
   } else {

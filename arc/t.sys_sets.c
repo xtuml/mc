@@ -422,8 +422,15 @@ c_t *
 ${te_set.scope}${te_string.strcpy}( c_t * dst, const c_t * src )
 {
   c_t * s = dst;
+.if ( te_sys.InstanceLoading )
+  if ( 0 != src ) {
+    i_t i = ${te_set.scope}${te_string.strlen}( src ) + 1;
+    s = ${te_set.scope}${te_dma.allocate}( i );
+    dst = s;
+.else
   s2_t i = ${te_string.max_string_length} - 1;
   if ( ( 0 != src ) && ( 0 != dst ) ) {
+.end if
     while ( ( i > 0 ) && ( *src != '\0' ) ) {
       --i;
       *dst++ = *src++;
@@ -442,6 +449,8 @@ ${te_set.scope}${te_string.stradd}( const c_t * left, const c_t * right )
   s2_t i = ${te_string.max_string_length} - 1;
   c_t * s = ${te_set.scope}${te_string.strget}();
   c_t * dst = s;
+  if ( 0 == left ) left = "";
+  if ( 0 == right ) right = "";
   while ( ( i > 0 ) && ( *left != '\0' ) ) {
     --i;
     *dst++ = *left++;
@@ -466,7 +475,11 @@ ${te_set.scope}${te_string.strcmp}( const c_t *p1, const c_t *p2 )
   const c_t *s1 = p1;
   const c_t *s2 = p2;
   c_t c1, c2;
-  s2_t i = ${te_string.max_string_length};
+  i_t i = ${te_string.max_string_length};
+.if ( te_sys.InstanceLoading )
+  if ( 0 == p1 ) s1 = "";
+  if ( 0 == p2 ) s2 = "";
+.end if
   do {
     c1 = *s1++;
     c2 = *s2++;
@@ -489,15 +502,15 @@ ${te_set.scope}${te_string.strget}( void )
   return ( &s[ i ][ 0 ] );
 }
 
-.if ( te_sys.InstanceLoading )
+.if ( ( te_sys.InstanceLoading ) or ( 0 != te_sys.UnitsToDynamicallyAllocate ) )
 /*
  * Measure the length of the given string.
  */
-u2_t
+i_t
 ${te_set.scope}${te_string.strlen}( const c_t * s )
 {
-  u2_t len = 0;
-  s2_t i = ${te_string.max_string_length} * 4;
+  i_t len = 0;
+  i_t i = ${te_string.max_string_length} * 4;
   if ( s != 0 ) {
     while ( ( *s != 0 ) && ( i >= 0 ) ) {
       s++;
@@ -508,6 +521,8 @@ ${te_set.scope}${te_string.strlen}( const c_t * s )
   return len;
 }
 
+.end if
+.if ( te_sys.InstanceLoading )
 #define ${te_prefix.define_u}ATOI_RADIX 10
 c_t *
 ${te_set.scope}${te_string.itoa}( c_t * string, s4_t value )
@@ -601,6 +616,10 @@ ${te_set.scope}${te_dma.allocate}( const u4_t b )
   } 
   .else
   new_mem = malloc( bytes );
+  if ( 0 == new_mem ) {
+    // fprintf( stderr, "Escher_malloc:  out of memory\n" );
+    // exit( 1 );
+  }
   .end if
 
   return new_mem;

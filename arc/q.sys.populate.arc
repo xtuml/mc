@@ -327,7 +327,7 @@
           .end if
         .end if
         .if ( not_empty foreign_te_iir )
-          .// relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
+          .// relate te_iir to foreign_te_iir across R2081.'requires or delegates';
           .assign foreign_te_iir.provider_te_iirID = te_iir.ID
           .// end relate
         .end if
@@ -344,7 +344,7 @@
           .end if
         .end if
         .if ( not_empty foreign_te_iir )
-          .// relate te_iir to foreign_te_iir across R2081.'requires or delegates';
+          .// relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
           .assign te_iir.provider_te_iirID = foreign_te_iir.ID
           .// end relate
         .end if
@@ -549,6 +549,9 @@
     .elif ( 4 == te_dt.Core_Typ )
       .// string
       .assign te_dt.ExtName = "c_t"
+      .if ( te_sys.InstanceLoading )
+        .assign te_dt.ExtName = "c_t *"
+      .end if
       .assign te_dt.Initial_Value = "CTOR"
       .assign te_dt.string_format = "%s"
     .elif ( 5 == te_dt.Core_Typ )
@@ -742,7 +745,7 @@
       .assign te_mbr.array_spec = array_spec
       .// In the C model compiler, treat strings as arrays.
       .select one mbr_te_dt related by s_mbr->S_DT[R45]->TE_DT[R2021]
-      .if ( 4 == mbr_te_dt.Core_Typ )
+      .if ( ( 4 == mbr_te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
         .// string
         .assign te_mbr.dimensions = te_mbr.dimensions + 1
         .assign te_mbr.array_spec = ( te_mbr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
@@ -774,8 +777,7 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_precision.DT_name )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_precision.Domain )
-      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_precision.DT_name )
+      .select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_precision.DT_name )
     .end if
     .for each te_dt in te_dts
       .// Only allow precision specification of core types integer
@@ -831,8 +833,7 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_pointer.DT_name )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_pointer.Domain )
-      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_pointer.DT_name )
+      .select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_pointer.DT_name )
     .end if
     .for each te_dt in te_dts
       .assign te_dt.ExtName = tm_pointer.pointer_type + " *"
@@ -854,8 +855,7 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_enumval.enumeration )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_enumval.Domain )
-      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_enumval.enumeration )
+      .select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_enumval.enumeration )
     .end if
     .for each te_dt in te_dts
       .select any te_enum related by te_dt->S_DT[R2021]->S_EDT[R17]->S_ENUM[R27]->TE_ENUM[R2027] where ( selected.Name == tm_enumval.enumerator )
@@ -873,8 +873,7 @@
       .select many te_dts from instances of TE_DT where ( selected.Name == tm_enuminit.enumeration )
     .else
       .select any te_c from instances of TE_C where ( selected.Name == tm_enuminit.Domain )
-      .// TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-      .select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021] where ( selected.Name == tm_enuminit.enumeration )
+      .select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_enuminit.enumeration )
     .end if
     .for each te_dt in te_dts
       .assign te_dt.Value = tm_enuminit.value
@@ -1233,6 +1232,7 @@
     .assign te_oir.data_member = ( o_obj.Key_Lett + "_R" ) + "$t{r_rel.Numb}"
     .assign te_oir.assoc_type = ""
     .assign te_oir.Mult = 0
+    .assign te_oir.rel_phrase = ""
     .assign te_oir.object_id = ""
     .assign te_oir.NavigatedTo = false
     .// relate r_oir to te_oir across R2035;
@@ -1482,7 +1482,7 @@
     .select one te_dt related by v_var->S_DT[R848]->TE_DT[R2021]
     .if ( not_empty te_dt )
       .// In the C model compiler, treat strings as arrays.
-      .if ( 4 == te_dt.Core_Typ )
+      .if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
         .// string
         .assign te_var.dimensions = te_var.dimensions + 1
         .assign te_var.array_spec = ( te_var.array_spec + "[" ) + ( te_string.max_string_length + "]" )
@@ -1546,6 +1546,9 @@
     .//
     .// Create the Generated External Entity instances and link them in.
     .select many te_ees related by te_c->TE_EE[R2085]
+    .for each te_ee in te_ees
+      .invoke TE_EE_init( te_ee, te_c )
+    .end for
     .invoke r1 = ee_sort( te_ees )
     .assign te_ee = r1.result
     .if ( not_empty te_ee )
@@ -1553,9 +1556,6 @@
       .assign te_c.first_eeID = te_ee.ID
       .// end relate
     .end if
-    .for each te_ee in te_ees
-      .invoke TE_EE_init( te_ee, te_c )
-    .end for
     .//
     .// Initialize the Generated Class instances.
     .select many te_classs related by te_c->TE_CLASS[R2064]
@@ -1661,14 +1661,14 @@
           .elif ( "%s" == te_dt.string_format )
             .// Place an escaped tick mark around the %s in the attribute format string.
             .assign te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''" + te_dt.string_format ) ) + "''"
-            .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
+            .assign te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( ( te_attr.GeneratedName + " : """ ) + """" ) )
           .else
             .assign te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format
             .assign te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName
           .end if
         .end if
         .// In the C model compiler, treat strings as arrays.
-        .if ( 4 == te_dt.Core_Typ )
+        .if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) ) 
           .// string
           .assign te_attr.dimensions = te_attr.dimensions + 1
           .assign te_attr.array_spec = ( te_attr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
@@ -1786,6 +1786,7 @@
   .assign te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett
   .assign te_class.CBGeneratedName = te_class.GeneratedName + "_CB"
   .assign te_class.scope = ""
+  .assign te_class.attribute_format = ""
   .assign te_class.nextID = 00
   .assign attr_result = te_class
 .end function
@@ -2179,6 +2180,7 @@
   .param string name
   .param string subtypeKL
   .param inst_ref te_dt
+  .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .create object instance te_aba of TE_ABA
   .assign te_aba.SelfEventCount = 0
@@ -2254,7 +2256,7 @@
   .assign te_aba.ReturnDataType = te_dt.ExtName
   .assign te_aba.dimensions = 0
   .// In the C model compiler, treat strings as arrays.
-  .if ( 4 == te_dt.Core_Typ )
+  .if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
     .// string
     .select any te_string from instances of TE_STRING
     .assign te_aba.dimensions = te_aba.dimensions + 1
@@ -2314,11 +2316,14 @@
   .assign te_parm.array_spec = array_spec
   .// In the C model compiler, treat strings as arrays.
   .if ( 4 == te_dt.Core_Typ )
-    .// string
-    .select any te_string from instances of TE_STRING
-    .assign te_parm.dimensions = te_parm.dimensions + 1
-    .assign te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" )
-    .// In C (and other languages) arrays are never values but references.
+    .select any te_sys from instances of TE_SYS
+    .if ( not te_sys.InstanceLoading )
+      .// string
+      .select any te_string from instances of TE_STRING
+      .assign te_parm.dimensions = te_parm.dimensions + 1
+      .assign te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" )
+    .end if
+    .// strings are already by-ref
     .assign te_parm.By_Ref = 0
   .end if
   .assign attr_result = te_parm
@@ -2536,8 +2541,6 @@
     .invoke TE_C_mark_nested_system( nested_te_cs )
     .select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054]
     .invoke TE_C_mark_nested_system( nested_te_cs )
-    .// TODO - SKB: What about components that are nested under package(s) inside this component?  The above 2
-    .// traversals assume the nested component or component reference is right under the component we're processing.
   .end for
 .end function
 .//
@@ -2798,7 +2801,12 @@
   .// Declare an empty instance reference.
   .select any head_te_ee related by te_ees->TE_EE[R2096.'succeeds'] where ( false )
   .for each te_ee in te_ees
-    .assign te_ee.nextID = 00
+    .select one next_te_ee related by te_ee->TE_EE[R2096.'succeeds']
+    .if ( not_empty next_te_ee )
+      .// unrelate te_ee from te_ee across R2096.'succeeds';
+      .assign te_ee.nextID = 00
+      .// end unrelate
+    .end if
   .end for
   .for each te_ee in te_ees
     .invoke r = ee_insert( head_te_ee, te_ee )
