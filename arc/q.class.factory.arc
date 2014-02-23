@@ -268,6 +268,10 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
             .select one r_part related by r_rto->R_PART[R204]
             .if ( not_empty r_part )
               .assign rel_phrase = r_part.Txt_Phrs
+              .// If reflexive, reverse the text phrase.
+              .if ( r_part.Obj_ID == r_form.Obj_ID )
+                .assign rel_phrase = r_form.Txt_Phrs
+              .end if
             .end if
           .else
             .select one r_aone related by r_rto->R_AONE[R204]
@@ -288,8 +292,8 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
       .if ( navigation_needed or te_rel.LinkNeeded )
         .if ( batch_relate )
   if ( ${null_test} ) {
-      .invoke r = GetRelateToName( o_obj, r_rel, rel_phrase )
-      .assign method = r.result
+          .invoke r = GetRelateToName( o_obj, r_rel, rel_phrase )
+          .assign method = r.result
     ${method}( ${parameters}, ${te_class.GeneratedName}_instance );
   }
         .end if
