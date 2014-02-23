@@ -570,7 +570,7 @@ for each te_c in te_cs
   end for;
 end for;
 @@@
-    MarkAsChannel@void@@package_name@string@@component_name@string@@inc_file@string@@@
+MarkAsChannel@void@@package_name@string@@component_name@string@@inc_file@string@@@
 //============================================================================
 // $RCSfile: m.component.arc,v $
 //
@@ -1293,7 +1293,7 @@ package_name = param.package_name;
 T::print(s:"AssignDirectToUDTPackage is not a supported marking function.");
 T::exit(i:1);
 @@@
-     TagFunctionTranslationOff@void@@function_name@string@@@
+TagFunctionTranslationOff@void@@function_name@string@@@
 //============================================================================
 // $RCSfile: m.domain.arc,v $
 //
@@ -1650,7 +1650,7 @@ for each te_po in te_pos
         sibling_te_iir.port_name = port;
         sibling_te_iir.interface_name = te_po.InterfaceName;
         sibling_te_iir.polymorphic = false;
-                                relate sibling_te_iir to te_iir across R2081.'provides or is delegated';
+                                relate sibling_te_iir to te_iir across R2081.'requires or delegates';
       end if;
     else
       select one sibling_te_iir related by te_iir->TE_IIR[R2081.'requires or delegates'];
@@ -1660,7 +1660,7 @@ for each te_po in te_pos
         sibling_te_iir.port_name = port;
         sibling_te_iir.interface_name = te_po.InterfaceName;
         sibling_te_iir.polymorphic = false;
-                                relate sibling_te_iir to te_iir across R2081.'provides or is delegated';
+                                relate sibling_te_iir to te_iir across R2081.'requires or delegates';
       end if;
     end if;
   end for;
