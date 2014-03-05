@@ -65,7 +65,7 @@ void ooaofooa_I_EVI_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_I_EVI * ooaofooa_I_EVIrelated_instance1 = (ooaofooa_I_EVI *) Escher_instance_cache[ (intptr_t) ooaofooa_I_EVI_instance->nextEvent_ID ];
   if ( ooaofooa_I_EVIrelated_instance1 ) {
-    ooaofooa_I_EVI_R2908_Link_will_be_processed_after( ooaofooa_I_EVIrelated_instance1, ooaofooa_I_EVI_instance );
+    ooaofooa_I_EVI_R2908_Link_will_be_processed_before( ooaofooa_I_EVIrelated_instance1, ooaofooa_I_EVI_instance );
   }
   }
   {
@@ -89,7 +89,7 @@ void ooaofooa_I_EVI_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_I_EVI * ooaofooa_I_EVIrelated_instance1 = (ooaofooa_I_EVI *) Escher_instance_cache[ (intptr_t) ooaofooa_I_EVI_instance->next_self_Event_ID ];
   if ( ooaofooa_I_EVIrelated_instance1 ) {
-    ooaofooa_I_EVI_R2939_Link_will_be_processed_before( ooaofooa_I_EVIrelated_instance1, ooaofooa_I_EVI_instance );
+    ooaofooa_I_EVI_R2939_Link_will_be_processed_after( ooaofooa_I_EVIrelated_instance1, ooaofooa_I_EVI_instance );
   }
   }
   {
@@ -178,7 +178,7 @@ void
 ooaofooa_I_EVI_R2908_Link_will_be_processed_after( ooaofooa_I_EVI * left, ooaofooa_I_EVI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->nextEvent_ID = left->Event_ID;
+  left->nextEvent_ID = right->Event_ID;
   left->I_EVI_R2908_will_be_processed_after = right; /* SR L1 */
   right->I_EVI_R2908_will_be_processed_before = left; /* SR L2 */
 }
@@ -190,7 +190,7 @@ void
 ooaofooa_I_EVI_R2908_Unlink_will_be_processed_after( ooaofooa_I_EVI * left, ooaofooa_I_EVI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->nextEvent_ID = 0;
+  left->nextEvent_ID = 0;
   left->I_EVI_R2908_will_be_processed_after = 0; /* SR U1 */
   right->I_EVI_R2908_will_be_processed_before = 0; /* SR U2 */
 }
@@ -202,7 +202,7 @@ void
 ooaofooa_I_EVI_R2908_Link_will_be_processed_before( ooaofooa_I_EVI * left, ooaofooa_I_EVI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->nextEvent_ID = right->Event_ID;
+  right->nextEvent_ID = left->Event_ID;
   right->I_EVI_R2908_will_be_processed_after = left; /* SR L4 */
   left->I_EVI_R2908_will_be_processed_before = right; /* SR L5 */
 }
@@ -214,7 +214,7 @@ void
 ooaofooa_I_EVI_R2908_Unlink_will_be_processed_before( ooaofooa_I_EVI * left, ooaofooa_I_EVI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->nextEvent_ID = 0;
+  right->nextEvent_ID = 0;
   right->I_EVI_R2908_will_be_processed_after = 0; /* SR U4 */
   left->I_EVI_R2908_will_be_processed_before = 0; /* SR U5 */
 }
@@ -321,7 +321,7 @@ void
 ooaofooa_I_EVI_R2939_Link_will_be_processed_before( ooaofooa_I_EVI * left, ooaofooa_I_EVI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->next_self_Event_ID = left->Event_ID;
+  left->next_self_Event_ID = right->Event_ID;
   left->I_EVI_R2939_will_be_processed_before = right; /* SR L1 */
   right->I_EVI_R2939_will_be_processed_after = left; /* SR L2 */
 }
@@ -333,7 +333,7 @@ void
 ooaofooa_I_EVI_R2939_Unlink_will_be_processed_before( ooaofooa_I_EVI * left, ooaofooa_I_EVI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->next_self_Event_ID = 0;
+  left->next_self_Event_ID = 0;
   left->I_EVI_R2939_will_be_processed_before = 0; /* SR U1 */
   right->I_EVI_R2939_will_be_processed_after = 0; /* SR U2 */
 }
@@ -345,7 +345,7 @@ void
 ooaofooa_I_EVI_R2939_Link_will_be_processed_after( ooaofooa_I_EVI * left, ooaofooa_I_EVI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->next_self_Event_ID = right->Event_ID;
+  right->next_self_Event_ID = left->Event_ID;
   right->I_EVI_R2939_will_be_processed_before = left; /* SR L4 */
   left->I_EVI_R2939_will_be_processed_after = right; /* SR L5 */
 }
@@ -357,7 +357,7 @@ void
 ooaofooa_I_EVI_R2939_Unlink_will_be_processed_after( ooaofooa_I_EVI * left, ooaofooa_I_EVI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->next_self_Event_ID = 0;
+  right->next_self_Event_ID = 0;
   right->I_EVI_R2939_will_be_processed_before = 0; /* SR U4 */
   left->I_EVI_R2939_will_be_processed_after = 0; /* SR U5 */
 }

@@ -45,7 +45,7 @@ void ooaofooa_I_EQE_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_I_EQE * ooaofooa_I_EQErelated_instance1 = (ooaofooa_I_EQE *) Escher_instance_cache[ (intptr_t) ooaofooa_I_EQE_instance->Next_Event_Queue_Entry_ID ];
   if ( ooaofooa_I_EQErelated_instance1 ) {
-    ooaofooa_I_EQE_R2945_Link_follows( ooaofooa_I_EQErelated_instance1, ooaofooa_I_EQE_instance );
+    ooaofooa_I_EQE_R2945_Link_precedes( ooaofooa_I_EQErelated_instance1, ooaofooa_I_EQE_instance );
   }
   }
 }
@@ -106,7 +106,7 @@ void
 ooaofooa_I_EQE_R2945_Link_follows( ooaofooa_I_EQE * left, ooaofooa_I_EQE * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Next_Event_Queue_Entry_ID = left->Event_Queue_Entry_ID;
+  left->Next_Event_Queue_Entry_ID = right->Event_Queue_Entry_ID;
   left->I_EQE_R2945_follows = right; /* SR L1 */
   right->I_EQE_R2945_precedes = left; /* SR L2 */
 }
@@ -118,7 +118,7 @@ void
 ooaofooa_I_EQE_R2945_Unlink_follows( ooaofooa_I_EQE * left, ooaofooa_I_EQE * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Next_Event_Queue_Entry_ID = 0;
+  left->Next_Event_Queue_Entry_ID = 0;
   left->I_EQE_R2945_follows = 0; /* SR U1 */
   right->I_EQE_R2945_precedes = 0; /* SR U2 */
 }
@@ -130,7 +130,7 @@ void
 ooaofooa_I_EQE_R2945_Link_precedes( ooaofooa_I_EQE * left, ooaofooa_I_EQE * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Next_Event_Queue_Entry_ID = right->Event_Queue_Entry_ID;
+  right->Next_Event_Queue_Entry_ID = left->Event_Queue_Entry_ID;
   right->I_EQE_R2945_follows = left; /* SR L4 */
   left->I_EQE_R2945_precedes = right; /* SR L5 */
 }
@@ -142,7 +142,7 @@ void
 ooaofooa_I_EQE_R2945_Unlink_precedes( ooaofooa_I_EQE * left, ooaofooa_I_EQE * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Next_Event_Queue_Entry_ID = 0;
+  right->Next_Event_Queue_Entry_ID = 0;
   right->I_EQE_R2945_follows = 0; /* SR U4 */
   left->I_EQE_R2945_precedes = 0; /* SR U5 */
 }

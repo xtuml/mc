@@ -39,7 +39,7 @@ void ooaofooa_TE_DIM_batch_relate( Escher_iHandle_t instance )
   ooaofooa_TE_DIM * ooaofooa_TE_DIM_instance = (ooaofooa_TE_DIM *) instance;
   ooaofooa_TE_DIM * ooaofooa_TE_DIMrelated_instance1 = (ooaofooa_TE_DIM *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_DIM_instance->next_te_dimID ];
   if ( ooaofooa_TE_DIMrelated_instance1 ) {
-    ooaofooa_TE_DIM_R2060_Link( ooaofooa_TE_DIMrelated_instance1, ooaofooa_TE_DIM_instance );
+    ooaofooa_TE_DIM_R2060_Link_succeeds( ooaofooa_TE_DIMrelated_instance1, ooaofooa_TE_DIM_instance );
   }
 }
 
@@ -62,26 +62,26 @@ ooaofooa_TE_DIM_AnyWhere1( Escher_UniqueID_t w_te_dimID )
 
 
 /*
- * RELATE <left> TE_DIM TO <right> TE_DIM ACROSS R2060.''
+ * RELATE <left> TE_DIM TO <right> TE_DIM ACROSS R2060.'precedes'
  */
 void
-ooaofooa_TE_DIM_R2060_Link( ooaofooa_TE_DIM * left, ooaofooa_TE_DIM * right )
+ooaofooa_TE_DIM_R2060_Link_precedes( ooaofooa_TE_DIM * left, ooaofooa_TE_DIM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->next_te_dimID = left->te_dimID;
-  left->TE_DIM_R2060 = right; /* SR L1 */
+  left->next_te_dimID = right->te_dimID;
+  left->TE_DIM_R2060_precedes = right; /* SR L1 */
   right->TE_DIM_R2060_succeeds = left; /* SR L2 */
 }
 
 /*
- * UNRELATE <left> TE_DIM FROM <right> TE_DIM ACROSS R2060.''
+ * UNRELATE <left> TE_DIM FROM <right> TE_DIM ACROSS R2060.'precedes'
  */
 void
-ooaofooa_TE_DIM_R2060_Unlink( ooaofooa_TE_DIM * left, ooaofooa_TE_DIM * right )
+ooaofooa_TE_DIM_R2060_Unlink_precedes( ooaofooa_TE_DIM * left, ooaofooa_TE_DIM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->next_te_dimID = 0;
-  left->TE_DIM_R2060 = 0; /* SR U1 */
+  left->next_te_dimID = 0;
+  left->TE_DIM_R2060_precedes = 0; /* SR U1 */
   right->TE_DIM_R2060_succeeds = 0; /* SR U2 */
 }
 
@@ -92,8 +92,8 @@ void
 ooaofooa_TE_DIM_R2060_Link_succeeds( ooaofooa_TE_DIM * left, ooaofooa_TE_DIM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->next_te_dimID = right->te_dimID;
-  right->TE_DIM_R2060 = left; /* SR L4 */
+  right->next_te_dimID = left->te_dimID;
+  right->TE_DIM_R2060_precedes = left; /* SR L4 */
   left->TE_DIM_R2060_succeeds = right; /* SR L5 */
 }
 
@@ -104,8 +104,8 @@ void
 ooaofooa_TE_DIM_R2060_Unlink_succeeds( ooaofooa_TE_DIM * left, ooaofooa_TE_DIM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->next_te_dimID = 0;
-  right->TE_DIM_R2060 = 0; /* SR U4 */
+  right->next_te_dimID = 0;
+  right->TE_DIM_R2060_precedes = 0; /* SR U4 */
   left->TE_DIM_R2060_succeeds = 0; /* SR U5 */
 }
 

@@ -56,7 +56,7 @@ void ooaofooa_S_MBR_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_S_MBR * ooaofooa_S_MBRrelated_instance1 = ooaofooa_S_MBR_AnyWhere1( ooaofooa_S_MBR_instance->Previous_Member_ID, ooaofooa_S_MBR_instance->Parent_DT_DT_ID );
   if ( ooaofooa_S_MBRrelated_instance1 ) {
-    ooaofooa_S_MBR_R46_Link_succeeds( ooaofooa_S_MBRrelated_instance1, ooaofooa_S_MBR_instance );
+    ooaofooa_S_MBR_R46_Link_precedes( ooaofooa_S_MBRrelated_instance1, ooaofooa_S_MBR_instance );
   }
   }
 }
@@ -133,8 +133,8 @@ void
 ooaofooa_S_MBR_R46_Link_succeeds( ooaofooa_S_MBR * left, ooaofooa_S_MBR * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_Member_ID = left->Member_ID;
-  right->Parent_DT_DT_ID = left->Parent_DT_DT_ID;
+  left->Previous_Member_ID = right->Member_ID;
+  left->Parent_DT_DT_ID = right->Parent_DT_DT_ID;
   left->S_MBR_R46_succeeds = right; /* SR L1 */
   right->S_MBR_R46_precedes = left; /* SR L2 */
 }
@@ -146,7 +146,7 @@ void
 ooaofooa_S_MBR_R46_Unlink_succeeds( ooaofooa_S_MBR * left, ooaofooa_S_MBR * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_Member_ID = 0;
+  left->Previous_Member_ID = 0;
   left->S_MBR_R46_succeeds = 0; /* SR U1 */
   right->S_MBR_R46_precedes = 0; /* SR U2 */
 }
@@ -158,8 +158,8 @@ void
 ooaofooa_S_MBR_R46_Link_precedes( ooaofooa_S_MBR * left, ooaofooa_S_MBR * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_Member_ID = right->Member_ID;
-  left->Parent_DT_DT_ID = right->Parent_DT_DT_ID;
+  right->Previous_Member_ID = left->Member_ID;
+  right->Parent_DT_DT_ID = left->Parent_DT_DT_ID;
   right->S_MBR_R46_succeeds = left; /* SR L4 */
   left->S_MBR_R46_precedes = right; /* SR L5 */
 }
@@ -171,7 +171,7 @@ void
 ooaofooa_S_MBR_R46_Unlink_precedes( ooaofooa_S_MBR * left, ooaofooa_S_MBR * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_Member_ID = 0;
+  right->Previous_Member_ID = 0;
   right->S_MBR_R46_succeeds = 0; /* SR U4 */
   left->S_MBR_R46_precedes = 0; /* SR U5 */
 }

@@ -41,7 +41,7 @@ void ooaofooa_ACT_SMT_batch_relate( Escher_iHandle_t instance )
   ooaofooa_ACT_SMT * ooaofooa_ACT_SMT_instance = (ooaofooa_ACT_SMT *) instance;
   ooaofooa_ACT_SMT * ooaofooa_ACT_SMTrelated_instance1 = ooaofooa_ACT_SMT_AnyWhere2( ooaofooa_ACT_SMT_instance->Previous_Statement_ID, ooaofooa_ACT_SMT_instance->Block_ID );
   if ( ooaofooa_ACT_SMTrelated_instance1 ) {
-    ooaofooa_ACT_SMT_R661_Link_succeeds( ooaofooa_ACT_SMTrelated_instance1, ooaofooa_ACT_SMT_instance );
+    ooaofooa_ACT_SMT_R661_Link_precedes( ooaofooa_ACT_SMTrelated_instance1, ooaofooa_ACT_SMT_instance );
   }
   {
   ooaofooa_ACT_BLK * ooaofooa_ACT_BLKrelated_instance1 = (ooaofooa_ACT_BLK *) Escher_instance_cache[ (intptr_t) ooaofooa_ACT_SMT_instance->Block_ID ];
@@ -119,8 +119,8 @@ void
 ooaofooa_ACT_SMT_R661_Link_succeeds( ooaofooa_ACT_SMT * left, ooaofooa_ACT_SMT * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_Statement_ID = left->Statement_ID;
-  right->Block_ID = left->Block_ID;
+  left->Previous_Statement_ID = right->Statement_ID;
+  left->Block_ID = right->Block_ID;
   left->ACT_SMT_R661_succeeds = right; /* SR L1 */
   right->ACT_SMT_R661_precedes = left; /* SR L2 */
 }
@@ -132,7 +132,7 @@ void
 ooaofooa_ACT_SMT_R661_Unlink_succeeds( ooaofooa_ACT_SMT * left, ooaofooa_ACT_SMT * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_Statement_ID = 0;
+  left->Previous_Statement_ID = 0;
   left->ACT_SMT_R661_succeeds = 0; /* SR U1 */
   right->ACT_SMT_R661_precedes = 0; /* SR U2 */
 }
@@ -144,8 +144,8 @@ void
 ooaofooa_ACT_SMT_R661_Link_precedes( ooaofooa_ACT_SMT * left, ooaofooa_ACT_SMT * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_Statement_ID = right->Statement_ID;
-  left->Block_ID = right->Block_ID;
+  right->Previous_Statement_ID = left->Statement_ID;
+  right->Block_ID = left->Block_ID;
   right->ACT_SMT_R661_succeeds = left; /* SR L4 */
   left->ACT_SMT_R661_precedes = right; /* SR L5 */
 }
@@ -157,7 +157,7 @@ void
 ooaofooa_ACT_SMT_R661_Unlink_precedes( ooaofooa_ACT_SMT * left, ooaofooa_ACT_SMT * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_Statement_ID = 0;
+  right->Previous_Statement_ID = 0;
   right->ACT_SMT_R661_succeeds = 0; /* SR U4 */
   left->ACT_SMT_R661_precedes = 0; /* SR U5 */
 }

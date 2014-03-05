@@ -267,10 +267,8 @@ void ${te_class.GeneratedName}_batch_relate( ${te_instance.handle} instance )
             .assign parameters = "${part_te_class.GeneratedName}related_instance$t{r_rto_count}"
             .select one r_part related by r_rto->R_PART[R204]
             .if ( not_empty r_part )
-              .assign rel_phrase = r_part.Txt_Phrs
-              .// If reflexive, reverse the text phrase.
-              .if ( r_part.Obj_ID == r_form.Obj_ID )
-                .assign rel_phrase = r_form.Txt_Phrs
+              .if ( r_form.Obj_ID != r_part.Obj_ID )
+                .assign rel_phrase = r_part.Txt_Phrs
               .end if
             .end if
           .else

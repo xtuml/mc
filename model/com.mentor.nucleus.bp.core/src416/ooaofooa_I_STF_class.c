@@ -62,7 +62,7 @@ void ooaofooa_I_STF_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_I_STF * ooaofooa_I_STFrelated_instance1 = (ooaofooa_I_STF *) Escher_instance_cache[ (intptr_t) ooaofooa_I_STF_instance->Child_Stack_Frame_ID ];
   if ( ooaofooa_I_STFrelated_instance1 ) {
-    ooaofooa_I_STF_R2928_Link_next_context( ooaofooa_I_STFrelated_instance1, ooaofooa_I_STF_instance );
+    ooaofooa_I_STF_R2928_Link_previous_context( ooaofooa_I_STFrelated_instance1, ooaofooa_I_STF_instance );
   }
   }
   {
@@ -74,7 +74,7 @@ void ooaofooa_I_STF_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_I_STF * ooaofooa_I_STFrelated_instance1 = (ooaofooa_I_STF *) Escher_instance_cache[ (intptr_t) ooaofooa_I_STF_instance->Blocking_Stack_Frame_ID ];
   if ( ooaofooa_I_STFrelated_instance1 ) {
-    ooaofooa_I_STF_R2965_Link_blocked_by( ooaofooa_I_STFrelated_instance1, ooaofooa_I_STF_instance );
+    ooaofooa_I_STF_R2965_Link_blocks( ooaofooa_I_STFrelated_instance1, ooaofooa_I_STF_instance );
   }
   }
 }
@@ -104,7 +104,7 @@ void
 ooaofooa_I_STF_R2928_Link_next_context( ooaofooa_I_STF * left, ooaofooa_I_STF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Child_Stack_Frame_ID = left->Stack_Frame_ID;
+  left->Child_Stack_Frame_ID = right->Stack_Frame_ID;
   left->I_STF_R2928_next_context = right; /* SR L1 */
   right->I_STF_R2928_previous_context = left; /* SR L2 */
 }
@@ -116,7 +116,7 @@ void
 ooaofooa_I_STF_R2928_Unlink_next_context( ooaofooa_I_STF * left, ooaofooa_I_STF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Child_Stack_Frame_ID = 0;
+  left->Child_Stack_Frame_ID = 0;
   left->I_STF_R2928_next_context = 0; /* SR U1 */
   right->I_STF_R2928_previous_context = 0; /* SR U2 */
 }
@@ -128,7 +128,7 @@ void
 ooaofooa_I_STF_R2928_Link_previous_context( ooaofooa_I_STF * left, ooaofooa_I_STF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Child_Stack_Frame_ID = right->Stack_Frame_ID;
+  right->Child_Stack_Frame_ID = left->Stack_Frame_ID;
   right->I_STF_R2928_next_context = left; /* SR L4 */
   left->I_STF_R2928_previous_context = right; /* SR L5 */
 }
@@ -140,7 +140,7 @@ void
 ooaofooa_I_STF_R2928_Unlink_previous_context( ooaofooa_I_STF * left, ooaofooa_I_STF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Child_Stack_Frame_ID = 0;
+  right->Child_Stack_Frame_ID = 0;
   right->I_STF_R2928_next_context = 0; /* SR U4 */
   left->I_STF_R2928_previous_context = 0; /* SR U5 */
 }
@@ -224,7 +224,7 @@ void
 ooaofooa_I_STF_R2965_Link_blocked_by( ooaofooa_I_STF * left, ooaofooa_I_STF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Blocking_Stack_Frame_ID = left->Stack_Frame_ID;
+  left->Blocking_Stack_Frame_ID = right->Stack_Frame_ID;
   left->I_STF_R2965_blocked_by = right; /* SR L1 */
   right->I_STF_R2965_blocks = left; /* SR L2 */
 }
@@ -236,7 +236,7 @@ void
 ooaofooa_I_STF_R2965_Unlink_blocked_by( ooaofooa_I_STF * left, ooaofooa_I_STF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Blocking_Stack_Frame_ID = 0;
+  left->Blocking_Stack_Frame_ID = 0;
   left->I_STF_R2965_blocked_by = 0; /* SR U1 */
   right->I_STF_R2965_blocks = 0; /* SR U2 */
 }
@@ -248,7 +248,7 @@ void
 ooaofooa_I_STF_R2965_Link_blocks( ooaofooa_I_STF * left, ooaofooa_I_STF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Blocking_Stack_Frame_ID = right->Stack_Frame_ID;
+  right->Blocking_Stack_Frame_ID = left->Stack_Frame_ID;
   right->I_STF_R2965_blocked_by = left; /* SR L4 */
   left->I_STF_R2965_blocks = right; /* SR L5 */
 }
@@ -260,7 +260,7 @@ void
 ooaofooa_I_STF_R2965_Unlink_blocks( ooaofooa_I_STF * left, ooaofooa_I_STF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Blocking_Stack_Frame_ID = 0;
+  right->Blocking_Stack_Frame_ID = 0;
   right->I_STF_R2965_blocked_by = 0; /* SR U4 */
   left->I_STF_R2965_blocks = 0; /* SR U5 */
 }

@@ -65,7 +65,7 @@ void ooaofooa_TE_SYNC_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_TE_SYNC * ooaofooa_TE_SYNCrelated_instance1 = ooaofooa_TE_SYNC_AnyWhere2( ooaofooa_TE_SYNC_instance->nextID );
   if ( ooaofooa_TE_SYNCrelated_instance1 ) {
-    ooaofooa_TE_SYNC_R2095_Link_precedes( ooaofooa_TE_SYNCrelated_instance1, ooaofooa_TE_SYNC_instance );
+    ooaofooa_TE_SYNC_R2095_Link_succeeds( ooaofooa_TE_SYNCrelated_instance1, ooaofooa_TE_SYNC_instance );
   }
   }
 }
@@ -172,7 +172,7 @@ void
 ooaofooa_TE_SYNC_R2095_Link_precedes( ooaofooa_TE_SYNC * left, ooaofooa_TE_SYNC * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->nextID = left->ID;
+  left->nextID = right->ID;
   left->TE_SYNC_R2095_precedes = right; /* SR L1 */
   right->TE_SYNC_R2095_succeeds = left; /* SR L2 */
 }
@@ -184,7 +184,7 @@ void
 ooaofooa_TE_SYNC_R2095_Unlink_precedes( ooaofooa_TE_SYNC * left, ooaofooa_TE_SYNC * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->nextID = 0;
+  left->nextID = 0;
   left->TE_SYNC_R2095_precedes = 0; /* SR U1 */
   right->TE_SYNC_R2095_succeeds = 0; /* SR U2 */
 }
@@ -196,7 +196,7 @@ void
 ooaofooa_TE_SYNC_R2095_Link_succeeds( ooaofooa_TE_SYNC * left, ooaofooa_TE_SYNC * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->nextID = right->ID;
+  right->nextID = left->ID;
   right->TE_SYNC_R2095_precedes = left; /* SR L4 */
   left->TE_SYNC_R2095_succeeds = right; /* SR L5 */
 }
@@ -208,7 +208,7 @@ void
 ooaofooa_TE_SYNC_R2095_Unlink_succeeds( ooaofooa_TE_SYNC * left, ooaofooa_TE_SYNC * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->nextID = 0;
+  right->nextID = 0;
   right->TE_SYNC_R2095_precedes = 0; /* SR U4 */
   left->TE_SYNC_R2095_succeeds = 0; /* SR U5 */
 }

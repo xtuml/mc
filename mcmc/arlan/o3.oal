@@ -264,7 +264,7 @@ if ( not_empty te_smt )
             if ( empty next )
               select one next related by current_act_if->ACT_E[R683]->ACT_SMT[R603];
               if ( empty next )
-                select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'precedes'];
+                select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'succeeds'];
               end if;
             else
               select many next_elif_act_smts related by current_act_if->ACT_EL[R682]->ACT_SMT[R603] where ( selected.LineNumber > act_smt.LineNumber );
@@ -278,7 +278,7 @@ if ( not_empty te_smt )
             select one else_te_blk related by act_smt->ACT_E[R603]->ACT_BLK[R606]->TE_BLK[R2016];
             if ( not_empty else_te_blk )
               ::blck_xlate( trace:trace, te_blk:else_te_blk, te_aba:te_aba );
-              select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'precedes'];
+              select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'succeeds'];
             end if;
           end if;
         end if;
@@ -289,7 +289,7 @@ if ( not_empty te_smt )
       ::aba_code_append( te_aba:te_aba, s:"\n" );
     end if;
     if ( empty next )
-      select one next related by act_smt->ACT_SMT[R661.'precedes'];
+      select one next related by act_smt->ACT_SMT[R661.'succeeds'];
     end if;
     act_smt = next;
   end while;
@@ -1292,7 +1292,7 @@ while ( not done )
     if ( not_empty sm_evtdi )
       T::print(s:"-=m=m=m=-=-=-=-=-=-=-=-=-=- sm_evtdi is ${sm_evtdi.Name}");
     end if;
-    select one v_par related by v_par->V_PAR[R816.'succeeds'];
+    select one v_par related by v_par->V_PAR[R816.'precedes'];
   end if;
 end while;
 @@@
@@ -1515,13 +1515,13 @@ if ( "C++" == te_target.language )
     if ( direction == te_mact.Direction )
       name = ( te_mact.PortName + "->" ) + name;
     end if;
-    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
+    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
   else
     direction = IFDirectionType::ClientServer;
     if ( direction == te_mact.Direction )
       name = ( te_mact.PortName + "->" ) + name;
     end if;
-    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
+    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
   end if;
   name = "thismodule->" + name;
   if ( not_empty foreign_te_po )
@@ -2236,7 +2236,7 @@ T::b(s:${ws}{\);
       else
         T::include(file:"c/t.smt_sr.chaintom.c");
       end if;
-      select one te_lnk related by te_lnk->TE_LNK[R2075.'succeeds'];
+      select one te_lnk related by te_lnk->TE_LNK[R2075.'precedes'];
     end while;
     te_smt.OAL = te_smt.OAL + te_lnk.OAL;
     cast = "";

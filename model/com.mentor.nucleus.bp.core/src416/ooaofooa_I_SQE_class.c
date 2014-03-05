@@ -45,7 +45,7 @@ void ooaofooa_I_SQE_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_I_SQE * ooaofooa_I_SQErelated_instance1 = (ooaofooa_I_SQE *) Escher_instance_cache[ (intptr_t) ooaofooa_I_SQE_instance->Next_Self_Queue_Entry_ID ];
   if ( ooaofooa_I_SQErelated_instance1 ) {
-    ooaofooa_I_SQE_R2947_Link_follows( ooaofooa_I_SQErelated_instance1, ooaofooa_I_SQE_instance );
+    ooaofooa_I_SQE_R2947_Link_precedes( ooaofooa_I_SQErelated_instance1, ooaofooa_I_SQE_instance );
   }
   }
 }
@@ -106,7 +106,7 @@ void
 ooaofooa_I_SQE_R2947_Link_follows( ooaofooa_I_SQE * left, ooaofooa_I_SQE * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Next_Self_Queue_Entry_ID = left->Self_Queue_Entry_ID;
+  left->Next_Self_Queue_Entry_ID = right->Self_Queue_Entry_ID;
   left->I_SQE_R2947_follows = right; /* SR L1 */
   right->I_SQE_R2947_precedes = left; /* SR L2 */
 }
@@ -118,7 +118,7 @@ void
 ooaofooa_I_SQE_R2947_Unlink_follows( ooaofooa_I_SQE * left, ooaofooa_I_SQE * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Next_Self_Queue_Entry_ID = 0;
+  left->Next_Self_Queue_Entry_ID = 0;
   left->I_SQE_R2947_follows = 0; /* SR U1 */
   right->I_SQE_R2947_precedes = 0; /* SR U2 */
 }
@@ -130,7 +130,7 @@ void
 ooaofooa_I_SQE_R2947_Link_precedes( ooaofooa_I_SQE * left, ooaofooa_I_SQE * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Next_Self_Queue_Entry_ID = right->Self_Queue_Entry_ID;
+  right->Next_Self_Queue_Entry_ID = left->Self_Queue_Entry_ID;
   right->I_SQE_R2947_follows = left; /* SR L4 */
   left->I_SQE_R2947_precedes = right; /* SR L5 */
 }
@@ -142,7 +142,7 @@ void
 ooaofooa_I_SQE_R2947_Unlink_precedes( ooaofooa_I_SQE * left, ooaofooa_I_SQE * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Next_Self_Queue_Entry_ID = 0;
+  right->Next_Self_Queue_Entry_ID = 0;
   right->I_SQE_R2947_follows = 0; /* SR U4 */
   left->I_SQE_R2947_precedes = 0; /* SR U5 */
 }

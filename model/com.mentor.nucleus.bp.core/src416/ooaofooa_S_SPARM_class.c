@@ -57,7 +57,7 @@ void ooaofooa_S_SPARM_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_S_SPARM * ooaofooa_S_SPARMrelated_instance1 = (ooaofooa_S_SPARM *) Escher_instance_cache[ (intptr_t) ooaofooa_S_SPARM_instance->Previous_SParm_ID ];
   if ( ooaofooa_S_SPARMrelated_instance1 ) {
-    ooaofooa_S_SPARM_R54_Link_succeeds( ooaofooa_S_SPARMrelated_instance1, ooaofooa_S_SPARM_instance );
+    ooaofooa_S_SPARM_R54_Link_precedes( ooaofooa_S_SPARMrelated_instance1, ooaofooa_S_SPARM_instance );
   }
   }
 }
@@ -135,7 +135,7 @@ void
 ooaofooa_S_SPARM_R54_Link_succeeds( ooaofooa_S_SPARM * left, ooaofooa_S_SPARM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_SParm_ID = left->SParm_ID;
+  left->Previous_SParm_ID = right->SParm_ID;
   left->S_SPARM_R54_succeeds = right; /* SR L1 */
   right->S_SPARM_R54_precedes = left; /* SR L2 */
 }
@@ -147,7 +147,7 @@ void
 ooaofooa_S_SPARM_R54_Unlink_succeeds( ooaofooa_S_SPARM * left, ooaofooa_S_SPARM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_SParm_ID = 0;
+  left->Previous_SParm_ID = 0;
   left->S_SPARM_R54_succeeds = 0; /* SR U1 */
   right->S_SPARM_R54_precedes = 0; /* SR U2 */
 }
@@ -159,7 +159,7 @@ void
 ooaofooa_S_SPARM_R54_Link_precedes( ooaofooa_S_SPARM * left, ooaofooa_S_SPARM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_SParm_ID = right->SParm_ID;
+  right->Previous_SParm_ID = left->SParm_ID;
   right->S_SPARM_R54_succeeds = left; /* SR L4 */
   left->S_SPARM_R54_precedes = right; /* SR L5 */
 }
@@ -171,7 +171,7 @@ void
 ooaofooa_S_SPARM_R54_Unlink_precedes( ooaofooa_S_SPARM * left, ooaofooa_S_SPARM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_SParm_ID = 0;
+  right->Previous_SParm_ID = 0;
   right->S_SPARM_R54_succeeds = 0; /* SR U4 */
   left->S_SPARM_R54_precedes = 0; /* SR U5 */
 }
