@@ -63,7 +63,7 @@ void ooaofooa_TE_IIR_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_TE_IIR * ooaofooa_TE_IIRrelated_instance1 = (ooaofooa_TE_IIR *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_IIR_instance->provider_te_iirID ];
   if ( ooaofooa_TE_IIRrelated_instance1 ) {
-    ooaofooa_TE_IIR_R2081_Link_requires_or_delegates( ooaofooa_TE_IIRrelated_instance1, ooaofooa_TE_IIR_instance );
+    ooaofooa_TE_IIR_R2081_Link_provides_or_is_delegated( ooaofooa_TE_IIRrelated_instance1, ooaofooa_TE_IIR_instance );
   }
   }
 }
@@ -165,7 +165,7 @@ void
 ooaofooa_TE_IIR_R2081_Link_requires_or_delegates( ooaofooa_TE_IIR * left, ooaofooa_TE_IIR * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->provider_te_iirID = left->ID;
+  left->provider_te_iirID = right->ID;
   left->TE_IIR_R2081_requires_or_delegates = right; /* SR L1 */
   Escher_SetInsertElement( &right->TE_IIR_R2081_provides_or_is_delegated, left );
 }
@@ -177,7 +177,7 @@ void
 ooaofooa_TE_IIR_R2081_Unlink_requires_or_delegates( ooaofooa_TE_IIR * left, ooaofooa_TE_IIR * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->provider_te_iirID = 0;
+  left->provider_te_iirID = 0;
   left->TE_IIR_R2081_requires_or_delegates = 0; /* SR U1 */
   Escher_SetRemoveElement( &right->TE_IIR_R2081_provides_or_is_delegated, left ); /* SR U3 */
 }
@@ -189,7 +189,7 @@ void
 ooaofooa_TE_IIR_R2081_Link_provides_or_is_delegated( ooaofooa_TE_IIR * left, ooaofooa_TE_IIR * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->provider_te_iirID = right->ID;
+  right->provider_te_iirID = left->ID;
   right->TE_IIR_R2081_requires_or_delegates = left; /* SR L4 */
   Escher_SetInsertElement( &left->TE_IIR_R2081_provides_or_is_delegated, right );
 }
@@ -201,7 +201,7 @@ void
 ooaofooa_TE_IIR_R2081_Unlink_provides_or_is_delegated( ooaofooa_TE_IIR * left, ooaofooa_TE_IIR * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->provider_te_iirID = 0;
+  right->provider_te_iirID = 0;
   right->TE_IIR_R2081_requires_or_delegates = 0; /* SR U4 */
   Escher_SetRemoveElement( &left->TE_IIR_R2081_provides_or_is_delegated, right ); /* SR U6 */
 }

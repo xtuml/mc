@@ -56,7 +56,7 @@ void ooaofooa_CNST_SYC_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_CNST_SYC * ooaofooa_CNST_SYCrelated_instance1 = ooaofooa_CNST_SYC_AnyWhere1( ooaofooa_CNST_SYC_instance->Previous_Const_ID, ooaofooa_CNST_SYC_instance->Previous_DT_DT_ID );
   if ( ooaofooa_CNST_SYCrelated_instance1 ) {
-    ooaofooa_CNST_SYC_R1505_Link_succeeds( ooaofooa_CNST_SYCrelated_instance1, ooaofooa_CNST_SYC_instance );
+    ooaofooa_CNST_SYC_R1505_Link_precedes( ooaofooa_CNST_SYCrelated_instance1, ooaofooa_CNST_SYC_instance );
   }
   }
 }
@@ -136,8 +136,8 @@ void
 ooaofooa_CNST_SYC_R1505_Link_succeeds( ooaofooa_CNST_SYC * left, ooaofooa_CNST_SYC * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_Const_ID = left->Const_ID;
-  right->Previous_DT_DT_ID = left->DT_ID;
+  left->Previous_Const_ID = right->Const_ID;
+  left->Previous_DT_DT_ID = right->DT_ID;
   left->CNST_SYC_R1505_succeeds = right; /* SR L1 */
   right->CNST_SYC_R1505_precedes = left; /* SR L2 */
 }
@@ -149,8 +149,8 @@ void
 ooaofooa_CNST_SYC_R1505_Unlink_succeeds( ooaofooa_CNST_SYC * left, ooaofooa_CNST_SYC * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_Const_ID = 0;
-  right->Previous_DT_DT_ID = 0;
+  left->Previous_Const_ID = 0;
+  left->Previous_DT_DT_ID = 0;
   left->CNST_SYC_R1505_succeeds = 0; /* SR U1 */
   right->CNST_SYC_R1505_precedes = 0; /* SR U2 */
 }
@@ -162,8 +162,8 @@ void
 ooaofooa_CNST_SYC_R1505_Link_precedes( ooaofooa_CNST_SYC * left, ooaofooa_CNST_SYC * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_Const_ID = right->Const_ID;
-  left->Previous_DT_DT_ID = right->DT_ID;
+  right->Previous_Const_ID = left->Const_ID;
+  right->Previous_DT_DT_ID = left->DT_ID;
   right->CNST_SYC_R1505_succeeds = left; /* SR L4 */
   left->CNST_SYC_R1505_precedes = right; /* SR L5 */
 }
@@ -175,8 +175,8 @@ void
 ooaofooa_CNST_SYC_R1505_Unlink_precedes( ooaofooa_CNST_SYC * left, ooaofooa_CNST_SYC * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_Const_ID = 0;
-  left->Previous_DT_DT_ID = 0;
+  right->Previous_Const_ID = 0;
+  right->Previous_DT_DT_ID = 0;
   right->CNST_SYC_R1505_succeeds = 0; /* SR U4 */
   left->CNST_SYC_R1505_precedes = 0; /* SR U5 */
 }

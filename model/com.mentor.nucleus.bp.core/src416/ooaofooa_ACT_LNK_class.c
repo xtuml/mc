@@ -59,7 +59,7 @@ void ooaofooa_ACT_LNK_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_ACT_LNK * ooaofooa_ACT_LNKrelated_instance1 = (ooaofooa_ACT_LNK *) Escher_instance_cache[ (intptr_t) ooaofooa_ACT_LNK_instance->Next_Link_ID ];
   if ( ooaofooa_ACT_LNKrelated_instance1 ) {
-    ooaofooa_ACT_LNK_R604_Link_precedes( ooaofooa_ACT_LNKrelated_instance1, ooaofooa_ACT_LNK_instance );
+    ooaofooa_ACT_LNK_R604_Link_succeeds( ooaofooa_ACT_LNKrelated_instance1, ooaofooa_ACT_LNK_instance );
   }
   }
   {
@@ -95,7 +95,7 @@ void
 ooaofooa_ACT_LNK_R604_Link_precedes( ooaofooa_ACT_LNK * left, ooaofooa_ACT_LNK * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Next_Link_ID = left->Link_ID;
+  left->Next_Link_ID = right->Link_ID;
   left->ACT_LNK_R604_precedes = right; /* SR L1 */
   right->ACT_LNK_R604_succeeds = left; /* SR L2 */
 }
@@ -107,7 +107,7 @@ void
 ooaofooa_ACT_LNK_R604_Unlink_precedes( ooaofooa_ACT_LNK * left, ooaofooa_ACT_LNK * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Next_Link_ID = 0;
+  left->Next_Link_ID = 0;
   left->ACT_LNK_R604_precedes = 0; /* SR U1 */
   right->ACT_LNK_R604_succeeds = 0; /* SR U2 */
 }
@@ -119,7 +119,7 @@ void
 ooaofooa_ACT_LNK_R604_Link_succeeds( ooaofooa_ACT_LNK * left, ooaofooa_ACT_LNK * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Next_Link_ID = right->Link_ID;
+  right->Next_Link_ID = left->Link_ID;
   right->ACT_LNK_R604_precedes = left; /* SR L4 */
   left->ACT_LNK_R604_succeeds = right; /* SR L5 */
 }
@@ -131,7 +131,7 @@ void
 ooaofooa_ACT_LNK_R604_Unlink_succeeds( ooaofooa_ACT_LNK * left, ooaofooa_ACT_LNK * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Next_Link_ID = 0;
+  right->Next_Link_ID = 0;
   right->ACT_LNK_R604_precedes = 0; /* SR U4 */
   left->ACT_LNK_R604_succeeds = 0; /* SR U5 */
 }

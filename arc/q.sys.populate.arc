@@ -327,7 +327,7 @@
           .end if
         .end if
         .if ( not_empty foreign_te_iir )
-          .// relate te_iir to foreign_te_iir across R2081.'requires or delegates';
+          .// relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
           .assign foreign_te_iir.provider_te_iirID = te_iir.ID
           .// end relate
         .end if
@@ -344,7 +344,7 @@
           .end if
         .end if
         .if ( not_empty foreign_te_iir )
-          .// relate te_iir to foreign_te_iir across R2081.'provides or is delegated';
+          .// relate te_iir to foreign_te_iir across R2081.'requires or delegates';
           .assign te_iir.provider_te_iirID = foreign_te_iir.ID
           .// end relate
         .end if
@@ -717,7 +717,7 @@
       .select one te_mbr related by s_mbr->TE_MBR[R2047]
       .select one previous_te_mbr related by s_mbr->S_MBR[R46.'precedes']->TE_MBR[R2047]
       .if ( not_empty previous_te_mbr )
-        .// relate te_mbr to previous_te_mbr across R2067.'precedes';
+        .// relate te_mbr to previous_te_mbr across R2067.'succeeds';
         .assign te_mbr.previousID = previous_te_mbr.ID
         .// end relate
       .else
@@ -937,7 +937,7 @@
     .select one te_parm related by s_bparm->TE_PARM[R2028]
     .select one next_te_parm related by s_bparm->S_BPARM[R55.'succeeds']->TE_PARM[R2028]
     .if ( not_empty next_te_parm )
-      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .// relate te_parm to next_te_parm across R2041.'precedes';
       .assign te_parm.nextID = next_te_parm.ID
       .// end relate
     .end if
@@ -972,7 +972,7 @@
     .select one te_parm related by o_tparm->TE_PARM[R2029]
     .select one next_te_parm related by o_tparm->O_TPARM[R124.'succeeds']->TE_PARM[R2029]
     .if ( not_empty next_te_parm )
-      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .// relate te_parm to next_te_parm across R2041.'precedes';
       .assign te_parm.nextID = next_te_parm.ID
       .// end relate
     .end if
@@ -1007,7 +1007,7 @@
     .select one te_parm related by s_sparm->TE_PARM[R2030]
     .select one next_te_parm related by s_sparm->S_SPARM[R54.'succeeds']->TE_PARM[R2030]
     .if ( not_empty next_te_parm )
-      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .// relate te_parm to next_te_parm across R2041.'precedes';
       .assign te_parm.nextID = next_te_parm.ID
       .// end relate
     .end if
@@ -1030,7 +1030,7 @@
     .select one te_parm related by sm_evtdi->TE_PARM[R2031]
     .select one next_te_parm related by sm_evtdi->SM_EVTDI[R533.'succeeds']->TE_PARM[R2031]
     .if ( not_empty next_te_parm )
-      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .// relate te_parm to next_te_parm across R2041.'precedes';
       .assign te_parm.nextID = next_te_parm.ID
       .// end relate
     .end if
@@ -1109,7 +1109,7 @@
     .select one te_parm related by c_pp->TE_PARM[R2048]
     .select one next_te_parm related by c_pp->C_PP[R4021.'succeeds']->TE_PARM[R2048]
     .if ( not_empty next_te_parm )
-      .// relate te_parm to next_te_parm across R2041.'succeeds';
+      .// relate te_parm to next_te_parm across R2041.'precedes';
       .assign te_parm.nextID = next_te_parm.ID
       .// end relate
     .end if
@@ -1343,7 +1343,7 @@
       .select one next_act_smt related by act_smt->ACT_SMT[R661.'succeeds']
       .if ( not_empty next_act_smt )
         .select one next_te_smt related by next_act_smt->TE_SMT[R2038]
-        .// relate te_smt to next_te_smt across R2012.'succeeds';
+        .// relate te_smt to next_te_smt across R2012.'precedes';
         .assign te_smt.next_Statement_ID = next_te_smt.Statement_ID
         .// end relate
       .end if
@@ -1424,7 +1424,7 @@
     .select one next_act_lnk related by act_lnk->ACT_LNK[R604.'succeeds']
     .if ( not_empty next_act_lnk )
       .select one next_te_lnk related by next_act_lnk->TE_LNK[R2042]
-      .// relate te_lnk to next_te_lnk across R2075.'succeeds';
+      .// relate te_lnk to next_te_lnk across R2075.'precedes';
       .assign te_lnk.next_ID = next_te_lnk.ID
       .// end relate
       .// We populate this here.  Populate firsts during statement linkage.
@@ -1623,7 +1623,7 @@
         .// end relate
         .assign te_attr.prevID = 00
         .if ( not_empty prev_te_attr )
-          .// relate prev_te_attr to te_attr across R2087.'succeeds';
+          .// relate prev_te_attr to te_attr across R2087.'precedes';
           .assign te_attr.prevID = prev_te_attr.ID
           .// end relate
         .end if
@@ -2096,7 +2096,7 @@
     .assign polymorphic_te_parm.Descrip = "architectural port selector"
     .for each te_parm in te_parms
       .if ( 0 == te_parm.Order )
-        .// relate polymorphic_te_parm to te_parm across R2041.'succeeds';
+        .// relate polymorphic_te_parm to te_parm across R2041.'precedes';
         .assign polymorphic_te_parm.nextID = te_parm.ID
         .// end relate
       .end if
@@ -2227,7 +2227,7 @@
       .assign duplicate_te_parm.AbaID = te_aba.AbaID
       .// end relate
       .if ( not_empty prev_te_parm )
-        .// relate prev_te_parm to duplicate_te_parm across R2041.'succeeds';
+        .// relate prev_te_parm to duplicate_te_parm across R2041.'precedes';
         .assign prev_te_parm.nextID = duplicate_te_parm.ID
         .// end relate
       .end if
@@ -2426,7 +2426,7 @@
   .assign te_lnk.Link_ID = 00
   .assign te_lnk.rel_phrase = ""
   .// Insert the new link in between the left and right TE_LNKs.
-  .// relate te_lnk to right_te_lnk across R2075.'succeeds';
+  .// relate te_lnk to right_te_lnk across R2075.'precedes';
   .assign te_lnk.next_ID = right_te_lnk.ID
   .// end relate
   .select one r_rel related by right_te_lnk->ACT_LNK[R2042]->R_REL[R681]
@@ -2446,7 +2446,7 @@
     .assign te_lnk.linkage = ( te_lnk.linkage + "_" ) + "$_{right_te_lnk.rel_phrase}"
   .end if
   .if ( not_empty left_te_lnk )
-    .// relate left_te_lnk to te_lnk across R2075.'succeeds';
+    .// relate left_te_lnk to te_lnk across R2075.'precedes';
     .assign left_te_lnk.next_ID = te_lnk.ID
     .// end relate
     .assign te_lnk.left = left_te_lnk.linkage
@@ -2596,7 +2596,7 @@
     .// Just starting.  Return te_c as head.
   .elif ( te_c.Name <= head_te_c.Name )
     .// insert before
-    .// relate te_c to head_te_c across R2017.'succeeds';
+    .// relate te_c to head_te_c across R2017.'precedes';
     .assign te_c.next_ID = head_te_c.ID
     .// end relate
   .else
@@ -2612,11 +2612,11 @@
         .select one cursor_te_c related by cursor_te_c->TE_C[R2017.'succeeds']
       .end if
     .end while
-    .// relate prev_te_c to te_c across R2017.'succeeds';
+    .// relate prev_te_c to te_c across R2017.'precedes';
     .assign prev_te_c.next_ID = te_c.ID
     .// end relate
     .if ( not_empty cursor_te_c )
-      .// relate te_c to cursor_te_c across R2017.'succeeds';
+      .// relate te_c to cursor_te_c across R2017.'precedes';
       .assign te_c.next_ID = cursor_te_c.ID
       .// end relate
     .end if
@@ -2649,7 +2649,7 @@
   .assign rkey = "$t{head_te_class.Numb}" + head_te_class.GeneratedName
   .if ( lkey <= rkey )
     .// insert before
-    .// relate te_class to head_te_class across R2092.'succeeds';
+    .// relate te_class to head_te_class across R2092.'precedes';
     .assign te_class.nextID = head_te_class.ID
     .// end relate
   .else
@@ -2666,11 +2666,11 @@
         .select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'succeeds']
       .end if
     .end while
-    .// relate prev_te_class to te_class across R2092.'succeeds';
+    .// relate prev_te_class to te_class across R2092.'precedes';
     .assign prev_te_class.nextID = te_class.ID
     .// end relate
     .if ( not_empty cursor_te_class )
-      .// relate te_class to cursor_te_class across R2092.'succeeds';
+      .// relate te_class to cursor_te_class across R2092.'precedes';
       .assign te_class.nextID = cursor_te_class.ID
       .// end relate
     .end if
@@ -2710,7 +2710,7 @@
   .assign rkey = head_te_mact.Name
   .if ( lkey <= rkey )
     .// insert before
-    .// relate te_mact to head_te_mact across R2083.'succeeds';
+    .// relate te_mact to head_te_mact across R2083.'precedes';
     .assign te_mact.nextID = head_te_mact.ID
     .// end relate
   .else
@@ -2727,11 +2727,11 @@
         .select one cursor_te_mact related by cursor_te_mact->TE_MACT[R2083.'succeeds']
       .end if
     .end while
-    .// relate prev_te_mact to te_mact across R2083.'succeeds';
+    .// relate prev_te_mact to te_mact across R2083.'precedes';
     .assign prev_te_mact.nextID = te_mact.ID
     .// end relate
     .if ( not_empty cursor_te_mact )
-      .// relate te_mact to cursor_te_mact across R2083.'succeeds';
+      .// relate te_mact to cursor_te_mact across R2083.'precedes';
       .assign te_mact.nextID = cursor_te_mact.ID
       .// end relate
     .end if
@@ -2765,7 +2765,7 @@
   .assign rkey = head_te_sync.Name
   .if ( lkey <= rkey )
     .// insert before
-    .// relate te_sync to head_te_sync across R2095.'succeeds';
+    .// relate te_sync to head_te_sync across R2095.'precedes';
     .assign te_sync.nextID = head_te_sync.ID
     .// end relate
   .else
@@ -2782,11 +2782,11 @@
         .select one cursor_te_sync related by cursor_te_sync->TE_SYNC[R2095.'succeeds']
       .end if
     .end while
-    .// relate prev_te_sync to te_sync across R2095.'succeeds';
+    .// relate prev_te_sync to te_sync across R2095.'precedes';
     .assign prev_te_sync.nextID = te_sync.ID
     .// end relate
     .if ( not_empty cursor_te_sync )
-      .// relate te_sync to cursor_te_sync across R2095.'succeeds';
+      .// relate te_sync to cursor_te_sync across R2095.'precedes';
       .assign te_sync.nextID = cursor_te_sync.ID
       .// end relate
     .end if
@@ -2803,7 +2803,7 @@
   .for each te_ee in te_ees
     .select one next_te_ee related by te_ee->TE_EE[R2096.'succeeds']
     .if ( not_empty next_te_ee )
-      .// unrelate te_ee from te_ee across R2096.'succeeds';
+      .// unrelate te_ee from te_ee across R2096.'precedes';
       .assign te_ee.nextID = 00
       .// end unrelate
     .end if
@@ -2825,7 +2825,7 @@
   .assign rkey = head_te_ee.Name
   .if ( lkey <= rkey )
     .// insert before
-    .// relate te_ee to head_te_ee across R2096.'succeeds';
+    .// relate te_ee to head_te_ee across R2096.'precedes';
     .assign te_ee.nextID = head_te_ee.ID
     .// end relate
   .else
@@ -2842,11 +2842,11 @@
         .select one cursor_te_ee related by cursor_te_ee->TE_EE[R2096.'succeeds']
       .end if
     .end while
-    .// relate prev_te_ee to te_ee across R2096.'succeeds';
+    .// relate prev_te_ee to te_ee across R2096.'precedes';
     .assign prev_te_ee.nextID = te_ee.ID
     .// end relate
     .if ( not_empty cursor_te_ee )
-      .// relate te_ee to cursor_te_ee across R2096.'succeeds';
+      .// relate te_ee to cursor_te_ee across R2096.'precedes';
       .assign te_ee.nextID = cursor_te_ee.ID
       .// end relate
     .end if

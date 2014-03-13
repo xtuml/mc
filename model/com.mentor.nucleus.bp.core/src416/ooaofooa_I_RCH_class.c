@@ -53,7 +53,7 @@ void ooaofooa_I_RCH_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_I_RCH * ooaofooa_I_RCHrelated_instance1 = (ooaofooa_I_RCH *) Escher_instance_cache[ (intptr_t) ooaofooa_I_RCH_instance->Next_provider_Channel_Id ];
   if ( ooaofooa_I_RCHrelated_instance1 ) {
-    ooaofooa_I_RCH_R2973_Link_requirer( ooaofooa_I_RCHrelated_instance1, ooaofooa_I_RCH_instance );
+    ooaofooa_I_RCH_R2973_Link_provider( ooaofooa_I_RCHrelated_instance1, ooaofooa_I_RCH_instance );
   }
   }
   {
@@ -194,7 +194,7 @@ void
 ooaofooa_I_RCH_R2973_Link_requirer( ooaofooa_I_RCH * left, ooaofooa_I_RCH * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Next_provider_Channel_Id = left->Channel_Id;
+  left->Next_provider_Channel_Id = right->Channel_Id;
   left->I_RCH_R2973_requirer = right; /* SR L1 */
   right->I_RCH_R2973_provider = left; /* SR L2 */
 }
@@ -206,7 +206,7 @@ void
 ooaofooa_I_RCH_R2973_Unlink_requirer( ooaofooa_I_RCH * left, ooaofooa_I_RCH * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Next_provider_Channel_Id = 0;
+  left->Next_provider_Channel_Id = 0;
   left->I_RCH_R2973_requirer = 0; /* SR U1 */
   right->I_RCH_R2973_provider = 0; /* SR U2 */
 }
@@ -218,7 +218,7 @@ void
 ooaofooa_I_RCH_R2973_Link_provider( ooaofooa_I_RCH * left, ooaofooa_I_RCH * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Next_provider_Channel_Id = right->Channel_Id;
+  right->Next_provider_Channel_Id = left->Channel_Id;
   right->I_RCH_R2973_requirer = left; /* SR L4 */
   left->I_RCH_R2973_provider = right; /* SR L5 */
 }
@@ -230,7 +230,7 @@ void
 ooaofooa_I_RCH_R2973_Unlink_provider( ooaofooa_I_RCH * left, ooaofooa_I_RCH * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Next_provider_Channel_Id = 0;
+  right->Next_provider_Channel_Id = 0;
   right->I_RCH_R2973_requirer = 0; /* SR U4 */
   left->I_RCH_R2973_provider = 0; /* SR U5 */
 }

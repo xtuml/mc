@@ -570,7 +570,7 @@ for each te_c in te_cs
   end for;
 end for;
 @@@
-    MarkAsChannel@void@@package_name@string@@component_name@string@@inc_file@string@@@
+MarkAsChannel@void@@package_name@string@@component_name@string@@inc_file@string@@@
 //============================================================================
 // $RCSfile: m.component.arc,v $
 //
@@ -950,7 +950,7 @@ if ( ( ( ( empty tm_tpv ) and ( not_empty tm_tp ) ) and ( not isChannel ) ) or (
   relate tm_tpv to te_iir across R2806;
     //
   // Find a satisfaction or delegation.  Recursively apply the same template parameter value to the connections.
-  select one satisfied_te_iir related by te_iir->TE_IIR[R2081.'requires or delegates'] where ( false );
+  select one satisfied_te_iir related by te_iir->TE_IIR[R2081.'provides or is delegated'] where ( false );
   if ( ( 0 == flavor ) or ( 2 == flavor ) )
     // iir to iir
     // Search from imported reference across satisfaction to imported reference provision to requirement.
@@ -1010,7 +1010,7 @@ if ( ( ( ( empty tm_tpv ) and ( not_empty tm_tp ) ) and ( not isChannel ) ) or (
   end if;
   // delegation
   if ( empty satisfied_te_iir )
-    select one delegated_te_iir related by satisfied_te_iir->TE_IIR[R2081.'requires or delegates'] where ( false );
+    select one delegated_te_iir related by satisfied_te_iir->TE_IIR[R2081.'provides or is delegated'] where ( false );
     // IIR IR DG  RID IR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_DG[R4704]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
@@ -1293,7 +1293,7 @@ package_name = param.package_name;
 T::print(s:"AssignDirectToUDTPackage is not a supported marking function.");
 T::exit(i:1);
 @@@
-     TagFunctionTranslationOff@void@@function_name@string@@@
+TagFunctionTranslationOff@void@@function_name@string@@@
 //============================================================================
 // $RCSfile: m.domain.arc,v $
 //
@@ -1650,7 +1650,7 @@ for each te_po in te_pos
         sibling_te_iir.port_name = port;
         sibling_te_iir.interface_name = te_po.InterfaceName;
         sibling_te_iir.polymorphic = false;
-                                relate sibling_te_iir to te_iir across R2081.'provides or is delegated';
+                                relate sibling_te_iir to te_iir across R2081.'requires or delegates';
       end if;
     else
       select one sibling_te_iir related by te_iir->TE_IIR[R2081.'requires or delegates'];
@@ -1660,7 +1660,7 @@ for each te_po in te_pos
         sibling_te_iir.port_name = port;
         sibling_te_iir.interface_name = te_po.InterfaceName;
         sibling_te_iir.polymorphic = false;
-                                relate sibling_te_iir to te_iir across R2081.'provides or is delegated';
+                                relate sibling_te_iir to te_iir across R2081.'requires or delegates';
       end if;
     end if;
   end for;

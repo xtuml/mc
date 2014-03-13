@@ -63,7 +63,7 @@ void ooaofooa_SM_EVTDI_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_SM_EVTDI * ooaofooa_SM_EVTDIrelated_instance1 = ooaofooa_SM_EVTDI_AnyWhere1( ooaofooa_SM_EVTDI_instance->Previous_SMedi_ID, ooaofooa_SM_EVTDI_instance->SM_ID );
   if ( ooaofooa_SM_EVTDIrelated_instance1 ) {
-    ooaofooa_SM_EVTDI_R533_Link_succeeds( ooaofooa_SM_EVTDIrelated_instance1, ooaofooa_SM_EVTDI_instance );
+    ooaofooa_SM_EVTDI_R533_Link_precedes( ooaofooa_SM_EVTDIrelated_instance1, ooaofooa_SM_EVTDI_instance );
   }
   }
 }
@@ -164,8 +164,8 @@ void
 ooaofooa_SM_EVTDI_R533_Link_succeeds( ooaofooa_SM_EVTDI * left, ooaofooa_SM_EVTDI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->SM_ID = left->SM_ID;
-  right->Previous_SMedi_ID = left->SMedi_ID;
+  left->SM_ID = right->SM_ID;
+  left->Previous_SMedi_ID = right->SMedi_ID;
   left->SM_EVTDI_R533_succeeds = right; /* SR L1 */
   right->SM_EVTDI_R533_precedes = left; /* SR L2 */
 }
@@ -177,7 +177,7 @@ void
 ooaofooa_SM_EVTDI_R533_Unlink_succeeds( ooaofooa_SM_EVTDI * left, ooaofooa_SM_EVTDI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_SMedi_ID = 0;
+  left->Previous_SMedi_ID = 0;
   left->SM_EVTDI_R533_succeeds = 0; /* SR U1 */
   right->SM_EVTDI_R533_precedes = 0; /* SR U2 */
 }
@@ -189,8 +189,8 @@ void
 ooaofooa_SM_EVTDI_R533_Link_precedes( ooaofooa_SM_EVTDI * left, ooaofooa_SM_EVTDI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->SM_ID = right->SM_ID;
-  left->Previous_SMedi_ID = right->SMedi_ID;
+  right->SM_ID = left->SM_ID;
+  right->Previous_SMedi_ID = left->SMedi_ID;
   right->SM_EVTDI_R533_succeeds = left; /* SR L4 */
   left->SM_EVTDI_R533_precedes = right; /* SR L5 */
 }
@@ -202,7 +202,7 @@ void
 ooaofooa_SM_EVTDI_R533_Unlink_precedes( ooaofooa_SM_EVTDI * left, ooaofooa_SM_EVTDI * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_SMedi_ID = 0;
+  right->Previous_SMedi_ID = 0;
   right->SM_EVTDI_R533_succeeds = 0; /* SR U4 */
   left->SM_EVTDI_R533_precedes = 0; /* SR U5 */
 }

@@ -48,7 +48,7 @@ void ooaofooa_S_ENUM_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_S_ENUM * ooaofooa_S_ENUMrelated_instance1 = (ooaofooa_S_ENUM *) Escher_instance_cache[ (intptr_t) ooaofooa_S_ENUM_instance->Previous_Enum_ID ];
   if ( ooaofooa_S_ENUMrelated_instance1 ) {
-    ooaofooa_S_ENUM_R56_Link_succeeds( ooaofooa_S_ENUMrelated_instance1, ooaofooa_S_ENUM_instance );
+    ooaofooa_S_ENUM_R56_Link_precedes( ooaofooa_S_ENUMrelated_instance1, ooaofooa_S_ENUM_instance );
   }
   }
 }
@@ -102,7 +102,7 @@ void
 ooaofooa_S_ENUM_R56_Link_succeeds( ooaofooa_S_ENUM * left, ooaofooa_S_ENUM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_Enum_ID = left->Enum_ID;
+  left->Previous_Enum_ID = right->Enum_ID;
   left->S_ENUM_R56_succeeds = right; /* SR L1 */
   right->S_ENUM_R56_precedes = left; /* SR L2 */
 }
@@ -114,7 +114,7 @@ void
 ooaofooa_S_ENUM_R56_Unlink_succeeds( ooaofooa_S_ENUM * left, ooaofooa_S_ENUM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_Enum_ID = 0;
+  left->Previous_Enum_ID = 0;
   left->S_ENUM_R56_succeeds = 0; /* SR U1 */
   right->S_ENUM_R56_precedes = 0; /* SR U2 */
 }
@@ -126,7 +126,7 @@ void
 ooaofooa_S_ENUM_R56_Link_precedes( ooaofooa_S_ENUM * left, ooaofooa_S_ENUM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_Enum_ID = right->Enum_ID;
+  right->Previous_Enum_ID = left->Enum_ID;
   right->S_ENUM_R56_succeeds = left; /* SR L4 */
   left->S_ENUM_R56_precedes = right; /* SR L5 */
 }
@@ -138,7 +138,7 @@ void
 ooaofooa_S_ENUM_R56_Unlink_precedes( ooaofooa_S_ENUM * left, ooaofooa_S_ENUM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_Enum_ID = 0;
+  right->Previous_Enum_ID = 0;
   right->S_ENUM_R56_succeeds = 0; /* SR U4 */
   left->S_ENUM_R56_precedes = 0; /* SR U5 */
 }

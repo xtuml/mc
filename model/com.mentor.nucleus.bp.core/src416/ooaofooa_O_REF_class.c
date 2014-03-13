@@ -64,7 +64,7 @@ void ooaofooa_O_REF_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_O_REF * ooaofooa_O_REFrelated_instance1 = ooaofooa_O_REF_AnyWhere2( ooaofooa_O_REF_instance->PARef_ID );
   if ( ooaofooa_O_REFrelated_instance1 ) {
-    ooaofooa_O_REF_R112_Link_succeeds( ooaofooa_O_REFrelated_instance1, ooaofooa_O_REF_instance );
+    ooaofooa_O_REF_R112_Link_precedes( ooaofooa_O_REFrelated_instance1, ooaofooa_O_REF_instance );
   }
   }
 }
@@ -154,7 +154,7 @@ void
 ooaofooa_O_REF_R112_Link_succeeds( ooaofooa_O_REF * left, ooaofooa_O_REF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->PARef_ID = left->ARef_ID;
+  left->PARef_ID = right->ARef_ID;
   left->O_REF_R112_succeeds = right; /* SR L1 */
   right->O_REF_R112_precedes = left; /* SR L2 */
 }
@@ -166,7 +166,7 @@ void
 ooaofooa_O_REF_R112_Unlink_succeeds( ooaofooa_O_REF * left, ooaofooa_O_REF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->PARef_ID = 0;
+  left->PARef_ID = 0;
   left->O_REF_R112_succeeds = 0; /* SR U1 */
   right->O_REF_R112_precedes = 0; /* SR U2 */
 }
@@ -178,7 +178,7 @@ void
 ooaofooa_O_REF_R112_Link_precedes( ooaofooa_O_REF * left, ooaofooa_O_REF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->PARef_ID = right->ARef_ID;
+  right->PARef_ID = left->ARef_ID;
   right->O_REF_R112_succeeds = left; /* SR L4 */
   left->O_REF_R112_precedes = right; /* SR L5 */
 }
@@ -190,7 +190,7 @@ void
 ooaofooa_O_REF_R112_Unlink_precedes( ooaofooa_O_REF * left, ooaofooa_O_REF * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->PARef_ID = 0;
+  right->PARef_ID = 0;
   right->O_REF_R112_succeeds = 0; /* SR U4 */
   left->O_REF_R112_precedes = 0; /* SR U5 */
 }

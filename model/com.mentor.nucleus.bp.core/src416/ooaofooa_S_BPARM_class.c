@@ -57,7 +57,7 @@ void ooaofooa_S_BPARM_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_S_BPARM * ooaofooa_S_BPARMrelated_instance1 = (ooaofooa_S_BPARM *) Escher_instance_cache[ (intptr_t) ooaofooa_S_BPARM_instance->Previous_BParm_ID ];
   if ( ooaofooa_S_BPARMrelated_instance1 ) {
-    ooaofooa_S_BPARM_R55_Link_succeeds( ooaofooa_S_BPARMrelated_instance1, ooaofooa_S_BPARM_instance );
+    ooaofooa_S_BPARM_R55_Link_precedes( ooaofooa_S_BPARMrelated_instance1, ooaofooa_S_BPARM_instance );
   }
   }
 }
@@ -135,7 +135,7 @@ void
 ooaofooa_S_BPARM_R55_Link_succeeds( ooaofooa_S_BPARM * left, ooaofooa_S_BPARM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_BParm_ID = left->BParm_ID;
+  left->Previous_BParm_ID = right->BParm_ID;
   left->S_BPARM_R55_succeeds = right; /* SR L1 */
   right->S_BPARM_R55_precedes = left; /* SR L2 */
 }
@@ -147,7 +147,7 @@ void
 ooaofooa_S_BPARM_R55_Unlink_succeeds( ooaofooa_S_BPARM * left, ooaofooa_S_BPARM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_BParm_ID = 0;
+  left->Previous_BParm_ID = 0;
   left->S_BPARM_R55_succeeds = 0; /* SR U1 */
   right->S_BPARM_R55_precedes = 0; /* SR U2 */
 }
@@ -159,7 +159,7 @@ void
 ooaofooa_S_BPARM_R55_Link_precedes( ooaofooa_S_BPARM * left, ooaofooa_S_BPARM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_BParm_ID = right->BParm_ID;
+  right->Previous_BParm_ID = left->BParm_ID;
   right->S_BPARM_R55_succeeds = left; /* SR L4 */
   left->S_BPARM_R55_precedes = right; /* SR L5 */
 }
@@ -171,7 +171,7 @@ void
 ooaofooa_S_BPARM_R55_Unlink_precedes( ooaofooa_S_BPARM * left, ooaofooa_S_BPARM * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_BParm_ID = 0;
+  right->Previous_BParm_ID = 0;
   right->S_BPARM_R55_succeeds = 0; /* SR U4 */
   left->S_BPARM_R55_precedes = 0; /* SR U5 */
 }

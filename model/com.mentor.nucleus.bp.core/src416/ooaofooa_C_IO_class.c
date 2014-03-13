@@ -55,7 +55,7 @@ void ooaofooa_C_IO_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_C_IO * ooaofooa_C_IOrelated_instance1 = ooaofooa_C_IO_AnyWhere1( ooaofooa_C_IO_instance->Previous_Id );
   if ( ooaofooa_C_IOrelated_instance1 ) {
-    ooaofooa_C_IO_R4019_Link_succeeds( ooaofooa_C_IOrelated_instance1, ooaofooa_C_IO_instance );
+    ooaofooa_C_IO_R4019_Link_precedes( ooaofooa_C_IOrelated_instance1, ooaofooa_C_IO_instance );
   }
   }
 }
@@ -138,7 +138,7 @@ void
 ooaofooa_C_IO_R4019_Link_succeeds( ooaofooa_C_IO * left, ooaofooa_C_IO * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_Id = left->Id;
+  left->Previous_Id = right->Id;
   left->C_IO_R4019_succeeds = right; /* SR L1 */
   right->C_IO_R4019_precedes = left; /* SR L2 */
 }
@@ -150,7 +150,7 @@ void
 ooaofooa_C_IO_R4019_Unlink_succeeds( ooaofooa_C_IO * left, ooaofooa_C_IO * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->Previous_Id = 0;
+  left->Previous_Id = 0;
   left->C_IO_R4019_succeeds = 0; /* SR U1 */
   right->C_IO_R4019_precedes = 0; /* SR U2 */
 }
@@ -162,7 +162,7 @@ void
 ooaofooa_C_IO_R4019_Link_precedes( ooaofooa_C_IO * left, ooaofooa_C_IO * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_Id = right->Id;
+  right->Previous_Id = left->Id;
   right->C_IO_R4019_succeeds = left; /* SR L4 */
   left->C_IO_R4019_precedes = right; /* SR L5 */
 }
@@ -174,7 +174,7 @@ void
 ooaofooa_C_IO_R4019_Unlink_precedes( ooaofooa_C_IO * left, ooaofooa_C_IO * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->Previous_Id = 0;
+  right->Previous_Id = 0;
   right->C_IO_R4019_succeeds = 0; /* SR U4 */
   left->C_IO_R4019_precedes = 0; /* SR U5 */
 }

@@ -108,7 +108,7 @@ void ooaofooa_TE_MACT_batch_relate( Escher_iHandle_t instance )
   {
   ooaofooa_TE_MACT * ooaofooa_TE_MACTrelated_instance1 = ooaofooa_TE_MACT_AnyWhere2( ooaofooa_TE_MACT_instance->nextID );
   if ( ooaofooa_TE_MACTrelated_instance1 ) {
-    ooaofooa_TE_MACT_R2083_Link_precedes( ooaofooa_TE_MACTrelated_instance1, ooaofooa_TE_MACT_instance );
+    ooaofooa_TE_MACT_R2083_Link_succeeds( ooaofooa_TE_MACTrelated_instance1, ooaofooa_TE_MACT_instance );
   }
   }
 }
@@ -335,7 +335,7 @@ void
 ooaofooa_TE_MACT_R2083_Link_precedes( ooaofooa_TE_MACT * left, ooaofooa_TE_MACT * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->nextID = left->ID;
+  left->nextID = right->ID;
   left->TE_MACT_R2083_precedes = right; /* SR L1 */
   right->TE_MACT_R2083_succeeds = left; /* SR L2 */
 }
@@ -347,7 +347,7 @@ void
 ooaofooa_TE_MACT_R2083_Unlink_precedes( ooaofooa_TE_MACT * left, ooaofooa_TE_MACT * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  right->nextID = 0;
+  left->nextID = 0;
   left->TE_MACT_R2083_precedes = 0; /* SR U1 */
   right->TE_MACT_R2083_succeeds = 0; /* SR U2 */
 }
@@ -359,7 +359,7 @@ void
 ooaofooa_TE_MACT_R2083_Link_succeeds( ooaofooa_TE_MACT * left, ooaofooa_TE_MACT * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->nextID = right->ID;
+  right->nextID = left->ID;
   right->TE_MACT_R2083_precedes = left; /* SR L4 */
   left->TE_MACT_R2083_succeeds = right; /* SR L5 */
 }
@@ -371,7 +371,7 @@ void
 ooaofooa_TE_MACT_R2083_Unlink_succeeds( ooaofooa_TE_MACT * left, ooaofooa_TE_MACT * right )
 {
   /* Use TagEmptyHandleDetectionOn() to detect empty handle references.  */
-  left->nextID = 0;
+  right->nextID = 0;
   right->TE_MACT_R2083_precedes = 0; /* SR U4 */
   left->TE_MACT_R2083_succeeds = 0; /* SR U5 */
 }

@@ -32,7 +32,7 @@ struct ooaofooa_TE_DIM {
   ooaofooa_TE_VAR * TE_VAR_R2057_diments;
   ooaofooa_TE_ABA * TE_ABA_R2058_diments;
   ooaofooa_TE_MBR * TE_MBR_R2059_diments;
-  ooaofooa_TE_DIM * TE_DIM_R2060;
+  ooaofooa_TE_DIM * TE_DIM_R2060_precedes;
   ooaofooa_TE_DIM * TE_DIM_R2060_succeeds;
   Escher_ObjectSet_s TE_VAL_R2079;
 };
@@ -49,12 +49,12 @@ ooaofooa_TE_DIM * ooaofooa_TE_DIM_AnyWhere1( Escher_UniqueID_t );
       
 /*
  * R2060 is Simple Reflexive:  0..1:0..1
- *  Formalizing TE_DIM  participant
+ *  Formalizing TE_DIM precedes participant
  *  Participant TE_DIM succeeds formalizer
  */
-/* Navigation phrase:  R2060.'' */
-void ooaofooa_TE_DIM_R2060_Link( ooaofooa_TE_DIM *, ooaofooa_TE_DIM * );
-void ooaofooa_TE_DIM_R2060_Unlink( ooaofooa_TE_DIM *, ooaofooa_TE_DIM * );
+/* Navigation phrase:  R2060.'precedes' */
+void ooaofooa_TE_DIM_R2060_Link_precedes( ooaofooa_TE_DIM *, ooaofooa_TE_DIM * );
+void ooaofooa_TE_DIM_R2060_Unlink_precedes( ooaofooa_TE_DIM *, ooaofooa_TE_DIM * );
 /* Navigation phrase:  R2060.'succeeds' */
 void ooaofooa_TE_DIM_R2060_Link_succeeds( ooaofooa_TE_DIM *, ooaofooa_TE_DIM * );
 void ooaofooa_TE_DIM_R2060_Unlink_succeeds( ooaofooa_TE_DIM *, ooaofooa_TE_DIM * );

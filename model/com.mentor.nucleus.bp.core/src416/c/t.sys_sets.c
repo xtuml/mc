@@ -1566,7 +1566,7 @@ T_b("  ");
 T_b("new_mem = malloc( bytes );");
 T_b("\n");
 T_b("  ");
-T_b("if ( 0 != new_mem ) {");
+T_b("if ( 0 == new_mem ) {");
 T_b("\n");
 T_b("    ");
 T_b("// fprintf( stderr, \"Escher_malloc:  out of memory\n\" );");
