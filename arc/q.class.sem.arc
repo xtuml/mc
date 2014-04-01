@@ -97,13 +97,15 @@
 .function CreateStateModelEventEnum
   .param inst_ref sm_sm
   .//
-  .select many te_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525]->TE_EVT[R2036]
+  .select one te_sm related by sm_sm->TE_SM[R2043]
+  .select many te_evts related by te_sm->TE_EVT[R2071]
   .assign attr_no_events = true
   .assign event_order = 0
   .if ( not_empty te_evts )
 /*
  * enumeration of state model event numbers
  */
+    .select one te_c related by te_sm->TE_CLASS[R2072]->TE_C[R2064]
     .assign attr_no_events = false
     .assign num_events = cardinality te_evts
     .assign event_count = 0
@@ -113,7 +115,7 @@
         .if ( te_evt.Order > last_order )
           .assign last_order = te_evt.Order
         .end if
-        .if ( ( te_evt.Order == event_count ) and ( te_evt.Used ) )
+        .if ( ( te_evt.Order == event_count ) and ( te_evt.Used or te_c.OptDisabled ) )
           .select one sm_evt related by te_evt->SM_EVT[R2036]
           .assign event_comment = sm_evt.Drv_Lbl
           .if ( sm_evt.Mning != "" )

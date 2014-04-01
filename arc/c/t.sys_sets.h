@@ -153,12 +153,12 @@ i_t ${te_string.strlen}( const c_t * );
 /* We could easily replace this function declaration with a macro
    that invoked the compiler (C library) supplied memset.  */
 .// #define ${te_string.memset}( dst, val, len ) memset( dst, val, len )
-void ${te_string.memset}( void * const, const u1_t, u2_t );
+void ${te_string.memset}( void * const, const u1_t, u4_t );
 
 /* We could easily replace this function declaration with a macro
    that invoked the compiler (C library) supplied memmove.  */
 .// #define ${te_string.memmove}( dst, src, len ) memmove( dst, src, len )
-void ${te_string.memmove}( void * const, const void * const, u2_t );
+void ${te_string.memmove}( void * const, const void * const, u4_t );
 c_t * ${te_string.strcpy}( c_t *, const c_t * );
 c_t * ${te_string.stradd}( const c_t *, const c_t * );
 /* We could easily replace this function declaration with a macro
