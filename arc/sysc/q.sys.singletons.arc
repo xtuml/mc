@@ -322,7 +322,7 @@
   .assign te_typemap.instance_index_name = te_prefix.result + "InstanceIndex_t"
   .assign te_typemap.instance_index_type = "u2_t"
   .assign te_typemap.object_size_name = te_prefix.type + "ClassSize_t"
-  .assign te_typemap.object_size_type = "u2_t"
+  .assign te_typemap.object_size_type = te_prefix.type + "size_t"
   .assign te_typemap.object_number_name = te_prefix.type + "ClassNumber_t"
   .assign te_typemap.object_number_type = "u2_t"
   .assign te_typemap.state_number_name = te_prefix.type + "StateNumber_t"

@@ -79,8 +79,8 @@ void ${te_set.insert_element}( ${te_set.base_class} *,
 ${te_set.element_type} *
 ${te_set.insert_block}( ${te_set.element_type} *,
                        const u1_t *,
-                       const u2_t,
-                       u2_t );
+                       const ${te_prefix.type}size_t,
+                       ${te_prefix.type}size_t );
 .if ( te_sys.UnitsToDynamicallyAllocate != 0 )
 #define ${te_set.remove_instance}( pextent, instance, slot, container, pool ) \\
   slot = ${te_slist.remove_node}( pextent, instance )
@@ -126,7 +126,7 @@ void ${te_set.remove_element}( ${te_set.base_class} *,
                          const void * const );
 const void * ${te_set.contains}( const ${te_set.base_class} * const,
                     const void * const );
-u2_t ${te_set.element_count}( const ${te_set.base_class} * const );
+${te_prefix.type}size_t ${te_set.element_count}( const ${te_set.base_class} * const );
 bool ${te_set.equality}( ${te_set.base_class} * const,
                     ${te_set.base_class} * const );
 #define ${te_set.init}( S ) (S)->head = 0
@@ -148,17 +148,17 @@ void * ${te_set.iterator_next}( ${te_set.iterator_class_name} * const );
 /* We could easily replace this function declaration with a macro
    that invoked the compiler (C library) supplied strlen.  */
 .// #define ${te_string.strlen}( s ) strlen( s )
-i_t ${te_string.strlen}( const c_t * );
+${te_prefix.type}size_t ${te_string.strlen}( const c_t * );
 
 /* We could easily replace this function declaration with a macro
    that invoked the compiler (C library) supplied memset.  */
 .// #define ${te_string.memset}( dst, val, len ) memset( dst, val, len )
-void ${te_string.memset}( void * const, const u1_t, u4_t );
+void ${te_string.memset}( void * const, const u1_t, ${te_prefix.type}size_t );
 
 /* We could easily replace this function declaration with a macro
    that invoked the compiler (C library) supplied memmove.  */
 .// #define ${te_string.memmove}( dst, src, len ) memmove( dst, src, len )
-void ${te_string.memmove}( void * const, const void * const, u4_t );
+void ${te_string.memmove}( void * const, const void * const, ${te_prefix.type}size_t );
 c_t * ${te_string.strcpy}( c_t *, const c_t * );
 c_t * ${te_string.stradd}( const c_t *, const c_t * );
 /* We could easily replace this function declaration with a macro
@@ -172,5 +172,5 @@ c_t * ${te_string.itoa}( c_t *, s4_t );
 s4_t ${te_string.atoi}( const c_t * );
 .end if
 .if ( 0 != te_sys.UnitsToDynamicallyAllocate )
-void * ${te_dma.allocate}( const u4_t );
+void * ${te_dma.allocate}( const ${te_prefix.type}size_t );
 .end if
