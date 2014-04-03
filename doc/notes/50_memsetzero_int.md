@@ -40,7 +40,7 @@ None.
 7.1     I found a compile error when compiling polymorphic events.
         This was due to a declaration not being generated, because
         the event is not used.  However, when optimizations are disabled,
-        we need to generate the declaration.  So, a check for the optimzation
+        we need to generate the declaration.  So, a check for the optimization
         flag has been added.  
 7.2     I alphabetized the mcmc/arlan/current_list.sh script to help in a
         sizing effort.  This is benign and just helps make it easier to

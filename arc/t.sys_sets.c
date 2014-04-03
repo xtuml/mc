@@ -392,7 +392,7 @@ ${te_set.scope}${te_set.iterator_next}( ${te_set.iterator_class_name} * const it
  * Set memory bytes to value at destination.
  */
 void
-${te_set.scope}${te_string.memset}( void * const dst, const u1_t val, u4_t len )
+${te_set.scope}${te_string.memset}( void * const dst, const u1_t val, ${te_prefix.type}size_t len )
 {
   u1_t * d = (u1_t *) dst;
   while ( len > 0 ) {
@@ -405,7 +405,7 @@ ${te_set.scope}${te_string.memset}( void * const dst, const u1_t val, u4_t len )
  * Move memory bytes from source to destination.
  */
 void
-${te_set.scope}${te_string.memmove}( void * const dst, const void * const src, u4_t len )
+${te_set.scope}${te_string.memmove}( void * const dst, const void * const src, ${te_prefix.type}size_t len )
 {
   u1_t * s = (u1_t *) src;
   u1_t * d = (u1_t *) dst;
@@ -509,7 +509,7 @@ ${te_set.scope}${te_string.strget}( void )
 ${te_prefix.type}size_t
 ${te_set.scope}${te_string.strlen}( const c_t * s )
 {
-  i_t len = 0;
+  ${te_prefix.type}size_t len = 0;
   i_t i = ${te_string.max_string_length} * 4;
   if ( s != 0 ) {
     while ( ( *s != 0 ) && ( i >= 0 ) ) {
