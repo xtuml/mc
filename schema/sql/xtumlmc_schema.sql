@@ -848,7 +848,13 @@ CREATE TABLE S_DT (
 	Dom_ID	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING,
-	DefaultValue	STRING );
+	DefaultValue	STRING
+-- //-- 002: 20140128 Add Start (saitou) 
+	,IsExternalMacro	BOOLEAN
+	,genName	STRING
+	,Include_File	STRING
+-- //-- 002: 20140128 Add End (saitou) 
+	 );
 
 -- Class:  10.  Core Data Type
 CREATE TABLE S_CDT (
@@ -2145,7 +2151,11 @@ CREATE TABLE O_OBJ (
 	Key_Lett	STRING,
 	Descrip	STRING,
 	SS_ID	UNIQUE_ID,
-	Order	INTEGER );
+	Order	INTEGER,
+-- 0010:20140211 Add Start (nomura)
+	IsExcludeFromGen	BOOLEAN
+-- 0010:20140211 Add End (nomura)
+    );
 
 -- Class:  102.  Imported Class
 CREATE TABLE O_IOBJ (
@@ -2422,7 +2432,16 @@ CREATE TABLE TE_C (
 	next_ID	UNIQUE_ID,
 	cId	UNIQUE_ID,
 	first_eeID	UNIQUE_ID,
-	first_syncID	UNIQUE_ID );
+	first_syncID	UNIQUE_ID,
+-- 010:20140218 Add Start (nomura)
+	MaxInternalEvents	INTEGER,
+	MaxExternalEvents	INTEGER,
+	MaxRelationExtents	INTEGER,
+	MaxSelectionNodeExtents	INTEGER,
+	isUseMutexLock		BOOLEAN,
+	isUseFacadeMaxDef	BOOLEAN
+-- 010:20140218 Add End (nomura)
+    );
 
 -- Class:  2014.  Extended Member
 CREATE TABLE TE_MBR (
@@ -2450,7 +2469,12 @@ CREATE TABLE TE_EE (
 	te_cID	UNIQUE_ID,
 	EE_ID	UNIQUE_ID,
 	ID	UNIQUE_ID,
-	nextID	UNIQUE_ID );
+	nextID	UNIQUE_ID
+--//-- 010:20140307 Add Start (nomura)
+	,RealizedIncludeFile STRING
+	,IsMarkAsRealized BOOLEAN
+--//-- 010:20140307 Add End (nomura)
+    );
 
 -- Class:  2016.  Extended Data Type
 CREATE TABLE TE_DT (
@@ -2467,7 +2491,11 @@ CREATE TABLE TE_DT (
 	string_format	STRING,
 	generated	BOOLEAN,
 	te_cID	UNIQUE_ID,
-	DT_ID	UNIQUE_ID );
+	DT_ID	UNIQUE_ID
+-- //-- 002: 20140122 Add Start (saitou) 
+	,IsExternalMacro	BOOLEAN
+-- //-- 002: 20140122 Add End (saitou) 
+	 );
 
 -- Class:  2017.  Extended Action
 CREATE TABLE TE_ACT (
@@ -2513,7 +2541,13 @@ CREATE TABLE TE_BRG (
 	GeneratedName	STRING,
 	AbaID	UNIQUE_ID,
 	Brg_ID	UNIQUE_ID,
-	EE_ID	UNIQUE_ID );
+	EE_ID	UNIQUE_ID
+-- //-- 004: 20140122 Add Start (saitou) 
+	,NotGenerateInvocation	BOOLEAN
+	,RealFuncName STRING
+	,IsRealFunc BOOLEAN
+-- //-- 004: 20140122 Add End (saitou) 
+	);
 
 -- Class:  2021.  Extended Derived Attribute
 CREATE TABLE TE_DBATTR (
@@ -2581,7 +2615,16 @@ CREATE TABLE TE_ATTR (
 	GeneratedType	STRING,
 	prevID	UNIQUE_ID,
 	Attr_ID	UNIQUE_ID,
-	Obj_ID	UNIQUE_ID );
+	Obj_ID	UNIQUE_ID
+--//--011:20140213 Add Start (saitou)
+	,isAutoInc	BOOLEAN
+	,AutoIncDataSize	INTEGER
+	,AutoIncLowLimit	STRING
+	,AutoIncHighLimit	STRING
+	,AutoIncDirection	STRING
+	,AutoIncUndefValue	STRING
+--//--011:20140213 Add Start (saitou)
+	);
 
 -- Class:  2026.  Extended Relation
 CREATE TABLE TE_REL (
@@ -2631,7 +2674,11 @@ CREATE TABLE TE_PO (
 	Order	INTEGER,
 	te_cID	UNIQUE_ID,
 	c_iId	UNIQUE_ID,
-	c_poId	UNIQUE_ID );
+	c_poId	UNIQUE_ID,
+-- //-- 009: 20140205 Add Start (saitou) 
+	realizeEE_ID	UNIQUE_ID
+-- //-- 009: 20140205 Add End (saitou) 
+	);
 
 -- Class:  2032.  Extended Value
 CREATE TABLE TE_VAL (
@@ -2700,7 +2747,12 @@ CREATE TABLE TE_CLASS (
 	attribute_dump	STRING,
 	te_cID	UNIQUE_ID,
 	Obj_ID	UNIQUE_ID,
-	nextID	UNIQUE_ID );
+	nextID	UNIQUE_ID,
+-- 010:20140218 Add Start (nomura)
+	InstanceMaxNo STRING,
+	InstanceMaxNoDefIncludeFile STRING
+-- 010:20140218 Add End (nomura)
+    );
 
 -- Class:  2037.  prefix
 CREATE TABLE TE_PREFIX (
@@ -2846,6 +2898,9 @@ CREATE TABLE TE_FILE (
 	system_source_path	STRING,
 	system_include_path	STRING,
 	system_color_path	STRING,
+-- //-- 009: 20140205 Add Start (saitou) 
+	3020sys_path	STRING,
+-- //-- 009: 20140205 End Start (saitou) 
 	bridge_mark	STRING,
 	system_mark	STRING,
 	datatype_mark	STRING,
@@ -6549,3 +6604,15 @@ CREATE ROP REF_ID R3201	FROM MC S_AW	(Sync_ID)
 			  TO 1C S_SYNC	(Sync_ID);
 
 
+--//--007:20140213 Add Start (saitou)
+--// same old BParc modNo 026
+-- STRING TO INTEGER object
+CREATE TABLE TE_STI (
+	ID UNIQUE_ID,
+	Name_key STRING,
+	PID UNIQUE_ID,
+	IsFirst BOOLEAN
+   	);
+CREATE ROP REF_ID R3002	FROM 1C TE_STI	(PID) PHRASE 'succeeds'
+			  TO 1C TE_STI	(ID) PHRASE 'proceeds';
+--//--007:20140213 Add End (saitou)
