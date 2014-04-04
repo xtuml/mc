@@ -81,6 +81,27 @@
   .assign attr_result = result
 .end function
 .//
+.//-- 010:2014025 Add Start (nomura)
+.//============================================================================
+.function GetUnrelateMethodName .// string
+  .param inst_ref left_obj
+  .param inst_ref right_obj
+  .param inst_ref rel
+  .param string   rel_phrase
+  .//
+  .assign formalizing_obj = left_obj
+  .assign participant_obj = right_obj
+  .//
+  .invoke r = TE_REL_IsLeftFormalizer( left_obj, rel, rel_phrase )
+  .if ( !r.result )
+    .assign formalizing_obj = right_obj
+    .assign participant_obj = left_obj
+  .end if
+  .//
+  .invoke 
+.end function
+.//
+.//-- 010:2014025 Add End (nomura)
 .//============================================================================
 .// Return the name of the object relationship container array.
 .// This array of containoids is used to optimize relationships when
@@ -140,3 +161,13 @@
   .assign attr_arglist_types = "  const s1_t, const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}, const ${te_typemap.instance_index_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name}"
   .assign attr_arglist = "  const s1_t operation, const ${te_typemap.domain_number_name} domain,\n  const ${te_typemap.object_number_name} owning_class, const ${te_typemap.instance_index_name} ri,\n  ${te_instance.handle} left, const ${te_typemap.object_number_name} l,\n   ${te_instance.handle} right, const ${te_typemap.object_number_name} r,\n  ${te_instance.handle} assoc, const ${te_typemap.object_number_name} a"
 .end function
+.//-- 010:20140306 Add Start (nomura)
+.//
+.//============================================================================
+.function GetObjectClassName .// string
+  .param inst_ref o_obj
+  .select any te_class related by o_obj->TE_CLASS[R2019]
+  .assign attr_result = te_class.GeneratedName
+.end function
+.//
+.//-- 010:20140306 Add Start (nomura)

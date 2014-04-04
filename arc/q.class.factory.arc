@@ -25,7 +25,11 @@
 .//============================================================================
 .function AddClassExtent
   .param inst_ref o_obj
+  .param inst_ref te_relstore
   .param boolean  gen_declaration
+.//-- 010:20140224 Add Start (nomura)
+  .//.param inst_ref te_relstore
+.//-- 010:20140224 Add End (nomura)
   .select any te_extent from instances of TE_EXTENT
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE

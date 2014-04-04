@@ -148,7 +148,16 @@
   .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 0 ) and ( selected.Included ) )
   .assign te_ees = te_ees | global_te_ees
   .for each te_ee in te_ees
+.//-- 010:20140310 Modified Start (nomura)
+  .//.print "---- ${te_ee.RegisteredName}  ${te_ee.Include_File}"
+  .invoke isExistRealFunc = fx_is_exist_real_func(te_ee)
+  .if (isExistRealFunc.result).
+    .invoke bridgeExtendPrefix = fx_get_bridge_extend_name_prefix(te_ee)
+    .assign ee_includes = ee_includes + "\n#include ""${bridgeExtendPrefix.result}.${te_file.hdr_file_ext}"""
+  .else
     .assign ee_includes = ee_includes + "\n#include ""${te_ee.Include_File}"""
+  .end if
+.//-- 010:20140310 Modified End (nomura)
   .end for
   .//
   .assign enumeration_info = ""

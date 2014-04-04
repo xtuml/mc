@@ -35,7 +35,9 @@
     .assign message_declarations = message_declarations + s.body
   .end for
   .include "${arc_path}/t.component.module.h"
-  .emit to file "${te_file.system_include_path}/${te_c.module_file}.${te_file.hdr_file_ext}"
+.//-- 013:20140227 Modified Start (saitou) 
+  .emit to file "${te_file.domain_include_path}/${te_c.module_file}.${te_file.hdr_file_ext}"
+.//-- 013:20140227 Modified End (saitou) 
   .//
   .for each te_po in te_pos
     .// Get the first te_mact(s) in the port.
@@ -89,11 +91,13 @@ ${class_type_identifiers.body}
   .//
   .select any ilb_te_sync related by te_c->TE_SYNC[R2084] where ( selected.IsSafeForInterrupts )
   .include "${te_file.arc_path}/t.component.messages.c"
+.// 010:20140306 Modified Start (nomura)
   .if ( te_c.isRealized )
-    .emit to file "${te_file.system_source_path}/${te_c.module_file}_realized.${te_file.src_file_ext}"
+    .emit to file "${te_file.domain_source_path}/${te_c.module_file}_realized.${te_file.src_file_ext}"
   .else
-    .emit to file "${te_file.system_source_path}/${te_c.module_file}.${te_file.src_file_ext}"
+    .emit to file "${te_file.domain_source_path}/${te_c.module_file}.${te_file.src_file_ext}"
   .end if
+.// 010:20140306 Modified End (nomura)
   .// AUTOSAR VFB ports
   .include "${te_file.arc_path}/q.autosar.vfb_ports.arc"
 .end for

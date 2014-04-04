@@ -25,16 +25,22 @@
 
 ${te_target.c2cplusplus_linkage_begin}
 
+.invoke sysmech = fx_get_sys_mech_file_name()
+#include "${sysmech.result}.${te_file.hdr_file_ext}"
+.invoke domainenums = fx_get_domain_enums_file_name(te_c)
+#include "${domainenums.result}.${te_file.hdr_file_ext}"
+
+
 .end if
 .include "${te_file.arc_path}/t.domain_init.h"
 
 .if ( not_empty first_te_class )
 #define ${te_dci.max_models} ${number_of_state_machines}
-  .if ( "C++" == te_target.language )
+.//  .if ( "C++" == te_target.language )
     .invoke r = GetDomainTypeIDFromString( te_c.Name )
     .assign dom_id = r.result
 #define ${dom_id} 0
-  .end if
+.//  .end if
 /* Define constants to map to class numbers.  */
 ${class_numbers}\
 #define ${te_dci.max} ${class_number_count}

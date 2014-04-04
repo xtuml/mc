@@ -78,7 +78,9 @@
     .else
       .assign string_format = ( string_format + format_delimiter ) + "[]"
     .end if
-    .invoke r = t_oal_smt_event_parameters( "", te_parm.Name, te_parm.GeneratedName, te_dt.Core_Typ, "  " )
+.//-- 002: 20140123 Modified Start (saitou) 
+    .invoke r = t_oal_smt_event_parameters( "", te_parm.Name, te_parm.GeneratedName, te_dt.Core_Typ, "  ", te_dt.IsExternalMacro )
+.//-- 002: 20140123 Modified End (saitou) 
     .assign assn = assn + r.result
     .if ( "A00portindex" != te_parm.Name )
       .assign assnbase = assnbase + r.result

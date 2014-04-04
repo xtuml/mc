@@ -392,6 +392,23 @@
     .elif ( "MarkComponentAsRealized" == f )
       .// MarkComponentAsRealized("package_name","component_name","inc_file")
       .invoke MarkComponentAsRealized(p1,p2,p3)
+.//-- 010:20140212 Add Start (nomura)
+    .elif ( "MarkDomainEventMaxNumber" == f )
+      .// MarkDomainEventMaxNumber("component_name","internalEventNum","externalEventNum")
+      .invoke MarkDomainEventMaxNumber(p1,p2,p3)
+    .elif ( "SetDomainRelationExtentMaxNumber" == f )
+      .// SetDomainRelationExtentMaxNumber("component_name", "RelationExtentMaxNo")
+      .invoke SetDomainRelationExtentMaxNumber(p1, p2)
+    .elif ( "SetDomainSelectionNodeMaxNumber" == f )
+      .// SetDomainSelectionNodeMaxNumber("component_name", "SelectionNodeMaxNo")
+      .invoke SetDomainSelectionNodeMaxNumber(p1, p2)
+    .elif ( "TagUseFacadeMaxDef" == f )
+      .// TagUseFacadeMaxDef()
+      .invoke TagUseFacadeMaxDef()
+    .elif ( "SetDomainFacadeMutexLockUse" == f )
+      .// SetDomainFacadeMutexLockUse("component_name")
+      .invoke SetDomainFacadeMutexLockUse(p1)
+.//-- 010:20140212 Add Start (nomura)
     .else
       .// not in this pass
     .end if

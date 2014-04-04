@@ -8,6 +8,9 @@
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
+.//-- 010:20140312 Add Start (nomura)
+      .invoke base_arch_prefix = fx_get_base_arch_prefix_name()
+.//-- 010:20140312 Add End (nomura)
 .if ( te_sm.complete )
 
 /*
@@ -29,18 +32,30 @@ ${te_class.dispatcher}( ${te_eq.base_event_type} * event )
   .if ( te_sm.txn_action_count > 0 )
   ${te_typemap.SEM_cell_name} next_state;
   .else
-  ${te_typemap.state_number_name} next_state;
+.//-- 005: 20140128 Modified Start (saitou) 
+  ${te_typemap.state_number_name} next_state = 0;
+.//-- 005: 20140128 Modified End (saitou) 
   .end if
   
   .if ( can_self_create )
   if ( 0 != GetIsCreationEvent( event ) ) {
-    instance = ${te_instance.module}\
+.//-- 010:20140219 Modified Start (nomura)
+.// original code
+.//    instance = ${te_instance.module}\
+.//    .if ( te_class.Persistent )
+.//${te_instance.create_persistent}\
+.//    .else
+.//${te_instance.create}\
+.//    .end if
+.//( ${dom_id}, ${te_class.system_class_number} );
     .if ( te_class.Persistent )
+    instance = ${te_instance.module}\
 ${te_instance.create_persistent}\
-    .else
-${te_instance.create}\
-    .end if
 ( ${dom_id}, ${te_class.system_class_number} );
+    .else
+    instance = ${te_class.GeneratedName}_Create();
+    .end if
+.//-- 010:20140219 Modified End (nomura)
     if ( 0 != instance ) {
     .if ( "" != init_uniques )
       ${te_class.GeneratedName} * i = (${te_class.GeneratedName} *) instance;
@@ -54,7 +69,10 @@ ${init_uniques}\
     .// Add recovery/isolation logic as needed by your application here.
     .// The default is to ignore the self creation failure.
       /* Instance allocation failure - USER RECOVERY LOGIC IS TBD */
-      ${te_callout.event_no_instance}( 0 );
+.//-- 010:20140312 Delete Start (nomura)
+      .// callout‚ÍClass Creation Accessor‚Ì’†‚ÅŒÄ‚Ô‚½‚ß‚±‚±‚Å‚ÍŒÄ‚Î‚È‚¢
+      .// ${te_callout.event_no_instance}( 0 );
+.//-- 010:20140312 Delete Start (nomura)
     }
   } else {
     instance = GetEventTargetInstance( event );
@@ -74,7 +92,10 @@ ${poly_dispatcher} else\
   .// USER NOTE: If you need additional recovery or fault isolation logic,
   .// define in this callout.  The default is to ignore the occurance.
       /* instance validation failure (object deleted while event in flight) */
-      ${te_callout.event_no_instance}( event_number );
+.//-- 010:20140312 Modified Start (nomura)
+      .//${te_callout.event_no_instance}( event_number );
+      ${base_arch_prefix.result}_UserEventNoInstanceCallout( current_state, next_state, event_number );
+.//-- 010:20140312 Modified End (nomura)
     } else {
       next_state = ${te_sm.SEMname}[ current_state ][ event_number ];
       if ( next_state <= ${te_sm.num_states} ) {
@@ -93,28 +114,47 @@ ${poly_dispatcher} else\
     .for each te_state in te_states
 next_state == ${te_state.enumerator}\
       .if ( last te_states )
- ) {\
+.//--010:20140219 Modified Start (nomura)
+ .//) {\
+ ) {
+.//--010:20140219 Modified End (nomura)
       .else
  || \
       .end if
     .end for
-          ${te_instance.module}\
+.//--010:20140219 Modified Start (nomura)
+.// original code
+.//          ${te_instance.module}\
+.//    .if ( te_class.Persistent )
+.//${te_instance.delete_persistent}\
+.//    .else
+.//${te_instance.delete}\
+.//    .end if
+.//( instance, ${dom_id}, ${te_class.system_class_number} );
+.//        } else {
+.//          instance->${te_instance.current_state} = next_state;
+.//        }
     .if ( te_class.Persistent )
+          ${te_instance.module}\
 ${te_instance.delete_persistent}\
-    .else
-${te_instance.delete}\
-    .end if
 ( instance, ${dom_id}, ${te_class.system_class_number} );
+    .else
+          ${te_class.GeneratedName}_Delete( instance );
+    .end if
         } else {
           instance->${te_instance.current_state} = next_state;
         }
+.//--010:20140219 Modified End (nomura)
   .else
         instance->${te_instance.current_state} = next_state;
   .end if  .// can_self_delete
   .if ( not_empty evt_cant_happen )
       } else if ( next_state == ${te_eq.cant_happen} ) {
           /* event cant happen */
-          ${te_callout.event_cant_happen}( current_state, next_state, event_number );
+.//--010:20140312 Modified Start (nomura)
+          .//${te_callout.event_cant_happen}( current_state, next_state, event_number );
+          ${base_arch_prefix.result}_UserEventCantHappenCallout( current_state, next_state, event_number );
+.//--010:20140312 Modified End (nomura)
     .if ( te_c.StateTrace )
           ${te_trace.state_txn_cant_happen}( "${te_class.Key_Lett}", current_state );
     .end if

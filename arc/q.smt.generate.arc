@@ -196,6 +196,19 @@
   .invoke r = V_VAL_drill_for_V_VAL_root( l_v_val )
   .assign root_v_val = r.result
   .assign te_assign.isImplicit = root_v_val.isImplicit
+.//-- 002: 20140122 Add Start (saitou) 
+  .// fix for externalMacro 
+  .if ( ( l_te_dt.IsExternalMacro ) or ( r_te_dt.IsExternalMacro ) )
+    .assign te_assign.Core_Typ = 1
+    .assign te_assign.array_spec = ""
+    .if ( not l_te_dt.IsExternalMacro )
+      .assign te_assign.lval = l_te_val.OAL
+    .end if
+    .if ( not r_te_dt.IsExternalMacro )
+      .assign te_assign.rval = r_te_val.OAL
+    .end if
+  .end if
+.//-- 002: 20140122 Add End (saitou) 
   .if ( te_assign.isImplicit )
     .select one root_te_val related by root_v_val->TE_VAL[R2040]
     .assign te_assign.left_declaration = ( r_te_dt.ExtName + " " ) + root_te_val.buffer
@@ -288,7 +301,10 @@
       .assign d = ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" )
       .invoke blk_declaration_append( te_blk, d )
     .end if
-    .include "${te_file.arc_path}/t.smt.create_instance.c"
+    .//.include "${te_file.arc_path}/t.smt.create_instance.c"
+.//-- 010:20140219 Modified Start (nomura)
+    .include "${te_file.arc_path}/fx_smt_create_instance.arc"
+.//-- 010:20140219 Modified End (nomura)
     .assign te_smt.OAL = "CREATE OBJECT INSTANCE ${v_var.Name} OF ${te_class.Key_Lett}"
   .end if
 .end function
@@ -323,7 +339,10 @@
     .select one te_c related by te_class->TE_C[R2064]
     .invoke r = GetDomainTypeIDFromString( te_c.Name )
     .assign dom_id = r.result
-    .include "${te_file.arc_path}/t.smt.delete_instance.c"
+.//-- 010:20140219 Modified Start (nomura)
+    .//.include "${te_file.arc_path}/t.smt.delete_instance.c"
+    .include "${te_file.arc_path}/fx_smt_delete_instance.arc"
+.//-- 010:20140219 Modified End (nomura)
     .assign te_smt.OAL = "DELETE OBJECT INSTANCE ${v_var.Name}"
   .end if
 .end function
@@ -410,7 +429,28 @@
         .for each v_par in v_pars
           .select one par_te_dt related by v_par->V_VAL[R800]->S_DT[R820]->TE_DT[R2021]
           .select one par_te_val related by v_par->V_VAL[R800]->TE_VAL[R2040]
-          .invoke r = t_oal_smt_event_parameters( te_var.buffer, v_par.Name, par_te_val.buffer, par_te_dt.Core_Typ, te_blk.indentation )
+.//-- 002: 20140317 Modified Start (saitou) 
+          .assign buffer = par_te_val.buffer
+          .//
+          .assign isExternalMacro = false
+          .select any te_dt from instances of TE_DT where ( false )
+          .//
+          .select any sm_evtdi related by sm_evt->SM_EVTDI[R532] where ( selected.Name == v_par.Name )
+          .if ( not_empty sm_evtdi )
+            .select any te_dt related by sm_evtdi->S_DT[R524]->TE_DT[R2021]
+          .end if
+          .if ( not_empty te_dt )
+            .assign isExternalMacro = te_dt.IsExternalMacro
+          .end if
+          .//
+          .if ( isExternalMacro )
+            .select any v_lst related by par_te_val->V_VAL[R2040]->V_LST[R801]
+            .if ( not_empty v_lst )
+              .assign buffer = v_lst.Value
+            .end if
+          .end if
+          .invoke r = t_oal_smt_event_parameters( te_var.buffer, v_par.Name, buffer, par_te_dt.Core_Typ, te_blk.indentation, isExternalMacro )
+.//-- 002: 20140317 Modified End (saitou) 
           .assign parameters = parameters + r.result
           .assign parameter_OAL = ( parameter_OAL + delimeter ) + par_te_val.OAL
           .assign delimeter = ", "
@@ -957,7 +997,28 @@
       .for each v_par in v_pars
         .select one par_te_dt related by v_par->V_VAL[R800]->S_DT[R820]->TE_DT[R2021]
         .select one par_te_val related by v_par->V_VAL[R800]->TE_VAL[R2040]
-        .invoke r = t_oal_smt_event_parameters( "", v_par.Name, par_te_val.buffer, par_te_dt.Core_Typ, te_blk.indentation )
+.//-- 002: 20140317 Modified Start (saitou) 
+        .assign buffer = par_te_val.buffer
+        .//
+        .assign isExternalMacro = false
+        .select any te_dt from instances of TE_DT where ( false )
+        .//
+        .select any sm_evtdi related by sm_evt->SM_EVTDI[R532] where ( selected.Name == v_par.Name )
+        .if ( not_empty sm_evtdi )
+          .select any te_dt related by sm_evtdi->S_DT[R524]->TE_DT[R2021]
+        .end if
+        .if ( not_empty te_dt )
+          .assign isExternalMacro = te_dt.IsExternalMacro
+        .end if
+        .//
+        .if ( isExternalMacro )
+          .select any v_lst related by par_te_val->V_VAL[R2040]->V_LST[R801]
+          .if ( not_empty v_lst )
+            .assign buffer = v_lst.Value
+          .end if
+        .end if
+        .invoke r = t_oal_smt_event_parameters( "", v_par.Name, buffer, par_te_dt.Core_Typ, te_blk.indentation, isExternalMacro )
+.//-- 002: 20140317 Modified End (saitou) 
         .assign parameters = parameters + r.result
         .assign parameter_OAL = ( parameter_OAL + delimeter ) + par_te_val.OAL
         .assign delimeter = ", "
@@ -1056,7 +1117,28 @@
       .for each v_par in v_pars
         .select one par_te_dt related by v_par->V_VAL[R800]->S_DT[R820]->TE_DT[R2021]
         .select one par_te_val related by v_par->V_VAL[R800]->TE_VAL[R2040]
-        .invoke r = t_oal_smt_event_parameters( "", v_par.Name, par_te_val.buffer, par_te_dt.Core_Typ, ws )
+.//-- 002: 20140317 Modified Start (saitou) 
+        .assign buffer = par_te_val.buffer
+        .//
+        .assign isExternalMacro = false
+        .select any te_dt from instances of TE_DT where ( false )
+        .//
+        .select any sm_evtdi related by sm_evt->SM_EVTDI[R532] where ( selected.Name == v_par.Name )
+        .if ( not_empty sm_evtdi )
+          .select any te_dt related by sm_evtdi->S_DT[R524]->TE_DT[R2021]
+        .end if
+        .if ( not_empty te_dt )
+          .assign isExternalMacro = te_dt.IsExternalMacro
+        .end if
+        .//
+        .if ( isExternalMacro )
+          .select any v_lst related by par_te_val->V_VAL[R2040]->V_LST[R801]
+          .if ( not_empty v_lst )
+            .assign buffer = v_lst.Value
+          .end if
+        .end if
+        .invoke r = t_oal_smt_event_parameters( "", v_par.Name, buffer, par_te_dt.Core_Typ, ws, isExternalMacro )
+.//-- 002: 20140317 Modified End (saitou) 
         .assign parameters = parameters + r.result
         .assign parameter_OAL = ( parameter_OAL + delimeter ) + par_te_val.OAL
         .assign delimeter = ", "
@@ -1349,7 +1431,7 @@
     .// resolve the core data type of v_val
     .select one s_dt related by v_val->S_DT[R820]
     .assign return_s_dt = s_dt
-    .select any core_s_dt from instances of S_DT where ( false )
+   .select any core_s_dt from instances of S_DT where ( false )
     .select one s_udt related by s_dt->S_UDT[R17]
     .if ( not_empty s_udt )
       .invoke r = GetBaseTypeForUDT( s_udt )
@@ -1408,6 +1490,33 @@
     .end if
     .select one te_val related by v_val->TE_VAL[R2040]
     .assign value = te_val.buffer
+.//-- 002: 20140317 Add Start (saitou)
+    .select any func_ret_s_dt from instances of S_DT where ( false ) 
+    
+    .// act_ret->ACT_SMT[R603]->ACT_BLK[R602]->ACT_ACT[Rxxx]-> ...
+    .//     case1 for bridge    : ... ACT_BRB[R698]->S_BRG[R697]->S_DT[R20]
+    .//     case2 for Operation : ... ACT_OPB[R698]->O_TFR[R696]->S_DT[R116]
+    .// ACT_BLK->ACT_ACT ‚ÌŠÖ˜A‚ª‚Ç‚ê‚ð‘I‚×‚Î‚¢‚¢‚Ì‚©‚í‚©‚ç‚È‚¢‚Ì‚ÅAActionID‚Å’T‚·‚æ‚¤‚É‚·‚é.
+    .select one act_blk related by act_ret->ACT_SMT[R603]->ACT_BLK[R602]
+    .if ( not_empty act_blk )
+      .select any act_act from instances of ACT_ACT where ( selected.Action_ID == act_blk.Action_ID )
+      .if ( not_empty act_act )
+        .if ( empty func_ret_s_dt )
+          .// Bridge
+          .select one func_ret_s_dt related by act_act->ACT_BRB[R698]->S_BRG[R697]->S_DT[R20]
+        .end if
+        .if ( empty func_ret_s_dt )
+          .// Operation
+          .select one func_ret_s_dt related by act_act->ACT_OPB[R698]->O_TFR[R696]->S_DT[R116]
+        .end if
+      .end if
+    .end if
+    .if ( not_empty func_ret_s_dt )
+      .if ( func_ret_s_dt.IsExternalMacro )
+        .assign value = te_val.OAL
+      .end if
+    .end if
+.//-- 002: 20140317 Add End (saitou) 
     .assign value_OAL = te_val.OAL
   .end if
   .// Deallocate any variables allocated from this block and all higher blocks in this action.

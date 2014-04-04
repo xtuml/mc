@@ -85,8 +85,53 @@ ${te_sync.deferred_method}( void )
 .function CreateSynchronousServiceClassDeclaration
   .param inst_ref te_c
   .param inst_ref te_sync
-  .//
+.//-- 010:20140303 Add Start (nomura)
+.// user defined typeのヘッダファイルをincludeする。 
+  .assign te_sync_copy = te_sync
   .select any te_file from instances of TE_FILE
+  .while ( not_empty te_sync )
+      .select one s_sync related by te_sync->S_SYNC[R2023]
+      .select many s_sparms related by s_sync->S_SPARM[R24]
+      .if ( not_empty s_sparms)
+        .for each s_sparm in s_sparms
+	  .select one te_dt related by s_sparm->S_DT[R26]->TE_DT[R2021]
+	  .select many te_dt_temp_set from instances of TE_DT where (selected.Name == "TEMP_DATA_TYPE")
+.//	  .assign tempdtnum = cardinality te_dt_temp_set
+.//	  .print "++++ tempdtnum:${tempdtnum}"
+	  .assign included = FALSE
+	  .for each te_dt_temp in te_dt_temp_set
+.//	  .print "++++ te_dt_temp:${te_dt_temp.Include_File} te_dt:${te_dt.Include_File}"
+	     .if (te_dt_temp.Include_File == te_dt.Include_File)
+.//	     .print "++++ ${te_dt.Include_File} is included"
+	       .assign included = TRUE
+	     .end if
+	  .end for
+	  .if (included == FALSE)
+	       .create object instance te_dt_temp_new of TE_DT
+	       .assign te_dt_temp_new.Name = "TEMP_DATA_TYPE"
+	       .assign te_dt_temp_new.Include_File = te_dt.Include_File
+	  .end if
+	  .if ( included == FALSE) 
+	    .if (( te_dt.Include_File != "") and ("${te_dt.Include_File}" != "${te_file.types}.${te_file.hdr_file_ext}" ) )
+	    .print  "+++++ #include ${te_dt.Include_File}"
+#include "${te_dt.Include_File}" /* ${te_dt.Name} */
+            .end if
+          .end if
+	 .end for
+      .end if
+    .select one te_sync related by te_sync->TE_SYNC[R2095.'succeeds']
+  .end while
+  .//
+.//  .select many te_dt_delete_set from instances of TE_DT where (selected.Name == "TEMP_DATA_TYPE")
+.//  .for each te_dt_temp in te_dt_delete_set
+.//    .delete object instance te_dt_temp
+.//  .end for
+.//	  .assign tempdtnum = cardinality te_dt_delete_set
+.//	  .print "++++ tempdtnum2:${tempdtnum}"
+
+  .//
+  .assign te_sync = te_sync_copy
+.//-- 010:20140303 Add End (nomura)
   .while ( not_empty te_sync )
     .select one te_aba related by te_sync->TE_ABA[R2010]
     .include "${te_file.arc_path}/t.domain.function.h"

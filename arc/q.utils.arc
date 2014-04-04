@@ -131,18 +131,23 @@
 .//------------------------------------------------
 .// Note the use of p_ here.  It is hard-coded and depends upon
 .// matching the prefix used in initialization population query.
+.//-- 002: 20140123 Modified Start (saitou) 
 .function t_oal_smt_event_parameters .// string
   .param string evt_msg_var
   .param string parameter
   .param string value
   .param integer value_type
   .param string ws
+  .param boolean isExternalMacro	.// add 002
+.//-- 002: 20140123 Modified End (saitou) 
   .assign result = ""
   .select any te_eq from instances of TE_EQ
   .if ( "" == evt_msg_var )
     .assign evt_msg_var = te_eq.event_message_variable
   .end if
-  .if ( 4 == value_type )
+.//-- 002: 20140123 Modified Start (saitou) 
+  .if ( ( 4 == value_type ) and ( not isExternalMacro ) )
+.//-- 002: 20140123 Modified End (saitou) 
     .// string
     .select any te_string from instances of TE_STRING
     .select any te_instance from instances of TE_INSTANCE

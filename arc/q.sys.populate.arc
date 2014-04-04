@@ -183,6 +183,14 @@
     .assign te_c.port_file = te_c.Name
     .assign te_c.classes_file = te_c.Name + "_classes"
     .assign te_c.CodeComments = true
+.//-- 0100:20140211 Add Start (nomura)
+    .assign te_c.MaxInternalEvents = 0
+    .assign te_c.MaxExternalEvents = 0
+    .assign te_c.MaxRelationExtents = 0
+    .assign te_c.MaxSelectionNodeExtents = 0
+    .assign te_c.isUseMutexLock = false
+    .assign te_c.isUseFacadeMaxDef = false
+.//-- 0100:20140211 End Start (nomura)
     .// Create and relate the domain class info to carry details about
     .// class extents for this component.
     .create object instance te_dci of TE_DCI
@@ -411,6 +419,9 @@
     .assign te_dt.Core_Typ = -1
     .assign te_dt.string_format = ""
     .assign te_dt.te_cID = 00
+.//-- 002: 20140123 Add Start (saitou) 
+    .assign te_dt.IsExternalMacro = s_dt.IsExternalMacro
+.//-- 002: 20140123 Add End (saitou) 
     .// Link the ownership if contained in a component.
     .assign te_c = empty_te_c
     .select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000]
@@ -531,7 +542,10 @@
       .if (te_sys.AUTOSAR)
         .assign te_dt.ExtName = "dt_xtUMLInteger"
       .else
-        .assign te_dt.ExtName = "i_t"
+.//-- 016: 20140305 Modified Start (saitou) 
+        .// i_t -> int
+        .assign te_dt.ExtName = "int"
+.//-- 016: 20140305 Modified End (saitou) 
       .end if
       .assign te_dt.Initial_Value = "0"
       .assign te_dt.string_format = "%d"
@@ -542,13 +556,19 @@
       .if (te_sys.AUTOSAR)
         .assign te_dt.ExtName = "dt_xtUMLReal"
       .else
-        .assign te_dt.ExtName = "r_t"
+.//-- 016: 20140305 Modified Start (saitou) 
+        .// r_t -> double
+        .assign te_dt.ExtName = "double"
+.//-- 016: 20140305 Modified End (saitou) 
       .end if
       .assign te_dt.Initial_Value = "0.0"
       .assign te_dt.string_format = "%f"
     .elif ( 4 == te_dt.Core_Typ )
       .// string
-      .assign te_dt.ExtName = "c_t"
+.//-- 016: 20140305 Modified Start (saitou) 
+      .// c_t -> char
+      .assign te_dt.ExtName = "char"
+.//-- 016: 20140305 Modified End (saitou) 
       .assign te_dt.Initial_Value = "CTOR"
       .assign te_dt.string_format = "%s"
     .elif ( 5 == te_dt.Core_Typ )
@@ -590,7 +610,10 @@
       .assign te_dt.string_format = "%d"
     .elif ( 12 == te_dt.Core_Typ )
       .// inst_ref<Mapping>
-      .assign te_dt.ExtName = "i_t"
+.//-- 016: 20140305 Modified Start (saitou) 
+      .// i_t -> int
+      .assign te_dt.ExtName = "int"
+.//-- 016: 20140305 Modified End (saitou) 
       .assign te_dt.Initial_Value = "0"
       .assign te_dt.string_format = "%d"
     .else
@@ -724,7 +747,14 @@
       .assign te_mbr.GeneratedName = "$r{s_mbr.Name}"
       .select many s_dims related by s_mbr->S_DIM[R53]
       .assign array_spec = ""
-      .assign te_mbr.dimensions = cardinality s_dims
+.//-- 002: 20140128 Modified Start (saitou) 
+      .select one mbr_te_dt related by s_mbr->S_DT[R45]->TE_DT[R2021]
+      .if ( mbr_te_dt.IsExternalMacro )
+        .assign te_mbr.dimensions = 0
+      .else
+        .assign te_mbr.dimensions = cardinality s_dims
+      .end if
+.//-- 002: 20140128 Modified End (saitou) 
       .assign te_dim = empty_te_dim
       .assign dim_index = 0
       .while ( dim_index < te_mbr.dimensions )
@@ -741,8 +771,12 @@
       .end while
       .assign te_mbr.array_spec = array_spec
       .// In the C model compiler, treat strings as arrays.
-      .select one mbr_te_dt related by s_mbr->S_DT[R45]->TE_DT[R2021]
-      .if ( 4 == mbr_te_dt.Core_Typ )
+.//-- 002: 20140128 Deleted Start (saitou) 
+        .// move up : select te_dt
+.//-- 002: 20140128 Deleted Start (saitou) 
+.//-- 002: 20140128 Modified Start (saitou) 
+      .if ( ( 4 == mbr_te_dt.Core_Typ ) and ( not mbr_te_dt.IsExternalMacro ) )
+.//-- 002: 20140128 Modified Start (saitou) 
         .// string
         .assign te_mbr.dimensions = te_mbr.dimensions + 1
         .assign te_mbr.array_spec = ( te_mbr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
@@ -846,6 +880,26 @@
     .end for
   .end for
   .//
+.//-- 002: 20140123 Add Start (saitou) 
+  .// Fix ExtName
+  .select many s_dts from instances of S_DT where ( selected.genName != "" )
+  .for each s_dt in s_dts
+    .select one te_dt related by s_dt->TE_DT[R2021]
+    .assign te_dt.ExtName = s_dt.genName
+  .end for
+  .// Fix Include_File
+  .select many s_dts from instances of S_DT where ( selected.Include_File != "" )
+  .for each s_dt in s_dts
+    .select one te_dt related by s_dt->TE_DT[R2021]
+    .assign te_dt.Include_File = s_dt.Include_File
+  .end for
+  .// Fix DefaultValue
+  .select many s_dts from instances of S_DT where ( selected.DefaultValue != "" )
+  .for each s_dt in s_dts
+    .select one te_dt related by s_dt->TE_DT[R2021]
+    .assign te_dt.Initial_Value = s_dt.DefaultValue
+  .end for
+.//-- 002: 20140123 Add End (saitou) 
   .// Mark enumerator discrete values (from marking).
   .select many tm_enumvals from instances of TM_ENUMVAL
   .for each tm_enumval in tm_enumvals
@@ -1629,7 +1683,18 @@
         .end if
         .select many s_dims related by o_attr->S_DIM[R120]
         .assign array_spec = ""
-        .assign te_attr.dimensions = cardinality s_dims
+.//-- 002: 20140128 Modified Start (saitou) 
+.//-- 002: 20140314 Modified Start (saitou) 
+        .//.select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
+        .invoke tmpr = GetAttributeDataType( o_attr )
+        .assign te_dt = tmpr.result
+.//-- 002: 20140314 Modified Start (saitou) 
+        .if ( te_dt.IsExternalMacro )
+          .assign te_attr.dimensions = 0
+        .else
+          .assign te_attr.dimensions = cardinality s_dims
+        .end if
+.//-- 002: 20140128 Modified End (saitou) 
         .assign te_dim = empty_te_dim
         .assign dim_index = 0
         .while ( dim_index < te_attr.dimensions )
@@ -1645,7 +1710,29 @@
           .assign dim_index = dim_index + 1
         .end while
         .assign te_attr.array_spec = array_spec
-        .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
+.//-- 002: 20140128 Deleted Start (saitou) 
+        .// move up : select te_dt
+.//-- 002: 20140128 Deleted Start (saitou) 
+.//-- 011: 20140217 Add Start (saitou) 
+        .if ( "${o_attr.Descrip:AUTOINC}" == "TRUE" )
+          .assign te_attr.isAutoInc = true
+          .// 文字列から数値に変換。。。
+          .assign numString = "$r{o_attr.Descrip:AUTOINC_DATASIZE}"
+          .if ( numString == "1" )
+            .assign te_attr.AutoIncDataSize	=  1
+          .elif ( numString == "2" )
+            .assign te_attr.AutoIncDataSize	=  2
+          .elif ( numString == "4" )
+            .assign te_attr.AutoIncDataSize	=  4
+          .elif ( numString == "8" )
+            .assign te_attr.AutoIncDataSize	=  8
+          .end if
+          .assign te_attr.AutoIncLowLimit	= "${o_attr.Descrip:AUTOINC_LLIMIT}"
+          .assign te_attr.AutoIncHighLimit	= "${o_attr.Descrip:AUTOINC_HLIMIT}"
+          .assign te_attr.AutoIncDirection	= "${o_attr.Descrip:AUTOINC_DIR}"
+          .assign te_attr.AutoIncUndefValue	= "${o_attr.Descrip:AUTOINC_UNDEF}"
+        .end if
+.//-- 011: 20140217 Add End (saitou) 
         .// Potentially substitute data type for base attribute data type.
         .if ( 7 == te_dt.Core_Typ )
           .// referential attribute
@@ -1668,7 +1755,9 @@
           .end if
         .end if
         .// In the C model compiler, treat strings as arrays.
-        .if ( 4 == te_dt.Core_Typ )
+.//-- 002: 20140128 Modified Start (saitou) 
+        .if ( ( 4 == te_dt.Core_Typ ) and ( not te_dt.IsExternalMacro ) )
+.//-- 002: 20140128 Modified Start (saitou) 
           .// string
           .assign te_attr.dimensions = te_attr.dimensions + 1
           .assign te_attr.array_spec = ( te_attr.array_spec + "[" ) + ( te_string.max_string_length + "]" )
@@ -2159,6 +2248,27 @@
     .assign te_brg.EEname = s_ee.Name
     .assign te_brg.Name = s_brg.Name
     .assign te_brg.GeneratedName = bridge_scope + s_brg.Name
+.//-- 008:20140204 Add Start (saitou) 
+    .if ( "" != "${s_brg.Descrip:REAL_FUNC}" )
+      .print "REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${s_brg.Descrip:REAL_FUNC}"
+.//-- 010:20140307 Modified Start (nomura) 
+      .assign te_brg.RealFuncName = "${s_brg.Descrip:REAL_FUNC}"
+      .invoke bridgeExtendPrefix = fx_get_bridge_extend_name_prefix(te_ee)
+      .assign te_brg.GeneratedName = "${bridgeExtendPrefix.result}_${te_brg.Name}"
+      .//
+.//      .select many s_bparms related by s_brg->S_BPARM[R21]
+      .// TEMP
+.//      .invoke bparm_sort( s_brg, s_bparms )
+      .//
+.//-- 010:20140307 Modified End (nomura) 
+.//-- 010:20140307 Add Start (nomura) 
+      .assign te_brg.IsRealFunc = TRUE
+    .else
+      .assign te_brg.RealFuncName = ""
+      .assign te_brg.IsRealFunc = FALSE
+.//-- 010:20140307 Add End (nomura) 
+    .end if
+.//-- 008:20140204 Add End (saitou) 
     .select one te_dt related by s_brg->S_DT[R20]->TE_DT[R2021]
     .select many te_parms related by s_brg->S_BPARM[R21]->TE_PARM[R2028]
     .invoke r = FactoryTE_ABA( te_c, te_parms, te_ee.RegisteredName, te_brg.GeneratedName, "S_BRG", te_dt )
@@ -2254,7 +2364,9 @@
   .assign te_aba.ReturnDataType = te_dt.ExtName
   .assign te_aba.dimensions = 0
   .// In the C model compiler, treat strings as arrays.
-  .if ( 4 == te_dt.Core_Typ )
+.//-- 002: 20140317 Modified Start (saitou) 
+  .if ( ( 4 == te_dt.Core_Typ ) and ( not te_dt.IsExternalMacro ) )
+.//-- 002: 20140317 Modified End (saitou) 
     .// string
     .select any te_string from instances of TE_STRING
     .assign te_aba.dimensions = te_aba.dimensions + 1
@@ -2291,7 +2403,13 @@
   .assign te_parm.te_dtID = te_dt.ID
   .// end relate
   .// Set up the array dimensions for the parameter.
-  .assign te_parm.dimensions = cardinality s_dims
+.//-- 002: 20140128 Modified Start (saitou) 
+  .if ( te_dt.IsExternalMacro )
+    .assign te_parm.dimensions = 0
+  .else
+    .assign te_parm.dimensions = cardinality s_dims
+  .end if
+.//-- 002: 20140128 Modified Start (saitou) 
   .assign array_spec = ""
   .select one te_dim related by te_parm->TE_DIM[R2056] where ( false )
   .assign dim_index = 0
@@ -2313,7 +2431,9 @@
   .end while
   .assign te_parm.array_spec = array_spec
   .// In the C model compiler, treat strings as arrays.
-  .if ( 4 == te_dt.Core_Typ )
+.//-- 002: 20140128 Modified Start (saitou) 
+  .if ( ( 4 == te_dt.Core_Typ ) and ( not te_dt.IsExternalMacro ) )
+.//-- 002: 20140128 Modified End (saitou) 
     .// string
     .select any te_string from instances of TE_STRING
     .assign te_parm.dimensions = te_parm.dimensions + 1

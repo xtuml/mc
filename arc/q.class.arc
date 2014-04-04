@@ -248,27 +248,57 @@ ${abody}
   .if ( gen_declaration )
     .if ( ( "C" != te_target.language ) and ( not_empty te_c ) )
 class ${te_c.Name}; // forward reference
+.//-- 010:20140227 Add Start (nomura)
+    .// fx mechのヘッダをincludeする。
+    .else
+    .select any te_file from instances of TE_FILE
+    .invoke sys_types = fx_get_sys_mech_file_name()
+#include "${sys_types.result}.${te_file.hdr_file_ext}"
+.//-- 010:20140227 Add End (nomura)
     .end if
   .else
     .select any te_file from instances of TE_FILE
-#include "${te_file.types}.${te_file.hdr_file_ext}"
+.//-- 010:20140227 Modified Start (nomura)
+.//#include "${te_file.types}.${te_file.hdr_file_ext}"
+    .// fx mechのヘッダをincludeする。
+    .invoke sys_types = fx_get_sys_mech_file_name()
+#include "${sys_types.result}.${te_file.hdr_file_ext}"
+.//-- 010:20140227 Modified End (nomura)
     .if ( ( "C" != te_target.language ) and ( not_empty te_c ) )
 #include "${te_c.Name}.${te_file.hdr_file_ext}"
     .end if
+    .//
     .select many te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
     .invoke r = ee_sort( te_ees )
     .assign te_ee = r.result
     .while ( not_empty te_ee )
-#include "${te_ee.Include_File}"
+.//#include "${te_ee.Include_File}"
+.//-- 010:20140307 Add Start (nomura)
+      .// REAL_FUNCを含むEEの場合は、Extendヘッダもincludeする。
+      .invoke is_exist_realfunc = fx_is_exist_real_func(te_ee)
+      .if (is_exist_realfunc.result)
+          .invoke bridge_extend_prefix = fx_get_bridge_extend_name_prefix(te_ee)
+.//#include "${bridge_extend_prefix.result}.${te_file.hdr_file_ext}"
+      .end if
+.//-- 010:20140307 Add End (nomura)
       .select one te_ee related by te_ee->TE_EE[R2096.'succeeds']
     .end while
     .select one te_ee related by te_c->TE_EE[R2098]
     .while ( not_empty te_ee )
       .if ( te_ee.Included )
-#include "${te_ee.Include_File}"
+.//#include "${te_ee.Include_File}"
       .end if
+.//-- 010:20140307 Add Start (nomura)
+      .// REAL_FUNCを含むEEの場合は、Extendヘッダもincludeする。
+      .invoke is_exist_realfunc = fx_is_exist_real_func(te_ee)
+      .if (is_exist_realfunc.result)
+          .invoke bridge_extend_prefix = fx_get_bridge_extend_name_prefix(te_ee)
+.//#include "${bridge_extend_prefix.result}.${te_file.hdr_file_ext}"
+      .end if
+.//-- 010:20140307 Add End (nomura)
       .select one te_ee related by te_ee->TE_EE[R2096.'succeeds']
     .end while
+    .//
     .if ( "C" == te_target.language )
       .select any te_sync related by te_c->TE_SYNC[R2084]
       .select any te_class related by te_c->TE_CLASS[R2064]
@@ -278,6 +308,40 @@ class ${te_c.Name}; // forward reference
     .end if
   .end if
 .end function
+.//
+.//-- 010:20140228 Add Start (nomura)
+.//============================================================================
+.// ClassAddDomainIncludeFiles
+.// specify_user_defined_typeで指定されたヘッダファイルのinclude文を生成する。
+.// TODO:同じヘッダファイルが複数回includeされないようにする(できれば)。
+.//============================================================================
+.function ClassAddDomainIncludeFiles
+  .param inst_ref te_class
+  .param boolean gen_decl
+  .select any te_file from instances of TE_FILE
+  .select any te_attr related by te_class->TE_ATTR[R2061] where ( selected.prevID == 00 )
+  .//
+  .while ( not_empty te_attr )
+    .select one o_attr related by te_attr->O_ATTR[R2033]
+    .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
+    .select any te_sys from instances of TE_SYS
+    .if ( te_dt.Core_Typ != 6 )
+      .// not current_state type
+      .assign sys_types_h = "${te_file.types}.${te_file.hdr_file_ext}"
+      .if ( te_attr.translate ) 
+        .if ( te_dt.Include_File != "" ) 
+	  .if  ( "${te_dt.Include_File}" != "${te_file.types}.${te_file.hdr_file_ext}" )
+#include "${te_dt.Include_File}"
+          .end if
+        .end if
+      .end if
+    .end if
+    .// Advance to the next object attribute, if any.
+    .select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds']
+  .end while
+  .//
+.end function
+.//-- 010:20140228 Add End (nomura)
 .//
 .//============================================================================
 .// Generate access methods to read and write mathematically dependent
@@ -335,14 +399,24 @@ class ${te_c.Name}; // forward reference
   .// !!! NOTE:  Invoke *BEFORE* generating object class!
   .// This function also returns an instance te_relstore which contains
   .// the appropriate code components for the object class.
-  .invoke object_extent   = AddClassExtent( o_obj, gen_declaration )
+.//-- 010:20140224 Modified Start (nomura)
+  .// AddClassExtentの引数にte_relstoreを追加したので、処理順を変更する。
+  .//.invoke object_extent   = AddClassExtent( o_obj, gen_declaration )
+.//-- 010:20140224 Modified end (nomura)
   .invoke r = RenderObjectRelationships( o_obj, gen_declaration )
   .assign te_relstore = r.result
   .assign rendered_relationships = r.body
+.//-- 010:20140224 Modified Start (nomura)
+  .invoke object_extent   = AddClassExtent( o_obj, te_relstore, gen_declaration )
+.//-- 010:20140224 Modified end (nomura)
+.//-- 011: 20140217 Add Start (saitou) 
+  .invoke auto_inc_mech = FXHO_generate_auto_inc_id_definition( o_obj, gen_declaration )
+.//-- 011: 20140217 Add End (saitou) 
   .invoke obj_data_class = CreateObjectDataClass( o_obj, te_relstore )
   .invoke xforms = TranslateTransformerActions( o_obj, te_class, gen_declaration )
   .invoke mda = CreateMathematicallyDependentAttributeMethods( o_obj, gen_declaration )
   .invoke include_files = ClassAddIncludeFiles( te_c, gen_declaration )
+  .invoke domain_include_files = ClassAddDomainIncludeFiles( te_class, gen_declaration )
   .if ( te_sys.InstanceLoading )
     .invoke s = gen_class_instance_loader( te_class, gen_declaration )
     .assign instance_loader = s.body
@@ -352,6 +426,7 @@ class ${te_c.Name}; // forward reference
   .invoke special_where = AddObjectSpecialWhereMethods( o_obj, gen_declaration )
 ${file_prologue.body}\
 ${include_files.body}\
+${domain_include_files.body}\
   .if ( gen_declaration )
 ${obj_data_class.body}\
     .include "${te_file.arc_path}/t.class.instancedumper.h"
@@ -371,6 +446,11 @@ ${rendered_relationships}
       .include "${te_file.arc_path}/t.class.ops.c"
     .end if
   .end if
+.//-- 011: 20140217 Add Start (saitou) 
+  .if ( auto_inc_mech.result )
+${auto_inc_mech.body}
+  .end if
+.//-- 011: 20140217 Add End (saitou) 
 ${object_extent.body}\
   .//
   .// *** Active object specifics section

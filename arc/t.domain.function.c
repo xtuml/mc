@@ -8,7 +8,20 @@
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
-
+.//-- 018:20140320 Add Start (saitou)
+.//  過去BPとの互換性のために、最後にダミー引数を追加する(isCalledByExtの代わり)。
+.//  void だけの場合は引数が無いということなので、取り除いておく
+.//  初期化関数としてMarkされている場合は、対象外とする。
+.if ( te_sync.IsInitFunction != TRUE )
+  .if ( "$r{te_aba.ParameterDefinition}" == "void" )
+    .assign te_aba.ParameterDefinition = ""
+  .end if
+  .if ( "$r{te_aba.ParameterDefinition}" != "" )
+    .assign te_aba.ParameterDefinition = te_aba.ParameterDefinition + ","
+  .end if
+  .assign te_aba.ParameterDefinition = te_aba.ParameterDefinition + " int dummy "
+.end if
+.//-- 018:20140320 Add Start (saitou)
 /*
  * Domain Function:  ${s_sync.Name}
 .if ( te_c.RawComments )

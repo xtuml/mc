@@ -55,6 +55,8 @@ ${methods.body}\
             .select one subtype_supertype_rel related by rel->R_SUBSUP[R206]
             .if ( not_empty subtype_supertype_rel )
               .invoke methods = SubSuperRelationshipMethods( o_obj, rel, te_relstore, gen_declaration )
+	      .//.print "RenderObjectRelationships subtype_supertype_rel"
+	      .//.print "${methods.body}"
 ${methods.body}\
           .else
             .// Associative relationship?
@@ -839,7 +841,10 @@ ${aoth_fundamentals.body}\
     .select one ref_te_attr related by ref_o_attr->TE_ATTR[R2033]
     .if ( ref_te_attr.translate )
       .select one ident_te_attr related by o_attr->TE_ATTR[R2033]
-      .invoke r = GetAttributeCodeGenType( ref_o_attr )
+.//-- 010:20140318 Modified Start (nomura)
+      .//.invoke r = GetAttributeCodeGenType( ref_o_attr )
+      .invoke r = GetAttributeDataType( ref_o_attr )
+.//-- 010:20140318 Modified End (nomura)
       .assign te_dt = r.result
       .include "${te_file.arc_path}/t.class.set_refs.c"
     .end if
@@ -874,6 +879,202 @@ ${aoth_fundamentals.body}\
   .end for
 .end function
 .//
+.//-- 010:20140225 Add Start (nomura)
+.//============================================================================
+.function GetRelationshipUnrelateBodyTemp
+  .param inst_ref this_obj
+  .param inst_ref related_obj
+  .param inst_ref rel
+  .param inst_ref te_relinfo
+  .param inst_ref te_relstore
+  
+.end function
+.function GetRelationshipUnrelateBody
+  .param inst_ref this_obj
+  .param inst_ref related_obj
+  .param inst_ref rel
+  .param inst_ref te_relinfo
+  .param inst_ref te_relstore
+  .//
+  .assign left_obj = this_obj
+  .assign rel = te_relinfo.rel
+  .if (te_relinfo.is_formalizer == FALSE)
+    .assign left_obj = related_obj
+  .end if
+  .invoke unrelate_method = GetUnrelateFromName(left_obj, rel, te_relinfo.rel_phrase)
+  .//.print "${unrelate_method.result}"
+  .assign form_name = ""
+  .assign part_name = "" 
+  .assign auth_name = "" 
+  .//
+  .select one simple_rel related by rel->R_SIMP[R206]
+  .if (not_empty simple_rel)
+    .invoke member_data_name = GetRelationshipDataMemberName( related_obj, rel, te_relinfo.rel_phrase )
+    .assign isWhile = FALSE
+    .if ( te_relinfo.multiplicity == 0 )
+      .if ( te_relinfo.is_formalizer == TRUE )
+        .assign form_name = "${te_relstore.self_name}"
+        .assign part_name = "${te_relstore.self_name}->${member_data_name.result}"
+      .else
+        .assign form_name = "${te_relstore.self_name}->${member_data_name.result}"
+        .assign part_name = "${te_relstore.self_name}"
+      .end if .// is_formalizer
+    .else
+    while( ${te_relstore.self_name}->${member_data_name.result}.next )
+      .assign isWhile = true
+      .if ( te_relinfo.is_formalizer == TRUE )
+        .assign form_name = "${te_relstore.self_name}"
+        .assign part_name = "${te_relstore.self_name}->${member_data_name.result}"
+      .else
+        .assign form_name = "${te_relstore.self_name}->${member_data_name.result}"
+        .assign part_name = "${te_relstore.self_name}"
+      .end if .// is_formalizer
+    .end if .// rel_info.multiplicity
+    .if ( isWhile )
+   \
+    .end if
+    ${unrelate_method.result}( ${part_name}, ${form_name} );
+  .else
+    .select one subtype_supertype_rel related by rel->R_SUBSUP[R206]
+    .if ( not_empty subtype_supertype_rel )
+      .invoke member_data_name = GetRelationshipDataMemberName( related_obj, rel, te_relinfo.rel_phrase)
+      .select one supertype related by subtype_supertype_rel->R_SUPER[R212]
+      .assign part_name = "${te_relstore.self_name}"
+      .assign form_name = "${te_relstore.self_name}->${member_data_name.result}"
+      .//
+      .if ( supertype.Obj_ID == this_obj.Obj_ID)
+    /* Super / Sub Type Relationships unlink(this object is Super) */
+        .// this is super type
+	.select many subtype_set related by subtype_supertype_rel->R_SUB[R213]
+	.for each subtype in subtype_set
+	  .select one rgo related by supertype->R_RGO[R205]
+	  .select one sub_obj related by subtype->R_RGO[R205]->O_REF[R111]->O_RATTR[R108]->O_ATTR{R106]->O_OBJ[R102]
+	  .invoke unrelate_method = GetUnrelateFromName(left_obj, rel, te_relinfo.rel_phrase)
+	  .invoke navigate_method = GetNavigateLinkMethodName(this_obj, sub_obj, rel, te_relinfo.rel_phrase)
+    ${unrelate_method.result}( ${part_name}, ${navigate_method.result}(${part_name}));
+        .end for .// subtype in subtype_set
+      .else
+    /* Super / Sub Type Relationships unlink(this object is Subtype) */
+    ${unrelate_method.result}( ${form_name}, ${part_name}));
+      .end if
+    .else .// empty subtype_supertype_rel
+      .select one associative_rel related by rel->R_ASSOC[R206]
+      .if ( not_empty associative_rel )
+        .select one aone related by rel->R_ASSOC[R206]->R_AONE[R209]
+        .select one aoth related by rel->R_ASSOC[R206]->R_AOTH[R210]
+        .select one assr related by rel->R_ASSOC[R206]->R_ASSR[R211]
+	.select one aone_obj related by aone->R_RTO[R204]->O_ID[R109]->O_OBJ[R104]
+	.//.select one aoth_obj related by aoth->R_RTO[R204]->O_ID[R109]->O_OBJ[R104]
+	.select any aoth_obj related by aoth->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201] where ( selected.Obj_ID == aoth.Obj_ID)
+	.select one assr_obj related by assr->R_RGO[R205]->O_REF[R111]->O_RATTR[R108]->O_ATTR[R106]->O_OBJ[R102]
+	.invoke assr_member_name = GetRelationshipDataMemberName( assr_obj, rel, "" )
+	.invoke aoth_member_name = GetRelationshipDataMemberName( aoth_obj, rel, aoth.Txt_Phrs )
+	.invoke aone_member_name = GetRelationshipDataMemberName( aoth_obj, rel, aone.Txt_Phrs )
+	.assign while_exit=""
+	.assign is_ass_unlink = TRUE
+	.assign is_gen = FALSE
+	.//
+	.assign is_this_obj_aone = false
+	.assign is_this_obj_assr = false
+	.assign is_this_obj_aoth = false
+	.if ( aone_obj.Obj_ID != aoth_obj.Obj_ID )
+	  .if ( this_obj.Obj_ID == aone_obj.Obj_ID )
+	    .assign is_this_obj_aone = true
+	  .else
+	    .if ( this_obj.Obj_ID == assr_obj.Obj_ID )
+	      .assign is_this_obj_assr = true
+	    .else
+	      .assign is_this_obj_aoth = true
+	    .end if
+	  .end if
+	.else
+	  .if ( this_obj.Obj_ID == assr_obj.Obj_ID )
+	    .assign is_this_assr = true
+	  .else 
+	    .if ( aone.Txt_Phrs == rel_info.rel_phrase )
+	      .assign is_this_obj_aone = true
+	    .else
+	      .assign is_this_obj_aoth = true
+	    .end if
+	  .end if
+	.end if
+	.if ( is_this_obj_aone )
+	  .if ( related_obj.Obj_ID == assr.Obj_ID )
+	    .assign is_gen = true
+	  .end if
+	  .assign part_name = "${te_relstore.self_name}"
+	  .assign form_name = "${te_relstore.self_name}->${assr_member_name.result}"
+	  .//
+	  .if ( aone_obj == aoth_obj )
+	    .assign form_name = "${te_relstore.self_name}->${aoth_member_name.result}"
+	  .end if
+	  .assign aoth_name = "(${form_name}?${form_name}->${aoth_member_name.result}:0)"
+	  .if ( aoth.Mult == 1 )
+	    .invoke assr_cast_class = GetObjectClassName( assr_obj )
+	    .assign aoth_name = "((${assr_cast_class.result}*)(${form_name}.next->object))->${aoth_member_name.result}"
+	    .assign while_exit="${form_name}.next"
+	    .assign form_name="${form_name}.next->object"
+	  .end if
+	.else
+	  .if ( is_this_obj_assr )
+	    .if ( related_obj.Obj_ID == aone.Obj_ID )
+	      .assign is_gen = TRUE
+	    .end if
+	    .if ( assr.Mult == 1)
+	      .// Multi Association Not Support!!!
+              .assign msg1 = "Error:  Multi Association Not Support!!!
+${msg1}
+	      .Exit(102)
+	    .else
+	      .assign form_name = "${te_relstore.self_name}"
+	      .assign part_name = "${form_name}->${aone_member_name.result}"
+	      .assign aoth_name = "${form_name}->${aoth_member_name.result}"
+	    .end if
+	  .else
+	    .if ( is_this_obj_aoth )
+	      .if ( related_obj.Obj_ID == assr_obj.Obj_ID )
+	        .assign is_gen = TRUE
+	      .end if
+	      .assign aoth_name = "${te_relstore.self_name}"
+	      .assign form_name = "${te_relstore.self_name}->${assr_member_name.result}"
+	      .//
+	      .if ( aone_obj == aoth_obj )
+	        .assign form_name = "${te_relstore.self_name}->${aone_member_name.result}"
+	      .end if
+	      .invoke assr_cast_class = GetObjectClassName( assr_obj )
+	      .assign part_name = "(${form_name}?${form_name}->${aone_member_name.result}:0)"
+	      .//
+	      .if (aone.Mult == 1)
+		.assign while_exit="${form_name}.next"
+		.assign form_name="${form_name}.next->object"
+		.assign part_name="((${assr_cast_class.result}*)(${form_name}))->${aone_member_name.result}"
+	      .end if .// if ( aone_Mult == 1 )
+	    .end if .// if ( aone_obj == aoth_obj )
+	  .end if .// if ( is_this_obj_aoth )
+	.end if .// if ( is_this_obj_assr )
+	.if ( is_gen )
+	  .if ( while_exit != "" )
+    while( ${while_exit} )
+        ${unrelate_method.result}( ${part_name} , ${aoth_name} , ${form_name} );
+	  .else
+    ${unrelate_method.result}( ${part_name} , ${aoth_name} , ${form_name} );
+	  .end if .// if ( while_exit != "" )
+	.end if .// if ( is_gen )
+      .else
+        .// Composed relationship?
+        .select one composed_rel related by rel->R_COMP[R206]
+	.if ( not_empty composed_rel )
+	  .// Cannot Support Compose!!
+          .assign msg2 = "Error:  Cannot Support Compose!!!
+${msg2}
+          .Exit(103)
+	.end if
+      .end if .// not_empty associative_rel
+    .end if
+  .end if
+.end function
+.//-- 010:20140225 Add End (nomura)
+.//
 .//============================================================================
 .// Update the relationship storage instance with additional information
 .// regarding the declaration and init/cleanup of relationship data/code.
@@ -887,6 +1088,7 @@ ${aoth_fundamentals.body}\
   .param inst_ref te_relinfo
   .param inst_ref te_relstore
   .//
+  .//
   .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
   .select one te_c related by related_te_class->TE_C[R2064]
   .select any te_instance from instances of TE_INSTANCE
@@ -899,6 +1101,13 @@ ${aoth_fundamentals.body}\
     .select any te_oir related by rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == related_o_obj.Obj_ID )
   .end if
   .invoke member_data_name = GetRelationshipDataMemberName( related_o_obj, rel, te_relinfo.rel_phrase )
+.//-- 010:20140225 Add Start (nomura)
+  .//.invoke rel_fini = GetRelationshipUnrelateBody(this_o_obj, related_o_obj, rel, te_relinfo, te_relstore)
+  .invoke rel_fini = GetRelationshipUnrelateBodyTemp(this_o_obj, related_o_obj, rel, te_relinfo, te_relstore)
+  .//.print "AddRelationshipStorage this_o_obj:${this_o_obj.Name} related_o_obj:${related_o_obj.Name}"
+  .//.print "AddRelationshipStorage rel_fini:${rel_fini.body}"
+  .//.print "AddRelationshipStorage ------------------"
+.//-- 010:20140225 Add End (nomura)
   .//
   .assign storage_needed = false
   .assign phrase = ""
@@ -907,6 +1116,9 @@ ${aoth_fundamentals.body}\
     .assign phrase = ".'${te_relinfo.rel_phrase}'"
   .end if
   .//
+.//.print "---- this_o_obj.Obj_ID: ${this_o_obj.Obj_ID}"
+.//.print "---- related_o_obj.Obj_ID: ${related_o_obj.Obj_ID}"
+.//.print "---- te_relinfo.is_formalizer: ${te_relinfo.is_formalizer}"
   .if ( this_o_obj.Obj_ID != related_o_obj.Obj_ID )
     .// Non-reflexive - linkage based on navigation needs
     .if ( te_relinfo.is_formalizer )
@@ -970,19 +1182,27 @@ ${aoth_fundamentals.body}\
     .assign data_init = ""
     .assign data_fini = ""
     .//
+.//.print "---- te_relinfo.multiplicity: ${te_relinfo.multiplicity}"
+.//.print "---- storage_needed: ${storage_needed}"
     .if ( te_relinfo.multiplicity == 0 )
       .// relationship data storage for link to ONE
       .if ( not te_relinfo.is_supertype )
         .if ( storage_needed )
           .assign data_init = "  ${te_instance.self}->${member_data_name.result} = 0;\n"
-          .assign data_fini = "  ${te_instance.self}->${member_data_name.result} = 0;\n"
+.//-- 010:20140225 Modified Start (nomura)
+          .//.assign data_fini = "  ${te_instance.self}->${member_data_name.result} = 0;\n"
+          .assign data_fini = "${rel_fini.body}"
+.//-- 010:20140225 Modified End (nomura)
         .end if
       .else
         .if ( te_relinfo.generate_subtype )
           .// optimized relationship storage for link to a subtype
           .assign data_init = "  ${te_instance.self}->${member_data_name.result} = 0;\n  ${te_instance.self}->${member_data_name.obj_id} = 0;\n"
           .if ( storage_needed )
-            .assign data_fini = "  ${te_instance.self}->${member_data_name.result} = 0;\n  ${te_instance.self}->${member_data_name.obj_id} = 0;\n"
+.//-- 010:20140225 Modified Start (nomura)
+            .//.assign data_fini = "  ${te_instance.self}->${member_data_name.result} = 0;\n  ${te_instance.self}->${member_data_name.obj_id} = 0;\n"
+            .assign data_fini = "${rel_fini.body}"
+.//-- 010:20140225 Modified End (nomura)
             .assign te_relinfo.generate_subtype = false
           .end if
         .end if
@@ -991,7 +1211,10 @@ ${aoth_fundamentals.body}\
       .// relationship data storage for link to MANY
       .if ( storage_needed )
         .assign data_init = "  ${te_set.init}( &${te_instance.self}->${member_data_name.result} );\n"
-        .assign data_fini = "  ${te_set.module}${te_set.clear}( &${te_instance.self}->${member_data_name.result} );\n"
+.//-- 010:20140225 Modified Start (nomura)
+        .//.assign data_fini = "  ${te_set.module}${te_set.clear}( &${te_instance.self}->${member_data_name.result} );\n"
+        .assign data_fini = "${rel_fini.body}"
+.//-- 010:20140225 Modified End (nomura)
       .end if
     .end if
     .//

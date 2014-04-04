@@ -74,6 +74,10 @@
 .include "${arc_path}/q.val.translate.arc"
 .include "${arc_path}/sys_util.arc"
 .include "${arc_path}/t.smt.c"
+.//-- 010:20140211 Add Start (nomura)
+.include "${arc_path}/fx_util.arc"
+.include "${arc_path}/fx_bridge_skel.arc"
+.//-- 010:20140211 Add End (nomura)
 .//
 .select any te_file from instances of TE_FILE
 .if ( empty te_file )
@@ -207,8 +211,10 @@
   .assign dq_arg = "t "
   .assign thread_number = "t"
 .end if
-.include "${te_file.arc_path}/t.sys_main.c"
-.emit to file "${te_file.system_source_path}/${te_file.sys_main}.${te_file.src_file_ext}"
+.//-- 010:20140318 Deleted Start (nomura)
+.//.include "${te_file.arc_path}/t.sys_main.c"
+.//.emit to file "${te_file.system_source_path}/${te_file.sys_main}.${te_file.src_file_ext}"
+.//-- 010:20140318 Deleted End (nomura)
 .//
 .invoke r = DefineActiveClassCountArray( te_cs )
 .assign active_class_counts = r.body
@@ -266,15 +272,19 @@
 .//=============================================================================
 .// Generate sys_factory.h into system gen includes.
 .//=============================================================================
-.include "${te_file.arc_path}/t.sys_factory.h"
-.emit to file "${te_file.system_include_path}/${te_file.factory}.${te_file.hdr_file_ext}"
+.//-- 010:20140318 Deleted Start (nomura)
+.//.include "${te_file.arc_path}/t.sys_factory.h"
+.//.emit to file "${te_file.system_include_path}/${te_file.factory}.${te_file.hdr_file_ext}"
+.//-- 010:20140318 Deleted End (nomura)
 .//
 .if ( not_empty te_cs )
 .//=============================================================================
 .// Generate sys_factory.c into system gen source.
 .//=============================================================================
-.include "${te_file.arc_path}/t.sys_factory.c"
-.emit to file "${te_file.system_source_path}/${te_file.factory}.${te_file.src_file_ext}"
+.//-- 010:20140318 Deleted Start (nomura)
+.//.include "${te_file.arc_path}/t.sys_factory.c"
+.//.emit to file "${te_file.system_source_path}/${te_file.factory}.${te_file.src_file_ext}"
+.//-- 010:20140318 Deleted End (nomura)
 .end if
 .//
 .//=============================================================================
@@ -307,20 +317,26 @@
 .select many te_cs from instances of TE_C where ( selected.included_in_build )
 .invoke r = UserSuppliedDataTypeIncludes()
 .assign te_typemap.user_supplied_data_types = r.result
-.include "${te_file.arc_path}/t.sys_types.h"
-.emit to file "${te_file.system_include_path}/${te_file.types}.${te_file.hdr_file_ext}"
+.//-- 013:20140227 Modified Start (saitou) 
+.//.include "${te_file.arc_path}/t.sys_types.h"
+.//.emit to file "${te_file.3020sys_path}/${te_file.types}.${te_file.hdr_file_ext}"
+.//-- 013:20140227 Modified End (saitou) 
 .//
 .//=============================================================================
 .// Generate sys_user_co.h into include directory.
 .//=============================================================================
-.include "${te_file.arc_path}/t.sys_user_co.h"
-.emit to file "${te_file.system_include_path}/${te_file.callout}.${te_file.hdr_file_ext}"
+.//-- 010:20140318 Deleted Start (nomura)
+.//.include "${te_file.arc_path}/t.sys_user_co.h"
+.//.emit to file "${te_file.system_include_path}/${te_file.callout}.${te_file.hdr_file_ext}"
+.//-- 010:20140318 Deleted End (nomura)
 .//
 .//=============================================================================
 .// Generate sys_user_co.c into source directory.
 .//=============================================================================
-.include "${te_file.arc_path}/t.sys_user_co.c"
-.emit to file "${te_file.system_include_path}/${te_file.callout}.${te_file.src_file_ext}"
+.//-- 010:20140318 Deleted Start (nomura)
+.//.include "${te_file.arc_path}/t.sys_user_co.c"
+.//.emit to file "${te_file.system_include_path}/${te_file.callout}.${te_file.src_file_ext}"
+.//-- 010:20140318 Deleted End (nomura)
 .//
 .//=============================================================================
 .// Generate TIM_bridge.h into system include.
@@ -351,5 +367,42 @@
 .include "${te_file.arc_path}/t.sys_xtumlload.c"
 .emit to file "${te_file.system_source_path}/${te_file.xtumlload}.${te_file.src_file_ext}"
 .end if
+.//
+.//-- 010:20140211 Add Start (nomura)
+.//=============================================================================
+.// Initialize fx custom field
+.//=============================================================================
+.include "${te_file.arc_path}/fx_init.arc"
+.//
+.//-- 017:20140318 Add Start (nomura)
+.//=============================================================================
+.// Generate domain defined enumeration type.
+.//=============================================================================
+.include "${te_file.arc_path}/q.domain.enums.arc"
+.//-- 017:20140318 Add End (nomura)
+.//
+.//=============================================================================
+.// Generate domain_facade into system gen source.
+.//=============================================================================
+.include "${te_file.arc_path}/fx_domain_facade.arc"
+.//
+.//=============================================================================
+.// Generate domain_mech into system gen source.
+.//=============================================================================
+.include "${te_file.arc_path}/fx_domain_mech.arc"
+.//
+.//=============================================================================
+.// Generate domain_init into system gen source.
+.//=============================================================================
+.include "${te_file.arc_path}/fx_domain_init.arc"
+.//-- 010:20140211 Add End (nomura)
+.//-- 019:20140328 Add Start (nomura)
+.//
+.//=============================================================================
+.// Generate domain_debug into system gen source.
+.//=============================================================================
+.include "${te_file.arc_path}/fx_domain_debug.arc"
+.//-- 019:20140328 Add End (nomura)
+.//
 .print "ending ${info.date}"
 .//

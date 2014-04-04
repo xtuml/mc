@@ -15,9 +15,12 @@
  */
     .if ( not_empty te_class )
 extern ${te_cia.class_info_type} * const ${te_dci.array_name}[];
-      .if ( not_empty te_sm )
-extern const ${class_dispatch_array.element_type} ${class_dispatch_array.result}[];
-      .end if
+.//-- 010:20140228 Delete Start (nomura)
+.// domain_dispatcherはclass毎に持つので、この定義は不要
+.//      .if ( not_empty te_sm )
+.//extern const ${class_dispatch_array.element_type} ${class_dispatch_array.result}[];
+.//      .end if
+.//-- 010:20140228 Delete Start (nomura)
     .end if
 void ${te_c.Name}_execute_initialization( void );
   .end if

@@ -22,7 +22,13 @@
  */
 .end if
 
-#include "${te_file.types}.${te_file.hdr_file_ext}"
+.//-- 010:20140228 Modified Start (nomura)
+.invoke sys_mech = fx_get_sys_mech_file_name()
+#include "${sys_mech.result}.${te_file.hdr_file_ext}"
+.invoke dom_mech = fx_get_domain_mech_file_name(te_c)
+#include "${dom_mech.result}.${te_file.hdr_file_ext}"
+.//#include "${te_file.types}.${te_file.hdr_file_ext}"
+.//-- 010:20140228 Modified End (nomura)
 ${include_files}\
 .if ( te_c.internal_behavior )
 #include "${te_c.classes_file}.${te_file.hdr_file_ext}"
@@ -61,10 +67,14 @@ ib_${te_c.Name}_ru_${te_c.Name}_Initialize(Rte_Instance self)
 #endif
   .end if
 .end if
+.print ${message_definitions}
 ${message_definitions}
 .if ( te_c.internal_behavior )
 .include "${te_file.arc_path}/t.domain.functions.c"
-.include "${te_file.arc_path}/t.domain_init.c"
+.// fx_domain_init.arc‚ÉˆÚ“®
+.//-- 010:20140218 Delete Start (nomura)
+.//.include "${te_file.arc_path}/t.domain_init.c"
+.//-- 010:20140218 Delete End (nomura)
 .end if
 .if ( "TLM" == te_sys.SystemCPortsType )
 #if 0

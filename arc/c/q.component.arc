@@ -36,7 +36,15 @@
   .select many global_te_ees from instances of TE_EE where ( ( selected.te_cID == 00 ) and ( selected.Included ) )
   .assign te_ees = te_ees | global_te_ees
   .for each te_ee in te_ees
-    .assign attr_include_files = attr_include_files + "#include ""${te_ee.Include_File}""\n"
+.//-- 010:20140310 Modified Start (nomura)
+    .invoke isExistRealFunc = fx_is_exist_real_func(te_ee)
+    .if (isExistRealFunc.result)
+      .invoke bridgeExtendPrefix = fx_get_bridge_extend_name_prefix(te_ee)
+      .assign attr_include_files = attr_include_files + "#include ""${bridgeExtendPrefix.result}.${te_file.hdr_file_ext}""\n"
+    .else
+      .assign attr_include_files = attr_include_files + "#include ""${te_ee.Include_File}""\n"
+    .end if
+.//-- 010:20140310 Modified Start (nomura)
   .end for
   .// Since C calls directly to the port messages published by the component,
   .// create the list of includes for the components across satisfactions.

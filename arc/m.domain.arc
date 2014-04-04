@@ -129,6 +129,60 @@
 .end function
 .//
 .//============================================================================
+.//-- 012:20140224 Add Start (saitou) 
+.function MarkExcludeSubsystemFromCodeGen
+  .param string component_name
+  .param string subsystem_name
+  .//
+  .assign component_name = "$r{component_name}"
+  .select many c_cs from instances of C_C where ( selected.Name == component_name )
+  .if ( ( "" == component_name ) or ( "*" == component_name ) )
+    .select many c_cs from instances of C_C
+  .end if
+  .for each c_c in c_cs
+    .select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001]
+    .for each ep_pkg in ep_pkgs
+      .// パッケージを掘り下げてチェック。非生成対象かは中でチェックするのでここではfalse.
+      .invoke ExcludePackageFromCodeGen( ep_pkg, subsystem_name, false )
+    .end for
+  .end for
+  .//
+.end function
+.///////
+.// ExcludePackageFromCodeGen
+.//      ep_pkg : Package
+.//      subsystem_name : 非生成対象パッケージ名
+.//      isExclude : 非生成対象かのフラグ
+.//                  -- 非生成対象パッケージ以下でtrueにする
+.//
+.function ExcludePackageFromCodeGen
+  .param inst_ref ep_pkg
+  .param string subsystem_name
+  .param boolean isExclude
+  .//
+  .assign doExclude = isExclude
+  .//
+  .// パッケージ名が指定されたものと一致した場合に非生成対象とする
+  .if( ( "${ep_pkg.Name}" == "${subsystem_name}" ) or ( "*" == "${subsystem_name}" ) )
+    .assign doExclude = true
+  .end if
+  .//
+  .if( doExclude )
+    .print "Exclude Package : ${ep_pkg.Name}"
+    .select many te_classes related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019]
+    .for each te_class in te_classes
+      .assign te_class.ExcludeFromGen = true
+    .end for
+  .end if
+  .//
+  .// さらに子パッケージにも処理継続
+  .select many child_ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001]
+  .for each child_ep_pkg in child_ep_pkgs
+    .invoke ExcludePackageFromCodeGen( child_ep_pkg, subsystem_name, doExclude )
+  .end for
+  .//
+.end function
+.//-- 012:20140224 Add End (saitou) 
 .function TagExcludeSubsystemFromCodeGen
   .param string subsystem_name
   .select many te_cs from instances of TE_C
@@ -136,9 +190,12 @@
     .invoke MarkExcludeSubsystemFromCodeGen( te_c.Name, subsystem_name )
   .end for
 .end function
-.function MarkExcludeSubsystemFromCodeGen
+.//-- 012:20140224 Modified Start (saitou) 
+.// オリジナル版。作りが悪い(特定階層にしか対応していない！)ので使用しないように名称変更。一応コードは残しておく。
+.function MarkExcludeSubsystemFromCodeGen_ORG
   .param string component_name
   .param string subsystem_name
+.//-- 012:20140224 Modified Start (saitou) 
   .assign component_name = "$r{component_name}"
   .select many te_cs from instances of TE_C where ( selected.Name == component_name )
   .if ( ( "" == component_name ) or ( "*" == component_name ) )

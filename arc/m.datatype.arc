@@ -155,3 +155,51 @@
   .exit 1
 .end function
 .//
+.//============================================================================
+.//
+.//-- 002: 20140122 Add Start (saitou) 
+.function specify_user_defined_enum_type_as_external_macro
+	.param string dt_name
+	.param string ext_name
+	.param string initial_value
+	.param string include_file
+.//	.param string ext_event_name
+	.//
+	.select any s_dt from instances of S_DT where ( selected.Name == dt_name )
+	.select one s_udt related by s_dt->S_UDT[R17]
+	.if ( ( empty s_dt ) or ( empty s_udt ) )
+		.print "\n  specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' doesn't exist"
+	.else
+		.select any s_cdt from instances of S_CDT where ( selected.DT_ID == s_udt.CDT_DT_ID )
+		.if ( s_cdt.Core_Typ == 4 )
+			.assign s_dt.IsExternalMacro = true
+			.assign s_dt.genName = ext_name
+			.assign s_dt.Include_File = "${include_file}"
+			.assign s_dt.DefaultValue = initial_value
+			.//
+			.print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}"
+		.else
+			.print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' isn't external macro ( because CoreType is not string! )"
+		.end if
+	.end if
+	.//
+.end function
+.//
+.function specify_user_defined_type
+	.param string dt_name
+	.param string ext_name
+	.param string initial_value
+	.param string include_file
+	.//
+	.select any s_dt from instances of S_DT where ( selected.Name == dt_name )
+	.if ( empty s_dt )
+		.print "\n  specify_user_defined_type - Data Type '${dt_name}' doesn't exist"
+	.else
+		.assign s_dt.genName = ext_name
+		.assign s_dt.Include_File = "${include_file}"
+		.assign s_dt.DefaultValue = initial_value
+		.print "specify_user_defined_type - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}"
+	.end if
+.end function
+.//-- 002: 20140122 Add End (saitou) 
+

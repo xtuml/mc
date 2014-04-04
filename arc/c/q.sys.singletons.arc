@@ -102,10 +102,14 @@
   .assign te_file.interfaces = te_prefix.file + "sysc_interfaces"
   .assign te_file.registers = te_prefix.file + "RegDefs"
   .assign te_file.domain_color_path = "."
-  .assign te_file.domain_source_path = "_ch"
-  .assign te_file.domain_include_path = "_ch"
-  .assign te_file.system_source_path = "_ch"
-  .assign te_file.system_include_path = "_ch"
+.//-- 013:20140225 Modified Start (saitou) 
+.// "_ch" -> ..myGenDir.. �ɕύX
+  .assign te_file.domain_source_path = "../../myGenDir/3020_src"
+  .assign te_file.domain_include_path = "../../myGenDir/3020_inc"
+  .assign te_file.system_source_path = "../../myGenDir/skel"
+  .assign te_file.system_include_path = "../../myGenDir/skel"
+  .assign te_file.3020sys_path = "../../myGenDir/3020_sys"
+.//-- 013:20140225 Modified Start (saitou) 
   .assign te_file.system_color_path = "."
   .assign te_file.system_mark = "system.mark"
   .assign te_file.datatype_mark = "datatype.mark"
@@ -457,3 +461,14 @@
   .create object instance te_function of TE_FUNCTION
   .create object instance te_return of TE_RETURN
 .end function
+
+.//-- 006: 20140128 Modified Start (saitou) 
+.function set_prefix_simbolsw
+  .param string prefix
+  .//
+  .select any te_prefix from instances of TE_PREFIX
+  .assign te_prefix.symbolsw = prefix
+  .select any te_callout from instances of TE_CALLOUT
+  .invoke callout_factory( te_callout )
+.end function
+.//-- 006: 20140128 Modified End (saitou) 

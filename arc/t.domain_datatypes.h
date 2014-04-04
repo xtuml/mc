@@ -11,5 +11,8 @@
 /*
  * Internal enumerated and structured data types for component:  ${te_c.Name}
  */
-${enumeration_info}
+.//-- 017:20140319 Deleted Start (nomura)
+.//-- enum‚Ídomain_enums.h‚É¶¬‚·‚éB
+.//${enumeration_info}
+.//-- 017:20140319 Deleted End (nomura)
 ${structured_data_types}

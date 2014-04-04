@@ -62,3 +62,88 @@
   .print "Function ${function_name} in component ${component_name} marked as safe for interrupt invocation."
 .end function
 .//
+.//
+.//============================================================================
+.//-- 004: 20140122 Add Start (saitou) 
+.function TagBridgeCallNotGenerate
+  .param string dom_name
+  .param string ee_name
+  .//
+  .select many te_cs from instances of TE_C
+  .if ( dom_name != "*" )
+    .select many te_cs from instances of TE_C where ( selected.Name == dom_name )
+  .end if
+  .for each te_c in te_cs
+    .select any te_ee from instances of TE_EE where( ( selected.Key_Lett == ee_name ) and ( selected.te_cID == te_c.ID ) )
+    .if ( not_empty te_ee )
+      .assign te_ee.Included = false
+      .print "TagBridgeCallNotGenerate() : ${ee_name}"
+      .select many s_brgs related by te_ee->S_EE[R2020]->S_BRG[R19]
+      .for each s_brg in s_brgs
+        .select one te_brg related by s_brg->TE_BRG[R2025]
+        .if ( not_empty te_brg )
+          .assign te_brg.NotGenerateInvocation = true
+        .end if
+      .end for
+    .else
+      .print "TagBridgeCallNotGenerate() ${ee_name} is not found."
+    .end if
+  .end for
+.end function
+.//-- 004: 20140122 Add End (saitou) 
+.//-- 009: 20140205 Add Start (saitou)
+.function port_realize_EE
+  .param string dom_name
+  .param string port_name
+  .param string ee_name
+  .//
+  .select many te_cs from instances of TE_C
+  .if ( dom_name != "*" )
+    .select many te_cs from instances of TE_C where ( selected.Name == dom_name )
+  .end if
+  .//
+  .for each te_c in te_cs
+    .select any te_po from instances of TE_PO where ( ( selected.Name == port_name ) and ( selected.te_cID == te_c.ID ) )
+    .select any te_ee from instances of TE_EE where ( ( selected.Key_Lett == ee_name ) and ( selected.te_cID == te_c.ID ) )
+    .if ( ( not_empty te_po ) and ( not_empty te_ee) )
+      .assign te_po.realizeEE_ID = te_ee.EE_ID
+      .print "port_realize_EE() : port(${te_po.Name}) realize EE(${te_ee.Key_Lett})"
+    .end if
+  .end for
+.end function
+.//-- 009: 20140205 Add End (saitou)
+.//-- 014: 20140225 Add Start (saitou) 
+.function mark_ee_as_realized
+  .param string dom_name
+  .param string ee_name
+  .param string prefix
+  .param string include_file
+  .//
+  .select many te_cs from instances of TE_C
+  .if ( dom_name != "*" )
+    .select many te_cs from instances of TE_C where ( selected.Name == dom_name )
+  .end if
+  .for each te_c in te_cs
+    .select any te_ee from instances of TE_EE where( ( selected.Key_Lett == ee_name ) and ( selected.te_cID == te_c.ID ) )
+    .if ( not_empty te_ee )
+      .print "mark_ee_as_realized() : ${ee_name} : [${te_ee.RegisteredName}] -> [${prefix}] : ${include_file}"
+      .assign te_ee.RegisteredName = "${prefix}"
+      .assign te_ee.Include_File = "${include_file}"
+      .select many s_brgs related by te_ee->S_EE[R2020]->S_BRG[R19]
+      .for each s_brg in s_brgs
+        .select one te_brg related by s_brg->TE_BRG[R2025]
+.//-- 010:20140311 Modified Start (nomura)
+	.// REAL_FUNC指定を含むbridgeは設定しない。REAL_FUNC指定時に設定されているため。
+	.invoke isExistRealFunc = fx_is_exist_real_func(te_ee)
+        .if (( not_empty te_brg ) and ( isExistRealFunc.result == FALSE))
+.//-- 010:20140307 Modified End (nomura)
+          .assign brgprefix = te_ee.RegisteredName + "_"
+          .assign te_brg.GeneratedName = brgprefix + s_brg.Name
+        .end if
+      .end for
+    .else
+      .print "mark_ee_as_realized() ${ee_name} is not found."
+    .end if
+  .end for
+.end function
+.//-- 014: 20140225 Add End (saitou) 

@@ -127,6 +127,17 @@
     .assign te_val.dimensions = 1
     .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
     .//TODO assign dimension
+.//-- 002:20140313 Add Start (saitou) 
+    .select any te_parm related by te_val->V_VAL[R2040]->V_PAR[R800]->TE_PAR[R2063]->TE_PARM[R2091]
+    .if ( not_empty te_parm )
+      .select any te_dt related by te_parm->TE_DT[R2049]
+      .if ( te_dt.IsExternalMacro )
+        .// ExternalMacroの場合はダブルクォーテーション不要
+        .print "[ExtMcr] fix buf : [${te_val.buffer}] -> [${v_lst.Value}]"
+        .assign te_val.buffer = v_lst.Value
+      .end if
+    .end if
+.//-- 002:20140313 Add End (saitou) 
   .end for
 .end function
 .//
@@ -168,11 +179,17 @@
     .assign te_val.OAL = cnst_syc.Name
     .assign te_val.buffer = cnst_lsc.Value
     .if ( 4 == te_dt.Core_Typ )
-      .select any te_string from instances of TE_STRING
-      .assign te_val.buffer = ( """" + cnst_lsc.Value ) + """"
-      .assign te_val.dimensions = 1
-      .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
-      .//TODO assign dimension
+.//-- 002: 20140122 Add Start (saitou) 
+      .if ( not te_dt.IsExternalMacro )
+.//-- 002: 20140122 Add End (saitou) 
+        .select any te_string from instances of TE_STRING
+        .assign te_val.buffer = ( """" + cnst_lsc.Value ) + """"
+        .assign te_val.dimensions = 1
+        .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
+        .//TODO assign dimension
+.//-- 002: 20140122 Add Start (saitou) 
+      .end if
+.//-- 002: 20140122 Add End (saitou) 
     .end if
   .end for
 .end function
@@ -502,14 +519,38 @@
     .select one l_te_dt related by l_v_val->S_DT[R820]->TE_DT[R2021]
     .select one r_te_dt related by r_v_val->S_DT[R820]->TE_DT[R2021]
     .if ( ( 4 == l_te_dt.Core_Typ ) or ( 4 == r_te_dt.Core_Typ ) )
-      .// string
-      .select any te_string from instances of TE_STRING
-      .select any te_instance from instances of TE_INSTANCE
-      .if ( "+" == "$r{v_bin.Operator}" )
-        .assign te_val.buffer = ( ( ( te_instance.module + te_string.stradd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )"
+.//-- 002: 20140123 Add Start (saitou) 
+      .if ( ( l_te_dt.IsExternalMacro ) or ( r_te_dt.IsExternalMacro ) )
+        .// external macro
+        .assign lBuffer = l_te_val.buffer
+        .if( not l_te_dt.IsExternalMacro )
+          .assign lBuffer = l_te_val.OAL
+        .end if
+        .assign rBuffer = r_te_val.buffer
+        .if( not r_te_dt.IsExternalMacro )
+          .assign rBuffer = r_te_val.OAL
+        .end if
+        .//
+        .if ( "and" == "$r{v_bin.Operator}" )
+          .assign te_val.buffer = ( ( "( " + lBuffer ) + ( " && " + rBuffer ) ) + " )"
+        .elif ( "or" == "$r{v_bin.Operator}" )
+          .assign te_val.buffer = ( ( "( " + lBuffer ) + ( " || " + rBuffer ) ) + " )"
+        .else
+          .assign te_val.buffer = ( ( "( " + lBuffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + rBuffer ) + " )" )
+        .end if
       .else
-        .assign te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" )
+.//-- 002: 20140123 Add End (saitou) 
+        .// string
+        .select any te_string from instances of TE_STRING
+        .select any te_instance from instances of TE_INSTANCE
+        .if ( "+" == "$r{v_bin.Operator}" )
+          .assign te_val.buffer = ( ( ( te_instance.module + te_string.stradd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )"
+        .else
+          .assign te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" )
+        .end if
+.//-- 002: 20140123 Add Start (saitou) 
       .end if
+.//-- 002: 20140123 Add End (saitou) 
     .else
       .select any te_target from instances of TE_TARGET
       .if ( "and" == "$r{v_bin.Operator}" )

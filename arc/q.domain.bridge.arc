@@ -25,7 +25,13 @@
   .select any te_eq from instances of TE_EQ
   .select any te_file from instances of TE_FILE
   .select any te_target from instances of TE_TARGET
-#include "${te_file.types}.${te_file.hdr_file_ext}"
+.//-- 010:20140307 Modified Start (nomura)
+  .select one te_c related by te_ee->TE_C[R2085]
+  .invoke domain_mech = fx_get_domain_mech_file_name(te_c)
+#include "${domain_mech.result}.${te_file.hdr_file_ext}"
+#include "${te_ee.Include_File}"
+.//#include "${te_file.types}.${te_file.hdr_file_ext}"
+.//-- 010:20140307 Modified End (nomura)
   .if ( not gen_declaration )
     .if ( te_sys.PersistentClassCount > 0 )
       .if ( te_ee.Key_Lett == "PERSIST" )

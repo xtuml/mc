@@ -25,8 +25,23 @@ ${te_c.Descrip}
 */
 .end if
 
-#include "${te_file.types}.${te_file.hdr_file_ext}"
+.//-- 010:20140228 Modified Start (nomura)
+.// fx mechのヘッダファイルをincludeする。
+.invoke sys_mech = fx_get_sys_mech_file_name()
+#include "${sys_mech.result}.${te_file.hdr_file_ext}"
+.//#include "${te_file.types}.${te_file.hdr_file_ext}"
+.// classesヘッダファイルをincludeする。
+#include "${te_c.classes_file}.${te_file.hdr_file_ext}"
+.//-- 010:20140228 Modified End (nomura)
 ${message_declarations}
+
+.//-- 010:20140303 Add Start (nomura)
+.//.if ( "C" == te_target.language )
+.//  .if ( not_empty te_sync )
+.//.include "${te_file.arc_path}/t.domain.functions.h"
+.//  .end if
+.//.end if
+.//-- 010:20140303 Add End (nomura)
 
 ${te_target.c2cplusplus_linkage_end}
 #endif  /* $u{te_c.module_file}_$u{te_file.hdr_file_ext} */

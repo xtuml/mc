@@ -172,3 +172,20 @@
   .assign attr_result = s
 .end function
 .//
+
+.//-- 002: 20140314 Add Start (saitou) 
+.// 指定されたO_ATTRのデータタイプを返す。
+.// 参照型だった場合は、参照先の型を返す。
+.// GetAttributeCodeGenType() と似ているが、CoreType を返すわけではない点が異なる。
+.function GetAttributeDataType
+  .param inst_ref o_attr
+  .//
+  .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
+  .if ( te_dt.Core_Typ == 7 )
+      .select one base_o_attr related by o_attr->O_RATTR[R106]->O_BATTR[R113]->O_ATTR[R106]
+      .invoke r = GetAttributeDataType( base_o_attr )
+      .assign te_dt = r.result
+  .end if
+  .assign attr_result = te_dt
+.end function
+.//-- 002: 20140314 Add End (saitou) 
