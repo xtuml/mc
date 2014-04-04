@@ -35,7 +35,7 @@ void
 ${te_set.scope}${te_set.factory}( const i_t n1_size )
 {
 .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
-  u2_t i;
+  ${te_prefix.type}size_t i;
   node1_FreeList.head = &node1s[ 0 ];
   /* Build the collection (linked list) of node1 instances.  */
   .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
@@ -160,12 +160,12 @@ ${te_set.scope}${te_set.insert_element}(
 ${te_set.scope}${te_set.element_type} *
 ${te_set.scope}${te_set.insert_block}( ${te_set.element_type} * container,
                        const u1_t * instance,
-                       const u2_t length,
-                       u2_t count )
+                       const ${te_prefix.type}size_t length,
+                       ${te_prefix.type}size_t count )
 {
   ${te_set.element_type} * head = ( count > 0 ) ? container : 0;
 .if ( te_sys.CollectionsFlavor == 20 )
-  u2_t n = count;
+  ${te_prefix.type}size_t n = count;
 .end if
   while ( count > 0 ) {
 .if ( te_sys.CollectionsFlavor == 20 )
@@ -177,7 +177,7 @@ ${te_set.scope}${te_set.insert_block}( ${te_set.element_type} * container,
 .if ( TRUE )
     instance = instance + length;           /* Bump to next object image.   */
     .else
-    { u2_t i=length; while ( i>0 ) {instance++; i--;} } /* slow for MISRA-C */
+    { ${te_prefix.type}size_t i=length; while ( i>0 ) {instance++; i--;} } /* slow for MISRA-C */
 .end if
     /* String together or ground containoids.  */
     container->next = ( count > 0 ) ? container + 1 : 0;
@@ -315,10 +315,10 @@ ${te_set.scope}${te_set.contains}(
  * This routine counts nodes.
  */
 .if ( ( not_empty te_cs ) or ( "C++" == te_target.language ) )
-u2_t 
+${te_prefix.type}size_t
 ${te_set.scope}${te_set.element_count}( const ${te_set.base_class} * const set )
 {
-  u2_t result = 0;
+  ${te_prefix.type}size_t result = 0;
   const ${te_set.element_type} * node = set->head;
   while ( node != 0 ) {
     result++;
@@ -392,7 +392,7 @@ ${te_set.scope}${te_set.iterator_next}( ${te_set.iterator_class_name} * const it
  * Set memory bytes to value at destination.
  */
 void
-${te_set.scope}${te_string.memset}( void * const dst, const u1_t val, u2_t len )
+${te_set.scope}${te_string.memset}( void * const dst, const u1_t val, ${te_prefix.type}size_t len )
 {
   u1_t * d = (u1_t *) dst;
   while ( len > 0 ) {
@@ -405,7 +405,7 @@ ${te_set.scope}${te_string.memset}( void * const dst, const u1_t val, u2_t len )
  * Move memory bytes from source to destination.
  */
 void
-${te_set.scope}${te_string.memmove}( void * const dst, const void * const src, u2_t len )
+${te_set.scope}${te_string.memmove}( void * const dst, const void * const src, ${te_prefix.type}size_t len )
 {
   u1_t * s = (u1_t *) src;
   u1_t * d = (u1_t *) dst;
@@ -424,7 +424,7 @@ ${te_set.scope}${te_string.strcpy}( c_t * dst, const c_t * src )
   c_t * s = dst;
 .if ( te_sys.InstanceLoading )
   if ( 0 != src ) {
-    i_t i = ${te_set.scope}${te_string.strlen}( src ) + 1;
+    ${te_prefix.type}size_t i = ${te_set.scope}${te_string.strlen}( src ) + 1;
     s = ${te_set.scope}${te_dma.allocate}( i );
     dst = s;
 .else
@@ -506,10 +506,10 @@ ${te_set.scope}${te_string.strget}( void )
 /*
  * Measure the length of the given string.
  */
-i_t
+${te_prefix.type}size_t
 ${te_set.scope}${te_string.strlen}( const c_t * s )
 {
-  i_t len = 0;
+  ${te_prefix.type}size_t len = 0;
   i_t i = ${te_string.max_string_length} * 4;
   if ( s != 0 ) {
     while ( ( *s != 0 ) && ( i >= 0 ) ) {
@@ -602,7 +602,7 @@ static size_t used_heap = 0;
  * Allocate memory from the system heap.
  */
 void * 
-${te_set.scope}${te_dma.allocate}( const u4_t b )
+${te_set.scope}${te_dma.allocate}( const ${te_prefix.type}size_t b )
 {
   void * new_mem = 0;
   size_t bytes = ( size_t ) b;
