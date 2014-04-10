@@ -4,7 +4,7 @@
   .// Assign the return value before the deallocation takes
   .// place.  This is especially important when returning
   .// expressions involving sets (like cardinality).
-  .// For strings, add a scope to supress compiler warnings
+  .// For strings (char arrays), add a scope to supress compiler warnings
   .// about returning the address of a local variable.  Once
   .// returned, the string buffer will be copied into the
   .// calling scope immediately.

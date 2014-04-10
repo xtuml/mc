@@ -89,6 +89,7 @@ typedef unsigned long   u4_t;
 typedef          double r_t;
 typedef          float  r4_t;
 typedef          double r8_t;
+typedef /*size_t*/ u4_t ${te_prefix.type}size_t;
 
 /*
  * These are some of the fundamental types used universally.

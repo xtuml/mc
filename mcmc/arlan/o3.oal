@@ -264,7 +264,7 @@ if ( not_empty te_smt )
             if ( empty next )
               select one next related by current_act_if->ACT_E[R683]->ACT_SMT[R603];
               if ( empty next )
-                select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'precedes'];
+                select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'succeeds'];
               end if;
             else
               select many next_elif_act_smts related by current_act_if->ACT_EL[R682]->ACT_SMT[R603] where ( selected.LineNumber > act_smt.LineNumber );
@@ -278,7 +278,7 @@ if ( not_empty te_smt )
             select one else_te_blk related by act_smt->ACT_E[R603]->ACT_BLK[R606]->TE_BLK[R2016];
             if ( not_empty else_te_blk )
               ::blck_xlate( trace:trace, te_blk:else_te_blk, te_aba:te_aba );
-              select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'precedes'];
+              select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.'succeeds'];
             end if;
           end if;
         end if;
@@ -289,7 +289,7 @@ if ( not_empty te_smt )
       ::aba_code_append( te_aba:te_aba, s:"\n" );
     end if;
     if ( empty next )
-      select one next related by act_smt->ACT_SMT[R661.'precedes'];
+      select one next related by act_smt->ACT_SMT[R661.'succeeds'];
     end if;
     act_smt = next;
   end while;
@@ -324,7 +324,7 @@ te_aba = param.te_aba;
 s = param.s;
 te_aba.code = te_aba.code + s;
 @@@
-smt_fors@void@@@
+     smt_fors@void@@@
 //====================================================================
 // $RCSfile: q.smt.generate.arc,v $
 //
@@ -506,6 +506,7 @@ select any te_file from instances of TE_FILE;
 select any te_instance from instances of TE_INSTANCE;
 select any te_set from instances of TE_SET;
 select any te_string from instances of TE_STRING;
+select any te_sys from instances of TE_SYS;
 select one te_blk related by te_smt->TE_BLK[R2078];
 ws = te_blk.indentation;
 select one r_v_val related by act_ai->V_VAL[R609];
@@ -526,6 +527,11 @@ te_assign.lval = l_te_val.buffer;
 te_assign.rval = r_te_val.buffer;
 r = ::V_VAL_drill_for_V_VAL_root( v_val:l_v_val );
 root_v_val = r;
+element_count = 0;
+select one r_te_dim related by r_te_val->TE_DIM[R2079];
+if ( not_empty r_te_dim )
+  element_count = r_te_dim.elementCount;
+end if;
 te_assign.isImplicit = root_v_val.isImplicit;
 if ( te_assign.isImplicit )
   select one root_te_val related by root_v_val->TE_VAL[R2040];
@@ -544,15 +550,33 @@ if ( te_assign.isImplicit )
     // Push deallocation into the block so that it is available at gen time for break/continue/return.
     d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );";
     ::blk_deallocation_append( te_blk:te_blk, s:d );
+  elif ( ( 4 == r_te_dt.Core_Typ ) and ( te_sys.InstanceLoading ) )
+    // CDS 128 is a bit arbitrary.  It is intended to be a reasonable
+    // maximum for a transient array of strings needing initialization.
+    // string
+    d = te_assign.left_declaration + te_assign.array_spec;
+    if ( "" == te_assign.array_spec )
+      d = d + "=0";
+    else
+      if ( te_sys.InstanceLoading )
+        d = d + "={0";
+        if ( element_count < 128 )
+          i = element_count - 1;
+          // Only provide initializer for arrays of reasonable size.
+          while ( i > 0 )
+            i = i - 1;
+            d = d + ",0";
+          end while;
+        end if;
+        d = d + "}";
+      end if;
+    end if;
+    d = d + ";";
+    ::blk_declaration_append( te_blk:te_blk, s:d );
   else
     d = ( te_assign.left_declaration + te_assign.array_spec ) + ";";
     ::blk_declaration_append( te_blk:te_blk, s:d );
   end if;
-end if;
-element_count = 0;
-select one r_te_dim related by r_te_val->TE_DIM[R2079];
-if ( not_empty r_te_dim )
-  element_count = r_te_dim.elementCount;
 end if;
 is_parameter = false;
 select one v_pvl related by r_v_val->V_PVL[R801];
@@ -1268,7 +1292,7 @@ while ( not done )
     if ( not_empty sm_evtdi )
       T::print(s:"-=m=m=m=-=-=-=-=-=-=-=-=-=- sm_evtdi is ${sm_evtdi.Name}");
     end if;
-    select one v_par related by v_par->V_PAR[R816.'succeeds'];
+    select one v_par related by v_par->V_PAR[R816.'precedes'];
   end if;
 end while;
 @@@
@@ -1431,7 +1455,7 @@ if ( empty te_mact )
   select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053];
 end if;
 select many v_pars related by act_sgn->V_PAR[R662];
-r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true );
+r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true, salt:"sgn" );
 ::smt_buffer_append( te_smt:te_smt, s:r );
 te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})";
 @@@
@@ -1455,11 +1479,11 @@ if ( empty te_mact )
   select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050];
 end if;
 select many v_pars related by act_iop->V_PAR[R679];
-r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true );
+r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true, salt:"iop" );
 ::smt_buffer_append( te_smt:te_smt, s:r );
 te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})";
 @@@
-q_render_msg@string@@te_mact@inst_ref<Extended Message Action>@@v_pars@inst_ref_set<Actual Parameter>@@ws@string@@is_statement@boolean@@@
+q_render_msg@string@@te_mact@inst_ref<Extended Message Action>@@v_pars@inst_ref_set<Actual Parameter>@@ws@string@@is_statement@boolean@@salt@string@@@
 //
 // -------------------------------------------------------------------
 // Render the call and parameter list for an inter-component message
@@ -1468,13 +1492,14 @@ te_mact = param.te_mact;
 v_pars = param.v_pars;
 ws = param.ws;
 is_statement = param.is_statement;
+salt = param.salt;
 select any te_file from instances of TE_FILE;
 select any te_sys from instances of TE_SYS;
 select any te_target from instances of TE_TARGET;
 parameters = "";
 te_mact.OALParamBuffer = "";
 if ( not_empty v_pars )
-  r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"message" );
+  r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:salt );
   te_parm = r;
   parameters = te_parm.ParamBuffer;
   te_mact.OALParamBuffer = te_parm.OALParamBuffer;
@@ -1490,13 +1515,13 @@ if ( "C++" == te_target.language )
     if ( direction == te_mact.Direction )
       name = ( te_mact.PortName + "->" ) + name;
     end if;
-    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
+    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
   else
     direction = IFDirectionType::ClientServer;
     if ( direction == te_mact.Direction )
       name = ( te_mact.PortName + "->" ) + name;
     end if;
-    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
+    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
   end if;
   name = "thismodule->" + name;
   if ( not_empty foreign_te_po )
@@ -1506,11 +1531,6 @@ if ( "C++" == te_target.language )
       end if;
       parameters = T::s(i:foreign_te_po.sibling) + parameters;
     end if;
-  elif ( te_sys.AllPortsPoly == true )
-    if ( "" != parameters )
-      parameters = ", " + parameters;
-    end if;
-    parameters = "0" + parameters;
   end if;
 end if;
 T::include(file:"c/t.smt.iop.c");
@@ -1551,7 +1571,7 @@ if ( ( not_empty te_tfr ) and ( not_empty te_class ) )
   parameter_OAL = "";
   select many v_pars related by act_tfm->V_PAR[R627];
   if ( not_empty v_pars )
-    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"operation" );
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"sop" );
     te_parm = r;
     parameters = te_parm.ParamBuffer;
     parameter_OAL = te_parm.OALParamBuffer;
@@ -1606,7 +1626,7 @@ if ( not_empty te_brg )
   parameter_OAL = "";
   select many v_pars related by act_brg->V_PAR[R628];
   if ( not_empty v_pars )
-    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"bridge" );
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"sbg" );
     te_parm = r;
     parameters = te_parm.ParamBuffer;
     parameter_OAL = te_parm.OALParamBuffer;
@@ -1655,7 +1675,7 @@ if ( not_empty te_sync )
   parameter_OAL = "";
   select many v_pars related by act_fnc->V_PAR[R669];
   if ( not_empty v_pars )
-    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"function" );
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"sfn" );
     te_parm = r;
     parameters = te_parm.ParamBuffer;
     parameter_OAL = te_parm.OALParamBuffer;
@@ -1773,6 +1793,7 @@ end while;
 //
 rv = value;
 if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
+  // Use when deallocating or when returning an array (even array of char).
   rv = "xtumlOALrv";
 end if;
 T::include(file:"c/t.smt.return.c");
@@ -2178,7 +2199,10 @@ T::b(s:${subtypecheck}\);
     if ( "many" == te_select_related.multiplicity )
       T::include(file:"c/t.smt_sr.result_set_init.c");
     else
-      T::include(file:"c/t.smt_sr.result_ref_init.c");
+      if ( te_select_related.result_var != te_select_related.start_var )
+        // Do not initialize result when it is the same as starting variable.
+        T::include(file:"c/t.smt_sr.result_ref_init.c");
+      end if;
     end if;
 T::b(s:${ws}{\);
     depth = depth + 1;
@@ -2204,11 +2228,15 @@ T::b(s:${ws}{\);
             subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )";
           end if;
         end if;
+        result_equals_start = false;
+        if ( te_select_related.result_var == te_lnk.left )
+          result_equals_start = true;
+        end if;
         T::include(file:"c/t.smt_sr.chainto1.c");
       else
         T::include(file:"c/t.smt_sr.chaintom.c");
       end if;
-      select one te_lnk related by te_lnk->TE_LNK[R2075.'succeeds'];
+      select one te_lnk related by te_lnk->TE_LNK[R2075.'precedes'];
     end while;
     te_smt.OAL = te_smt.OAL + te_lnk.OAL;
     cast = "";

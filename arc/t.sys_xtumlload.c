@@ -170,7 +170,7 @@ static void init( void )
  */
 static bool readrecord( c_t ** r )
 {
-  #define MAXRECORDLENGTH 100000
+  #define MAXRECORDLENGTH 400000
   static c_t record[ MAXRECORDLENGTH ] = {0};
   #define MAXLINELENGTH 1000
   static c_t line[ MAXLINELENGTH ] = {0};
@@ -272,6 +272,7 @@ static bool value( void )
 {
   DEVELOPER_DEBUG( "value() %s\n", cursor );
   if ( ! ( unique_id() || number() || stringvalue() ) ) return false;
+  word[ wordindex ] = cursor; /* mark end of element */
   return true;
 }
 

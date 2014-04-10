@@ -778,7 +778,7 @@
         .// move up : select te_dt
 .//-- 002: 20140128 Deleted Start (saitou) 
 .//-- 002: 20140128 Modified Start (saitou) 
-      .if ( ( 4 == mbr_te_dt.Core_Typ ) and ( not mbr_te_dt.IsExternalMacro ) )
+      .if ( ( ( 4 == mbr_te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) ) and ( not mbr_te_dt.IsExternalMacro ) )
 .//-- 002: 20140128 Modified Start (saitou) 
         .// string
         .assign te_mbr.dimensions = te_mbr.dimensions + 1
@@ -1756,7 +1756,7 @@
         .end if
         .// In the C model compiler, treat strings as arrays.
 .//-- 002: 20140128 Modified Start (saitou) 
-        .if ( ( 4 == te_dt.Core_Typ ) and ( not te_dt.IsExternalMacro ) )
+        .if ( ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) ) and ( not te_dt.IsExternalMacro ) )
 .//-- 002: 20140128 Modified Start (saitou) 
           .// string
           .assign te_attr.dimensions = te_attr.dimensions + 1

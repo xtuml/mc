@@ -1,0 +1,37 @@
+---
+
+Copyright 2014 Mentor Graphics Corp.  All Rights Reserved.
+
+---
+
+# Buffer Fixes and Customer Model Test Fixes
+### xtUML Project Review Minutes
+
+Reviewed:  https://github.com/xtuml/mc/blob/cds_buffers/doc/notes/22_23_33_39_44_dts0101013957-dts0101018323-dts0101038821_int.md  0f15ac876d260cdff823892a8845842dc5d62dac  
+Present:  BM, CS, KB
+
+<pre>
+
+-- Num Type  Who  Section  Comment
+x- 01  min   CS   Title    "Text Fixes" > "Test Fixes"
+x- 02  min   CS   2        [5] has a typo
+x- 03  min   BM   6.1      "polymorphics" > "polymorphic"
+
+
+Code review
+-------------
+x- 01  sys_xtuml.c:338                Either get rid of commented code or add an explanation of why it is left there.
+x- 02  sys_xtuml.c:339                Make 400000 a constant and change all references to this number to the new constant
+x- 03  general                        Raise follow on issue to add new "very deep sub/super path" test model to repository
+x- 04  q.smt.generate.arc:223         Expand the "This needs work" comment.  Explain what needs work and why in case someone else has to work on this eventually.
+x- 05  q.sys.populate.arc:858 & 877   Make the same fix for R2086 here as in other places.  Search "TODO SKB" in this file just to make sure ther are no other places
+x- 06  q.sys.populate.arc:1551        Add a comment here or in the INT about why the init was moved up
+x- 07  q.component.arc:~838           Make a note in the INT.  The field name "Descrip" was changed in C MC a while back and had not been mirrored into the sysc MC.
+
+</pre>
+   
+No major observations, a re-review is not required.
+
+
+End
+---

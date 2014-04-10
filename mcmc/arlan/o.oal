@@ -2,13 +2,13 @@ sparm_sort@void@@s_sparms@inst_ref_set<Function Parameter>@@@
 // CDS temporarily order parameters alphabetically for backwards compatibility
 s_sparms = param.s_sparms;
 for each s_sparm in s_sparms
-  select one prev_s_sparm related by s_sparm->S_SPARM[R54.'precedes'];
+  select one prev_s_sparm related by s_sparm->S_SPARM[R54.'succeeds'];
   if ( not_empty prev_s_sparm )
-    unrelate s_sparm from prev_s_sparm across R54.'precedes';
+    unrelate s_sparm from prev_s_sparm across R54.'succeeds';
   end if;
 end for;
 // Declare an empty instance reference.
-select any head_s_sparm related by s_sparms->S_SPARM[R54.'precedes'] where ( false );
+select any head_s_sparm related by s_sparms->S_SPARM[R54.'succeeds'] where ( false );
 for each s_sparm in s_sparms
   r = ::sparm_insert( head_s_sparm:head_s_sparm, s_sparm:s_sparm );
   head_s_sparm = r;
@@ -22,23 +22,23 @@ if ( empty head_s_sparm )
   // Just starting.  Return s_sparm as head.
 elif ( s_sparm.Name <= head_s_sparm.Name )
   // insert before
-  relate s_sparm to head_s_sparm across R54.'succeeds';
+  relate s_sparm to head_s_sparm across R54.'precedes';
 else
   // find bigger
   result = head_s_sparm;
   prev_s_sparm = head_s_sparm;
-  select one cursor_s_sparm related by head_s_sparm->S_SPARM[R54.'succeeds'];
+  select one cursor_s_sparm related by head_s_sparm->S_SPARM[R54.'precedes'];
   while ( not_empty cursor_s_sparm )
     if ( s_sparm.Name <= cursor_s_sparm.Name )
       break;
     else
       prev_s_sparm = cursor_s_sparm;
-      select one cursor_s_sparm related by cursor_s_sparm->S_SPARM[R54.'succeeds'];
+      select one cursor_s_sparm related by cursor_s_sparm->S_SPARM[R54.'precedes'];
     end if;
   end while;
-  relate prev_s_sparm to s_sparm across R54.'succeeds';
+  relate prev_s_sparm to s_sparm across R54.'precedes';
   if ( not_empty cursor_s_sparm )
-    relate s_sparm to cursor_s_sparm across R54.'succeeds';
+    relate s_sparm to cursor_s_sparm across R54.'precedes';
   end if;
 end if;
 return result;
@@ -48,13 +48,13 @@ bparm_sort@void@@s_bparms@inst_ref_set<Bridge Parameter>@@@
 //
 s_bparms = param.s_bparms;
 for each s_bparm in s_bparms
-  select one prev_s_bparm related by s_bparm->S_BPARM[R55.'precedes'];
+  select one prev_s_bparm related by s_bparm->S_BPARM[R55.'succeeds'];
   if ( not_empty prev_s_bparm )
-    unrelate s_bparm from prev_s_bparm across R55.'precedes';
+    unrelate s_bparm from prev_s_bparm across R55.'succeeds';
   end if;
 end for;
 // Declare an empty instance reference.
-select any head_s_bparm related by s_bparms->S_BPARM[R55.'precedes'] where ( false );
+select any head_s_bparm related by s_bparms->S_BPARM[R55.'succeeds'] where ( false );
 for each s_bparm in s_bparms
   r = ::bparm_insert( head_s_bparm:head_s_bparm, s_bparm:s_bparm );
   head_s_bparm = r;
@@ -68,23 +68,23 @@ if ( empty head_s_bparm )
   // Just starting.  Return s_bparm as head.
 elif ( s_bparm.Name <= head_s_bparm.Name )
   // insert before
-  relate s_bparm to head_s_bparm across R55.'succeeds';
+  relate s_bparm to head_s_bparm across R55.'precedes';
 else
   // find bigger
   result = head_s_bparm;
   prev_s_bparm = head_s_bparm;
-  select one cursor_s_bparm related by head_s_bparm->S_BPARM[R55.'succeeds'];
+  select one cursor_s_bparm related by head_s_bparm->S_BPARM[R55.'precedes'];
   while ( not_empty cursor_s_bparm )
     if ( s_bparm.Name <= cursor_s_bparm.Name )
       break;
     else
       prev_s_bparm = cursor_s_bparm;
-      select one cursor_s_bparm related by cursor_s_bparm->S_BPARM[R55.'succeeds'];
+      select one cursor_s_bparm related by cursor_s_bparm->S_BPARM[R55.'precedes'];
     end if;
   end while;
-  relate prev_s_bparm to s_bparm across R55.'succeeds';
+  relate prev_s_bparm to s_bparm across R55.'precedes';
   if ( not_empty cursor_s_bparm )
-    relate s_bparm to cursor_s_bparm across R55.'succeeds';
+    relate s_bparm to cursor_s_bparm across R55.'precedes';
   end if;
 end if;
 return result;
@@ -94,13 +94,13 @@ tparm_sort@void@@o_tparms@inst_ref_set<Operation Parameter>@@@
 //
 o_tparms = param.o_tparms;
 for each o_tparm in o_tparms
-  select one prev_o_tparm related by o_tparm->O_TPARM[R124.'precedes'];
+  select one prev_o_tparm related by o_tparm->O_TPARM[R124.'succeeds'];
   if ( not_empty prev_o_tparm )
-    unrelate o_tparm from prev_o_tparm across R124.'precedes';
+    unrelate o_tparm from prev_o_tparm across R124.'succeeds';
   end if;
 end for;
 // Declare an empty instance reference.
-select any head_o_tparm related by o_tparms->O_TPARM[R124.'precedes'] where ( false );
+select any head_o_tparm related by o_tparms->O_TPARM[R124.'succeeds'] where ( false );
 for each o_tparm in o_tparms
   r = ::tparm_insert( head_o_tparm:head_o_tparm, o_tparm:o_tparm );
   head_o_tparm = r;
@@ -114,23 +114,23 @@ if ( empty head_o_tparm )
   // Just starting.  Return o_tparm as head.
 elif ( o_tparm.Name <= head_o_tparm.Name )
   // insert before
-  relate o_tparm to head_o_tparm across R124.'succeeds';
+  relate o_tparm to head_o_tparm across R124.'precedes';
 else
   // find bigger
   result = head_o_tparm;
   prev_o_tparm = head_o_tparm;
-  select one cursor_o_tparm related by head_o_tparm->O_TPARM[R124.'succeeds'];
+  select one cursor_o_tparm related by head_o_tparm->O_TPARM[R124.'precedes'];
   while ( not_empty cursor_o_tparm )
     if ( o_tparm.Name <= cursor_o_tparm.Name )
       break;
     else
       prev_o_tparm = cursor_o_tparm;
-      select one cursor_o_tparm related by cursor_o_tparm->O_TPARM[R124.'succeeds'];
+      select one cursor_o_tparm related by cursor_o_tparm->O_TPARM[R124.'precedes'];
     end if;
   end while;
-  relate prev_o_tparm to o_tparm across R124.'succeeds';
+  relate prev_o_tparm to o_tparm across R124.'precedes';
   if ( not_empty cursor_o_tparm )
-    relate o_tparm to cursor_o_tparm across R124.'succeeds';
+    relate o_tparm to cursor_o_tparm across R124.'precedes';
   end if;
 end if;
 return result;
@@ -140,13 +140,13 @@ evtdi_sort@void@@sm_evtdis@inst_ref_set<State Machine Event Data Item>@@@
 //
 sm_evtdis = param.sm_evtdis;
 for each sm_evtdi in sm_evtdis
-  select one prev_sm_evtdi related by sm_evtdi->SM_EVTDI[R533.'precedes'];
+  select one prev_sm_evtdi related by sm_evtdi->SM_EVTDI[R533.'succeeds'];
   if ( not_empty prev_sm_evtdi )
-    unrelate sm_evtdi from prev_sm_evtdi across R533.'precedes';
+    unrelate sm_evtdi from prev_sm_evtdi across R533.'succeeds';
   end if;
 end for;
 // Declare an empty instance reference.
-select any head_sm_evtdi related by sm_evtdis->SM_EVTDI[R533.'precedes'] where ( false );
+select any head_sm_evtdi related by sm_evtdis->SM_EVTDI[R533.'succeeds'] where ( false );
 for each sm_evtdi in sm_evtdis
   r = ::evtdi_insert( head_sm_evtdi:head_sm_evtdi, sm_evtdi:sm_evtdi );
   head_sm_evtdi = r;
@@ -160,23 +160,23 @@ if ( empty head_sm_evtdi )
   // Just starting.  Return sm_evtdi as head.
 elif ( sm_evtdi.Name <= head_sm_evtdi.Name )
   // insert before
-  relate sm_evtdi to head_sm_evtdi across R533.'succeeds';
+  relate sm_evtdi to head_sm_evtdi across R533.'precedes';
 else
   // find bigger
   result = head_sm_evtdi;
   prev_sm_evtdi = head_sm_evtdi;
-  select one cursor_sm_evtdi related by head_sm_evtdi->SM_EVTDI[R533.'succeeds'];
+  select one cursor_sm_evtdi related by head_sm_evtdi->SM_EVTDI[R533.'precedes'];
   while ( not_empty cursor_sm_evtdi )
     if ( sm_evtdi.Name <= cursor_sm_evtdi.Name )
       break;
     else
       prev_sm_evtdi = cursor_sm_evtdi;
-      select one cursor_sm_evtdi related by cursor_sm_evtdi->SM_EVTDI[R533.'succeeds'];
+      select one cursor_sm_evtdi related by cursor_sm_evtdi->SM_EVTDI[R533.'precedes'];
     end if;
   end while;
-  relate prev_sm_evtdi to sm_evtdi across R533.'succeeds';
+  relate prev_sm_evtdi to sm_evtdi across R533.'precedes';
   if ( not_empty cursor_sm_evtdi )
-    relate sm_evtdi to cursor_sm_evtdi across R533.'succeeds';
+    relate sm_evtdi to cursor_sm_evtdi across R533.'precedes';
   end if;
 end if;
 return result;
@@ -186,13 +186,13 @@ pp_sort@void@@c_pps@inst_ref_set<Property Parameter>@@@
 //
 c_pps = param.c_pps;
 for each c_pp in c_pps
-  select one prev_c_pp related by c_pp->C_PP[R4021.'precedes'];
+  select one prev_c_pp related by c_pp->C_PP[R4021.'succeeds'];
   if ( not_empty prev_c_pp )
-    unrelate c_pp from prev_c_pp across R4021.'precedes';
+    unrelate c_pp from prev_c_pp across R4021.'succeeds';
   end if;
 end for;
 // Declare an empty instance reference.
-select any head_c_pp related by c_pps->C_PP[R4021.'precedes'] where ( false );
+select any head_c_pp related by c_pps->C_PP[R4021.'succeeds'] where ( false );
 for each c_pp in c_pps
   r = ::pp_insert( head_c_pp:head_c_pp, c_pp:c_pp );
   head_c_pp = r;
@@ -206,23 +206,23 @@ if ( empty head_c_pp )
   // Just starting.  Return c_pp as head.
 elif ( c_pp.Name <= head_c_pp.Name )
   // insert before
-  relate c_pp to head_c_pp across R4021.'succeeds';
+  relate c_pp to head_c_pp across R4021.'precedes';
 else
   // find bigger
   result = head_c_pp;
   prev_c_pp = head_c_pp;
-  select one cursor_c_pp related by head_c_pp->C_PP[R4021.'succeeds'];
+  select one cursor_c_pp related by head_c_pp->C_PP[R4021.'precedes'];
   while ( not_empty cursor_c_pp )
     if ( c_pp.Name <= cursor_c_pp.Name )
       break;
     else
       prev_c_pp = cursor_c_pp;
-      select one cursor_c_pp related by cursor_c_pp->C_PP[R4021.'succeeds'];
+      select one cursor_c_pp related by cursor_c_pp->C_PP[R4021.'precedes'];
     end if;
   end while;
-  relate prev_c_pp to c_pp across R4021.'succeeds';
+  relate prev_c_pp to c_pp across R4021.'precedes';
   if ( not_empty cursor_c_pp )
-    relate c_pp to cursor_c_pp across R4021.'succeeds';
+    relate c_pp to cursor_c_pp across R4021.'precedes';
   end if;
 end if;
 return result;
@@ -942,7 +942,7 @@ sys_types_file_name = ( te_file.types + "." ) + te_file.hdr_file_ext;
 select many special_te_dts from instances of TE_DT where ( ( selected.Include_File != "" ) and ( selected.Include_File != sys_types_file_name ) );
 s = "";
 for each special_te_dt in special_te_dts
-  s = ( s + "#include " ) + ( special_te_dt.Include_File + "\n" );
+  s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" );
 end for;
 return s;
 @@@
@@ -986,7 +986,7 @@ for each te_parm in te_parms
   break;
 end for;
 while ( not_empty te_parm )
-  select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes'];
+  select one prev_te_parm related by te_parm->TE_PARM[R2041.'succeeds'];
   if ( empty prev_te_parm )
     break;
   else
@@ -1033,7 +1033,7 @@ while ( not_empty te_parm )
   end if;
   param_delimiter = ", ";
   format_delimiter = ",";
-  select one te_parm related by te_parm->TE_PARM[R2041.'succeeds'];
+  select one te_parm related by te_parm->TE_PARM[R2041.'precedes'];
 end while;
 if ( "" != defn )
   defn = defn + " ";
@@ -1205,7 +1205,7 @@ for each c_c in c_cs
   te_c.Name = T::r(s:c_c.Name);
   te_c.Descrip = c_c.Descrip;
   te_c.included_in_build = true;
-    select any tm_c from instances of TM_C where ( selected.Name == c_c.Name );
+        select any tm_c from instances of TM_C where ( selected.Name == c_c.Name );
   if ( not_empty tm_c )
     if ( ( tm_c.isRealized ) or ( c_c.isRealized ) )
       // Component is realized, so skip translation of internals.
@@ -1319,16 +1319,8 @@ end for;
 // foreign interface references.
 select many te_pos from instances of TE_PO;
 for each te_po in te_pos
-  // CDS - review/remove
-  if ( te_sys.AllPortsPoly )
-    te_po.polymorphic = true;
-  end if;
   select many te_iirs related by te_po->TE_IIR[R2080];
   for each te_iir in te_iirs
-    // CDS - review/remove
-    if ( te_sys.AllPortsPoly )
-      te_iir.polymorphic = true;
-    end if;
     // Select across the satisfaction to get the related TE_IIR.
     if ( te_po.Provision )
       // provision side first
@@ -1547,6 +1539,9 @@ for each s_cdt in s_cdts
   elif ( 4 == te_dt.Core_Typ )
     // string
     te_dt.ExtName = "c_t";
+    if ( te_sys.InstanceLoading )
+      te_dt.ExtName = "c_t *";
+    end if;
     te_dt.Initial_Value = "CTOR";
     te_dt.string_format = "%s";
   elif ( 5 == te_dt.Core_Typ )
@@ -1703,9 +1698,9 @@ for each s_sdt in s_sdts
   end for;
   for each s_mbr in s_mbrs
     select one te_mbr related by s_mbr->TE_MBR[R2047];
-    select one previous_te_mbr related by s_mbr->S_MBR[R46.'precedes']->TE_MBR[R2047];
+    select one previous_te_mbr related by s_mbr->S_MBR[R46.'succeeds']->TE_MBR[R2047];
     if ( not_empty previous_te_mbr )
-      relate te_mbr to previous_te_mbr across R2067.'precedes';
+      relate te_mbr to previous_te_mbr across R2067.'succeeds';
     else
           end if;
     te_mbr.Name = s_mbr.Name;
@@ -1728,7 +1723,7 @@ for each s_sdt in s_sdts
     te_mbr.array_spec = array_spec;
     // In the C model compiler, treat strings as arrays.
     select one mbr_te_dt related by s_mbr->S_DT[R45]->TE_DT[R2021];
-    if ( 4 == mbr_te_dt.Core_Typ )
+    if ( ( 4 == mbr_te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
       // string
       te_mbr.dimensions = te_mbr.dimensions + 1;
       te_mbr.array_spec = ( te_mbr.array_spec + "[" ) + ( te_string.max_string_length + "]" );
@@ -1760,8 +1755,7 @@ for each tm_precision in tm_precisions
     select many te_dts from instances of TE_DT where ( selected.Name == tm_precision.DT_name );
   else
     select any te_c from instances of TE_C where ( selected.Name == tm_precision.Domain );
-    // TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-    select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_precision.DT_name );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_precision.DT_name );
   end if;
   for each te_dt in te_dts
     // Only allow precision specification of core types integer
@@ -1817,8 +1811,7 @@ for each tm_pointer in tm_pointers
     select many te_dts from instances of TE_DT where ( selected.Name == tm_pointer.DT_name );
   else
     select any te_c from instances of TE_C where ( selected.Name == tm_pointer.Domain );
-    // TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-    select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_pointer.DT_name );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_pointer.DT_name );
   end if;
   for each te_dt in te_dts
     te_dt.ExtName = tm_pointer.pointer_type + " *";
@@ -1840,8 +1833,7 @@ for each tm_enumval in tm_enumvals
     select many te_dts from instances of TE_DT where ( selected.Name == tm_enumval.enumeration );
   else
     select any te_c from instances of TE_C where ( selected.Name == tm_enumval.Domain );
-    // TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-    select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->TE_DT[R2021] where ( selected.Name == tm_enumval.enumeration );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_enumval.enumeration );
   end if;
   for each te_dt in te_dts
     select any te_enum related by te_dt->S_DT[R2021]->S_EDT[R17]->S_ENUM[R27]->TE_ENUM[R2027] where ( selected.Name == tm_enumval.enumerator );
@@ -1859,8 +1851,7 @@ for each tm_enuminit in tm_enuminits
     select many te_dts from instances of TE_DT where ( selected.Name == tm_enuminit.enumeration );
   else
     select any te_c from instances of TE_C where ( selected.Name == tm_enuminit.Domain );
-    // TODO SKB - we do not handle any deep nesting here.  Just datatypes right under the component and under a package under the component
-    select many te_dts related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021] where ( selected.Name == tm_enuminit.enumeration );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_enuminit.enumeration );
   end if;
   for each te_dt in te_dts
     te_dt.Value = tm_enuminit.value;
@@ -1912,9 +1903,9 @@ end for;
 // Link the event parameters into order.
 for each s_bparm in s_bparms
   select one te_parm related by s_bparm->TE_PARM[R2028];
-  select one next_te_parm related by s_bparm->S_BPARM[R55.'succeeds']->TE_PARM[R2028];
+  select one next_te_parm related by s_bparm->S_BPARM[R55.'precedes']->TE_PARM[R2028];
   if ( not_empty next_te_parm )
-    relate te_parm to next_te_parm across R2041.'succeeds';
+    relate te_parm to next_te_parm across R2041.'precedes';
   end if;
 end for;
 select many o_tparms from instances of O_TPARM;
@@ -1939,9 +1930,9 @@ end for;
 // Link the event parameters into order.
 for each o_tparm in o_tparms
   select one te_parm related by o_tparm->TE_PARM[R2029];
-  select one next_te_parm related by o_tparm->O_TPARM[R124.'succeeds']->TE_PARM[R2029];
+  select one next_te_parm related by o_tparm->O_TPARM[R124.'precedes']->TE_PARM[R2029];
   if ( not_empty next_te_parm )
-    relate te_parm to next_te_parm across R2041.'succeeds';
+    relate te_parm to next_te_parm across R2041.'precedes';
   end if;
 end for;
 select many s_sparms from instances of S_SPARM;
@@ -1966,9 +1957,9 @@ end for;
 // Link the event parameters into order.
 for each s_sparm in s_sparms
   select one te_parm related by s_sparm->TE_PARM[R2030];
-  select one next_te_parm related by s_sparm->S_SPARM[R54.'succeeds']->TE_PARM[R2030];
+  select one next_te_parm related by s_sparm->S_SPARM[R54.'precedes']->TE_PARM[R2030];
   if ( not_empty next_te_parm )
-    relate te_parm to next_te_parm across R2041.'succeeds';
+    relate te_parm to next_te_parm across R2041.'precedes';
   end if;
 end for;
 select many sm_evtdis from instances of SM_EVTDI;
@@ -1984,9 +1975,9 @@ end for;
 // Link the event parameters into order.
 for each sm_evtdi in sm_evtdis
   select one te_parm related by sm_evtdi->TE_PARM[R2031];
-  select one next_te_parm related by sm_evtdi->SM_EVTDI[R533.'succeeds']->TE_PARM[R2031];
+  select one next_te_parm related by sm_evtdi->SM_EVTDI[R533.'precedes']->TE_PARM[R2031];
   if ( not_empty next_te_parm )
-    relate te_parm to next_te_parm across R2041.'succeeds';
+    relate te_parm to next_te_parm across R2041.'precedes';
   end if;
 end for;
 select many c_pps from instances of C_PP;
@@ -2047,9 +2038,9 @@ end for;
 // Link the event parameters into order.
 for each c_pp in c_pps
   select one te_parm related by c_pp->TE_PARM[R2048];
-  select one next_te_parm related by c_pp->C_PP[R4021.'succeeds']->TE_PARM[R2048];
+  select one next_te_parm related by c_pp->C_PP[R4021.'precedes']->TE_PARM[R2048];
   if ( not_empty next_te_parm )
-    relate te_parm to next_te_parm across R2041.'succeeds';
+    relate te_parm to next_te_parm across R2041.'precedes';
   end if;
 end for;
 //
@@ -2160,6 +2151,7 @@ for each r_oir in r_oirs
   te_oir.data_member = ( o_obj.Key_Lett + "_R" ) + T::s(i:r_rel.Numb);
   te_oir.assoc_type = "";
   te_oir.Mult = 0;
+  te_oir.rel_phrase = "";
   te_oir.object_id = "";
   te_oir.NavigatedTo = false;
   relate r_oir to te_oir across R2035;
@@ -2253,10 +2245,10 @@ for each act_blk in act_blks
   // Link the te_smts into order like the act_smts.
   for each act_smt in act_smts
     select one te_smt related by act_smt->TE_SMT[R2038];
-    select one next_act_smt related by act_smt->ACT_SMT[R661.'succeeds'];
+    select one next_act_smt related by act_smt->ACT_SMT[R661.'precedes'];
     if ( not_empty next_act_smt )
       select one next_te_smt related by next_act_smt->TE_SMT[R2038];
-      relate te_smt to next_te_smt across R2012.'succeeds';
+      relate te_smt to next_te_smt across R2012.'precedes';
     end if;
   end for;
 end for;
@@ -2322,10 +2314,10 @@ end for;
 select many te_lnks from instances of TE_LNK;
 for each te_lnk in te_lnks
   select one act_lnk related by te_lnk->ACT_LNK[R2042];
-  select one next_act_lnk related by act_lnk->ACT_LNK[R604.'succeeds'];
+  select one next_act_lnk related by act_lnk->ACT_LNK[R604.'precedes'];
   if ( not_empty next_act_lnk )
     select one next_te_lnk related by next_act_lnk->TE_LNK[R2042];
-    relate te_lnk to next_te_lnk across R2075.'succeeds';
+    relate te_lnk to next_te_lnk across R2075.'precedes';
     // We populate this here.  Populate firsts during statement linkage.
     next_te_lnk.left = te_lnk.linkage;
     // We may have traversed directly from aoth to aone (or vice versa)
@@ -2377,7 +2369,7 @@ for each v_var in v_vars
   select one te_dt related by v_var->S_DT[R848]->TE_DT[R2021];
   if ( not_empty te_dt )
     // In the C model compiler, treat strings as arrays.
-    if ( 4 == te_dt.Core_Typ )
+    if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
       // string
       te_var.dimensions = te_var.dimensions + 1;
       te_var.array_spec = ( te_var.array_spec + "[" ) + ( te_string.max_string_length + "]" );
@@ -2437,14 +2429,14 @@ for each te_c in te_cs
   //
   // Create the Generated External Entity instances and link them in.
   select many te_ees related by te_c->TE_EE[R2085];
+  for each te_ee in te_ees
+    ::TE_EE_init( te_ee:te_ee, te_c:te_c );
+  end for;
   r1 = ::ee_sort( te_ees:te_ees );
   te_ee = r1;
   if ( not_empty te_ee )
     relate te_c to te_ee across R2098;
   end if;
-  for each te_ee in te_ees
-    ::TE_EE_init( te_ee:te_ee, te_c:te_c );
-  end for;
   //
   // Initialize the Generated Class instances.
   select many te_classs related by te_c->TE_CLASS[R2064];
@@ -2485,7 +2477,7 @@ for each te_c in te_cs
     // Find first o_attr.
     select any o_attr related by o_obj->O_ATTR[R102];
     while ( not_empty o_attr )
-      select one prev_o_attr related by o_attr->O_ATTR[R103.'precedes'];
+      select one prev_o_attr related by o_attr->O_ATTR[R103.'succeeds'];
       if ( empty prev_o_attr )
         break;
       end if;
@@ -2506,7 +2498,7 @@ for each te_c in te_cs
       relate te_attr to o_attr across R2033;
       relate te_attr to te_class across R2061;
             if ( not_empty prev_te_attr )
-        relate prev_te_attr to te_attr across R2087.'succeeds';
+        relate prev_te_attr to te_attr across R2087.'precedes';
       end if;
       select many s_dims related by o_attr->S_DIM[R120];
       array_spec = "";
@@ -2540,14 +2532,14 @@ for each te_c in te_cs
         elif ( "%s" == te_dt.string_format )
           // Place an escaped tick mark around the %s in the attribute format string.
           te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + ( "''" + te_dt.string_format ) ) + "''";
-          te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
+          te_class.attribute_dump = ( ( ( te_class.attribute_dump + ",\n    ( 0 != self->" ) + ( te_attr.GeneratedName + " ) ? self->" ) ) + ( ( te_attr.GeneratedName + " : """ ) + """" ) );
         else
           te_class.attribute_format = ( te_class.attribute_format + delimiter ) + te_dt.string_format;
           te_class.attribute_dump = ( te_class.attribute_dump + ",\n    self->" ) + te_attr.GeneratedName;
         end if;
       end if;
       // In the C model compiler, treat strings as arrays.
-      if ( 4 == te_dt.Core_Typ )
+      if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
         // string
         te_attr.dimensions = te_attr.dimensions + 1;
         te_attr.array_spec = ( te_attr.array_spec + "[" ) + ( te_string.max_string_length + "]" );
@@ -2570,7 +2562,7 @@ for each te_c in te_cs
       end if;
       delimiter = ",";
       prev_te_attr = te_attr;
-      select one o_attr related by o_attr->O_ATTR[R103.'succeeds'];
+      select one o_attr related by o_attr->O_ATTR[R103.'precedes'];
     end while;
     //
     // Create the Generated State Machines and connect them to SM_SM.
@@ -2649,6 +2641,7 @@ te_class.Key_Lett = T::r(s:te_class.Key_Lett);
 te_class.GeneratedName = ( te_c.Name + "_" ) + te_class.Key_Lett;
 te_class.CBGeneratedName = te_class.GeneratedName + "_CB";
 te_class.scope = "";
+te_class.attribute_format = "";
 return te_class;
 @@@
 FactoryTE_DIM@inst_ref<Extended Dimension>@@s_dim@inst_ref<Dimensions>@@predecessor_te_dim@inst_ref<Extended Dimension>@@@
@@ -2923,7 +2916,7 @@ if ( ( te_mact.polymorphic ) and ( "SystemC" == te_thread.flavor ) )
   polymorphic_te_parm.Descrip = "architectural port selector";
   for each te_parm in te_parms
     if ( 0 == te_parm.Order )
-      relate polymorphic_te_parm to te_parm across R2041.'succeeds';
+      relate polymorphic_te_parm to te_parm across R2041.'precedes';
     end if;
   end for;
   te_parms = te_parms;
@@ -2997,6 +2990,7 @@ scope = param.scope;
 name = param.name;
 subtypeKL = param.subtypeKL;
 te_dt = param.te_dt;
+select any te_sys from instances of TE_SYS;
 select any te_target from instances of TE_TARGET;
 create object instance te_aba of TE_ABA;
 te_aba.SelfEventCount = 0;
@@ -3023,23 +3017,23 @@ if ( duplicates_needed )
     break;
   end for;
   while ( not_empty te_parm )
-    select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes'];
+    select one prev_te_parm related by te_parm->TE_PARM[R2041.'succeeds'];
     if ( empty prev_te_parm )
       break;
     else
       te_parm = prev_te_parm;
     end if;
   end while;
-  select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes'] where ( false );
+  select one prev_te_parm related by te_parm->TE_PARM[R2041.'succeeds'] where ( false );
   while ( not_empty te_parm )
     r = ::TE_PARM_duplicate( te_parm:te_parm );
     duplicate_te_parm = r;
     relate duplicate_te_parm to te_aba across R2062;
     if ( not_empty prev_te_parm )
-      relate prev_te_parm to duplicate_te_parm across R2041.'succeeds';
+      relate prev_te_parm to duplicate_te_parm across R2041.'precedes';
     end if;
     prev_te_parm = duplicate_te_parm;
-    select one te_parm related by te_parm->TE_PARM[R2041.'succeeds'];
+    select one te_parm related by te_parm->TE_PARM[R2041.'precedes'];
   end while;
   select many te_parms related by te_aba->TE_PARM[R2062];
 end if;
@@ -3063,7 +3057,7 @@ te_aba.GeneratedName = name;
 te_aba.ReturnDataType = te_dt.ExtName;
 te_aba.dimensions = 0;
 // In the C model compiler, treat strings as arrays.
-if ( 4 == te_dt.Core_Typ )
+if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
   // string
   select any te_string from instances of TE_STRING;
   te_aba.dimensions = te_aba.dimensions + 1;
@@ -3116,11 +3110,14 @@ end while;
 te_parm.array_spec = array_spec;
 // In the C model compiler, treat strings as arrays.
 if ( 4 == te_dt.Core_Typ )
-  // string
-  select any te_string from instances of TE_STRING;
-  te_parm.dimensions = te_parm.dimensions + 1;
-  te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" );
-  // In C (and other languages) arrays are never values but references.
+  select any te_sys from instances of TE_SYS;
+  if ( not te_sys.InstanceLoading )
+    // string
+    select any te_string from instances of TE_STRING;
+    te_parm.dimensions = te_parm.dimensions + 1;
+    te_parm.array_spec = ( te_parm.array_spec + "[" ) + ( te_string.max_string_length + "]" );
+  end if;
+  // strings are already by-ref
   te_parm.By_Ref = 0;
 end if;
 return te_parm;
@@ -3211,7 +3208,7 @@ right_te_lnk = param.right_te_lnk;
 create object instance te_lnk of TE_LNK;
 te_lnk.rel_phrase = "";
 // Insert the new link in between the left and right TE_LNKs.
-relate te_lnk to right_te_lnk across R2075.'succeeds';
+relate te_lnk to right_te_lnk across R2075.'precedes';
 select one r_rel related by right_te_lnk->ACT_LNK[R2042]->R_REL[R681];
 te_lnk.rel_number = right_te_lnk.rel_number;
 select one te_class related by r_rel->R_ASSOC[R206]->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->TE_CLASS[R2019];
@@ -3227,7 +3224,7 @@ if ( "" != right_te_lnk.rel_phrase )
   te_lnk.linkage = ( te_lnk.linkage + "_" ) + T::underscore(s:right_te_lnk.rel_phrase);
 end if;
 if ( not_empty left_te_lnk )
-  relate left_te_lnk to te_lnk across R2075.'succeeds';
+  relate left_te_lnk to te_lnk across R2075.'precedes';
   te_lnk.left = left_te_lnk.linkage;
   te_lnk.first = false;
 else
@@ -3320,8 +3317,6 @@ for each te_c in te_cs
   ::TE_C_mark_nested_system( te_cs:nested_te_cs );
   select many nested_te_cs related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]->C_C[R4201]->TE_C[R2054];
   ::TE_C_mark_nested_system( te_cs:nested_te_cs );
-  // TODO - SKB: What about components that are nested under package(s) inside this component?  The above 2
-  // traversals assume the nested component or component reference is right under the component we're processing.
 end for;
 @@@
 TE_C_getContainingComponent@inst_ref<Extended Component>@@ep_pkg@inst_ref<Package>@@@
@@ -3362,7 +3357,7 @@ TE_C_sort@inst_ref<Extended Component>@@te_cs@inst_ref_set<Extended Component>@@
 // Sort a list of TE_Cs.
 te_cs = param.te_cs;
 // Declare an empty instance reference.
-select any head_te_c related by te_cs->TE_C[R2017.'succeeds'] where ( false );
+select any head_te_c related by te_cs->TE_C[R2017.'precedes'] where ( false );
 for each te_c in te_cs
   r = ::TE_C_insert( head_te_c:head_te_c, te_c:te_c );
   head_te_c = r;
@@ -3377,23 +3372,23 @@ if ( empty head_te_c )
   // Just starting.  Return te_c as head.
 elif ( te_c.Name <= head_te_c.Name )
   // insert before
-  relate te_c to head_te_c across R2017.'succeeds';
+  relate te_c to head_te_c across R2017.'precedes';
 else
   // find bigger
   result = head_te_c;
   prev_te_c = head_te_c;
-  select one cursor_te_c related by head_te_c->TE_C[R2017.'succeeds'];
+  select one cursor_te_c related by head_te_c->TE_C[R2017.'precedes'];
   while ( not_empty cursor_te_c )
     if ( te_c.Name <= cursor_te_c.Name )
       break;
     else
       prev_te_c = cursor_te_c;
-      select one cursor_te_c related by cursor_te_c->TE_C[R2017.'succeeds'];
+      select one cursor_te_c related by cursor_te_c->TE_C[R2017.'precedes'];
     end if;
   end while;
-  relate prev_te_c to te_c across R2017.'succeeds';
+  relate prev_te_c to te_c across R2017.'precedes';
   if ( not_empty cursor_te_c )
-    relate te_c to cursor_te_c across R2017.'succeeds';
+    relate te_c to cursor_te_c across R2017.'precedes';
   end if;
 end if;
 return result;
@@ -3403,7 +3398,7 @@ class_sort@inst_ref<Extended Class>@@te_classs@inst_ref_set<Extended Class>@@@
 // Sort a list of TE_CLASSes.
 te_classs = param.te_classs;
 // Declare an empty instance reference.
-select any head_te_class related by te_classs->TE_CLASS[R2092.'succeeds'] where ( false );
+select any head_te_class related by te_classs->TE_CLASS[R2092.'precedes'] where ( false );
 for each te_class in te_classs
   end for;
 for each te_class in te_classs
@@ -3423,24 +3418,24 @@ else
   rkey = T::s(i:head_te_class.Numb) + head_te_class.GeneratedName;
   if ( lkey <= rkey )
     // insert before
-    relate te_class to head_te_class across R2092.'succeeds';
+    relate te_class to head_te_class across R2092.'precedes';
   else
     // find bigger
     result = head_te_class;
     prev_te_class = head_te_class;
-    select one cursor_te_class related by head_te_class->TE_CLASS[R2092.'succeeds'];
+    select one cursor_te_class related by head_te_class->TE_CLASS[R2092.'precedes'];
     while ( not_empty cursor_te_class )
       rkey = T::s(i:cursor_te_class.Numb) + cursor_te_class.GeneratedName;
       if ( lkey <= rkey )
         break;
       else
         prev_te_class = cursor_te_class;
-        select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'succeeds'];
+        select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'precedes'];
       end if;
     end while;
-    relate prev_te_class to te_class across R2092.'succeeds';
+    relate prev_te_class to te_class across R2092.'precedes';
     if ( not_empty cursor_te_class )
-      relate te_class to cursor_te_class across R2092.'succeeds';
+      relate te_class to cursor_te_class across R2092.'precedes';
     end if;
   end if;
 end if;
@@ -3451,7 +3446,7 @@ mact_sort@void@@te_macts@inst_ref_set<Extended Message Action>@@@
 // Sort a list of TE_MACTs.
 te_macts = param.te_macts;
 // Declare an empty instance reference.
-select any head_te_mact related by te_macts->TE_MACT[R2083.'succeeds'] where ( false );
+select any head_te_mact related by te_macts->TE_MACT[R2083.'precedes'] where ( false );
 for each te_mact in te_macts
   end for;
 for each te_mact in te_macts
@@ -3463,7 +3458,7 @@ te_mact = head_te_mact;
 while ( not_empty te_mact )
   te_mact.Order = counter;
   counter = counter + 1;
-  select one te_mact related by te_mact->TE_MACT[R2083.'succeeds'];
+  select one te_mact related by te_mact->TE_MACT[R2083.'precedes'];
 end while;
 @@@
 mact_insert@inst_ref<Extended Message Action>@@head_te_mact@inst_ref<Extended Message Action>@@te_mact@inst_ref<Extended Message Action>@@@
@@ -3477,24 +3472,24 @@ else
   rkey = head_te_mact.Name;
   if ( lkey <= rkey )
     // insert before
-    relate te_mact to head_te_mact across R2083.'succeeds';
+    relate te_mact to head_te_mact across R2083.'precedes';
   else
     // find bigger
     result = head_te_mact;
     prev_te_mact = head_te_mact;
-    select one cursor_te_mact related by head_te_mact->TE_MACT[R2083.'succeeds'];
+    select one cursor_te_mact related by head_te_mact->TE_MACT[R2083.'precedes'];
     while ( not_empty cursor_te_mact )
       rkey = cursor_te_mact.Name;
       if ( lkey <= rkey )
         break;
       else
         prev_te_mact = cursor_te_mact;
-        select one cursor_te_mact related by cursor_te_mact->TE_MACT[R2083.'succeeds'];
+        select one cursor_te_mact related by cursor_te_mact->TE_MACT[R2083.'precedes'];
       end if;
     end while;
-    relate prev_te_mact to te_mact across R2083.'succeeds';
+    relate prev_te_mact to te_mact across R2083.'precedes';
     if ( not_empty cursor_te_mact )
-      relate te_mact to cursor_te_mact across R2083.'succeeds';
+      relate te_mact to cursor_te_mact across R2083.'precedes';
     end if;
   end if;
 end if;
@@ -3505,7 +3500,7 @@ sync_sort@inst_ref<Extended Function>@@te_syncs@inst_ref_set<Extended Function>@
 // Sort a list of TE_SYNCs.
 te_syncs = param.te_syncs;
 // Declare an empty instance reference.
-select any head_te_sync related by te_syncs->TE_SYNC[R2095.'succeeds'] where ( false );
+select any head_te_sync related by te_syncs->TE_SYNC[R2095.'precedes'] where ( false );
 for each te_sync in te_syncs
   end for;
 for each te_sync in te_syncs
@@ -3525,24 +3520,24 @@ else
   rkey = head_te_sync.Name;
   if ( lkey <= rkey )
     // insert before
-    relate te_sync to head_te_sync across R2095.'succeeds';
+    relate te_sync to head_te_sync across R2095.'precedes';
   else
     // find bigger
     result = head_te_sync;
     prev_te_sync = head_te_sync;
-    select one cursor_te_sync related by head_te_sync->TE_SYNC[R2095.'succeeds'];
+    select one cursor_te_sync related by head_te_sync->TE_SYNC[R2095.'precedes'];
     while ( not_empty cursor_te_sync )
       rkey = cursor_te_sync.Name;
       if ( lkey <= rkey )
         break;
       else
         prev_te_sync = cursor_te_sync;
-        select one cursor_te_sync related by cursor_te_sync->TE_SYNC[R2095.'succeeds'];
+        select one cursor_te_sync related by cursor_te_sync->TE_SYNC[R2095.'precedes'];
       end if;
     end while;
-    relate prev_te_sync to te_sync across R2095.'succeeds';
+    relate prev_te_sync to te_sync across R2095.'precedes';
     if ( not_empty cursor_te_sync )
-      relate te_sync to cursor_te_sync across R2095.'succeeds';
+      relate te_sync to cursor_te_sync across R2095.'precedes';
     end if;
   end if;
 end if;
@@ -3553,9 +3548,13 @@ ee_sort@inst_ref<Extended External Entity>@@te_ees@inst_ref_set<Extended Externa
 // Sort a list of TE_EEs.
 te_ees = param.te_ees;
 // Declare an empty instance reference.
-select any head_te_ee related by te_ees->TE_EE[R2096.'succeeds'] where ( false );
+select any head_te_ee related by te_ees->TE_EE[R2096.'precedes'] where ( false );
 for each te_ee in te_ees
-  end for;
+  select one next_te_ee related by te_ee->TE_EE[R2096.'precedes'];
+  if ( not_empty next_te_ee )
+    unrelate te_ee from te_ee across R2096.'precedes';
+  end if;
+end for;
 for each te_ee in te_ees
   r = ::ee_insert( head_te_ee:head_te_ee, te_ee:te_ee );
   head_te_ee = r;
@@ -3573,24 +3572,24 @@ else
   rkey = head_te_ee.Name;
   if ( lkey <= rkey )
     // insert before
-    relate te_ee to head_te_ee across R2096.'succeeds';
+    relate te_ee to head_te_ee across R2096.'precedes';
   else
     // find bigger
     result = head_te_ee;
     prev_te_ee = head_te_ee;
-    select one cursor_te_ee related by head_te_ee->TE_EE[R2096.'succeeds'];
+    select one cursor_te_ee related by head_te_ee->TE_EE[R2096.'precedes'];
     while ( not_empty cursor_te_ee )
       rkey = cursor_te_ee.Name;
       if ( lkey <= rkey )
         break;
       else
         prev_te_ee = cursor_te_ee;
-        select one cursor_te_ee related by cursor_te_ee->TE_EE[R2096.'succeeds'];
+        select one cursor_te_ee related by cursor_te_ee->TE_EE[R2096.'precedes'];
       end if;
     end while;
-    relate prev_te_ee to te_ee across R2096.'succeeds';
+    relate prev_te_ee to te_ee across R2096.'precedes';
     if ( not_empty cursor_te_ee )
-      relate te_ee to cursor_te_ee across R2096.'succeeds';
+      relate te_ee to cursor_te_ee across R2096.'precedes';
     end if;
   end if;
 end if;
@@ -3678,7 +3677,7 @@ if ( not_empty v_pars )
           end if;
         end if;
         if ( stringbody )
-          te_par.buffer = ( "v_sretval" + invocation_flavor ) + T::s(i:item_number);
+          te_par.buffer = ( "v_sretval" + T::s(i:v_par.labelLineNumber) ) + ( invocation_flavor + T::s(i:v_par.labelColumn) );
           select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
           te_blk.declaration = ( ( ( te_blk.declaration + te_dt.ExtName ) + ( " " + te_par.buffer ) ) + ( "[" + te_string.max_string_length ) ) + "];";
           code = ( ( code + te_string.strcpy ) + ( "( " + te_par.buffer ) ) + ", ";
@@ -4330,7 +4329,7 @@ for each te_class in te_classes
       // Be sure we have the first attribute in the class.
       select any first_te_attr related by te_class->TE_ATTR[R2061];
       while ( not_empty first_te_attr )
-        select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes'];
+        select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
         if ( empty prev_te_attr )
           break;
         end if;
@@ -4348,7 +4347,7 @@ for each te_class in te_classes
           end if;
         end if;
         //
-        select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds'];
+        select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
       end while;
       //
       // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
@@ -4379,7 +4378,7 @@ for each te_class in te_classes
           end if;
         end if;
         //
-        select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds'];
+        select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
       end while;
       //
       // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
@@ -4411,7 +4410,7 @@ for each te_class in te_classes
             end if;
           end if;
           //
-          select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds'];
+          select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
         end while;
         //
         // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
@@ -4439,7 +4438,7 @@ for each te_class in te_classes
             end if;
           end if;
           //
-          select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds'];
+          select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
         end while;
         //
         // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
@@ -4639,7 +4638,7 @@ select any te_sys from instances of TE_SYS;
 // Be sure we have the first attribute in the class.
 select any first_te_attr related by te_class->TE_ATTR[R2061];
 while ( not_empty first_te_attr )
-  select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes'];
+  select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
   if ( empty prev_te_attr )
     break;
   end if;
@@ -4664,7 +4663,7 @@ while ( not_empty te_attr )
   end if;
   //
   // Advance to the next object attribute, if any.
-  select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds'];
+  select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
 end while;
 return T::body();
 @@@
@@ -4685,7 +4684,7 @@ if ( special )
   // Be sure we have the first attribute in the class.
   select any first_te_attr related by te_class->TE_ATTR[R2061];
   while ( not_empty first_te_attr )
-    select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes'];
+    select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
     if ( empty prev_te_attr )
       break;
     end if;
@@ -4701,7 +4700,7 @@ if ( special )
     end if;
     compare_stmt = compare_stmt + cmp_element;
     // Advance to the next object attribute, if any.
-    select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds'];
+    select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
     if ( not_empty te_attr )
       compare_stmt = compare_stmt + " && ";
     end if;
@@ -4724,7 +4723,7 @@ oida_count = 0;
 // Be sure we have the first attribute in the class.
 select any first_te_attr related by te_class->TE_ATTR[R2061];
 while ( not_empty first_te_attr )
-  select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'precedes'];
+  select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
   if ( empty prev_te_attr )
     break;
   end if;
@@ -4739,7 +4738,7 @@ while ( not_empty te_attr )
       param_list = param_list + ", ";
     end if;
   end if;
-  select one te_attr related by te_attr->TE_ATTR[R2087.'succeeds'];
+  select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
 end while;
 //
 return param_list;
