@@ -167,7 +167,7 @@
   .select many special_te_dts from instances of TE_DT where ( ( selected.Include_File != "" ) and ( selected.Include_File != sys_types_file_name ) )
   .assign s = ""
   .for each special_te_dt in special_te_dts
-    .assign s = ( s + "#include " ) + ( special_te_dt.Include_File + "\n" )
+    .assign s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" )
   .end for
   .assign attr_result = s
 .end function

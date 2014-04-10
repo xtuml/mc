@@ -175,6 +175,7 @@
   .select any te_instance from instances of TE_INSTANCE
   .select any te_set from instances of TE_SET
   .select any te_string from instances of TE_STRING
+  .select any te_sys from instances of TE_SYS
   .select one te_blk related by te_smt->TE_BLK[R2078]
   .assign ws = te_blk.indentation
   .select one r_v_val related by act_ai->V_VAL[R609]
@@ -195,6 +196,11 @@
   .assign te_assign.rval = r_te_val.buffer
   .invoke r = V_VAL_drill_for_V_VAL_root( l_v_val )
   .assign root_v_val = r.result
+  .assign element_count = 0
+  .select one r_te_dim related by r_te_val->TE_DIM[R2079]
+  .if ( not_empty r_te_dim )
+    .assign element_count = r_te_dim.elementCount
+  .end if
   .assign te_assign.isImplicit = root_v_val.isImplicit
 .//-- 002: 20140122 Add Start (saitou) 
   .// fix for externalMacro 
@@ -226,15 +232,33 @@
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
       .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"
       .invoke blk_deallocation_append( te_blk, d )
+    .elif ( ( 4 == r_te_dt.Core_Typ ) and ( te_sys.InstanceLoading ) )
+      .// CDS 128 is a bit arbitrary.  It is intended to be a reasonable
+      .// maximum for a transient array of strings needing initialization.
+      .// string
+      .assign d = te_assign.left_declaration + te_assign.array_spec
+      .if ( "" == te_assign.array_spec )
+        .assign d = d + "=0"
+      .else
+        .if ( te_sys.InstanceLoading )
+          .assign d = d + "={0"
+          .if ( element_count < 128 )
+            .assign i = element_count - 1
+            .// Only provide initializer for arrays of reasonable size.
+            .while ( i > 0 )
+              .assign i = i - 1
+              .assign d = d + ",0"
+            .end while
+          .end if
+          .assign d = d + "}"
+        .end if
+      .end if
+      .assign d = d + ";"
+      .invoke blk_declaration_append( te_blk, d )
     .else
       .assign d = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
       .invoke blk_declaration_append( te_blk, d )
     .end if
-  .end if
-  .assign element_count = 0
-  .select one r_te_dim related by r_te_val->TE_DIM[R2079]
-  .if ( not_empty r_te_dim )
-    .assign element_count = r_te_dim.elementCount
   .end if
   .assign is_parameter = false
   .select one v_pvl related by r_v_val->V_PVL[R801]
@@ -1169,7 +1193,7 @@
     .select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053]
   .end if
   .select many v_pars related by act_sgn->V_PAR[R662]
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true, "sgn" )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1193,7 +1217,7 @@
     .select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050]
   .end if
   .select many v_pars related by act_iop->V_PAR[R679]
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true, "iop" )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1206,13 +1230,14 @@
   .param inst_ref_set v_pars
   .param string ws
   .param boolean is_statement
+  .param string salt
   .select any te_file from instances of TE_FILE
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .assign parameters = ""
   .assign te_mact.OALParamBuffer = ""
   .if ( not_empty v_pars )
-    .invoke r = gen_parameter_list( v_pars, false, "message" )
+    .invoke r = gen_parameter_list( v_pars, false, salt )
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign te_mact.OALParamBuffer = te_parm.OALParamBuffer
@@ -1283,7 +1308,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_tfm->V_PAR[R627]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "operation" )
+      .invoke r = gen_parameter_list( v_pars, false, "sop" )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1337,7 +1362,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_brg->V_PAR[R628]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "bridge" )
+      .invoke r = gen_parameter_list( v_pars, false, "sbg" )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1385,7 +1410,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_fnc->V_PAR[R669]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "function" )
+      .invoke r = gen_parameter_list( v_pars, false, "sfn" )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1431,7 +1456,7 @@
     .// resolve the core data type of v_val
     .select one s_dt related by v_val->S_DT[R820]
     .assign return_s_dt = s_dt
-   .select any core_s_dt from instances of S_DT where ( false )
+    .select any core_s_dt from instances of S_DT where ( false )
     .select one s_udt related by s_dt->S_UDT[R17]
     .if ( not_empty s_udt )
       .invoke r = GetBaseTypeForUDT( s_udt )
@@ -1529,6 +1554,7 @@
   .//
   .assign rv = value
   .if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
+    .// Use when deallocating or when returning an array (even array of char).
     .assign rv = "xtumlOALrv"
   .end if
   .include "${te_file.arc_path}/t.smt.return.c"
@@ -1942,7 +1968,10 @@ ${subtypecheck}\
     .if ( "many" == te_select_related.multiplicity )
       .include "${te_file.arc_path}/t.smt_sr.result_set_init.c"
     .else
-      .include "${te_file.arc_path}/t.smt_sr.result_ref_init.c"
+      .if ( te_select_related.result_var != te_select_related.start_var )
+        .// Do not initialize result when it is the same as starting variable.
+        .include "${te_file.arc_path}/t.smt_sr.result_ref_init.c"
+      .end if
     .end if
 ${ws}{\
     .assign depth = depth + 1
@@ -1967,6 +1996,10 @@ ${ws}{\
             .assign cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) "
             .assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )"
           .end if
+        .end if
+        .assign result_equals_start = false
+        .if ( te_select_related.result_var == te_lnk.left )
+          .assign result_equals_start = true
         .end if
         .include "${te_file.arc_path}/t.smt_sr.chainto1.c"
       .else

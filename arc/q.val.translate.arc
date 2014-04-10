@@ -74,19 +74,19 @@
   .else
   .select one v_trv related by v_val->V_TRV[R801]
   .if ( not_empty v_trv )
-    .invoke val_transform_value( v_trv )
+    .invoke val_transform_value( v_trv, "TRV" )
   .else
   .select one v_msv related by v_val->V_MSV[R801]
   .if ( not_empty v_msv )
-    .invoke val_message_value( v_msv )
+    .invoke val_message_value( v_msv, "MSV" )
   .else
   .select one v_brv related by v_val->V_BRV[R801]
   .if ( not_empty v_brv )
-    .invoke val_bridge_value( v_brv )
+    .invoke val_bridge_value( v_brv, "BRV" )
   .else
   .select one v_fnv related by v_val->V_FNV[R801]
   .if ( not_empty v_fnv )
-    .invoke val_synch_service_value( v_fnv )
+    .invoke val_synch_service_value( v_fnv, "FNV" )
   .else
     .print "ERROR:  Recursive V_VAL resolution issue."
   .end if
@@ -584,14 +584,15 @@
 .end function
 .//
 .function val_message_values
-.select many v_msvs from instances of V_MSV
-.for each v_msv in v_msvs
-  .invoke val_message_value( v_msv )
-.end for
+  .select many v_msvs from instances of V_MSV
+  .for each v_msv in v_msvs
+    .invoke val_message_value( v_msv, "msv" )
+  .end for
 .end function
 .//
 .function val_message_value
   .param inst_ref v_msv
+  .param string salt
   .select one v_val related by v_msv->V_VAL[R801]
   .select one te_val related by v_val->TE_VAL[R2040]
   .select one te_mact related by v_msv->SPR_PEP[R841]->SPR_PO[R4503]->TE_MACT[R2050]
@@ -600,7 +601,7 @@
   .end if
   .select many v_pars related by v_msv->V_PAR[R842]
   .select one te_aba related by te_mact->TE_ABA[R2010]
-  .invoke r = q_render_msg( te_mact, v_pars, "", false )
+  .invoke r = q_render_msg( te_mact, v_pars, "", false, salt )
   .assign te_val.buffer = r.body
   .assign te_val.OAL = ( ( te_mact.PortName + "::" ) + ( te_mact.MessageName + "(" ) ) + ( te_mact.OALParamBuffer + ")" )
   .assign te_val.dimensions = te_aba.dimensions
@@ -618,12 +619,13 @@
 .function val_bridge_values
   .select many v_brvs from instances of V_BRV
   .for each v_brv in v_brvs
-    .invoke val_bridge_value( v_brv )
+    .invoke val_bridge_value( v_brv, "brv" )
   .end for
 .end function
 .//
 .function val_bridge_value
   .param inst_ref v_brv
+  .param string salt
   .select one te_brg related by v_brv->S_BRG[R828]->TE_BRG[R2025]
   .if ( not_empty te_brg )
     .select any te_target from instances of TE_TARGET
@@ -633,7 +635,7 @@
     .select one te_aba related by te_brg->TE_ABA[R2010]
     .select one te_ee related by v_brv->S_BRG[R828]->S_EE[R19]->TE_EE[R2020]
     .assign te_ee.Included = true
-    .invoke r = gen_parameter_list( v_pars, false, "bridge" )
+    .invoke r = gen_parameter_list( v_pars, false, salt )
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign params_OAL = te_parm.OALParamBuffer
@@ -674,12 +676,13 @@
 .function val_transform_values
   .select many v_trvs from instances of V_TRV
   .for each v_trv in v_trvs
-    .invoke val_transform_value( v_trv )
+    .invoke val_transform_value( v_trv, "trv" )
   .end for
 .end function
 .//
 .function val_transform_value
   .param inst_ref v_trv
+  .param string salt
   .select one te_tfr related by v_trv->O_TFR[R829]->TE_TFR[R2024]
   .if ( not_empty te_tfr )
   .select any te_target from instances of TE_TARGET
@@ -711,7 +714,7 @@
     .end if
     .assign te_val.OAL = te_tfr.Key_Lett + "::"
   .end if
-  .invoke r = gen_parameter_list( v_pars, false, "operation" )
+  .invoke r = gen_parameter_list( v_pars, false, salt )
   .assign te_parm = r.result
   .assign parameters = te_parm.ParamBuffer
   .assign params_OAL = te_parm.OALParamBuffer
@@ -744,12 +747,13 @@
 .function val_synch_service_values
   .select many v_fnvs from instances of V_FNV
   .for each v_fnv in v_fnvs
-    .invoke val_synch_service_value( v_fnv )
+    .invoke val_synch_service_value( v_fnv, "fnv" )
   .end for
 .end function
 .//
 .function val_synch_service_value
   .param inst_ref v_fnv
+  .param string salt
   .select one te_sync related by v_fnv->S_SYNC[R827]->TE_SYNC[R2023]
   .if ( not_empty te_sync )
     .select any te_target from instances of TE_TARGET
@@ -757,7 +761,7 @@
     .select one te_val related by v_val->TE_VAL[R2040]
     .select many v_pars related by v_fnv->V_PAR[R817]
     .select one te_aba related by te_sync->TE_ABA[R2010]
-    .invoke r = gen_parameter_list( v_pars, false, "function" )
+    .invoke r = gen_parameter_list( v_pars, false, salt )
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign params_OAL = te_parm.OALParamBuffer
