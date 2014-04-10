@@ -157,65 +157,65 @@ Branch name:  51_fx
  schema/sql/xtumlmc_schema.sql  |  85 ++++++++++++++++--
  57 files changed, 3735 insertions(+), 187 deletions(-)
 
- c/q.component.arc          | small bit of code
- c/q.components.arc         | change of include path
- c/q.sys.singletons.arc     * some pathing changes and prefix change
- c/sys.arc                  | Base code is excluded and new code included.  However, only after mcmc.
- c/t.component.message.c    | non-mcmc enhancement
- c/t.component.messages.c   | non-mcmc enhancement
- c/t.component.module.h     | non-mcmc enhancement
- c/t.domain.function.h      | non-mcmc enhancement
- c/t.sys_sets.h             | 4.1.6 upgrade
- c/t.sys_types.h            | 4.1.6 upgrade
- frag_util.arc              * lots of added functions, one modified function
- fx_bridge_skel.arc         | non-mcmc enhancement
- fx_domain_debug.arc        | non-mcmc enhancement
- fx_domain_facade.arc       | non-mcmc enhancement
- fx_domain_init.arc         | non-mcmc enhancement
- fx_domain_mech.arc         | non-mcmc enhancement
- fx_init.arc                | non-mcmc enhancement
- fx_smt_create_instance.arc * OAL enhancement
- fx_smt_delete_instance.arc * OAL enhancement
- fx_util.arc               ?* Lots of new functions some from old MC technology and are duplicates.
- m.bridge.arc               * new marking functions
- m.datatype.arc             * new marking but INCORRECT (using meta-model)
- m.domain.arc               * new and updated marking functions
+ c/q.component.arc          + small bit of code
+ c/q.components.arc         + change of include path
+ c/q.sys.singletons.arc    +* some pathing changes and prefix change
+ c/sys.arc                  + Base code is excluded and new code included.  However, only after mcmc.
+ c/t.component.message.c    + non-mcmc enhancement
+ c/t.component.messages.c   + non-mcmc enhancement
+ c/t.component.module.h     + non-mcmc enhancement
+ c/t.domain.function.h      + non-mcmc enhancement
+ c/t.sys_sets.h             + 4.1.6 upgrade
+ c/t.sys_types.h            + 4.1.6 upgrade
+ frag_util.arc             +* lots of added functions, one modified function
+ fx_bridge_skel.arc         + non-mcmc enhancement
+ fx_domain_debug.arc        + non-mcmc enhancement
+ fx_domain_facade.arc       + non-mcmc enhancement
+ fx_domain_init.arc         + non-mcmc enhancement
+ fx_domain_mech.arc         + non-mcmc enhancement
+ fx_init.arc                + non-mcmc enhancement
+ fx_smt_create_instance.arc+* OAL enhancement
+ fx_smt_delete_instance.arc+* OAL enhancement
+ fx_util.arc              ?+* Lots of new functions some from old MC technology and are duplicates.
+ m.bridge.arc              +* new marking functions
+ m.datatype.arc            +* new marking but INCORRECT (using meta-model)
+ m.domain.arc              +* new and updated marking functions
  m.system.arc               * linking in new marking functions
- q.class.arc                | non-mcmc enhancement
- q.class.events.arc         | Why is this change?  Did the first way fail?  Is it not standard?
- q.class.factory.arc        | non-mcmc enhancement
- q.class.link.arc           | big non-mcmc change
- q.class.poly.arc           | 4.1.6 upgrade
- q.class.sem.arc            | 4.1.6 upgrade
+ q.class.arc                + non-mcmc enhancement
+ q.class.events.arc         + Why is this change?  Did the first way fail?  Is it not standard?
+ q.class.factory.arc        + non-mcmc enhancement
+ q.class.link.arc           + big non-mcmc change
+ q.class.poly.arc           + 4.1.6 upgrade
+ q.class.sem.arc            + 4.1.6 upgrade
  q.datatype.arc             * one added function
- q.domain.bridge.arc        | non-mcmc enhancement
- q.domain.bridges.arc       | non-mcmc enhancement
- q.domain.classes.arc       | non-mcmc enhancement
- q.domain.enums.arc         | new non-mcmc enhancement
- q.domain.sync.arc          | non-mcmc enhancement
+ q.domain.bridge.arc        + non-mcmc enhancement
+ q.domain.bridges.arc       + non-mcmc enhancement
+ q.domain.classes.arc       + non-mcmc enhancement
+ q.domain.enums.arc         + new non-mcmc enhancement
+ q.domain.sync.arc          + non-mcmc enhancement
  q.main.arc                 * new marking invocations
  q.names.arc                * new functions that could be moved to a non-mcmc file
  q.parameters.arc           * added a parameter to an invocation
- q.parm.sort.arc           ?* I cannot tell what is happening here.
+ q.parm.sort.arc           ?* I cannot tell what is happening here.  Remove use of frag_ref.
  q.smt.generate.arc         * modifications to OAL statement generation
  q.sys.populate.arc         * reasonable modifications during initialization
  q.utils.arc                * small change for extra parameter
  q.val.translate.arc        * reasonable modifications during initialization
- t.class.attribute.init.c   | non-mcmc enhancement
- t.class.extent.c           | non-mcmc enhancement
- t.class.extent.h           | non-mcmc enhancement
- t.class.idispatch.c        | non-mcmc enhancement
- t.class.sem.state_names.c  | non-mcmc enhancement
- t.class.set_refs.c         | non-mcmc enhancement
- t.domain.function.c        | non-mcmc enhancement
- t.domain_classes.h         | non-mcmc enhancement
- t.domain_datatypes.h       | non-mcmc enhancement
- t.domain_enums.h           | non-mcmc enhancement
- t.domain_init.h            | non-mcmc enhancement
- t.ee_ext.h                 | non-mcmc enhancement
- t.smt.assign.c             | 4.1.6 upgrade
+ t.class.attribute.init.c   + non-mcmc enhancement
+ t.class.extent.c           + non-mcmc enhancement
+ t.class.extent.h           + non-mcmc enhancement
+ t.class.idispatch.c        + non-mcmc enhancement
+ t.class.sem.state_names.c  + non-mcmc enhancement
+ t.class.set_refs.c         + non-mcmc enhancement (4.1.6 conflict here, resolved)
+ t.domain.function.c        + non-mcmc enhancement
+ t.domain_classes.h         + non-mcmc enhancement
+ t.domain_datatypes.h       + non-mcmc enhancement
+ t.domain_enums.h           + new non-mcmc enhancement
+ t.domain_init.h            + non-mcmc enhancement
+ t.ee_ext.h                 + new non-mcmc enhancement
+ t.smt.assign.c             + 4.1.6 upgrade
  t.smt.bridge.c             * marking conditional invocation
- t.smt.c                    | not used
+ t.smt.c                    + not used
 </pre>
 
 End
