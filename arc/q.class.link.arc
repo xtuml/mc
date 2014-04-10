@@ -575,7 +575,7 @@ ${aoth_fundamentals.body}\
     .if ( not_empty oref )
       .invoke set_refs = SetReferentialAttributes( "left", "right", rto, rgo )
       .invoke reset_refs = ResetReferentialAttributes( "right", rgo )
-      .if ( rel_phrase == form.Txt_Phrs )
+      .if ( rel_phrase == part.Txt_Phrs )
         .invoke set_refs = SetReferentialAttributes( "right", "left", rto, rgo )
         .invoke reset_refs = ResetReferentialAttributes( "left", rgo )
       .end if
@@ -825,6 +825,7 @@ ${aoth_fundamentals.body}\
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
+  .select any te_sys from instances of TE_SYS
   .// Get set of Object Identifying Attribute(s)
   .select many o_oidas related by r_rto->O_ID[R109]->O_OIDA[R105]
   .for each o_oida in o_oidas
@@ -1087,7 +1088,6 @@ ${msg2}
   .param inst_ref rel
   .param inst_ref te_relinfo
   .param inst_ref te_relstore
-  .//
   .//
   .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
   .select one te_c related by related_te_class->TE_C[R2064]

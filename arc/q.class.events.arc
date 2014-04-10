@@ -373,7 +373,8 @@ typedef union ${union_name} ${union_name};
         .select any sm_evtdi related by sm_evt->SM_EVTDI[R532]
         .if ( not_empty sm_evtdi )
           .// CDS Careful here.  We may be forced to declare this.
-          .if ( te_evt.Used )
+          .select one te_c related by te_evt->TE_SM[R2071]->TE_CLASS[R2072]->TE_C[R2064]
+          .if ( te_evt.Used or te_c.OptDisabled )
   ${te_evt.GeneratedName} * rcvd_evt = (${te_evt.GeneratedName} *) event;
           .end if
         .else
