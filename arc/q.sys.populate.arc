@@ -2436,6 +2436,7 @@
 .//-- 002: 20140128 Modified Start (saitou) 
   .if ( ( 4 == te_dt.Core_Typ ) and ( not te_dt.IsExternalMacro = s_dt.IsExternalMacro ) )
 .//-- 002: 20140128 Modified End (saitou) 
+    .select any te_sys from instances of TE_SYS
     .if ( not te_sys.InstanceLoading )
       .// string
       .select any te_string from instances of TE_STRING

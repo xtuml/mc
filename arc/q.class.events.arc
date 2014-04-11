@@ -276,8 +276,7 @@ const ${te_eq.constant_type} ${te_evt.GeneratedName}c = {
 /*
  * union of events targeted towards '${o_obj.Key_Lett}' state machine
  */
-.//-- 010:20140317 Modified Start (nomura)
-union ${te_sm.events_union} {
+typedef union {
       .assign eventcounter = 1
       .for each te_evt in te_evts
         .select one event related by te_evt->SM_EVT[R2036]
@@ -289,9 +288,7 @@ union ${te_sm.events_union} {
   ${te_evt.GeneratedName} $l{o_obj.Key_Lett}${te_evt.Numb}${eventcounter};  ${comment}
         .assign eventcounter = eventcounter + 1
       .end for
-};
-typedef union ${te_sm.events_union} ${te_sm.events_union};
-.//-- 010:20140317 Modified End (nomura)
+} ${te_sm.events_union};
     .end if
   .else
     .// *** Definition
@@ -339,13 +336,10 @@ typedef union ${te_sm.events_union} ${te_sm.events_union};
 /*
  * roll-up of all events (with their parameters) for component ${te_c.Name}
  */
-.//-- 010:20140317 Modified Start (nomura)
-union ${union_name} {
+typedef union {
 ${ism_unions}\
 ${asm_unions}\
-};
-typedef union ${union_name} ${union_name};
-.//-- 010:20140317 Modified End (nomura)
+} ${union_name};
   .end if
 .end function
 .//
