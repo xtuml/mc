@@ -239,9 +239,9 @@ ${llimit_macro_name.result} + 1\
 .function fx_setup_subsystem_init
   .select many objs from instances of O_OBJ
   .// ƒtƒ‰ƒO‚Ì‰Šú‰»‚È‚Ç
-  .for each obj in objs
-    .assign obj.IsExcludeFromGen = false
-  .end for
+.//  .for each obj in objs
+.//    .assign obj.IsExcludeFromGen = false
+.//  .end for
 .//    .select many ep_pkgs from instances of EP_PKG
 .//    .for each ep_pkg in ep_pkgs
 .//      .select many objs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001]
