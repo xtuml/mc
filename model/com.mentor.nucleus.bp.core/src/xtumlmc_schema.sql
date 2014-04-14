@@ -1,5 +1,5 @@
 -- ============================================================================
--- $RCSfile: xtumlmc_schema.sql,v $
+-- $RCSfile: schema_gen.arc,v $
 --
 -- Description:
 -- This file provides an SQL schema suitable for use with the
@@ -714,7 +714,7 @@ CREATE TABLE CL_IR (
 CREATE TABLE CL_IIR (
 	Id	UNIQUE_ID,
 	Ref_Id	UNIQUE_ID,
-	ImportedComp_Id	UNIQUE_ID,
+	CL_POR_Id	UNIQUE_ID,
 	Delegation_Id	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING );
@@ -729,6 +729,13 @@ CREATE TABLE CL_IC (
 	ClassifierName	STRING,
 	Name	STRING,
 	Descrip	STRING );
+
+-- Class:  4705.  Port Reference
+CREATE TABLE CL_POR (
+	CL_IC_Id	UNIQUE_ID,
+	C_PO_Id	UNIQUE_ID,
+	Name	STRING,
+	Id	UNIQUE_ID );
 
 
 -- ============================================================================
@@ -766,6 +773,10 @@ CREATE TABLE CNST_LSC (
 CREATE TABLE CNST_CIP (
 	Constant_Spec_ID	UNIQUE_ID,
 	Package_ID	UNIQUE_ID );
+
+
+
+
 
 
 
@@ -1054,6 +1065,7 @@ CREATE TABLE EP_PIP (
 	Child_Package_ID	UNIQUE_ID );
 
 
+
 -- ============================================================================
 -- Classes In Package:  Event  
 -- ============================================================================
@@ -1136,6 +1148,8 @@ CREATE TABLE E_CSME (
 CREATE TABLE E_GSME (
 	Statement_ID	UNIQUE_ID,
 	SMevt_ID	UNIQUE_ID );
+
+
 
 
 -- ============================================================================
@@ -1344,6 +1358,7 @@ CREATE TABLE ACT_CR (
 CREATE TABLE ACT_DEL (
 	Statement_ID	UNIQUE_ID,
 	Var_ID	UNIQUE_ID );
+
 
 
 -- ============================================================================
@@ -1686,8 +1701,10 @@ CREATE TABLE MSG_EPA (
 	PP_Id	UNIQUE_ID );
 
 
+
+
 -- ============================================================================
--- Classes In Package:  Packageable Element
+-- Classes In Package:  Packageable Element  
 -- ============================================================================
 
 -- Class:  8000.  Packageable Element
@@ -1727,6 +1744,7 @@ CREATE TABLE PE_CRS (
 	Type	INTEGER );
 
 
+
 -- ============================================================================
 -- Classes In Package:  Persistence Associations  
 -- ============================================================================
@@ -1745,6 +1763,7 @@ CREATE TABLE PA_SICP (
 CREATE TABLE PA_DIC (
 	Component_Id	UNIQUE_ID,
 	Delegation_Id	UNIQUE_ID );
+
 
 
 -- ============================================================================
@@ -1800,6 +1819,7 @@ CREATE TABLE ACT_URU (
 	associationNumberColumn	INTEGER,
 	associationPhraseLineNumber	INTEGER,
 	associationPhraseColumn	INTEGER );
+
 
 
 
@@ -1889,7 +1909,7 @@ CREATE TABLE SQ_MIS (
 
 
 -- ============================================================================
--- Classes In Package:  Signal Provisions and Requirements
+-- Classes In Package:  Signal Provisions and Requirements  
 -- ============================================================================
 
 -- Class:  4500.  Required Executable Property
@@ -1938,7 +1958,7 @@ CREATE TABLE SPR_PS (
 
 
 -- ============================================================================
--- Classes In Subsystem:  State Machine  
+-- Classes In Package:  State Machine  
 -- ============================================================================
 
 -- Class:  501.  State Machine
@@ -3827,6 +3847,10 @@ CREATE TABLE S_AW (
 	Sync_ID	UNIQUE_ID );
 
 
+
+
+
+
 -- ============================================================================
 -- Relationships In Package:  Activity  
 -- ============================================================================
@@ -4445,9 +4469,6 @@ CREATE ROP REF_ID R4021	FROM 1C C_PP	(Previous_PP_Id) PHRASE 'succeeds'
 -- Relationships In Package:  Component Library  
 -- ============================================================================
   
-CREATE ROP REF_ID R4700	FROM MC CL_IIR	(ImportedComp_Id)
-			  TO 1  CL_IC	(Id);
-
 CREATE ROP REF_ID R4701	FROM MC CL_IIR	(Ref_Id)
 			  TO 1C C_IR	(Id);
 
@@ -4469,9 +4490,18 @@ CREATE ROP REF_ID R4705	FROM MC CL_IPINS	(ImportedProvision_Id)
 CREATE ROP REF_ID R4706	FROM 1C CL_IR	(Satisfaction_Element_Id)
 			  TO 1C C_SF	(Id);
 
+CREATE ROP REF_ID R4707	FROM MC CL_POR	(CL_IC_Id)
+			  TO 1  CL_IC	(Id);
+
+CREATE ROP REF_ID R4708	FROM MC CL_IIR	(CL_POR_Id)
+			  TO 1  CL_POR	(Id);
+
+CREATE ROP REF_ID R4709	FROM MC CL_POR	(C_PO_Id)
+			  TO 1C C_PO	(Id);
+
 
 -- ============================================================================
--- Relationships In Subsystem:  Component Nesting  
+-- Relationships In Package:  Component Nesting  
 -- ============================================================================
   
 CREATE ROP REF_ID R4201	FROM MC CL_IC	(AssignedComp_Id)
@@ -4505,6 +4535,10 @@ CREATE ROP REF_ID R1506	FROM 1  CNST_CIP	(Constant_Spec_ID)
 
 CREATE ROP REF_ID R1506	FROM MC CNST_CIP	(Package_ID)
 			  TO 1  S_DPK	(Package_ID);
+
+
+
+
 
 
 
@@ -4746,6 +4780,7 @@ CREATE ROP REF_ID R1405	FROM MC EP_PKG	(Direct_Sys_ID)
 			  TO 1  S_SYS	(Sys_ID);
 
 
+
 -- ============================================================================
 -- Relationships In Package:  Event  
 -- ============================================================================
@@ -4812,6 +4847,8 @@ CREATE ROP REF_ID R712	FROM MC E_GEN	(Var_ID)
 
 CREATE ROP REF_ID R714	FROM 1C E_GPR	(Value_ID)
 			  TO 1C V_VAL	(Value_ID);
+
+
 
 
 -- ============================================================================
@@ -5022,6 +5059,7 @@ CREATE ROP REF_ID R672	FROM MC ACT_CNV	(Obj_ID)
 
 CREATE ROP REF_ID R689	FROM 1C ACT_AI	(l_Value_ID)
 			  TO 1  V_VAL	(Value_ID);
+
 
 
 -- ============================================================================
@@ -5379,6 +5417,7 @@ CREATE ROP REF_ID R8008	FROM MC PE_CVS	(Name, Type, Id)
 			  TO 1  PE_CRS	(Name, Type, Id);
 
 
+
 -- ============================================================================
 -- Relationships In Package:  Persistence Associations  
 -- ============================================================================
@@ -5397,6 +5436,7 @@ CREATE ROP REF_ID R9002	FROM MC PA_DIC	(Component_Id)
 
 CREATE ROP REF_ID R9002	FROM 1  PA_DIC	(Delegation_Id)
 			  TO 1  C_DG	(Id);
+
 
 
 -- ============================================================================
@@ -5444,6 +5484,7 @@ CREATE ROP REF_ID R655	FROM MC ACT_UNR	(Rel_ID)
 
 CREATE ROP REF_ID R656	FROM MC ACT_URU	(Rel_ID)
 			  TO 1  R_REL	(Rel_ID);
+
 
 
 
@@ -5556,7 +5597,7 @@ CREATE ROP REF_ID R4503	FROM 1C SPR_PS	(Id)
 
 
 -- ============================================================================
--- Relationships In Subsystem:  State Machine  
+-- Relationships In Package:  State Machine  
 -- ============================================================================
   
 CREATE ROP REF_ID R501	FROM MC SM_STATE	(SM_ID)
@@ -6547,5 +6588,9 @@ CREATE ROP REF_ID R3200	FROM 1C S_AW	(Brg_ID)
 
 CREATE ROP REF_ID R3201	FROM MC S_AW	(Sync_ID)
 			  TO 1C S_SYNC	(Sync_ID);
+
+
+
+
 
 
