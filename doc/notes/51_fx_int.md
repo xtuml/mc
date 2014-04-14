@@ -61,6 +61,12 @@ None.
         added were duplicates of attributes added to TE_DT and TE_CLASS.
 6.4.3   Use only TE_DT and TE_CLASS in these extensions.  Use TE_EE, TE_C,
         TE_BRG, TE_EE, RE_FILE, TE_PO and TE_STI as is.  
+6.4.3.1 Add TM_DTMACRO, change marking to create it and update sys_populate
+        to see it.  Care must be taken to intialize these in an order that
+        preserves the existing attribute setting.  IsExternalMacro must be
+        set early to prevent dimensions from being added to values.  The
+        remaining TM_DTMACRO attributes should be set late.  
+6.4.3.2 Simply remove the added attributes to O_OBJ; they are not used.  
 6.5     Update the model of mc3020.  
 6.5.1   Add TE_STI.  
 6.5.2   Update TE_BRG, TE_C, TE_DT, TE_EE, TE_FILE and TE_PO.  
@@ -177,6 +183,7 @@ Branch name:  51_fx
  fx_smt_create_instance.arc+* OAL enhancement
  fx_smt_delete_instance.arc+* OAL enhancement
  fx_util.arc              ?+* Lots of new functions some from old MC technology and are duplicates.
+                              Fix bug ".end" -> ".end if".
  m.bridge.arc              +* new marking functions
  m.datatype.arc            +* new marking but INCORRECT (using meta-model)
  m.domain.arc              +* new and updated marking functions

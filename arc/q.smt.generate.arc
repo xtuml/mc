@@ -1516,7 +1516,7 @@
     .select one te_val related by v_val->TE_VAL[R2040]
     .assign value = te_val.buffer
 .//-- 002: 20140317 Add Start (saitou)
-    .select any func_ret_s_dt from instances of S_DT where ( false ) 
+    .select any func_ret_te_dt from instances of TE_DT where ( false ) 
     
     .// act_ret->ACT_SMT[R603]->ACT_BLK[R602]->ACT_ACT[Rxxx]-> ...
     .//     case1 for bridge    : ... ACT_BRB[R698]->S_BRG[R697]->S_DT[R20]
@@ -1526,18 +1526,18 @@
     .if ( not_empty act_blk )
       .select any act_act from instances of ACT_ACT where ( selected.Action_ID == act_blk.Action_ID )
       .if ( not_empty act_act )
-        .if ( empty func_ret_s_dt )
+        .if ( empty func_ret_te_dt )
           .// Bridge
-          .select one func_ret_s_dt related by act_act->ACT_BRB[R698]->S_BRG[R697]->S_DT[R20]
+          .select one func_ret_te_dt related by act_act->ACT_BRB[R698]->S_BRG[R697]->S_DT[R20]->TE_DT[R2021]
         .end if
-        .if ( empty func_ret_s_dt )
+        .if ( empty func_ret_te_dt )
           .// Operation
-          .select one func_ret_s_dt related by act_act->ACT_OPB[R698]->O_TFR[R696]->S_DT[R116]
+          .select one func_ret_te_dt related by act_act->ACT_OPB[R698]->O_TFR[R696]->S_DT[R116]->TE_DT[R2021]
         .end if
       .end if
     .end if
-    .if ( not_empty func_ret_s_dt )
-      .if ( func_ret_s_dt.IsExternalMacro )
+    .if ( not_empty func_ret_te_dt )
+      .if ( func_ret_te_dt.IsExternalMacro )
         .assign value = te_val.OAL
       .end if
     .end if

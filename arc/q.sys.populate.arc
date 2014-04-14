@@ -419,9 +419,6 @@
     .assign te_dt.Core_Typ = -1
     .assign te_dt.string_format = ""
     .assign te_dt.te_cID = 00
-.//-- 002: 20140123 Add Start (saitou) 
-    .assign te_dt.IsExternalMacro = s_dt.IsExternalMacro
-.//-- 002: 20140123 Add End (saitou) 
     .// Link the ownership if contained in a component.
     .assign te_c = empty_te_c
     .select one ep_pkg related by s_dt->PE_PE[R8001]->EP_PKG[R8000]
@@ -438,7 +435,24 @@
       .assign te_dt.te_cID = te_c.ID
       .// end relate
     .end if
+    .assign te_dt.IsExternalMacro = false
   .end for
+  .//
+  .// Map data types to macros based on marking.
+  .select many tm_dtmacros from instances of TM_DTMACRO
+  .for each tm_dtmacro in tm_dtmacros
+    .assign te_dts = empty_te_dts
+    .if ( ( "*" == tm_dtmacro.component ) or ( "" == tm_dtmacro.component ) )
+      .select many te_dts from instances of TE_DT where ( selected.Name == tm_dtmacro.DT_name )
+    .else
+      .select any te_c from instances of TE_C where ( selected.Name == tm_dtmacro.component )
+      .select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_dtmacro.DT_name )
+    .end if
+    .for each te_dt in te_dts
+      .assign te_dt.IsExternalMacro = tm_dtmacro.IsExternalMacro
+    .end for
+  .end for
+  .//
   .select any converted_bool_te_dt from instances of TE_DT where ( selected.Name == "integer" )
   .//
   .select many o_objs from instances of O_OBJ
@@ -881,26 +895,23 @@
     .end for
   .end for
   .//
-.//-- 002: 20140123 Add Start (saitou) 
-  .// Fix ExtName
-  .select many s_dts from instances of S_DT where ( selected.genName != "" )
-  .for each s_dt in s_dts
-    .select one te_dt related by s_dt->TE_DT[R2021]
-    .assign te_dt.ExtName = s_dt.genName
+  .// Fix the genName, Include_File and Initial_Value based on marking.
+  .select many tm_dtmacros from instances of TM_DTMACRO
+  .for each tm_dtmacro in tm_dtmacros
+    .assign te_dts = empty_te_dts
+    .if ( ( "*" == tm_dtmacro.component ) or ( "" == tm_dtmacro.component ) )
+      .select many te_dts from instances of TE_DT where ( selected.Name == tm_dtmacro.DT_name )
+    .else
+      .select any te_c from instances of TE_C where ( selected.Name == tm_dtmacro.component )
+      .select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_dtmacro.DT_name )
+    .end if
+    .for each te_dt in te_dts
+      .assign te_dt.ExtName = tm_dtmacro.genName
+      .assign te_dt.Include_File = tm_dtmacro.Include_File
+      .assign te_dt.Initial_Value = tm_dtmacro.Initial_Value
+    .end for
   .end for
-  .// Fix Include_File
-  .select many s_dts from instances of S_DT where ( selected.Include_File != "" )
-  .for each s_dt in s_dts
-    .select one te_dt related by s_dt->TE_DT[R2021]
-    .assign te_dt.Include_File = s_dt.Include_File
-  .end for
-  .// Fix DefaultValue
-  .select many s_dts from instances of S_DT where ( selected.DefaultValue != "" )
-  .for each s_dt in s_dts
-    .select one te_dt related by s_dt->TE_DT[R2021]
-    .assign te_dt.Initial_Value = s_dt.DefaultValue
-  .end for
-.//-- 002: 20140123 Add End (saitou) 
+  .//
   .// Mark enumerator discrete values (from marking).
   .select many tm_enumvals from instances of TM_ENUMVAL
   .for each tm_enumval in tm_enumvals
@@ -2434,7 +2445,7 @@
   .assign te_parm.array_spec = array_spec
   .// In the C model compiler, treat strings as arrays.
 .//-- 002: 20140128 Modified Start (saitou) 
-  .if ( ( 4 == te_dt.Core_Typ ) and ( not te_dt.IsExternalMacro = s_dt.IsExternalMacro ) )
+  .if ( ( 4 == te_dt.Core_Typ ) and ( not te_dt.IsExternalMacro ) )
 .//-- 002: 20140128 Modified End (saitou) 
     .select any te_sys from instances of TE_SYS
     .if ( not te_sys.InstanceLoading )

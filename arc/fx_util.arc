@@ -352,7 +352,7 @@ ${llimit_macro_name.result} + 1\
       .assign te_class.InstanceMaxNoDefIncludeFile = includeFile
     .else
       .print "ERROR: Class ${className} not found.\n => mark_obj_as_fixed_inst_no_extend()"
-    .end
+    .end if
   .else
       .print "ERROR: Component ${domainName} not found.\n => mark_obj_as_fixed_inst_no_extend()"
   .end if

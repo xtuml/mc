@@ -14,7 +14,6 @@
       .end if
     .end for
 .//-- 007: 20140213 Add Start (saitou) 
-    .// S_SYNC を取ってくる(いい取得方法が見つからない…)
     .select any s_sync from instances of S_SYNC where ( false )
     .for each s_sparm in s_sparms
       .select any s_sync related by s_sparm->S_SYNC[R24]
@@ -25,24 +24,20 @@
       .exit -1
     .end if
     .//
-    .// 引数順指定を取得
     .invoke ref_param = CreateSTIObjects(s_sync)
     .assign param_order = ref_param.result
     .//
     .if( "${param_order.Name_key}" != "" )
-      .// 指定されていれば、指定順にソート
       .print "[sparm_sort] ${s_sync.Name} param order control enable"
       .//
       .invoke ret = sparm_sort_order_control( param_order, s_sparms )
       .assign orderNum = ret.result
       .assign sprmNum = cardinality s_sparms
       .if ( orderNum != sprmNum )
-        .// もともとの引数の数と、指定された引数の数が合わない。エラーで落とす。
         .print "Error! [${s_sync.Name}] : param order num mismatch! ordNum=${orderNum} : sprmNum=${sprmNum}"
         .exit -1
       .end if
     .else
-      .// 指定されていなければ、アルファベット順にソート
 .//-- 007: 20140213 Add End (saitou) 
       .// Declare an empty instance reference.
       .select any head_s_sparm related by s_sparms->S_SPARM[R54.'precedes'] where ( false )
@@ -105,8 +100,6 @@
       .for each s_sparm in s_sparms
         .if ( "${s_sparm.Name}" == "${param_order.Name_key}" )
           .if ( not_empty cur_s_sparm )
-            .// 既に見つけているS_PARMを先頭側とするため、
-            .// 見つけたS_PARMと"前(Prev")の関連を、既に見つけているS_PARMと張る。
             .assign s_sparm.Previous_SParm_ID = cur_s_sparm.SParm_ID
           .end if
           .assign cur_s_sparm = s_sparm
@@ -117,7 +110,6 @@
     .select one param_order related by param_order->TE_STI[R3002.'succeeds']
   .end while
   .//
-  .// 指定された引数の数を返す
   .assign attr_result = orderNum
 .end function
 .function CreateFirstLinkParameterValue
@@ -149,13 +141,7 @@
 .end function
 .function CreateSTIObjects
   .param inst_ref item	.// S_SYNC / S_BRG
-  .// 旧SyncService用の記述と、旧RealFunc用の記述の両方に対応する。
-  .// 一つのDescriptionに両方の記載があると破綻するので注意。(ゆくゆくは param_n に統一したい)
-
-  .// 戻り値の型合わせ
   .select any te_sti from instances of TE_STI where ( false )
-
-  .// param_n 指定の場合 (旧SyncService用)
   .if( "${item.Descrip:param_0}" != "" )
     .invoke param_0 = CreateFirstLinkParameterValue("${item.Descrip:param_0}")
     .invoke param_1 = LinkAddParameterValue(param_0,"${item.Descrip:param_1}")
@@ -213,7 +199,6 @@
 
   .elif( "${item.Descrip:ARG1}" != "" )
 
-    .// ARGn 指定の場合 (旧RealFunc用)
     .invoke param_0 = CreateFirstLinkParameterValue("${item.Descrip:ARG1}")
     .invoke param_1 = LinkAddParameterValue(param_0,"${item.Descrip:ARG2}")
     .invoke param_2 = LinkAddParameterValue(param_1,"${item.Descrip:ARG3}")
@@ -268,7 +253,6 @@
 
     .assign te_sti = param_0.result
   .else
-    .// 0番目は何かしら作っておかないとコンパイルが通らない。ダミーを作る
     .invoke param_0 = CreateFirstLinkParameterValue("")
     .assign te_sti = param_0.result
   .end if
@@ -281,7 +265,7 @@
 .function bparm_sort
   .param inst_ref s_brg
   .param inst_ref_set s_bparms
-  .// 20130314 nomura paramにs_brg追加
+  .// 20130314 nomura param
   .//
 .//-- 008: 20140213 Add Start (saitou) 
   .if( not_empty s_bparms )
@@ -296,7 +280,6 @@
       .end if
     .end for
 .//-- 008: 20140213 Add Start (saitou) 
-    .// S_BRG を取ってくる(いい取得方法が見つからない…)
 .//    .select any s_brg from instances of S_BRG where ( false )
 .//    .for each s_bparm in s_bparms
 .//      .select any s_brg related by s_bparm->S_BRG[R21]
@@ -307,24 +290,20 @@
 .//      .exit -1
 .//    .end if
     .//
-    .// 引数順指定を取得
     .invoke ref_param = CreateSTIObjects(s_brg)
     .assign param_order = ref_param.result
     .//
     .if( "${param_order.Name_key}" != "" )
-      .// 指定されていれば、指定順にソート
       .print "[bparm_sort] ${s_brg.Name} param order control enable"
       .//
       .invoke ret = sbrg_sort_order_control( param_order, s_bparms )
       .assign orderNum = ret.result
       .assign bprmNum = cardinality s_bparms
       .if ( orderNum != bprmNum )
-        .// もともとの引数の数と、指定された引数の数が合わない。エラーで落とす。
         .print "Error! [${s_brg.Name}] : param order num mismatch! ordNum=${orderNum} : bprmNum=${bprmNum}"
         .exit -1
       .end if
     .else
-      .// 指定されていなければ、アルファベット順にソート
 .//-- 008: 20140213 Add End (saitou) 
       .// Declare an empty instance reference.
       .select any head_s_bparm related by s_bparms->S_BPARM[R55.'precedes'] where ( false )
@@ -352,8 +331,6 @@
       .for each s_bparm in s_bparms
         .if ( "${s_bparm.Name}" == "${param_order.Name_key}" )
           .if ( not_empty cur_s_bparm )
-            .// 既に見つけているS_PARMを先頭側とするため、
-            .// 見つけたS_PARMと"前(Prev")の関連を、既に見つけているS_PARMと張る。
             .assign s_bparm.Previous_BParm_ID = cur_s_bparm.BParm_ID
           .end if
           .assign cur_s_bparm = s_bparm
@@ -364,7 +341,6 @@
     .select one param_order related by param_order->TE_STI[R3002.'succeeds']
   .end while
   .//
-  .// 指定された引数の数を返す
   .assign attr_result = orderNum
 .end function
 .//-- 008: 20140213 Add End (saitou) 

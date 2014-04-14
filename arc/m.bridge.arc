@@ -133,7 +133,6 @@
       .for each s_brg in s_brgs
         .select one te_brg related by s_brg->TE_BRG[R2025]
 .//-- 010:20140311 Modified Start (nomura)
-	.// REAL_FUNC指定を含むbridgeは設定しない。REAL_FUNC指定時に設定されているため。
 	.invoke isExistRealFunc = fx_is_exist_real_func(te_ee)
         .if (( not_empty te_brg ) and ( isExistRealFunc.result == FALSE))
 .//-- 010:20140307 Modified End (nomura)

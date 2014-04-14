@@ -168,18 +168,21 @@
 	.select any s_dt from instances of S_DT where ( selected.Name == dt_name )
 	.select one s_udt related by s_dt->S_UDT[R17]
 	.if ( ( empty s_dt ) or ( empty s_udt ) )
-		.print "\n  specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' doesn't exist"
+		.print "\n  specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' does not exist"
 	.else
 		.select any s_cdt from instances of S_CDT where ( selected.DT_ID == s_udt.CDT_DT_ID )
 		.if ( s_cdt.Core_Typ == 4 )
-			.assign s_dt.IsExternalMacro = true
-			.assign s_dt.genName = ext_name
-			.assign s_dt.Include_File = "${include_file}"
-			.assign s_dt.DefaultValue = initial_value
+			.create object instance tm_dtmacro of TM_DTMACRO
+			.assign tm_dtmacro.component = ""
+			.assign tm_dtmacro.DT_name = dt_name
+			.assign tm_dtmacro.IsExternalMacro = true
+			.assign tm_dtmacro.genName = ext_name
+			.assign tm_dtmacro.Include_File = include_file
+			.assign tm_dtmacro.DefaultValue = initial_value
 			.//
 			.print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}"
 		.else
-			.print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' isn't external macro ( because CoreType is not string! )"
+			.print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is not external macro ( because CoreType is not string! )"
 		.end if
 	.end if
 	.//
@@ -193,11 +196,14 @@
 	.//
 	.select any s_dt from instances of S_DT where ( selected.Name == dt_name )
 	.if ( empty s_dt )
-		.print "\n  specify_user_defined_type - Data Type '${dt_name}' doesn't exist"
+		.print "\n  specify_user_defined_type - Data Type '${dt_name}' does not exist"
 	.else
-		.assign s_dt.genName = ext_name
-		.assign s_dt.Include_File = "${include_file}"
-		.assign s_dt.DefaultValue = initial_value
+		.create object instance tm_dtmacro of TM_DTMACRO
+		.assign tm_dtmacro.component = ""
+		.assign tm_dtmacro.DT_name = dt_name
+		.assign tm_dtmacro.genName = ext_name
+		.assign tm_dtmacro.Include_File = include_file
+		.assign tm_dtmacro.DefaultValue = initial_value
 		.print "specify_user_defined_type - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}"
 	.end if
 .end function

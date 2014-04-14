@@ -848,13 +848,7 @@ CREATE TABLE S_DT (
 	Dom_ID	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING,
-	DefaultValue	STRING
--- //-- 002: 20140128 Add Start (saitou) 
-	,IsExternalMacro	BOOLEAN
-	,genName	STRING
-	,Include_File	STRING
--- //-- 002: 20140128 Add End (saitou) 
-	 );
+	DefaultValue	STRING );
 
 -- Class:  10.  Core Data Type
 CREATE TABLE S_CDT (
@@ -2151,11 +2145,7 @@ CREATE TABLE O_OBJ (
 	Key_Lett	STRING,
 	Descrip	STRING,
 	SS_ID	UNIQUE_ID,
-	Order	INTEGER,
--- 0010:20140211 Add Start (nomura)
-	IsExcludeFromGen	BOOLEAN
--- 0010:20140211 Add End (nomura)
-    );
+	Order	INTEGER );
 
 -- Class:  102.  Imported Class
 CREATE TABLE O_IOBJ (
@@ -3293,6 +3283,14 @@ CREATE TABLE TM_TPV (
 	te_iirID	UNIQUE_ID,
 	te_ciID	UNIQUE_ID );
 
+-- Class:  2213.  Data Type Macro
+CREATE TABLE TM_DTMACRO (
+	component	STRING,
+	DT_name	STRING,
+	IsExternalMacro	BOOLEAN,
+	genName	STRING,
+	Initial_Value	STRING,
+	Include_File	STRING );
 
 -- ============================================================================
 -- Classes In Package:  Translation OAL  
@@ -6614,5 +6612,5 @@ CREATE TABLE TE_STI (
 	IsFirst BOOLEAN
    	);
 CREATE ROP REF_ID R3002	FROM 1C TE_STI	(PID) PHRASE 'succeeds'
-			  TO 1C TE_STI	(ID) PHRASE 'proceeds';
+			  TO 1C TE_STI	(ID) PHRASE 'precedes';
 --//--007:20140213 Add End (saitou)
