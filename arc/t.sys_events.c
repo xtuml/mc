@@ -171,11 +171,10 @@ ${te_eq.base_event_type} * ${te_eq.scope}${te_eq.allocate}( void )
   if ( 0 == free_event_list ) {
   .if ( 0 != te_sys.UnitsToDynamicallyAllocate )
     ${te_eq.system_events_union}_t * new_mem = (${te_eq.system_events_union}_t *) ${te_dma.allocate}( ${te_sys.UnitsToDynamicallyAllocate} * sizeof( ${te_eq.system_events_union}_t ) );
-
     if ( 0 == new_mem ) {
       ${te_callout.event_free_list_empty}();   /* Bad news!  No more heap space.  */
     } else {
-      u1_t i;
+      i_t i;
       for ( i = 0; i < ${te_sys.UnitsToDynamicallyAllocate} - 1; i++ ) {
         new_mem[ i ].mc_event_base.next = (${te_eq.base_event_type} *) &(new_mem[ i + 1 ]);
       }
