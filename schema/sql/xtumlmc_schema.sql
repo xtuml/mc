@@ -2145,6 +2145,8 @@ CREATE TABLE O_OBJ (
 	Key_Lett	STRING,
 	Descrip	STRING,
 	SS_ID	UNIQUE_ID,
+	Ism_ID  UNIQUE_ID,
+	Csm_ID  UNIQUE_ID,
 	Order	INTEGER );
 
 -- Class:  102.  Imported Class
