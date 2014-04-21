@@ -98,7 +98,8 @@
   .param inst_ref sm_sm
   .//
   .select one te_sm related by sm_sm->TE_SM[R2043]
-  .select many te_evts related by te_sm->TE_EVT[R2071]
+  .// get the locally used events first
+  .select many te_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525]->TE_EVT[R2036]
   .assign attr_no_events = true
   .assign event_order = 0
   .if ( not_empty te_evts )
