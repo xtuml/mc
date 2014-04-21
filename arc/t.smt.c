@@ -72,9 +72,7 @@ ${ws}else if ( ${condition} ) {
       .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
     .end if
   .end if
-.//-- 002: 20140122 Modified Start (saitou) 
-  .if ( ( "" != te_assign.array_spec ) and ( not te_dt.IsExternalMacro ) )
-.//-- 002: 20140122 Modified End (saitou) 
+  .if ( "" != te_assign.array_spec )
     .select any te_string from instances of TE_STRING
     .select any te_instance from instances of TE_INSTANCE
     .if ( 4 == te_assign.Core_Typ )

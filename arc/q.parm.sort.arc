@@ -24,8 +24,8 @@
       .exit -1
     .end if
     .//
-    .invoke ref_param = CreateSTIObjects(s_sync)
-    .assign param_order = ref_param.result
+    .invoke r = CreateSTIObjects(s_sync)
+    .assign param_order = r.result
     .//
     .if( "${param_order.Name_key}" != "" )
       .print "[sparm_sort] ${s_sync.Name} param order control enable"
@@ -114,142 +114,139 @@
 .end function
 .function CreateFirstLinkParameterValue
   .param string name_key
-  .select any attr_result from instances of TE_STI 
-  .select any sti from instances of TE_STI where selected.IsFirst
-  .if ( not_empty sti )
-     .assign sti.Name_key = "${name_key}"   
-     .assign attr_result = sti
-  .else
-  .create object instance sti of TE_STI
-  .assign sti.Name_key = "${name_key}"
-  .assign sti.PID = 0
-  .assign attr_result = sti
+  .select any te_sti from instances of TE_STI where selected.IsFirst
+  .if ( empty te_sti )
+    .create object instance te_sti of TE_STI
+    .assign te_sti.PID = 00
+  .end if
+  .assign te_sti.Name_key = name_key
+  .assign attr_result = te_sti
 .end function
 .function LinkAddParameterValue
-   .param frag_ref ref_psti .// TE_STI
+   .param inst_ref p_te_sti .// TE_STI
    .param string name_key
-   .assign psti = ref_psti.result
-   .select one attr_result related by psti->TE_STI[R3002.'succeeds']   
-   .if ( not_empty attr_result )
-     .assign attr_result.Name_key = "${name_key}"
-   .else 
-     .create object instance sti of TE_STI
-     .assign sti.Name_key = "${name_key}"
-     .assign sti.PID = psti.ID
-     .assign attr_result = sti
+   .assign p_te_sti = ref_te_sti.result
+   .select one te_sti related by p_te_sti->TE_STI[R3002.'succeeds']   
+   .if ( empty te_sti )
+     .create object instance te_sti of TE_STI
+     .// relate te_sti to p_te_sti across R3002.'succeeds'
+     .assign te_sti.PID = p_te_sti.ID
+     .// end relate
    .end if
+   .assign te_sti.Name_key = name_key
+   .assign attr_result = te_sti
 .end function
 .function CreateSTIObjects
-  .param inst_ref item	.// S_SYNC / S_BRG
+  .param inst_ref item .// S_SYNC / S_BRG
   .select any te_sti from instances of TE_STI where ( false )
   .if( "${item.Descrip:param_0}" != "" )
     .invoke param_0 = CreateFirstLinkParameterValue("${item.Descrip:param_0}")
-    .invoke param_1 = LinkAddParameterValue(param_0,"${item.Descrip:param_1}")
-    .invoke param_2 = LinkAddParameterValue(param_1,"${item.Descrip:param_2}")
-    .invoke param_3 = LinkAddParameterValue(param_2,"${item.Descrip:param_3}")
-    .invoke param_4 = LinkAddParameterValue(param_3,"${item.Descrip:param_4}")
-    .invoke param_5 = LinkAddParameterValue(param_4,"${item.Descrip:param_5}")
-    .invoke param_6 = LinkAddParameterValue(param_5,"${item.Descrip:param_6}")
-    .invoke param_7 = LinkAddParameterValue(param_6,"${item.Descrip:param_7}")
-    .invoke param_8 = LinkAddParameterValue(param_7,"${item.Descrip:param_8}")
-    .invoke param_9 = LinkAddParameterValue(param_8,"${item.Descrip:param_9}")
-    .invoke param_10 = LinkAddParameterValue(param_9,"${item.Descrip:param_10}")
-    .invoke param_11 = LinkAddParameterValue(param_10,"${item.Descrip:param_11}")
-    .invoke param_12 = LinkAddParameterValue(param_11,"${item.Descrip:param_12}")
-    .invoke param_13 = LinkAddParameterValue(param_12,"${item.Descrip:param_13}")
-    .invoke param_14 = LinkAddParameterValue(param_13,"${item.Descrip:param_14}")
-    .invoke param_15 = LinkAddParameterValue(param_14,"${item.Descrip:param_15}")
-    .invoke param_16 = LinkAddParameterValue(param_15,"${item.Descrip:param_16}")
-    .invoke param_17 = LinkAddParameterValue(param_16,"${item.Descrip:param_17}")
-    .invoke param_18 = LinkAddParameterValue(param_17,"${item.Descrip:param_18}")
-    .invoke param_19 = LinkAddParameterValue(param_18,"${item.Descrip:param_19}")
-    .invoke param_20 = LinkAddParameterValue(param_19,"${item.Descrip:param_20}")
-    .invoke param_21 = LinkAddParameterValue(param_20,"${item.Descrip:param_21}")
-    .invoke param_22 = LinkAddParameterValue(param_21,"${item.Descrip:param_22}")
-    .invoke param_23 = LinkAddParameterValue(param_22,"${item.Descrip:param_23}")
-    .invoke param_24 = LinkAddParameterValue(param_23,"${item.Descrip:param_24}")
-    .invoke param_25 = LinkAddParameterValue(param_24,"${item.Descrip:param_25}")
-    .invoke param_26 = LinkAddParameterValue(param_25,"${item.Descrip:param_26}")
-    .invoke param_27 = LinkAddParameterValue(param_26,"${item.Descrip:param_27}")
-    .invoke param_28 = LinkAddParameterValue(param_27,"${item.Descrip:param_28}")
-    .invoke param_29 = LinkAddParameterValue(param_28,"${item.Descrip:param_29}")
-    .invoke param_30 = LinkAddParameterValue(param_29,"${item.Descrip:param_30}")
-    .invoke param_31 = LinkAddParameterValue(param_30,"${item.Descrip:param_31}")
-    .invoke param_32 = LinkAddParameterValue(param_31,"${item.Descrip:param_32}")
-    .invoke param_33 = LinkAddParameterValue(param_32,"${item.Descrip:param_33}")
-    .invoke param_34 = LinkAddParameterValue(param_33,"${item.Descrip:param_34}")
-    .invoke param_35 = LinkAddParameterValue(param_34,"${item.Descrip:param_35}")
-    .invoke param_36 = LinkAddParameterValue(param_35,"${item.Descrip:param_36}")
-    .invoke param_37 = LinkAddParameterValue(param_36,"${item.Descrip:param_37}")
-    .invoke param_38 = LinkAddParameterValue(param_37,"${item.Descrip:param_38}")
-    .invoke param_39 = LinkAddParameterValue(param_38,"${item.Descrip:param_39}")
-    .invoke param_40 = LinkAddParameterValue(param_39,"${item.Descrip:param_40}")
-    .invoke param_41 = LinkAddParameterValue(param_40,"${item.Descrip:param_41}")
-    .invoke param_42 = LinkAddParameterValue(param_41,"${item.Descrip:param_42}")
-    .invoke param_43 = LinkAddParameterValue(param_42,"${item.Descrip:param_43}")
-    .invoke param_44 = LinkAddParameterValue(param_43,"${item.Descrip:param_44}")
-    .invoke param_45 = LinkAddParameterValue(param_44,"${item.Descrip:param_45}")
-    .invoke param_46 = LinkAddParameterValue(param_45,"${item.Descrip:param_46}")
-    .invoke param_47 = LinkAddParameterValue(param_46,"${item.Descrip:param_47}")
-    .invoke param_48 = LinkAddParameterValue(param_47,"${item.Descrip:param_48}")
-    .invoke param_49 = LinkAddParameterValue(param_48,"${item.Descrip:param_49}")
-    .invoke param_50 = LinkAddParameterValue(param_49,"${item.Descrip:param_50}")
+    .invoke param_1 = LinkAddParameterValue(param_0.result,"${item.Descrip:param_1}")
+    .invoke param_2 = LinkAddParameterValue(param_1.result,"${item.Descrip:param_2}")
+    .invoke param_3 = LinkAddParameterValue(param_2.result,"${item.Descrip:param_3}")
+    .invoke param_4 = LinkAddParameterValue(param_3.result,"${item.Descrip:param_4}")
+    .invoke param_5 = LinkAddParameterValue(param_4.result,"${item.Descrip:param_5}")
+    .invoke param_6 = LinkAddParameterValue(param_5.result,"${item.Descrip:param_6}")
+    .invoke param_7 = LinkAddParameterValue(param_6.result,"${item.Descrip:param_7}")
+    .invoke param_8 = LinkAddParameterValue(param_7.result,"${item.Descrip:param_8}")
+    .invoke param_9 = LinkAddParameterValue(param_8.result,"${item.Descrip:param_9}")
+    .invoke param_10 = LinkAddParameterValue(param_9.result,"${item.Descrip:param_10}")
+    .invoke param_11 = LinkAddParameterValue(param_10.result,"${item.Descrip:param_11}")
+    .invoke param_12 = LinkAddParameterValue(param_11.result,"${item.Descrip:param_12}")
+    .invoke param_13 = LinkAddParameterValue(param_12.result,"${item.Descrip:param_13}")
+    .invoke param_14 = LinkAddParameterValue(param_13.result,"${item.Descrip:param_14}")
+    .invoke param_15 = LinkAddParameterValue(param_14.result,"${item.Descrip:param_15}")
+    .invoke param_16 = LinkAddParameterValue(param_15.result,"${item.Descrip:param_16}")
+    .invoke param_17 = LinkAddParameterValue(param_16.result,"${item.Descrip:param_17}")
+    .invoke param_18 = LinkAddParameterValue(param_17.result,"${item.Descrip:param_18}")
+    .invoke param_19 = LinkAddParameterValue(param_18.result,"${item.Descrip:param_19}")
+    .invoke param_20 = LinkAddParameterValue(param_19.result,"${item.Descrip:param_20}")
+    .invoke param_21 = LinkAddParameterValue(param_20.result,"${item.Descrip:param_21}")
+    .invoke param_22 = LinkAddParameterValue(param_21.result,"${item.Descrip:param_22}")
+    .invoke param_23 = LinkAddParameterValue(param_22.result,"${item.Descrip:param_23}")
+    .invoke param_24 = LinkAddParameterValue(param_23.result,"${item.Descrip:param_24}")
+    .invoke param_25 = LinkAddParameterValue(param_24.result,"${item.Descrip:param_25}")
+    .invoke param_26 = LinkAddParameterValue(param_25.result,"${item.Descrip:param_26}")
+    .invoke param_27 = LinkAddParameterValue(param_26.result,"${item.Descrip:param_27}")
+    .invoke param_28 = LinkAddParameterValue(param_27.result,"${item.Descrip:param_28}")
+    .invoke param_29 = LinkAddParameterValue(param_28.result,"${item.Descrip:param_29}")
+    .invoke param_30 = LinkAddParameterValue(param_29.result,"${item.Descrip:param_30}")
+    .invoke param_31 = LinkAddParameterValue(param_30.result,"${item.Descrip:param_31}")
+    .invoke param_32 = LinkAddParameterValue(param_31.result,"${item.Descrip:param_32}")
+    .invoke param_33 = LinkAddParameterValue(param_32.result,"${item.Descrip:param_33}")
+    .invoke param_34 = LinkAddParameterValue(param_33.result,"${item.Descrip:param_34}")
+    .invoke param_35 = LinkAddParameterValue(param_34.result,"${item.Descrip:param_35}")
+    .invoke param_36 = LinkAddParameterValue(param_35.result,"${item.Descrip:param_36}")
+    .invoke param_37 = LinkAddParameterValue(param_36.result,"${item.Descrip:param_37}")
+    .invoke param_38 = LinkAddParameterValue(param_37.result,"${item.Descrip:param_38}")
+    .invoke param_39 = LinkAddParameterValue(param_38.result,"${item.Descrip:param_39}")
+    .invoke param_40 = LinkAddParameterValue(param_39.result,"${item.Descrip:param_40}")
+    .invoke param_41 = LinkAddParameterValue(param_40.result,"${item.Descrip:param_41}")
+    .invoke param_42 = LinkAddParameterValue(param_41.result,"${item.Descrip:param_42}")
+    .invoke param_43 = LinkAddParameterValue(param_42.result,"${item.Descrip:param_43}")
+    .invoke param_44 = LinkAddParameterValue(param_43.result,"${item.Descrip:param_44}")
+    .invoke param_45 = LinkAddParameterValue(param_44.result,"${item.Descrip:param_45}")
+    .invoke param_46 = LinkAddParameterValue(param_45.result,"${item.Descrip:param_46}")
+    .invoke param_47 = LinkAddParameterValue(param_46.result,"${item.Descrip:param_47}")
+    .invoke param_48 = LinkAddParameterValue(param_47.result,"${item.Descrip:param_48}")
+    .invoke param_49 = LinkAddParameterValue(param_48.result,"${item.Descrip:param_49}")
+    .invoke param_50 = LinkAddParameterValue(param_49.result,"${item.Descrip:param_50}")
     
     .assign te_sti = param_0.result
 
   .elif( "${item.Descrip:ARG1}" != "" )
 
     .invoke param_0 = CreateFirstLinkParameterValue("${item.Descrip:ARG1}")
-    .invoke param_1 = LinkAddParameterValue(param_0,"${item.Descrip:ARG2}")
-    .invoke param_2 = LinkAddParameterValue(param_1,"${item.Descrip:ARG3}")
-    .invoke param_3 = LinkAddParameterValue(param_2,"${item.Descrip:ARG4}")
-    .invoke param_4 = LinkAddParameterValue(param_3,"${item.Descrip:ARG5}")
-    .invoke param_5 = LinkAddParameterValue(param_4,"${item.Descrip:ARG6}")
-    .invoke param_6 = LinkAddParameterValue(param_5,"${item.Descrip:ARG7}")
-    .invoke param_7 = LinkAddParameterValue(param_6,"${item.Descrip:ARG8}")
-    .invoke param_8 = LinkAddParameterValue(param_7,"${item.Descrip:ARG9}")
-    .invoke param_9 = LinkAddParameterValue(param_8,"${item.Descrip:ARG10}")
-    .invoke param_10 = LinkAddParameterValue(param_9,"${item.Descrip:ARG11}")
-    .invoke param_11 = LinkAddParameterValue(param_10,"${item.Descrip:ARG12}")
-    .invoke param_12 = LinkAddParameterValue(param_11,"${item.Descrip:ARG13}")
-    .invoke param_13 = LinkAddParameterValue(param_12,"${item.Descrip:ARG14}")
-    .invoke param_14 = LinkAddParameterValue(param_13,"${item.Descrip:ARG15}")
-    .invoke param_15 = LinkAddParameterValue(param_14,"${item.Descrip:ARG16}")
-    .invoke param_16 = LinkAddParameterValue(param_15,"${item.Descrip:ARG17}")
-    .invoke param_17 = LinkAddParameterValue(param_16,"${item.Descrip:ARG18}")
-    .invoke param_18 = LinkAddParameterValue(param_17,"${item.Descrip:ARG19}")
-    .invoke param_19 = LinkAddParameterValue(param_18,"${item.Descrip:ARG20}")
-    .invoke param_20 = LinkAddParameterValue(param_19,"${item.Descrip:ARG21}")
-    .invoke param_21 = LinkAddParameterValue(param_20,"${item.Descrip:ARG22}")
-    .invoke param_22 = LinkAddParameterValue(param_21,"${item.Descrip:ARG23}")
-    .invoke param_23 = LinkAddParameterValue(param_22,"${item.Descrip:ARG24}")
-    .invoke param_24 = LinkAddParameterValue(param_23,"${item.Descrip:ARG25}")
-    .invoke param_25 = LinkAddParameterValue(param_24,"${item.Descrip:ARG26}")
-    .invoke param_26 = LinkAddParameterValue(param_25,"${item.Descrip:ARG27}")
-    .invoke param_27 = LinkAddParameterValue(param_26,"${item.Descrip:ARG28}")
-    .invoke param_28 = LinkAddParameterValue(param_27,"${item.Descrip:ARG29}")
-    .invoke param_29 = LinkAddParameterValue(param_28,"${item.Descrip:ARG30}")
-    .invoke param_30 = LinkAddParameterValue(param_29,"${item.Descrip:ARG31}")
-    .invoke param_31 = LinkAddParameterValue(param_30,"${item.Descrip:ARG32}")
-    .invoke param_32 = LinkAddParameterValue(param_31,"${item.Descrip:ARG33}")
-    .invoke param_33 = LinkAddParameterValue(param_32,"${item.Descrip:ARG34}")
-    .invoke param_34 = LinkAddParameterValue(param_33,"${item.Descrip:ARG35}")
-    .invoke param_35 = LinkAddParameterValue(param_34,"${item.Descrip:ARG36}")
-    .invoke param_36 = LinkAddParameterValue(param_35,"${item.Descrip:ARG37}")
-    .invoke param_37 = LinkAddParameterValue(param_36,"${item.Descrip:ARG38}")
-    .invoke param_38 = LinkAddParameterValue(param_37,"${item.Descrip:ARG39}")
-    .invoke param_39 = LinkAddParameterValue(param_38,"${item.Descrip:ARG40}")
-    .invoke param_40 = LinkAddParameterValue(param_39,"${item.Descrip:ARG41}")
-    .invoke param_41 = LinkAddParameterValue(param_40,"${item.Descrip:ARG42}")
-    .invoke param_42 = LinkAddParameterValue(param_41,"${item.Descrip:ARG43}")
-    .invoke param_43 = LinkAddParameterValue(param_42,"${item.Descrip:ARG44}")
-    .invoke param_44 = LinkAddParameterValue(param_43,"${item.Descrip:ARG45}")
-    .invoke param_45 = LinkAddParameterValue(param_44,"${item.Descrip:ARG46}")
-    .invoke param_46 = LinkAddParameterValue(param_45,"${item.Descrip:ARG47}")
-    .invoke param_47 = LinkAddParameterValue(param_46,"${item.Descrip:ARG48}")
-    .invoke param_48 = LinkAddParameterValue(param_47,"${item.Descrip:ARG49}")
-    .invoke param_49 = LinkAddParameterValue(param_48,"${item.Descrip:ARG50}")
-    .invoke param_50 = LinkAddParameterValue(param_49,"${item.Descrip:ARG51}")
+    .invoke param_1 = LinkAddParameterValue(param_0.result,"${item.Descrip:ARG2}")
+    .invoke param_2 = LinkAddParameterValue(param_1.result,"${item.Descrip:ARG3}")
+    .invoke param_3 = LinkAddParameterValue(param_2.result,"${item.Descrip:ARG4}")
+    .invoke param_4 = LinkAddParameterValue(param_3.result,"${item.Descrip:ARG5}")
+    .invoke param_5 = LinkAddParameterValue(param_4.result,"${item.Descrip:ARG6}")
+    .invoke param_6 = LinkAddParameterValue(param_5.result,"${item.Descrip:ARG7}")
+    .invoke param_7 = LinkAddParameterValue(param_6.result,"${item.Descrip:ARG8}")
+    .invoke param_8 = LinkAddParameterValue(param_7.result,"${item.Descrip:ARG9}")
+    .invoke param_9 = LinkAddParameterValue(param_8.result,"${item.Descrip:ARG10}")
+    .invoke param_10 = LinkAddParameterValue(param_9.result,"${item.Descrip:ARG11}")
+    .invoke param_11 = LinkAddParameterValue(param_10.result,"${item.Descrip:ARG12}")
+    .invoke param_12 = LinkAddParameterValue(param_11.result,"${item.Descrip:ARG13}")
+    .invoke param_13 = LinkAddParameterValue(param_12.result,"${item.Descrip:ARG14}")
+    .invoke param_14 = LinkAddParameterValue(param_13.result,"${item.Descrip:ARG15}")
+    .invoke param_15 = LinkAddParameterValue(param_14.result,"${item.Descrip:ARG16}")
+    .invoke param_16 = LinkAddParameterValue(param_15.result,"${item.Descrip:ARG17}")
+    .invoke param_17 = LinkAddParameterValue(param_16.result,"${item.Descrip:ARG18}")
+    .invoke param_18 = LinkAddParameterValue(param_17.result,"${item.Descrip:ARG19}")
+    .invoke param_19 = LinkAddParameterValue(param_18.result,"${item.Descrip:ARG20}")
+    .invoke param_20 = LinkAddParameterValue(param_19.result,"${item.Descrip:ARG21}")
+    .invoke param_21 = LinkAddParameterValue(param_20.result,"${item.Descrip:ARG22}")
+    .invoke param_22 = LinkAddParameterValue(param_21.result,"${item.Descrip:ARG23}")
+    .invoke param_23 = LinkAddParameterValue(param_22.result,"${item.Descrip:ARG24}")
+    .invoke param_24 = LinkAddParameterValue(param_23.result,"${item.Descrip:ARG25}")
+    .invoke param_25 = LinkAddParameterValue(param_24.result,"${item.Descrip:ARG26}")
+    .invoke param_26 = LinkAddParameterValue(param_25.result,"${item.Descrip:ARG27}")
+    .invoke param_27 = LinkAddParameterValue(param_26.result,"${item.Descrip:ARG28}")
+    .invoke param_28 = LinkAddParameterValue(param_27.result,"${item.Descrip:ARG29}")
+    .invoke param_29 = LinkAddParameterValue(param_28.result,"${item.Descrip:ARG30}")
+    .invoke param_30 = LinkAddParameterValue(param_29.result,"${item.Descrip:ARG31}")
+    .invoke param_31 = LinkAddParameterValue(param_30.result,"${item.Descrip:ARG32}")
+    .invoke param_32 = LinkAddParameterValue(param_31.result,"${item.Descrip:ARG33}")
+    .invoke param_33 = LinkAddParameterValue(param_32.result,"${item.Descrip:ARG34}")
+    .invoke param_34 = LinkAddParameterValue(param_33.result,"${item.Descrip:ARG35}")
+    .invoke param_35 = LinkAddParameterValue(param_34.result,"${item.Descrip:ARG36}")
+    .invoke param_36 = LinkAddParameterValue(param_35.result,"${item.Descrip:ARG37}")
+    .invoke param_37 = LinkAddParameterValue(param_36.result,"${item.Descrip:ARG38}")
+    .invoke param_38 = LinkAddParameterValue(param_37.result,"${item.Descrip:ARG39}")
+    .invoke param_39 = LinkAddParameterValue(param_38.result,"${item.Descrip:ARG40}")
+    .invoke param_40 = LinkAddParameterValue(param_39.result,"${item.Descrip:ARG41}")
+    .invoke param_41 = LinkAddParameterValue(param_40.result,"${item.Descrip:ARG42}")
+    .invoke param_42 = LinkAddParameterValue(param_41.result,"${item.Descrip:ARG43}")
+    .invoke param_43 = LinkAddParameterValue(param_42.result,"${item.Descrip:ARG44}")
+    .invoke param_44 = LinkAddParameterValue(param_43.result,"${item.Descrip:ARG45}")
+    .invoke param_45 = LinkAddParameterValue(param_44.result,"${item.Descrip:ARG46}")
+    .invoke param_46 = LinkAddParameterValue(param_45.result,"${item.Descrip:ARG47}")
+    .invoke param_47 = LinkAddParameterValue(param_46.result,"${item.Descrip:ARG48}")
+    .invoke param_48 = LinkAddParameterValue(param_47.result,"${item.Descrip:ARG49}")
+    .invoke param_49 = LinkAddParameterValue(param_48.result,"${item.Descrip:ARG50}")
+    .invoke param_50 = LinkAddParameterValue(param_49.result,"${item.Descrip:ARG51}")
 
     .assign te_sti = param_0.result
   .else
@@ -290,8 +287,8 @@
 .//      .exit -1
 .//    .end if
     .//
-    .invoke ref_param = CreateSTIObjects(s_brg)
-    .assign param_order = ref_param.result
+    .invoke r = CreateSTIObjects(s_brg)
+    .assign param_order = r.result
     .//
     .if( "${param_order.Name_key}" != "" )
       .print "[bparm_sort] ${s_brg.Name} param order control enable"

@@ -325,10 +325,7 @@
       .assign d = ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" )
       .invoke blk_declaration_append( te_blk, d )
     .end if
-    .//.include "${te_file.arc_path}/t.smt.create_instance.c"
-.//-- 010:20140219 Modified Start (nomura)
-    .include "${te_file.arc_path}/fx_smt_create_instance.arc"
-.//-- 010:20140219 Modified End (nomura)
+    .include "${te_file.arc_path}/t.smt.create_instance.c"
     .assign te_smt.OAL = "CREATE OBJECT INSTANCE ${v_var.Name} OF ${te_class.Key_Lett}"
   .end if
 .end function
@@ -363,10 +360,7 @@
     .select one te_c related by te_class->TE_C[R2064]
     .invoke r = GetDomainTypeIDFromString( te_c.Name )
     .assign dom_id = r.result
-.//-- 010:20140219 Modified Start (nomura)
-    .//.include "${te_file.arc_path}/t.smt.delete_instance.c"
-    .include "${te_file.arc_path}/fx_smt_delete_instance.arc"
-.//-- 010:20140219 Modified End (nomura)
+    .include "${te_file.arc_path}/t.smt.delete_instance.c"
     .assign te_smt.OAL = "DELETE OBJECT INSTANCE ${v_var.Name}"
   .end if
 .end function

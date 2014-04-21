@@ -177,7 +177,7 @@
 .// 指定されたO_ATTRのデータタイプを返す。
 .// 参照型だった場合は、参照先の型を返す。
 .// GetAttributeCodeGenType() と似ているが、CoreType を返すわけではない点が異なる。
-.function GetAttributeDataType
+.function GetAttributeDataType .// te_dt
   .param inst_ref o_attr
   .//
   .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]

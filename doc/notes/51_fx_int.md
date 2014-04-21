@@ -74,6 +74,10 @@ None.
 6.6.1   Move accesses to new attributes in S_DT to TE_DT.  
 6.6.2   Move accesses to new attribute in O_OBJ to TE_CLASS.  
 6.7     Convert archetypes to follow the mcmc rules.  
+6.7.1   Separate functions that run during OAL translation from those
+        that run later.  This reduces the work of converting the functions
+        that run during OAL translation and must follow the mcmc rules.  
+6.7.1.1 Move functions from frag_util.arc to fx_util.arc.  
 6.8     Teach customer to follow mcmc programming conventions.  
 6.8.1   This will allow mcmc to be built quickly and mostly automatically.  
 6.8.2   Deliver programming style guidelines in a document.  
@@ -165,7 +169,8 @@ Branch name:  51_fx
 
  c/q.component.arc          + small bit of code
  c/q.components.arc         + change of include path
- c/q.sys.singletons.arc    +* some pathing changes and prefix change
+ c/q.sys.singletons.arc   .+* some pathing changes and prefix change.  Note, _ch was changed.  There
+                              is a dependence on xtumlmc_build here.
  c/sys.arc                  + Base code is excluded and new code included.  However, only after mcmc.
  c/t.component.message.c    + non-mcmc enhancement
  c/t.component.messages.c   + non-mcmc enhancement
@@ -173,7 +178,10 @@ Branch name:  51_fx
  c/t.domain.function.h      + non-mcmc enhancement
  c/t.sys_sets.h             + 4.1.6 upgrade
  c/t.sys_types.h            + 4.1.6 upgrade
- frag_util.arc             +* lots of added functions, one modified function
+ frag_util.arc            .+* lots of added functions, one modified function
+                              Maybe we can keep functions here that are needed by mcmc, move the others
+                              to fx_util and move the fx_util functions needed by mcmc here.
+                              Moved non-mcmc functions out to fx_util.arc.
  fx_bridge_skel.arc         + non-mcmc enhancement
  fx_domain_debug.arc        + non-mcmc enhancement
  fx_domain_facade.arc       + non-mcmc enhancement
@@ -181,34 +189,61 @@ Branch name:  51_fx
  fx_domain_mech.arc         + non-mcmc enhancement
  fx_init.arc                + non-mcmc enhancement
  fx_smt_create_instance.arc+* OAL enhancement
+                              I suggest we modify the existing template (t.smt.create_instance.c).
  fx_smt_delete_instance.arc+* OAL enhancement
+                              I suggest we modify the existing template (t.smt.delete_instance.c).
  fx_util.arc              ?+* Lots of new functions some from old MC technology and are duplicates.
                               Fix bug ".end" -> ".end if".
+                              Added new/custom functions (from frag_util.arc).
  m.bridge.arc              +* new marking functions
+                              This file makes only one call (to fx_is_exist_real_func) which could
+                              be changed into a simple query:
+                              .select one te_brg related by te_ee->TE_BRG[R2089] where ( selected.IsRealFunc )
  m.datatype.arc            +* new marking but INCORRECT (using meta-model)
- m.domain.arc              +* new and updated marking functions
- m.system.arc              +* linking in new marking functions
+ m.domain.arc             .+* new and updated marking functions
+                              These look fine.  Later, the master functions should be enhanced.
+ m.system.arc            ?.+* linking in new marking functions
+                              FXAT needs to understand marking that occurs in "pass 1" and in "pass 2".
+                              fxdatatype is trying to make marking calls in "pass 1".
+                              fxcolor is trying to make marking calls in "pass 2".
  q.class.arc                + non-mcmc enhancement
  q.class.events.arc         + Why is this change?  Did the first way fail?  Is it not standard?
+                              We will use the master version of this file.
  q.class.factory.arc        + non-mcmc enhancement
  q.class.link.arc           + big non-mcmc change
  q.class.poly.arc           + 4.1.6 upgrade
  q.class.sem.arc            + 4.1.6 upgrade
- q.datatype.arc            +* one added function
+ q.datatype.arc           .+* one added function
+                              Added return type to new function here.
  q.domain.bridge.arc        + non-mcmc enhancement
  q.domain.bridges.arc       + non-mcmc enhancement
  q.domain.classes.arc       + non-mcmc enhancement
  q.domain.enums.arc         + new non-mcmc enhancement
  q.domain.sync.arc          + non-mcmc enhancement
- q.main.arc                +* new marking invocations
+ q.main.arc               .+* new marking invocations
+                              We need to add the marking invocations to the correct "pass" (1 or 2).
+                              We should either add a new *.mark file, or add the marking invocations
+                              to the appropriate existing mark files.
+                              xtumlmc_build greps all *.mark files.  So, we can add fxdatatype.mark
+                              and fxcolor.mark to the /gen folder.
  q.names.arc                * new functions that could be moved to a non-mcmc file
  q.parameters.arc           * added a parameter to an invocation
  q.parm.sort.arc          ?+* I cannot tell what is happening here.  Remove use of frag_ref.
- q.smt.generate.arc        +* modifications to OAL statement generation
- q.sys.populate.arc        +* reasonable modifications during initialization
- q.utils.arc               +* small change for extra parameter
- q.val.translate.arc       +* reasonable modifications during initialization
- t.class.attribute.init.c   + non-mcmc enhancement
+                              Fix bug in CreateFirstLinkParameterValue.  ".if" has no ".end if".
+                              Removed use of frag_ref.
+                              Next, we need to eliminate the ambiguous type being passed in (s_brg or s_sync).
+ q.smt.generate.arc       .+* modifications to OAL statement generation
+                              Stop including a custom version t.smt.create_instance.c and t.smt.delete_instance.c.
+                              Instead, the templates themselves are modified.
+ q.sys.populate.arc       .+* reasonable modifications during initialization
+                              I do not recommend changing the "MC types" (i_t, r_t, etc).  Instead,
+                              change them in one place in t.sys_types.h.
+                              However, if this is for coding style purposes, you can carefully test it.
+                              Use the mcmc way of returning data from an invocation.
+ q.utils.arc              .+* small change for extra parameter
+ q.val.translate.arc      .+* reasonable modifications during initialization
+ t.class.attribute.init.c  .+ non-mcmc enhancement
+                              Use the mcmc way of returning data from an invocation.
  t.class.extent.c           + non-mcmc enhancement
  t.class.extent.h           + non-mcmc enhancement
  t.class.idispatch.c        + non-mcmc enhancement
@@ -221,10 +256,30 @@ Branch name:  51_fx
  t.domain_init.h            + non-mcmc enhancement
  t.ee_ext.h                 + new non-mcmc enhancement
  t.smt.assign.c             + 4.1.6 upgrade
- t.smt.bridge.c            +* marking conditional invocation
- t.smt.c                    + not used
+ t.smt.bridge.c           .+* marking conditional invocation
+ t.smt.c                   .+ not used
+                              Removed changes from this file, since they do not get used.
+                              Except for a few calls from the component generation archetypes,
+                              this file is mostly obsolete.  t_oal_smt_assign is not called.
 </pre>
 
 End
 ---
+
+
+note to Watanabe-san and FXAT
+
+Notice that we modified the templates for the create_instance and
+delete_instance statements instead of adding new files.
+
+t.smt.c is mostly obsolete and soon will be eliminated from the
+model compiler.  Separate templates have mostly replaced it.  Soon
+it will be completely replaced.
+
+Learn how to relate instances like OAL.  Use comments with relate
+and unrelate statements.  Follow the examples in the existing code.
+Use 00 instead of 0 to help the conversion code know which lines
+are part of relate/unrelate statements.
+
+
 

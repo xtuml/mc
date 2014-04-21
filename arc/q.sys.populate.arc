@@ -1697,8 +1697,8 @@
 .//-- 002: 20140128 Modified Start (saitou) 
 .//-- 002: 20140314 Modified Start (saitou) 
         .//.select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
-        .invoke tmpr = GetAttributeDataType( o_attr )
-        .assign te_dt = tmpr.result
+        .invoke r = GetAttributeDataType( o_attr )
+        .assign te_dt = r.result
 .//-- 002: 20140314 Modified Start (saitou) 
         .if ( te_dt.IsExternalMacro )
           .assign te_attr.dimensions = 0
@@ -2265,8 +2265,9 @@
       .print "REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${s_brg.Descrip:REAL_FUNC}"
 .//-- 010:20140307 Modified Start (nomura) 
       .assign te_brg.RealFuncName = "${s_brg.Descrip:REAL_FUNC}"
-      .invoke bridgeExtendPrefix = fx_get_bridge_extend_name_prefix(te_ee)
-      .assign te_brg.GeneratedName = "${bridgeExtendPrefix.result}_${te_brg.Name}"
+      .invoke r = fx_get_bridge_extend_name_prefix(te_ee)
+      .assign bridgeExtendPrefix = r.result
+      .assign te_brg.GeneratedName = ( bridgeExtendPrefix + "_" ) + te_brg.Name
       .//
 .//      .select many s_bparms related by s_brg->S_BPARM[R21]
       .// TEMP

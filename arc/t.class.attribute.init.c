@@ -1,8 +1,10 @@
 .//-- 011: 20140217 Add Start (saitou) 
 .if ( isAutoIncEnable )
-  .invoke retMacroName  = FXHO_get_auto_inc_get_new_value_macro_name( o_obj )
-  .invoke retMngValName = FXHO_get_auto_inc_id_mgmt_variable_name( o_obj )
-${instance}->${te_attr.GeneratedName} = (${te_dt.ExtName}) ${retMacroName.result}(${retMngValName.result});
+  .invoke r  = FXHO_get_auto_inc_get_new_value_macro_name( o_obj )
+  .assign retMacroName = r.result
+  .invoke r = FXHO_get_auto_inc_id_mgmt_variable_name( o_obj )
+  .assign retMngValName = r.result
+${instance}->${te_attr.GeneratedName} = (${te_dt.ExtName}) ${retMacroName}(${retMngValName});
 .//-- 011: 20140217 Add End (saitou) 
 .//-- 011: 20140217 Modified Start (saitou) 
 .elif ( 5 == te_dt.Core_Typ )
