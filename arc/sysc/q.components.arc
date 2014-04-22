@@ -124,6 +124,9 @@
     .invoke r = CreateSynchronousServiceClassDeclaration( te_c, te_sync )
     .assign function_declarations = r.body
     .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071] where ( selected.Used )
+    .if ( te_c.OptDisabled )
+      .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071]
+    .end if
     .if ( not_empty te_evt )
       .assign event_union_name = te_c.Name + "_DomainEvents_u"
     .end if
