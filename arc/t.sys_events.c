@@ -80,6 +80,9 @@ typedef union {
   .assign te_c = first_te_c
   .while ( not_empty te_c )
     .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071] where ( selected.Used )
+    .if ( te_c.OptDisabled )
+      .select any te_evt related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_EVT[R2071]
+    .end if
     .if ( not_empty te_evt )
   ${te_c.Name}_DomainEvents_u mc_events_in_domain_${te_c.Name};
     .end if
