@@ -232,6 +232,9 @@ Branch name:  51_fx
                               Fix bug in CreateFirstLinkParameterValue.  ".if" has no ".end if".
                               Removed use of frag_ref.
                               Next, we need to eliminate the ambiguous type being passed in (s_brg or s_sync).
+                              This was accomplished by adding a class called TE_STIDESCRIP.  An instance of 
+                              this is created.  The Descrip field from s_sync or s_brg is copied into it.
+                              This allows the parameter to be of a single type (rather than _both_ S_BRG and S_SYNC).
  q.smt.generate.arc       .+* modifications to OAL statement generation
                               Stop including a custom version t.smt.create_instance.c and t.smt.delete_instance.c.
                               Instead, the templates themselves are modified.
@@ -269,17 +272,21 @@ End
 
 note to Watanabe-san and FXAT
 
+The primary reason for changes for the "convert" step is to make
+the RSL (archetypes language) look like OAL.  This is because
+we will convert it to OAL to make mcmc.
+
+Learn how to relate instances like OAL.  Use comments with relate
+and unrelate statements.  Follow the examples in the existing code.
+When initializing a UNIQUE_ID, use 00 instead of 0 to help the
+conversion code know which lines are part of relate/unrelate statements.
+
 Notice that we modified the templates for the create_instance and
 delete_instance statements instead of adding new files.
 
 t.smt.c is mostly obsolete and soon will be eliminated from the
 model compiler.  Separate templates have mostly replaced it.  Soon
 it will be completely replaced.
-
-Learn how to relate instances like OAL.  Use comments with relate
-and unrelate statements.  Follow the examples in the existing code.
-Use 00 instead of 0 to help the conversion code know which lines
-are part of relate/unrelate statements.
 
 
 

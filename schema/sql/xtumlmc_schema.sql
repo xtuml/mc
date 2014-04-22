@@ -6613,4 +6613,7 @@ CREATE TABLE TE_STI (
    	);
 CREATE ROP REF_ID R3002	FROM 1C TE_STI	(PID) PHRASE 'succeeds'
 			  TO 1C TE_STI	(ID) PHRASE 'precedes';
+CREATE TABLE TE_STIDESCRIP (
+	Descrip STRING
+   	);
 --//--007:20140213 Add End (saitou)
