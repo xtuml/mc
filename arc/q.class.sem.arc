@@ -177,7 +177,10 @@
   .// Watch out for incomplete xtUML models.
   .if ( (te_sm.num_states > 0) and (te_sm.num_events > 0) )
     .assign state_count = 0
-    .select many te_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525]->TE_EVT[R2036] where ( selected.Used or te_c.OptDisabled )
+    .select many te_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525]->TE_EVT[R2036] where ( selected.Used )
+    .if ( te_c.OptDisabled )
+      .select many te_evts related by sm_sm->SM_EVT[R502]->SM_SEVT[R525]->SM_EVT[R525]->TE_EVT[R2036]
+    .end if
     .assign num_events = cardinality te_evts
     .select many sm_states related by sm_sm->SM_STATE[R501]
     .select any sm_state related by sm_sm->SM_STATE[R501]
