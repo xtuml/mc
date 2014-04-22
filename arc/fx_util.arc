@@ -1,237 +1,236 @@
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_base_arch_prefix_name
+.function fx_get_base_arch_prefix_name .// string
   .assign attr_result = "MC3020"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_default_arch_prefix_name
+.function fx_get_default_arch_prefix_name .// string
   .assign attr_result = "Escher"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_domain_facade_file_name
-.param inst_ref te_c .// component
-  .assign attr_result = "${te_c.Name}_domainfacade"
+.function fx_get_domain_facade_file_name .// string
+.param inst_ref te_c
+  .assign attr_result = te_c.Name + "_domainfacade"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_copyright_notice
+.function fx_get_copyright_notice .// string
   .assign attr_result = "COPYRIGHT"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_domain_dispatcher_name
+.function fx_get_domain_dispatcher_name .// string
 .param inst_ref te_c
-  .assign attr_result = "${te_c.Name}_DomainDispatcher"
+  .assign attr_result = te_c.Name + "_DomainDispatcher"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_domain_mech_file_name
+.function fx_get_domain_mech_file_name .// string
 .param inst_ref te_c
-  .assign attr_result = "${te_c.Name}_mechs"
+  .assign attr_result = te_c.Name + "_mechs"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_domain_init_file_name
+.function fx_get_domain_init_file_name .// string
 .param inst_ref te_c
-  .assign attr_result = "${te_c.Name}_dom_init"
+  .assign attr_result = te_c.Name + "_dom_init"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_domain_classes_file_name
+.function fx_get_domain_classes_file_name .// string
 .param inst_ref te_c
-  .assign attr_result = "${te_c.Name}_classes"
+  .assign attr_result = te_c.Name + "_classes"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_domain_enums_file_name
+.function fx_get_domain_enums_file_name .// string
 .param inst_ref te_c
-  .assign attr_result = "${te_c.Name}_enums"
+  .assign attr_result = te_c.Name + "_enums"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_sys_mech_file_name
+.function fx_get_sys_mech_file_name .// string
   .assign attr_result = "sys_mechs"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_sys_types_file_name
+.function fx_get_sys_types_file_name .// string
   .assign attr_result = "sys_types"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_object_extent_size
-.param inst_ref te_class
-  .assign attr_result = false
-  .assign attr_max_size_value = ""
-  .assign attr_include_file = ""
-  .if ( "$r{te_class.InstanceMaxNo}" != "" )
-      .assign attr_max_size_value = "$r{te_class.InstanceMaxNo}"
-      .assign attr_include_file = "$r{te_class.InstanceMaxNoDefIncludeFile}"
-      .assign attr_result = true
-  .end if
-.end function
-.//
-.//----------------------------------------------------------------------------
-.//
 .// O_OBJに関連づいている最初のO_ATTRを取得する。
-.function fx_get_first_attribute_in_object_model
+.function fx_get_first_attribute_in_object_model .// o_attr
 .param inst_ref te_class
   .select any obj from instances of O_OBJ where (selected.Obj_ID == te_class.Obj_ID)
+  .// .select one o_obj related by te_class->O_OBJ[R2019]
   .//.if (empty obj)
   .//.print "++++ O_OBJ not found. ${te_class.Name}"
   .//.else
   .//.print "++++ O_OBJ found!. ${te_class.Name}"
   .//.end if
-  .select any attr_result related by obj->O_ATTR[R102] where (selected.PAttr_ID == 0)
+  .select any o_attr related by obj->O_ATTR[R102] where (selected.PAttr_ID == 0)
   .select many obj_attr_set related by obj->O_ATTR[R102]
   .for each obj_attr in obj_attr_set
     .select one previous_attr related by obj_attr->O_ATTR[R103.'precedes']
     .if ( empty previous_attr )
-      .assign attr_result = obj_attr
+      .assign o_attr = obj_attr
       .break for
     .end if
   .end for
+  .assign attr_result = o_attr
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
 .// code生成するattributeかどうかを判定する。
 .// これで良いか自信なし…
-.function fx_generate_code_for_object_attribute
+.function fx_generate_code_for_object_attribute .// boolean
 .param inst_ref obj_attr
-  .assign attr_result = TRUE
+  .assign result = true
   .select one te_dt related by obj_attr->S_DT[R114]->TE_DT[R2021]
   .select one te_attr related by obj_attr->TE_ATTR[R2033]
   .//
   .// "current_state" attribute.
   .if (te_dt.Core_Typ == 6)
-    .assign attr_result = FALSE
+    .assign result = false
   .else
-    .if (te_attr.translate == FALSE)
-      .assign attr_result = FALSE
+    .if (te_attr.translate == false)
+      .assign result = false
     .end if
   .end if
-.end function  
+  .assign attr_result = result
+.end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_auto_inc_get_llimit_value_macro_name
+.function fx_get_auto_inc_get_llimit_value_macro_name .// string
 .param inst_ref te_attr
   .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
-  .invoke namespace = GetDomainObjectNamespace(o_obj)
-  .assign attr_result = "${namespace.result}_AUTOINC_LOWER_LIMIT"
-.end function  
+  .invoke r = GetDomainObjectNamespace(o_obj)
+  .assign namespace = r.result
+  .assign attr_result = namespace + "_AUTOINC_LOWER_LIMIT"
+.end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_auto_inc_get_hlimit_value_macro_name
+.function fx_get_auto_inc_get_hlimit_value_macro_name .// string
 .param inst_ref te_attr
   .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
   .invoke namespace = GetDomainObjectNamespace(o_obj)
-  .assign attr_result = "${namespace.result}_AUTOINC_HIGHER_LIMIT"
-.end function  
+  .assign namespace = r.result
+  .assign attr_result = namespace + "_AUTOINC_HIGHER_LIMIT"
+.end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_auto_inc_get_new_value_macro_name
+.function fx_get_auto_inc_get_new_value_macro_name .// string
 .param inst_ref te_attr
   .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
   .invoke namespace = GetDomainObjectNamespace(o_obj)
-  .assign attr_result = "${namespace.result}_AUTOINC_GetNewValue"
-.end function  
+  .assign namespace = r.result
+  .assign attr_result = namespace + "_AUTOINC_GetNewValue"
+.end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_auto_inc_id_mgmt_variable_name
+.function fx_get_auto_inc_id_mgmt_variable_name .// string
 .param inst_ref te_attr
   .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
   .invoke namespace = GetDomainObjectNamespace(o_obj)
-  .assign attr_result = "${namespace.result}_AUTOINC_currentId"
-.end function  
+  .assign namespace = r.result
+  .assign attr_result = namespace + "_AUTOINC_currentId"
+.end function
 .//
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_bridge_extend_name_prefix
 .param inst_ref te_ee
   .select any te_c related by te_ee->TE_C[R2085]
-  .assign attr_result = "${te_c.Name}_BridgeExtend_${te_ee.Key_Lett}"
-.end function  
+  .assign attr_result = ( te_c.Name + "_BridgeExtend_" ) + te_ee.Key_Lett
+.end function
 .//
 .//----------------------------------------------------------------------------
 .//
 .function fx_is_exist_real_func .// boolean
 .param inst_ref te_ee
-  .assign attr_result = FALSE
+  .assign result = FALSE
   .select any te_brg related by te_ee->S_EE[R2020]->S_BRG[R19]->TE_BRG[R2025] where ( selected.IsRealFunc == TRUE )
   .if (not_empty te_brg)
-    .assign attr_result = TRUE
+    .assign result = TRUE
   .end if
-.end function  
-.//
-.//----------------------------------------------------------------------------
-.//
-.function fx_generate_auto_inc_id_execution
-.param inst_ref te_attr
-  .assign attr_result = false
-  .if (te_attr.isAutoInc)
-    .assign attr_result = true
-    .invoke llimit_macro_name = fx_get_auto_inc_get_llimit_value_macro_name(te_attr)
-    .invoke hlimit_macro_name = fx_get_auto_inc_get_hlimit_value_macro_name(te_attr)
-    .invoke get_macro_name = fx_get_auto_inc_get_new_value_macro_name(te_attr)
-    .invoke var_name = fx_get_auto_inc_id_mgmt_variable_name(te_attr)
-  /* FX Extention : AUTOINC Coloring */
-  /* setup value of ${te_attr.Name} */
-  self->${te_attr.GeneratedName} = ${get_macro_name.result}(${var_name.result});
-  .end if
+  .assign attr_result = result
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_generate_auto_inc_id_definision
+.function fx_generate_auto_inc_id_execution .// boolean
+.param inst_ref te_attr
+  .assign result = false
+  .if (te_attr.isAutoInc)
+    .assign result = true
+    .invoke r = fx_get_auto_inc_get_new_value_macro_name(te_attr)
+    .assign get_macro_name = r.result
+    .invoke r = fx_get_auto_inc_id_mgmt_variable_name(te_attr)
+    .assign var_name = r.result
+  /* FX Extention : AUTOINC Coloring */
+  /* setup value of ${te_attr.Name} */
+  self->${te_attr.GeneratedName} = ${get_macro_name}(${var_name});
+  .end if
+  .assign attr_result = result
+.end function
+.//
+.//----------------------------------------------------------------------------
+.//
+.function fx_generate_auto_inc_id_definision .// boolean
 .param inst_ref te_attr
 .param boolean gen_decl
-  .assign attr_result = false
+  .assign result = false
   .if (te_attr.isAutoInc)
-    .assign attr_result = true
-    .invoke llimit_macro_name = fx_get_auto_inc_get_llimit_value_macro_name(te_attr)
-    .invoke hlimit_macro_name = fx_get_auto_inc_get_hlimit_value_macro_name(te_attr)
-    .invoke get_macro_name = fx_get_auto_inc_get_new_value_macro_name(te_attr)
+    .assign result = true
+    .invoke r = fx_get_auto_inc_get_llimit_value_macro_name(te_attr)
+    .assign llimit_macro_name = r.result
+    .invoke r = fx_get_auto_inc_get_hlimit_value_macro_name(te_attr)
+    .assign hlimit_macro_name = r.result
+    .invoke r = fx_get_auto_inc_get_new_value_macro_name(te_attr)
+    .assign get_macro_name = r.result
     .if (gen_decl)
 /* auto inclemental id's Lower Limit */
-#define ${llimit_macro_name.result} ${te_attr.AutoIncLowLimit}
+#define ${llimit_macro_name} ${te_attr.AutoIncLowLimit}
 /* auto inclemental id's Higher Limit */
-#define ${hlimit_macro_name.result} ${te_attr.AutoIncHighLimit}
+#define ${hlimit_macro_name} ${te_attr.AutoIncHighLimit}
 /* auto inclemental value getter */
-#define ${get_macro_name.result}(x)    \
+#define ${get_macro_name}(x)    \
         .if (te_attr.AutoDirection == "UP")
-((x)=((++(x)-${llimit_macro_name.result})%(${hlimit_macro_name.result}-${llimit_macro_name.result}+1)+${llimit_macro_name.result}))
+((x)=((++(x)-${llimit_macro_name})%(${hlimit_macro_name}-${llimit_macro_name}+1)+${llimit_macro_name}))
 	.else
-((x)=((${hlimit_macro_name.result}-(--(x)))%(${hlimit_macro_name.result}-${llimit_macro_name.result}+1)+${hlimit_macro_name.result}))
+((x)=((${hlimit_macro_name}-(--(x)))%(${hlimit_macro_name}-${llimit_macro_name}+1)+${hlimit_macro_name}))
 	.end if
     .else
 /* auto inclemental value for unique_id */
         .invoke var_name = fx_get_auto_inc_id_mgmt_variable_name(te_attr)
-static int ${var_name.result} = \
+static int ${var_name} = \
         .if (te_attr.AutoDirection == "UP")
-${llimit_macro_name.result} - 1\
+${llimit_macro_name} - 1\
         .else
-${llimit_macro_name.result} + 1\
+${llimit_macro_name} + 1\
 	.end if
 ;
     .end if
+  .assign attr_result = result
 .end function
 .//
 .//----------------------------------------------------------------------------
@@ -393,7 +392,7 @@ ${llimit_macro_name.result} + 1\
 .function FXHO_get_auto_inc_get_new_value_macro_name .// string
   .param inst_ref o_obj
   .//
-  .invoke namespace = GetDomainObjectNamespace( o_obj )
+  .invoke r = GetDomainObjectNamespace( o_obj )
   .assign namespace = r.result
   .assign attr_result = namespace + "_AUTOINC_GetNewValue"
   .//
@@ -404,103 +403,9 @@ ${llimit_macro_name.result} + 1\
 .function FXHO_get_auto_inc_id_mgmt_variable_name .// string
   .param inst_ref o_obj
   .//
-  .invoke namespace = GetDomainObjectNamespace( o_obj )
+  .invoke r = GetDomainObjectNamespace( o_obj )
   .assign namespace = r.result
   .assign attr_result = namespace + "_AUTOINC_currentId"
-  .//
-.end function
-.//
-.//============================================================================
-.//
-.function FXHO_has_auto_inc_id
-.param inst_ref o_obj
-  .//
-  .assign attr_result = false
-  .assign attr_datasize = 0
-  .assign attr_llimit = ""
-  .assign attr_hlimit = ""
-  .assign attr_direction = ""
-  .assign attr_undef = ""
-.//  .select any id_attr related by o_obj->O_ID[R104]->O_OIDA[R105]->O_ATTR[R105] where ( selected.IsAutoInc )
-  .select any id_attr from instances of TE_ATTR where ( ( selected.Obj_ID == o_obj.Obj_ID ) and ( selected.isAutoInc ) )
-  .assign attr_ref = id_attr
-  .if ( not_empty id_attr )
-    .assign attr_result = true
-    .assign attr_datasize = id_attr.AutoIncDataSize
-    .assign attr_llimit = id_attr.AutoIncLowLimit
-    .assign attr_hlimit = id_attr.AutoIncHighLimit
-    .assign attr_direction = id_attr.AutoIncDirection
-    .assign attr_undef = id_attr.AutoIncUndefValue
-  .end if
-  
-  .//
-.end function
-.//
-.//============================================================================
-.// FXHO_generate_auto_inc_id_definition
-.//    AUTO_INC指定された識別子属性の値を管理する為のStaticな変数を定義する
-.//
-.function FXHO_generate_auto_inc_id_definition
-  .param inst_ref o_obj
-  .param boolean p_gen_decl
-  .//
-  .assign attr_result = false
-  .invoke is_auto = FXHO_has_auto_inc_id(o_obj)
-  .if ( is_auto.result )
-/* This class has auto inclement unique_id */
-/* define mechanism for auto inc id */
-    .assign attr_result = true
-    .invoke llimit_macro_name = FXHO_get_auto_inc_get_llimit_value_macro_name(o_obj)
-    .invoke hlimit_macro_name = FXHO_get_auto_inc_get_hlimit_value_macro_name(o_obj)
-    .invoke get_macro_name = FXHO_get_auto_inc_get_new_value_macro_name(o_obj)
-    .if ( p_gen_decl )
-/* auto incliemental id's Lower Limit */
-#define ${llimit_macro_name.result} ${is_auto.llimit}
-/* auto incliemental id's Higher Limit */
-#define ${hlimit_macro_name.result} ${is_auto.hlimit}
-/* auto incliemental value getter */
-#define ${get_macro_name.result}(x) \
-      .if ( is_auto.direction == "UP" )
-((x)=((++(x)-${llimit_macro_name.result})%(${hlimit_macro_name.result}-${llimit_macro_name.result}+1)+${llimit_macro_name.result}))
-      .else
-((x)=((${hlimit_macro_name.result}-(--(x)))%(${hlimit_macro_name.result}-${llimit_macro_name.result}+1)+${hlimit_macro_name.result}))
-      .end if
-    .else
-/* auto incliemental value for unique_id */
-      .invoke var_name = FXHO_get_auto_inc_id_mgmt_variable_name(o_obj)
-static int ${var_name.result} = \
-      .if ( is_auto.direction == "UP" )
-${llimit_macro_name.result} - 1\
-      .else
-${hlimit_macro_name.result} + 1\
-      .end if
-;
-    .end if
-  .end if
-  .//
-.end function
-.//
-.//============================================================================
-.//
-.function FXHO_generate_auto_inc_id_execution
-  .param inst_ref o_obj
-  .param string p_self_name
-  .//
-  .assign attr_result = false
-  .invoke is_auto = FXHO_has_auto_inc_id(o_obj)
-  .if ( is_auto.result )
-    .assign attr_result = true
-    .assign attr = is_auto.ref
-.//-- 011: 20140221 Modified Start (nomura) 
-    .//.invoke member_name = GetObjAttrDataMemberName( attr )
-    .assign member_name = attr.GeneratedName
-.//-- 011: 20140221 Modified End (nomura) 
-    .invoke get_macro_name = FXHO_get_auto_inc_get_new_value_macro_name(o_obj)
-    .invoke var_name = FXHO_get_auto_inc_id_mgmt_variable_name(o_obj)
-    /* FX Extention : AUTOINC Coloring */
-    /* setup value of ${attr.Name} */
-    ${p_self_name}->${member_name} = ${get_macro_name.result}(${var_name.result});
-  .end if
   .//
 .end function
 .//

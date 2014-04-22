@@ -76,6 +76,7 @@
 .include "${arc_path}/t.smt.c"
 .//-- 010:20140211 Add Start (nomura)
 .include "${arc_path}/fx_util.arc"
+.include "${arc_path}/fx_util2.arc"
 .include "${arc_path}/fx_bridge_skel.arc"
 .//-- 010:20140211 Add End (nomura)
 .//

@@ -11,7 +11,7 @@ Copyright 2012-2014 Mentor Graphics Corp.  All Rights Reserved.
 1.  Abstract
 ------------
 The model compiler has been extended by the customer.  The archetypes
-used to build the mcmc executable have been affected.  This means that
+used to build the mcmc executable have been changed.  This means that
 mcmc cannot be used to speed up the translation.  However, the models
 are so big that they do not translate without the use of mcmc.  So, we
 must rebuild mcmc using the updated archetypes.
@@ -47,18 +47,17 @@ None.
 6.2.10  fx.class.extent.c  
 6.2.11  fx_class.extent.c  
 6.2.12  t.domfacade.c  
-6.3     Upgrade archetypes to the 4.1.6 of the model compiler.  
-6.3.1   We could wait and stay on 4.1.0.  However, the longer we wait to
-        upgrade the more difficult it will be.  
-6.3.2   There are several performance enhancements and bug fixes in the
+6.3     Upgrade archetypes to the 4.1.6 version of the model compiler.  
+6.3.1   There are several performance enhancements and bug fixes in the
         version 4.1.6 archetypes.  
 6.4     Correct and update the schema (xtumlmc_schema.sql).  
 6.4.1   Two classes were modified in the schema that are part of the 
         xtUML metamodel.  In the past, we allowed modification of the 
         xtUML metamodel.  Now, we do not allow this.  It is required to
-        update the "Extension" version of the class.  
+        update the "Extension" version of the classes.  
 6.4.2   The modifications made to S_DT and O_OBJ were incorrect.  Attributes
-        added were duplicates of attributes added to TE_DT and TE_CLASS.
+        added to O_OBJ were duplicates of attributes added to TE_CLASS.
+        Attributes added to S_DT need to use a marking class (TM_DTMACRO).  
 6.4.3   Use only TE_DT and TE_CLASS in these extensions.  Use TE_EE, TE_C,
         TE_BRG, TE_EE, RE_FILE, TE_PO and TE_STI as is.  
 6.4.3.1 Add TM_DTMACRO, change marking to create it and update sys_populate
@@ -68,16 +67,40 @@ None.
         remaining TM_DTMACRO attributes should be set late.  
 6.4.3.2 Simply remove the added attributes to O_OBJ; they are not used.  
 6.5     Update the model of mc3020.  
-6.5.1   Add TE_STI.  
+6.5.1   Add TE_STI.  Add TE_STIDESCRIP to use as a Descrip filed buffer.  
 6.5.2   Update TE_BRG, TE_C, TE_DT, TE_EE, TE_FILE and TE_PO.  
 6.6     Fix archetypes that changed metamodel classes (S_DT and O_OBJ).  
 6.6.1   Move accesses to new attributes in S_DT to TE_DT.  
 6.6.2   Move accesses to new attribute in O_OBJ to TE_CLASS.  
-6.7     Convert archetypes to follow the mcmc rules.  
+6.7     Convert archetypes to follow the mcmc rules.  The primary reason for
+        changes for the "convert" step is to make the RSL (archetypes
+        language) look like OAL.  This is because we will convert it to OAL
+        to make mcmc.  
 6.7.1   Separate functions that run during OAL translation from those
         that run later.  This reduces the work of converting the functions
         that run during OAL translation and must follow the mcmc rules.  
-6.7.1.1 Move functions from frag_util.arc to fx_util.arc.  
+6.7.1.1 Move functions from frag_util.arc to fx_util.arc and fx_util2.arc.
+        fx_util.arc will be included into mcmc; fx_util2.arc will not.  
+6.7.2   Provide return type comments next to each function that returns
+        a value.  These comments are used by the programs that convert
+        the RSL into OAL.  
+6.7.3   Name all instance references and instance reference sets
+        according to the naming convention that imbeds the type of the
+        variable in the name.  Follow the form <prefix><lower case key
+        letters>.  Add 's' to the end of instance reference set variable
+        names.  
+6.7.4   Return only a single value from functions and use 'result'
+        (attr_result) to carry the return value.  
+6.7.5   Eliminate the use of "frag_ref" style parameters.  These are not
+        supported in OAL and cannot be supported in mcmc.  
+6.7.6   Add relate and unrelate OAL statements as comments around the RSL
+        referential attribute setting/resetting lines.  When initializing
+        or resetting an attribute with type UNIQUE_ID, use 00 instead of
+        0 to help the conversion code know which lines are part of
+        relate/unrelate statements.  
+6.7.7   Use string arithmetic in functions rather than using "${...}"
+        templates whenever possible.  This makes better OAL and a faster
+        model compiler.  
 6.8     Teach customer to follow mcmc programming conventions.  
 6.8.1   This will allow mcmc to be built quickly and mostly automatically.  
 6.8.2   Deliver programming style guidelines in a document.  
@@ -94,7 +117,6 @@ None.
 7.2.2   Customer correct.  Mentor upgrade, convert and create new mcmc.  
 7.2.3   Customer correct and convert.  Mentor upgrade and create new mcmc.  
 7.2.4   Customer upgrade, correct and convert.  Mentor create new mcmc.  
-
 
 
 8. Unit Test
@@ -270,23 +292,11 @@ End
 ---
 
 
-note to Watanabe-san and FXAT
+fx_get_domain_classes_file_name:  This value is found in te_c.classes_file.
+fx_get_sys_types_file_name:  This value is found in te_file.types.
 
-The primary reason for changes for the "convert" step is to make
-the RSL (archetypes language) look like OAL.  This is because
-we will convert it to OAL to make mcmc.
-
-Learn how to relate instances like OAL.  Use comments with relate
-and unrelate statements.  Follow the examples in the existing code.
-When initializing a UNIQUE_ID, use 00 instead of 0 to help the
-conversion code know which lines are part of relate/unrelate statements.
-
-Notice that we modified the templates for the create_instance and
-delete_instance statements instead of adding new files.
-
-t.smt.c is mostly obsolete and soon will be eliminated from the
-model compiler.  Separate templates have mostly replaced it.  Soon
-it will be completely replaced.
-
-
+Here:  Use SELECT ... RELATED BY.
+.function fx_get_first_attribute_in_object_model .// o_attr
+.param inst_ref te_class
+  .select any obj from instances of O_OBJ where (selected.Obj_ID == te_class.Obj_ID)
 

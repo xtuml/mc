@@ -31,3 +31,6 @@
 ./rsl2oal < ../../arc/m.domain.arc | sh swapreflex.sh >> o4.oal
 ./rsl2oal < ../../arc/m.event.arc | sh swapreflex.sh >> o4.oal
 ./rsl2oal < ../../arc/m.system.arc | sh swapreflex.sh >> o4.oal
+
+# fifth is customizations
+./rsl2oal < ../../arc/fx_util.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o5.oal
