@@ -9,7 +9,14 @@ Summary:
 - Compile and link.
 
 Needed:
-- Linux BridgePoint with source MC installed
+#
+# NOTE: some of the pieces you will need to perform this process are in the 
+# xtuml/mc github repository.  So, you'll need to pull that repository via CLI
+# or BridgePoint, get the latest master, and use the data from the repository 
+# to configure BP and run the process to build mcmc
+#
+- Linux BridgePoint with source MC installed (specifically, the prior official BP release 
+  with matching source MC)
 - Enable preference:  Allow operations inside where clauses of select statements
 - Copy <git>/xtuml/mc/etc/com.mentor.nucleus.bp.core.function.gen_*.jar to your installation's dropins/ folder
 - xtuml/mc/model/com.mentor.nucleus.bp.core
@@ -21,9 +28,13 @@ Needed:
 
 Update the RSL-to-OAL translator.
 - Create function signatures for OAL from the RSL by running the
-  the following in the mc/arc folder:
+  following in the (git master) mc/arc folder:
+  + cd <git repo>/mc/arc
   + egrep -r -e "^\.function " -e "^ *\.param " -e ".end function" * | awk '{if ($1 ~ ".function") printf("{\"%s\"",$2); else if ($0 ~ "\.param ") printf(",\"%s\"",$4); else if ($1 ~ ".end" && $2 ~ "function") printf("},\n");}' > ~/funcsigs.h
   + Then, vimdiff ~/funcsigs.h ../mcmc/arlan/funcsigs.h (Or use a sissy GUI diff'er like "meld").  Copy relevant updates into the arlan/ based file.
+    # NOTE: Order differences do not matter.  Also, funcsigs.h changes are not needed 
+    # unless new functions or new parameters were added (or return types changed)... and 
+    # only in the list of files in current_list.sh (the ones that affect mcmc).
   + In the mc/mcmc/arlan/ folder: make -f makefile.rsl2oal
 
 Run the rsl2oal translator.
