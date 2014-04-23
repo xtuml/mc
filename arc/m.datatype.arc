@@ -178,7 +178,7 @@
 			.assign tm_dtmacro.IsExternalMacro = true
 			.assign tm_dtmacro.genName = ext_name
 			.assign tm_dtmacro.Include_File = include_file
-			.assign tm_dtmacro.DefaultValue = initial_value
+			.assign tm_dtmacro.Initial_Value = initial_value
 			.//
 			.print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}"
 		.else
