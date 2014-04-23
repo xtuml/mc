@@ -29,7 +29,7 @@
     .invoke r = CreateSTIObjects(te_stidescrip)
     .assign te_sti = r.result
     .//
-    .if ( "${te_sti.Name_key}" != "" )
+    .if ( te_sti.Name_key != "" )
       .print "[sparm_sort] ${s_sync.Name} param order control enable"
       .//
       .invoke r1 = sparm_sort_order_control( te_sti, s_sparms )
@@ -96,7 +96,7 @@
   .select any cur_s_sparm from instances of S_SPARM where ( false )
   .assign orderNum = 0
   .while ( not_empty te_sti )
-    .if ( "${te_sti.Name_key}" != "" )
+    .if ( te_sti.Name_key != "" )
       .assign orderNum = orderNum + 1
       .//
       .for each s_sparm in s_sparms
@@ -140,7 +140,9 @@
 .function CreateSTIObjects .// te_sti
   .param inst_ref te_stidescrip
   .select any te_sti from instances of TE_STI where ( false )
-  .if ( "${te_stidescrip.Descrip:param_0}" != "" )
+  .assign param_0 = "${te_stidescrip.Descrip:param_0}"
+  .assign arg1 = "${te_stidescrip.Descrip:ARG1}"
+  .if ( "" != param_0 )
     .invoke r0 = CreateFirstLinkParameterValue("${te_stidescrip.Descrip:param_0}")
     .invoke r1 = LinkAddParameterValue(r0.result,"${te_stidescrip.Descrip:param_1}")
     .invoke r2 = LinkAddParameterValue(r1.result,"${te_stidescrip.Descrip:param_2}")
@@ -195,7 +197,7 @@
     .//
     .assign te_sti = r0.result
     .//
-  .elif ( "${te_stidescrip.Descrip:ARG1}" != "" )
+  .elif ( "" != arg1 )
     .//
     .invoke r0 = CreateFirstLinkParameterValue("${te_stidescrip.Descrip:ARG1}")
     .invoke r1 = LinkAddParameterValue(r0.result,"${te_stidescrip.Descrip:ARG2}")
@@ -293,7 +295,7 @@
     .invoke r = CreateSTIObjects(te_stidescrip)
     .assign te_sti = r.result
     .//
-    .if ( "${te_sti.Name_key}" != "" )
+    .if ( te_sti.Name_key != "" )
       .print "[bparm_sort] ${s_brg.Name} param order control enable"
       .//
       .invoke r1 = sbrg_sort_order_control( te_sti, s_bparms )
@@ -325,7 +327,7 @@
   .select any cur_s_bparm from instances of S_BPARM where ( false )
   .assign orderNum = 0
   .while ( not_empty te_sti )
-    .if ( "${te_sti.Name_key}" != "" )
+    .if ( te_sti.Name_key != "" )
       .assign orderNum = orderNum + 1
       .//
       .for each s_bparm in s_bparms

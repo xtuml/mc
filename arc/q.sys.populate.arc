@@ -2261,10 +2261,11 @@
     .assign te_brg.Name = s_brg.Name
     .assign te_brg.GeneratedName = bridge_scope + s_brg.Name
 .//-- 008:20140204 Add Start (saitou) 
-    .if ( "" != "${s_brg.Descrip:REAL_FUNC}" )
+    .assign RealFuncName = "${s_brg.Descrip:REAL_FUNC}"
+    .if ( "" != RealFuncName )
       .print "REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${s_brg.Descrip:REAL_FUNC}"
 .//-- 010:20140307 Modified Start (nomura) 
-      .assign te_brg.RealFuncName = "${s_brg.Descrip:REAL_FUNC}"
+      .assign te_brg.RealFuncName = RealFuncName
       .invoke r = fx_get_bridge_extend_name_prefix(te_ee)
       .assign bridgeExtendPrefix = r.result
       .assign te_brg.GeneratedName = ( bridgeExtendPrefix + "_" ) + te_brg.Name

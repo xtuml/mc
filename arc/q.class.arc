@@ -92,7 +92,7 @@ ${te_target.c2cplusplus_linkage_end}
         .if ( te_dt.Core_Typ == 2 )
           .// integer type
           .assign bit_field_width = "${o_attr.Descrip:BIT_WIDTH}"
-          .if ( "${bit_field_width}" != "" )
+          .if ( "" != bit_field_width )
   ui_t ${te_attr.GeneratedName} : ${bit_field_width};  ${comment}
           .else
   ${te_attr.GeneratedType} ${te_attr.GeneratedName}${te_attr.array_spec};  ${comment}

@@ -52,7 +52,7 @@
   .assign env_var_name = "ROX_OUTPUT_SRC_DIR"
   .invoke env_frag = GET_ENV_VAR( env_var_name )
   .assign attr_result = env_frag.result
-  .if ( "${attr_result}" == "" )
+  .if ( "" == attr_result )
     .print "ERROR:  Environment variable ${env_var_name} not set."
     .exit 100
   .end if
