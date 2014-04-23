@@ -1,36 +1,36 @@
 # first for afun
-./rsl2oal < ../../arc/frag_util.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o.oal
-./rsl2oal < ../../arc/q.datatype.arc | sh swapreflex.sh >> o.oal
-./rsl2oal < ../../arc/q.domain.analyze.arc | sh swapreflex.sh >> o.oal
-./rsl2oal < ../../arc/q.domain.limits.arc | sh swapreflex.sh >> o.oal
-./rsl2oal < ../../arc/q.oal.analyze.arc | sh swapreflex.sh >> o.oal
-./rsl2oal < ../../arc/q.oal.utils.arc | sh swapreflex.sh >> o.oal
-./rsl2oal < ../../arc/q.parameters.arc | sh swapreflex.sh >> o.oal
-./rsl2oal < ../../arc/q.parm.sort.arc | sh swapreflex.sh > o.oal
-./rsl2oal < ../../arc/q.rel.pseudoformalize.arc | sh swapreflex.sh >> o.oal
-./rsl2oal < ../../arc/q.sys.populate.arc | sh swapreflex.sh >> o.oal
-./rsl2oal < ../../arc/q.utils.arc | sh swapreflex.sh >> o.oal
-./rsl2oal < ../../arc/c/q.sys.singletons.arc | sed 's/""C""/\&quot;C\&quot;/' | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/frag_util.arc | ./rsl2oal | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.datatype.arc | ./rsl2oal | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.domain.analyze.arc | ./rsl2oal | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.domain.limits.arc | ./rsl2oal | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.oal.analyze.arc | ./rsl2oal | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.oal.utils.arc | ./rsl2oal | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.parameters.arc | ./rsl2oal | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.parm.sort.arc | ./rsl2oal | sh swapreflex.sh > o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.rel.pseudoformalize.arc | ./rsl2oal | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.sys.populate.arc | ./rsl2oal | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.utils.arc | ./rsl2oal | sh swapreflex.sh >> o.oal
+grep -vP "[\x80-\xFF]" < ../../arc/c/q.sys.singletons.arc | ./rsl2oal | sed 's/""C""/\&quot;C\&quot;/' | sh swapreflex.sh >> o.oal
 
 # second list for afunval
-./rsl2oal < ../../arc/q.val.translate.arc | sed 's/""""/"\&quot;"/g' | sh swapreflex.sh > o2.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.val.translate.arc | ./rsl2oal | sed 's/""""/"\&quot;"/g' | sh swapreflex.sh > o2.oal
 
 # third list for afunsmt
-./rsl2oal < ../../arc/q.names.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o3.oal
-./rsl2oal < ../../arc/q.oal.act_blk.arc | sed 's/, """/, \&quot;"/' | sed 's/+ """/+ "\&quot;/' | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o3.oal
-./rsl2oal < ../../arc/q.oal.action.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o3.oal
-./rsl2oal < ../../arc/q.oal.translate.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh > o3.oal
-./rsl2oal < ../../arc/q.smt.generate.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o3.oal
-./rsl2oal < ../../arc/q.r_rel.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o3.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.names.arc | ./rsl2oal | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o3.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.oal.act_blk.arc | ./rsl2oal | sed 's/, """/, \&quot;"/' | sed 's/+ """/+ "\&quot;/' | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o3.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.oal.action.arc | ./rsl2oal | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o3.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.oal.translate.arc | ./rsl2oal | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh > o3.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.smt.generate.arc | ./rsl2oal | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o3.oal
+grep -vP "[\x80-\xFF]" < ../../arc/q.r_rel.arc | ./rsl2oal | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o3.oal
 
 # fourth list for afunmark
-./rsl2oal < ../../arc/m.bridge.arc | sh swapreflex.sh > o4.oal
-./rsl2oal < ../../arc/m.class.arc | sh swapreflex.sh >> o4.oal
-./rsl2oal < ../../arc/m.component.arc | sh swapreflex.sh >> o4.oal
-./rsl2oal < ../../arc/m.datatype.arc | sh swapreflex.sh >> o4.oal
-./rsl2oal < ../../arc/m.domain.arc | sh swapreflex.sh >> o4.oal
-./rsl2oal < ../../arc/m.event.arc | sh swapreflex.sh >> o4.oal
-./rsl2oal < ../../arc/m.system.arc | sh swapreflex.sh >> o4.oal
+grep -vP "[\x80-\xFF]" < ../../arc/m.bridge.arc | ./rsl2oal | sh swapreflex.sh > o4.oal
+grep -vP "[\x80-\xFF]" < ../../arc/m.class.arc | ./rsl2oal | sh swapreflex.sh >> o4.oal
+grep -vP "[\x80-\xFF]" < ../../arc/m.component.arc | ./rsl2oal | sh swapreflex.sh >> o4.oal
+grep -vP "[\x80-\xFF]" < ../../arc/m.datatype.arc | ./rsl2oal | sh swapreflex.sh >> o4.oal
+grep -vP "[\x80-\xFF]" < ../../arc/m.domain.arc | ./rsl2oal | sh swapreflex.sh >> o4.oal
+grep -vP "[\x80-\xFF]" < ../../arc/m.event.arc | ./rsl2oal | sh swapreflex.sh >> o4.oal
+grep -vP "[\x80-\xFF]" < ../../arc/m.system.arc | ./rsl2oal | sh swapreflex.sh >> o4.oal
 
 # fifth is customizations
-./rsl2oal < ../../arc/fx_util.arc | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o5.oal
+grep -vP "[\x80-\xFF]" < ../../arc/fx_util.arc | ./rsl2oal | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh >> o5.oal

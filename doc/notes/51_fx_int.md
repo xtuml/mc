@@ -104,6 +104,7 @@ None.
 6.8     Teach customer to follow mcmc programming conventions.  
 6.8.1   This will allow mcmc to be built quickly and mostly automatically.  
 6.8.2   Deliver programming style guidelines in a document.  
+6.8.3   Change ".clr" files to ".mark" files to be compatible with mcmc.  
 6.9     Run mcmc creation scripts against updated model and archetypes.  
 
 7. Implementation Comments
