@@ -2,7 +2,7 @@
 .function sparm_sort
   .param inst_ref_set s_sparms
 .//-- 007: 20140213 Add Start (saitou) 
-  .if( not_empty s_sparms )
+  .if ( not_empty s_sparms )
 .//-- 007: 20140213 Add End (saitou) 
     .for each s_sparm in s_sparms
       .select one prev_s_sparm related by s_sparm->S_SPARM[R54.'precedes']
@@ -19,7 +19,7 @@
       .select any s_sync related by s_sparm->S_SYNC[R24]
       .break for
     .end for
-    .if( empty s_sync )
+    .if ( empty s_sync )
       .print "Error! not found S_SYNC!"
       .exit -1
     .end if
@@ -29,7 +29,7 @@
     .invoke r = CreateSTIObjects(te_stidescrip)
     .assign te_sti = r.result
     .//
-    .if( "${te_sti.Name_key}" != "" )
+    .if ( "${te_sti.Name_key}" != "" )
       .print "[sparm_sort] ${s_sync.Name} param order control enable"
       .//
       .invoke r1 = sparm_sort_order_control( te_sti, s_sparms )
@@ -116,7 +116,7 @@
 .end function
 .function CreateFirstLinkParameterValue .// te_sti
   .param string name_key
-  .select any te_sti from instances of TE_STI where selected.IsFirst
+  .select any te_sti from instances of TE_STI where ( selected.IsFirst )
   .if ( empty te_sti )
     .create object instance te_sti of TE_STI
     .assign te_sti.PID = 00
@@ -130,7 +130,7 @@
    .select one te_sti related by p_te_sti->TE_STI[R3002.'succeeds']   
    .if ( empty te_sti )
      .create object instance te_sti of TE_STI
-     .// relate te_sti to p_te_sti across R3002.'succeeds'
+     .// relate te_sti to p_te_sti across R3002.'succeeds';
      .assign te_sti.PID = p_te_sti.ID
      .// end relate
    .end if
@@ -140,7 +140,7 @@
 .function CreateSTIObjects .// te_sti
   .param inst_ref te_stidescrip
   .select any te_sti from instances of TE_STI where ( false )
-  .if( "${te_stidescrip.Descrip:param_0}" != "" )
+  .if ( "${te_stidescrip.Descrip:param_0}" != "" )
     .invoke r0 = CreateFirstLinkParameterValue("${te_stidescrip.Descrip:param_0}")
     .invoke r1 = LinkAddParameterValue(r0.result,"${te_stidescrip.Descrip:param_1}")
     .invoke r2 = LinkAddParameterValue(r1.result,"${te_stidescrip.Descrip:param_2}")
@@ -195,7 +195,7 @@
     .//
     .assign te_sti = r0.result
     .//
-  .elif( "${te_stidescrip.Descrip:ARG1}" != "" )
+  .elif ( "${te_stidescrip.Descrip:ARG1}" != "" )
     .//
     .invoke r0 = CreateFirstLinkParameterValue("${te_stidescrip.Descrip:ARG1}")
     .invoke r1 = LinkAddParameterValue(r0.result,"${te_stidescrip.Descrip:ARG2}")
@@ -266,7 +266,7 @@
   .// 20130314 nomura param
   .//
 .//-- 008: 20140213 Add Start (saitou) 
-  .if( not_empty s_bparms )
+  .if ( not_empty s_bparms )
 .//-- 008: 20140213 Add End (saitou) 
     .for each s_bparm in s_bparms
       .select one prev_s_bparm related by s_bparm->S_BPARM[R55.'precedes']
@@ -283,7 +283,7 @@
 .//      .select any s_brg related by s_bparm->S_BRG[R21]
 .//      .break for
 .//    .end for
-.//    .if( empty s_brg )
+.//    .if ( empty s_brg )
 .//      .print "Error! not found S_BRG!"
 .//      .exit -1
 .//    .end if
@@ -293,7 +293,7 @@
     .invoke r = CreateSTIObjects(te_stidescrip)
     .assign te_sti = r.result
     .//
-    .if( "${te_sti.Name_key}" != "" )
+    .if ( "${te_sti.Name_key}" != "" )
       .print "[bparm_sort] ${s_brg.Name} param order control enable"
       .//
       .invoke r1 = sbrg_sort_order_control( te_sti, s_bparms )
@@ -312,14 +312,14 @@
         .assign head_s_bparm = r.result
       .end for
 .//-- 008: 20140213 Add Start (saitou) 
-    .end if	.// "${te_sti.Name_key}"
-  .end if .// not_empty s_bparms
+    .end if
+  .end if
 .//-- 008: 20140213 Add End (saitou) 
 .end function
 .//-- 008: 20140213 Add Start (saitou) 
 .function sbrg_sort_order_control .// integer
-  .param inst_ref     te_sti 	.// TE_STI
-  .param inst_ref_set s_bparms 		.// S_BPARM set
+  .param inst_ref te_sti
+  .param inst_ref_set s_bparms
   .//
   .//
   .select any cur_s_bparm from instances of S_BPARM where ( false )

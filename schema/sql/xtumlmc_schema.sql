@@ -2891,7 +2891,7 @@ CREATE TABLE TE_FILE (
 	system_include_path	STRING,
 	system_color_path	STRING,
 -- //-- 009: 20140205 Add Start (saitou) 
-	3020sys_path	STRING,
+	mc3020sys_path	STRING,
 -- //-- 009: 20140205 End Start (saitou) 
 	bridge_mark	STRING,
 	system_mark	STRING,

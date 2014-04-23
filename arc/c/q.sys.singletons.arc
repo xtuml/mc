@@ -108,7 +108,7 @@
   .assign te_file.domain_include_path = "../../myGenDir/3020_inc"
   .assign te_file.system_source_path = "../../myGenDir/skel"
   .assign te_file.system_include_path = "../../myGenDir/skel"
-  .assign te_file.3020sys_path = "../../myGenDir/3020_sys"
+  .assign te_file.mc3020sys_path = "../../myGenDir/3020_sys"
 .//-- 013:20140225 Modified Start (saitou) 
   .assign te_file.system_color_path = "."
   .assign te_file.system_mark = "system.mark"

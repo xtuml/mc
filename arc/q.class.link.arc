@@ -1314,3 +1314,13 @@ ${msg2}
   .end if
 .end function
 .//
+.//-- 010:20140306 Add Start (nomura)
+.//
+.//============================================================================
+.function GetObjectClassName .// string
+  .param inst_ref o_obj
+  .select any te_class related by o_obj->TE_CLASS[R2019]
+  .assign attr_result = te_class.GeneratedName
+.end function
+.//
+.//-- 010:20140306 Add Start (nomura)

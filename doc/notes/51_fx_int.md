@@ -217,6 +217,7 @@ Branch name:  51_fx
                               I suggest we modify the existing template (t.smt.delete_instance.c).
  fx_util.arc              ?+* Lots of new functions some from old MC technology and are duplicates.
                               Fix bug ".end" -> ".end if".
+                              Fix a missing ".end if" bug.
                               Added new/custom functions (from frag_util.arc).
  m.bridge.arc              +* new marking functions
                               This file makes only one call (to fx_is_exist_real_func) which could
@@ -234,6 +235,7 @@ Branch name:  51_fx
                               We will use the master version of this file.
  q.class.factory.arc        + non-mcmc enhancement
  q.class.link.arc           + big non-mcmc change
+                              Move GetObjectClassName from q.names.arc to here.
  q.class.poly.arc           + 4.1.6 upgrade
  q.class.sem.arc            + 4.1.6 upgrade
  q.datatype.arc           .+* one added function
@@ -249,7 +251,10 @@ Branch name:  51_fx
                               to the appropriate existing mark files.
                               xtumlmc_build greps all *.mark files.  So, we can add fxdatatype.mark
                               and fxcolor.mark to the /gen folder.
- q.names.arc                * new functions that could be moved to a non-mcmc file
+ q.names.arc              .+* new functions that could be moved to a non-mcmc file
+                              Remove incomplete/unused function GetUnrelateMethodName with bug.
+                              Move GetObjectClassName to q.class.link.arc.
+                              This file now matches master.
  q.parameters.arc           * added a parameter to an invocation
  q.parm.sort.arc          ?+* I cannot tell what is happening here.  Remove use of frag_ref.
                               Fix bug in CreateFirstLinkParameterValue.  ".if" has no ".end if".

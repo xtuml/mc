@@ -320,7 +320,7 @@
 .assign te_typemap.user_supplied_data_types = r.result
 .//-- 013:20140227 Modified Start (saitou) 
 .//.include "${te_file.arc_path}/t.sys_types.h"
-.//.emit to file "${te_file.3020sys_path}/${te_file.types}.${te_file.hdr_file_ext}"
+.//.emit to file "${te_file.mc3020sys_path}/${te_file.types}.${te_file.hdr_file_ext}"
 .//-- 013:20140227 Modified End (saitou) 
 .//
 .//=============================================================================

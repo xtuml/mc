@@ -208,9 +208,9 @@
     .invoke r = fx_get_auto_inc_get_new_value_macro_name(te_attr)
     .assign get_macro_name = r.result
     .if (gen_decl)
-/* auto inclemental id's Lower Limit */
+/* auto inclemental id Lower Limit */
 #define ${llimit_macro_name} ${te_attr.AutoIncLowLimit}
-/* auto inclemental id's Higher Limit */
+/* auto inclemental id Higher Limit */
 #define ${hlimit_macro_name} ${te_attr.AutoIncHighLimit}
 /* auto inclemental value getter */
 #define ${get_macro_name}(x)    \
@@ -230,6 +230,7 @@ ${llimit_macro_name} + 1\
 	.end if
 ;
     .end if
+  .end if
   .assign attr_result = result
 .end function
 .//
