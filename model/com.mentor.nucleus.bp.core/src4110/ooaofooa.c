@@ -15108,18 +15108,16 @@ ooaofooa_q_render_msg( const bool p_is_statement, c_t * p_salt, ooaofooa_TE_MACT
         /* ASSIGN name = ( ( te_mact.PortName + -> ) + name ) */
         name = Escher_strcpy( name, Escher_stradd( Escher_stradd( te_mact->PortName, "->" ), name ) );
       }
-      /* SELECT any foreign_te_po RELATED BY te_po->TE_IIR[R2080]->TE_IIR[R2081.provides or is delegated]->TE_PO[R2080] WHERE ( ( ( SELECTED.PackageName == te_po.PackageName ) and ( SELECTED.ID != te_po.ID ) ) ) */
+      /* SELECT any foreign_te_po RELATED BY te_po->TE_IIR[R2080]->TE_IIR[R2081.requires or delegates]->TE_PO[R2080] WHERE ( ( ( SELECTED.PackageName == te_po.PackageName ) and ( SELECTED.ID != te_po.ID ) ) ) */
       foreign_te_po = 0;
       {      if ( 0 != te_po ) {
       ooaofooa_TE_IIR * TE_IIR_R2080;
       Escher_Iterator_s iTE_IIR_R2080;
       Escher_IteratorReset( &iTE_IIR_R2080, &te_po->TE_IIR_R2080 );
       while ( ( 0 == foreign_te_po ) && ( 0 != ( TE_IIR_R2080 = (ooaofooa_TE_IIR *) Escher_IteratorNext( &iTE_IIR_R2080 ) ) ) ) {
-      ooaofooa_TE_IIR * TE_IIR_R2081_provides_or_is_delegated;
-      Escher_Iterator_s iTE_IIR_R2081_provides_or_is_delegated;
-      Escher_IteratorReset( &iTE_IIR_R2081_provides_or_is_delegated, &TE_IIR_R2080->TE_IIR_R2081_provides_or_is_delegated );
-      while ( ( 0 == foreign_te_po ) && ( 0 != ( TE_IIR_R2081_provides_or_is_delegated = (ooaofooa_TE_IIR *) Escher_IteratorNext( &iTE_IIR_R2081_provides_or_is_delegated ) ) ) ) {
-      {ooaofooa_TE_PO * selected = TE_IIR_R2081_provides_or_is_delegated->TE_PO_R2080;
+      ooaofooa_TE_IIR * TE_IIR_R2081_requires_or_delegates = TE_IIR_R2080->TE_IIR_R2081_requires_or_delegates;
+      if ( 0 != TE_IIR_R2081_requires_or_delegates ) {
+      {ooaofooa_TE_PO * selected = TE_IIR_R2081_requires_or_delegates->TE_PO_R2080;
       if ( ( 0 != selected ) && ( ( Escher_strcmp( selected->PackageName, te_po->PackageName ) == 0 ) && ( selected->ID != te_po->ID ) ) ) {
         foreign_te_po = selected;
       }}
@@ -15134,16 +15132,18 @@ ooaofooa_q_render_msg( const bool p_is_statement, c_t * p_salt, ooaofooa_TE_MACT
         /* ASSIGN name = ( ( te_mact.PortName + -> ) + name ) */
         name = Escher_strcpy( name, Escher_stradd( Escher_stradd( te_mact->PortName, "->" ), name ) );
       }
-      /* SELECT any foreign_te_po RELATED BY te_po->TE_IIR[R2080]->TE_IIR[R2081.requires or delegates]->TE_PO[R2080] WHERE ( ( ( SELECTED.PackageName == te_po.PackageName ) and ( SELECTED.ID != te_po.ID ) ) ) */
+      /* SELECT any foreign_te_po RELATED BY te_po->TE_IIR[R2080]->TE_IIR[R2081.provides or is delegated]->TE_PO[R2080] WHERE ( ( ( SELECTED.PackageName == te_po.PackageName ) and ( SELECTED.ID != te_po.ID ) ) ) */
       foreign_te_po = 0;
       {      if ( 0 != te_po ) {
       ooaofooa_TE_IIR * TE_IIR_R2080;
       Escher_Iterator_s iTE_IIR_R2080;
       Escher_IteratorReset( &iTE_IIR_R2080, &te_po->TE_IIR_R2080 );
       while ( ( 0 == foreign_te_po ) && ( 0 != ( TE_IIR_R2080 = (ooaofooa_TE_IIR *) Escher_IteratorNext( &iTE_IIR_R2080 ) ) ) ) {
-      ooaofooa_TE_IIR * TE_IIR_R2081_requires_or_delegates = TE_IIR_R2080->TE_IIR_R2081_requires_or_delegates;
-      if ( 0 != TE_IIR_R2081_requires_or_delegates ) {
-      {ooaofooa_TE_PO * selected = TE_IIR_R2081_requires_or_delegates->TE_PO_R2080;
+      ooaofooa_TE_IIR * TE_IIR_R2081_provides_or_is_delegated;
+      Escher_Iterator_s iTE_IIR_R2081_provides_or_is_delegated;
+      Escher_IteratorReset( &iTE_IIR_R2081_provides_or_is_delegated, &TE_IIR_R2080->TE_IIR_R2081_provides_or_is_delegated );
+      while ( ( 0 == foreign_te_po ) && ( 0 != ( TE_IIR_R2081_provides_or_is_delegated = (ooaofooa_TE_IIR *) Escher_IteratorNext( &iTE_IIR_R2081_provides_or_is_delegated ) ) ) ) {
+      {ooaofooa_TE_PO * selected = TE_IIR_R2081_provides_or_is_delegated->TE_PO_R2080;
       if ( ( 0 != selected ) && ( ( Escher_strcmp( selected->PackageName, te_po->PackageName ) == 0 ) && ( selected->ID != te_po->ID ) ) ) {
         foreign_te_po = selected;
       }}
@@ -25239,8 +25239,8 @@ ooaofooa_typemap_factory( ooaofooa_TE_TYPEMAP * p_te_typemap )
   te_typemap->instance_index_type = Escher_strcpy( te_typemap->instance_index_type, "u2_t" );
   /* ASSIGN te_typemap.object_size_name = ( te_prefix.type + ClassSize_t ) */
   te_typemap->object_size_name = Escher_strcpy( te_typemap->object_size_name, Escher_stradd( te_prefix->type, "ClassSize_t" ) );
-  /* ASSIGN te_typemap.object_size_type = u2_t */
-  te_typemap->object_size_type = Escher_strcpy( te_typemap->object_size_type, "u2_t" );
+  /* ASSIGN te_typemap.object_size_type = ( te_prefix.type + size_t ) */
+  te_typemap->object_size_type = Escher_strcpy( te_typemap->object_size_type, Escher_stradd( te_prefix->type, "size_t" ) );
   /* ASSIGN te_typemap.object_number_name = ( te_prefix.type + ClassNumber_t ) */
   te_typemap->object_number_name = Escher_strcpy( te_typemap->object_number_name, Escher_stradd( te_prefix->type, "ClassNumber_t" ) );
   /* ASSIGN te_typemap.object_number_type = u2_t */
