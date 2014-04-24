@@ -67,6 +67,15 @@ Update the template engine.
 
 Generate the code.
 - In BP project com.mentor.nucleus.bp.core, Build Project
+  # NOTE 1: At this point you must verify that none of the files we have in the gen/ folder overwrote valid changes.
+  # To check this: diff gen/code_generation/_ch/<somefile>.orig src/<somefile>
+  # If there are new & valid changes that should be included going forward, edit them in to gen/<somefile>.
+  # Once all the changes are made, you will need to build the project again.
+  # 
+  # NOTE 2: If the ooaofooa.c file has a lot of diff's that show up in lines with T() calls, this is likely due 
+  # to a flex problem.  It is most easily rectified by rebuilding the prior version of mcmc (from a src<ver>/ folder)
+  # on the system you are currently using, then putting that into the mc source plugin and building again with
+  # the new mcmc in place.
 - The following diffs come from files in the gen folder.  Verify the following 
   changes are now in the src/ folder.
   + Edit ooaofooa_TE_ABA_class.h:
