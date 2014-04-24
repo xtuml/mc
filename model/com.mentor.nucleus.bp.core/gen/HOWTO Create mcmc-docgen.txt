@@ -86,9 +86,9 @@ Generate the code.
 - Copy gen/docbook_h to src/docbook.
 
 Compile the code.
-Note that the Linux version will have the template parser linked in.  It is
-not worth keeping a DOS flex library prepared to link in.  So, yywrap.c compiles
-to a dummy routine to satisfy the link for Windows.
+# NOTE: The Linux version will have the template parser linked in.  It is
+# not worth keeping a DOS flex library prepared to link in.  So, yywrap.c compiles
+# to a dummy routine to satisfy the link for Windows.
 - cd com.mentor.nucleus.bp.core/src
 - i686-w64-mingw32-gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -o mcmc.exe
 - gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -lfl -o mcmc
