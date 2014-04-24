@@ -83,6 +83,9 @@ to a dummy routine to satisfy the link for Windows.
 - cd com.mentor.nucleus.bp.core/src
 - i686-w64-mingw32-gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -o mcmc.exe
 - gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -lfl -o mcmc
+  # NOTE: For now, we build the Linux version on an older version of RedHat
+  # (such as RHEL 5) so we have the maximum chance it works for our customers 
+  # that use older distros
 
 
 
