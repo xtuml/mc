@@ -56,7 +56,9 @@ Run the rsl2oal translator.
     afunstmt > smt_select_related: Change ${ws}{\ to ws + "{"
     afunstmt > smt_select_related: Change }\ to "}"
     afunmark > T_atoi:  STRING_TO_INTEGER // Comment this out and return 0.
-
+    # NOTE:  You may see parse errors indicated on """ in OAL.  You can safely ignore these parse errors.
+    # The output C code for these will be properly tranlated to \""
+     
 Update the template engine.
 - In the mc/mcmc/arlan/ folder: make -f makefile.template
 - Copy lex.yy.c, template_engine.tab.c and y.tab.h to ../../model/com.mentor.nucleus.bp.core/gen folder
@@ -65,17 +67,10 @@ Update the template engine.
 
 Generate the code.
 - In BP project com.mentor.nucleus.bp.core, Build Project
-- The following diffs come from files in the gen folder.  Verify the following 6
+- The following diffs come from files in the gen folder.  Verify the following 
   changes are now in the src/ folder.
   + Edit ooaofooa_TE_ABA_class.h:
     c_t * code;
-  + Edit ooaofooa_TE_BLK_class.h:
-    c_t declaration[16000];
-    c_t deallocation[8000];
-  + Edit ooaofooa_TE_SMT_class.h:
-    c_t buffer[2500];
-- Add back in the attributes at the end of the TE_C class.  Make sure to transfer all places where changes need to come across.
-  + vimdiff ../src410/ooaofooa_TE_C_class.c ooaofooa_TE_C_class.c:
 - Remove an extraneous line feed in 2 templates.
   + vimdiff ../src410/c/t.smt_sr.multi_many_astob1.c c/t.smt_sr.multi_many_astob1.c
   + vimdiff ../src410/c/t.smt_sr.multi_many_astobm.c c/t.smt_sr.multi_many_astobm.c
@@ -86,7 +81,7 @@ Note that the Linux version will have the template parser linked in.  It is
 not worth keeping a DOS flex library prepared to link in.  So, yywrap.c compiles
 to a dummy routine to satisfy the link for Windows.
 - cd com.mentor.nucleus.bp.core/src
-- i686-w64-mingw32-gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -o mcmc
+- i686-w64-mingw32-gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -o mcmc.exe
 - gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -lfl -o mcmc
 
 
