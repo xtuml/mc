@@ -523,7 +523,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("dd27db86-0e37-482d-a131-514f2e1bd7d0",
 	"14d35548-e937-431f-a7a6-9a8041751bfc",
-	"39a5fd5e-db28-468d-8259-30164d156f2a",
+	"f9a6ee3f-2afd-48ea-821c-ceae9b77137d",
 	'bridge_mark',
 	'This file parameterizes the bridging between components.',
 	'',
@@ -622,6 +622,24 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'te_prefix.file + "RegDefs"');
+INSERT INTO O_NBATTR
+	VALUES ("f9a6ee3f-2afd-48ea-821c-ceae9b77137d",
+	"14d35548-e937-431f-a7a6-9a8041751bfc");
+INSERT INTO O_BATTR
+	VALUES ("f9a6ee3f-2afd-48ea-821c-ceae9b77137d",
+	"14d35548-e937-431f-a7a6-9a8041751bfc");
+INSERT INTO O_ATTR
+	VALUES ("f9a6ee3f-2afd-48ea-821c-ceae9b77137d",
+	"14d35548-e937-431f-a7a6-9a8041751bfc",
+	"39a5fd5e-db28-468d-8259-30164d156f2a",
+	'mc3020sys_path',
+	'',
+	'',
+	'mc3020sys_path',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"14d35548-e937-431f-a7a6-9a8041751bfc");

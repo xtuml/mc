@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	200,
 	150,
 	0,
-	'3.2.3',
+	'4.1.6',
 	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Translation Marking');
 INSERT INTO GD_GE
 	VALUES ("b2ae8d13-6aea-4301-8848-ddc23efc80c2",
@@ -1390,6 +1390,30 @@ INSERT INTO DIM_ED
 	VALUES ("35d637c8-39d6-42d1-8d7a-ff4b0f326be5",
 	"e054db49-9d0f-4b48-9db2-5f8adf6925b1",
 	"3da2d296-f023-4e45-b871-d2310a439acd");
+INSERT INTO GD_GE
+	VALUES ("2f539101-2eec-4a0d-8242-a6144aeb3137",
+	"52210444-67c6-49b8-a326-961b2ac12ffe",
+	"a8834854-c044-4b8e-9e23-85b1ee2c0767",
+	21,
+	0,
+	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Translation Marking::Data Type Macro');
+INSERT INTO GD_SHP
+	VALUES ("2f539101-2eec-4a0d-8242-a6144aeb3137");
+INSERT INTO GD_NCS
+	VALUES ("2f539101-2eec-4a0d-8242-a6144aeb3137");
+INSERT INTO DIM_ND
+	VALUES (180.000000,
+	132.000000,
+	"2f539101-2eec-4a0d-8242-a6144aeb3137");
+INSERT INTO DIM_GE
+	VALUES (288.000000,
+	576.000000,
+	"2f539101-2eec-4a0d-8242-a6144aeb3137",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("2f539101-2eec-4a0d-8242-a6144aeb3137",
+	0,
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_DIA
 	VALUES ("52210444-67c6-49b8-a326-961b2ac12ffe",
 	'',

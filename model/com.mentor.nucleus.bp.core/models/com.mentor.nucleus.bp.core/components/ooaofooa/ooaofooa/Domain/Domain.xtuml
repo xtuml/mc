@@ -9246,6 +9246,46 @@ INSERT INTO PE_PE
 	"ee1f21a2-2b66-42cf-8123-6ef271f3113c",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("ef40b512-dd74-4985-9e69-503c7a6f10db",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Bridge>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ef40b512-dd74-4985-9e69-503c7a6f10db",
+	0,
+	"98e8d515-4768-4508-a77e-2fb07bd1ad78");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("98e8d515-4768-4508-a77e-2fb07bd1ad78",
+	'Bridge',
+	12,
+	'S_BRG',
+	'A bridge (S_BRG) is a method associated with an external entity (S_EE).  Bridges can be synchronously called from action specifications.  Each bridge as a return type and zero or more parameters (S_BPARM).',
+	"00000000-0000-0000-0000-000000000000",
+	'./Bridge/Bridge.xtuml');
+INSERT INTO PE_PE
+	VALUES ("ef40b512-dd74-4985-9e69-503c7a6f10db",
+	1,
+	"ee1f21a2-2b66-42cf-8123-6ef271f3113c",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("804cd8a5-b77f-49f7-bb3b-27c9d55d1e99",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Bridge>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("804cd8a5-b77f-49f7-bb3b-27c9d55d1e99",
+	1,
+	"98e8d515-4768-4508-a77e-2fb07bd1ad78");
+INSERT INTO PE_PE
+	VALUES ("804cd8a5-b77f-49f7-bb3b-27c9d55d1e99",
+	1,
+	"ee1f21a2-2b66-42cf-8123-6ef271f3113c",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("8259cb78-6749-4439-996e-01eac180e569");
 INSERT INTO R_REL
@@ -9935,14 +9975,6 @@ INSERT INTO R_OIR
 	"a8ca23fd-5403-452f-a5df-43b3ba83be9a",
 	"4d1ab404-d8b4-42bb-ac11-ee4d241078c0",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("98e8d515-4768-4508-a77e-2fb07bd1ad78",
-	'Bridge',
-	12,
-	'S_BRG',
-	'A bridge (S_BRG) is a method associated with an external entity (S_EE).  Bridges can be synchronously called from action specifications.  Each bridge as a return type and zero or more parameters (S_BPARM).',
-	"00000000-0000-0000-0000-000000000000",
-	'./Bridge/Bridge.xtuml');
 INSERT INTO PE_PE
 	VALUES ("a8ca23fd-5403-452f-a5df-43b3ba83be9a",
 	1,

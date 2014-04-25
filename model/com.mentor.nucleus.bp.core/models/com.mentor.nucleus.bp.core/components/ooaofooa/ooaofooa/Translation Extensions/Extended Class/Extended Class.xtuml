@@ -612,7 +612,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Class',
 	'ID',
-	'R2092');
+	'R2092.''precedes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("38709705-d819-487d-abed-4f43f50ad702",
 	"34c094ab-b34b-4fa2-8236-f3351272b831",
@@ -658,6 +658,42 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'scope',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("10016149-b8d4-4b32-9c73-d17415586036",
+	"38709705-d819-487d-abed-4f43f50ad702");
+INSERT INTO O_BATTR
+	VALUES ("10016149-b8d4-4b32-9c73-d17415586036",
+	"38709705-d819-487d-abed-4f43f50ad702");
+INSERT INTO O_ATTR
+	VALUES ("10016149-b8d4-4b32-9c73-d17415586036",
+	"38709705-d819-487d-abed-4f43f50ad702",
+	"a27360e3-c582-4e9a-94b1-2a0151bb2100",
+	'InstanceMaxNo',
+	'',
+	'',
+	'InstanceMaxNo',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("e01e14fd-79f6-4b03-af51-dad2e8c3fbd0",
+	"38709705-d819-487d-abed-4f43f50ad702");
+INSERT INTO O_BATTR
+	VALUES ("e01e14fd-79f6-4b03-af51-dad2e8c3fbd0",
+	"38709705-d819-487d-abed-4f43f50ad702");
+INSERT INTO O_ATTR
+	VALUES ("e01e14fd-79f6-4b03-af51-dad2e8c3fbd0",
+	"38709705-d819-487d-abed-4f43f50ad702",
+	"10016149-b8d4-4b32-9c73-d17415586036",
+	'InstanceMaxNoDefIncludeFile',
+	'',
+	'',
+	'InstanceMaxNoDefIncludeFile',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

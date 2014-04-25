@@ -232,6 +232,60 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("76bb7ad2-798a-40d9-aee0-d2d2b65d4ef1",
+	"4d126592-80e8-4a6e-b74b-a4d3528c18d3");
+INSERT INTO O_BATTR
+	VALUES ("76bb7ad2-798a-40d9-aee0-d2d2b65d4ef1",
+	"4d126592-80e8-4a6e-b74b-a4d3528c18d3");
+INSERT INTO O_ATTR
+	VALUES ("76bb7ad2-798a-40d9-aee0-d2d2b65d4ef1",
+	"4d126592-80e8-4a6e-b74b-a4d3528c18d3",
+	"38e7ee9d-9327-43fd-9dbe-96d5164ef30c",
+	'NotGenerateInvocation',
+	'',
+	'',
+	'NotGenerateInvocation',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("c28e4a9f-d96e-4aaa-9add-1dd2b5ce319f",
+	"4d126592-80e8-4a6e-b74b-a4d3528c18d3");
+INSERT INTO O_BATTR
+	VALUES ("c28e4a9f-d96e-4aaa-9add-1dd2b5ce319f",
+	"4d126592-80e8-4a6e-b74b-a4d3528c18d3");
+INSERT INTO O_ATTR
+	VALUES ("c28e4a9f-d96e-4aaa-9add-1dd2b5ce319f",
+	"4d126592-80e8-4a6e-b74b-a4d3528c18d3",
+	"76bb7ad2-798a-40d9-aee0-d2d2b65d4ef1",
+	'RealFuncName',
+	'',
+	'',
+	'RealFuncName',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f31191f6-fdba-4771-baad-85bf2ffd7e7a",
+	"4d126592-80e8-4a6e-b74b-a4d3528c18d3");
+INSERT INTO O_BATTR
+	VALUES ("f31191f6-fdba-4771-baad-85bf2ffd7e7a",
+	"4d126592-80e8-4a6e-b74b-a4d3528c18d3");
+INSERT INTO O_ATTR
+	VALUES ("f31191f6-fdba-4771-baad-85bf2ffd7e7a",
+	"4d126592-80e8-4a6e-b74b-a4d3528c18d3",
+	"c28e4a9f-d96e-4aaa-9add-1dd2b5ce319f",
+	'IsRealFunc',
+	'',
+	'',
+	'IsRealFunc',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"4d126592-80e8-4a6e-b74b-a4d3528c18d3");
