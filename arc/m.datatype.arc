@@ -203,7 +203,7 @@
 		.assign tm_dtmacro.DT_name = dt_name
 		.assign tm_dtmacro.genName = ext_name
 		.assign tm_dtmacro.Include_File = include_file
-		.assign tm_dtmacro.DefaultValue = initial_value
+		.assign tm_dtmacro.Initial_Value = initial_value
 		.print "specify_user_defined_type - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}"
 	.end if
 .end function

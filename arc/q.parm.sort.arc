@@ -16,7 +16,7 @@
 .//-- 007: 20140213 Add Start (saitou) 
     .select any s_sync from instances of S_SYNC where ( false )
     .for each s_sparm in s_sparms
-      .select any s_sync related by s_sparm->S_SYNC[R24]
+      .select one s_sync related by s_sparm->S_SYNC[R24]
       .break for
     .end for
     .if ( empty s_sync )
@@ -44,8 +44,8 @@
       .// Declare an empty instance reference.
       .select any head_s_sparm related by s_sparms->S_SPARM[R54.'precedes'] where ( false )
       .for each s_sparm in s_sparms
-        .invoke r = sparm_insert( head_s_sparm, s_sparm )
-        .assign head_s_sparm = r.result
+        .invoke r1 = sparm_insert( head_s_sparm, s_sparm )
+        .assign head_s_sparm = r1.result
       .end for
 .//-- 007: 20140213 Add Start (saitou) 
     .end if	.// "${te_sti.Name_key}"
@@ -102,14 +102,16 @@
       .for each s_sparm in s_sparms
         .if ( s_sparm.Name == te_sti.Name_key )
           .if ( not_empty cur_s_sparm )
+            .// relate s_sparm to cur_s_sparm across R54.'precedes';
             .assign s_sparm.Previous_SParm_ID = cur_s_sparm.SParm_ID
+            .// end relate
           .end if
           .assign cur_s_sparm = s_sparm
           .break for
         .end if
       .end for
     .end if
-    .select one te_sti related by te_sti->TE_STI[R3002.'succeeds']
+    .select one te_sti related by te_sti->TE_STI[R2099.'succeeds']
   .end while
   .//
   .assign attr_result = orderNum
@@ -127,10 +129,10 @@
 .function LinkAddParameterValue .// te_sti
    .param inst_ref p_te_sti
    .param string name_key
-   .select one te_sti related by p_te_sti->TE_STI[R3002.'succeeds']   
+   .select one te_sti related by p_te_sti->TE_STI[R2099.'succeeds']   
    .if ( empty te_sti )
      .create object instance te_sti of TE_STI
-     .// relate te_sti to p_te_sti across R3002.'succeeds';
+     .// relate te_sti to p_te_sti across R2099.'succeeds';
      .assign te_sti.PID = p_te_sti.ID
      .// end relate
    .end if
@@ -310,7 +312,7 @@
       .// Declare an empty instance reference.
       .select any head_s_bparm related by s_bparms->S_BPARM[R55.'precedes'] where ( false )
       .for each s_bparm in s_bparms
-        .invoke r = bparm_insert( head_s_bparm, s_bparm )
+        .invoke r1 = bparm_insert( head_s_bparm, s_bparm )
         .assign head_s_bparm = r.result
       .end for
 .//-- 008: 20140213 Add Start (saitou) 
@@ -333,14 +335,16 @@
       .for each s_bparm in s_bparms
         .if ( s_bparm.Name == te_sti.Name_key )
           .if ( not_empty cur_s_bparm )
+            .// relate s_bparm to cur_s_bparm across R55.'precedes';
             .assign s_bparm.Previous_BParm_ID = cur_s_bparm.BParm_ID
+            .// end relate
           .end if
           .assign cur_s_bparm = s_bparm
           .break for
         .end if
       .end for
     .end if
-    .select one te_sti related by te_sti->TE_STI[R3002.'succeeds']
+    .select one te_sti related by te_sti->TE_STI[R2099.'succeeds']
   .end while
   .//
   .assign attr_result = orderNum

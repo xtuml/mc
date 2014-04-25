@@ -455,14 +455,14 @@
           .//
           .select any sm_evtdi related by sm_evt->SM_EVTDI[R532] where ( selected.Name == v_par.Name )
           .if ( not_empty sm_evtdi )
-            .select any te_dt related by sm_evtdi->S_DT[R524]->TE_DT[R2021]
+            .select one te_dt related by sm_evtdi->S_DT[R524]->TE_DT[R2021]
           .end if
           .if ( not_empty te_dt )
             .assign isExternalMacro = te_dt.IsExternalMacro
           .end if
           .//
           .if ( isExternalMacro )
-            .select any v_lst related by par_te_val->V_VAL[R2040]->V_LST[R801]
+            .select one v_lst related by par_te_val->V_VAL[R2040]->V_LST[R801]
             .if ( not_empty v_lst )
               .assign buffer = v_lst.Value
             .end if
@@ -1023,14 +1023,14 @@
         .//
         .select any sm_evtdi related by sm_evt->SM_EVTDI[R532] where ( selected.Name == v_par.Name )
         .if ( not_empty sm_evtdi )
-          .select any te_dt related by sm_evtdi->S_DT[R524]->TE_DT[R2021]
+          .select one te_dt related by sm_evtdi->S_DT[R524]->TE_DT[R2021]
         .end if
         .if ( not_empty te_dt )
           .assign isExternalMacro = te_dt.IsExternalMacro
         .end if
         .//
         .if ( isExternalMacro )
-          .select any v_lst related by par_te_val->V_VAL[R2040]->V_LST[R801]
+          .select one v_lst related by par_te_val->V_VAL[R2040]->V_LST[R801]
           .if ( not_empty v_lst )
             .assign buffer = v_lst.Value
           .end if
@@ -1143,14 +1143,14 @@
         .//
         .select any sm_evtdi related by sm_evt->SM_EVTDI[R532] where ( selected.Name == v_par.Name )
         .if ( not_empty sm_evtdi )
-          .select any te_dt related by sm_evtdi->S_DT[R524]->TE_DT[R2021]
+          .select one te_dt related by sm_evtdi->S_DT[R524]->TE_DT[R2021]
         .end if
         .if ( not_empty te_dt )
           .assign isExternalMacro = te_dt.IsExternalMacro
         .end if
         .//
         .if ( isExternalMacro )
-          .select any v_lst related by par_te_val->V_VAL[R2040]->V_LST[R801]
+          .select one v_lst related by par_te_val->V_VAL[R2040]->V_LST[R801]
           .if ( not_empty v_lst )
             .assign buffer = v_lst.Value
           .end if
@@ -1511,7 +1511,6 @@
     .assign value = te_val.buffer
 .//-- 002: 20140317 Add Start (saitou)
     .select any func_ret_te_dt from instances of TE_DT where ( false ) 
-    
     .// act_ret->ACT_SMT[R603]->ACT_BLK[R602]->ACT_ACT[Rxxx]-> ...
     .//     case1 for bridge    : ... ACT_BRB[R698]->S_BRG[R697]->S_DT[R20]
     .//     case2 for Operation : ... ACT_OPB[R698]->O_TFR[R696]->S_DT[R116]

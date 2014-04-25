@@ -2430,7 +2430,7 @@ CREATE TABLE TE_C (
 	MaxExternalEvents	INTEGER,
 	MaxRelationExtents	INTEGER,
 	MaxSelectionNodeExtents	INTEGER,
-	isUseMutexLock		BOOLEAN,
+	isUseMutexLock	BOOLEAN,
 	isUseFacadeMaxDef	BOOLEAN
 -- 010:20140218 Add End (nomura)
     );
@@ -2535,9 +2535,9 @@ CREATE TABLE TE_BRG (
 	Brg_ID	UNIQUE_ID,
 	EE_ID	UNIQUE_ID
 -- //-- 004: 20140122 Add Start (saitou) 
-	,NotGenerateInvocation	BOOLEAN
-	,RealFuncName STRING
-	,IsRealFunc BOOLEAN
+	,NotGenerateInvocation	BOOLEAN,
+	RealFuncName STRING,
+	IsRealFunc BOOLEAN
 -- //-- 004: 20140122 Add End (saitou) 
 	);
 
@@ -2609,12 +2609,12 @@ CREATE TABLE TE_ATTR (
 	Attr_ID	UNIQUE_ID,
 	Obj_ID	UNIQUE_ID
 --//--011:20140213 Add Start (saitou)
-	,isAutoInc	BOOLEAN
-	,AutoIncDataSize	INTEGER
-	,AutoIncLowLimit	STRING
-	,AutoIncHighLimit	STRING
-	,AutoIncDirection	STRING
-	,AutoIncUndefValue	STRING
+	,isAutoInc	BOOLEAN,
+	AutoIncDataSize	INTEGER,
+	AutoIncLowLimit	STRING,
+	AutoIncHighLimit	STRING,
+	AutoIncDirection	STRING,
+	AutoIncUndefValue	STRING
 --//--011:20140213 Add Start (saitou)
 	);
 

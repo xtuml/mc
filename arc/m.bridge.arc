@@ -133,8 +133,9 @@
       .for each s_brg in s_brgs
         .select one te_brg related by s_brg->TE_BRG[R2025]
 .//-- 010:20140311 Modified Start (nomura)
-	.invoke isExistRealFunc = fx_is_exist_real_func(te_ee)
-        .if (( not_empty te_brg ) and ( isExistRealFunc.result == FALSE))
+	.invoke r = fx_is_exist_real_func(te_ee)
+	.assign isExistRealFunc = r.result
+        .if (( not_empty te_brg ) and ( isExistRealFunc == false))
 .//-- 010:20140307 Modified End (nomura)
           .assign brgprefix = te_ee.RegisteredName + "_"
           .assign te_brg.GeneratedName = brgprefix + s_brg.Name

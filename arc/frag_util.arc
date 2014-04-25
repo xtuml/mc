@@ -52,9 +52,9 @@
         .end if
 .//-- 011: 20140217 Add Start (saitou) 
         .select one o_obj related by te_class->O_OBJ[R2019]
-        .invoke r = FXHO_get_auto_inc_get_new_value_macro_name( o_obj )
+        .invoke r1 = FXHO_get_auto_inc_get_new_value_macro_name( o_obj )
         .assign retMacroName = r.result
-        .invoke r = FXHO_get_auto_inc_id_mgmt_variable_name( o_obj )
+        .invoke r1 = FXHO_get_auto_inc_id_mgmt_variable_name( o_obj )
         .assign retMngValName = r.result
         .assign isAutoIncEnable = false
         .if ( te_attr.isAutoInc ) 

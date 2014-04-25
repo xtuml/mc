@@ -1697,8 +1697,8 @@
 .//-- 002: 20140128 Modified Start (saitou) 
 .//-- 002: 20140314 Modified Start (saitou) 
         .//.select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
-        .invoke r = GetAttributeDataType( o_attr )
-        .assign te_dt = r.result
+        .invoke r3 = GetAttributeDataType( o_attr )
+        .assign te_dt = r3.result
 .//-- 002: 20140314 Modified Start (saitou) 
         .if ( te_dt.IsExternalMacro )
           .assign te_attr.dimensions = 0
@@ -2263,7 +2263,8 @@
 .//-- 008:20140204 Add Start (saitou) 
     .assign RealFuncName = "${s_brg.Descrip:REAL_FUNC}"
     .if ( "" != RealFuncName )
-      .print "REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${s_brg.Descrip:REAL_FUNC}"
+      .assign realfunc = "${s_brg.Descrip:REAL_FUNC}"
+      .print "REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${realfunc}"
 .//-- 010:20140307 Modified Start (nomura) 
       .assign te_brg.RealFuncName = RealFuncName
       .invoke r = fx_get_bridge_extend_name_prefix(te_ee)

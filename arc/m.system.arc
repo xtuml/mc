@@ -395,7 +395,7 @@
 .//-- 010:20140212 Add Start (nomura)
     .elif ( "MarkDomainEventMaxNumber" == f )
       .// MarkDomainEventMaxNumber("component_name","internalEventNum","externalEventNum")
-      .invoke MarkDomainEventMaxNumber(p1,p2,p3)
+      .// not defined .invoke MarkDomainEventMaxNumber(p1,p2,p3)
     .elif ( "SetDomainRelationExtentMaxNumber" == f )
       .// SetDomainRelationExtentMaxNumber("component_name", "RelationExtentMaxNo")
       .invoke SetDomainRelationExtentMaxNumber(p1, p2)

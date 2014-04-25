@@ -99,10 +99,10 @@
 .// code¶¬‚·‚éattribute‚©‚Ç‚¤‚©‚ð”»’è‚·‚éB
 .// ‚±‚ê‚Å—Ç‚¢‚©Ž©M‚È‚µc
 .function fx_generate_code_for_object_attribute .// boolean
-.param inst_ref obj_attr
+.param inst_ref o_attr
   .assign result = true
-  .select one te_dt related by obj_attr->S_DT[R114]->TE_DT[R2021]
-  .select one te_attr related by obj_attr->TE_ATTR[R2033]
+  .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
+  .select one te_attr related by o_attr->TE_ATTR[R2033]
   .//
   .// "current_state" attribute.
   .if (te_dt.Core_Typ == 6)
@@ -130,7 +130,7 @@
 .function fx_get_auto_inc_get_hlimit_value_macro_name .// string
 .param inst_ref te_attr
   .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
-  .invoke namespace = GetDomainObjectNamespace(o_obj)
+  .invoke r = GetDomainObjectNamespace(o_obj)
   .assign namespace = r.result
   .assign attr_result = namespace + "_AUTOINC_HIGHER_LIMIT"
 .end function
@@ -140,7 +140,7 @@
 .function fx_get_auto_inc_get_new_value_macro_name .// string
 .param inst_ref te_attr
   .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
-  .invoke namespace = GetDomainObjectNamespace(o_obj)
+  .invoke r = GetDomainObjectNamespace(o_obj)
   .assign namespace = r.result
   .assign attr_result = namespace + "_AUTOINC_GetNewValue"
 .end function
@@ -150,7 +150,7 @@
 .function fx_get_auto_inc_id_mgmt_variable_name .// string
 .param inst_ref te_attr
   .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
-  .invoke namespace = GetDomainObjectNamespace(o_obj)
+  .invoke r = GetDomainObjectNamespace(o_obj)
   .assign namespace = r.result
   .assign attr_result = namespace + "_AUTOINC_currentId"
 .end function
@@ -159,7 +159,7 @@
 .//
 .function fx_get_bridge_extend_name_prefix .// string
 .param inst_ref te_ee
-  .select any te_c related by te_ee->TE_C[R2085]
+  .select one te_c related by te_ee->TE_C[R2085]
   .assign attr_result = ( te_c.Name + "_BridgeExtend_" ) + te_ee.Key_Lett
 .end function
 .//
@@ -167,10 +167,10 @@
 .//
 .function fx_is_exist_real_func .// boolean
 .param inst_ref te_ee
-  .assign result = FALSE
-  .select any te_brg related by te_ee->S_EE[R2020]->S_BRG[R19]->TE_BRG[R2025] where ( selected.IsRealFunc == TRUE )
+  .assign result = false
+  .select any te_brg related by te_ee->S_EE[R2020]->S_BRG[R19]->TE_BRG[R2025] where ( selected.IsRealFunc == true )
   .if (not_empty te_brg)
-    .assign result = TRUE
+    .assign result = true
   .end if
   .assign attr_result = result
 .end function
@@ -189,47 +189,6 @@
   /* FX Extention : AUTOINC Coloring */
   /* setup value of ${te_attr.Name} */
   self->${te_attr.GeneratedName} = ${get_macro_name}(${var_name});
-  .end if
-  .assign attr_result = result
-.end function
-.//
-.//----------------------------------------------------------------------------
-.//
-.function fx_generate_auto_inc_id_definision .// boolean
-.param inst_ref te_attr
-.param boolean gen_decl
-  .assign result = false
-  .if (te_attr.isAutoInc)
-    .assign result = true
-    .invoke r = fx_get_auto_inc_get_llimit_value_macro_name(te_attr)
-    .assign llimit_macro_name = r.result
-    .invoke r = fx_get_auto_inc_get_hlimit_value_macro_name(te_attr)
-    .assign hlimit_macro_name = r.result
-    .invoke r = fx_get_auto_inc_get_new_value_macro_name(te_attr)
-    .assign get_macro_name = r.result
-    .if (gen_decl)
-/* auto inclemental id Lower Limit */
-#define ${llimit_macro_name} ${te_attr.AutoIncLowLimit}
-/* auto inclemental id Higher Limit */
-#define ${hlimit_macro_name} ${te_attr.AutoIncHighLimit}
-/* auto inclemental value getter */
-#define ${get_macro_name}(x)    \
-        .if (te_attr.AutoDirection == "UP")
-((x)=((++(x)-${llimit_macro_name})%(${hlimit_macro_name}-${llimit_macro_name}+1)+${llimit_macro_name}))
-	.else
-((x)=((${hlimit_macro_name}-(--(x)))%(${hlimit_macro_name}-${llimit_macro_name}+1)+${hlimit_macro_name}))
-	.end if
-    .else
-/* auto inclemental value for unique_id */
-        .invoke var_name = fx_get_auto_inc_id_mgmt_variable_name(te_attr)
-static int ${var_name} = \
-        .if (te_attr.AutoDirection == "UP")
-${llimit_macro_name} - 1\
-        .else
-${llimit_macro_name} + 1\
-	.end if
-;
-    .end if
   .end if
   .assign attr_result = result
 .end function
@@ -307,7 +266,7 @@ ${llimit_macro_name} + 1\
 .param integer maxSelectionNode
   .select any te_c from instances of TE_C where (selected.Name == domainName)
   .if (not_empty te_c)
-      .assign te_c.MaxSelectionNodeExtents = maxRelationNode
+      .assign te_c.MaxSelectionNodeExtents = maxSelectionNode
   .else
       .print "ERROR: Component ${domainName} not found.\n => SetDomainSelectionNodeMaxNumber()"
   .end if
