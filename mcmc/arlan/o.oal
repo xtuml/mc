@@ -1,271 +1,11 @@
-sparm_sort@void@@s_sparms@inst_ref_set<Function Parameter>@@@
-// CDS temporarily order parameters alphabetically for backwards compatibility
-s_sparms = param.s_sparms;
-for each s_sparm in s_sparms
-  select one prev_s_sparm related by s_sparm->S_SPARM[R54.'succeeds'];
-  if ( not_empty prev_s_sparm )
-    unrelate s_sparm from prev_s_sparm across R54.'succeeds';
-  end if;
-end for;
-// Declare an empty instance reference.
-select any head_s_sparm related by s_sparms->S_SPARM[R54.'succeeds'] where ( false );
-for each s_sparm in s_sparms
-  r = ::sparm_insert( head_s_sparm:head_s_sparm, s_sparm:s_sparm );
-  head_s_sparm = r;
-end for;
-@@@
-sparm_insert@inst_ref<Function Parameter>@@head_s_sparm@inst_ref<Function Parameter>@@s_sparm@inst_ref<Function Parameter>@@@
-head_s_sparm = param.head_s_sparm;
-s_sparm = param.s_sparm;
-result = s_sparm;
-if ( empty head_s_sparm )
-  // Just starting.  Return s_sparm as head.
-elif ( s_sparm.Name <= head_s_sparm.Name )
-  // insert before
-  relate s_sparm to head_s_sparm across R54.'precedes';
-else
-  // find bigger
-  result = head_s_sparm;
-  prev_s_sparm = head_s_sparm;
-  select one cursor_s_sparm related by head_s_sparm->S_SPARM[R54.'precedes'];
-  while ( not_empty cursor_s_sparm )
-    if ( s_sparm.Name <= cursor_s_sparm.Name )
-      break;
-    else
-      prev_s_sparm = cursor_s_sparm;
-      select one cursor_s_sparm related by cursor_s_sparm->S_SPARM[R54.'precedes'];
-    end if;
-  end while;
-  relate prev_s_sparm to s_sparm across R54.'precedes';
-  if ( not_empty cursor_s_sparm )
-    relate s_sparm to cursor_s_sparm across R54.'precedes';
-  end if;
-end if;
-return result;
-@@@
-bparm_sort@void@@s_bparms@inst_ref_set<Bridge Parameter>@@@
-//
-//
-s_bparms = param.s_bparms;
-for each s_bparm in s_bparms
-  select one prev_s_bparm related by s_bparm->S_BPARM[R55.'succeeds'];
-  if ( not_empty prev_s_bparm )
-    unrelate s_bparm from prev_s_bparm across R55.'succeeds';
-  end if;
-end for;
-// Declare an empty instance reference.
-select any head_s_bparm related by s_bparms->S_BPARM[R55.'succeeds'] where ( false );
-for each s_bparm in s_bparms
-  r = ::bparm_insert( head_s_bparm:head_s_bparm, s_bparm:s_bparm );
-  head_s_bparm = r;
-end for;
-@@@
-bparm_insert@inst_ref<Bridge Parameter>@@head_s_bparm@inst_ref<Bridge Parameter>@@s_bparm@inst_ref<Bridge Parameter>@@@
-head_s_bparm = param.head_s_bparm;
-s_bparm = param.s_bparm;
-result = s_bparm;
-if ( empty head_s_bparm )
-  // Just starting.  Return s_bparm as head.
-elif ( s_bparm.Name <= head_s_bparm.Name )
-  // insert before
-  relate s_bparm to head_s_bparm across R55.'precedes';
-else
-  // find bigger
-  result = head_s_bparm;
-  prev_s_bparm = head_s_bparm;
-  select one cursor_s_bparm related by head_s_bparm->S_BPARM[R55.'precedes'];
-  while ( not_empty cursor_s_bparm )
-    if ( s_bparm.Name <= cursor_s_bparm.Name )
-      break;
-    else
-      prev_s_bparm = cursor_s_bparm;
-      select one cursor_s_bparm related by cursor_s_bparm->S_BPARM[R55.'precedes'];
-    end if;
-  end while;
-  relate prev_s_bparm to s_bparm across R55.'precedes';
-  if ( not_empty cursor_s_bparm )
-    relate s_bparm to cursor_s_bparm across R55.'precedes';
-  end if;
-end if;
-return result;
-@@@
-tparm_sort@void@@o_tparms@inst_ref_set<Operation Parameter>@@@
-//
-//
-o_tparms = param.o_tparms;
-for each o_tparm in o_tparms
-  select one prev_o_tparm related by o_tparm->O_TPARM[R124.'succeeds'];
-  if ( not_empty prev_o_tparm )
-    unrelate o_tparm from prev_o_tparm across R124.'succeeds';
-  end if;
-end for;
-// Declare an empty instance reference.
-select any head_o_tparm related by o_tparms->O_TPARM[R124.'succeeds'] where ( false );
-for each o_tparm in o_tparms
-  r = ::tparm_insert( head_o_tparm:head_o_tparm, o_tparm:o_tparm );
-  head_o_tparm = r;
-end for;
-@@@
-tparm_insert@inst_ref<Operation Parameter>@@head_o_tparm@inst_ref<Operation Parameter>@@o_tparm@inst_ref<Operation Parameter>@@@
-head_o_tparm = param.head_o_tparm;
-o_tparm = param.o_tparm;
-result = o_tparm;
-if ( empty head_o_tparm )
-  // Just starting.  Return o_tparm as head.
-elif ( o_tparm.Name <= head_o_tparm.Name )
-  // insert before
-  relate o_tparm to head_o_tparm across R124.'precedes';
-else
-  // find bigger
-  result = head_o_tparm;
-  prev_o_tparm = head_o_tparm;
-  select one cursor_o_tparm related by head_o_tparm->O_TPARM[R124.'precedes'];
-  while ( not_empty cursor_o_tparm )
-    if ( o_tparm.Name <= cursor_o_tparm.Name )
-      break;
-    else
-      prev_o_tparm = cursor_o_tparm;
-      select one cursor_o_tparm related by cursor_o_tparm->O_TPARM[R124.'precedes'];
-    end if;
-  end while;
-  relate prev_o_tparm to o_tparm across R124.'precedes';
-  if ( not_empty cursor_o_tparm )
-    relate o_tparm to cursor_o_tparm across R124.'precedes';
-  end if;
-end if;
-return result;
-@@@
-evtdi_sort@void@@sm_evtdis@inst_ref_set<State Machine Event Data Item>@@@
-//
-//
-sm_evtdis = param.sm_evtdis;
-for each sm_evtdi in sm_evtdis
-  select one prev_sm_evtdi related by sm_evtdi->SM_EVTDI[R533.'succeeds'];
-  if ( not_empty prev_sm_evtdi )
-    unrelate sm_evtdi from prev_sm_evtdi across R533.'succeeds';
-  end if;
-end for;
-// Declare an empty instance reference.
-select any head_sm_evtdi related by sm_evtdis->SM_EVTDI[R533.'succeeds'] where ( false );
-for each sm_evtdi in sm_evtdis
-  r = ::evtdi_insert( head_sm_evtdi:head_sm_evtdi, sm_evtdi:sm_evtdi );
-  head_sm_evtdi = r;
-end for;
-@@@
-evtdi_insert@inst_ref<State Machine Event Data Item>@@head_sm_evtdi@inst_ref<State Machine Event Data Item>@@sm_evtdi@inst_ref<State Machine Event Data Item>@@@
-head_sm_evtdi = param.head_sm_evtdi;
-sm_evtdi = param.sm_evtdi;
-result = sm_evtdi;
-if ( empty head_sm_evtdi )
-  // Just starting.  Return sm_evtdi as head.
-elif ( sm_evtdi.Name <= head_sm_evtdi.Name )
-  // insert before
-  relate sm_evtdi to head_sm_evtdi across R533.'precedes';
-else
-  // find bigger
-  result = head_sm_evtdi;
-  prev_sm_evtdi = head_sm_evtdi;
-  select one cursor_sm_evtdi related by head_sm_evtdi->SM_EVTDI[R533.'precedes'];
-  while ( not_empty cursor_sm_evtdi )
-    if ( sm_evtdi.Name <= cursor_sm_evtdi.Name )
-      break;
-    else
-      prev_sm_evtdi = cursor_sm_evtdi;
-      select one cursor_sm_evtdi related by cursor_sm_evtdi->SM_EVTDI[R533.'precedes'];
-    end if;
-  end while;
-  relate prev_sm_evtdi to sm_evtdi across R533.'precedes';
-  if ( not_empty cursor_sm_evtdi )
-    relate sm_evtdi to cursor_sm_evtdi across R533.'precedes';
-  end if;
-end if;
-return result;
-@@@
-pp_sort@void@@c_pps@inst_ref_set<Property Parameter>@@@
-//
-//
-c_pps = param.c_pps;
-for each c_pp in c_pps
-  select one prev_c_pp related by c_pp->C_PP[R4021.'succeeds'];
-  if ( not_empty prev_c_pp )
-    unrelate c_pp from prev_c_pp across R4021.'succeeds';
-  end if;
-end for;
-// Declare an empty instance reference.
-select any head_c_pp related by c_pps->C_PP[R4021.'succeeds'] where ( false );
-for each c_pp in c_pps
-  r = ::pp_insert( head_c_pp:head_c_pp, c_pp:c_pp );
-  head_c_pp = r;
-end for;
-@@@
-pp_insert@inst_ref<Property Parameter>@@head_c_pp@inst_ref<Property Parameter>@@c_pp@inst_ref<Property Parameter>@@@
-head_c_pp = param.head_c_pp;
-c_pp = param.c_pp;
-result = c_pp;
-if ( empty head_c_pp )
-  // Just starting.  Return c_pp as head.
-elif ( c_pp.Name <= head_c_pp.Name )
-  // insert before
-  relate c_pp to head_c_pp across R4021.'precedes';
-else
-  // find bigger
-  result = head_c_pp;
-  prev_c_pp = head_c_pp;
-  select one cursor_c_pp related by head_c_pp->C_PP[R4021.'precedes'];
-  while ( not_empty cursor_c_pp )
-    if ( c_pp.Name <= cursor_c_pp.Name )
-      break;
-    else
-      prev_c_pp = cursor_c_pp;
-      select one cursor_c_pp related by cursor_c_pp->C_PP[R4021.'precedes'];
-    end if;
-  end while;
-  relate prev_c_pp to c_pp across R4021.'precedes';
-  if ( not_empty cursor_c_pp )
-    relate c_pp to cursor_c_pp across R4021.'precedes';
-  end if;
-end if;
-return result;
-@@@
-parm_sort@void@@@
-//
-// CDS temporary for sorting model data parameters
-if ( true )
-  select many s_syncs from instances of S_SYNC;
-  for each s_sync in s_syncs
-    select many s_sparms related by s_sync->S_SPARM[R24];
-    ::sparm_sort( s_sparms:s_sparms );
-  end for;
-  select many s_brgs from instances of S_BRG;
-  for each s_brg in s_brgs
-    select many s_bparms related by s_brg->S_BPARM[R21];
-    ::bparm_sort( s_bparms:s_bparms );
-  end for;
-  select many o_tfrs from instances of O_TFR;
-  for each o_tfr in o_tfrs
-    select many o_tparms related by o_tfr->O_TPARM[R117];
-    ::tparm_sort( o_tparms:o_tparms );
-  end for;
-  select many sm_evts from instances of SM_EVT;
-  for each sm_evt in sm_evts
-    select many sm_evtdis related by sm_evt->SM_EVTDI[R532];
-    ::evtdi_sort( sm_evtdis:sm_evtdis );
-  end for;
-  select many c_eps from instances of C_EP;
-  for each c_ep in c_eps
-    select many c_pps related by c_ep->C_PP[R4006];
-    ::pp_sort( c_pps:c_pps );
-  end for;
-end if;
-@@@
-rel_pseudoformalize@void@@@
+AutoInitializeUniqueIDs@string@@te_class@inst_ref<Extended Class>@@instance@string@@@
 //============================================================================
-// $RCSfile: q.assoc.pseudoformalize.arc,v $
+// $RCSfile: frag_util.arc,v $
 //
 // Description:
-// This query/transformation archetype file contains the functionality
-// that will allow the model compiler to generate code for unformalized 
-// associations (associations that have not been formalized).
+// This archetype file provides general purpose functions used during 
+// action language translation. They are not specific to any particular
+// fragment generator entry points.
 //
 // Notice:
 // (C) Copyright 1998-2013 Mentor Graphics Corporation
@@ -276,502 +16,137 @@ rel_pseudoformalize@void@@@
 // reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
-// Find the associations that are not formalized.  They are characterized
-// by the existence of 2 instances of R_PART linked to one R_SIMP.
-// Migrate the R_PART/R_RTO pair to R_FORM/R_RGO.
-// It does not matter which participant we choose unless this is a many
-// association.  Grab the many side of a 1-M or any random R_PART and
-// migrate it and its parent R_RTO to R_FORM and R_RGO respectively.
-select many r_simps from instances of R_SIMP;
-for each r_simp in r_simps
-  select many r_parts related by r_simp->R_PART[R207];
-  if ( ( cardinality r_parts ) > 1 )
-    select any r_part related by r_simp->R_PART[R207] where ( selected.Mult == 1 );
-    if ( empty r_part )
-      select any r_part related by r_simp->R_PART[R207];
-    end if;
-    select one r_rto related by r_part->R_RTO[R204];
-    select one r_oir related by r_rto->R_OIR[R203];
-    //
-    create object instance r_rgo of R_RGO;
-    create object instance r_form of R_FORM;
-    //
-    // Copy the R_PART to the new R_FORM.
-    r_form.Mult = r_part.Mult;
-    r_form.Cond = r_part.Cond;
-    r_form.Txt_Phrs = r_part.Txt_Phrs;
-    //
-    unrelate r_part from r_rto across R204;
-    unrelate r_part from r_simp across R207;
-    delete object instance r_part;
-    //
-    unrelate r_rto from r_oir across R203;
-    delete object instance r_rto;
-    //
-    relate r_rgo to r_oir across R203;
-    relate r_form to r_rgo across R205;
-    relate r_form to r_simp across R208;
-  end if;
-end for;
-@@@
-container_factory@void@@te_container@inst_ref<container>@@@
+//============================================================================
+// Initialize the attributes of type unique_id that are identifiers
+// and therefore need to be automatically set up at create time.
+//============================================================================
+te_class = param.te_class;
+instance = param.instance;
 //
-te_container = param.te_container;
-te_container.flavor = "";
-@@@
-copyright_factory@void@@te_copyright@inst_ref<copyright>@@@
-//
-//
-te_copyright = param.te_copyright;
-te_copyright.body = "your copyright statement can go here (from te_copyright.body)";
-@@@
-dlist_factory@void@@te_dlist@inst_ref<dlist>@@@
-//
-//
-te_dlist = param.te_dlist;
-select any te_prefix from instances of TE_PREFIX;
-te_dlist.remove_node = te_prefix.result + "SetRemoveDlistNode";
-@@@
-dma_factory@void@@te_dma@inst_ref<dynamic memory allocation>@@@
-//
-//
-te_dma = param.te_dma;
-select any te_prefix from instances of TE_PREFIX;
-te_dma.file = "sys_memory";
-te_dma.allocate = te_prefix.result + "malloc";
-te_dma.release = te_prefix.result + "free";
-te_dma.debugging_heap = false;
-@@@
-eq_factory@void@@te_eq@inst_ref<event queue>@@@
-//
-//
-te_eq = param.te_eq;
-select any te_prefix from instances of TE_PREFIX;
-te_eq.ignored = "EVENT_IS_IGNORED";
-te_eq.cant_happen = "EVENT_CANT_HAPPEN";
-te_eq.system_events_union = te_prefix.result + "systemxtUMLevents";
-te_eq.system_event_pool = te_prefix.result + "xtUML_event_pool";
-te_eq.constant_type = te_prefix.result + "xtUMLEventConstant_t";
-te_eq.base_event_type = te_prefix.result + "xtUMLEvent_t";
-te_eq.base_variable = "mc_event_base";
-te_eq.max_events = te_prefix.define_u + "SYS_MAX_XTUML_EVENTS";
-te_eq.max_self_events = te_prefix.define_u + "SYS_MAX_SELF_EVENTS";
-te_eq.max_nonself_events = te_prefix.define_u + "SYS_MAX_NONSELF_EVENTS";
-te_eq.new = te_prefix.result + "NewxtUMLEvent";
-te_eq.allocate = te_prefix.result + "AllocatextUMLEvent";
-te_eq.delete = te_prefix.result + "DeletextUMLEvent";
-te_eq.modify = te_prefix.result + "ModifyxtUMLEvent";
-te_eq.self = te_prefix.result + "SendSelfEvent";
-te_eq.non_self = te_prefix.result + "SendEvent";
-te_eq.search_and_destroy = te_prefix.result + "EventSearchAndDestroy";
-te_eq.run_flag = te_prefix.result + "run_flag";
-te_eq.event_message_variable = "e";
-te_eq.scope = "";
-@@@
-extent_factory@void@@te_extent@inst_ref<extent>@@@
-//
-//
-te_extent = param.te_extent;
-select any te_prefix from instances of TE_PREFIX;
-select any te_set from instances of TE_SET;
-select any te_typemap from instances of TE_TYPEMAP;
+select any te_file from instances of TE_FILE;
 select any te_instance from instances of TE_INSTANCE;
-te_extent.sets_type = te_set.base_class;
-te_extent.type = te_prefix.result + "Extent_t";
-te_extent.active = "active";
-te_extent.inactive = "inactive";
-te_extent.size_type = te_typemap.object_size_name;
-te_extent.istate_type = te_typemap.state_number_name;
-te_extent.istate_name = "initial_state";
-te_extent.container_type = te_set.element_type + "*";
-te_extent.container_name = "container";
-te_extent.pool_type = te_instance.handle;
-te_extent.pool_name = "pool";
-te_extent.population_type = te_typemap.instance_index_name;
-te_extent.population_name = "population";
-te_extent.rstorsize_type = te_typemap.object_size_name;
-te_extent.rstorsize_name = "size_no_rel";
-te_extent.linkfunc_name = "link_function";
-te_extent.size_name = "size";
+select any te_string from instances of TE_STRING;
+select any te_sys from instances of TE_SYS;
+// Be sure we have the first attribute in the class.
+select any first_te_attr related by te_class->TE_ATTR[R2061];
+while ( not_empty first_te_attr )
+  select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
+  if ( empty prev_te_attr )
+    break;
+  end if;
+  first_te_attr = prev_te_attr;
+end while;
+te_attr = first_te_attr;
+while ( not_empty te_attr )
+  select one o_attr related by te_attr->O_ATTR[R2033];
+  if ( te_attr.translate )
+    r = ::GetAttributeCodeGenType( o_attr:o_attr );
+    te_dt = r;
+    not_empty_o_oida = false;
+    if ( not_empty te_dt )
+      if ( 5 == te_dt.Core_Typ )
+        select any o_oida related by o_attr->O_OIDA[R105];
+        if ( not_empty o_oida )
+          not_empty_o_oida = true;
+        end if;
+      end if;
+      //-- 011: 20140217 Add Start (saitou) 
+      select one o_obj related by te_class->O_OBJ[R2019];
+      r = ::FXHO_get_auto_inc_get_new_value_macro_name( o_obj:o_obj );
+      retMacroName = r;
+      r = ::FXHO_get_auto_inc_id_mgmt_variable_name( o_obj:o_obj );
+      retMngValName = r;
+      isAutoIncEnable = false;
+      if ( te_attr.isAutoInc )
+        if ( ( ( 5 == te_dt.Core_Typ ) or ( 2 == te_dt.Core_Typ ) ) or ( 3 == te_dt.Core_Typ ) )
+          isAutoIncEnable = true;
+        end if;
+      end if;
+      //-- 011: 20140217 Add End (saitou) 
+      T::include(file:"c/t.class.attribute.init.c");
+    end if;
+  end if;
+  //
+  // Advance to the next object attribute, if any.
+  select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
+end while;
+return T::body();
 @@@
-file_factory@void@@te_file@inst_ref<file>@@@
+ExpandNonOptimizedSpecialWhereComparison@string@@o_obj@inst_ref<Model Class>@@special@boolean@@selected_var_name@string@@@
 //
+//============================================================================
+o_obj = param.o_obj;
+special = param.special;
+selected_var_name = param.selected_var_name;
 //
-te_file = param.te_file;
-select any te_prefix from instances of TE_PREFIX;
-te_file.hdr_file_ext = "h";
-te_file.src_file_ext = "c";
-te_file.sys_main = te_prefix.file + "sys_main";
-te_file.factory = te_prefix.file + "sys_xtuml";
-te_file.events = te_prefix.file + "sys_events";
-te_file.obj_file_ext = "o";
-te_file.nvs = te_prefix.file + "sys_nvs";
-te_file.sets = te_prefix.file + "sys_sets";
-te_file.types = te_prefix.file + "sys_types";
-te_file.thread = te_prefix.file + "sys_thread";
-te_file.trace = te_prefix.file + "sys_trace";
-te_file.tim = te_prefix.file + "TIM_bridge";
-te_file.callout = te_prefix.file + "sys_user_co";
-te_file.ilb = te_prefix.file + "sys_ilb";
-te_file.persist = te_prefix.file + "sys_persist";
-te_file.xtumlload = te_prefix.file + "sys_xtumlload";
-te_file.interfaces = te_prefix.file + "sysc_interfaces";
-te_file.registers = te_prefix.file + "RegDefs";
-te_file.domain_color_path = ".";
-te_file.domain_source_path = "_ch";
-te_file.domain_include_path = "_ch";
-te_file.system_source_path = "_ch";
-te_file.system_include_path = "_ch";
-te_file.system_color_path = ".";
-te_file.system_mark = "system.mark";
-te_file.datatype_mark = "datatype.mark";
-te_file.event_mark = "event.mark";
-te_file.class_mark = "class.mark";
-te_file.domain_mark = "domain.mark";
-te_file.system_functions_mark = "sys_functions.arc";
-te_file.bridge_mark = "bridge.mark";
-te_file.nvs_bridge = te_prefix.file + "NVS_bridge";
-te_file.arc_path = "mc3020/arc";
-te_file.root_path = ".";
+compare_stmt = "";
+if ( special )
+  select any te_instance from instances of TE_INSTANCE;
+  select any te_string from instances of TE_STRING;
+  compare_stmt = "";
+  cmp_element = "";
+  select one te_class related by o_obj->TE_CLASS[R2019];
+  // Be sure we have the first attribute in the class.
+  select any first_te_attr related by te_class->TE_ATTR[R2061];
+  while ( not_empty first_te_attr )
+    select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
+    if ( empty prev_te_attr )
+      break;
+    end if;
+    first_te_attr = prev_te_attr;
+  end while;
+  te_attr = first_te_attr;
+  while ( not_empty te_attr )
+    //.if ( 4 == te_attr.Core_Typ )
+    if ( 4 == 4 )
+      cmp_element = "!${te_instance.module}${te_string.strcmp}(${selected_var_name}->${te_attr.GeneratedName}, ${te_attr.ParamBuffer})";
+    else
+      cmp_element = "${selected_var_name}->${te_attr.GeneratedName} == ${te_attr.ParamBuffer}";
+    end if;
+    compare_stmt = compare_stmt + cmp_element;
+    // Advance to the next object attribute, if any.
+    select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
+    if ( not_empty te_attr )
+      compare_stmt = compare_stmt + " && ";
+    end if;
+  end while;
+end if;
+return compare_stmt;
 @@@
-instance_factory@void@@te_instance@inst_ref<instance>@@@
+CreateSpecialWhereComparisonArguments@string@@te_class@inst_ref<Extended Class>@@o_id@inst_ref<Class Identifier>@@@
 //
+//============================================================================
+te_class = param.te_class;
+o_id = param.o_id;
 //
-te_instance = param.te_instance;
-select any te_prefix from instances of TE_PREFIX;
-te_instance.scope = "";
-te_instance.create = te_prefix.result + "CreateInstance";
-te_instance.create_persistent = te_prefix.result + "CreatePersistent";
-te_instance.delete = te_prefix.result + "DeleteInstance";
-te_instance.delete_persistent = te_prefix.result + "DeletePersistent";
-te_instance.self = "self";
-te_instance.global_self = te_prefix.result + "GetSelf";
-te_instance.base = te_prefix.result + "InstanceBase_t";
-te_instance.handle = te_prefix.result + "iHandle_t";
-te_instance.factory_init = te_prefix.result + "ClassFactoryInit";
-te_instance.get_dci = te_prefix.result + "GetDCI";
-te_instance.get_event_dispatcher = te_prefix.result + "GetEventDispatcher";
-te_instance.get_thread_assignment = te_prefix.result + "GetThreadAssignment";
-te_instance.base_class = te_prefix.result + "Object_s";
-te_instance.max_extent = te_prefix.define_u + "SYS_MAX_OBJECT_EXTENT";
-te_instance.max_association_extent = te_prefix.define_u + "SYS_MAX_ASSOCIATION_EXTENT";
-te_instance.max_transient_extent = te_prefix.define_u + "SYS_MAX_TRANSIENT_EXTENT";
-te_instance.current_state = "current_state";
-te_instance.module = "";
-@@@
-ilb_factory@void@@te_ilb@inst_ref<interleaved bridge>@@@
+select many o_attrs related by o_id->O_OIDA[R105]->O_ATTR[R105];
+num_ident_attr = cardinality o_attrs;
 //
+param_list = "";
+oida_count = 0;
 //
-te_ilb = param.te_ilb;
-select any te_prefix from instances of TE_PREFIX;
-te_ilb.file = "sys_ilb";
-te_ilb.interleave_bridge = "InterleaveBridge";
-te_ilb.define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGES";
-te_ilb.data_define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGE_DATA";
-te_ilb.interleave_bridge_done = "InterleaveBridgeDone";
-te_ilb.get_data = "GetILBData";
-te_ilb.dispatch = "DispatchInterleaveBridge";
-@@@
-persist_factory@void@@te_persist@inst_ref<persistence>@@@
+// Be sure we have the first attribute in the class.
+select any first_te_attr related by te_class->TE_ATTR[R2061];
+while ( not_empty first_te_attr )
+  select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
+  if ( empty prev_te_attr )
+    break;
+  end if;
+  first_te_attr = prev_te_attr;
+end while;
+te_attr = first_te_attr;
+while ( not_empty te_attr )
+  if ( te_attr.Included )
+    oida_count = oida_count + 1;
+    param_list = param_list + te_attr.ParamBuffer;
+    if ( oida_count < num_ident_attr )
+      param_list = param_list + ", ";
+    end if;
+  end if;
+  select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
+end while;
 //
-//
-te_persist = param.te_persist;
-select any te_prefix from instances of TE_PREFIX;
-select any te_typemap from instances of TE_TYPEMAP;
-te_persist.class_union = "";
-te_persist.instance_cache_depth = te_prefix.define_u + "PERSIST_INST_CACHE_DEPTH";
-te_persist.check_mark = "check_mark_post";
-te_persist.post_link = "";
-te_persist.link_type_name = te_prefix.type + "link_t";
-te_persist.persist_file = "sys_persist";
-te_persist.factory_init = te_prefix.result + "PersistFactoryInit";
-te_persist.commit = te_prefix.result + "PersistenceCommit";
-te_persist.restore = te_prefix.result + "PersistenceRestore";
-te_persist.remove = te_prefix.result + "PersistDelete";
-te_persist.link_cache_depth = te_prefix.define_u + "PERSIST_LINK_CACHE_DEPTH";
-// Return the name of the extended attribute variable for use by
-// the persistent restore operation.  This attribute represents the
-// instance index of the class extent at time of persistent stowage
-// together with the class number (across domains) of the class.
-// Also return the types for this attribute variable.
-te_persist.domainnum_name = "domainnum";
-te_persist.domainnum_type = te_typemap.domain_number_name;
-te_persist.classnum_name = "classnum";
-te_persist.classnum_type = te_typemap.object_number_name;
-te_persist.index_name = "index";
-te_persist.index_type = te_typemap.instance_index_name;
-te_persist.instid_type = "InstanceIdentifier_t";
-te_persist.instid_name = "instance_identifier";
-te_persist.dirty_type = "s1_t";
-te_persist.dirty_name = "persist_dirty";
-te_persist.dirty_dirty = 1;
-te_persist.dirty_clean = 0;
-@@@
-prefix_factory@void@@te_prefix@inst_ref<prefix>@@@
-//
-//
-te_prefix = param.te_prefix;
-te_prefix.symbol = "Escher_";
-te_prefix.type = "Escher_";
-te_prefix.define_u = "ESCHER_";
-te_prefix.define_c = "Escher_";
-te_prefix.symbolsw = "";
-te_prefix.typesw = "";
-te_prefix.result = "Escher_";
-te_prefix.define_csw = "";
-te_prefix.define_usw = "";
-te_prefix.file = "";
-te_prefix.provided_port = "pport_";
-te_prefix.required_port = "rport_";
-te_prefix.channel = "channel_";
-@@@
-relinfo_factory@void@@te_relinfo@inst_ref<relationship information>@@@
-//
-//
-te_relinfo = param.te_relinfo;
-te_relinfo.multiplicity = 0;
-te_relinfo.rel_phrase = "";
-te_relinfo.is_formalizer = false;
-te_relinfo.is_supertype = false;
-te_relinfo.generate_subtype = false;
-te_relinfo.gen_declaration = false;
-@@@
-relstore_factory@void@@te_relstore@inst_ref<relationship storage>@@@
-//
-//
-te_relstore = param.te_relstore;
-te_relstore.data_init = "";
-te_relstore.link_calls = "";
-te_relstore.link_index = 0;
-te_relstore.data_fini = "";
-te_relstore.self_name = "self";
-te_relstore.data_declare = "";
-@@@
-set_factory@void@@te_set@inst_ref<set>@@@
-//
-//
-te_set = param.te_set;
-select any te_prefix from instances of TE_PREFIX;
-te_set.module = "";
-te_set.copy = te_prefix.result + "CopySet";
-te_set.clear = te_prefix.result + "ClearSet";
-te_set.insert_element = te_prefix.result + "SetInsertElement";
-te_set.element_count = te_prefix.result + "SetCardinality";
-te_set.iterator_class_name = te_prefix.result + "Iterator_s";
-te_set.number_of_containoids = te_prefix.define_usw + "SYS_MAX_CONTAINERS";
-te_set.factory = te_prefix.result + "SetFactoryInit";
-te_set.insert_block = te_prefix.result + "SetInsertBlock";
-te_set.remove_instance = te_prefix.result + "SetRemoveInstance";
-te_set.contains = te_prefix.result + "SetContains";
-te_set.equality = te_prefix.result + "SetEquality";
-te_set.init = te_prefix.result + "InitSet";
-te_set.insert_instance = te_prefix.result + "SetInsertInstance";
-te_set.emptiness = te_prefix.result + "SetIsEmpty";
-te_set.get_any = te_prefix.result + "SetGetAny";
-te_set.remove_element = te_prefix.result + "SetRemoveElement";
-te_set.iterator_reset = te_prefix.result + "IteratorReset";
-te_set.iterator_next = te_prefix.result + "IteratorNext";
-te_set.base_class = te_prefix.result + "ObjectSet_s";
-te_set.element_type = te_prefix.result + "SetElement_s";
-te_set.scope = "";
-@@@
-slist_factory@void@@te_slist@inst_ref<slist>@@@
-//
-//
-te_slist = param.te_slist;
-select any te_prefix from instances of TE_PREFIX;
-te_slist.remove_node = te_prefix.result + "SetRemoveNode";
-@@@
-string_factory@void@@te_string@inst_ref<string>@@@
-//
-//
-te_string = param.te_string;
-select any te_prefix from instances of TE_PREFIX;
-te_string.memset = te_prefix.result + "memset";
-te_string.memmove = te_prefix.result + "memmove";
-te_string.strcpy = te_prefix.result + "strcpy";
-te_string.stradd = te_prefix.result + "stradd";
-te_string.strlen = te_prefix.result + "strlen";
-te_string.itoa = te_prefix.result + "itoa";
-te_string.atoi = te_prefix.result + "atoi";
-te_string.strcmp = te_prefix.result + "strcmp";
-te_string.strget = te_prefix.result + "strget";
-te_string.max_string_length = te_prefix.define_u + "SYS_MAX_STRING_LEN";
-te_string.debug_buffer_depth = te_prefix.define_u + "DEBUG_BUFFER_DEPTH";
-@@@
-thread_factory@void@@te_thread@inst_ref<thread>@@@
-//
-//
-te_thread = param.te_thread;
-select any te_prefix from instances of TE_PREFIX;
-te_thread.file = "sys_thread";
-te_thread.mutex_lock = te_prefix.result + "mutex_lock";
-te_thread.mutex_unlock = te_prefix.result + "mutex_unlock";
-te_thread.nonbusy_wait = te_prefix.result + "nonbusy_wait";
-te_thread.nonbusy_wake = te_prefix.result + "nonbusy_wake";
-te_thread.shutdown = te_prefix.result + "thread_shutdown";
-te_thread.create = te_prefix.result + "thread_create";
-te_thread.enabled = false;
-te_thread.flavor = "POSIX";
-te_thread.serialize = false;
-te_thread.number_of_threads = 1;
-te_thread.extra_initialization = "";
-te_thread.AUTOSAR_enabled = te_prefix.define_usw + "AUTOSAR_ENABLED";
-@@@
-tim_factory@void@@te_tim@inst_ref<timer>@@@
-//
-//
-te_tim = param.te_tim;
-select any te_prefix from instances of TE_PREFIX;
-te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS";
-te_tim.keyed_timer_support = false;
-te_tim.recurring_timer_support = true;
-te_tim.internal_type = "ETimer_t";
-te_tim.timer_event_search_and_destroy = false;
-te_tim.event_name = "";
-@@@
-typemap_factory@void@@te_typemap@inst_ref<type map>@@@
-//
-//
-te_typemap = param.te_typemap;
-select any te_prefix from instances of TE_PREFIX;
-te_typemap.instance_index_name = te_prefix.result + "InstanceIndex_t";
-te_typemap.instance_index_type = "u2_t";
-te_typemap.object_size_name = te_prefix.type + "ClassSize_t";
-te_typemap.object_size_type = "u2_t";
-te_typemap.object_number_name = te_prefix.type + "ClassNumber_t";
-te_typemap.object_number_type = "u2_t";
-te_typemap.state_number_name = te_prefix.type + "StateNumber_t";
-te_typemap.state_number_type = "u1_t";
-te_typemap.domain_number_name = te_prefix.type + "DomainNumber_t";
-te_typemap.domain_number_type = "u1_t";
-te_typemap.event_number_name = te_prefix.type + "EventNumber_t";
-te_typemap.event_number_type = "u1_t";
-te_typemap.event_priority_name = te_prefix.type + "EventPriority_t";
-te_typemap.event_priority_type = "u1_t";
-te_typemap.event_flags_name = te_prefix.type + "EventFlags_t";
-te_typemap.event_flags_type = "u1_t";
-te_typemap.poly_return_name = te_prefix.type + "PolyEventRC_t";
-te_typemap.poly_return_type = "u1_t";
-te_typemap.SEM_cell_type = "u1_t";
-te_typemap.SEM_cell_name = te_prefix.type + "SEMcell_t";
-@@@
-callout_factory@void@@te_callout@inst_ref<user callout>@@@
-//
-//
-te_callout = param.te_callout;
-select any te_prefix from instances of TE_PREFIX;
-te_callout.initialization = te_prefix.symbolsw + "UserInitializationCallout";
-te_callout.pre_xtUML_initialization = te_prefix.symbolsw + "UserPreOoaInitializationCallout";
-te_callout.post_xtUML_initialization = te_prefix.symbolsw + "UserPostOoaInitializationCallout";
-te_callout.background_processing = te_prefix.symbolsw + "UserBackgroundProcessingCallout";
-te_callout.pre_shutdown = te_prefix.symbolsw + "UserPreShutdownCallout";
-te_callout.event_no_instance = te_prefix.symbolsw + "UserEventNoInstanceCallout";
-te_callout.event_free_list_empty = te_prefix.symbolsw + "UserEventFreeListEmptyCallout";
-te_callout.object_pool_empty = te_prefix.symbolsw + "UserObjectPoolEmptyCallout";
-te_callout.node_list_empty = te_prefix.symbolsw + "UserNodeListEmptyCallout";
-te_callout.interleaved_bridge_overflow = te_prefix.symbolsw + "UserInterleavedBridgeOverflowCallout";
-te_callout.self_event_queue_empty = te_prefix.symbolsw + "UserSelfEventQueueEmptyCallout";
-te_callout.non_self_event_queue_empty = te_prefix.symbolsw + "UserNonSelfEventQueueEmptyCallout";
-te_callout.persistence_error = te_prefix.symbolsw + "UserPersistenceErrorCallout";
-te_callout.file = "sys_user_co";
-te_callout.post_shutdown = te_prefix.symbolsw + "UserPostShutdownCallout";
-te_callout.event_cant_happen = te_prefix.symbolsw + "UserEventCantHappenCallout";
-te_callout.empty_handle_detected = te_prefix.symbolsw + "UserEmptyHandleDetectedCallout";
-@@@
-trace_factory@void@@te_trace@inst_ref<trace>@@@
-//
-//
-te_trace = param.te_trace;
-select any te_prefix from instances of TE_PREFIX;
-te_trace.component_msg_start = te_prefix.define_usw + "COMP_MSG_START_TRACE";
-te_trace.component_msg_end = te_prefix.define_usw + "COMP_MSG_END_TRACE";
-te_trace.state_txn_start = te_prefix.define_usw + "STATE_TXN_START_TRACE";
-te_trace.oal_trace = te_prefix.define_usw + "OAL_ACTION_TRACE";
-te_trace.state_txn_end = te_prefix.define_usw + "STATE_TXN_END_TRACE";
-te_trace.state_txn_event_ignored = te_prefix.define_usw + "STATE_TXN_IG_TRACE";
-te_trace.state_txn_cant_happen = te_prefix.define_usw + "STATE_TXN_CH_TRACE";
-@@@
-target_factory@void@@te_target@inst_ref<target>@@@
-//
-te_target = param.te_target;
-te_target.language = "C";
-te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t&quot;C&quot;\t{\n#endif";
-te_target.c2cplusplus_linkage_end = "#ifdef\t__cplusplus\n}\n#endif";
-te_target.main = "main";
-@@@
-sys_singletons@void@@@
-//
-create object instance te_prefix of TE_PREFIX;
-::prefix_factory( te_prefix:te_prefix );
-create object instance te_typemap of TE_TYPEMAP;
-::typemap_factory( te_typemap:te_typemap );
-create object instance te_container of TE_CONTAINER;
-::container_factory( te_container:te_container );
-create object instance te_copyright of TE_COPYRIGHT;
-::copyright_factory( te_copyright:te_copyright );
-create object instance te_dlist of TE_DLIST;
-::dlist_factory( te_dlist:te_dlist );
-create object instance te_dma of TE_DMA;
-::dma_factory( te_dma:te_dma );
-create object instance te_eq of TE_EQ;
-::eq_factory( te_eq:te_eq );
-create object instance te_file of TE_FILE;
-::file_factory( te_file:te_file );
-create object instance te_instance of TE_INSTANCE;
-::instance_factory( te_instance:te_instance );
-create object instance te_ilb of TE_ILB;
-::ilb_factory( te_ilb:te_ilb );
-create object instance te_persist of TE_PERSIST;
-::persist_factory( te_persist:te_persist );
-create object instance te_relinfo of TE_RELINFO;
-::relinfo_factory( te_relinfo:te_relinfo );
-create object instance te_relstore of TE_RELSTORE;
-::relstore_factory( te_relstore:te_relstore );
-create object instance te_set of TE_SET;
-::set_factory( te_set:te_set );
-create object instance te_slist of TE_SLIST;
-::slist_factory( te_slist:te_slist );
-create object instance te_string of TE_STRING;
-::string_factory( te_string:te_string );
-create object instance te_thread of TE_THREAD;
-::thread_factory( te_thread:te_thread );
-create object instance te_tim of TE_TIM;
-::tim_factory( te_tim:te_tim );
-create object instance te_callout of TE_CALLOUT;
-::callout_factory( te_callout:te_callout );
-create object instance te_trace of TE_TRACE;
-::trace_factory( te_trace:te_trace );
-create object instance te_extent of TE_EXTENT;
-::extent_factory( te_extent:te_extent );
-create object instance te_target of TE_TARGET;
-::target_factory( te_target:te_target );
-//
-create object instance te_assign of TE_ASSIGN;
-create object instance te_create_instance of TE_CREATE_INSTANCE;
-create object instance te_for of TE_FOR;
-create object instance te_if of TE_IF;
-create object instance te_while of TE_WHILE;
-create object instance te_elif of TE_ELIF;
-create object instance te_delete_instance of TE_DELETE_INSTANCE;
-create object instance te_create_event of TE_CREATE_EVENT;
-create object instance te_relate of TE_RELATE;
-create object instance te_relate_using of TE_RELATE_USING;
-create object instance te_unrelate of TE_UNRELATE;
-create object instance te_unrelate_using of TE_UNRELATE_USING;
-create object instance te_select of TE_SELECT;
-create object instance te_select_where of TE_SELECT_WHERE;
-create object instance te_generate_precreated_event of TE_GENERATE_PRECREATED_EVENT;
-create object instance te_event_parameters of TE_EVENT_PARAMETERS;
-create object instance te_generate of TE_GENERATE;
-create object instance te_generate_creator_event of TE_GENERATE_CREATOR_EVENT;
-create object instance te_generate_to_class of TE_GENERATE_TO_CLASS;
-create object instance te_sgn of TE_SGN;
-create object instance te_iop of TE_IOP;
-create object instance te_operation of TE_OPERATION;
-create object instance te_bridge of TE_BRIDGE;
-create object instance te_function of TE_FUNCTION;
-create object instance te_return of TE_RETURN;
+return param_list;
 @@@
 GetBaseTypeForUDT@inst_ref<Data Type>@@s_udt@inst_ref<User Data Type>@@@
 //============================================================================
@@ -946,6 +321,865 @@ for each special_te_dt in special_te_dts
 end for;
 return s;
 @@@
+GetAttributeDataType@inst_ref<Extended Data Type>@@o_attr@inst_ref<Attribute>@@@
+//
+
+//-- 002: 20140314 Add Start (saitou) 
+o_attr = param.o_attr;
+//
+select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021];
+if ( te_dt.Core_Typ == 7 )
+  select one base_o_attr related by o_attr->O_RATTR[R106]->O_BATTR[R113]->O_ATTR[R106];
+  r = ::GetAttributeDataType( o_attr:base_o_attr );
+  te_dt = r;
+end if;
+return te_dt;
+@@@
+sys_analyze@void@@te_sys@inst_ref<Extended System>@@@
+//============================================================================
+// File:  $RCSfile: q.domain.analyze.arc,v $
+//
+// Description:
+// This query file provides the "first pass" of a multi-pass translation
+// model compiler.  The first pass analyzes the action semantics embodied
+// in the analysis domain, and applies optimization algorithms to the
+// action language statements encountered.  The results of these algorithmic
+// operations are then leveraged by subsequent passes of the structural
+// queries and templates to realize time/space/performance trade offs in
+// the generated application code.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//
+te_sys = param.te_sys;
+T::print(s:"Analyzing model and making optimizations....");
+// Identify state models having at least one state, event and transition.
+::SM_SM_mark_valid();
+// Count up how many times each event is created/generated.
+::event_smt_used();
+// Find classes that are created in some way and identify invalid creates.
+::class_smt_created();
+// Detect invalid deletions.
+::class_smt_deleted();
+// Track down optimizable where clauses.
+::selection_whereclause_identify_special();
+// Identify the associations that need link and/or unlink methods.
+::association_mark_link_unlink_needed();
+// Identify associations that are navigated (in either or both directions).
+::association_R_OIR_mark_navigated();
+// Find which event queues are necessary.
+::event_queue_analyze_needed();
+::attr_analyze_accesses();
+//.invoke attr_analyze_codegen( te_sys )
+::TE_TXN_used();
+@@@
+te_c_CollectLimits@void@@te_c@inst_ref<Extended Component>@@@
+//============================================================================
+// $RCSfile: q.domain.limits.arc,v $
+//
+// Description:
+// These queries collect static analysis information and propagate it
+// forward to the system build step by outputting a set of INSERT
+// statements that will populate the system build gen database.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//
+//============================================================================
+// Store statistics into TE_C.
+//============================================================================
+te_c = param.te_c;
+//
+select any te_file from instances of TE_FILE;
+//
+// Analyze maximums for extents.
+// The extents should be analyzed only *after* extent size coloring!
+select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
+object_class_extents = 0;
+relationship_extents = 0;
+largest_object_extent = 0;
+//
+for each te_class in te_classs
+  select one o_obj related by te_class->O_OBJ[R2019];
+  object_class_extents = object_class_extents + te_class.MaxExtentSize;
+  if ( te_class.MaxExtentSize > largest_object_extent )
+    largest_object_extent = te_class.MaxExtentSize;
+  end if;
+  // Calculate maximum extents required for objects on "MANY" side of a relationship.
+  select many r_rgos related by o_obj->R_OIR[R201]->R_RGO[R203] where ( selected.Obj_ID == o_obj.Obj_ID );
+  for each r_rgo in r_rgos
+    select one form related by r_rgo->R_FORM[R205];
+    if ( not_empty form )
+      if ( form.Mult == 1 )
+        relationship_extents = relationship_extents + te_class.MaxExtentSize;
+      end if;
+    end if;
+    select one assr related by r_rgo->R_ASSR[R205];
+    if ( not_empty assr )
+      if ( assr.Mult == 1 )
+        relationship_extents = relationship_extents + te_class.MaxExtentSize;
+      end if;
+    end if;
+  end for;
+  select many r_rtos related by o_obj->R_OIR[R201]->R_RTO[R203] where ( selected.Obj_ID == o_obj.Obj_ID );
+  for each r_rto in r_rtos
+    select one aone related by r_rto->R_AONE[R204];
+    if ( not_empty aone )
+      if ( aone.Mult == 1 )
+        relationship_extents = relationship_extents + te_class.MaxExtentSize;
+      end if;
+    end if;
+    select one aoth related by r_rto->R_AOTH[R204];
+    if ( not_empty aoth )
+      if ( aoth.Mult == 1 )
+        relationship_extents = relationship_extents + te_class.MaxExtentSize;
+      end if;
+    end if;
+  end for;
+end for;
+//
+// analyze timers events selects
+r = ::timer_analyze_starts();
+total_timer_starts = r;
+//
+// Count up the event specification statements which is the supertype
+// of generated and deferred events.  This will give us a starting point
+// on allocating event queue resources.
+// CDS - We are (re)counting the events for each component, but this code is not component-specific.
+// CDS - The event counts should be "harvested" while processing the action language.
+max_events = 0;
+max_self_events = 0;
+max_nonself_events = 0;
+select many act_acts from instances of ACT_ACT;
+for each act_act in act_acts
+  select many event_specification_statements related by act_act->ACT_BLK[R601]->ACT_SMT[R602]->E_ESS[R603];
+  all_events_count = cardinality event_specification_statements;
+  select many act_sgns related by act_act->ACT_BLK[R601]->ACT_SMT[R602]->ACT_SGN[R603];
+  all_events_count = all_events_count + ( cardinality act_sgns );
+  if ( all_events_count > max_events )
+    max_events = all_events_count;
+  end if;
+  // Count up the self events in this body.
+  count = 0;
+  for each e_ess in event_specification_statements
+    select one v_var related by e_ess->E_GES[R701]->E_GSME[R703]->E_GEN[R705]->V_VAR[R712] where ( "self" == T::l(s:selected.Name) );
+    if ( not_empty v_var )
+      count = count + 1;
+    else
+      select any v_var related by event_specification_statements->E_CES[R701]->E_CSME[R702]->E_CEI[R704]->V_VAR[R711] where ( "self" == T::l(s:selected.Name) );
+      if ( not_empty v_var )
+        count = count + 1;
+      end if;
+    end if;
+  end for;
+  if ( count > max_self_events )
+    max_self_events = count;
+  end if;
+  count = all_events_count - count;
+  if ( count > max_nonself_events )
+    max_nonself_events = count;
+  end if;
+  select one te_aba related by act_act->ACT_FNB[R698]->S_SYNC[R695]->TE_SYNC[R2023]->TE_ABA[R2010];
+  if ( not_empty te_aba )
+    te_aba.NonSelfEventCount = count;
+  end if;
+end for;
+//
+r = ::containoid_select_many_count();
+max_select_many = r;
+//
+// functions
+select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsSafeForInterrupts ) and ( selected.XlateSemantics ) );
+total_interleaved_bridges = cardinality te_syncs;
+//
+// Count up the priority events.
+select many te_evts from instances of TE_EVT where ( selected.Priority != 0 );
+total_priority_events = cardinality te_evts;
+//
+// Count up the classes using preexisting instances defined in data (PEIs).
+select many te_classs related by te_c->TE_CLASS[R2064] where ( ( not selected.ExcludeFromGen ) and ( selected.PEIsDefinedInData ) );
+pei_class_count = cardinality te_classs;
+//
+// Count up the persistent classes.
+select many te_classs related by te_c->TE_CLASS[R2064] where ( ( not selected.ExcludeFromGen ) and ( selected.Persistent ) );
+persist_class_count = cardinality te_classs;
+//
+te_c.MaxObjExtent = object_class_extents;
+te_c.MaxRelExtent = relationship_extents;
+te_c.MaxSelectExtent = max_select_many * largest_object_extent;
+te_c.MaxSelfEvents = max_self_events;
+te_c.MaxNonSelfEvents = max_nonself_events;
+te_c.MaxPriorityEvents = total_priority_events;
+te_c.MaxTimers = total_timer_starts;
+te_c.InterleavedBridges = total_interleaved_bridges;
+te_c.PEIClassCount = pei_class_count;
+te_c.PersistentClassCount = persist_class_count;
+//
+@@@
+selection_whereclause_identify_special@void@@@
+//============================================================================
+// $RCSfile: q.oal.analyze.arc,v $
+//
+// Description:
+// The query/transformations in this file analyze the action language
+// of the customer model and gather statistics for use in optimized
+// code generation.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//
+//
+// Identify (special) where clauses that can be optimized.
+//
+// Select the class from which extent we are selecting.
+//  Mark its identifying attributes.
+// Select the blind select statements having where clauses.
+// Select the values that represent the where clauses that
+// are binary expressions where the operator is == or AND.
+// BUG:  R676 and R677 should be unconditional on the O_OBJ side.
+// Select the V_SLRs and their attributes.
+// Compare the two sets.
+//
+select many act_fiws from instances of ACT_FIW;
+for each act_fiw in act_fiws
+  select one v_bin related by act_fiw->V_VAL[R610]->V_BIN[R801] where ( ( selected.Operator == "and" ) or ( selected.Operator == "==" ) );
+  if ( not_empty v_bin )
+    select one o_obj related by act_fiw->O_OBJ[R676];
+    // Select the TE_WHEREs, because we can check to see if we have
+    // already marked a special where.
+    select many te_wheres related by o_obj->O_ID[R104]->TE_WHERE[R2032] where ( not selected.WhereKey );
+    if ( not_empty te_wheres )
+      // Clear out the included flag on all attributes of this class.
+      select many te_attrs related by o_obj->O_ATTR[R102]->TE_ATTR[R2033];
+      for each te_attr in te_attrs
+        te_attr.Included = false;
+      end for;
+      // Call a routine that will recursively drill down and mark any
+      // attributes compared in the where clause.
+      ::where_clause_mark_selected_attributes( v_bin:v_bin );
+      select many te_attrs related by o_obj->O_ATTR[R102]->TE_ATTR[R2033] where ( selected.Included );
+      if ( not_empty te_attrs )
+        for each te_where in te_wheres
+          select many identifying_te_attrs related by te_where->O_ID[R2032]->O_OIDA[R105]->O_ATTR[R105]->TE_ATTR[R2033];
+          if ( te_attrs == identifying_te_attrs )
+            T::print(s:"marking SPECIAL where on ${o_obj.Key_Lett}:${o_obj.Name}");
+            te_where.WhereKey = true;
+          end if;
+        end for;
+      end if;
+    end if;
+  end if;
+end for;
+@@@
+where_clause_mark_selected_attributes@void@@v_bin@inst_ref<Binary Operation>@@@
+//
+//
+// Recursively drill down into the where clause expression marking
+// selected attributes along the way.
+//
+v_bin = param.v_bin;
+if ( v_bin.Operator == "and" )
+  select one left_v_val related by v_bin->V_VAL[R802];
+  select one right_v_val related by v_bin->V_VAL[R803];
+  select one v_bin related by left_v_val->V_BIN[R801];
+  if ( not_empty v_bin )
+    ::where_clause_mark_selected_attributes( v_bin:v_bin );
+  end if;
+  select one v_bin related by right_v_val->V_BIN[R801];
+  if ( not_empty v_bin )
+    ::where_clause_mark_selected_attributes( v_bin:v_bin );
+  end if;
+elif ( v_bin.Operator == "==" )
+  select one te_attr related by v_bin->V_VAL[R802]->V_SLR[R801]->O_ATTR[R812]->TE_ATTR[R2033];
+  if ( not_empty te_attr )
+    te_attr.Included = true;
+  end if;
+  select one te_attr related by v_bin->V_VAL[R803]->V_SLR[R801]->O_ATTR[R812]->TE_ATTR[R2033];
+  if ( not_empty te_attr )
+    te_attr.Included = true;
+  end if;
+else
+  // allow return
+end if;
+@@@
+SM_SM_mark_valid@void@@@
+//
+//
+// Find valid state machines and mark them thusly.
+// Such state machines have at least one each of state, event and transition.
+//
+// Select only the state machines that have been configured for generation.
+select many te_sms from instances of TE_SM;
+for each te_sm in te_sms
+  select one sm_sm related by te_sm->SM_SM[R2043];
+  select any sm_state related by sm_sm->SM_STATE[R501];
+  if ( not_empty sm_state )
+    select any sm_txn related by sm_sm->SM_TXN[R505];
+    if ( not_empty sm_txn )
+      select any sm_evt related by sm_sm->SM_EVT[R502];
+      if ( not_empty sm_evt )
+        te_sm.complete = true;
+      end if;
+    end if;
+  end if;
+end for;
+@@@
+TE_TXN_used@void@@@
+//
+//
+// Update the size of SEM cells when transition actions are present.
+//
+select any te_sm from instances of TE_SM where ( selected.txn_action_count > 0 );
+if ( not_empty te_sm )
+  select any te_typemap from instances of TE_TYPEMAP;
+  te_typemap.SEM_cell_type = "u2_t";
+end if;
+@@@
+event_smt_used@void@@@
+//
+//
+// Find and mark/count events that are used in action language.
+// Even though we store the information in a count, this query
+// only counts each event once.
+//
+select many e_gsmes from instances of E_GSME;
+select many te_evts related by e_gsmes->SM_EVT[R707]->TE_EVT[R2036];
+for each te_evt in te_evts
+  te_evt.UsedCount = te_evt.UsedCount + 1;
+  te_evt.Used = true;
+end for;
+select many e_csmes from instances of E_CSME;
+select many te_evts related by e_csmes->SM_EVT[R706]->TE_EVT[R2036];
+for each te_evt in te_evts
+  te_evt.UsedCount = te_evt.UsedCount + 1;
+  te_evt.Used = true;
+end for;
+// Mark all of the signals (inter-component class-based events) as used.
+select many sm_sgevts from instances of SM_SGEVT;
+select many te_evts related by sm_sgevts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036];
+for each te_evt in te_evts
+  te_evt.UsedCount = te_evt.UsedCount + 1;
+  te_evt.Used = true;
+end for;
+@@@
+class_smt_created@void@@@
+//
+//
+// Mark classes that are created synchronously (nonself) or
+// asynchronously (self).
+//
+select many act_crs from instances of ACT_CR;
+select many te_classs related by act_crs->O_OBJ[R671]->TE_CLASS[R2019];
+::class_smt_crdel_check( te_classs:te_classs );
+for each te_class in te_classs
+  te_class.NonSelfCreated = true;
+end for;
+select many act_cnvs from instances of ACT_CNV;
+select many te_classs related by act_cnvs->O_OBJ[R672]->TE_CLASS[R2019];
+::class_smt_crdel_check( te_classs:te_classs );
+for each te_class in te_classs
+  te_class.NonSelfCreated = true;
+end for;
+// Now find any creator events to classes.
+select many e_gecs from instances of E_GEC;
+select many te_classs related by e_gecs->E_GSME[R705]->SM_EVT[R707]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019];
+::class_smt_crdel_check( te_classs:te_classs );
+for each te_class in te_classs
+  te_class.SelfCreated = true;
+end for;
+@@@
+class_smt_deleted@void@@@
+//
+//
+// Check for classes that are deleted synchronously and should not be.
+//
+select many act_dels from instances of ACT_DEL;
+select many te_classs related by act_dels->V_VAR[R634]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019];
+::class_smt_crdel_check( te_classs:te_classs );
+@@@
+class_smt_crdel_check@void@@te_classs@inst_ref_set<Extended Class>@@@
+//
+te_classs = param.te_classs;
+for each te_class in te_classs
+  if ( te_class.IsReadOnly )
+    select one o_obj related by te_class->O_OBJ[R2019];
+    T::print(s:"ERROR:  Attempt to create/delete read-only object ${o_obj.Name} (${o_obj.Key_Lett})");
+  end if;
+  if ( te_class.IsFixedPopulation )
+    select one o_obj related by te_class->O_OBJ[R2019];
+    T::print(s:"ERROR:  Attempt to create/delete object ${o_obj.Name} (${o_obj.Key_Lett}) within static instance population.");
+  end if;
+end for;
+@@@
+event_queue_analyze_needed@void@@@
+//
+// Count up all the places that events are either generated directly (E_GEN)
+// or where they are created for deferred generation (E_CEI).
+// Also count up the self versus nonself events.
+//
+self_queue_needed = false;
+nonself_queue_needed = false;
+select many e_gens from instances of E_GEN;
+select any v_var related by e_gens->V_VAR[R712] where ( selected.Name == "self" );
+if ( not_empty v_var )
+  self_queue_needed = true;
+end if;
+select any v_var related by e_gens->V_VAR[R712] where ( selected.Name != "self" );
+if ( not_empty v_var )
+  nonself_queue_needed = true;
+end if;
+if ( not ( self_queue_needed and nonself_queue_needed ) )
+  select many e_ceis from instances of E_CEI;
+  select any v_var related by e_ceis->V_VAR[R711] where ( selected.Name == "self" );
+  if ( not_empty v_var )
+    self_queue_needed = true;
+  end if;
+  select any v_var related by e_ceis->V_VAR[R711] where ( selected.Name != "self" );
+  if ( not_empty v_var )
+    nonself_queue_needed = true;
+  end if;
+end if;
+if ( self_queue_needed )
+  T::print(s:"Self event queue needed.");
+end if;
+if ( nonself_queue_needed )
+  T::print(s:"Instance event queue needed.");
+end if;
+@@@
+attr_analyze_accesses@void@@@
+//
+//
+// Analyze and mark the attributes of the customer model to flag which
+// attributes are read and/or written.  We will use this information
+// later to optimize out member data access code that is not needed.
+// Also, mark attributes participating as identifiers as used.
+// Mark written, read and Used attributes to TE_ATTR.
+//
+attributes_read_count = 0;
+attributes_written_count = 0;
+//
+// Select all the attribute values references.
+// Cycle through them marking their associated attributes as being read.
+// Then, see if they are written by determining whether they participate
+// as an lval in an assignment.
+// Note, there can be several V_AVLs for each O_ATTR.
+//
+select many te_attrs from instances of TE_ATTR;
+for each te_attr in te_attrs
+  select many v_avls related by te_attr->O_ATTR[R2033]->V_AVL[R806];
+  if ( not_empty v_avls )
+    if ( not te_attr.read )
+      attributes_read_count = attributes_read_count + 1;
+    end if;
+    te_attr.read = true;
+    te_attr.Used = true;
+  end if;
+  // attributes written
+  select any act_ai related by v_avls->V_VAL[R801]->ACT_AI[R689];
+  if ( not_empty act_ai )
+    if ( not te_attr.written )
+      attributes_written_count = attributes_written_count + 1;
+      select one te_class related by te_attr->TE_CLASS[R2061];
+      if ( te_class.IsReadOnly )
+        T::print(s:"ERROR:  Attempt to write to read-only object ${te_class.Name} (${te_class.Key_Lett}).");
+      end if;
+    end if;
+    te_attr.written = true;
+  end if;
+end for;
+// Identifying attributes are copied across in RELATE statements
+// even if they are never read or written.
+select many o_oidas from instances of O_OIDA;
+select many te_attrs related by o_oidas->O_ATTR[R105]->TE_ATTR[R2033];
+for each te_attr in te_attrs
+  te_attr.Used = true;
+end for;
+msg = T::s(i:attributes_read_count) + " attributes read";
+T::print(s:"${msg}");
+msg = T::s(i:attributes_written_count) + " attributes written";
+T::print(s:"${msg}");
+@@@
+attr_analyze_codegen@void@@te_sys@inst_ref<Extended System>@@@
+//
+//
+// Mark attributes that are not used, needed and should be optimized out.
+//
+te_sys = param.te_sys;
+optimized_out_count = 0;
+select many te_cs from instances of TE_C where ( not selected.OptDisabled );
+select many te_attrs related by te_cs->TE_CLASS[R2064]->TE_ATTR[R2061];
+for each te_attr in te_attrs
+  select one o_attr related by te_attr->O_ATTR[R2033];
+  // Do not translate current_state attributes.
+  select one s_cdt related by o_attr->S_DT[R114]->S_CDT[R17] where ( selected.Core_Typ == 6 );
+  if ( not_empty s_cdt )
+    te_attr.translate = false;
+    optimized_out_count = optimized_out_count + 1;
+  end if;
+  if ( not te_attr.Used )
+    // not accessed?
+    te_attr.translate = false;
+    optimized_out_count = optimized_out_count + 1;
+  else
+    // referential attribute?
+    select one o_rattr related by o_attr->O_RATTR[R106];
+    if ( not_empty o_rattr )
+      // Is referential not also an identifying attribute?
+      select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Attr_ID == o_rattr.Attr_ID );
+      if ( ( empty o_oida ) and ( not te_attr.Used ) )
+        if ( not te_sys.InstanceLoading )
+          te_attr.translate = false;
+          optimized_out_count = optimized_out_count + 1;
+        end if;
+      end if;
+    end if;
+  end if;
+end for;
+msg = T::s(i:optimized_out_count) + " attributes optimized out";
+T::print(s:"${msg}");
+@@@
+association_R_OIR_mark_navigated@void@@@
+//
+//
+// Here we mark which classes are navigated across associations in each
+// direction, from the formalizer or from the participant.  The results
+// are stored in instances linked to instances of R_OIR (TE_OIR).
+//
+select many act_lnks from instances of ACT_LNK;
+for each act_lnk in act_lnks
+  select any r_oir related by act_lnk->R_REL[R681]->R_OIR[R201] where ( selected.Obj_ID == act_lnk.Obj_ID );
+  select one te_oir related by r_oir->TE_OIR[R2035];
+  if ( not_empty te_oir )
+    te_oir.NavigatedTo = true;
+  end if;
+end for;
+@@@
+association_mark_link_unlink_needed@void@@@
+//
+//
+// Select all of the association instances and mark the ones that
+// actually get linked with the relate/unrelate OAL statements.
+//
+// Mark all navigation (across a particular association).
+// Mark all assocations that get navigated.
+//
+select many te_rels from instances of TE_REL;
+select many r_rels related by te_rels->R_REL[R2034];
+for each r_rel in r_rels
+  link_needed = false;
+  unlink_needed = false;
+  navigated = false;
+  // Check if navigated.
+  select any act_lnk related by r_rel->ACT_LNK[R681];
+  if ( not_empty act_lnk )
+    navigated = true;
+  end if;
+  // Check if related.
+  select any act_rel related by r_rel->ACT_REL[R653];
+  if ( not_empty act_rel )
+    link_needed = true;
+  else
+    select any act_ru related by r_rel->ACT_RU[R654];
+    if ( not_empty act_ru )
+      link_needed = true;
+    end if;
+  end if;
+  // Check if unrelated.
+  select any act_unr related by r_rel->ACT_UNR[R655];
+  if ( not_empty act_unr )
+    unlink_needed = true;
+  else
+    select any act_uru related by r_rel->ACT_URU[R656];
+    if ( not_empty act_uru )
+      unlink_needed = true;
+    end if;
+  end if;
+  // Apply results to TE_REL.
+  if ( ( link_needed or unlink_needed ) or navigated )
+    select one te_rel related by r_rel->TE_REL[R2034];
+    if ( navigated )
+      te_rel.Navigated = true;
+    end if;
+    if ( link_needed )
+      te_rel.LinkNeeded = true;
+    end if;
+    if ( unlink_needed )
+      te_rel.UnlinkNeeded = true;
+    end if;
+  end if;
+end for;
+@@@
+containoid_select_many_count@integer@@@
+//============================================================================
+// $RCSfile: q.oal.utils.arc,v $
+//
+// Description:
+// Utility functions specifically for OAL analysis.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//
+//
+// Find the maximum number of "select many" statements expressed in
+// one action body.  We will use this number to estimate the container
+// pool.
+// CDS - This gets called for each component but uses all actions in 
+// the system.  And it gets called too many times.
+//
+result = 0;
+select many act_acts from instances of ACT_ACT;
+for each act_act in act_acts
+  select many act_smts related by act_act->ACT_BLK[R601]->ACT_SMT[R602];
+  select many act_sels related by act_smts->ACT_SEL[R603] where ( ( selected.cardinality == "many" ) and ( selected.is_implicit ) );
+  select many act_fios related by act_smts->ACT_FIO[R603] where ( ( selected.cardinality == "many" ) and ( selected.is_implicit ) );
+  select many act_fiws related by act_smts->ACT_FIW[R603] where ( ( selected.cardinality == "many" ) and ( selected.is_implicit ) );
+  count = cardinality act_sels;
+  c1 = cardinality act_fios;
+  count = count + c1;
+  c1 = cardinality act_fiws;
+  count = count + c1;
+  if ( count > result )
+    result = count;
+  end if;
+end for;
+return result;
+@@@
+timer_analyze_starts@integer@@@
+//
+//
+// Count up the number of places where a timer is started (or started
+// in recurring mode).
+//
+result = 0;
+select many s_ees from instances of S_EE where ( selected.Key_Lett == "TIM" );
+for each s_ee in s_ees
+  select any s_brg related by s_ee->S_BRG[R19] where ( selected.Name == "timer_start" );
+  if ( not_empty s_brg )
+    select many timer_invocations related by s_brg->V_BRV[R828];
+    c = cardinality timer_invocations;
+    result = result + c;
+  end if;
+  select any s_brg related by s_ee->S_BRG[R19] where ( selected.Name == "timer_start_recurring" );
+  if ( not_empty s_brg )
+    select many timer_invocations related by s_brg->V_BRV[R828];
+    c = cardinality timer_invocations;
+    result = result + c;
+  end if;
+end for;
+return result;
+@@@
+CreateSpecialWhereClauseInstances@void@@te_sys@inst_ref<Extended System>@@@
+//
+//============================================================================
+// Class: 2000.  Special Where Clause
+// CREATE TABLE TE_SWC (
+// 	Obj_Kl		STRING,
+// 	Where_Spec	STRING,
+// 	Key	        STRING,
+// 	Ret_Val	        BOOLEAN,
+//	Built_In	BOOLEAN,
+//	Oid_ID	        INTEGER );
+//
+// Notes:
+// (1) The selected attributes of the where clause _Key_ are specified in the
+//     same order as they appear on the OIM. This convention allows other
+//     archetypes a _rule_ for dealing with the positional parameter
+//     information provided during fragment parsing of a special where clause.
+//============================================================================
+te_sys = param.te_sys;
+//
+// Special Where Clause patterns that may be optimized by the model compiler.
+//
+unique_num = 0;
+select many te_classes from instances of TE_CLASS where ( not selected.ExcludeFromGen );
+for each te_class in te_classes
+  select many o_ids related by te_class->O_OBJ[R2019]->O_ID[R104];
+  for each o_id in o_ids
+    select one te_where related by o_id->TE_WHERE[R2032];
+    // Get all special wheres when loading instances even if they are
+    // not seen in the OAL.  We need them for batch_relate.
+    if ( te_sys.InstanceLoading )
+      select any r_rto related by o_id->R_RTO[R109];
+      if ( not_empty r_rto )
+        te_where.WhereKey = true;
+      end if;
+    end if;
+    if ( te_where.WhereKey )
+      key_number = o_id.Oid_ID + 1;
+      where_spec = "";
+      unique_num = unique_num + 1;
+      where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
+      //
+      select many te_attrs related by te_class->TE_ATTR[R2061];
+      for each te_attr in te_attrs
+        te_attr.Included = false;
+      end for;
+      //
+      select many te_attrs related by o_id->O_OIDA[R105]->O_ATTR[R105]->TE_ATTR[R2033];
+      num_ident_attr = cardinality te_attrs;
+      for each te_attr in te_attrs
+        te_attr.Included = true;
+      end for;
+      //
+      // *** Provide a key without parenthesis.
+      // Be sure we have the first attribute in the class.
+      select any first_te_attr related by te_class->TE_ATTR[R2061];
+      while ( not_empty first_te_attr )
+        select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
+        if ( empty prev_te_attr )
+          break;
+        end if;
+        first_te_attr = prev_te_attr;
+      end while;
+      te_attr = first_te_attr;
+      oida_count = 0;
+      while ( not_empty te_attr )
+        select one o_attr related by te_attr->O_ATTR[R2033];
+        if ( te_attr.Included )
+          oida_count = oida_count + 1;
+          where_spec = where_spec + "selected.${o_attr.Name} == ?";
+          if ( oida_count < num_ident_attr )
+            where_spec = where_spec + " AND ";
+          end if;
+        end if;
+        //
+        select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
+      end while;
+      //
+      // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
+      create object instance te_swc of TE_SWC;
+      relate te_swc to te_class across R2001;
+      te_swc.Obj_Kl = te_class.Key_Lett;
+      te_swc.Where_Spec = where_spec;
+      te_swc.Key = where_key;
+      te_swc.Ret_Val = false;
+      te_swc.Built_In = true;
+      te_swc.Oid_ID = o_id.Oid_ID;
+      //
+      // *** Provide a key parenthesized at the outer construct.
+      where_spec = "(";
+      unique_num = unique_num + 1;
+      where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
+      te_attr = first_te_attr;
+      oida_count = 0;
+      while ( not_empty te_attr )
+        select one o_attr related by te_attr->O_ATTR[R2033];
+        if ( te_attr.Included )
+          oida_count = oida_count + 1;
+          where_spec = where_spec + "selected.${o_attr.Name} == ?";
+          if ( oida_count < num_ident_attr )
+            where_spec = where_spec + " AND ";
+          else
+            where_spec = where_spec + ")";
+          end if;
+        end if;
+        //
+        select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
+      end while;
+      //
+      // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
+      create object instance te_swc of TE_SWC;
+      relate te_swc to te_class across R2001;
+      te_swc.Obj_Kl = te_class.Key_Lett;
+      te_swc.Where_Spec = where_spec;
+      te_swc.Key = where_key;
+      te_swc.Ret_Val = false;
+      te_swc.Built_In = true;
+      te_swc.Oid_ID = o_id.Oid_ID;
+      //
+      if ( num_ident_attr > 1 )
+        // *** Provide a key parenthesized at outer and inner constructs.
+        where_spec = "(";
+        unique_num = unique_num + 1;
+        where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
+        te_attr = first_te_attr;
+        oida_count = 0;
+        while ( not_empty te_attr )
+          select one o_attr related by te_attr->O_ATTR[R2033];
+          if ( te_attr.Included )
+            oida_count = oida_count + 1;
+            where_spec = where_spec + "(selected.${o_attr.Name} == ?)";
+            if ( oida_count < num_ident_attr )
+              where_spec = where_spec + " AND ";
+            else
+              where_spec = where_spec + ")";
+            end if;
+          end if;
+          //
+          select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
+        end while;
+        //
+        // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
+        create object instance te_swc of TE_SWC;
+        relate te_swc to te_class across R2001;
+        te_swc.Obj_Kl = te_class.Key_Lett;
+        te_swc.Where_Spec = where_spec;
+        te_swc.Key = where_key;
+        te_swc.Ret_Val = false;
+        te_swc.Built_In = true;
+        te_swc.Oid_ID = o_id.Oid_ID;
+        // *** Provide a key parenthesized at just inner constructs.
+        where_spec = "";
+        unique_num = unique_num + 1;
+        where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
+        te_attr = first_te_attr;
+        oida_count = 0;
+        while ( not_empty te_attr )
+          select one o_attr related by te_attr->O_ATTR[R2033];
+          if ( te_attr.Included )
+            oida_count = oida_count + 1;
+            where_spec = where_spec + "(selected.${o_attr.Name} == ?)";
+            if ( oida_count < num_ident_attr )
+              where_spec = where_spec + " AND ";
+            end if;
+          end if;
+          //
+          select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
+        end while;
+        //
+        // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
+        create object instance te_swc of TE_SWC;
+        relate te_swc to te_class across R2001;
+        te_swc.Obj_Kl = te_class.Key_Lett;
+        te_swc.Where_Spec = where_spec;
+        te_swc.Key = where_key;
+        te_swc.Ret_Val = false;
+        te_swc.Built_In = true;
+        te_swc.Oid_ID = o_id.Oid_ID;
+        //
+      end if;
+    end if;
+  end for;
+end for;
+@@@
 te_parm_RenderParameters@void@@te_parms@inst_ref_set<Extended Parameter>@@te_aba@inst_ref<Action Block Anchor>@@@
 //============================================================================
 // $RCSfile: q.parameters.arc,v $
@@ -1026,7 +1260,9 @@ while ( not_empty te_parm )
   else
     string_format = ( string_format + format_delimiter ) + "[]";
   end if;
-  r = ::t_oal_smt_event_parameters( evt_msg_var:"", parameter:te_parm.Name, value:te_parm.GeneratedName, value_type:te_dt.Core_Typ, ws:"  " );
+  //-- 002: 20140123 Modified Start (saitou) 
+  r = ::t_oal_smt_event_parameters( evt_msg_var:"", parameter:te_parm.Name, value:te_parm.GeneratedName, value_type:te_dt.Core_Typ, ws:"  ", isExternalMacro:te_dt.IsExternalMacro );
+  //-- 002: 20140123 Modified End (saitou) 
   assn = assn + r;
   if ( "A00portindex" != te_parm.Name )
     assnbase = assnbase + r;
@@ -1046,6 +1282,595 @@ te_aba.ParameterTrace = parameter_trace;
 te_aba.ParameterFormat = string_format;
 te_aba.ParameterAssignment = assn;
 te_aba.ParameterAssignmentBase = assnbase;
+@@@
+sparm_sort@void@@s_sparms@inst_ref_set<Function Parameter>@@@
+// CDS temporarily order parameters alphabetically for backwards compatibility
+s_sparms = param.s_sparms;
+//-- 007: 20140213 Add Start (saitou) 
+if ( not_empty s_sparms )
+  //-- 007: 20140213 Add End (saitou) 
+  for each s_sparm in s_sparms
+    select one prev_s_sparm related by s_sparm->S_SPARM[R54.'succeeds'];
+    if ( not_empty prev_s_sparm )
+      unrelate s_sparm from prev_s_sparm across R54.'precedes';
+    end if;
+  end for;
+  //-- 007: 20140213 Add Start (saitou) 
+  select any s_sync from instances of S_SYNC where ( false );
+  for each s_sparm in s_sparms
+    select any s_sync related by s_sparm->S_SYNC[R24];
+    break;
+  end for;
+  if ( empty s_sync )
+    T::print(s:"Error! not found S_SYNC!");
+    T::exit(i:-1);
+  end if;
+  //
+  select any te_stidescrip from instances of TE_STIDESCRIP;
+  te_stidescrip.Descrip = s_sync.Descrip;
+  r = ::CreateSTIObjects( te_stidescrip:te_stidescrip );
+  te_sti = r;
+  //
+  if ( te_sti.Name_key != "" )
+    T::print(s:"[sparm_sort] ${s_sync.Name} param order control enable");
+    //
+    r1 = ::sparm_sort_order_control( te_sti:te_sti, s_sparms:s_sparms );
+    orderNum = r1;
+    sprmNum = cardinality s_sparms;
+    if ( orderNum != sprmNum )
+      T::print(s:"Error! [${s_sync.Name}] : param order num mismatch! ordNum=${orderNum} : sprmNum=${sprmNum}");
+      T::exit(i:-1);
+    end if;
+  else
+    //-- 007: 20140213 Add End (saitou) 
+    // Declare an empty instance reference.
+    select any head_s_sparm related by s_sparms->S_SPARM[R54.'succeeds'] where ( false );
+    for each s_sparm in s_sparms
+      r = ::sparm_insert( head_s_sparm:head_s_sparm, s_sparm:s_sparm );
+      head_s_sparm = r;
+    end for;
+    //-- 007: 20140213 Add Start (saitou) 
+  end if; // "${te_sti.Name_key}"
+end if; // not_empty s_sparms
+//-- 007: 20140213 Add End (saitou) 
+@@@
+sparm_insert@inst_ref<Function Parameter>@@head_s_sparm@inst_ref<Function Parameter>@@s_sparm@inst_ref<Function Parameter>@@@
+head_s_sparm = param.head_s_sparm;
+s_sparm = param.s_sparm;
+result = s_sparm;
+if ( empty head_s_sparm )
+  // Just starting.  Return s_sparm as head.
+elif ( s_sparm.Name <= head_s_sparm.Name )
+  // insert before
+  relate s_sparm to head_s_sparm across R54.'precedes';
+else
+  // find bigger
+  result = head_s_sparm;
+  prev_s_sparm = head_s_sparm;
+  select one cursor_s_sparm related by head_s_sparm->S_SPARM[R54.'precedes'];
+  while ( not_empty cursor_s_sparm )
+    if ( s_sparm.Name <= cursor_s_sparm.Name )
+      break;
+    else
+      prev_s_sparm = cursor_s_sparm;
+      select one cursor_s_sparm related by cursor_s_sparm->S_SPARM[R54.'precedes'];
+    end if;
+  end while;
+  relate prev_s_sparm to s_sparm across R54.'precedes';
+  if ( not_empty cursor_s_sparm )
+    relate s_sparm to cursor_s_sparm across R54.'precedes';
+  end if;
+end if;
+return result;
+@@@
+sparm_sort_order_control@integer@@te_sti@inst_ref<String to Integer>@@s_sparms@inst_ref_set<Function Parameter>@@@
+//-- 007: 20140213 Add Start (saitou) 
+te_sti = param.te_sti;
+s_sparms = param.s_sparms;
+//
+//
+select any cur_s_sparm from instances of S_SPARM where ( false );
+orderNum = 0;
+while ( not_empty te_sti )
+  if ( te_sti.Name_key != "" )
+    orderNum = orderNum + 1;
+    //
+    for each s_sparm in s_sparms
+      if ( s_sparm.Name == te_sti.Name_key )
+        if ( not_empty cur_s_sparm )
+          s_sparm.Previous_SParm_ID = cur_s_sparm.SParm_ID;
+        end if;
+        cur_s_sparm = s_sparm;
+        break;
+      end if;
+    end for;
+  end if;
+  select one te_sti related by te_sti->TE_STI[R3002.'precedes'];
+end while;
+//
+return orderNum;
+@@@
+CreateFirstLinkParameterValue@inst_ref<String to Integer>@@name_key@string@@@
+name_key = param.name_key;
+select any te_sti from instances of TE_STI where ( selected.IsFirst );
+if ( empty te_sti )
+  create object instance te_sti of TE_STI;
+  end if;
+te_sti.Name_key = name_key;
+return te_sti;
+@@@
+LinkAddParameterValue@inst_ref<String to Integer>@@p_te_sti@inst_ref<String to Integer>@@name_key@string@@@
+p_te_sti = param.p_te_sti;
+name_key = param.name_key;
+select one te_sti related by p_te_sti->TE_STI[R3002.'precedes'];
+if ( empty te_sti )
+  create object instance te_sti of TE_STI;
+  relate te_sti to p_te_sti across R3002.'succeeds';
+end if;
+te_sti.Name_key = name_key;
+return te_sti;
+@@@
+CreateSTIObjects@inst_ref<String to Integer>@@te_stidescrip@inst_ref<STI Descrip>@@@
+te_stidescrip = param.te_stidescrip;
+select any te_sti from instances of TE_STI where ( false );
+param_0 = T::parsekeyword(s:te_stidescrip.Descrip,key:"param_0");
+arg1 = T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG1");
+if ( "" != param_0 )
+  r0 = ::CreateFirstLinkParameterValue( name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_0") );
+  r1 = ::LinkAddParameterValue( p_te_sti:r0, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_1") );
+  r2 = ::LinkAddParameterValue( p_te_sti:r1, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_2") );
+  r3 = ::LinkAddParameterValue( p_te_sti:r2, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_3") );
+  r4 = ::LinkAddParameterValue( p_te_sti:r3, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_4") );
+  r5 = ::LinkAddParameterValue( p_te_sti:r4, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_5") );
+  r6 = ::LinkAddParameterValue( p_te_sti:r5, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_6") );
+  r7 = ::LinkAddParameterValue( p_te_sti:r6, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_7") );
+  r8 = ::LinkAddParameterValue( p_te_sti:r7, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_8") );
+  r9 = ::LinkAddParameterValue( p_te_sti:r8, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_9") );
+  r10 = ::LinkAddParameterValue( p_te_sti:r9, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_10") );
+  r11 = ::LinkAddParameterValue( p_te_sti:r10, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_11") );
+  r12 = ::LinkAddParameterValue( p_te_sti:r11, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_12") );
+  r13 = ::LinkAddParameterValue( p_te_sti:r12, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_13") );
+  r14 = ::LinkAddParameterValue( p_te_sti:r13, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_14") );
+  r15 = ::LinkAddParameterValue( p_te_sti:r14, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_15") );
+  r16 = ::LinkAddParameterValue( p_te_sti:r15, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_16") );
+  r17 = ::LinkAddParameterValue( p_te_sti:r16, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_17") );
+  r18 = ::LinkAddParameterValue( p_te_sti:r17, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_18") );
+  r19 = ::LinkAddParameterValue( p_te_sti:r18, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_19") );
+  r20 = ::LinkAddParameterValue( p_te_sti:r19, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_20") );
+  r21 = ::LinkAddParameterValue( p_te_sti:r20, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_21") );
+  r22 = ::LinkAddParameterValue( p_te_sti:r21, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_22") );
+  r23 = ::LinkAddParameterValue( p_te_sti:r22, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_23") );
+  r24 = ::LinkAddParameterValue( p_te_sti:r23, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_24") );
+  r25 = ::LinkAddParameterValue( p_te_sti:r24, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_25") );
+  r26 = ::LinkAddParameterValue( p_te_sti:r25, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_26") );
+  r27 = ::LinkAddParameterValue( p_te_sti:r26, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_27") );
+  r28 = ::LinkAddParameterValue( p_te_sti:r27, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_28") );
+  r29 = ::LinkAddParameterValue( p_te_sti:r28, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_29") );
+  r30 = ::LinkAddParameterValue( p_te_sti:r29, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_30") );
+  r31 = ::LinkAddParameterValue( p_te_sti:r30, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_31") );
+  r32 = ::LinkAddParameterValue( p_te_sti:r31, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_32") );
+  r33 = ::LinkAddParameterValue( p_te_sti:r32, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_33") );
+  r34 = ::LinkAddParameterValue( p_te_sti:r33, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_34") );
+  r35 = ::LinkAddParameterValue( p_te_sti:r34, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_35") );
+  r36 = ::LinkAddParameterValue( p_te_sti:r35, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_36") );
+  r37 = ::LinkAddParameterValue( p_te_sti:r36, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_37") );
+  r38 = ::LinkAddParameterValue( p_te_sti:r37, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_38") );
+  r39 = ::LinkAddParameterValue( p_te_sti:r38, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_39") );
+  r40 = ::LinkAddParameterValue( p_te_sti:r39, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_40") );
+  r41 = ::LinkAddParameterValue( p_te_sti:r40, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_41") );
+  r42 = ::LinkAddParameterValue( p_te_sti:r41, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_42") );
+  r43 = ::LinkAddParameterValue( p_te_sti:r42, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_43") );
+  r44 = ::LinkAddParameterValue( p_te_sti:r43, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_44") );
+  r45 = ::LinkAddParameterValue( p_te_sti:r44, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_45") );
+  r46 = ::LinkAddParameterValue( p_te_sti:r45, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_46") );
+  r47 = ::LinkAddParameterValue( p_te_sti:r46, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_47") );
+  r48 = ::LinkAddParameterValue( p_te_sti:r47, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_48") );
+  r49 = ::LinkAddParameterValue( p_te_sti:r48, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_49") );
+  r50 = ::LinkAddParameterValue( p_te_sti:r49, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"param_50") );
+  //
+  te_sti = r0;
+  //
+elif ( "" != arg1 )
+  //
+  r0 = ::CreateFirstLinkParameterValue( name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG1") );
+  r1 = ::LinkAddParameterValue( p_te_sti:r0, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG2") );
+  r2 = ::LinkAddParameterValue( p_te_sti:r1, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG3") );
+  r3 = ::LinkAddParameterValue( p_te_sti:r2, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG4") );
+  r4 = ::LinkAddParameterValue( p_te_sti:r3, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG5") );
+  r5 = ::LinkAddParameterValue( p_te_sti:r4, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG6") );
+  r6 = ::LinkAddParameterValue( p_te_sti:r5, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG7") );
+  r7 = ::LinkAddParameterValue( p_te_sti:r6, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG8") );
+  r8 = ::LinkAddParameterValue( p_te_sti:r7, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG9") );
+  r9 = ::LinkAddParameterValue( p_te_sti:r8, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG10") );
+  r10 = ::LinkAddParameterValue( p_te_sti:r9, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG11") );
+  r11 = ::LinkAddParameterValue( p_te_sti:r10, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG12") );
+  r12 = ::LinkAddParameterValue( p_te_sti:r11, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG13") );
+  r13 = ::LinkAddParameterValue( p_te_sti:r12, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG14") );
+  r14 = ::LinkAddParameterValue( p_te_sti:r13, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG15") );
+  r15 = ::LinkAddParameterValue( p_te_sti:r14, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG16") );
+  r16 = ::LinkAddParameterValue( p_te_sti:r15, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG17") );
+  r17 = ::LinkAddParameterValue( p_te_sti:r16, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG18") );
+  r18 = ::LinkAddParameterValue( p_te_sti:r17, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG19") );
+  r19 = ::LinkAddParameterValue( p_te_sti:r18, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG20") );
+  r20 = ::LinkAddParameterValue( p_te_sti:r19, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG21") );
+  r21 = ::LinkAddParameterValue( p_te_sti:r20, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG22") );
+  r22 = ::LinkAddParameterValue( p_te_sti:r21, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG23") );
+  r23 = ::LinkAddParameterValue( p_te_sti:r22, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG24") );
+  r24 = ::LinkAddParameterValue( p_te_sti:r23, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG25") );
+  r25 = ::LinkAddParameterValue( p_te_sti:r24, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG26") );
+  r26 = ::LinkAddParameterValue( p_te_sti:r25, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG27") );
+  r27 = ::LinkAddParameterValue( p_te_sti:r26, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG28") );
+  r28 = ::LinkAddParameterValue( p_te_sti:r27, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG29") );
+  r29 = ::LinkAddParameterValue( p_te_sti:r28, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG30") );
+  r30 = ::LinkAddParameterValue( p_te_sti:r29, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG31") );
+  r31 = ::LinkAddParameterValue( p_te_sti:r30, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG32") );
+  r32 = ::LinkAddParameterValue( p_te_sti:r31, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG33") );
+  r33 = ::LinkAddParameterValue( p_te_sti:r32, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG34") );
+  r34 = ::LinkAddParameterValue( p_te_sti:r33, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG35") );
+  r35 = ::LinkAddParameterValue( p_te_sti:r34, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG36") );
+  r36 = ::LinkAddParameterValue( p_te_sti:r35, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG37") );
+  r37 = ::LinkAddParameterValue( p_te_sti:r36, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG38") );
+  r38 = ::LinkAddParameterValue( p_te_sti:r37, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG39") );
+  r39 = ::LinkAddParameterValue( p_te_sti:r38, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG40") );
+  r40 = ::LinkAddParameterValue( p_te_sti:r39, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG41") );
+  r41 = ::LinkAddParameterValue( p_te_sti:r40, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG42") );
+  r42 = ::LinkAddParameterValue( p_te_sti:r41, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG43") );
+  r43 = ::LinkAddParameterValue( p_te_sti:r42, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG44") );
+  r44 = ::LinkAddParameterValue( p_te_sti:r43, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG45") );
+  r45 = ::LinkAddParameterValue( p_te_sti:r44, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG46") );
+  r46 = ::LinkAddParameterValue( p_te_sti:r45, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG47") );
+  r47 = ::LinkAddParameterValue( p_te_sti:r46, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG48") );
+  r48 = ::LinkAddParameterValue( p_te_sti:r47, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG49") );
+  r49 = ::LinkAddParameterValue( p_te_sti:r48, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG50") );
+  r50 = ::LinkAddParameterValue( p_te_sti:r49, name_key:T::parsekeyword(s:te_stidescrip.Descrip,key:"ARG51") );
+  //
+  te_sti = r0;
+else
+  r0 = ::CreateFirstLinkParameterValue( name_key:"" );
+  te_sti = r0;
+end if;
+//
+return te_sti;
+@@@
+bparm_sort@void@@s_brg@inst_ref<Bridge>@@s_bparms@inst_ref_set<Bridge Parameter>@@@
+//-- 007: 20140213 Add End (saitou) 
+//
+//
+s_brg = param.s_brg;
+s_bparms = param.s_bparms;
+// 20130314 nomura param
+//
+//-- 008: 20140213 Add Start (saitou) 
+if ( not_empty s_bparms )
+  //-- 008: 20140213 Add End (saitou) 
+  for each s_bparm in s_bparms
+    select one prev_s_bparm related by s_bparm->S_BPARM[R55.'succeeds'];
+    if ( not_empty prev_s_bparm )
+      unrelate s_bparm from prev_s_bparm across R55.'precedes';
+    end if;
+  end for;
+  //-- 008: 20140213 Add Start (saitou) 
+  //    .select any s_brg from instances of S_BRG where ( false )
+  //    .for each s_bparm in s_bparms
+  //      .select any s_brg related by s_bparm->S_BRG[R21]
+  //      .break for
+  //    .end for
+  //    .if ( empty s_brg )
+  //      .print "Error! not found S_BRG!"
+  //      .exit -1
+  //    .end if
+  //
+  select any te_stidescrip from instances of TE_STIDESCRIP;
+  te_stidescrip.Descrip = s_brg.Descrip;
+  r = ::CreateSTIObjects( te_stidescrip:te_stidescrip );
+  te_sti = r;
+  //
+  if ( te_sti.Name_key != "" )
+    T::print(s:"[bparm_sort] ${s_brg.Name} param order control enable");
+    //
+    r1 = ::sbrg_sort_order_control( te_sti:te_sti, s_bparms:s_bparms );
+    orderNum = r1;
+    bprmNum = cardinality s_bparms;
+    if ( orderNum != bprmNum )
+      T::print(s:"Error! [${s_brg.Name}] : param order num mismatch! ordNum=${orderNum} : bprmNum=${bprmNum}");
+      T::exit(i:-1);
+    end if;
+  else
+    //-- 008: 20140213 Add End (saitou) 
+    // Declare an empty instance reference.
+    select any head_s_bparm related by s_bparms->S_BPARM[R55.'succeeds'] where ( false );
+    for each s_bparm in s_bparms
+      r = ::bparm_insert( head_s_bparm:head_s_bparm, s_bparm:s_bparm );
+      head_s_bparm = r;
+    end for;
+    //-- 008: 20140213 Add Start (saitou) 
+  end if;
+end if;
+//-- 008: 20140213 Add End (saitou) 
+@@@
+sbrg_sort_order_control@integer@@te_sti@inst_ref<String to Integer>@@s_bparms@inst_ref_set<Bridge Parameter>@@@
+//-- 008: 20140213 Add Start (saitou) 
+te_sti = param.te_sti;
+s_bparms = param.s_bparms;
+//
+//
+select any cur_s_bparm from instances of S_BPARM where ( false );
+orderNum = 0;
+while ( not_empty te_sti )
+  if ( te_sti.Name_key != "" )
+    orderNum = orderNum + 1;
+    //
+    for each s_bparm in s_bparms
+      if ( s_bparm.Name == te_sti.Name_key )
+        if ( not_empty cur_s_bparm )
+          s_bparm.Previous_BParm_ID = cur_s_bparm.BParm_ID;
+        end if;
+        cur_s_bparm = s_bparm;
+        break;
+      end if;
+    end for;
+  end if;
+  select one te_sti related by te_sti->TE_STI[R3002.'precedes'];
+end while;
+//
+return orderNum;
+@@@
+bparm_insert@inst_ref<Bridge Parameter>@@head_s_bparm@inst_ref<Bridge Parameter>@@s_bparm@inst_ref<Bridge Parameter>@@@
+//-- 008: 20140213 Add End (saitou) 
+head_s_bparm = param.head_s_bparm;
+s_bparm = param.s_bparm;
+result = s_bparm;
+if ( empty head_s_bparm )
+  // Just starting.  Return s_bparm as head.
+elif ( s_bparm.Name <= head_s_bparm.Name )
+  // insert before
+  relate s_bparm to head_s_bparm across R55.'precedes';
+else
+  // find bigger
+  result = head_s_bparm;
+  prev_s_bparm = head_s_bparm;
+  select one cursor_s_bparm related by head_s_bparm->S_BPARM[R55.'precedes'];
+  while ( not_empty cursor_s_bparm )
+    if ( s_bparm.Name <= cursor_s_bparm.Name )
+      break;
+    else
+      prev_s_bparm = cursor_s_bparm;
+      select one cursor_s_bparm related by cursor_s_bparm->S_BPARM[R55.'precedes'];
+    end if;
+  end while;
+  relate prev_s_bparm to s_bparm across R55.'precedes';
+  if ( not_empty cursor_s_bparm )
+    relate s_bparm to cursor_s_bparm across R55.'precedes';
+  end if;
+end if;
+return result;
+@@@
+tparm_sort@void@@o_tparms@inst_ref_set<Operation Parameter>@@@
+//
+//
+o_tparms = param.o_tparms;
+for each o_tparm in o_tparms
+  select one prev_o_tparm related by o_tparm->O_TPARM[R124.'succeeds'];
+  if ( not_empty prev_o_tparm )
+    unrelate o_tparm from prev_o_tparm across R124.'succeeds';
+  end if;
+end for;
+// Declare an empty instance reference.
+select any head_o_tparm related by o_tparms->O_TPARM[R124.'succeeds'] where ( false );
+for each o_tparm in o_tparms
+  r = ::tparm_insert( head_o_tparm:head_o_tparm, o_tparm:o_tparm );
+  head_o_tparm = r;
+end for;
+@@@
+tparm_insert@inst_ref<Operation Parameter>@@head_o_tparm@inst_ref<Operation Parameter>@@o_tparm@inst_ref<Operation Parameter>@@@
+head_o_tparm = param.head_o_tparm;
+o_tparm = param.o_tparm;
+result = o_tparm;
+if ( empty head_o_tparm )
+  // Just starting.  Return o_tparm as head.
+elif ( o_tparm.Name <= head_o_tparm.Name )
+  // insert before
+  relate o_tparm to head_o_tparm across R124.'precedes';
+else
+  // find bigger
+  result = head_o_tparm;
+  prev_o_tparm = head_o_tparm;
+  select one cursor_o_tparm related by head_o_tparm->O_TPARM[R124.'precedes'];
+  while ( not_empty cursor_o_tparm )
+    if ( o_tparm.Name <= cursor_o_tparm.Name )
+      break;
+    else
+      prev_o_tparm = cursor_o_tparm;
+      select one cursor_o_tparm related by cursor_o_tparm->O_TPARM[R124.'precedes'];
+    end if;
+  end while;
+  relate prev_o_tparm to o_tparm across R124.'precedes';
+  if ( not_empty cursor_o_tparm )
+    relate o_tparm to cursor_o_tparm across R124.'precedes';
+  end if;
+end if;
+return result;
+@@@
+evtdi_sort@void@@sm_evtdis@inst_ref_set<State Machine Event Data Item>@@@
+//
+//
+sm_evtdis = param.sm_evtdis;
+for each sm_evtdi in sm_evtdis
+  select one prev_sm_evtdi related by sm_evtdi->SM_EVTDI[R533.'succeeds'];
+  if ( not_empty prev_sm_evtdi )
+    unrelate sm_evtdi from prev_sm_evtdi across R533.'succeeds';
+  end if;
+end for;
+// Declare an empty instance reference.
+select any head_sm_evtdi related by sm_evtdis->SM_EVTDI[R533.'succeeds'] where ( false );
+for each sm_evtdi in sm_evtdis
+  r = ::evtdi_insert( head_sm_evtdi:head_sm_evtdi, sm_evtdi:sm_evtdi );
+  head_sm_evtdi = r;
+end for;
+@@@
+evtdi_insert@inst_ref<State Machine Event Data Item>@@head_sm_evtdi@inst_ref<State Machine Event Data Item>@@sm_evtdi@inst_ref<State Machine Event Data Item>@@@
+head_sm_evtdi = param.head_sm_evtdi;
+sm_evtdi = param.sm_evtdi;
+result = sm_evtdi;
+if ( empty head_sm_evtdi )
+  // Just starting.  Return sm_evtdi as head.
+elif ( sm_evtdi.Name <= head_sm_evtdi.Name )
+  // insert before
+  relate sm_evtdi to head_sm_evtdi across R533.'precedes';
+else
+  // find bigger
+  result = head_sm_evtdi;
+  prev_sm_evtdi = head_sm_evtdi;
+  select one cursor_sm_evtdi related by head_sm_evtdi->SM_EVTDI[R533.'precedes'];
+  while ( not_empty cursor_sm_evtdi )
+    if ( sm_evtdi.Name <= cursor_sm_evtdi.Name )
+      break;
+    else
+      prev_sm_evtdi = cursor_sm_evtdi;
+      select one cursor_sm_evtdi related by cursor_sm_evtdi->SM_EVTDI[R533.'precedes'];
+    end if;
+  end while;
+  relate prev_sm_evtdi to sm_evtdi across R533.'precedes';
+  if ( not_empty cursor_sm_evtdi )
+    relate sm_evtdi to cursor_sm_evtdi across R533.'precedes';
+  end if;
+end if;
+return result;
+@@@
+pp_sort@void@@c_pps@inst_ref_set<Property Parameter>@@@
+//
+//
+c_pps = param.c_pps;
+for each c_pp in c_pps
+  select one prev_c_pp related by c_pp->C_PP[R4021.'succeeds'];
+  if ( not_empty prev_c_pp )
+    unrelate c_pp from prev_c_pp across R4021.'succeeds';
+  end if;
+end for;
+// Declare an empty instance reference.
+select any head_c_pp related by c_pps->C_PP[R4021.'succeeds'] where ( false );
+for each c_pp in c_pps
+  r = ::pp_insert( head_c_pp:head_c_pp, c_pp:c_pp );
+  head_c_pp = r;
+end for;
+@@@
+pp_insert@inst_ref<Property Parameter>@@head_c_pp@inst_ref<Property Parameter>@@c_pp@inst_ref<Property Parameter>@@@
+head_c_pp = param.head_c_pp;
+c_pp = param.c_pp;
+result = c_pp;
+if ( empty head_c_pp )
+  // Just starting.  Return c_pp as head.
+elif ( c_pp.Name <= head_c_pp.Name )
+  // insert before
+  relate c_pp to head_c_pp across R4021.'precedes';
+else
+  // find bigger
+  result = head_c_pp;
+  prev_c_pp = head_c_pp;
+  select one cursor_c_pp related by head_c_pp->C_PP[R4021.'precedes'];
+  while ( not_empty cursor_c_pp )
+    if ( c_pp.Name <= cursor_c_pp.Name )
+      break;
+    else
+      prev_c_pp = cursor_c_pp;
+      select one cursor_c_pp related by cursor_c_pp->C_PP[R4021.'precedes'];
+    end if;
+  end while;
+  relate prev_c_pp to c_pp across R4021.'precedes';
+  if ( not_empty cursor_c_pp )
+    relate c_pp to cursor_c_pp across R4021.'precedes';
+  end if;
+end if;
+return result;
+@@@
+parm_sort@void@@@
+//
+// CDS temporary for sorting model data parameters
+if ( true )
+  create object instance te_stidescrip of TE_STIDESCRIP;
+  select many s_syncs from instances of S_SYNC;
+  for each s_sync in s_syncs
+    select many s_sparms related by s_sync->S_SPARM[R24];
+    ::sparm_sort( s_sparms:s_sparms );
+  end for;
+  select many s_brgs from instances of S_BRG;
+  for each s_brg in s_brgs
+    select many s_bparms related by s_brg->S_BPARM[R21];
+    // TEMP
+    ::bparm_sort( s_brg:s_brg, s_bparms:s_bparms );
+  end for;
+  select many o_tfrs from instances of O_TFR;
+  for each o_tfr in o_tfrs
+    select many o_tparms related by o_tfr->O_TPARM[R117];
+    ::tparm_sort( o_tparms:o_tparms );
+  end for;
+  select many sm_evts from instances of SM_EVT;
+  for each sm_evt in sm_evts
+    select many sm_evtdis related by sm_evt->SM_EVTDI[R532];
+    ::evtdi_sort( sm_evtdis:sm_evtdis );
+  end for;
+  select many c_eps from instances of C_EP;
+  for each c_ep in c_eps
+    select many c_pps related by c_ep->C_PP[R4006];
+    ::pp_sort( c_pps:c_pps );
+  end for;
+end if;
+@@@
+rel_pseudoformalize@void@@@
+//============================================================================
+// $RCSfile: q.assoc.pseudoformalize.arc,v $
+//
+// Description:
+// This query/transformation archetype file contains the functionality
+// that will allow the model compiler to generate code for unformalized 
+// associations (associations that have not been formalized).
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+// Find the associations that are not formalized.  They are characterized
+// by the existence of 2 instances of R_PART linked to one R_SIMP.
+// Migrate the R_PART/R_RTO pair to R_FORM/R_RGO.
+// It does not matter which participant we choose unless this is a many
+// association.  Grab the many side of a 1-M or any random R_PART and
+// migrate it and its parent R_RTO to R_FORM and R_RGO respectively.
+select many r_simps from instances of R_SIMP;
+for each r_simp in r_simps
+  select many r_parts related by r_simp->R_PART[R207];
+  if ( ( cardinality r_parts ) > 1 )
+    select any r_part related by r_simp->R_PART[R207] where ( selected.Mult == 1 );
+    if ( empty r_part )
+      select any r_part related by r_simp->R_PART[R207];
+    end if;
+    select one r_rto related by r_part->R_RTO[R204];
+    select one r_oir related by r_rto->R_OIR[R203];
+    //
+    create object instance r_rgo of R_RGO;
+    create object instance r_form of R_FORM;
+    //
+    // Copy the R_PART to the new R_FORM.
+    r_form.Mult = r_part.Mult;
+    r_form.Cond = r_part.Cond;
+    r_form.Txt_Phrs = r_part.Txt_Phrs;
+    //
+    unrelate r_part from r_rto across R204;
+    unrelate r_part from r_simp across R207;
+    delete object instance r_part;
+    //
+    unrelate r_rto from r_oir across R203;
+    delete object instance r_rto;
+    //
+    relate r_rgo to r_oir across R203;
+    relate r_form to r_rgo across R205;
+    relate r_form to r_simp across R208;
+  end if;
+end for;
 @@@
 sys_populate@void@@@
 //============================================================================
@@ -1217,6 +2042,14 @@ for each c_c in c_cs
   te_c.port_file = te_c.Name;
   te_c.classes_file = te_c.Name + "_classes";
   te_c.CodeComments = true;
+  //-- 0100:20140211 Add Start (nomura)
+  te_c.MaxInternalEvents = 0;
+  te_c.MaxExternalEvents = 0;
+  te_c.MaxRelationExtents = 0;
+  te_c.MaxSelectionNodeExtents = 0;
+  te_c.isUseMutexLock = false;
+  te_c.isUseFacadeMaxDef = false;
+  //-- 0100:20140211 End Start (nomura)
   // Create and relate the domain class info to carry details about
   // class extents for this component.
   create object instance te_dci of TE_DCI;
@@ -1428,7 +2261,24 @@ for each s_dt in s_dts
     te_dt.Owning_Dom_Name = te_c.Name;
     relate te_dt to te_c across R2086;
   end if;
+  te_dt.IsExternalMacro = false;
 end for;
+//
+// Map data types to macros based on marking.
+select many tm_dtmacros from instances of TM_DTMACRO;
+for each tm_dtmacro in tm_dtmacros
+  te_dts = empty_te_dts;
+  if ( ( "*" == tm_dtmacro.component ) or ( "" == tm_dtmacro.component ) )
+    select many te_dts from instances of TE_DT where ( selected.Name == tm_dtmacro.DT_name );
+  else
+    select any te_c from instances of TE_C where ( selected.Name == tm_dtmacro.component );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_dtmacro.DT_name );
+  end if;
+  for each te_dt in te_dts
+    te_dt.IsExternalMacro = tm_dtmacro.IsExternalMacro;
+  end for;
+end for;
+//
 select any converted_bool_te_dt from instances of TE_DT where ( selected.Name == "integer" );
 //
 select many o_objs from instances of O_OBJ;
@@ -1521,7 +2371,10 @@ for each s_cdt in s_cdts
     if ( te_sys.AUTOSAR )
       te_dt.ExtName = "dt_xtUMLInteger";
     else
-      te_dt.ExtName = "i_t";
+      //-- 016: 20140305 Modified Start (saitou) 
+      // i_t -> int
+      te_dt.ExtName = "int";
+      //-- 016: 20140305 Modified End (saitou) 
     end if;
     te_dt.Initial_Value = "0";
     te_dt.string_format = "%d";
@@ -1532,13 +2385,19 @@ for each s_cdt in s_cdts
     if ( te_sys.AUTOSAR )
       te_dt.ExtName = "dt_xtUMLReal";
     else
-      te_dt.ExtName = "r_t";
+      //-- 016: 20140305 Modified Start (saitou) 
+      // r_t -> double
+      te_dt.ExtName = "double";
+      //-- 016: 20140305 Modified End (saitou) 
     end if;
     te_dt.Initial_Value = "0.0";
     te_dt.string_format = "%f";
   elif ( 4 == te_dt.Core_Typ )
     // string
-    te_dt.ExtName = "c_t";
+    //-- 016: 20140305 Modified Start (saitou) 
+    // c_t -> char
+    te_dt.ExtName = "char";
+    //-- 016: 20140305 Modified End (saitou) 
     if ( te_sys.InstanceLoading )
       te_dt.ExtName = "c_t *";
     end if;
@@ -1583,7 +2442,10 @@ for each s_cdt in s_cdts
     te_dt.string_format = "%d";
   elif ( 12 == te_dt.Core_Typ )
     // inst_ref<Mapping>
-    te_dt.ExtName = "i_t";
+    //-- 016: 20140305 Modified Start (saitou) 
+    // i_t -> int
+    te_dt.ExtName = "int";
+    //-- 016: 20140305 Modified End (saitou) 
     te_dt.Initial_Value = "0";
     te_dt.string_format = "%d";
   else
@@ -1707,7 +2569,14 @@ for each s_sdt in s_sdts
     te_mbr.GeneratedName = T::r(s:s_mbr.Name);
     select many s_dims related by s_mbr->S_DIM[R53];
     array_spec = "";
-    te_mbr.dimensions = cardinality s_dims;
+    //-- 002: 20140128 Modified Start (saitou) 
+    select one mbr_te_dt related by s_mbr->S_DT[R45]->TE_DT[R2021];
+    if ( mbr_te_dt.IsExternalMacro )
+      te_mbr.dimensions = 0;
+    else
+      te_mbr.dimensions = cardinality s_dims;
+    end if;
+    //-- 002: 20140128 Modified End (saitou) 
     te_dim = empty_te_dim;
     dim_index = 0;
     while ( dim_index < te_mbr.dimensions )
@@ -1722,8 +2591,12 @@ for each s_sdt in s_sdts
     end while;
     te_mbr.array_spec = array_spec;
     // In the C model compiler, treat strings as arrays.
-    select one mbr_te_dt related by s_mbr->S_DT[R45]->TE_DT[R2021];
-    if ( ( 4 == mbr_te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
+    //-- 002: 20140128 Deleted Start (saitou) 
+    // move up : select te_dt
+    //-- 002: 20140128 Deleted Start (saitou) 
+    //-- 002: 20140128 Modified Start (saitou) 
+    if ( ( ( 4 == mbr_te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) ) and ( not mbr_te_dt.IsExternalMacro ) )
+      //-- 002: 20140128 Modified Start (saitou) 
       // string
       te_mbr.dimensions = te_mbr.dimensions + 1;
       te_mbr.array_spec = ( te_mbr.array_spec + "[" ) + ( te_string.max_string_length + "]" );
@@ -1822,6 +2695,23 @@ for each tm_pointer in tm_pointers
       // Change core type so that dimensions are not added to the pointer.
       te_dt.Core_Typ = -4;
     end if;
+  end for;
+end for;
+//
+// Fix the genName, Include_File and Initial_Value based on marking.
+select many tm_dtmacros from instances of TM_DTMACRO;
+for each tm_dtmacro in tm_dtmacros
+  te_dts = empty_te_dts;
+  if ( ( "*" == tm_dtmacro.component ) or ( "" == tm_dtmacro.component ) )
+    select many te_dts from instances of TE_DT where ( selected.Name == tm_dtmacro.DT_name );
+  else
+    select any te_c from instances of TE_C where ( selected.Name == tm_dtmacro.component );
+    select many te_dts related by te_c->TE_DT[R2086] where ( selected.Name == tm_dtmacro.DT_name );
+  end if;
+  for each te_dt in te_dts
+    te_dt.ExtName = tm_dtmacro.genName;
+    te_dt.Include_File = tm_dtmacro.Include_File;
+    te_dt.Initial_Value = tm_dtmacro.Initial_Value;
   end for;
 end for;
 //
@@ -2502,7 +3392,18 @@ for each te_c in te_cs
       end if;
       select many s_dims related by o_attr->S_DIM[R120];
       array_spec = "";
-      te_attr.dimensions = cardinality s_dims;
+      //-- 002: 20140128 Modified Start (saitou) 
+      //-- 002: 20140314 Modified Start (saitou) 
+      //.select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
+      r3 = ::GetAttributeDataType( o_attr:o_attr );
+      te_dt = r3;
+      //-- 002: 20140314 Modified Start (saitou) 
+      if ( te_dt.IsExternalMacro )
+        te_attr.dimensions = 0;
+      else
+        te_attr.dimensions = cardinality s_dims;
+      end if;
+      //-- 002: 20140128 Modified End (saitou) 
       te_dim = empty_te_dim;
       dim_index = 0;
       while ( dim_index < te_attr.dimensions )
@@ -2516,7 +3417,28 @@ for each te_c in te_cs
         dim_index = dim_index + 1;
       end while;
       te_attr.array_spec = array_spec;
-      select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021];
+      //-- 002: 20140128 Deleted Start (saitou) 
+      // move up : select te_dt
+      //-- 002: 20140128 Deleted Start (saitou) 
+      //-- 011: 20140217 Add Start (saitou) 
+      if ( T::parsekeyword(s:o_attr.Descrip,key:"AUTOINC") == "TRUE" )
+        te_attr.isAutoInc = true;
+        numString = T::r(s:T::parsekeyword(s:o_attr.Descrip,key:"AUTOINC_DATASIZE"));
+        if ( numString == "1" )
+          te_attr.AutoIncDataSize = 1;
+        elif ( numString == "2" )
+          te_attr.AutoIncDataSize = 2;
+        elif ( numString == "4" )
+          te_attr.AutoIncDataSize = 4;
+        elif ( numString == "8" )
+          te_attr.AutoIncDataSize = 8;
+        end if;
+        te_attr.AutoIncLowLimit = T::parsekeyword(s:o_attr.Descrip,key:"AUTOINC_LLIMIT");
+        te_attr.AutoIncHighLimit = T::parsekeyword(s:o_attr.Descrip,key:"AUTOINC_HLIMIT");
+        te_attr.AutoIncDirection = T::parsekeyword(s:o_attr.Descrip,key:"AUTOINC_DIR");
+        te_attr.AutoIncUndefValue = T::parsekeyword(s:o_attr.Descrip,key:"AUTOINC_UNDEF");
+      end if;
+      //-- 011: 20140217 Add End (saitou) 
       // Potentially substitute data type for base attribute data type.
       if ( 7 == te_dt.Core_Typ )
         // referential attribute
@@ -2539,7 +3461,9 @@ for each te_c in te_cs
         end if;
       end if;
       // In the C model compiler, treat strings as arrays.
-      if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
+      //-- 002: 20140128 Modified Start (saitou) 
+      if ( ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) ) and ( not te_dt.IsExternalMacro ) )
+        //-- 002: 20140128 Modified Start (saitou) 
         // string
         te_attr.dimensions = te_attr.dimensions + 1;
         te_attr.array_spec = ( te_attr.array_spec + "[" ) + ( te_string.max_string_length + "]" );
@@ -2972,6 +3896,29 @@ for each s_brg in s_brgs
   te_brg.EEname = s_ee.Name;
   te_brg.Name = s_brg.Name;
   te_brg.GeneratedName = bridge_scope + s_brg.Name;
+  //-- 008:20140204 Add Start (saitou) 
+  RealFuncName = T::parsekeyword(s:s_brg.Descrip,key:"REAL_FUNC");
+  if ( "" != RealFuncName )
+    T::print(s:"REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${T::parsekeyword(s:s_brg.Descrip,key:"REAL_FUNC")}");
+    //-- 010:20140307 Modified Start (nomura) 
+    te_brg.RealFuncName = RealFuncName;
+    r = ::fx_get_bridge_extend_name_prefix( :te_ee );
+    bridgeExtendPrefix = r;
+    te_brg.GeneratedName = ( bridgeExtendPrefix + "_" ) + te_brg.Name;
+    //
+    //      .select many s_bparms related by s_brg->S_BPARM[R21]
+    // TEMP
+    //      .invoke bparm_sort( s_brg, s_bparms )
+    //
+    //-- 010:20140307 Modified End (nomura) 
+    //-- 010:20140307 Add Start (nomura) 
+    te_brg.IsRealFunc = TRUE;
+  else
+    te_brg.RealFuncName = "";
+    te_brg.IsRealFunc = FALSE;
+    //-- 010:20140307 Add End (nomura) 
+  end if;
+  //-- 008:20140204 Add End (saitou) 
   select one te_dt related by s_brg->S_DT[R20]->TE_DT[R2021];
   select many te_parms related by s_brg->S_BPARM[R21]->TE_PARM[R2028];
   r = ::FactoryTE_ABA( te_c:te_c, te_parms:te_parms, scope:te_ee.RegisteredName, name:te_brg.GeneratedName, subtypeKL:"S_BRG", te_dt:te_dt );
@@ -3057,7 +4004,9 @@ te_aba.GeneratedName = name;
 te_aba.ReturnDataType = te_dt.ExtName;
 te_aba.dimensions = 0;
 // In the C model compiler, treat strings as arrays.
-if ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) )
+//-- 002: 20140317 Modified Start (saitou) 
+if ( ( ( 4 == te_dt.Core_Typ ) and ( not te_sys.InstanceLoading ) ) and ( not te_dt.IsExternalMacro ) )
+  //-- 002: 20140317 Modified End (saitou) 
   // string
   select any te_string from instances of TE_STRING;
   te_aba.dimensions = te_aba.dimensions + 1;
@@ -3089,7 +4038,13 @@ te_parm.By_Ref = by_ref;
 te_parm.GeneratedName = prefix + name;
 relate te_parm to te_dt across R2049;
 // Set up the array dimensions for the parameter.
-te_parm.dimensions = cardinality s_dims;
+//-- 002: 20140128 Modified Start (saitou) 
+if ( te_dt.IsExternalMacro )
+  te_parm.dimensions = 0;
+else
+  te_parm.dimensions = cardinality s_dims;
+end if;
+//-- 002: 20140128 Modified Start (saitou) 
 array_spec = "";
 select one te_dim related by te_parm->TE_DIM[R2056] where ( false );
 dim_index = 0;
@@ -3109,7 +4064,9 @@ while ( dim_index < te_parm.dimensions )
 end while;
 te_parm.array_spec = array_spec;
 // In the C model compiler, treat strings as arrays.
-if ( 4 == te_dt.Core_Typ )
+//-- 002: 20140128 Modified Start (saitou) 
+if ( ( 4 == te_dt.Core_Typ ) and ( not te_dt.IsExternalMacro ) )
+  //-- 002: 20140128 Modified End (saitou) 
   select any te_sys from instances of TE_SYS;
   if ( not te_sys.InstanceLoading )
     // string
@@ -3737,21 +4694,26 @@ else
 end if;
 return result;
 @@@
-t_oal_smt_event_parameters@string@@evt_msg_var@string@@parameter@string@@value@string@@value_type@integer@@ws@string@@@
+t_oal_smt_event_parameters@string@@evt_msg_var@string@@parameter@string@@value@string@@value_type@integer@@ws@string@@isExternalMacro@boolean@@@
 //------------------------------------------------
 // Note the use of p_ here.  It is hard-coded and depends upon
 // matching the prefix used in initialization population query.
+//-- 002: 20140123 Modified Start (saitou) 
 evt_msg_var = param.evt_msg_var;
 parameter = param.parameter;
 value = param.value;
 value_type = param.value_type;
 ws = param.ws;
+isExternalMacro = param.isExternalMacro; //  add 002
+//-- 002: 20140123 Modified End (saitou) 
 result = "";
 select any te_eq from instances of TE_EQ;
 if ( "" == evt_msg_var )
   evt_msg_var = te_eq.event_message_variable;
 end if;
-if ( 4 == value_type )
+//-- 002: 20140123 Modified Start (saitou) 
+if ( ( 4 == value_type ) and ( not isExternalMacro ) )
+  //-- 002: 20140123 Modified End (saitou) 
   // string
   select any te_string from instances of TE_STRING;
   select any te_instance from instances of TE_INSTANCE;
@@ -3761,985 +4723,475 @@ else
 end if;
 return result;
 @@@
-sys_analyze@void@@te_sys@inst_ref<Extended System>@@@
-//============================================================================
-// File:  $RCSfile: q.domain.analyze.arc,v $
+container_factory@void@@te_container@inst_ref<container>@@@
 //
-// Description:
-// This query file provides the "first pass" of a multi-pass translation
-// model compiler.  The first pass analyzes the action semantics embodied
-// in the analysis domain, and applies optimization algorithms to the
-// action language statements encountered.  The results of these algorithmic
-// operations are then leveraged by subsequent passes of the structural
-// queries and templates to realize time/space/performance trade offs in
-// the generated application code.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
-//============================================================================
-//
-//
-te_sys = param.te_sys;
-T::print(s:"Analyzing model and making optimizations....");
-// Identify state models having at least one state, event and transition.
-::SM_SM_mark_valid();
-// Count up how many times each event is created/generated.
-::event_smt_used();
-// Find classes that are created in some way and identify invalid creates.
-::class_smt_created();
-// Detect invalid deletions.
-::class_smt_deleted();
-// Track down optimizable where clauses.
-::selection_whereclause_identify_special();
-// Identify the associations that need link and/or unlink methods.
-::association_mark_link_unlink_needed();
-// Identify associations that are navigated (in either or both directions).
-::association_R_OIR_mark_navigated();
-// Find which event queues are necessary.
-::event_queue_analyze_needed();
-::attr_analyze_accesses();
-//.invoke attr_analyze_codegen( te_sys )
-::TE_TXN_used();
+te_container = param.te_container;
+te_container.flavor = "";
 @@@
-selection_whereclause_identify_special@void@@@
-//============================================================================
-// $RCSfile: q.oal.analyze.arc,v $
-//
-// Description:
-// The query/transformations in this file analyze the action language
-// of the customer model and gather statistics for use in optimized
-// code generation.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
-//============================================================================
+copyright_factory@void@@te_copyright@inst_ref<copyright>@@@
 //
 //
-//
-// Identify (special) where clauses that can be optimized.
-//
-// Select the class from which extent we are selecting.
-//  Mark its identifying attributes.
-// Select the blind select statements having where clauses.
-// Select the values that represent the where clauses that
-// are binary expressions where the operator is == or AND.
-// BUG:  R676 and R677 should be unconditional on the O_OBJ side.
-// Select the V_SLRs and their attributes.
-// Compare the two sets.
-//
-select many act_fiws from instances of ACT_FIW;
-for each act_fiw in act_fiws
-  select one v_bin related by act_fiw->V_VAL[R610]->V_BIN[R801] where ( ( selected.Operator == "and" ) or ( selected.Operator == "==" ) );
-  if ( not_empty v_bin )
-    select one o_obj related by act_fiw->O_OBJ[R676];
-    // Select the TE_WHEREs, because we can check to see if we have
-    // already marked a special where.
-    select many te_wheres related by o_obj->O_ID[R104]->TE_WHERE[R2032] where ( not selected.WhereKey );
-    if ( not_empty te_wheres )
-      // Clear out the included flag on all attributes of this class.
-      select many te_attrs related by o_obj->O_ATTR[R102]->TE_ATTR[R2033];
-      for each te_attr in te_attrs
-        te_attr.Included = false;
-      end for;
-      // Call a routine that will recursively drill down and mark any
-      // attributes compared in the where clause.
-      ::where_clause_mark_selected_attributes( v_bin:v_bin );
-      select many te_attrs related by o_obj->O_ATTR[R102]->TE_ATTR[R2033] where ( selected.Included );
-      if ( not_empty te_attrs )
-        for each te_where in te_wheres
-          select many identifying_te_attrs related by te_where->O_ID[R2032]->O_OIDA[R105]->O_ATTR[R105]->TE_ATTR[R2033];
-          if ( te_attrs == identifying_te_attrs )
-            T::print(s:"marking SPECIAL where on ${o_obj.Key_Lett}:${o_obj.Name}");
-            te_where.WhereKey = true;
-          end if;
-        end for;
-      end if;
-    end if;
-  end if;
-end for;
+te_copyright = param.te_copyright;
+te_copyright.body = "your copyright statement can go here (from te_copyright.body)";
 @@@
-where_clause_mark_selected_attributes@void@@v_bin@inst_ref<Binary Operation>@@@
+dlist_factory@void@@te_dlist@inst_ref<dlist>@@@
 //
 //
-// Recursively drill down into the where clause expression marking
-// selected attributes along the way.
-//
-v_bin = param.v_bin;
-if ( v_bin.Operator == "and" )
-  select one left_v_val related by v_bin->V_VAL[R802];
-  select one right_v_val related by v_bin->V_VAL[R803];
-  select one v_bin related by left_v_val->V_BIN[R801];
-  if ( not_empty v_bin )
-    ::where_clause_mark_selected_attributes( v_bin:v_bin );
-  end if;
-  select one v_bin related by right_v_val->V_BIN[R801];
-  if ( not_empty v_bin )
-    ::where_clause_mark_selected_attributes( v_bin:v_bin );
-  end if;
-elif ( v_bin.Operator == "==" )
-  select one te_attr related by v_bin->V_VAL[R802]->V_SLR[R801]->O_ATTR[R812]->TE_ATTR[R2033];
-  if ( not_empty te_attr )
-    te_attr.Included = true;
-  end if;
-  select one te_attr related by v_bin->V_VAL[R803]->V_SLR[R801]->O_ATTR[R812]->TE_ATTR[R2033];
-  if ( not_empty te_attr )
-    te_attr.Included = true;
-  end if;
-else
-  // allow return
-end if;
+te_dlist = param.te_dlist;
+select any te_prefix from instances of TE_PREFIX;
+te_dlist.remove_node = te_prefix.result + "SetRemoveDlistNode";
 @@@
-SM_SM_mark_valid@void@@@
+dma_factory@void@@te_dma@inst_ref<dynamic memory allocation>@@@
 //
 //
-// Find valid state machines and mark them thusly.
-// Such state machines have at least one each of state, event and transition.
-//
-// Select only the state machines that have been configured for generation.
-select many te_sms from instances of TE_SM;
-for each te_sm in te_sms
-  select one sm_sm related by te_sm->SM_SM[R2043];
-  select any sm_state related by sm_sm->SM_STATE[R501];
-  if ( not_empty sm_state )
-    select any sm_txn related by sm_sm->SM_TXN[R505];
-    if ( not_empty sm_txn )
-      select any sm_evt related by sm_sm->SM_EVT[R502];
-      if ( not_empty sm_evt )
-        te_sm.complete = true;
-      end if;
-    end if;
-  end if;
-end for;
+te_dma = param.te_dma;
+select any te_prefix from instances of TE_PREFIX;
+te_dma.file = "sys_memory";
+te_dma.allocate = te_prefix.result + "malloc";
+te_dma.release = te_prefix.result + "free";
+te_dma.debugging_heap = false;
 @@@
-TE_TXN_used@void@@@
+eq_factory@void@@te_eq@inst_ref<event queue>@@@
 //
 //
-// Update the size of SEM cells when transition actions are present.
-//
-select any te_sm from instances of TE_SM where ( selected.txn_action_count > 0 );
-if ( not_empty te_sm )
-  select any te_typemap from instances of TE_TYPEMAP;
-  te_typemap.SEM_cell_type = "u2_t";
-end if;
+te_eq = param.te_eq;
+select any te_prefix from instances of TE_PREFIX;
+te_eq.ignored = "EVENT_IS_IGNORED";
+te_eq.cant_happen = "EVENT_CANT_HAPPEN";
+te_eq.system_events_union = te_prefix.result + "systemxtUMLevents";
+te_eq.system_event_pool = te_prefix.result + "xtUML_event_pool";
+te_eq.constant_type = te_prefix.result + "xtUMLEventConstant_t";
+te_eq.base_event_type = te_prefix.result + "xtUMLEvent_t";
+te_eq.base_variable = "mc_event_base";
+te_eq.max_events = te_prefix.define_u + "SYS_MAX_XTUML_EVENTS";
+te_eq.max_self_events = te_prefix.define_u + "SYS_MAX_SELF_EVENTS";
+te_eq.max_nonself_events = te_prefix.define_u + "SYS_MAX_NONSELF_EVENTS";
+te_eq.new = te_prefix.result + "NewxtUMLEvent";
+te_eq.allocate = te_prefix.result + "AllocatextUMLEvent";
+te_eq.delete = te_prefix.result + "DeletextUMLEvent";
+te_eq.modify = te_prefix.result + "ModifyxtUMLEvent";
+te_eq.self = te_prefix.result + "SendSelfEvent";
+te_eq.non_self = te_prefix.result + "SendEvent";
+te_eq.search_and_destroy = te_prefix.result + "EventSearchAndDestroy";
+te_eq.run_flag = te_prefix.result + "run_flag";
+te_eq.event_message_variable = "e";
+te_eq.scope = "";
 @@@
-event_smt_used@void@@@
+extent_factory@void@@te_extent@inst_ref<extent>@@@
 //
 //
-// Find and mark/count events that are used in action language.
-// Even though we store the information in a count, this query
-// only counts each event once.
-//
-select many e_gsmes from instances of E_GSME;
-select many te_evts related by e_gsmes->SM_EVT[R707]->TE_EVT[R2036];
-for each te_evt in te_evts
-  te_evt.UsedCount = te_evt.UsedCount + 1;
-  te_evt.Used = true;
-end for;
-select many e_csmes from instances of E_CSME;
-select many te_evts related by e_csmes->SM_EVT[R706]->TE_EVT[R2036];
-for each te_evt in te_evts
-  te_evt.UsedCount = te_evt.UsedCount + 1;
-  te_evt.Used = true;
-end for;
-// Mark all of the signals (inter-component class-based events) as used.
-select many sm_sgevts from instances of SM_SGEVT;
-select many te_evts related by sm_sgevts->SM_SEVT[R526]->SM_EVT[R525]->TE_EVT[R2036];
-for each te_evt in te_evts
-  te_evt.UsedCount = te_evt.UsedCount + 1;
-  te_evt.Used = true;
-end for;
-@@@
-class_smt_created@void@@@
-//
-//
-// Mark classes that are created synchronously (nonself) or
-// asynchronously (self).
-//
-select many act_crs from instances of ACT_CR;
-select many te_classs related by act_crs->O_OBJ[R671]->TE_CLASS[R2019];
-::class_smt_crdel_check( te_classs:te_classs );
-for each te_class in te_classs
-  te_class.NonSelfCreated = true;
-end for;
-select many act_cnvs from instances of ACT_CNV;
-select many te_classs related by act_cnvs->O_OBJ[R672]->TE_CLASS[R2019];
-::class_smt_crdel_check( te_classs:te_classs );
-for each te_class in te_classs
-  te_class.NonSelfCreated = true;
-end for;
-// Now find any creator events to classes.
-select many e_gecs from instances of E_GEC;
-select many te_classs related by e_gecs->E_GSME[R705]->SM_EVT[R707]->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019];
-::class_smt_crdel_check( te_classs:te_classs );
-for each te_class in te_classs
-  te_class.SelfCreated = true;
-end for;
-@@@
-class_smt_deleted@void@@@
-//
-//
-// Check for classes that are deleted synchronously and should not be.
-//
-select many act_dels from instances of ACT_DEL;
-select many te_classs related by act_dels->V_VAR[R634]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019];
-::class_smt_crdel_check( te_classs:te_classs );
-@@@
-class_smt_crdel_check@void@@te_classs@inst_ref_set<Extended Class>@@@
-//
-te_classs = param.te_classs;
-for each te_class in te_classs
-  if ( te_class.IsReadOnly )
-    select one o_obj related by te_class->O_OBJ[R2019];
-    T::print(s:"ERROR:  Attempt to create/delete read-only object ${o_obj.Name} (${o_obj.Key_Lett})");
-  end if;
-  if ( te_class.IsFixedPopulation )
-    select one o_obj related by te_class->O_OBJ[R2019];
-    T::print(s:"ERROR:  Attempt to create/delete object ${o_obj.Name} (${o_obj.Key_Lett}) within static instance population.");
-  end if;
-end for;
-@@@
-event_queue_analyze_needed@void@@@
-//
-// Count up all the places that events are either generated directly (E_GEN)
-// or where they are created for deferred generation (E_CEI).
-// Also count up the self versus nonself events.
-//
-self_queue_needed = false;
-nonself_queue_needed = false;
-select many e_gens from instances of E_GEN;
-select any v_var related by e_gens->V_VAR[R712] where ( selected.Name == "self" );
-if ( not_empty v_var )
-  self_queue_needed = true;
-end if;
-select any v_var related by e_gens->V_VAR[R712] where ( selected.Name != "self" );
-if ( not_empty v_var )
-  nonself_queue_needed = true;
-end if;
-if ( not ( self_queue_needed and nonself_queue_needed ) )
-  select many e_ceis from instances of E_CEI;
-  select any v_var related by e_ceis->V_VAR[R711] where ( selected.Name == "self" );
-  if ( not_empty v_var )
-    self_queue_needed = true;
-  end if;
-  select any v_var related by e_ceis->V_VAR[R711] where ( selected.Name != "self" );
-  if ( not_empty v_var )
-    nonself_queue_needed = true;
-  end if;
-end if;
-if ( self_queue_needed )
-  T::print(s:"Self event queue needed.");
-end if;
-if ( nonself_queue_needed )
-  T::print(s:"Instance event queue needed.");
-end if;
-@@@
-attr_analyze_accesses@void@@@
-//
-//
-// Analyze and mark the attributes of the customer model to flag which
-// attributes are read and/or written.  We will use this information
-// later to optimize out member data access code that is not needed.
-// Also, mark attributes participating as identifiers as used.
-// Mark written, read and Used attributes to TE_ATTR.
-//
-attributes_read_count = 0;
-attributes_written_count = 0;
-//
-// Select all the attribute values references.
-// Cycle through them marking their associated attributes as being read.
-// Then, see if they are written by determining whether they participate
-// as an lval in an assignment.
-// Note, there can be several V_AVLs for each O_ATTR.
-//
-select many te_attrs from instances of TE_ATTR;
-for each te_attr in te_attrs
-  select many v_avls related by te_attr->O_ATTR[R2033]->V_AVL[R806];
-  if ( not_empty v_avls )
-    if ( not te_attr.read )
-      attributes_read_count = attributes_read_count + 1;
-    end if;
-    te_attr.read = true;
-    te_attr.Used = true;
-  end if;
-  // attributes written
-  select any act_ai related by v_avls->V_VAL[R801]->ACT_AI[R689];
-  if ( not_empty act_ai )
-    if ( not te_attr.written )
-      attributes_written_count = attributes_written_count + 1;
-      select one te_class related by te_attr->TE_CLASS[R2061];
-      if ( te_class.IsReadOnly )
-        T::print(s:"ERROR:  Attempt to write to read-only object ${te_class.Name} (${te_class.Key_Lett}).");
-      end if;
-    end if;
-    te_attr.written = true;
-  end if;
-end for;
-// Identifying attributes are copied across in RELATE statements
-// even if they are never read or written.
-select many o_oidas from instances of O_OIDA;
-select many te_attrs related by o_oidas->O_ATTR[R105]->TE_ATTR[R2033];
-for each te_attr in te_attrs
-  te_attr.Used = true;
-end for;
-msg = T::s(i:attributes_read_count) + " attributes read";
-T::print(s:"${msg}");
-msg = T::s(i:attributes_written_count) + " attributes written";
-T::print(s:"${msg}");
-@@@
-attr_analyze_codegen@void@@te_sys@inst_ref<Extended System>@@@
-//
-//
-// Mark attributes that are not used, needed and should be optimized out.
-//
-te_sys = param.te_sys;
-optimized_out_count = 0;
-select many te_cs from instances of TE_C where ( not selected.OptDisabled );
-select many te_attrs related by te_cs->TE_CLASS[R2064]->TE_ATTR[R2061];
-for each te_attr in te_attrs
-  select one o_attr related by te_attr->O_ATTR[R2033];
-  // Do not translate current_state attributes.
-  select one s_cdt related by o_attr->S_DT[R114]->S_CDT[R17] where ( selected.Core_Typ == 6 );
-  if ( not_empty s_cdt )
-    te_attr.translate = false;
-    optimized_out_count = optimized_out_count + 1;
-  end if;
-  if ( not te_attr.Used )
-    // not accessed?
-    te_attr.translate = false;
-    optimized_out_count = optimized_out_count + 1;
-  else
-    // referential attribute?
-    select one o_rattr related by o_attr->O_RATTR[R106];
-    if ( not_empty o_rattr )
-      // Is referential not also an identifying attribute?
-      select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Attr_ID == o_rattr.Attr_ID );
-      if ( ( empty o_oida ) and ( not te_attr.Used ) )
-        if ( not te_sys.InstanceLoading )
-          te_attr.translate = false;
-          optimized_out_count = optimized_out_count + 1;
-        end if;
-      end if;
-    end if;
-  end if;
-end for;
-msg = T::s(i:optimized_out_count) + " attributes optimized out";
-T::print(s:"${msg}");
-@@@
-association_R_OIR_mark_navigated@void@@@
-//
-//
-// Here we mark which classes are navigated across associations in each
-// direction, from the formalizer or from the participant.  The results
-// are stored in instances linked to instances of R_OIR (TE_OIR).
-//
-select many act_lnks from instances of ACT_LNK;
-for each act_lnk in act_lnks
-  select any r_oir related by act_lnk->R_REL[R681]->R_OIR[R201] where ( selected.Obj_ID == act_lnk.Obj_ID );
-  select one te_oir related by r_oir->TE_OIR[R2035];
-  if ( not_empty te_oir )
-    te_oir.NavigatedTo = true;
-  end if;
-end for;
-@@@
-association_mark_link_unlink_needed@void@@@
-//
-//
-// Select all of the association instances and mark the ones that
-// actually get linked with the relate/unrelate OAL statements.
-//
-// Mark all navigation (across a particular association).
-// Mark all assocations that get navigated.
-//
-select many te_rels from instances of TE_REL;
-select many r_rels related by te_rels->R_REL[R2034];
-for each r_rel in r_rels
-  link_needed = false;
-  unlink_needed = false;
-  navigated = false;
-  // Check if navigated.
-  select any act_lnk related by r_rel->ACT_LNK[R681];
-  if ( not_empty act_lnk )
-    navigated = true;
-  end if;
-  // Check if related.
-  select any act_rel related by r_rel->ACT_REL[R653];
-  if ( not_empty act_rel )
-    link_needed = true;
-  else
-    select any act_ru related by r_rel->ACT_RU[R654];
-    if ( not_empty act_ru )
-      link_needed = true;
-    end if;
-  end if;
-  // Check if unrelated.
-  select any act_unr related by r_rel->ACT_UNR[R655];
-  if ( not_empty act_unr )
-    unlink_needed = true;
-  else
-    select any act_uru related by r_rel->ACT_URU[R656];
-    if ( not_empty act_uru )
-      unlink_needed = true;
-    end if;
-  end if;
-  // Apply results to TE_REL.
-  if ( ( link_needed or unlink_needed ) or navigated )
-    select one te_rel related by r_rel->TE_REL[R2034];
-    if ( navigated )
-      te_rel.Navigated = true;
-    end if;
-    if ( link_needed )
-      te_rel.LinkNeeded = true;
-    end if;
-    if ( unlink_needed )
-      te_rel.UnlinkNeeded = true;
-    end if;
-  end if;
-end for;
-@@@
-containoid_select_many_count@integer@@@
-//============================================================================
-// $RCSfile: q.oal.utils.arc,v $
-//
-// Description:
-// Utility functions specifically for OAL analysis.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
-//============================================================================
-//
-//
-//
-// Find the maximum number of "select many" statements expressed in
-// one action body.  We will use this number to estimate the container
-// pool.
-// CDS - This gets called for each component but uses all actions in 
-// the system.  And it gets called too many times.
-//
-result = 0;
-select many act_acts from instances of ACT_ACT;
-for each act_act in act_acts
-  select many act_smts related by act_act->ACT_BLK[R601]->ACT_SMT[R602];
-  select many act_sels related by act_smts->ACT_SEL[R603] where ( ( selected.cardinality == "many" ) and ( selected.is_implicit ) );
-  select many act_fios related by act_smts->ACT_FIO[R603] where ( ( selected.cardinality == "many" ) and ( selected.is_implicit ) );
-  select many act_fiws related by act_smts->ACT_FIW[R603] where ( ( selected.cardinality == "many" ) and ( selected.is_implicit ) );
-  count = cardinality act_sels;
-  c1 = cardinality act_fios;
-  count = count + c1;
-  c1 = cardinality act_fiws;
-  count = count + c1;
-  if ( count > result )
-    result = count;
-  end if;
-end for;
-return result;
-@@@
-timer_analyze_starts@integer@@@
-//
-//
-// Count up the number of places where a timer is started (or started
-// in recurring mode).
-//
-result = 0;
-select many s_ees from instances of S_EE where ( selected.Key_Lett == "TIM" );
-for each s_ee in s_ees
-  select any s_brg related by s_ee->S_BRG[R19] where ( selected.Name == "timer_start" );
-  if ( not_empty s_brg )
-    select many timer_invocations related by s_brg->V_BRV[R828];
-    c = cardinality timer_invocations;
-    result = result + c;
-  end if;
-  select any s_brg related by s_ee->S_BRG[R19] where ( selected.Name == "timer_start_recurring" );
-  if ( not_empty s_brg )
-    select many timer_invocations related by s_brg->V_BRV[R828];
-    c = cardinality timer_invocations;
-    result = result + c;
-  end if;
-end for;
-return result;
-@@@
-CreateSpecialWhereClauseInstances@void@@te_sys@inst_ref<Extended System>@@@
-//
-//============================================================================
-// Class: 2000.  Special Where Clause
-// CREATE TABLE TE_SWC (
-// 	Obj_Kl		STRING,
-// 	Where_Spec	STRING,
-// 	Key	        STRING,
-// 	Ret_Val	        BOOLEAN,
-//	Built_In	BOOLEAN,
-//	Oid_ID	        INTEGER );
-//
-// Notes:
-// (1) The selected attributes of the where clause _Key_ are specified in the
-//     same order as they appear on the OIM. This convention allows other
-//     archetypes a _rule_ for dealing with the positional parameter
-//     information provided during fragment parsing of a special where clause.
-//============================================================================
-te_sys = param.te_sys;
-//
-// Special Where Clause patterns that may be optimized by the model compiler.
-//
-unique_num = 0;
-select many te_classes from instances of TE_CLASS where ( not selected.ExcludeFromGen );
-for each te_class in te_classes
-  select many o_ids related by te_class->O_OBJ[R2019]->O_ID[R104];
-  for each o_id in o_ids
-    select one te_where related by o_id->TE_WHERE[R2032];
-    // Get all special wheres when loading instances even if they are
-    // not seen in the OAL.  We need them for batch_relate.
-    if ( te_sys.InstanceLoading )
-      select any r_rto related by o_id->R_RTO[R109];
-      if ( not_empty r_rto )
-        te_where.WhereKey = true;
-      end if;
-    end if;
-    if ( te_where.WhereKey )
-      key_number = o_id.Oid_ID + 1;
-      where_spec = "";
-      unique_num = unique_num + 1;
-      where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
-      //
-      select many te_attrs related by te_class->TE_ATTR[R2061];
-      for each te_attr in te_attrs
-        te_attr.Included = false;
-      end for;
-      //
-      select many te_attrs related by o_id->O_OIDA[R105]->O_ATTR[R105]->TE_ATTR[R2033];
-      num_ident_attr = cardinality te_attrs;
-      for each te_attr in te_attrs
-        te_attr.Included = true;
-      end for;
-      //
-      // *** Provide a key without parenthesis.
-      // Be sure we have the first attribute in the class.
-      select any first_te_attr related by te_class->TE_ATTR[R2061];
-      while ( not_empty first_te_attr )
-        select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
-        if ( empty prev_te_attr )
-          break;
-        end if;
-        first_te_attr = prev_te_attr;
-      end while;
-      te_attr = first_te_attr;
-      oida_count = 0;
-      while ( not_empty te_attr )
-        select one o_attr related by te_attr->O_ATTR[R2033];
-        if ( te_attr.Included )
-          oida_count = oida_count + 1;
-          where_spec = where_spec + "selected.${o_attr.Name} == ?";
-          if ( oida_count < num_ident_attr )
-            where_spec = where_spec + " AND ";
-          end if;
-        end if;
-        //
-        select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
-      end while;
-      //
-      // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
-      create object instance te_swc of TE_SWC;
-      relate te_swc to te_class across R2001;
-      te_swc.Obj_Kl = te_class.Key_Lett;
-      te_swc.Where_Spec = where_spec;
-      te_swc.Key = where_key;
-      te_swc.Ret_Val = false;
-      te_swc.Built_In = true;
-      te_swc.Oid_ID = o_id.Oid_ID;
-      //
-      // *** Provide a key parenthesized at the outer construct.
-      where_spec = "(";
-      unique_num = unique_num + 1;
-      where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
-      te_attr = first_te_attr;
-      oida_count = 0;
-      while ( not_empty te_attr )
-        select one o_attr related by te_attr->O_ATTR[R2033];
-        if ( te_attr.Included )
-          oida_count = oida_count + 1;
-          where_spec = where_spec + "selected.${o_attr.Name} == ?";
-          if ( oida_count < num_ident_attr )
-            where_spec = where_spec + " AND ";
-          else
-            where_spec = where_spec + ")";
-          end if;
-        end if;
-        //
-        select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
-      end while;
-      //
-      // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
-      create object instance te_swc of TE_SWC;
-      relate te_swc to te_class across R2001;
-      te_swc.Obj_Kl = te_class.Key_Lett;
-      te_swc.Where_Spec = where_spec;
-      te_swc.Key = where_key;
-      te_swc.Ret_Val = false;
-      te_swc.Built_In = true;
-      te_swc.Oid_ID = o_id.Oid_ID;
-      //
-      if ( num_ident_attr > 1 )
-        // *** Provide a key parenthesized at outer and inner constructs.
-        where_spec = "(";
-        unique_num = unique_num + 1;
-        where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
-        te_attr = first_te_attr;
-        oida_count = 0;
-        while ( not_empty te_attr )
-          select one o_attr related by te_attr->O_ATTR[R2033];
-          if ( te_attr.Included )
-            oida_count = oida_count + 1;
-            where_spec = where_spec + "(selected.${o_attr.Name} == ?)";
-            if ( oida_count < num_ident_attr )
-              where_spec = where_spec + " AND ";
-            else
-              where_spec = where_spec + ")";
-            end if;
-          end if;
-          //
-          select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
-        end while;
-        //
-        // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
-        create object instance te_swc of TE_SWC;
-        relate te_swc to te_class across R2001;
-        te_swc.Obj_Kl = te_class.Key_Lett;
-        te_swc.Where_Spec = where_spec;
-        te_swc.Key = where_key;
-        te_swc.Ret_Val = false;
-        te_swc.Built_In = true;
-        te_swc.Oid_ID = o_id.Oid_ID;
-        // *** Provide a key parenthesized at just inner constructs.
-        where_spec = "";
-        unique_num = unique_num + 1;
-        where_key = ( ( te_class.Key_Lett + T::s(i:key_number) ) + ( "_mcw" + T::s(i:unique_num) ) );
-        te_attr = first_te_attr;
-        oida_count = 0;
-        while ( not_empty te_attr )
-          select one o_attr related by te_attr->O_ATTR[R2033];
-          if ( te_attr.Included )
-            oida_count = oida_count + 1;
-            where_spec = where_spec + "(selected.${o_attr.Name} == ?)";
-            if ( oida_count < num_ident_attr )
-              where_spec = where_spec + " AND ";
-            end if;
-          end if;
-          //
-          select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
-        end while;
-        //
-        // Object ${te_class.Name} (${te_class.Key_Lett}) Identifier *${key_number}
-        create object instance te_swc of TE_SWC;
-        relate te_swc to te_class across R2001;
-        te_swc.Obj_Kl = te_class.Key_Lett;
-        te_swc.Where_Spec = where_spec;
-        te_swc.Key = where_key;
-        te_swc.Ret_Val = false;
-        te_swc.Built_In = true;
-        te_swc.Oid_ID = o_id.Oid_ID;
-        //
-      end if;
-    end if;
-  end for;
-end for;
-@@@
-te_c_CollectLimits@void@@te_c@inst_ref<Extended Component>@@@
-//============================================================================
-// $RCSfile: q.domain.limits.arc,v $
-//
-// Description:
-// These queries collect static analysis information and propagate it
-// forward to the system build step by outputting a set of INSERT
-// statements that will populate the system build gen database.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
-//============================================================================
-//
-//
-//============================================================================
-// Store statistics into TE_C.
-//============================================================================
-te_c = param.te_c;
-//
-select any te_file from instances of TE_FILE;
-//
-// Analyze maximums for extents.
-// The extents should be analyzed only *after* extent size coloring!
-select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
-object_class_extents = 0;
-relationship_extents = 0;
-largest_object_extent = 0;
-//
-for each te_class in te_classs
-  select one o_obj related by te_class->O_OBJ[R2019];
-  object_class_extents = object_class_extents + te_class.MaxExtentSize;
-  if ( te_class.MaxExtentSize > largest_object_extent )
-    largest_object_extent = te_class.MaxExtentSize;
-  end if;
-  // Calculate maximum extents required for objects on "MANY" side of a relationship.
-  select many r_rgos related by o_obj->R_OIR[R201]->R_RGO[R203] where ( selected.Obj_ID == o_obj.Obj_ID );
-  for each r_rgo in r_rgos
-    select one form related by r_rgo->R_FORM[R205];
-    if ( not_empty form )
-      if ( form.Mult == 1 )
-        relationship_extents = relationship_extents + te_class.MaxExtentSize;
-      end if;
-    end if;
-    select one assr related by r_rgo->R_ASSR[R205];
-    if ( not_empty assr )
-      if ( assr.Mult == 1 )
-        relationship_extents = relationship_extents + te_class.MaxExtentSize;
-      end if;
-    end if;
-  end for;
-  select many r_rtos related by o_obj->R_OIR[R201]->R_RTO[R203] where ( selected.Obj_ID == o_obj.Obj_ID );
-  for each r_rto in r_rtos
-    select one aone related by r_rto->R_AONE[R204];
-    if ( not_empty aone )
-      if ( aone.Mult == 1 )
-        relationship_extents = relationship_extents + te_class.MaxExtentSize;
-      end if;
-    end if;
-    select one aoth related by r_rto->R_AOTH[R204];
-    if ( not_empty aoth )
-      if ( aoth.Mult == 1 )
-        relationship_extents = relationship_extents + te_class.MaxExtentSize;
-      end if;
-    end if;
-  end for;
-end for;
-//
-// analyze timers events selects
-r = ::timer_analyze_starts();
-total_timer_starts = r;
-//
-// Count up the event specification statements which is the supertype
-// of generated and deferred events.  This will give us a starting point
-// on allocating event queue resources.
-// CDS - We are (re)counting the events for each component, but this code is not component-specific.
-// CDS - The event counts should be "harvested" while processing the action language.
-max_events = 0;
-max_self_events = 0;
-max_nonself_events = 0;
-select many act_acts from instances of ACT_ACT;
-for each act_act in act_acts
-  select many event_specification_statements related by act_act->ACT_BLK[R601]->ACT_SMT[R602]->E_ESS[R603];
-  all_events_count = cardinality event_specification_statements;
-  select many act_sgns related by act_act->ACT_BLK[R601]->ACT_SMT[R602]->ACT_SGN[R603];
-  all_events_count = all_events_count + ( cardinality act_sgns );
-  if ( all_events_count > max_events )
-    max_events = all_events_count;
-  end if;
-  // Count up the self events in this body.
-  count = 0;
-  for each e_ess in event_specification_statements
-    select one v_var related by e_ess->E_GES[R701]->E_GSME[R703]->E_GEN[R705]->V_VAR[R712] where ( "self" == T::l(s:selected.Name) );
-    if ( not_empty v_var )
-      count = count + 1;
-    else
-      select any v_var related by event_specification_statements->E_CES[R701]->E_CSME[R702]->E_CEI[R704]->V_VAR[R711] where ( "self" == T::l(s:selected.Name) );
-      if ( not_empty v_var )
-        count = count + 1;
-      end if;
-    end if;
-  end for;
-  if ( count > max_self_events )
-    max_self_events = count;
-  end if;
-  count = all_events_count - count;
-  if ( count > max_nonself_events )
-    max_nonself_events = count;
-  end if;
-  select one te_aba related by act_act->ACT_FNB[R698]->S_SYNC[R695]->TE_SYNC[R2023]->TE_ABA[R2010];
-  if ( not_empty te_aba )
-    te_aba.NonSelfEventCount = count;
-  end if;
-end for;
-//
-r = ::containoid_select_many_count();
-max_select_many = r;
-//
-// functions
-select many te_syncs related by te_c->TE_SYNC[R2084] where ( ( selected.IsSafeForInterrupts ) and ( selected.XlateSemantics ) );
-total_interleaved_bridges = cardinality te_syncs;
-//
-// Count up the priority events.
-select many te_evts from instances of TE_EVT where ( selected.Priority != 0 );
-total_priority_events = cardinality te_evts;
-//
-// Count up the classes using preexisting instances defined in data (PEIs).
-select many te_classs related by te_c->TE_CLASS[R2064] where ( ( not selected.ExcludeFromGen ) and ( selected.PEIsDefinedInData ) );
-pei_class_count = cardinality te_classs;
-//
-// Count up the persistent classes.
-select many te_classs related by te_c->TE_CLASS[R2064] where ( ( not selected.ExcludeFromGen ) and ( selected.Persistent ) );
-persist_class_count = cardinality te_classs;
-//
-te_c.MaxObjExtent = object_class_extents;
-te_c.MaxRelExtent = relationship_extents;
-te_c.MaxSelectExtent = max_select_many * largest_object_extent;
-te_c.MaxSelfEvents = max_self_events;
-te_c.MaxNonSelfEvents = max_nonself_events;
-te_c.MaxPriorityEvents = total_priority_events;
-te_c.MaxTimers = total_timer_starts;
-te_c.InterleavedBridges = total_interleaved_bridges;
-te_c.PEIClassCount = pei_class_count;
-te_c.PersistentClassCount = persist_class_count;
-//
-@@@
-AutoInitializeUniqueIDs@string@@te_class@inst_ref<Extended Class>@@instance@string@@@
-//============================================================================
-// $RCSfile: frag_util.arc,v $
-//
-// Description:
-// This archetype file provides general purpose functions used during 
-// action language translation. They are not specific to any particular
-// fragment generator entry points.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
-//============================================================================
-//
-//============================================================================
-// Initialize the attributes of type unique_id that are identifiers
-// and therefore need to be automatically set up at create time.
-//============================================================================
-te_class = param.te_class;
-instance = param.instance;
-//
-select any te_file from instances of TE_FILE;
+te_extent = param.te_extent;
+select any te_prefix from instances of TE_PREFIX;
+select any te_set from instances of TE_SET;
+select any te_typemap from instances of TE_TYPEMAP;
 select any te_instance from instances of TE_INSTANCE;
-select any te_string from instances of TE_STRING;
-select any te_sys from instances of TE_SYS;
-// Be sure we have the first attribute in the class.
-select any first_te_attr related by te_class->TE_ATTR[R2061];
-while ( not_empty first_te_attr )
-  select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
-  if ( empty prev_te_attr )
-    break;
-  end if;
-  first_te_attr = prev_te_attr;
-end while;
-te_attr = first_te_attr;
-while ( not_empty te_attr )
-  select one o_attr related by te_attr->O_ATTR[R2033];
-  if ( te_attr.translate )
-    r = ::GetAttributeCodeGenType( o_attr:o_attr );
-    te_dt = r;
-    not_empty_o_oida = false;
-    if ( not_empty te_dt )
-      if ( 5 == te_dt.Core_Typ )
-        select any o_oida related by o_attr->O_OIDA[R105];
-        if ( not_empty o_oida )
-          not_empty_o_oida = true;
-        end if;
-      end if;
-      T::include(file:"c/t.class.attribute.init.c");
-    end if;
-  end if;
-  //
-  // Advance to the next object attribute, if any.
-  select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
-end while;
-return T::body();
+te_extent.sets_type = te_set.base_class;
+te_extent.type = te_prefix.result + "Extent_t";
+te_extent.active = "active";
+te_extent.inactive = "inactive";
+te_extent.size_type = te_typemap.object_size_name;
+te_extent.istate_type = te_typemap.state_number_name;
+te_extent.istate_name = "initial_state";
+te_extent.container_type = te_set.element_type + "*";
+te_extent.container_name = "container";
+te_extent.pool_type = te_instance.handle;
+te_extent.pool_name = "pool";
+te_extent.population_type = te_typemap.instance_index_name;
+te_extent.population_name = "population";
+te_extent.rstorsize_type = te_typemap.object_size_name;
+te_extent.rstorsize_name = "size_no_rel";
+te_extent.linkfunc_name = "link_function";
+te_extent.size_name = "size";
 @@@
-ExpandNonOptimizedSpecialWhereComparison@string@@o_obj@inst_ref<Model Class>@@special@boolean@@selected_var_name@string@@@
+file_factory@void@@te_file@inst_ref<file>@@@
 //
-//============================================================================
-o_obj = param.o_obj;
-special = param.special;
-selected_var_name = param.selected_var_name;
 //
-compare_stmt = "";
-if ( special )
-  select any te_instance from instances of TE_INSTANCE;
-  select any te_string from instances of TE_STRING;
-  compare_stmt = "";
-  cmp_element = "";
-  select one te_class related by o_obj->TE_CLASS[R2019];
-  // Be sure we have the first attribute in the class.
-  select any first_te_attr related by te_class->TE_ATTR[R2061];
-  while ( not_empty first_te_attr )
-    select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
-    if ( empty prev_te_attr )
-      break;
-    end if;
-    first_te_attr = prev_te_attr;
-  end while;
-  te_attr = first_te_attr;
-  while ( not_empty te_attr )
-    //.if ( 4 == te_attr.Core_Typ )
-    if ( 4 == 4 )
-      cmp_element = "!${te_instance.module}${te_string.strcmp}(${selected_var_name}->${te_attr.GeneratedName}, ${te_attr.ParamBuffer})";
-    else
-      cmp_element = "${selected_var_name}->${te_attr.GeneratedName} == ${te_attr.ParamBuffer}";
-    end if;
-    compare_stmt = compare_stmt + cmp_element;
-    // Advance to the next object attribute, if any.
-    select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
-    if ( not_empty te_attr )
-      compare_stmt = compare_stmt + " && ";
-    end if;
-  end while;
-end if;
-return compare_stmt;
+te_file = param.te_file;
+select any te_prefix from instances of TE_PREFIX;
+te_file.hdr_file_ext = "h";
+te_file.src_file_ext = "c";
+te_file.sys_main = te_prefix.file + "sys_main";
+te_file.factory = te_prefix.file + "sys_xtuml";
+te_file.events = te_prefix.file + "sys_events";
+te_file.obj_file_ext = "o";
+te_file.nvs = te_prefix.file + "sys_nvs";
+te_file.sets = te_prefix.file + "sys_sets";
+te_file.types = te_prefix.file + "sys_types";
+te_file.thread = te_prefix.file + "sys_thread";
+te_file.trace = te_prefix.file + "sys_trace";
+te_file.tim = te_prefix.file + "TIM_bridge";
+te_file.callout = te_prefix.file + "sys_user_co";
+te_file.ilb = te_prefix.file + "sys_ilb";
+te_file.persist = te_prefix.file + "sys_persist";
+te_file.xtumlload = te_prefix.file + "sys_xtumlload";
+te_file.interfaces = te_prefix.file + "sysc_interfaces";
+te_file.registers = te_prefix.file + "RegDefs";
+te_file.domain_color_path = ".";
+//-- 013:20140225 Modified Start (saitou) 
+te_file.domain_source_path = "../../myGenDir/3020_src";
+te_file.domain_include_path = "../../myGenDir/3020_inc";
+te_file.system_source_path = "../../myGenDir/skel";
+te_file.system_include_path = "../../myGenDir/skel";
+te_file.mc3020sys_path = "../../myGenDir/3020_sys";
+//-- 013:20140225 Modified Start (saitou) 
+te_file.system_color_path = ".";
+te_file.system_mark = "system.mark";
+te_file.datatype_mark = "datatype.mark";
+te_file.event_mark = "event.mark";
+te_file.class_mark = "class.mark";
+te_file.domain_mark = "domain.mark";
+te_file.system_functions_mark = "sys_functions.arc";
+te_file.bridge_mark = "bridge.mark";
+te_file.nvs_bridge = te_prefix.file + "NVS_bridge";
+te_file.arc_path = "mc3020/arc";
+te_file.root_path = ".";
 @@@
-CreateSpecialWhereComparisonArguments@string@@te_class@inst_ref<Extended Class>@@o_id@inst_ref<Class Identifier>@@@
+instance_factory@void@@te_instance@inst_ref<instance>@@@
 //
-//============================================================================
-te_class = param.te_class;
-o_id = param.o_id;
 //
-select many o_attrs related by o_id->O_OIDA[R105]->O_ATTR[R105];
-num_ident_attr = cardinality o_attrs;
+te_instance = param.te_instance;
+select any te_prefix from instances of TE_PREFIX;
+te_instance.scope = "";
+te_instance.create = te_prefix.result + "CreateInstance";
+te_instance.create_persistent = te_prefix.result + "CreatePersistent";
+te_instance.delete = te_prefix.result + "DeleteInstance";
+te_instance.delete_persistent = te_prefix.result + "DeletePersistent";
+te_instance.self = "self";
+te_instance.global_self = te_prefix.result + "GetSelf";
+te_instance.base = te_prefix.result + "InstanceBase_t";
+te_instance.handle = te_prefix.result + "iHandle_t";
+te_instance.factory_init = te_prefix.result + "ClassFactoryInit";
+te_instance.get_dci = te_prefix.result + "GetDCI";
+te_instance.get_event_dispatcher = te_prefix.result + "GetEventDispatcher";
+te_instance.get_thread_assignment = te_prefix.result + "GetThreadAssignment";
+te_instance.base_class = te_prefix.result + "Object_s";
+te_instance.max_extent = te_prefix.define_u + "SYS_MAX_OBJECT_EXTENT";
+te_instance.max_association_extent = te_prefix.define_u + "SYS_MAX_ASSOCIATION_EXTENT";
+te_instance.max_transient_extent = te_prefix.define_u + "SYS_MAX_TRANSIENT_EXTENT";
+te_instance.current_state = "current_state";
+te_instance.module = "";
+@@@
+ilb_factory@void@@te_ilb@inst_ref<interleaved bridge>@@@
 //
-param_list = "";
-oida_count = 0;
 //
-// Be sure we have the first attribute in the class.
-select any first_te_attr related by te_class->TE_ATTR[R2061];
-while ( not_empty first_te_attr )
-  select one prev_te_attr related by first_te_attr->TE_ATTR[R2087.'succeeds'];
-  if ( empty prev_te_attr )
-    break;
-  end if;
-  first_te_attr = prev_te_attr;
-end while;
-te_attr = first_te_attr;
-while ( not_empty te_attr )
-  if ( te_attr.Included )
-    oida_count = oida_count + 1;
-    param_list = param_list + te_attr.ParamBuffer;
-    if ( oida_count < num_ident_attr )
-      param_list = param_list + ", ";
-    end if;
-  end if;
-  select one te_attr related by te_attr->TE_ATTR[R2087.'precedes'];
-end while;
+te_ilb = param.te_ilb;
+select any te_prefix from instances of TE_PREFIX;
+te_ilb.file = "sys_ilb";
+te_ilb.interleave_bridge = "InterleaveBridge";
+te_ilb.define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGES";
+te_ilb.data_define_name = te_prefix.define_u + "SYS_MAX_INTERLEAVED_BRIDGE_DATA";
+te_ilb.interleave_bridge_done = "InterleaveBridgeDone";
+te_ilb.get_data = "GetILBData";
+te_ilb.dispatch = "DispatchInterleaveBridge";
+@@@
+persist_factory@void@@te_persist@inst_ref<persistence>@@@
 //
-return param_list;
+//
+te_persist = param.te_persist;
+select any te_prefix from instances of TE_PREFIX;
+select any te_typemap from instances of TE_TYPEMAP;
+te_persist.class_union = "";
+te_persist.instance_cache_depth = te_prefix.define_u + "PERSIST_INST_CACHE_DEPTH";
+te_persist.check_mark = "check_mark_post";
+te_persist.post_link = "";
+te_persist.link_type_name = te_prefix.type + "link_t";
+te_persist.persist_file = "sys_persist";
+te_persist.factory_init = te_prefix.result + "PersistFactoryInit";
+te_persist.commit = te_prefix.result + "PersistenceCommit";
+te_persist.restore = te_prefix.result + "PersistenceRestore";
+te_persist.remove = te_prefix.result + "PersistDelete";
+te_persist.link_cache_depth = te_prefix.define_u + "PERSIST_LINK_CACHE_DEPTH";
+// Return the name of the extended attribute variable for use by
+// the persistent restore operation.  This attribute represents the
+// instance index of the class extent at time of persistent stowage
+// together with the class number (across domains) of the class.
+// Also return the types for this attribute variable.
+te_persist.domainnum_name = "domainnum";
+te_persist.domainnum_type = te_typemap.domain_number_name;
+te_persist.classnum_name = "classnum";
+te_persist.classnum_type = te_typemap.object_number_name;
+te_persist.index_name = "index";
+te_persist.index_type = te_typemap.instance_index_name;
+te_persist.instid_type = "InstanceIdentifier_t";
+te_persist.instid_name = "instance_identifier";
+te_persist.dirty_type = "s1_t";
+te_persist.dirty_name = "persist_dirty";
+te_persist.dirty_dirty = 1;
+te_persist.dirty_clean = 0;
+@@@
+prefix_factory@void@@te_prefix@inst_ref<prefix>@@@
+//
+//
+te_prefix = param.te_prefix;
+te_prefix.symbol = "Escher_";
+te_prefix.type = "Escher_";
+te_prefix.define_u = "ESCHER_";
+te_prefix.define_c = "Escher_";
+te_prefix.symbolsw = "";
+te_prefix.typesw = "";
+te_prefix.result = "Escher_";
+te_prefix.define_csw = "";
+te_prefix.define_usw = "";
+te_prefix.file = "";
+te_prefix.provided_port = "pport_";
+te_prefix.required_port = "rport_";
+te_prefix.channel = "channel_";
+@@@
+relinfo_factory@void@@te_relinfo@inst_ref<relationship information>@@@
+//
+//
+te_relinfo = param.te_relinfo;
+te_relinfo.multiplicity = 0;
+te_relinfo.rel_phrase = "";
+te_relinfo.is_formalizer = false;
+te_relinfo.is_supertype = false;
+te_relinfo.generate_subtype = false;
+te_relinfo.gen_declaration = false;
+@@@
+relstore_factory@void@@te_relstore@inst_ref<relationship storage>@@@
+//
+//
+te_relstore = param.te_relstore;
+te_relstore.data_init = "";
+te_relstore.link_calls = "";
+te_relstore.link_index = 0;
+te_relstore.data_fini = "";
+te_relstore.self_name = "self";
+te_relstore.data_declare = "";
+@@@
+set_factory@void@@te_set@inst_ref<set>@@@
+//
+//
+te_set = param.te_set;
+select any te_prefix from instances of TE_PREFIX;
+te_set.module = "";
+te_set.copy = te_prefix.result + "CopySet";
+te_set.clear = te_prefix.result + "ClearSet";
+te_set.insert_element = te_prefix.result + "SetInsertElement";
+te_set.element_count = te_prefix.result + "SetCardinality";
+te_set.iterator_class_name = te_prefix.result + "Iterator_s";
+te_set.number_of_containoids = te_prefix.define_usw + "SYS_MAX_CONTAINERS";
+te_set.factory = te_prefix.result + "SetFactoryInit";
+te_set.insert_block = te_prefix.result + "SetInsertBlock";
+te_set.remove_instance = te_prefix.result + "SetRemoveInstance";
+te_set.contains = te_prefix.result + "SetContains";
+te_set.equality = te_prefix.result + "SetEquality";
+te_set.init = te_prefix.result + "InitSet";
+te_set.insert_instance = te_prefix.result + "SetInsertInstance";
+te_set.emptiness = te_prefix.result + "SetIsEmpty";
+te_set.get_any = te_prefix.result + "SetGetAny";
+te_set.remove_element = te_prefix.result + "SetRemoveElement";
+te_set.iterator_reset = te_prefix.result + "IteratorReset";
+te_set.iterator_next = te_prefix.result + "IteratorNext";
+te_set.base_class = te_prefix.result + "ObjectSet_s";
+te_set.element_type = te_prefix.result + "SetElement_s";
+te_set.scope = "";
+@@@
+slist_factory@void@@te_slist@inst_ref<slist>@@@
+//
+//
+te_slist = param.te_slist;
+select any te_prefix from instances of TE_PREFIX;
+te_slist.remove_node = te_prefix.result + "SetRemoveNode";
+@@@
+string_factory@void@@te_string@inst_ref<string>@@@
+//
+//
+te_string = param.te_string;
+select any te_prefix from instances of TE_PREFIX;
+te_string.memset = te_prefix.result + "memset";
+te_string.memmove = te_prefix.result + "memmove";
+te_string.strcpy = te_prefix.result + "strcpy";
+te_string.stradd = te_prefix.result + "stradd";
+te_string.strlen = te_prefix.result + "strlen";
+te_string.itoa = te_prefix.result + "itoa";
+te_string.atoi = te_prefix.result + "atoi";
+te_string.strcmp = te_prefix.result + "strcmp";
+te_string.strget = te_prefix.result + "strget";
+te_string.max_string_length = te_prefix.define_u + "SYS_MAX_STRING_LEN";
+te_string.debug_buffer_depth = te_prefix.define_u + "DEBUG_BUFFER_DEPTH";
+@@@
+thread_factory@void@@te_thread@inst_ref<thread>@@@
+//
+//
+te_thread = param.te_thread;
+select any te_prefix from instances of TE_PREFIX;
+te_thread.file = "sys_thread";
+te_thread.mutex_lock = te_prefix.result + "mutex_lock";
+te_thread.mutex_unlock = te_prefix.result + "mutex_unlock";
+te_thread.nonbusy_wait = te_prefix.result + "nonbusy_wait";
+te_thread.nonbusy_wake = te_prefix.result + "nonbusy_wake";
+te_thread.shutdown = te_prefix.result + "thread_shutdown";
+te_thread.create = te_prefix.result + "thread_create";
+te_thread.enabled = false;
+te_thread.flavor = "POSIX";
+te_thread.serialize = false;
+te_thread.number_of_threads = 1;
+te_thread.extra_initialization = "";
+te_thread.AUTOSAR_enabled = te_prefix.define_usw + "AUTOSAR_ENABLED";
+@@@
+tim_factory@void@@te_tim@inst_ref<timer>@@@
+//
+//
+te_tim = param.te_tim;
+select any te_prefix from instances of TE_PREFIX;
+te_tim.max_timers = te_prefix.define_u + "SYS_MAX_XTUML_TIMERS";
+te_tim.keyed_timer_support = false;
+te_tim.recurring_timer_support = true;
+te_tim.internal_type = "ETimer_t";
+te_tim.timer_event_search_and_destroy = false;
+te_tim.event_name = "";
+@@@
+typemap_factory@void@@te_typemap@inst_ref<type map>@@@
+//
+//
+te_typemap = param.te_typemap;
+select any te_prefix from instances of TE_PREFIX;
+te_typemap.instance_index_name = te_prefix.result + "InstanceIndex_t";
+te_typemap.instance_index_type = "u2_t";
+te_typemap.object_size_name = te_prefix.type + "ClassSize_t";
+te_typemap.object_size_type = te_prefix.type + "size_t";
+te_typemap.object_number_name = te_prefix.type + "ClassNumber_t";
+te_typemap.object_number_type = "u2_t";
+te_typemap.state_number_name = te_prefix.type + "StateNumber_t";
+te_typemap.state_number_type = "u1_t";
+te_typemap.domain_number_name = te_prefix.type + "DomainNumber_t";
+te_typemap.domain_number_type = "u1_t";
+te_typemap.event_number_name = te_prefix.type + "EventNumber_t";
+te_typemap.event_number_type = "u1_t";
+te_typemap.event_priority_name = te_prefix.type + "EventPriority_t";
+te_typemap.event_priority_type = "u1_t";
+te_typemap.event_flags_name = te_prefix.type + "EventFlags_t";
+te_typemap.event_flags_type = "u1_t";
+te_typemap.poly_return_name = te_prefix.type + "PolyEventRC_t";
+te_typemap.poly_return_type = "u1_t";
+te_typemap.SEM_cell_type = "u1_t";
+te_typemap.SEM_cell_name = te_prefix.type + "SEMcell_t";
+@@@
+callout_factory@void@@te_callout@inst_ref<user callout>@@@
+//
+//
+te_callout = param.te_callout;
+select any te_prefix from instances of TE_PREFIX;
+te_callout.initialization = te_prefix.symbolsw + "UserInitializationCallout";
+te_callout.pre_xtUML_initialization = te_prefix.symbolsw + "UserPreOoaInitializationCallout";
+te_callout.post_xtUML_initialization = te_prefix.symbolsw + "UserPostOoaInitializationCallout";
+te_callout.background_processing = te_prefix.symbolsw + "UserBackgroundProcessingCallout";
+te_callout.pre_shutdown = te_prefix.symbolsw + "UserPreShutdownCallout";
+te_callout.event_no_instance = te_prefix.symbolsw + "UserEventNoInstanceCallout";
+te_callout.event_free_list_empty = te_prefix.symbolsw + "UserEventFreeListEmptyCallout";
+te_callout.object_pool_empty = te_prefix.symbolsw + "UserObjectPoolEmptyCallout";
+te_callout.node_list_empty = te_prefix.symbolsw + "UserNodeListEmptyCallout";
+te_callout.interleaved_bridge_overflow = te_prefix.symbolsw + "UserInterleavedBridgeOverflowCallout";
+te_callout.self_event_queue_empty = te_prefix.symbolsw + "UserSelfEventQueueEmptyCallout";
+te_callout.non_self_event_queue_empty = te_prefix.symbolsw + "UserNonSelfEventQueueEmptyCallout";
+te_callout.persistence_error = te_prefix.symbolsw + "UserPersistenceErrorCallout";
+te_callout.file = "sys_user_co";
+te_callout.post_shutdown = te_prefix.symbolsw + "UserPostShutdownCallout";
+te_callout.event_cant_happen = te_prefix.symbolsw + "UserEventCantHappenCallout";
+te_callout.empty_handle_detected = te_prefix.symbolsw + "UserEmptyHandleDetectedCallout";
+@@@
+trace_factory@void@@te_trace@inst_ref<trace>@@@
+//
+//
+te_trace = param.te_trace;
+select any te_prefix from instances of TE_PREFIX;
+te_trace.component_msg_start = te_prefix.define_usw + "COMP_MSG_START_TRACE";
+te_trace.component_msg_end = te_prefix.define_usw + "COMP_MSG_END_TRACE";
+te_trace.state_txn_start = te_prefix.define_usw + "STATE_TXN_START_TRACE";
+te_trace.oal_trace = te_prefix.define_usw + "OAL_ACTION_TRACE";
+te_trace.state_txn_end = te_prefix.define_usw + "STATE_TXN_END_TRACE";
+te_trace.state_txn_event_ignored = te_prefix.define_usw + "STATE_TXN_IG_TRACE";
+te_trace.state_txn_cant_happen = te_prefix.define_usw + "STATE_TXN_CH_TRACE";
+@@@
+target_factory@void@@te_target@inst_ref<target>@@@
+//
+te_target = param.te_target;
+te_target.language = "C";
+te_target.c2cplusplus_linkage_begin = "#ifdef\t__cplusplus\nextern\t&quot;C&quot;\t{\n#endif";
+te_target.c2cplusplus_linkage_end = "#ifdef\t__cplusplus\n}\n#endif";
+te_target.main = "main";
+@@@
+sys_singletons@void@@@
+//
+create object instance te_prefix of TE_PREFIX;
+::prefix_factory( te_prefix:te_prefix );
+create object instance te_typemap of TE_TYPEMAP;
+::typemap_factory( te_typemap:te_typemap );
+create object instance te_container of TE_CONTAINER;
+::container_factory( te_container:te_container );
+create object instance te_copyright of TE_COPYRIGHT;
+::copyright_factory( te_copyright:te_copyright );
+create object instance te_dlist of TE_DLIST;
+::dlist_factory( te_dlist:te_dlist );
+create object instance te_dma of TE_DMA;
+::dma_factory( te_dma:te_dma );
+create object instance te_eq of TE_EQ;
+::eq_factory( te_eq:te_eq );
+create object instance te_file of TE_FILE;
+::file_factory( te_file:te_file );
+create object instance te_instance of TE_INSTANCE;
+::instance_factory( te_instance:te_instance );
+create object instance te_ilb of TE_ILB;
+::ilb_factory( te_ilb:te_ilb );
+create object instance te_persist of TE_PERSIST;
+::persist_factory( te_persist:te_persist );
+create object instance te_relinfo of TE_RELINFO;
+::relinfo_factory( te_relinfo:te_relinfo );
+create object instance te_relstore of TE_RELSTORE;
+::relstore_factory( te_relstore:te_relstore );
+create object instance te_set of TE_SET;
+::set_factory( te_set:te_set );
+create object instance te_slist of TE_SLIST;
+::slist_factory( te_slist:te_slist );
+create object instance te_string of TE_STRING;
+::string_factory( te_string:te_string );
+create object instance te_thread of TE_THREAD;
+::thread_factory( te_thread:te_thread );
+create object instance te_tim of TE_TIM;
+::tim_factory( te_tim:te_tim );
+create object instance te_callout of TE_CALLOUT;
+::callout_factory( te_callout:te_callout );
+create object instance te_trace of TE_TRACE;
+::trace_factory( te_trace:te_trace );
+create object instance te_extent of TE_EXTENT;
+::extent_factory( te_extent:te_extent );
+create object instance te_target of TE_TARGET;
+::target_factory( te_target:te_target );
+//
+create object instance te_assign of TE_ASSIGN;
+create object instance te_create_instance of TE_CREATE_INSTANCE;
+create object instance te_for of TE_FOR;
+create object instance te_if of TE_IF;
+create object instance te_while of TE_WHILE;
+create object instance te_elif of TE_ELIF;
+create object instance te_delete_instance of TE_DELETE_INSTANCE;
+create object instance te_create_event of TE_CREATE_EVENT;
+create object instance te_relate of TE_RELATE;
+create object instance te_relate_using of TE_RELATE_USING;
+create object instance te_unrelate of TE_UNRELATE;
+create object instance te_unrelate_using of TE_UNRELATE_USING;
+create object instance te_select of TE_SELECT;
+create object instance te_select_where of TE_SELECT_WHERE;
+create object instance te_generate_precreated_event of TE_GENERATE_PRECREATED_EVENT;
+create object instance te_event_parameters of TE_EVENT_PARAMETERS;
+create object instance te_generate of TE_GENERATE;
+create object instance te_generate_creator_event of TE_GENERATE_CREATOR_EVENT;
+create object instance te_generate_to_class of TE_GENERATE_TO_CLASS;
+create object instance te_sgn of TE_SGN;
+create object instance te_iop of TE_IOP;
+create object instance te_operation of TE_OPERATION;
+create object instance te_bridge of TE_BRIDGE;
+create object instance te_function of TE_FUNCTION;
+create object instance te_return of TE_RETURN;
+@@@
+set_prefix_simbolsw@void@@prefix@string@@@
+
+//-- 006: 20140128 Modified Start (saitou) 
+prefix = param.prefix;
+//
+select any te_prefix from instances of TE_PREFIX;
+te_prefix.symbolsw = prefix;
+select any te_callout from instances of TE_CALLOUT;
+::callout_factory( te_callout:te_callout );
 @@@

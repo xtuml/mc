@@ -61,6 +61,91 @@ end if;
 tm_sync.IsSafeForInterrupts = true;
 T::print(s:"Function ${function_name} in component ${component_name} marked as safe for interrupt invocation.");
 @@@
+TagBridgeCallNotGenerate@void@@dom_name@string@@ee_name@string@@@
+//
+//
+//============================================================================
+//-- 004: 20140122 Add Start (saitou) 
+dom_name = param.dom_name;
+ee_name = param.ee_name;
+//
+select many te_cs from instances of TE_C;
+if ( dom_name != "*" )
+  select many te_cs from instances of TE_C where ( selected.Name == dom_name );
+end if;
+for each te_c in te_cs
+  select any te_ee from instances of TE_EE where ( ( selected.Key_Lett == ee_name ) and ( selected.te_cID == te_c.ID ) );
+  if ( not_empty te_ee )
+    te_ee.Included = false;
+    T::print(s:"TagBridgeCallNotGenerate() : ${ee_name}");
+    select many s_brgs related by te_ee->S_EE[R2020]->S_BRG[R19];
+    for each s_brg in s_brgs
+      select one te_brg related by s_brg->TE_BRG[R2025];
+      if ( not_empty te_brg )
+        te_brg.NotGenerateInvocation = true;
+      end if;
+    end for;
+  else
+    T::print(s:"TagBridgeCallNotGenerate() ${ee_name} is not found.");
+  end if;
+end for;
+@@@
+port_realize_EE@void@@dom_name@string@@port_name@string@@ee_name@string@@@
+//-- 004: 20140122 Add End (saitou) 
+//-- 009: 20140205 Add Start (saitou)
+dom_name = param.dom_name;
+port_name = param.port_name;
+ee_name = param.ee_name;
+//
+select many te_cs from instances of TE_C;
+if ( dom_name != "*" )
+  select many te_cs from instances of TE_C where ( selected.Name == dom_name );
+end if;
+//
+for each te_c in te_cs
+  select any te_po from instances of TE_PO where ( ( selected.Name == port_name ) and ( selected.te_cID == te_c.ID ) );
+  select any te_ee from instances of TE_EE where ( ( selected.Key_Lett == ee_name ) and ( selected.te_cID == te_c.ID ) );
+  if ( ( not_empty te_po ) and ( not_empty te_ee ) )
+    te_po.realizeEE_ID = te_ee.EE_ID;
+    T::print(s:"port_realize_EE() : port(${te_po.Name}) realize EE(${te_ee.Key_Lett})");
+  end if;
+end for;
+@@@
+mark_ee_as_realized@void@@dom_name@string@@ee_name@string@@prefix@string@@include_file@string@@@
+//-- 009: 20140205 Add End (saitou)
+//-- 014: 20140225 Add Start (saitou) 
+dom_name = param.dom_name;
+ee_name = param.ee_name;
+prefix = param.prefix;
+include_file = param.include_file;
+//
+select many te_cs from instances of TE_C;
+if ( dom_name != "*" )
+  select many te_cs from instances of TE_C where ( selected.Name == dom_name );
+end if;
+for each te_c in te_cs
+  select any te_ee from instances of TE_EE where ( ( selected.Key_Lett == ee_name ) and ( selected.te_cID == te_c.ID ) );
+  if ( not_empty te_ee )
+    T::print(s:"mark_ee_as_realized() : ${ee_name} : [${te_ee.RegisteredName}] -> [${prefix}] : ${include_file}");
+    te_ee.RegisteredName = "${prefix}";
+    te_ee.Include_File = "${include_file}";
+    select many s_brgs related by te_ee->S_EE[R2020]->S_BRG[R19];
+    for each s_brg in s_brgs
+      select one te_brg related by s_brg->TE_BRG[R2025];
+      //-- 010:20140311 Modified Start (nomura)
+      r = ::fx_is_exist_real_func( :te_ee );
+      isExistRealFunc = r;
+      if ( ( not_empty te_brg ) and ( isExistRealFunc == false ) )
+        //-- 010:20140307 Modified End (nomura)
+        brgprefix = te_ee.RegisteredName + "_";
+        te_brg.GeneratedName = brgprefix + s_brg.Name;
+      end if;
+    end for;
+  else
+    T::print(s:"mark_ee_as_realized() ${ee_name} is not found.");
+  end if;
+end for;
+@@@
 TagSystemObjectDefaultExtentSize@void@@extent_size@integer@@@
 //============================================================================
 // $RCSfile: m.class.arc,v $
@@ -950,7 +1035,7 @@ if ( ( ( ( empty tm_tpv ) and ( not_empty tm_tp ) ) and ( not isChannel ) ) or (
   relate tm_tpv to te_iir across R2806;
     //
   // Find a satisfaction or delegation.  Recursively apply the same template parameter value to the connections.
-  select one satisfied_te_iir related by te_iir->TE_IIR[R2081.'provides or is delegated'] where ( false );
+  select one satisfied_te_iir related by te_iir->TE_IIR[R2081.'requires or delegates'] where ( false );
   if ( ( 0 == flavor ) or ( 2 == flavor ) )
     // iir to iir
     // Search from imported reference across satisfaction to imported reference provision to requirement.
@@ -1010,7 +1095,7 @@ if ( ( ( ( empty tm_tpv ) and ( not_empty tm_tp ) ) and ( not isChannel ) ) or (
   end if;
   // delegation
   if ( empty satisfied_te_iir )
-    select one delegated_te_iir related by satisfied_te_iir->TE_IIR[R2081.'provides or is delegated'] where ( false );
+    select one delegated_te_iir related by satisfied_te_iir->TE_IIR[R2081.'requires or delegates'] where ( false );
     // IIR IR DG  RID IR
     select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_DG[R4704]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
     if ( not_empty delegated_te_iir )
@@ -1293,6 +1378,59 @@ package_name = param.package_name;
 T::print(s:"AssignDirectToUDTPackage is not a supported marking function.");
 T::exit(i:1);
 @@@
+specify_user_defined_enum_type_as_external_macro@void@@dt_name@string@@ext_name@string@@initial_value@string@@include_file@string@@@
+//
+//============================================================================
+//
+//-- 002: 20140122 Add Start (saitou) 
+dt_name = param.dt_name;
+ext_name = param.ext_name;
+initial_value = param.initial_value;
+include_file = param.include_file;
+//	.param string ext_event_name
+//
+select any s_dt from instances of S_DT where ( selected.Name == dt_name );
+select one s_udt related by s_dt->S_UDT[R17];
+if ( ( empty s_dt ) or ( empty s_udt ) )
+  T::print(s:"\n  specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' does not exist");
+else
+  select any s_cdt from instances of S_CDT where ( selected.DT_ID == s_udt.CDT_DT_ID );
+  if ( s_cdt.Core_Typ == 4 )
+    create object instance tm_dtmacro of TM_DTMACRO;
+    tm_dtmacro.component = "";
+    tm_dtmacro.DT_name = dt_name;
+    tm_dtmacro.IsExternalMacro = true;
+    tm_dtmacro.genName = ext_name;
+    tm_dtmacro.Include_File = include_file;
+    tm_dtmacro.Initial_Value = initial_value;
+    //
+    T::print(s:"specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}");
+  else
+    T::print(s:"specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is not external macro ( because CoreType is not string! )");
+  end if;
+end if;
+//
+@@@
+specify_user_defined_type@void@@dt_name@string@@ext_name@string@@initial_value@string@@include_file@string@@@
+//
+dt_name = param.dt_name;
+ext_name = param.ext_name;
+initial_value = param.initial_value;
+include_file = param.include_file;
+//
+select any s_dt from instances of S_DT where ( selected.Name == dt_name );
+if ( empty s_dt )
+  T::print(s:"\n  specify_user_defined_type - Data Type '${dt_name}' does not exist");
+else
+  create object instance tm_dtmacro of TM_DTMACRO;
+  tm_dtmacro.component = "";
+  tm_dtmacro.DT_name = dt_name;
+  tm_dtmacro.genName = ext_name;
+  tm_dtmacro.Include_File = include_file;
+  tm_dtmacro.Initial_Value = initial_value;
+  T::print(s:"specify_user_defined_type - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}");
+end if;
+@@@
 TagFunctionTranslationOff@void@@function_name@string@@@
 //============================================================================
 // $RCSfile: m.domain.arc,v $
@@ -1422,18 +1560,68 @@ for each te_c in te_cs
   T::print(s:"${msg}");
 end for;
 @@@
-TagExcludeSubsystemFromCodeGen@void@@subsystem_name@string@@@
+MarkExcludeSubsystemFromCodeGen@void@@component_name@string@@subsystem_name@string@@@
 //
 //============================================================================
+//-- 012:20140224 Add Start (saitou) 
+component_name = param.component_name;
+subsystem_name = param.subsystem_name;
+//
+component_name = T::r(s:component_name);
+select many c_cs from instances of C_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many c_cs from instances of C_C;
+end if;
+for each c_c in c_cs
+  select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+  for each ep_pkg in ep_pkgs
+    ::ExcludePackageFromCodeGen( ep_pkg:ep_pkg, subsystem_name:subsystem_name, isExclude:false );
+  end for;
+end for;
+//
+@@@
+ExcludePackageFromCodeGen@void@@ep_pkg@inst_ref<Package>@@subsystem_name@string@@isExclude@boolean@@@
+///////
+// ExcludePackageFromCodeGen
+//      ep_pkg : Package
+//
+ep_pkg = param.ep_pkg;
+subsystem_name = param.subsystem_name;
+isExclude = param.isExclude;
+//
+doExclude = isExclude;
+//
+if ( ( "${ep_pkg.Name}" == "${subsystem_name}" ) or ( "*" == "${subsystem_name}" ) )
+  doExclude = true;
+end if;
+//
+if ( doExclude )
+  T::print(s:"Exclude Package : ${ep_pkg.Name}");
+  select many te_classes related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
+  for each te_class in te_classes
+    te_class.ExcludeFromGen = true;
+  end for;
+end if;
+//
+select many child_ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001];
+for each child_ep_pkg in child_ep_pkgs
+  ::ExcludePackageFromCodeGen( ep_pkg:child_ep_pkg, subsystem_name:subsystem_name, isExclude:doExclude );
+end for;
+//
+@@@
+TagExcludeSubsystemFromCodeGen@void@@subsystem_name@string@@@
+//-- 012:20140224 Add End (saitou) 
 subsystem_name = param.subsystem_name;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
   ::MarkExcludeSubsystemFromCodeGen( component_name:te_c.Name, subsystem_name:subsystem_name );
 end for;
 @@@
-MarkExcludeSubsystemFromCodeGen@void@@component_name@string@@subsystem_name@string@@@
+MarkExcludeSubsystemFromCodeGen_ORG@void@@component_name@string@@subsystem_name@string@@@
+//-- 012:20140224 Modified Start (saitou) 
 component_name = param.component_name;
 subsystem_name = param.subsystem_name;
+//-- 012:20140224 Modified Start (saitou) 
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
 if ( ( "" == component_name ) or ( "*" == component_name ) )
@@ -2140,6 +2328,23 @@ if ( "1" == pass )
   elif ( "MarkComponentAsRealized" == f )
     // MarkComponentAsRealized("package_name","component_name","inc_file")
     ::MarkComponentAsRealized( package_name:p1, component_name:p2, inc_file:p3 );
+    //-- 010:20140212 Add Start (nomura)
+  elif ( "MarkDomainEventMaxNumber" == f )
+    // MarkDomainEventMaxNumber("component_name","internalEventNum","externalEventNum")
+    ::MarkDomainEventMaxNumber( package_name:p1, component_name:p2, inc_file:p3 );
+  elif ( "SetDomainRelationExtentMaxNumber" == f )
+    // SetDomainRelationExtentMaxNumber("component_name", "RelationExtentMaxNo")
+    ::SetDomainRelationExtentMaxNumber( :p1, :p2 );
+  elif ( "SetDomainSelectionNodeMaxNumber" == f )
+    // SetDomainSelectionNodeMaxNumber("component_name", "SelectionNodeMaxNo")
+    ::SetDomainSelectionNodeMaxNumber( :p1, :p2 );
+  elif ( "TagUseFacadeMaxDef" == f )
+    // TagUseFacadeMaxDef()
+    ::TagUseFacadeMaxDef();
+  elif ( "SetDomainFacadeMutexLockUse" == f )
+    // SetDomainFacadeMutexLockUse("component_name")
+    ::SetDomainFacadeMutexLockUse( :p1 );
+    //-- 010:20140212 Add Start (nomura)
   else
     // not in this pass
   end if;

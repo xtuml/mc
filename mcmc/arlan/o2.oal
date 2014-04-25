@@ -127,6 +127,16 @@ for each v_lst in v_lsts
   te_val.dimensions = 1;
   te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
   //TODO assign dimension
+  //-- 002:20140313 Add Start (saitou) 
+  select any te_parm related by te_val->V_VAL[R2040]->V_PAR[R800]->TE_PAR[R2063]->TE_PARM[R2091];
+  if ( not_empty te_parm )
+    select any te_dt related by te_parm->TE_DT[R2049];
+    if ( te_dt.IsExternalMacro )
+      T::print(s:"[ExtMcr] fix buf : [${te_val.buffer}] -> [${v_lst.Value}]");
+      te_val.buffer = v_lst.Value;
+    end if;
+  end if;
+  //-- 002:20140313 Add End (saitou) 
 end for;
 @@@
 val_literal_integer_values@void@@@
@@ -168,11 +178,17 @@ for each v_scv in v_scvs
   te_val.OAL = cnst_syc.Name;
   te_val.buffer = cnst_lsc.Value;
   if ( 4 == te_dt.Core_Typ )
-    select any te_string from instances of TE_STRING;
-    te_val.buffer = ( "&quot;" + cnst_lsc.Value ) + "&quot;";
-    te_val.dimensions = 1;
-    te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
-    //TODO assign dimension
+    //-- 002: 20140122 Add Start (saitou) 
+    if ( not te_dt.IsExternalMacro )
+      //-- 002: 20140122 Add End (saitou) 
+      select any te_string from instances of TE_STRING;
+      te_val.buffer = ( "&quot;" + cnst_lsc.Value ) + "&quot;";
+      te_val.dimensions = 1;
+      te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
+      //TODO assign dimension
+      //-- 002: 20140122 Add Start (saitou) 
+    end if;
+    //-- 002: 20140122 Add End (saitou) 
   end if;
 end for;
 @@@
@@ -481,14 +497,38 @@ if ( "" == te_val.buffer )
   select one l_te_dt related by l_v_val->S_DT[R820]->TE_DT[R2021];
   select one r_te_dt related by r_v_val->S_DT[R820]->TE_DT[R2021];
   if ( ( 4 == l_te_dt.Core_Typ ) or ( 4 == r_te_dt.Core_Typ ) )
-    // string
-    select any te_string from instances of TE_STRING;
-    select any te_instance from instances of TE_INSTANCE;
-    if ( "+" == T::r(s:v_bin.Operator) )
-      te_val.buffer = ( ( ( te_instance.module + te_string.stradd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )";
+    //-- 002: 20140123 Add Start (saitou) 
+    if ( ( l_te_dt.IsExternalMacro ) or ( r_te_dt.IsExternalMacro ) )
+      // external macro
+      lBuffer = l_te_val.buffer;
+      if ( not l_te_dt.IsExternalMacro )
+        lBuffer = l_te_val.OAL;
+      end if;
+      rBuffer = r_te_val.buffer;
+      if ( not r_te_dt.IsExternalMacro )
+        rBuffer = r_te_val.OAL;
+      end if;
+      //
+      if ( "and" == T::r(s:v_bin.Operator) )
+        te_val.buffer = ( ( "( " + lBuffer ) + ( " && " + rBuffer ) ) + " )";
+      elif ( "or" == T::r(s:v_bin.Operator) )
+        te_val.buffer = ( ( "( " + lBuffer ) + ( " || " + rBuffer ) ) + " )";
+      else
+        te_val.buffer = ( ( "( " + lBuffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + rBuffer ) + " )" );
+      end if;
     else
-      te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" );
+      //-- 002: 20140123 Add End (saitou) 
+      // string
+      select any te_string from instances of TE_STRING;
+      select any te_instance from instances of TE_INSTANCE;
+      if ( "+" == T::r(s:v_bin.Operator) )
+        te_val.buffer = ( ( ( te_instance.module + te_string.stradd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )";
+      else
+        te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" );
+      end if;
+      //-- 002: 20140123 Add Start (saitou) 
     end if;
+    //-- 002: 20140123 Add End (saitou) 
   else
     select any te_target from instances of TE_TARGET;
     if ( "and" == T::r(s:v_bin.Operator) )

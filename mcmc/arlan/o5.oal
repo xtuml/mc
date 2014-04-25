@@ -1,0 +1,401 @@
+fx_get_base_arch_prefix_name@string@@@
+//----------------------------------------------------------------------------
+//
+return "MC3020";
+@@@
+fx_get_default_arch_prefix_name@string@@@
+//
+//----------------------------------------------------------------------------
+//
+return "Escher";
+@@@
+fx_get_domain_facade_file_name@string@@te_c@inst_ref<Extended Component>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_c = param.te_c;
+return te_c.Name + "_domainfacade";
+@@@
+fx_get_copyright_notice@string@@@
+//
+//----------------------------------------------------------------------------
+//
+return "COPYRIGHT";
+@@@
+fx_get_domain_dispatcher_name@string@@te_c@inst_ref<Extended Component>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_c = param.te_c;
+return te_c.Name + "_DomainDispatcher";
+@@@
+fx_get_domain_mech_file_name@string@@te_c@inst_ref<Extended Component>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_c = param.te_c;
+return te_c.Name + "_mechs";
+@@@
+fx_get_domain_init_file_name@string@@te_c@inst_ref<Extended Component>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_c = param.te_c;
+return te_c.Name + "_dom_init";
+@@@
+fx_get_domain_classes_file_name@string@@te_c@inst_ref<Extended Component>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_c = param.te_c;
+return te_c.Name + "_classes";
+@@@
+fx_get_domain_enums_file_name@string@@te_c@inst_ref<Extended Component>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_c = param.te_c;
+return te_c.Name + "_enums";
+@@@
+fx_get_sys_mech_file_name@string@@@
+//
+//----------------------------------------------------------------------------
+//
+return "sys_mechs";
+@@@
+fx_get_sys_types_file_name@string@@@
+//
+//----------------------------------------------------------------------------
+//
+return "sys_types";
+@@@
+fx_get_first_attribute_in_object_model@inst_ref<Attribute>@@te_class@inst_ref<Extended Class>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_class = param.te_class;
+select any obj from instances of O_OBJ where ( selected.Obj_ID == te_class.Obj_ID );
+// .select one o_obj related by te_class->O_OBJ[R2019]
+//.if (empty obj)
+//.print "++++ O_OBJ not found. ${te_class.Name}"
+//.else
+//.print "++++ O_OBJ found!. ${te_class.Name}"
+//.end if
+select any o_attr related by obj->O_ATTR[R102] where ( selected.PAttr_ID == 0 );
+select many obj_attr_set related by obj->O_ATTR[R102];
+for each obj_attr in obj_attr_set
+  select one previous_attr related by obj_attr->O_ATTR[R103.'succeeds'];
+  if ( empty previous_attr )
+    o_attr = obj_attr;
+    break;
+  end if;
+end for;
+return o_attr;
+@@@
+fx_generate_code_for_object_attribute@boolean@@obj_attr@inst_ref<>@@@
+//
+//----------------------------------------------------------------------------
+//
+obj_attr = param.obj_attr;
+result = true;
+select one te_dt related by obj_attr->S_DT[R114]->TE_DT[R2021];
+select one te_attr related by obj_attr->TE_ATTR[R2033];
+//
+// "current_state" attribute.
+if ( te_dt.Core_Typ == 6 )
+  result = false;
+else
+  if ( te_attr.translate == false )
+    result = false;
+  end if;
+end if;
+return result;
+@@@
+fx_get_auto_inc_get_llimit_value_macro_name@string@@te_attr@inst_ref<Extended Attribute>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_attr = param.te_attr;
+select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
+r = ::GetDomainObjectNamespace( o_obj:o_obj );
+namespace = r;
+return namespace + "_AUTOINC_LOWER_LIMIT";
+@@@
+fx_get_auto_inc_get_hlimit_value_macro_name@string@@te_attr@inst_ref<Extended Attribute>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_attr = param.te_attr;
+select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
+namespace = ::GetDomainObjectNamespace( o_obj:o_obj );
+namespace = r;
+return namespace + "_AUTOINC_HIGHER_LIMIT";
+@@@
+fx_get_auto_inc_get_new_value_macro_name@string@@te_attr@inst_ref<Extended Attribute>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_attr = param.te_attr;
+select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
+namespace = ::GetDomainObjectNamespace( o_obj:o_obj );
+namespace = r;
+return namespace + "_AUTOINC_GetNewValue";
+@@@
+fx_get_auto_inc_id_mgmt_variable_name@string@@te_attr@inst_ref<Extended Attribute>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_attr = param.te_attr;
+select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
+namespace = ::GetDomainObjectNamespace( o_obj:o_obj );
+namespace = r;
+return namespace + "_AUTOINC_currentId";
+@@@
+fx_get_bridge_extend_name_prefix@string@@te_ee@inst_ref<Extended External Entity>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_ee = param.te_ee;
+select any te_c related by te_ee->TE_C[R2085];
+return ( te_c.Name + "_BridgeExtend_" ) + te_ee.Key_Lett;
+@@@
+fx_is_exist_real_func@boolean@@te_ee@inst_ref<Extended External Entity>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_ee = param.te_ee;
+result = false;
+select any te_brg related by te_ee->S_EE[R2020]->S_BRG[R19]->TE_BRG[R2025] where ( selected.IsRealFunc == TRUE );
+if ( not_empty te_brg )
+  result = true;
+end if;
+return result;
+@@@
+fx_generate_auto_inc_id_execution@string@@te_attr@inst_ref<Extended Attribute>@@@
+//
+//----------------------------------------------------------------------------
+//
+te_attr = param.te_attr;
+result = false;
+if ( te_attr.isAutoInc )
+  result = true;
+  r = ::fx_get_auto_inc_get_new_value_macro_name( :te_attr );
+  get_macro_name = r;
+  r = ::fx_get_auto_inc_id_mgmt_variable_name( :te_attr );
+  var_name = r;
+T::b(s:  /* FX Extention : AUTOINC Coloring */);
+T::b(s:  /* setup value of ${te_attr.Name} */);
+T::b(s:  self->${te_attr.GeneratedName} = ${get_macro_name}(${var_name}););
+end if;
+return result;
+return T::body();
+@@@
+fx_generate_auto_inc_id_definision@string@@te_attr@inst_ref<Extended Attribute>@@gen_decl@boolean@@@
+//
+//----------------------------------------------------------------------------
+//
+te_attr = param.te_attr;
+gen_decl = param.gen_decl;
+result = false;
+if ( te_attr.isAutoInc )
+  result = true;
+  r = ::fx_get_auto_inc_get_llimit_value_macro_name( :te_attr );
+  llimit_macro_name = r;
+  r = ::fx_get_auto_inc_get_hlimit_value_macro_name( :te_attr );
+  hlimit_macro_name = r;
+  r = ::fx_get_auto_inc_get_new_value_macro_name( :te_attr );
+  get_macro_name = r;
+  if ( gen_decl )
+T::b(s:/* auto inclemental id Lower Limit */);
+T::b(s:#define ${llimit_macro_name} ${te_attr.AutoIncLowLimit});
+T::b(s:/* auto inclemental id Higher Limit */);
+T::b(s:#define ${hlimit_macro_name} ${te_attr.AutoIncHighLimit});
+T::b(s:/* auto inclemental value getter */);
+T::b(s:#define ${get_macro_name}(x)    \);
+    if ( te_attr.AutoDirection == "UP" )
+T::b(s:((x)=((++(x)-${llimit_macro_name})%(${hlimit_macro_name}-${llimit_macro_name}+1)+${llimit_macro_name})));
+    else
+T::b(s:((x)=((${hlimit_macro_name}-(--(x)))%(${hlimit_macro_name}-${llimit_macro_name}+1)+${hlimit_macro_name})));
+    end if;
+  else
+T::b(s:/* auto inclemental value for unique_id */);
+    var_name = ::fx_get_auto_inc_id_mgmt_variable_name( :te_attr );
+T::b(s:static int ${var_name} = \);
+    if ( te_attr.AutoDirection == "UP" )
+T::b(s:${llimit_macro_name} - 1\);
+    else
+T::b(s:${llimit_macro_name} + 1\);
+    end if;
+T::b(s:;);
+  end if;
+end if;
+return result;
+return T::body();
+@@@
+fx_setup_subsystem_init@void@@@
+//
+//----------------------------------------------------------------------------
+//
+select many objs from instances of O_OBJ;
+//  .for each obj in objs
+//    .assign obj.IsExcludeFromGen = false
+//  .end for
+//    .select many ep_pkgs from instances of EP_PKG
+//    .for each ep_pkg in ep_pkgs
+//      .select many objs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001]
+//      .for each obj in objs
+//	  .assign obj.IsExcludeFromGen = false
+//
+//	  .if ( "${obj.Name}" == "${ep_pkg.Name} init" )
+//	    .assign obj.IsInitObject = true
+//	  .else
+//	    .assign obj.IsInitObject = false
+//	  .end if
+//      .end for
+//    .end for
+@@@
+SetDomainEventMaxNumber@void@@domainName@string@@maxInternalEventNo@integer@@maxExternalEventNo@integer@@@
+//
+//----------------------------------------------------------------------------
+//.function fx_get_initialize_object_set
+//  .select many attr_obj_set from instances of O_OBJ where (selected.IsInitObject == true)
+//.end function
+//
+//
+//============================================================================
+//----------------------------------------------------------------------------
+domainName = param.domainName;
+maxInternalEventNo = param.maxInternalEventNo;
+maxExternalEventNo = param.maxExternalEventNo;
+select any te_c from instances of TE_C where ( selected.Name == domainName );
+msg = "";
+if ( not_empty te_c )
+  te_c.MaxInternalEvents = maxInternalEventNo;
+  te_c.MaxExternalEvents = maxExternalEventNo;
+  msg = "set maxEventNo to ${maxInternalEventNo} + ${maxExternalEventNo} ";
+else
+  msg = "ERROR: Component ${domainName} not found.\n => SetDomainEventMaxNumber()";
+end if;
+T::print(s:"${msg}");
+@@@
+SetDomainRelationExtentMaxNumber@void@@domainName@string@@maxRelationExtents@integer@@@
+//
+//-----------------------------------------------------------------------------
+//
+domainName = param.domainName;
+maxRelationExtents = param.maxRelationExtents;
+select any te_c from instances of TE_C where ( selected.Name == domainName );
+if ( not_empty te_c )
+  te_c.MaxRelationExtents = maxRelationExtents;
+  T::print(s:"set maxRelationExtens to ${maxRelationExtents}");
+else
+  T::print(s:"ERROR: Component ${domainName} not found.\n => SetDomainRelationExtentMaxNumber()");
+end if;
+@@@
+SetDomainSelectionNodeMaxNumber@void@@domainName@string@@maxSelectionNode@integer@@@
+//
+//-----------------------------------------------------------------------------
+//
+domainName = param.domainName;
+maxSelectionNode = param.maxSelectionNode;
+select any te_c from instances of TE_C where ( selected.Name == domainName );
+if ( not_empty te_c )
+  te_c.MaxSelectionNodeExtents = maxRelationNode;
+else
+  T::print(s:"ERROR: Component ${domainName} not found.\n => SetDomainSelectionNodeMaxNumber()");
+end if;
+@@@
+TagUseFacadeMaxDef@void@@domainName@string@@@
+//
+//-----------------------------------------------------------------------------
+//
+domainName = param.domainName;
+select any te_c from instances of TE_C where ( selected.Name == domainName );
+if ( not_empty te_c )
+  te_c.isUseFacadeMaxDef = true;
+else
+  T::print(s:"ERROR: Component ${domainName} not found.\n => SetDomainRelationExtentMaxNumber()");
+end if;
+@@@
+SetDomainFacadeMutexLockUse@void@@domainName@string@@@
+//
+//-----------------------------------------------------------------------------
+//
+domainName = param.domainName;
+select any te_c from instances of TE_C where ( selected.Name == domainName );
+if ( not_empty te_c )
+  te_c.isUseMutexLock = true;
+else
+  T::print(s:"ERROR: Component ${domainName} not found.\n => SetDomainFacadeMutexLockUse()");
+end if;
+@@@
+mark_obj_as_fixed_inst_no_extend@void@@domainName@string@@className@string@@instanceMaxStr@string@@includeFile@string@@@
+//
+//-----------------------------------------------------------------------------
+//
+domainName = param.domainName;
+className = param.className;
+instanceMaxStr = param.instanceMaxStr;
+includeFile = param.includeFile;
+select any te_c from instances of TE_C where ( selected.Name == domainName );
+if ( not_empty te_c )
+  select any te_class related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == className );
+  if ( not_empty te_class )
+    te_class.InstanceMaxNo = instanceMaxStr;
+    te_class.InstanceMaxNoDefIncludeFile = includeFile;
+  else
+    T::print(s:"ERROR: Class ${className} not found.\n => mark_obj_as_fixed_inst_no_extend()");
+  end if;
+else
+  T::print(s:"ERROR: Component ${domainName} not found.\n => mark_obj_as_fixed_inst_no_extend()");
+end if;
+@@@
+GetDomainObjectNamespace@string@@o_obj@inst_ref<Model Class>@@@
+//
+o_obj = param.o_obj;
+//
+select one te_class related by o_obj->TE_CLASS[R2019];
+return te_class.GeneratedName;
+//
+@@@
+FXHO_get_auto_inc_get_llimit_value_macro_name@string@@o_obj@inst_ref<Model Class>@@@
+//
+//============================================================================
+o_obj = param.o_obj;
+//
+r = ::GetDomainObjectNamespace( o_obj:o_obj );
+namespace = r;
+return namespace + "_AUTOINC_LOWER_LIMIT";
+//
+@@@
+FXHO_get_auto_inc_get_hlimit_value_macro_name@string@@o_obj@inst_ref<Model Class>@@@
+//
+//============================================================================
+// 
+o_obj = param.o_obj;
+//
+r = ::GetDomainObjectNamespace( o_obj:o_obj );
+namespace = r;
+return namespace + "_AUTOINC_HIGER_LIMIT";
+//
+@@@
+FXHO_get_auto_inc_get_new_value_macro_name@string@@o_obj@inst_ref<Model Class>@@@
+//
+//============================================================================
+o_obj = param.o_obj;
+//
+r = ::GetDomainObjectNamespace( o_obj:o_obj );
+namespace = r;
+return namespace + "_AUTOINC_GetNewValue";
+//
+@@@
+FXHO_get_auto_inc_id_mgmt_variable_name@string@@o_obj@inst_ref<Model Class>@@@
+//
+//============================================================================
+o_obj = param.o_obj;
+//
+r = ::GetDomainObjectNamespace( o_obj:o_obj );
+namespace = r;
+return namespace + "_AUTOINC_currentId";
+//
+@@@

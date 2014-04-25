@@ -353,6 +353,7 @@ Extended External Entity,TE_EE
 Extended Function,TE_SYNC
 Extended Member,TE_MBR
 Extended Message Action,TE_MACT
+Extended Object In Relation,TE_OIR
 Extended Operation,TE_TFR
 Extended Parameter,TE_PARM
 Extended Port,TE_PO
@@ -365,7 +366,6 @@ Extended Variable,TE_VAR
 Extended Where,TE_WHERE
 Interface Instance,TE_IIR
 Message Queue,TE_QUEUE
-Navigation,TE_NAV
 Special Where Clause,TE_SWC
 container,TE_CONTAINER
 copyright,TE_COPYRIGHT
@@ -390,6 +390,8 @@ timer,TE_TIM
 trace,TE_TRACE
 type map,TE_TYPEMAP
 user callout,TE_CALLOUT
+String to Integer,TE_STI
+STI Descrip,TE_STIDESCRIP
 CPP Template,TM_TEMPLATE
 Component Mark,TM_C
 Data Type Pointer,TM_POINTER
@@ -403,6 +405,7 @@ Tasking Mark,TM_THREAD
 Template Parameter Value,TM_TPV
 Template Parameter,TM_TP
 build,TM_BUILD
+Data Type Macro,TM_DTMACRO
 Extended Block,TE_BLK
 Extended Chain Link,TE_LNK
 Extended Statement,TE_SMT
