@@ -80,7 +80,8 @@ None.
         that run later.  This reduces the work of converting the functions
         that run during OAL translation and must follow the mcmc rules.  
 6.7.1.1 Move functions from frag_util.arc to fx_util.arc and fx_util2.arc.
-        fx_util.arc will be included into mcmc; fx_util2.arc will not.  
+        fx_util.arc will be included into mcmc; fx_util2.arc will not.
+        Remove fx_generate_auto_inc_id_definision.  It is not used.  
 6.7.2   Provide return type comments next to each function that returns
         a value.  These comments are used by the programs that convert
         the RSL into OAL.  
@@ -218,6 +219,7 @@ Branch name:  51_fx
  fx_util.arc              ?+* Lots of new functions some from old MC technology and are duplicates.
                               Fix bug ".end" -> ".end if".
                               Fix a missing ".end if" bug.
+                              Fix bug in SetDomainSelectionNodeMaxNumber using incorrect parameter name.
                               Added new/custom functions (from frag_util.arc).
  m.bridge.arc              +* new marking functions
                               This file makes only one call (to fx_is_exist_real_func) which could
@@ -230,6 +232,7 @@ Branch name:  51_fx
                               FXAT needs to understand marking that occurs in "pass 1" and in "pass 2".
                               fxdatatype is trying to make marking calls in "pass 1".
                               fxcolor is trying to make marking calls in "pass 2".
+                              Removed call to MarkDomainMaxEventNumber.  It is not defined.  
  q.class.arc                + non-mcmc enhancement
  q.class.events.arc         + Why is this change?  Did the first way fail?  Is it not standard?
                               We will use the master version of this file.

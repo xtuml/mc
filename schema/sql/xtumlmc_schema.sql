@@ -6058,7 +6058,7 @@ CREATE ROP REF_ID R2058	FROM 1C TE_ABA	(te_dimID)
 CREATE ROP REF_ID R2059	FROM 1C TE_MBR	(te_dimID)
 			  TO 1C TE_DIM	(te_dimID);
 
-CREATE ROP REF_ID R2060	FROM 1C TE_DIM	(next_te_dimID)
+CREATE ROP REF_ID R2060	FROM 1C TE_DIM	(next_te_dimID) PHRASE 'precedes'
 			  TO 1C TE_DIM	(te_dimID) PHRASE 'succeeds';
 
 CREATE ROP REF_ID R2061	FROM MC TE_ATTR	(te_classGeneratedName)
@@ -6145,6 +6145,9 @@ CREATE ROP REF_ID R2097	FROM 1  TE_C	(first_syncID)
 
 CREATE ROP REF_ID R2098	FROM 1C TE_C	(first_eeID)
 			  TO 1C TE_EE	(ID);
+
+CREATE ROP REF_ID R2099	FROM 1C TE_STI	(PID) PHRASE 'succeeds'
+			  TO 1C TE_STI	(ID) PHRASE 'precedes';
 
 
 -- ============================================================================
