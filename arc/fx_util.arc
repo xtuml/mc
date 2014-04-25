@@ -157,7 +157,7 @@
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_bridge_extend_name_prefix
+.function fx_get_bridge_extend_name_prefix .// string
 .param inst_ref te_ee
   .select any te_c related by te_ee->TE_C[R2085]
   .assign attr_result = ( te_c.Name + "_BridgeExtend_" ) + te_ee.Key_Lett
