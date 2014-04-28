@@ -1,0 +1,54 @@
+if ( 0==strcmp("C",te_target->language) ) {
+T_b("/*----------------------------------------------------------------------------");
+T_b("\n");
+T_b(" ");
+T_b("* File:  ");
+T_b(domainenums->result);
+T_b(".");
+T_b(te_file->hdr_file_ext);
+T_b("\n");
+T_b(" ");
+T_b("*");
+T_b("\n");
+T_b(" ");
+T_b("* This file defines the object type identification numbers for all classes");
+T_b("\n");
+T_b(" ");
+T_b("* in the component:  ");
+T_b(te_c->Name);
+T_b("\n");
+T_b(" ");
+T_b("*");
+T_b("\n");
+T_b(" ");
+T_b("* ");
+T_b(te_copyright->body);
+T_b("\n");
+T_b(" ");
+T_b("*--------------------------------------------------------------------------*/");
+T_b("\n");
+T_b("#ifndef ");
+T_b(domainenums->result);
+T_b("_");
+T_b(te_file->hdr_file_ext);
+T_b("\n");
+T_b("#define ");
+T_b(domainenums->result);
+T_b("_");
+T_b(te_file->hdr_file_ext);
+T_b("\n");
+T_b(te_target->c2cplusplus_linkage_begin);
+T_b("\n");
+}
+T_b(enumeration_info);
+T_b("\n");
+if ( 0==strcmp("C",te_target->language) ) {
+T_b(te_target->c2cplusplus_linkage_end);
+T_b("\n");
+T_b("#endif  /* ");
+T_b(domainenums->result);
+T_b("_");
+T_b(te_file->hdr_file_ext);
+T_b(" */");
+T_b("\n");
+}

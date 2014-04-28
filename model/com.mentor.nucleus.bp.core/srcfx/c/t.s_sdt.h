@@ -1,0 +1,18 @@
+T_b("/*");
+T_b("\n");
+T_b(" ");
+T_b("* ");
+T_b(te_dt->Name);
+T_b(":");
+T_b("\n");
+T_b(" ");
+T_b("*/");
+T_b("\n");
+T_b("typedef struct {");
+T_b("\n");
+T_b(members);
+T_b("");
+T_b("} ");
+T_b(te_dt->ExtName);
+T_b(";");
+T_b("\n");

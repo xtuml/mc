@@ -1,0 +1,481 @@
+Accept Event Action,A_AEA
+Accept Event,A_AE
+Accept Time Event Action,A_ATE
+Action Node,A_ACT
+Activity Diagram Action,A_GA
+Activity Edge,A_E
+Activity Final Node,A_AF
+Activity In Activity,A_AIA
+Activity Node,A_N
+Activity Partition,A_AP
+Activity,A_A
+Control Node,A_CTL
+Decision Merge Node,A_DM
+Flow Final Node,A_FF
+Fork Join Node,A_FJ
+Initial Node,A_INI
+Object Node,A_OBJ
+Send Signal,A_SS
+Association,R_REL
+Class As Associated One Side,R_AONE
+Class As Associated Other Side,R_AOTH
+Class As Derived One Side,R_CONE
+Class As Derived Other Side,R_COTH
+Class As Link,R_ASSR
+Class As Simple Formalizer,R_FORM
+Class As Simple Participant,R_PART
+Class As Subtype,R_SUB
+Class As Supertype,R_SUPER
+Class In Association,R_OIR
+Derived Association,R_COMP
+Linked Association,R_ASSOC
+Referred To Class in Assoc,R_RTO
+Referring Class In Assoc,R_RGO
+Simple Association,R_SIMP
+Subtype Supertype Association,R_SUBSUP
+Block,ACT_BLK
+Body in Component,ACT_BIC
+Body in Element,ACT_BIE
+Body,ACT_ACT
+Break,ACT_BRK
+Bridge Body,ACT_BRB
+Continue,ACT_CON
+Control,ACT_CTL
+Derived Attribute Body,ACT_DAB
+Else Stmt,ACT_E
+ElseIf Stmt,ACT_EL
+For Stmt,ACT_FOR
+Function Body,ACT_FNB
+If Stmt,ACT_IF
+Operation Body,ACT_OPB
+Provided Operation Body,ACT_POB
+Provided Signal Body,ACT_PSB
+Required Operation Body,ACT_ROB
+Required Signal Body,ACT_RSB
+State Action Body,ACT_SAB
+Statement,ACT_SMT
+Transition Action Body,ACT_TAB
+While Stmt,ACT_WHL
+Breakpoint,BP_BP
+Condition,BP_CON
+Event Breakpoint,BP_EV
+OAL Breakpoint,BP_OAL
+State Breakpoint,BP_ST
+Access Path,CA_ACC
+Communication Path,CA_COMM
+EE to SM Comm Path,CA_EESMC
+EE to SM Event Comm,CA_EESME
+SM to EE Access Path,CA_SMEEA
+SM to EE Comm Path,CA_SMEEC
+SM to EE Data Item Access,CA_SMEED
+SM to EE Event Comm,CA_SMEEE
+SM to OBJ Access Path,CA_SMOA
+SM to OBJ Attribute Access,CA_SMOAA
+SM to SM Comm Path,CA_SMSMC
+SM to SM Event Comm,CA_SMSME
+Communication Link,COMM_LNK
+Communication in Communication,COMM_CIC
+Communication,COMM_COMM
+Message in Communication,COMM_MIC
+Participant in Communication,COMM_PIC
+Component Reference,CL_IC
+Imported Provision In Satisfaction,CL_IPINS
+Imported Provision,CL_IP
+Imported Reference,CL_IIR
+Imported Requirement,CL_IR
+Component in Component,CN_CIC
+Domain As Component,CN_DC
+Component Package in Package,CP_CPINP
+Component Package,CP_CP
+Provided Executable Property,SPR_PEP
+Provided Operation,SPR_PO
+Provided Signal,SPR_PS
+Required Executable Property,SPR_REP
+Required Operation,SPR_RO
+Required Signal,SPR_RS
+Component,C_C
+Delegation,C_DG
+Executable Property,C_EP
+Interface Operation,C_IO
+Interface Reference In Delegation,C_RID
+Interface Reference,C_IR
+Interface Signal,C_AS
+Interface,C_I
+Port,C_PO
+Property Parameter,C_PP
+Provision,C_P
+Requirement,C_R
+Satisfaction,C_SF
+Constant Specification,CNST_CSP
+Constant in Package,CNST_CIP
+Leaf Symbolic Constant,CNST_LFSC
+Literal Symbolic Constant,CNST_LSC
+Symbolic Constant,CNST_SYC
+address,DOC_ADDR
+cell,DOC_CELL
+date,DOC_DATE
+document,DOC_DOC
+figure,DOC_FIG
+footer,DOC_FOOT
+header,DOC_HEAD
+image,DOC_IMG
+link,DOC_LINK
+paragraph,DOC_PAR
+row,DOC_ROW
+section,DOC_SEC
+table,DOC_TBL
+External Entity Package in Domain,PL_EEPID
+Function Package in Domain,PL_FPID
+Bridge Parameter,S_BPARM
+Bridge,S_BRG
+Core Data Type,S_CDT
+Data Type Package in Package,S_DPIP
+Data Type Package,S_DPK
+Data Type in Package,S_DIP
+Data Type,S_DT
+Datatype In Suppression,S_DIS
+Dimensions,S_DIM
+Domain,S_DOM
+EE Package in Package,S_EEPIP
+Enumeration Data Type,S_EDT
+Enumerator,S_ENUM
+External Entity Data Item,S_EEDI
+External Entity Event Data Item,S_EEEDI
+External Entity Event Data,S_EEEDT
+External Entity Event,S_EEEVT
+External Entity Package,S_EEPK
+External Entity in Model,S_EEM
+External Entity in Package,S_EEIP
+External Entity,S_EE
+Function Package in Package,S_FPIP
+Function Package,S_FPK
+Function Parameter,S_SPARM
+Function in Package,S_FIP
+Function,S_SYNC
+Instance Reference Data Type,S_IRDT
+Structure Member,S_MBR
+Structured Data Type,S_SDT
+Subsystem in Domain,S_SID
+Subsystem in Subsystem,S_SIS
+Subsystem,S_SS
+System Model,S_SYS
+User Data Type,S_UDT
+Package In Package,EP_PIP
+Package,EP_PKG
+Specification Package,EP_SPKG
+Create Event Statement,E_CES
+Create Event to Class,E_CEA
+Create Event to Creator,E_CEC
+Create Event to External Entity,E_CEE
+Create Event to Instance,E_CEI
+Create SM Event Statement,E_CSME
+Event Specification Statement,E_ESS
+Generate Event Statement,E_GES
+Generate Preexisting Event,E_GPR
+Generate SM Event Statement,E_GSME
+Generate to Class,E_GAR
+Generate to Creator,E_GEC
+Generate to External Entity,E_GEE
+Generate,E_GEN
+Global Element in System,G_EIS
+Assign to Member,ACT_AI
+Create No Variable,ACT_CNV
+Create,ACT_CR
+Delete,ACT_DEL
+Class In Engine,CSME_CIE
+Class In State,CSME_CIS
+Class Monitor,CSME_CLM
+Attribute Value,I_AVL
+Block in Stack Frame,I_BSF
+Component Instance Container,I_CIN
+Component Instance,I_EXE
+Data Item Value,I_DIV
+Event Queue Entry,I_EQE
+Instance,I_INS
+Intercomponent Queue Entry,I_ICQE
+Link Participation,I_LIP
+Link,I_LNK
+Monitor,I_MON
+Pending Event,I_EVI
+Runtime Channel,I_RCH
+Self Queue Entry,I_SQE
+Stack Frame,I_STF
+Stack,I_STACK
+Timer,I_TIM
+Value in Stack Frame,I_VSF
+Actor Participant,SQ_AP
+Class Instance Participant,SQ_CIP
+Class Participant Attribute,SQ_CPA
+Class Participant,SQ_CP
+Component Participant,SQ_COP
+External Entity Participant,SQ_EEP
+Formal Attribute Value,SQ_FAV
+Formal Attribute,SQ_FA
+Function Package Participant,SQ_FPP
+Informal Attribute Value,SQ_IAV
+Informal Attribute,SQ_IA
+Instance Attribute Value,SQ_AV
+Interaction Participant,SQ_P
+Lifespan,SQ_LS
+Package Participant,SQ_PP
+Time Span,SQ_TS
+Timing Mark,SQ_TM
+Use Case Participant,IA_UCP
+Interface Package in Interface Package,IP_IPINIP
+Interface Package,IP_IP
+Bridge Invocation,ACT_BRG
+Function Invocation,ACT_FNC
+Interface Operation Invocation,ACT_IOP
+Operation Invocation,ACT_TFM
+Return Stmt,ACT_RET
+Signal Invocation,ACT_SGN
+Asynchronous Message,MSG_AM
+Bridge Argument,MSG_BA
+Bridge Message,MSG_B
+Event Argument,MSG_EA
+Event Message,MSG_E
+Executable Property Argument,MSG_EPA
+Function Argument,MSG_FA
+Function Message,MSG_F
+Informal Argument,MSG_IA
+Informal Asynchronous Message,MSG_IAM
+Informal Synchronous Message,MSG_ISM
+Interface Operation Message,MSG_IOP
+Message Argument,MSG_A
+Message,MSG_M
+Operation Argument,MSG_OA
+Operation Message,MSG_O
+Return Message,MSG_R
+Signal Message,MSG_SIG
+Synchronous Message,MSG_SM
+Component Result Set,PE_CRS
+Component Visibility,PE_CVS
+Element Visibility,PE_VIS
+Packageable Element,PE_PE
+Search Result Set,PE_SRS
+Delegation In Component,PA_DIC
+Satisfaction In Component Package,PA_SICP
+Satisfaction In Component,PA_SIC
+Relate Using,ACT_RU
+Relate,ACT_REL
+Unrelate Using,ACT_URU
+Unrelate,ACT_UNR
+Action Language Engine,SEN_ALE
+Declarations Engine,SEN_DCE
+Description Engine,SEN_DE
+References Engine,SEN_RE
+Search Engine,SEN_E
+Action Language Searchable,SP_ALS
+Description Searchable,SP_DS
+Named Searchable,SP_NS
+Search Participant,SP_SP
+Searchable Element,SP_SE
+Action Language Query,SQU_A
+Declaration Query,SQU_D
+Description Query,SQU_DE
+Query,SQU_Q
+References Query,SQU_R
+Content Match Result,SR_CMR
+Content Match,SR_CM
+Match,SR_M
+Name Match,SR_NM
+Search Result,SR_SR
+Chain Link,ACT_LNK
+Select From Instances Where,ACT_FIW
+Select From Instances,ACT_FIO
+Select Related By,ACT_SR
+Select Related Where,ACT_SRW
+Select,ACT_SEL
+Message In Sequence,SQ_MIS
+Sequence in Sequence,SQ_SIS
+Sequence,SQ_S
+Action Home,SM_AH
+Action,SM_ACT
+Cant Happen,SM_CH
+Class State Machine,SM_ASM
+Creation Transition,SM_CRTXN
+Event Ignored,SM_EIGN
+Event Supplemental Data,SM_SUPDT
+Instance State Machine,SM_ISM
+Local Event,SM_LEVT
+Mealy Action Home,SM_MEAH
+Mealy State Machine,SM_MEALY
+Moore Action Home,SM_MOAH
+Moore State Machine,SM_MOORE
+New State Transition,SM_NSTXN
+No Event Transition,SM_NETXN
+Non Local Event,SM_NLEVT
+Polymorphic Event,SM_PEVT
+SEM Event,SM_SEVT
+Signal Event,SM_SGEVT
+State Event Matrix Entry,SM_SEME
+State Machine Event Data Item,SM_EVTDI
+State Machine Event,SM_EVT
+State Machine State,SM_STATE
+State Machine,SM_SM
+Supplemental Data Items,SM_SDI
+Transition Action Home,SM_TAH
+Transition,SM_TXN
+Attribute Reference in Class,O_REF
+Attribute,O_ATTR
+Base Attribute,O_BATTR
+Class Identifier Attribute,O_OIDA
+Class Identifier,O_ID
+Derived Base Attribute,O_DBATTR
+Imported Class,O_IOBJ
+Model Class,O_OBJ
+New Base Attribute,O_NBATTR
+Operation Parameter,O_TPARM
+Operation,O_TFR
+Referential Attribute Visited Recorder,O_RAVR
+Referential Attribute,O_RATTR
+Referred To Identifier Attribute,O_RTIDA
+System Constant in Package,SLD_SCINP
+System Datatype Package,SLD_SDP
+System Datatype in Package,SLD_SDINP
+Action Block Anchor,TE_ABA
+Class Info Array,TE_CIA
+Component Instance,TE_CI
+Dispatcher,TE_DISP
+DomainClassInfo,TE_DCI
+Extended Action,TE_ACT
+Extended Actual Parameter,TE_PAR
+Extended Attribute,TE_ATTR
+Extended Bridge,TE_BRG
+Extended Class,TE_CLASS
+Extended Component,TE_C
+Extended Data Type,TE_DT
+Extended Derived Attribute,TE_DBATTR
+Extended Dimension,TE_DIM
+Extended Enumerator,TE_ENUM
+Extended Event,TE_EVT
+Extended External Entity,TE_EE
+Extended Function,TE_SYNC
+Extended Member,TE_MBR
+Extended Message Action,TE_MACT
+Extended Object In Relation,TE_OIR
+Extended Operation,TE_TFR
+Extended Parameter,TE_PARM
+Extended Port,TE_PO
+Extended Relation,TE_REL
+Extended State Machine,TE_SM
+Extended State,TE_STATE
+Extended System,TE_SYS
+Extended Value,TE_VAL
+Extended Variable,TE_VAR
+Extended Where,TE_WHERE
+Interface Instance,TE_IIR
+Message Queue,TE_QUEUE
+Special Where Clause,TE_SWC
+container,TE_CONTAINER
+copyright,TE_COPYRIGHT
+dlist,TE_DLIST
+dynamic memory allocation,TE_DMA
+event queue,TE_EQ
+extent,TE_EXTENT
+file,TE_FILE
+instance,TE_INSTANCE
+interleaved bridge,TE_ILB
+output file,TE_OUTFILE
+persistence,TE_PERSIST
+prefix,TE_PREFIX
+relationship information,TE_RELINFO
+relationship storage,TE_RELSTORE
+set,TE_SET
+slist,TE_SLIST
+string,TE_STRING
+target,TE_TARGET
+thread,TE_THREAD
+timer,TE_TIM
+trace,TE_TRACE
+type map,TE_TYPEMAP
+user callout,TE_CALLOUT
+STI Descrip,TE_STIDESCRIP
+String to Integer,TE_STI
+CPP Template,TM_TEMPLATE
+Component Mark,TM_C
+Data Type Pointer,TM_POINTER
+Data Type Precision,TM_PRECISION
+Enumeration Init,TM_ENUMINIT
+Enumerator Value,TM_ENUMVAL
+Function Mark,TM_SYNC
+Interface Mark,TM_IF
+System Tags,TM_SYSTAG
+Tasking Mark,TM_THREAD
+Template Parameter Value,TM_TPV
+Template Parameter,TM_TP
+build,TM_BUILD
+Data Type Macro,TM_DTMACRO
+Extended Block,TE_BLK
+Extended Chain Link,TE_LNK
+Extended Statement,TE_SMT
+OAL assign,TE_ASSIGN
+OAL break,TE_BREAK
+OAL bridge,TE_BRIDGE
+OAL continue,TE_CONTINUE
+OAL control,TE_CONTROL
+OAL create_event,TE_CREATE_EVENT
+OAL create_instance,TE_CREATE_INSTANCE
+OAL delete_instance,TE_DELETE_INSTANCE
+OAL elif,TE_ELIF
+OAL else,TE_ELSE
+OAL event_parameters,TE_EVENT_PARAMETERS
+OAL for,TE_FOR
+OAL function,TE_FUNCTION
+OAL generate,TE_GENERATE
+OAL generate_creator_event,TE_GENERATE_CREATOR_EVENT
+OAL generate_precreated_event,TE_GENERATE_PRECREATED_EVENT
+OAL generate_to_class,TE_GENERATE_TO_CLASS
+OAL if,TE_IF
+OAL iop,TE_IOP
+OAL operation,TE_OPERATION
+OAL relate,TE_RELATE
+OAL relate_using,TE_RELATE_USING
+OAL return,TE_RETURN
+OAL select,TE_SELECT
+OAL select_related,TE_SELECT_RELATED
+OAL select_where,TE_SELECT_WHERE
+OAL sgn,TE_SGN
+OAL unrelate,TE_UNRELATE
+OAL urelate_using,TE_UNRELATE_USING
+OAL while,TE_WHILE
+Association In Use Case,UC_AIUC
+Binary Association,UC_BA
+Extend,UC_E
+Generalization,UC_G
+Include,UC_I
+Participant in Use Case,UC_PIUC
+Use Case Association,UC_UCA
+Use Case Diagram,UC_UCC
+Use Case in Use Case,UC_UIU
+Actual Parameter,V_PAR
+Array Element Reference,V_AER
+Array Length Value,V_ALV
+Attribute Value Reference,V_AVL
+Binary Operation,V_BIN
+Bridge Value,V_BRV
+Event Datum Value,V_EDV
+Event Parameter Reference,V_EPR
+Function Value,V_FNV
+Instance Handle,V_INT
+Instance Reference,V_IRF
+Instance Set Reference,V_ISR
+Instance Set,V_INS
+Literal Boolean,V_LBO
+Literal Enumerator,V_LEN
+Literal Integer,V_LIN
+Literal Real,V_LRL
+Literal String,V_LST
+Member Value Reference,V_MVL
+Message Value,V_MSV
+Operation Value,V_TRV
+Parameter Value,V_PVL
+Selected Reference,V_SLR
+Symbolic Constant Value,V_SCV
+Transient Value Reference,V_TVL
+Transient Var,V_TRN
+Unary Operation,V_UNY
+Value,V_VAL
+Variable Location,V_LOC
+Variable,V_VAR
+Automatic Wiring,S_AW
