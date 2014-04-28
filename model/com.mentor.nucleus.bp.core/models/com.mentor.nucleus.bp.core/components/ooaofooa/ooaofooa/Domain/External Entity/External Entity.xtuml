@@ -79,7 +79,7 @@ INSERT INTO O_REF
 	'',
 	'Domain',
 	'Dom_ID',
-	'R8');
+	'R8.''interacts with''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("cb6532fa-12bb-4151-a8b1-ca6abb01bee3",
 	"1537e5df-fdc0-4c63-9c50-caf719917792",
@@ -201,6 +201,24 @@ INSERT INTO O_ATTR
 	'Label',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("50df2482-94b8-4fd3-9b55-d617b8b975da",
+	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3");
+INSERT INTO O_BATTR
+	VALUES ("50df2482-94b8-4fd3-9b55-d617b8b975da",
+	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3");
+INSERT INTO O_ATTR
+	VALUES ("50df2482-94b8-4fd3-9b55-d617b8b975da",
+	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3",
+	"a8707f9f-e401-41ff-9ed3-ef18e591116f",
+	'isRealized',
+	'',
+	'',
+	'isRealized',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
 INSERT INTO O_ID
