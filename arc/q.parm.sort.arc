@@ -7,7 +7,7 @@
     .for each s_sparm in s_sparms
       .select one prev_s_sparm related by s_sparm->S_SPARM[R54.'precedes']
       .if ( not_empty prev_s_sparm )
-        .// unrelate s_sparm from prev_s_sparm across R54.'precedes';
+        .// unrelate s_sparm from prev_s_sparm across R54.'succeeds';
         .assign s_sparm.Previous_SParm_ID = 00
         .assign s_sparm.Previous_SParm_ID = 00
         .// end unrelate
@@ -102,7 +102,7 @@
       .for each s_sparm in s_sparms
         .if ( s_sparm.Name == te_sti.Name_key )
           .if ( not_empty cur_s_sparm )
-            .// relate s_sparm to cur_s_sparm across R54.'precedes';
+            .// relate s_sparm to cur_s_sparm across R54.'succeeds';
             .assign s_sparm.Previous_SParm_ID = cur_s_sparm.SParm_ID
             .// end relate
           .end if
@@ -275,7 +275,7 @@
     .for each s_bparm in s_bparms
       .select one prev_s_bparm related by s_bparm->S_BPARM[R55.'precedes']
       .if ( not_empty prev_s_bparm )
-        .// unrelate s_bparm from prev_s_bparm across R55.'precedes';
+        .// unrelate s_bparm from prev_s_bparm across R55.'succeeds';
         .assign s_bparm.Previous_BParm_ID = 00
         .assign s_bparm.Previous_BParm_ID = 00
         .// end unrelate
@@ -335,7 +335,7 @@
       .for each s_bparm in s_bparms
         .if ( s_bparm.Name == te_sti.Name_key )
           .if ( not_empty cur_s_bparm )
-            .// relate s_bparm to cur_s_bparm across R55.'precedes';
+            .// relate s_bparm to cur_s_bparm across R55.'succeeds';
             .assign s_bparm.Previous_BParm_ID = cur_s_bparm.BParm_ID
             .// end relate
           .end if

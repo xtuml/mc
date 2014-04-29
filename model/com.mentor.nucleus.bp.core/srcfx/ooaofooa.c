@@ -10546,7 +10546,7 @@ ooaofooa_bparm_sort( Escher_ObjectSet_s * p_s_bparms, ooaofooa_S_BRG * p_s_brg )
       /* IF ( not_empty prev_s_bparm ) */
       if ( ( 0 != prev_s_bparm ) ) {
         /* UNRELATE s_bparm FROM prev_s_bparm ACROSS R55 */
-        ooaofooa_S_BPARM_R55_Unlink_precedes( s_bparm, prev_s_bparm );
+        ooaofooa_S_BPARM_R55_Unlink_succeeds( s_bparm, prev_s_bparm );
       }
     }}}
     /* SELECT any te_stidescrip FROM INSTANCES OF TE_STIDESCRIP */
@@ -16893,7 +16893,7 @@ ooaofooa_sbrg_sort_order_control( Escher_ObjectSet_s * p_s_bparms, ooaofooa_TE_S
           /* IF ( not_empty cur_s_bparm ) */
           if ( ( 0 != cur_s_bparm ) ) {
             /* RELATE s_bparm TO cur_s_bparm ACROSS R55 */
-            ooaofooa_S_BPARM_R55_Link_precedes( s_bparm, cur_s_bparm );
+            ooaofooa_S_BPARM_R55_Link_succeeds( s_bparm, cur_s_bparm );
           }
           /* ASSIGN cur_s_bparm = s_bparm */
           cur_s_bparm = s_bparm;
@@ -21689,7 +21689,7 @@ ooaofooa_sparm_sort( Escher_ObjectSet_s * p_s_sparms )
       /* IF ( not_empty prev_s_sparm ) */
       if ( ( 0 != prev_s_sparm ) ) {
         /* UNRELATE s_sparm FROM prev_s_sparm ACROSS R54 */
-        ooaofooa_S_SPARM_R54_Unlink_precedes( s_sparm, prev_s_sparm );
+        ooaofooa_S_SPARM_R54_Unlink_succeeds( s_sparm, prev_s_sparm );
       }
     }}}
     /* SELECT any s_sync FROM INSTANCES OF S_SYNC WHERE FALSE */
@@ -21803,7 +21803,7 @@ ooaofooa_sparm_sort_order_control( Escher_ObjectSet_s * p_s_sparms, ooaofooa_TE_
           /* IF ( not_empty cur_s_sparm ) */
           if ( ( 0 != cur_s_sparm ) ) {
             /* RELATE s_sparm TO cur_s_sparm ACROSS R54 */
-            ooaofooa_S_SPARM_R54_Link_precedes( s_sparm, cur_s_sparm );
+            ooaofooa_S_SPARM_R54_Link_succeeds( s_sparm, cur_s_sparm );
           }
           /* ASSIGN cur_s_sparm = s_sparm */
           cur_s_sparm = s_sparm;

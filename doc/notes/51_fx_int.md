@@ -123,8 +123,7 @@ None.
 
 8. Unit Test
 ------------
-8.1 Model compiler tests must pass.  
-8.2 docgen tests must pass.  
+8.1     Run mcmc on customer model.  Deliver to customer for testing.
 
 9. Code Changes
 ---------------
