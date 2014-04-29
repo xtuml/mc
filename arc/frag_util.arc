@@ -53,9 +53,9 @@
 .//-- 011: 20140217 Add Start (saitou) 
         .select one o_obj related by te_class->O_OBJ[R2019]
         .invoke r1 = FXHO_get_auto_inc_get_new_value_macro_name( o_obj )
-        .assign retMacroName = r.result
+        .assign retMacroName = r1.result
         .invoke r1 = FXHO_get_auto_inc_id_mgmt_variable_name( o_obj )
-        .assign retMngValName = r.result
+        .assign retMngValName = r1.result
         .assign isAutoIncEnable = false
         .if ( te_attr.isAutoInc ) 
           .// AutoInc‚Íqnique_id(=5)‚Æ”’l(int=2/real=3)‚Ì‚És‚¤‚æ‚¤‚É‚·‚é

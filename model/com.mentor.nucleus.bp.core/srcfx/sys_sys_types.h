@@ -104,10 +104,10 @@ typedef   signed short  s2_t;
 typedef unsigned short  u2_t;
 typedef   signed long   s4_t;
 typedef unsigned long   u4_t;
-typedef u4_t Escher_size_t;
 typedef          double r_t;
 typedef          float  r4_t;
 typedef          double r8_t;
+typedef /*size_t*/ u4_t Escher_size_t;
 
 /*
  * These are some of the fundamental types used universally.

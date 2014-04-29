@@ -52,9 +52,9 @@ while ( not_empty te_attr )
       end if;
       //-- 011: 20140217 Add Start (saitou) 
       select one o_obj related by te_class->O_OBJ[R2019];
-      r = ::FXHO_get_auto_inc_get_new_value_macro_name( o_obj:o_obj );
+      r1 = ::FXHO_get_auto_inc_get_new_value_macro_name( o_obj:o_obj );
       retMacroName = r;
-      r = ::FXHO_get_auto_inc_id_mgmt_variable_name( o_obj:o_obj );
+      r1 = ::FXHO_get_auto_inc_id_mgmt_variable_name( o_obj:o_obj );
       retMngValName = r;
       isAutoIncEnable = false;
       if ( te_attr.isAutoInc )
@@ -1298,7 +1298,7 @@ if ( not_empty s_sparms )
   //-- 007: 20140213 Add Start (saitou) 
   select any s_sync from instances of S_SYNC where ( false );
   for each s_sparm in s_sparms
-    select any s_sync related by s_sparm->S_SYNC[R24];
+    select one s_sync related by s_sparm->S_SYNC[R24];
     break;
   end for;
   if ( empty s_sync )
@@ -1326,8 +1326,8 @@ if ( not_empty s_sparms )
     // Declare an empty instance reference.
     select any head_s_sparm related by s_sparms->S_SPARM[R54.'succeeds'] where ( false );
     for each s_sparm in s_sparms
-      r = ::sparm_insert( head_s_sparm:head_s_sparm, s_sparm:s_sparm );
-      head_s_sparm = r;
+      r1 = ::sparm_insert( head_s_sparm:head_s_sparm, s_sparm:s_sparm );
+      head_s_sparm = r1;
     end for;
     //-- 007: 20140213 Add Start (saitou) 
   end if; // "${te_sti.Name_key}"
@@ -1378,14 +1378,14 @@ while ( not_empty te_sti )
     for each s_sparm in s_sparms
       if ( s_sparm.Name == te_sti.Name_key )
         if ( not_empty cur_s_sparm )
-          s_sparm.Previous_SParm_ID = cur_s_sparm.SParm_ID;
+          relate s_sparm to cur_s_sparm across R54.'precedes';
         end if;
         cur_s_sparm = s_sparm;
         break;
       end if;
     end for;
   end if;
-  select one te_sti related by te_sti->TE_STI[R3002.'precedes'];
+  select one te_sti related by te_sti->TE_STI[R2099.'precedes'];
 end while;
 //
 return orderNum;
@@ -1402,10 +1402,10 @@ return te_sti;
 LinkAddParameterValue@inst_ref<String to Integer>@@p_te_sti@inst_ref<String to Integer>@@name_key@string@@@
 p_te_sti = param.p_te_sti;
 name_key = param.name_key;
-select one te_sti related by p_te_sti->TE_STI[R3002.'precedes'];
+select one te_sti related by p_te_sti->TE_STI[R2099.'precedes'];
 if ( empty te_sti )
   create object instance te_sti of TE_STI;
-  relate te_sti to p_te_sti across R3002.'succeeds';
+  relate te_sti to p_te_sti across R2099.'succeeds';
 end if;
 te_sti.Name_key = name_key;
 return te_sti;
@@ -1580,8 +1580,8 @@ if ( not_empty s_bparms )
     // Declare an empty instance reference.
     select any head_s_bparm related by s_bparms->S_BPARM[R55.'succeeds'] where ( false );
     for each s_bparm in s_bparms
-      r = ::bparm_insert( head_s_bparm:head_s_bparm, s_bparm:s_bparm );
-      head_s_bparm = r;
+      r1 = ::bparm_insert( head_s_bparm:head_s_bparm, s_bparm:s_bparm );
+      head_s_bparm = r1;
     end for;
     //-- 008: 20140213 Add Start (saitou) 
   end if;
@@ -1603,14 +1603,14 @@ while ( not_empty te_sti )
     for each s_bparm in s_bparms
       if ( s_bparm.Name == te_sti.Name_key )
         if ( not_empty cur_s_bparm )
-          s_bparm.Previous_BParm_ID = cur_s_bparm.BParm_ID;
+          relate s_bparm to cur_s_bparm across R55.'precedes';
         end if;
         cur_s_bparm = s_bparm;
         break;
       end if;
     end for;
   end if;
-  select one te_sti related by te_sti->TE_STI[R3002.'precedes'];
+  select one te_sti related by te_sti->TE_STI[R2099.'precedes'];
 end while;
 //
 return orderNum;
@@ -3899,7 +3899,8 @@ for each s_brg in s_brgs
   //-- 008:20140204 Add Start (saitou) 
   RealFuncName = T::parsekeyword(s:s_brg.Descrip,key:"REAL_FUNC");
   if ( "" != RealFuncName )
-    T::print(s:"REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${T::parsekeyword(s:s_brg.Descrip,key:"REAL_FUNC")}");
+    realfunc = T::parsekeyword(s:s_brg.Descrip,key:"REAL_FUNC");
+    T::print(s:"REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${realfunc}");
     //-- 010:20140307 Modified Start (nomura) 
     te_brg.RealFuncName = RealFuncName;
     r = ::fx_get_bridge_extend_name_prefix( :te_ee );

@@ -94,8 +94,8 @@ ${hlimit_macro_name.result} + 1\
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_get_object_extent_size
-.param inst_ref te_class
+.function fx_get_object_extent_size .// boolean
+  .param inst_ref te_class
   .assign attr_result = false
   .assign attr_max_size_value = ""
   .assign attr_include_file = ""

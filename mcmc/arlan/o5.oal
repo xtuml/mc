@@ -92,14 +92,14 @@ for each obj_attr in obj_attr_set
 end for;
 return o_attr;
 @@@
-fx_generate_code_for_object_attribute@boolean@@obj_attr@inst_ref<>@@@
+fx_generate_code_for_object_attribute@boolean@@o_attr@inst_ref<Attribute>@@@
 //
 //----------------------------------------------------------------------------
 //
-obj_attr = param.obj_attr;
+o_attr = param.o_attr;
 result = true;
-select one te_dt related by obj_attr->S_DT[R114]->TE_DT[R2021];
-select one te_attr related by obj_attr->TE_ATTR[R2033];
+select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021];
+select one te_attr related by o_attr->TE_ATTR[R2033];
 //
 // "current_state" attribute.
 if ( te_dt.Core_Typ == 6 )
@@ -127,7 +127,7 @@ fx_get_auto_inc_get_hlimit_value_macro_name@string@@te_attr@inst_ref<Extended At
 //
 te_attr = param.te_attr;
 select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
-namespace = ::GetDomainObjectNamespace( o_obj:o_obj );
+r = ::GetDomainObjectNamespace( o_obj:o_obj );
 namespace = r;
 return namespace + "_AUTOINC_HIGHER_LIMIT";
 @@@
@@ -137,7 +137,7 @@ fx_get_auto_inc_get_new_value_macro_name@string@@te_attr@inst_ref<Extended Attri
 //
 te_attr = param.te_attr;
 select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
-namespace = ::GetDomainObjectNamespace( o_obj:o_obj );
+r = ::GetDomainObjectNamespace( o_obj:o_obj );
 namespace = r;
 return namespace + "_AUTOINC_GetNewValue";
 @@@
@@ -147,7 +147,7 @@ fx_get_auto_inc_id_mgmt_variable_name@string@@te_attr@inst_ref<Extended Attribut
 //
 te_attr = param.te_attr;
 select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
-namespace = ::GetDomainObjectNamespace( o_obj:o_obj );
+r = ::GetDomainObjectNamespace( o_obj:o_obj );
 namespace = r;
 return namespace + "_AUTOINC_currentId";
 @@@
@@ -156,7 +156,7 @@ fx_get_bridge_extend_name_prefix@string@@te_ee@inst_ref<Extended External Entity
 //----------------------------------------------------------------------------
 //
 te_ee = param.te_ee;
-select any te_c related by te_ee->TE_C[R2085];
+select one te_c related by te_ee->TE_C[R2085];
 return ( te_c.Name + "_BridgeExtend_" ) + te_ee.Key_Lett;
 @@@
 fx_is_exist_real_func@boolean@@te_ee@inst_ref<Extended External Entity>@@@
@@ -165,7 +165,7 @@ fx_is_exist_real_func@boolean@@te_ee@inst_ref<Extended External Entity>@@@
 //
 te_ee = param.te_ee;
 result = false;
-select any te_brg related by te_ee->S_EE[R2020]->S_BRG[R19]->TE_BRG[R2025] where ( selected.IsRealFunc == TRUE );
+select any te_brg related by te_ee->S_EE[R2020]->S_BRG[R19]->TE_BRG[R2025] where ( selected.IsRealFunc == true );
 if ( not_empty te_brg )
   result = true;
 end if;
@@ -186,48 +186,6 @@ if ( te_attr.isAutoInc )
 T::b(s:  /* FX Extention : AUTOINC Coloring */);
 T::b(s:  /* setup value of ${te_attr.Name} */);
 T::b(s:  self->${te_attr.GeneratedName} = ${get_macro_name}(${var_name}););
-end if;
-return result;
-return T::body();
-@@@
-fx_generate_auto_inc_id_definision@string@@te_attr@inst_ref<Extended Attribute>@@gen_decl@boolean@@@
-//
-//----------------------------------------------------------------------------
-//
-te_attr = param.te_attr;
-gen_decl = param.gen_decl;
-result = false;
-if ( te_attr.isAutoInc )
-  result = true;
-  r = ::fx_get_auto_inc_get_llimit_value_macro_name( :te_attr );
-  llimit_macro_name = r;
-  r = ::fx_get_auto_inc_get_hlimit_value_macro_name( :te_attr );
-  hlimit_macro_name = r;
-  r = ::fx_get_auto_inc_get_new_value_macro_name( :te_attr );
-  get_macro_name = r;
-  if ( gen_decl )
-T::b(s:/* auto inclemental id Lower Limit */);
-T::b(s:#define ${llimit_macro_name} ${te_attr.AutoIncLowLimit});
-T::b(s:/* auto inclemental id Higher Limit */);
-T::b(s:#define ${hlimit_macro_name} ${te_attr.AutoIncHighLimit});
-T::b(s:/* auto inclemental value getter */);
-T::b(s:#define ${get_macro_name}(x)    \);
-    if ( te_attr.AutoDirection == "UP" )
-T::b(s:((x)=((++(x)-${llimit_macro_name})%(${hlimit_macro_name}-${llimit_macro_name}+1)+${llimit_macro_name})));
-    else
-T::b(s:((x)=((${hlimit_macro_name}-(--(x)))%(${hlimit_macro_name}-${llimit_macro_name}+1)+${hlimit_macro_name})));
-    end if;
-  else
-T::b(s:/* auto inclemental value for unique_id */);
-    var_name = ::fx_get_auto_inc_id_mgmt_variable_name( :te_attr );
-T::b(s:static int ${var_name} = \);
-    if ( te_attr.AutoDirection == "UP" )
-T::b(s:${llimit_macro_name} - 1\);
-    else
-T::b(s:${llimit_macro_name} + 1\);
-    end if;
-T::b(s:;);
-  end if;
 end if;
 return result;
 return T::body();
@@ -300,7 +258,7 @@ domainName = param.domainName;
 maxSelectionNode = param.maxSelectionNode;
 select any te_c from instances of TE_C where ( selected.Name == domainName );
 if ( not_empty te_c )
-  te_c.MaxSelectionNodeExtents = maxRelationNode;
+  te_c.MaxSelectionNodeExtents = maxSelectionNode;
 else
   T::print(s:"ERROR: Component ${domainName} not found.\n => SetDomainSelectionNodeMaxNumber()");
 end if;

@@ -177,24 +177,6 @@
 .//
 .//----------------------------------------------------------------------------
 .//
-.function fx_generate_auto_inc_id_execution .// boolean
-.param inst_ref te_attr
-  .assign result = false
-  .if (te_attr.isAutoInc)
-    .assign result = true
-    .invoke r = fx_get_auto_inc_get_new_value_macro_name(te_attr)
-    .assign get_macro_name = r.result
-    .invoke r = fx_get_auto_inc_id_mgmt_variable_name(te_attr)
-    .assign var_name = r.result
-  /* FX Extention : AUTOINC Coloring */
-  /* setup value of ${te_attr.Name} */
-  self->${te_attr.GeneratedName} = ${get_macro_name}(${var_name});
-  .end if
-  .assign attr_result = result
-.end function
-.//
-.//----------------------------------------------------------------------------
-.//
 .function fx_setup_subsystem_init
   .select many objs from instances of O_OBJ
   .// ƒtƒ‰ƒO‚Ì‰Šú‰»‚È‚Ç

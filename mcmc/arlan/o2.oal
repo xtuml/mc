@@ -128,9 +128,9 @@ for each v_lst in v_lsts
   te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
   //TODO assign dimension
   //-- 002:20140313 Add Start (saitou) 
-  select any te_parm related by te_val->V_VAL[R2040]->V_PAR[R800]->TE_PAR[R2063]->TE_PARM[R2091];
+  select one te_parm related by te_val->V_VAL[R2040]->V_PAR[R800]->TE_PAR[R2063]->TE_PARM[R2091];
   if ( not_empty te_parm )
-    select any te_dt related by te_parm->TE_DT[R2049];
+    select one te_dt related by te_parm->TE_DT[R2049];
     if ( te_dt.IsExternalMacro )
       T::print(s:"[ExtMcr] fix buf : [${te_val.buffer}] -> [${v_lst.Value}]");
       te_val.buffer = v_lst.Value;

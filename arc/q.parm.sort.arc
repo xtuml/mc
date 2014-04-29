@@ -313,7 +313,7 @@
       .select any head_s_bparm related by s_bparms->S_BPARM[R55.'precedes'] where ( false )
       .for each s_bparm in s_bparms
         .invoke r1 = bparm_insert( head_s_bparm, s_bparm )
-        .assign head_s_bparm = r.result
+        .assign head_s_bparm = r1.result
       .end for
 .//-- 008: 20140213 Add Start (saitou) 
     .end if
