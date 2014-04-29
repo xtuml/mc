@@ -3167,6 +3167,20 @@ CREATE TABLE TE_OUTFILE (
 	body	STRING,
 	Order	INTEGER );
 
+--//--007:20140213 Add Start (saitou)
+--// same old BParc modNo 026
+-- STRING TO INTEGER object
+CREATE TABLE TE_STI (
+	ID UNIQUE_ID,
+	Name_key STRING,
+	PID UNIQUE_ID,
+	IsFirst BOOLEAN
+   	);
+CREATE TABLE TE_STIDESCRIP (
+	Descrip STRING
+   	);
+--//--007:20140213 Add End (saitou)
+
 
 -- ============================================================================
 -- Classes In Package:  Translation Marking  
@@ -6606,19 +6620,3 @@ CREATE ROP REF_ID R3200	FROM 1C S_AW	(Brg_ID)
 CREATE ROP REF_ID R3201	FROM MC S_AW	(Sync_ID)
 			  TO 1C S_SYNC	(Sync_ID);
 
-
---//--007:20140213 Add Start (saitou)
---// same old BParc modNo 026
--- STRING TO INTEGER object
-CREATE TABLE TE_STI (
-	ID UNIQUE_ID,
-	Name_key STRING,
-	PID UNIQUE_ID,
-	IsFirst BOOLEAN
-   	);
-CREATE ROP REF_ID R3002	FROM 1C TE_STI	(PID) PHRASE 'succeeds'
-			  TO 1C TE_STI	(ID) PHRASE 'precedes';
-CREATE TABLE TE_STIDESCRIP (
-	Descrip STRING
-   	);
---//--007:20140213 Add End (saitou)
