@@ -102,6 +102,24 @@ None.
 6.7.7   Use string arithmetic in functions rather than using "${...}"
         templates whenever possible.  This makes better OAL and a faster
         model compiler.  
+6.7.8   Marking
+6.7.8.1 Marking is done before sys_populate and after sys_populate.  
+6.7.8.2 The marking done before sys_populate is called "pass 1" and
+        must not access TE_* classes, because they have not been
+        created yet.  
+6.7.8.3 The marking done after sys_populate is called "pass 2".  These
+        marks can access TE_* class instances.  
+6.7.8.4 mcmc compatible marking must only perform invocations.  Other
+        RSL in the marking file will not be executed.  
+6.7.8.5 All marking files must be named with ".mark" extensions.  
+6.7.8.6 All marking files must exist in the "gen" folder.  
+6.7.8.7 mcmc will search the marking files for marking invocations and
+        invoke the compiled version of the marking function in the mcmc
+        executable.  
+6.7.8.8 Marks that can be called in "pass 1" must have an if statement
+        in m.system.arc in the first half of the mark_all function.  Marks
+        that can be called in "pass 2" must have an if statement in the
+        second half of the mark_all function.  
 6.8     Teach customer to follow mcmc programming conventions.  
 6.8.1   This will allow mcmc to be built quickly and mostly automatically.  
 6.8.2   Deliver programming style guidelines in a document.  

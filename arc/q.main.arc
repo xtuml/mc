@@ -21,7 +21,7 @@
   .include "${te_file.system_color_path}/${te_file.datatype_mark}"
   .print "3-2) fxdatatype marking."
 .//-- 015: 20140303 Add Start (saitou) 
-  .include "${te_file.domain_color_path}/../fxdatatype.clr"
+  .include "${te_file.domain_color_path}/fxdatatype.mark"
 .//-- 015: 20140303 Add End (saitou) 
   .// 4) Initiate prefix marking (from system marking file).
   .print "4) Initiate prefix marking (from system marking file)."
@@ -45,7 +45,7 @@
   .//
   .print "8) fxcolor marking."
 .//-- 015: 20140303 Add Start (saitou) 
-  .include "${te_file.domain_color_path}/../fxcolor.clr"
+  .include "${te_file.domain_color_path}/fxcolor.mark"
 .//-- 015: 20140303 Add End (saitou) 
   .// analyze
   .print "analyze"
