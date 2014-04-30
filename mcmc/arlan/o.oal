@@ -638,7 +638,7 @@ select any te_prefix from instances of TE_PREFIX;
 te_typemap.instance_index_name = te_prefix.result + "InstanceIndex_t";
 te_typemap.instance_index_type = "u2_t";
 te_typemap.object_size_name = te_prefix.type + "ClassSize_t";
-te_typemap.object_size_type = "u2_t";
+te_typemap.object_size_type = te_prefix.type + "size_t";
 te_typemap.object_number_name = te_prefix.type + "ClassNumber_t";
 te_typemap.object_number_type = "u2_t";
 te_typemap.state_number_name = te_prefix.type + "StateNumber_t";
