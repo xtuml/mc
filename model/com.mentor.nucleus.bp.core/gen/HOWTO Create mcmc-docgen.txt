@@ -96,7 +96,10 @@ Compile the code.
   # (such as RHEL 5) so we have the maximum chance it works for our customers 
   # that use older distros
 
-
+Commit changes
+# Commit any modifications made to existing parts and pieces in the model or mcmc.  However,
+# we do not add any new files that may have been created.  Most specifically, we do not 
+# add *.c/h files under src/
 
 
 Running DocGen
