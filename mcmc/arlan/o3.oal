@@ -324,7 +324,7 @@ te_aba = param.te_aba;
 s = param.s;
 te_aba.code = te_aba.code + s;
 @@@
-     smt_fors@void@@@
+smt_fors@void@@@
 //====================================================================
 // $RCSfile: q.smt.generate.arc,v $
 //
@@ -1515,13 +1515,13 @@ if ( "C++" == te_target.language )
     if ( direction == te_mact.Direction )
       name = ( te_mact.PortName + "->" ) + name;
     end if;
-    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
+    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
   else
     direction = IFDirectionType::ClientServer;
     if ( direction == te_mact.Direction )
       name = ( te_mact.PortName + "->" ) + name;
     end if;
-    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
+    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
   end if;
   name = "thismodule->" + name;
   if ( not_empty foreign_te_po )
