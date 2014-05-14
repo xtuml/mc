@@ -36,7 +36,7 @@
       .assign orderNum = r1.result
       .assign sprmNum = cardinality s_sparms
       .if ( orderNum != sprmNum )
-        .print "Error! [${s_sync.Name}] : param order num mismatch! ordNum=${orderNum} : sprmNum=${sprmNum}"
+        .print "Error! [${s_sync.Name}] : param order num mismatch! ordNum=$t{orderNum} : sprmNum=$t{sprmNum}"
         .exit -1
       .end if
     .else
@@ -304,7 +304,7 @@
       .assign orderNum = r1.result
       .assign bprmNum = cardinality s_bparms
       .if ( orderNum != bprmNum )
-        .print "Error! [${s_brg.Name}] : param order num mismatch! ordNum=${orderNum} : bprmNum=${bprmNum}"
+        .print "Error! [${s_brg.Name}] : param order num mismatch! ordNum=$t{orderNum} : bprmNum=$t{bprmNum}"
         .exit -1
       .end if
     .else

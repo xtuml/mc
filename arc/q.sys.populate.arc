@@ -2264,7 +2264,7 @@
     .assign RealFuncName = "${s_brg.Descrip:REAL_FUNC}"
     .if ( "" != RealFuncName )
       .assign realfunc = "${s_brg.Descrip:REAL_FUNC}"
-      .print "REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${realfunc}"
+      .print "REAL_FUNC : ${te_brg.EEkeyletters} : ${te_brg.GeneratedName} -> ${realfunc}"
 .//-- 010:20140307 Modified Start (nomura) 
       .assign te_brg.RealFuncName = RealFuncName
       .invoke r = fx_get_bridge_extend_name_prefix(te_ee)

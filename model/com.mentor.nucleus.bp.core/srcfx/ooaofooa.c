@@ -6223,7 +6223,7 @@ ooaofooa_SetDomainEventMaxNumber( c_t * p_domainName, const i_t p_maxExternalEve
     /* ASSIGN te_c.MaxExternalEvents = maxExternalEventNo */
     te_c->MaxExternalEvents = maxExternalEventNo;
     /* ASSIGN msg = set maxEventNo to ${maxInternalEventNo} + ${maxExternalEventNo}  */
-    msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("set maxEventNo to ");T_T(maxInternalEventNo);T_T(" + ");T_T(maxExternalEventNo);T_T(" ");}) );
+    msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("set maxEventNo to ");T_T(" + ");T_T(" ");}) );
   }
   else {
     /* ASSIGN msg = ERROR: Component ${domainName} not found.\n => SetDomainEventMaxNumber() */
@@ -6295,7 +6295,7 @@ ooaofooa_SetDomainRelationExtentMaxNumber( c_t * p_domainName, const i_t p_maxRe
     /* ASSIGN te_c.MaxRelationExtents = maxRelationExtents */
     te_c->MaxRelationExtents = maxRelationExtents;
     /* T::print( s:set maxRelationExtens to ${maxRelationExtents} ) */
-    T_print( ({c_t*s=Escher_strget();T_T("set maxRelationExtens to ");T_T(maxRelationExtents);}) );
+    T_print( ({c_t*s=Escher_strget();T_T("set maxRelationExtens to ");}) );
   }
   else {
     /* T::print( s:ERROR: Component ${domainName} not found.\n => SetDomainRelationExtentMaxNumber() ) */
@@ -8081,7 +8081,7 @@ ooaofooa_TE_EE_init( ooaofooa_TE_C * p_te_c, ooaofooa_TE_EE * p_te_ee )
       /* ASSIGN realfunc = T::parsekeyword(key:REAL_FUNC, s:s_brg.Descrip) */
       realfunc = Escher_strcpy( realfunc, T_parsekeyword( "REAL_FUNC", s_brg->Descrip ) );
       /* T::print( s:REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${realfunc} ) */
-      T_print( ({c_t*s=Escher_strget();T_T("REAL_FUNC : ");T_T(te_brg->Brg_ID);T_T(" : ");T_T(te_brg->GeneratedName);T_T(" -> ");T_T(realfunc);}) );
+      T_print( ({c_t*s=Escher_strget();T_T("REAL_FUNC : ");T_T(te_brg->EEkeyletters);T_T(" : ");T_T(te_brg->GeneratedName);T_T(" -> ");T_T(realfunc);}) );
       /* ASSIGN te_brg.RealFuncName = RealFuncName */
       te_brg->RealFuncName = Escher_strcpy( te_brg->RealFuncName, RealFuncName );
       /* ASSIGN r = ::fx_get_bridge_extend_name_prefix(te_ee:te_ee) */
@@ -10571,7 +10571,7 @@ ooaofooa_bparm_sort( Escher_ObjectSet_s * p_s_bparms, ooaofooa_S_BRG * p_s_brg )
       /* IF ( ( orderNum != bprmNum ) ) */
       if ( ( orderNum != bprmNum ) ) {
         /* T::print( s:Error! [${s_brg.Name}] : param order num mismatch! ordNum=${orderNum} : bprmNum=${bprmNum} ) */
-        T_print( ({c_t*s=Escher_strget();T_T("Error! [");T_T(s_brg->Name);T_T("] : param order num mismatch! ordNum=");T_T(orderNum);T_T(" : bprmNum=");T_T(bprmNum);}) );
+        T_print( ({c_t*s=Escher_strget();T_T("Error! [");T_T(s_brg->Name);T_T("] : param order num mismatch! ordNum=");T_T(" : bprmNum=");}) );
         /* T::exit( i:- 1 ) */
         T_exit( -1 );
       }
@@ -21734,7 +21734,7 @@ ooaofooa_sparm_sort( Escher_ObjectSet_s * p_s_sparms )
       /* IF ( ( orderNum != sprmNum ) ) */
       if ( ( orderNum != sprmNum ) ) {
         /* T::print( s:Error! [${s_sync.Name}] : param order num mismatch! ordNum=${orderNum} : sprmNum=${sprmNum} ) */
-        T_print( ({c_t*s=Escher_strget();T_T("Error! [");T_T(s_sync->Name);T_T("] : param order num mismatch! ordNum=");T_T(orderNum);T_T(" : sprmNum=");T_T(sprmNum);}) );
+        T_print( ({c_t*s=Escher_strget();T_T("Error! [");T_T(s_sync->Name);T_T("] : param order num mismatch! ordNum=");T_T(" : sprmNum=");}) );
         /* T::exit( i:- 1 ) */
         T_exit( -1 );
       }
@@ -26215,7 +26215,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
           /* ASSIGN te_attr.isAutoInc = TRUE */
           te_attr->isAutoInc = TRUE;
           /* ASSIGN numString = T::r(T::parsekeyword(key:AUTOINC_DATASIZE, s:o_attr.Descrip)) */
-          numString = Escher_strcpy( numString, T_r( Escher_strcpy( v_sretval1551brv26, T_parsekeyword( "AUTOINC_DATASIZE", o_attr->Descrip )) ) );
+          numString = Escher_strcpy( numString, T_r( Escher_strcpy( *v_sretval1551brv26, T_parsekeyword( "AUTOINC_DATASIZE", o_attr->Descrip )) ) );
           /* IF ( ( numString == 1 ) ) */
           if ( ( Escher_strcmp( numString, "1" ) == 0 ) ) {
             /* ASSIGN te_attr.AutoIncDataSize = 1 */

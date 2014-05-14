@@ -220,7 +220,7 @@
   .if (not_empty te_c)
       .assign te_c.MaxInternalEvents = maxInternalEventNo
       .assign te_c.MaxExternalEvents = maxExternalEventNo 
-      .assign msg = "set maxEventNo to ${maxInternalEventNo} + ${maxExternalEventNo} "
+      .assign msg = "set maxEventNo to $t{maxInternalEventNo} + $t{maxExternalEventNo} "
   .else
       .assign msg = "ERROR: Component ${domainName} not found.\n => SetDomainEventMaxNumber()"
   .end if
@@ -235,7 +235,7 @@
   .select any te_c from instances of TE_C where (selected.Name == domainName)
   .if (not_empty te_c)
       .assign te_c.MaxRelationExtents = maxRelationExtents
-      .print "set maxRelationExtens to ${maxRelationExtents}"
+      .print "set maxRelationExtens to $t{maxRelationExtents}"
   .else
       .print "ERROR: Component ${domainName} not found.\n => SetDomainRelationExtentMaxNumber()"
   .end if
