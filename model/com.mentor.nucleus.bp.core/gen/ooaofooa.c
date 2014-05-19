@@ -6223,7 +6223,7 @@ ooaofooa_SetDomainEventMaxNumber( c_t * p_domainName, const i_t p_maxExternalEve
     /* ASSIGN te_c.MaxExternalEvents = maxExternalEventNo */
     te_c->MaxExternalEvents = maxExternalEventNo;
     /* ASSIGN msg = set maxEventNo to ${maxInternalEventNo} + ${maxExternalEventNo}  */
-    msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("set maxEventNo to ");T_T(maxInternalEventNo);T_T(" + ");T_T(maxExternalEventNo);T_T(" ");}) );
+    msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("set maxEventNo to ");T_T(T_s(maxInternalEventNo));T_T(" + ");T_T(T_s(maxExternalEventNo));T_T(" ");}) );
   }
   else {
     /* ASSIGN msg = ERROR: Component ${domainName} not found.\n => SetDomainEventMaxNumber() */
@@ -6295,7 +6295,7 @@ ooaofooa_SetDomainRelationExtentMaxNumber( c_t * p_domainName, const i_t p_maxRe
     /* ASSIGN te_c.MaxRelationExtents = maxRelationExtents */
     te_c->MaxRelationExtents = maxRelationExtents;
     /* T::print( s:set maxRelationExtens to ${maxRelationExtents} ) */
-    T_print( ({c_t*s=Escher_strget();T_T("set maxRelationExtens to ");T_T(maxRelationExtents);}) );
+    T_print( ({c_t*s=Escher_strget();T_T("set maxRelationExtens to ");T_T(T_s(maxRelationExtents));}) );
   }
   else {
     /* T::print( s:ERROR: Component ${domainName} not found.\n => SetDomainRelationExtentMaxNumber() ) */
@@ -8081,7 +8081,7 @@ ooaofooa_TE_EE_init( ooaofooa_TE_C * p_te_c, ooaofooa_TE_EE * p_te_ee )
       /* ASSIGN realfunc = T::parsekeyword(key:REAL_FUNC, s:s_brg.Descrip) */
       realfunc = Escher_strcpy( realfunc, T_parsekeyword( "REAL_FUNC", s_brg->Descrip ) );
       /* T::print( s:REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${realfunc} ) */
-      T_print( ({c_t*s=Escher_strget();T_T("REAL_FUNC : ");T_T(te_brg->Brg_ID);T_T(" : ");T_T(te_brg->GeneratedName);T_T(" -> ");T_T(realfunc);}) );
+      T_print( ({c_t*s=Escher_strget();T_T("REAL_FUNC : ");T_T(te_brg->EEkeyletters);T_T(" : ");T_T(te_brg->GeneratedName);T_T(" -> ");T_T(realfunc);}) );
       /* ASSIGN te_brg.RealFuncName = RealFuncName */
       te_brg->RealFuncName = Escher_strcpy( te_brg->RealFuncName, RealFuncName );
       /* ASSIGN r = ::fx_get_bridge_extend_name_prefix(te_ee:te_ee) */
@@ -10546,7 +10546,7 @@ ooaofooa_bparm_sort( Escher_ObjectSet_s * p_s_bparms, ooaofooa_S_BRG * p_s_brg )
       /* IF ( not_empty prev_s_bparm ) */
       if ( ( 0 != prev_s_bparm ) ) {
         /* UNRELATE s_bparm FROM prev_s_bparm ACROSS R55 */
-        ooaofooa_S_BPARM_R55_Unlink_precedes( s_bparm, prev_s_bparm );
+        ooaofooa_S_BPARM_R55_Unlink_succeeds( s_bparm, prev_s_bparm );
       }
     }}}
     /* SELECT any te_stidescrip FROM INSTANCES OF TE_STIDESCRIP */
@@ -10571,7 +10571,7 @@ ooaofooa_bparm_sort( Escher_ObjectSet_s * p_s_bparms, ooaofooa_S_BRG * p_s_brg )
       /* IF ( ( orderNum != bprmNum ) ) */
       if ( ( orderNum != bprmNum ) ) {
         /* T::print( s:Error! [${s_brg.Name}] : param order num mismatch! ordNum=${orderNum} : bprmNum=${bprmNum} ) */
-        T_print( ({c_t*s=Escher_strget();T_T("Error! [");T_T(s_brg->Name);T_T("] : param order num mismatch! ordNum=");T_T(orderNum);T_T(" : bprmNum=");T_T(bprmNum);}) );
+        T_print( ({c_t*s=Escher_strget();T_T("Error! [");T_T(s_brg->Name);T_T("] : param order num mismatch! ordNum=");T_T(" : bprmNum=");}) );
         /* T::exit( i:- 1 ) */
         T_exit( -1 );
       }
@@ -15721,15 +15721,13 @@ ooaofooa_mark_all( c_t * p_f, c_t * p_p1, c_t * p_p2, c_t * p_p3, c_t * p_p4, c_
       /* ::MarkComponentAsRealized( component_name:p2, inc_file:p3, package_name:p1 ) */
       ooaofooa_MarkComponentAsRealized( p2, p3, p1 );
     }
-    else if ( ( Escher_strcmp( "MarkDomainEventMaxNumber", f ) == 0 ) ) {
+    else if ( ( Escher_strcmp( "specify_user_defined_enum_type_as_external_macro", f ) == 0 ) ) {
+      /* ::specify_user_defined_enum_type_as_external_macro( dt_name:p1, ext_name:p2, include_file:p4, initial_value:p3 ) */
+      ooaofooa_specify_user_defined_enum_type_as_external_macro( p1, p2, p4, p3 );
     }
-    else if ( ( Escher_strcmp( "SetDomainRelationExtentMaxNumber", f ) == 0 ) ) {
-    }
-    else if ( ( Escher_strcmp( "SetDomainSelectionNodeMaxNumber", f ) == 0 ) ) {
-    }
-    else if ( ( Escher_strcmp( "TagUseFacadeMaxDef", f ) == 0 ) ) {
-    }
-    else if ( ( Escher_strcmp( "SetDomainFacadeMutexLockUse", f ) == 0 ) ) {
+    else if ( ( Escher_strcmp( "specify_user_defined_type", f ) == 0 ) ) {
+      /* ::specify_user_defined_type( dt_name:p1, ext_name:p2, include_file:p4, initial_value:p3 ) */
+      ooaofooa_specify_user_defined_type( p1, p2, p4, p3 );
     }
     else {
     }
@@ -15980,6 +15978,65 @@ ooaofooa_mark_all( c_t * p_f, c_t * p_p1, c_t * p_p2, c_t * p_p3, c_t * p_p4, c_
       i3 = r;
       /* ::MarkPriorityEvent( component_name:p1, evt_label:p2, priority_value:i3 ) */
       ooaofooa_MarkPriorityEvent( p1, p2, i3 );
+    }
+    else if ( ( Escher_strcmp( "SetDomainEventMaxNumber", f ) == 0 ) ) {
+      i_t i3;i_t i2;i_t r;
+      /* ASSIGN r = ::T_atoi(s:p2) */
+      r = ooaofooa_T_atoi( p2 );
+      /* ASSIGN i2 = r */
+      i2 = r;
+      /* ASSIGN r = ::T_atoi(s:p3) */
+      r = ooaofooa_T_atoi( p3 );
+      /* ASSIGN i3 = r */
+      i3 = r;
+      /* ::SetDomainEventMaxNumber( domainName:p1, maxExternalEventNo:i3, maxInternalEventNo:i2 ) */
+      ooaofooa_SetDomainEventMaxNumber( p1, i3, i2 );
+    }
+    else if ( ( Escher_strcmp( "SetDomainRelationExtentMaxNumber", f ) == 0 ) ) {
+      i_t i2;i_t r;
+      /* ASSIGN r = ::T_atoi(s:p2) */
+      r = ooaofooa_T_atoi( p2 );
+      /* ASSIGN i2 = r */
+      i2 = r;
+      /* ::SetDomainRelationExtentMaxNumber( domainName:p1, maxRelationExtents:i2 ) */
+      ooaofooa_SetDomainRelationExtentMaxNumber( p1, i2 );
+    }
+    else if ( ( Escher_strcmp( "SetDomainSelectionNodeMaxNumber", f ) == 0 ) ) {
+      i_t i2;i_t r;
+      /* ASSIGN r = ::T_atoi(s:p2) */
+      r = ooaofooa_T_atoi( p2 );
+      /* ASSIGN i2 = r */
+      i2 = r;
+      /* ::SetDomainSelectionNodeMaxNumber( domainName:p1, maxSelectionNode:i2 ) */
+      ooaofooa_SetDomainSelectionNodeMaxNumber( p1, i2 );
+    }
+    else if ( ( Escher_strcmp( "TagUseFacadeMaxDef", f ) == 0 ) ) {
+      /* ::TagUseFacadeMaxDef( domainName:p1 ) */
+      ooaofooa_TagUseFacadeMaxDef( p1 );
+    }
+    else if ( ( Escher_strcmp( "SetDomainFacadeMutexLockUse", f ) == 0 ) ) {
+      /* ::SetDomainFacadeMutexLockUse( domainName:p1 ) */
+      ooaofooa_SetDomainFacadeMutexLockUse( p1 );
+    }
+    else if ( ( Escher_strcmp( "mark_ee_as_realized", f ) == 0 ) ) {
+      /* ::mark_ee_as_realized( dom_name:p1, ee_name:p2, include_file:p4, prefix:p3 ) */
+      ooaofooa_mark_ee_as_realized( p1, p2, p4, p3 );
+    }
+    else if ( ( Escher_strcmp( "mark_obj_as_fixed_inst_no_extend", f ) == 0 ) ) {
+      /* ::mark_obj_as_fixed_inst_no_extend( className:p2, domainName:p1, includeFile:p4, instanceMaxStr:p3 ) */
+      ooaofooa_mark_obj_as_fixed_inst_no_extend( p2, p1, p4, p3 );
+    }
+    else if ( ( Escher_strcmp( "port_realize_EE", f ) == 0 ) ) {
+      /* ::port_realize_EE( dom_name:p1, ee_name:p3, port_name:p2 ) */
+      ooaofooa_port_realize_EE( p1, p3, p2 );
+    }
+    else if ( ( Escher_strcmp( "set_prefix_simbolsw", f ) == 0 ) ) {
+      /* ::set_prefix_simbolsw( prefix:p1 ) */
+      ooaofooa_set_prefix_simbolsw( p1 );
+    }
+    else if ( ( Escher_strcmp( "TagBridgeCallNotGenerate", f ) == 0 ) ) {
+      /* ::TagBridgeCallNotGenerate( dom_name:p1, ee_name:p2 ) */
+      ooaofooa_TagBridgeCallNotGenerate( p1, p2 );
     }
     else {
     }
@@ -16893,7 +16950,7 @@ ooaofooa_sbrg_sort_order_control( Escher_ObjectSet_s * p_s_bparms, ooaofooa_TE_S
           /* IF ( not_empty cur_s_bparm ) */
           if ( ( 0 != cur_s_bparm ) ) {
             /* RELATE s_bparm TO cur_s_bparm ACROSS R55 */
-            ooaofooa_S_BPARM_R55_Link_precedes( s_bparm, cur_s_bparm );
+            ooaofooa_S_BPARM_R55_Link_succeeds( s_bparm, cur_s_bparm );
           }
           /* ASSIGN cur_s_bparm = s_bparm */
           cur_s_bparm = s_bparm;
@@ -21689,7 +21746,7 @@ ooaofooa_sparm_sort( Escher_ObjectSet_s * p_s_sparms )
       /* IF ( not_empty prev_s_sparm ) */
       if ( ( 0 != prev_s_sparm ) ) {
         /* UNRELATE s_sparm FROM prev_s_sparm ACROSS R54 */
-        ooaofooa_S_SPARM_R54_Unlink_precedes( s_sparm, prev_s_sparm );
+        ooaofooa_S_SPARM_R54_Unlink_succeeds( s_sparm, prev_s_sparm );
       }
     }}}
     /* SELECT any s_sync FROM INSTANCES OF S_SYNC WHERE FALSE */
@@ -21734,7 +21791,7 @@ ooaofooa_sparm_sort( Escher_ObjectSet_s * p_s_sparms )
       /* IF ( ( orderNum != sprmNum ) ) */
       if ( ( orderNum != sprmNum ) ) {
         /* T::print( s:Error! [${s_sync.Name}] : param order num mismatch! ordNum=${orderNum} : sprmNum=${sprmNum} ) */
-        T_print( ({c_t*s=Escher_strget();T_T("Error! [");T_T(s_sync->Name);T_T("] : param order num mismatch! ordNum=");T_T(orderNum);T_T(" : sprmNum=");T_T(sprmNum);}) );
+        T_print( ({c_t*s=Escher_strget();T_T("Error! [");T_T(s_sync->Name);T_T("] : param order num mismatch! ordNum=");T_T(T_s(orderNum));T_T(" : sprmNum=");T_T(T_s(sprmNum));}) );
         /* T::exit( i:- 1 ) */
         T_exit( -1 );
       }
@@ -21803,7 +21860,7 @@ ooaofooa_sparm_sort_order_control( Escher_ObjectSet_s * p_s_sparms, ooaofooa_TE_
           /* IF ( not_empty cur_s_sparm ) */
           if ( ( 0 != cur_s_sparm ) ) {
             /* RELATE s_sparm TO cur_s_sparm ACROSS R54 */
-            ooaofooa_S_SPARM_R54_Link_precedes( s_sparm, cur_s_sparm );
+            ooaofooa_S_SPARM_R54_Link_succeeds( s_sparm, cur_s_sparm );
           }
           /* ASSIGN cur_s_sparm = s_sparm */
           cur_s_sparm = s_sparm;
@@ -21852,7 +21909,7 @@ ooaofooa_specify_user_defined_enum_type_as_external_macro( c_t * p_dt_name, c_t 
   }
   /* SELECT one s_udt RELATED BY s_dt->S_UDT[R17] */
   s_udt = 0;
-  if ( ooaofooa_S_UDT_CLASS_NUMBER == s_dt->R17_object_id )  s_udt = ( 0 != s_dt ) ? (ooaofooa_S_UDT *) s_dt->R17_subtype : 0;
+  if ( ( 0 != s_dt ) && ( ooaofooa_S_UDT_CLASS_NUMBER == s_dt->R17_object_id ) )  s_udt = ( 0 != s_dt ) ? (ooaofooa_S_UDT *) s_dt->R17_subtype : 0;
   /* IF ( ( empty s_dt or empty s_udt ) ) */
   if ( ( ( 0 == s_dt ) || ( 0 == s_udt ) ) ) {
     /* T::print( s:\n  specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' does not exist ) */
@@ -26215,7 +26272,7 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
           /* ASSIGN te_attr.isAutoInc = TRUE */
           te_attr->isAutoInc = TRUE;
           /* ASSIGN numString = T::r(T::parsekeyword(key:AUTOINC_DATASIZE, s:o_attr.Descrip)) */
-          numString = Escher_strcpy( numString, T_r( Escher_strcpy( v_sretval1551brv26, T_parsekeyword( "AUTOINC_DATASIZE", o_attr->Descrip )) ) );
+          numString = Escher_strcpy( numString, T_r( Escher_strcpy( *v_sretval1551brv26, T_parsekeyword( "AUTOINC_DATASIZE", o_attr->Descrip )) ) );
           /* IF ( ( numString == 1 ) ) */
           if ( ( Escher_strcmp( numString, "1" ) == 0 ) ) {
             /* ASSIGN te_attr.AutoIncDataSize = 1 */

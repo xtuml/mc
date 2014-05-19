@@ -287,13 +287,13 @@ UserPersistenceErrorCalloutf( i_t error_code )
   SYS_USER_CO_PRINTF( "UserPersistenceErrorCallout\n" )
 }
 
-c_t * marking_invocations[ 100 ][ 6 ];
+c_t * marking_invocations[ 1000 ][ 6 ];
 int marking_invocations_index = 0;
 
 static void read_marking_invocations( void )
 {
   FILE * m_txt;
-  static c_t marking_strings[ 100 ][ ESCHER_SYS_MAX_STRING_LEN ];
+  static c_t marking_strings[ 1000 ][ ESCHER_SYS_MAX_STRING_LEN ];
   if ( 0 == ( m_txt = fopen( "m.txt", "r" ) ) ) {
     fprintf( stderr, "failed to open m.txt\n" );
   } else {

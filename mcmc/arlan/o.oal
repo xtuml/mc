@@ -53,9 +53,9 @@ while ( not_empty te_attr )
       //-- 011: 20140217 Add Start (saitou) 
       select one o_obj related by te_class->O_OBJ[R2019];
       r1 = ::FXHO_get_auto_inc_get_new_value_macro_name( o_obj:o_obj );
-      retMacroName = r;
+      retMacroName = r1;
       r1 = ::FXHO_get_auto_inc_id_mgmt_variable_name( o_obj:o_obj );
-      retMngValName = r;
+      retMngValName = r1;
       isAutoIncEnable = false;
       if ( te_attr.isAutoInc )
         if ( ( ( 5 == te_dt.Core_Typ ) or ( 2 == te_dt.Core_Typ ) ) or ( 3 == te_dt.Core_Typ ) )
@@ -1292,7 +1292,7 @@ if ( not_empty s_sparms )
   for each s_sparm in s_sparms
     select one prev_s_sparm related by s_sparm->S_SPARM[R54.'succeeds'];
     if ( not_empty prev_s_sparm )
-      unrelate s_sparm from prev_s_sparm across R54.'precedes';
+      unrelate s_sparm from prev_s_sparm across R54.'succeeds';
     end if;
   end for;
   //-- 007: 20140213 Add Start (saitou) 
@@ -1318,7 +1318,7 @@ if ( not_empty s_sparms )
     orderNum = r1;
     sprmNum = cardinality s_sparms;
     if ( orderNum != sprmNum )
-      T::print(s:"Error! [${s_sync.Name}] : param order num mismatch! ordNum=${orderNum} : sprmNum=${sprmNum}");
+      T::print(s:"Error! [${s_sync.Name}] : param order num mismatch! ordNum=$t{orderNum} : sprmNum=$t{sprmNum}");
       T::exit(i:-1);
     end if;
   else
@@ -1378,7 +1378,7 @@ while ( not_empty te_sti )
     for each s_sparm in s_sparms
       if ( s_sparm.Name == te_sti.Name_key )
         if ( not_empty cur_s_sparm )
-          relate s_sparm to cur_s_sparm across R54.'precedes';
+          relate s_sparm to cur_s_sparm across R54.'succeeds';
         end if;
         cur_s_sparm = s_sparm;
         break;
@@ -1546,7 +1546,7 @@ if ( not_empty s_bparms )
   for each s_bparm in s_bparms
     select one prev_s_bparm related by s_bparm->S_BPARM[R55.'succeeds'];
     if ( not_empty prev_s_bparm )
-      unrelate s_bparm from prev_s_bparm across R55.'precedes';
+      unrelate s_bparm from prev_s_bparm across R55.'succeeds';
     end if;
   end for;
   //-- 008: 20140213 Add Start (saitou) 
@@ -1572,7 +1572,7 @@ if ( not_empty s_bparms )
     orderNum = r1;
     bprmNum = cardinality s_bparms;
     if ( orderNum != bprmNum )
-      T::print(s:"Error! [${s_brg.Name}] : param order num mismatch! ordNum=${orderNum} : bprmNum=${bprmNum}");
+      T::print(s:"Error! [${s_brg.Name}] : param order num mismatch! ordNum=$t{orderNum} : bprmNum=$t{bprmNum}");
       T::exit(i:-1);
     end if;
   else
@@ -1603,7 +1603,7 @@ while ( not_empty te_sti )
     for each s_bparm in s_bparms
       if ( s_bparm.Name == te_sti.Name_key )
         if ( not_empty cur_s_bparm )
-          relate s_bparm to cur_s_bparm across R55.'precedes';
+          relate s_bparm to cur_s_bparm across R55.'succeeds';
         end if;
         cur_s_bparm = s_bparm;
         break;
@@ -3900,10 +3900,10 @@ for each s_brg in s_brgs
   RealFuncName = T::parsekeyword(s:s_brg.Descrip,key:"REAL_FUNC");
   if ( "" != RealFuncName )
     realfunc = T::parsekeyword(s:s_brg.Descrip,key:"REAL_FUNC");
-    T::print(s:"REAL_FUNC : ${te_brg.Brg_ID} : ${te_brg.GeneratedName} -> ${realfunc}");
+    T::print(s:"REAL_FUNC : ${te_brg.EEkeyletters} : ${te_brg.GeneratedName} -> ${realfunc}");
     //-- 010:20140307 Modified Start (nomura) 
     te_brg.RealFuncName = RealFuncName;
-    r = ::fx_get_bridge_extend_name_prefix( :te_ee );
+    r = ::fx_get_bridge_extend_name_prefix( te_ee:te_ee );
     bridgeExtendPrefix = r;
     te_brg.GeneratedName = ( bridgeExtendPrefix + "_" ) + te_brg.Name;
     //

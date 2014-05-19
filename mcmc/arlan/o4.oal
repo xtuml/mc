@@ -133,7 +133,7 @@ for each te_c in te_cs
     for each s_brg in s_brgs
       select one te_brg related by s_brg->TE_BRG[R2025];
       //-- 010:20140311 Modified Start (nomura)
-      r = ::fx_is_exist_real_func( :te_ee );
+      r = ::fx_is_exist_real_func( te_ee:te_ee );
       isExistRealFunc = r;
       if ( ( not_empty te_brg ) and ( isExistRealFunc == false ) )
         //-- 010:20140307 Modified End (nomura)
@@ -2328,23 +2328,12 @@ if ( "1" == pass )
   elif ( "MarkComponentAsRealized" == f )
     // MarkComponentAsRealized("package_name","component_name","inc_file")
     ::MarkComponentAsRealized( package_name:p1, component_name:p2, inc_file:p3 );
-    //-- 010:20140212 Add Start (nomura)
-  elif ( "MarkDomainEventMaxNumber" == f )
-    // MarkDomainEventMaxNumber("component_name","internalEventNum","externalEventNum")
-    // not defined .invoke MarkDomainEventMaxNumber(p1,p2,p3)
-  elif ( "SetDomainRelationExtentMaxNumber" == f )
-    // SetDomainRelationExtentMaxNumber("component_name", "RelationExtentMaxNo")
-    ::SetDomainRelationExtentMaxNumber( :p1, :p2 );
-  elif ( "SetDomainSelectionNodeMaxNumber" == f )
-    // SetDomainSelectionNodeMaxNumber("component_name", "SelectionNodeMaxNo")
-    ::SetDomainSelectionNodeMaxNumber( :p1, :p2 );
-  elif ( "TagUseFacadeMaxDef" == f )
-    // TagUseFacadeMaxDef()
-    ::TagUseFacadeMaxDef();
-  elif ( "SetDomainFacadeMutexLockUse" == f )
-    // SetDomainFacadeMutexLockUse("component_name")
-    ::SetDomainFacadeMutexLockUse( :p1 );
-    //-- 010:20140212 Add Start (nomura)
+  elif ( "specify_user_defined_enum_type_as_external_macro" == f )
+    // specify_user_defined_enum_type_as_external_macro("dt_name","ext_name","initial_value","include_file")
+    ::specify_user_defined_enum_type_as_external_macro( dt_name:p1, ext_name:p2, initial_value:p3, include_file:p4 );
+  elif ( "specify_user_defined_type" == f )
+    // specify_user_defined_type("dt_name","ext_name","initial_value","include_file")
+    ::specify_user_defined_type( dt_name:p1, ext_name:p2, initial_value:p3, include_file:p4 );
   else
     // not in this pass
   end if;
@@ -2512,6 +2501,44 @@ else
     r = ::T_atoi( s:p3 );
     i3 = r;
     ::MarkPriorityEvent( component_name:p1, evt_label:p2, priority_value:i3 );
+  elif ( "SetDomainEventMaxNumber" == f )
+    // SetDomainEventMaxNumber("component_name","internalEventNum":integer,"externalEventNum":integer)
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    r = ::T_atoi( s:p3 );
+    i3 = r;
+    ::SetDomainEventMaxNumber( domainName:p1, masxInternalEventNo:i2, maxExternalEventNo:i3 );
+  elif ( "SetDomainRelationExtentMaxNumber" == f )
+    // SetDomainRelationExtentMaxNumber("domainName","maxRelationExtents":integer)
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    ::SetDomainRelationExtentMaxNumber( component_name:p1, maxRelationExtents:i2 );
+  elif ( "SetDomainSelectionNodeMaxNumber" == f )
+    // SetDomainSelectionNodeMaxNumber("domainName","maxSelectionNode":integer)
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    ::SetDomainSelectionNodeMaxNumber( domainName:p1, maxSelectionNode:i2 );
+  elif ( "TagUseFacadeMaxDef" == f )
+    // TagUseFacadeMaxDef("domainName")
+    ::TagUseFacadeMaxDef( domainName:p1 );
+  elif ( "SetDomainFacadeMutexLockUse" == f )
+    // SetDomainFacadeMutexLockUse("domainName")
+    ::SetDomainFacadeMutexLockUse( domainName:p1 );
+  elif ( "mark_ee_as_realized" == f )
+    // mark_ee_as_realized("component_name","ee_name","prefix","include_file")
+    ::mark_ee_as_realized( dom_name:p1, ee_name:p2, prefix:p3, include_file:p4 );
+  elif ( "mark_obj_as_fixed_inst_no_extend" == f )
+    // mark_obj_as_fixed_inst_no_extend("domainName","className","instanceMaxStr","includeFile")
+    ::mark_obj_as_fixed_inst_no_extend( domainName:p1, className:p2, instanceMaxStr:p3, includeFile:p4 );
+  elif ( "port_realize_EE" == f )
+    // port_realize_EE("dom_name","port_name","ee_name")
+    ::port_realize_EE( dom_name:p1, port_name:p2, ee_name:p3 );
+  elif ( "set_prefix_simbolsw" == f )
+    // set_prefix_simbolsw("prefix")
+    ::set_prefix_simbolsw( prefix:p1 );
+  elif ( "TagBridgeCallNotGenerate" == f )
+    // TagBridgeCallNotGenerate("dom_name","ee_name")
+    ::TagBridgeCallNotGenerate( dom_name:p1, ee_name:p2 );
   else
     // not in this pass
   end if;
@@ -2520,6 +2547,6 @@ end if;
 T_atoi@integer@@s@string@@@
 //
 s = param.s;
-r = ::STRING_TO_INTEGER( component_name:s );
+r = ::STRING_TO_INTEGER( dom_name:s );
 return r;
 @@@

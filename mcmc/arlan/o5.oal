@@ -171,25 +171,6 @@ if ( not_empty te_brg )
 end if;
 return result;
 @@@
-fx_generate_auto_inc_id_execution@string@@te_attr@inst_ref<Extended Attribute>@@@
-//
-//----------------------------------------------------------------------------
-//
-te_attr = param.te_attr;
-result = false;
-if ( te_attr.isAutoInc )
-  result = true;
-  r = ::fx_get_auto_inc_get_new_value_macro_name( :te_attr );
-  get_macro_name = r;
-  r = ::fx_get_auto_inc_id_mgmt_variable_name( :te_attr );
-  var_name = r;
-T::b(s:  /* FX Extention : AUTOINC Coloring */);
-T::b(s:  /* setup value of ${te_attr.Name} */);
-T::b(s:  self->${te_attr.GeneratedName} = ${get_macro_name}(${var_name}););
-end if;
-return result;
-return T::body();
-@@@
 fx_setup_subsystem_init@void@@@
 //
 //----------------------------------------------------------------------------
@@ -230,7 +211,7 @@ msg = "";
 if ( not_empty te_c )
   te_c.MaxInternalEvents = maxInternalEventNo;
   te_c.MaxExternalEvents = maxExternalEventNo;
-  msg = "set maxEventNo to ${maxInternalEventNo} + ${maxExternalEventNo} ";
+  msg = "set maxEventNo to $t{maxInternalEventNo} + $t{maxExternalEventNo} ";
 else
   msg = "ERROR: Component ${domainName} not found.\n => SetDomainEventMaxNumber()";
 end if;
@@ -245,7 +226,7 @@ maxRelationExtents = param.maxRelationExtents;
 select any te_c from instances of TE_C where ( selected.Name == domainName );
 if ( not_empty te_c )
   te_c.MaxRelationExtents = maxRelationExtents;
-  T::print(s:"set maxRelationExtens to ${maxRelationExtents}");
+  T::print(s:"set maxRelationExtens to $t{maxRelationExtents}");
 else
   T::print(s:"ERROR: Component ${domainName} not found.\n => SetDomainRelationExtentMaxNumber()");
 end if;
