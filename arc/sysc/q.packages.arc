@@ -23,6 +23,7 @@
 .assign include_files = ""
 .assign top_module_instances = ""
 .assign top_module_inits = ""
+.assign top_module_dispatcher = ""
 .assign port_binding = ""
 .assign bitLevelChannels = ""
 .if ( not_empty tm_build_pkgs )
@@ -46,6 +47,12 @@
         .else
           .assign include_files = include_files + "#include ""${te_c.Name}.${te_file.hdr_file_ext}""\n"
           .assign top_module_instances = top_module_instances + "  ${te_c.Name} ${comp_inst};\n"
+          .if ( ( "SystemC" != te_thread.flavor ) and ( te_c.included_in_build ) )
+            .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+            .if ( not_empty te_sm )
+              .assign top_module_dispatcher = top_module_dispatcher + "      ${comp_inst}.ooa_loop( &${comp_inst} );\n"
+            .end if
+          .end if
         .end if
         .invoke bind = TE_C_BindPorts( te_c, te_ci, ep_pkg, c_c_parent )
         .assign port_binding = port_binding + bind.port_binding
@@ -65,6 +72,12 @@
           .else
             .assign include_files = include_files + "#include ""${te_c.Name}.${te_file.hdr_file_ext}""\n"
             .assign top_module_instances = top_module_instances + "  ${te_c.Name} ${comp_inst};\n"
+            .if ( ( "SystemC" != te_thread.flavor ) and ( te_c.included_in_build ) )
+              .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+              .if ( not_empty te_sm )
+                .assign top_module_dispatcher = top_module_dispatcher + "      ${comp_inst}.ooa_loop( &${comp_inst} );\n"
+              .end if
+            .end if
           .end if
           .invoke bind = TE_C_BindPorts (te_c, te_ci, ep_pkg, c_c_parent )
           .assign port_binding = "${port_binding}" + bind.port_binding
