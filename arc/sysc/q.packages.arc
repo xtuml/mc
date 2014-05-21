@@ -23,6 +23,7 @@
 .assign include_files = ""
 .assign top_module_instances = ""
 .assign top_module_inits = ""
+.assign top_module_comp_inits = ""
 .assign top_module_dispatcher = ""
 .assign port_binding = ""
 .assign bitLevelChannels = ""
@@ -49,6 +50,12 @@
           .assign top_module_instances = top_module_instances + "  ${te_c.Name} ${comp_inst};\n"
           .if ( ( "SystemC" != te_thread.flavor ) and ( te_c.included_in_build ) )
             .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+            .select one te_sync related by te_c->TE_SYNC[R2097]
+            .invoke s = CreateDomainInitSegment( te_c, te_sync, te_sm )
+            .assign init_seg = s.body
+            .if ( "" != init_seg )
+              .assign top_module_comp_inits = ( ( "\n" + top_module_comp_inits ) + ( comp_inst + "." ) ) + init_seg
+            .end if
             .if ( not_empty te_sm )
               .assign top_module_dispatcher = top_module_dispatcher + "      ${comp_inst}.ooa_loop( &${comp_inst} );\n"
             .end if
