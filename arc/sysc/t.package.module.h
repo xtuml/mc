@@ -34,6 +34,7 @@ ${bitLevelChannels}\
   ${pkg_name}( xtuml_module_name name ) : xtuml_module( name )${top_module_inits} {
 ${port_binding}\
 .if ( ( "SystemC" != te_thread.flavor ) and ( "" != top_module_dispatcher ) )
+${top_module_comp_inits}\
     while ( 1 ) {
 ${top_module_dispatcher}
     }
