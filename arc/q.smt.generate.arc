@@ -613,6 +613,7 @@
     .end if
     .invoke r = GetUnrelateFromName( o_obj, r_rel, act_unr.relationship_phrase )
     .assign unrelate_method = r.result
+    .select one te_class related by o_obj->TE_CLASS[R2019]
     .assign thismodule = ""
     .if ( "C" != te_target.language )
       .assign thismodule = ", thismodule"
