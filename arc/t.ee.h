@@ -28,6 +28,11 @@
 #ifndef $u{te_ee.file}_$u{te_file.hdr_file_ext}
 #define $u{te_ee.file}_$u{te_file.hdr_file_ext}
 ${te_target.c2cplusplus_linkage_begin}
+.if ( "C++" == te_target.language )
+  .if ( ( "LOG" == te_ee.Key_Lett ) and ( "Logging" == te_ee.Name ) )
+#pragma GCC diagnostic ignored "-Wwrite-strings"
+  .end if
+.end if
 
 ${includes.body}
 ${ee_body.body}\
