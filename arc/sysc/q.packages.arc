@@ -28,6 +28,7 @@
 .assign port_binding = ""
 .assign bitLevelChannels = ""
 .if ( not_empty tm_build_pkgs )
+  .select any te_ee from instances of TE_EE where ( selected.Key_Lett == "TIM" )
   .for each tm_build_pkg in tm_build_pkgs
     .select any ep_pkg from instances of EP_PKG where ( selected.Name == tm_build_pkg.package_to_build )
     .select many te_cis related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009]
@@ -54,10 +55,14 @@
             .invoke s = CreateDomainInitSegment( te_c, te_sync, te_sm )
             .assign init_seg = s.body
             .if ( "" != init_seg )
-              .assign top_module_comp_inits = ( ( "\n" + top_module_comp_inits ) + ( comp_inst + "." ) ) + init_seg
+              .assign top_module_comp_inits = ( ( "\n    " + top_module_comp_inits ) + ( comp_inst + "." ) ) + init_seg
             .end if
             .if ( not_empty te_sm )
               .assign top_module_dispatcher = top_module_dispatcher + "      ${comp_inst}.ooa_loop( &${comp_inst} );\n"
+            .end if
+            .if ( not_empty te_ee )
+              .// CDS For now, tim gets included if a TIM is found anywhere.
+              .assign top_module_dispatcher = top_module_dispatcher + "      ${comp_inst}.tim->tick();\n"
             .end if
           .end if
         .end if

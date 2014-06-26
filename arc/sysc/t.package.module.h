@@ -35,7 +35,7 @@ ${bitLevelChannels}\
 ${port_binding}\
 .if ( ( "SystemC" != te_thread.flavor ) and ( "" != top_module_dispatcher ) )
 ${top_module_comp_inits}\
-    while ( 1 ) {
+    while ( true ) {
 ${top_module_dispatcher}
     }
 .end if
