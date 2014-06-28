@@ -227,10 +227,18 @@
     .elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
       .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
       .assign selection_result_variable = te_assign.lval
-      .assign d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
+      .assign d = "\n${ws}${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0};\n${ws}${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
       .invoke blk_declaration_append( te_blk, d )
+.//-- 031:20140514 Modified Start (nomura)
+      .assign d = "\n${ws}${te_set.module}${te_set.init}( ${selection_result_variable}, &pG_${te_class.GeneratedName}_extent );"
+      .invoke blk_declaration_append( te_blk, d )
+.//-- 031:20140514 Modified End (nomura)
+      
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-      .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"
+.//-- 027:20140418 Modified Start (nomura)
+      .//.assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"
+      .assign d = "${te_set.module}${te_set.clear}(${te_assign.lval}, &pG_${te_class.GeneratedName}_extent); "
+.//-- 027:20140418 Modified End (nomura)
       .invoke blk_deallocation_append( te_blk, d )
     .elif ( ( 4 == r_te_dt.Core_Typ ) and ( te_sys.InstanceLoading ) )
       .// CDS 128 is a bit arbitrary.  It is intended to be a reasonable
@@ -771,10 +779,17 @@
       .if ( te_select.is_implicit )
         .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
         .assign selection_result_variable = te_select.var_name
-        .assign d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
+        .assign d = "\n${ws}${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; \n${ws}${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
         .invoke blk_declaration_append( te_blk, d )
+.//-- 031:20140514 Modified Start (nomura)
+      .assign d = "\n${ws}${te_set.module}${te_set.init}( ${selection_result_variable}, &pG_${te_class.GeneratedName}_extent );"
+      .invoke blk_declaration_append( te_blk, d )
+.//-- 031:20140514 Modified End (nomura)
         .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-        .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select.var_name ) ) + " );"
+.//-- 027:20140418 Modified Start (nomura)
+        .//.assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select.var_name ) ) + " );"
+	.assign d = "${te_set.module}${te_set.clear}(${te_select.var_name}, &pG_${te_class.GeneratedName}_extent); "
+.//-- 027:20140418 Modified end (nomura)
         .invoke blk_deallocation_append( te_blk, d )
       .end if
     .else
@@ -879,10 +894,17 @@
       .if ( te_select_where.is_implicit )
         .// First OAL usage of inst_ref_set<Object> handle set
         .assign selection_result_variable = te_select_where.var_name
-        .assign d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
+        .assign d = "\n${ws}${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0};  \n${ws}${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
         .invoke blk_declaration_append( te_blk, d )
+.//-- 031:20140514 Modified Start (nomura)
+      .assign d = "\n${ws}${te_set.init}( ${selection_result_variable}, &pG_${te_class.GeneratedName}_extent );"
+      .invoke blk_declaration_append( te_blk, d )
+.//-- 031:20140514 Modified End (nomura)
         .// Push deallocation into the block so that it is available at gen time for break/continue/return.
-        .assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select_where.var_name ) ) + " );"
+.//-- 027:20140418 Modified Start (nomura)
+        .//.assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select_where.var_name ) ) + " );"
+	.assign d = "${te_set.module}${te_set.clear}(${te_select_where.var_name}, &pG_${te_class.GeneratedName}_extent);"
+.//-- 027:20140418 Modified End (nomura)
         .invoke blk_deallocation_append( te_blk, d )
       .end if
     .else
@@ -1409,6 +1431,14 @@
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
     .end if
+.//-- 018:20140402 Add Start (saitou)
+    .if ( te_sync.IsInitFunction != TRUE )
+      .if ( "$r{parameters}" != "" )
+        .assign parameters = parameters + ","
+      .end if
+      .assign parameters = parameters + " 0 "
+    .end if
+.//-- 018:20140402 Add End (saitou)
     .assign function_name = te_sync.intraface_method
     .if ( "C++" == te_target.language )
       .assign function_name = "thismodule->" + function_name
@@ -1531,7 +1561,10 @@
     .end if
     .if ( not_empty func_ret_te_dt )
       .if ( func_ret_te_dt.IsExternalMacro )
-        .assign value = te_val.OAL
+	.select one v_lst related by te_val->V_VAL[R2040]->V_LST[R801]
+	.if ( not_empty v_lst )
+	  .assign value = te_val.OAL
+	.end if
       .end if
     .end if
 .//-- 002: 20140317 Add End (saitou) 
@@ -1806,9 +1839,15 @@
   .// declaration
   .if ( te_select_related.is_implicit )
     .if ( "many" == te_select_related.multiplicity )
-      .assign d = "${te_set.scope}${te_set.base_class} ${te_select_related.result_var}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select_related.result_var} = &${te_select_related.result_var}_space;"
+      .assign d = "\n${ws}${te_set.scope}${te_set.base_class} ${te_select_related.result_var}_space={0};  \n${ws}${te_set.scope}${te_set.base_class} * ${te_select_related.result_var} = &${te_select_related.result_var}_space;"
       .invoke blk_declaration_append( te_blk, d )
-      .assign d = "${te_set.module}${te_set.clear}( ${te_select_related.result_var} ); "
+.//-- 031:20140514 Modified Start (nomura)
+      .assign d = "\n${ws}${te_set.init}( ${te_select_related.result_var}, &pG_${te_class.GeneratedName}_extent );"
+      .invoke blk_declaration_append( te_blk, d )
+.//-- 031:20140514 Modified End (nomura)
+.//-- 027:20140418 Modified Start (nomura)
+      .assign d = "${te_set.module}${te_set.clear}( ${te_select_related.result_var}, &pG_${te_class.GeneratedName}_extent ); "
+.//-- 027:20140418 Modified End (nomura)
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
       .invoke blk_deallocation_append( te_blk, d )
     .else

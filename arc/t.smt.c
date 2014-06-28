@@ -67,12 +67,16 @@ ${ws}else if ( ${condition} ) {
     .if ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
       .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
       .assign te_smt.declaration = "${te_set.scope}${te_set.base_class} ${te_assign.lval}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_assign.lval} = &${te_assign.lval}_space;"
-      .assign te_smt.deallocation = "${te_set.module}${te_set.clear}( ${te_assign.lval} );"
+.//-- 027:20140418 Modified start (nomura)
+      .assign te_smt.deallocation = "${te_set.module}${te_set.clear}( ${te_assign.lval}, 0 );"
+.//-- 027:20140418 Modified end (nomura)
     .else
       .assign te_smt.declaration = ( te_assign.left_declaration + te_assign.array_spec ) + ";"
     .end if
   .end if
-  .if ( "" != te_assign.array_spec )
+.//-- 002: 20140122 Modified Start (saitou) 
+  .if ( ( "" != te_assign.array_spec ) and ( not te_dt.IsExternalMacro ) )
+.//-- 002: 20140122 Modified End (saitou) 
     .select any te_string from instances of TE_STRING
     .select any te_instance from instances of TE_INSTANCE
     .if ( 4 == te_assign.Core_Typ )
@@ -336,6 +340,9 @@ ${ass_var_name}${thismodule} );
   .assign attr_deallocation = ""
   .select any te_set from instances of TE_SET
   .invoke extent_info = GetFixedSizeClassExtentInfo( o_obj )
+.//-- 027:20140418 Add start (nomura)
+  .select one te_class related by o_obj->TE_CLASS[R2019];
+.//-- 027:20140418 Add end (nomura)
   .assign type_cast = ""
   .if ( te_select.multiplicity == "any" )
     .assign type_cast = "(${te_select.class_name} *)"
@@ -349,7 +356,9 @@ ${ws}${te_select.var_name} = ${type_cast} ${te_set.get_any}( &${extent_info.exte
     .if ( te_select.is_implicit )
       .// First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
       .assign attr_declaration = "${te_set.scope}${te_set.base_class} ${te_select.var_name}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select.var_name} = &${te_select.var_name}_space; /* ${te_select.var_name} (${o_obj.Key_Lett}) */"
-      .assign attr_deallocation = "${te_set.module}${te_set.clear}( ${te_select.var_name} );"
+.//-- 027:20140418 Modified start (nomura)
+      .assign attr_deallocation = "${te_set.module}${te_set.clear}( ${te_select.var_name}, &pG_${te_class.GeneratedName}_extent );"
+.//-- 027:20140418 Modified end (nomura)
     .end if
     .// The copy method will clear out and free up system resources
     .// used within the set.
@@ -368,6 +377,9 @@ ${ws}${te_set.module}${te_set.copy}( ${te_select.var_name}, &${extent_info.exten
   .assign attr_declaration = ""
   .assign attr_deallocation = ""
   .select any te_set from instances of TE_SET
+.//-- 027:20140418 Add start (nomura)
+  .select one te_class related by o_obj->TE_CLASS[R2019];
+.//-- 027:20140418 Add end (nomura)
   .if ( "any" == te_select_where.multiplicity )
     .if ( te_select_where.is_implicit )
       .// Declare (first OAL usage of) inst_ref<Object> handle variable.
@@ -382,14 +394,20 @@ ${ws}${te_select_where.var_name} = 0;
     .if ( te_select_where.is_implicit )
       .// First OAL usage of inst_ref_set<Object> handle set
       .assign attr_declaration = "${te_set.scope}${te_set.base_class} ${te_select_where.var_name}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select_where.var_name} = &${te_select_where.var_name}_space; /* ${te_select_where.oal_var_name} (${o_obj.Key_Lett}) */"
-      .assign attr_deallocation = "${te_set.module}${te_set.clear}( ${te_select_where.var_name} );  /* Clear set: ${te_select_where.oal_var_name} */"
+.//-- 027:20140418 Modified start (nomura)
+      .assign attr_deallocation = "${te_set.module}${te_set.clear}( ${te_select_where.var_name}, &pG_${te_class.GeneratedName}_extent );  /* Clear set: ${te_select_where.oal_var_name} */"
+.//-- 027:20140418 Modified end (nomura)
       .// CDS Check here if we are in a while loop or not.
       .// if ( in_loop )
-${ws}${te_set.module}${te_set.clear}( ${te_select_where.var_name} );
+.//-- 027:20140418 Modified start (nomura)
+${ws}${te_set.module}${te_set.clear}( ${te_select_where.var_name}, &pG_${te_class.GeneratedName}_extent ); 
+.//-- 027:20140418 Modified end (nomura)
       .// end if
     .else
       .// Existing inst_ref_set<Object> handle set. Clear current contents of collection.
-${ws}${te_set.module}${te_set.clear}( ${te_select_where.var_name} );
+.//-- 027:20140418 Modified start (nomura)
+${ws}${te_set.module}${te_set.clear}( ${te_select_where.var_name}, &pG_${te_class.GeneratedName}_extent ); 
+.//-- 027:20140418 Modified end (nomura)
     .end if
   .else
     .print "\nERROR:  stmt_select_from_instances_of_where: Select ${multiplicity} is not any or many."

@@ -13,7 +13,7 @@
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_domain_facade_file_name .// string
-.param inst_ref te_c
+  .param inst_ref te_c
   .assign attr_result = te_c.Name + "_domainfacade"
 .end function
 .//
@@ -26,35 +26,35 @@
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_domain_dispatcher_name .// string
-.param inst_ref te_c
+  .param inst_ref te_c
   .assign attr_result = te_c.Name + "_DomainDispatcher"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_domain_mech_file_name .// string
-.param inst_ref te_c
+  .param inst_ref te_c
   .assign attr_result = te_c.Name + "_mechs"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_domain_init_file_name .// string
-.param inst_ref te_c
+  .param inst_ref te_c
   .assign attr_result = te_c.Name + "_dom_init"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_domain_classes_file_name .// string
-.param inst_ref te_c
+  .param inst_ref te_c
   .assign attr_result = te_c.Name + "_classes"
 .end function
 .//
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_domain_enums_file_name .// string
-.param inst_ref te_c
+  .param inst_ref te_c
   .assign attr_result = te_c.Name + "_enums"
 .end function
 .//
@@ -74,7 +74,7 @@
 .//
 .// O_OBJに関連づいている最初のO_ATTRを取得する。
 .function fx_get_first_attribute_in_object_model .// o_attr
-.param inst_ref te_class
+  .param inst_ref te_class
   .select any obj from instances of O_OBJ where (selected.Obj_ID == te_class.Obj_ID)
   .// .select one o_obj related by te_class->O_OBJ[R2019]
   .//.if (empty obj)
@@ -99,7 +99,7 @@
 .// code生成するattributeかどうかを判定する。
 .// これで良いか自信なし…
 .function fx_generate_code_for_object_attribute .// boolean
-.param inst_ref o_attr
+  .param inst_ref o_attr
   .assign result = true
   .select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021]
   .select one te_attr related by o_attr->TE_ATTR[R2033]
@@ -118,8 +118,7 @@
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_auto_inc_get_llimit_value_macro_name .// string
-.param inst_ref te_attr
-  .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
+  .param inst_ref o_obj
   .invoke r = GetDomainObjectNamespace(o_obj)
   .assign namespace = r.result
   .assign attr_result = namespace + "_AUTOINC_LOWER_LIMIT"
@@ -128,8 +127,7 @@
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_auto_inc_get_hlimit_value_macro_name .// string
-.param inst_ref te_attr
-  .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
+  .param inst_ref o_obj
   .invoke r = GetDomainObjectNamespace(o_obj)
   .assign namespace = r.result
   .assign attr_result = namespace + "_AUTOINC_HIGHER_LIMIT"
@@ -138,8 +136,7 @@
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_auto_inc_get_new_value_macro_name .// string
-.param inst_ref te_attr
-  .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
+  .param inst_ref o_obj
   .invoke r = GetDomainObjectNamespace(o_obj)
   .assign namespace = r.result
   .assign attr_result = namespace + "_AUTOINC_GetNewValue"
@@ -148,8 +145,7 @@
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_auto_inc_id_mgmt_variable_name .// string
-.param inst_ref te_attr
-  .select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019]
+  .param inst_ref o_obj
   .invoke r = GetDomainObjectNamespace(o_obj)
   .assign namespace = r.result
   .assign attr_result = namespace + "_AUTOINC_currentId"
@@ -158,7 +154,7 @@
 .//----------------------------------------------------------------------------
 .//
 .function fx_get_bridge_extend_name_prefix .// string
-.param inst_ref te_ee
+  .param inst_ref te_ee
   .select one te_c related by te_ee->TE_C[R2085]
   .assign attr_result = ( te_c.Name + "_BridgeExtend_" ) + te_ee.Key_Lett
 .end function
@@ -166,7 +162,7 @@
 .//----------------------------------------------------------------------------
 .//
 .function fx_is_exist_real_func .// boolean
-.param inst_ref te_ee
+  .param inst_ref te_ee
   .assign result = false
   .select any te_brg related by te_ee->S_EE[R2020]->S_BRG[R19]->TE_BRG[R2025] where ( selected.IsRealFunc == true )
   .if (not_empty te_brg)
@@ -212,9 +208,9 @@
 .//----------------------------------------------------------------------------
 .// 仮にここに実装。場所はあとで考える。
 .function SetDomainEventMaxNumber
-.param string domainName
-.param integer maxInternalEventNo
-.param integer maxExternalEventNo
+  .param string domainName
+  .param integer maxInternalEventNo
+  .param integer maxExternalEventNo
   .select any te_c from instances of TE_C where (selected.Name == domainName)
   .assign msg = ""
   .if (not_empty te_c)
@@ -230,8 +226,8 @@
 .//-----------------------------------------------------------------------------
 .//
 .function SetDomainRelationExtentMaxNumber
-.param string domainName
-.param integer maxRelationExtents
+  .param string domainName
+  .param integer maxRelationExtents
   .select any te_c from instances of TE_C where (selected.Name == domainName)
   .if (not_empty te_c)
       .assign te_c.MaxRelationExtents = maxRelationExtents
@@ -244,8 +240,8 @@
 .//-----------------------------------------------------------------------------
 .//
 .function SetDomainSelectionNodeMaxNumber
-.param string domainName
-.param integer maxSelectionNode
+  .param string domainName
+  .param integer maxSelectionNode
   .select any te_c from instances of TE_C where (selected.Name == domainName)
   .if (not_empty te_c)
       .assign te_c.MaxSelectionNodeExtents = maxSelectionNode
@@ -257,7 +253,7 @@
 .//-----------------------------------------------------------------------------
 .//
 .function TagUseFacadeMaxDef
-.param string domainName
+  .param string domainName
   .select any te_c from instances of TE_C where (selected.Name == domainName)
   .if (not_empty te_c)
       .assign te_c.isUseFacadeMaxDef = true
@@ -269,7 +265,7 @@
 .//-----------------------------------------------------------------------------
 .//
 .function SetDomainFacadeMutexLockUse
-.param string domainName
+  .param string domainName
   .select any te_c from instances of TE_C where (selected.Name == domainName)
   .if (not_empty te_c)
       .assign te_c.isUseMutexLock = true
@@ -281,10 +277,10 @@
 .//-----------------------------------------------------------------------------
 .//
 .function mark_obj_as_fixed_inst_no_extend
-.param string domainName
-.param string className
-.param string instanceMaxStr
-.param string includeFile
+  .param string domainName
+  .param string className
+  .param string instanceMaxStr
+  .param string includeFile
   .select any te_c from instances of TE_C where (selected.Name == domainName)
   .if (not_empty te_c)
     .select any te_class related by te_c->TE_CLASS[R2064] where (selected.Key_Lett == className)
@@ -307,47 +303,63 @@
   .//
 .end function
 .//
-.//============================================================================
-.function FXHO_get_auto_inc_get_llimit_value_macro_name .// string
-  .param inst_ref o_obj
-  .//
-  .invoke r = GetDomainObjectNamespace( o_obj )
-  .assign namespace = r.result
-  .assign attr_result = namespace + "_AUTOINC_LOWER_LIMIT"
-  .//
+.//-- 032:20140605 Add Start (nomura)
+.//-----------------------------------------------------------------------------
+.// TE_CLASSのsetをKeyLetterでソートし、先頭のTE_CLASSを返す。
+.function class_sort_by_keylet .// te_class
+  .param inst_ref_set te_classs
+  .// Declare an empty instance reference.
+  .select any head_te_class related by te_classs->TE_CLASS[R2092.'succeeds'] where ( false )
+  .for each te_class in te_classs
+    .assign te_class.nextID = 00
+  .end for
+  .for each te_class in te_classs
+    .invoke r = class_insert_by_keylet( head_te_class, te_class )
+    .assign head_te_class = r.result
+  .end for
+  .assign attr_result = head_te_class
+.end function
+.function class_insert_by_keylet .// te_class
+  .param inst_ref head_te_class
+  .param inst_ref te_class
+  .assign result = te_class
+.//  .print "head_te_class:${head_te_class.Key_Lett} te_class:${te_class.Key_Lett}"
+  .if ( empty head_te_class )
+    .// Just starting.  Return te_class as head.
+  .else
+  .assign lkey = te_class.Key_Lett
+  .assign rkey = head_te_class.Key_Lett
+  .if ( lkey <= rkey )
+    .// insert before
+    .// relate te_class to head_te_class across R2092.'precedes';
+    .assign te_class.nextID = head_te_class.ID
+    .// end relate
+  .else
+    .// find bigger
+    .assign result = head_te_class
+    .assign prev_te_class = head_te_class
+    .select one cursor_te_class related by head_te_class->TE_CLASS[R2092.'succeeds']
+    .while ( not_empty cursor_te_class )
+      .assign rkey = cursor_te_class.Key_Lett
+      .//.assign rkey = "$t{cursor_te_class.Numb}" + cursor_te_class.GeneratedName
+      .if ( lkey <= rkey )
+        .break while
+      .else
+        .assign prev_te_class = cursor_te_class
+        .select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'succeeds']
+      .end if
+    .end while
+    .// relate prev_te_class to te_class across R2092.'precedes';
+    .assign prev_te_class.nextID = te_class.ID
+    .// end relate
+    .if ( not_empty cursor_te_class )
+      .// relate te_class to cursor_te_class across R2092.'precedes';
+      .assign te_class.nextID = cursor_te_class.ID
+      .// end relate
+    .end if
+  .end if
+  .end if
+  .assign attr_result = result
 .end function
 .//
-.//============================================================================
-.// 
-.function FXHO_get_auto_inc_get_hlimit_value_macro_name .// string
-  .param inst_ref o_obj
-  .//
-  .invoke r = GetDomainObjectNamespace( o_obj )
-  .assign namespace = r.result
-  .assign attr_result = namespace + "_AUTOINC_HIGER_LIMIT"
-  .//
-.end function
-.//
-.//============================================================================
-.// 新たに生成したインスタンスのAUTOINC識別子属性に値を入れる際に
-.// 次の値を供給してくれる関数マクロ名
-.function FXHO_get_auto_inc_get_new_value_macro_name .// string
-  .param inst_ref o_obj
-  .//
-  .invoke r = GetDomainObjectNamespace( o_obj )
-  .assign namespace = r.result
-  .assign attr_result = namespace + "_AUTOINC_GetNewValue"
-  .//
-.end function
-.//
-.//============================================================================
-.// 自動更新する際のIDの値を格納するStaticな変数の名前
-.function FXHO_get_auto_inc_id_mgmt_variable_name .// string
-  .param inst_ref o_obj
-  .//
-  .invoke r = GetDomainObjectNamespace( o_obj )
-  .assign namespace = r.result
-  .assign attr_result = namespace + "_AUTOINC_currentId"
-  .//
-.end function
-.//
+.//-- 032:20140605 Add Start (nomura)

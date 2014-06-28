@@ -32,8 +32,6 @@
 	.invoke bridgeExtendPrefix = fx_get_bridge_extend_name_prefix(te_ee)
 	.assign include_file_name = "${bridgeExtendPrefix.result}.${te_file.hdr_file_ext}"
 	.include "${arc_path}/t.ee_ext.h"
-	.print "+++ ${te_ee.Name}"
-	.print "+++ ${te_file.system_include_path}/${include_file_name}"
 	.emit to file "${te_file.system_include_path}/${include_file_name}"
 	.// Ç∆ÇËÇ†Ç¶Ç∏sourceÇÕê∂ê¨ÇµÇ»Ç¢Ç±Ç∆Ç…Ç∑ÇÈÅB
 	.// Generate skeleton implementation file.

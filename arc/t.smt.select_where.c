@@ -8,11 +8,18 @@ ${ws}${te_select_where.var_name} = 0;
   .if ( te_select_where.is_implicit )
     .// CDS Check here if we are in a while loop or not.
     .// if ( in_loop )
-${ws}${te_set.module}${te_set.clear}( ${te_select_where.var_name} );
+.//--031:20140515 Modified Start (nomura)
+.//--027:20140417 Modified Start (nomura)
+/* ${ws}${te_set.module}${te_set.init}( ${te_select_where.var_name}, &pG_${te_select_where.class_name}_extent ); */
+${ws}${te_set.module}${te_set.clear}( ${te_select_where.var_name}, &pG_${te_select_where.class_name}_extent  );  
+.//--027:20140417 Modified End (nomura)
+.//--031:20140515 Modified End (nomura)
     .// end if
   .else
     .// Existing inst_ref_set<Object> handle set. Clear current contents of collection.
-${ws}${te_set.module}${te_set.clear}( ${te_select_where.var_name} );
+.//--027:20140417 Modified Start (nomura)
+${ws}${te_set.module}${te_set.clear}( ${te_select_where.var_name}, &pG_${te_select_where.class_name}_extent ); 
+.//--027:20140417 Modified end (nomura)
   .end if
 .end if
 .//

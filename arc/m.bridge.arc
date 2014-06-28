@@ -108,6 +108,8 @@
     .if ( ( not_empty te_po ) and ( not_empty te_ee) )
       .assign te_po.realizeEE_ID = te_ee.EE_ID
       .print "port_realize_EE() : port(${te_po.Name}) realize EE(${te_ee.Key_Lett})"
+      .// ここで指定されているEEはモデル上は使用されていないはず。でも実際は使うので、Includedフラグを立てておく。
+      .assign te_ee.Included = true
     .end if
   .end for
 .end function

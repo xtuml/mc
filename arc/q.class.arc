@@ -304,6 +304,9 @@ class ${te_c.Name}; // forward reference
       .select any te_class related by te_c->TE_CLASS[R2064]
       .if ( ( not_empty te_sync ) or ( not_empty te_class ) )
 #include "${te_c.classes_file}.${te_file.hdr_file_ext}"
+.//-- 022:20140403 Add Start (nomura)
+#include "${te_c.Name}_mechs.${te_file.hdr_file_ext}"
+.//-- 022:20140403 Add End (nomura)
       .end if
     .end if
   .end if
@@ -410,7 +413,7 @@ class ${te_c.Name}; // forward reference
   .invoke object_extent   = AddClassExtent( o_obj, te_relstore, gen_declaration )
 .//-- 010:20140224 Modified end (nomura)
 .//-- 011: 20140217 Add Start (saitou) 
-  .invoke auto_inc_mech = FXHO_generate_auto_inc_id_definition( o_obj, gen_declaration )
+  .invoke auto_inc_mech = fx_generate_auto_inc_id_definition( o_obj, gen_declaration )
 .//-- 011: 20140217 Add End (saitou) 
   .invoke obj_data_class = CreateObjectDataClass( o_obj, te_relstore )
   .invoke xforms = TranslateTransformerActions( o_obj, te_class, gen_declaration )

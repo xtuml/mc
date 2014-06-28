@@ -113,7 +113,6 @@ ${te_sync.deferred_method}( void )
 	  .end if
 	  .if ( included == FALSE) 
 	    .if (( te_dt.Include_File != "") and ("${te_dt.Include_File}" != "${te_file.types}.${te_file.hdr_file_ext}" ) )
-	    .print  "+++++ #include ${te_dt.Include_File}"
 #include "${te_dt.Include_File}" /* ${te_dt.Name} */
             .end if
           .end if

@@ -65,16 +65,21 @@ extern void ${te_c.Name}_debug_init(void);
 .param inst_ref te_c
     .// extentTable
 static const struct mc3020fx_class_element extentTable[] = {
-    .select many te_classes related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
-    .assign numClasses = cardinality te_classes
+    .select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
+    .assign numClasses = cardinality te_classs
     .assign i = 0
-    .for each te_class in te_classes
-{ &pG_${te_c.Name}_${te_class.Key_Lett}_extent, &g_${te_c.Name}_${te_class.Key_Lett}_instanceMax, "${te_class.Key_Lett}"}\
-    .assign i = i + 1
-    .if (numClasses > i)
+.//-- 032:20140605 Modified Start (nomura)
+    .invoke sorted_te_classs = class_sort_by_keylet(te_classs)
+    .assign cur_te_class = sorted_te_classs.result
+    .while (not_empty cur_te_class) 
+{ &pG_${te_c.Name}_${cur_te_class.Key_Lett}_extent, &g_${te_c.Name}_${cur_te_class.Key_Lett}_instanceMax, "${cur_te_class.Key_Lett}"}\
+      .assign i = i + 1
+      .if (numClasses > i)
 ,
-    .end if
-    .end for
+      .end if
+      .select one cur_te_class related by cur_te_class->TE_CLASS[R2092.'succeeds']
+    .end while
+.//-- 032:20140605 Modified Start (nomura)
  };
     .//
 

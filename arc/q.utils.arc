@@ -46,7 +46,9 @@
       .assign stringbody = false
       .if ( 0 == te_par.By_Ref )
         .select one te_dt related by v_val->S_DT[R820]->TE_DT[R2021]
-        .if ( 4 == te_dt.Core_Typ )
+.//-- 002:20140404 Modified Start (saitou) 
+        .if ( ( 4 == te_dt.Core_Typ ) and ( not te_dt.IsExternalMacro ) )
+.//-- 002:20140404 Modified End (saitou) 
           .// Check the four types of returnable action bodies for string.
           .select one v_trv related by v_val->V_TRV[R801]
           .if ( not_empty v_trv )

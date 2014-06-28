@@ -4,7 +4,9 @@
 .select many te_c_set from instances of TE_C
 .for each te_c in te_c_set
   .assign enumeration_info = ""
-  .select many enumeration_te_dts related by te_c->TE_DT[R2086] where ( selected.Is_Enum )
+.//-- 026:20140411 Modified Start (nomura)
+  .select many enumeration_te_dts related by te_c->TE_DT[R2086] where (( selected.Is_Enum ) and ( not selected.IsExternalMacro ))
+.//-- 026:20140411 Modified End (nomura)
   .for each te_dt in enumeration_te_dts
     .invoke r = TE_DT_EnumerationDataTypes( te_dt )
     .assign enumeration_info = enumeration_info + r.body

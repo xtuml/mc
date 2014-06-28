@@ -172,7 +172,6 @@
   .assign attr_result = s
 .end function
 .//
-
 .//-- 002: 20140314 Add Start (saitou) 
 .// 指定されたO_ATTRのデータタイプを返す。
 .// 参照型だった場合は、参照先の型を返す。

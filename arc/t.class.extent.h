@@ -25,7 +25,7 @@ extern ${te_class.GeneratedName} ${te_class.GeneratedName}_instances[ ${te_class
 .//-- 010:20140224 Add Start (nomura)
 extern void ${te_class.GeneratedName}_FactoryInit();
 extern ${te_instance.handle} ${te_class.GeneratedName}_Create();
-extern void ${te_class.GeneratedName}_Delete();
+extern void ${te_class.GeneratedName}_Delete(${defaultPrefix}_iHandle_t);
 .//-- 010:20140224 Add End (nomura)
 
 .//-- 019:20140328 Add Start (nomura)

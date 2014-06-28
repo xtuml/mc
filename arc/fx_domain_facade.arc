@@ -62,12 +62,16 @@ extern "C" {
     .select any te_file from instances of TE_FILE;
     .assign domainName = te_c.Name
     .//
-void ${domainName}_DomainFacade_Initialize(
+extern void ${domainName}_DomainFacade_Initialize(
     ${base_arch_prefix.result}_waitForExternalEvents_Fp waitForExtEventFp,
     ${base_arch_prefix.result}_callOut_Fp eventEmptyCalloutFP,
     ${base_arch_prefix.result}_callOut_Fp nodeEmptyCalloutFP,
     ${base_arch_prefix.result}_callOut_Fp timerEmptyCalloutFP /* dummy */
 );
+
+.//-- 024:20140409 Add Start (nomura)
+extern void ${domainName}_DomainFacade_Execute(${base_arch_prefix.result}_threadInfo_t *);
+.//-- 024:20140409 Add End (nomura)
 
 .end function
 .//

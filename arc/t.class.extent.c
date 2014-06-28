@@ -133,7 +133,7 @@ ${te_instance.handle} ${te_class.GeneratedName}_Create()
     .//
     .// AUTO INC‘Î‰ž
     .select one o_obj related by te_class->O_OBJ[R2019]
-    .invoke auto_inc = FXHO_generate_auto_inc_id_execution(o_obj, "self")
+    .invoke auto_inc = fx_generate_auto_inc_id_execution(o_obj, "self")
     .if (auto_inc.result)
 ${auto_inc.body}
     .end if
@@ -185,9 +185,13 @@ ${te_relstore.data_fini}
     .end if
     .invoke default_prefix = fx_get_default_arch_prefix_name()
 
-    node = ${default_prefix.result}_SetRemoveNode(&(dci->${te_extent.active}), instance);
-    node->next = dci->${te_extent.inactive}.head;
-    dci->${te_extent.inactive}.head = node;
+    node = ${default_prefix.result}_SetRemoveNode(&(dci->${te_extent.active}), instance, &${classExtent.result});
+.//-- 030:20140430 Modified Start (nomura)
+    if ( node ) {
+      node->next = dci->${te_extent.inactive}.head;
+      dci->${te_extent.inactive}.head = node;
+    }
+.//-- 030:20140430 Modified End (nomura)
 
     .// If active instance, initialize initial state.
     .select one ism related by o_obj->SM_ISM[R518]

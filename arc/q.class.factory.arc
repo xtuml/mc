@@ -39,6 +39,10 @@
   .invoke r = GetFixedSizeClassExtentInfo( te_class )
   .assign extent = r.result
   .if ( gen_declaration )
+.//-- 010:20140410 Add Start (saitou) 
+    .invoke default_arch_prefix = fx_get_default_arch_prefix_name()
+    .assign defaultPrefix = default_arch_prefix.result
+.//-- 010:20140410 Add End (saitou) 
     .include "${te_file.arc_path}/t.class.extent.h"
   .else
     .invoke peis = PEIRenderInitializers( o_obj )

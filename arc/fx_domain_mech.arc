@@ -64,6 +64,8 @@ extern "C" {
     .assign domainName = te_c.Name
     .assign basePrefix = base_arch_prefix.result
     .assign defaultPrefix = default_arch_prefix.result
+    .select any te_set from instances of TE_SET
+    .select any te_extent from instances of TE_EXTENT
     .//
     .// Event
     .assign event_t = "${defaultPrefix}_xtUMLEvent_t"
@@ -104,12 +106,13 @@ extern ${event_t} * ${domainEventPrefix}_DequeuextUMLNonSelfEvent();
  ***********************************************************************/
 
 #define ${defaultPrefix}_SetFactoryInit() ${domainObjNodePrefix}_SetFactoryInit()
-#define ${defaultPrefix}_InitSet(set) ${domainObjNodePrefix}_InitSet((set))
-#define ${defaultPrefix}_ClearSet(set) ${domainObjNodePrefix}_ClearSet((set))
+#define ${defaultPrefix}_InitSet(set, extent) ${domainObjNodePrefix}_InitSet((set), (extent))
+#define ${defaultPrefix}_ClearSet(set, extent) ${domainObjNodePrefix}_ClearSet((set), (extent))
 #define ${defaultPrefix}_CopySet(to_set,from_set) ${domainObjNodePrefix}_CopySet((to_set),(from_set))
 #define ${defaultPrefix}_SetInsertElement(set,substance) ${domainObjNodePrefix}_SetInsertElement((set),(substance))
 #define ${defaultPrefix}_SetInsertBlock(container,instance,length,count) ${domainObjNodePrefix}_SetInsertBlock((container),(instance),(length),(count))
 #define ${defaultPrefix}_SetRemoveElement(set ,elem) ${domainObjNodePrefix}_SetRemoveElement((set),(elem))
+#define ${defaultPrefix}_SetRemoveNode(set ,instance, extent) ${domainObjNodePrefix}_SetRemoveNode((set),(instance),(extent))
 
 /***********************************************************************
  * Object Collection Iteration node management for Each Domain
@@ -119,13 +122,15 @@ extern ${event_t} * ${domainEventPrefix}_DequeuextUMLNonSelfEvent();
     .assign ihandle = "${defaultPrefix}_iHandle_t"
     .assign classsize = "${defaultPrefix}_ClassSize_t"
     .assign instanceindex = "${defaultPrefix}_InstanceIndex_t"
+    .assign extents = "${te_set.scope}${te_extent.type}"
 extern void ${domainObjNodePrefix}_SetFactoryInit();
-extern void ${domainObjNodePrefix}_InitSet(${objectSet} * set);
-extern void ${domainObjNodePrefix}_ClearSet(${objectSet} * set);
+extern void ${domainObjNodePrefix}_InitSet(${objectSet} * set, ${extents} * extent);
+extern void ${domainObjNodePrefix}_ClearSet(${objectSet} * set, ${extents} * extent);
 extern void ${domainObjNodePrefix}_CopySet(${objectSet} * to_set, ${objectSet} * from_set);
 extern void ${domainObjNodePrefix}_SetInsertElement(${objectSet} * set, void * const substance);
 extern ${defaultPrefix}_SetElement_s * ${domainObjNodePrefix}_SetInsertBlock(${defaultPrefix}_SetElement_s * container, const ${ihandle} * instance, const ${classsize} length, ${instanceindex} count);
 extern void ${domainObjNodePrefix}_SetRemoveElement(${objectSet} * set, void * const elem);
+extern ${defaultPrefix}_SetElement_s * ${domainObjNodePrefix}_SetRemoveNode(${objectSet} * set, void * const node, ${extents} * extent);
     .// Misc
     .assign domainMiscPrefix = "${domainName}_Mech"
 
@@ -185,6 +190,8 @@ extern void ${domainName}_MechMutex_UnLockWithOther( void* mutex);
     .assign event_t = "${defaultPrefix}_xtUMLEvent_t"
     .assign eventconst_t = "${defaultPrefix}_xtUMLEventConstant_t"
     .assign domainEventPrefix = "${domainName}_MechEvent"
+    .select any te_set from instances of TE_SET
+    .select any te_extent from instances of TE_EXTENT
 
 /* Max Mesuring macro */
 #ifdef MC3020_MAX_NUM_MEASURE
@@ -253,6 +260,7 @@ void ${domainEventPrefix}_SendNonSelfEvent(${event_t} * evt)
     .// Object Node
     .assign objectSet = "${defaultPrefix}_ObjectSet_s"
     .assign domainObjNodePrefix = "${domainName}_MechObjNode"
+    .assign extents = "${te_set.scope}${te_extent.type}"
 /***********************************************************************
  * Object Collection Iteration node management for Each Domain
  ***********************************************************************/
@@ -261,14 +269,14 @@ void ${domainObjNodePrefix}_SetFactoryInit()
     ${basePrefix}_SetFactoryInit(${domainInfo}.objNodeDB);
 }
 
-void ${domainObjNodePrefix}_InitSet(${objectSet} * set)
+void ${domainObjNodePrefix}_InitSet(${objectSet} * set, ${extents} * extent)
 {
-    ${basePrefix}_InitSet(set);
+    ${basePrefix}_InitSet(set, extent, ${domainInfo}.objNodeDB);
 }
 
-void ${domainObjNodePrefix}_ClearSet(${objectSet} * set)
+void ${domainObjNodePrefix}_ClearSet(${objectSet} * set, ${extents} * extent)
 {
-    ${basePrefix}_ClearSet(set, ${domainInfo}.objNodeDB);
+    ${basePrefix}_ClearSet(set, extent, ${domainInfo}.objNodeDB);
 }
 
 void ${domainObjNodePrefix}_CopySet(${objectSet} * to_set, ${objectSet} * from_set)
@@ -301,6 +309,15 @@ void ${domainObjNodePrefix}_SetRemoveElement(${objectSet} * set, void * const el
 #endif
 }
 
+${defaultPrefix}_SetElement_s *  ${domainObjNodePrefix}_SetRemoveNode(${objectSet} * set, void * const elem, ${extents} * extent)
+{
+    ${defaultPrefix}_SetElement_s * re;
+    re = ${basePrefix}_SetRemoveNode(set, elem, extent, ${domainInfo}.objNodeDB);
+#ifdef MC3020_MAX_NUM_MEASURE
+    g_${te_c.Name}_useNodeNum--;
+#endif
+    return re;
+}
     .// Misc
     .assign domainMiscPrefix = "${domainName}_Mech"
 

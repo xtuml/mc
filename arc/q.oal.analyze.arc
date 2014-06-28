@@ -392,7 +392,10 @@
       .if ( link_needed )
         .assign te_rel.LinkNeeded = true
       .end if
-      .if ( unlink_needed )
+.//-- 025:20140326 Modified Start (saitou)
+      .// Link‚ª‚ ‚é‚È‚çŒã•Ð•t‚¯—p‚ÌUnlink‚à—pˆÓ‚·‚é
+      .if ( ( unlink_needed ) or ( link_needed ) )
+.//-- 025:20140326 Modified End (saitou)
         .assign te_rel.UnlinkNeeded = true
       .end if
     .end if

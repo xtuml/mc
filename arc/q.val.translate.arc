@@ -523,11 +523,13 @@
       .if ( ( l_te_dt.IsExternalMacro ) or ( r_te_dt.IsExternalMacro ) )
         .// external macro
         .assign lBuffer = l_te_val.buffer
-        .if( not l_te_dt.IsExternalMacro )
+	.select one l_v_lst related by l_te_val->V_VAL[R2040]->V_LST[R801]
+        .if ( ( not l_te_dt.IsExternalMacro ) and ( not_empty l_v_lst ) )
           .assign lBuffer = l_te_val.OAL
         .end if
         .assign rBuffer = r_te_val.buffer
-        .if( not r_te_dt.IsExternalMacro )
+	.select one r_v_lst related by r_te_val->V_VAL[R2040]->V_LST[R801]
+        .if ( ( not r_te_dt.IsExternalMacro ) and ( not_empty r_v_lst ) )
           .assign rBuffer = r_te_val.OAL
         .end if
         .//

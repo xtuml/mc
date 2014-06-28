@@ -404,6 +404,12 @@
 .//=============================================================================
 .include "${te_file.arc_path}/fx_domain_debug.arc"
 .//-- 019:20140328 Add End (nomura)
+.//-- 028:20140415 Add Start (saitou)
+.//=============================================================================
+.// Generate domain_debug_utility into system gen source.
+.//=============================================================================
+.include "${te_file.arc_path}/fx_domain_debug_utility.arc"
+.//-- 028:20140415 Add End (saitou)
 .//
 .print "ending ${info.date}"
 .//

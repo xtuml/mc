@@ -720,7 +720,13 @@
       .assign te_enum.Enum_ID = s_enum.Enum_ID
       .// end relate
       .assign te_enum.Name = s_enum.Name
-      .assign te_enum.GeneratedName = ( ( te_dt.Owning_Dom_Name + "_" ) + ( te_dt.Name + "_" ) ) + ( "$r{te_enum.Name}" + "_e" )
+.//-- 002:20140331 Modified Start (saitou)
+      .if ( te_dt.IsExternalMacro )
+        .assign te_enum.GeneratedName = "$r{te_enum.Name}"
+      .else
+        .assign te_enum.GeneratedName = ( ( te_dt.Owning_Dom_Name + "_" ) + ( te_dt.Name + "_" ) ) + ( "$r{te_enum.Name}" + "_e" )
+      .end if
+.//-- 002:20140331 Modified End (saitou)
       .assign value = "${s_enum.Descrip:value}"
       .if ( "" == value )
         .assign value = "${s_enum.Descrip:Value}"
@@ -2566,6 +2572,10 @@
   .select one r_rel related by right_te_lnk->ACT_LNK[R2042]->R_REL[R681]
   .assign te_lnk.rel_number = right_te_lnk.rel_number
   .select one te_class related by r_rel->R_ASSOC[R206]->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->TE_CLASS[R2019]
+.//-- 021:20130403 Add Start (nomura)
+  .select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
+  .select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210]
+.//-- 021:20130403 Add End (nomura)
   .// relate te_lnk to te_class across R2076;
   .assign te_lnk.te_classGeneratedName = te_class.GeneratedName
   .// end relate
@@ -2576,9 +2586,13 @@
   .assign te_lnk.Mult = te_oir.Mult
   .assign te_lnk.assoc_type = te_oir.assoc_type
   .// Reflexive associatives put the relationship phrase onto the AONE/AOTH data members.
-  .if ( "" != right_te_lnk.rel_phrase )
-    .assign te_lnk.linkage = ( te_lnk.linkage + "_" ) + "$_{right_te_lnk.rel_phrase}"
+.//-- 021:20130403 Modified Start (nomura)
+  .if (aone.Obj_ID == aoth.Obj_ID )
+    .if ( "" != right_te_lnk.rel_phrase )
+      .assign te_lnk.linkage = ( te_lnk.linkage + "_" ) + "$_{right_te_lnk.rel_phrase}"
+    .end if
   .end if
+.//-- 021:20130403 Modified End (nomura)
   .if ( not_empty left_te_lnk )
     .// relate left_te_lnk to te_lnk across R2075.'precedes';
     .assign left_te_lnk.next_ID = te_lnk.ID

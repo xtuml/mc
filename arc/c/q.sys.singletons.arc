@@ -461,7 +461,6 @@
   .create object instance te_function of TE_FUNCTION
   .create object instance te_return of TE_RETURN
 .end function
-
 .//-- 006: 20140128 Modified Start (saitou) 
 .function set_prefix_simbolsw
   .param string prefix

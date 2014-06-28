@@ -1,6 +1,6 @@
 .//============================================================================
 .//
-.function FXHO_has_auto_inc_id
+.function fx_has_auto_inc_id
 .param inst_ref o_obj
   .//
   .assign attr_result = false
@@ -25,22 +25,22 @@
 .end function
 .//
 .//============================================================================
-.// FXHO_generate_auto_inc_id_definition
+.// fx_generate_auto_inc_id_definition
 .//    AUTO_INC指定された識別子属性の値を管理する為のStaticな変数を定義する
 .//
-.function FXHO_generate_auto_inc_id_definition
+.function fx_generate_auto_inc_id_definition
   .param inst_ref o_obj
   .param boolean p_gen_decl
   .//
   .assign attr_result = false
-  .invoke is_auto = FXHO_has_auto_inc_id(o_obj)
+  .invoke is_auto = fx_has_auto_inc_id(o_obj)
   .if ( is_auto.result )
 /* This class has auto inclement unique_id */
 /* define mechanism for auto inc id */
     .assign attr_result = true
-    .invoke llimit_macro_name = FXHO_get_auto_inc_get_llimit_value_macro_name(o_obj)
-    .invoke hlimit_macro_name = FXHO_get_auto_inc_get_hlimit_value_macro_name(o_obj)
-    .invoke get_macro_name = FXHO_get_auto_inc_get_new_value_macro_name(o_obj)
+    .invoke llimit_macro_name = fx_get_auto_inc_get_llimit_value_macro_name(o_obj)
+    .invoke hlimit_macro_name = fx_get_auto_inc_get_hlimit_value_macro_name(o_obj)
+    .invoke get_macro_name = fx_get_auto_inc_get_new_value_macro_name(o_obj)
     .if ( p_gen_decl )
 /* auto incliemental id's Lower Limit */
 #define ${llimit_macro_name.result} ${is_auto.llimit}
@@ -55,7 +55,7 @@
       .end if
     .else
 /* auto incliemental value for unique_id */
-      .invoke var_name = FXHO_get_auto_inc_id_mgmt_variable_name(o_obj)
+      .invoke var_name = fx_get_auto_inc_id_mgmt_variable_name(o_obj)
 static int ${var_name.result} = \
       .if ( is_auto.direction == "UP" )
 ${llimit_macro_name.result} - 1\
@@ -70,12 +70,12 @@ ${hlimit_macro_name.result} + 1\
 .//
 .//============================================================================
 .//
-.function FXHO_generate_auto_inc_id_execution
+.function fx_generate_auto_inc_id_execution
   .param inst_ref o_obj
   .param string p_self_name
   .//
   .assign attr_result = false
-  .invoke is_auto = FXHO_has_auto_inc_id(o_obj)
+  .invoke is_auto = fx_has_auto_inc_id(o_obj)
   .if ( is_auto.result )
     .assign attr_result = true
     .assign attr = is_auto.ref
@@ -83,8 +83,8 @@ ${hlimit_macro_name.result} + 1\
     .//.invoke member_name = GetObjAttrDataMemberName( attr )
     .assign member_name = attr.GeneratedName
 .//-- 011: 20140221 Modified End (nomura) 
-    .invoke get_macro_name = FXHO_get_auto_inc_get_new_value_macro_name(o_obj)
-    .invoke var_name = FXHO_get_auto_inc_id_mgmt_variable_name(o_obj)
+    .invoke get_macro_name = fx_get_auto_inc_get_new_value_macro_name(o_obj)
+    .invoke var_name = fx_get_auto_inc_id_mgmt_variable_name(o_obj)
     /* FX Extention : AUTOINC Coloring */
     /* setup value of ${attr.Name} */
     ${p_self_name}->${member_name} = ${get_macro_name.result}(${var_name.result});

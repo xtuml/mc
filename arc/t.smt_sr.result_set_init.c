@@ -9,4 +9,6 @@
 .// property of Mentor Graphics Corp.  No part of this document may be
 .// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
-${ws}${te_set.module}${te_set.clear}( ${te_select_related.result_var} );
+.//-- 027:20140418 Modified Start (nomura)
+${ws}${te_set.module}${te_set.clear}( ${te_select_related.result_var}, &pG_${te_select_related.te_classGeneratedName}_extent );
+.//-- 027:20140418 Modified Start (nomura)

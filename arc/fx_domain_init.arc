@@ -85,18 +85,14 @@ ${init_segment}\
 /******************************************************************************
  * Domain Dispatcher for domain: ${te_c.Name}
  *****************************************************************************/
- /*
- extern void ${te_c.Name}_ShowEventInfo( const xtUMLEvent_t * evt );
+ extern void ${te_c.Name}_ShowEventInfo( const Escher_xtUMLEvent_t * evt );
  int ${te_c.Name}_ShowModelEvent = 0;
- */
  void ${te_c.Name}_DomainDispatcher( Escher_xtUMLEvent_t * event )
  {
-     /*
      if (${te_c.Name}_ShowModelEvent > 0)
      {
          ${te_c.Name}_ShowEventInfo(event);
      }
-     */
      ( *${te_c.Name}_EventDispatcher[ GetEventDestObjectNumber( event ) ] )( event );
  }
 
