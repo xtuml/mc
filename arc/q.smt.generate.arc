@@ -233,7 +233,6 @@
       .assign d = "\n${ws}${te_set.module}${te_set.init}( ${selection_result_variable}, &pG_${te_class.GeneratedName}_extent );"
       .invoke blk_declaration_append( te_blk, d )
 .//-- 031:20140514 Modified End (nomura)
-      
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
 .//-- 027:20140418 Modified Start (nomura)
       .//.assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"

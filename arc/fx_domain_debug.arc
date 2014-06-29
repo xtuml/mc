@@ -69,8 +69,8 @@ static const struct mc3020fx_class_element extentTable[] = {
     .assign numClasses = cardinality te_classs
     .assign i = 0
 .//-- 032:20140605 Modified Start (nomura)
-    .invoke sorted_te_classs = class_sort_by_keylet(te_classs)
-    .assign cur_te_class = sorted_te_classs.result
+    .invoke r = class_sort_by_keylet(te_classs)
+    .assign cur_te_class = r.result
     .while (not_empty cur_te_class) 
 { &pG_${te_c.Name}_${cur_te_class.Key_Lett}_extent, &g_${te_c.Name}_${cur_te_class.Key_Lett}_instanceMax, "${cur_te_class.Key_Lett}"}\
       .assign i = i + 1
