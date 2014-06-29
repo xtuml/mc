@@ -230,8 +230,11 @@
       .assign d = "\n${ws}${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0};\n${ws}${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;"
       .invoke blk_declaration_append( te_blk, d )
 .//-- 031:20140514 Modified Start (nomura)
-      .assign d = "\n${ws}${te_set.module}${te_set.init}( ${selection_result_variable}, &pG_${te_class.GeneratedName}_extent );"
-      .invoke blk_declaration_append( te_blk, d )
+      .select one te_class related by root_v_val->V_ISR[R801]->V_VAR[R809]->V_INS[R814]->O_OBJ[R819]->TE_CLASS[R2019]
+      .if ( not_empty te_class )
+        .assign d = "\n${ws}${te_set.module}${te_set.init}( ${selection_result_variable}, &pG_${te_class.GeneratedName}_extent );"
+        .invoke blk_declaration_append( te_blk, d )
+      .end if
 .//-- 031:20140514 Modified End (nomura)
       .// Push deallocation into the block so that it is available at gen time for break/continue/return.
 .//-- 027:20140418 Modified Start (nomura)

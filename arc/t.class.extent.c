@@ -186,12 +186,10 @@ ${te_relstore.data_fini}
     .invoke default_prefix = fx_get_default_arch_prefix_name()
 
     node = ${default_prefix.result}_SetRemoveNode(&(dci->${te_extent.active}), instance, &${classExtent.result});
-.//-- 030:20140430 Modified Start (nomura)
     if ( node ) {
       node->next = dci->${te_extent.inactive}.head;
       dci->${te_extent.inactive}.head = node;
     }
-.//-- 030:20140430 Modified End (nomura)
 
     .// If active instance, initialize initial state.
     .select one ism related by o_obj->SM_ISM[R518]
