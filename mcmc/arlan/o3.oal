@@ -466,7 +466,7 @@ T::print(s:"rolling up statements into action bodies");
 ::TE_ABA_rollup();
 T::print(s:"done translating statements");
 @@@
-smt_fors@void@@@
+     smt_fors@void@@@
 //====================================================================
 // $RCSfile: q.smt.generate.arc,v $
 //
@@ -700,10 +700,20 @@ if ( te_assign.isImplicit )
   elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
     // First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
     selection_result_variable = te_assign.lval;
-    d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;";
+    d = "\n${ws}${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0};\n${ws}${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;";
     ::blk_declaration_append( te_blk:te_blk, s:d );
+    //-- 031:20140514 Modified Start (nomura)
+    select one te_class related by root_v_val->V_ISR[R801]->V_VAR[R809]->V_INS[R814]->O_OBJ[R819]->TE_CLASS[R2019];
+    if ( not_empty te_class )
+      d = "\n${ws}${te_set.module}${te_set.init}( ${selection_result_variable}, &pG_${te_class.GeneratedName}_extent );";
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+    end if;
+    //-- 031:20140514 Modified End (nomura)
     // Push deallocation into the block so that it is available at gen time for break/continue/return.
-    d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );";
+    //-- 027:20140418 Modified Start (nomura)
+    //.assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );"
+    d = "${te_set.module}${te_set.clear}(${te_assign.lval}, &pG_${te_class.GeneratedName}_extent); ";
+    //-- 027:20140418 Modified End (nomura)
     ::blk_deallocation_append( te_blk:te_blk, s:d );
   elif ( ( 4 == r_te_dt.Core_Typ ) and ( te_sys.InstanceLoading ) )
     // CDS 128 is a bit arbitrary.  It is intended to be a reasonable
@@ -1252,10 +1262,17 @@ if ( not_empty te_class )
     if ( te_select.is_implicit )
       // First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
       selection_result_variable = te_select.var_name;
-      d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;";
+      d = "\n${ws}${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; \n${ws}${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;";
       ::blk_declaration_append( te_blk:te_blk, s:d );
+      //-- 031:20140514 Modified Start (nomura)
+      d = "\n${ws}${te_set.module}${te_set.init}( ${selection_result_variable}, &pG_${te_class.GeneratedName}_extent );";
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+      //-- 031:20140514 Modified End (nomura)
       // Push deallocation into the block so that it is available at gen time for break/continue/return.
-      d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select.var_name ) ) + " );";
+      //-- 027:20140418 Modified Start (nomura)
+      //.assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select.var_name ) ) + " );"
+      d = "${te_set.module}${te_set.clear}(${te_select.var_name}, &pG_${te_class.GeneratedName}_extent); ";
+      //-- 027:20140418 Modified end (nomura)
       ::blk_deallocation_append( te_blk:te_blk, s:d );
     end if;
   else
@@ -1361,10 +1378,17 @@ if ( not_empty te_class )
     if ( te_select_where.is_implicit )
       // First OAL usage of inst_ref_set<Object> handle set
       selection_result_variable = te_select_where.var_name;
-      d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;";
+      d = "\n${ws}${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0};  \n${ws}${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;";
       ::blk_declaration_append( te_blk:te_blk, s:d );
+      //-- 031:20140514 Modified Start (nomura)
+      d = "\n${ws}${te_set.init}( ${selection_result_variable}, &pG_${te_class.GeneratedName}_extent );";
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+      //-- 031:20140514 Modified End (nomura)
       // Push deallocation into the block so that it is available at gen time for break/continue/return.
-      d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select_where.var_name ) ) + " );";
+      //-- 027:20140418 Modified Start (nomura)
+      //.assign d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select_where.var_name ) ) + " );"
+      d = "${te_set.module}${te_set.clear}(${te_select_where.var_name}, &pG_${te_class.GeneratedName}_extent);";
+      //-- 027:20140418 Modified End (nomura)
       ::blk_deallocation_append( te_blk:te_blk, s:d );
     end if;
   else
@@ -1898,6 +1922,14 @@ if ( not_empty te_sync )
     parameters = te_parm.ParamBuffer;
     parameter_OAL = te_parm.OALParamBuffer;
   end if;
+  //-- 018:20140402 Add Start (saitou)
+  if ( te_sync.IsInitFunction != TRUE )
+    if ( T::r(s:parameters) != "" )
+      parameters = parameters + ",";
+    end if;
+    parameters = parameters + " 0 ";
+  end if;
+  //-- 018:20140402 Add End (saitou)
   function_name = te_sync.intraface_method;
   if ( "C++" == te_target.language )
     function_name = "thismodule->" + function_name;
@@ -2004,6 +2036,7 @@ if ( not_empty v_val )
   // act_ret->ACT_SMT[R603]->ACT_BLK[R602]->ACT_ACT[Rxxx]-> ...
   //     case1 for bridge    : ... ACT_BRB[R698]->S_BRG[R697]->S_DT[R20]
   //     case2 for Operation : ... ACT_OPB[R698]->O_TFR[R696]->S_DT[R116]
+  // ACT_BLK->ACT_ACT ‚ÌŠÖ˜A‚ª‚Ç‚ê‚ð‘I‚×‚Î‚¢‚¢‚Ì‚©‚í‚©‚ç‚È‚¢‚Ì‚ÅAActionID‚Å’T‚·‚æ‚¤‚É‚·‚é.
   select one act_blk related by act_ret->ACT_SMT[R603]->ACT_BLK[R602];
   if ( not_empty act_blk )
     select any act_act from instances of ACT_ACT where ( selected.Action_ID == act_blk.Action_ID );
@@ -2020,7 +2053,10 @@ if ( not_empty v_val )
   end if;
   if ( not_empty func_ret_te_dt )
     if ( func_ret_te_dt.IsExternalMacro )
-      value = te_val.OAL;
+      select one v_lst related by te_val->V_VAL[R2040]->V_LST[R801];
+      if ( not_empty v_lst )
+        value = te_val.OAL;
+      end if;
     end if;
   end if;
   //-- 002: 20140317 Add End (saitou) 
@@ -2287,9 +2323,15 @@ if ( not_empty start_te_class )
   // declaration
   if ( te_select_related.is_implicit )
     if ( "many" == te_select_related.multiplicity )
-      d = "${te_set.scope}${te_set.base_class} ${te_select_related.result_var}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select_related.result_var} = &${te_select_related.result_var}_space;";
+      d = "\n${ws}${te_set.scope}${te_set.base_class} ${te_select_related.result_var}_space={0};  \n${ws}${te_set.scope}${te_set.base_class} * ${te_select_related.result_var} = &${te_select_related.result_var}_space;";
       ::blk_declaration_append( te_blk:te_blk, s:d );
-      d = "${te_set.module}${te_set.clear}( ${te_select_related.result_var} ); ";
+      //-- 031:20140514 Modified Start (nomura)
+      d = "\n${ws}${te_set.init}( ${te_select_related.result_var}, &pG_${te_class.GeneratedName}_extent );";
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+      //-- 031:20140514 Modified End (nomura)
+      //-- 027:20140418 Modified Start (nomura)
+      d = "${te_set.module}${te_set.clear}( ${te_select_related.result_var}, &pG_${te_class.GeneratedName}_extent ); ";
+      //-- 027:20140418 Modified End (nomura)
       // Push deallocation into the block so that it is available at gen time for break/continue/return.
       ::blk_deallocation_append( te_blk:te_blk, s:d );
     else

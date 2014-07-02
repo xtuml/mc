@@ -96,6 +96,8 @@ fx_generate_code_for_object_attribute@boolean@@o_attr@inst_ref<Attribute>@@@
 //
 //----------------------------------------------------------------------------
 //
+// code生成するattributeかどうかを判定する。
+// これで良いか自信なし…
 o_attr = param.o_attr;
 result = true;
 select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021];
@@ -111,42 +113,38 @@ else
 end if;
 return result;
 @@@
-fx_get_auto_inc_get_llimit_value_macro_name@string@@te_attr@inst_ref<Extended Attribute>@@@
+fx_get_auto_inc_get_llimit_value_macro_name@string@@o_obj@inst_ref<Model Class>@@@
 //
 //----------------------------------------------------------------------------
 //
-te_attr = param.te_attr;
-select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
+o_obj = param.o_obj;
 r = ::GetDomainObjectNamespace( o_obj:o_obj );
 namespace = r;
 return namespace + "_AUTOINC_LOWER_LIMIT";
 @@@
-fx_get_auto_inc_get_hlimit_value_macro_name@string@@te_attr@inst_ref<Extended Attribute>@@@
+fx_get_auto_inc_get_hlimit_value_macro_name@string@@o_obj@inst_ref<Model Class>@@@
 //
 //----------------------------------------------------------------------------
 //
-te_attr = param.te_attr;
-select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
+o_obj = param.o_obj;
 r = ::GetDomainObjectNamespace( o_obj:o_obj );
 namespace = r;
 return namespace + "_AUTOINC_HIGHER_LIMIT";
 @@@
-fx_get_auto_inc_get_new_value_macro_name@string@@te_attr@inst_ref<Extended Attribute>@@@
+fx_get_auto_inc_get_new_value_macro_name@string@@o_obj@inst_ref<Model Class>@@@
 //
 //----------------------------------------------------------------------------
 //
-te_attr = param.te_attr;
-select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
+o_obj = param.o_obj;
 r = ::GetDomainObjectNamespace( o_obj:o_obj );
 namespace = r;
 return namespace + "_AUTOINC_GetNewValue";
 @@@
-fx_get_auto_inc_id_mgmt_variable_name@string@@te_attr@inst_ref<Extended Attribute>@@@
+fx_get_auto_inc_id_mgmt_variable_name@string@@o_obj@inst_ref<Model Class>@@@
 //
 //----------------------------------------------------------------------------
 //
-te_attr = param.te_attr;
-select one o_obj related by te_attr->TE_CLASS[R2061]->O_OBJ[R2019];
+o_obj = param.o_obj;
 r = ::GetDomainObjectNamespace( o_obj:o_obj );
 namespace = r;
 return namespace + "_AUTOINC_currentId";
@@ -176,6 +174,7 @@ fx_setup_subsystem_init@void@@@
 //----------------------------------------------------------------------------
 //
 select many objs from instances of O_OBJ;
+// フラグの初期化など
 //  .for each obj in objs
 //    .assign obj.IsExcludeFromGen = false
 //  .end for
@@ -183,8 +182,10 @@ select many objs from instances of O_OBJ;
 //    .for each ep_pkg in ep_pkgs
 //      .select many objs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001]
 //      .for each obj in objs
+//          .// フラグの初期化など
 //	  .assign obj.IsExcludeFromGen = false
 //
+//          .// Initialize Objectかどうかを判断し、フラグをセットする。
 //	  .if ( "${obj.Name}" == "${ep_pkg.Name} init" )
 //	    .assign obj.IsInitObject = true
 //	  .else
@@ -196,13 +197,16 @@ select many objs from instances of O_OBJ;
 SetDomainEventMaxNumber@void@@domainName@string@@maxInternalEventNo@integer@@maxExternalEventNo@integer@@@
 //
 //----------------------------------------------------------------------------
+// Initialize Objectのsetを取得する
 //.function fx_get_initialize_object_set
 //  .select many attr_obj_set from instances of O_OBJ where (selected.IsInitObject == true)
 //.end function
 //
 //
 //============================================================================
+// 以下はmarkファイルで指定されるfunction
 //----------------------------------------------------------------------------
+// 仮にここに実装。場所はあとで考える。
 domainName = param.domainName;
 maxInternalEventNo = param.maxInternalEventNo;
 maxExternalEventNo = param.maxExternalEventNo;
@@ -297,44 +301,55 @@ select one te_class related by o_obj->TE_CLASS[R2019];
 return te_class.GeneratedName;
 //
 @@@
-FXHO_get_auto_inc_get_llimit_value_macro_name@string@@o_obj@inst_ref<Model Class>@@@
+class_sort_by_keylet@inst_ref<Extended Class>@@te_classs@inst_ref_set<Extended Class>@@@
 //
-//============================================================================
-o_obj = param.o_obj;
-//
-r = ::GetDomainObjectNamespace( o_obj:o_obj );
-namespace = r;
-return namespace + "_AUTOINC_LOWER_LIMIT";
-//
+//-- 032:20140605 Add Start (nomura)
+//-----------------------------------------------------------------------------
+// TE_CLASSのsetをKeyLetterでソートし、先頭のTE_CLASSを返す。
+te_classs = param.te_classs;
+// Declare an empty instance reference.
+select any head_te_class related by te_classs->TE_CLASS[R2092.'precedes'] where ( false );
+for each te_class in te_classs
+  end for;
+for each te_class in te_classs
+  r = ::class_insert_by_keylet( head_te_class:head_te_class, te_class:te_class );
+  head_te_class = r;
+end for;
+return head_te_class;
 @@@
-FXHO_get_auto_inc_get_hlimit_value_macro_name@string@@o_obj@inst_ref<Model Class>@@@
-//
-//============================================================================
-// 
-o_obj = param.o_obj;
-//
-r = ::GetDomainObjectNamespace( o_obj:o_obj );
-namespace = r;
-return namespace + "_AUTOINC_HIGER_LIMIT";
-//
-@@@
-FXHO_get_auto_inc_get_new_value_macro_name@string@@o_obj@inst_ref<Model Class>@@@
-//
-//============================================================================
-o_obj = param.o_obj;
-//
-r = ::GetDomainObjectNamespace( o_obj:o_obj );
-namespace = r;
-return namespace + "_AUTOINC_GetNewValue";
-//
-@@@
-FXHO_get_auto_inc_id_mgmt_variable_name@string@@o_obj@inst_ref<Model Class>@@@
-//
-//============================================================================
-o_obj = param.o_obj;
-//
-r = ::GetDomainObjectNamespace( o_obj:o_obj );
-namespace = r;
-return namespace + "_AUTOINC_currentId";
-//
+class_insert_by_keylet@inst_ref<Extended Class>@@head_te_class@inst_ref<Extended Class>@@te_class@inst_ref<Extended Class>@@@
+head_te_class = param.head_te_class;
+te_class = param.te_class;
+result = te_class;
+//  .print "head_te_class:${head_te_class.Key_Lett} te_class:${te_class.Key_Lett}"
+if ( empty head_te_class )
+  // Just starting.  Return te_class as head.
+else
+  lkey = te_class.Key_Lett;
+  rkey = head_te_class.Key_Lett;
+  if ( lkey <= rkey )
+    // insert before
+    relate te_class to head_te_class across R2092.'precedes';
+  else
+    // find bigger
+    result = head_te_class;
+    prev_te_class = head_te_class;
+    select one cursor_te_class related by head_te_class->TE_CLASS[R2092.'precedes'];
+    while ( not_empty cursor_te_class )
+      rkey = cursor_te_class.Key_Lett;
+      //.assign rkey = "$t{cursor_te_class.Numb}" + cursor_te_class.GeneratedName
+      if ( lkey <= rkey )
+        break;
+      else
+        prev_te_class = cursor_te_class;
+        select one cursor_te_class related by cursor_te_class->TE_CLASS[R2092.'precedes'];
+      end if;
+    end while;
+    relate prev_te_class to te_class across R2092.'precedes';
+    if ( not_empty cursor_te_class )
+      relate te_class to cursor_te_class across R2092.'precedes';
+    end if;
+  end if;
+end if;
+return result;
 @@@

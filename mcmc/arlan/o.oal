@@ -52,12 +52,13 @@ while ( not_empty te_attr )
       end if;
       //-- 011: 20140217 Add Start (saitou) 
       select one o_obj related by te_class->O_OBJ[R2019];
-      r1 = ::FXHO_get_auto_inc_get_new_value_macro_name( o_obj:o_obj );
+      r1 = ::fx_get_auto_inc_get_new_value_macro_name( o_obj:o_obj );
       retMacroName = r1;
-      r1 = ::FXHO_get_auto_inc_id_mgmt_variable_name( o_obj:o_obj );
+      r1 = ::fx_get_auto_inc_id_mgmt_variable_name( o_obj:o_obj );
       retMngValName = r1;
       isAutoIncEnable = false;
       if ( te_attr.isAutoInc )
+        // AutoIncはqnique_id(=5)と数値(int=2/real=3)の時に行うようにする
         if ( ( ( 5 == te_dt.Core_Typ ) or ( 2 == te_dt.Core_Typ ) ) or ( 3 == te_dt.Core_Typ ) )
           isAutoIncEnable = true;
         end if;
@@ -323,8 +324,10 @@ return s;
 @@@
 GetAttributeDataType@inst_ref<Extended Data Type>@@o_attr@inst_ref<Attribute>@@@
 //
-
 //-- 002: 20140314 Add Start (saitou) 
+// 指定されたO_ATTRのデータタイプを返す。
+// 参照型だった場合は、参照先の型を返す。
+// GetAttributeCodeGenType() と似ているが、CoreType を返すわけではない点が異なる。
 o_attr = param.o_attr;
 //
 select one te_dt related by o_attr->S_DT[R114]->TE_DT[R2021];
@@ -924,7 +927,10 @@ for each r_rel in r_rels
     if ( link_needed )
       te_rel.LinkNeeded = true;
     end if;
-    if ( unlink_needed )
+    //-- 025:20140326 Modified Start (saitou)
+    // Linkがあるなら後片付け用のUnlinkも用意する
+    if ( ( unlink_needed ) or ( link_needed ) )
+      //-- 025:20140326 Modified End (saitou)
       te_rel.UnlinkNeeded = true;
     end if;
   end if;
@@ -2533,7 +2539,13 @@ for each s_edt in s_edts
     create object instance te_enum of TE_ENUM;
     relate s_enum to te_enum across R2027;
     te_enum.Name = s_enum.Name;
-    te_enum.GeneratedName = ( ( te_dt.Owning_Dom_Name + "_" ) + ( te_dt.Name + "_" ) ) + ( T::r(s:te_enum.Name) + "_e" );
+    //-- 002:20140331 Modified Start (saitou)
+    if ( te_dt.IsExternalMacro )
+      te_enum.GeneratedName = T::r(s:te_enum.Name);
+    else
+      te_enum.GeneratedName = ( ( te_dt.Owning_Dom_Name + "_" ) + ( te_dt.Name + "_" ) ) + ( T::r(s:te_enum.Name) + "_e" );
+    end if;
+    //-- 002:20140331 Modified End (saitou)
     value = T::parsekeyword(s:s_enum.Descrip,key:"value");
     if ( "" == value )
       value = T::parsekeyword(s:s_enum.Descrip,key:"Value");
@@ -3423,6 +3435,7 @@ for each te_c in te_cs
       //-- 011: 20140217 Add Start (saitou) 
       if ( T::parsekeyword(s:o_attr.Descrip,key:"AUTOINC") == "TRUE" )
         te_attr.isAutoInc = true;
+        // 文字列から数値に変換。。。
         numString = T::r(s:T::parsekeyword(s:o_attr.Descrip,key:"AUTOINC_DATASIZE"));
         if ( numString == "1" )
           te_attr.AutoIncDataSize = 1;
@@ -4170,6 +4183,10 @@ relate te_lnk to right_te_lnk across R2075.'precedes';
 select one r_rel related by right_te_lnk->ACT_LNK[R2042]->R_REL[R681];
 te_lnk.rel_number = right_te_lnk.rel_number;
 select one te_class related by r_rel->R_ASSOC[R206]->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]->TE_CLASS[R2019];
+//-- 021:20130403 Add Start (nomura)
+select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
+select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210];
+//-- 021:20130403 Add End (nomura)
 relate te_lnk to te_class across R2076;
 // Leave OAL blank, because real OAL is not showing this link.
 te_lnk.OAL = "";
@@ -4178,9 +4195,13 @@ te_lnk.linkage = te_oir.data_member;
 te_lnk.Mult = te_oir.Mult;
 te_lnk.assoc_type = te_oir.assoc_type;
 // Reflexive associatives put the relationship phrase onto the AONE/AOTH data members.
-if ( "" != right_te_lnk.rel_phrase )
-  te_lnk.linkage = ( te_lnk.linkage + "_" ) + T::underscore(s:right_te_lnk.rel_phrase);
+//-- 021:20130403 Modified Start (nomura)
+if ( aone.Obj_ID == aoth.Obj_ID )
+  if ( "" != right_te_lnk.rel_phrase )
+    te_lnk.linkage = ( te_lnk.linkage + "_" ) + T::underscore(s:right_te_lnk.rel_phrase);
+  end if;
 end if;
+//-- 021:20130403 Modified End (nomura)
 if ( not_empty left_te_lnk )
   relate left_te_lnk to te_lnk across R2075.'precedes';
   te_lnk.left = left_te_lnk.linkage;
@@ -4613,7 +4634,9 @@ if ( not_empty v_pars )
     stringbody = false;
     if ( 0 == te_par.By_Ref )
       select one te_dt related by v_val->S_DT[R820]->TE_DT[R2021];
-      if ( 4 == te_dt.Core_Typ )
+      //-- 002:20140404 Modified Start (saitou) 
+      if ( ( 4 == te_dt.Core_Typ ) and ( not te_dt.IsExternalMacro ) )
+        //-- 002:20140404 Modified End (saitou) 
         // Check the four types of returnable action bodies for string.
         select one v_trv related by v_val->V_TRV[R801];
         if ( not_empty v_trv )
@@ -4829,6 +4852,7 @@ te_file.interfaces = te_prefix.file + "sysc_interfaces";
 te_file.registers = te_prefix.file + "RegDefs";
 te_file.domain_color_path = ".";
 //-- 013:20140225 Modified Start (saitou) 
+// "_ch" -> ..myGenDir.. に変更
 te_file.domain_source_path = "../../myGenDir/3020_src";
 te_file.domain_include_path = "../../myGenDir/3020_inc";
 te_file.system_source_path = "../../myGenDir/skel";
@@ -5187,7 +5211,6 @@ create object instance te_function of TE_FUNCTION;
 create object instance te_return of TE_RETURN;
 @@@
 set_prefix_simbolsw@void@@prefix@string@@@
-
 //-- 006: 20140128 Modified Start (saitou) 
 prefix = param.prefix;
 //

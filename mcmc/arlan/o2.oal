@@ -132,6 +132,7 @@ for each v_lst in v_lsts
   if ( not_empty te_parm )
     select one te_dt related by te_parm->TE_DT[R2049];
     if ( te_dt.IsExternalMacro )
+      // ExternalMacroの場合はダブルクォーテーション不要
       T::print(s:"[ExtMcr] fix buf : [${te_val.buffer}] -> [${v_lst.Value}]");
       te_val.buffer = v_lst.Value;
     end if;
@@ -501,11 +502,13 @@ if ( "" == te_val.buffer )
     if ( ( l_te_dt.IsExternalMacro ) or ( r_te_dt.IsExternalMacro ) )
       // external macro
       lBuffer = l_te_val.buffer;
-      if ( not l_te_dt.IsExternalMacro )
+      select one l_v_lst related by l_te_val->V_VAL[R2040]->V_LST[R801];
+      if ( ( not l_te_dt.IsExternalMacro ) and ( not_empty l_v_lst ) )
         lBuffer = l_te_val.OAL;
       end if;
       rBuffer = r_te_val.buffer;
-      if ( not r_te_dt.IsExternalMacro )
+      select one r_v_lst related by r_te_val->V_VAL[R2040]->V_LST[R801];
+      if ( ( not r_te_dt.IsExternalMacro ) and ( not_empty r_v_lst ) )
         rBuffer = r_te_val.OAL;
       end if;
       //
