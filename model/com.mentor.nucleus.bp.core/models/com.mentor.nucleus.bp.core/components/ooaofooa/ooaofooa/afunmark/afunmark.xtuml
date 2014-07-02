@@ -5270,7 +5270,33 @@ INSERT INTO PE_PE
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("67f694b5-9484-41e5-ac51-28e271131843",
+	VALUES ("22fe2190-ceea-4d01-9ead-78b8cf2cf040",
+	"00000000-0000-0000-0000-000000000000",
+	'T_atoi',
+	'',
+	'//
+return 0;
+',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("27f57edd-e179-4871-86a0-4d83255ac418",
+	"22fe2190-ceea-4d01-9ead-78b8cf2cf040",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("22fe2190-ceea-4d01-9ead-78b8cf2cf040",
+	1,
+	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("de3a93b8-bcc5-48f7-9e35-c44c242f4f74",
 	"00000000-0000-0000-0000-000000000000",
 	'mark_all',
 	'',
@@ -5421,27 +5447,12 @@ if ( "1" == pass )
   elif ( "MarkComponentAsRealized" == f )
     // MarkComponentAsRealized("package_name","component_name","inc_file")
     ::MarkComponentAsRealized( package_name:p1, component_name:p2, inc_file:p3 );
-    //-- 010:20140212 Add Start (nomura)
-  elif ( "MarkDomainEventMaxNumber" == f )
-    // MarkDomainEventMaxNumber("component_name","internalEventNum","externalEventNum")
-    // not defined .invoke MarkDomainEventMaxNumber(p1,p2,p3)
-  elif ( "SetDomainRelationExtentMaxNumber" == f )
-    // SetDomainRelationExtentMaxNumber("component_name", "RelationExtentMaxNo")
-    r = ::T_atoi( s:p2 );
-    i2 = r;
-    ::SetDomainRelationExtentMaxNumber( domainName:p1, maxRelationExtents:i2 );
-  elif ( "SetDomainSelectionNodeMaxNumber" == f )
-    // SetDomainSelectionNodeMaxNumber("component_name", "SelectionNodeMaxNo")
-    r = ::T_atoi( s:p2 );
-    i2 = r;
-    ::SetDomainSelectionNodeMaxNumber( domainName:p1, maxSelectionNode:i2 );
-  elif ( "TagUseFacadeMaxDef" == f )
-    // TagUseFacadeMaxDef()
-    ::TagUseFacadeMaxDef(domainName:p1);
-  elif ( "SetDomainFacadeMutexLockUse" == f )
-    // SetDomainFacadeMutexLockUse("component_name")
-    ::SetDomainFacadeMutexLockUse( domainName:p1 );
-    //-- 010:20140212 Add Start (nomura)
+  elif ( "specify_user_defined_enum_type_as_external_macro" == f )
+    // specify_user_defined_enum_type_as_external_macro("dt_name","ext_name","initial_value","include_file")
+    ::specify_user_defined_enum_type_as_external_macro( dt_name:p1, ext_name:p2, initial_value:p3, include_file:p4 );
+  elif ( "specify_user_defined_type" == f )
+    // specify_user_defined_type("dt_name","ext_name","initial_value","include_file")
+    ::specify_user_defined_type( dt_name:p1, ext_name:p2, initial_value:p3, include_file:p4 );
   else
     // not in this pass
   end if;
@@ -5609,17 +5620,55 @@ else
     r = ::T_atoi( s:p3 );
     i3 = r;
     ::MarkPriorityEvent( component_name:p1, evt_label:p2, priority_value:i3 );
+  elif ( "SetDomainEventMaxNumber" == f )
+    // SetDomainEventMaxNumber("component_name","internalEventNum":integer,"externalEventNum":integer)
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    r = ::T_atoi( s:p3 );
+    i3 = r;
+    ::SetDomainEventMaxNumber( domainName:p1, maxInternalEventNo:i2, maxExternalEventNo:i3 );
+  elif ( "SetDomainRelationExtentMaxNumber" == f )
+    // SetDomainRelationExtentMaxNumber("domainName","maxRelationExtents":integer)
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    ::SetDomainRelationExtentMaxNumber( domainName:p1, maxRelationExtents:i2 );
+  elif ( "SetDomainSelectionNodeMaxNumber" == f )
+    // SetDomainSelectionNodeMaxNumber("domainName","maxSelectionNode":integer)
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    ::SetDomainSelectionNodeMaxNumber( domainName:p1, maxSelectionNode:i2 );
+  elif ( "TagUseFacadeMaxDef" == f )
+    // TagUseFacadeMaxDef("domainName")
+    ::TagUseFacadeMaxDef( domainName:p1 );
+  elif ( "SetDomainFacadeMutexLockUse" == f )
+    // SetDomainFacadeMutexLockUse("domainName")
+    ::SetDomainFacadeMutexLockUse( domainName:p1 );
+  elif ( "mark_ee_as_realized" == f )
+    // mark_ee_as_realized("component_name","ee_name","prefix","include_file")
+    ::mark_ee_as_realized( dom_name:p1, ee_name:p2, prefix:p3, include_file:p4 );
+  elif ( "mark_obj_as_fixed_inst_no_extend" == f )
+    // mark_obj_as_fixed_inst_no_extend("domainName","className","instanceMaxStr","includeFile")
+    ::mark_obj_as_fixed_inst_no_extend( domainName:p1, className:p2, instanceMaxStr:p3, includeFile:p4 );
+  elif ( "port_realize_EE" == f )
+    // port_realize_EE("dom_name","port_name","ee_name")
+    ::port_realize_EE( dom_name:p1, port_name:p2, ee_name:p3 );
+  elif ( "set_prefix_simbolsw" == f )
+    // set_prefix_simbolsw("prefix")
+    ::set_prefix_simbolsw( prefix:p1 );
+  elif ( "TagBridgeCallNotGenerate" == f )
+    // TagBridgeCallNotGenerate("dom_name","ee_name")
+    ::TagBridgeCallNotGenerate( dom_name:p1, ee_name:p2 );
   else
     // not in this pass
   end if;
 end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
+	3,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ba392a6d-29b3-43f4-8135-3647f4ca0794",
-	"67f694b5-9484-41e5-ac51-28e271131843",
+	VALUES ("40577762-43f3-486c-99e6-1088e65cb341",
+	"de3a93b8-bcc5-48f7-9e35-c44c242f4f74",
 	'pass',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -5627,87 +5676,61 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("3d2e5072-f076-4b5a-aa8e-9a62d035c6bf",
-	"67f694b5-9484-41e5-ac51-28e271131843",
+	VALUES ("e6383541-4f64-4b6f-a1f5-10adf3d3b7dd",
+	"de3a93b8-bcc5-48f7-9e35-c44c242f4f74",
 	'f',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"ba392a6d-29b3-43f4-8135-3647f4ca0794",
+	"40577762-43f3-486c-99e6-1088e65cb341",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("f127f150-1391-4574-be00-95f7d78da6bb",
-	"67f694b5-9484-41e5-ac51-28e271131843",
+	VALUES ("878a7a8d-c29c-49a4-affc-41beb86f266c",
+	"de3a93b8-bcc5-48f7-9e35-c44c242f4f74",
 	'p1',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"3d2e5072-f076-4b5a-aa8e-9a62d035c6bf",
+	"e6383541-4f64-4b6f-a1f5-10adf3d3b7dd",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("808ee9ce-01f2-46d8-8d58-1f86483d393a",
-	"67f694b5-9484-41e5-ac51-28e271131843",
+	VALUES ("2e2be2a3-3666-418a-999f-e73c71c1d2e7",
+	"de3a93b8-bcc5-48f7-9e35-c44c242f4f74",
 	'p2',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"f127f150-1391-4574-be00-95f7d78da6bb",
+	"878a7a8d-c29c-49a4-affc-41beb86f266c",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("85070926-b181-432f-92bf-a6e96290335d",
-	"67f694b5-9484-41e5-ac51-28e271131843",
+	VALUES ("e731cf74-bcb9-47d8-97ca-1bfc7220cb0a",
+	"de3a93b8-bcc5-48f7-9e35-c44c242f4f74",
 	'p3',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"808ee9ce-01f2-46d8-8d58-1f86483d393a",
+	"2e2be2a3-3666-418a-999f-e73c71c1d2e7",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5de03653-d434-4830-9dbc-2018fd619066",
-	"67f694b5-9484-41e5-ac51-28e271131843",
+	VALUES ("02bc7406-8641-4404-b7fe-e213e3855fcd",
+	"de3a93b8-bcc5-48f7-9e35-c44c242f4f74",
 	'p4',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"85070926-b181-432f-92bf-a6e96290335d",
+	"e731cf74-bcb9-47d8-97ca-1bfc7220cb0a",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("71042c06-8b5b-4ebd-a610-a64766a1b5d6",
-	"67f694b5-9484-41e5-ac51-28e271131843",
+	VALUES ("ef3d1062-1000-4439-b71b-ab1b180ade17",
+	"de3a93b8-bcc5-48f7-9e35-c44c242f4f74",
 	'p5',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"5de03653-d434-4830-9dbc-2018fd619066",
+	"02bc7406-8641-4404-b7fe-e213e3855fcd",
 	'');
 INSERT INTO PE_PE
-	VALUES ("67f694b5-9484-41e5-ac51-28e271131843",
-	1,
-	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
-	"00000000-0000-0000-0000-000000000000",
-	1);
-INSERT INTO S_SYNC
-	VALUES ("22fe2190-ceea-4d01-9ead-78b8cf2cf040",
-	"00000000-0000-0000-0000-000000000000",
-	'T_atoi',
-	'',
-	'//
-return 0;
-',
-	"ba5eda7a-def5-0000-0000-000000000002",
-	1,
-	'');
-INSERT INTO S_SPARM
-	VALUES ("27f57edd-e179-4871-86a0-4d83255ac418",
-	"22fe2190-ceea-4d01-9ead-78b8cf2cf040",
-	's',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO PE_PE
-	VALUES ("22fe2190-ceea-4d01-9ead-78b8cf2cf040",
+	VALUES ("de3a93b8-bcc5-48f7-9e35-c44c242f4f74",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
