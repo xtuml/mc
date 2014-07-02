@@ -40,14 +40,14 @@ ooaofooa_S_DT_instanceloader( Escher_iHandle_t instance, const c_t * avlstring[]
 void ooaofooa_S_DT_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_S_DT * ooaofooa_S_DT_instance = (ooaofooa_S_DT *) instance;
-  ooaofooa_PE_PE * ooaofooa_PE_PErelated_instance1 = (ooaofooa_PE_PE *) Escher_instance_cache[ (intptr_t) ooaofooa_S_DT_instance->DT_ID ];
-  if ( ooaofooa_PE_PErelated_instance1 ) {
-    ooaofooa_S_DT_R8001_Link( ooaofooa_PE_PErelated_instance1, ooaofooa_S_DT_instance );
-  }
-  {
   ooaofooa_S_DOM * ooaofooa_S_DOMrelated_instance1 = (ooaofooa_S_DOM *) Escher_instance_cache[ (intptr_t) ooaofooa_S_DT_instance->Dom_ID ];
   if ( ooaofooa_S_DOMrelated_instance1 ) {
     ooaofooa_S_DT_R14_Link_contains_defined( ooaofooa_S_DOMrelated_instance1, ooaofooa_S_DT_instance );
+  }
+  {
+  ooaofooa_PE_PE * ooaofooa_PE_PErelated_instance1 = (ooaofooa_PE_PE *) Escher_instance_cache[ (intptr_t) ooaofooa_S_DT_instance->DT_ID ];
+  if ( ooaofooa_PE_PErelated_instance1 ) {
+    ooaofooa_S_DT_R8001_Link( ooaofooa_PE_PErelated_instance1, ooaofooa_S_DT_instance );
   }
   }
 }

@@ -44,15 +44,9 @@ ooaofooa_COMM_COMM_instanceloader( Escher_iHandle_t instance, const c_t * avlstr
 void ooaofooa_COMM_COMM_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_COMM_COMM * ooaofooa_COMM_COMM_instance = (ooaofooa_COMM_COMM *) instance;
-  ooaofooa_EP_SPKG * ooaofooa_EP_SPKGrelated_instance1 = (ooaofooa_EP_SPKG *) Escher_instance_cache[ (intptr_t) ooaofooa_COMM_COMM_instance->Package_ID ];
-  if ( ooaofooa_EP_SPKGrelated_instance1 ) {
-    ooaofooa_COMM_COMM_R1402_Link( ooaofooa_EP_SPKGrelated_instance1, ooaofooa_COMM_COMM_instance );
-  }
-  {
   ooaofooa_S_SYS * ooaofooa_S_SYSrelated_instance1 = (ooaofooa_S_SYS *) Escher_instance_cache[ (intptr_t) ooaofooa_COMM_COMM_instance->Sys_ID ];
   if ( ooaofooa_S_SYSrelated_instance1 ) {
     ooaofooa_COMM_COMM_R1136_Link_is_displayed_in( ooaofooa_S_SYSrelated_instance1, ooaofooa_COMM_COMM_instance );
-  }
   }
   {
   ooaofooa_S_SS * ooaofooa_S_SSrelated_instance1 = (ooaofooa_S_SS *) Escher_instance_cache[ (intptr_t) ooaofooa_COMM_COMM_instance->SS_ID ];
@@ -64,6 +58,12 @@ void ooaofooa_COMM_COMM_batch_relate( Escher_iHandle_t instance )
   ooaofooa_S_DOM * ooaofooa_S_DOMrelated_instance1 = (ooaofooa_S_DOM *) Escher_instance_cache[ (intptr_t) ooaofooa_COMM_COMM_instance->Dom_ID ];
   if ( ooaofooa_S_DOMrelated_instance1 ) {
     ooaofooa_COMM_COMM_R1132_Link_can_display( ooaofooa_S_DOMrelated_instance1, ooaofooa_COMM_COMM_instance );
+  }
+  }
+  {
+  ooaofooa_EP_SPKG * ooaofooa_EP_SPKGrelated_instance1 = (ooaofooa_EP_SPKG *) Escher_instance_cache[ (intptr_t) ooaofooa_COMM_COMM_instance->Package_ID ];
+  if ( ooaofooa_EP_SPKGrelated_instance1 ) {
+    ooaofooa_COMM_COMM_R1402_Link( ooaofooa_EP_SPKGrelated_instance1, ooaofooa_COMM_COMM_instance );
   }
   }
   {

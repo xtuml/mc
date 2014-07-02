@@ -26,9 +26,9 @@
  * PersistLinkCacheDepth:  128
  *
  * Component Name:  ooaofooa
- * MaxObjExtent:  4780
+ * MaxObjExtent:  4810
  * MaxRelExtent:  4340
- * MaxSelectExtent:  920
+ * MaxSelectExtent:  900
  * MaxSelfEvents:  0
  * MaxNonSelfEvents:  0
  * MaxPriorityEvents:  0

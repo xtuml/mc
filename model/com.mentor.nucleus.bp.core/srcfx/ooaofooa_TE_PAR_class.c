@@ -38,14 +38,14 @@ ooaofooa_TE_PAR_instanceloader( Escher_iHandle_t instance, const c_t * avlstring
 void ooaofooa_TE_PAR_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_TE_PAR * ooaofooa_TE_PAR_instance = (ooaofooa_TE_PAR *) instance;
-  ooaofooa_V_PAR * ooaofooa_V_PARrelated_instance1 = ooaofooa_V_PAR_AnyWhere1( ooaofooa_TE_PAR_instance->Value_ID );
-  if ( ooaofooa_V_PARrelated_instance1 ) {
-    ooaofooa_TE_PAR_R2063_Link( ooaofooa_V_PARrelated_instance1, ooaofooa_TE_PAR_instance );
-  }
-  {
   ooaofooa_TE_PARM * ooaofooa_TE_PARMrelated_instance1 = (ooaofooa_TE_PARM *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_PAR_instance->te_parmID ];
   if ( ooaofooa_TE_PARMrelated_instance1 ) {
     ooaofooa_TE_PAR_R2091_Link( ooaofooa_TE_PARMrelated_instance1, ooaofooa_TE_PAR_instance );
+  }
+  {
+  ooaofooa_V_PAR * ooaofooa_V_PARrelated_instance1 = ooaofooa_V_PAR_AnyWhere1( ooaofooa_TE_PAR_instance->Value_ID );
+  if ( ooaofooa_V_PARrelated_instance1 ) {
+    ooaofooa_TE_PAR_R2063_Link( ooaofooa_V_PARrelated_instance1, ooaofooa_TE_PAR_instance );
   }
   }
 }

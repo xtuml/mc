@@ -36,20 +36,20 @@ ooaofooa_V_MVL_instanceloader( Escher_iHandle_t instance, const c_t * avlstring[
 void ooaofooa_V_MVL_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_V_MVL * ooaofooa_V_MVL_instance = (ooaofooa_V_MVL *) instance;
+  ooaofooa_S_MBR * ooaofooa_S_MBRrelated_instance1 = ooaofooa_S_MBR_AnyWhere1( ooaofooa_V_MVL_instance->Member_ID, ooaofooa_V_MVL_instance->DT_DT_ID );
+  if ( ooaofooa_S_MBRrelated_instance1 ) {
+    ooaofooa_V_MVL_R836_Link( ooaofooa_S_MBRrelated_instance1, ooaofooa_V_MVL_instance );
+  }
+  {
   ooaofooa_V_VAL * ooaofooa_V_VALrelated_instance1 = (ooaofooa_V_VAL *) Escher_instance_cache[ (intptr_t) ooaofooa_V_MVL_instance->Value_ID ];
   if ( ooaofooa_V_VALrelated_instance1 ) {
     ooaofooa_V_MVL_R801_Link( ooaofooa_V_VALrelated_instance1, ooaofooa_V_MVL_instance );
+  }
   }
   {
   ooaofooa_V_VAL * ooaofooa_V_VALrelated_instance1 = (ooaofooa_V_VAL *) Escher_instance_cache[ (intptr_t) ooaofooa_V_MVL_instance->Root_Value_ID ];
   if ( ooaofooa_V_VALrelated_instance1 ) {
     ooaofooa_V_MVL_R837_Link_is_root_for( ooaofooa_V_VALrelated_instance1, ooaofooa_V_MVL_instance );
-  }
-  }
-  {
-  ooaofooa_S_MBR * ooaofooa_S_MBRrelated_instance1 = ooaofooa_S_MBR_AnyWhere1( ooaofooa_V_MVL_instance->Member_ID, ooaofooa_V_MVL_instance->DT_DT_ID );
-  if ( ooaofooa_S_MBRrelated_instance1 ) {
-    ooaofooa_V_MVL_R836_Link( ooaofooa_S_MBRrelated_instance1, ooaofooa_V_MVL_instance );
   }
   }
 }

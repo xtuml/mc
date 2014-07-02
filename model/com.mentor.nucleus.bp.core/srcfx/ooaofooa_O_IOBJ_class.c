@@ -38,14 +38,14 @@ ooaofooa_O_IOBJ_instanceloader( Escher_iHandle_t instance, const c_t * avlstring
 void ooaofooa_O_IOBJ_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_O_IOBJ * ooaofooa_O_IOBJ_instance = (ooaofooa_O_IOBJ *) instance;
-  ooaofooa_O_OBJ * ooaofooa_O_OBJrelated_instance1 = ooaofooa_O_OBJ_AnyWhere1( ooaofooa_O_IOBJ_instance->Obj_ID );
-  if ( ooaofooa_O_OBJrelated_instance1 ) {
-    ooaofooa_O_IOBJ_R101_Link_has_presence_in_other_subsystems( ooaofooa_O_OBJrelated_instance1, ooaofooa_O_IOBJ_instance );
-  }
-  {
   ooaofooa_S_SS * ooaofooa_S_SSrelated_instance1 = (ooaofooa_S_SS *) Escher_instance_cache[ (intptr_t) ooaofooa_O_IOBJ_instance->SS_ID ];
   if ( ooaofooa_S_SSrelated_instance1 ) {
     ooaofooa_O_IOBJ_R3_Link_can_contain_classs_from_other_subsystems_via( ooaofooa_S_SSrelated_instance1, ooaofooa_O_IOBJ_instance );
+  }
+  {
+  ooaofooa_O_OBJ * ooaofooa_O_OBJrelated_instance1 = ooaofooa_O_OBJ_AnyWhere1( ooaofooa_O_IOBJ_instance->Obj_ID );
+  if ( ooaofooa_O_OBJrelated_instance1 ) {
+    ooaofooa_O_IOBJ_R101_Link_has_presence_in_other_subsystems( ooaofooa_O_OBJrelated_instance1, ooaofooa_O_IOBJ_instance );
   }
   }
   {

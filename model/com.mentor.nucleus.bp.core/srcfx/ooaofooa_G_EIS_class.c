@@ -34,10 +34,10 @@ ooaofooa_G_EIS_instanceloader( Escher_iHandle_t instance, const c_t * avlstring[
 void ooaofooa_G_EIS_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_G_EIS * ooaofooa_G_EIS_instance = (ooaofooa_G_EIS *) instance;
-  ooaofooa_PE_PE * ooaofooa_PE_PErelated_instance1 = (ooaofooa_PE_PE *) Escher_instance_cache[ (intptr_t) ooaofooa_G_EIS_instance->Element_ID ];
-  ooaofooa_S_SYS * ooaofooa_S_SYSrelated_instance2 = (ooaofooa_S_SYS *) Escher_instance_cache[ (intptr_t) ooaofooa_G_EIS_instance->Sys_ID ];
-  if ( ooaofooa_PE_PErelated_instance1 && ooaofooa_S_SYSrelated_instance2 ) {
-    ooaofooa_G_EIS_R9100_Link( ooaofooa_PE_PErelated_instance1, ooaofooa_S_SYSrelated_instance2, ooaofooa_G_EIS_instance );
+  ooaofooa_S_SYS * ooaofooa_S_SYSrelated_instance1 = (ooaofooa_S_SYS *) Escher_instance_cache[ (intptr_t) ooaofooa_G_EIS_instance->Sys_ID ];
+  ooaofooa_PE_PE * ooaofooa_PE_PErelated_instance2 = (ooaofooa_PE_PE *) Escher_instance_cache[ (intptr_t) ooaofooa_G_EIS_instance->Element_ID ];
+  if ( ooaofooa_S_SYSrelated_instance1 && ooaofooa_PE_PErelated_instance2 ) {
+    ooaofooa_G_EIS_R9100_Link( ooaofooa_PE_PErelated_instance2, ooaofooa_S_SYSrelated_instance1, ooaofooa_G_EIS_instance );
   }
 }
 

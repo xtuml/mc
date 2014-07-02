@@ -51,45 +51,9 @@ ooaofooa_S_DIM_instanceloader( Escher_iHandle_t instance, const c_t * avlstring[
 void ooaofooa_S_DIM_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_S_DIM * ooaofooa_S_DIM_instance = (ooaofooa_S_DIM *) instance;
-  ooaofooa_V_VAR * ooaofooa_V_VARrelated_instance1 = (ooaofooa_V_VAR *) Escher_instance_cache[ (intptr_t) ooaofooa_S_DIM_instance->Var_ID ];
-  if ( ooaofooa_V_VARrelated_instance1 ) {
-    ooaofooa_S_DIM_R849_Link_may_have( ooaofooa_V_VARrelated_instance1, ooaofooa_S_DIM_instance );
-  }
-  {
-  ooaofooa_V_TRN * ooaofooa_V_TRNrelated_instance1 = ooaofooa_V_TRN_AnyWhere1( ooaofooa_S_DIM_instance->Var_ID );
-  if ( ooaofooa_V_TRNrelated_instance1 ) {
-    ooaofooa_S_DIM_R844_Link_may_have( ooaofooa_V_TRNrelated_instance1, ooaofooa_S_DIM_instance );
-  }
-  }
-  {
-  ooaofooa_O_TFR * ooaofooa_O_TFRrelated_instance1 = (ooaofooa_O_TFR *) Escher_instance_cache[ (intptr_t) ooaofooa_S_DIM_instance->Tfr_ID ];
-  if ( ooaofooa_O_TFRrelated_instance1 ) {
-    ooaofooa_S_DIM_R122_Link_return_value_may_have( ooaofooa_O_TFRrelated_instance1, ooaofooa_S_DIM_instance );
-  }
-  }
-  {
-  ooaofooa_O_TPARM * ooaofooa_O_TPARMrelated_instance1 = (ooaofooa_O_TPARM *) Escher_instance_cache[ (intptr_t) ooaofooa_S_DIM_instance->TParm_ID ];
-  if ( ooaofooa_O_TPARMrelated_instance1 ) {
-    ooaofooa_S_DIM_R121_Link_may_have( ooaofooa_O_TPARMrelated_instance1, ooaofooa_S_DIM_instance );
-  }
-  }
-  {
-  ooaofooa_O_ATTR * ooaofooa_O_ATTRrelated_instance1 = ooaofooa_O_ATTR_AnyWhere1( ooaofooa_S_DIM_instance->Attr_ID, ooaofooa_S_DIM_instance->Obj_ID );
-  if ( ooaofooa_O_ATTRrelated_instance1 ) {
-    ooaofooa_S_DIM_R120_Link_may_have( ooaofooa_O_ATTRrelated_instance1, ooaofooa_S_DIM_instance );
-  }
-  }
-  {
-  ooaofooa_SM_EVTDI * ooaofooa_SM_EVTDIrelated_instance1 = ooaofooa_SM_EVTDI_AnyWhere1( ooaofooa_S_DIM_instance->SMedi_ID, ooaofooa_S_DIM_instance->SM_ID );
-  if ( ooaofooa_SM_EVTDIrelated_instance1 ) {
-    ooaofooa_S_DIM_R531_Link_may_have( ooaofooa_SM_EVTDIrelated_instance1, ooaofooa_S_DIM_instance );
-  }
-  }
-  {
   ooaofooa_S_MBR * ooaofooa_S_MBRrelated_instance1 = ooaofooa_S_MBR_AnyWhere1( ooaofooa_S_DIM_instance->Member_ID, ooaofooa_S_DIM_instance->DT_ID );
   if ( ooaofooa_S_MBRrelated_instance1 ) {
     ooaofooa_S_DIM_R53_Link_may_have( ooaofooa_S_MBRrelated_instance1, ooaofooa_S_DIM_instance );
-  }
   }
   {
   ooaofooa_S_SYNC * ooaofooa_S_SYNCrelated_instance1 = ooaofooa_S_SYNC_AnyWhere1( ooaofooa_S_DIM_instance->Sync_ID );
@@ -113,6 +77,42 @@ void ooaofooa_S_DIM_batch_relate( Escher_iHandle_t instance )
   ooaofooa_C_IO * ooaofooa_C_IOrelated_instance1 = ooaofooa_C_IO_AnyWhere1( ooaofooa_S_DIM_instance->Id );
   if ( ooaofooa_C_IOrelated_instance1 ) {
     ooaofooa_S_DIM_R4018_Link_return_value_may_have( ooaofooa_C_IOrelated_instance1, ooaofooa_S_DIM_instance );
+  }
+  }
+  {
+  ooaofooa_SM_EVTDI * ooaofooa_SM_EVTDIrelated_instance1 = ooaofooa_SM_EVTDI_AnyWhere1( ooaofooa_S_DIM_instance->SMedi_ID, ooaofooa_S_DIM_instance->SM_ID );
+  if ( ooaofooa_SM_EVTDIrelated_instance1 ) {
+    ooaofooa_S_DIM_R531_Link_may_have( ooaofooa_SM_EVTDIrelated_instance1, ooaofooa_S_DIM_instance );
+  }
+  }
+  {
+  ooaofooa_O_ATTR * ooaofooa_O_ATTRrelated_instance1 = ooaofooa_O_ATTR_AnyWhere1( ooaofooa_S_DIM_instance->Attr_ID, ooaofooa_S_DIM_instance->Obj_ID );
+  if ( ooaofooa_O_ATTRrelated_instance1 ) {
+    ooaofooa_S_DIM_R120_Link_may_have( ooaofooa_O_ATTRrelated_instance1, ooaofooa_S_DIM_instance );
+  }
+  }
+  {
+  ooaofooa_O_TPARM * ooaofooa_O_TPARMrelated_instance1 = (ooaofooa_O_TPARM *) Escher_instance_cache[ (intptr_t) ooaofooa_S_DIM_instance->TParm_ID ];
+  if ( ooaofooa_O_TPARMrelated_instance1 ) {
+    ooaofooa_S_DIM_R121_Link_may_have( ooaofooa_O_TPARMrelated_instance1, ooaofooa_S_DIM_instance );
+  }
+  }
+  {
+  ooaofooa_O_TFR * ooaofooa_O_TFRrelated_instance1 = (ooaofooa_O_TFR *) Escher_instance_cache[ (intptr_t) ooaofooa_S_DIM_instance->Tfr_ID ];
+  if ( ooaofooa_O_TFRrelated_instance1 ) {
+    ooaofooa_S_DIM_R122_Link_return_value_may_have( ooaofooa_O_TFRrelated_instance1, ooaofooa_S_DIM_instance );
+  }
+  }
+  {
+  ooaofooa_V_TRN * ooaofooa_V_TRNrelated_instance1 = ooaofooa_V_TRN_AnyWhere1( ooaofooa_S_DIM_instance->Var_ID );
+  if ( ooaofooa_V_TRNrelated_instance1 ) {
+    ooaofooa_S_DIM_R844_Link_may_have( ooaofooa_V_TRNrelated_instance1, ooaofooa_S_DIM_instance );
+  }
+  }
+  {
+  ooaofooa_V_VAR * ooaofooa_V_VARrelated_instance1 = (ooaofooa_V_VAR *) Escher_instance_cache[ (intptr_t) ooaofooa_S_DIM_instance->Var_ID ];
+  if ( ooaofooa_V_VARrelated_instance1 ) {
+    ooaofooa_S_DIM_R849_Link_may_have( ooaofooa_V_VARrelated_instance1, ooaofooa_S_DIM_instance );
   }
   }
   {

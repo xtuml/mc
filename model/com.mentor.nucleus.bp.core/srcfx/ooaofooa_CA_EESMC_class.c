@@ -36,14 +36,14 @@ ooaofooa_CA_EESMC_instanceloader( Escher_iHandle_t instance, const c_t * avlstri
 void ooaofooa_CA_EESMC_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_CA_EESMC * ooaofooa_CA_EESMC_instance = (ooaofooa_CA_EESMC *) instance;
-  ooaofooa_SM_SM * ooaofooa_SM_SMrelated_instance1 = (ooaofooa_SM_SM *) Escher_instance_cache[ (intptr_t) ooaofooa_CA_EESMC_instance->SM_ID ];
-  if ( ooaofooa_SM_SMrelated_instance1 ) {
-    ooaofooa_CA_EESMC_R403_Link_has_received_event_communication_represented_by( ooaofooa_SM_SMrelated_instance1, ooaofooa_CA_EESMC_instance );
-  }
-  {
   ooaofooa_S_EEM * ooaofooa_S_EEMrelated_instance1 = ooaofooa_S_EEM_AnyWhere1( ooaofooa_CA_EESMC_instance->EEmod_ID, ooaofooa_CA_EESMC_instance->EE_ID );
   if ( ooaofooa_S_EEMrelated_instance1 ) {
     ooaofooa_CA_EESMC_R402_Link_originates( ooaofooa_S_EEMrelated_instance1, ooaofooa_CA_EESMC_instance );
+  }
+  {
+  ooaofooa_SM_SM * ooaofooa_SM_SMrelated_instance1 = (ooaofooa_SM_SM *) Escher_instance_cache[ (intptr_t) ooaofooa_CA_EESMC_instance->SM_ID ];
+  if ( ooaofooa_SM_SMrelated_instance1 ) {
+    ooaofooa_CA_EESMC_R403_Link_has_received_event_communication_represented_by( ooaofooa_SM_SMrelated_instance1, ooaofooa_CA_EESMC_instance );
   }
   }
   {

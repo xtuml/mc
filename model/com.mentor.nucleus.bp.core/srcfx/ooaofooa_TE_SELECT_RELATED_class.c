@@ -49,14 +49,14 @@ ooaofooa_TE_SELECT_RELATED_instanceloader( Escher_iHandle_t instance, const c_t 
 void ooaofooa_TE_SELECT_RELATED_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_TE_SELECT_RELATED * ooaofooa_TE_SELECT_RELATED_instance = (ooaofooa_TE_SELECT_RELATED *) instance;
-  ooaofooa_TE_SMT * ooaofooa_TE_SMTrelated_instance1 = ooaofooa_TE_SMT_AnyWhere1( ooaofooa_TE_SELECT_RELATED_instance->Statement_ID );
-  if ( ooaofooa_TE_SMTrelated_instance1 ) {
-    ooaofooa_TE_SELECT_RELATED_R2069_Link( ooaofooa_TE_SMTrelated_instance1, ooaofooa_TE_SELECT_RELATED_instance );
+  ooaofooa_TE_CLASS * ooaofooa_TE_CLASSrelated_instance1 = (ooaofooa_TE_CLASS *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_SELECT_RELATED_instance->te_classGeneratedName ];
+  if ( ooaofooa_TE_CLASSrelated_instance1 ) {
+    ooaofooa_TE_SELECT_RELATED_R2077_Link( ooaofooa_TE_CLASSrelated_instance1, ooaofooa_TE_SELECT_RELATED_instance );
   }
   {
-  ooaofooa_TE_VAL * ooaofooa_TE_VALrelated_instance1 = ooaofooa_TE_VAL_AnyWhere1( ooaofooa_TE_SELECT_RELATED_instance->starting_Value_ID );
-  if ( ooaofooa_TE_VALrelated_instance1 ) {
-    ooaofooa_TE_SELECT_RELATED_R2070_Link_starts( ooaofooa_TE_VALrelated_instance1, ooaofooa_TE_SELECT_RELATED_instance );
+  ooaofooa_TE_VAR * ooaofooa_TE_VARrelated_instance1 = ooaofooa_TE_VAR_AnyWhere1( ooaofooa_TE_SELECT_RELATED_instance->result_Var_ID );
+  if ( ooaofooa_TE_VARrelated_instance1 ) {
+    ooaofooa_TE_SELECT_RELATED_R2093_Link_gets_result_of( ooaofooa_TE_VARrelated_instance1, ooaofooa_TE_SELECT_RELATED_instance );
   }
   }
   {
@@ -66,15 +66,9 @@ void ooaofooa_TE_SELECT_RELATED_batch_relate( Escher_iHandle_t instance )
   }
   }
   {
-  ooaofooa_TE_VAR * ooaofooa_TE_VARrelated_instance1 = ooaofooa_TE_VAR_AnyWhere1( ooaofooa_TE_SELECT_RELATED_instance->result_Var_ID );
-  if ( ooaofooa_TE_VARrelated_instance1 ) {
-    ooaofooa_TE_SELECT_RELATED_R2093_Link_gets_result_of( ooaofooa_TE_VARrelated_instance1, ooaofooa_TE_SELECT_RELATED_instance );
-  }
-  }
-  {
-  ooaofooa_TE_LNK * ooaofooa_TE_LNKrelated_instance1 = (ooaofooa_TE_LNK *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_SELECT_RELATED_instance->link_ID ];
-  if ( ooaofooa_TE_LNKrelated_instance1 ) {
-    ooaofooa_TE_SELECT_RELATED_R2073_Link( ooaofooa_TE_LNKrelated_instance1, ooaofooa_TE_SELECT_RELATED_instance );
+  ooaofooa_TE_VAL * ooaofooa_TE_VALrelated_instance1 = ooaofooa_TE_VAL_AnyWhere1( ooaofooa_TE_SELECT_RELATED_instance->starting_Value_ID );
+  if ( ooaofooa_TE_VALrelated_instance1 ) {
+    ooaofooa_TE_SELECT_RELATED_R2070_Link_starts( ooaofooa_TE_VALrelated_instance1, ooaofooa_TE_SELECT_RELATED_instance );
   }
   }
   {
@@ -84,9 +78,15 @@ void ooaofooa_TE_SELECT_RELATED_batch_relate( Escher_iHandle_t instance )
   }
   }
   {
-  ooaofooa_TE_CLASS * ooaofooa_TE_CLASSrelated_instance1 = (ooaofooa_TE_CLASS *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_SELECT_RELATED_instance->te_classGeneratedName ];
-  if ( ooaofooa_TE_CLASSrelated_instance1 ) {
-    ooaofooa_TE_SELECT_RELATED_R2077_Link( ooaofooa_TE_CLASSrelated_instance1, ooaofooa_TE_SELECT_RELATED_instance );
+  ooaofooa_TE_SMT * ooaofooa_TE_SMTrelated_instance1 = ooaofooa_TE_SMT_AnyWhere1( ooaofooa_TE_SELECT_RELATED_instance->Statement_ID );
+  if ( ooaofooa_TE_SMTrelated_instance1 ) {
+    ooaofooa_TE_SELECT_RELATED_R2069_Link( ooaofooa_TE_SMTrelated_instance1, ooaofooa_TE_SELECT_RELATED_instance );
+  }
+  }
+  {
+  ooaofooa_TE_LNK * ooaofooa_TE_LNKrelated_instance1 = (ooaofooa_TE_LNK *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_SELECT_RELATED_instance->link_ID ];
+  if ( ooaofooa_TE_LNKrelated_instance1 ) {
+    ooaofooa_TE_SELECT_RELATED_R2073_Link( ooaofooa_TE_LNKrelated_instance1, ooaofooa_TE_SELECT_RELATED_instance );
   }
   }
 }

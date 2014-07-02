@@ -7,12 +7,24 @@ T_b("\n");
 }
 } else if ( 0==strcmp("many",te_select_where->multiplicity) ) {
 if ( te_select_where->is_implicit ) {
+T_b("/* ");
+T_b(ws);
+T_b(te_set->module);
+T_b(te_set->init);
+T_b("( ");
+T_b(te_select_where->var_name);
+T_b(", &pG_");
+T_b(te_select_where->class_name);
+T_b("_extent ); */");
+T_b("\n");
 T_b(ws);
 T_b(te_set->module);
 T_b(te_set->clear);
 T_b("( ");
 T_b(te_select_where->var_name);
-T_b(" );");
+T_b(", &pG_");
+T_b(te_select_where->class_name);
+T_b("_extent  );  ");
 T_b("\n");
 } else {
 T_b(ws);
@@ -20,7 +32,9 @@ T_b(te_set->module);
 T_b(te_set->clear);
 T_b("( ");
 T_b(te_select_where->var_name);
-T_b(" );");
+T_b(", &pG_");
+T_b(te_select_where->class_name);
+T_b("_extent ); ");
 T_b("\n");
 }
 }

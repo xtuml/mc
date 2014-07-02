@@ -64,6 +64,12 @@ void ooaofooa_TE_MACT_batch_relate( Escher_iHandle_t instance )
     ooaofooa_TE_MACT_R2006_Link( ooaofooa_TE_POrelated_instance1, ooaofooa_TE_MACT_instance );
   }
   {
+  ooaofooa_TE_C * ooaofooa_TE_Crelated_instance1 = (ooaofooa_TE_C *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_MACT_instance->te_cID ];
+  if ( ooaofooa_TE_Crelated_instance1 ) {
+    ooaofooa_TE_MACT_R2002_Link( ooaofooa_TE_Crelated_instance1, ooaofooa_TE_MACT_instance );
+  }
+  }
+  {
   ooaofooa_TE_ABA * ooaofooa_TE_ABArelated_instance1 = (ooaofooa_TE_ABA *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_MACT_instance->AbaID ];
   if ( ooaofooa_TE_ABArelated_instance1 ) {
     ooaofooa_TE_MACT_R2010_Link( ooaofooa_TE_ABArelated_instance1, ooaofooa_TE_MACT_instance );
@@ -91,12 +97,6 @@ void ooaofooa_TE_MACT_batch_relate( Escher_iHandle_t instance )
   ooaofooa_SPR_RS * ooaofooa_SPR_RSrelated_instance1 = ooaofooa_SPR_RS_AnyWhere1( ooaofooa_TE_MACT_instance->SPR_RSId );
   if ( ooaofooa_SPR_RSrelated_instance1 ) {
     ooaofooa_TE_MACT_R2053_Link( ooaofooa_SPR_RSrelated_instance1, ooaofooa_TE_MACT_instance );
-  }
-  }
-  {
-  ooaofooa_TE_C * ooaofooa_TE_Crelated_instance1 = (ooaofooa_TE_C *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_MACT_instance->te_cID ];
-  if ( ooaofooa_TE_Crelated_instance1 ) {
-    ooaofooa_TE_MACT_R2002_Link( ooaofooa_TE_Crelated_instance1, ooaofooa_TE_MACT_instance );
   }
   }
   {

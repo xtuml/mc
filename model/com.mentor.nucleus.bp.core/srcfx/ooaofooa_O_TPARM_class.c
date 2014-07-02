@@ -44,14 +44,14 @@ ooaofooa_O_TPARM_instanceloader( Escher_iHandle_t instance, const c_t * avlstrin
 void ooaofooa_O_TPARM_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_O_TPARM * ooaofooa_O_TPARM_instance = (ooaofooa_O_TPARM *) instance;
-  ooaofooa_O_TFR * ooaofooa_O_TFRrelated_instance1 = (ooaofooa_O_TFR *) Escher_instance_cache[ (intptr_t) ooaofooa_O_TPARM_instance->Tfr_ID ];
-  if ( ooaofooa_O_TFRrelated_instance1 ) {
-    ooaofooa_O_TPARM_R117_Link_contains( ooaofooa_O_TFRrelated_instance1, ooaofooa_O_TPARM_instance );
-  }
-  {
   ooaofooa_S_DT * ooaofooa_S_DTrelated_instance1 = ooaofooa_S_DT_AnyWhere1( ooaofooa_O_TPARM_instance->DT_ID );
   if ( ooaofooa_S_DTrelated_instance1 ) {
     ooaofooa_O_TPARM_R118_Link_defines_the_type_of_( ooaofooa_S_DTrelated_instance1, ooaofooa_O_TPARM_instance );
+  }
+  {
+  ooaofooa_O_TFR * ooaofooa_O_TFRrelated_instance1 = (ooaofooa_O_TFR *) Escher_instance_cache[ (intptr_t) ooaofooa_O_TPARM_instance->Tfr_ID ];
+  if ( ooaofooa_O_TFRrelated_instance1 ) {
+    ooaofooa_O_TPARM_R117_Link_contains( ooaofooa_O_TFRrelated_instance1, ooaofooa_O_TPARM_instance );
   }
   }
   {

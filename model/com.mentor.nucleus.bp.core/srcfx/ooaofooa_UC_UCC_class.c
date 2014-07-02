@@ -44,14 +44,14 @@ ooaofooa_UC_UCC_instanceloader( Escher_iHandle_t instance, const c_t * avlstring
 void ooaofooa_UC_UCC_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_UC_UCC * ooaofooa_UC_UCC_instance = (ooaofooa_UC_UCC *) instance;
-  ooaofooa_UC_UIU * ooaofooa_UC_UIUrelated_instance1 = ooaofooa_UC_UIU_AnyWhere1( ooaofooa_UC_UCC_instance->Parent_Package_ID );
-  if ( ooaofooa_UC_UIUrelated_instance1 ) {
-    ooaofooa_UC_UCC_R1209_Link_has_children( ooaofooa_UC_UIUrelated_instance1, ooaofooa_UC_UCC_instance );
+  ooaofooa_S_SYS * ooaofooa_S_SYSrelated_instance1 = (ooaofooa_S_SYS *) Escher_instance_cache[ (intptr_t) ooaofooa_UC_UCC_instance->Sys_ID ];
+  if ( ooaofooa_S_SYSrelated_instance1 ) {
+    ooaofooa_UC_UCC_R1211_Link_can_display( ooaofooa_S_SYSrelated_instance1, ooaofooa_UC_UCC_instance );
   }
   {
-  ooaofooa_EP_SPKG * ooaofooa_EP_SPKGrelated_instance1 = (ooaofooa_EP_SPKG *) Escher_instance_cache[ (intptr_t) ooaofooa_UC_UCC_instance->Package_ID ];
-  if ( ooaofooa_EP_SPKGrelated_instance1 ) {
-    ooaofooa_UC_UCC_R1402_Link( ooaofooa_EP_SPKGrelated_instance1, ooaofooa_UC_UCC_instance );
+  ooaofooa_S_SS * ooaofooa_S_SSrelated_instance1 = (ooaofooa_S_SS *) Escher_instance_cache[ (intptr_t) ooaofooa_UC_UCC_instance->SS_ID ];
+  if ( ooaofooa_S_SSrelated_instance1 ) {
+    ooaofooa_UC_UCC_R1202_Link_can_display( ooaofooa_S_SSrelated_instance1, ooaofooa_UC_UCC_instance );
   }
   }
   {
@@ -61,15 +61,15 @@ void ooaofooa_UC_UCC_batch_relate( Escher_iHandle_t instance )
   }
   }
   {
-  ooaofooa_S_SS * ooaofooa_S_SSrelated_instance1 = (ooaofooa_S_SS *) Escher_instance_cache[ (intptr_t) ooaofooa_UC_UCC_instance->SS_ID ];
-  if ( ooaofooa_S_SSrelated_instance1 ) {
-    ooaofooa_UC_UCC_R1202_Link_can_display( ooaofooa_S_SSrelated_instance1, ooaofooa_UC_UCC_instance );
+  ooaofooa_UC_UIU * ooaofooa_UC_UIUrelated_instance1 = ooaofooa_UC_UIU_AnyWhere1( ooaofooa_UC_UCC_instance->Parent_Package_ID );
+  if ( ooaofooa_UC_UIUrelated_instance1 ) {
+    ooaofooa_UC_UCC_R1209_Link_has_children( ooaofooa_UC_UIUrelated_instance1, ooaofooa_UC_UCC_instance );
   }
   }
   {
-  ooaofooa_S_SYS * ooaofooa_S_SYSrelated_instance1 = (ooaofooa_S_SYS *) Escher_instance_cache[ (intptr_t) ooaofooa_UC_UCC_instance->Sys_ID ];
-  if ( ooaofooa_S_SYSrelated_instance1 ) {
-    ooaofooa_UC_UCC_R1211_Link_can_display( ooaofooa_S_SYSrelated_instance1, ooaofooa_UC_UCC_instance );
+  ooaofooa_EP_SPKG * ooaofooa_EP_SPKGrelated_instance1 = (ooaofooa_EP_SPKG *) Escher_instance_cache[ (intptr_t) ooaofooa_UC_UCC_instance->Package_ID ];
+  if ( ooaofooa_EP_SPKGrelated_instance1 ) {
+    ooaofooa_UC_UCC_R1402_Link( ooaofooa_EP_SPKGrelated_instance1, ooaofooa_UC_UCC_instance );
   }
   }
   {

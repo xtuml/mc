@@ -43,9 +43,21 @@ ooaofooa_IP_IP_instanceloader( Escher_iHandle_t instance, const c_t * avlstring[
 void ooaofooa_IP_IP_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_IP_IP * ooaofooa_IP_IP_instance = (ooaofooa_IP_IP *) instance;
+  ooaofooa_S_SYS * ooaofooa_S_SYSrelated_instance1 = (ooaofooa_S_SYS *) Escher_instance_cache[ (intptr_t) ooaofooa_IP_IP_instance->Direct_Sys_ID ];
+  if ( ooaofooa_S_SYSrelated_instance1 ) {
+    ooaofooa_IP_IP_R4302_Link_can_show( ooaofooa_S_SYSrelated_instance1, ooaofooa_IP_IP_instance );
+  }
+  {
+  ooaofooa_S_SYS * ooaofooa_S_SYSrelated_instance1 = (ooaofooa_S_SYS *) Escher_instance_cache[ (intptr_t) ooaofooa_IP_IP_instance->Sys_ID ];
+  if ( ooaofooa_S_SYSrelated_instance1 ) {
+    ooaofooa_IP_IP_R4304_Link( ooaofooa_S_SYSrelated_instance1, ooaofooa_IP_IP_instance );
+  }
+  }
+  {
   ooaofooa_C_C * ooaofooa_C_Crelated_instance1 = ooaofooa_C_C_AnyWhere1( ooaofooa_IP_IP_instance->Component_Id );
   if ( ooaofooa_C_Crelated_instance1 ) {
     ooaofooa_IP_IP_R4206_Link_may_contain( ooaofooa_C_Crelated_instance1, ooaofooa_IP_IP_instance );
+  }
   }
   {
   ooaofooa_CP_CP * ooaofooa_CP_CPrelated_instance1 = ooaofooa_CP_CP_AnyWhere1( ooaofooa_IP_IP_instance->Component_Package_ID );
@@ -63,18 +75,6 @@ void ooaofooa_IP_IP_batch_relate( Escher_iHandle_t instance )
   ooaofooa_IP_IPINIP * ooaofooa_IP_IPINIPrelated_instance1 = ooaofooa_IP_IPINIP_AnyWhere1( ooaofooa_IP_IP_instance->Parent_Package_ID );
   if ( ooaofooa_IP_IPINIPrelated_instance1 ) {
     ooaofooa_IP_IP_R4301_Link_has_children( ooaofooa_IP_IPINIPrelated_instance1, ooaofooa_IP_IP_instance );
-  }
-  }
-  {
-  ooaofooa_S_SYS * ooaofooa_S_SYSrelated_instance1 = (ooaofooa_S_SYS *) Escher_instance_cache[ (intptr_t) ooaofooa_IP_IP_instance->Direct_Sys_ID ];
-  if ( ooaofooa_S_SYSrelated_instance1 ) {
-    ooaofooa_IP_IP_R4302_Link_can_show( ooaofooa_S_SYSrelated_instance1, ooaofooa_IP_IP_instance );
-  }
-  }
-  {
-  ooaofooa_S_SYS * ooaofooa_S_SYSrelated_instance1 = (ooaofooa_S_SYS *) Escher_instance_cache[ (intptr_t) ooaofooa_IP_IP_instance->Sys_ID ];
-  if ( ooaofooa_S_SYSrelated_instance1 ) {
-    ooaofooa_IP_IP_R4304_Link( ooaofooa_S_SYSrelated_instance1, ooaofooa_IP_IP_instance );
   }
   }
 }

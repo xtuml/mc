@@ -47,20 +47,20 @@ ooaofooa_O_ATTR_instanceloader( Escher_iHandle_t instance, const c_t * avlstring
 void ooaofooa_O_ATTR_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_O_ATTR * ooaofooa_O_ATTR_instance = (ooaofooa_O_ATTR *) instance;
+  ooaofooa_S_DT * ooaofooa_S_DTrelated_instance1 = ooaofooa_S_DT_AnyWhere1( ooaofooa_O_ATTR_instance->DT_ID );
+  if ( ooaofooa_S_DTrelated_instance1 ) {
+    ooaofooa_O_ATTR_R114_Link_is_defined_by( ooaofooa_S_DTrelated_instance1, ooaofooa_O_ATTR_instance );
+  }
+  {
   ooaofooa_O_OBJ * ooaofooa_O_OBJrelated_instance1 = ooaofooa_O_OBJ_AnyWhere1( ooaofooa_O_ATTR_instance->Obj_ID );
   if ( ooaofooa_O_OBJrelated_instance1 ) {
     ooaofooa_O_ATTR_R102_Link_has_characteristics_abstracted_by( ooaofooa_O_OBJrelated_instance1, ooaofooa_O_ATTR_instance );
+  }
   }
   {
   ooaofooa_O_ATTR * ooaofooa_O_ATTRrelated_instance1 = ooaofooa_O_ATTR_AnyWhere1( ooaofooa_O_ATTR_instance->PAttr_ID, ooaofooa_O_ATTR_instance->Obj_ID );
   if ( ooaofooa_O_ATTRrelated_instance1 ) {
     ooaofooa_O_ATTR_R103_Link_precedes( ooaofooa_O_ATTRrelated_instance1, ooaofooa_O_ATTR_instance );
-  }
-  }
-  {
-  ooaofooa_S_DT * ooaofooa_S_DTrelated_instance1 = ooaofooa_S_DT_AnyWhere1( ooaofooa_O_ATTR_instance->DT_ID );
-  if ( ooaofooa_S_DTrelated_instance1 ) {
-    ooaofooa_O_ATTR_R114_Link_is_defined_by( ooaofooa_S_DTrelated_instance1, ooaofooa_O_ATTR_instance );
   }
   }
 }

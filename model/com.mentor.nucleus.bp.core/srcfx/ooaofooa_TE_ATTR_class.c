@@ -58,20 +58,20 @@ ooaofooa_TE_ATTR_instanceloader( Escher_iHandle_t instance, const c_t * avlstrin
 void ooaofooa_TE_ATTR_batch_relate( Escher_iHandle_t instance )
 {
   ooaofooa_TE_ATTR * ooaofooa_TE_ATTR_instance = (ooaofooa_TE_ATTR *) instance;
-  ooaofooa_TE_DIM * ooaofooa_TE_DIMrelated_instance1 = (ooaofooa_TE_DIM *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_ATTR_instance->te_dimID ];
-  if ( ooaofooa_TE_DIMrelated_instance1 ) {
-    ooaofooa_TE_ATTR_R2055_Link_diments( ooaofooa_TE_DIMrelated_instance1, ooaofooa_TE_ATTR_instance );
-  }
-  {
   ooaofooa_TE_CLASS * ooaofooa_TE_CLASSrelated_instance1 = (ooaofooa_TE_CLASS *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_ATTR_instance->te_classGeneratedName ];
   if ( ooaofooa_TE_CLASSrelated_instance1 ) {
     ooaofooa_TE_ATTR_R2061_Link( ooaofooa_TE_CLASSrelated_instance1, ooaofooa_TE_ATTR_instance );
-  }
   }
   {
   ooaofooa_O_ATTR * ooaofooa_O_ATTRrelated_instance1 = ooaofooa_O_ATTR_AnyWhere1( ooaofooa_TE_ATTR_instance->Attr_ID, ooaofooa_TE_ATTR_instance->Obj_ID );
   if ( ooaofooa_O_ATTRrelated_instance1 ) {
     ooaofooa_TE_ATTR_R2033_Link( ooaofooa_O_ATTRrelated_instance1, ooaofooa_TE_ATTR_instance );
+  }
+  }
+  {
+  ooaofooa_TE_DIM * ooaofooa_TE_DIMrelated_instance1 = (ooaofooa_TE_DIM *) Escher_instance_cache[ (intptr_t) ooaofooa_TE_ATTR_instance->te_dimID ];
+  if ( ooaofooa_TE_DIMrelated_instance1 ) {
+    ooaofooa_TE_ATTR_R2055_Link_diments( ooaofooa_TE_DIMrelated_instance1, ooaofooa_TE_ATTR_instance );
   }
   }
   {
