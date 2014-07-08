@@ -1996,7 +1996,7 @@ else
         T::print(s:"ERROR:  SetTemplateParameter - no component instance for ${package_name}::${instance} with name ${variable_name}.");
       end if;
     elif ( not_empty tm_if )
-      select many te_iirs related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
+      select many te_iirs related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
       for each te_iir in te_iirs
         create object instance tm_tpv of TM_TPV;
         tm_tpv.instance = instance;
@@ -2004,7 +2004,7 @@ else
         relate tm_tpv to tm_tp across R2808;
         relate tm_tpv to te_iir across R2806;
               end for;
-      select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
+      select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
       for each te_iir in te_iirs
         create object instance tm_tpv of TM_TPV;
         tm_tpv.instance = instance;
@@ -2139,7 +2139,7 @@ else
   else
     // We are setting a value for an interface template.
     for each te_ci in te_cis
-      select any te_iir related by te_ci->CL_IC[R2009]->CL_IIR[R4700]->TE_IIR[R2013] where ( selected.port_name == port );
+      select any te_iir related by te_ci->CL_IC[R2009]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( selected.port_name == port );
       ::SetTPV_for_channel_connection( te_iir:te_iir, variable_name:variable_name, value:value, trace:trace, flavor:0 );
     end for;
   end if;
