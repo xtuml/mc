@@ -942,6 +942,8 @@ ${header.body}
   .//.select many ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name != "Translation Extensions" ) and ( selected.Name != "Translation Marking" ) and ( selected.Name != "Translation OAL" )
   .//
   .select many ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001]
+    .select many nested_ep_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]
+    .assign ep_pkgs = ep_pkgs | nested_ep_pkgs
   .invoke SortSetAlphabeticallyByNameAttrib( ep_pkgs )
   .assign count  = cardinality ep_pkgs
   .assign number = 0

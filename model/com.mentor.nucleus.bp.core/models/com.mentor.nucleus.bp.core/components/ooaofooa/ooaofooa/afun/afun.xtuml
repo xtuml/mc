@@ -2145,7 +2145,7 @@ sys_types_file_name = ( te_file.types + "." ) + te_file.hdr_file_ext;
 select many special_te_dts from instances of TE_DT where ( ( selected.Include_File != "" ) and ( selected.Include_File != sys_types_file_name ) );
 s = "";
 for each special_te_dt in special_te_dts
-  s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" );
+  s = ( s + "#include &quot;" ) + ( special_te_dt.Include_File + "&quot;\n" );
 end for;
 return s;
 ',
