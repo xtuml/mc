@@ -170,10 +170,10 @@
     .assign parameterdt = "dt_xtUMLSignal"
     .if ( ( te_sys.AUTOSAR ) or ( te_sys.VFB ) )
       .if ( "" != te_aba.ParameterInvocation )
-        .select one te_dt related by te_parm->TE_DT[R2049]
-        .assign parameter = te_parm.Name
-        .assign parameteri = te_parm.GeneratedName
-        .assign parameterdt = te_dt.ExtName
+        .//.select one te_dt related by te_parm->TE_DT[R2049]
+        .//.assign parameter = te_parm.Name
+        .//.assign parameteri = te_parm.GeneratedName
+        .//.assign parameterdt = te_dt.ExtName
       .end if
       .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
         .assign autosar_body = "  #ifdef ${te_thread.AUTOSAR_enabled}\n"
@@ -201,7 +201,7 @@
           .if ( parameter == "dp_signal" )
             .assign autosar_body = autosar_body + "  ${parameterdt} ${parameteri};\n"
           .end if
-          .select any signal from instances of C_AS where ( selected.Name == te_mact.MessageName} )
+          .select any signal from instances of C_AS where ( selected.Name == te_mact.MessageName )
           .select many te_parms related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
           .assign parmsCount = cardinality te_parms
           .if (parmsCount > 1)
@@ -240,11 +240,11 @@
               .assign parameters_with_dt = ",${parameters.definition}"
             .else
               .// check if the parameter is passed by ref. or by value
-              .if ( 0 != te_parm.By_Ref )
+              .//.if ( 0 != te_parm.By_Ref )
                 .assign parameters_with_dt = ",${parameterdt} * ${parameteri}"
-              .else
+              .//.else
                 .assign parameters_with_dt = ",${parameterdt} ${parameteri}"
-              .end if
+              .//.end if
             .end if
           .end if
           .if ( "void" != te_aba.ReturnDataType )
