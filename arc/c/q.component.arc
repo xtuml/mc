@@ -524,6 +524,7 @@
 .function Create_VFB_Rte_Header
   .param inst_ref_set te_macts
   .param inst_ref te_c
+  .select any te_file from instances of TE_FILE
   .assign parameteri = "dp_signal"
   .assign parameterdt = "dt_xtUMLSignal"
   .assign attr_autosar_vfb = ""
@@ -536,9 +537,9 @@
   .assign attr_vfb_header_comments= attr_vfb_header_comments + "*-----------------------------------------------------------------------------------------------*/ \n\n"
   .assign attr_autosar_vfb = attr_autosar_vfb + "\n#ifndef RTE_CO_$u{te_c.Name}_H\n#define RTE_CO_$u{te_c.Name}_H \n\n\n"
   .assign attr_autosar_vfb = attr_autosar_vfb + "#include ""Rte_Type.h"" \n"
-  .assign attr_autosar_vfb = attr_autosar_vfb + "#include ""sys_types.h"" \n\n"
+  .assign attr_autosar_vfb = attr_autosar_vfb + "#include ""${te_file.types}.${te_file.hdr_file_ext}"" \n\n"
   .assign attr_autosar_vfb_dataType_header = "\n#ifndef RTE_TYPE_H\n#define RTE_TYPE_H \n\n\n"
-  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "#include ""sys_types.h"" \n\n"
+  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "#include ""${te_file.types}.${te_file.hdr_file_ext}"" \n\n"
   .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "typedef unsigned char uint8;\n"
   .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "typedef int* Rte_Instance; \ntypedef bool dt_xtUMLSignal;\n" 
   .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "typedef uint8 Std_ReturnType; \n\n"
@@ -690,6 +691,7 @@
           .end if
           .assign parameters = " ${te_parm.GeneratedName} "
         .end if
+        .if ( not_empty foreign_te_mact )
         .if ( not_empty te_parm )
           .if ( "void" == te_aba.ReturnDataType )
             .assign attr_autosar_vfb = attr_autosar_vfb + "  Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self , ${parameters_with_dt} ){ \n"
@@ -706,6 +708,7 @@
             .assign attr_autosar_vfb = attr_autosar_vfb + "  Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self, ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out ){ \n" 
             .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_self , ${te_mact.MessageName}Out ) ; \n  }\n\n\n"
           .end if
+        .end if
         .end if
       .else
         .if ( te_mact.subtypeKL == "SPR_PS" )
@@ -744,6 +747,7 @@
           .assign parameters_read = " *${te_parm.GeneratedName} = ${te_mact.ComponentName}_${te_mact.MessageName}_${te_parm.Name};\n"
           .assign parameters = "${te_parm.Name} "  
         .end if      
+        .if ( not_empty foreign_te_mact )
         .if ( not_empty te_parm )
           .assign attr_autosar_vfb = attr_autosar_vfb + " Std_ReturnType Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_${parameters}( Rte_Instance Rte_self , ${parameters_with_dt} ){ \n"
           .assign attr_autosar_vfb = attr_autosar_vfb + " ${parameters_save} "
@@ -757,6 +761,7 @@
           .assign attr_autosar_vfb = attr_autosar_vfb + " Std_ReturnType Rte_Read_pt_${foreign_te_mact.PortName}_${te_mact.MessageName}_${parameteri}( Rte_Instance Rte_self , ${parameters_with_dt_ref} ){ \n"
           .assign attr_autosar_vfb = attr_autosar_vfb + " ${parameters_read} \n  }\n\n\n "
         .end if    
+        .end if    
       .end if
     .end if
   .end for
@@ -766,6 +771,7 @@
 .// Generate VFB related files
 .// ============================================================================
 .function Create_VFB_Target_Functions_File
+  .select any te_file from instances of TE_FILE
   .assign attr_functions_header=""
   .assign attr_target_header=""
   .assign attr_functions_C=""
@@ -790,7 +796,7 @@
   .assign attr_target_header=attr_target_header + "\n#ifndef TARGET_H \n#define TARGET_H \n\n"
   .assign attr_target_header=attr_target_header+ "\n\n#endif"  
   .assign attr_functions_header=attr_functions_header + "\n#ifndef FUNCTION_H \n#define FUNCTION_H \n\n"    
-  .assign attr_functions_header=attr_functions_header + "#include ""sys_types.h"" \n\n" 
+  .assign attr_functions_header=attr_functions_header + "#include ""${te_file.types}.${te_file.hdr_file_ext}"" \n\n" 
   .assign attr_functions_header=attr_functions_header + "extern void TIM_update(void);\n" 
   .assign attr_functions_header=attr_functions_header + "extern void ooa_loop( u1_t * t );\n" 
   .assign attr_functions_header=attr_functions_header + "extern void Escher_xtUMLmain(void);\n"
