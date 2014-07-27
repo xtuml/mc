@@ -275,6 +275,13 @@
   .if ( not_empty v_pvl )
     .assign is_parameter = true
   .end if
+.//-- 004:20140714 Add Start (saitou)
+  .assign isNotGenerateInvocation = false
+  .select one te_brg related by r_v_val->V_BRV[R801]->S_BRG[R828]->TE_BRG[R2025]
+  .if ( not_empty te_brg )
+    .assign isNotGenerateInvocation = te_brg.NotGenerateInvocation
+  .end if
+.//-- 004:20140714 Add End (saitou)
   .include "${te_file.arc_path}/t.smt.assign.c"
   .assign te_smt.OAL = "ASSIGN ${l_te_val.OAL} = ${r_te_val.OAL}"
 .end function
@@ -1310,7 +1317,9 @@
   .select one o_tfr related by act_tfm->O_TFR[R673]
   .select one te_tfr related by o_tfr->TE_TFR[R2024]
   .select one te_class related by o_tfr->O_OBJ[R115]->TE_CLASS[R2019]
-  .if ( ( not_empty te_tfr ) and ( not_empty te_class ) )
+.//-- 034:20140716 Modified Start (saitou)
+  .if ( ( ( not_empty te_tfr ) and ( not_empty te_class ) ) and ( not te_class.ExcludeFromGen ) )
+.//-- 034:20140716 Modified End (saitou)
     .select any te_file from instances of TE_FILE
     .select any te_target from instances of TE_TARGET
     .select one te_blk related by te_smt->TE_BLK[R2078]

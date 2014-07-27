@@ -166,37 +166,41 @@
 .//	.param string ext_event_name
 	.//
 	.select any s_dt from instances of S_DT where ( selected.Name == dt_name )
-	.select one s_udt related by s_dt->S_UDT[R17]
-	.select one s_edt related by s_dt->S_EDT[R17]
+	.if (not_empty s_dt)
+	    .select one s_udt related by s_dt->S_UDT[R17]
+	    .select one s_edt related by s_dt->S_EDT[R17]
 .//-- 002: 20140604 Modified Start (nomura)
-	.// enumå^Ç…ëŒÇµÇƒÇ‡ExternalMacroéwíËÇ™óLå¯Ç…Ç»ÇÈÇÊÇ§Ç…èCê≥Ç∑ÇÈÅB
-	.if ( ( not_empty s_dt ) and ( not_empty s_udt ) )
-		.select any s_cdt from instances of S_CDT where ( selected.DT_ID == s_udt.CDT_DT_ID )
-		.if ( s_cdt.Core_Typ == 4 )
-			.create object instance tm_dtmacro of TM_DTMACRO
-			.assign tm_dtmacro.component = ""
-			.assign tm_dtmacro.DT_name = dt_name
-			.assign tm_dtmacro.IsExternalMacro = true
-			.assign tm_dtmacro.genName = ext_name
-			.assign tm_dtmacro.Include_File = include_file
-			.assign tm_dtmacro.Initial_Value = initial_value
-			.//
-			.print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}"
-		.else
-			.print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is not external macro ( because CoreType is not string! )"
-		.end if
-	.elif ( ( not_empty s_dt ) and ( not_empty s_edt ) )
-		.create object instance tm_dtmacro of TM_DTMACRO
-		.assign tm_dtmacro.component = ""
-		.assign tm_dtmacro.DT_name = dt_name
-		.assign tm_dtmacro.IsExternalMacro = true
-		.assign tm_dtmacro.genName = ext_name
-		.assign tm_dtmacro.Include_File = include_file
-		.assign tm_dtmacro.Initial_Value = initial_value
-		.//
-		.print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}"
+	    .// enumå^Ç…ëŒÇµÇƒÇ‡ExternalMacroéwíËÇ™óLå¯Ç…Ç»ÇÈÇÊÇ§Ç…èCê≥Ç∑ÇÈÅB
+	    .if  ( not_empty s_udt )
+		    .select any s_cdt from instances of S_CDT where ( selected.DT_ID == s_udt.CDT_DT_ID )
+		    .if ( s_cdt.Core_Typ == 4 )
+			    .create object instance tm_dtmacro of TM_DTMACRO
+			    .assign tm_dtmacro.component = ""
+			    .assign tm_dtmacro.DT_name = dt_name
+			    .assign tm_dtmacro.IsExternalMacro = true
+			    .assign tm_dtmacro.genName = ext_name
+			    .assign tm_dtmacro.Include_File = include_file
+			    .assign tm_dtmacro.Initial_Value = initial_value
+			    .//
+			    .print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}"
+		    .else
+			    .print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is not external macro ( because CoreType is not string! )"
+		    .end if
+	    .elif ( not_empty s_edt )
+		    .create object instance tm_dtmacro of TM_DTMACRO
+		    .assign tm_dtmacro.component = ""
+		    .assign tm_dtmacro.DT_name = dt_name
+		    .assign tm_dtmacro.IsExternalMacro = true
+		    .assign tm_dtmacro.genName = ext_name
+		    .assign tm_dtmacro.Include_File = include_file
+		    .assign tm_dtmacro.Initial_Value = initial_value
+		    .//
+		    .print "specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file}"
+	    .else
+		    .print "\n  specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' does not exist"
+	    .end if
 	.else
-		.print "\n  specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' does not exist"
+	    .print "\n  specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' does not exist"
 	.end if
 	.//
 .//-- 002: 20140604 Modified End (nomura)

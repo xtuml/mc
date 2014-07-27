@@ -29,5 +29,15 @@ ${ws}${te_assign.lval} = ${te_instance.module}${te_string.strcpy}( ${te_assign.l
 ${ws}${te_instance.module}${te_string.strcpy}( ${te_assign.lval}, ${te_assign.rval} );
   .end if
 .else
+.//-- 004:20140714 Add Start (saitou)
+.if ( isNotGenerateInvocation )
+#if 0
+.end if
+.//-- 004:20140714 Add Start (saitou)
 ${ws}${te_assign.lval} = ${te_assign.rval};
+.//-- 004:20140714 Add End (saitou)
+.if ( isNotGenerateInvocation )
+#endif
+.end if
+.//-- 004:20140714 Add End (saitou)
 .end if

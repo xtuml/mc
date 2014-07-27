@@ -37,6 +37,9 @@
   .assign te_ees = te_ees | global_te_ees
   .for each te_ee in te_ees
 .//-- 010:20140310 Modified Start (nomura)
+.//-- 004:20140714 Modified Start (saitou)
+  .select any te_brg related by te_ee->S_EE[R2020]->S_BRG[R19]->TE_BRG[R2025] where ( not selected.NotGenerateInvocation )
+  .if( not_empty te_brg )
     .invoke isExistRealFunc = fx_is_exist_real_func(te_ee)
     .if (isExistRealFunc.result)
       .invoke bridgeExtendPrefix = fx_get_bridge_extend_name_prefix(te_ee)
@@ -44,7 +47,9 @@
     .else
       .assign attr_include_files = attr_include_files + "#include ""${te_ee.Include_File}""\n"
     .end if
-.//-- 010:20140310 Modified Start (nomura)
+  .end if
+.//-- 004:20140714 Modified End (saitou)
+.//-- 010:20140310 Modified End (nomura)
   .end for
   .// Since C calls directly to the port messages published by the component,
   .// create the list of includes for the components across satisfactions.

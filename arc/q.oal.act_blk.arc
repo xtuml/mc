@@ -133,7 +133,11 @@
 .function blk_declaration_append
   .param inst_ref te_blk
   .param string s
-  .assign te_blk.declaration = te_blk.declaration + s
+.//-- 035:20140724 Modified Start (nomura) 
+  .//.assign te_blk.declaration = te_blk.declaration + s
+  .assign ws = te_blk.indentation
+  .assign te_blk.declaration = (te_blk.declaration + s) + ("\n" + ws)
+.//-- 035:20140724 Modified End (nomura) 
 .end function
 .//
 .function blk_deallocation_append
