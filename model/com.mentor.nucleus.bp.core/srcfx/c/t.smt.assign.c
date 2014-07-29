@@ -90,10 +90,18 @@ T_b(" );");
 T_b("\n");
 }
 } else {
+if ( isNotGenerateInvocation ) {
+T_b("#if 0");
+T_b("\n");
+}
 T_b(ws);
 T_b(te_assign->lval);
 T_b(" = ");
 T_b(te_assign->rval);
 T_b(";");
 T_b("\n");
+if ( isNotGenerateInvocation ) {
+T_b("#endif");
+T_b("\n");
+}
 }

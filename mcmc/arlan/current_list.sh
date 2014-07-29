@@ -32,6 +32,5 @@ grep -vP "[\x80-\xFF]" < ../../arc/m.domain.arc | ./rsl2oal | sh swapreflex.sh >
 grep -vP "[\x80-\xFF]" < ../../arc/m.event.arc | ./rsl2oal | sh swapreflex.sh >> o4.oal
 grep -vP "[\x80-\xFF]" < ../../arc/m.system.arc | ./rsl2oal | sh swapreflex.sh >> o4.oal
 
-exit 1
 # fifth is customizations
 grep -vP "[\x80-\xFF]" < ../../arc/fx_util.arc | ./rsl2oal | sed 's/include(file:"${te_file.arc_path}/include(file:"c/' | sh swapreflex.sh > o5.oal

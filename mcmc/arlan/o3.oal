@@ -275,7 +275,11 @@ blk_declaration_append@void@@te_blk@inst_ref<Extended Block>@@s@string@@@
 //
 te_blk = param.te_blk;
 s = param.s;
-te_blk.declaration = te_blk.declaration + s;
+//-- 035:20140724 Modified Start (nomura)
+//.assign te_blk.declaration = te_blk.declaration + s
+ws = te_blk.indentation;
+te_blk.declaration = ( te_blk.declaration + s ) + ( "\n" + ws );
+//-- 035:20140724 Modified End (nomura)
 @@@
 blk_deallocation_append@void@@te_blk@inst_ref<Extended Block>@@s@string@@@
 //
@@ -748,6 +752,13 @@ select one v_pvl related by r_v_val->V_PVL[R801];
 if ( not_empty v_pvl )
   is_parameter = true;
 end if;
+//-- 004:20140714 Add Start (saitou)
+isNotGenerateInvocation = false;
+select one te_brg related by r_v_val->V_BRV[R801]->S_BRG[R828]->TE_BRG[R2025];
+if ( not_empty te_brg )
+  isNotGenerateInvocation = te_brg.NotGenerateInvocation;
+end if;
+//-- 004:20140714 Add End (saitou)
 T::include(file:"c/t.smt.assign.c");
 te_smt.OAL = "ASSIGN ${l_te_val.OAL} = ${r_te_val.OAL}";
 return T::body();
@@ -1797,7 +1808,9 @@ act_tfm = param.act_tfm;
 select one o_tfr related by act_tfm->O_TFR[R673];
 select one te_tfr related by o_tfr->TE_TFR[R2024];
 select one te_class related by o_tfr->O_OBJ[R115]->TE_CLASS[R2019];
-if ( ( not_empty te_tfr ) and ( not_empty te_class ) )
+//-- 034:20140716 Modified Start (saitou)
+if ( ( ( not_empty te_tfr ) and ( not_empty te_class ) ) and ( not te_class.ExcludeFromGen ) )
+  //-- 034:20140716 Modified End (saitou)
   select any te_file from instances of TE_FILE;
   select any te_target from instances of TE_TARGET;
   select one te_blk related by te_smt->TE_BLK[R2078];

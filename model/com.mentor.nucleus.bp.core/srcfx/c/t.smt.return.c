@@ -36,4 +36,5 @@ if ( ( ( 0!=strcmp("",deallocation) ) || ( 0==strcmp("c_t",returnvaltype) ) ) &&
 T_b("}");
 T_b("\n");
 } else {
+T_b("\n");
 }

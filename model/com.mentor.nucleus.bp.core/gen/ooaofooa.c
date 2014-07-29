@@ -10383,13 +10383,15 @@ ooaofooa_blk_deallocation_append( c_t * p_s, ooaofooa_TE_BLK * p_te_blk )
 void
 ooaofooa_blk_declaration_append( c_t * p_s, ooaofooa_TE_BLK * p_te_blk )
 {
-  c_t * s=0;ooaofooa_TE_BLK * te_blk;
+  c_t * ws=0;c_t * s=0;ooaofooa_TE_BLK * te_blk;
   /* ASSIGN te_blk = PARAM.te_blk */
   te_blk = p_te_blk;
   /* ASSIGN s = PARAM.s */
   s = Escher_strcpy( s, p_s );
-  /* ASSIGN te_blk.declaration = ( te_blk.declaration + s ) */
-  te_blk->declaration = Escher_strcpy( te_blk->declaration, Escher_stradd( te_blk->declaration, s ) );
+  /* ASSIGN ws = te_blk.indentation */
+  ws = Escher_strcpy( ws, te_blk->indentation );
+  /* ASSIGN te_blk.declaration = ( ( te_blk.declaration + s ) + ( \n + ws ) ) */
+  te_blk->declaration = Escher_strcpy( te_blk->declaration, Escher_stradd( Escher_stradd( te_blk->declaration, s ), Escher_stradd( "\n", ws ) ) );
 
 }
 
@@ -17230,7 +17232,7 @@ ooaofooa_slist_factory( ooaofooa_TE_SLIST * p_te_slist )
 c_t *
 ooaofooa_smt_assign( ooaofooa_ACT_AI * p_act_ai, ooaofooa_TE_SMT * p_te_smt )
 {
-  bool is_parameter;i_t element_count;ooaofooa_V_VAL * root_v_val;ooaofooa_V_VAL * r;c_t * ws=0;ooaofooa_ACT_AI * act_ai;ooaofooa_TE_SMT * te_smt;ooaofooa_TE_SYS * te_sys=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_SET * te_set=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_FILE * te_file=0;ooaofooa_TE_ASSIGN * te_assign=0;ooaofooa_V_PVL * v_pvl=0;ooaofooa_TE_DIM * r_te_dim=0;ooaofooa_TE_VAL * l_te_val=0;ooaofooa_TE_VAL * r_te_val=0;ooaofooa_TE_DT * l_te_dt=0;ooaofooa_TE_DT * r_te_dt=0;ooaofooa_V_VAL * l_v_val=0;ooaofooa_V_VAL * r_v_val=0;ooaofooa_TE_BLK * te_blk=0;
+  bool isNotGenerateInvocation;bool is_parameter;i_t element_count;ooaofooa_V_VAL * root_v_val;ooaofooa_V_VAL * r;c_t * ws=0;ooaofooa_ACT_AI * act_ai;ooaofooa_TE_SMT * te_smt;ooaofooa_TE_SYS * te_sys=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_SET * te_set=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_FILE * te_file=0;ooaofooa_TE_ASSIGN * te_assign=0;ooaofooa_TE_BRG * te_brg=0;ooaofooa_V_PVL * v_pvl=0;ooaofooa_TE_DIM * r_te_dim=0;ooaofooa_TE_VAL * l_te_val=0;ooaofooa_TE_VAL * r_te_val=0;ooaofooa_TE_DT * l_te_dt=0;ooaofooa_TE_DT * r_te_dt=0;ooaofooa_V_VAL * l_v_val=0;ooaofooa_V_VAL * r_v_val=0;ooaofooa_TE_BLK * te_blk=0;
   /* ASSIGN te_smt = PARAM.te_smt */
   te_smt = p_te_smt;
   /* ASSIGN act_ai = PARAM.act_ai */
@@ -17445,6 +17447,22 @@ ooaofooa_smt_assign( ooaofooa_ACT_AI * p_act_ai, ooaofooa_TE_SMT * p_te_smt )
   if ( ( 0 != v_pvl ) ) {
     /* ASSIGN is_parameter = TRUE */
     is_parameter = TRUE;
+  }
+  /* ASSIGN isNotGenerateInvocation = FALSE */
+  isNotGenerateInvocation = FALSE;
+  /* SELECT one te_brg RELATED BY r_v_val->V_BRV[R801]->S_BRG[R828]->TE_BRG[R2025] */
+  te_brg = 0;
+  {  if ( 0 != r_v_val ) {
+  ooaofooa_V_BRV * R801_subtype = (ooaofooa_V_BRV *) r_v_val->R801_subtype;
+  if ( 0 != R801_subtype )  if ( ooaofooa_V_BRV_CLASS_NUMBER == r_v_val->R801_object_id ) {
+  ooaofooa_S_BRG * S_BRG_R828 = R801_subtype->S_BRG_R828;
+  if ( 0 != S_BRG_R828 ) {
+  te_brg = S_BRG_R828->TE_BRG_R2025;
+}}}}
+  /* IF ( not_empty te_brg ) */
+  if ( ( 0 != te_brg ) ) {
+    /* ASSIGN isNotGenerateInvocation = te_brg.NotGenerateInvocation */
+    isNotGenerateInvocation = te_brg->NotGenerateInvocation;
   }
   /* T::include( file:c/t.smt.assign.c ) */
 #include "c/t.smt.assign.c"
@@ -19469,8 +19487,8 @@ ooaofooa_smt_operate( ooaofooa_ACT_TFM * p_act_tfm, ooaofooa_TE_SMT * p_te_smt )
   if ( 0 != O_OBJ_R115_is_associated_with ) {
   te_class = O_OBJ_R115_is_associated_with->TE_CLASS_R2019;
 }}}
-  /* IF ( ( not_empty te_tfr and not_empty te_class ) ) */
-  if ( ( ( 0 != te_tfr ) && ( 0 != te_class ) ) ) {
+  /* IF ( ( ( not_empty te_tfr and not_empty te_class ) and not te_class.ExcludeFromGen ) ) */
+  if ( ( ( ( 0 != te_tfr ) && ( 0 != te_class ) ) && !te_class->ExcludeFromGen ) ) {
     bool uses_thismodule;c_t * operation_name=0;c_t * parameter_OAL=0;c_t * parameters=0;bool instance_based;c_t * var_name=0;c_t * ws=0;ooaofooa_TE_TARGET * te_target=0;ooaofooa_TE_FILE * te_file=0;Escher_ObjectSet_s v_pars_space={0}; Escher_ObjectSet_s * v_pars = &v_pars_space;ooaofooa_TE_VAR * te_var=0;ooaofooa_TE_BLK * te_blk=0;
     /* SELECT any te_file FROM INSTANCES OF TE_FILE */
     te_file = (ooaofooa_TE_FILE *) Escher_SetGetAny( &pG_ooaofooa_TE_FILE_extent.active );
@@ -21977,7 +21995,7 @@ ooaofooa_sparm_sort_order_control( Escher_ObjectSet_s * p_s_sparms, ooaofooa_TE_
 void
 ooaofooa_specify_user_defined_enum_type_as_external_macro( c_t * p_dt_name, c_t * p_ext_name, c_t * p_include_file, c_t * p_initial_value )
 {
-  c_t * include_file=0;c_t * initial_value=0;c_t * ext_name=0;c_t * dt_name=0;ooaofooa_S_DT * s_dt=0;ooaofooa_S_EDT * s_edt=0;ooaofooa_S_UDT * s_udt=0;
+  c_t * include_file=0;c_t * initial_value=0;c_t * ext_name=0;c_t * dt_name=0;ooaofooa_S_DT * s_dt=0;
   /* ASSIGN dt_name = PARAM.dt_name */
   dt_name = Escher_strcpy( dt_name, p_dt_name );
   /* ASSIGN ext_name = PARAM.ext_name */
@@ -21998,29 +22016,56 @@ ooaofooa_specify_user_defined_enum_type_as_external_macro( c_t * p_dt_name, c_t 
       }
     }
   }
-  /* SELECT one s_udt RELATED BY s_dt->S_UDT[R17] */
-  s_udt = 0;
-  if ( ooaofooa_S_UDT_CLASS_NUMBER == s_dt->R17_object_id )  s_udt = ( 0 != s_dt ) ? (ooaofooa_S_UDT *) s_dt->R17_subtype : 0;
-  /* SELECT one s_edt RELATED BY s_dt->S_EDT[R17] */
-  s_edt = 0;
-  if ( ooaofooa_S_EDT_CLASS_NUMBER == s_dt->R17_object_id )  s_edt = ( 0 != s_dt ) ? (ooaofooa_S_EDT *) s_dt->R17_subtype : 0;
-  /* IF ( ( not_empty s_dt and not_empty s_udt ) ) */
-  if ( ( ( 0 != s_dt ) && ( 0 != s_udt ) ) ) {
-    ooaofooa_S_CDT * s_cdt=0;
-    /* SELECT any s_cdt FROM INSTANCES OF S_CDT WHERE ( SELECTED.DT_ID == s_udt.CDT_DT_ID ) */
-    s_cdt = 0;
-    { ooaofooa_S_CDT * selected;
-      Escher_Iterator_s iters_cdtooaofooa_S_CDT;
-      Escher_IteratorReset( &iters_cdtooaofooa_S_CDT, &pG_ooaofooa_S_CDT_extent.active );
-      while ( (selected = (ooaofooa_S_CDT *) Escher_IteratorNext( &iters_cdtooaofooa_S_CDT )) != 0 ) {
-        if ( ( selected->DT_ID == s_udt->CDT_DT_ID ) ) {
-          s_cdt = selected;
-          break;
+  /* IF ( not_empty s_dt ) */
+  if ( ( 0 != s_dt ) ) {
+    ooaofooa_S_EDT * s_edt=0;ooaofooa_S_UDT * s_udt=0;
+    /* SELECT one s_udt RELATED BY s_dt->S_UDT[R17] */
+    s_udt = 0;
+    if ( ooaofooa_S_UDT_CLASS_NUMBER == s_dt->R17_object_id )    s_udt = ( 0 != s_dt ) ? (ooaofooa_S_UDT *) s_dt->R17_subtype : 0;
+    /* SELECT one s_edt RELATED BY s_dt->S_EDT[R17] */
+    s_edt = 0;
+    if ( ooaofooa_S_EDT_CLASS_NUMBER == s_dt->R17_object_id )    s_edt = ( 0 != s_dt ) ? (ooaofooa_S_EDT *) s_dt->R17_subtype : 0;
+    /* IF ( not_empty s_udt ) */
+    if ( ( 0 != s_udt ) ) {
+      ooaofooa_S_CDT * s_cdt=0;
+      /* SELECT any s_cdt FROM INSTANCES OF S_CDT WHERE ( SELECTED.DT_ID == s_udt.CDT_DT_ID ) */
+      s_cdt = 0;
+      { ooaofooa_S_CDT * selected;
+        Escher_Iterator_s iters_cdtooaofooa_S_CDT;
+        Escher_IteratorReset( &iters_cdtooaofooa_S_CDT, &pG_ooaofooa_S_CDT_extent.active );
+        while ( (selected = (ooaofooa_S_CDT *) Escher_IteratorNext( &iters_cdtooaofooa_S_CDT )) != 0 ) {
+          if ( ( selected->DT_ID == s_udt->CDT_DT_ID ) ) {
+            s_cdt = selected;
+            break;
+          }
         }
       }
+      /* IF ( ( s_cdt.Core_Typ == 4 ) ) */
+      if ( ( s_cdt->Core_Typ == 4 ) ) {
+        ooaofooa_TM_DTMACRO * tm_dtmacro;
+        /* CREATE OBJECT INSTANCE tm_dtmacro OF TM_DTMACRO */
+        tm_dtmacro = (ooaofooa_TM_DTMACRO *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_DTMACRO_CLASS_NUMBER );
+        /* ASSIGN tm_dtmacro.component =  */
+        tm_dtmacro->component = Escher_strcpy( tm_dtmacro->component, "" );
+        /* ASSIGN tm_dtmacro.DT_name = dt_name */
+        tm_dtmacro->DT_name = Escher_strcpy( tm_dtmacro->DT_name, dt_name );
+        /* ASSIGN tm_dtmacro.IsExternalMacro = TRUE */
+        tm_dtmacro->IsExternalMacro = TRUE;
+        /* ASSIGN tm_dtmacro.genName = ext_name */
+        tm_dtmacro->genName = Escher_strcpy( tm_dtmacro->genName, ext_name );
+        /* ASSIGN tm_dtmacro.Include_File = include_file */
+        tm_dtmacro->Include_File = Escher_strcpy( tm_dtmacro->Include_File, include_file );
+        /* ASSIGN tm_dtmacro.Initial_Value = initial_value */
+        tm_dtmacro->Initial_Value = Escher_strcpy( tm_dtmacro->Initial_Value, initial_value );
+        /* T::print( s:specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file} ) */
+        T_print( ({c_t*s=Escher_strget();T_T("specify_user_defined_enum_type_as_external_macro - Data Type '");T_T(dt_name);T_T("' is specified as '");T_T(ext_name);T_T("'(initial value='");T_T(initial_value);T_T("') in ");T_T(include_file);}) );
+      }
+      else {
+        /* T::print( s:specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is not external macro ( because CoreType is not string! ) ) */
+        T_print( ({c_t*s=Escher_strget();T_T("specify_user_defined_enum_type_as_external_macro - Data Type '");T_T(dt_name);T_T("' is not external macro ( because CoreType is not string! )");}) );
+      }
     }
-    /* IF ( ( s_cdt.Core_Typ == 4 ) ) */
-    if ( ( s_cdt->Core_Typ == 4 ) ) {
+    else if ( ( 0 != s_edt ) ) {
       ooaofooa_TM_DTMACRO * tm_dtmacro;
       /* CREATE OBJECT INSTANCE tm_dtmacro OF TM_DTMACRO */
       tm_dtmacro = (ooaofooa_TM_DTMACRO *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_DTMACRO_CLASS_NUMBER );
@@ -22040,28 +22085,9 @@ ooaofooa_specify_user_defined_enum_type_as_external_macro( c_t * p_dt_name, c_t 
       T_print( ({c_t*s=Escher_strget();T_T("specify_user_defined_enum_type_as_external_macro - Data Type '");T_T(dt_name);T_T("' is specified as '");T_T(ext_name);T_T("'(initial value='");T_T(initial_value);T_T("') in ");T_T(include_file);}) );
     }
     else {
-      /* T::print( s:specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is not external macro ( because CoreType is not string! ) ) */
-      T_print( ({c_t*s=Escher_strget();T_T("specify_user_defined_enum_type_as_external_macro - Data Type '");T_T(dt_name);T_T("' is not external macro ( because CoreType is not string! )");}) );
+      /* T::print( s:\n  specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' does not exist ) */
+      T_print( ({c_t*s=Escher_strget();T_T("\n  specify_user_defined_enum_type_as_external_macro - Data Type '");T_T(dt_name);T_T("' does not exist");}) );
     }
-  }
-  else if ( ( ( 0 != s_dt ) && ( 0 != s_edt ) ) ) {
-    ooaofooa_TM_DTMACRO * tm_dtmacro;
-    /* CREATE OBJECT INSTANCE tm_dtmacro OF TM_DTMACRO */
-    tm_dtmacro = (ooaofooa_TM_DTMACRO *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TM_DTMACRO_CLASS_NUMBER );
-    /* ASSIGN tm_dtmacro.component =  */
-    tm_dtmacro->component = Escher_strcpy( tm_dtmacro->component, "" );
-    /* ASSIGN tm_dtmacro.DT_name = dt_name */
-    tm_dtmacro->DT_name = Escher_strcpy( tm_dtmacro->DT_name, dt_name );
-    /* ASSIGN tm_dtmacro.IsExternalMacro = TRUE */
-    tm_dtmacro->IsExternalMacro = TRUE;
-    /* ASSIGN tm_dtmacro.genName = ext_name */
-    tm_dtmacro->genName = Escher_strcpy( tm_dtmacro->genName, ext_name );
-    /* ASSIGN tm_dtmacro.Include_File = include_file */
-    tm_dtmacro->Include_File = Escher_strcpy( tm_dtmacro->Include_File, include_file );
-    /* ASSIGN tm_dtmacro.Initial_Value = initial_value */
-    tm_dtmacro->Initial_Value = Escher_strcpy( tm_dtmacro->Initial_Value, initial_value );
-    /* T::print( s:specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' is specified as '${ext_name}'(initial value='${initial_value}') in ${include_file} ) */
-    T_print( ({c_t*s=Escher_strget();T_T("specify_user_defined_enum_type_as_external_macro - Data Type '");T_T(dt_name);T_T("' is specified as '");T_T(ext_name);T_T("'(initial value='");T_T(initial_value);T_T("') in ");T_T(include_file);}) );
   }
   else {
     /* T::print( s:\n  specify_user_defined_enum_type_as_external_macro - Data Type '${dt_name}' does not exist ) */
