@@ -36,6 +36,8 @@
 .//       is wrong but have not resolved.
 .//   10.  ROP TE_SWC to O_OBJ.  Cort forgets exactly why we make this change, but 
 .//        there is a reason.
+.//   11. Omit CSME_* entries if they are in the output.  Perhaps automate this later.
+.//   12. All Specialized Package stuff is omitted from the MC schema now.
 .//
 .//============================================================================
 .// NOTE:
