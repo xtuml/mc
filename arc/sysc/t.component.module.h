@@ -50,7 +50,10 @@ ${sc_process}\
 ${nestedComponent_constructors} {
 ${port_binding}\
 .end if
-.if ( te_c.internal_behavior )
+.if ( not_empty te_class ) 
+  .include "${te_file.arc_path}/t.domain_init.factories.c"
+.end if
+.if ( ( te_c.internal_behavior ) and ( "SystemC" == te_thread.flavor ) )
 ${init_segment}\
 .end if
 .// CDS - Factor this into a template and/or make it conditional.

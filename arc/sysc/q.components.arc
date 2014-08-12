@@ -80,7 +80,7 @@
   .// class info for the entire domain.
   .// This set of queries drives the generation of initialization and
   .// top-level domain connection to the rest of the system.
-  .select any te_class related by te_c->TE_CLASS[R2064]
+  .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
   .select any te_sm related by te_class->TE_SM[R2072]
   .select any te_cia from instances of TE_CIA
   .select one te_dci related by te_c->TE_DCI[R2090]
@@ -88,7 +88,12 @@
   .select one te_sync related by te_c->TE_SYNC[R2097]
   .invoke s = CreateDomainInitSegment( te_c, te_sync, te_sm )
   .assign init_segment = s.body
-  .assign has_process_declaration = s.has_process_declaration
+  .assign has_process_declaration = ""
+  .if ( "SystemC" == te_thread.flavor )
+    .if ( ( not_empty te_sm ) or ( not_empty te_sync ) )
+      .assign has_process_declaration = "  SC_HAS_PROCESS( ${te_c.Name} );\n"
+    .end if
+  .end if
   .assign sc_process = ""
   .assign sc_event_declarations = ""
   .assign sc_process_defn = ""

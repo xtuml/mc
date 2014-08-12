@@ -919,10 +919,12 @@ TIM::tick( void )
   #endif
   .end if
   if ( 0 != animate ) {
-    // TODO - The fact that this is commented out should be revisted later.
-    //if ( animate->expiration <= ETimer_msec_time() ) {
+  .if ( "SystemC" != te_thread.flavor )
+    if ( animate->expiration <= ETimer_msec_time() ) \
+  .end if
+{
       timer_fire( animate );
-    //}
+    }
   }
   .if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}

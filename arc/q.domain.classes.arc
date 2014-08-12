@@ -19,23 +19,10 @@
   .param inst_ref te_sync
   .param inst_ref te_sm
   .select any te_file from instances of TE_FILE
-  .select any te_instance from instances of TE_INSTANCE
   .select any te_set from instances of TE_SET
   .select any te_target from instances of TE_TARGET
   .select any te_thread from instances of TE_THREAD
   .assign attr_has_process_declaration = ""
-  .if ( "C++" == te_target.language )
-    .if ( "SystemC" == te_thread.flavor )
-      .if ( ( not_empty te_sm ) or ( not_empty te_sync ) )
-        .assign attr_has_process_declaration = "  SC_HAS_PROCESS( ${te_c.Name} );\n"
-      .end if
-    .end if
-    .select any te_class related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen )
-    .if ( not_empty te_class )
-      .select one te_dci related by te_c->TE_DCI[R2090]
-      .include "${te_file.arc_path}/t.domain_init.factories.c"
-    .end if
-  .end if
   .while ( not_empty te_sync )
     .if ( te_sync.IsInitFunction and te_sync.XlateSemantics )
       .include "${te_file.arc_path}/t.domain_init.te_sync.c"

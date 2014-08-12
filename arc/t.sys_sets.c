@@ -39,7 +39,7 @@ ${te_set.scope}${te_set.factory}( const i_t n1_size )
   node1_FreeList.head = &node1s[ 0 ];
   /* Build the collection (linked list) of node1 instances.  */
   .if ( ( te_sys.TotalContainers > 0 ) or ( "C++" == te_target.language ) )
-  for ( i = 0; i < ( n1_size - 1 ); i++ ) {
+  for ( i = 0; ( i + 1 ) < n1_size; i++ ) {
     node1s[ i ].next = &node1s[ i + 1 ];
     node1s[ i ].object = 0;
   }

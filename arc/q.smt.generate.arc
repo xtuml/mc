@@ -613,6 +613,7 @@
     .end if
     .invoke r = GetUnrelateFromName( o_obj, r_rel, act_unr.relationship_phrase )
     .assign unrelate_method = r.result
+    .select one te_class related by o_obj->TE_CLASS[R2019]
     .assign thismodule = ""
     .if ( "C" != te_target.language )
       .assign thismodule = ", thismodule"
@@ -1471,7 +1472,7 @@
   .param inst_ref te_smt
   .param inst_ref act_ctl
   .select any te_file from instances of TE_FILE
-  .select any te_thread from instances of TE_THREAD
+  .select any te_target from instances of TE_TARGET
   .select one te_blk related by te_smt->TE_BLK[R2078]
   .assign ws = te_blk.indentation
   .include "${te_file.arc_path}/t.smt.control.c"

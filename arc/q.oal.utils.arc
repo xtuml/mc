@@ -47,7 +47,13 @@
 .//
 .function timer_analyze_starts .// integer
   .assign result = 0
+  .select any te_target from instances of TE_TARGET
   .select many s_ees from instances of S_EE where ( selected.Key_Lett == "TIM" )
+  .if ( "C++" == te_target.language )
+    .if ( not_empty s_ees )
+      .assign result = 1
+    .end if
+  .end if
   .for each s_ee in s_ees
     .select any s_brg related by s_ee->S_BRG[R19] where ( selected.Name == "timer_start" )
     .if ( not_empty s_brg )

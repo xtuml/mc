@@ -23,9 +23,12 @@
 .assign include_files = ""
 .assign top_module_instances = ""
 .assign top_module_inits = ""
+.assign top_module_comp_inits = ""
+.assign top_module_dispatcher = ""
 .assign port_binding = ""
 .assign bitLevelChannels = ""
 .if ( not_empty tm_build_pkgs )
+  .select any te_ee from instances of TE_EE where ( selected.Key_Lett == "TIM" )
   .for each tm_build_pkg in tm_build_pkgs
     .select any ep_pkg from instances of EP_PKG where ( selected.Name == tm_build_pkg.package_to_build )
     .select many te_cis related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009]
@@ -46,6 +49,22 @@
         .else
           .assign include_files = include_files + "#include ""${te_c.Name}.${te_file.hdr_file_ext}""\n"
           .assign top_module_instances = top_module_instances + "  ${te_c.Name} ${comp_inst};\n"
+          .if ( ( "SystemC" != te_thread.flavor ) and ( te_c.included_in_build ) )
+            .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+            .select one te_sync related by te_c->TE_SYNC[R2097]
+            .invoke s = CreateDomainInitSegment( te_c, te_sync, te_sm )
+            .assign init_seg = s.body
+            .if ( "" != init_seg )
+              .assign top_module_comp_inits = ( ( "\n    " + top_module_comp_inits ) + ( comp_inst + "." ) ) + init_seg
+            .end if
+            .if ( not_empty te_sm )
+              .assign top_module_dispatcher = top_module_dispatcher + "      ${comp_inst}.ooa_loop( &${comp_inst} );\n"
+            .end if
+            .if ( not_empty te_ee )
+              .// CDS For now, tim gets included if a TIM is found anywhere.
+              .assign top_module_dispatcher = top_module_dispatcher + "      ${comp_inst}.tim->tick();\n"
+            .end if
+          .end if
         .end if
         .invoke bind = TE_C_BindPorts( te_c, te_ci, ep_pkg, c_c_parent )
         .assign port_binding = port_binding + bind.port_binding
@@ -65,6 +84,12 @@
           .else
             .assign include_files = include_files + "#include ""${te_c.Name}.${te_file.hdr_file_ext}""\n"
             .assign top_module_instances = top_module_instances + "  ${te_c.Name} ${comp_inst};\n"
+            .if ( ( "SystemC" != te_thread.flavor ) and ( te_c.included_in_build ) )
+              .select any te_sm related by te_c->TE_CLASS[R2064]->TE_SM[R2072]
+              .if ( not_empty te_sm )
+                .assign top_module_dispatcher = top_module_dispatcher + "      ${comp_inst}.ooa_loop( &${comp_inst} );\n"
+              .end if
+            .end if
           .end if
           .invoke bind = TE_C_BindPorts (te_c, te_ci, ep_pkg, c_c_parent )
           .assign port_binding = "${port_binding}" + bind.port_binding
