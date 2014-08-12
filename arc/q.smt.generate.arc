@@ -1727,7 +1727,7 @@
     .if ( not_empty sub_r_rel )
       .assign lnk_te_class = te_class
       .assign cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) "
-      .assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )"
+      .assign subtypecheck = "${ws}if ( ( 0 != ${te_lnk.left} ) && ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id ) )"
     .end if
   .end if
   .// single-link chains
@@ -1890,7 +1890,7 @@ ${ws}{\
           .select any sub_r_rel related by lnk_te_class->O_OBJ[R2019]->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_REL[R206] where ( selected.Numb == te_lnk.rel_number )
           .if ( not_empty sub_r_rel )
             .assign cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) "
-            .assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )"
+            .assign subtypecheck = "${ws}if ( ( 0 != ${te_lnk.left} ) && ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id ) )"
           .end if
         .end if
         .assign result_equals_start = false
@@ -1911,7 +1911,7 @@ ${ws}{\
       .if ( not_empty sub_r_rel )
         .assign lnk_te_class = te_class
         .assign cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) "
-        .assign subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )"
+        .assign subtypecheck = "${ws}if ( ( 0 != ${te_lnk.left} ) && ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id ) )"
       .end if
     .end if
     .// now finish up
