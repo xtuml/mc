@@ -233,7 +233,7 @@
     .if ( not_empty tm_c )
       .select any te_ci related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance )
       .if ( empty te_ci )
-        .select any te_ci related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] where ( selected.ClassifierName == instance )
+        .select any te_ci related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance )
       .end if
       .if ( not_empty te_ci )
         .create object instance tm_tpv of TM_TPV
@@ -263,7 +263,7 @@
         .// end relate
         .assign tm_tpv.te_ciID = 00
       .end for
-      .select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
+      .select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
       .for each te_iir in te_iirs
         .create object instance tm_tpv of TM_TPV
         .assign tm_tpv.instance = instance
@@ -327,10 +327,10 @@
   .select many te_cis related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
   .if ( "" != parent_component )
     .select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001] where ( selected.Name == parent_component )
-    .select many te_cis related by c_cs->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
+    .select many te_cis related by c_cs->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
   .else
     .if ( empty te_cis )
-      .select many te_cis related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
+      .select many te_cis related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) )
     .end if
   .end if
   .assign te_cis_count = cardinality te_cis

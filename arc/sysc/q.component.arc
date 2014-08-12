@@ -711,7 +711,7 @@ ${port_action.body}
   .select many te_classes related by te_c->TE_CLASS[R2064]->TE_SM[R2072]->TE_CLASS[R2072]
   .select any te_sys from instances of TE_SYS
   .select any nested_c_c related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]
-  .select many cl_ics related by te_c->C_C[R2054]->CL_IC[R4205]
+  .select many cl_ics related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]
   .if ( "BitLevelSignals" == te_sys.SystemCPortsType )
     .if ( ( empty te_classes ) and ( ( empty nested_c_c ) and  ( empty cl_ics ) ) )
       .assign default_behavior = true;
@@ -754,7 +754,7 @@ ${port_action.body}
   .// Sony specific requirement: Default behavior for leaf components
   .select any te_sys from instances of TE_SYS
   .select any nested_c_c related by te_c->C_C[R2054]->PE_PE[R8003]->C_C[R8001]
-  .select many cl_ics related by te_c->C_C[R2054]->CL_IC[R4205]
+  .select many cl_ics related by te_c->C_C[R2054]->PE_PE[R8003]->CL_IC[R8001]
   .if ( te_sys.SystemCPortsType == "BitLevelSignals" )
     .if ( ( empty te_classes ) and ( ( empty nested_c_c ) and  ( empty cl_ics ) ) )
       .assign default_behavior = true
@@ -1076,13 +1076,13 @@ ${port_action.body}
     .select one c_c related by te_c->C_C[R2054]
     .select one parent_c_c related by te_c->C_C[R2054]->PE_PE[R8001]->C_C[R8003]
     .if (empty parent_c_c)
-      .select one parent_c_c related by te_c->C_C[R2054]->CL_IC[R4201]->C_C[R4205]
+      .select one parent_c_c related by te_c->C_C[R2054]->CL_IC[R4201]->PE_PE[R8001]->C_C[R8003]
     .end if
     .select one ep_pkg related by te_c->C_C[R2054]->PE_PE[R8001]->EP_PKG[R8000]
     .if ( not_empty ep_pkg )
       .select any cl_ic related by ep_pkg->PE_PE[R8000]->CL_IC[R8001] where ( selected.AssignedComp_Id == c_c.Id )
     .else
-      .select any cl_ic related by parent_c_c->CL_IC[R4205]  where ( selected.AssignedComp_Id == c_c.Id )
+      .select any cl_ic related by parent_c_c->PE_PE[R8003]->CL_IC[R8001]  where ( selected.AssignedComp_Id == c_c.Id )
     .end if
     .select one te_ci related by cl_ic->TE_CI[R2009]
     .assign isDelegated = false
