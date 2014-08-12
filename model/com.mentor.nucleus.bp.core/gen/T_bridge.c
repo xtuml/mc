@@ -313,6 +313,9 @@ T_parsekeyword( c_t * p_key, c_t * p_s )
       s = strstr( s, ":" );
       if ( 0 != s ) s++; /* increment past : */
       if ( 0 != *s ) {
+        c_t * s2 = Escher_strget();
+        strcpy( s2, s );
+        s = s2;
         /* Skip past blanks but watch for end of line and and of string and string max.  */
         while ( ( i < ESCHER_SYS_MAX_STRING_LEN ) && ( ' ' == *s ) && ( 0 != *s ) && ( '\n' != *s ) ) {
           s++; i++;
@@ -334,6 +337,10 @@ T_parsekeyword( c_t * p_key, c_t * p_s )
 c_t *
 T_body( void )
 {
+  /* In case we are called with no data, ensure null buffer contents.  */
+  if ( 0 == buffer_index ) {
+    buffer[ 0 ] = 0;
+  }
   buffer_index = 0;
   return buffer;
 }
