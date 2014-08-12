@@ -20,7 +20,7 @@
 .function smt_for
   .param inst_ref te_smt
   .param inst_ref act_for
-  .select one te_class related by act_for->O_OBJ[R670]->TE_CLASS[R2019]
+  .select one te_class related by act_for->O_OBJ[R670]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .if ( not_empty te_class )
     .select any te_file from instances of TE_FILE
     .select any te_for from instances of TE_FOR
@@ -206,7 +206,7 @@
     .select one root_te_val related by root_v_val->TE_VAL[R2040]
     .assign te_assign.left_declaration = ( r_te_dt.ExtName + " " ) + root_te_val.buffer
     .if ( 8 == r_te_dt.Core_Typ )
-      .select one te_class related by root_v_val->V_IRF[R801]->V_VAR[R808]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019]
+      .select one te_class related by root_v_val->V_IRF[R801]->V_VAR[R808]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
       .if ( not_empty te_class )
         .assign te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + ( root_te_val.buffer + ";" )
         .invoke blk_declaration_append( te_blk, te_assign.left_declaration )
@@ -295,7 +295,7 @@
   .param inst_ref te_smt
   .param inst_ref act_cr
   .select one o_obj related by act_cr->O_OBJ[R671]
-  .select one te_class related by o_obj->TE_CLASS[R2019]
+  .select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .if ( not_empty te_class )
     .select any te_file from instances of TE_FILE
     .select one te_blk related by te_smt->TE_BLK[R2078]
@@ -337,7 +337,7 @@
   .param inst_ref te_smt
   .param inst_ref act_del
   .select one v_var related by act_del->V_VAR[R634]
-  .select one te_class related by v_var->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019]
+  .select one te_class related by v_var->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .if ( not_empty te_class )
     .select any te_file from instances of TE_FILE
     .select any te_instance from instances of TE_INSTANCE
@@ -407,7 +407,7 @@
   .if ( empty o_obj )
     .select one o_obj related by sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519]
   .end if
-  .select one te_class related by o_obj->TE_CLASS[R2019]
+  .select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .if ( not_empty te_class )
     .select one sm_pevt related by sm_evt->SM_PEVT[R525]
     .if ( not_empty sm_pevt )
@@ -475,7 +475,7 @@
   .param inst_ref act_rel
   .select one one_v_var related by act_rel->V_VAR[R615]
   .select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818]
-  .select one te_class related by one_o_obj->TE_CLASS[R2019]
+  .select one te_class related by one_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .if ( not_empty te_class )
     .select any te_file from instances of TE_FILE
     .select any te_target from instances of TE_TARGET
@@ -558,22 +558,24 @@
   .select one ass_v_var related by act_ru->V_VAR[R619]
   .select one ass_te_var related by ass_v_var->TE_VAR[R2039]
   .select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818]
-  .select one ass_te_class related by ass_o_obj->TE_CLASS[R2019]
-  .select any te_file from instances of TE_FILE
-  .select any te_target from instances of TE_TARGET
-  .assign thismodule = ""
-  .if ( "C" != te_target.language )
-    .assign thismodule = ", thismodule"
+  .select one ass_te_class related by ass_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
+  .if ( not_empty ass_te_class )
+    .select any te_file from instances of TE_FILE
+    .select any te_target from instances of TE_TARGET
+    .assign thismodule = ""
+    .if ( "C" != te_target.language )
+      .assign thismodule = ", thismodule"
+    .end if
+    .invoke r1 = GetRelateToName( ass_o_obj, r_rel, act_ru.relationship_phrase )
+    .assign relate_method = r1.result
+    .assign left_obj_is_aone = false
+    .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
+    .if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
+      .assign left_obj_is_aone = true
+    .end if
+    .include "${te_file.arc_path}/t.smt.relate_using.c"
+    .assign te_smt.OAL = "RELATE ${one_te_var.OAL} TO ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}"
   .end if
-  .invoke r1 = GetRelateToName( ass_o_obj, r_rel, act_ru.relationship_phrase )
-  .assign relate_method = r1.result
-  .assign left_obj_is_aone = false
-  .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
-  .if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
-    .assign left_obj_is_aone = true
-  .end if
-  .include "${te_file.arc_path}/t.smt.relate_using.c"
-  .assign te_smt.OAL = "RELATE ${one_te_var.OAL} TO ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}"
 .end function
 .//
 .// --------------------------------------------------------
@@ -592,7 +594,7 @@
   .param inst_ref act_unr
   .select one one_v_var related by act_unr->V_VAR[R620]
   .select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818]
-  .select one te_class related by one_o_obj->TE_CLASS[R2019]
+  .select one te_class related by one_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .if ( not_empty te_class )
     .select any te_file from instances of TE_FILE
     .select any te_target from instances of TE_TARGET
@@ -674,22 +676,24 @@
   .select one ass_v_var related by act_uru->V_VAR[R624]
   .select one ass_te_var related by ass_v_var->TE_VAR[R2039]
   .select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818]
-  .select one ass_te_class related by ass_o_obj->TE_CLASS[R2019]
-  .select any te_file from instances of TE_FILE
-  .select any te_target from instances of TE_TARGET
-  .assign thismodule = ""
-  .if ( "C" != te_target.language )
-    .assign thismodule = ", thismodule"
+  .select one ass_te_class related by ass_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
+  .if ( not_empty ass_te_class )
+    .select any te_file from instances of TE_FILE
+    .select any te_target from instances of TE_TARGET
+    .assign thismodule = ""
+    .if ( "C" != te_target.language )
+      .assign thismodule = ", thismodule"
+    .end if
+    .invoke r1 = GetUnrelateFromName( ass_o_obj, r_rel, act_uru.relationship_phrase )
+    .assign unrelate_method = r1.result
+    .assign left_obj_is_aone = false
+    .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
+    .if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
+      .assign left_obj_is_aone = true
+    .end if
+    .include "${te_file.arc_path}/t.smt.unrelate_using.c"
+    .assign te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}"
   .end if
-  .invoke r1 = GetUnrelateFromName( ass_o_obj, r_rel, act_uru.relationship_phrase )
-  .assign unrelate_method = r1.result
-  .assign left_obj_is_aone = false
-  .select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209]
-  .if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
-    .assign left_obj_is_aone = true
-  .end if
-  .include "${te_file.arc_path}/t.smt.unrelate_using.c"
-  .assign te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}"
 .end function
 .//
 .// --------------------------------------------------------
@@ -711,7 +715,7 @@
   .param inst_ref te_smt
   .param inst_ref act_fio
   .select one o_obj related by act_fio->O_OBJ[R677]
-  .select one te_class related by o_obj->TE_CLASS[R2019]
+  .select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .if ( not_empty te_class )
     .select any te_file from instances of TE_FILE
     .select any te_extent from instances of TE_EXTENT
@@ -813,7 +817,7 @@
   .param inst_ref te_smt
   .param inst_ref act_fiw
   .select one o_obj related by act_fiw->O_OBJ[R676]
-  .select one te_class related by o_obj->TE_CLASS[R2019]
+  .select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .if ( not_empty te_class )
     .select any te_extent from instances of TE_EXTENT
     .select any te_file from instances of TE_FILE
@@ -962,7 +966,7 @@
   .select one e_gsme related by e_gen->E_GSME[R705]
   .select one e_ess related by e_gsme->E_GES[R703]->E_ESS[R701]
   .select one sm_evt related by e_gsme->SM_EVT[R707]
-  .select one te_class related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019]
+  .select one te_class related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .select one te_evt related by sm_evt->TE_EVT[R2036]
   .if ( ( not_empty te_class ) and ( not_empty te_evt ) )
     .select any te_file from instances of TE_FILE
@@ -1053,7 +1057,7 @@
   .if ( empty tgt_o_obj )
     .select one tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519]
   .end if
-  .select one te_class related by tgt_o_obj->TE_CLASS[R2019]
+  .select one te_class related by tgt_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .select one te_evt related by sm_evt->TE_EVT[R2036]
   .if ( ( not_empty te_class ) and ( not_empty te_evt ) )
     .select any te_eq from instances of TE_EQ
@@ -1210,7 +1214,7 @@
   .param inst_ref act_tfm
   .select one o_tfr related by act_tfm->O_TFR[R673]
   .select one te_tfr related by o_tfr->TE_TFR[R2024]
-  .select one te_class related by o_tfr->O_OBJ[R115]->TE_CLASS[R2019]
+  .select one te_class related by o_tfr->O_OBJ[R115]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .if ( ( not_empty te_tfr ) and ( not_empty te_class ) )
     .select any te_file from instances of TE_FILE
     .select any te_target from instances of TE_TARGET
@@ -1574,7 +1578,7 @@
     .select one start_v_var related by start_v_val->V_ISR[R801]->V_VAR[R809]
     .select one start_o_obj related by start_v_var->V_INS[R814]->O_OBJ[R819]
   .end if
-  .select one start_te_class related by start_o_obj->TE_CLASS[R2019]
+  .select one start_te_class related by start_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen )
   .if ( not_empty start_te_class )
   .// QUERY and POPULATE:  FactoryTE_SELECT_RELATED
   .// Create and link the translation instance for select_related.
