@@ -16,7 +16,7 @@
 .//
 .//
 .// invoke VFB related files generation function
-.if ( te_sys.VFB )
+.if ( ( false ) and ( te_sys.VFB ) )
   .invoke VFB_Target_Functions_Files = Create_VFB_Target_Functions_File()
   ${VFB_Target_Functions_Files.vfb_Functions_H_comments}
   ${VFB_Target_Functions_Files.functions_header}

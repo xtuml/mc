@@ -45,7 +45,7 @@ ib_${te_mact.ComponentName}_ru_${te_mact.PortName}_${paramName}(Rte_Instance Rte
   cache_Rte_self = (void*) Rte_self;
   
   /* Receive the data from the RTE.  */
-  Rte_Read_pt_${te_mact.PortName}_${te_mact.MessageName}_${te_mact.MessageName}_param( Rte_self, & ${te_mact.MessageName}_param );
+  Rte_Read_pt_${te_mact.PortName}_${te_mact.MessageName}_param( Rte_self, &${te_mact.MessageName}_param );
   
   /* Hand the data into the receiving component port.  */
   .invoke struct_params = struct_RenderParameters( te_parms , "${te_mact.MessageName}_param" )

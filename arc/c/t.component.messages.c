@@ -40,21 +40,22 @@ static void* cache_Rte_self;
  * This is the AUTOSAR linkage for the ${te_c.Name} component timer.
  */
 FUNC(void, RTE_APPL_CODE)
-ib_${te_c.Name}_ru_${te_c.Name}Timer (Rte_Instance self)
+ib_${te_c.Name}_ru_${te_c.Name}Timer( Rte_Instance self )
 {
   u1_t t = MC3020_AUTOSAR_RUNNABLE_NUMBER;
+  #if ${te_tim.max_timers} > 0
   if ( 0 == MC3020_AUTOSAR_RUNNABLE_NUMBER ) {
     TIM_update();
   }
+  #endif
   ooa_loop( &t );
 }
 
 FUNC(void, RTE_APPL_CODE)
-ib_${te_c.Name}_ru_${te_c.Name}_Initialize(Rte_Instance self)
+ib_${te_c.Name}_ru_${te_c.Name}_Initialize( Rte_Instance self )
 {
   /* Initialize the system.  */
   cache_Rte_self = (void *) self;
-  Escher_xtUMLmain();
 }
 
 
