@@ -691,8 +691,10 @@ void ${te_eq.scope}${te_prefix.result}xtUML_run( void )
         .assign tasking_arguments = " 0, (void *) &i "
       .else
         .assign tasking_arguments = " (void *) &i "
-        .assign return_code_assignment = "vp = "
+        .if ( "AUTOSAR" != te_thread.flavor )
+          .assign return_code_assignment = "vp = "
   void * vp;
+        .end if
       .end if
   u1_t i;
   /* Create threads in reverse order saving thread 0 for default.  */
