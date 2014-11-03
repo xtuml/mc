@@ -665,6 +665,7 @@ sub xtumlmc_gen_erate($)
   my $dos_or_unix = add_to_path( "$pt_home/$mc/bin" );
   my $gencmd = "gen_erate";
   my $rval = 0;
+  $ENV{'MGLS_LICENSE_FILE'} =~ s/:/;/g;
   if ( "win32" eq "$osplatform" ) {
     $rval = system( "$gencmd @param_list" );
   } else {
@@ -1198,6 +1199,7 @@ my $build_directory = $serial;
 my $output_src = "../../src";
 my $debug_output_dir = "../../Debug/Output";
 my $xmiarc = "";
+my $license_type = "";
 my @xmls;
 my $CONCATENATED_FILE;
 
@@ -1220,6 +1222,12 @@ for ( my $i = 0; $i < @ARGV; $i++ ) {
   }
   elsif ( $k =~ /^(home)$/ ) { $i++; }
   elsif ( $k =~ /^(i)$/ ) { $xmiarc = "$ENV{'XTUMLMC_HOME'}/$mc/arc/xtuml_xmi2.1_export.arc"; }
+  elsif ( $k =~ /^(l2s)$/ ) { $license_type = " -l2s "; }
+  elsif ( $k =~ /^(l2b)$/ ) { $license_type = " -l2b "; }
+  elsif ( $k =~ /^(l3s)$/ ) { $license_type = " -l3s "; }
+  elsif ( $k =~ /^(l3b)$/ ) { $license_type = " -l3b "; }
+  elsif ( $k =~ /^(lSCs)$/ ) { $license_type = " -lSCs "; }
+  elsif ( $k =~ /^(lVHs)$/ ) { $license_type = " -lVHs "; }
   elsif ( $k =~ /^(m)$/ ) { $i++; @sqls = ( @sqls, $ARGV[$i] ); }
   elsif ( $k =~ /^(o)$/ ) { $i++; @ooas = ( @ooas, $ARGV[$i] ); }
   elsif ( $k =~ /^(O)$/ ) { $i++; $output_src = $ARGV[$i]; }
@@ -1403,7 +1411,7 @@ if ( ( scalar(@arcs) > 0 ) || ( $xmiarc ne "" ) ) {
   if ( $xmiarc ne "" ) {
     $archcmd = " -arch $xmiarc";
   }
-  xtumlmc_gen_erate( "-nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} $archcmd" );
+  xtumlmc_gen_erate( "$license_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} $archcmd" );
 
   if ( 0 == $called_from_eclipse ) {
     my $root_node = rox_path( "-m", "." );
@@ -1491,7 +1499,7 @@ if ( -f $mccmd ) {
     close $inFile
   }
 }
-xtumlmc_gen_erate( "-nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} -arch \"$arcdir/sys.arc\"" );
+xtumlmc_gen_erate( "$license_type -nopersist -d 0 -import $schema -d 0 -import ${modelBeingTranslated} -arch \"$arcdir/sys.arc\"" );
 
 #---------------------------------------------------------------------------
 # Copy the C files into the correct locations.
