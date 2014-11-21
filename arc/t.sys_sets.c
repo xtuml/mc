@@ -301,6 +301,7 @@ ${te_set.scope}${te_set.contains}(
     if ( node->object == element ) { return node; }  /* found  */
     node = node->next;
   }
+  if ( 0 == element ) return ( const void * ) 1; /* every set contains null */
   return 0;                                      /* absent */
 }
 .else
