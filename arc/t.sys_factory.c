@@ -142,6 +142,9 @@ ${te_instance.get_dci}(class_num);
     dci->${te_extent.inactive}.head = node;
     /* Initialize storage to zero.  */
     ${te_string.memset}( instance, 0, dci->${te_extent.size_name} );
+    if ( ( 0 != dci->${te_extent.size_name} ) && ( 0 != dci->${te_extent.istate_name} ) ) {
+      instance->current_state = -1; /* 0xff max for error detection */
+    }
 .if ( te_thread.enabled )
     ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
 .end if
