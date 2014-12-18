@@ -170,10 +170,10 @@
     .assign parameterdt = "dt_xtUMLSignal"
     .if ( ( te_sys.AUTOSAR ) or ( te_sys.VFB ) )
       .if ( "" != te_aba.ParameterInvocation )
-        .select one te_dt related by te_parm->TE_DT[R2049]
-        .assign parameter = te_parm.Name
-        .assign parameteri = te_parm.GeneratedName
-        .assign parameterdt = te_dt.ExtName
+        .//.select one te_dt related by te_parm->TE_DT[R2049]
+        .//.assign parameter = te_parm.Name
+        .//.assign parameteri = te_parm.GeneratedName
+        .//.assign parameterdt = te_dt.ExtName
       .end if
       .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
         .assign autosar_body = "  #ifdef ${te_thread.AUTOSAR_enabled}\n"
@@ -193,15 +193,15 @@
           .end if
           .if ( "void" != te_aba.ReturnDataType )
             .// send reference of the "returnParam" with the Rte_write parameters then return the "returnParam"
-            .assign autosar_body = autosar_body +" , & returnParam );\n  ooa_loop( &t );\n  return returnParam;\n  #else\n"
+            .assign autosar_body = autosar_body +", &returnParam );\n  ooa_loop( &t );\n  return returnParam;\n  #else\n"
           .else
             .assign autosar_body = autosar_body +" );\n  ooa_loop( &t );\n  #else\n"
           .end if
         .else
           .if ( parameter == "dp_signal" )
-            .assign autosar_body = autosar_body + "  ${parameterdt} ${parameteri};\n"
+            .assign autosar_body = autosar_body + "  //${parameterdt} ${parameteri};\n"
           .end if
-          .select any signal from instances of C_AS where ( selected.Name == te_mact.MessageName} )
+          .select any signal from instances of C_AS where ( selected.Name == te_mact.MessageName )
           .select many te_parms related by signal->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048]
           .assign parmsCount = cardinality te_parms
           .if (parmsCount > 1)
@@ -212,7 +212,7 @@
               .assign autosar_body = autosar_body +"  ${signal.Name}_param.${parm.GeneratedName}=${parm.GeneratedName};\n"
             .end for
             .// call the Rte_write with a reference to the struct
-            .assign autosar_body = autosar_body + "  Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_${te_mact.MessageName}_param( (Rte_Instance) cache_Rte_self, & ${signal.Name}_param );\n  #else\n"                
+            .assign autosar_body = autosar_body + "  Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_param( (Rte_Instance) cache_Rte_self, ${signal.Name}_param );\n  #else\n"                
           .else
             .assign autosar_body = autosar_body + "  Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_${parameter}( (Rte_Instance) cache_Rte_self, ${parameteri} );\n  #else\n"
           .end if
@@ -240,16 +240,16 @@
               .assign parameters_with_dt = ",${parameters.definition}"
             .else
               .// check if the parameter is passed by ref. or by value
-              .if ( 0 != te_parm.By_Ref )
+              .//.if ( 0 != te_parm.By_Ref )
                 .assign parameters_with_dt = ",${parameterdt} * ${parameteri}"
-              .else
+              .//.else
                 .assign parameters_with_dt = ",${parameterdt} ${parameteri}"
-              .end if
+              .//.end if
             .end if
           .end if
           .if ( "void" != te_aba.ReturnDataType )
             .// add a "returnParam" to be able to retrieve the returned value
-            .assign parameters_with_dt = parameters_with_dt + " , ${te_aba.ReturnDataType} * returnParam"
+            .assign parameters_with_dt = parameters_with_dt + ", ${te_aba.ReturnDataType} * returnParam"
           .end if
         .else
           .select any signal from instances of C_AS where ( selected.Name == te_mact.MessageName )
@@ -524,26 +524,26 @@
 .function Create_VFB_Rte_Header
   .param inst_ref_set te_macts
   .param inst_ref te_c
+  .select any te_file from instances of TE_FILE
   .assign parameteri = "dp_signal"
   .assign parameterdt = "dt_xtUMLSignal"
   .assign attr_autosar_vfb = ""
   .assign attr_autosar_vfb_dataType_header=""
   .assign attr_vfb_header_comments="\n"
-  .assign attr_vfb_header_comments= attr_vfb_header_comments + "/*---------------------------------------------------------------------------------------------- \n"
-  .assign attr_vfb_header_comments= attr_vfb_header_comments + "* File:  Rte_co_${te_c.Name}.h \n*\n"
-  .assign attr_vfb_header_comments= attr_vfb_header_comments + "* VFB generated file \n*\n"
-  .assign attr_vfb_header_comments= attr_vfb_header_comments + "* Please Remove this file if you need to make this project portable to VSI project ( with RTE ) \n*\n"
-  .assign attr_vfb_header_comments= attr_vfb_header_comments + "*-----------------------------------------------------------------------------------------------*/ \n\n"
-  .assign attr_autosar_vfb = attr_autosar_vfb + "\n#ifndef RTE_CO_$u{te_c.Name}_H\n#define RTE_CO_$u{te_c.Name}_H \n\n\n"
-  .assign attr_autosar_vfb = attr_autosar_vfb + "#include ""Rte_Type.h"" \n"
-  .assign attr_autosar_vfb = attr_autosar_vfb + "#include ""sys_types.h"" \n\n"
-  .assign attr_autosar_vfb_dataType_header = "\n#ifndef RTE_TYPE_H\n#define RTE_TYPE_H \n\n\n"
-  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "#include ""sys_types.h"" \n\n"
+  .assign attr_vfb_header_comments= attr_vfb_header_comments + "/*----------------------------------------------------------------------------------------------\n"
+  .assign attr_vfb_header_comments= attr_vfb_header_comments + "* File:  Rte_co_${te_c.Name}.h\n*\n"
+  .assign attr_vfb_header_comments= attr_vfb_header_comments + "* VFB generated file\n*\n"
+  .assign attr_vfb_header_comments= attr_vfb_header_comments + "* Please Remove this file if you need to make this project portable to VSI project ( with RTE )\n*\n"
+  .assign attr_vfb_header_comments= attr_vfb_header_comments + "*-----------------------------------------------------------------------------------------------*/\n\n"
+  .assign attr_autosar_vfb = attr_autosar_vfb + "\n#ifndef RTE_CO_$u{te_c.Name}_H\n#define RTE_CO_$u{te_c.Name}_H\n\n"
+  .assign attr_autosar_vfb = attr_autosar_vfb + "#include ""${te_file.types}.${te_file.hdr_file_ext}""\n\n"
+  .assign attr_autosar_vfb_dataType_header = "\n#ifndef RTE_TYPE_H\n#define RTE_TYPE_H\n\n"
+  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "#include ""${te_file.types}.${te_file.hdr_file_ext}""\n\n"
   .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "typedef unsigned char uint8;\n"
-  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "typedef int* Rte_Instance; \ntypedef bool dt_xtUMLSignal;\n" 
-  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "typedef uint8 Std_ReturnType; \n\n"
-  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "#define RTE_APPL_CODE  /* Empty */ \n\n"         
-  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "#define FUNC(ReturnType, RTE_CODE)  RTE_CODE ReturnType \n\n" 
+  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "typedef int* Rte_Instance;\ntypedef bool dt_xtUMLSignal;\n" 
+  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "typedef uint8 Std_ReturnType;\n\n"
+  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "#define RTE_APPL_CODE  /* Empty */\n\n"         
+  .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "#define FUNC(ReturnType, RTE_CODE)  RTE_CODE ReturnType\n\n" 
   .assign attr_autosar_vfb_dataType_header = attr_autosar_vfb_dataType_header + "\n#endif\n"
   .select many empty_foreign_te_macts from instances of TE_MACT where ( false )
   .for each te_mact in te_macts
@@ -578,19 +578,19 @@
         .end if
         .if ( not_empty te_parm )
           .if ( "void" == te_aba.ReturnDataType )
-            .assign attr_autosar_vfb = attr_autosar_vfb + " extern Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self , ${parameters_with_dt} );\n\n"
-            .assign attr_autosar_vfb = attr_autosar_vfb + " FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_Instance Rte_self , ${parameters_with_dt}) ;\n\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "extern Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self, ${parameters_with_dt} );\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_Instance Rte_self, ${parameters_with_dt});\n\n\n"
           .else
-            .assign attr_autosar_vfb = attr_autosar_vfb + " extern Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self , ${parameters_with_dt} , ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out );\n\n"
-            .assign attr_autosar_vfb = attr_autosar_vfb + " FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}(  Rte_Instance Rte_self , ${parameters_with_dt} , ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out ) ;\n\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "extern Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self, ${parameters_with_dt}, ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out );\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}(  Rte_Instance Rte_self, ${parameters_with_dt}, ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out );\n\n\n"
           .end if
         .else
           .if ( "void" == te_aba.ReturnDataType )
-            .assign attr_autosar_vfb = attr_autosar_vfb + " extern Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self );\n\n"
-            .assign attr_autosar_vfb = attr_autosar_vfb + " FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_Instance Rte_self ) ;\n\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "extern Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self );\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_Instance Rte_self );\n\n\n"
           .else
-            .assign attr_autosar_vfb = attr_autosar_vfb + " extern Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self, ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out );\n " 
-            .assign attr_autosar_vfb = attr_autosar_vfb + " FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_Instance Rte_self, ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out ) ;\n\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "extern Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self, ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out );\n " 
+            .assign attr_autosar_vfb = attr_autosar_vfb + "FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_Instance Rte_self, ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out );\n\n\n"
           .end if
         .end if
         .end for
@@ -623,19 +623,19 @@
         .end if  
         .for each foreign_te_mact in foreign_te_macts
         .if ( not_empty te_parm )
-          .assign attr_autosar_vfb = attr_autosar_vfb + " extern Std_ReturnType Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_${parameters}( Rte_Instance Rte_self ,  ${parameters_with_dt} );\n\n"
-          .assign attr_autosar_vfb = attr_autosar_vfb + " extern Std_ReturnType Rte_Read_pt_${foreign_te_mact.PortName}_${te_mact.MessageName}_${parameters}( Rte_Instance Rte_self , ${parameters_with_dt_ref} );\n\n"
-          .assign attr_autosar_vfb = attr_autosar_vfb + " FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${parameters}( Rte_Instance Rte_self ) ;\n\n\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + "extern Std_ReturnType Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_param( Rte_Instance Rte_self, ${parameters_with_dt} );\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + "extern Std_ReturnType Rte_Read_pt_${foreign_te_mact.PortName}_${te_mact.MessageName}_param( Rte_Instance Rte_self, ${parameters_with_dt_ref} );\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + "FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}_param( Rte_Instance Rte_self );\n\n"
         .else
-          .assign attr_autosar_vfb = attr_autosar_vfb + " extern Std_ReturnType Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_${parameteri}( Rte_Instance Rte_self , ${parameters_with_dt} );\n\n"
-          .assign attr_autosar_vfb = attr_autosar_vfb + " extern Std_ReturnType Rte_Read_pt_${foreign_te_mact.PortName}_${te_mact.MessageName}_${parameteri}( Rte_Instance Rte_self , ${parameters_with_dt_ref} );\n\n"
-          .assign attr_autosar_vfb = attr_autosar_vfb + " FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${parameteri}( Rte_Instance Rte_self ) ;\n\n\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + "extern Std_ReturnType Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_${parameteri}( Rte_Instance Rte_self, ${parameters_with_dt} );\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + "extern Std_ReturnType Rte_Read_pt_${foreign_te_mact.PortName}_${te_mact.MessageName}_${parameteri}( Rte_Instance Rte_self, ${parameters_with_dt_ref} );\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + "FUNC(void,RTE_APPL_CODE) ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${parameteri}( Rte_Instance Rte_self );\n"
         .end if    
         .end for
       .end if
     .end if
   .end for
-  .assign attr_autosar_vfb = attr_autosar_vfb + "\n\n#endif \n"
+  .assign attr_autosar_vfb = attr_autosar_vfb + "\n#endif"
 .end function
 .//
 .// ============================================================================
@@ -644,17 +644,17 @@
 .function Create_VFB_Rte_C
   .param inst_ref_set te_macts
   .param inst_ref te_c
-  .assign attr_parameters_save_with_dt = "\n\n"
-  .assign attr_autosar_vfb = "\n"
-  .assign attr_include_header= "\n#include ""Rte_co_${te_c.Name}.h""  \n"
+  .assign attr_parameters_save_with_dt = "\n"
+  .assign attr_autosar_vfb = ""
+  .assign attr_include_header= "\n#include ""Rte_co_${te_c.Name}.h""\n"
   .assign parameteri = "dp_signal"
   .assign parameterdt = "dt_xtUMLSignal"
   .assign attr_vfb_C_comments= "\n"
-  .assign attr_vfb_C_comments= attr_vfb_C_comments + "/*---------------------------------------------------------------------------------------------- \n"
-  .assign attr_vfb_C_comments= attr_vfb_C_comments + "* File:  ${te_c.Name}_vfb.c \n*\n"
-  .assign attr_vfb_C_comments= attr_vfb_C_comments + "* VFB generated file \n*\n"
-  .assign attr_vfb_C_comments= attr_vfb_C_comments + "* Please Remove this file if you need to make this project portable to VSI project ( with RTE ) \n*\n"
-  .assign attr_vfb_C_comments= attr_vfb_C_comments + "*-----------------------------------------------------------------------------------------------*/ \n\n"
+  .assign attr_vfb_C_comments= attr_vfb_C_comments + "/*----------------------------------------------------------------------------------------------\n"
+  .assign attr_vfb_C_comments= attr_vfb_C_comments + "* File:  ${te_c.Name}_vfb.c\n*\n"
+  .assign attr_vfb_C_comments= attr_vfb_C_comments + "* VFB generated file\n*\n"
+  .assign attr_vfb_C_comments= attr_vfb_C_comments + "* Please Remove this file if you need to make this project portable to VSI project ( with RTE )\n*\n"
+  .assign attr_vfb_C_comments= attr_vfb_C_comments + "*-----------------------------------------------------------------------------------------------*/\n\n"
   .select any empty_foreign_te_mact from instances of TE_MACT where ( false )
   .for each te_mact in te_macts
     .assign parameters_with_dt = ""
@@ -668,7 +668,7 @@
     .if ( ( ( te_mact.Provision ) and ( 1 == te_mact.Direction ) ) or ( ( not te_mact.Provision ) and ( 0 == te_mact.Direction ) ) )
       .if ( ( te_mact.subtypeKL == "SPR_RO" ) or ( te_mact.subtypeKL == "SPR_PO" ) )
         .select one te_aba related by te_mact->TE_ABA[R2010]
-        .select any operation from instances of C_IO where ( selected.Name == "${te_mact.MessageName}")
+        .select any operation from instances of C_IO where ( selected.Name == te_mact.MessageName )
         .select any te_parm related by operation->C_EP[R4004]->C_PP[R4006]->TE_PARM[R2048];
         .if ( te_mact.subtypeKL == "SPR_RO" )
           .select one spr_ro related by te_mact->SPR_RO[R2052]
@@ -690,22 +690,24 @@
           .end if
           .assign parameters = " ${te_parm.GeneratedName} "
         .end if
+        .if ( not_empty foreign_te_mact )
         .if ( not_empty te_parm )
           .if ( "void" == te_aba.ReturnDataType )
-            .assign attr_autosar_vfb = attr_autosar_vfb + "  Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self , ${parameters_with_dt} ){ \n"
-            .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_self , ${parameters}) ; \n  }\n\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "  Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self, ${parameters_with_dt} ){\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_self, ${parameters});\n  }\n\n"
           .else
-            .assign attr_autosar_vfb = attr_autosar_vfb + "  Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self , ${parameters_with_dt} , ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out ){ \n"
-            .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_self , ${parameters} , ${te_mact.MessageName}Out ) ; \n  }\n\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "  Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self, ${parameters_with_dt}, ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out ){\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_self, ${parameters}, ${te_mact.MessageName}Out );\n  }\n\n"
           .end if
         .else
           .if ( "void" == te_aba.ReturnDataType )
-            .assign attr_autosar_vfb = attr_autosar_vfb + "  Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self ){ \n"
-            .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_self ) ; \n   }\n\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "  Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self ){\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_self );\n   }\n\n"
           .else
-            .assign attr_autosar_vfb = attr_autosar_vfb + "  Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self, ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out ){ \n" 
-            .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_self , ${te_mact.MessageName}Out ) ; \n  }\n\n\n"
+            .assign attr_autosar_vfb = attr_autosar_vfb + "  Std_ReturnType Rte_Call_pt_${te_mact.PortName}_${te_mact.MessageName}_op_${te_mact.MessageName}( Rte_Instance Rte_self, ${te_aba.ReturnDataType} * ${te_mact.MessageName}Out ){\n" 
+            .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${te_mact.MessageName}( Rte_self, ${te_mact.MessageName}Out );\n  }\n\n"
           .end if
+        .end if
         .end if
       .else
         .if ( te_mact.subtypeKL == "SPR_PS" )
@@ -735,27 +737,29 @@
             .assign parameters_with_dt = " ${dt.ExtName} * ${te_parm.GeneratedName}"
           .end if
           .assign parameters_with_dt_ref = " ${dt.ExtName} * ${te_parm.GeneratedName}"
-          .assign attr_parameters_save_with_dt = attr_parameters_save_with_dt + "  ${dt.ExtName} ${te_mact.ComponentName}_${te_mact.MessageName}_${te_parm.Name} ; \n "
+          .assign attr_parameters_save_with_dt = attr_parameters_save_with_dt + "  ${dt.ExtName} ${te_mact.ComponentName}_${te_mact.MessageName}_${te_parm.Name} ;\n "
           .if ( 0 == te_parm.By_Ref )
-            .assign parameters_save = " ${te_mact.ComponentName}_${te_mact.MessageName}_${te_parm.Name} = ${te_parm.GeneratedName} ; \n "
+            .assign parameters_save = " ${te_mact.ComponentName}_${te_mact.MessageName}_${te_parm.Name} = ${te_parm.GeneratedName} ;\n "
           .else
-            .assign parameters_save = " ${te_mact.ComponentName}_${te_mact.MessageName}_${te_parm.Name} = ( ${dt.ExtName} ) (* ${te_parm.GeneratedName} ); \n "
+            .assign parameters_save = " ${te_mact.ComponentName}_${te_mact.MessageName}_${te_parm.Name} = ( ${dt.ExtName} ) (* ${te_parm.GeneratedName} );\n "
           .end if
           .assign parameters_read = " *${te_parm.GeneratedName} = ${te_mact.ComponentName}_${te_mact.MessageName}_${te_parm.Name};\n"
           .assign parameters = "${te_parm.Name} "  
         .end if      
+        .if ( not_empty foreign_te_mact )
         .if ( not_empty te_parm )
-          .assign attr_autosar_vfb = attr_autosar_vfb + " Std_ReturnType Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_${parameters}( Rte_Instance Rte_self , ${parameters_with_dt} ){ \n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + " Std_ReturnType Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_${parameters}( Rte_Instance Rte_self, ${parameters_with_dt} ){\n"
           .assign attr_autosar_vfb = attr_autosar_vfb + " ${parameters_save} "
-          .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${parameters}( Rte_self ) ; \n  }\n\n\n"
-          .assign attr_autosar_vfb = attr_autosar_vfb + " Std_ReturnType Rte_Read_pt_${foreign_te_mact.PortName}_${te_mact.MessageName}_${parameters}( Rte_Instance Rte_self , ${parameters_with_dt_ref} ){ \n"
-          .assign attr_autosar_vfb = attr_autosar_vfb + " ${parameters_read} \n  }\n\n\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${parameters}( Rte_self );\n  }\n\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + " Std_ReturnType Rte_Read_pt_${foreign_te_mact.PortName}_${te_mact.MessageName}_${parameters}( Rte_Instance Rte_self, ${parameters_with_dt_ref} ){\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + " ${parameters_read}\n  }\n\n"
         .else
-          .assign attr_autosar_vfb = attr_autosar_vfb + " Std_ReturnType Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_${parameteri}( Rte_Instance Rte_self , ${parameters_with_dt} ){ \n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + " Std_ReturnType Rte_Write_pt_${te_mact.PortName}_${te_mact.MessageName}_${parameteri}( Rte_Instance Rte_self, ${parameters_with_dt} ){\n"
           .assign attr_autosar_vfb = attr_autosar_vfb + " ${parameters_save} "
-          .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${parameteri}( Rte_self ) ; \n  }\n\n\n"
-          .assign attr_autosar_vfb = attr_autosar_vfb + " Std_ReturnType Rte_Read_pt_${foreign_te_mact.PortName}_${te_mact.MessageName}_${parameteri}( Rte_Instance Rte_self , ${parameters_with_dt_ref} ){ \n"
-          .assign attr_autosar_vfb = attr_autosar_vfb + " ${parameters_read} \n  }\n\n\n "
+          .assign attr_autosar_vfb = attr_autosar_vfb + "\t ib_${foreign_te_mact.ComponentName}_ru_${foreign_te_mact.PortName}_${parameteri}( Rte_self );\n  }\n\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + " Std_ReturnType Rte_Read_pt_${foreign_te_mact.PortName}_${te_mact.MessageName}_${parameteri}( Rte_Instance Rte_self, ${parameters_with_dt_ref} ){\n"
+          .assign attr_autosar_vfb = attr_autosar_vfb + " ${parameters_read}\n  }\n\n "
+        .end if    
         .end if    
       .end if
     .end if
@@ -766,39 +770,39 @@
 .// Generate VFB related files
 .// ============================================================================
 .function Create_VFB_Target_Functions_File
+  .select any te_file from instances of TE_FILE
   .assign attr_functions_header=""
   .assign attr_target_header=""
   .assign attr_functions_C=""
   .assign attr_vfb_Target_comments= "\n"
   .assign attr_vfb_Functions_H_comments= "\n"
   .assign attr_vfb_Functions_C_comments= "\n"
-  .assign attr_vfb_Target_comments= attr_vfb_Target_comments + "/*---------------------------------------------------------------------------------------------- \n"
-  .assign attr_vfb_Target_comments= attr_vfb_Target_comments + "* File:  target.h \n*\n"
-  .assign attr_vfb_Target_comments= attr_vfb_Target_comments + "* VFB generated file \n*\n"
-  .assign attr_vfb_Target_comments= attr_vfb_Target_comments + "* Please Remove this file if you need to make this project portable to VSI project ( with RTE ) \n*\n"
-  .assign attr_vfb_Target_comments= attr_vfb_Target_comments + "*-----------------------------------------------------------------------------------------------*/ \n\n"
-  .assign attr_vfb_Functions_H_comments= attr_vfb_Functions_H_comments + "/*---------------------------------------------------------------------------------------------- \n"
-  .assign attr_vfb_Functions_H_comments= attr_vfb_Functions_H_comments + "* File:  Functions.h \n*\n"
-  .assign attr_vfb_Functions_H_comments= attr_vfb_Functions_H_comments + "* VFB generated file \n*\n"
-  .assign attr_vfb_Functions_H_comments= attr_vfb_Functions_H_comments + "* Please Remove this file if you need to make this project portable to VSI project ( with RTE ) \n*\n"
-  .assign attr_vfb_Functions_H_comments= attr_vfb_Functions_H_comments + "*-----------------------------------------------------------------------------------------------*/ \n\n"
-  .assign attr_vfb_Functions_C_comments= attr_vfb_Functions_C_comments + "/*---------------------------------------------------------------------------------------------- \n"
-  .assign attr_vfb_Functions_C_comments= attr_vfb_Functions_C_comments + "* File:  Functions.c \n*\n"
-  .assign attr_vfb_Functions_C_comments= attr_vfb_Functions_C_comments + "* VFB generated file \n*\n"
-  .assign attr_vfb_Functions_C_comments= attr_vfb_Functions_C_comments + "* Please Remove this file if you need to make this project portable to VSI project ( with RTE ) \n*\n"
-  .assign attr_vfb_Functions_C_comments= attr_vfb_Functions_C_comments + "*-----------------------------------------------------------------------------------------------*/ \n\n"
-  .assign attr_target_header=attr_target_header + "\n#ifndef TARGET_H \n#define TARGET_H \n\n"
-  .assign attr_target_header=attr_target_header+ "\n\n#endif"  
-  .assign attr_functions_header=attr_functions_header + "\n#ifndef FUNCTION_H \n#define FUNCTION_H \n\n"    
-  .assign attr_functions_header=attr_functions_header + "#include ""sys_types.h"" \n\n" 
+  .assign attr_vfb_Target_comments= attr_vfb_Target_comments + "/*----------------------------------------------------------------------------------------------\n"
+  .assign attr_vfb_Target_comments= attr_vfb_Target_comments + "* File:  target.h\n*\n"
+  .assign attr_vfb_Target_comments= attr_vfb_Target_comments + "* VFB generated file\n*\n"
+  .assign attr_vfb_Target_comments= attr_vfb_Target_comments + "* Please Remove this file if you need to make this project portable to VSI project ( with RTE )\n*\n"
+  .assign attr_vfb_Target_comments= attr_vfb_Target_comments + "*-----------------------------------------------------------------------------------------------*/\n\n"
+  .assign attr_vfb_Functions_H_comments= attr_vfb_Functions_H_comments + "/*----------------------------------------------------------------------------------------------\n"
+  .assign attr_vfb_Functions_H_comments= attr_vfb_Functions_H_comments + "* File:  Functions.h\n*\n"
+  .assign attr_vfb_Functions_H_comments= attr_vfb_Functions_H_comments + "* VFB generated file\n*\n"
+  .assign attr_vfb_Functions_H_comments= attr_vfb_Functions_H_comments + "* Please Remove this file if you need to make this project portable to VSI project ( with RTE )\n*\n"
+  .assign attr_vfb_Functions_H_comments= attr_vfb_Functions_H_comments + "*-----------------------------------------------------------------------------------------------*/\n\n"
+  .assign attr_vfb_Functions_C_comments= attr_vfb_Functions_C_comments + "/*----------------------------------------------------------------------------------------------\n"
+  .assign attr_vfb_Functions_C_comments= attr_vfb_Functions_C_comments + "* File:  Functions.c\n*\n"
+  .assign attr_vfb_Functions_C_comments= attr_vfb_Functions_C_comments + "* VFB generated file\n*\n"
+  .assign attr_vfb_Functions_C_comments= attr_vfb_Functions_C_comments + "* Please Remove this file if you need to make this project portable to VSI project ( with RTE )\n*\n"
+  .assign attr_vfb_Functions_C_comments= attr_vfb_Functions_C_comments + "*-----------------------------------------------------------------------------------------------*/\n\n"
+  .assign attr_target_header=attr_target_header + "\n#ifndef TARGET_H\n#define TARGET_H\n\n"
+  .assign attr_target_header=attr_target_header+ "\n#endif"  
+  .assign attr_functions_header=attr_functions_header + "\n#ifndef FUNCTION_H\n#define FUNCTION_H\n\n"    
+  .assign attr_functions_header=attr_functions_header + "#include ""${te_file.types}.${te_file.hdr_file_ext}""\n\n" 
   .assign attr_functions_header=attr_functions_header + "extern void TIM_update(void);\n" 
   .assign attr_functions_header=attr_functions_header + "extern void ooa_loop( u1_t * t );\n" 
   .assign attr_functions_header=attr_functions_header + "extern void Escher_xtUMLmain(void);\n"
-  .assign attr_functions_header=attr_functions_header+ "extern void Escher_xtUMLmain(void);\n"
   .assign attr_functions_header=attr_functions_header+ "\n\n#endif\n"
-  .assign attr_functions_C=attr_functions_C + "\n#include ""functions_vfb.h"" \n"
-  .assign attr_functions_C=attr_functions_C + "void TIM_update(void) \n{\n\n}\n\n"
-  .assign attr_functions_C=attr_functions_C + "void ooa_loop( u1_t * t ) \n{\n\n}\n\n"
-  .assign attr_functions_C=attr_functions_C + "void Escher_xtUMLmain(void) \n{\n\n}\n\n"
+  .assign attr_functions_C=attr_functions_C + "\n#include ""functions_vfb.h""\n"
+  .assign attr_functions_C=attr_functions_C + "void TIM_update(void)\n{\n}\n"
+  .assign attr_functions_C=attr_functions_C + "void ooa_loop( u1_t * t )\n{\n}\n"
+  .assign attr_functions_C=attr_functions_C + "void Escher_xtUMLmain(void)\n{\n}\n"
 .end function
 .//

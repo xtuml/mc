@@ -285,7 +285,7 @@ typedef union {
         .if ( not_empty poly_event )
           .assign comment = "/* polymorphic event - not consumed by ${o_obj.Key_Lett} */"
         .end if
-  ${te_evt.GeneratedName} $l{o_obj.Key_Lett}${te_evt.Numb}${eventcounter};  ${comment}
+  ${te_evt.GeneratedName} $l{o_obj.Key_Lett}${te_evt.Numb}_${eventcounter};  ${comment}
         .assign eventcounter = eventcounter + 1
       .end for
 } ${te_sm.events_union};

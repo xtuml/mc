@@ -95,6 +95,7 @@ ${class_type_identifiers.body}
     .emit to file "${te_file.system_source_path}/${te_c.module_file}.${te_file.src_file_ext}"
   .end if
   .// AUTOSAR VFB ports
+  .select many te_macts related by te_c->TE_PO[R2005]->TE_MACT[R2006]
   .include "${te_file.arc_path}/q.autosar.vfb_ports.arc"
 .end for
 .//
