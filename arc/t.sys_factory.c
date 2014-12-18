@@ -123,27 +123,32 @@ ${te_instance.get_dci}(class_num);
 *(${te_cia.class_info_name}[ ${domain_num_var} ] + class_num);
 .end if
     .//
+  if ( 0 != instance ) {
 .if ( te_thread.enabled )
-  ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
+    ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_INSTANCE );
     .end if
 .if ( te_sys.CollectionsFlavor == 20 )
   .if ( te_sys.UnitsToDynamicallyAllocate != 0 )
-  node = ( ${te_set.element_type} * ) ${te_set.contains}( &dci->${te_extent.active}, instance );
+    node = ( ${te_set.element_type} * ) ${te_set.contains}( &dci->${te_extent.active}, instance );
   .else
-  node = &dci->${te_extent.container_name}[ 0 ] +
-    (((char *) instance - (char *) dci->${te_extent.pool_name} ) / dci->${te_extent.size_name} );
+    node = &dci->${te_extent.container_name}[ 0 ] +
+      (((char *) instance - (char *) dci->${te_extent.pool_name} ) / dci->${te_extent.size_name} );
   .end if
-  ${te_dlist.remove_node}( &dci->${te_extent.active}, node );
+    ${te_dlist.remove_node}( &dci->${te_extent.active}, node );
 .else
-  node = ${te_slist.remove_node}( &dci->active, instance );
+    node = ${te_slist.remove_node}( &dci->active, instance );
 .end if
-  node->next = dci->${te_extent.inactive}.head;
-  dci->${te_extent.inactive}.head = node;
-  /* Initialize storage to zero.  */
-  ${te_string.memset}( instance, 0, dci->${te_extent.size_name} );
+    node->next = dci->${te_extent.inactive}.head;
+    dci->${te_extent.inactive}.head = node;
+    /* Initialize storage to zero.  */
+    ${te_string.memset}( instance, 0, dci->${te_extent.size_name} );
+    if ( ( 0 != dci->${te_extent.size_name} ) && ( 0 != dci->${te_extent.istate_name} ) ) {
+      instance->current_state = -1; /* 0xff max for error detection */
+    }
 .if ( te_thread.enabled )
-  ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
+    ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_INSTANCE );
 .end if
+  }
 }
 .if ( te_sys.PersistentClassCount > 0 )
 void
