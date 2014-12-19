@@ -776,10 +776,6 @@ CREATE TABLE CNST_CIP (
 
 
 
-
-
-
-
 -- ============================================================================
 -- Classes In Package:  Domain  
 -- ============================================================================
@@ -1066,7 +1062,6 @@ CREATE TABLE EP_PIP (
 	Child_Package_ID	UNIQUE_ID );
 
 
-
 -- ============================================================================
 -- Classes In Package:  Event  
 -- ============================================================================
@@ -1149,8 +1144,6 @@ CREATE TABLE E_CSME (
 CREATE TABLE E_GSME (
 	Statement_ID	UNIQUE_ID,
 	SMevt_ID	UNIQUE_ID );
-
-
 
 
 -- ============================================================================
@@ -1359,7 +1352,6 @@ CREATE TABLE ACT_CR (
 CREATE TABLE ACT_DEL (
 	Statement_ID	UNIQUE_ID,
 	Var_ID	UNIQUE_ID );
-
 
 
 -- ============================================================================
@@ -1703,7 +1695,7 @@ CREATE TABLE MSG_EPA (
 
 
 -- ============================================================================
--- Classes In Package:  Packageable Element  
+-- Classes In Package:  Packageable Element
 -- ============================================================================
 
 -- Class:  8000.  Packageable Element
@@ -1743,7 +1735,6 @@ CREATE TABLE PE_CRS (
 	Type	INTEGER );
 
 
-
 -- ============================================================================
 -- Classes In Package:  Persistence Associations  
 -- ============================================================================
@@ -1762,7 +1753,6 @@ CREATE TABLE PA_SICP (
 CREATE TABLE PA_DIC (
 	Component_Id	UNIQUE_ID,
 	Delegation_Id	UNIQUE_ID );
-
 
 
 -- ============================================================================
@@ -1818,7 +1808,6 @@ CREATE TABLE ACT_URU (
 	associationNumberColumn	INTEGER,
 	associationPhraseLineNumber	INTEGER,
 	associationPhraseColumn	INTEGER );
-
 
 
 
@@ -1908,7 +1897,7 @@ CREATE TABLE SQ_MIS (
 
 
 -- ============================================================================
--- Classes In Package:  Signal Provisions and Requirements  
+-- Classes In Package:  Signal Provisions and Requirements
 -- ============================================================================
 
 -- Class:  4500.  Required Executable Property
@@ -3846,10 +3835,6 @@ CREATE TABLE S_AW (
 	Sync_ID	UNIQUE_ID );
 
 
-
-
-
-
 -- ============================================================================
 -- Relationships In Package:  Activity  
 -- ============================================================================
@@ -4537,10 +4522,6 @@ CREATE ROP REF_ID R1506	FROM MC CNST_CIP	(Package_ID)
 
 
 
-
-
-
-
 -- ============================================================================
 -- Relationships In Package:  Domain  
 -- ============================================================================
@@ -4779,7 +4760,6 @@ CREATE ROP REF_ID R1405	FROM MC EP_PKG	(Direct_Sys_ID)
 			  TO 1  S_SYS	(Sys_ID);
 
 
-
 -- ============================================================================
 -- Relationships In Package:  Event  
 -- ============================================================================
@@ -4846,8 +4826,6 @@ CREATE ROP REF_ID R712	FROM MC E_GEN	(Var_ID)
 
 CREATE ROP REF_ID R714	FROM 1C E_GPR	(Value_ID)
 			  TO 1C V_VAL	(Value_ID);
-
-
 
 
 -- ============================================================================
@@ -5058,7 +5036,6 @@ CREATE ROP REF_ID R672	FROM MC ACT_CNV	(Obj_ID)
 
 CREATE ROP REF_ID R689	FROM 1C ACT_AI	(l_Value_ID)
 			  TO 1  V_VAL	(Value_ID);
-
 
 
 -- ============================================================================
@@ -5324,7 +5301,6 @@ CREATE ROP REF_ID R1023	FROM MC MSG_EPA	(PP_Id)
 			  TO 1C C_PP	(PP_Id);
 
 
-
 -- ============================================================================
 -- Relationships In Package:  Packageable Element  
 -- ============================================================================
@@ -5417,7 +5393,6 @@ CREATE ROP REF_ID R8008	FROM MC PE_CVS	(Name, Type, Id)
 			  TO 1  PE_CRS	(Name, Type, Id);
 
 
-
 -- ============================================================================
 -- Relationships In Package:  Persistence Associations  
 -- ============================================================================
@@ -5436,7 +5411,6 @@ CREATE ROP REF_ID R9002	FROM MC PA_DIC	(Component_Id)
 
 CREATE ROP REF_ID R9002	FROM 1  PA_DIC	(Delegation_Id)
 			  TO 1  C_DG	(Id);
-
 
 
 -- ============================================================================
@@ -5484,7 +5458,6 @@ CREATE ROP REF_ID R655	FROM MC ACT_UNR	(Rel_ID)
 
 CREATE ROP REF_ID R656	FROM MC ACT_URU	(Rel_ID)
 			  TO 1  R_REL	(Rel_ID);
-
 
 
 
@@ -6588,9 +6561,5 @@ CREATE ROP REF_ID R3200	FROM 1C S_AW	(Brg_ID)
 
 CREATE ROP REF_ID R3201	FROM MC S_AW	(Sync_ID)
 			  TO 1C S_SYNC	(Sync_ID);
-
-
-
-
 
 

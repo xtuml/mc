@@ -263,7 +263,7 @@
         .// end relate
         .assign tm_tpv.te_ciID = 00
       .end for
-      .select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
+      .select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->CL_POR[R4707]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) )
       .for each te_iir in te_iirs
         .create object instance tm_tpv of TM_TPV
         .assign tm_tpv.instance = instance
