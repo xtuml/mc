@@ -34,6 +34,7 @@
   .assign format_delimiter = ""
   .assign Order = 0
   .// Be sure we have the first parameter.
+  .select any te_parm from instances of TE_PARM where (false)
   .for each te_parm in te_parms
     .break for
   .end for
