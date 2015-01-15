@@ -1366,6 +1366,7 @@
   .param inst_ref te_smt
   .param inst_ref act_ret
   .select any te_file from instances of TE_FILE
+  .select any te_instance from instances of TE_INSTANCE
   .select one te_blk related by te_smt->TE_BLK[R2078]
   .assign ws = te_blk.indentation
   .select one v_val related by act_ret->V_VAL[R668]

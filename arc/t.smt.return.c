@@ -10,8 +10,8 @@
   .// calling scope immediately.
   .// This is dubious practice (due to unallocated stack space),
   .// but is safer than explicit allocation alternatives.
-  .if ( "c_t" == returnvaltype )
-${ws}{${returnvaltype} * ${rv} = ${value};
+  .if ( "xtuml_string" == returnvaltype )
+${ws}{${returnvaltype} ${te_instance.module}${te_string.strcpy}( ${rv}.s, ${value} );
   .else
 ${ws}{${returnvaltype} ${rv} = ${value};
   .end if
