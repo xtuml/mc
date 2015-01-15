@@ -124,7 +124,7 @@
   .//
   .// Generate the attribute value initializers.
   .//
-  .select any te_attr related by o_obj->TE_CLASS[R2019]-TE_ATTR[R2061] where ( selected.prevID == 0 )
+  .select any te_attr related by o_obj->TE_CLASS[R2019]->TE_ATTR[R2061] where ( selected.prevID == 0 )
   .if ( not_empty te_attr )
     .select one o_attr related by te_attr->O_ATTR[R2033]
     .while ( not_empty te_attr )
