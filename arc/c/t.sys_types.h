@@ -107,7 +107,7 @@ typedef          double r_t;
 typedef          float  r4_t;
 typedef          double r8_t;
 typedef /*size_t*/ u4_t ${te_prefix.type}size_t;
-typedef struct { s[ ${te_string.max_string_length} ]; } xtuml_string;
+typedef struct { char s[ ${te_string.max_string_length} ]; } xtuml_string;
 
 /*
  * These are some of the fundamental types used universally.
@@ -168,10 +168,10 @@ typedef u4_t ${te_prefix.type}uSec_t;
  * Note we include stdio.h for printf.  Otherwise, it is not needed.
  */
 #include <stdio.h>
-.if ( te_sys.InstanceLoading )
+  .if ( te_sys.InstanceLoading )
 #include <stdint.h>
 #include <string.h>
-.end if
+  .end if
 ${te_typemap.user_supplied_data_types}\
 .end if
 .if ( te_sys.SystemCPortsType != "BitLevelSignals" )
