@@ -1542,6 +1542,12 @@
       .// relate te_sync to te_aba across R2010;
       .assign te_sync.AbaID = te_aba.AbaID
       .// end relate
+      .select one te_blk related by s_sync->ACT_FNB[R695]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+      .if ( not_empty te_blk )
+        .// relate te_blk to te_aba across R2011;
+        .assign te_blk.AbaID = te_aba.AbaID
+        .// end relate
+      .end if
     .end for
     .//
     .// Create the Generated External Entity instances and link them in.
@@ -1556,6 +1562,25 @@
       .assign te_c.first_eeID = te_ee.ID
       .// end relate
     .end if
+    .//
+    .select many te_macts related by te_c->TE_MACT[R2002]
+    .for each te_mact in te_macts
+      .select one te_aba related by te_mact->TE_ABA[R2010]
+      .if ( "SPR_PO" == te_mact.subtypeKL )
+        .select one te_blk related by te_mact->SPR_PO[R2050]->ACT_POB[R687]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+      .elif ( "SPR_RO" == te_mact.subtypeKL )
+        .select one te_blk related by te_mact->SPR_RO[R2052]->ACT_ROB[R685]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+      .elif ( "SPR_PS" == te_mact.subtypeKL )
+        .select one te_blk related by te_mact->SPR_PS[R2051]->ACT_PSB[R686]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+      .elif ( "SPR_RS" == te_mact.subtypeKL )
+        .select one te_blk related by te_mact->SPR_RS[R2053]->ACT_RSB[R684]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+      .end if
+      .if ( not_empty te_blk )
+        .// relate te_blk to te_aba across R2011;
+        .assign te_blk.AbaID = te_aba.AbaID
+        .// end relate
+      .end if
+    .end for
     .//
     .// Initialize the Generated Class instances.
     .select many te_classs related by te_c->TE_CLASS[R2064]
@@ -1693,6 +1718,12 @@
           .// relate te_dbattr to te_aba across R2010;
           .assign te_dbattr.AbaID = te_aba.AbaID
           .// end relate
+          .select one te_blk related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+          .if ( not_empty te_blk )
+            .// relate te_blk to te_aba across R2011;
+            .assign te_blk.AbaID = te_aba.AbaID
+            .// end relate
+          .end if
         .end if
         .assign delimiter = ","
         .assign prev_te_attr = te_attr
@@ -1734,6 +1765,12 @@
         .// relate te_tfr to te_aba across R2010;
         .assign te_tfr.AbaID = te_aba.AbaID
         .// end relate
+        .select one te_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+        .if ( not_empty te_blk )
+          .// relate te_blk to te_aba across R2011;
+          .assign te_blk.AbaID = te_aba.AbaID
+          .// end relate
+        .end if
       .end for
       .//
       .// Create the WhereKey instance connected to O_ID.
@@ -1871,6 +1908,12 @@
     .// relate te_act to te_aba across R2010;
     .assign te_act.AbaID = te_aba.AbaID
     .// end relate
+    .select one te_blk related by sm_act->ACT_SAB[R691]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+    .if ( not_empty te_blk )
+      .// relate te_blk to te_aba across R2011;
+      .assign te_blk.AbaID = te_aba.AbaID
+      .// end relate
+    .end if
   .end for
   .//
   .// Sort the states for later state event matrix generation.
@@ -1924,6 +1967,12 @@
     .// relate te_act to te_aba across R2010;
     .assign te_act.AbaID = te_aba.AbaID
     .// end relate
+    .select one te_blk related by sm_act->ACT_TAB[R688]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+    .if ( not_empty te_blk )
+      .// relate te_blk to te_aba across R2011;
+      .assign te_blk.AbaID = te_aba.AbaID
+      .// end relate
+    .end if
     .assign counter = counter + 1
   .end for
   .assign te_sm.txn_action_count = counter - 1
@@ -2167,6 +2216,12 @@
     .// relate te_brg to te_aba across R2010;
     .assign te_brg.AbaID = te_aba.AbaID
     .// end relate
+    .select one te_blk related by s_brg->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+    .if ( not_empty te_blk )
+      .// relate te_blk to te_aba across R2011;
+      .assign te_blk.AbaID = te_aba.AbaID
+      .// end relate
+    .end if
   .end for
 .end function
 .//

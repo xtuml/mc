@@ -652,66 +652,66 @@
   .param string salt
   .select one te_tfr related by v_trv->O_TFR[R829]->TE_TFR[R2024]
   .if ( not_empty te_tfr )
-    .select any te_target from instances of TE_TARGET
-    .select one v_val related by v_trv->V_VAL[R801]
-    .select one te_val related by v_val->TE_VAL[R2040]
-    .select many v_pars related by v_trv->V_PAR[R811]
-    .select one te_aba related by te_tfr->TE_ABA[R2010]
-    .assign te_val.buffer = te_tfr.GeneratedName + "("
-    .if ( te_tfr.Instance_Based == 1 )
-      .select one te_var related by v_trv->V_VAR[R830]->TE_VAR[R2039]
-      .if ( not_empty te_var )
-        .if ( "C++" == te_target.language )
-          .assign te_val.buffer = ( te_var.buffer + "->" ) + te_val.buffer
-        .end if
-        .assign te_val.buffer = te_val.buffer + te_var.buffer
-        .assign te_val.OAL = te_var.OAL + "."
-      .else
-        .// no variable, must be selection (selected reference)
-        .if ( "C++" == te_target.language )
-          .assign te_val.buffer = "selected->" + te_val.buffer
-        .end if
-        .assign te_val.buffer = te_val.buffer + "selected"
-        .assign te_val.OAL = "SELECTED."
-      .end if
-    .else
+  .select any te_target from instances of TE_TARGET
+  .select one v_val related by v_trv->V_VAL[R801]
+  .select one te_val related by v_val->TE_VAL[R2040]
+  .select many v_pars related by v_trv->V_PAR[R811]
+  .select one te_aba related by te_tfr->TE_ABA[R2010]
+  .assign te_val.buffer = te_tfr.GeneratedName + "("
+  .if ( te_tfr.Instance_Based == 1 )
+    .select one te_var related by v_trv->V_VAR[R830]->TE_VAR[R2039]
+    .if ( not_empty te_var )
       .if ( "C++" == te_target.language )
-        .select one te_class related by v_trv->O_TFR[R829]->O_OBJ[R115]->TE_CLASS[R2019]
-        .assign te_val.buffer = ( te_class.GeneratedName + "::" ) + te_val.buffer
+        .assign te_val.buffer = ( te_var.buffer + "->" ) + te_val.buffer
       .end if
-      .assign te_val.OAL = te_tfr.Key_Lett + "::"
-    .end if
-    .invoke r = gen_parameter_list( v_pars, false, salt )
-    .assign te_parm = r.result
-    .assign parameters = te_parm.ParamBuffer
-    .assign params_OAL = te_parm.OALParamBuffer
-    .assign te_val.OAL = ( ( te_val.OAL + te_tfr.Name ) + ( "(" + params_OAL ) ) + ")"
-    .if ( te_tfr.Instance_Based == 1 )
-      .if ( ( "C++" == te_target.language ) or ( "" != parameters ) )
-        .assign te_val.buffer = te_val.buffer + ", "
-      .end if
-    .end if
-    .if ( "C++" == te_target.language )
-      .assign te_val.buffer = te_val.buffer + "thismodule"
-      .if ( "" != parameters )
-        .assign te_val.buffer = te_val.buffer + ", "
-      .end if
-    .end if
-    .assign te_val.buffer = ( te_val.buffer + parameters ) + ")"
-    .if ( "xtuml_string" == te_aba.ReturnDataType )
-      .// access the string field in the class/struct.
-      .assign te_val.buffer = te_val.buffer + ".s"
-    .end if
-    .assign te_val.dimensions = te_aba.dimensions
-    .assign te_val.array_spec = te_aba.array_spec
-    .select one te_dim related by te_aba->TE_DIM[R2058]
-    .if ( not_empty te_dim )
-      .// relate te_val to te_dim across R2079;
-      .assign te_val.te_dimID = te_dim.te_dimID
-      .// end relate
+      .assign te_val.buffer = te_val.buffer + te_var.buffer
+      .assign te_val.OAL = te_var.OAL + "."
     .else
-      .assign te_val.te_dimID = 00
+      .// no variable, must be selection (selected reference)
+      .if ( "C++" == te_target.language )
+        .assign te_val.buffer = "selected->" + te_val.buffer
+      .end if
+      .assign te_val.buffer = te_val.buffer + "selected"
+      .assign te_val.OAL = "SELECTED."
     .end if
+  .else
+    .if ( "C++" == te_target.language )
+      .select one te_class related by v_trv->O_TFR[R829]->O_OBJ[R115]->TE_CLASS[R2019]
+      .assign te_val.buffer = ( te_class.GeneratedName + "::" ) + te_val.buffer
+    .end if
+    .assign te_val.OAL = te_tfr.Key_Lett + "::"
+  .end if
+  .invoke r = gen_parameter_list( v_pars, false, salt )
+  .assign te_parm = r.result
+  .assign parameters = te_parm.ParamBuffer
+  .assign params_OAL = te_parm.OALParamBuffer
+  .assign te_val.OAL = ( ( te_val.OAL + te_tfr.Name ) + ( "(" + params_OAL ) ) + ")"
+  .if ( te_tfr.Instance_Based == 1 )
+    .if ( ( "C++" == te_target.language ) or ( "" != parameters ) )
+      .assign te_val.buffer = te_val.buffer + ", "
+    .end if
+  .end if
+  .if ( "C++" == te_target.language )
+    .assign te_val.buffer = te_val.buffer + "thismodule"
+    .if ( "" != parameters )
+      .assign te_val.buffer = te_val.buffer + ", "
+    .end if
+  .end if
+  .assign te_val.buffer = ( te_val.buffer + parameters ) + ")"
+  .if ( "xtuml_string" == te_aba.ReturnDataType )
+    .// access the string field in the class/struct.
+    .assign te_val.buffer = te_val.buffer + ".s"
+  .end if
+  .assign te_val.dimensions = te_aba.dimensions
+  .assign te_val.array_spec = te_aba.array_spec
+  .select one te_dim related by te_aba->TE_DIM[R2058]
+  .if ( not_empty te_dim )
+    .// relate te_val to te_dim across R2079;
+    .assign te_val.te_dimID = te_dim.te_dimID
+    .// end relate
+  .else
+    .assign te_val.te_dimID = 00
+  .end if
   .end if
 .end function
 .//

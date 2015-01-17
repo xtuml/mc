@@ -1376,6 +1376,15 @@
   .assign value = ""
   .assign value_OAL = ""
   .assign returnvaltype = ""
+  .// Deallocate any variables allocated from this block and all higher blocks in this action.
+  .assign deallocation = te_blk.deallocation
+  .select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078]
+  .while ( not_empty parent_te_blk )
+    .assign te_blk = parent_te_blk
+    .assign deallocation = deallocation + parent_te_blk.deallocation
+    .select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078]
+  .end while
+  .select one te_aba related by te_blk->TE_ABA[R2011]
   .if ( not_empty v_val )
     .//
     .// resolve the core data type of v_val
@@ -1390,8 +1399,7 @@
     .if (not_empty core_s_dt)
       .assign s_dt = core_s_dt
     .end if
-    .select one te_dt related by s_dt->TE_DT[R2021]
-    .assign returnvaltype = te_dt.ExtName
+    .assign returnvaltype = te_aba.ReturnDataType
     .//
     .// if the value is of the _real_ type
     .if ( "real" == s_dt.Name )
@@ -1442,16 +1450,9 @@
     .assign value = te_val.buffer
     .assign value_OAL = te_val.OAL
   .end if
-  .// Deallocate any variables allocated from this block and all higher blocks in this action.
-  .assign deallocation = te_blk.deallocation
-  .select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078]
-  .while ( not_empty parent_te_blk )
-    .assign deallocation = deallocation + parent_te_blk.deallocation
-    .select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078]
-  .end while
   .//
   .assign rv = value
-  .if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
+  .if ( ( ( "" != deallocation ) or ( "xtuml_string" == returnvaltype ) ) and ( "" != returnvaltype ) )
     .// Use when deallocating or when returning an array (even array of char).
     .assign rv = "xtumlOALrv"
   .end if
