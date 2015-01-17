@@ -107,6 +107,7 @@ typedef          double r_t;
 typedef          float  r4_t;
 typedef          double r8_t;
 typedef /*size_t*/ u4_t ${te_prefix.type}size_t;
+typedef struct { s[ ${te_string.max_string_length} ]; } xtuml_string;
 
 /*
  * These are some of the fundamental types used universally.

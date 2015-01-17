@@ -1308,6 +1308,7 @@
     .// relate act_blk to te_blk across R2016;
     .assign te_blk.Block_ID = act_blk.Block_ID
     .// end relate
+    .assign te_blk.AbaID = 00
     .assign te_blk.declaration = ""
     .assign te_blk.deallocation = ""
     .assign te_blk.depth = 1

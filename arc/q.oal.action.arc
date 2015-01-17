@@ -25,9 +25,6 @@
     .for each te_aba in te_abas
       .select one te_blk related by te_aba->TE_BLK[R2011]
       .if ( not_empty te_blk )
-        .// relate te_blk to te_aba across R2011;
-        .assign te_blk.AbaId = te_aba.AbaId
-        .// end relate
         .invoke blck_xlate( te_c.StmtTrace, te_blk, te_aba )
       .else
         .assign te_aba.code = ( "\n  /" + "* WARNING!  Skipping unsuccessful or unparsed action.  *" ) + "/\n"
@@ -45,9 +42,6 @@
         .select one te_aba related by s_brg->TE_BRG[R2025]->TE_ABA[R2010]
         .if ( not_empty act_blk )
           .select one te_blk related by act_blk->TE_BLK[R2016]
-          .// relate te_blk to te_aba across R2011;
-          .assign te_blk.AbaId = te_aba.AbaId
-          .// end relate
           .invoke blck_xlate( false, te_blk, te_aba )
         .end if
       .end for
