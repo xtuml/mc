@@ -37,15 +37,17 @@ static u1_t threadnumber[ NUM_OF_TOTAL_THREADS ];
 void ${te_prefix.result}InitializeThreading( void )
 {
   u1_t i;
-  int rc;
   for ( i = 0; i < NUM_OF_TOTAL_THREADS; i++ ) {
     threadnumber[ i ] = i;
-    rc = pthread_cond_init( &nonbusy_wait_cond[ i ], 0 );
+    if ( 0 != pthread_cond_init( &nonbusy_wait_cond[ i ], 0 ) ) {
+      /* error recovery TBD */
+    }
   }
   for ( i = 0; i < SEMAPHORE_FLAVOR_MAX; i++ ) {
-    rc = pthread_mutex_init( &mutices[ i ], 0 );
+    if ( 0 != pthread_mutex_init( &mutices[ i ], 0 ) ) {
+      /* error recovery TBD */
+    }
   }
-  rc = rc;
 }
 
 /*
@@ -54,8 +56,9 @@ void ${te_prefix.result}InitializeThreading( void )
  */
 void ${te_thread.mutex_lock}( const u1_t flavor )
 {
-  int rc = pthread_mutex_lock( &mutices[ flavor ] );
-  rc = rc;
+  if ( 0 != pthread_mutex_lock( &mutices[ flavor ] ) ) {
+    /* error recovery TBD */
+  }
 }
 
 /*
@@ -63,8 +66,9 @@ void ${te_thread.mutex_lock}( const u1_t flavor )
  */
 void ${te_thread.mutex_unlock}( const u1_t flavor )
 {
-  int rc = pthread_mutex_unlock( &mutices[ flavor ] );
-  rc = rc;
+  if ( 0 != pthread_mutex_unlock( &mutices[ flavor ] ) ) {
+    /* error recovery TBD */
+  }
 }
 
 /*
@@ -82,13 +86,17 @@ void ${te_thread.nonbusy_wait}( const u1_t thread )
     struct timespec ts;
     vp = TIM_duration_until_next_timer_pop( ( void * ) &ts );
     if ( vp != 0 ) {
-      rc = pthread_cond_timedwait(
-        dwc, &mutices[ SEMAPHORE_FLAVOR_NONBUSY ], &ts );
+      if ( 0 != pthread_cond_timedwait(
+        dwc, &mutices[ SEMAPHORE_FLAVOR_NONBUSY ], &ts ) ) {
+        /* error recovery TBD */
+      }
     }
   }
 .end if
   if ( ( thread != 0 ) || ( vp == 0 ) ) {
-    rc = pthread_cond_wait( dwc, &mutices[ SEMAPHORE_FLAVOR_NONBUSY ] );
+    if ( 0 != pthread_cond_wait( dwc, &mutices[ SEMAPHORE_FLAVOR_NONBUSY ] ) ) {
+      /* error recovery TBD */
+    }
   }
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_NONBUSY );
 }
@@ -98,10 +106,11 @@ void ${te_thread.nonbusy_wait}( const u1_t thread )
  */
 void ${te_thread.nonbusy_wake}( const u1_t thread )
 {
-  int rc;
   pthread_cond_t * dwc = &nonbusy_wait_cond[ thread ];
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_NONBUSY );
-  rc = pthread_cond_broadcast( dwc );
+  if ( 0 != pthread_cond_broadcast( dwc ) ) {
+    /* error recovery TBD */
+  }
   ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_NONBUSY );
 }
 
@@ -111,8 +120,9 @@ void ${te_thread.nonbusy_wake}( const u1_t thread )
 void ${te_thread.create}( void *(routine)(void *), const u1_t i )
 {
   static pthread_t pthread[ NUM_OF_TOTAL_THREADS ];
-  int rc = pthread_create( &pthread[ i - 1 ], 0, routine, &threadnumber[ i ] );
-  rc = rc;
+  if ( 0 != pthread_create( &pthread[ i - 1 ], 0, routine, &threadnumber[ i ] ) ) {
+    /* error recovery TBD */
+  }
 }
 
 /*
@@ -121,12 +131,15 @@ void ${te_thread.create}( void *(routine)(void *), const u1_t i )
 void ${te_thread.shutdown}( void )
 {
   u1_t i;
-  int rc;
   for ( i = 0; i < NUM_OF_TOTAL_THREADS; i++ ) {
-    rc = pthread_cond_destroy( &nonbusy_wait_cond[ i ] );
+    if ( 0 != pthread_cond_destroy( &nonbusy_wait_cond[ i ] ) ) {
+      /* error recovery TBD */
+    }
   }
   for ( i = 0; i < SEMAPHORE_FLAVOR_MAX; i++ ) {
-    rc = pthread_mutex_destroy( &mutices[ i ] );
+    if ( 0 != pthread_mutex_destroy( &mutices[ i ] ) ) {
+      /* error recovery TBD */
+    }
   }
 }
 .//
