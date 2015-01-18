@@ -77,7 +77,6 @@ void ${te_thread.mutex_unlock}( const u1_t flavor )
  */
 void ${te_thread.nonbusy_wait}( const u1_t thread )
 {
-  int rc;
   void * vp = 0;
   pthread_cond_t * dwc = &nonbusy_wait_cond[ thread ];
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_NONBUSY );

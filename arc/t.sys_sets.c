@@ -426,8 +426,8 @@ ${te_set.scope}${te_string.strcpy}( c_t * dst, const c_t * src )
     s = ${te_set.scope}${te_dma.allocate}( i );
     dst = s;
 .else
-  ${te_prefix.type}size_t i = ${te_string.max_string_length} - 1;
   if ( ( 0 != src ) && ( 0 != dst ) ) {
+    ${te_prefix.type}size_t i = ${te_string.max_string_length} - 1;
 .end if
     while ( ( i > 0 ) && ( *src != '\0' ) ) {
       --i;
