@@ -562,10 +562,6 @@
   .select one te_aba related by te_mact->TE_ABA[R2010]
   .invoke r = q_render_msg( te_mact, v_pars, "", false, salt )
   .assign te_val.buffer = r.body
-  .if ( "xtuml_string" == te_aba.ReturnDataType )
-    .// access the string field in the class/struct.
-    .assign te_val.buffer = te_val.buffer + ".s"
-  .end if
   .assign te_val.OAL = ( ( te_mact.PortName + "::" ) + ( te_mact.MessageName + "(" ) ) + ( te_mact.OALParamBuffer + ")" )
   .assign te_val.dimensions = te_aba.dimensions
   .assign te_val.array_spec = te_aba.array_spec
@@ -623,10 +619,6 @@
       .assign te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " )
     .end if
     .assign te_val.buffer = te_val.buffer + ")"
-    .if ( "xtuml_string" == te_aba.ReturnDataType )
-      .// access the string field in the class/struct.
-      .assign te_val.buffer = te_val.buffer + ".s"
-    .end if
     .assign te_val.dimensions = te_aba.dimensions
     .assign te_val.array_spec = te_aba.array_spec
     .select one te_dim related by te_aba->TE_DIM[R2058]
@@ -698,10 +690,6 @@
     .end if
   .end if
   .assign te_val.buffer = ( te_val.buffer + parameters ) + ")"
-  .if ( "xtuml_string" == te_aba.ReturnDataType )
-    .// access the string field in the class/struct.
-    .assign te_val.buffer = te_val.buffer + ".s"
-  .end if
   .assign te_val.dimensions = te_aba.dimensions
   .assign te_val.array_spec = te_aba.array_spec
   .select one te_dim related by te_aba->TE_DIM[R2058]
@@ -746,10 +734,6 @@
       .assign te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " )
     .end if
     .assign te_val.buffer = te_val.buffer + ")"
-    .if ( "xtuml_string" == te_aba.ReturnDataType )
-      .// access the string field in the class/struct.
-      .assign te_val.buffer = te_val.buffer + ".s"
-    .end if
     .assign te_val.dimensions = te_aba.dimensions
     .assign te_val.array_spec = te_aba.array_spec
     .select one te_dim related by te_aba->TE_DIM[R2058]

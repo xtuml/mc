@@ -1452,7 +1452,7 @@
   .end if
   .//
   .assign rv = value
-  .if ( ( ( "" != deallocation ) or ( "xtuml_string" == returnvaltype ) ) and ( "" != returnvaltype ) )
+  .if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
     .// Use when deallocating or when returning an array (even array of char).
     .assign rv = "xtumlOALrv"
   .end if

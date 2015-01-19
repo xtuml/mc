@@ -2317,10 +2317,9 @@
     .select any te_string from instances of TE_STRING
     .assign te_aba.dimensions = te_aba.dimensions + 1
     .assign te_aba.array_spec = ( te_aba.array_spec + "[" ) + ( te_string.max_string_length + "]" )
-    .assign te_aba.ReturnDataType = "xtuml_string"
   .end if
   .// Allow arrays (including strings) to be returned as pointers.
-  .if ( ( te_aba.dimensions > 0 ) and ( "xtuml_string" != te_aba.ReturnDataType ) )
+  .if ( te_aba.dimensions > 0 )
     .assign te_aba.ReturnDataType = te_aba.ReturnDataType + " *"
   .end if
   .assign attr_result = te_aba
