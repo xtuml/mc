@@ -80,7 +80,7 @@
     .end if
     .invoke r = t_oal_smt_event_parameters( "", te_parm.Name, te_parm.GeneratedName, te_dt.Core_Typ, "  " )
     .assign assn = assn + r.result
-    .if ( "A00portindex" != te_parm.Name )
+    .if ( ( "A00portindex" != te_parm.Name ) and ( "A0xtumlsret" != te_parm.Name ) )
       .assign assnbase = assnbase + r.result
     .end if
     .assign param_delimiter = ", "

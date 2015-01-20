@@ -43,6 +43,7 @@
   .select many empty_ep_pkgs from instances of EP_PKG where ( false )
   .select any empty_te_c from instances of TE_C where ( false )
   .select any empty_te_dim from instances of TE_DIM where ( false )
+  .select many empty_s_dims from instances of S_DIM where ( false )
   .select any empty_o_obj from instances of O_OBJ where ( false )
   .select any empty_te_attr from instances of TE_ATTR where ( false )
   .select any empty_te_mact from instances of TE_MACT where ( false )
@@ -879,6 +880,10 @@
       .assign te_dt.Value = tm_enuminit.value
     .end for
   .end for
+  .//
+  .// Create a string parameter that can be duplicated and used for returning string data.
+  .select any string_te_dt from instances of TE_DT where ( selected.Name == "string" )
+  .invoke FactoryTE_PARM( empty_s_dims, string_te_dt, "", "A0xtumlsret", 0 )
   .//
   .// Create the values and connect them to the V_VAL.
   .select many v_vals from instances of V_VAL
@@ -2259,22 +2264,23 @@
       .assign duplicates_needed = true
     .end if
   .end for
-  .// This duplication is needed because multiple ports can use the same
-  .// interface.  It would be nice to explore a method to avoid duplicating
-  .// the parameter instances.
-  .if ( duplicates_needed )
+  .assign first_te_parm = te_parm
+  .if ( duplicates_needed or ( "c_t" == te_dt.ExtName ) )
     .// Find first te_parm.
-    .for each te_parm in te_parms
-      .break for
-    .end for
     .while ( not_empty te_parm )
       .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
       .if ( empty prev_te_parm )
+        .assign first_te_parm = te_parm
         .break while
       .else
         .assign te_parm = prev_te_parm
       .end if
     .end while
+  .end if
+  .// This duplication is needed because multiple ports can use the same
+  .// interface.  It would be nice to explore a method to avoid duplicating
+  .// the parameter instances.
+  .if ( duplicates_needed )
     .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes'] where ( false )
     .while ( not_empty te_parm )
       .invoke r = TE_PARM_duplicate( te_parm )
@@ -2290,6 +2296,22 @@
       .assign prev_te_parm = duplicate_te_parm
       .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .end while
+    .select many te_parms related by te_aba->TE_PARM[R2062]
+  .end if
+  .// Create and insert an architectural parameter for returning a string.
+  .if ( "c_t" == te_dt.ExtName )
+    .select any string_te_parm from instances of TE_PARM where ( selected.Name == "A0xtumlsret" )
+    .invoke r = TE_PARM_duplicate( string_te_parm )
+    .assign duplicate_te_parm = r.result
+    .assign duplicate_te_parm.Descrip = "xtuml string return parm"
+    .// relate duplicate_te_parm to te_aba across R2062;
+    .assign duplicate_te_parm.AbaID = te_aba.AbaID
+    .// end relate
+    .if ( not_empty first_te_parm )
+      .// relate duplicate_te_parm to first_te_parm across R2041.'precedes';
+      .assign duplicate_te_parm.nextID = first_te_parm.ID
+      .// end relate
+    .end if
     .select many te_parms related by te_aba->TE_PARM[R2062]
   .end if
   .invoke te_parm_RenderParameters( te_parms, te_aba )
