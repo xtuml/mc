@@ -2,7 +2,7 @@
   .// Assign the return value before the deallocation takes
   .// place.  This is especially important when returning
   .// expressions involving sets (like cardinality).
-${ws}{${te_aba.ReturnDataType} xtumlOALrv = ${value};
+${ws}{${te_aba.ReturnDataType} xtumlOALrv = ${intCast1}${value}${intCast2};
 .end if
 .if ( "" != deallocation )
   .// Perform the deallocation (of set containers).
@@ -13,7 +13,7 @@ ${ws}return ${te_string.strcpy}( A0xtumlsret, xtumlOALrv );\
 .elif ( "void" == te_aba.ReturnDataType )
 ${ws}return;\
 .else
-${ws}return ${intCast1}xtumlOALrv${intCast2};\
+${ws}return xtumlOALrv;\
 .end if
 .if ( "void" != te_aba.ReturnDataType )
 }
