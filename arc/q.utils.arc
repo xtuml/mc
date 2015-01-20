@@ -9,7 +9,6 @@
 .function gen_parameter_list .// te_parm
   .param inst_ref_set v_pars
   .param boolean prefix_param_delimiter
-  .param string invocation_flavor
   .//
   .assign code = ""
   .assign OAL = ""
@@ -17,18 +16,22 @@
   .if ( not_empty v_pars )
     .select any te_string from instances of TE_STRING
     .assign item_count = 0
+    .assign lowest_order = 999
     .select many te_pars related by v_pars->TE_PAR[R2063]
     .for each te_par in te_pars
       .select one te_parm related by te_par->TE_PARM[R2091]
       .assign te_par.Order = te_parm.Order
+      .if ( te_par.Order < lowest_order )
+        .assign lowest_order = te_par.Order
+      .end if
       .assign item_count = item_count + 1
     .end for
-    .assign item_number = 0
+    .assign item_number = lowest_order
     .assign param_delimiter = ""
     .if ( prefix_param_delimiter )
       .assign param_delimiter = ","
     .end if
-    .while ( item_number < item_count )
+    .while ( item_number < ( item_count + lowest_order ) )
       .select any te_par related by v_pars->TE_PAR[R2063] where ( selected.Order == item_number )
       .select one v_par related by te_par->V_PAR[R2063]
       .select one v_val related by v_par->V_VAL[R800]
@@ -38,6 +41,7 @@
         .invoke gen_value( v_val )
       .end if
       .assign code = code + param_delimiter
+      .//
       .if ( 0 == te_par.By_Ref )
         .assign code = code + te_val.buffer
       .else

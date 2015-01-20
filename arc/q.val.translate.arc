@@ -74,19 +74,19 @@
   .else
   .select one v_trv related by v_val->V_TRV[R801]
   .if ( not_empty v_trv )
-    .invoke val_transform_value( v_trv, "TRV" )
+    .invoke val_transform_value( v_trv )
   .else
   .select one v_msv related by v_val->V_MSV[R801]
   .if ( not_empty v_msv )
-    .invoke val_message_value( v_msv, "MSV" )
+    .invoke val_message_value( v_msv )
   .else
   .select one v_brv related by v_val->V_BRV[R801]
   .if ( not_empty v_brv )
-    .invoke val_bridge_value( v_brv, "BRV" )
+    .invoke val_bridge_value( v_brv )
   .else
   .select one v_fnv related by v_val->V_FNV[R801]
   .if ( not_empty v_fnv )
-    .invoke val_synch_service_value( v_fnv, "FNV" )
+    .invoke val_synch_service_value( v_fnv )
   .else
     .print "ERROR:  Recursive V_VAL resolution issue."
   .end if
@@ -545,13 +545,12 @@
 .function val_message_values
   .select many v_msvs from instances of V_MSV
   .for each v_msv in v_msvs
-    .invoke val_message_value( v_msv, "msv" )
+    .invoke val_message_value( v_msv )
   .end for
 .end function
 .//
 .function val_message_value
   .param inst_ref v_msv
-  .param string salt
   .select one v_val related by v_msv->V_VAL[R801]
   .select one te_val related by v_val->TE_VAL[R2040]
   .select one te_mact related by v_msv->SPR_PEP[R841]->SPR_PO[R4503]->TE_MACT[R2050]
@@ -560,12 +559,8 @@
   .end if
   .select many v_pars related by v_msv->V_PAR[R842]
   .select one te_aba related by te_mact->TE_ABA[R2010]
-  .invoke r = q_render_msg( te_mact, v_pars, "", false, salt )
+  .invoke r = q_render_msg( te_mact, v_pars, "", false )
   .assign te_val.buffer = r.body
-  .if ( "xtuml_string" == te_aba.ReturnDataType )
-    .// access the string field in the class/struct.
-    .assign te_val.buffer = te_val.buffer + ".s"
-  .end if
   .assign te_val.OAL = ( ( te_mact.PortName + "::" ) + ( te_mact.MessageName + "(" ) ) + ( te_mact.OALParamBuffer + ")" )
   .assign te_val.dimensions = te_aba.dimensions
   .assign te_val.array_spec = te_aba.array_spec
@@ -577,18 +572,27 @@
   .else
     .assign te_val.te_dimID = 00
   .end if
+  .if ( "c_t *" == te_aba.ReturnDataType )
+    .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]
+    .assign sretvar = ( ( "vmsv" + "$t{v_val.LineNumber}" ) + ( te_aba.GeneratedName + "$t{v_val.StartPosition}" ) )
+    .assign te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";"
+    .if ( "" == parameters )
+      .assign parameters = sretvar
+    .else
+      .assign parameters = ( ( sretvar + ", " ) + parameters )
+    .end if
+  .end if
 .end function
 .//
 .function val_bridge_values
   .select many v_brvs from instances of V_BRV
   .for each v_brv in v_brvs
-    .invoke val_bridge_value( v_brv, "brv" )
+    .invoke val_bridge_value( v_brv )
   .end for
 .end function
 .//
 .function val_bridge_value
   .param inst_ref v_brv
-  .param string salt
   .select one te_brg related by v_brv->S_BRG[R828]->TE_BRG[R2025]
   .if ( not_empty te_brg )
     .select any te_target from instances of TE_TARGET
@@ -598,11 +602,21 @@
     .select one te_aba related by te_brg->TE_ABA[R2010]
     .select one te_ee related by v_brv->S_BRG[R828]->S_EE[R19]->TE_EE[R2020]
     .assign te_ee.Included = true
-    .invoke r = gen_parameter_list( v_pars, false, salt )
+    .invoke r = gen_parameter_list( v_pars, false )
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign params_OAL = te_parm.OALParamBuffer
     .assign te_val.OAL = ( ( te_brg.EEkeyletters + "::" ) + ( te_brg.Name + "(" ) ) + ( params_OAL + ")" )
+    .if ( "c_t *" == te_aba.ReturnDataType )
+      .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]
+      .assign sretvar = ( ( "vbrv" + "$t{v_val.LineNumber}" ) + ( te_aba.GeneratedName + "$t{v_val.StartPosition}" ) )
+      .assign te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";"
+      .if ( "" == parameters )
+        .assign parameters = sretvar
+      .else
+        .assign parameters = ( ( sretvar + ", " ) + parameters )
+      .end if
+    .end if
     .if ( "C++" == te_target.language )
       .if ( "TIM" == te_brg.EEkeyletters )
         .assign te_val.buffer = ( "thismodule->tim->" + te_brg.GeneratedName ) + "("
@@ -623,10 +637,6 @@
       .assign te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " )
     .end if
     .assign te_val.buffer = te_val.buffer + ")"
-    .if ( "xtuml_string" == te_aba.ReturnDataType )
-      .// access the string field in the class/struct.
-      .assign te_val.buffer = te_val.buffer + ".s"
-    .end if
     .assign te_val.dimensions = te_aba.dimensions
     .assign te_val.array_spec = te_aba.array_spec
     .select one te_dim related by te_aba->TE_DIM[R2058]
@@ -643,18 +653,18 @@
 .function val_transform_values
   .select many v_trvs from instances of V_TRV
   .for each v_trv in v_trvs
-    .invoke val_transform_value( v_trv, "trv" )
+    .invoke val_transform_value( v_trv )
   .end for
 .end function
 .//
 .function val_transform_value
   .param inst_ref v_trv
-  .param string salt
   .select one te_tfr related by v_trv->O_TFR[R829]->TE_TFR[R2024]
   .if ( not_empty te_tfr )
   .select any te_target from instances of TE_TARGET
   .select one v_val related by v_trv->V_VAL[R801]
   .select one te_val related by v_val->TE_VAL[R2040]
+  .if ( "" == te_val.buffer )
   .select many v_pars related by v_trv->V_PAR[R811]
   .select one te_aba related by te_tfr->TE_ABA[R2010]
   .assign te_val.buffer = te_tfr.GeneratedName + "("
@@ -681,11 +691,21 @@
     .end if
     .assign te_val.OAL = te_tfr.Key_Lett + "::"
   .end if
-  .invoke r = gen_parameter_list( v_pars, false, salt )
+  .invoke r = gen_parameter_list( v_pars, false )
   .assign te_parm = r.result
   .assign parameters = te_parm.ParamBuffer
   .assign params_OAL = te_parm.OALParamBuffer
   .assign te_val.OAL = ( ( te_val.OAL + te_tfr.Name ) + ( "(" + params_OAL ) ) + ")"
+  .if ( "c_t *" == te_aba.ReturnDataType )
+    .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]
+    .assign sretvar = ( ( "vtrv" + "$t{v_val.LineNumber}" ) + ( te_aba.GeneratedName + "$t{v_val.StartPosition}" ) )
+    .assign te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";"
+    .if ( "" == parameters )
+      .assign parameters = sretvar
+    .else
+      .assign parameters = ( ( sretvar + ", " ) + parameters )
+    .end if
+  .end if
   .if ( te_tfr.Instance_Based == 1 )
     .if ( ( "C++" == te_target.language ) or ( "" != parameters ) )
       .assign te_val.buffer = te_val.buffer + ", "
@@ -698,10 +718,6 @@
     .end if
   .end if
   .assign te_val.buffer = ( te_val.buffer + parameters ) + ")"
-  .if ( "xtuml_string" == te_aba.ReturnDataType )
-    .// access the string field in the class/struct.
-    .assign te_val.buffer = te_val.buffer + ".s"
-  .end if
   .assign te_val.dimensions = te_aba.dimensions
   .assign te_val.array_spec = te_aba.array_spec
   .select one te_dim related by te_aba->TE_DIM[R2058]
@@ -711,6 +727,7 @@
     .// end relate
   .else
     .assign te_val.te_dimID = 00
+  .end if
   .end if
   .end if
 .end function
@@ -732,11 +749,21 @@
     .select one te_val related by v_val->TE_VAL[R2040]
     .select many v_pars related by v_fnv->V_PAR[R817]
     .select one te_aba related by te_sync->TE_ABA[R2010]
-    .invoke r = gen_parameter_list( v_pars, false, salt )
+    .invoke r = gen_parameter_list( v_pars, false )
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign params_OAL = te_parm.OALParamBuffer
     .assign te_val.OAL = ( ( "::" + te_sync.Name ) + ( "(" + params_OAL ) ) + ")"  
+    .if ( "c_t *" == te_aba.ReturnDataType )
+      .select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016]
+      .assign sretvar = ( ( "vfnv" + "$t{v_val.LineNumber}" ) + ( te_aba.GeneratedName + "$t{v_val.StartPosition}" ) )
+      .assign te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";"
+      .if ( "" == parameters )
+        .assign parameters = sretvar
+      .else
+        .assign parameters = ( ( sretvar + ", " ) + parameters )
+      .end if
+    .end if
     .assign name = te_sync.intraface_method
     .if ( "C++" == te_target.language )
       .assign name = "thismodule->" + name
@@ -746,10 +773,6 @@
       .assign te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " )
     .end if
     .assign te_val.buffer = te_val.buffer + ")"
-    .if ( "xtuml_string" == te_aba.ReturnDataType )
-      .// access the string field in the class/struct.
-      .assign te_val.buffer = te_val.buffer + ".s"
-    .end if
     .assign te_val.dimensions = te_aba.dimensions
     .assign te_val.array_spec = te_aba.array_spec
     .select one te_dim related by te_aba->TE_DIM[R2058]

@@ -1116,7 +1116,7 @@
     .select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053]
   .end if
   .select many v_pars related by act_sgn->V_PAR[R662]
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true, "sgn" )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1140,7 +1140,7 @@
     .select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050]
   .end if
   .select many v_pars related by act_iop->V_PAR[R679]
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true, "iop" )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1153,14 +1153,13 @@
   .param inst_ref_set v_pars
   .param string ws
   .param boolean is_statement
-  .param string salt
   .select any te_file from instances of TE_FILE
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .assign parameters = ""
   .assign te_mact.OALParamBuffer = ""
   .if ( not_empty v_pars )
-    .invoke r = gen_parameter_list( v_pars, false, salt )
+    .invoke r = gen_parameter_list( v_pars, false )
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign te_mact.OALParamBuffer = te_parm.OALParamBuffer
@@ -1231,7 +1230,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_tfm->V_PAR[R627]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "sop" )
+      .invoke r = gen_parameter_list( v_pars, false )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1285,7 +1284,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_brg->V_PAR[R628]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "sbg" )
+      .invoke r = gen_parameter_list( v_pars, false )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1333,7 +1332,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_fnc->V_PAR[R669]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "sfn" )
+      .invoke r = gen_parameter_list( v_pars, false )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1375,7 +1374,6 @@
   .assign intCast2 = ""
   .assign value = ""
   .assign value_OAL = ""
-  .assign returnvaltype = ""
   .// Deallocate any variables allocated from this block and all higher blocks in this action.
   .assign deallocation = te_blk.deallocation
   .select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078]
@@ -1399,7 +1397,6 @@
     .if (not_empty core_s_dt)
       .assign s_dt = core_s_dt
     .end if
-    .assign returnvaltype = te_aba.ReturnDataType
     .//
     .// if the value is of the _real_ type
     .if ( "real" == s_dt.Name )
@@ -1451,11 +1448,6 @@
     .assign value_OAL = te_val.OAL
   .end if
   .//
-  .assign rv = value
-  .if ( ( ( "" != deallocation ) or ( "xtuml_string" == returnvaltype ) ) and ( "" != returnvaltype ) )
-    .// Use when deallocating or when returning an array (even array of char).
-    .assign rv = "xtumlOALrv"
-  .end if
   .include "${te_file.arc_path}/t.smt.return.c"
   .assign te_smt.OAL = "RETURN ${value_OAL}"
 .end function
