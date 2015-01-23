@@ -167,10 +167,10 @@ typedef u4_t ${te_prefix.type}uSec_t;
  * Note we include stdio.h for printf.  Otherwise, it is not needed.
  */
 #include <stdio.h>
-.if ( te_sys.InstanceLoading )
+  .if ( te_sys.InstanceLoading )
 #include <stdint.h>
 #include <string.h>
-.end if
+  .end if
 ${te_typemap.user_supplied_data_types}\
 .end if
 .if ( te_sys.SystemCPortsType != "BitLevelSignals" )

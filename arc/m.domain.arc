@@ -138,7 +138,7 @@
 .end function
 .function MarkExcludeSubsystemFromCodeGen
   .param string component_name
-  .param string subsystem_name
+  .param string package_name
   .assign component_name = "$r{component_name}"
   .select many te_cs from instances of TE_C where ( selected.Name == component_name )
   .if ( ( "" == component_name ) or ( "*" == component_name ) )
@@ -146,16 +146,16 @@
   .end if
   .for each te_c in te_cs
     .assign msg = ""
-    .select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == subsystem_name )
+    .select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name )
     .if ( not_empty ep_pkgs )
       .select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019]
       .for each te_class in te_classes
         .assign te_class.ExcludeFromGen = true
       .end for
-      .assign msg = "All classes in subsystem ${subsystem_name} excluded from code generation."
+      .assign msg = "All classes in package ${package_name} excluded from code generation."
     .else
-      .assign msg = "ERROR:  Subsystem ${subsystem_name} not found in component ${te_c.Name}."
-      .assign msg = msg + "\n => TagExcludeSubsystemFromCodeGen( ${subsystem_name} )"
+      .assign msg = "ERROR:  Package ${package_name} not found in component ${te_c.Name}."
+      .assign msg = msg + "\n => TagExcludePackageFromCodeGen( ${package_name} )"
     .end if
     .print "${msg}"
   .end for
