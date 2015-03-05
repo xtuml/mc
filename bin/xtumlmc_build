@@ -81,6 +81,9 @@ if ( $system =~ m/windows/i ) {
   $osplatform = "win32";
   $ENV{'ROX_MC_BIN_DIR'} = "$root_dir/bin";
   $ENV{'ROX_USE_CYGWIN'} = "TRUE";
+} elsif ( $system =~ m/MINGW/i ) {
+  $osplatform = "win32";
+  $ENV{'ROX_USE_CYGWIN'} = "FALSE";
 } else {
   $ENV{'ROX_USE_CYGWIN'} = "FALSE";
   $osplatform = "unix";
@@ -1485,6 +1488,15 @@ if ( -f $mccmd ) {
     # sed s/com.mentor.nucleus.bp.core/sys/ _system.sql > a.xtuml
     my $inFile = xtumlmc_open( "<" . "$modelBeingTranslated" ); my $outFile = xtumlmc_open( ">" . "a.xtuml" );
     while ( <$inFile> ) { s/com.mentor.nucleus.bp.core/sys/; print $outFile "$_"; }
+    # Run compiled model compiler.
+    system( "$mccmd > _system.pre" );
+    # sed "s/&quot;/\\\\\"/g" _system.pre > _system.sql
+    my $inFile = xtumlmc_open( "<" . "_system.pre" ); my $outFile = xtumlmc_open( ">" . "$modelBeingTranslated" );
+    while ( <$inFile> ) { s/&quot;/\\\\\"/g; print $outFile "$_"; }
+  } elsif ( -f "org.xtuml.bp.core.sql" ) {
+    # sed s/org.xtuml.bp.core/sys/ _system.sql > a.xtuml
+    my $inFile = xtumlmc_open( "<" . "$modelBeingTranslated" ); my $outFile = xtumlmc_open( ">" . "a.xtuml" );
+    while ( <$inFile> ) { s/org.xtuml.bp.core/sys/; print $outFile "$_"; }
     # Run compiled model compiler.
     system( "$mccmd > _system.pre" );
     # sed "s/&quot;/\\\\\"/g" _system.pre > _system.sql
