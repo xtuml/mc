@@ -1,0 +1,32 @@
+        <APPLICATION-SW-COMPONENT-TYPE UUID="${c_c.Id}">
+          <SHORT-NAME>Swc${te_c.Name}</SHORT-NAME>
+          <PORTS>
+${ar_component_port_list}\
+          </PORTS>
+          <INTERNAL-BEHAVIORS>
+            <SWC-INTERNAL-BEHAVIOR UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+              <SHORT-NAME>Bhv${te_c.Name}</SHORT-NAME>
+              <DATA-TYPE-MAPPING-REFS>
+                <DATA-TYPE-MAPPING-REF DEST="DATA-TYPE-MAPPING-SET">/${te_sys.Name}/DataTMappingSet</DATA-TYPE-MAPPING-REF>
+              </DATA-TYPE-MAPPING-REFS>
+              <EXCLUSIVE-AREAS>
+                <EXCLUSIVE-AREA UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+                  <SHORT-NAME>Ea${te_c.Name}</SHORT-NAME>
+                </EXCLUSIVE-AREA>
+              </EXCLUSIVE-AREAS>
+.if ( "" != ar_component_ib_events )
+              <EVENTS>
+${ar_component_ib_events}\
+              </EVENTS>
+.end if
+.if ( "" != ar_component_ib_runnables )
+              <RUNNABLES>
+${ar_component_ib_runnables}\
+              </RUNNABLES>
+.end if
+              <SUPPORTS-MULTIPLE-INSTANTIATION>true</SUPPORTS-MULTIPLE-INSTANTIATION>
+              <HANDLE-TERMINATION-AND-RESTART>NO-SUPPORT</HANDLE-TERMINATION-AND-RESTART>
+            </SWC-INTERNAL-BEHAVIOR>
+          </INTERNAL-BEHAVIORS>
+        </APPLICATION-SW-COMPONENT-TYPE>
+${ar_component_swc_implementation}\

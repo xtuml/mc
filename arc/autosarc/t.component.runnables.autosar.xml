@@ -1,0 +1,24 @@
+                <RUNNABLE-ENTITY UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+                  <SHORT-NAME>init_${te_c.Name}</SHORT-NAME>
+                  <CAN-ENTER-EXCLUSIVE-AREA-REFS>
+                    <CAN-ENTER-EXCLUSIVE-AREA-REF DEST="EXCLUSIVE-AREA">/${te_sys.Name}/Swc${te_c.Name}/Bhv${te_c.Name}/Ea${te_c.Name}</CAN-ENTER-EXCLUSIVE-AREA-REF>
+                  </CAN-ENTER-EXCLUSIVE-AREA-REFS>
+                  <MINIMUM-START-INTERVAL>0.0</MINIMUM-START-INTERVAL>
+                  <CAN-BE-INVOKED-CONCURRENTLY>false</CAN-BE-INVOKED-CONCURRENTLY>
+                  <SYMBOL>ib_${te_c.Name}_ru_${te_c.Name}_Initialize</SYMBOL>
+                </RUNNABLE-ENTITY>
+                <RUNNABLE-ENTITY UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+                  <SHORT-NAME>run_${te_c.Name}</SHORT-NAME>
+                  <CAN-ENTER-EXCLUSIVE-AREA-REFS>
+                    <CAN-ENTER-EXCLUSIVE-AREA-REF DEST="EXCLUSIVE-AREA">/${te_sys.Name}/Swc${te_c.Name}/Bhv${te_c.Name}/Ea${te_c.Name}</CAN-ENTER-EXCLUSIVE-AREA-REF>
+                  </CAN-ENTER-EXCLUSIVE-AREA-REFS>
+                  <MINIMUM-START-INTERVAL>0.0</MINIMUM-START-INTERVAL>
+                  <CAN-BE-INVOKED-CONCURRENTLY>false</CAN-BE-INVOKED-CONCURRENTLY>
+.if ( "" != ro_runnable_entities )
+                  <SERVER-CALL-POINTS>
+${ro_runnable_entities}\
+                  </SERVER-CALL-POINTS>
+.end if
+                  <SYMBOL>ib_${te_c.Name}_ru_${te_c.Name}Timer</SYMBOL>
+                </RUNNABLE-ENTITY>
+${po_runnable_entities}

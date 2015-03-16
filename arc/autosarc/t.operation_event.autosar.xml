@@ -1,0 +1,10 @@
+                <OPERATION-INVOKED-EVENT UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+                  <SHORT-NAME>ev_${te_mact.InterfaceName}_${te_mact.MessageName}</SHORT-NAME>
+                  <START-ON-EVENT-REF DEST="RUNNABLE-ENTITY">
+                    /${te_sys.Name}/Swc${te_c.Name}/Bhv${te_c.Name}/run_${te_mact.InterfaceName}_${te_mact.MessageName}
+                  </START-ON-EVENT-REF>
+                  <OPERATION-IREF>
+                    <CONTEXT-P-PORT-REF DEST="P-PORT-PROTOTYPE">/${te_sys.Name}/Swc${te_c.Name}/pp_${te_mact.InterfaceName}</CONTEXT-P-PORT-REF>
+                    <TARGET-PROVIDED-OPERATION-REF DEST="CLIENT-SERVER-OPERATION">/${te_sys.Name}/${te_mact.InterfaceName}/${te_mact.MessageName}</TARGET-PROVIDED-OPERATION-REF>
+                  </OPERATION-IREF>
+                </OPERATION-INVOKED-EVENT>

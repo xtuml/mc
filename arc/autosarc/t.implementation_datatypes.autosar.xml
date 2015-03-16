@@ -1,0 +1,11 @@
+        <IMPLEMENTATION-DATA-TYPE UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+          <SHORT-NAME>${te_dt.ExtName}</SHORT-NAME>
+          <CATEGORY>${ar_datatype_category_name}</CATEGORY>
+          <SW-DATA-DEF-PROPS>
+            <SW-DATA-DEF-PROPS-VARIANTS>
+              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/${ar_base_datatype_name}</IMPLEMENTATION-DATA-TYPE-REF>
+              </SW-DATA-DEF-PROPS-CONDITIONAL>
+            </SW-DATA-DEF-PROPS-VARIANTS>
+          </SW-DATA-DEF-PROPS>
+        </IMPLEMENTATION-DATA-TYPE>

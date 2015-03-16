@@ -1,0 +1,22 @@
+        <MODE-SWITCH-INTERFACE UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+          <SHORT-NAME>ModeSWC</SHORT-NAME>
+          <IS-SERVICE>false</IS-SERVICE>
+          <MODE-GROUP UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+            <SHORT-NAME>ModeDeclGroupPt1</SHORT-NAME>
+            <TYPE-TREF DEST="MODE-DECLARATION-GROUP">/${te_sys.Name}/Mode${te_sys.Name}Group</TYPE-TREF>
+          </MODE-GROUP>
+        </MODE-SWITCH-INTERFACE>
+        <MODE-DECLARATION-GROUP UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+          <SHORT-NAME>Mode${te_sys.Name}Group</SHORT-NAME>
+          <INITIAL-MODE-REF DEST="MODE-DECLARATION">/${te_sys.Name}/Mode${te_sys.Name}Group/INIT</INITIAL-MODE-REF>
+          <MODE-DECLARATIONS>
+            <MODE-DECLARATION UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+              <SHORT-NAME>INIT</SHORT-NAME>
+              <VALUE>0</VALUE>
+            </MODE-DECLARATION>
+            <MODE-DECLARATION UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+              <SHORT-NAME>RUN</SHORT-NAME>
+              <VALUE>1</VALUE>
+            </MODE-DECLARATION>
+          </MODE-DECLARATIONS>
+        </MODE-DECLARATION-GROUP>

@@ -206,6 +206,38 @@ sub internal_replace_uuid($$)
 # End ReplaceUUIDWithLong
 ##############################
 
+##############################
+# ARXML SUBROUTINES
+##############################
+# This routine searches the input file for UUID="<num>" statements and as it
+# finds them it uses <num> as an index into uuidTable and replaces <num> with 
+# the original BridgePoint UUID.
+# This function expects 1 argument: arxmlFile
+#
+sub ReplaceLongWithUUID($$);
+sub ReplaceLongWithUUID($$)
+{
+  my $infileName = shift;
+  my $outfileName = shift;
+  my %ruuidTable = reverse %uuidTable;
+
+  my $inFile = xtumlmc_open( "<" . $infileName );
+  my $outFile = xtumlmc_open( ">" . $outfileName );
+  my $id_inc = 1;
+  my $id_suffix = sprintf("%012d", $id_inc);
+
+  while ( <$inFile> ) {
+    $_ =~ s/UUID="([0-9]*)"/UUID="$ruuidTable{$1}"/;
+    $_ =~ s/UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx"/UUID="52544500-0000-0000-0000-$id_suffix"/;
+    $id_inc += 1;
+    $id_suffix = sprintf("%012d", $id_inc);
+    print $outFile "$_";
+  }
+}
+##############################
+# End ARXML SUBROUTINES
+##############################
+
 # The following subroutines indirect to routines in File::Copy.
 sub xtumlmc_copy($$);
 sub xtumlmc_copy($$)
@@ -1549,6 +1581,16 @@ if ( -d $output_src ) {
     } else {
       xtumlmc_copy_different( "_ch/$f", "$output_src/$f" );
     }
+  }
+  # Find the .arxml file for AUTOSAR compile
+  my @arxml_entries = grep{/\.arxml$/i} @entries;
+  foreach my $arxml_entry ( @arxml_entries ) {
+    my $infile = $arxml_entry;
+    my $outfile = $arxml_entry . ".tmp";
+    ReplaceLongWithUUID( "_ch/$infile", "_ch/$outfile" );
+    xtumlmc_copy( "_ch/$outfile", "_ch/$infile" );
+    xtumlmc_copy( "_ch/$outfile", "$output_src/$infile" );
+    xtumlmc_rm( "_ch/$outfile" );
   }
 }
 

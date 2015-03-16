@@ -1,0 +1,16 @@
+            <DELEGATION-SW-CONNECTOR>
+              <SHORT-NAME>cn_[Outer BP Component Port Name]</SHORT-NAME>
+              <INNER-PORT-IREF>
+                <${msg_dir_letter}-PORT-IN-COMPOSITION-INSTANCE-REF>
+                  <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">
+                    [Referenced Inner Provider/Requester SWC]
+                  </CONTEXT-COMPONENT-REF>
+                  <TARGET-${msg_dir_letter}-PORT-REF DEST="${msg_dir_letter}-PORT-PROTOTYPE">
+                    [Referenced Inner Provider/Requester SWC Port]
+                  </TARGET-${msg_dir_letter}-PORT-REF>
+                </${msg_dir_letter}-PORT-IN-COMPOSITION-INSTANCE-REF>
+              </INNER-PORT-IREF>
+              <OUTER-PORT-REF DEST="${msg_dir_letter}-PORT-PROTOTYPE">
+                [Referenced Outer SW-Composition Port]
+              </OUTER-PORT-REF>
+            </DELEGATION-SW-CONNECTOR>

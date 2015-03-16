@@ -1,0 +1,4 @@
+            <MODE-REQUEST-TYPE-MAP>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/${te_sys.Name}/${te_dt.ExtName}</IMPLEMENTATION-DATA-TYPE-REF>
+              <MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP">/${te_sys.Name}/Mode${te_sys.Name}Group</MODE-GROUP-REF>
+            </MODE-REQUEST-TYPE-MAP>

@@ -1,0 +1,11 @@
+            <ASSEMBLY-SW-CONNECTOR UUID="${c_sf.Id}">
+              <SHORT-NAME>AsmSwConnector${cn_num}</SHORT-NAME>
+              <PROVIDER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/${te_sys.Name}/cz_default/swc_${c_ip.Name}</CONTEXT-COMPONENT-REF>
+                <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/${te_sys.Name}/Swc${c_ip.Name}/pp_${iir_ip.Name}</TARGET-P-PORT-REF>
+              </PROVIDER-IREF>
+              <REQUESTER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/${te_sys.Name}/cz_default/swc_${c_ir.Name}</CONTEXT-COMPONENT-REF>
+                <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/${te_sys.Name}/Swc${c_ir.Name}/rp_${iir_ir.Name}</TARGET-R-PORT-REF>
+              </REQUESTER-IREF>
+            </ASSEMBLY-SW-CONNECTOR>

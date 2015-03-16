@@ -1,0 +1,22 @@
+        <SWC-IMPLEMENTATION UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+          <SHORT-NAME>imp_${te_c.Name}</SHORT-NAME>
+          <CODE-DESCRIPTORS>
+            <CODE UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+              <SHORT-NAME>imp_${te_c.Name}_cd</SHORT-NAME>
+              <ARTIFACT-DESCRIPTORS>
+                <AUTOSAR-ENGINEERING-OBJECT>
+                  <SHORT-LABEL>${te_c.Name}.c</SHORT-LABEL>
+                  <CATEGORY>SWSRC</CATEGORY>
+                </AUTOSAR-ENGINEERING-OBJECT>
+              </ARTIFACT-DESCRIPTORS>
+            </CODE>
+          </CODE-DESCRIPTORS>
+          <PROGRAMMING-LANGUAGE>C</PROGRAMMING-LANGUAGE>
+          <RESOURCE-CONSUMPTION UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+            <SHORT-NAME>imp_${te_c.Name}_rc</SHORT-NAME>
+          </RESOURCE-CONSUMPTION>
+          <SW-VERSION>1.0.0</SW-VERSION>
+          <USED-CODE-GENERATOR>BridgePoint xtUML</USED-CODE-GENERATOR>
+          <VENDOR-ID>31</VENDOR-ID>
+          <BEHAVIOR-REF DEST="SWC-INTERNAL-BEHAVIOR">/${te_sys.Name}/Swc${te_c.Name}/Bhv${te_c.Name}</BEHAVIOR-REF>
+        </SWC-IMPLEMENTATION>

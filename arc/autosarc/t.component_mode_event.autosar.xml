@@ -1,0 +1,32 @@
+                <SWC-MODE-SWITCH-EVENT UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+                  <SHORT-NAME>Mse${te_c.Name}Init</SHORT-NAME>
+                  <START-ON-EVENT-REF DEST="RUNNABLE-ENTITY">/${te_sys.Name}/Swc${te_c.Name}/Bhv${te_c.Name}/init_${te_c.Name}</START-ON-EVENT-REF>
+                  <ACTIVATION>ON-ENTRY</ACTIVATION>
+                  <MODE-IREFS>
+                    <MODE-IREF>
+                      <CONTEXT-PORT-REF DEST="R-PORT-PROTOTYPE">/${te_sys.Name}/Swc${te_c.Name}/rp_ModeSWC</CONTEXT-PORT-REF>
+                      <CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/${te_sys.Name}/ModeSWC/ModeDeclGroupPt1</CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF>
+                      <TARGET-MODE-DECLARATION-REF DEST="MODE-DECLARATION">/${te_sys.Name}/Mode${te_sys.Name}Group/INIT</TARGET-MODE-DECLARATION-REF>
+                    </MODE-IREF>
+                  </MODE-IREFS>
+                </SWC-MODE-SWITCH-EVENT>
+                <SWC-MODE-SWITCH-EVENT UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+                  <SHORT-NAME>Mse${te_c.Name}Run</SHORT-NAME>
+                  <START-ON-EVENT-REF DEST="RUNNABLE-ENTITY">/${te_sys.Name}/Swc${te_c.Name}/Bhv${te_c.Name}/run_${te_c.Name}</START-ON-EVENT-REF>
+                  <ACTIVATION>ON-ENTRY</ACTIVATION>
+                  <MODE-IREFS>
+                    <MODE-IREF>
+                      <CONTEXT-PORT-REF DEST="R-PORT-PROTOTYPE">/${te_sys.Name}/Swc${te_c.Name}/rp_ModeSWC</CONTEXT-PORT-REF>
+                      <CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/${te_sys.Name}/ModeSWC/ModeDeclGroupPt1</CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF>
+                      <TARGET-MODE-DECLARATION-REF DEST="MODE-DECLARATION">/${te_sys.Name}/Mode${te_sys.Name}Group/RUN</TARGET-MODE-DECLARATION-REF>
+                    </MODE-IREF>
+                  </MODE-IREFS>
+                </SWC-MODE-SWITCH-EVENT>
+                <TIMING-EVENT UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+                  <SHORT-NAME>TeEscher</SHORT-NAME>
+                  <START-ON-EVENT-REF DEST="RUNNABLE-ENTITY">/${te_sys.Name}/Swc${te_c.Name}/Bhv${te_c.Name}/run_${te_c.Name}</START-ON-EVENT-REF>
+                  <PERIOD>0.02</PERIOD>
+                </TIMING-EVENT>
+.if ( "" != operation_invoked_events )
+${operation_invoked_events}
+.end if
