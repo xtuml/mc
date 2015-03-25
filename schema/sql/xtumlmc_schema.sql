@@ -2353,6 +2353,8 @@ CREATE TABLE TE_SYS (
 	VFB	BOOLEAN,
 	SystemCPortsType	STRING,
 	AllPortsPoly	BOOLEAN,
+	StructuredMessaging	BOOLEAN,
+	NetworkSockets	BOOLEAN,
 	DomainClassNumberName	STRING,
 	Sys_ID	UNIQUE_ID );
 
@@ -3202,7 +3204,9 @@ CREATE TABLE TM_SYSTAG (
 	VFB	BOOLEAN,
 	InstanceLoading	BOOLEAN,
 	SystemCPortsType	STRING,
-	AllPortsPoly	BOOLEAN );
+	AllPortsPoly	BOOLEAN,
+	StructuredMessaging	BOOLEAN,
+	NetworkSockets	BOOLEAN );
 
 -- Class:  2208.  build
 CREATE TABLE TM_BUILD (
