@@ -6,7 +6,7 @@
  *
  * External Entity:  template (T)
  * 
- * (C) Copyright 1998-2013 Mentor Graphics Corporation.  All rights reserved.
+ * your copyright statement can go here (from te_copyright.body)
  *--------------------------------------------------------------------------*/
 
 #include "sys_sys_types.h"

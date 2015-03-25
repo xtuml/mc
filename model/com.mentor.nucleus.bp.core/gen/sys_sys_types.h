@@ -26,9 +26,9 @@
  * PersistLinkCacheDepth:  128
  *
  * Component Name:  ooaofooa
- * MaxObjExtent:  4780
- * MaxRelExtent:  4340
- * MaxSelectExtent:  920
+ * MaxObjExtent:  4790
+ * MaxRelExtent:  4360
+ * MaxSelectExtent:  910
  * MaxSelfEvents:  0
  * MaxNonSelfEvents:  0
  * MaxPriorityEvents:  0
@@ -78,8 +78,8 @@ typedef unsigned char bool;
 #define ESCHER_SYS_MAX_STRING_LEN 840
 #define ESCHER_PERSIST_INST_CACHE_DEPTH 128
 #define ESCHER_PERSIST_LINK_CACHE_DEPTH 128
-#define ESCHER_SYS_MAX_ASSOCIATION_EXTENT 4340
-#define ESCHER_SYS_MAX_TRANSIENT_EXTENT 920
+#define ESCHER_SYS_MAX_ASSOCIATION_EXTENT 4360
+#define ESCHER_SYS_MAX_TRANSIENT_EXTENT 910
 #define SYS_MAX_CONTAINERS ( ESCHER_SYS_MAX_ASSOCIATION_EXTENT + ESCHER_SYS_MAX_TRANSIENT_EXTENT )
 #define ESCHER_SYS_MAX_SELF_EVENTS 0
 #define ESCHER_SYS_MAX_NONSELF_EVENTS 0
@@ -107,13 +107,14 @@ typedef unsigned long   u4_t;
 typedef          double r_t;
 typedef          float  r4_t;
 typedef          double r8_t;
+typedef /*size_t*/ u4_t Escher_size_t;
 
 /*
  * These are some of the fundamental types used universally.
  */
 typedef u1_t Escher_DomainNumber_t;
 typedef u2_t Escher_ClassNumber_t;
-typedef u2_t Escher_ClassSize_t;
+typedef Escher_size_t Escher_ClassSize_t;
 typedef u2_t Escher_InstanceIndex_t;
 typedef u1_t Escher_StateNumber_t;
 typedef u1_t Escher_EventNumber_t;

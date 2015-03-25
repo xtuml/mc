@@ -24,7 +24,7 @@ static Escher_SetElement_s node1s[ SYS_MAX_CONTAINERS ];
 void
 Escher_SetFactoryInit( const i_t n1_size )
 {
-  u2_t i;
+  Escher_size_t i;
   node1_FreeList.head = &node1s[ 0 ];
   /* Build the collection (linked list) of node1 instances.  */
   for ( i = 0; i < ( n1_size - 1 ); i++ ) {
@@ -83,25 +83,22 @@ Escher_SetInsertElement(
   Escher_SetElement_s * slot;
   if ( 0 == node1_FreeList.head ) {
     Escher_SetElement_s * new_mem = ( Escher_SetElement_s *) Escher_malloc( 10 * sizeof( Escher_SetElement_s ) );
-
     if ( 0 == new_mem ) {
       UserNodeListEmptyCallout(); /* Bad news!  No more heap space.  */
     } else {
-      u1_t i;
+      i_t i;
       for ( i = 0; i < 10 - 1; i++ ) {
         new_mem[ i ].next = (Escher_SetElement_s *) &(new_mem[ i + 1 ]);
       }
       new_mem[ 10 - 1 ].next = 0;
       node1_FreeList.head = new_mem;
-      Escher_SetInsertElement( set, substance );
     }
-  } else {
-    slot = node1_FreeList.head; /* Extract node from free list head. */
-    node1_FreeList.head = node1_FreeList.head->next;
-    slot->object = substance;
-    slot->next = set->head;     /* Insert substance at list front.   */
-    set->head = slot;
   }
+  slot = node1_FreeList.head; /* Extract node from free list head. */
+  node1_FreeList.head = node1_FreeList.head->next;
+  slot->object = substance;
+  slot->next = set->head;     /* Insert substance at list front.   */
+  set->head = slot;
 }
 
 /*
@@ -112,8 +109,8 @@ Escher_SetInsertElement(
 Escher_SetElement_s *
 Escher_SetInsertBlock( Escher_SetElement_s * container,
                        const u1_t * instance,
-                       const u2_t length,
-                       u2_t count )
+                       const Escher_size_t length,
+                       Escher_size_t count )
 {
   Escher_SetElement_s * head = ( count > 0 ) ? container : 0;
   while ( count > 0 ) {
@@ -216,10 +213,10 @@ Escher_SetContains(
  * Count the elements in the set.  Return that count.
  * This routine counts nodes.
  */
-u2_t 
+Escher_size_t
 Escher_SetCardinality( const Escher_ObjectSet_s * const set )
 {
-  u2_t result = 0;
+  Escher_size_t result = 0;
   const Escher_SetElement_s * node = set->head;
   while ( node != 0 ) {
     result++;
@@ -286,7 +283,7 @@ Escher_IteratorNext( Escher_Iterator_s * const iter )
  * Set memory bytes to value at destination.
  */
 void
-Escher_memset( void * const dst, const u1_t val, u2_t len )
+Escher_memset( void * const dst, const u1_t val, Escher_size_t len )
 {
   u1_t * d = (u1_t *) dst;
   while ( len > 0 ) {
@@ -299,7 +296,7 @@ Escher_memset( void * const dst, const u1_t val, u2_t len )
  * Move memory bytes from source to destination.
  */
 void
-Escher_memmove( void * const dst, const void * const src, u2_t len )
+Escher_memmove( void * const dst, const void * const src, Escher_size_t len )
 {
   u1_t * s = (u1_t *) src;
   u1_t * d = (u1_t *) dst;
@@ -317,7 +314,7 @@ Escher_strcpy( c_t * dst, const c_t * src )
 {
   c_t * s = dst;
   if ( 0 != src ) {
-    i_t i = Escher_strlen( src ) + 1;
+    Escher_size_t i = Escher_strlen( src ) + 1;
     s = Escher_malloc( i );
     dst = s;
     while ( ( i > 0 ) && ( *src != '\0' ) ) {
@@ -393,10 +390,10 @@ Escher_strget( void )
 /*
  * Measure the length of the given string.
  */
-i_t
+Escher_size_t
 Escher_strlen( const c_t * s )
 {
-  i_t len = 0;
+  Escher_size_t len = 0;
   i_t i = MAXRECORDLENGTH;
   if ( s != 0 ) {
     while ( ( *s != 0 ) && ( i >= 0 ) ) {
@@ -481,7 +478,7 @@ Escher_atoi( const char * p )
  * Allocate memory from the system heap.
  */
 void * 
-Escher_malloc( const u4_t b )
+Escher_malloc( const Escher_size_t b )
 {
   void * new_mem = 0;
   size_t bytes = ( size_t ) b;
