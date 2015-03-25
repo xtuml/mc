@@ -137,6 +137,6 @@
 .end function
 .//
 .function oal
-  .param s
+  .param string s
 .end function
 .//
