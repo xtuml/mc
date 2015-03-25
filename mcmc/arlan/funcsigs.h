@@ -35,6 +35,7 @@
 {"AutoInitializeUniqueIDs","te_class","instance"},
 {"ExpandNonOptimizedSpecialWhereComparison","o_obj","special","selected_var_name"},
 {"CreateSpecialWhereComparisonArguments","te_class","o_id"},
+{"oal","s"},
 {"WireSynchServiceOoaBridge","initiant","ee_key_letters","recipient"},
 {"WireRealizeExternalEntity","a","b","c","d","e"},
 {"WireRealizedExternalEntity","a","b","c","d","e"},
