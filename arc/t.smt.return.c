@@ -9,7 +9,11 @@ ${ws}{${te_aba.ReturnDataType} xtumlOALrv = ${intCast1}${value}${intCast2};
 ${ws}${deallocation}
 .end if
 .if ( "c_t *" == te_aba.ReturnDataType )
+  .if ( te_sys.InstanceLoading )
+${ws}return xtumlOALrv;\
+  .else
 ${ws}return ${te_string.strcpy}( A0xtumlsret, xtumlOALrv );\
+  .end if
 .elif ( "void" == te_aba.ReturnDataType )
 ${ws}return;\
 .else
