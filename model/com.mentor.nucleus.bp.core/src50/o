@@ -1,0 +1,1713 @@
+ooaofooa.c: In function ‘ooaofooa_AutoInitializeUniqueIDs’:
+ooaofooa.c:244:3: warning: passing argument 1 of ‘T_body’ makes pointer from integer without a cast [enabled by default]
+   {c_t * xtumlOALrv = T_body( vbrv59T_body11 );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:35:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_body( c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_CreateSpecialWhereClauseInstances’:
+ooaofooa.c:312:77: error: redeclaration of ‘vbrv91T_s80’ with no linkage
+         c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;ooaofooa_TE_ATTR * te_attr=0;i_t oida_count;i_t num_ident_attr;c_t * where_key=0;c_t * where_spec=0;i_t key_number;ooaofooa_TE_SWC * te_swc;ooaofooa_TE_ATTR * first_te_attr=0;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                                                                             ^
+ooaofooa.c:312:13: note: previous declaration of ‘vbrv91T_s80’ was here
+         c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;ooaofooa_TE_ATTR * te_attr=0;i_t oida_count;i_t num_ident_attr;c_t * where_key=0;c_t * where_spec=0;i_t key_number;ooaofooa_TE_SWC * te_swc;ooaofooa_TE_ATTR * first_te_attr=0;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+             ^
+ooaofooa.c:312:93: error: redeclaration of ‘vbrv91T_s46’ with no linkage
+         c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;ooaofooa_TE_ATTR * te_attr=0;i_t oida_count;i_t num_ident_attr;c_t * where_key=0;c_t * where_spec=0;i_t key_number;ooaofooa_TE_SWC * te_swc;ooaofooa_TE_ATTR * first_te_attr=0;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                                                                                             ^
+ooaofooa.c:312:29: note: previous declaration of ‘vbrv91T_s46’ was here
+         c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;ooaofooa_TE_ATTR * te_attr=0;i_t oida_count;i_t num_ident_attr;c_t * where_key=0;c_t * where_spec=0;i_t key_number;ooaofooa_TE_SWC * te_swc;ooaofooa_TE_ATTR * first_te_attr=0;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                             ^
+ooaofooa.c:312:109: error: redeclaration of ‘vbrv40T_s80’ with no linkage
+         c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;ooaofooa_TE_ATTR * te_attr=0;i_t oida_count;i_t num_ident_attr;c_t * where_key=0;c_t * where_spec=0;i_t key_number;ooaofooa_TE_SWC * te_swc;ooaofooa_TE_ATTR * first_te_attr=0;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                                                                                                             ^
+ooaofooa.c:312:45: note: previous declaration of ‘vbrv40T_s80’ was here
+         c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;ooaofooa_TE_ATTR * te_attr=0;i_t oida_count;i_t num_ident_attr;c_t * where_key=0;c_t * where_spec=0;i_t key_number;ooaofooa_TE_SWC * te_swc;ooaofooa_TE_ATTR * first_te_attr=0;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                                             ^
+ooaofooa.c:312:125: error: redeclaration of ‘vbrv40T_s46’ with no linkage
+         c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;ooaofooa_TE_ATTR * te_attr=0;i_t oida_count;i_t num_ident_attr;c_t * where_key=0;c_t * where_spec=0;i_t key_number;ooaofooa_TE_SWC * te_swc;ooaofooa_TE_ATTR * first_te_attr=0;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                                                                                                                             ^
+ooaofooa.c:312:61: note: previous declaration of ‘vbrv40T_s46’ was here
+         c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;c_t vbrv91T_s80;c_t vbrv91T_s46;c_t vbrv40T_s80;c_t vbrv40T_s46;ooaofooa_TE_ATTR * te_attr=0;i_t oida_count;i_t num_ident_attr;c_t * where_key=0;c_t * where_spec=0;i_t key_number;ooaofooa_TE_SWC * te_swc;ooaofooa_TE_ATTR * first_te_attr=0;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                                                             ^
+ooaofooa.c:320:9: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+         where_key = Escher_strcpy( where_key, Escher_stradd( Escher_stradd( te_class->Key_Lett, T_s( vbrv40T_s46, key_number ) ), Escher_stradd( "_mcw", T_s( vbrv40T_s80, unique_num ) ) ) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:320:9: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+         where_key = Escher_strcpy( where_key, Escher_stradd( Escher_stradd( te_class->Key_Lett, T_s( vbrv40T_s46, key_number ) ), Escher_stradd( "_mcw", T_s( vbrv40T_s80, unique_num ) ) ) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:419:9: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+         where_key = Escher_strcpy( where_key, Escher_stradd( Escher_stradd( te_class->Key_Lett, T_s( vbrv91T_s46, key_number ) ), Escher_stradd( "_mcw", T_s( vbrv91T_s80, unique_num ) ) ) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:419:9: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+         where_key = Escher_strcpy( where_key, Escher_stradd( Escher_stradd( te_class->Key_Lett, T_s( vbrv91T_s46, key_number ) ), Escher_stradd( "_mcw", T_s( vbrv91T_s80, unique_num ) ) ) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:466:83: error: redeclaration of ‘vbrv153T_s82’ with no linkage
+           c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;
+                                                                                   ^
+ooaofooa.c:466:15: note: previous declaration of ‘vbrv153T_s82’ was here
+           c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;
+               ^
+ooaofooa.c:466:100: error: redeclaration of ‘vbrv153T_s48’ with no linkage
+           c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;
+                                                                                                    ^
+ooaofooa.c:466:32: note: previous declaration of ‘vbrv153T_s48’ was here
+           c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;
+                                ^
+ooaofooa.c:466:117: error: redeclaration of ‘vbrv123T_s82’ with no linkage
+           c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;
+                                                                                                                     ^
+ooaofooa.c:466:49: note: previous declaration of ‘vbrv123T_s82’ was here
+           c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;
+                                                 ^
+ooaofooa.c:466:134: error: redeclaration of ‘vbrv123T_s48’ with no linkage
+           c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;
+                                                                                                                                      ^
+ooaofooa.c:466:66: note: previous declaration of ‘vbrv123T_s48’ was here
+           c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;c_t vbrv153T_s82;c_t vbrv153T_s48;c_t vbrv123T_s82;c_t vbrv123T_s48;
+                                                                  ^
+ooaofooa.c:472:11: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+           where_key = Escher_strcpy( where_key, Escher_stradd( Escher_stradd( te_class->Key_Lett, T_s( vbrv123T_s48, key_number ) ), Escher_stradd( "_mcw", T_s( vbrv123T_s82, unique_num ) ) ) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:472:11: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+           where_key = Escher_strcpy( where_key, Escher_stradd( Escher_stradd( te_class->Key_Lett, T_s( vbrv123T_s48, key_number ) ), Escher_stradd( "_mcw", T_s( vbrv123T_s82, unique_num ) ) ) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:522:11: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+           where_key = Escher_strcpy( where_key, Escher_stradd( Escher_stradd( te_class->Key_Lett, T_s( vbrv153T_s48, key_number ) ), Escher_stradd( "_mcw", T_s( vbrv153T_s82, unique_num ) ) ) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:522:11: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+           where_key = Escher_strcpy( where_key, Escher_stradd( Escher_stradd( te_class->Key_Lett, T_s( vbrv153T_s48, key_number ) ), Escher_stradd( "_mcw", T_s( vbrv153T_s82, unique_num ) ) ) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_EnableTasking’:
+ooaofooa.c:686:22: error: redeclaration of ‘vbrv33T_l9’ with no linkage
+   c_t vbrv33T_l9;c_t vbrv33T_l9;i_t number_of_threads;c_t * serialize=0;c_t * flavor=0;ooaofooa_TM_THREAD * tm_thread=0;
+                      ^
+ooaofooa.c:686:7: note: previous declaration of ‘vbrv33T_l9’ was here
+   c_t vbrv33T_l9;c_t vbrv33T_l9;i_t number_of_threads;c_t * serialize=0;c_t * flavor=0;ooaofooa_TM_THREAD * tm_thread=0;
+       ^
+ooaofooa.c:694:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   T_print( ({c_t*s=Escher_strget();T_T("EnableTasking( ");T_T(flavor);T_T(", ");T_T(serialize);T_T(", ");T_T(T_s(number_of_threads));T_T(" )");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:694:3: error: too few arguments to function ‘T_s’
+   T_print( ({c_t*s=Escher_strget();T_T("EnableTasking( ");T_T(flavor);T_T(", ");T_T(serialize);T_T(", ");T_T(T_s(number_of_threads));T_T(" )");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:694:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   T_print( ({c_t*s=Escher_strget();T_T("EnableTasking( ");T_T(flavor);T_T(", ");T_T(serialize);T_T(", ");T_T(T_s(number_of_threads));T_T(" )");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:694:3: error: too few arguments to function ‘T_s’
+   T_print( ({c_t*s=Escher_strget();T_T("EnableTasking( ");T_T(flavor);T_T(", ");T_T(serialize);T_T(", ");T_T(T_s(number_of_threads));T_T(" )");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:707:3: warning: passing argument 1 of ‘T_l’ makes pointer from integer without a cast [enabled by default]
+   if ( ( Escher_strcmp( T_l( vbrv33T_l9, serialize ), "serialize" ) == 0 ) ) {
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:29:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_l( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_FactoryTE_CLASS’:
+ooaofooa.c:1043:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   te_class->Key_Lett = Escher_strcpy( te_class->Key_Lett, T_r( vbrv17T_r24, te_class->Key_Lett ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_FactoryTE_LNK’:
+ooaofooa.c:1105:50: error: redeclaration of ‘vbrv15T_s61’ with no linkage
+     c_t vbrv15T_s61;c_t vbrv22T_underscore19;c_t vbrv15T_s61;c_t * rel_phrase=0;ooaofooa_TE_LNK * te_lnk;ooaofooa_R_REL * r_rel=0;ooaofooa_TE_OIR * te_oir=0;
+                                                  ^
+ooaofooa.c:1105:9: note: previous declaration of ‘vbrv15T_s61’ was here
+     c_t vbrv15T_s61;c_t vbrv22T_underscore19;c_t vbrv15T_s61;c_t * rel_phrase=0;ooaofooa_TE_LNK * te_lnk;ooaofooa_R_REL * r_rel=0;ooaofooa_TE_OIR * te_oir=0;
+         ^
+ooaofooa.c:1120:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     te_lnk->OAL = Escher_strcpy( te_lnk->OAL, Escher_stradd( Escher_stradd( "->", te_class->Key_Lett ), Escher_stradd( "[R", T_s( vbrv15T_s61, te_lnk->rel_number ) ) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:1133:5: warning: passing argument 1 of ‘T_underscore’ makes pointer from integer without a cast [enabled by default]
+     rel_phrase = Escher_strcpy( rel_phrase, T_underscore( vbrv22T_underscore19, te_lnk->rel_phrase ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:30:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_underscore( c_t *, c_t * );
+       ^
+ooaofooa.c:1202:11: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+           T_print( ({c_t*s=Escher_strget();T_T("ERROR:  Unrecognized reflexive association:  R");T_T(T_s(r_rel->Numb));T_T(".");}) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:1202:11: error: too few arguments to function ‘T_s’
+           T_print( ({c_t*s=Escher_strget();T_T("ERROR:  Unrecognized reflexive association:  R");T_T(T_s(r_rel->Numb));T_T(".");}) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:1202:11: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+           T_print( ({c_t*s=Escher_strget();T_T("ERROR:  Unrecognized reflexive association:  R");T_T(T_s(r_rel->Numb));T_T(".");}) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:1202:11: error: too few arguments to function ‘T_s’
+           T_print( ({c_t*s=Escher_strget();T_T("ERROR:  Unrecognized reflexive association:  R");T_T(T_s(r_rel->Numb));T_T(".");}) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_FactoryTE_MACT’:
+ooaofooa.c:1293:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   te_mact->GeneratedName = Escher_strcpy( te_mact->GeneratedName, T_r( vbrv40T_r28, te_mact->GeneratedName ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_FactoryTE_PARM’:
+ooaofooa.c:1407:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   te_parm->Name = Escher_strcpy( te_parm->Name, T_r( vbrv15T_r19, name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c:1437:29: error: redeclaration of ‘vbrv32T_s48’ with no linkage
+         c_t vbrv32T_s48;c_t vbrv32T_s48;ooaofooa_TE_DIM * r;
+                             ^
+ooaofooa.c:1437:13: note: previous declaration of ‘vbrv32T_s48’ was here
+         c_t vbrv32T_s48;c_t vbrv32T_s48;ooaofooa_TE_DIM * r;
+             ^
+ooaofooa.c:1448:9: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+         array_spec = Escher_strcpy( array_spec, Escher_stradd( Escher_stradd( array_spec, "[" ), Escher_stradd( T_s( vbrv32T_s48, te_dim->elementCount ), "]" ) ) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_FactoryTE_SM’:
+ooaofooa.c:1554:41: error: redeclaration of ‘vbrv42T_s83’ with no linkage
+     c_t vbrv42T_s83;c_t vbrv36T_s85;c_t vbrv42T_s83;c_t vbrv36T_s85;ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r;ooaofooa_TE_ACT * te_act;ooaofooa_TE_STATE * te_state;ooaofooa_TE_BLK * te_blk=0;ooaofooa_SM_ACT * sm_act=0;
+                                         ^
+ooaofooa.c:1554:9: note: previous declaration of ‘vbrv42T_s83’ was here
+     c_t vbrv42T_s83;c_t vbrv36T_s85;c_t vbrv42T_s83;c_t vbrv36T_s85;ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r;ooaofooa_TE_ACT * te_act;ooaofooa_TE_STATE * te_state;ooaofooa_TE_BLK * te_blk=0;ooaofooa_SM_ACT * sm_act=0;
+         ^
+ooaofooa.c:1554:57: error: redeclaration of ‘vbrv36T_s85’ with no linkage
+     c_t vbrv42T_s83;c_t vbrv36T_s85;c_t vbrv42T_s83;c_t vbrv36T_s85;ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r;ooaofooa_TE_ACT * te_act;ooaofooa_TE_STATE * te_state;ooaofooa_TE_BLK * te_blk=0;ooaofooa_SM_ACT * sm_act=0;
+                                                         ^
+ooaofooa.c:1554:25: note: previous declaration of ‘vbrv36T_s85’ was here
+     c_t vbrv42T_s83;c_t vbrv36T_s85;c_t vbrv42T_s83;c_t vbrv36T_s85;ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r;ooaofooa_TE_ACT * te_act;ooaofooa_TE_STATE * te_state;ooaofooa_TE_BLK * te_blk=0;ooaofooa_SM_ACT * sm_act=0;
+                         ^
+ooaofooa.c:1564:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     te_state->enumerator = Escher_strcpy( te_state->enumerator, Escher_stradd( Escher_stradd( te_class->GeneratedName, class_based ), Escher_stradd( "_STATE_", T_s( vbrv36T_s85, te_state->Numb ) ) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:1580:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     te_act->GeneratedName = Escher_strcpy( te_act->GeneratedName, Escher_stradd( Escher_stradd( te_class->GeneratedName, class_based ), Escher_stradd( "_act", T_s( vbrv42T_s83, te_state->Numb ) ) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:1702:25: error: redeclaration of ‘vbrv93T_s84’ with no linkage
+     c_t vbrv93T_s84;c_t vbrv93T_s84;ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r;ooaofooa_TE_ACT * te_act;ooaofooa_TE_BLK * te_blk=0;
+                         ^
+ooaofooa.c:1702:9: note: previous declaration of ‘vbrv93T_s84’ was here
+     c_t vbrv93T_s84;c_t vbrv93T_s84;ooaofooa_TE_ABA * te_aba;ooaofooa_TE_ABA * r;ooaofooa_TE_ACT * te_act;ooaofooa_TE_BLK * te_blk=0;
+         ^
+ooaofooa.c:1709:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     te_act->GeneratedName = Escher_strcpy( te_act->GeneratedName, Escher_stradd( Escher_stradd( te_class->GeneratedName, class_based ), Escher_stradd( "_xact", T_s( vbrv93T_s84, counter ) ) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:1752:26: error: redeclaration of ‘vbrv129T_u26’ with no linkage
+     c_t vbrv129T_u26;c_t vbrv129T_u26;c_t vbrv120T_s15;c_t * suffix=0;ooaofooa_TE_EVT * te_evt;ooaofooa_SM_NLEVT * sm_nlevt=0;
+                          ^
+ooaofooa.c:1752:9: note: previous declaration of ‘vbrv129T_u26’ was here
+     c_t vbrv129T_u26;c_t vbrv129T_u26;c_t vbrv120T_s15;c_t * suffix=0;ooaofooa_TE_EVT * te_evt;ooaofooa_SM_NLEVT * sm_nlevt=0;
+         ^
+ooaofooa.c:1773:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     suffix = Escher_strcpy( suffix, T_s( vbrv120T_s15, te_evt->Numb ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:1783:45: error: redeclaration of ‘vbrv126T_s66’ with no linkage
+       c_t vbrv126T_s66;c_t vbrv126T_r25;c_t vbrv126T_s66;c_t vbrv126T_r25;ooaofooa_O_OBJ * super_obj=0;ooaofooa_SM_EVT * super_sm_evt=0;
+                                             ^
+ooaofooa.c:1783:11: note: previous declaration of ‘vbrv126T_s66’ was here
+       c_t vbrv126T_s66;c_t vbrv126T_r25;c_t vbrv126T_s66;c_t vbrv126T_r25;ooaofooa_O_OBJ * super_obj=0;ooaofooa_SM_EVT * super_sm_evt=0;
+           ^
+ooaofooa.c:1783:62: error: redeclaration of ‘vbrv126T_r25’ with no linkage
+       c_t vbrv126T_s66;c_t vbrv126T_r25;c_t vbrv126T_s66;c_t vbrv126T_r25;ooaofooa_O_OBJ * super_obj=0;ooaofooa_SM_EVT * super_sm_evt=0;
+                                                              ^
+ooaofooa.c:1783:28: note: previous declaration of ‘vbrv126T_r25’ was here
+       c_t vbrv126T_s66;c_t vbrv126T_r25;c_t vbrv126T_s66;c_t vbrv126T_r25;ooaofooa_O_OBJ * super_obj=0;ooaofooa_SM_EVT * super_sm_evt=0;
+                            ^
+ooaofooa.c:1801:7: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+       suffix = Escher_strcpy( suffix, Escher_stradd( Escher_stradd( "_", T_r( vbrv126T_r25, super_obj->Key_Lett ) ), Escher_stradd( "_PE", T_s( vbrv126T_s66, super_sm_evt->Numb ) ) ) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c:1801:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       suffix = Escher_strcpy( suffix, Escher_stradd( Escher_stradd( "_", T_r( vbrv126T_r25, super_obj->Key_Lett ) ), Escher_stradd( "_PE", T_s( vbrv126T_s66, super_sm_evt->Numb ) ) ) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:1806:5: warning: passing argument 1 of ‘T_u’ makes pointer from integer without a cast [enabled by default]
+     te_evt->Enumerator = Escher_strcpy( te_evt->Enumerator, Escher_stradd( T_u( vbrv129T_u26, te_evt->GeneratedName ), "NUM" ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:28:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_u( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_GetDomainTypeIDFromString’:
+ooaofooa.c:2186:22: error: redeclaration of ‘vbrv4T_r11’ with no linkage
+   c_t vbrv4T_r11;c_t vbrv4T_r11;c_t * dom_name=0;
+                      ^
+ooaofooa.c:2186:7: note: previous declaration of ‘vbrv4T_r11’ was here
+   c_t vbrv4T_r11;c_t vbrv4T_r11;c_t * dom_name=0;
+       ^
+ooaofooa.c:2190:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   {c_t * xtumlOALrv = Escher_stradd( T_r( vbrv4T_r11, dom_name ), "_DOMAIN_ID" );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_GetNavigateLinkMethodName’:
+ooaofooa.c:2238:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     result = Escher_strcpy( result, ({c_t*s=Escher_strget();T_T(te_c->Name);T_T("_");T_T(to_o_obj->Key_Lett);T_T("_R");T_T(T_s(r_rel->Numb));T_T("_From_");T_T(from_o_obj->Key_Lett);}) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2238:5: error: too few arguments to function ‘T_s’
+     result = Escher_strcpy( result, ({c_t*s=Escher_strget();T_T(te_c->Name);T_T("_");T_T(to_o_obj->Key_Lett);T_T("_R");T_T(T_s(r_rel->Numb));T_T("_From_");T_T(from_o_obj->Key_Lett);}) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2238:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     result = Escher_strcpy( result, ({c_t*s=Escher_strget();T_T(te_c->Name);T_T("_");T_T(to_o_obj->Key_Lett);T_T("_R");T_T(T_s(r_rel->Numb));T_T("_From_");T_T(from_o_obj->Key_Lett);}) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2238:5: error: too few arguments to function ‘T_s’
+     result = Escher_strcpy( result, ({c_t*s=Escher_strget();T_T(te_c->Name);T_T("_");T_T(to_o_obj->Key_Lett);T_T("_R");T_T(T_s(r_rel->Numb));T_T("_From_");T_T(from_o_obj->Key_Lett);}) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2240:5: warning: passing argument 1 of ‘ooaofooa_GetRelationshipSuffix’ makes pointer from integer without a cast [enabled by default]
+     r = Escher_strcpy( r, ooaofooa_GetRelationshipSuffix( vfnv13ooaofooa_GetRelationshipSuffix9, r_rel, rel_phrase, to_o_obj ) );
+     ^
+In file included from sys_sys_types.h:312:0,
+                 from ooaofooa.c:10:
+ooaofooa_classes.h:2249:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * ooaofooa_GetRelationshipSuffix( c_t *, ooaofooa_R_REL *, c_t *, ooaofooa_O_OBJ * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_GetRelateToName’:
+ooaofooa.c:2332:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     result = Escher_strcpy( result, Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("_Link");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2332:5: error: too few arguments to function ‘T_s’
+     result = Escher_strcpy( result, Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("_Link");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2332:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     result = Escher_strcpy( result, Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("_Link");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2332:5: error: too few arguments to function ‘T_s’
+     result = Escher_strcpy( result, Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("_Link");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2334:5: warning: passing argument 1 of ‘ooaofooa_GetRelationshipSuffix’ makes pointer from integer without a cast [enabled by default]
+     r = Escher_strcpy( r, ooaofooa_GetRelationshipSuffix( vfnv10ooaofooa_GetRelationshipSuffix9, r_rel, rel_phrase, o_obj ) );
+     ^
+In file included from sys_sys_types.h:312:0,
+                 from ooaofooa.c:10:
+ooaofooa_classes.h:2249:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * ooaofooa_GetRelationshipSuffix( c_t *, ooaofooa_R_REL *, c_t *, ooaofooa_O_OBJ * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_GetRelationshipDataMemberName’:
+ooaofooa.c:2355:23: error: redeclaration of ‘vbrv25T_s41’ with no linkage
+   c_t vbrv25T_s41;c_t vbrv25T_s41;c_t vfnv27ooaofooa_GetRelationshipSuffix7;c_t * suffix=0;c_t * r=0;c_t * obj_id=0;c_t * result=0;c_t * rel_phrase=0;ooaofooa_R_REL * r_rel;ooaofooa_O_OBJ * o_obj;ooaofooa_R_SUBSUP * subsup_rel=0;
+                       ^
+ooaofooa.c:2355:7: note: previous declaration of ‘vbrv25T_s41’ was here
+   c_t vbrv25T_s41;c_t vbrv25T_s41;c_t vfnv27ooaofooa_GetRelationshipSuffix7;c_t * suffix=0;c_t * r=0;c_t * obj_id=0;c_t * result=0;c_t * rel_phrase=0;ooaofooa_R_REL * r_rel;ooaofooa_O_OBJ * o_obj;ooaofooa_R_SUBSUP * subsup_rel=0;
+       ^
+ooaofooa.c:2363:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   result = Escher_strcpy( result, Escher_stradd( Escher_stradd( o_obj->Key_Lett, "_R" ), T_s( vbrv25T_s41, r_rel->Numb ) ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2367:3: warning: passing argument 1 of ‘ooaofooa_GetRelationshipSuffix’ makes pointer from integer without a cast [enabled by default]
+   r = Escher_strcpy( r, ooaofooa_GetRelationshipSuffix( vfnv27ooaofooa_GetRelationshipSuffix7, r_rel, rel_phrase, o_obj ) );
+   ^
+In file included from sys_sys_types.h:312:0,
+                 from ooaofooa.c:10:
+ooaofooa_classes.h:2249:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * ooaofooa_GetRelationshipSuffix( c_t *, ooaofooa_R_REL *, c_t *, ooaofooa_O_OBJ * );
+       ^
+ooaofooa.c:2397:43: error: redeclaration of ‘vbrv38T_s25’ with no linkage
+       c_t vbrv38T_s25;c_t vbrv37T_s25;c_t vbrv38T_s25;c_t vbrv37T_s25;
+                                           ^
+ooaofooa.c:2397:11: note: previous declaration of ‘vbrv38T_s25’ was here
+       c_t vbrv38T_s25;c_t vbrv37T_s25;c_t vbrv38T_s25;c_t vbrv37T_s25;
+           ^
+ooaofooa.c:2397:59: error: redeclaration of ‘vbrv37T_s25’ with no linkage
+       c_t vbrv38T_s25;c_t vbrv37T_s25;c_t vbrv38T_s25;c_t vbrv37T_s25;
+                                                           ^
+ooaofooa.c:2397:27: note: previous declaration of ‘vbrv37T_s25’ was here
+       c_t vbrv38T_s25;c_t vbrv37T_s25;c_t vbrv38T_s25;c_t vbrv37T_s25;
+                           ^
+ooaofooa.c:2399:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       result = Escher_strcpy( result, Escher_stradd( Escher_stradd( "R", T_s( vbrv37T_s25, r_rel->Numb ) ), "_subtype" ) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2401:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       obj_id = Escher_strcpy( obj_id, Escher_stradd( Escher_stradd( "R", T_s( vbrv38T_s25, r_rel->Numb ) ), "_object_id" ) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_GetRelationshipSuffix’:
+ooaofooa.c:2442:7: warning: passing argument 1 of ‘T_underscore’ makes pointer from integer without a cast [enabled by default]
+       result = Escher_strcpy( result, T_underscore( vbrv19T_underscore17, participant->Txt_Phrs ) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:30:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_underscore( c_t *, c_t * );
+       ^
+ooaofooa.c:2447:7: warning: passing argument 1 of ‘T_underscore’ makes pointer from integer without a cast [enabled by default]
+       result = Escher_strcpy( result, T_underscore( vbrv21T_underscore17, formalizer->Txt_Phrs ) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:30:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_underscore( c_t *, c_t * );
+       ^
+ooaofooa.c:2455:9: warning: passing argument 1 of ‘T_underscore’ makes pointer from integer without a cast [enabled by default]
+         result = Escher_strcpy( result, T_underscore( vbrv25T_underscore19, participant->Txt_Phrs ) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:30:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_underscore( c_t *, c_t * );
+       ^
+ooaofooa.c:2460:9: warning: passing argument 1 of ‘T_underscore’ makes pointer from integer without a cast [enabled by default]
+         result = Escher_strcpy( result, T_underscore( vbrv27T_underscore19, formalizer->Txt_Phrs ) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:30:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_underscore( c_t *, c_t * );
+       ^
+ooaofooa.c:2465:9: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+         msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("\nTRANSLATION ERROR:  ");T_T(right_o_obj->Key_Lett);T_T("[R");T_T(T_s(r_rel->Numb));T_T(".'");T_T(rel_phrase);T_T("']");}) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2465:9: error: too few arguments to function ‘T_s’
+         msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("\nTRANSLATION ERROR:  ");T_T(right_o_obj->Key_Lett);T_T("[R");T_T(T_s(r_rel->Numb));T_T(".'");T_T(rel_phrase);T_T("']");}) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2465:9: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+         msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("\nTRANSLATION ERROR:  ");T_T(right_o_obj->Key_Lett);T_T("[R");T_T(T_s(r_rel->Numb));T_T(".'");T_T(rel_phrase);T_T("']");}) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2465:9: error: too few arguments to function ‘T_s’
+         msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("\nTRANSLATION ERROR:  ");T_T(right_o_obj->Key_Lett);T_T("[R");T_T(T_s(r_rel->Numb));T_T(".'");T_T(rel_phrase);T_T("']");}) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2495:11: warning: passing argument 1 of ‘T_underscore’ makes pointer from integer without a cast [enabled by default]
+           result = Escher_strcpy( result, T_underscore( vbrv44T_underscore21, one_side->Txt_Phrs ) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:30:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_underscore( c_t *, c_t * );
+       ^
+ooaofooa.c:2500:11: warning: passing argument 1 of ‘T_underscore’ makes pointer from integer without a cast [enabled by default]
+           result = Escher_strcpy( result, T_underscore( vbrv49T_underscore21, other_side->Txt_Phrs ) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:30:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_underscore( c_t *, c_t * );
+       ^
+ooaofooa.c:2505:11: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+           msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("\nTRANSLATION ERROR:  ");T_T(right_o_obj->Key_Lett);T_T("[R");T_T(T_s(r_rel->Numb));T_T(".'");T_T(rel_phrase);T_T("']");}) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2505:11: error: too few arguments to function ‘T_s’
+           msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("\nTRANSLATION ERROR:  ");T_T(right_o_obj->Key_Lett);T_T("[R");T_T(T_s(r_rel->Numb));T_T(".'");T_T(rel_phrase);T_T("']");}) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2505:11: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+           msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("\nTRANSLATION ERROR:  ");T_T(right_o_obj->Key_Lett);T_T("[R");T_T(T_s(r_rel->Numb));T_T(".'");T_T(rel_phrase);T_T("']");}) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2505:11: error: too few arguments to function ‘T_s’
+           msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("\nTRANSLATION ERROR:  ");T_T(right_o_obj->Key_Lett);T_T("[R");T_T(T_s(r_rel->Numb));T_T(".'");T_T(rel_phrase);T_T("']");}) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2522:11: warning: passing argument 1 of ‘T_underscore’ makes pointer from integer without a cast [enabled by default]
+           result = Escher_strcpy( result, T_underscore( vbrv60T_underscore21, one_side->Txt_Phrs ) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:30:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_underscore( c_t *, c_t * );
+       ^
+ooaofooa.c:2527:11: warning: passing argument 1 of ‘T_underscore’ makes pointer from integer without a cast [enabled by default]
+           result = Escher_strcpy( result, T_underscore( vbrv62T_underscore21, other_side->Txt_Phrs ) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:30:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_underscore( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_GetSuperTypePolymorphicEventMethodName’:
+ooaofooa.c:2550:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   {c_t * xtumlOALrv = Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("PolymorphicEvent");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2550:3: error: too few arguments to function ‘T_s’
+   {c_t * xtumlOALrv = Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("PolymorphicEvent");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2550:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   {c_t * xtumlOALrv = Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("PolymorphicEvent");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2550:3: error: too few arguments to function ‘T_s’
+   {c_t * xtumlOALrv = Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("PolymorphicEvent");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_GetUnrelateFromName’:
+ooaofooa.c:2576:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     result = Escher_strcpy( result, Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("_Unlink");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2576:5: error: too few arguments to function ‘T_s’
+     result = Escher_strcpy( result, Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("_Unlink");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2576:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     result = Escher_strcpy( result, Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("_Unlink");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2576:5: error: too few arguments to function ‘T_s’
+     result = Escher_strcpy( result, Escher_stradd( te_class->GeneratedName, ({c_t*s=Escher_strget();T_T("_R");T_T(T_s(r_rel->Numb));T_T("_Unlink");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:2578:5: warning: passing argument 1 of ‘ooaofooa_GetRelationshipSuffix’ makes pointer from integer without a cast [enabled by default]
+     r = Escher_strcpy( r, ooaofooa_GetRelationshipSuffix( vfnv10ooaofooa_GetRelationshipSuffix9, r_rel, rel_phrase, o_obj ) );
+     ^
+ooaofooa.c:2417:1: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ ooaofooa_GetRelationshipSuffix( c_t * A0xtumlsret, ooaofooa_R_REL * p_r_rel, c_t * p_rel_phrase, ooaofooa_O_OBJ * p_right_o_obj )
+ ^
+ooaofooa.c: In function ‘ooaofooa_MapDataTypeAsPointer’:
+ooaofooa.c:2637:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv10T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkActionStatementTracingOn’:
+ooaofooa.c:2824:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv2T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkClassOperationTranslationOff’:
+ooaofooa.c:2904:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv4T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkClassToTask’:
+ooaofooa.c:3067:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv5T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c:3164:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       T_print( ({c_t*s=Escher_strget();T_T("ERROR:  MapClassToTask( ");T_T(package_name);T_T(", ");T_T(obj_key_letters);T_T(", ");T_T(T_s(task));T_T(" ) in component ");T_T(te_c->Name);T_T("\n");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:3164:7: error: too few arguments to function ‘T_s’
+       T_print( ({c_t*s=Escher_strget();T_T("ERROR:  MapClassToTask( ");T_T(package_name);T_T(", ");T_T(obj_key_letters);T_T(", ");T_T(T_s(task));T_T(" ) in component ");T_T(te_c->Name);T_T("\n");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:3164:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       T_print( ({c_t*s=Escher_strget();T_T("ERROR:  MapClassToTask( ");T_T(package_name);T_T(", ");T_T(obj_key_letters);T_T(", ");T_T(T_s(task));T_T(" ) in component ");T_T(te_c->Name);T_T("\n");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:3164:7: error: too few arguments to function ‘T_s’
+       T_print( ({c_t*s=Escher_strget();T_T("ERROR:  MapClassToTask( ");T_T(package_name);T_T(", ");T_T(obj_key_letters);T_T(", ");T_T(T_s(task));T_T(" ) in component ");T_T(te_c->Name);T_T("\n");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkComponentAsChannel’:
+ooaofooa.c:3330:7: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+       te_mact->GeneratedName = Escher_strcpy( te_mact->GeneratedName, T_r( vbrv39T_r32, te_mact->GeneratedName ) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkEmptyHandleDetectionOn’:
+ooaofooa.c:3644:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv3T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkExcludeObjectFromCodeGen’:
+ooaofooa.c:3686:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv3T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkExcludeSubsystemFromCodeGen’:
+ooaofooa.c:3755:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv3T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkFirstPassOptimizationsOff’:
+ooaofooa.c:3858:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv2T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkFunctionTranslationOff’:
+ooaofooa.c:3902:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv3T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkInitializationFunction’:
+ooaofooa.c:3995:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv3T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkNonPersistentClass’:
+ooaofooa.c:4329:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv4T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkObjectExtentSize’:
+ooaofooa.c:4466:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv4T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c:4506:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       T_print( ({c_t*s=Escher_strget();T_T("Class '");T_T(te_class->Name);T_T("' (");T_T(te_class->Key_Lett);T_T(") extent size is ");T_T(T_s(extent_size));}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:4506:7: error: too few arguments to function ‘T_s’
+       T_print( ({c_t*s=Escher_strget();T_T("Class '");T_T(te_class->Name);T_T("' (");T_T(te_class->Key_Lett);T_T(") extent size is ");T_T(T_s(extent_size));}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:4506:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       T_print( ({c_t*s=Escher_strget();T_T("Class '");T_T(te_class->Name);T_T("' (");T_T(te_class->Key_Lett);T_T(") extent size is ");T_T(T_s(extent_size));}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:4506:7: error: too few arguments to function ‘T_s’
+       T_print( ({c_t*s=Escher_strget();T_T("Class '");T_T(te_class->Name);T_T("' (");T_T(te_class->Key_Lett);T_T(") extent size is ");T_T(T_s(extent_size));}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:4512:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       T_print( ({c_t*s=Escher_strget();T_T("      ");T_T("=> MarkObjectExtentSize( ");T_T(obj_key_letters);T_T(", ");T_T(T_s(extent_size));T_T(" )");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:4512:7: error: too few arguments to function ‘T_s’
+       T_print( ({c_t*s=Escher_strget();T_T("      ");T_T("=> MarkObjectExtentSize( ");T_T(obj_key_letters);T_T(", ");T_T(T_s(extent_size));T_T(" )");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:4512:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       T_print( ({c_t*s=Escher_strget();T_T("      ");T_T("=> MarkObjectExtentSize( ");T_T(obj_key_letters);T_T(", ");T_T(T_s(extent_size));T_T(" )");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:4512:7: error: too few arguments to function ‘T_s’
+       T_print( ({c_t*s=Escher_strget();T_T("      ");T_T("=> MarkObjectExtentSize( ");T_T(obj_key_letters);T_T(", ");T_T(T_s(extent_size));T_T(" )");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkObjectTraceOff’:
+ooaofooa.c:4531:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv3T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkObjectTraceOn’:
+ooaofooa.c:4627:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv3T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkPEIsDefinedInData’:
+ooaofooa.c:4725:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv4T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkPersistentClass’:
+ooaofooa.c:4884:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv4T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkPriorityEvent’:
+ooaofooa.c:5180:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv4T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c:5209:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("ERROR:  Priority (");T_T(T_s(priority_value));T_T(") out of legal range (0-255).");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:5209:7: error: too few arguments to function ‘T_s’
+       msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("ERROR:  Priority (");T_T(T_s(priority_value));T_T(") out of legal range (0-255).");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:5209:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("ERROR:  Priority (");T_T(T_s(priority_value));T_T(") out of legal range (0-255).");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:5209:7: error: too few arguments to function ‘T_s’
+       msg = Escher_strcpy( msg, ({c_t*s=Escher_strget();T_T("ERROR:  Priority (");T_T(T_s(priority_value));T_T(") out of legal range (0-255).");}) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:5283:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     msg = Escher_strcpy( msg, Escher_stradd( msg, ({c_t*s=Escher_strget();T_T(" ");T_T("=> TagPriorityEvent( ");T_T(evt_label);T_T(", ");T_T(T_s(priority_value));T_T(" )");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:5283:5: error: too few arguments to function ‘T_s’
+     msg = Escher_strcpy( msg, Escher_stradd( msg, ({c_t*s=Escher_strget();T_T(" ");T_T("=> TagPriorityEvent( ");T_T(evt_label);T_T(", ");T_T(T_s(priority_value));T_T(" )");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:5283:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     msg = Escher_strcpy( msg, Escher_stradd( msg, ({c_t*s=Escher_strget();T_T(" ");T_T("=> TagPriorityEvent( ");T_T(evt_label);T_T(", ");T_T(T_s(priority_value));T_T(" )");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:5283:5: error: too few arguments to function ‘T_s’
+     msg = Escher_strcpy( msg, Escher_stradd( msg, ({c_t*s=Escher_strget();T_T(" ");T_T("=> TagPriorityEvent( ");T_T(evt_label);T_T(", ");T_T(T_s(priority_value));T_T(" )");}) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkReadOnly’:
+ooaofooa.c:5305:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv4T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkStateActionCommentBlocksEnabled’:
+ooaofooa.c:5438:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv2T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkStateActionStatementCommentsDisabled’:
+ooaofooa.c:5480:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv2T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkStateTransitionTracingOn’:
+ooaofooa.c:5524:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv3T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkStaticInstancePopulation’:
+ooaofooa.c:5568:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv4T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_MarkSystemObjectDefaultExtentSize’:
+ooaofooa.c:5786:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   T_print( ({c_t*s=Escher_strget();T_T("Class default extent size is ");T_T(T_s(extent_size));T_T(" for _all_ classes.");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:5786:3: error: too few arguments to function ‘T_s’
+   T_print( ({c_t*s=Escher_strget();T_T("Class default extent size is ");T_T(T_s(extent_size));T_T(" for _all_ classes.");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:5786:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   T_print( ({c_t*s=Escher_strget();T_T("Class default extent size is ");T_T(T_s(extent_size));T_T(" for _all_ classes.");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:5786:3: error: too few arguments to function ‘T_s’
+   T_print( ({c_t*s=Escher_strget();T_T("Class default extent size is ");T_T(T_s(extent_size));T_T(" for _all_ classes.");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_SetTaskPriority’:
+ooaofooa.c:6699:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   T_print( ({c_t*s=Escher_strget();T_T("SetTaskPriority( ");T_T(T_s(task_number));T_T(", ");T_T(priority);T_T(" )");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:6699:3: error: too few arguments to function ‘T_s’
+   T_print( ({c_t*s=Escher_strget();T_T("SetTaskPriority( ");T_T(T_s(task_number));T_T(", ");T_T(priority);T_T(" )");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:6699:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   T_print( ({c_t*s=Escher_strget();T_T("SetTaskPriority( ");T_T(T_s(task_number));T_T(", ");T_T(priority);T_T(" )");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:6699:3: error: too few arguments to function ‘T_s’
+   T_print( ({c_t*s=Escher_strget();T_T("SetTaskPriority( ");T_T(T_s(task_number));T_T(", ");T_T(priority);T_T(" )");}) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:6708:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   tm_thread->extra_initialization = Escher_strcpy( tm_thread->extra_initialization, Escher_stradd( tm_thread->extra_initialization, ({c_t*s=Escher_strget();T_T("  ");T_T("xtUML_task_priorities[ ");T_T(T_s(task_number));T_T(" ] = ");T_T(priority);T_T(";\n");}) ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:6708:3: error: too few arguments to function ‘T_s’
+   tm_thread->extra_initialization = Escher_strcpy( tm_thread->extra_initialization, Escher_stradd( tm_thread->extra_initialization, ({c_t*s=Escher_strget();T_T("  ");T_T("xtUML_task_priorities[ ");T_T(T_s(task_number));T_T(" ] = ");T_T(priority);T_T(";\n");}) ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:6708:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   tm_thread->extra_initialization = Escher_strcpy( tm_thread->extra_initialization, Escher_stradd( tm_thread->extra_initialization, ({c_t*s=Escher_strget();T_T("  ");T_T("xtUML_task_priorities[ ");T_T(T_s(task_number));T_T(" ] = ");T_T(priority);T_T(";\n");}) ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:6708:3: error: too few arguments to function ‘T_s’
+   tm_thread->extra_initialization = Escher_strcpy( tm_thread->extra_initialization, Escher_stradd( tm_thread->extra_initialization, ({c_t*s=Escher_strget();T_T("  ");T_T("xtUML_task_priorities[ ");T_T(T_s(task_number));T_T(" ] = ");T_T(priority);T_T(";\n");}) ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_TE_EE_init’:
+ooaofooa.c:7336:23: error: redeclaration of ‘vbrv20T_r45’ with no linkage
+   c_t vbrv20T_r45;c_t vbrv20T_r45;ooaofooa_S_BRG * s_brg=0;c_t * bridge_scope=0;c_t * component_scope=0;ooaofooa_TE_C * te_c;ooaofooa_TE_EE * te_ee;ooaofooa_TE_TARGET * te_target=0;ooaofooa_TE_FILE * te_file=0;Escher_ObjectSet_s s_brgs_space={0}; Escher_ObjectSet_s * s_brgs = &s_brgs_space;ooaofooa_S_EE * s_ee=0;
+                       ^
+ooaofooa.c:7336:7: note: previous declaration of ‘vbrv20T_r45’ was here
+   c_t vbrv20T_r45;c_t vbrv20T_r45;ooaofooa_S_BRG * s_brg=0;c_t * bridge_scope=0;c_t * component_scope=0;ooaofooa_TE_C * te_c;ooaofooa_TE_EE * te_ee;ooaofooa_TE_TARGET * te_target=0;ooaofooa_TE_FILE * te_file=0;Escher_ObjectSet_s s_brgs_space={0}; Escher_ObjectSet_s * s_brgs = &s_brgs_space;ooaofooa_S_EE * s_ee=0;
+       ^
+ooaofooa.c:7361:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   te_ee->RegisteredName = Escher_strcpy( te_ee->RegisteredName, Escher_stradd( component_scope, T_r( vbrv20T_r45, te_ee->Key_Lett ) ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_TagDataTypePrecision’:
+ooaofooa.c:7731:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv22T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_TagEnumeratorDiscreteValue’:
+ooaofooa.c:7835:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv33T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_TagSyncServiceSafeForInterrupts’:
+ooaofooa.c:8461:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv10T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_TagUninitializedEnumerationValue’:
+ooaofooa.c:8536:3: warning: passing argument 1 of ‘T_r’ makes pointer from integer without a cast [enabled by default]
+   component_name = Escher_strcpy( component_name, T_r( vbrv35T_r21, component_name ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:27:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_r( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_associator_TE_LNK’:
+ooaofooa.c:9076:34: error: redeclaration of ‘vbrv23T_underscore50’ with no linkage
+     c_t vbrv23T_underscore50;c_t vbrv23T_underscore50;
+                                  ^
+ooaofooa.c:9076:9: note: previous declaration of ‘vbrv23T_underscore50’ was here
+     c_t vbrv23T_underscore50;c_t vbrv23T_underscore50;
+         ^
+ooaofooa.c:9078:5: warning: passing argument 1 of ‘T_underscore’ makes pointer from integer without a cast [enabled by default]
+     te_lnk->linkage = Escher_strcpy( te_lnk->linkage, Escher_stradd( Escher_stradd( te_lnk->linkage, "_" ), T_underscore( vbrv23T_underscore50, right_te_lnk->rel_phrase ) ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:30:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_underscore( c_t *, c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_attr_analyze_accesses’:
+ooaofooa.c:9117:39: error: redeclaration of ‘vbrv50T_s10’ with no linkage
+   c_t vbrv50T_s10;c_t vbrv48T_s10;c_t vbrv50T_s10;c_t vbrv48T_s10;ooaofooa_TE_ATTR * te_attr=0;c_t * msg=0;i_t attributes_written_count;i_t attributes_read_count;Escher_ObjectSet_s o_oidas_space={0}; Escher_ObjectSet_s * o_oidas = &o_oidas_space;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                                       ^
+ooaofooa.c:9117:7: note: previous declaration of ‘vbrv50T_s10’ was here
+   c_t vbrv50T_s10;c_t vbrv48T_s10;c_t vbrv50T_s10;c_t vbrv48T_s10;ooaofooa_TE_ATTR * te_attr=0;c_t * msg=0;i_t attributes_written_count;i_t attributes_read_count;Escher_ObjectSet_s o_oidas_space={0}; Escher_ObjectSet_s * o_oidas = &o_oidas_space;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+       ^
+ooaofooa.c:9117:55: error: redeclaration of ‘vbrv48T_s10’ with no linkage
+   c_t vbrv50T_s10;c_t vbrv48T_s10;c_t vbrv50T_s10;c_t vbrv48T_s10;ooaofooa_TE_ATTR * te_attr=0;c_t * msg=0;i_t attributes_written_count;i_t attributes_read_count;Escher_ObjectSet_s o_oidas_space={0}; Escher_ObjectSet_s * o_oidas = &o_oidas_space;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                                                       ^
+ooaofooa.c:9117:23: note: previous declaration of ‘vbrv48T_s10’ was here
+   c_t vbrv50T_s10;c_t vbrv48T_s10;c_t vbrv50T_s10;c_t vbrv48T_s10;ooaofooa_TE_ATTR * te_attr=0;c_t * msg=0;i_t attributes_written_count;i_t attributes_read_count;Escher_ObjectSet_s o_oidas_space={0}; Escher_ObjectSet_s * o_oidas = &o_oidas_space;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                       ^
+ooaofooa.c:9209:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   msg = Escher_strcpy( msg, Escher_stradd( T_s( vbrv48T_s10, attributes_read_count ), " attributes read" ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:9213:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   msg = Escher_strcpy( msg, Escher_stradd( T_s( vbrv50T_s10, attributes_written_count ), " attributes written" ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_attr_analyze_codegen’:
+ooaofooa.c:9226:23: error: redeclaration of ‘vbrv36T_s10’ with no linkage
+   c_t vbrv36T_s10;c_t vbrv36T_s10;ooaofooa_TE_ATTR * te_attr=0;c_t * msg=0;i_t optimized_out_count;ooaofooa_TE_SYS * te_sys;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+                       ^
+ooaofooa.c:9226:7: note: previous declaration of ‘vbrv36T_s10’ was here
+   c_t vbrv36T_s10;c_t vbrv36T_s10;ooaofooa_TE_ATTR * te_attr=0;c_t * msg=0;i_t optimized_out_count;ooaofooa_TE_SYS * te_sys;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;Escher_ObjectSet_s te_attrs_space={0}; Escher_ObjectSet_s * te_attrs = &te_attrs_space;
+       ^
+ooaofooa.c:9325:3: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+   msg = Escher_strcpy( msg, Escher_stradd( T_s( vbrv36T_s10, optimized_out_count ), " attributes optimized out" ) );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_blck_xlate’:
+ooaofooa.c:9390:31: error: redeclaration of ‘vbrv46T_s86’ with no linkage
+           c_t vbrv46T_s86;c_t vbrv46T_s86;c_t * statement_trace=0;
+                               ^
+ooaofooa.c:9390:15: note: previous declaration of ‘vbrv46T_s86’ was here
+           c_t vbrv46T_s86;c_t vbrv46T_s86;c_t * statement_trace=0;
+               ^
+ooaofooa.c:9392:11: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+           statement_trace = Escher_strcpy( statement_trace, Escher_stradd( Escher_stradd( Escher_stradd( te_blk->indentation, "XTUML_OAL_STMT_TRACE( " ), Escher_stradd( T_s( vbrv46T_s86, te_blk->depth ), ", \\"" ) ), Escher_stradd( te_smt->OAL, "\\" );\n" ) ) );
+           ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:9392:11: error: stray ‘\’ in program
+           statement_trace = Escher_strcpy( statement_trace, Escher_stradd( Escher_stradd( Escher_stradd( te_blk->indentation, "XTUML_OAL_STMT_TRACE( " ), Escher_stradd( T_s( vbrv46T_s86, te_blk->depth ), ", \\"" ) ), Escher_stradd( te_smt->OAL, "\\" );\n" ) ) );
+           ^
+ooaofooa.c:9392:11: error: stray ‘\’ in program
+ooaofooa.c:9392:249: error: expected ‘)’ before string constant
+           statement_trace = Escher_strcpy( statement_trace, Escher_stradd( Escher_stradd( Escher_stradd( te_blk->indentation, "XTUML_OAL_STMT_TRACE( " ), Escher_stradd( T_s( vbrv46T_s86, te_blk->depth ), ", \\"" ) ), Escher_stradd( te_smt->OAL, "\\" );\n" ) ) );
+                                                                                                                                                                                                                                                         ^
+ooaofooa.c:9392:249: error: too few arguments to function ‘Escher_stradd’
+In file included from sys_sys_types.h:168:0,
+                 from ooaofooa.c:10:
+sys_xtuml.h:111:7: note: declared here
+ c_t * Escher_stradd( const c_t *, const c_t * );
+       ^
+ooaofooa.c:9392:262: error: expected ‘)’ before ‘;’ token
+           statement_trace = Escher_strcpy( statement_trace, Escher_stradd( Escher_stradd( Escher_stradd( te_blk->indentation, "XTUML_OAL_STMT_TRACE( " ), Escher_stradd( T_s( vbrv46T_s86, te_blk->depth ), ", \\"" ) ), Escher_stradd( te_smt->OAL, "\\" );\n" ) ) );
+                                                                                                                                                                                                                                                                      ^
+ooaofooa.c:9395:9: error: expected ‘;’ before ‘}’ token
+         }
+         ^
+ooaofooa.c: In function ‘ooaofooa_class_insert’:
+ooaofooa.c:9858:39: error: redeclaration of ‘vbrv8T_s13’ with no linkage
+     c_t vbrv8T_s13;c_t vbrv7T_s13;c_t vbrv8T_s13;c_t vbrv7T_s13;c_t * rkey=0;c_t * lkey=0;
+                                       ^
+ooaofooa.c:9858:9: note: previous declaration of ‘vbrv8T_s13’ was here
+     c_t vbrv8T_s13;c_t vbrv7T_s13;c_t vbrv8T_s13;c_t vbrv7T_s13;c_t * rkey=0;c_t * lkey=0;
+         ^
+ooaofooa.c:9858:54: error: redeclaration of ‘vbrv7T_s13’ with no linkage
+     c_t vbrv8T_s13;c_t vbrv7T_s13;c_t vbrv8T_s13;c_t vbrv7T_s13;c_t * rkey=0;c_t * lkey=0;
+                                                      ^
+ooaofooa.c:9858:24: note: previous declaration of ‘vbrv7T_s13’ was here
+     c_t vbrv8T_s13;c_t vbrv7T_s13;c_t vbrv8T_s13;c_t vbrv7T_s13;c_t * rkey=0;c_t * lkey=0;
+                        ^
+ooaofooa.c:9860:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     lkey = Escher_strcpy( lkey, Escher_stradd( T_s( vbrv7T_s13, te_class->Numb ), te_class->GeneratedName ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:9862:5: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+     rkey = Escher_strcpy( rkey, Escher_stradd( T_s( vbrv8T_s13, head_te_class->Numb ), head_te_class->GeneratedName ) );
+     ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:9878:29: error: redeclaration of ‘vbrv18T_s17’ with no linkage
+         c_t vbrv18T_s17;c_t vbrv18T_s17;
+                             ^
+ooaofooa.c:9878:13: note: previous declaration of ‘vbrv18T_s17’ was here
+         c_t vbrv18T_s17;c_t vbrv18T_s17;
+             ^
+ooaofooa.c:9880:9: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+         rkey = Escher_strcpy( rkey, Escher_stradd( T_s( vbrv18T_s17, cursor_te_class->Numb ), cursor_te_class->GeneratedName ) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_docgen_associations’:
+ooaofooa.c:10927:7: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+       columns[1] = Escher_strcpy( columns[1], T_s( vbrv21T_s23, r_rel->Numb ) );
+       ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_docgen_classes’:
+ooaofooa.c:11055:7: warning: passing argument 1 of ‘ooaofooa_getContainerListForEP_PKG’ makes pointer from integer without a cast [enabled by default]
+       prefix = Escher_strcpy( prefix, ooaofooa_getContainerListForEP_PKG( vfnv51ooaofooa_getContainerListForEP_PKG16, "", ep_pkg ) );
+       ^
+In file included from sys_sys_types.h:312:0,
+                 from ooaofooa.c:10:
+ooaofooa_classes.h:2405:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * ooaofooa_getContainerListForEP_PKG( c_t *, c_t *, ooaofooa_EP_PKG * );
+       ^
+ooaofooa.c:11182:39: error: redeclaration of ‘vbrv90T_s46’ with no linkage
+                   c_t vbrv90T_s46;c_t vbrv90T_s46;
+                                       ^
+ooaofooa.c:11182:23: note: previous declaration of ‘vbrv90T_s46’ was here
+                   c_t vbrv90T_s46;c_t vbrv90T_s46;
+                       ^
+ooaofooa.c:11184:19: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+                   title = Escher_strcpy( title, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( title, " State[" ), T_s( vbrv90T_s46, sm_state->Numb ) ), "]:" ), sm_state->Name ) );
+                   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:11237:40: error: redeclaration of ‘vbrv116T_s46’ with no linkage
+                   c_t vbrv116T_s46;c_t vbrv116T_s46;
+                                        ^
+ooaofooa.c:11237:23: note: previous declaration of ‘vbrv116T_s46’ was here
+                   c_t vbrv116T_s46;c_t vbrv116T_s46;
+                       ^
+ooaofooa.c:11239:19: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+                   title = Escher_strcpy( title, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( title, " State[" ), T_s( vbrv116T_s46, sm_state->Numb ) ), "]:" ), sm_state->Name ) );
+                   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_docgen_components’:
+ooaofooa.c:11421:5: warning: passing argument 1 of ‘ooaofooa_getContainerListForC_C’ makes pointer from integer without a cast [enabled by default]
+     image_name = Escher_strcpy( image_name, ooaofooa_getContainerListForC_C( vfnv10ooaofooa_getContainerListForC_C18, c_c, "Component Diagram" ) );
+     ^
+In file included from sys_sys_types.h:312:0,
+                 from ooaofooa.c:10:
+ooaofooa_classes.h:2404:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * ooaofooa_getContainerListForC_C( c_t *, ooaofooa_C_C *, c_t * );
+       ^
+ooaofooa.c:11482:9: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+         columns[4] = Escher_strcpy( columns[4], T_s( vbrv39T_s23, c_po->Mult ) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c: In function ‘ooaofooa_docgen_packages’:
+ooaofooa.c:12816:5: warning: passing argument 1 of ‘ooaofooa_getContainerListForEP_PKG’ makes pointer from integer without a cast [enabled by default]
+     image_name = Escher_strcpy( image_name, ooaofooa_getContainerListForEP_PKG( vfnv14ooaofooa_getContainerListForEP_PKG18, "Package Diagram", ep_pkg ) );
+     ^
+In file included from sys_sys_types.h:312:0,
+                 from ooaofooa.c:10:
+ooaofooa_classes.h:2405:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * ooaofooa_getContainerListForEP_PKG( c_t *, c_t *, ooaofooa_EP_PKG * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_getContainerListForC_C’:
+ooaofooa.c:13861:5: warning: passing argument 1 of ‘ooaofooa_getContainerListForC_C’ makes pointer from integer without a cast [enabled by default]
+     list = Escher_strcpy( list, ooaofooa_getContainerListForC_C( vfnv17ooaofooa_getContainerListForC_C12, c_c, list ) );
+     ^
+ooaofooa.c:13831:1: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ ooaofooa_getContainerListForC_C( c_t * A0xtumlsret, ooaofooa_C_C * p_comp, c_t * p_container_list )
+ ^
+ooaofooa.c:13866:5: warning: passing argument 1 of ‘ooaofooa_getContainerListForEP_PKG’ makes pointer from integer without a cast [enabled by default]
+     list = Escher_strcpy( list, ooaofooa_getContainerListForEP_PKG( vfnv19ooaofooa_getContainerListForEP_PKG12, list, ep_pkg ) );
+     ^
+In file included from sys_sys_types.h:312:0,
+                 from ooaofooa.c:10:
+ooaofooa_classes.h:2405:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * ooaofooa_getContainerListForEP_PKG( c_t *, c_t *, ooaofooa_EP_PKG * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_getContainerListForEP_PKG’:
+ooaofooa.c:13910:5: warning: passing argument 1 of ‘ooaofooa_getContainerListForS_SYS’ makes pointer from integer without a cast [enabled by default]
+     list = Escher_strcpy( list, ooaofooa_getContainerListForS_SYS( vfnv17ooaofooa_getContainerListForS_SYS12, list, system ) );
+     ^
+In file included from sys_sys_types.h:312:0,
+                 from ooaofooa.c:10:
+ooaofooa_classes.h:2406:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * ooaofooa_getContainerListForS_SYS( c_t *, c_t *, ooaofooa_S_SYS * );
+       ^
+ooaofooa.c:13915:5: warning: passing argument 1 of ‘ooaofooa_getContainerListForC_C’ makes pointer from integer without a cast [enabled by default]
+     list = Escher_strcpy( list, ooaofooa_getContainerListForC_C( vfnv19ooaofooa_getContainerListForC_C12, c_c, list ) );
+     ^
+ooaofooa.c:13831:1: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ ooaofooa_getContainerListForC_C( c_t * A0xtumlsret, ooaofooa_C_C * p_comp, c_t * p_container_list )
+ ^
+ooaofooa.c:13920:5: warning: passing argument 1 of ‘ooaofooa_getContainerListForEP_PKG’ makes pointer from integer without a cast [enabled by default]
+     list = Escher_strcpy( list, ooaofooa_getContainerListForEP_PKG( vfnv21ooaofooa_getContainerListForEP_PKG12, list, ep_pkg ) );
+     ^
+ooaofooa.c:13878:1: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ ooaofooa_getContainerListForEP_PKG( c_t * A0xtumlsret, c_t * p_container_list, ooaofooa_EP_PKG * p_epk )
+ ^
+ooaofooa.c: In function ‘ooaofooa_q_render_msg’:
+ooaofooa.c:15248:29: error: redeclaration of ‘vbrv60T_s23’ with no linkage
+         c_t vbrv60T_s23;c_t vbrv60T_s23;
+                             ^
+ooaofooa.c:15248:13: note: previous declaration of ‘vbrv60T_s23’ was here
+         c_t vbrv60T_s23;c_t vbrv60T_s23;
+             ^
+ooaofooa.c:15255:9: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+         parameters = Escher_strcpy( parameters, Escher_stradd( T_s( vbrv60T_s23, foreign_te_po->sibling ), parameters ) );
+         ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:15262:3: warning: passing argument 1 of ‘T_body’ makes pointer from integer without a cast [enabled by default]
+   {c_t * xtumlOALrv = T_body( vbrv65T_body11 );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:35:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_body( c_t * );
+       ^
+In file included from ooaofooa.c:15785:0:
+c/t.smt.assign.c: In function ‘ooaofooa_smt_assign’:
+c/t.smt.assign.c:47:1: warning: passing argument 1 of ‘T_s’ makes pointer from integer without a cast [enabled by default]
+ T_b(T_s(element_count));
+ ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: expected ‘c_t *’ but argument is of type ‘i_t’
+ c_t * T_s( c_t *, const i_t );
+       ^
+In file included from ooaofooa.c:15785:0:
+c/t.smt.assign.c:47:1: error: too few arguments to function ‘T_s’
+ T_b(T_s(element_count));
+ ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:20:7: note: declared here
+ c_t * T_s( c_t *, const i_t );
+       ^
+ooaofooa.c:15789:3: warning: passing argument 1 of ‘T_body’ makes pointer from integer without a cast [enabled by default]
+   {c_t * xtumlOALrv = T_body( vbrv91T_body11 );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:35:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_body( c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_smt_assigns’:
+ooaofooa.c:15818:5: warning: passing argument 1 of ‘ooaofooa_smt_assign’ makes pointer from integer without a cast [enabled by default]
+     r = Escher_strcpy( r, ooaofooa_smt_assign( vfnv8ooaofooa_smt_assign9, act_ai, te_smt ) );
+     ^
+ooaofooa.c:15604:1: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ ooaofooa_smt_assign( c_t * A0xtumlsret, ooaofooa_ACT_AI * p_act_ai, ooaofooa_TE_SMT * p_te_smt )
+ ^
+ooaofooa.c: In function ‘ooaofooa_smt_break’:
+ooaofooa.c:15875:3: warning: passing argument 1 of ‘T_body’ makes pointer from integer without a cast [enabled by default]
+   {c_t * xtumlOALrv = T_body( vbrv25T_body11 );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:35:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_body( c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_smt_breaks’:
+ooaofooa.c:15904:5: warning: passing argument 1 of ‘ooaofooa_smt_break’ makes pointer from integer without a cast [enabled by default]
+     r = Escher_strcpy( r, ooaofooa_smt_break( vfnv8ooaofooa_smt_break9, act_brk, te_smt ) );
+     ^
+ooaofooa.c:15830:1: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ ooaofooa_smt_break( c_t * A0xtumlsret, ooaofooa_ACT_BRK * p_act_brk, ooaofooa_TE_SMT * p_te_smt )
+ ^
+ooaofooa.c: In function ‘ooaofooa_smt_bridge’:
+ooaofooa.c:15997:3: warning: passing argument 1 of ‘T_body’ makes pointer from integer without a cast [enabled by default]
+   {c_t * xtumlOALrv = T_body( vbrv37T_body11 );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:35:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_body( c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_smt_bridges’:
+ooaofooa.c:16026:5: warning: passing argument 1 of ‘ooaofooa_smt_bridge’ makes pointer from integer without a cast [enabled by default]
+     r = Escher_strcpy( r, ooaofooa_smt_bridge( vfnv8ooaofooa_smt_bridge9, act_brg, te_smt ) );
+     ^
+ooaofooa.c:15916:1: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ ooaofooa_smt_bridge( c_t * A0xtumlsret, ooaofooa_ACT_BRG * p_act_brg, ooaofooa_TE_SMT * p_te_smt )
+ ^
+ooaofooa.c: In function ‘ooaofooa_smt_continue’:
+ooaofooa.c:16099:3: warning: passing argument 1 of ‘T_body’ makes pointer from integer without a cast [enabled by default]
+   {c_t * xtumlOALrv = T_body( vbrv25T_body11 );
+   ^
+In file included from ooaofooa_classes.h:2549:0,
+                 from sys_sys_types.h:312,
+                 from ooaofooa.c:10:
+T_bridge.h:35:7: note: expected ‘c_t *’ but argument is of type ‘c_t’
+ c_t * T_body( c_t * );
+       ^
+ooaofooa.c: In function ‘ooaofooa_smt_continues’:
