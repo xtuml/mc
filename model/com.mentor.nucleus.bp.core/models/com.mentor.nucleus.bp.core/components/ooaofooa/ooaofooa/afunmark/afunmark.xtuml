@@ -34,7 +34,7 @@ INSERT INTO DIM_DIA
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO S_SYNC
-	VALUES ("f7cd4364-6485-4514-b925-3d3316696e48",
+	VALUES ("c1909e22-2265-4c78-b2f8-77766016b5d6",
 	"00000000-0000-0000-0000-000000000000",
 	'WireSynchServiceOoaBridge',
 	'',
@@ -64,8 +64,8 @@ T::print(s:"Note:  WireSynchServiceOoaBridge is no longer supported.  Use compon
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d1c24722-9151-4131-9211-3eb51893f4f1",
-	"f7cd4364-6485-4514-b925-3d3316696e48",
+	VALUES ("323f961c-9d94-4a0c-90bf-be6c640f126f",
+	"c1909e22-2265-4c78-b2f8-77766016b5d6",
 	'initiant',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -73,31 +73,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("6faf7494-6174-4896-8ca6-4b07cea68d5c",
-	"f7cd4364-6485-4514-b925-3d3316696e48",
+	VALUES ("94fb7aa8-2926-4088-a641-ebacd2cdcba5",
+	"c1909e22-2265-4c78-b2f8-77766016b5d6",
 	'ee_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"d1c24722-9151-4131-9211-3eb51893f4f1",
+	"323f961c-9d94-4a0c-90bf-be6c640f126f",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d7afbfb3-2652-45f3-b225-a89a7d1d684a",
-	"f7cd4364-6485-4514-b925-3d3316696e48",
+	VALUES ("fbab42b1-fe7f-45c7-b724-5b0060d221b2",
+	"c1909e22-2265-4c78-b2f8-77766016b5d6",
 	'recipient',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"6faf7494-6174-4896-8ca6-4b07cea68d5c",
+	"94fb7aa8-2926-4088-a641-ebacd2cdcba5",
 	'');
 INSERT INTO PE_PE
-	VALUES ("f7cd4364-6485-4514-b925-3d3316696e48",
+	VALUES ("c1909e22-2265-4c78-b2f8-77766016b5d6",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("50118775-ed46-4ed9-ba91-d033faaed2e5",
+	VALUES ("f92d193c-c5a3-4a35-8dd6-0ceadee26604",
 	"00000000-0000-0000-0000-000000000000",
 	'WireRealizeExternalEntity',
 	'',
@@ -114,8 +114,8 @@ T::print(s:"Note:  WireRealizeExternalEntity is no longer supported.  Use compon
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("89cf342a-e4c9-46f0-b417-7f57e1a7de42",
-	"50118775-ed46-4ed9-ba91-d033faaed2e5",
+	VALUES ("5d071068-eaa1-42d4-83e9-c76b77f8038b",
+	"f92d193c-c5a3-4a35-8dd6-0ceadee26604",
 	'a',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -123,49 +123,49 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("e4362eb0-6921-4772-90fb-b1def9cfaa4d",
-	"50118775-ed46-4ed9-ba91-d033faaed2e5",
+	VALUES ("6b34def2-a72e-478e-9aac-d7f3ddbe6204",
+	"f92d193c-c5a3-4a35-8dd6-0ceadee26604",
 	'b',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"89cf342a-e4c9-46f0-b417-7f57e1a7de42",
+	"5d071068-eaa1-42d4-83e9-c76b77f8038b",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("643d19f4-3905-4287-a68c-03a41bf97420",
-	"50118775-ed46-4ed9-ba91-d033faaed2e5",
+	VALUES ("5c7c5b64-589e-4b20-8452-fbbdcc68c1ca",
+	"f92d193c-c5a3-4a35-8dd6-0ceadee26604",
 	'c',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"e4362eb0-6921-4772-90fb-b1def9cfaa4d",
+	"6b34def2-a72e-478e-9aac-d7f3ddbe6204",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("c9caf2e5-801f-42bc-b3c3-70d0d4c4628e",
-	"50118775-ed46-4ed9-ba91-d033faaed2e5",
+	VALUES ("8ff5e861-7a8b-40dd-86eb-fa32cbca28a9",
+	"f92d193c-c5a3-4a35-8dd6-0ceadee26604",
 	'd',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"643d19f4-3905-4287-a68c-03a41bf97420",
+	"5c7c5b64-589e-4b20-8452-fbbdcc68c1ca",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ad1e4c72-0c9e-4e17-b7db-32bfeb428ed9",
-	"50118775-ed46-4ed9-ba91-d033faaed2e5",
+	VALUES ("96f7137c-d0ca-40bb-a5bd-0c28dbc623e7",
+	"f92d193c-c5a3-4a35-8dd6-0ceadee26604",
 	'e',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"c9caf2e5-801f-42bc-b3c3-70d0d4c4628e",
+	"8ff5e861-7a8b-40dd-86eb-fa32cbca28a9",
 	'');
 INSERT INTO PE_PE
-	VALUES ("50118775-ed46-4ed9-ba91-d033faaed2e5",
+	VALUES ("f92d193c-c5a3-4a35-8dd6-0ceadee26604",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("32d3c907-c909-440e-acb8-526c51e9767e",
+	VALUES ("215a8eec-50ce-4f30-98bf-05fef4cb6622",
 	"00000000-0000-0000-0000-000000000000",
 	'WireRealizedExternalEntity',
 	'',
@@ -182,8 +182,8 @@ T::print(s:"Note:  WireRealizeExternalEntity is no longer supported.  Use compon
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("dcc86a9b-06ff-409f-94cb-283729746d6f",
-	"32d3c907-c909-440e-acb8-526c51e9767e",
+	VALUES ("45a9ce2c-4eaf-4537-8d98-82b4df1175b8",
+	"215a8eec-50ce-4f30-98bf-05fef4cb6622",
 	'a',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -191,49 +191,49 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("24c3aaec-7784-4233-8f61-46e5b6d02759",
-	"32d3c907-c909-440e-acb8-526c51e9767e",
+	VALUES ("ee7ecbef-52d8-4d80-87d3-aa63cac1af8b",
+	"215a8eec-50ce-4f30-98bf-05fef4cb6622",
 	'b',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"dcc86a9b-06ff-409f-94cb-283729746d6f",
+	"45a9ce2c-4eaf-4537-8d98-82b4df1175b8",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("42809008-5054-47cc-a20a-3c59911d1fd5",
-	"32d3c907-c909-440e-acb8-526c51e9767e",
+	VALUES ("cde2d2cc-0c1c-4b3f-9981-2754ba15831b",
+	"215a8eec-50ce-4f30-98bf-05fef4cb6622",
 	'c',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"24c3aaec-7784-4233-8f61-46e5b6d02759",
+	"ee7ecbef-52d8-4d80-87d3-aa63cac1af8b",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("55b0ca75-07f3-4034-a3c0-2a34ef909934",
-	"32d3c907-c909-440e-acb8-526c51e9767e",
+	VALUES ("320fd563-6f52-4032-bb9f-4310d6002c17",
+	"215a8eec-50ce-4f30-98bf-05fef4cb6622",
 	'd',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"42809008-5054-47cc-a20a-3c59911d1fd5",
+	"cde2d2cc-0c1c-4b3f-9981-2754ba15831b",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("919c3c0a-a650-4c9c-9388-65d75d816323",
-	"32d3c907-c909-440e-acb8-526c51e9767e",
+	VALUES ("d39a9d91-f09f-450c-ad1c-3a98811448fa",
+	"215a8eec-50ce-4f30-98bf-05fef4cb6622",
 	'e',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"55b0ca75-07f3-4034-a3c0-2a34ef909934",
+	"320fd563-6f52-4032-bb9f-4310d6002c17",
 	'');
 INSERT INTO PE_PE
-	VALUES ("32d3c907-c909-440e-acb8-526c51e9767e",
+	VALUES ("215a8eec-50ce-4f30-98bf-05fef4cb6622",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("63574cc2-0222-4edb-8686-eb3fc877e830",
+	VALUES ("2a700103-3c9e-42c8-8860-08685def166d",
 	"00000000-0000-0000-0000-000000000000",
 	'TagSyncServiceSafeForInterrupts',
 	'',
@@ -260,8 +260,8 @@ T::print(s:"Function ${function_name} in component ${component_name} marked as s
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("20dda196-0e7a-420d-9d3e-8a49833a18ee",
-	"63574cc2-0222-4edb-8686-eb3fc877e830",
+	VALUES ("986144e6-85f6-40b6-915b-3eaed4924936",
+	"2a700103-3c9e-42c8-8860-08685def166d",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -269,22 +269,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("983677d8-0fb4-48c6-9480-226e032d60c6",
-	"63574cc2-0222-4edb-8686-eb3fc877e830",
+	VALUES ("ca725573-78ce-4702-a48c-e4706db28f8a",
+	"2a700103-3c9e-42c8-8860-08685def166d",
 	'function_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"20dda196-0e7a-420d-9d3e-8a49833a18ee",
+	"986144e6-85f6-40b6-915b-3eaed4924936",
 	'');
 INSERT INTO PE_PE
-	VALUES ("63574cc2-0222-4edb-8686-eb3fc877e830",
+	VALUES ("2a700103-3c9e-42c8-8860-08685def166d",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7a966f54-3e02-4a88-9262-9cd1f66dd4d3",
+	VALUES ("d7a9230e-5ad8-4fe8-bcc5-375ef8ed6cdb",
 	"00000000-0000-0000-0000-000000000000",
 	'TagSystemObjectDefaultExtentSize',
 	'',
@@ -315,8 +315,8 @@ extent_size = param.extent_size;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("26529c73-ae9f-4dde-af0c-a8f8beed1160",
-	"7a966f54-3e02-4a88-9262-9cd1f66dd4d3",
+	VALUES ("4158d613-fd18-4ef2-ba18-3bb262edf94e",
+	"d7a9230e-5ad8-4fe8-bcc5-375ef8ed6cdb",
 	'extent_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -324,13 +324,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("7a966f54-3e02-4a88-9262-9cd1f66dd4d3",
+	VALUES ("d7a9230e-5ad8-4fe8-bcc5-375ef8ed6cdb",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("410ae8df-1f94-4228-8073-620920f30f2d",
+	VALUES ("ca5cad23-af7d-4892-895f-5e22efa5d62e",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkSystemObjectDefaultExtentSize',
 	'',
@@ -345,8 +345,8 @@ T::print(s:"Class default extent size is $t{extent_size} for _all_ classes.");
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8a5bb78f-b4a8-40c1-ac19-fccc8a80518b",
-	"410ae8df-1f94-4228-8073-620920f30f2d",
+	VALUES ("940ce883-fe89-4567-b7f8-284bf4ca6d1b",
+	"ca5cad23-af7d-4892-895f-5e22efa5d62e",
 	'extent_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -354,13 +354,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("410ae8df-1f94-4228-8073-620920f30f2d",
+	VALUES ("ca5cad23-af7d-4892-895f-5e22efa5d62e",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("38226aba-720b-4741-b903-5a86ca8a8478",
+	VALUES ("5897ae59-03c7-4edd-b5a9-e2625670b6fe",
 	"00000000-0000-0000-0000-000000000000",
 	'TagObjectExtentSize',
 	'',
@@ -377,8 +377,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a556fbc3-39ca-4fd8-9d66-a3693a96d109",
-	"38226aba-720b-4741-b903-5a86ca8a8478",
+	VALUES ("e7291dbb-7097-41a8-a117-b8db3bcd6629",
+	"5897ae59-03c7-4edd-b5a9-e2625670b6fe",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -386,22 +386,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("22e2abf0-508d-4e37-b09d-178725a49f0c",
-	"38226aba-720b-4741-b903-5a86ca8a8478",
+	VALUES ("568fdac6-731b-4b0b-bab1-6b5844fd831b",
+	"5897ae59-03c7-4edd-b5a9-e2625670b6fe",
 	'extent_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
-	"a556fbc3-39ca-4fd8-9d66-a3693a96d109",
+	"e7291dbb-7097-41a8-a117-b8db3bcd6629",
 	'');
 INSERT INTO PE_PE
-	VALUES ("38226aba-720b-4741-b903-5a86ca8a8478",
+	VALUES ("5897ae59-03c7-4edd-b5a9-e2625670b6fe",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("6cb6e072-e405-4e78-926d-d6fdf666de3c",
+	VALUES ("6b25ef38-5df1-43b5-a097-f9c17063ff6f",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkObjectExtentSize',
 	'',
@@ -428,8 +428,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a88a2199-eaad-4f14-b646-08f08e6543ca",
-	"6cb6e072-e405-4e78-926d-d6fdf666de3c",
+	VALUES ("fe07c9cb-e08a-4de4-ab97-ab18ca047bb6",
+	"6b25ef38-5df1-43b5-a097-f9c17063ff6f",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -437,31 +437,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("7c1ef64c-41af-432b-ae3c-c881d3808671",
-	"6cb6e072-e405-4e78-926d-d6fdf666de3c",
+	VALUES ("28b1bc42-1da8-4abd-a199-14f1d8bef319",
+	"6b25ef38-5df1-43b5-a097-f9c17063ff6f",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"a88a2199-eaad-4f14-b646-08f08e6543ca",
+	"fe07c9cb-e08a-4de4-ab97-ab18ca047bb6",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("f70474c5-838c-4389-8919-3c359d2a0dc3",
-	"6cb6e072-e405-4e78-926d-d6fdf666de3c",
+	VALUES ("c53a2966-21c4-492e-977a-431a551a704f",
+	"6b25ef38-5df1-43b5-a097-f9c17063ff6f",
 	'extent_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
-	"7c1ef64c-41af-432b-ae3c-c881d3808671",
+	"28b1bc42-1da8-4abd-a199-14f1d8bef319",
 	'');
 INSERT INTO PE_PE
-	VALUES ("6cb6e072-e405-4e78-926d-d6fdf666de3c",
+	VALUES ("6b25ef38-5df1-43b5-a097-f9c17063ff6f",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("4424cb48-2697-426b-8528-c4dcf2a8bec8",
+	VALUES ("7883bb77-627a-4ee1-8ea8-403caec2df87",
 	"00000000-0000-0000-0000-000000000000",
 	'TagTransformerGeneration',
 	'',
@@ -481,8 +481,8 @@ T::print(s:"MarkClassOperationTranslationOff to control semantic translation.");
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("f187b6ae-3e71-43a5-8289-fa1144323602",
-	"4424cb48-2697-426b-8528-c4dcf2a8bec8",
+	VALUES ("86a58136-470b-46eb-a43c-7ecf976f7b81",
+	"7883bb77-627a-4ee1-8ea8-403caec2df87",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -490,22 +490,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("e152099f-8758-483d-8289-e111a6a0e2b6",
-	"4424cb48-2697-426b-8528-c4dcf2a8bec8",
+	VALUES ("548b1e97-7120-42c8-bcc0-16a4df041bfd",
+	"7883bb77-627a-4ee1-8ea8-403caec2df87",
 	'transformer_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"f187b6ae-3e71-43a5-8289-fa1144323602",
+	"86a58136-470b-46eb-a43c-7ecf976f7b81",
 	'');
 INSERT INTO PE_PE
-	VALUES ("4424cb48-2697-426b-8528-c4dcf2a8bec8",
+	VALUES ("7883bb77-627a-4ee1-8ea8-403caec2df87",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("564896af-cbc6-4ecc-ab56-b904aa78ca00",
+	VALUES ("988627f2-7ac5-4b21-8e1b-9fd4584ceed0",
 	"00000000-0000-0000-0000-000000000000",
 	'TagClassOperationTranslationOff',
 	'',
@@ -525,8 +525,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9301fa16-41c4-4ddc-baf1-481044968200",
-	"564896af-cbc6-4ecc-ab56-b904aa78ca00",
+	VALUES ("9bb6fa0e-f37d-453f-a73b-4d9f0f63239c",
+	"988627f2-7ac5-4b21-8e1b-9fd4584ceed0",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -534,22 +534,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4b469676-edbb-4a9e-a99b-57c18ccd0b5c",
-	"564896af-cbc6-4ecc-ab56-b904aa78ca00",
+	VALUES ("9a8e5cdb-9e9e-4d4b-ae5e-bda63642ae47",
+	"988627f2-7ac5-4b21-8e1b-9fd4584ceed0",
 	'op_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"9301fa16-41c4-4ddc-baf1-481044968200",
+	"9bb6fa0e-f37d-453f-a73b-4d9f0f63239c",
 	'');
 INSERT INTO PE_PE
-	VALUES ("564896af-cbc6-4ecc-ab56-b904aa78ca00",
+	VALUES ("988627f2-7ac5-4b21-8e1b-9fd4584ceed0",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("73c56468-00b8-4710-8b9a-3522b71580a6",
+	VALUES ("b82f70d8-53aa-4545-ba23-1d855bb964f4",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkClassOperationTranslationOff',
 	'',
@@ -603,8 +603,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("f40f615e-ceb8-46f7-a029-fad6e3a80168",
-	"73c56468-00b8-4710-8b9a-3522b71580a6",
+	VALUES ("02c4582f-011c-4600-a18c-424cae6ddd1f",
+	"b82f70d8-53aa-4545-ba23-1d855bb964f4",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -612,31 +612,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a51aa8c3-bef4-4a1a-86ff-cb11652db10b",
-	"73c56468-00b8-4710-8b9a-3522b71580a6",
+	VALUES ("223cc2bc-c57e-47a2-864f-e6848c04a72b",
+	"b82f70d8-53aa-4545-ba23-1d855bb964f4",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"f40f615e-ceb8-46f7-a029-fad6e3a80168",
+	"02c4582f-011c-4600-a18c-424cae6ddd1f",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8c732fbe-6106-4099-a58f-b71a761ee5b0",
-	"73c56468-00b8-4710-8b9a-3522b71580a6",
+	VALUES ("30685142-b775-436e-967f-1a747f9a30fc",
+	"b82f70d8-53aa-4545-ba23-1d855bb964f4",
 	'op_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"a51aa8c3-bef4-4a1a-86ff-cb11652db10b",
+	"223cc2bc-c57e-47a2-864f-e6848c04a72b",
 	'');
 INSERT INTO PE_PE
-	VALUES ("73c56468-00b8-4710-8b9a-3522b71580a6",
+	VALUES ("b82f70d8-53aa-4545-ba23-1d855bb964f4",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("3c4cea29-570e-45bd-acc2-77fbaf818177",
+	VALUES ("72c6f5c0-1c39-4473-9efa-2a493149db1f",
 	"00000000-0000-0000-0000-000000000000",
 	'TagObjectTraceOff',
 	'',
@@ -652,8 +652,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5227f357-31fb-4c07-86a8-294fb61b77c6",
-	"3c4cea29-570e-45bd-acc2-77fbaf818177",
+	VALUES ("d011683f-0e59-4681-a25c-ef5e1eb80567",
+	"72c6f5c0-1c39-4473-9efa-2a493149db1f",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -661,13 +661,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("3c4cea29-570e-45bd-acc2-77fbaf818177",
+	VALUES ("72c6f5c0-1c39-4473-9efa-2a493149db1f",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e4589f3b-3ed7-4370-8d0a-f592710cd4bb",
+	VALUES ("7a6cc702-0434-413b-a642-fd1b00d73ce2",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkObjectTraceOff',
 	'',
@@ -705,8 +705,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9f4be0ef-28e2-42a9-96e7-53298c4a5328",
-	"e4589f3b-3ed7-4370-8d0a-f592710cd4bb",
+	VALUES ("d442d9fc-badd-4ec5-800d-92cbb881c5f0",
+	"7a6cc702-0434-413b-a642-fd1b00d73ce2",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -714,22 +714,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4e847497-e166-4043-994d-9f45b016c25c",
-	"e4589f3b-3ed7-4370-8d0a-f592710cd4bb",
+	VALUES ("c66f6be4-5d6b-4937-8680-29526a547dcd",
+	"7a6cc702-0434-413b-a642-fd1b00d73ce2",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"9f4be0ef-28e2-42a9-96e7-53298c4a5328",
+	"d442d9fc-badd-4ec5-800d-92cbb881c5f0",
 	'');
 INSERT INTO PE_PE
-	VALUES ("e4589f3b-3ed7-4370-8d0a-f592710cd4bb",
+	VALUES ("7a6cc702-0434-413b-a642-fd1b00d73ce2",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("68575a20-4dbc-4a32-b47e-05fa7057af5b",
+	VALUES ("2c4998e8-3d92-45af-88e2-f3b49d119d77",
 	"00000000-0000-0000-0000-000000000000",
 	'TagObjectTraceOn',
 	'',
@@ -745,8 +745,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("dfe38444-8913-46a2-b7ef-790680122819",
-	"68575a20-4dbc-4a32-b47e-05fa7057af5b",
+	VALUES ("14fb832b-6be2-4a21-9653-0fa9b309da64",
+	"2c4998e8-3d92-45af-88e2-f3b49d119d77",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -754,13 +754,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("68575a20-4dbc-4a32-b47e-05fa7057af5b",
+	VALUES ("2c4998e8-3d92-45af-88e2-f3b49d119d77",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("ba2ca4fb-8405-45f0-acd0-39c5059aac5b",
+	VALUES ("cefd8852-f994-403e-b4c6-efdbb7c63e26",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkObjectTraceOn',
 	'',
@@ -798,8 +798,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("32808309-90a5-4f4a-8f52-9ee525957b27",
-	"ba2ca4fb-8405-45f0-acd0-39c5059aac5b",
+	VALUES ("3b8ecd42-75d4-41c4-9213-904d0fdca045",
+	"cefd8852-f994-403e-b4c6-efdbb7c63e26",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -807,22 +807,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("c7b96171-360a-4f9e-809f-37b30141dc51",
-	"ba2ca4fb-8405-45f0-acd0-39c5059aac5b",
+	VALUES ("2d176017-cc91-40ee-a8ed-a2edbb482d1f",
+	"cefd8852-f994-403e-b4c6-efdbb7c63e26",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"32808309-90a5-4f4a-8f52-9ee525957b27",
+	"3b8ecd42-75d4-41c4-9213-904d0fdca045",
 	'');
 INSERT INTO PE_PE
-	VALUES ("ba2ca4fb-8405-45f0-acd0-39c5059aac5b",
+	VALUES ("cefd8852-f994-403e-b4c6-efdbb7c63e26",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("4d1b218e-c621-4bf1-88d5-20d08e37f5f7",
+	VALUES ("bb8ba96a-d56a-4b0a-ab2e-e39e4a5a8a46",
 	"00000000-0000-0000-0000-000000000000",
 	'TagPEIsDefinedInData',
 	'',
@@ -835,15 +835,15 @@ ss_prefix = param.ss_prefix;
 obj_key_letters = param.obj_key_letters;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkPEIsDefinedInData( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters );
+  ::MarkPEIsDefinedInData( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("6534da3d-726d-499c-8cb9-15dab882a71b",
-	"4d1b218e-c621-4bf1-88d5-20d08e37f5f7",
+	VALUES ("fa3bb0c3-cd14-4a28-9e34-91a36be72ea8",
+	"bb8ba96a-d56a-4b0a-ab2e-e39e4a5a8a46",
 	'ss_prefix',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -851,27 +851,27 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("aa20c972-afae-49e6-bf45-fc5e40713c24",
-	"4d1b218e-c621-4bf1-88d5-20d08e37f5f7",
+	VALUES ("c0712fd8-a6df-4735-a778-cc79642d0295",
+	"bb8ba96a-d56a-4b0a-ab2e-e39e4a5a8a46",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"6534da3d-726d-499c-8cb9-15dab882a71b",
+	"fa3bb0c3-cd14-4a28-9e34-91a36be72ea8",
 	'');
 INSERT INTO PE_PE
-	VALUES ("4d1b218e-c621-4bf1-88d5-20d08e37f5f7",
+	VALUES ("bb8ba96a-d56a-4b0a-ab2e-e39e4a5a8a46",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("affe763d-79a3-4a57-a7c5-60e077ae46a4",
+	VALUES ("a902911a-6608-4980-b50d-c7180e26ff41",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkPEIsDefinedInData',
 	'',
 	'component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
@@ -883,18 +883,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    msg = msg + "ERROR:  MarkPEIsDefinedInData( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+    msg = msg + "ERROR:  MarkPEIsDefinedInData( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
   end if;
   for each te_class in te_classes
     te_class.PEIsDefinedInData = true;
@@ -909,8 +909,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("85ad8a36-66c8-43db-9689-1f3fd9246456",
-	"affe763d-79a3-4a57-a7c5-60e077ae46a4",
+	VALUES ("c4868210-7ee4-4efb-b02a-84dcab477f62",
+	"a902911a-6608-4980-b50d-c7180e26ff41",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -918,31 +918,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("c52128db-88f3-4c6d-a454-79ddfbce9b8c",
-	"affe763d-79a3-4a57-a7c5-60e077ae46a4",
-	'ss_prefix',
+	VALUES ("4766e225-cbda-45c8-8842-9e34a63a97bc",
+	"a902911a-6608-4980-b50d-c7180e26ff41",
+	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"85ad8a36-66c8-43db-9689-1f3fd9246456",
+	"c4868210-7ee4-4efb-b02a-84dcab477f62",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("6ce3fa6b-6d11-40fb-a287-4de5bace5160",
-	"affe763d-79a3-4a57-a7c5-60e077ae46a4",
+	VALUES ("f6e7c331-9370-41ff-b288-aaf9ad711e81",
+	"a902911a-6608-4980-b50d-c7180e26ff41",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"c52128db-88f3-4c6d-a454-79ddfbce9b8c",
+	"4766e225-cbda-45c8-8842-9e34a63a97bc",
 	'');
 INSERT INTO PE_PE
-	VALUES ("affe763d-79a3-4a57-a7c5-60e077ae46a4",
+	VALUES ("a902911a-6608-4980-b50d-c7180e26ff41",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e3362277-a4c7-4e33-aaab-9bef1a28aab1",
+	VALUES ("4ddd76f5-967f-47e0-a0e8-85f572809aa7",
 	"00000000-0000-0000-0000-000000000000",
 	'TagStaticInstancePopulation',
 	'',
@@ -956,15 +956,15 @@ ss_prefix = param.ss_prefix;
 obj_key_letters = param.obj_key_letters;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkStaticInstancePopulation( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters );
+  ::MarkStaticInstancePopulation( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("94e72338-ff2b-4e7c-9a10-403a93056c4d",
-	"e3362277-a4c7-4e33-aaab-9bef1a28aab1",
+	VALUES ("855403d5-0f6b-4393-9c16-85392e8c7f6a",
+	"4ddd76f5-967f-47e0-a0e8-85f572809aa7",
 	'ss_prefix',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -972,27 +972,27 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("51abf1f8-8dba-4583-9ccf-a744da9504c6",
-	"e3362277-a4c7-4e33-aaab-9bef1a28aab1",
+	VALUES ("7a89d4a4-de53-4e19-9c36-7e67199606cf",
+	"4ddd76f5-967f-47e0-a0e8-85f572809aa7",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"94e72338-ff2b-4e7c-9a10-403a93056c4d",
+	"855403d5-0f6b-4393-9c16-85392e8c7f6a",
 	'');
 INSERT INTO PE_PE
-	VALUES ("e3362277-a4c7-4e33-aaab-9bef1a28aab1",
+	VALUES ("4ddd76f5-967f-47e0-a0e8-85f572809aa7",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("74cedf3c-dfae-4cd9-8346-4a0c8bf6c64f",
+	VALUES ("8762465b-42f2-4b66-8e85-247cc64ef5b2",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkStaticInstancePopulation',
 	'',
 	'component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
@@ -1004,18 +1004,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    msg = msg + "ERROR:  MarkStaticInstancePopulation( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+    msg = msg + "ERROR:  MarkStaticInstancePopulation( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
   end if;
   for each te_class in te_classes
     te_class.IsFixedPopulation = true;
@@ -1031,8 +1031,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8e86aa24-f84b-4962-a9ec-6acdcf7947e4",
-	"74cedf3c-dfae-4cd9-8346-4a0c8bf6c64f",
+	VALUES ("bdd256a5-e517-4727-9a6e-2cf996076866",
+	"8762465b-42f2-4b66-8e85-247cc64ef5b2",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1040,31 +1040,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("3abddbc0-0ff0-4874-b349-bcec932076e5",
-	"74cedf3c-dfae-4cd9-8346-4a0c8bf6c64f",
-	'ss_prefix',
+	VALUES ("67be1fc3-2fc7-4f7f-b2f7-d811dcca92f0",
+	"8762465b-42f2-4b66-8e85-247cc64ef5b2",
+	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"8e86aa24-f84b-4962-a9ec-6acdcf7947e4",
+	"bdd256a5-e517-4727-9a6e-2cf996076866",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8b697aee-2e2b-4c89-a1e1-ff3a8a2ff48a",
-	"74cedf3c-dfae-4cd9-8346-4a0c8bf6c64f",
+	VALUES ("76a606ab-162c-4f3c-ab79-3494980d7f9c",
+	"8762465b-42f2-4b66-8e85-247cc64ef5b2",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"3abddbc0-0ff0-4874-b349-bcec932076e5",
+	"67be1fc3-2fc7-4f7f-b2f7-d811dcca92f0",
 	'');
 INSERT INTO PE_PE
-	VALUES ("74cedf3c-dfae-4cd9-8346-4a0c8bf6c64f",
+	VALUES ("8762465b-42f2-4b66-8e85-247cc64ef5b2",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e4797340-80c2-4d7f-a35e-3eed20a6cdda",
+	VALUES ("13a100d5-2496-4eec-8fee-c88165e76493",
 	"00000000-0000-0000-0000-000000000000",
 	'TagReadOnly',
 	'',
@@ -1076,15 +1076,15 @@ ss_prefix = param.ss_prefix;
 obj_key_letters = param.obj_key_letters;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkReadOnly( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters );
+  ::MarkReadOnly( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("65d4eb35-bf42-4a06-8c94-67ec8bd5e11d",
-	"e4797340-80c2-4d7f-a35e-3eed20a6cdda",
+	VALUES ("3bdba2db-0768-4e16-b788-61c3d76ebeab",
+	"13a100d5-2496-4eec-8fee-c88165e76493",
 	'ss_prefix',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1092,27 +1092,27 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("c86f8953-b7b1-487b-bef1-6905353ce586",
-	"e4797340-80c2-4d7f-a35e-3eed20a6cdda",
+	VALUES ("03538b42-e893-4a18-845d-f9bd2e732960",
+	"13a100d5-2496-4eec-8fee-c88165e76493",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"65d4eb35-bf42-4a06-8c94-67ec8bd5e11d",
+	"3bdba2db-0768-4e16-b788-61c3d76ebeab",
 	'');
 INSERT INTO PE_PE
-	VALUES ("e4797340-80c2-4d7f-a35e-3eed20a6cdda",
+	VALUES ("13a100d5-2496-4eec-8fee-c88165e76493",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("897b6c40-9bc8-4e28-b133-de258c8eaf72",
+	VALUES ("cf7610f9-a621-45ab-ae5c-94488d9c2f73",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkReadOnly',
 	'',
 	'component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
@@ -1124,18 +1124,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    msg = msg + "ERROR:  MarkReadOnly( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+    msg = msg + "ERROR:  MarkReadOnly( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
   end if;
   for each te_class in te_classes
     te_class.IsReadOnly = true;
@@ -1150,8 +1150,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4c54611f-0888-4656-887f-cc3a423161fb",
-	"897b6c40-9bc8-4e28-b133-de258c8eaf72",
+	VALUES ("3d522a3c-95de-40a0-ace4-71cd2b532e76",
+	"cf7610f9-a621-45ab-ae5c-94488d9c2f73",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1159,31 +1159,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ef79f7ec-a950-494c-8c96-f0a07a4bca6f",
-	"897b6c40-9bc8-4e28-b133-de258c8eaf72",
-	'ss_prefix',
+	VALUES ("0315d047-8c8b-485d-9b42-fe044c7907a2",
+	"cf7610f9-a621-45ab-ae5c-94488d9c2f73",
+	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"4c54611f-0888-4656-887f-cc3a423161fb",
+	"3d522a3c-95de-40a0-ace4-71cd2b532e76",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("f1134fd4-4014-4161-aea2-5851b9847a14",
-	"897b6c40-9bc8-4e28-b133-de258c8eaf72",
+	VALUES ("388f0ef7-815e-448a-9cbc-29453156e9e8",
+	"cf7610f9-a621-45ab-ae5c-94488d9c2f73",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"ef79f7ec-a950-494c-8c96-f0a07a4bca6f",
+	"0315d047-8c8b-485d-9b42-fe044c7907a2",
 	'');
 INSERT INTO PE_PE
-	VALUES ("897b6c40-9bc8-4e28-b133-de258c8eaf72",
+	VALUES ("cf7610f9-a621-45ab-ae5c-94488d9c2f73",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("58b6dc56-ca64-424d-a5f4-02555c546086",
+	VALUES ("2e2f68fc-6b43-4583-ad6e-285f866bfa26",
 	"00000000-0000-0000-0000-000000000000",
 	'TagPersistentClass',
 	'',
@@ -1195,15 +1195,15 @@ ss_prefix = param.ss_prefix;
 obj_key_letters = param.obj_key_letters;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkPersistentClass( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters );
+  ::MarkPersistentClass( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("b87ca8ef-8cb7-456e-b152-02bfc7e40ea3",
-	"58b6dc56-ca64-424d-a5f4-02555c546086",
+	VALUES ("12eb995e-43af-4400-9f23-bdd9d8305a04",
+	"2e2f68fc-6b43-4583-ad6e-285f866bfa26",
 	'ss_prefix',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1211,27 +1211,27 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("cc337096-47b1-4204-87cf-a6ba060b7061",
-	"58b6dc56-ca64-424d-a5f4-02555c546086",
+	VALUES ("8df1077f-2c2e-424e-b742-67e1b8a21031",
+	"2e2f68fc-6b43-4583-ad6e-285f866bfa26",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"b87ca8ef-8cb7-456e-b152-02bfc7e40ea3",
+	"12eb995e-43af-4400-9f23-bdd9d8305a04",
 	'');
 INSERT INTO PE_PE
-	VALUES ("58b6dc56-ca64-424d-a5f4-02555c546086",
+	VALUES ("2e2f68fc-6b43-4583-ad6e-285f866bfa26",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("833c1dad-18b4-4c61-82cb-002a4a25f1dd",
+	VALUES ("d01960c4-e944-4bd1-be02-a7ef035fe072",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkPersistentClass',
 	'',
 	'component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
@@ -1243,18 +1243,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    msg = msg + "ERROR:  MarkPersistentClass( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+    msg = msg + "ERROR:  MarkPersistentClass( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
   end if;
   for each te_class in te_classes
     te_class.Persistent = true;
@@ -1269,8 +1269,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("16cfbb29-3dda-4445-bfd6-e1eaf973ece5",
-	"833c1dad-18b4-4c61-82cb-002a4a25f1dd",
+	VALUES ("95864699-1a31-4be5-a2ea-1c77229fc7a4",
+	"d01960c4-e944-4bd1-be02-a7ef035fe072",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1278,31 +1278,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d6808189-3f28-4db7-88ac-e8e1e68359ae",
-	"833c1dad-18b4-4c61-82cb-002a4a25f1dd",
-	'ss_prefix',
+	VALUES ("f25ef474-67d5-4f0b-bc96-a9aa35a169a0",
+	"d01960c4-e944-4bd1-be02-a7ef035fe072",
+	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"16cfbb29-3dda-4445-bfd6-e1eaf973ece5",
+	"95864699-1a31-4be5-a2ea-1c77229fc7a4",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ac22e4c1-8840-45ed-8ee4-92a1679f47e1",
-	"833c1dad-18b4-4c61-82cb-002a4a25f1dd",
+	VALUES ("5d5b3aac-d201-4013-9fc9-5660a111d428",
+	"d01960c4-e944-4bd1-be02-a7ef035fe072",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"d6808189-3f28-4db7-88ac-e8e1e68359ae",
+	"f25ef474-67d5-4f0b-bc96-a9aa35a169a0",
 	'');
 INSERT INTO PE_PE
-	VALUES ("833c1dad-18b4-4c61-82cb-002a4a25f1dd",
+	VALUES ("d01960c4-e944-4bd1-be02-a7ef035fe072",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("55f3bbd0-0a02-4f04-aac8-c5fd35073d99",
+	VALUES ("fb97631a-1065-4027-b6b2-5d796ef3ff4c",
 	"00000000-0000-0000-0000-000000000000",
 	'TagNonPersistentClass',
 	'',
@@ -1317,15 +1317,15 @@ ss_prefix = param.ss_prefix;
 obj_key_letters = param.obj_key_letters;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkNonPersistentClass( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters );
+  ::MarkNonPersistentClass( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a9d7b1fc-9249-480a-b51d-570ef339708e",
-	"55f3bbd0-0a02-4f04-aac8-c5fd35073d99",
+	VALUES ("cb0f1a5b-74e4-405e-a485-f62a9b379d22",
+	"fb97631a-1065-4027-b6b2-5d796ef3ff4c",
 	'ss_prefix',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1333,27 +1333,27 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ba02ee45-0058-4318-b00e-a853ca34f026",
-	"55f3bbd0-0a02-4f04-aac8-c5fd35073d99",
+	VALUES ("0f10e5fa-c25d-4cb3-b60f-9a9119e62379",
+	"fb97631a-1065-4027-b6b2-5d796ef3ff4c",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"a9d7b1fc-9249-480a-b51d-570ef339708e",
+	"cb0f1a5b-74e4-405e-a485-f62a9b379d22",
 	'');
 INSERT INTO PE_PE
-	VALUES ("55f3bbd0-0a02-4f04-aac8-c5fd35073d99",
+	VALUES ("fb97631a-1065-4027-b6b2-5d796ef3ff4c",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("148a3e47-b604-400c-9a8d-ece488b7e3f4",
+	VALUES ("5c669cdd-f5f9-43e0-a586-d99288b272c4",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkNonPersistentClass',
 	'',
 	'component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
@@ -1365,18 +1365,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    msg = msg + "ERROR:  MarkNonPersistentClass( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+    msg = msg + "ERROR:  MarkNonPersistentClass( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
   end if;
   for each te_class in te_classes
     te_class.Persistent = false;
@@ -1391,8 +1391,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ad17368e-107f-4676-963c-9c4988a6f96b",
-	"148a3e47-b604-400c-9a8d-ece488b7e3f4",
+	VALUES ("1866a2fe-157e-402e-8447-47835cf20881",
+	"5c669cdd-f5f9-43e0-a586-d99288b272c4",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1400,38 +1400,38 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5bed6f66-3a9f-42df-9c3e-8469c091cb03",
-	"148a3e47-b604-400c-9a8d-ece488b7e3f4",
-	'ss_prefix',
+	VALUES ("5f87ef3d-5c18-4c9b-84fd-21a7ee4b81f7",
+	"5c669cdd-f5f9-43e0-a586-d99288b272c4",
+	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"ad17368e-107f-4676-963c-9c4988a6f96b",
+	"1866a2fe-157e-402e-8447-47835cf20881",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("84d1264c-bbe7-4e76-897a-03e2740aa0f2",
-	"148a3e47-b604-400c-9a8d-ece488b7e3f4",
+	VALUES ("cdb18645-1e44-428c-809f-9a290d863268",
+	"5c669cdd-f5f9-43e0-a586-d99288b272c4",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"5bed6f66-3a9f-42df-9c3e-8469c091cb03",
+	"5f87ef3d-5c18-4c9b-84fd-21a7ee4b81f7",
 	'');
 INSERT INTO PE_PE
-	VALUES ("148a3e47-b604-400c-9a8d-ece488b7e3f4",
+	VALUES ("5c669cdd-f5f9-43e0-a586-d99288b272c4",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("66a3666a-fc1e-4ed9-a055-a5fd9c9f1c72",
+	VALUES ("37bbf02c-93be-47fd-9f18-2d2c780c8754",
 	"00000000-0000-0000-0000-000000000000",
 	'MapClassToTask',
 	'',
 	'//
 //============================================================================
 // Map classes to tasks based upon user marking.  With this interface
-// an individual class, subsystem or component can be mapped to the
+// an individual class, package or component can be mapped to the
 // specified task.
 //============================================================================
 ss_prefix = param.ss_prefix;
@@ -1439,15 +1439,15 @@ obj_key_letters = param.obj_key_letters;
 task = param.task;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkClassToTask( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters, task:task );
+  ::MarkClassToTask( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters, task:task );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("da323b25-65a8-473f-990d-b751018383fe",
-	"66a3666a-fc1e-4ed9-a055-a5fd9c9f1c72",
+	VALUES ("5ccb18da-740b-413d-a440-16d8de2a7b07",
+	"37bbf02c-93be-47fd-9f18-2d2c780c8754",
 	'ss_prefix',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1455,36 +1455,36 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("fefa4a3d-a358-4aa9-bb3b-45e904805868",
-	"66a3666a-fc1e-4ed9-a055-a5fd9c9f1c72",
+	VALUES ("067902cd-c02f-4a16-b19a-45ab66501e8b",
+	"37bbf02c-93be-47fd-9f18-2d2c780c8754",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"da323b25-65a8-473f-990d-b751018383fe",
+	"5ccb18da-740b-413d-a440-16d8de2a7b07",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("93041c9e-9352-4e92-92bd-767509068cb9",
-	"66a3666a-fc1e-4ed9-a055-a5fd9c9f1c72",
+	VALUES ("79450c40-f430-43fe-af5a-3c70b2301945",
+	"37bbf02c-93be-47fd-9f18-2d2c780c8754",
 	'task',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
-	"fefa4a3d-a358-4aa9-bb3b-45e904805868",
+	"067902cd-c02f-4a16-b19a-45ab66501e8b",
 	'');
 INSERT INTO PE_PE
-	VALUES ("66a3666a-fc1e-4ed9-a055-a5fd9c9f1c72",
+	VALUES ("37bbf02c-93be-47fd-9f18-2d2c780c8754",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("9341c71d-c270-4f3c-8c59-cc6140b42dc6",
+	VALUES ("609e99ec-b284-4e0f-999a-fbfc77b546c2",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkClassToTask',
 	'',
 	'component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 task = param.task;
 component_name = T::r(s:component_name);
@@ -1496,18 +1496,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    T::print(s:"ERROR:  MapClassToTask( ${ss_prefix}, ${obj_key_letters}, $t{task} ) in component ${te_c.Name}\n");
+    T::print(s:"ERROR:  MapClassToTask( ${package_name}, ${obj_key_letters}, $t{task} ) in component ${te_c.Name}\n");
   end if;
   for each te_class in te_classes
     te_class.Task = task;
@@ -1518,8 +1518,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9ffbf8fd-b10b-47ee-9392-025babb6f9f2",
-	"9341c71d-c270-4f3c-8c59-cc6140b42dc6",
+	VALUES ("61587bb2-0686-4b9d-8f48-0f9eef0b8611",
+	"609e99ec-b284-4e0f-999a-fbfc77b546c2",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1527,40 +1527,40 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("11170bf5-bb8a-4316-9283-ba6c8adaa2e7",
-	"9341c71d-c270-4f3c-8c59-cc6140b42dc6",
-	'ss_prefix',
+	VALUES ("e92af1c2-7986-4fdb-b4d7-fdc8f4b96b71",
+	"609e99ec-b284-4e0f-999a-fbfc77b546c2",
+	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"9ffbf8fd-b10b-47ee-9392-025babb6f9f2",
+	"61587bb2-0686-4b9d-8f48-0f9eef0b8611",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("22df2a84-3b4e-451a-8903-20693f06ad91",
-	"9341c71d-c270-4f3c-8c59-cc6140b42dc6",
+	VALUES ("f2eea414-bedf-42e0-a90c-b81a8b1fd672",
+	"609e99ec-b284-4e0f-999a-fbfc77b546c2",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"11170bf5-bb8a-4316-9283-ba6c8adaa2e7",
+	"e92af1c2-7986-4fdb-b4d7-fdc8f4b96b71",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ae56926f-3212-4544-81f0-964454f195e0",
-	"9341c71d-c270-4f3c-8c59-cc6140b42dc6",
+	VALUES ("298e3069-7015-4c51-9ec2-12a017ad21bf",
+	"609e99ec-b284-4e0f-999a-fbfc77b546c2",
 	'task',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
-	"22df2a84-3b4e-451a-8903-20693f06ad91",
+	"f2eea414-bedf-42e0-a90c-b81a8b1fd672",
 	'');
 INSERT INTO PE_PE
-	VALUES ("9341c71d-c270-4f3c-8c59-cc6140b42dc6",
+	VALUES ("609e99ec-b284-4e0f-999a-fbfc77b546c2",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("fef828e3-78d2-4231-b45f-1e5b91b86ec8",
+	VALUES ("75f3e9a6-5065-4e71-999d-6bed042fd8de",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkAsChannel',
 	'',
@@ -1593,8 +1593,8 @@ inc_file = param.inc_file;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("00369b32-b23c-44c9-876b-71d547bd1759",
-	"fef828e3-78d2-4231-b45f-1e5b91b86ec8",
+	VALUES ("423dc165-ad93-4d4a-a9e3-91e38e8741d1",
+	"75f3e9a6-5065-4e71-999d-6bed042fd8de",
 	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1602,31 +1602,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("7e90b177-9b47-4ca0-b44c-a0b84261990d",
-	"fef828e3-78d2-4231-b45f-1e5b91b86ec8",
+	VALUES ("25a90311-3251-4930-a3dc-84d0060c0260",
+	"75f3e9a6-5065-4e71-999d-6bed042fd8de",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"00369b32-b23c-44c9-876b-71d547bd1759",
+	"423dc165-ad93-4d4a-a9e3-91e38e8741d1",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("48139ead-7efe-4680-b52f-9536c786c055",
-	"fef828e3-78d2-4231-b45f-1e5b91b86ec8",
+	VALUES ("32e73569-a9ee-4e44-a8b3-11810d68ccf2",
+	"75f3e9a6-5065-4e71-999d-6bed042fd8de",
 	'inc_file',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"7e90b177-9b47-4ca0-b44c-a0b84261990d",
+	"25a90311-3251-4930-a3dc-84d0060c0260",
 	'');
 INSERT INTO PE_PE
-	VALUES ("fef828e3-78d2-4231-b45f-1e5b91b86ec8",
+	VALUES ("75f3e9a6-5065-4e71-999d-6bed042fd8de",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7117fbcf-cfed-4426-ae5f-29505658874f",
+	VALUES ("4ba63b2f-c18c-4428-b562-795c0498b167",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkComponentAsChannel',
 	'',
@@ -1677,8 +1677,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("2c161e02-d841-4d0b-9429-827e6c1db1ae",
-	"7117fbcf-cfed-4426-ae5f-29505658874f",
+	VALUES ("df0b5166-00e7-4926-8f8c-a1fe0a761dd1",
+	"4ba63b2f-c18c-4428-b562-795c0498b167",
 	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1686,31 +1686,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("76faf09d-02cb-441d-8de0-131bac750681",
-	"7117fbcf-cfed-4426-ae5f-29505658874f",
+	VALUES ("57f33d35-3fce-437e-857d-8c1d48c078b7",
+	"4ba63b2f-c18c-4428-b562-795c0498b167",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"2c161e02-d841-4d0b-9429-827e6c1db1ae",
+	"df0b5166-00e7-4926-8f8c-a1fe0a761dd1",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0026e127-547a-4c0c-a792-d4437396aa4f",
-	"7117fbcf-cfed-4426-ae5f-29505658874f",
+	VALUES ("8fa2db60-108e-4204-9437-f47956c683a9",
+	"4ba63b2f-c18c-4428-b562-795c0498b167",
 	'inc_file',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"76faf09d-02cb-441d-8de0-131bac750681",
+	"57f33d35-3fce-437e-857d-8c1d48c078b7",
 	'');
 INSERT INTO PE_PE
-	VALUES ("7117fbcf-cfed-4426-ae5f-29505658874f",
+	VALUES ("4ba63b2f-c18c-4428-b562-795c0498b167",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("3a8e42a3-2065-4df2-9dd7-6b6c81d237ad",
+	VALUES ("034aaa59-6d5e-4c09-a71c-c7142036bed1",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkComponentWithTemplate',
 	'',
@@ -1766,8 +1766,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0bae69bb-9316-483d-971a-d45a24fcd8ed",
-	"3a8e42a3-2065-4df2-9dd7-6b6c81d237ad",
+	VALUES ("aa9dd2dc-d0d6-4074-9053-ec5cce752357",
+	"034aaa59-6d5e-4c09-a71c-c7142036bed1",
 	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1775,22 +1775,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("026951eb-d66e-4b78-a6d2-b2c184b71780",
-	"3a8e42a3-2065-4df2-9dd7-6b6c81d237ad",
+	VALUES ("94c2f461-20d5-4fa9-bb5a-d959fd8b34ab",
+	"034aaa59-6d5e-4c09-a71c-c7142036bed1",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"0bae69bb-9316-483d-971a-d45a24fcd8ed",
+	"aa9dd2dc-d0d6-4074-9053-ec5cce752357",
 	'');
 INSERT INTO PE_PE
-	VALUES ("3a8e42a3-2065-4df2-9dd7-6b6c81d237ad",
+	VALUES ("034aaa59-6d5e-4c09-a71c-c7142036bed1",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("dfef241e-165b-45c0-855a-6c5c28fb2b3c",
+	VALUES ("c0707021-b2c3-4c00-895d-9a6f2f0c122a",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkInterfaceWithTemplate',
 	'',
@@ -1827,8 +1827,8 @@ relate tm_template to tm_if across R2802;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("7a81ebd3-f603-4b64-8581-eeaccc1b378d",
-	"dfef241e-165b-45c0-855a-6c5c28fb2b3c",
+	VALUES ("8df2665d-56d4-46b4-af1a-319dafa0faae",
+	"c0707021-b2c3-4c00-895d-9a6f2f0c122a",
 	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1836,22 +1836,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("3b6df93b-0bb2-4f89-95b3-b869e9764da8",
-	"dfef241e-165b-45c0-855a-6c5c28fb2b3c",
+	VALUES ("4da8a9de-dfd5-4feb-b245-e4cdae80c362",
+	"c0707021-b2c3-4c00-895d-9a6f2f0c122a",
 	'interface_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"7a81ebd3-f603-4b64-8581-eeaccc1b378d",
+	"8df2665d-56d4-46b4-af1a-319dafa0faae",
 	'');
 INSERT INTO PE_PE
-	VALUES ("dfef241e-165b-45c0-855a-6c5c28fb2b3c",
+	VALUES ("c0707021-b2c3-4c00-895d-9a6f2f0c122a",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("5b182954-0786-43c1-ba0c-85468f123632",
+	VALUES ("bf72f91d-6b70-492b-a706-0d69d211a9bd",
 	"00000000-0000-0000-0000-000000000000",
 	'AddTemplateParameter',
 	'',
@@ -1903,8 +1903,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("bbeaf00b-3a7b-4c87-80f2-4bb4a471f265",
-	"5b182954-0786-43c1-ba0c-85468f123632",
+	VALUES ("87e80f40-62c7-4504-823f-b5dde2a00747",
+	"bf72f91d-6b70-492b-a706-0d69d211a9bd",
 	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -1912,49 +1912,49 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("88526a5c-86d3-40d4-bdcb-79d9b9d9bb9c",
-	"5b182954-0786-43c1-ba0c-85468f123632",
+	VALUES ("957d2976-0bb3-4c83-8e3a-654107f1a571",
+	"bf72f91d-6b70-492b-a706-0d69d211a9bd",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"bbeaf00b-3a7b-4c87-80f2-4bb4a471f265",
+	"87e80f40-62c7-4504-823f-b5dde2a00747",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("cc55d3de-e408-4b12-9580-9ca976d034bc",
-	"5b182954-0786-43c1-ba0c-85468f123632",
+	VALUES ("dd0a2f7a-8702-471b-83f6-5744f57f321f",
+	"bf72f91d-6b70-492b-a706-0d69d211a9bd",
 	'type_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"88526a5c-86d3-40d4-bdcb-79d9b9d9bb9c",
+	"957d2976-0bb3-4c83-8e3a-654107f1a571",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("b84a221a-c29a-4ac7-88b0-024c97a918cd",
-	"5b182954-0786-43c1-ba0c-85468f123632",
+	VALUES ("15310ccc-70f7-4894-ad0c-47950703d2dd",
+	"bf72f91d-6b70-492b-a706-0d69d211a9bd",
 	'variable_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"cc55d3de-e408-4b12-9580-9ca976d034bc",
+	"dd0a2f7a-8702-471b-83f6-5744f57f321f",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("7201ff12-9d30-4e67-b9cb-2a4f38c6cab2",
-	"5b182954-0786-43c1-ba0c-85468f123632",
+	VALUES ("2b33a431-ade5-40c7-a119-9d558ed770ff",
+	"bf72f91d-6b70-492b-a706-0d69d211a9bd",
 	'default_value',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"b84a221a-c29a-4ac7-88b0-024c97a918cd",
+	"15310ccc-70f7-4894-ad0c-47950703d2dd",
 	'');
 INSERT INTO PE_PE
-	VALUES ("5b182954-0786-43c1-ba0c-85468f123632",
+	VALUES ("bf72f91d-6b70-492b-a706-0d69d211a9bd",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("bd0068b8-9384-42ce-a02c-ef300f8a462a",
+	VALUES ("a89c3de8-d2d2-405e-98b9-a046dd81a209",
 	"00000000-0000-0000-0000-000000000000",
 	'SetTemplateParameter',
 	'',
@@ -1984,7 +1984,7 @@ else
     if ( not_empty tm_c )
       select any te_ci related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance );
       if ( empty te_ci )
-        select any te_ci related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] where ( selected.ClassifierName == instance );
+        select any te_ci related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance );
       end if;
       if ( not_empty te_ci )
         create object instance tm_tpv of TM_TPV;
@@ -2004,7 +2004,7 @@ else
         relate tm_tpv to tm_tp across R2808;
         relate tm_tpv to te_iir across R2806;
               end for;
-      select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
+      select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
       for each te_iir in te_iirs
         create object instance tm_tpv of TM_TPV;
         tm_tpv.instance = instance;
@@ -2032,8 +2032,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("dccdfe48-d551-4ab6-a783-13f55e153981",
-	"bd0068b8-9384-42ce-a02c-ef300f8a462a",
+	VALUES ("0b893133-87eb-422c-b55c-52a231432574",
+	"a89c3de8-d2d2-405e-98b9-a046dd81a209",
 	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -2041,40 +2041,40 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9e90924d-e671-4f42-9912-84d73e3b3133",
-	"bd0068b8-9384-42ce-a02c-ef300f8a462a",
+	VALUES ("26c5283b-0e86-493c-b76c-96fd07010bce",
+	"a89c3de8-d2d2-405e-98b9-a046dd81a209",
 	'instance',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"dccdfe48-d551-4ab6-a783-13f55e153981",
+	"0b893133-87eb-422c-b55c-52a231432574",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("48f7e8b0-0850-4390-abce-fa4acedff061",
-	"bd0068b8-9384-42ce-a02c-ef300f8a462a",
+	VALUES ("c960d7ec-75a2-4e25-82d1-b05ce529f714",
+	"a89c3de8-d2d2-405e-98b9-a046dd81a209",
 	'variable_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"9e90924d-e671-4f42-9912-84d73e3b3133",
+	"26c5283b-0e86-493c-b76c-96fd07010bce",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("87832de1-d91f-4ea2-98c8-f3fa9e545a8c",
-	"bd0068b8-9384-42ce-a02c-ef300f8a462a",
+	VALUES ("7e956995-6671-49f1-a800-9c9a2c44b7e3",
+	"a89c3de8-d2d2-405e-98b9-a046dd81a209",
 	'value',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"48f7e8b0-0850-4390-abce-fa4acedff061",
+	"c960d7ec-75a2-4e25-82d1-b05ce529f714",
 	'');
 INSERT INTO PE_PE
-	VALUES ("bd0068b8-9384-42ce-a02c-ef300f8a462a",
+	VALUES ("a89c3de8-d2d2-405e-98b9-a046dd81a209",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("be287405-1a76-4377-91aa-ee3b1fce88c1",
+	VALUES ("a8e41a10-57bd-4552-843e-4e4a05b2527d",
 	"00000000-0000-0000-0000-000000000000",
 	'SetTPV',
 	'',
@@ -2107,10 +2107,10 @@ else
   select many te_cis related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
   if ( "" != parent_component )
     select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001] where ( selected.Name == parent_component );
-    select many te_cis related by c_cs->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
+    select many te_cis related by c_cs->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
   else
     if ( empty te_cis )
-      select many te_cis related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
+      select many te_cis related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
     end if;
   end if;
   te_cis_count = cardinality te_cis;
@@ -2149,8 +2149,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("2ea79955-11c5-4e8c-8d33-eb4d39e53343",
-	"be287405-1a76-4377-91aa-ee3b1fce88c1",
+	VALUES ("e975698b-5a53-4e29-8352-31cb0f19a13f",
+	"a8e41a10-57bd-4552-843e-4e4a05b2527d",
 	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -2158,67 +2158,67 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a4b51b6e-a05f-49a8-a7cc-18c0bfb954f6",
-	"be287405-1a76-4377-91aa-ee3b1fce88c1",
+	VALUES ("3046d078-5076-4596-9ac3-a356ed7549cf",
+	"a8e41a10-57bd-4552-843e-4e4a05b2527d",
 	'parent_component',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"2ea79955-11c5-4e8c-8d33-eb4d39e53343",
+	"e975698b-5a53-4e29-8352-31cb0f19a13f",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("e0fa3fdf-a887-41f5-8db3-9c7dc45ce182",
-	"be287405-1a76-4377-91aa-ee3b1fce88c1",
+	VALUES ("57c80eb6-f57e-4843-8d43-868b4d047c61",
+	"a8e41a10-57bd-4552-843e-4e4a05b2527d",
 	'component',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"a4b51b6e-a05f-49a8-a7cc-18c0bfb954f6",
+	"3046d078-5076-4596-9ac3-a356ed7549cf",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("f1e85bcf-9686-4777-a93b-bb15c1d2b51c",
-	"be287405-1a76-4377-91aa-ee3b1fce88c1",
+	VALUES ("2630a1a9-9c90-44f4-9d08-ac16ffb72ea1",
+	"a8e41a10-57bd-4552-843e-4e4a05b2527d",
 	'classifier_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"e0fa3fdf-a887-41f5-8db3-9c7dc45ce182",
+	"57c80eb6-f57e-4843-8d43-868b4d047c61",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("1e0afc99-2867-47cc-8910-844d10c71292",
-	"be287405-1a76-4377-91aa-ee3b1fce88c1",
+	VALUES ("929b8f76-410a-471c-8f42-1955b62b227b",
+	"a8e41a10-57bd-4552-843e-4e4a05b2527d",
 	'port',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"f1e85bcf-9686-4777-a93b-bb15c1d2b51c",
+	"2630a1a9-9c90-44f4-9d08-ac16ffb72ea1",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5a103fdb-0a0e-45d1-88fd-ba4fc94bd7c2",
-	"be287405-1a76-4377-91aa-ee3b1fce88c1",
+	VALUES ("a52e5cea-c530-4e24-97cb-4fe8b4b0fffa",
+	"a8e41a10-57bd-4552-843e-4e4a05b2527d",
 	'variable_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"1e0afc99-2867-47cc-8910-844d10c71292",
+	"929b8f76-410a-471c-8f42-1955b62b227b",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("c267dcac-6a46-4872-9740-6a31f2f74c3a",
-	"be287405-1a76-4377-91aa-ee3b1fce88c1",
+	VALUES ("719baa98-9db0-4b55-9e31-94fca3c325b1",
+	"a8e41a10-57bd-4552-843e-4e4a05b2527d",
 	'value',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"5a103fdb-0a0e-45d1-88fd-ba4fc94bd7c2",
+	"a52e5cea-c530-4e24-97cb-4fe8b4b0fffa",
 	'');
 INSERT INTO PE_PE
-	VALUES ("be287405-1a76-4377-91aa-ee3b1fce88c1",
+	VALUES ("a8e41a10-57bd-4552-843e-4e4a05b2527d",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("6804227c-9ca2-4ce2-828c-d99fca3e4399",
+	VALUES ("ad74041f-6ea9-436b-bce4-7058b75083b0",
 	"00000000-0000-0000-0000-000000000000",
 	'SetTPV_for_channel_connection',
 	'',
@@ -2407,8 +2407,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("863b4c63-8248-41c1-8208-91e5a9b704cb",
-	"6804227c-9ca2-4ce2-828c-d99fca3e4399",
+	VALUES ("7fbe08aa-d3d0-4983-aaae-80fe6b4bfa55",
+	"ad74041f-6ea9-436b-bce4-7058b75083b0",
 	'te_iir',
 	"149ddb67-8f06-43ce-87d4-ecd7ebdd1dd4",
 	0,
@@ -2423,49 +2423,49 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Translation Extensions/Translation Extensions.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("49b93965-e109-4a33-8891-4ef53b3d17e5",
-	"6804227c-9ca2-4ce2-828c-d99fca3e4399",
+	VALUES ("08dec071-7d02-438d-8b07-1ef9f017337e",
+	"ad74041f-6ea9-436b-bce4-7058b75083b0",
 	'variable_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"863b4c63-8248-41c1-8208-91e5a9b704cb",
+	"7fbe08aa-d3d0-4983-aaae-80fe6b4bfa55",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("74154c7a-79b1-48c7-bff3-8833f704b75e",
-	"6804227c-9ca2-4ce2-828c-d99fca3e4399",
+	VALUES ("8a92c63a-9d10-4909-b51b-be834c24f370",
+	"ad74041f-6ea9-436b-bce4-7058b75083b0",
 	'value',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"49b93965-e109-4a33-8891-4ef53b3d17e5",
+	"08dec071-7d02-438d-8b07-1ef9f017337e",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("abaf153f-fe5f-40d9-9e56-fce7fd4b1eef",
-	"6804227c-9ca2-4ce2-828c-d99fca3e4399",
+	VALUES ("ec55eba3-0a5f-408b-bec6-37b6ffa86221",
+	"ad74041f-6ea9-436b-bce4-7058b75083b0",
 	'trace',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"74154c7a-79b1-48c7-bff3-8833f704b75e",
+	"8a92c63a-9d10-4909-b51b-be834c24f370",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("2d435019-f37b-4d5a-8222-dd4616b73600",
-	"6804227c-9ca2-4ce2-828c-d99fca3e4399",
+	VALUES ("2677f4a5-25bb-4b9f-b802-8470f10e8bf1",
+	"ad74041f-6ea9-436b-bce4-7058b75083b0",
 	'flavor',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
-	"abaf153f-fe5f-40d9-9e56-fce7fd4b1eef",
+	"ec55eba3-0a5f-408b-bec6-37b6ffa86221",
 	'');
 INSERT INTO PE_PE
-	VALUES ("6804227c-9ca2-4ce2-828c-d99fca3e4399",
+	VALUES ("ad74041f-6ea9-436b-bce4-7058b75083b0",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c42ec943-28c6-44cc-a600-f37cd49030f3",
+	VALUES ("24f146a4-1a4d-4485-a180-2cd0635bdbe0",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkInterfacePrefix',
 	'',
@@ -2485,8 +2485,8 @@ te_prefix.channel = channel;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("6b7f0a21-aaa9-4340-a545-f7a551a2b5c9",
-	"c42ec943-28c6-44cc-a600-f37cd49030f3",
+	VALUES ("e7dbf3b5-f492-487f-8a5f-0c73f4b021dd",
+	"24f146a4-1a4d-4485-a180-2cd0635bdbe0",
 	'provided_port',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -2494,31 +2494,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0dfc73b4-c91a-492b-bcbc-0a43879c0e89",
-	"c42ec943-28c6-44cc-a600-f37cd49030f3",
+	VALUES ("ffa56447-e0f5-41f7-9070-fac0b0e20998",
+	"24f146a4-1a4d-4485-a180-2cd0635bdbe0",
 	'required_port',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"6b7f0a21-aaa9-4340-a545-f7a551a2b5c9",
+	"e7dbf3b5-f492-487f-8a5f-0c73f4b021dd",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("019783fb-f87b-48b4-b620-3de158f1c24d",
-	"c42ec943-28c6-44cc-a600-f37cd49030f3",
+	VALUES ("17deae32-1d7f-4d06-bbbd-0da368fc0a19",
+	"24f146a4-1a4d-4485-a180-2cd0635bdbe0",
 	'channel',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"0dfc73b4-c91a-492b-bcbc-0a43879c0e89",
+	"ffa56447-e0f5-41f7-9070-fac0b0e20998",
 	'');
 INSERT INTO PE_PE
-	VALUES ("c42ec943-28c6-44cc-a600-f37cd49030f3",
+	VALUES ("24f146a4-1a4d-4485-a180-2cd0635bdbe0",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7672a1d0-4c9f-40a9-b023-a8c5c7bf0f7d",
+	VALUES ("be508a44-6be7-481d-b40d-026e96657164",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkComponentAsRealized',
 	'',
@@ -2564,8 +2564,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("23b7e3be-2d7d-48ec-b8ed-cc276fabeeae",
-	"7672a1d0-4c9f-40a9-b023-a8c5c7bf0f7d",
+	VALUES ("77b1be58-eedc-41f8-9026-fdbc907268e9",
+	"be508a44-6be7-481d-b40d-026e96657164",
 	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -2573,31 +2573,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("2bc46934-06e1-4f54-9583-c81955341602",
-	"7672a1d0-4c9f-40a9-b023-a8c5c7bf0f7d",
+	VALUES ("d320b39d-8756-483f-adea-97a8d7d20b57",
+	"be508a44-6be7-481d-b40d-026e96657164",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"23b7e3be-2d7d-48ec-b8ed-cc276fabeeae",
+	"77b1be58-eedc-41f8-9026-fdbc907268e9",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9afef2fa-932f-4a1b-8fac-7bdd4c38a33a",
-	"7672a1d0-4c9f-40a9-b023-a8c5c7bf0f7d",
+	VALUES ("ccb3b00b-c5a6-4444-bd10-9f97973397e7",
+	"be508a44-6be7-481d-b40d-026e96657164",
 	'inc_file',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"2bc46934-06e1-4f54-9583-c81955341602",
+	"d320b39d-8756-483f-adea-97a8d7d20b57",
 	'');
 INSERT INTO PE_PE
-	VALUES ("7672a1d0-4c9f-40a9-b023-a8c5c7bf0f7d",
+	VALUES ("be508a44-6be7-481d-b40d-026e96657164",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("6c84d7db-b1a2-4891-84a6-7e42d8924234",
+	VALUES ("4b9c4090-e42c-4bac-832e-b059df214025",
 	"00000000-0000-0000-0000-000000000000",
 	'TagDataTypePrecision',
 	'',
@@ -2637,8 +2637,8 @@ T::print(s:"TagDataTypePrecision:  ${dt_name} in ${component_name} given ${tagge
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("bd1b088a-a9f7-47c6-9b49-4d6032e02d44",
-	"6c84d7db-b1a2-4891-84a6-7e42d8924234",
+	VALUES ("fdfa7848-5d70-4a2a-b490-b42394338c78",
+	"4b9c4090-e42c-4bac-832e-b059df214025",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -2646,40 +2646,40 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0f8a3adb-09ca-48b8-9dcc-3c44b866550c",
-	"6c84d7db-b1a2-4891-84a6-7e42d8924234",
+	VALUES ("361f7979-9b4c-41a5-bab3-0456d77529fc",
+	"4b9c4090-e42c-4bac-832e-b059df214025",
 	'dt_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"bd1b088a-a9f7-47c6-9b49-4d6032e02d44",
+	"fdfa7848-5d70-4a2a-b490-b42394338c78",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("21ddfc63-91b5-4c0b-9c9e-e5982da90741",
-	"6c84d7db-b1a2-4891-84a6-7e42d8924234",
+	VALUES ("014e34fa-9750-4357-ae28-38567704d937",
+	"4b9c4090-e42c-4bac-832e-b059df214025",
 	'tagged_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"0f8a3adb-09ca-48b8-9dcc-3c44b866550c",
+	"361f7979-9b4c-41a5-bab3-0456d77529fc",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("915a9c78-a4c5-4fbc-9306-6c59fddd9684",
-	"6c84d7db-b1a2-4891-84a6-7e42d8924234",
+	VALUES ("08a19de5-5907-4568-800d-085dabf9fcd5",
+	"4b9c4090-e42c-4bac-832e-b059df214025",
 	'initial_value',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"21ddfc63-91b5-4c0b-9c9e-e5982da90741",
+	"014e34fa-9750-4357-ae28-38567704d937",
 	'');
 INSERT INTO PE_PE
-	VALUES ("6c84d7db-b1a2-4891-84a6-7e42d8924234",
+	VALUES ("4b9c4090-e42c-4bac-832e-b059df214025",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("564ef7e1-90ec-4b27-ac1b-50cdd3c45e67",
+	VALUES ("bdc4f831-cf53-48eb-9ac9-b2e6b6271afc",
 	"00000000-0000-0000-0000-000000000000",
 	'MapDataTypeAsPointer',
 	'',
@@ -2707,8 +2707,8 @@ T::print(s:"MapDataTypeAsPointer:  ${dt_name} in ${component_name} given ${point
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("58bd7a31-fba6-4cdc-9dd1-734b65b6520e",
-	"564ef7e1-90ec-4b27-ac1b-50cdd3c45e67",
+	VALUES ("c86b9bcb-f5f7-424e-9a1c-77d20720f013",
+	"bdc4f831-cf53-48eb-9ac9-b2e6b6271afc",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -2716,40 +2716,40 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("6c127af7-905b-4702-b81b-296620ddbefe",
-	"564ef7e1-90ec-4b27-ac1b-50cdd3c45e67",
+	VALUES ("2280e8c4-873a-4692-8825-18099a2aba52",
+	"bdc4f831-cf53-48eb-9ac9-b2e6b6271afc",
 	'dt_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"58bd7a31-fba6-4cdc-9dd1-734b65b6520e",
+	"c86b9bcb-f5f7-424e-9a1c-77d20720f013",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4f87a388-8f85-472a-815e-1b2ada75006a",
-	"564ef7e1-90ec-4b27-ac1b-50cdd3c45e67",
+	VALUES ("76473b4f-e857-4898-93fd-a864cd38e729",
+	"bdc4f831-cf53-48eb-9ac9-b2e6b6271afc",
 	'pointer_type',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"6c127af7-905b-4702-b81b-296620ddbefe",
+	"2280e8c4-873a-4692-8825-18099a2aba52",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("cd9152e2-a1d7-4139-855b-b9022962877f",
-	"564ef7e1-90ec-4b27-ac1b-50cdd3c45e67",
+	VALUES ("918f3b96-9061-410e-a7f7-46de9608aa29",
+	"bdc4f831-cf53-48eb-9ac9-b2e6b6271afc",
 	'include_file',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"4f87a388-8f85-472a-815e-1b2ada75006a",
+	"76473b4f-e857-4898-93fd-a864cd38e729",
 	'');
 INSERT INTO PE_PE
-	VALUES ("564ef7e1-90ec-4b27-ac1b-50cdd3c45e67",
+	VALUES ("bdc4f831-cf53-48eb-9ac9-b2e6b6271afc",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("8edf46f3-c71d-424e-9e39-cf4b40df37ff",
+	VALUES ("43267ba7-4c9b-4a81-8444-457974de5699",
 	"00000000-0000-0000-0000-000000000000",
 	'TagEnumeratorDiscreteValue',
 	'',
@@ -2800,8 +2800,8 @@ T::print(s:"TagEnumeratorDiscreteValue:  ${enumeration}::${enumerator} in ${comp
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("1d7804d1-3ec1-4edf-9652-abffc93859d6",
-	"8edf46f3-c71d-424e-9e39-cf4b40df37ff",
+	VALUES ("41f53c02-6a5c-402a-bf44-5c0e79de4664",
+	"43267ba7-4c9b-4a81-8444-457974de5699",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -2809,40 +2809,40 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("af7c39dd-5d32-43e2-912f-33ce3a1db7a5",
-	"8edf46f3-c71d-424e-9e39-cf4b40df37ff",
+	VALUES ("5afc6028-7e5c-42b4-8ef6-f5ef301dee68",
+	"43267ba7-4c9b-4a81-8444-457974de5699",
 	'enumeration',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"1d7804d1-3ec1-4edf-9652-abffc93859d6",
+	"41f53c02-6a5c-402a-bf44-5c0e79de4664",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4cc270fb-6c3d-48a9-8dcc-0ebf00e6a447",
-	"8edf46f3-c71d-424e-9e39-cf4b40df37ff",
+	VALUES ("5cd0d584-75fc-4fa1-b1a0-c44b3d4c99d2",
+	"43267ba7-4c9b-4a81-8444-457974de5699",
 	'enumerator',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"af7c39dd-5d32-43e2-912f-33ce3a1db7a5",
+	"5afc6028-7e5c-42b4-8ef6-f5ef301dee68",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("cc5d56cf-122a-493d-bb60-212d04627907",
-	"8edf46f3-c71d-424e-9e39-cf4b40df37ff",
+	VALUES ("31b39444-1969-44b8-a8ed-ab29546ad90d",
+	"43267ba7-4c9b-4a81-8444-457974de5699",
 	'value',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"4cc270fb-6c3d-48a9-8dcc-0ebf00e6a447",
+	"5cd0d584-75fc-4fa1-b1a0-c44b3d4c99d2",
 	'');
 INSERT INTO PE_PE
-	VALUES ("8edf46f3-c71d-424e-9e39-cf4b40df37ff",
+	VALUES ("43267ba7-4c9b-4a81-8444-457974de5699",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("b4b77dd9-b34f-40e6-95e3-e5b9129a67c5",
+	VALUES ("26f20800-c2fb-45a6-83d0-f3d4de9db137",
 	"00000000-0000-0000-0000-000000000000",
 	'TagUninitializedEnumerationValue',
 	'',
@@ -2894,8 +2894,8 @@ T::print(s:"TagUninitializedEnumerationValue:  ${enumeration} in ${component_nam
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9da51ee3-570e-481c-9ef0-27dbcbe82187",
-	"b4b77dd9-b34f-40e6-95e3-e5b9129a67c5",
+	VALUES ("3766312d-9575-4d07-a009-b7a2d2e156bc",
+	"26f20800-c2fb-45a6-83d0-f3d4de9db137",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -2903,31 +2903,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("819247c8-b158-416e-831b-e50eeb33def3",
-	"b4b77dd9-b34f-40e6-95e3-e5b9129a67c5",
+	VALUES ("01fa8c2c-71b4-400c-8a1d-2704532ebeda",
+	"26f20800-c2fb-45a6-83d0-f3d4de9db137",
 	'enumeration',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"9da51ee3-570e-481c-9ef0-27dbcbe82187",
+	"3766312d-9575-4d07-a009-b7a2d2e156bc",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("3a82315d-e146-4fbf-b139-4b96d4307849",
-	"b4b77dd9-b34f-40e6-95e3-e5b9129a67c5",
+	VALUES ("eca16d17-5bd6-4f8e-ab9d-b6ce7b85938f",
+	"26f20800-c2fb-45a6-83d0-f3d4de9db137",
 	'value',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"819247c8-b158-416e-831b-e50eeb33def3",
+	"01fa8c2c-71b4-400c-8a1d-2704532ebeda",
 	'');
 INSERT INTO PE_PE
-	VALUES ("b4b77dd9-b34f-40e6-95e3-e5b9129a67c5",
+	VALUES ("26f20800-c2fb-45a6-83d0-f3d4de9db137",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("25f326cf-14b3-4edb-a1ab-879e6da52ea4",
+	VALUES ("01c64326-2ec6-465a-bec8-cdf7429cef7a",
 	"00000000-0000-0000-0000-000000000000",
 	'AssignDirectToUDTPackage',
 	'',
@@ -2947,8 +2947,8 @@ T::exit(i:1);
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("2aa8ac6e-e154-4653-9c24-a6b7446fae0f",
-	"25f326cf-14b3-4edb-a1ab-879e6da52ea4",
+	VALUES ("6e383300-e6f8-4690-879c-0b17df67d9e5",
+	"01c64326-2ec6-465a-bec8-cdf7429cef7a",
 	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -2956,13 +2956,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("25f326cf-14b3-4edb-a1ab-879e6da52ea4",
+	VALUES ("01c64326-2ec6-465a-bec8-cdf7429cef7a",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e28eb66e-91ad-44e7-87c4-51a0a7e1de63",
+	VALUES ("a1413091-2b4e-462c-823a-1674416a802b",
 	"00000000-0000-0000-0000-000000000000",
 	'TagFunctionTranslationOff',
 	'',
@@ -2997,8 +2997,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("55eeac3a-2af7-40f5-89ce-9041cc201d2e",
-	"e28eb66e-91ad-44e7-87c4-51a0a7e1de63",
+	VALUES ("3d724e49-33c0-4822-82fb-140c1567691c",
+	"a1413091-2b4e-462c-823a-1674416a802b",
 	'function_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3006,13 +3006,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("e28eb66e-91ad-44e7-87c4-51a0a7e1de63",
+	VALUES ("a1413091-2b4e-462c-823a-1674416a802b",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("1225b7d6-e583-4063-874d-d717f3c14816",
+	VALUES ("49062774-ce41-4c1d-8d19-5118d1500089",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkFunctionTranslationOff',
 	'',
@@ -3048,8 +3048,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8c3d511e-a5f4-4f73-8605-7eaa4290384e",
-	"1225b7d6-e583-4063-874d-d717f3c14816",
+	VALUES ("dc98069c-ab62-44f9-859c-2b9a188f19f4",
+	"49062774-ce41-4c1d-8d19-5118d1500089",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3057,22 +3057,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0e575d56-d411-424a-b9ea-4c1493c9301d",
-	"1225b7d6-e583-4063-874d-d717f3c14816",
+	VALUES ("6f9c8fd7-2325-401b-b2d2-ff7c81e6a576",
+	"49062774-ce41-4c1d-8d19-5118d1500089",
 	'function_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"8c3d511e-a5f4-4f73-8605-7eaa4290384e",
+	"dc98069c-ab62-44f9-859c-2b9a188f19f4",
 	'');
 INSERT INTO PE_PE
-	VALUES ("1225b7d6-e583-4063-874d-d717f3c14816",
+	VALUES ("49062774-ce41-4c1d-8d19-5118d1500089",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c60a72c5-31f4-4565-bf15-127371d89d0e",
+	VALUES ("8837baae-8235-4275-b979-5588a870f5ab",
 	"00000000-0000-0000-0000-000000000000",
 	'TagInitializationFunction',
 	'',
@@ -3093,8 +3093,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("b654ac67-8316-4a81-b37a-7c656091176c",
-	"c60a72c5-31f4-4565-bf15-127371d89d0e",
+	VALUES ("937772e4-e952-4867-879c-f513f70a1852",
+	"8837baae-8235-4275-b979-5588a870f5ab",
 	'function_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3102,13 +3102,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("c60a72c5-31f4-4565-bf15-127371d89d0e",
+	VALUES ("8837baae-8235-4275-b979-5588a870f5ab",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c83c5da5-c5f3-47c5-8528-5241004da9be",
+	VALUES ("02197d95-0f00-4082-9c6e-8154b69f0cbc",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkInitializationFunction',
 	'',
@@ -3143,8 +3143,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9c52ed57-1f1f-4be3-8258-a7c437b27868",
-	"c83c5da5-c5f3-47c5-8528-5241004da9be",
+	VALUES ("70de2d1c-4150-4061-99ce-feb6c4584b76",
+	"02197d95-0f00-4082-9c6e-8154b69f0cbc",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3152,22 +3152,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9f6cb4a2-dfff-4bf1-8dfa-9d535341f82a",
-	"c83c5da5-c5f3-47c5-8528-5241004da9be",
+	VALUES ("b2b138a3-1851-4acc-b988-e739492ecacf",
+	"02197d95-0f00-4082-9c6e-8154b69f0cbc",
 	'function_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"9c52ed57-1f1f-4be3-8258-a7c437b27868",
+	"70de2d1c-4150-4061-99ce-feb6c4584b76",
 	'');
 INSERT INTO PE_PE
-	VALUES ("c83c5da5-c5f3-47c5-8528-5241004da9be",
+	VALUES ("02197d95-0f00-4082-9c6e-8154b69f0cbc",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c4a80d68-c3d6-4b70-a6ad-3d7e1c40dc2e",
+	VALUES ("4e10a56a-d036-4ca1-9d01-92f5bffcc903",
 	"00000000-0000-0000-0000-000000000000",
 	'TagExcludeObjectFromCodeGen',
 	'',
@@ -3183,8 +3183,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("c323d1d0-7e9e-42ea-8cdf-f5216220d98c",
-	"c4a80d68-c3d6-4b70-a6ad-3d7e1c40dc2e",
+	VALUES ("d6efc25d-d41d-4245-b5a9-7146a895cec4",
+	"4e10a56a-d036-4ca1-9d01-92f5bffcc903",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3192,13 +3192,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("c4a80d68-c3d6-4b70-a6ad-3d7e1c40dc2e",
+	VALUES ("4e10a56a-d036-4ca1-9d01-92f5bffcc903",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("6be96113-e98e-4612-b31d-ae3c2986eaed",
+	VALUES ("4d98edb0-5261-4205-82bc-d0e90d6e16f8",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkExcludeObjectFromCodeGen',
 	'',
@@ -3226,8 +3226,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("53eb1ff8-53d8-4f14-a1b3-710e213ef2c6",
-	"6be96113-e98e-4612-b31d-ae3c2986eaed",
+	VALUES ("bd26ca58-87b7-4f38-a774-479dcd1773af",
+	"4d98edb0-5261-4205-82bc-d0e90d6e16f8",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3235,22 +3235,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ac343f9d-b175-42bd-960e-10a86a7f3a2a",
-	"6be96113-e98e-4612-b31d-ae3c2986eaed",
+	VALUES ("ed2d825e-86ab-42fe-ae9a-47012d289990",
+	"4d98edb0-5261-4205-82bc-d0e90d6e16f8",
 	'obj_key_letters',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"53eb1ff8-53d8-4f14-a1b3-710e213ef2c6",
+	"bd26ca58-87b7-4f38-a774-479dcd1773af",
 	'');
 INSERT INTO PE_PE
-	VALUES ("6be96113-e98e-4612-b31d-ae3c2986eaed",
+	VALUES ("4d98edb0-5261-4205-82bc-d0e90d6e16f8",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("e788a7b7-f068-487c-b62e-70f1f7f45890",
+	VALUES ("26846418-f119-473f-a18d-4925e04a84a6",
 	"00000000-0000-0000-0000-000000000000",
 	'TagExcludeSubsystemFromCodeGen',
 	'',
@@ -3259,15 +3259,15 @@ INSERT INTO S_SYNC
 subsystem_name = param.subsystem_name;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkExcludeSubsystemFromCodeGen( component_name:te_c.Name, subsystem_name:subsystem_name );
+  ::MarkExcludeSubsystemFromCodeGen( component_name:te_c.Name, package_name:subsystem_name );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("723d0f11-6b98-40a7-9462-277872784150",
-	"e788a7b7-f068-487c-b62e-70f1f7f45890",
+	VALUES ("18531bb6-a6a8-4a08-b1a6-3beb4cc25bf4",
+	"26846418-f119-473f-a18d-4925e04a84a6",
 	'subsystem_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3275,18 +3275,18 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("e788a7b7-f068-487c-b62e-70f1f7f45890",
+	VALUES ("26846418-f119-473f-a18d-4925e04a84a6",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f5d39e4b-eb1b-4b5a-841d-899d47af657b",
+	VALUES ("3b4b4795-b2bc-48fa-9a3d-f2081ec3a0cd",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkExcludeSubsystemFromCodeGen',
 	'',
 	'component_name = param.component_name;
-subsystem_name = param.subsystem_name;
+package_name = param.package_name;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
 if ( ( "" == component_name ) or ( "*" == component_name ) )
@@ -3294,16 +3294,16 @@ if ( ( "" == component_name ) or ( "*" == component_name ) )
 end if;
 for each te_c in te_cs
   msg = "";
-  select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == subsystem_name );
+  select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
   if ( not_empty ep_pkgs )
     select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
     for each te_class in te_classes
       te_class.ExcludeFromGen = true;
     end for;
-    msg = "All classes in subsystem ${subsystem_name} excluded from code generation.";
+    msg = "All classes in package ${package_name} excluded from code generation.";
   else
-    msg = "ERROR:  Subsystem ${subsystem_name} not found in component ${te_c.Name}.";
-    msg = msg + "\n => TagExcludeSubsystemFromCodeGen( ${subsystem_name} )";
+    msg = "ERROR:  Package ${package_name} not found in component ${te_c.Name}.";
+    msg = msg + "\n => TagExcludePackageFromCodeGen( ${package_name} )";
   end if;
   T::print(s:"${msg}");
 end for;
@@ -3312,8 +3312,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("073f674b-3ab8-4aa2-a7fe-12014643c238",
-	"f5d39e4b-eb1b-4b5a-841d-899d47af657b",
+	VALUES ("d709429f-2634-41a9-b419-8c7e1733500e",
+	"3b4b4795-b2bc-48fa-9a3d-f2081ec3a0cd",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3321,22 +3321,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a068c6ba-c695-4a9c-8657-a1c03db95c49",
-	"f5d39e4b-eb1b-4b5a-841d-899d47af657b",
-	'subsystem_name',
+	VALUES ("37902d18-65e9-4e1c-950b-96dc95b54db9",
+	"3b4b4795-b2bc-48fa-9a3d-f2081ec3a0cd",
+	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"073f674b-3ab8-4aa2-a7fe-12014643c238",
+	"d709429f-2634-41a9-b419-8c7e1733500e",
 	'');
 INSERT INTO PE_PE
-	VALUES ("f5d39e4b-eb1b-4b5a-841d-899d47af657b",
+	VALUES ("3b4b4795-b2bc-48fa-9a3d-f2081ec3a0cd",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("5a4e83ae-2e6b-4fcf-a71b-a54ef9918c49",
+	VALUES ("9eff6660-8b85-4f64-aa22-3adb6fe99554",
 	"00000000-0000-0000-0000-000000000000",
 	'TagStateTransitionTracingOn',
 	'',
@@ -3351,13 +3351,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("5a4e83ae-2e6b-4fcf-a71b-a54ef9918c49",
+	VALUES ("9eff6660-8b85-4f64-aa22-3adb6fe99554",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("ff04181f-de1a-4d98-b757-36a6a0792f9f",
+	VALUES ("40671a13-802c-4f68-a538-24e9a31b86d7",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkStateTransitionTracingOn',
 	'',
@@ -3376,8 +3376,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("0417fc74-a59e-4d6f-997a-575106c8e614",
-	"ff04181f-de1a-4d98-b757-36a6a0792f9f",
+	VALUES ("4724980a-caae-4351-b23e-a1b21fd26f65",
+	"40671a13-802c-4f68-a538-24e9a31b86d7",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3385,13 +3385,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("ff04181f-de1a-4d98-b757-36a6a0792f9f",
+	VALUES ("40671a13-802c-4f68-a538-24e9a31b86d7",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f7c8b4f2-4afd-41f6-ba3e-c12b3ae76654",
+	VALUES ("b86cd5ec-0ae9-45dc-8d1f-b5787faedb85",
 	"00000000-0000-0000-0000-000000000000",
 	'TagActionStatementTracingOn',
 	'',
@@ -3406,13 +3406,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("f7c8b4f2-4afd-41f6-ba3e-c12b3ae76654",
+	VALUES ("b86cd5ec-0ae9-45dc-8d1f-b5787faedb85",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f9ca148f-1609-441c-a6b1-2cdabdf76fe5",
+	VALUES ("e1668831-30fb-488c-bf3c-8c934ff1c318",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkActionStatementTracingOn',
 	'',
@@ -3431,8 +3431,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("643d99f5-9a12-49be-9880-595f3d4a7ad5",
-	"f9ca148f-1609-441c-a6b1-2cdabdf76fe5",
+	VALUES ("fdecdfc4-8ff2-47dc-af50-564169d6ac51",
+	"e1668831-30fb-488c-bf3c-8c934ff1c318",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3440,13 +3440,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("f9ca148f-1609-441c-a6b1-2cdabdf76fe5",
+	VALUES ("e1668831-30fb-488c-bf3c-8c934ff1c318",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("b960bf05-2706-4c60-a2be-6cfe17f68511",
+	VALUES ("6cc01102-4573-47db-9208-b05bc16a0efc",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkMessageTracingOn',
 	'',
@@ -3480,8 +3480,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("c7e57a77-3a13-43b3-8a86-56f6eae5b2f8",
-	"b960bf05-2706-4c60-a2be-6cfe17f68511",
+	VALUES ("5634dec7-1666-4389-bf67-dd987c63b73a",
+	"6cc01102-4573-47db-9208-b05bc16a0efc",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3489,31 +3489,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("75ccde44-754a-499f-8f54-a9a3f14062fd",
-	"b960bf05-2706-4c60-a2be-6cfe17f68511",
+	VALUES ("3ebc68a1-43b1-44a5-a6e1-83a155bfa4b4",
+	"6cc01102-4573-47db-9208-b05bc16a0efc",
 	'port_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"c7e57a77-3a13-43b3-8a86-56f6eae5b2f8",
+	"5634dec7-1666-4389-bf67-dd987c63b73a",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("7a077f90-e86c-49b3-b900-f00ee7f5178b",
-	"b960bf05-2706-4c60-a2be-6cfe17f68511",
+	VALUES ("89c02caa-1cce-41ae-b608-badd637358f0",
+	"6cc01102-4573-47db-9208-b05bc16a0efc",
 	'message_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"75ccde44-754a-499f-8f54-a9a3f14062fd",
+	"3ebc68a1-43b1-44a5-a6e1-83a155bfa4b4",
 	'');
 INSERT INTO PE_PE
-	VALUES ("b960bf05-2706-4c60-a2be-6cfe17f68511",
+	VALUES ("6cc01102-4573-47db-9208-b05bc16a0efc",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f0df7071-cf9f-4307-935a-e02b7c8fdf32",
+	VALUES ("41a93a9d-7265-4f7e-bc8e-f67dff67c1ad",
 	"00000000-0000-0000-0000-000000000000",
 	'TagEmptyHandleDetectionOn',
 	'',
@@ -3528,13 +3528,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("f0df7071-cf9f-4307-935a-e02b7c8fdf32",
+	VALUES ("41a93a9d-7265-4f7e-bc8e-f67dff67c1ad",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("f70f8968-ec87-40a5-ac69-bc0a7b6a93ef",
+	VALUES ("5d16ab8b-6a85-4e98-9e46-d3b885ca03cd",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkEmptyHandleDetectionOn',
 	'',
@@ -3553,8 +3553,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("fb17d635-ea0f-4d47-b9b1-58bf963e3f45",
-	"f70f8968-ec87-40a5-ac69-bc0a7b6a93ef",
+	VALUES ("4df5ca19-e56f-4327-be21-bf3bead4e9a2",
+	"5d16ab8b-6a85-4e98-9e46-d3b885ca03cd",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3562,13 +3562,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("f70f8968-ec87-40a5-ac69-bc0a7b6a93ef",
+	VALUES ("5d16ab8b-6a85-4e98-9e46-d3b885ca03cd",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("ec6b901a-6948-4469-9b50-bbc1159325fe",
+	VALUES ("a6feb423-c707-4fa9-abf9-f0ad23456776",
 	"00000000-0000-0000-0000-000000000000",
 	'TagFirstPassOptimizationsOff',
 	'',
@@ -3583,13 +3583,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("ec6b901a-6948-4469-9b50-bbc1159325fe",
+	VALUES ("a6feb423-c707-4fa9-abf9-f0ad23456776",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("11ddc003-d359-4bdc-909b-da34d28ea960",
+	VALUES ("39a18ed6-cccd-4144-8379-b0615ef51113",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkFirstPassOptimizationsOff',
 	'',
@@ -3608,8 +3608,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("e6e74769-aa53-4228-9ba6-2cea3f12bd93",
-	"11ddc003-d359-4bdc-909b-da34d28ea960",
+	VALUES ("6685865c-78f8-473b-83a9-bf34d99d161e",
+	"39a18ed6-cccd-4144-8379-b0615ef51113",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3617,13 +3617,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("11ddc003-d359-4bdc-909b-da34d28ea960",
+	VALUES ("39a18ed6-cccd-4144-8379-b0615ef51113",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("4d182f32-b373-4121-a523-4f601024a295",
+	VALUES ("d32b909f-17c5-45f3-836f-e5df2841a03a",
 	"00000000-0000-0000-0000-000000000000",
 	'TagStateActionCommentBlocksEnabled',
 	'',
@@ -3638,13 +3638,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("4d182f32-b373-4121-a523-4f601024a295",
+	VALUES ("d32b909f-17c5-45f3-836f-e5df2841a03a",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("9e1aeac9-bef0-41bc-8985-f94f992c8417",
+	VALUES ("1fc35dd3-e97a-4fea-8b10-6d674a993b01",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkStateActionCommentBlocksEnabled',
 	'',
@@ -3663,8 +3663,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("a15cb301-6b46-45ed-8bec-86b6d74daf17",
-	"9e1aeac9-bef0-41bc-8985-f94f992c8417",
+	VALUES ("f302ee59-10f8-4796-b3a7-38444a765459",
+	"1fc35dd3-e97a-4fea-8b10-6d674a993b01",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3672,13 +3672,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("9e1aeac9-bef0-41bc-8985-f94f992c8417",
+	VALUES ("1fc35dd3-e97a-4fea-8b10-6d674a993b01",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("895ac2c1-b35c-47b4-8358-bf1dd2a42af0",
+	VALUES ("1cca0517-bfe2-4b91-9aeb-39051bf1f5ec",
 	"00000000-0000-0000-0000-000000000000",
 	'TagStateActionStatementCommentsDisabled',
 	'',
@@ -3693,13 +3693,13 @@ end for;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("895ac2c1-b35c-47b4-8358-bf1dd2a42af0",
+	VALUES ("1cca0517-bfe2-4b91-9aeb-39051bf1f5ec",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("8464f004-eb9f-4f14-972d-866da9146dc8",
+	VALUES ("858ae17c-e9f3-4e56-ae0e-e3799bc5b5e9",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkStateActionStatementCommentsDisabled',
 	'',
@@ -3718,8 +3718,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("6e5d8bfa-d7a4-4c86-8e95-c4582da92371",
-	"8464f004-eb9f-4f14-972d-866da9146dc8",
+	VALUES ("a94a6a27-ac9b-4787-a3b0-5ae4dabe505a",
+	"858ae17c-e9f3-4e56-ae0e-e3799bc5b5e9",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3727,13 +3727,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("8464f004-eb9f-4f14-972d-866da9146dc8",
+	VALUES ("858ae17c-e9f3-4e56-ae0e-e3799bc5b5e9",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("5cc4ff94-a167-4dbd-b774-e3215adc31e6",
+	VALUES ("1857bd68-a0bb-484d-ad3b-6d7f542179d6",
 	"00000000-0000-0000-0000-000000000000",
 	'TagStateActionVariableNamesEnabled',
 	'',
@@ -3743,13 +3743,13 @@ INSERT INTO S_SYNC
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("5cc4ff94-a167-4dbd-b774-e3215adc31e6",
+	VALUES ("1857bd68-a0bb-484d-ad3b-6d7f542179d6",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("690f6d04-1be6-4752-a3d5-7c9982dc06cf",
+	VALUES ("8588f29f-6ea3-408d-bdd7-d0def2b88792",
 	"00000000-0000-0000-0000-000000000000",
 	'TagVerboseReflexivePhrasesEnabled',
 	'',
@@ -3759,13 +3759,13 @@ INSERT INTO S_SYNC
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("690f6d04-1be6-4752-a3d5-7c9982dc06cf",
+	VALUES ("8588f29f-6ea3-408d-bdd7-d0def2b88792",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("07a01bd9-c55a-4212-a09f-2122b352958b",
+	VALUES ("ae57e842-8fb5-43c5-a50b-d5e05f698eaf",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkPortWiring',
 	'',
@@ -3798,8 +3798,8 @@ select many te_pos related by te_cs->TE_PO[R2005] where ( selected.Name == forei
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d0287f49-42ca-4182-82db-d2c1efcb7838",
-	"07a01bd9-c55a-4212-a09f-2122b352958b",
+	VALUES ("c51126cc-6c00-4f7d-a981-7a7a6870e68b",
+	"ae57e842-8fb5-43c5-a50b-d5e05f698eaf",
 	'home_component',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3807,40 +3807,40 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("57fce079-b21f-465e-bd2b-e42d2201c724",
-	"07a01bd9-c55a-4212-a09f-2122b352958b",
+	VALUES ("5b98c839-4e13-43cf-bb0d-578edb6df93e",
+	"ae57e842-8fb5-43c5-a50b-d5e05f698eaf",
 	'home_port',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"d0287f49-42ca-4182-82db-d2c1efcb7838",
+	"c51126cc-6c00-4f7d-a981-7a7a6870e68b",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9aa9663f-b7d6-450e-9aff-3278bef259d2",
-	"07a01bd9-c55a-4212-a09f-2122b352958b",
+	VALUES ("452570bc-82a5-4a35-a427-1eae446d724f",
+	"ae57e842-8fb5-43c5-a50b-d5e05f698eaf",
 	'foreign_component',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"57fce079-b21f-465e-bd2b-e42d2201c724",
+	"5b98c839-4e13-43cf-bb0d-578edb6df93e",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ef3cfee3-613d-47b0-9603-df36a7441ea7",
-	"07a01bd9-c55a-4212-a09f-2122b352958b",
+	VALUES ("0de0fcf5-0d83-4dcf-b7e8-7262173bf506",
+	"ae57e842-8fb5-43c5-a50b-d5e05f698eaf",
 	'foreign_port',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"9aa9663f-b7d6-450e-9aff-3278bef259d2",
+	"452570bc-82a5-4a35-a427-1eae446d724f",
 	'');
 INSERT INTO PE_PE
-	VALUES ("07a01bd9-c55a-4212-a09f-2122b352958b",
+	VALUES ("ae57e842-8fb5-43c5-a50b-d5e05f698eaf",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("dbea2f62-953e-4f71-b5e9-e535d1ad9702",
+	VALUES ("916701a8-82f2-4b9e-b1ee-c1960dd364e7",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkPortWiringForPort',
 	'',
@@ -3879,8 +3879,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("231fe730-e5be-4f48-b3ff-ae7103e57cca",
-	"dbea2f62-953e-4f71-b5e9-e535d1ad9702",
+	VALUES ("73fe2024-933e-407a-866d-d44f866cdae7",
+	"916701a8-82f2-4b9e-b1ee-c1960dd364e7",
 	'te_pos',
 	"dc54b007-00da-455e-b263-9baac45247c0",
 	0,
@@ -3895,31 +3895,31 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Translation Extensions/Translation Extensions.xtuml');
 INSERT INTO S_SPARM
-	VALUES ("41fa588f-5869-48cb-b6fd-c1c4de58303b",
-	"dbea2f62-953e-4f71-b5e9-e535d1ad9702",
+	VALUES ("fb3c4544-37bb-4390-bbd9-9b1cd58a25e6",
+	"916701a8-82f2-4b9e-b1ee-c1960dd364e7",
 	'component',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"231fe730-e5be-4f48-b3ff-ae7103e57cca",
+	"73fe2024-933e-407a-866d-d44f866cdae7",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("05ea05bf-e20d-4eae-b4f0-435082d01409",
-	"dbea2f62-953e-4f71-b5e9-e535d1ad9702",
+	VALUES ("13bc15ff-7c21-4ec7-9e3e-51719fe704ee",
+	"916701a8-82f2-4b9e-b1ee-c1960dd364e7",
 	'port',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"41fa588f-5869-48cb-b6fd-c1c4de58303b",
+	"fb3c4544-37bb-4390-bbd9-9b1cd58a25e6",
 	'');
 INSERT INTO PE_PE
-	VALUES ("dbea2f62-953e-4f71-b5e9-e535d1ad9702",
+	VALUES ("916701a8-82f2-4b9e-b1ee-c1960dd364e7",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c330f989-8ad3-4fb5-b021-53a8821c9f25",
+	VALUES ("0b63c3fe-08b5-4b00-ae46-a22a7cc17933",
 	"00000000-0000-0000-0000-000000000000",
 	'TagDispatchFlavor',
 	'',
@@ -3951,8 +3951,8 @@ flavor = param.flavor;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("59abf3d5-95cd-4867-b650-f8e80234e7ff",
-	"c330f989-8ad3-4fb5-b021-53a8821c9f25",
+	VALUES ("47791acd-a694-4198-87af-bb3f429bb453",
+	"0b63c3fe-08b5-4b00-ae46-a22a7cc17933",
 	'flavor',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -3960,13 +3960,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("c330f989-8ad3-4fb5-b021-53a8821c9f25",
+	VALUES ("0b63c3fe-08b5-4b00-ae46-a22a7cc17933",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("b758d14a-806d-4113-9ed6-aad6c4cc584a",
+	VALUES ("00d55046-38ce-46de-949d-64ef589a4e70",
 	"00000000-0000-0000-0000-000000000000",
 	'TagPriorityEvent',
 	'',
@@ -3985,8 +3985,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("1adbe067-8d8a-46f9-9591-5038c6918205",
-	"b758d14a-806d-4113-9ed6-aad6c4cc584a",
+	VALUES ("a948b605-5de4-4d16-b6af-3817714fe4d2",
+	"00d55046-38ce-46de-949d-64ef589a4e70",
 	'evt_label',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -3994,22 +3994,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ca458c7a-1ba2-47b0-af8a-740c5511f955",
-	"b758d14a-806d-4113-9ed6-aad6c4cc584a",
+	VALUES ("e16c5493-c1aa-4a31-b0f0-206c95843ee3",
+	"00d55046-38ce-46de-949d-64ef589a4e70",
 	'priority_value',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
-	"1adbe067-8d8a-46f9-9591-5038c6918205",
+	"a948b605-5de4-4d16-b6af-3817714fe4d2",
 	'');
 INSERT INTO PE_PE
-	VALUES ("b758d14a-806d-4113-9ed6-aad6c4cc584a",
+	VALUES ("00d55046-38ce-46de-949d-64ef589a4e70",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("ee33bb0d-bc51-4c8d-8205-7befa8b50a1f",
+	VALUES ("0d16b715-bc19-487b-bf96-00dea8a598dc",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkPriorityEvent',
 	'',
@@ -4059,8 +4059,8 @@ end for;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ff954d61-bbc0-47c1-a0b5-bb96707b06cd",
-	"ee33bb0d-bc51-4c8d-8205-7befa8b50a1f",
+	VALUES ("138d6cb3-33fa-4c84-aee7-3c2a07813417",
+	"0d16b715-bc19-487b-bf96-00dea8a598dc",
 	'component_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -4068,31 +4068,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("37b85891-b427-421d-8bb8-36521a35cb6d",
-	"ee33bb0d-bc51-4c8d-8205-7befa8b50a1f",
+	VALUES ("f906c750-f5c3-4e81-8956-940b41ebe864",
+	"0d16b715-bc19-487b-bf96-00dea8a598dc",
 	'evt_label',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"ff954d61-bbc0-47c1-a0b5-bb96707b06cd",
+	"138d6cb3-33fa-4c84-aee7-3c2a07813417",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("73831113-0c59-42d8-91ad-d93dfd9db18a",
-	"ee33bb0d-bc51-4c8d-8205-7befa8b50a1f",
+	VALUES ("94bb52aa-f711-473b-a7b4-f4b63f040f84",
+	"0d16b715-bc19-487b-bf96-00dea8a598dc",
 	'priority_value',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
-	"37b85891-b427-421d-8bb8-36521a35cb6d",
+	"f906c750-f5c3-4e81-8956-940b41ebe864",
 	'');
 INSERT INTO PE_PE
-	VALUES ("ee33bb0d-bc51-4c8d-8205-7befa8b50a1f",
+	VALUES ("0d16b715-bc19-487b-bf96-00dea8a598dc",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("39d8c141-0b24-4916-b257-d0dfce54b685",
+	VALUES ("4ebf8b59-7028-46b1-9a53-a69a5d029af3",
 	"00000000-0000-0000-0000-000000000000",
 	'EnableTasking',
 	'',
@@ -4152,8 +4152,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("dbffa75c-baf0-414c-a78f-07642758470c",
-	"39d8c141-0b24-4916-b257-d0dfce54b685",
+	VALUES ("77b34938-f962-4f55-a65f-365e1422fe19",
+	"4ebf8b59-7028-46b1-9a53-a69a5d029af3",
 	'flavor',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -4161,31 +4161,31 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ea9422b9-e487-4e68-a99f-8c9bdd9f3cbe",
-	"39d8c141-0b24-4916-b257-d0dfce54b685",
+	VALUES ("540cdd7b-baf5-4ada-bb26-541beb5b07bc",
+	"4ebf8b59-7028-46b1-9a53-a69a5d029af3",
 	'serialize',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"dbffa75c-baf0-414c-a78f-07642758470c",
+	"77b34938-f962-4f55-a65f-365e1422fe19",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("bba3dbed-140d-4a9d-9647-7bc0dd544521",
-	"39d8c141-0b24-4916-b257-d0dfce54b685",
+	VALUES ("0750fd46-adcd-4cc0-980f-afc602823ae3",
+	"4ebf8b59-7028-46b1-9a53-a69a5d029af3",
 	'number_of_threads',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
-	"ea9422b9-e487-4e68-a99f-8c9bdd9f3cbe",
+	"540cdd7b-baf5-4ada-bb26-541beb5b07bc",
 	'');
 INSERT INTO PE_PE
-	VALUES ("39d8c141-0b24-4916-b257-d0dfce54b685",
+	VALUES ("4ebf8b59-7028-46b1-9a53-a69a5d029af3",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("7a491ea0-2668-4ccd-8d2b-fa2a7586b57c",
+	VALUES ("2de04be5-accd-440f-9fd5-e0956ec92297",
 	"00000000-0000-0000-0000-000000000000",
 	'SetTaskPriority',
 	'',
@@ -4206,8 +4206,8 @@ tm_thread.extra_initialization = tm_thread.extra_initialization + "  xtUML_task_
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("78273785-5be5-4714-b054-3ba49b17050c",
-	"7a491ea0-2668-4ccd-8d2b-fa2a7586b57c",
+	VALUES ("7cd389cc-aaf7-40c8-9f16-2f5e91aea184",
+	"2de04be5-accd-440f-9fd5-e0956ec92297",
 	'task_number',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4215,22 +4215,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("7f29c947-725d-49b6-bdea-f1f5dbcaeb93",
-	"7a491ea0-2668-4ccd-8d2b-fa2a7586b57c",
+	VALUES ("0fcde0d0-6fd5-44ef-98a4-3530bfcd8010",
+	"2de04be5-accd-440f-9fd5-e0956ec92297",
 	'priority',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"78273785-5be5-4714-b054-3ba49b17050c",
+	"7cd389cc-aaf7-40c8-9f16-2f5e91aea184",
 	'');
 INSERT INTO PE_PE
-	VALUES ("7a491ea0-2668-4ccd-8d2b-fa2a7586b57c",
+	VALUES ("2de04be5-accd-440f-9fd5-e0956ec92297",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("a3937f75-fc0e-41ac-a2ae-6d8b81ae7321",
+	VALUES ("5f9cea48-f49d-4f42-82ea-ce4272fe6597",
 	"00000000-0000-0000-0000-000000000000",
 	'TagMaximumStringLength',
 	'',
@@ -4245,8 +4245,8 @@ tm_systag.MaxStringLen = max_len;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5dc577a6-ffc5-4c75-90f5-917633e8125d",
-	"a3937f75-fc0e-41ac-a2ae-6d8b81ae7321",
+	VALUES ("dc171d76-e45e-465e-b6e3-f3a9240eada8",
+	"5f9cea48-f49d-4f42-82ea-ce4272fe6597",
 	'max_len',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4254,13 +4254,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("a3937f75-fc0e-41ac-a2ae-6d8b81ae7321",
+	VALUES ("5f9cea48-f49d-4f42-82ea-ce4272fe6597",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("c7580b25-d554-4ed0-8f3e-3b013c4f1acb",
+	VALUES ("064e0d07-ed56-4d70-bb1c-89bb3232cc02",
 	"00000000-0000-0000-0000-000000000000",
 	'TagMaximumRelationshipExtentSize',
 	'',
@@ -4275,8 +4275,8 @@ tm_systag.MaxRelExtent = user_specified_size;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("853c544e-6147-4c5a-859b-3eff3d25f59d",
-	"c7580b25-d554-4ed0-8f3e-3b013c4f1acb",
+	VALUES ("93732d12-f349-4db6-95e6-c0ac9081c0ae",
+	"064e0d07-ed56-4d70-bb1c-89bb3232cc02",
 	'user_specified_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4284,13 +4284,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("c7580b25-d554-4ed0-8f3e-3b013c4f1acb",
+	VALUES ("064e0d07-ed56-4d70-bb1c-89bb3232cc02",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("3401cfca-55d1-4906-93be-bd228bb4072c",
+	VALUES ("e1c2bb65-8a64-408d-beaa-d8a9ce00ae79",
 	"00000000-0000-0000-0000-000000000000",
 	'TagMaximumSelectionExtentSize',
 	'',
@@ -4305,8 +4305,8 @@ tm_systag.MaxSelectExtent = user_specified_size;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("796e534f-cbf6-4b8b-bef9-6e6b84da40e2",
-	"3401cfca-55d1-4906-93be-bd228bb4072c",
+	VALUES ("c0176bee-8042-4d33-b288-9978c5f04425",
+	"e1c2bb65-8a64-408d-beaa-d8a9ce00ae79",
 	'user_specified_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4314,13 +4314,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("3401cfca-55d1-4906-93be-bd228bb4072c",
+	VALUES ("e1c2bb65-8a64-408d-beaa-d8a9ce00ae79",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("9ac902bb-8338-4ed1-836d-6f9977153ea2",
+	VALUES ("0919a1b5-7d1a-48df-b338-c71d94d4f673",
 	"00000000-0000-0000-0000-000000000000",
 	'TagMaximumSelfDirectedEvents',
 	'',
@@ -4335,8 +4335,8 @@ tm_systag.MaxSelfEvents = user_specified_size;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("f55a5945-8255-4401-8eb6-88a9c72a6c53",
-	"9ac902bb-8338-4ed1-836d-6f9977153ea2",
+	VALUES ("f26ee79a-7298-49b5-b5b6-8b8164acd146",
+	"0919a1b5-7d1a-48df-b338-c71d94d4f673",
 	'user_specified_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4344,13 +4344,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("9ac902bb-8338-4ed1-836d-6f9977153ea2",
+	VALUES ("0919a1b5-7d1a-48df-b338-c71d94d4f673",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("357ddd44-0a86-48b7-bb7d-779ad51cc18c",
+	VALUES ("70bce7a6-4407-41f5-9d2e-19606bb35737",
 	"00000000-0000-0000-0000-000000000000",
 	'TagMaximumNonSelfDirectedEvents',
 	'',
@@ -4365,8 +4365,8 @@ tm_systag.MaxNonSelfEvents = user_specified_size;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5deaf32b-78d6-43ff-8c74-4f6f7a1fff09",
-	"357ddd44-0a86-48b7-bb7d-779ad51cc18c",
+	VALUES ("d2aa1fc1-a974-4933-8ff6-e01b2bd757c8",
+	"70bce7a6-4407-41f5-9d2e-19606bb35737",
 	'user_specified_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4374,13 +4374,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("357ddd44-0a86-48b7-bb7d-779ad51cc18c",
+	VALUES ("70bce7a6-4407-41f5-9d2e-19606bb35737",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("8c7e73e2-4e7d-47c1-b188-05ae641b3a8d",
+	VALUES ("b84274a7-fbc6-419c-b7da-3f85da3b83c9",
 	"00000000-0000-0000-0000-000000000000",
 	'TagMaximumPendingOoaTimers',
 	'',
@@ -4395,8 +4395,8 @@ tm_systag.MaxTimers = user_specified_size;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("5467bb5a-d9c3-45fa-9bb8-1878157c0f07",
-	"8c7e73e2-4e7d-47c1-b188-05ae641b3a8d",
+	VALUES ("20e4bdd2-9c5d-466f-80d9-9029c6028f75",
+	"b84274a7-fbc6-419c-b7da-3f85da3b83c9",
 	'user_specified_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4404,13 +4404,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("8c7e73e2-4e7d-47c1-b188-05ae641b3a8d",
+	VALUES ("b84274a7-fbc6-419c-b7da-3f85da3b83c9",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("8f5fce35-d656-442c-8abd-d35c64c003c1",
+	VALUES ("e1ca8b90-2264-4034-ab03-d6ef124012f0",
 	"00000000-0000-0000-0000-000000000000",
 	'TagMaximumInterleavedBridges',
 	'',
@@ -4425,8 +4425,8 @@ tm_systag.MaxInterleavedBridges = user_specified_size;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("974abcfd-0fc1-4e90-a198-009b653e5ca3",
-	"8f5fce35-d656-442c-8abd-d35c64c003c1",
+	VALUES ("5d23d38b-ba51-49e1-bb3c-af7c9230354c",
+	"e1ca8b90-2264-4034-ab03-d6ef124012f0",
 	'user_specified_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4434,13 +4434,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("8f5fce35-d656-442c-8abd-d35c64c003c1",
+	VALUES ("e1ca8b90-2264-4034-ab03-d6ef124012f0",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("157f3e6c-7988-4f70-af44-b88dd0de158e",
+	VALUES ("5a1e1f5f-ca16-4565-b592-e5ae884073da",
 	"00000000-0000-0000-0000-000000000000",
 	'TagInterleavedBridgeDataSize',
 	'',
@@ -4455,8 +4455,8 @@ tm_systag.MaxInterleavedBridgeDataSize = user_specified_size;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("acadda8a-3131-4d20-b9db-c12bd2e9b9a0",
-	"157f3e6c-7988-4f70-af44-b88dd0de158e",
+	VALUES ("1709a710-c382-4f55-80e6-c33251284618",
+	"5a1e1f5f-ca16-4565-b592-e5ae884073da",
 	'user_specified_size',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4464,13 +4464,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("157f3e6c-7988-4f70-af44-b88dd0de158e",
+	VALUES ("5a1e1f5f-ca16-4565-b592-e5ae884073da",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("3fc6c216-b0f6-4bb5-a153-2048a21c6029",
+	VALUES ("39d0aae8-261e-4672-951d-cbcb3051aee4",
 	"00000000-0000-0000-0000-000000000000",
 	'TagCollectionsFlavor',
 	'',
@@ -4487,8 +4487,8 @@ tm_systag.CollectionsFlavor = collections_flavor;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("09fc9ad2-4310-482f-b924-4abf1ecffc91",
-	"3fc6c216-b0f6-4bb5-a153-2048a21c6029",
+	VALUES ("7178bfc3-a7d2-442f-a0e8-eda03a6f29db",
+	"39d0aae8-261e-4672-951d-cbcb3051aee4",
 	'collections_flavor',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4496,13 +4496,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("3fc6c216-b0f6-4bb5-a153-2048a21c6029",
+	VALUES ("39d0aae8-261e-4672-951d-cbcb3051aee4",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("30b1e4fa-3c57-427f-8507-34796e168423",
+	VALUES ("3ffef99a-a4ef-4ca5-94ad-3ae36022ec79",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkPersistenceCacheDepth',
 	'',
@@ -4532,8 +4532,8 @@ tm_systag.PersistLinkCacheDepth = link_depth;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("d75b1a0e-62ca-4bd5-88dc-a3d90d36b4b6",
-	"30b1e4fa-3c57-427f-8507-34796e168423",
+	VALUES ("cb177d10-29af-4ce4-a8ff-e836f1b78e44",
+	"3ffef99a-a4ef-4ca5-94ad-3ae36022ec79",
 	'instance_depth',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4541,22 +4541,22 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4c966145-8ce6-4dff-b2e2-86e1a7bc6718",
-	"30b1e4fa-3c57-427f-8507-34796e168423",
+	VALUES ("0ce7c03b-4fc9-4c05-9100-a1d5f3bdb028",
+	"3ffef99a-a4ef-4ca5-94ad-3ae36022ec79",
 	'link_depth',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
-	"d75b1a0e-62ca-4bd5-88dc-a3d90d36b4b6",
+	"cb177d10-29af-4ce4-a8ff-e836f1b78e44",
 	'');
 INSERT INTO PE_PE
-	VALUES ("30b1e4fa-3c57-427f-8507-34796e168423",
+	VALUES ("3ffef99a-a4ef-4ca5-94ad-3ae36022ec79",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("ab2174d9-c544-4b05-ad95-1232c83d1d14",
+	VALUES ("9d4c38c9-9fd4-4d63-947e-b0b96815d4ad",
 	"00000000-0000-0000-0000-000000000000",
 	'TagDynamicMemoryAllocationOn',
 	'',
@@ -4574,8 +4574,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8cd36f96-ab8d-4024-a836-34d93a7e4d8b",
-	"ab2174d9-c544-4b05-ad95-1232c83d1d14",
+	VALUES ("309a44c2-3056-48a4-ab91-d1ddf4ea1fee",
+	"9d4c38c9-9fd4-4d63-947e-b0b96815d4ad",
 	'units_to_allocate',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
@@ -4583,13 +4583,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("ab2174d9-c544-4b05-ad95-1232c83d1d14",
+	VALUES ("9d4c38c9-9fd4-4d63-947e-b0b96815d4ad",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("6c8282b8-41ae-441d-8f00-318201ac6607",
+	VALUES ("2acf2be5-52fd-4226-8291-5c8afcbc04f2",
 	"00000000-0000-0000-0000-000000000000",
 	'TagInstanceLoading',
 	'',
@@ -4603,13 +4603,13 @@ tm_systag.InstanceLoading = true;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("6c8282b8-41ae-441d-8f00-318201ac6607",
+	VALUES ("2acf2be5-52fd-4226-8291-5c8afcbc04f2",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("1f60587b-44b1-4bf1-8f7c-a74f7f157e87",
+	VALUES ("c0ae614c-8556-470c-beb1-b12b2853797c",
 	"00000000-0000-0000-0000-000000000000",
 	'VFBEnable',
 	'',
@@ -4625,13 +4625,57 @@ tm_systag.VFB = true;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("1f60587b-44b1-4bf1-8f7c-a74f7f157e87",
+	VALUES ("c0ae614c-8556-470c-beb1-b12b2853797c",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("12f986e6-7c03-4570-a385-753e11fbc87f",
+	VALUES ("1b529ddf-e551-4f48-88de-075db4a691e9",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkStructuredMessaging',
+	'',
+	'//
+//============================================================================
+// Turn on structured inter-component message passing.
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.StructuredMessaging = true;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("1b529ddf-e551-4f48-88de-075db4a691e9",
+	1,
+	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7589b8ed-d1eb-489e-9b8d-bc47de898d49",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkNetworkSockets',
+	'',
+	'//
+//============================================================================
+// Use Network Sockets to send messages between components.
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.NetworkSockets = true;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("7589b8ed-d1eb-489e-9b8d-bc47de898d49",
+	1,
+	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fade8612-9e9d-4bf1-be74-755871edfd4d",
 	"00000000-0000-0000-0000-000000000000",
 	'TM_SYSTAG_select',
 	'',
@@ -4650,7 +4694,7 @@ return tm_systag;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("12f986e6-7c03-4570-a385-753e11fbc87f",
+	VALUES ("fade8612-9e9d-4bf1-be74-755871edfd4d",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
@@ -4663,7 +4707,7 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../Translation Marking/Translation Marking.xtuml');
 INSERT INTO S_SYNC
-	VALUES ("859e9d9a-8db2-4052-9048-bba2a2e238b8",
+	VALUES ("8b2f8811-98d1-4b07-8b66-d069855b40c4",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkSystemConfigurationPackage',
 	'',
@@ -4688,8 +4732,8 @@ tm_build.package_inst_name = package_name + "_top";
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("86018a8d-5f75-40df-b9de-d0fe2b447717",
-	"859e9d9a-8db2-4052-9048-bba2a2e238b8",
+	VALUES ("6b0286e5-ddbd-4394-8274-2e471da7f29a",
+	"8b2f8811-98d1-4b07-8b66-d069855b40c4",
 	'package_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -4697,13 +4741,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("859e9d9a-8db2-4052-9048-bba2a2e238b8",
+	VALUES ("8b2f8811-98d1-4b07-8b66-d069855b40c4",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("17acc20e-9000-4c78-aef7-d37f2e9e3eef",
+	VALUES ("00e93671-779e-4882-a381-e3a886632e05",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkSystemCPortType',
 	'',
@@ -4725,8 +4769,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("ece8944d-bb35-4590-92d0-b237b3b43ed6",
-	"17acc20e-9000-4c78-aef7-d37f2e9e3eef",
+	VALUES ("1970ce8d-fcf4-4f39-b495-71c7f75ad12f",
+	"00e93671-779e-4882-a381-e3a886632e05",
 	'port_type',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -4734,13 +4778,13 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("17acc20e-9000-4c78-aef7-d37f2e9e3eef",
+	VALUES ("00e93671-779e-4882-a381-e3a886632e05",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("9e0e4b1d-6b7d-4d94-bd33-bd0080733ff6",
+	VALUES ("924d6c67-bece-4da2-b277-aa35f0f738ce",
 	"00000000-0000-0000-0000-000000000000",
 	'MarkAllPortsPolymorphic',
 	'',
@@ -4757,13 +4801,13 @@ tm_systag.AllPortsPoly = true;
 	1,
 	'');
 INSERT INTO PE_PE
-	VALUES ("9e0e4b1d-6b7d-4d94-bd33-bd0080733ff6",
+	VALUES ("924d6c67-bece-4da2-b277-aa35f0f738ce",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("ce5f2c93-2326-40f9-8537-75f6211521bd",
+	VALUES ("f1beb95c-9ebe-44c2-8f04-decb987ffcbe",
 	"00000000-0000-0000-0000-000000000000",
 	'mark_all',
 	'',
@@ -4877,6 +4921,10 @@ if ( "1" == pass )
     ::TagInstanceLoading();
   elif ( "VFBEnable" == f )
     ::VFBEnable();
+  elif ( "MarkStructuredMessaging" == f )
+    ::MarkStructuredMessaging();
+  elif ( "MarkNetworkSockets" == f )
+    ::MarkNetworkSockets();
   elif ( "MarkSystemConfigurationPackage" == f )
     // MarkSystemConfigurationPackage("package_name")
     ::MarkSystemConfigurationPackage( package_name:p1 );
@@ -4965,31 +5013,31 @@ else
     ::TagPEIsDefinedInData( ss_prefix:p1, obj_key_letters:p2 );
   elif ( "MarkPEIsDefinedInData" == f )
     // MarkPEIsDefinedInData("component_name","ss_prefix","obj_key_letters")
-    ::MarkPEIsDefinedInData( component_name:p1, ss_prefix:p2, obj_key_letters:p3 );
+    ::MarkPEIsDefinedInData( component_name:p1, package_name:p2, obj_key_letters:p3 );
   elif ( "TagStaticInstancePopulation" == f )
     // TagStaticInstancePopulation("ss_prefix","obj_key_letters")
     ::TagStaticInstancePopulation( ss_prefix:p1, obj_key_letters:p2 );
   elif ( "MarkStaticInstancePopulation" == f )
     // MarkStaticInstancePopulation("component_name","ss_prefix","obj_key_letters")
-    ::MarkStaticInstancePopulation( component_name:p1, ss_prefix:p2, obj_key_letters:p3 );
+    ::MarkStaticInstancePopulation( component_name:p1, package_name:p2, obj_key_letters:p3 );
   elif ( "TagReadOnly" == f )
     // TagReadOnly("ss_prefix","obj_key_letters")
     ::TagReadOnly( ss_prefix:p1, obj_key_letters:p2 );
   elif ( "MarkReadOnly" == f )
     // MarkReadOnly("component_name","ss_prefix","obj_key_letters")
-    ::MarkReadOnly( component_name:p1, ss_prefix:p2, obj_key_letters:p3 );
+    ::MarkReadOnly( component_name:p1, package_name:p2, obj_key_letters:p3 );
   elif ( "TagPersistentClass" == f )
     // TagPersistentClass("ss_prefix","obj_key_letters")
     ::TagPersistentClass( ss_prefix:p1, obj_key_letters:p2 );
   elif ( "MarkPersistentClass" == f )
     // MarkPersistentClass("component_name","ss_prefix","obj_key_letters")
-    ::MarkPersistentClass( component_name:p1, ss_prefix:p2, obj_key_letters:p3 );
+    ::MarkPersistentClass( component_name:p1, package_name:p2, obj_key_letters:p3 );
   elif ( "TagNonPersistentClass" == f )
     // TagNonPersistentClass("ss_prefix","obj_key_letters")
     ::TagNonPersistentClass( ss_prefix:p1, obj_key_letters:p2 );
   elif ( "MarkNonPersistentClass" == f )
     // MarkNonPersistentClass("component_name","ss_prefix","obj_key_letters")
-    ::MarkNonPersistentClass( component_name:p1, ss_prefix:p2, obj_key_letters:p3 );
+    ::MarkNonPersistentClass( component_name:p1, package_name:p2, obj_key_letters:p3 );
   elif ( "MapClassToTask" == f )
     // MapClassToTask("ss_prefix","obj_key_letters","task":integer)
     r = ::T_atoi( s:p3 );
@@ -4999,7 +5047,7 @@ else
     // MarkClassToTask("component_name","ss_prefix","obj_key_letters","task":integer)
     r = ::T_atoi( s:p4 );
     i4 = r;
-    ::MarkClassToTask( component_name:p1, ss_prefix:p2, obj_key_letters:p3, task:i4 );
+    ::MarkClassToTask( component_name:p1, package_name:p2, obj_key_letters:p3, task:i4 );
     // domain
   elif ( "TagFunctionTranslationOff" == f )
     // TagFunctionTranslationOff("function_name")
@@ -5024,7 +5072,7 @@ else
     ::TagExcludeSubsystemFromCodeGen( subsystem_name:p1 );
   elif ( "MarkExcludeSubsystemFromCodeGen" == f )
     // MarkExcludeSubsystemFromCodeGen("component_name","subsystem_name")
-    ::MarkExcludeSubsystemFromCodeGen( component_name:p1, subsystem_name:p2 );
+    ::MarkExcludeSubsystemFromCodeGen( component_name:p1, package_name:p2 );
   elif ( "TagStateTransitionTracingOn" == f )
     ::TagStateTransitionTracingOn();
   elif ( "MarkStateTransitionTracingOn" == f )
@@ -5090,8 +5138,8 @@ end if;
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("4e1abf4d-d3f0-4a3b-b104-2003387a1188",
-	"ce5f2c93-2326-40f9-8537-75f6211521bd",
+	VALUES ("855ae2c3-687a-473c-ab0f-552332979dbd",
+	"f1beb95c-9ebe-44c2-8f04-decb987ffcbe",
 	'pass',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -5099,82 +5147,82 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("3dc5e901-0c45-4306-bb57-52d5ba6fd0c4",
-	"ce5f2c93-2326-40f9-8537-75f6211521bd",
+	VALUES ("33b184fb-5287-4d65-b45e-f0e065771c8f",
+	"f1beb95c-9ebe-44c2-8f04-decb987ffcbe",
 	'f',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"4e1abf4d-d3f0-4a3b-b104-2003387a1188",
+	"855ae2c3-687a-473c-ab0f-552332979dbd",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("8798fc47-feb4-482c-a24c-fb701babeb1c",
-	"ce5f2c93-2326-40f9-8537-75f6211521bd",
+	VALUES ("b50ec511-802d-4d81-87d2-f8ef87b8f95a",
+	"f1beb95c-9ebe-44c2-8f04-decb987ffcbe",
 	'p1',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"3dc5e901-0c45-4306-bb57-52d5ba6fd0c4",
+	"33b184fb-5287-4d65-b45e-f0e065771c8f",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("7996f2d2-13d8-454f-9712-3362a5087f1e",
-	"ce5f2c93-2326-40f9-8537-75f6211521bd",
+	VALUES ("f54d9ac9-f701-4933-98e7-d30f0d859e5e",
+	"f1beb95c-9ebe-44c2-8f04-decb987ffcbe",
 	'p2',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"8798fc47-feb4-482c-a24c-fb701babeb1c",
+	"b50ec511-802d-4d81-87d2-f8ef87b8f95a",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("9af8647b-cde0-4866-9f37-b85a78d2a2ba",
-	"ce5f2c93-2326-40f9-8537-75f6211521bd",
+	VALUES ("e5eea728-bcb7-471a-a96f-5621c8f5dd79",
+	"f1beb95c-9ebe-44c2-8f04-decb987ffcbe",
 	'p3',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"7996f2d2-13d8-454f-9712-3362a5087f1e",
+	"f54d9ac9-f701-4933-98e7-d30f0d859e5e",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("95a3d2c1-04f2-4a4c-b6f1-5e952f224523",
-	"ce5f2c93-2326-40f9-8537-75f6211521bd",
+	VALUES ("c6e843b8-6180-44c9-900e-308b9832f2eb",
+	"f1beb95c-9ebe-44c2-8f04-decb987ffcbe",
 	'p4',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"9af8647b-cde0-4866-9f37-b85a78d2a2ba",
+	"e5eea728-bcb7-471a-a96f-5621c8f5dd79",
 	'');
 INSERT INTO S_SPARM
-	VALUES ("104c2937-e435-427f-8721-62cfe8f53f53",
-	"ce5f2c93-2326-40f9-8537-75f6211521bd",
+	VALUES ("3bb0f368-c782-4ea9-9d76-052bac5227e8",
+	"f1beb95c-9ebe-44c2-8f04-decb987ffcbe",
 	'p5',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"95a3d2c1-04f2-4a4c-b6f1-5e952f224523",
+	"c6e843b8-6180-44c9-900e-308b9832f2eb",
 	'');
 INSERT INTO PE_PE
-	VALUES ("ce5f2c93-2326-40f9-8537-75f6211521bd",
+	VALUES ("f1beb95c-9ebe-44c2-8f04-decb987ffcbe",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
 	1);
 INSERT INTO S_SYNC
-	VALUES ("8b92d6c0-2d4e-41fd-8449-bcfb16897515",
+	VALUES ("9a822c56-3c9b-4600-9d18-2a0c28e59719",
 	"00000000-0000-0000-0000-000000000000",
 	'T_atoi',
 	'',
 	'//
 s = param.s;
-//r = ::STRING_TO_INTEGER( component_name:s );
-//return r;
-return 0;
+r = 0;
+return r;
+s = "return strtol( p_s, 0, 10 );";
 ',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	1,
 	'');
 INSERT INTO S_SPARM
-	VALUES ("271dbc65-d6b1-455e-a07a-8a605528fdc3",
-	"8b92d6c0-2d4e-41fd-8449-bcfb16897515",
+	VALUES ("524f4e89-9895-43e5-bb55-7c1cebeb4b96",
+	"9a822c56-3c9b-4600-9d18-2a0c28e59719",
 	's',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -5182,7 +5230,7 @@ INSERT INTO S_SPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
-	VALUES ("8b92d6c0-2d4e-41fd-8449-bcfb16897515",
+	VALUES ("9a822c56-3c9b-4600-9d18-2a0c28e59719",
 	1,
 	"42fcf253-17c5-4a7c-ab04-63452e7a46ce",
 	"00000000-0000-0000-0000-000000000000",
