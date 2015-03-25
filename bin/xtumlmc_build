@@ -809,7 +809,12 @@ sub xtumlmc_cleanse_inserts($$$)
       # If this element is one of the excluded, exclude it.
       foreach $subsystem_prefix (@_) {
         if ( /^INSERT INTO $subsystem_prefix/ ) {
-          while ( <$I> ) { if ( /^.*[;]\s*$/ ) { next MCJAVAOUTER; } }
+          if ( /.*PROXY.*/ ) {
+              while ( <$I> ) { if ( /^.*xtuml.\);\s*$/ ) { next MCJAVAOUTER; } }
+          }
+          else {
+              while ( <$I> ) { if ( /^.*[;]\s*$/ ) { next MCJAVAOUTER; } }
+          }
         }
       }
       print $O "$_";
