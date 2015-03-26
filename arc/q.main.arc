@@ -20,9 +20,9 @@
   .// 4) Initiate prefix marking (from system marking file).
   .include "${te_file.system_color_path}/${te_file.system_mark}"
   .//
-  .invoke oal( "mark_pass("1");" )
+  .invoke oal( "mark_pass("1"); // Ccode" )
   .invoke sys_populate()
-  .invoke oal( "mark_pass("2");" )
+  .invoke oal( "mark_pass("2"); // Ccode" )
   .select any te_sys from instances of TE_SYS
   .//
   .// 5) Perform domain level marking.

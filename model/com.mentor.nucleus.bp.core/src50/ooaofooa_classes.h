@@ -2410,6 +2410,7 @@ bool ooaofooa_is_reflexive( ooaofooa_R_REL * );
 ooaofooa_TE_MACT * ooaofooa_mact_insert( ooaofooa_TE_MACT *, ooaofooa_TE_MACT * );
 void ooaofooa_mact_sort( Escher_ObjectSet_s * );
 void ooaofooa_mark_all( c_t *, c_t *, c_t *, c_t *, c_t *, c_t *, c_t * );
+void ooaofooa_oal( c_t * );
 void ooaofooa_oal_translate( void );
 void ooaofooa_parm_sort( void );
 void ooaofooa_persist_factory( ooaofooa_TE_PERSIST * );

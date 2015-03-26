@@ -1959,7 +1959,7 @@ ${subtypecheck}\
 }\
       .assign depth = depth - 1
     .end while
-    .invoke oal( "T_b( \\n );" )
+    .invoke oal( "T_b( \\n ); // Ccode" )
 
   .end if
   .if ( te_select_related.by_where )

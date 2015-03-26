@@ -17,7 +17,7 @@
 .//
 .//
 .function TE_ABA_rollup
-  .invoke oal( "char b[1000000];" )
+  .invoke oal( "char b[1000000]; // Ccode" )
   .assign parseSuccessful = ( 1 ) .COMMENT ParseStatus::parseSuccessful
   .select any empty_act_blk from instances of ACT_BLK where ( false )
   .select many te_cs from instances of TE_C where ( selected.included_in_build )
@@ -26,9 +26,9 @@
     .for each te_aba in te_abas
       .select one te_blk related by te_aba->TE_BLK[R2011]
       .if ( not_empty te_blk )
-        .invoke oal( "te_aba->code = &b[0]; *te_aba->code = 0;" )
+        .invoke oal( "te_aba->code = &b[0]; *te_aba->code = 0; // Ccode" )
         .invoke blck_xlate( te_c.StmtTrace, te_blk, te_aba )
-        .invoke oal( "te_aba->code = Escher_strcpy( te_aba->code, &b[0] );" )
+        .invoke oal( "te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode" )
       .else
         .assign te_aba.code = ( "\n  /" + "* WARNING!  Skipping unsuccessful or unparsed action.  *" ) + "/\n"
       .end if
@@ -45,9 +45,9 @@
         .select one te_aba related by s_brg->TE_BRG[R2025]->TE_ABA[R2010]
         .if ( not_empty act_blk )
           .select one te_blk related by act_blk->TE_BLK[R2016]
-          .invoke oal( "te_aba->code = &b[0]; *te_aba->code = 0;" )
+          .invoke oal( "te_aba->code = &b[0]; *te_aba->code = 0; // Ccode" )
           .invoke blck_xlate( false, te_blk, te_aba )
-          .invoke oal( "te_aba->code = Escher_strcpy( te_aba->code, &b[0] );" )
+          .invoke oal( "te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode" )
         .end if
       .end for
     .end if

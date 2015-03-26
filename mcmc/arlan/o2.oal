@@ -117,14 +117,14 @@ for each v_lst in v_lsts
   select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040];
   // s = T::t( s:v_lst.Value );
   s = v_lst.Value;
-  oal = "s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode";
+  ::oal( s:"s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode" );
   // if ( strstr( s, "({" ) )
-  oal = "if ( strstr( s, ({ ) ) { // Ccode";
+  ::oal( s:"if ( strstr( s, ({ ) ) { // Ccode" );
   if ( "({" == s )
     te_val.buffer = s;
   else
     te_val.buffer = ( "&quot;" + v_lst.Value ) + "&quot;";
-    oal = "CDS CDS CDS";
+    ::oal( s:" // Ccode" );
   end if;
   te_val.OAL = ( "" + v_lst.Value ) + "";
   te_val.dimensions = 1;
@@ -173,7 +173,7 @@ for each v_scv in v_scvs
   if ( 4 == te_dt.Core_Typ )
     select any te_string from instances of TE_STRING;
     te_val.buffer = ( "&quot;" + cnst_lsc.Value ) + "&quot;";
-    oal = "CDS CDS CDS";
+    ::oal( s:" // Ccode" );
     te_val.dimensions = 1;
     te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
     //TODO assign dimension

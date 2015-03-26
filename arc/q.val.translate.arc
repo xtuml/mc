@@ -124,7 +124,7 @@
       .assign te_val.buffer = s
     .else
       .assign te_val.buffer = ( """" + v_lst.Value ) + """"
-      .invoke oal( "CDS CDS CDS" )
+      .invoke oal( " // Ccode" )
     .end if
     .assign te_val.OAL = ( "" + v_lst.Value ) + ""
     .assign te_val.dimensions = 1
@@ -173,7 +173,7 @@
     .if ( 4 == te_dt.Core_Typ )
       .select any te_string from instances of TE_STRING
       .assign te_val.buffer = ( """" + cnst_lsc.Value ) + """"
-      .invoke oal( "CDS CDS CDS" )
+      .invoke oal( " // Ccode" )
       .assign te_val.dimensions = 1
       .assign te_val.array_spec = ( "[" + te_string.max_string_length ) + "]"
       .//TODO assign dimension
@@ -737,7 +737,7 @@
 .function val_synch_service_values
   .select many v_fnvs from instances of V_FNV
   .for each v_fnv in v_fnvs
-    .invoke val_synch_service_value( v_fnv, "fnv" )
+    .invoke val_synch_service_value( v_fnv )
   .end for
 .end function
 .//

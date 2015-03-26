@@ -2339,5 +2339,5 @@ T_atoi@integer@@s@string@@@
 s = param.s;
 r = ::STRING_TO_INTEGER( component_name:s );
 return r;
-s = "return strtol( p_s, 0, 10 );";
+::oal( s:"return strtol( p_s, 0, 10 );" );
 @@@

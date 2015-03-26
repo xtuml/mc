@@ -23,7 +23,7 @@ AutoInitializeUniqueIDs@string@@te_class@inst_ref<Extended Class>@@instance@stri
 te_class = param.te_class;
 instance = param.instance;
 //
-c = "T_clear();";
+::oal( s:"T_clear();" );
 select any te_file from instances of TE_FILE;
 select any te_instance from instances of TE_INSTANCE;
 select any te_string from instances of TE_STRING;
@@ -135,6 +135,10 @@ while ( not_empty te_attr )
 end while;
 //
 return param_list;
+@@@
+oal@void@@s@string@@@
+//
+s = param.s;
 @@@
 GetBaseTypeForUDT@inst_ref<Data Type>@@s_udt@inst_ref<User Data Type>@@@
 //============================================================================
@@ -306,7 +310,7 @@ select many special_te_dts from instances of TE_DT where ( ( selected.Include_Fi
 s = "";
 for each special_te_dt in special_te_dts
   s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" );
-  oal = "s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, #include  ), Escher_stradd( special_te_dt->Include_File, \n ) ) );";
+  ::oal( s:"s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, #include  ), Escher_stradd( special_te_dt->Include_File, \n ) ) ); // Ccode" );
 end for;
 return s;
 @@@
