@@ -1259,6 +1259,9 @@ T_b("\n");
 T_b("{");
 T_b("\n");
 T_b("  ");
+T_b("c_t * r;");
+T_b("\n");
+T_b("  ");
 T_b("static u1_t i = 0;");
 T_b("\n");
 T_b("  ");
@@ -1266,14 +1269,29 @@ T_b("static c_t s[ 16 ][ ");
 T_b(te_string->max_string_length);
 T_b(" ];");
 T_b("\n");
+if ( te_thread->enabled ) {
+T_b("  ");
+T_b(te_thread->mutex_lock);
+T_b("( SEMAPHORE_FLAVOR_PERSIST );");
+T_b("\n");
+}
 T_b("  ");
 T_b("i = ( i + 1 ) % 16;");
 T_b("\n");
 T_b("  ");
-T_b("s[ i ][ 0 ] = 0;");
+T_b("r = &s[ i ][ 0 ];");
 T_b("\n");
 T_b("  ");
-T_b("return ( &s[ i ][ 0 ] );");
+T_b("*r = 0;");
+T_b("\n");
+if ( te_thread->enabled ) {
+T_b("  ");
+T_b(te_thread->mutex_unlock);
+T_b("( SEMAPHORE_FLAVOR_PERSIST );");
+T_b("\n");
+}
+T_b("  ");
+T_b("return ( r );");
 T_b("\n");
 T_b("}");
 T_b("\n");
