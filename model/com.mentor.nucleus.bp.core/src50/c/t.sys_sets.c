@@ -1272,7 +1272,7 @@ T_b("\n");
 if ( te_thread->enabled ) {
 T_b("  ");
 T_b(te_thread->mutex_lock);
-T_b("( SEMAPHORE_FLAVOR_PERSIST );");
+T_b("( SEMAPHORE_FLAVOR_ILB );");
 T_b("\n");
 }
 T_b("  ");
@@ -1287,7 +1287,7 @@ T_b("\n");
 if ( te_thread->enabled ) {
 T_b("  ");
 T_b(te_thread->mutex_unlock);
-T_b("( SEMAPHORE_FLAVOR_PERSIST );");
+T_b("( SEMAPHORE_FLAVOR_ILB );");
 T_b("\n");
 }
 T_b("  ");
