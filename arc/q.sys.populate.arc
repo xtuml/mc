@@ -74,8 +74,10 @@
   .assign te_sys.PersistLinkCacheDepth = 128
   .assign te_sys.AUTOSAR = false
   .assign te_sys.AllPortsPoly = false
+  .assign te_sys.StructuredMessaging = false
+  .assign te_sys.NetworkSockets = false
   .//
-  .//Updating te_sys with system marks
+  .// Update te_sys with system marks
   .select any tm_systag from instances of TM_SYSTAG
   .if ( not_empty tm_systag )
     .assign te_sys.MaxStringLen = tm_systag.MaxStringLen
@@ -94,11 +96,13 @@
     .assign te_sys.InstanceLoading = tm_systag.InstanceLoading
     .assign te_sys.SystemCPortsType = tm_systag.SystemCPortsType
     .assign te_sys.AllPortsPoly = tm_systag.AllPortsPoly
+    .assign te_sys.StructuredMessaging = tm_systag.StructuredMessaging
+    .assign te_sys.NetworkSockets = tm_systag.NetworkSockets
   .else
     .assign te_sys.SystemCPortsType = "sc_interface"
   .end if
   .//
-  .//Update the tasking threads based on marking.
+  .// Update the tasking threads based on marking.
   .select any tm_thread from instances of TM_THREAD
   .if ( not_empty tm_thread )
     .assign te_thread.extra_initialization = tm_thread.extra_initialization
@@ -883,7 +887,8 @@
   .//
   .// Create a string parameter that can be duplicated and used for returning string data.
   .select any string_te_dt from instances of TE_DT where ( selected.Name == "string" )
-  .invoke FactoryTE_PARM( empty_s_dims, string_te_dt, "", "A0xtumlsret", 0 )
+  .invoke r3 = FactoryTE_PARM( empty_s_dims, string_te_dt, "", "A0xtumlsret", 0 )
+  .assign te_parm = r3.result
   .//
   .// Create the values and connect them to the V_VAL.
   .select many v_vals from instances of V_VAL
@@ -2265,7 +2270,7 @@
     .end if
   .end for
   .assign first_te_parm = te_parm
-  .if ( duplicates_needed or ( "c_t" == te_dt.ExtName ) )
+  .if ( duplicates_needed or ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) ) )
     .// Find first te_parm.
     .while ( not_empty te_parm )
       .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
@@ -2299,20 +2304,22 @@
     .select many te_parms related by te_aba->TE_PARM[R2062]
   .end if
   .// Create and insert an architectural parameter for returning a string.
-  .if ( "c_t" == te_dt.ExtName )
-    .select any string_te_parm from instances of TE_PARM where ( selected.Name == "A0xtumlsret" )
-    .invoke r = TE_PARM_duplicate( string_te_parm )
-    .assign duplicate_te_parm = r.result
-    .assign duplicate_te_parm.Descrip = "xtuml string return parm"
-    .// relate duplicate_te_parm to te_aba across R2062;
-    .assign duplicate_te_parm.AbaID = te_aba.AbaID
-    .// end relate
-    .if ( not_empty first_te_parm )
-      .// relate duplicate_te_parm to first_te_parm across R2041.'precedes';
-      .assign duplicate_te_parm.nextID = first_te_parm.ID
+  .if ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
+    .if ( not te_sys.InstanceLoading )
+      .select any string_te_parm from instances of TE_PARM where ( selected.Name == "A0xtumlsret" )
+      .invoke r = TE_PARM_duplicate( string_te_parm )
+      .assign duplicate_te_parm = r.result
+      .assign duplicate_te_parm.Descrip = "xtuml string return parm"
+      .// relate duplicate_te_parm to te_aba across R2062;
+      .assign duplicate_te_parm.AbaID = te_aba.AbaID
       .// end relate
+      .if ( not_empty first_te_parm )
+        .// relate duplicate_te_parm to first_te_parm across R2041.'precedes';
+        .assign duplicate_te_parm.nextID = first_te_parm.ID
+        .// end relate
+      .end if
+      .select many te_parms related by te_aba->TE_PARM[R2062]
     .end if
-    .select many te_parms related by te_aba->TE_PARM[R2062]
   .end if
   .invoke te_parm_RenderParameters( te_parms, te_aba )
   .assign te_aba.scope = ""

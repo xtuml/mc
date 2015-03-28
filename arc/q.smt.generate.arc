@@ -1116,7 +1116,7 @@
     .select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053]
   .end if
   .select many v_pars related by act_sgn->V_PAR[R662]
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk, "", true )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1140,7 +1140,7 @@
     .select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050]
   .end if
   .select many v_pars related by act_iop->V_PAR[R679]
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk, "", true )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1151,18 +1151,35 @@
 .function q_render_msg .// string
   .param inst_ref te_mact
   .param inst_ref_set v_pars
-  .param string ws
+  .param inst_ref te_blk
+  .param string sretvar
   .param boolean is_statement
   .select any te_file from instances of TE_FILE
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .assign parameters = ""
   .assign te_mact.OALParamBuffer = ""
+  .assign ws = ""
+  .if ( is_statement )
+    .assign ws = te_blk.indentation
+  .end if
   .if ( not_empty v_pars )
     .invoke r = gen_parameter_list( v_pars, false )
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign te_mact.OALParamBuffer = te_parm.OALParamBuffer
+  .end if
+  .select one te_aba related by te_mact->TE_ABA[R2010]
+  .// Support by reference string return values.
+  .if ( "c_t *" == te_aba.ReturnDataType )
+    .if ( not te_sys.InstanceLoading )
+      .assign te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";"
+      .if ( "" == parameters )
+        .assign parameters = sretvar
+      .else
+        .assign parameters = ( ( sretvar + ", " ) + parameters )
+      .end if
+    .end if
   .end if
   .assign name = te_mact.GeneratedName
   .if ( "C++" == te_target.language )
@@ -1367,6 +1384,7 @@
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
+  .select any te_sys from instances of TE_SYS
   .select one te_blk related by te_smt->TE_BLK[R2078]
   .assign ws = te_blk.indentation
   .select one v_val related by act_ret->V_VAL[R668]
@@ -1941,6 +1959,7 @@ ${subtypecheck}\
 }\
       .assign depth = depth - 1
     .end while
+    .invoke oal( "T_b( \\n ); // Ccode" )
 
   .end if
   .if ( te_select_related.by_where )

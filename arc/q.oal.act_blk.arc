@@ -146,4 +146,5 @@
   .param inst_ref te_aba
   .param string s
   .assign te_aba.code = te_aba.code + s
+  .invoke oal( "strcat( te_aba->code, p_s ); // Ccode" )
 .end function
