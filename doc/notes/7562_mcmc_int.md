@@ -38,8 +38,8 @@ None.
     string parameter.  This is used to identify places in the geneated
     code that need to be modified.  These places are being reduced or
     eliminated gradually.  
-7.3 Added a function `oal( string )` that generates code containing the
-7.4 Fixed a hole in the by-ref string returning to support messaging.  
+7.3 Fixed a hole in the by-ref string return change.  This enables
+    the returning of strings through inter-component messages (operation).  
 
 8. Unit Test
 ------------
