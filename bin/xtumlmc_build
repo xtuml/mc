@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #===========================================================================
-my $file_version = '$RCSfile: xtumlmc_build,v $ $Revision: 1.58 $';
+my $file_version = '1.60';
 #
 # Description:
 # Run this file to build using SQL and marking input alone.  No
@@ -18,10 +18,6 @@ my $file_version = '$RCSfile: xtumlmc_build,v $ $Revision: 1.58 $';
 # of newly checked in materials.  xtumlmc_build also serves in test suite
 # automation.
 #
-#
-# Notice:
-# Copyright 2002-2013 Mentor Graphics Corporation
-#     All rights reserved.
 #===========================================================================
 
 use POSIX;
@@ -835,7 +831,12 @@ sub xtumlmc_cleanse_for_BridgePoint($$)
   $SF_Out = xtumlmc_open( ">" . shift );
   @ClassesToRemove = @_;
 
-  find( \&internal_cleanse_for_bp, $input_path );
+  # Recurse through the given directory calling the internal function on 
+  # each file. The sort makes sure we are consistent in processing order.
+  find( {
+    preprocess => sub { return sort @_ },
+    wanted => \&internal_cleanse_for_bp,
+  }, $input_path);
 
   close($SF_Out);
 }
