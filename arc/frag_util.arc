@@ -23,6 +23,7 @@
   .param inst_ref te_class
   .param string instance
   .//
+  .invoke oal( "T_clear();" )
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
@@ -133,5 +134,9 @@
   .end while
   .//
   .assign attr_result = param_list
+.end function
+.//
+.function oal
+  .param string s
 .end function
 .//

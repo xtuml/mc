@@ -1,97 +1,10 @@
-smt_translate_control_statements@void@@@
-//====================================================================
-//
-// File:      $RCSfile: q.oal.translate.arc,v $
-//
-// (c) Copyright 1998-2013 Mentor Graphics Corporation  All rights reserved.
-//
-//====================================================================
-//
-//    Purpose:    This file contains the functions that generate
-//                action language from the populated OOA of BPAL.
-//
+GetFixedSizeClassExtentInfo@string@@te_class@inst_ref<Extended Class>@@@
 //============================================================================
-//
-//  These functions are part one of a two-step translation of
-//  the action language from the model of OAL.  Each of the invoked
-//  functions below translate a specific part of the OAL.  For
-//  example the val_literal_boolean_values() function generates all
-//  of the code for each literal boolean value found in all of the
-//  actions for a domain.  The function smt_ifs()
-//  generates the code for all of the if statements found in the
-//  actions for a domain.  
-//
-//  Each of the functions places the generated code for its
-//  element in an attribute of the supertype, called _buffer_.
-//  In the case of a value, the supertype is V_VAL, for a
-//  statement, the supertype is ACT_SMT.
-//
-//  Once all of the values and statements have been translated,
-//  and all of the code is in the buffers,  the function
-//  blck_xlate is called to order the statements.
-//
-//============================================================================
-//
-::smt_ifs();
-::smt_elses();
-::smt_fors();
-::smt_whiles();
-::smt_elifs();
-@@@
-smt_translate_other_statements@void@@@
-//
-::smt_assigns();
-::smt_create_instances();
-::smt_delete_instances();
-::smt_create_events_to_instance();
-::smt_create_events_to_class();
-::smt_create_events_to_creator();
-::smt_relates();
-::smt_unrelates();
-::smt_selects();
-::smt_select_wheres();
-::smt_select_relateds();
-::smt_select_related_wheres();
-::smt_relate_usings();
-::smt_unrelate_usings();
-::smt_generate_precreated_events();
-::smt_generate_events();
-::smt_generate_class_events();
-::smt_generate_creator_events();
-::smt_sgns();
-::smt_iops();
-::smt_operates();
-::smt_bridges();
-::smt_functions();
-::smt_returns();
-::smt_controls();
-::smt_breaks();
-::smt_continues();
-@@@
-oal_translate@void@@@
-//
-// 
-//
-//.print "translating values"
-//.invoke val_translate()
-//.print "showing values"
-//.invoke oal_v_val_test()
-T::print(s:"translating control statements");
-::smt_translate_control_statements();
-T::print(s:"translating other statements");
-::smt_translate_other_statements();
-T::print(s:"rolling up statements into action bodies");
-::TE_ABA_rollup();
-T::print(s:"done translating statements");
-@@@
-TE_ABA_rollup@void@@@
-//============================================================================
-// $RCSfile: q.oal.action.arc,v $
+// $RCSfile: q.names.arc,v $
 //
 // Description:
-// This query rolls up (accumulates) the translated statements into
-// a single string attribute on the action block anchor (TE_ABA).
-// After this roll-up, the ACT_* and V_* instances are no longer needed.
+// This archetype file contains utility functions for implementation namings
+// that span multiple archetype files.
 //
 // Notice:
 // (C) Copyright 1998-2013 Mentor Graphics Corporation
@@ -103,77 +16,129 @@ TE_ABA_rollup@void@@@
 //============================================================================
 //
 //
-parseSuccessful = ParseStatus::parseSuccessful;
-select any empty_act_blk from instances of ACT_BLK where ( false );
-select many te_cs from instances of TE_C where ( selected.included_in_build );
-for each te_c in te_cs
-  select many te_abas related by te_c->TE_ABA[R2088];
-  for each te_aba in te_abas
-    act_blk = empty_act_blk;
-    if ( "S_SYNC" == te_aba.subtypeKL )
-      select one act_blk related by te_aba->TE_SYNC[R2010]->S_SYNC[R2023]->ACT_FNB[R695]->ACT_ACT[R698]->ACT_BLK[R666];
-    elif ( "O_DBATTR" == te_aba.subtypeKL )
-      select one te_dbattr related by te_aba->TE_DBATTR[R2010];
-      select one o_dbattr related by te_dbattr->O_DBATTR[R2026];
-      select one te_attr related by o_dbattr->O_BATTR[R107]->O_ATTR[R106]->TE_ATTR[R2033];
-      if ( ( te_attr.Used ) or ( te_c.OptDisabled ) )
-        if ( parseSuccessful == o_dbattr.Suc_Pars )
-          select one act_blk related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666];
-        end if;
-      end if;
-    elif ( "O_TFR" == te_aba.subtypeKL )
-      select one o_tfr related by te_aba->TE_TFR[R2010]->O_TFR[R2024];
-      if ( parseSuccessful == o_tfr.Suc_Pars )
-        select one act_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666];
-      end if;
-    elif ( "SM_ACT" == te_aba.subtypeKL )
-      select one sm_act related by te_aba->TE_ACT[R2010]->SM_ACT[R2022];
-      select one act_blk related by sm_act->ACT_SAB[R691]->ACT_ACT[R698]->ACT_BLK[R666];
-      if ( empty act_blk )
-        // Get the transition action.
-        select one act_blk related by sm_act->ACT_TAB[R688]->ACT_ACT[R698]->ACT_BLK[R666];
-      end if;
-    elif ( "TE_MACT" == te_aba.subtypeKL )
-      select one te_mact related by te_aba->TE_MACT[R2010];
-      if ( "SPR_PO" == te_mact.subtypeKL )
-        select one act_blk related by te_aba->TE_MACT[R2010]->SPR_PO[R2050]->ACT_POB[R687]->ACT_ACT[R698]->ACT_BLK[R666];
-      elif ( "SPR_RO" == te_mact.subtypeKL )
-        select one act_blk related by te_aba->TE_MACT[R2010]->SPR_RO[R2052]->ACT_ROB[R685]->ACT_ACT[R698]->ACT_BLK[R666];
-      elif ( "SPR_PS" == te_mact.subtypeKL )
-        select one act_blk related by te_aba->TE_MACT[R2010]->SPR_PS[R2051]->ACT_PSB[R686]->ACT_ACT[R698]->ACT_BLK[R666];
-      elif ( "SPR_RS" == te_mact.subtypeKL )
-        select one act_blk related by te_aba->TE_MACT[R2010]->SPR_RS[R2053]->ACT_RSB[R684]->ACT_ACT[R698]->ACT_BLK[R666];
-      end if;
-    elif ( "S_BRG" == te_aba.subtypeKL )
-      select one act_blk related by te_aba->TE_BRG[R2010]->S_BRG[R2025]->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666];
-    else
-      T::print(s:"ERROR:  TE_ABA.subtypeKL (${te_aba.subtypeKL}) out of range.");
-      T::exit(i:101);
-    end if;
-    if ( not_empty act_blk )
-      select one te_blk related by act_blk->TE_BLK[R2016];
-      ::blck_xlate( trace:te_c.StmtTrace, te_blk:te_blk, te_aba:te_aba );
-    else
-      te_aba.code = ( "\n  /" + "* WARNING!  Skipping unsuccessful or unparsed action.  *" ) + "/\n";
-    end if;
-  end for;
-end for;
-// Process EEs outside of components.
-select many te_ees from instances of TE_EE where ( ( selected.RegisteredName != "TIM" ) and selected.Included );
-for each te_ee in te_ees
-  select one te_c related by te_ee->TE_C[R2085];
-  if ( empty te_c )
-    select many s_brgs related by te_ee->S_EE[R2020]->S_BRG[R19];
-    for each s_brg in s_brgs
-      select one act_blk related by s_brg->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666];
-      select one te_aba related by s_brg->TE_BRG[R2025]->TE_ABA[R2010];
-      if ( not_empty act_blk )
-        select one te_blk related by act_blk->TE_BLK[R2016];
-        ::blck_xlate( trace:false, te_blk:te_blk, te_aba:te_aba );
-      end if;
-    end for;
+//============================================================================
+// Return a information on variables and types used in defining the
+// instance collections for a class.
+//============================================================================
+te_class = param.te_class;
+return ( "pG_" + te_class.GeneratedName ) + "_extent";
+@@@
+GetNavigateLinkMethodName@string@@from_o_obj@inst_ref<Model Class>@@to_o_obj@inst_ref<Model Class>@@r_rel@inst_ref<Association>@@rel_phrase@string@@@
+//
+//============================================================================
+from_o_obj = param.from_o_obj;
+to_o_obj = param.to_o_obj;
+r_rel = param.r_rel;
+rel_phrase = param.rel_phrase;
+//
+result = "";
+select one te_c related by to_o_obj->TE_CLASS[R2019]->TE_C[R2064];
+if ( not_empty te_c )
+  result = "${te_c.Name}_${to_o_obj.Key_Lett}_R$t{r_rel.Numb}_From_${from_o_obj.Key_Lett}";
+  //
+  r = ::GetRelationshipSuffix( right_o_obj:to_o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
+  suffix = r;
+  if ( "" != suffix )
+    result = ( result + "_" ) + suffix;
   end if;
-end for;
+end if;
+return result;
+@@@
+GetRelateToName@string@@o_obj@inst_ref<Model Class>@@r_rel@inst_ref<Association>@@rel_phrase@string@@@
+//
+//============================================================================
+o_obj = param.o_obj;
+r_rel = param.r_rel;
+rel_phrase = param.rel_phrase;
+result = "";
+select one te_class related by o_obj->TE_CLASS[R2019];
+if ( not_empty te_class )
+  result = te_class.GeneratedName + "_R$t{r_rel.Numb}_Link";
+  r = ::GetRelationshipSuffix( right_o_obj:o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
+  suffix = r;
+  if ( "" != suffix )
+    result = ( result + "_" ) + suffix;
+  end if;
+end if;
+return result;
+@@@
+GetUnrelateFromName@string@@o_obj@inst_ref<Model Class>@@r_rel@inst_ref<Association>@@rel_phrase@string@@@
+//
+//============================================================================
+o_obj = param.o_obj;
+r_rel = param.r_rel;
+rel_phrase = param.rel_phrase;
+result = "";
+select one te_class related by o_obj->TE_CLASS[R2019];
+if ( not_empty te_class )
+  result = te_class.GeneratedName + "_R$t{r_rel.Numb}_Unlink";
+  r = ::GetRelationshipSuffix( right_o_obj:o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
+  suffix = r;
+  if ( "" != suffix )
+    result = ( result + "_" ) + suffix;
+  end if;
+end if;
+return result;
+@@@
+PEIGetRelationshipSetContainerName@string@@te_class@inst_ref<Extended Class>@@@
+//
+//============================================================================
+// Return the name of the object relationship container array.
+// This array of containoids is used to optimize relationships when
+// there are preexisting instances.
+//============================================================================
+te_class = param.te_class;
+return te_class.GeneratedName + "_rel_set_lists";
+@@@
+GetDomainDispatcherTableName@string@@registered_name@string@@@
+//
+//============================================================================
+// Return the name and type of the domain dispatcher.
+//============================================================================
+registered_name = param.registered_name;
+return registered_name + "_EventDispatcher";
+return "EventTaker_t";
+@@@
+GetSuperTypePolymorphicEventMethodName@string@@te_class@inst_ref<Extended Class>@@r_rel@inst_ref<Association>@@@
+//
+//============================================================================
+te_class = param.te_class;
+r_rel = param.r_rel;
+return te_class.GeneratedName + "_R$t{r_rel.Numb}PolymorphicEvent";
+@@@
+GetDomainTypeIDFromString@string@@dom_name@string@@@
+//
+//============================================================================
+dom_name = param.dom_name;
+return T::r(s:dom_name) + "_DOMAIN_ID";
+@@@
+GetPersistentCheckMarkPostName@string@@@
+//
+//============================================================================
+// Provide a name for the routine that will check if an instance is
+// dirty, mark it if is not and queue it for flusing later.
+//============================================================================
+select any te_instance from instances of TE_INSTANCE;
+select any te_prefix from instances of TE_PREFIX;
+select any te_typemap from instances of TE_TYPEMAP;
+return te_prefix.result + "PersistenceCheckMarkPost";
+return "void";
+return "  ${te_instance.handle},\n  const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}";
+return "  ${te_instance.handle} instance,\n  const ${te_typemap.domain_number_name} domain_num,\n  const ${te_typemap.object_number_name} class_num";
+@@@
+GetPersistentPostLinkName@string@@@
+//
+//============================================================================
+// Provide a name for the routine that will post links to the persistence
+// flush queue.
+//============================================================================
+select any te_instance from instances of TE_INSTANCE;
+select any te_prefix from instances of TE_PREFIX;
+select any te_typemap from instances of TE_TYPEMAP;
+return te_prefix.result + "PersistencePostLink";
+return "void";
+return "  const s1_t, const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}, const ${te_typemap.instance_index_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name}";
+return "  const s1_t operation, const ${te_typemap.domain_number_name} domain,\n  const ${te_typemap.object_number_name} owning_class, const ${te_typemap.instance_index_name} ri,\n  ${te_instance.handle} left, const ${te_typemap.object_number_name} l,\n   ${te_instance.handle} right, const ${te_typemap.object_number_name} r,\n  ${te_instance.handle} assoc, const ${te_typemap.object_number_name} a";
 @@@
 blck_xlate@void@@trace@boolean@@te_blk@inst_ref<Extended Block>@@te_aba@inst_ref<Action Block Anchor>@@@
 //============================================================================
@@ -323,6 +288,148 @@ aba_code_append@void@@te_aba@inst_ref<Action Block Anchor>@@s@string@@@
 te_aba = param.te_aba;
 s = param.s;
 te_aba.code = te_aba.code + s;
+::oal( s:"strcat( te_aba->code, p_s ); // Ccode" );
+@@@
+TE_ABA_rollup@void@@@
+//============================================================================
+// $RCSfile: q.oal.action.arc,v $
+//
+// Description:
+// This query rolls up (accumulates) the translated statements into
+// a single string attribute on the action block anchor (TE_ABA).
+// After this roll-up, the ACT_* and V_* instances are no longer needed.
+//
+// Notice:
+// (C) Copyright 1998-2013 Mentor Graphics Corporation
+//     All rights reserved.
+//
+// This document contains confidential and proprietary information and
+// property of Mentor Graphics Corp.  No part of this document may be
+// reproduced without the express written permission of Mentor Graphics Corp.
+//============================================================================
+//
+//
+::oal( s:"char b[1000000]; // Ccode" );
+parseSuccessful = ParseStatus::parseSuccessful;
+select any empty_act_blk from instances of ACT_BLK where ( false );
+select many te_cs from instances of TE_C where ( selected.included_in_build );
+for each te_c in te_cs
+  select many te_abas related by te_c->TE_ABA[R2088];
+  for each te_aba in te_abas
+    select one te_blk related by te_aba->TE_BLK[R2011];
+    if ( not_empty te_blk )
+      ::oal( s:"te_aba->code = &b[0]; *te_aba->code = 0; // Ccode" );
+      ::blck_xlate( trace:te_c.StmtTrace, te_blk:te_blk, te_aba:te_aba );
+      ::oal( s:"te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode" );
+    else
+      te_aba.code = ( "\n  /" + "* WARNING!  Skipping unsuccessful or unparsed action.  *" ) + "/\n";
+    end if;
+  end for;
+end for;
+// Process EEs outside of components.
+select many te_ees from instances of TE_EE where ( ( selected.RegisteredName != "TIM" ) and selected.Included );
+for each te_ee in te_ees
+  select one te_c related by te_ee->TE_C[R2085];
+  if ( empty te_c )
+    select many s_brgs related by te_ee->S_EE[R2020]->S_BRG[R19];
+    for each s_brg in s_brgs
+      select one act_blk related by s_brg->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666];
+      select one te_aba related by s_brg->TE_BRG[R2025]->TE_ABA[R2010];
+      if ( not_empty act_blk )
+        select one te_blk related by act_blk->TE_BLK[R2016];
+        ::oal( s:"te_aba->code = &b[0]; *te_aba->code = 0; // Ccode" );
+        ::blck_xlate( trace:false, te_blk:te_blk, te_aba:te_aba );
+        ::oal( s:"te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode" );
+      end if;
+    end for;
+  end if;
+end for;
+@@@
+smt_translate_control_statements@void@@@
+//====================================================================
+//
+// File:      $RCSfile: q.oal.translate.arc,v $
+//
+// (c) Copyright 1998-2013 Mentor Graphics Corporation  All rights reserved.
+//
+//====================================================================
+//
+//    Purpose:    This file contains the functions that generate
+//                action language from the populated OOA of BPAL.
+//
+//============================================================================
+//
+//  These functions are part one of a two-step translation of
+//  the action language from the model of OAL.  Each of the invoked
+//  functions below translate a specific part of the OAL.  For
+//  example the val_literal_boolean_values() function generates all
+//  of the code for each literal boolean value found in all of the
+//  actions for a domain.  The function smt_ifs()
+//  generates the code for all of the if statements found in the
+//  actions for a domain.  
+//
+//  Each of the functions places the generated code for its
+//  element in an attribute of the supertype, called _buffer_.
+//  In the case of a value, the supertype is V_VAL, for a
+//  statement, the supertype is ACT_SMT.
+//
+//  Once all of the values and statements have been translated,
+//  and all of the code is in the buffers,  the function
+//  blck_xlate is called to order the statements.
+//
+//============================================================================
+//
+::smt_ifs();
+::smt_elses();
+::smt_fors();
+::smt_whiles();
+::smt_elifs();
+@@@
+smt_translate_other_statements@void@@@
+//
+::smt_assigns();
+::smt_create_instances();
+::smt_delete_instances();
+::smt_create_events_to_instance();
+::smt_create_events_to_class();
+::smt_create_events_to_creator();
+::smt_relates();
+::smt_unrelates();
+::smt_selects();
+::smt_select_wheres();
+::smt_select_relateds();
+::smt_select_related_wheres();
+::smt_relate_usings();
+::smt_unrelate_usings();
+::smt_generate_precreated_events();
+::smt_generate_events();
+::smt_generate_class_events();
+::smt_generate_creator_events();
+::smt_sgns();
+::smt_iops();
+::smt_operates();
+::smt_bridges();
+::smt_functions();
+::smt_returns();
+::smt_controls();
+::smt_breaks();
+::smt_continues();
+@@@
+oal_translate@void@@@
+//
+// 
+//
+//.print "translating values"
+//.invoke val_translate()
+//.print "showing values"
+//.invoke oal_v_val_test()
+T::print(s:"translating control statements");
+::smt_translate_control_statements();
+T::print(s:"translating other statements");
+::smt_translate_other_statements();
+T::print(s:"rolling up statements into action bodies");
+::TE_ABA_rollup();
+T::print(s:"done translating statements");
 @@@
 smt_fors@void@@@
 //====================================================================
@@ -346,7 +453,7 @@ smt_for@string@@te_smt@inst_ref<Extended Statement>@@act_for@inst_ref<For Stmt>@
 // --------------------------------------------------------
 te_smt = param.te_smt;
 act_for = param.act_for;
-select one te_class related by act_for->O_OBJ[R670]->TE_CLASS[R2019];
+select one te_class related by act_for->O_OBJ[R670]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 if ( not_empty te_class )
   select any te_file from instances of TE_FILE;
   select any te_for from instances of TE_FOR;
@@ -537,7 +644,7 @@ if ( te_assign.isImplicit )
   select one root_te_val related by root_v_val->TE_VAL[R2040];
   te_assign.left_declaration = ( r_te_dt.ExtName + " " ) + root_te_val.buffer;
   if ( 8 == r_te_dt.Core_Typ )
-    select one te_class related by root_v_val->V_IRF[R801]->V_VAR[R808]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019];
+    select one te_class related by root_v_val->V_IRF[R801]->V_VAR[R808]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
     if ( not_empty te_class )
       te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + ( root_te_val.buffer + ";" );
       ::blk_declaration_append( te_blk:te_blk, s:te_assign.left_declaration );
@@ -627,7 +734,7 @@ smt_create_instance@string@@te_smt@inst_ref<Extended Statement>@@act_cr@inst_ref
 te_smt = param.te_smt;
 act_cr = param.act_cr;
 select one o_obj related by act_cr->O_OBJ[R671];
-select one te_class related by o_obj->TE_CLASS[R2019];
+select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 if ( not_empty te_class )
   select any te_file from instances of TE_FILE;
   select one te_blk related by te_smt->TE_BLK[R2078];
@@ -670,7 +777,7 @@ smt_delete_instance@string@@te_smt@inst_ref<Extended Statement>@@act_del@inst_re
 te_smt = param.te_smt;
 act_del = param.act_del;
 select one v_var related by act_del->V_VAR[R634];
-select one te_class related by v_var->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019];
+select one te_class related by v_var->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 if ( not_empty te_class )
   select any te_file from instances of TE_FILE;
   select any te_instance from instances of TE_INSTANCE;
@@ -741,7 +848,7 @@ select one o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
 if ( empty o_obj )
   select one o_obj related by sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519];
 end if;
-select one te_class related by o_obj->TE_CLASS[R2019];
+select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 if ( not_empty te_class )
   select one sm_pevt related by sm_evt->SM_PEVT[R525];
   if ( not_empty sm_pevt )
@@ -810,7 +917,7 @@ te_smt = param.te_smt;
 act_rel = param.act_rel;
 select one one_v_var related by act_rel->V_VAR[R615];
 select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818];
-select one te_class related by one_o_obj->TE_CLASS[R2019];
+select one te_class related by one_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 if ( not_empty te_class )
   select any te_file from instances of TE_FILE;
   select any te_target from instances of TE_TARGET;
@@ -894,22 +1001,24 @@ select one oth_o_obj related by oth_v_var->V_INT[R814]->O_OBJ[R818];
 select one ass_v_var related by act_ru->V_VAR[R619];
 select one ass_te_var related by ass_v_var->TE_VAR[R2039];
 select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818];
-select one ass_te_class related by ass_o_obj->TE_CLASS[R2019];
-select any te_file from instances of TE_FILE;
-select any te_target from instances of TE_TARGET;
-thismodule = "";
-if ( "C" != te_target.language )
-  thismodule = ", thismodule";
+select one ass_te_class related by ass_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty ass_te_class )
+  select any te_file from instances of TE_FILE;
+  select any te_target from instances of TE_TARGET;
+  thismodule = "";
+  if ( "C" != te_target.language )
+    thismodule = ", thismodule";
+  end if;
+  r1 = ::GetRelateToName( o_obj:ass_o_obj, r_rel:r_rel, rel_phrase:act_ru.relationship_phrase );
+  relate_method = r1;
+  left_obj_is_aone = false;
+  select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
+  if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
+    left_obj_is_aone = true;
+  end if;
+  T::include(file:"c/t.smt.relate_using.c");
+  te_smt.OAL = "RELATE ${one_te_var.OAL} TO ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}";
 end if;
-r1 = ::GetRelateToName( o_obj:ass_o_obj, r_rel:r_rel, rel_phrase:act_ru.relationship_phrase );
-relate_method = r1;
-left_obj_is_aone = false;
-select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
-if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
-  left_obj_is_aone = true;
-end if;
-T::include(file:"c/t.smt.relate_using.c");
-te_smt.OAL = "RELATE ${one_te_var.OAL} TO ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}";
 return T::body();
 @@@
 smt_unrelates@void@@@
@@ -929,7 +1038,7 @@ te_smt = param.te_smt;
 act_unr = param.act_unr;
 select one one_v_var related by act_unr->V_VAR[R620];
 select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818];
-select one te_class related by one_o_obj->TE_CLASS[R2019];
+select one te_class related by one_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 if ( not_empty te_class )
   select any te_file from instances of TE_FILE;
   select any te_target from instances of TE_TARGET;
@@ -950,6 +1059,7 @@ if ( not_empty te_class )
   end if;
   r = ::GetUnrelateFromName( o_obj:o_obj, r_rel:r_rel, rel_phrase:act_unr.relationship_phrase );
   unrelate_method = r;
+  select one te_class related by o_obj->TE_CLASS[R2019];
   thismodule = "";
   if ( "C" != te_target.language )
     thismodule = ", thismodule";
@@ -1011,22 +1121,24 @@ select one oth_o_obj related by oth_v_var->V_INT[R814]->O_OBJ[R818];
 select one ass_v_var related by act_uru->V_VAR[R624];
 select one ass_te_var related by ass_v_var->TE_VAR[R2039];
 select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818];
-select one ass_te_class related by ass_o_obj->TE_CLASS[R2019];
-select any te_file from instances of TE_FILE;
-select any te_target from instances of TE_TARGET;
-thismodule = "";
-if ( "C" != te_target.language )
-  thismodule = ", thismodule";
+select one ass_te_class related by ass_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty ass_te_class )
+  select any te_file from instances of TE_FILE;
+  select any te_target from instances of TE_TARGET;
+  thismodule = "";
+  if ( "C" != te_target.language )
+    thismodule = ", thismodule";
+  end if;
+  r1 = ::GetUnrelateFromName( o_obj:ass_o_obj, r_rel:r_rel, rel_phrase:act_uru.relationship_phrase );
+  unrelate_method = r1;
+  left_obj_is_aone = false;
+  select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
+  if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
+    left_obj_is_aone = true;
+  end if;
+  T::include(file:"c/t.smt.unrelate_using.c");
+  te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}";
 end if;
-r1 = ::GetUnrelateFromName( o_obj:ass_o_obj, r_rel:r_rel, rel_phrase:act_uru.relationship_phrase );
-unrelate_method = r1;
-left_obj_is_aone = false;
-select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
-if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
-  left_obj_is_aone = true;
-end if;
-T::include(file:"c/t.smt.unrelate_using.c");
-te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}";
 return T::body();
 @@@
 smt_selects@void@@@
@@ -1049,7 +1161,7 @@ smt_select@string@@te_smt@inst_ref<Extended Statement>@@act_fio@inst_ref<Select 
 te_smt = param.te_smt;
 act_fio = param.act_fio;
 select one o_obj related by act_fio->O_OBJ[R677];
-select one te_class related by o_obj->TE_CLASS[R2019];
+select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 if ( not_empty te_class )
   select any te_file from instances of TE_FILE;
   select any te_extent from instances of TE_EXTENT;
@@ -1152,7 +1264,7 @@ smt_select_where@string@@te_smt@inst_ref<Extended Statement>@@act_fiw@inst_ref<S
 te_smt = param.te_smt;
 act_fiw = param.act_fiw;
 select one o_obj related by act_fiw->O_OBJ[R676];
-select one te_class related by o_obj->TE_CLASS[R2019];
+select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 if ( not_empty te_class )
   select any te_extent from instances of TE_EXTENT;
   select any te_file from instances of TE_FILE;
@@ -1303,7 +1415,7 @@ e_gen = param.e_gen;
 select one e_gsme related by e_gen->E_GSME[R705];
 select one e_ess related by e_gsme->E_GES[R703]->E_ESS[R701];
 select one sm_evt related by e_gsme->SM_EVT[R707];
-select one te_class related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019];
+select one te_class related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 select one te_evt related by sm_evt->TE_EVT[R2036];
 if ( ( not_empty te_class ) and ( not_empty te_evt ) )
   select any te_file from instances of TE_FILE;
@@ -1395,7 +1507,7 @@ select one tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
 if ( empty tgt_o_obj )
   select one tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519];
 end if;
-select one te_class related by tgt_o_obj->TE_CLASS[R2019];
+select one te_class related by tgt_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 select one te_evt related by sm_evt->TE_EVT[R2036];
 if ( ( not_empty te_class ) and ( not_empty te_evt ) )
   select any te_eq from instances of TE_EQ;
@@ -1455,7 +1567,7 @@ if ( empty te_mact )
   select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053];
 end if;
 select many v_pars related by act_sgn->V_PAR[R662];
-r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true, salt:"sgn" );
+r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, te_blk:te_blk, sretvar:"", is_statement:true );
 ::smt_buffer_append( te_smt:te_smt, s:r );
 te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})";
 @@@
@@ -1479,30 +1591,46 @@ if ( empty te_mact )
   select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050];
 end if;
 select many v_pars related by act_iop->V_PAR[R679];
-r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, ws:te_blk.indentation, is_statement:true, salt:"iop" );
+r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, te_blk:te_blk, sretvar:"", is_statement:true );
 ::smt_buffer_append( te_smt:te_smt, s:r );
 te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})";
 @@@
-q_render_msg@string@@te_mact@inst_ref<Extended Message Action>@@v_pars@inst_ref_set<Actual Parameter>@@ws@string@@is_statement@boolean@@salt@string@@@
+q_render_msg@string@@te_mact@inst_ref<Extended Message Action>@@v_pars@inst_ref_set<Actual Parameter>@@te_blk@inst_ref<Extended Block>@@sretvar@string@@is_statement@boolean@@@
 //
 // -------------------------------------------------------------------
 // Render the call and parameter list for an inter-component message
 // -------------------------------------------------------------------
 te_mact = param.te_mact;
 v_pars = param.v_pars;
-ws = param.ws;
+te_blk = param.te_blk;
+sretvar = param.sretvar;
 is_statement = param.is_statement;
-salt = param.salt;
 select any te_file from instances of TE_FILE;
 select any te_sys from instances of TE_SYS;
 select any te_target from instances of TE_TARGET;
 parameters = "";
 te_mact.OALParamBuffer = "";
+ws = "";
+if ( is_statement )
+  ws = te_blk.indentation;
+end if;
 if ( not_empty v_pars )
-  r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:salt );
+  r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
   te_parm = r;
   parameters = te_parm.ParamBuffer;
   te_mact.OALParamBuffer = te_parm.OALParamBuffer;
+end if;
+select one te_aba related by te_mact->TE_ABA[R2010];
+// Support by reference string return values.
+if ( "c_t *" == te_aba.ReturnDataType )
+  if ( not te_sys.InstanceLoading )
+    te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";";
+    if ( "" == parameters )
+      parameters = sretvar;
+    else
+      parameters = ( ( sretvar + ", " ) + parameters );
+    end if;
+  end if;
 end if;
 name = te_mact.GeneratedName;
 if ( "C++" == te_target.language )
@@ -1554,7 +1682,7 @@ te_smt = param.te_smt;
 act_tfm = param.act_tfm;
 select one o_tfr related by act_tfm->O_TFR[R673];
 select one te_tfr related by o_tfr->TE_TFR[R2024];
-select one te_class related by o_tfr->O_OBJ[R115]->TE_CLASS[R2019];
+select one te_class related by o_tfr->O_OBJ[R115]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 if ( ( not_empty te_tfr ) and ( not_empty te_class ) )
   select any te_file from instances of TE_FILE;
   select any te_target from instances of TE_TARGET;
@@ -1571,7 +1699,7 @@ if ( ( not_empty te_tfr ) and ( not_empty te_class ) )
   parameter_OAL = "";
   select many v_pars related by act_tfm->V_PAR[R627];
   if ( not_empty v_pars )
-    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"sop" );
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
     te_parm = r;
     parameters = te_parm.ParamBuffer;
     parameter_OAL = te_parm.OALParamBuffer;
@@ -1626,7 +1754,7 @@ if ( not_empty te_brg )
   parameter_OAL = "";
   select many v_pars related by act_brg->V_PAR[R628];
   if ( not_empty v_pars )
-    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"sbg" );
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
     te_parm = r;
     parameters = te_parm.ParamBuffer;
     parameter_OAL = te_parm.OALParamBuffer;
@@ -1675,7 +1803,7 @@ if ( not_empty te_sync )
   parameter_OAL = "";
   select many v_pars related by act_fnc->V_PAR[R669];
   if ( not_empty v_pars )
-    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false, invocation_flavor:"sfn" );
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
     te_parm = r;
     parameters = te_parm.ParamBuffer;
     parameter_OAL = te_parm.OALParamBuffer;
@@ -1709,6 +1837,9 @@ smt_return@string@@te_smt@inst_ref<Extended Statement>@@act_ret@inst_ref<Return 
 te_smt = param.te_smt;
 act_ret = param.act_ret;
 select any te_file from instances of TE_FILE;
+select any te_instance from instances of TE_INSTANCE;
+select any te_string from instances of TE_STRING;
+select any te_sys from instances of TE_SYS;
 select one te_blk related by te_smt->TE_BLK[R2078];
 ws = te_blk.indentation;
 select one v_val related by act_ret->V_VAL[R668];
@@ -1716,88 +1847,44 @@ intCast1 = "";
 intCast2 = "";
 value = "";
 value_OAL = "";
-returnvaltype = "";
+// Deallocate any variables allocated from this block and all higher blocks in this action.
+deallocation = te_blk.deallocation;
+select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078];
+while ( not_empty parent_te_blk )
+  te_blk = parent_te_blk;
+  deallocation = deallocation + parent_te_blk.deallocation;
+  select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078];
+end while;
+select one te_aba related by te_blk->TE_ABA[R2011];
 if ( not_empty v_val )
-  //
-  // resolve the core data type of v_val
-  select one s_dt related by v_val->S_DT[R820];
-  return_s_dt = s_dt;
-  select any core_s_dt from instances of S_DT where ( false );
-  select one s_udt related by s_dt->S_UDT[R17];
-  if ( not_empty s_udt )
-    r = ::GetBaseTypeForUDT( s_udt:s_udt );
-    core_s_dt = r;
-  end if;
-  if ( not_empty core_s_dt )
-    s_dt = core_s_dt;
-  end if;
-  select one te_dt related by s_dt->TE_DT[R2021];
-  returnvaltype = te_dt.ExtName;
-  //
-  // if the value is of the _real_ type
-  if ( "real" == s_dt.Name )
-    // if we can resolve the name of the data type of the return type of the enclosing body
-    select one act_smt related by act_ret->ACT_SMT[R603];
-    // Get the return _statement_ data type name.
-    select one act_act related by act_smt->ACT_BLK[R602]->ACT_ACT[R601];
-    // "class transition", "transition", "class state", "state", "signal" use void
-    return_smt_dt_name = "void";
-    if ( ( "class operation" == act_act.Type ) or ( "operation" == act_act.Type ) )
-      select one return_s_dt related by act_act->ACT_OPB[R698]->O_TFR[R696]->S_DT[R116];
-      return_smt_dt_name = return_s_dt.Name;
-    elif ( "function" == act_act.Type )
-      select one return_s_dt related by act_act->ACT_FNB[R698]->S_SYNC[R695]->S_DT[R25];
-      return_smt_dt_name = return_s_dt.Name;
-    elif ( "interface operation" == act_act.Type )
-      select one return_s_dt related by act_act->ACT_ROB[R698]->SPR_RO[R685]->SPR_REP[R4502]->C_EP[R4500]->C_IO[R4004]->S_DT[R4008];
-      if ( empty return_s_dt )
-        select one return_s_dt related by act_act->ACT_POB[R698]->SPR_PO[R687]->SPR_PEP[R4503]->C_EP[R4501]->C_IO[R4004]->S_DT[R4008];
-      end if;
-      return_smt_dt_name = return_s_dt.Name;
-    elif ( "bridge" == act_act.Type )
-      select one return_s_dt related by act_act->ACT_BRB[R698]->S_BRG[R697]->S_DT[R20];
-      return_smt_dt_name = return_s_dt.Name;
+  if ( ( "i_t" == te_aba.ReturnDataType ) or ( "dt_xtUMLInteger" == te_aba.ReturnDataType ) )
+    // resolve the core data type of v_val
+    select one s_dt related by v_val->S_DT[R820];
+    select any core_s_dt from instances of S_DT where ( false );
+    select one s_udt related by s_dt->S_UDT[R17];
+    if ( not_empty s_udt )
+      r = ::GetBaseTypeForUDT( s_udt:s_udt );
+      core_s_dt = r;
     end if;
-    if ( "" != return_smt_dt_name )
-      // resolve the core type of the return type
-      select any core_s_dt from instances of S_DT where ( false );
-      select one s_udt related by return_s_dt->S_UDT[R17];
-      if ( not_empty s_udt )
-        r = ::GetBaseTypeForUDT( s_udt:s_udt );
-        core_s_dt = r;
-      end if;
-      if ( not_empty core_s_dt )
-        return_s_dt = core_s_dt;
-      end if;
-      //
-      // if the return type is integer
-      if ( "integer" == return_s_dt.Name )
-        // cast the value to an int, to avoid a "possible loss of precision"
-        // syntax error in the generated code
-        intCast1 = "(int)(";
-        intCast2 = ")";
-      end if;
+    if ( not_empty core_s_dt )
+      s_dt = core_s_dt;
+    end if;
+    //
+    // if the value is of the _real_ type
+    if ( "real" == s_dt.Name )
+      // cast the value to an int, to avoid a "possible loss of precision"
+      // syntax error in the generated code
+      intCast1 = ( "(" + te_aba.ReturnDataType ) + ")(";
+      intCast2 = ")";
     end if;
   end if;
   select one te_val related by v_val->TE_VAL[R2040];
   value = te_val.buffer;
   value_OAL = te_val.OAL;
 end if;
-// Deallocate any variables allocated from this block and all higher blocks in this action.
-deallocation = te_blk.deallocation;
-select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078];
-while ( not_empty parent_te_blk )
-  deallocation = deallocation + parent_te_blk.deallocation;
-  select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078];
-end while;
 //
-rv = value;
-if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
-  // Use when deallocating or when returning an array (even array of char).
-  rv = "xtumlOALrv";
-end if;
 T::include(file:"c/t.smt.return.c");
-te_smt.OAL = "RETURN ${value_OAL}";
+te_smt.OAL = "RETURN " + value_OAL;
 return T::body();
 @@@
 smt_controls@void@@@
@@ -1820,7 +1907,7 @@ smt_control@string@@te_smt@inst_ref<Extended Statement>@@act_ctl@inst_ref<Contro
 te_smt = param.te_smt;
 act_ctl = param.act_ctl;
 select any te_file from instances of TE_FILE;
-select any te_thread from instances of TE_THREAD;
+select any te_target from instances of TE_TARGET;
 select one te_blk related by te_smt->TE_BLK[R2078];
 ws = te_blk.indentation;
 T::include(file:"c/t.smt.control.c");
@@ -1925,7 +2012,7 @@ if ( empty start_v_var )
   select one start_v_var related by start_v_val->V_ISR[R801]->V_VAR[R809];
   select one start_o_obj related by start_v_var->V_INS[R814]->O_OBJ[R819];
 end if;
-select one start_te_class related by start_o_obj->TE_CLASS[R2019];
+select one start_te_class related by start_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
 if ( not_empty start_te_class )
   // QUERY and POPULATE:  FactoryTE_SELECT_RELATED
   // Create and link the translation instance for select_related.
@@ -2062,7 +2149,7 @@ if ( not_empty start_te_class )
     if ( not_empty sub_r_rel )
       lnk_te_class = te_class;
       cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) ";
-      subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )";
+      subtypecheck = "${ws}if ( ( 0 != ${te_lnk.left} ) && ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id ) )";
     end if;
   end if;
   // single-link chains
@@ -2225,7 +2312,7 @@ T::b(s:${ws}{\);
           select any sub_r_rel related by lnk_te_class->O_OBJ[R2019]->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_REL[R206] where ( selected.Numb == te_lnk.rel_number );
           if ( not_empty sub_r_rel )
             cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) ";
-            subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )";
+            subtypecheck = "${ws}if ( ( 0 != ${te_lnk.left} ) && ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id ) )";
           end if;
         end if;
         result_equals_start = false;
@@ -2246,7 +2333,7 @@ T::b(s:${ws}{\);
       if ( not_empty sub_r_rel )
         lnk_te_class = te_class;
         cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) ";
-        subtypecheck = "${ws}if ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id )";
+        subtypecheck = "${ws}if ( ( 0 != ${te_lnk.left} ) && ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id ) )";
       end if;
     end if;
     // now finish up
@@ -2319,6 +2406,7 @@ T::b(s:${subtypecheck}\);
 T::b(s:}\);
       depth = depth - 1;
     end while;
+    ::oal( s:"T_b( \\n ); // Ccode" );
 
   end if;
   if ( te_select_related.by_where )
@@ -2479,146 +2567,4 @@ else
   end if;
 end if;
 return result;
-@@@
-GetFixedSizeClassExtentInfo@string@@te_class@inst_ref<Extended Class>@@@
-//============================================================================
-// $RCSfile: q.names.arc,v $
-//
-// Description:
-// This archetype file contains utility functions for implementation namings
-// that span multiple archetype files.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
-//============================================================================
-//
-//
-//============================================================================
-// Return a information on variables and types used in defining the
-// instance collections for a class.
-//============================================================================
-te_class = param.te_class;
-return ( "pG_" + te_class.GeneratedName ) + "_extent";
-@@@
-GetNavigateLinkMethodName@string@@from_o_obj@inst_ref<Model Class>@@to_o_obj@inst_ref<Model Class>@@r_rel@inst_ref<Association>@@rel_phrase@string@@@
-//
-//============================================================================
-from_o_obj = param.from_o_obj;
-to_o_obj = param.to_o_obj;
-r_rel = param.r_rel;
-rel_phrase = param.rel_phrase;
-//
-result = "";
-select one te_c related by to_o_obj->TE_CLASS[R2019]->TE_C[R2064];
-if ( not_empty te_c )
-  result = "${te_c.Name}_${to_o_obj.Key_Lett}_R$t{r_rel.Numb}_From_${from_o_obj.Key_Lett}";
-  //
-  r = ::GetRelationshipSuffix( right_o_obj:to_o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
-  suffix = r;
-  if ( "" != suffix )
-    result = ( result + "_" ) + suffix;
-  end if;
-end if;
-return result;
-@@@
-GetRelateToName@string@@o_obj@inst_ref<Model Class>@@r_rel@inst_ref<Association>@@rel_phrase@string@@@
-//
-//============================================================================
-o_obj = param.o_obj;
-r_rel = param.r_rel;
-rel_phrase = param.rel_phrase;
-result = "";
-select one te_class related by o_obj->TE_CLASS[R2019];
-if ( not_empty te_class )
-  result = te_class.GeneratedName + "_R$t{r_rel.Numb}_Link";
-  r = ::GetRelationshipSuffix( right_o_obj:o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
-  suffix = r;
-  if ( "" != suffix )
-    result = ( result + "_" ) + suffix;
-  end if;
-end if;
-return result;
-@@@
-GetUnrelateFromName@string@@o_obj@inst_ref<Model Class>@@r_rel@inst_ref<Association>@@rel_phrase@string@@@
-//
-//============================================================================
-o_obj = param.o_obj;
-r_rel = param.r_rel;
-rel_phrase = param.rel_phrase;
-result = "";
-select one te_class related by o_obj->TE_CLASS[R2019];
-if ( not_empty te_class )
-  result = te_class.GeneratedName + "_R$t{r_rel.Numb}_Unlink";
-  r = ::GetRelationshipSuffix( right_o_obj:o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
-  suffix = r;
-  if ( "" != suffix )
-    result = ( result + "_" ) + suffix;
-  end if;
-end if;
-return result;
-@@@
-PEIGetRelationshipSetContainerName@string@@te_class@inst_ref<Extended Class>@@@
-//
-//============================================================================
-// Return the name of the object relationship container array.
-// This array of containoids is used to optimize relationships when
-// there are preexisting instances.
-//============================================================================
-te_class = param.te_class;
-return te_class.GeneratedName + "_rel_set_lists";
-@@@
-GetDomainDispatcherTableName@string@@registered_name@string@@@
-//
-//============================================================================
-// Return the name and type of the domain dispatcher.
-//============================================================================
-registered_name = param.registered_name;
-return registered_name + "_EventDispatcher";
-return "EventTaker_t";
-@@@
-GetSuperTypePolymorphicEventMethodName@string@@te_class@inst_ref<Extended Class>@@r_rel@inst_ref<Association>@@@
-//
-//============================================================================
-te_class = param.te_class;
-r_rel = param.r_rel;
-return te_class.GeneratedName + "_R$t{r_rel.Numb}PolymorphicEvent";
-@@@
-GetDomainTypeIDFromString@string@@dom_name@string@@@
-//
-//============================================================================
-dom_name = param.dom_name;
-return T::r(s:dom_name) + "_DOMAIN_ID";
-@@@
-GetPersistentCheckMarkPostName@string@@@
-//
-//============================================================================
-// Provide a name for the routine that will check if an instance is
-// dirty, mark it if is not and queue it for flusing later.
-//============================================================================
-select any te_instance from instances of TE_INSTANCE;
-select any te_prefix from instances of TE_PREFIX;
-select any te_typemap from instances of TE_TYPEMAP;
-return te_prefix.result + "PersistenceCheckMarkPost";
-return "void";
-return "  ${te_instance.handle},\n  const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}";
-return "  ${te_instance.handle} instance,\n  const ${te_typemap.domain_number_name} domain_num,\n  const ${te_typemap.object_number_name} class_num";
-@@@
-GetPersistentPostLinkName@string@@@
-//
-//============================================================================
-// Provide a name for the routine that will post links to the persistence
-// flush queue.
-//============================================================================
-select any te_instance from instances of TE_INSTANCE;
-select any te_prefix from instances of TE_PREFIX;
-select any te_typemap from instances of TE_TYPEMAP;
-return te_prefix.result + "PersistencePostLink";
-return "void";
-return "  const s1_t, const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}, const ${te_typemap.instance_index_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name}";
-return "  const s1_t operation, const ${te_typemap.domain_number_name} domain,\n  const ${te_typemap.object_number_name} owning_class, const ${te_typemap.instance_index_name} ri,\n  ${te_instance.handle} left, const ${te_typemap.object_number_name} l,\n   ${te_instance.handle} right, const ${te_typemap.object_number_name} r,\n  ${te_instance.handle} assoc, const ${te_typemap.object_number_name} a";
 @@@

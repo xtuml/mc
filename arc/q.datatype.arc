@@ -168,6 +168,7 @@
   .assign s = ""
   .for each special_te_dt in special_te_dts
     .assign s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" )
+    .invoke oal( "s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, #include  ), Escher_stradd( special_te_dt->Include_File, \n ) ) ); // Ccode" )
   .end for
   .assign attr_result = s
 .end function

@@ -493,11 +493,19 @@ ${te_set.scope}${te_string.strcmp}( const c_t *p1, const c_t *p2 )
 c_t *
 ${te_set.scope}${te_string.strget}( void )
 {
+  c_t * r;
   static u1_t i = 0;
   static c_t s[ 16 ][ ${te_string.max_string_length} ];
+.if ( te_thread.enabled )
+  ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_ILB );
+.end if
   i = ( i + 1 ) % 16;
-  s[ i ][ 0 ] = 0;
-  return ( &s[ i ][ 0 ] );
+  r = &s[ i ][ 0 ];
+  *r = 0;
+.if ( te_thread.enabled )
+  ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_ILB );
+.end if
+  return ( r );
 }
 
 .if ( ( te_sys.InstanceLoading ) or ( 0 != te_sys.UnitsToDynamicallyAllocate ) )

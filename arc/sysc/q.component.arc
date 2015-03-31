@@ -1275,7 +1275,7 @@ ${port_action.body}
           .assign attr_register_offset = attr_register_offset + "#define  ${memory_offset_name} ${register_address}\n"
           .assign register_address = register_address + memory_size;
           .assign register_address = register_address - 4;
-        .elif ( "c_t" == te_dt.ExtName )
+        .elif ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
           .// -- declare memory to hold the string
           .select any te_sys from instances of TE_SYS
           .assign register_address = register_address + 4;
@@ -1374,7 +1374,7 @@ ${port_action.body}
             .assign memory_size = te_dim.elementCount
             .assign memory_size = memory_size * 4
             .assign register_address = register_address + memory_size
-          .elif ( "c_t" == te_dt.ExtName )
+          .elif ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
             .//  string datatypes.
             .select any te_sys from instances of TE_SYS
             .assign memory_size = te_sys.MaxStringLen
@@ -1481,7 +1481,7 @@ ${port_action.body}
             .assign memory_size = memory_size * 4
             .assign register_address = register_address + memory_size
             .assign register_address = register_address - 4
-          .elif ( "c_t" == te_dt.ExtName )
+          .elif ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
             .// Create MEMORY declaration for string datatypes. This message require more than 32-bits of storage
             .// and must span multiple locations.
             .select any te_sys from instances of TE_SYS
