@@ -1577,6 +1577,7 @@
     .select many te_macts related by te_c->TE_MACT[R2002]
     .for each te_mact in te_macts
       .select one te_aba related by te_mact->TE_ABA[R2010]
+      .select any te_blk from instances of TE_BLK where (false)
       .if ( "SPR_PO" == te_mact.subtypeKL )
         .select one te_blk related by te_mact->SPR_PO[R2050]->ACT_POB[R687]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
       .elif ( "SPR_RO" == te_mact.subtypeKL )
@@ -2259,6 +2260,7 @@
     .// end relate
   .end if
   .assign duplicates_needed = false
+  .select any te_parm from instances of TE_PARM where (false)
   .for each te_parm in te_parms
     .select one existing_te_aba related by te_parm->TE_ABA[R2062]
     .if ( empty existing_te_aba )

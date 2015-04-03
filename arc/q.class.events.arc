@@ -39,6 +39,7 @@
   .end if
   .select any te_string from instances of TE_STRING
   .// Find first te_parm.
+  .select any te_parm from instances of TE_PARM where (false)
   .for each te_parm in te_parms
     .break for
   .end for
