@@ -426,8 +426,8 @@ ${te_set.scope}${te_string.strcpy}( c_t * dst, const c_t * src )
     s = ${te_set.scope}${te_dma.allocate}( i );
     dst = s;
 .else
-  s2_t i = ${te_string.max_string_length} - 1;
   if ( ( 0 != src ) && ( 0 != dst ) ) {
+    ${te_prefix.type}size_t i = ${te_string.max_string_length} - 1;
 .end if
     while ( ( i > 0 ) && ( *src != '\0' ) ) {
       --i;
@@ -444,7 +444,7 @@ ${te_set.scope}${te_string.strcpy}( c_t * dst, const c_t * src )
 c_t *
 ${te_set.scope}${te_string.stradd}( const c_t * left, const c_t * right )
 {
-  s2_t i = ${te_string.max_string_length} - 1;
+  ${te_prefix.type}size_t i = ${te_string.max_string_length} - 1;
   c_t * s = ${te_set.scope}${te_string.strget}();
   c_t * dst = s;
   if ( 0 == left ) left = "";
@@ -493,11 +493,19 @@ ${te_set.scope}${te_string.strcmp}( const c_t *p1, const c_t *p2 )
 c_t *
 ${te_set.scope}${te_string.strget}( void )
 {
+  c_t * r;
   static u1_t i = 0;
   static c_t s[ 16 ][ ${te_string.max_string_length} ];
+.if ( te_thread.enabled )
+  ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_ILB );
+.end if
   i = ( i + 1 ) % 16;
-  s[ i ][ 0 ] = 0;
-  return ( &s[ i ][ 0 ] );
+  r = &s[ i ][ 0 ];
+  *r = 0;
+.if ( te_thread.enabled )
+  ${te_thread.mutex_unlock}( SEMAPHORE_FLAVOR_ILB );
+.end if
+  return ( r );
 }
 
 .if ( ( te_sys.InstanceLoading ) or ( 0 != te_sys.UnitsToDynamicallyAllocate ) )

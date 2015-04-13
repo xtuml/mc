@@ -34,6 +34,7 @@
   .assign format_delimiter = ""
   .assign Order = 0
   .// Be sure we have the first parameter.
+  .select any te_parm from instances of TE_PARM where (false)
   .for each te_parm in te_parms
     .break for
   .end for
@@ -80,7 +81,7 @@
     .end if
     .invoke r = t_oal_smt_event_parameters( "", te_parm.Name, te_parm.GeneratedName, te_dt.Core_Typ, "  " )
     .assign assn = assn + r.result
-    .if ( "A00portindex" != te_parm.Name )
+    .if ( ( "A00portindex" != te_parm.Name ) and ( "A0xtumlsret" != te_parm.Name ) )
       .assign assnbase = assnbase + r.result
     .end if
     .assign param_delimiter = ", "

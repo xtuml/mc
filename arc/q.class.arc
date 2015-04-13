@@ -455,8 +455,8 @@ ${file_epilogue.body}
       .assign instance_based_self_declaration = te_class.GeneratedName + " *"
       .assign prelude = "instance"
     .end if
-    .select any o_tparm related by o_tfr->O_TPARM[R117]
     .if ( gen_declaration )
+      .select any te_parm related by te_aba->TE_PARM[R2062]
       .include "${te_file.arc_path}/t.class.op.h"
     .else
       .if ( o_tfr.Suc_Pars != 1 )

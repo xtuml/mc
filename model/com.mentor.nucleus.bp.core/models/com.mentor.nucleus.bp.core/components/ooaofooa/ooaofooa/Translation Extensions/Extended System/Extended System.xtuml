@@ -484,7 +484,7 @@ INSERT INTO O_BATTR_PROXY
 INSERT INTO O_ATTR
 	VALUES ("831f5615-7a86-49ac-9ba9-323fa5230307",
 	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
-	"770c6493-cb94-45e1-a1df-bacd64b13a88",
+	"3d5ce15f-5033-4611-abdf-5d880077acd9",
 	'Sys_ID',
 	'',
 	'',
@@ -563,6 +563,42 @@ INSERT INTO O_ATTR
 	'DomainClassNumberName',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ffa637b7-d596-44e5-a5e0-39570df74e1b",
+	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
+INSERT INTO O_BATTR
+	VALUES ("ffa637b7-d596-44e5-a5e0-39570df74e1b",
+	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
+INSERT INTO O_ATTR
+	VALUES ("ffa637b7-d596-44e5-a5e0-39570df74e1b",
+	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
+	"770c6493-cb94-45e1-a1df-bacd64b13a88",
+	'StructuredMessaging',
+	'',
+	'',
+	'StructuredMessaging',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3d5ce15f-5033-4611-abdf-5d880077acd9",
+	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
+INSERT INTO O_BATTR
+	VALUES ("3d5ce15f-5033-4611-abdf-5d880077acd9",
+	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
+INSERT INTO O_ATTR
+	VALUES ("3d5ce15f-5033-4611-abdf-5d880077acd9",
+	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
+	"ffa637b7-d596-44e5-a5e0-39570df74e1b",
+	'NetworkSockets',
+	'',
+	'',
+	'NetworkSockets',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
 INSERT INTO O_ID

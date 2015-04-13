@@ -320,6 +320,42 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("98474610-0e4c-404c-8896-45b44ddcddc0",
+	"c425195a-5bf1-4972-81b2-70da43708c2b");
+INSERT INTO O_BATTR
+	VALUES ("98474610-0e4c-404c-8896-45b44ddcddc0",
+	"c425195a-5bf1-4972-81b2-70da43708c2b");
+INSERT INTO O_ATTR
+	VALUES ("98474610-0e4c-404c-8896-45b44ddcddc0",
+	"c425195a-5bf1-4972-81b2-70da43708c2b",
+	"91f82d6e-dc66-4777-87ed-5f9fd9e8d258",
+	'StructuredMessaging',
+	'',
+	'',
+	'StructuredMessaging',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b64eb1bb-2207-4aef-8df1-a711f47e95f9",
+	"c425195a-5bf1-4972-81b2-70da43708c2b");
+INSERT INTO O_BATTR
+	VALUES ("b64eb1bb-2207-4aef-8df1-a711f47e95f9",
+	"c425195a-5bf1-4972-81b2-70da43708c2b");
+INSERT INTO O_ATTR
+	VALUES ("b64eb1bb-2207-4aef-8df1-a711f47e95f9",
+	"c425195a-5bf1-4972-81b2-70da43708c2b",
+	"98474610-0e4c-404c-8896-45b44ddcddc0",
+	'NetworkSockets',
+	'',
+	'',
+	'NetworkSockets',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"c425195a-5bf1-4972-81b2-70da43708c2b");
