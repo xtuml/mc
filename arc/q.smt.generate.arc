@@ -1390,7 +1390,7 @@
   .select one v_val related by act_ret->V_VAL[R668]
   .assign intCast1 = ""
   .assign intCast2 = ""
-  .assign value = ""
+  .assign value = "0"
   .assign value_OAL = ""
   .// Deallocate any variables allocated from this block and all higher blocks in this action.
   .assign deallocation = te_blk.deallocation
@@ -1401,35 +1401,37 @@
     .select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078]
   .end while
   .select one te_aba related by te_blk->TE_ABA[R2011]
-  .if ( not_empty v_val )
-    .if ( ( "i_t" == te_aba.ReturnDataType ) or ( "dt_xtUMLInteger" == te_aba.ReturnDataType ) )
-      .// resolve the core data type of v_val
-      .select one s_dt related by v_val->S_DT[R820]
-      .select any core_s_dt from instances of S_DT where ( false )
-      .select one s_udt related by s_dt->S_UDT[R17]
-      .if ( not_empty s_udt )
-        .invoke r = GetBaseTypeForUDT( s_udt )
-        .assign core_s_dt = r.result
+  .if ( not_empty te_aba )
+    .if ( not_empty v_val )
+      .if ( ( "i_t" == te_aba.ReturnDataType ) or ( "dt_xtUMLInteger" == te_aba.ReturnDataType ) )
+        .// resolve the core data type of v_val
+        .select one s_dt related by v_val->S_DT[R820]
+        .select any core_s_dt from instances of S_DT where ( false )
+        .select one s_udt related by s_dt->S_UDT[R17]
+        .if ( not_empty s_udt )
+          .invoke r = GetBaseTypeForUDT( s_udt )
+          .assign core_s_dt = r.result
+        .end if
+        .if ( not_empty core_s_dt )
+          .assign s_dt = core_s_dt
+        .end if
+        .//
+        .// if the value is of the _real_ type
+        .if ( "real" == s_dt.Name )
+          .// cast the value to an int, to avoid a "possible loss of precision"
+          .// syntax error in the generated code
+          .assign intCast1 = ( "(" + te_aba.ReturnDataType ) + ")("
+          .assign intCast2 = ")"
+        .end if
       .end if
-      .if ( not_empty core_s_dt )
-        .assign s_dt = core_s_dt
-      .end if
-      .//
-      .// if the value is of the _real_ type
-      .if ( "real" == s_dt.Name )
-        .// cast the value to an int, to avoid a "possible loss of precision"
-        .// syntax error in the generated code
-        .assign intCast1 = ( "(" + te_aba.ReturnDataType ) + ")("
-        .assign intCast2 = ")"
-      .end if
+      .select one te_val related by v_val->TE_VAL[R2040]
+      .assign value = te_val.buffer
+      .assign value_OAL = te_val.OAL
     .end if
-    .select one te_val related by v_val->TE_VAL[R2040]
-    .assign value = te_val.buffer
-    .assign value_OAL = te_val.OAL
+    .//
+    .include "${te_file.arc_path}/t.smt.return.c"
+    .assign te_smt.OAL = "RETURN " + value_OAL
   .end if
-  .//
-  .include "${te_file.arc_path}/t.smt.return.c"
-  .assign te_smt.OAL = "RETURN " + value_OAL
 .end function
 .//
 .// --------------------------------------------------------
