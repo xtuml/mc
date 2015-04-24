@@ -2307,7 +2307,9 @@
   .end if
   .// Create and insert an architectural parameter for returning a string.
   .if ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
-    .if ( not te_sys.InstanceLoading )
+    .if ( ( not te_sys.InstanceLoading ) and ( not duplicates_needed ) )
+      .// mcmc does not return through the by-ref parameter.
+      .// When duplicating, there is a duplicate by-ref string return parameter.
       .select any string_te_parm from instances of TE_PARM where ( selected.Name == "A0xtumlsret" )
       .invoke r = TE_PARM_duplicate( string_te_parm )
       .assign duplicate_te_parm = r.result
