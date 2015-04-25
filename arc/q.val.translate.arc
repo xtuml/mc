@@ -557,6 +557,7 @@
   .param inst_ref v_msv
   .select one v_val related by v_msv->V_VAL[R801]
   .select one te_val related by v_val->TE_VAL[R2040]
+  .if ( "" == te_val.buffer )
   .select one te_mact related by v_msv->SPR_PEP[R841]->SPR_PO[R4503]->TE_MACT[R2050]
   .if ( empty te_mact )
     .select one te_mact related by v_msv->SPR_REP[R845]->SPR_RO[R4502]->TE_MACT[R2052]
@@ -578,6 +579,7 @@
   .else
     .assign te_val.te_dimID = 00
   .end if
+  .end if
 .end function
 .//
 .function val_bridge_values
@@ -595,6 +597,7 @@
     .select any te_target from instances of TE_TARGET
     .select one v_val related by v_brv->V_VAL[R801]
     .select one te_val related by v_val->TE_VAL[R2040]
+    .if ( "" == te_val.buffer )
     .select many v_pars related by v_brv->V_PAR[R810]
     .select one te_aba related by te_brg->TE_ABA[R2010]
     .select one te_ee related by v_brv->S_BRG[R828]->S_EE[R19]->TE_EE[R2020]
@@ -645,6 +648,7 @@
       .// end relate
     .else
       .assign te_val.te_dimID = 00
+    .end if
     .end if
   .end if
 .end function
@@ -749,6 +753,7 @@
     .select any te_target from instances of TE_TARGET
     .select one v_val related by v_fnv->V_VAL[R801]
     .select one te_val related by v_val->TE_VAL[R2040]
+    .if ( "" == te_val.buffer )
     .select many v_pars related by v_fnv->V_PAR[R817]
     .select one te_aba related by te_sync->TE_ABA[R2010]
     .invoke r = gen_parameter_list( v_pars, false )
@@ -786,6 +791,7 @@
       .// end relate
     .else
       .assign te_val.te_dimID = 00
+    .end if
     .end if
   .end if
 .end function
