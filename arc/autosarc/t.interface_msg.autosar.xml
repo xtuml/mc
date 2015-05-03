@@ -1,0 +1,8 @@
+            <CLIENT-SERVER-OPERATION UUID="${c_io.Id}">
+              <SHORT-NAME>${te_mact.MessageName}</SHORT-NAME>
+.if ( "" != ar_interface_msg_args )
+              <ARGUMENTS>
+${ar_interface_msg_args}\
+              </ARGUMENTS>
+.end if
+            </CLIENT-SERVER-OPERATION>

@@ -2133,6 +2133,9 @@
   .if ( "C++" == te_target.language )
     .assign te_mact.GeneratedName = ( te_mact.InterfaceName + "_" ) + message_name
   .end if
+  .if (te_sys.AUTOSAR)
+    .assign te_mact.GeneratedName = ( ( te_mact.ComponentName + "_" ) + ( te_mact.InterfaceName + "_" ) ) + message_name
+  .end if
   .assign te_mact.GeneratedName = "$r{te_mact.GeneratedName}"
   .assign te_mact.Name = te_mact.GeneratedName
   .select any converted_bool_te_dt from instances of TE_DT where ( selected.Name == "integer" )

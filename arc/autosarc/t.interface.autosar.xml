@@ -1,0 +1,7 @@
+        <CLIENT-SERVER-INTERFACE UUID="${c_i.ID}">
+          <SHORT-NAME>${c_i.Name}</SHORT-NAME>
+          <IS-SERVICE>false</IS-SERVICE>
+          <OPERATIONS>
+${ar_interface_msgs}\
+          </OPERATIONS>
+        </CLIENT-SERVER-INTERFACE>

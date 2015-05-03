@@ -1,0 +1,5 @@
+                <ARGUMENT-DATA-PROTOTYPE UUID="${c_pp.PP_Id}">
+                  <SHORT-NAME>${te_parm.Name}</SHORT-NAME>
+                  <TYPE-TREF DEST="${arg_ar_type}-DATA-TYPE">/${te_sys.Name}/${arg_type}</TYPE-TREF>
+                  <DIRECTION>IN</DIRECTION>
+                </ARGUMENT-DATA-PROTOTYPE>

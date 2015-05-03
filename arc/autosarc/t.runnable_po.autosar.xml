@@ -1,0 +1,6 @@
+                  <RUNNABLE-ENTITY UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+                    <SHORT-NAME>run_${te_mact.InterfaceName}_${te_mact.MessageName}</SHORT-NAME>
+                    <MINIMUM-START-INTERVAL>0.0</MINIMUM-START-INTERVAL>
+                    <CAN-BE-INVOKED-CONCURRENTLY>true</CAN-BE-INVOKED-CONCURRENTLY>
+                    <SYMBOL>ib_${te_c.Name}_ru_${te_mact.InterfaceName}_${te_mact.MessageName}</SYMBOL>
+                  </RUNNABLE-ENTITY>

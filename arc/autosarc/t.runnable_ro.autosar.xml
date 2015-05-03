@@ -1,0 +1,8 @@
+                    <SYNCHRONOUS-SERVER-CALL-POINT UUID="xxxxxxxx-TODO-TODO-TODO-xxxxxxxxxxx">
+                      <SHORT-NAME>run_SSCP_${te_mact.InterfaceName}_${te_mact.MessageName}</SHORT-NAME>
+                      <OPERATION-IREF>
+                        <CONTEXT-R-PORT-REF DEST="R-PORT-PROTOTYPE">/${te_sys.Name}/Swc${te_c.Name}/rp_${te_mact.InterfaceName}</CONTEXT-R-PORT-REF>
+                        <TARGET-REQUIRED-OPERATION-REF DEST="CLIENT-SERVER-OPERATION">/${te_sys.Name}/${te_mact.InterfaceName}/${te_mact.MessageName}</TARGET-REQUIRED-OPERATION-REF>
+                      </OPERATION-IREF>
+                      <TIMEOUT>0.02</TIMEOUT>
+                    </SYNCHRONOUS-SERVER-CALL-POINT>
