@@ -6,8 +6,6 @@
 .// Notice that the colors that would normally update TE_SYS are active.
 .//
 .// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
 .// Enhancements provided by TOYO Corporation.
 .//
 .// This document contains confidential and proprietary information and

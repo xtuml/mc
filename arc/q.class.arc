@@ -6,8 +6,6 @@
 .// analysis object implementation declaration and definition files.
 .//
 .// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
 .// Enhancements provided by TOYO Corporation.
 .//
 .// This document contains confidential and proprietary information and

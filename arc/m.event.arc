@@ -6,8 +6,6 @@
 .// specified in the (user supplied/modified) event.clr file.
 .//
 .// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
 .// Enhancements provided by TOYO Corporation.
 .//
 .// This document contains confidential and proprietary information and

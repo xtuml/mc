@@ -6,8 +6,6 @@
 .// The schema is suitable for use with BridgePoint gen_import.
 .//
 .// Notice:
-.// (C) Copyright 1998-2005 Mentor Graphics Corporation
-.//     All rights reserved.
 .//
 .// This document contains confidential and proprietary information and
 .// property of Mentor Graphics Corp.  No part of this document may be
@@ -916,8 +914,6 @@ ${rop.body}
 -- Model Data:  ooaofooa
 --
 -- Notice:
---   (C) Copyright 1998-2013 Mentor Graphics Corporation
---   All rights reserved.
 --
 --              !!! THIS IS AN AUTO-GENERATED FILE. !!!
 --   Any extensions added via hand editing of this file will need to be
