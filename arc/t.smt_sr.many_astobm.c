@@ -1,14 +1,3 @@
-.//============================================================================
-.// $RCSfile: t.smt_sr.many_astobm.c,v $
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
 ${ws}${te_set.module}${te_set.clear}( ${te_select_related.result_var} );
 ${ws}{${te_select_related.te_classGeneratedName} * ${te_lnk.left};
 ${ws}${te_set.scope}${te_set.iterator_class_name} start_many_iterator;

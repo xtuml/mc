@@ -2,7 +2,6 @@
 .//
 .// File:      $RCSfile: q.oal.translate.arc,v $
 .//
-.// (c) Copyright 1998-2013 Mentor Graphics Corporation  All rights reserved.
 .//
 .//====================================================================
 .//

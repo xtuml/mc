@@ -1,8 +1,6 @@
 
 /**************************************************************/
 /*                                                            */
-/*      (C) Copyright 1998-2013 Mentor Graphics Corporation   */
-/*                  All Rights Reserved                       */
 /*                                                            */
 /*       THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY      */
 /*         INFORMATION WHICH IS THE PROPERTY OF MENTOR        */

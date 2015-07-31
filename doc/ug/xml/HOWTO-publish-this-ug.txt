@@ -4,11 +4,6 @@ File:      $RCSfile: HOWTO-publish-this-ug.txt,v $
 Version:   $Revision: 1.2 $
 Modified:  $Date: 2012/02/07 19:04:51 $
 
-(c) Copyright 2012 by Mentor Graphics Corp. All rights reserved.
-
-========================================================================
-This document contains information proprietary and confidential to
-Mentor Graphics Corp., and is not for external distribution.
 ========================================================================
 
 How to Publish this User Guide
@@ -27,7 +22,7 @@ below detail how to do this.
    the native one inside cygwin or linux, or you can use the one distributed
    inside a BridgePoint installation.  The native one for cygwin is in the 
    cygwin "libxslt" package.  The BridgePoint one is found beneath
-   C:\MentorGraphics\BridgePoint\tools\docgen\docbook.
+   C:\xtuml\BridgePoint\tools\docgen\docbook.
    
 2) Steps to generate HTML:
     _- open a terminal/shell

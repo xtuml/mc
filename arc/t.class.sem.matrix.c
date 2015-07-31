@@ -1,6 +1,4 @@
 .//============================================================================
-.// Description:
-.//
 .// The SEM provides an exhaustive mapping of current state and received event
 .// combinations to the next state (if any). Each class state has an entry
 .// in the SEM for each possible event that the object can receive.
@@ -12,14 +10,6 @@
 .// of the object, which services creation event transitions.
 .// The Column Index of the SEM corresponds to the architecturally enumerated
 .// event numbers of events that may be received by the state machine.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 
 /*

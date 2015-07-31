@@ -1,17 +1,6 @@
 .//============================================================================
-.// $RCSfile: q.tm_template.arc,v $
-.//
-.// Description:
 .// Queries here populate model extensions for generation of C++ templated
 .// modules and interfaces.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .function TM_TEMPLATE_populate

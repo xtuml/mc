@@ -1,10 +1,3 @@
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*| MGC Confidential                                                |*/
-/*| Property of Mentor Graphics Corp.                               |*/
-/*| (C) Copyright Mentor Graphics Corp.  (2006-2008)                |*/
-/* _________________________________________________________________ */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

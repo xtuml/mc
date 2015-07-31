@@ -4,15 +4,6 @@
 .// Description:
 .// System level coloring functions are found here.
 .// Notice that the colors that would normally update TE_SYS are active.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.// Enhancements provided by TOYO Corporation.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//
