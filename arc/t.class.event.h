@@ -1,13 +1,3 @@
-.//============================================================================
-.// $RCSfile: t.class.event.h,v $
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
 .if ( defined )
 /*
  * ${flavor} event:  ${sm_evt.Drv_Lbl}:'${sm_evt.Mning}'

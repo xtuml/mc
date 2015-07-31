@@ -1,10 +1,3 @@
-.//============================================================================
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
 .//
   if ( 0 != ( ${te_mact.ComponentName}_status && ${te_mact.InterfaceName}_${te_mact.MessageName}_order ) ) {
 .if ( "" != te_aba.ParameterInvocation )

@@ -1,11 +1,3 @@
-.//============================================================================
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
 #pragma once
 .// TODO - SKB - Alon Wintergreen requested we use the pragma instead of the ifndef.
 .//        This appears to be due to having multiple RegDefs.h all using the same

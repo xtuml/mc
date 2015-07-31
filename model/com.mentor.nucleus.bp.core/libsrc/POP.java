@@ -4,8 +4,6 @@
 //Version:   $Revision: 1.1.10.1 $
 //Modified:  $Date: 2013/01/02 18:02:13 $
 //
-//(c) Copyright 2004-2012 by Mentor Graphics Corp. All rights reserved.
-//
 //====================================================================
 package lib;
 

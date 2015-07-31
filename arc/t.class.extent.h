@@ -1,12 +1,3 @@
-.//============================================================================
-.// $RCSfile: t.class.extent.h,v $
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
 .//
 
 #define ${te_class.GeneratedName}_MAX_EXTENT_SIZE \

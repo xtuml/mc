@@ -1,9 +1,5 @@
 ---
 
-Copyright 2013 xtUML.org
-
----
-
 xtUML Project Review Meeting Minutes
 
 Reviewed:  https://github.com/xtuml/mc/doc/notes/4_cds_instdump_ant.md

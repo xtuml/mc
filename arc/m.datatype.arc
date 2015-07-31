@@ -4,12 +4,6 @@
 .// Description:
 .// This archetype file contains the implementation functions for marks
 .// specified in the (user supplied/modified) datatype.clr file.
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//============================================================================

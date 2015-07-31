@@ -1,15 +1,4 @@
 .//============================================================================
-.// $RCSfile: q.datatype.arc,v $
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
-.//
-.//============================================================================
 .// Recursively locate the datatype at the base of the UDT type definition 
 .// chain. Traverses up through UDTs based on UDTs until we find the underlying
 .// S_DT instance (which may actually be EDT, SDT, IRDT or CDT).

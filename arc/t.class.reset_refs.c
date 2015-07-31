@@ -1,13 +1,3 @@
-.//============================================================================
-.// $RCSfile: t.class.reset_refs.c,v $
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
 .if ( te_dt.Initial_Value != "CTOR" )
   ${form_ptr}->${ref_te_attr.GeneratedName} = ${te_dt.Initial_Value};
 .else

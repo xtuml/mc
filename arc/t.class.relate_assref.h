@@ -1,11 +1,3 @@
-.//============================================================================
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
 /* Navigation phrase:  R${te_rel.Numb}.'${rel_phrase}' */
 .if ( te_rel.LinkNeeded or te_c.OptDisabled )
 ${externstatic}void ${relate_method}( ${assoc_te_class.GeneratedName} *, ${assoc_te_class.GeneratedName} *, ${assr_te_class.GeneratedName} *${thismodule} );

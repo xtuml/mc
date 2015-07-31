@@ -1,15 +1,6 @@
 .//============================================================================
-.// File:  schema_gen.arc
-.//
-.// Description:
 .// This archetype produces an SQL schema from a BridgePoint Model.
 .// The schema is suitable for use with BridgePoint gen_import.
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .// To fix up the schema by hand after generating
@@ -912,8 +903,6 @@ ${rop.body}
 -- BridgePoint Model Compilers.
 --
 -- Model Data:  ooaofooa
---
--- Notice:
 --
 --              !!! THIS IS AN AUTO-GENERATED FILE. !!!
 --   Any extensions added via hand editing of this file will need to be

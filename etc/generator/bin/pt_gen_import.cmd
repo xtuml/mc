@@ -5,11 +5,6 @@ REM File:      $RCSfile: pt_gen_import.cmd,v $
 REM Version:   $Revision: 1.13 $
 REM Modified:  $Date: 2011/05/31 01:46:05 $
 REM 
-REM (c) Copyright 2005-2011 by Mentor Graphics Corp. All rights reserved.
-REM 
-REM ==========================================================================
-REM This document contains information proprietary and confidential to
-REM Mentor Graphics Corp., and is not for external distribution.
 REM ==========================================================================
 REM This file is intended to run on Windows <95|98|NT|2000>.
 

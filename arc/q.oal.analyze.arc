@@ -1,16 +1,7 @@
 .//============================================================================
-.// $RCSfile: q.oal.analyze.arc,v $
-.//
-.// Description:
 .// The query/transformations in this file analyze the action language
 .// of the customer model and gather statistics for use in optimized
 .// code generation.
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//

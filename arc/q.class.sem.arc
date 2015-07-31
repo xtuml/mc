@@ -1,15 +1,6 @@
 .//============================================================================
-.// $RCSfile: q.class.sem.arc,v $
-.//
-.// Description:
 .// This archetype file contains functions for generating the structural
 .// (state event matrix e.g., SEM) aspects of object state machines.
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//

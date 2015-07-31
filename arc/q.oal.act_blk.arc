@@ -1,15 +1,6 @@
 .//============================================================================
-.// $RCSfile: q.oal.act_blk.arc,v $
-.//
-.// Description:
 .// This function provides indirection and a single point of turning for
 .// fragment versus OAL instance based code generation.
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//

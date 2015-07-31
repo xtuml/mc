@@ -1,12 +1,3 @@
-.//============================================================================
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
-.//
 /*
  * This provides implementation of multi-tasking/threading
  * capabilities allowing classes/subsystems to run in different

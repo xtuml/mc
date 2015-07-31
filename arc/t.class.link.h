@@ -1,11 +1,3 @@
-.//============================================================================
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
 .if ( te_relinfo.multiplicity == 0 )
   .// navigation across link to ONE
   .if ( navigated or te_c.OptDisabled )

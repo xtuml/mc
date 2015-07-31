@@ -1,15 +1,6 @@
 .//============================================================================
-.// $RCSfile: t.class.sm_act.c,v $
-.//
-.// Description:
 .// This archetype template generates the state and transition action routines
 .// for the Finite State Machine (FSM) implementation of xtUML state models.
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 

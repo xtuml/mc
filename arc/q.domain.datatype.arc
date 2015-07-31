@@ -1,15 +1,6 @@
 .//============================================================================
-.// $RCSfile: q.domain.datatype.arc,v $
-.//
-.// Description:
 .// This archetype generates an include file containing the domain level
 .// structured and enumerated user data types defined in the analysis model.
-.//
-.// Notice:
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//

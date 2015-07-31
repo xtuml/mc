@@ -12884,12 +12884,12 @@ ooaofooa_docgen_system()
   doc_doc->title = Escher_strcpy( doc_doc->title, "BridgePoint &registerd; xtUML Generated Documentation" );
   /* ASSIGN doc_doc.subtitle =  */
   doc_doc->subtitle = Escher_strcpy( doc_doc->subtitle, "" );
-  /* ASSIGN doc_doc.author = Mentor Graphics */
-  doc_doc->author = Escher_strcpy( doc_doc->author, "Mentor Graphics" );
+  /* ASSIGN doc_doc.author = xtuml.org */
+  doc_doc->author = Escher_strcpy( doc_doc->author, "xtuml.org" );
   /* ASSIGN doc_doc.font_family = Arial */
   doc_doc->font_family = Escher_strcpy( doc_doc->font_family, "Arial" );
-  /* ASSIGN doc_doc.company = Mentor Graphics */
-  doc_doc->company = Escher_strcpy( doc_doc->company, "Mentor Graphics" );
+  /* ASSIGN doc_doc.company = xtuml.org */
+  doc_doc->company = Escher_strcpy( doc_doc->company, "xtuml.org" );
   /* ASSIGN doc_doc.copyright =  */
   doc_doc->copyright = Escher_strcpy( doc_doc->copyright, "" );
   /* ASSIGN doc_doc.filename = doc.xml */
