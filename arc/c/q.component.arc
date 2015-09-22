@@ -40,7 +40,7 @@
   .// CDS agilegc (Add foreign includes derived from marking.)
   .select many s_syss from instances of S_SYS
   .assign syscount = cardinality s_syss
-  .if ( ( 2 == syscount ) and ( false ) )
+  .if ( 2 == syscount )
     .select any te_sys from instances of TE_SYS where ( selected.Name == "SYS" )
     .if ( not_empty te_sys )
       .select many required_te_iirs related by local_te_iirs->TE_IIR[R2081.'requires or delegates']
