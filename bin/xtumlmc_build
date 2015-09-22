@@ -888,7 +888,7 @@ sub xtumlmc_cleanse_model($$$)
   my $I = xtumlmc_open( "<" . shift );
   my $O = xtumlmc_open( ">" . shift );
   my $stripNonAscii = shift || 'false';
-  my $v_lst = 0;
+  my $v_lst = 0; $s_sys = 0;
 
   OUTER: while ( <$I> ) {
     if ( $stripNonAscii eq 'true' ) {
@@ -992,10 +992,12 @@ sub xtumlmc_cleanse_model($$$)
       }
 
       if ( /^INSERT INTO V_LST/ ) { $v_lst = 1; }
+      if ( /^INSERT INTO S_SYS/ ) { $s_sys = 1; }
       print $O "$_";
       next OUTER;
     } else {
       if ( $v_lst && /\'docbook\/t\..*\.xml\'/ ) { s/.xml/.h/; $v_lst = 0; }
+      if ( $s_sys && /\'.*\'/ ) { s/'.*'/'SYS'/; $s_sys = 0; }
       # Substitute triple-tick with single-tick but only when something is inside.
       s/'''([a-zA-Z0-9_ ]+)'''/'\1'/g;
       # Just a normal line, send it on through.

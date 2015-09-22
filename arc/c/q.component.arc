@@ -130,7 +130,7 @@
       .else
         .// CDS agilegc
         .// Check to see if any "virtual" connections (TE_IIRs) have been made to foreign components via marking.
-        .if ( ( "SYS" == te_sys.Name ) and ( false ) )
+        .if ( "SYS" == te_sys.Name )
           .select many foreign_te_iirs related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']
           .if ( empty foreign_te_iirs )
             .select many foreign_te_iirs related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']
