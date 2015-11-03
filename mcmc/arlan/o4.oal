@@ -5,14 +5,6 @@ WireSynchServiceOoaBridge@void@@initiant@string@@ee_key_letters@string@@recipien
 // Description:
 // This archetype file contains the implementation functions for colors
 // specified in the (user supplied/modified) bridge.clr file.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //============================================================================
@@ -68,15 +60,6 @@ TagSystemObjectDefaultExtentSize@void@@extent_size@integer@@@
 // Description:
 // This archetype file contains the implementation functions for colors
 // specified in the (user supplied/modified) object.clr file.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-// Enhancements provided by TOYO Corporation.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //============================================================================
@@ -576,14 +559,6 @@ MarkAsChannel@void@@package_name@string@@component_name@string@@inc_file@string@
 //
 // Description:
 // Component level marking functions are found here.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //
@@ -1144,14 +1119,6 @@ TagDataTypePrecision@void@@component_name@string@@dt_name@string@@tagged_name@st
 // Description:
 // This archetype file contains the implementation functions for marks
 // specified in the (user supplied/modified) datatype.clr file.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //============================================================================
@@ -1300,14 +1267,6 @@ TagFunctionTranslationOff@void@@function_name@string@@@
 // Description:
 // This archetype file contains the implementation functions for colors
 // specified in the (user supplied/modified) domain.mark file.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //
@@ -1673,15 +1632,6 @@ TagDispatchFlavor@void@@flavor@integer@@@
 // Description:
 // This archetype file contains the implementation functions for colors
 // specified in the (user supplied/modified) event.clr file.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-// Enhancements provided by TOYO Corporation.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //
@@ -1753,15 +1703,6 @@ EnableTasking@void@@flavor@string@@serialize@string@@number_of_threads@integer@@
 // Description:
 // System level coloring functions are found here.
 // Notice that the colors that would normally update TE_SYS are active.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-// Enhancements provided by TOYO Corporation.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //

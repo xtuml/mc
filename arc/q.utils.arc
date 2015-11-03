@@ -2,7 +2,6 @@
 .//
 .// $RCSfile: q.utils.arc,v $
 .//
-.// (c) Copyright 1998-2013 Mentor Graphics Corporation  All rights reserved.
 .//
 .//====================================================================
 .//

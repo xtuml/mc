@@ -3,7 +3,6 @@
 # Version:   $Revision: 1.7 $
 # Modified:  $Date: 2013/01/10 23:35:13 $
 #
-# (c) Copyright 2004-2013 by Mentor Graphics Corp.  All rights reserved.
 #
 # This file builds the libREPB.dll with the following command:
 #

@@ -1,8 +1,3 @@
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
-<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
-<| Property of Mentor Graphics Corporation                           |>
-<| All Rights Reserved.                                              |>
-<\__________________________________________________________________-->
 <appendix id="AnalysisGuide-appendix">
 <title id="AnalysisGuide-appendix-title">Analysis Guide</title>
 <highlights id="AnalysisGuide-appendix-high"><para>&escher;
@@ -34,15 +29,6 @@ provided.</para></highlights>
     value) is allowed only when the identifier of
     object <emphasis>keyletters</emphasis> is of type
     unique_ID.</para></listitem>
-    <listitem><para>The implementation of string expressions
-    is somewhat inelegant.  Strings in expressions are limited to simple
-    binary operations.  For example
-    <programlisting>company = "Mentor" + "Graphics" + "Corp.";</programlisting>
-    results in a compilation error.  The alternative,
-    <programlisting>company = "Mentor" + "Graphics";</programlisting>
-    <programlisting>company = company + "Corp.";</programlisting>
-    must be used to
-    work around this shortcoming.</para></listitem>
   </itemizedlist>
   </para>
 </sect1>

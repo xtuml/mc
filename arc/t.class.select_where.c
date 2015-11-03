@@ -1,16 +1,4 @@
 .//============================================================================
-.// $RCSfile: t.class.select_where.c,v $
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
-.//============================================================================
 .// Generate a routine that encapsulates the scanning of a set for a 
 .// specific instance.  The contents of this routine could be changed
 .// to optimize this type of selection for speed.  As it stands here,

@@ -1,8 +1,3 @@
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
-<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
-<| Property of Mentor Graphics Corporation                           |>
-<| All Rights Reserved.                                              |>
-<\__________________________________________________________________-->
 <chapter id="MCGUI-chapter">
 <title>Eclipse Integration</title>
 <highlights id="MCGUI-chapter-high"><para>The &escher; build process

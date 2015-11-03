@@ -90,7 +90,7 @@ Generating the Schema
 
 Exporting the Model for Customers
 ----------------------------------
-* See com.mentor.nuclues.bp.welcome/README.txt
+* See org.xtuml.bp.welcome/README.txt
 
 
 

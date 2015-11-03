@@ -1066,11 +1066,6 @@ static int yy_more_len = 0;
 char *yytext;
 #line 1 "template_engine.l"
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*| MGC Confidential                                                |*/
-/*| Property of Mentor Graphics Corp.                               |*/
-/*| (C) Copyright Mentor Graphics Corp.  (2006-2013)                |*/
-/* _________________________________________________________________ */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*| Title:               Archetype Scanner                          |*/
 /*|                                                                 |*/
 /*| Abstract -                                                      |*/

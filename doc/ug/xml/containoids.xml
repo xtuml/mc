@@ -1,9 +1,3 @@
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
-<| (C) Copyright Mentor Graphics Corporation (2001-2005)             |>
-<| Property of Mentor Graphics Corporation                           |>
-<| All Rights Reserved.                                              |>
-<\__________________________________________________________________-->
-
 <section id="Containoids-section">
   <title>&escher; Extent Prediction and Marking</title>
     <para>First pass translation collects statistics used to

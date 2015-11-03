@@ -5,8 +5,8 @@
     <xsl:call-template name="inline.boldseq"/>
   </xsl:template>
   <xsl:param name="eclipse.plugin.name">MC-3020 Model Compiler User Guide</xsl:param>
-  <xsl:param name="eclipse.plugin.id">com.mentor.nucleus.help.bp.mc</xsl:param>
-  <xsl:param name="eclipse.plugin.provider">Mentor Graphics</xsl:param>
+  <xsl:param name="eclipse.plugin.id">org.xtuml.help.bp.mc</xsl:param>
+  <xsl:param name="eclipse.plugin.provider">xtuml.org</xsl:param>
   <xsl:param name="admon.graphics" select="1"/>
   <xsl:param name="make.valid.html" select="1"></xsl:param>
   <xsl:param name="html.cleanup" select="1"></xsl:param>

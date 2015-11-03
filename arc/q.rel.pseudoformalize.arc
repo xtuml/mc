@@ -1,18 +1,7 @@
 .//============================================================================
-.// $RCSfile: q.assoc.pseudoformalize.arc,v $
-.//
-.// Description:
 .// This query/transformation archetype file contains the functionality
 .// that will allow the model compiler to generate code for unformalized 
 .// associations (associations that have not been formalized).
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .// Find the associations that are not formalized.  They are characterized

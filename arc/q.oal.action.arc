@@ -1,18 +1,7 @@
 .//============================================================================
-.// $RCSfile: q.oal.action.arc,v $
-.//
-.// Description:
 .// This query rolls up (accumulates) the translated statements into
 .// a single string attribute on the action block anchor (TE_ABA).
 .// After this roll-up, the ACT_* and V_* instances are no longer needed.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//

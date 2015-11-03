@@ -9,14 +9,6 @@
 .// (boolean gen_declaration) which is used to determine whether to generate
 .// the declaration or definition.  If gen_declaration is TRUE, the generated
 .// code is declaration, FALSE is definition.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//============================================================================

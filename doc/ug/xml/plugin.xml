@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE plugin PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<plugin name="MC-3020 Model Compiler User Guide" id="com.mentor.nucleus.help.bp.mc" version="1.0" provider-name="Mentor Graphics">
+<plugin name="MC-3020 Model Compiler User Guide" id="org.xtuml.help.bp.mc" version="1.0" provider-name="One Fact">
   <extension point="org.eclipse.help.toc">
     <toc file="toc.xml" primary="true"></toc>
   </extension>
