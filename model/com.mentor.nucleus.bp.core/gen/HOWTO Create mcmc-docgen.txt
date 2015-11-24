@@ -30,7 +30,7 @@ Update the RSL-to-OAL translator.
 - Create function signatures for OAL from the RSL by running the
   following in the (git master) mc/arc folder:
   + cd <git repo>/mc/arc
-  + egrep -r -e "^\.function " -e "^ *\.param " -e ".end function" * | awk '{if ($1 ~ ".function") printf("{\"%s\"",$2); else if ($0 ~ "\.param ") printf(",\"%s\"",$4); else if ($1 ~ ".end" && $2 ~ "function") printf("},\n");}' > ~/funcsigs.h
+  + egrep -r -e "^\.function " -e "^ *\.param " -e ".end function" * | awk '{if ($1 ~ ".function") printf("{\"%s\"",$2); else if ($0 ~ "\.param ") printf(",\"%s\"",$4); else if ($1 ~ ".end" && $2 ~ "function") printf("},\n");}' | sort | uniq > ~/funcsigs.h
   + Then, vimdiff ~/funcsigs.h ../mcmc/arlan/funcsigs.h (Or use a sissy GUI diff'er like "meld").  Copy relevant updates into the arlan/ based file.
     # NOTE: Order differences do not matter.  Also, funcsigs.h changes are not needed 
     # unless new functions or new parameters were added (or return types changed)... and 

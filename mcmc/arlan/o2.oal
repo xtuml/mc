@@ -532,24 +532,26 @@ val_message_value@void@@v_msv@inst_ref<Message Value>@@@
 v_msv = param.v_msv;
 select one v_val related by v_msv->V_VAL[R801];
 select one te_val related by v_val->TE_VAL[R2040];
-select one te_mact related by v_msv->SPR_PEP[R841]->SPR_PO[R4503]->TE_MACT[R2050];
-if ( empty te_mact )
-  select one te_mact related by v_msv->SPR_REP[R845]->SPR_RO[R4502]->TE_MACT[R2052];
-end if;
-select many v_pars related by v_msv->V_PAR[R842];
-select one te_aba related by te_mact->TE_ABA[R2010];
-select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
-sretvar = ( ( "vmsv" + T::s(i:v_val.LineNumber) ) + ( te_aba.GeneratedName + T::s(i:v_val.StartPosition) ) );
-r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, te_blk:te_blk, sretvar:sretvar, is_statement:false );
-te_val.buffer = r;
-te_val.OAL = ( ( te_mact.PortName + "::" ) + ( te_mact.MessageName + "(" ) ) + ( te_mact.OALParamBuffer + ")" );
-te_val.dimensions = te_aba.dimensions;
-te_val.array_spec = te_aba.array_spec;
-select one te_dim related by te_aba->TE_DIM[R2058];
-if ( not_empty te_dim )
-  relate te_val to te_dim across R2079;
-else
+if ( "" == te_val.buffer )
+  select one te_mact related by v_msv->SPR_PEP[R841]->SPR_PO[R4503]->TE_MACT[R2050];
+  if ( empty te_mact )
+    select one te_mact related by v_msv->SPR_REP[R845]->SPR_RO[R4502]->TE_MACT[R2052];
   end if;
+  select many v_pars related by v_msv->V_PAR[R842];
+  select one te_aba related by te_mact->TE_ABA[R2010];
+  select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
+  sretvar = ( ( "vmsv" + T::s(i:v_val.LineNumber) ) + ( te_aba.GeneratedName + T::s(i:v_val.StartPosition) ) );
+  r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, te_blk:te_blk, sretvar:sretvar, is_statement:false );
+  te_val.buffer = r;
+  te_val.OAL = ( ( te_mact.PortName + "::" ) + ( te_mact.MessageName + "(" ) ) + ( te_mact.OALParamBuffer + ")" );
+  te_val.dimensions = te_aba.dimensions;
+  te_val.array_spec = te_aba.array_spec;
+  select one te_dim related by te_aba->TE_DIM[R2058];
+  if ( not_empty te_dim )
+    relate te_val to te_dim across R2079;
+  else
+      end if;
+end if;
 @@@
 val_bridge_values@void@@@
 //
@@ -567,54 +569,56 @@ if ( not_empty te_brg )
   select any te_target from instances of TE_TARGET;
   select one v_val related by v_brv->V_VAL[R801];
   select one te_val related by v_val->TE_VAL[R2040];
-  select many v_pars related by v_brv->V_PAR[R810];
-  select one te_aba related by te_brg->TE_ABA[R2010];
-  select one te_ee related by v_brv->S_BRG[R828]->S_EE[R19]->TE_EE[R2020];
-  te_ee.Included = true;
-  r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
-  te_parm = r;
-  parameters = te_parm.ParamBuffer;
-  params_OAL = te_parm.OALParamBuffer;
-  te_val.OAL = ( ( te_brg.EEkeyletters + "::" ) + ( te_brg.Name + "(" ) ) + ( params_OAL + ")" );
-  if ( "c_t *" == te_aba.ReturnDataType )
-    if ( not te_sys.InstanceLoading )
-      select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
-      sretvar = ( ( "vbrv" + T::s(i:v_val.LineNumber) ) + ( te_aba.GeneratedName + T::s(i:v_val.StartPosition) ) );
-      te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";";
-      if ( "" == parameters )
-        parameters = sretvar;
-      else
-        parameters = ( ( sretvar + ", " ) + parameters );
-      end if;
-    end if;
-  end if;
-  if ( "C++" == te_target.language )
-    if ( "TIM" == te_brg.EEkeyletters )
-      te_val.buffer = ( "thismodule->tim->" + te_brg.GeneratedName ) + "(";
-    else
-      select one te_c related by te_ee->TE_C[R2085];
-      if ( not_empty te_c )
+  if ( "" == te_val.buffer )
+    select many v_pars related by v_brv->V_PAR[R810];
+    select one te_aba related by te_brg->TE_ABA[R2010];
+    select one te_ee related by v_brv->S_BRG[R828]->S_EE[R19]->TE_EE[R2020];
+    te_ee.Included = true;
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
+    te_parm = r;
+    parameters = te_parm.ParamBuffer;
+    params_OAL = te_parm.OALParamBuffer;
+    te_val.OAL = ( ( te_brg.EEkeyletters + "::" ) + ( te_brg.Name + "(" ) ) + ( params_OAL + ")" );
+    if ( "c_t *" == te_aba.ReturnDataType )
+      if ( not te_sys.InstanceLoading )
+        select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
+        sretvar = ( ( "vbrv" + T::s(i:v_val.LineNumber) ) + ( te_aba.GeneratedName + T::s(i:v_val.StartPosition) ) );
+        te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";";
         if ( "" == parameters )
-          parameters = "thismodule";
+          parameters = sretvar;
         else
-          parameters = "thismodule, " + parameters;
+          parameters = ( ( sretvar + ", " ) + parameters );
         end if;
       end if;
     end if;
-  else
-    te_val.buffer = ( te_aba.scope + te_brg.GeneratedName ) + "(";
-  end if;
-  if ( "" != parameters )
-    te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " );
-  end if;
-  te_val.buffer = te_val.buffer + ")";
-  te_val.dimensions = te_aba.dimensions;
-  te_val.array_spec = te_aba.array_spec;
-  select one te_dim related by te_aba->TE_DIM[R2058];
-  if ( not_empty te_dim )
-    relate te_val to te_dim across R2079;
-  else
+    if ( "C++" == te_target.language )
+      if ( "TIM" == te_brg.EEkeyletters )
+        te_val.buffer = ( "thismodule->tim->" + te_brg.GeneratedName ) + "(";
+      else
+        select one te_c related by te_ee->TE_C[R2085];
+        if ( not_empty te_c )
+          if ( "" == parameters )
+            parameters = "thismodule";
+          else
+            parameters = "thismodule, " + parameters;
+          end if;
+        end if;
       end if;
+    else
+      te_val.buffer = ( te_aba.scope + te_brg.GeneratedName ) + "(";
+    end if;
+    if ( "" != parameters )
+      te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " );
+    end if;
+    te_val.buffer = te_val.buffer + ")";
+    te_val.dimensions = te_aba.dimensions;
+    te_val.array_spec = te_aba.array_spec;
+    select one te_dim related by te_aba->TE_DIM[R2058];
+    if ( not_empty te_dim )
+      relate te_val to te_dim across R2079;
+    else
+          end if;
+  end if;
 end if;
 @@@
 val_transform_values@void@@@
@@ -715,41 +719,43 @@ if ( not_empty te_sync )
   select any te_target from instances of TE_TARGET;
   select one v_val related by v_fnv->V_VAL[R801];
   select one te_val related by v_val->TE_VAL[R2040];
-  select many v_pars related by v_fnv->V_PAR[R817];
-  select one te_aba related by te_sync->TE_ABA[R2010];
-  r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
-  te_parm = r;
-  parameters = te_parm.ParamBuffer;
-  params_OAL = te_parm.OALParamBuffer;
-  te_val.OAL = ( ( "::" + te_sync.Name ) + ( "(" + params_OAL ) ) + ")";
-  if ( "c_t *" == te_aba.ReturnDataType )
-    if ( not te_sys.InstanceLoading )
-      select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
-      sretvar = ( ( "vfnv" + T::s(i:v_val.LineNumber) ) + ( te_aba.GeneratedName + T::s(i:v_val.StartPosition) ) );
-      te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";";
-      if ( "" == parameters )
-        parameters = sretvar;
-      else
-        parameters = ( ( sretvar + ", " ) + parameters );
+  if ( "" == te_val.buffer )
+    select many v_pars related by v_fnv->V_PAR[R817];
+    select one te_aba related by te_sync->TE_ABA[R2010];
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
+    te_parm = r;
+    parameters = te_parm.ParamBuffer;
+    params_OAL = te_parm.OALParamBuffer;
+    te_val.OAL = ( ( "::" + te_sync.Name ) + ( "(" + params_OAL ) ) + ")";
+    if ( "c_t *" == te_aba.ReturnDataType )
+      if ( not te_sys.InstanceLoading )
+        select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
+        sretvar = ( ( "vfnv" + T::s(i:v_val.LineNumber) ) + ( te_aba.GeneratedName + T::s(i:v_val.StartPosition) ) );
+        te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";";
+        if ( "" == parameters )
+          parameters = sretvar;
+        else
+          parameters = ( ( sretvar + ", " ) + parameters );
+        end if;
       end if;
     end if;
+    name = te_sync.intraface_method;
+    if ( "C++" == te_target.language )
+      name = "thismodule->" + name;
+    end if;
+    te_val.buffer = name + "(";
+    if ( "" != parameters )
+      te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " );
+    end if;
+    te_val.buffer = te_val.buffer + ")";
+    te_val.dimensions = te_aba.dimensions;
+    te_val.array_spec = te_aba.array_spec;
+    select one te_dim related by te_aba->TE_DIM[R2058];
+    if ( not_empty te_dim )
+      relate te_val to te_dim across R2079;
+    else
+          end if;
   end if;
-  name = te_sync.intraface_method;
-  if ( "C++" == te_target.language )
-    name = "thismodule->" + name;
-  end if;
-  te_val.buffer = name + "(";
-  if ( "" != parameters )
-    te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " );
-  end if;
-  te_val.buffer = te_val.buffer + ")";
-  te_val.dimensions = te_aba.dimensions;
-  te_val.array_spec = te_aba.array_spec;
-  select one te_dim related by te_aba->TE_DIM[R2058];
-  if ( not_empty te_dim )
-    relate te_val to te_dim across R2079;
-  else
-      end if;
 end if;
 @@@
 val_array_element_references@void@@@

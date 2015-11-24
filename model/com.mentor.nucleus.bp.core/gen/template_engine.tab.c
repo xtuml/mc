@@ -62,7 +62,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 15 "template_engine.y" /* yacc.c:339  */
+#line 10 "template_engine.y" /* yacc.c:339  */
 
 
 #define TOKENSIZE 100
@@ -84,7 +84,7 @@ char * SSS = "T_b(";
 char formatcharacter = 0;
 #endif
 
-#line 37 "template_engine.y" /* yacc.c:339  */
+#line 32 "template_engine.y" /* yacc.c:339  */
 
 /*-------------------------------------------------------------------*/
 #include <stdio.h>
@@ -518,19 +518,19 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    80,    80,    84,    87,    89,    93,    96,    98,    99,
-     100,   104,   105,   105,   107,   106,   113,   114,   115,   116,
-     117,   118,   119,   120,   121,   122,   123,   124,   125,   126,
-     127,   128,   132,   133,   134,   135,   136,   139,   141,   144,
-     146,   147,   148,   151,   153,   154,   157,   159,   160,   163,
-     165,   165,   168,   170,   170,   174,   175,   179,   180,   184,
-     185,   189,   193,   194,   195,   196,   197,   201,   202,   203,
-     204,   208,   209,   210,   211,   212,   213,   214,   215,   219,
-     220,   221,   225,   229,   230,   233,   235,   239,   240,   241,
-     245,   245,   245,   245,   245,   245,   249,   253,   257,   261,
-     265,   266,   270,   274,   278,   279,   283,   283,   283,   283,
-     283,   283,   284,   284,   284,   284,   284,   284,   288,   289,
-     294,   295,   304,   308,   333,   336,   338,   339,   340
+       0,    75,    75,    79,    82,    84,    88,    91,    93,    94,
+      95,    99,   100,   100,   102,   101,   108,   109,   110,   111,
+     112,   113,   114,   115,   116,   117,   118,   119,   120,   121,
+     122,   123,   127,   128,   129,   130,   131,   134,   136,   139,
+     141,   142,   143,   146,   148,   149,   152,   154,   155,   158,
+     160,   160,   163,   165,   165,   169,   170,   174,   175,   179,
+     180,   184,   188,   189,   190,   191,   192,   196,   197,   198,
+     199,   203,   204,   205,   206,   207,   208,   209,   210,   214,
+     215,   216,   220,   224,   225,   228,   230,   234,   235,   236,
+     240,   240,   240,   240,   240,   240,   244,   248,   252,   256,
+     260,   261,   265,   269,   273,   274,   278,   278,   278,   278,
+     278,   278,   279,   279,   279,   279,   279,   279,   283,   284,
+     289,   290,   299,   303,   328,   331,   333,   334,   335
 };
 #endif
 
@@ -1500,19 +1500,19 @@ yyreduce:
   switch (yyn)
     {
         case 12:
-#line 105 "template_engine.y" /* yacc.c:1646  */
+#line 100 "template_engine.y" /* yacc.c:1646  */
     {strcat(b,"if ");strcat(b,(yyvsp[0]));strcat(b," {\n");}
 #line 1506 "template_engine.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 105 "template_engine.y" /* yacc.c:1646  */
+#line 100 "template_engine.y" /* yacc.c:1646  */
     {strcat(b,"}\n");}
 #line 1512 "template_engine.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 107 "template_engine.y" /* yacc.c:1646  */
+#line 102 "template_engine.y" /* yacc.c:1646  */
     {
           #ifdef FUN
           printf("%s", (yyvsp[0]));
@@ -1522,37 +1522,37 @@ yyreduce:
     break;
 
   case 50:
-#line 165 "template_engine.y" /* yacc.c:1646  */
+#line 160 "template_engine.y" /* yacc.c:1646  */
     {strcat(b,"} else if ");strcat(b,(yyvsp[0]));strcat(b," {\n");}
 #line 1528 "template_engine.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 170 "template_engine.y" /* yacc.c:1646  */
+#line 165 "template_engine.y" /* yacc.c:1646  */
     {strcat(b,"} else {\n");}
 #line 1534 "template_engine.tab.c" /* yacc.c:1646  */
     break;
 
   case 97:
-#line 253 "template_engine.y" /* yacc.c:1646  */
+#line 248 "template_engine.y" /* yacc.c:1646  */
     {FRAG_MACRO();}
 #line 1540 "template_engine.tab.c" /* yacc.c:1646  */
     break;
 
   case 118:
-#line 288 "template_engine.y" /* yacc.c:1646  */
+#line 283 "template_engine.y" /* yacc.c:1646  */
     {if(!backslash && !stringmode){strcat(b,SSS);strcat(b,"\"\\n\");\n");}backslash=0;}
 #line 1546 "template_engine.tab.c" /* yacc.c:1646  */
     break;
 
   case 120:
-#line 294 "template_engine.y" /* yacc.c:1646  */
+#line 289 "template_engine.y" /* yacc.c:1646  */
     {if (1 && strlen(literalstr)) {strcat(b,SSS);strcat(b,"\"");strcat(b,literalstr);strcat(b,"\");");if(!stringmode)strcat(b,"\n");literalstr[0]=0;}}
 #line 1552 "template_engine.tab.c" /* yacc.c:1646  */
     break;
 
   case 121:
-#line 296 "template_engine.y" /* yacc.c:1646  */
+#line 291 "template_engine.y" /* yacc.c:1646  */
     { int len = strlen( literalstr );
           if ( 0 != len ) {
             /* CDS - Here we seem to be detecting a trailing backslash.  Set a flag and then skip appending line return.  */
@@ -1565,7 +1565,7 @@ yyreduce:
     break;
 
   case 123:
-#line 309 "template_engine.y" /* yacc.c:1646  */
+#line 304 "template_engine.y" /* yacc.c:1646  */
     {strcat(b,SSS);
           if ( '_' == formatcharacter ) {
             strcat(b,"T_underscore(");
@@ -1818,7 +1818,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 343 "template_engine.y" /* yacc.c:1906  */
+#line 338 "template_engine.y" /* yacc.c:1906  */
 
 
 /*===================================================================*/

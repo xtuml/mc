@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/usr/local/MentorGraphics/BridgePoint/eclipse_extensions/BridgePoint/eclipse/plugins/com.mentor.nucleus.bp.core_3.6.3/core.jar"/>
+	<classpathentry kind="lib" path="/home/cort/psf/Home/xtuml/ubp510c/eclipse/plugins/org.xtuml.bp.core_5.1.0/core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

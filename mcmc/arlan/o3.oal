@@ -1,8 +1,5 @@
 GetFixedSizeClassExtentInfo@string@@te_class@inst_ref<Extended Class>@@@
 //============================================================================
-// $RCSfile: q.names.arc,v $
-//
-// Description:
 // This archetype file contains utility functions for implementation namings
 // that span multiple archetype files.
 //============================================================================
@@ -134,9 +131,6 @@ return "  const s1_t operation, const ${te_typemap.domain_number_name} domain,\n
 @@@
 blck_xlate@void@@trace@boolean@@te_blk@inst_ref<Extended Block>@@te_aba@inst_ref<Action Block Anchor>@@@
 //============================================================================
-// $RCSfile: q.oal.act_blk.arc,v $
-//
-// Description:
 // This function provides indirection and a single point of turning for
 // fragment versus OAL instance based code generation.
 //============================================================================
@@ -276,9 +270,6 @@ te_aba.code = te_aba.code + s;
 @@@
 TE_ABA_rollup@void@@@
 //============================================================================
-// $RCSfile: q.oal.action.arc,v $
-//
-// Description:
 // This query rolls up (accumulates) the translated statements into
 // a single string attribute on the action block anchor (TE_ABA).
 // After this roll-up, the ACT_* and V_* instances are no longer needed.
@@ -1819,7 +1810,7 @@ ws = te_blk.indentation;
 select one v_val related by act_ret->V_VAL[R668];
 intCast1 = "";
 intCast2 = "";
-value = "";
+value = "0";
 value_OAL = "";
 // Deallocate any variables allocated from this block and all higher blocks in this action.
 deallocation = te_blk.deallocation;
@@ -1830,35 +1821,37 @@ while ( not_empty parent_te_blk )
   select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078];
 end while;
 select one te_aba related by te_blk->TE_ABA[R2011];
-if ( not_empty v_val )
-  if ( ( "i_t" == te_aba.ReturnDataType ) or ( "dt_xtUMLInteger" == te_aba.ReturnDataType ) )
-    // resolve the core data type of v_val
-    select one s_dt related by v_val->S_DT[R820];
-    select any core_s_dt from instances of S_DT where ( false );
-    select one s_udt related by s_dt->S_UDT[R17];
-    if ( not_empty s_udt )
-      r = ::GetBaseTypeForUDT( s_udt:s_udt );
-      core_s_dt = r;
+if ( not_empty te_aba )
+  if ( not_empty v_val )
+    if ( ( "i_t" == te_aba.ReturnDataType ) or ( "dt_xtUMLInteger" == te_aba.ReturnDataType ) )
+      // resolve the core data type of v_val
+      select one s_dt related by v_val->S_DT[R820];
+      select any core_s_dt from instances of S_DT where ( false );
+      select one s_udt related by s_dt->S_UDT[R17];
+      if ( not_empty s_udt )
+        r = ::GetBaseTypeForUDT( s_udt:s_udt );
+        core_s_dt = r;
+      end if;
+      if ( not_empty core_s_dt )
+        s_dt = core_s_dt;
+      end if;
+      //
+      // if the value is of the _real_ type
+      if ( "real" == s_dt.Name )
+        // cast the value to an int, to avoid a "possible loss of precision"
+        // syntax error in the generated code
+        intCast1 = ( "(" + te_aba.ReturnDataType ) + ")(";
+        intCast2 = ")";
+      end if;
     end if;
-    if ( not_empty core_s_dt )
-      s_dt = core_s_dt;
-    end if;
-    //
-    // if the value is of the _real_ type
-    if ( "real" == s_dt.Name )
-      // cast the value to an int, to avoid a "possible loss of precision"
-      // syntax error in the generated code
-      intCast1 = ( "(" + te_aba.ReturnDataType ) + ")(";
-      intCast2 = ")";
-    end if;
+    select one te_val related by v_val->TE_VAL[R2040];
+    value = te_val.buffer;
+    value_OAL = te_val.OAL;
   end if;
-  select one te_val related by v_val->TE_VAL[R2040];
-  value = te_val.buffer;
-  value_OAL = te_val.OAL;
+  //
+  T::include(file:"c/t.smt.return.c");
+  te_smt.OAL = "RETURN " + value_OAL;
 end if;
-//
-T::include(file:"c/t.smt.return.c");
-te_smt.OAL = "RETURN " + value_OAL;
 return T::body();
 @@@
 smt_controls@void@@@
@@ -2391,9 +2384,6 @@ return T::body();
 @@@
 GetRelationshipDataMemberName@string@@o_obj@inst_ref<Model Class>@@r_rel@inst_ref<Association>@@rel_phrase@string@@@
 //============================================================================
-// $RCSfile: q.names.rels.arc,v $
-//
-// Description:
 // This archetype file contains utility functions for relationship namings
 // that span multiple archetype files.
 //============================================================================
