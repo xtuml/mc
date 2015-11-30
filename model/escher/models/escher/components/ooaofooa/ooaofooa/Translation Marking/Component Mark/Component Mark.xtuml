@@ -76,7 +76,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Component',
 	'ID',
-	'R2804');
+	'R2804.''marks''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("50b8d9c7-16b6-4d5b-bfe2-578de813e278",
 	"1e0e90c2-6d1a-4dd6-b1d4-5d7b07710637",

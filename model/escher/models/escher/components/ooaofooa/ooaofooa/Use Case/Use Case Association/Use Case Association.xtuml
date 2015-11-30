@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Interaction Participant',
 	'Part_ID',
-	'R1206');
+	'R1206.''starts at''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("91759948-d9a1-4320-abf4-05d8dc400be6",
 	"e32a3579-82d0-4a52-8652-9971b1a68c79",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Interaction Participant',
 	'Part_ID',
-	'R1207');
+	'R1207.''ends at''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("91759948-d9a1-4320-abf4-05d8dc400be6",
 	"b7ee4276-da59-4a61-9b4a-b0fe568645a4",

@@ -24,7 +24,7 @@ INSERT INTO O_REF
 	'',
 	'Block',
 	'Block_ID',
-	'R2923');
+	'R2923.''supplies context for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0a8b1c85-c410-4526-9d74-7b04896df1af",
 	"12bfdf5e-5b1b-4090-90d2-ea4a5f08ebfa",
@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Stack Frame',
 	'Stack_Frame_ID',
-	'R2923');
+	'R2923.''is executed within the context of''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("ad51e0c2-7ccf-4733-bc99-28765508f9f0",
 	"f78c1988-2be4-4192-aa96-621b852c02a3",
@@ -121,7 +121,7 @@ INSERT INTO O_REF
 	'',
 	'Statement',
 	'Statement_ID',
-	'R2941');
+	'R2941.''is currently visiting''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0a8b1c85-c410-4526-9d74-7b04896df1af",
 	"0be83b69-b006-4a6e-998c-c499bf8d16cb",

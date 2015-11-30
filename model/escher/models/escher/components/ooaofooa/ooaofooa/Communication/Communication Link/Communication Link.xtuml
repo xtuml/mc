@@ -178,7 +178,7 @@ INSERT INTO O_REF
 	'',
 	'Interaction Participant',
 	'Part_ID',
-	'R1133');
+	'R1133.''starts at''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8b68076f-65e8-43ab-9189-b5cdefe28073",
 	"e6f50834-3ed3-4db3-8072-56b6777f8987",
@@ -229,7 +229,7 @@ INSERT INTO O_REF
 	'',
 	'Interaction Participant',
 	'Part_ID',
-	'R1134');
+	'R1134.''is destined for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8b68076f-65e8-43ab-9189-b5cdefe28073",
 	"c7149f76-e257-4bf5-9dd8-c18014736bf7",
@@ -276,7 +276,7 @@ INSERT INTO O_REF
 	'',
 	'Association',
 	'Rel_ID',
-	'R1128');
+	'R1128.''may be formalized against''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8b68076f-65e8-43ab-9189-b5cdefe28073",
 	"fbd28837-28a3-450f-9862-e4a1161a171a",

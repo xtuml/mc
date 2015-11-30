@@ -141,7 +141,7 @@ INSERT INTO O_REF
 	'',
 	'Component',
 	'Id',
-	'R955');
+	'R955.''represents''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("9d0a5a7b-cfc7-4597-bb3d-84714c4ee732",
 	"becc91c3-5e78-479a-af3c-dcffe97cd282",

@@ -61,7 +61,7 @@ INSERT INTO O_REF
 	'',
 	'Subsystem',
 	'SS_ID',
-	'R4');
+	'R4.''abstracts associations between classes in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("bd33215d-433e-4151-9362-bdd24574d386",
 	"b30438c0-1c64-48ae-a727-ca3dd542b724",

@@ -120,7 +120,7 @@ INSERT INTO O_REF
 	'',
 	'Structure Member',
 	'Member_ID',
-	'R836');
+	'R836.''is value of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8a082723-6830-46f2-b8c3-1b3b2ab68fef",
 	"bc70efb2-e01e-43e0-8696-3c3e6bfa1a8d",
@@ -171,7 +171,7 @@ INSERT INTO O_REF
 	'',
 	'Structure Member',
 	'Parent_DT_DT_ID',
-	'R836');
+	'R836.''is value of''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("4e2a3ca9-8f8d-41de-92ad-45f5d354fa74",
 	"343cbfaa-20fb-480d-b949-3c1afb3f267f",

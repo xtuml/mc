@@ -202,7 +202,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Dimension',
 	'te_dimID',
-	'R2055');
+	'R2055.''has first''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("30c797bd-3f56-472e-b8c8-1d5eb3b3a3cb",
 	"8db1ef9e-0852-4b30-8433-8d7a1eb11bcf",
@@ -271,7 +271,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Class',
 	'GeneratedName',
-	'R2061');
+	'R2061.''is characteristic of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("30c797bd-3f56-472e-b8c8-1d5eb3b3a3cb",
 	"33aa3970-3b44-4e29-b090-dae199dc99aa",
@@ -473,7 +473,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Attribute',
 	'ID',
-	'R2087');
+	'R2087.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("30c797bd-3f56-472e-b8c8-1d5eb3b3a3cb",
 	"d054eada-2e68-415c-9019-f2477893ddd4",

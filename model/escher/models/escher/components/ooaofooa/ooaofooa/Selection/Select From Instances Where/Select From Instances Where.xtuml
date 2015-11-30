@@ -76,7 +76,7 @@ INSERT INTO O_REF
 	'',
 	'Variable',
 	'Var_ID',
-	'R665');
+	'R665.''result''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("394f0532-a919-4930-9471-0ea61182d959",
 	"ba3dc6e6-490e-4791-8344-253175f9eb65",
@@ -167,7 +167,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R610');
+	'R610.''where clause''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("394f0532-a919-4930-9471-0ea61182d959",
 	"5dca5d22-4908-465a-8436-7df97bf9fd77",
@@ -256,7 +256,7 @@ INSERT INTO O_REF
 	'',
 	'Model Class',
 	'Obj_ID',
-	'R676');
+	'R676.''from extent of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("394f0532-a919-4930-9471-0ea61182d959",
 	"1beca17d-1342-4f0f-86df-5f29c1a10557",

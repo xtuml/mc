@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R803');
+	'R803.''has right''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("624962c1-5d6a-41ba-ba85-e772a16fc610",
 	"74a15866-b987-4755-a347-c369e94b3663",
@@ -120,7 +120,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R802');
+	'R802.''has left''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("624962c1-5d6a-41ba-ba85-e772a16fc610",
 	"9a2311bb-3b6b-4525-ad2b-6c84ff35db79",

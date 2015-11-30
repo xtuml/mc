@@ -113,7 +113,7 @@ INSERT INTO O_REF
 	'',
 	'Chain Link',
 	'Link_ID',
-	'R604');
+	'R604.''precedes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0f1425d2-0879-47db-a58e-9a0d839bda6c",
 	"be47bce3-afa1-4dc1-b6f3-2c751c05fa93",
@@ -299,7 +299,7 @@ INSERT INTO O_REF
 	'',
 	'Model Class',
 	'Obj_ID',
-	'R678');
+	'R678.''specifies instances of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0f1425d2-0879-47db-a58e-9a0d839bda6c",
 	"f7ee3485-26d8-4101-9687-c69fdf81a0ab",
@@ -350,7 +350,7 @@ INSERT INTO O_REF
 	'',
 	'Association',
 	'Rel_ID',
-	'R681');
+	'R681.''specifies traversal of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0f1425d2-0879-47db-a58e-9a0d839bda6c",
 	"e3ba2545-1ee1-40a1-87ca-dccc06bbe2da",

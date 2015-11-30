@@ -25,7 +25,7 @@ INSERT INTO O_REF
 	'',
 	'Packageable Element',
 	'Element_ID',
-	'R8002');
+	'R8002.''has visibility of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("ee874419-607a-4435-aafe-bb4a93ada34f",
 	"2bd456c7-68c0-453b-b18a-f8d2e8d49a82",
@@ -76,7 +76,7 @@ INSERT INTO O_REF
 	'',
 	'Package',
 	'Package_ID',
-	'R8002');
+	'R8002.''is visible to elements in''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("b3e7f93e-14e6-45e6-b36d-a88bf66c7a09",
 	"fa9d1499-224e-41e4-b696-8a652b7d7d95",

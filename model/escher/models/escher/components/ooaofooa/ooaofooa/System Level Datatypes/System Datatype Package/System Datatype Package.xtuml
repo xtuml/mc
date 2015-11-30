@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'System Model',
 	'Sys_ID',
-	'R4400');
+	'R4400.''is contained in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("5d309653-e20e-40a2-b8c3-cea8c47447de",
 	"4b493f26-3905-4fff-bde6-cfe23c09d1ba",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type Package',
 	'Package_ID',
-	'R4400');
+	'R4400.''contains''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("fd93b1ce-3e0b-4cb7-9431-2e7b9c5b56d5",
 	"1886c23a-1e00-46ca-8c51-9fcdc43effd4",

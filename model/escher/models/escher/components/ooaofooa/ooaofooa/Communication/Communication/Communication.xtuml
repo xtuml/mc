@@ -59,7 +59,7 @@ INSERT INTO O_REF
 	'',
 	'Domain',
 	'Dom_ID',
-	'R1132');
+	'R1132.''can be displayed in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6f0581e9-938e-4484-ad43-3b03967e7ef4",
 	"e4fb8047-dbff-47c0-a982-e42d60528e40",
@@ -110,7 +110,7 @@ INSERT INTO O_REF
 	'',
 	'Subsystem',
 	'SS_ID',
-	'R1131');
+	'R1131.''can be displayed in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6f0581e9-938e-4484-ad43-3b03967e7ef4",
 	"6725af93-25bb-4ab8-ac5a-0f5583b673a2",
@@ -310,7 +310,7 @@ INSERT INTO O_REF
 	'',
 	'Communication in Communication',
 	'Package_ID',
-	'R1129');
+	'R1129.''is connection to parent''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6f0581e9-938e-4484-ad43-3b03967e7ef4",
 	"91604724-b64d-49e8-9547-64a139fd30f8",

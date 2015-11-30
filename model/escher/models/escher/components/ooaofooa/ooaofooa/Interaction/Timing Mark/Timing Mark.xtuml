@@ -60,7 +60,7 @@ INSERT INTO O_REF
 	'',
 	'Lifespan',
 	'Part_ID',
-	'R931');
+	'R931.''marks a point in time''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("55a43316-5498-4cb6-a794-fc6f61441c49",
 	"c86bdc75-5032-4a56-b13b-592cd17070ae",

@@ -58,7 +58,7 @@ INSERT INTO O_REF
 	'',
 	'System Model',
 	'Sys_ID',
-	'R1401');
+	'R1401.''directly contained under''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("fa9d1499-224e-41e4-b696-8a652b7d7d95",
 	"3bb7a357-8ace-4779-969e-77b2f96774b8",

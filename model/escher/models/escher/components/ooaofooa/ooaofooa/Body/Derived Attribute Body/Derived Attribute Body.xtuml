@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Derived Base Attribute',
 	'Attr_ID',
-	'R693');
+	'R693.''specifies processing for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("58746b4e-51e0-4495-9cee-bbe4f96a026d",
 	"50f0ecf4-7ed2-4bf1-9198-1814661bfcdc",
@@ -147,7 +147,7 @@ INSERT INTO O_REF
 	'',
 	'Derived Base Attribute',
 	'Obj_ID',
-	'R693');
+	'R693.''specifies processing for''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("e79c8fa4-5a07-4a65-9901-e1ec155babbf",
 	"2d0fac93-f5db-4521-afdd-f9b546f00b30",

@@ -88,7 +88,7 @@ Notes:
 ',
 	'External Entity in Model',
 	'EEmod_ID',
-	'R421');
+	'R421.''accesses data of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("af3bb7d1-a62a-4173-9ed7-2333614494c1",
 	"6c7fd94d-9e5f-4847-9b62-10ad47159e85",
@@ -146,7 +146,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity in Model',
 	'EE_ID',
-	'R421');
+	'R421.''accesses data of''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("0bd75455-949c-4bf8-903a-4c7e46c371ef",
 	"a91c3ab7-445c-4bd9-82c1-7abfae60fa13",

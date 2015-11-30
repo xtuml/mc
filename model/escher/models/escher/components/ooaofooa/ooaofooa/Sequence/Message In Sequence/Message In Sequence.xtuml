@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Message',
 	'Msg_ID',
-	'R954');
+	'R954.''provides containment''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("46e88628-bdd8-4b29-8e7f-2248834f0e83",
 	"e8b70c1e-e1b0-464f-9754-708cdd2e6986",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Sequence',
 	'Package_ID',
-	'R953');
+	'R953.''contained in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("46e88628-bdd8-4b29-8e7f-2248834f0e83",
 	"f191a9bd-ff5c-493e-948f-393a65cd7a3e",

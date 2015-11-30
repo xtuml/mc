@@ -59,7 +59,7 @@ INSERT INTO O_REF
 	'',
 	'System Model',
 	'Sys_ID',
-	'R4302');
+	'R4302.''may be shown in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8b86c1e7-329a-47a7-a86e-e41f077628dc",
 	"c6bcdaab-bb4d-4213-bdbc-a35d12891217",
@@ -208,7 +208,7 @@ INSERT INTO O_REF
 	'',
 	'Component Package',
 	'Package_ID',
-	'R4607');
+	'R4607.''may exist in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8b86c1e7-329a-47a7-a86e-e41f077628dc",
 	"fe9a7b98-7e69-4f38-bad0-7d0936cb0d7f",
@@ -255,7 +255,7 @@ INSERT INTO O_REF
 	'',
 	'Interface Package in Interface Package',
 	'Package_ID',
-	'R4301');
+	'R4301.''may be shown in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8b86c1e7-329a-47a7-a86e-e41f077628dc",
 	"4b6ab9c0-f952-439e-9fb8-ca5acd848feb",
@@ -302,7 +302,7 @@ INSERT INTO O_REF
 	'',
 	'Component',
 	'Id',
-	'R4206');
+	'R4206.''may be contained in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8b86c1e7-329a-47a7-a86e-e41f077628dc",
 	"2b67d909-2922-40e1-aec4-6bad6cd3ff9d",

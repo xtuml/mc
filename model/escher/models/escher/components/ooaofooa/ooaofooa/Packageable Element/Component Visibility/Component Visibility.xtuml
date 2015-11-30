@@ -25,7 +25,7 @@ INSERT INTO O_REF
 	'',
 	'Component',
 	'Id',
-	'R8004');
+	'R8004.''is visible to''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("34a02a7f-5343-45f0-b902-7993338d4162",
 	"dd2fe729-e49f-4ac4-851c-f5dd13af8bc8",
@@ -53,7 +53,7 @@ INSERT INTO O_REF
 	'',
 	'Component Result Set',
 	'Id',
-	'R8008');
+	'R8008.''makes up a''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("34a02a7f-5343-45f0-b902-7993338d4162",
 	"a05502f9-740a-4680-9d21-ab73b6191542",
@@ -104,7 +104,7 @@ INSERT INTO O_REF
 	'',
 	'Packageable Element',
 	'Element_ID',
-	'R8004');
+	'R8004.''has visibility of''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("10876fab-1b74-4366-9d45-f2779fe993c7",
 	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
@@ -146,7 +146,7 @@ INSERT INTO O_REF
 	'',
 	'Component Result Set',
 	'Name',
-	'R8008');
+	'R8008.''makes up a''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("67bbed1e-f369-4b2e-a7ca-93f71e00bd08",
 	"7246e0c7-a1b1-45ab-83dc-3ceb55df2ac6",
@@ -192,7 +192,7 @@ INSERT INTO O_REF
 	'',
 	'Component Result Set',
 	'Type',
-	'R8008');
+	'R8008.''makes up a''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("b1079d82-9d29-4bc1-8b3e-722becae6f45",
 	"7246e0c7-a1b1-45ab-83dc-3ceb55df2ac6",

@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Function Package',
 	'FunPack_ID',
-	'R301');
+	'R301.''contains''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("5fbab501-11d3-4ad8-a99e-c86f50ab42d0",
 	"639e7b1e-b8f9-4547-a200-da6c8b19bb9d",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Domain',
 	'Dom_ID',
-	'R301');
+	'R301.''is container''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("04e646bf-ab71-4752-8a30-37ba0f6ee984",
 	"b3e9b90e-df13-495b-b448-6dcbbb8c29c5",

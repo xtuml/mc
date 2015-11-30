@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Function Package',
 	'FunPack_ID',
-	'R932');
+	'R932.''represents''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0f21005f-dfb8-453b-a966-9074506621f2",
 	"68ccd8ca-18b8-424e-b69b-1a772b7e7998",

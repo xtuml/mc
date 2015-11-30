@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Action',
 	'SM_ID',
-	'R688');
+	'R688.''specifies processing for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("5a0eef66-fef2-4442-ad25-56f5c508e3db",
 	"3cd1ee30-bd71-44a0-9724-c812d4f14fb7",
@@ -124,7 +124,7 @@ INSERT INTO O_REF
 	'',
 	'Action',
 	'Act_ID',
-	'R688');
+	'R688.''specifies processing for''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("c25cdf80-8466-49ff-9c74-ef6b1aa572da",
 	"8336fbdf-04e9-471a-9942-53f512d7b020",

@@ -26,7 +26,7 @@ Notes:
 ',
 	'SM to EE Comm Path',
 	'CPath_ID',
-	'R412');
+	'R412.''is carried by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("22dd4000-0140-4533-9617-d421822659e8",
 	"176da45d-ee1a-4298-89b8-cc34f1e0eab2",
@@ -81,7 +81,7 @@ Notes:
 ',
 	'External Entity Event',
 	'EEevt_ID',
-	'R413');
+	'R413.''represents communication of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("22dd4000-0140-4533-9617-d421822659e8",
 	"c6c1df54-4d56-45df-8485-fb1b362372b0",
@@ -132,7 +132,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity Event',
 	'EE_ID',
-	'R413');
+	'R413.''represents communication of''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("6a7c9bb3-b368-4319-a9f0-0240e2697b0a",
 	"78329274-6b9e-425b-a4b1-a02ac0d00a12",

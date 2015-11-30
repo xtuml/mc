@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Action',
 	'Act_ID',
-	'R514');
+	'R514.''houses''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("7dffd43a-4f1b-4509-a5fc-2575314f6495",
 	"da2af785-236b-4539-b5e5-38fb7d20020e",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Action',
 	'SM_ID',
-	'R514');
+	'R514.''houses''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("85102f30-e530-4a4e-89f6-9246cc65a48f",
 	"8336fbdf-04e9-471a-9942-53f512d7b020",

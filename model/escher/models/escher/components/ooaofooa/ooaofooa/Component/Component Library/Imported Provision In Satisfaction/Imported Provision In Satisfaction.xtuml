@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Imported Provision',
 	'Id',
-	'R4705');
+	'R4705.''satisfaction made with''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("658b3a53-9c1a-4902-b222-35b6096ecd25",
 	"8f260933-2564-4b23-bc54-024aa697edea",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Satisfaction',
 	'Id',
-	'R4705');
+	'R4705.''provides satisfaction through''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("b9b3a4e5-3469-441a-86d2-6b050ab7cd7b",
 	"4749468c-0fec-470b-8fa4-cb4d3c2c5651",

@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R838');
+	'R838.''has root''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a7c49503-ff78-4282-af82-2cdce6f1c943",
 	"5bd09fbb-d0a3-4aec-917e-c431731a5b4d",
@@ -120,7 +120,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R839');
+	'R839.''has index''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a7c49503-ff78-4282-af82-2cdce6f1c943",
 	"e8f89899-49d1-4f37-8f7f-aeeb6179edf0",

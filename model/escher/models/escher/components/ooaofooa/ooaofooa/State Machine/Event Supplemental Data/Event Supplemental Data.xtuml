@@ -44,7 +44,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine',
 	'SM_ID',
-	'R523');
+	'R523.''is assigned to''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("4813237e-fd98-4c49-b472-46be7fd9eb53",
 	"5f3e8460-afcd-4ea8-9121-a9b841844607",

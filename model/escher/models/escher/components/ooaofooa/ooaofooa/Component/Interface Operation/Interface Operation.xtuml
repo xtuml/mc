@@ -167,7 +167,7 @@ INSERT INTO O_REF
 	'',
 	'Interface Operation',
 	'Id',
-	'R4019');
+	'R4019.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("7e4712b0-77bf-46f9-bacd-588cf2311829",
 	"0b2917e1-8d29-4e24-8cdb-ab7cbdac965e",
@@ -214,7 +214,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R4008');
+	'R4008.''has return defined by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("7e4712b0-77bf-46f9-bacd-588cf2311829",
 	"c7d3edb0-1d17-4e88-b01e-fd1ab4c1f2bb",

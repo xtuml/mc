@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Interface Signal',
 	'Id',
-	'R1021');
+	'R1021.''sends''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("77b0b2db-5bbd-4582-959c-5df18dc60863",
 	"2621b400-f373-467a-8b3d-38e9043815e7",

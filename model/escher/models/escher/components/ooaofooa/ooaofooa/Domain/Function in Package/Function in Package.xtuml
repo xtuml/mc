@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Function Package',
 	'FunPack_ID',
-	'R31');
+	'R31.''is contained in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("4d641ec3-04e4-44b9-aa0b-824d1c85a60a",
 	"d38a7b94-bb93-4950-af80-506e97bcc7fc",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Function',
 	'Sync_ID',
-	'R31');
+	'R31.''contains''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("2a9f9f9d-6793-4ef1-9c35-827a84b58dd2",
 	"2cbea17f-f98d-48e2-83cd-4690d52fe8cf",

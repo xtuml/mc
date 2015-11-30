@@ -74,7 +74,7 @@ INSERT INTO O_REF
 	'',
 	'Interface',
 	'Id',
-	'R4003');
+	'R4003.''provides signature of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("1b136670-a6ec-498d-9920-8e712b0254f0",
 	"9f7eb82b-3e71-4484-9670-a4ef213def61",

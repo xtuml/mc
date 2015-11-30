@@ -74,7 +74,7 @@ INSERT INTO O_REF
 	'',
 	'Operation Value',
 	'Value_ID',
-	'R825');
+	'R825.''value''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3548f23d-8369-4d22-9253-b64617c6021a",
 	"15541173-a0a1-48a9-b10a-dcf97862cf63",
@@ -123,7 +123,7 @@ INSERT INTO O_REF
 	'',
 	'Attribute',
 	'Attr_ID',
-	'R812');
+	'R812.''member''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3548f23d-8369-4d22-9253-b64617c6021a",
 	"1b4c1027-f162-43fc-8fd9-ada41a3d4e3f",
@@ -174,7 +174,7 @@ INSERT INTO O_REF
 	'',
 	'Attribute',
 	'Obj_ID',
-	'R812');
+	'R812.''member''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("26d266c8-9092-447c-96fb-694cd90210cc",
 	"68da4b64-d021-4cc8-a93c-93f2cc77b70a",

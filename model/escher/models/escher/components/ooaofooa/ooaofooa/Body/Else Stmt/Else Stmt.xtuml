@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Block',
 	'Block_ID',
-	'R606');
+	'R606.''controls''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("af08d774-f1ff-46c4-a63c-fef31ed156d2",
 	"ba4469fa-08ac-41dd-b49f-c241bb7138c7",

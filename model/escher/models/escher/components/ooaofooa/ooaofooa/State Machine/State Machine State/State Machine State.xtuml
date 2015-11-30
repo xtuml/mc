@@ -68,7 +68,7 @@ INSERT INTO O_REF
 	'',
 	'Event Supplemental Data',
 	'SM_ID',
-	'R521');
+	'R521.''receives asynchronous data via''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("b9285c2f-ce42-4e54-8c80-4a8b2963d18e",
 	"dca744ba-9749-41e2-87cb-d977417ffe96",
@@ -119,7 +119,7 @@ INSERT INTO O_REF
 	'',
 	'Event Supplemental Data',
 	'SMspd_ID',
-	'R521');
+	'R521.''receives asynchronous data via''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("abe586ab-44ca-4e20-afc9-4cae55a3bd83",
 	"4813237e-fd98-4c49-b472-46be7fd9eb53",

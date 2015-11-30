@@ -133,7 +133,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R848');
+	'R848.''has''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("202c7c94-3f8a-4f9d-804d-7c559a723444",
 	"87680905-47a4-4b71-8db5-caeb67668156",

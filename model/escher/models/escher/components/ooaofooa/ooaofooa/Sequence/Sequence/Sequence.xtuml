@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Domain',
 	'Dom_ID',
-	'R913');
+	'R913.''is shown in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("97f68cd9-bb7a-4b43-9817-369694284de1",
 	"4a9a4a39-523d-4538-adaf-06b333492ea5",
@@ -91,7 +91,7 @@ INSERT INTO O_REF
 	'',
 	'Subsystem',
 	'SS_ID',
-	'R914');
+	'R914.''is shown in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("97f68cd9-bb7a-4b43-9817-369694284de1",
 	"206d754d-caa9-4f67-8639-f5493ad25c56",
@@ -310,7 +310,7 @@ INSERT INTO O_REF
 	'',
 	'Sequence in Sequence',
 	'Package_ID',
-	'R928');
+	'R928.''is displayed in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("97f68cd9-bb7a-4b43-9817-369694284de1",
 	"3ff98f42-6e96-44e4-844f-9efe0f3e70ac",

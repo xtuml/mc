@@ -74,7 +74,7 @@ INSERT INTO O_REF
 	'',
 	'Bridge Parameter',
 	'BParm_ID',
-	'R1014');
+	'R1014.''is represented by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("67bcf9a2-8337-4687-98ec-692847ed0c9e",
 	"fbf25f72-abdf-4dca-8484-2a5bddcb1977",

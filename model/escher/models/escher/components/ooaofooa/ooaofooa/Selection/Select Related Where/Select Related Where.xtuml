@@ -76,7 +76,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R611');
+	'R611.''where clause''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("e8da86cb-882a-462b-a838-7ef4b8184a13",
 	"1dabf4a2-9760-4eaf-937e-170a648db09e",

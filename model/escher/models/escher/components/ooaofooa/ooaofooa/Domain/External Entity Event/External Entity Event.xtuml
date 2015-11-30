@@ -157,7 +157,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity',
 	'EE_ID',
-	'R10');
+	'R10.''is vehicle of communication for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("78329274-6b9e-425b-a4b1-a02ac0d00a12",
 	"c398d7c0-b5c7-4d02-a5c7-84792b285084",

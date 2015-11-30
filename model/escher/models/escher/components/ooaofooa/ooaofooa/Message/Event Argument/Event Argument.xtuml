@@ -74,7 +74,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine Event Data Item',
 	'SM_ID',
-	'R1017');
+	'R1017.''is represented by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("d1d0faa6-ac95-409a-815f-55c7d358030b",
 	"7977b2d1-2977-4864-a63e-557ae0f7ec91",
@@ -125,7 +125,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine Event Data Item',
 	'SMedi_ID',
-	'R1017');
+	'R1017.''is represented by''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("cddef22c-dc97-4aa7-a977-b332252b9452",
 	"7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3",

@@ -110,7 +110,7 @@ INSERT INTO O_REF
 	'',
 	'Lifespan',
 	'Part_ID',
-	'R949');
+	'R949.''life is bounded by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a5e7b005-802b-42ce-aeeb-bd1ad830883d",
 	"c9281314-9499-469f-a85d-60e08adccebc",

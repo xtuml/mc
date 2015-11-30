@@ -76,7 +76,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Value',
 	'Value_ID',
-	'R2070');
+	'R2070.''starts from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("bc88ed4e-3ce6-4db1-a550-e8271842911f",
 	"97b63092-bedb-4577-a7ca-57df9d60d747",
@@ -127,7 +127,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Chain Link',
 	'ID',
-	'R2073');
+	'R2073.''has first''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("bc88ed4e-3ce6-4db1-a550-e8271842911f",
 	"ddf6098f-7e6a-4ed7-90ce-b59073bea45a",
@@ -178,7 +178,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Value',
 	'Value_ID',
-	'R2074');
+	'R2074.''is where clause of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("bc88ed4e-3ce6-4db1-a550-e8271842911f",
 	"ad0b096c-7184-48b4-87ae-98238c86262e",
@@ -225,7 +225,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Variable',
 	'Var_ID',
-	'R2071');
+	'R2094.''starts with''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("bc88ed4e-3ce6-4db1-a550-e8271842911f",
 	"504ff886-fc9d-4719-8d81-d0a22f977058",
@@ -276,7 +276,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Variable',
 	'Var_ID',
-	'R2072');
+	'R2093.''stores result into''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("bc88ed4e-3ce6-4db1-a550-e8271842911f",
 	"cf639806-7e9a-43e7-af11-99841f498ad6",

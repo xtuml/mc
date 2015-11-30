@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Search Participant',
 	'Id',
-	'R9700');
+	'R9700.''participates as''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("b091402c-a820-4cd6-b9ff-9f3e364825eb",
 	"dcbf2262-b855-4ee7-8d27-c55391d43d12",

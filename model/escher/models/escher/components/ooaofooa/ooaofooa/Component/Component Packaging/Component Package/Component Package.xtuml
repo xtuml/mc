@@ -58,7 +58,7 @@ INSERT INTO O_REF
 	'',
 	'Component Package in Package',
 	'Id',
-	'R4601');
+	'R4601.''is nested through''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("12c2052d-c0a4-4554-8b54-41ea8da4e8a3",
 	"7f9b43b9-880a-4fb3-86f2-70132a0d482f",
@@ -109,7 +109,7 @@ INSERT INTO O_REF
 	'',
 	'System Model',
 	'Sys_ID',
-	'R4602');
+	'R4602.''may be contained within''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("12c2052d-c0a4-4554-8b54-41ea8da4e8a3",
 	"160d376e-f3ea-4e26-baaa-7c1e6a2cef3c",
@@ -160,7 +160,7 @@ INSERT INTO O_REF
 	'',
 	'System Model',
 	'Sys_ID',
-	'R4606');
+	'R4606.''is containing system''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("12c2052d-c0a4-4554-8b54-41ea8da4e8a3",
 	"14c428c7-63d8-43bd-a518-0600a3a586ec",

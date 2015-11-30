@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Communication',
 	'Package_ID',
-	'R1126');
+	'R1126.''is displayed in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("26e389c8-31d0-4069-b76e-97fc4483c808",
 	"faa6ab09-aafc-46b7-b0f6-b0906aadbb0c",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Interaction Participant',
 	'Part_ID',
-	'R1126');
+	'R1126.''can display''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("0a5ae87a-2717-4a08-9587-9a3f46aee969",
 	"78cf3600-55aa-46a8-99a7-d4f7778bb8f6",

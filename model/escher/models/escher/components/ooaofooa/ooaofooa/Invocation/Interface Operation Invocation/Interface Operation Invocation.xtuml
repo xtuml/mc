@@ -145,7 +145,7 @@ INSERT INTO O_REF
 	'',
 	'Provided Operation',
 	'Id',
-	'R680');
+	'R680.''is invocation of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a3b6571f-b5cc-491a-aff5-ffd884d8affd",
 	"54bd1c30-d25e-4dc3-8eca-6a514225c72a",
@@ -196,7 +196,7 @@ INSERT INTO O_REF
 	'',
 	'Required Operation',
 	'Id',
-	'R657');
+	'R657.''is invocation of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a3b6571f-b5cc-491a-aff5-ffd884d8affd",
 	"1a4f6049-9df3-4b16-b102-76e3727401df",
@@ -247,7 +247,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R629');
+	'R629.''has target''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a3b6571f-b5cc-491a-aff5-ffd884d8affd",
 	"67cd8a8e-a25c-4992-b8d2-4148e5d15e2d",

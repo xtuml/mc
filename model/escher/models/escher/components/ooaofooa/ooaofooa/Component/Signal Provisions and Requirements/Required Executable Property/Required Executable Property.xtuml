@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Executable Property',
 	'Id',
-	'R4500');
+	'R4500.''implements''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("992a2261-a7b2-4af5-954a-f04c3593ee9a",
 	"7bb562d5-6643-40b4-abd0-c23582e1624a",
@@ -91,7 +91,7 @@ INSERT INTO O_REF
 	'',
 	'Requirement',
 	'Requirement_Id',
-	'R4500');
+	'R4500.''is implemented by''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("6cc59127-9dee-481b-a101-51e79369c6e0",
 	"19465a0b-7527-4a8f-8235-73db055c3a72",

@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Domain',
 	'Dom_ID',
-	'R300');
+	'R300.''is container''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("ccf64148-23ad-43ad-86ee-18a0cc453066",
 	"ce78c13b-8e72-4da7-a537-15a1f76f7856",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity Package',
 	'EEPack_ID',
-	'R300');
+	'R300.''contains''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("f8bb34ee-813d-430f-b8b6-b79fb42e1796",
 	"c3ba5941-aa45-4b49-b3f8-781264398bd3",

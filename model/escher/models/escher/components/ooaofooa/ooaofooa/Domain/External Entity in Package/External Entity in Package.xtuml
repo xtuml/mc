@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity Package',
 	'EEPack_ID',
-	'R33');
+	'R33.''is contained in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("faa55b45-c474-4c82-a120-e8ac5841f00c",
 	"9a7e8637-9c04-4cfe-80b7-1b897d1a16fa",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity',
 	'EE_ID',
-	'R33');
+	'R33.''contains''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("efe9c4ba-20c4-471f-a6d2-29c96662b4ad",
 	"cb6532fa-12bb-4151-a8b1-ca6abb01bee3",

@@ -68,7 +68,7 @@ INSERT INTO O_REF
 	'',
 	'Event Supplemental Data',
 	'SM_ID',
-	'R520');
+	'R520.''carries''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("396b9865-2f28-48ca-b415-ef88af430f8f",
 	"5bbbe4af-233b-44df-b498-d883496763c9",
@@ -119,7 +119,7 @@ INSERT INTO O_REF
 	'',
 	'Event Supplemental Data',
 	'SMspd_ID',
-	'R520');
+	'R520.''carries''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("abe586ab-44ca-4e20-afc9-4cae55a3bd83",
 	"4813237e-fd98-4c49-b472-46be7fd9eb53",

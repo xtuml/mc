@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Operation',
 	'Tfr_ID',
-	'R696');
+	'R696.''specifies processing for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("5b953ec0-a36a-464c-ab2c-81fb07044160",
 	"5a9ed471-763e-418b-98fc-6c8ece2d9b40",

@@ -40,7 +40,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine',
 	'SM_ID',
-	'R516');
+	'R516.''is carried on events into''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3",
 	"41429f48-9f0b-4a12-b576-260254a3b3a6",
@@ -68,7 +68,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine Event Data Item',
 	'SM_ID',
-	'R533');
+	'R533.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3",
 	"7dd0b6cd-e2bd-427c-b2c9-86736aaabb5a",
@@ -173,7 +173,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine Event',
 	'SMevt_ID',
-	'R532');
+	'R532.''carried by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3",
 	"bb430423-4f9f-4c07-b3cc-4ff5721844fc",
@@ -224,7 +224,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine Event Data Item',
 	'SMedi_ID',
-	'R533');
+	'R533.''succeeds''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("cddef22c-dc97-4aa7-a977-b332252b9452",
 	"7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3",
@@ -266,7 +266,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R524');
+	'R524.''is defined by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3",
 	"a7942a8f-81d3-462f-a5c7-1b7623f50731",

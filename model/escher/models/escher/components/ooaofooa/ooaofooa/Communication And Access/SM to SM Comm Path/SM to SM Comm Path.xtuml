@@ -77,7 +77,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine',
 	'SM_ID',
-	'R406');
+	'R406.''originates from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("072c6361-b0c0-41cb-a179-213ce41f7bc2",
 	"651b684e-3275-49e9-9e05-14d1e76ac162",
@@ -128,7 +128,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine',
 	'SM_ID',
-	'R407');
+	'R407.''shows event communication to''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("072c6361-b0c0-41cb-a179-213ce41f7bc2",
 	"dafb7285-63a9-49ea-bb46-121f282f807e",
@@ -175,7 +175,7 @@ INSERT INTO O_REF
 	'',
 	'Imported Class',
 	'IObj_ID',
-	'R414');
+	'R414.''destination SM can be represented by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("072c6361-b0c0-41cb-a179-213ce41f7bc2",
 	"96a4ea01-1c47-4be0-be82-667b4b36a5e9",
@@ -226,7 +226,7 @@ INSERT INTO O_REF
 	'',
 	'Imported Class',
 	'IObj_ID',
-	'R424');
+	'R424.''origination SM can be represented by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("072c6361-b0c0-41cb-a179-213ce41f7bc2",
 	"ab492c23-f66a-4285-8e95-e2f4aa74606d",

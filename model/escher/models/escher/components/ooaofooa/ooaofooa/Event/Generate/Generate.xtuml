@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Variable',
 	'Var_ID',
-	'R712');
+	'R712.''has recipient''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("b7510f6e-2bf4-46b7-a6a9-912e59b67d91",
 	"930166bf-dec4-494f-b003-97918aa79d52",

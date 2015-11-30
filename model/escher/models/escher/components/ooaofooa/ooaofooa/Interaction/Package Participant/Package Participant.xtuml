@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Package',
 	'Package_ID',
-	'R956');
+	'R956.''represents''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a7792977-51f5-4ae0-b90e-c0215f9eaa7b",
 	"af95269a-ab66-4d51-ad97-f1bddb7d3a25",

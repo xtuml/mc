@@ -41,7 +41,7 @@ INSERT INTO O_REF
 	'',
 	'Operation',
 	'Tfr_ID',
-	'R117');
+	'R117.''is part of ''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("fbc7ca2b-3c56-4d18-ac12-86af9847fd0e",
 	"4cba0fe2-a192-4630-ac17-c5b6bbb8d6a4",
@@ -151,7 +151,7 @@ INSERT INTO O_REF
 	'',
 	'Operation Parameter',
 	'TParm_ID',
-	'R124');
+	'R124.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("fbc7ca2b-3c56-4d18-ac12-86af9847fd0e",
 	"5fcd3374-fed9-4cb3-92e5-7a52fc946591",
@@ -217,7 +217,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R118');
+	'R118.''is defined by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("fbc7ca2b-3c56-4d18-ac12-86af9847fd0e",
 	"449e01a4-b7a1-4d37-abf5-deb437ee13a8",

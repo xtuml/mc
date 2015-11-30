@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Class Identifier Attribute',
 	'Attr_ID',
-	'R110');
+	'R110.''is identified in this association by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("4b4eb009-28c3-4d62-b7b9-51a02d9987cd",
 	"27898328-d6a3-4938-85c4-7568b9a8216a",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Referred To Class in Assoc',
 	'Oid_ID',
-	'R110');
+	'R110.''identifies for this association''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("01262ad4-5d2d-4802-9a8f-6eb9816246f8",
 	"9afd425d-001f-471a-abcf-ed04da5486cc",
@@ -96,7 +96,7 @@ INSERT INTO O_REF
 	'',
 	'Class Identifier Attribute',
 	'Oid_ID',
-	'R110');
+	'R110.''is identified in this association by''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("cb350d2c-6bfd-4ef6-8641-b1ac77ed0789",
 	"e1b47872-848d-4064-affe-0bf35b38ed73",
@@ -142,7 +142,7 @@ INSERT INTO O_REF
 	'',
 	'Referred To Class in Assoc',
 	'OIR_ID',
-	'R110');
+	'R110.''identifies for this association''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("ffa54244-7b29-446c-9e6f-e34351f9b479",
 	"9afd425d-001f-471a-abcf-ed04da5486cc",
@@ -188,7 +188,7 @@ INSERT INTO O_REF
 	'',
 	'Class Identifier Attribute',
 	'Obj_ID',
-	'R110');
+	'R110.''is identified in this association by''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("d6c78287-d7a7-4e9d-93c3-e826321ed008",
 	"e1b47872-848d-4064-affe-0bf35b38ed73",
@@ -211,7 +211,7 @@ INSERT INTO O_REF
 	'',
 	'Referred To Class in Assoc',
 	'Obj_ID',
-	'R110');
+	'R110.''identifies for this association''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("a6f2fa74-7660-48b9-a416-e945f1759f73",
 	"9afd425d-001f-471a-abcf-ed04da5486cc",
@@ -257,7 +257,7 @@ INSERT INTO O_REF
 	'',
 	'Referred To Class in Assoc',
 	'Rel_ID',
-	'R110');
+	'R110.''identifies for this association''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("d9fdd7c5-6bee-4abc-bcd0-0971ba0fec86",
 	"9afd425d-001f-471a-abcf-ed04da5486cc",

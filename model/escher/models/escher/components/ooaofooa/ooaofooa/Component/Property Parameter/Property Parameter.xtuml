@@ -77,7 +77,7 @@ INSERT INTO O_REF
 	'',
 	'Executable Property',
 	'Id',
-	'R4006');
+	'R4006.''parameterizes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("cb74103c-4def-4631-a77d-1bbe2010635b",
 	"52653b75-6bc9-4c30-819a-995d36d1ab6c",
@@ -168,7 +168,7 @@ INSERT INTO O_REF
 	'',
 	'Property Parameter',
 	'PP_Id',
-	'R4021');
+	'R4021.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("cb74103c-4def-4631-a77d-1bbe2010635b",
 	"ced34252-d1e6-4fd2-b218-397a67ed5319",
@@ -215,7 +215,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R4007');
+	'R4007.''is typed by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("cb74103c-4def-4631-a77d-1bbe2010635b",
 	"b115ae88-29bc-41dd-99e3-e29897e624f7",

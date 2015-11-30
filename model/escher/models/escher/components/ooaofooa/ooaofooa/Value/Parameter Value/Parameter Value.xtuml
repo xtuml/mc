@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Bridge Parameter',
 	'BParm_ID',
-	'R831');
+	'R831.''is a value of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6cb944b0-9815-47a9-af95-06bd6f09d4f4",
 	"f2190f1f-c845-4dc6-8ea9-b2ad256a96a3",
@@ -124,7 +124,7 @@ INSERT INTO O_REF
 	'',
 	'Function Parameter',
 	'SParm_ID',
-	'R832');
+	'R832.''is a value of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6cb944b0-9815-47a9-af95-06bd6f09d4f4",
 	"1d581046-8ac1-4553-9bfa-bfaa03467f15",
@@ -175,7 +175,7 @@ INSERT INTO O_REF
 	'',
 	'Operation Parameter',
 	'TParm_ID',
-	'R833');
+	'R833.''is a value of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6cb944b0-9815-47a9-af95-06bd6f09d4f4",
 	"df04c815-ae66-4541-99ff-16f6128a2b3d",
@@ -226,7 +226,7 @@ INSERT INTO O_REF
 	'',
 	'Property Parameter',
 	'PP_Id',
-	'R843');
+	'R843.''is a value of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6cb944b0-9815-47a9-af95-06bd6f09d4f4",
 	"091bcfab-8e1d-4d29-8212-b2c25ee5dc7e",

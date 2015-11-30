@@ -184,7 +184,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Dimension',
 	'te_dimID',
-	'R2058');
+	'R2058.''has first''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("13ec3fcc-2a4d-44da-bb17-5ddea4de3035",
 	"f55dc96a-c06e-4d9e-b00c-d07aed83fcd4",

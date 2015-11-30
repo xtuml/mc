@@ -94,7 +94,7 @@ INSERT INTO O_REF
 	'',
 	'Structured Data Type',
 	'DT_ID',
-	'R44');
+	'R44.''has parent''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("343cbfaa-20fb-480d-b949-3c1afb3f267f",
 	"589b724a-f0d9-4936-a7f2-24d2ca92692b",
@@ -122,7 +122,7 @@ INSERT INTO O_REF
 	'',
 	'Structure Member',
 	'Parent_DT_DT_ID',
-	'R46');
+	'R46.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("343cbfaa-20fb-480d-b949-3c1afb3f267f",
 	"12e861ef-a1ab-4e4c-a7cc-4250eb2534c4",
@@ -173,7 +173,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R45');
+	'R45.''is defined by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("343cbfaa-20fb-480d-b949-3c1afb3f267f",
 	"ced82347-72ee-47a9-b0f9-e990bf88a560",
@@ -220,7 +220,7 @@ INSERT INTO O_REF
 	'',
 	'Structure Member',
 	'Member_ID',
-	'R46');
+	'R46.''succeeds''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("c0d6ae3b-c83f-4f45-8503-dd361f5eb049",
 	"343cbfaa-20fb-480d-b949-3c1afb3f267f",

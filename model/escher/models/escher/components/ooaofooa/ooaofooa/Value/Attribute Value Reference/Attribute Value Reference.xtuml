@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Attribute',
 	'Attr_ID',
-	'R806');
+	'R806.''is value of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("c3ef762d-918f-4f25-823b-5bb004929797",
 	"beaf0f4a-92e6-4d76-8e1e-703d629c8cf9",
@@ -126,7 +126,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R807');
+	'R807.''has root''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("c3ef762d-918f-4f25-823b-5bb004929797",
 	"6a132443-f09f-4772-9983-14ad5038129b",
@@ -173,7 +173,7 @@ INSERT INTO O_REF
 	'',
 	'Attribute',
 	'Obj_ID',
-	'R806');
+	'R806.''is value of''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("26d266c8-9092-447c-96fb-694cd90210cc",
 	"68da4b64-d021-4cc8-a93c-93f2cc77b70a",

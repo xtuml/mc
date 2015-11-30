@@ -77,7 +77,7 @@ INSERT INTO O_REF
 	'',
 	'Model Class',
 	'Obj_ID',
-	'R417');
+	'R417.''shows accesses of data from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f3484d57-d465-40cf-bb11-1f45c886b067",
 	"731d52b7-29d1-46b5-b62a-ce4c428c5845",
@@ -128,7 +128,7 @@ INSERT INTO O_REF
 	'',
 	'Imported Class',
 	'IObj_ID',
-	'R420');
+	'R420.''destination OBJ can be represented by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f3484d57-d465-40cf-bb11-1f45c886b067",
 	"febef18f-02af-46d1-8426-7df9a71bd1f8",

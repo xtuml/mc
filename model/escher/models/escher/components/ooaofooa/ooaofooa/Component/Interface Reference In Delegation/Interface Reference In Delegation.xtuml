@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Interface Reference',
 	'Id',
-	'R4013');
+	'R4013.''handles delegation for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3460a2d2-a558-427e-b173-257b074a3f6c",
 	"48747da4-1e09-4727-b5a1-6060556f5a74",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Delegation',
 	'Id',
-	'R4013');
+	'R4013.''may delegate through''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("4780fe2c-0b21-487d-b0b6-c8f8fcc6aec7",
 	"ae933168-e6b4-4c7f-ad1d-f9305350c475",

@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Variable',
 	'Var_ID',
-	'R634');
+	'R634.''destroys''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a9976132-124c-4c38-a28d-8ad36e0953a3",
 	"11f70be0-efb5-484a-8ada-10a64e7c61b0",

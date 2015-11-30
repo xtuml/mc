@@ -654,7 +654,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Message Action',
 	'ID',
-	'R2083');
+	'R2083.''precedes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("cd731911-bfb7-4a37-9e53-69c7c725d36e",
 	"cf265624-5118-4595-8003-add00566580b",

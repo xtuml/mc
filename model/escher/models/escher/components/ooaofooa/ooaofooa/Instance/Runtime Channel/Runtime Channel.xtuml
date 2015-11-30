@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Component Instance',
 	'Execution_Engine_ID',
-	'R2968');
+	'R2968.''is interface provider to''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("11df0597-3990-4d8f-b805-ec252e5b34b2",
 	"ff9d93be-5595-4679-9258-869c0a9aad6f",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Component Instance',
 	'Execution_Engine_ID',
-	'R2968');
+	'R2968.''is interface requirer of''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("97967623-462e-45ee-9853-03b72b3c19fb",
 	"60a9b8b1-e17c-4329-9c47-8d8821bfc808",
@@ -133,7 +133,7 @@ INSERT INTO O_REF
 	'',
 	'Satisfaction',
 	'Id',
-	'R2969');
+	'R2969.''implements''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("11df0597-3990-4d8f-b805-ec252e5b34b2",
 	"24033a2d-4262-4440-8344-57fc37c5ad49",
@@ -184,7 +184,7 @@ INSERT INTO O_REF
 	'',
 	'Runtime Channel',
 	'Channel_Id',
-	'R2973');
+	'R2973.''requirer''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("11df0597-3990-4d8f-b805-ec252e5b34b2",
 	"fa87149c-1fa6-4a28-a75f-cfc36205a53b",
@@ -231,7 +231,7 @@ INSERT INTO O_REF
 	'',
 	'Delegation',
 	'Id',
-	'R2972');
+	'R2972.''implements''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("11df0597-3990-4d8f-b805-ec252e5b34b2",
 	"d8f4924e-605b-48d6-b2bc-3664c816894d",

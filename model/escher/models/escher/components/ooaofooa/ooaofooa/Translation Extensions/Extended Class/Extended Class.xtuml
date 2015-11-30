@@ -612,7 +612,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Class',
 	'ID',
-	'R2092');
+	'R2092.''precedes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("38709705-d819-487d-abed-4f43f50ad702",
 	"34c094ab-b34b-4fa2-8236-f3351272b831",

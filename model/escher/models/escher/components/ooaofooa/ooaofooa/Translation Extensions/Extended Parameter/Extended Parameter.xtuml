@@ -112,7 +112,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Parameter',
 	'ID',
-	'R2041');
+	'R2041.''precedes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f43f4f36-e7df-46a9-8d15-7b53788c4162",
 	"a94de2ae-839b-421a-97d2-9ed6e9c4beab",
@@ -213,7 +213,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Dimension',
 	'te_dimID',
-	'R2056');
+	'R2056.''has first''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f43f4f36-e7df-46a9-8d15-7b53788c4162",
 	"148bb82a-fe60-44e9-bf70-0cbb46b51754",

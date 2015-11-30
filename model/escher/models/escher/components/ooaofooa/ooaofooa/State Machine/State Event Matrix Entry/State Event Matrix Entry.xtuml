@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine State',
 	'SMstt_ID',
-	'R503');
+	'R503.''is received by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("51248bbd-b258-4cb8-843a-44443395adac",
 	"5730320e-2701-47b6-aa00-8e68bdf731e0",
@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'SEM Event',
 	'SMevt_ID',
-	'R503');
+	'R503.''receives''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("33107887-5b8a-438b-8e77-1eb334635a4f",
 	"8020bfd4-f719-4216-ae9e-20b713ddc553",
@@ -123,7 +123,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine State',
 	'SM_ID',
-	'R503');
+	'R503.''is received by''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("407bd299-2fd6-4e45-a182-53f6fc5c40b7",
 	"b9285c2f-ce42-4e54-8c80-4a8b2963d18e",
@@ -146,7 +146,7 @@ INSERT INTO O_REF
 	'',
 	'SEM Event',
 	'SM_ID',
-	'R503');
+	'R503.''receives''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("19dff9d6-da1b-424d-8df8-7816e1b1dce2",
 	"8020bfd4-f719-4216-ae9e-20b713ddc553",
@@ -194,7 +194,7 @@ INSERT INTO O_REF
 	'',
 	'SEM Event',
 	'SMspd_ID',
-	'R503');
+	'R503.''receives''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("e64e4354-9a12-4ad3-84d5-62d828e7a343",
 	"8020bfd4-f719-4216-ae9e-20b713ddc553",

@@ -43,7 +43,7 @@ INSERT INTO O_REF
 	'',
 	'Requirement',
 	'Requirement_Id',
-	'R4002');
+	'R4002.''defines required satisfication''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("4749468c-0fec-470b-8fa4-cb4d3c2c5651",
 	"458811d8-3ac6-44f3-878d-014e5e767b81",
@@ -94,7 +94,7 @@ INSERT INTO O_REF
 	'',
 	'Provision',
 	'Provision_Id',
-	'R4002');
+	'R4002.''satisfies''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("8f7b032d-307c-44de-acad-739a19575545",
 	"7115b6cf-4ae0-4422-b71f-7e3320250a7d",

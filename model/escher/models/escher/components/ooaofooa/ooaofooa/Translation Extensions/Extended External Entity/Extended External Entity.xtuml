@@ -286,7 +286,7 @@ INSERT INTO O_REF
 	'',
 	'Extended External Entity',
 	'ID',
-	'R2096');
+	'R2096.''precedes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("4adcc4f0-b69d-455f-80f5-e056c559d2dc",
 	"ebed0ed8-7f3f-4ca1-824b-454877f29d00",

@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Function Package',
 	'FunPack_ID',
-	'R30');
+	'R30.''contains children of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("5cd7a786-1847-4bdf-9420-f5db306fefda",
 	"b8948851-25ca-4534-bff4-7e268e305e33",

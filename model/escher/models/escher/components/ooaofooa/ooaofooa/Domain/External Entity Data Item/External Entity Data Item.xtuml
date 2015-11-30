@@ -76,7 +76,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R15');
+	'R15.''is defined by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("80c25dfe-186f-40ac-98cf-f2d29613d356",
 	"495ce0a0-85ab-495e-b7cf-756f4bb4cec8",
@@ -127,7 +127,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity',
 	'EE_ID',
-	'R11');
+	'R11.''is data for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("80c25dfe-186f-40ac-98cf-f2d29613d356",
 	"07661144-92f9-4cd8-8d17-46e4fa1b06b8",

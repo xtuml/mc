@@ -98,7 +98,7 @@ INSERT INTO O_REF
 	'',
 	'Local Event',
 	'SM_ID',
-	'R509');
+	'R509.''is assigned to''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("eadc402c-9163-4464-bbd0-6e6fbf0b305c",
 	"9c33a2d1-86d8-4f58-9f76-068dc4b29632",
@@ -151,7 +151,7 @@ INSERT INTO O_REF
 	'',
 	'Local Event',
 	'SMevt_ID',
-	'R509');
+	'R509.''is assigned to''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("50fccf53-e862-41dc-b2f8-72a03f1a42ce",
 	"b489c42f-edc0-4a14-a770-67a4041a4012",

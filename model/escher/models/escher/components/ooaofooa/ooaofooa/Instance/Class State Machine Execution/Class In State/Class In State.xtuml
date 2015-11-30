@@ -50,7 +50,7 @@ INSERT INTO O_REF
 	'',
 	'Transition',
 	'SM_ID',
-	'R2952');
+	'R2952.''entered state via''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("051034ad-c27b-427e-a0fa-d43f917edd72",
 	"259fb6e6-49be-4fbc-8dea-28b4b249cc08",
@@ -147,7 +147,7 @@ INSERT INTO O_REF
 	'',
 	'Transition',
 	'Trans_ID',
-	'R2952');
+	'R2952.''entered state via''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("a6130f2e-7580-4656-a9dd-b2b363077177",
 	"569de42f-8e70-439a-a858-af3e31ad5f87",

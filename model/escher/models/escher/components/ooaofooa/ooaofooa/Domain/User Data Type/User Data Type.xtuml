@@ -100,7 +100,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R18');
+	'R18.''are defined within''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("e9682ef6-ce48-46fb-85b2-485bae2f9673",
 	"46a59c77-483c-46cc-aea0-949165fcbc87",

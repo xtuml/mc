@@ -137,7 +137,7 @@ INSERT INTO O_REF
 	'',
 	'Self Queue Entry',
 	'Self_Queue_Entry_ID',
-	'R2947');
+	'R2947.''follows''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a4cb5926-c6c0-4cc6-9199-c3bfc00734ee",
 	"6e65181b-55db-4e06-a555-a90ce336053f",

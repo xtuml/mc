@@ -68,7 +68,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine State',
 	'SM_ID',
-	'R506');
+	'R506.''is destined to''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("569de42f-8e70-439a-a858-af3e31ad5f87",
 	"2d0b1318-0307-49de-ad11-c9daaa46ce7c",
@@ -119,7 +119,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine State',
 	'SMstt_ID',
-	'R506');
+	'R506.''is destined to''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("b407ec78-ba68-4b3a-b3d6-bf4e0d3b3281",
 	"b9285c2f-ce42-4e54-8c80-4a8b2963d18e",
@@ -165,7 +165,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine State',
 	'SMspd_ID',
-	'R506');
+	'R506.''is destined to''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("7e24c86b-106c-44d9-b734-218afa41a3d0",
 	"b9285c2f-ce42-4e54-8c80-4a8b2963d18e",

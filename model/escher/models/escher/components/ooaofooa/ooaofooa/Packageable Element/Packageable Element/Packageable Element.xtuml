@@ -65,7 +65,7 @@ INSERT INTO O_REF
 	'',
 	'Package',
 	'Package_ID',
-	'R8000');
+	'R8000.''contained by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a0b3f5fd-8d11-4269-90dc-c38e909bb134",
 	"4b806eee-9f81-415a-8b2d-8bf1d5ec050d",
@@ -112,7 +112,7 @@ INSERT INTO O_REF
 	'',
 	'Component',
 	'Id',
-	'R8003');
+	'R8003.''contained in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a0b3f5fd-8d11-4269-90dc-c38e909bb134",
 	"32aa85a1-f6d5-41b3-a775-ffc47bc1012e",

@@ -48,7 +48,7 @@ INSERT INTO O_REF
 	'',
 	'Subsystem',
 	'SS_ID',
-	'R3');
+	'R3.''represents a class from another subsystem in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("11665866-fbcf-463f-9ff2-89ff3ede2650",
 	"54b4f4d3-59a5-43d7-9981-34b15a8b352a",
@@ -135,7 +135,7 @@ INSERT INTO O_REF
 	'',
 	'Model Class',
 	'Obj_ID',
-	'R101');
+	'R101.''represents''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("11665866-fbcf-463f-9ff2-89ff3ede2650",
 	"403782be-1010-4d72-a556-ff59c20a22ba",

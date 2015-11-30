@@ -137,7 +137,7 @@ INSERT INTO O_REF
 	'',
 	'Event Queue Entry',
 	'Event_Queue_Entry_ID',
-	'R2945');
+	'R2945.''follows''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("368f0839-8e42-4674-a7fb-f05dd858f030",
 	"c2d57abf-82db-4195-807e-7e415dbbc180",

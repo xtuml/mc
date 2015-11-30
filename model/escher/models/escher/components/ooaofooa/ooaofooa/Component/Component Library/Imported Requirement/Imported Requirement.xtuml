@@ -107,7 +107,7 @@ INSERT INTO O_REF
 	'',
 	'Satisfaction',
 	'Id',
-	'R4706');
+	'R4706.''provides satisfaction through''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6e16b241-f0c5-4d3b-bec1-42f211d9f471",
 	"4edbb826-4533-4bff-a959-b7c933dfc903",

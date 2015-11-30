@@ -92,7 +92,7 @@ INSERT INTO O_REF
 	'',
 	'Model Class',
 	'Obj_ID',
-	'R123');
+	'R123.''provides reference datatype for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6285ebf6-fc1b-4453-a49c-eb8b6987ada0",
 	"48678944-b352-4d4c-9128-ef234ffd0fc7",

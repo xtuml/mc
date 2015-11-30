@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Sequence',
 	'Package_ID',
-	'R911');
+	'R911.''is shown in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3474fa3e-522a-4ce0-93b6-8ac28286c258",
 	"a546e594-704c-4c35-add5-f00232aec744",

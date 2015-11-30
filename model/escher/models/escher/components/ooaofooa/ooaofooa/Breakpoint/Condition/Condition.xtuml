@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Breakpoint',
 	'Breakpoint_ID',
-	'R3100');
+	'R3100.''sets halt criteria for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6ba9756c-384c-4d0b-ab28-a4673f4eb303",
 	"0c7bb92d-6b49-40b3-a1ca-06bd69c97bbc",

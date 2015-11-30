@@ -94,7 +94,7 @@ INSERT INTO O_REF
 	'',
 	'Pending Event',
 	'Event_ID',
-	'R2940');
+	'R2940.''provides delayed delivery of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("689806d6-251e-46a0-b012-6f2e75067324",
 	"60fe8007-ba46-4de6-a248-06c30fde77dd",

@@ -80,7 +80,7 @@ INSERT INTO O_REF
 	'',
 	'Block',
 	'Block_ID',
-	'R666');
+	'R666.''has committed outer''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0579073e-2c22-4bd5-9875-66cf7efbd261",
 	"a3b2d860-d740-4381-8dab-201182377056",
@@ -131,7 +131,7 @@ INSERT INTO O_REF
 	'',
 	'Block',
 	'Block_ID',
-	'R699');
+	'R699.''has current scope''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0579073e-2c22-4bd5-9875-66cf7efbd261",
 	"c3847368-7fff-4258-97d4-2bad4e7da3a2",
@@ -218,7 +218,7 @@ INSERT INTO O_REF
 	'',
 	'Block',
 	'Block_ID',
-	'R650');
+	'R650.''has parsed outer''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0579073e-2c22-4bd5-9875-66cf7efbd261",
 	"cd8d29ac-0ac5-45b3-b6c5-deedd70bd37a",

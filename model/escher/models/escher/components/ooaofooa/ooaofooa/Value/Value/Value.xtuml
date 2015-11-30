@@ -42,7 +42,7 @@ INSERT INTO O_REF
 	'',
 	'Block',
 	'Block_ID',
-	'R826');
+	'R826.''has scope''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("92c84494-204f-410c-a272-a04ae1fc102d",
 	"fa74bc0d-5d54-42c2-aca2-e43d3be58334",
@@ -287,7 +287,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R820');
+	'R820.''has type''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("92c84494-204f-410c-a272-a04ae1fc102d",
 	"9e44a5a7-4f38-4c87-8c44-ff1bc2f64761",

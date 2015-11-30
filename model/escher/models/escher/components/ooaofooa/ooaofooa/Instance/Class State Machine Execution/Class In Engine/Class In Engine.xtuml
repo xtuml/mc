@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Component Instance',
 	'Execution_Engine_ID',
-	'R2960');
+	'R2960.''is executed by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("4089e6c7-71e6-4510-a473-7463518cbbfb",
 	"487f71fa-34b9-45ba-8671-9c6eae7921f5",
@@ -106,7 +106,7 @@ INSERT INTO O_REF
 	'',
 	'Model Class',
 	'Obj_ID',
-	'R2961');
+	'R2961.''represents class in engine''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("4089e6c7-71e6-4510-a473-7463518cbbfb",
 	"afc8a648-af42-49e3-801d-264fad3684ab",
@@ -157,7 +157,7 @@ INSERT INTO O_REF
 	'',
 	'Package',
 	'Package_ID',
-	'R2971');
+	'R2971.''executes in context of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("4089e6c7-71e6-4510-a473-7463518cbbfb",
 	"59007919-5a94-41e1-a8fe-a36c5bdb8d5a",

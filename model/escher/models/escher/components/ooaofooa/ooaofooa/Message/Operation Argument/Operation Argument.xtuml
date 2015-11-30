@@ -74,7 +74,7 @@ INSERT INTO O_REF
 	'',
 	'Operation Parameter',
 	'TParm_ID',
-	'R1015');
+	'R1015.''is represented by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0ef17af9-2d90-4791-9296-de416f089db6",
 	"5e07ff4f-e272-40c7-b197-c6cfb0a9dbea",

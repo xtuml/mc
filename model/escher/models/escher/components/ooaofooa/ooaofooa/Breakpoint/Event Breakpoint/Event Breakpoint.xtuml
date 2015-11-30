@@ -145,7 +145,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine Event',
 	'SMevt_ID',
-	'R3103');
+	'R3103.''is set on''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("b56c4c19-85b7-435d-a2ba-04a529604236",
 	"66df5a2e-f0bd-4e86-aad3-9e301eb1dacf",

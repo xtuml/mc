@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Required Signal',
 	'Id',
-	'R684');
+	'R684.''specifies processing for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("fd811c46-9d0e-47d2-b638-d3612bf229f3",
 	"7c94928c-84e9-45b0-96b5-6e8d6f91ed84",

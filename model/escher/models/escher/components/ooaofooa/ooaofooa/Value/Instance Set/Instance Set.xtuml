@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Model Class',
 	'Obj_ID',
-	'R819');
+	'R819.''refers to''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("1cf77f0a-8b97-42e3-aa69-a07fc1404b7c",
 	"05505b92-af71-471b-be88-01a02731ae85",

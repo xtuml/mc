@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R840');
+	'R840.''returns length of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("006e00b9-b809-4ada-b7b5-9b08ad28aa20",
 	"1cb1c1a4-cd64-46e1-a2bf-b825ccdca906",

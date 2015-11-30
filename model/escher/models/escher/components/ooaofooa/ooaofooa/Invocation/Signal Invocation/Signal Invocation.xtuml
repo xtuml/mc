@@ -145,7 +145,7 @@ INSERT INTO O_REF
 	'',
 	'Provided Signal',
 	'Id',
-	'R663');
+	'R663.''is invocation of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("549da0d7-80cb-4412-9bf0-f66e635a54a3",
 	"1b449e35-7a07-4fac-99d7-8f4b927039a8",
@@ -196,7 +196,7 @@ INSERT INTO O_REF
 	'',
 	'Required Signal',
 	'Id',
-	'R660');
+	'R660.''is invocation of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("549da0d7-80cb-4412-9bf0-f66e635a54a3",
 	"d14da5f5-ce30-4cfd-99f5-398e0cca106b",
@@ -247,7 +247,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R630');
+	'R630.''has target''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("549da0d7-80cb-4412-9bf0-f66e635a54a3",
 	"4b0c2447-7499-4b8d-a07a-8bd9a6065b60",

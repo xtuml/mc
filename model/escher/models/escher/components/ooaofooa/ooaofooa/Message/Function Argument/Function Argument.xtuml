@@ -74,7 +74,7 @@ INSERT INTO O_REF
 	'',
 	'Function Parameter',
 	'SParm_ID',
-	'R1016');
+	'R1016.''is represented by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("661b3b2e-c27b-41b9-90eb-ae189b29adaf",
 	"29569a1c-db1e-427b-a4af-8f2050c9f3c9",

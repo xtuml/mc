@@ -245,7 +245,7 @@ INSERT INTO O_REF
 	'',
 	'section',
 	'ID',
-	'R2306');
+	'R2306.''follows''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("fa92762b-1a9e-4282-ab39-72893a2b871b",
 	"295741f4-9b8b-49dc-a1a4-525b804b3e9d",

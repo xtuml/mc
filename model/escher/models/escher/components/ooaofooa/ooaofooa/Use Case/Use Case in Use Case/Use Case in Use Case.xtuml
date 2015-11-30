@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Use Case Diagram',
 	'Package_ID',
-	'R1208');
+	'R1208.''is shown in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("5cf013cd-6254-4467-be33-c5f3982e604e",
 	"58523db2-3b09-4172-a5ef-cd5ed0795df7",

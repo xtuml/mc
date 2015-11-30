@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Interface Operation',
 	'Id',
-	'R1022');
+	'R1022.''sends''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0e008616-43aa-4ccb-bf90-6feb16986a05",
 	"c063ab30-2e97-40c4-82e7-13cda6f3c1d9",

@@ -31,7 +31,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine Event Data Item',
 	'SMedi_ID',
-	'R522');
+	'R522.''is made up of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("199d062f-d00a-4922-be73-1b519fb52343",
 	"47c9e564-3e1f-43b2-bdc7-2f087f46aa67",
@@ -82,7 +82,7 @@ INSERT INTO O_REF
 	'',
 	'Event Supplemental Data',
 	'SMspd_ID',
-	'R522');
+	'R522.''makes up''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("abe586ab-44ca-4e20-afc9-4cae55a3bd83",
 	"4813237e-fd98-4c49-b472-46be7fd9eb53",
@@ -128,7 +128,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine Event Data Item',
 	'SM_ID',
-	'R522');
+	'R522.''is made up of''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("7d00185b-8212-4365-8bab-2c60315add38",
 	"7d5c6c4e-31c7-4c41-b9a2-038bc7464fd3",
@@ -151,7 +151,7 @@ INSERT INTO O_REF
 	'',
 	'Event Supplemental Data',
 	'SM_ID',
-	'R522');
+	'R522.''makes up''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("547faa30-57d2-4c4d-9e7f-4ba31b744565",
 	"4813237e-fd98-4c49-b472-46be7fd9eb53",

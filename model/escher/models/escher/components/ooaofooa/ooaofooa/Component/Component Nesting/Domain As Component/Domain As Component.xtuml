@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Domain',
 	'Dom_ID',
-	'R4204');
+	'R4204.''has subject matter of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("81f26c67-6bdd-417b-a8de-b65c8614be9a",
 	"c604a33b-ca26-41f4-9d3c-5bfee651b33b",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Component',
 	'Id',
-	'R4204');
+	'R4204.''defined subject matter for''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("08a380c2-95f2-425b-9a6f-c9630a7e3e00",
 	"f10115b0-8b64-4428-8ec7-d68d0016da48",

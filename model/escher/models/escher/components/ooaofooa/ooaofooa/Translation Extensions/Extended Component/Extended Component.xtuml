@@ -647,7 +647,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Component',
 	'ID',
-	'R2017');
+	'R2017.''precedes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("1d8a3916-cffc-4a74-8c26-e42b86aea190",
 	"fec7acb8-4581-4f12-bbb4-8223b6a745e7",
@@ -694,7 +694,7 @@ INSERT INTO O_REF
 	'',
 	'Extended External Entity',
 	'ID',
-	'R2098');
+	'R2098.''has first''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("1d8a3916-cffc-4a74-8c26-e42b86aea190",
 	"c1551c94-10c3-475b-b483-f6b27051e878",
@@ -745,7 +745,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Function',
 	'ID',
-	'R2097');
+	'R2097.''has first''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("1d8a3916-cffc-4a74-8c26-e42b86aea190",
 	"f12bd224-4988-4a6f-976f-c3ae043d5025",

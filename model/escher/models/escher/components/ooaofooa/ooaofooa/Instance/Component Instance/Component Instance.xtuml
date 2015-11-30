@@ -94,7 +94,7 @@ INSERT INTO O_REF
 	'',
 	'Domain',
 	'Dom_ID',
-	'R2948');
+	'R2948.''is verifying''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("60a9b8b1-e17c-4329-9c47-8d8821bfc808",
 	"6d76e01e-98f2-492a-b696-2d96d2c9ea3b",
@@ -203,7 +203,7 @@ INSERT INTO O_REF
 	'',
 	'Component',
 	'Id',
-	'R2955');
+	'R2955.''is verifying instance of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("60a9b8b1-e17c-4329-9c47-8d8821bfc808",
 	"182e68a1-cfd9-4667-9e67-4427d8e12dfc",
@@ -254,7 +254,7 @@ INSERT INTO O_REF
 	'',
 	'Component Reference',
 	'Id',
-	'R2963');
+	'R2963.''is verifying instance of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("60a9b8b1-e17c-4329-9c47-8d8821bfc808",
 	"629d7bb7-1233-4b62-a592-beb7625d1e0b",
@@ -301,7 +301,7 @@ INSERT INTO O_REF
 	'',
 	'Package',
 	'Package_ID',
-	'R2970');
+	'R2970.''is verifying''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("60a9b8b1-e17c-4329-9c47-8d8821bfc808",
 	"78d82b8b-e6e4-4ed1-a4ed-e17c4d6ba3e4",

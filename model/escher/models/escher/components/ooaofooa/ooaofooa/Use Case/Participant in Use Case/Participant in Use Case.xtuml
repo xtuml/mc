@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Use Case Diagram',
 	'Package_ID',
-	'R1203');
+	'R1203.''is displayed in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6f6a0508-cdc4-41db-8dd9-4483fec03fa4",
 	"27f96683-a0ce-4cc9-b494-98c6bcd24816",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Interaction Participant',
 	'Part_ID',
-	'R1203');
+	'R1203.''can display''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("0a5ae87a-2717-4a08-9587-9a3f46aee969",
 	"78cf3600-55aa-46a8-99a7-d4f7778bb8f6",

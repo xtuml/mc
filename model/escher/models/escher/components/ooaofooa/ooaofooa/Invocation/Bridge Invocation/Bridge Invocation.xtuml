@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Bridge',
 	'Brg_ID',
-	'R674');
+	'R674.''is an invocation of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("82b2640a-c2fb-4010-84fa-8e6f6a89ee81",
 	"1aee131b-94d8-4abe-ab1a-406af65b28ca",

@@ -165,7 +165,7 @@ INSERT INTO O_REF
 	'',
 	'Polymorphic Event',
 	'SMevt_ID',
-	'R527');
+	'R527.''is defined by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("04af6aef-c041-406a-9067-7a179567b43b",
 	"e2cc02b8-0258-4db1-89d9-873712588658",
@@ -214,7 +214,7 @@ INSERT INTO O_REF
 	'',
 	'Polymorphic Event',
 	'SM_ID',
-	'R527');
+	'R527.''is defined by''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("418a4569-44b4-4b2b-8105-0d14eb4fa344",
 	"3dba95b3-c957-4053-9769-d0179988a012",

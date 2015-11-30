@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Communication',
 	'Package_ID',
-	'R1135');
+	'R1135.''can be displayed in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("fa14cb33-60ef-482e-b945-86a2779b3a4a",
 	"2358184f-e5c2-40b2-bfa2-0dc3d200c8c7",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Message',
 	'Msg_ID',
-	'R1135');
+	'R1135.''may display''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("2568634c-1db0-471b-a75b-44a11eefed2c",
 	"eed4e78c-bb46-4963-85b4-f12bce14f71a",

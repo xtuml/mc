@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Interface Package',
 	'Package_ID',
-	'R4300');
+	'R4300.''can be shown in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("835b354f-7912-48ff-84f0-a6297cc52fae",
 	"3da1a808-7217-48ac-9cb2-679ccc09b90c",

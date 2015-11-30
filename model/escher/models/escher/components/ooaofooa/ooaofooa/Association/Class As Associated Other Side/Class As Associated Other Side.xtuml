@@ -185,7 +185,7 @@ INSERT INTO O_REF
 	'',
 	'Linked Association',
 	'Rel_ID',
-	'R210');
+	'R210.''is related to one side via''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("cc5b8819-8cff-452b-9833-5db09957f284",
 	"f108ee59-340b-46be-9a6a-e55fb26c5419",

@@ -23,7 +23,7 @@ INSERT INTO O_REF
 	'',
 	'Operation',
 	'Tfr_ID',
-	'R1011');
+	'R1011.''is invocation of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("1bced46f-3010-4896-9525-0d2fd5b6d8da",
 	"eabc3598-a3c6-479a-9cbf-654dbeafdd09",

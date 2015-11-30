@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Port',
 	'Id',
-	'R4016');
+	'R4016.''originates from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("76de1d03-bedb-4c20-b632-43d350543c3d",
 	"720ed294-dbc7-4d39-bb4c-7133eaba5e75",
@@ -91,7 +91,7 @@ INSERT INTO O_REF
 	'',
 	'Interface',
 	'Id',
-	'R4012');
+	'R4012.''may be defined by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("76de1d03-bedb-4c20-b632-43d350543c3d",
 	"a54f2c7e-f70f-4feb-b3ee-b850ba64d081",
@@ -142,7 +142,7 @@ INSERT INTO O_REF
 	'',
 	'Delegation',
 	'Id',
-	'R4014');
+	'R4014.''receives delegation via''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("76de1d03-bedb-4c20-b632-43d350543c3d",
 	"a09bf239-d7d2-48cd-8f0d-3b655c18a6aa",

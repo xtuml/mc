@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type Package',
 	'Package_ID',
-	'R39');
+	'R39.''is contained in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("332e480b-e016-4a4f-9f44-38b030fa37b1",
 	"ecaddfaf-4746-4bb7-a02b-a79a7a10559a",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R39');
+	'R39.''contains''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("157b0c17-0bd7-4836-aeab-8b41b7afb264",
 	"a2fcb0c7-a33d-4861-ac4c-36985f92521a",

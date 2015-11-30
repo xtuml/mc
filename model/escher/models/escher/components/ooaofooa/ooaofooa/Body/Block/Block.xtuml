@@ -42,7 +42,7 @@ INSERT INTO O_REF
 	'',
 	'Body',
 	'Action_ID',
-	'R601');
+	'R601.''is committed from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("d90fbb1a-0b27-4ddc-9f5c-5d52bae6f097",
 	"a8ee7476-544e-43ac-9a73-0a32ffbadd9a",
@@ -463,7 +463,7 @@ INSERT INTO O_REF
 	'',
 	'Body',
 	'Action_ID',
-	'R612');
+	'R612.''is parsed from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("d90fbb1a-0b27-4ddc-9f5c-5d52bae6f097",
 	"59aabed4-a457-4bd3-9c05-09f8667e9130",

@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Base Attribute',
 	'Attr_ID',
-	'R113');
+	'R113.''navigates back to''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("75317fd6-e502-4bf6-b00b-a5be155c479a",
 	"077d5d11-b0a2-47fd-81e8-75a1cb041457",
@@ -216,7 +216,7 @@ INSERT INTO O_REF
 	'',
 	'Base Attribute',
 	'Obj_ID',
-	'R113');
+	'R113.''navigates back to''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("d808e17c-bca9-4630-96f9-0d254ef59120",
 	"de203b5e-02a9-4733-addf-ab1311cf6596",

@@ -77,7 +77,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R668');
+	'R668.''has''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f834c381-1d14-4833-b338-186079054489",
 	"7ffbc099-aec4-48d7-9f5d-0864a7fe1ea5",

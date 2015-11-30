@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Block',
 	'Block_ID',
-	'R605');
+	'R605.''controls''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("9df32305-fe60-4ff4-a20b-32c2f12c1de9",
 	"aa191a1a-56ad-4baf-8cf6-e2fbd3d0ac97",
@@ -145,7 +145,7 @@ INSERT INTO O_REF
 	'',
 	'Variable',
 	'Var_ID',
-	'R614');
+	'R614.''loop''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("9df32305-fe60-4ff4-a20b-32c2f12c1de9",
 	"e4aaa0d1-5cb0-4323-a6ac-216294d3738a",
@@ -198,7 +198,7 @@ INSERT INTO O_REF
 	'',
 	'Variable',
 	'Var_ID',
-	'R652');
+	'R652.''set''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("9df32305-fe60-4ff4-a20b-32c2f12c1de9",
 	"1c60b1d1-6b53-437e-9180-ead606be15a2",
@@ -247,7 +247,7 @@ INSERT INTO O_REF
 	'',
 	'Model Class',
 	'Obj_ID',
-	'R670');
+	'R670.''iterates a set of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("9df32305-fe60-4ff4-a20b-32c2f12c1de9",
 	"158e697d-3ef9-4ce7-81aa-e10575efea5d",

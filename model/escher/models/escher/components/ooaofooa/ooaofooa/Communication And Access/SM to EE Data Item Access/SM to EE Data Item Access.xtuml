@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'SM to EE Access Path',
 	'APath_ID',
-	'R422');
+	'R422.''is carried by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3da95827-c7dc-47f0-8cfe-5b88b8013d2c",
 	"8ae87677-304d-4618-a1ba-00dd12863dfb",
@@ -77,7 +77,7 @@ Notes:
 ',
 	'External Entity Data Item',
 	'EEdi_ID',
-	'R423');
+	'R423.''represents access of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3da95827-c7dc-47f0-8cfe-5b88b8013d2c",
 	"142ab45f-2685-4f82-92a6-5c0eb7b74b2f",
@@ -135,7 +135,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity Data Item',
 	'EE_ID',
-	'R423');
+	'R423.''represents access of''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("cb34dc76-7817-4113-8d86-bb877a329a72",
 	"80c25dfe-186f-40ac-98cf-f2d29613d356",
@@ -158,7 +158,7 @@ INSERT INTO O_REF
 	'',
 	'SM to EE Access Path',
 	'EE_ID',
-	'R422');
+	'R422.''is carried by''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("5f85fb24-6ea5-46e0-bf5e-dffdb0a7450a",
 	"af3bb7d1-a62a-4173-9ed7-2333614494c1",

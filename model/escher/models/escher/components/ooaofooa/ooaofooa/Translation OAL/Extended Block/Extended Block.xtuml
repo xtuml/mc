@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Statement',
 	'Statement_ID',
-	'R2014');
+	'R2014.''has first''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("7923ed6f-c521-4fe4-a43c-44f1602ee07f",
 	"88730ccb-cec1-4aa5-ba4f-bc94b72fc046",

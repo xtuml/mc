@@ -99,7 +99,7 @@ INSERT INTO O_REF
 	'',
 	'Function Parameter',
 	'SParm_ID',
-	'R54');
+	'R54.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f1193fd8-a059-4bb7-91d8-6a97f5193e38",
 	"d1747bc4-6684-4d3f-b560-27139ca2d24c",
@@ -165,7 +165,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R26');
+	'R26.''is typed by ''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f1193fd8-a059-4bb7-91d8-6a97f5193e38",
 	"f19e67a2-7078-479d-8ad5-6c13b73d4ae8",
@@ -216,7 +216,7 @@ INSERT INTO O_REF
 	'',
 	'Function',
 	'Sync_ID',
-	'R24');
+	'R24.''is defined for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f1193fd8-a059-4bb7-91d8-6a97f5193e38",
 	"8192182d-1d90-43b1-862d-216247553a5e",

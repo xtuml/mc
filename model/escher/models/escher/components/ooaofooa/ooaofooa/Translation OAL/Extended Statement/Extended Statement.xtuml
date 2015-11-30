@@ -145,7 +145,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Statement',
 	'Statement_ID',
-	'R2012');
+	'R2012.''precedes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("09593d06-5908-4d7b-a27f-d033f38873f1",
 	"8b36e047-8627-4751-854b-1aaba7632bf9",
@@ -192,7 +192,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Block',
 	'Block_ID',
-	'R2015');
+	'R2015.''has sub''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("09593d06-5908-4d7b-a27f-d033f38873f1",
 	"3c3f0386-d121-4bc8-9c03-e614620402f0",
@@ -261,7 +261,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Block',
 	'Block_ID',
-	'R2078');
+	'R2078.''is in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("09593d06-5908-4d7b-a27f-d033f38873f1",
 	"4093ddf6-c969-4cf5-ba7b-0ff6381055a9",

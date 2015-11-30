@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type Package',
 	'Package_ID',
-	'R1506');
+	'R1506.''is contained in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("45adead1-751e-45cb-b14a-2f07edc37d98",
 	"c7b8da73-1912-40a3-ae23-4e7718c27fa8",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Constant Specification',
 	'Constant_Spec_ID',
-	'R1506');
+	'R1506.''contains''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("0925b131-441e-4c3f-9df6-e59bb4d4882a",
 	"1016a438-157d-4a10-991d-e1f6e67763e3",

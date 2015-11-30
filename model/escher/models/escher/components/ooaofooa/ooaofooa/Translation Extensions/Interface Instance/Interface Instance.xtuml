@@ -265,7 +265,7 @@ INSERT INTO O_REF
 	'',
 	'Interface Instance',
 	'ID',
-	'R2081');
+	'R2081.''requires or delegates''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("b5931da3-cab9-4861-8d22-29287d7133cf",
 	"0a0f04d0-39ff-46aa-bb57-b6a6bcc753b2",

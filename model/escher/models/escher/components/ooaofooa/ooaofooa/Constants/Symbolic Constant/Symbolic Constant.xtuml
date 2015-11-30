@@ -78,7 +78,7 @@ INSERT INTO O_REF
 	'',
 	'Symbolic Constant',
 	'Const_ID',
-	'R1505');
+	'R1505.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("92407ae6-0c64-449f-a665-54b87d8b55e3",
 	"295f5982-a764-4fe3-97e7-f552ee3f30a9",
@@ -125,7 +125,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R1500');
+	'R1500.''is defined by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("92407ae6-0c64-449f-a665-54b87d8b55e3",
 	"09580a4d-8132-42ad-99e0-405214c4e212",
@@ -176,7 +176,7 @@ INSERT INTO O_REF
 	'',
 	'Symbolic Constant',
 	'DT_ID',
-	'R1505');
+	'R1505.''succeeds''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("d6bccc08-e5ad-4e2d-915f-b94313fff8f5",
 	"92407ae6-0c64-449f-a665-54b87d8b55e3",
@@ -218,7 +218,7 @@ INSERT INTO O_REF
 	'',
 	'Constant Specification',
 	'Constant_Spec_ID',
-	'R1504');
+	'R1504.''is contained by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("92407ae6-0c64-449f-a665-54b87d8b55e3",
 	"f5542245-5e88-4132-94ed-c170d746b474",

@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Block',
 	'Block_ID',
-	'R607');
+	'R607.''controls''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0cd49c8b-7b78-4ce8-9421-1caebb340422",
 	"20691814-c681-4633-b46d-fc57b81bcb8c",
@@ -126,7 +126,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R625');
+	'R625.''test result''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0cd49c8b-7b78-4ce8-9421-1caebb340422",
 	"e909168b-c2a9-4329-9be1-1a7d77190107",
@@ -179,7 +179,7 @@ INSERT INTO O_REF
 	'',
 	'ElseIf Stmt',
 	'Statement_ID',
-	'R690');
+	'R690.''was executing when halted''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0cd49c8b-7b78-4ce8-9421-1caebb340422",
 	"dfb9a656-e5d7-441d-95e9-91026385c1d5",
@@ -226,7 +226,7 @@ INSERT INTO O_REF
 	'',
 	'Else Stmt',
 	'Statement_ID',
-	'R692');
+	'R692.''was executing when halted''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0cd49c8b-7b78-4ce8-9421-1caebb340422",
 	"fdf0867d-d17b-4336-92ff-5fe5519c5917",

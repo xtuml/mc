@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity Event',
 	'EEevt_ID',
-	'R13');
+	'R13.''is carried via''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("746e8e1f-a2ff-4a25-828e-afae8462a656",
 	"3cf42ddd-39fb-4733-a7e4-d64845cef9ef",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity Event Data Item',
 	'EEedi_ID',
-	'R13');
+	'R13.''may carry''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("b0e39920-9cfd-492d-87f3-4b2dffba1e32",
 	"d552eb52-5780-44ed-a26f-f7435694a299",
@@ -119,7 +119,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity Event',
 	'EE_ID',
-	'R13');
+	'R13.''is carried via''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("6a7c9bb3-b368-4319-a9f0-0240e2697b0a",
 	"78329274-6b9e-425b-a4b1-a02ac0d00a12",
@@ -142,7 +142,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity Event Data Item',
 	'EE_ID',
-	'R13');
+	'R13.''may carry''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("0f87a601-6577-4ded-9a23-9c10ffd9ef1e",
 	"d552eb52-5780-44ed-a26f-f7435694a299",

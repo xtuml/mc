@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Package',
 	'Package_ID',
-	'R1403');
+	'R1403.''contained within''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("fa9f3b6b-290a-4d88-bf3e-b71229b2859f",
 	"a19ecd03-7fda-4560-a8df-215f13fb9468",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Package',
 	'Package_ID',
-	'R1404');
+	'R1404.''links to parent of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("fa9f3b6b-290a-4d88-bf3e-b71229b2859f",
 	"55b453e1-3547-443a-92c0-f42ab4164bad",

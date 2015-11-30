@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Domain',
 	'Dom_ID',
-	'R43');
+	'R43.''is top level of subsystems''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("ff05159b-efcb-47aa-ae3d-98ea07ea0e9d",
 	"22807d9f-537f-42a8-8837-c31a5bd9815e",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Subsystem',
 	'SS_ID',
-	'R43');
+	'R43.''has top level subsystems''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("0a55dd0b-797c-412e-8c40-055b9baf1511",
 	"56747d6c-7eca-403d-b0b1-1a3933cfc24e",

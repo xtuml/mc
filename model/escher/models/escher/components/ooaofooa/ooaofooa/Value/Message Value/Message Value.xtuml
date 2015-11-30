@@ -229,7 +229,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R851');
+	'R851.''has target''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("ce455593-8e22-4186-bd85-caa136aeaf03",
 	"f08f0e86-7274-42d0-ac90-b2763818c23a",

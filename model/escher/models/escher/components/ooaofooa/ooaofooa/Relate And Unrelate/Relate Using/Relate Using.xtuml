@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Variable',
 	'Var_ID',
-	'R617');
+	'R617.''one''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("151eabe2-1b13-4be1-a3f0-172c9a192fe9",
 	"5b6131fc-966c-4d07-8349-b5a0ddff5bc7",
@@ -128,7 +128,7 @@ INSERT INTO O_REF
 	'',
 	'Variable',
 	'Var_ID',
-	'R618');
+	'R618.''other''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("151eabe2-1b13-4be1-a3f0-172c9a192fe9",
 	"0ab0db30-fd95-4638-9512-e57259fce471",
@@ -177,7 +177,7 @@ INSERT INTO O_REF
 	'',
 	'Variable',
 	'Var_ID',
-	'R619');
+	'R619.''using''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("151eabe2-1b13-4be1-a3f0-172c9a192fe9",
 	"cf912611-356f-4d78-ad92-6e992e6e8485",
@@ -319,7 +319,7 @@ INSERT INTO O_REF
 	'',
 	'Association',
 	'Rel_ID',
-	'R654');
+	'R654.''creates''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("151eabe2-1b13-4be1-a3f0-172c9a192fe9",
 	"b4a9b539-8dfd-419e-bb6b-4d80be54b128",

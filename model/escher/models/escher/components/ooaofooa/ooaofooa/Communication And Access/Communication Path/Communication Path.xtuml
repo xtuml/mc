@@ -44,7 +44,7 @@ Notes:
 ',
 	'Subsystem',
 	'SS_ID',
-	'R5');
+	'R5.''abstracts asynchronous communication between classes in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("2c2a1645-20c9-4e94-9ae1-fb99891aa552",
 	"9c10fdac-1b87-482d-b0e1-38b080bec795",

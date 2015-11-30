@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Enumerator',
 	'Enum_ID',
-	'R824');
+	'R824.''has value''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("170020f9-79e6-465a-a50c-9a60ddda2ef6",
 	"654bd4b4-c7d2-413a-af8a-9f1c6ad85550",

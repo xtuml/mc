@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Function',
 	'Sync_ID',
-	'R695');
+	'R695.''specifies processing for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("1e3284a9-4494-4630-8797-4c2fe3492355",
 	"7a199b4b-dd12-4431-873c-abfaf46f4e9c",

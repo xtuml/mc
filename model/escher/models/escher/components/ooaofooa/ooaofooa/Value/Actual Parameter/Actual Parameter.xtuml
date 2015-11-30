@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R800');
+	'R800.''has''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0aee54bd-0b57-4345-aa15-0261702f2128",
 	"ae0857ea-f4d4-4215-a6b0-992124057a79",
@@ -185,7 +185,7 @@ INSERT INTO O_REF
 	'',
 	'Interface Operation Invocation',
 	'Statement_ID',
-	'R679');
+	'R679.''taken by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0aee54bd-0b57-4345-aa15-0261702f2128",
 	"e62c4ef2-d631-45e4-bee5-515d88ad2df1",
@@ -213,7 +213,7 @@ INSERT INTO O_REF
 	'',
 	'Signal Invocation',
 	'Statement_ID',
-	'R662');
+	'R662.''taken by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0aee54bd-0b57-4345-aa15-0261702f2128",
 	"0e5e49fe-13d5-4d40-978f-852e7b077bb2",
@@ -284,7 +284,7 @@ INSERT INTO O_REF
 	'',
 	'Actual Parameter',
 	'Value_ID',
-	'R816');
+	'R816.''precedes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0aee54bd-0b57-4345-aa15-0261702f2128",
 	"63573c72-ca6c-4baa-9581-226b55b95e8b",

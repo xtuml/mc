@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'System Model',
 	'Sys_ID',
-	'R4404');
+	'R4404.''is constant in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("50ce9b87-4f42-4d93-bccc-f7798f9acef6",
 	"40a54509-194a-4a24-b073-3fe6b6d90699",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type Package',
 	'Package_ID',
-	'R4403');
+	'R4403.''can show in lower package''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("50ce9b87-4f42-4d93-bccc-f7798f9acef6",
 	"08b7368b-4599-4e1c-a5c0-1532c8236eb8",
@@ -124,7 +124,7 @@ INSERT INTO O_REF
 	'',
 	'Constant Specification',
 	'Constant_Spec_ID',
-	'R4403');
+	'R4403.''may show''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("0925b131-441e-4c3f-9df6-e59bb4d4882a",
 	"1016a438-157d-4a10-991d-e1f6e67763e3",

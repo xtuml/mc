@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Variable',
 	'Var_ID',
-	'R638');
+	'R638.''selection''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("2f7613a1-023e-45f9-8923-e7bdd95a4497",
 	"1cdcaa40-49d2-432c-9b46-956148d1f665",
@@ -167,7 +167,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R613');
+	'R613.''starting point''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("2f7613a1-023e-45f9-8923-e7bdd95a4497",
 	"4b85a4e0-397f-451a-a586-4249f8ae9678",

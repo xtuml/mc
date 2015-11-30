@@ -40,7 +40,7 @@ INSERT INTO O_REF
 	'',
 	'Component',
 	'Id',
-	'R4202');
+	'R4202.''can be nested in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("65cebf59-6dfd-433f-9214-8736d54b9b96",
 	"df34523d-4fb1-4103-a5b9-d23245a2b12b",

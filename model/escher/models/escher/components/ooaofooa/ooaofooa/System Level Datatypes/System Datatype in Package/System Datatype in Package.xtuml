@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'System Model',
 	'Sys_ID',
-	'R4402');
+	'R4402.''is datatype in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3824cf1a-8625-47dd-8df2-c1d30ded81d5",
 	"eeb526e5-3ac6-4af8-89ae-bbd03a684069",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type Package',
 	'Package_ID',
-	'R4401');
+	'R4401.''can show in lower package''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3824cf1a-8625-47dd-8df2-c1d30ded81d5",
 	"84bfcefc-d7f0-4614-8be3-1c326e14ab47",
@@ -124,7 +124,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R4401');
+	'R4401.''may show''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("157b0c17-0bd7-4836-aeab-8b41b7afb264",
 	"a2fcb0c7-a33d-4861-ac4c-36985f92521a",

@@ -131,7 +131,7 @@ INSERT INTO O_REF
 	'',
 	'Message',
 	'Msg_ID',
-	'R1000');
+	'R1000.''belongs to informal''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("069a6b8c-6336-432e-b59e-775359cb6edb",
 	"c1ad1e5a-93ac-4290-989c-dd66b5933070",
@@ -182,7 +182,7 @@ INSERT INTO O_REF
 	'',
 	'Message',
 	'Msg_ID',
-	'R1001');
+	'R1001.''belongs to formal''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("069a6b8c-6336-432e-b59e-775359cb6edb",
 	"6dd40ade-95d1-46d7-bb69-d539e7582c93",

@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity Event',
 	'EEevt_ID',
-	'R709');
+	'R709.''generates''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a4d0b153-f8d9-4474-98ac-c7d7b71b3912",
 	"9d64a5b8-7f16-4a62-a2dd-857b3e4a6287",
@@ -128,7 +128,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity Event',
 	'EE_ID',
-	'R709');
+	'R709.''generates''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("6a7c9bb3-b368-4319-a9f0-0240e2697b0a",
 	"78329274-6b9e-425b-a4b1-a02ac0d00a12",

@@ -76,7 +76,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Dimension',
 	'te_dimID',
-	'R2059');
+	'R2059.''has first''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("682691dc-c2c7-492d-a77e-383afbca03bb",
 	"9dd0f6b4-e43e-4a54-a677-a9aa52ac28e3",
@@ -163,7 +163,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Member',
 	'ID',
-	'R2067');
+	'R2067.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("682691dc-c2c7-492d-a77e-383afbca03bb",
 	"c2715890-8323-4887-9792-f654e8016f06",

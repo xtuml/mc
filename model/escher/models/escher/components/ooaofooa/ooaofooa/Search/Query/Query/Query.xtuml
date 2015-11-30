@@ -119,7 +119,7 @@ INSERT INTO O_REF
 	'',
 	'Search Engine',
 	'Id',
-	'R9500');
+	'R9500.''processed by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("62441aaa-0242-4252-9735-97d9c4b8985b",
 	"94379176-8633-4ed2-a6c1-fccc919c414b",

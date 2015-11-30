@@ -111,7 +111,7 @@ INSERT INTO O_REF
 	'',
 	'Function',
 	'Sync_ID',
-	'R675');
+	'R675.''is an invocation of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("adc39991-31bc-40b3-a839-da213fd82552",
 	"3098eadc-486b-42a5-a18e-d0d33f7c4857",

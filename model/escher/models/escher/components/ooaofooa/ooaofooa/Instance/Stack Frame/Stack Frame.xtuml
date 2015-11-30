@@ -76,7 +76,7 @@ INSERT INTO O_REF
 	'',
 	'Stack Frame',
 	'Stack_Frame_ID',
-	'R2928');
+	'R2928.''next context''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f78c1988-2be4-4192-aa96-621b852c02a3",
 	"26f9b51e-26d6-4583-a7d5-9ec01b6a6c98",
@@ -123,7 +123,7 @@ INSERT INTO O_REF
 	'',
 	'Stack',
 	'Stack_ID',
-	'R2929');
+	'R2929.''is processed by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f78c1988-2be4-4192-aa96-621b852c02a3",
 	"6204bb45-767c-488a-a07e-74778d237450",
@@ -174,7 +174,7 @@ INSERT INTO O_REF
 	'',
 	'Stack',
 	'Stack_ID',
-	'R2943');
+	'R2943.''processed by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f78c1988-2be4-4192-aa96-621b852c02a3",
 	"ed131880-cb5d-4a50-aaf9-babd40a567c2",
@@ -221,7 +221,7 @@ INSERT INTO O_REF
 	'',
 	'Instance',
 	'Inst_ID',
-	'R2954');
+	'R2954.''has context''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f78c1988-2be4-4192-aa96-621b852c02a3",
 	"14c1026a-7619-4072-8915-7c97f4d7a027",
@@ -290,7 +290,7 @@ INSERT INTO O_REF
 	'',
 	'Stack',
 	'Stack_ID',
-	'R2967');
+	'R2967.''holds return value for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f78c1988-2be4-4192-aa96-621b852c02a3",
 	"0a208d7d-d34b-4fa5-9793-73c6abf53313",
@@ -337,7 +337,7 @@ INSERT INTO O_REF
 	'',
 	'Stack Frame',
 	'Stack_Frame_ID',
-	'R2965');
+	'R2965.''blocked by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f78c1988-2be4-4192-aa96-621b852c02a3",
 	"ad004497-3fa7-480a-96a1-49de024fed36",

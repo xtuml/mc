@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Domain',
 	'Dom_ID',
-	'R47');
+	'R47.''is suppressed in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("4d2d1ce0-e5ab-42cd-8ec0-c3c1d43ba26e",
 	"d5948b7e-2154-4d0b-9fd0-dd057d536cf6",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type',
 	'DT_ID',
-	'R47');
+	'R47.''contains suppressed''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("157b0c17-0bd7-4836-aeab-8b41b7afb264",
 	"a2fcb0c7-a33d-4861-ac4c-36985f92521a",

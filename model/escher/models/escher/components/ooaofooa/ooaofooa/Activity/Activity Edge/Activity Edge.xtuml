@@ -109,7 +109,7 @@ INSERT INTO O_REF
 	'',
 	'Activity Node',
 	'Id',
-	'R1103');
+	'R1103.''target''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("bb832279-edcc-486a-b945-2108044825ec",
 	"b5ca0bce-1aaa-432b-bd8c-ce122770b93c",
@@ -160,7 +160,7 @@ INSERT INTO O_REF
 	'',
 	'Activity Node',
 	'Id',
-	'R1104');
+	'R1104.''source''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("bb832279-edcc-486a-b945-2108044825ec",
 	"c2f71ce7-558d-492c-b513-f1e12f8f3ef0",

@@ -40,7 +40,7 @@ INSERT INTO O_REF
 	'',
 	'Model Class',
 	'Obj_ID',
-	'R201');
+	'R201.''abstracts association between instances of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0ddf0137-a9ca-4ac5-83b9-be8e5e377a32",
 	"b06814ba-9432-42ea-b9d8-b5ac2e8ec7e4",
@@ -91,7 +91,7 @@ INSERT INTO O_REF
 	'',
 	'Imported Class',
 	'IObj_ID',
-	'R202');
+	'R202.''may be represented by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0ddf0137-a9ca-4ac5-83b9-be8e5e377a32",
 	"dc7f62a5-853e-46c5-bd44-92d1b97964e0",
@@ -138,7 +138,7 @@ INSERT INTO O_REF
 	'',
 	'Association',
 	'Rel_ID',
-	'R201');
+	'R201.''has instance associations abstracted''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("2424aa20-4fb0-4954-8ae7-1febe7fc9791",
 	"bd33215d-433e-4151-9362-bdd24574d386",

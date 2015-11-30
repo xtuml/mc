@@ -255,10 +255,13 @@ INSERT INTO S_EE
 	'This EE represents the user of the tool. It''s bridge calls all
 capture required interactions with that user.
  
-Import:com.mentor.nucleus.bp.core.common.*
+Import:org.xtuml.bp.core.common.*
 ',
 	'USER',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'User',
+	0);
 INSERT INTO S_BRG
 	VALUES ("eaeab886-2e2e-49f3-8cf1-abc1f416cdc5",
 	"caedf09d-212f-4200-9a44-62e1e44bbb23",
@@ -471,7 +474,10 @@ some point in the near future.
 
 Import:java.util.UUID;import java.util.Calendar',
 	'GD',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Graphics Domain',
+	1);
 INSERT INTO S_BRG
 	VALUES ("abb8eccc-67ab-4233-a3a3-d75016c6a275",
 	"34e13ccf-c4dd-4e88-bd4d-99e400c7405b",
@@ -518,7 +524,7 @@ INSERT INTO S_BRG
 	'Translate:native',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000005",
-	'return com.mentor.nucleus.bp.core.common.IdAssigner.NULL_UUID;',
+	'return org.xtuml.bp.core.common.IdAssigner.NULL_UUID;',
 	0,
 	'');
 INSERT INTO S_BRG
@@ -1505,10 +1511,13 @@ INSERT INTO S_EE
 	'This EE contains utility bridges that provide functionality which cannot be
 modeled.
                                       
-Import:java.util.*; import com.mentor.nucleus.bp.core.ui.actions.ElementChange
+Import:java.util.*; import org.xtuml.bp.core.ui.actions.ElementChange
 ',
 	'Util',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Utilities',
+	1);
 INSERT INTO S_BRG
 	VALUES ("bd84adcb-3da2-42ba-af5d-4b3757fdc6d1",
 	"23e10701-a68f-4e78-a267-3b61fc7568ca",
@@ -1559,7 +1568,7 @@ INSERT INTO S_BRG
 Participant is contained within it.  This is required with free-floating message
 formalization.
 
-Import:com.mentor.nucleus.bp.core.*; import com.mentor.nucleus.bp.core.common.*; import com.mentor.nucleus.bp.core.inspector.ModelInspector; import com.mentor.nucleus.bp.core.ui.*; import java.util.Iterator
+Import:org.xtuml.bp.core.*; import org.xtuml.bp.core.common.*; import org.xtuml.bp.core.inspector.ModelInspector; import org.xtuml.bp.core.ui.*; import java.util.Iterator
 Translate:native',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000001",
@@ -1767,7 +1776,7 @@ INSERT INTO S_BRG
 in the paste action.  The paste action will check this list and display a
 dialog to the user indicating some problem.
 
-Import:com.mentor.nucleus.bp.core.ui.PasteAction
+Import:org.xtuml.bp.core.ui.PasteAction
 Translate:native',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -2002,7 +2011,7 @@ INSERT INTO S_BRG
 		// look for other systems if IPRs are enabled
 		SystemModel_c sys = (SystemModel_c) ((NonRootModelElement) p_Askingelement).getRoot();
 		if (Pref_c.Getsystemboolean(
-				"com.mentor.nucleus.bp.ui.project.references",
+				"org.xtuml.bp.ui.project.references",
 				sys.getName())) {
 			SystemModel_c[] systems = SystemModel_c.SystemModelInstances(Ooaofooa.getDefaultInstance());
 			for(SystemModel_c system : systems) {
@@ -2113,7 +2122,7 @@ INSERT INTO S_BRG
 	'addElementToList',
 	'This bridge will add an element to a native Java java.util.List
 
-Import:com.mentor.nucleus.bp.core.common.NonRootModelElement
+Import:org.xtuml.bp.core.common.NonRootModelElement
 Translate:native',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -2229,14 +2238,17 @@ INSERT INTO S_EE
 	'This EE contains bridge operations that provide access to the tool''s selection
 provider which cannot be modeled.',
 	'Sel',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Selection',
+	1);
 INSERT INTO S_BRG
 	VALUES ("cd3f3ab3-7f30-4990-9aec-6aa59cf7d893",
 	"97a38762-8ed0-4c71-8298-4d4e27ffceaa",
 	'getCurrentSelectionCount',
 	'This bridge returns the tools current selection count.
 
-Import:com.mentor.nucleus.bp.core.ui.Selection
+Import:org.xtuml.bp.core.ui.Selection
 Translate:native',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000002",
@@ -2249,7 +2261,7 @@ INSERT INTO S_BRG
 	'clearSelection',
 	'This bridge clears the current selection.
 
-Import:com.mentor.nucleus.bp.core.ui.Selection
+Import:org.xtuml.bp.core.ui.Selection
 Translate:native',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -2273,7 +2285,10 @@ user data types.
 
 Translate: false',
 	'ERR',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Parse Error Reporting',
+	1);
 INSERT INTO S_BRG
 	VALUES ("bbb84e87-1c11-4950-ab23-18159f03130c",
 	"9185de4e-1006-4d0b-98de-f698485ccb31",
@@ -2329,7 +2344,10 @@ by the operating system.  It is implemented by a hand-written class.
 This External Entity should be exported with graphics and with Only Referenced
 user data types.',
 	'OS',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Operating System',
+	1);
 INSERT INTO S_BRG
 	VALUES ("4b0a5790-1ffb-4771-b55a-b4d5abfc748e",
 	"b5c1fa97-24bd-4dc4-8da0-c94867076139",
@@ -2471,7 +2489,10 @@ We use this to load users realized code.
 -----------------------------------------------------------------------------------
 Translate:false',
 	'VM',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Virtual Machine',
+	1);
 INSERT INTO S_BRG
 	VALUES ("e5604930-c53b-44ff-a795-0b936b1c86f3",
 	"234fa006-5775-4c5e-8c92-aba55e67b9b4",
@@ -2616,10 +2637,13 @@ INSERT INTO S_EE
 	'This EE represents the interface to the Eclipse preferences. It''s bridge calls
 provide a means for action language to access the preferences.
 
-Import: com.mentor.nucleus.bp.core.common.*; import org.eclipse.jface.dialogs.*; import com.mentor.nucleus.bp.core.ui.preferences.*; import org.osgi.service.prefs.Preferences; import org.eclipse.core.resources.*; import org.eclipse.jface.preference.*; import org.eclipse.core.runtime.preferences.IScopeContext; import org.eclipse.jface.dialogs.MessageDialogWithToggle
+Import: org.xtuml.bp.core.common.*; import org.eclipse.jface.dialogs.*; import org.xtuml.bp.core.ui.preferences.*; import org.osgi.service.prefs.Preferences; import org.eclipse.core.resources.*; import org.eclipse.jface.preference.*; import org.eclipse.core.runtime.preferences.IScopeContext; import org.eclipse.jface.dialogs.MessageDialogWithToggle
 ',
 	'PREF',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Preferences',
+	1);
 INSERT INTO S_BRG
 	VALUES ("c355f60d-61c2-4589-a04e-72550de6a160",
 	"029ce0f9-c0b2-48d5-afba-c618a76a1162",
@@ -2772,7 +2796,10 @@ INSERT INTO S_EE
 	'Search',
 	'Translate:false',
 	'Search',
-	"00000000-0000-0000-0000-000000000000");
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Search',
+	1);
 INSERT INTO S_BRG
 	VALUES ("d79a33af-82e3-4f15-b541-ff3bdd0af27e",
 	"2ee44352-5bf6-4791-8f79-28c4a33213fb",
@@ -2963,6 +2990,6 @@ for model capture.
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
 	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'com.mentor.nucleus.bp.core',
+	'escher',
 	1,
-	'../../../../com.mentor.nucleus.bp.core.xtuml');
+	'../../../../escher.xtuml');

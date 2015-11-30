@@ -26,7 +26,7 @@ INSERT INTO O_REF
 	'',
 	'Bridge',
 	'Brg_ID',
-	'R3200');
+	'R3200.''for bridge execution''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("9e5dac75-25b8-47cd-bd3a-ea124fd44d2f",
 	"ad1cdc40-04ce-4049-8d05-032ced868140",
@@ -77,7 +77,7 @@ INSERT INTO O_REF
 	'',
 	'Function',
 	'Sync_ID',
-	'R3201');
+	'R3201.''connects bridge execution to''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("9e5dac75-25b8-47cd-bd3a-ea124fd44d2f",
 	"bfdf51c4-572a-4f6a-bfa3-eac29c89f977",

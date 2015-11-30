@@ -140,7 +140,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity',
 	'EE_ID',
-	'R933');
+	'R933.''represents''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("e4db8dd9-6f1d-42e9-ace8-d19e7657f68a",
 	"97b24d3e-dc22-449d-8331-674d8be728b6",

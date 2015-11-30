@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Communication',
 	'Package_ID',
-	'R1130');
+	'R1130.''is shown in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0e0ebd8a-49f8-43d1-9167-07843fb7fca6",
 	"0ca92379-d09c-436a-973f-68ff7155ad99",

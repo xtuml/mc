@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Use Case Association',
 	'Assoc_ID',
-	'R1215');
+	'R1215.''provides containment''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("95d1e640-fca4-4b9a-bb5b-7df4326b4eda",
 	"a229a33c-486a-4543-9087-f0b549846a25",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Use Case Diagram',
 	'Package_ID',
-	'R1214');
+	'R1214.''contained in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("95d1e640-fca4-4b9a-bb5b-7df4326b4eda",
 	"21bc05c4-2958-49ff-adc0-ff9b68b5ff1a",

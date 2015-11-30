@@ -40,7 +40,7 @@ INSERT INTO O_REF
 	'',
 	'Link Participation',
 	'Inst_ID',
-	'R2901');
+	'R2901.''originates at''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f9f910ad-a4a2-45a1-b881-328a0c63d40d",
 	"281f25ce-740e-45e0-80ea-bf3eeb61bf6c",
@@ -91,7 +91,7 @@ INSERT INTO O_REF
 	'',
 	'Link Participation',
 	'Inst_ID',
-	'R2902');
+	'R2902.''ends at''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f9f910ad-a4a2-45a1-b881-328a0c63d40d",
 	"347dd7ff-f95c-423a-8684-893dcf29917f",
@@ -138,7 +138,7 @@ INSERT INTO O_REF
 	'',
 	'Link Participation',
 	'Inst_ID',
-	'R2903');
+	'R2903.''has associator''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f9f910ad-a4a2-45a1-b881-328a0c63d40d",
 	"0c47eb61-994c-45a3-bc2a-1b1b3b27bb50",
@@ -185,7 +185,7 @@ INSERT INTO O_REF
 	'',
 	'Association',
 	'Rel_ID',
-	'R2904');
+	'R2904.''is instance of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f9f910ad-a4a2-45a1-b881-328a0c63d40d",
 	"1b4b69e7-1933-4a09-ac52-2c400433d640",
@@ -213,7 +213,7 @@ INSERT INTO O_REF
 	'',
 	'Link Participation',
 	'Rel_ID',
-	'R2901');
+	'R2901.''originates at''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("82d11f46-f680-4399-9812-b73759cdff2d",
 	"3edfeb8a-781c-44ed-b210-97e119b3e633",
@@ -236,7 +236,7 @@ INSERT INTO O_REF
 	'',
 	'Link Participation',
 	'Rel_ID',
-	'R2902');
+	'R2902.''ends at''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("82d11f46-f680-4399-9812-b73759cdff2d",
 	"3edfeb8a-781c-44ed-b210-97e119b3e633",
@@ -259,7 +259,7 @@ INSERT INTO O_REF
 	'',
 	'Link Participation',
 	'Rel_ID',
-	'R2903');
+	'R2903.''has associator''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("82d11f46-f680-4399-9812-b73759cdff2d",
 	"3edfeb8a-781c-44ed-b210-97e119b3e633",

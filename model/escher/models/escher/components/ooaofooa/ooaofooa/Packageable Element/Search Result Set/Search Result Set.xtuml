@@ -25,7 +25,7 @@ INSERT INTO O_REF
 	'',
 	'Package',
 	'Package_ID',
-	'R8005');
+	'R8005.''held by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("9f32ddc0-1172-44ed-a475-60de2ea8ce08",
 	"4927d8cb-4460-4251-8d53-0b49d0aec8b6",

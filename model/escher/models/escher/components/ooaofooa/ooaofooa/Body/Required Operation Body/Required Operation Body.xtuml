@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Required Operation',
 	'Id',
-	'R685');
+	'R685.''specifies processing for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("7ef624c1-2f92-4f28-8e42-90ec91d01f31",
 	"0e09782d-92a9-45d6-be32-919f63ba71fc",

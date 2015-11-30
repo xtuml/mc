@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Property Parameter',
 	'PP_Id',
-	'R1023');
+	'R1023.''is represented by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("76fb3261-dd48-4e9b-bc0b-68353208e818",
 	"e38b4b1e-3ab6-4678-8350-9b130d139ec7",

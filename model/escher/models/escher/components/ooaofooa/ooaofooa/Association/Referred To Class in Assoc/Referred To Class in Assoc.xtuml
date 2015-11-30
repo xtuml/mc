@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Class Identifier',
 	'Oid_ID',
-	'R109');
+	'R109.''is identified in this association by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("9afd425d-001f-471a-abcf-ed04da5486cc",
 	"04a896c8-9b4c-437d-b7a2-e6ba8a697ec0",
@@ -148,7 +148,7 @@ INSERT INTO O_REF
 	'',
 	'Class Identifier',
 	'Obj_ID',
-	'R109');
+	'R109.''is identified in this association by''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("7744ce74-17b0-444f-a14d-a0f02c63446b",
 	"7f071402-9bab-43f3-bf34-e69f50b0b3ac",

@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Statement',
 	'Statement_ID',
-	'R3101');
+	'R3101.''is set on a''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3fa8de6d-bd93-4533-8b75-bbf6f447d7fd",
 	"a2d9b05b-2087-4243-a680-5ac697d35c54",

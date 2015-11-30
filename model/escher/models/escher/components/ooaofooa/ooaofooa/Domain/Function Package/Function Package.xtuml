@@ -59,7 +59,7 @@ INSERT INTO O_REF
 	'',
 	'Domain',
 	'Dom_ID',
-	'R29');
+	'R29.''is contained in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("2290a000-8e35-4ad4-a592-d81df364ee49",
 	"488852e6-30c9-4de8-947a-a129bd5b4121",
@@ -110,7 +110,7 @@ INSERT INTO O_REF
 	'',
 	'Function Package in Package',
 	'FunPack_ID',
-	'R32');
+	'R32.''is child via''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("2290a000-8e35-4ad4-a592-d81df364ee49",
 	"96a9619d-1374-4ed0-908c-9e581d8e433c",

@@ -109,7 +109,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine State',
 	'SM_ID',
-	'R3104');
+	'R3104.''is set on''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("83693a0e-a431-44c8-a508-1c51add8007a",
 	"377c55d8-343d-427a-b12a-8828a3a706ab",
@@ -160,7 +160,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine State',
 	'SMstt_ID',
-	'R3104');
+	'R3104.''is set on''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("b407ec78-ba68-4b3a-b3d6-bf4e0d3b3281",
 	"b9285c2f-ce42-4e54-8c80-4a8b2963d18e",

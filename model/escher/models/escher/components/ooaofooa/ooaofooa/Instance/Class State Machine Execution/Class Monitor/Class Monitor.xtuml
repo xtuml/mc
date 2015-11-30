@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Component Instance',
 	'Execution_Engine_ID',
-	'R2950');
+	'R2950.''monitored by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3614c95c-f699-475a-97be-60f96c7f57c3",
 	"2311e5d6-f1b2-470a-ae05-529e8536b56f",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Class In Engine',
 	'CIE_ID',
-	'R2950');
+	'R2950.''monitors''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("a4f62753-6596-4222-865f-ae846abcf1e2",
 	"4089e6c7-71e6-4510-a473-7463518cbbfb",

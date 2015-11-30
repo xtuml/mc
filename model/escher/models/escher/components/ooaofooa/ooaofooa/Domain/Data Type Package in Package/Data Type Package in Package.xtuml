@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Data Type Package',
 	'Package_ID',
-	'R37');
+	'R37.''contains children of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6f325348-8adf-4c1e-94e1-f92aeece353d",
 	"f626edd9-173c-4724-84a5-2e81b05d9462",

@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine State',
 	'SM_ID',
-	'R508');
+	'R508.''originates from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("f7f48762-9476-4364-8b37-20634968ef0b",
 	"715e586e-4b73-419b-80ac-0c7930fb3bd4",
@@ -149,7 +149,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine State',
 	'SMstt_ID',
-	'R508');
+	'R508.''originates from''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("b407ec78-ba68-4b3a-b3d6-bf4e0d3b3281",
 	"b9285c2f-ce42-4e54-8c80-4a8b2963d18e",

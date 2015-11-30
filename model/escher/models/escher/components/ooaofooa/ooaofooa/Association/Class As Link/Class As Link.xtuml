@@ -142,7 +142,7 @@ INSERT INTO O_REF
 	'',
 	'Linked Association',
 	'Rel_ID',
-	'R211');
+	'R211.''formalizes association between associated classes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("e713e610-1810-4297-92bf-356edeca17a7",
 	"717299e9-2036-4cb4-8c2e-c1ed12ce5e23",

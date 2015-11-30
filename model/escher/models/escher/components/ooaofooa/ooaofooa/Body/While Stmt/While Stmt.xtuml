@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R626');
+	'R626.''continue result''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a7a71b35-07aa-455a-a6de-a7f8c4af780a",
 	"6b1efeff-cc73-4f45-ba78-c949b686046c",
@@ -128,7 +128,7 @@ INSERT INTO O_REF
 	'',
 	'Block',
 	'Block_ID',
-	'R608');
+	'R608.''controls''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("a7a71b35-07aa-455a-a6de-a7f8c4af780a",
 	"44603400-3f8e-4b08-a3e4-fe1747a2d192",

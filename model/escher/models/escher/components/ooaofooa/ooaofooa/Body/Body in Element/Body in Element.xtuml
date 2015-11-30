@@ -24,7 +24,7 @@ INSERT INTO O_REF
 	'',
 	'Body',
 	'Action_ID',
-	'R640');
+	'R640.''has declared''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("5896f210-334e-4fc1-9196-baf39ef1398f",
 	"aeaed317-408d-4504-ad26-b5c5965d6947",
@@ -75,7 +75,7 @@ INSERT INTO O_REF
 	'',
 	'Packageable Element',
 	'Element_ID',
-	'R640');
+	'R640.''is declared in''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("10876fab-1b74-4366-9d45-f2779fe993c7",
 	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",

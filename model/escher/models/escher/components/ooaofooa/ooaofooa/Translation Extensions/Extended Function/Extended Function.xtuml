@@ -304,7 +304,7 @@ INSERT INTO O_REF
 	'',
 	'Extended Function',
 	'ID',
-	'R2095');
+	'R2095.''precedes''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3e56a173-e279-4070-beac-e6583101948e",
 	"d9ada048-4831-427d-94fe-e4d9fc67103d",

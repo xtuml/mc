@@ -76,7 +76,7 @@ INSERT INTO O_REF
 	'',
 	'Enumerator',
 	'Enum_ID',
-	'R56');
+	'R56.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("5d38f912-bbfb-4b36-b9e3-3c2e153d11d6",
 	"92e75681-dd0b-48e0-83b2-cc9f306caaaa",
@@ -123,7 +123,7 @@ INSERT INTO O_REF
 	'',
 	'Enumeration Data Type',
 	'DT_ID',
-	'R27');
+	'R27.''is defined by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("5d38f912-bbfb-4b36-b9e3-3c2e153d11d6",
 	"19ee2188-5837-47cf-8dc6-8626844590d5",

@@ -83,7 +83,7 @@ INSERT INTO O_REF
 	'',
 	'Component Instance',
 	'Execution_Engine_ID',
-	'R2930');
+	'R2930.''is controlled by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("3ea4bbbf-5f37-41cb-add6-a9df57d2bfdc",
 	"6d6291d8-6567-458d-b55c-17be4fd04f8e",

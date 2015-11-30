@@ -111,7 +111,7 @@ INSERT INTO O_REF
 	'',
 	'Interaction Participant',
 	'Part_ID',
-	'R940');
+	'R940.''extends from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("b2264668-17fe-4437-8367-aa9656aa1b1b",
 	"65c26713-1fbd-46c3-84d3-ccf94bfa23bc",

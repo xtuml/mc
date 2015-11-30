@@ -77,7 +77,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity in Model',
 	'EEmod_ID',
-	'R402');
+	'R402.''originates from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("984f4e0c-1672-4169-a53f-aca2faf834a4",
 	"9850b0b7-e38f-4edf-af64-322311dc8199",
@@ -128,7 +128,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine',
 	'SM_ID',
-	'R403');
+	'R403.''shows event communication to''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("984f4e0c-1672-4169-a53f-aca2faf834a4",
 	"8df61a1b-2194-49ec-b03d-bff279f33739",
@@ -179,7 +179,7 @@ INSERT INTO O_REF
 	'',
 	'External Entity in Model',
 	'EE_ID',
-	'R402');
+	'R402.''originates from''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("0bd75455-949c-4bf8-903a-4c7e46c371ef",
 	"a91c3ab7-445c-4bd9-82c1-7abfae60fa13",

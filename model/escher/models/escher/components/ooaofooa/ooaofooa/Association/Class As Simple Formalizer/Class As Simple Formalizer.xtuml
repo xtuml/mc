@@ -185,7 +185,7 @@ INSERT INTO O_REF
 	'',
 	'Simple Association',
 	'Rel_ID',
-	'R208');
+	'R208.''is related to participant via''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("b6a0f0eb-fadc-486f-a798-94f95d4a8266",
 	"058c5614-a5a4-423b-b623-efd6470d3c11",

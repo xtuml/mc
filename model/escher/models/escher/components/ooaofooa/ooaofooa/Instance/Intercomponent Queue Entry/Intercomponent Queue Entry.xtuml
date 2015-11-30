@@ -22,7 +22,7 @@ INSERT INTO O_REF
 	'',
 	'Stack',
 	'Stack_ID',
-	'R2966');
+	'R2966.''is enqueued with''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("683a67f2-2672-49bb-a6a8-398d02cb500d",
 	"62fd8c20-69cb-40e7-8976-a23cadd311c7",
@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Stack Frame',
 	'Stack_Frame_ID',
-	'R2966');
+	'R2966.''has queued''');
 INSERT INTO O_RTIDA_PROXY
 	VALUES ("ad51e0c2-7ccf-4733-bc99-28765508f9f0",
 	"f78c1988-2be4-4192-aa96-621b852c02a3",
@@ -119,7 +119,7 @@ INSERT INTO O_REF
 	'',
 	'Component Instance',
 	'Execution_Engine_ID',
-	'R2977');
+	'R2977.''enqueued by''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("683a67f2-2672-49bb-a6a8-398d02cb500d",
 	"0ad86919-5f4e-4943-90d3-12936b7b7f90",

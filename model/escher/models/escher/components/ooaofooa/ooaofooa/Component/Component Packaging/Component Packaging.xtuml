@@ -1704,6 +1704,6 @@ required for modeling components.',
 	'../Component.xtuml');
 INSERT INTO S_SYS_PROXY
 	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'com.mentor.nucleus.bp.core',
+	'escher',
 	1,
-	'../../../../../com.mentor.nucleus.bp.core.xtuml');
+	'../../../../../escher.xtuml');

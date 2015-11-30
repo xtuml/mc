@@ -76,7 +76,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine Event',
 	'SMevt_ID',
-	'R2906');
+	'R2906.''is instance of''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8e6b6756-a793-46d1-93aa-c3867481c78c",
 	"c61c4a6f-dbe8-4921-97ce-d267f033e2f2",
@@ -127,7 +127,7 @@ INSERT INTO O_REF
 	'',
 	'Instance',
 	'Inst_ID',
-	'R2907');
+	'R2907.''is pending for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8e6b6756-a793-46d1-93aa-c3867481c78c",
 	"d6817643-0235-44bf-b078-7d1cc847eb4a",
@@ -155,7 +155,7 @@ INSERT INTO O_REF
 	'',
 	'Instance',
 	'Inst_ID',
-	'R2935');
+	'R2935.''targets''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8e6b6756-a793-46d1-93aa-c3867481c78c",
 	"1958459f-1879-4c0b-9440-5280da7016ef",
@@ -206,7 +206,7 @@ INSERT INTO O_REF
 	'',
 	'Pending Event',
 	'Event_ID',
-	'R2908');
+	'R2908.''will be processed after''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8e6b6756-a793-46d1-93aa-c3867481c78c",
 	"9ea43721-1614-488a-8aaf-eb9e4a55dc3d",
@@ -253,7 +253,7 @@ INSERT INTO O_REF
 	'',
 	'Instance',
 	'Inst_ID',
-	'R2937');
+	'R2937.''was sent from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8e6b6756-a793-46d1-93aa-c3867481c78c",
 	"4cc88af5-bcd0-4438-bc9c-ebc06a236a50",
@@ -300,7 +300,7 @@ INSERT INTO O_REF
 	'',
 	'Pending Event',
 	'Event_ID',
-	'R2939');
+	'R2939.''will be processed before''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8e6b6756-a793-46d1-93aa-c3867481c78c",
 	"462d4102-4b22-4093-9369-d94c803c9f43",
@@ -362,7 +362,7 @@ INSERT INTO O_REF
 	'',
 	'Class In Engine',
 	'CIE_ID',
-	'R2931');
+	'R2931.''has target''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8e6b6756-a793-46d1-93aa-c3867481c78c",
 	"aacd239d-1cf2-40b7-9442-ddc74fafa1f7",
@@ -413,7 +413,7 @@ INSERT INTO O_REF
 	'',
 	'Class In Engine',
 	'CIE_ID',
-	'R2938');
+	'R2938.''was sent from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8e6b6756-a793-46d1-93aa-c3867481c78c",
 	"63c08d71-b467-4273-a531-d1ea4c2535cd",
@@ -460,7 +460,7 @@ INSERT INTO O_REF
 	'',
 	'Component Instance',
 	'Execution_Engine_ID',
-	'R2964');
+	'R2964.''is pending in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8e6b6756-a793-46d1-93aa-c3867481c78c",
 	"5f1ee332-1a93-47c1-8cc1-e245d06a7afb",
@@ -511,7 +511,7 @@ INSERT INTO O_REF
 	'',
 	'Component Instance',
 	'Execution_Engine_ID',
-	'R2976');
+	'R2976.''originates from''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("8e6b6756-a793-46d1-93aa-c3867481c78c",
 	"b70018ed-f381-4353-81f1-e2cd6e9d1b2e",

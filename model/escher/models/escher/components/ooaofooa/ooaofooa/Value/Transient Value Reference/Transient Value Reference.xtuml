@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Variable',
 	'Var_ID',
-	'R805');
+	'R805.''references''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("6afbd1b9-b8dc-4ef5-93e3-1465b8cdff6e",
 	"ede62810-e48c-4253-9dad-9fc67ead98b7",

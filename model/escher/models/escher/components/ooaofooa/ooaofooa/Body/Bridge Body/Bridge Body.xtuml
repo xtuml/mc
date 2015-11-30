@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Bridge',
 	'Brg_ID',
-	'R697');
+	'R697.''specifies processing for''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("9254e434-9fc0-41d0-a548-d5d560ee9a2b",
 	"5aae763f-af12-41ba-8326-00b10fcecb55",

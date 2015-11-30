@@ -73,7 +73,7 @@ INSERT INTO O_REF
 	'',
 	'Value',
 	'Value_ID',
-	'R804');
+	'R804.''has operand''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("46a96d6e-54ed-4ee8-a176-741ba26a59e3",
 	"ed36e7e8-471d-44cf-b2d1-d8919e7ba742",

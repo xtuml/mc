@@ -148,7 +148,7 @@ INSERT INTO O_REF
 	'',
 	'Interface Signal',
 	'Id',
-	'R4020');
+	'R4020.''succeeds''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("bba2a34c-67b3-4289-8d61-615361cf1a5e",
 	"9c855c88-cc32-4105-b9d8-bd3c6056f5ac",

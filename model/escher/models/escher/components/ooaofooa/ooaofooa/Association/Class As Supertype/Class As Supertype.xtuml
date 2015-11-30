@@ -119,7 +119,7 @@ INSERT INTO O_REF
 	'',
 	'Subtype Supertype Association',
 	'Rel_ID',
-	'R212');
+	'R212.''is related to subtypes via''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("467c07f8-da6d-4d86-a8da-a9c3e049cbff",
 	"1281f651-07e4-417d-be6f-68e30609ade0",

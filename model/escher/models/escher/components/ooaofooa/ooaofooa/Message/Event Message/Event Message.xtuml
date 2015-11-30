@@ -23,7 +23,7 @@ INSERT INTO O_REF
 	'',
 	'State Machine Event',
 	'SMevt_ID',
-	'R1009');
+	'R1009.''generates''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("993ae9b6-3718-488d-8a80-b3acbd783d08",
 	"68c3300e-fd5d-4609-a2e5-02ab4d55a27d",

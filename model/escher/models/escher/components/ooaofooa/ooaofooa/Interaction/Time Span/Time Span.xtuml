@@ -59,7 +59,7 @@ INSERT INTO O_REF
 	'',
 	'Timing Mark',
 	'Mark_ID',
-	'R941');
+	'R941.''span begins at''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("ed64da8e-76a5-439f-90e0-88b05ce8fdfd",
 	"a1b6920f-1f9e-4565-b4ed-e81d424cc8a9",
@@ -110,7 +110,7 @@ INSERT INTO O_REF
 	'',
 	'Timing Mark',
 	'Mark_ID',
-	'R942');
+	'R942.''span ends at''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("ed64da8e-76a5-439f-90e0-88b05ce8fdfd",
 	"b7c0f0c7-24d3-456b-8e95-004772a6241f",

@@ -29,7 +29,7 @@ INSERT INTO O_REF
 	'',
 	'Interaction Participant',
 	'Part_ID',
-	'R1007');
+	'R1007.''has destination''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("eed4e78c-bb46-4963-85b4-f12bce14f71a",
 	"0a847000-ec26-4145-8df2-ca39410ef0d5",
@@ -80,7 +80,7 @@ INSERT INTO O_REF
 	'',
 	'Interaction Participant',
 	'Part_ID',
-	'R1008');
+	'R1008.''has source''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("eed4e78c-bb46-4963-85b4-f12bce14f71a",
 	"6eb6c776-c43b-4214-a24e-7e973645b7b1",
