@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'3.2.5',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Globals');
+	'escher::components::ooaofooa::ooaofooa::Globals');
 INSERT INTO GD_GE
 	VALUES ("422a0134-a296-49b2-b991-1edc7bf5acef",
 	"93f479df-1e4c-4fb7-86e8-de2ddcc09fa1",
 	"867ec651-35b1-45bf-8349-42311e1c032e",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Globals::System Model');
+	'escher::components::ooaofooa::ooaofooa::Globals::System Model');
 INSERT INTO GD_SHP
 	VALUES ("422a0134-a296-49b2-b991-1edc7bf5acef");
 INSERT INTO GD_NCS
@@ -61,7 +61,7 @@ INSERT INTO GD_GE
 	"f4c8a096-eddc-4f20-b7bf-2f6962a9324b",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Globals::Packageable Element');
+	'escher::components::ooaofooa::ooaofooa::Globals::Packageable Element');
 INSERT INTO GD_SHP
 	VALUES ("a70603df-57e9-4ea9-bf84-8ea78d31edeb");
 INSERT INTO GD_NCS
@@ -90,7 +90,7 @@ INSERT INTO GD_GE
 	"6e2496c4-179c-4791-94ec-a2b392c426f7",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Globals::Global Element in System');
+	'escher::components::ooaofooa::ooaofooa::Globals::Global Element in System');
 INSERT INTO GD_SHP
 	VALUES ("68c7ec32-2e40-4e79-b363-fae23d74b2f8");
 INSERT INTO GD_NCS
@@ -119,7 +119,7 @@ INSERT INTO GD_GE
 	"6ab4a171-3534-41ec-abe9-13727dcf11e8",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Globals::R9100');
+	'escher::components::ooaofooa::ooaofooa::Globals::R9100');
 INSERT INTO GD_CON
 	VALUES ("a53508af-351a-494f-a835-7c458a6cb4db",
 	"00000000-0000-0000-0000-000000000000");
@@ -227,7 +227,7 @@ INSERT INTO GD_GE
 	"6ab4a171-3534-41ec-abe9-13727dcf11e8",
 	34,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Globals::R9100::Global Element in System');
+	'escher::components::ooaofooa::ooaofooa::Globals::R9100::Global Element in System');
 INSERT INTO GD_CON
 	VALUES ("db409d19-8c4c-4057-b532-e44749e3d5b4",
 	"00000000-0000-0000-0000-000000000000");

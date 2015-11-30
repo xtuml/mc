@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem');
+	'escher::components::ooaofooa::ooaofooa::Subsystem');
 INSERT INTO GD_GE
 	VALUES ("e187d339-8985-4a04-904f-e4f15b92d02a",
 	"2b4e05c0-939c-4b3b-80b9-705c9e206316",
 	"eae0947a-266b-4729-bbcf-2916401fff43",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Operation');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Operation');
 INSERT INTO GD_SHP
 	VALUES ("e187d339-8985-4a04-904f-e4f15b92d02a");
 INSERT INTO GD_NCS
@@ -86,7 +86,7 @@ INSERT INTO GD_GE
 	"fbc7ca2b-3c56-4d18-ac12-86af9847fd0e",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Operation Parameter');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Operation Parameter');
 INSERT INTO GD_SHP
 	VALUES ("25f2115c-8109-4e1a-ae0f-1f8d7db61a8e");
 INSERT INTO GD_NCS
@@ -135,7 +135,7 @@ INSERT INTO GD_GE
 	"68da4b64-d021-4cc8-a93c-93f2cc77b70a",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Attribute');
 INSERT INTO GD_SHP
 	VALUES ("afc999fa-2096-4943-9695-a766823ff5fe");
 INSERT INTO GD_NCS
@@ -194,7 +194,7 @@ INSERT INTO GD_GE
 	"a426ad77-e925-436b-a6e8-aec3b1a64feb",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Model Class');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Model Class');
 INSERT INTO GD_SHP
 	VALUES ("6b41a745-1859-4b5d-8770-635c018edbc1");
 INSERT INTO GD_NCS
@@ -243,7 +243,7 @@ INSERT INTO GD_GE
 	"de203b5e-02a9-4733-addf-ab1311cf6596",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Base Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Base Attribute');
 INSERT INTO GD_SHP
 	VALUES ("55d85377-74fe-4e78-956c-6cc57317e440");
 INSERT INTO GD_NCS
@@ -282,7 +282,7 @@ INSERT INTO GD_GE
 	"75317fd6-e502-4bf6-b00b-a5be155c479a",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Referential Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Referential Attribute');
 INSERT INTO GD_SHP
 	VALUES ("2b4a5861-b3c1-4afb-a38d-383cc8d804ef");
 INSERT INTO GD_NCS
@@ -326,7 +326,7 @@ INSERT INTO GD_GE
 	"2d0fac93-f5db-4521-afdd-f9b546f00b30",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Derived Base Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Derived Base Attribute');
 INSERT INTO GD_SHP
 	VALUES ("f76cb27c-c084-4db7-9f65-2d77693d8ceb");
 INSERT INTO GD_NCS
@@ -355,7 +355,7 @@ INSERT INTO GD_GE
 	"8060b002-54e4-4426-bf40-4787d0566697",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::New Base Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::New Base Attribute');
 INSERT INTO GD_SHP
 	VALUES ("4b957cb1-4f2d-4c9c-ad80-f8d4120ebc3f");
 INSERT INTO GD_NCS
@@ -384,7 +384,7 @@ INSERT INTO GD_GE
 	"f4bf8d03-0f1a-4c06-aae8-d5066fcf367b",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Attribute Reference in Class');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Attribute Reference in Class');
 INSERT INTO GD_SHP
 	VALUES ("c2fa853f-6f91-49cd-9f65-770d5c4fcf5e");
 INSERT INTO GD_NCS
@@ -428,7 +428,7 @@ INSERT INTO GD_GE
 	"7f071402-9bab-43f3-bf34-e69f50b0b3ac",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Class Identifier');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Class Identifier');
 INSERT INTO GD_SHP
 	VALUES ("9470d62e-3757-4b17-928a-38ded27d9543");
 INSERT INTO GD_NCS
@@ -467,7 +467,7 @@ INSERT INTO GD_GE
 	"e1b47872-848d-4064-affe-0bf35b38ed73",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Class Identifier Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Class Identifier Attribute');
 INSERT INTO GD_SHP
 	VALUES ("d24a05af-aadf-4f7d-b862-21a7a19869a6");
 INSERT INTO GD_NCS
@@ -501,7 +501,7 @@ INSERT INTO GD_GE
 	"11665866-fbcf-463f-9ff2-89ff3ede2650",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Imported Class');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Imported Class');
 INSERT INTO GD_SHP
 	VALUES ("47c41bfd-99b1-42a8-bf5a-9798ee4d0acd");
 INSERT INTO GD_NCS
@@ -530,7 +530,7 @@ INSERT INTO GD_GE
 	"4b4eb009-28c3-4d62-b7b9-51a02d9987cd",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Referred To Identifier Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Referred To Identifier Attribute');
 INSERT INTO GD_SHP
 	VALUES ("d63bb934-5454-475a-ae1c-00eace828eff");
 INSERT INTO GD_NCS
@@ -564,7 +564,7 @@ INSERT INTO GD_GE
 	"1576fcfe-c3ce-48a3-b8f2-4a53e8d04261",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Data Type');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Data Type');
 INSERT INTO GD_SHP
 	VALUES ("707bd709-4708-424d-8f05-120a4e04fea3");
 INSERT INTO GD_NCS
@@ -603,7 +603,7 @@ INSERT INTO GD_GE
 	"be84227e-87cc-4417-ac37-b93df6a03b35",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Referred To Class in Assoc');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Referred To Class in Assoc');
 INSERT INTO GD_SHP
 	VALUES ("cd13b129-847d-429a-9d67-2ea19e710714");
 INSERT INTO GD_NCS
@@ -637,7 +637,7 @@ INSERT INTO GD_GE
 	"6fad74e5-9321-4721-83ed-4f7b338e804e",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Referring Class In Assoc');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Referring Class In Assoc');
 INSERT INTO GD_SHP
 	VALUES ("760f078b-d441-4e46-a793-27beeb43893c");
 INSERT INTO GD_NCS
@@ -666,7 +666,7 @@ INSERT INTO GD_GE
 	"4cba0fe2-a192-4630-ac17-c5b6bbb8d6a4",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R117');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R117');
 INSERT INTO GD_CON
 	VALUES ("88bf90d4-087d-48cd-9f0f-9a567772e338",
 	"00000000-0000-0000-0000-000000000000");
@@ -766,7 +766,7 @@ INSERT INTO GD_GE
 	"449e01a4-b7a1-4d37-abf5-deb437ee13a8",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R118');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R118');
 INSERT INTO GD_CON
 	VALUES ("ecd6b859-39bb-4dbf-ae6b-63bcd6257332",
 	"00000000-0000-0000-0000-000000000000");
@@ -866,7 +866,7 @@ INSERT INTO GD_GE
 	"7d682d22-9c3d-442c-851d-adde3387dafc",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R116');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R116');
 INSERT INTO GD_CON
 	VALUES ("df518097-e237-4bc6-b085-9c48537a6ce5",
 	"00000000-0000-0000-0000-000000000000");
@@ -966,7 +966,7 @@ INSERT INTO GD_GE
 	"a23d84ae-0ff6-4a31-9cbb-f8711cae49c2",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R115');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R115');
 INSERT INTO GD_CON
 	VALUES ("7fc31424-5f75-4b6e-ab5d-116c53917d66",
 	"00000000-0000-0000-0000-000000000000");
@@ -1066,7 +1066,7 @@ INSERT INTO GD_GE
 	"11ac4168-640a-4c5a-9a27-a3913c669090",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R102');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R102');
 INSERT INTO GD_CON
 	VALUES ("75c5d470-4635-43fa-a5a5-49678b02a68f",
 	"00000000-0000-0000-0000-000000000000");
@@ -1166,7 +1166,7 @@ INSERT INTO GD_GE
 	"0cbc2ea0-8aba-4498-a749-008fde6428ed",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R103');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R103');
 INSERT INTO GD_CON
 	VALUES ("86a8f0bf-2d4b-420c-b9b6-50902b6b6281",
 	"00000000-0000-0000-0000-000000000000");
@@ -1305,7 +1305,7 @@ INSERT INTO GD_GE
 	"15ffb019-f409-41f9-8526-02b436226698",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R114');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R114');
 INSERT INTO GD_CON
 	VALUES ("f8531046-ca7a-4f1b-b943-d0d945ea1f99",
 	"00000000-0000-0000-0000-000000000000");
@@ -1418,7 +1418,7 @@ INSERT INTO GD_GE
 	"71bd1f41-1e47-43d0-99c5-3831ec8a68ae",
 	36,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R106');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R106');
 INSERT INTO GD_CON
 	VALUES ("5b544348-d131-406d-9d5c-8946fd2e3759",
 	"00000000-0000-0000-0000-000000000000");
@@ -1534,7 +1534,7 @@ INSERT INTO GD_GE
 	"cfca1221-895e-4591-a830-4426308274ba",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R106::Base Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R106::Base Attribute');
 INSERT INTO GD_CON
 	VALUES ("5675e373-5e19-4b1a-a620-42ce945d08c6",
 	"00000000-0000-0000-0000-000000000000");
@@ -1647,7 +1647,7 @@ INSERT INTO GD_GE
 	"b5a6e320-9bb4-4bbd-9400-11eb5b744080",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R106::Referential Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R106::Referential Attribute');
 INSERT INTO GD_CON
 	VALUES ("9fd550ce-ef9d-4e89-af33-75a91c054912",
 	"00000000-0000-0000-0000-000000000000");
@@ -1747,7 +1747,7 @@ INSERT INTO GD_GE
 	"077d5d11-b0a2-47fd-81e8-75a1cb041457",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R113');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R113');
 INSERT INTO GD_CON
 	VALUES ("6c9715b1-e172-41b6-aebe-f143166a4d61",
 	"00000000-0000-0000-0000-000000000000");
@@ -1847,7 +1847,7 @@ INSERT INTO GD_GE
 	"10d1ebf6-7518-4c6b-9567-808ea0809b79",
 	36,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R107');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R107');
 INSERT INTO GD_CON
 	VALUES ("def77a8d-64ac-41b2-8e9f-1bacf047ef99",
 	"00000000-0000-0000-0000-000000000000");
@@ -1963,7 +1963,7 @@ INSERT INTO GD_GE
 	"b2b0e403-9dff-4e43-a9fc-13e482505dc9",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R107::Derived Base Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R107::Derived Base Attribute');
 INSERT INTO GD_CON
 	VALUES ("6164d95e-e7df-406a-9d85-b3b181224cee",
 	"00000000-0000-0000-0000-000000000000");
@@ -2076,7 +2076,7 @@ INSERT INTO GD_GE
 	"b69bef02-0931-48ad-9db3-3ba86f0f70b3",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R107::New Base Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R107::New Base Attribute');
 INSERT INTO GD_CON
 	VALUES ("9ab6404d-75d7-4d3e-9ec3-9a34218a84b3",
 	"00000000-0000-0000-0000-000000000000");
@@ -2189,7 +2189,7 @@ INSERT INTO GD_GE
 	"f7e1c98a-bc1b-4190-9659-412bfc700a67",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R108');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R108');
 INSERT INTO GD_CON
 	VALUES ("b76539e7-1521-4eb7-8073-0881f874a8e0",
 	"00000000-0000-0000-0000-000000000000");
@@ -2289,7 +2289,7 @@ INSERT INTO GD_GE
 	"24f3b1d3-80ae-4bcb-9da9-7186c3e77f1a",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R112');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R112');
 INSERT INTO GD_CON
 	VALUES ("fc70161c-fc20-426d-ba03-196a41e33e75",
 	"00000000-0000-0000-0000-000000000000");
@@ -2428,7 +2428,7 @@ INSERT INTO GD_GE
 	"96074011-d60c-42a6-8fc3-e7527f8c2b13",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R105');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R105');
 INSERT INTO GD_CON
 	VALUES ("2f0ef356-8b55-4f6c-bc4b-e8c3df2660fa",
 	"fc66bfa6-00f5-4608-8601-9ffaf879a1f0");
@@ -2536,7 +2536,7 @@ INSERT INTO GD_GE
 	"96074011-d60c-42a6-8fc3-e7527f8c2b13",
 	34,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R105::Class Identifier Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R105::Class Identifier Attribute');
 INSERT INTO GD_CON
 	VALUES ("7647b2b2-49f2-431c-a4f2-c811ab0f03ae",
 	"00000000-0000-0000-0000-000000000000");
@@ -2636,7 +2636,7 @@ INSERT INTO GD_GE
 	"279ddde1-70f7-40c5-b81b-e7bd7f83f39c",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R104');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R104');
 INSERT INTO GD_CON
 	VALUES ("1be3af19-3113-4721-84b9-3024b881ecf0",
 	"00000000-0000-0000-0000-000000000000");
@@ -2762,7 +2762,7 @@ INSERT INTO GD_GE
 	"403782be-1010-4d72-a556-ff59c20a22ba",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R101');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R101');
 INSERT INTO GD_CON
 	VALUES ("cefa8ad5-413a-4ca9-9ba7-825e66ff9395",
 	"00000000-0000-0000-0000-000000000000");
@@ -2862,7 +2862,7 @@ INSERT INTO GD_GE
 	"27898328-d6a3-4938-85c4-7568b9a8216a",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R110');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R110');
 INSERT INTO GD_CON
 	VALUES ("d2a8d6e3-47d9-4d06-b478-6273f96f81c5",
 	"6acc2c15-2051-4f1b-8661-fce860f05e92");
@@ -2970,7 +2970,7 @@ INSERT INTO GD_GE
 	"27898328-d6a3-4938-85c4-7568b9a8216a",
 	34,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R110::Referred To Identifier Attribute');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R110::Referred To Identifier Attribute');
 INSERT INTO GD_CON
 	VALUES ("7fee1219-11e8-49e7-9982-6b2916a2f23b",
 	"00000000-0000-0000-0000-000000000000");
@@ -3070,7 +3070,7 @@ INSERT INTO GD_GE
 	"04a896c8-9b4c-437d-b7a2-e6ba8a697ec0",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R109');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R109');
 INSERT INTO GD_CON
 	VALUES ("a00000eb-9e8c-43de-8f25-1d1dab9e9f39",
 	"00000000-0000-0000-0000-000000000000");
@@ -3183,7 +3183,7 @@ INSERT INTO GD_GE
 	"13135073-a5f3-4a60-8b8b-36a32e8be46d",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R111');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R111');
 INSERT INTO GD_CON
 	VALUES ("0961799d-05b0-4d48-ae16-5cb1b7081610",
 	"6fcfe0a6-1113-41cf-8d67-c124d22171b1");
@@ -3307,7 +3307,7 @@ INSERT INTO GD_GE
 	"13135073-a5f3-4a60-8b8b-36a32e8be46d",
 	34,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R111::Attribute Reference in Class');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R111::Attribute Reference in Class');
 INSERT INTO GD_CON
 	VALUES ("a1244cdc-551b-430f-9547-3da810c1de72",
 	"00000000-0000-0000-0000-000000000000");
@@ -3407,7 +3407,7 @@ INSERT INTO GD_GE
 	"0896afbc-5df8-48e7-860f-7f98469d6f12",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Referential Attribute Visited Recorder');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Referential Attribute Visited Recorder');
 INSERT INTO GD_SHP
 	VALUES ("0f7a22ac-eed6-4d82-a614-33f3857f9215");
 INSERT INTO GD_NCS
@@ -3436,7 +3436,7 @@ INSERT INTO GD_GE
 	"ebe8fd52-5a71-4503-8fd1-94e9a4a7367e",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R119');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R119');
 INSERT INTO GD_CON
 	VALUES ("e13ef2f1-8607-4284-b216-573d92eba8cd",
 	"00000000-0000-0000-0000-000000000000");
@@ -3536,7 +3536,7 @@ INSERT INTO GD_GE
 	"b8cef7fb-4ee0-40d2-a725-2d4cc655d947",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Dimensions');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Dimensions');
 INSERT INTO GD_SHP
 	VALUES ("5feedb32-70d0-4774-bf12-9ad23387a571");
 INSERT INTO GD_NCS
@@ -3575,7 +3575,7 @@ INSERT INTO GD_GE
 	"c3feae79-c540-4c3d-9d6f-ade47f4ca1cc",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R120');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R120');
 INSERT INTO GD_CON
 	VALUES ("4ff74e90-72f7-464e-a6a1-f523b71c526e",
 	"00000000-0000-0000-0000-000000000000");
@@ -3675,7 +3675,7 @@ INSERT INTO GD_GE
 	"8b76b37a-541f-4505-a918-693525614519",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R121');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R121');
 INSERT INTO GD_CON
 	VALUES ("e0709988-70a9-483a-b029-1fae37c867cb",
 	"00000000-0000-0000-0000-000000000000");
@@ -3788,7 +3788,7 @@ INSERT INTO GD_GE
 	"9561ed71-fbd3-4861-9c1a-f23924559170",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R122');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R122');
 INSERT INTO GD_CON
 	VALUES ("14cef884-4fd3-4898-a77d-1d6d9f285a24",
 	"00000000-0000-0000-0000-000000000000");
@@ -3914,7 +3914,7 @@ INSERT INTO GD_GE
 	"4a37210f-d9b2-4868-a0e5-6364771ff6ae",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::Instance Reference Data Type');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::Instance Reference Data Type');
 INSERT INTO GD_SHP
 	VALUES ("fafbd5fc-b4e4-485b-896b-9da81e2aab19");
 INSERT INTO GD_NCS
@@ -3943,7 +3943,7 @@ INSERT INTO GD_GE
 	"48678944-b352-4d4c-9128-ef234ffd0fc7",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R123');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R123');
 INSERT INTO GD_CON
 	VALUES ("16670a6e-dd01-4b26-9e49-6026309bce93",
 	"00000000-0000-0000-0000-000000000000");
@@ -4043,7 +4043,7 @@ INSERT INTO GD_GE
 	"5fcd3374-fed9-4cb3-92e5-7a52fc946591",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R124');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R124');
 INSERT INTO GD_CON
 	VALUES ("ecbd95cd-20e9-4f7b-8065-e0355895c0ad",
 	"00000000-0000-0000-0000-000000000000");
@@ -4182,7 +4182,7 @@ INSERT INTO GD_GE
 	"b0c3faaa-545f-477d-92cd-bb7a6a2c8dc9",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Subsystem::R125');
+	'escher::components::ooaofooa::ooaofooa::Subsystem::R125');
 INSERT INTO GD_CON
 	VALUES ("71cdde06-669e-4b4e-943c-5f7ab96c197f",
 	"00000000-0000-0000-0000-000000000000");

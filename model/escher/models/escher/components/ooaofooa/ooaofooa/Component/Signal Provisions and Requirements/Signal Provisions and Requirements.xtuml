@@ -29,14 +29,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements');
 INSERT INTO GD_GE
 	VALUES ("cd5e5036-bd08-4877-b419-336c82d5c277",
 	"42758a85-5544-41e7-9cbf-6f81f34a84ca",
 	"09059bea-5e93-465e-a355-0489a6f53919",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Executable Property');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Executable Property');
 INSERT INTO GD_SHP
 	VALUES ("cd5e5036-bd08-4877-b419-336c82d5c277");
 INSERT INTO GD_NCS
@@ -70,7 +70,7 @@ INSERT INTO GD_GE
 	"8eed3483-5bb9-4042-a33f-9ff90ba455e2",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Requirement');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Requirement');
 INSERT INTO GD_SHP
 	VALUES ("c23f1def-793c-429a-9cc6-a764b87905f5");
 INSERT INTO GD_NCS
@@ -99,7 +99,7 @@ INSERT INTO GD_GE
 	"56d943d7-3af7-4b89-b0e7-d6dbfec79698",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Provision');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Provision');
 INSERT INTO GD_SHP
 	VALUES ("48af1aa7-6878-4e9c-98af-06713eb0a850");
 INSERT INTO GD_NCS
@@ -128,7 +128,7 @@ INSERT INTO GD_GE
 	"992a2261-a7b2-4af5-954a-f04c3593ee9a",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Required Executable Property');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Required Executable Property');
 INSERT INTO GD_SHP
 	VALUES ("8f27942a-5e10-4ea2-8496-4c1a2fb9c160");
 INSERT INTO GD_NCS
@@ -162,7 +162,7 @@ INSERT INTO GD_GE
 	"a58328e4-02c6-4cb7-bf0d-d57881762a3a",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Provided Executable Property');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Provided Executable Property');
 INSERT INTO GD_SHP
 	VALUES ("95562aad-27ec-469d-baab-b7e4c32e0e12");
 INSERT INTO GD_NCS
@@ -196,7 +196,7 @@ INSERT INTO GD_GE
 	"7bb562d5-6643-40b4-abd0-c23582e1624a",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4500');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4500');
 INSERT INTO GD_CON
 	VALUES ("f63917cc-4714-4ff3-b4d6-964140ecf21c",
 	"00000000-0000-0000-0000-000000000000");
@@ -317,7 +317,7 @@ INSERT INTO GD_GE
 	"de1dd5b6-b526-4d64-9cd3-85a1ff084c95",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4501');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4501');
 INSERT INTO GD_CON
 	VALUES ("b0683dba-2f1e-4e85-bf21-ab28866355bc",
 	"00000000-0000-0000-0000-000000000000");
@@ -438,7 +438,7 @@ INSERT INTO GD_GE
 	"7bb562d5-6643-40b4-abd0-c23582e1624a",
 	34,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4500::Required Executable Property');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4500::Required Executable Property');
 INSERT INTO GD_CON
 	VALUES ("beb98dcd-6ae9-429b-98de-126c333448dc",
 	"00000000-0000-0000-0000-000000000000");
@@ -538,7 +538,7 @@ INSERT INTO GD_GE
 	"de1dd5b6-b526-4d64-9cd3-85a1ff084c95",
 	34,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4501::Provided Executable Property');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4501::Provided Executable Property');
 INSERT INTO GD_CON
 	VALUES ("df55d26e-0201-4748-9300-abc06bca121b",
 	"00000000-0000-0000-0000-000000000000");
@@ -638,7 +638,7 @@ INSERT INTO GD_GE
 	"ae7520b5-efda-46e6-9792-a0b49317711b",
 	36,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4502');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4502');
 INSERT INTO GD_CON
 	VALUES ("ccca4730-801b-4a65-b341-fc4080671a87",
 	"00000000-0000-0000-0000-000000000000");
@@ -754,7 +754,7 @@ INSERT INTO GD_GE
 	"5f5ecfb0-7da8-4aba-97df-7890f3a7a267",
 	36,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4503');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4503');
 INSERT INTO GD_CON
 	VALUES ("640c9986-e4a1-4fda-a272-0b1308a4f7ca",
 	"00000000-0000-0000-0000-000000000000");
@@ -870,7 +870,7 @@ INSERT INTO GD_GE
 	"80448e5a-f812-4a6b-9f53-d52a274f8867",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Required Operation');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Required Operation');
 INSERT INTO GD_SHP
 	VALUES ("65997b41-c307-4152-b104-bffafcfbad3d");
 INSERT INTO GD_NCS
@@ -899,7 +899,7 @@ INSERT INTO GD_GE
 	"63e89dcd-bc31-42ce-838f-a588ee038961",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Required Signal');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Required Signal');
 INSERT INTO GD_SHP
 	VALUES ("ffd5ab9b-34bc-4bc4-b661-06d5d4b0b3ec");
 INSERT INTO GD_NCS
@@ -928,7 +928,7 @@ INSERT INTO GD_GE
 	"674e1521-271d-4461-bc4c-cf83bffc194b",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4502::Required Signal');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4502::Required Signal');
 INSERT INTO GD_CON
 	VALUES ("5d0ba0d0-5667-4e83-b725-a26bd9eb4185",
 	"00000000-0000-0000-0000-000000000000");
@@ -1028,7 +1028,7 @@ INSERT INTO GD_GE
 	"050d4d6d-94b4-427e-ba6f-3eb1ce1a4330",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4502::Required Operation');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4502::Required Operation');
 INSERT INTO GD_CON
 	VALUES ("5329db79-fa95-4186-8513-5f63fa3074b6",
 	"00000000-0000-0000-0000-000000000000");
@@ -1141,7 +1141,7 @@ INSERT INTO GD_GE
 	"6c8c9b04-4ead-4b59-bda4-52ef1a578b4a",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Provided Operation');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Provided Operation');
 INSERT INTO GD_SHP
 	VALUES ("7ea925f0-839c-4856-a857-33941aeb7877");
 INSERT INTO GD_NCS
@@ -1170,7 +1170,7 @@ INSERT INTO GD_GE
 	"c3a004c8-2663-4de5-b15b-fce4c6f06350",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Provided Signal');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::Provided Signal');
 INSERT INTO GD_SHP
 	VALUES ("a5d6490c-40cf-4182-9746-60e11bbbebe2");
 INSERT INTO GD_NCS
@@ -1199,7 +1199,7 @@ INSERT INTO GD_GE
 	"1d023f90-48fe-4cf0-9706-a3ae9adda958",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4503::Provided Operation');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4503::Provided Operation');
 INSERT INTO GD_CON
 	VALUES ("01f21ab0-920a-4db8-8437-8080bc026543",
 	"00000000-0000-0000-0000-000000000000");
@@ -1299,7 +1299,7 @@ INSERT INTO GD_GE
 	"e12f3d98-2b61-487e-9e63-1a0aa11bc3b9",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4503::Provided Signal');
+	'escher::components::ooaofooa::ooaofooa::Component::Signal Provisions and Requirements::R4503::Provided Signal');
 INSERT INTO GD_CON
 	VALUES ("30303339-7fc9-4c97-a7e8-4b88fcefcd32",
 	"00000000-0000-0000-0000-000000000000");

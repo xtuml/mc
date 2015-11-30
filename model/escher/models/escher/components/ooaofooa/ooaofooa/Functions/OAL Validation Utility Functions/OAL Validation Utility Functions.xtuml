@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'3.2.0',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Functions::OAL Validation Utility Functions');
+	'escher::components::ooaofooa::ooaofooa::Functions::OAL Validation Utility Functions');
 INSERT INTO DIM_DIA
 	VALUES ("8e3c7bed-2007-42b9-8d58-6d6b112b5c58",
 	'',

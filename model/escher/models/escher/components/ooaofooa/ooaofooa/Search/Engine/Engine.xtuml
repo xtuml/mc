@@ -27,14 +27,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'3.2.5',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine');
 INSERT INTO GD_GE
 	VALUES ("f5d50ad2-0e26-4630-8bf8-1b2232a67dec",
 	"2aa055d3-ea84-4520-8f9d-b0903f85db80",
 	"0cf84c87-6b61-43e2-8706-de8079e97424",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::Search Engine');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::Search Engine');
 INSERT INTO GD_SHP
 	VALUES ("f5d50ad2-0e26-4630-8bf8-1b2232a67dec");
 INSERT INTO GD_NCS
@@ -78,7 +78,7 @@ INSERT INTO GD_GE
 	"32012d9c-718d-49c8-9115-6372316ffb40",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::Query');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::Query');
 INSERT INTO GD_SHP
 	VALUES ("73b570a9-ab55-4e12-a3b7-6a4c02f5faa9");
 INSERT INTO GD_NCS
@@ -107,7 +107,7 @@ INSERT INTO GD_GE
 	"94379176-8633-4ed2-a6c1-fccc919c414b",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::R9500');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::R9500');
 INSERT INTO GD_CON
 	VALUES ("508697dd-66b8-4955-8463-6135dd8f0ddf",
 	"00000000-0000-0000-0000-000000000000");
@@ -207,7 +207,7 @@ INSERT INTO GD_GE
 	"d8bdf166-09f2-4a7e-8f34-42a380061763",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::Action Language Engine');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::Action Language Engine');
 INSERT INTO GD_SHP
 	VALUES ("a52bb091-aa54-4175-afe4-141c92f4131b");
 INSERT INTO GD_NCS
@@ -236,7 +236,7 @@ INSERT INTO GD_GE
 	"bb14198d-79e0-450d-aa9a-20ff62898ba0",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::Description Engine');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::Description Engine');
 INSERT INTO GD_SHP
 	VALUES ("564ab1ed-02c3-4d66-a869-8da670f39f59");
 INSERT INTO GD_NCS
@@ -265,7 +265,7 @@ INSERT INTO GD_GE
 	"5f2dc4e7-904f-446e-987a-e4f13a7c3199",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::Declarations Engine');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::Declarations Engine');
 INSERT INTO GD_SHP
 	VALUES ("6657f88c-83e6-4749-b819-a402fab47bcb");
 INSERT INTO GD_NCS
@@ -294,7 +294,7 @@ INSERT INTO GD_GE
 	"f1cb0d50-083b-454a-8d98-3811858ba1b6",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::References Engine');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::References Engine');
 INSERT INTO GD_SHP
 	VALUES ("9c63b26a-7c5d-4887-aa40-06f2ee3f41a8");
 INSERT INTO GD_NCS
@@ -323,7 +323,7 @@ INSERT INTO GD_GE
 	"ca244561-e46f-4706-a270-91cf3520bbb8",
 	36,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::R9501');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::R9501');
 INSERT INTO GD_CON
 	VALUES ("02ac4c7b-2f30-45c2-8453-4b6ee9b72ff5",
 	"00000000-0000-0000-0000-000000000000");
@@ -455,7 +455,7 @@ INSERT INTO GD_GE
 	"79406748-1b55-479c-82f2-6d462ad25924",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::R9501::Action Language Engine');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::R9501::Action Language Engine');
 INSERT INTO GD_CON
 	VALUES ("d161fd3d-7c64-4c12-976a-a335b1c80d2f",
 	"00000000-0000-0000-0000-000000000000");
@@ -568,7 +568,7 @@ INSERT INTO GD_GE
 	"f2bb1dd2-24ec-4b74-856c-32f2cb7ec67f",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::R9501::Description Engine');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::R9501::Description Engine');
 INSERT INTO GD_CON
 	VALUES ("4abcb4fd-3316-435b-b5f7-7d7846dfcca8",
 	"00000000-0000-0000-0000-000000000000");
@@ -681,7 +681,7 @@ INSERT INTO GD_GE
 	"348bb17a-a109-4596-9d87-4691917ceab5",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::R9501::Declarations Engine');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::R9501::Declarations Engine');
 INSERT INTO GD_CON
 	VALUES ("27fbc17f-2aa6-4317-bc2f-1fb637d6b04d",
 	"00000000-0000-0000-0000-000000000000");
@@ -794,7 +794,7 @@ INSERT INTO GD_GE
 	"b9739b92-b006-40dd-a732-743626b9f3d3",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::R9501::References Engine');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::R9501::References Engine');
 INSERT INTO GD_CON
 	VALUES ("1b50898b-0fee-447d-aec9-1dea71c6a657",
 	"00000000-0000-0000-0000-000000000000");
@@ -907,7 +907,7 @@ INSERT INTO GD_GE
 	"30c277f9-c9e8-4c39-9810-0125f774558a",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::Search Participant');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::Search Participant');
 INSERT INTO GD_SHP
 	VALUES ("a742dde2-7b1d-474c-a9c8-98511e65321f");
 INSERT INTO GD_NCS
@@ -936,7 +936,7 @@ INSERT INTO GD_GE
 	"c16007ad-23bb-404d-9f6a-554bf3242eb1",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::R9502');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::R9502');
 INSERT INTO GD_CON
 	VALUES ("df1daea8-ae87-468a-beb6-3f4fdd0d4be8",
 	"00000000-0000-0000-0000-000000000000");
@@ -1036,7 +1036,7 @@ INSERT INTO GD_GE
 	"d30d4fd9-aa50-4270-afc4-d411dfa978b0",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::Search Result');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::Search Result');
 INSERT INTO GD_SHP
 	VALUES ("50657d7c-4f01-4d5e-901f-d433c80d2aec");
 INSERT INTO GD_NCS
@@ -1065,7 +1065,7 @@ INSERT INTO GD_GE
 	"664c10f3-5094-4555-a197-b64d3cf348fd",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Search::Engine::R9503');
+	'escher::components::ooaofooa::ooaofooa::Search::Engine::R9503');
 INSERT INTO GD_CON
 	VALUES ("b6723fdf-cbb0-4063-905c-b9c1c8af1239",
 	"00000000-0000-0000-0000-000000000000");

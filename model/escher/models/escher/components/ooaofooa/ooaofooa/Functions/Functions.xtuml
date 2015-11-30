@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Functions');
+	'escher::components::ooaofooa::ooaofooa::Functions');
 INSERT INTO GD_GE
 	VALUES ("9df630be-85f1-48bd-9fbe-35f899476bb0",
 	"ac8794fe-15ad-4713-aba4-eb2de99292f0",
 	"c2f1f4cb-32f5-4d2e-ad14-602943cd5f51",
 	108,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Functions::Context Menu Entry Functions');
+	'escher::components::ooaofooa::ooaofooa::Functions::Context Menu Entry Functions');
 INSERT INTO GD_SHP
 	VALUES ("9df630be-85f1-48bd-9fbe-35f899476bb0");
 INSERT INTO GD_NCS
@@ -56,7 +56,7 @@ INSERT INTO GD_GE
 	"c6846aaf-9435-4343-ad5f-b23f7448621d",
 	108,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Functions::OAL Validation Functions');
+	'escher::components::ooaofooa::ooaofooa::Functions::OAL Validation Functions');
 INSERT INTO GD_SHP
 	VALUES ("50e6fee5-65b6-4d8d-a381-1d1a3825150c");
 INSERT INTO GD_NCS
@@ -80,7 +80,7 @@ INSERT INTO GD_GE
 	"5f4682bc-7c54-4152-b63f-7ff3ce003ca7",
 	108,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Functions::OAL Validation Utility Functions');
+	'escher::components::ooaofooa::ooaofooa::Functions::OAL Validation Utility Functions');
 INSERT INTO GD_SHP
 	VALUES ("dad7c8d8-3525-4ea8-a0ed-86fbfddb2b8d");
 INSERT INTO GD_NCS

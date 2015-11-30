@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::afunval');
+	'escher::components::ooaofooa::ooaofooa::afunval');
 INSERT INTO DIM_DIA
 	VALUES ("b9f55f80-35f2-4012-8691-51f82a55c050",
 	'',

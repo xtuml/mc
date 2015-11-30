@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	150,
 	0,
 	'3.2.0',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Functions::Context Menu Entry Functions');
+	'escher::components::ooaofooa::ooaofooa::Functions::Context Menu Entry Functions');
 INSERT INTO DIM_DIA
 	VALUES ("3ee444fb-a026-4b07-93d2-a014caf02dfe",
 	'',

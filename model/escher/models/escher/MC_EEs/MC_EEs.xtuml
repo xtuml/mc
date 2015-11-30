@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	150,
 	0,
 	'',
-	'com.mentor.nucleus.bp.core::MC_EEs');
+	'escher::MC_EEs');
 INSERT INTO GD_GE
 	VALUES ("f40496b9-3a26-41ec-999a-23007bf8052e",
 	"7f8a141c-25fe-4c84-bebf-5472e5cec408",
 	"e4137a4e-c84a-4214-a6ac-8a38d93bd499",
 	12,
 	0,
-	'com.mentor.nucleus.bp.core::MC_EEs::ARCH');
+	'escher::MC_EEs::ARCH');
 INSERT INTO GD_SHP
 	VALUES ("f40496b9-3a26-41ec-999a-23007bf8052e");
 INSERT INTO GD_NCS
@@ -56,7 +56,7 @@ INSERT INTO GD_GE
 	"0b1e6b6e-d001-479d-a17f-c4c1350298d3",
 	12,
 	0,
-	'com.mentor.nucleus.bp.core::MC_EEs::Logging');
+	'escher::MC_EEs::Logging');
 INSERT INTO GD_SHP
 	VALUES ("e3c476c1-2414-4de7-bb18-d1ffa40666f1");
 INSERT INTO GD_NCS
@@ -80,7 +80,7 @@ INSERT INTO GD_GE
 	"432469c8-5966-41ac-b1da-cb8e0b5b4e90",
 	12,
 	0,
-	'com.mentor.nucleus.bp.core::MC_EEs::POP');
+	'escher::MC_EEs::POP');
 INSERT INTO GD_SHP
 	VALUES ("d57bea77-68bc-4d66-a244-59506f0d9f36");
 INSERT INTO GD_NCS
@@ -104,7 +104,7 @@ INSERT INTO GD_GE
 	"6604846e-a898-4ebf-9835-cb5d3f680403",
 	12,
 	0,
-	'com.mentor.nucleus.bp.core::MC_EEs::template');
+	'escher::MC_EEs::template');
 INSERT INTO GD_SHP
 	VALUES ("0c32a984-f9e2-4a81-8943-804ff14abdf1");
 INSERT INTO GD_NCS

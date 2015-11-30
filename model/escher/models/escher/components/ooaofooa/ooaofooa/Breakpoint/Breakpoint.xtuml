@@ -29,14 +29,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint');
 INSERT INTO GD_GE
 	VALUES ("f967cc31-6502-475f-988e-1382c434fa7a",
 	"35cd225c-f844-4928-a8bd-2999cd1ab883",
 	"ce43d03c-e896-4ddb-acba-924685b37371",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::Breakpoint');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::Breakpoint');
 INSERT INTO GD_SHP
 	VALUES ("f967cc31-6502-475f-988e-1382c434fa7a");
 INSERT INTO GD_NCS
@@ -70,7 +70,7 @@ INSERT INTO GD_GE
 	"3fa8de6d-bd93-4533-8b75-bbf6f447d7fd",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::OAL Breakpoint');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::OAL Breakpoint');
 INSERT INTO GD_SHP
 	VALUES ("30585bc6-1457-4f06-a9a2-b6e2a2231573");
 INSERT INTO GD_NCS
@@ -104,7 +104,7 @@ INSERT INTO GD_GE
 	"b56c4c19-85b7-435d-a2ba-04a529604236",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::Event Breakpoint');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::Event Breakpoint');
 INSERT INTO GD_SHP
 	VALUES ("0d1b1b6a-a5d1-49fc-816f-4c3c0c4a5a84");
 INSERT INTO GD_NCS
@@ -138,7 +138,7 @@ INSERT INTO GD_GE
 	"6ba9756c-384c-4d0b-ab28-a4673f4eb303",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::Condition');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::Condition');
 INSERT INTO GD_SHP
 	VALUES ("d96f3e67-9ca7-4795-a899-9ab3178e5729");
 INSERT INTO GD_NCS
@@ -167,7 +167,7 @@ INSERT INTO GD_GE
 	"4a4a1f0a-4733-417d-b5a1-cdb2a2e04b4e",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::Statement');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::Statement');
 INSERT INTO GD_SHP
 	VALUES ("14509970-76df-4b9c-84b3-a30fa98f5b23");
 INSERT INTO GD_NCS
@@ -196,7 +196,7 @@ INSERT INTO GD_GE
 	"0c7bb92d-6b49-40b3-a1ca-06bd69c97bbc",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::R3100');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::R3100');
 INSERT INTO GD_CON
 	VALUES ("2f2d20ac-b30b-4352-ba01-dfc7c3cbcd8d",
 	"00000000-0000-0000-0000-000000000000");
@@ -296,7 +296,7 @@ INSERT INTO GD_GE
 	"a2d9b05b-2087-4243-a680-5ac697d35c54",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::R3101');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::R3101');
 INSERT INTO GD_CON
 	VALUES ("0ceae15c-af21-4047-af0b-951b086d45e7",
 	"00000000-0000-0000-0000-000000000000");
@@ -396,7 +396,7 @@ INSERT INTO GD_GE
 	"71ef795d-2e42-4021-a15e-49df3e73001d",
 	36,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::R3102');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::R3102');
 INSERT INTO GD_CON
 	VALUES ("e29b9b1c-d9d9-46c1-bfa5-1aacde86322f",
 	"00000000-0000-0000-0000-000000000000");
@@ -520,7 +520,7 @@ INSERT INTO GD_GE
 	"94eb12dd-5219-4017-8173-83e0c7af4d1e",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::R3102::OAL Breakpoint');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::R3102::OAL Breakpoint');
 INSERT INTO GD_CON
 	VALUES ("d0a3aba3-e891-40b0-800e-e6655078b020",
 	"00000000-0000-0000-0000-000000000000");
@@ -633,7 +633,7 @@ INSERT INTO GD_GE
 	"a87d427d-e746-40d0-8e5f-c3fbda897c05",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::R3102::Event Breakpoint');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::R3102::Event Breakpoint');
 INSERT INTO GD_CON
 	VALUES ("35e83ced-2ed3-4684-8703-62e4f2c2aa4c",
 	"00000000-0000-0000-0000-000000000000");
@@ -746,7 +746,7 @@ INSERT INTO GD_GE
 	"9731d63b-f5fd-4447-96f7-c6488d566171",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::State Machine Event');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::State Machine Event');
 INSERT INTO GD_SHP
 	VALUES ("0195a747-d692-4cc8-b79c-aa1333920e42");
 INSERT INTO GD_NCS
@@ -775,7 +775,7 @@ INSERT INTO GD_GE
 	"66df5a2e-f0bd-4e86-aad3-9e301eb1dacf",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::R3103');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::R3103');
 INSERT INTO GD_CON
 	VALUES ("0c6c4a5c-c76f-466e-be82-59c34dd915e3",
 	"00000000-0000-0000-0000-000000000000");
@@ -875,7 +875,7 @@ INSERT INTO GD_GE
 	"83693a0e-a431-44c8-a508-1c51add8007a",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::State Breakpoint');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::State Breakpoint');
 INSERT INTO GD_SHP
 	VALUES ("c2d7d5fe-58c1-4026-b4c1-f3d7d8088316");
 INSERT INTO GD_NCS
@@ -909,7 +909,7 @@ INSERT INTO GD_GE
 	"0b788c9e-938d-4279-a999-3c78eb10081b",
 	35,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::R3102::State Breakpoint');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::R3102::State Breakpoint');
 INSERT INTO GD_CON
 	VALUES ("f5b32e5e-9d51-4d0c-b1cf-21aeb543dc42",
 	"00000000-0000-0000-0000-000000000000");
@@ -1022,7 +1022,7 @@ INSERT INTO GD_GE
 	"ba4ba672-2bfc-4f32-bcef-8d58974d1734",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::State Machine State');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::State Machine State');
 INSERT INTO GD_SHP
 	VALUES ("2d16811a-c0b9-4f9a-8a04-b2bb916b5b98");
 INSERT INTO GD_NCS
@@ -1051,7 +1051,7 @@ INSERT INTO GD_GE
 	"377c55d8-343d-427a-b12a-8828a3a706ab",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Breakpoint::R3104');
+	'escher::components::ooaofooa::ooaofooa::Breakpoint::R3104');
 INSERT INTO GD_CON
 	VALUES ("c5e9ca18-7753-4603-ae71-c2f4f7a81baa",
 	"00000000-0000-0000-0000-000000000000");

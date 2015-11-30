@@ -26,14 +26,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Wiring');
+	'escher::components::ooaofooa::ooaofooa::Wiring');
 INSERT INTO GD_GE
 	VALUES ("17dbef08-c719-45ab-b407-51927d169a81",
 	"aeafe153-65b7-4ed5-8384-b6b647c9c4da",
 	"9e5dac75-25b8-47cd-bd3a-ea124fd44d2f",
 	21,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Wiring::Automatic Wiring');
+	'escher::components::ooaofooa::ooaofooa::Wiring::Automatic Wiring');
 INSERT INTO GD_SHP
 	VALUES ("17dbef08-c719-45ab-b407-51927d169a81");
 INSERT INTO GD_NCS
@@ -67,7 +67,7 @@ INSERT INTO GD_GE
 	"1a7769ec-0f23-43dc-8ce4-f668d312a925",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Wiring::Bridge');
+	'escher::components::ooaofooa::ooaofooa::Wiring::Bridge');
 INSERT INTO GD_SHP
 	VALUES ("4f73cc68-a711-4e96-bbb6-ef6403f9272a");
 INSERT INTO GD_NCS
@@ -96,7 +96,7 @@ INSERT INTO GD_GE
 	"20b95169-16aa-4940-bc8d-f06a3042b68b",
 	23,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Wiring::Function');
+	'escher::components::ooaofooa::ooaofooa::Wiring::Function');
 INSERT INTO GD_SHP
 	VALUES ("7a8b73f4-2266-4d10-8ab8-a8bcbb4691be");
 INSERT INTO GD_NCS
@@ -125,7 +125,7 @@ INSERT INTO GD_GE
 	"bfdf51c4-572a-4f6a-bfa3-eac29c89f977",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Wiring::R3201');
+	'escher::components::ooaofooa::ooaofooa::Wiring::R3201');
 INSERT INTO GD_CON
 	VALUES ("acffa35f-f98f-4f08-89b6-f4b17073e5e7",
 	"00000000-0000-0000-0000-000000000000");
@@ -225,7 +225,7 @@ INSERT INTO GD_GE
 	"ad1cdc40-04ce-4049-8d05-032ced868140",
 	24,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Wiring::R3200');
+	'escher::components::ooaofooa::ooaofooa::Wiring::R3200');
 INSERT INTO GD_CON
 	VALUES ("304b972d-684f-4aa4-9e0e-42fb20368981",
 	"00000000-0000-0000-0000-000000000000");

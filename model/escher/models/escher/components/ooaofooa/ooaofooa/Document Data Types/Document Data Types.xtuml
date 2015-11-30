@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Document Data Types');
+	'escher::components::ooaofooa::ooaofooa::Document Data Types');
 INSERT INTO GD_GE
 	VALUES ("60de32c2-65bd-4dab-ba99-414e47a982ef",
 	"5bb3ea2e-1355-4cf0-a2b3-38ecc3a66880",
 	"3992e76d-6473-40d8-8d0e-e70462fce360",
 	51,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa::Document Data Types::stringpointer');
+	'escher::components::ooaofooa::ooaofooa::Document Data Types::stringpointer');
 INSERT INTO GD_SHP
 	VALUES ("60de32c2-65bd-4dab-ba99-414e47a982ef");
 INSERT INTO GD_NCS
