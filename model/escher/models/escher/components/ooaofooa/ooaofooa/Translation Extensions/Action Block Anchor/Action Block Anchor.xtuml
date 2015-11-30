@@ -283,7 +283,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("59ae083c-a45f-4328-8a9f-b690c590ea42",
 	"13ec3fcc-2a4d-44da-bb17-5ddea4de3035",
-	"d22c823d-6104-4d38-9809-3d32e12bb1ce",
+	"d6531653-0cbb-495e-bf7c-2e123409804d",
 	'ParameterAssignment',
 	'',
 	'',
@@ -429,6 +429,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'code',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d6531653-0cbb-495e-bf7c-2e123409804d",
+	"13ec3fcc-2a4d-44da-bb17-5ddea4de3035");
+INSERT INTO O_BATTR
+	VALUES ("d6531653-0cbb-495e-bf7c-2e123409804d",
+	"13ec3fcc-2a4d-44da-bb17-5ddea4de3035");
+INSERT INTO O_ATTR
+	VALUES ("d6531653-0cbb-495e-bf7c-2e123409804d",
+	"13ec3fcc-2a4d-44da-bb17-5ddea4de3035",
+	"d22c823d-6104-4d38-9809-3d32e12bb1ce",
+	'ParameterSMSGinvoke',
+	'',
+	'',
+	'ParameterSMSGinvoke',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
