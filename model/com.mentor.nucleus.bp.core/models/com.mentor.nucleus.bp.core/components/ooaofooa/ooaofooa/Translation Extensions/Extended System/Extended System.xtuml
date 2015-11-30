@@ -548,33 +548,15 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("770c6493-cb94-45e1-a1df-bacd64b13a88",
+	VALUES ("ffa637b7-d596-44e5-a5e0-39570df74e1b",
 	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
 INSERT INTO O_BATTR
-	VALUES ("770c6493-cb94-45e1-a1df-bacd64b13a88",
+	VALUES ("ffa637b7-d596-44e5-a5e0-39570df74e1b",
 	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
 INSERT INTO O_ATTR
-	VALUES ("770c6493-cb94-45e1-a1df-bacd64b13a88",
+	VALUES ("ffa637b7-d596-44e5-a5e0-39570df74e1b",
 	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
 	"713e3c37-cc32-4942-86ce-ceeab6878821",
-	'DomainClassNumberName',
-	'',
-	'',
-	'DomainClassNumberName',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("ffa637b7-d596-44e5-a5e0-39570df74e1b",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
-INSERT INTO O_BATTR
-	VALUES ("ffa637b7-d596-44e5-a5e0-39570df74e1b",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec");
-INSERT INTO O_ATTR
-	VALUES ("ffa637b7-d596-44e5-a5e0-39570df74e1b",
-	"fdf70268-a8fd-41cb-b4cd-05ca3f1c0dec",
-	"770c6493-cb94-45e1-a1df-bacd64b13a88",
 	'StructuredMessaging',
 	'',
 	'',
