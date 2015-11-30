@@ -28,14 +28,14 @@ INSERT INTO GD_MD
 	150,
 	0,
 	'4.0.0',
-	'com.mentor.nucleus.bp.core::components::ooaofooa');
+	'escher::components::ooaofooa');
 INSERT INTO GD_GE
 	VALUES ("196ec594-33fa-43a5-93e3-9b5d4cc60a64",
 	"96bf152e-288c-4467-8b25-e9e252f9384d",
 	"6dfad0c7-c5dd-47a8-8ed2-939c030112bb",
 	103,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa');
+	'escher::components::ooaofooa');
 INSERT INTO GD_SHP
 	VALUES ("196ec594-33fa-43a5-93e3-9b5d4cc60a64");
 INSERT INTO GD_CTR
@@ -59,7 +59,7 @@ INSERT INTO GD_GE
 	"efb614c1-5af5-40ee-92c8-706430a99db3",
 	108,
 	0,
-	'com.mentor.nucleus.bp.core::components::ooaofooa::ooaofooa');
+	'escher::components::ooaofooa::ooaofooa');
 INSERT INTO GD_SHP
 	VALUES ("89b5cce9-733e-4023-8230-eb388049e755");
 INSERT INTO GD_NCS

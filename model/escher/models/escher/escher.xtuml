@@ -2,7 +2,7 @@
 
 INSERT INTO S_SYS
 	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'com.mentor.nucleus.bp.core',
+	'escher',
 	1);
 INSERT INTO GD_MD
 	VALUES ("24f9e981-4301-4851-9653-255e1bf04be9",
@@ -22,14 +22,14 @@ INSERT INTO GD_MD
 	150,
 	0,
 	'4.0.0',
-	'com.mentor.nucleus.bp.core');
+	'escher');
 INSERT INTO GD_GE
 	VALUES ("ead3ecdd-3352-4c57-bfa6-0504f161d701",
 	"24f9e981-4301-4851-9653-255e1bf04be9",
 	"fd1cede1-0dc7-49f8-b2d3-8f8370ef1899",
 	108,
 	0,
-	'com.mentor.nucleus.bp.core::components');
+	'escher::components');
 INSERT INTO GD_SHP
 	VALUES ("ead3ecdd-3352-4c57-bfa6-0504f161d701");
 INSERT INTO GD_NCS
@@ -53,7 +53,7 @@ INSERT INTO GD_GE
 	"a63616c2-25a1-4966-a60f-73b9f63f6a64",
 	108,
 	0,
-	'com.mentor.nucleus.bp.core::Shared EEs');
+	'escher::Shared EEs');
 INSERT INTO GD_SHP
 	VALUES ("c6cd5591-54da-4746-a670-7984a853e3f7");
 INSERT INTO GD_NCS
