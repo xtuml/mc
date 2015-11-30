@@ -9,7 +9,7 @@
 <mapEntry key="org.eclipse.cdt.make.core.append_environment" value="true"/>
 <mapEntry key="org.eclipse.cdt.make.core.buildArguments" value=""/>
 <mapEntry key="org.eclipse.cdt.make.core.buildCommand" value="make"/>
-<mapEntry key="org.eclipse.cdt.make.core.buildLocation" value="${workspace_loc:/com.mentor.nucleus.bp.core/Debug}"/>
+<mapEntry key="org.eclipse.cdt.make.core.buildLocation" value="${workspace_loc:/escher/Debug}"/>
 <mapEntry key="org.eclipse.cdt.make.core.contents" value="org.eclipse.cdt.make.core.activeConfigSettings"/>
 <mapEntry key="org.eclipse.cdt.make.core.enableAutoBuild" value="false"/>
 <mapEntry key="org.eclipse.cdt.make.core.enableCleanBuild" value="true"/>

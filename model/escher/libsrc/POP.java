@@ -13,46 +13,46 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import com.mentor.nucleus.bp.core.Association_c;
-import com.mentor.nucleus.bp.core.AttributeValue_c;
-import com.mentor.nucleus.bp.core.Attribute_c;
-import com.mentor.nucleus.bp.core.BaseAttribute_c;
-import com.mentor.nucleus.bp.core.ClassAsAssociatedOneSide_c;
-import com.mentor.nucleus.bp.core.ClassAsAssociatedOtherSide_c;
-import com.mentor.nucleus.bp.core.ClassAsLink_c;
-import com.mentor.nucleus.bp.core.ClassAsSimpleFormalizer_c;
-import com.mentor.nucleus.bp.core.ClassAsSimpleParticipant_c;
-import com.mentor.nucleus.bp.core.ClassAsSubtype_c;
-import com.mentor.nucleus.bp.core.ClassAsSupertype_c;
-import com.mentor.nucleus.bp.core.ClassInAssociation_c;
-import com.mentor.nucleus.bp.core.ClassInEngine_c;
-import com.mentor.nucleus.bp.core.ComponentInstance_c;
-import com.mentor.nucleus.bp.core.ComponentPackage_c;
-import com.mentor.nucleus.bp.core.CoreDataType_c;
-import com.mentor.nucleus.bp.core.CorePlugin;
-import com.mentor.nucleus.bp.core.DataType_c;
-import com.mentor.nucleus.bp.core.DerivedAssociation_c;
-import com.mentor.nucleus.bp.core.DerivedBaseAttribute_c;
-import com.mentor.nucleus.bp.core.Domain_c;
-import com.mentor.nucleus.bp.core.Instance_c;
-import com.mentor.nucleus.bp.core.LinkParticipation_c;
-import com.mentor.nucleus.bp.core.Link_c;
-import com.mentor.nucleus.bp.core.LinkedAssociation_c;
-import com.mentor.nucleus.bp.core.ModelClass_c;
-import com.mentor.nucleus.bp.core.Ooaofooa;
-import com.mentor.nucleus.bp.core.Package_c;
-import com.mentor.nucleus.bp.core.ReferredToClassInAssoc_c;
-import com.mentor.nucleus.bp.core.ReferringClassInAssoc_c;
-import com.mentor.nucleus.bp.core.SimpleAssociation_c;
-import com.mentor.nucleus.bp.core.Subsystem_c;
-import com.mentor.nucleus.bp.core.SubtypeSupertypeAssociation_c;
-import com.mentor.nucleus.bp.core.SystemDatatypePackage_c;
-import com.mentor.nucleus.bp.core.SystemModel_c;
-import com.mentor.nucleus.bp.core.common.ClassQueryInterface_c;
-import com.mentor.nucleus.bp.core.common.ModelRoot;
-import com.mentor.nucleus.bp.core.common.NonRootModelElement;
-import com.mentor.nucleus.bp.core.common.Transaction;
-import com.mentor.nucleus.bp.core.common.TransactionManager;
+import org.xtuml.bp.core.Association_c;
+import org.xtuml.bp.core.AttributeValue_c;
+import org.xtuml.bp.core.Attribute_c;
+import org.xtuml.bp.core.BaseAttribute_c;
+import org.xtuml.bp.core.ClassAsAssociatedOneSide_c;
+import org.xtuml.bp.core.ClassAsAssociatedOtherSide_c;
+import org.xtuml.bp.core.ClassAsLink_c;
+import org.xtuml.bp.core.ClassAsSimpleFormalizer_c;
+import org.xtuml.bp.core.ClassAsSimpleParticipant_c;
+import org.xtuml.bp.core.ClassAsSubtype_c;
+import org.xtuml.bp.core.ClassAsSupertype_c;
+import org.xtuml.bp.core.ClassInAssociation_c;
+import org.xtuml.bp.core.ClassInEngine_c;
+import org.xtuml.bp.core.ComponentInstance_c;
+import org.xtuml.bp.core.ComponentPackage_c;
+import org.xtuml.bp.core.CoreDataType_c;
+import org.xtuml.bp.core.CorePlugin;
+import org.xtuml.bp.core.DataType_c;
+import org.xtuml.bp.core.DerivedAssociation_c;
+import org.xtuml.bp.core.DerivedBaseAttribute_c;
+import org.xtuml.bp.core.Domain_c;
+import org.xtuml.bp.core.Instance_c;
+import org.xtuml.bp.core.LinkParticipation_c;
+import org.xtuml.bp.core.Link_c;
+import org.xtuml.bp.core.LinkedAssociation_c;
+import org.xtuml.bp.core.ModelClass_c;
+import org.xtuml.bp.core.Ooaofooa;
+import org.xtuml.bp.core.Package_c;
+import org.xtuml.bp.core.ReferredToClassInAssoc_c;
+import org.xtuml.bp.core.ReferringClassInAssoc_c;
+import org.xtuml.bp.core.SimpleAssociation_c;
+import org.xtuml.bp.core.Subsystem_c;
+import org.xtuml.bp.core.SubtypeSupertypeAssociation_c;
+import org.xtuml.bp.core.SystemDatatypePackage_c;
+import org.xtuml.bp.core.SystemModel_c;
+import org.xtuml.bp.core.common.ClassQueryInterface_c;
+import org.xtuml.bp.core.common.ModelRoot;
+import org.xtuml.bp.core.common.NonRootModelElement;
+import org.xtuml.bp.core.common.Transaction;
+import org.xtuml.bp.core.common.TransactionManager;
 
 public class POP {
     private static Ooaofooa mmRoot;
@@ -180,7 +180,7 @@ public class POP {
                     // to query the in-memory meta model
     
                     String metaClassName = deriveMcJavaName(metaClass.getName());
-                    String metaClassJavaName = "com.mentor.nucleus.bp.core." + metaClassName + "_c";
+                    String metaClassJavaName = "org.xtuml.bp.core." + metaClassName + "_c";
                     debugLog("  - cn: " + metaClassJavaName);
                     String metaClassFindInstancesMethodName = metaClassName + "Instances";
                     debugLog("  - fin: " + metaClassFindInstancesMethodName);
@@ -277,10 +277,10 @@ public class POP {
                             ModelClass_c participant = ModelClass_c.getOneO_OBJOnR201(ClassInAssociation_c.getOneR_OIROnR203(referredToClassInAssoc));                        
 
                             String formalizerClassName = deriveMcJavaName(formalizer.getName());
-                            String formalizerClassJavaName = "com.mentor.nucleus.bp.core." + formalizerClassName + "_c";
+                            String formalizerClassJavaName = "org.xtuml.bp.core." + formalizerClassName + "_c";
                             
                             String participantClassName = deriveMcJavaName(participant.getName());
-                            String participantClassJavaName = "com.mentor.nucleus.bp.core." + participantClassName + "_c";
+                            String participantClassJavaName = "org.xtuml.bp.core." + participantClassName + "_c";
                             try {
                                 Class<?> formalizerClass = Class.forName(formalizerClassJavaName);
                                 debugLog("    - formalizer: " + formalizerClassName);
@@ -366,10 +366,10 @@ public class POP {
                             ModelClass_c participant2 = ModelClass_c.getOneO_OBJOnR201(classInAssociation2);
                         
                             String part1ClassName = deriveMcJavaName(participant1.getName());
-                            String part1ClassJavaName = "com.mentor.nucleus.bp.core." + part1ClassName + "_c";
+                            String part1ClassJavaName = "org.xtuml.bp.core." + part1ClassName + "_c";
                             
                             String participant2ClassName = deriveMcJavaName(participant2.getName());
-                            String participant2ClassJavaName = "com.mentor.nucleus.bp.core." + participant2ClassName + "_c";
+                            String participant2ClassJavaName = "org.xtuml.bp.core." + participant2ClassName + "_c";
                             try {
                                 Class<?> part1Class = Class.forName(part1ClassJavaName);
                                 Class<?> participant2Class = Class.forName(participant2ClassJavaName);
@@ -423,13 +423,13 @@ public class POP {
                         if (across == metaClass) {
                             // go head and establish the relationships
                             String ref1ClassName = deriveMcJavaName(referred1.getName());
-                            String ref1ClassJavaName = "com.mentor.nucleus.bp.core." + ref1ClassName + "_c";
+                            String ref1ClassJavaName = "org.xtuml.bp.core." + ref1ClassName + "_c";
                             
                             String ref2ClassName = deriveMcJavaName(referred2.getName());
-                            String ref2ClassJavaName = "com.mentor.nucleus.bp.core." + ref2ClassName + "_c";
+                            String ref2ClassJavaName = "org.xtuml.bp.core." + ref2ClassName + "_c";
                             
                             String acrossClassName = deriveMcJavaName(across.getName());
-                            String acrossClassJavaName = "com.mentor.nucleus.bp.core." + acrossClassName + "_c";
+                            String acrossClassJavaName = "org.xtuml.bp.core." + acrossClassName + "_c";
                             
                             try {
                                 Class<?> ref1Class = Class.forName(ref1ClassJavaName);
@@ -476,10 +476,10 @@ public class POP {
                             
                                 // go head and establish the relationships
                             String superClassName = deriveMcJavaName(superClass.getName());
-                            String superClassJavaName = "com.mentor.nucleus.bp.core." + superClassName + "_c";
+                            String superClassJavaName = "org.xtuml.bp.core." + superClassName + "_c";
                             
                             String subClassName = deriveMcJavaName(subClass.getName());
-                            String subClassJavaName = "com.mentor.nucleus.bp.core." + subClassName + "_c";
+                            String subClassJavaName = "org.xtuml.bp.core." + subClassName + "_c";
                             try {
 
                                 Class<?> superJavaClass = Class.forName(superClassJavaName);

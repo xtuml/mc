@@ -18,12 +18,12 @@ Needed:
 - Linux BridgePoint with source MC installed (specifically, the prior official BP release 
   with matching source MC)
 - Enable preference:  Allow operations inside where clauses of select statements
-- Copy <git>/xtuml/mc/etc/com.mentor.nucleus.bp.core.function.gen_*.jar to your installation's dropins/ folder
-- xtuml/mc/model/com.mentor.nucleus.bp.core
+- Copy <git>/xtuml/mc/etc/org.xtuml.bp.core.function.gen_*.jar to your installation's dropins/ folder
+- xtuml/mc/model/escher
 - rsl2oal (lives in xtuml/mc/mcmc/arlan)
 - current_list.sh (lives in xtuml/mc/mcmc/arlan)
 - convert_templates.sh (lives in xtuml/mc/mcmc/arlan)
-- golden source from previous build (xtuml/mc/model/com.mentor.nucleus.bp.core/src410)
+- golden source from previous build (xtuml/mc/model/escher/src410)
 - flex (>=2.5.35) & bison (>=2.5)
 
 Update the RSL-to-OAL translator.
@@ -61,12 +61,12 @@ Run the rsl2oal translator.
      
 Update the template engine.
 - In the mc/mcmc/arlan/ folder: make -f makefile.template
-- Copy lex.yy.c, template_engine.tab.c and y.tab.h to ../../model/com.mentor.nucleus.bp.core/gen folder
-- mkdir ../../model/com.mentor.nucleus.bp.core/src/c
+- Copy lex.yy.c, template_engine.tab.c and y.tab.h to ../../model/escher/gen folder
+- mkdir ../../model/escher/src/c
 - sh ./convert_templates.sh to translate RSL templates into C code templates.
 
 Generate the code.
-- In BP project com.mentor.nucleus.bp.core, Build Project
+- In BP project escher, Build Project
   # NOTE 1: At this point you must verify that none of the files we have in the gen/ folder overwrote valid changes.
   # To check this: diff gen/code_generation/_ch/<somefile>.orig src/<somefile>
   # If there are new & valid changes that should be included going forward, edit them in to gen/<somefile>.
@@ -89,7 +89,7 @@ Compile the code.
 # NOTE:  The Linux version will have the template parser linked in.  It is
 # not worth keeping a DOS flex library prepared to link in.  So, yywrap.c compiles
 # to a dummy routine to satisfy the link for Windows.
-- cd com.mentor.nucleus.bp.core/src
+- cd escher/src
 - i686-w64-mingw32-gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -static -o mcmc.exe
 - gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast -m32 *.c -static -o mcmc
 - gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -static -l:libfl.a -o mcmc64
@@ -125,7 +125,7 @@ Running DocGen
 - If you need to run docgen.exe by hand for testing, build your sample model
   with MC3020, this will give you gen/code_generation/_system.sql
   o To debug with CDT inside eclipse, copy this _system.sql to 
-    com.mentor.nucleus.bp.core/a.xtuml, then create a debug launch configuration
+    escher/a.xtuml, then create a debug launch configuration
     of type C/C++ Application that points to Debug/docgen.exe
   o To run via the command line, copy this _system.sql to a.xtuml as a directory
     sibling of docgen.exe, then just execute ./docgen.exe
