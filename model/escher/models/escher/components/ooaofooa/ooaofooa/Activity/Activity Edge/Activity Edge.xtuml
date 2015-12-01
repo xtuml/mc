@@ -16,7 +16,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("9b89a2f8-f659-4fed-9565-cc82a634ca4c",
 	"bb832279-edcc-486a-b945-2108044825ec",
-	"ebe19c85-2baf-4a87-a57f-44b5d322ade4",
+	"61725839-541e-4be1-b031-425b5031db8d",
 	'Guard',
 	'Full Name: Guard Condition',
 	'',
@@ -41,57 +41,6 @@ INSERT INTO O_ATTR
 	'Descrip',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_REF
-	VALUES ("bb832279-edcc-486a-b945-2108044825ec",
-	"80232134-e115-4d9c-8e14-a74ea7c88917",
-	0,
-	"fde7f143-cbbc-4037-8ff9-d4e020817fe7",
-	"426b8ab0-6436-47fb-8820-c5402f67acd1",
-	"4ee9bee5-6911-43ca-a332-5ad89c34e687",
-	"b613af8e-7118-4d1f-bbaf-e4e0914eae7f",
-	"ebe19c85-2baf-4a87-a57f-44b5d322ade4",
-	"c94ba61c-c7ae-42e4-aa4a-dac861b99056",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Activity',
-	'Package_ID',
-	'R1102');
-INSERT INTO R_RGO_PROXY
-	VALUES ("bb832279-edcc-486a-b945-2108044825ec",
-	"426b8ab0-6436-47fb-8820-c5402f67acd1",
-	"4ee9bee5-6911-43ca-a332-5ad89c34e687",
-	'../Activity.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("fde7f143-cbbc-4037-8ff9-d4e020817fe7",
-	"80232134-e115-4d9c-8e14-a74ea7c88917",
-	0,
-	"426b8ab0-6436-47fb-8820-c5402f67acd1",
-	"b613af8e-7118-4d1f-bbaf-e4e0914eae7f",
-	'../Activity.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("ebe19c85-2baf-4a87-a57f-44b5d322ade4",
-	"bb832279-edcc-486a-b945-2108044825ec",
-	"fde7f143-cbbc-4037-8ff9-d4e020817fe7",
-	"80232134-e115-4d9c-8e14-a74ea7c88917",
-	1,
-	'Package_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("fde7f143-cbbc-4037-8ff9-d4e020817fe7",
-	"80232134-e115-4d9c-8e14-a74ea7c88917",
-	'../Activity/Activity.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("ebe19c85-2baf-4a87-a57f-44b5d322ade4",
-	"bb832279-edcc-486a-b945-2108044825ec",
-	"61725839-541e-4be1-b031-425b5031db8d",
-	'Package_ID',
-	'',
-	'',
-	'Package_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
 INSERT INTO O_REF

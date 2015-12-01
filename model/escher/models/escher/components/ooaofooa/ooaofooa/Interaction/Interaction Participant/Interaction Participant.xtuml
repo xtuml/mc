@@ -10,57 +10,6 @@ Class Instance, Class, Function Package, External Entity, and Lifespan.',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_REF
 	VALUES ("78cf3600-55aa-46a8-99a7-d4f7778bb8f6",
-	"97f68cd9-bb7a-4b43-9817-369694284de1",
-	0,
-	"87dba766-cc35-4791-89a1-5266c171f235",
-	"6c3d0ef8-6dfb-41af-b9e1-b972875de5fd",
-	"6f304d14-d3e3-4ced-aab1-afb4bca584d0",
-	"2668aa61-ddad-442f-8873-121eb9b681cd",
-	"7fe1616e-f93b-479d-87ac-1be8423cdded",
-	"efefe114-0058-43e8-804b-be7df8016175",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Sequence',
-	'Package_ID',
-	'R929.''participates in''');
-INSERT INTO R_RGO_PROXY
-	VALUES ("78cf3600-55aa-46a8-99a7-d4f7778bb8f6",
-	"6c3d0ef8-6dfb-41af-b9e1-b972875de5fd",
-	"6f304d14-d3e3-4ced-aab1-afb4bca584d0",
-	'../../Sequence/Sequence.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("87dba766-cc35-4791-89a1-5266c171f235",
-	"97f68cd9-bb7a-4b43-9817-369694284de1",
-	0,
-	"6c3d0ef8-6dfb-41af-b9e1-b972875de5fd",
-	"2668aa61-ddad-442f-8873-121eb9b681cd",
-	'../../Sequence/Sequence.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("7fe1616e-f93b-479d-87ac-1be8423cdded",
-	"78cf3600-55aa-46a8-99a7-d4f7778bb8f6",
-	"87dba766-cc35-4791-89a1-5266c171f235",
-	"97f68cd9-bb7a-4b43-9817-369694284de1",
-	1,
-	'Package_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("87dba766-cc35-4791-89a1-5266c171f235",
-	"97f68cd9-bb7a-4b43-9817-369694284de1",
-	'../../Sequence/Sequence/Sequence.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("7fe1616e-f93b-479d-87ac-1be8423cdded",
-	"78cf3600-55aa-46a8-99a7-d4f7778bb8f6",
-	"0a5ae87a-2717-4a08-9587-9a3f46aee969",
-	'Sequence_Package_ID',
-	'',
-	'Sequence_',
-	'Package_ID',
-	1,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
-INSERT INTO O_REF
-	VALUES ("78cf3600-55aa-46a8-99a7-d4f7778bb8f6",
 	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
 	0,
 	"10876fab-1b74-4366-9d45-f2779fe993c7",

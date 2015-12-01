@@ -7,64 +7,13 @@ INSERT INTO O_OBJ
 	'SQ_FPP',
 	'This class represents a function package which is participating in a sequence.',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_REF
-	VALUES ("0f21005f-dfb8-453b-a966-9074506621f2",
-	"2290a000-8e35-4ad4-a592-d81df364ee49",
-	0,
-	"bf914d6c-fda3-40cb-a7c6-a3abd71d3275",
-	"68ccd8ca-18b8-424e-b69b-1a772b7e7998",
-	"62a59f2e-d1fc-44cc-8dd7-6758b5377d0d",
-	"9c5a9f32-374b-4c23-a8cb-0127c0833857",
-	"86b743a1-267c-4e55-95cf-fe6dbd1d7937",
-	"61b973b3-5e33-4e17-9a48-7238f44082c4",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Function Package',
-	'FunPack_ID',
-	'R932.''represents''');
-INSERT INTO R_RGO_PROXY
-	VALUES ("0f21005f-dfb8-453b-a966-9074506621f2",
-	"68ccd8ca-18b8-424e-b69b-1a772b7e7998",
-	"62a59f2e-d1fc-44cc-8dd7-6758b5377d0d",
-	'../Interaction.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("bf914d6c-fda3-40cb-a7c6-a3abd71d3275",
-	"2290a000-8e35-4ad4-a592-d81df364ee49",
-	0,
-	"68ccd8ca-18b8-424e-b69b-1a772b7e7998",
-	"9c5a9f32-374b-4c23-a8cb-0127c0833857",
-	'../Interaction.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("86b743a1-267c-4e55-95cf-fe6dbd1d7937",
-	"0f21005f-dfb8-453b-a966-9074506621f2",
-	"bf914d6c-fda3-40cb-a7c6-a3abd71d3275",
-	"2290a000-8e35-4ad4-a592-d81df364ee49",
-	1,
-	'FunPack_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("bf914d6c-fda3-40cb-a7c6-a3abd71d3275",
-	"2290a000-8e35-4ad4-a592-d81df364ee49",
-	'../../Domain/Function Package/Function Package.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("86b743a1-267c-4e55-95cf-fe6dbd1d7937",
-	"0f21005f-dfb8-453b-a966-9074506621f2",
-	"ef522820-22fa-4234-89e0-ede346c09216",
-	'FunPack_ID',
-	'',
-	'',
-	'FunPack_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
 INSERT INTO O_BATTR
 	VALUES ("b775242a-ac62-404c-b02b-daa2db8b21be",
 	"0f21005f-dfb8-453b-a966-9074506621f2");
 INSERT INTO O_ATTR
 	VALUES ("b775242a-ac62-404c-b02b-daa2db8b21be",
 	"0f21005f-dfb8-453b-a966-9074506621f2",
-	"86b743a1-267c-4e55-95cf-fe6dbd1d7937",
+	"ef522820-22fa-4234-89e0-ede346c09216",
 	'Label',
 	'User_Visible:false',
 	'',
