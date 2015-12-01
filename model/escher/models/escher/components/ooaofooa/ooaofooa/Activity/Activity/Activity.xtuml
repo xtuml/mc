@@ -196,45 +196,12 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
-INSERT INTO O_REF
-	VALUES ("80232134-e115-4d9c-8e14-a74ea7c88917",
-	"fc3cdaa3-901f-4b71-b007-d116422fcd25",
-	0,
-	"d937082c-a3de-4174-ae70-ebadb6b1a20b",
-	"ad66973e-1ad5-4346-b950-8052f04bf404",
-	"1952251d-c129-4bf6-8a21-37c6abe17e8e",
-	"6b52a38e-2f9f-4be3-8373-1ccf4f90517c",
-	"fde7f143-cbbc-4037-8ff9-d4e020817fe7",
-	"91d558c2-1248-44af-a68a-a1706a46dea0",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Specification Package',
-	'Package_ID',
-	'R1402');
-INSERT INTO R_RGO_PROXY
-	VALUES ("80232134-e115-4d9c-8e14-a74ea7c88917",
-	"ad66973e-1ad5-4346-b950-8052f04bf404",
-	"1952251d-c129-4bf6-8a21-37c6abe17e8e",
-	'../../Element Packaging/Element Packaging.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("d937082c-a3de-4174-ae70-ebadb6b1a20b",
-	"fc3cdaa3-901f-4b71-b007-d116422fcd25",
-	0,
-	"ad66973e-1ad5-4346-b950-8052f04bf404",
-	"6b52a38e-2f9f-4be3-8373-1ccf4f90517c",
-	'../../Element Packaging/Element Packaging.xtuml');
-INSERT INTO O_RATTR
+INSERT INTO O_NBATTR
 	VALUES ("fde7f143-cbbc-4037-8ff9-d4e020817fe7",
-	"80232134-e115-4d9c-8e14-a74ea7c88917",
-	"d937082c-a3de-4174-ae70-ebadb6b1a20b",
-	"fc3cdaa3-901f-4b71-b007-d116422fcd25",
-	1,
-	'Package_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("d937082c-a3de-4174-ae70-ebadb6b1a20b",
-	"fc3cdaa3-901f-4b71-b007-d116422fcd25",
-	'../../Element Packaging/Specification Package/Specification Package.xtuml');
+	"80232134-e115-4d9c-8e14-a74ea7c88917");
+INSERT INTO O_BATTR
+	VALUES ("fde7f143-cbbc-4037-8ff9-d4e020817fe7",
+	"80232134-e115-4d9c-8e14-a74ea7c88917");
 INSERT INTO O_ATTR
 	VALUES ("fde7f143-cbbc-4037-8ff9-d4e020817fe7",
 	"80232134-e115-4d9c-8e14-a74ea7c88917",
@@ -244,7 +211,7 @@ INSERT INTO O_ATTR
 	'',
 	'Package_ID',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_REF
@@ -282,6 +249,10 @@ INSERT INTO O_RATTR
 	"fc3cdaa3-901f-4b71-b007-d116422fcd25",
 	1,
 	'Package_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("d937082c-a3de-4174-ae70-ebadb6b1a20b",
+	"fc3cdaa3-901f-4b71-b007-d116422fcd25",
+	'../../Element Packaging/Specification Package/Specification Package.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("088eca90-cfba-42a5-a22d-702cb66bf222",
 	"80232134-e115-4d9c-8e14-a74ea7c88917",

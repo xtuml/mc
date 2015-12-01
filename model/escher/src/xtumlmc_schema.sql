@@ -1027,17 +1027,12 @@ CREATE TABLE S_EEPIP (
 CREATE TABLE S_DPK (
 	Package_ID	UNIQUE_ID,
 	Name	STRING,
-	Dom_ID	UNIQUE_ID,
-	Parent_Package_ID	UNIQUE_ID );
+	Dom_ID	UNIQUE_ID );
 
 -- Class:  26.  Data Type in Package
 CREATE TABLE S_DIP (
 	Package_ID	UNIQUE_ID,
 	DT_ID	UNIQUE_ID );
-
--- Class:  27.  Data Type Package in Package
-CREATE TABLE S_DPIP (
-	Package_ID	UNIQUE_ID );
 
 -- Class:  30.  Subsystem in Subsystem
 CREATE TABLE S_SIS (
@@ -2233,8 +2228,6 @@ CREATE TABLE O_OBJ (
 	Key_Lett	STRING,
 	Descrip	STRING,
 	SS_ID	UNIQUE_ID,
-	Ism_ID	UNIQUE_ID,
-	Csm_ID	UNIQUE_ID,
 	Order	INTEGER );
 
 -- Class:  102.  Imported Class
@@ -2448,7 +2441,9 @@ CREATE TABLE TE_DISP (
 	Dispatcher_ID	INTEGER,
 	SystemID	INTEGER,
 	Name	STRING,
-	Descrip	STRING );
+	Descrip	STRING,
+	message_id_type	STRING,
+	base_message_type	STRING );
 
 -- Class:  2006.  Message Queue
 CREATE TABLE TE_QUEUE (
@@ -2472,6 +2467,7 @@ CREATE TABLE TE_ABA (
 	ParameterTrace	STRING,
 	ParameterFormat	STRING,
 	ParameterInvocation	STRING,
+	ParameterSMSGinvoke	STRING,
 	ParameterAssignment	STRING,
 	ParameterAssignmentBase	STRING,
 	scope	STRING,
@@ -2517,7 +2513,9 @@ CREATE TABLE TE_C (
 	next_ID	UNIQUE_ID,
 	cId	UNIQUE_ID,
 	first_eeID	UNIQUE_ID,
-	first_syncID	UNIQUE_ID );
+	first_syncID	UNIQUE_ID,
+	smsg_send	STRING,
+	smsg_recv	STRING );
 
 -- Class:  2014.  Extended Member
 CREATE TABLE TE_MBR (
@@ -2720,13 +2718,16 @@ CREATE TABLE TE_PO (
 	GeneratedName	STRING,
 	InterfaceName	STRING,
 	PackageName	STRING,
+	smsg_send	STRING,
+	smsg_recv	STRING,
 	Provision	BOOLEAN,
 	polymorphic	BOOLEAN,
 	sibling	INTEGER,
 	Order	INTEGER,
 	te_cID	UNIQUE_ID,
 	c_iId	UNIQUE_ID,
-	c_poId	UNIQUE_ID );
+	c_poId	UNIQUE_ID,
+	first_te_mactID	UNIQUE_ID );
 
 -- Class:  2032.  Extended Value
 CREATE TABLE TE_VAL (
@@ -3289,7 +3290,9 @@ CREATE TABLE TM_SYSTAG (
 	VFB	BOOLEAN,
 	InstanceLoading	BOOLEAN,
 	SystemCPortsType	STRING,
-	AllPortsPoly	BOOLEAN );
+	AllPortsPoly	BOOLEAN,
+	StructuredMessaging	BOOLEAN,
+	NetworkSockets	BOOLEAN );
 
 -- Class:  2208.  build
 CREATE TABLE TM_BUILD (
@@ -4838,12 +4841,6 @@ CREATE ROP REF_ID R35	FROM MC S_EEPK	(Parent_EEPack_ID)
 CREATE ROP REF_ID R36	FROM MC S_EEPK	(Dom_ID)
 			  TO 1C S_DOM	(Dom_ID);
 
-CREATE ROP REF_ID R37	FROM 1C S_DPIP	(Package_ID)
-			  TO 1  S_DPK	(Package_ID);
-
-CREATE ROP REF_ID R38	FROM MC S_DPK	(Parent_Package_ID)
-			  TO 1C S_DPIP	(Package_ID);
-
 CREATE ROP REF_ID R39	FROM 1C S_DIP	(DT_ID)
 			  TO 1  S_DT	(DT_ID);
 
@@ -6325,6 +6322,9 @@ CREATE ROP REF_ID R2097	FROM 1  TE_C	(first_syncID)
 
 CREATE ROP REF_ID R2098	FROM 1C TE_C	(first_eeID)
 			  TO 1C TE_EE	(ID);
+
+CREATE ROP REF_ID R2099	FROM 1C TE_PO	(first_te_mactID)
+			  TO 1C TE_MACT	(ID);
 
 
 -- ============================================================================

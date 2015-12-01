@@ -9658,11 +9658,16 @@ ooaofooa_blk_deallocation_append( c_t * p_s, ooaofooa_TE_BLK * p_te_blk )
 void
 ooaofooa_blk_declaration_append( c_t * p_s, ooaofooa_TE_BLK * p_te_blk )
 {
+  static char counter = 0;
   c_t * s=0;ooaofooa_TE_BLK * te_blk;
   /* ASSIGN te_blk = PARAM.te_blk */
   te_blk = p_te_blk;
   /* ASSIGN s = PARAM.s */
   s = Escher_strcpy( s, p_s );
+  if ( counter++ > 32 ) {
+    counter = 0;
+    if ( strlen( te_blk->declaration ) > 400 ) s = Escher_stradd( s, "\n  " );
+  }
   /* ASSIGN te_blk.declaration = ( te_blk.declaration + s ) */
   te_blk->declaration = Escher_strcpy( te_blk->declaration, Escher_stradd( te_blk->declaration, s ) );
 
@@ -20168,7 +20173,10 @@ ooaofooa_sys_analyze( ooaofooa_TE_SYS * p_te_sys )
 void
 ooaofooa_sys_populate()
 {
-  ooaofooa_TE_EE * te_ee=0;ooaofooa_TE_C * te_c=0;ooaofooa_V_VAR * v_var=0;ooaofooa_TE_LNK * te_lnk=0;ooaofooa_ACT_LNK * act_lnk=0;ooaofooa_TE_BLK * te_blk=0;ooaofooa_ACT_E * act_e=0;ooaofooa_ACT_EL * act_el=0;ooaofooa_ACT_IF * act_if=0;ooaofooa_ACT_WHL * act_whl=0;ooaofooa_ACT_FOR * act_for=0;ooaofooa_ACT_BLK * act_blk=0;ooaofooa_R_SUPER * r_super=0;ooaofooa_R_SUB * r_sub=0;ooaofooa_R_ASSR * r_assr=0;ooaofooa_R_AOTH * r_aoth=0;ooaofooa_R_AONE * r_aone=0;ooaofooa_R_FORM * r_form=0;ooaofooa_R_PART * r_part=0;ooaofooa_R_OIR * r_oir=0;ooaofooa_R_REL * r_rel=0;ooaofooa_SPR_PS * spr_ps=0;ooaofooa_SPR_PO * spr_po=0;ooaofooa_SPR_RS * spr_rs=0;ooaofooa_SPR_RO * spr_ro=0;ooaofooa_C_PP * c_pp=0;ooaofooa_SM_EVTDI * sm_evtdi=0;ooaofooa_S_SPARM * s_sparm=0;ooaofooa_O_TPARM * o_tparm=0;ooaofooa_S_BPARM * s_bparm=0;ooaofooa_V_PAR * v_par=0;ooaofooa_V_VAL * v_val=0;ooaofooa_TM_ENUMINIT * tm_enuminit=0;ooaofooa_TM_ENUMVAL * tm_enumval=0;ooaofooa_TM_POINTER * tm_pointer=0;ooaofooa_TM_PRECISION * tm_precision=0;ooaofooa_S_IRDT * s_irdt=0;ooaofooa_S_SDT * s_sdt=0;ooaofooa_S_EDT * s_edt=0;ooaofooa_S_UDT * s_udt=0;ooaofooa_S_CDT * s_cdt=0;ooaofooa_S_EE * s_ee=0;ooaofooa_S_SYNC * s_sync=0;ooaofooa_O_OBJ * o_obj=0;ooaofooa_S_DT * s_dt=0;ooaofooa_TE_PO * te_po=0;ooaofooa_C_C * c_c=0;ooaofooa_TE_PARM * te_parm;ooaofooa_TE_PARM * r3;i_t markedsystems;c_t * package_to_build=0;ooaofooa_CP_CP * cp_cp;Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;ooaofooa_TE_CIA * te_cia;Escher_ObjectSet_s te_ees_space={0}; Escher_ObjectSet_s * te_ees = &te_ees_space;Escher_ObjectSet_s v_vars_space={0}; Escher_ObjectSet_s * v_vars = &v_vars_space;Escher_ObjectSet_s te_lnks_space={0}; Escher_ObjectSet_s * te_lnks = &te_lnks_space;Escher_ObjectSet_s act_lnks_space={0}; Escher_ObjectSet_s * act_lnks = &act_lnks_space;Escher_ObjectSet_s te_blks_space={0}; Escher_ObjectSet_s * te_blks = &te_blks_space;Escher_ObjectSet_s act_es_space={0}; Escher_ObjectSet_s * act_es = &act_es_space;Escher_ObjectSet_s act_els_space={0}; Escher_ObjectSet_s * act_els = &act_els_space;Escher_ObjectSet_s act_ifs_space={0}; Escher_ObjectSet_s * act_ifs = &act_ifs_space;Escher_ObjectSet_s act_whls_space={0}; Escher_ObjectSet_s * act_whls = &act_whls_space;Escher_ObjectSet_s act_fors_space={0}; Escher_ObjectSet_s * act_fors = &act_fors_space;Escher_ObjectSet_s act_blks_space={0}; Escher_ObjectSet_s * act_blks = &act_blks_space;Escher_ObjectSet_s r_supers_space={0}; Escher_ObjectSet_s * r_supers = &r_supers_space;Escher_ObjectSet_s r_subs_space={0}; Escher_ObjectSet_s * r_subs = &r_subs_space;Escher_ObjectSet_s r_assrs_space={0}; Escher_ObjectSet_s * r_assrs = &r_assrs_space;Escher_ObjectSet_s r_aoths_space={0}; Escher_ObjectSet_s * r_aoths = &r_aoths_space;Escher_ObjectSet_s r_aones_space={0}; Escher_ObjectSet_s * r_aones = &r_aones_space;Escher_ObjectSet_s r_forms_space={0}; Escher_ObjectSet_s * r_forms = &r_forms_space;Escher_ObjectSet_s r_oirs_space={0}; Escher_ObjectSet_s * r_oirs = &r_oirs_space;Escher_ObjectSet_s r_rels_space={0}; Escher_ObjectSet_s * r_rels = &r_rels_space;Escher_ObjectSet_s spr_pss_space={0}; Escher_ObjectSet_s * spr_pss = &spr_pss_space;Escher_ObjectSet_s spr_pos_space={0}; Escher_ObjectSet_s * spr_pos = &spr_pos_space;Escher_ObjectSet_s spr_rss_space={0}; Escher_ObjectSet_s * spr_rss = &spr_rss_space;Escher_ObjectSet_s spr_ros_space={0}; Escher_ObjectSet_s * spr_ros = &spr_ros_space;Escher_ObjectSet_s c_pps_space={0}; Escher_ObjectSet_s * c_pps = &c_pps_space;Escher_ObjectSet_s sm_evtdis_space={0}; Escher_ObjectSet_s * sm_evtdis = &sm_evtdis_space;Escher_ObjectSet_s s_sparms_space={0}; Escher_ObjectSet_s * s_sparms = &s_sparms_space;Escher_ObjectSet_s o_tparms_space={0}; Escher_ObjectSet_s * o_tparms = &o_tparms_space;Escher_ObjectSet_s s_bparms_space={0}; Escher_ObjectSet_s * s_bparms = &s_bparms_space;Escher_ObjectSet_s v_pars_space={0}; Escher_ObjectSet_s * v_pars = &v_pars_space;Escher_ObjectSet_s v_vals_space={0}; Escher_ObjectSet_s * v_vals = &v_vals_space;Escher_ObjectSet_s tm_enuminits_space={0}; Escher_ObjectSet_s * tm_enuminits = &tm_enuminits_space;Escher_ObjectSet_s tm_enumvals_space={0}; Escher_ObjectSet_s * tm_enumvals = &tm_enumvals_space;Escher_ObjectSet_s tm_pointers_space={0}; Escher_ObjectSet_s * tm_pointers = &tm_pointers_space;Escher_ObjectSet_s tm_precisions_space={0}; Escher_ObjectSet_s * tm_precisions = &tm_precisions_space;Escher_ObjectSet_s s_irdts_space={0}; Escher_ObjectSet_s * s_irdts = &s_irdts_space;Escher_ObjectSet_s s_sdts_space={0}; Escher_ObjectSet_s * s_sdts = &s_sdts_space;Escher_ObjectSet_s s_edts_space={0}; Escher_ObjectSet_s * s_edts = &s_edts_space;Escher_ObjectSet_s s_udts_space={0}; Escher_ObjectSet_s * s_udts = &s_udts_space;Escher_ObjectSet_s s_cdts_space={0}; Escher_ObjectSet_s * s_cdts = &s_cdts_space;Escher_ObjectSet_s s_ees_space={0}; Escher_ObjectSet_s * s_ees = &s_ees_space;Escher_ObjectSet_s s_syncs_space={0}; Escher_ObjectSet_s * s_syncs = &s_syncs_space;Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;ooaofooa_TM_BUILD * tm_build=0;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;ooaofooa_TE_QUEUE * nonself_te_queue=0;ooaofooa_TE_QUEUE * te_queue=0;ooaofooa_TE_DISP * te_disp=0;ooaofooa_TM_THREAD * tm_thread=0;ooaofooa_TM_SYSTAG * tm_systag=0;ooaofooa_TE_SYS * te_sys=0;ooaofooa_S_SYS * s_sys=0;ooaofooa_TE_TYPEMAP * te_typemap=0;ooaofooa_TE_TIM * te_tim=0;ooaofooa_TE_THREAD * te_thread=0;ooaofooa_TE_TARGET * te_target=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_SET * te_set=0;ooaofooa_TE_PREFIX * te_prefix=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_EXTENT * te_extent=0;ooaofooa_TE_EQ * te_eq=0;ooaofooa_TE_FILE * te_file=0;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;ooaofooa_TE_DT * void_te_dt=0;ooaofooa_TE_DT * string_te_dt=0;ooaofooa_TE_DT * converted_bool_te_dt=0;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;Escher_ObjectSet_s empty_te_dts_space={0}; Escher_ObjectSet_s * empty_te_dts = &empty_te_dts_space;ooaofooa_TE_MACT * empty_te_mact=0;ooaofooa_TE_ATTR * empty_te_attr=0;ooaofooa_O_OBJ * empty_o_obj=0;Escher_ObjectSet_s empty_s_dims_space={0}; Escher_ObjectSet_s * empty_s_dims = &empty_s_dims_space;ooaofooa_TE_DIM * empty_te_dim=0;ooaofooa_TE_C * empty_te_c=0;Escher_ObjectSet_s empty_ep_pkgs_space={0}; Escher_ObjectSet_s * empty_ep_pkgs = &empty_ep_pkgs_space;ooaofooa_CP_CP * empty_cp_cp=0;Escher_ObjectSet_s r_parts_space={0}; Escher_ObjectSet_s * r_parts = &r_parts_space;
+  ooaofooa_TE_EE * te_ee=0;ooaofooa_TE_C * te_c=0;ooaofooa_V_VAR * v_var=0;ooaofooa_TE_LNK * te_lnk=0;ooaofooa_ACT_LNK * act_lnk=0;ooaofooa_TE_BLK * te_blk=0;ooaofooa_ACT_E * act_e=0;ooaofooa_ACT_EL * act_el=0;ooaofooa_ACT_IF * act_if=0;ooaofooa_ACT_WHL * act_whl=0;ooaofooa_ACT_FOR * act_for=0;ooaofooa_ACT_BLK * act_blk=0;ooaofooa_R_SUPER * r_super=0;ooaofooa_R_SUB * r_sub=0;ooaofooa_R_ASSR * r_assr=0;ooaofooa_R_AOTH * r_aoth=0;ooaofooa_R_AONE * r_aone=0;ooaofooa_R_FORM * r_form=0;ooaofooa_R_PART * r_part=0;ooaofooa_R_OIR * r_oir=0;ooaofooa_R_REL * r_rel=0;ooaofooa_SPR_PS * spr_ps=0;ooaofooa_SPR_PO * spr_po=0;
+  ooaofooa_SPR_RS * spr_rs=0;ooaofooa_SPR_RO * spr_ro=0;ooaofooa_C_PP * c_pp=0;ooaofooa_SM_EVTDI * sm_evtdi=0;ooaofooa_S_SPARM * s_sparm=0;ooaofooa_O_TPARM * o_tparm=0;ooaofooa_S_BPARM * s_bparm=0;ooaofooa_V_PAR * v_par=0;ooaofooa_V_VAL * v_val=0;ooaofooa_TM_ENUMINIT * tm_enuminit=0;ooaofooa_TM_ENUMVAL * tm_enumval=0;ooaofooa_TM_POINTER * tm_pointer=0;ooaofooa_TM_PRECISION * tm_precision=0;ooaofooa_S_IRDT * s_irdt=0;ooaofooa_S_SDT * s_sdt=0;ooaofooa_S_EDT * s_edt=0;ooaofooa_S_UDT * s_udt=0;ooaofooa_S_CDT * s_cdt=0;ooaofooa_S_EE * s_ee=0;ooaofooa_S_SYNC * s_sync=0;ooaofooa_O_OBJ * o_obj=0;ooaofooa_S_DT * s_dt=0;ooaofooa_TE_PO * te_po=0;ooaofooa_C_C * c_c=0;ooaofooa_TE_PARM * te_parm;ooaofooa_TE_PARM * r3;i_t markedsystems;c_t * package_to_build=0;Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;ooaofooa_TE_CIA * te_cia;Escher_ObjectSet_s te_ees_space={0}; Escher_ObjectSet_s * te_ees = &te_ees_space;Escher_ObjectSet_s v_vars_space={0}; Escher_ObjectSet_s * v_vars = &v_vars_space;Escher_ObjectSet_s te_lnks_space={0}; Escher_ObjectSet_s * te_lnks = &te_lnks_space;Escher_ObjectSet_s act_lnks_space={0}; Escher_ObjectSet_s * act_lnks = &act_lnks_space;Escher_ObjectSet_s te_blks_space={0}; Escher_ObjectSet_s * te_blks = &te_blks_space;Escher_ObjectSet_s act_es_space={0}; Escher_ObjectSet_s * act_es = &act_es_space;Escher_ObjectSet_s act_els_space={0}; Escher_ObjectSet_s * act_els = &act_els_space;Escher_ObjectSet_s act_ifs_space={0}; Escher_ObjectSet_s * act_ifs = &act_ifs_space;Escher_ObjectSet_s act_whls_space={0}; Escher_ObjectSet_s * act_whls = &act_whls_space;Escher_ObjectSet_s act_fors_space={0}; Escher_ObjectSet_s * act_fors = &act_fors_space;Escher_ObjectSet_s act_blks_space={0}; Escher_ObjectSet_s * act_blks = &act_blks_space;Escher_ObjectSet_s r_supers_space={0}; Escher_ObjectSet_s * r_supers = &r_supers_space;Escher_ObjectSet_s r_subs_space={0}; Escher_ObjectSet_s * r_subs = &r_subs_space;Escher_ObjectSet_s r_assrs_space={0}; Escher_ObjectSet_s * r_assrs = &r_assrs_space;Escher_ObjectSet_s r_aoths_space={0}; Escher_ObjectSet_s * r_aoths = &r_aoths_space;Escher_ObjectSet_s r_aones_space={0}; Escher_ObjectSet_s * r_aones = &r_aones_space;Escher_ObjectSet_s r_forms_space={0}; Escher_ObjectSet_s * r_forms = &r_forms_space;Escher_ObjectSet_s r_oirs_space={0}; Escher_ObjectSet_s * r_oirs = &r_oirs_space;Escher_ObjectSet_s r_rels_space={0}; Escher_ObjectSet_s * r_rels = &r_rels_space;Escher_ObjectSet_s spr_pss_space={0}; Escher_ObjectSet_s * spr_pss = &spr_pss_space;Escher_ObjectSet_s spr_pos_space={0}; Escher_ObjectSet_s * spr_pos = &spr_pos_space;Escher_ObjectSet_s spr_rss_space={0}; Escher_ObjectSet_s * spr_rss = &spr_rss_space;Escher_ObjectSet_s spr_ros_space={0}; Escher_ObjectSet_s * spr_ros = &spr_ros_space;Escher_ObjectSet_s c_pps_space={0}; Escher_ObjectSet_s * c_pps = &c_pps_space;Escher_ObjectSet_s sm_evtdis_space={0}; Escher_ObjectSet_s * sm_evtdis = &sm_evtdis_space;Escher_ObjectSet_s s_sparms_space={0}; Escher_ObjectSet_s * s_sparms = &s_sparms_space;Escher_ObjectSet_s o_tparms_space={0}; Escher_ObjectSet_s * o_tparms = &o_tparms_space;Escher_ObjectSet_s s_bparms_space={0}; Escher_ObjectSet_s * s_bparms = &s_bparms_space;Escher_ObjectSet_s v_pars_space={0}; Escher_ObjectSet_s * v_pars = &v_pars_space;Escher_ObjectSet_s v_vals_space={0}; Escher_ObjectSet_s * v_vals = &v_vals_space;
+  Escher_ObjectSet_s tm_enuminits_space={0}; Escher_ObjectSet_s * tm_enuminits = &tm_enuminits_space;Escher_ObjectSet_s tm_enumvals_space={0}; Escher_ObjectSet_s * tm_enumvals = &tm_enumvals_space;Escher_ObjectSet_s tm_pointers_space={0}; Escher_ObjectSet_s * tm_pointers = &tm_pointers_space;Escher_ObjectSet_s tm_precisions_space={0}; Escher_ObjectSet_s * tm_precisions = &tm_precisions_space;Escher_ObjectSet_s s_irdts_space={0}; Escher_ObjectSet_s * s_irdts = &s_irdts_space;Escher_ObjectSet_s s_sdts_space={0}; Escher_ObjectSet_s * s_sdts = &s_sdts_space;Escher_ObjectSet_s s_edts_space={0}; Escher_ObjectSet_s * s_edts = &s_edts_space;Escher_ObjectSet_s s_udts_space={0}; Escher_ObjectSet_s * s_udts = &s_udts_space;Escher_ObjectSet_s s_cdts_space={0}; Escher_ObjectSet_s * s_cdts = &s_cdts_space;Escher_ObjectSet_s s_ees_space={0}; Escher_ObjectSet_s * s_ees = &s_ees_space;Escher_ObjectSet_s s_syncs_space={0}; Escher_ObjectSet_s * s_syncs = &s_syncs_space;Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;ooaofooa_TM_BUILD * tm_build=0;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;ooaofooa_TE_QUEUE * nonself_te_queue=0;ooaofooa_TE_QUEUE * te_queue=0;ooaofooa_TE_DISP * te_disp=0;ooaofooa_TM_THREAD * tm_thread=0;ooaofooa_TM_SYSTAG * tm_systag=0;ooaofooa_TE_SYS * te_sys=0;ooaofooa_S_SYS * s_sys=0;ooaofooa_TE_TYPEMAP * te_typemap=0;ooaofooa_TE_TIM * te_tim=0;ooaofooa_TE_THREAD * te_thread=0;ooaofooa_TE_TARGET * te_target=0;ooaofooa_TE_STRING * te_string=0;ooaofooa_TE_SET * te_set=0;ooaofooa_TE_PREFIX * te_prefix=0;ooaofooa_TE_INSTANCE * te_instance=0;ooaofooa_TE_EXTENT * te_extent=0;ooaofooa_TE_EQ * te_eq=0;ooaofooa_TE_FILE * te_file=0;
+  Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;ooaofooa_TE_DT * void_te_dt=0;ooaofooa_TE_DT * string_te_dt=0;ooaofooa_TE_DT * converted_bool_te_dt=0;Escher_ObjectSet_s empty_te_parms_space={0}; Escher_ObjectSet_s * empty_te_parms = &empty_te_parms_space;Escher_ObjectSet_s empty_te_dts_space={0}; Escher_ObjectSet_s * empty_te_dts = &empty_te_dts_space;ooaofooa_TE_MACT * empty_te_mact=0;ooaofooa_TE_ATTR * empty_te_attr=0;ooaofooa_O_OBJ * empty_o_obj=0;Escher_ObjectSet_s empty_s_dims_space={0}; Escher_ObjectSet_s * empty_s_dims = &empty_s_dims_space;ooaofooa_TE_DIM * empty_te_dim=0;ooaofooa_TE_C * empty_te_c=0;Escher_ObjectSet_s empty_ep_pkgs_space={0}; Escher_ObjectSet_s * empty_ep_pkgs = &empty_ep_pkgs_space;Escher_ObjectSet_s r_parts_space={0}; Escher_ObjectSet_s * r_parts = &r_parts_space;
   /* SELECT any te_file FROM INSTANCES OF TE_FILE */
   te_file = (ooaofooa_TE_FILE *) Escher_SetGetAny( &pG_ooaofooa_TE_FILE_extent.active );
   /* SELECT any te_eq FROM INSTANCES OF TE_EQ */
@@ -20191,8 +20199,6 @@ ooaofooa_sys_populate()
   te_tim = (ooaofooa_TE_TIM *) Escher_SetGetAny( &pG_ooaofooa_TE_TIM_extent.active );
   /* SELECT any te_typemap FROM INSTANCES OF TE_TYPEMAP */
   te_typemap = (ooaofooa_TE_TYPEMAP *) Escher_SetGetAny( &pG_ooaofooa_TE_TYPEMAP_extent.active );
-  /* SELECT any empty_cp_cp FROM INSTANCES OF CP_CP WHERE FALSE */
-  empty_cp_cp = 0;
   /* SELECT many empty_ep_pkgs FROM INSTANCES OF EP_PKG WHERE FALSE */
   Escher_ClearSet( empty_ep_pkgs );
   /* SELECT any empty_te_c FROM INSTANCES OF TE_C WHERE FALSE */
@@ -20878,8 +20884,6 @@ te_c->cId = (Escher_UniqueID_t) te_c;
   }}}
   /* ASSIGN ep_pkgs = empty_ep_pkgs */
   Escher_CopySet( ep_pkgs, empty_ep_pkgs );
-  /* ASSIGN cp_cp = empty_cp_cp */
-  cp_cp = empty_cp_cp;
   /* ASSIGN package_to_build =  */
   package_to_build = Escher_strcpy( package_to_build, "" );
   /* SELECT any tm_build FROM INSTANCES OF TM_BUILD */
@@ -24470,7 +24474,8 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
 void
 ooaofooa_sys_singletons()
 {
-  ooaofooa_TE_RETURN * te_return;ooaofooa_TE_FUNCTION * te_function;ooaofooa_TE_BRIDGE * te_bridge;ooaofooa_TE_OPERATION * te_operation;ooaofooa_TE_IOP * te_iop;ooaofooa_TE_SGN * te_sgn;ooaofooa_TE_GENERATE_TO_CLASS * te_generate_to_class;ooaofooa_TE_GENERATE_CREATOR_EVENT * te_generate_creator_event;ooaofooa_TE_GENERATE * te_generate;ooaofooa_TE_EVENT_PARAMETERS * te_event_parameters;ooaofooa_TE_GENERATE_PRECREATED_EVENT * te_generate_precreated_event;ooaofooa_TE_SELECT_WHERE * te_select_where;ooaofooa_TE_SELECT * te_select;ooaofooa_TE_UNRELATE_USING * te_unrelate_using;ooaofooa_TE_UNRELATE * te_unrelate;ooaofooa_TE_RELATE_USING * te_relate_using;ooaofooa_TE_RELATE * te_relate;ooaofooa_TE_CREATE_EVENT * te_create_event;ooaofooa_TE_DELETE_INSTANCE * te_delete_instance;ooaofooa_TE_ELIF * te_elif;ooaofooa_TE_WHILE * te_while;ooaofooa_TE_IF * te_if;ooaofooa_TE_FOR * te_for;ooaofooa_TE_CREATE_INSTANCE * te_create_instance;ooaofooa_TE_ASSIGN * te_assign;ooaofooa_TE_TARGET * te_target;ooaofooa_TE_EXTENT * te_extent;ooaofooa_TE_TRACE * te_trace;ooaofooa_TE_CALLOUT * te_callout;ooaofooa_TE_TIM * te_tim;ooaofooa_TE_THREAD * te_thread;ooaofooa_TE_STRING * te_string;ooaofooa_TE_SLIST * te_slist;ooaofooa_TE_SET * te_set;ooaofooa_TE_RELSTORE * te_relstore;ooaofooa_TE_RELINFO * te_relinfo;ooaofooa_TE_PERSIST * te_persist;ooaofooa_TE_ILB * te_ilb;ooaofooa_TE_INSTANCE * te_instance;ooaofooa_TE_FILE * te_file;ooaofooa_TE_EQ * te_eq;ooaofooa_TE_DMA * te_dma;ooaofooa_TE_DLIST * te_dlist;ooaofooa_TE_COPYRIGHT * te_copyright;ooaofooa_TE_CONTAINER * te_container;ooaofooa_TE_TYPEMAP * te_typemap;ooaofooa_TE_PREFIX * te_prefix;
+  ooaofooa_TE_RETURN * te_return;ooaofooa_TE_FUNCTION * te_function;ooaofooa_TE_BRIDGE * te_bridge;ooaofooa_TE_OPERATION * te_operation;ooaofooa_TE_IOP * te_iop;ooaofooa_TE_SGN * te_sgn;ooaofooa_TE_GENERATE_TO_CLASS * te_generate_to_class;ooaofooa_TE_GENERATE_CREATOR_EVENT * te_generate_creator_event;ooaofooa_TE_GENERATE * te_generate;ooaofooa_TE_EVENT_PARAMETERS * te_event_parameters;ooaofooa_TE_GENERATE_PRECREATED_EVENT * te_generate_precreated_event;ooaofooa_TE_SELECT_WHERE * te_select_where;ooaofooa_TE_SELECT * te_select;ooaofooa_TE_UNRELATE_USING * te_unrelate_using;ooaofooa_TE_UNRELATE * te_unrelate;ooaofooa_TE_RELATE_USING * te_relate_using;ooaofooa_TE_RELATE * te_relate;ooaofooa_TE_CREATE_EVENT * te_create_event;ooaofooa_TE_DELETE_INSTANCE * te_delete_instance;ooaofooa_TE_ELIF * te_elif;ooaofooa_TE_WHILE * te_while;ooaofooa_TE_IF * te_if;ooaofooa_TE_FOR * te_for;ooaofooa_TE_CREATE_INSTANCE * te_create_instance;
+  ooaofooa_TE_ASSIGN * te_assign;ooaofooa_TE_TARGET * te_target;ooaofooa_TE_EXTENT * te_extent;ooaofooa_TE_TRACE * te_trace;ooaofooa_TE_CALLOUT * te_callout;ooaofooa_TE_TIM * te_tim;ooaofooa_TE_THREAD * te_thread;ooaofooa_TE_STRING * te_string;ooaofooa_TE_SLIST * te_slist;ooaofooa_TE_SET * te_set;ooaofooa_TE_RELSTORE * te_relstore;ooaofooa_TE_RELINFO * te_relinfo;ooaofooa_TE_PERSIST * te_persist;ooaofooa_TE_ILB * te_ilb;ooaofooa_TE_INSTANCE * te_instance;ooaofooa_TE_FILE * te_file;ooaofooa_TE_EQ * te_eq;ooaofooa_TE_DMA * te_dma;ooaofooa_TE_DLIST * te_dlist;ooaofooa_TE_COPYRIGHT * te_copyright;ooaofooa_TE_CONTAINER * te_container;ooaofooa_TE_TYPEMAP * te_typemap;ooaofooa_TE_PREFIX * te_prefix;
   /* CREATE OBJECT INSTANCE te_prefix OF TE_PREFIX */
   te_prefix = (ooaofooa_TE_PREFIX *) Escher_CreateInstance( ooaofooa_DOMAIN_ID, ooaofooa_TE_PREFIX_CLASS_NUMBER );
   /* ::prefix_factory( te_prefix:te_prefix ) */
@@ -27715,15 +27720,11 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_O_TPARM_instancedumper,
   ooaofooa_O_RAVR_instancedumper,
   ooaofooa_S_UDT_instancedumper,
-  ooaofooa_UC_UCC_instancedumper,
   ooaofooa_UC_UCA_instancedumper,
-  ooaofooa_UC_PIUC_instancedumper,
-  ooaofooa_UC_UIU_instancedumper,
   ooaofooa_UC_BA_instancedumper,
   ooaofooa_UC_G_instancedumper,
   ooaofooa_UC_I_instancedumper,
   ooaofooa_UC_E_instancedumper,
-  ooaofooa_UC_AIUC_instancedumper,
   ooaofooa_S_BRG_instancedumper,
   ooaofooa_A_AP_instancedumper,
   ooaofooa_A_ATE_instancedumper,
@@ -27886,7 +27887,6 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_S_EEPIP_instancedumper,
   ooaofooa_S_DPK_instancedumper,
   ooaofooa_S_DIP_instancedumper,
-  ooaofooa_S_DPIP_instancedumper,
   ooaofooa_I_LNK_instancedumper,
   ooaofooa_I_EVI_instancedumper,
   ooaofooa_I_AVL_instancedumper,
@@ -28197,15 +28197,11 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_O_TPARM_extent,
   &pG_ooaofooa_O_RAVR_extent,
   &pG_ooaofooa_S_UDT_extent,
-  &pG_ooaofooa_UC_UCC_extent,
   &pG_ooaofooa_UC_UCA_extent,
-  &pG_ooaofooa_UC_PIUC_extent,
-  &pG_ooaofooa_UC_UIU_extent,
   &pG_ooaofooa_UC_BA_extent,
   &pG_ooaofooa_UC_G_extent,
   &pG_ooaofooa_UC_I_extent,
   &pG_ooaofooa_UC_E_extent,
-  &pG_ooaofooa_UC_AIUC_extent,
   &pG_ooaofooa_S_BRG_extent,
   &pG_ooaofooa_A_AP_extent,
   &pG_ooaofooa_A_ATE_extent,
@@ -28368,7 +28364,6 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_S_EEPIP_extent,
   &pG_ooaofooa_S_DPK_extent,
   &pG_ooaofooa_S_DIP_extent,
-  &pG_ooaofooa_S_DPIP_extent,
   &pG_ooaofooa_I_LNK_extent,
   &pG_ooaofooa_I_EVI_extent,
   &pG_ooaofooa_I_AVL_extent,

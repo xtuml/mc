@@ -21,7 +21,7 @@ INSERT INTO O_REF
 	0,
 	'',
 	'Communication',
-	'Package_ID',
+	'SpecificationPackage_ID',
 	'R1130.''is shown in''');
 INSERT INTO R_RGO_PROXY
 	VALUES ("0e0ebd8a-49f8-43d1-9167-07843fb7fca6",
@@ -38,19 +38,19 @@ INSERT INTO O_RTIDA_PROXY
 INSERT INTO O_RATTR
 	VALUES ("36f3c7a9-86da-431d-b80d-749c4169b900",
 	"0e0ebd8a-49f8-43d1-9167-07843fb7fca6",
-	"d937082c-a3de-4174-ae70-ebadb6b1a20b",
-	"fc3cdaa3-901f-4b71-b007-d116422fcd25",
+	"4b50ea70-86a8-4b95-867b-36e1ef84721e",
+	"6f0581e9-938e-4484-ad43-3b03967e7ef4",
 	1,
-	'Package_ID');
+	'SpecificationPackage_ID');
 INSERT INTO O_BATTR_PROXY
-	VALUES ("d937082c-a3de-4174-ae70-ebadb6b1a20b",
-	"fc3cdaa3-901f-4b71-b007-d116422fcd25",
-	'../../Element Packaging/Specification Package/Specification Package.xtuml');
+	VALUES ("4b50ea70-86a8-4b95-867b-36e1ef84721e",
+	"6f0581e9-938e-4484-ad43-3b03967e7ef4",
+	'../Communication/Communication.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("36f3c7a9-86da-431d-b80d-749c4169b900",
 	"0e0ebd8a-49f8-43d1-9167-07843fb7fca6",
 	"00000000-0000-0000-0000-000000000000",
-	'Package_ID',
+	'SpecificationPackage_ID',
 	'',
 	'',
 	'Package_ID',
@@ -65,7 +65,7 @@ INSERT INTO O_OIDA
 	VALUES ("36f3c7a9-86da-431d-b80d-749c4169b900",
 	"0e0ebd8a-49f8-43d1-9167-07843fb7fca6",
 	0,
-	'Package_ID');
+	'SpecificationPackage_ID');
 INSERT INTO O_ID
 	VALUES (1,
 	"0e0ebd8a-49f8-43d1-9167-07843fb7fca6");
