@@ -5156,8 +5156,8 @@ INSERT INTO S_SYNC
 s = param.s;
 r = ::STRING_TO_INTEGER( component_name:s );
 return r;
-::oal( s:"return strtol( p_s, 0, 10 );" );
 */
+::oal( s:"return strtol( p_s, 0, 10 );" );
 return 0;',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	1,
