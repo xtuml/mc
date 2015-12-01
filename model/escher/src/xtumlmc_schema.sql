@@ -480,10 +480,10 @@ CREATE TABLE CSME_CIS (
 
 -- Class:  1125.  Communication
 CREATE TABLE COMM_COMM (
-	Package_ID	UNIQUE_ID,
+	SpecificationPackage_ID	UNIQUE_ID,
 	Dom_ID	UNIQUE_ID,
 	SS_ID	UNIQUE_ID,
-	CIC_Package_ID	UNIQUE_ID,
+	CIC_SpecificationPackage_ID	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING,
 	Sys_ID	UNIQUE_ID,
@@ -506,16 +506,16 @@ CREATE TABLE COMM_LNK (
 
 -- Class:  1127.  Communication in Communication
 CREATE TABLE COMM_CIC (
-	Package_ID	UNIQUE_ID );
+	SpecificationPackage_ID	UNIQUE_ID );
 
 -- Class:  1128.  Message in Communication
 CREATE TABLE COMM_MIC (
-	Package_ID	UNIQUE_ID,
+	SpecificationPackage_ID	UNIQUE_ID,
 	Msg_ID	UNIQUE_ID );
 
 -- Class:  1129.  Participant in Communication
 CREATE TABLE COMM_PIC (
-	Package_ID	UNIQUE_ID,
+	SpecificationPackage_ID	UNIQUE_ID,
 	Part_ID	UNIQUE_ID );
 
 
@@ -3653,32 +3653,11 @@ CREATE TABLE TE_WHILE (
 -- Classes In Package:  Use Case  
 -- ============================================================================
 
--- Class:  1200.  Use Case Diagram
-CREATE TABLE UC_UCC (
-	Package_ID	UNIQUE_ID,
-	Dom_ID	UNIQUE_ID,
-	SS_ID	UNIQUE_ID,
-	Parent_Package_ID	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING,
-	Sys_ID	UNIQUE_ID,
-	Component_Package_ID	UNIQUE_ID,
-	Component_Id	UNIQUE_ID );
-
 -- Class:  1201.  Use Case Association
 CREATE TABLE UC_UCA (
 	Assoc_ID	UNIQUE_ID,
 	Source_Part_ID	UNIQUE_ID,
 	Destination_Part_ID	UNIQUE_ID );
-
--- Class:  1203.  Participant in Use Case
-CREATE TABLE UC_PIUC (
-	Package_ID	UNIQUE_ID,
-	Part_ID	UNIQUE_ID );
-
--- Class:  1205.  Use Case in Use Case
-CREATE TABLE UC_UIU (
-	Package_ID	UNIQUE_ID );
 
 -- Class:  1206.  Binary Association
 CREATE TABLE UC_BA (
@@ -3699,11 +3678,6 @@ CREATE TABLE UC_I (
 CREATE TABLE UC_E (
 	Assoc_ID	UNIQUE_ID,
 	Descrip	STRING );
-
--- Class:  1210.  Association In Use Case
-CREATE TABLE UC_AIUC (
-	Assoc_ID	UNIQUE_ID,
-	Package_ID	UNIQUE_ID );
 
 
 -- ============================================================================
@@ -4387,8 +4361,8 @@ CREATE ROP REF_ID R2971	FROM MC CSME_CIE	(Package_ID)
 -- Relationships In Package:  Communication  
 -- ============================================================================
   
-CREATE ROP REF_ID R1126	FROM MC COMM_PIC	(Package_ID)
-			  TO 1  COMM_COMM	(Package_ID);
+CREATE ROP REF_ID R1126	FROM MC COMM_PIC	(SpecificationPackage_ID)
+			  TO 1  COMM_COMM	(SpecificationPackage_ID);
 
 CREATE ROP REF_ID R1126	FROM 1C COMM_PIC	(Part_ID)
 			  TO 1  SQ_P	(Part_ID);
@@ -4396,11 +4370,11 @@ CREATE ROP REF_ID R1126	FROM 1C COMM_PIC	(Part_ID)
 CREATE ROP REF_ID R1128	FROM MC COMM_LNK	(Rel_ID)
 			  TO 1C R_REL	(Rel_ID);
 
-CREATE ROP REF_ID R1129	FROM MC COMM_COMM	(CIC_Package_ID)
-			  TO 1C COMM_CIC	(Package_ID);
+CREATE ROP REF_ID R1129	FROM MC COMM_COMM	(CIC_SpecificationPackage_ID)
+			  TO 1C COMM_CIC	(SpecificationPackage_ID);
 
-CREATE ROP REF_ID R1130	FROM 1C COMM_CIC	(Package_ID)
-			  TO 1  COMM_COMM	(Package_ID);
+CREATE ROP REF_ID R1130	FROM 1C COMM_CIC	(SpecificationPackage_ID)
+			  TO 1  COMM_COMM	(SpecificationPackage_ID);
 
 CREATE ROP REF_ID R1131	FROM MC COMM_COMM	(SS_ID)
 			  TO 1C S_SS	(SS_ID);
@@ -4414,8 +4388,8 @@ CREATE ROP REF_ID R1133	FROM MC COMM_LNK	(Start_Part_ID)
 CREATE ROP REF_ID R1134	FROM MC COMM_LNK	(Destination_Part_ID)
 			  TO 1  SQ_P	(Part_ID);
 
-CREATE ROP REF_ID R1135	FROM MC COMM_MIC	(Package_ID)
-			  TO 1  COMM_COMM	(Package_ID);
+CREATE ROP REF_ID R1135	FROM MC COMM_MIC	(SpecificationPackage_ID)
+			  TO 1  COMM_COMM	(SpecificationPackage_ID);
 
 CREATE ROP REF_ID R1135	FROM 1C COMM_MIC	(Msg_ID)
 			  TO 1  MSG_M	(Msg_ID);
@@ -4912,12 +4886,6 @@ CREATE ROP REF_ID R1400	FROM MC EP_SPKG	(Container_Package_ID)
 CREATE ROP REF_ID R1401	FROM MC EP_PKG	(Sys_ID)
 			  TO 1C S_SYS	(Sys_ID);
 
-CREATE ROP REF_ID R1402	FROM 1C A_A	(Package_ID)
-			  TO 1  EP_SPKG	(Package_ID);
-
-CREATE ROP REF_ID R1402	FROM 1C COMM_COMM	(Package_ID)
-			  TO 1  EP_SPKG	(Package_ID);
-
 CREATE ROP REF_ID R1402	FROM 1C CP_CP	(Package_ID)
 			  TO 1  EP_SPKG	(Package_ID);
 
@@ -4925,12 +4893,6 @@ CREATE ROP REF_ID R1402	FROM 1C S_DPK	(Package_ID)
 			  TO 1  EP_SPKG	(Package_ID);
 
 CREATE ROP REF_ID R1402	FROM 1C IP_IP	(Package_ID)
-			  TO 1  EP_SPKG	(Package_ID);
-
-CREATE ROP REF_ID R1402	FROM 1C UC_UCC	(Package_ID)
-			  TO 1  EP_SPKG	(Package_ID);
-
-CREATE ROP REF_ID R1402	FROM 1C SQ_S	(Package_ID)
 			  TO 1  EP_SPKG	(Package_ID);
 
 CREATE ROP REF_ID R1403	FROM MC EP_PIP	(Parent_Package_ID)
@@ -6503,29 +6465,11 @@ CREATE ROP REF_ID R2094	FROM 1C TE_SELECT_RELATED	(starting_Var_ID)
 -- Relationships In Package:  Use Case  
 -- ============================================================================
   
-CREATE ROP REF_ID R1201	FROM MC UC_UCC	(Dom_ID)
-			  TO 1C S_DOM	(Dom_ID);
-
-CREATE ROP REF_ID R1202	FROM MC UC_UCC	(SS_ID)
-			  TO 1C S_SS	(SS_ID);
-
-CREATE ROP REF_ID R1203	FROM MC UC_PIUC	(Package_ID)
-			  TO 1  UC_UCC	(Package_ID);
-
-CREATE ROP REF_ID R1203	FROM 1C UC_PIUC	(Part_ID)
-			  TO 1  SQ_P	(Part_ID);
-
 CREATE ROP REF_ID R1206	FROM MC UC_UCA	(Source_Part_ID)
 			  TO 1  SQ_P	(Part_ID);
 
 CREATE ROP REF_ID R1207	FROM MC UC_UCA	(Destination_Part_ID)
 			  TO 1  SQ_P	(Part_ID);
-
-CREATE ROP REF_ID R1208	FROM 1C UC_UIU	(Package_ID)
-			  TO 1  UC_UCC	(Package_ID);
-
-CREATE ROP REF_ID R1209	FROM MC UC_UCC	(Parent_Package_ID)
-			  TO 1C UC_UIU	(Package_ID);
 
 CREATE ROP REF_ID R1210	FROM 1C UC_E	(Assoc_ID)
 			  TO 1  UC_UCA	(Assoc_ID);
@@ -6537,21 +6481,6 @@ CREATE ROP REF_ID R1210	FROM 1C UC_I	(Assoc_ID)
 			  TO 1  UC_UCA	(Assoc_ID);
 
 CREATE ROP REF_ID R1210	FROM 1C UC_BA	(Assoc_ID)
-			  TO 1  UC_UCA	(Assoc_ID);
-
-CREATE ROP REF_ID R1211	FROM MC UC_UCC	(Sys_ID)
-			  TO 1C S_SYS	(Sys_ID);
-
-CREATE ROP REF_ID R1212	FROM MC UC_UCC	(Component_Package_ID)
-			  TO 1C CP_CP	(Package_ID);
-
-CREATE ROP REF_ID R1213	FROM MC UC_UCC	(Component_Id)
-			  TO 1C C_C	(Id);
-
-CREATE ROP REF_ID R1214	FROM MC UC_AIUC	(Package_ID)
-			  TO 1  UC_UCC	(Package_ID);
-
-CREATE ROP REF_ID R1215	FROM 1C UC_AIUC	(Assoc_ID)
 			  TO 1  UC_UCA	(Assoc_ID);
 
 
