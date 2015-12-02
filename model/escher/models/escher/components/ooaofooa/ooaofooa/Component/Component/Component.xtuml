@@ -23,7 +23,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("54a2be82-4b94-40e3-a99d-c96ce6456a55",
 	"f10115b0-8b64-4428-8ec7-d68d0016da48",
-	"609c1678-39be-4098-8425-3a8e7319dcc3",
+	"46a5262a-9745-4d46-9e44-f82974a82a6a",
 	'Name',
 	'Full Name: Component Name',
 	'',
@@ -71,57 +71,6 @@ enum1: Many',
 	'Mult',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000002",
-	'',
-	'');
-INSERT INTO O_REF
-	VALUES ("f10115b0-8b64-4428-8ec7-d68d0016da48",
-	"65cebf59-6dfd-433f-9214-8736d54b9b96",
-	0,
-	"ef708413-65df-43fd-834b-7060efb6a58f",
-	"9fc94486-c3a3-435e-a26a-93e713759303",
-	"3030b4d1-da10-4874-ae48-06becd651ba6",
-	"386e92fa-5cd8-4d38-a954-c095b1b6edb4",
-	"609c1678-39be-4098-8425-3a8e7319dcc3",
-	"67ebb11e-1ce9-4cde-b763-cc464a85dfcf",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Component in Component',
-	'Id',
-	'R4203.''is nested through''');
-INSERT INTO R_RGO_PROXY
-	VALUES ("f10115b0-8b64-4428-8ec7-d68d0016da48",
-	"9fc94486-c3a3-435e-a26a-93e713759303",
-	"3030b4d1-da10-4874-ae48-06becd651ba6",
-	'../Component Nesting/Component Nesting.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("ef708413-65df-43fd-834b-7060efb6a58f",
-	"65cebf59-6dfd-433f-9214-8736d54b9b96",
-	0,
-	"9fc94486-c3a3-435e-a26a-93e713759303",
-	"386e92fa-5cd8-4d38-a954-c095b1b6edb4",
-	'../Component Nesting/Component Nesting.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("609c1678-39be-4098-8425-3a8e7319dcc3",
-	"f10115b0-8b64-4428-8ec7-d68d0016da48",
-	"ef708413-65df-43fd-834b-7060efb6a58f",
-	"65cebf59-6dfd-433f-9214-8736d54b9b96",
-	1,
-	'Id');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("ef708413-65df-43fd-834b-7060efb6a58f",
-	"65cebf59-6dfd-433f-9214-8736d54b9b96",
-	'../Component Nesting/Component in Component/Component in Component.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("609c1678-39be-4098-8425-3a8e7319dcc3",
-	"f10115b0-8b64-4428-8ec7-d68d0016da48",
-	"46a5262a-9745-4d46-9e44-f82974a82a6a",
-	'NestedComponent_Id',
-	'',
-	'NestedComponent_',
-	'Id',
-	1,
-	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
 INSERT INTO O_BATTR

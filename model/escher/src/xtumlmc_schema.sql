@@ -560,10 +560,12 @@ CREATE TABLE CA_SMEED (
 -- Class:  4000.  Component
 CREATE TABLE C_C (
 	Id	UNIQUE_ID,
+	deprecatedPackage_ID	UNIQUE_ID,
 	NestedComponent_Id	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING,
 	Mult	INTEGER,
+	RootPackage_ID	UNIQUE_ID,
 	isRealized	BOOLEAN,
 	Realized_Class_Path	STRING );
 
@@ -940,11 +942,6 @@ CREATE TABLE S_MBR (
 	DT_ID	UNIQUE_ID,
 	Previous_Member_ID	UNIQUE_ID,
 	Dimensions	STRING );
-
--- Class:  35.  Datatype In Suppression
-CREATE TABLE S_DIS (
-	Dom_ID	UNIQUE_ID,
-	DT_ID	UNIQUE_ID );
 
 -- Class:  36.  Dimensions
 CREATE TABLE S_DIM (
@@ -4469,12 +4466,6 @@ CREATE ROP REF_ID R45	FROM MC S_MBR	(DT_ID)
 
 CREATE ROP REF_ID R46	FROM 1C S_MBR	(Previous_Member_ID, Parent_DT_DT_ID) PHRASE 'succeeds'
 			  TO 1C S_MBR	(Member_ID, Parent_DT_DT_ID) PHRASE 'precedes';
-
-CREATE ROP REF_ID R47	FROM MC S_DIS	(Dom_ID)
-			  TO 1  S_DOM	(Dom_ID);
-
-CREATE ROP REF_ID R47	FROM MC S_DIS	(DT_ID)
-			  TO 1  S_DT	(DT_ID);
 
 CREATE ROP REF_ID R49	FROM MC S_DIM	(BParm_ID)
 			  TO 1C S_BPARM	(BParm_ID);
