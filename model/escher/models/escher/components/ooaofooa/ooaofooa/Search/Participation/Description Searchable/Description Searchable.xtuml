@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("f060f99d-9e3d-40d7-8cd9-8b0ec378d994",
 	'Description Searchable',
-	9702,
+	9704,
 	'SP_DS',
 	'',
 	"00000000-0000-0000-0000-000000000000");

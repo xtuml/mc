@@ -115,7 +115,7 @@ INSERT INTO O_BATTR_PROXY
 INSERT INTO O_ATTR
 	VALUES ("609c1678-39be-4098-8425-3a8e7319dcc3",
 	"f10115b0-8b64-4428-8ec7-d68d0016da48",
-	"08a380c2-95f2-425b-9a6f-c9630a7e3e00",
+	"46a5262a-9745-4d46-9e44-f82974a82a6a",
 	'NestedComponent_Id',
 	'',
 	'NestedComponent_',
@@ -131,13 +131,12 @@ INSERT INTO O_ATTR
 	VALUES ("939cd03d-1f0a-4cda-b745-945682729689",
 	"f10115b0-8b64-4428-8ec7-d68d0016da48",
 	"1239fd3e-3efd-4648-9605-264e6e529bc1",
-	'Label',
-	'User_Visible:false
-Persistent:false',
+	'RootPackage_ID',
 	'',
-	'Label',
+	'',
+	'RootPackage_ID',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_REF
@@ -227,6 +226,24 @@ Description: Specifies where Verifier will look for a realized executable resour
 	'Realized_Class_Path',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("46a5262a-9745-4d46-9e44-f82974a82a6a",
+	"f10115b0-8b64-4428-8ec7-d68d0016da48");
+INSERT INTO O_BATTR
+	VALUES ("46a5262a-9745-4d46-9e44-f82974a82a6a",
+	"f10115b0-8b64-4428-8ec7-d68d0016da48");
+INSERT INTO O_ATTR
+	VALUES ("46a5262a-9745-4d46-9e44-f82974a82a6a",
+	"f10115b0-8b64-4428-8ec7-d68d0016da48",
+	"08a380c2-95f2-425b-9a6f-c9630a7e3e00",
+	'deprecatedPackage_ID',
+	'',
+	'',
+	'deprecatedPackage_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID

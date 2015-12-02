@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("bc64f431-63cb-4266-bd79-2c8bc4f0a83e",
 	'Action Language Searchable',
-	9702,
+	9703,
 	'SP_ALS',
 	'',
 	"00000000-0000-0000-0000-000000000000");
