@@ -7,10 +7,6 @@
 --
 -- Model Data:  ooaofooa
 --
--- Notice:
---   (C) Copyright 1998-2013 Mentor Graphics Corporation
---   All rights reserved.
---
 --              !!! THIS IS AN AUTO-GENERATED FILE. !!!
 --   Any extensions added via hand editing of this file will need to be
 -- manually carried forward across subsequent releases of the Model Compiler.
@@ -2443,7 +2439,8 @@ CREATE TABLE TE_SYS (
 	VFB	BOOLEAN,
 	SystemCPortsType	STRING,
 	AllPortsPoly	BOOLEAN,
-	DomainClassNumberName	STRING,
+	StructuredMessaging	BOOLEAN,
+	NetworkSockets	BOOLEAN,
 	Sys_ID	UNIQUE_ID );
 
 -- Class:  2005.  Dispatcher

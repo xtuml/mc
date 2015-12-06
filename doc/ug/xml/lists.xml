@@ -1,8 +1,3 @@
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
-<| (C) Copyright Mentor Graphics Corporation (1998-2005)             |>
-<| Property of Mentor Graphics Corporation                           |>
-<| All Rights Reserved.                                              |>
-<\__________________________________________________________________-->
 <chapter id="Collections-chapter">
 <title id="Collections-chapter-title">&escher; Collections</title>
 <highlights id="Collections-chapter-high"><para>Lists are used by &escher;

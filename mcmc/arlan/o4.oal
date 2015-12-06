@@ -5,14 +5,6 @@ WireSynchServiceOoaBridge@void@@initiant@string@@ee_key_letters@string@@recipien
 // Description:
 // This archetype file contains the implementation functions for colors
 // specified in the (user supplied/modified) bridge.clr file.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //============================================================================
@@ -68,15 +60,6 @@ TagSystemObjectDefaultExtentSize@void@@extent_size@integer@@@
 // Description:
 // This archetype file contains the implementation functions for colors
 // specified in the (user supplied/modified) object.clr file.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-// Enhancements provided by TOYO Corporation.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //============================================================================
@@ -286,12 +269,12 @@ ss_prefix = param.ss_prefix;
 obj_key_letters = param.obj_key_letters;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkPEIsDefinedInData( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters );
+  ::MarkPEIsDefinedInData( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
 end for;
 @@@
-MarkPEIsDefinedInData@void@@component_name@string@@ss_prefix@string@@obj_key_letters@string@@@
+MarkPEIsDefinedInData@void@@component_name@string@@package_name@string@@obj_key_letters@string@@@
 component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
@@ -303,18 +286,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    msg = msg + "ERROR:  MarkPEIsDefinedInData( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+    msg = msg + "ERROR:  MarkPEIsDefinedInData( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
   end if;
   for each te_class in te_classes
     te_class.PEIsDefinedInData = true;
@@ -336,12 +319,12 @@ ss_prefix = param.ss_prefix;
 obj_key_letters = param.obj_key_letters;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkStaticInstancePopulation( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters );
+  ::MarkStaticInstancePopulation( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
 end for;
 @@@
-MarkStaticInstancePopulation@void@@component_name@string@@ss_prefix@string@@obj_key_letters@string@@@
+MarkStaticInstancePopulation@void@@component_name@string@@package_name@string@@obj_key_letters@string@@@
 component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
@@ -353,18 +336,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    msg = msg + "ERROR:  MarkStaticInstancePopulation( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+    msg = msg + "ERROR:  MarkStaticInstancePopulation( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
   end if;
   for each te_class in te_classes
     te_class.IsFixedPopulation = true;
@@ -385,12 +368,12 @@ ss_prefix = param.ss_prefix;
 obj_key_letters = param.obj_key_letters;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkReadOnly( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters );
+  ::MarkReadOnly( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
 end for;
 @@@
-MarkReadOnly@void@@component_name@string@@ss_prefix@string@@obj_key_letters@string@@@
+MarkReadOnly@void@@component_name@string@@package_name@string@@obj_key_letters@string@@@
 component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
@@ -402,18 +385,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    msg = msg + "ERROR:  MarkReadOnly( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+    msg = msg + "ERROR:  MarkReadOnly( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
   end if;
   for each te_class in te_classes
     te_class.IsReadOnly = true;
@@ -433,12 +416,12 @@ ss_prefix = param.ss_prefix;
 obj_key_letters = param.obj_key_letters;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkPersistentClass( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters );
+  ::MarkPersistentClass( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
 end for;
 @@@
-MarkPersistentClass@void@@component_name@string@@ss_prefix@string@@obj_key_letters@string@@@
+MarkPersistentClass@void@@component_name@string@@package_name@string@@obj_key_letters@string@@@
 component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
@@ -450,18 +433,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    msg = msg + "ERROR:  MarkPersistentClass( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+    msg = msg + "ERROR:  MarkPersistentClass( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
   end if;
   for each te_class in te_classes
     te_class.Persistent = true;
@@ -484,12 +467,12 @@ ss_prefix = param.ss_prefix;
 obj_key_letters = param.obj_key_letters;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkNonPersistentClass( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters );
+  ::MarkNonPersistentClass( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
 end for;
 @@@
-MarkNonPersistentClass@void@@component_name@string@@ss_prefix@string@@obj_key_letters@string@@@
+MarkNonPersistentClass@void@@component_name@string@@package_name@string@@obj_key_letters@string@@@
 component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
@@ -501,18 +484,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    msg = msg + "ERROR:  MarkNonPersistentClass( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+    msg = msg + "ERROR:  MarkNonPersistentClass( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
   end if;
   for each te_class in te_classes
     te_class.Persistent = false;
@@ -527,7 +510,7 @@ MapClassToTask@void@@ss_prefix@string@@obj_key_letters@string@@task@integer@@@
 //
 //============================================================================
 // Map classes to tasks based upon user marking.  With this interface
-// an individual class, subsystem or component can be mapped to the
+// an individual class, package or component can be mapped to the
 // specified task.
 //============================================================================
 ss_prefix = param.ss_prefix;
@@ -535,12 +518,12 @@ obj_key_letters = param.obj_key_letters;
 task = param.task;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkClassToTask( component_name:te_c.Name, ss_prefix:ss_prefix, obj_key_letters:obj_key_letters, task:task );
+  ::MarkClassToTask( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters, task:task );
 end for;
 @@@
-MarkClassToTask@void@@component_name@string@@ss_prefix@string@@obj_key_letters@string@@task@integer@@@
+MarkClassToTask@void@@component_name@string@@package_name@string@@obj_key_letters@string@@task@integer@@@
 component_name = param.component_name;
-ss_prefix = param.ss_prefix;
+package_name = param.package_name;
 obj_key_letters = param.obj_key_letters;
 task = param.task;
 component_name = T::r(s:component_name);
@@ -552,18 +535,18 @@ for each te_c in te_cs
   // Get set into scope.
   select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
   // Check for an explicit object.
-  // Check for an explicit subsystem.
-  // Check a star in the subsystem and component.
+  // Check for an explicit package.
+  // Check a star in the package and component.
   // Otherwise, generate a coloring error.
-  if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
     select many te_classes related by te_c->TE_CLASS[R2064];
-  elif ( "" == ss_prefix )
+  elif ( "" == package_name )
     select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
   elif ( "*" == obj_key_letters )
-    select any s_ss from instances of S_SS where ( selected.Name == ss_prefix );
-    select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters );
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
   else
-    T::print(s:"ERROR:  MapClassToTask( ${ss_prefix}, ${obj_key_letters}, $t{task} ) in component ${te_c.Name}\n");
+    T::print(s:"ERROR:  MapClassToTask( ${package_name}, ${obj_key_letters}, $t{task} ) in component ${te_c.Name}\n");
   end if;
   for each te_class in te_classes
     te_class.Task = task;
@@ -576,14 +559,6 @@ MarkAsChannel@void@@package_name@string@@component_name@string@@inc_file@string@
 //
 // Description:
 // Component level marking functions are found here.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //
@@ -791,7 +766,7 @@ else
     if ( not_empty tm_c )
       select any te_ci related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance );
       if ( empty te_ci )
-        select any te_ci related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] where ( selected.ClassifierName == instance );
+        select any te_ci related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance );
       end if;
       if ( not_empty te_ci )
         create object instance tm_tpv of TM_TPV;
@@ -803,7 +778,7 @@ else
         T::print(s:"ERROR:  SetTemplateParameter - no component instance for ${package_name}::${instance} with name ${variable_name}.");
       end if;
     elif ( not_empty tm_if )
-      select many te_iirs related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
+      select many te_iirs related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
       for each te_iir in te_iirs
         create object instance tm_tpv of TM_TPV;
         tm_tpv.instance = instance;
@@ -811,7 +786,7 @@ else
         relate tm_tpv to tm_tp across R2808;
         relate tm_tpv to te_iir across R2806;
               end for;
-      select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->CL_IIR[R4700]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
+      select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
       for each te_iir in te_iirs
         create object instance tm_tpv of TM_TPV;
         tm_tpv.instance = instance;
@@ -865,10 +840,10 @@ else
   select many te_cis related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
   if ( "" != parent_component )
     select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001] where ( selected.Name == parent_component );
-    select many te_cis related by c_cs->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
+    select many te_cis related by c_cs->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
   else
     if ( empty te_cis )
-      select many te_cis related by ep_pkg->PE_PE[R8000]->C_C[R8001]->CL_IC[R4205]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
+      select many te_cis related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
     end if;
   end if;
   te_cis_count = cardinality te_cis;
@@ -897,7 +872,7 @@ else
   else
     // We are setting a value for an interface template.
     for each te_ci in te_cis
-      select any te_iir related by te_ci->CL_IC[R2009]->CL_IIR[R4700]->TE_IIR[R2013] where ( selected.port_name == port );
+      select any te_iir related by te_ci->CL_IC[R2009]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( selected.port_name == port );
       ::SetTPV_for_channel_connection( te_iir:te_iir, variable_name:variable_name, value:value, trace:trace, flavor:0 );
     end for;
   end if;
@@ -1144,14 +1119,6 @@ TagDataTypePrecision@void@@component_name@string@@dt_name@string@@tagged_name@st
 // Description:
 // This archetype file contains the implementation functions for marks
 // specified in the (user supplied/modified) datatype.clr file.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //============================================================================
@@ -1300,14 +1267,6 @@ TagFunctionTranslationOff@void@@function_name@string@@@
 // Description:
 // This archetype file contains the implementation functions for colors
 // specified in the (user supplied/modified) domain.mark file.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //
@@ -1428,12 +1387,12 @@ TagExcludeSubsystemFromCodeGen@void@@subsystem_name@string@@@
 subsystem_name = param.subsystem_name;
 select many te_cs from instances of TE_C;
 for each te_c in te_cs
-  ::MarkExcludeSubsystemFromCodeGen( component_name:te_c.Name, subsystem_name:subsystem_name );
+  ::MarkExcludeSubsystemFromCodeGen( component_name:te_c.Name, package_name:subsystem_name );
 end for;
 @@@
-MarkExcludeSubsystemFromCodeGen@void@@component_name@string@@subsystem_name@string@@@
+MarkExcludeSubsystemFromCodeGen@void@@component_name@string@@package_name@string@@@
 component_name = param.component_name;
-subsystem_name = param.subsystem_name;
+package_name = param.package_name;
 component_name = T::r(s:component_name);
 select many te_cs from instances of TE_C where ( selected.Name == component_name );
 if ( ( "" == component_name ) or ( "*" == component_name ) )
@@ -1441,16 +1400,16 @@ if ( ( "" == component_name ) or ( "*" == component_name ) )
 end if;
 for each te_c in te_cs
   msg = "";
-  select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == subsystem_name );
+  select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
   if ( not_empty ep_pkgs )
     select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
     for each te_class in te_classes
       te_class.ExcludeFromGen = true;
     end for;
-    msg = "All classes in subsystem ${subsystem_name} excluded from code generation.";
+    msg = "All classes in package ${package_name} excluded from code generation.";
   else
-    msg = "ERROR:  Subsystem ${subsystem_name} not found in component ${te_c.Name}.";
-    msg = msg + "\n => TagExcludeSubsystemFromCodeGen( ${subsystem_name} )";
+    msg = "ERROR:  Package ${package_name} not found in component ${te_c.Name}.";
+    msg = msg + "\n => TagExcludePackageFromCodeGen( ${package_name} )";
   end if;
   T::print(s:"${msg}");
 end for;
@@ -1673,15 +1632,6 @@ TagDispatchFlavor@void@@flavor@integer@@@
 // Description:
 // This archetype file contains the implementation functions for colors
 // specified in the (user supplied/modified) event.clr file.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-// Enhancements provided by TOYO Corporation.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //
@@ -1753,15 +1703,6 @@ EnableTasking@void@@flavor@string@@serialize@string@@number_of_threads@integer@@
 // Description:
 // System level coloring functions are found here.
 // Notice that the colors that would normally update TE_SYS are active.
-//
-// Notice:
-// (C) Copyright 1998-2013 Mentor Graphics Corporation
-//     All rights reserved.
-// Enhancements provided by TOYO Corporation.
-//
-// This document contains confidential and proprietary information and
-// property of Mentor Graphics Corp.  No part of this document may be
-// reproduced without the express written permission of Mentor Graphics Corp.
 //============================================================================
 //
 //
@@ -1937,6 +1878,24 @@ r = ::TM_SYSTAG_select();
 tm_systag = r;
 tm_systag.VFB = true;
 @@@
+MarkStructuredMessaging@void@@@
+//
+//============================================================================
+// Turn on structured inter-component message passing.
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.StructuredMessaging = true;
+@@@
+MarkNetworkSockets@void@@@
+//
+//============================================================================
+// Use Network Sockets to send messages between components.
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.NetworkSockets = true;
+@@@
 TM_SYSTAG_select@inst_ref<System Tags>@@@
 //
 select any tm_systag from instances of TM_SYSTAG;
@@ -2103,6 +2062,10 @@ if ( "1" == pass )
     ::TagInstanceLoading();
   elif ( "VFBEnable" == f )
     ::VFBEnable();
+  elif ( "MarkStructuredMessaging" == f )
+    ::MarkStructuredMessaging();
+  elif ( "MarkNetworkSockets" == f )
+    ::MarkNetworkSockets();
   elif ( "MarkSystemConfigurationPackage" == f )
     // MarkSystemConfigurationPackage("package_name")
     ::MarkSystemConfigurationPackage( package_name:p1 );
@@ -2191,31 +2154,31 @@ else
     ::TagPEIsDefinedInData( ss_prefix:p1, obj_key_letters:p2 );
   elif ( "MarkPEIsDefinedInData" == f )
     // MarkPEIsDefinedInData("component_name","ss_prefix","obj_key_letters")
-    ::MarkPEIsDefinedInData( component_name:p1, ss_prefix:p2, obj_key_letters:p3 );
+    ::MarkPEIsDefinedInData( component_name:p1, package_name:p2, obj_key_letters:p3 );
   elif ( "TagStaticInstancePopulation" == f )
     // TagStaticInstancePopulation("ss_prefix","obj_key_letters")
     ::TagStaticInstancePopulation( ss_prefix:p1, obj_key_letters:p2 );
   elif ( "MarkStaticInstancePopulation" == f )
     // MarkStaticInstancePopulation("component_name","ss_prefix","obj_key_letters")
-    ::MarkStaticInstancePopulation( component_name:p1, ss_prefix:p2, obj_key_letters:p3 );
+    ::MarkStaticInstancePopulation( component_name:p1, package_name:p2, obj_key_letters:p3 );
   elif ( "TagReadOnly" == f )
     // TagReadOnly("ss_prefix","obj_key_letters")
     ::TagReadOnly( ss_prefix:p1, obj_key_letters:p2 );
   elif ( "MarkReadOnly" == f )
     // MarkReadOnly("component_name","ss_prefix","obj_key_letters")
-    ::MarkReadOnly( component_name:p1, ss_prefix:p2, obj_key_letters:p3 );
+    ::MarkReadOnly( component_name:p1, package_name:p2, obj_key_letters:p3 );
   elif ( "TagPersistentClass" == f )
     // TagPersistentClass("ss_prefix","obj_key_letters")
     ::TagPersistentClass( ss_prefix:p1, obj_key_letters:p2 );
   elif ( "MarkPersistentClass" == f )
     // MarkPersistentClass("component_name","ss_prefix","obj_key_letters")
-    ::MarkPersistentClass( component_name:p1, ss_prefix:p2, obj_key_letters:p3 );
+    ::MarkPersistentClass( component_name:p1, package_name:p2, obj_key_letters:p3 );
   elif ( "TagNonPersistentClass" == f )
     // TagNonPersistentClass("ss_prefix","obj_key_letters")
     ::TagNonPersistentClass( ss_prefix:p1, obj_key_letters:p2 );
   elif ( "MarkNonPersistentClass" == f )
     // MarkNonPersistentClass("component_name","ss_prefix","obj_key_letters")
-    ::MarkNonPersistentClass( component_name:p1, ss_prefix:p2, obj_key_letters:p3 );
+    ::MarkNonPersistentClass( component_name:p1, package_name:p2, obj_key_letters:p3 );
   elif ( "MapClassToTask" == f )
     // MapClassToTask("ss_prefix","obj_key_letters","task":integer)
     r = ::T_atoi( s:p3 );
@@ -2225,7 +2188,7 @@ else
     // MarkClassToTask("component_name","ss_prefix","obj_key_letters","task":integer)
     r = ::T_atoi( s:p4 );
     i4 = r;
-    ::MarkClassToTask( component_name:p1, ss_prefix:p2, obj_key_letters:p3, task:i4 );
+    ::MarkClassToTask( component_name:p1, package_name:p2, obj_key_letters:p3, task:i4 );
     // domain
   elif ( "TagFunctionTranslationOff" == f )
     // TagFunctionTranslationOff("function_name")
@@ -2250,7 +2213,7 @@ else
     ::TagExcludeSubsystemFromCodeGen( subsystem_name:p1 );
   elif ( "MarkExcludeSubsystemFromCodeGen" == f )
     // MarkExcludeSubsystemFromCodeGen("component_name","subsystem_name")
-    ::MarkExcludeSubsystemFromCodeGen( component_name:p1, subsystem_name:p2 );
+    ::MarkExcludeSubsystemFromCodeGen( component_name:p1, package_name:p2 );
   elif ( "TagStateTransitionTracingOn" == f )
     ::TagStateTransitionTracingOn();
   elif ( "MarkStateTransitionTracingOn" == f )
@@ -2317,4 +2280,5 @@ T_atoi@integer@@s@string@@@
 s = param.s;
 r = ::STRING_TO_INTEGER( component_name:s );
 return r;
+::oal( s:"return strtol( p_s, 0, 10 );" );
 @@@

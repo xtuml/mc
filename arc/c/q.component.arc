@@ -4,16 +4,6 @@
 .// Description:
 .// Component port level query for generating port declaration and definitions.
 .//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
-.//
 .//============================================================================
 .//     Create Include List
 .//============================================================================
@@ -50,7 +40,7 @@
   .// CDS agilegc (Add foreign includes derived from marking.)
   .select many s_syss from instances of S_SYS
   .assign syscount = cardinality s_syss
-  .if ( ( 2 == syscount ) and ( false ) )
+  .if ( 2 == syscount )
     .select any te_sys from instances of TE_SYS where ( selected.Name == "SYS" )
     .if ( not_empty te_sys )
       .select many required_te_iirs related by local_te_iirs->TE_IIR[R2081.'requires or delegates']
@@ -140,7 +130,7 @@
       .else
         .// CDS agilegc
         .// Check to see if any "virtual" connections (TE_IIRs) have been made to foreign components via marking.
-        .if ( ( "SYS" == te_sys.Name ) and ( false ) )
+        .if ( "SYS" == te_sys.Name )
           .select many foreign_te_iirs related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'requires or delegates']
           .if ( empty foreign_te_iirs )
             .select many foreign_te_iirs related by te_mact->TE_PO[R2006]->TE_IIR[R2080]->TE_IIR[R2081.'provides or is delegated']

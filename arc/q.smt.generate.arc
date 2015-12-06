@@ -1,7 +1,6 @@
 .//====================================================================
 .// $RCSfile: q.smt.generate.arc,v $
 .//
-.// (c) Copyright 1998-2013 Mentor Graphics Corporation  All rights reserved.
 .//====================================================================
 .// ----------------------------------------------------------
 .// gen for statements
@@ -1116,7 +1115,7 @@
     .select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053]
   .end if
   .select many v_pars related by act_sgn->V_PAR[R662]
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true, "sgn" )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk, "", true )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1140,7 +1139,7 @@
     .select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050]
   .end if
   .select many v_pars related by act_iop->V_PAR[R679]
-  .invoke r = q_render_msg( te_mact, v_pars, te_blk.indentation, true, "iop" )
+  .invoke r = q_render_msg( te_mact, v_pars, te_blk, "", true )
   .invoke smt_buffer_append( te_smt, r.body )
   .assign te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})"
 .end function
@@ -1151,19 +1150,35 @@
 .function q_render_msg .// string
   .param inst_ref te_mact
   .param inst_ref_set v_pars
-  .param string ws
+  .param inst_ref te_blk
+  .param string sretvar
   .param boolean is_statement
-  .param string salt
   .select any te_file from instances of TE_FILE
   .select any te_sys from instances of TE_SYS
   .select any te_target from instances of TE_TARGET
   .assign parameters = ""
   .assign te_mact.OALParamBuffer = ""
+  .assign ws = ""
+  .if ( is_statement )
+    .assign ws = te_blk.indentation
+  .end if
   .if ( not_empty v_pars )
-    .invoke r = gen_parameter_list( v_pars, false, salt )
+    .invoke r = gen_parameter_list( v_pars, false )
     .assign te_parm = r.result
     .assign parameters = te_parm.ParamBuffer
     .assign te_mact.OALParamBuffer = te_parm.OALParamBuffer
+  .end if
+  .select one te_aba related by te_mact->TE_ABA[R2010]
+  .// Support by reference string return values.
+  .if ( "c_t *" == te_aba.ReturnDataType )
+    .if ( not te_sys.InstanceLoading )
+      .assign te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";"
+      .if ( "" == parameters )
+        .assign parameters = sretvar
+      .else
+        .assign parameters = ( ( sretvar + ", " ) + parameters )
+      .end if
+    .end if
   .end if
   .assign name = te_mact.GeneratedName
   .if ( "C++" == te_target.language )
@@ -1231,7 +1246,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_tfm->V_PAR[R627]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "sop" )
+      .invoke r = gen_parameter_list( v_pars, false )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1285,7 +1300,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_brg->V_PAR[R628]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "sbg" )
+      .invoke r = gen_parameter_list( v_pars, false )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1333,7 +1348,7 @@
     .assign parameter_OAL = ""
     .select many v_pars related by act_fnc->V_PAR[R669]
     .if ( not_empty v_pars )
-      .invoke r = gen_parameter_list( v_pars, false, "sfn" )
+      .invoke r = gen_parameter_list( v_pars, false )
       .assign te_parm = r.result
       .assign parameters = te_parm.ParamBuffer
       .assign parameter_OAL = te_parm.OALParamBuffer
@@ -1366,95 +1381,56 @@
   .param inst_ref te_smt
   .param inst_ref act_ret
   .select any te_file from instances of TE_FILE
+  .select any te_instance from instances of TE_INSTANCE
+  .select any te_string from instances of TE_STRING
+  .select any te_sys from instances of TE_SYS
   .select one te_blk related by te_smt->TE_BLK[R2078]
   .assign ws = te_blk.indentation
   .select one v_val related by act_ret->V_VAL[R668]
   .assign intCast1 = ""
   .assign intCast2 = ""
-  .assign value = ""
+  .assign value = "0"
   .assign value_OAL = ""
-  .assign returnvaltype = ""
-  .if ( not_empty v_val )
-    .//
-    .// resolve the core data type of v_val
-    .select one s_dt related by v_val->S_DT[R820]
-    .assign return_s_dt = s_dt
-    .select any core_s_dt from instances of S_DT where ( false )
-    .select one s_udt related by s_dt->S_UDT[R17]
-    .if ( not_empty s_udt )
-      .invoke r = GetBaseTypeForUDT( s_udt )
-      .assign core_s_dt = r.result
-    .end if
-    .if (not_empty core_s_dt)
-      .assign s_dt = core_s_dt
-    .end if
-    .select one te_dt related by s_dt->TE_DT[R2021]
-    .assign returnvaltype = te_dt.ExtName
-    .//
-    .// if the value is of the _real_ type
-    .if ( "real" == s_dt.Name )
-      .// if we can resolve the name of the data type of the return type of the enclosing body
-      .select one act_smt related by act_ret->ACT_SMT[R603]
-      .// Get the return _statement_ data type name.
-      .select one act_act related by act_smt->ACT_BLK[R602]->ACT_ACT[R601]
-      .// "class transition", "transition", "class state", "state", "signal" use void
-      .assign return_smt_dt_name = "void"
-      .if ( ( "class operation" == act_act.Type ) or ( "operation" == act_act.Type ) )
-        .select one return_s_dt related by act_act->ACT_OPB[R698]->O_TFR[R696]->S_DT[R116]
-        .assign return_smt_dt_name = return_s_dt.Name
-      .elif ( "function" == act_act.Type )
-        .select one return_s_dt related by act_act->ACT_FNB[R698]->S_SYNC[R695]->S_DT[R25]
-        .assign return_smt_dt_name = return_s_dt.Name
-      .elif ( "interface operation" == act_act.Type )
-        .select one return_s_dt related by act_act->ACT_ROB[R698]->SPR_RO[R685]->SPR_REP[R4502]->C_EP[R4500]->C_IO[R4004]->S_DT[R4008]
-        .if ( empty return_s_dt )
-          .select one return_s_dt related by act_act->ACT_POB[R698]->SPR_PO[R687]->SPR_PEP[R4503]->C_EP[R4501]->C_IO[R4004]->S_DT[R4008]
-        .end if
-        .assign return_smt_dt_name = return_s_dt.Name
-      .elif ( "bridge" == act_act.Type )
-        .select one return_s_dt related by act_act->ACT_BRB[R698]->S_BRG[R697]->S_DT[R20]
-        .assign return_smt_dt_name = return_s_dt.Name
-      .end if
-      .if ( "" != return_smt_dt_name )
-        .// resolve the core type of the return type
-        .select any core_s_dt from instances of S_DT where ( false )
-        .select one s_udt related by return_s_dt->S_UDT[R17]
-        .if ( not_empty s_udt )
-          .invoke r = GetBaseTypeForUDT( s_udt )
-          .assign core_s_dt = r.result
-        .end if
-        .if (not_empty core_s_dt)
-          .assign return_s_dt = core_s_dt
-        .end if
-        .//
-        .// if the return type is integer
-        .if ( "integer" == return_s_dt.Name )
-          .// cast the value to an int, to avoid a "possible loss of precision"
-          .// syntax error in the generated code
-          .assign intCast1 = "(int)("
-          .assign intCast2 = ")"
-        .end if
-      .end if
-    .end if
-    .select one te_val related by v_val->TE_VAL[R2040]
-    .assign value = te_val.buffer
-    .assign value_OAL = te_val.OAL
-  .end if
   .// Deallocate any variables allocated from this block and all higher blocks in this action.
   .assign deallocation = te_blk.deallocation
   .select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078]
   .while ( not_empty parent_te_blk )
+    .assign te_blk = parent_te_blk
     .assign deallocation = deallocation + parent_te_blk.deallocation
     .select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078]
   .end while
-  .//
-  .assign rv = value
-  .if ( ( ( "" != deallocation ) or ( "c_t" == returnvaltype ) ) and ( "" != returnvaltype ) )
-    .// Use when deallocating or when returning an array (even array of char).
-    .assign rv = "xtumlOALrv"
+  .select one te_aba related by te_blk->TE_ABA[R2011]
+  .if ( not_empty te_aba )
+    .if ( not_empty v_val )
+      .if ( ( "i_t" == te_aba.ReturnDataType ) or ( "dt_xtUMLInteger" == te_aba.ReturnDataType ) )
+        .// resolve the core data type of v_val
+        .select one s_dt related by v_val->S_DT[R820]
+        .select any core_s_dt from instances of S_DT where ( false )
+        .select one s_udt related by s_dt->S_UDT[R17]
+        .if ( not_empty s_udt )
+          .invoke r = GetBaseTypeForUDT( s_udt )
+          .assign core_s_dt = r.result
+        .end if
+        .if ( not_empty core_s_dt )
+          .assign s_dt = core_s_dt
+        .end if
+        .//
+        .// if the value is of the _real_ type
+        .if ( "real" == s_dt.Name )
+          .// cast the value to an int, to avoid a "possible loss of precision"
+          .// syntax error in the generated code
+          .assign intCast1 = ( "(" + te_aba.ReturnDataType ) + ")("
+          .assign intCast2 = ")"
+        .end if
+      .end if
+      .select one te_val related by v_val->TE_VAL[R2040]
+      .assign value = te_val.buffer
+      .assign value_OAL = te_val.OAL
+    .end if
+    .//
+    .include "${te_file.arc_path}/t.smt.return.c"
+    .assign te_smt.OAL = "RETURN " + value_OAL
   .end if
-  .include "${te_file.arc_path}/t.smt.return.c"
-  .assign te_smt.OAL = "RETURN ${value_OAL}"
 .end function
 .//
 .// --------------------------------------------------------
@@ -1984,6 +1960,7 @@ ${subtypecheck}\
 }\
       .assign depth = depth - 1
     .end while
+    .invoke oal( "T_b( \\n ); // Ccode" )
 
   .end if
   .if ( te_select_related.by_where )

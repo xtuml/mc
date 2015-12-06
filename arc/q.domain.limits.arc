@@ -1,18 +1,7 @@
 .//============================================================================
-.// $RCSfile: q.domain.limits.arc,v $
-.//
-.// Description:
 .// These queries collect static analysis information and propagate it
 .// forward to the system build step by outputting a set of INSERT
 .// statements that will populate the system build gen database.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//

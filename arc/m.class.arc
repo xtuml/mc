@@ -4,15 +4,6 @@
 .// Description:
 .// This archetype file contains the implementation functions for colors
 .// specified in the (user supplied/modified) object.clr file.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.// Enhancements provided by TOYO Corporation.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//============================================================================
@@ -228,7 +219,7 @@
 .end function
 .function MarkPEIsDefinedInData
   .param string component_name
-  .param string ss_prefix
+  .param string package_name
   .param string obj_key_letters
   .assign component_name = "$r{component_name}"
   .select many te_cs from instances of TE_C where ( selected.Name == component_name )
@@ -240,18 +231,18 @@
     .// Get set into scope.
     .select many te_classes related by te_c->TE_CLASS[R2064] where ( false )
     .// Check for an explicit object.
-    .// Check for an explicit subsystem.
-    .// Check a star in the subsystem and component.
+    .// Check for an explicit package.
+    .// Check a star in the package and component.
     .// Otherwise, generate a coloring error.
-    .if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+    .if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
       .select many te_classes related by te_c->TE_CLASS[R2064]
-    .elif ( "" == ss_prefix )
+    .elif ( "" == package_name )
       .select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters )
     .elif ( "*" == obj_key_letters )
-      .select any s_ss from instances of S_SS where ( selected.Name == ss_prefix )
-      .select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters )
+      .select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name )
+      .select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019]
     .else
-      .assign msg = msg + "ERROR:  MarkPEIsDefinedInData( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n"
+      .assign msg = msg + "ERROR:  MarkPEIsDefinedInData( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n"
     .end if
     .for each te_class in te_classes
       .assign te_class.PEIsDefinedInData = true
@@ -278,7 +269,7 @@
 .end function
 .function MarkStaticInstancePopulation
   .param string component_name
-  .param string ss_prefix
+  .param string package_name
   .param string obj_key_letters
   .assign component_name = "$r{component_name}"
   .select many te_cs from instances of TE_C where ( selected.Name == component_name )
@@ -290,18 +281,18 @@
     .// Get set into scope.
     .select many te_classes related by te_c->TE_CLASS[R2064] where ( false )
     .// Check for an explicit object.
-    .// Check for an explicit subsystem.
-    .// Check a star in the subsystem and component.
+    .// Check for an explicit package.
+    .// Check a star in the package and component.
     .// Otherwise, generate a coloring error.
-    .if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+    .if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
       .select many te_classes related by te_c->TE_CLASS[R2064]
-    .elif ( "" == ss_prefix )
+    .elif ( "" == package_name )
       .select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters )
     .elif ( "*" == obj_key_letters )
-      .select any s_ss from instances of S_SS where ( selected.Name == ss_prefix )
-      .select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters )
+      .select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name )
+      .select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019]
     .else
-      .assign msg = msg + "ERROR:  MarkStaticInstancePopulation( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n"
+      .assign msg = msg + "ERROR:  MarkStaticInstancePopulation( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n"
     .end if
     .for each te_class in te_classes
       .assign te_class.IsFixedPopulation = true
@@ -327,7 +318,7 @@
 .end function
 .function MarkReadOnly
   .param string component_name
-  .param string ss_prefix
+  .param string package_name
   .param string obj_key_letters
   .assign component_name = "$r{component_name}"
   .select many te_cs from instances of TE_C where ( selected.Name == component_name )
@@ -339,18 +330,18 @@
     .// Get set into scope.
     .select many te_classes related by te_c->TE_CLASS[R2064] where ( false )
     .// Check for an explicit object.
-    .// Check for an explicit subsystem.
-    .// Check a star in the subsystem and component.
+    .// Check for an explicit package.
+    .// Check a star in the package and component.
     .// Otherwise, generate a coloring error.
-    .if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+    .if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
       .select many te_classes related by te_c->TE_CLASS[R2064]
-    .elif ( "" == ss_prefix )
+    .elif ( "" == package_name )
       .select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters )
     .elif ( "*" == obj_key_letters )
-      .select any s_ss from instances of S_SS where ( selected.Name == ss_prefix )
-      .select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters )
+      .select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name )
+      .select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019]
     .else
-      .assign msg = msg + "ERROR:  MarkReadOnly( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n"
+      .assign msg = msg + "ERROR:  MarkReadOnly( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n"
     .end if
     .for each te_class in te_classes
       .assign te_class.IsReadOnly = true
@@ -375,7 +366,7 @@
 .end function
 .function MarkPersistentClass
   .param string component_name
-  .param string ss_prefix
+  .param string package_name
   .param string obj_key_letters
   .assign component_name = "$r{component_name}"
   .select many te_cs from instances of TE_C where ( selected.Name == component_name )
@@ -387,18 +378,18 @@
     .// Get set into scope.
     .select many te_classes related by te_c->TE_CLASS[R2064] where ( false )
     .// Check for an explicit object.
-    .// Check for an explicit subsystem.
-    .// Check a star in the subsystem and component.
+    .// Check for an explicit package.
+    .// Check a star in the package and component.
     .// Otherwise, generate a coloring error.
-    .if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+    .if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
       .select many te_classes related by te_c->TE_CLASS[R2064]
-    .elif ( "" == ss_prefix )
+    .elif ( "" == package_name )
       .select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters )
     .elif ( "*" == obj_key_letters )
-      .select any s_ss from instances of S_SS where ( selected.Name == ss_prefix )
-      .select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters )
+      .select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name )
+      .select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019]
     .else
-      .assign msg = msg + "ERROR:  MarkPersistentClass( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n"
+      .assign msg = msg + "ERROR:  MarkPersistentClass( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n"
     .end if
     .for each te_class in te_classes
       .assign te_class.Persistent = true
@@ -426,7 +417,7 @@
 .end function
 .function MarkNonPersistentClass
   .param string component_name
-  .param string ss_prefix
+  .param string package_name
   .param string obj_key_letters
   .assign component_name = "$r{component_name}"
   .select many te_cs from instances of TE_C where ( selected.Name == component_name )
@@ -438,18 +429,18 @@
     .// Get set into scope.
     .select many te_classes related by te_c->TE_CLASS[R2064] where ( false )
     .// Check for an explicit object.
-    .// Check for an explicit subsystem.
-    .// Check a star in the subsystem and component.
+    .// Check for an explicit package.
+    .// Check a star in the package and component.
     .// Otherwise, generate a coloring error.
-    .if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+    .if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
       .select many te_classes related by te_c->TE_CLASS[R2064]
-    .elif ( "" == ss_prefix )
+    .elif ( "" == package_name )
       .select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters )
     .elif ( "*" == obj_key_letters )
-      .select any s_ss from instances of S_SS where ( selected.Name == ss_prefix )
-      .select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters )
+      .select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name )
+      .select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019]
     .else
-      .assign msg = msg + "ERROR:  MarkNonPersistentClass( ${ss_prefix}, ${obj_key_letters} ) in component ${te_c.Name}\n"
+      .assign msg = msg + "ERROR:  MarkNonPersistentClass( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n"
     .end if
     .for each te_class in te_classes
       .assign te_class.Persistent = false
@@ -463,7 +454,7 @@
 .//
 .//============================================================================
 .// Map classes to tasks based upon user marking.  With this interface
-.// an individual class, subsystem or component can be mapped to the
+.// an individual class, package or component can be mapped to the
 .// specified task.
 .//============================================================================
 .function MapClassToTask
@@ -477,7 +468,7 @@
 .end function
 .function MarkClassToTask
   .param string component_name
-  .param string ss_prefix
+  .param string package_name
   .param string obj_key_letters
   .param integer task
   .assign component_name = "$r{component_name}"
@@ -489,18 +480,18 @@
     .// Get set into scope.
     .select many te_classes related by te_c->TE_CLASS[R2064] where ( false )
     .// Check for an explicit object.
-    .// Check for an explicit subsystem.
-    .// Check a star in the subsystem and component.
+    .// Check for an explicit package.
+    .// Check a star in the package and component.
     .// Otherwise, generate a coloring error.
-    .if ( ( "*" == ss_prefix ) and ( "*" == obj_key_letters ) )
+    .if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
       .select many te_classes related by te_c->TE_CLASS[R2064]
-    .elif ( "" == ss_prefix )
+    .elif ( "" == package_name )
       .select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters )
     .elif ( "*" == obj_key_letters )
-      .select any s_ss from instances of S_SS where ( selected.Name == ss_prefix )
-      .select many te_classes related by s_ss->O_OBJ[R2]->TE_CLASS[R2019] where ( selected.Key_Lett == obj_key_letters )
+      .select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name )
+      .select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019]
     .else
-      .print "ERROR:  MapClassToTask( ${ss_prefix}, ${obj_key_letters}, $t{task} ) in component ${te_c.Name}\n"
+      .print "ERROR:  MapClassToTask( ${package_name}, ${obj_key_letters}, $t{task} ) in component ${te_c.Name}\n"
     .end if
     .for each te_class in te_classes
       .assign te_class.Task = task

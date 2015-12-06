@@ -4,15 +4,6 @@
 .// Description:
 .// System level coloring functions are found here.
 .// Notice that the colors that would normally update TE_SYS are active.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.// Enhancements provided by TOYO Corporation.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//
@@ -190,6 +181,24 @@
   .assign tm_systag.VFB = true
 .end function
 .//
+.//============================================================================
+.// Turn on structured inter-component message passing.
+.//============================================================================
+.function MarkStructuredMessaging
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
+  .assign tm_systag.StructuredMessaging = true
+.end function
+.//
+.//============================================================================
+.// Use Network Sockets to send messages between components.
+.//============================================================================
+.function MarkNetworkSockets
+  .invoke r = TM_SYSTAG_select()
+  .assign tm_systag = r.result
+  .assign tm_systag.NetworkSockets = true
+.end function
+.//
 .function TM_SYSTAG_select .// tm_systag
   .select any tm_systag from instances of TM_SYSTAG
   .if ( empty tm_systag )
@@ -355,6 +364,10 @@
       .invoke TagInstanceLoading()
     .elif ( "VFBEnable" == f )
       .invoke VFBEnable()
+    .elif ( "MarkStructuredMessaging" == f )
+      .invoke MarkStructuredMessaging()
+    .elif ( "MarkNetworkSockets" == f )
+      .invoke MarkNetworkSockets()
     .elif ( "MarkSystemConfigurationPackage" == f )
       .// MarkSystemConfigurationPackage("package_name")
       .invoke MarkSystemConfigurationPackage(p1)
@@ -569,4 +582,5 @@
   .param string s
   .invoke r = STRING_TO_INTEGER( s )
   .assign attr_result = r.result
+  .invoke oal( "return strtol( p_s, 0, 10 );" )
 .end function

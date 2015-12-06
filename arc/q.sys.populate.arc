@@ -1,7 +1,4 @@
 .//============================================================================
-.// $RCSfile: q.mc_metamodel.populate.arc,v $
-.//
-.// Description:
 .// This query/transformation archetype file queries the customer model
 .// and populates the model compiler extensions to the meta-model.
 .// Instances of the extended classes are created, related and initialized.
@@ -13,14 +10,6 @@
 .// Briefly create and link components, data types.  Select them afterwards.
 .// Create and link middled-level classes.
 .// Drill down into component and create object, attributes and the rest.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//
@@ -43,6 +32,7 @@
   .select many empty_ep_pkgs from instances of EP_PKG where ( false )
   .select any empty_te_c from instances of TE_C where ( false )
   .select any empty_te_dim from instances of TE_DIM where ( false )
+  .select many empty_s_dims from instances of S_DIM where ( false )
   .select any empty_o_obj from instances of O_OBJ where ( false )
   .select any empty_te_attr from instances of TE_ATTR where ( false )
   .select any empty_te_mact from instances of TE_MACT where ( false )
@@ -73,8 +63,10 @@
   .assign te_sys.PersistLinkCacheDepth = 128
   .assign te_sys.AUTOSAR = false
   .assign te_sys.AllPortsPoly = false
+  .assign te_sys.StructuredMessaging = false
+  .assign te_sys.NetworkSockets = false
   .//
-  .//Updating te_sys with system marks
+  .// Update te_sys with system marks
   .select any tm_systag from instances of TM_SYSTAG
   .if ( not_empty tm_systag )
     .assign te_sys.MaxStringLen = tm_systag.MaxStringLen
@@ -93,11 +85,13 @@
     .assign te_sys.InstanceLoading = tm_systag.InstanceLoading
     .assign te_sys.SystemCPortsType = tm_systag.SystemCPortsType
     .assign te_sys.AllPortsPoly = tm_systag.AllPortsPoly
+    .assign te_sys.StructuredMessaging = tm_systag.StructuredMessaging
+    .assign te_sys.NetworkSockets = tm_systag.NetworkSockets
   .else
     .assign te_sys.SystemCPortsType = "sc_interface"
   .end if
   .//
-  .//Update the tasking threads based on marking.
+  .// Update the tasking threads based on marking.
   .select any tm_thread from instances of TM_THREAD
   .if ( not_empty tm_thread )
     .assign te_thread.extra_initialization = tm_thread.extra_initialization
@@ -880,6 +874,11 @@
     .end for
   .end for
   .//
+  .// Create a string parameter that can be duplicated and used for returning string data.
+  .select any string_te_dt from instances of TE_DT where ( selected.Name == "string" )
+  .invoke r3 = FactoryTE_PARM( empty_s_dims, string_te_dt, "", "A0xtumlsret", 0 )
+  .assign te_parm = r3.result
+  .//
   .// Create the values and connect them to the V_VAL.
   .select many v_vals from instances of V_VAL
   .for each v_val in v_vals
@@ -1308,6 +1307,7 @@
     .// relate act_blk to te_blk across R2016;
     .assign te_blk.Block_ID = act_blk.Block_ID
     .// end relate
+    .assign te_blk.AbaID = 00
     .assign te_blk.declaration = ""
     .assign te_blk.deallocation = ""
     .assign te_blk.depth = 1
@@ -1542,6 +1542,12 @@
       .// relate te_sync to te_aba across R2010;
       .assign te_sync.AbaID = te_aba.AbaID
       .// end relate
+      .select one te_blk related by s_sync->ACT_FNB[R695]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+      .if ( not_empty te_blk )
+        .// relate te_blk to te_aba across R2011;
+        .assign te_blk.AbaID = te_aba.AbaID
+        .// end relate
+      .end if
     .end for
     .//
     .// Create the Generated External Entity instances and link them in.
@@ -1556,6 +1562,26 @@
       .assign te_c.first_eeID = te_ee.ID
       .// end relate
     .end if
+    .//
+    .select many te_macts related by te_c->TE_MACT[R2002]
+    .for each te_mact in te_macts
+      .select one te_aba related by te_mact->TE_ABA[R2010]
+      .select any te_blk from instances of TE_BLK where (false)
+      .if ( "SPR_PO" == te_mact.subtypeKL )
+        .select one te_blk related by te_mact->SPR_PO[R2050]->ACT_POB[R687]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+      .elif ( "SPR_RO" == te_mact.subtypeKL )
+        .select one te_blk related by te_mact->SPR_RO[R2052]->ACT_ROB[R685]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+      .elif ( "SPR_PS" == te_mact.subtypeKL )
+        .select one te_blk related by te_mact->SPR_PS[R2051]->ACT_PSB[R686]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+      .elif ( "SPR_RS" == te_mact.subtypeKL )
+        .select one te_blk related by te_mact->SPR_RS[R2053]->ACT_RSB[R684]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+      .end if
+      .if ( not_empty te_blk )
+        .// relate te_blk to te_aba across R2011;
+        .assign te_blk.AbaID = te_aba.AbaID
+        .// end relate
+      .end if
+    .end for
     .//
     .// Initialize the Generated Class instances.
     .select many te_classs related by te_c->TE_CLASS[R2064]
@@ -1693,6 +1719,12 @@
           .// relate te_dbattr to te_aba across R2010;
           .assign te_dbattr.AbaID = te_aba.AbaID
           .// end relate
+          .select one te_blk related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+          .if ( not_empty te_blk )
+            .// relate te_blk to te_aba across R2011;
+            .assign te_blk.AbaID = te_aba.AbaID
+            .// end relate
+          .end if
         .end if
         .assign delimiter = ","
         .assign prev_te_attr = te_attr
@@ -1734,6 +1766,12 @@
         .// relate te_tfr to te_aba across R2010;
         .assign te_tfr.AbaID = te_aba.AbaID
         .// end relate
+        .select one te_blk related by o_tfr->ACT_OPB[R696]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+        .if ( not_empty te_blk )
+          .// relate te_blk to te_aba across R2011;
+          .assign te_blk.AbaID = te_aba.AbaID
+          .// end relate
+        .end if
       .end for
       .//
       .// Create the WhereKey instance connected to O_ID.
@@ -1871,6 +1909,12 @@
     .// relate te_act to te_aba across R2010;
     .assign te_act.AbaID = te_aba.AbaID
     .// end relate
+    .select one te_blk related by sm_act->ACT_SAB[R691]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+    .if ( not_empty te_blk )
+      .// relate te_blk to te_aba across R2011;
+      .assign te_blk.AbaID = te_aba.AbaID
+      .// end relate
+    .end if
   .end for
   .//
   .// Sort the states for later state event matrix generation.
@@ -1916,7 +1960,8 @@
     .assign te_act.Act_ID = sm_act.Act_ID
     .assign te_act.SM_ID = sm_act.SM_ID
     .// end relate
-    .assign te_act.GeneratedName = ( te_class.GeneratedName + class_based ) + ( "_xact" + "$t{counter}" )
+    .select one sm_state related by sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_STATE[R506]
+    .assign te_act.GeneratedName = ( ( te_class.GeneratedName + class_based ) + ( "_xact_to_" + "$t{sm_state.Numb}" ) ) + ( "_" + "$t{counter}" )
     .assign te_act.number = counter
     .//.select many te_parms related by sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532]->TE_PARM[R2031]
     .invoke r = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )
@@ -1924,6 +1969,12 @@
     .// relate te_act to te_aba across R2010;
     .assign te_act.AbaID = te_aba.AbaID
     .// end relate
+    .select one te_blk related by sm_act->ACT_TAB[R688]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+    .if ( not_empty te_blk )
+      .// relate te_blk to te_aba across R2011;
+      .assign te_blk.AbaID = te_aba.AbaID
+      .// end relate
+    .end if
     .assign counter = counter + 1
   .end for
   .assign te_sm.txn_action_count = counter - 1
@@ -2167,6 +2218,12 @@
     .// relate te_brg to te_aba across R2010;
     .assign te_brg.AbaID = te_aba.AbaID
     .// end relate
+    .select one te_blk related by s_brg->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016]
+    .if ( not_empty te_blk )
+      .// relate te_blk to te_aba across R2011;
+      .assign te_blk.AbaID = te_aba.AbaID
+      .// end relate
+    .end if
   .end for
 .end function
 .//
@@ -2193,6 +2250,7 @@
     .// end relate
   .end if
   .assign duplicates_needed = false
+  .select any te_parm from instances of TE_PARM where (false)
   .for each te_parm in te_parms
     .select one existing_te_aba related by te_parm->TE_ABA[R2062]
     .if ( empty existing_te_aba )
@@ -2203,22 +2261,23 @@
       .assign duplicates_needed = true
     .end if
   .end for
-  .// This duplication is needed because multiple ports can use the same
-  .// interface.  It would be nice to explore a method to avoid duplicating
-  .// the parameter instances.
-  .if ( duplicates_needed )
+  .assign first_te_parm = te_parm
+  .if ( duplicates_needed or ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) ) )
     .// Find first te_parm.
-    .for each te_parm in te_parms
-      .break for
-    .end for
     .while ( not_empty te_parm )
       .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes']
       .if ( empty prev_te_parm )
+        .assign first_te_parm = te_parm
         .break while
       .else
         .assign te_parm = prev_te_parm
       .end if
     .end while
+  .end if
+  .// This duplication is needed because multiple ports can use the same
+  .// interface.  It would be nice to explore a method to avoid duplicating
+  .// the parameter instances.
+  .if ( duplicates_needed )
     .select one prev_te_parm related by te_parm->TE_PARM[R2041.'precedes'] where ( false )
     .while ( not_empty te_parm )
       .invoke r = TE_PARM_duplicate( te_parm )
@@ -2235,6 +2294,26 @@
       .select one te_parm related by te_parm->TE_PARM[R2041.'succeeds']
     .end while
     .select many te_parms related by te_aba->TE_PARM[R2062]
+  .end if
+  .// Create and insert an architectural parameter for returning a string.
+  .if ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
+    .if ( ( not te_sys.InstanceLoading ) and ( not duplicates_needed ) )
+      .// mcmc does not return through the by-ref parameter.
+      .// When duplicating, there is a duplicate by-ref string return parameter.
+      .select any string_te_parm from instances of TE_PARM where ( selected.Name == "A0xtumlsret" )
+      .invoke r = TE_PARM_duplicate( string_te_parm )
+      .assign duplicate_te_parm = r.result
+      .assign duplicate_te_parm.Descrip = "xtuml string return parm"
+      .// relate duplicate_te_parm to te_aba across R2062;
+      .assign duplicate_te_parm.AbaID = te_aba.AbaID
+      .// end relate
+      .if ( not_empty first_te_parm )
+        .// relate duplicate_te_parm to first_te_parm across R2041.'precedes';
+        .assign duplicate_te_parm.nextID = first_te_parm.ID
+        .// end relate
+      .end if
+      .select many te_parms related by te_aba->TE_PARM[R2062]
+    .end if
   .end if
   .invoke te_parm_RenderParameters( te_parms, te_aba )
   .assign te_aba.scope = ""

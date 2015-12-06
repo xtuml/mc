@@ -5,14 +5,6 @@
 .// This archetype file provides general purpose functions used during 
 .// action language translation. They are not specific to any particular
 .// fragment generator entry points.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//============================================================================
@@ -23,6 +15,7 @@
   .param inst_ref te_class
   .param string instance
   .//
+  .invoke oal( "T_clear();" )
   .select any te_file from instances of TE_FILE
   .select any te_instance from instances of TE_INSTANCE
   .select any te_string from instances of TE_STRING
@@ -133,5 +126,9 @@
   .end while
   .//
   .assign attr_result = param_list
+.end function
+.//
+.function oal
+  .param string s
 .end function
 .//

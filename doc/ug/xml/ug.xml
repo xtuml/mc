@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
-<| (C) Copyright Mentor Graphics Corporation (1998-2012)             |>
-<| Property of Mentor Graphics Corporation                           |>
-<| All Rights Reserved.                                              |>
-<\___________________________________________________________________/>
-</~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\>
 <| Title:               Escher User's Guide                          |>
 <| File Name:           ug.xml                                       |>
 <| Owner:               Cortland D. Starrett                         |>
@@ -112,7 +107,7 @@
 <!ENTITY mgc "Mentor Graphics Corporation">
 <!ENTITY mv "Model Verifier">
 <!ENTITY nukeplus "Nucleus PLUS">
-<!ENTITY pt "Mentor Graphics Corporation">
+<!ENTITY pt "Project Technology">
 <!ENTITY sm "Shlaer-Mellor">
 <!ENTITY UserGuideUsage SYSTEM "c1.xml">
 <!ENTITY FeaturesAndComponents SYSTEM "c2.xml">
@@ -138,22 +133,21 @@
 <title><productname>&bp; Model Compiler</productname> - User's Guide</title>
 <bookinfo>
   <authorgroup>
-    <corpauthor>&mgc;</corpauthor>
+    <corpauthor>xtuml.org</corpauthor>
   </authorgroup>
   <invpartnumber>&escher;</invpartnumber>
   <productname>&escher;</productname>
   <pubdate>February 2012</pubdate>
   <publisher>
-  <publishername>&mgc;</publishername>
+  <publishername>xtuml.org</publishername>
   <address>
-  <pob>8005 SW Boeckman Road</pob>
-  <city>Wilsonville</city>, <state>OR</state>
-  <postcode>97070</postcode> <country>USA</country>
-  <phone>800-547-4303</phone>
-  <email>support_net@mentor.com</email>
+  <pob>US HWY 52</pob>
+  <city>Clarks Hill</city>, <state>IN</state>
+  <postcode>47930</postcode> <country>USA</country>
+  <phone>765-237-3105</phone>
+  <email>support@onefact.net</email>
   </address>
   </publisher>
-  <copyright><year>1998-2012</year><holder>&mgc;</holder></copyright>
   <abstract>
   <para>This guide is the primary reference document
   for the engineers and scientists translating

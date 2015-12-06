@@ -1,17 +1,4 @@
 .//============================================================================
-.// $RCSfile: q.datatype.arc,v $
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
-.//============================================================================
-.//
-.//
-.//============================================================================
 .// Recursively locate the datatype at the base of the UDT type definition 
 .// chain. Traverses up through UDTs based on UDTs until we find the underlying
 .// S_DT instance (which may actually be EDT, SDT, IRDT or CDT).
@@ -168,6 +155,7 @@
   .assign s = ""
   .for each special_te_dt in special_te_dts
     .assign s = ( s + "#include """ ) + ( special_te_dt.Include_File + """\n" )
+    .invoke oal( "s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, #include  ), Escher_stradd( special_te_dt->Include_File, \n ) ) ); // Ccode" )
   .end for
   .assign attr_result = s
 .end function

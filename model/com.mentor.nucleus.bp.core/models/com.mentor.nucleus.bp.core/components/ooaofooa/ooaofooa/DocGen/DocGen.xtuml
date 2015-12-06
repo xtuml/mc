@@ -72,11 +72,11 @@ INSERT INTO S_SYNC
 	'LOG::LogInfo( message:"starting docgen_system" );
 
 create object instance doc_doc of DOC_DOC;
-doc_doc.title = "BridgePoint &registerd; xtUML Generated Documentation";
+doc_doc.title = "BridgePoint xtUML Generated Documentation";
 doc_doc.subtitle = "";
-doc_doc.author = "Mentor Graphics";
+doc_doc.author = "xtUML.org";
 doc_doc.font_family = "Arial";
-doc_doc.company = "Mentor Graphics";
+doc_doc.company = "xtUML.org";
 doc_doc.copyright = "";
 doc_doc.filename = "doc.xml";
 doc_doc.model_image_ext = ".png";

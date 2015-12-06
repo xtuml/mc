@@ -4,15 +4,6 @@
 .// Description:
 .// This archetype file contains the functions for generating application
 .// analysis object implementation declaration and definition files.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.// Enhancements provided by TOYO Corporation.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//
@@ -455,8 +446,8 @@ ${file_epilogue.body}
       .assign instance_based_self_declaration = te_class.GeneratedName + " *"
       .assign prelude = "instance"
     .end if
-    .select any o_tparm related by o_tfr->O_TPARM[R117]
     .if ( gen_declaration )
+      .select any te_parm related by te_aba->TE_PARM[R2062]
       .include "${te_file.arc_path}/t.class.op.h"
     .else
       .if ( o_tfr.Suc_Pars != 1 )

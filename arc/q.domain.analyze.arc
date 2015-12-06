@@ -1,7 +1,4 @@
 .//============================================================================
-.// File:  $RCSfile: q.domain.analyze.arc,v $
-.//
-.// Description:
 .// This query file provides the "first pass" of a multi-pass translation
 .// model compiler.  The first pass analyzes the action semantics embodied
 .// in the analysis domain, and applies optimization algorithms to the
@@ -9,14 +6,6 @@
 .// operations are then leveraged by subsequent passes of the structural
 .// queries and templates to realize time/space/performance trade offs in
 .// the generated application code.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//

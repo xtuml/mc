@@ -1,17 +1,6 @@
 .//============================================================================
-.// $RCSfile: q.oal.act_blk.arc,v $
-.//
-.// Description:
 .// This function provides indirection and a single point of turning for
 .// fragment versus OAL instance based code generation.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//
@@ -146,4 +135,5 @@
   .param inst_ref te_aba
   .param string s
   .assign te_aba.code = te_aba.code + s
+  .invoke oal( "strcat( te_aba->code, p_s ); // Ccode" )
 .end function

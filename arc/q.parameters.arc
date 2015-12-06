@@ -1,17 +1,6 @@
 .//============================================================================
-.// $RCSfile: q.parameters.arc,v $
-.//
-.// Description:
 .// Here we deal with parameters.  The declaration, definition and invocation
 .// renderings are built.
-.//
-.// Notice:
-.// (C) Copyright 1998-2013 Mentor Graphics Corporation
-.//     All rights reserved.
-.//
-.// This document contains confidential and proprietary information and
-.// property of Mentor Graphics Corp.  No part of this document may be
-.// reproduced without the express written permission of Mentor Graphics Corp.
 .//============================================================================
 .//
 .//
@@ -34,6 +23,7 @@
   .assign format_delimiter = ""
   .assign Order = 0
   .// Be sure we have the first parameter.
+  .select any te_parm from instances of TE_PARM where (false)
   .for each te_parm in te_parms
     .break for
   .end for
@@ -80,7 +70,7 @@
     .end if
     .invoke r = t_oal_smt_event_parameters( "", te_parm.Name, te_parm.GeneratedName, te_dt.Core_Typ, "  " )
     .assign assn = assn + r.result
-    .if ( "A00portindex" != te_parm.Name )
+    .if ( ( "A00portindex" != te_parm.Name ) and ( "A0xtumlsret" != te_parm.Name ) )
       .assign assnbase = assnbase + r.result
     .end if
     .assign param_delimiter = ", "
