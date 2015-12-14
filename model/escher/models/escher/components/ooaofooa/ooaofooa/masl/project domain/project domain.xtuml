@@ -68,16 +68,12 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.projectdomain_start.masl" );
-msg = "  domain " + self.name + " is";
-LOG::LogInfo( message:msg );
+	'T::include( file:"masl/t.projectdomain_start.masl" );
 select many terminators related by self->terminator[R3702.''sends through''];
 for each terminator in terminators
   terminator.render();
 end for;
-//T::include( file:"masl/t.projectdomain_end.masl" );
-LOG::LogInfo( message:"  end domain;" );
-',
+T::include( file:"masl/t.projectdomain_end.masl" );',
 	1,
 	'',
 	"69d29d37-ffa8-4604-a470-7862e73d9064");

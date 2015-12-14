@@ -88,6 +88,8 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
            ( i != ooaofooa_TE_VAR_CLASS_NUMBER ) ) )
       Escher_dump_instances( 0, i );
     }
+  } else if ( strstr( argv0, "mcmasl" ) ) {
+    ooaofooa_masl_project();
   }
   SYS_USER_CO_PRINTF( "UserPreOoaInitializationCallout\n" )
 }

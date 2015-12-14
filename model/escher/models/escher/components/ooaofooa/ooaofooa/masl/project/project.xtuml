@@ -14,16 +14,12 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-msg = "project " + self.name + " is";
-LOG::LogInfo( message:msg );
+	'T::include( file:"masl/t.project_start.masl" );
 select many projectdomains related by self->projectdomain[R3701.''configures''];
 for each projectdomain in projectdomains
   projectdomain.render();
 end for;
-//T::include( file:"masl/t.project_end.masl" );
-LOG::LogInfo( message:"end project;" );
-',
+T::include( file:"masl/t.project_end.masl" );',
 	1,
 	'',
 	"e0f47bdf-3226-4864-a02c-1dda25a778a3");
