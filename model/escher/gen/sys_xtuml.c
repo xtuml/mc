@@ -8,7 +8,6 @@
 #include "sys_sys_types.h"
 #include "ooaofooa_classes.h"
 
-
 /*
  * Allocate the storage for the pool of container nodes.
  */
@@ -27,7 +26,7 @@ Escher_SetFactoryInit( const i_t n1_size )
   Escher_size_t i;
   node1_FreeList.head = &node1s[ 0 ];
   /* Build the collection (linked list) of node1 instances.  */
-  for ( i = 0; i < ( n1_size - 1 ); i++ ) {
+  for ( i = 0; ( i + 1 ) < n1_size; i++ ) {
     node1s[ i ].next = &node1s[ i + 1 ];
     node1s[ i ].object = 0;
   }
@@ -206,6 +205,7 @@ Escher_SetContains(
     if ( node->object == element ) { return node; }  /* found  */
     node = node->next;
   }
+  if ( 0 == element ) return ( const void * ) 1; /* every set contains null */
   return 0;                                      /* absent */
 }
 
@@ -380,11 +380,13 @@ Escher_strcmp( const c_t *p1, const c_t *p2 )
 c_t *
 Escher_strget( void )
 {
+  c_t * r;
   static u1_t i = 0;
   static c_t s[ 32 ][ MAXRECORDLENGTH ];
   i = ( i + 1 ) % 32;
-  s[ i ][ 0 ] = 0;
-  return ( &s[ i ][ 0 ] );
+  r = &s[ i ][ 0 ];
+  *r = 0;
+  return ( r );
 }
 
 /*
@@ -554,11 +556,16 @@ Escher_DeleteInstance(
 {
   Escher_SetElement_s * node;
   Escher_Extent_t * dci = *(domain_class_info[ domain_num ] + class_num);
-  node = Escher_SetRemoveNode( &dci->active, instance );
-  node->next = dci->inactive.head;
-  dci->inactive.head = node;
-  /* Initialize storage to zero.  */
-  Escher_memset( instance, 0, dci->size );
+  if ( 0 != instance ) {
+    node = Escher_SetRemoveNode( &dci->active, instance );
+    node->next = dci->inactive.head;
+    dci->inactive.head = node;
+    /* Initialize storage to zero.  */
+    Escher_memset( instance, 0, dci->size );
+    if ( ( 0 != dci->size ) && ( 0 != dci->initial_state ) ) {
+      instance->current_state = -1; /* 0xff max for error detection */
+    }
+  }
 }
 
 typedef void (*brf)( Escher_iHandle_t );

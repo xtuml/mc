@@ -23,7 +23,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("54a2be82-4b94-40e3-a99d-c96ce6456a55",
 	"f10115b0-8b64-4428-8ec7-d68d0016da48",
-	"46a5262a-9745-4d46-9e44-f82974a82a6a",
+	"db13ce0f-c09e-4a81-bab8-d3a1ef6d20f9",
 	'Name',
 	'Full Name: Component Name',
 	'',
@@ -191,6 +191,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'deprecatedPackage_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("db13ce0f-c09e-4a81-bab8-d3a1ef6d20f9",
+	"f10115b0-8b64-4428-8ec7-d68d0016da48");
+INSERT INTO O_BATTR
+	VALUES ("db13ce0f-c09e-4a81-bab8-d3a1ef6d20f9",
+	"f10115b0-8b64-4428-8ec7-d68d0016da48");
+INSERT INTO O_ATTR
+	VALUES ("db13ce0f-c09e-4a81-bab8-d3a1ef6d20f9",
+	"f10115b0-8b64-4428-8ec7-d68d0016da48",
+	"46a5262a-9745-4d46-9e44-f82974a82a6a",
+	'deprecatedNestedComponent_Id',
+	'',
+	'',
+	'deprecatedNestedComponent_Id',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000005",
 	'',

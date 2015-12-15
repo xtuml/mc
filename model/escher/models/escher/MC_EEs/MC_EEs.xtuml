@@ -122,6 +122,54 @@ INSERT INTO DIM_ELE
 	VALUES ("0c32a984-f9e2-4a81-8943-804ff14abdf1",
 	0,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_GE
+	VALUES ("7c3efb02-91ca-4e0f-ac18-8ae635b6e9d7",
+	"7f8a141c-25fe-4c84-bebf-5472e5cec408",
+	"6876e854-9e7e-4f5b-9286-80d7e15ad257",
+	12,
+	0,
+	'escher::MC_EEs::string');
+INSERT INTO GD_SHP
+	VALUES ("7c3efb02-91ca-4e0f-ac18-8ae635b6e9d7");
+INSERT INTO GD_NCS
+	VALUES ("7c3efb02-91ca-4e0f-ac18-8ae635b6e9d7");
+INSERT INTO DIM_ND
+	VALUES (200.000000,
+	150.000000,
+	"7c3efb02-91ca-4e0f-ac18-8ae635b6e9d7");
+INSERT INTO DIM_GE
+	VALUES (880.000000,
+	0.000000,
+	"7c3efb02-91ca-4e0f-ac18-8ae635b6e9d7",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("7c3efb02-91ca-4e0f-ac18-8ae635b6e9d7",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_GE
+	VALUES ("7f4b385e-39e5-49d9-b4be-08ca29d6221d",
+	"7f8a141c-25fe-4c84-bebf-5472e5cec408",
+	"cfa5c83b-e4c2-4e39-b8b9-fc02c2a0423f",
+	12,
+	0,
+	'escher::MC_EEs::trace');
+INSERT INTO GD_SHP
+	VALUES ("7f4b385e-39e5-49d9-b4be-08ca29d6221d");
+INSERT INTO GD_NCS
+	VALUES ("7f4b385e-39e5-49d9-b4be-08ca29d6221d");
+INSERT INTO DIM_ND
+	VALUES (200.000000,
+	150.000000,
+	"7f4b385e-39e5-49d9-b4be-08ca29d6221d");
+INSERT INTO DIM_GE
+	VALUES (1100.000000,
+	0.000000,
+	"7f4b385e-39e5-49d9-b4be-08ca29d6221d",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("7f4b385e-39e5-49d9-b4be-08ca29d6221d",
+	0,
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_DIA
 	VALUES ("7f8a141c-25fe-4c84-bebf-5472e5cec408",
 	'',
@@ -677,7 +725,7 @@ INSERT INTO S_BRG
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
-	3,
+	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES ("39867a05-9b1a-4362-80ac-542b23a7eb91",
@@ -690,6 +738,122 @@ INSERT INTO S_BPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("6604846e-a898-4ebf-9835-cb5d3f680403",
+	1,
+	"a63616c2-25a1-4966-a60f-73b9f63f6a64",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("6876e854-9e7e-4f5b-9286-80d7e15ad257",
+	'string',
+	'',
+	'STRING',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'string',
+	0);
+INSERT INTO S_BRG
+	VALUES ("265dd422-713f-4ae3-b3d2-86dec8180590",
+	"6876e854-9e7e-4f5b-9286-80d7e15ad257",
+	'itoa',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'mapping[9]="9"; mapping[8]="8"; mapping[7]="7"; mapping[6]="6"; mapping[5]="5";
+mapping[4]="4"; mapping[3]="3"; mapping[2]="2"; mapping[1]="1"; mapping[0]="0";
+
+i = param.i; s = "";
+while ( i >= 1 )
+  d = i % 10;
+  i = i / 10;
+  s = mapping[ d ] + s;
+end while;
+
+return s;',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("5aca9b86-3bc6-4ef7-9a13-ed656560f989",
+	"265dd422-713f-4ae3-b3d2-86dec8180590",
+	'i',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("1e756a8e-ec41-408f-83c3-086cd28c348b",
+	"6876e854-9e7e-4f5b-9286-80d7e15ad257",
+	'atoi',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'return 0;',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("4e047660-95ce-4543-bec5-51a8dc61fc71",
+	"1e756a8e-ec41-408f-83c3-086cd28c348b",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6876e854-9e7e-4f5b-9286-80d7e15ad257",
+	1,
+	"a63616c2-25a1-4966-a60f-73b9f63f6a64",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("cfa5c83b-e4c2-4e39-b8b9-fc02c2a0423f",
+	'trace',
+	'',
+	'TRACE',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'trace',
+	0);
+INSERT INTO S_BRG
+	VALUES ("524bc04a-59cd-4dc5-a8b0-340b7473ae90",
+	"cfa5c83b-e4c2-4e39-b8b9-fc02c2a0423f",
+	'log',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	's = STRING::itoa( i:param.id ) + " ___ " + param.flavor + " ___ " + param.message;
+LOG::LogInfo( message:s );',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("78f74e40-7028-460e-bddd-52419eb565df",
+	"524bc04a-59cd-4dc5-a8b0-340b7473ae90",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("f3410acc-9842-4130-ab79-78c95bc9fa1d",
+	"524bc04a-59cd-4dc5-a8b0-340b7473ae90",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"78f74e40-7028-460e-bddd-52419eb565df",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("c622aea3-e72a-4788-9e3e-0a98673d8270",
+	"524bc04a-59cd-4dc5-a8b0-340b7473ae90",
+	'message',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f3410acc-9842-4130-ab79-78c95bc9fa1d",
+	'');
+INSERT INTO PE_PE
+	VALUES ("cfa5c83b-e4c2-4e39-b8b9-fc02c2a0423f",
 	1,
 	"a63616c2-25a1-4966-a60f-73b9f63f6a64",
 	"00000000-0000-0000-0000-000000000000",

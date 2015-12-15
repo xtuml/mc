@@ -9,6 +9,8 @@
 
 #include "sys_sys_types.h"
 #include "ooaofooa.h"
+#include "TRACE_bridge.h"
+#include "STRING_bridge.h"
 #include "T_bridge.h"
 #include "POP_bridge.h"
 #include "LOG_bridge.h"
@@ -8722,11 +8724,19 @@ mark_pass("2"); // Ccode
     c = ooaofooa_class_sort( te_classs );
     Escher_ClearSet( te_classs ); 
   }}}
+  Escher_ClearSet( te_cs );
+}
+
+/*
+ * Domain Function:  a1
+ */
+void
+ooaofooa_a1()
+{
   /* ::val_translate(  ) */
   ooaofooa_val_translate();
   /* ::oal_translate(  ) */
   ooaofooa_oal_translate();
-  Escher_ClearSet( te_cs );
 }
 
 /*
@@ -14569,33 +14579,27 @@ ooaofooa_masl_project()
   ooaofooa_project * project=0;
   /* LOG::LogInfo( message:Starting Project ) */
   LOG_LogInfo( "Starting Project" );
-  /* ::test1(  ) */
-  ooaofooa_test1();
+  /* T::clear(  ) */
+  T_clear();
+  /* ::xtuml_package_to_masl_project(  ) */
+  ooaofooa_xtuml_package_to_masl_project();
   /* IF ( not project::validate() ) */
   if ( !ooaofooa_project_op_validate() ) {
     /* LOG::LogFailure( message:project did not validate. ) */
     LOG_LogFailure( "project did not validate." );
   }
-  /* SELECT any project FROM INSTANCES OF project WHERE ( SELECTED.name == SAC_PROC ) */
-  project = 0;
-  { ooaofooa_project * selected;
-    Escher_Iterator_s iterprojectooaofooa_project;
-    Escher_IteratorReset( &iterprojectooaofooa_project, &pG_ooaofooa_project_extent.active );
-    while ( (selected = (ooaofooa_project *) Escher_IteratorNext( &iterprojectooaofooa_project )) != 0 ) {
-      if ( ( Escher_strcmp( selected->name, "SAC_PROC" ) == 0 ) ) {
-        project = selected;
-        break;
-      }
-    }
-  }
+  /* SELECT any project FROM INSTANCES OF project */
+  project = (ooaofooa_project *) Escher_SetGetAny( &pG_ooaofooa_project_extent.active );
   /* IF ( not_empty project ) */
   if ( ( 0 != project ) ) {
     /* project.render() */
     ooaofooa_project_op_render( project );
+    /* T::emit( file:mcmaslout.txt ) */
+    T_emit( "mcmaslout.txt" );
   }
   else {
-    /* LOG::LogFailure( message:no selected proejct to render ) */
-    LOG_LogFailure( "no selected proejct to render" );
+    /* TRACE::log( flavor:failure, id:4, message:no selected project to render ) */
+    TRACE_log( "failure", 4, "no selected project to render" );
   }
   /* LOG::LogInfo( message:Done ) */
   LOG_LogInfo( "Done" );
@@ -27403,6 +27407,48 @@ ooaofooa_where_clause_mark_selected_attributes( ooaofooa_V_BIN * p_v_bin )
   }
 }
 
+/*
+ * Domain Function:  xtuml_package_to_masl_project
+ */
+void
+ooaofooa_xtuml_package_to_masl_project()
+{
+  ooaofooa_TM_BUILD * tm_build=0;
+  /* SELECT any tm_build FROM INSTANCES OF TM_BUILD */
+  tm_build = (ooaofooa_TM_BUILD *) Escher_SetGetAny( &pG_ooaofooa_TM_BUILD_extent.active );
+  /* IF ( empty tm_build ) */
+  if ( ( 0 == tm_build ) ) {
+    /* TRACE::log( flavor:failure, id:1, message:no configuration package marked ) */
+    TRACE_log( "failure", 1, "no configuration package marked" );
+  }
+  else {
+    ooaofooa_TE_C * te_c=0;ooaofooa_project * project;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+    /* ASSIGN project = project::populate(name:tm_build.package_to_build) */
+    project = ooaofooa_project_op_populate(tm_build->package_to_build);
+    /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE SELECTED.included_in_build */
+    Escher_ClearSet( te_cs );
+    { ooaofooa_TE_C * selected;
+      Escher_Iterator_s iterte_csooaofooa_TE_C;
+      Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
+      while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
+        if ( selected->included_in_build ) {
+          Escher_SetInsertElement( te_cs, selected );
+        }
+      }
+    }
+    /* FOR EACH te_c IN te_cs */
+    { Escher_Iterator_s iterte_c;
+    ooaofooa_TE_C * iite_c;
+    Escher_IteratorReset( &iterte_c, te_cs );
+    while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
+      te_c = iite_c; {
+      ooaofooa_projectdomain * domain;
+      /* ASSIGN domain = projectdomain::populate(name:te_c.Name, project:project) */
+      domain = ooaofooa_projectdomain_op_populate(te_c->Name, project);
+    }}}
+    Escher_ClearSet( te_cs );
+  }
+}
 Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_MSG_M_instancedumper,
   ooaofooa_MSG_A_instancedumper,

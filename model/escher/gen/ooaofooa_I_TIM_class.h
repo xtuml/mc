@@ -28,7 +28,6 @@ struct ooaofooa_I_TIM {
   Escher_UniqueID_t Event_ID;  
   c_t * Label;
   i_t expiration;  
-
   /* relationship storage */
   ooaofooa_I_EVI * I_EVI_R2940_provides_delayed_delivery_of;
 };
@@ -39,7 +38,6 @@ void ooaofooa_I_TIM_batch_relate( Escher_iHandle_t );
 void ooaofooa_I_TIM_R2940_Link_delivered_by( ooaofooa_I_EVI *, ooaofooa_I_TIM * );
 void ooaofooa_I_TIM_R2940_Unlink_delivered_by( ooaofooa_I_EVI *, ooaofooa_I_TIM * );
 
-
 #define ooaofooa_I_TIM_MAX_EXTENT_SIZE 10
 extern Escher_Extent_t pG_ooaofooa_I_TIM_extent;
 
@@ -48,5 +46,3 @@ extern Escher_Extent_t pG_ooaofooa_I_TIM_extent;
 #endif
 
 #endif  /* OOAOFOOA_I_TIM_CLASS_H */
-
-

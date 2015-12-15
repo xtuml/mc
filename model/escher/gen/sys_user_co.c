@@ -78,6 +78,7 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
   } else if ( strstr( argv0, "mcmc" ) ) {
     int i;
     ooaofooa_a0();
+    ooaofooa_a1();
     for ( i = 0; i < ooaofooa_MAX_CLASS_NUMBERS; i++ ) {
       if ( 0 || (
            ( i != ooaofooa_TE_VAL_CLASS_NUMBER ) &&
@@ -89,6 +90,7 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
       Escher_dump_instances( 0, i );
     }
   } else if ( strstr( argv0, "mcmasl" ) ) {
+    ooaofooa_a0();
     ooaofooa_masl_project();
   }
   SYS_USER_CO_PRINTF( "UserPreOoaInitializationCallout\n" )
@@ -120,7 +122,7 @@ UserPostOoaInitializationCalloutf( void )
 void
 UserBackgroundProcessingCalloutf( void )
 {
-/* Activate this invocation to periodically tick the example simple TIM.  */
+  /* Activate this invocation to periodically tick the example simple TIM.  */
   #if ESCHER_SYS_MAX_XTUML_TIMERS > 0
   TIM_tick();
   #endif

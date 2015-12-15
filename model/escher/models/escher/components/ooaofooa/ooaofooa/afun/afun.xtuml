@@ -69,9 +69,6 @@ for each te_c in te_cs
   select many te_classs related by te_c->TE_CLASS[R2064] where ( not selected.ExcludeFromGen );
   c = ::class_sort( te_classs:te_classs );
 end for;
-
-::val_translate();
-::oal_translate();
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -7472,6 +7469,24 @@ create object instance te_return of TE_RETURN;
 	'');
 INSERT INTO PE_PE
 	VALUES ("78270698-fa3e-4c4d-89dd-a3ea00488f23",
+	1,
+	"e0e8a924-f549-4e50-9ee0-af61843ab967",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b931a2b8-d7f8-4b95-b616-45fc4c4e6586",
+	"00000000-0000-0000-0000-000000000000",
+	'a1',
+	'',
+	'// Translate the OAL.
+::val_translate();
+::oal_translate();
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("b931a2b8-d7f8-4b95-b616-45fc4c4e6586",
 	1,
 	"e0e8a924-f549-4e50-9ee0-af61843ab967",
 	"00000000-0000-0000-0000-000000000000",

@@ -21,8 +21,8 @@ INSERT INTO GD_MD
 	1,
 	0,
 	0,
-	0,
-	0,
+	200,
+	150,
 	0,
 	'4.1.17',
 	'escher::components::ooaofooa::ooaofooa::masl');
@@ -565,11 +565,11 @@ INSERT INTO S_SYNC
 	'masl_project',
 	'',
 	'LOG::LogInfo( message:"Starting Project" );
-//T::clear();
+T::clear();
 
 // Query and Populate
 // Query the xtUML meta-model and populate the MASL meta-model.
-::test1();
+::xtuml_package_to_masl_project();
 
 //select any doc_doc from instances of DOC_DOC;
 // Validate
@@ -579,12 +579,14 @@ if ( not project::validate() )
 end if;
 
 // Render
-// Cause the document to render itself from its populated instances.
-select any project from instances of project where ( selected.name == "SAC_PROC" );
+// Cause the project to render itself from its populated instances.
+select any project from instances of project;
 if ( not_empty project )
   project.render();
+  // Dump buffer to output file.
+  T::emit( file:"mcmaslout.txt" );
 else
-  LOG::LogFailure( message:"no selected proejct to render" );
+  TRACE::log( flavor:"failure", id:4, message:"no selected project to render" );
 end if;
 
 LOG::LogInfo( message:"Done" );',
@@ -612,6 +614,41 @@ Operator = terminator::populate( name:"Operator", projectdomain:sac );
 	'');
 INSERT INTO PE_PE
 	VALUES ("48435345-2f85-4376-bf1b-74f3c968b7da",
+	1,
+	"1e6d5465-d14c-4197-a832-147b5b467ee2",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("8fc3c1ba-f250-4c9b-96c4-8038e2ec9e24",
+	"00000000-0000-0000-0000-000000000000",
+	'xtuml_package_to_masl_project',
+	'',
+	'// Mappings:
+// xtUML  -->  MASL
+// system configuration package --> project
+select any tm_build from instances of TM_BUILD;
+if ( empty tm_build )
+  TRACE::log( flavor:"failure", id:1, message:"no configuration package marked" );
+else
+
+// Populate the MASL project.
+project = project::populate( name:tm_build.package_to_build );
+
+select many te_cs from instances of TE_C where ( selected.included_in_build );
+for each te_c in te_cs
+
+  // Populate the MASL project domains.
+  domain = projectdomain::populate( name:te_c.Name, project:project );
+
+end for;
+
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("8fc3c1ba-f250-4c9b-96c4-8038e2ec9e24",
 	1,
 	"1e6d5465-d14c-4197-a832-147b5b467ee2",
 	"00000000-0000-0000-0000-000000000000",
