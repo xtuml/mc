@@ -1,0 +1,150 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("d45d3b11-fb26-431c-a55a-38c2e1817d34",
+	'terminatorItem',
+	3706,
+	'terminatorItem',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("764523f8-a0ce-4278-b174-e6adb8efce9a",
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34",
+	'populate',
+	'',
+	"9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
+	0,
+	'terminator = param.terminator;
+create object instance terminatorItem of terminatorItem;
+terminatorItem.name = param.name;
+relate terminator to terminatorItem across R3703.''sends'';
+if ( true )
+end if;
+return terminatorItem;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("3d933fc0-2ef3-42a1-b1c2-b6efb20ae7bf",
+	"764523f8-a0ce-4278-b174-e6adb8efce9a",
+	'name',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("84fdf5df-a651-4024-a880-9ec5625475b8",
+	"764523f8-a0ce-4278-b174-e6adb8efce9a",
+	'terminator',
+	"193164be-f6c4-4587-80b7-7c29b2344149",
+	0,
+	'',
+	"3d933fc0-2ef3-42a1-b1c2-b6efb20ae7bf",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("193164be-f6c4-4587-80b7-7c29b2344149",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminator>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminatorItem>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("e492ce19-ec9e-46ac-a678-3bdda0bab626",
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'/*
+T::include( file:"masl/t.terminatorItem_start.masl" );
+select many terminatorservices related by self->terminatorservice[R3];
+for each terminatorservice in terminatorservices
+  terminatorservice.render();
+end for;
+T::include( file:"masl/t.terminatorItem_end.masl" );
+*/
+',
+	1,
+	'',
+	"764523f8-a0ce-4278-b174-e6adb8efce9a");
+INSERT INTO O_TFR
+	VALUES ("888af4c1-9cc5-44a1-984c-8618e80e0438",
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+/*
+select many terminators from instances of terminator;
+for each terminator in terminators;
+  select one projectdomain related by terminator->projectdomain[R3702];
+  if ( empty projectdomain )
+    LOG::LogFailure( message:"terminator has no parent domain project." );
+    valid = false;
+  end if;
+end for;
+
+// Validate siblings and subordinates.
+*/
+return ( valid );
+',
+	1,
+	'',
+	"e492ce19-ec9e-46ac-a678-3bdda0bab626");
+INSERT INTO O_NBATTR
+	VALUES ("b8e5a388-af7e-4db9-9847-0029af2c3df8",
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34");
+INSERT INTO O_BATTR
+	VALUES ("b8e5a388-af7e-4db9-9847-0029af2c3df8",
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34");
+INSERT INTO O_ATTR
+	VALUES ("b8e5a388-af7e-4db9-9847-0029af2c3df8",
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34");
+INSERT INTO O_ID
+	VALUES (1,
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34");
+INSERT INTO O_ID
+	VALUES (2,
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34");
+INSERT INTO PE_PE
+	VALUES ("d45d3b11-fb26-431c-a55a-38c2e1817d34",
+	1,
+	"1e6d5465-d14c-4197-a832-147b5b467ee2",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1e6d5465-d14c-4197-a832-147b5b467ee2",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

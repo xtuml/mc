@@ -27422,7 +27422,7 @@ ooaofooa_xtuml_package_to_masl_project()
     TRACE_log( "failure", 1, "no configuration package marked" );
   }
   else {
-    ooaofooa_TE_C * te_c=0;ooaofooa_project * project;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
+    ooaofooa_TE_C * te_c;ooaofooa_TE_C * first_te_c;ooaofooa_project * project;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
     /* ASSIGN project = project::populate(name:tm_build.package_to_build) */
     project = ooaofooa_project_op_populate(tm_build->package_to_build);
     /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE SELECTED.included_in_build */
@@ -27436,16 +27436,44 @@ ooaofooa_xtuml_package_to_masl_project()
         }
       }
     }
-    /* FOR EACH te_c IN te_cs */
-    { Escher_Iterator_s iterte_c;
-    ooaofooa_TE_C * iite_c;
-    Escher_IteratorReset( &iterte_c, te_cs );
-    while ( (iite_c = (ooaofooa_TE_C *)Escher_IteratorNext( &iterte_c )) != 0 ) {
-      te_c = iite_c; {
-      ooaofooa_projectdomain * domain;
-      /* ASSIGN domain = projectdomain::populate(name:te_c.Name, project:project) */
-      domain = ooaofooa_projectdomain_op_populate(te_c->Name, project);
-    }}}
+    /* ASSIGN first_te_c = ::TE_C_sort(te_cs:te_cs) */
+    first_te_c = ooaofooa_TE_C_sort( te_cs );
+    /* ASSIGN te_c = first_te_c */
+    te_c = first_te_c;
+    /* WHILE ( not_empty te_c ) */
+    while ( ( 0 != te_c ) ) {
+      ooaofooa_TE_PO * te_po=0;ooaofooa_projectdomain * projectdomain;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;
+      /* ASSIGN projectdomain = projectdomain::populate(name:te_c.Name, project:project) */
+      projectdomain = ooaofooa_projectdomain_op_populate(te_c->Name, project);
+      /* SELECT many te_pos RELATED BY te_c->TE_PO[R2005] */
+      Escher_ClearSet( te_pos );
+      if ( 0 != te_c ) {
+        Escher_CopySet( te_pos, &te_c->TE_PO_R2005 );
+      }
+      /* FOR EACH te_po IN te_pos */
+      { Escher_Iterator_s iterte_po;
+      ooaofooa_TE_PO * iite_po;
+      Escher_IteratorReset( &iterte_po, te_pos );
+      while ( (iite_po = (ooaofooa_TE_PO *)Escher_IteratorNext( &iterte_po )) != 0 ) {
+        te_po = iite_po; {
+        ooaofooa_terminator * terminator;ooaofooa_TE_MACT * te_mact=0;
+        /* ASSIGN terminator = terminator::populate(name:te_po.Name, projectdomain:projectdomain) */
+        terminator = ooaofooa_terminator_op_populate(te_po->Name, projectdomain);
+        /* SELECT one te_mact RELATED BY te_po->TE_MACT[R2099.has first] */
+        te_mact = ( 0 != te_po ) ? te_po->TE_MACT_R2099_has_first : 0;
+        /* WHILE ( not_empty te_mact ) */
+        while ( ( 0 != te_mact ) ) {
+          ooaofooa_terminatorItem * terminatorItem;
+          /* ASSIGN terminatorItem = terminatorItem::populate(name:te_mact.Name, terminator:terminator) */
+          terminatorItem = ooaofooa_terminatorItem_op_populate(te_mact->Name, terminator);
+          /* SELECT one te_mact RELATED BY te_mact->TE_MACT[R2083.precedes] */
+          te_mact = ( 0 != te_mact ) ? te_mact->TE_MACT_R2083_precedes : 0;
+        }
+      }}}
+      /* SELECT one te_c RELATED BY te_c->TE_C[R2017.precedes] */
+      te_c = ( 0 != te_c ) ? te_c->TE_C_R2017_precedes : 0;
+      Escher_ClearSet( te_pos ); 
+    }
     Escher_ClearSet( te_cs );
   }
 }
@@ -27689,6 +27717,9 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_project_instancedumper,
   ooaofooa_projectdomain_instancedumper,
   ooaofooa_terminator_instancedumper,
+  ooaofooa_service_instancedumper,
+  ooaofooa_function_instancedumper,
+  ooaofooa_terminatorItem_instancedumper,
   ooaofooa_S_EE_instancedumper,
   ooaofooa_C_C_instancedumper,
   ooaofooa_C_I_instancedumper,
@@ -28133,6 +28164,9 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_project_extent,
   &pG_ooaofooa_projectdomain_extent,
   &pG_ooaofooa_terminator_extent,
+  &pG_ooaofooa_service_extent,
+  &pG_ooaofooa_function_extent,
+  &pG_ooaofooa_terminatorItem_extent,
   &pG_ooaofooa_S_EE_extent,
   &pG_ooaofooa_C_C_extent,
   &pG_ooaofooa_C_I_extent,
