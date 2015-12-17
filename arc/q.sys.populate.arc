@@ -1198,6 +1198,12 @@
   .for each te_po in te_pos
     .select many te_macts related by te_po->TE_MACT[R2006]
     .invoke mact_sort( te_macts )
+    .assign te_mact = r.result
+    .if ( not_empty te_mact )
+      .// relate te_po to te_mact across R2099.'has first';
+      .assign te_po.first_te_mactID = te_mact.ID
+      .// end relate
+    .end if
   .end for
   .//
   .//
@@ -2757,7 +2763,7 @@
 .end function
 .//
 .// Sort a list of TE_MACTs.
-.function mact_sort
+.function mact_sort .// te_mact
   .param inst_ref_set te_macts
   .// Declare an empty instance reference.
   .select any head_te_mact related by te_macts->TE_MACT[R2083.'succeeds'] where ( false )
@@ -2775,6 +2781,7 @@
     .assign counter = counter + 1
     .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
   .end while
+  .assign attr_result = head_te_mact
 .end function
 .function mact_insert .// te_mact
   .param inst_ref head_te_mact

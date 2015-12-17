@@ -89,13 +89,13 @@ select many terminators from instances of terminator;
 for each terminator in terminators;
   select one projectdomain related by terminator->projectdomain[R3702];
   if ( empty projectdomain )
-    LOG::LogFailure( message:"terminator has no parent domain project." );
+    TRACE::log( flavor:"failure", id:15, message:"terminator has no parent domain project." );
     valid = false;
   end if;
 end for;
 
 // Validate siblings and subordinates.
-return ( valid ); //and terminatorservice::validate() );
+return ( valid and terminatorItem::validate() );
 ',
 	1,
 	'',

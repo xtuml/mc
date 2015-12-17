@@ -3635,7 +3635,11 @@ end for;
 select many te_pos from instances of TE_PO;
 for each te_po in te_pos
   select many te_macts related by te_po->TE_MACT[R2006];
-  ::mact_sort( te_macts:te_macts );
+  r = ::mact_sort( te_macts:te_macts );
+  te_mact = r;
+  if ( not_empty te_mact )
+    relate te_po to te_mact across R2099.''has first'';
+  end if;
 end for;
 //
 //
@@ -5769,8 +5773,9 @@ while ( not_empty te_mact )
   counter = counter + 1;
   select one te_mact related by te_mact->TE_MACT[R2083.''precedes''];
 end while;
+return head_te_mact;
 ',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"7268e543-f48e-4464-ba70-227deff22727",
 	1,
 	'');
 INSERT INTO S_SPARM

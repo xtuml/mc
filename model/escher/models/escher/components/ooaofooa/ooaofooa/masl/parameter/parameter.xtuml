@@ -1,0 +1,131 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("3af9865b-a463-4db3-952f-80dd7ccd1c11",
+	'parameter',
+	3707,
+	'parameter',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("cadcf238-29d3-4fb6-9527-9d9fa1e717cd",
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	3,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("2dc9fe5c-6f3b-44ff-b07c-532292fb401c",
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11",
+	'populate',
+	'',
+	"efc18bbd-7093-4275-9ec7-ed39ba18b5bd",
+	0,
+	'',
+	3,
+	'',
+	"cadcf238-29d3-4fb6-9527-9d9fa1e717cd");
+INSERT INTO S_DT_PROXY
+	VALUES ("efc18bbd-7093-4275-9ec7-ed39ba18b5bd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<parameter>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("9f696e7f-be39-499e-8175-2a454891b782",
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many parameters from instances of parameter;
+for each parameter in parameters
+  select one terminatorItem related by parameter->terminatorItem[R3705];
+  if ( empty terminatorItem )
+    TRACE::log( flavor:"failure", id:13, message:"parameter has no parent terminatorItem." );
+    valid = false;
+  end if;
+  if ( ( "" == parameter.name ) or ( "" == parameter.type ) )
+    TRACE::log( flavor:"failure", id:14, message:"parameter has empty name or type." );
+    valid = false;
+  end if;
+end for;
+
+// Validate siblings and subordinates.
+return ( valid );
+',
+	1,
+	'',
+	"2dc9fe5c-6f3b-44ff-b07c-532292fb401c");
+INSERT INTO O_NBATTR
+	VALUES ("df493956-d375-416c-b21f-9c29bd729f05",
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11");
+INSERT INTO O_BATTR
+	VALUES ("df493956-d375-416c-b21f-9c29bd729f05",
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11");
+INSERT INTO O_ATTR
+	VALUES ("df493956-d375-416c-b21f-9c29bd729f05",
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../../../types/types.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("5dbb9a5c-b304-4b3c-8903-571f9a8235f0",
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11");
+INSERT INTO O_BATTR
+	VALUES ("5dbb9a5c-b304-4b3c-8903-571f9a8235f0",
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11");
+INSERT INTO O_ATTR
+	VALUES ("5dbb9a5c-b304-4b3c-8903-571f9a8235f0",
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11",
+	"df493956-d375-416c-b21f-9c29bd729f05",
+	'type',
+	'',
+	'',
+	'type',
+	0,
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11");
+INSERT INTO O_ID
+	VALUES (1,
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11");
+INSERT INTO O_ID
+	VALUES (2,
+	"3af9865b-a463-4db3-952f-80dd7ccd1c11");
+INSERT INTO PE_PE
+	VALUES ("3af9865b-a463-4db3-952f-80dd7ccd1c11",
+	1,
+	"1e6d5465-d14c-4197-a832-147b5b467ee2",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1e6d5465-d14c-4197-a832-147b5b467ee2",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

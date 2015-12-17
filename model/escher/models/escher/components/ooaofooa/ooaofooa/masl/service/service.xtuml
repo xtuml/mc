@@ -7,6 +7,97 @@ INSERT INTO O_OBJ
 	'service',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("8275b442-6e50-485c-8ee3-3be682034ef2",
+	"a8a1e107-08a3-4ce4-8478-d0d1ae4eecac",
+	'populate',
+	'',
+	"bacf9e88-ff96-4abb-b961-63e84099187b",
+	0,
+	'terminatorItem = param.terminatorItem;
+create object instance service of service;
+relate terminatorItem to service across R3704;
+return service;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("fde425d2-49e0-423e-9525-49e474624919",
+	"8275b442-6e50-485c-8ee3-3be682034ef2",
+	'terminatorItem',
+	"9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminatorItem>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("bacf9e88-ff96-4abb-b961-63e84099187b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<service>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("9f337dd4-326f-42e6-b7b6-7d01703b222a",
+	"a8a1e107-08a3-4ce4-8478-d0d1ae4eecac",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'name = param.name;
+T::include( file:"masl/t.service_start.masl" );
+select one parameter related by self->terminatorItem[R3704]->parameter[R3705.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.service_end.masl" );',
+	1,
+	'',
+	"8275b442-6e50-485c-8ee3-3be682034ef2");
+INSERT INTO O_TPARM
+	VALUES ("38487711-7005-4280-974d-d0a8d84c95dc",
+	"9f337dd4-326f-42e6-b7b6-7d01703b222a",
+	'name',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../../../types/types.xtuml');
+INSERT INTO O_TFR
+	VALUES ("f5b396ba-faed-440e-a769-15dfb9082f19",
+	"a8a1e107-08a3-4ce4-8478-d0d1ae4eecac",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many services from instances of service;
+for each service in services;
+  select one terminatorItem related by service->terminatorItem[R3704];
+  if ( empty terminatorItem )
+    TRACE::log( flavor:"failure", id:10, message:"service has no parent terminatorItem." );
+    valid = false;
+  end if;
+end for;
+return ( valid );
+',
+	1,
+	'',
+	"9f337dd4-326f-42e6-b7b6-7d01703b222a");
 INSERT INTO O_ID
 	VALUES (0,
 	"a8a1e107-08a3-4ce4-8478-d0d1ae4eecac");

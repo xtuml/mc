@@ -1526,7 +1526,6 @@ select any te_target from instances of TE_TARGET;
 select any te_thread from instances of TE_THREAD;
 select any te_tim from instances of TE_TIM;
 select any te_typemap from instances of TE_TYPEMAP;
-select any empty_cp_cp from instances of CP_CP where ( false );
 select many empty_ep_pkgs from instances of EP_PKG where ( false );
 select any empty_te_c from instances of TE_C where ( false );
 select any empty_te_dim from instances of TE_DIM where ( false );
@@ -1805,7 +1804,6 @@ end for;
 // a package has been marked, translate only the components contained
 // in the package (or referenced from it).
 ep_pkgs = empty_ep_pkgs;
-cp_cp = empty_cp_cp;
 package_to_build = "";
 select any tm_build from instances of TM_BUILD;
 markedsystems = 0;
@@ -2570,6 +2568,10 @@ select many te_pos from instances of TE_PO;
 for each te_po in te_pos
   select many te_macts related by te_po->TE_MACT[R2006];
   ::mact_sort( te_macts:te_macts );
+  te_mact = r;
+  if ( not_empty te_mact )
+    relate te_po to te_mact across R2099.'has first';
+  end if;
 end for;
 //
 //
@@ -3950,7 +3952,7 @@ else
 end if;
 return result;
 @@@
-mact_sort@void@@te_macts@inst_ref_set<Extended Message Action>@@@
+mact_sort@inst_ref<Extended Message Action>@@te_macts@inst_ref_set<Extended Message Action>@@@
 //
 // Sort a list of TE_MACTs.
 te_macts = param.te_macts;
@@ -3969,6 +3971,7 @@ while ( not_empty te_mact )
   counter = counter + 1;
   select one te_mact related by te_mact->TE_MACT[R2083.'precedes'];
 end while;
+return head_te_mact;
 @@@
 mact_insert@inst_ref<Extended Message Action>@@head_te_mact@inst_ref<Extended Message Action>@@te_mact@inst_ref<Extended Message Action>@@@
 head_te_mact = param.head_te_mact;

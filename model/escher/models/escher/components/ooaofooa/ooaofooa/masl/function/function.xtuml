@@ -7,6 +7,116 @@ INSERT INTO O_OBJ
 	'function',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("08c6293c-1f80-4dbd-bef8-b76cdf70024a",
+	"d6072ac3-f928-4d1a-b82d-bd2e27df3311",
+	'populate',
+	'',
+	"9062fdcd-1809-416d-8402-b36f829488f0",
+	0,
+	'terminatorItem = param.terminatorItem;
+create object instance function of function;
+relate terminatorItem to function across R3704;
+function.returntype = "need_to_populate";
+return function;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("d31638c5-58f8-4abc-8b1c-2ebf09c35289",
+	"08c6293c-1f80-4dbd-bef8-b76cdf70024a",
+	'terminatorItem',
+	"9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminatorItem>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("9062fdcd-1809-416d-8402-b36f829488f0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<function>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("f076fd5b-ff00-4457-9c09-a11ed237c45c",
+	"d6072ac3-f928-4d1a-b82d-bd2e27df3311",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'name = param.name;
+T::include( file:"masl/t.function_start.masl" );
+select one parameter related by self->terminatorItem[R3704]->parameter[R3705.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.function_end.masl" );',
+	1,
+	'',
+	"08c6293c-1f80-4dbd-bef8-b76cdf70024a");
+INSERT INTO O_TPARM
+	VALUES ("006c1f3a-ce4a-48ab-a8c2-428a57e9dab0",
+	"f076fd5b-ff00-4457-9c09-a11ed237c45c",
+	'name',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../../../types/types.xtuml');
+INSERT INTO O_TFR
+	VALUES ("58a54e32-080d-4c15-a1bf-88a57f1e90d3",
+	"d6072ac3-f928-4d1a-b82d-bd2e27df3311",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many functions from instances of function;
+for each function in functions;
+  select one terminatorItem related by function->terminatorItem[R3704];
+  if ( empty terminatorItem )
+    TRACE::log( flavor:"failure", id:9, message:"function has no parent terminatorItem." );
+    valid = false;
+  end if;
+end for;
+return ( valid );
+',
+	1,
+	'',
+	"f076fd5b-ff00-4457-9c09-a11ed237c45c");
+INSERT INTO O_NBATTR
+	VALUES ("12d6808a-e87c-40df-b561-95733d0a8179",
+	"d6072ac3-f928-4d1a-b82d-bd2e27df3311");
+INSERT INTO O_BATTR
+	VALUES ("12d6808a-e87c-40df-b561-95733d0a8179",
+	"d6072ac3-f928-4d1a-b82d-bd2e27df3311");
+INSERT INTO O_ATTR
+	VALUES ("12d6808a-e87c-40df-b561-95733d0a8179",
+	"d6072ac3-f928-4d1a-b82d-bd2e27df3311",
+	"00000000-0000-0000-0000-000000000000",
+	'returntype',
+	'',
+	'',
+	'returntype',
+	0,
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"d6072ac3-f928-4d1a-b82d-bd2e27df3311");

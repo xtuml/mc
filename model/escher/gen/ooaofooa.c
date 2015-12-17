@@ -14018,7 +14018,7 @@ ooaofooa_mact_insert( ooaofooa_TE_MACT * p_head_te_mact, ooaofooa_TE_MACT * p_te
 /*
  * Domain Function:  mact_sort
  */
-void
+ooaofooa_TE_MACT *
 ooaofooa_mact_sort( Escher_ObjectSet_s * p_te_macts )
 {
   ooaofooa_TE_MACT * te_mact=0;i_t counter;Escher_ObjectSet_s te_macts_space={0}; Escher_ObjectSet_s * te_macts = &te_macts_space;ooaofooa_TE_MACT * head_te_mact=0;
@@ -14067,6 +14067,10 @@ ooaofooa_mact_sort( Escher_ObjectSet_s * p_te_macts )
     /* SELECT one te_mact RELATED BY te_mact->TE_MACT[R2083.precedes] */
     te_mact = ( 0 != te_mact ) ? te_mact->TE_MACT_R2083_precedes : 0;
   }
+  /* RETURN head_te_mact */
+  {ooaofooa_TE_MACT * xtumlOALrv = head_te_mact;
+  Escher_ClearSet( te_macts );
+  return xtumlOALrv;}
   Escher_ClearSet( te_macts );
 }
 
@@ -22897,14 +22901,21 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
   Escher_IteratorReset( &iterte_po, te_pos );
   while ( (iite_po = (ooaofooa_TE_PO *)Escher_IteratorNext( &iterte_po )) != 0 ) {
     te_po = iite_po; {
-    Escher_ObjectSet_s te_macts_space={0}; Escher_ObjectSet_s * te_macts = &te_macts_space;
+    ooaofooa_TE_MACT * te_mact;ooaofooa_TE_MACT * r;Escher_ObjectSet_s te_macts_space={0}; Escher_ObjectSet_s * te_macts = &te_macts_space;
     /* SELECT many te_macts RELATED BY te_po->TE_MACT[R2006] */
     Escher_ClearSet( te_macts );
     if ( 0 != te_po ) {
       Escher_CopySet( te_macts, &te_po->TE_MACT_R2006 );
     }
-    /* ::mact_sort( te_macts:te_macts ) */
-    ooaofooa_mact_sort( te_macts );
+    /* ASSIGN r = ::mact_sort(te_macts:te_macts) */
+    r = ooaofooa_mact_sort( te_macts );
+    /* ASSIGN te_mact = r */
+    te_mact = r;
+    /* IF ( not_empty te_mact ) */
+    if ( ( 0 != te_mact ) ) {
+      /* RELATE te_po TO te_mact ACROSS R2099 */
+      ooaofooa_TE_PO_R2099_Link( te_mact, te_po );
+    }
     Escher_ClearSet( te_macts ); 
   }}}
   /* SELECT many r_rels FROM INSTANCES OF R_REL */
@@ -24989,21 +25000,6 @@ ooaofooa_te_parm_RenderParameters( ooaofooa_TE_ABA * p_te_aba, Escher_ObjectSet_
   /* ASSIGN te_aba.ParameterAssignmentBase = assnbase */
   te_aba->ParameterAssignmentBase = Escher_strcpy( te_aba->ParameterAssignmentBase, assnbase );
   Escher_ClearSet( te_parms );
-}
-
-/*
- * Domain Function:  test1
- */
-void
-ooaofooa_test1()
-{
-  ooaofooa_terminator * Operator;ooaofooa_projectdomain * sac;ooaofooa_project * sac_proc;
-  /* ASSIGN sac_proc = project::populate(name:SAC_PROC) */
-  sac_proc = ooaofooa_project_op_populate("SAC_PROC");
-  /* ASSIGN sac = projectdomain::populate(name:SAC, project:sac_proc) */
-  sac = ooaofooa_projectdomain_op_populate("SAC", sac_proc);
-  /* ASSIGN Operator = terminator::populate(name:Operator, projectdomain:sac) */
-  Operator = ooaofooa_terminator_op_populate("Operator", sac);
 }
 
 /*
@@ -27463,9 +27459,16 @@ ooaofooa_xtuml_package_to_masl_project()
         te_mact = ( 0 != te_po ) ? te_po->TE_MACT_R2099_has_first : 0;
         /* WHILE ( not_empty te_mact ) */
         while ( ( 0 != te_mact ) ) {
-          ooaofooa_terminatorItem * terminatorItem;
-          /* ASSIGN terminatorItem = terminatorItem::populate(name:te_mact.Name, terminator:terminator) */
-          terminatorItem = ooaofooa_terminatorItem_op_populate(te_mact->Name, terminator);
+          ooaofooa_terminatorItem * terminatorItem;c_t * flavor=0;
+          /* ASSIGN flavor = function */
+          flavor = Escher_strcpy( flavor, "function" );
+          /* IF ( ( ( SPR_PS == te_mact.subtypeKL ) or ( SPR_RS == te_mact.subtypeKL ) ) ) */
+          if ( ( ( Escher_strcmp( "SPR_PS", te_mact->subtypeKL ) == 0 ) || ( Escher_strcmp( "SPR_RS", te_mact->subtypeKL ) == 0 ) ) ) {
+            /* ASSIGN flavor = service */
+            flavor = Escher_strcpy( flavor, "service" );
+          }
+          /* ASSIGN terminatorItem = terminatorItem::populate(flavor:flavor, name:te_mact.Name, terminator:terminator) */
+          terminatorItem = ooaofooa_terminatorItem_op_populate(flavor, te_mact->Name, terminator);
           /* SELECT one te_mact RELATED BY te_mact->TE_MACT[R2083.precedes] */
           te_mact = ( 0 != te_mact ) ? te_mact->TE_MACT_R2083_precedes : 0;
         }
@@ -27720,6 +27723,7 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_service_instancedumper,
   ooaofooa_function_instancedumper,
   ooaofooa_terminatorItem_instancedumper,
+  ooaofooa_parameter_instancedumper,
   ooaofooa_S_EE_instancedumper,
   ooaofooa_C_C_instancedumper,
   ooaofooa_C_I_instancedumper,
@@ -28167,6 +28171,7 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_service_extent,
   &pG_ooaofooa_function_extent,
   &pG_ooaofooa_terminatorItem_extent,
+  &pG_ooaofooa_parameter_extent,
   &pG_ooaofooa_S_EE_extent,
   &pG_ooaofooa_C_C_extent,
   &pG_ooaofooa_C_I_extent,

@@ -89,7 +89,7 @@ select many projectdomains from instances of projectdomain;
 for each projectdomain in projectdomains;
   select one project related by projectdomain->project[R3701];
   if ( empty project )
-    LOG::LogFailure( message:"project domain has no parent project." );
+    TRACE::log( flavor:"failure", id:4, message:"project domain has no parent project." );
     valid = false;
   end if;
 end for;

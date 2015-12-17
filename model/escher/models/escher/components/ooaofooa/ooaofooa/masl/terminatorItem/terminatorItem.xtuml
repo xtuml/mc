@@ -18,7 +18,11 @@ INSERT INTO O_TFR
 create object instance terminatorItem of terminatorItem;
 terminatorItem.name = param.name;
 relate terminator to terminatorItem across R3703.''sends'';
-if ( true )
+if ( "function" == param.flavor )
+  function = function::populate( terminatorItem:terminatorItem );
+  // probably need to pass return type here.
+else
+  service = service::populate( terminatorItem:terminatorItem );
 end if;
 return terminatorItem;',
 	1,
@@ -56,6 +60,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("c7cdfde3-baf9-421b-98fc-d9298bf71aa2",
+	"764523f8-a0ce-4278-b174-e6adb8efce9a",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"84fdf5df-a651-4024-a880-9ec5625475b8",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
 	"00000000-0000-0000-0000-000000000000",
@@ -70,15 +83,22 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'/*
-T::include( file:"masl/t.terminatorItem_start.masl" );
-select many terminatorservices related by self->terminatorservice[R3];
-for each terminatorservice in terminatorservices
-  terminatorservice.render();
-end for;
-T::include( file:"masl/t.terminatorItem_end.masl" );
-*/
-',
+	'select one function related by self->function[R3704];
+select one service related by self->service[R3704];
+if ( not_empty function )
+  function.render( name:self.name );
+  // need return type somehow
+elif ( not_empty service )
+  service.render( name:self.name );
+else
+  TRACE::log( flavor:"failure", id:11, message:"no subtype for terminatorItem" );
+end if;
+/*
+select one pragma related by self->pragma[R3706];
+if ( not_empty pragma )
+  pragma.render();
+end if;
+*/',
 	1,
 	'',
 	"764523f8-a0ce-4278-b174-e6adb8efce9a");
@@ -90,19 +110,23 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-/*
-select many terminators from instances of terminator;
-for each terminator in terminators;
-  select one projectdomain related by terminator->projectdomain[R3702];
-  if ( empty projectdomain )
-    LOG::LogFailure( message:"terminator has no parent domain project." );
+select many terminatorItems from instances of terminatorItem;
+for each terminatorItem in terminatorItems;
+  select one terminator related by terminatorItem->terminator[R3703];
+  if ( empty terminator )
+    TRACE::log( flavor:"failure", id:8, message:"terminatorItem has no parent terminator." );
+    valid = false;
+  end if;
+  select one function related by terminatorItem->function[R3704];
+  select one service related by terminatorItem->service[R3704];
+  if ( ( empty function ) and ( empty service ) )
+    TRACE::log( flavor:"failure", id:9, message:"terminatorItem has no child function or service." );
     valid = false;
   end if;
 end for;
 
 // Validate siblings and subordinates.
-*/
-return ( valid );
+return ( valid and function::validate() and service::validate() and parameter::validate() );
 ',
 	1,
 	'',
