@@ -1960,7 +1960,8 @@
     .assign te_act.Act_ID = sm_act.Act_ID
     .assign te_act.SM_ID = sm_act.SM_ID
     .// end relate
-    .assign te_act.GeneratedName = ( te_class.GeneratedName + class_based ) + ( "_xact" + "$t{counter}" )
+    .select one sm_state related by sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_STATE[R506]
+    .assign te_act.GeneratedName = ( ( te_class.GeneratedName + class_based ) + ( "_xact_to_" + "$t{sm_state.Numb}" ) ) + ( "_" + "$t{counter}" )
     .assign te_act.number = counter
     .//.select many te_parms related by sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532]->TE_PARM[R2031]
     .invoke r = FactoryTE_ABA( te_c, empty_te_parms, "", te_act.GeneratedName, "SM_ACT", void_te_dt )

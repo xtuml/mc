@@ -134,9 +134,6 @@ s = param.s;
 @@@
 GetBaseTypeForUDT@inst_ref<Data Type>@@s_udt@inst_ref<User Data Type>@@@
 //============================================================================
-// $RCSfile: q.datatype.arc,v $
-//
-//============================================================================
 // Recursively locate the datatype at the base of the UDT type definition 
 // chain. Traverses up through UDTs based on UDTs until we find the underlying
 // S_DT instance (which may actually be EDT, SDT, IRDT or CDT).
@@ -298,9 +295,6 @@ return s;
 @@@
 sys_analyze@void@@te_sys@inst_ref<Extended System>@@@
 //============================================================================
-// File:  $RCSfile: q.domain.analyze.arc,v $
-//
-// Description:
 // This query file provides the "first pass" of a multi-pass translation
 // model compiler.  The first pass analyzes the action semantics embodied
 // in the analysis domain, and applies optimization algorithms to the
@@ -335,9 +329,6 @@ T::print(s:"Analyzing model and making optimizations....");
 @@@
 te_c_CollectLimits@void@@te_c@inst_ref<Extended Component>@@@
 //============================================================================
-// $RCSfile: q.domain.limits.arc,v $
-//
-// Description:
 // These queries collect static analysis information and propagate it
 // forward to the system build step by outputting a set of INSERT
 // statements that will populate the system build gen database.
@@ -477,9 +468,6 @@ te_c.PersistentClassCount = persist_class_count;
 @@@
 selection_whereclause_identify_special@void@@@
 //============================================================================
-// $RCSfile: q.oal.analyze.arc,v $
-//
-// Description:
 // The query/transformations in this file analyze the action language
 // of the customer model and gather statistics for use in optimized
 // code generation.
@@ -869,9 +857,6 @@ end for;
 @@@
 containoid_select_many_count@integer@@@
 //============================================================================
-// $RCSfile: q.oal.utils.arc,v $
-//
-// Description:
 // Utility functions specifically for OAL analysis.
 //============================================================================
 //
@@ -1117,9 +1102,6 @@ end for;
 @@@
 te_parm_RenderParameters@void@@te_parms@inst_ref_set<Extended Parameter>@@te_aba@inst_ref<Action Block Anchor>@@@
 //============================================================================
-// $RCSfile: q.parameters.arc,v $
-//
-// Description:
 // Here we deal with parameters.  The declaration, definition and invocation
 // renderings are built.
 //============================================================================
@@ -1143,6 +1125,7 @@ param_delimiter = " ";
 format_delimiter = "";
 Order = 0;
 // Be sure we have the first parameter.
+select any te_parm from instances of TE_PARM where ( false );
 for each te_parm in te_parms
   break;
 end for;
@@ -1470,9 +1453,6 @@ end if;
 @@@
 rel_pseudoformalize@void@@@
 //============================================================================
-// $RCSfile: q.assoc.pseudoformalize.arc,v $
-//
-// Description:
 // This query/transformation archetype file contains the functionality
 // that will allow the model compiler to generate code for unformalized 
 // associations (associations that have not been formalized).
@@ -1518,9 +1498,6 @@ end for;
 @@@
 sys_populate@void@@@
 //============================================================================
-// $RCSfile: q.mc_metamodel.populate.arc,v $
-//
-// Description:
 // This query/transformation archetype file queries the customer model
 // and populates the model compiler extensions to the meta-model.
 // Instances of the extended classes are created, related and initialized.
@@ -2916,6 +2893,7 @@ for each te_c in te_cs
   select many te_macts related by te_c->TE_MACT[R2002];
   for each te_mact in te_macts
     select one te_aba related by te_mact->TE_ABA[R2010];
+    select any te_blk from instances of TE_BLK where ( false );
     if ( "SPR_PO" == te_mact.subtypeKL )
       select one te_blk related by te_mact->SPR_PO[R2050]->ACT_POB[R687]->ACT_ACT[R698]->ACT_BLK[R666]->TE_BLK[R2016];
     elif ( "SPR_RO" == te_mact.subtypeKL )
@@ -3257,7 +3235,8 @@ for each sm_act in sm_acts
   // Create the Extended Actions (TE_ACT) and connect them to SM_ACT.
   create object instance te_act of TE_ACT;
   relate sm_act to te_act across R2022;
-  te_act.GeneratedName = ( te_class.GeneratedName + class_based ) + ( "_xact" + T::s(i:counter) );
+  select one sm_state related by sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_STATE[R506];
+  te_act.GeneratedName = ( ( te_class.GeneratedName + class_based ) + ( "_xact_to_" + T::s(i:sm_state.Numb) ) ) + ( "_" + T::s(i:counter) );
   te_act.number = counter;
   //.select many te_parms related by sm_act->SM_AH[R514]->SM_TAH[R513]->SM_TXN[R530]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532]->TE_PARM[R2031]
   r = ::FactoryTE_ABA( te_c:te_c, te_parms:empty_te_parms, scope:"", name:te_act.GeneratedName, subtypeKL:"SM_ACT", te_dt:void_te_dt );
@@ -3512,6 +3491,7 @@ if ( not_empty te_c )
   relate te_aba to te_c across R2088;
 end if;
 duplicates_needed = false;
+select any te_parm from instances of TE_PARM where ( false );
 for each te_parm in te_parms
   select one existing_te_aba related by te_parm->TE_ABA[R2062];
   if ( empty existing_te_aba )
@@ -3552,7 +3532,9 @@ if ( duplicates_needed )
 end if;
 // Create and insert an architectural parameter for returning a string.
 if ( ( "c_t" == te_dt.ExtName ) or ( "c_t *" == te_dt.ExtName ) )
-  if ( not te_sys.InstanceLoading )
+  if ( ( not te_sys.InstanceLoading ) and ( not duplicates_needed ) )
+    // mcmc does not return through the by-ref parameter.
+    // When duplicating, there is a duplicate by-ref string return parameter.
     select any string_te_parm from instances of TE_PARM where ( selected.Name == "A0xtumlsret" );
     r = ::TE_PARM_duplicate( te_parm:string_te_parm );
     duplicate_te_parm = r;

@@ -2439,7 +2439,8 @@ CREATE TABLE TE_SYS (
 	VFB	BOOLEAN,
 	SystemCPortsType	STRING,
 	AllPortsPoly	BOOLEAN,
-	DomainClassNumberName	STRING,
+	StructuredMessaging	BOOLEAN,
+	NetworkSockets	BOOLEAN,
 	Sys_ID	UNIQUE_ID );
 
 -- Class:  2005.  Dispatcher
