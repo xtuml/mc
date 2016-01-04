@@ -40,34 +40,34 @@ functionality.  BridgePoint represents the tool most ideally and practically
 positioned to support graphical S-M modeling with MASL activities and
 MASL persistence.  
 
+A syntax-highlighting and xtUML-aware MASL activity editor is
+being developed under a separate issue [3].  
 Interpretive model execution of MASL activities is outside the scope
 of this analysis.  
 
 4. Requirements
 ---------------
-4.1 MASL shall be imported into BridgePoint.  
-4.1.1 Structural MASL shall be loaded as xtUML metamodel instances.
-(A future enhanced BridgePoint may store structural xtUML as MASL.)  
-4.1.2 MASL activities shall be stored as opaque behavior in xtUML action
-homes.  
+4.1 MASL shall be converted to xtUML (and Imported into BridgePoint).  
+4.1.1 Structural MASL shall be loaded as xtUML metamodel instances.  
+4.1.2 MASL activities shall be stored as strings in xtUML action homes.
+MASL activities will be stored in such a way as to coexist with OAL
+activities.  
 4.1.3 A command line utility shall be supplied to support selection
-of MASL models and conversion to MASL-mode xtUML.  
+of MASL models and conversion to MASL-extended xtUML.  
 
-4.2 MASL shall be exported from MASL-mode xtUML models.  
+4.2 MASL shall be exported from MASL-extended xtUML models.  
 4.2.1 xtUML structural elements shall be output as syntactically correct
 MASL text.  
-4.2.2 MASL-mode xtUML activities shall be output as MASL activities
+4.2.2 MASL activities shall be output as MASL activities
 (unmodified) associated with the appropriate MASL structures.  
 4.2.3 A user interface mechanism shall be supplied to trigger the export
-of MASL from MASL-mode xtUML models.  
+of MASL from MASL-extended models.  
 4.2.4 A command line interface mechanism shall be supplied to export
-MASL from MASL-mode xtUML models.  
+MASL from MASL-extended xtUML models.  
 
 4.3 Editing xtUML Models Containing MASL  
 4.3.1 Structural xtUML shall be edited normally.  
-4.3.2 MASL activities shall be edited as text.    
-4.3.3 A syntax-highlighting and xtUML-aware MASL activity editor is
-being developed under a separate issue [3].  
+4.3.2 MASL activities shall be edited as text.  
 
 4.4 Non-functional Requirements  
 4.4.1 MASL support shall be accomplished using model-based engineering and
@@ -80,9 +80,9 @@ xtUML to MASL.
 4.4.3 Activities in the model of MASL shall be free of references to xtUML
 or other non-MASL model elements.  
 4.4.4 Natural (naming and descriptive attribute) identifiers shall be
-established on MASL classes where appropriate.  Artificial (`unique_id`)
+established on MASL classes where appropriate.  Arbitrary (`unique_id`)
 identifiers shall be avoided and used only as documented necessary.  
-4.4.5 Used `TE_*` classes only as documented necessary (as for marking).  
+4.4.5 Use `TE_*` classes only as documented necessary (as for marking).  
 
 
 5. Analysis
@@ -108,15 +108,17 @@ of the syntax generating hierarchically.
 5.3 Considerations  
 5.3.1 Consideration was given to moving `xtuml_package_to_masl_project` into
 operations on MASL classes.  However, this would cause OOAofOOA (xtUML MM)
-queries to live inside the MASL model.  This seems bad.  So, to start,
+queries to live inside the MASL model.  This seems bad, because it makes it
+difficult to treat these models separately.  It would be nice to have the
+MASL model in a package or component sepately from ooaofooa.  So, to start,
 activities that must access multiple (meta-)models will be packaged as
-functions.    
+functions.  
 5.3.2 Consider generating the grammar from the model of MASL.  
 5.3.3 Consider a mapping comment or mapping attribute for each MASL class.
 Such a comment or attribute could be used to generate a mapping document.  
 5.3.4 An ordering feature in the MC may be necessary.  It is required for
 MASL activities, and we need to order some things in the project output.  
-5.3.5 Quesion:  Still unsure of mapping for Terminator Function and Service.  
+5.3.5 A future enhanced BridgePoint may store structural xtUML as MASL.  
 
 
 6. Work Required
@@ -137,7 +139,7 @@ associated instances for the particular formalized association.
 6.2.2 Program a `populate` class-based operation for each MASL class to
 create an instance of the class and initialize attribute values.  Return
 a reference to the created instance.  In some cases, create subtype
-instances.    
+instances.  
 6.2.3 Provide a `validate` class-based operation for each MASL class to
 check the correctness of the attribute values for each instance.  Query
 for correct links to related classes.  Report deviations.  
