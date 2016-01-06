@@ -1,0 +1,176 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("87bb9c68-336f-419c-9a90-cb907d272ecd",
+	'Transient Var',
+	818,
+	'V_TRN',
+	'A variable that is created within a block of an action.
+It has visibility equal to the scope of the block. Once
+execution has passed out of the block in which the
+transient is first assigned a value, the variable no longer
+exists.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("87bb9c68-336f-419c-9a90-cb907d272ecd",
+	"202c7c94-3f8a-4f9d-804d-7c559a723444",
+	0,
+	"17c041b7-f9d0-4f89-910d-ddcd6b3f2be9",
+	"5e7530a6-165c-4bd8-8fab-9c34527af733",
+	"1d0fe7ef-7432-4bff-8cc3-4722c98aaefd",
+	"2a3db6c0-a77d-4179-a2b8-5c809f54a82f",
+	"762b8398-54c6-4eb1-bba1-c65e8c96225a",
+	"68ce3475-4c01-4dcb-9925-c59dd4a667a5",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Variable',
+	'Var_ID',
+	'R814');
+INSERT INTO R_RGO_PROXY
+	VALUES ("87bb9c68-336f-419c-9a90-cb907d272ecd",
+	"5e7530a6-165c-4bd8-8fab-9c34527af733",
+	"1d0fe7ef-7432-4bff-8cc3-4722c98aaefd",
+	'../Value.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("17c041b7-f9d0-4f89-910d-ddcd6b3f2be9",
+	"202c7c94-3f8a-4f9d-804d-7c559a723444",
+	0,
+	"5e7530a6-165c-4bd8-8fab-9c34527af733",
+	"2a3db6c0-a77d-4179-a2b8-5c809f54a82f",
+	'../Value.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("762b8398-54c6-4eb1-bba1-c65e8c96225a",
+	"87bb9c68-336f-419c-9a90-cb907d272ecd",
+	"17c041b7-f9d0-4f89-910d-ddcd6b3f2be9",
+	"202c7c94-3f8a-4f9d-804d-7c559a723444",
+	1,
+	'Var_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("17c041b7-f9d0-4f89-910d-ddcd6b3f2be9",
+	"202c7c94-3f8a-4f9d-804d-7c559a723444",
+	'../Variable/Variable.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("762b8398-54c6-4eb1-bba1-c65e8c96225a",
+	"87bb9c68-336f-419c-9a90-cb907d272ecd",
+	"00000000-0000-0000-0000-000000000000",
+	'Var_ID',
+	'
+
+',
+	'',
+	'Var_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("40412ae2-c775-4107-9d5d-1948355d6552",
+	"87bb9c68-336f-419c-9a90-cb907d272ecd");
+INSERT INTO O_BATTR
+	VALUES ("40412ae2-c775-4107-9d5d-1948355d6552",
+	"87bb9c68-336f-419c-9a90-cb907d272ecd");
+INSERT INTO O_ATTR
+	VALUES ("40412ae2-c775-4107-9d5d-1948355d6552",
+	"87bb9c68-336f-419c-9a90-cb907d272ecd",
+	"77e9dc12-10bf-4544-8c05-017dfc2b736e",
+	'Dimensions',
+	'This attribute is not used and will always be empty.
+This attribute was deprecated when fixed-length
+arrays were introduced.  It was left in-place simply for 
+consistency/orthagonality with the other places in the meta-model that have 
+dimensions.  All other places in the Meta-model do use this field.  It is 
+used for user-entry of the the dimension string.  V_TRN.Dimensions is different 
+because the user never enters a dimension string for a transient.  A transient 
+gets its dimensions based on the rvalue that it is assigned from.',
+	'',
+	'Dimensions',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("87bb9c68-336f-419c-9a90-cb907d272ecd",
+	"a2fcb0c7-a33d-4861-ac4c-36985f92521a",
+	0,
+	"157b0c17-0bd7-4836-aeab-8b41b7afb264",
+	"9ddac10d-d72c-41f5-a9ac-7fb098cfdca7",
+	"c7bd2ca7-7a5d-458f-92d6-a379a991b5ee",
+	"1c54d621-4ecb-4061-94bf-1059f47a4c59",
+	"77e9dc12-10bf-4544-8c05-017dfc2b736e",
+	"149ab9f0-819b-4639-93b7-154646a271db",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R821.''has''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("87bb9c68-336f-419c-9a90-cb907d272ecd",
+	"9ddac10d-d72c-41f5-a9ac-7fb098cfdca7",
+	"c7bd2ca7-7a5d-458f-92d6-a379a991b5ee",
+	'../Value.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("157b0c17-0bd7-4836-aeab-8b41b7afb264",
+	"a2fcb0c7-a33d-4861-ac4c-36985f92521a",
+	0,
+	"9ddac10d-d72c-41f5-a9ac-7fb098cfdca7",
+	"1c54d621-4ecb-4061-94bf-1059f47a4c59",
+	'../Value.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("77e9dc12-10bf-4544-8c05-017dfc2b736e",
+	"87bb9c68-336f-419c-9a90-cb907d272ecd",
+	"10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("77e9dc12-10bf-4544-8c05-017dfc2b736e",
+	"87bb9c68-336f-419c-9a90-cb907d272ecd",
+	"762b8398-54c6-4eb1-bba1-c65e8c96225a",
+	'DT_ID',
+	'',
+	'',
+	'Element_ID',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"87bb9c68-336f-419c-9a90-cb907d272ecd");
+INSERT INTO O_OIDA
+	VALUES ("762b8398-54c6-4eb1-bba1-c65e8c96225a",
+	"87bb9c68-336f-419c-9a90-cb907d272ecd",
+	0,
+	'Var_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"87bb9c68-336f-419c-9a90-cb907d272ecd");
+INSERT INTO O_ID
+	VALUES (2,
+	"87bb9c68-336f-419c-9a90-cb907d272ecd");
+INSERT INTO PE_PE
+	VALUES ("87bb9c68-336f-419c-9a90-cb907d272ecd",
+	1,
+	"5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("5f529d51-32b6-4bef-8f54-26bad1a41300",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Value',
+	'This subsystem formalizes the concepts of values (r-values) and variables 
+(l-values). It also captures the concept of an actual parameter.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	800,
+	'../Value.xtuml');

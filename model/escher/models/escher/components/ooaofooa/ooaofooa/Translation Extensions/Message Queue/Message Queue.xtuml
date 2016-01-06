@@ -1,0 +1,190 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	'Message Queue',
+	2006,
+	'TE_QUEUE',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("bf810acf-aa23-410d-815b-0c84f1b64318",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_BATTR
+	VALUES ("bf810acf-aa23-410d-815b-0c84f1b64318",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_ATTR
+	VALUES ("bf810acf-aa23-410d-815b-0c84f1b64318",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	"00000000-0000-0000-0000-000000000000",
+	'Queue_ID',
+	'',
+	'',
+	'Queue_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	"f3eb11fd-445b-46f5-9b5d-9bb2a1f69ea9",
+	0,
+	"8088e995-a380-4993-be8e-b71ca8a657d4",
+	"3483e0b0-4e5f-471e-968c-b8be692afa52",
+	"452f8f7a-6efc-4a4e-ba1a-40a43a7ac1d2",
+	"411d4cd4-0df7-44fe-aeab-6f158f4dd934",
+	"197a1670-641c-44cf-a559-39814e6156df",
+	"ac05111a-c611-4587-8d90-5158829bcc6c",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Dispatcher',
+	'Dispatcher_ID',
+	'R2004.''is managed by''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	"3483e0b0-4e5f-471e-968c-b8be692afa52",
+	"452f8f7a-6efc-4a4e-ba1a-40a43a7ac1d2",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("8088e995-a380-4993-be8e-b71ca8a657d4",
+	"f3eb11fd-445b-46f5-9b5d-9bb2a1f69ea9",
+	0,
+	"3483e0b0-4e5f-471e-968c-b8be692afa52",
+	"411d4cd4-0df7-44fe-aeab-6f158f4dd934",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("197a1670-641c-44cf-a559-39814e6156df",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	"8088e995-a380-4993-be8e-b71ca8a657d4",
+	"f3eb11fd-445b-46f5-9b5d-9bb2a1f69ea9",
+	1,
+	'Dispatcher_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("8088e995-a380-4993-be8e-b71ca8a657d4",
+	"f3eb11fd-445b-46f5-9b5d-9bb2a1f69ea9",
+	'../Dispatcher/Dispatcher.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("197a1670-641c-44cf-a559-39814e6156df",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	"bf810acf-aa23-410d-815b-0c84f1b64318",
+	'Dispatcher_ID',
+	'',
+	'',
+	'Dispatcher_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3024f827-f961-48b4-a5e5-fcc352acc1fd",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_BATTR
+	VALUES ("3024f827-f961-48b4-a5e5-fcc352acc1fd",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_ATTR
+	VALUES ("3024f827-f961-48b4-a5e5-fcc352acc1fd",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	"197a1670-641c-44cf-a559-39814e6156df",
+	'Type',
+	'The type of the queue.
+
+Data Domain:
+0  = Undefined
+1  = Self directed OOA events
+2  = Non-self directed OOA events
+3  = System control
+4  = External non-OOA task communications',
+	'',
+	'Type',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a84a27c6-d93a-4a56-aa31-8435453b49f1",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_BATTR
+	VALUES ("a84a27c6-d93a-4a56-aa31-8435453b49f1",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_ATTR
+	VALUES ("a84a27c6-d93a-4a56-aa31-8435453b49f1",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	"3024f827-f961-48b4-a5e5-fcc352acc1fd",
+	'Descrip',
+	'Full Name: Description
+
+A textual description of this message queue.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8eb2803a-b638-4ee3-a45f-e5a10fc25903",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_BATTR
+	VALUES ("8eb2803a-b638-4ee3-a45f-e5a10fc25903",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_ATTR
+	VALUES ("8eb2803a-b638-4ee3-a45f-e5a10fc25903",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	"a84a27c6-d93a-4a56-aa31-8435453b49f1",
+	'RenderCode',
+	'A flag used by the translation engine to indicate that this message queue needs to be rendered in the generated code.',
+	'',
+	'RenderCode',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("71092c7c-671e-4fef-8d7a-0b5806c824a4",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_BATTR
+	VALUES ("71092c7c-671e-4fef-8d7a-0b5806c824a4",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_ATTR
+	VALUES ("71092c7c-671e-4fef-8d7a-0b5806c824a4",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	"8eb2803a-b638-4ee3-a45f-e5a10fc25903",
+	'MaxDepth',
+	'Full Name: Maximum Queue Depth
+
+A value of zero (0) indicates that this queue has no predefined maximum depth.',
+	'',
+	'MaxDepth',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_OIDA
+	VALUES ("bf810acf-aa23-410d-815b-0c84f1b64318",
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	0,
+	'Queue_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO O_ID
+	VALUES (2,
+	"8926ac1c-36b5-43d9-8b58-64c05c5a5263");
+INSERT INTO PE_PE
+	VALUES ("8926ac1c-36b5-43d9-8b58-64c05c5a5263",
+	1,
+	"a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a74b405d-5ba4-4292-b4c5-ea9f18876a1a",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

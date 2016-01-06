@@ -1,0 +1,119 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("7f071402-9bab-43f3-bf34-e69f50b0b3ac",
+	'Class Identifier',
+	104,
+	'O_ID',
+	'A set of one or more Attributes which uniquely distinguishes each instance of a class is a class identifier.  A class may have several identifiers.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("4875db41-83e3-4aea-9111-68ef8069085c",
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac");
+INSERT INTO O_BATTR
+	VALUES ("4875db41-83e3-4aea-9111-68ef8069085c",
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac");
+INSERT INTO O_ATTR
+	VALUES ("4875db41-83e3-4aea-9111-68ef8069085c",
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac",
+	"00000000-0000-0000-0000-000000000000",
+	'Oid_ID',
+	'Full Name: Class Identifier Identifier
+Description: The identifying attribute set number.
+Data Domain: 0 = Primary Identifer Set (e.g., *), 1 = Secondary Identifier Set (e.g., *2), 2 = Third Identifier Set (e.g., *3)
+enum0: *1
+enum1: *2
+enum2: *3
+impl_detail: true
+readonly: true
+',
+	'',
+	'Oid_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("7f071402-9bab-43f3-bf34-e69f50b0b3ac",
+	"a426ad77-e925-436b-a6e8-aec3b1a64feb",
+	0,
+	"f9bc02a5-ccc6-4c52-8cb4-0b3ea80283c2",
+	"279ddde1-70f7-40c5-b81b-e7bd7f83f39c",
+	"dd596d78-5a41-46ff-8d26-7fd95616ee4d",
+	"e3040a31-edb2-414c-9b24-7866cbbe8179",
+	"7744ce74-17b0-444f-a14d-a0f02c63446b",
+	"a46f1025-1b2d-4663-8ebb-603fb271b364",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Model Class',
+	'Obj_ID',
+	'R104.''identifies''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("7f071402-9bab-43f3-bf34-e69f50b0b3ac",
+	"279ddde1-70f7-40c5-b81b-e7bd7f83f39c",
+	"dd596d78-5a41-46ff-8d26-7fd95616ee4d",
+	'../Subsystem.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("f9bc02a5-ccc6-4c52-8cb4-0b3ea80283c2",
+	"a426ad77-e925-436b-a6e8-aec3b1a64feb",
+	0,
+	"279ddde1-70f7-40c5-b81b-e7bd7f83f39c",
+	"e3040a31-edb2-414c-9b24-7866cbbe8179",
+	'../Subsystem.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("7744ce74-17b0-444f-a14d-a0f02c63446b",
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac",
+	"10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("7744ce74-17b0-444f-a14d-a0f02c63446b",
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac",
+	"4875db41-83e3-4aea-9111-68ef8069085c",
+	'Obj_ID',
+	'',
+	'',
+	'Obj_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac");
+INSERT INTO O_OIDA
+	VALUES ("4875db41-83e3-4aea-9111-68ef8069085c",
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac",
+	0,
+	'Oid_ID');
+INSERT INTO O_OIDA
+	VALUES ("7744ce74-17b0-444f-a14d-a0f02c63446b",
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac",
+	0,
+	'Obj_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac");
+INSERT INTO O_ID
+	VALUES (2,
+	"7f071402-9bab-43f3-bf34-e69f50b0b3ac");
+INSERT INTO PE_PE
+	VALUES ("7f071402-9bab-43f3-bf34-e69f50b0b3ac",
+	1,
+	"3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Subsystem',
+	'A class (O_OBJ)  is an abstraction of a real world thing that has specific attributes (O_ATTR) and, if active, has a lifecycle model as a state machine (SM_SM).  All instances of the class must have the same characteristics and follow the same state behavior.  Classes fall into many categories, some of which are: tangible things, roles, interactions and specifications. ',
+	101,
+	'../Subsystem.xtuml');

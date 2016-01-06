@@ -1,0 +1,152 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	'Create Event to Instance',
+	700,
+	'E_CEI',
+	'This class represents the precreation of an event to an instance for later delivery. Uses the same concepts as Generate but does not actually generate the event. It instead yields an event instance that can be generated later using Generate Preexisting Event.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	"c70d6d60-7f61-4c0e-8822-ddb5ea21804c",
+	0,
+	"9c191595-18a9-4e4a-afcd-cecfc8d00ec1",
+	"691647b3-ae12-4182-b4aa-ae8798f75e20",
+	"2a015f10-87bb-40ca-9444-e7fb97bec4c0",
+	"f7a06a59-859b-4adc-8274-68e304928122",
+	"7187417c-f8b6-46cb-a67e-d81e7f6287bd",
+	"f5f661ac-d894-4185-a790-dfaf58712778",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Create SM Event Statement',
+	'Statement_ID',
+	'R704');
+INSERT INTO R_RGO_PROXY
+	VALUES ("e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	"691647b3-ae12-4182-b4aa-ae8798f75e20",
+	"2a015f10-87bb-40ca-9444-e7fb97bec4c0",
+	'../Event.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("9c191595-18a9-4e4a-afcd-cecfc8d00ec1",
+	"c70d6d60-7f61-4c0e-8822-ddb5ea21804c",
+	0,
+	"691647b3-ae12-4182-b4aa-ae8798f75e20",
+	"f7a06a59-859b-4adc-8274-68e304928122",
+	'../Event.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("7187417c-f8b6-46cb-a67e-d81e7f6287bd",
+	"e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	"9b795bc0-781f-43f3-81f1-24d02d86cd8d",
+	"177bef3b-5242-4e76-8931-d5cecb333346",
+	1,
+	'Statement_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("9b795bc0-781f-43f3-81f1-24d02d86cd8d",
+	"177bef3b-5242-4e76-8931-d5cecb333346",
+	'../../Body/Statement/Statement.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("7187417c-f8b6-46cb-a67e-d81e7f6287bd",
+	"e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	"00000000-0000-0000-0000-000000000000",
+	'Statement_ID',
+	'
+
+',
+	'',
+	'Statement_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	"202c7c94-3f8a-4f9d-804d-7c559a723444",
+	0,
+	"17c041b7-f9d0-4f89-910d-ddcd6b3f2be9",
+	"ba0e93a0-d6ca-4099-9410-d43af4b86a3e",
+	"82de5dbf-8752-4fc9-a0d7-574d6e87beda",
+	"a3a1287b-9bbc-4048-a201-6c5fe02fea91",
+	"0c89cfe5-379c-434f-b5e0-3deac79b37e0",
+	"96dbe543-d391-4c0a-9e9b-29ba3ff02efd",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Variable',
+	'Var_ID',
+	'R711.''has recipient''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	"ba0e93a0-d6ca-4099-9410-d43af4b86a3e",
+	"82de5dbf-8752-4fc9-a0d7-574d6e87beda",
+	'../Event.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("17c041b7-f9d0-4f89-910d-ddcd6b3f2be9",
+	"202c7c94-3f8a-4f9d-804d-7c559a723444",
+	0,
+	"ba0e93a0-d6ca-4099-9410-d43af4b86a3e",
+	"a3a1287b-9bbc-4048-a201-6c5fe02fea91",
+	'../Event.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("0c89cfe5-379c-434f-b5e0-3deac79b37e0",
+	"e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	"17c041b7-f9d0-4f89-910d-ddcd6b3f2be9",
+	"202c7c94-3f8a-4f9d-804d-7c559a723444",
+	1,
+	'Var_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("17c041b7-f9d0-4f89-910d-ddcd6b3f2be9",
+	"202c7c94-3f8a-4f9d-804d-7c559a723444",
+	'../../Value/Variable/Variable.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("0c89cfe5-379c-434f-b5e0-3deac79b37e0",
+	"e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	"7187417c-f8b6-46cb-a67e-d81e7f6287bd",
+	'Var_ID',
+	'
+
+',
+	'',
+	'Var_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"e3dcdb1b-6995-40a4-829d-e3d24b6c4890");
+INSERT INTO O_OIDA
+	VALUES ("7187417c-f8b6-46cb-a67e-d81e7f6287bd",
+	"e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	0,
+	'Statement_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"e3dcdb1b-6995-40a4-829d-e3d24b6c4890");
+INSERT INTO O_ID
+	VALUES (2,
+	"e3dcdb1b-6995-40a4-829d-e3d24b6c4890");
+INSERT INTO PE_PE
+	VALUES ("e3dcdb1b-6995-40a4-829d-e3d24b6c4890",
+	1,
+	"cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("cbb212b1-ef1c-4d82-b6c9-1c6277a5ca9f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Event',
+	'This subsystem focuses on the creation and generation
+of events. Events to instances, class, creators and
+external entities are covered, as well as the creation of
+event instances of those types. Finally the generation
+of pre-existing event instances are also covered.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	700,
+	'../Event.xtuml');
