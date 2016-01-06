@@ -412,7 +412,7 @@ INSERT INTO GD_GE
 	"d45d3b11-fb26-431c-a55a-38c2e1817d34",
 	21,
 	0,
-	'escher::components::ooaofooa::ooaofooa::masl::terminatorItem');
+	'escher::components::ooaofooa::ooaofooa::masl::activity');
 INSERT INTO GD_SHP
 	VALUES ("025e4b53-e58c-4c17-88e9-113f2a772630");
 INSERT INTO GD_NCS
@@ -1633,7 +1633,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<terminatorItem>',
+	'inst_ref<activity>',
 	'',
 	'');
 INSERT INTO S_IRDT
@@ -1642,12 +1642,12 @@ INSERT INTO S_IRDT
 	"d45d3b11-fb26-431c-a55a-38c2e1817d34");
 INSERT INTO O_OBJ_PROXY
 	VALUES ("d45d3b11-fb26-431c-a55a-38c2e1817d34",
-	'terminatorItem',
+	'activity',
 	3706,
-	'terminatorItem',
+	'activity',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'./terminatorItem/terminatorItem.xtuml');
+	'./activity/activity.xtuml');
 INSERT INTO PE_PE
 	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
 	1,
@@ -1657,7 +1657,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("1041438b-1f05-4c5b-97ba-585f4580e8e4",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<terminatorItem>',
+	'inst_ref_set<activity>',
 	'',
 	'');
 INSERT INTO S_IRDT
@@ -2321,7 +2321,7 @@ while ( not_empty te_c )
       if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
         flavor = "service";
       end if;
-      terminatorItem = terminatorItem::populate( name:te_mact.Name, terminator:terminator, flavor:flavor );
+      activity = activity::populate( name:te_mact.Name, terminator:terminator, flavor:flavor );
       
       select one te_mact related by te_mact->TE_MACT[R2083.''precedes''];
     end while;

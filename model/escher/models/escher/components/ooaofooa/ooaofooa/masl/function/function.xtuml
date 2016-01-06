@@ -14,9 +14,9 @@ INSERT INTO O_TFR
 	'',
 	"9062fdcd-1809-416d-8402-b36f829488f0",
 	0,
-	'terminatorItem = param.terminatorItem;
+	'activity = param.activity;
 create object instance function of function;
-relate terminatorItem to function across R3704;
+relate activity to function across R3704;
 function.returntype = "need_to_populate";
 return function;',
 	1,
@@ -25,7 +25,7 @@ return function;',
 INSERT INTO O_TPARM
 	VALUES ("d31638c5-58f8-4abc-8b1c-2ebf09c35289",
 	"08c6293c-1f80-4dbd-bef8-b76cdf70024a",
-	'terminatorItem',
+	'activity',
 	"9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
 	0,
 	'',
@@ -34,7 +34,7 @@ INSERT INTO O_TPARM
 INSERT INTO S_DT_PROXY
 	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<terminatorItem>',
+	'inst_ref<activity>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -54,7 +54,7 @@ INSERT INTO O_TFR
 	1,
 	'name = param.name;
 T::include( file:"masl/t.function_start.masl" );
-select one parameter related by self->terminatorItem[R3704]->parameter[R3705.''carries first''];
+select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
 if ( not_empty parameter )
   parameter.render();
 end if;
@@ -88,9 +88,9 @@ INSERT INTO O_TFR
 	'valid = true;
 select many functions from instances of function;
 for each function in functions;
-  select one terminatorItem related by function->terminatorItem[R3704];
-  if ( empty terminatorItem )
-    TRACE::log( flavor:"failure", id:9, message:"function has no parent terminatorItem." );
+  select one activity related by function->activity[R3704];
+  if ( empty activity )
+    TRACE::log( flavor:"failure", id:9, message:"function has no parent activity." );
     valid = false;
   end if;
 end for;

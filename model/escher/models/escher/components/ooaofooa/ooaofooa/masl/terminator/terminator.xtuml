@@ -69,9 +69,9 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'T::include( file:"masl/t.terminator_start.masl" );
-select many terminatorItems related by self->terminatorItem[R3703.''sends''];
-for each terminatorItem in terminatorItems
-  terminatorItem.render();
+select many activitys related by self->activity[R3703.''sends''];
+for each activity in activitys
+  activity.render();
 end for;
 T::include( file:"masl/t.terminator_end.masl" );',
 	1,
@@ -95,7 +95,7 @@ for each terminator in terminators;
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and terminatorItem::validate() );
+return ( valid and activity::validate() );
 ',
 	1,
 	'',
