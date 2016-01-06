@@ -73,6 +73,10 @@ select many terminators related by self->terminator[R3702.''sends through''];
 for each terminator in terminators
   terminator.render();
 end for;
+select many synchronousServices related by self->synchronousService[R3707.''sends through''];
+for each synchronousService in synchronousServices
+  synchronousService.render();
+end for;
 T::include( file:"masl/t.projectdomain_end.masl" );',
 	1,
 	'',
@@ -95,7 +99,7 @@ for each projectdomain in projectdomains;
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and terminator::validate() );
+return ( valid and (terminator::validate() and synchronousService::validate()) );
 ',
 	1,
 	'',

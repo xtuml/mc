@@ -46,9 +46,9 @@ INSERT INTO O_TFR
 	'valid = true;
 select many parameters from instances of parameter;
 for each parameter in parameters
-  select one terminatorItem related by parameter->terminatorItem[R3705];
-  if ( empty terminatorItem )
-    TRACE::log( flavor:"failure", id:13, message:"parameter has no parent terminatorItem." );
+  select one activity related by parameter->activity[R3705];
+  if ( empty activity )
+    TRACE::log( flavor:"failure", id:13, message:"parameter has no parent activity." );
     valid = false;
   end if;
   if ( ( "" == parameter.name ) or ( "" == parameter.type ) )

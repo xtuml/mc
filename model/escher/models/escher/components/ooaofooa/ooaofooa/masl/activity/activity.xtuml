@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("d45d3b11-fb26-431c-a55a-38c2e1817d34",
-	'terminatorItem',
+	'activity',
 	3706,
-	'terminatorItem',
+	'activity',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -15,16 +15,16 @@ INSERT INTO O_TFR
 	"9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
 	0,
 	'terminator = param.terminator;
-create object instance terminatorItem of terminatorItem;
-terminatorItem.name = param.name;
-relate terminator to terminatorItem across R3703.''sends'';
+create object instance activity of activity;
+activity.name = param.name;
+relate terminator to activity across R3703.''sends'';
 if ( "function" == param.flavor )
-  function = function::populate( terminatorItem:terminatorItem );
+  function = function::populate( activity:activity );
   // probably need to pass return type here.
 else
-  service = service::populate( terminatorItem:terminatorItem );
+  service = service::populate( activity:activity ); 
 end if;
-return terminatorItem;',
+return activity;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -72,7 +72,7 @@ INSERT INTO O_TPARM
 INSERT INTO S_DT_PROXY
 	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<terminatorItem>',
+	'inst_ref<activity>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -91,7 +91,7 @@ if ( not_empty function )
 elif ( not_empty service )
   service.render( name:self.name );
 else
-  TRACE::log( flavor:"failure", id:11, message:"no subtype for terminatorItem" );
+  TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
 end if;
 /*
 select one pragma related by self->pragma[R3706];
@@ -110,17 +110,17 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-select many terminatorItems from instances of terminatorItem;
-for each terminatorItem in terminatorItems;
-  select one terminator related by terminatorItem->terminator[R3703];
+select many activitys from instances of activity;
+for each activity in activitys;
+  select one terminator related by activity->terminator[R3703];
   if ( empty terminator )
-    TRACE::log( flavor:"failure", id:8, message:"terminatorItem has no parent terminator." );
+    TRACE::log( flavor:"failure", id:8, message:"activity has no parent terminator." );
     valid = false;
   end if;
-  select one function related by terminatorItem->function[R3704];
-  select one service related by terminatorItem->service[R3704];
+  select one function related by activity->function[R3704];
+  select one service related by activity->service[R3704];
   if ( ( empty function ) and ( empty service ) )
-    TRACE::log( flavor:"failure", id:9, message:"terminatorItem has no child function or service." );
+    TRACE::log( flavor:"failure", id:9, message:"activity has no child function or service." );
     valid = false;
   end if;
 end for;
