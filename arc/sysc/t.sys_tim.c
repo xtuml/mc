@@ -670,10 +670,11 @@ TIM::cancel(
   ETimer_t * const t
 )
 {
-  bool rc; ${te_eq.base_event_type} * e;
+  bool rc = false; ${te_eq.base_event_type} * e;
 .if ( "Nucleus" == te_thread.flavor )
   STATUS status;
 .end if
+  if ( 0 != t ) {
 .if ( te_thread.enabled )
   #ifdef ${te_prefix.define_u}TASKING_${te_thread.flavor}
   ${te_thread.mutex_lock}( SEMAPHORE_FLAVOR_TIMER );
@@ -693,6 +694,7 @@ TIM::cancel(
 .if ( "Nucleus" == te_thread.flavor )
     status = NU_Control_Timer( &nutimers[ t->index ], NU_DISABLE_TIMER );
 .end if
+  }
   }
   return ( rc );
 }

@@ -745,7 +745,7 @@ timer_cancel(
   ETimer_t * const t
 )
 {
-  bool rc; ${te_eq.base_event_type} * e;
+  bool rc = false; ${te_eq.base_event_type} * e;
 .if ( "Nucleus" == te_thread.flavor )
   STATUS status;
 .end if

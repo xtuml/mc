@@ -16,7 +16,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("6d53415a-8a81-449c-a1c2-901d6c3c3a02",
 	"f84ddfd4-06b6-4cbe-9861-922308ac6e54",
-	"359408de-99fe-4fa9-a0f3-285fac6eda61",
+	"1f9d6d76-7574-4893-9b0c-033f903f53dc",
 	'Name',
 	'Full Name: Interface Name',
 	'',
@@ -93,6 +93,24 @@ INSERT INTO O_ATTR
 	'Id',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("1f9d6d76-7574-4893-9b0c-033f903f53dc",
+	"f84ddfd4-06b6-4cbe-9861-922308ac6e54");
+INSERT INTO O_BATTR
+	VALUES ("1f9d6d76-7574-4893-9b0c-033f903f53dc",
+	"f84ddfd4-06b6-4cbe-9861-922308ac6e54");
+INSERT INTO O_ATTR
+	VALUES ("1f9d6d76-7574-4893-9b0c-033f903f53dc",
+	"f84ddfd4-06b6-4cbe-9861-922308ac6e54",
+	"359408de-99fe-4fa9-a0f3-285fac6eda61",
+	'deprecatedPackage_Id',
+	'',
+	'',
+	'deprecatedPackage_Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID
