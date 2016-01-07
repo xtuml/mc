@@ -14,7 +14,15 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'',
+	'//T::include( file:"masl/t.parameter_start.masl" );
+T::b( s:self.type + "_" + self.name );
+select one parameter related by self->parameter[R3706.''precedes''];
+if ( not_empty parameter )
+  T::b( s:"," );
+  parameter.render();
+end if;
+//T::include( file:"masl/t.parameter_end.masl" );
+',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -25,10 +33,87 @@ INSERT INTO O_TFR
 	'',
 	"efc18bbd-7093-4275-9ec7-ed39ba18b5bd",
 	0,
-	'',
+	'activity = param.activity;
+previous_parameter = param.previous_parameter;
+create object instance parameter of parameter;
+parameter.name = param.name;
+parameter.type = param.type;
+parameter.direction = param.direction;
+if ( empty previous_parameter )
+  relate activity to parameter across R3705.''carries first'';
+else
+  relate parameter to previous_parameter across R3706.''succeeds'';
+end if;
+return parameter;',
 	1,
 	'',
 	"cadcf238-29d3-4fb6-9527-9d9fa1e717cd");
+INSERT INTO O_TPARM
+	VALUES ("7ceaa1ba-8508-4cfd-9825-3003e10cc3c2",
+	"2dc9fe5c-6f3b-44ff-b07c-532292fb401c",
+	'name',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("c09b01c6-6037-448c-9989-68b1c3cdc61d",
+	"2dc9fe5c-6f3b-44ff-b07c-532292fb401c",
+	'type',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"7ceaa1ba-8508-4cfd-9825-3003e10cc3c2",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("87a62c0f-8cb0-4985-b4b9-db64d34c4e9d",
+	"2dc9fe5c-6f3b-44ff-b07c-532292fb401c",
+	'direction',
+	"084defe9-b842-4126-a23c-79a2c750ad59",
+	0,
+	'',
+	"c09b01c6-6037-448c-9989-68b1c3cdc61d",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("084defe9-b842-4126-a23c-79a2c750ad59",
+	"00000000-0000-0000-0000-000000000000",
+	'directiontype',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("ef12b616-4fe4-48b2-8746-0367b6eb277e",
+	"2dc9fe5c-6f3b-44ff-b07c-532292fb401c",
+	'activity',
+	"9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
+	0,
+	'',
+	"87a62c0f-8cb0-4985-b4b9-db64d34c4e9d",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<activity>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("a8ee66b0-eafe-4b0c-9b4c-81c0edca2382",
+	"2dc9fe5c-6f3b-44ff-b07c-532292fb401c",
+	'previous_parameter',
+	"efc18bbd-7093-4275-9ec7-ed39ba18b5bd",
+	0,
+	'',
+	"ef12b616-4fe4-48b2-8746-0367b6eb277e",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("efc18bbd-7093-4275-9ec7-ed39ba18b5bd",
 	"00000000-0000-0000-0000-000000000000",
@@ -46,10 +131,14 @@ INSERT INTO O_TFR
 	'valid = true;
 select many parameters from instances of parameter;
 for each parameter in parameters
-  select one activity related by parameter->activity[R3705];
-  if ( empty activity )
-    TRACE::log( flavor:"failure", id:13, message:"parameter has no parent activity." );
-    valid = false;
+  // Look for either a previous parameter or an activity.
+  select one previous_parameter related by parameter->parameter[R3706.''succeeds''];
+  if ( empty previous_parameter )
+    select one activity related by parameter->activity[R3705];
+    if ( empty activity )
+      TRACE::log( flavor:"failure", id:13, message:"parameter has no parent activity." );
+      valid = false;
+    end if;
   end if;
   if ( ( "" == parameter.name ) or ( "" == parameter.type ) )
     TRACE::log( flavor:"failure", id:14, message:"parameter has empty name or type." );
@@ -81,13 +170,6 @@ INSERT INTO O_ATTR
 	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../../../../types/types.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("5dbb9a5c-b304-4b3c-8903-571f9a8235f0",
 	"3af9865b-a463-4db3-952f-80dd7ccd1c11");
@@ -124,13 +206,6 @@ INSERT INTO O_ATTR
 	"084defe9-b842-4126-a23c-79a2c750ad59",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("084defe9-b842-4126-a23c-79a2c750ad59",
-	"00000000-0000-0000-0000-000000000000",
-	'directiontype',
-	'',
-	'',
-	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"3af9865b-a463-4db3-952f-80dd7ccd1c11");

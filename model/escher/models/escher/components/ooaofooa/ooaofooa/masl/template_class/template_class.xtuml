@@ -28,11 +28,11 @@ INSERT INTO O_TFR
 	"3270bb31-6ae8-4e14-bb0f-496ae178fd74",
 	'populate',
 	'',
-	"9e6cb400-d352-4422-a6ca-a78082c391ca",
+	"efc18bbd-7093-4275-9ec7-ed39ba18b5bd",
 	0,
-	'//create object instance project of project;
-//project.name = param.name;
-//return project;',
+	'create object instance template_class of parameter;
+template_class.name = param.name;
+return template_class;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -53,9 +53,9 @@ INSERT INTO S_DT_PROXY
 	'""',
 	'../../../../../types/types.xtuml');
 INSERT INTO S_DT_PROXY
-	VALUES ("9e6cb400-d352-4422-a6ca-a78082c391ca",
+	VALUES ("efc18bbd-7093-4275-9ec7-ed39ba18b5bd",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<project>',
+	'inst_ref<parameter>',
 	'',
 	'',
 	'../masl.xtuml');

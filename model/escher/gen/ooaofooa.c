@@ -27459,7 +27459,7 @@ ooaofooa_xtuml_package_to_masl_project()
         te_mact = ( 0 != te_po ) ? te_po->TE_MACT_R2099_has_first : 0;
         /* WHILE ( not_empty te_mact ) */
         while ( ( 0 != te_mact ) ) {
-          ooaofooa_terminatorItem * terminatorItem;c_t * flavor=0;
+          ooaofooa_TE_PARM * first_te_parm;ooaofooa_activity * activity;c_t * flavor=0;ooaofooa_parameter * parameter=0;ooaofooa_TE_PARM * te_parm=0;
           /* ASSIGN flavor = function */
           flavor = Escher_strcpy( flavor, "function" );
           /* IF ( ( ( SPR_PS == te_mact.subtypeKL ) or ( SPR_RS == te_mact.subtypeKL ) ) ) */
@@ -27467,8 +27467,26 @@ ooaofooa_xtuml_package_to_masl_project()
             /* ASSIGN flavor = service */
             flavor = Escher_strcpy( flavor, "service" );
           }
-          /* ASSIGN terminatorItem = terminatorItem::populate(flavor:flavor, name:te_mact.Name, terminator:terminator) */
-          terminatorItem = ooaofooa_terminatorItem_op_populate(flavor, te_mact->Name, terminator);
+          /* ASSIGN activity = activity::populate(flavor:flavor, name:te_mact.Name, terminator:terminator) */
+          activity = ooaofooa_activity_op_populate(flavor, te_mact->Name, terminator);
+          /* SELECT any te_parm RELATED BY te_mact->TE_ABA[R2010]->TE_PARM[R2062] */
+          te_parm = 0;
+          {          if ( 0 != te_mact ) {
+          ooaofooa_TE_ABA * TE_ABA_R2010 = te_mact->TE_ABA_R2010;
+          if ( 0 != TE_ABA_R2010 ) {
+          te_parm = ( 0 != TE_ABA_R2010 ) ? (ooaofooa_TE_PARM *) Escher_SetGetAny( &TE_ABA_R2010->TE_PARM_R2062 ) : 0;
+}}}
+          /* ASSIGN first_te_parm = te_parm */
+          first_te_parm = te_parm;
+          /* SELECT any parameter FROM INSTANCES OF parameter WHERE FALSE */
+          parameter = 0;
+          /* WHILE ( not_empty te_parm ) */
+          while ( ( 0 != te_parm ) ) {
+            /* ASSIGN parameter = parameter::populate(activity:activity, direction:in, name:te_parm.Name, previous_parameter:parameter, type:mytype) */
+            parameter = ooaofooa_parameter_op_populate(activity, ooaofooa_directiontype_in_e, te_parm->Name, parameter, "mytype");
+            /* SELECT one te_parm RELATED BY te_parm->TE_PARM[R2041.precedes] */
+            te_parm = ( 0 != te_parm ) ? te_parm->TE_PARM_R2041_precedes : 0;
+          }
           /* SELECT one te_mact RELATED BY te_mact->TE_MACT[R2083.precedes] */
           te_mact = ( 0 != te_mact ) ? te_mact->TE_MACT_R2083_precedes : 0;
         }
@@ -27722,8 +27740,9 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_terminator_instancedumper,
   ooaofooa_service_instancedumper,
   ooaofooa_function_instancedumper,
-  ooaofooa_terminatorItem_instancedumper,
+  ooaofooa_activity_instancedumper,
   ooaofooa_parameter_instancedumper,
+  ooaofooa_template_class_instancedumper,
   ooaofooa_S_EE_instancedumper,
   ooaofooa_C_C_instancedumper,
   ooaofooa_C_I_instancedumper,
@@ -28170,8 +28189,9 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_terminator_extent,
   &pG_ooaofooa_service_extent,
   &pG_ooaofooa_function_extent,
-  &pG_ooaofooa_terminatorItem_extent,
+  &pG_ooaofooa_activity_extent,
   &pG_ooaofooa_parameter_extent,
+  &pG_ooaofooa_template_class_extent,
   &pG_ooaofooa_S_EE_extent,
   &pG_ooaofooa_C_C_extent,
   &pG_ooaofooa_C_I_extent,
