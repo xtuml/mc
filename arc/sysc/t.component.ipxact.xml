@@ -2,8 +2,8 @@
 <spirit:component xmlns:soc="http://www.duolog.com/2011/05/socrates"
                   xmlns:soc2009="http://www.duolog.com/2009/02/socrates"
                   xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009">
-   <spirit:vendor>mentor.com</spirit:vendor>
-   <spirit:library>bridgepoint</spirit:library>
+   <spirit:vendor>xtuml.org</spirit:vendor>
+   <spirit:library>BridgePoint</spirit:library>
    <spirit:name>${te_c.Name}</spirit:name>
    <spirit:version>1.0</spirit:version>
    <spirit:busInterfaces>

@@ -1,0 +1,152 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("f834c381-1d14-4833-b338-186079054489",
+	'Return Stmt',
+	624,
+	'ACT_RET',
+	'Represents a return statement. It has an optional relationship with a value
+because returns may bear a value depending on whether the callee
+returns void or not.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("f834c381-1d14-4833-b338-186079054489",
+	"177bef3b-5242-4e76-8931-d5cecb333346",
+	0,
+	"9b795bc0-781f-43f3-81f1-24d02d86cd8d",
+	"9c31614d-6885-4aa7-b05d-1480d41e4416",
+	"58d1eb5f-dbd9-4d67-a40f-30ef811de935",
+	"bda78a51-8a2c-4291-a84a-519afbcf7051",
+	"c6343a06-8fed-4c00-be9c-6960844f2098",
+	"2247c86e-706f-41f9-8e82-0bbafd6d4dc9",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Statement',
+	'Statement_ID',
+	'R603');
+INSERT INTO R_RGO_PROXY
+	VALUES ("f834c381-1d14-4833-b338-186079054489",
+	"9c31614d-6885-4aa7-b05d-1480d41e4416",
+	"58d1eb5f-dbd9-4d67-a40f-30ef811de935",
+	'../../Body/Body.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("9b795bc0-781f-43f3-81f1-24d02d86cd8d",
+	"177bef3b-5242-4e76-8931-d5cecb333346",
+	0,
+	"9c31614d-6885-4aa7-b05d-1480d41e4416",
+	"bda78a51-8a2c-4291-a84a-519afbcf7051",
+	'../../Body/Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("c6343a06-8fed-4c00-be9c-6960844f2098",
+	"f834c381-1d14-4833-b338-186079054489",
+	"9b795bc0-781f-43f3-81f1-24d02d86cd8d",
+	"177bef3b-5242-4e76-8931-d5cecb333346",
+	1,
+	'Statement_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("9b795bc0-781f-43f3-81f1-24d02d86cd8d",
+	"177bef3b-5242-4e76-8931-d5cecb333346",
+	'../../Body/Statement/Statement.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("c6343a06-8fed-4c00-be9c-6960844f2098",
+	"f834c381-1d14-4833-b338-186079054489",
+	"00000000-0000-0000-0000-000000000000",
+	'Statement_ID',
+	'
+
+',
+	'',
+	'Statement_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("f834c381-1d14-4833-b338-186079054489",
+	"92c84494-204f-410c-a272-a04ae1fc102d",
+	0,
+	"7fe36e33-9983-4067-a709-bc046d54fa79",
+	"7ffbc099-aec4-48d7-9f5d-0864a7fe1ea5",
+	"980edc38-589a-4a86-8115-76f1bd5f2d1f",
+	"5eed68db-2e62-4712-9894-6443d4a8d356",
+	"e7001447-82f2-487d-9a88-867adb03ba5b",
+	"b7e2955f-5b92-4a2c-be21-1a138c58435a",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Value',
+	'Value_ID',
+	'R668.''has''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("f834c381-1d14-4833-b338-186079054489",
+	"7ffbc099-aec4-48d7-9f5d-0864a7fe1ea5",
+	"980edc38-589a-4a86-8115-76f1bd5f2d1f",
+	'../Invocation.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("7fe36e33-9983-4067-a709-bc046d54fa79",
+	"92c84494-204f-410c-a272-a04ae1fc102d",
+	0,
+	"7ffbc099-aec4-48d7-9f5d-0864a7fe1ea5",
+	"5eed68db-2e62-4712-9894-6443d4a8d356",
+	'../Invocation.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("e7001447-82f2-487d-9a88-867adb03ba5b",
+	"f834c381-1d14-4833-b338-186079054489",
+	"7fe36e33-9983-4067-a709-bc046d54fa79",
+	"92c84494-204f-410c-a272-a04ae1fc102d",
+	1,
+	'Value_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("7fe36e33-9983-4067-a709-bc046d54fa79",
+	"92c84494-204f-410c-a272-a04ae1fc102d",
+	'../../Value/Value/Value.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("e7001447-82f2-487d-9a88-867adb03ba5b",
+	"f834c381-1d14-4833-b338-186079054489",
+	"c6343a06-8fed-4c00-be9c-6960844f2098",
+	'Value_ID',
+	'
+
+',
+	'',
+	'Value_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"f834c381-1d14-4833-b338-186079054489");
+INSERT INTO O_OIDA
+	VALUES ("c6343a06-8fed-4c00-be9c-6960844f2098",
+	"f834c381-1d14-4833-b338-186079054489",
+	0,
+	'Statement_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"f834c381-1d14-4833-b338-186079054489");
+INSERT INTO O_ID
+	VALUES (2,
+	"f834c381-1d14-4833-b338-186079054489");
+INSERT INTO PE_PE
+	VALUES ("f834c381-1d14-4833-b338-186079054489",
+	1,
+	"9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("9d4a8e52-c9fd-43f9-970e-849d55310f38",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Invocation',
+	'This subsystem captures the concepts of call and return. It covers
+calls to operations, bridges and functions and includes the return
+statement.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	600,
+	'../Invocation.xtuml');

@@ -284,15 +284,7 @@
   .invoke r = TE_DT_EnumerationDataTypes( te_dt )
   .assign te_typemap.enumeration_info = te_typemap.enumeration_info + r.body
 .end for
-.select many enumeration_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
-.for each te_dt in enumeration_te_dts
-  .invoke r = TE_DT_EnumerationDataTypes( te_dt )
-  .assign te_typemap.enumeration_info = te_typemap.enumeration_info + r.body
-.end for
 .select many structured_te_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
-.invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
-.assign te_typemap.structured_data_types = te_typemap.structured_data_types + s.body
-.select many structured_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
 .invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
 .assign te_typemap.structured_data_types = te_typemap.structured_data_types + s.body
 .// Get all components, not just those with internal behavior.

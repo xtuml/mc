@@ -1,0 +1,237 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("e713e610-1810-4297-92bf-356edeca17a7",
+	'Class As Link',
+	211,
+	'R_ASSR',
+	'The Associator is the class that formalizes the linked association between two classes.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("e713e610-1810-4297-92bf-356edeca17a7",
+	"4a0653b6-2aff-455d-b184-6b77ad4404fb",
+	0,
+	"bc09ed38-d479-4caa-b2d0-c3fe8eec52ca",
+	"36607552-1888-40a3-acf0-ba1732c1bfbc",
+	"55ed97b6-a0be-48ce-9e3e-90c10743ba1c",
+	"8c976443-9b63-435d-9207-f7c1183793d7",
+	"714726e0-f446-4dfa-a67e-c4e9e79c29fa",
+	"25f3cd3f-f151-41d2-b733-cdcb127e2bfa",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Referring Class In Assoc',
+	'OIR_ID',
+	'R205');
+INSERT INTO R_RGO_PROXY
+	VALUES ("e713e610-1810-4297-92bf-356edeca17a7",
+	"36607552-1888-40a3-acf0-ba1732c1bfbc",
+	"55ed97b6-a0be-48ce-9e3e-90c10743ba1c",
+	'../Association.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("bc09ed38-d479-4caa-b2d0-c3fe8eec52ca",
+	"4a0653b6-2aff-455d-b184-6b77ad4404fb",
+	0,
+	"36607552-1888-40a3-acf0-ba1732c1bfbc",
+	"8c976443-9b63-435d-9207-f7c1183793d7",
+	'../Association.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("714726e0-f446-4dfa-a67e-c4e9e79c29fa",
+	"e713e610-1810-4297-92bf-356edeca17a7",
+	"96b313c0-39dc-42cc-8bdc-35c7c15311c9",
+	"0ddf0137-a9ca-4ac5-83b9-be8e5e377a32",
+	1,
+	'OIR_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("96b313c0-39dc-42cc-8bdc-35c7c15311c9",
+	"0ddf0137-a9ca-4ac5-83b9-be8e5e377a32",
+	'../Class In Association/Class In Association.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("714726e0-f446-4dfa-a67e-c4e9e79c29fa",
+	"e713e610-1810-4297-92bf-356edeca17a7",
+	"be5ecd8d-911b-4111-b812-6659f7c2a117",
+	'OIR_ID',
+	'',
+	'',
+	'OIR_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("961d3d83-ea5f-4786-b39b-cb4c746f4ef3",
+	"e713e610-1810-4297-92bf-356edeca17a7");
+INSERT INTO O_BATTR
+	VALUES ("961d3d83-ea5f-4786-b39b-cb4c746f4ef3",
+	"e713e610-1810-4297-92bf-356edeca17a7");
+INSERT INTO O_ATTR
+	VALUES ("961d3d83-ea5f-4786-b39b-cb4c746f4ef3",
+	"e713e610-1810-4297-92bf-356edeca17a7",
+	"714726e0-f446-4dfa-a67e-c4e9e79c29fa",
+	'Mult',
+	'Full Name: Multiplicity
+Description: Multiplicity of the associator.  Indicates how many instances of the associator may exist for each instance of the association between the two related classes.
+Data Domain: 0 = one, 1 = many
+enum0: One
+enum1: Many
+',
+	'',
+	'Mult',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("e713e610-1810-4297-92bf-356edeca17a7",
+	"4a0653b6-2aff-455d-b184-6b77ad4404fb",
+	0,
+	"916c33f1-4405-4614-a4e3-c9a2a46978c7",
+	"36607552-1888-40a3-acf0-ba1732c1bfbc",
+	"55ed97b6-a0be-48ce-9e3e-90c10743ba1c",
+	"8c976443-9b63-435d-9207-f7c1183793d7",
+	"7c05d300-ea1c-49d4-a1cd-c624b6cf9e39",
+	"a0a7eeef-be2d-450f-bf64-61c87d35e423",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Referring Class In Assoc',
+	'Obj_ID',
+	'R205');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("916c33f1-4405-4614-a4e3-c9a2a46978c7",
+	"4a0653b6-2aff-455d-b184-6b77ad4404fb",
+	0,
+	"36607552-1888-40a3-acf0-ba1732c1bfbc",
+	"8c976443-9b63-435d-9207-f7c1183793d7",
+	'../Association.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("7c05d300-ea1c-49d4-a1cd-c624b6cf9e39",
+	"e713e610-1810-4297-92bf-356edeca17a7",
+	"10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("7c05d300-ea1c-49d4-a1cd-c624b6cf9e39",
+	"e713e610-1810-4297-92bf-356edeca17a7",
+	"00000000-0000-0000-0000-000000000000",
+	'Obj_ID',
+	'',
+	'',
+	'Obj_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("e713e610-1810-4297-92bf-356edeca17a7",
+	"eddcd87b-d06e-4bca-b612-448ab3a575b2",
+	0,
+	"55120487-e158-4492-926a-600916939254",
+	"717299e9-2036-4cb4-8c2e-c1ed12ce5e23",
+	"33af8f9d-d363-40a6-a4bd-0477cfef20c5",
+	"8c4c87ab-69cc-4476-888a-597c98c12b22",
+	"be5ecd8d-911b-4111-b812-6659f7c2a117",
+	"58bca8dd-d3ea-4e8c-aa1a-53133a5cf62d",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Linked Association',
+	'Rel_ID',
+	'R211.''formalizes association between associated classes''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("e713e610-1810-4297-92bf-356edeca17a7",
+	"717299e9-2036-4cb4-8c2e-c1ed12ce5e23",
+	"33af8f9d-d363-40a6-a4bd-0477cfef20c5",
+	'../Association.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("55120487-e158-4492-926a-600916939254",
+	"eddcd87b-d06e-4bca-b612-448ab3a575b2",
+	0,
+	"717299e9-2036-4cb4-8c2e-c1ed12ce5e23",
+	"8c4c87ab-69cc-4476-888a-597c98c12b22",
+	'../Association.xtuml');
+INSERT INTO O_REF
+	VALUES ("e713e610-1810-4297-92bf-356edeca17a7",
+	"4a0653b6-2aff-455d-b184-6b77ad4404fb",
+	0,
+	"868476ae-0189-45d4-a2e4-4523643d088b",
+	"36607552-1888-40a3-acf0-ba1732c1bfbc",
+	"55ed97b6-a0be-48ce-9e3e-90c10743ba1c",
+	"8c976443-9b63-435d-9207-f7c1183793d7",
+	"be5ecd8d-911b-4111-b812-6659f7c2a117",
+	"fc498044-4136-4a34-9a94-f2fbc74227f5",
+	"58bca8dd-d3ea-4e8c-aa1a-53133a5cf62d",
+	0,
+	'',
+	'Referring Class In Assoc',
+	'Rel_ID',
+	'R205');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("868476ae-0189-45d4-a2e4-4523643d088b",
+	"4a0653b6-2aff-455d-b184-6b77ad4404fb",
+	0,
+	"36607552-1888-40a3-acf0-ba1732c1bfbc",
+	"8c976443-9b63-435d-9207-f7c1183793d7",
+	'../Association.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("be5ecd8d-911b-4111-b812-6659f7c2a117",
+	"e713e610-1810-4297-92bf-356edeca17a7",
+	"10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	1,
+	'Element_ID');
+INSERT INTO O_ATTR
+	VALUES ("be5ecd8d-911b-4111-b812-6659f7c2a117",
+	"e713e610-1810-4297-92bf-356edeca17a7",
+	"7c05d300-ea1c-49d4-a1cd-c624b6cf9e39",
+	'Rel_ID',
+	'',
+	'',
+	'Rel_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"e713e610-1810-4297-92bf-356edeca17a7");
+INSERT INTO O_OIDA
+	VALUES ("714726e0-f446-4dfa-a67e-c4e9e79c29fa",
+	"e713e610-1810-4297-92bf-356edeca17a7",
+	0,
+	'OIR_ID');
+INSERT INTO O_OIDA
+	VALUES ("7c05d300-ea1c-49d4-a1cd-c624b6cf9e39",
+	"e713e610-1810-4297-92bf-356edeca17a7",
+	0,
+	'Obj_ID');
+INSERT INTO O_OIDA
+	VALUES ("be5ecd8d-911b-4111-b812-6659f7c2a117",
+	"e713e610-1810-4297-92bf-356edeca17a7",
+	0,
+	'Rel_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"e713e610-1810-4297-92bf-356edeca17a7");
+INSERT INTO O_ID
+	VALUES (2,
+	"e713e610-1810-4297-92bf-356edeca17a7");
+INSERT INTO PE_PE
+	VALUES ("e713e610-1810-4297-92bf-356edeca17a7",
+	1,
+	"dbacb198-2a67-44fd-8fdd-f250645906c3",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("dbacb198-2a67-44fd-8fdd-f250645906c3",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Association',
+	'A association (R_REL) captures an association between things in the real world. A association is stated in terms of the formal classs (O_OBJ) that model the real world entities participating in the association. There can be any number of associations between the same two classs and any class can participate in any number of associations with other classs.',
+	201,
+	'../Association.xtuml');

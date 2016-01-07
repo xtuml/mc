@@ -1,0 +1,249 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("11665866-fbcf-463f-9ff2-89ff3ede2650",
+	'Imported Class',
+	102,
+	'O_IOBJ',
+	'Classes can have interactions with classes in other subsystems.  In order to capture these spanning interactions, Classes can be imported into another subsystem.  Spanning interactions can be associations, event communications, or data accesses and are captured in class diagram, communication diagram, and synchronous communication diagram, respectively.  Spanning interactions provide the data for derivation of the subsystem association model, subsystem communication model, and subsystem access model.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("236eb0f1-9470-4658-b3aa-604ad41d1126",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650");
+INSERT INTO O_BATTR
+	VALUES ("236eb0f1-9470-4658-b3aa-604ad41d1126",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650");
+INSERT INTO O_ATTR
+	VALUES ("236eb0f1-9470-4658-b3aa-604ad41d1126",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"3df0eae6-7f9c-4125-9efc-4991d5e3167d",
+	'Modl_Typ',
+	'Full Name: Model Type
+Description: Indicates what type of model the Imported Class is in.
+Data Domain: 5 indicates Class Diagram, 6 indicates Communication Diagram, 7 indicates Synchronous Communication Diagram
+enum5: Class Diagram
+enum6: Communication Diagram
+enum7: Synchronous Communication Diagram
+impl_detail: true
+readonly: true
+User_Visible: false',
+	'',
+	'Modl_Typ',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"56747d6c-7eca-403d-b0b1-1a3933cfc24e",
+	0,
+	"0a55dd0b-797c-412e-8c40-055b9baf1511",
+	"54b4f4d3-59a5-43d7-9981-34b15a8b352a",
+	"46565142-fda4-43f4-a2f2-a016613f04e5",
+	"92fef2bf-841d-479b-9191-58fac57ad62c",
+	"ee741c61-4c19-4fae-8999-9ed6bf8591af",
+	"9b5f46ae-8aff-4c93-8ee6-8f3c40b046ae",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Subsystem',
+	'SS_ID',
+	'R3.''represents a class from another subsystem in''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"54b4f4d3-59a5-43d7-9981-34b15a8b352a",
+	"46565142-fda4-43f4-a2f2-a016613f04e5",
+	'../../Domain/Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("0a55dd0b-797c-412e-8c40-055b9baf1511",
+	"56747d6c-7eca-403d-b0b1-1a3933cfc24e",
+	0,
+	"54b4f4d3-59a5-43d7-9981-34b15a8b352a",
+	"92fef2bf-841d-479b-9191-58fac57ad62c",
+	'../../Domain/Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("ee741c61-4c19-4fae-8999-9ed6bf8591af",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"0a55dd0b-797c-412e-8c40-055b9baf1511",
+	"56747d6c-7eca-403d-b0b1-1a3933cfc24e",
+	1,
+	'SS_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("0a55dd0b-797c-412e-8c40-055b9baf1511",
+	"56747d6c-7eca-403d-b0b1-1a3933cfc24e",
+	'../../Domain/Subsystem/Subsystem.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("ee741c61-4c19-4fae-8999-9ed6bf8591af",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"236eb0f1-9470-4658-b3aa-604ad41d1126",
+	'SS_ID',
+	'',
+	'',
+	'SS_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_BATTR
+	VALUES ("6ef3791d-e5b0-4fa2-9aaf-4774f4853b00",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650");
+INSERT INTO O_ATTR
+	VALUES ("6ef3791d-e5b0-4fa2-9aaf-4774f4853b00",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"ee741c61-4c19-4fae-8999-9ed6bf8591af",
+	'Obj_Name',
+	'Full Name: Class Name
+Description:  This attribute provides identifying information for the Class related to this Imported Class.  This is used to associate the Imported Class to its related Class when importing a subsystem containing the Imported Class into a new/different domain.
+
+',
+	'',
+	'Obj_Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_BATTR
+	VALUES ("f7a3c3cb-7c2e-4f2f-9867-7876e9fbcc27",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650");
+INSERT INTO O_ATTR
+	VALUES ("f7a3c3cb-7c2e-4f2f-9867-7876e9fbcc27",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"6ef3791d-e5b0-4fa2-9aaf-4774f4853b00",
+	'Obj_KL',
+	'Full Name: Class Key Letter
+Description:  This attribute provides identifying information for the Class related to this Imported class.  This is used to associate the Imported Class to its related class when importing a  subsystem containing the Imported Class into a new/different domain.
+
+',
+	'',
+	'Obj_KL',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"a426ad77-e925-436b-a6e8-aec3b1a64feb",
+	0,
+	"f9bc02a5-ccc6-4c52-8cb4-0b3ea80283c2",
+	"403782be-1010-4d72-a556-ff59c20a22ba",
+	"5b066c1b-80de-4764-ace6-8ad48004ede3",
+	"10136871-6284-4279-9468-b9935ea21ee0",
+	"3df0eae6-7f9c-4125-9efc-4991d5e3167d",
+	"cd7a3988-7750-4faa-ac43-56fea208fe79",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Model Class',
+	'Obj_ID',
+	'R101.''represents''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"403782be-1010-4d72-a556-ff59c20a22ba",
+	"5b066c1b-80de-4764-ace6-8ad48004ede3",
+	'../Subsystem.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("f9bc02a5-ccc6-4c52-8cb4-0b3ea80283c2",
+	"a426ad77-e925-436b-a6e8-aec3b1a64feb",
+	0,
+	"403782be-1010-4d72-a556-ff59c20a22ba",
+	"10136871-6284-4279-9468-b9935ea21ee0",
+	'../Subsystem.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("3df0eae6-7f9c-4125-9efc-4991d5e3167d",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("3df0eae6-7f9c-4125-9efc-4991d5e3167d",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"148c5322-3c2e-4460-a94d-0d6de9cfcedb",
+	'Obj_ID',
+	'',
+	'',
+	'Obj_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	0,
+	"10876fab-1b74-4366-9d45-f2779fe993c7",
+	"734f5278-f196-41d4-b64f-6329ae4003b2",
+	"fdb0b6fd-1571-4e77-b610-d25fa720af6f",
+	"4d820d1d-1a8f-45e2-9029-955fd7f1aa53",
+	"148c5322-3c2e-4460-a94d-0d6de9cfcedb",
+	"74161052-5d32-4b6a-a791-0408ce8429d8",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Packageable Element',
+	'Element_ID',
+	'R8001');
+INSERT INTO R_RGO_PROXY
+	VALUES ("11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"734f5278-f196-41d4-b64f-6329ae4003b2",
+	"fdb0b6fd-1571-4e77-b610-d25fa720af6f",
+	'../../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	0,
+	"734f5278-f196-41d4-b64f-6329ae4003b2",
+	"4d820d1d-1a8f-45e2-9029-955fd7f1aa53",
+	'../../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("148c5322-3c2e-4460-a94d-0d6de9cfcedb",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"10876fab-1b74-4366-9d45-f2779fe993c7",
+	"a0b3f5fd-8d11-4269-90dc-c38e909bb134",
+	0,
+	'Element_ID');
+INSERT INTO O_ATTR
+	VALUES ("148c5322-3c2e-4460-a94d-0d6de9cfcedb",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650",
+	"00000000-0000-0000-0000-000000000000",
+	'IObj_ID',
+	'Full Name: Imported Class Identifier
+Description: Uniquely identifies an instance of imported class',
+	'',
+	'IObj_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"11665866-fbcf-463f-9ff2-89ff3ede2650");
+INSERT INTO O_OIDA
+	VALUES ("148c5322-3c2e-4460-a94d-0d6de9cfcedb",
+	"11665866-fbcf-463f-9ff2-89ff3ede2650",
+	0,
+	'IObj_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"11665866-fbcf-463f-9ff2-89ff3ede2650");
+INSERT INTO O_ID
+	VALUES (2,
+	"11665866-fbcf-463f-9ff2-89ff3ede2650");
+INSERT INTO PE_PE
+	VALUES ("11665866-fbcf-463f-9ff2-89ff3ede2650",
+	1,
+	"3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("3a8c0635-d6ac-46d2-8f80-2a93efbc0352",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Subsystem',
+	'A class (O_OBJ)  is an abstraction of a real world thing that has specific attributes (O_ATTR) and, if active, has a lifecycle model as a state machine (SM_SM).  All instances of the class must have the same characteristics and follow the same state behavior.  Classes fall into many categories, some of which are: tangible things, roles, interactions and specifications. ',
+	101,
+	'../Subsystem.xtuml');

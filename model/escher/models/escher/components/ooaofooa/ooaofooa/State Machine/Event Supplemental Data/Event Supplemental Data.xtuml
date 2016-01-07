@@ -1,0 +1,132 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("4813237e-fd98-4c49-b472-46be7fd9eb53",
+	'Event Supplemental Data',
+	518,
+	'SM_SUPDT',
+	'Each event (SM_EVT) may carry supplemental event data defined by state machine event data items (SM_EVTDI).  The supplemental data items for the event are defined by instances of supplemental data items (SM_SDI).
+
+Events now locate their data across simple association R532.
+
+Deprecated:true',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("abe586ab-44ca-4e20-afc9-4cae55a3bd83",
+	"4813237e-fd98-4c49-b472-46be7fd9eb53");
+INSERT INTO O_BATTR
+	VALUES ("abe586ab-44ca-4e20-afc9-4cae55a3bd83",
+	"4813237e-fd98-4c49-b472-46be7fd9eb53");
+INSERT INTO O_ATTR
+	VALUES ("abe586ab-44ca-4e20-afc9-4cae55a3bd83",
+	"4813237e-fd98-4c49-b472-46be7fd9eb53",
+	"00000000-0000-0000-0000-000000000000",
+	'SMspd_ID',
+	'Full Name: Event Supplemental Data Identifier',
+	'',
+	'SMspd_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("4813237e-fd98-4c49-b472-46be7fd9eb53",
+	"e6a05b2a-a5b1-4801-bfa2-05634a816c39",
+	0,
+	"d1f21926-ba0e-46a1-bbb6-7dc805608dd9",
+	"5f3e8460-afcd-4ea8-9121-a9b841844607",
+	"574bd93b-3b3e-49b6-afba-56309d90b874",
+	"15ffc4a4-cdf1-48fc-aa44-bf0f9a3183ab",
+	"547faa30-57d2-4c4d-9e7f-4ba31b744565",
+	"ee73f549-254a-4df1-900e-6ce95265d179",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'State Machine',
+	'SM_ID',
+	'R523.''is assigned to''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("4813237e-fd98-4c49-b472-46be7fd9eb53",
+	"5f3e8460-afcd-4ea8-9121-a9b841844607",
+	"574bd93b-3b3e-49b6-afba-56309d90b874",
+	'../State Machine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("d1f21926-ba0e-46a1-bbb6-7dc805608dd9",
+	"e6a05b2a-a5b1-4801-bfa2-05634a816c39",
+	0,
+	"5f3e8460-afcd-4ea8-9121-a9b841844607",
+	"15ffc4a4-cdf1-48fc-aa44-bf0f9a3183ab",
+	'../State Machine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("547faa30-57d2-4c4d-9e7f-4ba31b744565",
+	"4813237e-fd98-4c49-b472-46be7fd9eb53",
+	"d1f21926-ba0e-46a1-bbb6-7dc805608dd9",
+	"e6a05b2a-a5b1-4801-bfa2-05634a816c39",
+	1,
+	'SM_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("d1f21926-ba0e-46a1-bbb6-7dc805608dd9",
+	"e6a05b2a-a5b1-4801-bfa2-05634a816c39",
+	'../State Machine/State Machine.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("547faa30-57d2-4c4d-9e7f-4ba31b744565",
+	"4813237e-fd98-4c49-b472-46be7fd9eb53",
+	"abe586ab-44ca-4e20-afc9-4cae55a3bd83",
+	'SM_ID',
+	'',
+	'',
+	'SM_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_BATTR
+	VALUES ("c5bfad2f-e1fd-43c8-9a3c-8b04c3f091f6",
+	"4813237e-fd98-4c49-b472-46be7fd9eb53");
+INSERT INTO O_ATTR
+	VALUES ("c5bfad2f-e1fd-43c8-9a3c-8b04c3f091f6",
+	"4813237e-fd98-4c49-b472-46be7fd9eb53",
+	"547faa30-57d2-4c4d-9e7f-4ba31b744565",
+	'Non_Local',
+	'Full Name: Non local event indicator
+Description: This attribute captures that the event supplemental data is for a non-local event.
+User_Visible:false',
+	'',
+	'Non_Local',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"4813237e-fd98-4c49-b472-46be7fd9eb53");
+INSERT INTO O_OIDA
+	VALUES ("abe586ab-44ca-4e20-afc9-4cae55a3bd83",
+	"4813237e-fd98-4c49-b472-46be7fd9eb53",
+	0,
+	'SMspd_ID');
+INSERT INTO O_OIDA
+	VALUES ("547faa30-57d2-4c4d-9e7f-4ba31b744565",
+	"4813237e-fd98-4c49-b472-46be7fd9eb53",
+	0,
+	'SM_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"4813237e-fd98-4c49-b472-46be7fd9eb53");
+INSERT INTO O_ID
+	VALUES (2,
+	"4813237e-fd98-4c49-b472-46be7fd9eb53");
+INSERT INTO PE_PE
+	VALUES ("4813237e-fd98-4c49-b472-46be7fd9eb53",
+	1,
+	"ab469178-a47f-4ae8-a56d-630aafb7f3e6",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ab469178-a47f-4ae8-a56d-630aafb7f3e6",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'State Machine',
+	'Classes (O_OBJ) that have interesting behavior are given lifecycles. These lifecycles are described using state machines (SM_SM). A state machine consists of states, events, transitions and state actions. The state machine exists for each instance of the class for which it has been modeled (SM_ISM). A state machine can also be an assigner state machine (SM_ASM) of which only one can exists for all class instances. The purpose of the assigner state machine is to act as a single point of control through which competing requests are serialized.',
+	501,
+	'../State Machine.xtuml');

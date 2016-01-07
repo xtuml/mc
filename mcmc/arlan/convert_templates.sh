@@ -11,5 +11,5 @@ for f in $filelist; do
   awk '{if ($0 ~ "T_b") gsub("\"","\\\"");print $0;}' | \
   sed 's/&quot;/"/g' | \
   sed 's/ \("[^"]*"\) == \([^ ]*\) / 0==strcmp(\1,\2) /g' | \
-  sed 's/ \("[^"]*"\) != \([^ ]*\) / 0!=strcmp(\1,\2) /g' > ../../model/com.mentor.nucleus.bp.core/src/c/$f
+  sed 's/ \("[^"]*"\) != \([^ ]*\) / 0!=strcmp(\1,\2) /g' > ../../model/escher/src/c/$f
 done
