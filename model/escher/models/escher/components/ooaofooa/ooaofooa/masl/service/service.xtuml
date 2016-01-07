@@ -14,9 +14,9 @@ INSERT INTO O_TFR
 	'',
 	"bacf9e88-ff96-4abb-b961-63e84099187b",
 	0,
-	'terminatorItem = param.terminatorItem;
+	'activity = param.activity;
 create object instance service of service;
-relate terminatorItem to service across R3704;
+relate activity to service across R3704;
 return service;',
 	1,
 	'',
@@ -24,7 +24,7 @@ return service;',
 INSERT INTO O_TPARM
 	VALUES ("fde425d2-49e0-423e-9525-49e474624919",
 	"8275b442-6e50-485c-8ee3-3be682034ef2",
-	'terminatorItem',
+	'activity',
 	"9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
 	0,
 	'',
@@ -33,7 +33,7 @@ INSERT INTO O_TPARM
 INSERT INTO S_DT_PROXY
 	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<terminatorItem>',
+	'inst_ref<activity>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -53,7 +53,7 @@ INSERT INTO O_TFR
 	1,
 	'name = param.name;
 T::include( file:"masl/t.service_start.masl" );
-select one parameter related by self->terminatorItem[R3704]->parameter[R3705.''carries first''];
+select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
 if ( not_empty parameter )
   parameter.render();
 end if;
@@ -87,9 +87,9 @@ INSERT INTO O_TFR
 	'valid = true;
 select many services from instances of service;
 for each service in services;
-  select one terminatorItem related by service->terminatorItem[R3704];
-  if ( empty terminatorItem )
-    TRACE::log( flavor:"failure", id:10, message:"service has no parent terminatorItem." );
+  select one activity related by service->activity[R3704];
+  if ( empty activity )
+    TRACE::log( flavor:"failure", id:10, message:"service has no parent activity." );
     valid = false;
   end if;
 end for;
