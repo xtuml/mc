@@ -14,15 +14,22 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.parameter_start.masl" );
-T::b( s:self.type + "_" + self.name );
+	'direction = "";
+if ( directiontype::in == self.direction )
+  direction = "in";
+elif ( directiontype::out == self.direction )
+  direction = "out";
+elif ( directiontype::inout == self.direction )
+  direction = "inout";
+else
+  TRACE::log( flavor:"failure", id:28, message:"parameter got invalid direction." );
+end if;
+T::include( file:"masl/t.parameter.masl" );
 select one parameter related by self->parameter[R3706.''precedes''];
 if ( not_empty parameter )
   T::b( s:"," );
   parameter.render();
-end if;
-//T::include( file:"masl/t.parameter_end.masl" );
-',
+end if;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");

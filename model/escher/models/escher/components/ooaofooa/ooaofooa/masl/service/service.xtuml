@@ -52,6 +52,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'name = param.name;
+visibility = param.visibility;
 T::include( file:"masl/t.service_start.masl" );
 select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
 if ( not_empty parameter )
@@ -77,6 +78,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'""',
 	'../../../../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("6c2ec7f9-03f3-4d2c-85c1-b4bef8dbaa26",
+	"9f337dd4-326f-42e6-b7b6-7d01703b222a",
+	'visibility',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"38487711-7005-4280-974d-d0a8d84c95dc",
+	'');
 INSERT INTO O_TFR
 	VALUES ("f5b396ba-faed-440e-a769-15dfb9082f19",
 	"a8a1e107-08a3-4ce4-8478-d0d1ae4eecac",

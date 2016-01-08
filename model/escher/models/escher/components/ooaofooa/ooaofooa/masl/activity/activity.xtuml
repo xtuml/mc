@@ -17,12 +17,14 @@ INSERT INTO O_TFR
 	'terminator = param.terminator;
 create object instance activity of activity;
 activity.name = param.name;
-relate terminator to activity across R3703.''sends'';
 if ( "function" == param.flavor )
-  function = function::populate( activity:activity );
-  // probably need to pass return type here.
-else
+  function = function::populate( returntype:"myint", activity:activity );
+  relate terminator to activity across R3703.''sends'';
+elif ( "service" == param.flavor )
   service = service::populate( activity:activity ); 
+  // CDS Get domain linked here.
+else
+  TRACE::log( flavor:"failure", id:18, message:"invalid flavor of activity:  " + param.flavor );
 end if;
 return activity;',
 	1,
@@ -85,11 +87,20 @@ INSERT INTO O_TFR
 	1,
 	'select one function related by self->function[R3704];
 select one service related by self->service[R3704];
+visibility = "";
+if ( masl_visibility::public == self.visibility )
+  visibility = "public";
+elif ( masl_visibility::private == self.visibility )
+  visibility = "private";
+elif ( masl_visibility::protected == self.visibility )
+  visibility = "protected";
+else
+  TRACE::log( flavor:"failure", id:12, message:"invalid visibilty passed to activity" );
+end if;
 if ( not_empty function )
-  function.render( name:self.name );
-  // need return type somehow
+  function.render( name:self.name, visibility:visibility );
 elif ( not_empty service )
-  service.render( name:self.name );
+  service.render( name:self.name, visibility:visibility );
 else
   TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
 end if;
@@ -150,6 +161,31 @@ INSERT INTO O_ATTR
 	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("b618b087-16e7-4322-b248-a431b14a7898",
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34");
+INSERT INTO O_BATTR
+	VALUES ("b618b087-16e7-4322-b248-a431b14a7898",
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34");
+INSERT INTO O_ATTR
+	VALUES ("b618b087-16e7-4322-b248-a431b14a7898",
+	"d45d3b11-fb26-431c-a55a-38c2e1817d34",
+	"b8e5a388-af7e-4db9-9847-0029af2c3df8",
+	'visibility',
+	'',
+	'',
+	'visibility',
+	0,
+	"45e7a7f8-5b80-4005-b263-5e7382da79bf",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("45e7a7f8-5b80-4005-b263-5e7382da79bf",
+	"00000000-0000-0000-0000-000000000000",
+	'masl_visibility',
+	'This type exists in ooaofooa.',
+	'',
+	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"d45d3b11-fb26-431c-a55a-38c2e1817d34");

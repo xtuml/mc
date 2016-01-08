@@ -16,8 +16,8 @@ INSERT INTO O_TFR
 	0,
 	'activity = param.activity;
 create object instance function of function;
+function.returntype = param.returntype;
 relate activity to function across R3704;
-function.returntype = "need_to_populate";
 return function;',
 	1,
 	'',
@@ -29,7 +29,7 @@ INSERT INTO O_TPARM
 	"9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
 	0,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"081cb42f-93f6-43f2-858e-b58e81af7f56",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("9cf33da6-85a8-4b1a-aae6-fe97a86145d5",
@@ -38,6 +38,22 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("081cb42f-93f6-43f2-858e-b58e81af7f56",
+	"08c6293c-1f80-4dbd-bef8-b76cdf70024a",
+	'returntype',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../../../types/types.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("9062fdcd-1809-416d-8402-b36f829488f0",
 	"00000000-0000-0000-0000-000000000000",
@@ -53,6 +69,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'name = param.name;
+visibility = param.visibility;
 T::include( file:"masl/t.function_start.masl" );
 select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
 if ( not_empty parameter )
@@ -71,13 +88,15 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
+INSERT INTO O_TPARM
+	VALUES ("28b0c133-e9ab-45f7-8e7b-f1a2e0e71676",
+	"f076fd5b-ff00-4457-9c09-a11ed237c45c",
+	'visibility',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
 	'',
-	'""',
-	'../../../../../types/types.xtuml');
+	"006c1f3a-ce4a-48ab-a8c2-428a57e9dab0",
+	'');
 INSERT INTO O_TFR
 	VALUES ("58a54e32-080d-4c15-a1bf-88a57f1e90d3",
 	"d6072ac3-f928-4d1a-b82d-bd2e27df3311",
@@ -88,9 +107,13 @@ INSERT INTO O_TFR
 	'valid = true;
 select many functions from instances of function;
 for each function in functions;
+  if ( "" == function.returntype )
+    TRACE::log( flavor:"failure", id:9, message:"function has no returntype." );
+    valid = false;
+  end if;
   select one activity related by function->activity[R3704];
   if ( empty activity )
-    TRACE::log( flavor:"failure", id:9, message:"function has no parent activity." );
+    TRACE::log( flavor:"failure", id:10, message:"function has no parent activity." );
     valid = false;
   end if;
 end for;

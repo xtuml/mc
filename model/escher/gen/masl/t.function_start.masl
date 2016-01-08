@@ -1,1 +1,1 @@
-      function ${name}
+      ${visibililty} function ${name} (
