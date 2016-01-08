@@ -14,10 +14,10 @@ INSERT INTO O_TFR
 	'',
 	"193164be-f6c4-4587-80b7-7c29b2344149",
 	0,
-	'projectdomain = param.projectdomain;
+	'domain = param.domain;
 create object instance terminator of terminator;
 terminator.name = param.name;
-relate projectdomain to terminator across R3702.''sends through'';
+relate domain to terminator across R3702.''sends through'';
 return terminator;',
 	1,
 	'',
@@ -41,7 +41,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO O_TPARM
 	VALUES ("41fb91ae-a1c2-447a-90db-a43aea05526e",
 	"269f8daf-784b-4e20-959d-6673ee636a7f",
-	'projectdomain',
+	'domain',
 	"3d1d610a-871f-4e6f-9f8d-44312001d591",
 	0,
 	'',
@@ -50,7 +50,7 @@ INSERT INTO O_TPARM
 INSERT INTO S_DT_PROXY
 	VALUES ("3d1d610a-871f-4e6f-9f8d-44312001d591",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<project domain>',
+	'inst_ref<domain>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -87,9 +87,9 @@ INSERT INTO O_TFR
 	'valid = true;
 select many terminators from instances of terminator;
 for each terminator in terminators;
-  select one projectdomain related by terminator->projectdomain[R3702];
-  if ( empty projectdomain )
-    TRACE::log( flavor:"failure", id:15, message:"terminator has no parent domain project." );
+  select one domain related by terminator->domain[R3702];
+  if ( empty domain )
+    TRACE::log( flavor:"failure", id:15, message:"terminator has no parent domain." );
     valid = false;
   end if;
 end for;

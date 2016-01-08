@@ -61,7 +61,7 @@ INSERT INTO GD_GE
 	"c90d3fc5-0283-4aec-a108-32da405079a7",
 	21,
 	0,
-	'escher::components::ooaofooa::ooaofooa::masl::project domain');
+	'escher::components::ooaofooa::ooaofooa::masl::domain');
 INSERT INTO GD_SHP
 	VALUES ("20dd69f6-73a9-4342-883e-e071ad0a4e6e");
 INSERT INTO GD_NCS
@@ -2904,7 +2904,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("3d1d610a-871f-4e6f-9f8d-44312001d591",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<project domain>',
+	'inst_ref<domain>',
 	'',
 	'');
 INSERT INTO S_IRDT
@@ -2913,12 +2913,12 @@ INSERT INTO S_IRDT
 	"c90d3fc5-0283-4aec-a108-32da405079a7");
 INSERT INTO O_OBJ_PROXY
 	VALUES ("c90d3fc5-0283-4aec-a108-32da405079a7",
-	'project domain',
+	'domain',
 	3702,
-	'projectdomain',
+	'domain',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'./project domain/project domain.xtuml');
+	'./domain/domain.xtuml');
 INSERT INTO PE_PE
 	VALUES ("3d1d610a-871f-4e6f-9f8d-44312001d591",
 	1,
@@ -2928,7 +2928,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("251d041e-d6a8-4d65-a662-d29bab55290b",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<project domain>',
+	'inst_ref_set<domain>',
 	'',
 	'');
 INSERT INTO S_IRDT
@@ -4098,12 +4098,12 @@ first_te_c = ::TE_C_sort( te_cs:te_cs );
 te_c = first_te_c;
 while ( not_empty te_c )
 
-  projectdomain = projectdomain::populate( name:te_c.Name, project:project );
+  domain = domain::populate( name:te_c.Name, project:project );
   
   select many te_pos related by te_c->TE_PO[R2005];
   for each te_po in te_pos
   
-    terminator = terminator::populate( name:te_po.Name, projectdomain:projectdomain );
+    terminator = terminator::populate( name:te_po.Name, domain:domain );
 
     select one te_mact related by te_po->TE_MACT[R2099.''has first''];
     while ( not_empty te_mact )

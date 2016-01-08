@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("c90d3fc5-0283-4aec-a108-32da405079a7",
-	'project domain',
+	'domain',
 	3702,
-	'projectdomain',
+	'domain',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -15,10 +15,10 @@ INSERT INTO O_TFR
 	"3d1d610a-871f-4e6f-9f8d-44312001d591",
 	0,
 	'project = param.project;
-create object instance projectdomain of projectdomain;
-projectdomain.name = param.name;
-relate project to projectdomain across R3701.''configures'';
-return projectdomain;',
+create object instance domain of domain;
+domain.name = param.name;
+relate project to domain across R3701.''configures'';
+return domain;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -57,7 +57,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_DT_PROXY
 	VALUES ("3d1d610a-871f-4e6f-9f8d-44312001d591",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<project domain>',
+	'inst_ref<domain>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -68,7 +68,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.projectdomain_start.masl" );
+	'T::include( file:"masl/t.domain_start.masl" );
 select many terminators related by self->terminator[R3702.''sends through''];
 for each terminator in terminators
   terminator.render();
@@ -77,7 +77,7 @@ select many activities related by self->activity[R3707.''receives through''];
 for each activity in activities
   activity.render();
 end for;
-T::include( file:"masl/t.projectdomain_end.masl" );',
+T::include( file:"masl/t.domain_end.masl" );',
 	1,
 	'',
 	"69d29d37-ffa8-4604-a470-7862e73d9064");
@@ -89,11 +89,11 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-select many projectdomains from instances of projectdomain;
-for each projectdomain in projectdomains;
-  select one project related by projectdomain->project[R3701];
+select many domains from instances of domain;
+for each domain in domains;
+  select one project related by domain->project[R3701];
   if ( empty project )
-    TRACE::log( flavor:"failure", id:4, message:"project domain has no parent project." );
+    TRACE::log( flavor:"failure", id:4, message:"domain has no parent project." );
     valid = false;
   end if;
 end for;
