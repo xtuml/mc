@@ -17,12 +17,19 @@ INSERT INTO O_TFR
 	'terminator = param.terminator;
 create object instance activity of activity;
 activity.name = param.name;
+if ( not_empty terminator )
+  relate terminator to activity across R3703.''sends'';
+/*
+elif ( not_empty domain )
+  relate domain to activity across R3707.''receives through'';
+*/
+else
+  TRACE::log( flavor:"failure", id:19, message:"activity did not have parent:  " + param.flavor );
+end if;
 if ( "function" == param.flavor )
   function = function::populate( returntype:"myint", activity:activity );
-  relate terminator to activity across R3703.''sends'';
 elif ( "service" == param.flavor )
   service = service::populate( activity:activity ); 
-  // CDS Get domain linked here.
 else
   TRACE::log( flavor:"failure", id:18, message:"invalid flavor of activity:  " + param.flavor );
 end if;
