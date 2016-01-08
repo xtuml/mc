@@ -68,7 +68,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.terminator_start.masl" );
+	'T::include( file:"masl/t.terminator_begin.masl" );
 select many activitys related by self->activity[R3703.''sends''];
 for each activity in activitys
   activity.render();

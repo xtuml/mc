@@ -17,7 +17,9 @@ INSERT INTO O_TFR
 	'project = param.project;
 create object instance domain of domain;
 domain.name = param.name;
-relate project to domain across R3701.''configures'';
+if ( not_empty project )
+  relate project to domain across R3701.''configures'';
+end if;
 return domain;',
 	1,
 	'',
@@ -95,9 +97,8 @@ INSERT INTO O_TFR
 	'valid = true;
 select many domains from instances of domain;
 for each domain in domains;
-  select one project related by domain->project[R3701];
-  if ( empty project )
-    TRACE::log( flavor:"failure", id:4, message:"domain has no parent project." );
+  if ( "" == domain.name )
+    TRACE::log( flavor:"failure", id:4, message:"domain has no name." );
     valid = false;
   end if;
 end for;

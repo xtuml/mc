@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-DTEMPLATE_ENGINE -Wno-pointer-to-int-cast -g
+CFLAGS=-DTEMPLATE_ENGINE -Wno-pointer-to-int-cast
 SOURCES := $(shell ls *.c)
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=mcmasl
