@@ -131,7 +131,7 @@ INSERT INTO O_TFR
 select many activitys from instances of activity;
 for each activity in activitys;
   select one terminator related by activity->terminator[R3703];
-  select one domain related by activity->projectdomain[R3707];
+  select one domain related by activity->domain[R3707];
   if ( ( empty terminator ) and ( empty domain ) )
     TRACE::log( flavor:"failure", id:8, message:"activity has no parent teriminator or domain." );
     valid = false;

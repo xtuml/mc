@@ -27438,9 +27438,9 @@ ooaofooa_xtuml_package_to_masl_project()
     te_c = first_te_c;
     /* WHILE ( not_empty te_c ) */
     while ( ( 0 != te_c ) ) {
-      ooaofooa_TE_PO * te_po=0;ooaofooa_projectdomain * projectdomain;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;
-      /* ASSIGN projectdomain = projectdomain::populate(name:te_c.Name, project:project) */
-      projectdomain = ooaofooa_projectdomain_op_populate(te_c->Name, project);
+      ooaofooa_TE_PO * te_po=0;ooaofooa_domain * domain;Escher_ObjectSet_s te_pos_space={0}; Escher_ObjectSet_s * te_pos = &te_pos_space;
+      /* ASSIGN domain = domain::populate(name:te_c.Name, project:project) */
+      domain = ooaofooa_domain_op_populate(te_c->Name, project);
       /* SELECT many te_pos RELATED BY te_c->TE_PO[R2005] */
       Escher_ClearSet( te_pos );
       if ( 0 != te_c ) {
@@ -27452,9 +27452,9 @@ ooaofooa_xtuml_package_to_masl_project()
       Escher_IteratorReset( &iterte_po, te_pos );
       while ( (iite_po = (ooaofooa_TE_PO *)Escher_IteratorNext( &iterte_po )) != 0 ) {
         te_po = iite_po; {
-        ooaofooa_terminator * terminator;ooaofooa_TE_MACT * te_mact=0;
-        /* ASSIGN terminator = terminator::populate(name:te_po.Name, projectdomain:projectdomain) */
-        terminator = ooaofooa_terminator_op_populate(te_po->Name, projectdomain);
+        ooaofooa_O_OBJ * o_obj=0;ooaofooa_terminator * terminator;Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;ooaofooa_TE_MACT * te_mact=0;
+        /* ASSIGN terminator = terminator::populate(domain:domain, name:te_po.Name) */
+        terminator = ooaofooa_terminator_op_populate(domain, te_po->Name);
         /* SELECT one te_mact RELATED BY te_po->TE_MACT[R2099.has first] */
         te_mact = ( 0 != te_po ) ? te_po->TE_MACT_R2099_has_first : 0;
         /* WHILE ( not_empty te_mact ) */
@@ -27490,6 +27490,28 @@ ooaofooa_xtuml_package_to_masl_project()
           /* SELECT one te_mact RELATED BY te_mact->TE_MACT[R2083.precedes] */
           te_mact = ( 0 != te_mact ) ? te_mact->TE_MACT_R2083_precedes : 0;
         }
+        /* SELECT many o_objs RELATED BY te_c->TE_CLASS[R2064]->O_OBJ[R2019] */
+        Escher_ClearSet( o_objs );
+        {        if ( 0 != te_c ) {
+        ooaofooa_TE_CLASS * TE_CLASS_R2064;
+        Escher_Iterator_s iTE_CLASS_R2064;
+        Escher_IteratorReset( &iTE_CLASS_R2064, &te_c->TE_CLASS_R2064 );
+        while ( 0 != ( TE_CLASS_R2064 = (ooaofooa_TE_CLASS *) Escher_IteratorNext( &iTE_CLASS_R2064 ) ) ) {
+        {ooaofooa_O_OBJ * O_OBJ_R2019 = TE_CLASS_R2064->O_OBJ_R2019;
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) o_objs, O_OBJ_R2019 ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) o_objs, O_OBJ_R2019 );
+        }}}}}
+        /* FOR EACH o_obj IN o_objs */
+        { Escher_Iterator_s itero_obj;
+        ooaofooa_O_OBJ * iio_obj;
+        Escher_IteratorReset( &itero_obj, o_objs );
+        while ( (iio_obj = (ooaofooa_O_OBJ *)Escher_IteratorNext( &itero_obj )) != 0 ) {
+          o_obj = iio_obj; {
+          ooaofooa_object * object;
+          /* ASSIGN object = object::populate(domain:domain, name:o_obj.Name) */
+          object = ooaofooa_object_op_populate(domain, o_obj->Name);
+        }}}
+        Escher_ClearSet( o_objs ); 
       }}}
       /* SELECT one te_c RELATED BY te_c->TE_C[R2017.precedes] */
       te_c = ( 0 != te_c ) ? te_c->TE_C_R2017_precedes : 0;
@@ -27736,7 +27758,7 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_S_MBR_instancedumper,
   ooaofooa_S_DIM_instancedumper,
   ooaofooa_project_instancedumper,
-  ooaofooa_projectdomain_instancedumper,
+  ooaofooa_domain_instancedumper,
   ooaofooa_terminator_instancedumper,
   ooaofooa_service_instancedumper,
   ooaofooa_function_instancedumper,
@@ -28194,7 +28216,7 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_S_MBR_extent,
   &pG_ooaofooa_S_DIM_extent,
   &pG_ooaofooa_project_extent,
-  &pG_ooaofooa_projectdomain_extent,
+  &pG_ooaofooa_domain_extent,
   &pG_ooaofooa_terminator_extent,
   &pG_ooaofooa_service_extent,
   &pG_ooaofooa_function_extent,
