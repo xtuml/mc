@@ -1,0 +1,32 @@
+-- BP 7.1.6 content: SystemModel syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO S_SYS
+	VALUES ("0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	1);
+INSERT INTO GD_MD
+	VALUES ("0d2432da-0508-4005-aeb9-9d0b39dc8963",
+	108,
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	92,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'masl');
+INSERT INTO DIM_DIA
+	VALUES ("0d2432da-0508-4005-aeb9-9d0b39dc8963",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");

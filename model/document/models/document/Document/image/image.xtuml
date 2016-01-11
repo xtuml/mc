@@ -1,0 +1,66 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("443efd9d-9a25-4258-87bb-bf1108fce6b0",
+	'image',
+	2310,
+	'DOC_IMG',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("5524862a-28de-440b-bdff-df7ca1a9100e",
+	"443efd9d-9a25-4258-87bb-bf1108fce6b0",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select any doc_img from instances of DOC_IMG;
+doc_img = self;
+T::include( file:"docbook/t.image.xml" );',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("b5b437b4-ee41-48eb-a772-18ca0c39a358",
+	"443efd9d-9a25-4258-87bb-bf1108fce6b0");
+INSERT INTO O_BATTR
+	VALUES ("b5b437b4-ee41-48eb-a772-18ca0c39a358",
+	"443efd9d-9a25-4258-87bb-bf1108fce6b0");
+INSERT INTO O_ATTR
+	VALUES ("b5b437b4-ee41-48eb-a772-18ca0c39a358",
+	"443efd9d-9a25-4258-87bb-bf1108fce6b0",
+	"00000000-0000-0000-0000-000000000000",
+	'target',
+	'',
+	'',
+	'target',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"443efd9d-9a25-4258-87bb-bf1108fce6b0");
+INSERT INTO O_ID
+	VALUES (1,
+	"443efd9d-9a25-4258-87bb-bf1108fce6b0");
+INSERT INTO O_ID
+	VALUES (2,
+	"443efd9d-9a25-4258-87bb-bf1108fce6b0");
+INSERT INTO PE_PE
+	VALUES ("443efd9d-9a25-4258-87bb-bf1108fce6b0",
+	1,
+	"1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');
