@@ -1,0 +1,139 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	'Class State Machine',
+	521,
+	'SM_ASM',
+	'An assigner state machine is a state machine for a class.  This is in contrast to an instance state machine (SM_ISM) which is a state machine for an instance.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	0,
+	"df4d6ffc-1976-4922-9f36-81680da64d71",
+	"964df4b2-f0d2-4f38-a2d3-f6636f0659fe",
+	"0868f038-d17e-4d94-b5b7-23aac8824c08",
+	"b9a19b44-ee9a-4b88-a5d9-f3846b11f87e",
+	"ed847adc-a30d-40e3-ab71-b4d779a42061",
+	"7abd7128-64da-493a-b779-44f17961ded6",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'State Machine',
+	'SM_ID',
+	'R517');
+INSERT INTO R_RGO_PROXY
+	VALUES ("a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	"964df4b2-f0d2-4f38-a2d3-f6636f0659fe",
+	"0868f038-d17e-4d94-b5b7-23aac8824c08",
+	'../State Machine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	0,
+	"964df4b2-f0d2-4f38-a2d3-f6636f0659fe",
+	"b9a19b44-ee9a-4b88-a5d9-f3846b11f87e",
+	'../State Machine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("ed847adc-a30d-40e3-ab71-b4d779a42061",
+	"a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	"df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	1,
+	'SM_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	'../State Machine/State Machine.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("ed847adc-a30d-40e3-ab71-b4d779a42061",
+	"a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	"00000000-0000-0000-0000-000000000000",
+	'SM_ID',
+	'',
+	'',
+	'SM_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	"e545984c-062c-43fd-9deb-1a46d657e094",
+	0,
+	"ea0dd747-d248-44b6-ab1a-17d93b2032df",
+	"522209ec-b381-4614-aef8-4fb4ec384bed",
+	"a46fe439-8c4a-4006-a360-068cb61c1f68",
+	"6f1e3095-2a7c-42ce-b89c-b1776cdb5628",
+	"31f053b3-52cb-4625-8e11-28ad1031d1dc",
+	"86497b98-45e8-4063-9422-74e994695909",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Model Class',
+	'Obj_ID',
+	'R519');
+INSERT INTO R_RGO_PROXY
+	VALUES ("a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	"522209ec-b381-4614-aef8-4fb4ec384bed",
+	"a46fe439-8c4a-4006-a360-068cb61c1f68",
+	'../State Machine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("ea0dd747-d248-44b6-ab1a-17d93b2032df",
+	"e545984c-062c-43fd-9deb-1a46d657e094",
+	0,
+	"522209ec-b381-4614-aef8-4fb4ec384bed",
+	"6f1e3095-2a7c-42ce-b89c-b1776cdb5628",
+	'../State Machine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("31f053b3-52cb-4625-8e11-28ad1031d1dc",
+	"a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("31f053b3-52cb-4625-8e11-28ad1031d1dc",
+	"a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	"ed847adc-a30d-40e3-ab71-b4d779a42061",
+	'Obj_ID',
+	'',
+	'',
+	'Obj_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"a4c9eedc-97f0-4d43-a8a3-953fef6ace4f");
+INSERT INTO O_OIDA
+	VALUES ("ed847adc-a30d-40e3-ab71-b4d779a42061",
+	"a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	0,
+	'SM_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"a4c9eedc-97f0-4d43-a8a3-953fef6ace4f");
+INSERT INTO O_ID
+	VALUES (2,
+	"a4c9eedc-97f0-4d43-a8a3-953fef6ace4f");
+INSERT INTO PE_PE
+	VALUES ("a4c9eedc-97f0-4d43-a8a3-953fef6ace4f",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'State Machine',
+	'Classes (O_OBJ) that have interesting behavior are given lifecycles. These lifecycles are described using state machines (SM_SM). A state machine consists of states, events, transitions and state actions. The state machine exists for each instance of the class for which it has been modeled (SM_ISM). A state machine can also be an assigner state machine (SM_ASM) of which only one can exists for all class instances. The purpose of the assigner state machine is to act as a single point of control through which competing requests are serialized.',
+	501,
+	'../State Machine.xtuml');

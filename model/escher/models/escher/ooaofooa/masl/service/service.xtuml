@@ -1,0 +1,133 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("11f62be1-85b7-4a49-8ae9-a2066a9c2ddd",
+	'service',
+	3704,
+	'service',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("af183df8-1120-414c-a497-11e01f48de16",
+	"11f62be1-85b7-4a49-8ae9-a2066a9c2ddd",
+	'populate',
+	'',
+	"c5bfd5bf-69a4-418c-a888-a0abcaf6ed48",
+	0,
+	'activity = param.activity;
+create object instance service of service;
+relate activity to service across R3704;
+return service;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("52a44460-6fa5-426a-bdae-3ed575fae324",
+	"af183df8-1120-414c-a497-11e01f48de16",
+	'activity',
+	"9d5262dc-0809-4322-ab9c-b96997b0c4b0",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9d5262dc-0809-4322-ab9c-b96997b0c4b0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<activity>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("c5bfd5bf-69a4-418c-a888-a0abcaf6ed48",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<service>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("e4459647-bc78-4a8a-9d5d-12fb12c6e3ef",
+	"11f62be1-85b7-4a49-8ae9-a2066a9c2ddd",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'name = param.name;
+visibility = param.visibility;
+T::include( file:"masl/t.service_begin.masl" );
+select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.service_end.masl" );',
+	1,
+	'',
+	"af183df8-1120-414c-a497-11e01f48de16");
+INSERT INTO O_TPARM
+	VALUES ("4a2bdd7f-08d0-4859-93a5-7da061e7fff9",
+	"e4459647-bc78-4a8a-9d5d-12fb12c6e3ef",
+	'name',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("c81bd144-8be9-4046-97b0-ac3ffe51f7ca",
+	"e4459647-bc78-4a8a-9d5d-12fb12c6e3ef",
+	'visibility',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"4a2bdd7f-08d0-4859-93a5-7da061e7fff9",
+	'');
+INSERT INTO O_TFR
+	VALUES ("78e2414a-e4d8-4480-963b-850a067277fb",
+	"11f62be1-85b7-4a49-8ae9-a2066a9c2ddd",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many services from instances of service;
+for each service in services;
+  select one activity related by service->activity[R3704];
+  if ( empty activity )
+    TRACE::log( flavor:"failure", id:10, message:"service has no parent activity." );
+    valid = false;
+  end if;
+end for;
+return ( valid );
+',
+	1,
+	'',
+	"e4459647-bc78-4a8a-9d5d-12fb12c6e3ef");
+INSERT INTO O_ID
+	VALUES (0,
+	"11f62be1-85b7-4a49-8ae9-a2066a9c2ddd");
+INSERT INTO O_ID
+	VALUES (1,
+	"11f62be1-85b7-4a49-8ae9-a2066a9c2ddd");
+INSERT INTO O_ID
+	VALUES (2,
+	"11f62be1-85b7-4a49-8ae9-a2066a9c2ddd");
+INSERT INTO PE_PE
+	VALUES ("11f62be1-85b7-4a49-8ae9-a2066a9c2ddd",
+	1,
+	"bf1d7167-bfbc-4ab7-a06f-b5c7c0187860",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("bf1d7167-bfbc-4ab7-a06f-b5c7c0187860",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

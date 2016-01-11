@@ -1,0 +1,141 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	'Bridge Argument',
+	1007,
+	'MSG_BA',
+	'This class manages the formality between a message argument and its formal
+couterpart model element.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	"1d35b811-75c3-47b8-8c5b-61394154c809",
+	0,
+	"dcca1025-e3dd-4c7f-961f-733044d6a249",
+	"6ef8e776-faf2-4821-b999-2722f373fa35",
+	"4e3c757b-549b-4992-b703-5caf975cd892",
+	"35e00588-704d-44c0-a759-02131509ac3a",
+	"5c5f4b3f-05c5-42da-a245-cba5640afd15",
+	"774a5593-22b0-469a-83b3-1ed15da1b0d4",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Message Argument',
+	'Arg_ID',
+	'R1013');
+INSERT INTO R_RGO_PROXY
+	VALUES ("d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	"6ef8e776-faf2-4821-b999-2722f373fa35",
+	"4e3c757b-549b-4992-b703-5caf975cd892",
+	'../Message.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("dcca1025-e3dd-4c7f-961f-733044d6a249",
+	"1d35b811-75c3-47b8-8c5b-61394154c809",
+	0,
+	"6ef8e776-faf2-4821-b999-2722f373fa35",
+	"35e00588-704d-44c0-a759-02131509ac3a",
+	'../Message.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("5c5f4b3f-05c5-42da-a245-cba5640afd15",
+	"d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	"dcca1025-e3dd-4c7f-961f-733044d6a249",
+	"1d35b811-75c3-47b8-8c5b-61394154c809",
+	1,
+	'Arg_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("dcca1025-e3dd-4c7f-961f-733044d6a249",
+	"1d35b811-75c3-47b8-8c5b-61394154c809",
+	'../Message Argument/Message Argument.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("5c5f4b3f-05c5-42da-a245-cba5640afd15",
+	"d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	"00000000-0000-0000-0000-000000000000",
+	'Arg_ID',
+	'',
+	'',
+	'Arg_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	0,
+	"c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"242850d4-18f6-409b-9625-382edbf2933c",
+	"f5c85302-1e43-4680-b5a3-30a20c0a9cbe",
+	"e9fc3835-7a56-4e7c-b8d2-0ec343b45e6e",
+	"78a7a372-cb91-4676-900a-e0eb5cb1e2c8",
+	"314b54a0-bca2-44bc-abcb-f48369903405",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Bridge Parameter',
+	'BParm_ID',
+	'R1014.''is represented by''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	"242850d4-18f6-409b-9625-382edbf2933c",
+	"f5c85302-1e43-4680-b5a3-30a20c0a9cbe",
+	'../Message.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	0,
+	"242850d4-18f6-409b-9625-382edbf2933c",
+	"e9fc3835-7a56-4e7c-b8d2-0ec343b45e6e",
+	'../Message.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("78a7a372-cb91-4676-900a-e0eb5cb1e2c8",
+	"d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	"c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	1,
+	'BParm_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	'../../Domain/Bridge Parameter/Bridge Parameter.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("78a7a372-cb91-4676-900a-e0eb5cb1e2c8",
+	"d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	"5c5f4b3f-05c5-42da-a245-cba5640afd15",
+	'BParm_ID',
+	'',
+	'',
+	'BParm_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"d28d0373-7753-4cac-9ffe-6a3ff4673ee0");
+INSERT INTO O_OIDA
+	VALUES ("5c5f4b3f-05c5-42da-a245-cba5640afd15",
+	"d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	0,
+	'Arg_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"d28d0373-7753-4cac-9ffe-6a3ff4673ee0");
+INSERT INTO O_ID
+	VALUES (2,
+	"d28d0373-7753-4cac-9ffe-6a3ff4673ee0");
+INSERT INTO PE_PE
+	VALUES ("d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
+	1,
+	"02780f20-a4d8-43b7-bef8-489a5e93ce8b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("02780f20-a4d8-43b7-bef8-489a5e93ce8b",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Message',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	1000,
+	'../Message.xtuml');

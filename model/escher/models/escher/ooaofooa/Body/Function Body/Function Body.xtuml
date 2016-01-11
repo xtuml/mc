@@ -1,0 +1,146 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("1082fd60-7ff7-4347-a6f4-c15883552456",
+	'Function Body',
+	634,
+	'ACT_FNB',
+	'This class represents the action language containing body of a Function.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("1082fd60-7ff7-4347-a6f4-c15883552456",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	0,
+	"fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"3e20a8d2-1c53-4eba-a61f-953542c45236",
+	"e5f43b50-298f-4af3-878b-1a0dc8ba8fa1",
+	"bf2f34e7-ef43-40f7-b4ff-2a5a016b7971",
+	"7f596a49-d986-4b79-a5fb-c19e9b0484ef",
+	"fb75a7e9-c7ad-4647-b58a-c99662235ffd",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Body',
+	'Action_ID',
+	'R698');
+INSERT INTO R_RGO_PROXY
+	VALUES ("1082fd60-7ff7-4347-a6f4-c15883552456",
+	"3e20a8d2-1c53-4eba-a61f-953542c45236",
+	"e5f43b50-298f-4af3-878b-1a0dc8ba8fa1",
+	'../Body.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	0,
+	"3e20a8d2-1c53-4eba-a61f-953542c45236",
+	"bf2f34e7-ef43-40f7-b4ff-2a5a016b7971",
+	'../Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("7f596a49-d986-4b79-a5fb-c19e9b0484ef",
+	"1082fd60-7ff7-4347-a6f4-c15883552456",
+	"fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	1,
+	'Action_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	'../Body/Body.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("7f596a49-d986-4b79-a5fb-c19e9b0484ef",
+	"1082fd60-7ff7-4347-a6f4-c15883552456",
+	"00000000-0000-0000-0000-000000000000",
+	'Action_ID',
+	'',
+	'',
+	'Action_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("1082fd60-7ff7-4347-a6f4-c15883552456",
+	"259423d7-4bec-4988-a8db-ed2761a9e68e",
+	0,
+	"aa9ca9b4-6b94-4abc-85a8-d76c8771f5b2",
+	"8682170a-cfae-44a5-81ec-ab31b99581b8",
+	"05956cd6-3bd9-4d0c-8f75-cbb1d3fae1e4",
+	"5e6a7971-21c0-49d4-8011-57ba55cd746b",
+	"60e18eca-b8ad-42b7-aedf-adc690b79b22",
+	"c182698e-b0a3-4d55-9394-6881f70b502a",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Function',
+	'Sync_ID',
+	'R695.''specifies processing for''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("1082fd60-7ff7-4347-a6f4-c15883552456",
+	"8682170a-cfae-44a5-81ec-ab31b99581b8",
+	"05956cd6-3bd9-4d0c-8f75-cbb1d3fae1e4",
+	'../Body.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("aa9ca9b4-6b94-4abc-85a8-d76c8771f5b2",
+	"259423d7-4bec-4988-a8db-ed2761a9e68e",
+	0,
+	"8682170a-cfae-44a5-81ec-ab31b99581b8",
+	"5e6a7971-21c0-49d4-8011-57ba55cd746b",
+	'../Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("60e18eca-b8ad-42b7-aedf-adc690b79b22",
+	"1082fd60-7ff7-4347-a6f4-c15883552456",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("60e18eca-b8ad-42b7-aedf-adc690b79b22",
+	"1082fd60-7ff7-4347-a6f4-c15883552456",
+	"7f596a49-d986-4b79-a5fb-c19e9b0484ef",
+	'Sync_ID',
+	'',
+	'',
+	'Sync_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"1082fd60-7ff7-4347-a6f4-c15883552456");
+INSERT INTO O_OIDA
+	VALUES ("7f596a49-d986-4b79-a5fb-c19e9b0484ef",
+	"1082fd60-7ff7-4347-a6f4-c15883552456",
+	0,
+	'Action_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"1082fd60-7ff7-4347-a6f4-c15883552456");
+INSERT INTO O_ID
+	VALUES (2,
+	"1082fd60-7ff7-4347-a6f4-c15883552456");
+INSERT INTO PE_PE
+	VALUES ("1082fd60-7ff7-4347-a6f4-c15883552456",
+	1,
+	"e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Body',
+	'This subsystem abstracts the action itself, the blocks and statements
+it contains together with the flow of control statements such as ''while'',
+''for each'' and ''if''.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	600,
+	'../Body.xtuml');

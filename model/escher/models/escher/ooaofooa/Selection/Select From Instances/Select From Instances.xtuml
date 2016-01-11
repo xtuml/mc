@@ -1,0 +1,273 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("449106d5-efe2-4d06-a6b4-3a5af235637f",
+	'Select From Instances',
+	612,
+	'ACT_FIO',
+	'This class represents a statement that selects a set of  instances from a class extent.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	0,
+	"b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"6d49ff43-3e64-4554-b514-7fa527eeb27a",
+	"fef639ee-373d-4693-8a37-9ead50759212",
+	"8116f28b-5c50-4604-835a-730b44a971aa",
+	"5b3890c1-6ff8-4390-962f-6e83fc2197fa",
+	"8630392d-4e2e-4225-aed7-a2d4ce22c1ea",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Statement',
+	'Statement_ID',
+	'R603');
+INSERT INTO R_RGO_PROXY
+	VALUES ("449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"6d49ff43-3e64-4554-b514-7fa527eeb27a",
+	"fef639ee-373d-4693-8a37-9ead50759212",
+	'../../Body/Body.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	0,
+	"6d49ff43-3e64-4554-b514-7fa527eeb27a",
+	"8116f28b-5c50-4604-835a-730b44a971aa",
+	'../../Body/Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("5b3890c1-6ff8-4390-962f-6e83fc2197fa",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	1,
+	'Statement_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	'../../Body/Statement/Statement.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("5b3890c1-6ff8-4390-962f-6e83fc2197fa",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"00000000-0000-0000-0000-000000000000",
+	'Statement_ID',
+	'
+
+',
+	'',
+	'Statement_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	0,
+	"3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"d9c7d828-57d8-4aa5-8f8a-eee1f641c8c9",
+	"257dc75a-7bc7-49a8-8165-9482eaeb4334",
+	"21ab2902-29d3-434c-bdb4-260eaa1acb83",
+	"c5c35384-c088-4df9-b9c5-e2e7a018be43",
+	"4a85e4db-6c8f-4044-850f-1cc698253bfa",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Variable',
+	'Var_ID',
+	'R639.''selection''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"d9c7d828-57d8-4aa5-8f8a-eee1f641c8c9",
+	"257dc75a-7bc7-49a8-8165-9482eaeb4334",
+	'../Selection.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	0,
+	"d9c7d828-57d8-4aa5-8f8a-eee1f641c8c9",
+	"21ab2902-29d3-434c-bdb4-260eaa1acb83",
+	'../Selection.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("c5c35384-c088-4df9-b9c5-e2e7a018be43",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	1,
+	'Var_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	'../../Value/Variable/Variable.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("c5c35384-c088-4df9-b9c5-e2e7a018be43",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"5b3890c1-6ff8-4390-962f-6e83fc2197fa",
+	'Var_ID',
+	'
+
+',
+	'',
+	'Var_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("717bfecb-b44b-4f55-b363-64148d2ce518",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO O_BATTR
+	VALUES ("717bfecb-b44b-4f55-b363-64148d2ce518",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO O_ATTR
+	VALUES ("717bfecb-b44b-4f55-b363-64148d2ce518",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"c5c35384-c088-4df9-b9c5-e2e7a018be43",
+	'is_implicit',
+	'Full Name: Is Implicit
+Specifies whether the resulting instance handle found is being used for the first time in this scope or not.',
+	'',
+	'is_implicit',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("310ea6ef-6b3b-448c-9976-292dedf1b42e",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO O_BATTR
+	VALUES ("310ea6ef-6b3b-448c-9976-292dedf1b42e",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO O_ATTR
+	VALUES ("310ea6ef-6b3b-448c-9976-292dedf1b42e",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"717bfecb-b44b-4f55-b363-64148d2ce518",
+	'cardinality',
+	'Full Name: Selection Cardinality
+Specifies whether the selection produces a set or an instance as a result.    The cardinality value can be one of the following: one, any, or many.',
+	'',
+	'cardinality',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("51244404-3577-4791-b9b5-a43f427a1ae5",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO O_BATTR
+	VALUES ("51244404-3577-4791-b9b5-a43f427a1ae5",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO O_ATTR
+	VALUES ("51244404-3577-4791-b9b5-a43f427a1ae5",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"adf845aa-3544-41c8-85eb-9cf3380f11f8",
+	'extentLineNumber',
+	'',
+	'',
+	'extentLineNumber',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f0f94b7f-3162-4c7e-b59a-05bd55fc71a5",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO O_BATTR
+	VALUES ("f0f94b7f-3162-4c7e-b59a-05bd55fc71a5",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO O_ATTR
+	VALUES ("f0f94b7f-3162-4c7e-b59a-05bd55fc71a5",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"51244404-3577-4791-b9b5-a43f427a1ae5",
+	'extentColumn',
+	'',
+	'',
+	'extentColumn',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"e545984c-062c-43fd-9deb-1a46d657e094",
+	0,
+	"ea0dd747-d248-44b6-ab1a-17d93b2032df",
+	"0482740d-cbad-4c23-b8b9-0a4cb6b378d9",
+	"03a2dc7c-824a-4ea3-8080-fa04c82661b0",
+	"ad6195c9-fc9d-4911-8784-a16d8cfd58c4",
+	"adf845aa-3544-41c8-85eb-9cf3380f11f8",
+	"21b6d572-2eb2-43cb-afe9-f5165ce9e959",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Model Class',
+	'Obj_ID',
+	'R677.''from extent of''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"0482740d-cbad-4c23-b8b9-0a4cb6b378d9",
+	"03a2dc7c-824a-4ea3-8080-fa04c82661b0",
+	'../Selection.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("ea0dd747-d248-44b6-ab1a-17d93b2032df",
+	"e545984c-062c-43fd-9deb-1a46d657e094",
+	0,
+	"0482740d-cbad-4c23-b8b9-0a4cb6b378d9",
+	"ad6195c9-fc9d-4911-8784-a16d8cfd58c4",
+	'../Selection.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("adf845aa-3544-41c8-85eb-9cf3380f11f8",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("adf845aa-3544-41c8-85eb-9cf3380f11f8",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	"310ea6ef-6b3b-448c-9976-292dedf1b42e",
+	'Obj_ID',
+	'',
+	'',
+	'Obj_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO O_OIDA
+	VALUES ("5b3890c1-6ff8-4390-962f-6e83fc2197fa",
+	"449106d5-efe2-4d06-a6b4-3a5af235637f",
+	0,
+	'Statement_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO O_ID
+	VALUES (2,
+	"449106d5-efe2-4d06-a6b4-3a5af235637f");
+INSERT INTO PE_PE
+	VALUES ("449106d5-efe2-4d06-a6b4-3a5af235637f",
+	1,
+	"e29ca26f-e695-40da-8c3e-95e47da01cda",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("e29ca26f-e695-40da-8c3e-95e47da01cda",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Selection',
+	'This subsystem captures concepts related to selections of instances across associations. Association chain, where and instance extent selections are also covered.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	600,
+	'../Selection.xtuml');

@@ -1,0 +1,94 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	'System Model',
+	18,
+	'S_SYS',
+	'A system is described by one or more models, each drawn from different subject matters. Each subject matter model is called a domain.
+-----------
+PEI:true',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("5fcf85f5-08f6-4c6a-ab77-3be2e4f249d1",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO O_BATTR
+	VALUES ("5fcf85f5-08f6-4c6a-ab77-3be2e4f249d1",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO O_ATTR
+	VALUES ("5fcf85f5-08f6-4c6a-ab77-3be2e4f249d1",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	"00000000-0000-0000-0000-000000000000",
+	'Sys_ID',
+	'',
+	'',
+	'Sys_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("716d6e1d-046f-4830-a4bf-9db4b454b160",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO O_BATTR
+	VALUES ("716d6e1d-046f-4830-a4bf-9db4b454b160",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO O_ATTR
+	VALUES ("716d6e1d-046f-4830-a4bf-9db4b454b160",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	"5fcf85f5-08f6-4c6a-ab77-3be2e4f249d1",
+	'Name',
+	'Full Name: System Name
+The name of the System under analysis.',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("74f52825-a33d-4e54-819d-d0972e773bc4",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO O_BATTR
+	VALUES ("74f52825-a33d-4e54-819d-d0972e773bc4",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO O_ATTR
+	VALUES ("74f52825-a33d-4e54-819d-d0972e773bc4",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	"716d6e1d-046f-4830-a4bf-9db4b454b160",
+	'useGlobals',
+	'User_Visible:false',
+	'',
+	'useGlobals',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO O_OIDA
+	VALUES ("5fcf85f5-08f6-4c6a-ab77-3be2e4f249d1",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	0,
+	'Sys_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO O_ID
+	VALUES (2,
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO PE_PE
+	VALUES ("73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Domain',
+	'A domain (S_DOM) consists of one or more subsystems (S_SS) that each contain an information model that abstracts a portion of the data for the domain: classes (O_OBJ), associations (R_REL), etc.  Breaking a domain into subsystems allows the complexity of the domain to be more easily managed: 1) subsystems are components and can be checked out individually allowing parallelism in development of the models and 2) breaking up a domain into smaller units is easier to understand.  A subsystem is composed of classes that tend to cluster, i.e., they have few associations that span subsystem boundaries.  Inter-subsystem associations, communications, and accesses are captured in the Subsystem Relationship Model (SRM), Subsystem Communication Model (SCM), and Subsystem Access Model (SAM) respectively.',
+	1,
+	'../Domain.xtuml');

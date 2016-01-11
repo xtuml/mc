@@ -1,0 +1,304 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	'paragraph',
+	2306,
+	'DOC_PAR',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("bcee6f14-f701-4f10-9b67-4bd1a19f75ef",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select any doc_par from instances of DOC_PAR;
+doc_par = self;
+
+if ( self.formatted )
+  T::include( file:"docbook/t.paragraph_begin.xml" );
+else
+  T::include( file:"docbook/t.programlistingbegin.xml" );
+end if;
+select one doc_tbl related by self->DOC_TBL[R2315];
+if ( not_empty doc_tbl )
+  doc_tbl.render();
+end if;
+select one doc_fig related by self->DOC_FIG[R2316];
+if ( not_empty doc_fig )
+  doc_fig.render();
+end if;
+select one doc_img related by self->DOC_IMG[R2319];
+if ( not_empty doc_img )
+  doc_img.render();
+end if;
+if ( self.formatted )
+  T::include( file:"docbook/t.paragraph_end.xml" );
+else
+  T::include( file:"docbook/t.programlistingend.xml" );
+end if;
+
+// Render the next (and the next and the next) paragraph.
+select one doc_par related by self->DOC_PAR[R2314.''follows''];
+if ( not_empty doc_par )
+  doc_par.render();
+end if;
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("c1504943-7370-4e74-8dc6-e009f11cc893",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	'populate',
+	'',
+	"ba899001-528b-432c-a905-29e322492f5a",
+	0,
+	'predecessor = param.predecessor;
+parent_doc_sec = param.doc_sec;
+create object instance doc_par of DOC_PAR;
+doc_par.text = param.text;
+//
+// ptext is for long strings, such as OAL listings.
+//
+doc_par.ptext = param.text;
+doc_par.formatted = true;
+if ( not_empty predecessor )
+  relate predecessor to doc_par across R2314.''follows'';
+end if;
+if ( not_empty parent_doc_sec )
+  relate doc_par to parent_doc_sec across R2305;
+end if;
+return doc_par;',
+	1,
+	'',
+	"bcee6f14-f701-4f10-9b67-4bd1a19f75ef");
+INSERT INTO O_TPARM
+	VALUES ("5fd725f2-4a8c-47c8-8b94-7bc3baeaf4d8",
+	"c1504943-7370-4e74-8dc6-e009f11cc893",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("c088664d-f580-40d5-adf6-cf2e029d25ec",
+	"c1504943-7370-4e74-8dc6-e009f11cc893",
+	'predecessor',
+	"ba899001-528b-432c-a905-29e322492f5a",
+	0,
+	'',
+	"5fd725f2-4a8c-47c8-8b94-7bc3baeaf4d8",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ba899001-528b-432c-a905-29e322492f5a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<paragraph>',
+	'',
+	'',
+	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("326df136-45c5-465c-badb-46de650391b3",
+	"c1504943-7370-4e74-8dc6-e009f11cc893",
+	'doc_sec',
+	"abeed1f0-232f-46b2-b448-072be247baff",
+	0,
+	'',
+	"c088664d-f580-40d5-adf6-cf2e029d25ec",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("abeed1f0-232f-46b2-b448-072be247baff",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<section>',
+	'',
+	'',
+	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+INSERT INTO O_TFR
+	VALUES ("89be2e40-ddcf-47ad-9590-765b296c0cfc",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// A paragraph must be a child to a section or have a
+// predecessor or be inside of a table row cell.
+select many doc_pars from instances of DOC_PAR;
+for each doc_par in doc_pars
+  select one doc_cell related by doc_par->DOC_CELL[R2318];
+  if ( empty doc_cell )
+    select one predecessor_doc_par related by doc_par->DOC_PAR[R2314.''precedes''];
+  if ( empty predecessor_doc_par )
+    select one parent_doc_sec related by doc_par->DOC_SEC[R2305];
+  if ( empty parent_doc_sec )
+    LOG::LogFailure( message:"!Paragraph " + doc_par.text + " is not linked." );
+  end if;
+  end if;
+  end if;
+end for;',
+	1,
+	'',
+	"c1504943-7370-4e74-8dc6-e009f11cc893");
+INSERT INTO O_NBATTR
+	VALUES ("492e89aa-b2e6-47be-82e1-937636206d6f",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO O_BATTR
+	VALUES ("492e89aa-b2e6-47be-82e1-937636206d6f",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO O_ATTR
+	VALUES ("492e89aa-b2e6-47be-82e1-937636206d6f",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	"129a8a99-8eef-4539-8103-36f3b54b9da6",
+	'text',
+	'',
+	'',
+	'text',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("dca8ccae-b844-403e-9e0a-522646481177",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO O_BATTR
+	VALUES ("dca8ccae-b844-403e-9e0a-522646481177",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO O_ATTR
+	VALUES ("dca8ccae-b844-403e-9e0a-522646481177",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	"00000000-0000-0000-0000-000000000000",
+	'ID',
+	'',
+	'',
+	'ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	"c986515a-144e-4b9b-a953-dd89fa378ea9",
+	0,
+	"f9a4471c-f64c-4bd3-9bf9-ad9c24d6ceca",
+	"76bed7bd-1e47-49e0-acf0-86969e210c6e",
+	"ee2d0aab-6e82-443c-b7c2-2ca3a3bf884f",
+	"8c3f2d71-fed2-4542-84a9-bdada1d309a4",
+	"129a8a99-8eef-4539-8103-36f3b54b9da6",
+	"b089f95e-35e7-44f0-9bd5-7cf3b99d5a16",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'section',
+	'ID',
+	'R2305');
+INSERT INTO R_RGO_PROXY
+	VALUES ("d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	"76bed7bd-1e47-49e0-acf0-86969e210c6e",
+	"ee2d0aab-6e82-443c-b7c2-2ca3a3bf884f",
+	'../Document.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("f9a4471c-f64c-4bd3-9bf9-ad9c24d6ceca",
+	"c986515a-144e-4b9b-a953-dd89fa378ea9",
+	0,
+	"76bed7bd-1e47-49e0-acf0-86969e210c6e",
+	"8c3f2d71-fed2-4542-84a9-bdada1d309a4",
+	'../Document.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("129a8a99-8eef-4539-8103-36f3b54b9da6",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	"f9a4471c-f64c-4bd3-9bf9-ad9c24d6ceca",
+	"c986515a-144e-4b9b-a953-dd89fa378ea9",
+	1,
+	'ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("f9a4471c-f64c-4bd3-9bf9-ad9c24d6ceca",
+	"c986515a-144e-4b9b-a953-dd89fa378ea9",
+	'../section/section.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("129a8a99-8eef-4539-8103-36f3b54b9da6",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	"dca8ccae-b844-403e-9e0a-522646481177",
+	'sectionID',
+	'',
+	'section',
+	'ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a72475b1-7147-4e01-aeae-1c482374d240",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO O_BATTR
+	VALUES ("a72475b1-7147-4e01-aeae-1c482374d240",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO O_ATTR
+	VALUES ("a72475b1-7147-4e01-aeae-1c482374d240",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	"2a2c67f3-3045-4d92-885a-dcef6bfe0a23",
+	'formatted',
+	'',
+	'',
+	'formatted',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2a2c67f3-3045-4d92-885a-dcef6bfe0a23",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO O_BATTR
+	VALUES ("2a2c67f3-3045-4d92-885a-dcef6bfe0a23",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO O_ATTR
+	VALUES ("2a2c67f3-3045-4d92-885a-dcef6bfe0a23",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	"492e89aa-b2e6-47be-82e1-937636206d6f",
+	'ptext',
+	'',
+	'',
+	'ptext',
+	0,
+	"b654ccfa-d0c9-4de4-a697-d55b73491384",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("b654ccfa-d0c9-4de4-a697-d55b73491384",
+	"00000000-0000-0000-0000-000000000000",
+	'stringpointer',
+	'',
+	'',
+	'../../Document Data Types/Document Data Types.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO O_OIDA
+	VALUES ("dca8ccae-b844-403e-9e0a-522646481177",
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	0,
+	'ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO O_ID
+	VALUES (2,
+	"d3dfae86-9b61-4927-be1b-6cdbe559ba50");
+INSERT INTO PE_PE
+	VALUES ("d3dfae86-9b61-4927-be1b-6cdbe559ba50",
+	1,
+	"21b5bbaa-9f45-4654-affb-9202769f59f1",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("21b5bbaa-9f45-4654-affb-9202769f59f1",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');

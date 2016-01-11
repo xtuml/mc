@@ -1,0 +1,88 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("d66f90e1-b52f-46d5-aba7-133f29cfc533",
+	'Simple Association',
+	205,
+	'R_SIMP',
+	'A simple association (R_SIMP) is an association between two classs which are formalized with referential attributes in one of the classes.  The class that holds the referential attributes for  the association is know as the referring class in the association (R_RGO) and is the formalizer of the association (R_FORM).  The class that participates in the association and carries the identifying attributes used to formalize the association is the referred to class  (R_RTO) and is a participant in the association (R_PART).',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("d66f90e1-b52f-46d5-aba7-133f29cfc533",
+	"a65afc2d-1c8d-47cf-b82d-91a9c741d861",
+	0,
+	"4cf2fa7a-04c9-4d66-86e1-9404b98fef74",
+	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
+	"97ac9e75-3bad-40c3-978d-3e287bd7f123",
+	"8296d180-0a20-4c93-ac8b-b81b50845e1d",
+	"5245d60e-aab6-400e-a5ed-61e9f0dfc1f3",
+	"773db894-cfb8-4f20-a6ff-079d134eb00e",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Association',
+	'Rel_ID',
+	'R206');
+INSERT INTO R_RGO_PROXY
+	VALUES ("d66f90e1-b52f-46d5-aba7-133f29cfc533",
+	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
+	"97ac9e75-3bad-40c3-978d-3e287bd7f123",
+	'../Association.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("4cf2fa7a-04c9-4d66-86e1-9404b98fef74",
+	"a65afc2d-1c8d-47cf-b82d-91a9c741d861",
+	0,
+	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
+	"8296d180-0a20-4c93-ac8b-b81b50845e1d",
+	'../Association.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("5245d60e-aab6-400e-a5ed-61e9f0dfc1f3",
+	"d66f90e1-b52f-46d5-aba7-133f29cfc533",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("5245d60e-aab6-400e-a5ed-61e9f0dfc1f3",
+	"d66f90e1-b52f-46d5-aba7-133f29cfc533",
+	"00000000-0000-0000-0000-000000000000",
+	'Rel_ID',
+	'',
+	'',
+	'Rel_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"d66f90e1-b52f-46d5-aba7-133f29cfc533");
+INSERT INTO O_OIDA
+	VALUES ("5245d60e-aab6-400e-a5ed-61e9f0dfc1f3",
+	"d66f90e1-b52f-46d5-aba7-133f29cfc533",
+	0,
+	'Rel_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"d66f90e1-b52f-46d5-aba7-133f29cfc533");
+INSERT INTO O_ID
+	VALUES (2,
+	"d66f90e1-b52f-46d5-aba7-133f29cfc533");
+INSERT INTO PE_PE
+	VALUES ("d66f90e1-b52f-46d5-aba7-133f29cfc533",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Association',
+	'A association (R_REL) captures an association between things in the real world. A association is stated in terms of the formal classs (O_OBJ) that model the real world entities participating in the association. There can be any number of associations between the same two classs and any class can participate in any number of associations with other classs.',
+	201,
+	'../Association.xtuml');

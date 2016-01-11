@@ -1,0 +1,156 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	'Required Executable Property',
+	4500,
+	'SPR_REP',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	0,
+	"db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"adb268e4-938e-45af-be45-5da058d32bf0",
+	"299f24ca-e8a9-4272-9367-8bc814707657",
+	"71e92ed1-2c51-40a7-9ccb-9fc93a049182",
+	"4b03436c-8510-47d4-8b8c-f245bd6e44a4",
+	"c6150911-8655-4f5b-9932-078f0e88d4b2",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Executable Property',
+	'Id',
+	'R4500.''implements''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	"adb268e4-938e-45af-be45-5da058d32bf0",
+	"299f24ca-e8a9-4272-9367-8bc814707657",
+	'../Signal Provisions and Requirements.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	0,
+	"adb268e4-938e-45af-be45-5da058d32bf0",
+	"71e92ed1-2c51-40a7-9ccb-9fc93a049182",
+	'../Signal Provisions and Requirements.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("4b03436c-8510-47d4-8b8c-f245bd6e44a4",
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	"db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	1,
+	'Id');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	'../../Executable Property/Executable Property.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("4b03436c-8510-47d4-8b8c-f245bd6e44a4",
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	"ac7d8964-5662-4281-bd38-d0bad500537d",
+	'ExecutableProperty_Id',
+	'',
+	'ExecutableProperty_',
+	'Id',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ac7d8964-5662-4281-bd38-d0bad500537d",
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758");
+INSERT INTO O_BATTR
+	VALUES ("ac7d8964-5662-4281-bd38-d0bad500537d",
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758");
+INSERT INTO O_ATTR
+	VALUES ("ac7d8964-5662-4281-bd38-d0bad500537d",
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	"2c54b171-6013-43d9-ad8b-01b1e1cf59fe",
+	0,
+	"592ebbdb-1a99-49eb-a75f-b6624ef6fbce",
+	"adb268e4-938e-45af-be45-5da058d32bf0",
+	"299f24ca-e8a9-4272-9367-8bc814707657",
+	"bb9320e4-5af4-422b-94eb-f0c5703e117e",
+	"a9114af9-8189-48c8-a7ac-a6502fba859c",
+	"608af36b-e2fa-48ce-8f78-95504b9502f0",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Requirement',
+	'Requirement_Id',
+	'R4500.''is implemented by''');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("592ebbdb-1a99-49eb-a75f-b6624ef6fbce",
+	"2c54b171-6013-43d9-ad8b-01b1e1cf59fe",
+	0,
+	"adb268e4-938e-45af-be45-5da058d32bf0",
+	"bb9320e4-5af4-422b-94eb-f0c5703e117e",
+	'../Signal Provisions and Requirements.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("a9114af9-8189-48c8-a7ac-a6502fba859c",
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("a9114af9-8189-48c8-a7ac-a6502fba859c",
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	"4b03436c-8510-47d4-8b8c-f245bd6e44a4",
+	'Requirement_Id',
+	'',
+	'',
+	'Requirement_Id',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758");
+INSERT INTO O_OIDA
+	VALUES ("ac7d8964-5662-4281-bd38-d0bad500537d",
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758");
+INSERT INTO O_ID
+	VALUES (2,
+	"a781fff7-2fb5-4a41-919b-c7c800d0e758");
+INSERT INTO PE_PE
+	VALUES ("a781fff7-2fb5-4a41-919b-c7c800d0e758",
+	1,
+	"ea847db6-52cd-4970-ac10-6cb51f563aad",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ea847db6-52cd-4970-ac10-6cb51f563aad",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Signal Provisions and Requirements',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+
+The Signal Provisions and Requirements subsystem captures data which will be
+used to define the implementation of provided and required interfaces.',
+	4500,
+	'../Signal Provisions and Requirements.xtuml');

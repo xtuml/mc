@@ -1,0 +1,165 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("795d65b2-592e-4634-a88f-2df2f8107973",
+	'function',
+	3705,
+	'function',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("132e1e00-b2bf-429b-ae22-aac5954dcaa5",
+	"795d65b2-592e-4634-a88f-2df2f8107973",
+	'populate',
+	'',
+	"61cb1406-7a40-4a1a-a54e-ee9f8d6526c5",
+	0,
+	'activity = param.activity;
+create object instance function of function;
+function.returntype = param.returntype;
+relate activity to function across R3704;
+return function;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("fb131ccf-39eb-4608-8661-ea9ead9a0f8b",
+	"132e1e00-b2bf-429b-ae22-aac5954dcaa5",
+	'activity',
+	"9d5262dc-0809-4322-ab9c-b96997b0c4b0",
+	0,
+	'',
+	"1e73d8d7-020a-41fa-b844-eb7370444377",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9d5262dc-0809-4322-ab9c-b96997b0c4b0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<activity>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("1e73d8d7-020a-41fa-b844-eb7370444377",
+	"132e1e00-b2bf-429b-ae22-aac5954dcaa5",
+	'returntype',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../types/types.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("61cb1406-7a40-4a1a-a54e-ee9f8d6526c5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<function>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("392f35be-ee35-4bed-8dec-e02e5f239c63",
+	"795d65b2-592e-4634-a88f-2df2f8107973",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'name = param.name;
+visibility = param.visibility;
+T::include( file:"masl/t.function_begin.masl" );
+select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.function_end.masl" );',
+	1,
+	'',
+	"132e1e00-b2bf-429b-ae22-aac5954dcaa5");
+INSERT INTO O_TPARM
+	VALUES ("c6c53eaa-171e-4f9c-8cfb-4297258f51ee",
+	"392f35be-ee35-4bed-8dec-e02e5f239c63",
+	'name',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("fafc67f0-745c-4a64-a80e-ffbeba783634",
+	"392f35be-ee35-4bed-8dec-e02e5f239c63",
+	'visibility',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"c6c53eaa-171e-4f9c-8cfb-4297258f51ee",
+	'');
+INSERT INTO O_TFR
+	VALUES ("2e38d61e-36eb-4423-9d8d-a12d777f035d",
+	"795d65b2-592e-4634-a88f-2df2f8107973",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many functions from instances of function;
+for each function in functions;
+  if ( "" == function.returntype )
+    TRACE::log( flavor:"failure", id:9, message:"function has no returntype." );
+    valid = false;
+  end if;
+  select one activity related by function->activity[R3704];
+  if ( empty activity )
+    TRACE::log( flavor:"failure", id:10, message:"function has no parent activity." );
+    valid = false;
+  end if;
+end for;
+return ( valid );
+',
+	1,
+	'',
+	"392f35be-ee35-4bed-8dec-e02e5f239c63");
+INSERT INTO O_NBATTR
+	VALUES ("bbab9a21-eb0b-46b7-9d1f-abe514157fac",
+	"795d65b2-592e-4634-a88f-2df2f8107973");
+INSERT INTO O_BATTR
+	VALUES ("bbab9a21-eb0b-46b7-9d1f-abe514157fac",
+	"795d65b2-592e-4634-a88f-2df2f8107973");
+INSERT INTO O_ATTR
+	VALUES ("bbab9a21-eb0b-46b7-9d1f-abe514157fac",
+	"795d65b2-592e-4634-a88f-2df2f8107973",
+	"00000000-0000-0000-0000-000000000000",
+	'returntype',
+	'',
+	'',
+	'returntype',
+	0,
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"795d65b2-592e-4634-a88f-2df2f8107973");
+INSERT INTO O_ID
+	VALUES (1,
+	"795d65b2-592e-4634-a88f-2df2f8107973");
+INSERT INTO O_ID
+	VALUES (2,
+	"795d65b2-592e-4634-a88f-2df2f8107973");
+INSERT INTO PE_PE
+	VALUES ("795d65b2-592e-4634-a88f-2df2f8107973",
+	1,
+	"bf1d7167-bfbc-4ab7-a06f-b5c7c0187860",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("bf1d7167-bfbc-4ab7-a06f-b5c7c0187860",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

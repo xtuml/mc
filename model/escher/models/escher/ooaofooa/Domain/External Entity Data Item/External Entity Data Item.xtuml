@@ -1,0 +1,194 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("c761d93f-1a0d-43b2-8bb2-add382b39975",
+	'External Entity Data Item',
+	5,
+	'S_EEDI',
+	'An external entity data item is essentially an attribute of an external entity that can be accessed by a class (O_OBJ).  These synchronous Interactions between classes and external entities are shown on the Synchronous Communication Diagrams.  Support for external entity data items is currently absent from the tool.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("ee6db385-05a5-46b2-a1e9-9974c0031ec7",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975");
+INSERT INTO O_BATTR
+	VALUES ("ee6db385-05a5-46b2-a1e9-9974c0031ec7",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975");
+INSERT INTO O_ATTR
+	VALUES ("ee6db385-05a5-46b2-a1e9-9974c0031ec7",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"00000000-0000-0000-0000-000000000000",
+	'EEdi_ID',
+	'Full Name: External Entity Data Item Identifier',
+	'',
+	'EEdi_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("69a38b57-ae05-4560-b468-21f22de36d0d",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975");
+INSERT INTO O_BATTR
+	VALUES ("69a38b57-ae05-4560-b468-21f22de36d0d",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975");
+INSERT INTO O_ATTR
+	VALUES ("69a38b57-ae05-4560-b468-21f22de36d0d",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"975d1caa-00dd-4a2d-aeb7-4fccfc8a35e2",
+	'Name',
+	'Full Name: External Entity Data Item Name',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("765d57ed-2b44-4b0a-808d-accaa0185918",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975");
+INSERT INTO O_BATTR
+	VALUES ("765d57ed-2b44-4b0a-808d-accaa0185918",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975");
+INSERT INTO O_ATTR
+	VALUES ("765d57ed-2b44-4b0a-808d-accaa0185918",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"69a38b57-ae05-4560-b468-21f22de36d0d",
+	'Descrip',
+	'Full Name: External Entity Data Item Description',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"221f1ea1-ccc2-4845-822c-59c417fafcb8",
+	"2395c141-fcb8-4e58-a612-2eeb3412d980",
+	"041a6287-e114-4a30-a61a-ec66909be0af",
+	"059963b1-904e-4141-a6eb-a54f9648811a",
+	"41e1cbf0-9392-49fb-ac7e-026749a76034",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R15.''is defined by''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"221f1ea1-ccc2-4845-822c-59c417fafcb8",
+	"2395c141-fcb8-4e58-a612-2eeb3412d980",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"221f1ea1-ccc2-4845-822c-59c417fafcb8",
+	"041a6287-e114-4a30-a61a-ec66909be0af",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("059963b1-904e-4141-a6eb-a54f9648811a",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("059963b1-904e-4141-a6eb-a54f9648811a",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"765d57ed-2b44-4b0a-808d-accaa0185918",
+	'DT_ID',
+	'',
+	'',
+	'Element_ID',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"239df24f-295d-41f2-8bc5-72c6538640fd",
+	0,
+	"ad01e949-6969-4e3d-8a99-7b79ce9878af",
+	"c5f45e2b-3b69-4e84-ac45-629d5499fd5f",
+	"75f5690f-e37a-423c-9a3a-fd1e154104a7",
+	"ae76d3ad-9fcb-4705-908f-ae3c87192a23",
+	"975d1caa-00dd-4a2d-aeb7-4fccfc8a35e2",
+	"152e911f-7ac2-4cab-8fa7-2273c1d4bcca",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'External Entity',
+	'EE_ID',
+	'R11.''is data for''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"c5f45e2b-3b69-4e84-ac45-629d5499fd5f",
+	"75f5690f-e37a-423c-9a3a-fd1e154104a7",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("ad01e949-6969-4e3d-8a99-7b79ce9878af",
+	"239df24f-295d-41f2-8bc5-72c6538640fd",
+	0,
+	"c5f45e2b-3b69-4e84-ac45-629d5499fd5f",
+	"ae76d3ad-9fcb-4705-908f-ae3c87192a23",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("975d1caa-00dd-4a2d-aeb7-4fccfc8a35e2",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_ATTR
+	VALUES ("975d1caa-00dd-4a2d-aeb7-4fccfc8a35e2",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975",
+	"ee6db385-05a5-46b2-a1e9-9974c0031ec7",
+	'EE_ID',
+	'',
+	'',
+	'EE_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"c761d93f-1a0d-43b2-8bb2-add382b39975");
+INSERT INTO O_OIDA
+	VALUES ("ee6db385-05a5-46b2-a1e9-9974c0031ec7",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975",
+	0,
+	'EEdi_ID');
+INSERT INTO O_OIDA
+	VALUES ("975d1caa-00dd-4a2d-aeb7-4fccfc8a35e2",
+	"c761d93f-1a0d-43b2-8bb2-add382b39975",
+	0,
+	'EE_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"c761d93f-1a0d-43b2-8bb2-add382b39975");
+INSERT INTO O_ID
+	VALUES (2,
+	"c761d93f-1a0d-43b2-8bb2-add382b39975");
+INSERT INTO PE_PE
+	VALUES ("c761d93f-1a0d-43b2-8bb2-add382b39975",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Domain',
+	'A domain (S_DOM) consists of one or more subsystems (S_SS) that each contain an information model that abstracts a portion of the data for the domain: classes (O_OBJ), associations (R_REL), etc.  Breaking a domain into subsystems allows the complexity of the domain to be more easily managed: 1) subsystems are components and can be checked out individually allowing parallelism in development of the models and 2) breaking up a domain into smaller units is easier to understand.  A subsystem is composed of classes that tend to cluster, i.e., they have few associations that span subsystem boundaries.  Inter-subsystem associations, communications, and accesses are captured in the Subsystem Relationship Model (SRM), Subsystem Communication Model (SCM), and Subsystem Access Model (SAM) respectively.',
+	1,
+	'../Domain.xtuml');

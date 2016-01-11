@@ -1,0 +1,91 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6e5cc59b-699b-4d5a-983f-b920eb21bf10",
+	'Component Instance Container',
+	2921,
+	'I_CIN',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("6e5cc59b-699b-4d5a-983f-b920eb21bf10",
+	"68f2931e-32b4-46c9-9065-29e17ba38409",
+	0,
+	"cd6c76c3-4bb4-480a-bfbb-8c4afcc5e438",
+	"bbbc8d9b-9304-4766-931a-0c24131fa259",
+	"18f28206-a5e5-4c5f-9817-740f734726e7",
+	"be6e6de4-fc9e-4ef3-bdd4-3c2ec20160de",
+	"4cb20840-96e5-4343-83b7-7dd1de04c856",
+	"b7c233e8-293e-4f35-bdc1-7dfe68f44323",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Component Instance',
+	'Execution_Engine_ID',
+	'R2974');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6e5cc59b-699b-4d5a-983f-b920eb21bf10",
+	"bbbc8d9b-9304-4766-931a-0c24131fa259",
+	"18f28206-a5e5-4c5f-9817-740f734726e7",
+	'../Instance.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("cd6c76c3-4bb4-480a-bfbb-8c4afcc5e438",
+	"68f2931e-32b4-46c9-9065-29e17ba38409",
+	0,
+	"bbbc8d9b-9304-4766-931a-0c24131fa259",
+	"be6e6de4-fc9e-4ef3-bdd4-3c2ec20160de",
+	'../Instance.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("4cb20840-96e5-4343-83b7-7dd1de04c856",
+	"6e5cc59b-699b-4d5a-983f-b920eb21bf10",
+	"cd6c76c3-4bb4-480a-bfbb-8c4afcc5e438",
+	"68f2931e-32b4-46c9-9065-29e17ba38409",
+	0,
+	'Execution_Engine_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("cd6c76c3-4bb4-480a-bfbb-8c4afcc5e438",
+	"68f2931e-32b4-46c9-9065-29e17ba38409",
+	'../Component Instance/Component Instance.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("4cb20840-96e5-4343-83b7-7dd1de04c856",
+	"6e5cc59b-699b-4d5a-983f-b920eb21bf10",
+	"00000000-0000-0000-0000-000000000000",
+	'Container_ID',
+	'',
+	'',
+	'Container_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"6e5cc59b-699b-4d5a-983f-b920eb21bf10");
+INSERT INTO O_OIDA
+	VALUES ("4cb20840-96e5-4343-83b7-7dd1de04c856",
+	"6e5cc59b-699b-4d5a-983f-b920eb21bf10",
+	0,
+	'Container_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"6e5cc59b-699b-4d5a-983f-b920eb21bf10");
+INSERT INTO O_ID
+	VALUES (2,
+	"6e5cc59b-699b-4d5a-983f-b920eb21bf10");
+INSERT INTO PE_PE
+	VALUES ("6e5cc59b-699b-4d5a-983f-b920eb21bf10",
+	1,
+	"65570d87-afb2-472a-8589-f2347f9f0e6b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("65570d87-afb2-472a-8589-f2347f9f0e6b",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Instance',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+Persistent:false
+Import: java.util.concurrent.locks.ReentrantLock',
+	900,
+	'../Instance.xtuml');

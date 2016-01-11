@@ -1,0 +1,112 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("63968e94-c9be-4c21-8b40-803de2d3c524",
+	'dynamic memory allocation',
+	2048,
+	'TE_DMA',
+	'access:te_prefix
+This class defines dynamic memory allocation if it is needed.  Most of
+the time, MC-3020 does not use dynamic memory allocation.
+Note, that no specific garbage collection or defragmentation is supplied
+by generated code.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("d69652d0-28fe-4ff8-a2c6-1f59c3ed4ce0",
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_BATTR
+	VALUES ("d69652d0-28fe-4ff8-a2c6-1f59c3ed4ce0",
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_ATTR
+	VALUES ("d69652d0-28fe-4ff8-a2c6-1f59c3ed4ce0",
+	"63968e94-c9be-4c21-8b40-803de2d3c524",
+	"00000000-0000-0000-0000-000000000000",
+	'file',
+	'This is the name of the system-level source file(s) that define
+dynamic memory allocation (if used).',
+	'',
+	'file',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'"sys_memory"');
+INSERT INTO O_NBATTR
+	VALUES ("344182a7-17f1-46aa-bf95-6c0b1456ddc7",
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_BATTR
+	VALUES ("344182a7-17f1-46aa-bf95-6c0b1456ddc7",
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_ATTR
+	VALUES ("344182a7-17f1-46aa-bf95-6c0b1456ddc7",
+	"63968e94-c9be-4c21-8b40-803de2d3c524",
+	"d69652d0-28fe-4ff8-a2c6-1f59c3ed4ce0",
+	'allocate',
+	'This is the name of the routine that indirects between the application
+and the operating system supplied memory allocation routine.',
+	'',
+	'allocate',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "malloc"');
+INSERT INTO O_NBATTR
+	VALUES ("5f537f55-bb4c-4343-a1e7-65d4ce7e2c92",
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_BATTR
+	VALUES ("5f537f55-bb4c-4343-a1e7-65d4ce7e2c92",
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_ATTR
+	VALUES ("5f537f55-bb4c-4343-a1e7-65d4ce7e2c92",
+	"63968e94-c9be-4c21-8b40-803de2d3c524",
+	"344182a7-17f1-46aa-bf95-6c0b1456ddc7",
+	'release',
+	'This is the name of the routine that indirects between the application
+and the operating system supplied memory deallocation routine.',
+	'',
+	'release',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "free"');
+INSERT INTO O_NBATTR
+	VALUES ("4eda89aa-fe89-41e5-a71d-f07eb8f31fcd",
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_BATTR
+	VALUES ("4eda89aa-fe89-41e5-a71d-f07eb8f31fcd",
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_ATTR
+	VALUES ("4eda89aa-fe89-41e5-a71d-f07eb8f31fcd",
+	"63968e94-c9be-4c21-8b40-803de2d3c524",
+	"5f537f55-bb4c-4343-a1e7-65d4ce7e2c92",
+	'debugging_heap',
+	'Turn this on to debug the dynamic memory allocation heap.',
+	'',
+	'debugging_heap',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'false');
+INSERT INTO O_ID
+	VALUES (0,
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_ID
+	VALUES (1,
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO O_ID
+	VALUES (2,
+	"63968e94-c9be-4c21-8b40-803de2d3c524");
+INSERT INTO PE_PE
+	VALUES ("63968e94-c9be-4c21-8b40-803de2d3c524",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

@@ -1,0 +1,193 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	'Action',
+	516,
+	'SM_ACT',
+	'An action defines the action language that gets executed upon arrival into the state (SM_STATE) that is related to the action.  An action may have both action language (SM_ACT.Action_Semantics)  and a description (SM_ACT.Descrip).',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("072eec1c-b5e2-4e86-910f-b968ffbd4295",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_BATTR
+	VALUES ("072eec1c-b5e2-4e86-910f-b968ffbd4295",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_ATTR
+	VALUES ("072eec1c-b5e2-4e86-910f-b968ffbd4295",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	"00000000-0000-0000-0000-000000000000",
+	'Act_ID',
+	'Full Name: Action Identifier',
+	'',
+	'Act_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	0,
+	"df4d6ffc-1976-4922-9f36-81680da64d71",
+	"1207c67f-a7de-4403-81dd-fd8cc2d737de",
+	"253cf08f-0aea-4933-a51a-3b46bdab43d2",
+	"4203b2d3-7ef4-4152-a61c-82eb2791db54",
+	"b2b0be60-1f00-4b5f-bd40-3697d9837ce3",
+	"bde3a5e8-fb58-47bb-b1de-0a9ec97faeae",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'State Machine',
+	'SM_ID',
+	'R515');
+INSERT INTO R_RGO_PROXY
+	VALUES ("4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	"1207c67f-a7de-4403-81dd-fd8cc2d737de",
+	"253cf08f-0aea-4933-a51a-3b46bdab43d2",
+	'../State Machine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	0,
+	"1207c67f-a7de-4403-81dd-fd8cc2d737de",
+	"4203b2d3-7ef4-4152-a61c-82eb2791db54",
+	'../State Machine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("b2b0be60-1f00-4b5f-bd40-3697d9837ce3",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	"df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	1,
+	'SM_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	'../State Machine/State Machine.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("b2b0be60-1f00-4b5f-bd40-3697d9837ce3",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	"072eec1c-b5e2-4e86-910f-b968ffbd4295",
+	'SM_ID',
+	'',
+	'',
+	'SM_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("29000519-67cf-44cf-b777-de4886005723",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_BATTR
+	VALUES ("29000519-67cf-44cf-b777-de4886005723",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_ATTR
+	VALUES ("29000519-67cf-44cf-b777-de4886005723",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	"b2b0be60-1f00-4b5f-bd40-3697d9837ce3",
+	'Suc_Pars',
+	'Full Name: Successful Parse Indicator
+Description: Indicates the status of the parse for the state action specification in the attribute Action_Semantics
+Data Domain: 0=not parsed, 1 = parse successful, 2 = parse unsuccessful, 3 = parse on apply set but never been parsed
+',
+	'',
+	'Suc_Pars',
+	0,
+	"dbf2d43d-c821-4774-bb01-a5f468a5abe8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("dbf2d43d-c821-4774-bb01-a5f468a5abe8",
+	"00000000-0000-0000-0000-000000000000",
+	'ParseStatus',
+	'Indicates the status of the parse for an action specification in the attribute Action_Semantics',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_BATTR
+	VALUES ("869eb6bf-431b-47a9-ab21-3ee7a2fdb277",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_ATTR
+	VALUES ("869eb6bf-431b-47a9-ab21-3ee7a2fdb277",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	"29000519-67cf-44cf-b777-de4886005723",
+	'Action_Semantics',
+	'Full Name: Action Semantics Field
+Description: Action Semantics for the state action
+Persistent:false',
+	'',
+	'Action_Semantics',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d6cc4a37-04f2-4456-8eec-3313e590cc34",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_BATTR
+	VALUES ("d6cc4a37-04f2-4456-8eec-3313e590cc34",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_ATTR
+	VALUES ("d6cc4a37-04f2-4456-8eec-3313e590cc34",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	"63313039-3f80-4b85-b753-4f77425007f6",
+	'Descrip',
+	'Full Name: Description
+Description: Optional description for the state action.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("63313039-3f80-4b85-b753-4f77425007f6",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_BATTR
+	VALUES ("63313039-3f80-4b85-b753-4f77425007f6",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_ATTR
+	VALUES ("63313039-3f80-4b85-b753-4f77425007f6",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	"869eb6bf-431b-47a9-ab21-3ee7a2fdb277",
+	'Action_Semantics_internal',
+	'User_Visible:false',
+	'',
+	'Action_Semantics_internal',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_OIDA
+	VALUES ("b2b0be60-1f00-4b5f-bd40-3697d9837ce3",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	0,
+	'SM_ID');
+INSERT INTO O_OIDA
+	VALUES ("072eec1c-b5e2-4e86-910f-b968ffbd4295",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	0,
+	'Act_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO O_ID
+	VALUES (2,
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e");
+INSERT INTO PE_PE
+	VALUES ("4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'State Machine',
+	'Classes (O_OBJ) that have interesting behavior are given lifecycles. These lifecycles are described using state machines (SM_SM). A state machine consists of states, events, transitions and state actions. The state machine exists for each instance of the class for which it has been modeled (SM_ISM). A state machine can also be an assigner state machine (SM_ASM) of which only one can exists for all class instances. The purpose of the assigner state machine is to act as a single point of control through which competing requests are serialized.',
+	501,
+	'../State Machine.xtuml');

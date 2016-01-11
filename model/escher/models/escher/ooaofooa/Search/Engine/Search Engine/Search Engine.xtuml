@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("e067038d-30dd-4392-8a0b-66837e12a7c8",
+	'Search Engine',
+	9500,
+	'SEN_E',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8");
+INSERT INTO O_BATTR
+	VALUES ("092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8");
+INSERT INTO O_ATTR
+	VALUES ("092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"e067038d-30dd-4392-8a0b-66837e12a7c8");
+INSERT INTO O_OIDA
+	VALUES ("092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"e067038d-30dd-4392-8a0b-66837e12a7c8");
+INSERT INTO O_ID
+	VALUES (2,
+	"e067038d-30dd-4392-8a0b-66837e12a7c8");
+INSERT INTO PE_PE
+	VALUES ("e067038d-30dd-4392-8a0b-66837e12a7c8",
+	1,
+	"6986d64e-5880-4fa8-a6fd-ffb537e002ff",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("6986d64e-5880-4fa8-a6fd-ffb537e002ff",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Engine',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE
+',
+	9500,
+	'../Engine.xtuml');

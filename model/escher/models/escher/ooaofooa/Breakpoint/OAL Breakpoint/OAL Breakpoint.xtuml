@@ -1,0 +1,143 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("31634b36-c405-4ef5-8e53-aca510460129",
+	'OAL Breakpoint',
+	3101,
+	'BP_OAL',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("31634b36-c405-4ef5-8e53-aca510460129",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	0,
+	"b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"91624bdd-4df9-4295-8919-534996f99bbf",
+	"040ca6cb-7b7e-4c31-8c3e-4ffdaf3649af",
+	"480048a5-379e-43e6-bcd5-0bc2dd6cc34a",
+	"327d5c64-93b4-46fa-91d3-95a959edb66f",
+	"640264e1-ba9d-49c9-8762-8090fa632829",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Statement',
+	'Statement_ID',
+	'R3101.''is set on a''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("31634b36-c405-4ef5-8e53-aca510460129",
+	"91624bdd-4df9-4295-8919-534996f99bbf",
+	"040ca6cb-7b7e-4c31-8c3e-4ffdaf3649af",
+	'../Breakpoint.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	0,
+	"91624bdd-4df9-4295-8919-534996f99bbf",
+	"480048a5-379e-43e6-bcd5-0bc2dd6cc34a",
+	'../Breakpoint.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("327d5c64-93b4-46fa-91d3-95a959edb66f",
+	"31634b36-c405-4ef5-8e53-aca510460129",
+	"b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	1,
+	'Statement_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	'../../Body/Statement/Statement.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("327d5c64-93b4-46fa-91d3-95a959edb66f",
+	"31634b36-c405-4ef5-8e53-aca510460129",
+	"00000000-0000-0000-0000-000000000000",
+	'Statement_ID',
+	'',
+	'',
+	'Statement_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("31634b36-c405-4ef5-8e53-aca510460129",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	0,
+	"2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"eda2ae19-bd0a-4a6a-ac7d-65221c8cd1d6",
+	"650fe2e5-3ce0-4036-b057-ed686bb15348",
+	"ebd4ae5c-cc1d-4a4a-8511-c05b3fac967b",
+	"54245e04-af26-49cb-8b39-ead56407893c",
+	"1bf01100-9b04-4e58-96aa-61a747eea403",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Breakpoint',
+	'Breakpoint_ID',
+	'R3102');
+INSERT INTO R_RGO_PROXY
+	VALUES ("31634b36-c405-4ef5-8e53-aca510460129",
+	"eda2ae19-bd0a-4a6a-ac7d-65221c8cd1d6",
+	"650fe2e5-3ce0-4036-b057-ed686bb15348",
+	'../Breakpoint.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	0,
+	"eda2ae19-bd0a-4a6a-ac7d-65221c8cd1d6",
+	"ebd4ae5c-cc1d-4a4a-8511-c05b3fac967b",
+	'../Breakpoint.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("54245e04-af26-49cb-8b39-ead56407893c",
+	"31634b36-c405-4ef5-8e53-aca510460129",
+	"2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	1,
+	'Breakpoint_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	'../Breakpoint/Breakpoint.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("54245e04-af26-49cb-8b39-ead56407893c",
+	"31634b36-c405-4ef5-8e53-aca510460129",
+	"327d5c64-93b4-46fa-91d3-95a959edb66f",
+	'Breakpoint_ID',
+	'',
+	'',
+	'Breakpoint_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"31634b36-c405-4ef5-8e53-aca510460129");
+INSERT INTO O_OIDA
+	VALUES ("54245e04-af26-49cb-8b39-ead56407893c",
+	"31634b36-c405-4ef5-8e53-aca510460129",
+	0,
+	'Breakpoint_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"31634b36-c405-4ef5-8e53-aca510460129");
+INSERT INTO O_ID
+	VALUES (2,
+	"31634b36-c405-4ef5-8e53-aca510460129");
+INSERT INTO PE_PE
+	VALUES ("31634b36-c405-4ef5-8e53-aca510460129",
+	1,
+	"df33f31a-ecd1-46a8-a53c-6c1b84c51334",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("df33f31a-ecd1-46a8-a53c-6c1b84c51334",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Breakpoint',
+	'This subsystem provides breakpoints that can be used in Model Verifier and Model Debugger.
+// This is used by schema_gen to ignore this subsystem (for publication)
+Persistent:false
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	1100,
+	'../Breakpoint.xtuml');

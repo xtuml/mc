@@ -1,0 +1,108 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b",
+	'Search Participant',
+	9700,
+	'SP_SP',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("960b457e-f651-4339-9f1a-c3518a7846b5",
+	"a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b");
+INSERT INTO O_BATTR
+	VALUES ("960b457e-f651-4339-9f1a-c3518a7846b5",
+	"a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b");
+INSERT INTO O_ATTR
+	VALUES ("960b457e-f651-4339-9f1a-c3518a7846b5",
+	"a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8",
+	0,
+	"092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"aaf8cf24-d180-461d-97fb-e6fd1b37227e",
+	"140329b0-228d-4d2e-a817-2128432097eb",
+	"6e15fb4b-abdb-41b0-9faf-e97889f6b26f",
+	"27c5b199-c189-4561-8bcc-85639faeb7de",
+	"0684a7d8-62ce-4f5c-be5c-7c277b833d63",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Search Engine',
+	'Id',
+	'R9502.''searched for by''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b",
+	"aaf8cf24-d180-461d-97fb-e6fd1b37227e",
+	"140329b0-228d-4d2e-a817-2128432097eb",
+	'../../Engine/Engine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8",
+	0,
+	"aaf8cf24-d180-461d-97fb-e6fd1b37227e",
+	"6e15fb4b-abdb-41b0-9faf-e97889f6b26f",
+	'../../Engine/Engine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("27c5b199-c189-4561-8bcc-85639faeb7de",
+	"a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b",
+	"092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8",
+	1,
+	'Id');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8",
+	'../../Engine/Search Engine/Search Engine.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("27c5b199-c189-4561-8bcc-85639faeb7de",
+	"a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b",
+	"960b457e-f651-4339-9f1a-c3518a7846b5",
+	'Engine_Id',
+	'',
+	'Engine_',
+	'Id',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b");
+INSERT INTO O_OIDA
+	VALUES ("960b457e-f651-4339-9f1a-c3518a7846b5",
+	"a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b");
+INSERT INTO O_ID
+	VALUES (2,
+	"a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b");
+INSERT INTO PE_PE
+	VALUES ("a9abf76f-f8c7-4aac-a29a-d0ebc20ab73b",
+	1,
+	"c28e7fd4-005a-4b74-a22e-4384281f54da",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("c28e7fd4-005a-4b74-a22e-4384281f54da",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Participation',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE
+',
+	9700,
+	'../Participation.xtuml');

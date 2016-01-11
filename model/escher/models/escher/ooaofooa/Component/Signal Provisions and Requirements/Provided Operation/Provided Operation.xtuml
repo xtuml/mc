@@ -1,0 +1,187 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	'Provided Operation',
+	4504,
+	'SPR_PO',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	"8910d8a9-d776-4741-8ef1-23787541ec58",
+	0,
+	"bb397215-55be-4571-af99-4a8d7be7a2cd",
+	"6e0650c2-1fb6-41de-bba4-2bc5354570bf",
+	"5eb78088-d608-4d58-ae05-fe2cf6494b41",
+	"ba6f6e20-9a32-48a9-a884-a1ba0d7b64ed",
+	"b51a6184-3dae-4395-b017-2bfb89becd79",
+	"9af39b53-a386-429f-a414-bcc966968603",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Provided Executable Property',
+	'Id',
+	'R4503');
+INSERT INTO R_RGO_PROXY
+	VALUES ("f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	"6e0650c2-1fb6-41de-bba4-2bc5354570bf",
+	"5eb78088-d608-4d58-ae05-fe2cf6494b41",
+	'../Signal Provisions and Requirements.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("bb397215-55be-4571-af99-4a8d7be7a2cd",
+	"8910d8a9-d776-4741-8ef1-23787541ec58",
+	0,
+	"6e0650c2-1fb6-41de-bba4-2bc5354570bf",
+	"ba6f6e20-9a32-48a9-a884-a1ba0d7b64ed",
+	'../Signal Provisions and Requirements.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("b51a6184-3dae-4395-b017-2bfb89becd79",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	"bb397215-55be-4571-af99-4a8d7be7a2cd",
+	"8910d8a9-d776-4741-8ef1-23787541ec58",
+	1,
+	'Id');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("bb397215-55be-4571-af99-4a8d7be7a2cd",
+	"8910d8a9-d776-4741-8ef1-23787541ec58",
+	'../Provided Executable Property/Provided Executable Property.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("b51a6184-3dae-4395-b017-2bfb89becd79",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_BATTR
+	VALUES ("539672b5-a306-4fc2-84b0-4e23efb9d76c",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
+INSERT INTO O_ATTR
+	VALUES ("539672b5-a306-4fc2-84b0-4e23efb9d76c",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	"b51a6184-3dae-4395-b017-2bfb89becd79",
+	'Name',
+	'Full Name: Provided Operation Name',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_BATTR
+	VALUES ("ccddda73-ba74-4962-8ad7-0f7aa9bdbdc9",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
+INSERT INTO O_ATTR
+	VALUES ("ccddda73-ba74-4962-8ad7-0f7aa9bdbdc9",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	"539672b5-a306-4fc2-84b0-4e23efb9d76c",
+	'Descrip',
+	'Full Name: Provided Operation Description
+Description: A textual description of this provided operation.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_BATTR
+	VALUES ("29e89de4-985f-474b-8542-3372e806e0a8",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
+INSERT INTO O_ATTR
+	VALUES ("29e89de4-985f-474b-8542-3372e806e0a8",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	"ccddda73-ba74-4962-8ad7-0f7aa9bdbdc9",
+	'Action_Semantics',
+	'Full Name: Action Semantics Field
+Description: Action Semantics for the signal action
+Persistent:false
+',
+	'',
+	'Action_Semantics',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("42fb4807-3bf4-4e13-9295-388ab1a643f8",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
+INSERT INTO O_BATTR
+	VALUES ("42fb4807-3bf4-4e13-9295-388ab1a643f8",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
+INSERT INTO O_ATTR
+	VALUES ("42fb4807-3bf4-4e13-9295-388ab1a643f8",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	"29e89de4-985f-474b-8542-3372e806e0a8",
+	'Action_Semantics_internal',
+	'User_Visible:false',
+	'',
+	'Action_Semantics_internal',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a575b665-d49d-493f-abaa-c30640810b59",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
+INSERT INTO O_BATTR
+	VALUES ("a575b665-d49d-493f-abaa-c30640810b59",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
+INSERT INTO O_ATTR
+	VALUES ("a575b665-d49d-493f-abaa-c30640810b59",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	"42fb4807-3bf4-4e13-9295-388ab1a643f8",
+	'Suc_Pars',
+	'Full Name: Successful Parse Indicator
+Description: Indicates the status of the parse for the action specification in the attribute Action_Semantics
+Data Domain: 0=not parsed, 1 = parse successful, 2 = parse unsuccessful, 3 = parse on apply set but never been parsed
+',
+	'',
+	'Suc_Pars',
+	0,
+	"dbf2d43d-c821-4774-bb01-a5f468a5abe8",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("dbf2d43d-c821-4774-bb01-a5f468a5abe8",
+	"00000000-0000-0000-0000-000000000000",
+	'ParseStatus',
+	'Indicates the status of the parse for an action specification in the attribute Action_Semantics',
+	'',
+	'../../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
+INSERT INTO O_OIDA
+	VALUES ("b51a6184-3dae-4395-b017-2bfb89becd79",
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
+INSERT INTO O_ID
+	VALUES (2,
+	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d");
+INSERT INTO PE_PE
+	VALUES ("f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
+	1,
+	"ea847db6-52cd-4970-ac10-6cb51f563aad",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ea847db6-52cd-4970-ac10-6cb51f563aad",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Signal Provisions and Requirements',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+
+The Signal Provisions and Requirements subsystem captures data which will be
+used to define the implementation of provided and required interfaces.',
+	4500,
+	'../Signal Provisions and Requirements.xtuml');

@@ -1,0 +1,199 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	'Return Message',
+	1011,
+	'MSG_R',
+	'This class is used to represent a return message.  The return message is never
+formal.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("01337b4b-852d-434c-a2c8-a4d31f6888ee",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_BATTR
+	VALUES ("01337b4b-852d-434c-a2c8-a4d31f6888ee",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_ATTR
+	VALUES ("01337b4b-852d-434c-a2c8-a4d31f6888ee",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	"56ff0ad1-8152-4f91-9aea-a02d22ddb92b",
+	'ReturnValue',
+	'Full Name: Return Value',
+	'',
+	'ReturnValue',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("56ff0ad1-8152-4f91-9aea-a02d22ddb92b",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_BATTR
+	VALUES ("56ff0ad1-8152-4f91-9aea-a02d22ddb92b",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_ATTR
+	VALUES ("56ff0ad1-8152-4f91-9aea-a02d22ddb92b",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	"48d7a3e2-fd9a-4032-bc44-ba7aba0c35a9",
+	'ResultTarget',
+	'Full Name: Result Target',
+	'',
+	'ResultTarget',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("48d7a3e2-fd9a-4032-bc44-ba7aba0c35a9",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_BATTR
+	VALUES ("48d7a3e2-fd9a-4032-bc44-ba7aba0c35a9",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_ATTR
+	VALUES ("48d7a3e2-fd9a-4032-bc44-ba7aba0c35a9",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	"58ec46f9-707e-41ae-9e72-0c24abb0d634",
+	'GuardCondition',
+	'Full Name: Guard Condition',
+	'',
+	'GuardCondition',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("58ec46f9-707e-41ae-9e72-0c24abb0d634",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_BATTR
+	VALUES ("58ec46f9-707e-41ae-9e72-0c24abb0d634",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_ATTR
+	VALUES ("58ec46f9-707e-41ae-9e72-0c24abb0d634",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	"896e0561-e6cd-43ba-b241-34bb82f1319c",
+	'Descrip',
+	'Full Name: Message Description
+Description: A textual description of this message.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("896e0561-e6cd-43ba-b241-34bb82f1319c",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_BATTR
+	VALUES ("896e0561-e6cd-43ba-b241-34bb82f1319c",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_ATTR
+	VALUES ("896e0561-e6cd-43ba-b241-34bb82f1319c",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	"a6c29463-f6b5-4dc3-8764-7fdcd356d9f1",
+	'Name',
+	'Full Name: Name',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("53b975a7-d8bb-4f2c-97a5-ac6c00b232f3",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_BATTR
+	VALUES ("53b975a7-d8bb-4f2c-97a5-ac6c00b232f3",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_ATTR
+	VALUES ("53b975a7-d8bb-4f2c-97a5-ac6c00b232f3",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	"01337b4b-852d-434c-a2c8-a4d31f6888ee",
+	'SequenceNumb',
+	'Full Name: Sequence Number',
+	'',
+	'SequenceNumb',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	"757ce4bd-2bb5-4136-a5c0-847ae5f16e9d",
+	0,
+	"a3d66eff-9af3-45a7-a584-cd90efb34a2c",
+	"316b02f6-a2cb-44c2-be57-49121d92e713",
+	"e306c1dc-1b1a-42c1-ac7d-fb1fcc78b3a3",
+	"c7fe5e9a-dfd8-4faf-9a23-f89ff9b16351",
+	"a6c29463-f6b5-4dc3-8764-7fdcd356d9f1",
+	"5bfcb774-144c-4d4e-976a-51e90aaee2fb",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Message',
+	'Msg_ID',
+	'R1018');
+INSERT INTO R_RGO_PROXY
+	VALUES ("d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	"316b02f6-a2cb-44c2-be57-49121d92e713",
+	"e306c1dc-1b1a-42c1-ac7d-fb1fcc78b3a3",
+	'../Message.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("a3d66eff-9af3-45a7-a584-cd90efb34a2c",
+	"757ce4bd-2bb5-4136-a5c0-847ae5f16e9d",
+	0,
+	"316b02f6-a2cb-44c2-be57-49121d92e713",
+	"c7fe5e9a-dfd8-4faf-9a23-f89ff9b16351",
+	'../Message.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("a6c29463-f6b5-4dc3-8764-7fdcd356d9f1",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("a6c29463-f6b5-4dc3-8764-7fdcd356d9f1",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	"00000000-0000-0000-0000-000000000000",
+	'Msg_ID',
+	'',
+	'',
+	'Msg_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_OIDA
+	VALUES ("a6c29463-f6b5-4dc3-8764-7fdcd356d9f1",
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	0,
+	'Msg_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO O_ID
+	VALUES (2,
+	"d5e378ec-d63f-4445-a3e1-0e0ec5104343");
+INSERT INTO PE_PE
+	VALUES ("d5e378ec-d63f-4445-a3e1-0e0ec5104343",
+	1,
+	"02780f20-a4d8-43b7-bef8-489a5e93ce8b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("02780f20-a4d8-43b7-bef8-489a5e93ce8b",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Message',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	1000,
+	'../Message.xtuml');

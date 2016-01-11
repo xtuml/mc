@@ -1,0 +1,149 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	'Delete',
+	614,
+	'ACT_DEL',
+	'This class represents a statement that deletes an instance.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	0,
+	"b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"6d49ff43-3e64-4554-b514-7fa527eeb27a",
+	"5b88af36-3131-4677-af6b-4d25b93e9ce5",
+	"8116f28b-5c50-4604-835a-730b44a971aa",
+	"4db22c6b-6d74-4975-964d-6bbe5ab9fa68",
+	"f8efe067-b18b-4d66-ac02-1ac85a3d5bdf",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Statement',
+	'Statement_ID',
+	'R603');
+INSERT INTO R_RGO_PROXY
+	VALUES ("fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	"6d49ff43-3e64-4554-b514-7fa527eeb27a",
+	"5b88af36-3131-4677-af6b-4d25b93e9ce5",
+	'../../Body/Body.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	0,
+	"6d49ff43-3e64-4554-b514-7fa527eeb27a",
+	"8116f28b-5c50-4604-835a-730b44a971aa",
+	'../../Body/Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("4db22c6b-6d74-4975-964d-6bbe5ab9fa68",
+	"fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	"b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	1,
+	'Statement_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	'../../Body/Statement/Statement.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("4db22c6b-6d74-4975-964d-6bbe5ab9fa68",
+	"fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	"00000000-0000-0000-0000-000000000000",
+	'Statement_ID',
+	'
+
+',
+	'',
+	'Statement_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	0,
+	"3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"ddab2602-0cd3-4ea6-a31f-84e1f1dd46da",
+	"7a2ebcba-b6d1-42ab-8f4b-ebe3fc03e95f",
+	"f24bbcf4-eea4-400a-b508-278086b8b657",
+	"8f54b555-2828-4d78-a898-244d2ca65819",
+	"a04951c6-8eb3-485e-9bda-d112d7084827",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Variable',
+	'Var_ID',
+	'R634.''destroys''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	"ddab2602-0cd3-4ea6-a31f-84e1f1dd46da",
+	"7a2ebcba-b6d1-42ab-8f4b-ebe3fc03e95f",
+	'../Instance Access.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	0,
+	"ddab2602-0cd3-4ea6-a31f-84e1f1dd46da",
+	"f24bbcf4-eea4-400a-b508-278086b8b657",
+	'../Instance Access.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("8f54b555-2828-4d78-a898-244d2ca65819",
+	"fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	"3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	1,
+	'Var_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	'../../Value/Variable/Variable.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("8f54b555-2828-4d78-a898-244d2ca65819",
+	"fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	"4db22c6b-6d74-4975-964d-6bbe5ab9fa68",
+	'Var_ID',
+	'
+
+',
+	'',
+	'Var_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"fb2115a9-4071-43a9-975c-6b21d75fbdaf");
+INSERT INTO O_OIDA
+	VALUES ("4db22c6b-6d74-4975-964d-6bbe5ab9fa68",
+	"fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	0,
+	'Statement_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"fb2115a9-4071-43a9-975c-6b21d75fbdaf");
+INSERT INTO O_ID
+	VALUES (2,
+	"fb2115a9-4071-43a9-975c-6b21d75fbdaf");
+INSERT INTO PE_PE
+	VALUES ("fb2115a9-4071-43a9-975c-6b21d75fbdaf",
+	1,
+	"f66d207e-f227-4ada-8783-6ff0a2711109",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("f66d207e-f227-4ada-8783-6ff0a2711109",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Instance Access',
+	'Abstracts the concepts of creation, deletion and assignment to
+instances. Also includes assignment to transient local variables.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	600,
+	'../Instance Access.xtuml');

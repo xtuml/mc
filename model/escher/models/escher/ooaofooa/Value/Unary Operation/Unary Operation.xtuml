@@ -1,0 +1,160 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	'Unary Operation',
+	809,
+	'V_UNY',
+	'Like binary operators, unary operators modify the value in some way, but in this case only a single value is needed. One example is - (unary minus) which negates any numeric value. However other unary operators include the empty and not_empty set operators.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	0,
+	"5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"92b7f7a9-1cbb-4e9e-b8eb-ef3df63559e9",
+	"13320960-e8b6-4b5c-817b-ee24abf5acd4",
+	"6115a1ee-8420-4732-978f-0856500cfa94",
+	"b51a1c6e-592d-4015-903c-08c1da270c8a",
+	"04bfe689-6b7b-4600-a6cd-d3c236770b6e",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Value',
+	'Value_ID',
+	'R801');
+INSERT INTO R_RGO_PROXY
+	VALUES ("0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	"92b7f7a9-1cbb-4e9e-b8eb-ef3df63559e9",
+	"13320960-e8b6-4b5c-817b-ee24abf5acd4",
+	'../Value.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	0,
+	"92b7f7a9-1cbb-4e9e-b8eb-ef3df63559e9",
+	"6115a1ee-8420-4732-978f-0856500cfa94",
+	'../Value.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("b51a1c6e-592d-4015-903c-08c1da270c8a",
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	"5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	1,
+	'Value_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	'../Value/Value.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("b51a1c6e-592d-4015-903c-08c1da270c8a",
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	"00000000-0000-0000-0000-000000000000",
+	'Value_ID',
+	'',
+	'',
+	'Value_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	0,
+	"5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"72158955-6279-495e-8aeb-a43f4d004de3",
+	"1d709789-68fd-4b23-8f95-959f889690d1",
+	"e695ca39-2d8a-4afb-adc5-f89110131687",
+	"82241a88-3723-4484-93c7-5aae11440c89",
+	"aade70d7-d99c-4174-a224-daaee6343cd1",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Value',
+	'Value_ID',
+	'R804.''has operand''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	"72158955-6279-495e-8aeb-a43f4d004de3",
+	"1d709789-68fd-4b23-8f95-959f889690d1",
+	'../Value.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	0,
+	"72158955-6279-495e-8aeb-a43f4d004de3",
+	"e695ca39-2d8a-4afb-adc5-f89110131687",
+	'../Value.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("82241a88-3723-4484-93c7-5aae11440c89",
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	"5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	1,
+	'Value_ID');
+INSERT INTO O_ATTR
+	VALUES ("82241a88-3723-4484-93c7-5aae11440c89",
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	"b51a1c6e-592d-4015-903c-08c1da270c8a",
+	'Operand_Value_ID',
+	'',
+	'Operand_',
+	'Value_ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5ab86c17-172d-447c-a70d-d0c554470a86",
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873");
+INSERT INTO O_BATTR
+	VALUES ("5ab86c17-172d-447c-a70d-d0c554470a86",
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873");
+INSERT INTO O_ATTR
+	VALUES ("5ab86c17-172d-447c-a70d-d0c554470a86",
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	"82241a88-3723-4484-93c7-5aae11440c89",
+	'Operator',
+	'Full Name: Unary Mathematical Operator
+The character or string representing the operation.',
+	'',
+	'Operator',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873");
+INSERT INTO O_OIDA
+	VALUES ("b51a1c6e-592d-4015-903c-08c1da270c8a",
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	0,
+	'Value_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873");
+INSERT INTO O_ID
+	VALUES (2,
+	"0ec90a38-d6cf-48a1-a1ab-8d036446d873");
+INSERT INTO PE_PE
+	VALUES ("0ec90a38-d6cf-48a1-a1ab-8d036446d873",
+	1,
+	"30ef75af-4619-4cb3-ae86-63d794e55d05",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("30ef75af-4619-4cb3-ae86-63d794e55d05",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Value',
+	'This subsystem formalizes the concepts of values (r-values) and variables 
+(l-values). It also captures the concept of an actual parameter.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	800,
+	'../Value.xtuml');

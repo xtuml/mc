@@ -1,0 +1,149 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	'Breakpoint',
+	3100,
+	'BP_BP',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_BATTR
+	VALUES ("2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_ATTR
+	VALUES ("2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	"00000000-0000-0000-0000-000000000000",
+	'Breakpoint_ID',
+	'',
+	'',
+	'Breakpoint_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("40067b7b-30e7-47f9-876d-ffe2d70707dc",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_BATTR
+	VALUES ("40067b7b-30e7-47f9-876d-ffe2d70707dc",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_ATTR
+	VALUES ("40067b7b-30e7-47f9-876d-ffe2d70707dc",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	"2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	'enabled',
+	'',
+	'',
+	'enabled',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("949c7a41-4fe2-4e73-8aef-b7a8f43d22be",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_BATTR
+	VALUES ("949c7a41-4fe2-4e73-8aef-b7a8f43d22be",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_ATTR
+	VALUES ("949c7a41-4fe2-4e73-8aef-b7a8f43d22be",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	"2bd647ef-60e8-4cb0-b478-a1130d75a6b1",
+	'hit_count',
+	'',
+	'',
+	'hit_count',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8a47f1df-8626-4324-adca-bead6b832f9e",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_BATTR
+	VALUES ("8a47f1df-8626-4324-adca-bead6b832f9e",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_ATTR
+	VALUES ("8a47f1df-8626-4324-adca-bead6b832f9e",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	"d4c35615-2292-47c2-b719-285ee573a6ee",
+	'for_step',
+	'',
+	'',
+	'for_step',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2bd647ef-60e8-4cb0-b478-a1130d75a6b1",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_BATTR
+	VALUES ("2bd647ef-60e8-4cb0-b478-a1130d75a6b1",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_ATTR
+	VALUES ("2bd647ef-60e8-4cb0-b478-a1130d75a6b1",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	"40067b7b-30e7-47f9-876d-ffe2d70707dc",
+	'condition_enabled',
+	'',
+	'',
+	'condition_enabled',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d4c35615-2292-47c2-b719-285ee573a6ee",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_BATTR
+	VALUES ("d4c35615-2292-47c2-b719-285ee573a6ee",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_ATTR
+	VALUES ("d4c35615-2292-47c2-b719-285ee573a6ee",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	"949c7a41-4fe2-4e73-8aef-b7a8f43d22be",
+	'target_hit_count',
+	'',
+	'',
+	'target_hit_count',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_OIDA
+	VALUES ("2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	0,
+	'Breakpoint_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO O_ID
+	VALUES (2,
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6");
+INSERT INTO PE_PE
+	VALUES ("60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	1,
+	"df33f31a-ecd1-46a8-a53c-6c1b84c51334",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("df33f31a-ecd1-46a8-a53c-6c1b84c51334",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Breakpoint',
+	'This subsystem provides breakpoints that can be used in Model Verifier and Model Debugger.
+// This is used by schema_gen to ignore this subsystem (for publication)
+Persistent:false
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	1100,
+	'../Breakpoint.xtuml');

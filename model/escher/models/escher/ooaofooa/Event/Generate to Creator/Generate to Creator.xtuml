@@ -1,0 +1,99 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("7777605b-2976-4800-b081-43dbee0b2f04",
+	'Generate to Creator',
+	705,
+	'E_GEC',
+	'This class represents the generation of a creation event to a target class. This has the effect of creating an instance and then delivering the event to the instance.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("7777605b-2976-4800-b081-43dbee0b2f04",
+	"c1ee4642-4d42-4166-b0de-b3f2a0c23d42",
+	0,
+	"d97efdb0-5646-4a17-9f57-8fc602f6fd0b",
+	"fa4ceaeb-6d69-4141-bb5e-685416c9e278",
+	"5052f8ec-ec6c-479b-9467-d506be82ca78",
+	"e5f16650-9fca-4b57-8cbc-49067629a74c",
+	"03b1374d-e8da-4dd8-bbd0-6bb7fa0cd27a",
+	"8baea5ba-a5d8-469f-95e6-b8463fef1bd5",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Generate SM Event Statement',
+	'Statement_ID',
+	'R705');
+INSERT INTO R_RGO_PROXY
+	VALUES ("7777605b-2976-4800-b081-43dbee0b2f04",
+	"fa4ceaeb-6d69-4141-bb5e-685416c9e278",
+	"5052f8ec-ec6c-479b-9467-d506be82ca78",
+	'../Event.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("d97efdb0-5646-4a17-9f57-8fc602f6fd0b",
+	"c1ee4642-4d42-4166-b0de-b3f2a0c23d42",
+	0,
+	"fa4ceaeb-6d69-4141-bb5e-685416c9e278",
+	"e5f16650-9fca-4b57-8cbc-49067629a74c",
+	'../Event.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("03b1374d-e8da-4dd8-bbd0-6bb7fa0cd27a",
+	"7777605b-2976-4800-b081-43dbee0b2f04",
+	"b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	1,
+	'Statement_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	'../../Body/Statement/Statement.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("03b1374d-e8da-4dd8-bbd0-6bb7fa0cd27a",
+	"7777605b-2976-4800-b081-43dbee0b2f04",
+	"00000000-0000-0000-0000-000000000000",
+	'Statement_ID',
+	'
+
+',
+	'',
+	'Statement_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"7777605b-2976-4800-b081-43dbee0b2f04");
+INSERT INTO O_OIDA
+	VALUES ("03b1374d-e8da-4dd8-bbd0-6bb7fa0cd27a",
+	"7777605b-2976-4800-b081-43dbee0b2f04",
+	0,
+	'Statement_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"7777605b-2976-4800-b081-43dbee0b2f04");
+INSERT INTO O_ID
+	VALUES (2,
+	"7777605b-2976-4800-b081-43dbee0b2f04");
+INSERT INTO PE_PE
+	VALUES ("7777605b-2976-4800-b081-43dbee0b2f04",
+	1,
+	"a1ecbe0c-db17-4558-a213-948cbc15c0ba",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a1ecbe0c-db17-4558-a213-948cbc15c0ba",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Event',
+	'This subsystem focuses on the creation and generation
+of events. Events to instances, class, creators and
+external entities are covered, as well as the creation of
+event instances of those types. Finally the generation
+of pre-existing event instances are also covered.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	700,
+	'../Event.xtuml');

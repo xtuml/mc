@@ -1,0 +1,143 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("eb69b471-a28d-48e2-96ef-22d0bf6fb3ef",
+	'terminator',
+	3703,
+	'terminator',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("c1422374-f817-44f6-9973-c035bc47430a",
+	"eb69b471-a28d-48e2-96ef-22d0bf6fb3ef",
+	'populate',
+	'',
+	"2afe4293-dd24-495b-a43e-9fba8c0781aa",
+	0,
+	'domain = param.domain;
+create object instance terminator of terminator;
+terminator.name = param.name;
+relate domain to terminator across R3702.''sends through'';
+return terminator;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("49b80d7c-518b-4037-8583-466d64d0ec26",
+	"c1422374-f817-44f6-9973-c035bc47430a",
+	'name',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("70bbe694-ce41-48df-9149-018003c3a053",
+	"c1422374-f817-44f6-9973-c035bc47430a",
+	'domain',
+	"d53f0951-77d2-4222-bd0a-6d65965726a4",
+	0,
+	'',
+	"49b80d7c-518b-4037-8583-466d64d0ec26",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("d53f0951-77d2-4222-bd0a-6d65965726a4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("2afe4293-dd24-495b-a43e-9fba8c0781aa",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminator>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("5413a3ac-8694-487b-aaa2-73cd26fd422b",
+	"eb69b471-a28d-48e2-96ef-22d0bf6fb3ef",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.terminator_begin.masl" );
+select many activitys related by self->activity[R3703.''sends''];
+for each activity in activitys
+  activity.render();
+end for;
+T::include( file:"masl/t.terminator_end.masl" );',
+	1,
+	'',
+	"c1422374-f817-44f6-9973-c035bc47430a");
+INSERT INTO O_TFR
+	VALUES ("18aaafbb-3bcd-4737-9efa-90ee5c934bd9",
+	"eb69b471-a28d-48e2-96ef-22d0bf6fb3ef",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many terminators from instances of terminator;
+for each terminator in terminators;
+  select one domain related by terminator->domain[R3702];
+  if ( empty domain )
+    TRACE::log( flavor:"failure", id:15, message:"terminator has no parent domain." );
+    valid = false;
+  end if;
+end for;
+
+// Validate siblings and subordinates.
+return ( valid and activity::validate() );
+',
+	1,
+	'',
+	"5413a3ac-8694-487b-aaa2-73cd26fd422b");
+INSERT INTO O_NBATTR
+	VALUES ("d8ce071b-be4f-46ed-b899-893bffd92483",
+	"eb69b471-a28d-48e2-96ef-22d0bf6fb3ef");
+INSERT INTO O_BATTR
+	VALUES ("d8ce071b-be4f-46ed-b899-893bffd92483",
+	"eb69b471-a28d-48e2-96ef-22d0bf6fb3ef");
+INSERT INTO O_ATTR
+	VALUES ("d8ce071b-be4f-46ed-b899-893bffd92483",
+	"eb69b471-a28d-48e2-96ef-22d0bf6fb3ef",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"eb69b471-a28d-48e2-96ef-22d0bf6fb3ef");
+INSERT INTO O_ID
+	VALUES (1,
+	"eb69b471-a28d-48e2-96ef-22d0bf6fb3ef");
+INSERT INTO O_ID
+	VALUES (2,
+	"eb69b471-a28d-48e2-96ef-22d0bf6fb3ef");
+INSERT INTO PE_PE
+	VALUES ("eb69b471-a28d-48e2-96ef-22d0bf6fb3ef",
+	1,
+	"bf1d7167-bfbc-4ab7-a06f-b5c7c0187860",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("bf1d7167-bfbc-4ab7-a06f-b5c7c0187860",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

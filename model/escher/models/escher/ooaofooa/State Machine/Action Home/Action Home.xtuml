@@ -1,0 +1,139 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	'Action Home',
+	515,
+	'SM_AH',
+	'An action (SM_ACT) resides in an action home, either a Moore action home (SM_MOAH) or a Mealy action home (SM_MEAH).',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	0,
+	"072eec1c-b5e2-4e86-910f-b968ffbd4295",
+	"1bf4b8a8-cc72-4f9e-931e-f2de4b38193f",
+	"3432b30c-28ad-4cb8-915e-a15a32f55ab6",
+	"708e7f8d-fd87-458f-b47f-d23d730159f5",
+	"4070c8f5-38a6-4e50-9188-751d9cd9f623",
+	"8b37c078-4fe2-44c3-ba32-0724df2a8ffb",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Action',
+	'Act_ID',
+	'R514.''houses''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	"1bf4b8a8-cc72-4f9e-931e-f2de4b38193f",
+	"3432b30c-28ad-4cb8-915e-a15a32f55ab6",
+	'../State Machine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("072eec1c-b5e2-4e86-910f-b968ffbd4295",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	0,
+	"1bf4b8a8-cc72-4f9e-931e-f2de4b38193f",
+	"708e7f8d-fd87-458f-b47f-d23d730159f5",
+	'../State Machine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("4070c8f5-38a6-4e50-9188-751d9cd9f623",
+	"fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	"072eec1c-b5e2-4e86-910f-b968ffbd4295",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	1,
+	'Act_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("072eec1c-b5e2-4e86-910f-b968ffbd4295",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	'../Action/Action.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("4070c8f5-38a6-4e50-9188-751d9cd9f623",
+	"fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	"00000000-0000-0000-0000-000000000000",
+	'Act_ID',
+	'',
+	'',
+	'Act_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	0,
+	"b2b0be60-1f00-4b5f-bd40-3697d9837ce3",
+	"1bf4b8a8-cc72-4f9e-931e-f2de4b38193f",
+	"3432b30c-28ad-4cb8-915e-a15a32f55ab6",
+	"708e7f8d-fd87-458f-b47f-d23d730159f5",
+	"b6f40fbe-a969-4e41-bc02-b28621b556d9",
+	"459da4d3-7968-4358-b417-0589a2ceb155",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Action',
+	'SM_ID',
+	'R514.''houses''');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("b2b0be60-1f00-4b5f-bd40-3697d9837ce3",
+	"4d0d307e-9b93-42c6-9ea5-7ac0017a8e5e",
+	0,
+	"1bf4b8a8-cc72-4f9e-931e-f2de4b38193f",
+	"708e7f8d-fd87-458f-b47f-d23d730159f5",
+	'../State Machine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("b6f40fbe-a969-4e41-bc02-b28621b556d9",
+	"fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	"df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	1,
+	'SM_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	'../State Machine/State Machine.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("b6f40fbe-a969-4e41-bc02-b28621b556d9",
+	"fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	"4070c8f5-38a6-4e50-9188-751d9cd9f623",
+	'SM_ID',
+	'',
+	'',
+	'SM_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"fac07e22-733f-4f61-b0ba-6d2e1ccb58f4");
+INSERT INTO O_OIDA
+	VALUES ("4070c8f5-38a6-4e50-9188-751d9cd9f623",
+	"fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	0,
+	'Act_ID');
+INSERT INTO O_OIDA
+	VALUES ("b6f40fbe-a969-4e41-bc02-b28621b556d9",
+	"fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	0,
+	'SM_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"fac07e22-733f-4f61-b0ba-6d2e1ccb58f4");
+INSERT INTO O_ID
+	VALUES (2,
+	"fac07e22-733f-4f61-b0ba-6d2e1ccb58f4");
+INSERT INTO PE_PE
+	VALUES ("fac07e22-733f-4f61-b0ba-6d2e1ccb58f4",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'State Machine',
+	'Classes (O_OBJ) that have interesting behavior are given lifecycles. These lifecycles are described using state machines (SM_SM). A state machine consists of states, events, transitions and state actions. The state machine exists for each instance of the class for which it has been modeled (SM_ISM). A state machine can also be an assigner state machine (SM_ASM) of which only one can exists for all class instances. The purpose of the assigner state machine is to act as a single point of control through which competing requests are serialized.',
+	501,
+	'../State Machine.xtuml');

@@ -1,0 +1,99 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	'State Machine',
+	501,
+	'SM_SM',
+	'A State Machine represents the lifecycle of a class in terms of states, transitions, events, and actions.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a");
+INSERT INTO O_BATTR
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a");
+INSERT INTO O_ATTR
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	"00000000-0000-0000-0000-000000000000",
+	'SM_ID',
+	'Full Name: State Machine Identifier',
+	'',
+	'SM_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b1807d5c-961b-4291-9618-74ff15aed472",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a");
+INSERT INTO O_BATTR
+	VALUES ("b1807d5c-961b-4291-9618-74ff15aed472",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a");
+INSERT INTO O_ATTR
+	VALUES ("b1807d5c-961b-4291-9618-74ff15aed472",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	"df4d6ffc-1976-4922-9f36-81680da64d71",
+	'Descrip',
+	'Full Name: Description
+User_Visible:false',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("683c1e87-300f-47ed-ad62-1a228f8caaae",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a");
+INSERT INTO O_BATTR
+	VALUES ("683c1e87-300f-47ed-ad62-1a228f8caaae",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a");
+INSERT INTO O_ATTR
+	VALUES ("683c1e87-300f-47ed-ad62-1a228f8caaae",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	"b1807d5c-961b-4291-9618-74ff15aed472",
+	'Config_ID',
+	'Full Name: Configuration Identifier
+Description: The component ID of  this state machine.
+impl_detail: true
+min_value: 0
+max_value: 510
+readonly: true
+User_Visible:false
+',
+	'',
+	'Config_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a");
+INSERT INTO O_OIDA
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	0,
+	'SM_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a");
+INSERT INTO O_ID
+	VALUES (2,
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a");
+INSERT INTO PE_PE
+	VALUES ("6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'State Machine',
+	'Classes (O_OBJ) that have interesting behavior are given lifecycles. These lifecycles are described using state machines (SM_SM). A state machine consists of states, events, transitions and state actions. The state machine exists for each instance of the class for which it has been modeled (SM_ISM). A state machine can also be an assigner state machine (SM_ASM) of which only one can exists for all class instances. The purpose of the assigner state machine is to act as a single point of control through which competing requests are serialized.',
+	501,
+	'../State Machine.xtuml');

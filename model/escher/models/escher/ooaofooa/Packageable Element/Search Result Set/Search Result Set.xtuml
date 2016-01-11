@@ -1,0 +1,144 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("5a3458bf-750a-4da6-b135-b166a6487665",
+	'Search Result Set',
+	8003,
+	'PE_SRS',
+	'This class captures set of element instances that are visible to a
+given package for a given search criterion.
+----
+Persistent:false',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("5a3458bf-750a-4da6-b135-b166a6487665",
+	"2523569d-5e3f-4631-86db-f922e6305318",
+	0,
+	"be861df0-6ed5-42ca-a0cf-a0f45599e2aa",
+	"d4fe5f4b-fc20-45c1-9702-f026549c29b1",
+	"98dafcf5-7fe7-42b2-9d5c-8ef225bbfa56",
+	"bbea090c-68e8-473c-8b0b-35bda01afbcb",
+	"3cd95ab2-0a76-45d0-8697-d51f3fb51d03",
+	"a0527baf-1d92-464d-a8dd-42ab18fbd15a",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Package',
+	'Package_ID',
+	'R8005.''held by''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("5a3458bf-750a-4da6-b135-b166a6487665",
+	"d4fe5f4b-fc20-45c1-9702-f026549c29b1",
+	"98dafcf5-7fe7-42b2-9d5c-8ef225bbfa56",
+	'../Packageable Element.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("be861df0-6ed5-42ca-a0cf-a0f45599e2aa",
+	"2523569d-5e3f-4631-86db-f922e6305318",
+	0,
+	"d4fe5f4b-fc20-45c1-9702-f026549c29b1",
+	"bbea090c-68e8-473c-8b0b-35bda01afbcb",
+	'../Packageable Element.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("3cd95ab2-0a76-45d0-8697-d51f3fb51d03",
+	"5a3458bf-750a-4da6-b135-b166a6487665",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("3cd95ab2-0a76-45d0-8697-d51f3fb51d03",
+	"5a3458bf-750a-4da6-b135-b166a6487665",
+	"00000000-0000-0000-0000-000000000000",
+	'Package_ID',
+	'',
+	'',
+	'Package_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("77370407-0478-4f8f-aa48-d6879dd9c831",
+	"5a3458bf-750a-4da6-b135-b166a6487665");
+INSERT INTO O_BATTR
+	VALUES ("77370407-0478-4f8f-aa48-d6879dd9c831",
+	"5a3458bf-750a-4da6-b135-b166a6487665");
+INSERT INTO O_ATTR
+	VALUES ("77370407-0478-4f8f-aa48-d6879dd9c831",
+	"5a3458bf-750a-4da6-b135-b166a6487665",
+	"3cd95ab2-0a76-45d0-8697-d51f3fb51d03",
+	'Name',
+	'',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7af41683-4318-47dd-896a-5fb2d6f78f2d",
+	"5a3458bf-750a-4da6-b135-b166a6487665");
+INSERT INTO O_BATTR
+	VALUES ("7af41683-4318-47dd-896a-5fb2d6f78f2d",
+	"5a3458bf-750a-4da6-b135-b166a6487665");
+INSERT INTO O_ATTR
+	VALUES ("7af41683-4318-47dd-896a-5fb2d6f78f2d",
+	"5a3458bf-750a-4da6-b135-b166a6487665",
+	"77370407-0478-4f8f-aa48-d6879dd9c831",
+	'Type',
+	'',
+	'',
+	'Type',
+	0,
+	"4bba1170-0de5-4efc-b4c5-95951acdc289",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4bba1170-0de5-4efc-b4c5-95951acdc289",
+	"00000000-0000-0000-0000-000000000000",
+	'ElementTypeConstants',
+	'',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"5a3458bf-750a-4da6-b135-b166a6487665");
+INSERT INTO O_OIDA
+	VALUES ("77370407-0478-4f8f-aa48-d6879dd9c831",
+	"5a3458bf-750a-4da6-b135-b166a6487665",
+	0,
+	'Name');
+INSERT INTO O_OIDA
+	VALUES ("7af41683-4318-47dd-896a-5fb2d6f78f2d",
+	"5a3458bf-750a-4da6-b135-b166a6487665",
+	0,
+	'Type');
+INSERT INTO O_OIDA
+	VALUES ("3cd95ab2-0a76-45d0-8697-d51f3fb51d03",
+	"5a3458bf-750a-4da6-b135-b166a6487665",
+	0,
+	'Package_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"5a3458bf-750a-4da6-b135-b166a6487665");
+INSERT INTO O_ID
+	VALUES (2,
+	"5a3458bf-750a-4da6-b135-b166a6487665");
+INSERT INTO PE_PE
+	VALUES ("5a3458bf-750a-4da6-b135-b166a6487665",
+	1,
+	"751afe50-dd43-4038-90be-8ba68cd37c8e",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("751afe50-dd43-4038-90be-8ba68cd37c8e",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Packageable Element',
+	'',
+	8000,
+	'../Packageable Element.xtuml');

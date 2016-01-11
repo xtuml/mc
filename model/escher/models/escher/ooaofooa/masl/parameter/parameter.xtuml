@@ -1,0 +1,238 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("2a72257c-3276-4bab-97a2-4bf6367f1b8d",
+	'parameter',
+	3707,
+	'parameter',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("a5074439-b361-4e0d-88e1-dfae94688a72",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'direction = "";
+if ( directiontype::in == self.direction )
+  direction = "in";
+elif ( directiontype::out == self.direction )
+  direction = "out";
+elif ( directiontype::inout == self.direction )
+  direction = "inout";
+else
+  TRACE::log( flavor:"failure", id:28, message:"parameter got invalid direction." );
+end if;
+T::include( file:"masl/t.parameter.masl" );
+select one parameter related by self->parameter[R3706.''precedes''];
+if ( not_empty parameter )
+  T::b( s:"," );
+  parameter.render();
+end if;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("a0f0dfc2-c01d-404c-bd31-07ae115270a3",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d",
+	'populate',
+	'',
+	"38e977d3-5b2e-4d54-8263-4cd99d332077",
+	0,
+	'activity = param.activity;
+previous_parameter = param.previous_parameter;
+create object instance parameter of parameter;
+parameter.name = param.name;
+parameter.type = param.type;
+parameter.direction = param.direction;
+if ( empty previous_parameter )
+  relate activity to parameter across R3705.''carries first'';
+else
+  relate parameter to previous_parameter across R3706.''succeeds'';
+end if;
+return parameter;',
+	1,
+	'',
+	"a5074439-b361-4e0d-88e1-dfae94688a72");
+INSERT INTO O_TPARM
+	VALUES ("94759858-11c0-4726-85ca-e09270787329",
+	"a0f0dfc2-c01d-404c-bd31-07ae115270a3",
+	'name',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("166ad85d-4e74-4fbc-8c2a-65bf1c95a544",
+	"a0f0dfc2-c01d-404c-bd31-07ae115270a3",
+	'type',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"94759858-11c0-4726-85ca-e09270787329",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("ad109d9b-7a5a-4107-9ff0-583b0c244baf",
+	"a0f0dfc2-c01d-404c-bd31-07ae115270a3",
+	'direction',
+	"55cdc0b9-c1f4-433a-9641-6f6a19c10a07",
+	0,
+	'',
+	"166ad85d-4e74-4fbc-8c2a-65bf1c95a544",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("55cdc0b9-c1f4-433a-9641-6f6a19c10a07",
+	"00000000-0000-0000-0000-000000000000",
+	'directiontype',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("bd4e4863-934b-4c0c-8e08-28b14f0cc068",
+	"a0f0dfc2-c01d-404c-bd31-07ae115270a3",
+	'activity',
+	"9d5262dc-0809-4322-ab9c-b96997b0c4b0",
+	0,
+	'',
+	"ad109d9b-7a5a-4107-9ff0-583b0c244baf",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9d5262dc-0809-4322-ab9c-b96997b0c4b0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<activity>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("33e65a90-9893-4b00-a714-ca5fcd569a1e",
+	"a0f0dfc2-c01d-404c-bd31-07ae115270a3",
+	'previous_parameter',
+	"38e977d3-5b2e-4d54-8263-4cd99d332077",
+	0,
+	'',
+	"bd4e4863-934b-4c0c-8e08-28b14f0cc068",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("38e977d3-5b2e-4d54-8263-4cd99d332077",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<parameter>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("59963ba2-bcda-46e2-8410-3ff736112cca",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many parameters from instances of parameter;
+for each parameter in parameters
+  // Look for either a previous parameter or an activity.
+  select one previous_parameter related by parameter->parameter[R3706.''succeeds''];
+  if ( empty previous_parameter )
+    select one activity related by parameter->activity[R3705];
+    if ( empty activity )
+      TRACE::log( flavor:"failure", id:13, message:"parameter has no parent activity." );
+      valid = false;
+    end if;
+  end if;
+  if ( ( "" == parameter.name ) or ( "" == parameter.type ) )
+    TRACE::log( flavor:"failure", id:14, message:"parameter has empty name or type." );
+    valid = false;
+  end if;
+end for;
+
+// Validate siblings and subordinates.
+return ( valid );
+',
+	1,
+	'',
+	"a0f0dfc2-c01d-404c-bd31-07ae115270a3");
+INSERT INTO O_NBATTR
+	VALUES ("24ec8a4b-df38-4712-97d4-02153307d54e",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d");
+INSERT INTO O_BATTR
+	VALUES ("24ec8a4b-df38-4712-97d4-02153307d54e",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d");
+INSERT INTO O_ATTR
+	VALUES ("24ec8a4b-df38-4712-97d4-02153307d54e",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8fc80076-8e68-49b4-a9fb-7f251f133d3b",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d");
+INSERT INTO O_BATTR
+	VALUES ("8fc80076-8e68-49b4-a9fb-7f251f133d3b",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d");
+INSERT INTO O_ATTR
+	VALUES ("8fc80076-8e68-49b4-a9fb-7f251f133d3b",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d",
+	"24ec8a4b-df38-4712-97d4-02153307d54e",
+	'type',
+	'',
+	'',
+	'type',
+	0,
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("e91714f6-a4d5-42b8-ada9-6ed7f31fcc1f",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d");
+INSERT INTO O_BATTR
+	VALUES ("e91714f6-a4d5-42b8-ada9-6ed7f31fcc1f",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d");
+INSERT INTO O_ATTR
+	VALUES ("e91714f6-a4d5-42b8-ada9-6ed7f31fcc1f",
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d",
+	"8fc80076-8e68-49b4-a9fb-7f251f133d3b",
+	'direction',
+	'',
+	'',
+	'direction',
+	0,
+	"55cdc0b9-c1f4-433a-9641-6f6a19c10a07",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d");
+INSERT INTO O_ID
+	VALUES (1,
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d");
+INSERT INTO O_ID
+	VALUES (2,
+	"2a72257c-3276-4bab-97a2-4bf6367f1b8d");
+INSERT INTO PE_PE
+	VALUES ("2a72257c-3276-4bab-97a2-4bf6367f1b8d",
+	1,
+	"bf1d7167-bfbc-4ab7-a06f-b5c7c0187860",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("bf1d7167-bfbc-4ab7-a06f-b5c7c0187860",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

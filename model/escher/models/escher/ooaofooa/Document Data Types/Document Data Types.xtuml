@@ -1,0 +1,114 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("09b867c4-4a32-4d46-8112-6e139ef05ede",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Document Data Types',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("f3d7bbdd-074d-468a-b6e2-ad0430646943",
+	112,
+	"09b867c4-4a32-4d46-8112-6e139ef05ede",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'escher::ooaofooa::Document Data Types');
+INSERT INTO GD_GE
+	VALUES ("bf80364f-7bfd-4920-96c9-6b9435735a1c",
+	"f3d7bbdd-074d-468a-b6e2-ad0430646943",
+	"b654ccfa-d0c9-4de4-a697-d55b73491384",
+	51,
+	0,
+	'escher::ooaofooa::Document Data Types::stringpointer');
+INSERT INTO GD_SHP
+	VALUES ("bf80364f-7bfd-4920-96c9-6b9435735a1c");
+INSERT INTO GD_NCS
+	VALUES ("bf80364f-7bfd-4920-96c9-6b9435735a1c");
+INSERT INTO DIM_ND
+	VALUES (192.000000,
+	120.000000,
+	"bf80364f-7bfd-4920-96c9-6b9435735a1c");
+INSERT INTO DIM_GE
+	VALUES (4116.000000,
+	3072.000000,
+	"bf80364f-7bfd-4920-96c9-6b9435735a1c",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("bf80364f-7bfd-4920-96c9-6b9435735a1c",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_DIA
+	VALUES ("f3d7bbdd-074d-468a-b6e2-ad0430646943",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("b654ccfa-d0c9-4de4-a697-d55b73491384",
+	"00000000-0000-0000-0000-000000000000",
+	'stringpointer',
+	'',
+	'');
+INSERT INTO S_UDT
+	VALUES ("b654ccfa-d0c9-4de4-a697-d55b73491384",
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0);
+INSERT INTO PE_PE
+	VALUES ("b654ccfa-d0c9-4de4-a697-d55b73491384",
+	1,
+	"09b867c4-4a32-4d46-8112-6e139ef05ede",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO PE_PE
+	VALUES ("09b867c4-4a32-4d46-8112-6e139ef05ede",
+	1,
+	"53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'ooaofooa',
+	'========================================================================
+
+File:          $RCSfile: ooaofooa.xtuml,v $
+Version:   $Revision: 1.127 $
+Modified:  $Date: 2006/09/26 15:10:20 $
+
+(c) Copyright 2004-2012 by Mentor Graphics Corp. All rights reserved.
+
+========================================================================
+This document contains information proprietary and confidential to
+Mentor Graphics Corp. and is not for external distribution.
+========================================================================
+
+This is the application domain for the Tiger project.
+
+The processing in this model describes the activities
+for model capture.
+
+
+
+',
+	0,
+	'../ooaofooa.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'escher',
+	1,
+	'../../escher.xtuml');

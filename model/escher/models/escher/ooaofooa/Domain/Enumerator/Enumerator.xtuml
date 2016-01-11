@@ -1,0 +1,189 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	'Enumerator',
+	15,
+	'S_ENUM',
+	'Enumerators are constants that have meaning to the analyst.  An enumeration data type (S_EDT) defines zero or more enumerators.  For example, Red, Blue, and Green are enumerators of the enumeration Color.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("f803d3a1-af18-486a-a122-8a3415cd9087",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9");
+INSERT INTO O_BATTR
+	VALUES ("f803d3a1-af18-486a-a122-8a3415cd9087",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9");
+INSERT INTO O_ATTR
+	VALUES ("f803d3a1-af18-486a-a122-8a3415cd9087",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"00000000-0000-0000-0000-000000000000",
+	'Enum_ID',
+	'Full Name: Enumerator Identifier',
+	'',
+	'Enum_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6d9da1a3-264b-473e-893d-5cdafc574501",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9");
+INSERT INTO O_BATTR
+	VALUES ("6d9da1a3-264b-473e-893d-5cdafc574501",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9");
+INSERT INTO O_ATTR
+	VALUES ("6d9da1a3-264b-473e-893d-5cdafc574501",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"f803d3a1-af18-486a-a122-8a3415cd9087",
+	'Name',
+	'Full Name: Enumerator Name',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("17542074-6adc-4117-b20e-e6a9bd63624a",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9");
+INSERT INTO O_BATTR
+	VALUES ("17542074-6adc-4117-b20e-e6a9bd63624a",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9");
+INSERT INTO O_ATTR
+	VALUES ("17542074-6adc-4117-b20e-e6a9bd63624a",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"6d9da1a3-264b-473e-893d-5cdafc574501",
+	'Descrip',
+	'Full Name: Enumerator Description',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	0,
+	"f803d3a1-af18-486a-a122-8a3415cd9087",
+	"5bed3767-8257-47b0-bcdd-74cb1827e53e",
+	"57db033a-3969-4a3a-ae6e-5d67494eb05b",
+	"c34f64d5-cf15-423e-bc91-a5fff5f5eabc",
+	"9d962b99-1057-465f-8349-a5909f45d119",
+	"d14e847b-6080-4c40-b7bc-76adc43a496b",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Enumerator',
+	'Enum_ID',
+	'R56.''succeeds''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"5bed3767-8257-47b0-bcdd-74cb1827e53e",
+	"57db033a-3969-4a3a-ae6e-5d67494eb05b",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("f803d3a1-af18-486a-a122-8a3415cd9087",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	0,
+	"5bed3767-8257-47b0-bcdd-74cb1827e53e",
+	"c34f64d5-cf15-423e-bc91-a5fff5f5eabc",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("9d962b99-1057-465f-8349-a5909f45d119",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"f803d3a1-af18-486a-a122-8a3415cd9087",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	1,
+	'Enum_ID');
+INSERT INTO O_ATTR
+	VALUES ("9d962b99-1057-465f-8349-a5909f45d119",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"89dc012b-f064-4b84-9984-f6948b602818",
+	'Previous_Enum_ID',
+	'',
+	'Previous_',
+	'Enum_ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"7697c2a5-e1ae-4aae-9888-aa46de10dcb7",
+	0,
+	"6dcce358-b148-4485-ad60-6af9492fe7ec",
+	"9355b2fc-a1b8-4f5a-88cc-692ca5ae7a2f",
+	"b0462bbc-be66-40e0-b596-1eba77537e93",
+	"75d7d453-5f09-49f2-9250-cdfeda6b83db",
+	"89dc012b-f064-4b84-9984-f6948b602818",
+	"7b5d0210-ef2b-432a-a733-d2b4d26e0968",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Enumeration Data Type',
+	'DT_ID',
+	'R27.''is defined by''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"9355b2fc-a1b8-4f5a-88cc-692ca5ae7a2f",
+	"b0462bbc-be66-40e0-b596-1eba77537e93",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("6dcce358-b148-4485-ad60-6af9492fe7ec",
+	"7697c2a5-e1ae-4aae-9888-aa46de10dcb7",
+	0,
+	"9355b2fc-a1b8-4f5a-88cc-692ca5ae7a2f",
+	"75d7d453-5f09-49f2-9250-cdfeda6b83db",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("89dc012b-f064-4b84-9984-f6948b602818",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("89dc012b-f064-4b84-9984-f6948b602818",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	"17542074-6adc-4117-b20e-e6a9bd63624a",
+	'EDT_DT_ID',
+	'',
+	'EDT_',
+	'Element_ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9");
+INSERT INTO O_OIDA
+	VALUES ("f803d3a1-af18-486a-a122-8a3415cd9087",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	0,
+	'Enum_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9");
+INSERT INTO O_ID
+	VALUES (2,
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9");
+INSERT INTO PE_PE
+	VALUES ("65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Domain',
+	'A domain (S_DOM) consists of one or more subsystems (S_SS) that each contain an information model that abstracts a portion of the data for the domain: classes (O_OBJ), associations (R_REL), etc.  Breaking a domain into subsystems allows the complexity of the domain to be more easily managed: 1) subsystems are components and can be checked out individually allowing parallelism in development of the models and 2) breaking up a domain into smaller units is easier to understand.  A subsystem is composed of classes that tend to cluster, i.e., they have few associations that span subsystem boundaries.  Inter-subsystem associations, communications, and accesses are captured in the Subsystem Relationship Model (SRM), Subsystem Communication Model (SCM), and Subsystem Access Model (SAM) respectively.',
+	1,
+	'../Domain.xtuml');

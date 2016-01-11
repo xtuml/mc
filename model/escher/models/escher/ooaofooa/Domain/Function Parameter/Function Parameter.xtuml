@@ -1,0 +1,278 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	'Function Parameter',
+	17,
+	'S_SPARM',
+	'A parameter to a function (S_SYNC) is called a function parameter (S_SPARM).  Function parameters are either passed in by value, or by reference.  Function parameters can be accessed by using the param keyword from within a function action specification.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("8feb65e4-456c-4f46-86ab-397baceca0c5",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_BATTR
+	VALUES ("8feb65e4-456c-4f46-86ab-397baceca0c5",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_ATTR
+	VALUES ("8feb65e4-456c-4f46-86ab-397baceca0c5",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"00000000-0000-0000-0000-000000000000",
+	'SParm_ID',
+	'Full Name: Parameter Identifier',
+	'',
+	'SParm_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("24f5e977-2dd9-475c-8a61-14e514031f9a",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_BATTR
+	VALUES ("24f5e977-2dd9-475c-8a61-14e514031f9a",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_ATTR
+	VALUES ("24f5e977-2dd9-475c-8a61-14e514031f9a",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"6febff5d-c7c2-4b7d-8868-185e27e5787e",
+	'Name',
+	'Full Name: Parameter Name',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("06af8ba8-255a-4fe8-b2f7-c8e66494bae9",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_BATTR
+	VALUES ("06af8ba8-255a-4fe8-b2f7-c8e66494bae9",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_ATTR
+	VALUES ("06af8ba8-255a-4fe8-b2f7-c8e66494bae9",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"ef0d333c-8e9e-48d6-bc97-a121384d5f3b",
+	'By_Ref',
+	'Full Name: By Reference Indicator
+Description: Indicates whether or not this parameter is passed by reference
+Data Domain: 0 = passed by value, 1 = passed by reference
+enum0: By Value
+enum1: By Reference
+',
+	'',
+	'By_Ref',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("65ca0008-5d8d-44b9-b1db-016b9175311f",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_BATTR
+	VALUES ("65ca0008-5d8d-44b9-b1db-016b9175311f",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_ATTR
+	VALUES ("65ca0008-5d8d-44b9-b1db-016b9175311f",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"06af8ba8-255a-4fe8-b2f7-c8e66494bae9",
+	'Dimensions',
+	'Full Name: Array Dimensions',
+	'',
+	'Dimensions',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	0,
+	"8feb65e4-456c-4f46-86ab-397baceca0c5",
+	"47257d26-76fc-441b-8092-fb601726a060",
+	"20f9169f-3e3f-4b6a-b72d-6b6cd383533e",
+	"0280e84c-9613-44fb-8474-9e90e37e7bfa",
+	"f1c89f37-5eaa-432d-bad7-2ecbd8b62b08",
+	"2ade78e6-28c0-4873-a53b-0849f0b28659",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Function Parameter',
+	'SParm_ID',
+	'R54.''succeeds''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"47257d26-76fc-441b-8092-fb601726a060",
+	"20f9169f-3e3f-4b6a-b72d-6b6cd383533e",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("8feb65e4-456c-4f46-86ab-397baceca0c5",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	0,
+	"47257d26-76fc-441b-8092-fb601726a060",
+	"0280e84c-9613-44fb-8474-9e90e37e7bfa",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("f1c89f37-5eaa-432d-bad7-2ecbd8b62b08",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"8feb65e4-456c-4f46-86ab-397baceca0c5",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	1,
+	'SParm_ID');
+INSERT INTO O_ATTR
+	VALUES ("f1c89f37-5eaa-432d-bad7-2ecbd8b62b08",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"65ca0008-5d8d-44b9-b1db-016b9175311f",
+	'Previous_SParm_ID',
+	'',
+	'Previous_',
+	'SParm_ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2c104fa4-dbf2-4396-a6ba-eced94665c6e",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_BATTR
+	VALUES ("2c104fa4-dbf2-4396-a6ba-eced94665c6e",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_ATTR
+	VALUES ("2c104fa4-dbf2-4396-a6ba-eced94665c6e",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"f1c89f37-5eaa-432d-bad7-2ecbd8b62b08",
+	'Descrip',
+	'Full Name: Description
+Description:  A textual description of the function parameter.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"db14bfb6-764a-49a0-a2db-644003c49edb",
+	"e5cfeb04-9897-44df-99f7-7740965a86cc",
+	"f895a1a1-064b-4bba-9d55-87d0656e4897",
+	"ef0d333c-8e9e-48d6-bc97-a121384d5f3b",
+	"1cc7967f-f30e-46f3-a838-815af07f7250",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R26.''is typed by ''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"db14bfb6-764a-49a0-a2db-644003c49edb",
+	"e5cfeb04-9897-44df-99f7-7740965a86cc",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"db14bfb6-764a-49a0-a2db-644003c49edb",
+	"f895a1a1-064b-4bba-9d55-87d0656e4897",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("ef0d333c-8e9e-48d6-bc97-a121384d5f3b",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("ef0d333c-8e9e-48d6-bc97-a121384d5f3b",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"24f5e977-2dd9-475c-8a61-14e514031f9a",
+	'DT_ID',
+	'',
+	'',
+	'Element_ID',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"259423d7-4bec-4988-a8db-ed2761a9e68e",
+	0,
+	"aa9ca9b4-6b94-4abc-85a8-d76c8771f5b2",
+	"e7dd55b3-e185-457a-bf81-1e1c46040fbf",
+	"1e1e58ee-eb7d-454a-9a7b-62ed14ef208e",
+	"32705c1c-ccdb-465c-b6ee-8df5f5d09297",
+	"6febff5d-c7c2-4b7d-8868-185e27e5787e",
+	"5cb1003d-5dcb-49b7-973d-89d13c6997fd",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Function',
+	'Sync_ID',
+	'R24.''is defined for''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"e7dd55b3-e185-457a-bf81-1e1c46040fbf",
+	"1e1e58ee-eb7d-454a-9a7b-62ed14ef208e",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("aa9ca9b4-6b94-4abc-85a8-d76c8771f5b2",
+	"259423d7-4bec-4988-a8db-ed2761a9e68e",
+	0,
+	"e7dd55b3-e185-457a-bf81-1e1c46040fbf",
+	"32705c1c-ccdb-465c-b6ee-8df5f5d09297",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("6febff5d-c7c2-4b7d-8868-185e27e5787e",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_ATTR
+	VALUES ("6febff5d-c7c2-4b7d-8868-185e27e5787e",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	"8feb65e4-456c-4f46-86ab-397baceca0c5",
+	'Sync_ID',
+	'',
+	'',
+	'Sync_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_OIDA
+	VALUES ("8feb65e4-456c-4f46-86ab-397baceca0c5",
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	0,
+	'SParm_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO O_ID
+	VALUES (2,
+	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a");
+INSERT INTO PE_PE
+	VALUES ("889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Domain',
+	'A domain (S_DOM) consists of one or more subsystems (S_SS) that each contain an information model that abstracts a portion of the data for the domain: classes (O_OBJ), associations (R_REL), etc.  Breaking a domain into subsystems allows the complexity of the domain to be more easily managed: 1) subsystems are components and can be checked out individually allowing parallelism in development of the models and 2) breaking up a domain into smaller units is easier to understand.  A subsystem is composed of classes that tend to cluster, i.e., they have few associations that span subsystem boundaries.  Inter-subsystem associations, communications, and accesses are captured in the Subsystem Relationship Model (SRM), Subsystem Communication Model (SCM), and Subsystem Access Model (SAM) respectively.',
+	1,
+	'../Domain.xtuml');

@@ -1,0 +1,202 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	'Domain',
+	1,
+	'S_DOM',
+	'A typical software system generally consists of distinct and independent subject matters. A Shlaer-Mellor analysis partition is based within each of these subject matters and  each subject matter is called a domain (S_DOM). A domain is inhabited by its  own conceptual entities (called classes). A domain may be partitioned into subsystems depending upon its complexity. Each domain is given a mission statement which provides a charter for the construction of the OOA models.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_BATTR
+	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_ATTR
+	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	"00000000-0000-0000-0000-000000000000",
+	'Dom_ID',
+	'Full Name: Domain Identifier',
+	'',
+	'Dom_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7f61b6eb-469f-4e0b-b5a6-53b51d659499",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_BATTR
+	VALUES ("7f61b6eb-469f-4e0b-b5a6-53b51d659499",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_ATTR
+	VALUES ("7f61b6eb-469f-4e0b-b5a6-53b51d659499",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	"6501cc26-c379-4762-be5a-80bbe64aafb1",
+	'Name',
+	'Full Name: Domain Name
+Description: A name  that represents the subject matter of the domain.',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("807db4c6-e4be-419f-b3ee-f0a7924e159b",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_BATTR
+	VALUES ("807db4c6-e4be-419f-b3ee-f0a7924e159b",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_ATTR
+	VALUES ("807db4c6-e4be-419f-b3ee-f0a7924e159b",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	"7f61b6eb-469f-4e0b-b5a6-53b51d659499",
+	'Descrip',
+	'Full Name: Domain Description
+Description: A brief description of the domain',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6ef4ba74-36ab-477e-802e-eded4d77a78d",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_BATTR
+	VALUES ("6ef4ba74-36ab-477e-802e-eded4d77a78d",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_ATTR
+	VALUES ("6ef4ba74-36ab-477e-802e-eded4d77a78d",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	"807db4c6-e4be-419f-b3ee-f0a7924e159b",
+	'Full_Der',
+	'Full Name: Fully Derived Indicator
+Description: A flag indicating whether the Sychronous and Asychronous Communication Diagrams are fully derived from the information contained in the Class Diagram and Action Specifications.
+Data Domain: 0 = OCM and OAM are not fully derived, 1 = OCM and OAM are fully derived
+enum0: Partially Derived
+enum1: Fully Derived
+',
+	'',
+	'Full_Der',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3a7c11fe-748a-4136-ace2-f4b23ebdc398",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_BATTR
+	VALUES ("3a7c11fe-748a-4136-ace2-f4b23ebdc398",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_ATTR
+	VALUES ("3a7c11fe-748a-4136-ace2-f4b23ebdc398",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	"6ef4ba74-36ab-477e-802e-eded4d77a78d",
+	'Config_ID',
+	'Full Name: Configuration Identifier
+Description:  The Configuration Identifier of the version management configuration which the domain is part of (refer to Version Management Subsystem). This ID can be used to access the V_CONFIG record corresponding to the Domain/Subsystem Configuration.',
+	'',
+	'Config_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	0,
+	"5fcf85f5-08f6-4c6a-ab77-3be2e4f249d1",
+	"d99320cd-4467-47e2-8195-e10804b7df05",
+	"6390868f-ba9d-48f1-b5ea-012882da5b9a",
+	"6b8d954d-df49-4533-9945-d0e5c1546f7e",
+	"1e2cb413-06c7-416f-9fe6-eef7974b97bd",
+	"55dc05ba-ebab-4a41-bd27-e86128c4fee8",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'System Model',
+	'Sys_ID',
+	'R28');
+INSERT INTO R_RGO_PROXY
+	VALUES ("d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	"d99320cd-4467-47e2-8195-e10804b7df05",
+	"6390868f-ba9d-48f1-b5ea-012882da5b9a",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5fcf85f5-08f6-4c6a-ab77-3be2e4f249d1",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	0,
+	"d99320cd-4467-47e2-8195-e10804b7df05",
+	"6b8d954d-df49-4533-9945-d0e5c1546f7e",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("1e2cb413-06c7-416f-9fe6-eef7974b97bd",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	"5fcf85f5-08f6-4c6a-ab77-3be2e4f249d1",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	1,
+	'Sys_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5fcf85f5-08f6-4c6a-ab77-3be2e4f249d1",
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	'../System Model/System Model.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("1e2cb413-06c7-416f-9fe6-eef7974b97bd",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	"3a7c11fe-748a-4136-ace2-f4b23ebdc398",
+	'Sys_ID',
+	'',
+	'',
+	'Sys_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_BATTR
+	VALUES ("5242141c-fc8c-42d5-9f98-ab2691c8376a",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_ATTR
+	VALUES ("5242141c-fc8c-42d5-9f98-ab2691c8376a",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	"1e2cb413-06c7-416f-9fe6-eef7974b97bd",
+	'IsBeingVerified',
+	'Persistent:false
+User_Visible:false',
+	'',
+	'IsBeingVerified',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_OIDA
+	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	0,
+	'Dom_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO O_ID
+	VALUES (2,
+	"d85f11b7-7911-41f1-bb27-1d8a498c1427");
+INSERT INTO PE_PE
+	VALUES ("d85f11b7-7911-41f1-bb27-1d8a498c1427",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Domain',
+	'A domain (S_DOM) consists of one or more subsystems (S_SS) that each contain an information model that abstracts a portion of the data for the domain: classes (O_OBJ), associations (R_REL), etc.  Breaking a domain into subsystems allows the complexity of the domain to be more easily managed: 1) subsystems are components and can be checked out individually allowing parallelism in development of the models and 2) breaking up a domain into smaller units is easier to understand.  A subsystem is composed of classes that tend to cluster, i.e., they have few associations that span subsystem boundaries.  Inter-subsystem associations, communications, and accesses are captured in the Subsystem Relationship Model (SRM), Subsystem Communication Model (SCM), and Subsystem Access Model (SAM) respectively.',
+	1,
+	'../Domain.xtuml');

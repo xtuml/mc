@@ -1,0 +1,2995 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("ff175a86-f934-455d-b031-120267b76bc8",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'External Entities',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	112,
+	"ff175a86-f934-455d-b031-120267b76bc8",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'3.2.5',
+	'escher::ooaofooa::External Entities');
+INSERT INTO GD_GE
+	VALUES ("6e4e6062-5068-4a91-8af4-3705393d6596",
+	"5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	"458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	12,
+	0,
+	'escher::ooaofooa::External Entities::User');
+INSERT INTO GD_SHP
+	VALUES ("6e4e6062-5068-4a91-8af4-3705393d6596");
+INSERT INTO GD_NCS
+	VALUES ("6e4e6062-5068-4a91-8af4-3705393d6596");
+INSERT INTO DIM_ND
+	VALUES (224.000000,
+	144.000000,
+	"6e4e6062-5068-4a91-8af4-3705393d6596");
+INSERT INTO DIM_GE
+	VALUES (1728.000000,
+	1596.000000,
+	"6e4e6062-5068-4a91-8af4-3705393d6596",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("6e4e6062-5068-4a91-8af4-3705393d6596",
+	1,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_GE
+	VALUES ("4dea1530-7db8-4238-b849-b0306321f394",
+	"5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	12,
+	0,
+	'escher::ooaofooa::External Entities::Graphics Domain');
+INSERT INTO GD_SHP
+	VALUES ("4dea1530-7db8-4238-b849-b0306321f394");
+INSERT INTO GD_NCS
+	VALUES ("4dea1530-7db8-4238-b849-b0306321f394");
+INSERT INTO DIM_ND
+	VALUES (228.000000,
+	140.000000,
+	"4dea1530-7db8-4238-b849-b0306321f394");
+INSERT INTO DIM_GE
+	VALUES (2016.000000,
+	1596.000000,
+	"4dea1530-7db8-4238-b849-b0306321f394",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("4dea1530-7db8-4238-b849-b0306321f394",
+	1,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_GE
+	VALUES ("51db0b86-9f3f-49c3-9180-3d72156928f8",
+	"5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	12,
+	0,
+	'escher::ooaofooa::External Entities::Utilities');
+INSERT INTO GD_SHP
+	VALUES ("51db0b86-9f3f-49c3-9180-3d72156928f8");
+INSERT INTO GD_NCS
+	VALUES ("51db0b86-9f3f-49c3-9180-3d72156928f8");
+INSERT INTO DIM_ND
+	VALUES (216.000000,
+	144.000000,
+	"51db0b86-9f3f-49c3-9180-3d72156928f8");
+INSERT INTO DIM_GE
+	VALUES (2280.000000,
+	1596.000000,
+	"51db0b86-9f3f-49c3-9180-3d72156928f8",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("51db0b86-9f3f-49c3-9180-3d72156928f8",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_GE
+	VALUES ("d574d0c6-6a16-45f1-b714-f5648130256d",
+	"5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	"e70d9638-acf2-446d-bbda-b7b7a5d415ee",
+	12,
+	0,
+	'escher::ooaofooa::External Entities::Selection');
+INSERT INTO GD_SHP
+	VALUES ("d574d0c6-6a16-45f1-b714-f5648130256d");
+INSERT INTO GD_NCS
+	VALUES ("d574d0c6-6a16-45f1-b714-f5648130256d");
+INSERT INTO DIM_ND
+	VALUES (204.000000,
+	144.000000,
+	"d574d0c6-6a16-45f1-b714-f5648130256d");
+INSERT INTO DIM_GE
+	VALUES (2520.000000,
+	1584.000000,
+	"d574d0c6-6a16-45f1-b714-f5648130256d",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("d574d0c6-6a16-45f1-b714-f5648130256d",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_GE
+	VALUES ("be64071d-1f70-4875-86e7-d3a706178a7b",
+	"5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	"d048dc0b-8d05-4655-9d68-110a5fc11630",
+	12,
+	0,
+	'escher::ooaofooa::External Entities::Parse Error Reporting');
+INSERT INTO GD_SHP
+	VALUES ("be64071d-1f70-4875-86e7-d3a706178a7b");
+INSERT INTO GD_NCS
+	VALUES ("be64071d-1f70-4875-86e7-d3a706178a7b");
+INSERT INTO DIM_ND
+	VALUES (228.000000,
+	144.000000,
+	"be64071d-1f70-4875-86e7-d3a706178a7b");
+INSERT INTO DIM_GE
+	VALUES (1728.000000,
+	1764.000000,
+	"be64071d-1f70-4875-86e7-d3a706178a7b",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("be64071d-1f70-4875-86e7-d3a706178a7b",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_GE
+	VALUES ("9c8a1bbd-a379-4038-b4d0-54ce4b177ddc",
+	"5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	"f3acfee0-11fe-437b-95bd-fdb0f5991804",
+	12,
+	0,
+	'escher::ooaofooa::External Entities::Operating System');
+INSERT INTO GD_SHP
+	VALUES ("9c8a1bbd-a379-4038-b4d0-54ce4b177ddc");
+INSERT INTO GD_NCS
+	VALUES ("9c8a1bbd-a379-4038-b4d0-54ce4b177ddc");
+INSERT INTO DIM_ND
+	VALUES (228.000000,
+	144.000000,
+	"9c8a1bbd-a379-4038-b4d0-54ce4b177ddc");
+INSERT INTO DIM_GE
+	VALUES (2016.000000,
+	1764.000000,
+	"9c8a1bbd-a379-4038-b4d0-54ce4b177ddc",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("9c8a1bbd-a379-4038-b4d0-54ce4b177ddc",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_GE
+	VALUES ("fa05094a-a3fc-49d6-bd98-4014cf64b49a",
+	"5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	"13ea7f99-39c8-4948-b20b-de0c3f34f2da",
+	12,
+	0,
+	'escher::ooaofooa::External Entities::Preferences');
+INSERT INTO GD_SHP
+	VALUES ("fa05094a-a3fc-49d6-bd98-4014cf64b49a");
+INSERT INTO GD_NCS
+	VALUES ("fa05094a-a3fc-49d6-bd98-4014cf64b49a");
+INSERT INTO DIM_ND
+	VALUES (204.000000,
+	144.000000,
+	"fa05094a-a3fc-49d6-bd98-4014cf64b49a");
+INSERT INTO DIM_GE
+	VALUES (2280.000000,
+	1764.000000,
+	"fa05094a-a3fc-49d6-bd98-4014cf64b49a",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("fa05094a-a3fc-49d6-bd98-4014cf64b49a",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_GE
+	VALUES ("20de2a34-8d71-4874-8e0f-04c9b62a59ab",
+	"5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	"95fe57cc-264d-4dd9-9af3-bfd428eb65bb",
+	12,
+	0,
+	'escher::ooaofooa::External Entities::Virtual Machine');
+INSERT INTO GD_SHP
+	VALUES ("20de2a34-8d71-4874-8e0f-04c9b62a59ab");
+INSERT INTO GD_NCS
+	VALUES ("20de2a34-8d71-4874-8e0f-04c9b62a59ab");
+INSERT INTO DIM_ND
+	VALUES (204.000000,
+	144.000000,
+	"20de2a34-8d71-4874-8e0f-04c9b62a59ab");
+INSERT INTO DIM_GE
+	VALUES (2520.000000,
+	1764.000000,
+	"20de2a34-8d71-4874-8e0f-04c9b62a59ab",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("20de2a34-8d71-4874-8e0f-04c9b62a59ab",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO GD_GE
+	VALUES ("bf6e840a-fe2a-4c94-8f48-1f83afefc218",
+	"5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	"ab0943a7-7079-42d4-bab7-7b11dd1bb8c0",
+	12,
+	0,
+	'escher::ooaofooa::External Entities::Search');
+INSERT INTO GD_SHP
+	VALUES ("bf6e840a-fe2a-4c94-8f48-1f83afefc218");
+INSERT INTO GD_NCS
+	VALUES ("bf6e840a-fe2a-4c94-8f48-1f83afefc218");
+INSERT INTO DIM_ND
+	VALUES (228.000000,
+	144.000000,
+	"bf6e840a-fe2a-4c94-8f48-1f83afefc218");
+INSERT INTO DIM_GE
+	VALUES (1728.000000,
+	1944.000000,
+	"bf6e840a-fe2a-4c94-8f48-1f83afefc218",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("bf6e840a-fe2a-4c94-8f48-1f83afefc218",
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_DIA
+	VALUES ("5522d16f-fb6c-483d-9e0c-51a555f1bf72",
+	'',
+	0.750000,
+	1844.000000,
+	1442.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_EE
+	VALUES ("458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	'User',
+	'This EE represents the user of the tool. It''s bridge calls all
+capture required interactions with that user.
+ 
+Import:org.xtuml.bp.core.common.*
+',
+	'USER',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'User',
+	0);
+INSERT INTO S_BRG
+	VALUES ("847e8411-4593-44fa-a6ba-43f068326f28",
+	"458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	'selectOne',
+	'This bridge is typically called by an action from the where clause
+of a select statement. It is used when the user must choose one item
+from a number of alternatives provided by the main body of the select
+statement.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'return true;',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("63cb3bdb-0b65-4b35-898b-bc9dea73e8ca",
+	"847e8411-4593-44fa-a6ba-43f068326f28",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("0bb8c6b0-e0a2-4f02-8ea6-afd7ce204f21",
+	"458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	'selectMany',
+	'This bridge is typically called by an action from the where clause
+of a select statement. It is used when the user must choose several
+items from a number of alternatives provided by the main body of the
+select statement.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'return true;',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("7ccc84fb-049f-42dc-b0f6-97d04e0f1df4",
+	"0bb8c6b0-e0a2-4f02-8ea6-afd7ce204f21",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("0ab66c2c-284d-4079-ad1f-c16c4e415e31",
+	"458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	'warning',
+	'Translate:native
+',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'// native
+org.eclipse.swt.widgets.Shell sh = 
+   CorePlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
+org.eclipse.jface.dialogs.MessageDialog.openError(sh, "Warning", p_Msg);
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("c21933f3-dfb1-4559-b4f4-822a5d7ab2bd",
+	"0ab66c2c-284d-4079-ad1f-c16c4e415e31",
+	'msg',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("a5fb595e-2d99-4caf-b66e-67740c5e45e1",
+	"458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	'logError',
+	'Translate:native
+',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'// native
+String pathToUse = p_Path;
+if (pathToUse == null || pathToUse.equals("")) {
+	pathToUse = "<Path is not available>";
+  } 
+CorePlugin.err.println(p_Msg + " at " + pathToUse);
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("e266be04-eb54-49c8-a365-57c16e1cd5b2",
+	"a5fb595e-2d99-4caf-b66e-67740c5e45e1",
+	'msg',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("4f5c95f1-a263-4728-92f8-01d580689b69",
+	"a5fb595e-2d99-4caf-b66e-67740c5e45e1",
+	'path',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e266be04-eb54-49c8-a365-57c16e1cd5b2",
+	'');
+INSERT INTO S_BRG
+	VALUES ("dceff567-b848-472c-99c6-5deba1775f25",
+	"458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	'information',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'// native
+org.eclipse.swt.widgets.Shell sh = 
+   CorePlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
+org.eclipse.jface.dialogs.MessageDialog.openInformation(sh, p_Title, p_Msg);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("b77d6926-d6f0-431e-8a81-fdc906cab8b7",
+	"dceff567-b848-472c-99c6-5deba1775f25",
+	'msg',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("5caafc8c-16c2-46b7-9182-279d670e98fa",
+	"dceff567-b848-472c-99c6-5deba1775f25",
+	'title',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b77d6926-d6f0-431e-8a81-fdc906cab8b7",
+	'');
+INSERT INTO S_BRG
+	VALUES ("c6e06d38-bd5b-41af-a4db-9758d45c0b5d",
+	"458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	'selectOneWithInt',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'return true;',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("4b0581b5-06e4-4f0a-8584-2ad1edd2707d",
+	"c6e06d38-bd5b-41af-a4db-9758d45c0b5d",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("9750a639-5345-41fd-b18f-3dbdacd7a2cb",
+	"458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	'logInfo',
+	'Translate: native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'// native
+if (CorePlugin.loggingEnabled) {
+  CorePlugin.out.println(p_Msg);
+}
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("fae9ea33-eca2-4f72-883d-07ff5d85e8cc",
+	"9750a639-5345-41fd-b18f-3dbdacd7a2cb",
+	'msg',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("5428f7f5-a737-4e62-90f2-3d8f5d8cc74c",
+	"458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	'selectExisting',
+	'This bridge is typically called by an action from the where clause
+of a select statement. It is used when an existing association must be known.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'return true;',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("6276b8ac-4b68-47ad-9b00-b58f25902426",
+	"5428f7f5-a737-4e62-90f2-3d8f5d8cc74c",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("458cda1d-19b4-48a3-a7a5-a83208efccd7",
+	1,
+	"ff175a86-f934-455d-b031-120267b76bc8",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'Graphics Domain',
+	'This EE is a holding place for some miscellaneous bridge functions
+needed for interacting with the Graphics domain. Some of these
+bridges are duplicated by the OS EE and should be integrated at
+some point in the near future.
+
+Import:java.util.UUID;import java.util.Calendar',
+	'GD',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Graphics Domain',
+	1);
+INSERT INTO S_BRG
+	VALUES ("52ac69b9-098b-4743-a1c0-10b33b3a4bdb",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'newline',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'return "\n";',
+	0,
+	'');
+INSERT INTO S_BRG
+	VALUES ("1273212e-0337-408f-b64e-a0052867e161",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'int_to_string',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'return Integer.toString(p_Value);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("9cdb51a7-6e7c-4b02-a9dc-0b8e9fa1ed66",
+	"1273212e-0337-408f-b64e-a0052867e161",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("8d44a6b1-43c8-4f6d-b50d-81c527cf3fb3",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'max_number',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'return Integer.MAX_VALUE;',
+	0,
+	'');
+INSERT INTO S_BRG
+	VALUES ("0ca0de2d-fc47-4523-988c-c7a38a190bc7",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'NULL_UNIQUE_ID',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'return org.xtuml.bp.core.common.IdAssigner.NULL_UUID;',
+	0,
+	'');
+INSERT INTO S_BRG
+	VALUES ("e6359ff6-13dd-4d1f-998f-9c172fc3a63c",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'strlen',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'return p_S.length();',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("246c2498-d600-44c6-aeec-5ae0e99e2061",
+	"e6359ff6-13dd-4d1f-998f-9c172fc3a63c",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("d6fa22e4-6c85-40b6-aa72-20afc1b31c96",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'numberOfLines',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'        int count = 0;
+        for(int i = 0; i < p_String.length(); i++) {
+        	if(p_String.toCharArray()[i] == ''\n'') {
+        		count = count + 1;
+        	}
+        }
+        return count;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("7324900b-5e31-4209-874c-92c73839d04a",
+	"d6fa22e4-6c85-40b6-aa72-20afc1b31c96",
+	'string',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("97108467-d200-466f-b4ff-3c24fbe43e58",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'string_to_int',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'String value = p_Value;
+try {
+  int val = 0;
+  // Coerce reals to integers
+  int decimal = p_Value.indexOf(''.'');
+  int exponent = p_Value.toUpperCase().indexOf(''E'');
+  if (decimal != -1 || exponent != -1) {
+    val = (int) Float.parseFloat(p_Value);
+  // Convert alternate base to base 10 if necessary
+  } else if (p_Value.startsWith("0b")) {
+    val = Integer.parseInt(p_Value.substring(2), 2);
+  } else if (p_Value.startsWith("0x")) {
+    val = Integer.parseInt(p_Value.substring(2), 16);
+  } else {
+    val = Integer.parseInt(value);
+  }
+  return val;
+} catch (NumberFormatException e) {
+	//A number format exception was caught here, just return -1;
+	CorePlugin.logError(
+			"GD::string_to_int exception: NumberFormatException", e);
+	return -1;
+} catch (Exception e) {
+	//An exception was caught here, just return -1;
+	CorePlugin.logError("GD::string_to_int exception: Exception", e);
+	return -1;
+}',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("054aaa77-6957-47aa-a9f3-7b103a7be197",
+	"97108467-d200-466f-b4ff-3c24fbe43e58",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("239628f3-bd36-4a0c-bc84-c31a29e08153",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'string_to_real',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000003",
+	'String value = p_Value;
+// Promote integers
+int decimal = p_Value.indexOf(''.'');
+if (decimal == -1) {
+	value = value + ".0";
+}
+try {
+	return Float.parseFloat(value);
+} catch (NumberFormatException e) {
+	//A number format exception was caught here, just return -1.1;
+	CorePlugin.logError(
+			"GD::string_to_real exception: NumberFormatException", e);
+	return -1;
+} catch (Exception e) {
+	//An exception was caught here, just return -1.1;
+	CorePlugin.logError("GD::string_to_real exception: Exception", e);
+	return -1;
+}
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("4da4d334-b5c9-44ca-b619-cfb818857834",
+	"239628f3-bd36-4a0c-bc84-c31a29e08153",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("bf29711e-5de1-4567-9a92-32ad43a28c5a",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'real_to_string',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'return Float.toString(p_Value);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("f957990d-a0aa-4b97-935b-353c786b33b5",
+	"bf29711e-5de1-4567-9a92-32ad43a28c5a",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000003",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("3c80a1ce-880c-4cae-8fc2-b4eaa80e5c48",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'unique_id_to_string',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'return p_Value.toString();',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("e34ff1ca-6fae-4d84-8c7a-b2c18f3f3fec",
+	"3c80a1ce-880c-4cae-8fc2-b4eaa80e5c48",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("04ce7df6-0e35-478c-acb1-9674114193d5",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'boolean_to_string',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'return Boolean.toString(p_Value);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("9022ed61-cc10-4b56-8c00-2b871966cfc7",
+	"04ce7df6-0e35-478c-acb1-9674114193d5",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("da427df8-6b26-4d0f-b755-fd3bf5957fe3",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'string_to_boolean',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'try
+{  
+  return (Boolean.valueOf(p_Value)).booleanValue();
+}
+catch(Exception e)
+{
+  //An exception was caught here, just return false;
+  CorePlugin.logError("GD::string_to_boolean exception: Exception", e);
+  return false;
+}',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("faa6ba9b-7536-4699-87b0-300373a07f70",
+	"da427df8-6b26-4d0f-b755-fd3bf5957fe3",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("8bbcc6a1-aebd-4e5a-861b-eb9ee284cc9d",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'string_to_unique_id',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'try
+{
+  if (p_Value.contains("::Unknown")) {
+    return Null_unique_id();
+  }
+  else {
+    return UUID.fromString(p_Value);
+  }
+}
+catch(Exception e)
+{
+  //An exception was caught here, just return NULL_UUID;
+  CorePlugin.logError("GD::string_to_unique_id exception: Exception", e);
+  return Null_unique_id();
+}
+
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("e8055df6-9713-497f-8687-e3ed64143f59",
+	"8bbcc6a1-aebd-4e5a-861b-eb9ee284cc9d",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("71b25f32-ff13-4e16-95d4-580824cd0493",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'toLower',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'return p_Value.toLowerCase();',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("95b0db41-74ba-4bf4-b2d6-8b82eac32de3",
+	"71b25f32-ff13-4e16-95d4-580824cd0493",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("a6ca4395-b4f6-4d5e-9294-63d7629e85e2",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'string_to_instance',
+	'Translate:native',
+	0,
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	'return (Object)p_Value; 
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("f2a38d54-64d7-4263-8197-d3aa7d32b2cf",
+	"a6ca4395-b4f6-4d5e-9294-63d7629e85e2",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	"00000000-0000-0000-0000-000000000000",
+	'instance',
+	'',
+	'',
+	'../Datatypes/Datatypes.xtuml');
+INSERT INTO S_BRG
+	VALUES ("38ef5ef6-8569-4882-a7da-63dd055966d0",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'boolean_to_instance',
+	'Translate:native',
+	0,
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	'return (Object)Boolean.toString(p_Value);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("048a8505-5cf8-4a3f-a6e1-884e0e3d2dd3",
+	"38ef5ef6-8569-4882-a7da-63dd055966d0",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("d97fecee-65f2-4cef-8a76-485add8a3ed1",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'instance_to_string',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'if (p_Value == null) {
+  return "";
+}
+try
+{
+  if (p_Value instanceof lib.BPInteger) 
+  {
+    Integer intValue = new Integer(((lib.BPInteger) p_Value).getValue());
+    return intValue.toString();
+  }
+  if (p_Value instanceof lib.BPUniqueId) {
+    return ((lib.BPUniqueId) p_Value).getValue().toString();
+  }
+  if (p_Value instanceof lib.BPFloat)
+  {
+    Float floatValue = new Float(((lib.BPFloat) p_Value).getValue());
+    return floatValue.toString();
+  }
+  if (p_Value instanceof lib.BPBoolean)
+  {
+    Boolean boolValue = new Boolean(((lib.BPBoolean) p_Value).getValue());
+    return boolValue.toString();
+  }
+  if (p_Value instanceof lib.BPString)
+  {
+    String stringValue = new String(((lib.BPString) p_Value).getValue());
+    return stringValue;
+  }
+  
+  return p_Value.toString();
+}
+
+catch (ClassCastException e)
+{
+  CorePlugin.logError("GD::instance_to_string exception: Exception", e);
+  return p_Value.toString();
+}
+catch (Exception e)
+{
+  CorePlugin.logError("GD::instance_to_string exception: Exception", e);
+  return p_Value.toString();
+}
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("0547e0a4-f6d0-4cc3-a5f2-e5c11e822931",
+	"d97fecee-65f2-4cef-8a76-485add8a3ed1",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("3ab7934c-9236-4596-8483-9459334316fa",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'int_to_instance',
+	'Translate:native',
+	0,
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	'return (Object)Integer.toString(p_Value);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("305cd872-d210-4b4b-bd91-ba6c5d202d25",
+	"3ab7934c-9236-4596-8483-9459334316fa",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("96f74f54-9290-4ff4-877b-5c042f23a902",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'real_to_instance',
+	'Translate:native',
+	0,
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	'return (Object)Float.toString(p_Value);
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("07377594-e8da-4132-ab5f-2bb7d78ce863",
+	"96f74f54-9290-4ff4-877b-5c042f23a902",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000003",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("3f5736e0-0bff-47fe-8157-acb9e6171d20",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'unique_id_to_instance',
+	'Translate:native',
+	0,
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	'return (Object) p_Value.toString();',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("2a669b86-6f0a-4b6b-91ff-e8f0312066c6",
+	"3f5736e0-0bff-47fe-8157-acb9e6171d20",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("694649ed-3177-4ae0-bd35-b16fde640fc0",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'instance_to_boolean',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'try
+{
+  if (p_Value instanceof lib.BPString)
+  {
+    return String_to_boolean(((lib.BPString)p_Value).getValue());				
+  }
+  if (p_Value instanceof lib.BPBoolean)
+  {
+    return ((lib.BPBoolean) p_Value).getValue();
+  }
+  
+  //object has to be converted to string because it was originally stored as string 
+  return String_to_boolean(p_Value.toString());   
+}
+catch(Exception e)
+{
+  //An exception was caught here, just return false;
+  CorePlugin.logError("GD::instance_to_boolean exception: Exception", e);
+  return false;
+}',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("002a71b4-949d-4a12-80ff-48ce48e45023",
+	"694649ed-3177-4ae0-bd35-b16fde640fc0",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("2ec97c3a-715b-422c-ac65-f06b377f16e9",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'instance_to_real',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000003",
+	'try
+{
+  if (p_Value instanceof lib.BPString)
+  {
+    return String_to_real(((lib.BPString) p_Value).getValue());
+  }
+  if (p_Value instanceof lib.BPFloat)
+  {
+    return ((lib.BPFloat)p_Value).getValue(); 
+  }
+  
+  //object has to be converted to string because it was originally stored as string 
+  return String_to_real(p_Value.toString());  
+}
+catch(NumberFormatException e)
+{  
+  //A number format exception was caught here, just return -1.1;
+  CorePlugin.logError("GD::instance_to_real exception: NumberFormatException", e);
+  return -1;
+}
+catch(Exception e)
+{
+  //An exception was caught here, just return -1.1;
+  CorePlugin.logError("GD::instance_to_real exception: Exception", e);
+  return -1;
+}
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("708d63f5-f3b7-4c53-8946-acc319da996e",
+	"2ec97c3a-715b-422c-ac65-f06b377f16e9",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("f7edddfb-1aac-464a-a605-fe94b0b6d5a2",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'instance_to_int',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'try
+{
+  if (p_Value instanceof lib.BPString)
+  {
+    return String_to_int(((lib.BPString) p_Value).getValue());
+  }
+  if (p_Value instanceof lib.BPInteger)
+  {
+    return ((lib.BPInteger)p_Value).getValue();
+  }
+  if (p_Value instanceof String) {
+    if (((String)p_Value).equals("not participating")) {
+      return 0;
+    }
+  }
+  //object has to be converted to string because it was originally stored as string 
+  return String_to_int(p_Value.toString());  
+}
+catch(NumberFormatException e)
+{  
+  //A number format exception was caught here, just return -1;
+  CorePlugin.logError("GD::instance_to_int exception: NumberFormatException", e);
+  return -1;
+}
+catch(Exception e)
+{
+  //An exception was caught here, just return -1;
+  CorePlugin.logError("GD::instance_to_int exception: Exception", e);
+  return -1;
+}
+  
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("7b32e032-5bc2-42dd-9c7e-cea6b5a4d162",
+	"f7edddfb-1aac-464a-a605-fe94b0b6d5a2",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("864925d4-f4bc-4b19-a81b-7b4e83ecc576",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'instance_to_unique_id',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'try
+{
+  if (p_Value == null) {
+    return Null_unique_id();
+  }
+  if (p_Value instanceof lib.BPString)
+  {
+    return String_to_unique_id(((lib.BPString) p_Value).getValue());
+  }
+  
+  //object has to be converted to string because it was originally stored as string 
+  return String_to_unique_id(p_Value.toString());
+}
+catch(NumberFormatException e)
+{
+  //A number format exception was caught here, just return 0;
+  CorePlugin.logError("GD::instance_to_unique_id exception: NumberFormatException", e);
+  return Null_unique_id();
+}
+catch(Exception e)
+{
+  //An exception was caught here, just return 0;
+  CorePlugin.logError("GD::instance_to_unique_id exception: Exception", e);
+  return Null_unique_id();
+}
+
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("7a66355f-cd99-498b-9558-b74e75720ad1",
+	"864925d4-f4bc-4b19-a81b-7b4e83ecc576",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("4c1a476f-8c90-44c7-8d92-9e5a576b0129",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'instance_to_pending_event_id',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'return ((PendingEvent_c)p_Value).getEvent_id();',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("ea581ada-93fe-49b4-84b3-861989d60de5",
+	"4c1a476f-8c90-44c7-8d92-9e5a576b0129",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("ce2abc4e-269c-45ef-b47a-366fa5219d97",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'convertToBPDataType',
+	'Translate:native
+
+This bridge should only be for converting data types of parameters being passed
+by reference into realized code.',
+	0,
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	'try
+{
+  if (p_Type.equals("boolean")) { //$NON-NLS-1$
+    return new lib.BPBoolean(new Boolean((String) p_Value).booleanValue());
+  } else if (p_Type.equals("integer")) { //$NON-NLS-1$
+    return new lib.BPInteger(new Integer((String) p_Value).intValue());
+  } else if (p_Type.equals("real")) { //$NON-NLS-1$
+    return new lib.BPFloat(new Float((String) p_Value).floatValue());
+  } else if (p_Type.equals("string")) { //$NON-NLS-1$
+    return new lib.BPString((String) p_Value);
+  } else if (p_Type.equals("unique_id")) { //$NON-NLS-1$
+    return new lib.BPUniqueId(UUID.fromString((String) p_Value));
+  } else {
+    CorePlugin.logError("GD::convertToBPType error: conversion not supported for" + p_Type, null);
+    return null;
+  }
+}
+catch (ClassCastException e)
+{
+  CorePlugin.logError("GD::convertToBPType exception occurred when converting type " + p_Type, e);
+  return null;				
+}
+catch (Exception e)
+{
+  CorePlugin.logError("GD::convertToBPType exception occurred when converting type " + p_Type, e);
+  return null;
+}',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("91353fa6-13c2-4757-b33f-3d343a201432",
+	"ce2abc4e-269c-45ef-b47a-366fa5219d97",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("54918f11-4da7-4647-955c-94ea7ac18ffd",
+	"ce2abc4e-269c-45ef-b47a-366fa5219d97",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"91353fa6-13c2-4757-b33f-3d343a201432",
+	'');
+INSERT INTO S_BRG
+	VALUES ("f0e4c7c3-94d9-4387-96df-f0646418d812",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'convertFromBPDataType',
+	'Translate:native
+
+This bridge should only be for converting data types of parameters being passed
+by reference into realized code.',
+	0,
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	'try
+{			
+  if (p_Type.equals("boolean")) { //$NON-NLS-1$
+    return new Boolean(((lib.BPBoolean) p_Value).getValue());
+  } else if (p_Type.equals("integer")) { //$NON-NLS-1$
+    return new Integer(((lib.BPInteger) p_Value).getValue());
+  } else if (p_Type.equals("real")) { //$NON-NLS-1$
+    return new Float(((lib.BPFloat) p_Value).getValue());
+  } else if (p_Type.equals("string")) { //$NON-NLS-1$
+    return new String(((lib.BPString) p_Value).getValue());
+  } else if (p_Type.equals("unique_id")) { //$NON-NLS-1$
+    return ((lib.BPUniqueId) p_Value).getValue().toString();
+  } else {
+    CorePlugin.logError("GD::convertfromBPType error: conversion not supported for" + p_Type, null);
+    return null;
+  }
+}
+catch (ClassCastException e)
+{
+  CorePlugin.logError("GD::convertFromBPType exception occurred when converting type " + p_Type, e);
+  return null;					
+}
+catch (Exception e)
+{
+  CorePlugin.logError("GD::convertFromBPType exception occurred when converting type " + p_Type, e);
+  return null;
+}	',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("66c6e8a6-4a62-4d18-a1d9-877f722fce8b",
+	"f0e4c7c3-94d9-4387-96df-f0646418d812",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("f0da0881-3ab8-4f88-9a35-f04ae24357cb",
+	"f0e4c7c3-94d9-4387-96df-f0646418d812",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"66c6e8a6-4a62-4d18-a1d9-877f722fce8b",
+	'');
+INSERT INTO S_BRG
+	VALUES ("45af6b5b-fc66-4be9-8d0f-64ed8a960c91",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'NULL_INSTANCE',
+	'Translate:native',
+	0,
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	'		return null;
+',
+	0,
+	'');
+INSERT INTO S_BRG
+	VALUES ("bf8f36cf-1f36-4d8d-a4c8-14eb21864441",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'timestamp_to_string',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'		// Timestamps are already strings
+		if ( p_Value != null){
+			return p_Value.toString();
+		}
+		return "empty";',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("e4254326-8455-4d61-a046-ad5e23a729b7",
+	"bf8f36cf-1f36-4d8d-a4c8-14eb21864441",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("ab731afb-36f8-4532-861e-28cf55930b67",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'date_to_string',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'		if (p_Value instanceof Calendar) {
+			String result = ((Calendar) p_Value).getTime().toLocaleString();
+			return result;
+		}
+		return "empty";
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("9ea8a904-d81a-4f8b-a173-2f3aeab12b5b",
+	"ab731afb-36f8-4532-861e-28cf55930b67",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("60670aea-8f99-4a99-beb6-dc83ab1a710c",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'timer_to_string',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'		if (p_Value instanceof Timer_c) {
+			String result = ((Timer_c) p_Value).getLabel();
+			return result;
+		}
+		return "empty";
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("d19cd39a-e812-41fc-93ca-8f957bb4afc3",
+	"60670aea-8f99-4a99-beb6-dc83ab1a710c",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("71499abc-9e47-4843-a016-4b0c8db851e1",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'event_to_string',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'		if (p_Value instanceof PendingEvent_c) {
+			String result = ((PendingEvent_c) p_Value).getLabel();
+			return result;
+		}
+		return "empty";
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("177090ef-4b12-4be7-a3a5-9db87880bed7",
+	"71499abc-9e47-4843-a016-4b0c8db851e1",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("269af01f-8dcb-46ef-888e-65924a28beeb",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'strip_tics',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'String rel_phrase = p_Value;
+if (rel_phrase.length() > 0 && rel_phrase.charAt(0) == ''\'''' && rel_phrase.charAt(rel_phrase.length() - 1) == ''\'''') {
+  rel_phrase = rel_phrase.substring(1, rel_phrase.length() - 1);
+}
+return rel_phrase;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("08bc64f0-c218-4fd4-9e09-bcc601a35655",
+	"269af01f-8dcb-46ef-888e-65924a28beeb",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("cbcfeedd-6e6d-49fc-8e4a-d1ecb2474df6",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'compare_dates',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'		if ((p_D1 instanceof Calendar) && (p_D2 instanceof Calendar)) {
+		    long d1 = ((Calendar) p_D1).getTimeInMillis();
+		    long d2 = ((Calendar) p_D2).getTimeInMillis();
+		    if (d1 == d2)
+		    	return 0;
+		    if (d1 < d2)
+		    	return 1;
+		    if (d1 > d2)
+		    	return 2;
+		}
+		return -1;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("0f0a4fd2-5174-4c05-9231-4447d0e7d1d6",
+	"cbcfeedd-6e6d-49fc-8e4a-d1ecb2474df6",
+	'd1',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("b540b925-5f1d-436b-87f6-deecc11ad80e",
+	"cbcfeedd-6e6d-49fc-8e4a-d1ecb2474df6",
+	'd2',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"0f0a4fd2-5174-4c05-9231-4447d0e7d1d6",
+	'');
+INSERT INTO S_BRG
+	VALUES ("caeb91e3-86fd-4d40-8acd-eb29b1dd93f4",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'compare_times',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'	    long t1 = Long.parseLong((String) p_T1);
+	    long t2 = Long.parseLong((String) p_T2);
+	    if (t1 == t2)
+	    	return 0;
+	    if (t1 < t2)
+	    	return 1;
+	    if (t1 > t2)
+	    	return 2;
+	    return -1;
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("9decd915-1cb9-4e69-860a-e4bab6d44b08",
+	"caeb91e3-86fd-4d40-8acd-eb29b1dd93f4",
+	't1',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("64c22e3e-02e2-4b73-92a0-742d40d0db03",
+	"caeb91e3-86fd-4d40-8acd-eb29b1dd93f4",
+	't2',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"9decd915-1cb9-4e69-860a-e4bab6d44b08",
+	'');
+INSERT INTO S_BRG
+	VALUES ("4d3556a5-efab-4cbf-9f76-034783109b5b",
+	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	'component_instance_to_string',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'		if (p_Value instanceof ComponentInstance_c) {
+			ComponentInstance_c ci = (ComponentInstance_c) p_Value;
+			String label = ci.getLabel();
+			int num = ci.Getenginenumber();
+			String result = label + "[" + num + "]";
+			return result;
+		}
+		return "Component not found";
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("86167249-30f7-4637-b06b-277793691000",
+	"4d3556a5-efab-4cbf-9f76-034783109b5b",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
+	1,
+	"ff175a86-f934-455d-b031-120267b76bc8",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'Utilities',
+	'This EE contains utility bridges that provide functionality which cannot be
+modeled.
+                                      
+Import:java.util.*; import org.xtuml.bp.core.ui.actions.ElementChange
+',
+	'Util',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Utilities',
+	1);
+INSERT INTO S_BRG
+	VALUES ("5668af44-3cd3-48d4-bf89-6f5483c70a02",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'removeDuplicateStrings',
+	'This bridge will take a string and remove any lines that are duplicated.
+
+Import:java.util.ArrayList
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'		String[] stringArray = p_Completestring.split(p_Separator);
+		ArrayList uniqueArray = new ArrayList();
+		String result = "";
+		for(int i = 0; i < stringArray.length; i++) {
+			if(!uniqueArray.contains(stringArray[i])) {
+				uniqueArray.add(stringArray[i]);
+			}
+		}
+		for(int i = 0; i < uniqueArray.size(); i++) {
+			result = result + uniqueArray.get(i) + p_Separator;
+		}
+		return result;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("d2e3d7e8-6434-43c3-a4c1-ed11757f09f0",
+	"5668af44-3cd3-48d4-bf89-6f5483c70a02",
+	'completeString',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("0edbc442-e1c1-43d5-be2c-fc5abee6f250",
+	"5668af44-3cd3-48d4-bf89-6f5483c70a02",
+	'separator',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d2e3d7e8-6434-43c3-a4c1-ed11757f09f0",
+	'');
+INSERT INTO S_BRG
+	VALUES ("ca5db933-bd0b-4915-a39e-6bedd3a98cc5",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'selectionContainsValidParticipant',
+	'This bridge is used to check the current selection to see if a valid Interaction
+Participant is contained within it.  This is required with free-floating message
+formalization.
+
+Import:org.xtuml.bp.core.*; import org.xtuml.bp.core.common.*; import org.xtuml.bp.core.inspector.ModelInspector; import org.xtuml.bp.core.ui.*; import java.util.Iterator
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'		Object foundElement = null;
+		Iterator iterator = Selection.getInstance().getStructuredSelection()
+			.iterator();
+		while (iterator.hasNext()) {
+			Object currentSelection = iterator.next();
+			if ((currentSelection instanceof ClassParticipant_c)
+				|| (currentSelection instanceof ClassInstanceParticipant_c)
+				|| (currentSelection instanceof ExternalEntityParticipant_c)
+				|| (currentSelection instanceof FunctionPackageParticipant_c)
+				|| (currentSelection instanceof ComponentParticipant_c)
+				|| (currentSelection instanceof PackageParticipant_c)) {
+				foundElement = currentSelection;
+				break;
+			}
+		}
+		if (foundElement != null) {
+			ModelInspector inspector = new ModelInspector();
+			Object parent = inspector.getParent(foundElement);
+			if (parent == p_From) {
+				return true;
+			}
+		}
+		return false;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("5011e1cc-da5d-4d9c-9ea2-c815e98d54e4",
+	"ca5db933-bd0b-4915-a39e-6bedd3a98cc5",
+	'from',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("e96cd9c0-63d8-4bea-9d91-d8ceb33753bd",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'getCommunicationInstance',
+	'This bridge is used to data type a communication so that during action filtering
+for messages the elements contained in the selection can be checked to see if
+they are contained within the communication.
+
+Translate:native',
+	0,
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	'		final UUID finalId = p_Id;
+		Iterator<?> iterator = Selection.getInstance().getStructuredSelection().iterator();
+		SynchronousMessage_c synchronousMessage = null;
+		AsynchronousMessage_c asynchronousMessage = null;
+		while (iterator.hasNext()) {
+			Object selection = iterator.next();
+			if (selection instanceof SynchronousMessage_c) {
+				synchronousMessage = (SynchronousMessage_c) selection;
+			} else if (selection instanceof AsynchronousMessage_c) {
+				asynchronousMessage = (AsynchronousMessage_c) selection;
+			}
+		}
+		ModelRoot modelRoot = null;
+		if (synchronousMessage != null)
+			modelRoot = synchronousMessage.getModelRoot();
+		if (asynchronousMessage != null)
+			modelRoot = asynchronousMessage.getModelRoot();
+		Communication_c communication = Communication_c.CommunicationInstance(
+				modelRoot, new ClassQueryInterface_c() {
+
+					public boolean evaluate(Object candidate) {
+						Communication_c selected = (Communication_c) candidate;
+						return selected.getPackage_id().equals(finalId);
+					}
+
+				});
+		if(communication == null) {
+			// should be in a package
+			Package_c pkg = (Package_c) modelRoot.getInstanceList(
+					Package_c.class).get(finalId);
+			return pkg;
+		}
+		return communication;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("2ac7ecd2-e1f1-4c1a-a3a9-2dac8fd6e201",
+	"e96cd9c0-63d8-4bea-9d91-d8ceb33753bd",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("44ecaf84-742f-493f-bfd3-c71c9a9e360e",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'isAllowedReturnType',
+	'This bridge is used to check all model-roots for dts and determine if the
+dt is an allowed return type.
+                           
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'SystemModel_c system = (SystemModel_c) p_System;
+DataType_c dt = DataType_c.getOneS_DTOnR4401(SystemDatatypeInPackage_c.getManySLD_SDINPsOnR4402(system), new ClassQueryInterface_c() {
+		public boolean evaluate(Object candidate) {
+		return ((DataType_c) candidate).getName().equals(p_Typename);
+    }
+});
+if (system != null && system.getUseglobals()) {
+	dt = DataType_c.getOneS_DTOnR8001(PackageableElement_c
+					.getManyPE_PEsOnR9100(GlobalElementInSystem_c
+							.getManyG_EISsOnR9100(system)),
+		new ClassQueryInterface_c() {
+			public boolean evaluate(Object candidate) {
+				return ((DataType_c) candidate).getName().equals(
+									p_Typename);
+			}
+	});
+}
+if ((dt != null)) {
+	if ((dt.Iscommonallowedtype())) {
+    	return true;
+	}
+	else if ((p_Typename.equals("void"))) {
+		return true;
+	}
+}
+return false;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("beee5a93-7c65-44f7-b2c2-fad2423807ec",
+	"44ecaf84-742f-493f-bfd3-c71c9a9e360e",
+	'typeName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"06a0f9cb-f81c-476e-9f9f-865f91725dbe",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("06a0f9cb-f81c-476e-9f9f-865f91725dbe",
+	"44ecaf84-742f-493f-bfd3-c71c9a9e360e",
+	'system',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("50e44b94-9964-44bf-af49-88aa608c23ab",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'isAllowedParameterType',
+	'This bridge is used to check all model-roots for dts and determine if the
+dt is an allowed parameter type.
+                           
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'SystemModel_c system = (SystemModel_c) p_System;
+DataType_c dt = DataType_c.getOneS_DTOnR4401(SystemDatatypeInPackage_c.getManySLD_SDINPsOnR4402(system), new ClassQueryInterface_c() {
+	public boolean evaluate(Object candidate) {
+		return ((DataType_c) candidate).getName().equals(p_Typename);
+	}
+});
+if (system != null && system.getUseglobals()) {
+	dt = DataType_c.getOneS_DTOnR8001(PackageableElement_c
+					.getManyPE_PEsOnR9100(GlobalElementInSystem_c
+							.getManyG_EISsOnR9100(system)),
+		new ClassQueryInterface_c() {
+			public boolean evaluate(Object candidate) {
+				return ((DataType_c) candidate).getName().equals(
+									p_Typename);
+			}
+	});
+}
+if ((dt != null)) {
+	return dt.Iscommonallowedtype();
+}
+return false;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("b3e3bf90-3d27-44e0-b2f5-1fe03cd75631",
+	"50e44b94-9964-44bf-af49-88aa608c23ab",
+	'typeName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4687589b-a99c-4076-a1b1-a370c1968c82",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("4687589b-a99c-4076-a1b1-a370c1968c82",
+	"50e44b94-9964-44bf-af49-88aa608c23ab",
+	'system',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("8425bd97-474d-4b3c-a6ba-55ec56cac80a",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'addPastedElementToProblemList',
+	'This bridge will add element names that are being pasted to a list that is kept
+in the paste action.  The paste action will check this list and display a
+dialog to the user indicating some problem.
+
+Import:org.xtuml.bp.core.ui.PasteAction
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'PasteAction.addElementToProblemsList(p_Message, p_Elementname);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("0c6b2fac-2066-4764-91cc-2701f3574dec",
+	"8425bd97-474d-4b3c-a6ba-55ec56cac80a",
+	'elementName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("c2fe7446-730c-4189-8a1a-e6ae1e38deb9",
+	"8425bd97-474d-4b3c-a6ba-55ec56cac80a",
+	'message',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0c6b2fac-2066-4764-91cc-2701f3574dec",
+	'');
+INSERT INTO S_BRG
+	VALUES ("1d704741-ec93-4b4d-bbe0-51ce16db1f41",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'isProxy',
+	'This bridge will determine if an element is a proxy or not.
+
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'return ((NonRootModelElement)p_Element).isProxy();',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("21c1611b-4fe0-4661-b8f0-d03ae20010e5",
+	"1d704741-ec93-4b4d-bbe0-51ce16db1f41",
+	'element',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("b061d7df-cc7c-4642-ad99-bc806b38cc78",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'getSimpleClassName',
+	'This bridge will return the java simple class name.
+
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'		return p_Element.getClass().getSimpleName().replaceAll("_c", "");',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("12732b49-0282-46fe-a41f-e8b0d2432dcb",
+	"b061d7df-cc7c-4642-ad99-bc806b38cc78",
+	'element',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("10ee2529-128a-4c45-9bbe-4126fd4ca856",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'hasSameModelRoot',
+	'This bridge is used to compare 2 model roots.
+                           
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'boolean hasSameRoot = false;
+if (p_Nrme1 != null && p_Nrme2 != null) {
+	if ((p_Nrme1 instanceof NonRootModelElement)
+			&& (p_Nrme2 instanceof NonRootModelElement)) {
+		ModelRoot root1 = ((NonRootModelElement) p_Nrme1).getModelRoot();
+		ModelRoot root2 = ((NonRootModelElement) p_Nrme2).getModelRoot();
+		if (root1.getId() != null && root1.getId().equals(root2.getId())) {
+			hasSameRoot = true;
+		}
+	}
+}
+return hasSameRoot;
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("96685146-e7ab-4e50-bffd-ec8b4620f83a",
+	"10ee2529-128a-4c45-9bbe-4126fd4ca856",
+	'nrme1',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("1a30cb65-2ca0-481c-bd03-4fad5fc2290c",
+	"10ee2529-128a-4c45-9bbe-4126fd4ca856",
+	'nrme2',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"96685146-e7ab-4e50-bffd-ec8b4620f83a",
+	'');
+INSERT INTO S_BRG
+	VALUES ("46339e9b-3a81-4a46-8f56-86ea5ec45c26",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'addIntToLong',
+	'Translate:native',
+	0,
+	"8e648c99-3845-44e9-9226-9bf00c7350e3",
+	'return p_Longvar + p_Intvar;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("13c9ea7f-03fe-4ce4-9c8b-afe0e157d2df",
+	"46339e9b-3a81-4a46-8f56-86ea5ec45c26",
+	'longVar',
+	"8e648c99-3845-44e9-9226-9bf00c7350e3",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("8e648c99-3845-44e9-9226-9bf00c7350e3",
+	"00000000-0000-0000-0000-000000000000",
+	'long',
+	'',
+	'',
+	'../Datatypes/Datatypes.xtuml');
+INSERT INTO S_BPARM
+	VALUES ("852c64dc-291e-4505-927b-31f700866ab5",
+	"46339e9b-3a81-4a46-8f56-86ea5ec45c26",
+	'intVar',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"13c9ea7f-03fe-4ce4-9c8b-afe0e157d2df",
+	'');
+INSERT INTO S_BRG
+	VALUES ("763ae22f-fd44-4589-8b48-941dfcd4fb80",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'diffLongsToInt',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'return (int) (p_V1 - p_V2);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("33ccfb89-3af5-4a55-8758-9c889685ac86",
+	"763ae22f-fd44-4589-8b48-941dfcd4fb80",
+	'v1',
+	"8e648c99-3845-44e9-9226-9bf00c7350e3",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("e6ad4bf6-ff0c-43e1-8ea6-7cda274169a0",
+	"763ae22f-fd44-4589-8b48-941dfcd4fb80",
+	'v2',
+	"8e648c99-3845-44e9-9226-9bf00c7350e3",
+	0,
+	'',
+	"33ccfb89-3af5-4a55-8758-9c889685ac86",
+	'');
+INSERT INTO S_BRG
+	VALUES ("9bc1d186-c017-43ad-bae8-c8b0502523e5",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'collectModelElementsNames',
+	'This bridge will add element names that are affected by the datatype/Interfacce
+being deleted to a list that is kept in the TransactionManager . 
+The TransactionManager will check this list and display a confirmation
+dialog to the user indicating the names of the elements affected.                        
+Translate:native
+',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'TransactionManager.collectModelElementsNames(p_Elementtype,p_Elementname);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("a7274807-dbea-40a4-9eaf-060a36240c60",
+	"9bc1d186-c017-43ad-bae8-c8b0502523e5",
+	'elementName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("b5c8e82b-788a-40e3-a7de-08eac00526ec",
+	"9bc1d186-c017-43ad-bae8-c8b0502523e5",
+	'elementType',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a7274807-dbea-40a4-9eaf-060a36240c60",
+	'');
+INSERT INTO S_BRG
+	VALUES ("2602a0ed-fd97-46aa-87a6-5ab2a5826998",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'getElementCountInSystem',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'		Class<?> classType = null;
+		if (p_Elementtype == Elementtypeconstants_c.EE) {
+			classType = ExternalEntity_c.class;
+		} else if (p_Elementtype == Elementtypeconstants_c.COMPONENT) {
+			classType = Component_c.class;
+		} else if (p_Elementtype == Elementtypeconstants_c.CLASS) {
+			classType = ModelClass_c.class;
+		} else if (p_Elementtype == Elementtypeconstants_c.PACKAGE) {
+		    classType = Package_c.class;
+		}
+		int count = 0;
+		Ooaofooa[] instances = OoaofooaBase.getInstancesUnderSystem(((NonRootModelElement) p_Askingelement).getModelRoot());
+		for (int i = 0; i < instances.length; i++) {
+			// if there is no package in this model root, skip it
+			// this method currently is only used for generic package
+			// cases
+			if (instances[i].getInstanceList(Package_c.class).size() != 0) {
+				count = count + instances[i].getInstanceList(classType).size();
+			}
+		}
+		// look for other systems if IPRs are enabled
+		SystemModel_c sys = (SystemModel_c) ((NonRootModelElement) p_Askingelement).getRoot();
+		if (Pref_c.Getsystemboolean(
+				"org.xtuml.bp.ui.project.references",
+				sys.getName())) {
+			SystemModel_c[] systems = SystemModel_c.SystemModelInstances(Ooaofooa.getDefaultInstance());
+			for(SystemModel_c system : systems) {
+				if(sys != system && system.getUseglobals()) {
+					instances = OoaofooaBase.getInstancesUnderSystem(system.getName());
+					for (int i = 0; i < instances.length; i++) {
+						// if there is no package in this model root, skip it
+						// this method currently is only used for generic
+						// package
+						// cases
+						if (instances[i].getInstanceList(Package_c.class).size() != 0) {
+							count = count + instances[i].getInstanceList(classType).size();
+						}
+					}
+				}
+			}
+		}
+		return count;
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("0fe9ff68-4528-4439-b1e0-1ad57ad72d27",
+	"2602a0ed-fd97-46aa-87a6-5ab2a5826998",
+	'elementType',
+	"4bba1170-0de5-4efc-b4c5-95951acdc289",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4bba1170-0de5-4efc-b4c5-95951acdc289",
+	"00000000-0000-0000-0000-000000000000",
+	'ElementTypeConstants',
+	'',
+	'',
+	'../Datatypes/Datatypes.xtuml');
+INSERT INTO S_BPARM
+	VALUES ("01eea0a3-8b75-4ff8-a750-fce02d58f2fb",
+	"2602a0ed-fd97-46aa-87a6-5ab2a5826998",
+	'askingElement',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"0fe9ff68-4528-4439-b1e0-1ad57ad72d27",
+	'');
+INSERT INTO S_BRG
+	VALUES ("40f387bc-05e8-4395-a6a9-453c36f4e158",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'logError',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'//native
+CorePlugin.logError(p_Message , null);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("048bf951-e505-42c5-ac87-1f5e7156e94a",
+	"40f387bc-05e8-4395-a6a9-453c36f4e158",
+	'message',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("54b72ea7-b2c2-4f0f-bea5-a02e6a606a80",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'getModelRootId',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'return "";',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("fd75163a-4b24-49f9-806f-b566c96f68d5",
+	"54b72ea7-b2c2-4f0f-bea5-a02e6a606a80",
+	'element',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("fa65e6a7-0b0e-478e-9611-b48346a2e2e0",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'getFullyQualifiedClassName',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'	return p_Element.getClass().getName();',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("56c88029-f124-4bf6-aa2d-75b672f44d23",
+	"fa65e6a7-0b0e-478e-9611-b48346a2e2e0",
+	'element',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("6e6caf0f-4cd7-44c0-b57b-67d2260dfbb9",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'addElementToList',
+	'This bridge will add an element to a native Java java.util.List
+
+Import:org.xtuml.bp.core.common.NonRootModelElement
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'		if(!(p_Elementlist instanceof List<?>)) {
+			CorePlugin.logError("Incorrect usage of Util::addElementToList() bridge.", null);
+			return;
+		}
+		@SuppressWarnings("unchecked")
+		List<Object> thisList = (List<Object>) p_Elementlist;
+		thisList.add(p_Element);',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("a11ad2c1-da8a-44e6-89d8-695a4e89771c",
+	"6e6caf0f-4cd7-44c0-b57b-67d2260dfbb9",
+	'element',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("7c09be3d-81de-4d61-8243-ec87eb53276b",
+	"6e6caf0f-4cd7-44c0-b57b-67d2260dfbb9",
+	'elementList',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"a11ad2c1-da8a-44e6-89d8-695a4e89771c",
+	'');
+INSERT INTO S_BRG
+	VALUES ("7ae37cdd-0fe4-440e-845f-8ee1987b4142",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'createElementChange',
+	'Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'		if(!(p_Changelist instanceof List<?>)) {
+			CorePlugin.logError("Incorrect usage of Util::createElementChange() bridge.", null);
+			return;
+		}
+		@SuppressWarnings("unchecked")
+		List<Object> thisList = (List<Object>) p_Changelist;
+		thisList.add(new ElementChange(p_Elementchanged, p_Isremoval, p_Changelabel));',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("4303f8aa-aba4-4b65-b979-01c3e73fbbbc",
+	"7ae37cdd-0fe4-440e-845f-8ee1987b4142",
+	'isRemoval',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"417ecf4c-5eb3-444b-96ed-02ad44e1dc1f",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("417ecf4c-5eb3-444b-96ed-02ad44e1dc1f",
+	"7ae37cdd-0fe4-440e-845f-8ee1987b4142",
+	'elementChanged',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"268aa2e2-7ce4-4f64-953c-1a7f9abae227",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("5dc06629-15f1-4973-8e12-8f0a761139ca",
+	"7ae37cdd-0fe4-440e-845f-8ee1987b4142",
+	'changeLabel',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4303f8aa-aba4-4b65-b979-01c3e73fbbbc",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("268aa2e2-7ce4-4f64-953c-1a7f9abae227",
+	"7ae37cdd-0fe4-440e-845f-8ee1987b4142",
+	'changeList',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("cc1626a3-42dc-478d-8206-750528f03f1f",
+	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	'isNull',
+	'// This bridge returns true if the passed element is null
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'         return p_Element == null;
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("5ad1b69d-bc4e-45da-b9fb-c86be036ac6d",
+	"cc1626a3-42dc-478d-8206-750528f03f1f",
+	'element',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("87088bd9-02db-4d08-8fbe-8b3856dc37fe",
+	1,
+	"ff175a86-f934-455d-b031-120267b76bc8",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("e70d9638-acf2-446d-bbda-b7b7a5d415ee",
+	'Selection',
+	'This EE contains bridge operations that provide access to the tool''s selection
+provider which cannot be modeled.',
+	'Sel',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Selection',
+	1);
+INSERT INTO S_BRG
+	VALUES ("64de22bf-e927-4c03-a724-1c348d318557",
+	"e70d9638-acf2-446d-bbda-b7b7a5d415ee",
+	'getCurrentSelectionCount',
+	'This bridge returns the tools current selection count.
+
+Import:org.xtuml.bp.core.ui.Selection
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'	return Selection.getInstance().getStructuredSelection().size();',
+	0,
+	'');
+INSERT INTO S_BRG
+	VALUES ("35ce1193-127d-4eed-8774-dfd673a3c1dc",
+	"e70d9638-acf2-446d-bbda-b7b7a5d415ee",
+	'clearSelection',
+	'This bridge clears the current selection.
+
+Import:org.xtuml.bp.core.ui.Selection
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'	Selection.getInstance().clear();',
+	0,
+	'');
+INSERT INTO PE_PE
+	VALUES ("e70d9638-acf2-446d-bbda-b7b7a5d415ee",
+	1,
+	"ff175a86-f934-455d-b031-120267b76bc8",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("d048dc0b-8d05-4655-9d68-110a5fc11630",
+	'Parse Error Reporting',
+	'This external entity contains bridges that notify the user of parse errors that have occurred.
+It is implemented by a hand-written class.
+
+This External Entity should be exported with graphics and with Only Referenced
+user data types.
+
+Translate: false',
+	'ERR',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Parse Error Reporting',
+	1);
+INSERT INTO S_BRG
+	VALUES ("d5825f12-b81b-4af3-a291-1317e991ef8e",
+	"d048dc0b-8d05-4655-9d68-110a5fc11630",
+	'reportParseError',
+	'This bridge abstracts the reporting of parse errors to the user.
+The error occured at line, in column col, and the error message is msg.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("8607b8d5-af0f-483b-9092-fa5d27980861",
+	"d5825f12-b81b-4af3-a291-1317e991ef8e",
+	'msg',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("fae4eb96-c08b-4716-94f3-379cf1987e8a",
+	"d5825f12-b81b-4af3-a291-1317e991ef8e",
+	'token',
+	"9af0d85d-8ff8-4736-87b6-820fa4541189",
+	0,
+	'',
+	"8607b8d5-af0f-483b-9092-fa5d27980861",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9af0d85d-8ff8-4736-87b6-820fa4541189",
+	"00000000-0000-0000-0000-000000000000",
+	'Token',
+	'Each node in the syntax tree has a token associated with it.
+We define the type here so that we can pass this data to the 
+verification functions, which then pass it on to error reporting 
+function, if the verification fails.
+Bridge:ALS',
+	'',
+	'../Datatypes/Datatypes.xtuml');
+INSERT INTO PE_PE
+	VALUES ("d048dc0b-8d05-4655-9d68-110a5fc11630",
+	1,
+	"ff175a86-f934-455d-b031-120267b76bc8",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("f3acfee0-11fe-437b-95bd-fdb0f5991804",
+	'Operating System',
+	'This external entity provides utility operations that are typically supplied
+by the operating system.  It is implemented by a hand-written class.
+
+This External Entity should be exported with graphics and with Only Referenced
+user data types.',
+	'OS',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Operating System',
+	1);
+INSERT INTO S_BRG
+	VALUES ("45004596-1f8e-400e-a1b4-76c53cf4609d",
+	"f3acfee0-11fe-437b-95bd-fdb0f5991804",
+	'convert_relationship_string',
+	'This bridge converts the input string "Rxx" to the integer
+value of xx.  If the string is improperly formatted, the function
+returns -1.
+Translate: native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'if ( p_Rel.charAt(0) != ''R'' )
+  return -1;
+else
+{
+  try {
+    return Integer.parseInt(p_Rel.substring(1));
+  }
+  catch (NumberFormatException  e) {
+    return -1;
+  }
+}',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("7359a084-5433-4461-9112-b3144e0cb8cc",
+	"45004596-1f8e-400e-a1b4-76c53cf4609d",
+	'rel',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("f3f1533c-5971-4195-86ec-70ddb82c587d",
+	"f3acfee0-11fe-437b-95bd-fdb0f5991804",
+	'remove_ticks',
+	'This function removes a single tick from the beginning
+and end of the string passed in.  It does nothing if 
+the first character of the string is not a single tick.
+
+Translate: native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'if ( p_Ticked_string.charAt(0) == ''\'''' )
+{
+  return p_Ticked_string.substring(1, p_Ticked_string.length()-1);
+}
+else
+  return p_Ticked_string;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("67138e69-b446-4238-acc7-ca291edaf895",
+	"f3f1533c-5971-4195-86ec-70ddb82c587d",
+	'ticked_string',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("594b6342-3ac2-40a6-bbb6-b817e6f9b01e",
+	"f3acfee0-11fe-437b-95bd-fdb0f5991804",
+	'remove_star',
+	'
+Translate: native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'if ( p_S.charAt(p_S.length()-1) == ''*'' )
+{
+  return p_S.substring(0, p_S.length()-1);
+}
+else
+  return p_S;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("781e8c8e-4e12-4366-a57e-100fe76dd924",
+	"594b6342-3ac2-40a6-bbb6-b817e6f9b01e",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("1ee938a7-869d-42d0-aa45-f167b9bb3fe2",
+	"f3acfee0-11fe-437b-95bd-fdb0f5991804",
+	'getEnvVariable',
+	'
+Translate: native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'	String env = System.getenv(p_Name);
+	return Boolean.valueOf(env);
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("4c219264-46d1-4e6f-8d97-96e219bb71f9",
+	"1ee938a7-869d-42d0-aa45-f167b9bb3fe2",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("125290d2-47e5-43c9-b075-2a0b0bbe1796",
+	"f3acfee0-11fe-437b-95bd-fdb0f5991804",
+	'remove_spaces',
+	'
+Translate: native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'return p_S.replaceAll("\\s", "");',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("397beb34-2958-4c25-8aae-37f38b691236",
+	"125290d2-47e5-43c9-b075-2a0b0bbe1796",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f3acfee0-11fe-437b-95bd-fdb0f5991804",
+	1,
+	"ff175a86-f934-455d-b031-120267b76bc8",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("95fe57cc-264d-4dd9-9af3-bfd428eb65bb",
+	'Virtual Machine',
+	'This entity represents the virtual machine under which the tool is executing
+We use this to load users realized code.
+-----------------------------------------------------------------------------------
+Translate:false',
+	'VM',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Virtual Machine',
+	1);
+INSERT INTO S_BRG
+	VALUES ("2d33817b-1a42-4bdb-b7d3-3fe6282bc491",
+	"95fe57cc-264d-4dd9-9af3-bfd428eb65bb",
+	'loadClass',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'return true;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("471e2cdb-2932-4420-b285-4fca9afdab5d",
+	"2d33817b-1a42-4bdb-b7d3-3fe6282bc491",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b6ca5616-403f-4df0-bc5a-4e735ecb5caa",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("b6ca5616-403f-4df0-bc5a-4e735ecb5caa",
+	"2d33817b-1a42-4bdb-b7d3-3fe6282bc491",
+	'system_id',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("057411b4-be27-4cda-bac9-80064880c43c",
+	"95fe57cc-264d-4dd9-9af3-bfd428eb65bb",
+	'addArgumentValue',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("c9439549-52ba-4bad-91c1-607d152083b5",
+	"057411b4-be27-4cda-bac9-80064880c43c",
+	'value',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"fbbac1ef-da6e-4479-89be-48e934cc9768",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("fbbac1ef-da6e-4479-89be-48e934cc9768",
+	"057411b4-be27-4cda-bac9-80064880c43c",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"994dfaf7-5cc3-4c22-b9e0-06dfe0e60f8e",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("994dfaf7-5cc3-4c22-b9e0-06dfe0e60f8e",
+	"057411b4-be27-4cda-bac9-80064880c43c",
+	'byRef',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("fd988aa6-2279-42ba-99d3-413a60b4be63",
+	"95fe57cc-264d-4dd9-9af3-bfd428eb65bb",
+	'resetValues',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	0,
+	'');
+INSERT INTO S_BRG
+	VALUES ("eecbc8ae-1180-4a78-94d5-8c201d9ccade",
+	"95fe57cc-264d-4dd9-9af3-bfd428eb65bb",
+	'execute',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'return true;',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("19335c3b-5dd8-49fa-8084-57e517a3d214",
+	"eecbc8ae-1180-4a78-94d5-8c201d9ccade",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4ac74a7e-052e-492c-b287-6abefd96ec07",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("4ac74a7e-052e-492c-b287-6abefd96ec07",
+	"eecbc8ae-1180-4a78-94d5-8c201d9ccade",
+	'stack_frame_id',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("617aacda-fbaa-4456-814f-bda31c625204",
+	"95fe57cc-264d-4dd9-9af3-bfd428eb65bb",
+	'setUserClassPath',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("641bf349-82bb-4847-a81f-1c653ce5954c",
+	"617aacda-fbaa-4456-814f-bda31c625204",
+	'System_ID',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("d999fe3a-a26e-4cc3-83b3-1b3e54b155da",
+	"95fe57cc-264d-4dd9-9af3-bfd428eb65bb",
+	'getResult',
+	'',
+	0,
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	'',
+	0,
+	'');
+INSERT INTO PE_PE
+	VALUES ("95fe57cc-264d-4dd9-9af3-bfd428eb65bb",
+	1,
+	"ff175a86-f934-455d-b031-120267b76bc8",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("13ea7f99-39c8-4948-b20b-de0c3f34f2da",
+	'Preferences',
+	'This EE represents the interface to the Eclipse preferences. It''s bridge calls
+provide a means for action language to access the preferences.
+
+Import: org.xtuml.bp.core.common.*; import org.eclipse.jface.dialogs.*; import org.xtuml.bp.core.ui.preferences.*; import org.osgi.service.prefs.Preferences; import org.eclipse.core.resources.*; import org.eclipse.jface.preference.*; import org.eclipse.core.runtime.preferences.IScopeContext; import org.eclipse.jface.dialogs.MessageDialogWithToggle
+',
+	'PREF',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Preferences',
+	1);
+INSERT INTO S_BRG
+	VALUES ("04b08089-47fa-4160-a853-bd924eb41b1d",
+	"13ea7f99-39c8-4948-b20b-de0c3f34f2da",
+	'getBoolean',
+	'This bridge is used to get a boolean eclipse preference.
+
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'		IPreferenceStore store = CorePlugin.getDefault().getPreferenceStore();
+		if (p_Name.equals("bridgepoint_prefs_allow_int_to_real_promotion")
+             || p_Name.equals("bridgepoint_prefs_allow_real_to_int_coercion")) {
+          String option = store.getString(p_Name);
+          if (option.equals(MessageDialogWithToggle.ALWAYS)) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return store.getBoolean(p_Name);
+        }
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("0bb29d79-00bd-4685-b9ef-72757a5d93ae",
+	"04b08089-47fa-4160-a853-bd924eb41b1d",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("b582338e-d8fb-4e57-aad2-ba1108b29639",
+	"13ea7f99-39c8-4948-b20b-de0c3f34f2da",
+	'getInteger',
+	'This bridge is used to get an integer eclipse preference.
+
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'        IPreferenceStore store = CorePlugin.getDefault().getPreferenceStore();
+        return store.getInt(p_Name);
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("589e64a5-7aae-44c5-a8c9-63c39d0be5b0",
+	"b582338e-d8fb-4e57-aad2-ba1108b29639",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("4284b5b1-03cd-43fd-8e7c-683a1d862111",
+	"13ea7f99-39c8-4948-b20b-de0c3f34f2da",
+	'getReal',
+	'This bridge is used to get a real/double eclipse preference.
+
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000003",
+	'        IPreferenceStore store = CorePlugin.getDefault().getPreferenceStore();
+        return store.getFloat(p_Name);
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("009a6b43-1897-49fa-909a-760d614efeb8",
+	"4284b5b1-03cd-43fd-8e7c-683a1d862111",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("5d1ff22d-e800-473b-8965-3c4cd216494e",
+	"13ea7f99-39c8-4948-b20b-de0c3f34f2da",
+	'getString',
+	'This bridge is used to get a string eclipse preference.
+
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'        IPreferenceStore store = CorePlugin.getDefault().getPreferenceStore();
+        return store.getString(p_Name);
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("e0c7c60c-cd39-4319-a41c-6e869e008931",
+	"5d1ff22d-e800-473b-8965-3c4cd216494e",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("d5ac5c4d-ee42-4b58-84c8-b7ef153fee9a",
+	"13ea7f99-39c8-4948-b20b-de0c3f34f2da",
+	'getSystemBoolean',
+	'This bridge is used to get a boolean eclipse project level preference.
+
+Translate:native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'		IProject selectedProject = ResourcesPlugin.getWorkspace().getRoot()
+				.getProject(p_Systemname);
+		if (selectedProject != null) {
+			IScopeContext projectScope = new ProjectScope(selectedProject);
+			Preferences projectNode = projectScope
+					.getNode(BridgePointProjectPreferences.BP_PROJECT_PREFERENCES_ID);
+			return projectNode.getBoolean(p_Name, false);
+		}
+		return false;
+',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("643ad3d1-3fd2-4046-9b87-f1d01f75133c",
+	"d5ac5c4d-ee42-4b58-84c8-b7ef153fee9a",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("37d31a22-e247-4f3c-b99d-1ee3838b9476",
+	"d5ac5c4d-ee42-4b58-84c8-b7ef153fee9a",
+	'systemName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"643ad3d1-3fd2-4046-9b87-f1d01f75133c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("13ea7f99-39c8-4948-b20b-de0c3f34f2da",
+	1,
+	"ff175a86-f934-455d-b031-120267b76bc8",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO S_EE
+	VALUES ("ab0943a7-7079-42d4-bab7-7b11dd1bb8c0",
+	'Search',
+	'Translate:false',
+	'Search',
+	"00000000-0000-0000-0000-000000000000",
+	'',
+	'Search',
+	1);
+INSERT INTO S_BRG
+	VALUES ("3645f51a-2473-43e2-b22a-a409807eee91",
+	"ab0943a7-7079-42d4-bab7-7b11dd1bb8c0",
+	'locateContentResults',
+	'Translate: native',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("af9e62be-0f98-4092-a115-430d24d395c1",
+	"3645f51a-2473-43e2-b22a-a409807eee91",
+	'pattern',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("c2254fed-4619-4cc1-8fec-557befcee7b4",
+	"3645f51a-2473-43e2-b22a-a409807eee91",
+	'contents',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"af9e62be-0f98-4092-a115-430d24d395c1",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("56f0c6ba-80fb-45ce-afbb-f070a1d2eabc",
+	"3645f51a-2473-43e2-b22a-a409807eee91",
+	'isCaseSensitive',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"c2254fed-4619-4cc1-8fec-557befcee7b4",
+	'');
+INSERT INTO S_BRG
+	VALUES ("73083851-b236-4674-88da-b80c7592cfa0",
+	"ab0943a7-7079-42d4-bab7-7b11dd1bb8c0",
+	'gatherParticipants',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("b49dff31-a35c-4be6-b810-07a32743a627",
+	"73083851-b236-4674-88da-b80c7592cfa0",
+	'queryId',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("ecafc48a-b406-4966-b712-aab402b91319",
+	"73083851-b236-4674-88da-b80c7592cfa0",
+	'monitor',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"b49dff31-a35c-4be6-b810-07a32743a627",
+	'');
+INSERT INTO S_BRG
+	VALUES ("c985f7f7-577f-4872-869d-aa770d304a8f",
+	"ab0943a7-7079-42d4-bab7-7b11dd1bb8c0",
+	'clearQueryData',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	0,
+	'');
+INSERT INTO S_BRG
+	VALUES ("d824aabb-c3fa-4f6a-8c9a-723329dfc1ce",
+	"ab0943a7-7079-42d4-bab7-7b11dd1bb8c0",
+	'monitorCanceled',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("71f77975-04c6-41b5-8bd6-43eaae1292dc",
+	"d824aabb-c3fa-4f6a-8c9a-723329dfc1ce",
+	'monitor',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("d9b317b0-7e4a-4d11-895e-85b14d156124",
+	"ab0943a7-7079-42d4-bab7-7b11dd1bb8c0",
+	'matchCreated',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("fc9f39c1-7155-455b-bccc-fda137139f73",
+	"d9b317b0-7e4a-4d11-895e-85b14d156124",
+	'match',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BRG
+	VALUES ("6a4d41a7-5255-4e9c-8ddf-3a220f4367a6",
+	"ab0943a7-7079-42d4-bab7-7b11dd1bb8c0",
+	'configureScope',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("1b6b03ce-d369-43e8-bf34-38fcca66bce4",
+	"6a4d41a7-5255-4e9c-8ddf-3a220f4367a6",
+	'scope',
+	"ed0a88b8-bf28-4403-a24f-00c36809e934",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ed0a88b8-bf28-4403-a24f-00c36809e934",
+	"00000000-0000-0000-0000-000000000000",
+	'SearchScope',
+	'',
+	'',
+	'../Datatypes/Datatypes.xtuml');
+INSERT INTO S_BPARM
+	VALUES ("74a9d516-5726-457e-b8d5-ab144b7767e5",
+	"6a4d41a7-5255-4e9c-8ddf-3a220f4367a6",
+	'monitor',
+	"cdfcc235-c590-4490-b219-ba248a3eb2c2",
+	0,
+	'',
+	"1b6b03ce-d369-43e8-bf34-38fcca66bce4",
+	'');
+INSERT INTO PE_PE
+	VALUES ("ab0943a7-7079-42d4-bab7-7b11dd1bb8c0",
+	1,
+	"ff175a86-f934-455d-b031-120267b76bc8",
+	"00000000-0000-0000-0000-000000000000",
+	5);
+INSERT INTO PE_PE
+	VALUES ("ff175a86-f934-455d-b031-120267b76bc8",
+	1,
+	"53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'ooaofooa',
+	'========================================================================
+
+File:          $RCSfile: ooaofooa.xtuml,v $
+Version:   $Revision: 1.127 $
+Modified:  $Date: 2006/09/26 15:10:20 $
+
+(c) Copyright 2004-2012 by Mentor Graphics Corp. All rights reserved.
+
+========================================================================
+This document contains information proprietary and confidential to
+Mentor Graphics Corp. and is not for external distribution.
+========================================================================
+
+This is the application domain for the Tiger project.
+
+The processing in this model describes the activities
+for model capture.
+
+
+
+',
+	0,
+	'../ooaofooa.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'escher',
+	1,
+	'../../escher.xtuml');

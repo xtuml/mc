@@ -1,0 +1,162 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("4e98d505-4925-4760-8989-2f3a03bce0f4",
+	'User Data Type',
+	11,
+	'S_UDT',
+	'User Data Types are those data types which have been created by the analyst and derived from the core data types.  ',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("09cb8509-c492-407b-a0a9-8cb64be8ef38",
+	"4e98d505-4925-4760-8989-2f3a03bce0f4");
+INSERT INTO O_BATTR
+	VALUES ("09cb8509-c492-407b-a0a9-8cb64be8ef38",
+	"4e98d505-4925-4760-8989-2f3a03bce0f4");
+INSERT INTO O_ATTR
+	VALUES ("09cb8509-c492-407b-a0a9-8cb64be8ef38",
+	"4e98d505-4925-4760-8989-2f3a03bce0f4",
+	"5beca77a-027b-4557-b3e6-b2a87ded1d6b",
+	'Gen_Type',
+	'Full Name: User Defined Type Type
+Data Domain: 0 = user defined, 1 = date, 2 = timestamp, 3 = inst_ref\<Timer\>
+enum0: User Defined
+enum1: date
+enum2: timestamp
+enum3: inst_ref<Timer>
+
+impl_detail: true
+readonly: true
+',
+	'',
+	'Gen_Type',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("4e98d505-4925-4760-8989-2f3a03bce0f4",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"eb7572b1-d519-4d32-9f37-1ea7a092dc4c",
+	"33a0ca97-ee6c-428b-9f9d-51b884cabf46",
+	"587f496f-0c3f-46c8-a333-ed22a47c6c9d",
+	"289e26c9-1f10-4b12-bd2b-9e53272715d3",
+	"a365b036-4a12-4b01-821f-3a6e02987d25",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R17');
+INSERT INTO R_RGO_PROXY
+	VALUES ("4e98d505-4925-4760-8989-2f3a03bce0f4",
+	"eb7572b1-d519-4d32-9f37-1ea7a092dc4c",
+	"33a0ca97-ee6c-428b-9f9d-51b884cabf46",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"eb7572b1-d519-4d32-9f37-1ea7a092dc4c",
+	"587f496f-0c3f-46c8-a333-ed22a47c6c9d",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("289e26c9-1f10-4b12-bd2b-9e53272715d3",
+	"4e98d505-4925-4760-8989-2f3a03bce0f4",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("289e26c9-1f10-4b12-bd2b-9e53272715d3",
+	"4e98d505-4925-4760-8989-2f3a03bce0f4",
+	"00000000-0000-0000-0000-000000000000",
+	'DT_ID',
+	'',
+	'',
+	'Element_ID',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("4e98d505-4925-4760-8989-2f3a03bce0f4",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"7f059116-e6ae-486f-b399-28f00cecc42b",
+	"5c4aaa9e-d73a-4363-89ca-635ff21e67ba",
+	"fdf3c601-4d44-4f05-b302-44a3b5e87e7f",
+	"5beca77a-027b-4557-b3e6-b2a87ded1d6b",
+	"ca402a79-83d4-4110-aa49-377ea22ebdb8",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R18.''are defined within''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("4e98d505-4925-4760-8989-2f3a03bce0f4",
+	"7f059116-e6ae-486f-b399-28f00cecc42b",
+	"5c4aaa9e-d73a-4363-89ca-635ff21e67ba",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"7f059116-e6ae-486f-b399-28f00cecc42b",
+	"fdf3c601-4d44-4f05-b302-44a3b5e87e7f",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("5beca77a-027b-4557-b3e6-b2a87ded1d6b",
+	"4e98d505-4925-4760-8989-2f3a03bce0f4",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_ATTR
+	VALUES ("5beca77a-027b-4557-b3e6-b2a87ded1d6b",
+	"4e98d505-4925-4760-8989-2f3a03bce0f4",
+	"289e26c9-1f10-4b12-bd2b-9e53272715d3",
+	'CDT_DT_ID',
+	'',
+	'CDT_',
+	'DT_ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"4e98d505-4925-4760-8989-2f3a03bce0f4");
+INSERT INTO O_OIDA
+	VALUES ("289e26c9-1f10-4b12-bd2b-9e53272715d3",
+	"4e98d505-4925-4760-8989-2f3a03bce0f4",
+	0,
+	'DT_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"4e98d505-4925-4760-8989-2f3a03bce0f4");
+INSERT INTO O_ID
+	VALUES (2,
+	"4e98d505-4925-4760-8989-2f3a03bce0f4");
+INSERT INTO PE_PE
+	VALUES ("4e98d505-4925-4760-8989-2f3a03bce0f4",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Domain',
+	'A domain (S_DOM) consists of one or more subsystems (S_SS) that each contain an information model that abstracts a portion of the data for the domain: classes (O_OBJ), associations (R_REL), etc.  Breaking a domain into subsystems allows the complexity of the domain to be more easily managed: 1) subsystems are components and can be checked out individually allowing parallelism in development of the models and 2) breaking up a domain into smaller units is easier to understand.  A subsystem is composed of classes that tend to cluster, i.e., they have few associations that span subsystem boundaries.  Inter-subsystem associations, communications, and accesses are captured in the Subsystem Relationship Model (SRM), Subsystem Communication Model (SCM), and Subsystem Access Model (SAM) respectively.',
+	1,
+	'../Domain.xtuml');

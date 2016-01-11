@@ -1,0 +1,108 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("57af0635-c7fd-4225-b884-409eb0d30bbd",
+	'Extend',
+	1209,
+	'UC_E',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("0250f818-334b-4dad-bca9-0c3548f46b24",
+	"57af0635-c7fd-4225-b884-409eb0d30bbd");
+INSERT INTO O_BATTR
+	VALUES ("0250f818-334b-4dad-bca9-0c3548f46b24",
+	"57af0635-c7fd-4225-b884-409eb0d30bbd");
+INSERT INTO O_ATTR
+	VALUES ("0250f818-334b-4dad-bca9-0c3548f46b24",
+	"57af0635-c7fd-4225-b884-409eb0d30bbd",
+	"27111d28-5fdb-41cf-a27f-4fbeab03a7f7",
+	'Descrip',
+	'Full Name: Extend Description
+Description: A textual description of this extend.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("57af0635-c7fd-4225-b884-409eb0d30bbd",
+	"216b177b-d9f1-4cef-a44c-62c696c6785f",
+	0,
+	"3ae78c51-cec1-40fb-a5bf-a7e1f02536cd",
+	"7de87e15-e60e-4943-97ff-d6662ed9a68f",
+	"e9fb3b5d-c567-4639-9e84-1b73de06269c",
+	"b64e2b91-b3ec-4f52-bc0f-7ce4f758ddd8",
+	"27111d28-5fdb-41cf-a27f-4fbeab03a7f7",
+	"19ed261a-860f-4c79-930c-2dd2d311b936",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Use Case Association',
+	'Assoc_ID',
+	'R1210');
+INSERT INTO R_RGO_PROXY
+	VALUES ("57af0635-c7fd-4225-b884-409eb0d30bbd",
+	"7de87e15-e60e-4943-97ff-d6662ed9a68f",
+	"e9fb3b5d-c567-4639-9e84-1b73de06269c",
+	'../Use Case.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("3ae78c51-cec1-40fb-a5bf-a7e1f02536cd",
+	"216b177b-d9f1-4cef-a44c-62c696c6785f",
+	0,
+	"7de87e15-e60e-4943-97ff-d6662ed9a68f",
+	"b64e2b91-b3ec-4f52-bc0f-7ce4f758ddd8",
+	'../Use Case.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("27111d28-5fdb-41cf-a27f-4fbeab03a7f7",
+	"57af0635-c7fd-4225-b884-409eb0d30bbd",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("27111d28-5fdb-41cf-a27f-4fbeab03a7f7",
+	"57af0635-c7fd-4225-b884-409eb0d30bbd",
+	"00000000-0000-0000-0000-000000000000",
+	'Assoc_ID',
+	'',
+	'',
+	'Element_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"57af0635-c7fd-4225-b884-409eb0d30bbd");
+INSERT INTO O_OIDA
+	VALUES ("27111d28-5fdb-41cf-a27f-4fbeab03a7f7",
+	"57af0635-c7fd-4225-b884-409eb0d30bbd",
+	0,
+	'Assoc_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"57af0635-c7fd-4225-b884-409eb0d30bbd");
+INSERT INTO O_ID
+	VALUES (2,
+	"57af0635-c7fd-4225-b884-409eb0d30bbd");
+INSERT INTO PE_PE
+	VALUES ("57af0635-c7fd-4225-b884-409eb0d30bbd",
+	1,
+	"5e93428b-84cc-4028-810c-54b20fc959af",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("5e93428b-84cc-4028-810c-54b20fc959af",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Use Case',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	1200,
+	'../Use Case.xtuml');

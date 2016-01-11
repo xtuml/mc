@@ -1,0 +1,218 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("159957cb-f05d-45fb-b54f-d76744fb1ff5",
+	'activity',
+	3706,
+	'activity',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("363bcc78-6231-4b34-ab79-7e926742966a",
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5",
+	'populate',
+	'',
+	"9d5262dc-0809-4322-ab9c-b96997b0c4b0",
+	0,
+	'terminator = param.terminator;
+create object instance activity of activity;
+activity.name = param.name;
+if ( not_empty terminator )
+  relate terminator to activity across R3703.''sends'';
+/*
+elif ( not_empty domain )
+  relate domain to activity across R3707.''receives through'';
+*/
+else
+  TRACE::log( flavor:"failure", id:19, message:"activity did not have parent:  " + param.flavor );
+end if;
+if ( "function" == param.flavor )
+  function = function::populate( returntype:"myint", activity:activity );
+elif ( "service" == param.flavor )
+  service = service::populate( activity:activity ); 
+else
+  TRACE::log( flavor:"failure", id:18, message:"invalid flavor of activity:  " + param.flavor );
+end if;
+return activity;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("ce72f76e-db9d-4f06-b565-fd434951e647",
+	"363bcc78-6231-4b34-ab79-7e926742966a",
+	'name',
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("6560e28b-f773-4715-be6c-ced0eb4facae",
+	"363bcc78-6231-4b34-ab79-7e926742966a",
+	'terminator',
+	"2afe4293-dd24-495b-a43e-9fba8c0781aa",
+	0,
+	'',
+	"ce72f76e-db9d-4f06-b565-fd434951e647",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2afe4293-dd24-495b-a43e-9fba8c0781aa",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminator>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("c489bf40-3ce5-49af-ba68-99faed5cd8af",
+	"363bcc78-6231-4b34-ab79-7e926742966a",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6560e28b-f773-4715-be6c-ced0eb4facae",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9d5262dc-0809-4322-ab9c-b96997b0c4b0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<activity>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("3822c17e-7486-44bb-86a1-6d24448ef91f",
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one function related by self->function[R3704];
+select one service related by self->service[R3704];
+visibility = "";
+if ( masl_visibility::public == self.visibility )
+  visibility = "public";
+elif ( masl_visibility::private == self.visibility )
+  visibility = "private";
+elif ( masl_visibility::protected == self.visibility )
+  visibility = "protected";
+else
+  TRACE::log( flavor:"failure", id:12, message:"invalid visibilty passed to activity" );
+end if;
+if ( not_empty function )
+  function.render( name:self.name, visibility:visibility );
+elif ( not_empty service )
+  service.render( name:self.name, visibility:visibility );
+else
+  TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
+end if;
+/*
+select one pragma related by self->pragma[R3706];
+if ( not_empty pragma )
+  pragma.render();
+end if;
+*/',
+	1,
+	'',
+	"363bcc78-6231-4b34-ab79-7e926742966a");
+INSERT INTO O_TFR
+	VALUES ("b63dcd7e-9409-4c82-ab5c-e9fced04abb3",
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many activitys from instances of activity;
+for each activity in activitys;
+  select one terminator related by activity->terminator[R3703];
+  select one domain related by activity->domain[R3707];
+  if ( ( empty terminator ) and ( empty domain ) )
+    TRACE::log( flavor:"failure", id:8, message:"activity has no parent teriminator or domain." );
+    valid = false;
+  end if;
+  select one function related by activity->function[R3704];
+  select one service related by activity->service[R3704];
+  if ( ( empty function ) and ( empty service ) )
+    TRACE::log( flavor:"failure", id:9, message:"activity has no child function or service." );
+    valid = false;
+  end if;
+end for;
+
+// Validate siblings and subordinates.
+return ( valid and function::validate() and service::validate() and parameter::validate() );
+',
+	1,
+	'',
+	"3822c17e-7486-44bb-86a1-6d24448ef91f");
+INSERT INTO O_NBATTR
+	VALUES ("1d5be04e-3bec-4b2f-a52d-ebaae23ddbb1",
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5");
+INSERT INTO O_BATTR
+	VALUES ("1d5be04e-3bec-4b2f-a52d-ebaae23ddbb1",
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5");
+INSERT INTO O_ATTR
+	VALUES ("1d5be04e-3bec-4b2f-a52d-ebaae23ddbb1",
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ac02ceee-46eb-4cd3-bd8b-1d2e109d0334",
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5");
+INSERT INTO O_BATTR
+	VALUES ("ac02ceee-46eb-4cd3-bd8b-1d2e109d0334",
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5");
+INSERT INTO O_ATTR
+	VALUES ("ac02ceee-46eb-4cd3-bd8b-1d2e109d0334",
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5",
+	"1d5be04e-3bec-4b2f-a52d-ebaae23ddbb1",
+	'visibility',
+	'',
+	'',
+	'visibility',
+	0,
+	"9a3767ec-9902-4dee-9c46-27f9582968bf",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9a3767ec-9902-4dee-9c46-27f9582968bf",
+	"00000000-0000-0000-0000-000000000000",
+	'masl_visibility',
+	'This type exists in ooaofooa.',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5");
+INSERT INTO O_ID
+	VALUES (1,
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5");
+INSERT INTO O_ID
+	VALUES (2,
+	"159957cb-f05d-45fb-b54f-d76744fb1ff5");
+INSERT INTO PE_PE
+	VALUES ("159957cb-f05d-45fb-b54f-d76744fb1ff5",
+	1,
+	"bf1d7167-bfbc-4ab7-a06f-b5c7c0187860",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("bf1d7167-bfbc-4ab7-a06f-b5c7c0187860",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

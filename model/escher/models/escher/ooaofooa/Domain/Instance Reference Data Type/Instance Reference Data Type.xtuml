@@ -1,0 +1,154 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("f1f8fa97-cf5f-458b-950e-723f6813b876",
+	'Instance Reference Data Type',
+	32,
+	'S_IRDT',
+	'This class captures the datatypes that a user may create to represent instance
+reference of a model class.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("8dbf2e96-9ff0-4f06-8cb9-9fa7f8298494",
+	"f1f8fa97-cf5f-458b-950e-723f6813b876");
+INSERT INTO O_BATTR
+	VALUES ("8dbf2e96-9ff0-4f06-8cb9-9fa7f8298494",
+	"f1f8fa97-cf5f-458b-950e-723f6813b876");
+INSERT INTO O_ATTR
+	VALUES ("8dbf2e96-9ff0-4f06-8cb9-9fa7f8298494",
+	"f1f8fa97-cf5f-458b-950e-723f6813b876",
+	"c79d00d8-7e26-4d07-a354-04dbe94971a1",
+	'isSet',
+	'User_Visible:false',
+	'',
+	'isSet',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("f1f8fa97-cf5f-458b-950e-723f6813b876",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"eb7572b1-d519-4d32-9f37-1ea7a092dc4c",
+	"116521dd-7240-4af1-aeda-ed2bb6a6143e",
+	"587f496f-0c3f-46c8-a333-ed22a47c6c9d",
+	"c79d00d8-7e26-4d07-a354-04dbe94971a1",
+	"3c5b5d2b-56ae-41b7-82ab-2a3cac230b1b",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R17');
+INSERT INTO R_RGO_PROXY
+	VALUES ("f1f8fa97-cf5f-458b-950e-723f6813b876",
+	"eb7572b1-d519-4d32-9f37-1ea7a092dc4c",
+	"116521dd-7240-4af1-aeda-ed2bb6a6143e",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"eb7572b1-d519-4d32-9f37-1ea7a092dc4c",
+	"587f496f-0c3f-46c8-a333-ed22a47c6c9d",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("c79d00d8-7e26-4d07-a354-04dbe94971a1",
+	"f1f8fa97-cf5f-458b-950e-723f6813b876",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("c79d00d8-7e26-4d07-a354-04dbe94971a1",
+	"f1f8fa97-cf5f-458b-950e-723f6813b876",
+	"00000000-0000-0000-0000-000000000000",
+	'DT_ID',
+	'',
+	'',
+	'Element_ID',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("f1f8fa97-cf5f-458b-950e-723f6813b876",
+	"e545984c-062c-43fd-9deb-1a46d657e094",
+	0,
+	"ea0dd747-d248-44b6-ab1a-17d93b2032df",
+	"1d439803-3326-4ecd-abf0-28b6f972037c",
+	"ff14a553-8101-4772-a54f-f1c5ab2c71c8",
+	"0df7b048-0e33-4720-a181-33b008a221c7",
+	"02a91277-4a04-4dea-90a4-99f5f9dae505",
+	"42e56fa3-5238-4bc4-bdc6-b5b825f583de",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Model Class',
+	'Obj_ID',
+	'R123.''provides reference datatype for''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("f1f8fa97-cf5f-458b-950e-723f6813b876",
+	"1d439803-3326-4ecd-abf0-28b6f972037c",
+	"ff14a553-8101-4772-a54f-f1c5ab2c71c8",
+	'../../Subsystem/Subsystem.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("ea0dd747-d248-44b6-ab1a-17d93b2032df",
+	"e545984c-062c-43fd-9deb-1a46d657e094",
+	0,
+	"1d439803-3326-4ecd-abf0-28b6f972037c",
+	"0df7b048-0e33-4720-a181-33b008a221c7",
+	'../../Subsystem/Subsystem.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("02a91277-4a04-4dea-90a4-99f5f9dae505",
+	"f1f8fa97-cf5f-458b-950e-723f6813b876",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_ATTR
+	VALUES ("02a91277-4a04-4dea-90a4-99f5f9dae505",
+	"f1f8fa97-cf5f-458b-950e-723f6813b876",
+	"8dbf2e96-9ff0-4f06-8cb9-9fa7f8298494",
+	'Obj_ID',
+	'',
+	'',
+	'Obj_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"f1f8fa97-cf5f-458b-950e-723f6813b876");
+INSERT INTO O_OIDA
+	VALUES ("c79d00d8-7e26-4d07-a354-04dbe94971a1",
+	"f1f8fa97-cf5f-458b-950e-723f6813b876",
+	0,
+	'DT_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"f1f8fa97-cf5f-458b-950e-723f6813b876");
+INSERT INTO O_ID
+	VALUES (2,
+	"f1f8fa97-cf5f-458b-950e-723f6813b876");
+INSERT INTO PE_PE
+	VALUES ("f1f8fa97-cf5f-458b-950e-723f6813b876",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Domain',
+	'A domain (S_DOM) consists of one or more subsystems (S_SS) that each contain an information model that abstracts a portion of the data for the domain: classes (O_OBJ), associations (R_REL), etc.  Breaking a domain into subsystems allows the complexity of the domain to be more easily managed: 1) subsystems are components and can be checked out individually allowing parallelism in development of the models and 2) breaking up a domain into smaller units is easier to understand.  A subsystem is composed of classes that tend to cluster, i.e., they have few associations that span subsystem boundaries.  Inter-subsystem associations, communications, and accesses are captured in the Subsystem Relationship Model (SRM), Subsystem Communication Model (SCM), and Subsystem Access Model (SAM) respectively.',
+	1,
+	'../Domain.xtuml');

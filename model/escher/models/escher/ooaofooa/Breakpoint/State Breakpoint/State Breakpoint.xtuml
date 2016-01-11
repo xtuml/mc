@@ -1,0 +1,225 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	'State Breakpoint',
+	3104,
+	'BP_ST',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	0,
+	"2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"eda2ae19-bd0a-4a6a-ac7d-65221c8cd1d6",
+	"a707f2a1-3f45-466b-85dd-1b0de0c1029c",
+	"ebd4ae5c-cc1d-4a4a-8511-c05b3fac967b",
+	"2066b4df-3be0-4624-bbb8-1329c9ae8921",
+	"4b8e2d4b-1a31-4c8f-9afe-3dcbccbb0d28",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Breakpoint',
+	'Breakpoint_ID',
+	'R3102');
+INSERT INTO R_RGO_PROXY
+	VALUES ("62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"eda2ae19-bd0a-4a6a-ac7d-65221c8cd1d6",
+	"a707f2a1-3f45-466b-85dd-1b0de0c1029c",
+	'../Breakpoint.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	0,
+	"eda2ae19-bd0a-4a6a-ac7d-65221c8cd1d6",
+	"ebd4ae5c-cc1d-4a4a-8511-c05b3fac967b",
+	'../Breakpoint.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("2066b4df-3be0-4624-bbb8-1329c9ae8921",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	1,
+	'Breakpoint_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("2d3763d4-3fe8-411c-b93e-cd9aab12c838",
+	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
+	'../Breakpoint/Breakpoint.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("2066b4df-3be0-4624-bbb8-1329c9ae8921",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"00000000-0000-0000-0000-000000000000",
+	'Breakpoint_ID',
+	'',
+	'',
+	'Breakpoint_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d01f6128-57d1-4707-a729-5633940e81e2",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a");
+INSERT INTO O_BATTR
+	VALUES ("d01f6128-57d1-4707-a729-5633940e81e2",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a");
+INSERT INTO O_ATTR
+	VALUES ("d01f6128-57d1-4707-a729-5633940e81e2",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"2066b4df-3be0-4624-bbb8-1329c9ae8921",
+	'onEntry',
+	'',
+	'',
+	'onEntry',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("534572ee-7838-4e6e-a4d2-4dcfb26dc7b6",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a");
+INSERT INTO O_BATTR
+	VALUES ("534572ee-7838-4e6e-a4d2-4dcfb26dc7b6",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a");
+INSERT INTO O_ATTR
+	VALUES ("534572ee-7838-4e6e-a4d2-4dcfb26dc7b6",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"d01f6128-57d1-4707-a729-5633940e81e2",
+	'onExit',
+	'',
+	'',
+	'onExit',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd",
+	0,
+	"d71f843d-cf71-43f0-bc00-eb2e4216bcb6",
+	"7dbd00c9-9d13-4846-bb93-c53db377de8f",
+	"abc703e2-86bd-4e58-a5c0-6c08f553ad49",
+	"2436df19-0fc6-493a-bb02-341d5f7d97a4",
+	"056dcadb-8e9f-45b9-a8ee-434155b26a85",
+	"8fe6910c-16ac-4eb6-a23b-6a7aec9c381a",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'State Machine State',
+	'SM_ID',
+	'R3104.''is set on''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"7dbd00c9-9d13-4846-bb93-c53db377de8f",
+	"abc703e2-86bd-4e58-a5c0-6c08f553ad49",
+	'../Breakpoint.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("d71f843d-cf71-43f0-bc00-eb2e4216bcb6",
+	"e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd",
+	0,
+	"7dbd00c9-9d13-4846-bb93-c53db377de8f",
+	"2436df19-0fc6-493a-bb02-341d5f7d97a4",
+	'../Breakpoint.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("056dcadb-8e9f-45b9-a8ee-434155b26a85",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	1,
+	'SM_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	'../../State Machine/State Machine/State Machine.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("056dcadb-8e9f-45b9-a8ee-434155b26a85",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"534572ee-7838-4e6e-a4d2-4dcfb26dc7b6",
+	'SM_ID',
+	'',
+	'',
+	'SM_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd",
+	0,
+	"32ffc7eb-8edb-4d0c-a71b-d6786a6f3e41",
+	"7dbd00c9-9d13-4846-bb93-c53db377de8f",
+	"abc703e2-86bd-4e58-a5c0-6c08f553ad49",
+	"2436df19-0fc6-493a-bb02-341d5f7d97a4",
+	"e581220d-d745-418d-af20-be3c58575eec",
+	"2bc2d77a-79a0-4e83-a660-cef1e251bdb2",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'State Machine State',
+	'SMstt_ID',
+	'R3104.''is set on''');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("32ffc7eb-8edb-4d0c-a71b-d6786a6f3e41",
+	"e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd",
+	0,
+	"7dbd00c9-9d13-4846-bb93-c53db377de8f",
+	"2436df19-0fc6-493a-bb02-341d5f7d97a4",
+	'../Breakpoint.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("e581220d-d745-418d-af20-be3c58575eec",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"32ffc7eb-8edb-4d0c-a71b-d6786a6f3e41",
+	"e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd",
+	1,
+	'SMstt_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("32ffc7eb-8edb-4d0c-a71b-d6786a6f3e41",
+	"e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd",
+	'../../State Machine/State Machine State/State Machine State.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("e581220d-d745-418d-af20-be3c58575eec",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	"056dcadb-8e9f-45b9-a8ee-434155b26a85",
+	'SMstt_ID',
+	'',
+	'',
+	'SMstt_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a");
+INSERT INTO O_OIDA
+	VALUES ("2066b4df-3be0-4624-bbb8-1329c9ae8921",
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	0,
+	'Breakpoint_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a");
+INSERT INTO O_ID
+	VALUES (2,
+	"62c8ad1b-e14c-4486-aed3-e57caea1b49a");
+INSERT INTO PE_PE
+	VALUES ("62c8ad1b-e14c-4486-aed3-e57caea1b49a",
+	1,
+	"df33f31a-ecd1-46a8-a53c-6c1b84c51334",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("df33f31a-ecd1-46a8-a53c-6c1b84c51334",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Breakpoint',
+	'This subsystem provides breakpoints that can be used in Model Verifier and Model Debugger.
+// This is used by schema_gen to ignore this subsystem (for publication)
+Persistent:false
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	1100,
+	'../Breakpoint.xtuml');

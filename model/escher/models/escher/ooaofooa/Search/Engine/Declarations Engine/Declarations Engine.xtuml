@@ -1,0 +1,90 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("52f33966-083e-402e-8463-9d0c3eb38f0f",
+	'Declarations Engine',
+	9503,
+	'SEN_DCE',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("52f33966-083e-402e-8463-9d0c3eb38f0f",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8",
+	0,
+	"092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"9d6e6fac-d176-4a21-9ac2-590ed627bb61",
+	"55b0c592-26f7-4e4b-8418-b2595c8d8b5a",
+	"1e90108b-119a-4e05-80d0-a53f50bb6cd2",
+	"d2d221a4-d412-4e64-9dab-8b1680bc23b7",
+	"6bdc0c7d-1547-4920-8f40-b664622ac3d8",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Search Engine',
+	'Id',
+	'R9501');
+INSERT INTO R_RGO_PROXY
+	VALUES ("52f33966-083e-402e-8463-9d0c3eb38f0f",
+	"9d6e6fac-d176-4a21-9ac2-590ed627bb61",
+	"55b0c592-26f7-4e4b-8418-b2595c8d8b5a",
+	'../Engine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8",
+	0,
+	"9d6e6fac-d176-4a21-9ac2-590ed627bb61",
+	"1e90108b-119a-4e05-80d0-a53f50bb6cd2",
+	'../Engine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("d2d221a4-d412-4e64-9dab-8b1680bc23b7",
+	"52f33966-083e-402e-8463-9d0c3eb38f0f",
+	"092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8",
+	1,
+	'Id');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("092e65dd-6d30-4acc-9c5e-34ce3015b5ae",
+	"e067038d-30dd-4392-8a0b-66837e12a7c8",
+	'../Search Engine/Search Engine.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("d2d221a4-d412-4e64-9dab-8b1680bc23b7",
+	"52f33966-083e-402e-8463-9d0c3eb38f0f",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"52f33966-083e-402e-8463-9d0c3eb38f0f");
+INSERT INTO O_OIDA
+	VALUES ("d2d221a4-d412-4e64-9dab-8b1680bc23b7",
+	"52f33966-083e-402e-8463-9d0c3eb38f0f",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"52f33966-083e-402e-8463-9d0c3eb38f0f");
+INSERT INTO O_ID
+	VALUES (2,
+	"52f33966-083e-402e-8463-9d0c3eb38f0f");
+INSERT INTO PE_PE
+	VALUES ("52f33966-083e-402e-8463-9d0c3eb38f0f",
+	1,
+	"6986d64e-5880-4fa8-a6fd-ffb537e002ff",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("6986d64e-5880-4fa8-a6fd-ffb537e002ff",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Engine',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE
+',
+	9500,
+	'../Engine.xtuml');

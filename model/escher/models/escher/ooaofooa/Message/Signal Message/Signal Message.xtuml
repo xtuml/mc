@@ -1,0 +1,140 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	'Signal Message',
+	1017,
+	'MSG_SIG',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	"88e74e98-8901-4ce1-87e3-ac3fb6184de7",
+	0,
+	"599a7cf8-808d-4e6a-aa50-52cb144c54ed",
+	"9ce8df55-dbd5-486a-90e3-5a16d2ee889b",
+	"86bc176a-a02a-464e-8ffe-4e1615c3200c",
+	"3b21fb03-cd20-46a5-8403-3f265ecb2c54",
+	"d2546319-3cc4-44f1-982a-babe568c48b1",
+	"28b7d972-a2ce-4a64-b2db-cf3f7cec1265",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Asynchronous Message',
+	'Msg_ID',
+	'R1019');
+INSERT INTO R_RGO_PROXY
+	VALUES ("dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	"9ce8df55-dbd5-486a-90e3-5a16d2ee889b",
+	"86bc176a-a02a-464e-8ffe-4e1615c3200c",
+	'../Message.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("599a7cf8-808d-4e6a-aa50-52cb144c54ed",
+	"88e74e98-8901-4ce1-87e3-ac3fb6184de7",
+	0,
+	"9ce8df55-dbd5-486a-90e3-5a16d2ee889b",
+	"3b21fb03-cd20-46a5-8403-3f265ecb2c54",
+	'../Message.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("d2546319-3cc4-44f1-982a-babe568c48b1",
+	"dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("d2546319-3cc4-44f1-982a-babe568c48b1",
+	"dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	"00000000-0000-0000-0000-000000000000",
+	'Msg_ID',
+	'',
+	'',
+	'Msg_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	0,
+	"6fc8e08a-490a-4a96-94ab-79c457bf51d1",
+	"eae244bc-851c-40fa-8891-d06e77dd9351",
+	"e790cc28-f292-400c-adc2-93afc224a50e",
+	"17f6c1e7-8473-4772-9ac2-45b4b64ee516",
+	"ef9a642b-5ac1-4f2b-9c0d-a9e6ccc745f2",
+	"5d32234d-b280-4043-903d-c71c62f291dc",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Interface Signal',
+	'Id',
+	'R1021.''sends''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	"eae244bc-851c-40fa-8891-d06e77dd9351",
+	"e790cc28-f292-400c-adc2-93afc224a50e",
+	'../Message.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("6fc8e08a-490a-4a96-94ab-79c457bf51d1",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	0,
+	"eae244bc-851c-40fa-8891-d06e77dd9351",
+	"17f6c1e7-8473-4772-9ac2-45b4b64ee516",
+	'../Message.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("ef9a642b-5ac1-4f2b-9c0d-a9e6ccc745f2",
+	"dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	"db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	1,
+	'Id');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	'../../Component/Executable Property/Executable Property.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("ef9a642b-5ac1-4f2b-9c0d-a9e6ccc745f2",
+	"dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	"d2546319-3cc4-44f1-982a-babe568c48b1",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"dd29e8bf-7033-4ec6-bf21-e7eb797b3c42");
+INSERT INTO O_OIDA
+	VALUES ("d2546319-3cc4-44f1-982a-babe568c48b1",
+	"dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	0,
+	'Msg_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"dd29e8bf-7033-4ec6-bf21-e7eb797b3c42");
+INSERT INTO O_ID
+	VALUES (2,
+	"dd29e8bf-7033-4ec6-bf21-e7eb797b3c42");
+INSERT INTO PE_PE
+	VALUES ("dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
+	1,
+	"02780f20-a4d8-43b7-bef8-489a5e93ce8b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("02780f20-a4d8-43b7-bef8-489a5e93ce8b",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Message',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	1000,
+	'../Message.xtuml');

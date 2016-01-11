@@ -1,0 +1,166 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("9adb8836-0f56-450a-bc85-95c397fbeda7",
+	'Extended Where',
+	2024,
+	'TE_WHERE',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("2fa16835-34fb-475c-b67d-a79d24fdd2d8",
+	"9adb8836-0f56-450a-bc85-95c397fbeda7");
+INSERT INTO O_BATTR
+	VALUES ("2fa16835-34fb-475c-b67d-a79d24fdd2d8",
+	"9adb8836-0f56-450a-bc85-95c397fbeda7");
+INSERT INTO O_ATTR
+	VALUES ("2fa16835-34fb-475c-b67d-a79d24fdd2d8",
+	"9adb8836-0f56-450a-bc85-95c397fbeda7",
+	"00000000-0000-0000-0000-000000000000",
+	'WhereKey',
+	'',
+	'',
+	'WhereKey',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("220f7511-3980-42c8-8565-64c910dd2cbf",
+	"9adb8836-0f56-450a-bc85-95c397fbeda7");
+INSERT INTO O_BATTR
+	VALUES ("220f7511-3980-42c8-8565-64c910dd2cbf",
+	"9adb8836-0f56-450a-bc85-95c397fbeda7");
+INSERT INTO O_ATTR
+	VALUES ("220f7511-3980-42c8-8565-64c910dd2cbf",
+	"9adb8836-0f56-450a-bc85-95c397fbeda7",
+	"2fa16835-34fb-475c-b67d-a79d24fdd2d8",
+	'select_any_where',
+	'',
+	'',
+	'select_any_where',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("9adb8836-0f56-450a-bc85-95c397fbeda7",
+	"e5b01e5c-249c-49fd-a356-57cecad21f50",
+	0,
+	"105fb5c1-7686-47a5-8662-e375b27848d1",
+	"90d3a1d4-c34d-4c60-907d-f3dbacf6b6e6",
+	"1e99e08b-7ae9-4f53-8cd5-a746a1b8b654",
+	"8a72ea96-0a72-40a8-afee-5787daad48ac",
+	"735be4a0-74e6-4b65-a520-360426dfc743",
+	"e522c48d-df01-4087-b254-55e858455461",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Class Identifier',
+	'Oid_ID',
+	'R2032');
+INSERT INTO R_RGO_PROXY
+	VALUES ("9adb8836-0f56-450a-bc85-95c397fbeda7",
+	"90d3a1d4-c34d-4c60-907d-f3dbacf6b6e6",
+	"1e99e08b-7ae9-4f53-8cd5-a746a1b8b654",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("105fb5c1-7686-47a5-8662-e375b27848d1",
+	"e5b01e5c-249c-49fd-a356-57cecad21f50",
+	0,
+	"90d3a1d4-c34d-4c60-907d-f3dbacf6b6e6",
+	"8a72ea96-0a72-40a8-afee-5787daad48ac",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("735be4a0-74e6-4b65-a520-360426dfc743",
+	"9adb8836-0f56-450a-bc85-95c397fbeda7",
+	"105fb5c1-7686-47a5-8662-e375b27848d1",
+	"e5b01e5c-249c-49fd-a356-57cecad21f50",
+	1,
+	'Oid_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("105fb5c1-7686-47a5-8662-e375b27848d1",
+	"e5b01e5c-249c-49fd-a356-57cecad21f50",
+	'../../Subsystem/Class Identifier/Class Identifier.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("735be4a0-74e6-4b65-a520-360426dfc743",
+	"9adb8836-0f56-450a-bc85-95c397fbeda7",
+	"220f7511-3980-42c8-8565-64c910dd2cbf",
+	'Oid_ID',
+	'',
+	'',
+	'Oid_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("9adb8836-0f56-450a-bc85-95c397fbeda7",
+	"e5b01e5c-249c-49fd-a356-57cecad21f50",
+	0,
+	"17fbd32a-908d-4537-9634-eb71b9b313da",
+	"90d3a1d4-c34d-4c60-907d-f3dbacf6b6e6",
+	"1e99e08b-7ae9-4f53-8cd5-a746a1b8b654",
+	"8a72ea96-0a72-40a8-afee-5787daad48ac",
+	"c0f84bf2-8a7b-41ed-a2a5-12c8ac8c5f5a",
+	"acfa7770-832a-45ad-bfba-b1473c1392fb",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Class Identifier',
+	'Obj_ID',
+	'R2032');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("17fbd32a-908d-4537-9634-eb71b9b313da",
+	"e5b01e5c-249c-49fd-a356-57cecad21f50",
+	0,
+	"90d3a1d4-c34d-4c60-907d-f3dbacf6b6e6",
+	"8a72ea96-0a72-40a8-afee-5787daad48ac",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("c0f84bf2-8a7b-41ed-a2a5-12c8ac8c5f5a",
+	"9adb8836-0f56-450a-bc85-95c397fbeda7",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("c0f84bf2-8a7b-41ed-a2a5-12c8ac8c5f5a",
+	"9adb8836-0f56-450a-bc85-95c397fbeda7",
+	"735be4a0-74e6-4b65-a520-360426dfc743",
+	'Obj_ID',
+	'',
+	'',
+	'Obj_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"9adb8836-0f56-450a-bc85-95c397fbeda7");
+INSERT INTO O_ID
+	VALUES (1,
+	"9adb8836-0f56-450a-bc85-95c397fbeda7");
+INSERT INTO O_ID
+	VALUES (2,
+	"9adb8836-0f56-450a-bc85-95c397fbeda7");
+INSERT INTO PE_PE
+	VALUES ("9adb8836-0f56-450a-bc85-95c397fbeda7",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

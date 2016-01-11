@@ -1,0 +1,66 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("f5721a28-a061-479e-a60a-11ef5b57336f",
+	'Referential Attribute Visited Recorder',
+	114,
+	'O_RAVR',
+	'A non-persistent instance of this class is created per domain.  The sole 
+purpose of this instance is to allow instances of Referential Attribute to 
+be related to it across R119 as a way to mark that they have been visited
+during a traversal from a referential attribute to its base attribute. 
+This marking is performed in order to avoid an infinite loop during the 
+traversal caused by any circular referencing that may be present.  
+
+Persistent:false
+User_Visible:false
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("910b169d-001a-48f6-98fc-aa4af990e1f5",
+	"f5721a28-a061-479e-a60a-11ef5b57336f");
+INSERT INTO O_BATTR
+	VALUES ("910b169d-001a-48f6-98fc-aa4af990e1f5",
+	"f5721a28-a061-479e-a60a-11ef5b57336f");
+INSERT INTO O_ATTR
+	VALUES ("910b169d-001a-48f6-98fc-aa4af990e1f5",
+	"f5721a28-a061-479e-a60a-11ef5b57336f",
+	"00000000-0000-0000-0000-000000000000",
+	'recorderId',
+	'Persistent:false
+User_Visible:false
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	'',
+	'recorderId',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"f5721a28-a061-479e-a60a-11ef5b57336f");
+INSERT INTO O_OIDA
+	VALUES ("910b169d-001a-48f6-98fc-aa4af990e1f5",
+	"f5721a28-a061-479e-a60a-11ef5b57336f",
+	0,
+	'recorderId');
+INSERT INTO O_ID
+	VALUES (1,
+	"f5721a28-a061-479e-a60a-11ef5b57336f");
+INSERT INTO O_ID
+	VALUES (2,
+	"f5721a28-a061-479e-a60a-11ef5b57336f");
+INSERT INTO PE_PE
+	VALUES ("f5721a28-a061-479e-a60a-11ef5b57336f",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Subsystem',
+	'A class (O_OBJ)  is an abstraction of a real world thing that has specific attributes (O_ATTR) and, if active, has a lifecycle model as a state machine (SM_SM).  All instances of the class must have the same characteristics and follow the same state behavior.  Classes fall into many categories, some of which are: tangible things, roles, interactions and specifications. ',
+	101,
+	'../Subsystem.xtuml');

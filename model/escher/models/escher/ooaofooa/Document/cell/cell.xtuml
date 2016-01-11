@@ -1,0 +1,166 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("4051313d-ffea-42d7-8668-15220532df0f",
+	'cell',
+	2311,
+	'DOC_CELL',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("fb2bfb78-0fff-44ee-a0ff-cf4b67958e7e",
+	"4051313d-ffea-42d7-8668-15220532df0f",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select any doc_cell from instances of DOC_CELL;
+doc_cell = self;
+T::include( file:"docbook/t.tableentrybegin.xml" );
+select one doc_par related by self->DOC_PAR[R2318];
+if ( not_empty doc_par )
+  doc_par.render();
+end if;
+T::include( file:"docbook/t.tableentryend.xml" );
+
+// Render the next (and the next and the next) cell.
+select one doc_cell related by self->DOC_CELL[R2304.''follows''];
+if ( not_empty doc_cell )
+  doc_cell.render();
+end if;
+
+
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("ad8d7de1-7150-439d-9f5e-448248b6f784",
+	"4051313d-ffea-42d7-8668-15220532df0f",
+	'populate_paragraph',
+	'',
+	"a48ada33-ad82-46a8-8cd6-2b15188db734",
+	0,
+	'predecessor = param.predecessor;
+create object instance doc_cell of DOC_CELL;
+if ( not_empty predecessor )
+  relate predecessor to doc_cell across R2304.''follows'';
+end if;
+select any empty_doc_par from instances of DOC_PAR where ( false );
+select any empty_doc_sec from instances of DOC_SEC where ( false );
+doc_par = DOC_PAR::populate( text:param.text, predecessor:empty_doc_par, doc_sec:empty_doc_sec );
+relate doc_par to doc_cell across R2318;
+return doc_cell;',
+	1,
+	'',
+	"fb2bfb78-0fff-44ee-a0ff-cf4b67958e7e");
+INSERT INTO O_TPARM
+	VALUES ("ea575279-cfe1-4a8c-ac17-acc64390c723",
+	"ad8d7de1-7150-439d-9f5e-448248b6f784",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("083899b1-04b8-44f8-a3a4-f187b9fe70cc",
+	"ad8d7de1-7150-439d-9f5e-448248b6f784",
+	'predecessor',
+	"a48ada33-ad82-46a8-8cd6-2b15188db734",
+	0,
+	'',
+	"ea575279-cfe1-4a8c-ac17-acc64390c723",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a48ada33-ad82-46a8-8cd6-2b15188db734",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<cell>',
+	'',
+	'',
+	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+INSERT INTO O_TFR
+	VALUES ("6e7f4aaa-1950-4dab-8d1d-351164d83bf0",
+	"4051313d-ffea-42d7-8668-15220532df0f",
+	'populate_image',
+	'',
+	"a48ada33-ad82-46a8-8cd6-2b15188db734",
+	0,
+	'predecessor = param.predecessor;
+create object instance doc_cell of DOC_CELL;
+if ( not_empty predecessor )
+  relate predecessor to doc_cell across R2304.''follows'';
+end if;
+select any empty_doc_par from instances of DOC_PAR where ( false );
+select any empty_doc_sec from instances of DOC_SEC where ( false );
+doc_par = DOC_PAR::populate( text:"", predecessor:empty_doc_par, doc_sec:empty_doc_sec );
+relate doc_par to doc_cell across R2318;
+create object instance doc_img of DOC_IMG;
+relate doc_img to doc_par across R2319;
+doc_img.target = param.image;
+return doc_cell;',
+	1,
+	'',
+	"ad8d7de1-7150-439d-9f5e-448248b6f784");
+INSERT INTO O_TPARM
+	VALUES ("25b1f746-2494-44cf-989f-bda9c1684300",
+	"6e7f4aaa-1950-4dab-8d1d-351164d83bf0",
+	'image',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d9e9063e-e470-4f90-ab45-c933a6909df4",
+	"6e7f4aaa-1950-4dab-8d1d-351164d83bf0",
+	'predecessor',
+	"a48ada33-ad82-46a8-8cd6-2b15188db734",
+	0,
+	'',
+	"25b1f746-2494-44cf-989f-bda9c1684300",
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("356d27f7-6094-4308-aaec-4937b509706f",
+	"4051313d-ffea-42d7-8668-15220532df0f");
+INSERT INTO O_BATTR
+	VALUES ("356d27f7-6094-4308-aaec-4937b509706f",
+	"4051313d-ffea-42d7-8668-15220532df0f");
+INSERT INTO O_ATTR
+	VALUES ("356d27f7-6094-4308-aaec-4937b509706f",
+	"4051313d-ffea-42d7-8668-15220532df0f",
+	"00000000-0000-0000-0000-000000000000",
+	'text',
+	'',
+	'',
+	'text',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"4051313d-ffea-42d7-8668-15220532df0f");
+INSERT INTO O_ID
+	VALUES (1,
+	"4051313d-ffea-42d7-8668-15220532df0f");
+INSERT INTO O_ID
+	VALUES (2,
+	"4051313d-ffea-42d7-8668-15220532df0f");
+INSERT INTO PE_PE
+	VALUES ("4051313d-ffea-42d7-8668-15220532df0f",
+	1,
+	"21b5bbaa-9f45-4654-affb-9202769f59f1",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("21b5bbaa-9f45-4654-affb-9202769f59f1",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');

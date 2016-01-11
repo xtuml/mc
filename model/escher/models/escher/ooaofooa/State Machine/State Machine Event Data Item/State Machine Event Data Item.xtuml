@@ -1,0 +1,337 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	'State Machine Event Data Item',
+	517,
+	'SM_EVTDI',
+	'Each state machine (SM_SM) has a pool of event data items that can be used as supplemental data (SM_SUPDT) for the events (SM_EVT) of the state machine.  When an event data item is used as supplemental data for an event an instance of SM_SDI is created.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("06a0b774-d997-4114-a0f1-3ca55c12277f",
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO O_BATTR
+	VALUES ("06a0b774-d997-4114-a0f1-3ca55c12277f",
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO O_ATTR
+	VALUES ("06a0b774-d997-4114-a0f1-3ca55c12277f",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"00000000-0000-0000-0000-000000000000",
+	'SMedi_ID',
+	'Full Name: Event Data Item Identifier',
+	'',
+	'SMedi_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	0,
+	"df4d6ffc-1976-4922-9f36-81680da64d71",
+	"94f37cd4-2432-46ca-ab7a-fd4824abdc45",
+	"93e7812e-8dac-48ba-beb4-7a5d62eafdc3",
+	"8cb641ed-95ad-49e7-ae60-66dbccfa8fe1",
+	"15ef749f-4cad-4701-815b-d50b07a71b2f",
+	"183f3adf-5a9e-4c70-a3fc-1110ecb8b7cc",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'State Machine',
+	'SM_ID',
+	'R516.''is carried on events into''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"94f37cd4-2432-46ca-ab7a-fd4824abdc45",
+	"93e7812e-8dac-48ba-beb4-7a5d62eafdc3",
+	'../State Machine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	0,
+	"94f37cd4-2432-46ca-ab7a-fd4824abdc45",
+	"8cb641ed-95ad-49e7-ae60-66dbccfa8fe1",
+	'../State Machine.xtuml');
+INSERT INTO O_REF
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	0,
+	"15ef749f-4cad-4701-815b-d50b07a71b2f",
+	"cbb52325-229f-4082-b9b4-c7b0b88e877a",
+	"55b0031e-c300-4ad5-b65e-1f21cf8e015c",
+	"98679246-2e86-4e70-a684-d4999be477f0",
+	"15ef749f-4cad-4701-815b-d50b07a71b2f",
+	"f75e92e6-d1b4-405f-8b33-2dd8b012eca8",
+	"183f3adf-5a9e-4c70-a3fc-1110ecb8b7cc",
+	0,
+	'',
+	'State Machine Event Data Item',
+	'SM_ID',
+	'R533.''succeeds''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"cbb52325-229f-4082-b9b4-c7b0b88e877a",
+	"55b0031e-c300-4ad5-b65e-1f21cf8e015c",
+	'../State Machine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("15ef749f-4cad-4701-815b-d50b07a71b2f",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	0,
+	"cbb52325-229f-4082-b9b4-c7b0b88e877a",
+	"98679246-2e86-4e70-a684-d4999be477f0",
+	'../State Machine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("15ef749f-4cad-4701-815b-d50b07a71b2f",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	1,
+	'SM_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
+	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
+	'../State Machine/State Machine.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("15ef749f-4cad-4701-815b-d50b07a71b2f",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"06a0b774-d997-4114-a0f1-3ca55c12277f",
+	'SM_ID',
+	'',
+	'',
+	'SM_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ef91b981-32e9-41d6-81fe-ee0d83348e39",
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO O_BATTR
+	VALUES ("ef91b981-32e9-41d6-81fe-ee0d83348e39",
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO O_ATTR
+	VALUES ("ef91b981-32e9-41d6-81fe-ee0d83348e39",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"15ef749f-4cad-4701-815b-d50b07a71b2f",
+	'Name',
+	'Full Name: Event Data Item Name',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("bea494c8-6c23-4c87-94a5-d8e660e7db97",
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO O_BATTR
+	VALUES ("bea494c8-6c23-4c87-94a5-d8e660e7db97",
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO O_ATTR
+	VALUES ("bea494c8-6c23-4c87-94a5-d8e660e7db97",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"ef91b981-32e9-41d6-81fe-ee0d83348e39",
+	'Descrip',
+	'Full Name: Event Data Item Description',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("280cf696-7cb1-4fde-8ff9-19a8075b72d4",
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO O_BATTR
+	VALUES ("280cf696-7cb1-4fde-8ff9-19a8075b72d4",
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO O_ATTR
+	VALUES ("280cf696-7cb1-4fde-8ff9-19a8075b72d4",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"ddaf65d7-6a44-4b95-b316-f20ecf7a7fe9",
+	'Dimensions',
+	'Full Name: Array Dimensions',
+	'',
+	'Dimensions',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"a532550b-16f4-4e0e-8849-1a53aa26896f",
+	0,
+	"5f7b8002-e9eb-4a2c-a1d7-799233f59647",
+	"b1a5170f-1155-466d-8844-b7e34cf5c573",
+	"ea13895d-f707-4f56-8477-c1f0cb94aceb",
+	"2e088d20-aec3-43d4-9ffd-08b6cedbad18",
+	"808d394d-4bdb-4ab4-ad26-e64caefe54fb",
+	"27532c9e-3919-433b-99b5-0d61df5157de",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'State Machine Event',
+	'SMevt_ID',
+	'R532.''carried by''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"b1a5170f-1155-466d-8844-b7e34cf5c573",
+	"ea13895d-f707-4f56-8477-c1f0cb94aceb",
+	'../State Machine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5f7b8002-e9eb-4a2c-a1d7-799233f59647",
+	"a532550b-16f4-4e0e-8849-1a53aa26896f",
+	0,
+	"b1a5170f-1155-466d-8844-b7e34cf5c573",
+	"2e088d20-aec3-43d4-9ffd-08b6cedbad18",
+	'../State Machine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("808d394d-4bdb-4ab4-ad26-e64caefe54fb",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"5f7b8002-e9eb-4a2c-a1d7-799233f59647",
+	"a532550b-16f4-4e0e-8849-1a53aa26896f",
+	1,
+	'SMevt_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5f7b8002-e9eb-4a2c-a1d7-799233f59647",
+	"a532550b-16f4-4e0e-8849-1a53aa26896f",
+	'../State Machine Event/State Machine Event.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("808d394d-4bdb-4ab4-ad26-e64caefe54fb",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"280cf696-7cb1-4fde-8ff9-19a8075b72d4",
+	'SMevt_ID',
+	'',
+	'',
+	'SMevt_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	0,
+	"06a0b774-d997-4114-a0f1-3ca55c12277f",
+	"cbb52325-229f-4082-b9b4-c7b0b88e877a",
+	"55b0031e-c300-4ad5-b65e-1f21cf8e015c",
+	"98679246-2e86-4e70-a684-d4999be477f0",
+	"9c612889-716a-4fe2-bbba-c73eb4f4fcd1",
+	"6bbb641b-14be-4251-8c9e-91ccb897fcca",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'State Machine Event Data Item',
+	'SMedi_ID',
+	'R533.''succeeds''');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("06a0b774-d997-4114-a0f1-3ca55c12277f",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	0,
+	"cbb52325-229f-4082-b9b4-c7b0b88e877a",
+	"98679246-2e86-4e70-a684-d4999be477f0",
+	'../State Machine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("9c612889-716a-4fe2-bbba-c73eb4f4fcd1",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"06a0b774-d997-4114-a0f1-3ca55c12277f",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	1,
+	'SMedi_ID');
+INSERT INTO O_ATTR
+	VALUES ("9c612889-716a-4fe2-bbba-c73eb4f4fcd1",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"808d394d-4bdb-4ab4-ad26-e64caefe54fb",
+	'Previous_SMedi_ID',
+	'',
+	'Previous_',
+	'SMedi_ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"f46dca07-dfc7-4941-8101-f6e9ac702e83",
+	"0b4d4b9d-eb26-405a-b031-d84d611c1d9d",
+	"1162633c-956f-4bf7-8f4c-0767a3737ae1",
+	"ddaf65d7-6a44-4b95-b316-f20ecf7a7fe9",
+	"3bb118bc-f3b7-4311-99b7-c75f495c3dc4",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R524.''is defined by''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	"f46dca07-dfc7-4941-8101-f6e9ac702e83",
+	"0b4d4b9d-eb26-405a-b031-d84d611c1d9d",
+	'../State Machine.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"f46dca07-dfc7-4941-8101-f6e9ac702e83",
+	"1162633c-956f-4bf7-8f4c-0767a3737ae1",
+	'../State Machine.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("ddaf65d7-6a44-4b95-b316-f20ecf7a7fe9",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("ddaf65d7-6a44-4b95-b316-f20ecf7a7fe9",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	"bea494c8-6c23-4c87-94a5-d8e660e7db97",
+	'DT_ID',
+	'',
+	'',
+	'Element_ID',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO O_OIDA
+	VALUES ("15ef749f-4cad-4701-815b-d50b07a71b2f",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	0,
+	'SM_ID');
+INSERT INTO O_OIDA
+	VALUES ("06a0b774-d997-4114-a0f1-3ca55c12277f",
+	"6c915253-c149-490d-ab3f-39be9a2951e9",
+	0,
+	'SMedi_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO O_ID
+	VALUES (2,
+	"6c915253-c149-490d-ab3f-39be9a2951e9");
+INSERT INTO PE_PE
+	VALUES ("6c915253-c149-490d-ab3f-39be9a2951e9",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'State Machine',
+	'Classes (O_OBJ) that have interesting behavior are given lifecycles. These lifecycles are described using state machines (SM_SM). A state machine consists of states, events, transitions and state actions. The state machine exists for each instance of the class for which it has been modeled (SM_ISM). A state machine can also be an assigner state machine (SM_ASM) of which only one can exists for all class instances. The purpose of the assigner state machine is to act as a single point of control through which competing requests are serialized.',
+	501,
+	'../State Machine.xtuml');

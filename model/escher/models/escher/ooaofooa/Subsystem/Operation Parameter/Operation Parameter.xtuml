@@ -1,0 +1,283 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	'Operation Parameter',
+	113,
+	'O_TPARM',
+	'Each operation (O_TFR) can have one or more parameters (O_TPARM).  A parameter to an operation is called an operation parameter.  Operation parameters are either passed in by value, or by reference.  Operation parameters can be accessed by using the param keyword from within an operation action specification.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("4fad80fb-5f98-4680-bfda-7c453f28904b",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_BATTR
+	VALUES ("4fad80fb-5f98-4680-bfda-7c453f28904b",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_ATTR
+	VALUES ("4fad80fb-5f98-4680-bfda-7c453f28904b",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"00000000-0000-0000-0000-000000000000",
+	'TParm_ID',
+	'Full Name: Operation Parameter Identifier
+Description: Uniquely identifies an operation parameter',
+	'',
+	'TParm_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"2885ad55-db02-484b-a5b1-080cb4a91daa",
+	0,
+	"6cc511f7-feba-4e18-9f36-55d8a95f9273",
+	"2af9f4dc-52e1-4e55-a2ed-eba51502a75f",
+	"45df703a-8889-4394-9ceb-cf90da832ab9",
+	"920bdc2a-ab74-422a-a812-b186d4fe7ba5",
+	"1e03f9db-4277-4d63-a415-7df15e8d9ff9",
+	"77df927c-aa2b-4c45-9b99-075af3da46a1",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Operation',
+	'Tfr_ID',
+	'R117.''is part of ''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"2af9f4dc-52e1-4e55-a2ed-eba51502a75f",
+	"45df703a-8889-4394-9ceb-cf90da832ab9",
+	'../Subsystem.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("6cc511f7-feba-4e18-9f36-55d8a95f9273",
+	"2885ad55-db02-484b-a5b1-080cb4a91daa",
+	0,
+	"2af9f4dc-52e1-4e55-a2ed-eba51502a75f",
+	"920bdc2a-ab74-422a-a812-b186d4fe7ba5",
+	'../Subsystem.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("1e03f9db-4277-4d63-a415-7df15e8d9ff9",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"6cc511f7-feba-4e18-9f36-55d8a95f9273",
+	"2885ad55-db02-484b-a5b1-080cb4a91daa",
+	1,
+	'Tfr_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("6cc511f7-feba-4e18-9f36-55d8a95f9273",
+	"2885ad55-db02-484b-a5b1-080cb4a91daa",
+	'../Operation/Operation.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("1e03f9db-4277-4d63-a415-7df15e8d9ff9",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"4fad80fb-5f98-4680-bfda-7c453f28904b",
+	'Tfr_ID',
+	'',
+	'',
+	'Tfr_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("44ecd251-e9d7-4c35-b5cf-d83e3114ac55",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_BATTR
+	VALUES ("44ecd251-e9d7-4c35-b5cf-d83e3114ac55",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_ATTR
+	VALUES ("44ecd251-e9d7-4c35-b5cf-d83e3114ac55",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"1e03f9db-4277-4d63-a415-7df15e8d9ff9",
+	'Name',
+	'Full Name: Operation Parameter Name
+Description: This is the name of the parameter.',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5253d51b-48e1-4f8e-9b9a-ae77d2cbebcd",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_BATTR
+	VALUES ("5253d51b-48e1-4f8e-9b9a-ae77d2cbebcd",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_ATTR
+	VALUES ("5253d51b-48e1-4f8e-9b9a-ae77d2cbebcd",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"a4c1477f-9717-4f0b-b1e4-af4010c173db",
+	'By_Ref',
+	'Full Name: By Reference Indicator
+Description: Indicates whether or not this parameter is passed by reference
+Data Domain: 0 = passed by value, 1 = passed by reference
+enum0: By Value
+enum1: By Reference',
+	'',
+	'By_Ref',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("00cdf365-cd58-4885-b2b8-956da8cd95e5",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_BATTR
+	VALUES ("00cdf365-cd58-4885-b2b8-956da8cd95e5",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_ATTR
+	VALUES ("00cdf365-cd58-4885-b2b8-956da8cd95e5",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"5253d51b-48e1-4f8e-9b9a-ae77d2cbebcd",
+	'Dimensions',
+	'Full Name: Array Dimensions',
+	'',
+	'Dimensions',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	0,
+	"4fad80fb-5f98-4680-bfda-7c453f28904b",
+	"24b6e139-6846-40a3-b92a-304748173783",
+	"46c04753-92c2-4e41-8a52-ed5beb020294",
+	"a39703d6-8a25-42b3-b47d-75610d41c90a",
+	"de70d08c-fb5e-4446-9868-00439b96e72f",
+	"49b13c58-5a24-4b32-9ac0-11ccde979ed1",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Operation Parameter',
+	'TParm_ID',
+	'R124.''succeeds''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"24b6e139-6846-40a3-b92a-304748173783",
+	"46c04753-92c2-4e41-8a52-ed5beb020294",
+	'../Subsystem.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("4fad80fb-5f98-4680-bfda-7c453f28904b",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	0,
+	"24b6e139-6846-40a3-b92a-304748173783",
+	"a39703d6-8a25-42b3-b47d-75610d41c90a",
+	'../Subsystem.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("de70d08c-fb5e-4446-9868-00439b96e72f",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"4fad80fb-5f98-4680-bfda-7c453f28904b",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	1,
+	'TParm_ID');
+INSERT INTO O_ATTR
+	VALUES ("de70d08c-fb5e-4446-9868-00439b96e72f",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"00cdf365-cd58-4885-b2b8-956da8cd95e5",
+	'Previous_TParm_ID',
+	'',
+	'Previous_',
+	'TParm_ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("98fde105-9a9a-44a5-9c56-0c88ad441a0a",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_BATTR
+	VALUES ("98fde105-9a9a-44a5-9c56-0c88ad441a0a",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_ATTR
+	VALUES ("98fde105-9a9a-44a5-9c56-0c88ad441a0a",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"de70d08c-fb5e-4446-9868-00439b96e72f",
+	'Descrip',
+	'Full Name: Description
+Description:  A textual description of the operation parameter.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"90927690-8b26-4c4e-b7fc-1b4d7a384133",
+	"8b5ceba1-3220-4112-ae85-b00dd0e76536",
+	"3e611293-caef-4471-bdfc-deb5d8cc38cf",
+	"a4c1477f-9717-4f0b-b1e4-af4010c173db",
+	"e5eb6f20-0b90-4fe0-bbb1-b0a0c748b21c",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R118.''is defined by''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"90927690-8b26-4c4e-b7fc-1b4d7a384133",
+	"8b5ceba1-3220-4112-ae85-b00dd0e76536",
+	'../Subsystem.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"90927690-8b26-4c4e-b7fc-1b4d7a384133",
+	"3e611293-caef-4471-bdfc-deb5d8cc38cf",
+	'../Subsystem.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("a4c1477f-9717-4f0b-b1e4-af4010c173db",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("a4c1477f-9717-4f0b-b1e4-af4010c173db",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	"44ecd251-e9d7-4c35-b5cf-d83e3114ac55",
+	'DT_ID',
+	'',
+	'',
+	'Element_ID',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_OIDA
+	VALUES ("4fad80fb-5f98-4680-bfda-7c453f28904b",
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	0,
+	'TParm_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO O_ID
+	VALUES (2,
+	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90");
+INSERT INTO PE_PE
+	VALUES ("b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Subsystem',
+	'A class (O_OBJ)  is an abstraction of a real world thing that has specific attributes (O_ATTR) and, if active, has a lifecycle model as a state machine (SM_SM).  All instances of the class must have the same characteristics and follow the same state behavior.  Classes fall into many categories, some of which are: tangible things, roles, interactions and specifications. ',
+	101,
+	'../Subsystem.xtuml');

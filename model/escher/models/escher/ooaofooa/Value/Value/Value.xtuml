@@ -1,0 +1,359 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6682e836-9011-447f-9cd7-3f0107152763",
+	'Value',
+	800,
+	'V_VAL',
+	'A value (r-value) may be assigned to a variable, attribute or parameter
+(l-values). There are many different kinds of value in a model. This class
+captures this observation in a supertype.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"00000000-0000-0000-0000-000000000000",
+	'Value_ID',
+	'',
+	'',
+	'Value_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("6682e836-9011-447f-9cd7-3f0107152763",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	0,
+	"49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"f53bcc9c-c97c-493f-a8d8-0c8439120ce8",
+	"2029fc2a-0882-425d-97ae-d6f5904bffc6",
+	"f666442b-690b-459f-a220-bfd5ba87b6d0",
+	"d4d7c39e-0b3b-4d1f-94d8-6c7105f96e53",
+	"316b6f44-180c-4606-b997-9ed26c1a0d28",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Block',
+	'Block_ID',
+	'R826.''has scope''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6682e836-9011-447f-9cd7-3f0107152763",
+	"f53bcc9c-c97c-493f-a8d8-0c8439120ce8",
+	"2029fc2a-0882-425d-97ae-d6f5904bffc6",
+	'../Value.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	0,
+	"f53bcc9c-c97c-493f-a8d8-0c8439120ce8",
+	"f666442b-690b-459f-a220-bfd5ba87b6d0",
+	'../Value.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("d4d7c39e-0b3b-4d1f-94d8-6c7105f96e53",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	1,
+	'Block_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	'../../Body/Block/Block.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("d4d7c39e-0b3b-4d1f-94d8-6c7105f96e53",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"c6624ad7-753e-46fe-8bb5-166554970f0d",
+	'Block_ID',
+	'
+
+',
+	'',
+	'Block_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d616599b-6482-41c2-a4e2-781354a9fda8",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("d616599b-6482-41c2-a4e2-781354a9fda8",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("d616599b-6482-41c2-a4e2-781354a9fda8",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"733fe65f-e810-4d58-9108-007154888a3f",
+	'LineNumber',
+	'The line in the activity at which this value resides. It has a default 
+value of -1, indicating that the location is not known.
+                        
+Not_participating_value: -1',
+	'',
+	'LineNumber',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("fd437c11-6ee8-4ad6-8666-719b23da86f8",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("fd437c11-6ee8-4ad6-8666-719b23da86f8",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("fd437c11-6ee8-4ad6-8666-719b23da86f8",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"d616599b-6482-41c2-a4e2-781354a9fda8",
+	'StartPosition',
+	'The column in the activity at which this value starts. It has a default 
+value of -1, indicating that the location is not known.
+                        
+Not_participating_value: -1
+',
+	'',
+	'StartPosition',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f7da6f72-f598-4f46-a71f-8c4fe3a3c804",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("f7da6f72-f598-4f46-a71f-8c4fe3a3c804",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("f7da6f72-f598-4f46-a71f-8c4fe3a3c804",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"fd437c11-6ee8-4ad6-8666-719b23da86f8",
+	'EndPosition',
+	'The column in the activity at which this value ends. It has
+a default value of -1, indicating that the location is not known.
+                        
+Not_participating_value: -1',
+	'',
+	'EndPosition',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("e858b54f-b489-437b-b518-68ef8e38d050",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("e858b54f-b489-437b-b518-68ef8e38d050",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("e858b54f-b489-437b-b518-68ef8e38d050",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"f7da6f72-f598-4f46-a71f-8c4fe3a3c804",
+	'firstParameterLabelLineNumber',
+	'A scratchpad value employed while determining the textual position of any
+parameter labels that are part of the composition of this value.
+',
+	'',
+	'firstParameterLabelLineNumber',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("905d7cdf-0927-4bc2-b08a-252e9fbc5385",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("905d7cdf-0927-4bc2-b08a-252e9fbc5385",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("905d7cdf-0927-4bc2-b08a-252e9fbc5385",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"e858b54f-b489-437b-b518-68ef8e38d050",
+	'firstParameterLabelColumn',
+	'See currentLabelLine.',
+	'',
+	'firstParameterLabelColumn',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("87f7002b-64c6-483a-953b-11e26b1f2a44",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("87f7002b-64c6-483a-953b-11e26b1f2a44",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("87f7002b-64c6-483a-953b-11e26b1f2a44",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"905d7cdf-0927-4bc2-b08a-252e9fbc5385",
+	'currentLaterParameterLabelLineNumber',
+	'',
+	'',
+	'currentLaterParameterLabelLineNumber',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("453f7775-f0b2-418b-9eb7-641de5ce4d03",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("453f7775-f0b2-418b-9eb7-641de5ce4d03",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("453f7775-f0b2-418b-9eb7-641de5ce4d03",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"87f7002b-64c6-483a-953b-11e26b1f2a44",
+	'currentLaterParameterLabelColumn',
+	'',
+	'',
+	'currentLaterParameterLabelColumn',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("664b5a1a-3d78-4b0f-b0a4-cc8f71b34421",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("664b5a1a-3d78-4b0f-b0a4-cc8f71b34421",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("664b5a1a-3d78-4b0f-b0a4-cc8f71b34421",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"5bbbb830-4faf-49ab-b875-008a8e191ead",
+	'isLValue',
+	'',
+	'',
+	'isLValue',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("733fe65f-e810-4d58-9108-007154888a3f",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("733fe65f-e810-4d58-9108-007154888a3f",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("733fe65f-e810-4d58-9108-007154888a3f",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"664b5a1a-3d78-4b0f-b0a4-cc8f71b34421",
+	'isImplicit',
+	'',
+	'',
+	'isImplicit',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a9909a0c-0dc1-46de-a6ec-def80763c69f",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_BATTR
+	VALUES ("a9909a0c-0dc1-46de-a6ec-def80763c69f",
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ATTR
+	VALUES ("a9909a0c-0dc1-46de-a6ec-def80763c69f",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"d4d7c39e-0b3b-4d1f-94d8-6c7105f96e53",
+	'Text',
+	'Persistent:false',
+	'',
+	'Text',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("6682e836-9011-447f-9cd7-3f0107152763",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"88786bc3-4e95-42c3-83c6-4e7ce4152136",
+	"340ae0e6-674f-4af5-9aaa-1119bb4f3f7f",
+	"6dda1bee-3a88-41b7-b433-278e29406f44",
+	"c6624ad7-753e-46fe-8bb5-166554970f0d",
+	"0460c03f-8ece-4ea6-94bb-ae952230ab93",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R820.''has type''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6682e836-9011-447f-9cd7-3f0107152763",
+	"88786bc3-4e95-42c3-83c6-4e7ce4152136",
+	"340ae0e6-674f-4af5-9aaa-1119bb4f3f7f",
+	'../Value.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"88786bc3-4e95-42c3-83c6-4e7ce4152136",
+	"6dda1bee-3a88-41b7-b433-278e29406f44",
+	'../Value.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("c6624ad7-753e-46fe-8bb5-166554970f0d",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("c6624ad7-753e-46fe-8bb5-166554970f0d",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	"453f7775-f0b2-418b-9eb7-641de5ce4d03",
+	'DT_ID',
+	'',
+	'',
+	'Element_ID',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_OIDA
+	VALUES ("5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	0,
+	'Value_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO O_ID
+	VALUES (2,
+	"6682e836-9011-447f-9cd7-3f0107152763");
+INSERT INTO PE_PE
+	VALUES ("6682e836-9011-447f-9cd7-3f0107152763",
+	1,
+	"30ef75af-4619-4cb3-ae86-63d794e55d05",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("30ef75af-4619-4cb3-ae86-63d794e55d05",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Value',
+	'This subsystem formalizes the concepts of values (r-values) and variables 
+(l-values). It also captures the concept of an actual parameter.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	800,
+	'../Value.xtuml');

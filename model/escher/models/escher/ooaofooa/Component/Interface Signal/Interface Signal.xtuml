@@ -1,0 +1,214 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("0bee843d-db58-4abf-b0e3-884051803232",
+	'Interface Signal',
+	4005,
+	'C_AS',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("0bee843d-db58-4abf-b0e3-884051803232",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	0,
+	"db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"9e00ee7d-55f0-440f-b082-8495f664d45b",
+	"1ad8074a-28e7-4f23-9dab-f11e3f4a9127",
+	"d4d1a093-d931-47bc-a93a-1e5bdc93e6ac",
+	"6fc8e08a-490a-4a96-94ab-79c457bf51d1",
+	"5c3a6aa1-239d-4923-8637-14ba98e360f7",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Executable Property',
+	'Id',
+	'R4004');
+INSERT INTO R_RGO_PROXY
+	VALUES ("0bee843d-db58-4abf-b0e3-884051803232",
+	"9e00ee7d-55f0-440f-b082-8495f664d45b",
+	"1ad8074a-28e7-4f23-9dab-f11e3f4a9127",
+	'../Component.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	0,
+	"9e00ee7d-55f0-440f-b082-8495f664d45b",
+	"d4d1a093-d931-47bc-a93a-1e5bdc93e6ac",
+	'../Component.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("6fc8e08a-490a-4a96-94ab-79c457bf51d1",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	"db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	1,
+	'Id');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	'../Executable Property/Executable Property.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("6fc8e08a-490a-4a96-94ab-79c457bf51d1",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("74683846-c6ac-48d2-8aec-e5165c910481",
+	"0bee843d-db58-4abf-b0e3-884051803232");
+INSERT INTO O_BATTR
+	VALUES ("74683846-c6ac-48d2-8aec-e5165c910481",
+	"0bee843d-db58-4abf-b0e3-884051803232");
+INSERT INTO O_ATTR
+	VALUES ("74683846-c6ac-48d2-8aec-e5165c910481",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	"6fc8e08a-490a-4a96-94ab-79c457bf51d1",
+	'Name',
+	'Full Name: Signal Name',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("bba34300-52ae-4af0-9d49-59ccbb1dfbb1",
+	"0bee843d-db58-4abf-b0e3-884051803232");
+INSERT INTO O_BATTR
+	VALUES ("bba34300-52ae-4af0-9d49-59ccbb1dfbb1",
+	"0bee843d-db58-4abf-b0e3-884051803232");
+INSERT INTO O_ATTR
+	VALUES ("bba34300-52ae-4af0-9d49-59ccbb1dfbb1",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	"74683846-c6ac-48d2-8aec-e5165c910481",
+	'Descrip',
+	'Full Name: Signal Description
+Description: A textual description of this signal.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("fdce2523-9140-49bf-93f9-b70a6b7b5a75",
+	"0bee843d-db58-4abf-b0e3-884051803232");
+INSERT INTO O_BATTR
+	VALUES ("fdce2523-9140-49bf-93f9-b70a6b7b5a75",
+	"0bee843d-db58-4abf-b0e3-884051803232");
+INSERT INTO O_ATTR
+	VALUES ("fdce2523-9140-49bf-93f9-b70a6b7b5a75",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	"bba34300-52ae-4af0-9d49-59ccbb1dfbb1",
+	'Direction',
+	'Full Name: Message Direction
+
+Description: Indicates the direction this interface element is intended to be passed.
+
+Data Domain: 0 = client to server, 1 = server to client',
+	'',
+	'Direction',
+	0,
+	"19fb5cf9-e560-4a63-8719-c15de2878be6",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("19fb5cf9-e560-4a63-8719-c15de2878be6",
+	"00000000-0000-0000-0000-000000000000",
+	'IFDirectionType',
+	'BridgePoint allows the user to specify communication direction of individual 
+elements in an interface as opposed to on the interface as a whole (which is 
+what UML does).  For example, in UML when an interface is specified as being 
+provided, all that interface''s operations are one way (from server to 
+client).  Likewise, when a interface is specified as being required, all the 
+operations are one way (from client to server).  In reality, interfaces are 
+not often like this. There is a mixture of client to server and server to 
+client in one interface.     This enum is used at the operation/signal level 
+to determine if it is to be used for client to server or server to client 
+communication.',
+	'',
+	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_REF
+	VALUES ("0bee843d-db58-4abf-b0e3-884051803232",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	0,
+	"6fc8e08a-490a-4a96-94ab-79c457bf51d1",
+	"fc084b0d-53b7-4f13-8e0d-42979aa09574",
+	"7bf71e4b-3485-4efa-b75d-c30dc1916458",
+	"2b2aaf46-c897-4d3d-9243-fe016e546e63",
+	"eed5be21-0f20-4379-b95a-e4558cc46ca2",
+	"6f233455-f9f6-4b10-b3cd-465934572688",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Interface Signal',
+	'Id',
+	'R4020.''succeeds''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("0bee843d-db58-4abf-b0e3-884051803232",
+	"fc084b0d-53b7-4f13-8e0d-42979aa09574",
+	"7bf71e4b-3485-4efa-b75d-c30dc1916458",
+	'../Component.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("6fc8e08a-490a-4a96-94ab-79c457bf51d1",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	0,
+	"fc084b0d-53b7-4f13-8e0d-42979aa09574",
+	"2b2aaf46-c897-4d3d-9243-fe016e546e63",
+	'../Component.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("eed5be21-0f20-4379-b95a-e4558cc46ca2",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	"db0689f0-19fe-4a7c-82d9-c94bcdbf7b5a",
+	"6a79432d-1ff6-4918-9c49-54508db4187b",
+	1,
+	'Id');
+INSERT INTO O_ATTR
+	VALUES ("eed5be21-0f20-4379-b95a-e4558cc46ca2",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	"fdce2523-9140-49bf-93f9-b70a6b7b5a75",
+	'Previous_Id',
+	'',
+	'Previous_',
+	'Id',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"0bee843d-db58-4abf-b0e3-884051803232");
+INSERT INTO O_OIDA
+	VALUES ("6fc8e08a-490a-4a96-94ab-79c457bf51d1",
+	"0bee843d-db58-4abf-b0e3-884051803232",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"0bee843d-db58-4abf-b0e3-884051803232");
+INSERT INTO O_ID
+	VALUES (2,
+	"0bee843d-db58-4abf-b0e3-884051803232");
+INSERT INTO PE_PE
+	VALUES ("0bee843d-db58-4abf-b0e3-884051803232",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Component',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+
+The component subsystem contains the classes necessary to capture the data
+required for modeling components.',
+	4000,
+	'../Component.xtuml');

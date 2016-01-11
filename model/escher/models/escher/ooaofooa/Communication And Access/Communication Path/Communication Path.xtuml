@@ -1,0 +1,110 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("c57f755d-2a7b-41e0-911f-ba060f90a035",
+	'Communication Path',
+	401,
+	'CA_COMM',
+	'A communication path (CA_COMM) represents modeled event communication path (on the Communication Diagram) between two of the following elements: State Machines (SM_SM) and External Entities (S_EEM).  The communication path is created by the tool in fully-derived mode, or by the user in partially-derived mode.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("1dff2568-f78c-4644-8981-12f32e4bdac1",
+	"c57f755d-2a7b-41e0-911f-ba060f90a035");
+INSERT INTO O_BATTR
+	VALUES ("1dff2568-f78c-4644-8981-12f32e4bdac1",
+	"c57f755d-2a7b-41e0-911f-ba060f90a035");
+INSERT INTO O_ATTR
+	VALUES ("1dff2568-f78c-4644-8981-12f32e4bdac1",
+	"c57f755d-2a7b-41e0-911f-ba060f90a035",
+	"00000000-0000-0000-0000-000000000000",
+	'CPath_ID',
+	'Full Name: Communication Path Identifier',
+	'',
+	'CPath_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("c57f755d-2a7b-41e0-911f-ba060f90a035",
+	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
+	0,
+	"0417f3e9-b8ec-4b51-9bf6-0d947972890a",
+	"b745326f-d0e4-4b2f-b5fa-dbd9f9257a95",
+	"7bcc3eec-c8b3-412c-868b-f5d342824144",
+	"55bd5536-d6e8-410b-adaa-60d90e186d95",
+	"42907b8d-4d60-4963-92ea-0b0bd85cf736",
+	"da166412-50c0-466c-9be8-b70ff4a85cc6",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'
+
+Notes:
+
+',
+	'Subsystem',
+	'SS_ID',
+	'R5.''abstracts asynchronous communication between classes in''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("c57f755d-2a7b-41e0-911f-ba060f90a035",
+	"b745326f-d0e4-4b2f-b5fa-dbd9f9257a95",
+	"7bcc3eec-c8b3-412c-868b-f5d342824144",
+	'../../Domain/Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("0417f3e9-b8ec-4b51-9bf6-0d947972890a",
+	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
+	0,
+	"b745326f-d0e4-4b2f-b5fa-dbd9f9257a95",
+	"55bd5536-d6e8-410b-adaa-60d90e186d95",
+	'../../Domain/Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("42907b8d-4d60-4963-92ea-0b0bd85cf736",
+	"c57f755d-2a7b-41e0-911f-ba060f90a035",
+	"0417f3e9-b8ec-4b51-9bf6-0d947972890a",
+	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
+	1,
+	'SS_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("0417f3e9-b8ec-4b51-9bf6-0d947972890a",
+	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
+	'../../Domain/Subsystem/Subsystem.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("42907b8d-4d60-4963-92ea-0b0bd85cf736",
+	"c57f755d-2a7b-41e0-911f-ba060f90a035",
+	"1dff2568-f78c-4644-8981-12f32e4bdac1",
+	'SS_ID',
+	'',
+	'',
+	'SS_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"c57f755d-2a7b-41e0-911f-ba060f90a035");
+INSERT INTO O_OIDA
+	VALUES ("1dff2568-f78c-4644-8981-12f32e4bdac1",
+	"c57f755d-2a7b-41e0-911f-ba060f90a035",
+	0,
+	'CPath_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"c57f755d-2a7b-41e0-911f-ba060f90a035");
+INSERT INTO O_ID
+	VALUES (2,
+	"c57f755d-2a7b-41e0-911f-ba060f90a035");
+INSERT INTO PE_PE
+	VALUES ("c57f755d-2a7b-41e0-911f-ba060f90a035",
+	1,
+	"9c8ce182-ace8-4fa0-90ff-b92b28911df7",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("9c8ce182-ace8-4fa0-90ff-b92b28911df7",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Communication And Access',
+	'Interactions between classes (O_OBJ) are modeled by communication (CA_COMM) and access (CA_ACC) paths. Communication paths show the asynchronous (event) and synchronous (data access) communication in the system between two classes and class/external entity (S_EE) pairs.  ',
+	401,
+	'../Communication And Access.xtuml');

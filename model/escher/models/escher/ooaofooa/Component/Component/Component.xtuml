@@ -1,0 +1,247 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("efc93ef7-432d-47d5-9541-033eef7f2676",
+	'Component',
+	4000,
+	'C_C',
+	'A component defines the content of a system.  Its associations with other
+components are defined through interfaces that are either provided or required
+by the component.
+
+A Component is related to an Interface through two different link classes,
+Requirement and Provision.  The links are setup when either the Provision or
+Requirement is formalized against an interface that is defined in an Interface
+Diagram',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("f605d0c2-c85a-458e-b34f-a5d6e0db15bc",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_BATTR
+	VALUES ("f605d0c2-c85a-458e-b34f-a5d6e0db15bc",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_ATTR
+	VALUES ("f605d0c2-c85a-458e-b34f-a5d6e0db15bc",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	"e247b5bc-b9b1-495e-8fbe-0a35d1fce543",
+	'Name',
+	'Full Name: Component Name',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("88506efc-af17-4fee-b09e-d08658b07ba7",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_BATTR
+	VALUES ("88506efc-af17-4fee-b09e-d08658b07ba7",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_ATTR
+	VALUES ("88506efc-af17-4fee-b09e-d08658b07ba7",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	"f605d0c2-c85a-458e-b34f-a5d6e0db15bc",
+	'Descrip',
+	'Full Name: Component Description
+Description: A textual description of this component.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("13351c51-bdc8-431a-acc6-9817881c9819",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_BATTR
+	VALUES ("13351c51-bdc8-431a-acc6-9817881c9819",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_ATTR
+	VALUES ("13351c51-bdc8-431a-acc6-9817881c9819",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	"88506efc-af17-4fee-b09e-d08658b07ba7",
+	'Mult',
+	'Full Name: Multiplicity
+Description: Multiplicity of the component.  Indicates how many instances of the component may exist.
+Data Domain: 0 = one, 1 = many
+enum0: One
+enum1: Many',
+	'',
+	'Mult',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_BATTR
+	VALUES ("cfb172a7-c4fc-41d8-9b1e-aa6ea08a1486",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_ATTR
+	VALUES ("cfb172a7-c4fc-41d8-9b1e-aa6ea08a1486",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	"13351c51-bdc8-431a-acc6-9817881c9819",
+	'RootPackage_ID',
+	'',
+	'',
+	'RootPackage_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("efc93ef7-432d-47d5-9541-033eef7f2676",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	0,
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"4cadc5a5-2ec1-44b2-8fae-1fe59651d6f6",
+	"8f08fd1a-93ff-4f01-b120-10581f2dab35",
+	"8e8eb7d2-44b9-41b4-a7b1-0ce76a4522ad",
+	"1b30f976-8827-4ec3-b6b0-9716bc5bd43e",
+	"144ddf16-e4c1-42ed-9277-95771501e8f6",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Packageable Element',
+	'Element_ID',
+	'R8001');
+INSERT INTO R_RGO_PROXY
+	VALUES ("efc93ef7-432d-47d5-9541-033eef7f2676",
+	"4cadc5a5-2ec1-44b2-8fae-1fe59651d6f6",
+	"8f08fd1a-93ff-4f01-b120-10581f2dab35",
+	'../../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	0,
+	"4cadc5a5-2ec1-44b2-8fae-1fe59651d6f6",
+	"8e8eb7d2-44b9-41b4-a7b1-0ce76a4522ad",
+	'../../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("1b30f976-8827-4ec3-b6b0-9716bc5bd43e",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	0,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("1b30f976-8827-4ec3-b6b0-9716bc5bd43e",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("dae93363-fd6b-44ad-bd67-699750187f60",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_BATTR
+	VALUES ("dae93363-fd6b-44ad-bd67-699750187f60",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_ATTR
+	VALUES ("dae93363-fd6b-44ad-bd67-699750187f60",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	"cfb172a7-c4fc-41d8-9b1e-aa6ea08a1486",
+	'isRealized',
+	'Full Name: Realized Component
+Description: If true, Verifier will bind to an externally supplied implementation.',
+	'',
+	'isRealized',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("19dbd68f-593a-48b7-9a1c-c07103b3f76a",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_BATTR
+	VALUES ("19dbd68f-593a-48b7-9a1c-c07103b3f76a",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_ATTR
+	VALUES ("19dbd68f-593a-48b7-9a1c-c07103b3f76a",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	"dae93363-fd6b-44ad-bd67-699750187f60",
+	'Realized_Class_Path',
+	'Full Name: Realized Component Path
+Description: Specifies where Verifier will look for a realized executable resource.',
+	'',
+	'Realized_Class_Path',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5ed5e355-8f20-4e7a-b736-9b563b7e4d2d",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_BATTR
+	VALUES ("5ed5e355-8f20-4e7a-b736-9b563b7e4d2d",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_ATTR
+	VALUES ("5ed5e355-8f20-4e7a-b736-9b563b7e4d2d",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	"1b30f976-8827-4ec3-b6b0-9716bc5bd43e",
+	'deprecatedPackage_ID',
+	'',
+	'',
+	'deprecatedPackage_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("e247b5bc-b9b1-495e-8fbe-0a35d1fce543",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_BATTR
+	VALUES ("e247b5bc-b9b1-495e-8fbe-0a35d1fce543",
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_ATTR
+	VALUES ("e247b5bc-b9b1-495e-8fbe-0a35d1fce543",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	"5ed5e355-8f20-4e7a-b736-9b563b7e4d2d",
+	'deprecatedNestedComponent_Id',
+	'',
+	'',
+	'deprecatedNestedComponent_Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_OIDA
+	VALUES ("1b30f976-8827-4ec3-b6b0-9716bc5bd43e",
+	"efc93ef7-432d-47d5-9541-033eef7f2676",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_ID
+	VALUES (2,
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO PE_PE
+	VALUES ("efc93ef7-432d-47d5-9541-033eef7f2676",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Component',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+
+The component subsystem contains the classes necessary to capture the data
+required for modeling components.',
+	4000,
+	'../Component.xtuml');

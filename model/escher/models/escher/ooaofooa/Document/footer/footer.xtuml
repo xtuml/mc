@@ -1,0 +1,53 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("f9c4287f-6902-4396-b507-905885bdee7b",
+	'footer',
+	2304,
+	'DOC_FOOT',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("02248b1b-fd73-43b5-b22f-0e856396c56b",
+	"f9c4287f-6902-4396-b507-905885bdee7b");
+INSERT INTO O_BATTR
+	VALUES ("02248b1b-fd73-43b5-b22f-0e856396c56b",
+	"f9c4287f-6902-4396-b507-905885bdee7b");
+INSERT INTO O_ATTR
+	VALUES ("02248b1b-fd73-43b5-b22f-0e856396c56b",
+	"f9c4287f-6902-4396-b507-905885bdee7b",
+	"00000000-0000-0000-0000-000000000000",
+	'text',
+	'',
+	'',
+	'text',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"f9c4287f-6902-4396-b507-905885bdee7b");
+INSERT INTO O_ID
+	VALUES (1,
+	"f9c4287f-6902-4396-b507-905885bdee7b");
+INSERT INTO O_ID
+	VALUES (2,
+	"f9c4287f-6902-4396-b507-905885bdee7b");
+INSERT INTO PE_PE
+	VALUES ("f9c4287f-6902-4396-b507-905885bdee7b",
+	1,
+	"21b5bbaa-9f45-4654-affb-9202769f59f1",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("21b5bbaa-9f45-4654-affb-9202769f59f1",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');

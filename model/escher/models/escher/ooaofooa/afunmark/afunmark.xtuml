@@ -1,0 +1,5218 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'afunmark',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("fb9f11f4-c795-4d5b-bbb7-ff4b87899ba8",
+	112,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'escher::ooaofooa::afunmark');
+INSERT INTO DIM_DIA
+	VALUES ("fb9f11f4-c795-4d5b-bbb7-ff4b87899ba8",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("45e6c665-d3a5-4526-bf02-e4979bc9591f",
+	"00000000-0000-0000-0000-000000000000",
+	'WireSynchServiceOoaBridge',
+	'',
+	'//============================================================================
+// $RCSfile: m.bridge.arc,v $
+//
+// Description:
+// This archetype file contains the implementation functions for colors
+// specified in the (user supplied/modified) bridge.clr file.
+//============================================================================
+//
+//============================================================================
+initiant = param.initiant;
+ee_key_letters = param.ee_key_letters;
+recipient = param.recipient;
+T::print(s:"Note:  WireSynchServiceOoaBridge is no longer supported.  Use components and interfaces.");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7512c39c-a3d5-492a-ad28-8ac14a12c774",
+	"45e6c665-d3a5-4526-bf02-e4979bc9591f",
+	'initiant',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b4d9b653-9684-4bd0-97db-0767a95a0a0d",
+	"45e6c665-d3a5-4526-bf02-e4979bc9591f",
+	'ee_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7512c39c-a3d5-492a-ad28-8ac14a12c774",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("df21fbac-dcdc-4212-ae74-1407a3380131",
+	"45e6c665-d3a5-4526-bf02-e4979bc9591f",
+	'recipient',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b4d9b653-9684-4bd0-97db-0767a95a0a0d",
+	'');
+INSERT INTO PE_PE
+	VALUES ("45e6c665-d3a5-4526-bf02-e4979bc9591f",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("55c32c7f-fa8b-4ade-a6c7-42a892af9d99",
+	"00000000-0000-0000-0000-000000000000",
+	'WireRealizeExternalEntity',
+	'',
+	'//
+//============================================================================
+a = param.a;
+b = param.b;
+c = param.c;
+d = param.d;
+e = param.e;
+T::print(s:"Note:  WireRealizeExternalEntity is no longer supported.  Use components and interfaces.");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f14b4b69-37a5-462e-b4e8-7a75f1f34fd1",
+	"55c32c7f-fa8b-4ade-a6c7-42a892af9d99",
+	'a',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ce30f12d-68c9-41a7-964a-7752218689bf",
+	"55c32c7f-fa8b-4ade-a6c7-42a892af9d99",
+	'b',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f14b4b69-37a5-462e-b4e8-7a75f1f34fd1",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("627b5bf3-b59f-4050-98f4-39ae64106df8",
+	"55c32c7f-fa8b-4ade-a6c7-42a892af9d99",
+	'c',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ce30f12d-68c9-41a7-964a-7752218689bf",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ea5add39-2d01-4396-8905-b2f83f460226",
+	"55c32c7f-fa8b-4ade-a6c7-42a892af9d99",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"627b5bf3-b59f-4050-98f4-39ae64106df8",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b9e09cf7-d863-466d-a0ae-d10a2995dda3",
+	"55c32c7f-fa8b-4ade-a6c7-42a892af9d99",
+	'e',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ea5add39-2d01-4396-8905-b2f83f460226",
+	'');
+INSERT INTO PE_PE
+	VALUES ("55c32c7f-fa8b-4ade-a6c7-42a892af9d99",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d6eb0d1b-00b8-4039-a029-0343ec6a02ed",
+	"00000000-0000-0000-0000-000000000000",
+	'WireRealizedExternalEntity',
+	'',
+	'//
+//============================================================================
+a = param.a;
+b = param.b;
+c = param.c;
+d = param.d;
+e = param.e;
+T::print(s:"Note:  WireRealizeExternalEntity is no longer supported.  Use components and interfaces.");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ca3ac748-27bf-423f-bcf6-d925434ae0e6",
+	"d6eb0d1b-00b8-4039-a029-0343ec6a02ed",
+	'a',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c6f529dc-94f7-44d3-a51e-fef2909cab05",
+	"d6eb0d1b-00b8-4039-a029-0343ec6a02ed",
+	'b',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ca3ac748-27bf-423f-bcf6-d925434ae0e6",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("87e76f71-b9aa-4baf-b8a0-f5e13ba41165",
+	"d6eb0d1b-00b8-4039-a029-0343ec6a02ed",
+	'c',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c6f529dc-94f7-44d3-a51e-fef2909cab05",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fb6d1676-8874-43f8-92fe-02445b62f6a9",
+	"d6eb0d1b-00b8-4039-a029-0343ec6a02ed",
+	'd',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"87e76f71-b9aa-4baf-b8a0-f5e13ba41165",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3f571ca0-4c26-45d8-bcee-ae0b44814ae5",
+	"d6eb0d1b-00b8-4039-a029-0343ec6a02ed",
+	'e',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"fb6d1676-8874-43f8-92fe-02445b62f6a9",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d6eb0d1b-00b8-4039-a029-0343ec6a02ed",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9d1af946-71eb-4a35-a2f9-0a37c5fdfd01",
+	"00000000-0000-0000-0000-000000000000",
+	'TagSyncServiceSafeForInterrupts',
+	'',
+	'//
+//
+//============================================================================
+// Mark a function (synchronous service) as being safe for 
+// interrupt service routine (ISR) invocation.  This is also useful
+// for task communication and other multi-context situations.
+//============================================================================
+component_name = param.component_name;
+function_name = param.function_name;
+component_name = T::r(s:component_name);
+select any tm_sync from instances of TM_SYNC where ( ( selected.RegisteredDomain == component_name ) and ( selected.Name == function_name ) );
+if ( empty tm_sync )
+  create object instance tm_sync of TM_SYNC;
+  tm_sync.RegisteredDomain = component_name;
+  tm_sync.Name = function_name;
+end if;
+tm_sync.IsSafeForInterrupts = true;
+T::print(s:"Function ${function_name} in component ${component_name} marked as safe for interrupt invocation.");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2693260e-f985-46ff-85ae-aac07ef86b4c",
+	"9d1af946-71eb-4a35-a2f9-0a37c5fdfd01",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b2bd9d5b-09c7-4c2f-a806-ff423ddfe4f3",
+	"9d1af946-71eb-4a35-a2f9-0a37c5fdfd01",
+	'function_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"2693260e-f985-46ff-85ae-aac07ef86b4c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9d1af946-71eb-4a35-a2f9-0a37c5fdfd01",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("30e0c1cc-7008-4453-82f3-8583d0c2fefe",
+	"00000000-0000-0000-0000-000000000000",
+	'TagSystemObjectDefaultExtentSize',
+	'',
+	'//============================================================================
+// $RCSfile: m.class.arc,v $
+//
+// Description:
+// This archetype file contains the implementation functions for colors
+// specified in the (user supplied/modified) object.clr file.
+//============================================================================
+//
+//============================================================================
+// Set default extension for entire component.
+//============================================================================
+extent_size = param.extent_size;
+::MarkSystemObjectDefaultExtentSize( extent_size:extent_size );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("710b2ff4-7f05-4c85-8c23-ef76d821b01d",
+	"30e0c1cc-7008-4453-82f3-8583d0c2fefe",
+	'extent_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("30e0c1cc-7008-4453-82f3-8583d0c2fefe",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bcf0092e-4612-428e-8685-ea7b7fd177df",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkSystemObjectDefaultExtentSize',
+	'',
+	'extent_size = param.extent_size;
+select many te_classes from instances of TE_CLASS;
+for each te_class in te_classes
+  te_class.MaxExtentSize = extent_size;
+end for;
+T::print(s:"Class default extent size is $t{extent_size} for _all_ classes.");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a78f4191-178f-4470-a5c8-4eb5f92c2a54",
+	"bcf0092e-4612-428e-8685-ea7b7fd177df",
+	'extent_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("bcf0092e-4612-428e-8685-ea7b7fd177df",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ee1e1e42-1b82-4027-b63a-2b73ffb983ad",
+	"00000000-0000-0000-0000-000000000000",
+	'TagObjectExtentSize',
+	'',
+	'//
+//============================================================================
+obj_key_letters = param.obj_key_letters;
+extent_size = param.extent_size;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkObjectExtentSize( component_name:te_c.Name, obj_key_letters:obj_key_letters, extent_size:extent_size );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cc2fcab0-04fe-47f3-aefe-2b22976c4be4",
+	"ee1e1e42-1b82-4027-b63a-2b73ffb983ad",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fb5382d0-4ebb-49d7-99b9-34161e8610d8",
+	"ee1e1e42-1b82-4027-b63a-2b73ffb983ad",
+	'extent_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"cc2fcab0-04fe-47f3-aefe-2b22976c4be4",
+	'');
+INSERT INTO PE_PE
+	VALUES ("ee1e1e42-1b82-4027-b63a-2b73ffb983ad",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2d3b7472-c2ce-47f9-a8e2-c96e478c58e5",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkObjectExtentSize',
+	'',
+	'component_name = param.component_name;
+obj_key_letters = param.obj_key_letters;
+extent_size = param.extent_size;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  select any te_class related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+  if ( not_empty te_class )
+    te_class.MaxExtentSize = extent_size;
+    T::print(s:"Class ''${te_class.Name}'' (${te_class.Key_Lett}) extent size is $t{extent_size}");
+  else
+    T::print(s:"ERROR:  Class (${obj_key_letters}) not found in component ''${te_c.Name}''.");
+    T::print(s:"      => MarkObjectExtentSize( ${obj_key_letters}, $t{extent_size} )");
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b462a13c-5490-4fef-9717-cc33035ef44c",
+	"2d3b7472-c2ce-47f9-a8e2-c96e478c58e5",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("582f95d1-f72d-40b9-b4ed-e9c40f1cd850",
+	"2d3b7472-c2ce-47f9-a8e2-c96e478c58e5",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b462a13c-5490-4fef-9717-cc33035ef44c",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fbe0ad20-c8b6-4005-85c5-ecee15695b0f",
+	"2d3b7472-c2ce-47f9-a8e2-c96e478c58e5",
+	'extent_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"582f95d1-f72d-40b9-b4ed-e9c40f1cd850",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2d3b7472-c2ce-47f9-a8e2-c96e478c58e5",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("28412d6f-f640-4222-8ef9-4b3e9848d4d8",
+	"00000000-0000-0000-0000-000000000000",
+	'TagTransformerGeneration',
+	'',
+	'//
+//============================================================================
+// This function was used in previous versions of MC-3020 to enable
+// the generation of code from actions in transformers (operations).
+// This function is deprecated in favor of translating operations by
+// default.  Translation may be disabled with MarkClassOperationTranslationOff.
+//============================================================================
+obj_key_letters = param.obj_key_letters;
+transformer_name = param.transformer_name;
+T::print(s:"Note:  TagTransformerGeneration is no longer used.  Please use");
+T::print(s:"MarkClassOperationTranslationOff to control semantic translation.");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("28edff97-8fde-4383-a166-7cab1d6258b4",
+	"28412d6f-f640-4222-8ef9-4b3e9848d4d8",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("523ae227-619c-419c-a319-c4d972f02ed9",
+	"28412d6f-f640-4222-8ef9-4b3e9848d4d8",
+	'transformer_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"28edff97-8fde-4383-a166-7cab1d6258b4",
+	'');
+INSERT INTO PE_PE
+	VALUES ("28412d6f-f640-4222-8ef9-4b3e9848d4d8",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fe4cc282-0feb-4e97-836a-8f9c7e032776",
+	"00000000-0000-0000-0000-000000000000",
+	'TagClassOperationTranslationOff',
+	'',
+	'//
+//============================================================================
+// Disable the translation of class operation processing semantics.
+// The default is for all operations to be translated.
+//============================================================================
+obj_key_letters = param.obj_key_letters;
+op_name = param.op_name;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkClassOperationTranslationOff( component_name:te_c.Name, obj_key_letters:obj_key_letters, op_name:op_name );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("15239f66-c138-4f2b-ae7c-b23a7e7b5e4d",
+	"fe4cc282-0feb-4e97-836a-8f9c7e032776",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("bc6a0dd0-5bbc-4cd8-8ef9-aeb92b1cd627",
+	"fe4cc282-0feb-4e97-836a-8f9c7e032776",
+	'op_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"15239f66-c138-4f2b-ae7c-b23a7e7b5e4d",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fe4cc282-0feb-4e97-836a-8f9c7e032776",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("934742ac-bf68-4495-a09c-66c6b16080a2",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkClassOperationTranslationOff',
+	'',
+	'component_name = param.component_name;
+obj_key_letters = param.obj_key_letters;
+op_name = param.op_name;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
+  if ( "*" == obj_key_letters )
+    select many te_classes related by te_c->TE_CLASS[R2064];
+  else
+    select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+  end if;
+  if ( empty te_classes )
+    msg = "ERROR:  Class ${obj_key_letters} not found in component.";
+    msg = msg + "\n => MarkClassOperationTranslationOff( ${obj_key_letters}, ${op_name} )";
+  end if;
+  for each te_class in te_classes
+    if ( "*" == op_name )
+      select many te_tfrs related by te_class->O_OBJ[R2019]->O_TFR[R115]->TE_TFR[R2024];
+      if ( not_empty te_tfrs )
+        for each te_tfr in te_tfrs
+          te_tfr.XlateSemantics = false;
+        end for;
+        msg = "Class ${te_class.Name} (${te_class.Key_Lett}) all operation semantics disabled.";
+      end if;
+    else
+      select any o_tfr related by te_class->O_OBJ[R2019]->O_TFR[R115] where ( selected.Name == op_name );
+      if ( not_empty o_tfr )
+        select one te_tfr related by o_tfr->TE_TFR[R2024];
+        te_tfr.XlateSemantics = false;
+        msg = "Class Operation ${te_class.Name} ${te_class.Key_Lett}::${te_tfr.Name} semantics disabled.";
+      else
+        msg = "ERROR:  Class Operation ${te_class.Name} ${te_class.Key_Lett}::${op_name} is not defined.";
+        msg = msg + "\n  => MarkClassOperationTranslationOff( ${obj_key_letters}, ${op_name} )";
+      end if;
+    end if;
+  end for;
+  if ( msg != "" )
+    T::print(s:"${msg}");
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("48ee68c6-ac89-489f-9638-4d0598388a5c",
+	"934742ac-bf68-4495-a09c-66c6b16080a2",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b1c68254-778a-4465-9101-6fad01390d3a",
+	"934742ac-bf68-4495-a09c-66c6b16080a2",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"48ee68c6-ac89-489f-9638-4d0598388a5c",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c9494010-55d7-454d-ba32-45a357455ef2",
+	"934742ac-bf68-4495-a09c-66c6b16080a2",
+	'op_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b1c68254-778a-4465-9101-6fad01390d3a",
+	'');
+INSERT INTO PE_PE
+	VALUES ("934742ac-bf68-4495-a09c-66c6b16080a2",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("289ddf5f-ce6f-443c-b779-b256de18365c",
+	"00000000-0000-0000-0000-000000000000",
+	'TagObjectTraceOff',
+	'',
+	'//
+//============================================================================
+obj_key_letters = param.obj_key_letters;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkObjectTraceOff( component_name:te_c.Name, obj_key_letters:obj_key_letters );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1283c5d1-378f-4a46-b5b7-48d532a8d54d",
+	"289ddf5f-ce6f-443c-b779-b256de18365c",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("289ddf5f-ce6f-443c-b779-b256de18365c",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("20e838d6-2db0-4e79-87fd-54f633de25d7",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkObjectTraceOff',
+	'',
+	'component_name = param.component_name;
+obj_key_letters = param.obj_key_letters;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  if ( "*" == obj_key_letters )
+    select many te_classes related by te_c->TE_CLASS[R2064];
+    for each te_class in te_classes
+      te_class.IsTrace = false;
+    end for;
+    msg = "Class tracing for all is disabled in component ${te_c.Name}.";
+  else
+    select any te_class related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+    if ( not_empty te_class )
+      te_class.IsTrace = false;
+      msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is disabled.";
+    else
+      msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}.";
+      msg = msg + "\n => MarkObjectTraceOff( ${obj_key_letters} )";
+    end if;
+  end if;
+  if ( "" != msg )
+    T::print(s:"${msg}");
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7eded012-8bdd-49f3-98fb-2ca020b79011",
+	"20e838d6-2db0-4e79-87fd-54f633de25d7",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("587337a1-db7d-4b8b-b554-d25285e124bb",
+	"20e838d6-2db0-4e79-87fd-54f633de25d7",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7eded012-8bdd-49f3-98fb-2ca020b79011",
+	'');
+INSERT INTO PE_PE
+	VALUES ("20e838d6-2db0-4e79-87fd-54f633de25d7",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("60cee312-7b5a-408c-931e-35b83ef38f2b",
+	"00000000-0000-0000-0000-000000000000",
+	'TagObjectTraceOn',
+	'',
+	'//
+//============================================================================
+obj_key_letters = param.obj_key_letters;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkObjectTraceOn( component_name:te_c.Name, obj_key_letters:obj_key_letters );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("bab44651-5c60-421c-a8de-815d64e39435",
+	"60cee312-7b5a-408c-931e-35b83ef38f2b",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("60cee312-7b5a-408c-931e-35b83ef38f2b",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7192884a-6df1-42e5-a14f-fe13bb5c0bd4",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkObjectTraceOn',
+	'',
+	'component_name = param.component_name;
+obj_key_letters = param.obj_key_letters;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  if ( "*" == obj_key_letters )
+    select many te_classes related by te_c->TE_CLASS[R2064];
+    for each te_class in te_classes
+      te_class.IsTrace = true;
+    end for;
+    msg = "Class tracing for all is enabled in component ${te_c.Name}.";
+  else
+    select any te_class related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+    if ( not_empty te_class )
+      te_class.IsTrace = true;
+      msg = "Class ${te_class.Name} (${te_class.Key_Lett}) tracing is enabled.";
+    else
+      msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}.";
+      msg = msg + "\n => MarkObjectTraceOn( ${obj_key_letters} )";
+    end if;
+  end if;
+  if ( "" != msg )
+    T::print(s:"${msg}");
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("481e6e2b-578b-4adc-8ec3-393da7617033",
+	"7192884a-6df1-42e5-a14f-fe13bb5c0bd4",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("df5acb73-18b7-4674-9430-936196de1c60",
+	"7192884a-6df1-42e5-a14f-fe13bb5c0bd4",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"481e6e2b-578b-4adc-8ec3-393da7617033",
+	'');
+INSERT INTO PE_PE
+	VALUES ("7192884a-6df1-42e5-a14f-fe13bb5c0bd4",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("74eb1e84-1e78-4690-aa9c-3fe036342e04",
+	"00000000-0000-0000-0000-000000000000",
+	'TagPEIsDefinedInData',
+	'',
+	'//
+//============================================================================
+// Identify this class as having preexisting instances defined
+// in data.
+//============================================================================
+ss_prefix = param.ss_prefix;
+obj_key_letters = param.obj_key_letters;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkPEIsDefinedInData( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a868240b-7fbd-4beb-a498-3133c615ee5c",
+	"74eb1e84-1e78-4690-aa9c-3fe036342e04",
+	'ss_prefix',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("048083ba-271a-4a77-9ef5-eacf3d2c4190",
+	"74eb1e84-1e78-4690-aa9c-3fe036342e04",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a868240b-7fbd-4beb-a498-3133c615ee5c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("74eb1e84-1e78-4690-aa9c-3fe036342e04",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6caaa497-fe37-444c-8b4c-f4cc23d1f065",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkPEIsDefinedInData',
+	'',
+	'component_name = param.component_name;
+package_name = param.package_name;
+obj_key_letters = param.obj_key_letters;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  // Get set into scope.
+  select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
+  // Check for an explicit object.
+  // Check for an explicit package.
+  // Check a star in the package and component.
+  // Otherwise, generate a coloring error.
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
+    select many te_classes related by te_c->TE_CLASS[R2064];
+  elif ( "" == package_name )
+    select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+  elif ( "*" == obj_key_letters )
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
+  else
+    msg = msg + "ERROR:  MarkPEIsDefinedInData( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+  end if;
+  for each te_class in te_classes
+    te_class.PEIsDefinedInData = true;
+    msg = msg + "Class ${te_class.Name} (${te_class.Key_Lett}) in component ${te_c.Name} marked to enable PEIs in data.\n";
+  end for;
+  if ( "" != msg )
+    T::print(s:"${msg}");
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9f74d215-a7d7-49b4-b5a9-70078ea15b10",
+	"6caaa497-fe37-444c-8b4c-f4cc23d1f065",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e738dfb8-33ef-45ac-b45d-de88fb07c676",
+	"6caaa497-fe37-444c-8b4c-f4cc23d1f065",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9f74d215-a7d7-49b4-b5a9-70078ea15b10",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("26183f35-4860-4aee-85a8-74ddb039d6b1",
+	"6caaa497-fe37-444c-8b4c-f4cc23d1f065",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e738dfb8-33ef-45ac-b45d-de88fb07c676",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6caaa497-fe37-444c-8b4c-f4cc23d1f065",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fb7368e8-c87e-470b-a39a-ccf98a21a1d0",
+	"00000000-0000-0000-0000-000000000000",
+	'TagStaticInstancePopulation',
+	'',
+	'//
+//============================================================================
+// Identify this class as having a static instance population.
+// That is, after initialization is complete, instances are neither
+// created nor destroyed.
+//============================================================================
+ss_prefix = param.ss_prefix;
+obj_key_letters = param.obj_key_letters;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkStaticInstancePopulation( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("898c4c5c-e641-4b8b-80b5-205078826cb8",
+	"fb7368e8-c87e-470b-a39a-ccf98a21a1d0",
+	'ss_prefix',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("86484ea2-ba9f-4598-b639-dec9c7dc03b6",
+	"fb7368e8-c87e-470b-a39a-ccf98a21a1d0",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"898c4c5c-e641-4b8b-80b5-205078826cb8",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fb7368e8-c87e-470b-a39a-ccf98a21a1d0",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e30546b9-0251-4b98-9554-8de98a726b12",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkStaticInstancePopulation',
+	'',
+	'component_name = param.component_name;
+package_name = param.package_name;
+obj_key_letters = param.obj_key_letters;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  // Get set into scope.
+  select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
+  // Check for an explicit object.
+  // Check for an explicit package.
+  // Check a star in the package and component.
+  // Otherwise, generate a coloring error.
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
+    select many te_classes related by te_c->TE_CLASS[R2064];
+  elif ( "" == package_name )
+    select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+  elif ( "*" == obj_key_letters )
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
+  else
+    msg = msg + "ERROR:  MarkStaticInstancePopulation( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+  end if;
+  for each te_class in te_classes
+    te_class.IsFixedPopulation = true;
+    msg = msg + "Class ${te_class.Name} (${te_class.Key_Lett}) in component ${te_c.Name} marked as\n";
+    msg = msg + "as having a static instance population.\n";
+  end for;
+  if ( "" != msg )
+    T::print(s:"${msg}");
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d305336a-5e0f-4034-9a21-c643d05c12e0",
+	"e30546b9-0251-4b98-9554-8de98a726b12",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4e9f332b-7148-45e0-a080-796a41650d39",
+	"e30546b9-0251-4b98-9554-8de98a726b12",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d305336a-5e0f-4034-9a21-c643d05c12e0",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("15789b72-1255-4cc4-ba3c-8a43d80af8a9",
+	"e30546b9-0251-4b98-9554-8de98a726b12",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4e9f332b-7148-45e0-a080-796a41650d39",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e30546b9-0251-4b98-9554-8de98a726b12",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("250b23e7-af2a-4873-9ffb-ab3f4f2c65a9",
+	"00000000-0000-0000-0000-000000000000",
+	'TagReadOnly',
+	'',
+	'//
+//============================================================================
+// Mark object as read only.
+//============================================================================
+ss_prefix = param.ss_prefix;
+obj_key_letters = param.obj_key_letters;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkReadOnly( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8a084d9b-ebc4-4b40-a842-0171dee5a4ee",
+	"250b23e7-af2a-4873-9ffb-ab3f4f2c65a9",
+	'ss_prefix',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e45b8e45-3b60-4e00-8e3e-c42ea6c3ce88",
+	"250b23e7-af2a-4873-9ffb-ab3f4f2c65a9",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"8a084d9b-ebc4-4b40-a842-0171dee5a4ee",
+	'');
+INSERT INTO PE_PE
+	VALUES ("250b23e7-af2a-4873-9ffb-ab3f4f2c65a9",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fc9e399f-3e3f-4f2f-b1be-5337d48089f2",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkReadOnly',
+	'',
+	'component_name = param.component_name;
+package_name = param.package_name;
+obj_key_letters = param.obj_key_letters;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  // Get set into scope.
+  select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
+  // Check for an explicit object.
+  // Check for an explicit package.
+  // Check a star in the package and component.
+  // Otherwise, generate a coloring error.
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
+    select many te_classes related by te_c->TE_CLASS[R2064];
+  elif ( "" == package_name )
+    select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+  elif ( "*" == obj_key_letters )
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
+  else
+    msg = msg + "ERROR:  MarkReadOnly( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+  end if;
+  for each te_class in te_classes
+    te_class.IsReadOnly = true;
+    msg = msg + "Class ${te_class.Name} (${te_class.Key_Lett}) in component ${te_c.Name} marked as read only.\n";
+  end for;
+  if ( "" != msg )
+    T::print(s:"${msg}");
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5b6fb8b4-a45f-4122-a18f-a381f64caaac",
+	"fc9e399f-3e3f-4f2f-b1be-5337d48089f2",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ec35a815-d925-441d-b13d-89a8340c8bf7",
+	"fc9e399f-3e3f-4f2f-b1be-5337d48089f2",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"5b6fb8b4-a45f-4122-a18f-a381f64caaac",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3b492991-ce4e-490f-952b-d32f610a318f",
+	"fc9e399f-3e3f-4f2f-b1be-5337d48089f2",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ec35a815-d925-441d-b13d-89a8340c8bf7",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fc9e399f-3e3f-4f2f-b1be-5337d48089f2",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e0ea0420-f668-4847-afee-60ff159ff00b",
+	"00000000-0000-0000-0000-000000000000",
+	'TagPersistentClass',
+	'',
+	'//
+//============================================================================
+// Enable persistent storage of the specified class or classes.
+//============================================================================
+ss_prefix = param.ss_prefix;
+obj_key_letters = param.obj_key_letters;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkPersistentClass( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4ecb09d3-f27d-444e-ad66-702720c4742f",
+	"e0ea0420-f668-4847-afee-60ff159ff00b",
+	'ss_prefix',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f6777be5-7243-4171-b0d7-b04b99bba6f8",
+	"e0ea0420-f668-4847-afee-60ff159ff00b",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4ecb09d3-f27d-444e-ad66-702720c4742f",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e0ea0420-f668-4847-afee-60ff159ff00b",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("07cdbc7e-a24d-4db5-ba3d-0f5e32396034",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkPersistentClass',
+	'',
+	'component_name = param.component_name;
+package_name = param.package_name;
+obj_key_letters = param.obj_key_letters;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  // Get set into scope.
+  select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
+  // Check for an explicit object.
+  // Check for an explicit package.
+  // Check a star in the package and component.
+  // Otherwise, generate a coloring error.
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
+    select many te_classes related by te_c->TE_CLASS[R2064];
+  elif ( "" == package_name )
+    select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+  elif ( "*" == obj_key_letters )
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
+  else
+    msg = msg + "ERROR:  MarkPersistentClass( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+  end if;
+  for each te_class in te_classes
+    te_class.Persistent = true;
+    msg = msg + "Class ${te_class.Name} (${te_class.Key_Lett}) in component ${te_c.Name} marked as persistent.\n";
+  end for;
+  if ( "" != msg )
+    T::print(s:"${msg}");
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("07e84de0-f934-4989-a4aa-6470e5ad1b9f",
+	"07cdbc7e-a24d-4db5-ba3d-0f5e32396034",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("52a3a749-ab88-430e-8435-dfba74bc8dbb",
+	"07cdbc7e-a24d-4db5-ba3d-0f5e32396034",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"07e84de0-f934-4989-a4aa-6470e5ad1b9f",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("64c53ae4-6499-487b-b9e0-d22a5e30e393",
+	"07cdbc7e-a24d-4db5-ba3d-0f5e32396034",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"52a3a749-ab88-430e-8435-dfba74bc8dbb",
+	'');
+INSERT INTO PE_PE
+	VALUES ("07cdbc7e-a24d-4db5-ba3d-0f5e32396034",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d72910b5-5bca-40d2-bd7a-6c3bd49215ef",
+	"00000000-0000-0000-0000-000000000000",
+	'TagNonPersistentClass',
+	'',
+	'//
+//============================================================================
+// Disable persistent storage of the specified class or classes.
+// This interface is meant to undo what the MarkPersistent interface
+// does.  This way the user can tag all classes persistent and then
+// unmark a few (rather than explicitly mark a whole bunch).
+//============================================================================
+ss_prefix = param.ss_prefix;
+obj_key_letters = param.obj_key_letters;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkNonPersistentClass( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4c54177c-34f1-4169-a33e-465db696a7f3",
+	"d72910b5-5bca-40d2-bd7a-6c3bd49215ef",
+	'ss_prefix',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1b353e4a-d61b-4654-a138-d13a8e876d10",
+	"d72910b5-5bca-40d2-bd7a-6c3bd49215ef",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4c54177c-34f1-4169-a33e-465db696a7f3",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d72910b5-5bca-40d2-bd7a-6c3bd49215ef",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c6bb0f12-d921-43e8-8c67-09054286b66f",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkNonPersistentClass',
+	'',
+	'component_name = param.component_name;
+package_name = param.package_name;
+obj_key_letters = param.obj_key_letters;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  // Get set into scope.
+  select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
+  // Check for an explicit object.
+  // Check for an explicit package.
+  // Check a star in the package and component.
+  // Otherwise, generate a coloring error.
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
+    select many te_classes related by te_c->TE_CLASS[R2064];
+  elif ( "" == package_name )
+    select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+  elif ( "*" == obj_key_letters )
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
+  else
+    msg = msg + "ERROR:  MarkNonPersistentClass( ${package_name}, ${obj_key_letters} ) in component ${te_c.Name}\n";
+  end if;
+  for each te_class in te_classes
+    te_class.Persistent = false;
+    msg = msg + "Class ${te_class.Name} (${te_class.Key_Lett}) in component ${te_c.Name} marked as not persistent.\n";
+  end for;
+  if ( "" != msg )
+    T::print(s:"${msg}");
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d508ec27-cc72-4433-bf93-30a42f19d312",
+	"c6bb0f12-d921-43e8-8c67-09054286b66f",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d5a82088-cc92-4fd1-97f1-7835f88b0dd5",
+	"c6bb0f12-d921-43e8-8c67-09054286b66f",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d508ec27-cc72-4433-bf93-30a42f19d312",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("73d3e5e6-453e-4d0e-b837-1d41589c14ab",
+	"c6bb0f12-d921-43e8-8c67-09054286b66f",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d5a82088-cc92-4fd1-97f1-7835f88b0dd5",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c6bb0f12-d921-43e8-8c67-09054286b66f",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1c4d1bda-af81-40cc-80a9-4cefd52b5b6a",
+	"00000000-0000-0000-0000-000000000000",
+	'MapClassToTask',
+	'',
+	'//
+//============================================================================
+// Map classes to tasks based upon user marking.  With this interface
+// an individual class, package or component can be mapped to the
+// specified task.
+//============================================================================
+ss_prefix = param.ss_prefix;
+obj_key_letters = param.obj_key_letters;
+task = param.task;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkClassToTask( component_name:te_c.Name, package_name:ss_prefix, obj_key_letters:obj_key_letters, task:task );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f42911e2-85ad-4255-87e6-9bb1e02478e6",
+	"1c4d1bda-af81-40cc-80a9-4cefd52b5b6a",
+	'ss_prefix',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("834037ba-1529-4cab-8cc2-b6787899ddae",
+	"1c4d1bda-af81-40cc-80a9-4cefd52b5b6a",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f42911e2-85ad-4255-87e6-9bb1e02478e6",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5649af22-360a-4d91-a896-3d30b6b9f5b8",
+	"1c4d1bda-af81-40cc-80a9-4cefd52b5b6a",
+	'task',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"834037ba-1529-4cab-8cc2-b6787899ddae",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1c4d1bda-af81-40cc-80a9-4cefd52b5b6a",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6d94f36c-b069-4952-9ccf-2557db3b3b13",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkClassToTask',
+	'',
+	'component_name = param.component_name;
+package_name = param.package_name;
+obj_key_letters = param.obj_key_letters;
+task = param.task;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  // Get set into scope.
+  select many te_classes related by te_c->TE_CLASS[R2064] where ( false );
+  // Check for an explicit object.
+  // Check for an explicit package.
+  // Check a star in the package and component.
+  // Otherwise, generate a coloring error.
+  if ( ( "*" == package_name ) and ( "*" == obj_key_letters ) )
+    select many te_classes related by te_c->TE_CLASS[R2064];
+  elif ( "" == package_name )
+    select many te_classes related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+  elif ( "*" == obj_key_letters )
+    select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
+  else
+    T::print(s:"ERROR:  MapClassToTask( ${package_name}, ${obj_key_letters}, $t{task} ) in component ${te_c.Name}\n");
+  end if;
+  for each te_class in te_classes
+    te_class.Task = task;
+  end for;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5f4a5c3e-1ee8-4367-9edb-5483e301ab98",
+	"6d94f36c-b069-4952-9ccf-2557db3b3b13",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("920423b2-fc53-422f-83c8-a332b8910787",
+	"6d94f36c-b069-4952-9ccf-2557db3b3b13",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"5f4a5c3e-1ee8-4367-9edb-5483e301ab98",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ea0a3e0d-a3d7-49c2-9244-bd6a8c47c196",
+	"6d94f36c-b069-4952-9ccf-2557db3b3b13",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"920423b2-fc53-422f-83c8-a332b8910787",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("521b4a34-e0a5-465a-b03e-16d4aeeb8efc",
+	"6d94f36c-b069-4952-9ccf-2557db3b3b13",
+	'task',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"ea0a3e0d-a3d7-49c2-9244-bd6a8c47c196",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6d94f36c-b069-4952-9ccf-2557db3b3b13",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("82c975c7-59f5-477d-9a11-70cdaa23d41d",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkAsChannel',
+	'',
+	'//============================================================================
+// $RCSfile: m.component.arc,v $
+//
+// Description:
+// Component level marking functions are found here.
+//============================================================================
+//
+//
+//============================================================================
+// Mark components as channels using package name and/or component
+// name as the selection criteria.
+//============================================================================
+package_name = param.package_name;
+component_name = param.component_name;
+inc_file = param.inc_file;
+::MarkComponentAsChannel( package_name:package_name, component_name:component_name, inc_file:inc_file );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("872e2dff-e9a4-4e06-a540-1b2253fffd77",
+	"82c975c7-59f5-477d-9a11-70cdaa23d41d",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("aea2969a-1b2d-46b9-9d40-8221af768e88",
+	"82c975c7-59f5-477d-9a11-70cdaa23d41d",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"872e2dff-e9a4-4e06-a540-1b2253fffd77",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9576c7a5-16ff-4137-b213-b89dc9717417",
+	"82c975c7-59f5-477d-9a11-70cdaa23d41d",
+	'inc_file',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"aea2969a-1b2d-46b9-9d40-8221af768e88",
+	'');
+INSERT INTO PE_PE
+	VALUES ("82c975c7-59f5-477d-9a11-70cdaa23d41d",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1629ec9d-942f-42ac-ace5-d32f0b625061",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkComponentAsChannel',
+	'',
+	'package_name = param.package_name;
+component_name = param.component_name;
+inc_file = param.inc_file;
+select many c_cs from instances of C_C where ( false );
+if ( ( ( "" == package_name ) and ( "" == component_name ) ) or ( ( "*" == package_name ) and ( "*" == component_name ) ) )
+  // all components
+  select many c_cs from instances of C_C;
+elif ( ( "" == package_name ) or ( "*" == package_name ) )
+  // matches without respect to package
+  select many c_cs from instances of C_C where ( selected.Name == component_name );
+elif ( ( "" == component_name ) or ( "*" == component_name ) )
+  // all components in packages with given name
+  select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name );
+  select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001];
+else
+  // particular component in particular package(s)
+  select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name );
+  select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001] where ( selected.Name == component_name );
+end if;
+select many te_cs related by c_cs->TE_C[R2054];
+if ( empty te_cs )
+  T::print(s:"WARNING:  MarkComponentAsChannel - Could not find component ${package_name}::${component_name}.");
+end if;
+for each te_c in te_cs
+  select one tm_c related by te_c->TM_C[R2804];
+  if ( empty tm_c )
+    create object instance tm_c of TM_C;
+    tm_c.Package = package_name;
+    tm_c.Name = component_name;
+    relate te_c to tm_c across R2804;
+  end if;
+  tm_c.isChannel = true;
+  tm_c.include_file = inc_file;
+  // Now that we have marked this component as a channel modify the message names
+  select many te_macts related by te_c->TE_MACT[R2002];
+  for each te_mact in te_macts
+    select one te_aba related by te_mact->TE_ABA[R2010];
+    te_mact.GeneratedName = te_mact.MessageName;
+    te_mact.GeneratedName = T::r(s:te_mact.GeneratedName);
+    te_aba.GeneratedName = te_mact.GeneratedName;
+  end for;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7fc6e800-bc49-40c4-8089-6a6de7347817",
+	"1629ec9d-942f-42ac-ace5-d32f0b625061",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0abef637-1daa-4916-9d08-2b71c1ecd017",
+	"1629ec9d-942f-42ac-ace5-d32f0b625061",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7fc6e800-bc49-40c4-8089-6a6de7347817",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b2b4da25-a350-49f3-a709-8ace1917e078",
+	"1629ec9d-942f-42ac-ace5-d32f0b625061",
+	'inc_file',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0abef637-1daa-4916-9d08-2b71c1ecd017",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1629ec9d-942f-42ac-ace5-d32f0b625061",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4c26b613-eb13-4a26-844b-9d15c03d57af",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkComponentWithTemplate',
+	'',
+	'//
+//============================================================================
+// Mark a component that has a C++ template.
+//============================================================================
+package_name = param.package_name;
+component_name = param.component_name;
+select many c_cs from instances of C_C where ( false );
+if ( ( ( "" == package_name ) and ( "" == component_name ) ) or ( ( "*" == package_name ) and ( "*" == component_name ) ) )
+  // all components
+  select many c_cs from instances of C_C;
+elif ( ( "" == package_name ) or ( "*" == package_name ) )
+  // matches without respect to package
+  select many c_cs from instances of C_C where ( selected.Name == component_name );
+elif ( ( "" == component_name ) or ( "*" == component_name ) )
+  // all components in packages with given name
+  select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name );
+  select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001];
+else
+  // particular component in particular package(s)
+  select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name );
+  select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001] where ( selected.Name == component_name );
+end if;
+select many te_cs related by c_cs->TE_C[R2054];
+if ( empty te_cs )
+  T::print(s:"WARNING:  MarkComponentWithTemplate - Could not find component ${package_name}::${component_name}.");
+end if;
+for each te_c in te_cs
+  select one tm_c related by te_c->TM_C[R2804];
+  if ( empty tm_c )
+    create object instance tm_c of TM_C;
+    tm_c.Package = package_name;
+    tm_c.Name = component_name;
+    tm_c.isChannel = false;
+    tm_c.include_file = "";
+  end if;
+  if ( not_empty te_c )
+    relate te_c to tm_c across R2804;
+  end if;
+  // Make the new template the current one for follow-on markings.
+  select many tm_templates from instances of TM_TEMPLATE;
+  for each tm_template in tm_templates
+    tm_template.current = false;
+  end for;
+  create object instance tm_template of TM_TEMPLATE;
+  tm_template.current = true;
+  relate tm_template to tm_c across R2800;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4fe0367f-4b73-4828-ba05-e3ef3e3ed32c",
+	"4c26b613-eb13-4a26-844b-9d15c03d57af",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("30c2bdd5-18de-48a3-9ca7-4cf10d970cb8",
+	"4c26b613-eb13-4a26-844b-9d15c03d57af",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4fe0367f-4b73-4828-ba05-e3ef3e3ed32c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4c26b613-eb13-4a26-844b-9d15c03d57af",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e6041909-97cd-468b-b0f5-4d1ee2cbbcb0",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkInterfaceWithTemplate',
+	'',
+	'//
+//============================================================================
+// Mark an interface that has a C++ template.
+//============================================================================
+package_name = param.package_name;
+interface_name = param.interface_name;
+select any c_i from instances of C_I where ( false );
+if ( ( "" == package_name ) or ( "*" == package_name ) )
+  select any c_i from instances of C_I where ( selected.Name == interface_name );
+else
+  select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name );
+  select any c_i related by ep_pkgs->PE_PE[R8000]->C_I[R8001] where ( selected.Name == interface_name );
+end if;
+if ( empty c_i )
+  T::print(s:"WARNING:  MarkInterfaceWithTemplate - Could not find interface ${package_name}::${interface_name}.");
+end if;
+create object instance tm_if of TM_IF;
+tm_if.Package = package_name;
+tm_if.Name = interface_name;
+relate tm_if to c_i across R2807;
+// Make the new template the current one for follow-on markings.
+select many tm_templates from instances of TM_TEMPLATE;
+for each tm_template in tm_templates
+  tm_template.current = false;
+end for;
+create object instance tm_template of TM_TEMPLATE;
+tm_template.current = true;
+relate tm_template to tm_if across R2802;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e57cb03a-28cb-44e0-a7ff-3ae810854d9c",
+	"e6041909-97cd-468b-b0f5-4d1ee2cbbcb0",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("04f7655c-b09e-4ae2-aea1-7a724125599f",
+	"e6041909-97cd-468b-b0f5-4d1ee2cbbcb0",
+	'interface_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e57cb03a-28cb-44e0-a7ff-3ae810854d9c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e6041909-97cd-468b-b0f5-4d1ee2cbbcb0",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fd3d1b20-73b7-4bdc-8baa-4a604a664c17",
+	"00000000-0000-0000-0000-000000000000",
+	'AddTemplateParameter',
+	'',
+	'//
+//============================================================================
+// Add a template parameter to a C++ template.
+// The template is located based upon the associated component.
+//============================================================================
+package_name = param.package_name;
+component_name = param.component_name;
+type_name = param.type_name;
+variable_name = param.variable_name;
+default_value = param.default_value;
+select any tm_template from instances of TM_TEMPLATE where ( selected.current );
+select any tm_c from instances of TM_C where ( ( selected.Package == package_name ) and ( selected.Name == component_name ) );
+if ( ( "" == package_name ) or ( "*" == package_name ) )
+  select any tm_c from instances of TM_C where ( selected.Name == component_name );
+  if ( empty tm_c )
+    select one tm_c related by tm_template->TM_C[R2800];
+  end if;
+end if;
+if ( empty tm_c )
+  select any tm_if from instances of TM_IF where ( ( selected.Package == package_name ) and ( selected.Name == component_name ) );
+  if ( ( "" == package_name ) or ( "*" == package_name ) )
+    select any tm_if from instances of TM_IF where ( selected.Name == component_name );
+    if ( empty tm_if )
+      select one tm_if related by tm_template->TM_IF[R2802];
+    end if;
+  end if;
+  if ( empty tm_if )
+    T::print(s:"ERROR:  AddTemplateParameter - Could not find element (component or interface) ${package_name}::${component_name}.");
+  else
+    select one tm_template related by tm_if->TM_TEMPLATE[R2802];
+  end if;
+else
+  select one tm_template related by tm_c->TM_TEMPLATE[R2800];
+end if;
+if ( not_empty tm_template )
+  create object instance tm_tp of TM_TP;
+  relate tm_tp to tm_template across R2801;
+  tm_tp.typename = type_name;
+  tm_tp.Name = variable_name;
+  tm_tp.DefaultValue = default_value;
+else
+  T::print(s:"ERROR:  AddTemplateParameter - Could not find template for element ${package_name}::${component_name}.");
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("52bb993c-30b7-4512-9b5f-8c1f32ecf69a",
+	"fd3d1b20-73b7-4bdc-8baa-4a604a664c17",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e0c9e415-ce2e-4d02-b525-71eea2563a6f",
+	"fd3d1b20-73b7-4bdc-8baa-4a604a664c17",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"52bb993c-30b7-4512-9b5f-8c1f32ecf69a",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7cef2ad6-b5c2-47d2-a3c6-329f0d092575",
+	"fd3d1b20-73b7-4bdc-8baa-4a604a664c17",
+	'type_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e0c9e415-ce2e-4d02-b525-71eea2563a6f",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ed3fc374-d45d-4309-91da-1fed2430081e",
+	"fd3d1b20-73b7-4bdc-8baa-4a604a664c17",
+	'variable_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7cef2ad6-b5c2-47d2-a3c6-329f0d092575",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("26743015-b8da-42fe-908d-710cc9efdb17",
+	"fd3d1b20-73b7-4bdc-8baa-4a604a664c17",
+	'default_value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ed3fc374-d45d-4309-91da-1fed2430081e",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fd3d1b20-73b7-4bdc-8baa-4a604a664c17",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7a1dbc02-f134-454d-b6bb-5cbbcdddbbaf",
+	"00000000-0000-0000-0000-000000000000",
+	'SetTemplateParameter',
+	'',
+	'//
+//============================================================================
+// Set the template parameter for an instance of a component or interface
+// class.  The template is navigated based upon the associated package
+// and instance.
+//============================================================================
+package_name = param.package_name;
+instance = param.instance;
+variable_name = param.variable_name;
+value = param.value;
+// Base selection upon the template that most recently got created.
+select any tm_template from instances of TM_TEMPLATE where ( selected.current );
+select one tm_c related by tm_template->TM_C[R2800];
+select one tm_if related by tm_template->TM_IF[R2802];
+select any tm_tp related by tm_template->TM_TP[R2801] where ( selected.Name == variable_name );
+if ( ( ( "" == package_name ) or ( "" == instance ) ) or ( ( "" == variable_name ) or ( "" == value ) ) )
+  T::print(s:"ERROR:  SetTemplateParameter -  Must provide valid strings for all arguments. ${package_name}::${instance}.${variable_name} to value ${value}.");
+else
+  select any ep_pkg from instances of EP_PKG where ( selected.Name == package_name );
+  if ( empty ep_pkg )
+    T::print(s:"ERROR:  SetTemplateParameter -  Package, ${package_name}, not found for ${package_name}::${instance}.${variable_name} to value ${value}.");
+  end if;
+  if ( not_empty tm_tp )
+    if ( not_empty tm_c )
+      select any te_ci related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance );
+      if ( empty te_ci )
+        select any te_ci related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( selected.ClassifierName == instance );
+      end if;
+      if ( not_empty te_ci )
+        create object instance tm_tpv of TM_TPV;
+        tm_tpv.instance = instance;
+        tm_tpv.value = value;
+        relate tm_tpv to tm_tp across R2808;
+        relate tm_tpv to te_ci across R2805;
+              else
+        T::print(s:"ERROR:  SetTemplateParameter - no component instance for ${package_name}::${instance} with name ${variable_name}.");
+      end if;
+    elif ( not_empty tm_if )
+      select many te_iirs related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
+      for each te_iir in te_iirs
+        create object instance tm_tpv of TM_TPV;
+        tm_tpv.instance = instance;
+        tm_tpv.value = value;
+        relate tm_tpv to tm_tp across R2808;
+        relate tm_tpv to te_iir across R2806;
+              end for;
+      select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
+      for each te_iir in te_iirs
+        create object instance tm_tpv of TM_TPV;
+        tm_tpv.instance = instance;
+        tm_tpv.value = value;
+        relate tm_tpv to tm_tp across R2808;
+        relate tm_tpv to te_iir across R2806;
+              end for;
+      select many te_iirs related by ep_pkg->PE_PE[R8000]->C_C[R8001]->C_PO[R4010]->C_IR[R4016]->TE_IIR[R2046] where ( ( selected.port_name == instance ) and ( selected.interface_name == tm_if.Name ) );
+      for each te_iir in te_iirs
+        create object instance tm_tpv of TM_TPV;
+        tm_tpv.instance = instance;
+        tm_tpv.value = value;
+        relate tm_tpv to tm_tp across R2808;
+        relate tm_tpv to te_iir across R2806;
+              end for;
+    else
+      T::print(s:"ERROR:  SetTemplateParameter - Found a template parameter for a template that is orphaned.");
+    end if;
+  else
+    T::print(s:"WARNING:  SetTemplateParameter - Did NOT find template parameter for package ${package_name}::${instance} with name ${variable_name}.");
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("feb9885f-850c-4cc5-9b39-6371a2be254e",
+	"7a1dbc02-f134-454d-b6bb-5cbbcdddbbaf",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ecf568f9-0396-4c38-bc6b-38bf06e8030d",
+	"7a1dbc02-f134-454d-b6bb-5cbbcdddbbaf",
+	'instance',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"feb9885f-850c-4cc5-9b39-6371a2be254e",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c13a8d4c-7193-42f8-a0e4-ff59b2beb2e0",
+	"7a1dbc02-f134-454d-b6bb-5cbbcdddbbaf",
+	'variable_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ecf568f9-0396-4c38-bc6b-38bf06e8030d",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("64aa701e-ee67-408a-aa54-a5e6275fb218",
+	"7a1dbc02-f134-454d-b6bb-5cbbcdddbbaf",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c13a8d4c-7193-42f8-a0e4-ff59b2beb2e0",
+	'');
+INSERT INTO PE_PE
+	VALUES ("7a1dbc02-f134-454d-b6bb-5cbbcdddbbaf",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("65899509-d32c-430c-8ba7-5ef6fe785dc4",
+	"00000000-0000-0000-0000-000000000000",
+	'SetTPV',
+	'',
+	'//
+//============================================================================
+// Set Template Parameter Value
+//   Once components and interfaces have been marked with C++ templates
+//   and all template parameters added, the template parameter values can
+//   be set and associated with the appropriate component and interface
+//   instances (component references and ports).
+//   Set the template parameter for an instance of a component or interface
+//   class.  The template is navigated based upon the associated package
+//   and instance.
+//============================================================================
+package_name = param.package_name;
+parent_component = param.parent_component;
+component = param.component;
+classifier_name = param.classifier_name;
+port = param.port;
+variable_name = param.variable_name;
+value = param.value;
+trace = "${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} value ${value} (and port ${port})";
+if ( ( ( "" == package_name ) or ( "" == component ) ) or ( ( "" == classifier_name ) or ( ( ( "" == variable_name ) or ( "" == value ) ) ) ) )
+  T::print(s:"ERROR:  SetTPV - Must provide valid strings for all arguments except the optional port, ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} to value ${value} (and port ${port}).");
+else
+  select any ep_pkg from instances of EP_PKG where ( selected.Name == package_name );
+  if ( empty ep_pkg )
+    T::print(s:"ERROR:  SetTPV -  Package, ${package_name}, not found for ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} to value ${value}.");
+  end if;
+  select many te_cis related by ep_pkg->PE_PE[R8000]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
+  if ( "" != parent_component )
+    select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001] where ( selected.Name == parent_component );
+    select many te_cis related by c_cs->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
+  else
+    if ( empty te_cis )
+      select many te_cis related by ep_pkg->PE_PE[R8000]->C_C[R8001]->PE_PE[R8003]->CL_IC[R8001]->TE_CI[R2009] where ( ( selected.Name == component ) and ( selected.ClassifierName == classifier_name ) );
+    end if;
+  end if;
+  te_cis_count = cardinality te_cis;
+  if ( te_cis_count > 1 )
+    T::print(s:"WARNING:  SetTPV - More than one instantiation found for ${package_name}::${parent_component}::${component}:${classifier_name}.${variable_name} to value ${value}.");
+    T::print(s:"                   All instantiations will be marked to receive the same template parameter value.");
+  elif ( 0 == te_cis_count )
+    T::print(s:"ERROR:  SetTPV - Component instance not found for ${package_name}::${parent_component}::${component}:${classifier_name}.");
+  end if;
+  if ( "" == port )
+    // We are setting values for component templates.
+    for each te_ci in te_cis
+      select one tm_template related by te_ci->TE_C[R2008]->TM_C[R2804]->TM_TEMPLATE[R2800];
+      select any tm_tp related by tm_template->TM_TP[R2801] where ( selected.Name == variable_name );
+      if ( not_empty tm_tp )
+        // Create the template parameter value and link it in.
+        create object instance tm_tpv of TM_TPV;
+        tm_tpv.instance = component;
+        tm_tpv.value = value;
+        relate tm_tpv to tm_tp across R2808;
+        relate tm_tpv to te_ci across R2805;
+              else
+        T::print(s:"WARNING:  SetTPV - Template parameter not found for ${package_name}::${parent_component}::${component}:${classifier_name}.");
+      end if;
+    end for;
+  else
+    // We are setting a value for an interface template.
+    for each te_ci in te_cis
+      select any te_iir related by te_ci->CL_IC[R2009]->CL_POR[R4707]->CL_IIR[R4708]->TE_IIR[R2013] where ( selected.port_name == port );
+      ::SetTPV_for_channel_connection( te_iir:te_iir, variable_name:variable_name, value:value, trace:trace, flavor:0 );
+    end for;
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("202e398a-c457-45c0-b379-08bd22ea095c",
+	"65899509-d32c-430c-8ba7-5ef6fe785dc4",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c5387027-8c2e-4e84-a26b-a4fa80a6f085",
+	"65899509-d32c-430c-8ba7-5ef6fe785dc4",
+	'parent_component',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"202e398a-c457-45c0-b379-08bd22ea095c",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("137a1908-d848-410b-93bb-976dddebf86c",
+	"65899509-d32c-430c-8ba7-5ef6fe785dc4",
+	'component',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c5387027-8c2e-4e84-a26b-a4fa80a6f085",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("15f1252e-a412-408a-8280-b7d6f8849208",
+	"65899509-d32c-430c-8ba7-5ef6fe785dc4",
+	'classifier_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"137a1908-d848-410b-93bb-976dddebf86c",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e6d64696-9d6c-4061-a671-e40566a1ae1b",
+	"65899509-d32c-430c-8ba7-5ef6fe785dc4",
+	'port',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"15f1252e-a412-408a-8280-b7d6f8849208",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0a818a90-cb8f-494b-994a-6324e4d3d232",
+	"65899509-d32c-430c-8ba7-5ef6fe785dc4",
+	'variable_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e6d64696-9d6c-4061-a671-e40566a1ae1b",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a9635ee7-9666-4626-8f6b-6f06ec2fd613",
+	"65899509-d32c-430c-8ba7-5ef6fe785dc4",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0a818a90-cb8f-494b-994a-6324e4d3d232",
+	'');
+INSERT INTO PE_PE
+	VALUES ("65899509-d32c-430c-8ba7-5ef6fe785dc4",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("49b6b0b9-faa3-4237-968a-17f771388e68",
+	"00000000-0000-0000-0000-000000000000",
+	'SetTPV_for_channel_connection',
+	'',
+	'//
+// Rules
+// Always start from IIR.
+// On a first call, first try to cross a satisfaction from IIR.
+// It is only possible to go upward on a delegation on the first call.
+// After the first call, it is O.K. to cross a satisfaction after crossing
+// a delegation.
+// After traversing to an imported interface reference, consider marking
+// the associated interface reference.  (Mark both.)
+// Gather all the delegated_te_iirs into a collection and then loop through.
+// This is necessary for delegations only.
+// Be smart and look for only the right types in the right direction.
+te_iir = param.te_iir;
+variable_name = param.variable_name;
+value = param.value;
+trace = param.trace;
+flavor = param.flavor;
+select many delegated_te_iirs from instances of TE_IIR where ( false );
+// flavors:  0:firstcall, 1:coming from satisfaction, 2:coming from delegation
+select any tm_tp related by te_iir->C_IR[R2046]->C_I[R4012]->TM_IF[R2807]->TM_TEMPLATE[R2802]->TM_TP[R2801] where ( selected.Name == variable_name );
+if ( empty tm_tp )
+  select any tm_tp related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_I[R4012]->TM_IF[R2807]->TM_TEMPLATE[R2802]->TM_TP[R2801] where ( selected.Name == variable_name );
+  if ( empty tm_tp )
+    T::print(s:"WARNING:  SetTPV - Template parameter not found for ${trace}.");
+  end if;
+end if;
+// Determine whether we have an interface reference for a component marked
+// as a channel.  Process channel interface references on first call only.
+select one tm_c related by te_iir->TE_PO[R2080]->TE_C[R2005]->TM_C[R2804];
+isChannel = false;
+if ( not_empty tm_c )
+  isChannel = tm_c.isChannel;
+end if;
+// See if this template parameter already has a value for this reference.
+select any tm_tpv related by te_iir->TM_TPV[R2806] where ( ( selected.instance == te_iir.interface_name ) and ( selected.tm_tpID == tm_tp.ID ) );
+// If isChannel, then skip unless it is the first call.
+if ( ( ( ( empty tm_tpv ) and ( not_empty tm_tp ) ) and ( not isChannel ) ) or ( 0 == flavor ) )
+  //.select one te_c related by te_iir->TE_PO[R2080]->TE_C[R2005]
+  //.print "${trace} ${te_iir.port_name} ${te_c.Name}"
+  create object instance tm_tpv of TM_TPV;
+  tm_tpv.instance = te_iir.interface_name;
+  tm_tpv.value = value;
+  relate tm_tpv to tm_tp across R2808;
+  relate tm_tpv to te_iir across R2806;
+    //
+  // Find a satisfaction or delegation.  Recursively apply the same template parameter value to the connections.
+  select one satisfied_te_iir related by te_iir->TE_IIR[R2081.''requires or delegates''] where ( false );
+  if ( ( 0 == flavor ) or ( 2 == flavor ) )
+    // iir to iir
+    // Search from imported reference across satisfaction to imported reference provision to requirement.
+    select many satisfied_te_iirs related by te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013];
+    if ( not_empty satisfied_te_iirs )
+      for each satisfied_te_iir in satisfied_te_iirs
+        ::SetTPV_for_channel_connection( te_iir:satisfied_te_iir, variable_name:variable_name, value:value, trace:" 1${trace}", flavor:1 );
+      end for;
+    else
+      // Search from imported reference across satisfaction to imported reference requirement to provision.
+      select one satisfied_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013];
+      if ( not_empty satisfied_te_iir )
+        ::SetTPV_for_channel_connection( te_iir:satisfied_te_iir, variable_name:variable_name, value:value, trace:" 2${trace}", flavor:1 );
+      else
+        // mixed iir and ir
+        // Search from imported reference across satisfaction to reference imported provision to requirement.
+        select many satisfied_te_iirs related by te_iir->CL_IIR[R2013]->CL_IP[R4703]->CL_IPINS[R4705]->C_SF[R4705]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046];
+        if ( not_empty satisfied_te_iirs )
+          for each satisfied_te_iir in satisfied_te_iirs
+            ::SetTPV_for_channel_connection( te_iir:satisfied_te_iir, variable_name:variable_name, value:value, trace:" 3${trace}", flavor:1 );
+          end for;
+        else
+          // Search from imported reference across satisfaction to reference imported requirement to provision.
+          select one satisfied_te_iir related by te_iir->CL_IIR[R2013]->CL_IR[R4703]->C_SF[R4706]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046];
+          if ( not_empty satisfied_te_iir )
+            ::SetTPV_for_channel_connection( te_iir:satisfied_te_iir, variable_name:variable_name, value:value, trace:" 4${trace}", flavor:1 );
+          else
+            // Search from reference across satisfaction to reference provision to requirement.
+            select any satisfied_te_iir related by te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->C_R[R4002]->C_IR[R4009]->TE_IIR[R2046];
+            if ( not_empty satisfied_te_iir )
+              ::SetTPV_for_channel_connection( te_iir:satisfied_te_iir, variable_name:variable_name, value:value, trace:" 4a${trace}", flavor:1 );
+            else
+              // Search from reference across satisfaction to reference requirement to provision.
+              select any satisfied_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->C_P[R4002]->C_IR[R4009]->TE_IIR[R2046];
+              if ( not_empty satisfied_te_iir )
+                ::SetTPV_for_channel_connection( te_iir:satisfied_te_iir, variable_name:variable_name, value:value, trace:" 4b${trace}", flavor:1 );
+              else
+                // Search from reference across satisfaction to imported reference imported provision to requirement.
+                // CDS should not find these, because we already go the other mixed direction?
+                //.select one satisfied_te_iir related by te_iir->C_IR[R2046]->C_P[R4009]->C_SF[R4002]->CL_IR[R4706]->CL_IIR[R4703]->TE_IIR[R2013]
+                if ( not_empty satisfied_te_iir )
+                  ::SetTPV_for_channel_connection( te_iir:satisfied_te_iir, variable_name:variable_name, value:value, trace:" 5${trace}", flavor:1 );
+                else
+                  // Search from reference across satisfaction to imported reference imported requirement to provision.
+                  // CDS should not find these, because we already go the other mixed direction?
+                  //.select one satisfied_te_iir related by te_iir->C_IR[R2046]->C_R[R4009]->C_SF[R4002]->CL_IPINS[R4705]->CL_IP[R4705]->CL_IIR[R4703]->TE_IIR[R2013]
+                  if ( not_empty satisfied_te_iir )
+                    ::SetTPV_for_channel_connection( te_iir:satisfied_te_iir, variable_name:variable_name, value:value, trace:" 6${trace}", flavor:1 );
+                  end if;
+                end if;
+              end if;
+            end if;
+          end if;
+        end if;
+      end if;
+    end if;
+  end if;
+  // delegation
+  if ( empty satisfied_te_iir )
+    select one delegated_te_iir related by satisfied_te_iir->TE_IIR[R2081.''requires or delegates''] where ( false );
+    // IIR IR DG  RID IR
+    select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_DG[R4704]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
+    if ( not_empty delegated_te_iir )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "7a " + trace;
+    end if;
+    select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->CL_IIR[R4704]->TE_IIR[R2013];
+    if ( not_empty delegated_te_iir )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "7b " + trace;
+    end if;
+    //     IR DG  RID IR
+    select any delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
+    if ( not_empty delegated_te_iir )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "8a " + trace;
+    end if;
+    //     IR RID DG  IR
+    select any delegated_te_iir related by te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
+    if ( not_empty delegated_te_iir )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "8b " + trace;
+    end if;
+    // IIR IR DG  RID IR
+    select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->TE_IIR[R2046];
+    if ( not_empty delegated_te_iir )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "8c " + trace;
+    end if;
+    //     IR DG  RID IR IIR
+    select any delegated_te_iir related by te_iir->C_IR[R2046]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013];
+    if ( not_empty delegated_te_iir )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "8d " + trace;
+    end if;
+    // IIR IR RID DG  IR
+    select many more_delegated_te_iirs related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
+    if ( not_empty more_delegated_te_iirs )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "8e " + trace;
+    end if;
+    //     IR RID DG  IR IIR
+    select many more_delegated_te_iirs related by te_iir->C_IR[R2046]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->CL_IIR[R4701]->TE_IIR[R2013];
+    if ( not_empty more_delegated_te_iirs )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "8f " + trace;
+    end if;
+    // IIR IR DG  RID IR IIR
+    select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_DG[R4014]->C_RID[R4013]->C_IR[R4013]->CL_IIR[R4701]->TE_IIR[R2013];
+    if ( not_empty delegated_te_iir )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "8g " + trace;
+    end if;
+    // IIR IR RID DG  IR IIR
+    select many more_delegated_te_iirs related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->CL_IIR[R4701]->TE_IIR[R2013];
+    if ( not_empty more_delegated_te_iirs )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "8h " + trace;
+    end if;
+    select any delegated_te_iir related by te_iir->CL_IIR[R2013]->C_IR[R4701]->C_RID[R4013]->C_DG[R4013]->C_IR[R4014]->TE_IIR[R2046];
+    if ( not_empty delegated_te_iir )
+      delegated_te_iirs = delegated_te_iirs;
+      trace = "B " + trace;
+    end if;
+    for each delegated_te_iir in delegated_te_iirs
+      ::SetTPV_for_channel_connection( te_iir:delegated_te_iir, variable_name:variable_name, value:value, trace:"${trace}", flavor:2 );
+    end for;
+  end if;
+else
+  if ( empty tm_tp )
+    T::print(s:"SetTPV:  warning - no variable ${te_iir.port_name} ${te_iir.interface_name}");
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1f9295eb-ba2a-4b57-8772-956fc74c51b2",
+	"49b6b0b9-faa3-4237-968a-17f771388e68",
+	'te_iir',
+	"a765e935-11b6-42b5-a506-6c5c576bec7f",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a765e935-11b6-42b5-a506-6c5c576bec7f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Interface Instance>',
+	'',
+	'',
+	'../Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("e3207c17-802d-441c-b1da-15906c64016f",
+	"49b6b0b9-faa3-4237-968a-17f771388e68",
+	'variable_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"1f9295eb-ba2a-4b57-8772-956fc74c51b2",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3d2e3a66-175a-4d95-a9c8-04099456a978",
+	"49b6b0b9-faa3-4237-968a-17f771388e68",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e3207c17-802d-441c-b1da-15906c64016f",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1fa82fe7-e54a-49f2-8f6b-8ef4d34cfbf9",
+	"49b6b0b9-faa3-4237-968a-17f771388e68",
+	'trace',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3d2e3a66-175a-4d95-a9c8-04099456a978",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8d1cab1e-314b-4da9-9bfe-b77ac2d32a32",
+	"49b6b0b9-faa3-4237-968a-17f771388e68",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"1fa82fe7-e54a-49f2-8f6b-8ef4d34cfbf9",
+	'');
+INSERT INTO PE_PE
+	VALUES ("49b6b0b9-faa3-4237-968a-17f771388e68",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("11fb6daf-21b1-4f7d-a34a-62ee41ec30c6",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkInterfacePrefix',
+	'',
+	'//
+//============================================================================
+// Mark the prefixes for the interface naming.
+//============================================================================
+provided_port = param.provided_port;
+required_port = param.required_port;
+channel = param.channel;
+select any te_prefix from instances of TE_PREFIX;
+te_prefix.provided_port = provided_port;
+te_prefix.required_port = required_port;
+te_prefix.channel = channel;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("10d453af-c8ab-4602-a10e-a97347ccc2f1",
+	"11fb6daf-21b1-4f7d-a34a-62ee41ec30c6",
+	'provided_port',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("863c6add-e448-48e6-869d-0f7c81d72448",
+	"11fb6daf-21b1-4f7d-a34a-62ee41ec30c6",
+	'required_port',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"10d453af-c8ab-4602-a10e-a97347ccc2f1",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a556ff9c-c139-4164-a540-755480a959f2",
+	"11fb6daf-21b1-4f7d-a34a-62ee41ec30c6",
+	'channel',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"863c6add-e448-48e6-869d-0f7c81d72448",
+	'');
+INSERT INTO PE_PE
+	VALUES ("11fb6daf-21b1-4f7d-a34a-62ee41ec30c6",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c42832b7-f422-4873-b77a-8094402c118a",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkComponentAsRealized',
+	'',
+	'//
+//============================================================================
+// Mark components as realized using package name and/or component
+// name as the selection criteria.
+//============================================================================
+package_name = param.package_name;
+component_name = param.component_name;
+inc_file = param.inc_file;
+select many c_cs from instances of C_C where ( false );
+if ( ( ( "" == package_name ) and ( "" == component_name ) ) or ( ( "*" == package_name ) and ( "*" == component_name ) ) )
+  // all components
+  select many c_cs from instances of C_C;
+elif ( ( "" == package_name ) or ( "*" == package_name ) )
+  // matches without respect to package
+  select many c_cs from instances of C_C where ( selected.Name == component_name );
+elif ( ( "" == component_name ) or ( "*" == component_name ) )
+  // all components in packages with given name
+  select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name );
+  select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001];
+else
+  // particular component in particular package(s)
+  select many ep_pkgs from instances of EP_PKG where ( selected.Name == package_name );
+  select many c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001] where ( selected.Name == component_name );
+end if;
+if ( empty c_cs )
+  T::print(s:"WARNING:  MarkComponentAsRealized - Could not find component ${package_name}::${component_name}.");
+end if;
+for each c_c in c_cs
+  select any tm_c from instances of TM_C where ( ( selected.Name == component_name ) and ( selected.Package == package_name ) );
+  if ( empty tm_c )
+    create object instance tm_c of TM_C;
+    tm_c.Package = package_name;
+    tm_c.Name = component_name;
+  end if;
+  tm_c.isRealized = true;
+  tm_c.include_file = inc_file;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9ce80450-1da4-4501-b3a1-cede32aa1bd8",
+	"c42832b7-f422-4873-b77a-8094402c118a",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c754ec61-a71d-4efc-9089-f51b6952573a",
+	"c42832b7-f422-4873-b77a-8094402c118a",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9ce80450-1da4-4501-b3a1-cede32aa1bd8",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c5f51fa2-aea0-4e5d-a05c-5616c4ae80a5",
+	"c42832b7-f422-4873-b77a-8094402c118a",
+	'inc_file',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c754ec61-a71d-4efc-9089-f51b6952573a",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c42832b7-f422-4873-b77a-8094402c118a",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("323cd171-2610-474a-9577-af412c31d90c",
+	"00000000-0000-0000-0000-000000000000",
+	'TagDataTypePrecision',
+	'',
+	'//============================================================================
+// $RCSfile: m.datatype.arc,v $
+//
+// Description:
+// This archetype file contains the implementation functions for marks
+// specified in the (user supplied/modified) datatype.clr file.
+//============================================================================
+//
+//============================================================================
+component_name = param.component_name;
+dt_name = param.dt_name;
+tagged_name = param.tagged_name;
+initial_value = param.initial_value;
+component_name = T::r(s:component_name);
+select any tm_precision from instances of TM_PRECISION where ( ( selected.Domain == component_name ) and ( selected.DT_name == dt_name ) );
+if ( empty tm_precision )
+  create object instance tm_precision of TM_PRECISION;
+end if;
+tm_precision.Domain = component_name;
+tm_precision.DT_name = dt_name;
+tm_precision.xName = tagged_name;
+tm_precision.initial_value = initial_value;
+T::print(s:"TagDataTypePrecision:  ${dt_name} in ${component_name} given ${tagged_name} precision with ${initial_value}.");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b16b3969-88c0-4bc5-ad4a-ec5f16b5849e",
+	"323cd171-2610-474a-9577-af412c31d90c",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("51397cc0-f4d4-41cd-bb82-4223572648cd",
+	"323cd171-2610-474a-9577-af412c31d90c",
+	'dt_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b16b3969-88c0-4bc5-ad4a-ec5f16b5849e",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e68c5ae9-b6c4-4ba7-bff1-89b8393006d2",
+	"323cd171-2610-474a-9577-af412c31d90c",
+	'tagged_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"51397cc0-f4d4-41cd-bb82-4223572648cd",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("88e99725-1def-429c-8144-ad907bb7e32c",
+	"323cd171-2610-474a-9577-af412c31d90c",
+	'initial_value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e68c5ae9-b6c4-4ba7-bff1-89b8393006d2",
+	'');
+INSERT INTO PE_PE
+	VALUES ("323cd171-2610-474a-9577-af412c31d90c",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("cea71944-a859-426d-bb04-019a09049c1b",
+	"00000000-0000-0000-0000-000000000000",
+	'MapDataTypeAsPointer',
+	'',
+	'//
+//============================================================================
+// Map a user defined data type to a pointer.  This allows the system
+// to pass arbitrarily shaped data around by simply pointing to it.
+//============================================================================
+component_name = param.component_name;
+dt_name = param.dt_name;
+pointer_type = param.pointer_type;
+include_file = param.include_file;
+component_name = T::r(s:component_name);
+select any tm_pointer from instances of TM_POINTER where ( ( selected.Domain == component_name ) and ( selected.DT_name == dt_name ) );
+if ( empty tm_pointer )
+  create object instance tm_pointer of TM_POINTER;
+end if;
+tm_pointer.Domain = component_name;
+tm_pointer.DT_name = dt_name;
+tm_pointer.pointer_type = pointer_type;
+tm_pointer.include_file = include_file;
+T::print(s:"MapDataTypeAsPointer:  ${dt_name} in ${component_name} given ${pointer_type} mapping (${include_file}).");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1f5d7098-836f-415a-9dbe-b4b479b87997",
+	"cea71944-a859-426d-bb04-019a09049c1b",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("44231835-56c9-4e0c-988a-3baefdfef30a",
+	"cea71944-a859-426d-bb04-019a09049c1b",
+	'dt_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"1f5d7098-836f-415a-9dbe-b4b479b87997",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3c0dc07c-66d1-4dfa-a2f4-ba983c88786e",
+	"cea71944-a859-426d-bb04-019a09049c1b",
+	'pointer_type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"44231835-56c9-4e0c-988a-3baefdfef30a",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("20c0c0ad-c6bd-48c4-9486-a492dda12909",
+	"cea71944-a859-426d-bb04-019a09049c1b",
+	'include_file',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3c0dc07c-66d1-4dfa-a2f4-ba983c88786e",
+	'');
+INSERT INTO PE_PE
+	VALUES ("cea71944-a859-426d-bb04-019a09049c1b",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e83ff5cc-c372-41ad-9759-ad546cda59c8",
+	"00000000-0000-0000-0000-000000000000",
+	'TagEnumeratorDiscreteValue',
+	'',
+	'//
+//============================================================================
+// Specifying Values for Enumerators
+//
+// To indicate to the model compiler that a user defined enumeration
+// data type enumerator (defined in the BridgePoint Subsystem Partitioning
+// Model (SPM) component data editor) shall have a value other than the default,
+// use the following invocation:
+//
+// TagEnumeratorDiscreteValue( "component", "enumeration", "enumerator", "value"
+//
+// Where the input parameters are:
+//   component - Registered component name.  Use "*" to indicate a system wide
+//     enumeration data type (to be applied to all components containing
+//     the user defined enumeration data type).
+//   enumeration - name of the enumeration data type as known in the
+//     application analysis
+//   enumerator - name of the enumerator as known in the application analysis
+//   value - a string containing the value to be assigned to the enumerator
+//
+// Examples:
+//  Domain specific:
+//   .invoke TagEnumeratorDiscreteValue( "MO", "tube_wattage", "low", "4" )
+//   .invoke TagEnumeratorDiscreteValue( "MO", "tube_wattage", "med", "0x20" )
+//  System Wide:
+//   .invoke TagEnumeratorDiscreteValue( "*", "tube_wattage", "high", "0x40" )
+//
+//============================================================================
+component_name = param.component_name;
+enumeration = param.enumeration;
+enumerator = param.enumerator;
+value = param.value;
+component_name = T::r(s:component_name);
+select any tm_enumval from instances of TM_ENUMVAL where ( ( ( selected.Domain == component_name ) and ( selected.enumeration == enumeration ) ) and ( selected.enumerator == enumerator ) );
+if ( empty tm_enumval )
+  create object instance tm_enumval of TM_ENUMVAL;
+end if;
+tm_enumval.Domain = component_name;
+tm_enumval.enumeration = enumeration;
+tm_enumval.enumerator = enumerator;
+tm_enumval.value = value;
+T::print(s:"TagEnumeratorDiscreteValue:  ${enumeration}::${enumerator} in ${component_name} given discrete value ${value}.");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c9c4299f-4cce-43d1-a52a-50a77a38f7ff",
+	"e83ff5cc-c372-41ad-9759-ad546cda59c8",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3717793b-9ebd-4321-a431-57607599af5b",
+	"e83ff5cc-c372-41ad-9759-ad546cda59c8",
+	'enumeration',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c9c4299f-4cce-43d1-a52a-50a77a38f7ff",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("dae64c06-0666-4be7-ab61-4c567d28a6aa",
+	"e83ff5cc-c372-41ad-9759-ad546cda59c8",
+	'enumerator',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3717793b-9ebd-4321-a431-57607599af5b",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8e14a4ee-8904-4eec-833e-49cf8ed65bf7",
+	"e83ff5cc-c372-41ad-9759-ad546cda59c8",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"dae64c06-0666-4be7-ab61-4c567d28a6aa",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e83ff5cc-c372-41ad-9759-ad546cda59c8",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("602091ae-92a4-413c-ba9a-4e214ca43bc6",
+	"00000000-0000-0000-0000-000000000000",
+	'TagUninitializedEnumerationValue',
+	'',
+	'//
+//============================================================================
+// Specifying Value for the Default Un-Initialized Enumerator
+//
+// To indicate to the software architecture that the un-initialized enumerator
+// of an enumeration (defined in the BridgePoint Subsystem Partitioning Model
+// (SPM) component data editor) shall have a value other than the default,
+// use the following invocation:
+//
+// TagUninitializedEnumerationValue( "component", "enumeration", "value" )
+//
+// Where the input parameters are:
+//   component - Registered component name.  Use "*" to indicate a system wide
+//     enumeration data type (to be applied to all components containing
+//     the user defined enumeration data type).
+//   enumeration - Name of the enumeration data type as known in the
+//     application analysis. Use "*" to indicate ALL enumerations.
+//   value - A string containing the value to be assigned to the uninitialized
+//     enumerator.
+//
+// Examples:
+//  Domain specific:
+//   .invoke TagUninitializedEnumerationValue( "MO", "tube_wattage", "4" )
+//  All Enumerations in Domain:
+//   .invoke TagUninitializedEnumerationValue( "MO", "*", "40" )
+//  System Wide:
+//   .invoke TagUninitializedEnumerationValue( "*", "tube_wattage", "20" )
+//  All Enumerations in All Domains:
+//   .invoke TagUninitializedEnumerationValue( "*", "*", "100" )
+//
+//============================================================================
+component_name = param.component_name;
+enumeration = param.enumeration;
+value = param.value;
+component_name = T::r(s:component_name);
+select any tm_enuminit from instances of TM_ENUMINIT where ( ( selected.Domain == component_name ) and ( selected.enumeration == enumeration ) );
+if ( empty tm_enuminit )
+  create object instance tm_enuminit of TM_ENUMINIT;
+end if;
+tm_enuminit.Domain = component_name;
+tm_enuminit.enumeration = enumeration;
+tm_enuminit.value = value;
+T::print(s:"TagUninitializedEnumerationValue:  ${enumeration} in ${component_name} given default uninitialized value ${value}.");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9e051932-4a57-4b4e-9265-42eb5959dece",
+	"602091ae-92a4-413c-ba9a-4e214ca43bc6",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d3d8f0df-b5ad-4bde-a9a1-99ab4cac4700",
+	"602091ae-92a4-413c-ba9a-4e214ca43bc6",
+	'enumeration',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9e051932-4a57-4b4e-9265-42eb5959dece",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("39e4c3d2-c133-4377-a800-3782f3a9fbcb",
+	"602091ae-92a4-413c-ba9a-4e214ca43bc6",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d3d8f0df-b5ad-4bde-a9a1-99ab4cac4700",
+	'');
+INSERT INTO PE_PE
+	VALUES ("602091ae-92a4-413c-ba9a-4e214ca43bc6",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a5b3cbfb-87f3-4d7d-b79d-d962e1b4a713",
+	"00000000-0000-0000-0000-000000000000",
+	'AssignDirectToUDTPackage',
+	'',
+	'//
+//
+//============================================================================
+// Specifying "Direct" manipulation to "SystemC UDT Pacakage"
+//
+// to indicate that this UDT package should be generated using its name
+// instead of core type
+//============================================================================
+package_name = param.package_name;
+T::print(s:"AssignDirectToUDTPackage is not a supported marking function.");
+T::exit(i:1);
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("90ec004f-4758-4846-a3a6-1f360835dbdd",
+	"a5b3cbfb-87f3-4d7d-b79d-d962e1b4a713",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a5b3cbfb-87f3-4d7d-b79d-d962e1b4a713",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bbc7f210-6e5c-4975-a41e-0b95e3c0c2b2",
+	"00000000-0000-0000-0000-000000000000",
+	'TagFunctionTranslationOff',
+	'',
+	'//============================================================================
+// $RCSfile: m.domain.arc,v $
+//
+// Description:
+// This archetype file contains the implementation functions for colors
+// specified in the (user supplied/modified) domain.mark file.
+//============================================================================
+//
+//
+//============================================================================
+// Disable the translation of function processing semantics.
+// The default is for all functions to be translated.
+//============================================================================
+function_name = param.function_name;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkFunctionTranslationOff( component_name:te_c.Name, function_name:function_name );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a4c7aebe-fb96-4805-8991-406d98ecec6e",
+	"bbc7f210-6e5c-4975-a41e-0b95e3c0c2b2",
+	'function_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("bbc7f210-6e5c-4975-a41e-0b95e3c0c2b2",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("064b8598-3c29-4fe2-97e5-b11e2e6edfd7",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkFunctionTranslationOff',
+	'',
+	'component_name = param.component_name;
+function_name = param.function_name;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  if ( "*" == function_name )
+    select many te_syncs related by te_c->TE_SYNC[R2084];
+    for each te_sync in te_syncs
+      te_sync.XlateSemantics = FALSE;
+      msg = "Turned off translation of ${te_sync.Name} function semantics.";
+    end for;
+  else
+    select any te_sync related by te_c->TE_SYNC[R2084] where ( selected.Name == function_name );
+    if ( not_empty te_sync )
+      te_sync.XlateSemantics = FALSE;
+      msg = "Turned off translation of ${function_name} function semantics.";
+    else
+      msg = "ERROR:  Function (${function_name}) not found in component ${te_c.Name}.";
+      msg = msg + "\n  => TagFunctionTranslationOff( ${function_name} )";
+    end if;
+  end if;
+  T::print(s:"${msg}");
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("204055fa-9525-404a-a541-52eb49a62275",
+	"064b8598-3c29-4fe2-97e5-b11e2e6edfd7",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2bb45381-d23c-4943-99ee-a746c0ac8218",
+	"064b8598-3c29-4fe2-97e5-b11e2e6edfd7",
+	'function_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"204055fa-9525-404a-a541-52eb49a62275",
+	'');
+INSERT INTO PE_PE
+	VALUES ("064b8598-3c29-4fe2-97e5-b11e2e6edfd7",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1032400b-56ef-45cb-9443-e02ee064d99d",
+	"00000000-0000-0000-0000-000000000000",
+	'TagInitializationFunction',
+	'',
+	'//
+//============================================================================
+// Mark a function as being executed during the initialization sequence.
+// All functions marked with this interface will be run during bring-up.
+// Functions bearing input arguments are not allowed to be tagged as
+// initialization functions.
+//============================================================================
+function_name = param.function_name;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkInitializationFunction( component_name:te_c.Name, function_name:function_name );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6f271593-45ec-400a-bcae-75b1b712e76e",
+	"1032400b-56ef-45cb-9443-e02ee064d99d",
+	'function_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1032400b-56ef-45cb-9443-e02ee064d99d",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("22b5e32c-315c-49a7-8b4c-bd0e089667f7",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkInitializationFunction',
+	'',
+	'component_name = param.component_name;
+function_name = param.function_name;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  select any te_sync related by te_c->TE_SYNC[R2084] where ( selected.Name == function_name );
+  if ( not_empty te_sync )
+    select any te_parm related by te_sync->TE_ABA[R2010]->TE_PARM[R2062];
+    if ( empty te_parm )
+      te_sync.IsInitFunction = true;
+      msg = "Function ${te_sync.Name} marked as initialization function.";
+    else
+      msg = "ERROR:  Initialization function (${function_name}) in component ${te_c.Name}";
+      msg = msg + "\ntakes arguments.  This is not allowed at initialization.";
+      msg = msg + "\n  => TagInitializationFunction( ${function_name} )";
+    end if;
+  else
+    msg = "ERROR:  Initialization function (${function_name}) not found in component ${te_c.Name}.";
+    msg = msg + "\n  => TagInitializationFunction( ${function_name} )";
+  end if;
+  T::print(s:"${msg}");
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("304b45e3-c4eb-4919-b528-e1d3660a34fc",
+	"22b5e32c-315c-49a7-8b4c-bd0e089667f7",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a88e3039-6226-4ef3-af9d-165f76a0b3c9",
+	"22b5e32c-315c-49a7-8b4c-bd0e089667f7",
+	'function_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"304b45e3-c4eb-4919-b528-e1d3660a34fc",
+	'');
+INSERT INTO PE_PE
+	VALUES ("22b5e32c-315c-49a7-8b4c-bd0e089667f7",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a178b66e-e385-496a-b6e4-9b0117c6d88d",
+	"00000000-0000-0000-0000-000000000000",
+	'TagExcludeObjectFromCodeGen',
+	'',
+	'//
+//============================================================================
+obj_key_letters = param.obj_key_letters;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkExcludeObjectFromCodeGen( component_name:te_c.Name, obj_key_letters:obj_key_letters );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c2683a52-03d0-4c0c-aa05-9ab5b8c31421",
+	"a178b66e-e385-496a-b6e4-9b0117c6d88d",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a178b66e-e385-496a-b6e4-9b0117c6d88d",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d1b0d9b7-86b7-41f5-9b73-97341df8b37e",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkExcludeObjectFromCodeGen',
+	'',
+	'component_name = param.component_name;
+obj_key_letters = param.obj_key_letters;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  select any te_class related by te_c->TE_CLASS[R2064] where ( selected.Key_Lett == obj_key_letters );
+  if ( not_empty te_class )
+    te_class.ExcludeFromGen = true;
+    msg = "Object ${te_class.Name} (${te_class.Key_Lett}) excluded from code generation.";
+  else
+    msg = "ERROR:  Class (${obj_key_letters}) not found in component ${te_c.Name}";
+    msg = msg + "\n => TagExcludeObjectFromCodeGen( ${obj_key_letters} )";
+  end if;
+  T::print(s:"${msg}");
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("95d239d7-b78a-4ce1-90ae-0a30976ea45e",
+	"d1b0d9b7-86b7-41f5-9b73-97341df8b37e",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b2100e8c-49ee-4707-9904-ba35d271c7d4",
+	"d1b0d9b7-86b7-41f5-9b73-97341df8b37e",
+	'obj_key_letters',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"95d239d7-b78a-4ce1-90ae-0a30976ea45e",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d1b0d9b7-86b7-41f5-9b73-97341df8b37e",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d155620a-9e6d-495f-aab9-e1ff10725782",
+	"00000000-0000-0000-0000-000000000000",
+	'TagExcludeSubsystemFromCodeGen',
+	'',
+	'//
+//============================================================================
+subsystem_name = param.subsystem_name;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkExcludeSubsystemFromCodeGen( component_name:te_c.Name, package_name:subsystem_name );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("85c0d616-84d5-41ae-ab1b-1426862f44f0",
+	"d155620a-9e6d-495f-aab9-e1ff10725782",
+	'subsystem_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d155620a-9e6d-495f-aab9-e1ff10725782",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d31f85fd-9069-4920-8302-4bdb818a9127",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkExcludeSubsystemFromCodeGen',
+	'',
+	'component_name = param.component_name;
+package_name = param.package_name;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  select many ep_pkgs related by te_c->C_C[R2054]->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name == package_name );
+  if ( not_empty ep_pkgs )
+    select many te_classes related by ep_pkgs->PE_PE[R8000]->O_OBJ[R8001]->TE_CLASS[R2019];
+    for each te_class in te_classes
+      te_class.ExcludeFromGen = true;
+    end for;
+    msg = "All classes in package ${package_name} excluded from code generation.";
+  else
+    msg = "ERROR:  Package ${package_name} not found in component ${te_c.Name}.";
+    msg = msg + "\n => TagExcludePackageFromCodeGen( ${package_name} )";
+  end if;
+  T::print(s:"${msg}");
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("172c2a8b-5586-4763-b9a7-bc09f3ff4b8e",
+	"d31f85fd-9069-4920-8302-4bdb818a9127",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2331f269-ee12-4382-9ee1-bf81988662e8",
+	"d31f85fd-9069-4920-8302-4bdb818a9127",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"172c2a8b-5586-4763-b9a7-bc09f3ff4b8e",
+	'');
+INSERT INTO PE_PE
+	VALUES ("d31f85fd-9069-4920-8302-4bdb818a9127",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ef6dcc3d-f448-4178-8b4f-180314bd794a",
+	"00000000-0000-0000-0000-000000000000",
+	'TagStateTransitionTracingOn',
+	'',
+	'//
+//============================================================================
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkStateTransitionTracingOn( component_name:te_c.Name );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("ef6dcc3d-f448-4178-8b4f-180314bd794a",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("65bdeac1-848d-44f8-b661-f392a8d52323",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkStateTransitionTracingOn',
+	'',
+	'component_name = param.component_name;
+T::print(s:"Enabling state transition tracing for component(s) ${component_name}.");
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  te_c.StateTrace = true;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e8ec1b0b-e78c-4e83-ae53-1efd625355f0",
+	"65bdeac1-848d-44f8-b661-f392a8d52323",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("65bdeac1-848d-44f8-b661-f392a8d52323",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("72a5a962-c48f-4bb2-9435-808268a77ae0",
+	"00000000-0000-0000-0000-000000000000",
+	'TagActionStatementTracingOn',
+	'',
+	'//
+//============================================================================
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkActionStatementTracingOn( component_name:te_c.Name );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("72a5a962-c48f-4bb2-9435-808268a77ae0",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("90c9c910-3a64-43a2-86f4-46f46edf57ad",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkActionStatementTracingOn',
+	'',
+	'component_name = param.component_name;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  te_c.StmtTrace = true;
+  T::print(s:"Action statement tracing enabled for component ${te_c.Name}.");
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e094cc42-7c33-4085-b51d-aef2d946def1",
+	"90c9c910-3a64-43a2-86f4-46f46edf57ad",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("90c9c910-3a64-43a2-86f4-46f46edf57ad",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9c569f9f-7194-45b3-bcf2-decf4e447dc3",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkMessageTracingOn',
+	'',
+	'//
+//============================================================================
+component_name = param.component_name;
+port_name = param.port_name;
+message_name = param.message_name;
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+select many te_pos related by te_cs->TE_PO[R2005] where ( selected.Name == port_name );
+if ( ( "" == port_name ) or ( "*" == port_name ) )
+  select many te_pos related by te_cs->TE_PO[R2005];
+end if;
+select many te_macts related by te_pos->TE_MACT[R2006] where ( selected.MessageName == message_name );
+if ( ( "" == message_name ) or ( "*" == message_name ) )
+  select many te_macts related by te_pos->TE_MACT[R2006];
+end if;
+for each te_mact in te_macts
+  te_mact.trace = true;
+end for;
+if ( empty te_macts )
+  T::print(s:"Warning:  No messages found to trace for ${component_name}::${port_name}::${message_name}.");
+else
+  T::print(s:"Message tracing enabled for ${component_name}::${port_name}::${message_name}.");
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0966b00f-896e-48eb-9c94-16ef7f27e518",
+	"9c569f9f-7194-45b3-bcf2-decf4e447dc3",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("18981f51-7cab-4956-892f-f62db50264d7",
+	"9c569f9f-7194-45b3-bcf2-decf4e447dc3",
+	'port_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0966b00f-896e-48eb-9c94-16ef7f27e518",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("36469102-4436-4996-9d20-6ea29f7bd9b9",
+	"9c569f9f-7194-45b3-bcf2-decf4e447dc3",
+	'message_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"18981f51-7cab-4956-892f-f62db50264d7",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9c569f9f-7194-45b3-bcf2-decf4e447dc3",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("875517a7-8fbb-4c31-85ea-41b664ae4435",
+	"00000000-0000-0000-0000-000000000000",
+	'TagEmptyHandleDetectionOn',
+	'',
+	'//
+//============================================================================
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkEmptyHandleDetectionOn( component_name:te_c.Name );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("875517a7-8fbb-4c31-85ea-41b664ae4435",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("50a3b348-dad5-41e7-932f-6f16963819f0",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkEmptyHandleDetectionOn',
+	'',
+	'component_name = param.component_name;
+T::print(s:"Enabling detection of empty handles for component(s) ${component_name}.");
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  te_c.DetectEmpty = true;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("266765a6-75cf-46bb-9ef3-363952ec6094",
+	"50a3b348-dad5-41e7-932f-6f16963819f0",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("50a3b348-dad5-41e7-932f-6f16963819f0",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ccfb2f69-ed24-4ead-bcfc-ec815a53b38e",
+	"00000000-0000-0000-0000-000000000000",
+	'TagFirstPassOptimizationsOff',
+	'',
+	'//
+//============================================================================
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkFirstPassOptimizationsOff( component_name:te_c.Name );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("ccfb2f69-ed24-4ead-bcfc-ec815a53b38e",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1c0bf4d6-4eea-4486-94d8-1cdeffd83fe1",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkFirstPassOptimizationsOff',
+	'',
+	'component_name = param.component_name;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  te_c.OptDisabled = true;
+  T::print(s:"Code optimizations DISABLED for component ${te_c.Name}");
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2127813a-d9f2-43a6-844e-cd201f1be0a7",
+	"1c0bf4d6-4eea-4486-94d8-1cdeffd83fe1",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1c0bf4d6-4eea-4486-94d8-1cdeffd83fe1",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4f27f794-a1cc-4560-9be6-83daf6d05889",
+	"00000000-0000-0000-0000-000000000000",
+	'TagStateActionCommentBlocksEnabled',
+	'',
+	'//
+//============================================================================
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkStateActionCommentBlocksEnabled( component_name:te_c.Name );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("4f27f794-a1cc-4560-9be6-83daf6d05889",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1377374f-4900-4b26-a865-9441da60b7fc",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkStateActionCommentBlocksEnabled',
+	'',
+	'component_name = param.component_name;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  te_c.RawComments = true;
+  T::print(s:"State action sematics will be included as comments for component ${te_c.Name}.");
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b19fcf7e-8ffe-4eaf-b96c-2050b74e6fef",
+	"1377374f-4900-4b26-a865-9441da60b7fc",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1377374f-4900-4b26-a865-9441da60b7fc",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("155f3574-dae1-478d-a114-7f090cd541d3",
+	"00000000-0000-0000-0000-000000000000",
+	'TagStateActionStatementCommentsDisabled',
+	'',
+	'//
+//============================================================================
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkStateActionStatementCommentsDisabled( component_name:te_c.Name );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("155f3574-dae1-478d-a114-7f090cd541d3",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("105c6a7d-02a5-4947-bf94-f19799a7bb94",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkStateActionStatementCommentsDisabled',
+	'',
+	'component_name = param.component_name;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  te_c.CodeComments = false;
+  T::print(s:"State action statement level comments disabled for component ${te_c.Name}");
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("095c291b-2fd0-4cc5-a280-593e02fa40d9",
+	"105c6a7d-02a5-4947-bf94-f19799a7bb94",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("105c6a7d-02a5-4947-bf94-f19799a7bb94",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2f2fc950-bb25-4a5c-8694-9de85827ba81",
+	"00000000-0000-0000-0000-000000000000",
+	'TagStateActionVariableNamesEnabled',
+	'',
+	'//
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("2f2fc950-bb25-4a5c-8694-9de85827ba81",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bc2a3578-95c7-415a-b7ef-d496db56f0ef",
+	"00000000-0000-0000-0000-000000000000",
+	'TagVerboseReflexivePhrasesEnabled',
+	'',
+	'//
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("bc2a3578-95c7-415a-b7ef-d496db56f0ef",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5b89b243-757d-4770-98c5-1490d91c9cd5",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkPortWiring',
+	'',
+	'//
+//
+// Mark a port as having a component attached even though the component
+// is not present in the model.
+//
+// .invoke MarkPortWiring( <home_component>, <home_port>, <foreign_component>, <foreign_port> )
+// where:
+//  <home_component> is the local component name.
+//  <home_port> is the local port name.
+//  <foreign_component> is the name of the component on the other side of
+//                      the interface.
+//  <foreign_port> is the name of the port on the other side of the interface.
+//
+//
+home_component = param.home_component;
+home_port = param.home_port;
+foreign_component = param.foreign_component;
+foreign_port = param.foreign_port;
+select many te_cs from instances of TE_C where ( ( selected.Name == home_component ) and ( selected.included_in_build ) );
+select many te_pos related by te_cs->TE_PO[R2005] where ( selected.Name == home_port );
+::MarkPortWiringForPort( te_pos:te_pos, component:foreign_component, port:foreign_port );
+select many te_cs from instances of TE_C where ( ( selected.Name == foreign_component ) and ( selected.included_in_build ) );
+select many te_pos related by te_cs->TE_PO[R2005] where ( selected.Name == foreign_port );
+::MarkPortWiringForPort( te_pos:te_pos, component:home_component, port:home_port );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e11b2a17-bb49-4ce2-b117-31c746222b9d",
+	"5b89b243-757d-4770-98c5-1490d91c9cd5",
+	'home_component',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("62a29d87-bb90-4223-8f55-8b912d97a1ff",
+	"5b89b243-757d-4770-98c5-1490d91c9cd5",
+	'home_port',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e11b2a17-bb49-4ce2-b117-31c746222b9d",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e7e7e9f1-928a-4800-aa8e-24e76ef000a6",
+	"5b89b243-757d-4770-98c5-1490d91c9cd5",
+	'foreign_component',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"62a29d87-bb90-4223-8f55-8b912d97a1ff",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("376ee421-7b8d-45c1-ad9c-3bae27bdec22",
+	"5b89b243-757d-4770-98c5-1490d91c9cd5",
+	'foreign_port',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e7e7e9f1-928a-4800-aa8e-24e76ef000a6",
+	'');
+INSERT INTO PE_PE
+	VALUES ("5b89b243-757d-4770-98c5-1490d91c9cd5",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("700424ff-91c8-47e0-9e81-d866f64a70e4",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkPortWiringForPort',
+	'',
+	'//
+te_pos = param.te_pos;
+component = param.component;
+port = param.port;
+for each te_po in te_pos
+  select many te_iirs related by te_po->TE_IIR[R2080];
+  for each te_iir in te_iirs
+    if ( te_po.Provision )
+      select many sibling_te_iirs related by te_iir->TE_IIR[R2081.''provides or is delegated''];
+      if ( empty sibling_te_iirs )
+        create object instance sibling_te_iir of TE_IIR;
+        sibling_te_iir.component_name = component;
+        sibling_te_iir.port_name = port;
+        sibling_te_iir.interface_name = te_po.InterfaceName;
+        sibling_te_iir.polymorphic = false;
+                                relate sibling_te_iir to te_iir across R2081.''requires or delegates'';
+      end if;
+    else
+      select one sibling_te_iir related by te_iir->TE_IIR[R2081.''requires or delegates''];
+      if ( empty sibling_te_iir )
+        create object instance sibling_te_iir of TE_IIR;
+        sibling_te_iir.component_name = component;
+        sibling_te_iir.port_name = port;
+        sibling_te_iir.interface_name = te_po.InterfaceName;
+        sibling_te_iir.polymorphic = false;
+                                relate sibling_te_iir to te_iir across R2081.''requires or delegates'';
+      end if;
+    end if;
+  end for;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("899d9a4d-8d27-43dc-a1f7-462714b52a6a",
+	"700424ff-91c8-47e0-9e81-d866f64a70e4",
+	'te_pos',
+	"eafae685-f05e-4f3d-ad38-35b2a8c9b758",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("eafae685-f05e-4f3d-ad38-35b2a8c9b758",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Extended Port>',
+	'',
+	'',
+	'../Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("6a8031a5-b669-4ef6-a24f-1b256801ff82",
+	"700424ff-91c8-47e0-9e81-d866f64a70e4",
+	'component',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"899d9a4d-8d27-43dc-a1f7-462714b52a6a",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("767e5dd7-5f3f-4a6b-84c7-b04eebc0b988",
+	"700424ff-91c8-47e0-9e81-d866f64a70e4",
+	'port',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6a8031a5-b669-4ef6-a24f-1b256801ff82",
+	'');
+INSERT INTO PE_PE
+	VALUES ("700424ff-91c8-47e0-9e81-d866f64a70e4",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("894c57c4-6c9c-45cc-9732-09392595f436",
+	"00000000-0000-0000-0000-000000000000",
+	'TagDispatchFlavor',
+	'',
+	'//============================================================================
+// $RCSfile: m.event.arc,v $
+//
+// Description:
+// This archetype file contains the implementation functions for colors
+// specified in the (user supplied/modified) event.clr file.
+//============================================================================
+//
+//
+//============================================================================
+// Choose the type of dispatcher to run.  Zero is the default.
+// Selecting 2 will provide a single system level event dispatcher.
+//============================================================================
+flavor = param.flavor;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5f302db2-68f6-42a2-993d-7d0be93a1ac4",
+	"894c57c4-6c9c-45cc-9732-09392595f436",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("894c57c4-6c9c-45cc-9732-09392595f436",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6667f78e-cc38-40fd-aa18-a34d335b4d8c",
+	"00000000-0000-0000-0000-000000000000",
+	'TagPriorityEvent',
+	'',
+	'//
+//============================================================================
+// Color event to higher than default priority.
+//============================================================================
+evt_label = param.evt_label;
+priority_value = param.priority_value;
+select many te_cs from instances of TE_C;
+for each te_c in te_cs
+  ::MarkPriorityEvent( component_name:te_c.Name, evt_label:evt_label, priority_value:priority_value );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("951c3401-32c2-4c95-94ff-e6cc8eb007cf",
+	"6667f78e-cc38-40fd-aa18-a34d335b4d8c",
+	'evt_label',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7e29019e-8434-4574-8b93-c1439569c4f6",
+	"6667f78e-cc38-40fd-aa18-a34d335b4d8c",
+	'priority_value',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"951c3401-32c2-4c95-94ff-e6cc8eb007cf",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6667f78e-cc38-40fd-aa18-a34d335b4d8c",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f91e2ddd-c9fd-4441-bb89-31e8e4b3fcff",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkPriorityEvent',
+	'',
+	'component_name = param.component_name;
+evt_label = param.evt_label;
+priority_value = param.priority_value;
+component_name = T::r(s:component_name);
+select many te_cs from instances of TE_C where ( selected.Name == component_name );
+if ( ( "" == component_name ) or ( "*" == component_name ) )
+  select many te_cs from instances of TE_C;
+end if;
+for each te_c in te_cs
+  msg = "";
+  //
+  // Check for legal range on input priority.
+  //
+  if ( ( priority_value > 255 ) or ( priority_value < 0 ) )
+    msg = "ERROR:  Priority ($t{priority_value}) out of legal range (0-255).";
+  end if;
+  //
+  // Store the priority of the event in an attribute.
+  //
+  select any sm_evt related by te_c->TE_CLASS[R2064]->O_OBJ[R2019]->SM_ISM[R518]->SM_SM[R517]->SM_EVT[R502] where ( selected.Drv_Lbl == evt_label );
+  if ( empty sm_evt )
+    select any sm_evt related by te_c->TE_CLASS[R2064]->O_OBJ[R2019]->SM_ASM[R519]->SM_SM[R517]->SM_EVT[R502] where ( selected.Drv_Lbl == evt_label );
+  end if;
+  if ( not_empty sm_evt )
+    //
+    // We are not allowing prioritized polymorphic events... yet.
+    //
+    select one sm_pevt related by sm_evt->SM_PEVT[R525];
+    if ( not_empty sm_pevt )
+      msg = "ERROR:  Prioritized Polymorphic Event (${evt_label}) component ${te_c.Name}";
+      msg = msg + "\nPriority Polys are not supported.";
+    end if;
+    select one te_evt related by sm_evt->TE_EVT[R2036];
+    te_evt.Priority = priority_value;
+    msg = "Event ${sm_evt.Drv_Lbl}:${sm_evt.Mning} marked as priority event.";
+  else
+    msg = "ERROR:  Event (${evt_label}) not found in component ${te_c.Name}";
+  end if;
+  msg = msg + " => TagPriorityEvent( ${evt_label}, $t{priority_value} )";
+  T::print(s:"${msg}");
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8db922a6-0725-415e-bb04-4852983dd9f6",
+	"f91e2ddd-c9fd-4441-bb89-31e8e4b3fcff",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("02a91771-e13f-4e28-b6c8-23d9afeb4b2a",
+	"f91e2ddd-c9fd-4441-bb89-31e8e4b3fcff",
+	'evt_label',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"8db922a6-0725-415e-bb04-4852983dd9f6",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("35a8af04-8fb1-43d8-b46c-1a5f9a681989",
+	"f91e2ddd-c9fd-4441-bb89-31e8e4b3fcff",
+	'priority_value',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"02a91771-e13f-4e28-b6c8-23d9afeb4b2a",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f91e2ddd-c9fd-4441-bb89-31e8e4b3fcff",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("656d27ec-218f-49ae-9ec4-5ff694587314",
+	"00000000-0000-0000-0000-000000000000",
+	'EnableTasking',
+	'',
+	'//============================================================================
+// $RCSfile: m.system.arc,v $
+//
+// Description:
+// System level coloring functions are found here.
+// Notice that the colors that would normally update TE_SYS are active.
+//============================================================================
+//
+//
+//============================================================================
+// Enable tasking/threading.
+//============================================================================
+flavor = param.flavor;
+serialize = param.serialize;
+number_of_threads = param.number_of_threads;
+//
+T::print(s:"EnableTasking( ${flavor}, ${serialize}, $t{number_of_threads} )");
+select any tm_thread from instances of TM_THREAD;
+if ( empty tm_thread )
+  create object instance tm_thread of TM_THREAD;
+  tm_thread.extra_initialization = "";
+end if;
+tm_thread.number_of_threads = number_of_threads;
+if ( T::l(s:serialize) == "serialize" )
+  tm_thread.serialize = true;
+else
+  tm_thread.serialize = false;
+end if;
+if ( ( ( ( "Nucleus" == flavor ) or ( "POSIX" == flavor ) ) or ( ( "OSX" == flavor ) or ( "Windows" == flavor ) ) ) or ( ( "AUTOSAR" == flavor ) or ( "SystemC" == flavor ) ) )
+  tm_thread.flavor = flavor;
+  if ( "SystemC" == flavor )
+    // SystemC uses a single thread inside each component.
+    // So, no need for an array of threads.
+    tm_thread.number_of_threads = 1;
+    tm_thread.enabled = false;
+  else
+    tm_thread.enabled = true;
+  end if;
+else
+  T::print(s:"ERROR:  system.mark:EnableTasking has incorrect tasking/threading type:${flavor}.\n");
+  T::exit(i:100);
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b0c8bf4a-81c1-472e-bec4-601c59bfa0da",
+	"656d27ec-218f-49ae-9ec4-5ff694587314",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("eb4ea713-042e-4f09-baba-bd811adf3ad3",
+	"656d27ec-218f-49ae-9ec4-5ff694587314",
+	'serialize',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b0c8bf4a-81c1-472e-bec4-601c59bfa0da",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("93b74f0f-8534-4ea8-b34a-3545941e959b",
+	"656d27ec-218f-49ae-9ec4-5ff694587314",
+	'number_of_threads',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"eb4ea713-042e-4f09-baba-bd811adf3ad3",
+	'');
+INSERT INTO PE_PE
+	VALUES ("656d27ec-218f-49ae-9ec4-5ff694587314",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f1acfc1c-cb14-418a-854b-7dbf8134037d",
+	"00000000-0000-0000-0000-000000000000",
+	'SetTaskPriority',
+	'',
+	'//
+//============================================================================
+// Establish task priority.
+//============================================================================
+task_number = param.task_number;
+priority = param.priority;
+T::print(s:"SetTaskPriority( $t{task_number}, ${priority} )");
+select any tm_thread from instances of TM_THREAD;
+if ( empty tm_thread )
+  create object instance tm_thread of TM_THREAD;
+end if;
+tm_thread.extra_initialization = tm_thread.extra_initialization + "  xtUML_task_priorities[ $t{task_number} ] = ${priority};\n";
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1f50bea8-c5d3-48c8-a139-b56ee0e675fd",
+	"f1acfc1c-cb14-418a-854b-7dbf8134037d",
+	'task_number',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("72f5ae4c-0c67-4330-bc21-5adb53585b8e",
+	"f1acfc1c-cb14-418a-854b-7dbf8134037d",
+	'priority',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"1f50bea8-c5d3-48c8-a139-b56ee0e675fd",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f1acfc1c-cb14-418a-854b-7dbf8134037d",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a658267d-533f-402b-a7ea-e4326c94625f",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumStringLength',
+	'',
+	'//
+//============================================================================
+max_len = param.max_len;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxStringLen = max_len;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f45dc27c-4d88-4783-b371-2db4d6c8942a",
+	"a658267d-533f-402b-a7ea-e4326c94625f",
+	'max_len',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("a658267d-533f-402b-a7ea-e4326c94625f",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ea744b29-5f95-4f0e-b033-52a1ea4e19b0",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumRelationshipExtentSize',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxRelExtent = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("52ad407f-112f-4ce6-8a26-b240a6e5a419",
+	"ea744b29-5f95-4f0e-b033-52a1ea4e19b0",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("ea744b29-5f95-4f0e-b033-52a1ea4e19b0",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f3d091e3-839c-4f62-8f31-234871a44794",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumSelectionExtentSize',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxSelectExtent = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9756a140-720c-4b22-acb5-db957afe420f",
+	"f3d091e3-839c-4f62-8f31-234871a44794",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f3d091e3-839c-4f62-8f31-234871a44794",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("dc5a26aa-95fd-4f75-9971-22d78153fc26",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumSelfDirectedEvents',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxSelfEvents = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5276035e-bdc9-44ce-a3db-ee6d3d0fe029",
+	"dc5a26aa-95fd-4f75-9971-22d78153fc26",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("dc5a26aa-95fd-4f75-9971-22d78153fc26",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c4f6339f-5945-496b-b125-06f9eec8388b",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumNonSelfDirectedEvents',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxNonSelfEvents = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0720fa9d-ef68-46ed-8df7-6669768ff5b7",
+	"c4f6339f-5945-496b-b125-06f9eec8388b",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c4f6339f-5945-496b-b125-06f9eec8388b",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f7749d16-80c8-4e23-a753-89946e9ddf92",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumPendingOoaTimers',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxTimers = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b3088439-a9cf-483d-a4f6-01818ea0ce82",
+	"f7749d16-80c8-4e23-a753-89946e9ddf92",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f7749d16-80c8-4e23-a753-89946e9ddf92",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fd9fe6f7-88aa-471c-97f6-327ce992d0d6",
+	"00000000-0000-0000-0000-000000000000",
+	'TagMaximumInterleavedBridges',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxInterleavedBridges = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("089d35a5-3b1d-413c-b606-b693404bfd47",
+	"fd9fe6f7-88aa-471c-97f6-327ce992d0d6",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("fd9fe6f7-88aa-471c-97f6-327ce992d0d6",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6e2b1314-021e-4d95-974e-cf347b16ecdc",
+	"00000000-0000-0000-0000-000000000000",
+	'TagInterleavedBridgeDataSize',
+	'',
+	'//
+//============================================================================
+user_specified_size = param.user_specified_size;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.MaxInterleavedBridgeDataSize = user_specified_size;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("07e32c67-735c-42c4-9d3b-36e2bc683291",
+	"6e2b1314-021e-4d95-974e-cf347b16ecdc",
+	'user_specified_size',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6e2b1314-021e-4d95-974e-cf347b16ecdc",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("70b25181-56cb-45b0-8045-9a1bb2997b83",
+	"00000000-0000-0000-0000-000000000000",
+	'TagCollectionsFlavor',
+	'',
+	'//
+//============================================================================
+// Use doubly linked lists for collections.  This speeds up deletes.
+//============================================================================
+collections_flavor = param.collections_flavor;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.CollectionsFlavor = collections_flavor;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6718b766-bc25-4ff0-aba1-2f9e98665a5a",
+	"70b25181-56cb-45b0-8045-9a1bb2997b83",
+	'collections_flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("70b25181-56cb-45b0-8045-9a1bb2997b83",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1dd82964-4ae9-4d2d-be12-2f8e81944bf8",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkPersistenceCacheDepth',
+	'',
+	'//
+//============================================================================
+// Mark Depth of Persistence Cache Queue
+//
+// This color is used to specify the maximum number of instances and
+// links that can be queued waiting to be flushed to non-volatile
+// storage (NVS).  As instances and links become "dirty" they get
+// queued to NVS.  When Persist::Commit is called this queue is flushed.
+//
+// MarkPersistenceCacheDepth( instance_depth, link_depth )
+//
+// Where the input parameter(s) are:
+//   instance_depth = the integer depth of the linked list of instances
+//   link_depth = the integer depth of the linked list of persistent links
+//============================================================================
+instance_depth = param.instance_depth;
+link_depth = param.link_depth;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.PersistInstanceCacheDepth = instance_depth;
+tm_systag.PersistLinkCacheDepth = link_depth;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9fca0c87-b0f6-4d12-abb0-69e9d0479a72",
+	"1dd82964-4ae9-4d2d-be12-2f8e81944bf8",
+	'instance_depth',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("21e488b3-8d54-4ffe-8171-f2e17db158bf",
+	"1dd82964-4ae9-4d2d-be12-2f8e81944bf8",
+	'link_depth',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"9fca0c87-b0f6-4d12-abb0-69e9d0479a72",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1dd82964-4ae9-4d2d-be12-2f8e81944bf8",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6a4256b4-0c2e-4aab-a52a-aa48d4b70889",
+	"00000000-0000-0000-0000-000000000000",
+	'TagDynamicMemoryAllocationOn',
+	'',
+	'//
+//============================================================================
+units_to_allocate = param.units_to_allocate;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.UnitsToDynamicallyAllocate = units_to_allocate;
+if ( tm_systag.UnitsToDynamicallyAllocate < 1 )
+  tm_systag.UnitsToDynamicallyAllocate = 1;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9d6466a0-9979-4f36-b644-d1414b8291d9",
+	"6a4256b4-0c2e-4aab-a52a-aa48d4b70889",
+	'units_to_allocate',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("6a4256b4-0c2e-4aab-a52a-aa48d4b70889",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f29399c8-0205-4f9f-81f2-1af02bd725c1",
+	"00000000-0000-0000-0000-000000000000",
+	'TagInstanceLoading',
+	'',
+	'//
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.InstanceLoading = true;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("f29399c8-0205-4f9f-81f2-1af02bd725c1",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e301dc70-acd6-4c22-b558-8200da8a0400",
+	"00000000-0000-0000-0000-000000000000",
+	'VFBEnable',
+	'',
+	'//
+//============================================================================
+// Enable Virtual Function Bus (VFB) for AUTOSAR.
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.VFB = true;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("e301dc70-acd6-4c22-b558-8200da8a0400",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5b5ce002-0275-44f4-92a8-3b85172170fd",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkStructuredMessaging',
+	'',
+	'//
+//============================================================================
+// Turn on structured inter-component message passing.
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.StructuredMessaging = true;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("5b5ce002-0275-44f4-92a8-3b85172170fd",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("21f07014-f7d6-4136-a784-e950d1b1f6a9",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkNetworkSockets',
+	'',
+	'//
+//============================================================================
+// Use Network Sockets to send messages between components.
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.NetworkSockets = true;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("21f07014-f7d6-4136-a784-e950d1b1f6a9",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("efe72f3a-a049-465c-bf35-abe7b8a3804c",
+	"00000000-0000-0000-0000-000000000000",
+	'TM_SYSTAG_select',
+	'',
+	'//
+select any tm_systag from instances of TM_SYSTAG;
+if ( empty tm_systag )
+  create object instance tm_systag of TM_SYSTAG;
+  tm_systag.MaxStringLen = 32;
+  tm_systag.PersistInstanceCacheDepth = 128;
+  tm_systag.PersistLinkCacheDepth = 128;
+  tm_systag.SystemCPortsType = "sc_interface";
+end if;
+return tm_systag;
+',
+	"fef0b916-06a3-4b79-bfcf-25214d2c2670",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("efe72f3a-a049-465c-bf35-abe7b8a3804c",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_DT_PROXY
+	VALUES ("fef0b916-06a3-4b79-bfcf-25214d2c2670",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<System Tags>',
+	'',
+	'',
+	'../Translation Marking/Translation Marking.xtuml');
+INSERT INTO S_SYNC
+	VALUES ("437234fc-83e9-481e-9c60-ddeaa26f7248",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkSystemConfigurationPackage',
+	'',
+	'//
+//============================================================================
+// Mark a package as containing the system configuration.  Code will be
+// generated for components contained in this package (and referred to
+// from this package).
+//============================================================================
+package_name = param.package_name;
+select any tm_build from instances of TM_BUILD;
+if ( empty tm_build )
+  create object instance tm_build of TM_BUILD;
+else
+  T::print(s:"Warning:  Re-marking system configuration.  Last configuration marked will be built.");
+end if;
+tm_build.package_to_build = package_name;
+tm_build.package_obj_name = package_name + "_sys";
+tm_build.package_inst_name = package_name + "_top";
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d42b1c6e-ff3e-428d-9fdb-b093fe7f204c",
+	"437234fc-83e9-481e-9c60-ddeaa26f7248",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("437234fc-83e9-481e-9c60-ddeaa26f7248",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("de9d5d80-32a2-41d2-b58a-9bedf1e8093d",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkSystemCPortType',
+	'',
+	'//
+//============================================================================
+// Enable Channel binding instead of Signal Binding.
+//============================================================================
+port_type = param.port_type;
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+if ( ( ( port_type == "TLM" ) or ( port_type == "BitLevelSignals" ) ) or ( port_type == "sc_interface" ) )
+  tm_systag.SystemCPortsType = port_type;
+else
+  T::print(s:"Warning:  Unrecognized SystemC Port Type(${port_type}). Please choose either TLM, BitLevelSignals or sc_interface. Default configuration will be used.");
+  tm_systag.SystemCPortsType = "sc_interface";
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("31216e62-c4b0-401a-86dd-a3124dacf6e4",
+	"de9d5d80-32a2-41d2-b58a-9bedf1e8093d",
+	'port_type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("de9d5d80-32a2-41d2-b58a-9bedf1e8093d",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bc31a569-8fa8-4642-af90-559f4ddfc1b6",
+	"00000000-0000-0000-0000-000000000000",
+	'MarkAllPortsPolymorphic',
+	'',
+	'//
+//============================================================================
+// Force all ports to be polymorphic (where a component implements the same 
+// interface going in the same direction more than once). 
+//============================================================================
+r = ::TM_SYSTAG_select();
+tm_systag = r;
+tm_systag.AllPortsPoly = true;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("bc31a569-8fa8-4642-af90-559f4ddfc1b6",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e293258d-00bf-42f8-b7ec-fb9f4649a4de",
+	"00000000-0000-0000-0000-000000000000",
+	'mark_all',
+	'',
+	'//
+pass = param.pass;
+f = param.f;
+p1 = param.p1;
+p2 = param.p2;
+p3 = param.p3;
+p4 = param.p4;
+p5 = param.p5;
+if ( "1" == pass )
+  // bridge
+  if ( "WireSynchServiceOoaBridge" == f )
+    // WireSynchServiceOoaBridge("initiant","ee_key_letters","recipient")
+    ::WireSynchServiceOoaBridge( initiant:p1, ee_key_letters:p2, recipient:p3 );
+  elif ( "WireRealizeExternalEntity" == f )
+    // WireRealizeExternalEntity("a","b","c","d","e")
+    ::WireRealizeExternalEntity( a:p1, b:p2, c:p3, d:p4, e:p5 );
+  elif ( "WireRealizedExternalEntity" == f )
+    // WireRealizedExternalEntity("a","b","c","d","e")
+    ::WireRealizedExternalEntity( a:p1, b:p2, c:p3, d:p4, e:p5 );
+  elif ( "TagSyncServiceSafeForInterrupts" == f )
+    // TagSyncServiceSafeForInterrupts("component_name","function_name")
+    ::TagSyncServiceSafeForInterrupts( component_name:p1, function_name:p2 );
+    // datatype
+  elif ( "TagDataTypePrecision" == f )
+    // TagDataTypePrecision("component_name","dt_name","tagged_name","initial_value")
+    ::TagDataTypePrecision( component_name:p1, dt_name:p2, tagged_name:p3, initial_value:p4 );
+  elif ( "MapDataTypeAsPointer" == f )
+    // MapDataTypeAsPointer("component_name","dt_name","pointer_type","include_file")
+    ::MapDataTypeAsPointer( component_name:p1, dt_name:p2, pointer_type:p3, include_file:p4 );
+  elif ( "TagEnumeratorDiscreteValue" == f )
+    // TagEnumeratorDiscreteValue("component_name","enumeration","enumerator","value")
+    ::TagEnumeratorDiscreteValue( component_name:p1, enumeration:p2, enumerator:p3, value:p4 );
+  elif ( "TagUninitializedEnumerationValue" == f )
+    // TagUninitializedEnumerationValue("component_name","enumeration","value")
+    ::TagUninitializedEnumerationValue( component_name:p1, enumeration:p2, value:p3 );
+  elif ( "AssignDirectToUDTPackage" == f )
+    // AssignDirectToUDTPackage("package_name")
+    ::AssignDirectToUDTPackage( package_name:p1 );
+    // system
+  elif ( "EnableTasking" == f )
+    // EnableTasking("flavor","serialize","number_of_threads":integer)
+    r = ::T_atoi( s:p3 );
+    i3 = r;
+    ::EnableTasking( flavor:p1, serialize:p2, number_of_threads:i3 );
+  elif ( "SetTaskPriority" == f )
+    // SetTaskPriority("task_number":integer"priority")
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::SetTaskPriority( task_number:i1, priority:p2 );
+  elif ( "TagMaximumStringLength" == f )
+    // TagMaximumStringLength("max_len":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagMaximumStringLength( max_len:i1 );
+  elif ( "TagMaximumRelationshipExtentSize" == f )
+    // TagMaximumRelationshipExtentSize("user_specified_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagMaximumRelationshipExtentSize( user_specified_size:i1 );
+  elif ( "TagMaximumSelectionExtentSize" == f )
+    // TagMaximumSelectionExtentSize("user_specified_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagMaximumSelectionExtentSize( user_specified_size:i1 );
+  elif ( "TagMaximumSelfDirectedEvents" == f )
+    // TagMaximumSelfDirectedEvents("user_specified_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagMaximumSelfDirectedEvents( user_specified_size:i1 );
+  elif ( "TagMaximumNonSelfDirectedEvents" == f )
+    // TagMaximumNonSelfDirectedEvents("user_specified_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagMaximumNonSelfDirectedEvents( user_specified_size:i1 );
+  elif ( "TagMaximumPendingOoaTimers" == f )
+    // TagMaximumPendingOoaTimers("user_specified_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagMaximumPendingOoaTimers( user_specified_size:i1 );
+  elif ( "TagMaximumInterleavedBridges" == f )
+    // TagMaximumInterleavedBridges("user_specified_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagMaximumInterleavedBridges( user_specified_size:i1 );
+  elif ( "TagInterleavedBridgeDataSize" == f )
+    // TagInterleavedBridgeDataSize("user_specified_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagInterleavedBridgeDataSize( user_specified_size:i1 );
+  elif ( "TagCollectionsFlavor" == f )
+    // TagCollectionsFlavor("collections_flavor":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagCollectionsFlavor( collections_flavor:i1 );
+  elif ( "MarkPersistenceCacheDepth" == f )
+    // MarkPersistenceCacheDepth("instance_depth":integer"link_depth":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    ::MarkPersistenceCacheDepth( instance_depth:i1, link_depth:i2 );
+  elif ( "TagDynamicMemoryAllocationOn" == f )
+    // TagDynamicMemoryAllocationOn("units_to_allocate":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagDynamicMemoryAllocationOn( units_to_allocate:i1 );
+  elif ( "TagInstanceLoading" == f )
+    ::TagInstanceLoading();
+  elif ( "VFBEnable" == f )
+    ::VFBEnable();
+  elif ( "MarkStructuredMessaging" == f )
+    ::MarkStructuredMessaging();
+  elif ( "MarkNetworkSockets" == f )
+    ::MarkNetworkSockets();
+  elif ( "MarkSystemConfigurationPackage" == f )
+    // MarkSystemConfigurationPackage("package_name")
+    ::MarkSystemConfigurationPackage( package_name:p1 );
+  elif ( "MarkSystemCPortType" == f )
+    // MarkSystemCPortType("port_type")
+    ::MarkSystemCPortType( port_type:p1 );
+  elif ( "MarkAllPortsPolymorphic" == f )
+    ::MarkAllPortsPolymorphic();
+    // component
+  elif ( "MarkAsChannel" == f )
+    // MarkAsChannel("package_name","component_name","inc_file")
+    ::MarkAsChannel( package_name:p1, component_name:p2, inc_file:p3 );
+  elif ( "MarkComponentAsChannel" == f )
+    // MarkComponentAsChannel("package_name","component_name","inc_file")
+    ::MarkComponentAsChannel( package_name:p1, component_name:p2, inc_file:p3 );
+  elif ( "MarkComponentWithTemplate" == f )
+    // MarkComponentWithTemplate("package_name","component_name")
+    ::MarkComponentWithTemplate( package_name:p1, component_name:p2 );
+  elif ( "MarkInterfaceWithTemplate" == f )
+    // MarkInterfaceWithTemplate("package_name","interface_name")
+    ::MarkInterfaceWithTemplate( package_name:p1, interface_name:p2 );
+  elif ( "AddTemplateParameter" == f )
+    // AddTemplateParameter("package_name","component_name","type_name","variable_name","default_value")
+    ::AddTemplateParameter( package_name:p1, component_name:p2, type_name:p3, variable_name:p4, default_value:p5 );
+  elif ( "SetTemplateParameter" == f )
+    // SetTemplateParameter("package_name","instance","variable_name","value")
+    ::SetTemplateParameter( package_name:p1, instance:p2, variable_name:p3, value:p4 );
+  elif ( "SetTPV" == f )
+    // CDS - not supported here
+    // SetTPV("package_name","parent_component","component","classifier_name","port","variable_name","value")
+    ::SetTPV( package_name:p1, parent_component:p2, component:p3, classifier_name:p4, port:p5, variable_name:"", value:"" );
+  elif ( "MarkInterfacePrefix" == f )
+    // MarkInterfacePrefix("provided_port","required_port","channel")
+    ::MarkInterfacePrefix( provided_port:p1, required_port:p2, channel:p3 );
+  elif ( "MarkComponentAsRealized" == f )
+    // MarkComponentAsRealized("package_name","component_name","inc_file")
+    ::MarkComponentAsRealized( package_name:p1, component_name:p2, inc_file:p3 );
+  else
+    // not in this pass
+  end if;
+else
+  // class
+  if ( "TagSystemObjectDefaultExtentSize" == f )
+    // TagSystemObjectDefaultExtentSize("extent_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagSystemObjectDefaultExtentSize( extent_size:i1 );
+  elif ( "MarkSystemObjectDefaultExtentSize" == f )
+    // MarkSystemObjectDefaultExtentSize("extent_size":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::MarkSystemObjectDefaultExtentSize( extent_size:i1 );
+  elif ( "TagObjectExtentSize" == f )
+    // TagObjectExtentSize("obj_key_letters","extent_size":integer)
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    ::TagObjectExtentSize( obj_key_letters:p1, extent_size:i2 );
+  elif ( "MarkObjectExtentSize" == f )
+    // MarkObjectExtentSize("component_name","obj_key_letters","extent_size":integer)
+    r = ::T_atoi( s:p3 );
+    i3 = r;
+    ::MarkObjectExtentSize( component_name:p1, obj_key_letters:p2, extent_size:i3 );
+  elif ( "TagTransformerGeneration" == f )
+    // TagTransformerGeneration("obj_key_letters","transformer_name")
+    ::TagTransformerGeneration( obj_key_letters:p1, transformer_name:p2 );
+  elif ( "TagClassOperationTranslationOff" == f )
+    // TagClassOperationTranslationOff("obj_key_letters","op_name")
+    ::TagClassOperationTranslationOff( obj_key_letters:p1, op_name:p2 );
+  elif ( "MarkClassOperationTranslationOff" == f )
+    // MarkClassOperationTranslationOff("component_name","obj_key_letters","op_name")
+    ::MarkClassOperationTranslationOff( component_name:p1, obj_key_letters:p2, op_name:p3 );
+  elif ( "TagObjectTraceOff" == f )
+    // TagObjectTraceOff("obj_key_letters")
+    ::TagObjectTraceOff( obj_key_letters:p1 );
+  elif ( "MarkObjectTraceOff" == f )
+    // MarkObjectTraceOff("component_name","obj_key_letters")
+    ::MarkObjectTraceOff( component_name:p1, obj_key_letters:p2 );
+  elif ( "TagObjectTraceOn" == f )
+    // TagObjectTraceOn("obj_key_letters")
+    ::TagObjectTraceOn( obj_key_letters:p1 );
+  elif ( "MarkObjectTraceOn" == f )
+    // MarkObjectTraceOn("component_name","obj_key_letters")
+    ::MarkObjectTraceOn( component_name:p1, obj_key_letters:p2 );
+  elif ( "TagPEIsDefinedInData" == f )
+    // TagPEIsDefinedInData("ss_prefix","obj_key_letters")
+    ::TagPEIsDefinedInData( ss_prefix:p1, obj_key_letters:p2 );
+  elif ( "MarkPEIsDefinedInData" == f )
+    // MarkPEIsDefinedInData("component_name","ss_prefix","obj_key_letters")
+    ::MarkPEIsDefinedInData( component_name:p1, package_name:p2, obj_key_letters:p3 );
+  elif ( "TagStaticInstancePopulation" == f )
+    // TagStaticInstancePopulation("ss_prefix","obj_key_letters")
+    ::TagStaticInstancePopulation( ss_prefix:p1, obj_key_letters:p2 );
+  elif ( "MarkStaticInstancePopulation" == f )
+    // MarkStaticInstancePopulation("component_name","ss_prefix","obj_key_letters")
+    ::MarkStaticInstancePopulation( component_name:p1, package_name:p2, obj_key_letters:p3 );
+  elif ( "TagReadOnly" == f )
+    // TagReadOnly("ss_prefix","obj_key_letters")
+    ::TagReadOnly( ss_prefix:p1, obj_key_letters:p2 );
+  elif ( "MarkReadOnly" == f )
+    // MarkReadOnly("component_name","ss_prefix","obj_key_letters")
+    ::MarkReadOnly( component_name:p1, package_name:p2, obj_key_letters:p3 );
+  elif ( "TagPersistentClass" == f )
+    // TagPersistentClass("ss_prefix","obj_key_letters")
+    ::TagPersistentClass( ss_prefix:p1, obj_key_letters:p2 );
+  elif ( "MarkPersistentClass" == f )
+    // MarkPersistentClass("component_name","ss_prefix","obj_key_letters")
+    ::MarkPersistentClass( component_name:p1, package_name:p2, obj_key_letters:p3 );
+  elif ( "TagNonPersistentClass" == f )
+    // TagNonPersistentClass("ss_prefix","obj_key_letters")
+    ::TagNonPersistentClass( ss_prefix:p1, obj_key_letters:p2 );
+  elif ( "MarkNonPersistentClass" == f )
+    // MarkNonPersistentClass("component_name","ss_prefix","obj_key_letters")
+    ::MarkNonPersistentClass( component_name:p1, package_name:p2, obj_key_letters:p3 );
+  elif ( "MapClassToTask" == f )
+    // MapClassToTask("ss_prefix","obj_key_letters","task":integer)
+    r = ::T_atoi( s:p3 );
+    i3 = r;
+    ::MapClassToTask( ss_prefix:p1, obj_key_letters:p2, task:i3 );
+  elif ( "MarkClassToTask" == f )
+    // MarkClassToTask("component_name","ss_prefix","obj_key_letters","task":integer)
+    r = ::T_atoi( s:p4 );
+    i4 = r;
+    ::MarkClassToTask( component_name:p1, package_name:p2, obj_key_letters:p3, task:i4 );
+    // domain
+  elif ( "TagFunctionTranslationOff" == f )
+    // TagFunctionTranslationOff("function_name")
+    ::TagFunctionTranslationOff( function_name:p1 );
+  elif ( "MarkFunctionTranslationOff" == f )
+    // MarkFunctionTranslationOff("component_name","function_name")
+    ::MarkFunctionTranslationOff( component_name:p1, function_name:p2 );
+  elif ( "TagInitializationFunction" == f )
+    // TagInitializationFunction("function_name")
+    ::TagInitializationFunction( function_name:p1 );
+  elif ( "MarkInitializationFunction" == f )
+    // MarkInitializationFunction("component_name","function_name")
+    ::MarkInitializationFunction( component_name:p1, function_name:p2 );
+  elif ( "TagExcludeObjectFromCodeGen" == f )
+    // TagExcludeObjectFromCodeGen("obj_key_letters")
+    ::TagExcludeObjectFromCodeGen( obj_key_letters:p1 );
+  elif ( "MarkExcludeObjectFromCodeGen" == f )
+    // MarkExcludeObjectFromCodeGen("component_name","obj_key_letters")
+    ::MarkExcludeObjectFromCodeGen( component_name:p1, obj_key_letters:p2 );
+  elif ( "TagExcludeSubsystemFromCodeGen" == f )
+    // TagExcludeSubsystemFromCodeGen("subsystem_name")
+    ::TagExcludeSubsystemFromCodeGen( subsystem_name:p1 );
+  elif ( "MarkExcludeSubsystemFromCodeGen" == f )
+    // MarkExcludeSubsystemFromCodeGen("component_name","subsystem_name")
+    ::MarkExcludeSubsystemFromCodeGen( component_name:p1, package_name:p2 );
+  elif ( "TagStateTransitionTracingOn" == f )
+    ::TagStateTransitionTracingOn();
+  elif ( "MarkStateTransitionTracingOn" == f )
+    // MarkStateTransitionTracingOn("component_name")
+    ::MarkStateTransitionTracingOn( component_name:p1 );
+  elif ( "TagActionStatementTracingOn" == f )
+    ::TagActionStatementTracingOn();
+  elif ( "MarkActionStatementTracingOn" == f )
+    // MarkActionStatementTracingOn("component_name")
+    ::MarkActionStatementTracingOn( component_name:p1 );
+  elif ( "MarkMessageTracingOn" == f )
+    // MarkMessageTracingOn("component_name","port_name","message_name")
+    ::MarkMessageTracingOn( component_name:p1, port_name:p2, message_name:p3 );
+  elif ( "TagEmptyHandleDetectionOn" == f )
+    ::TagEmptyHandleDetectionOn();
+  elif ( "MarkEmptyHandleDetectionOn" == f )
+    // MarkEmptyHandleDetectionOn("component_name")
+    ::MarkEmptyHandleDetectionOn( component_name:p1 );
+  elif ( "TagFirstPassOptimizationsOff" == f )
+    ::TagFirstPassOptimizationsOff();
+  elif ( "MarkFirstPassOptimizationsOff" == f )
+    // MarkFirstPassOptimizationsOff("component_name")
+    ::MarkFirstPassOptimizationsOff( component_name:p1 );
+  elif ( "TagStateActionCommentBlocksEnabled" == f )
+    ::TagStateActionCommentBlocksEnabled();
+  elif ( "MarkStateActionCommentBlocksEnabled" == f )
+    // MarkStateActionCommentBlocksEnabled("component_name")
+    ::MarkStateActionCommentBlocksEnabled( component_name:p1 );
+  elif ( "TagStateActionStatementCommentsDisabled" == f )
+    ::TagStateActionStatementCommentsDisabled();
+  elif ( "MarkStateActionStatementCommentsDisabled" == f )
+    // MarkStateActionStatementCommentsDisabled("component_name")
+    ::MarkStateActionStatementCommentsDisabled( component_name:p1 );
+  elif ( "TagStateActionVariableNamesEnabled" == f )
+    ::TagStateActionVariableNamesEnabled();
+  elif ( "TagVerboseReflexivePhrasesEnabled" == f )
+    ::TagVerboseReflexivePhrasesEnabled();
+  elif ( "MarkPortWiring" == f )
+    // MarkPortWiring("home_component","home_port","foreign_component","foreign_port")
+    ::MarkPortWiring( home_component:p1, home_port:p2, foreign_component:p3, foreign_port:p4 );
+  elif ( "TagDispatchFlavor" == f )
+    // TagDispatchFlavor("flavor":integer)
+    r = ::T_atoi( s:p1 );
+    i1 = r;
+    ::TagDispatchFlavor( flavor:i1 );
+    // event
+  elif ( "TagPriorityEvent" == f )
+    // TagPriorityEvent("evt_label","priority_value":integer)
+    r = ::T_atoi( s:p2 );
+    i2 = r;
+    ::TagPriorityEvent( evt_label:p1, priority_value:i2 );
+  elif ( "MarkPriorityEvent" == f )
+    // MarkPriorityEvent("component_name","evt_label","priority_value":integer)
+    r = ::T_atoi( s:p3 );
+    i3 = r;
+    ::MarkPriorityEvent( component_name:p1, evt_label:p2, priority_value:i3 );
+  else
+    // not in this pass
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d47e1a0f-6812-441b-ab75-06473270eb2c",
+	"e293258d-00bf-42f8-b7ec-fb9f4649a4de",
+	'pass',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c69a8653-97c2-4137-80dd-9fd62d9f3e3e",
+	"e293258d-00bf-42f8-b7ec-fb9f4649a4de",
+	'f',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d47e1a0f-6812-441b-ab75-06473270eb2c",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c3c8d07e-4f99-4048-b9ab-5a045882cc90",
+	"e293258d-00bf-42f8-b7ec-fb9f4649a4de",
+	'p1',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c69a8653-97c2-4137-80dd-9fd62d9f3e3e",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("aa2853f7-69b0-4ecd-ba77-81b45e943dba",
+	"e293258d-00bf-42f8-b7ec-fb9f4649a4de",
+	'p2',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c3c8d07e-4f99-4048-b9ab-5a045882cc90",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2732aef0-3cf6-4b2b-a8d6-0886455b42f6",
+	"e293258d-00bf-42f8-b7ec-fb9f4649a4de",
+	'p3',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"aa2853f7-69b0-4ecd-ba77-81b45e943dba",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("91b0c0e3-ee58-4cad-97cc-c9b9221262ab",
+	"e293258d-00bf-42f8-b7ec-fb9f4649a4de",
+	'p4',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"2732aef0-3cf6-4b2b-a8d6-0886455b42f6",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6609fb8b-d1df-42e8-a919-ce35ce61c0b6",
+	"e293258d-00bf-42f8-b7ec-fb9f4649a4de",
+	'p5',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"91b0c0e3-ee58-4cad-97cc-c9b9221262ab",
+	'');
+INSERT INTO PE_PE
+	VALUES ("e293258d-00bf-42f8-b7ec-fb9f4649a4de",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1f8f5969-42e5-490b-b12f-eb7dffe67592",
+	"00000000-0000-0000-0000-000000000000",
+	'T_atoi',
+	'',
+	'/*
+s = param.s;
+r = ::STRING_TO_INTEGER( component_name:s );
+return r;
+*/
+::oal( s:"return strtol( p_s, 0, 10 );" );
+return 0;',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("38476759-2d91-40d7-b4ae-61663a722c96",
+	"1f8f5969-42e5-490b-b12f-eb7dffe67592",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1f8f5969-42e5-490b-b12f-eb7dffe67592",
+	1,
+	"ff065400-dd7f-4f26-bc57-efa16af8505c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("ff065400-dd7f-4f26-bc57-efa16af8505c",
+	1,
+	"53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'ooaofooa',
+	'========================================================================
+
+File:          $RCSfile: ooaofooa.xtuml,v $
+Version:   $Revision: 1.127 $
+Modified:  $Date: 2006/09/26 15:10:20 $
+
+(c) Copyright 2004-2012 by Mentor Graphics Corp. All rights reserved.
+
+========================================================================
+This document contains information proprietary and confidential to
+Mentor Graphics Corp. and is not for external distribution.
+========================================================================
+
+This is the application domain for the Tiger project.
+
+The processing in this model describes the activities
+for model capture.
+
+
+
+',
+	0,
+	'../ooaofooa.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'escher',
+	1,
+	'../../escher.xtuml');

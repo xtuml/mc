@@ -1,0 +1,215 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	'Derived Attribute Body',
+	633,
+	'ACT_DAB',
+	'This class represents the action language containing body of a derived attribute.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	0,
+	"fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"3e20a8d2-1c53-4eba-a61f-953542c45236",
+	"930cef27-a521-47c2-a94d-9c14871de6e2",
+	"bf2f34e7-ef43-40f7-b4ff-2a5a016b7971",
+	"83678de3-96c0-46a4-802a-213b66dcba86",
+	"e1d042b8-22b3-4cd2-b6e9-a425defd47f7",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Body',
+	'Action_ID',
+	'R698');
+INSERT INTO R_RGO_PROXY
+	VALUES ("d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"3e20a8d2-1c53-4eba-a61f-953542c45236",
+	"930cef27-a521-47c2-a94d-9c14871de6e2",
+	'../Body.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	0,
+	"3e20a8d2-1c53-4eba-a61f-953542c45236",
+	"bf2f34e7-ef43-40f7-b4ff-2a5a016b7971",
+	'../Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("83678de3-96c0-46a4-802a-213b66dcba86",
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	1,
+	'Action_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	'../Body/Body.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("83678de3-96c0-46a4-802a-213b66dcba86",
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"00000000-0000-0000-0000-000000000000",
+	'Action_ID',
+	'',
+	'',
+	'Action_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"3eab6a96-7967-4a33-ae3a-272403488248",
+	0,
+	"43b47c31-f464-4ecf-877e-4fc035a8f9e7",
+	"06e020c7-8987-41e2-a4f8-d398c9d5a5e2",
+	"7bd5a6d5-7516-4e82-bf39-c6df91b26360",
+	"09c35e05-d0ff-4594-8b9e-55bac69795bc",
+	"a3dfc306-f4a1-4c28-9fc6-d4816faee208",
+	"c9e08bd7-c367-41f6-a3f6-269718fc124e",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Derived Base Attribute',
+	'Attr_ID',
+	'R693.''specifies processing for''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"06e020c7-8987-41e2-a4f8-d398c9d5a5e2",
+	"7bd5a6d5-7516-4e82-bf39-c6df91b26360",
+	'../Body.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("43b47c31-f464-4ecf-877e-4fc035a8f9e7",
+	"3eab6a96-7967-4a33-ae3a-272403488248",
+	0,
+	"06e020c7-8987-41e2-a4f8-d398c9d5a5e2",
+	"09c35e05-d0ff-4594-8b9e-55bac69795bc",
+	'../Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("a3dfc306-f4a1-4c28-9fc6-d4816faee208",
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"69f10549-b0b0-4935-8d9e-6a3b0f96f7a9",
+	"5d58dffb-2a82-4a68-876c-1c0cc11dc66c",
+	1,
+	'Attr_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("69f10549-b0b0-4935-8d9e-6a3b0f96f7a9",
+	"5d58dffb-2a82-4a68-876c-1c0cc11dc66c",
+	'../../Subsystem/Attribute/Attribute.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("a3dfc306-f4a1-4c28-9fc6-d4816faee208",
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"22758101-f58e-4449-951e-b97fdeaa1363",
+	'Attr_ID',
+	'',
+	'',
+	'Attr_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f124f5b6-4eef-4cc4-bebd-7ce05e3b4316",
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89");
+INSERT INTO O_BATTR
+	VALUES ("f124f5b6-4eef-4cc4-bebd-7ce05e3b4316",
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89");
+INSERT INTO O_ATTR
+	VALUES ("f124f5b6-4eef-4cc4-bebd-7ce05e3b4316",
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"a3dfc306-f4a1-4c28-9fc6-d4816faee208",
+	'AttributeWritten',
+	'This attribute is used by the parser to indicate that the
+derived attribute value has been written to by the activity associated
+with the attribute.
+---------------------------------------------------------------------
+Bridge:ALS
+',
+	'',
+	'AttributeWritten',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"3eab6a96-7967-4a33-ae3a-272403488248",
+	0,
+	"df63cbdd-12b9-46b3-acfe-d90954f5842a",
+	"06e020c7-8987-41e2-a4f8-d398c9d5a5e2",
+	"7bd5a6d5-7516-4e82-bf39-c6df91b26360",
+	"09c35e05-d0ff-4594-8b9e-55bac69795bc",
+	"22758101-f58e-4449-951e-b97fdeaa1363",
+	"0bcb1178-1831-411f-8c02-31ef08c96fb5",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Derived Base Attribute',
+	'Obj_ID',
+	'R693.''specifies processing for''');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("df63cbdd-12b9-46b3-acfe-d90954f5842a",
+	"3eab6a96-7967-4a33-ae3a-272403488248",
+	0,
+	"06e020c7-8987-41e2-a4f8-d398c9d5a5e2",
+	"09c35e05-d0ff-4594-8b9e-55bac69795bc",
+	'../Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("22758101-f58e-4449-951e-b97fdeaa1363",
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("22758101-f58e-4449-951e-b97fdeaa1363",
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	"83678de3-96c0-46a4-802a-213b66dcba86",
+	'Obj_ID',
+	'',
+	'',
+	'Obj_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89");
+INSERT INTO O_OIDA
+	VALUES ("83678de3-96c0-46a4-802a-213b66dcba86",
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	0,
+	'Action_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89");
+INSERT INTO O_ID
+	VALUES (2,
+	"d6d9aac4-d659-48a2-acb5-1a1b90ef3d89");
+INSERT INTO PE_PE
+	VALUES ("d6d9aac4-d659-48a2-acb5-1a1b90ef3d89",
+	1,
+	"e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Body',
+	'This subsystem abstracts the action itself, the blocks and statements
+it contains together with the flow of control statements such as ''while'',
+''for each'' and ''if''.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	600,
+	'../Body.xtuml');

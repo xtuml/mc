@@ -1,0 +1,107 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d",
+	'Activity Final Node',
+	1107,
+	'A_AF',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("afebebc8-31ae-49cf-8abf-4928ff4c15e3",
+	"27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d");
+INSERT INTO O_BATTR
+	VALUES ("afebebc8-31ae-49cf-8abf-4928ff4c15e3",
+	"27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d");
+INSERT INTO O_ATTR
+	VALUES ("afebebc8-31ae-49cf-8abf-4928ff4c15e3",
+	"27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d",
+	"a2fb64b7-0034-404e-a1de-c003b06cbbed",
+	'Descrip',
+	'Full Name: Final Activity Description',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d",
+	"68ac3f9f-b46e-4cdf-9047-f6139069e9e8",
+	0,
+	"bdc74bff-f349-4e9d-a758-ac98cdc13ee5",
+	"17e27933-169c-4588-b2f9-6eb58f1c6bf9",
+	"a233a009-5b1d-4886-af87-fae8d0141de5",
+	"8486b1d9-d976-489e-85e8-6aa280a9a2b9",
+	"a2fb64b7-0034-404e-a1de-c003b06cbbed",
+	"68c2d071-7f0f-4662-a8f5-c09854019e95",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Control Node',
+	'Id',
+	'R1106');
+INSERT INTO R_RGO_PROXY
+	VALUES ("27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d",
+	"17e27933-169c-4588-b2f9-6eb58f1c6bf9",
+	"a233a009-5b1d-4886-af87-fae8d0141de5",
+	'../Activity.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("bdc74bff-f349-4e9d-a758-ac98cdc13ee5",
+	"68ac3f9f-b46e-4cdf-9047-f6139069e9e8",
+	0,
+	"17e27933-169c-4588-b2f9-6eb58f1c6bf9",
+	"8486b1d9-d976-489e-85e8-6aa280a9a2b9",
+	'../Activity.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("a2fb64b7-0034-404e-a1de-c003b06cbbed",
+	"27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("a2fb64b7-0034-404e-a1de-c003b06cbbed",
+	"27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d",
+	"00000000-0000-0000-0000-000000000000",
+	'Id',
+	'',
+	'',
+	'Id',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d");
+INSERT INTO O_OIDA
+	VALUES ("a2fb64b7-0034-404e-a1de-c003b06cbbed",
+	"27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d",
+	0,
+	'Id');
+INSERT INTO O_ID
+	VALUES (1,
+	"27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d");
+INSERT INTO O_ID
+	VALUES (2,
+	"27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d");
+INSERT INTO PE_PE
+	VALUES ("27466ca7-ba2c-4ce2-b38a-ca0fae2b5a3d",
+	1,
+	"a7cdb354-6f88-4e6a-8302-f750c36d35f0",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a7cdb354-6f88-4e6a-8302-f750c36d35f0",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Activity',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	1100,
+	'../Activity.xtuml');

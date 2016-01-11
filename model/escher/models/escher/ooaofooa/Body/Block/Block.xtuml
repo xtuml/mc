@@ -1,0 +1,532 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6cf76eba-03dc-4cce-af63-e348fbed1243",
+	'Block',
+	600,
+	'ACT_BLK',
+	'This class represents a block of action language within an action. Each block contains a number of statements.
+
+',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"00000000-0000-0000-0000-000000000000",
+	'Block_ID',
+	'',
+	'',
+	'Block_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	0,
+	"fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"ae55bbcb-96e1-4d02-9bda-5fc5783751bc",
+	"9294c775-f019-4813-bcfe-17eca32845d7",
+	"0b64e493-647a-46df-a24a-735d371afbce",
+	"1de44e27-b8c3-42ae-9b7c-d9117709ed63",
+	"4707ee90-b73e-4a6d-b509-6f9a7af23a24",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Body',
+	'Action_ID',
+	'R601.''is committed from''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"ae55bbcb-96e1-4d02-9bda-5fc5783751bc",
+	"9294c775-f019-4813-bcfe-17eca32845d7",
+	'../Body.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	0,
+	"ae55bbcb-96e1-4d02-9bda-5fc5783751bc",
+	"0b64e493-647a-46df-a24a-735d371afbce",
+	'../Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("1de44e27-b8c3-42ae-9b7c-d9117709ed63",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	1,
+	'Action_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	'../Body/Body.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("1de44e27-b8c3-42ae-9b7c-d9117709ed63",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"4b8ade52-30b5-42b0-b143-55f729ae0fd6",
+	'Action_ID',
+	'',
+	'',
+	'Action_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("36541536-9e25-4ac6-8ebe-3b04a16a3c78",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("36541536-9e25-4ac6-8ebe-3b04a16a3c78",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("36541536-9e25-4ac6-8ebe-3b04a16a3c78",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	'WhereSpecOK',
+	'This attribute is used during parsing to flag if the where specification that was last parsed had any errors or not.
+---------------------------------------------------------------------
+Bridge:ALS',
+	'',
+	'WhereSpecOK',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("25f98662-5bec-4d71-9b60-5761844184b2",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("25f98662-5bec-4d71-9b60-5761844184b2",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("25f98662-5bec-4d71-9b60-5761844184b2",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"36541536-9e25-4ac6-8ebe-3b04a16a3c78",
+	'InWhereSpec',
+	'This attribute is used during parsing to flag if the parser is currently parsing a where specification.
+---------------------------------------------------------------------
+Bridge:ALS',
+	'',
+	'InWhereSpec',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("715de979-5abd-4f9a-bb3f-d4fa65f7ccaa",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("715de979-5abd-4f9a-bb3f-d4fa65f7ccaa",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("715de979-5abd-4f9a-bb3f-d4fa65f7ccaa",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"25f98662-5bec-4d71-9b60-5761844184b2",
+	'SelectedFound',
+	'This attribute is used during parsing to flag if the parser found the keyword ''selected'' in a where specification.
+---------------------------------------------------------------------
+Bridge:ALS',
+	'',
+	'SelectedFound',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("fd6b140d-f923-429d-a348-8f20e980eefd",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("fd6b140d-f923-429d-a348-8f20e980eefd",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("fd6b140d-f923-429d-a348-8f20e980eefd",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"715de979-5abd-4f9a-bb3f-d4fa65f7ccaa",
+	'TempBuffer',
+	'This attribute is used by the parser to save textual infomation 
+for later use by the parser.  The current uses of this attribute are
+by the functions:  obj_or_ee_keyletters_validate, and phrase_validate.
+---------------------------------------------------------------------
+Bridge:ALS
+
+',
+	'',
+	'TempBuffer',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("84e54cc8-5384-4ec4-879c-a46e7b0df347",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("84e54cc8-5384-4ec4-879c-a46e7b0df347",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("84e54cc8-5384-4ec4-879c-a46e7b0df347",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"fd6b140d-f923-429d-a348-8f20e980eefd",
+	'SupData1',
+	'This attribute is used by the parser to save textual infomation 
+for later use by the parser.  It is used cache the name of the first parameter in an event parameter list.
+---------------------------------------------------------------------
+Bridge:ALS
+
+
+',
+	'',
+	'SupData1',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5f2abbae-90e4-4df3-b8c0-88bf8c8ab12e",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("5f2abbae-90e4-4df3-b8c0-88bf8c8ab12e",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("5f2abbae-90e4-4df3-b8c0-88bf8c8ab12e",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"84e54cc8-5384-4ec4-879c-a46e7b0df347",
+	'SupData2',
+	'This attribute is used by the parser to save textual infomation 
+for later use by the parser.  It is used cache the name of the second and subsequent parameters in an event parameter list.
+---------------------------------------------------------------------
+Bridge:ALS
+',
+	'',
+	'SupData2',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2dcb8242-2881-4ddf-869f-a21b826de68d",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("2dcb8242-2881-4ddf-869f-a21b826de68d",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("2dcb8242-2881-4ddf-869f-a21b826de68d",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"5f2abbae-90e4-4df3-b8c0-88bf8c8ab12e",
+	'CurrentLine',
+	'This is a temporary value used to save the line number of the statement
+currently being parsed.',
+	'',
+	'CurrentLine',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b003ddb9-b4b5-45ad-a29f-66a90ae5cde0",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("b003ddb9-b4b5-45ad-a29f-66a90ae5cde0",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("b003ddb9-b4b5-45ad-a29f-66a90ae5cde0",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"2dcb8242-2881-4ddf-869f-a21b826de68d",
+	'CurrentCol',
+	'This is a temporary value used to save the starting column of the statement
+currently being parsed.',
+	'',
+	'CurrentCol',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4f61c81b-a333-4963-9a10-e62665d49f60",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("4f61c81b-a333-4963-9a10-e62665d49f60",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("4f61c81b-a333-4963-9a10-e62665d49f60",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"b003ddb9-b4b5-45ad-a29f-66a90ae5cde0",
+	'currentKeyLettersLineNumber',
+	'Holds the line number (within the activity text as a whole) of the last 
+key-letters token parsed in this block.
+',
+	'',
+	'currentKeyLettersLineNumber',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f47a7756-8508-43a3-8be8-d844b9fe30e9",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("f47a7756-8508-43a3-8be8-d844b9fe30e9",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("f47a7756-8508-43a3-8be8-d844b9fe30e9",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"4f61c81b-a333-4963-9a10-e62665d49f60",
+	'currentKeyLettersColumn',
+	'Holds the column (within the activity text as a whole) of the last 
+key-letters token parsed in this block.
+',
+	'',
+	'currentKeyLettersColumn',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ab8321b3-d2ce-4c1e-94d5-828ceec36e85",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("ab8321b3-d2ce-4c1e-94d5-828ceec36e85",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("ab8321b3-d2ce-4c1e-94d5-828ceec36e85",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"f47a7756-8508-43a3-8be8-d844b9fe30e9",
+	'currentParameterAssignmentNameLineNumber',
+	'',
+	'',
+	'currentParameterAssignmentNameLineNumber',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("9ecc1c73-f454-4aa7-ab74-f5c96728d799",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("9ecc1c73-f454-4aa7-ab74-f5c96728d799",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("9ecc1c73-f454-4aa7-ab74-f5c96728d799",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"ab8321b3-d2ce-4c1e-94d5-828ceec36e85",
+	'currentParameterAssignmentNameColumn',
+	'',
+	'',
+	'currentParameterAssignmentNameColumn',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ce26482e-1d05-452d-9b8a-05a6586536e3",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("ce26482e-1d05-452d-9b8a-05a6586536e3",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("ce26482e-1d05-452d-9b8a-05a6586536e3",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"9ecc1c73-f454-4aa7-ab74-f5c96728d799",
+	'currentAssociationNumberLineNumber',
+	'',
+	'',
+	'currentAssociationNumberLineNumber',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6db313cd-c8c8-46e8-8c44-ea28dd09128d",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("6db313cd-c8c8-46e8-8c44-ea28dd09128d",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("6db313cd-c8c8-46e8-8c44-ea28dd09128d",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"ce26482e-1d05-452d-9b8a-05a6586536e3",
+	'currentAssociationNumberColumn',
+	'',
+	'',
+	'currentAssociationNumberColumn',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("99c52796-f2a1-4e8b-ac1b-6d19cb00b12a",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("99c52796-f2a1-4e8b-ac1b-6d19cb00b12a",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("99c52796-f2a1-4e8b-ac1b-6d19cb00b12a",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"6db313cd-c8c8-46e8-8c44-ea28dd09128d",
+	'currentAssociationPhraseLineNumber',
+	'',
+	'',
+	'currentAssociationPhraseLineNumber',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d8f5cba6-7bdc-4142-9317-b1e3c4a4e7ab",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("d8f5cba6-7bdc-4142-9317-b1e3c4a4e7ab",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("d8f5cba6-7bdc-4142-9317-b1e3c4a4e7ab",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"99c52796-f2a1-4e8b-ac1b-6d19cb00b12a",
+	'currentAssociationPhraseColumn',
+	'',
+	'',
+	'currentAssociationPhraseColumn',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4226a6af-5681-4771-9588-a31a6e03a0f1",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("4226a6af-5681-4771-9588-a31a6e03a0f1",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("4226a6af-5681-4771-9588-a31a6e03a0f1",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"d8f5cba6-7bdc-4142-9317-b1e3c4a4e7ab",
+	'currentDataTypeNameLineNumber',
+	'',
+	'',
+	'currentDataTypeNameLineNumber',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d44e9288-7108-46e3-a67f-199d57e47125",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("d44e9288-7108-46e3-a67f-199d57e47125",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("d44e9288-7108-46e3-a67f-199d57e47125",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"4226a6af-5681-4771-9588-a31a6e03a0f1",
+	'currentDataTypeNameColumn',
+	'',
+	'',
+	'currentDataTypeNameColumn',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4b8ade52-30b5-42b0-b143-55f729ae0fd6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_BATTR
+	VALUES ("4b8ade52-30b5-42b0-b143-55f729ae0fd6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ATTR
+	VALUES ("4b8ade52-30b5-42b0-b143-55f729ae0fd6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"d44e9288-7108-46e3-a67f-199d57e47125",
+	'blockInStackFrameCreated',
+	'',
+	'',
+	'blockInStackFrameCreated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	0,
+	"fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"6b970d48-2892-40bc-b0ef-0941a93c2662",
+	"96f37bdb-3024-47ec-b898-96735ab2f395",
+	"eb607066-47c9-4b0f-a22d-07d470b20c03",
+	"30abd186-1cb7-4075-9794-365eb983a893",
+	"4e26db71-d18e-4915-a43c-bd2fbbe2a984",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Body',
+	'Action_ID',
+	'R612.''is parsed from''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"6b970d48-2892-40bc-b0ef-0941a93c2662",
+	"96f37bdb-3024-47ec-b898-96735ab2f395",
+	'../Body.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	0,
+	"6b970d48-2892-40bc-b0ef-0941a93c2662",
+	"eb607066-47c9-4b0f-a22d-07d470b20c03",
+	'../Body.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("30abd186-1cb7-4075-9794-365eb983a893",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"fda49451-ba93-4dc1-a152-eaa51d1283e3",
+	"96fb271d-2c9a-4e01-a328-de7640311311",
+	1,
+	'Action_ID');
+INSERT INTO O_ATTR
+	VALUES ("30abd186-1cb7-4075-9794-365eb983a893",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	"1de44e27-b8c3-42ae-9b7c-d9117709ed63",
+	'Parsed_Action_ID',
+	'',
+	'Parsed_',
+	'Action_ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_OIDA
+	VALUES ("49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	0,
+	'Block_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO O_ID
+	VALUES (2,
+	"6cf76eba-03dc-4cce-af63-e348fbed1243");
+INSERT INTO PE_PE
+	VALUES ("6cf76eba-03dc-4cce-af63-e348fbed1243",
+	1,
+	"e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("e4a1bd60-5e9c-4529-9aa7-620dceaeb8a7",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Body',
+	'This subsystem abstracts the action itself, the blocks and statements
+it contains together with the flow of control statements such as ''while'',
+''for each'' and ''if''.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	600,
+	'../Body.xtuml');

@@ -1,0 +1,95 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("3312d1b5-f3ef-4694-83bf-a6b9f7c15ced",
+	'Select Related By',
+	623,
+	'ACT_SR',
+	'This class represents a statement that selects a set of instances related across one or more associations.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("3312d1b5-f3ef-4694-83bf-a6b9f7c15ced",
+	"07b86cf3-5b6e-4f2b-9d67-1459cbbbf860",
+	0,
+	"bf7b119e-efbb-4c52-a402-a299a4982b96",
+	"ad786391-18eb-49f5-9045-06e5b6a18137",
+	"cba7e8ba-0285-43d3-bf99-e5cffa2bd469",
+	"390b564d-81f6-479f-96d5-dea9cf88203a",
+	"8da498fc-b6b6-4fab-bb32-1020ce8b61e6",
+	"df0a56b7-8acd-4129-b375-4f0ce0bf2141",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Select',
+	'Statement_ID',
+	'R664');
+INSERT INTO R_RGO_PROXY
+	VALUES ("3312d1b5-f3ef-4694-83bf-a6b9f7c15ced",
+	"ad786391-18eb-49f5-9045-06e5b6a18137",
+	"cba7e8ba-0285-43d3-bf99-e5cffa2bd469",
+	'../Selection.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("bf7b119e-efbb-4c52-a402-a299a4982b96",
+	"07b86cf3-5b6e-4f2b-9d67-1459cbbbf860",
+	0,
+	"ad786391-18eb-49f5-9045-06e5b6a18137",
+	"390b564d-81f6-479f-96d5-dea9cf88203a",
+	'../Selection.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("8da498fc-b6b6-4fab-bb32-1020ce8b61e6",
+	"3312d1b5-f3ef-4694-83bf-a6b9f7c15ced",
+	"b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	1,
+	'Statement_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("b58cb684-d679-48b9-842d-63d9f2485c6b",
+	"75fe30ff-9e22-40fd-b227-b94a1135e8c0",
+	'../../Body/Statement/Statement.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("8da498fc-b6b6-4fab-bb32-1020ce8b61e6",
+	"3312d1b5-f3ef-4694-83bf-a6b9f7c15ced",
+	"00000000-0000-0000-0000-000000000000",
+	'Statement_ID',
+	'
+
+',
+	'',
+	'Statement_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"3312d1b5-f3ef-4694-83bf-a6b9f7c15ced");
+INSERT INTO O_OIDA
+	VALUES ("8da498fc-b6b6-4fab-bb32-1020ce8b61e6",
+	"3312d1b5-f3ef-4694-83bf-a6b9f7c15ced",
+	0,
+	'Statement_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"3312d1b5-f3ef-4694-83bf-a6b9f7c15ced");
+INSERT INTO O_ID
+	VALUES (2,
+	"3312d1b5-f3ef-4694-83bf-a6b9f7c15ced");
+INSERT INTO PE_PE
+	VALUES ("3312d1b5-f3ef-4694-83bf-a6b9f7c15ced",
+	1,
+	"e29ca26f-e695-40da-8c3e-95e47da01cda",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("e29ca26f-e695-40da-8c3e-95e47da01cda",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Selection',
+	'This subsystem captures concepts related to selections of instances across associations. Association chain, where and instance extent selections are also covered.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	600,
+	'../Selection.xtuml');

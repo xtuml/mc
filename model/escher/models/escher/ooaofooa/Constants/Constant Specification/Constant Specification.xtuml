@@ -1,0 +1,129 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("2aea9d83-a0a7-4579-8efd-53056a30b454",
+	'Constant Specification',
+	1500,
+	'CNST_CSP',
+	'A grouping of constants. The name is informal and does not imply any scoping.
+It is used by the parser to locate the constant.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("7682ed8c-d9a6-4480-8284-b6be2267156f",
+	"2aea9d83-a0a7-4579-8efd-53056a30b454");
+INSERT INTO O_BATTR
+	VALUES ("7682ed8c-d9a6-4480-8284-b6be2267156f",
+	"2aea9d83-a0a7-4579-8efd-53056a30b454");
+INSERT INTO O_ATTR
+	VALUES ("7682ed8c-d9a6-4480-8284-b6be2267156f",
+	"2aea9d83-a0a7-4579-8efd-53056a30b454",
+	"50b7820c-170a-4ddc-8063-0508b21c901e",
+	'InformalGroupName',
+	'Full Name: Constant Specification Informal Name
+Description: Contains the name of this constant specification.  It is informal in that it has no semantic meaning.',
+	'',
+	'InformalGroupName',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("03c2d55a-2f5c-4786-a428-a4f26fe893a5",
+	"2aea9d83-a0a7-4579-8efd-53056a30b454");
+INSERT INTO O_BATTR
+	VALUES ("03c2d55a-2f5c-4786-a428-a4f26fe893a5",
+	"2aea9d83-a0a7-4579-8efd-53056a30b454");
+INSERT INTO O_ATTR
+	VALUES ("03c2d55a-2f5c-4786-a428-a4f26fe893a5",
+	"2aea9d83-a0a7-4579-8efd-53056a30b454",
+	"7682ed8c-d9a6-4480-8284-b6be2267156f",
+	'Descrip',
+	'Full Name: Description
+Description:  A textual description of this constant specification.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("2aea9d83-a0a7-4579-8efd-53056a30b454",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	0,
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"4cadc5a5-2ec1-44b2-8fae-1fe59651d6f6",
+	"5e33171c-b81f-47a3-9b12-9d03fb9029ac",
+	"8e8eb7d2-44b9-41b4-a7b1-0ce76a4522ad",
+	"50b7820c-170a-4ddc-8063-0508b21c901e",
+	"7cb02c77-bb8d-441c-a505-b9d309d002b2",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Packageable Element',
+	'Element_ID',
+	'R8001');
+INSERT INTO R_RGO_PROXY
+	VALUES ("2aea9d83-a0a7-4579-8efd-53056a30b454",
+	"4cadc5a5-2ec1-44b2-8fae-1fe59651d6f6",
+	"5e33171c-b81f-47a3-9b12-9d03fb9029ac",
+	'../../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	0,
+	"4cadc5a5-2ec1-44b2-8fae-1fe59651d6f6",
+	"8e8eb7d2-44b9-41b4-a7b1-0ce76a4522ad",
+	'../../Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("50b7820c-170a-4ddc-8063-0508b21c901e",
+	"2aea9d83-a0a7-4579-8efd-53056a30b454",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	0,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("50b7820c-170a-4ddc-8063-0508b21c901e",
+	"2aea9d83-a0a7-4579-8efd-53056a30b454",
+	"00000000-0000-0000-0000-000000000000",
+	'Constant_Spec_ID',
+	'',
+	'',
+	'Constant_Spec_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"2aea9d83-a0a7-4579-8efd-53056a30b454");
+INSERT INTO O_OIDA
+	VALUES ("50b7820c-170a-4ddc-8063-0508b21c901e",
+	"2aea9d83-a0a7-4579-8efd-53056a30b454",
+	0,
+	'Constant_Spec_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"2aea9d83-a0a7-4579-8efd-53056a30b454");
+INSERT INTO O_ID
+	VALUES (2,
+	"2aea9d83-a0a7-4579-8efd-53056a30b454");
+INSERT INTO PE_PE
+	VALUES ("2aea9d83-a0a7-4579-8efd-53056a30b454",
+	1,
+	"50606f39-c7a1-47f5-9d11-5349bde51d10",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("50606f39-c7a1-47f5-9d11-5349bde51d10",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Constants',
+	'This subsystem contains the metamodel support for constants.  Individual
+constants are contained inside a constant specification on the datatypes
+diagram.',
+	1500,
+	'../Constants.xtuml');

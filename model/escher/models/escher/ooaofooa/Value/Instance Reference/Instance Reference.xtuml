@@ -1,0 +1,147 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("b2f13e36-ac88-4793-9550-949bb633107d",
+	'Instance Reference',
+	813,
+	'V_IRF',
+	'This class represents an instance reference, the result of a select one or select any statement.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("b2f13e36-ac88-4793-9550-949bb633107d",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	0,
+	"5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"92b7f7a9-1cbb-4e9e-b8eb-ef3df63559e9",
+	"4f270801-da47-4147-adc9-0dcf2d10c79b",
+	"6115a1ee-8420-4732-978f-0856500cfa94",
+	"ab08a6dd-bc51-495a-9f00-8c04b8045f77",
+	"1cfabde2-dfb7-4dac-ae8e-346b7486806a",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Value',
+	'Value_ID',
+	'R801');
+INSERT INTO R_RGO_PROXY
+	VALUES ("b2f13e36-ac88-4793-9550-949bb633107d",
+	"92b7f7a9-1cbb-4e9e-b8eb-ef3df63559e9",
+	"4f270801-da47-4147-adc9-0dcf2d10c79b",
+	'../Value.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	0,
+	"92b7f7a9-1cbb-4e9e-b8eb-ef3df63559e9",
+	"6115a1ee-8420-4732-978f-0856500cfa94",
+	'../Value.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("ab08a6dd-bc51-495a-9f00-8c04b8045f77",
+	"b2f13e36-ac88-4793-9550-949bb633107d",
+	"5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	1,
+	'Value_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("5bbbb830-4faf-49ab-b875-008a8e191ead",
+	"6682e836-9011-447f-9cd7-3f0107152763",
+	'../Value/Value.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("ab08a6dd-bc51-495a-9f00-8c04b8045f77",
+	"b2f13e36-ac88-4793-9550-949bb633107d",
+	"00000000-0000-0000-0000-000000000000",
+	'Value_ID',
+	'',
+	'',
+	'Value_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("b2f13e36-ac88-4793-9550-949bb633107d",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	0,
+	"3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"b9605275-de91-4e27-9fa6-8d56e09ab04d",
+	"50fbba6e-a260-4c58-8e88-9c74c85c7867",
+	"15d4fc32-028f-40f7-ae8e-b53bd649f1cb",
+	"8a2a89a5-04fa-4e88-9885-31c4fb994d66",
+	"54522772-2aaa-43b6-80d7-fa73c239904d",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Variable',
+	'Var_ID',
+	'R808.''refers to''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("b2f13e36-ac88-4793-9550-949bb633107d",
+	"b9605275-de91-4e27-9fa6-8d56e09ab04d",
+	"50fbba6e-a260-4c58-8e88-9c74c85c7867",
+	'../Value.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	0,
+	"b9605275-de91-4e27-9fa6-8d56e09ab04d",
+	"15d4fc32-028f-40f7-ae8e-b53bd649f1cb",
+	'../Value.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("8a2a89a5-04fa-4e88-9885-31c4fb994d66",
+	"b2f13e36-ac88-4793-9550-949bb633107d",
+	"3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	1,
+	'Var_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	'../Variable/Variable.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("8a2a89a5-04fa-4e88-9885-31c4fb994d66",
+	"b2f13e36-ac88-4793-9550-949bb633107d",
+	"ab08a6dd-bc51-495a-9f00-8c04b8045f77",
+	'Var_ID',
+	'
+
+',
+	'',
+	'Var_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"b2f13e36-ac88-4793-9550-949bb633107d");
+INSERT INTO O_OIDA
+	VALUES ("ab08a6dd-bc51-495a-9f00-8c04b8045f77",
+	"b2f13e36-ac88-4793-9550-949bb633107d",
+	0,
+	'Value_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"b2f13e36-ac88-4793-9550-949bb633107d");
+INSERT INTO O_ID
+	VALUES (2,
+	"b2f13e36-ac88-4793-9550-949bb633107d");
+INSERT INTO PE_PE
+	VALUES ("b2f13e36-ac88-4793-9550-949bb633107d",
+	1,
+	"30ef75af-4619-4cb3-ae86-63d794e55d05",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("30ef75af-4619-4cb3-ae86-63d794e55d05",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Value',
+	'This subsystem formalizes the concepts of values (r-values) and variables 
+(l-values). It also captures the concept of an actual parameter.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	800,
+	'../Value.xtuml');

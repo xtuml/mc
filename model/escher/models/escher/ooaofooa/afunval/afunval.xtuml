@@ -1,0 +1,1533 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'afunval',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("904f830e-f1af-424f-ba3d-b365d7e08929",
+	112,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'escher::ooaofooa::afunval');
+INSERT INTO DIM_DIA
+	VALUES ("904f830e-f1af-424f-ba3d-b365d7e08929",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("07835918-6e15-478a-9043-768dec734c37",
+	"00000000-0000-0000-0000-000000000000",
+	'val_translate',
+	'',
+	'//====================================================================
+//
+// $RCSfile: q.val.translate.arc,v $
+//
+//
+//====================================================================
+//
+// These functions set up the implementation of the values (V_VAL on
+// model of OAL).
+//
+//==================================================================== 
+//
+//
+// Translate "leaf" values first.
+::val_literal_boolean_values();
+::val_literal_integer_values();
+::val_literal_real_values();
+::val_literal_string_values();
+::val_literal_enumerations();
+::val_constant_values();
+::val_transient_values();
+::val_instance_reference_values();
+::val_inst_ref_set_values();
+::val_selection_test_values();
+::val_event_values();
+::val_parameter_values();
+// The following may be recursed.
+::val_attribute_values();
+::val_member_values();
+::val_array_element_references();
+::val_array_length_values();
+::val_unary_op_values();
+::val_binary_op_values();
+// V_PARs depend upon values being populated.
+::val_actual_parameters();
+// These use V_PARs.
+::val_message_values();
+::val_bridge_values();
+::val_transform_values();
+::val_synch_service_values();
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("07835918-6e15-478a-9043-768dec734c37",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d2c87a72-240d-4c35-84a2-6e018c6d5592",
+	"00000000-0000-0000-0000-000000000000",
+	'gen_value',
+	'',
+	'//
+//--------------------------------------------------------------------
+// Percolate the values from the "leaves" up into the combined
+// expressions by recursively drilling down.
+//--------------------------------------------------------------------
+v_val = param.v_val;
+select one v_mvl related by v_val->V_MVL[R801];
+if ( not_empty v_mvl )
+  ::val_member_value( v_mvl:v_mvl );
+else
+  select one v_avl related by v_val->V_AVL[R801];
+  if ( not_empty v_avl )
+    ::val_attribute_value( v_avl:v_avl );
+  else
+    select one v_aer related by v_val->V_AER[R801];
+    if ( not_empty v_aer )
+      ::val_array_element_reference( v_aer:v_aer );
+    else
+      select one v_alv related by v_val->V_ALV[R801];
+      if ( not_empty v_alv )
+        ::val_array_length_value( v_alv:v_alv );
+      else
+        select one v_uny related by v_val->V_UNY[R801];
+        if ( not_empty v_uny )
+          ::val_unary_op_value( v_uny:v_uny );
+        else
+          select one v_bin related by v_val->V_BIN[R801];
+          if ( not_empty v_bin )
+            ::val_binary_op_value( v_bin:v_bin );
+          else
+            select one v_trv related by v_val->V_TRV[R801];
+            if ( not_empty v_trv )
+              ::val_transform_value( v_trv:v_trv );
+            else
+              select one v_msv related by v_val->V_MSV[R801];
+              if ( not_empty v_msv )
+                ::val_message_value( v_msv:v_msv );
+              else
+                select one v_brv related by v_val->V_BRV[R801];
+                if ( not_empty v_brv )
+                  ::val_bridge_value( v_brv:v_brv );
+                else
+                  select one v_fnv related by v_val->V_FNV[R801];
+                  if ( not_empty v_fnv )
+                    ::val_synch_service_value( v_fnv:v_fnv );
+                  else
+                    T::print(s:"ERROR:  Recursive V_VAL resolution issue.");
+                  end if;
+                end if;
+              end if;
+            end if;
+          end if;
+        end if;
+      end if;
+    end if;
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("bcbe4b90-d2d4-4ed7-869e-2e37b579be3a",
+	"d2c87a72-240d-4c35-84a2-6e018c6d5592",
+	'v_val',
+	"5400d269-ee31-4742-ac70-8532512a854c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5400d269-ee31-4742-ac70-8532512a854c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Value>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("d2c87a72-240d-4c35-84a2-6e018c6d5592",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fecfe59b-ae7f-44ee-acf3-1e7ba9eae7f1",
+	"00000000-0000-0000-0000-000000000000",
+	'val_literal_boolean_values',
+	'',
+	'//
+select many v_lbos from instances of V_LBO;
+for each v_lbo in v_lbos
+  select one te_val related by v_lbo->V_VAL[R801]->TE_VAL[R2040];
+  te_val.OAL = v_lbo.Value;
+  te_val.buffer = v_lbo.Value;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("fecfe59b-ae7f-44ee-acf3-1e7ba9eae7f1",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5edd4d12-ed82-48eb-971a-1985ec4724da",
+	"00000000-0000-0000-0000-000000000000",
+	'val_literal_string_values',
+	'',
+	'//
+select any te_string from instances of TE_STRING;
+select many v_lsts from instances of V_LST;
+for each v_lst in v_lsts
+  select one te_val related by v_lst->V_VAL[R801]->TE_VAL[R2040];
+  // s = T::t( s:v_lst.Value );
+  s = v_lst.Value;
+  ::oal( s:"s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode" );
+  // if ( strstr( s, "({" ) )
+  ::oal( s:"if ( strstr( s, ({ ) ) { // Ccode" );
+  if ( "({" == s )
+    te_val.buffer = s;
+  else
+    te_val.buffer = ( "&quot;" + v_lst.Value ) + "&quot;";
+    ::oal( s:" // Ccode" );
+  end if;
+  te_val.OAL = ( "" + v_lst.Value ) + "";
+  te_val.dimensions = 1;
+  te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
+  //TODO assign dimension
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("5edd4d12-ed82-48eb-971a-1985ec4724da",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ee9ce40b-8a74-4d8b-b8a8-d491983d6f2f",
+	"00000000-0000-0000-0000-000000000000",
+	'val_literal_integer_values',
+	'',
+	'//
+select many v_lins from instances of V_LIN;
+for each v_lin in v_lins
+  select one te_val related by v_lin->V_VAL[R801]->TE_VAL[R2040];
+  te_val.OAL = v_lin.Value;
+  te_val.buffer = v_lin.Value;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("ee9ce40b-8a74-4d8b-b8a8-d491983d6f2f",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bc965ac3-72f5-4ab6-9f04-6cbd857229f2",
+	"00000000-0000-0000-0000-000000000000",
+	'val_literal_real_values',
+	'',
+	'//
+select many v_lrls from instances of V_LRL;
+for each v_lrl in v_lrls
+  select one te_val related by v_lrl->V_VAL[R801]->TE_VAL[R2040];
+  te_val.OAL = v_lrl.Value;
+  te_val.buffer = v_lrl.Value;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("bc965ac3-72f5-4ab6-9f04-6cbd857229f2",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("48286fea-587e-4e94-b10f-d235b29ef990",
+	"00000000-0000-0000-0000-000000000000",
+	'val_literal_enumerations',
+	'',
+	'//
+select many v_lens from instances of V_LEN;
+for each v_len in v_lens
+  select one te_val related by v_len->V_VAL[R801]->TE_VAL[R2040];
+  select one te_enum related by v_len->S_ENUM[R824]->TE_ENUM[R2027];
+  te_val.OAL = te_enum.Name;
+  te_val.buffer = te_enum.GeneratedName;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("48286fea-587e-4e94-b10f-d235b29ef990",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("377f7f29-24f1-4925-9310-dfe5bf77b360",
+	"00000000-0000-0000-0000-000000000000",
+	'val_constant_values',
+	'',
+	'//
+select many v_scvs from instances of V_SCV;
+for each v_scv in v_scvs
+  select one te_val related by v_scv->V_VAL[R801]->TE_VAL[R2040];
+  select one cnst_syc related by v_scv->CNST_SYC[R850];
+  select one cnst_lsc related by cnst_syc->CNST_LFSC[R1502]->CNST_LSC[R1503];
+  select one te_dt related by cnst_syc->S_DT[R1500]->TE_DT[R2021];
+  te_val.OAL = cnst_syc.Name;
+  te_val.buffer = cnst_lsc.Value;
+  if ( 4 == te_dt.Core_Typ )
+    select any te_string from instances of TE_STRING;
+    te_val.buffer = ( "&quot;" + cnst_lsc.Value ) + "&quot;";
+    ::oal( s:" // Ccode" );
+    te_val.dimensions = 1;
+    te_val.array_spec = ( "[" + te_string.max_string_length ) + "]";
+    //TODO assign dimension
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("377f7f29-24f1-4925-9310-dfe5bf77b360",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9b20418f-5ffa-4c9c-ad38-a815629abfb6",
+	"00000000-0000-0000-0000-000000000000",
+	'val_transient_values',
+	'',
+	'//
+select many v_tvls from instances of V_TVL;
+for each v_tvl in v_tvls
+  select one v_var related by v_tvl->V_VAR[R805];
+  select one te_var related by v_var->TE_VAR[R2039];
+  select one te_val related by v_tvl->V_VAL[R801]->TE_VAL[R2040];
+  te_val.OAL = te_var.OAL;
+  te_val.buffer = te_var.buffer;
+  te_val.dimensions = te_var.dimensions;
+  te_val.array_spec = te_var.array_spec;
+  select one te_dim related by te_var->TE_DIM[R2057];
+  if ( not_empty te_dim )
+    relate te_val to te_dim across R2079;
+  else
+      end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("9b20418f-5ffa-4c9c-ad38-a815629abfb6",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("463da848-efaa-4ca7-b650-f40b9055a791",
+	"00000000-0000-0000-0000-000000000000",
+	'val_actual_parameters',
+	'',
+	'//
+select many v_pars from instances of V_PAR;
+for each v_par in v_pars
+  select one te_par related by v_par->TE_PAR[R2063];
+  select one v_val related by v_par->V_VAL[R800];
+  select one te_val related by v_val->TE_VAL[R2040];
+  select one te_dt related by v_val->S_DT[R820]->TE_DT[R2021];
+  te_val.OAL = ( te_par.Name + ":" ) + te_val.OAL;
+  if ( 10 == te_dt.Core_Typ )
+    // Cast event types to the base event type for passing (to timers).
+    te_val.buffer = ( "(" + te_dt.ExtName ) + ( ")" + te_val.buffer );
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("463da848-efaa-4ca7-b650-f40b9055a791",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("46fadabd-5f97-4805-85b0-7ee4dfab0e2a",
+	"00000000-0000-0000-0000-000000000000",
+	'val_attribute_values',
+	'',
+	'//
+select many v_avls from instances of V_AVL;
+for each v_avl in v_avls
+  ::val_attribute_value( v_avl:v_avl );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("46fadabd-5f97-4805-85b0-7ee4dfab0e2a",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("28a11435-9343-4287-ba98-fc48d6e59031",
+	"00000000-0000-0000-0000-000000000000",
+	'val_attribute_value',
+	'',
+	'//
+v_avl = param.v_avl;
+select one v_val related by v_avl->V_VAL[R801];
+select one te_val related by v_val->TE_VAL[R2040];
+if ( "" == te_val.buffer )
+  select one root_v_val related by v_avl->V_VAL[R807];
+  select one root_te_val related by root_v_val->TE_VAL[R2040];
+  if ( "" == root_te_val.buffer )
+    ::gen_value( v_val:root_v_val );
+  end if;
+  select one te_var related by v_avl->V_VAL[R807]->V_IRF[R801]->V_VAR[R808]->TE_VAR[R2039];
+  select one o_attr related by v_avl->O_ATTR[R806];
+  select one te_attr related by o_attr->TE_ATTR[R2033];
+  if ( not_empty te_attr )
+    root = "";
+    if ( empty te_var )
+      te_val.OAL = ( root_te_val.OAL + "." ) + te_attr.Name;
+      te_val.buffer = ( root_te_val.buffer + "->" ) + te_attr.GeneratedName;
+      root = root_te_val.buffer;
+    else
+      te_val.OAL = ( te_var.OAL + "." ) + te_attr.Name;
+      te_val.buffer = ( te_var.buffer + "->" ) + te_attr.GeneratedName;
+      root = te_var.buffer;
+    end if;
+    te_val.dimensions = te_attr.dimensions;
+    te_val.array_spec = te_attr.array_spec;
+    select one te_dim related by te_attr->TE_DIM[R2055];
+    if ( not_empty te_dim )
+      relate te_val to te_dim across R2079;
+    else
+          end if;
+    // Maybe attribute value is actually derived.
+    select one o_dbattr related by o_attr->O_BATTR[R106]->O_DBATTR[R107];
+    if ( not_empty o_dbattr )
+      select one act_ai related by v_val->ACT_AI[R689];
+      if ( empty act_ai )
+        // Only do this if we are not assigning inside the DAB OAL body.
+        select one te_aba related by o_dbattr->TE_DBATTR[R2026]->TE_ABA[R2010];
+        te_val.buffer = ( te_aba.GeneratedName + "( " ) + ( root + " )" );
+        te_val.dimensions = te_aba.dimensions;
+        te_val.array_spec = te_aba.array_spec;
+        select one te_dim related by te_aba->TE_DIM[R2058];
+        if ( not_empty te_dim )
+          relate te_val to te_dim across R2079;
+        else
+                  end if;
+      end if;
+    end if;
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("962fa03d-41b3-4aca-83f3-608e6998fb51",
+	"28a11435-9343-4287-ba98-fc48d6e59031",
+	'v_avl',
+	"71ed37d1-359a-4941-b904-f5450eb45d4e",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("71ed37d1-359a-4941-b904-f5450eb45d4e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Attribute Value Reference>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("28a11435-9343-4287-ba98-fc48d6e59031",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b7017521-6ed0-4e64-85d7-885d949b17fa",
+	"00000000-0000-0000-0000-000000000000",
+	'val_member_values',
+	'',
+	'//
+select many v_mvls from instances of V_MVL;
+for each v_mvl in v_mvls
+  ::val_member_value( v_mvl:v_mvl );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("b7017521-6ed0-4e64-85d7-885d949b17fa",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("890134f7-313c-4ff9-aa05-ff2f9ea9f6ba",
+	"00000000-0000-0000-0000-000000000000",
+	'val_member_value',
+	'',
+	'//
+v_mvl = param.v_mvl;
+select one te_val related by v_mvl->V_VAL[R801]->TE_VAL[R2040];
+if ( "" == te_val.buffer )
+  select one root_v_val related by v_mvl->V_VAL[R837];
+  select one root_te_val related by root_v_val->TE_VAL[R2040];
+  if ( "" == root_te_val.buffer )
+    ::gen_value( v_val:root_v_val );
+  end if;
+  select one te_mbr related by v_mvl->S_MBR[R836]->TE_MBR[R2047];
+  te_val.dimensions = te_mbr.dimensions;
+  te_val.array_spec = te_mbr.array_spec;
+  select one te_dim related by te_mbr->TE_DIM[R2059];
+  if ( not_empty te_dim )
+    relate te_val to te_dim across R2079;
+  else
+      end if;
+  te_val.OAL = ( root_te_val.OAL + "." ) + te_mbr.Name;
+  te_val.buffer = ( root_te_val.buffer + "." ) + te_mbr.GeneratedName;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4f4f2614-7967-49be-a279-e655b01a3a34",
+	"890134f7-313c-4ff9-aa05-ff2f9ea9f6ba",
+	'v_mvl',
+	"e023df9a-7028-4de9-9907-becb527ba8e2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e023df9a-7028-4de9-9907-becb527ba8e2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Member Value Reference>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("890134f7-313c-4ff9-aa05-ff2f9ea9f6ba",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b1faef40-11c7-4017-ba91-9c4deb2a7f7b",
+	"00000000-0000-0000-0000-000000000000",
+	'val_instance_reference_values',
+	'',
+	'//
+unique_num = 0;
+select many v_irfs from instances of V_IRF;
+for each v_irf in v_irfs
+  select one te_val related by v_irf->V_VAL[R801]->TE_VAL[R2040];
+  select one te_var related by v_irf->V_VAR[R808]->TE_VAR[R2039];
+  if ( not_empty te_var )
+    te_val.OAL = te_var.OAL;
+    te_val.buffer = te_var.buffer;
+  else
+    T::print(s:"CDS:  Understand why we do not have V_VAR here.");
+    te_val.buffer = "v_irf_" + T::s(i:unique_num);
+    unique_num = unique_num + 1;
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("b1faef40-11c7-4017-ba91-9c4deb2a7f7b",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("65712330-ad83-41ff-9c30-8d7d4966c822",
+	"00000000-0000-0000-0000-000000000000",
+	'val_selection_test_values',
+	'',
+	'//
+select many v_slrs from instances of V_SLR;
+for each v_slr in v_slrs
+  select one te_val related by v_slr->V_VAL[R801]->TE_VAL[R2040];
+  te_val.buffer = "selected";
+  te_val.OAL = "SELECTED";
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("65712330-ad83-41ff-9c30-8d7d4966c822",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f3349f09-c0c1-4571-b4cf-5cc2bf97be43",
+	"00000000-0000-0000-0000-000000000000",
+	'val_inst_ref_set_values',
+	'',
+	'//
+select many v_isrs from instances of V_ISR;
+for each v_isr in v_isrs
+  select one te_var related by v_isr->V_VAR[R809]->TE_VAR[R2039];
+  select one te_val related by v_isr->V_VAL[R801]->TE_VAL[R2040];
+  te_val.OAL = te_var.OAL;
+  te_val.buffer = te_var.buffer;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("f3349f09-c0c1-4571-b4cf-5cc2bf97be43",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("8bd598b1-a3e6-4a0a-8e58-4a5b5134bb49",
+	"00000000-0000-0000-0000-000000000000",
+	'val_event_values',
+	'',
+	'//
+select many v_edvs from instances of V_EDV;
+for each v_edv in v_edvs
+  select one te_val related by v_edv->V_VAL[R801]->TE_VAL[R2040];
+  // If there are more than one transition into the state, there
+  // may be more than one event parameter reference.  Select
+  // any of them; they have the same names.
+  select any te_parm related by v_edv->V_EPR[R834]->SM_EVTDI[R846]->TE_PARM[R2031];
+  if ( empty te_parm )
+    select any te_parm related by v_edv->V_EPR[R834]->C_PP[R847]->TE_PARM[R2048];
+  else
+    // Mark the event as used.
+    select one te_evt related by te_parm->SM_EVTDI[R2031]->SM_EVT[R532]->TE_EVT[R2036];
+    if ( not_empty te_evt )
+      te_evt.UsedCount = te_evt.UsedCount + 1;
+      te_evt.Used = true;
+    end if;
+  end if;
+  te_val.OAL = "PARAM." + te_parm.Name;
+  te_val.buffer = "rcvd_evt->" + te_parm.GeneratedName;
+  te_val.dimensions = te_parm.dimensions;
+  te_val.array_spec = te_parm.array_spec;
+  select one te_dim related by te_parm->TE_DIM[R2056];
+  if ( not_empty te_dim )
+    relate te_val to te_dim across R2079;
+  else
+      end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("8bd598b1-a3e6-4a0a-8e58-4a5b5134bb49",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4877fd26-3b33-44ed-a6bf-b4a40f3a9ecc",
+	"00000000-0000-0000-0000-000000000000",
+	'val_parameter_values',
+	'',
+	'//
+select many v_pvls from instances of V_PVL;
+for each v_pvl in v_pvls
+  select one te_val related by v_pvl->V_VAL[R801]->TE_VAL[R2040];
+  select one te_parm related by v_pvl->O_TPARM[R833]->TE_PARM[R2029];
+  if ( empty te_parm )
+    select one te_parm related by v_pvl->C_PP[R843]->TE_PARM[R2048];
+    if ( empty te_parm )
+      select one te_parm related by v_pvl->S_SPARM[R832]->TE_PARM[R2030];
+      if ( empty te_parm )
+        select one te_parm related by v_pvl->S_BPARM[R831]->TE_PARM[R2028];
+        if ( empty te_parm )
+          T::print(s:"CDS:  Understand why we do not have V_PVL related parameter here.");
+        end if;
+      end if;
+    end if;
+  end if;
+  te_val.OAL = "PARAM." + te_parm.Name;
+  te_val.buffer = te_parm.GeneratedName;
+  te_val.dimensions = te_parm.dimensions;
+  te_val.array_spec = te_parm.array_spec;
+  select one te_dim related by te_parm->TE_DIM[R2056];
+  if ( not_empty te_dim )
+    relate te_val to te_dim across R2079;
+  else
+      end if;
+  if ( 1 == te_parm.By_Ref )
+    te_val.buffer = ( "(*" + te_parm.GeneratedName ) + ")";
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("4877fd26-3b33-44ed-a6bf-b4a40f3a9ecc",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("34de8ac4-cfac-4272-a59b-b9a19b0d5f8c",
+	"00000000-0000-0000-0000-000000000000",
+	'val_unary_op_values',
+	'',
+	'//
+select many v_unys from instances of V_UNY;
+for each v_uny in v_unys
+  ::val_unary_op_value( v_uny:v_uny );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("34de8ac4-cfac-4272-a59b-b9a19b0d5f8c",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ba3ab762-7445-4516-832f-3576ef524f69",
+	"00000000-0000-0000-0000-000000000000",
+	'val_unary_op_value',
+	'',
+	'//
+v_uny = param.v_uny;
+select one te_val related by v_uny->V_VAL[R801]->TE_VAL[R2040];
+if ( "" == te_val.buffer )
+  select one root_v_val related by v_uny->V_VAL[R804];
+  select one root_te_val related by root_v_val->TE_VAL[R2040];
+  if ( "" == root_te_val.buffer )
+    ::gen_value( v_val:root_v_val );
+  end if;
+  // Remove blanks and make lower case.
+  op = T::r(s:v_uny.Operator);
+  op = T::l(s:op);
+  select any te_set from instances of TE_SET;
+  select one v_irf related by root_v_val->V_IRF[R801];
+  select one v_isr related by root_v_val->V_ISR[R801];
+  if ( not_empty v_irf )
+    if ( op == "not_empty" )
+      te_val.buffer = ( "( 0 != " + root_te_val.buffer ) + " )";
+    elif ( op == "empty" )
+      te_val.buffer = ( "( 0 == " + root_te_val.buffer ) + " )";
+    elif ( op == "cardinality" )
+      te_val.buffer = ( "( 0 != " + root_te_val.buffer ) + " )";
+    else
+      T::print(s:"ERROR:  Unary set operator ${v_uny.Operator} is not supported.");
+    end if;
+  elif ( not_empty v_isr )
+    if ( op == "not_empty" )
+      te_val.buffer = ( ( "( ! " + te_set.emptiness ) + ( "( " + root_te_val.buffer ) ) + " ) )";
+    elif ( op == "empty" )
+      te_val.buffer = ( ( te_set.emptiness + "( " ) + ( root_te_val.buffer + " )" ) );
+    elif ( op == "cardinality" )
+      te_val.buffer = ( ( te_set.module + te_set.element_count ) + ( "( " + root_te_val.buffer ) ) + " )";
+    else
+      T::print(s:"ERROR:  Unary set operator ${v_uny.Operator} is not supported.");
+    end if;
+  else
+    if ( op == "not" )
+      te_val.buffer = "!" + root_te_val.buffer;
+    else
+      te_val.buffer = op + root_te_val.buffer;
+    end if;
+  end if;
+  te_val.OAL = ( op + " " ) + root_te_val.OAL;
+  // future support for vector arithmetic goes here
+  te_val.dimensions = root_te_val.dimensions;
+  te_val.array_spec = root_te_val.array_spec;
+  select one te_dim related by root_te_val->TE_DIM[R2079];
+  if ( not_empty te_dim )
+    relate te_val to te_dim across R2079;
+  else
+      end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f9faffcb-8e12-453b-8f88-195bb778300d",
+	"ba3ab762-7445-4516-832f-3576ef524f69",
+	'v_uny',
+	"59a775c7-8153-4a74-9471-99ef6c7254a0",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("59a775c7-8153-4a74-9471-99ef6c7254a0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Unary Operation>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("ba3ab762-7445-4516-832f-3576ef524f69",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7c18b955-44ea-498c-b078-cbc22650027c",
+	"00000000-0000-0000-0000-000000000000",
+	'val_binary_op_values',
+	'',
+	'//
+select many v_bins from instances of V_BIN;
+for each v_bin in v_bins
+  ::val_binary_op_value( v_bin:v_bin );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("7c18b955-44ea-498c-b078-cbc22650027c",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("dd58dd57-29ac-4023-bb8a-4cf0d08c4988",
+	"00000000-0000-0000-0000-000000000000",
+	'val_binary_op_value',
+	'',
+	'//
+v_bin = param.v_bin;
+select one te_val related by v_bin->V_VAL[R801]->TE_VAL[R2040];
+if ( "" == te_val.buffer )
+  select one l_v_val related by v_bin->V_VAL[R802];
+  select one l_te_val related by l_v_val->TE_VAL[R2040];
+  if ( "" == l_te_val.buffer )
+    ::gen_value( v_val:l_v_val );
+  end if;
+  select one r_v_val related by v_bin->V_VAL[R803];
+  select one r_te_val related by r_v_val->TE_VAL[R2040];
+  if ( "" == r_te_val.buffer )
+    ::gen_value( v_val:r_v_val );
+  end if;
+  select one l_te_dt related by l_v_val->S_DT[R820]->TE_DT[R2021];
+  select one r_te_dt related by r_v_val->S_DT[R820]->TE_DT[R2021];
+  if ( ( 4 == l_te_dt.Core_Typ ) or ( 4 == r_te_dt.Core_Typ ) )
+    // string
+    select any te_string from instances of TE_STRING;
+    select any te_instance from instances of TE_INSTANCE;
+    if ( "+" == T::r(s:v_bin.Operator) )
+      te_val.buffer = ( ( ( te_instance.module + te_string.stradd ) + ( "( " + l_te_val.buffer ) ) + ( ", " + r_te_val.buffer ) ) + " )";
+    else
+      te_val.buffer = ( ( ( "( " + te_instance.module ) + ( te_string.strcmp + "( " ) ) + ( ( l_te_val.buffer + ", " ) + ( r_te_val.buffer + " ) " ) ) ) + ( v_bin.Operator + " 0 )" );
+    end if;
+  else
+    select any te_target from instances of TE_TARGET;
+    if ( "and" == T::r(s:v_bin.Operator) )
+      te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " && " + r_te_val.buffer ) ) + " )";
+    elif ( "or" == T::r(s:v_bin.Operator) )
+      te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " || " + r_te_val.buffer ) ) + " )";
+    elif ( ( ( ( "==" == T::r(s:v_bin.Operator) ) or ( "!=" == T::r(s:v_bin.Operator) ) ) and ( "C" == te_target.language ) ) and ( l_te_val.dimensions != 0 ) )
+      element_count = 0;
+      select one r_te_dim related by r_te_val->TE_DIM[R2079];
+      if ( not_empty r_te_dim )
+        element_count = r_te_dim.elementCount;
+      end if;
+      te_val.buffer = ( ( ( "( memcmp( " + l_te_val.buffer ) + ( ", " + r_te_val.buffer ) ) + ( ( ", sizeof(" + l_te_val.buffer ) + ( "[0]) * " + T::s(i:element_count) ) ) ) + ( ( ") " + v_bin.Operator ) + " 0 )" );
+    else
+      te_val.buffer = ( ( "( " + l_te_val.buffer ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.buffer ) + " )" );
+    end if;
+  end if;
+  // future support for vector arithmetic goes here
+  te_val.dimensions = r_te_val.dimensions;
+  te_val.array_spec = r_te_val.array_spec;
+  select one te_dim related by r_te_val->TE_DIM[R2079];
+  if ( not_empty te_dim )
+    relate te_val to te_dim across R2079;
+  else
+      end if;
+  te_val.OAL = ( ( "( " + l_te_val.OAL ) + ( " " + v_bin.Operator ) ) + ( ( " " + r_te_val.OAL ) + " )" );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("499b39d8-f26f-4bc3-a4fa-964187e66c11",
+	"dd58dd57-29ac-4023-bb8a-4cf0d08c4988",
+	'v_bin',
+	"146d5fb3-fcd3-4deb-a49c-f516ef703827",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("146d5fb3-fcd3-4deb-a49c-f516ef703827",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Binary Operation>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("dd58dd57-29ac-4023-bb8a-4cf0d08c4988",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2cf36f8a-e3bf-40bb-ad5b-a88fd7fa2bdc",
+	"00000000-0000-0000-0000-000000000000",
+	'val_message_values',
+	'',
+	'//
+select many v_msvs from instances of V_MSV;
+for each v_msv in v_msvs
+  ::val_message_value( v_msv:v_msv );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("2cf36f8a-e3bf-40bb-ad5b-a88fd7fa2bdc",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5ec055f5-34dd-4de0-a8aa-423922862e55",
+	"00000000-0000-0000-0000-000000000000",
+	'val_message_value',
+	'',
+	'//
+v_msv = param.v_msv;
+select one v_val related by v_msv->V_VAL[R801];
+select one te_val related by v_val->TE_VAL[R2040];
+if ( "" == te_val.buffer )
+  select one te_mact related by v_msv->SPR_PEP[R841]->SPR_PO[R4503]->TE_MACT[R2050];
+  if ( empty te_mact )
+    select one te_mact related by v_msv->SPR_REP[R845]->SPR_RO[R4502]->TE_MACT[R2052];
+  end if;
+  select many v_pars related by v_msv->V_PAR[R842];
+  select one te_aba related by te_mact->TE_ABA[R2010];
+  select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
+  sretvar = ( ( "vmsv" + T::s(i:v_val.LineNumber) ) + ( te_aba.GeneratedName + T::s(i:v_val.StartPosition) ) );
+  r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, te_blk:te_blk, sretvar:sretvar, is_statement:false );
+  te_val.buffer = r;
+  te_val.OAL = ( ( te_mact.PortName + "::" ) + ( te_mact.MessageName + "(" ) ) + ( te_mact.OALParamBuffer + ")" );
+  te_val.dimensions = te_aba.dimensions;
+  te_val.array_spec = te_aba.array_spec;
+  select one te_dim related by te_aba->TE_DIM[R2058];
+  if ( not_empty te_dim )
+    relate te_val to te_dim across R2079;
+  else
+      end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("dfacd4aa-299a-4966-9b6a-f78cfcb8085c",
+	"5ec055f5-34dd-4de0-a8aa-423922862e55",
+	'v_msv',
+	"5d3edb98-7267-4f8f-8a43-a03062f612ef",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5d3edb98-7267-4f8f-8a43-a03062f612ef",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Message Value>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5ec055f5-34dd-4de0-a8aa-423922862e55",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b363a15a-4831-4bca-a3c8-e744d49484f7",
+	"00000000-0000-0000-0000-000000000000",
+	'val_bridge_values',
+	'',
+	'//
+select many v_brvs from instances of V_BRV;
+for each v_brv in v_brvs
+  ::val_bridge_value( v_brv:v_brv );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("b363a15a-4831-4bca-a3c8-e744d49484f7",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fa77dd48-6b61-4da2-872b-f71817e9fe8b",
+	"00000000-0000-0000-0000-000000000000",
+	'val_bridge_value',
+	'',
+	'//
+v_brv = param.v_brv;
+select one te_brg related by v_brv->S_BRG[R828]->TE_BRG[R2025];
+if ( not_empty te_brg )
+  select any te_sys from instances of TE_SYS;
+  select any te_target from instances of TE_TARGET;
+  select one v_val related by v_brv->V_VAL[R801];
+  select one te_val related by v_val->TE_VAL[R2040];
+  if ( "" == te_val.buffer )
+    select many v_pars related by v_brv->V_PAR[R810];
+    select one te_aba related by te_brg->TE_ABA[R2010];
+    select one te_ee related by v_brv->S_BRG[R828]->S_EE[R19]->TE_EE[R2020];
+    te_ee.Included = true;
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
+    te_parm = r;
+    parameters = te_parm.ParamBuffer;
+    params_OAL = te_parm.OALParamBuffer;
+    te_val.OAL = ( ( te_brg.EEkeyletters + "::" ) + ( te_brg.Name + "(" ) ) + ( params_OAL + ")" );
+    if ( "c_t *" == te_aba.ReturnDataType )
+      if ( not te_sys.InstanceLoading )
+        select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
+        sretvar = ( ( "vbrv" + T::s(i:v_val.LineNumber) ) + ( te_aba.GeneratedName + T::s(i:v_val.StartPosition) ) );
+        te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";";
+        if ( "" == parameters )
+          parameters = sretvar;
+        else
+          parameters = ( ( sretvar + ", " ) + parameters );
+        end if;
+      end if;
+    end if;
+    if ( "C++" == te_target.language )
+      if ( "TIM" == te_brg.EEkeyletters )
+        te_val.buffer = ( "thismodule->tim->" + te_brg.GeneratedName ) + "(";
+      else
+        select one te_c related by te_ee->TE_C[R2085];
+        if ( not_empty te_c )
+          if ( "" == parameters )
+            parameters = "thismodule";
+          else
+            parameters = "thismodule, " + parameters;
+          end if;
+        end if;
+      end if;
+    else
+      te_val.buffer = ( te_aba.scope + te_brg.GeneratedName ) + "(";
+    end if;
+    if ( "" != parameters )
+      te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " );
+    end if;
+    te_val.buffer = te_val.buffer + ")";
+    te_val.dimensions = te_aba.dimensions;
+    te_val.array_spec = te_aba.array_spec;
+    select one te_dim related by te_aba->TE_DIM[R2058];
+    if ( not_empty te_dim )
+      relate te_val to te_dim across R2079;
+    else
+          end if;
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e434c0f2-ed81-49da-9cbd-0e27f5dc7bae",
+	"fa77dd48-6b61-4da2-872b-f71817e9fe8b",
+	'v_brv',
+	"cb6d600e-2e67-4485-9f1b-abd6aefb9d6e",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("cb6d600e-2e67-4485-9f1b-abd6aefb9d6e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Bridge Value>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("fa77dd48-6b61-4da2-872b-f71817e9fe8b",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f293695b-32d2-4693-a40f-3ddd5cf80a17",
+	"00000000-0000-0000-0000-000000000000",
+	'val_transform_values',
+	'',
+	'//
+select many v_trvs from instances of V_TRV;
+for each v_trv in v_trvs
+  ::val_transform_value( v_trv:v_trv );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("f293695b-32d2-4693-a40f-3ddd5cf80a17",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4b5a7cf8-8f17-408b-8307-3a67623b2ad0",
+	"00000000-0000-0000-0000-000000000000",
+	'val_transform_value',
+	'',
+	'//
+v_trv = param.v_trv;
+select one te_tfr related by v_trv->O_TFR[R829]->TE_TFR[R2024];
+if ( not_empty te_tfr )
+  select any te_sys from instances of TE_SYS;
+  select any te_target from instances of TE_TARGET;
+  select one v_val related by v_trv->V_VAL[R801];
+  select one te_val related by v_val->TE_VAL[R2040];
+  if ( "" == te_val.buffer )
+    select many v_pars related by v_trv->V_PAR[R811];
+    select one te_aba related by te_tfr->TE_ABA[R2010];
+    te_val.buffer = te_tfr.GeneratedName + "(";
+    if ( te_tfr.Instance_Based == 1 )
+      select one te_var related by v_trv->V_VAR[R830]->TE_VAR[R2039];
+      if ( not_empty te_var )
+        if ( "C++" == te_target.language )
+          te_val.buffer = ( te_var.buffer + "->" ) + te_val.buffer;
+        end if;
+        te_val.buffer = te_val.buffer + te_var.buffer;
+        te_val.OAL = te_var.OAL + ".";
+      else
+        // no variable, must be selection (selected reference)
+        if ( "C++" == te_target.language )
+          te_val.buffer = "selected->" + te_val.buffer;
+        end if;
+        te_val.buffer = te_val.buffer + "selected";
+        te_val.OAL = "SELECTED.";
+      end if;
+    else
+      if ( "C++" == te_target.language )
+        select one te_class related by v_trv->O_TFR[R829]->O_OBJ[R115]->TE_CLASS[R2019];
+        te_val.buffer = ( te_class.GeneratedName + "::" ) + te_val.buffer;
+      end if;
+      te_val.OAL = te_tfr.Key_Lett + "::";
+    end if;
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
+    te_parm = r;
+    parameters = te_parm.ParamBuffer;
+    params_OAL = te_parm.OALParamBuffer;
+    te_val.OAL = ( ( te_val.OAL + te_tfr.Name ) + ( "(" + params_OAL ) ) + ")";
+    if ( "c_t *" == te_aba.ReturnDataType )
+      if ( not te_sys.InstanceLoading )
+        select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
+        sretvar = ( ( "vtrv" + T::s(i:v_val.LineNumber) ) + ( te_aba.GeneratedName + T::s(i:v_val.StartPosition) ) );
+        te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";";
+        if ( "" == parameters )
+          parameters = sretvar;
+        else
+          parameters = ( ( sretvar + ", " ) + parameters );
+        end if;
+      end if;
+    end if;
+    if ( te_tfr.Instance_Based == 1 )
+      if ( ( "C++" == te_target.language ) or ( "" != parameters ) )
+        te_val.buffer = te_val.buffer + ", ";
+      end if;
+    end if;
+    if ( "C++" == te_target.language )
+      te_val.buffer = te_val.buffer + "thismodule";
+      if ( "" != parameters )
+        te_val.buffer = te_val.buffer + ", ";
+      end if;
+    end if;
+    te_val.buffer = ( te_val.buffer + parameters ) + ")";
+    te_val.dimensions = te_aba.dimensions;
+    te_val.array_spec = te_aba.array_spec;
+    select one te_dim related by te_aba->TE_DIM[R2058];
+    if ( not_empty te_dim )
+      relate te_val to te_dim across R2079;
+    else
+          end if;
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ffd1f3b6-247f-4973-b625-89500938d03f",
+	"4b5a7cf8-8f17-408b-8307-3a67623b2ad0",
+	'v_trv',
+	"ccdae275-9bc8-42a5-b1b4-58a019d56d9a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ccdae275-9bc8-42a5-b1b4-58a019d56d9a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Operation Value>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4b5a7cf8-8f17-408b-8307-3a67623b2ad0",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("64de6ed7-a39b-408e-a1ee-8c32c5c56a55",
+	"00000000-0000-0000-0000-000000000000",
+	'val_synch_service_values',
+	'',
+	'//
+select many v_fnvs from instances of V_FNV;
+for each v_fnv in v_fnvs
+  ::val_synch_service_value( v_fnv:v_fnv );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("64de6ed7-a39b-408e-a1ee-8c32c5c56a55",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e80cd659-b700-4a87-ae07-0e45dbebf012",
+	"00000000-0000-0000-0000-000000000000",
+	'val_synch_service_value',
+	'',
+	'//
+v_fnv = param.v_fnv;
+select one te_sync related by v_fnv->S_SYNC[R827]->TE_SYNC[R2023];
+if ( not_empty te_sync )
+  select any te_sys from instances of TE_SYS;
+  select any te_target from instances of TE_TARGET;
+  select one v_val related by v_fnv->V_VAL[R801];
+  select one te_val related by v_val->TE_VAL[R2040];
+  if ( "" == te_val.buffer )
+    select many v_pars related by v_fnv->V_PAR[R817];
+    select one te_aba related by te_sync->TE_ABA[R2010];
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
+    te_parm = r;
+    parameters = te_parm.ParamBuffer;
+    params_OAL = te_parm.OALParamBuffer;
+    te_val.OAL = ( ( "::" + te_sync.Name ) + ( "(" + params_OAL ) ) + ")";
+    if ( "c_t *" == te_aba.ReturnDataType )
+      if ( not te_sys.InstanceLoading )
+        select one te_blk related by v_val->ACT_BLK[R826]->TE_BLK[R2016];
+        sretvar = ( ( "vfnv" + T::s(i:v_val.LineNumber) ) + ( te_aba.GeneratedName + T::s(i:v_val.StartPosition) ) );
+        te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";";
+        if ( "" == parameters )
+          parameters = sretvar;
+        else
+          parameters = ( ( sretvar + ", " ) + parameters );
+        end if;
+      end if;
+    end if;
+    name = te_sync.intraface_method;
+    if ( "C++" == te_target.language )
+      name = "thismodule->" + name;
+    end if;
+    te_val.buffer = name + "(";
+    if ( "" != parameters )
+      te_val.buffer = ( te_val.buffer + " " ) + ( parameters + " " );
+    end if;
+    te_val.buffer = te_val.buffer + ")";
+    te_val.dimensions = te_aba.dimensions;
+    te_val.array_spec = te_aba.array_spec;
+    select one te_dim related by te_aba->TE_DIM[R2058];
+    if ( not_empty te_dim )
+      relate te_val to te_dim across R2079;
+    else
+          end if;
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ee011aa0-a1cb-4714-b4f0-d2f44eb3413c",
+	"e80cd659-b700-4a87-ae07-0e45dbebf012",
+	'v_fnv',
+	"6398f7d8-b16d-4a52-9039-f9da477c8cb9",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6398f7d8-b16d-4a52-9039-f9da477c8cb9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function Value>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e80cd659-b700-4a87-ae07-0e45dbebf012",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6da3e053-10bd-42d6-a9e2-6de68739e1d7",
+	"00000000-0000-0000-0000-000000000000",
+	'val_array_element_references',
+	'',
+	'//
+select many v_aers from instances of V_AER;
+for each v_aer in v_aers
+  ::val_array_element_reference( v_aer:v_aer );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("6da3e053-10bd-42d6-a9e2-6de68739e1d7",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5d4c0b0c-b5fa-4170-a972-1aabcfbcb379",
+	"00000000-0000-0000-0000-000000000000",
+	'val_array_element_reference',
+	'',
+	'//
+v_aer = param.v_aer;
+select one te_val related by v_aer->V_VAL[R801]->TE_VAL[R2040];
+if ( "" == te_val.buffer )
+  select one root_v_val related by v_aer->V_VAL[R838];
+  select one root_te_val related by root_v_val->TE_VAL[R2040];
+  if ( "" == root_te_val.buffer )
+    ::gen_value( v_val:root_v_val );
+  end if;
+  select one index_v_val related by v_aer->V_VAL[R839];
+  select one index_te_val related by index_v_val->TE_VAL[R2040];
+  if ( "" == index_te_val.buffer )
+    ::gen_value( v_val:index_v_val );
+  end if;
+  te_val.OAL = ( root_te_val.OAL + "[" ) + ( index_te_val.buffer + "]" );
+  te_val.buffer = ( root_te_val.buffer + "[" ) + ( index_te_val.buffer + "]" );
+  // Peel off outer layer of dimensions.
+  // CDS:  do not know how to do this with array_spec
+  te_val.array_spec = root_te_val.array_spec;
+  te_val.dimensions = root_te_val.dimensions - 1;
+  select one next_te_dim related by root_te_val->TE_DIM[R2079]->TE_DIM[R2060.''precedes''];
+  if ( not_empty next_te_dim )
+    relate te_val to next_te_dim across R2079;
+  else
+      end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7612597d-4d47-4abe-95ac-2ae570790ea3",
+	"5d4c0b0c-b5fa-4170-a972-1aabcfbcb379",
+	'v_aer',
+	"9977b69b-27c5-447e-a1a5-3bf240e3c2d7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9977b69b-27c5-447e-a1a5-3bf240e3c2d7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Array Element Reference>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5d4c0b0c-b5fa-4170-a972-1aabcfbcb379",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9a2616cd-6388-49f8-97be-967346fac55f",
+	"00000000-0000-0000-0000-000000000000",
+	'val_array_length_values',
+	'',
+	'//
+select many v_alvs from instances of V_ALV;
+for each v_alv in v_alvs
+  ::val_array_length_value( v_alv:v_alv );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("9a2616cd-6388-49f8-97be-967346fac55f",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("14102bfa-7273-4aed-91e5-640502271a9b",
+	"00000000-0000-0000-0000-000000000000",
+	'val_array_length_value',
+	'',
+	'//
+v_alv = param.v_alv;
+select one te_val related by v_alv->V_VAL[R801]->TE_VAL[R2040];
+if ( "" == te_val.buffer )
+  select one root_v_val related by v_alv->V_VAL[R840];
+  select one root_te_val related by root_v_val->TE_VAL[R2040];
+  if ( "" == root_te_val.buffer )
+    ::gen_value( v_val:root_v_val );
+  end if;
+  te_val.OAL = root_te_val.OAL + ".length";
+  select any te_target from instances of TE_TARGET;
+  if ( "C" == te_target.language )
+    select one te_dim related by root_te_val->TE_DIM[R2079];
+    if ( not_empty te_dim )
+      te_val.buffer = ( ( ( T::s(i:te_dim.elementCount) + " /" ) + ( "* " + te_val.OAL ) ) + ( " *" + "/" ) );
+    else
+      te_val.buffer = root_te_val.buffer + ".ARRAY_LENGTH_NOT_FOUND()";
+      T::print(s:"ERROR:  C model compiler does not support length operator for OAL value:  ${te_val.OAL}");
+      T::exit(i:101);
+    end if;
+  else
+    te_val.buffer = root_te_val.buffer + ".length";
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("03abc1ac-0879-48be-ab09-954b66f9873f",
+	"14102bfa-7273-4aed-91e5-640502271a9b",
+	'v_alv',
+	"6f6f82d2-7f88-433b-ad08-9cc89e36a814",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6f6f82d2-7f88-433b-ad08-9cc89e36a814",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Array Length Value>',
+	'',
+	'',
+	'../Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("14102bfa-7273-4aed-91e5-640502271a9b",
+	1,
+	"d5a9e557-5282-4311-8aee-fb119a760a6c",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("d5a9e557-5282-4311-8aee-fb119a760a6c",
+	1,
+	"53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'ooaofooa',
+	'========================================================================
+
+File:          $RCSfile: ooaofooa.xtuml,v $
+Version:   $Revision: 1.127 $
+Modified:  $Date: 2006/09/26 15:10:20 $
+
+(c) Copyright 2004-2012 by Mentor Graphics Corp. All rights reserved.
+
+========================================================================
+This document contains information proprietary and confidential to
+Mentor Graphics Corp. and is not for external distribution.
+========================================================================
+
+This is the application domain for the Tiger project.
+
+The processing in this model describes the activities
+for model capture.
+
+
+
+',
+	0,
+	'../ooaofooa.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'escher',
+	1,
+	'../../escher.xtuml');

@@ -1,0 +1,89 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("26a55751-fa48-459f-98a9-815bb8e991ad",
+	'Informal Synchronous Message',
+	1014,
+	'MSG_ISM',
+	'This class is responsible for representing the fact that a message is informal.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("26a55751-fa48-459f-98a9-815bb8e991ad",
+	"0ec9778d-3696-4ee2-a43f-71127b90ad85",
+	0,
+	"1ad21ade-2b1e-43c6-8751-6cb5d50424ac",
+	"93733dd7-c39b-484b-9a66-036c738e0bfd",
+	"3ce8904f-6dde-4fd8-9226-dd0f672d4169",
+	"43c498f9-5907-4da8-a34d-0c77ebb0577e",
+	"5baf5dbe-4172-40f1-8bf2-740900780c9f",
+	"1c06cf9f-510f-4725-9f3f-19a8580121e7",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Synchronous Message',
+	'Msg_ID',
+	'R1020');
+INSERT INTO R_RGO_PROXY
+	VALUES ("26a55751-fa48-459f-98a9-815bb8e991ad",
+	"93733dd7-c39b-484b-9a66-036c738e0bfd",
+	"3ce8904f-6dde-4fd8-9226-dd0f672d4169",
+	'../Message.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("1ad21ade-2b1e-43c6-8751-6cb5d50424ac",
+	"0ec9778d-3696-4ee2-a43f-71127b90ad85",
+	0,
+	"93733dd7-c39b-484b-9a66-036c738e0bfd",
+	"43c498f9-5907-4da8-a34d-0c77ebb0577e",
+	'../Message.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("5baf5dbe-4172-40f1-8bf2-740900780c9f",
+	"26a55751-fa48-459f-98a9-815bb8e991ad",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("5baf5dbe-4172-40f1-8bf2-740900780c9f",
+	"26a55751-fa48-459f-98a9-815bb8e991ad",
+	"00000000-0000-0000-0000-000000000000",
+	'Msg_ID',
+	'',
+	'',
+	'Msg_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"26a55751-fa48-459f-98a9-815bb8e991ad");
+INSERT INTO O_OIDA
+	VALUES ("5baf5dbe-4172-40f1-8bf2-740900780c9f",
+	"26a55751-fa48-459f-98a9-815bb8e991ad",
+	0,
+	'Msg_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"26a55751-fa48-459f-98a9-815bb8e991ad");
+INSERT INTO O_ID
+	VALUES (2,
+	"26a55751-fa48-459f-98a9-815bb8e991ad");
+INSERT INTO PE_PE
+	VALUES ("26a55751-fa48-459f-98a9-815bb8e991ad",
+	1,
+	"02780f20-a4d8-43b7-bef8-489a5e93ce8b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("02780f20-a4d8-43b7-bef8-489a5e93ce8b",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Message',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	1000,
+	'../Message.xtuml');

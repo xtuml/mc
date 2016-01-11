@@ -1,0 +1,191 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("2f69022f-89d5-4458-b369-b2bb75679191",
+	'Time Span',
+	905,
+	'SQ_TS',
+	'This class represents a span of time between two timing marks.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("c0892835-a484-4d77-b632-d16af7f73f5e",
+	"2f69022f-89d5-4458-b369-b2bb75679191");
+INSERT INTO O_BATTR
+	VALUES ("c0892835-a484-4d77-b632-d16af7f73f5e",
+	"2f69022f-89d5-4458-b369-b2bb75679191");
+INSERT INTO O_ATTR
+	VALUES ("c0892835-a484-4d77-b632-d16af7f73f5e",
+	"2f69022f-89d5-4458-b369-b2bb75679191",
+	"1a7b6769-6d03-4c6c-8a4f-8a27383459a9",
+	'Name',
+	'Full Name: Time Span Label',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("cb6d626f-8e5d-412f-8a7a-9b27cac768c5",
+	"2f69022f-89d5-4458-b369-b2bb75679191");
+INSERT INTO O_BATTR
+	VALUES ("cb6d626f-8e5d-412f-8a7a-9b27cac768c5",
+	"2f69022f-89d5-4458-b369-b2bb75679191");
+INSERT INTO O_ATTR
+	VALUES ("cb6d626f-8e5d-412f-8a7a-9b27cac768c5",
+	"2f69022f-89d5-4458-b369-b2bb75679191",
+	"c0892835-a484-4d77-b632-d16af7f73f5e",
+	'Descrip',
+	'Full Name: Time Span Description
+Description: A textual description of this time span.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("2f69022f-89d5-4458-b369-b2bb75679191",
+	"0f310069-ae98-44b6-8345-91b560d09681",
+	0,
+	"a94371ba-bd1b-42f8-b5fb-3a16b45be7b9",
+	"3269f390-72ee-4863-83c4-0eca42bd2a8c",
+	"c5dbb8b9-e807-4266-b428-a2d634bf61f5",
+	"508c6c44-8c08-4385-bd17-d278b83d6c45",
+	"1a7b6769-6d03-4c6c-8a4f-8a27383459a9",
+	"f12ce43e-280d-4a0a-a04a-c7b584d73bc7",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Timing Mark',
+	'Mark_ID',
+	'R941.''span begins at''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("2f69022f-89d5-4458-b369-b2bb75679191",
+	"3269f390-72ee-4863-83c4-0eca42bd2a8c",
+	"c5dbb8b9-e807-4266-b428-a2d634bf61f5",
+	'../Interaction.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("a94371ba-bd1b-42f8-b5fb-3a16b45be7b9",
+	"0f310069-ae98-44b6-8345-91b560d09681",
+	0,
+	"3269f390-72ee-4863-83c4-0eca42bd2a8c",
+	"508c6c44-8c08-4385-bd17-d278b83d6c45",
+	'../Interaction.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("1a7b6769-6d03-4c6c-8a4f-8a27383459a9",
+	"2f69022f-89d5-4458-b369-b2bb75679191",
+	"a94371ba-bd1b-42f8-b5fb-3a16b45be7b9",
+	"0f310069-ae98-44b6-8345-91b560d09681",
+	1,
+	'Mark_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("a94371ba-bd1b-42f8-b5fb-3a16b45be7b9",
+	"0f310069-ae98-44b6-8345-91b560d09681",
+	'../Timing Mark/Timing Mark.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("1a7b6769-6d03-4c6c-8a4f-8a27383459a9",
+	"2f69022f-89d5-4458-b369-b2bb75679191",
+	"be9eaf2e-d2fd-4c93-9ac4-64c0d4a024cf",
+	'Prev_Mark_ID',
+	'',
+	'Prev_',
+	'Mark_ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("2f69022f-89d5-4458-b369-b2bb75679191",
+	"0f310069-ae98-44b6-8345-91b560d09681",
+	0,
+	"a94371ba-bd1b-42f8-b5fb-3a16b45be7b9",
+	"f156060a-a25a-4961-90d5-b0109da9f872",
+	"08b324a2-c8d4-4801-acff-38856dceef65",
+	"7b92c4cd-9176-45c2-930a-22dd847a2c7a",
+	"be9eaf2e-d2fd-4c93-9ac4-64c0d4a024cf",
+	"5355a1c4-ec82-45b8-948b-05ff72f50451",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Timing Mark',
+	'Mark_ID',
+	'R942.''span ends at''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("2f69022f-89d5-4458-b369-b2bb75679191",
+	"f156060a-a25a-4961-90d5-b0109da9f872",
+	"08b324a2-c8d4-4801-acff-38856dceef65",
+	'../Interaction.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("a94371ba-bd1b-42f8-b5fb-3a16b45be7b9",
+	"0f310069-ae98-44b6-8345-91b560d09681",
+	0,
+	"f156060a-a25a-4961-90d5-b0109da9f872",
+	"7b92c4cd-9176-45c2-930a-22dd847a2c7a",
+	'../Interaction.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("be9eaf2e-d2fd-4c93-9ac4-64c0d4a024cf",
+	"2f69022f-89d5-4458-b369-b2bb75679191",
+	"a94371ba-bd1b-42f8-b5fb-3a16b45be7b9",
+	"0f310069-ae98-44b6-8345-91b560d09681",
+	1,
+	'Mark_ID');
+INSERT INTO O_ATTR
+	VALUES ("be9eaf2e-d2fd-4c93-9ac4-64c0d4a024cf",
+	"2f69022f-89d5-4458-b369-b2bb75679191",
+	"6efd0955-ea83-420b-a16d-f2f184012e8c",
+	'Mark_ID',
+	'',
+	'',
+	'Mark_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6efd0955-ea83-420b-a16d-f2f184012e8c",
+	"2f69022f-89d5-4458-b369-b2bb75679191");
+INSERT INTO O_BATTR
+	VALUES ("6efd0955-ea83-420b-a16d-f2f184012e8c",
+	"2f69022f-89d5-4458-b369-b2bb75679191");
+INSERT INTO O_ATTR
+	VALUES ("6efd0955-ea83-420b-a16d-f2f184012e8c",
+	"2f69022f-89d5-4458-b369-b2bb75679191",
+	"00000000-0000-0000-0000-000000000000",
+	'Span_ID',
+	'',
+	'',
+	'Span_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"2f69022f-89d5-4458-b369-b2bb75679191");
+INSERT INTO O_OIDA
+	VALUES ("6efd0955-ea83-420b-a16d-f2f184012e8c",
+	"2f69022f-89d5-4458-b369-b2bb75679191",
+	0,
+	'Span_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"2f69022f-89d5-4458-b369-b2bb75679191");
+INSERT INTO O_ID
+	VALUES (2,
+	"2f69022f-89d5-4458-b369-b2bb75679191");
+INSERT INTO PE_PE
+	VALUES ("2f69022f-89d5-4458-b369-b2bb75679191",
+	1,
+	"4afbe16f-3cac-48b1-84e6-c2e7ad9e24d9",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("4afbe16f-3cac-48b1-84e6-c2e7ad9e24d9",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Interaction',
+	'// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE',
+	930,
+	'../Interaction.xtuml');

@@ -1,0 +1,282 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	'Bridge Parameter',
+	13,
+	'S_BPARM',
+	'A parameter to a bridge (S_BRG) is called a bridge parameter.  Bridge parameters are either passed in by value, or by reference.  Bridge parameters can be accessed by using the param keyword from within a bridge action specification.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_BATTR
+	VALUES ("c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_ATTR
+	VALUES ("c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"00000000-0000-0000-0000-000000000000",
+	'BParm_ID',
+	'Full Name: Bridge Parameter Identifier',
+	'',
+	'BParm_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"4734f5e9-097d-4b0f-a054-6e01e4a6196c",
+	0,
+	"2006ffc4-8d1b-401f-8984-4796a30af89a",
+	"b877d4f1-92c8-423c-a892-a8a4c479cbe7",
+	"59ac51c4-9980-4237-99e0-91031636cb06",
+	"594476f0-b5ab-4a04-87c0-a9369bd54a23",
+	"f4e7e2d3-d3f5-4bdf-9abd-2de2975dc9a4",
+	"54bf7161-feac-4bc2-8c4b-53ba452b275a",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Bridge',
+	'Brg_ID',
+	'R21.''contains''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"b877d4f1-92c8-423c-a892-a8a4c479cbe7",
+	"59ac51c4-9980-4237-99e0-91031636cb06",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("2006ffc4-8d1b-401f-8984-4796a30af89a",
+	"4734f5e9-097d-4b0f-a054-6e01e4a6196c",
+	0,
+	"b877d4f1-92c8-423c-a892-a8a4c479cbe7",
+	"594476f0-b5ab-4a04-87c0-a9369bd54a23",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("f4e7e2d3-d3f5-4bdf-9abd-2de2975dc9a4",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"2006ffc4-8d1b-401f-8984-4796a30af89a",
+	"4734f5e9-097d-4b0f-a054-6e01e4a6196c",
+	1,
+	'Brg_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("2006ffc4-8d1b-401f-8984-4796a30af89a",
+	"4734f5e9-097d-4b0f-a054-6e01e4a6196c",
+	'../Bridge/Bridge.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("f4e7e2d3-d3f5-4bdf-9abd-2de2975dc9a4",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"c469794c-f3ec-4794-b54e-22645d92ffaa",
+	'Brg_ID',
+	'',
+	'',
+	'Brg_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("530865b0-68df-40bd-9189-f7100a8ad6df",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_BATTR
+	VALUES ("530865b0-68df-40bd-9189-f7100a8ad6df",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_ATTR
+	VALUES ("530865b0-68df-40bd-9189-f7100a8ad6df",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"f4e7e2d3-d3f5-4bdf-9abd-2de2975dc9a4",
+	'Name',
+	'Full Name: Bridge Parameter Name
+Description: The name of a parameter used to identify a supplemental data item being provided in a Bridge statement.',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("010de28b-dfd8-4f39-b138-3a4f18114898",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_BATTR
+	VALUES ("010de28b-dfd8-4f39-b138-3a4f18114898",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_ATTR
+	VALUES ("010de28b-dfd8-4f39-b138-3a4f18114898",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"a285bbd3-7c42-4f52-b4c2-2bab6702c3d4",
+	'By_Ref',
+	'Full Name: By Reference Indicator
+Description: Indicates whether or not this parameter is passed by reference
+Data Domain: 0 = passed by value, 1 = passed by reference
+enum0: By Value
+enum1: By Reference',
+	'',
+	'By_Ref',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4bbaf473-05aa-4775-84f2-cf62c8f6e35d",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_BATTR
+	VALUES ("4bbaf473-05aa-4775-84f2-cf62c8f6e35d",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_ATTR
+	VALUES ("4bbaf473-05aa-4775-84f2-cf62c8f6e35d",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"010de28b-dfd8-4f39-b138-3a4f18114898",
+	'Dimensions',
+	'Full Name: Array Dimensions',
+	'',
+	'Dimensions',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	0,
+	"c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"c99696b4-5c77-4ae6-862d-21a09720e389",
+	"7c4a95bd-891b-4d94-954d-6a3ba2b3030e",
+	"7023d9e6-bdf4-4c09-85c3-ea8b7a8503a7",
+	"08abbfda-ec91-4838-bbce-435fb4389fcf",
+	"d95845f3-319e-4146-a834-6c9182edea4e",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Bridge Parameter',
+	'BParm_ID',
+	'R55.''succeeds''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"c99696b4-5c77-4ae6-862d-21a09720e389",
+	"7c4a95bd-891b-4d94-954d-6a3ba2b3030e",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	0,
+	"c99696b4-5c77-4ae6-862d-21a09720e389",
+	"7023d9e6-bdf4-4c09-85c3-ea8b7a8503a7",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("08abbfda-ec91-4838-bbce-435fb4389fcf",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	1,
+	'BParm_ID');
+INSERT INTO O_ATTR
+	VALUES ("08abbfda-ec91-4838-bbce-435fb4389fcf",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"4bbaf473-05aa-4775-84f2-cf62c8f6e35d",
+	'Previous_BParm_ID',
+	'',
+	'Previous_',
+	'BParm_ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("61317b60-536f-4fb8-8911-8076ba628236",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_BATTR
+	VALUES ("61317b60-536f-4fb8-8911-8076ba628236",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_ATTR
+	VALUES ("61317b60-536f-4fb8-8911-8076ba628236",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"08abbfda-ec91-4838-bbce-435fb4389fcf",
+	'Descrip',
+	'Full Name: Description
+Description:  A textual description of the bridge parameter.',
+	'',
+	'Descrip',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"e1b4ced5-ef19-4caa-b6e9-f3bd5f205f57",
+	"d800b88a-8ebe-404a-b2ae-ccf61186b7cd",
+	"de6e9560-8609-4347-a4aa-c0594475d128",
+	"a285bbd3-7c42-4f52-b4c2-2bab6702c3d4",
+	"9627958f-f1a5-4dc1-b0f0-a12e708d2290",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R22.''is defined by''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"e1b4ced5-ef19-4caa-b6e9-f3bd5f205f57",
+	"d800b88a-8ebe-404a-b2ae-ccf61186b7cd",
+	'../Domain.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"e1b4ced5-ef19-4caa-b6e9-f3bd5f205f57",
+	"de6e9560-8609-4347-a4aa-c0594475d128",
+	'../Domain.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("a285bbd3-7c42-4f52-b4c2-2bab6702c3d4",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("a285bbd3-7c42-4f52-b4c2-2bab6702c3d4",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	"530865b0-68df-40bd-9189-f7100a8ad6df",
+	'DT_ID',
+	'',
+	'',
+	'Element_ID',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_OIDA
+	VALUES ("c469794c-f3ec-4794-b54e-22645d92ffaa",
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	0,
+	'BParm_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO O_ID
+	VALUES (2,
+	"7a7b2427-5d60-45d3-a284-be1f7cff0741");
+INSERT INTO PE_PE
+	VALUES ("7a7b2427-5d60-45d3-a284-be1f7cff0741",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Domain',
+	'A domain (S_DOM) consists of one or more subsystems (S_SS) that each contain an information model that abstracts a portion of the data for the domain: classes (O_OBJ), associations (R_REL), etc.  Breaking a domain into subsystems allows the complexity of the domain to be more easily managed: 1) subsystems are components and can be checked out individually allowing parallelism in development of the models and 2) breaking up a domain into smaller units is easier to understand.  A subsystem is composed of classes that tend to cluster, i.e., they have few associations that span subsystem boundaries.  Inter-subsystem associations, communications, and accesses are captured in the Subsystem Relationship Model (SRM), Subsystem Communication Model (SCM), and Subsystem Access Model (SAM) respectively.',
+	1,
+	'../Domain.xtuml');

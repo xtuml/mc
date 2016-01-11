@@ -1,0 +1,156 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("9c259020-c3c5-4a34-8ec7-f46467d4e298",
+	'Extended Enumerator',
+	2022,
+	'TE_ENUM',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("bed57957-2b6b-4bab-85f2-8c79e336101b",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO O_BATTR
+	VALUES ("bed57957-2b6b-4bab-85f2-8c79e336101b",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO O_ATTR
+	VALUES ("bed57957-2b6b-4bab-85f2-8c79e336101b",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298",
+	"90552f44-0be6-47f5-9f26-8c43459aabb1",
+	'Value',
+	'',
+	'',
+	'Value',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f17912d5-b627-4a1e-ae5e-5b656ece6736",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO O_BATTR
+	VALUES ("f17912d5-b627-4a1e-ae5e-5b656ece6736",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO O_ATTR
+	VALUES ("f17912d5-b627-4a1e-ae5e-5b656ece6736",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298",
+	"bed57957-2b6b-4bab-85f2-8c79e336101b",
+	'Order',
+	'',
+	'',
+	'Order',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("90552f44-0be6-47f5-9f26-8c43459aabb1",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO O_BATTR
+	VALUES ("90552f44-0be6-47f5-9f26-8c43459aabb1",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO O_ATTR
+	VALUES ("90552f44-0be6-47f5-9f26-8c43459aabb1",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298",
+	"00000000-0000-0000-0000-000000000000",
+	'Name',
+	'',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6a68954b-201a-483d-b298-955deac8bd2b",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO O_BATTR
+	VALUES ("6a68954b-201a-483d-b298-955deac8bd2b",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO O_ATTR
+	VALUES ("6a68954b-201a-483d-b298-955deac8bd2b",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298",
+	"f17912d5-b627-4a1e-ae5e-5b656ece6736",
+	'GeneratedName',
+	'This carries the value of the translated C code for the enumerator.',
+	'',
+	'GeneratedName',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("9c259020-c3c5-4a34-8ec7-f46467d4e298",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	0,
+	"f803d3a1-af18-486a-a122-8a3415cd9087",
+	"5c6e6e89-2675-4cf5-ab5c-a18165a5de8c",
+	"994a8730-f8f5-48fe-a15f-6c1100f756c0",
+	"63da26d1-f338-4f96-9135-124fac388cca",
+	"33cb46f0-ca39-4107-8725-4f31722b9049",
+	"e4469246-a10f-4105-b474-3ad8fb28a489",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Enumerator',
+	'Enum_ID',
+	'R2027');
+INSERT INTO R_RGO_PROXY
+	VALUES ("9c259020-c3c5-4a34-8ec7-f46467d4e298",
+	"5c6e6e89-2675-4cf5-ab5c-a18165a5de8c",
+	"994a8730-f8f5-48fe-a15f-6c1100f756c0",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("f803d3a1-af18-486a-a122-8a3415cd9087",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	0,
+	"5c6e6e89-2675-4cf5-ab5c-a18165a5de8c",
+	"63da26d1-f338-4f96-9135-124fac388cca",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("33cb46f0-ca39-4107-8725-4f31722b9049",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298",
+	"f803d3a1-af18-486a-a122-8a3415cd9087",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	1,
+	'Enum_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("f803d3a1-af18-486a-a122-8a3415cd9087",
+	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
+	'../../Domain/Enumerator/Enumerator.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("33cb46f0-ca39-4107-8725-4f31722b9049",
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298",
+	"6a68954b-201a-483d-b298-955deac8bd2b",
+	'Enum_ID',
+	'',
+	'',
+	'Enum_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO O_ID
+	VALUES (1,
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO O_ID
+	VALUES (2,
+	"9c259020-c3c5-4a34-8ec7-f46467d4e298");
+INSERT INTO PE_PE
+	VALUES ("9c259020-c3c5-4a34-8ec7-f46467d4e298",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

@@ -1,0 +1,108 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("2202aa51-b695-45d8-8da6-f74d57befe86",
+	'Derived Association',
+	215,
+	'R_COMP',
+	'A compositional association (R_COMP) is an association between two classes R_CONE, on one side of the association, and R_COTH, on the other.  A compositional association is one  that is formalized by a query along other associations in a loop (R_COMP.Rel_Chn).',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("c7fcc425-470a-47ee-a26c-a31bbf0d5557",
+	"2202aa51-b695-45d8-8da6-f74d57befe86");
+INSERT INTO O_BATTR
+	VALUES ("c7fcc425-470a-47ee-a26c-a31bbf0d5557",
+	"2202aa51-b695-45d8-8da6-f74d57befe86");
+INSERT INTO O_ATTR
+	VALUES ("c7fcc425-470a-47ee-a26c-a31bbf0d5557",
+	"2202aa51-b695-45d8-8da6-f74d57befe86",
+	"4e92a9c4-0120-414f-9fd0-841df08eaa72",
+	'Rel_Chn',
+	'Full Name: Association Chain
+Description: Composed association chain as it appears in the model.
+',
+	'',
+	'Rel_Chn',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("2202aa51-b695-45d8-8da6-f74d57befe86",
+	"a65afc2d-1c8d-47cf-b82d-91a9c741d861",
+	0,
+	"4cf2fa7a-04c9-4d66-86e1-9404b98fef74",
+	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
+	"3414eb10-cc4d-480a-953d-06fee079b0aa",
+	"8296d180-0a20-4c93-ac8b-b81b50845e1d",
+	"4e92a9c4-0120-414f-9fd0-841df08eaa72",
+	"b8d953b3-b727-470a-a824-0417e3df2ee6",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Association',
+	'Rel_ID',
+	'R206');
+INSERT INTO R_RGO_PROXY
+	VALUES ("2202aa51-b695-45d8-8da6-f74d57befe86",
+	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
+	"3414eb10-cc4d-480a-953d-06fee079b0aa",
+	'../Association.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("4cf2fa7a-04c9-4d66-86e1-9404b98fef74",
+	"a65afc2d-1c8d-47cf-b82d-91a9c741d861",
+	0,
+	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
+	"8296d180-0a20-4c93-ac8b-b81b50845e1d",
+	'../Association.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("4e92a9c4-0120-414f-9fd0-841df08eaa72",
+	"2202aa51-b695-45d8-8da6-f74d57befe86",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("4e92a9c4-0120-414f-9fd0-841df08eaa72",
+	"2202aa51-b695-45d8-8da6-f74d57befe86",
+	"00000000-0000-0000-0000-000000000000",
+	'Rel_ID',
+	'',
+	'',
+	'Rel_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"2202aa51-b695-45d8-8da6-f74d57befe86");
+INSERT INTO O_OIDA
+	VALUES ("4e92a9c4-0120-414f-9fd0-841df08eaa72",
+	"2202aa51-b695-45d8-8da6-f74d57befe86",
+	0,
+	'Rel_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"2202aa51-b695-45d8-8da6-f74d57befe86");
+INSERT INTO O_ID
+	VALUES (2,
+	"2202aa51-b695-45d8-8da6-f74d57befe86");
+INSERT INTO PE_PE
+	VALUES ("2202aa51-b695-45d8-8da6-f74d57befe86",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Association',
+	'A association (R_REL) captures an association between things in the real world. A association is stated in terms of the formal classs (O_OBJ) that model the real world entities participating in the association. There can be any number of associations between the same two classs and any class can participate in any number of associations with other classs.',
+	201,
+	'../Association.xtuml');

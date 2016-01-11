@@ -1,0 +1,205 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	'Variable',
+	815,
+	'V_VAR',
+	'This class represents a temporary variable or an instance.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f");
+INSERT INTO O_BATTR
+	VALUES ("3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f");
+INSERT INTO O_ATTR
+	VALUES ("3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"00000000-0000-0000-0000-000000000000",
+	'Var_ID',
+	'
+
+',
+	'',
+	'Var_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	0,
+	"49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"4a7a72fc-5525-4281-a49d-e882f74afc0a",
+	"39c60c47-5f64-4b0e-847b-f0659748b8e5",
+	"a9075be1-c332-4df3-81d9-1bd2cc828608",
+	"f8cb4da6-52e2-4489-b9f5-dea862f823b9",
+	"13388561-b6a6-4ffe-aa6f-0e2a72110662",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Block',
+	'Block_ID',
+	'R823');
+INSERT INTO R_RGO_PROXY
+	VALUES ("e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"4a7a72fc-5525-4281-a49d-e882f74afc0a",
+	"39c60c47-5f64-4b0e-847b-f0659748b8e5",
+	'../Value.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	0,
+	"4a7a72fc-5525-4281-a49d-e882f74afc0a",
+	"a9075be1-c332-4df3-81d9-1bd2cc828608",
+	'../Value.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("f8cb4da6-52e2-4489-b9f5-dea862f823b9",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	1,
+	'Block_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("49bb05d8-01d0-4699-a66e-5fdaeb1793e6",
+	"6cf76eba-03dc-4cce-af63-e348fbed1243",
+	'../../Body/Block/Block.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("f8cb4da6-52e2-4489-b9f5-dea862f823b9",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	'Block_ID',
+	'
+
+',
+	'',
+	'Block_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("c2c79472-44ca-41d5-848f-6ef84dfb4b53",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f");
+INSERT INTO O_BATTR
+	VALUES ("c2c79472-44ca-41d5-848f-6ef84dfb4b53",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f");
+INSERT INTO O_ATTR
+	VALUES ("c2c79472-44ca-41d5-848f-6ef84dfb4b53",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"f8cb4da6-52e2-4489-b9f5-dea862f823b9",
+	'Name',
+	'This string represents the name a variable.',
+	'',
+	'Name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("359a179b-ad03-4420-a17c-009f424d3449",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f");
+INSERT INTO O_BATTR
+	VALUES ("359a179b-ad03-4420-a17c-009f424d3449",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f");
+INSERT INTO O_ATTR
+	VALUES ("359a179b-ad03-4420-a17c-009f424d3449",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"c2c79472-44ca-41d5-848f-6ef84dfb4b53",
+	'Declared',
+	'This attribute is true if the variable has been fully declared. During parsing, there is a span of time between when the variable is first parsed and when we know what the data type of the variable is.  During this time Declared is false.  Once the type of the variable is assigned, Declared is set to true.
+--------------------------------------------------------------------------------
+Bridge:ALS',
+	'',
+	'Declared',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"5dfb3f30-e59e-43da-929a-77a4eaec2bb1",
+	"10943fbc-9873-4254-9c5f-5cae90d30a7f",
+	"297ddbb7-9fbc-41b7-9501-22f12c20fd0f",
+	"c0fded4b-b01c-43e9-ad34-8cbc89b16e7c",
+	"42ec2d91-faf2-4790-a5be-c31f29268dba",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Data Type',
+	'DT_ID',
+	'R848.''has''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"5dfb3f30-e59e-43da-929a-77a4eaec2bb1",
+	"10943fbc-9873-4254-9c5f-5cae90d30a7f",
+	'../Value.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("5cdd7449-254e-495b-9dc3-1eeb34212190",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	0,
+	"5dfb3f30-e59e-43da-929a-77a4eaec2bb1",
+	"297ddbb7-9fbc-41b7-9501-22f12c20fd0f",
+	'../Value.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("c0fded4b-b01c-43e9-ad34-8cbc89b16e7c",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	1,
+	'Element_ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
+	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
+	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("c0fded4b-b01c-43e9-ad34-8cbc89b16e7c",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	"359a179b-ad03-4420-a17c-009f424d3449",
+	'DT_ID',
+	'',
+	'',
+	'Element_ID',
+	2,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f");
+INSERT INTO O_OIDA
+	VALUES ("3a350ee1-8b2b-411d-86e0-30dce52fffdb",
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	0,
+	'Var_ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f");
+INSERT INTO O_ID
+	VALUES (2,
+	"e97c0bf5-ca99-4c91-9703-86c9ad94796f");
+INSERT INTO PE_PE
+	VALUES ("e97c0bf5-ca99-4c91-9703-86c9ad94796f",
+	1,
+	"30ef75af-4619-4cb3-ae86-63d794e55d05",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("30ef75af-4619-4cb3-ae86-63d794e55d05",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Value',
+	'This subsystem formalizes the concepts of values (r-values) and variables 
+(l-values). It also captures the concept of an actual parameter.
+Notify_Changes:false
+Persistent:false
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE_FOR_EXTERNAL_USE:FALSE
+',
+	800,
+	'../Value.xtuml');

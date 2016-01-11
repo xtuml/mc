@@ -1,0 +1,54 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("2deeb0bc-d2f6-47b2-8793-c1eadf6dfc1b",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'OAL Validation Functions',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("a8df81d1-fb86-4a45-8286-99e9bb743c3e",
+	112,
+	"2deeb0bc-d2f6-47b2-8793-c1eadf6dfc1b",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	4156,
+	3123,
+	0,
+	0,
+	0,
+	'3.4.0',
+	'escher::ooaofooa::Functions::OAL Validation Functions');
+INSERT INTO DIM_DIA
+	VALUES ("a8df81d1-fb86-4a45-8286-99e9bb743c3e",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("2deeb0bc-d2f6-47b2-8793-c1eadf6dfc1b",
+	1,
+	"d28db738-7237-4c77-965d-1b3109224ad4",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d28db738-7237-4c77-965d-1b3109224ad4",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Functions',
+	'',
+	0,
+	'../Functions.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'escher',
+	1,
+	'../../../escher.xtuml');
