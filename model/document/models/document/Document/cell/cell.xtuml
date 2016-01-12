@@ -39,7 +39,7 @@ INSERT INTO O_TFR
 	"a2b45e1c-4eb2-4328-a14b-67b3ce893cab",
 	'populate_paragraph',
 	'',
-	"4a875a1f-6271-4983-80f2-d002106ee45b",
+	"022ac273-d9c9-4bf8-975e-d29e819508e2",
 	0,
 	'predecessor = param.predecessor;
 create object instance doc_cell of DOC_CELL;
@@ -67,24 +67,24 @@ INSERT INTO O_TPARM
 	VALUES ("61b43872-38a7-4aba-bd3c-b243e8dcb49e",
 	"0df830d5-f576-4d67-b2d5-f041297c2ede",
 	'predecessor',
-	"4a875a1f-6271-4983-80f2-d002106ee45b",
+	"022ac273-d9c9-4bf8-975e-d29e819508e2",
 	0,
 	'',
 	"7d26e983-c275-4005-b41c-203f9fe0f15a",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("4a875a1f-6271-4983-80f2-d002106ee45b",
+	VALUES ("022ac273-d9c9-4bf8-975e-d29e819508e2",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<cell>',
 	'',
 	'',
-	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../Document.xtuml');
 INSERT INTO O_TFR
 	VALUES ("f3efb632-6314-46cf-bdc9-e9d966d68f09",
 	"a2b45e1c-4eb2-4328-a14b-67b3ce893cab",
 	'populate_image',
 	'',
-	"4a875a1f-6271-4983-80f2-d002106ee45b",
+	"022ac273-d9c9-4bf8-975e-d29e819508e2",
 	0,
 	'predecessor = param.predecessor;
 create object instance doc_cell of DOC_CELL;
@@ -115,7 +115,7 @@ INSERT INTO O_TPARM
 	VALUES ("275e9831-1ce5-48dc-a66c-005ce68fe353",
 	"f3efb632-6314-46cf-bdc9-e9d966d68f09",
 	'predecessor',
-	"4a875a1f-6271-4983-80f2-d002106ee45b",
+	"022ac273-d9c9-4bf8-975e-d29e819508e2",
 	0,
 	'',
 	"ac0c1bf0-f653-41ed-9701-f60390d02817",

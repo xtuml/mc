@@ -54,7 +54,7 @@ INSERT INTO O_TFR
 	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
 	'populate',
 	'',
-	"99280142-124d-40f0-a0dd-8b16cde5ac97",
+	"1e22a7fa-abd8-4676-a5ff-2cb3c9bff5fe",
 	0,
 	'predecessor = param.predecessor;
 parent_doc_sec = param.doc_sec;
@@ -63,7 +63,7 @@ doc_par.text = param.text;
 //
 // ptext is for long strings, such as OAL listings.
 //
-doc_par.ptext = param.text;
+//doc_par.ptext = param.text;
 doc_par.formatted = true;
 if ( not_empty predecessor )
   relate predecessor to doc_par across R2314.''follows'';
@@ -88,34 +88,34 @@ INSERT INTO O_TPARM
 	VALUES ("a453f50e-c475-4af9-96f6-d1e46795d835",
 	"28117f40-a361-47fa-80eb-a1c8c8d59647",
 	'predecessor',
-	"99280142-124d-40f0-a0dd-8b16cde5ac97",
+	"1e22a7fa-abd8-4676-a5ff-2cb3c9bff5fe",
 	0,
 	'',
 	"3c968b8d-1107-4624-818c-42e424aa7164",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("99280142-124d-40f0-a0dd-8b16cde5ac97",
+	VALUES ("1e22a7fa-abd8-4676-a5ff-2cb3c9bff5fe",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<paragraph>',
 	'',
 	'',
-	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../Document.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("f9d4f4bc-3f8a-41d2-b2e9-83de4dbd5410",
 	"28117f40-a361-47fa-80eb-a1c8c8d59647",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"a453f50e-c475-4af9-96f6-d1e46795d835",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	VALUES ("07319e3c-105e-4996-bfb1-bc8d37462007",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<section>',
 	'',
 	'',
-	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../Document.xtuml');
 INSERT INTO O_TFR
 	VALUES ("fdec6695-7926-4cc6-96ee-1f7faf21cde7",
 	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",

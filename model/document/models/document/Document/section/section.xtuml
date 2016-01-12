@@ -51,18 +51,18 @@ INSERT INTO O_TPARM
 	VALUES ("80c2b487-bca4-42c8-8a33-752bad3f40c6",
 	"cb2ae1be-e1ea-4210-8b1b-64e8849ebc6c",
 	'doc_doc',
-	"609a5887-fd58-4d35-8765-f611f2b4bba4",
+	"4b762109-3e9e-43f3-adb9-9e6a2e05ad00",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("609a5887-fd58-4d35-8765-f611f2b4bba4",
+	VALUES ("4b762109-3e9e-43f3-adb9-9e6a2e05ad00",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<document>',
 	'',
 	'',
-	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../Document.xtuml');
 INSERT INTO O_TFR
 	VALUES ("2b0ba71a-5ab9-4c1d-984c-e3deb5838417",
 	"2d8cb3fd-f729-4472-a301-1d874e6479bd",
@@ -92,7 +92,7 @@ INSERT INTO O_TFR
 	"2d8cb3fd-f729-4472-a301-1d874e6479bd",
 	'populate',
 	'',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'create object instance doc_sec of DOC_SEC;
 doc_sec.title = param.title;
@@ -146,18 +146,18 @@ INSERT INTO O_TPARM
 	VALUES ("3b9a029d-20b1-47a3-b27c-8b7ffbc22d3f",
 	"1ab270cd-71d3-474a-9ef0-c2b99acc3d6b",
 	'parent_doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"30b265f7-4000-4a53-b034-fd338c0863e7",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	VALUES ("07319e3c-105e-4996-bfb1-bc8d37462007",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<section>',
 	'',
 	'',
-	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../Document.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("db1d5046-03b1-410b-b7dd-5dbc41138522",
 	"2d8cb3fd-f729-4472-a301-1d874e6479bd");

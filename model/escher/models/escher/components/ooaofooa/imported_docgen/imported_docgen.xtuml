@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("e93a3d25-dd34-49c1-9cc6-d4103b1a05e8",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'imported_DocGen',
+	'DocGen',
+	0);
+INSERT INTO GD_MD
+	VALUES ("e7e409ff-b162-4df4-8fb9-92eed8270099",
+	112,
+	"e93a3d25-dd34-49c1-9cc6-d4103b1a05e8",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'escher::components::ooaofooa::imported_DocGen');
+INSERT INTO DIM_DIA
+	VALUES ("e7e409ff-b162-4df4-8fb9-92eed8270099",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("e93a3d25-dd34-49c1-9cc6-d4103b1a05e8",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"6dfad0c7-c5dd-47a8-8ed2-939c030112bb",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("6dfad0c7-c5dd-47a8-8ed2-939c030112bb",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'ooaofooa',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../ooaofooa.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'escher',
+	1,
+	'../../../escher.xtuml');

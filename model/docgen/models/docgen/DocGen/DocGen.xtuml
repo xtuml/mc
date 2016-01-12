@@ -396,18 +396,18 @@ INSERT INTO S_SPARM
 	VALUES ("612f8a87-ac5d-4514-8a01-68d425d71cf0",
 	"85def55e-2712-4f24-9f19-683970bbe0bc",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"1dbdd621-a729-4af0-b9ba-ae5ea6921503",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	VALUES ("07319e3c-105e-4996-bfb1-bc8d37462007",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<section>',
 	'',
 	'',
-	'../../../../document/models/document/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../../../../document/models/document/Document/Document.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("0736f300-1435-46d0-97f5-00bcb0b9363f",
 	"85def55e-2712-4f24-9f19-683970bbe0bc",
@@ -601,11 +601,12 @@ select any empty_doc_row from instances of DOC_ROW where ( false );
 // Generic packages in the system
 // Add the packages as subsections to the input section.
 // Include the package diagrams as figures.
+parent_doc_sec = param.doc_sec;
 ep_pkgs = param.ep_pkgs;
 for each ep_pkg in ep_pkgs
   LOG::LogInfo( message:"processing package " + ep_pkg.Name );
   // Make this section a child of the system section.
-  doc_sec = DOC_SEC::populate( title:ep_pkg.Name, subtitle:"Package", parent_doc_sec:param.doc_sec );
+  doc_sec = DOC_SEC::populate( title:ep_pkg.Name, subtitle:"Package", parent_doc_sec:parent_doc_sec );
   doc_par = DOC_PAR::populate( text:ep_pkg.Descrip, predecessor:empty_doc_par, doc_sec:doc_sec );
   image_name = ::getContainerListForEP_PKG(epk:ep_pkg, container_list:"Package Diagram");
   doc_fig1 = DOC_FIG::populate( title:ep_pkg.Name + " Package Diagram", image_target:image_name, doc_par:doc_par );
@@ -672,7 +673,7 @@ INSERT INTO S_SPARM
 	VALUES ("7299391b-a852-4a32-bc82-d264e55de7b0",
 	"c5c0a74e-51fc-45f9-88f3-cdded216a47b",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"de62bbdc-bd0b-45bb-b5cb-c78514e0229a",
@@ -793,7 +794,7 @@ INSERT INTO S_SPARM
 	VALUES ("b5ac9786-a7c0-4b63-8312-a35c769ffeca",
 	"238ee6dd-aec9-463d-9ded-c4ef3947a91b",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"238d6bd1-29d5-4518-8f5c-2235251bea3c",
@@ -959,7 +960,7 @@ INSERT INTO S_SPARM
 	VALUES ("52ef59d3-a0a0-4cca-9b7f-8421a1d58934",
 	"6d078aa2-26e1-480f-9366-15c6e9a67c4a",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"d7e19551-5ec3-4970-aca8-abe93975fc19",
@@ -1036,7 +1037,7 @@ INSERT INTO S_SPARM
 	VALUES ("908ad1c5-a137-462b-8ab5-6ec01577bf62",
 	"3ced45b9-1229-4d5c-b12a-b9185ac44087",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"4df297e3-7a7b-43ef-bd00-f2d08be0b897",
@@ -1256,7 +1257,7 @@ INSERT INTO S_SPARM
 	VALUES ("f9c51cd9-962e-4243-8255-e4accbe03694",
 	"efb852e6-34c8-40e1-8956-ddc56b43fcb7",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"10d69333-d5b8-4f0f-ba0a-806d38857b2e",
@@ -1427,7 +1428,7 @@ INSERT INTO S_SPARM
 	VALUES ("7ae559f3-bdf5-49c1-994e-414a0d06ce2b",
 	"2078cc27-fb6e-46a0-8076-5a62cb279dcd",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"f927b4ff-be6c-4ea4-80b7-a90cc4642046",
@@ -1512,7 +1513,7 @@ INSERT INTO S_SPARM
 	VALUES ("efd290fb-667a-4088-a034-a550e95ec603",
 	"5a2ff73d-1ee8-4a4f-ae55-3983e4a30034",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"04137c2e-07ed-4e72-b824-55c5d370ad9a",
@@ -1604,7 +1605,7 @@ INSERT INTO S_SPARM
 	VALUES ("22f66e49-363c-4797-8e36-a142c96e4cd5",
 	"5a8e01e3-8f3c-413d-8e8c-5a0e65ca4c7c",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"54a43640-ea23-416b-bd19-a1a0e0fb2bb8",
@@ -1671,7 +1672,7 @@ INSERT INTO S_SPARM
 	VALUES ("185b7523-7a9d-44f0-8cb9-9988f0cb3867",
 	"f07b40e9-29e0-4d2c-9006-a487fa54f9ca",
 	'doc_sec',
-	"4c9c8745-c3d7-42a9-8869-0e6412e00abd",
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
 	0,
 	'',
 	"8eabf0d8-b737-4e79-8c3d-0e2d947fa1a9",

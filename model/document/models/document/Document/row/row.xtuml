@@ -47,7 +47,7 @@ INSERT INTO O_TFR
 	"e1a1fe3c-a77e-4f77-898c-0a724fae12a0",
 	'populate',
 	'',
-	"ab5127c7-11bb-4f75-b708-806df1325ffe",
+	"fce7a1d4-1709-417b-baf6-1330b19531a9",
 	0,
 	'//
 // Add a row with a given number of columns formatted per the 
@@ -90,18 +90,18 @@ INSERT INTO O_TPARM
 	VALUES ("911249a5-36e8-46fb-b389-21066e507626",
 	"ae1fccc0-2732-4a90-8f49-98caa001c980",
 	'predecessor',
-	"ab5127c7-11bb-4f75-b708-806df1325ffe",
+	"fce7a1d4-1709-417b-baf6-1330b19531a9",
 	0,
 	'',
 	"fad73e2f-a191-4fc5-826f-050352d75b26",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("ab5127c7-11bb-4f75-b708-806df1325ffe",
+	VALUES ("fce7a1d4-1709-417b-baf6-1330b19531a9",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<row>',
 	'',
 	'',
-	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../Document.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("fc54944e-4a45-4006-8c77-65490e0c5463",
 	"ae1fccc0-2732-4a90-8f49-98caa001c980",

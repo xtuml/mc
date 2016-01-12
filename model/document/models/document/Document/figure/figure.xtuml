@@ -31,7 +31,7 @@ INSERT INTO O_TFR
 	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2",
 	'populate',
 	'',
-	"81fe00f0-3cb1-4d19-8315-8c9f4113c890",
+	"cd20917e-b0c2-499e-8844-30025c897e1b",
 	0,
 	'// Create the figure and the associated image.
 // Link paragraph to figure and figure to image.
@@ -72,25 +72,25 @@ INSERT INTO O_TPARM
 	VALUES ("c27c5c28-e5ad-4d42-8fe0-f4ed4548c4c6",
 	"3a69c897-b6b9-4edc-a425-5ffbb7e7067e",
 	'doc_par',
-	"99280142-124d-40f0-a0dd-8b16cde5ac97",
+	"1e22a7fa-abd8-4676-a5ff-2cb3c9bff5fe",
 	0,
 	'',
 	"e3371649-c1d5-4eab-8afc-a0136c8131d2",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("99280142-124d-40f0-a0dd-8b16cde5ac97",
+	VALUES ("1e22a7fa-abd8-4676-a5ff-2cb3c9bff5fe",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<paragraph>',
 	'',
 	'',
-	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../Document.xtuml');
 INSERT INTO S_DT_PROXY
-	VALUES ("81fe00f0-3cb1-4d19-8315-8c9f4113c890",
+	VALUES ("cd20917e-b0c2-499e-8844-30025c897e1b",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<figure>',
 	'',
 	'',
-	'../../Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../Document.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("97245ccd-87ba-45d1-aff4-8a2cd1a4124f",
 	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2");
