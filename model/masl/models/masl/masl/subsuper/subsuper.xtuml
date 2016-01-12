@@ -1,0 +1,123 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("3e82ef73-92f1-464a-9961-915da3477b00",
+	'subsuper',
+	3723,
+	'subsuper',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("4c2a935c-9f82-483a-8ea4-76b47f7b44ab",
+	"3e82ef73-92f1-464a-9961-915da3477b00",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'//T::include( file:"masl/t.project_start.masl" );
+//select many projectdomains related by self->projectdomain[R3701.''configures''];
+//for each projectdomain in projectdomains
+//  projectdomain.render();
+//end for;
+//T::include( file:"masl/t.project_end.masl" );',
+	1,
+	'',
+	"bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7");
+INSERT INTO O_TFR
+	VALUES ("bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7",
+	"3e82ef73-92f1-464a-9961-915da3477b00",
+	'populate',
+	'',
+	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	0,
+	'create object instance template_class of parameter;
+template_class.name = param.name;
+return template_class;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("85980317-2e31-48e5-9292-2f0f1460093a",
+	"bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7",
+	'name',
+	"34fac455-523f-4aa2-932b-a33981ceacad",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../types/types.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<parameter>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("8a106b35-2186-41f2-be22-b9efe04cd060",
+	"3e82ef73-92f1-464a-9961-915da3477b00",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+//select many projects from instances of project;
+//if ( empty projects )
+//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
+//  valid = false;
+//end if;
+
+// Validate siblings and subordinates.
+//return ( valid and projectdomain::validate() );
+return valid;
+',
+	1,
+	'',
+	"4c2a935c-9f82-483a-8ea4-76b47f7b44ab");
+INSERT INTO O_NBATTR
+	VALUES ("179eeec4-e18f-4ba5-9244-c7f410ba4c89",
+	"3e82ef73-92f1-464a-9961-915da3477b00");
+INSERT INTO O_BATTR
+	VALUES ("179eeec4-e18f-4ba5-9244-c7f410ba4c89",
+	"3e82ef73-92f1-464a-9961-915da3477b00");
+INSERT INTO O_ATTR
+	VALUES ("179eeec4-e18f-4ba5-9244-c7f410ba4c89",
+	"3e82ef73-92f1-464a-9961-915da3477b00",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"34fac455-523f-4aa2-932b-a33981ceacad",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"3e82ef73-92f1-464a-9961-915da3477b00");
+INSERT INTO O_ID
+	VALUES (1,
+	"3e82ef73-92f1-464a-9961-915da3477b00");
+INSERT INTO O_ID
+	VALUES (2,
+	"3e82ef73-92f1-464a-9961-915da3477b00");
+INSERT INTO PE_PE
+	VALUES ("3e82ef73-92f1-464a-9961-915da3477b00",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

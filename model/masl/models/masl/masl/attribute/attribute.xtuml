@@ -15,9 +15,11 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'T::include( file:"masl/t.attribute_begin.masl" );
+select many referentials related by self->referential[R3718.''refers through''];
+for each referential in referentials
+  referential.render();
+end for;
 select one type related by self->type[R3717];
-select one type related by self->type[R3717];
-type.render();
 T::include( file:"masl/t.attribute_end.masl" );',
 	1,
 	'',
@@ -29,10 +31,13 @@ INSERT INTO O_TFR
 	'',
 	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
 	0,
-	'create object instance attribute of attribute;
+	'object = param.object;
+create object instance attribute of attribute;
 attribute.name = param.name;
 attribute.preferred = param.preferred;
 attribute.unique = param.unique;
+attribute.default = param.default;
+relate object to attribute across R3709.''is characterized by'';
 return attribute;',
 	1,
 	'',
@@ -71,6 +76,31 @@ INSERT INTO O_TPARM
 	'',
 	"b90a5b96-97a1-4611-b06d-9f8fb8924c93",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("c36f5e3e-3842-4a5b-ab80-ce3199b5847a",
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	'default',
+	"34fac455-523f-4aa2-932b-a33981ceacad",
+	0,
+	'',
+	"95952fdd-517e-4d1c-9a3c-e4cdf53ec35e",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("809b8aea-858a-40be-afae-06ffd349baef",
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	'object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"c36f5e3e-3842-4a5b-ab80-ce3199b5847a",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
 	"00000000-0000-0000-0000-000000000000",
@@ -86,14 +116,26 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
+select many attributes from instances of attribute;
+for each attribute in attributes
+  if ( "" == attribute.name )
+    TRACE::log( flavor:"failure", id:28, message:"attribute with no name" );
+    valid = false;
+  end if;
+  select one object related by attribute->object[R3709];
+  if ( empty object )
+    TRACE::log( flavor:"failure", id:29, message:"orphan attribute with no object:  " + attribute.name );
+    valid = false;
+  end if;
+  select one type related by attribute->type[R3717];
+  if ( empty type )
+    TRACE::log( flavor:"failure", id:29, message:"attribute with no type:  " + attribute.name );
+    valid = false;
+  end if;
+end for;
 
 // Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
+return ( valid and referential::validate() and identifier::validate() );
 return valid;
 ',
 	1,
@@ -151,6 +193,24 @@ INSERT INTO O_ATTR
 	'unique',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2e6b8b9e-e543-4630-9ca7-d835304bf0ab",
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO O_BATTR
+	VALUES ("2e6b8b9e-e543-4630-9ca7-d835304bf0ab",
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO O_ATTR
+	VALUES ("2e6b8b9e-e543-4630-9ca7-d835304bf0ab",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	"9a1530ed-4471-48ad-a081-3a4b3cad3ac9",
+	'default',
+	'',
+	'',
+	'default',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_ID

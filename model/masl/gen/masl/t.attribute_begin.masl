@@ -1,7 +1,7 @@
     ${self.name} : \
-.if ( ${self.preferred} )
+.if ( self.preferred )
 preferred \
 .end if
-.if ( ${self.unique} )
+.if ( self.unique )
 unique \
 .end if
