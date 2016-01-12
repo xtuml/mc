@@ -42,18 +42,18 @@ INSERT INTO O_TPARM
 	VALUES ("33b8e5c0-d8ae-47a7-8e26-e1a4ebd9e44e",
 	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
 	'returntype',
-	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"34fac455-523f-4aa2-932b-a33981ceacad",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
 	"00000000-0000-0000-0000-000000000000",
 	'str',
 	'',
 	'""',
-	'../../../../../escher/models/escher/types/types.xtuml');
+	'../../types/types.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("1e5bcd4f-5fa3-4d29-b0f3-c585a35b6c90",
 	"00000000-0000-0000-0000-000000000000",
@@ -83,7 +83,7 @@ INSERT INTO O_TPARM
 	VALUES ("63f0e4a9-953d-4562-b089-ee7781ca3b32",
 	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc",
 	'name',
-	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"34fac455-523f-4aa2-932b-a33981ceacad",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -92,7 +92,7 @@ INSERT INTO O_TPARM
 	VALUES ("d0eaff55-b926-4428-987d-8ff587b1caa4",
 	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc",
 	'visibility',
-	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"34fac455-523f-4aa2-932b-a33981ceacad",
 	0,
 	'',
 	"63f0e4a9-953d-4562-b089-ee7781ca3b32",
@@ -137,7 +137,7 @@ INSERT INTO O_ATTR
 	'',
 	'returntype',
 	0,
-	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"34fac455-523f-4aa2-932b-a33981ceacad",
 	'',
 	'');
 INSERT INTO O_ID

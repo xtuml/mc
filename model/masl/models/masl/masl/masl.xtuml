@@ -4276,18 +4276,18 @@ INSERT INTO S_SPARM
 	VALUES ("5df6181e-9e76-46ce-b5ca-601d2729c384",
 	"38d599bc-aeff-4e08-9f10-3580d0c3c656",
 	'name',
-	"6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	"34fac455-523f-4aa2-932b-a33981ceacad",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("6ef8be04-2fa5-4ba1-a4da-c714fc7dba63",
+	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
 	"00000000-0000-0000-0000-000000000000",
 	'str',
 	'',
 	'""',
-	'../../../../escher/models/escher/types/types.xtuml');
+	'../types/types.xtuml');
 INSERT INTO PE_PE
 	VALUES ("38d599bc-aeff-4e08-9f10-3580d0c3c656",
 	1,
