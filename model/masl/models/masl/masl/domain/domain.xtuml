@@ -71,6 +71,11 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'T::include( file:"masl/t.domain_begin.masl" );
+select many objects related by self->object[R3708.''has abstract''];
+// Provide forward declaration of objects for use in relationships.
+for each object in objects
+  object.render_declaration();
+end for;
 select many terminators related by self->terminator[R3702.''sends through''];
 for each terminator in terminators
   terminator.render();
@@ -79,7 +84,6 @@ select many activities related by self->activity[R3707.''receives through''];
 for each activity in activities
   activity.render();
 end for;
-select many objects related by self->object[R3708.''has abstract''];
 for each object in objects
   object.render();
 end for;

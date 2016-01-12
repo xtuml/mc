@@ -90,15 +90,28 @@ select many objects from instances of object;
 for each object in objects
   select one domain related by object->domain[R3708];
   if ( empty domain )
-    TRACE::log( flavor:"failure", id:25, message:"object with no domain" );
+    TRACE::log( flavor:"failure", id:25, message:"object with no domain:  " + object.name );
+    valid = false;
+  end if;
+  if ( ( "" == object.name ) or ( "" == object.key_letters ) )
+    TRACE::log( flavor:"failure", id:26, message:"object with missing attribute values" );
     valid = false;
   end if;
 end for;
 
 // Validate siblings and subordinates.
-//return ( valid and attribute::validate() );
-return valid;
-',
+return ( valid and attribute::validate() );',
+	1,
+	'',
+	"62436e5d-b2f0-45bd-824c-bf910bc153d7");
+INSERT INTO O_TFR
+	VALUES ("62436e5d-b2f0-45bd-824c-bf910bc153d7",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	'render_declaration',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.object_declaration.masl" );',
 	1,
 	'',
 	"94d08134-61ae-4921-adee-96a5ef2d9522");
