@@ -1,0 +1,46 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("6c624b29-1383-4fb9-9cdc-e93da8196009",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("571a86d6-f416-4925-8db6-2441499abb97",
+	112,
+	"6c624b29-1383-4fb9-9cdc-e93da8196009",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'maslin::masl2xtuml');
+INSERT INTO DIM_DIA
+	VALUES ("571a86d6-f416-4925-8db6-2441499abb97",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("6c624b29-1383-4fb9-9cdc-e93da8196009",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO S_SYS_PROXY
+	VALUES ("319083ee-ba5f-4645-a409-d6249f9350bd",
+	'maslin',
+	1,
+	'../maslin.xtuml');

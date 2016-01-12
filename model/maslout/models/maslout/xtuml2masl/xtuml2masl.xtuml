@@ -1,0 +1,288 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("8b16b356-555e-4db2-ab0c-3f3b654cd5f2",
+	"53107551-b0b9-4155-a13f-41b410f63a54",
+	"53107551-b0b9-4155-a13f-41b410f63a54",
+	'xtuml2masl',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("f7087701-629c-4ab5-afbc-2b2a034ed580",
+	112,
+	"8b16b356-555e-4db2-ab0c-3f3b654cd5f2",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'maslout::xtuml2masl');
+INSERT INTO DIM_DIA
+	VALUES ("f7087701-629c-4ab5-afbc-2b2a034ed580",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("0df1d9c2-0915-4064-8cc4-50adcbb39cc2",
+	"00000000-0000-0000-0000-000000000000",
+	'masl_domain',
+	'',
+	'LOG::LogInfo( message:"Starting Domain" );
+T::clear();
+
+// CDS get name from marking or context menu
+name = "Tracking";
+// Query and Populate
+// Query the xtUML meta-model and populate the MASL meta-model.
+::xtuml_component_to_masl_domain( name:name );
+
+// Validate
+// Check to see if the domain instances seem to be linked together.
+if ( not domain::validate() )
+  LOG::LogFailure( message:"domain (" + name + ") did not validate." );
+end if;
+
+// Render
+// Cause the model to render itself from its populated instances.
+select any domain from instances of domain where ( selected.name == name );
+if ( not_empty domain )
+  domain.render();
+  // Dump buffer to output file.
+  T::emit( file:"mcmaslout.txt" );
+else
+  TRACE::log( flavor:"failure", id:4, message:"no selected domain to render" );
+end if;
+
+LOG::LogInfo( message:"Done" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("0df1d9c2-0915-4064-8cc4-50adcbb39cc2",
+	1,
+	"8b16b356-555e-4db2-ab0c-3f3b654cd5f2",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("dfee0244-d29a-4141-ab0d-2f108632adee",
+	"00000000-0000-0000-0000-000000000000",
+	'masl_project',
+	'',
+	'LOG::LogInfo( message:"Starting Project" );
+T::clear();
+
+// Query and Populate
+// Query the xtUML meta-model and populate the MASL meta-model.
+::xtuml_package_to_masl_project();
+
+// Validate
+// Check to see if the project instances seem to be linked together.
+if ( not project::validate() )
+  LOG::LogFailure( message:"project did not validate." );
+end if;
+
+// Render
+// Cause the model to render itself from its populated instances.
+select any project from instances of project;
+if ( not_empty project )
+  project.render();
+  // Dump buffer to output file.
+  T::emit( file:"mcmaslout.txt" );
+else
+  TRACE::log( flavor:"failure", id:4, message:"no selected project to render" );
+end if;
+
+LOG::LogInfo( message:"Done" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("dfee0244-d29a-4141-ab0d-2f108632adee",
+	1,
+	"8b16b356-555e-4db2-ab0c-3f3b654cd5f2",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bf3e36c8-ff31-4887-824f-6c47deca534a",
+	"00000000-0000-0000-0000-000000000000",
+	'xtuml_component_to_masl_domain',
+	'',
+	'select any domain from instances of domain where ( false );
+select any c_c from instances of C_C where ( selected.Name == param.name );
+if ( not_empty c_c )
+  select any empty_project from instances of project where ( false );
+  domain = domain::populate( name:param.name, project:empty_project );
+else
+  TRACE::log( flavor:"failure", id:34, message:"did not find component with name " + param.name );
+end if;
+
+
+/*
+select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+for each o_obj in o_objs
+  object = object::populate( name:o_obj.Name, domain:domain );
+end for;
+
+/*
+object is a; // declaration
+private type is ...
+service(s)
+terminator(s)
+  
+// CDS hacked
+select many o_objs related by 
+select many o_objs related by te_c->TE_CLASS[R2064]->O_OBJ[R2019];
+    
+  select many te_pos related by te_c->TE_PO[R2005];
+  for each te_po in te_pos
+  
+    terminator = terminator::populate( name:te_po.Name, domain:domain );
+
+    select one te_mact related by te_po->TE_MACT[R2099.''has first''];
+    while ( not_empty te_mact )
+    
+      // CDS figure out the real difference between function and service
+      flavor = "function";
+      if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
+        flavor = "service";
+      end if;
+      activity = activity::populate( name:te_mact.Name, terminator:terminator, flavor:flavor );
+      
+      select any te_parm related by te_mact->TE_ABA[R2010]->TE_PARM[R2062];
+      first_te_parm = te_parm;
+      select any parameter from instances of parameter where ( false );
+      while ( not_empty te_parm )
+        // CDS model and pass correct type
+        parameter = parameter::populate( name:te_parm.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
+        select one te_parm related by te_parm->TE_PARM[R2041.''precedes''];
+      end while;
+      
+      select one te_mact related by te_mact->TE_MACT[R2083.''precedes''];
+    end while;
+    
+  end for;
+ */',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4a3551e3-a634-4cbb-87b1-b6fbeb3d98d3",
+	"bf3e36c8-ff31-4887-824f-6c47deca534a",
+	'name',
+	"34fac455-523f-4aa2-932b-a33981ceacad",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../../../masl/models/masl/types/types.xtuml');
+INSERT INTO PE_PE
+	VALUES ("bf3e36c8-ff31-4887-824f-6c47deca534a",
+	1,
+	"8b16b356-555e-4db2-ab0c-3f3b654cd5f2",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b28a7c75-cdd6-4276-8bf1-b2fb579a9df0",
+	"00000000-0000-0000-0000-000000000000",
+	'xtuml_package_to_masl_project',
+	'',
+	'// Mappings:
+// xtUML  -->  MASL
+// system configuration package --> project
+// component in configuration package --> project domain
+// port --> terminator
+// message --> terminator function or service
+select any tm_build from instances of TM_BUILD;
+if ( empty tm_build )
+  TRACE::log( flavor:"failure", id:1, message:"no configuration package marked" );
+else
+
+project = project::populate( name:tm_build.package_to_build );
+
+select many te_cs from instances of TE_C where ( selected.included_in_build );
+/*
+first_te_c = ::TE_C_sort( te_cs:te_cs );
+te_c = first_te_c;
+while ( not_empty te_c )
+
+  domain = domain::populate( name:te_c.Name, project:project );
+  
+  select many te_pos related by te_c->TE_PO[R2005];
+  for each te_po in te_pos
+  
+    terminator = terminator::populate( name:te_po.Name, domain:domain );
+
+    select one te_mact related by te_po->TE_MACT[R2099.''has first''];
+    while ( not_empty te_mact )
+    
+      // CDS figure out the real difference between function and service
+      flavor = "function";
+      if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
+        flavor = "service";
+      end if;
+      activity = activity::populate( name:te_mact.Name, terminator:terminator, flavor:flavor );
+      
+      select any te_parm related by te_mact->TE_ABA[R2010]->TE_PARM[R2062];
+      first_te_parm = te_parm;
+      select any parameter from instances of parameter where ( false );
+      while ( not_empty te_parm )
+        // CDS model and pass correct type
+        parameter = parameter::populate( name:te_parm.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
+        select one te_parm related by te_parm->TE_PARM[R2041.''precedes''];
+      end while;
+      
+      select one te_mact related by te_mact->TE_MACT[R2083.''precedes''];
+    end while;
+    
+    // CDS hacked
+    select many o_objs related by te_c->TE_CLASS[R2064]->O_OBJ[R2019];
+    for each o_obj in o_objs
+      object = object::populate( name:o_obj.Name, domain:domain );
+    end for;
+    
+  end for;
+
+  select one te_c related by te_c->TE_C[R2017.''precedes''];
+end while;
+
+*/
+end if;
+
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("b28a7c75-cdd6-4276-8bf1-b2fb579a9df0",
+	1,
+	"8b16b356-555e-4db2-ab0c-3f3b654cd5f2",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("8b16b356-555e-4db2-ab0c-3f3b654cd5f2",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO S_SYS_PROXY
+	VALUES ("53107551-b0b9-4155-a13f-41b410f63a54",
+	'maslout',
+	1,
+	'../maslout.xtuml');
