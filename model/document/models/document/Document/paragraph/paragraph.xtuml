@@ -63,7 +63,7 @@ doc_par.text = param.text;
 //
 // ptext is for long strings, such as OAL listings.
 //
-//doc_par.ptext = param.text;
+doc_par.ptext = param.text;
 doc_par.formatted = true;
 if ( not_empty predecessor )
   relate predecessor to doc_par across R2314.''follows'';
@@ -261,7 +261,7 @@ INSERT INTO O_ATTR
 	'',
 	'ptext',
 	0,
-	"00000000-0000-0000-0000-000000000000",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_ID

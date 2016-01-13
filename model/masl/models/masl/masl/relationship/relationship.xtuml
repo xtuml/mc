@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("d47576b6-a215-43fb-bb91-bdb6435f137b",
 	'relationship',
-	3720,
+	3725,
 	'relationship',
 	'',
 	"00000000-0000-0000-0000-000000000000");

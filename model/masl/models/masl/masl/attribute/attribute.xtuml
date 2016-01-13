@@ -36,7 +36,7 @@ create object instance attribute of attribute;
 attribute.name = param.name;
 attribute.preferred = param.preferred;
 attribute.unique = param.unique;
-attribute.default = param.default;
+attribute.defaultvalue = param.defaultvalue;
 relate object to attribute across R3709.''is characterized by'';
 return attribute;',
 	1,
@@ -79,7 +79,7 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("c36f5e3e-3842-4a5b-ab80-ce3199b5847a",
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
-	'default',
+	'defaultvalue',
 	"34fac455-523f-4aa2-932b-a33981ceacad",
 	0,
 	'',
@@ -205,10 +205,10 @@ INSERT INTO O_ATTR
 	VALUES ("2e6b8b9e-e543-4630-9ca7-d835304bf0ab",
 	"514b84aa-197a-464c-a09e-e7f135680958",
 	"9a1530ed-4471-48ad-a081-3a4b3cad3ac9",
-	'default',
+	'defaultvalue',
 	'',
 	'',
-	'default',
+	'defaultvalue',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

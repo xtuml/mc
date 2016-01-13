@@ -12,6 +12,10 @@
 #include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "T_bridge.h"
+#include "LOG_bridge.h"
+#include "TRACE_bridge.h"
+#include "STRING_bridge.h"
+#include "T_bridge.h"
 #include "POP_bridge.h"
 #include "LOG_bridge.h"
 #include "ooaofooa_classes.h"
@@ -180,7 +184,7 @@ ooaofooa_AutoInitializeUniqueIDs( c_t * p_instance, ooaofooa_TE_CLASS * p_te_cla
   /* ASSIGN instance = PARAM.instance */
   instance = Escher_strcpy( instance, p_instance );
   /* ::oal( s:T_clear(); ) */
-T_clear();
+  ooaofooa_oal( "T_clear();" );
   /* SELECT any te_file FROM INSTANCES OF TE_FILE */
   te_file = (ooaofooa_TE_FILE *) Escher_SetGetAny( &pG_ooaofooa_TE_FILE_extent.active );
   /* SELECT any te_instance FROM INSTANCES OF TE_INSTANCE */
@@ -6929,7 +6933,7 @@ ooaofooa_TE_ABA_rollup()
 {
   ooaofooa_TE_EE * te_ee=0;ooaofooa_TE_C * te_c=0;sys_ParseStatus_t parseSuccessful;Escher_ObjectSet_s te_ees_space={0}; Escher_ObjectSet_s * te_ees = &te_ees_space;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;ooaofooa_ACT_BLK * empty_act_blk=0;
   /* ::oal( s:char b[1000000]; // Ccode ) */
-  char b[1000000]; // Ccode
+  ooaofooa_oal( "char b[1000000]; // Ccode" );
   /* ASSIGN parseSuccessful = parseSuccessful */
   parseSuccessful = ooaofooa_ParseStatus_parseSuccessful_e;
   /* SELECT any empty_act_blk FROM INSTANCES OF ACT_BLK WHERE FALSE */
@@ -6969,11 +6973,11 @@ ooaofooa_TE_ABA_rollup()
       /* IF ( not_empty te_blk ) */
       if ( ( 0 != te_blk ) ) {
         /* ::oal( s:te_aba->code = &b[0]; *te_aba->code = 0; // Ccode ) */
-        te_aba->code = &b[0]; *te_aba->code = 0; // Ccode
+        ooaofooa_oal( "te_aba->code = &b[0]; *te_aba->code = 0; // Ccode" );
         /* ::blck_xlate( te_aba:te_aba, te_blk:te_blk, trace:te_c.StmtTrace ) */
         ooaofooa_blck_xlate( te_aba, te_blk, te_c->StmtTrace );
         /* ::oal( s:te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode ) */
-        te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode
+        ooaofooa_oal( "te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode" );
       }
       else {
         /* ASSIGN te_aba.code = ( ( \n  / + * WARNING!  Skipping unsuccessful or unparsed action.  * ) + /\n ) */
@@ -7045,11 +7049,11 @@ ooaofooa_TE_ABA_rollup()
           /* SELECT one te_blk RELATED BY act_blk->TE_BLK[R2016] */
           te_blk = ( 0 != act_blk ) ? act_blk->TE_BLK_R2016 : 0;
           /* ::oal( s:te_aba->code = &b[0]; *te_aba->code = 0; // Ccode ) */
-          te_aba->code = &b[0]; *te_aba->code = 0; // Ccode
+          ooaofooa_oal( "te_aba->code = &b[0]; *te_aba->code = 0; // Ccode" );
           /* ::blck_xlate( te_aba:te_aba, te_blk:te_blk, trace:FALSE ) */
           ooaofooa_blck_xlate( te_aba, te_blk, FALSE );
           /* ::oal( s:te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode ) */
-          te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode
+          ooaofooa_oal( "te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode" );
         }
       }}}
       Escher_ClearSet( s_brgs ); 
@@ -7571,7 +7575,11 @@ ooaofooa_TM_SYSTAG_select()
 i_t
 ooaofooa_T_atoi( c_t * p_s )
 {
-return strtol( p_s, 0, 10 ); // Ccode
+  /* ::oal( s:return strtol( p_s, 0, 10 ); ) */
+  ooaofooa_oal( "return strtol( p_s, 0, 10 );" );
+  /* RETURN 0 */
+  {i_t xtumlOALrv = 0;
+  return xtumlOALrv;}
 }
 
 /*
@@ -8491,8 +8499,10 @@ ooaofooa_UserSuppliedDataTypeIncludes()
   Escher_IteratorReset( &iterspecial_te_dt, special_te_dts );
   while ( (iispecial_te_dt = (ooaofooa_TE_DT *)Escher_IteratorNext( &iterspecial_te_dt )) != 0 ) {
     special_te_dt = iispecial_te_dt; {
-    /* ASSIGN s = ( ( s + #include \" ) + ( special_te_dt.Include_File + \"\n ) ) */
-    s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, "#include \"" ), Escher_stradd( special_te_dt->Include_File, "\"\n" ) ) ); // Ccode
+    /* ASSIGN s = ( ( s + #include  ) + ( special_te_dt.Include_File + \n ) ) */
+    s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, "#include " ), Escher_stradd( special_te_dt->Include_File, "\n" ) ) );
+    /* ::oal( s:s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, #include  ), Escher_stradd( special_te_dt->Include_File, \n ) ) ); // Ccode ) */
+    ooaofooa_oal( "s = Escher_strcpy( s, Escher_stradd( Escher_stradd( s, #include  ), Escher_stradd( special_te_dt->Include_File, \n ) ) ); // Ccode" );
   }}}
   /* RETURN s */
   {c_t * xtumlOALrv = s;
@@ -8680,10 +8690,8 @@ ooaofooa_a0()
     ooaofooa_MapDataTypeAsPointer( "*", "stringpointer", "", "c_t" );
     Escher_ClearSet( o_attrs );
   }
-mark_pass("1"); // Ccode
   /* ::sys_populate(  ) */
   ooaofooa_sys_populate();
-mark_pass("2"); // Ccode
   /* SELECT any te_sys FROM INSTANCES OF TE_SYS */
   te_sys = (ooaofooa_TE_SYS *) Escher_SetGetAny( &pG_ooaofooa_TE_SYS_extent.active );
   /* ::sys_analyze( te_sys:te_sys ) */
@@ -8749,11 +8757,11 @@ ooaofooa_aba_code_append( c_t * p_s, ooaofooa_TE_ABA * p_te_aba )
   /* ASSIGN te_aba = PARAM.te_aba */
   te_aba = p_te_aba;
   /* ASSIGN s = PARAM.s */
-  //s = Escher_strcpy( s, p_s );
+  s = Escher_strcpy( s, p_s );
   /* ASSIGN te_aba.code = ( te_aba.code + s ) */
-  //te_aba->code = Escher_strcpy( te_aba->code, Escher_stradd( te_aba->code, s ) );
+  te_aba->code = Escher_strcpy( te_aba->code, Escher_stradd( te_aba->code, s ) );
   /* ::oal( s:strcat( te_aba->code, p_s ); // Ccode ) */
-  strcat( te_aba->code, p_s ); // Ccode
+  ooaofooa_oal( "strcat( te_aba->code, p_s ); // Ccode" );
 }
 
 /*
@@ -9273,8 +9281,8 @@ ooaofooa_blck_xlate( ooaofooa_TE_ABA * p_te_aba, ooaofooa_TE_BLK * p_te_blk, con
         /* IF ( trace ) */
         if ( trace ) {
           c_t * statement_trace=0;
-          /* ASSIGN statement_trace = ( ( ( te_blk.indentation + XTUML_OAL_STMT_TRACE(  ) + ( T::s(te_blk.depth) + , \" ) ) + ( te_smt.OAL + \" );\n ) ) */
-          statement_trace = Escher_strcpy( statement_trace, Escher_stradd( Escher_stradd( Escher_stradd( te_blk->indentation, "XTUML_OAL_STMT_TRACE( " ), Escher_stradd( T_s( te_blk->depth ), ", \"" ) ), Escher_stradd( te_smt->OAL, "\" );\n" ) ) );
+          /* ASSIGN statement_trace = ( ( ( te_blk.indentation + XTUML_OAL_STMT_TRACE(  ) + ( T::s(te_blk.depth) + , \\" ) ) + ( te_smt.OAL + \\" );\n ) ) */
+          statement_trace = Escher_strcpy( statement_trace, Escher_stradd( Escher_stradd( Escher_stradd( te_blk->indentation, "XTUML_OAL_STMT_TRACE( " ), Escher_stradd( T_s( te_blk->depth ), ", \\"" ) ), Escher_stradd( te_smt->OAL, "\\" );\n" ) ) );
           /* ::aba_code_append( s:statement_trace, te_aba:te_aba ) */
           ooaofooa_aba_code_append( statement_trace, te_aba );
         }
@@ -9537,13 +9545,6 @@ ooaofooa_blk_declaration_append( c_t * p_s, ooaofooa_TE_BLK * p_te_blk )
   te_blk = p_te_blk;
   /* ASSIGN s = PARAM.s */
   s = Escher_strcpy( s, p_s );
-  if ( strlen( te_blk->declaration ) > 400 ) {
-    static char counter = 0;
-    if ( counter++ > 32 ) {
-      counter = 0;
-      s = Escher_stradd( s, "\n  " );
-    }
-  }
   /* ASSIGN te_blk.declaration = ( te_blk.declaration + s ) */
   te_blk->declaration = Escher_strcpy( te_blk->declaration, Escher_stradd( te_blk->declaration, s ) );
 }
@@ -10368,7 +10369,7 @@ ooaofooa_docgen_activity_elements( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa_EP_PKG
   }}}}}
   /* IF ( ( ( not_empty a_es or not_empty a_ns ) or not_empty a_aps ) ) */
   if ( ( ( ( ! Escher_SetIsEmpty( a_es ) ) || ( ! Escher_SetIsEmpty( a_ns ) ) ) || ( ! Escher_SetIsEmpty( a_aps ) ) ) ) {
-    ooaofooa_A_FJ * a_fj=0;ooaofooa_A_DM * a_dm=0;ooaofooa_A_FF * a_ff=0;ooaofooa_A_AF * a_af=0;ooaofooa_A_INI * a_ini=0;ooaofooa_A_OBJ * a_obj=0;ooaofooa_A_SS * a_ss=0;ooaofooa_A_AEA * a_aea=0;ooaofooa_A_ATE * a_ate=0;ooaofooa_A_GA * a_ga=0;ooaofooa_A_E * a_e=0;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0,0,0};c_t * format[3]={0,0,0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par;ooaofooa_DOC_SEC * doc_sec;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;Escher_ObjectSet_s a_objs_space={0}; Escher_ObjectSet_s * a_objs = &a_objs_space;Escher_ObjectSet_s a_sss_space={0}; Escher_ObjectSet_s * a_sss = &a_sss_space;Escher_ObjectSet_s a_aeas_space={0}; Escher_ObjectSet_s * a_aeas = &a_aeas_space;Escher_ObjectSet_s a_ates_space={0}; Escher_ObjectSet_s * a_ates = &a_ates_space;
+    ooaofooa_A_FJ * a_fj=0;ooaofooa_A_DM * a_dm=0;ooaofooa_A_FF * a_ff=0;ooaofooa_A_AF * a_af=0;ooaofooa_A_INI * a_ini=0;ooaofooa_A_OBJ * a_obj=0;ooaofooa_A_SS * a_ss=0;ooaofooa_A_AEA * a_aea=0;ooaofooa_A_ATE * a_ate=0;ooaofooa_A_GA * a_ga=0;ooaofooa_A_E * a_e=0;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0};c_t * format[3]={0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par;ooaofooa_DOC_SEC * doc_sec;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;Escher_ObjectSet_s a_objs_space={0}; Escher_ObjectSet_s * a_objs = &a_objs_space;Escher_ObjectSet_s a_sss_space={0}; Escher_ObjectSet_s * a_sss = &a_sss_space;Escher_ObjectSet_s a_aeas_space={0}; Escher_ObjectSet_s * a_aeas = &a_aeas_space;Escher_ObjectSet_s a_ates_space={0}; Escher_ObjectSet_s * a_ates = &a_ates_space;
   Escher_ObjectSet_s a_gas_space={0}; Escher_ObjectSet_s * a_gas = &a_gas_space;Escher_ObjectSet_s a_fjs_space={0}; Escher_ObjectSet_s * a_fjs = &a_fjs_space;Escher_ObjectSet_s a_dms_space={0}; Escher_ObjectSet_s * a_dms = &a_dms_space;Escher_ObjectSet_s a_ffs_space={0}; Escher_ObjectSet_s * a_ffs = &a_ffs_space;Escher_ObjectSet_s a_afs_space={0}; Escher_ObjectSet_s * a_afs = &a_afs_space;Escher_ObjectSet_s a_inis_space={0}; Escher_ObjectSet_s * a_inis = &a_inis_space;
     /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
     empty_doc_par = 0;
@@ -10757,7 +10758,7 @@ ooaofooa_docgen_associations( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa_EP_PKG * p_
   }}}}}
   /* IF ( not_empty r_rels ) */
   if ( ( ! Escher_SetIsEmpty( r_rels ) ) ) {
-    ooaofooa_R_REL * r_rel=0;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0,0,0};c_t * format[3]={0,0,0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par;ooaofooa_DOC_SEC * doc_sec;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;ooaofooa_DOC_SEC * empty_doc_sec=0;
+    ooaofooa_R_REL * r_rel=0;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0};c_t * format[3]={0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par;ooaofooa_DOC_SEC * doc_sec;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;ooaofooa_DOC_SEC * empty_doc_sec=0;
     /* SELECT any empty_doc_sec FROM INSTANCES OF DOC_SEC WHERE FALSE */
     empty_doc_sec = 0;
     /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
@@ -10828,7 +10829,7 @@ ooaofooa_docgen_classes( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa_EP_PKG * p_ep_pk
   }}}}}
   /* IF ( not_empty o_objs ) */
   if ( ( ! Escher_SetIsEmpty( o_objs ) ) ) {
-    ooaofooa_O_OBJ * o_obj=0;ooaofooa_DOC_PAR * previous_doc_par;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0,0,0};c_t * format[3]={0,0,0};ooaofooa_DOC_ROW * doc_row;ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par1;ooaofooa_DOC_SEC * doc_sec1;ooaofooa_O_ATTR * empty_o_attr=0;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;ooaofooa_DOC_SEC * empty_doc_sec=0;
+    ooaofooa_O_OBJ * o_obj=0;ooaofooa_DOC_PAR * previous_doc_par;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0};c_t * format[3]={0};ooaofooa_DOC_ROW * doc_row;ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par1;ooaofooa_DOC_SEC * doc_sec1;ooaofooa_O_ATTR * empty_o_attr=0;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;ooaofooa_DOC_SEC * empty_doc_sec=0;
     /* SELECT any empty_doc_sec FROM INSTANCES OF DOC_SEC WHERE FALSE */
     empty_doc_sec = 0;
     /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
@@ -11296,7 +11297,7 @@ ooaofooa_docgen_components( Escher_ObjectSet_s * p_c_cs, ooaofooa_DOC_SEC * p_do
     }
     /* IF ( not_empty c_pos ) */
     if ( ( ! Escher_SetIsEmpty( c_pos ) ) ) {
-      ooaofooa_C_PO * c_po=0;ooaofooa_DOC_SEC * doc_sec2;ooaofooa_DOC_ROW * doc_row;c_t * columns[5]={0,0,0,0,0};c_t * format[5]={0,0,0,0,0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par2;
+      ooaofooa_C_PO * c_po=0;ooaofooa_DOC_SEC * doc_sec2;ooaofooa_DOC_ROW * doc_row;c_t * columns[5]={0};c_t * format[5]={0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par2;
       /* ASSIGN doc_par2 = DOC_PAR::populate(doc_sec:empty_doc_sec, predecessor:doc_par1, text:) */
       doc_par2 = ooaofooa_DOC_PAR_op_populate(empty_doc_sec, doc_par1, "");
       /* ASSIGN doc_tbl = DOC_TBL::populate(doc_par:doc_par2, num_cols:5, title:( ( c_c.Name +   ) + Ports )) */
@@ -11577,7 +11578,7 @@ ooaofooa_docgen_datatypes( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa_EP_PKG * p_ep_
   }}}}}
   /* IF ( not_empty s_dts ) */
   if ( ( ! Escher_SetIsEmpty( s_dts ) ) ) {
-    ooaofooa_S_DT * s_dt=0;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0,0,0};c_t * format[3]={0,0,0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par;ooaofooa_DOC_SEC * doc_sec;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;
+    ooaofooa_S_DT * s_dt=0;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0};c_t * format[3]={0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par;ooaofooa_DOC_SEC * doc_sec;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;
     /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
     empty_doc_par = 0;
     /* SELECT any empty_doc_row FROM INSTANCES OF DOC_ROW WHERE FALSE */
@@ -11689,7 +11690,7 @@ ooaofooa_docgen_external_entities( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa_EP_PKG
   }}}}}
   /* IF ( not_empty s_ees ) */
   if ( ( ! Escher_SetIsEmpty( s_ees ) ) ) {
-    ooaofooa_S_EE * s_ee=0;ooaofooa_DOC_SEC * doc_sec2;ooaofooa_DOC_ROW * doc_row1;c_t * columns[4]={0,0,0,0};c_t * format[4]={0,0,0,0};ooaofooa_DOC_ROW * doc_row;ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par1;ooaofooa_DOC_SEC * doc_sec1;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;ooaofooa_DOC_SEC * empty_doc_sec=0;
+    ooaofooa_S_EE * s_ee=0;ooaofooa_DOC_SEC * doc_sec2;ooaofooa_DOC_ROW * doc_row1;c_t * columns[4]={0};c_t * format[4]={0};ooaofooa_DOC_ROW * doc_row;ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par1;ooaofooa_DOC_SEC * doc_sec1;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;ooaofooa_DOC_SEC * empty_doc_sec=0;
     /* SELECT any empty_doc_sec FROM INSTANCES OF DOC_SEC WHERE FALSE */
     empty_doc_sec = 0;
     /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
@@ -11826,7 +11827,7 @@ ooaofooa_docgen_functions( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa_EP_PKG * p_ep_
   }}}}}
   /* IF ( not_empty s_syncs ) */
   if ( ( ! Escher_SetIsEmpty( s_syncs ) ) ) {
-    ooaofooa_S_SYNC * s_sync=0;ooaofooa_DOC_SEC * doc_sec2;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0,0,0};c_t * format[3]={0,0,0};ooaofooa_DOC_ROW * doc_row;ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par1;ooaofooa_DOC_SEC * doc_sec1;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;ooaofooa_DOC_SEC * empty_doc_sec=0;
+    ooaofooa_S_SYNC * s_sync=0;ooaofooa_DOC_SEC * doc_sec2;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0};c_t * format[3]={0};ooaofooa_DOC_ROW * doc_row;ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par1;ooaofooa_DOC_SEC * doc_sec1;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;ooaofooa_DOC_SEC * empty_doc_sec=0;
     /* SELECT any empty_doc_sec FROM INSTANCES OF DOC_SEC WHERE FALSE */
     empty_doc_sec = 0;
     /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
@@ -11955,7 +11956,7 @@ ooaofooa_docgen_interaction_participants( ooaofooa_DOC_SEC * p_doc_sec, ooaofooa
   }}}}}
   /* IF ( ( not_empty sq_ps or not_empty msg_ms ) ) */
   if ( ( ( ! Escher_SetIsEmpty( sq_ps ) ) || ( ! Escher_SetIsEmpty( msg_ms ) ) ) ) {
-    ooaofooa_MSG_R * msg_r=0;ooaofooa_MSG_SM * msg_sm=0;ooaofooa_MSG_AM * msg_am=0;ooaofooa_SQ_P * sq_p=0;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0,0,0};c_t * format[3]={0,0,0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par;ooaofooa_DOC_SEC * doc_sec;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;Escher_ObjectSet_s msg_rs_space={0}; Escher_ObjectSet_s * msg_rs = &msg_rs_space;Escher_ObjectSet_s msg_sms_space={0}; Escher_ObjectSet_s * msg_sms = &msg_sms_space;Escher_ObjectSet_s msg_ams_space={0}; Escher_ObjectSet_s * msg_ams = &msg_ams_space;
+    ooaofooa_MSG_R * msg_r=0;ooaofooa_MSG_SM * msg_sm=0;ooaofooa_MSG_AM * msg_am=0;ooaofooa_SQ_P * sq_p=0;ooaofooa_DOC_ROW * doc_row1;c_t * columns[3]={0};c_t * format[3]={0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par;ooaofooa_DOC_SEC * doc_sec;ooaofooa_DOC_ROW * empty_doc_row=0;ooaofooa_DOC_PAR * empty_doc_par=0;Escher_ObjectSet_s msg_rs_space={0}; Escher_ObjectSet_s * msg_rs = &msg_rs_space;Escher_ObjectSet_s msg_sms_space={0}; Escher_ObjectSet_s * msg_sms = &msg_sms_space;Escher_ObjectSet_s msg_ams_space={0}; Escher_ObjectSet_s * msg_ams = &msg_ams_space;
     /* SELECT any empty_doc_par FROM INSTANCES OF DOC_PAR WHERE FALSE */
     empty_doc_par = 0;
     /* SELECT any empty_doc_row FROM INSTANCES OF DOC_ROW WHERE FALSE */
@@ -12521,7 +12522,7 @@ ooaofooa_docgen_interfaces( Escher_ObjectSet_s * p_c_is, ooaofooa_DOC_SEC * p_do
   Escher_IteratorReset( &iterc_i, c_is );
   while ( (iic_i = (ooaofooa_C_I *)Escher_IteratorNext( &iterc_i )) != 0 ) {
     c_i = iic_i; {
-    ooaofooa_C_EP * c_ep=0;ooaofooa_DOC_ROW * doc_row;c_t * columns[4]={0,0,0,0};c_t * format[4]={0,0,0,0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par2;ooaofooa_DOC_PAR * doc_par1;ooaofooa_DOC_SEC * doc_sec1;Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
+    ooaofooa_C_EP * c_ep=0;ooaofooa_DOC_ROW * doc_row;c_t * columns[4]={0};c_t * format[4]={0};ooaofooa_DOC_TBL * doc_tbl;ooaofooa_DOC_PAR * doc_par2;ooaofooa_DOC_PAR * doc_par1;ooaofooa_DOC_SEC * doc_sec1;Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
     /* ASSIGN doc_sec1 = DOC_SEC::populate(parent_doc_sec:PARAM.doc_sec, subtitle:Interface, title:c_i.Name) */
     doc_sec1 = ooaofooa_DOC_SEC_op_populate(p_doc_sec, "Interface", c_i->Name);
     /* ASSIGN doc_par1 = DOC_PAR::populate(doc_sec:doc_sec1, predecessor:empty_doc_par, text:c_i.Descrip) */
@@ -18923,7 +18924,7 @@ ooaofooa_smt_select_related( ooaofooa_ACT_SEL * p_act_sel, const bool p_by_where
         depth = ( depth - 1 );
       }
       /* ::oal( s:T_b( \\n ); // Ccode ) */
-      T_b( "\n" ); // Ccode
+      ooaofooa_oal( "T_b( \\n ); // Ccode" );
     }
     /* IF ( te_select_related.by_where ) */
     if ( te_select_related->by_where ) {
@@ -24186,8 +24187,8 @@ te_ee->ID = (Escher_UniqueID_t) te_ee;
           else if ( ( Escher_strcmp( "%s", te_dt->string_format ) == 0 ) ) {
             /* ASSIGN te_class.attribute_format = ( ( ( te_class.attribute_format + delimiter ) + ( '' + te_dt.string_format ) ) + '' ) */
             te_class->attribute_format = Escher_strcpy( te_class->attribute_format, Escher_stradd( Escher_stradd( Escher_stradd( te_class->attribute_format, delimiter ), Escher_stradd( "''", te_dt->string_format ) ), "''" ) );
-            /* ASSIGN te_class.attribute_dump = ( ( ( te_class.attribute_dump + ,\n    ( 0 != self-> ) + ( te_attr.GeneratedName +  ) ? self-> ) ) + ( ( te_attr.GeneratedName +  : \\" ) + \\" ) ) */
-            te_class->attribute_dump = Escher_strcpy( te_class->attribute_dump, Escher_stradd( Escher_stradd( Escher_stradd( te_class->attribute_dump, ",\n    ( 0 != self->" ), Escher_stradd( te_attr->GeneratedName, " ) ? self->" ) ), Escher_stradd( Escher_stradd( te_attr->GeneratedName, " : \"" ), "\"" ) ) );
+            /* ASSIGN te_class.attribute_dump = ( ( ( te_class.attribute_dump + ,\n    ( 0 != self-> ) + ( te_attr.GeneratedName +  ) ? self-> ) ) + ( ( te_attr.GeneratedName +  :  ) +  ) ) */
+            te_class->attribute_dump = Escher_strcpy( te_class->attribute_dump, Escher_stradd( Escher_stradd( Escher_stradd( te_class->attribute_dump, ",\n    ( 0 != self->" ), Escher_stradd( te_attr->GeneratedName, " ) ? self->" ) ), Escher_stradd( Escher_stradd( te_attr->GeneratedName, " : " ), "" ) ) );
           }
           else {
             /* ASSIGN te_class.attribute_format = ( ( te_class.attribute_format + delimiter ) + te_dt.string_format ) */
@@ -24642,8 +24643,8 @@ ooaofooa_target_factory( ooaofooa_TE_TARGET * p_te_target )
   te_target = p_te_target;
   /* ASSIGN te_target.language = C */
   te_target->language = Escher_strcpy( te_target->language, "C" );
-  /* ASSIGN te_target.c2cplusplus_linkage_begin = #ifdef\t__cplusplus\nextern\t\"C\"\t{\n#endif */
-  te_target->c2cplusplus_linkage_begin = Escher_strcpy( te_target->c2cplusplus_linkage_begin, "#ifdef\t__cplusplus\nextern\t\"C\"\t{\n#endif" );
+  /* ASSIGN te_target.c2cplusplus_linkage_begin = #ifdef\t__cplusplus\nextern\t\\"C\\"\t{\n#endif */
+  te_target->c2cplusplus_linkage_begin = Escher_strcpy( te_target->c2cplusplus_linkage_begin, "#ifdef\t__cplusplus\nextern\t\\"C\\"\t{\n#endif" );
   /* ASSIGN te_target.c2cplusplus_linkage_end = #ifdef\t__cplusplus\n}\n#endif */
   te_target->c2cplusplus_linkage_end = Escher_strcpy( te_target->c2cplusplus_linkage_end, "#ifdef\t__cplusplus\n}\n#endif" );
   /* ASSIGN te_target.main = main */
@@ -26277,9 +26278,10 @@ ooaofooa_val_constant_values()
       ooaofooa_TE_STRING * te_string=0;
       /* SELECT any te_string FROM INSTANCES OF TE_STRING */
       te_string = (ooaofooa_TE_STRING *) Escher_SetGetAny( &pG_ooaofooa_TE_STRING_extent.active );
-      /* ASSIGN te_val.buffer = ( ( \" + cnst_lsc.Value ) + \" ) */
-      te_val->buffer = Escher_strcpy( te_val->buffer, Escher_stradd( Escher_stradd( "\"", cnst_lsc->Value ), "\"" ) ); // Ccode
+      /* ASSIGN te_val.buffer = ( ( \\" + cnst_lsc.Value ) + \\" ) */
+      te_val->buffer = Escher_strcpy( te_val->buffer, Escher_stradd( Escher_stradd( "\\"", cnst_lsc->Value ), "\\"" ) );
       /* ::oal( s: // Ccode ) */
+      ooaofooa_oal( " // Ccode" );
       /* ASSIGN te_val.dimensions = 1 */
       te_val->dimensions = 1;
       /* ASSIGN te_val.array_spec = ( ( [ + te_string.max_string_length ) + ] ) */
@@ -26623,18 +26625,21 @@ ooaofooa_val_literal_string_values()
     te_val = V_VAL_R801->TE_VAL_R2040;
 }}}
     /* ASSIGN s = v_lst.Value */
-    s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode
+    s = Escher_strcpy( s, v_lst->Value );
     /* ::oal( s:s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode ) */
+    ooaofooa_oal( "s = Escher_strcpy( s, T_t( v_lst->Value ) ); // Ccode" );
     /* ::oal( s:if ( strstr( s, ({ ) ) { // Ccode ) */
+    ooaofooa_oal( if ( strstr( s, ({ ) ) { // Ccode );
     /* IF ( ( ({ == s ) ) */
-    if ( strstr( s, "({" ) ) { // Ccode
+    if ( ( Escher_strcmp( ({, s ) == 0 ) ) {
       /* ASSIGN te_val.buffer = s */
       te_val->buffer = Escher_strcpy( te_val->buffer, s );
     }
     else {
-      /* ASSIGN te_val.buffer = ( ( \" + v_lst.Value ) + \" ) */
-      te_val->buffer = Escher_strcpy( te_val->buffer, Escher_stradd( Escher_stradd( "\"", v_lst->Value ), "\"" ) ); // Ccode
+      /* ASSIGN te_val.buffer = ( ( \\" + v_lst.Value ) + \\" ) */
+      te_val->buffer = Escher_strcpy( te_val->buffer, Escher_stradd( Escher_stradd( "\\"", v_lst->Value ), "\\"" ) );
       /* ::oal( s: // Ccode ) */
+      ooaofooa_oal( " // Ccode" );
     }
     /* ASSIGN te_val.OAL = ( (  + v_lst.Value ) +  ) */
     te_val->OAL = Escher_strcpy( te_val->OAL, Escher_stradd( Escher_stradd( "", v_lst->Value ), "" ) );

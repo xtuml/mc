@@ -92,7 +92,7 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
   } else if ( strstr( argv0, "mcmasl" ) ) {
     ooaofooa_a0();
     ooaofooa_masl_project();
-  } else if ( strstr( argv0, "mcmasldomain" ) ) {
+  } else if ( strstr( argv0, "mcdomain" ) ) {
     ooaofooa_a0();
     ooaofooa_masl_domain();
   }

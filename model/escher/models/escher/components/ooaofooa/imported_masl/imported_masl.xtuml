@@ -4,8 +4,8 @@ INSERT INTO EP_PKG
 	VALUES ("bc04128c-2d5d-40bb-b88f-2a8eeb572379",
 	"00000000-0000-0000-0000-000000000000",
 	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'imported_masl',
 	'masl',
-	'',
 	0);
 INSERT INTO GD_MD
 	VALUES ("ea64395a-42eb-4783-bcbc-7a3cd0bc25c5",
@@ -24,8 +24,8 @@ INSERT INTO GD_MD
 	0,
 	0,
 	0,
-	'',
-	'escher::components::ooaofooa::masl');
+	'4.1.17',
+	'escher::components::ooaofooa::imported_masl');
 INSERT INTO DIM_DIA
 	VALUES ("ea64395a-42eb-4783-bcbc-7a3cd0bc25c5",
 	'',

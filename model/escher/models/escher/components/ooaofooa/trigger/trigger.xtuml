@@ -1,0 +1,75 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("0351332c-a88d-4a01-936e-025e35416532",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'trigger',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("5ca770fb-fc9b-4a9c-9bce-9bb676d9dde2",
+	112,
+	"0351332c-a88d-4a01-936e-025e35416532",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	200,
+	150,
+	0,
+	'4.1.17',
+	'escher::components::ooaofooa::trigger');
+INSERT INTO DIM_DIA
+	VALUES ("5ca770fb-fc9b-4a9c-9bce-9bb676d9dde2",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("2d8d3e0c-a3fe-4ad3-b977-bdb0c6d71a5b",
+	"00000000-0000-0000-0000-000000000000",
+	'hoover_docgen_document_masl',
+	'',
+	'select any doc_doc from instances of DOC_DOC;  // document/Document
+select any project from instances of project;  // masl/project
+::docgen();  // docgen/docgen
+::masl_project();  // maslout/masl_project',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("2d8d3e0c-a3fe-4ad3-b977-bdb0c6d71a5b",
+	1,
+	"0351332c-a88d-4a01-936e-025e35416532",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("0351332c-a88d-4a01-936e-025e35416532",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"6dfad0c7-c5dd-47a8-8ed2-939c030112bb",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("6dfad0c7-c5dd-47a8-8ed2-939c030112bb",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'ooaofooa',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../ooaofooa.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'escher',
+	1,
+	'../../../escher.xtuml');

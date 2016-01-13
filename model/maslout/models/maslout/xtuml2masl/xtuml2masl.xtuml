@@ -128,7 +128,6 @@ else
 end if;
 
 
-/*
 select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
 for each o_obj in o_objs
   object = object::populate( name:o_obj.Name, domain:domain );
@@ -217,7 +216,6 @@ else
 project = project::populate( name:tm_build.package_to_build );
 
 select many te_cs from instances of TE_C where ( selected.included_in_build );
-/*
 first_te_c = ::TE_C_sort( te_cs:te_cs );
 te_c = first_te_c;
 while ( not_empty te_c )
@@ -229,7 +227,7 @@ while ( not_empty te_c )
   
     terminator = terminator::populate( name:te_po.Name, domain:domain );
 
-    select one te_mact related by te_po->TE_MACT[R2099.''has first''];
+    select one te_mact related by te_po->TE_MACT[R2099];
     while ( not_empty te_mact )
     
       // CDS figure out the real difference between function and service
@@ -261,8 +259,6 @@ while ( not_empty te_c )
 
   select one te_c related by te_c->TE_C[R2017.''precedes''];
 end while;
-
-*/
 end if;
 
 ',
