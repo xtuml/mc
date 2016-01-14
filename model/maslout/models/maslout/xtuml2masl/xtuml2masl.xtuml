@@ -206,7 +206,7 @@ INSERT INTO S_SYNC
 	'// Mappings:
 // xtUML  -->  MASL
 // system configuration package --> project
-// component in configuration package --> project domain
+// component in configuration package --> (project)domain
 // port --> terminator
 // message --> terminator function or service
 
@@ -232,9 +232,6 @@ for each c_c in c_cs
 
   value[0] = c_c.Name;
   population::populate( element:"domain", value:value );
-  // hack temp
-  select any domain from instances of domain where ( selected.name == c_c.Name );
-  // hack temp
   
   select many c_pos related by c_c->C_PO[R4010];
   for each c_po in c_pos
@@ -256,22 +253,28 @@ for each c_c in c_cs
       value[2] = flavor;
       population::populate( element:"activity", value:value );
       
-      select any parameter from instances of parameter where ( false );
-      select many c_pps related by c_ep->C_PP[R4006];
-      for each c_pp in c_pps
+      select any c_pp related by c_ep->C_PP[R4006];
+      first_c_pp = c_pp;
+      while ( not_empty c_pp )
+        first_c_pp = c_pp;
+        select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
+      end while;
+      while ( not_empty c_pp )
         // CDS model and pass correct type
+        // CDS model and pass correct direction
         //parameter = parameter::populate( name:c_pp.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
-      end for;
+        value[0] = "mytype";
+        value[1] = "in";
+        value[2] = c_pp.Name;
+        value[3] = "in";
+        population::populate( element:"parameter", value:value );
+        select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
+      end while;
       
     end for;
     
   end for;
     
-  select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
-  for each o_obj in o_objs
-    object = object::populate( name:o_obj.Name, domain:domain );
-  end for;
-
 end for;
 
 ',
