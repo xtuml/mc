@@ -118,11 +118,11 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'xtuml_component_to_masl_domain',
 	'',
-	'select any domain from instances of domain where ( false );
+	'value[8] = "";
 select any c_c from instances of C_C where ( selected.Name == param.name );
 if ( not_empty c_c )
-  select any empty_project from instances of project where ( false );
-  domain = domain::populate( name:param.name, project:empty_project );
+  value[0] = c_c.Name;
+  population::populate( element:"domain", value:value );
 else
   TRACE::log( flavor:"failure", id:34, message:"did not find component with name " + param.name );
 end if;
@@ -130,7 +130,8 @@ end if;
 
 select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
 for each o_obj in o_objs
-  object = object::populate( name:o_obj.Name, domain:domain );
+  value[0] = o_obj.Name;
+  population::populate( element:"object", value:value );
 end for;
 
 /*
@@ -218,20 +219,28 @@ if ( markedsystems > 1 )
   TRACE::log( flavor:"failure", id:2, message:"WARNING:  More than one package is marked as a system build... choose only one." );
 end if;
 
-project = project::populate( name:param.name );
+value[8] = "";
+value[0] = param.name;
+population::populate( element:"project", value:value );
 
+// CDS revisit this
 //select many direct_c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001];
 //select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
 select many c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
 //c_cs = direct_c_cs + referred_c_cs;
 for each c_c in c_cs
 
-  domain = domain::populate( name:c_c.Name, project:project );
+  value[0] = c_c.Name;
+  population::populate( element:"domain", value:value );
+  // hack temp
+  select any domain from instances of domain where ( selected.name == c_c.Name );
+  // hack temp
   
   select many c_pos related by c_c->C_PO[R4010];
   for each c_po in c_pos
   
-    terminator = terminator::populate( name:c_po.Name, domain:domain );
+    value[0] = c_po.Name;
+    population::populate( element:"terminator", value:value );
 
     select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
     for each c_ep in c_eps
@@ -241,24 +250,26 @@ for each c_c in c_cs
       //if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
         flavor = "service";
       //end if;
-      activity = activity::populate( name:c_ep.Name, terminator:terminator, flavor:flavor );
+      //activity = activity::populate( name:c_ep.Name, terminator:terminator, flavor:flavor );
+      value[0] = c_ep.Name;
+      value[1] = c_po.Name;
+      value[2] = flavor;
+      population::populate( element:"activity", value:value );
       
       select any parameter from instances of parameter where ( false );
       select many c_pps related by c_ep->C_PP[R4006];
       for each c_pp in c_pps
         // CDS model and pass correct type
-        parameter = parameter::populate( name:c_pp.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
+        //parameter = parameter::populate( name:c_pp.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
       end for;
       
     end for;
     
-    // CDS hacked
-    //select many o_objs related by te_c->TE_CLASS[R2064]->O_OBJ[R2019];
-    select many o_objs from instances of O_OBJ;
-    for each o_obj in o_objs
-      object = object::populate( name:o_obj.Name, domain:domain );
-    end for;
+  end for;
     
+  select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+  for each o_obj in o_objs
+    object = object::populate( name:o_obj.Name, domain:domain );
   end for;
 
 end for;
