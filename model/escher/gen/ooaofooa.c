@@ -14651,8 +14651,8 @@ ooaofooa_masl_project()
   LOG_LogInfo( "Starting Project" );
   /* T::clear(  ) */
   T_clear();
-  /* ::xtuml_package_to_masl_project(  ) */
-  ooaofooa_xtuml_package_to_masl_project();
+  /* ::xtuml_package_to_masl_project( name:System ) */
+  ooaofooa_xtuml_package_to_masl_project( "System" );
   /* IF ( not project::validate() ) */
   if ( !ooaofooa_project_op_validate() ) {
     /* LOG::LogFailure( message:project did not validate. ) */
@@ -27567,7 +27567,7 @@ ooaofooa_where_clause_mark_selected_attributes( ooaofooa_V_BIN * p_v_bin )
 void
 ooaofooa_xtuml_component_to_masl_domain( c_t * p_name )
 {
-  ooaofooa_C_C * c_c=0;ooaofooa_domain * domain=0;
+  ooaofooa_O_OBJ * o_obj=0;ooaofooa_C_C * c_c=0;ooaofooa_domain * domain=0;Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;
   /* SELECT any domain FROM INSTANCES OF domain WHERE FALSE */
   domain = 0;
   /* SELECT any c_c FROM INSTANCES OF C_C WHERE ( SELECTED.Name == PARAM.name ) */
@@ -27594,39 +27594,171 @@ ooaofooa_xtuml_component_to_masl_domain( c_t * p_name )
     /* TRACE::log( flavor:failure, id:34, message:( did not find component with name  + PARAM.name ) ) */
     TRACE_log( "failure", 34, Escher_stradd( "did not find component with name ", p_name ) );
   }
+  /* SELECT many o_objs RELATED BY c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001] */
+  Escher_ClearSet( o_objs );
+  {  if ( 0 != c_c ) {
+  ooaofooa_PE_PE * PE_PE_R8003_contains;
+  Escher_Iterator_s iPE_PE_R8003_contains;
+  Escher_IteratorReset( &iPE_PE_R8003_contains, &c_c->PE_PE_R8003_contains );
+  while ( 0 != ( PE_PE_R8003_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) {
+  ooaofooa_EP_PKG * R8001_subtype = (ooaofooa_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
+  if ( 0 != R8001_subtype )  if ( ( 0 != PE_PE_R8003_contains ) && ( ooaofooa_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) ) {
+  ooaofooa_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &R8001_subtype->PE_PE_R8000_contains );
+  while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( ooaofooa_O_OBJ_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {ooaofooa_O_OBJ * R8001_subtype = PE_PE_R8000_contains->R8001_subtype;
+  if ( ! Escher_SetContains( (Escher_ObjectSet_s *) o_objs, R8001_subtype ) ) {
+    Escher_SetInsertElement( (Escher_ObjectSet_s *) o_objs, R8001_subtype );
+  }}}}}}}
+  /* FOR EACH o_obj IN o_objs */
+  { Escher_Iterator_s itero_obj;
+  ooaofooa_O_OBJ * iio_obj;
+  Escher_IteratorReset( &itero_obj, o_objs );
+  while ( (iio_obj = (ooaofooa_O_OBJ *)Escher_IteratorNext( &itero_obj )) != 0 ) {
+    o_obj = iio_obj; {
+    ooaofooa_object * object;
+    /* ASSIGN object = object::populate(domain:domain, name:o_obj.Name) */
+    object = ooaofooa_object_op_populate(domain, o_obj->Name);
+  }}}
+  Escher_ClearSet( o_objs ); 
 }
 
 /*
  * Domain Function:  xtuml_package_to_masl_project
  */
 void
-ooaofooa_xtuml_package_to_masl_project()
+ooaofooa_xtuml_package_to_masl_project( c_t * p_name )
 {
-  ooaofooa_TM_BUILD * tm_build=0;
-  /* SELECT any tm_build FROM INSTANCES OF TM_BUILD */
-  tm_build = (ooaofooa_TM_BUILD *) Escher_SetGetAny( &pG_ooaofooa_TM_BUILD_extent.active );
-  /* IF ( empty tm_build ) */
-  if ( ( 0 == tm_build ) ) {
-    /* TRACE::log( flavor:failure, id:1, message:no configuration package marked ) */
-    TRACE_log( "failure", 1, "no configuration package marked" );
-  }
-  else {
-    ooaofooa_project * project;Escher_ObjectSet_s te_cs_space={0}; Escher_ObjectSet_s * te_cs = &te_cs_space;
-    /* ASSIGN project = project::populate(name:tm_build.package_to_build) */
-    project = ooaofooa_project_op_populate(tm_build->package_to_build);
-    /* SELECT many te_cs FROM INSTANCES OF TE_C WHERE SELECTED.included_in_build */
-    Escher_ClearSet( te_cs );
-    { ooaofooa_TE_C * selected;
-      Escher_Iterator_s iterte_csooaofooa_TE_C;
-      Escher_IteratorReset( &iterte_csooaofooa_TE_C, &pG_ooaofooa_TE_C_extent.active );
-      while ( (selected = (ooaofooa_TE_C *) Escher_IteratorNext( &iterte_csooaofooa_TE_C )) != 0 ) {
-        if ( selected->included_in_build ) {
-          Escher_SetInsertElement( te_cs, selected );
-        }
+  ooaofooa_C_C * c_c=0;ooaofooa_project * project;i_t markedsystems;Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;
+  /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == PARAM.name ) */
+  Escher_ClearSet( ep_pkgs );
+  { ooaofooa_EP_PKG * selected;
+    Escher_Iterator_s iterep_pkgsooaofooa_EP_PKG;
+    Escher_IteratorReset( &iterep_pkgsooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
+    while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgsooaofooa_EP_PKG )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
+        Escher_SetInsertElement( ep_pkgs, selected );
       }
     }
-    Escher_ClearSet( te_cs );
   }
+  /* ASSIGN markedsystems = cardinality ep_pkgs */
+  markedsystems = Escher_SetCardinality( ep_pkgs );
+  /* IF ( empty ep_pkgs ) */
+  if ( Escher_SetIsEmpty( ep_pkgs ) ) {
+    /* TRACE::log( flavor:failure, id:1, message:( ERROR:  Marked configuration package was not found in model: + PARAM.name ) ) */
+    TRACE_log( "failure", 1, Escher_stradd( "ERROR:  Marked configuration package was not found in model:", p_name ) );
+  }
+  /* IF ( ( markedsystems > 1 ) ) */
+  if ( ( markedsystems > 1 ) ) {
+    /* TRACE::log( flavor:failure, id:2, message:WARNING:  More than one package is marked as a system build... choose only one. ) */
+    TRACE_log( "failure", 2, "WARNING:  More than one package is marked as a system build... choose only one." );
+  }
+  /* ASSIGN project = project::populate(name:PARAM.name) */
+  project = ooaofooa_project_op_populate(p_name);
+  /* SELECT many c_cs RELATED BY ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201] */
+  Escher_ClearSet( c_cs );
+  {  ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
+  Escher_Iterator_s start_many_iterator;
+  Escher_IteratorReset( &start_many_iterator, ep_pkgs );
+  while ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) {
+  ooaofooa_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &ooaofooa_EP_PKG_linkage->PE_PE_R8000_contains );
+  while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
+  ooaofooa_CL_IC * R8001_subtype = (ooaofooa_CL_IC *) PE_PE_R8000_contains->R8001_subtype;
+  if ( 0 != R8001_subtype )  if ( ( 0 != PE_PE_R8000_contains ) && ( ooaofooa_CL_IC_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) ) {
+  {ooaofooa_C_C * C_C_R4201_represents = R8001_subtype->C_C_R4201_represents;
+  if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_cs, C_C_R4201_represents ) ) {
+    Escher_SetInsertElement( (Escher_ObjectSet_s *) c_cs, C_C_R4201_represents );
+  }}}}}}
+  /* FOR EACH c_c IN c_cs */
+  { Escher_Iterator_s iterc_c;
+  ooaofooa_C_C * iic_c;
+  Escher_IteratorReset( &iterc_c, c_cs );
+  while ( (iic_c = (ooaofooa_C_C *)Escher_IteratorNext( &iterc_c )) != 0 ) {
+    c_c = iic_c; {
+    ooaofooa_C_PO * c_po=0;ooaofooa_domain * domain;Escher_ObjectSet_s c_pos_space={0}; Escher_ObjectSet_s * c_pos = &c_pos_space;
+    /* ASSIGN domain = domain::populate(name:c_c.Name, project:project) */
+    domain = ooaofooa_domain_op_populate(c_c->Name, project);
+    /* SELECT many c_pos RELATED BY c_c->C_PO[R4010] */
+    Escher_ClearSet( c_pos );
+    if ( 0 != c_c ) {
+      Escher_CopySet( c_pos, &c_c->C_PO_R4010_communicates_through );
+    }
+    /* FOR EACH c_po IN c_pos */
+    { Escher_Iterator_s iterc_po;
+    ooaofooa_C_PO * iic_po;
+    Escher_IteratorReset( &iterc_po, c_pos );
+    while ( (iic_po = (ooaofooa_C_PO *)Escher_IteratorNext( &iterc_po )) != 0 ) {
+      c_po = iic_po; {
+      ooaofooa_O_OBJ * o_obj=0;ooaofooa_C_EP * c_ep=0;ooaofooa_terminator * terminator;Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
+      /* ASSIGN terminator = terminator::populate(domain:domain, name:c_po.Name) */
+      terminator = ooaofooa_terminator_op_populate(domain, c_po->Name);
+      /* SELECT many c_eps RELATED BY c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003] */
+      Escher_ClearSet( c_eps );
+      {      if ( 0 != c_po ) {
+      ooaofooa_C_IR * C_IR_R4016_exposes;
+      Escher_Iterator_s iC_IR_R4016_exposes;
+      Escher_IteratorReset( &iC_IR_R4016_exposes, &c_po->C_IR_R4016_exposes );
+      while ( 0 != ( C_IR_R4016_exposes = (ooaofooa_C_IR *) Escher_IteratorNext( &iC_IR_R4016_exposes ) ) ) {
+      ooaofooa_C_I * C_I_R4012_may_be_defined_by = C_IR_R4016_exposes->C_I_R4012_may_be_defined_by;
+      if ( 0 != C_I_R4012_may_be_defined_by ) {
+      ooaofooa_C_EP * C_EP_R4003_is_defined_by;
+      Escher_Iterator_s iC_EP_R4003_is_defined_by;
+      Escher_IteratorReset( &iC_EP_R4003_is_defined_by, &C_I_R4012_may_be_defined_by->C_EP_R4003_is_defined_by );
+      while ( 0 != ( C_EP_R4003_is_defined_by = (ooaofooa_C_EP *) Escher_IteratorNext( &iC_EP_R4003_is_defined_by ) ) ) {
+        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_eps, C_EP_R4003_is_defined_by ) ) {
+          Escher_SetInsertElement( (Escher_ObjectSet_s *) c_eps, C_EP_R4003_is_defined_by );
+      }}}}}}
+      /* FOR EACH c_ep IN c_eps */
+      { Escher_Iterator_s iterc_ep;
+      ooaofooa_C_EP * iic_ep;
+      Escher_IteratorReset( &iterc_ep, c_eps );
+      while ( (iic_ep = (ooaofooa_C_EP *)Escher_IteratorNext( &iterc_ep )) != 0 ) {
+        c_ep = iic_ep; {
+        ooaofooa_C_PP * c_pp=0;ooaofooa_activity * activity;c_t * flavor=0;ooaofooa_parameter * parameter=0;Escher_ObjectSet_s c_pps_space={0}; Escher_ObjectSet_s * c_pps = &c_pps_space;
+        /* ASSIGN flavor = function */
+        flavor = Escher_strcpy( flavor, "function" );
+        /* ASSIGN flavor = service */
+        flavor = Escher_strcpy( flavor, "service" );
+        /* ASSIGN activity = activity::populate(flavor:flavor, name:c_ep.Name, terminator:terminator) */
+        activity = ooaofooa_activity_op_populate(flavor, c_ep->Name, terminator);
+        /* SELECT any parameter FROM INSTANCES OF parameter WHERE FALSE */
+        parameter = 0;
+        /* SELECT many c_pps RELATED BY c_ep->C_PP[R4006] */
+        Escher_ClearSet( c_pps );
+        if ( 0 != c_ep ) {
+          Escher_CopySet( c_pps, &c_ep->C_PP_R4006_is_parameter_to );
+        }
+        /* FOR EACH c_pp IN c_pps */
+        { Escher_Iterator_s iterc_pp;
+        ooaofooa_C_PP * iic_pp;
+        Escher_IteratorReset( &iterc_pp, c_pps );
+        while ( (iic_pp = (ooaofooa_C_PP *)Escher_IteratorNext( &iterc_pp )) != 0 ) {
+          c_pp = iic_pp; {
+          /* ASSIGN parameter = parameter::populate(activity:activity, direction:in, name:c_pp.Name, previous_parameter:parameter, type:mytype) */
+          parameter = ooaofooa_parameter_op_populate(activity, ooaofooa_directiontype_in_e, c_pp->Name, parameter, "mytype");
+        }}}
+        Escher_ClearSet( c_pps ); 
+      }}}
+      /* SELECT many o_objs FROM INSTANCES OF O_OBJ */
+      Escher_CopySet( o_objs, &pG_ooaofooa_O_OBJ_extent.active );
+      /* FOR EACH o_obj IN o_objs */
+      { Escher_Iterator_s itero_obj;
+      ooaofooa_O_OBJ * iio_obj;
+      Escher_IteratorReset( &itero_obj, o_objs );
+      while ( (iio_obj = (ooaofooa_O_OBJ *)Escher_IteratorNext( &itero_obj )) != 0 ) {
+        o_obj = iio_obj; {
+        ooaofooa_object * object;
+        /* ASSIGN object = object::populate(domain:domain, name:o_obj.Name) */
+        object = ooaofooa_object_op_populate(domain, o_obj->Name);
+      }}}
+      Escher_ClearSet( o_objs );Escher_ClearSet( c_eps ); 
+    }}}
+    Escher_ClearSet( c_pos ); 
+  }}}
+  Escher_ClearSet( ep_pkgs );Escher_ClearSet( c_cs ); 
 }
 Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_MSG_M_instancedumper,

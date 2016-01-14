@@ -84,7 +84,7 @@ T::clear();
 
 // Query and Populate
 // Query the xtUML meta-model and populate the MASL meta-model.
-::xtuml_package_to_masl_project();
+::xtuml_package_to_masl_project( name:"System" );
 
 // Validate
 // Check to see if the project instances seem to be linked together.
@@ -208,62 +208,73 @@ INSERT INTO S_SYNC
 // component in configuration package --> project domain
 // port --> terminator
 // message --> terminator function or service
-select any tm_build from instances of TM_BUILD;
-if ( empty tm_build )
-  TRACE::log( flavor:"failure", id:1, message:"no configuration package marked" );
-else
 
-project = project::populate( name:tm_build.package_to_build );
+select many ep_pkgs from instances of EP_PKG where ( selected.Name == param.name );
+markedsystems = cardinality ep_pkgs;
+if ( empty ep_pkgs )
+  TRACE::log( flavor:"failure", id:1, message:"ERROR:  Marked configuration package was not found in model:" + param.name );
+end if;
+if ( markedsystems > 1 )
+  TRACE::log( flavor:"failure", id:2, message:"WARNING:  More than one package is marked as a system build... choose only one." );
+end if;
 
-select many te_cs from instances of TE_C where ( selected.included_in_build );
-first_te_c = ::TE_C_sort( te_cs:te_cs );
-te_c = first_te_c;
-while ( not_empty te_c )
+project = project::populate( name:param.name );
 
-  domain = domain::populate( name:te_c.Name, project:project );
+//select many direct_c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001];
+//select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
+select many c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
+//c_cs = direct_c_cs + referred_c_cs;
+for each c_c in c_cs
+
+  domain = domain::populate( name:c_c.Name, project:project );
   
-  select many te_pos related by te_c->TE_PO[R2005];
-  for each te_po in te_pos
+  select many c_pos related by c_c->C_PO[R4010];
+  for each c_po in c_pos
   
-    terminator = terminator::populate( name:te_po.Name, domain:domain );
+    terminator = terminator::populate( name:c_po.Name, domain:domain );
 
-    select one te_mact related by te_po->TE_MACT[R2099];
-    while ( not_empty te_mact )
+    select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
+    for each c_ep in c_eps
     
       // CDS figure out the real difference between function and service
       flavor = "function";
-      if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
+      //if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
         flavor = "service";
-      end if;
-      activity = activity::populate( name:te_mact.Name, terminator:terminator, flavor:flavor );
+      //end if;
+      activity = activity::populate( name:c_ep.Name, terminator:terminator, flavor:flavor );
       
-      select any te_parm related by te_mact->TE_ABA[R2010]->TE_PARM[R2062];
-      first_te_parm = te_parm;
       select any parameter from instances of parameter where ( false );
-      while ( not_empty te_parm )
+      select many c_pps related by c_ep->C_PP[R4006];
+      for each c_pp in c_pps
         // CDS model and pass correct type
-        parameter = parameter::populate( name:te_parm.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
-        select one te_parm related by te_parm->TE_PARM[R2041.''precedes''];
-      end while;
+        parameter = parameter::populate( name:c_pp.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
+      end for;
       
-      select one te_mact related by te_mact->TE_MACT[R2083.''precedes''];
-    end while;
+    end for;
     
     // CDS hacked
-    select many o_objs related by te_c->TE_CLASS[R2064]->O_OBJ[R2019];
+    //select many o_objs related by te_c->TE_CLASS[R2064]->O_OBJ[R2019];
+    select many o_objs from instances of O_OBJ;
     for each o_obj in o_objs
       object = object::populate( name:o_obj.Name, domain:domain );
     end for;
     
   end for;
 
-  select one te_c related by te_c->TE_C[R2017.''precedes''];
-end while;
-end if;
+end for;
 
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e853d0f3-ab0a-4862-b096-c17673779847",
+	"b28a7c75-cdd6-4276-8bf1-b2fb579a9df0",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO PE_PE
 	VALUES ("b28a7c75-cdd6-4276-8bf1-b2fb579a9df0",
