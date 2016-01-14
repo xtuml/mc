@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("e778bb5b-31bd-4e26-a675-39010cc7f4b4",
-	'p',
+	'population',
 	3737,
-	'p',
+	'population',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
