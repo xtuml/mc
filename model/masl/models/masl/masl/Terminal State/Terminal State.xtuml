@@ -1,0 +1,41 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("3e48c525-2ea4-40b9-8bc0-e928c9f9ec2f",
+	'Terminal State',
+	3734,
+	'TerminalState',
+	'8.1.1.5. Terminal States
+A state that is declared with the modifier terminal is called a terminal state. A terminal state does
+not necessarily imply that an instance in this state must cease to exist, it could simply stay in this state
+for historic purposes.
+A compile-time error occurs if an attempt is made to delete the current instance during the reserved
+word this in the body of a non-terminal state.
+
+Discussion: Terminal is a keyword in the grammar, but the constraint of belonging to instance state models 
+isn''t part of the grammer. Assigner state models are always cyclical, and terminal only makes sense in a 
+born-and-die state model.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (0,
+	"3e48c525-2ea4-40b9-8bc0-e928c9f9ec2f");
+INSERT INTO O_ID
+	VALUES (1,
+	"3e48c525-2ea4-40b9-8bc0-e928c9f9ec2f");
+INSERT INTO O_ID
+	VALUES (2,
+	"3e48c525-2ea4-40b9-8bc0-e928c9f9ec2f");
+INSERT INTO PE_PE
+	VALUES ("3e48c525-2ea4-40b9-8bc0-e928c9f9ec2f",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

@@ -5,7 +5,9 @@ INSERT INTO O_OBJ
 	'event',
 	3718,
 	'event',
-	'',
+	'Discussion: Polymorphic events are the only events allowed for supertype objects.
+The implication is that only subtype (non-sub/supertype subtypes) objects are allowed
+to have state models.',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
 	VALUES ("7cc55eed-756b-4590-8e59-184f782869d6",
