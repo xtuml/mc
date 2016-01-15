@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("e54a08b7-5672-4192-9603-63d26975fae2",
+	"00000000-0000-0000-0000-000000000000",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'parser',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("b160324b-cdb5-48db-a10c-9712d4377ad4",
+	112,
+	"e54a08b7-5672-4192-9603-63d26975fae2",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'maslin::components::parser::parser');
+INSERT INTO DIM_DIA
+	VALUES ("b160324b-cdb5-48db-a10c-9712d4377ad4",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("e54a08b7-5672-4192-9603-63d26975fae2",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"5cedff17-f37b-47b0-8a2a-09db7cfd14e4",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("5cedff17-f37b-47b0-8a2a-09db7cfd14e4",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'parser',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../parser.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("319083ee-ba5f-4645-a409-d6249f9350bd",
+	'maslin',
+	1,
+	'../../../maslin.xtuml');
