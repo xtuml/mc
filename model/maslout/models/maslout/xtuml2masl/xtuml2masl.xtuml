@@ -269,6 +269,7 @@ for each c_c in c_cs
         select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
       end while;
       previous = "";
+      c_pp = first_c_pp;
       while ( not_empty c_pp )
         // CDS model and pass correct type
         // CDS model and pass correct direction
