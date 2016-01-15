@@ -45,7 +45,16 @@ previous_parameter = param.previous_parameter;
 create object instance parameter of parameter;
 parameter.name = param.name;
 parameter.type = param.type;
-parameter.direction = param.direction;
+if ( "in" == param.direction )
+  parameter.direction = directiontype::in;
+elif ( "out" == param.direction )
+  parameter.direction = directiontype::out;
+elif ( "inout" == param.direction )
+  parameter.direction = directiontype::inout;
+else
+  // bad
+  TRACE::log( flavor:"failure", id:41, message:"invalid direction given for parameter:  " + parameter.name );
+end if;
 if ( empty previous_parameter )
   relate activity to parameter across R3705.''carries first'';
 else
@@ -84,18 +93,11 @@ INSERT INTO O_TPARM
 	VALUES ("4fef2767-f1c2-4879-bc16-1b7df94b783d",
 	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
 	'direction',
-	"146cb4c3-2b62-44ae-a7a2-82a577891858",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"02c5e0dc-5a35-4e46-9fa8-9f593c994235",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("146cb4c3-2b62-44ae-a7a2-82a577891858",
-	"00000000-0000-0000-0000-000000000000",
-	'directiontype',
-	'',
-	'',
-	'../masl.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("6cf97921-ea09-499a-9938-5137bb186ff3",
 	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
@@ -213,6 +215,13 @@ INSERT INTO O_ATTR
 	"146cb4c3-2b62-44ae-a7a2-82a577891858",
 	'',
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("146cb4c3-2b62-44ae-a7a2-82a577891858",
+	"00000000-0000-0000-0000-000000000000",
+	'directiontype',
+	'',
+	'',
+	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");

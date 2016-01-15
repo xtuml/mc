@@ -46,12 +46,15 @@ elif ( "activity" == element )
   end if;
 elif ( "parameter" == element )
   // Check to see if the parent is an activity or a sibling parameter.
-  if ( "" != value[1] )
-    // activity is child of terminator
-    population.activity = activity::populate( name:value[0], terminator:population.terminator, flavor:value[2] );
-  elif ( "" != value[1] )
+  if ( "" == value[4] )
+    // first parameter
+    select any empty_parameter from instances of parameter where ( false );
+    population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:empty_parameter );
   else
+    population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:population.parameter );
   end if;
+elif ( "attribute" == element )
+    population.attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:population.object );
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;
@@ -243,6 +246,31 @@ INSERT INTO S_DT_PROXY
 	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<parameter>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("c55c033d-7b57-4e89-bf0b-6d7a859a9dd8",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("c55c033d-7b57-4e89-bf0b-6d7a859a9dd8",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("c55c033d-7b57-4e89-bf0b-6d7a859a9dd8",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"c1bccbe3-2757-488b-915b-bb1ad16e9221",
+	'attribute',
+	'',
+	'',
+	'attribute',
+	0,
+	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<attribute>',
 	'',
 	'',
 	'../masl.xtuml');

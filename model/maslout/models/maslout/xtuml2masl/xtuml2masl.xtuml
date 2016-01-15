@@ -132,6 +132,15 @@ select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_
 for each o_obj in o_objs
   value[0] = o_obj.Name;
   population::populate( element:"object", value:value );
+  
+  select many o_attrs related by o_obj->O_ATTR[R102];
+  for each o_attr in o_attrs
+    value[0] = o_attr.Name;
+    value[1] = ""; // preferred
+    value[2] = ""; // unique
+    value[3] = ""; // default value
+    population::populate( element:"attribute", value:value );
+  end for;
 end for;
 
 /*
@@ -259,15 +268,17 @@ for each c_c in c_cs
         first_c_pp = c_pp;
         select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
       end while;
+      previous = "";
       while ( not_empty c_pp )
         // CDS model and pass correct type
         // CDS model and pass correct direction
         //parameter = parameter::populate( name:c_pp.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
-        value[0] = "mytype";
-        value[1] = "in";
-        value[2] = c_pp.Name;
-        value[3] = "in";
+        value[0] = c_pp.Name;
+        value[1] = "mytype";
+        value[2] = "in";
+        value[3] = previous;
         population::populate( element:"parameter", value:value );
+        previous = c_pp.Name;
         select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
       end while;
       
