@@ -2,63 +2,11 @@
 
 INSERT INTO O_OBJ
 	VALUES ("d71012aa-bab4-4ec3-98ce-bd11a8f2e66d",
-	'state machine',
+	'instance_state_machine',
 	3715,
-	'statemachine',
+	'instance_state_machine',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_TFR
-	VALUES ("739125d1-08b8-4e7b-afb9-4d04029b45ee",
-	"d71012aa-bab4-4ec3-98ce-bd11a8f2e66d",
-	'render',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
-	1,
-	'',
-	"b0693efc-cf61-4a1b-b346-b589fc787679");
-INSERT INTO O_TFR
-	VALUES ("b0693efc-cf61-4a1b-b346-b589fc787679",
-	"d71012aa-bab4-4ec3-98ce-bd11a8f2e66d",
-	'populate',
-	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
-	0,
-	'create object instance template_class of parameter;
-template_class.name = param.name;
-return template_class;',
-	1,
-	'',
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_TPARM
-	VALUES ("2e328c2f-ea0a-4872-84f9-10ab6979d915",
-	"b0693efc-cf61-4a1b-b346-b589fc787679",
-	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
-INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
-	'',
-	'',
-	'../masl.xtuml');
 INSERT INTO O_TFR
 	VALUES ("933802e0-2c04-47d2-a9ef-131711f54a1a",
 	"d71012aa-bab4-4ec3-98ce-bd11a8f2e66d",
@@ -80,6 +28,76 @@ return valid;
 	1,
 	'',
 	"739125d1-08b8-4e7b-afb9-4d04029b45ee");
+INSERT INTO O_TFR
+	VALUES ("b0693efc-cf61-4a1b-b346-b589fc787679",
+	"d71012aa-bab4-4ec3-98ce-bd11a8f2e66d",
+	'populate',
+	'',
+	"c61b4f32-cd2b-4ee1-b60e-dc93e9dcc39f",
+	0,
+	'object = param.object;
+create object instance instance_machine of instance_state_machine;
+instance_machine.name = param.name;
+relate object to instance_machine across R3725;
+return instance_machine;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("8ab030e7-4242-41fe-9e18-6322b1a30e07",
+	"b0693efc-cf61-4a1b-b346-b589fc787679",
+	'object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"2e328c2f-ea0a-4872-84f9-10ab6979d915",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("2e328c2f-ea0a-4872-84f9-10ab6979d915",
+	"b0693efc-cf61-4a1b-b346-b589fc787679",
+	'name',
+	"34fac455-523f-4aa2-932b-a33981ceacad",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../types/types.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("c61b4f32-cd2b-4ee1-b60e-dc93e9dcc39f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<instance_state_machine>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("739125d1-08b8-4e7b-afb9-4d04029b45ee",
+	"d71012aa-bab4-4ec3-98ce-bd11a8f2e66d",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'//T::include( file:"masl/t.project_start.masl" );
+//select many projectdomains related by self->projectdomain[R3701.''configures''];
+//for each projectdomain in projectdomains
+//  projectdomain.render();
+//end for;
+//T::include( file:"masl/t.project_end.masl" );',
+	1,
+	'',
+	"b0693efc-cf61-4a1b-b346-b589fc787679");
 INSERT INTO O_NBATTR
 	VALUES ("329b3ebd-e509-409e-a021-fbe9d004503f",
 	"d71012aa-bab4-4ec3-98ce-bd11a8f2e66d");
@@ -99,13 +117,13 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_ID
-	VALUES (0,
+	VALUES (2,
 	"d71012aa-bab4-4ec3-98ce-bd11a8f2e66d");
 INSERT INTO O_ID
 	VALUES (1,
 	"d71012aa-bab4-4ec3-98ce-bd11a8f2e66d");
 INSERT INTO O_ID
-	VALUES (2,
+	VALUES (0,
 	"d71012aa-bab4-4ec3-98ce-bd11a8f2e66d");
 INSERT INTO PE_PE
 	VALUES ("d71012aa-bab4-4ec3-98ce-bd11a8f2e66d",

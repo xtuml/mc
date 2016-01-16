@@ -28,11 +28,24 @@ INSERT INTO O_TFR
 	"64886a99-6942-49c6-b7d7-2dc495c52db1",
 	'populate',
 	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
 	0,
-	'create object instance template_class of parameter;
-template_class.name = param.name;
-return template_class;',
+	'state_machine = param.statemachine;
+create object instance state of state;
+state.name = param.name;
+if ("assigner" == param.type)
+   state.type = statetype::assigner;
+elif ("start" == param.type)
+   state.type = statetype::start;
+elif ("creation" == param.type)
+   state.type = statetype::creation;
+elif ("terminal" == param.type)
+   state.type = statetype::terminal;
+else
+   state.type = statetype::normal;
+end if;
+relate state to state_machine across R3728;
+return state;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -52,10 +65,35 @@ INSERT INTO S_DT_PROXY
 	'',
 	'""',
 	'../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("9919940a-4ce4-4b7f-aa5c-f861279746be",
+	"b5fb225a-420f-41b5-b16e-930a5ff3ea82",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"daab49b8-c192-4486-9062-252eb12909ec",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("f50031d6-65c0-47d2-b2b3-639eb073dac1",
+	"b5fb225a-420f-41b5-b16e-930a5ff3ea82",
+	'statemachine',
+	"552582e9-c3dd-4013-95ed-fe2f0cb9d615",
+	0,
+	'',
+	"9919940a-4ce4-4b7f-aa5c-f861279746be",
+	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	VALUES ("552582e9-c3dd-4013-95ed-fe2f0cb9d615",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
+	'inst_ref<state_machine>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("69d4ad00-8c78-47f0-95c9-b7519011b8ea",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<state>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -98,6 +136,31 @@ INSERT INTO O_ATTR
 	"34fac455-523f-4aa2-932b-a33981ceacad",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO O_BATTR
+	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO O_ATTR
+	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1",
+	"4d0df277-98e4-4b2d-b320-de56b3e1f8e0",
+	'type',
+	'',
+	'',
+	'type',
+	0,
+	"2da61c52-ec45-40f7-9120-c322ec275ece",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2da61c52-ec45-40f7-9120-c322ec275ece",
+	"00000000-0000-0000-0000-000000000000",
+	'statetype',
+	'',
+	'',
+	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"64886a99-6942-49c6-b7d7-2dc495c52db1");
