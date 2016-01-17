@@ -46,7 +46,7 @@ elif ( "activity" == element )
   end if;
 elif ( "parameter" == element )
   // Check to see if the parent is an activity or a sibling parameter.
-  if ( "" == value[4] )
+  if ( "" == value[3] )
     // first parameter
     select any empty_parameter from instances of parameter where ( false );
     population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:empty_parameter );
@@ -54,7 +54,7 @@ elif ( "parameter" == element )
     population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:population.parameter );
   end if;
 elif ( "attribute" == element )
-    population.attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:population.object );
+  population.attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:population.object );
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;

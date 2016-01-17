@@ -27770,12 +27770,13 @@ ooaofooa_xtuml_package_to_masl_project( c_t * p_name )
         while ( ( 0 != c_pp ) ) {
           /* ASSIGN first_c_pp = c_pp */
           first_c_pp = c_pp;
-          /* SELECT one c_pp RELATED BY c_pp->C_PP[R4021.succeeds] */
-          //c_pp = ( 0 != c_pp ) ? c_pp->C_PP_R4021_succeeds : 0;
+          /* SELECT one c_pp RELATED BY c_pp->C_PP[R4021.precedes] */
           c_pp = ( 0 != c_pp ) ? c_pp->C_PP_R4021_precedes : 0;
         }
         /* ASSIGN previous =  */
         previous = Escher_strcpy( previous, "" );
+        /* ASSIGN c_pp = first_c_pp */
+        c_pp = first_c_pp;
         /* WHILE ( not_empty c_pp ) */
         while ( ( 0 != c_pp ) ) {
           /* ASSIGN value[0] = c_pp.Name */

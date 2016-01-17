@@ -92,8 +92,8 @@ ooaofooa_population_op_populate( c_t * p_element, c_t * p_value[8] )
     }
   }
   else if ( ( Escher_strcmp( "parameter", element ) == 0 ) ) {
-    /* IF ( (  == value[4] ) ) */
-    if ( ( Escher_strcmp( "", value[4] ) == 0 ) ) {
+    /* IF ( (  == value[3] ) ) */
+    if ( ( Escher_strcmp( "", value[3] ) == 0 ) ) {
       ooaofooa_parameter * empty_parameter=0;
       /* SELECT any empty_parameter FROM INSTANCES OF parameter WHERE FALSE */
       empty_parameter = 0;
