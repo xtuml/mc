@@ -1,3 +1,4 @@
+.invoke MarkSystemConfigurationPackage( "system" )
 .//===========================================================================
 .// File:  system.mark
 .//
