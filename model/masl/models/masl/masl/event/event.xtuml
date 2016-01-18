@@ -16,12 +16,18 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'type = "";
+if (eventtype::assigner == self.type)
+   type ="assigner";
+elif (eventtype::creation == self.type)
+   type = "creation";
+end if;
+T::include( file:"masl/t.event_start.masl" );
+select one parameter related by self->parameter[R3727.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.event_end.masl" );',
 	1,
 	'',
 	"34c41c49-4657-452d-86b6-5b3b59f0b61d");
@@ -30,11 +36,20 @@ INSERT INTO O_TFR
 	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
 	'populate',
 	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"10f010a5-972a-427c-a610-080e185e1082",
 	0,
-	'create object instance template_class of parameter;
-template_class.name = param.name;
-return template_class;',
+	'object = param.object;
+create object instance event of event;
+event.name = param.name;
+if ("assigner" == param.type)
+   event.type = eventtype::assigner;
+elif ("creation" == param.type)
+   event.type = eventtype::creation;
+else
+   event.type = eventtype::normal;
+end if;
+relate event to object across R3728;
+return event;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -54,10 +69,35 @@ INSERT INTO S_DT_PROXY
 	'',
 	'""',
 	'../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("a36049a4-43db-45a5-a2ca-723b79d81a8a",
+	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
+	'type',
+	"34fac455-523f-4aa2-932b-a33981ceacad",
+	0,
+	'',
+	"508cc063-9ce3-4a0c-b3b2-45e3c0f6e4ea",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("fcc23318-85ee-4642-a9d5-95e8850aed31",
+	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
+	'object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"a36049a4-43db-45a5-a2ca-723b79d81a8a",
+	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<event>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -69,14 +109,14 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
-
-// Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
+select many events from instances of event;
+for each event in events
+  select one object related by event->object[R3728];
+  if (empty object)
+    TRACE::log( flavor:"failure", id:31, message:"event with no object:  " + event.name );
+    valid = false;
+  end if;
+end for;
 return valid;
 ',
 	1,
@@ -100,6 +140,31 @@ INSERT INTO O_ATTR
 	"34fac455-523f-4aa2-932b-a33981ceacad",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("94acbc98-dc11-48da-9b86-a400a4d27bad",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_BATTR
+	VALUES ("94acbc98-dc11-48da-9b86-a400a4d27bad",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_ATTR
+	VALUES ("94acbc98-dc11-48da-9b86-a400a4d27bad",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	"b9413c9b-6c34-47d9-8cc0-9016fcb520be",
+	'type',
+	'',
+	'',
+	'type',
+	0,
+	"d61839d6-3f24-4fdb-8fd6-45d474bf3800",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("d61839d6-3f24-4fdb-8fd6-45d474bf3800",
+	"00000000-0000-0000-0000-000000000000",
+	'eventtype',
+	'',
+	'',
+	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");

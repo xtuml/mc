@@ -2319,8 +2319,8 @@ INSERT INTO DIM_ND
 	0.000000,
 	"376d0909-793b-478c-8035-6d21a9a14924");
 INSERT INTO DIM_GE
-	VALUES (0.000000,
-	0.000000,
+	VALUES (5053.000000,
+	3467.000000,
 	"376d0909-793b-478c-8035-6d21a9a14924",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
@@ -4617,6 +4617,30 @@ INSERT INTO DIM_ED
 	VALUES ("fa713a77-c098-495a-b035-89c8e6e45233",
 	"46fdf2cf-5f94-4483-aa28-901ad7ed0f7c",
 	"ff060b7c-bef0-4b7d-87fd-ca83b152dcdd");
+INSERT INTO GD_GE
+	VALUES ("55a561d7-bc61-4547-be56-61734fba4810",
+	"de1ed9eb-cb26-4c58-9f56-2a75d270d3ce",
+	"d61839d6-3f24-4fdb-8fd6-45d474bf3800",
+	52,
+	0,
+	'masl::masl::eventtype');
+INSERT INTO GD_SHP
+	VALUES ("55a561d7-bc61-4547-be56-61734fba4810");
+INSERT INTO GD_NCS
+	VALUES ("55a561d7-bc61-4547-be56-61734fba4810");
+INSERT INTO DIM_ND
+	VALUES (200.000000,
+	150.000000,
+	"55a561d7-bc61-4547-be56-61734fba4810");
+INSERT INTO DIM_GE
+	VALUES (5080.000000,
+	3564.000000,
+	"55a561d7-bc61-4547-be56-61734fba4810",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO DIM_ELE
+	VALUES ("55a561d7-bc61-4547-be56-61734fba4810",
+	0,
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_DIA
 	VALUES ("de1ed9eb-cb26-4c58-9f56-2a75d270d3ce",
 	'',
@@ -5171,7 +5195,8 @@ INSERT INTO S_ENUM
 INSERT INTO S_ENUM
 	VALUES ("52f82e94-76f3-41be-b0a8-80edac910792",
 	'normal',
-	'Instance state machine normal (not creation or terminal) state.',
+	'Instance state machine normal (not creation or terminal) state. A null (blank) 
+value is equivalent in MASL.',
 	"2da61c52-ec45-40f7-9120-c322ec275ece",
 	"b7a33438-64e0-4d27-b9a5-423e4da89f02");
 INSERT INTO PE_PE
@@ -5218,6 +5243,81 @@ INSERT INTO S_IRDT
 	"64886a99-6942-49c6-b7d7-2dc495c52db1");
 INSERT INTO PE_PE
 	VALUES ("be55cb0a-b587-49e3-8a44-82d9594c4c3e",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("d61839d6-3f24-4fdb-8fd6-45d474bf3800",
+	"00000000-0000-0000-0000-000000000000",
+	'eventtype',
+	'',
+	'');
+INSERT INTO S_EDT
+	VALUES ("d61839d6-3f24-4fdb-8fd6-45d474bf3800");
+INSERT INTO S_ENUM
+	VALUES ("421d3c13-f990-437a-a7bb-cc27a72eef64",
+	'assigner',
+	'An assigner event. All assigner state models must use only this event type.',
+	"d61839d6-3f24-4fdb-8fd6-45d474bf3800",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_ENUM
+	VALUES ("b0ca0b9d-9296-4993-8848-7eae2faddd1b",
+	'creation',
+	'An instance creation event.',
+	"d61839d6-3f24-4fdb-8fd6-45d474bf3800",
+	"421d3c13-f990-437a-a7bb-cc27a72eef64");
+INSERT INTO S_ENUM
+	VALUES ("439676ff-baa5-4ce3-a08e-9f4a80cc963c",
+	'normal',
+	'A non-creation, instance-based event. A null (blank) value is equivalent in 
+MASL.',
+	"d61839d6-3f24-4fdb-8fd6-45d474bf3800",
+	"b0ca0b9d-9296-4993-8848-7eae2faddd1b");
+INSERT INTO PE_PE
+	VALUES ("d61839d6-3f24-4fdb-8fd6-45d474bf3800",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<event>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
+	0,
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	'event',
+	3718,
+	'event',
+	'Discussion: Polymorphic events are the only events allowed for supertype objects.
+The implication is that only subtype (non-sub/supertype subtypes) objects are allowed
+to have state models.',
+	"00000000-0000-0000-0000-000000000000",
+	'./event/event.xtuml');
+INSERT INTO PE_PE
+	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("26e14e12-8ce7-42d6-b191-97c1812f343c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<event>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("26e14e12-8ce7-42d6-b191-97c1812f343c",
+	1,
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO PE_PE
+	VALUES ("26e14e12-8ce7-42d6-b191-97c1812f343c",
 	1,
 	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
 	"00000000-0000-0000-0000-000000000000",
@@ -5802,16 +5902,6 @@ INSERT INTO R_OIR
 	"92cca5bd-681b-4e92-b2a5-839e06124195",
 	"bfc6382b-647a-45fe-9d5a-8b11ee466790",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a689a6ef-30fb-4c78-95e0-e65abb7edc57",
-	'event',
-	3718,
-	'event',
-	'Discussion: Polymorphic events are the only events allowed for supertype objects.
-The implication is that only subtype (non-sub/supertype subtypes) objects are allowed
-to have state models.',
-	"00000000-0000-0000-0000-000000000000",
-	'./event/event.xtuml');
 INSERT INTO PE_PE
 	VALUES ("92cca5bd-681b-4e92-b2a5-839e06124195",
 	1,
