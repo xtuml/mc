@@ -1,0 +1,102 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("06de9297-0ccc-4704-900d-a4f828b0e465",
+	'marshal',
+	3800,
+	'marshal',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("162d1605-321b-4dac-bfee-e22e9503d3c2",
+	"06de9297-0ccc-4704-900d-a4f828b0e465",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// Populate MASL.
+
+element = param.element;
+value = param.value;
+
+select any marshal from instances of marshal;
+if ( empty marshal )
+  create object instance marshal of marshal;
+end if;
+
+if ( "project" == element )
+elif ( "domain" == element )
+elif ( "object" == element )
+elif ( "terminator" == element )
+elif ( "activity" == element )
+elif ( "parameter" == element )
+elif ( "attribute" == element )
+elif ( "state" == element )
+elif ( "event" == element )
+else
+  TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
+end if;
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("eda3f62f-7e25-46f6-9378-8f42ad702f39",
+	"162d1605-321b-4dac-bfee-e22e9503d3c2",
+	'element',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("2782575b-1e66-4c2f-8dbc-12083881445d",
+	"162d1605-321b-4dac-bfee-e22e9503d3c2",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'[8]',
+	"eda3f62f-7e25-46f6-9378-8f42ad702f39",
+	'');
+INSERT INTO S_DIM
+	VALUES (8,
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"2782575b-1e66-4c2f-8dbc-12083881445d",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"4abcd7e8-2011-483e-a3ec-ceb9ef891515",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (0,
+	"06de9297-0ccc-4704-900d-a4f828b0e465");
+INSERT INTO O_ID
+	VALUES (1,
+	"06de9297-0ccc-4704-900d-a4f828b0e465");
+INSERT INTO O_ID
+	VALUES (2,
+	"06de9297-0ccc-4704-900d-a4f828b0e465");
+INSERT INTO PE_PE
+	VALUES ("06de9297-0ccc-4704-900d-a4f828b0e465",
+	1,
+	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0,
+	'../masl2xtuml.xtuml');
