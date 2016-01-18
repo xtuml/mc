@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("b259d0df-c696-4531-a008-6efd3304da50",
+	"00000000-0000-0000-0000-000000000000",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("cb00bcca-f731-462f-aa9a-a3c2c5c57196",
+	112,
+	"b259d0df-c696-4531-a008-6efd3304da50",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'maslin::components::maslin::masl2xtuml');
+INSERT INTO DIM_DIA
+	VALUES ("cb00bcca-f731-462f-aa9a-a3c2c5c57196",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("b259d0df-c696-4531-a008-6efd3304da50",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"3a2c4dbc-4949-4723-9803-00b79bd641ec",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("3a2c4dbc-4949-4723-9803-00b79bd641ec",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'maslin',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../maslin.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("319083ee-ba5f-4645-a409-d6249f9350bd",
+	'maslin',
+	1,
+	'../../../maslin.xtuml');
