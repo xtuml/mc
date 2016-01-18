@@ -117,14 +117,14 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
-
-// Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
+select many states from instances of state;
+for each state in states
+  select one object related by state->object[R3725];
+  if (empty object)
+    TRACE::log( flavor:"failure", id:31, message:"state with no object:  " + state.name );
+    valid = false;
+  end if;
+end for;
 return valid;
 ',
 	1,
