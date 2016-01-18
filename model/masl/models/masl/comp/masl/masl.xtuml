@@ -93,7 +93,7 @@ INSERT INTO GD_GE
 	"7039b2a2-b4c6-40a7-9b36-5577e4748919",
 	94,
 	0,
-	'masl::comp::masl::Port1::population');
+	'masl::comp::masl::in::population');
 INSERT INTO GD_CON
 	VALUES ("7706966f-adfe-4e06-8395-2dcf008d55d8",
 	"00000000-0000-0000-0000-000000000000");
@@ -221,7 +221,7 @@ INSERT INTO DIM_DIA
 INSERT INTO C_PO
 	VALUES ("80759413-1326-4744-843d-fbc6cd3cee0d",
 	"78775e10-f3b1-4b47-b908-ad2144f025e4",
-	'Port1',
+	'in',
 	0,
 	0);
 INSERT INTO C_IR
@@ -234,7 +234,7 @@ INSERT INTO C_P
 	'population',
 	'Unnamed Interface',
 	'',
-	'masl::Port1::population');
+	'masl::in::population');
 INSERT INTO SPR_PEP
 	VALUES ("d51bda52-e071-4e57-8ea9-fd67c68152d1",
 	"c81b1086-4258-4925-bc8d-72b26c7204b7",
@@ -243,7 +243,7 @@ INSERT INTO SPR_PO
 	VALUES ("d51bda52-e071-4e57-8ea9-fd67c68152d1",
 	'populate',
 	'',
-	'',
+	'//population::populate( element:param.element, value:param.value );',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("c81b1086-4258-4925-bc8d-72b26c7204b7",
