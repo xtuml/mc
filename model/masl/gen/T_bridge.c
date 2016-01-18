@@ -78,7 +78,7 @@ T_clear()
  * Bridge:  b
  */
 void
-T_b( c_t * p_s )
+T_b( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   //printf("Adding to buffer: %s\n", p_s);
   i_t i = 0;
@@ -94,7 +94,7 @@ T_b( c_t * p_s )
  * Bridge:  print
  */
 void
-T_print( c_t * p_s )
+T_print( c_t p_s[ESCHER_SYS_MAX_STRING_LEN] )
 {
   if ( 0 == p_s ) p_s = "";
   fprintf( stderr,"%s\n", p_s );

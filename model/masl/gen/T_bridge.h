@@ -20,8 +20,8 @@ extern	"C"	{
 c_t * T_s( const i_t );
 void T_emit( c_t * );
 void T_clear( void );
-void T_b( c_t * );
-void T_print( c_t * );
+void T_b( c_t[ESCHER_SYS_MAX_STRING_LEN] );
+void T_print( c_t[ESCHER_SYS_MAX_STRING_LEN] );
 void T_exit( const i_t );
 void T_include( c_t * );
 c_t * T_r( c_t * );
