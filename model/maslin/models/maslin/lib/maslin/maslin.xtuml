@@ -293,7 +293,7 @@ INSERT INTO GD_GE
 	"5f2cf168-b236-4381-bfbe-288dc412eff5",
 	108,
 	0,
-	'maslin::lib::maslin::imported_ooaofooa');
+	'maslin::lib::maslin::ooaofooa_imported');
 INSERT INTO GD_SHP
 	VALUES ("5ab35b84-4480-4061-a860-d14fc96ddebc");
 INSERT INTO GD_NCS
@@ -367,7 +367,7 @@ INSERT INTO SPR_PS
 	'render',
 	'',
 	'',
-	3);
+	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("a3e03e28-b19f-4bea-84df-d70f77be36d1",
 	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
@@ -383,7 +383,7 @@ INSERT INTO SPR_PO
 	VALUES ("9e3d887b-a67e-4ba1-a4df-ad557cdf3b8b",
 	'populate',
 	'',
-	'marshal::populate( element:param.element, value:param.value );',
+	'ooapopulation::populate( element:param.element, value:param.value );',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("c81b1086-4258-4925-bc8d-72b26c7204b7",

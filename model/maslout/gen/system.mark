@@ -1,3 +1,4 @@
+.invoke MarkSystemConfigurationPackage( "sysmaslout" )
 .//============================================================================
 .// File:  system.mark
 .//

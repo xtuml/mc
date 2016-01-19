@@ -348,7 +348,7 @@ INSERT INTO SPR_PO
 	VALUES ("d51bda52-e071-4e57-8ea9-fd67c68152d1",
 	'populate',
 	'',
-	'::populate( element:param.element, value:param.value );
+	'population::populate( element:param.element, value:param.value );
 ',
 	1);
 INSERT INTO C_EP_PROXY
