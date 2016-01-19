@@ -26,30 +26,6 @@ INSERT INTO GD_MD
 	0,
 	'4.1.17',
 	'maslin::lib::maslin::ib');
-INSERT INTO GD_GE
-	VALUES ("beba20ff-dc38-469b-be21-6d504b3eb8d7",
-	"94df84e5-0cd9-4557-87aa-d7cf5e1d0bd5",
-	"24ee82a7-fd13-4704-ab1a-403d9edd5ecb",
-	21,
-	0,
-	'maslin::lib::maslin::ib::marshal');
-INSERT INTO GD_SHP
-	VALUES ("beba20ff-dc38-469b-be21-6d504b3eb8d7");
-INSERT INTO GD_NCS
-	VALUES ("beba20ff-dc38-469b-be21-6d504b3eb8d7");
-INSERT INTO DIM_ND
-	VALUES (337.000000,
-	97.000000,
-	"beba20ff-dc38-469b-be21-6d504b3eb8d7");
-INSERT INTO DIM_GE
-	VALUES (4288.000000,
-	3104.000000,
-	"beba20ff-dc38-469b-be21-6d504b3eb8d7",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ELE
-	VALUES ("beba20ff-dc38-469b-be21-6d504b3eb8d7",
-	0,
-	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_DIA
 	VALUES ("94df84e5-0cd9-4557-87aa-d7cf5e1d0bd5",
 	'',

@@ -79,6 +79,19 @@ return valid;
 ',
 	1,
 	'',
+	"a93000f7-cf4c-477a-bd11-68192d7795bc");
+INSERT INTO O_TFR
+	VALUES ("a93000f7-cf4c-477a-bd11-68192d7795bc",
+	"e8608e39-8172-4edb-ad2c-db018d347a6f",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[8] = "";
+value[0] = self.name;
+//out::( element:"template_class", value:value );',
+	1,
+	'',
 	"3f81203c-957d-49f1-8525-fc76b1548c93");
 INSERT INTO O_NBATTR
 	VALUES ("98a8af6f-e22a-4165-bcc8-b06eadd701fe",
