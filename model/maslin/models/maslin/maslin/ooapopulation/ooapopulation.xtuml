@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'ooapopulation',
-	3737,
+	3801,
 	'ooapopulation',
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -14,53 +14,27 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'// Populate MASL.
+	'// Populate OOAofOOA.
 
 element = param.element;
 value = param.value;
 
-select any population from instances of population;
-if ( empty population )
-  create object instance population of population;
+select any ooapopulation from instances of ooapopulation;
+if ( empty ooapopulation )
+  create object instance ooapopulation of ooapopulation;
 end if;
 
 if ( "project" == element )
-  population.project = project::populate( name:value[0] );
 elif ( "domain" == element )
-  population.domain = domain::populate( name:value[0], project:population.project );
 elif ( "object" == element )
-  population.object = object::populate( name:value[0], domain:population.domain );
 elif ( "terminator" == element )
-  population.terminator = terminator::populate( name:value[0], domain:population.domain );
 elif ( "activity" == element )
-  // Check to see if the parent is a domain or a terminator.
-  if ( "" != value[1] )
-    // activity is child of terminator
-    population.activity = activity::populate( name:value[0], terminator:population.terminator, flavor:value[2] );
-  elif ( false )
-    // activity is child of object
-  elif ( false )
-    // activity is child of domain
-  else
-    TRACE::log( flavor:"failure", id:40, message:"unrecognized activity:  " + value[0] );
-  end if;
 elif ( "parameter" == element )
-  // Check to see if the parent is an activity or a sibling parameter.
-  if ( "" == value[3] )
-    // first parameter
-    select any empty_parameter from instances of parameter where ( false );
-    population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:empty_parameter );
-  else
-    population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:population.parameter );
-  end if;
 elif ( "attribute" == element )
-  population.attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:population.object );
 elif ( "state" == element )
-  population.state = state::populate( name:value[0], type:value[1], object:population.object );
 elif ( "event" == element )
-  population.event = event::populate( name:value[0], type:value[1], object:population.object );
 else
-  TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
+  TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
 ',
 	1,
@@ -118,9 +92,216 @@ INSERT INTO O_ATTR
 	'',
 	'project',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000002",
+	"f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
 	'',
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<project>',
+	'',
+	'',
+	'../../../../../masl/models/masl/masl/masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("2bb7a745-ca20-4228-a72a-b35887d67f67",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("2bb7a745-ca20-4228-a72a-b35887d67f67",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("2bb7a745-ca20-4228-a72a-b35887d67f67",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"bda701a3-1e5f-4c37-a49f-25dfe331e6eb",
+	'domain',
+	'',
+	'',
+	'domain',
+	0,
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../../../../../masl/models/masl/masl/masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("53c5ce4a-18c8-41ad-9d47-e661f9097203",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("53c5ce4a-18c8-41ad-9d47-e661f9097203",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("53c5ce4a-18c8-41ad-9d47-e661f9097203",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"2bb7a745-ca20-4228-a72a-b35887d67f67",
+	'object',
+	'',
+	'',
+	'object',
+	0,
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../../../../../masl/models/masl/masl/masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("184e0d13-4fe5-4fd9-94dd-3e2530ac7b3e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("184e0d13-4fe5-4fd9-94dd-3e2530ac7b3e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("184e0d13-4fe5-4fd9-94dd-3e2530ac7b3e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"53c5ce4a-18c8-41ad-9d47-e661f9097203",
+	'terminator',
+	'',
+	'',
+	'terminator',
+	0,
+	"a2661e87-6030-4167-bef8-2ff6c815e67e",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a2661e87-6030-4167-bef8-2ff6c815e67e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminator>',
+	'',
+	'',
+	'../../../../../masl/models/masl/masl/masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("68af8ae2-dd56-48e3-a7ba-1c7429bca350",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("68af8ae2-dd56-48e3-a7ba-1c7429bca350",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("68af8ae2-dd56-48e3-a7ba-1c7429bca350",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"184e0d13-4fe5-4fd9-94dd-3e2530ac7b3e",
+	'activity',
+	'',
+	'',
+	'activity',
+	0,
+	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<activity>',
+	'',
+	'',
+	'../../../../../masl/models/masl/masl/masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("2ff0f30a-c158-4922-8168-36cc34babf85",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("2ff0f30a-c158-4922-8168-36cc34babf85",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("2ff0f30a-c158-4922-8168-36cc34babf85",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"68af8ae2-dd56-48e3-a7ba-1c7429bca350",
+	'parameter',
+	'',
+	'',
+	'parameter',
+	0,
+	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<parameter>',
+	'',
+	'',
+	'../../../../../masl/models/masl/masl/masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("05e23eac-a2a5-452e-ae16-0ef1fec82a30",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("05e23eac-a2a5-452e-ae16-0ef1fec82a30",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("05e23eac-a2a5-452e-ae16-0ef1fec82a30",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"2ff0f30a-c158-4922-8168-36cc34babf85",
+	'attribute',
+	'',
+	'',
+	'attribute',
+	0,
+	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<attribute>',
+	'',
+	'',
+	'../../../../../masl/models/masl/masl/masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("77742374-4207-433d-81e3-3d5f3ef6d65c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("77742374-4207-433d-81e3-3d5f3ef6d65c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("77742374-4207-433d-81e3-3d5f3ef6d65c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"05e23eac-a2a5-452e-ae16-0ef1fec82a30",
+	'state',
+	'',
+	'',
+	'state',
+	0,
+	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("69d4ad00-8c78-47f0-95c9-b7519011b8ea",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<state>',
+	'',
+	'',
+	'../../../../../masl/models/masl/masl/masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("0b2d917d-62cd-4237-8748-c8585475871c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("0b2d917d-62cd-4237-8748-c8585475871c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("0b2d917d-62cd-4237-8748-c8585475871c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"77742374-4207-433d-81e3-3d5f3ef6d65c",
+	'event',
+	'',
+	'',
+	'event',
+	0,
+	"10f010a5-972a-427c-a610-080e185e1082",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<event>',
+	'',
+	'',
+	'../../../../../masl/models/masl/masl/masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");

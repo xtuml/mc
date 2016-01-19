@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("24ee82a7-fd13-4704-ab1a-403d9edd5ecb",
 	'marshal',
-	1,
+	3800,
 	'marshal',
 	'',
 	"00000000-0000-0000-0000-000000000000");

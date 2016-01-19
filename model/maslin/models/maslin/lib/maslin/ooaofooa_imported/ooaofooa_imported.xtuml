@@ -4,7 +4,7 @@ INSERT INTO EP_PKG
 	VALUES ("5f2cf168-b236-4381-bfbe-288dc412eff5",
 	"00000000-0000-0000-0000-000000000000",
 	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	'imported_ooaofooa',
+	'ooaofooa_imported',
 	'ooaofooa',
 	0);
 INSERT INTO GD_MD
@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'maslin::lib::maslin::imported_ooaofooa');
+	'maslin::lib::maslin::ooaofooa_imported');
 INSERT INTO DIM_DIA
 	VALUES ("e088732a-7edb-4656-a9ed-0211c892efc1",
 	'',
