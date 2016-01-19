@@ -1,1 +1,1 @@
-      ${type} state ${self.name}(\
+      ${self.type} state ${self.name}(\

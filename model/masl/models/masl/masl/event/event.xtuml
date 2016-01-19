@@ -16,13 +16,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'type = "";
-if (eventtype::assigner == self.type)
-   type ="assigner";
-elif (eventtype::creation == self.type)
-   type = "creation";
-end if;
-T::include( file:"masl/t.event_start.masl" );
+	'T::include( file:"masl/t.event_begin.masl" );
 select one parameter related by self->parameter[R3727.''carries first''];
 if ( not_empty parameter )
   parameter.render();
@@ -41,13 +35,7 @@ INSERT INTO O_TFR
 	'object = param.object;
 create object instance event of event;
 event.name = param.name;
-if ("assigner" == param.type)
-   event.type = eventtype::assigner;
-elif ("creation" == param.type)
-   event.type = eventtype::creation;
-else
-   event.type = eventtype::normal;
-end if;
+event.type = param.type;
 relate event to object across R3728;
 return event;',
 	1,
@@ -112,8 +100,14 @@ INSERT INTO O_TFR
 select many events from instances of event;
 for each event in events
   select one object related by event->object[R3728];
-  if (empty object)
+  if ( empty object )
     TRACE::log( flavor:"failure", id:31, message:"event with no object:  " + event.name );
+    valid = false;
+  end if;
+  if ( ( "assigner" != event.type ) and
+     ( "creation" != event.type ) and
+     ( "normal" != event.type ) )
+    TRACE::log( flavor:"failure", id:31, message:"event with invalid type:  " + event.name );
     valid = false;
   end if;
 end for;
@@ -155,16 +149,9 @@ INSERT INTO O_ATTR
 	'',
 	'type',
 	0,
-	"d61839d6-3f24-4fdb-8fd6-45d474bf3800",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("d61839d6-3f24-4fdb-8fd6-45d474bf3800",
-	"00000000-0000-0000-0000-000000000000",
-	'eventtype',
-	'',
-	'',
-	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");

@@ -1,5 +1,10 @@
 T_b(type->name);
+T_b("");
+if ( 0!=strcmp("",self->defaultvalue) ) {
 T_b(" ");
-T_b("assignment");
-T_b(" ;");
+T_b("assign ");
+T_b(self->defaultvalue);
+T_b("");
+}
+T_b(";");
 T_b("\n");

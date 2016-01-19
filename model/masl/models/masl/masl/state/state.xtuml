@@ -16,17 +16,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'type = "";
-if (statetype::assigner == self.type)
-   type ="assigner";
-elif (statetype::start == self.type)
-   type = "start";
-elif (statetype::creation == self.type)
-   type = "creation";
-elif (statetype::terminal == self.type)
-   type = "terminal";
-end if;
-T::include( file:"masl/t.state_start.masl" );
+	'T::include( file:"masl/t.state_begin.masl" );
 select one parameter related by self->parameter[R3726.''carries first''];
 if ( not_empty parameter )
   parameter.render();
@@ -45,17 +35,7 @@ INSERT INTO O_TFR
 	'object = param.object;
 create object instance state of state;
 state.name = param.name;
-if ("assigner" == param.type)
-   state.type = statetype::assigner;
-elif ("start" == param.type)
-   state.type = statetype::start;
-elif ("creation" == param.type)
-   state.type = statetype::creation;
-elif ("terminal" == param.type)
-   state.type = statetype::terminal;
-else
-   state.type = statetype::normal;
-end if;
+state.type = param.type;
 relate state to object across R3725;
 return state;',
 	1,
@@ -120,8 +100,16 @@ INSERT INTO O_TFR
 select many states from instances of state;
 for each state in states
   select one object related by state->object[R3725];
-  if (empty object)
+  if ( empty object )
     TRACE::log( flavor:"failure", id:31, message:"state with no object:  " + state.name );
+    valid = false;
+  end if;
+  if ( ( "assigner" != state.type ) and
+     ( "start" != state.type ) and
+     ( "creation" != state.type ) and
+     ( "terminal" != state.type ) and
+     ( "normal" != state.type ) )
+    TRACE::log( flavor:"failure", id:32, message:"state with invalid type:  " + state.name );
     valid = false;
   end if;
 end for;
@@ -163,16 +151,9 @@ INSERT INTO O_ATTR
 	'',
 	'type',
 	0,
-	"2da61c52-ec45-40f7-9120-c322ec275ece",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("2da61c52-ec45-40f7-9120-c322ec275ece",
-	"00000000-0000-0000-0000-000000000000",
-	'statetype',
-	'',
-	'',
-	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"64886a99-6942-49c6-b7d7-2dc495c52db1");
