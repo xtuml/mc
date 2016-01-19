@@ -70,7 +70,6 @@ UserPreOoaInitializationCalloutf( void )
  * xtUML application analysis state models to start consuming events.
  */
 #include <string.h>
-extern Escher_Extent_t pG_masl_project_extent;
 void
 UserPostOoaInitializationCalloutf( void )
 {
@@ -88,9 +87,9 @@ UserPostOoaInitializationCalloutf( void )
       fprintf( stderr, "%d%s", j, value[ j ] );
     }
     fprintf( stderr, "\n" );
-    masl_population_op_populate( element, value );
+    masl_in_populate( element, value );
   }
-  masl_project_op_render( (masl_project *)pG_masl_project_extent.active.head->object );
+  masl_in_render( "project", "*" );
   T_emit( "mcmaslout.txt" );
 }
 

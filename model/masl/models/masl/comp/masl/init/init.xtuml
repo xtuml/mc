@@ -53,8 +53,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'populate',
 	'',
-	'e = param.element; v = param.value;
-population::populate( element:e, value:v );
+	'population::populate( element:param.element, value:param.value );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -98,6 +97,68 @@ INSERT INTO S_DIM
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO PE_PE
 	VALUES ("c8f88f55-7bcf-478d-8520-ffd1cb746dd0",
+	1,
+	"af97d6d3-ecd7-4ebb-bd6b-1bd14d984600",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("dc4f1c17-d5f2-4d91-b976-12856fe2a3ae",
+	"00000000-0000-0000-0000-000000000000",
+	'render',
+	'',
+	'element = param.element;
+name = param.name;
+if ( "project" == element )
+  select many projects from instances of project where ( selected.name == name );
+  if ( "*" == name )
+    select many projects from instances of project;
+  end if;
+  if ( empty projects )
+    TRACE::log( flavor:"error", id:51, message:"could not render project:  " + name );
+  else
+    for each project in projects
+      project.render();
+    end for;
+  end if;
+elif ( "domain" == element )
+  select many domains from instances of domain where ( selected.name == name );
+  if ( "*" == name )
+    select many domains from instances of domain;
+  end if;
+  if ( empty domains )
+    TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
+  else
+    for each domain in domains
+      domain.render();
+    end for;
+  end if;
+else
+  TRACE::log( flavor:"error", id:53, message:"unrecognized element type on render interface:  " + element );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0f0ec7ae-68d6-4834-81ae-0ce62cfe994e",
+	"dc4f1c17-d5f2-4d91-b976-12856fe2a3ae",
+	'element',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("44339521-db9b-42ba-8151-e0c3fc662336",
+	"dc4f1c17-d5f2-4d91-b976-12856fe2a3ae",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0f0ec7ae-68d6-4834-81ae-0ce62cfe994e",
+	'');
+INSERT INTO PE_PE
+	VALUES ("dc4f1c17-d5f2-4d91-b976-12856fe2a3ae",
 	1,
 	"af97d6d3-ecd7-4ebb-bd6b-1bd14d984600",
 	"00000000-0000-0000-0000-000000000000",

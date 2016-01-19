@@ -358,6 +358,23 @@ INSERT INTO C_EP_PROXY
 	'populate',
 	'',
 	'../MASLDSL/MASLDSL.xtuml');
+INSERT INTO SPR_PEP
+	VALUES ("d0885c5b-c5e1-439d-8530-5993d8c070d1",
+	"a3e03e28-b19f-4bea-84df-d70f77be36d1",
+	"7039b2a2-b4c6-40a7-9b36-5577e4748919");
+INSERT INTO SPR_PS
+	VALUES ("d0885c5b-c5e1-439d-8530-5993d8c070d1",
+	'render',
+	'',
+	'::render( element:param.element, name:param.name );',
+	1);
+INSERT INTO C_EP_PROXY
+	VALUES ("a3e03e28-b19f-4bea-84df-d70f77be36d1",
+	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	-1,
+	'render',
+	'',
+	'../MASLDSL/MASLDSL.xtuml');
 INSERT INTO C_I_PROXY
 	VALUES ("d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
 	"00000000-0000-0000-0000-000000000000",
@@ -388,6 +405,16 @@ INSERT INTO SPR_REP
 INSERT INTO SPR_RO
 	VALUES ("f14c2ab1-3d07-4a58-9a26-e176c74a1321",
 	'populate',
+	'',
+	'',
+	1);
+INSERT INTO SPR_REP
+	VALUES ("29ba869c-f729-4cfd-838e-e4436cb24092",
+	"a3e03e28-b19f-4bea-84df-d70f77be36d1",
+	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82");
+INSERT INTO SPR_RS
+	VALUES ("29ba869c-f729-4cfd-838e-e4436cb24092",
+	'render',
 	'',
 	'',
 	1);
