@@ -20,13 +20,13 @@
 void
 masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[8][ESCHER_SYS_MAX_STRING_LEN] )
 {
-  c_t * value[8]={0,0,0,0,0,0,0,0};c_t * element=0;masl_population * population=0;
+  c_t * value[8]={0,0,0,0,0,0,0,0};c_t element[ESCHER_SYS_MAX_STRING_LEN];masl_population * population=0;
 int i;
 printf("masl_population_op_populate:  %s",p_element);
 for(i=0;i<8;i++) { if (p_value[i][0]) { printf(",%s",p_value[i]); } else { break; }}
 printf("\n");
   /* ASSIGN element = PARAM.element */
-  element = p_element;
+  Escher_strcpy( element, p_element );
   /* ASSIGN value = PARAM.value */
   value[0] = p_value[0];
   value[1] = p_value[1];
@@ -88,6 +88,14 @@ printf("\n");
   else if ( ( Escher_strcmp( "attribute", element ) == 0 ) ) {
     /* ASSIGN population.attribute = attribute::populate(defaultvalue:value[3], name:value[0], object:population.object, preferred:value[1], unique:value[2]) */
     population->attribute = masl_attribute_op_populate(value[3], value[0], population->object, value[1], value[2]);
+  }
+  else if ( ( Escher_strcmp( "state", element ) == 0 ) ) {
+    /* ASSIGN population.state = state::populate(name:value[0], object:population.object, type:value[1]) */
+    population->state = masl_state_op_populate(value[0], population->object, value[1]);
+  }
+  else if ( ( Escher_strcmp( "event", element ) == 0 ) ) {
+    /* ASSIGN population.event = event::populate(name:value[0], object:population.object, type:value[1]) */
+    population->event = masl_event_op_populate(value[0], population->object, value[1]);
   }
   else {
     /* TRACE::log( flavor:failure, id:39, message:( unrecognized element:   + element ) ) */

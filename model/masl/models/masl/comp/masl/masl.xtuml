@@ -98,7 +98,7 @@ INSERT INTO GD_GE
 	"7039b2a2-b4c6-40a7-9b36-5577e4748919",
 	94,
 	0,
-	'masl::comp::masl::in::population');
+	'masl::comp::masl::in::MASLDSL');
 INSERT INTO GD_CON
 	VALUES ("7706966f-adfe-4e06-8395-2dcf008d55d8",
 	"00000000-0000-0000-0000-000000000000");
@@ -222,7 +222,7 @@ INSERT INTO GD_GE
 	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82",
 	93,
 	0,
-	'masl::comp::masl::Port1::population');
+	'masl::comp::masl::out::MASLDSL');
 INSERT INTO GD_CON
 	VALUES ("aacb5b38-d2b7-403f-9f9c-5f978a6e0ef1",
 	"00000000-0000-0000-0000-000000000000");
@@ -336,10 +336,10 @@ INSERT INTO C_IR
 	"80759413-1326-4744-843d-fbc6cd3cee0d");
 INSERT INTO C_P
 	VALUES ("7039b2a2-b4c6-40a7-9b36-5577e4748919",
-	'population',
+	'MASLDSL',
 	'Unnamed Interface',
 	'',
-	'masl::in::population');
+	'masl::in::MASLDSL');
 INSERT INTO SPR_PEP
 	VALUES ("d51bda52-e071-4e57-8ea9-fd67c68152d1",
 	"c81b1086-4258-4925-bc8d-72b26c7204b7",
@@ -348,7 +348,7 @@ INSERT INTO SPR_PO
 	VALUES ("d51bda52-e071-4e57-8ea9-fd67c68152d1",
 	'populate',
 	'',
-	'//population::populate( element:param.element, value:param.value );
+	'::populate( element:param.element, value:param.value );
 ',
 	1);
 INSERT INTO C_EP_PROXY
@@ -357,17 +357,17 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'populate',
 	'',
-	'../population/population.xtuml');
+	'../MASLDSL/MASLDSL.xtuml');
 INSERT INTO C_I_PROXY
 	VALUES ("d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
 	"00000000-0000-0000-0000-000000000000",
-	'population',
+	'MASLDSL',
 	'',
-	'../population/population.xtuml');
+	'../MASLDSL/MASLDSL.xtuml');
 INSERT INTO C_PO
 	VALUES ("762e3382-6ab0-49f1-8fdc-597c737196a9",
 	"78775e10-f3b1-4b47-b908-ad2144f025e4",
-	'Port1',
+	'out',
 	0,
 	0);
 INSERT INTO C_IR
@@ -377,10 +377,10 @@ INSERT INTO C_IR
 	"762e3382-6ab0-49f1-8fdc-597c737196a9");
 INSERT INTO C_R
 	VALUES ("b3c57db2-ca71-4f44-98f3-6a9ccce00a82",
-	'population',
+	'MASLDSL',
 	'',
 	'Unnamed Interface',
-	'masl::Port1::population');
+	'masl::out::MASLDSL');
 INSERT INTO SPR_REP
 	VALUES ("f14c2ab1-3d07-4a58-9a26-e176c74a1321",
 	"c81b1086-4258-4925-bc8d-72b26c7204b7",
@@ -390,7 +390,7 @@ INSERT INTO SPR_RO
 	'populate',
 	'',
 	'',
-	3);
+	1);
 INSERT INTO PE_PE
 	VALUES ("78775e10-f3b1-4b47-b908-ad2144f025e4",
 	1,
