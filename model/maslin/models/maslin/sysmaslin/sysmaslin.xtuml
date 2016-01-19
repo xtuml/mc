@@ -4,7 +4,7 @@ INSERT INTO EP_PKG
 	VALUES ("02b1ab34-82e4-4df6-ab03-e3f8f6bc8143",
 	"319083ee-ba5f-4645-a409-d6249f9350bd",
 	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	'system',
+	'sysmaslin',
 	'',
 	0);
 INSERT INTO GD_MD
@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	150,
 	0,
 	'4.1.17',
-	'maslin::system');
+	'maslin::sysmaslin');
 INSERT INTO GD_GE
 	VALUES ("000aaa44-4522-43ca-8ec3-7e799d6f74a4",
 	"ea9ff042-88e5-40ad-9659-8ec303bb04ec",
 	"f87ccb61-02db-46b3-a64a-a26150ef6f18",
 	100,
 	0,
-	'maslin::system::maslin::lib::maslin');
+	'maslin::sysmaslin::maslin::lib::maslin');
 INSERT INTO GD_SHP
 	VALUES ("000aaa44-4522-43ca-8ec3-7e799d6f74a4");
 INSERT INTO GD_NCS
@@ -66,7 +66,7 @@ INSERT INTO GD_GE
 	"0a2ff46a-827d-466e-bb1a-6a145579b1c1",
 	105,
 	0,
-	'maslin::system::maslin::lib::maslin::::SQL');
+	'maslin::sysmaslin::maslin::lib::maslin::::SQL');
 INSERT INTO GD_CON
 	VALUES ("a53a7508-20e3-410f-b538-ceb131d1ace7",
 	"00000000-0000-0000-0000-000000000000");
@@ -100,8 +100,8 @@ INSERT INTO DIM_ND
 	0.000000,
 	"12eb9d20-29a7-4242-acae-4fb7b5c34c4d");
 INSERT INTO DIM_GE
-	VALUES (0.000000,
-	0.000000,
+	VALUES (259.000000,
+	220.000000,
 	"12eb9d20-29a7-4242-acae-4fb7b5c34c4d",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
@@ -166,7 +166,7 @@ INSERT INTO GD_GE
 	"d8270d0e-67fd-4753-b37e-95e89dc05b6c",
 	105,
 	0,
-	'maslin::system::maslin::lib::maslin::::MASLDSL');
+	'maslin::sysmaslin::maslin::lib::maslin::::MASLDSL');
 INSERT INTO GD_CON
 	VALUES ("b969c94b-3260-4a47-80c1-461e614dd50d",
 	"00000000-0000-0000-0000-000000000000");
@@ -200,8 +200,8 @@ INSERT INTO DIM_ND
 	0.000000,
 	"ee613954-2695-48c1-8899-11c7754ea2a8");
 INSERT INTO DIM_GE
-	VALUES (0.000000,
-	0.000000,
+	VALUES (171.000000,
+	120.000000,
 	"ee613954-2695-48c1-8899-11c7754ea2a8",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
