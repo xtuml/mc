@@ -4,7 +4,7 @@ INSERT INTO EP_PKG
 	VALUES ("8b16b356-555e-4db2-ab0c-3f3b654cd5f2",
 	"53107551-b0b9-4155-a13f-41b410f63a54",
 	"53107551-b0b9-4155-a13f-41b410f63a54",
-	'xtuml2masl',
+	'maslout',
 	'',
 	0);
 INSERT INTO GD_MD
@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'maslout::xtuml2masl');
+	'maslout::maslout');
 INSERT INTO DIM_DIA
 	VALUES ("f7087701-629c-4ab5-afbc-2b2a034ed580",
 	'',
