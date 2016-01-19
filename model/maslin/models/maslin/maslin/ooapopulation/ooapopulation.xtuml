@@ -1,0 +1,146 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ooapopulation',
+	3737,
+	'ooapopulation',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("87050544-e583-4582-86a9-367a73543eb0",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// Populate MASL.
+
+element = param.element;
+value = param.value;
+
+select any population from instances of population;
+if ( empty population )
+  create object instance population of population;
+end if;
+
+if ( "project" == element )
+  population.project = project::populate( name:value[0] );
+elif ( "domain" == element )
+  population.domain = domain::populate( name:value[0], project:population.project );
+elif ( "object" == element )
+  population.object = object::populate( name:value[0], domain:population.domain );
+elif ( "terminator" == element )
+  population.terminator = terminator::populate( name:value[0], domain:population.domain );
+elif ( "activity" == element )
+  // Check to see if the parent is a domain or a terminator.
+  if ( "" != value[1] )
+    // activity is child of terminator
+    population.activity = activity::populate( name:value[0], terminator:population.terminator, flavor:value[2] );
+  elif ( false )
+    // activity is child of object
+  elif ( false )
+    // activity is child of domain
+  else
+    TRACE::log( flavor:"failure", id:40, message:"unrecognized activity:  " + value[0] );
+  end if;
+elif ( "parameter" == element )
+  // Check to see if the parent is an activity or a sibling parameter.
+  if ( "" == value[3] )
+    // first parameter
+    select any empty_parameter from instances of parameter where ( false );
+    population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:empty_parameter );
+  else
+    population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:population.parameter );
+  end if;
+elif ( "attribute" == element )
+  population.attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:population.object );
+elif ( "state" == element )
+  population.state = state::populate( name:value[0], type:value[1], object:population.object );
+elif ( "event" == element )
+  population.event = event::populate( name:value[0], type:value[1], object:population.object );
+else
+  TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
+end if;
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("131c349a-c035-4ed0-854f-b9f18d804b36",
+	"87050544-e583-4582-86a9-367a73543eb0",
+	'element',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("b7e1dbc7-2e46-4b35-82f2-fbf411d3d1b0",
+	"87050544-e583-4582-86a9-367a73543eb0",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'[8]',
+	"131c349a-c035-4ed0-854f-b9f18d804b36",
+	'');
+INSERT INTO S_DIM
+	VALUES (8,
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"b7e1dbc7-2e46-4b35-82f2-fbf411d3d1b0",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"b7b3e016-0c9c-42a6-ad94-320b2a9deec2",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("bda701a3-1e5f-4c37-a49f-25dfe331e6eb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("bda701a3-1e5f-4c37-a49f-25dfe331e6eb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("bda701a3-1e5f-4c37-a49f-25dfe331e6eb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"00000000-0000-0000-0000-000000000000",
+	'project',
+	'',
+	'',
+	'project',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ID
+	VALUES (1,
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ID
+	VALUES (2,
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO PE_PE
+	VALUES ("2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	1,
+	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'maslin',
+	'',
+	0,
+	'../maslin.xtuml');
