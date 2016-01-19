@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	150,
 	0,
 	'',
-	'masl::comp::masl::init');
+	'masl::lib::masl::init');
 INSERT INTO DIM_DIA
 	VALUES ("c17a1105-1b57-424e-90a2-12a12bedaccb",
 	'',

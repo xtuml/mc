@@ -28,14 +28,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'masl::comp::masl');
+	'masl::lib::masl');
 INSERT INTO GD_GE
 	VALUES ("2530c795-c41e-48b1-b714-98300e9393b2",
 	"ac9fbb34-d079-4bc6-8197-3513b74594ef",
 	"78775e10-f3b1-4b47-b908-ad2144f025e4",
 	103,
 	0,
-	'masl::comp::masl');
+	'masl::lib::masl');
 INSERT INTO GD_SHP
 	VALUES ("2530c795-c41e-48b1-b714-98300e9393b2");
 INSERT INTO GD_CTR
@@ -74,7 +74,7 @@ INSERT INTO GD_GE
 	"60badd64-9803-41ef-bf5c-23e18f030edf",
 	108,
 	0,
-	'masl::comp::masl::imported_masl');
+	'masl::lib::masl::imported_masl');
 INSERT INTO GD_SHP
 	VALUES ("18b37037-c8e8-4a3f-bb98-1b909c69c04e");
 INSERT INTO GD_NCS
@@ -98,7 +98,7 @@ INSERT INTO GD_GE
 	"7039b2a2-b4c6-40a7-9b36-5577e4748919",
 	94,
 	0,
-	'masl::comp::masl::in::MASLDSL');
+	'masl::lib::masl::in::MASLDSL');
 INSERT INTO GD_CON
 	VALUES ("7706966f-adfe-4e06-8395-2dcf008d55d8",
 	"00000000-0000-0000-0000-000000000000");
@@ -198,7 +198,7 @@ INSERT INTO GD_GE
 	"af97d6d3-ecd7-4ebb-bd6b-1bd14d984600",
 	108,
 	0,
-	'masl::comp::masl::init');
+	'masl::lib::masl::init');
 INSERT INTO GD_SHP
 	VALUES ("4c45e519-5a52-486d-87f9-1374ce3648c3");
 INSERT INTO GD_NCS
@@ -222,7 +222,7 @@ INSERT INTO GD_GE
 	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82",
 	93,
 	0,
-	'masl::comp::masl::out::MASLDSL');
+	'masl::lib::masl::out::MASLDSL');
 INSERT INTO GD_CON
 	VALUES ("aacb5b38-d2b7-403f-9f9c-5f978a6e0ef1",
 	"00000000-0000-0000-0000-000000000000");
@@ -428,7 +428,7 @@ INSERT INTO EP_PKG_PROXY
 	VALUES ("d5d2099b-4471-4432-8706-af913e60898a",
 	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
 	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
-	'comp',
+	'lib',
 	'',
 	0,
-	'../comp.xtuml');
+	'../lib.xtuml');

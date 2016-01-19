@@ -32,7 +32,7 @@ INSERT INTO GD_GE
 	"34039295-4e5f-41b3-a064-de26212607f4",
 	100,
 	0,
-	'masl::system::masl::comp::masl');
+	'masl::system::masl::lib::masl');
 INSERT INTO GD_SHP
 	VALUES ("4c7b5095-0f36-4516-b28e-c5ecc52d0af2");
 INSERT INTO GD_NCS
@@ -66,7 +66,7 @@ INSERT INTO GD_GE
 	"8bb122c5-cd3d-4aa0-9f7d-68f13fa9294a",
 	105,
 	0,
-	'masl::system::masl::comp::masl::in::population');
+	'masl::system::masl::lib::masl::in::MASLDSL');
 INSERT INTO GD_CON
 	VALUES ("1c0941a2-2f81-4cb5-902f-b3084fb88861",
 	"00000000-0000-0000-0000-000000000000");
@@ -166,7 +166,7 @@ INSERT INTO GD_GE
 	"742c1f3b-830e-46ed-b4a5-47c7b262d9e5",
 	106,
 	0,
-	'masl::system::masl::comp::masl::::population');
+	'masl::system::masl::lib::masl::::MASLDSL');
 INSERT INTO GD_CON
 	VALUES ("1547c461-83a0-4d46-bec1-6bea31fced12",
 	"00000000-0000-0000-0000-000000000000");
@@ -274,7 +274,7 @@ INSERT INTO CL_IC
 	"00000000-0000-0000-0000-000000000000",
 	0,
 	'',
-	'masl::comp::masl',
+	'masl::lib::masl',
 	'');
 INSERT INTO CL_POR
 	VALUES ("34039295-4e5f-41b3-a064-de26212607f4",
@@ -286,25 +286,25 @@ INSERT INTO CL_IIR
 	"7039b2a2-b4c6-40a7-9b36-5577e4748919",
 	"e0899213-3c93-4479-af12-5aa8e94f08d5",
 	"00000000-0000-0000-0000-000000000000",
-	'population',
+	'MASLDSL',
 	'');
 INSERT INTO CL_IP
 	VALUES ("8bb122c5-cd3d-4aa0-9f7d-68f13fa9294a",
-	'population',
+	'MASLDSL',
 	'');
 INSERT INTO C_IR_PROXY
 	VALUES ("7039b2a2-b4c6-40a7-9b36-5577e4748919",
 	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
 	"00000000-0000-0000-0000-000000000000",
 	"80759413-1326-4744-843d-fbc6cd3cee0d",
-	'../comp/masl/masl.xtuml');
+	'../lib/masl/masl.xtuml');
 INSERT INTO C_PO_PROXY
 	VALUES ("80759413-1326-4744-843d-fbc6cd3cee0d",
 	"78775e10-f3b1-4b47-b908-ad2144f025e4",
 	'in',
 	0,
 	0,
-	'../comp/masl/masl.xtuml');
+	'../lib/masl/masl.xtuml');
 INSERT INTO CL_POR
 	VALUES ("34039295-4e5f-41b3-a064-de26212607f4",
 	"00000000-0000-0000-0000-000000000000",
@@ -315,19 +315,19 @@ INSERT INTO CL_IIR
 	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82",
 	"51f0e013-97eb-4fa2-9b57-8ad532751f1d",
 	"00000000-0000-0000-0000-000000000000",
-	'population',
+	'MASLDSL',
 	'');
 INSERT INTO CL_IR
 	VALUES ("742c1f3b-830e-46ed-b4a5-47c7b262d9e5",
 	"00000000-0000-0000-0000-000000000000",
-	'population',
+	'MASLDSL',
 	'');
 INSERT INTO C_IR_PROXY
 	VALUES ("b3c57db2-ca71-4f44-98f3-6a9ccce00a82",
 	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
 	"00000000-0000-0000-0000-000000000000",
 	"762e3382-6ab0-49f1-8fdc-597c737196a9",
-	'../comp/masl/masl.xtuml');
+	'../lib/masl/masl.xtuml');
 INSERT INTO PE_PE
 	VALUES ("34039295-4e5f-41b3-a064-de26212607f4",
 	1,
@@ -344,7 +344,7 @@ INSERT INTO C_C_PROXY
 	"00000000-0000-0000-0000-000000000000",
 	0,
 	'',
-	'../comp/masl/masl.xtuml');
+	'../lib/masl/masl.xtuml');
 INSERT INTO PE_PE
 	VALUES ("5a5e1a62-2bf9-4c15-922f-1222beacc06b",
 	1,
