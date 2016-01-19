@@ -1,4 +1,4 @@
-.invoke MarkSystemConfigurationPackage( "system" )
+.invoke MarkSystemConfigurationPackage( "sysmasl" )
 .//===========================================================================
 .// File:  system.mark
 .//
