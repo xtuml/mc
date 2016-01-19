@@ -94,9 +94,9 @@ INSERT INTO PE_PE
 	4);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
 	'masl2xtuml',
 	'',
 	0,
-	'../masl2xtuml.xtuml');
+	'../maslin.xtuml');
