@@ -25,8 +25,9 @@ if ( empty ooapopulation )
 end if;
 
 if ( "project" == element )
-  self.transformProject(name:param.value[0]);
+  ooapopulation.transformProject(name:param.value[0]);
 elif ( "domain" == element )
+  ooapopulation.transformDomain(name:param.value[0]);
 elif ( "object" == element )
 elif ( "terminator" == element )
 elif ( "activity" == element )
@@ -85,19 +86,20 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// Create the system model
+	'// Create the system model and cache it
 create object instance s_sys of S_SYS;
 s_sys.Name = param.name;
+self.current_sys = s_sys;
 
-// Create a package named the same as the project.
-self.SystemModel_newPackage(s_sys:s_sys, pkg_name:s_sys.Name);
+// Create a package named the same as the project and cache it
+self.wiring_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:s_sys.Name);
 
-// Create a package named "Library"
-self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"Library");
+// Create a package named "Library" and cache it
+self.lib_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"Library");
 ',
 	1,
 	'',
-	"87050544-e583-4582-86a9-367a73543eb0");
+	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
 INSERT INTO O_TPARM
 	VALUES ("0328c5d5-16a3-4b55-b5b6-f0d134aec768",
 	"a442a038-3373-4282-a5fc-098af44e9cbe",
@@ -112,7 +114,7 @@ INSERT INTO O_TFR
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'SystemModel_newPackage',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
 	1,
 	's_sys = param.s_sys;
 
@@ -123,10 +125,12 @@ relate package to s_sys across R1401;
 relate package to s_sys across R1405;
 pe.type = ElementTypeConstants::PACKAGE;
 self.PackageableElement_initialize(pe_pe:pe); // OOA - pe.initialize();
-self.Package_initialize(ep_pkg:package, name:param.pkg_name); // OOA - package.initialize();',
+self.Package_initialize(ep_pkg:package, name:param.pkg_name); // OOA - package.initialize();
+
+return package; ',
 	1,
 	'',
-	"a442a038-3373-4282-a5fc-098af44e9cbe");
+	"59fd5264-7d22-47ce-a615-605f9ee03143");
 INSERT INTO O_TPARM
 	VALUES ("c0ea2b5d-984c-4673-8b25-82eec8098da2",
 	"0ff33986-594c-49e8-84a0-7eb628272d32",
@@ -152,6 +156,13 @@ INSERT INTO O_TPARM
 	'',
 	"c0ea2b5d-984c-4673-8b25-82eec8098da2",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Package>',
+	'',
+	'',
+	'../../../../../escher/models/escher/ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
 INSERT INTO O_TFR
 	VALUES ("6d27ebf1-bb50-4835-85e2-b21d260ab92c",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -164,7 +175,7 @@ pe_pe = param.pe_pe;
 pe_pe.Visibility = Visibility::Public;',
 	1,
 	'',
-	"0ff33986-594c-49e8-84a0-7eb628272d32");
+	"8dc83f08-897b-47cb-9ef3-db03c1fa412c");
 INSERT INTO O_TPARM
 	VALUES ("6a17224a-e16d-4c87-a4b6-3504f24b8992",
 	"6d27ebf1-bb50-4835-85e2-b21d260ab92c",
@@ -194,13 +205,6 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Package>',
-	'',
-	'',
-	'../../../../../escher/models/escher/ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("73477a97-5ece-48fc-b867-a6d17b3feb4a",
 	"9c97aa3a-d0d2-409c-86d0-9194db2476c5",
@@ -209,6 +213,206 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"5a94768b-9a96-4630-93bc-5fb624b542cc",
+	'');
+INSERT INTO O_TFR
+	VALUES ("07d3849c-9f14-49f4-8d47-bb9f1891ecc0",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformDomain',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Create a component in the Library package
+c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
+
+// Create a component reference in the project wiring package
+cl_ic = self.Package_newImportedComponent(ep_pkg:self.wiring_pkg);
+
+// Assign the component reference to the component 
+self.ComponentReference(cl_ic:cl_ic, c_c:c_c);',
+	1,
+	'',
+	"87050544-e583-4582-86a9-367a73543eb0");
+INSERT INTO O_TPARM
+	VALUES ("8da4d30c-a69d-4f29-a03f-feaa156369bb",
+	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("59fd5264-7d22-47ce-a615-605f9ee03143",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_newComponent',
+	'',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	1,
+	'ep_pkg = param.ep_pkg;
+
+create object instance component of C_C;
+// create Packageable Element supertype and hook up to this package.
+create object instance pe of PE_PE;
+relate component to pe across R8001;
+relate pe to ep_pkg across R8000;
+pe.type = ElementTypeConstants::COMPONENT;
+self.PackageableElement_initialize(pe_pe:pe); // OOA - pe.initialize();
+self.Component_initialize(c_c:component,name:param.component_name); // OOA - component.initialize();
+
+return component;  // TODO - might make more sense to cache this in ooapopulation instead as current_component',
+	1,
+	'',
+	"a9942ae9-1501-49c7-afb1-84aa422a85e5");
+INSERT INTO O_TPARM
+	VALUES ("516962af-ce9e-4d62-a525-bbbbeaa22aec",
+	"59fd5264-7d22-47ce-a615-605f9ee03143",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("76af9b0d-2e19-40ad-a6b9-9a4aff04722c",
+	"59fd5264-7d22-47ce-a615-605f9ee03143",
+	'component_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"516962af-ce9e-4d62-a525-bbbbeaa22aec",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("67f93d18-1045-4c6c-b0d5-a692023c471c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Component>',
+	'',
+	'',
+	'../../../../../escher/models/escher/ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+INSERT INTO O_TFR
+	VALUES ("a9942ae9-1501-49c7-afb1-84aa422a85e5",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_newImportedComponent',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'ep_pkg = param.ep_pkg;
+
+create object instance importedComp of CL_IC;
+// create Packageable Element supertype and hook up to this package.
+create object instance pe of PE_PE;
+relate importedComp to pe across R8001;
+relate pe to ep_pkg across R8000;
+pe.type = ElementTypeConstants::COMPONENT_REFERENCE;
+self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+
+return importedComp;',
+	1,
+	'',
+	"9c97aa3a-d0d2-409c-86d0-9194db2476c5");
+INSERT INTO O_TPARM
+	VALUES ("e952b8f1-7170-41cf-90c0-cc2e46eff7d6",
+	"a9942ae9-1501-49c7-afb1-84aa422a85e5",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("69c066cc-2506-4998-b894-060151a8f78f",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Component_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'param.c_c.Name = param.name;',
+	1,
+	'',
+	"a442a038-3373-4282-a5fc-098af44e9cbe");
+INSERT INTO O_TPARM
+	VALUES ("f65484fc-8457-4608-a4a6-aaecf7953533",
+	"69c066cc-2506-4998-b894-060151a8f78f",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("9d676a9b-81ea-4e5a-8daa-b049672d005e",
+	"69c066cc-2506-4998-b894-060151a8f78f",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f65484fc-8457-4608-a4a6-aaecf7953533",
+	'');
+INSERT INTO O_TFR
+	VALUES ("8dc83f08-897b-47cb-9ef3-db03c1fa412c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ComponentReference_assignToComp',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// This function is heavily modified from the OOAofOOA version.  Notably, a huge block of code to handle the case
+// where the component reference is already assigned to a component is removed as we are only using this for 
+// fresh component reference creation.
+
+cl_ic = param.cl_ic;  // TODO - This needs Component Reference to have it''s inst_ref published and the parameter type fixed
+comp = param.c_c;
+
+select one packageableElem related by cl_ic->PE_PE[R8001]; 
+select one contPackage related by packageableElem->EP_PKG[R8000];
+select one contComponent related by packageableElem->C_C[R8003];
+select any pe from instances of PE_PE where selected.Element_ID == param.Id;
+if(not_empty comp)
+  relate cl_ic to comp across R4201;
+  select many formalInterfaces related by comp->C_PO[R4010]->C_IR[R4016];
+  for each formalInterface in formalInterfaces
+    if(formalInterface.isFormal())
+      select any existingImportRef related by cl_ic->CL_POR[R4707]->CL_IIR[R4708]->C_IR[R4701]
+                                      where (selected.Id == formalInterface.Id);
+      if(empty existingImportRef)
+        select one provision related by formalInterface->C_P[R4009];
+        create object instance newImportedRef of CL_IIR;
+        if(not_empty provision)
+          create object instance importedPro of CL_IP;
+          relate importedPro to newImportedRef across R4703;
+        else
+          create object instance importedReq of CL_IR;
+          relate importedReq to newImportedRef across R4703;
+        end if;
+        create object instance portRef of CL_POR;
+        select one existingPort related by formalInterface->C_PO[R4016];
+        relate existingPort to portRef across R4709;
+        relate portRef to cl_ic across R4707;
+        relate portRef to newImportedRef across R4708;
+        relate newImportedRef to formalInterface across R4701;
+      end if;
+    end if;
+  end for; 
+end if;
+',
+	1,
+	'',
+	"69c066cc-2506-4998-b894-060151a8f78f");
+INSERT INTO O_TPARM
+	VALUES ("14d80979-ed8b-4fd8-9a8a-63dd3ec8e7ca",
+	"8dc83f08-897b-47cb-9ef3-db03c1fa412c",
+	'cl_ic',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("54c1f990-33e8-435c-893b-378292930c52",
+	"8dc83f08-897b-47cb-9ef3-db03c1fa412c",
+	'c_c',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"14d80979-ed8b-4fd8-9a8a-63dd3ec8e7ca",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("bda701a3-1e5f-4c37-a49f-25dfe331e6eb",
@@ -435,6 +639,60 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../masl/models/masl/masl/masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("a87535cf-69f9-40c1-89b7-ec610331473e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("a87535cf-69f9-40c1-89b7-ec610331473e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("a87535cf-69f9-40c1-89b7-ec610331473e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"0b2d917d-62cd-4237-8748-c8585475871c",
+	'current_sys',
+	'',
+	'',
+	'current_sys',
+	0,
+	"4b886601-55ee-4d42-a1f8-f5c45d459db2",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"a87535cf-69f9-40c1-89b7-ec610331473e",
+	'wiring_pkg',
+	'',
+	'',
+	'wiring_pkg',
+	0,
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
+	'lib_pkg',
+	'',
+	'',
+	'lib_pkg',
+	0,
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
