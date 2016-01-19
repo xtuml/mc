@@ -25,6 +25,7 @@ if ( empty ooapopulation )
 end if;
 
 if ( "project" == element )
+  self.transformProject(name:param.value[0]);
 elif ( "domain" == element )
 elif ( "object" == element )
 elif ( "terminator" == element )
@@ -77,6 +78,138 @@ INSERT INTO S_DIM
 	"00000000-0000-0000-0000-000000000000",
 	"b7b3e016-0c9c-42a6-ad94-320b2a9deec2",
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("a442a038-3373-4282-a5fc-098af44e9cbe",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformProject',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Create the system model
+create object instance s_sys of S_SYS;
+s_sys.Name = param.name;
+
+// Create a package named the same as the project.
+self.SystemModel_newPackage(s_sys:s_sys, pkg_name:s_sys.Name);
+
+// Create a package named "Library"
+self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"Library");
+',
+	1,
+	'',
+	"87050544-e583-4582-86a9-367a73543eb0");
+INSERT INTO O_TPARM
+	VALUES ("0328c5d5-16a3-4b55-b5b6-f0d134aec768",
+	"a442a038-3373-4282-a5fc-098af44e9cbe",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("0ff33986-594c-49e8-84a0-7eb628272d32",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'SystemModel_newPackage',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	's_sys = param.s_sys;
+
+create object instance package of EP_PKG;
+create object instance pe of PE_PE;
+relate pe to package across R8001;
+relate package to s_sys across R1401;
+relate package to s_sys across R1405;
+pe.type = ElementTypeConstants::PACKAGE;
+self.PackageableElement_initialize(pe_pe:pe); // OOA - pe.initialize();
+self.Package_initialize(ep_pkg:package, name:param.pkg_name); // OOA - package.initialize();',
+	1,
+	'',
+	"a442a038-3373-4282-a5fc-098af44e9cbe");
+INSERT INTO O_TPARM
+	VALUES ("c0ea2b5d-984c-4673-8b25-82eec8098da2",
+	"0ff33986-594c-49e8-84a0-7eb628272d32",
+	's_sys',
+	"4b886601-55ee-4d42-a1f8-f5c45d459db2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4b886601-55ee-4d42-a1f8-f5c45d459db2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<System Model>',
+	'',
+	'',
+	'../../../../../escher/models/escher/ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("30807aa7-d095-4157-bcc4-c73f861e33bb",
+	"0ff33986-594c-49e8-84a0-7eb628272d32",
+	'pkg_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c0ea2b5d-984c-4673-8b25-82eec8098da2",
+	'');
+INSERT INTO O_TFR
+	VALUES ("6d27ebf1-bb50-4835-85e2-b21d260ab92c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'PackageableElement_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// TODO - The parameter to this function needs to be changed from integer to inst_ref<PackageableElement>
+pe_pe = param.pe_pe;
+pe_pe.Visibility = Visibility::Public;',
+	1,
+	'',
+	"0ff33986-594c-49e8-84a0-7eb628272d32");
+INSERT INTO O_TPARM
+	VALUES ("6a17224a-e16d-4c87-a4b6-3504f24b8992",
+	"6d27ebf1-bb50-4835-85e2-b21d260ab92c",
+	'pe_pe',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("9c97aa3a-d0d2-409c-86d0-9194db2476c5",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'param.ep_pkg.Name = param.name;',
+	1,
+	'',
+	"6d27ebf1-bb50-4835-85e2-b21d260ab92c");
+INSERT INTO O_TPARM
+	VALUES ("5a94768b-9a96-4630-93bc-5fb624b542cc",
+	"9c97aa3a-d0d2-409c-86d0-9194db2476c5",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Package>',
+	'',
+	'',
+	'../../../../../escher/models/escher/ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("73477a97-5ece-48fc-b867-a6d17b3feb4a",
+	"9c97aa3a-d0d2-409c-86d0-9194db2476c5",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"5a94768b-9a96-4630-93bc-5fb624b542cc",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("bda701a3-1e5f-4c37-a49f-25dfe331e6eb",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
