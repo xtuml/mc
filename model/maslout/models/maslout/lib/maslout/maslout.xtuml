@@ -69,7 +69,7 @@ INSERT INTO GD_GE
 	"c4855129-85e3-422b-a5d5-9bd95c1676a1",
 	94,
 	0,
-	'maslout::lib::maslout::Port1::MASLDSL');
+	'maslout::lib::maslout::out::MASLDSL');
 INSERT INTO GD_CON
 	VALUES ("2f55cf5a-f9a6-4c37-8e1e-983009be9eff",
 	"00000000-0000-0000-0000-000000000000");
@@ -169,7 +169,7 @@ INSERT INTO GD_GE
 	"83a3a961-5780-4ae6-b4a0-42325ff7fcfe",
 	94,
 	0,
-	'maslout::lib::maslout::Port2::SQL');
+	'maslout::lib::maslout::load::SQL');
 INSERT INTO GD_CON
 	VALUES ("2436b913-e903-47ec-be06-65a6f0ea2e63",
 	"00000000-0000-0000-0000-000000000000");
@@ -273,7 +273,7 @@ INSERT INTO DIM_DIA
 INSERT INTO C_PO
 	VALUES ("ae64616f-d20b-48b5-acbb-d0ab936583d2",
 	"22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
-	'Port1',
+	'out',
 	0,
 	0);
 INSERT INTO C_IR
@@ -286,7 +286,7 @@ INSERT INTO C_P
 	'MASLDSL',
 	'Unnamed Interface',
 	'',
-	'maslout::Port1::MASLDSL');
+	'maslout::out::MASLDSL');
 INSERT INTO SPR_PEP
 	VALUES ("f83aa048-0330-4dde-a8f8-7ef81f353bab",
 	"a3e03e28-b19f-4bea-84df-d70f77be36d1",
@@ -330,7 +330,7 @@ INSERT INTO C_I_PROXY
 INSERT INTO C_PO
 	VALUES ("3e253dde-b516-47f7-bcce-23ddb8caf1a7",
 	"22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
-	'Port2',
+	'load',
 	0,
 	0);
 INSERT INTO C_IR
@@ -343,7 +343,7 @@ INSERT INTO C_P
 	'SQL',
 	'Unnamed Interface',
 	'',
-	'maslout::Port2::SQL');
+	'maslout::load::SQL');
 INSERT INTO C_I_PROXY
 	VALUES ("1ece8eb3-1e88-422c-80ba-41403cb93b83",
 	"00000000-0000-0000-0000-000000000000",

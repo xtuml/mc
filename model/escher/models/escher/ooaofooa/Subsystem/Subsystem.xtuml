@@ -4323,6 +4323,86 @@ INSERT INTO DIM_DIA
 	898.000000,
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO S_DT
+	VALUES ("579b8247-e153-481d-8926-384cdc722464",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("579b8247-e153-481d-8926-384cdc722464",
+	0,
+	"5d58dffb-2a82-4a68-876c-1c0cc11dc66c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("5d58dffb-2a82-4a68-876c-1c0cc11dc66c",
+	'Attribute',
+	103,
+	'O_ATTR',
+	'An attribute is an abstraction of a single characteristic possessed by a class.  Usually classes contain a set of attributes to completely capture all pertinent information.  Each attribute is given a unique name within a class.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Attribute/Attribute.xtuml');
+INSERT INTO PE_PE
+	VALUES ("579b8247-e153-481d-8926-384cdc722464",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("ceb38606-6f98-4886-aab1-5ae358776d11",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ceb38606-6f98-4886-aab1-5ae358776d11",
+	1,
+	"5d58dffb-2a82-4a68-876c-1c0cc11dc66c");
+INSERT INTO PE_PE
+	VALUES ("ceb38606-6f98-4886-aab1-5ae358776d11",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Model Class>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	"e545984c-062c-43fd-9deb-1a46d657e094");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("e545984c-062c-43fd-9deb-1a46d657e094",
+	'Model Class',
+	101,
+	'O_OBJ',
+	'A model class represents an abstraction of a real world thing.  All instances of a class have the same characteristics and conform to the same set of rules.  The characteristics of a class are captured as attributes.  Each class within a domain are assigned a unique name, number, and keyletter.',
+	"00000000-0000-0000-0000-000000000000",
+	'../Subsystem/Model Class/Model Class.xtuml');
+INSERT INTO PE_PE
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("ab18be05-1113-4cd5-aed8-ff9e2b2d85e6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Model Class>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ab18be05-1113-4cd5-aed8-ff9e2b2d85e6",
+	1,
+	"e545984c-062c-43fd-9deb-1a46d657e094");
+INSERT INTO PE_PE
+	VALUES ("ab18be05-1113-4cd5-aed8-ff9e2b2d85e6",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
 	VALUES ("eeb98cba-1a0c-4d36-80f1-c0199a301aaf",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<Operation Parameter>',
