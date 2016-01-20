@@ -29,6 +29,7 @@ if ( "project" == element )
 elif ( "domain" == element )
   ooapopulation.transformDomain(name:param.value[0]);
 elif ( "object" == element )
+  ooapopulation.transformObject(name:param.value[0]);
 elif ( "terminator" == element )
 elif ( "activity" == element )
 elif ( "parameter" == element )
@@ -99,7 +100,7 @@ self.lib_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"Library");
 ',
 	1,
 	'',
-	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
+	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80");
 INSERT INTO O_TPARM
 	VALUES ("0328c5d5-16a3-4b55-b5b6-f0d134aec768",
 	"a442a038-3373-4282-a5fc-098af44e9cbe",
@@ -146,7 +147,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<System Model>',
 	'',
 	'',
-	'../../../../../escher/models/escher/ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../../../../../escher/models/escher/ooaofooa/Domain/Domain.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("30807aa7-d095-4157-bcc4-c73f861e33bb",
 	"0ff33986-594c-49e8-84a0-7eb628272d32",
@@ -162,7 +163,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Package>',
 	'',
 	'',
-	'../../../../../escher/models/escher/ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../../../../../escher/models/escher/ooaofooa/Element Packaging/Element Packaging.xtuml');
 INSERT INTO O_TFR
 	VALUES ("6d27ebf1-bb50-4835-85e2-b21d260ab92c",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -180,11 +181,18 @@ INSERT INTO O_TPARM
 	VALUES ("6a17224a-e16d-4c87-a4b6-3504f24b8992",
 	"6d27ebf1-bb50-4835-85e2-b21d260ab92c",
 	'pe_pe',
-	"ba5eda7a-def5-0000-0000-000000000002",
+	"e988e223-9ca4-4b6f-a675-001eefe3aa24",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e988e223-9ca4-4b6f-a675-001eefe3aa24",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Packageable Element>',
+	'',
+	'',
+	'../../../../../escher/models/escher/ooaofooa/Packageable Element/Packageable Element.xtuml');
 INSERT INTO O_TFR
 	VALUES ("9c97aa3a-d0d2-409c-86d0-9194db2476c5",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -223,12 +231,13 @@ INSERT INTO O_TFR
 	1,
 	'// Create a component in the Library package
 c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
+self.Component_newPackage(c_c:c_c, pkg_name:"internals");
 
 // Create a component reference in the project wiring package
 cl_ic = self.Package_newImportedComponent(ep_pkg:self.wiring_pkg);
 
 // Assign the component reference to the component 
-self.ComponentReference(cl_ic:cl_ic, c_c:c_c);',
+self.ComponentReference_assignToComp(cl_ic:cl_ic, c_c:c_c);',
 	1,
 	'',
 	"87050544-e583-4582-86a9-367a73543eb0");
@@ -287,13 +296,13 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Component>',
 	'',
 	'',
-	'../../../../../escher/models/escher/ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../../../../../escher/models/escher/ooaofooa/Component/Component.xtuml');
 INSERT INTO O_TFR
 	VALUES ("a9942ae9-1501-49c7-afb1-84aa422a85e5",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'Package_newImportedComponent',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"4bf19d7e-1bcd-469a-b056-4523dd59dc1d",
 	1,
 	'ep_pkg = param.ep_pkg;
 
@@ -318,6 +327,13 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4bf19d7e-1bcd-469a-b056-4523dd59dc1d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Component Reference>',
+	'',
+	'',
+	'../../../../../escher/models/escher/ooaofooa/Component/Component Library/Component Library.xtuml');
 INSERT INTO O_TFR
 	VALUES ("69c066cc-2506-4998-b894-060151a8f78f",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -328,7 +344,7 @@ INSERT INTO O_TFR
 	'param.c_c.Name = param.name;',
 	1,
 	'',
-	"a442a038-3373-4282-a5fc-098af44e9cbe");
+	"edbc08df-df72-4ee9-9365-1a3d836b9fbd");
 INSERT INTO O_TPARM
 	VALUES ("f65484fc-8457-4608-a4a6-aaecf7953533",
 	"69c066cc-2506-4998-b894-060151a8f78f",
@@ -395,12 +411,12 @@ end if;
 ',
 	1,
 	'',
-	"69c066cc-2506-4998-b894-060151a8f78f");
+	"747f4c49-5479-4ea7-b653-6c1a4424d418");
 INSERT INTO O_TPARM
 	VALUES ("14d80979-ed8b-4fd8-9a8a-63dd3ec8e7ca",
 	"8dc83f08-897b-47cb-9ef3-db03c1fa412c",
 	'cl_ic',
-	"ba5eda7a-def5-0000-0000-000000000002",
+	"4bf19d7e-1bcd-469a-b056-4523dd59dc1d",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
@@ -409,10 +425,106 @@ INSERT INTO O_TPARM
 	VALUES ("54c1f990-33e8-435c-893b-378292930c52",
 	"8dc83f08-897b-47cb-9ef3-db03c1fa412c",
 	'c_c',
-	"ba5eda7a-def5-0000-0000-000000000002",
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
 	0,
 	'',
 	"14d80979-ed8b-4fd8-9a8a-63dd3ec8e7ca",
+	'');
+INSERT INTO O_TFR
+	VALUES ("8b5937f7-610b-4bd3-9fe2-8b9e795cfd80",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformObject',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	1,
+	'',
+	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
+INSERT INTO O_TPARM
+	VALUES ("8b0d5f6b-5fc0-48dd-b987-acc00c37c87d",
+	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("747f4c49-5479-4ea7-b653-6c1a4424d418",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Component_newPackage',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_c = param.c_c;
+
+create object instance package of EP_PKG;
+// create Packageable Element supertype and hook up to this package.
+create object instance pe of PE_PE;
+relate package to pe across R8001;
+rootCompIdInPkg = self.Component_getRootComponentId(c_c:c_c);
+select any rootComponent from instances of C_C where (selected.Id == rootCompIdInPkg);
+select one system related by rootComponent->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405];
+relate package to system across R1405;
+relate c_c to pe across R8003;
+self.Package_initialize(ep_pkg:package, name:param.pkg_name); // OOA - package.initialize();
+pe.type = ElementTypeConstants::PACKAGE;
+self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+',
+	1,
+	'',
+	"69c066cc-2506-4998-b894-060151a8f78f");
+INSERT INTO O_TPARM
+	VALUES ("285fb005-4c64-4bab-a540-5f73ef671f89",
+	"747f4c49-5479-4ea7-b653-6c1a4424d418",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("761b2167-09f4-4856-aeaa-8757b3e7df80",
+	"747f4c49-5479-4ea7-b653-6c1a4424d418",
+	'pkg_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"285fb005-4c64-4bab-a540-5f73ef671f89",
+	'');
+INSERT INTO O_TFR
+	VALUES ("edbc08df-df72-4ee9-9365-1a3d836b9fbd",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Component_getRootComponentId',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	1,
+	'c_c = param.c_c;
+
+// Component.getRootComponentId
+// NOTE: Only intended for use in a generic package context
+// Ascends the Component hierarchy to find the top component.
+// The "top component" is the first component in this package. Note that
+// this package may be nested.  The package could also by under a 
+// component.  However, this routine finds the first component in 
+// this package.  It does NOT search beyond the package boundary.
+select one parentComponent related by c_c->PE_PE[R8001]->C_C[R8003];
+if not_empty parentComponent
+  return self.Component_getRootComponentId(c_c:parentComponent); // OOA - return parentComponent.getRootComponentId();
+end if;
+return c_c.Id;',
+	1,
+	'',
+	"a442a038-3373-4282-a5fc-098af44e9cbe");
+INSERT INTO O_TPARM
+	VALUES ("f8b32f28-f05b-4aca-bf2b-629bbb42455c",
+	"edbc08df-df72-4ee9-9365-1a3d836b9fbd",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("bda701a3-1e5f-4c37-a49f-25dfe331e6eb",
