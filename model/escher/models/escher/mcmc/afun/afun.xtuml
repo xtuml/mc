@@ -234,7 +234,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Model Class>',
 	'',
 	'',
-	'../../ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../../ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("c73eff6f-78f9-4fbf-84c8-dc810d179197",
 	"b76d99c4-33bf-4dbc-b706-563ec037c811",
@@ -408,7 +408,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Data Type>',
 	'',
 	'',
-	'../../ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../../ooaofooa/Domain/Domain.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("353eb6f8-c6da-4e63-a17b-db52139b497d",
 	"00000000-0000-0000-0000-000000000000",
@@ -484,7 +484,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Attribute>',
 	'',
 	'',
-	'../../ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../../ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO PE_PE
 	VALUES ("353eb6f8-c6da-4e63-a17b-db52139b497d",
 	1,
@@ -5544,7 +5544,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Package>',
 	'',
 	'',
-	'../../ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../../ooaofooa/Element Packaging/Element Packaging.xtuml');
 INSERT INTO PE_PE
 	VALUES ("977d6b62-3780-4eec-9483-f737d37c7e45",
 	1,
@@ -5586,7 +5586,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Component>',
 	'',
 	'',
-	'../../ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../../ooaofooa/Component/Component.xtuml');
 INSERT INTO PE_PE
 	VALUES ("596851e0-11db-443d-b03d-0279261bbda5",
 	1,
