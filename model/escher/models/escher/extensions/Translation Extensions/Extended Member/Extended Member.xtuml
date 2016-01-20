@@ -284,7 +284,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("6a6bbb21-9a5c-42a2-acba-af68663407ba",
 	"fde0c23e-bd4f-49d2-b59e-58141234f0a0",
-	'../../Domain/Structure Member/Structure Member.xtuml');
+	'../../../ooaofooa/Domain/Structure Member/Structure Member.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("0b3f1a81-5a8c-4b92-ba44-1648dc3bcc25",
 	"276d6bea-3958-4239-92a0-6a50125180f4",
@@ -330,7 +330,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
 	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
-	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+	'../../../ooaofooa/Packageable Element/Packageable Element/Packageable Element.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("eab85ea7-0309-4ba6-b44a-f252248ac4dc",
 	"276d6bea-3958-4239-92a0-6a50125180f4",

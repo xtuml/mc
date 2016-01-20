@@ -63,7 +63,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("6c9918c7-a86b-4715-bc1b-72fe5239395b",
 	"b30cdc19-98d5-42ac-93dd-33b256ebfb09",
-	'../../Association/Class In Association/Class In Association.xtuml');
+	'../../../ooaofooa/Association/Class In Association/Class In Association.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("b080dfb8-5a36-4cf9-8ef4-4c5f555ba761",
 	"b2d78cac-d3aa-4eaa-86d0-429079103620",
@@ -109,7 +109,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
 	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
-	'../../Packageable Element/Packageable Element/Packageable Element.xtuml');
+	'../../../ooaofooa/Packageable Element/Packageable Element/Packageable Element.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("95611e33-04de-4537-b77f-bc5f1a3e45d1",
 	"b2d78cac-d3aa-4eaa-86d0-429079103620",
@@ -151,7 +151,7 @@ INSERT INTO O_RATTR
 	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
 	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
 	1,
-	'Element_ID');
+	'Rel_ID');
 INSERT INTO O_ATTR
 	VALUES ("37445b3b-c665-490b-b21f-1ac01e8127c0",
 	"b2d78cac-d3aa-4eaa-86d0-429079103620",

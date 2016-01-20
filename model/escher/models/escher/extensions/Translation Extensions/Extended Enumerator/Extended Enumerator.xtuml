@@ -117,7 +117,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("f803d3a1-af18-486a-a122-8a3415cd9087",
 	"65d81832-34b6-4a28-94a8-90a282eeb4e9",
-	'../../Domain/Enumerator/Enumerator.xtuml');
+	'../../../ooaofooa/Domain/Enumerator/Enumerator.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("33cb46f0-ca39-4107-8725-4f31722b9049",
 	"9c259020-c3c5-4a34-8ec7-f46467d4e298",

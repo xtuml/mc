@@ -200,7 +200,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("af3cda4d-6e3c-4889-8e26-88d6fa912de7",
 	"db3b48a2-6021-4210-998d-a2e3fab8ba18",
-	'../../Selection/Chain Link/Chain Link.xtuml');
+	'../../../ooaofooa/Selection/Chain Link/Chain Link.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("fc3c277e-754f-418b-90d2-bf6ce5246f6b",
 	"1e457b35-3ca8-4303-8901-6f7b22f138de",

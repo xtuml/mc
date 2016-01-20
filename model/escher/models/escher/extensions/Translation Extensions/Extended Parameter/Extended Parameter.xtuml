@@ -407,7 +407,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
 	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
-	'../../State Machine/State Machine/State Machine.xtuml');
+	'../../../ooaofooa/State Machine/State Machine/State Machine.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("5d8d8337-8617-41bc-8d01-0d4e34173ffe",
 	"827bfb20-5406-487d-bac2-eef5e285683c",
@@ -453,7 +453,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("06a0b774-d997-4114-a0f1-3ca55c12277f",
 	"6c915253-c149-490d-ab3f-39be9a2951e9",
-	'../../State Machine/State Machine Event Data Item/State Machine Event Data Item.xtuml');
+	'../../../ooaofooa/State Machine/State Machine Event Data Item/State Machine Event Data Item.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("0c6d3930-07c5-40b0-b1a1-5d41dcb3aba4",
 	"827bfb20-5406-487d-bac2-eef5e285683c",
@@ -504,7 +504,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("8feb65e4-456c-4f46-86ab-397baceca0c5",
 	"889f4e67-5b89-4019-bc5d-e7b250dd0d4a",
-	'../../Domain/Function Parameter/Function Parameter.xtuml');
+	'../../../ooaofooa/Domain/Function Parameter/Function Parameter.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("bd036e8e-cc5c-4013-afac-38c0bf3bd4cc",
 	"827bfb20-5406-487d-bac2-eef5e285683c",
@@ -555,7 +555,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("4fad80fb-5f98-4680-bfda-7c453f28904b",
 	"b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
-	'../../Subsystem/Operation Parameter/Operation Parameter.xtuml');
+	'../../../ooaofooa/Subsystem/Operation Parameter/Operation Parameter.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("4a21e67c-a497-410a-a1b5-e7d257a15d6a",
 	"827bfb20-5406-487d-bac2-eef5e285683c",
@@ -606,7 +606,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("edc00d76-f2e3-49db-9d45-bf0713619fb7",
 	"e4603e90-f1ad-4858-9ce8-ef88c19d0aea",
-	'../../Component/Property Parameter/Property Parameter.xtuml');
+	'../../../ooaofooa/Component/Property Parameter/Property Parameter.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("e66d19b6-db49-45be-b773-26e2268a1b1a",
 	"827bfb20-5406-487d-bac2-eef5e285683c",
@@ -657,7 +657,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("c469794c-f3ec-4794-b54e-22645d92ffaa",
 	"7a7b2427-5d60-45d3-a284-be1f7cff0741",
-	'../../Domain/Bridge Parameter/Bridge Parameter.xtuml');
+	'../../../ooaofooa/Domain/Bridge Parameter/Bridge Parameter.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("ebb9eeb4-3b91-4f92-8d7a-52aac385f3b5",
 	"827bfb20-5406-487d-bac2-eef5e285683c",

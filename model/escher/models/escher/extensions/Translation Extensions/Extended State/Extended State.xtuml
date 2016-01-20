@@ -135,7 +135,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("df4d6ffc-1976-4922-9f36-81680da64d71",
 	"6faf0b89-3a94-49bf-b3b5-03b5e842613a",
-	'../../State Machine/State Machine/State Machine.xtuml');
+	'../../../ooaofooa/State Machine/State Machine/State Machine.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("440f7af2-a2cc-41ac-8939-b9d8fe5e5927",
 	"29bec42c-fa13-4fa9-a9e5-96345a326e7a",
@@ -181,7 +181,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("32ffc7eb-8edb-4d0c-a71b-d6786a6f3e41",
 	"e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd",
-	'../../State Machine/State Machine State/State Machine State.xtuml');
+	'../../../ooaofooa/State Machine/State Machine State/State Machine State.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("06023fe3-499c-4020-8ac6-c97cd7491625",
 	"29bec42c-fa13-4fa9-a9e5-96345a326e7a",

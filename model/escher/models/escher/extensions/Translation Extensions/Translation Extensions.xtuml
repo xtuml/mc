@@ -26,14 +26,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.6',
-	'escher::ooaofooa::Translation Extensions');
+	'escher::extensions::Translation Extensions');
 INSERT INTO GD_GE
 	VALUES ("d9b6a99b-8fcc-4064-a6b7-3b1b27c6f0b0",
 	"9087af00-00c9-4db4-aa04-6caa490916dd",
 	"8ba4003b-5e99-4655-8575-02e87a83df99",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Special Where Clause');
+	'escher::extensions::Translation Extensions::Special Where Clause');
 INSERT INTO GD_SHP
 	VALUES ("d9b6a99b-8fcc-4064-a6b7-3b1b27c6f0b0");
 INSERT INTO GD_NCS
@@ -72,7 +72,7 @@ INSERT INTO GD_GE
 	"a0733adc-3cb1-4788-969e-339a74e0d2fc",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended System');
+	'escher::extensions::Translation Extensions::Extended System');
 INSERT INTO GD_SHP
 	VALUES ("71d9d34d-2e88-47e3-bca9-7993968b1f90");
 INSERT INTO GD_NCS
@@ -121,7 +121,7 @@ INSERT INTO GD_GE
 	"2f54dc2b-f1a9-478b-a1d9-242de8c69c19",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Dispatcher');
+	'escher::extensions::Translation Extensions::Dispatcher');
 INSERT INTO GD_SHP
 	VALUES ("2394ec7e-be63-403f-b3f7-2eeb48eec5a4");
 INSERT INTO GD_NCS
@@ -155,7 +155,7 @@ INSERT INTO GD_GE
 	"7bfedfd0-4585-4253-acea-0c5152f060d7",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Message Queue');
+	'escher::extensions::Translation Extensions::Message Queue');
 INSERT INTO GD_SHP
 	VALUES ("f19a05ae-8157-4f9e-bac0-a1b6fcdf2b03");
 INSERT INTO GD_NCS
@@ -184,7 +184,7 @@ INSERT INTO GD_GE
 	"5b072f43-3be6-47a3-abc1-8a8c504036b7",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Action Block Anchor');
+	'escher::extensions::Translation Extensions::Action Block Anchor');
 INSERT INTO GD_SHP
 	VALUES ("99e73786-91d6-4cee-a3ef-8326e0beeeed");
 INSERT INTO GD_NCS
@@ -243,7 +243,7 @@ INSERT INTO GD_GE
 	"bc91cbfe-8ef9-4507-b8ef-15c17c9801b4",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2003');
+	'escher::extensions::Translation Extensions::R2003');
 INSERT INTO GD_CON
 	VALUES ("32adb3b1-9467-496d-af0b-5bca9ee14e0f",
 	"00000000-0000-0000-0000-000000000000");
@@ -343,7 +343,7 @@ INSERT INTO GD_GE
 	"ef8032be-25e4-4024-9b9f-79f77d47645a",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2004');
+	'escher::extensions::Translation Extensions::R2004');
 INSERT INTO GD_CON
 	VALUES ("9704df4d-f5a9-471a-8f4e-f369089336f1",
 	"00000000-0000-0000-0000-000000000000");
@@ -443,7 +443,7 @@ INSERT INTO GD_GE
 	"c9cd9732-9a12-4230-8455-ccdc03ac51a9",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Component');
+	'escher::extensions::Translation Extensions::Extended Component');
 INSERT INTO GD_SHP
 	VALUES ("e06d83c3-3fdb-4d25-92b2-48eae4ad091e");
 INSERT INTO GD_NCS
@@ -562,7 +562,7 @@ INSERT INTO GD_GE
 	"71288336-d2cf-4dbe-b4f9-b28b34d84c37",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Class');
+	'escher::extensions::Translation Extensions::Extended Class');
 INSERT INTO GD_SHP
 	VALUES ("f5ae9751-1ab3-4122-9a79-2e42337f9e5b");
 INSERT INTO GD_NCS
@@ -626,7 +626,7 @@ INSERT INTO GD_GE
 	"d4f2642e-541b-447e-b436-7c81a8876583",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended External Entity');
+	'escher::extensions::Translation Extensions::Extended External Entity');
 INSERT INTO GD_SHP
 	VALUES ("047c3bb0-4025-4398-b338-eab0cb42767d");
 INSERT INTO GD_NCS
@@ -685,7 +685,7 @@ INSERT INTO GD_GE
 	"c3d93283-8e2e-4f7a-981b-c8fdde8c95c2",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Data Type');
+	'escher::extensions::Translation Extensions::Extended Data Type');
 INSERT INTO GD_SHP
 	VALUES ("47f6963c-ac84-4f76-9b6a-6ef99a31d5ca");
 INSERT INTO GD_NCS
@@ -739,7 +739,7 @@ INSERT INTO GD_GE
 	"bd8af48a-e285-4435-93bf-a19541212f6f",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Action');
+	'escher::extensions::Translation Extensions::Extended Action');
 INSERT INTO GD_SHP
 	VALUES ("9bf96385-535b-4be6-843c-f32066eefdd0");
 INSERT INTO GD_NCS
@@ -793,7 +793,7 @@ INSERT INTO GD_GE
 	"8ab91611-0fcb-486b-94e5-805e3fdf7ddb",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Function');
+	'escher::extensions::Translation Extensions::Extended Function');
 INSERT INTO GD_SHP
 	VALUES ("be44fac2-3bff-47d0-acde-2486e536d2a4");
 INSERT INTO GD_NCS
@@ -862,7 +862,7 @@ INSERT INTO GD_GE
 	"dce3130b-3998-4faf-b957-d77e3e6bf84c",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Operation');
+	'escher::extensions::Translation Extensions::Extended Operation');
 INSERT INTO GD_SHP
 	VALUES ("1314f29d-3fd5-4485-ab47-4c3f1686aaa7");
 INSERT INTO GD_NCS
@@ -906,7 +906,7 @@ INSERT INTO GD_GE
 	"3f536e06-34ae-43d7-b4e7-6fa774bbb497",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Bridge');
+	'escher::extensions::Translation Extensions::Extended Bridge');
 INSERT INTO GD_SHP
 	VALUES ("f436cd54-6325-47dc-adb6-ff209a353a9f");
 INSERT INTO GD_NCS
@@ -955,7 +955,7 @@ INSERT INTO GD_GE
 	"49afc63a-ab53-48d8-a1c0-a4f47e6d6773",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Derived Attribute');
+	'escher::extensions::Translation Extensions::Extended Derived Attribute');
 INSERT INTO GD_SHP
 	VALUES ("9cfa9d23-6800-42a8-9919-1075e93322eb");
 INSERT INTO GD_NCS
@@ -999,7 +999,7 @@ INSERT INTO GD_GE
 	"227c8041-de10-44f7-8567-97647edfd114",
 	36,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2010');
+	'escher::extensions::Translation Extensions::R2010');
 INSERT INTO GD_CON
 	VALUES ("5bb94e21-facd-4ada-b450-2445d29e4f8c",
 	"00000000-0000-0000-0000-000000000000");
@@ -1155,7 +1155,7 @@ INSERT INTO GD_GE
 	"38879929-2971-41bd-b756-70e122ad27dc",
 	35,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2010::Extended Action');
+	'escher::extensions::Translation Extensions::R2010::Extended Action');
 INSERT INTO GD_CON
 	VALUES ("ca64c131-ae44-4fee-a5e6-657af0654524",
 	"00000000-0000-0000-0000-000000000000");
@@ -1268,7 +1268,7 @@ INSERT INTO GD_GE
 	"c30f6752-41bd-4f08-a6c8-331b47187e88",
 	35,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2010::Extended Function');
+	'escher::extensions::Translation Extensions::R2010::Extended Function');
 INSERT INTO GD_CON
 	VALUES ("85126161-c661-4610-9919-185cef4b7ffd",
 	"00000000-0000-0000-0000-000000000000");
@@ -1368,7 +1368,7 @@ INSERT INTO GD_GE
 	"75951ac0-ceb9-480c-8a78-c1850e86519a",
 	35,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2010::Extended Operation');
+	'escher::extensions::Translation Extensions::R2010::Extended Operation');
 INSERT INTO GD_CON
 	VALUES ("1a58ad7c-bde3-4d29-9b11-068fac683914",
 	"00000000-0000-0000-0000-000000000000");
@@ -1468,7 +1468,7 @@ INSERT INTO GD_GE
 	"f1f35353-f4d4-443c-8089-eb0bfd7e69b8",
 	35,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2010::Extended Bridge');
+	'escher::extensions::Translation Extensions::R2010::Extended Bridge');
 INSERT INTO GD_CON
 	VALUES ("79d097ad-4edf-4f1f-b877-e8e9c7988fb5",
 	"00000000-0000-0000-0000-000000000000");
@@ -1568,7 +1568,7 @@ INSERT INTO GD_GE
 	"58f938c9-3d08-4d01-902c-39a390e14ae2",
 	35,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2010::Extended Derived Attribute');
+	'escher::extensions::Translation Extensions::R2010::Extended Derived Attribute');
 INSERT INTO GD_CON
 	VALUES ("4c2c67e9-d954-4e57-9625-1eafc445f5bc",
 	"00000000-0000-0000-0000-000000000000");
@@ -1668,7 +1668,7 @@ INSERT INTO GD_GE
 	"9c259020-c3c5-4a34-8ec7-f46467d4e298",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Enumerator');
+	'escher::extensions::Translation Extensions::Extended Enumerator');
 INSERT INTO GD_SHP
 	VALUES ("84eca640-ca32-4cd0-91f2-846feca079d3");
 INSERT INTO GD_NCS
@@ -1702,7 +1702,7 @@ INSERT INTO GD_GE
 	"827bfb20-5406-487d-bac2-eef5e285683c",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Parameter');
+	'escher::extensions::Translation Extensions::Extended Parameter');
 INSERT INTO GD_SHP
 	VALUES ("919339a7-8f6f-4e37-8329-4fd4e75a0dec");
 INSERT INTO GD_NCS
@@ -1806,7 +1806,7 @@ INSERT INTO GD_GE
 	"9adb8836-0f56-450a-bc85-95c397fbeda7",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Where');
+	'escher::extensions::Translation Extensions::Extended Where');
 INSERT INTO GD_SHP
 	VALUES ("618a9612-c5eb-4166-9912-e6bb4a18a57e");
 INSERT INTO GD_NCS
@@ -1840,7 +1840,7 @@ INSERT INTO GD_GE
 	"b4bef262-527b-48e1-9eda-465fda28ad62",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Attribute');
+	'escher::extensions::Translation Extensions::Extended Attribute');
 INSERT INTO GD_SHP
 	VALUES ("5af9b8ea-ccb3-4a3b-bacd-a5d81a0972c1");
 INSERT INTO GD_NCS
@@ -1899,7 +1899,7 @@ INSERT INTO GD_GE
 	"1563f428-9c6c-4b91-90c9-99f9aa6200c2",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Relation');
+	'escher::extensions::Translation Extensions::Extended Relation');
 INSERT INTO GD_SHP
 	VALUES ("72fe126f-01ed-4b5d-b96b-c3672439189b");
 INSERT INTO GD_NCS
@@ -1933,7 +1933,7 @@ INSERT INTO GD_GE
 	"3a568c6b-0a50-4bf1-9484-d18ee66c602d",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Event');
+	'escher::extensions::Translation Extensions::Extended Event');
 INSERT INTO GD_SHP
 	VALUES ("0e3c7c3d-2d7b-4959-b58d-63676bc56a55");
 INSERT INTO GD_NCS
@@ -1977,7 +1977,7 @@ INSERT INTO GD_GE
 	"29bec42c-fa13-4fa9-a9e5-96345a326e7a",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended State');
+	'escher::extensions::Translation Extensions::Extended State');
 INSERT INTO GD_SHP
 	VALUES ("a9b2defb-9f42-4ddc-b0b5-bb7d7d0d2758");
 INSERT INTO GD_NCS
@@ -2011,7 +2011,7 @@ INSERT INTO GD_GE
 	"91e280a8-a05f-45b6-bf94-ab937bf318e2",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Enumerator');
+	'escher::extensions::Translation Extensions::Enumerator');
 INSERT INTO GD_SHP
 	VALUES ("6d277d93-a885-44e5-8fc6-1d7618c851ce");
 INSERT INTO GD_NCS
@@ -2040,7 +2040,7 @@ INSERT INTO GD_GE
 	"5c6e6e89-2675-4cf5-ab5c-a18165a5de8c",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2027');
+	'escher::extensions::Translation Extensions::R2027');
 INSERT INTO GD_CON
 	VALUES ("71421bdc-890a-40cb-bd03-a980dab2522f",
 	"00000000-0000-0000-0000-000000000000");
@@ -2140,7 +2140,7 @@ INSERT INTO GD_GE
 	"aa03068f-d70e-4226-aeae-5c4e1f6ee18b",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Attribute');
+	'escher::extensions::Translation Extensions::Attribute');
 INSERT INTO GD_SHP
 	VALUES ("abb063a4-7109-4426-85f7-2ad1400dd894");
 INSERT INTO GD_NCS
@@ -2169,7 +2169,7 @@ INSERT INTO GD_GE
 	"e8228a65-1463-4678-8c70-87f191b04e75",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2033');
+	'escher::extensions::Translation Extensions::R2033');
 INSERT INTO GD_CON
 	VALUES ("b39cca89-e513-4f56-b00c-d9b811200781",
 	"00000000-0000-0000-0000-000000000000");
@@ -2269,7 +2269,7 @@ INSERT INTO GD_GE
 	"c3457d4b-ec4c-4683-b0aa-8b225491b99d",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Derived Base Attribute');
+	'escher::extensions::Translation Extensions::Derived Base Attribute');
 INSERT INTO GD_SHP
 	VALUES ("c9744f01-9de8-4a72-ad7f-8126edff7730");
 INSERT INTO GD_NCS
@@ -2298,7 +2298,7 @@ INSERT INTO GD_GE
 	"77a91ea5-3cc1-4f9f-b0cf-7b731b17afc6",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2026');
+	'escher::extensions::Translation Extensions::R2026');
 INSERT INTO GD_CON
 	VALUES ("18f065b9-9a9c-4d22-8ee8-e65a3bbceace",
 	"00000000-0000-0000-0000-000000000000");
@@ -2398,7 +2398,7 @@ INSERT INTO GD_GE
 	"21bdab43-c9a1-4b79-944f-e417ce853db1",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Bridge');
+	'escher::extensions::Translation Extensions::Bridge');
 INSERT INTO GD_SHP
 	VALUES ("0641ca83-9983-4d63-925c-e8d6c0d55317");
 INSERT INTO GD_NCS
@@ -2427,7 +2427,7 @@ INSERT INTO GD_GE
 	"73cf2653-586d-46bc-ba81-ebe6e519f0dd",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2025');
+	'escher::extensions::Translation Extensions::R2025');
 INSERT INTO GD_CON
 	VALUES ("c7833998-c2b9-4e00-a668-592711417b7c",
 	"00000000-0000-0000-0000-000000000000");
@@ -2527,7 +2527,7 @@ INSERT INTO GD_GE
 	"7666fc0a-a71a-41e7-b681-1908f08e9f80",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Operation');
+	'escher::extensions::Translation Extensions::Operation');
 INSERT INTO GD_SHP
 	VALUES ("0e86d689-8747-4f6a-b6c0-e4c97f0619e8");
 INSERT INTO GD_NCS
@@ -2556,7 +2556,7 @@ INSERT INTO GD_GE
 	"057c18df-f462-4278-a314-17fbb3cc4224",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2024');
+	'escher::extensions::Translation Extensions::R2024');
 INSERT INTO GD_CON
 	VALUES ("d7a90306-f1d7-4b05-85dd-8d4643e7624f",
 	"00000000-0000-0000-0000-000000000000");
@@ -2656,7 +2656,7 @@ INSERT INTO GD_GE
 	"7127f06a-fd08-4184-b263-d0c0a54d5c8f",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Function');
+	'escher::extensions::Translation Extensions::Function');
 INSERT INTO GD_SHP
 	VALUES ("218b4e17-7f30-4cf4-9317-112df68b8acd");
 INSERT INTO GD_NCS
@@ -2685,7 +2685,7 @@ INSERT INTO GD_GE
 	"75669fa7-78f0-4627-8ad7-29516eaf39ad",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2023');
+	'escher::extensions::Translation Extensions::R2023');
 INSERT INTO GD_CON
 	VALUES ("3090a935-0644-4232-8fab-82b7347ad70e",
 	"00000000-0000-0000-0000-000000000000");
@@ -2785,7 +2785,7 @@ INSERT INTO GD_GE
 	"086a53df-60ed-4f91-a0b1-98d8e1628c99",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Action');
+	'escher::extensions::Translation Extensions::Action');
 INSERT INTO GD_SHP
 	VALUES ("812092dc-36b6-49f7-a679-6a7068066a14");
 INSERT INTO GD_NCS
@@ -2814,7 +2814,7 @@ INSERT INTO GD_GE
 	"0d2ab673-bbd6-44e8-ab3c-30c0d5d8ffba",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2022');
+	'escher::extensions::Translation Extensions::R2022');
 INSERT INTO GD_CON
 	VALUES ("a00b2df4-296d-4fd8-a2f6-31a968a0f907",
 	"00000000-0000-0000-0000-000000000000");
@@ -2914,7 +2914,7 @@ INSERT INTO GD_GE
 	"05f7557f-966b-42e1-8986-ee32a6611927",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Class Identifier');
+	'escher::extensions::Translation Extensions::Class Identifier');
 INSERT INTO GD_SHP
 	VALUES ("a5998688-a864-471b-b8af-06fdcbbb4a9f");
 INSERT INTO GD_NCS
@@ -2943,7 +2943,7 @@ INSERT INTO GD_GE
 	"90d3a1d4-c34d-4c60-907d-f3dbacf6b6e6",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2032');
+	'escher::extensions::Translation Extensions::R2032');
 INSERT INTO GD_CON
 	VALUES ("3196e3d4-2183-4a5c-8495-d210ce5c6d40",
 	"00000000-0000-0000-0000-000000000000");
@@ -3043,7 +3043,7 @@ INSERT INTO GD_GE
 	"cda5097e-c4e1-4d68-95c4-f0f22ed1b92b",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Data Type');
+	'escher::extensions::Translation Extensions::Data Type');
 INSERT INTO GD_SHP
 	VALUES ("3f7f424e-4229-4671-86af-bee7c902d5f7");
 INSERT INTO GD_NCS
@@ -3072,7 +3072,7 @@ INSERT INTO GD_GE
 	"4e8cdd78-24bb-4936-b8cf-7dedf588b866",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2021');
+	'escher::extensions::Translation Extensions::R2021');
 INSERT INTO GD_CON
 	VALUES ("61eec39e-68b3-4db3-8c3c-cdf780978b79",
 	"00000000-0000-0000-0000-000000000000");
@@ -3172,7 +3172,7 @@ INSERT INTO GD_GE
 	"0d1c0352-0031-45b0-8d77-b3f4ac25c74e",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::External Entity');
+	'escher::extensions::Translation Extensions::External Entity');
 INSERT INTO GD_SHP
 	VALUES ("4674f885-e755-4ccb-bbe0-7f0bd3bec3e4");
 INSERT INTO GD_NCS
@@ -3201,7 +3201,7 @@ INSERT INTO GD_GE
 	"8c1dc65f-4119-4b0d-8871-ffca36bf30c9",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2020');
+	'escher::extensions::Translation Extensions::R2020');
 INSERT INTO GD_CON
 	VALUES ("1dfbe585-1de2-4496-bd24-7b6a5f2dbf54",
 	"00000000-0000-0000-0000-000000000000");
@@ -3301,7 +3301,7 @@ INSERT INTO GD_GE
 	"7308802f-c84d-45b9-9ba8-fa4250416ea9",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Bridge Parameter');
+	'escher::extensions::Translation Extensions::Bridge Parameter');
 INSERT INTO GD_SHP
 	VALUES ("93dc7b75-5e02-4f5e-948e-f9dcfc6b2bd8");
 INSERT INTO GD_NCS
@@ -3330,7 +3330,7 @@ INSERT INTO GD_GE
 	"e3d91de4-afb6-4ebf-ab19-46f3c2cdf71f",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2028');
+	'escher::extensions::Translation Extensions::R2028');
 INSERT INTO GD_CON
 	VALUES ("e27c5938-f069-4840-93f1-b18e22023340",
 	"00000000-0000-0000-0000-000000000000");
@@ -3430,7 +3430,7 @@ INSERT INTO GD_GE
 	"0792dc2f-e0ad-40ce-85ba-cc3db99297c8",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Operation Parameter');
+	'escher::extensions::Translation Extensions::Operation Parameter');
 INSERT INTO GD_SHP
 	VALUES ("b4a90793-5aec-417c-ac99-e6be33f32a15");
 INSERT INTO GD_NCS
@@ -3459,7 +3459,7 @@ INSERT INTO GD_GE
 	"dbf8053c-2f58-4023-b4ca-5e560512dc8b",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2029');
+	'escher::extensions::Translation Extensions::R2029');
 INSERT INTO GD_CON
 	VALUES ("254403ca-7e77-4d5d-9998-24a2af081fb3",
 	"00000000-0000-0000-0000-000000000000");
@@ -3559,7 +3559,7 @@ INSERT INTO GD_GE
 	"9c2c7108-cd13-4cf4-9ace-ad48570bc2b8",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Function Parameter');
+	'escher::extensions::Translation Extensions::Function Parameter');
 INSERT INTO GD_SHP
 	VALUES ("1348b2b3-796b-4d91-bada-224325a48245");
 INSERT INTO GD_NCS
@@ -3588,7 +3588,7 @@ INSERT INTO GD_GE
 	"63a9c69c-8482-4ecb-b1d3-f12955847151",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2030');
+	'escher::extensions::Translation Extensions::R2030');
 INSERT INTO GD_CON
 	VALUES ("4b4e368d-3e21-4464-9573-4abaaf9b3838",
 	"00000000-0000-0000-0000-000000000000");
@@ -3714,7 +3714,7 @@ INSERT INTO GD_GE
 	"3aa941aa-1082-4167-96d7-ae1f7f219de9",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::State Machine Event Data Item');
+	'escher::extensions::Translation Extensions::State Machine Event Data Item');
 INSERT INTO GD_SHP
 	VALUES ("af037fe4-7f39-4c60-9f73-ff8320b23806");
 INSERT INTO GD_NCS
@@ -3743,7 +3743,7 @@ INSERT INTO GD_GE
 	"0baf4703-fe77-4971-86d8-178411f13ea6",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2031');
+	'escher::extensions::Translation Extensions::R2031');
 INSERT INTO GD_CON
 	VALUES ("73848837-9bbc-4fad-b836-899aa31aada8",
 	"00000000-0000-0000-0000-000000000000");
@@ -3856,7 +3856,7 @@ INSERT INTO GD_GE
 	"34ac344f-315d-4176-9641-8cb5e8751cc8",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::State Machine Event');
+	'escher::extensions::Translation Extensions::State Machine Event');
 INSERT INTO GD_SHP
 	VALUES ("a7ca8173-137b-40e3-8028-2b40dcb1aabf");
 INSERT INTO GD_NCS
@@ -3885,7 +3885,7 @@ INSERT INTO GD_GE
 	"58faf82e-de0b-418b-8311-35b1a594c56f",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2036');
+	'escher::extensions::Translation Extensions::R2036');
 INSERT INTO GD_CON
 	VALUES ("f456cd3a-5d36-44ca-ac76-57859bf6d31e",
 	"00000000-0000-0000-0000-000000000000");
@@ -4011,7 +4011,7 @@ INSERT INTO GD_GE
 	"244a65bc-b071-4e44-b197-ed6e0b0f4408",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::State Machine State');
+	'escher::extensions::Translation Extensions::State Machine State');
 INSERT INTO GD_SHP
 	VALUES ("ef418c1a-4498-49a4-9439-65af629b8b70");
 INSERT INTO GD_NCS
@@ -4040,7 +4040,7 @@ INSERT INTO GD_GE
 	"a0279cb7-c8bf-49ec-bf50-9f86a7ee6591",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2037');
+	'escher::extensions::Translation Extensions::R2037');
 INSERT INTO GD_CON
 	VALUES ("3d5b4a53-d71d-4d2f-8249-d56adc510b6c",
 	"00000000-0000-0000-0000-000000000000");
@@ -4140,7 +4140,7 @@ INSERT INTO GD_GE
 	"7c2fb6a0-fdc1-4bd5-95dd-45cd1e9dacd1",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Association');
+	'escher::extensions::Translation Extensions::Association');
 INSERT INTO GD_SHP
 	VALUES ("96606f15-914a-49df-aebd-dc9df9a4752e");
 INSERT INTO GD_NCS
@@ -4169,7 +4169,7 @@ INSERT INTO GD_GE
 	"ac143e85-2abf-4754-81c2-056af6bbf4b1",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2034');
+	'escher::extensions::Translation Extensions::R2034');
 INSERT INTO GD_CON
 	VALUES ("8e3b45f4-a38b-4640-a7ef-3fc08145f360",
 	"00000000-0000-0000-0000-000000000000");
@@ -4269,7 +4269,7 @@ INSERT INTO GD_GE
 	"d86e2417-a273-47d9-8fbe-5a5ead1fd45e",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Model Class');
+	'escher::extensions::Translation Extensions::Model Class');
 INSERT INTO GD_SHP
 	VALUES ("3409c228-e29c-4d17-b33f-260ae6b45a4e");
 INSERT INTO GD_NCS
@@ -4308,7 +4308,7 @@ INSERT INTO GD_GE
 	"ea8c9f6e-cba7-4343-bbe8-23120942d0b7",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2019');
+	'escher::extensions::Translation Extensions::R2019');
 INSERT INTO GD_CON
 	VALUES ("917f105a-32a5-41d9-a6ed-8a27ce7a1cf4",
 	"00000000-0000-0000-0000-000000000000");
@@ -4408,7 +4408,7 @@ INSERT INTO GD_GE
 	"c97b0cc2-5df9-4e23-ae69-28e51d22672e",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::System Model');
+	'escher::extensions::Translation Extensions::System Model');
 INSERT INTO GD_SHP
 	VALUES ("116454c5-cfc4-4753-bf4c-1576926868fc");
 INSERT INTO GD_NCS
@@ -4437,7 +4437,7 @@ INSERT INTO GD_GE
 	"c8f2b71f-123d-4a68-9c5f-1b56a56903cb",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2018');
+	'escher::extensions::Translation Extensions::R2018');
 INSERT INTO GD_CON
 	VALUES ("64281c2d-e5d7-4c71-bde7-e0aaafbbde34",
 	"00000000-0000-0000-0000-000000000000");
@@ -4537,7 +4537,7 @@ INSERT INTO GD_GE
 	"84f70c46-8772-4126-8f12-be278eb1361f",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Value');
+	'escher::extensions::Translation Extensions::Extended Value');
 INSERT INTO GD_SHP
 	VALUES ("90408e64-9148-420b-b420-b5afa7d2bf17");
 INSERT INTO GD_NCS
@@ -4576,7 +4576,7 @@ INSERT INTO GD_GE
 	"2d18d06b-30c9-494f-97bf-338e812933b4",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Variable');
+	'escher::extensions::Translation Extensions::Extended Variable');
 INSERT INTO GD_SHP
 	VALUES ("636a0f96-9ea8-4409-bc7e-e263a7c9ede7");
 INSERT INTO GD_NCS
@@ -4615,7 +4615,7 @@ INSERT INTO GD_GE
 	"22cf3202-813e-4b14-992b-f3988e3a4139",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Value');
+	'escher::extensions::Translation Extensions::Value');
 INSERT INTO GD_SHP
 	VALUES ("91ba3834-5eab-4922-b788-4281b0c842e6");
 INSERT INTO GD_NCS
@@ -4644,7 +4644,7 @@ INSERT INTO GD_GE
 	"5822dadf-28de-47b0-85bd-956165dda364",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Variable');
+	'escher::extensions::Translation Extensions::Variable');
 INSERT INTO GD_SHP
 	VALUES ("75838aff-bc00-4120-b184-95dc9ebda084");
 INSERT INTO GD_NCS
@@ -4673,7 +4673,7 @@ INSERT INTO GD_GE
 	"fce28803-7927-4c0d-b91e-405e037cbb80",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2039');
+	'escher::extensions::Translation Extensions::R2039');
 INSERT INTO GD_CON
 	VALUES ("38589e72-4d3d-4fa8-8ec8-a4470368d170",
 	"00000000-0000-0000-0000-000000000000");
@@ -4786,7 +4786,7 @@ INSERT INTO GD_GE
 	"84c37edf-cfea-44dd-a1d9-a0781201544a",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2040');
+	'escher::extensions::Translation Extensions::R2040');
 INSERT INTO GD_CON
 	VALUES ("7c6e8d1a-e9cc-4d8e-8072-18c76bb910bd",
 	"00000000-0000-0000-0000-000000000000");
@@ -4886,7 +4886,7 @@ INSERT INTO GD_GE
 	"ddc5b582-2135-4705-8353-55fef696afc0",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2041');
+	'escher::extensions::Translation Extensions::R2041');
 INSERT INTO GD_CON
 	VALUES ("7f1f47af-0bb3-4fc9-9c05-41861cf52a49",
 	"00000000-0000-0000-0000-000000000000");
@@ -5012,7 +5012,7 @@ INSERT INTO GD_GE
 	"9305fa7f-6faf-4a04-82e8-db6391456fe6",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended State Machine');
+	'escher::extensions::Translation Extensions::Extended State Machine');
 INSERT INTO GD_SHP
 	VALUES ("eaa3480a-6c10-49d9-92c0-86b64862b886");
 INSERT INTO GD_NCS
@@ -5056,7 +5056,7 @@ INSERT INTO GD_GE
 	"9822db7c-ee4f-49a9-a41f-8963dc885587",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::State Machine');
+	'escher::extensions::Translation Extensions::State Machine');
 INSERT INTO GD_SHP
 	VALUES ("9457fc00-46bf-4b93-9355-743bd8394e64");
 INSERT INTO GD_NCS
@@ -5085,7 +5085,7 @@ INSERT INTO GD_GE
 	"084ea0b9-280f-4a94-a583-c0273ec7a999",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2043');
+	'escher::extensions::Translation Extensions::R2043');
 INSERT INTO GD_CON
 	VALUES ("b6b07df5-e2f7-4a7a-af64-4cf9130d4266",
 	"00000000-0000-0000-0000-000000000000");
@@ -5185,7 +5185,7 @@ INSERT INTO GD_GE
 	"331cf64d-3364-408e-aee3-cf70a09801d9",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::set');
+	'escher::extensions::Translation Extensions::set');
 INSERT INTO GD_SHP
 	VALUES ("da0eca9c-5c59-4c54-b475-21e7b3ed2b57");
 INSERT INTO GD_NCS
@@ -5234,7 +5234,7 @@ INSERT INTO GD_GE
 	"d935b648-9c8e-421c-81f0-67628d2972c2",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::file');
+	'escher::extensions::Translation Extensions::file');
 INSERT INTO GD_SHP
 	VALUES ("33da9033-f797-4617-a79f-185d8b2af443");
 INSERT INTO GD_NCS
@@ -5263,7 +5263,7 @@ INSERT INTO GD_GE
 	"9cbe6de0-9b4f-4d8e-875e-d685b791c7d5",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::user callout');
+	'escher::extensions::Translation Extensions::user callout');
 INSERT INTO GD_SHP
 	VALUES ("41ed955c-2efb-42dc-85ad-8e80229adb32");
 INSERT INTO GD_NCS
@@ -5292,7 +5292,7 @@ INSERT INTO GD_GE
 	"b8dec0e8-72ea-4f0b-b8be-3e5fc3174a8c",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::prefix');
+	'escher::extensions::Translation Extensions::prefix');
 INSERT INTO GD_SHP
 	VALUES ("0c0a45ea-4d3c-4d79-aa20-777a6aff58a7");
 INSERT INTO GD_NCS
@@ -5316,7 +5316,7 @@ INSERT INTO GD_GE
 	"952273fc-c345-4010-a010-7ff5203a1ba7",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::persistence');
+	'escher::extensions::Translation Extensions::persistence');
 INSERT INTO GD_SHP
 	VALUES ("0fda7867-09d3-46e1-a05f-5ffe7e658ad1");
 INSERT INTO GD_NCS
@@ -5345,7 +5345,7 @@ INSERT INTO GD_GE
 	"63968e94-c9be-4c21-8b40-803de2d3c524",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::dynamic memory allocation');
+	'escher::extensions::Translation Extensions::dynamic memory allocation');
 INSERT INTO GD_SHP
 	VALUES ("efd48a42-8928-482d-8dc0-d7c9e3286eaa");
 INSERT INTO GD_NCS
@@ -5369,7 +5369,7 @@ INSERT INTO GD_GE
 	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::thread');
+	'escher::extensions::Translation Extensions::thread');
 INSERT INTO GD_SHP
 	VALUES ("a7b93b39-670f-45c2-b44c-66436379a795");
 INSERT INTO GD_NCS
@@ -5398,7 +5398,7 @@ INSERT INTO GD_GE
 	"ded92321-4379-4014-9fd4-0c040e1cd6dc",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::copyright');
+	'escher::extensions::Translation Extensions::copyright');
 INSERT INTO GD_SHP
 	VALUES ("d157f84f-281a-490e-897a-aae3c0922670");
 INSERT INTO GD_NCS
@@ -5422,7 +5422,7 @@ INSERT INTO GD_GE
 	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::container');
+	'escher::extensions::Translation Extensions::container');
 INSERT INTO GD_SHP
 	VALUES ("e1b5c4fb-d0bf-4b3b-8ec8-416c33056a35");
 INSERT INTO GD_NCS
@@ -5456,7 +5456,7 @@ INSERT INTO GD_GE
 	"bc2eba42-a1ca-4c38-8522-0855df1f4d50",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::slist');
+	'escher::extensions::Translation Extensions::slist');
 INSERT INTO GD_SHP
 	VALUES ("54ded1f0-2c3b-4b7c-b7a3-2807426da9a6");
 INSERT INTO GD_NCS
@@ -5485,7 +5485,7 @@ INSERT INTO GD_GE
 	"5b711d83-8063-4320-a8d8-47be0b2b3f36",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::dlist');
+	'escher::extensions::Translation Extensions::dlist');
 INSERT INTO GD_SHP
 	VALUES ("a83742b5-2c31-44c4-8959-673252c6665d");
 INSERT INTO GD_NCS
@@ -5514,7 +5514,7 @@ INSERT INTO GD_GE
 	"7cebc0b3-0f9e-43f6-af83-b6d53545ab22",
 	36,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2045');
+	'escher::extensions::Translation Extensions::R2045');
 INSERT INTO GD_CON
 	VALUES ("049fa4ae-77b3-479f-9035-7d429618afea",
 	"00000000-0000-0000-0000-000000000000");
@@ -5630,7 +5630,7 @@ INSERT INTO GD_GE
 	"59f4b255-0660-4cbf-bf7e-954c4fd99e0d",
 	35,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2045::slist');
+	'escher::extensions::Translation Extensions::R2045::slist');
 INSERT INTO GD_CON
 	VALUES ("bea101ac-01f2-425b-955e-ea094a4a1975",
 	"00000000-0000-0000-0000-000000000000");
@@ -5730,7 +5730,7 @@ INSERT INTO GD_GE
 	"c828fb5f-d0e2-424e-8955-6a0f1aa09c2b",
 	35,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2045::dlist');
+	'escher::extensions::Translation Extensions::R2045::dlist');
 INSERT INTO GD_CON
 	VALUES ("e2d15a12-30f9-4eca-bb81-0b9d123f0155",
 	"00000000-0000-0000-0000-000000000000");
@@ -5830,7 +5830,7 @@ INSERT INTO GD_GE
 	"69197098-f632-4b7b-81a2-9fd5406666c5",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::interleaved bridge');
+	'escher::extensions::Translation Extensions::interleaved bridge');
 INSERT INTO GD_SHP
 	VALUES ("3f934773-0bfc-420d-8a53-897b84ccab5e");
 INSERT INTO GD_NCS
@@ -5859,7 +5859,7 @@ INSERT INTO GD_GE
 	"7be58787-280e-4793-9c47-9165e7459edf",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::event queue');
+	'escher::extensions::Translation Extensions::event queue');
 INSERT INTO GD_SHP
 	VALUES ("5e9a497b-ab33-4891-98e5-73e35892106d");
 INSERT INTO GD_NCS
@@ -5903,7 +5903,7 @@ INSERT INTO GD_GE
 	"855c829b-2adf-4281-a5f9-14194b41aecf",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::string');
+	'escher::extensions::Translation Extensions::string');
 INSERT INTO GD_SHP
 	VALUES ("8d424853-2567-4a8c-8a6f-be26c86cfc16");
 INSERT INTO GD_NCS
@@ -5927,7 +5927,7 @@ INSERT INTO GD_GE
 	"49998e71-4ba8-433a-aff0-33cd64127a6d",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::relationship information');
+	'escher::extensions::Translation Extensions::relationship information');
 INSERT INTO GD_SHP
 	VALUES ("27379143-12ca-4b1c-ae25-e1ad31fe2664");
 INSERT INTO GD_NCS
@@ -5951,7 +5951,7 @@ INSERT INTO GD_GE
 	"4efc2858-f08e-43bf-8100-13e805f43493",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::relationship storage');
+	'escher::extensions::Translation Extensions::relationship storage');
 INSERT INTO GD_SHP
 	VALUES ("c5a3507e-4a2e-4e7e-b1fc-0e1e1a45de2d");
 INSERT INTO GD_NCS
@@ -5975,7 +5975,7 @@ INSERT INTO GD_GE
 	"6aaa9a40-a2ad-4b3c-8d61-f057f66bc158",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::instance');
+	'escher::extensions::Translation Extensions::instance');
 INSERT INTO GD_SHP
 	VALUES ("a65cd331-2f70-4e1b-ae34-707c477c59f4");
 INSERT INTO GD_NCS
@@ -6009,7 +6009,7 @@ INSERT INTO GD_GE
 	"ba06ff5e-a2d0-4d90-9b63-49a85c1f6b11",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::timer');
+	'escher::extensions::Translation Extensions::timer');
 INSERT INTO GD_SHP
 	VALUES ("30adfd1f-f404-4dde-8e49-ad9b937b37de");
 INSERT INTO GD_NCS
@@ -6033,7 +6033,7 @@ INSERT INTO GD_GE
 	"7ad55534-8614-47ba-ae5e-5e8a6a0ba446",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::type map');
+	'escher::extensions::Translation Extensions::type map');
 INSERT INTO GD_SHP
 	VALUES ("ad6212d3-43d2-4732-be16-5ef08773808e");
 INSERT INTO GD_NCS
@@ -6057,7 +6057,7 @@ INSERT INTO GD_GE
 	"276d6bea-3958-4239-92a0-6a50125180f4",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Member');
+	'escher::extensions::Translation Extensions::Extended Member');
 INSERT INTO GD_SHP
 	VALUES ("f95ff8af-8051-4a78-a8b8-cae77d0df633");
 INSERT INTO GD_NCS
@@ -6116,7 +6116,7 @@ INSERT INTO GD_GE
 	"66d4769a-0e2d-4878-96ec-6d82d16f7727",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Structure Member');
+	'escher::extensions::Translation Extensions::Structure Member');
 INSERT INTO GD_SHP
 	VALUES ("d5703847-dbfa-4a40-8005-5f98157c8c46");
 INSERT INTO GD_NCS
@@ -6145,7 +6145,7 @@ INSERT INTO GD_GE
 	"6ccc020f-3f91-4393-bcb0-324d760a891d",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2047');
+	'escher::extensions::Translation Extensions::R2047');
 INSERT INTO GD_CON
 	VALUES ("9ef185f7-88d7-40c9-8e97-0cab819a9330",
 	"00000000-0000-0000-0000-000000000000");
@@ -6245,7 +6245,7 @@ INSERT INTO GD_GE
 	"c707f00c-44eb-4601-a7db-a97612a60848",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Property Parameter');
+	'escher::extensions::Translation Extensions::Property Parameter');
 INSERT INTO GD_SHP
 	VALUES ("a400040e-753a-4794-8ef4-58189fd9b38d");
 INSERT INTO GD_NCS
@@ -6274,7 +6274,7 @@ INSERT INTO GD_GE
 	"8bb45b9b-00bf-49d8-8446-ebe52aabd494",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2048');
+	'escher::extensions::Translation Extensions::R2048');
 INSERT INTO GD_CON
 	VALUES ("3e3b2510-a7e6-4dec-b1b0-f507c3a657dd",
 	"00000000-0000-0000-0000-000000000000");
@@ -6374,7 +6374,7 @@ INSERT INTO GD_GE
 	"d069b12e-83f0-43e5-84dc-762fe416ecc5",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2049');
+	'escher::extensions::Translation Extensions::R2049');
 INSERT INTO GD_CON
 	VALUES ("8281d1e8-9804-4192-8581-042ce4dcd928",
 	"00000000-0000-0000-0000-000000000000");
@@ -6474,7 +6474,7 @@ INSERT INTO GD_GE
 	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Message Action');
+	'escher::extensions::Translation Extensions::Extended Message Action');
 INSERT INTO GD_SHP
 	VALUES ("55378cf0-fca0-435d-b716-a7acca202a0a");
 INSERT INTO GD_NCS
@@ -6573,7 +6573,7 @@ INSERT INTO GD_GE
 	"32df90e7-7ccf-4f48-ac36-968df6e4d8ed",
 	35,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2010::Extended Message Action');
+	'escher::extensions::Translation Extensions::R2010::Extended Message Action');
 INSERT INTO GD_CON
 	VALUES ("85dd8967-06fb-4ec9-b0da-a4dc0b3511dd",
 	"00000000-0000-0000-0000-000000000000");
@@ -6699,7 +6699,7 @@ INSERT INTO GD_GE
 	"c251bbbb-0ba5-4a1a-b87d-0a92aa2e0007",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Provided Operation');
+	'escher::extensions::Translation Extensions::Provided Operation');
 INSERT INTO GD_SHP
 	VALUES ("ecd1daf5-6e59-4e9a-92fe-8c24f2b82c02");
 INSERT INTO GD_NCS
@@ -6728,7 +6728,7 @@ INSERT INTO GD_GE
 	"53182056-0366-4c45-bc29-35178f74e934",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Provided Signal');
+	'escher::extensions::Translation Extensions::Provided Signal');
 INSERT INTO GD_SHP
 	VALUES ("66a88991-c493-4125-9f1f-311ad244bb26");
 INSERT INTO GD_NCS
@@ -6757,7 +6757,7 @@ INSERT INTO GD_GE
 	"260641f8-39a9-4312-8bd9-16080ffb6a4f",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Required Operation');
+	'escher::extensions::Translation Extensions::Required Operation');
 INSERT INTO GD_SHP
 	VALUES ("e5f11d23-d9ec-43cf-af89-a43b0c70357b");
 INSERT INTO GD_NCS
@@ -6786,7 +6786,7 @@ INSERT INTO GD_GE
 	"c98be75c-3777-436d-a088-d3a546e1bdd2",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Required Signal');
+	'escher::extensions::Translation Extensions::Required Signal');
 INSERT INTO GD_SHP
 	VALUES ("567fbef5-9289-483d-a2f5-6d426735c661");
 INSERT INTO GD_NCS
@@ -6815,7 +6815,7 @@ INSERT INTO GD_GE
 	"ed7635e6-64f7-4ee9-81d2-e149ee813411",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2050');
+	'escher::extensions::Translation Extensions::R2050');
 INSERT INTO GD_CON
 	VALUES ("712bda72-d15a-4c80-85d9-0f6bad931400",
 	"00000000-0000-0000-0000-000000000000");
@@ -6915,7 +6915,7 @@ INSERT INTO GD_GE
 	"be377fad-4b1d-4245-a61b-fc47ce590f0c",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2051');
+	'escher::extensions::Translation Extensions::R2051');
 INSERT INTO GD_CON
 	VALUES ("f9049be4-0ecf-4f39-9914-1f6a25207a8e",
 	"00000000-0000-0000-0000-000000000000");
@@ -7015,7 +7015,7 @@ INSERT INTO GD_GE
 	"bc20fbca-c1dd-49eb-a0c0-84c5bf7a588c",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2052');
+	'escher::extensions::Translation Extensions::R2052');
 INSERT INTO GD_CON
 	VALUES ("7e946abc-dc6e-4884-bebd-019d0e5dd377",
 	"00000000-0000-0000-0000-000000000000");
@@ -7115,7 +7115,7 @@ INSERT INTO GD_GE
 	"c995e249-49ca-43f1-a7e8-99362422a71e",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2053');
+	'escher::extensions::Translation Extensions::R2053');
 INSERT INTO GD_CON
 	VALUES ("a01151ba-0f12-4b15-838d-669de7d48ffd",
 	"00000000-0000-0000-0000-000000000000");
@@ -7215,7 +7215,7 @@ INSERT INTO GD_GE
 	"9647a1e3-58de-40c7-aae4-16893c8da0c0",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Component');
+	'escher::extensions::Translation Extensions::Component');
 INSERT INTO GD_SHP
 	VALUES ("eefee663-c392-4318-bc22-b0c5e670d9cb");
 INSERT INTO GD_NCS
@@ -7249,7 +7249,7 @@ INSERT INTO GD_GE
 	"88d7fab2-ac63-471c-8601-37374c5207ee",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Dimension');
+	'escher::extensions::Translation Extensions::Extended Dimension');
 INSERT INTO GD_SHP
 	VALUES ("bc8fddd8-2d0a-4ee8-9eea-d3718b033317");
 INSERT INTO GD_NCS
@@ -7338,7 +7338,7 @@ INSERT INTO GD_GE
 	"bcedc5e1-906f-4ae7-97ad-26d195225ff2",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2058');
+	'escher::extensions::Translation Extensions::R2058');
 INSERT INTO GD_CON
 	VALUES ("97113950-5b78-4a64-b81d-f466a4605d01",
 	"00000000-0000-0000-0000-000000000000");
@@ -7438,7 +7438,7 @@ INSERT INTO GD_GE
 	"5d1191c8-32da-46a3-b3f9-c877f62b051f",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2060');
+	'escher::extensions::Translation Extensions::R2060');
 INSERT INTO GD_CON
 	VALUES ("846f5422-cb0e-419d-9be1-9a38e3af287d",
 	"00000000-0000-0000-0000-000000000000");
@@ -7564,7 +7564,7 @@ INSERT INTO GD_GE
 	"29b74254-ade4-44f6-bf0e-210e9a0b19be",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2057');
+	'escher::extensions::Translation Extensions::R2057');
 INSERT INTO GD_CON
 	VALUES ("36e55703-6ae6-4d95-82f6-04d261185077",
 	"00000000-0000-0000-0000-000000000000");
@@ -7664,7 +7664,7 @@ INSERT INTO GD_GE
 	"64c4410a-8102-4657-9fff-4895ede90e14",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2056');
+	'escher::extensions::Translation Extensions::R2056');
 INSERT INTO GD_CON
 	VALUES ("da066d5f-15b2-4a10-bb5a-3967882a953f",
 	"00000000-0000-0000-0000-000000000000");
@@ -7764,7 +7764,7 @@ INSERT INTO GD_GE
 	"67999107-229a-4d65-a3c5-66ee0b265cd4",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2059');
+	'escher::extensions::Translation Extensions::R2059');
 INSERT INTO GD_CON
 	VALUES ("fb49beb5-ea5a-4564-b6c8-6ca2ff1121dc",
 	"00000000-0000-0000-0000-000000000000");
@@ -7877,7 +7877,7 @@ INSERT INTO GD_GE
 	"a8140365-28e1-42ef-8d38-262a0a25f9ea",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2055');
+	'escher::extensions::Translation Extensions::R2055');
 INSERT INTO GD_CON
 	VALUES ("e142053b-5ce1-409d-ab43-48d1d185a74d",
 	"00000000-0000-0000-0000-000000000000");
@@ -7990,7 +7990,7 @@ INSERT INTO GD_GE
 	"7dcb1331-0891-4a43-b425-e43b841d66ad",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2061');
+	'escher::extensions::Translation Extensions::R2061');
 INSERT INTO GD_CON
 	VALUES ("833ea863-9255-452b-b75a-39bf30dcccdd",
 	"00000000-0000-0000-0000-000000000000");
@@ -8103,7 +8103,7 @@ INSERT INTO GD_GE
 	"4761a62f-e252-4345-9fa0-a7c85d59826a",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2062');
+	'escher::extensions::Translation Extensions::R2062');
 INSERT INTO GD_CON
 	VALUES ("5c0f70f4-0f6d-4ad4-ab4e-9723566b8c2d",
 	"00000000-0000-0000-0000-000000000000");
@@ -8203,7 +8203,7 @@ INSERT INTO GD_GE
 	"6dedbff6-cb0d-455b-b5d9-6a35aff5c819",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Actual Parameter');
+	'escher::extensions::Translation Extensions::Extended Actual Parameter');
 INSERT INTO GD_SHP
 	VALUES ("b60ae9c4-60da-4542-8321-2b6b88df9e16");
 INSERT INTO GD_NCS
@@ -8237,7 +8237,7 @@ INSERT INTO GD_GE
 	"07024b12-2480-48cd-a954-d591689cac91",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Actual Parameter');
+	'escher::extensions::Translation Extensions::Actual Parameter');
 INSERT INTO GD_SHP
 	VALUES ("9844c074-d390-4c5f-9a51-09725adb6d3d");
 INSERT INTO GD_NCS
@@ -8266,7 +8266,7 @@ INSERT INTO GD_GE
 	"77ce7275-3605-47a5-863e-7af55dc5a8e1",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2063');
+	'escher::extensions::Translation Extensions::R2063');
 INSERT INTO GD_CON
 	VALUES ("2d91c7d8-da31-42c2-97a7-274f727a3b07",
 	"00000000-0000-0000-0000-000000000000");
@@ -8366,7 +8366,7 @@ INSERT INTO GD_GE
 	"0257d564-dd66-4628-a38c-4a41fcce46e6",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2064');
+	'escher::extensions::Translation Extensions::R2064');
 INSERT INTO GD_CON
 	VALUES ("b82f0629-e1c8-4165-b03b-1b1a35c8f6d8",
 	"00000000-0000-0000-0000-000000000000");
@@ -8479,7 +8479,7 @@ INSERT INTO GD_GE
 	"2a1b0460-d408-4e25-a158-0bf1330cdb9a",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2065');
+	'escher::extensions::Translation Extensions::R2065');
 INSERT INTO GD_CON
 	VALUES ("58f58d14-1b87-4a7a-9464-e0626531b80d",
 	"00000000-0000-0000-0000-000000000000");
@@ -8579,7 +8579,7 @@ INSERT INTO GD_GE
 	"283e2394-4461-48e7-95e3-d8478d79b3d5",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::extent');
+	'escher::extensions::Translation Extensions::extent');
 INSERT INTO GD_SHP
 	VALUES ("1ac73a5b-5a1d-4396-9c24-98b53f0a7a43");
 INSERT INTO GD_NCS
@@ -8618,7 +8618,7 @@ INSERT INTO GD_GE
 	"e118e548-f276-4f5e-811f-f09a9aca7929",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2066');
+	'escher::extensions::Translation Extensions::R2066');
 INSERT INTO GD_CON
 	VALUES ("2d37df8e-38ae-4c3c-b7e2-f9010ddcc0b1",
 	"00000000-0000-0000-0000-000000000000");
@@ -8726,7 +8726,7 @@ INSERT INTO GD_GE
 	"e118e548-f276-4f5e-811f-f09a9aca7929",
 	34,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2066::extent');
+	'escher::extensions::Translation Extensions::R2066::extent');
 INSERT INTO GD_CON
 	VALUES ("56d3cd02-f59a-42b5-ab42-c5bbc231755c",
 	"00000000-0000-0000-0000-000000000000");
@@ -8826,7 +8826,7 @@ INSERT INTO GD_GE
 	"0db5d90a-cfa2-4cbb-8230-f22535e18a32",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2067');
+	'escher::extensions::Translation Extensions::R2067');
 INSERT INTO GD_CON
 	VALUES ("f3fadc4c-2fd5-4d54-b54b-55cc17d850ff",
 	"00000000-0000-0000-0000-000000000000");
@@ -8952,7 +8952,7 @@ INSERT INTO GD_GE
 	"02c097c9-d546-4df2-a6f1-4e6922bcb8ab",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2068');
+	'escher::extensions::Translation Extensions::R2068');
 INSERT INTO GD_CON
 	VALUES ("7d8eba6f-8d8c-4b13-82ab-035b634d70a0",
 	"00000000-0000-0000-0000-000000000000");
@@ -9065,7 +9065,7 @@ INSERT INTO GD_GE
 	"6ac78f06-be94-4b91-a142-0a7c908d34f2",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::trace');
+	'escher::extensions::Translation Extensions::trace');
 INSERT INTO GD_SHP
 	VALUES ("cbd42243-679d-4922-ad52-c51967ac30a1");
 INSERT INTO GD_NCS
@@ -9089,7 +9089,7 @@ INSERT INTO GD_GE
 	"103f00fc-1cca-479c-a53c-7648dcb5b1bf",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2071');
+	'escher::extensions::Translation Extensions::R2071');
 INSERT INTO GD_CON
 	VALUES ("ed5907c4-4624-42ad-a09f-8e807b6049d6",
 	"00000000-0000-0000-0000-000000000000");
@@ -9202,7 +9202,7 @@ INSERT INTO GD_GE
 	"d5b95e6a-3649-459b-86d8-faaf1d444f92",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2072');
+	'escher::extensions::Translation Extensions::R2072');
 INSERT INTO GD_CON
 	VALUES ("9cec09d8-fb7b-40ce-a4ac-035e9f4893e4",
 	"00000000-0000-0000-0000-000000000000");
@@ -9302,7 +9302,7 @@ INSERT INTO GD_GE
 	"eb87cf44-2300-407b-8478-6fffc8b609de",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::target');
+	'escher::extensions::Translation Extensions::target');
 INSERT INTO GD_SHP
 	VALUES ("328ac75d-2928-475c-afc3-7c4d6c35c48c");
 INSERT INTO GD_NCS
@@ -9326,7 +9326,7 @@ INSERT INTO GD_GE
 	"38cea448-049a-4760-afc2-ca048b3b650b",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2002');
+	'escher::extensions::Translation Extensions::R2002');
 INSERT INTO GD_CON
 	VALUES ("862a77e2-8eef-4bce-962e-c0cf2576ba04",
 	"00000000-0000-0000-0000-000000000000");
@@ -9439,7 +9439,7 @@ INSERT INTO GD_GE
 	"d417b87b-f82a-4646-a0d7-cf83ebccc3f8",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2054');
+	'escher::extensions::Translation Extensions::R2054');
 INSERT INTO GD_CON
 	VALUES ("ab465cc4-ef0b-4d60-b86a-339b8ff2bc74",
 	"00000000-0000-0000-0000-000000000000");
@@ -9539,7 +9539,7 @@ INSERT INTO GD_GE
 	"617d51f7-fc07-4abe-89b9-cc83f5c36ebd",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Port');
+	'escher::extensions::Translation Extensions::Extended Port');
 INSERT INTO GD_SHP
 	VALUES ("3b42e813-396c-4a31-b4c5-806c6bca0c1d");
 INSERT INTO GD_NCS
@@ -9598,7 +9598,7 @@ INSERT INTO GD_GE
 	"1e421d34-5239-469f-bea8-85ef1883f32f",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2005');
+	'escher::extensions::Translation Extensions::R2005');
 INSERT INTO GD_CON
 	VALUES ("d2958deb-3142-42e5-8761-0b5f760d672b",
 	"00000000-0000-0000-0000-000000000000");
@@ -9698,7 +9698,7 @@ INSERT INTO GD_GE
 	"f55d12b9-7f4f-4791-9dba-55561e52c0c0",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2006');
+	'escher::extensions::Translation Extensions::R2006');
 INSERT INTO GD_CON
 	VALUES ("0ffadc15-d577-4a34-a609-d95ee23766dd",
 	"00000000-0000-0000-0000-000000000000");
@@ -9798,7 +9798,7 @@ INSERT INTO GD_GE
 	"7b68d6c2-cc87-450e-9927-2a29f3af3a00",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Interface');
+	'escher::extensions::Translation Extensions::Interface');
 INSERT INTO GD_SHP
 	VALUES ("63d8b1eb-4ab4-4550-8c42-f7413991fdcb");
 INSERT INTO GD_NCS
@@ -9827,7 +9827,7 @@ INSERT INTO GD_GE
 	"e3c1265d-fcee-4380-8fff-6ce98511a932",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2007');
+	'escher::extensions::Translation Extensions::R2007');
 INSERT INTO GD_CON
 	VALUES ("f5959f45-89db-4b06-be84-1a6aa9757362",
 	"00000000-0000-0000-0000-000000000000");
@@ -9940,7 +9940,7 @@ INSERT INTO GD_GE
 	"840b76c1-801f-4856-8df0-39658e3ce18b",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Component Instance');
+	'escher::extensions::Translation Extensions::Component Instance');
 INSERT INTO GD_SHP
 	VALUES ("485bef2b-c40a-4702-8f8d-ee9c13a9b4cd");
 INSERT INTO GD_NCS
@@ -9974,7 +9974,7 @@ INSERT INTO GD_GE
 	"e219b5b7-40ef-4a9b-bc9c-b012fc2e18d0",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2008');
+	'escher::extensions::Translation Extensions::R2008');
 INSERT INTO GD_CON
 	VALUES ("a0a45332-e6df-4882-a9cc-6e4f917d61b6",
 	"00000000-0000-0000-0000-000000000000");
@@ -10074,7 +10074,7 @@ INSERT INTO GD_GE
 	"40f69798-6f8a-4d25-876d-769d6378125b",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Component Reference');
+	'escher::extensions::Translation Extensions::Component Reference');
 INSERT INTO GD_SHP
 	VALUES ("3c322928-1a45-4d3f-a739-9a84c805119a");
 INSERT INTO GD_NCS
@@ -10103,7 +10103,7 @@ INSERT INTO GD_GE
 	"7b1bc6ce-ae9b-4027-96f7-1073de7e55ea",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2009');
+	'escher::extensions::Translation Extensions::R2009');
 INSERT INTO GD_CON
 	VALUES ("1fec8863-d7cf-4412-8f1f-9acb61f254d6",
 	"00000000-0000-0000-0000-000000000000");
@@ -10203,7 +10203,7 @@ INSERT INTO GD_GE
 	"1219b12b-c104-4446-b343-0ef0455f15ae",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Port');
+	'escher::extensions::Translation Extensions::Port');
 INSERT INTO GD_SHP
 	VALUES ("efc8176f-edea-42ee-94e0-c9a713486cda");
 INSERT INTO GD_NCS
@@ -10232,7 +10232,7 @@ INSERT INTO GD_GE
 	"ceeab7e9-2a9b-495b-8542-d740a9033530",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2044');
+	'escher::extensions::Translation Extensions::R2044');
 INSERT INTO GD_CON
 	VALUES ("8bbdd9d8-0bdc-4733-a9e3-d6058d0e5eea",
 	"00000000-0000-0000-0000-000000000000");
@@ -10345,7 +10345,7 @@ INSERT INTO GD_GE
 	"3fb5868b-a779-497e-8424-0f269e987b59",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Imported Reference');
+	'escher::extensions::Translation Extensions::Imported Reference');
 INSERT INTO GD_SHP
 	VALUES ("397a3a90-5b8a-4c99-a789-14abc141a260");
 INSERT INTO GD_NCS
@@ -10374,7 +10374,7 @@ INSERT INTO GD_GE
 	"f4dd3013-34a9-489d-b8c2-b465001a79ea",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Interface Instance');
+	'escher::extensions::Translation Extensions::Interface Instance');
 INSERT INTO GD_SHP
 	VALUES ("1918ed58-9394-4380-b42f-28f68908f0cf");
 INSERT INTO GD_NCS
@@ -10428,7 +10428,7 @@ INSERT INTO GD_GE
 	"8ff21eb4-a230-41f6-8c50-50f8518ce2e8",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2013');
+	'escher::extensions::Translation Extensions::R2013');
 INSERT INTO GD_CON
 	VALUES ("a856557d-f474-4112-a0f3-f1776e799187",
 	"00000000-0000-0000-0000-000000000000");
@@ -10528,7 +10528,7 @@ INSERT INTO GD_GE
 	"3588248b-badb-4f81-ac14-834279cbeb37",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Interface Reference');
+	'escher::extensions::Translation Extensions::Interface Reference');
 INSERT INTO GD_SHP
 	VALUES ("dde515fa-9482-4dd7-a7d0-39e43945e7aa");
 INSERT INTO GD_NCS
@@ -10557,7 +10557,7 @@ INSERT INTO GD_GE
 	"7c045c3a-54f4-4d05-81db-3598fe6e872c",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2046');
+	'escher::extensions::Translation Extensions::R2046');
 INSERT INTO GD_CON
 	VALUES ("e7f3bcca-d9f4-48bd-8b21-b9d806f7253b",
 	"00000000-0000-0000-0000-000000000000");
@@ -10657,7 +10657,7 @@ INSERT INTO GD_GE
 	"024a4555-89e9-43d4-b079-b607d3fba533",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2080');
+	'escher::extensions::Translation Extensions::R2080');
 INSERT INTO GD_CON
 	VALUES ("401c1dcd-f155-40b2-b9f8-3c5af1d7a88e",
 	"00000000-0000-0000-0000-000000000000");
@@ -10757,7 +10757,7 @@ INSERT INTO GD_GE
 	"bcc10807-575b-466d-9486-6e57c198ca9e",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2081');
+	'escher::extensions::Translation Extensions::R2081');
 INSERT INTO GD_CON
 	VALUES ("327e73d1-cd91-4ec0-b014-515986dd21c9",
 	"00000000-0000-0000-0000-000000000000");
@@ -10883,7 +10883,7 @@ INSERT INTO GD_GE
 	"2acd34b1-cd62-487e-9350-cbefd0039fc7",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2079');
+	'escher::extensions::Translation Extensions::R2079');
 INSERT INTO GD_CON
 	VALUES ("1e50146b-c1ea-4ced-8632-a4485ef96d80",
 	"00000000-0000-0000-0000-000000000000");
@@ -10983,7 +10983,7 @@ INSERT INTO GD_GE
 	"39d130b5-82b0-472b-96d6-bf71743603b7",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2082');
+	'escher::extensions::Translation Extensions::R2082');
 INSERT INTO GD_CON
 	VALUES ("54014458-2a8f-4260-af56-927cc03aa917",
 	"00000000-0000-0000-0000-000000000000");
@@ -11122,7 +11122,7 @@ INSERT INTO GD_GE
 	"55967071-eebe-4d59-8af6-31509830d815",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2083');
+	'escher::extensions::Translation Extensions::R2083');
 INSERT INTO GD_CON
 	VALUES ("9160cfef-2069-4196-8033-addd30cb0c3c",
 	"00000000-0000-0000-0000-000000000000");
@@ -11248,7 +11248,7 @@ INSERT INTO GD_GE
 	"81d247d8-29e1-4dae-b54d-28dd0f7d0b98",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2086');
+	'escher::extensions::Translation Extensions::R2086');
 INSERT INTO GD_CON
 	VALUES ("e748334b-e32a-443a-832b-37549829f942",
 	"00000000-0000-0000-0000-000000000000");
@@ -11400,7 +11400,7 @@ INSERT INTO GD_GE
 	"5e3dbdd0-0fd2-40a3-ac7d-d2e0cbb35c4e",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2084');
+	'escher::extensions::Translation Extensions::R2084');
 INSERT INTO GD_CON
 	VALUES ("9f149c59-386e-463f-b6f0-2c94440a4292",
 	"00000000-0000-0000-0000-000000000000");
@@ -11526,7 +11526,7 @@ INSERT INTO GD_GE
 	"a42656b9-47c5-46a3-8be8-ebb608c2d95b",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2085');
+	'escher::extensions::Translation Extensions::R2085');
 INSERT INTO GD_CON
 	VALUES ("bbf981bd-c242-4665-80dd-186026b2df34",
 	"00000000-0000-0000-0000-000000000000");
@@ -11626,7 +11626,7 @@ INSERT INTO GD_GE
 	"4fecd4f2-b954-44ac-a12e-18484b7f9b53",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2087');
+	'escher::extensions::Translation Extensions::R2087');
 INSERT INTO GD_CON
 	VALUES ("7e997e2d-81ee-4744-a745-ca02cfb9e42b",
 	"00000000-0000-0000-0000-000000000000");
@@ -11752,7 +11752,7 @@ INSERT INTO GD_GE
 	"8dc121a9-f8cb-47ba-bd09-84d818632d72",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2088');
+	'escher::extensions::Translation Extensions::R2088');
 INSERT INTO GD_CON
 	VALUES ("d987a547-3370-4394-8221-5de1377e0569",
 	"00000000-0000-0000-0000-000000000000");
@@ -11865,7 +11865,7 @@ INSERT INTO GD_GE
 	"4d9a5e35-57f1-4a7b-85a7-b36fb5ee86ad",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2089');
+	'escher::extensions::Translation Extensions::R2089');
 INSERT INTO GD_CON
 	VALUES ("0f137592-3d9b-4bc4-8c90-a9bdff23414f",
 	"00000000-0000-0000-0000-000000000000");
@@ -11965,7 +11965,7 @@ INSERT INTO GD_GE
 	"eb615bf4-c753-45a6-bfc7-3a0317bff7de",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::DomainClassInfo');
+	'escher::extensions::Translation Extensions::DomainClassInfo');
 INSERT INTO GD_SHP
 	VALUES ("42cb6fe1-ce07-4070-8b6b-d925756b367d");
 INSERT INTO GD_NCS
@@ -11994,7 +11994,7 @@ INSERT INTO GD_GE
 	"5c4cd276-1789-45fe-8b63-2399d5dccd6a",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2090');
+	'escher::extensions::Translation Extensions::R2090');
 INSERT INTO GD_CON
 	VALUES ("bcd3a6a7-25a8-4860-b5c7-2204e837289e",
 	"00000000-0000-0000-0000-000000000000");
@@ -12094,7 +12094,7 @@ INSERT INTO GD_GE
 	"5409e091-d2af-4804-b987-acbd4bbd4645",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Class Info Array');
+	'escher::extensions::Translation Extensions::Class Info Array');
 INSERT INTO GD_SHP
 	VALUES ("2c977281-f435-4a95-b4db-e53010cbdd1b");
 INSERT INTO GD_NCS
@@ -12118,7 +12118,7 @@ INSERT INTO GD_GE
 	"d234516a-502e-451a-91ad-ee91da7ea9ec",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2001');
+	'escher::extensions::Translation Extensions::R2001');
 INSERT INTO GD_CON
 	VALUES ("f21304fb-f15e-4546-8ad3-dec4d2bf9ff8",
 	"00000000-0000-0000-0000-000000000000");
@@ -12218,7 +12218,7 @@ INSERT INTO GD_GE
 	"d63ce8d0-edf5-4775-9d40-b6331d1a4d9c",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2091');
+	'escher::extensions::Translation Extensions::R2091');
 INSERT INTO GD_CON
 	VALUES ("f9bd0f7a-f86f-441c-b3ac-d4a3cf981bc4",
 	"00000000-0000-0000-0000-000000000000");
@@ -12318,7 +12318,7 @@ INSERT INTO GD_GE
 	"7ea56e67-e4bc-4d63-a57d-915ffb87d3cd",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::output file');
+	'escher::extensions::Translation Extensions::output file');
 INSERT INTO GD_SHP
 	VALUES ("c9407da1-cade-4307-abf1-fb62a20bb012");
 INSERT INTO GD_NCS
@@ -12342,7 +12342,7 @@ INSERT INTO GD_GE
 	"7cbecb2d-e3fd-4319-bd57-ec7797c0f026",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2017');
+	'escher::extensions::Translation Extensions::R2017');
 INSERT INTO GD_CON
 	VALUES ("2e195d50-7a0f-4108-9493-7f8011029797",
 	"00000000-0000-0000-0000-000000000000");
@@ -12468,7 +12468,7 @@ INSERT INTO GD_GE
 	"a13fcf5d-954f-4808-8f4a-facd7bc8c82d",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2092');
+	'escher::extensions::Translation Extensions::R2092');
 INSERT INTO GD_CON
 	VALUES ("5c671e56-94c7-4d95-8f6f-4d879a112967",
 	"00000000-0000-0000-0000-000000000000");
@@ -12594,7 +12594,7 @@ INSERT INTO GD_GE
 	"b2d78cac-d3aa-4eaa-86d0-429079103620",
 	21,
 	0,
-	'escher::ooaofooa::Translation Extensions::Extended Object In Relation');
+	'escher::extensions::Translation Extensions::Extended Object In Relation');
 INSERT INTO GD_SHP
 	VALUES ("25739499-29da-403e-929f-e1884b143648");
 INSERT INTO GD_NCS
@@ -12623,7 +12623,7 @@ INSERT INTO GD_GE
 	"9ccad5aa-66c5-4e6f-9c2f-3a9f33ee0843",
 	23,
 	0,
-	'escher::ooaofooa::Translation Extensions::Class In Association');
+	'escher::extensions::Translation Extensions::Class In Association');
 INSERT INTO GD_SHP
 	VALUES ("a6bb6dc3-d322-405c-9442-3ba88c44ef8a");
 INSERT INTO GD_NCS
@@ -12652,7 +12652,7 @@ INSERT INTO GD_GE
 	"e922eeb0-6936-423f-a0ad-0b3a58274de3",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2035');
+	'escher::extensions::Translation Extensions::R2035');
 INSERT INTO GD_CON
 	VALUES ("f06ed7cb-4c1b-4c36-bbe5-35e1a367528d",
 	"00000000-0000-0000-0000-000000000000");
@@ -12752,7 +12752,7 @@ INSERT INTO GD_GE
 	"4389f08e-bdd5-4056-91a9-7ae33d8e8d3c",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2095');
+	'escher::extensions::Translation Extensions::R2095');
 INSERT INTO GD_CON
 	VALUES ("e68d4776-523a-41dc-8187-bb0b777d38e2",
 	"00000000-0000-0000-0000-000000000000");
@@ -12904,7 +12904,7 @@ INSERT INTO GD_GE
 	"3e63f921-086d-44c1-956b-b106b9a224e3",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2096');
+	'escher::extensions::Translation Extensions::R2096');
 INSERT INTO GD_CON
 	VALUES ("10d93b20-4878-4cf6-8dc5-eaff40741e28",
 	"00000000-0000-0000-0000-000000000000");
@@ -13043,7 +13043,7 @@ INSERT INTO GD_GE
 	"079f5204-0009-4400-b042-6c77d353ee47",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2097');
+	'escher::extensions::Translation Extensions::R2097');
 INSERT INTO GD_CON
 	VALUES ("a3e19015-a907-434a-82bb-c13b421db352",
 	"00000000-0000-0000-0000-000000000000");
@@ -13169,7 +13169,7 @@ INSERT INTO GD_GE
 	"bc435a29-1a3d-4a4b-85fd-7191f7b74ffa",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2098');
+	'escher::extensions::Translation Extensions::R2098');
 INSERT INTO GD_CON
 	VALUES ("711b28aa-7d41-418a-8fe7-b231e231857e",
 	"00000000-0000-0000-0000-000000000000");
@@ -13269,7 +13269,7 @@ INSERT INTO GD_GE
 	"a639c4eb-de33-4069-b688-f1f8f5b87291",
 	24,
 	0,
-	'escher::ooaofooa::Translation Extensions::R2099');
+	'escher::extensions::Translation Extensions::R2099');
 INSERT INTO GD_CON
 	VALUES ("1a23921a-24ac-4580-926e-29ac33d282b9",
 	"00000000-0000-0000-0000-000000000000");
@@ -20865,7 +20865,7 @@ INSERT INTO EP_PKG_PROXY
 	VALUES ("c1941e17-7482-4223-bb05-a7e4ab891696",
 	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
 	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'ooaofooa',
+	'extensions',
 	'',
 	0,
 	'../extensions.xtuml');
