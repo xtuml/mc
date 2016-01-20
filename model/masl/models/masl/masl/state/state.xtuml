@@ -7,7 +7,9 @@ INSERT INTO O_OBJ
 	'state',
 	'A state represents the lifecycle of an object. The states are contained in a 
 state machine, which can be instance-based or object-based (aka. an assigner). 
-In MASL, the state types specify the state machine type.',
+In MASL, the state types specify the state machine type.
+
+The NON_EXISTANT state is the state of an instance before it is created.',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
 	VALUES ("3831770b-0142-457e-9e20-b77e34cfaa75",
@@ -108,7 +110,8 @@ for each state in states
      ( "start" != state.type ) and
      ( "creation" != state.type ) and
      ( "terminal" != state.type ) and
-     ( "normal" != state.type ) )
+     ( "normal" != state.type ) and 
+     ( "" != state.type) )
     TRACE::log( flavor:"failure", id:32, message:"state with invalid type:  " + state.name );
     valid = false;
   end if;

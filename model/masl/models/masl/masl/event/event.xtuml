@@ -106,7 +106,8 @@ for each event in events
   end if;
   if ( ( "assigner" != event.type ) and
      ( "creation" != event.type ) and
-     ( "normal" != event.type ) )
+     ( "normal" != event.type ) and 
+     ( "" != event.type ) )
     TRACE::log( flavor:"failure", id:31, message:"event with invalid type:  " + event.name );
     valid = false;
   end if;
