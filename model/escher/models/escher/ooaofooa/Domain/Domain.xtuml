@@ -6336,6 +6336,46 @@ INSERT INTO DIM_DIA
 	413.000000,
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO S_DT
+	VALUES ("4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Data Type>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
+	0,
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	'Data Type',
+	9,
+	'S_DT',
+	'An analyst can assign a data type to the various data items in the models, i.e., class attribute, state machine event data item, operation and bridge parameters and return values.  This data type does not capture the representation of the data items, but rather, the characteristics of the data items including:  1) Value Definition, i.e., whole numbers, 2) Value Range, i.e., values between 0 and 10, 3) Operations, i.e., +, -, *, /',
+	"00000000-0000-0000-0000-000000000000",
+	'../Domain/Data Type/Data Type.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("fa73e08b-aaea-43ca-9ddb-b926020dc7f5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Data Type>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("fa73e08b-aaea-43ca-9ddb-b926020dc7f5",
+	1,
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1");
+INSERT INTO PE_PE
+	VALUES ("fa73e08b-aaea-43ca-9ddb-b926020dc7f5",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
 	VALUES ("a01a1995-8ff8-44fe-abb1-b11213d98016",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<Function Parameter>',
@@ -6491,6 +6531,48 @@ INSERT INTO S_IRDT
 	"5ee0e399-3b05-4664-a524-a20bb92dd6eb");
 INSERT INTO PE_PE
 	VALUES ("9e615117-5ec7-43cc-a3c5-fe7cdd626110",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("4b886601-55ee-4d42-a1f8-f5c45d459db2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<System Model>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("4b886601-55ee-4d42-a1f8-f5c45d459db2",
+	0,
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("73fe84bb-5d30-42e4-a735-a91b9e943be7",
+	'System Model',
+	18,
+	'S_SYS',
+	'A system is described by one or more models, each drawn from different subject matters. Each subject matter model is called a domain.
+-----------
+PEI:true',
+	"00000000-0000-0000-0000-000000000000",
+	'../Domain/System Model/System Model.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4b886601-55ee-4d42-a1f8-f5c45d459db2",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("38095d7a-889d-4adc-afd6-290bb92f0b46",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<System Model>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("38095d7a-889d-4adc-afd6-290bb92f0b46",
+	1,
+	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
+INSERT INTO PE_PE
+	VALUES ("38095d7a-889d-4adc-afd6-290bb92f0b46",
 	1,
 	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
 	"00000000-0000-0000-0000-000000000000",

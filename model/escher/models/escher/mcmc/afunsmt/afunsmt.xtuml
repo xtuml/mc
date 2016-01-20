@@ -119,7 +119,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Model Class>',
 	'',
 	'',
-	'../../ooaofooa/Instance Reference Data Types/Instance Reference Data Types.xtuml');
+	'../../ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("99c74261-a58e-4338-8ecd-03c0e030c8d3",
 	"ab569e2c-b7cb-4c54-8134-4eb3dff13d64",

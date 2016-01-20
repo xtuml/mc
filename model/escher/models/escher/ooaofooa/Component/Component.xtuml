@@ -3368,6 +3368,93 @@ INSERT INTO DIM_DIA
 	2893.000000,
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO S_DT
+	VALUES ("67f93d18-1045-4c6c-b0d5-a692023c471c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Component>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("efc93ef7-432d-47d5-9541-033eef7f2676",
+	'Component',
+	4000,
+	'C_C',
+	'A component defines the content of a system.  Its associations with other
+components are defined through interfaces that are either provided or required
+by the component.
+
+A Component is related to an Interface through two different link classes,
+Requirement and Provision.  The links are setup when either the Provision or
+Requirement is formalized against an interface that is defined in an Interface
+Diagram',
+	"00000000-0000-0000-0000-000000000000",
+	'../Component/Component/Component.xtuml');
+INSERT INTO PE_PE
+	VALUES ("67f93d18-1045-4c6c-b0d5-a692023c471c",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("5228eeb5-5532-4f4d-8d56-d20e0a1a6189",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Component>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("5228eeb5-5532-4f4d-8d56-d20e0a1a6189",
+	1,
+	"efc93ef7-432d-47d5-9541-033eef7f2676");
+INSERT INTO PE_PE
+	VALUES ("5228eeb5-5532-4f4d-8d56-d20e0a1a6189",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("80698720-cc57-44ba-8aa5-600c524db338",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Interface>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("80698720-cc57-44ba-8aa5-600c524db338",
+	0,
+	"a9120b56-197a-48fd-9ca0-9774cba03f3f");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a9120b56-197a-48fd-9ca0-9774cba03f3f",
+	'Interface',
+	4001,
+	'C_I',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'../Component/Interface/Interface.xtuml');
+INSERT INTO PE_PE
+	VALUES ("80698720-cc57-44ba-8aa5-600c524db338",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("af65ad23-3277-4823-ba71-307c18c926a3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Interface>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("af65ad23-3277-4823-ba71-307c18c926a3",
+	1,
+	"a9120b56-197a-48fd-9ca0-9774cba03f3f");
+INSERT INTO PE_PE
+	VALUES ("af65ad23-3277-4823-ba71-307c18c926a3",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
 	VALUES ("4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<Property Parameter>',
