@@ -1,0 +1,46 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("9d3c2f5d-86af-4aee-80cd-293b3d939993",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	"0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'lib',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("e71afa54-2ede-4096-9d95-6f6a3f14b46b",
+	112,
+	"9d3c2f5d-86af-4aee-80cd-293b3d939993",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'mcshared::lib');
+INSERT INTO DIM_DIA
+	VALUES ("e71afa54-2ede-4096-9d95-6f6a3f14b46b",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("9d3c2f5d-86af-4aee-80cd-293b3d939993",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO S_SYS_PROXY
+	VALUES ("0d4431d1-5f65-4845-a834-f0112f4585cd",
+	'mcshared',
+	1,
+	'../mcshared.xtuml');

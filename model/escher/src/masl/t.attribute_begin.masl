@@ -1,0 +1,9 @@
+T_b("    ");
+T_b(self->name);
+T_b(" : ");
+if ( self->preferred ) {
+T_b("preferred ");
+}
+if ( self->unique ) {
+T_b("unique ");
+}
