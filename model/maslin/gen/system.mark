@@ -1,4 +1,4 @@
-.invoke MarkSystemConfigurationPackage( "sysmaslin" )
+.invoke MarkSystemConfigurationPackage( "systest" )
 .//============================================================================
 .// File:  system.mark
 .//

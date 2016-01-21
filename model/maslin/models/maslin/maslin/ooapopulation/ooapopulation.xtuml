@@ -31,18 +31,24 @@ elif ( "domain" == element )
 elif ( "object" == element )
   ooapopulation.transformObject(name:param.value[0]);
 elif ( "terminator" == element )
+  ooapopulation.transformTerminator(name:param.value[0]);
 elif ( "activity" == element )
+  ooapopulation.transformActivity();
 elif ( "parameter" == element )
+  ooapopulation.transformParameter();
 elif ( "attribute" == element )
+  ooapopulation.transformAttribute();
 elif ( "state" == element )
+  ooapopulation.transformState();
 elif ( "event" == element )
+  ooapopulation.transformEvent();
 else
   TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
 ',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"46927d95-5219-4409-9ecf-2a4bde2444bf");
 INSERT INTO O_TPARM
 	VALUES ("131c349a-c035-4ed0-854f-b9f18d804b36",
 	"87050544-e583-4582-86a9-367a73543eb0",
@@ -87,20 +93,20 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// Create the system model and cache it
-create object instance s_sys of S_SYS;
-s_sys.Name = param.name;
-self.current_sys = s_sys;
+	'// A MASL project is not the same as an xtUML project.  A MASL project is a system wiring specification.
+// Due to the way the m2m population happens, we don''t know if we''ll see a project or domain definitions
+// first.  Thus, we make sure an xtUML system is singlularly created no matter what comes first.
+self.createSystem();
 
 // Create a package named the same as the project and cache it
-self.wiring_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:s_sys.Name);
+self.wiring_pkg = self.SystemModel_newPackage(s_sys:self.current_sys, pkg_name:param.name);
 
-// Create a package named "Library" and cache it
-self.lib_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"Library");
+
+// TODO - more work?
 ',
 	1,
 	'',
-	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80");
+	"9fda3415-6862-461d-ab35-5239c783bde0");
 INSERT INTO O_TPARM
 	VALUES ("0328c5d5-16a3-4b55-b5b6-f0d134aec768",
 	"a442a038-3373-4282-a5fc-098af44e9cbe",
@@ -176,7 +182,7 @@ pe_pe = param.pe_pe;
 pe_pe.Visibility = Visibility::Public;',
 	1,
 	'',
-	"8dc83f08-897b-47cb-9ef3-db03c1fa412c");
+	"dc1b8351-2cfd-4870-b038-21d1052f3c05");
 INSERT INTO O_TPARM
 	VALUES ("6a17224a-e16d-4c87-a4b6-3504f24b8992",
 	"6d27ebf1-bb50-4835-85e2-b21d260ab92c",
@@ -229,7 +235,13 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// Create a component in the Library package
+	'self.createSystem();
+
+// TODO - This needs work.  As written it assumes a project will have already been created, this may not be true.
+//   Thus the wiring package may not exist, so we should check that before trying to create the component reference.
+//   Also, if a Project did come first, the domain/component may already exist because it would have been forward referenced there.
+
+// Create a component in the Library package
 c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
 self.Component_newPackage(c_c:c_c, pkg_name:"internals");
 
@@ -240,7 +252,7 @@ cl_ic = self.Package_newImportedComponent(ep_pkg:self.wiring_pkg);
 self.ComponentReference_assignToComp(cl_ic:cl_ic, c_c:c_c);',
 	1,
 	'',
-	"87050544-e583-4582-86a9-367a73543eb0");
+	"9438bf8f-4666-499e-9822-00e7b064286f");
 INSERT INTO O_TPARM
 	VALUES ("8da4d30c-a69d-4f29-a03f-feaa156369bb",
 	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0",
@@ -380,12 +392,16 @@ comp = param.c_c;
 select one packageableElem related by cl_ic->PE_PE[R8001]; 
 select one contPackage related by packageableElem->EP_PKG[R8000];
 select one contComponent related by packageableElem->C_C[R8003];
-select any pe from instances of PE_PE where selected.Element_ID == param.Id;
 if(not_empty comp)
   relate cl_ic to comp across R4201;
   select many formalInterfaces related by comp->C_PO[R4010]->C_IR[R4016];
   for each formalInterface in formalInterfaces
-    if(formalInterface.isFormal())
+    // If the association between self and C_I is set up
+    // then this reference is formal
+    // TODO - SKB: here I skipped a function call because it would require published ref on C_IR, maybe should use
+    //   that for consistency...
+    select one c_i related by formalInterface->C_I[R4012];
+    if(not_empty c_i)
       select any existingImportRef related by cl_ic->CL_POR[R4707]->CL_IIR[R4708]->C_IR[R4701]
                                       where (selected.Id == formalInterface.Id);
       if(empty existingImportRef)
@@ -440,7 +456,7 @@ INSERT INTO O_TFR
 	'',
 	1,
 	'',
-	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
+	"3ed1f3e8-afb7-40dc-a2d2-2caac1c499d4");
 INSERT INTO O_TPARM
 	VALUES ("8b0d5f6b-5fc0-48dd-b987-acc00c37c87d",
 	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80",
@@ -516,7 +532,7 @@ end if;
 return c_c.Id;',
 	1,
 	'',
-	"a442a038-3373-4282-a5fc-098af44e9cbe");
+	"fd3b1e58-e9c3-41df-a82e-724733a56a61");
 INSERT INTO O_TPARM
 	VALUES ("f8b32f28-f05b-4aca-bf2b-629bbb42455c",
 	"edbc08df-df72-4ee9-9365-1a3d836b9fbd",
@@ -526,6 +542,124 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TFR
+	VALUES ("46927d95-5219-4409-9ecf-2a4bde2444bf",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'createSystem',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	's_sys = self.current_sys;
+if ( empty s_sys )
+  // Create the system model and cache it
+  create object instance s_sys of S_SYS;
+
+  s_sys.Name = "ConvertedModel";
+  self.current_sys = s_sys;
+
+  // Create a package named "Library" and cache it
+  self.lib_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"Library");
+end if;
+
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("dc1b8351-2cfd-4870-b038-21d1052f3c05",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'InterfaceReference_isFormal',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'',
+	1,
+	'',
+	"8dc83f08-897b-47cb-9ef3-db03c1fa412c");
+INSERT INTO O_TPARM
+	VALUES ("f4e74870-5f4d-4477-b491-66bc68360f61",
+	"dc1b8351-2cfd-4870-b038-21d1052f3c05",
+	'c_ir',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("fd3b1e58-e9c3-41df-a82e-724733a56a61",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformTerminator',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	3,
+	'',
+	"cd1f0452-4df9-45c5-949f-e319f8cb63e8");
+INSERT INTO O_TPARM
+	VALUES ("2b20bdba-272e-4e7f-b097-c0e5ea0e5f52",
+	"fd3b1e58-e9c3-41df-a82e-724733a56a61",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("10b41e09-87b2-4ef5-89ad-9ef4c39d9637",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformActivity',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	3,
+	'',
+	"87050544-e583-4582-86a9-367a73543eb0");
+INSERT INTO O_TFR
+	VALUES ("9fda3415-6862-461d-ab35-5239c783bde0",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformParameter',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	3,
+	'',
+	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80");
+INSERT INTO O_TFR
+	VALUES ("9438bf8f-4666-499e-9822-00e7b064286f",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformAttribute',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	3,
+	'',
+	"10b41e09-87b2-4ef5-89ad-9ef4c39d9637");
+INSERT INTO O_TFR
+	VALUES ("cd1f0452-4df9-45c5-949f-e319f8cb63e8",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformState',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	3,
+	'',
+	"a442a038-3373-4282-a5fc-098af44e9cbe");
+INSERT INTO O_TFR
+	VALUES ("3ed1f3e8-afb7-40dc-a2d2-2caac1c499d4",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformEvent',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	3,
+	'',
+	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
 INSERT INTO O_NBATTR
 	VALUES ("bda701a3-1e5f-4c37-a49f-25dfe331e6eb",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");

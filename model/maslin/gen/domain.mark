@@ -1,3 +1,4 @@
+.invoke MarkInitializationFunction( "test", "doTest" )
 .//============================================================================
 .// File:  domain.mark
 .//
