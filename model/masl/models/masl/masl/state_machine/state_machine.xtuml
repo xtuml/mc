@@ -1,0 +1,158 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	'state_machine',
+	3708,
+	'state_machine',
+	'State machine is also representative of the transition table in MASL. It 
+provides grouping per object of states events and transition rules.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("bc4dbe48-4b74-418f-8d9a-0f3351e63b7d",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'//T::include( file:"masl/t.project_begin.masl" );
+//select many projectdomains related by self->projectdomain[R3701.''configures''];
+//for each projectdomain in projectdomains
+//  projectdomain.render();
+//end for;
+//T::include( file:"masl/t.project_end.masl" );',
+	1,
+	'',
+	"8930d86e-438f-4a56-b595-3a8b60fe9123");
+INSERT INTO O_TFR
+	VALUES ("8930d86e-438f-4a56-b595-3a8b60fe9123",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	'populate',
+	'',
+	"eefb9a09-70e7-4c0f-927f-7758f32e96fc",
+	0,
+	'create object instance state_machine of state_machine;
+state_machine.type = param.type;
+if ("assigner" == param.type)
+  assigner = assigner_sm::populate(object:param.object, parent:state_machine);
+else
+  lifecycle = lifecycle_sm::populate(object:param.object, parent:state_machine);
+end if;
+return state_machine;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("500de992-1102-49b2-9b91-9e17e6fc2154",
+	"8930d86e-438f-4a56-b595-3a8b60fe9123",
+	'type',
+	"34fac455-523f-4aa2-932b-a33981ceacad",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("d21b0898-f219-443c-8640-9c9c7f6dba23",
+	"8930d86e-438f-4a56-b595-3a8b60fe9123",
+	'object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"500de992-1102-49b2-9b91-9e17e6fc2154",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("eefb9a09-70e7-4c0f-927f-7758f32e96fc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<state_machine>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("63c2aecf-4d16-43c4-bc75-562e17bd7042",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+//select many projects from instances of project;
+//if ( empty projects )
+//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
+//  valid = false;
+//end if;
+
+// Validate siblings and subordinates.
+//return ( valid and projectdomain::validate() );
+return valid;
+',
+	1,
+	'',
+	"e3d3d6c0-107e-48fa-82f1-c70f5a80d902");
+INSERT INTO O_TFR
+	VALUES ("e3d3d6c0-107e-48fa-82f1-c70f5a80d902",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[8] = "";
+value[0] = self.name;
+//out::( element:"template_class", value:value );',
+	1,
+	'',
+	"bc4dbe48-4b74-418f-8d9a-0f3351e63b7d");
+INSERT INTO O_NBATTR
+	VALUES ("00f174c6-bf44-4f67-a7bc-b665d72d4119",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525");
+INSERT INTO O_BATTR
+	VALUES ("00f174c6-bf44-4f67-a7bc-b665d72d4119",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525");
+INSERT INTO O_ATTR
+	VALUES ("00f174c6-bf44-4f67-a7bc-b665d72d4119",
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	"00000000-0000-0000-0000-000000000000",
+	'type',
+	'',
+	'',
+	'type',
+	0,
+	"34fac455-523f-4aa2-932b-a33981ceacad",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525");
+INSERT INTO O_ID
+	VALUES (1,
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525");
+INSERT INTO O_ID
+	VALUES (2,
+	"8acb394f-39a0-4e91-bf6e-50ba9286e525");
+INSERT INTO PE_PE
+	VALUES ("8acb394f-39a0-4e91-bf6e-50ba9286e525",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

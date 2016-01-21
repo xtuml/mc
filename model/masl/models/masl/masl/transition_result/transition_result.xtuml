@@ -100,7 +100,7 @@ for each transition_result in transition_results
   if (empty state)
     select one nonstate related by transition_result->nonstate_target[R3729];
     if (empty nonstate)
-      TRACE::log( flavor:"failure", id:53, message:"Transition result has no child." );
+      TRACE::log( flavor:"failure", id:54, message:"Transition result has no child." );
       valid = false;
     end if;
   end if;

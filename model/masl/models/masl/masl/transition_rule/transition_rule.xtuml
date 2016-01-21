@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("e09b9ee1-811f-43ec-a7a8-302014f299d9",
-	'transition',
+	'transition_rule',
 	3717,
-	'transition',
+	'transition_rule',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -36,6 +36,8 @@ create object instance transition of transition;
 relate transition to state across R3730;
 relate transition to event across R3732;
 result = transition_result::populate(name:param.result, transition:transition);
+select any transition_table related by state->object[R3725]->transition_table[R3734];
+relate transition to transition_table across R3733;
 return transition;',
 	1,
 	'',
@@ -91,7 +93,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_DT_PROXY
 	VALUES ("cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<transition>',
+	'inst_ref<transition_rule>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -118,6 +120,11 @@ for each transition in transitions
   select one event related by transition->event[R3732];
   if (empty state)
     TRACE::log( flavor:"failure", id:52, message:"Transition has no event." );
+    valid = false;
+  end if;
+  select one transition_table related by transition->transition_table[R3733];
+  if (empty transition_table)
+    TRACE::log( flavor:"failure", id:53, message:"There is no transition table." );
     valid = false;
   end if;
 end for;

@@ -34,11 +34,11 @@ INSERT INTO O_TFR
 	'',
 	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
 	0,
-	'object = param.object;
+	'state_machine = param.state_machine;
 create object instance state of state;
 state.name = param.name;
 state.type = param.type;
-relate state to object across R3725;
+relate state to state_machine across R3738;
 return state;',
 	1,
 	'',
@@ -62,16 +62,16 @@ INSERT INTO S_DT_PROXY
 INSERT INTO O_TPARM
 	VALUES ("f50031d6-65c0-47d2-b2b3-639eb073dac1",
 	"b5fb225a-420f-41b5-b16e-930a5ff3ea82",
-	'object',
-	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	'state_machine',
+	"eefb9a09-70e7-4c0f-927f-7758f32e96fc",
 	0,
 	'',
 	"9919940a-4ce4-4b7f-aa5c-f861279746be",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	VALUES ("eefb9a09-70e7-4c0f-927f-7758f32e96fc",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<object>',
+	'inst_ref<state_machine>',
 	'',
 	'',
 	'../masl.xtuml');

@@ -32,11 +32,11 @@ INSERT INTO O_TFR
 	'',
 	"10f010a5-972a-427c-a610-080e185e1082",
 	0,
-	'object = param.object;
+	'state_machine = param.state_machine;
 create object instance event of event;
 event.name = param.name;
 event.type = param.type;
-relate event to object across R3728;
+relate event to state_machine across R3737;
 return event;',
 	1,
 	'',
@@ -69,16 +69,16 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("fcc23318-85ee-4642-a9d5-95e8850aed31",
 	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
-	'object',
-	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	'state_machine',
+	"eefb9a09-70e7-4c0f-927f-7758f32e96fc",
 	0,
 	'',
 	"a36049a4-43db-45a5-a2ca-723b79d81a8a",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	VALUES ("eefb9a09-70e7-4c0f-927f-7758f32e96fc",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<object>',
+	'inst_ref<state_machine>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -146,7 +146,9 @@ INSERT INTO O_ATTR
 	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
 	"b9413c9b-6c34-47d9-8cc0-9016fcb520be",
 	'type',
-	'',
+	'The event type is "assigner", "creation", or "normal".
+
+NOTE: An empty string ("") is equivalent to "normal".',
 	'',
 	'type',
 	0,
