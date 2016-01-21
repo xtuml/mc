@@ -1774,7 +1774,7 @@ INSERT INTO O_OIDA_PROXY
 	"a9120b56-197a-48fd-9ca0-9774cba03f3f",
 	0,
 	'Id',
-	'../../ooaofooa/Component/Interface/Interface.xtuml');
+	'../../../mcooa/ooaofooa/Component/Interface/Interface.xtuml');
 INSERT INTO R_RTO
 	VALUES ("a9120b56-197a-48fd-9ca0-9774cba03f3f",
 	"cfe7abfc-1f49-45d4-a9d8-c135f8314b48",
@@ -1783,7 +1783,7 @@ INSERT INTO R_RTO
 INSERT INTO O_ID_PROXY
 	VALUES (0,
 	"a9120b56-197a-48fd-9ca0-9774cba03f3f",
-	'../../ooaofooa/Component/Interface/Interface.xtuml');
+	'../../../mcooa/ooaofooa/Component/Interface/Interface.xtuml');
 INSERT INTO R_OIR
 	VALUES ("a9120b56-197a-48fd-9ca0-9774cba03f3f",
 	"cfe7abfc-1f49-45d4-a9d8-c135f8314b48",
@@ -1796,7 +1796,7 @@ INSERT INTO O_OBJ_PROXY
 	'C_I',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'../../ooaofooa/Component/Interface/Interface.xtuml');
+	'../../../mcooa/ooaofooa/Component/Interface/Interface.xtuml');
 INSERT INTO R_FORM
 	VALUES ("ce408740-cf9e-4b93-a2fd-b06c1be3193c",
 	"cfe7abfc-1f49-45d4-a9d8-c135f8314b48",

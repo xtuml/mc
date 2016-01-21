@@ -217,7 +217,7 @@ client in one interface.     This enum is used at the operation/signal level
 to determine if it is to be used for client to server or server to client 
 communication.',
 	'',
-	'../../../ooaofooa/Datatypes/Datatypes.xtuml');
+	'../../../../mcooa/ooaofooa/Datatypes/Datatypes.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("b7eaaee0-63ce-4fc0-b3be-d63843c42603",
 	"ff19e93f-39a8-4a13-af46-1b7ee8317135");
@@ -274,7 +274,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("bb397215-55be-4571-af99-4a8d7be7a2cd",
 	"8910d8a9-d776-4741-8ef1-23787541ec58",
-	'../../../ooaofooa/Component/Signal Provisions and Requirements/Provided Executable Property/Provided Executable Property.xtuml');
+	'../../../../mcooa/ooaofooa/Component/Signal Provisions and Requirements/Provided Executable Property/Provided Executable Property.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("df2d4095-78af-4ac7-b820-8f9b2401bac3",
 	"ff19e93f-39a8-4a13-af46-1b7ee8317135",
@@ -372,7 +372,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("ac7d8964-5662-4281-bd38-d0bad500537d",
 	"a781fff7-2fb5-4a41-919b-c7c800d0e758",
-	'../../../ooaofooa/Component/Signal Provisions and Requirements/Required Executable Property/Required Executable Property.xtuml');
+	'../../../../mcooa/ooaofooa/Component/Signal Provisions and Requirements/Required Executable Property/Required Executable Property.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("ed0da284-bd87-47d7-a26a-a451e745b9a5",
 	"ff19e93f-39a8-4a13-af46-1b7ee8317135",

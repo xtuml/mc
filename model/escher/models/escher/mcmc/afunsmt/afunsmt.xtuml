@@ -119,7 +119,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Model Class>',
 	'',
 	'',
-	'../../ooaofooa/Subsystem/Subsystem.xtuml');
+	'../../../mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("99c74261-a58e-4338-8ecd-03c0e030c8d3",
 	"ab569e2c-b7cb-4c54-8134-4eb3dff13d64",
@@ -144,7 +144,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Association>',
 	'',
 	'',
-	'../../ooaofooa/Association/Association.xtuml');
+	'../../../mcooa/ooaofooa/Association/Association.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("84e25947-8c7d-46a4-964f-c8173691f82f",
 	"ab569e2c-b7cb-4c54-8134-4eb3dff13d64",
@@ -1056,7 +1056,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<For Stmt>',
 	'',
 	'',
-	'../../ooaofooa/Body/Body.xtuml');
+	'../../../mcooa/ooaofooa/Body/Body.xtuml');
 INSERT INTO PE_PE
 	VALUES ("6d7af06d-6497-4689-b0d7-3a8f74bf467c",
 	1,
@@ -1134,7 +1134,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<If Stmt>',
 	'',
 	'',
-	'../../ooaofooa/Body/Body.xtuml');
+	'../../../mcooa/ooaofooa/Body/Body.xtuml');
 INSERT INTO PE_PE
 	VALUES ("849f8606-6c19-4f3a-88fa-7c9ffe749a3c",
 	1,
@@ -1211,7 +1211,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<While Stmt>',
 	'',
 	'',
-	'../../ooaofooa/Body/Body.xtuml');
+	'../../../mcooa/ooaofooa/Body/Body.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f872896f-8913-4318-833f-290ac8687fee",
 	1,
@@ -1289,7 +1289,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Else Stmt>',
 	'',
 	'',
-	'../../ooaofooa/Body/Body.xtuml');
+	'../../../mcooa/ooaofooa/Body/Body.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f5c972ef-df77-4a39-a3e7-ec88e2f7ecac",
 	1,
@@ -1369,7 +1369,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<ElseIf Stmt>',
 	'',
 	'',
-	'../../ooaofooa/Body/Body.xtuml');
+	'../../../mcooa/ooaofooa/Body/Body.xtuml');
 INSERT INTO PE_PE
 	VALUES ("684a1a29-2e26-419a-b189-975ef6b69c65",
 	1,
@@ -1525,7 +1525,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Assign to Member>',
 	'',
 	'',
-	'../../ooaofooa/Instance Access/Instance Access.xtuml');
+	'../../../mcooa/ooaofooa/Instance Access/Instance Access.xtuml');
 INSERT INTO PE_PE
 	VALUES ("fc10c260-2835-4314-811a-32e84f92a435",
 	1,
@@ -1573,7 +1573,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Value>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("6bd0cb02-2be4-4c11-9648-2eb96531f12c",
 	1,
@@ -1667,7 +1667,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Create>',
 	'',
 	'',
-	'../../ooaofooa/Instance Access/Instance Access.xtuml');
+	'../../../mcooa/ooaofooa/Instance Access/Instance Access.xtuml');
 INSERT INTO PE_PE
 	VALUES ("eacf3583-0476-448b-9c16-7b99b60a4bdc",
 	1,
@@ -1754,7 +1754,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Delete>',
 	'',
 	'',
-	'../../ooaofooa/Instance Access/Instance Access.xtuml');
+	'../../../mcooa/ooaofooa/Instance Access/Instance Access.xtuml');
 INSERT INTO PE_PE
 	VALUES ("8607aa09-bd54-4944-8efd-2f04093c2d4c",
 	1,
@@ -1935,7 +1935,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Create SM Event Statement>',
 	'',
 	'',
-	'../../ooaofooa/Event/Event.xtuml');
+	'../../../mcooa/ooaofooa/Event/Event.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("1236b704-9346-4c0d-859f-7b297ec235f2",
 	"634c318e-6e33-4462-ab01-1f65152f1244",
@@ -2056,7 +2056,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Relate>',
 	'',
 	'',
-	'../../ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
+	'../../../mcooa/ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
 INSERT INTO PE_PE
 	VALUES ("e9eba6bc-2131-47f5-ad8a-9cb6393ad8a1",
 	1,
@@ -2180,7 +2180,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Relate Using>',
 	'',
 	'',
-	'../../ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
+	'../../../mcooa/ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
 INSERT INTO PE_PE
 	VALUES ("54f73f06-d009-4087-a117-ce43e69a4273",
 	1,
@@ -2279,7 +2279,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Unrelate>',
 	'',
 	'',
-	'../../ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
+	'../../../mcooa/ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
 INSERT INTO PE_PE
 	VALUES ("38840b30-ffab-4f72-ac99-7d62d91fdd70",
 	1,
@@ -2402,7 +2402,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Unrelate Using>',
 	'',
 	'',
-	'../../ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
+	'../../../mcooa/ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
 INSERT INTO PE_PE
 	VALUES ("54d199ae-526d-4c61-bf40-54ae0b1ae114",
 	1,
@@ -2515,7 +2515,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Select From Instances>',
 	'',
 	'',
-	'../../ooaofooa/Selection/Selection.xtuml');
+	'../../../mcooa/ooaofooa/Selection/Selection.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f5aca772-9ef7-4ff8-8243-eabc357281c6",
 	1,
@@ -2707,7 +2707,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Select From Instances Where>',
 	'',
 	'',
-	'../../ooaofooa/Selection/Selection.xtuml');
+	'../../../mcooa/ooaofooa/Selection/Selection.xtuml');
 INSERT INTO PE_PE
 	VALUES ("3fdcecaf-caf5-4676-be8a-c837ccca3177",
 	1,
@@ -2840,7 +2840,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Generate Preexisting Event>',
 	'',
 	'',
-	'../../ooaofooa/Event/Event.xtuml');
+	'../../../mcooa/ooaofooa/Event/Event.xtuml');
 INSERT INTO PE_PE
 	VALUES ("907f8366-7e24-4582-a1c3-c76750444c3c",
 	1,
@@ -2912,7 +2912,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Actual Parameter>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("8af7475c-f0a6-4c26-9410-483e55f79165",
 	1,
@@ -2994,7 +2994,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Generate>',
 	'',
 	'',
-	'../../ooaofooa/Event/Event.xtuml');
+	'../../../mcooa/ooaofooa/Event/Event.xtuml');
 INSERT INTO PE_PE
 	VALUES ("b52a3bfd-1e2e-4377-9bc5-093ec981dd41",
 	1,
@@ -3055,7 +3055,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Generate to Creator>',
 	'',
 	'',
-	'../../ooaofooa/Event/Event.xtuml');
+	'../../../mcooa/ooaofooa/Event/Event.xtuml');
 INSERT INTO PE_PE
 	VALUES ("639554cb-5e13-499a-a8c5-a5effed8881d",
 	1,
@@ -3116,7 +3116,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Generate to Class>',
 	'',
 	'',
-	'../../ooaofooa/Event/Event.xtuml');
+	'../../../mcooa/ooaofooa/Event/Event.xtuml');
 INSERT INTO PE_PE
 	VALUES ("b62df5ad-cc1f-4081-aa2a-93e6cc693436",
 	1,
@@ -3211,7 +3211,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Generate SM Event Statement>',
 	'',
 	'',
-	'../../ooaofooa/Event/Event.xtuml');
+	'../../../mcooa/ooaofooa/Event/Event.xtuml');
 INSERT INTO PE_PE
 	VALUES ("b4304723-582f-4b67-b0eb-65c416b0fe73",
 	1,
@@ -3277,7 +3277,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Signal Invocation>',
 	'',
 	'',
-	'../../ooaofooa/Invocation/Invocation.xtuml');
+	'../../../mcooa/ooaofooa/Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("6a5b249b-a1d4-4a2b-ad04-2eecadbd78c8",
 	1,
@@ -3343,7 +3343,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Interface Operation Invocation>',
 	'',
 	'',
-	'../../ooaofooa/Invocation/Invocation.xtuml');
+	'../../../mcooa/ooaofooa/Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("135475f3-5d6e-42d2-8d1f-b7741178246c",
 	1,
@@ -3457,7 +3457,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref_set<Actual Parameter>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("47c36172-2d89-4f8a-ae2a-e5c210f45624",
 	"98e68db3-aa1b-49e9-9ddc-bc7baffab94d",
@@ -3596,7 +3596,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Operation Invocation>',
 	'',
 	'',
-	'../../ooaofooa/Invocation/Invocation.xtuml');
+	'../../../mcooa/ooaofooa/Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("af409a58-0a07-4241-80c1-5c88b9a298f2",
 	1,
@@ -3698,7 +3698,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Bridge Invocation>',
 	'',
 	'',
-	'../../ooaofooa/Invocation/Invocation.xtuml');
+	'../../../mcooa/ooaofooa/Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("673a0539-61a4-4969-a4c7-68ecebc46f7d",
 	1,
@@ -3790,7 +3790,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Function Invocation>',
 	'',
 	'',
-	'../../ooaofooa/Invocation/Invocation.xtuml');
+	'../../../mcooa/ooaofooa/Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("40c68a9e-54f0-499f-b0a2-c87c4f13c07e",
 	1,
@@ -3913,7 +3913,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Return Stmt>',
 	'',
 	'',
-	'../../ooaofooa/Invocation/Invocation.xtuml');
+	'../../../mcooa/ooaofooa/Invocation/Invocation.xtuml');
 INSERT INTO PE_PE
 	VALUES ("4e45d9bd-dbdd-4f3b-8382-90c328511603",
 	1,
@@ -3991,7 +3991,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Control>',
 	'',
 	'',
-	'../../ooaofooa/Body/Body.xtuml');
+	'../../../mcooa/ooaofooa/Body/Body.xtuml');
 INSERT INTO PE_PE
 	VALUES ("56d5586e-4b00-49eb-94f6-4b387300cac0",
 	1,
@@ -4081,7 +4081,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Break>',
 	'',
 	'',
-	'../../ooaofooa/Body/Body.xtuml');
+	'../../../mcooa/ooaofooa/Body/Body.xtuml');
 INSERT INTO PE_PE
 	VALUES ("60ee9020-7b6f-4c85-b248-7092072e5abb",
 	1,
@@ -4171,7 +4171,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Continue>',
 	'',
 	'',
-	'../../ooaofooa/Body/Body.xtuml');
+	'../../../mcooa/ooaofooa/Body/Body.xtuml');
 INSERT INTO PE_PE
 	VALUES ("15d6b2f0-0310-49cf-bf1c-87e81b8a2aa7",
 	1,
@@ -4632,7 +4632,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Select>',
 	'',
 	'',
-	'../../ooaofooa/Selection/Selection.xtuml');
+	'../../../mcooa/ooaofooa/Selection/Selection.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("fb1ce70f-84fc-46fc-9b9b-ef57b47c0caf",
 	"eaab0be4-3ee4-44f8-91d8-11b17f573bfc",

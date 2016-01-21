@@ -81,7 +81,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_BATTR_PROXY
 	VALUES ("5bbbb830-4faf-49ab-b875-008a8e191ead",
 	"6682e836-9011-447f-9cd7-3f0107152763",
-	'../../../ooaofooa/Value/Value/Value.xtuml');
+	'../../../../mcooa/ooaofooa/Value/Value/Value.xtuml');
 INSERT INTO O_ATTR
 	VALUES ("ac1338b0-8bf5-4af4-946a-82d46ba1bbca",
 	"6dedbff6-cb0d-455b-b5d9-6a35aff5c819",
