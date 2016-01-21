@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("a52ac2bc-061c-4a37-a998-91976eaca9f1",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Communication',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE_FOR_EXTERNAL_USE:FALSE',
@@ -26,14 +26,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'escher::ooaofooa::Communication');
+	'mcooa::ooaofooa::Communication');
 INSERT INTO GD_GE
 	VALUES ("59fdf110-372c-4fdc-982b-42e699c65b7f",
 	"817da974-a420-428f-8796-3c38070614c1",
 	"9a6cee89-43bd-48c3-9487-1ced5b2dc185",
 	23,
 	0,
-	'escher::ooaofooa::Communication::Interaction Participant');
+	'mcooa::ooaofooa::Communication::Interaction Participant');
 INSERT INTO GD_SHP
 	VALUES ("59fdf110-372c-4fdc-982b-42e699c65b7f");
 INSERT INTO GD_NCS
@@ -87,7 +87,7 @@ INSERT INTO GD_GE
 	"ed05ccde-f90b-4db9-8c56-31acdeeec06c",
 	21,
 	0,
-	'escher::ooaofooa::Communication::Communication Link');
+	'mcooa::ooaofooa::Communication::Communication Link');
 INSERT INTO GD_SHP
 	VALUES ("8a789a1e-dd75-4a30-a9f9-4d4c24ead0c8");
 INSERT INTO GD_NCS
@@ -146,7 +146,7 @@ INSERT INTO GD_GE
 	"2e447576-2c5a-4c9b-bcf1-068aea32ca47",
 	23,
 	0,
-	'escher::ooaofooa::Communication::Association');
+	'mcooa::ooaofooa::Communication::Association');
 INSERT INTO GD_SHP
 	VALUES ("d5212004-26b1-4fa3-8ecd-0bb0f220f995");
 INSERT INTO GD_NCS
@@ -175,7 +175,7 @@ INSERT INTO GD_GE
 	"abb1d433-94d0-4bd2-9d9c-bfc86f1f5be1",
 	24,
 	0,
-	'escher::ooaofooa::Communication::R1128');
+	'mcooa::ooaofooa::Communication::R1128');
 INSERT INTO GD_CON
 	VALUES ("a05338f2-3cce-4288-84a6-c2d20fa53cf2",
 	"00000000-0000-0000-0000-000000000000");
@@ -275,7 +275,7 @@ INSERT INTO GD_GE
 	"e7844c98-bacd-4c68-b451-2560db6dbea0",
 	24,
 	0,
-	'escher::ooaofooa::Communication::R1133');
+	'mcooa::ooaofooa::Communication::R1133');
 INSERT INTO GD_CON
 	VALUES ("69279f58-b2ad-4db4-a661-b0339eca8361",
 	"00000000-0000-0000-0000-000000000000");
@@ -375,7 +375,7 @@ INSERT INTO GD_GE
 	"8e7d1ba2-f84d-4f65-9446-812f69e94184",
 	24,
 	0,
-	'escher::ooaofooa::Communication::R1134');
+	'mcooa::ooaofooa::Communication::R1134');
 INSERT INTO GD_CON
 	VALUES ("74eaddcd-c757-4e68-8fe2-22bc5b05e139",
 	"00000000-0000-0000-0000-000000000000");
@@ -712,8 +712,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -739,7 +739,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

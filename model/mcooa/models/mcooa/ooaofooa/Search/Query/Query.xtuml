@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("a9133ce8-bc1b-4323-88bd-ca21759d8643",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Query',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE:FALSE
@@ -27,14 +27,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'3.3.1.1',
-	'escher::ooaofooa::Search::Query');
+	'mcooa::ooaofooa::Search::Query');
 INSERT INTO GD_GE
 	VALUES ("9278d1f6-9cf7-4261-b170-aa2efe6a98b2",
 	"d746dba8-6bee-4362-93f9-f9ed590699ad",
 	"04c1d972-59a4-4f3a-a100-f0689edf2042",
 	21,
 	0,
-	'escher::ooaofooa::Search::Query::Query');
+	'mcooa::ooaofooa::Search::Query::Query');
 INSERT INTO GD_SHP
 	VALUES ("9278d1f6-9cf7-4261-b170-aa2efe6a98b2");
 INSERT INTO GD_NCS
@@ -63,7 +63,7 @@ INSERT INTO GD_GE
 	"16067416-4952-46d6-a8cb-24d4ee483460",
 	21,
 	0,
-	'escher::ooaofooa::Search::Query::Declaration Query');
+	'mcooa::ooaofooa::Search::Query::Declaration Query');
 INSERT INTO GD_SHP
 	VALUES ("fce7ba90-9101-4432-ad1a-bb9553616ae6");
 INSERT INTO GD_NCS
@@ -92,7 +92,7 @@ INSERT INTO GD_GE
 	"17695892-0fcd-4593-b1da-fec2b54ebe6b",
 	21,
 	0,
-	'escher::ooaofooa::Search::Query::References Query');
+	'mcooa::ooaofooa::Search::Query::References Query');
 INSERT INTO GD_SHP
 	VALUES ("bd0b2cf2-fbb1-4a39-abf8-09462250ca74");
 INSERT INTO GD_NCS
@@ -121,7 +121,7 @@ INSERT INTO GD_GE
 	"7ea45d23-4311-4b9e-a906-a923480fa648",
 	21,
 	0,
-	'escher::ooaofooa::Search::Query::Description Query');
+	'mcooa::ooaofooa::Search::Query::Description Query');
 INSERT INTO GD_SHP
 	VALUES ("f71c2833-ace4-4d99-a878-d4c29bddc844");
 INSERT INTO GD_NCS
@@ -150,7 +150,7 @@ INSERT INTO GD_GE
 	"e7071318-c530-4bda-a592-4c60c1c6b9a2",
 	21,
 	0,
-	'escher::ooaofooa::Search::Query::Action Language Query');
+	'mcooa::ooaofooa::Search::Query::Action Language Query');
 INSERT INTO GD_SHP
 	VALUES ("d87e3d3d-00d5-4514-9771-6b339ea88ba4");
 INSERT INTO GD_NCS
@@ -179,7 +179,7 @@ INSERT INTO GD_GE
 	"c8120425-5266-48f5-94c2-45a5ea7d6717",
 	36,
 	0,
-	'escher::ooaofooa::Search::Query::R9600');
+	'mcooa::ooaofooa::Search::Query::R9600');
 INSERT INTO GD_CON
 	VALUES ("e5e1d11a-4ae7-4f15-8b9f-60dd6d564d3c",
 	"00000000-0000-0000-0000-000000000000");
@@ -311,7 +311,7 @@ INSERT INTO GD_GE
 	"6764aa41-8eea-49b1-b82c-c4472f9e4482",
 	35,
 	0,
-	'escher::ooaofooa::Search::Query::R9600::Declaration Query');
+	'mcooa::ooaofooa::Search::Query::R9600::Declaration Query');
 INSERT INTO GD_CON
 	VALUES ("099dcf77-8f61-45d4-8c8b-f64cad328a2c",
 	"00000000-0000-0000-0000-000000000000");
@@ -424,7 +424,7 @@ INSERT INTO GD_GE
 	"026cf95d-3b4a-41d4-b818-8ef5dc089932",
 	35,
 	0,
-	'escher::ooaofooa::Search::Query::R9600::References Query');
+	'mcooa::ooaofooa::Search::Query::R9600::References Query');
 INSERT INTO GD_CON
 	VALUES ("d03edc9b-ab5e-4b54-8698-3af053557725",
 	"00000000-0000-0000-0000-000000000000");
@@ -537,7 +537,7 @@ INSERT INTO GD_GE
 	"03c18726-a034-49fc-8384-a94c69b0327b",
 	35,
 	0,
-	'escher::ooaofooa::Search::Query::R9600::Description Query');
+	'mcooa::ooaofooa::Search::Query::R9600::Description Query');
 INSERT INTO GD_CON
 	VALUES ("9c73a8ab-ca0e-4078-b833-53bb6cb73d69",
 	"00000000-0000-0000-0000-000000000000");
@@ -650,7 +650,7 @@ INSERT INTO GD_GE
 	"054f9ffb-ce53-468e-b442-1d22aaeb12dc",
 	35,
 	0,
-	'escher::ooaofooa::Search::Query::R9600::Action Language Query');
+	'mcooa::ooaofooa::Search::Query::R9600::Action Language Query');
 INSERT INTO GD_CON
 	VALUES ("0ee2a7d9-2729-4a42-a778-8bc7a0543cb2",
 	"00000000-0000-0000-0000-000000000000");
@@ -908,7 +908,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("ada93839-b9be-40e9-ad3e-71df1dfbc049",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Search',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE:FALSE
@@ -916,7 +916,7 @@ TRANSLATE:FALSE
 	0,
 	'../Search.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../../escher.xtuml');
+	'../../../mcooa.xtuml');

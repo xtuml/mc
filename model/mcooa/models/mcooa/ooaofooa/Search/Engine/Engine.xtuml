@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("6986d64e-5880-4fa8-a6fd-ffb537e002ff",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Engine',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE:FALSE
@@ -27,14 +27,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'3.2.5',
-	'escher::ooaofooa::Search::Engine');
+	'mcooa::ooaofooa::Search::Engine');
 INSERT INTO GD_GE
 	VALUES ("915c40d3-18a4-4f0f-88ab-963b3b25dbc1",
 	"8195ba91-f64b-418b-b6ee-b0dedc05c5eb",
 	"e067038d-30dd-4392-8a0b-66837e12a7c8",
 	21,
 	0,
-	'escher::ooaofooa::Search::Engine::Search Engine');
+	'mcooa::ooaofooa::Search::Engine::Search Engine');
 INSERT INTO GD_SHP
 	VALUES ("915c40d3-18a4-4f0f-88ab-963b3b25dbc1");
 INSERT INTO GD_NCS
@@ -78,7 +78,7 @@ INSERT INTO GD_GE
 	"081c1bdc-be49-4adf-aff9-1a3bcf7dc6d2",
 	23,
 	0,
-	'escher::ooaofooa::Search::Engine::Query');
+	'mcooa::ooaofooa::Search::Engine::Query');
 INSERT INTO GD_SHP
 	VALUES ("558edbb5-7d62-4dce-9287-c7bed2fbf27f");
 INSERT INTO GD_NCS
@@ -107,7 +107,7 @@ INSERT INTO GD_GE
 	"18454fde-f3bb-4b83-bd85-c28e9fd19539",
 	24,
 	0,
-	'escher::ooaofooa::Search::Engine::R9500');
+	'mcooa::ooaofooa::Search::Engine::R9500');
 INSERT INTO GD_CON
 	VALUES ("560a044e-6c08-448b-aac6-8110302c1af1",
 	"00000000-0000-0000-0000-000000000000");
@@ -207,7 +207,7 @@ INSERT INTO GD_GE
 	"ae3f6006-4813-4e2b-b320-1007f29f7e07",
 	21,
 	0,
-	'escher::ooaofooa::Search::Engine::Action Language Engine');
+	'mcooa::ooaofooa::Search::Engine::Action Language Engine');
 INSERT INTO GD_SHP
 	VALUES ("207a73d1-91c1-4db6-a3ba-886973698bcd");
 INSERT INTO GD_NCS
@@ -236,7 +236,7 @@ INSERT INTO GD_GE
 	"b6c86140-86eb-4892-a1af-3171cae26620",
 	21,
 	0,
-	'escher::ooaofooa::Search::Engine::Description Engine');
+	'mcooa::ooaofooa::Search::Engine::Description Engine');
 INSERT INTO GD_SHP
 	VALUES ("5d56f3f5-6ea4-4d9e-ac96-3ea720daf75f");
 INSERT INTO GD_NCS
@@ -265,7 +265,7 @@ INSERT INTO GD_GE
 	"52f33966-083e-402e-8463-9d0c3eb38f0f",
 	21,
 	0,
-	'escher::ooaofooa::Search::Engine::Declarations Engine');
+	'mcooa::ooaofooa::Search::Engine::Declarations Engine');
 INSERT INTO GD_SHP
 	VALUES ("30bfecad-2329-4ff4-9926-b0f404d4dcb8");
 INSERT INTO GD_NCS
@@ -294,7 +294,7 @@ INSERT INTO GD_GE
 	"be9b5b8b-5a7b-42e3-bbfe-8a9ef56631c7",
 	21,
 	0,
-	'escher::ooaofooa::Search::Engine::References Engine');
+	'mcooa::ooaofooa::Search::Engine::References Engine');
 INSERT INTO GD_SHP
 	VALUES ("830be879-82d3-43f9-be6e-48fc5f12b1e4");
 INSERT INTO GD_NCS
@@ -323,7 +323,7 @@ INSERT INTO GD_GE
 	"9d6e6fac-d176-4a21-9ac2-590ed627bb61",
 	36,
 	0,
-	'escher::ooaofooa::Search::Engine::R9501');
+	'mcooa::ooaofooa::Search::Engine::R9501');
 INSERT INTO GD_CON
 	VALUES ("bddcca6d-2e3c-45ae-8712-82ac6b494f8c",
 	"00000000-0000-0000-0000-000000000000");
@@ -455,7 +455,7 @@ INSERT INTO GD_GE
 	"4f2a9547-67b4-475d-9f8b-87af07934154",
 	35,
 	0,
-	'escher::ooaofooa::Search::Engine::R9501::Action Language Engine');
+	'mcooa::ooaofooa::Search::Engine::R9501::Action Language Engine');
 INSERT INTO GD_CON
 	VALUES ("ac61d83b-101e-44e2-82a6-5b6be3f214b8",
 	"00000000-0000-0000-0000-000000000000");
@@ -568,7 +568,7 @@ INSERT INTO GD_GE
 	"89d2dc22-ce32-4d89-8428-3eb13d410293",
 	35,
 	0,
-	'escher::ooaofooa::Search::Engine::R9501::Description Engine');
+	'mcooa::ooaofooa::Search::Engine::R9501::Description Engine');
 INSERT INTO GD_CON
 	VALUES ("5378b891-0f44-4dfa-85b8-f820bfe7154d",
 	"00000000-0000-0000-0000-000000000000");
@@ -681,7 +681,7 @@ INSERT INTO GD_GE
 	"55b0c592-26f7-4e4b-8418-b2595c8d8b5a",
 	35,
 	0,
-	'escher::ooaofooa::Search::Engine::R9501::Declarations Engine');
+	'mcooa::ooaofooa::Search::Engine::R9501::Declarations Engine');
 INSERT INTO GD_CON
 	VALUES ("7d6a7b8d-b15b-4952-8058-a228c35baf70",
 	"00000000-0000-0000-0000-000000000000");
@@ -794,7 +794,7 @@ INSERT INTO GD_GE
 	"915f8ad0-8cce-4cb3-bc8e-f999626271a6",
 	35,
 	0,
-	'escher::ooaofooa::Search::Engine::R9501::References Engine');
+	'mcooa::ooaofooa::Search::Engine::R9501::References Engine');
 INSERT INTO GD_CON
 	VALUES ("dd4194d7-2126-4540-a737-f152fc5dfd1a",
 	"00000000-0000-0000-0000-000000000000");
@@ -907,7 +907,7 @@ INSERT INTO GD_GE
 	"7f8fb1b8-105f-41f0-b35c-f64176b3d5b3",
 	23,
 	0,
-	'escher::ooaofooa::Search::Engine::Search Participant');
+	'mcooa::ooaofooa::Search::Engine::Search Participant');
 INSERT INTO GD_SHP
 	VALUES ("672ae13e-fce8-4f2a-a677-f4a9c5c4e4f3");
 INSERT INTO GD_NCS
@@ -936,7 +936,7 @@ INSERT INTO GD_GE
 	"aaf8cf24-d180-461d-97fb-e6fd1b37227e",
 	24,
 	0,
-	'escher::ooaofooa::Search::Engine::R9502');
+	'mcooa::ooaofooa::Search::Engine::R9502');
 INSERT INTO GD_CON
 	VALUES ("c32f5288-0c4b-4d22-8ae5-cbcf122c0b85",
 	"00000000-0000-0000-0000-000000000000");
@@ -1036,7 +1036,7 @@ INSERT INTO GD_GE
 	"8e28fead-9b25-4adb-92f4-ae167d1cd21f",
 	23,
 	0,
-	'escher::ooaofooa::Search::Engine::Search Result');
+	'mcooa::ooaofooa::Search::Engine::Search Result');
 INSERT INTO GD_SHP
 	VALUES ("0842b937-7c3c-442d-8c76-8625fd2a711f");
 INSERT INTO GD_NCS
@@ -1065,7 +1065,7 @@ INSERT INTO GD_GE
 	"9c6b6296-5104-45f2-a5d4-d8a0ed50dc87",
 	24,
 	0,
-	'escher::ooaofooa::Search::Engine::R9503');
+	'mcooa::ooaofooa::Search::Engine::R9503');
 INSERT INTO GD_CON
 	VALUES ("59e64b05-840a-4ae8-8702-f536a45747c0",
 	"00000000-0000-0000-0000-000000000000");
@@ -1529,7 +1529,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("ada93839-b9be-40e9-ad3e-71df1dfbc049",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Search',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE:FALSE
@@ -1537,7 +1537,7 @@ TRANSLATE:FALSE
 	0,
 	'../Search.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../../escher.xtuml');
+	'../../../mcooa.xtuml');

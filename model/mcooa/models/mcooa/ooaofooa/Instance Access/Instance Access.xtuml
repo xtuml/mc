@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("f66d207e-f227-4ada-8783-6ff0a2711109",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Instance Access',
 	'Abstracts the concepts of creation, deletion and assignment to
 instances. Also includes assignment to transient local variables.
@@ -31,14 +31,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'escher::ooaofooa::Instance Access');
+	'mcooa::ooaofooa::Instance Access');
 INSERT INTO GD_GE
 	VALUES ("4a654044-2d11-496c-864d-c66da945ebcd",
 	"82e3bccc-8192-470c-a2d2-b3eba1685d86",
 	"23c23d97-ec8c-46e7-aabc-b06ec3b460ce",
 	21,
 	0,
-	'escher::ooaofooa::Instance Access::Assign to Member');
+	'mcooa::ooaofooa::Instance Access::Assign to Member');
 INSERT INTO GD_SHP
 	VALUES ("4a654044-2d11-496c-864d-c66da945ebcd");
 INSERT INTO GD_NCS
@@ -92,7 +92,7 @@ INSERT INTO GD_GE
 	"89cd1684-8308-4ef0-97c3-f87fb73ef9cd",
 	21,
 	0,
-	'escher::ooaofooa::Instance Access::Create No Variable');
+	'mcooa::ooaofooa::Instance Access::Create No Variable');
 INSERT INTO GD_SHP
 	VALUES ("1eb16472-8f1a-426a-b5a7-dcc19f04d9fa");
 INSERT INTO GD_NCS
@@ -121,7 +121,7 @@ INSERT INTO GD_GE
 	"1ee9088c-5026-460c-9759-eb842a0e59ec",
 	21,
 	0,
-	'escher::ooaofooa::Instance Access::Create');
+	'mcooa::ooaofooa::Instance Access::Create');
 INSERT INTO GD_SHP
 	VALUES ("da8066d3-d24c-4c3b-9de6-47978765897a");
 INSERT INTO GD_NCS
@@ -155,7 +155,7 @@ INSERT INTO GD_GE
 	"fb2115a9-4071-43a9-975c-6b21d75fbdaf",
 	21,
 	0,
-	'escher::ooaofooa::Instance Access::Delete');
+	'mcooa::ooaofooa::Instance Access::Delete');
 INSERT INTO GD_SHP
 	VALUES ("eec0c072-6f0f-4922-9c05-a1ca614a7ec7");
 INSERT INTO GD_NCS
@@ -184,7 +184,7 @@ INSERT INTO GD_GE
 	"319ae0b8-fd32-4c3b-aac9-67fcb7e7cea4",
 	23,
 	0,
-	'escher::ooaofooa::Instance Access::Variable');
+	'mcooa::ooaofooa::Instance Access::Variable');
 INSERT INTO GD_SHP
 	VALUES ("cd93a540-b7d8-4390-ba2b-83c515f47e4c");
 INSERT INTO GD_NCS
@@ -228,7 +228,7 @@ INSERT INTO GD_GE
 	"743e808b-810a-4c06-8b19-5f96f07147a0",
 	23,
 	0,
-	'escher::ooaofooa::Instance Access::Value');
+	'mcooa::ooaofooa::Instance Access::Value');
 INSERT INTO GD_SHP
 	VALUES ("205c0a74-aa5f-4ebb-932a-951955a6f8cd");
 INSERT INTO GD_NCS
@@ -272,7 +272,7 @@ INSERT INTO GD_GE
 	"df45871d-b188-41e6-878e-873c3e556718",
 	23,
 	0,
-	'escher::ooaofooa::Instance Access::Model Class');
+	'mcooa::ooaofooa::Instance Access::Model Class');
 INSERT INTO GD_SHP
 	VALUES ("21b9f910-56c4-40e1-81e2-35d8bb8d4603");
 INSERT INTO GD_NCS
@@ -306,7 +306,7 @@ INSERT INTO GD_GE
 	"d8ebe308-3445-46a5-b24a-00b3f97c3c6d",
 	24,
 	0,
-	'escher::ooaofooa::Instance Access::R609');
+	'mcooa::ooaofooa::Instance Access::R609');
 INSERT INTO GD_CON
 	VALUES ("78f45e5f-9db0-42ed-bc2e-84507cdf46d8",
 	"00000000-0000-0000-0000-000000000000");
@@ -406,7 +406,7 @@ INSERT INTO GD_GE
 	"c491e31b-c442-47c4-84bb-35b021409b26",
 	24,
 	0,
-	'escher::ooaofooa::Instance Access::R633');
+	'mcooa::ooaofooa::Instance Access::R633');
 INSERT INTO GD_CON
 	VALUES ("4fc969a8-eac8-44c7-bcd7-dbf0931b4eff",
 	"00000000-0000-0000-0000-000000000000");
@@ -506,7 +506,7 @@ INSERT INTO GD_GE
 	"ddab2602-0cd3-4ea6-a31f-84e1f1dd46da",
 	24,
 	0,
-	'escher::ooaofooa::Instance Access::R634');
+	'mcooa::ooaofooa::Instance Access::R634');
 INSERT INTO GD_CON
 	VALUES ("4f34da4a-5dbd-45d6-88c5-187cd1550d90",
 	"00000000-0000-0000-0000-000000000000");
@@ -606,7 +606,7 @@ INSERT INTO GD_GE
 	"850d1637-0da7-4f11-a978-6624c15b7454",
 	24,
 	0,
-	'escher::ooaofooa::Instance Access::R671');
+	'mcooa::ooaofooa::Instance Access::R671');
 INSERT INTO GD_CON
 	VALUES ("0f71bcdc-ac69-4d3a-bb98-e9344deb8930",
 	"00000000-0000-0000-0000-000000000000");
@@ -706,7 +706,7 @@ INSERT INTO GD_GE
 	"e00a17ef-6771-4949-99cb-6a4a4302cd9d",
 	24,
 	0,
-	'escher::ooaofooa::Instance Access::R672');
+	'mcooa::ooaofooa::Instance Access::R672');
 INSERT INTO GD_CON
 	VALUES ("cae894e1-de75-4bd1-8881-5ce09e42b766",
 	"00000000-0000-0000-0000-000000000000");
@@ -819,7 +819,7 @@ INSERT INTO GD_GE
 	"ef85ed25-88de-4aaa-896d-0b1fa56279e4",
 	24,
 	0,
-	'escher::ooaofooa::Instance Access::R689');
+	'mcooa::ooaofooa::Instance Access::R689');
 INSERT INTO GD_CON
 	VALUES ("903a3fd6-6164-4c96-85cb-41ac006f21f4",
 	"00000000-0000-0000-0000-000000000000");
@@ -1463,8 +1463,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -1490,7 +1490,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

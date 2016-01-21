@@ -132,7 +132,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("0c6a5602-ebe1-4264-b018-1fae479545e7",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Subsystem',
 	'A class (O_OBJ)  is an abstraction of a real world thing that has specific attributes (O_ATTR) and, if active, has a lifecycle model as a state machine (SM_SM).  All instances of the class must have the same characteristics and follow the same state behavior.  Classes fall into many categories, some of which are: tangible things, roles, interactions and specifications. ',
 	101,

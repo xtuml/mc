@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("ea847db6-52cd-4970-ac10-6cb51f563aad",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Signal Provisions and Requirements',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE_FOR_EXTERNAL_USE:FALSE
@@ -29,14 +29,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'escher::ooaofooa::Component::Signal Provisions and Requirements');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements');
 INSERT INTO GD_GE
 	VALUES ("1225cc2c-95fa-4885-8d24-0152787338d9",
 	"00f5757c-203d-4f47-93d7-f6ab57f111e4",
 	"e78ae77e-b8c1-4cb4-aed0-b4aa04d14317",
 	23,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::Executable Property');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::Executable Property');
 INSERT INTO GD_SHP
 	VALUES ("1225cc2c-95fa-4885-8d24-0152787338d9");
 INSERT INTO GD_NCS
@@ -70,7 +70,7 @@ INSERT INTO GD_GE
 	"1f96cf36-cc7d-4d0a-a9d2-17b09f0c91e7",
 	23,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::Requirement');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::Requirement');
 INSERT INTO GD_SHP
 	VALUES ("6e947f38-4633-442f-bb79-196d38a6ea4e");
 INSERT INTO GD_NCS
@@ -99,7 +99,7 @@ INSERT INTO GD_GE
 	"3047e52f-cd1d-4076-b910-f06d9bfe8846",
 	23,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::Provision');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::Provision');
 INSERT INTO GD_SHP
 	VALUES ("afd4ddef-088e-402c-8c32-51c854e4b392");
 INSERT INTO GD_NCS
@@ -128,7 +128,7 @@ INSERT INTO GD_GE
 	"a781fff7-2fb5-4a41-919b-c7c800d0e758",
 	21,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::Required Executable Property');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::Required Executable Property');
 INSERT INTO GD_SHP
 	VALUES ("96eb0b1e-60f2-419c-83e8-d9b0041d2e2c");
 INSERT INTO GD_NCS
@@ -162,7 +162,7 @@ INSERT INTO GD_GE
 	"8910d8a9-d776-4741-8ef1-23787541ec58",
 	21,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::Provided Executable Property');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::Provided Executable Property');
 INSERT INTO GD_SHP
 	VALUES ("aa8c2fb6-1e00-41d0-8b2e-79c094e77c7b");
 INSERT INTO GD_NCS
@@ -196,7 +196,7 @@ INSERT INTO GD_GE
 	"adb268e4-938e-45af-be45-5da058d32bf0",
 	24,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::R4500');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::R4500');
 INSERT INTO GD_CON
 	VALUES ("09779ac8-df19-4e5e-b2df-68c37a12f635",
 	"00000000-0000-0000-0000-000000000000");
@@ -317,7 +317,7 @@ INSERT INTO GD_GE
 	"cb3d4929-aaba-4253-a6a2-4c4ee5584bd0",
 	24,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::R4501');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::R4501');
 INSERT INTO GD_CON
 	VALUES ("d2d4ef85-37e1-4364-8a64-bb3f09fa9efb",
 	"00000000-0000-0000-0000-000000000000");
@@ -438,7 +438,7 @@ INSERT INTO GD_GE
 	"adb268e4-938e-45af-be45-5da058d32bf0",
 	34,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::R4500::Required Executable Property');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::R4500::Required Executable Property');
 INSERT INTO GD_CON
 	VALUES ("c54ef7f1-f840-40c9-af1a-b9d21b02abb4",
 	"00000000-0000-0000-0000-000000000000");
@@ -538,7 +538,7 @@ INSERT INTO GD_GE
 	"cb3d4929-aaba-4253-a6a2-4c4ee5584bd0",
 	34,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::R4501::Provided Executable Property');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::R4501::Provided Executable Property');
 INSERT INTO GD_CON
 	VALUES ("68db7f20-c98e-48fe-aa9f-d96f7b242b07",
 	"00000000-0000-0000-0000-000000000000");
@@ -638,7 +638,7 @@ INSERT INTO GD_GE
 	"45cdc3db-ffeb-438b-a43c-268ca598188a",
 	36,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::R4502');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::R4502');
 INSERT INTO GD_CON
 	VALUES ("a55dc847-001e-419e-a926-98188ea47258",
 	"00000000-0000-0000-0000-000000000000");
@@ -754,7 +754,7 @@ INSERT INTO GD_GE
 	"6e0650c2-1fb6-41de-bba4-2bc5354570bf",
 	36,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::R4503');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::R4503');
 INSERT INTO GD_CON
 	VALUES ("1ea23a74-3859-4f1c-9e23-7ff2ed9f7723",
 	"00000000-0000-0000-0000-000000000000");
@@ -870,7 +870,7 @@ INSERT INTO GD_GE
 	"1e07da06-a750-4659-ba0f-e7be887935d6",
 	21,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::Required Operation');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::Required Operation');
 INSERT INTO GD_SHP
 	VALUES ("6733ed9f-d544-41a4-b7f3-d6a95553a00d");
 INSERT INTO GD_NCS
@@ -899,7 +899,7 @@ INSERT INTO GD_GE
 	"129ee749-a5af-4142-a2c8-b1f639f85c03",
 	21,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::Required Signal');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::Required Signal');
 INSERT INTO GD_SHP
 	VALUES ("392cf6f0-14b3-4de2-9587-5e3384b422b9");
 INSERT INTO GD_NCS
@@ -928,7 +928,7 @@ INSERT INTO GD_GE
 	"c0b35fb2-0936-4c0a-8c64-930c3a623fda",
 	35,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::R4502::Required Signal');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::R4502::Required Signal');
 INSERT INTO GD_CON
 	VALUES ("4b764e9a-c334-444e-8b37-651bac39f26e",
 	"00000000-0000-0000-0000-000000000000");
@@ -1028,7 +1028,7 @@ INSERT INTO GD_GE
 	"5f2950cd-e322-40ac-b489-a0e995a10aec",
 	35,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::R4502::Required Operation');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::R4502::Required Operation');
 INSERT INTO GD_CON
 	VALUES ("3355709c-9ec4-4f87-8830-63ce02ce9be9",
 	"00000000-0000-0000-0000-000000000000");
@@ -1141,7 +1141,7 @@ INSERT INTO GD_GE
 	"f5bc58f9-f16f-49d9-b402-83842b7c0e8d",
 	21,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::Provided Operation');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::Provided Operation');
 INSERT INTO GD_SHP
 	VALUES ("94f0fc3a-2e06-4560-8cca-14fe0d84c7f3");
 INSERT INTO GD_NCS
@@ -1170,7 +1170,7 @@ INSERT INTO GD_GE
 	"b7040104-1f7a-42b4-a0b8-e99e8dda8cb1",
 	21,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::Provided Signal');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::Provided Signal');
 INSERT INTO GD_SHP
 	VALUES ("8034b0b8-cb0d-4a4a-800c-5d97ac3ea830");
 INSERT INTO GD_NCS
@@ -1199,7 +1199,7 @@ INSERT INTO GD_GE
 	"5eb78088-d608-4d58-ae05-fe2cf6494b41",
 	35,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::R4503::Provided Operation');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::R4503::Provided Operation');
 INSERT INTO GD_CON
 	VALUES ("84f0c70e-5977-4ae1-adde-5ea4531ab1db",
 	"00000000-0000-0000-0000-000000000000");
@@ -1299,7 +1299,7 @@ INSERT INTO GD_GE
 	"81c764f1-9884-42bd-a836-0a0ca0ac0582",
 	35,
 	0,
-	'escher::ooaofooa::Component::Signal Provisions and Requirements::R4503::Provided Signal');
+	'mcooa::ooaofooa::Component::Signal Provisions and Requirements::R4503::Provided Signal');
 INSERT INTO GD_CON
 	VALUES ("e2bf491b-5b02-49ff-8e3c-0961097d6523",
 	"00000000-0000-0000-0000-000000000000");
@@ -1853,7 +1853,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("0386b376-83bc-4b96-90a7-65cedde5a0e3",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Component',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE_FOR_EXTERNAL_USE:FALSE
@@ -1863,7 +1863,7 @@ required for modeling components.',
 	4000,
 	'../Component.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../../escher.xtuml');
+	'../../../mcooa.xtuml');

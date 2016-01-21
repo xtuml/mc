@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("ada93839-b9be-40e9-ad3e-71df1dfbc049",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Search',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE:FALSE
@@ -27,14 +27,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'3.2.5',
-	'escher::ooaofooa::Search');
+	'mcooa::ooaofooa::Search');
 INSERT INTO GD_GE
 	VALUES ("68a1435e-8ac6-4adc-8f01-8e900a3d5c49",
 	"fa658094-32c1-48c9-9479-d9cf507f814c",
 	"6986d64e-5880-4fa8-a6fd-ffb537e002ff",
 	108,
 	0,
-	'escher::ooaofooa::Search::Engine');
+	'mcooa::ooaofooa::Search::Engine');
 INSERT INTO GD_SHP
 	VALUES ("68a1435e-8ac6-4adc-8f01-8e900a3d5c49");
 INSERT INTO GD_NCS
@@ -58,7 +58,7 @@ INSERT INTO GD_GE
 	"a9133ce8-bc1b-4323-88bd-ca21759d8643",
 	108,
 	0,
-	'escher::ooaofooa::Search::Query');
+	'mcooa::ooaofooa::Search::Query');
 INSERT INTO GD_SHP
 	VALUES ("e3430138-edf4-450b-935b-336d0711e5b7");
 INSERT INTO GD_NCS
@@ -82,7 +82,7 @@ INSERT INTO GD_GE
 	"c28e7fd4-005a-4b74-a22e-4384281f54da",
 	108,
 	0,
-	'escher::ooaofooa::Search::Participation');
+	'mcooa::ooaofooa::Search::Participation');
 INSERT INTO GD_SHP
 	VALUES ("806c67de-86c3-427f-9ded-023a6ad7db56");
 INSERT INTO GD_NCS
@@ -106,7 +106,7 @@ INSERT INTO GD_GE
 	"b936e9ff-9105-4dc2-84f4-73059febd506",
 	108,
 	0,
-	'escher::ooaofooa::Search::Result');
+	'mcooa::ooaofooa::Search::Result');
 INSERT INTO GD_SHP
 	VALUES ("953e9fb6-6873-4e33-b369-18b8a0eef4d8");
 INSERT INTO GD_NCS
@@ -139,8 +139,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -166,7 +166,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

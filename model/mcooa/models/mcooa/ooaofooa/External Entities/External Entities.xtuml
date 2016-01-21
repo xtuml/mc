@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("ff175a86-f934-455d-b031-120267b76bc8",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'External Entities',
 	'',
 	0);
@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'3.2.5',
-	'escher::ooaofooa::External Entities');
+	'mcooa::ooaofooa::External Entities');
 INSERT INTO GD_GE
 	VALUES ("6e4e6062-5068-4a91-8af4-3705393d6596",
 	"5522d16f-fb6c-483d-9e0c-51a555f1bf72",
 	"458cda1d-19b4-48a3-a7a5-a83208efccd7",
 	12,
 	0,
-	'escher::ooaofooa::External Entities::User');
+	'mcooa::ooaofooa::External Entities::User');
 INSERT INTO GD_SHP
 	VALUES ("6e4e6062-5068-4a91-8af4-3705393d6596");
 INSERT INTO GD_NCS
@@ -56,7 +56,7 @@ INSERT INTO GD_GE
 	"6fe94d00-53ab-40b0-a95b-32b1f4e034c8",
 	12,
 	0,
-	'escher::ooaofooa::External Entities::Graphics Domain');
+	'mcooa::ooaofooa::External Entities::Graphics Domain');
 INSERT INTO GD_SHP
 	VALUES ("4dea1530-7db8-4238-b849-b0306321f394");
 INSERT INTO GD_NCS
@@ -80,7 +80,7 @@ INSERT INTO GD_GE
 	"87088bd9-02db-4d08-8fbe-8b3856dc37fe",
 	12,
 	0,
-	'escher::ooaofooa::External Entities::Utilities');
+	'mcooa::ooaofooa::External Entities::Utilities');
 INSERT INTO GD_SHP
 	VALUES ("51db0b86-9f3f-49c3-9180-3d72156928f8");
 INSERT INTO GD_NCS
@@ -104,7 +104,7 @@ INSERT INTO GD_GE
 	"e70d9638-acf2-446d-bbda-b7b7a5d415ee",
 	12,
 	0,
-	'escher::ooaofooa::External Entities::Selection');
+	'mcooa::ooaofooa::External Entities::Selection');
 INSERT INTO GD_SHP
 	VALUES ("d574d0c6-6a16-45f1-b714-f5648130256d");
 INSERT INTO GD_NCS
@@ -128,7 +128,7 @@ INSERT INTO GD_GE
 	"d048dc0b-8d05-4655-9d68-110a5fc11630",
 	12,
 	0,
-	'escher::ooaofooa::External Entities::Parse Error Reporting');
+	'mcooa::ooaofooa::External Entities::Parse Error Reporting');
 INSERT INTO GD_SHP
 	VALUES ("be64071d-1f70-4875-86e7-d3a706178a7b");
 INSERT INTO GD_NCS
@@ -152,7 +152,7 @@ INSERT INTO GD_GE
 	"f3acfee0-11fe-437b-95bd-fdb0f5991804",
 	12,
 	0,
-	'escher::ooaofooa::External Entities::Operating System');
+	'mcooa::ooaofooa::External Entities::Operating System');
 INSERT INTO GD_SHP
 	VALUES ("9c8a1bbd-a379-4038-b4d0-54ce4b177ddc");
 INSERT INTO GD_NCS
@@ -176,7 +176,7 @@ INSERT INTO GD_GE
 	"13ea7f99-39c8-4948-b20b-de0c3f34f2da",
 	12,
 	0,
-	'escher::ooaofooa::External Entities::Preferences');
+	'mcooa::ooaofooa::External Entities::Preferences');
 INSERT INTO GD_SHP
 	VALUES ("fa05094a-a3fc-49d6-bd98-4014cf64b49a");
 INSERT INTO GD_NCS
@@ -200,7 +200,7 @@ INSERT INTO GD_GE
 	"95fe57cc-264d-4dd9-9af3-bfd428eb65bb",
 	12,
 	0,
-	'escher::ooaofooa::External Entities::Virtual Machine');
+	'mcooa::ooaofooa::External Entities::Virtual Machine');
 INSERT INTO GD_SHP
 	VALUES ("20de2a34-8d71-4874-8e0f-04c9b62a59ab");
 INSERT INTO GD_NCS
@@ -224,7 +224,7 @@ INSERT INTO GD_GE
 	"ab0943a7-7079-42d4-bab7-7b11dd1bb8c0",
 	12,
 	0,
-	'escher::ooaofooa::External Entities::Search');
+	'mcooa::ooaofooa::External Entities::Search');
 INSERT INTO GD_SHP
 	VALUES ("bf6e840a-fe2a-4c94-8f48-1f83afefc218");
 INSERT INTO GD_NCS
@@ -2962,8 +2962,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -2989,7 +2989,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

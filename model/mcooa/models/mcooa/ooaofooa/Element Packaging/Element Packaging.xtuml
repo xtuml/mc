@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("fbcca70c-0d56-4076-9cd2-2335a9215fb1",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Element Packaging',
 	'',
 	1400);
@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'escher::ooaofooa::Element Packaging');
+	'mcooa::ooaofooa::Element Packaging');
 INSERT INTO GD_GE
 	VALUES ("712471b8-f2dd-4ad9-98c8-cfd9dce76d5c",
 	"377acef1-54fc-467b-ac5e-b5092be8016f",
 	"600f5a79-5a62-4796-a359-34def13cb348",
 	23,
 	0,
-	'escher::ooaofooa::Element Packaging::System Model');
+	'mcooa::ooaofooa::Element Packaging::System Model');
 INSERT INTO GD_SHP
 	VALUES ("712471b8-f2dd-4ad9-98c8-cfd9dce76d5c");
 INSERT INTO GD_NCS
@@ -71,7 +71,7 @@ INSERT INTO GD_GE
 	"2523569d-5e3f-4631-86db-f922e6305318",
 	21,
 	0,
-	'escher::ooaofooa::Element Packaging::Package');
+	'mcooa::ooaofooa::Element Packaging::Package');
 INSERT INTO GD_SHP
 	VALUES ("f2c106db-854b-4245-b5e0-161f5d038722");
 INSERT INTO GD_NCS
@@ -175,7 +175,7 @@ INSERT INTO GD_GE
 	"c52fb23c-ded3-4ae0-8185-7e1fd3090a08",
 	24,
 	0,
-	'escher::ooaofooa::Element Packaging::R1401');
+	'mcooa::ooaofooa::Element Packaging::R1401');
 INSERT INTO GD_CON
 	VALUES ("316e06d2-c6d5-4b34-8e8a-d95f76ab522c",
 	"00000000-0000-0000-0000-000000000000");
@@ -275,7 +275,7 @@ INSERT INTO GD_GE
 	"73dfe1f9-5032-4731-85b2-2fa89a7e170e",
 	24,
 	0,
-	'escher::ooaofooa::Element Packaging::R1405');
+	'mcooa::ooaofooa::Element Packaging::R1405');
 INSERT INTO GD_CON
 	VALUES ("4818f35f-213b-48fd-823a-b4e7782b2367",
 	"00000000-0000-0000-0000-000000000000");
@@ -595,8 +595,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -622,7 +622,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

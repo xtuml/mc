@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("df33f31a-ecd1-46a8-a53c-6c1b84c51334",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Breakpoint',
 	'This subsystem provides breakpoints that can be used in Model Verifier and Model Debugger.
 // This is used by schema_gen to ignore this subsystem (for publication)
@@ -29,14 +29,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'escher::ooaofooa::Breakpoint');
+	'mcooa::ooaofooa::Breakpoint');
 INSERT INTO GD_GE
 	VALUES ("76a35d49-c9c6-40dc-b7ec-39bda9e465a3",
 	"812660ff-38bc-4aca-b8ee-9cf894228f46",
 	"60fc179f-768e-4dfe-a28c-7c259d33eec6",
 	21,
 	0,
-	'escher::ooaofooa::Breakpoint::Breakpoint');
+	'mcooa::ooaofooa::Breakpoint::Breakpoint');
 INSERT INTO GD_SHP
 	VALUES ("76a35d49-c9c6-40dc-b7ec-39bda9e465a3");
 INSERT INTO GD_NCS
@@ -70,7 +70,7 @@ INSERT INTO GD_GE
 	"31634b36-c405-4ef5-8e53-aca510460129",
 	21,
 	0,
-	'escher::ooaofooa::Breakpoint::OAL Breakpoint');
+	'mcooa::ooaofooa::Breakpoint::OAL Breakpoint');
 INSERT INTO GD_SHP
 	VALUES ("9cb0f9bb-7c4a-444f-960c-603f4c5aeacc");
 INSERT INTO GD_NCS
@@ -104,7 +104,7 @@ INSERT INTO GD_GE
 	"cb23b66d-6eac-4200-84da-7227d0b30fe1",
 	21,
 	0,
-	'escher::ooaofooa::Breakpoint::Event Breakpoint');
+	'mcooa::ooaofooa::Breakpoint::Event Breakpoint');
 INSERT INTO GD_SHP
 	VALUES ("5e9858d3-ad54-4340-9d5d-eacd96a7a9bf");
 INSERT INTO GD_NCS
@@ -138,7 +138,7 @@ INSERT INTO GD_GE
 	"748724de-a209-43d6-ba6d-cac149b44284",
 	21,
 	0,
-	'escher::ooaofooa::Breakpoint::Condition');
+	'mcooa::ooaofooa::Breakpoint::Condition');
 INSERT INTO GD_SHP
 	VALUES ("f4e1eb6d-1e80-47ef-b095-9e5680f6ac7e");
 INSERT INTO GD_NCS
@@ -167,7 +167,7 @@ INSERT INTO GD_GE
 	"7462920d-9e65-4703-84d0-e7a18ab25a07",
 	23,
 	0,
-	'escher::ooaofooa::Breakpoint::Statement');
+	'mcooa::ooaofooa::Breakpoint::Statement');
 INSERT INTO GD_SHP
 	VALUES ("c2a7324f-c3ba-491c-b573-d6840324ee30");
 INSERT INTO GD_NCS
@@ -196,7 +196,7 @@ INSERT INTO GD_GE
 	"4b91ec5d-5894-4711-85a5-689e4c83d3aa",
 	24,
 	0,
-	'escher::ooaofooa::Breakpoint::R3100');
+	'mcooa::ooaofooa::Breakpoint::R3100');
 INSERT INTO GD_CON
 	VALUES ("6f0329a1-8011-4cd8-942e-6b202fbddc6d",
 	"00000000-0000-0000-0000-000000000000");
@@ -296,7 +296,7 @@ INSERT INTO GD_GE
 	"91624bdd-4df9-4295-8919-534996f99bbf",
 	24,
 	0,
-	'escher::ooaofooa::Breakpoint::R3101');
+	'mcooa::ooaofooa::Breakpoint::R3101');
 INSERT INTO GD_CON
 	VALUES ("d8b95381-d80c-48c8-b4b3-5491333bcb86",
 	"00000000-0000-0000-0000-000000000000");
@@ -396,7 +396,7 @@ INSERT INTO GD_GE
 	"eda2ae19-bd0a-4a6a-ac7d-65221c8cd1d6",
 	36,
 	0,
-	'escher::ooaofooa::Breakpoint::R3102');
+	'mcooa::ooaofooa::Breakpoint::R3102');
 INSERT INTO GD_CON
 	VALUES ("1841713e-b057-4b27-9ba0-62b9d69900e4",
 	"00000000-0000-0000-0000-000000000000");
@@ -520,7 +520,7 @@ INSERT INTO GD_GE
 	"650fe2e5-3ce0-4036-b057-ed686bb15348",
 	35,
 	0,
-	'escher::ooaofooa::Breakpoint::R3102::OAL Breakpoint');
+	'mcooa::ooaofooa::Breakpoint::R3102::OAL Breakpoint');
 INSERT INTO GD_CON
 	VALUES ("0c5eac3c-261d-4f5a-bc08-615c380cd7fb",
 	"00000000-0000-0000-0000-000000000000");
@@ -633,7 +633,7 @@ INSERT INTO GD_GE
 	"47b6e992-b7ed-4f4c-96ed-cab7e940c125",
 	35,
 	0,
-	'escher::ooaofooa::Breakpoint::R3102::Event Breakpoint');
+	'mcooa::ooaofooa::Breakpoint::R3102::Event Breakpoint');
 INSERT INTO GD_CON
 	VALUES ("699155f4-b674-492f-93d4-4ef863c72c88",
 	"00000000-0000-0000-0000-000000000000");
@@ -746,7 +746,7 @@ INSERT INTO GD_GE
 	"a83f2be6-481b-4537-95b5-8ae03a3b5076",
 	23,
 	0,
-	'escher::ooaofooa::Breakpoint::State Machine Event');
+	'mcooa::ooaofooa::Breakpoint::State Machine Event');
 INSERT INTO GD_SHP
 	VALUES ("3263ca57-2aa1-4f61-a54b-469a08aa4a58");
 INSERT INTO GD_NCS
@@ -775,7 +775,7 @@ INSERT INTO GD_GE
 	"115f4cfa-28d8-40e9-85d2-6f9dbd134d27",
 	24,
 	0,
-	'escher::ooaofooa::Breakpoint::R3103');
+	'mcooa::ooaofooa::Breakpoint::R3103');
 INSERT INTO GD_CON
 	VALUES ("2c9cffa8-687d-45ef-9a89-60e5895ca771",
 	"00000000-0000-0000-0000-000000000000");
@@ -875,7 +875,7 @@ INSERT INTO GD_GE
 	"62c8ad1b-e14c-4486-aed3-e57caea1b49a",
 	21,
 	0,
-	'escher::ooaofooa::Breakpoint::State Breakpoint');
+	'mcooa::ooaofooa::Breakpoint::State Breakpoint');
 INSERT INTO GD_SHP
 	VALUES ("f0659258-737e-4fad-9ffe-c7f4da4a64b1");
 INSERT INTO GD_NCS
@@ -909,7 +909,7 @@ INSERT INTO GD_GE
 	"a707f2a1-3f45-466b-85dd-1b0de0c1029c",
 	35,
 	0,
-	'escher::ooaofooa::Breakpoint::R3102::State Breakpoint');
+	'mcooa::ooaofooa::Breakpoint::R3102::State Breakpoint');
 INSERT INTO GD_CON
 	VALUES ("743b25f0-c743-4bed-90fe-20c93a9e5fa2",
 	"00000000-0000-0000-0000-000000000000");
@@ -1022,7 +1022,7 @@ INSERT INTO GD_GE
 	"01487890-ab64-497b-917b-ea3a30da7948",
 	23,
 	0,
-	'escher::ooaofooa::Breakpoint::State Machine State');
+	'mcooa::ooaofooa::Breakpoint::State Machine State');
 INSERT INTO GD_SHP
 	VALUES ("c0c648d3-0ade-484c-9035-61767fc4806f");
 INSERT INTO GD_NCS
@@ -1051,7 +1051,7 @@ INSERT INTO GD_GE
 	"7dbd00c9-9d13-4846-bb93-c53db377de8f",
 	24,
 	0,
-	'escher::ooaofooa::Breakpoint::R3104');
+	'mcooa::ooaofooa::Breakpoint::R3104');
 INSERT INTO GD_CON
 	VALUES ("8e45d5ae-ae9b-4983-bffd-d9eacdd9f9ab",
 	"00000000-0000-0000-0000-000000000000");
@@ -1595,8 +1595,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -1622,7 +1622,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

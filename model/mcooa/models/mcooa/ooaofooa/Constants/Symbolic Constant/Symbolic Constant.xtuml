@@ -278,7 +278,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("50606f39-c7a1-47f5-9d11-5349bde51d10",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Constants',
 	'This subsystem contains the metamodel support for constants.  Individual
 constants are contained inside a constant specification on the datatypes

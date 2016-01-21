@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("6d1995f5-1c29-4770-8fa6-5845471c822f",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Component Nesting',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE_FOR_EXTERNAL_USE:FALSE
@@ -28,14 +28,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'escher::ooaofooa::Component::Component Nesting');
+	'mcooa::ooaofooa::Component::Component Nesting');
 INSERT INTO GD_GE
 	VALUES ("4d8ff82d-8c52-46e7-a4b8-a42fd0a13328",
 	"706d67c8-15dd-48d7-81c0-752eeebaf7ef",
 	"18db1eeb-1e1f-4de6-826b-862d28a32b06",
 	23,
 	0,
-	'escher::ooaofooa::Component::Component Nesting::Component');
+	'mcooa::ooaofooa::Component::Component Nesting::Component');
 INSERT INTO GD_SHP
 	VALUES ("4d8ff82d-8c52-46e7-a4b8-a42fd0a13328");
 INSERT INTO GD_NCS
@@ -104,7 +104,7 @@ INSERT INTO GD_GE
 	"f347a879-1753-4278-95f3-255c60443ff8",
 	23,
 	0,
-	'escher::ooaofooa::Component::Component Nesting::Component Reference');
+	'mcooa::ooaofooa::Component::Component Nesting::Component Reference');
 INSERT INTO GD_SHP
 	VALUES ("828fb29c-8550-4423-8963-ce53dff81cb5");
 INSERT INTO GD_NCS
@@ -138,7 +138,7 @@ INSERT INTO GD_GE
 	"1c07e670-a32b-46f6-a51b-5d65a9b190fc",
 	24,
 	0,
-	'escher::ooaofooa::Component::Component Nesting::R4201');
+	'mcooa::ooaofooa::Component::Component Nesting::R4201');
 INSERT INTO GD_CON
 	VALUES ("0317f42d-eba8-4346-b74b-d75590343ed3",
 	"00000000-0000-0000-0000-000000000000");
@@ -251,7 +251,7 @@ INSERT INTO GD_GE
 	"6eaae18a-77e1-48af-a133-2ea600411dc5",
 	24,
 	0,
-	'escher::ooaofooa::Component::Component Nesting::R4205');
+	'mcooa::ooaofooa::Component::Component Nesting::R4205');
 INSERT INTO GD_CON
 	VALUES ("580f3cbd-f5f8-4e57-88b5-54e45aea05c3",
 	"00000000-0000-0000-0000-000000000000");
@@ -537,7 +537,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("0386b376-83bc-4b96-90a7-65cedde5a0e3",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Component',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE_FOR_EXTERNAL_USE:FALSE
@@ -547,7 +547,7 @@ required for modeling components.',
 	4000,
 	'../Component.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../../escher.xtuml');
+	'../../../mcooa.xtuml');

@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("b936e9ff-9105-4dc2-84f4-73059febd506",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Result',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE:FALSE
@@ -27,14 +27,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'3.2.5',
-	'escher::ooaofooa::Search::Result');
+	'mcooa::ooaofooa::Search::Result');
 INSERT INTO GD_GE
 	VALUES ("61d13f15-75e7-4cdd-b6e2-8dc45f4845de",
 	"928894d0-5bc5-4fd0-bee9-9bf5960e4412",
 	"539a318d-d64b-4bca-909e-5e10f907e132",
 	21,
 	0,
-	'escher::ooaofooa::Search::Result::Search Result');
+	'mcooa::ooaofooa::Search::Result::Search Result');
 INSERT INTO GD_SHP
 	VALUES ("61d13f15-75e7-4cdd-b6e2-8dc45f4845de");
 INSERT INTO GD_NCS
@@ -73,7 +73,7 @@ INSERT INTO GD_GE
 	"b49ab73f-88b7-4a2a-b093-206cdbb37371",
 	21,
 	0,
-	'escher::ooaofooa::Search::Result::Match');
+	'mcooa::ooaofooa::Search::Result::Match');
 INSERT INTO GD_SHP
 	VALUES ("46c03059-113f-4761-a5e1-dde81689944f");
 INSERT INTO GD_NCS
@@ -107,7 +107,7 @@ INSERT INTO GD_GE
 	"7d4a3d74-c107-49aa-8c8b-7e191b3d35b1",
 	24,
 	0,
-	'escher::ooaofooa::Search::Result::R9800');
+	'mcooa::ooaofooa::Search::Result::R9800');
 INSERT INTO GD_CON
 	VALUES ("6b190eea-fb7a-481c-9612-8efb6c316dfa",
 	"00000000-0000-0000-0000-000000000000");
@@ -207,7 +207,7 @@ INSERT INTO GD_GE
 	"bf7ffbc8-d566-4666-892c-b7c2b1d8d408",
 	21,
 	0,
-	'escher::ooaofooa::Search::Result::Content Match');
+	'mcooa::ooaofooa::Search::Result::Content Match');
 INSERT INTO GD_SHP
 	VALUES ("245ab287-54a1-42ad-96cf-03b3c51a37fb");
 INSERT INTO GD_NCS
@@ -236,7 +236,7 @@ INSERT INTO GD_GE
 	"f8cd1713-f2af-44e7-9acf-d1d326e65aa3",
 	21,
 	0,
-	'escher::ooaofooa::Search::Result::Name Match');
+	'mcooa::ooaofooa::Search::Result::Name Match');
 INSERT INTO GD_SHP
 	VALUES ("41914f82-3468-4451-9702-4ff1ebcaa9cd");
 INSERT INTO GD_NCS
@@ -265,7 +265,7 @@ INSERT INTO GD_GE
 	"e38b1b67-fa3c-41e3-8089-206bc52b27cd",
 	36,
 	0,
-	'escher::ooaofooa::Search::Result::R9801');
+	'mcooa::ooaofooa::Search::Result::R9801');
 INSERT INTO GD_CON
 	VALUES ("e5b95937-c21e-4943-98a8-127d43c460cf",
 	"00000000-0000-0000-0000-000000000000");
@@ -381,7 +381,7 @@ INSERT INTO GD_GE
 	"a73f5fe5-a8cd-4019-bbf0-8bdf2f58e0b9",
 	35,
 	0,
-	'escher::ooaofooa::Search::Result::R9801::Name Match');
+	'mcooa::ooaofooa::Search::Result::R9801::Name Match');
 INSERT INTO GD_CON
 	VALUES ("17eb92b9-763d-4076-8b74-8a2b9093e21a",
 	"00000000-0000-0000-0000-000000000000");
@@ -494,7 +494,7 @@ INSERT INTO GD_GE
 	"c93c7f6e-c8c4-45a5-bd2b-0bf08727d80f",
 	35,
 	0,
-	'escher::ooaofooa::Search::Result::R9801::Content Match');
+	'mcooa::ooaofooa::Search::Result::R9801::Content Match');
 INSERT INTO GD_CON
 	VALUES ("e3cf005e-f3b2-43a1-a9b8-fd8dd4f4fdbe",
 	"00000000-0000-0000-0000-000000000000");
@@ -607,7 +607,7 @@ INSERT INTO GD_GE
 	"7a6fa0f5-c42c-4f9c-85cd-db60c03cc81e",
 	23,
 	0,
-	'escher::ooaofooa::Search::Result::Search Participant');
+	'mcooa::ooaofooa::Search::Result::Search Participant');
 INSERT INTO GD_SHP
 	VALUES ("789b8bdc-2fb8-411b-ab74-ceee3de61732");
 INSERT INTO GD_NCS
@@ -636,7 +636,7 @@ INSERT INTO GD_GE
 	"d2119f2f-f655-46f4-989b-ef9aedf95621",
 	24,
 	0,
-	'escher::ooaofooa::Search::Result::R9802');
+	'mcooa::ooaofooa::Search::Result::R9802');
 INSERT INTO GD_CON
 	VALUES ("a57124d0-85a8-4d7e-8e50-aa14a29fd2e7",
 	"00000000-0000-0000-0000-000000000000");
@@ -736,7 +736,7 @@ INSERT INTO GD_GE
 	"de8e02e4-e242-4b93-8ebf-576bb40ea81a",
 	21,
 	0,
-	'escher::ooaofooa::Search::Result::Content Match Result');
+	'mcooa::ooaofooa::Search::Result::Content Match Result');
 INSERT INTO GD_SHP
 	VALUES ("07c27c7f-34f3-44c9-bf81-fa9709fd4520");
 INSERT INTO GD_NCS
@@ -1016,7 +1016,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("ada93839-b9be-40e9-ad3e-71df1dfbc049",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Search',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE:FALSE
@@ -1024,7 +1024,7 @@ TRANSLATE:FALSE
 	0,
 	'../Search.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../../escher.xtuml');
+	'../../../mcooa.xtuml');

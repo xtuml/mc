@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("6aa42d96-f65a-4dfd-aad1-805c69dd4f15",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Persistence Associations',
 	'This subsystem contains associations required to allow correct persistence
 locations.
@@ -34,14 +34,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'escher::ooaofooa::Persistence Associations');
+	'mcooa::ooaofooa::Persistence Associations');
 INSERT INTO GD_GE
 	VALUES ("0e302fba-373e-41a2-89b0-c39cc2f3417d",
 	"abd455e0-f33d-474b-a17c-a02cdf4ac760",
 	"aa7d482f-4a27-4b5f-99d8-3489a13260ee",
 	21,
 	0,
-	'escher::ooaofooa::Persistence Associations::Delegation In Component');
+	'mcooa::ooaofooa::Persistence Associations::Delegation In Component');
 INSERT INTO GD_SHP
 	VALUES ("0e302fba-373e-41a2-89b0-c39cc2f3417d");
 INSERT INTO GD_NCS
@@ -70,7 +70,7 @@ INSERT INTO GD_GE
 	"c4d98e6d-a843-4c98-8ad6-24b248748065",
 	21,
 	0,
-	'escher::ooaofooa::Persistence Associations::Satisfaction In Component');
+	'mcooa::ooaofooa::Persistence Associations::Satisfaction In Component');
 INSERT INTO GD_SHP
 	VALUES ("8384568d-f2ba-4442-8f2a-d5f45c6550ae");
 INSERT INTO GD_NCS
@@ -99,7 +99,7 @@ INSERT INTO GD_GE
 	"811dd0e6-e072-46d9-9739-7efd25407995",
 	23,
 	0,
-	'escher::ooaofooa::Persistence Associations::Delegation');
+	'mcooa::ooaofooa::Persistence Associations::Delegation');
 INSERT INTO GD_SHP
 	VALUES ("421d4281-33cd-4c38-9196-9c158a75cd5a");
 INSERT INTO GD_NCS
@@ -133,7 +133,7 @@ INSERT INTO GD_GE
 	"15cb9657-d608-4920-bb4e-6e97c0acdf46",
 	23,
 	0,
-	'escher::ooaofooa::Persistence Associations::Satisfaction');
+	'mcooa::ooaofooa::Persistence Associations::Satisfaction');
 INSERT INTO GD_SHP
 	VALUES ("e6515c9c-3b8e-4f65-bc03-06a49e03e92c");
 INSERT INTO GD_NCS
@@ -167,7 +167,7 @@ INSERT INTO GD_GE
 	"d79dface-f0b6-46d9-9b21-7d66fa42a823",
 	23,
 	0,
-	'escher::ooaofooa::Persistence Associations::Component');
+	'mcooa::ooaofooa::Persistence Associations::Component');
 INSERT INTO GD_SHP
 	VALUES ("609dc144-a396-4f95-9bd2-a1a362fca607");
 INSERT INTO GD_NCS
@@ -201,7 +201,7 @@ INSERT INTO GD_GE
 	"d91a76d0-a13b-408e-b23f-b07f571b586e",
 	24,
 	0,
-	'escher::ooaofooa::Persistence Associations::R9002');
+	'mcooa::ooaofooa::Persistence Associations::R9002');
 INSERT INTO GD_CON
 	VALUES ("7ad714e4-809c-48cb-b748-9ab0dc47b9f6",
 	"00000000-0000-0000-0000-000000000000");
@@ -309,7 +309,7 @@ INSERT INTO GD_GE
 	"d91a76d0-a13b-408e-b23f-b07f571b586e",
 	34,
 	0,
-	'escher::ooaofooa::Persistence Associations::R9002::Delegation In Component');
+	'mcooa::ooaofooa::Persistence Associations::R9002::Delegation In Component');
 INSERT INTO GD_CON
 	VALUES ("3e1e0eaa-3f80-436a-8b85-4b0d729ea10e",
 	"00000000-0000-0000-0000-000000000000");
@@ -409,7 +409,7 @@ INSERT INTO GD_GE
 	"8a278ede-3b80-49f1-8e47-ef3ae2e3446e",
 	24,
 	0,
-	'escher::ooaofooa::Persistence Associations::R9000');
+	'mcooa::ooaofooa::Persistence Associations::R9000');
 INSERT INTO GD_CON
 	VALUES ("2845cb41-d6f1-4c52-9b5d-86881a3a285c",
 	"00000000-0000-0000-0000-000000000000");
@@ -517,7 +517,7 @@ INSERT INTO GD_GE
 	"8a278ede-3b80-49f1-8e47-ef3ae2e3446e",
 	34,
 	0,
-	'escher::ooaofooa::Persistence Associations::R9000::Satisfaction In Component');
+	'mcooa::ooaofooa::Persistence Associations::R9000::Satisfaction In Component');
 INSERT INTO GD_CON
 	VALUES ("fcb33ea1-8037-45f8-ad92-e031fcbdb0bc",
 	"00000000-0000-0000-0000-000000000000");
@@ -890,8 +890,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -917,7 +917,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

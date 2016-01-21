@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("02780f20-a4d8-43b7-bef8-489a5e93ce8b",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Message',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE_FOR_EXTERNAL_USE:FALSE',
@@ -26,14 +26,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'3.2.0',
-	'escher::ooaofooa::Message');
+	'mcooa::ooaofooa::Message');
 INSERT INTO GD_GE
 	VALUES ("48fa865a-25c7-48a9-933c-8fa654a183b4",
 	"0b3cd968-bb99-4c60-8f06-30bb8c79f692",
 	"757ce4bd-2bb5-4136-a5c0-847ae5f16e9d",
 	21,
 	0,
-	'escher::ooaofooa::Message::Message');
+	'mcooa::ooaofooa::Message::Message');
 INSERT INTO GD_SHP
 	VALUES ("48fa865a-25c7-48a9-933c-8fa654a183b4");
 INSERT INTO GD_NCS
@@ -97,7 +97,7 @@ INSERT INTO GD_GE
 	"1d35b811-75c3-47b8-8c5b-61394154c809",
 	21,
 	0,
-	'escher::ooaofooa::Message::Message Argument');
+	'mcooa::ooaofooa::Message::Message Argument');
 INSERT INTO GD_SHP
 	VALUES ("fb90fc96-2ead-4e5f-b436-0d9d29d7e6b7");
 INSERT INTO GD_NCS
@@ -156,7 +156,7 @@ INSERT INTO GD_GE
 	"e9d05988-0e2c-45d3-84e6-45b2ecdef5c8",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1000');
+	'mcooa::ooaofooa::Message::R1000');
 INSERT INTO GD_CON
 	VALUES ("b36e319f-ec30-408a-a5a9-f360942a6098",
 	"00000000-0000-0000-0000-000000000000");
@@ -256,7 +256,7 @@ INSERT INTO GD_GE
 	"0938c0cc-99bb-4ea0-a9bd-64cf69a1eaf2",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1001');
+	'mcooa::ooaofooa::Message::R1001');
 INSERT INTO GD_CON
 	VALUES ("df6b3868-d074-46c8-8d55-3e2393d9cdf7",
 	"00000000-0000-0000-0000-000000000000");
@@ -356,7 +356,7 @@ INSERT INTO GD_GE
 	"57d57d3d-8c0e-4bd0-af53-311593375e42",
 	23,
 	0,
-	'escher::ooaofooa::Message::Operation Parameter');
+	'mcooa::ooaofooa::Message::Operation Parameter');
 INSERT INTO GD_SHP
 	VALUES ("fbadcb5d-880c-48ba-bb36-9c5b7df9b21d");
 INSERT INTO GD_NCS
@@ -390,7 +390,7 @@ INSERT INTO GD_GE
 	"96a92f49-9db1-4f32-b06e-ea45979890fa",
 	23,
 	0,
-	'escher::ooaofooa::Message::Function Parameter');
+	'mcooa::ooaofooa::Message::Function Parameter');
 INSERT INTO GD_SHP
 	VALUES ("7baadbcb-0123-43bd-99c2-b8a9759a599c");
 INSERT INTO GD_NCS
@@ -424,7 +424,7 @@ INSERT INTO GD_GE
 	"f1aeb930-12eb-4022-8eaa-61d89facc06a",
 	23,
 	0,
-	'escher::ooaofooa::Message::State Machine Event Data Item');
+	'mcooa::ooaofooa::Message::State Machine Event Data Item');
 INSERT INTO GD_SHP
 	VALUES ("def20dff-4780-4698-a8cf-71417151674e");
 INSERT INTO GD_NCS
@@ -458,7 +458,7 @@ INSERT INTO GD_GE
 	"fd77445f-bf83-438e-affe-81649480bb78",
 	23,
 	0,
-	'escher::ooaofooa::Message::Bridge Parameter');
+	'mcooa::ooaofooa::Message::Bridge Parameter');
 INSERT INTO GD_SHP
 	VALUES ("66d33d06-41db-40ab-9203-fcb346f32e23");
 INSERT INTO GD_NCS
@@ -492,7 +492,7 @@ INSERT INTO GD_GE
 	"8df66f84-901a-437f-8c6e-21219be2a11f",
 	23,
 	0,
-	'escher::ooaofooa::Message::Interaction Participant');
+	'mcooa::ooaofooa::Message::Interaction Participant');
 INSERT INTO GD_SHP
 	VALUES ("ff3af731-4be7-4635-bea9-e77cb4c112ae");
 INSERT INTO GD_NCS
@@ -526,7 +526,7 @@ INSERT INTO GD_GE
 	"2b52a0a8-4507-4425-b61f-9c92a63790ff",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1007');
+	'mcooa::ooaofooa::Message::R1007');
 INSERT INTO GD_CON
 	VALUES ("769a44dc-1a98-45d1-bd61-2d24c7b2536f",
 	"00000000-0000-0000-0000-000000000000");
@@ -626,7 +626,7 @@ INSERT INTO GD_GE
 	"abfa99f6-b025-4fb0-a785-5f5f14c92e72",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1008');
+	'mcooa::ooaofooa::Message::R1008');
 INSERT INTO GD_CON
 	VALUES ("1a1f7df8-7c97-46b3-8f1e-7917d99f60f6",
 	"00000000-0000-0000-0000-000000000000");
@@ -726,7 +726,7 @@ INSERT INTO GD_GE
 	"75686edd-7f39-46c0-a1b5-f3651199bb51",
 	21,
 	0,
-	'escher::ooaofooa::Message::Operation Message');
+	'mcooa::ooaofooa::Message::Operation Message');
 INSERT INTO GD_SHP
 	VALUES ("d8599313-7060-4876-a9eb-0009fe1c223b");
 INSERT INTO GD_NCS
@@ -775,7 +775,7 @@ INSERT INTO GD_GE
 	"deae6330-0687-443a-a205-6e36af48effe",
 	21,
 	0,
-	'escher::ooaofooa::Message::Bridge Message');
+	'mcooa::ooaofooa::Message::Bridge Message');
 INSERT INTO GD_SHP
 	VALUES ("4aedbdf8-10c5-41fa-a994-2b9524982581");
 INSERT INTO GD_NCS
@@ -824,7 +824,7 @@ INSERT INTO GD_GE
 	"cbd3799a-4b7b-4822-bd19-7896821d57a4",
 	21,
 	0,
-	'escher::ooaofooa::Message::Event Message');
+	'mcooa::ooaofooa::Message::Event Message');
 INSERT INTO GD_SHP
 	VALUES ("893540cf-ac58-483f-b8d4-03d2c385b258");
 INSERT INTO GD_NCS
@@ -873,7 +873,7 @@ INSERT INTO GD_GE
 	"475dd7ef-b8a3-47ec-841d-e02c69ff3526",
 	21,
 	0,
-	'escher::ooaofooa::Message::Function Message');
+	'mcooa::ooaofooa::Message::Function Message');
 INSERT INTO GD_SHP
 	VALUES ("9d68dea7-6f35-44ad-9542-4ea2113139ee");
 INSERT INTO GD_NCS
@@ -922,7 +922,7 @@ INSERT INTO GD_GE
 	"1dacf5f3-9c9c-40f2-a2f3-9627a4aee88e",
 	23,
 	0,
-	'escher::ooaofooa::Message::State Machine Event');
+	'mcooa::ooaofooa::Message::State Machine Event');
 INSERT INTO GD_SHP
 	VALUES ("f521b238-2e60-42ab-9e4d-e11255a0934e");
 INSERT INTO GD_NCS
@@ -951,7 +951,7 @@ INSERT INTO GD_GE
 	"cfd68606-bc82-4603-b37e-a927fe665bc6",
 	23,
 	0,
-	'escher::ooaofooa::Message::Function');
+	'mcooa::ooaofooa::Message::Function');
 INSERT INTO GD_SHP
 	VALUES ("16874780-4182-4b99-a37a-2ec046213835");
 INSERT INTO GD_NCS
@@ -980,7 +980,7 @@ INSERT INTO GD_GE
 	"8a621056-5440-4216-bd0f-b9599d5683c6",
 	23,
 	0,
-	'escher::ooaofooa::Message::Operation');
+	'mcooa::ooaofooa::Message::Operation');
 INSERT INTO GD_SHP
 	VALUES ("f86ce768-7c52-48fd-8bd3-9585915d9cc7");
 INSERT INTO GD_NCS
@@ -1009,7 +1009,7 @@ INSERT INTO GD_GE
 	"d20ce2e8-f07c-4f8c-8ca0-bbfc3e49a4d2",
 	23,
 	0,
-	'escher::ooaofooa::Message::Bridge');
+	'mcooa::ooaofooa::Message::Bridge');
 INSERT INTO GD_SHP
 	VALUES ("2fd90ae9-6ba3-4ade-8748-d08393dda549");
 INSERT INTO GD_NCS
@@ -1038,7 +1038,7 @@ INSERT INTO GD_GE
 	"300d1218-abbf-49e1-9239-3af2e4046673",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1009');
+	'mcooa::ooaofooa::Message::R1009');
 INSERT INTO GD_CON
 	VALUES ("0690f49c-9ca5-4e4a-b62c-b2a9042a4895",
 	"00000000-0000-0000-0000-000000000000");
@@ -1138,7 +1138,7 @@ INSERT INTO GD_GE
 	"30e81e50-ef9b-44a5-a125-5018cf41f3cd",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1010');
+	'mcooa::ooaofooa::Message::R1010');
 INSERT INTO GD_CON
 	VALUES ("006f5ddc-ac11-4374-92b6-70dd016f6631",
 	"00000000-0000-0000-0000-000000000000");
@@ -1238,7 +1238,7 @@ INSERT INTO GD_GE
 	"2a00ed56-3e0e-45de-bb2a-3257a894ff34",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1011');
+	'mcooa::ooaofooa::Message::R1011');
 INSERT INTO GD_CON
 	VALUES ("931770b6-bbd7-4d13-9d16-ad9c1d199af8",
 	"00000000-0000-0000-0000-000000000000");
@@ -1338,7 +1338,7 @@ INSERT INTO GD_GE
 	"aaad131e-6037-4384-94e0-181eb2cca1d9",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1012');
+	'mcooa::ooaofooa::Message::R1012');
 INSERT INTO GD_CON
 	VALUES ("cbb56b39-b2db-4254-95e0-9d05a1e03c13",
 	"00000000-0000-0000-0000-000000000000");
@@ -1438,7 +1438,7 @@ INSERT INTO GD_GE
 	"d28d0373-7753-4cac-9ffe-6a3ff4673ee0",
 	21,
 	0,
-	'escher::ooaofooa::Message::Bridge Argument');
+	'mcooa::ooaofooa::Message::Bridge Argument');
 INSERT INTO GD_SHP
 	VALUES ("78e95b68-acd5-4c0d-9d9c-c0c32f9e948a");
 INSERT INTO GD_NCS
@@ -1472,7 +1472,7 @@ INSERT INTO GD_GE
 	"91054d12-db73-4942-b711-89d30147ebb6",
 	21,
 	0,
-	'escher::ooaofooa::Message::Operation Argument');
+	'mcooa::ooaofooa::Message::Operation Argument');
 INSERT INTO GD_SHP
 	VALUES ("9859c519-c1ec-42ea-b5ca-0738629f47e8");
 INSERT INTO GD_NCS
@@ -1506,7 +1506,7 @@ INSERT INTO GD_GE
 	"f98c3858-0a13-40e5-8588-b9025de62584",
 	21,
 	0,
-	'escher::ooaofooa::Message::Function Argument');
+	'mcooa::ooaofooa::Message::Function Argument');
 INSERT INTO GD_SHP
 	VALUES ("452696cc-c886-4166-9f89-3e1344909317");
 INSERT INTO GD_NCS
@@ -1540,7 +1540,7 @@ INSERT INTO GD_GE
 	"3e318d88-2292-4b23-880d-05e4f94d0f36",
 	21,
 	0,
-	'escher::ooaofooa::Message::Event Argument');
+	'mcooa::ooaofooa::Message::Event Argument');
 INSERT INTO GD_SHP
 	VALUES ("cd4daece-59be-4b9e-b893-a86999a1495a");
 INSERT INTO GD_NCS
@@ -1574,7 +1574,7 @@ INSERT INTO GD_GE
 	"6ef8e776-faf2-4821-b999-2722f373fa35",
 	36,
 	0,
-	'escher::ooaofooa::Message::R1013');
+	'mcooa::ooaofooa::Message::R1013');
 INSERT INTO GD_CON
 	VALUES ("c6792892-1eee-4972-934d-ce96f79bcd73",
 	"00000000-0000-0000-0000-000000000000");
@@ -1722,7 +1722,7 @@ INSERT INTO GD_GE
 	"4e3c757b-549b-4992-b703-5caf975cd892",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1013::Bridge Argument');
+	'mcooa::ooaofooa::Message::R1013::Bridge Argument');
 INSERT INTO GD_CON
 	VALUES ("ed4916e8-def8-44e5-80ea-ac2826c69acc",
 	"00000000-0000-0000-0000-000000000000");
@@ -1822,7 +1822,7 @@ INSERT INTO GD_GE
 	"40f29ed4-40c5-41c2-8753-de609a20e60a",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1013::Operation Argument');
+	'mcooa::ooaofooa::Message::R1013::Operation Argument');
 INSERT INTO GD_CON
 	VALUES ("dfcd34f6-ef0c-49ee-82f6-d684bf8a9e52",
 	"00000000-0000-0000-0000-000000000000");
@@ -1935,7 +1935,7 @@ INSERT INTO GD_GE
 	"11c2b7a5-973a-48de-b48d-8af6cb4295dc",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1013::Function Argument');
+	'mcooa::ooaofooa::Message::R1013::Function Argument');
 INSERT INTO GD_CON
 	VALUES ("700165c5-fc8e-4d12-aa51-91bcad90fdba",
 	"00000000-0000-0000-0000-000000000000");
@@ -2048,7 +2048,7 @@ INSERT INTO GD_GE
 	"8085e7d0-bd01-4a35-83f2-48521db2d4e4",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1013::Event Argument');
+	'mcooa::ooaofooa::Message::R1013::Event Argument');
 INSERT INTO GD_CON
 	VALUES ("7eb863b1-9f9c-49aa-8f46-74a809f1490a",
 	"00000000-0000-0000-0000-000000000000");
@@ -2161,7 +2161,7 @@ INSERT INTO GD_GE
 	"242850d4-18f6-409b-9625-382edbf2933c",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1014');
+	'mcooa::ooaofooa::Message::R1014');
 INSERT INTO GD_CON
 	VALUES ("6a42a881-d17c-465d-b080-de055b163e21",
 	"00000000-0000-0000-0000-000000000000");
@@ -2261,7 +2261,7 @@ INSERT INTO GD_GE
 	"326afa40-dbd2-41c9-8789-a98e50c1d51f",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1015');
+	'mcooa::ooaofooa::Message::R1015');
 INSERT INTO GD_CON
 	VALUES ("f122ccdc-f68d-41cd-8a17-61b7338992b7",
 	"00000000-0000-0000-0000-000000000000");
@@ -2361,7 +2361,7 @@ INSERT INTO GD_GE
 	"d5f4798d-ea54-4239-9fc4-e35d376078be",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1016');
+	'mcooa::ooaofooa::Message::R1016');
 INSERT INTO GD_CON
 	VALUES ("0199c1fd-8db9-4152-9f79-b260f32a3475",
 	"00000000-0000-0000-0000-000000000000");
@@ -2461,7 +2461,7 @@ INSERT INTO GD_GE
 	"53b9f1e2-abc7-443d-bd4b-52a5e6e3c908",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1017');
+	'mcooa::ooaofooa::Message::R1017');
 INSERT INTO GD_CON
 	VALUES ("46932179-13ea-4fee-b0ab-3d99cbc38013",
 	"00000000-0000-0000-0000-000000000000");
@@ -2561,7 +2561,7 @@ INSERT INTO GD_GE
 	"d5e378ec-d63f-4445-a3e1-0e0ec5104343",
 	21,
 	0,
-	'escher::ooaofooa::Message::Return Message');
+	'mcooa::ooaofooa::Message::Return Message');
 INSERT INTO GD_SHP
 	VALUES ("85dc5738-4fbe-44d3-b5ba-f17cf0247137");
 INSERT INTO GD_NCS
@@ -2595,7 +2595,7 @@ INSERT INTO GD_GE
 	"0ec9778d-3696-4ee2-a43f-71127b90ad85",
 	21,
 	0,
-	'escher::ooaofooa::Message::Synchronous Message');
+	'mcooa::ooaofooa::Message::Synchronous Message');
 INSERT INTO GD_SHP
 	VALUES ("a37fe8db-9af3-43e4-86cf-dbd985c7c1f6");
 INSERT INTO GD_NCS
@@ -2629,7 +2629,7 @@ INSERT INTO GD_GE
 	"88e74e98-8901-4ce1-87e3-ac3fb6184de7",
 	21,
 	0,
-	'escher::ooaofooa::Message::Asynchronous Message');
+	'mcooa::ooaofooa::Message::Asynchronous Message');
 INSERT INTO GD_SHP
 	VALUES ("6f2de54e-8fa6-4ed0-9e4a-e0c12bb70647");
 INSERT INTO GD_NCS
@@ -2663,7 +2663,7 @@ INSERT INTO GD_GE
 	"316b02f6-a2cb-44c2-be57-49121d92e713",
 	36,
 	0,
-	'escher::ooaofooa::Message::R1018');
+	'mcooa::ooaofooa::Message::R1018');
 INSERT INTO GD_CON
 	VALUES ("74c04359-d84d-45da-820e-2513ca3292f2",
 	"00000000-0000-0000-0000-000000000000");
@@ -2787,7 +2787,7 @@ INSERT INTO GD_GE
 	"dbe80a29-ecce-461f-a00d-ab166a70025f",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1018::Asynchronous Message');
+	'mcooa::ooaofooa::Message::R1018::Asynchronous Message');
 INSERT INTO GD_CON
 	VALUES ("832e286e-7e76-45d2-b458-0119432dbf1a",
 	"00000000-0000-0000-0000-000000000000");
@@ -2900,7 +2900,7 @@ INSERT INTO GD_GE
 	"a05fde63-2c76-453b-804f-88f52e3ab254",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1018::Synchronous Message');
+	'mcooa::ooaofooa::Message::R1018::Synchronous Message');
 INSERT INTO GD_CON
 	VALUES ("e32f044d-33e1-4ce1-b36b-46ff48687f78",
 	"00000000-0000-0000-0000-000000000000");
@@ -3013,7 +3013,7 @@ INSERT INTO GD_GE
 	"e306c1dc-1b1a-42c1-ac7d-fb1fcc78b3a3",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1018::Return Message');
+	'mcooa::ooaofooa::Message::R1018::Return Message');
 INSERT INTO GD_CON
 	VALUES ("c1730810-3045-48ef-a20b-9da88e9ae309",
 	"00000000-0000-0000-0000-000000000000");
@@ -3126,7 +3126,7 @@ INSERT INTO GD_GE
 	"9ce8df55-dbd5-486a-90e3-5a16d2ee889b",
 	36,
 	0,
-	'escher::ooaofooa::Message::R1019');
+	'mcooa::ooaofooa::Message::R1019');
 INSERT INTO GD_CON
 	VALUES ("16fb8db6-c014-4d88-8a21-2cc8402a380d",
 	"00000000-0000-0000-0000-000000000000");
@@ -3250,7 +3250,7 @@ INSERT INTO GD_GE
 	"38f4c6d2-9eff-47c9-aa27-c410b9013a69",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1019::Event Message');
+	'mcooa::ooaofooa::Message::R1019::Event Message');
 INSERT INTO GD_CON
 	VALUES ("00b18e42-b35c-436d-88bb-83978a52c79e",
 	"00000000-0000-0000-0000-000000000000");
@@ -3350,7 +3350,7 @@ INSERT INTO GD_GE
 	"93733dd7-c39b-484b-9a66-036c738e0bfd",
 	36,
 	0,
-	'escher::ooaofooa::Message::R1020');
+	'mcooa::ooaofooa::Message::R1020');
 INSERT INTO GD_CON
 	VALUES ("2a7d6516-f95b-45d6-8191-e60b299a63d3",
 	"00000000-0000-0000-0000-000000000000");
@@ -3490,7 +3490,7 @@ INSERT INTO GD_GE
 	"5247d110-a957-4906-9558-eb8266649f52",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1020::Function Message');
+	'mcooa::ooaofooa::Message::R1020::Function Message');
 INSERT INTO GD_CON
 	VALUES ("0922a08e-17c3-4e10-a086-9ee1d4e20d2d",
 	"00000000-0000-0000-0000-000000000000");
@@ -3603,7 +3603,7 @@ INSERT INTO GD_GE
 	"2b7a190d-46ec-4769-9e5d-a87d918ce082",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1020::Operation Message');
+	'mcooa::ooaofooa::Message::R1020::Operation Message');
 INSERT INTO GD_CON
 	VALUES ("15c7872d-3314-46dc-a64b-d356d2182ab4",
 	"00000000-0000-0000-0000-000000000000");
@@ -3716,7 +3716,7 @@ INSERT INTO GD_GE
 	"d25f2526-d7c3-495f-8cef-1685fea927a0",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1020::Bridge Message');
+	'mcooa::ooaofooa::Message::R1020::Bridge Message');
 INSERT INTO GD_CON
 	VALUES ("fe96c3e1-7997-42c6-96a7-be84f41fbac8",
 	"00000000-0000-0000-0000-000000000000");
@@ -3829,7 +3829,7 @@ INSERT INTO GD_GE
 	"26a55751-fa48-459f-98a9-815bb8e991ad",
 	21,
 	0,
-	'escher::ooaofooa::Message::Informal Synchronous Message');
+	'mcooa::ooaofooa::Message::Informal Synchronous Message');
 INSERT INTO GD_SHP
 	VALUES ("1fd162a3-9406-44eb-a0fd-3862933407fe");
 INSERT INTO GD_NCS
@@ -3858,7 +3858,7 @@ INSERT INTO GD_GE
 	"3ce8904f-6dde-4fd8-9226-dd0f672d4169",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1020::Informal Synchronous Message');
+	'mcooa::ooaofooa::Message::R1020::Informal Synchronous Message');
 INSERT INTO GD_CON
 	VALUES ("0d6d40e4-6305-4a67-88e2-04101b3333a7",
 	"00000000-0000-0000-0000-000000000000");
@@ -3971,7 +3971,7 @@ INSERT INTO GD_GE
 	"c3db5b0c-8e38-4513-8c79-29a69f90b774",
 	21,
 	0,
-	'escher::ooaofooa::Message::Informal Asynchronous Message');
+	'mcooa::ooaofooa::Message::Informal Asynchronous Message');
 INSERT INTO GD_SHP
 	VALUES ("cc715446-f3d2-4dda-825e-f97f94b84b84");
 INSERT INTO GD_NCS
@@ -4000,7 +4000,7 @@ INSERT INTO GD_GE
 	"24317db9-64f3-4071-bd3d-4cad083a5257",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1019::Informal Asynchronous Message');
+	'mcooa::ooaofooa::Message::R1019::Informal Asynchronous Message');
 INSERT INTO GD_CON
 	VALUES ("28391a41-a644-409c-89b7-b67d1a5103b8",
 	"00000000-0000-0000-0000-000000000000");
@@ -4113,7 +4113,7 @@ INSERT INTO GD_GE
 	"af4ddda3-f000-4265-8496-1030510a43d1",
 	21,
 	0,
-	'escher::ooaofooa::Message::Informal Argument');
+	'mcooa::ooaofooa::Message::Informal Argument');
 INSERT INTO GD_SHP
 	VALUES ("8566bb28-6409-49b3-8c37-69fba7b5f996");
 INSERT INTO GD_NCS
@@ -4142,7 +4142,7 @@ INSERT INTO GD_GE
 	"779830c4-0dff-41c8-b9d8-992dbf895a7b",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1013::Informal Argument');
+	'mcooa::ooaofooa::Message::R1013::Informal Argument');
 INSERT INTO GD_CON
 	VALUES ("1d8e5328-1238-4aed-ad9d-61d8895e155d",
 	"00000000-0000-0000-0000-000000000000");
@@ -4255,7 +4255,7 @@ INSERT INTO GD_GE
 	"dd29e8bf-7033-4ec6-bf21-e7eb797b3c42",
 	21,
 	0,
-	'escher::ooaofooa::Message::Signal Message');
+	'mcooa::ooaofooa::Message::Signal Message');
 INSERT INTO GD_SHP
 	VALUES ("5cc0952e-5555-49b1-8939-0e1697634d9c");
 INSERT INTO GD_NCS
@@ -4289,7 +4289,7 @@ INSERT INTO GD_GE
 	"de339104-9f09-40d3-ad4a-59233821b511",
 	23,
 	0,
-	'escher::ooaofooa::Message::Interface Signal');
+	'mcooa::ooaofooa::Message::Interface Signal');
 INSERT INTO GD_SHP
 	VALUES ("9cce8fb8-db16-4bfc-a0c0-69394dc3f940");
 INSERT INTO GD_NCS
@@ -4318,7 +4318,7 @@ INSERT INTO GD_GE
 	"86bc176a-a02a-464e-8ffe-4e1615c3200c",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1019::Signal Message');
+	'mcooa::ooaofooa::Message::R1019::Signal Message');
 INSERT INTO GD_CON
 	VALUES ("6d5c042a-207d-4165-b730-79e450ecd4f6",
 	"00000000-0000-0000-0000-000000000000");
@@ -4431,7 +4431,7 @@ INSERT INTO GD_GE
 	"eae244bc-851c-40fa-8891-d06e77dd9351",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1021');
+	'mcooa::ooaofooa::Message::R1021');
 INSERT INTO GD_CON
 	VALUES ("f0d16d51-c3e6-4e13-ac57-ed166142002e",
 	"00000000-0000-0000-0000-000000000000");
@@ -4531,7 +4531,7 @@ INSERT INTO GD_GE
 	"e8e4b066-0d26-4988-852a-6d7e66702df1",
 	21,
 	0,
-	'escher::ooaofooa::Message::Interface Operation Message');
+	'mcooa::ooaofooa::Message::Interface Operation Message');
 INSERT INTO GD_SHP
 	VALUES ("78487213-f6c4-4520-9dbf-83f2a08699e3");
 INSERT INTO GD_NCS
@@ -4565,7 +4565,7 @@ INSERT INTO GD_GE
 	"8f0d200d-28aa-41f3-864d-9328918995fb",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1020::Interface Operation Message');
+	'mcooa::ooaofooa::Message::R1020::Interface Operation Message');
 INSERT INTO GD_CON
 	VALUES ("e641b19e-c592-4ce2-9015-3caae80dce63",
 	"00000000-0000-0000-0000-000000000000");
@@ -4678,7 +4678,7 @@ INSERT INTO GD_GE
 	"e187321a-122f-470d-a8bf-531e6a9a6262",
 	23,
 	0,
-	'escher::ooaofooa::Message::Interface Operation');
+	'mcooa::ooaofooa::Message::Interface Operation');
 INSERT INTO GD_SHP
 	VALUES ("e03c45e5-3775-4679-a092-6b14f32e5652");
 INSERT INTO GD_NCS
@@ -4707,7 +4707,7 @@ INSERT INTO GD_GE
 	"2dbc9aed-3e2d-49bc-8cc3-b5e5d40abf29",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1022');
+	'mcooa::ooaofooa::Message::R1022');
 INSERT INTO GD_CON
 	VALUES ("d5d7e158-ed3c-456b-9b44-6aa16288df60",
 	"00000000-0000-0000-0000-000000000000");
@@ -4807,7 +4807,7 @@ INSERT INTO GD_GE
 	"88e04eab-d452-44ad-822c-b6a27c5b24fa",
 	21,
 	0,
-	'escher::ooaofooa::Message::Executable Property Argument');
+	'mcooa::ooaofooa::Message::Executable Property Argument');
 INSERT INTO GD_SHP
 	VALUES ("222d89e2-8b0c-46d3-9bfc-f49d57520015");
 INSERT INTO GD_NCS
@@ -4841,7 +4841,7 @@ INSERT INTO GD_GE
 	"f289e258-5d8b-4373-b868-d7f44d5f9267",
 	35,
 	0,
-	'escher::ooaofooa::Message::R1013::Executable Property Argument');
+	'mcooa::ooaofooa::Message::R1013::Executable Property Argument');
 INSERT INTO GD_CON
 	VALUES ("8b5e3c8b-a417-46cc-bcbe-53a274711f35",
 	"00000000-0000-0000-0000-000000000000");
@@ -4954,7 +4954,7 @@ INSERT INTO GD_GE
 	"df3622b8-b5d9-4c7a-80f1-5546f5cb0448",
 	23,
 	0,
-	'escher::ooaofooa::Message::Property Parameter');
+	'mcooa::ooaofooa::Message::Property Parameter');
 INSERT INTO GD_SHP
 	VALUES ("bcc692f0-fb3b-40ab-a181-f16d544d7113");
 INSERT INTO GD_NCS
@@ -4983,7 +4983,7 @@ INSERT INTO GD_GE
 	"0a61c8cb-c704-40fb-8546-ddfd4151d196",
 	24,
 	0,
-	'escher::ooaofooa::Message::R1023');
+	'mcooa::ooaofooa::Message::R1023');
 INSERT INTO GD_CON
 	VALUES ("47b8a917-c2c3-48dc-a35a-f05dd1c89283",
 	"00000000-0000-0000-0000-000000000000");
@@ -6835,8 +6835,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -6862,7 +6862,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

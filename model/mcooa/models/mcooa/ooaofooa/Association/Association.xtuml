@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("c8ad4c40-3192-4a56-8698-48d14f0cf073",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Association',
 	'A association (R_REL) captures an association between things in the real world. A association is stated in terms of the formal classs (O_OBJ) that model the real world entities participating in the association. There can be any number of associations between the same two classs and any class can participate in any number of associations with other classs.',
 	201);
@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.0.0',
-	'escher::ooaofooa::Association');
+	'mcooa::ooaofooa::Association');
 INSERT INTO GD_GE
 	VALUES ("1b962e93-afc6-45fa-8fe2-5d6a0ea0941c",
 	"bfe8a8ec-1d00-4a71-bf47-b52d9ceb66ef",
 	"a65afc2d-1c8d-47cf-b82d-91a9c741d861",
 	21,
 	0,
-	'escher::ooaofooa::Association::Association');
+	'mcooa::ooaofooa::Association::Association');
 INSERT INTO GD_SHP
 	VALUES ("1b962e93-afc6-45fa-8fe2-5d6a0ea0941c");
 INSERT INTO GD_NCS
@@ -66,7 +66,7 @@ INSERT INTO GD_GE
 	"d66f90e1-b52f-46d5-aba7-133f29cfc533",
 	21,
 	0,
-	'escher::ooaofooa::Association::Simple Association');
+	'mcooa::ooaofooa::Association::Simple Association');
 INSERT INTO GD_SHP
 	VALUES ("77680d24-8ce2-42dd-81c7-e5536e76d620");
 INSERT INTO GD_NCS
@@ -105,7 +105,7 @@ INSERT INTO GD_GE
 	"eb1a8ef7-1584-484d-95f9-a66318d4c167",
 	21,
 	0,
-	'escher::ooaofooa::Association::Linked Association');
+	'mcooa::ooaofooa::Association::Linked Association');
 INSERT INTO GD_SHP
 	VALUES ("59ae627c-716e-4598-9905-cd1cdb6aaa6f");
 INSERT INTO GD_NCS
@@ -149,7 +149,7 @@ INSERT INTO GD_GE
 	"403aae04-4b8c-4ecf-8bd2-f82a03e0392a",
 	21,
 	0,
-	'escher::ooaofooa::Association::Subtype Supertype Association');
+	'mcooa::ooaofooa::Association::Subtype Supertype Association');
 INSERT INTO GD_SHP
 	VALUES ("f3e82a9f-79bd-4533-a9fa-9caf55fb24c8");
 INSERT INTO GD_NCS
@@ -188,7 +188,7 @@ INSERT INTO GD_GE
 	"2202aa51-b695-45d8-8da6-f74d57befe86",
 	21,
 	0,
-	'escher::ooaofooa::Association::Derived Association');
+	'mcooa::ooaofooa::Association::Derived Association');
 INSERT INTO GD_SHP
 	VALUES ("8c87d030-375e-4eb2-bd14-6277cd0bee5d");
 INSERT INTO GD_NCS
@@ -227,7 +227,7 @@ INSERT INTO GD_GE
 	"a140c627-5a1d-428f-beeb-f83dfde40e8c",
 	21,
 	0,
-	'escher::ooaofooa::Association::Class As Simple Participant');
+	'mcooa::ooaofooa::Association::Class As Simple Participant');
 INSERT INTO GD_SHP
 	VALUES ("79420f80-58cf-4814-983a-eda9f8c35d87");
 INSERT INTO GD_NCS
@@ -261,7 +261,7 @@ INSERT INTO GD_GE
 	"18a8da76-3be8-4bd9-9b66-2316596d000c",
 	21,
 	0,
-	'escher::ooaofooa::Association::Class As Simple Formalizer');
+	'mcooa::ooaofooa::Association::Class As Simple Formalizer');
 INSERT INTO GD_SHP
 	VALUES ("f637a883-871f-4eed-8059-6355c464eeb7");
 INSERT INTO GD_NCS
@@ -295,7 +295,7 @@ INSERT INTO GD_GE
 	"781ba259-0ca8-48a4-a7a2-e064949c7779",
 	21,
 	0,
-	'escher::ooaofooa::Association::Class As Associated One Side');
+	'mcooa::ooaofooa::Association::Class As Associated One Side');
 INSERT INTO GD_SHP
 	VALUES ("fa0ce3cc-c43e-427f-a52e-cd90f96bf0a5");
 INSERT INTO GD_NCS
@@ -329,7 +329,7 @@ INSERT INTO GD_GE
 	"28ce3a3c-626e-4fdd-959d-9c6f59320a4b",
 	21,
 	0,
-	'escher::ooaofooa::Association::Class As Associated Other Side');
+	'mcooa::ooaofooa::Association::Class As Associated Other Side');
 INSERT INTO GD_SHP
 	VALUES ("0742cf73-e8d4-4a98-bbae-53f31a95f01a");
 INSERT INTO GD_NCS
@@ -363,7 +363,7 @@ INSERT INTO GD_GE
 	"29c1a3fa-6086-4718-837f-7b66d5103f2c",
 	21,
 	0,
-	'escher::ooaofooa::Association::Class As Link');
+	'mcooa::ooaofooa::Association::Class As Link');
 INSERT INTO GD_SHP
 	VALUES ("ffce75f4-89ad-4579-bd13-21c53edd2842");
 INSERT INTO GD_NCS
@@ -397,7 +397,7 @@ INSERT INTO GD_GE
 	"e85e73f2-4bf7-40cf-8c7b-bd63c1050b0c",
 	21,
 	0,
-	'escher::ooaofooa::Association::Class As Supertype');
+	'mcooa::ooaofooa::Association::Class As Supertype');
 INSERT INTO GD_SHP
 	VALUES ("f0b1c312-5c33-4725-8b6f-cb465d933346");
 INSERT INTO GD_NCS
@@ -431,7 +431,7 @@ INSERT INTO GD_GE
 	"17ee6cac-8196-47df-9859-19a42c4de7be",
 	21,
 	0,
-	'escher::ooaofooa::Association::Class As Subtype');
+	'mcooa::ooaofooa::Association::Class As Subtype');
 INSERT INTO GD_SHP
 	VALUES ("fc7dcdc2-caf3-43e0-b3e4-9d80de274472");
 INSERT INTO GD_NCS
@@ -465,7 +465,7 @@ INSERT INTO GD_GE
 	"a8d21f98-8e16-4a2e-a72b-3f276ac297a8",
 	21,
 	0,
-	'escher::ooaofooa::Association::Class As Derived One Side');
+	'mcooa::ooaofooa::Association::Class As Derived One Side');
 INSERT INTO GD_SHP
 	VALUES ("a44be1bb-348a-4085-8100-c4ae914e88c7");
 INSERT INTO GD_NCS
@@ -499,7 +499,7 @@ INSERT INTO GD_GE
 	"6d9454c5-7b17-4f52-b84e-757abe80fbe8",
 	21,
 	0,
-	'escher::ooaofooa::Association::Class As Derived Other Side');
+	'mcooa::ooaofooa::Association::Class As Derived Other Side');
 INSERT INTO GD_SHP
 	VALUES ("859d94ac-33c5-44f7-86ff-4a6f54f10d8c");
 INSERT INTO GD_NCS
@@ -533,7 +533,7 @@ INSERT INTO GD_GE
 	"b30cdc19-98d5-42ac-93dd-33b256ebfb09",
 	21,
 	0,
-	'escher::ooaofooa::Association::Class In Association');
+	'mcooa::ooaofooa::Association::Class In Association');
 INSERT INTO GD_SHP
 	VALUES ("a298a478-1ceb-4553-a1cf-457a8a13187b");
 INSERT INTO GD_NCS
@@ -572,7 +572,7 @@ INSERT INTO GD_GE
 	"fce4fc45-804f-4b40-a02a-6ec20b65f8fa",
 	21,
 	0,
-	'escher::ooaofooa::Association::Referred To Class in Assoc');
+	'mcooa::ooaofooa::Association::Referred To Class in Assoc');
 INSERT INTO GD_SHP
 	VALUES ("62a5834c-d242-403a-b05c-836f953b405a");
 INSERT INTO GD_NCS
@@ -606,7 +606,7 @@ INSERT INTO GD_GE
 	"5c45299a-16aa-4288-b543-83d44015bebe",
 	21,
 	0,
-	'escher::ooaofooa::Association::Referring Class In Assoc');
+	'mcooa::ooaofooa::Association::Referring Class In Assoc');
 INSERT INTO GD_SHP
 	VALUES ("b49236fd-e77f-44e6-9843-7d9d1e909d6f");
 INSERT INTO GD_NCS
@@ -640,7 +640,7 @@ INSERT INTO GD_GE
 	"c96fd0f7-bb54-4d46-a80d-b89f38f12a73",
 	23,
 	0,
-	'escher::ooaofooa::Association::Model Class');
+	'mcooa::ooaofooa::Association::Model Class');
 INSERT INTO GD_SHP
 	VALUES ("1be005ad-38b3-48c4-b3a4-86ee6f402bbf");
 INSERT INTO GD_NCS
@@ -669,7 +669,7 @@ INSERT INTO GD_GE
 	"9a9f9585-de11-4d13-a5bb-f51371566287",
 	23,
 	0,
-	'escher::ooaofooa::Association::Imported Class');
+	'mcooa::ooaofooa::Association::Imported Class');
 INSERT INTO GD_SHP
 	VALUES ("f9b42819-bcb1-4137-a130-68ef986e6303");
 INSERT INTO GD_NCS
@@ -698,7 +698,7 @@ INSERT INTO GD_GE
 	"f6d85576-e786-4695-8763-44f6acf45986",
 	24,
 	0,
-	'escher::ooaofooa::Association::R201');
+	'mcooa::ooaofooa::Association::R201');
 INSERT INTO GD_CON
 	VALUES ("59ba1af0-2666-4b11-81b0-51a096b7f243",
 	"4572dd90-607a-4b3c-a1c6-3f0b6c1bdfde");
@@ -806,7 +806,7 @@ INSERT INTO GD_GE
 	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
 	36,
 	0,
-	'escher::ooaofooa::Association::R206');
+	'mcooa::ooaofooa::Association::R206');
 INSERT INTO GD_CON
 	VALUES ("0c4cecc7-609d-4e84-bb5b-9a2ac84645ce",
 	"00000000-0000-0000-0000-000000000000");
@@ -938,7 +938,7 @@ INSERT INTO GD_GE
 	"97ac9e75-3bad-40c3-978d-3e287bd7f123",
 	35,
 	0,
-	'escher::ooaofooa::Association::R206::Simple Association');
+	'mcooa::ooaofooa::Association::R206::Simple Association');
 INSERT INTO GD_CON
 	VALUES ("9df81d34-332d-40e7-8e70-42eafd27c05e",
 	"00000000-0000-0000-0000-000000000000");
@@ -1038,7 +1038,7 @@ INSERT INTO GD_GE
 	"3414eb10-cc4d-480a-953d-06fee079b0aa",
 	35,
 	0,
-	'escher::ooaofooa::Association::R206::Derived Association');
+	'mcooa::ooaofooa::Association::R206::Derived Association');
 INSERT INTO GD_CON
 	VALUES ("873c1bfa-5b9b-494b-9248-253b117f7720",
 	"00000000-0000-0000-0000-000000000000");
@@ -1164,7 +1164,7 @@ INSERT INTO GD_GE
 	"e27d43ee-8fb0-40c1-95d8-b354fd9a4e8b",
 	35,
 	0,
-	'escher::ooaofooa::Association::R206::Linked Association');
+	'mcooa::ooaofooa::Association::R206::Linked Association');
 INSERT INTO GD_CON
 	VALUES ("04820cd6-d3a9-4ed3-a80f-e5753c59e1b8",
 	"00000000-0000-0000-0000-000000000000");
@@ -1277,7 +1277,7 @@ INSERT INTO GD_GE
 	"0a8171ef-097f-4dcd-a6de-683553d16457",
 	35,
 	0,
-	'escher::ooaofooa::Association::R206::Subtype Supertype Association');
+	'mcooa::ooaofooa::Association::R206::Subtype Supertype Association');
 INSERT INTO GD_CON
 	VALUES ("e3047ef6-af02-40a9-ba7a-91995d2d9784",
 	"00000000-0000-0000-0000-000000000000");
@@ -1390,7 +1390,7 @@ INSERT INTO GD_GE
 	"338852cb-22fe-499c-8717-569fcd840b9a",
 	24,
 	0,
-	'escher::ooaofooa::Association::R207');
+	'mcooa::ooaofooa::Association::R207');
 INSERT INTO GD_CON
 	VALUES ("e9c86d13-0267-428f-88ab-a4566e67a276",
 	"00000000-0000-0000-0000-000000000000");
@@ -1503,7 +1503,7 @@ INSERT INTO GD_GE
 	"b862c4af-3767-4677-8725-5ad9da85a1f7",
 	24,
 	0,
-	'escher::ooaofooa::Association::R208');
+	'mcooa::ooaofooa::Association::R208');
 INSERT INTO GD_CON
 	VALUES ("afc8a0bb-0ec5-4680-84a9-20ccb0ee9798",
 	"00000000-0000-0000-0000-000000000000");
@@ -1616,7 +1616,7 @@ INSERT INTO GD_GE
 	"f3695098-9879-4f2b-a2af-1805ec52863a",
 	24,
 	0,
-	'escher::ooaofooa::Association::R209');
+	'mcooa::ooaofooa::Association::R209');
 INSERT INTO GD_CON
 	VALUES ("a334aa34-fe3f-4a33-86fc-a4b657555016",
 	"00000000-0000-0000-0000-000000000000");
@@ -1729,7 +1729,7 @@ INSERT INTO GD_GE
 	"75c5ebeb-1af7-4dbd-b14a-304dc8027fed",
 	24,
 	0,
-	'escher::ooaofooa::Association::R210');
+	'mcooa::ooaofooa::Association::R210');
 INSERT INTO GD_CON
 	VALUES ("b13ded12-3145-4763-bd75-4435c11b640a",
 	"00000000-0000-0000-0000-000000000000");
@@ -1842,7 +1842,7 @@ INSERT INTO GD_GE
 	"b3efb4a7-26a9-409c-9d5c-82063d356a2e",
 	24,
 	0,
-	'escher::ooaofooa::Association::R211');
+	'mcooa::ooaofooa::Association::R211');
 INSERT INTO GD_CON
 	VALUES ("a5dda3d3-19c0-4ee8-8b8e-58d545c6e330",
 	"00000000-0000-0000-0000-000000000000");
@@ -1955,7 +1955,7 @@ INSERT INTO GD_GE
 	"9288b4f3-4c30-434d-9027-9bf61293e438",
 	24,
 	0,
-	'escher::ooaofooa::Association::R212');
+	'mcooa::ooaofooa::Association::R212');
 INSERT INTO GD_CON
 	VALUES ("d54af5aa-1de3-454f-aed0-be1d8d88fcde",
 	"00000000-0000-0000-0000-000000000000");
@@ -2068,7 +2068,7 @@ INSERT INTO GD_GE
 	"35afaab9-44d6-48e8-b005-0c71a86f1a7f",
 	24,
 	0,
-	'escher::ooaofooa::Association::R213');
+	'mcooa::ooaofooa::Association::R213');
 INSERT INTO GD_CON
 	VALUES ("00d53ee4-58ec-4e60-895d-56abe25a03db",
 	"00000000-0000-0000-0000-000000000000");
@@ -2181,7 +2181,7 @@ INSERT INTO GD_GE
 	"97fc267f-f5e6-4052-ba0d-d850431dd5a3",
 	24,
 	0,
-	'escher::ooaofooa::Association::R214');
+	'mcooa::ooaofooa::Association::R214');
 INSERT INTO GD_CON
 	VALUES ("87be58fe-bee2-43ce-b3d7-2962556ca89c",
 	"00000000-0000-0000-0000-000000000000");
@@ -2294,7 +2294,7 @@ INSERT INTO GD_GE
 	"44f93402-6469-46b7-8de9-6cbc6acd7ccf",
 	24,
 	0,
-	'escher::ooaofooa::Association::R215');
+	'mcooa::ooaofooa::Association::R215');
 INSERT INTO GD_CON
 	VALUES ("323928d8-33fa-493d-a3ae-205352ad7f1a",
 	"00000000-0000-0000-0000-000000000000");
@@ -2407,7 +2407,7 @@ INSERT INTO GD_GE
 	"f6d85576-e786-4695-8763-44f6acf45986",
 	34,
 	0,
-	'escher::ooaofooa::Association::R201::Class In Association');
+	'mcooa::ooaofooa::Association::R201::Class In Association');
 INSERT INTO GD_CON
 	VALUES ("386905a9-5467-4e1b-aa19-58cf587b6440",
 	"00000000-0000-0000-0000-000000000000");
@@ -2507,7 +2507,7 @@ INSERT INTO GD_GE
 	"3b9be78f-fcd2-4891-9c3e-131fc2675486",
 	36,
 	0,
-	'escher::ooaofooa::Association::R203');
+	'mcooa::ooaofooa::Association::R203');
 INSERT INTO GD_CON
 	VALUES ("d4c6b1b9-a91b-4d77-b20e-d2b5ceb9f19a",
 	"00000000-0000-0000-0000-000000000000");
@@ -2639,7 +2639,7 @@ INSERT INTO GD_GE
 	"04067513-3bcc-4103-90eb-f618dd1d6df2",
 	35,
 	0,
-	'escher::ooaofooa::Association::R203::Referred To Class in Assoc');
+	'mcooa::ooaofooa::Association::R203::Referred To Class in Assoc');
 INSERT INTO GD_CON
 	VALUES ("d9328022-ca70-46b1-8e26-6b1a18cf1588",
 	"00000000-0000-0000-0000-000000000000");
@@ -2739,7 +2739,7 @@ INSERT INTO GD_GE
 	"80f46aef-d4e9-4bb0-9e49-1c2984d9b815",
 	35,
 	0,
-	'escher::ooaofooa::Association::R203::Referring Class In Assoc');
+	'mcooa::ooaofooa::Association::R203::Referring Class In Assoc');
 INSERT INTO GD_CON
 	VALUES ("1cd781c7-9ceb-47d3-818f-dafc91985f94",
 	"00000000-0000-0000-0000-000000000000");
@@ -2852,7 +2852,7 @@ INSERT INTO GD_GE
 	"6369667a-8607-4025-9c19-226cf058a949",
 	36,
 	0,
-	'escher::ooaofooa::Association::R205');
+	'mcooa::ooaofooa::Association::R205');
 INSERT INTO GD_CON
 	VALUES ("06defad0-31a4-4bc1-80cb-3a5ac30818e7",
 	"00000000-0000-0000-0000-000000000000");
@@ -2976,7 +2976,7 @@ INSERT INTO GD_GE
 	"837db0e9-70a7-4042-96c1-a4d1baf44243",
 	35,
 	0,
-	'escher::ooaofooa::Association::R205::Class As Subtype');
+	'mcooa::ooaofooa::Association::R205::Class As Subtype');
 INSERT INTO GD_CON
 	VALUES ("55206672-e53c-4790-9766-1af7b7417a07",
 	"00000000-0000-0000-0000-000000000000");
@@ -3076,7 +3076,7 @@ INSERT INTO GD_GE
 	"4abb55d1-b9fb-44c0-8912-0795ba3a8855",
 	35,
 	0,
-	'escher::ooaofooa::Association::R205::Class As Simple Formalizer');
+	'mcooa::ooaofooa::Association::R205::Class As Simple Formalizer');
 INSERT INTO GD_CON
 	VALUES ("1efc66f2-436d-45fc-9bb3-5f81b592da20",
 	"00000000-0000-0000-0000-000000000000");
@@ -3189,7 +3189,7 @@ INSERT INTO GD_GE
 	"f0a5ef3e-7581-4738-8fe7-5481b2fd9b17",
 	35,
 	0,
-	'escher::ooaofooa::Association::R205::Class As Link');
+	'mcooa::ooaofooa::Association::R205::Class As Link');
 INSERT INTO GD_CON
 	VALUES ("e074d999-2df2-430c-8c6f-5901b4b4e3c6",
 	"00000000-0000-0000-0000-000000000000");
@@ -3302,7 +3302,7 @@ INSERT INTO GD_GE
 	"64bd0de4-8b3e-4299-aeaa-a44acef92574",
 	36,
 	0,
-	'escher::ooaofooa::Association::R204');
+	'mcooa::ooaofooa::Association::R204');
 INSERT INTO GD_CON
 	VALUES ("dde1b67c-b724-4087-903d-e9d3b27c5cb8",
 	"00000000-0000-0000-0000-000000000000");
@@ -3434,7 +3434,7 @@ INSERT INTO GD_GE
 	"e690c55f-831f-4bef-aa01-ed74ce834335",
 	35,
 	0,
-	'escher::ooaofooa::Association::R204::Class As Supertype');
+	'mcooa::ooaofooa::Association::R204::Class As Supertype');
 INSERT INTO GD_CON
 	VALUES ("f1970d9b-d3fd-4a9e-9257-e6e1671421d5",
 	"00000000-0000-0000-0000-000000000000");
@@ -3534,7 +3534,7 @@ INSERT INTO GD_GE
 	"0d8b6af1-8a9e-4e1a-91e5-8cd369a2bd0e",
 	35,
 	0,
-	'escher::ooaofooa::Association::R204::Class As Simple Participant');
+	'mcooa::ooaofooa::Association::R204::Class As Simple Participant');
 INSERT INTO GD_CON
 	VALUES ("9dfb7b1f-a20d-4284-9cee-e37262f20c10",
 	"00000000-0000-0000-0000-000000000000");
@@ -3647,7 +3647,7 @@ INSERT INTO GD_GE
 	"12843d1e-c091-43f8-93da-ce451de8240c",
 	35,
 	0,
-	'escher::ooaofooa::Association::R204::Class As Associated One Side');
+	'mcooa::ooaofooa::Association::R204::Class As Associated One Side');
 INSERT INTO GD_CON
 	VALUES ("7629a595-922d-496b-892e-4b7a330864d7",
 	"00000000-0000-0000-0000-000000000000");
@@ -3760,7 +3760,7 @@ INSERT INTO GD_GE
 	"03ed7ade-a575-4c20-8e04-0164018f5b41",
 	35,
 	0,
-	'escher::ooaofooa::Association::R204::Class As Associated Other Side');
+	'mcooa::ooaofooa::Association::R204::Class As Associated Other Side');
 INSERT INTO GD_CON
 	VALUES ("b98a599e-a2f3-4923-b0f1-4b0600a962a4",
 	"00000000-0000-0000-0000-000000000000");
@@ -3873,7 +3873,7 @@ INSERT INTO GD_GE
 	"c07f149f-e17a-4217-b455-90615da80cc6",
 	24,
 	0,
-	'escher::ooaofooa::Association::R202');
+	'mcooa::ooaofooa::Association::R202');
 INSERT INTO GD_CON
 	VALUES ("6b81ac3e-8577-4ca0-8929-497d9cb3dd8e",
 	"00000000-0000-0000-0000-000000000000");
@@ -3973,7 +3973,7 @@ INSERT INTO GD_GE
 	"7d68d167-79df-408f-b2ae-a57eafa48a3b",
 	35,
 	0,
-	'escher::ooaofooa::Association::R203::Class As Derived One Side');
+	'mcooa::ooaofooa::Association::R203::Class As Derived One Side');
 INSERT INTO GD_CON
 	VALUES ("decc327c-3796-4a0a-bc95-ef95a40702af",
 	"00000000-0000-0000-0000-000000000000");
@@ -4086,7 +4086,7 @@ INSERT INTO GD_GE
 	"5739fa57-178d-45d5-9312-788d79745b4a",
 	35,
 	0,
-	'escher::ooaofooa::Association::R203::Class As Derived Other Side');
+	'mcooa::ooaofooa::Association::R203::Class As Derived Other Side');
 INSERT INTO GD_CON
 	VALUES ("db7211e3-ff94-4b7a-9cc7-18e363927037",
 	"00000000-0000-0000-0000-000000000000");
@@ -5512,8 +5512,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -5539,7 +5539,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

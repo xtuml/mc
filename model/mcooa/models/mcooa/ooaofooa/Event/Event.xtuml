@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("a1ecbe0c-db17-4558-a213-948cbc15c0ba",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Event',
 	'This subsystem focuses on the creation and generation
 of events. Events to instances, class, creators and
@@ -34,14 +34,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'escher::ooaofooa::Event');
+	'mcooa::ooaofooa::Event');
 INSERT INTO GD_GE
 	VALUES ("50fb0978-61c5-4e63-ad85-b409c44d48bc",
 	"5f957ed2-0464-4b0c-8f6f-e37751652a9d",
 	"14ef89ce-6d3f-4339-9aea-4c4fd0c3ef9d",
 	21,
 	0,
-	'escher::ooaofooa::Event::Generate');
+	'mcooa::ooaofooa::Event::Generate');
 INSERT INTO GD_SHP
 	VALUES ("50fb0978-61c5-4e63-ad85-b409c44d48bc");
 INSERT INTO GD_NCS
@@ -75,7 +75,7 @@ INSERT INTO GD_GE
 	"46d63fa7-1768-478c-a2eb-82dd22f8aa61",
 	21,
 	0,
-	'escher::ooaofooa::Event::Generate to Class');
+	'mcooa::ooaofooa::Event::Generate to Class');
 INSERT INTO GD_SHP
 	VALUES ("dd4ad21e-b009-4c79-b86c-803ec11d2c95");
 INSERT INTO GD_NCS
@@ -104,7 +104,7 @@ INSERT INTO GD_GE
 	"7dbd5e6d-2c7c-4b50-8f7c-76472784991f",
 	21,
 	0,
-	'escher::ooaofooa::Event::Generate to External Entity');
+	'mcooa::ooaofooa::Event::Generate to External Entity');
 INSERT INTO GD_SHP
 	VALUES ("03fdb946-3e17-4072-9d72-c50abaf0b243");
 INSERT INTO GD_NCS
@@ -138,7 +138,7 @@ INSERT INTO GD_GE
 	"74b3f118-4b05-4e48-ac2b-aa4ff776be89",
 	21,
 	0,
-	'escher::ooaofooa::Event::Generate Preexisting Event');
+	'mcooa::ooaofooa::Event::Generate Preexisting Event');
 INSERT INTO GD_SHP
 	VALUES ("7150ed02-9d1c-49b2-ac12-984bb465408c");
 INSERT INTO GD_NCS
@@ -182,7 +182,7 @@ INSERT INTO GD_GE
 	"1e562a07-0c38-47dd-a795-18bfd4690d72",
 	21,
 	0,
-	'escher::ooaofooa::Event::Create Event to Instance');
+	'mcooa::ooaofooa::Event::Create Event to Instance');
 INSERT INTO GD_SHP
 	VALUES ("aba327c4-73cd-4dd9-a943-81d4d6765d9f");
 INSERT INTO GD_NCS
@@ -216,7 +216,7 @@ INSERT INTO GD_GE
 	"c1d2f0a7-0e70-47e5-95cf-a3a6675f884d",
 	21,
 	0,
-	'escher::ooaofooa::Event::Create Event to Class');
+	'mcooa::ooaofooa::Event::Create Event to Class');
 INSERT INTO GD_SHP
 	VALUES ("9e0aee17-be6e-4a6d-9dd6-8a2b5fa9ad77");
 INSERT INTO GD_NCS
@@ -245,7 +245,7 @@ INSERT INTO GD_GE
 	"481a2369-8db6-41c7-9004-5451aeac2175",
 	21,
 	0,
-	'escher::ooaofooa::Event::Create Event to External Entity');
+	'mcooa::ooaofooa::Event::Create Event to External Entity');
 INSERT INTO GD_SHP
 	VALUES ("994f342e-8b48-4c91-a252-265517c0d59b");
 INSERT INTO GD_NCS
@@ -279,7 +279,7 @@ INSERT INTO GD_GE
 	"f1031903-82be-46d6-b552-f0098bf232fe",
 	21,
 	0,
-	'escher::ooaofooa::Event::Create Event to Creator');
+	'mcooa::ooaofooa::Event::Create Event to Creator');
 INSERT INTO GD_SHP
 	VALUES ("de4f6668-d906-48d4-8a61-8da8ddb68650");
 INSERT INTO GD_NCS
@@ -308,7 +308,7 @@ INSERT INTO GD_GE
 	"7777605b-2976-4800-b081-43dbee0b2f04",
 	21,
 	0,
-	'escher::ooaofooa::Event::Generate to Creator');
+	'mcooa::ooaofooa::Event::Generate to Creator');
 INSERT INTO GD_SHP
 	VALUES ("452a8989-5568-4f45-8a3e-2486c0beb810");
 INSERT INTO GD_NCS
@@ -337,7 +337,7 @@ INSERT INTO GD_GE
 	"8240c3c5-4bb7-4293-b4d5-409aca7399d9",
 	21,
 	0,
-	'escher::ooaofooa::Event::Event Specification Statement');
+	'mcooa::ooaofooa::Event::Event Specification Statement');
 INSERT INTO GD_SHP
 	VALUES ("af2ce79d-e423-4ff8-9df7-fe10ccbff296");
 INSERT INTO GD_NCS
@@ -371,7 +371,7 @@ INSERT INTO GD_GE
 	"795d7c4f-c216-4007-9e7d-8c1fc049fe5b",
 	21,
 	0,
-	'escher::ooaofooa::Event::Create Event Statement');
+	'mcooa::ooaofooa::Event::Create Event Statement');
 INSERT INTO GD_SHP
 	VALUES ("268f390b-3661-4e36-b610-c69e696c74ab");
 INSERT INTO GD_NCS
@@ -410,7 +410,7 @@ INSERT INTO GD_GE
 	"feb60544-286c-43c8-a43c-1da71c02e05b",
 	21,
 	0,
-	'escher::ooaofooa::Event::Generate Event Statement');
+	'mcooa::ooaofooa::Event::Generate Event Statement');
 INSERT INTO GD_SHP
 	VALUES ("42e7dcd6-8e49-4c07-9459-4cd172c42d60");
 INSERT INTO GD_NCS
@@ -444,7 +444,7 @@ INSERT INTO GD_GE
 	"0806199e-cb53-4525-96d8-ee907c19544f",
 	21,
 	0,
-	'escher::ooaofooa::Event::Create SM Event Statement');
+	'mcooa::ooaofooa::Event::Create SM Event Statement');
 INSERT INTO GD_SHP
 	VALUES ("ef0657b5-e5aa-456e-acb0-92c68db55f56");
 INSERT INTO GD_NCS
@@ -483,7 +483,7 @@ INSERT INTO GD_GE
 	"c1ee4642-4d42-4166-b0de-b3f2a0c23d42",
 	21,
 	0,
-	'escher::ooaofooa::Event::Generate SM Event Statement');
+	'mcooa::ooaofooa::Event::Generate SM Event Statement');
 INSERT INTO GD_SHP
 	VALUES ("8238a8e1-2334-433f-82c7-81e804313efd");
 INSERT INTO GD_NCS
@@ -522,7 +522,7 @@ INSERT INTO GD_GE
 	"804843e4-f799-46c2-bea8-b91d46be8bc3",
 	23,
 	0,
-	'escher::ooaofooa::Event::Actual Parameter');
+	'mcooa::ooaofooa::Event::Actual Parameter');
 INSERT INTO GD_SHP
 	VALUES ("d5e1d2cf-4818-4b4e-ab05-d41538e06e4e");
 INSERT INTO GD_NCS
@@ -551,7 +551,7 @@ INSERT INTO GD_GE
 	"aa853dfb-cee5-4aad-bdd8-e268a9865af1",
 	23,
 	0,
-	'escher::ooaofooa::Event::Variable');
+	'mcooa::ooaofooa::Event::Variable');
 INSERT INTO GD_SHP
 	VALUES ("50d6090a-4314-4de9-a9d1-1f8438a03b9a");
 INSERT INTO GD_NCS
@@ -585,7 +585,7 @@ INSERT INTO GD_GE
 	"e0acfba9-eabe-4918-a6ae-0c1d0c4f58a5",
 	23,
 	0,
-	'escher::ooaofooa::Event::Variable');
+	'mcooa::ooaofooa::Event::Variable');
 INSERT INTO GD_SHP
 	VALUES ("b56e5bfd-4ac8-41b9-9c8e-9997863fe7a8");
 INSERT INTO GD_NCS
@@ -619,7 +619,7 @@ INSERT INTO GD_GE
 	"bf0c5599-468b-4d15-bd03-a459e5deef78",
 	23,
 	0,
-	'escher::ooaofooa::Event::External Entity Event');
+	'mcooa::ooaofooa::Event::External Entity Event');
 INSERT INTO GD_SHP
 	VALUES ("0def4764-7a08-4409-8eca-7d910fb83c54");
 INSERT INTO GD_NCS
@@ -653,7 +653,7 @@ INSERT INTO GD_GE
 	"d2299336-06d4-4949-ae45-295a4b48a1bc",
 	23,
 	0,
-	'escher::ooaofooa::Event::State Machine Event');
+	'mcooa::ooaofooa::Event::State Machine Event');
 INSERT INTO GD_SHP
 	VALUES ("239f72ec-c945-4e26-a403-9e94aeb6db7e");
 INSERT INTO GD_NCS
@@ -687,7 +687,7 @@ INSERT INTO GD_GE
 	"ffa0b336-1a06-4c80-b467-5cfafecf9361",
 	36,
 	0,
-	'escher::ooaofooa::Event::R701');
+	'mcooa::ooaofooa::Event::R701');
 INSERT INTO GD_CON
 	VALUES ("c38f17cd-499d-415e-b42a-2719c8137634",
 	"00000000-0000-0000-0000-000000000000");
@@ -803,7 +803,7 @@ INSERT INTO GD_GE
 	"53693f84-6211-424a-b2f4-c70bbfc61a0d",
 	35,
 	0,
-	'escher::ooaofooa::Event::R701::Create Event Statement');
+	'mcooa::ooaofooa::Event::R701::Create Event Statement');
 INSERT INTO GD_CON
 	VALUES ("2d35640e-5afc-489d-a249-180e564a93e7",
 	"00000000-0000-0000-0000-000000000000");
@@ -903,7 +903,7 @@ INSERT INTO GD_GE
 	"0ef2870d-a415-4f47-9097-888b9061a4fa",
 	35,
 	0,
-	'escher::ooaofooa::Event::R701::Generate Event Statement');
+	'mcooa::ooaofooa::Event::R701::Generate Event Statement');
 INSERT INTO GD_CON
 	VALUES ("735eb3db-b435-4eac-89db-7a4320983088",
 	"00000000-0000-0000-0000-000000000000");
@@ -1003,7 +1003,7 @@ INSERT INTO GD_GE
 	"141bb267-1f4e-4741-9058-0e5f839cc3e3",
 	36,
 	0,
-	'escher::ooaofooa::Event::R702');
+	'mcooa::ooaofooa::Event::R702');
 INSERT INTO GD_CON
 	VALUES ("307be7d7-e22b-4c1b-8717-0e075bb3a9f8",
 	"00000000-0000-0000-0000-000000000000");
@@ -1119,7 +1119,7 @@ INSERT INTO GD_GE
 	"5ae09d8a-8379-4dca-9243-e5c0386cbabc",
 	35,
 	0,
-	'escher::ooaofooa::Event::R702::Create Event to External Entity');
+	'mcooa::ooaofooa::Event::R702::Create Event to External Entity');
 INSERT INTO GD_CON
 	VALUES ("6de15d58-cb6c-4848-8126-f73dba9807e7",
 	"00000000-0000-0000-0000-000000000000");
@@ -1219,7 +1219,7 @@ INSERT INTO GD_GE
 	"d632f97a-ecc0-4312-9ba4-1b84eb4b975d",
 	36,
 	0,
-	'escher::ooaofooa::Event::R703');
+	'mcooa::ooaofooa::Event::R703');
 INSERT INTO GD_CON
 	VALUES ("803cf6f4-e047-45e3-a3e5-e4008db5503f",
 	"00000000-0000-0000-0000-000000000000");
@@ -1335,7 +1335,7 @@ INSERT INTO GD_GE
 	"fe26008c-8c4b-4e7c-b809-e840d8bc18f5",
 	35,
 	0,
-	'escher::ooaofooa::Event::R702::Create SM Event Statement');
+	'mcooa::ooaofooa::Event::R702::Create SM Event Statement');
 INSERT INTO GD_CON
 	VALUES ("ea963543-1283-426c-814e-c8bde313ad07",
 	"00000000-0000-0000-0000-000000000000");
@@ -1435,7 +1435,7 @@ INSERT INTO GD_GE
 	"c9cc501e-5521-43ef-9b67-d457740adc2f",
 	36,
 	0,
-	'escher::ooaofooa::Event::R704');
+	'mcooa::ooaofooa::Event::R704');
 INSERT INTO GD_CON
 	VALUES ("fcd904b5-0738-4fba-bf32-8ade3a1d7d52",
 	"00000000-0000-0000-0000-000000000000");
@@ -1559,7 +1559,7 @@ INSERT INTO GD_GE
 	"e260db10-068d-4476-b025-d3daa1c3019a",
 	35,
 	0,
-	'escher::ooaofooa::Event::R704::Create Event to Instance');
+	'mcooa::ooaofooa::Event::R704::Create Event to Instance');
 INSERT INTO GD_CON
 	VALUES ("fa0bf619-9a66-4d30-894c-83c67ae7b67c",
 	"00000000-0000-0000-0000-000000000000");
@@ -1672,7 +1672,7 @@ INSERT INTO GD_GE
 	"2a38b64a-7fce-4249-9ea0-01996b967147",
 	35,
 	0,
-	'escher::ooaofooa::Event::R704::Create Event to Class');
+	'mcooa::ooaofooa::Event::R704::Create Event to Class');
 INSERT INTO GD_CON
 	VALUES ("cd5beca5-b2c3-4e2a-9559-2d9814c37976",
 	"00000000-0000-0000-0000-000000000000");
@@ -1772,7 +1772,7 @@ INSERT INTO GD_GE
 	"c5af76be-4044-4ed7-8466-2baf9e53c379",
 	35,
 	0,
-	'escher::ooaofooa::Event::R704::Create Event to Creator');
+	'mcooa::ooaofooa::Event::R704::Create Event to Creator');
 INSERT INTO GD_CON
 	VALUES ("307a96b5-92ab-4767-b100-db4532cc8a78",
 	"00000000-0000-0000-0000-000000000000");
@@ -1885,7 +1885,7 @@ INSERT INTO GD_GE
 	"0831e877-0ce1-485f-8f4c-07cf8377a0e3",
 	35,
 	0,
-	'escher::ooaofooa::Event::R703::Generate to External Entity');
+	'mcooa::ooaofooa::Event::R703::Generate to External Entity');
 INSERT INTO GD_CON
 	VALUES ("a60a00d5-69c2-4aab-91e7-f1127d6b5c3d",
 	"00000000-0000-0000-0000-000000000000");
@@ -1985,7 +1985,7 @@ INSERT INTO GD_GE
 	"44f61e3a-b69d-46c2-89dc-0ac428dbb77e",
 	35,
 	0,
-	'escher::ooaofooa::Event::R703::Generate SM Event Statement');
+	'mcooa::ooaofooa::Event::R703::Generate SM Event Statement');
 INSERT INTO GD_CON
 	VALUES ("46ecff3b-88be-4059-b787-b62d57b455f2",
 	"00000000-0000-0000-0000-000000000000");
@@ -2085,7 +2085,7 @@ INSERT INTO GD_GE
 	"fa4ceaeb-6d69-4141-bb5e-685416c9e278",
 	36,
 	0,
-	'escher::ooaofooa::Event::R705');
+	'mcooa::ooaofooa::Event::R705');
 INSERT INTO GD_CON
 	VALUES ("a6d5556d-1858-428c-8737-751f6f441014",
 	"00000000-0000-0000-0000-000000000000");
@@ -2209,7 +2209,7 @@ INSERT INTO GD_GE
 	"6cc671a1-da1e-478d-a54a-1b5da56cc14a",
 	35,
 	0,
-	'escher::ooaofooa::Event::R705::Generate');
+	'mcooa::ooaofooa::Event::R705::Generate');
 INSERT INTO GD_CON
 	VALUES ("6fd2fad3-32d5-4a49-9a0a-99e91db17311",
 	"00000000-0000-0000-0000-000000000000");
@@ -2309,7 +2309,7 @@ INSERT INTO GD_GE
 	"3cc48584-ca01-44fc-8100-4ddf12ac1d18",
 	35,
 	0,
-	'escher::ooaofooa::Event::R705::Generate to Class');
+	'mcooa::ooaofooa::Event::R705::Generate to Class');
 INSERT INTO GD_CON
 	VALUES ("808d5685-c77a-476b-bf35-2ccc27814a1e",
 	"00000000-0000-0000-0000-000000000000");
@@ -2422,7 +2422,7 @@ INSERT INTO GD_GE
 	"5052f8ec-ec6c-479b-9467-d506be82ca78",
 	35,
 	0,
-	'escher::ooaofooa::Event::R705::Generate to Creator');
+	'mcooa::ooaofooa::Event::R705::Generate to Creator');
 INSERT INTO GD_CON
 	VALUES ("c665a3fa-3747-4f02-b74c-8ed02dad5af8",
 	"00000000-0000-0000-0000-000000000000");
@@ -2522,7 +2522,7 @@ INSERT INTO GD_GE
 	"4e55d2b9-4dc1-41dd-b14d-8d7aa255bf9a",
 	24,
 	0,
-	'escher::ooaofooa::Event::R711');
+	'mcooa::ooaofooa::Event::R711');
 INSERT INTO GD_CON
 	VALUES ("ef08c0eb-3b89-438e-b5fe-d50ce91e47be",
 	"00000000-0000-0000-0000-000000000000");
@@ -2622,7 +2622,7 @@ INSERT INTO GD_GE
 	"a3201b5f-7764-4524-8257-8b31027c90dc",
 	24,
 	0,
-	'escher::ooaofooa::Event::R710');
+	'mcooa::ooaofooa::Event::R710');
 INSERT INTO GD_CON
 	VALUES ("51506306-9bdc-4e7d-bb4c-18330ceeb867",
 	"00000000-0000-0000-0000-000000000000");
@@ -2722,7 +2722,7 @@ INSERT INTO GD_GE
 	"85b70d0f-e481-472d-805e-41eb69599809",
 	24,
 	0,
-	'escher::ooaofooa::Event::R712');
+	'mcooa::ooaofooa::Event::R712');
 INSERT INTO GD_CON
 	VALUES ("6c0b2de3-ab1e-4019-868a-988fbea0c8d8",
 	"00000000-0000-0000-0000-000000000000");
@@ -2822,7 +2822,7 @@ INSERT INTO GD_GE
 	"28eb6097-e0d5-4c07-816d-1b3191a0277a",
 	24,
 	0,
-	'escher::ooaofooa::Event::R708');
+	'mcooa::ooaofooa::Event::R708');
 INSERT INTO GD_CON
 	VALUES ("2324a974-be50-48ba-a5b4-32e43b9dcd10",
 	"00000000-0000-0000-0000-000000000000");
@@ -2922,7 +2922,7 @@ INSERT INTO GD_GE
 	"f608df28-ab09-4d01-ac43-4d4d4ee9e0a6",
 	24,
 	0,
-	'escher::ooaofooa::Event::R709');
+	'mcooa::ooaofooa::Event::R709');
 INSERT INTO GD_CON
 	VALUES ("9b4df509-dfbf-466b-a39e-1674fd38b54e",
 	"00000000-0000-0000-0000-000000000000");
@@ -3022,7 +3022,7 @@ INSERT INTO GD_GE
 	"8f4be264-4f63-423f-9849-c8bdc48e89fa",
 	24,
 	0,
-	'escher::ooaofooa::Event::R706');
+	'mcooa::ooaofooa::Event::R706');
 INSERT INTO GD_CON
 	VALUES ("2e7ec95e-a238-4ec7-85e2-0e625ee8a856",
 	"00000000-0000-0000-0000-000000000000");
@@ -3135,7 +3135,7 @@ INSERT INTO GD_GE
 	"1c7437eb-0237-444a-9180-2458896660f4",
 	24,
 	0,
-	'escher::ooaofooa::Event::R707');
+	'mcooa::ooaofooa::Event::R707');
 INSERT INTO GD_CON
 	VALUES ("45966e31-2dbb-45f5-a4c7-d7931f6cb32d",
 	"00000000-0000-0000-0000-000000000000");
@@ -3248,7 +3248,7 @@ INSERT INTO GD_GE
 	"be992736-a650-471a-9cb5-d3a0373bd027",
 	24,
 	0,
-	'escher::ooaofooa::Event::R700');
+	'mcooa::ooaofooa::Event::R700');
 INSERT INTO GD_CON
 	VALUES ("91fb45bb-38fc-44e3-8614-910030ab5088",
 	"00000000-0000-0000-0000-000000000000");
@@ -3348,7 +3348,7 @@ INSERT INTO GD_GE
 	"303fc9c0-1bb1-4dfe-ae73-f900d5cdc5f6",
 	23,
 	0,
-	'escher::ooaofooa::Event::Value');
+	'mcooa::ooaofooa::Event::Value');
 INSERT INTO GD_SHP
 	VALUES ("d7c31ba9-0104-4b88-8ac5-f4a5c3f2a51f");
 INSERT INTO GD_NCS
@@ -3377,7 +3377,7 @@ INSERT INTO GD_GE
 	"1beed8c1-aeb6-4221-9f38-21a8cafa6d0d",
 	24,
 	0,
-	'escher::ooaofooa::Event::R714');
+	'mcooa::ooaofooa::Event::R714');
 INSERT INTO GD_CON
 	VALUES ("90613e0d-6c05-46e8-966d-e89386261c9b",
 	"00000000-0000-0000-0000-000000000000");
@@ -4971,8 +4971,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -4998,7 +4998,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

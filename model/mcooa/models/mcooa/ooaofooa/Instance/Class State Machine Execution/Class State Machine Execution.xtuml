@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("8178a45b-56be-421c-938c-5e88b6e12212",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Class State Machine Execution',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE_FOR_EXTERNAL_USE:FALSE
@@ -28,14 +28,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'escher::ooaofooa::Instance::Class State Machine Execution');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution');
 INSERT INTO GD_GE
 	VALUES ("59b41eeb-71e2-4d53-87df-ea84460d1408",
 	"c00c032e-a2ba-49ed-a6b3-5429401aab43",
 	"a77ac345-9ad9-4711-bb91-2a991c0e9276",
 	23,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::Model Class');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::Model Class');
 INSERT INTO GD_SHP
 	VALUES ("59b41eeb-71e2-4d53-87df-ea84460d1408");
 INSERT INTO GD_NCS
@@ -69,7 +69,7 @@ INSERT INTO GD_GE
 	"d89c00d0-52b0-4240-84e8-3a715897f751",
 	21,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::Class In Engine');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::Class In Engine');
 INSERT INTO GD_SHP
 	VALUES ("f8c36703-86a6-45d9-928d-e4879d7ec921");
 INSERT INTO GD_NCS
@@ -138,7 +138,7 @@ INSERT INTO GD_GE
 	"ff5d80b4-f33a-4833-9f44-0afbc3b5fd97",
 	23,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::Instance');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::Instance');
 INSERT INTO GD_SHP
 	VALUES ("3a6aa75b-da8c-471d-8316-7ea6e92b0eaa");
 INSERT INTO GD_NCS
@@ -172,7 +172,7 @@ INSERT INTO GD_GE
 	"df843a34-f3b5-4770-af80-7c61fc545460",
 	23,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::Component Instance');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::Component Instance');
 INSERT INTO GD_SHP
 	VALUES ("f5788fa3-f08e-4b8c-87b6-5a68f091f6bd");
 INSERT INTO GD_NCS
@@ -206,7 +206,7 @@ INSERT INTO GD_GE
 	"95d68d06-22d4-4cdb-a763-c71ceeb21f28",
 	21,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::Class Monitor');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::Class Monitor');
 INSERT INTO GD_SHP
 	VALUES ("9e7038c0-8f87-4cf0-bb97-c3b7d6073d99");
 INSERT INTO GD_NCS
@@ -240,7 +240,7 @@ INSERT INTO GD_GE
 	"1ab0f4a7-6f7f-4fcb-9134-7cbbf2c86d5a",
 	24,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2950');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2950');
 INSERT INTO GD_CON
 	VALUES ("35331d16-5852-40a0-9454-61811907a44e",
 	"00000000-0000-0000-0000-000000000000");
@@ -348,7 +348,7 @@ INSERT INTO GD_GE
 	"1ab0f4a7-6f7f-4fcb-9134-7cbbf2c86d5a",
 	34,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2950::Class Monitor');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2950::Class Monitor');
 INSERT INTO GD_CON
 	VALUES ("27f622e9-b01d-4705-83f2-232a84e99067",
 	"00000000-0000-0000-0000-000000000000");
@@ -448,7 +448,7 @@ INSERT INTO GD_GE
 	"a1b60563-b73b-4433-ad09-4958a5733422",
 	23,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::State Machine State');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::State Machine State');
 INSERT INTO GD_SHP
 	VALUES ("09faf4a0-95d0-4456-abc5-c58d5769406a");
 INSERT INTO GD_NCS
@@ -477,7 +477,7 @@ INSERT INTO GD_GE
 	"3ccb9028-e5a0-44ab-ade6-ab8c0f83bc33",
 	21,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::Class In State');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::Class In State');
 INSERT INTO GD_SHP
 	VALUES ("c590195a-71ba-4d77-9c66-d7eb285846ae");
 INSERT INTO GD_NCS
@@ -511,7 +511,7 @@ INSERT INTO GD_GE
 	"68ff100c-6047-4d0a-a3e2-572c1510e698",
 	24,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2932');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2932');
 INSERT INTO GD_CON
 	VALUES ("b87fd6a5-560f-4db4-ad7e-ae9453269cc8",
 	"00000000-0000-0000-0000-000000000000");
@@ -619,7 +619,7 @@ INSERT INTO GD_GE
 	"68ff100c-6047-4d0a-a3e2-572c1510e698",
 	34,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2932::Class In State');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2932::Class In State');
 INSERT INTO GD_CON
 	VALUES ("129e5368-f0e4-4c25-91e8-fb242f020d86",
 	"00000000-0000-0000-0000-000000000000");
@@ -719,7 +719,7 @@ INSERT INTO GD_GE
 	"d1324270-e408-42d4-9564-97ab915f8d22",
 	23,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::Transition');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::Transition');
 INSERT INTO GD_SHP
 	VALUES ("953da64c-d67f-46e8-8088-78b4066093ef");
 INSERT INTO GD_NCS
@@ -748,7 +748,7 @@ INSERT INTO GD_GE
 	"12830154-e418-4cc4-bd3f-d8260acc3d4c",
 	24,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2952');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2952');
 INSERT INTO GD_CON
 	VALUES ("c2808e10-dcff-46c1-8db6-6b5a6d50b68b",
 	"00000000-0000-0000-0000-000000000000");
@@ -848,7 +848,7 @@ INSERT INTO GD_GE
 	"3d41783e-6697-4391-8b95-32c947050c25",
 	23,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::Pending Event');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::Pending Event');
 INSERT INTO GD_SHP
 	VALUES ("c3dc70d0-4864-48bb-9874-a9e6c5ae6be3");
 INSERT INTO GD_NCS
@@ -882,7 +882,7 @@ INSERT INTO GD_GE
 	"a6893da0-a25d-4168-8a1b-7f7857b201eb",
 	24,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2931');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2931');
 INSERT INTO GD_CON
 	VALUES ("4a2064d3-a3de-406c-b121-a15c9c537323",
 	"00000000-0000-0000-0000-000000000000");
@@ -995,7 +995,7 @@ INSERT INTO GD_GE
 	"298e0cd9-3356-4c60-ae9c-cf3705d022ea",
 	24,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2938');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2938');
 INSERT INTO GD_CON
 	VALUES ("b8160cac-94fb-4e71-a9f3-6de83c8cfc02",
 	"00000000-0000-0000-0000-000000000000");
@@ -1108,7 +1108,7 @@ INSERT INTO GD_GE
 	"e046ba7d-7518-412b-9fd9-7d2be8698c13",
 	24,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2960');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2960');
 INSERT INTO GD_CON
 	VALUES ("2bd60885-8b92-4faa-9647-bfbc3ce74881",
 	"00000000-0000-0000-0000-000000000000");
@@ -1208,7 +1208,7 @@ INSERT INTO GD_GE
 	"dbb65302-9c33-4e27-b4a6-381fd6d4e584",
 	24,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2961');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2961');
 INSERT INTO GD_CON
 	VALUES ("af9b8181-c218-4e4b-a086-9f93526de928",
 	"00000000-0000-0000-0000-000000000000");
@@ -1308,7 +1308,7 @@ INSERT INTO GD_GE
 	"5c7e1335-6838-4186-ba76-b2e378768946",
 	24,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2962');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2962');
 INSERT INTO GD_CON
 	VALUES ("fbfb040d-8d44-45bb-b2d3-bb4a2dec115d",
 	"00000000-0000-0000-0000-000000000000");
@@ -1408,7 +1408,7 @@ INSERT INTO GD_GE
 	"41f06946-6b65-4c9a-8b10-796fb2e1cefe",
 	23,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::Package');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::Package');
 INSERT INTO GD_SHP
 	VALUES ("a1cc178d-ded6-4c77-af44-f68284313ae4");
 INSERT INTO GD_NCS
@@ -1437,7 +1437,7 @@ INSERT INTO GD_GE
 	"efc8d688-394c-4868-b2e1-96416885fe3b",
 	24,
 	0,
-	'escher::ooaofooa::Instance::Class State Machine Execution::R2971');
+	'mcooa::ooaofooa::Instance::Class State Machine Execution::R2971');
 INSERT INTO GD_CON
 	VALUES ("3735fcd9-2a84-43e3-98e5-14599ab826b6",
 	"00000000-0000-0000-0000-000000000000");
@@ -2340,7 +2340,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("65570d87-afb2-472a-8589-f2347f9f0e6b",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Instance',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE_FOR_EXTERNAL_USE:FALSE
@@ -2349,7 +2349,7 @@ Import: java.util.concurrent.locks.ReentrantLock',
 	900,
 	'../Instance.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../../escher.xtuml');
+	'../../../mcooa.xtuml');

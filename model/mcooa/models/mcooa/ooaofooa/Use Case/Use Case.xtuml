@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("5e93428b-84cc-4028-810c-54b20fc959af",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Use Case',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE_FOR_EXTERNAL_USE:FALSE',
@@ -26,14 +26,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'escher::ooaofooa::Use Case');
+	'mcooa::ooaofooa::Use Case');
 INSERT INTO GD_GE
 	VALUES ("2601a96e-ace8-4603-b73f-d10955d74ad4",
 	"46f9d6ad-5daa-4217-b7a9-131cf6382329",
 	"216b177b-d9f1-4cef-a44c-62c696c6785f",
 	21,
 	0,
-	'escher::ooaofooa::Use Case::Use Case Association');
+	'mcooa::ooaofooa::Use Case::Use Case Association');
 INSERT INTO GD_SHP
 	VALUES ("2601a96e-ace8-4603-b73f-d10955d74ad4");
 INSERT INTO GD_NCS
@@ -97,7 +97,7 @@ INSERT INTO GD_GE
 	"0a84e39f-6f8a-4b53-9b12-bf3abe25a21b",
 	23,
 	0,
-	'escher::ooaofooa::Use Case::Interaction Participant');
+	'mcooa::ooaofooa::Use Case::Interaction Participant');
 INSERT INTO GD_SHP
 	VALUES ("de2d84ef-8a29-4793-aa1b-960402470ac8");
 INSERT INTO GD_NCS
@@ -151,7 +151,7 @@ INSERT INTO GD_GE
 	"8301e359-3730-4d70-b94f-660e0b7a0d01",
 	21,
 	0,
-	'escher::ooaofooa::Use Case::Binary Association');
+	'mcooa::ooaofooa::Use Case::Binary Association');
 INSERT INTO GD_SHP
 	VALUES ("b5f9ae47-0597-4e85-a682-05aa3d9f5bb6");
 INSERT INTO GD_NCS
@@ -185,7 +185,7 @@ INSERT INTO GD_GE
 	"0d08f60a-8725-4d62-82bc-0add1fc0ab7b",
 	21,
 	0,
-	'escher::ooaofooa::Use Case::Generalization');
+	'mcooa::ooaofooa::Use Case::Generalization');
 INSERT INTO GD_SHP
 	VALUES ("b08edc08-7147-4b8c-bcbd-cfc8e2c0f11f");
 INSERT INTO GD_NCS
@@ -214,7 +214,7 @@ INSERT INTO GD_GE
 	"6fc989a9-f501-404a-9c6b-e5764a8e015f",
 	21,
 	0,
-	'escher::ooaofooa::Use Case::Include');
+	'mcooa::ooaofooa::Use Case::Include');
 INSERT INTO GD_SHP
 	VALUES ("d1cf0f54-3bc6-442f-b91e-82baabb8f1fc");
 INSERT INTO GD_NCS
@@ -243,7 +243,7 @@ INSERT INTO GD_GE
 	"57af0635-c7fd-4225-b884-409eb0d30bbd",
 	21,
 	0,
-	'escher::ooaofooa::Use Case::Extend');
+	'mcooa::ooaofooa::Use Case::Extend');
 INSERT INTO GD_SHP
 	VALUES ("c87e0cb7-4d3b-443c-8cf2-d33342e875e6");
 INSERT INTO GD_NCS
@@ -272,7 +272,7 @@ INSERT INTO GD_GE
 	"7de87e15-e60e-4943-97ff-d6662ed9a68f",
 	36,
 	0,
-	'escher::ooaofooa::Use Case::R1210');
+	'mcooa::ooaofooa::Use Case::R1210');
 INSERT INTO GD_CON
 	VALUES ("ede8f7dd-bb67-4ee4-9058-1880d4d5caf2",
 	"00000000-0000-0000-0000-000000000000");
@@ -412,7 +412,7 @@ INSERT INTO GD_GE
 	"e9fb3b5d-c567-4639-9e84-1b73de06269c",
 	35,
 	0,
-	'escher::ooaofooa::Use Case::R1210::Extend');
+	'mcooa::ooaofooa::Use Case::R1210::Extend');
 INSERT INTO GD_CON
 	VALUES ("f589a772-1eba-48a2-9e10-1cdca019170e",
 	"00000000-0000-0000-0000-000000000000");
@@ -525,7 +525,7 @@ INSERT INTO GD_GE
 	"37ac9341-06d6-488e-9af1-bcfa1fa5b504",
 	35,
 	0,
-	'escher::ooaofooa::Use Case::R1210::Generalization');
+	'mcooa::ooaofooa::Use Case::R1210::Generalization');
 INSERT INTO GD_CON
 	VALUES ("7eb041ab-fdd6-4bc0-8f61-1409836e3c00",
 	"00000000-0000-0000-0000-000000000000");
@@ -638,7 +638,7 @@ INSERT INTO GD_GE
 	"ad1199bf-311e-4cb3-be22-92f7c9bf6023",
 	35,
 	0,
-	'escher::ooaofooa::Use Case::R1210::Include');
+	'mcooa::ooaofooa::Use Case::R1210::Include');
 INSERT INTO GD_CON
 	VALUES ("32ec559d-362a-412b-b1b1-1e9f60faccf9",
 	"00000000-0000-0000-0000-000000000000");
@@ -751,7 +751,7 @@ INSERT INTO GD_GE
 	"674a3990-3ce4-450f-ba48-d5ab5b724f22",
 	24,
 	0,
-	'escher::ooaofooa::Use Case::R1206');
+	'mcooa::ooaofooa::Use Case::R1206');
 INSERT INTO GD_CON
 	VALUES ("59f40982-75c8-49aa-bf66-b1795e795915",
 	"00000000-0000-0000-0000-000000000000");
@@ -851,7 +851,7 @@ INSERT INTO GD_GE
 	"01037fa5-580e-4f60-b24b-14012d7db7f0",
 	24,
 	0,
-	'escher::ooaofooa::Use Case::R1207');
+	'mcooa::ooaofooa::Use Case::R1207');
 INSERT INTO GD_CON
 	VALUES ("b722044c-bdcb-4124-82ad-d335d45210f9",
 	"00000000-0000-0000-0000-000000000000");
@@ -951,7 +951,7 @@ INSERT INTO GD_GE
 	"8e700f13-092a-4c15-afd9-eec98b76de43",
 	35,
 	0,
-	'escher::ooaofooa::Use Case::R1210::Binary Association');
+	'mcooa::ooaofooa::Use Case::R1210::Binary Association');
 INSERT INTO GD_CON
 	VALUES ("ac85d94e-2a09-43ba-afc0-29daf6491559",
 	"00000000-0000-0000-0000-000000000000");
@@ -1344,8 +1344,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -1371,7 +1371,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

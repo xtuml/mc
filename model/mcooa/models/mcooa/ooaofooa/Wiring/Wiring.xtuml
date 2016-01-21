@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("94674484-bc76-4e12-8176-095bdd0af187",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Wiring',
 	'Persistent:false
 ',
@@ -26,14 +26,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'escher::ooaofooa::Wiring');
+	'mcooa::ooaofooa::Wiring');
 INSERT INTO GD_GE
 	VALUES ("659e6cc2-3a58-4368-8e77-3f435f7f85f5",
 	"9feb81e7-4160-4533-92a5-c2a4a9221176",
 	"5daec0c8-1efe-4daf-9bfb-de0c9e80cded",
 	21,
 	0,
-	'escher::ooaofooa::Wiring::Automatic Wiring');
+	'mcooa::ooaofooa::Wiring::Automatic Wiring');
 INSERT INTO GD_SHP
 	VALUES ("659e6cc2-3a58-4368-8e77-3f435f7f85f5");
 INSERT INTO GD_NCS
@@ -67,7 +67,7 @@ INSERT INTO GD_GE
 	"82e767e0-71c7-40c7-8b68-abee4dc734ac",
 	23,
 	0,
-	'escher::ooaofooa::Wiring::Bridge');
+	'mcooa::ooaofooa::Wiring::Bridge');
 INSERT INTO GD_SHP
 	VALUES ("0354181d-d509-4081-bf30-0f6013dfcd34");
 INSERT INTO GD_NCS
@@ -96,7 +96,7 @@ INSERT INTO GD_GE
 	"b04c142e-477f-47b8-8565-01ca8a0aa1fb",
 	23,
 	0,
-	'escher::ooaofooa::Wiring::Function');
+	'mcooa::ooaofooa::Wiring::Function');
 INSERT INTO GD_SHP
 	VALUES ("deff240f-5b4a-4380-80cc-9dadc34523ed");
 INSERT INTO GD_NCS
@@ -125,7 +125,7 @@ INSERT INTO GD_GE
 	"706a8682-88e6-41d1-942e-9658893a53e9",
 	24,
 	0,
-	'escher::ooaofooa::Wiring::R3201');
+	'mcooa::ooaofooa::Wiring::R3201');
 INSERT INTO GD_CON
 	VALUES ("30c4c868-606a-4ea0-a56e-ae75279b2ac5",
 	"00000000-0000-0000-0000-000000000000");
@@ -225,7 +225,7 @@ INSERT INTO GD_GE
 	"005bda70-cad7-4403-917e-f2e7aaa3ac02",
 	24,
 	0,
-	'escher::ooaofooa::Wiring::R3200');
+	'mcooa::ooaofooa::Wiring::R3200');
 INSERT INTO GD_CON
 	VALUES ("132f6be4-0c64-4b4a-9076-538725cf6543",
 	"00000000-0000-0000-0000-000000000000");
@@ -512,8 +512,8 @@ INSERT INTO PE_PE
 	7);
 INSERT INTO EP_PKG_PROXY
 	VALUES ("53c53174-40a3-4d71-a2d9-4d8fbbf1e693",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'ooaofooa',
 	'========================================================================
 
@@ -539,7 +539,7 @@ for model capture.
 	0,
 	'../ooaofooa.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../escher.xtuml');
+	'../../mcooa.xtuml');

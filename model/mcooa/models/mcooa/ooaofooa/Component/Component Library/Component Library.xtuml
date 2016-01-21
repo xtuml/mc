@@ -3,7 +3,7 @@
 INSERT INTO EP_PKG
 	VALUES ("6bd45eb1-d4f7-4cfd-b535-53750ecce495",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Component Library',
 	'',
 	4700);
@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'escher::ooaofooa::Component::Component Library');
+	'mcooa::ooaofooa::Component::Component Library');
 INSERT INTO GD_GE
 	VALUES ("76347fb6-dbde-4e3f-a8a0-b29f63bda1a5",
 	"f82324e7-4307-4d51-9f54-8ad3acd54a50",
 	"02a2889d-a6d5-4d07-8172-70e52c652496",
 	21,
 	0,
-	'escher::ooaofooa::Component::Component Library::Imported Reference');
+	'mcooa::ooaofooa::Component::Component Library::Imported Reference');
 INSERT INTO GD_SHP
 	VALUES ("76347fb6-dbde-4e3f-a8a0-b29f63bda1a5");
 INSERT INTO GD_NCS
@@ -101,7 +101,7 @@ INSERT INTO GD_GE
 	"e8df4552-6754-4c07-95d6-ddfcb8d5a852",
 	21,
 	0,
-	'escher::ooaofooa::Component::Component Library::Component Reference');
+	'mcooa::ooaofooa::Component::Component Library::Component Reference');
 INSERT INTO GD_SHP
 	VALUES ("c67ad456-d029-4249-b9e9-7b8e5147245b");
 INSERT INTO GD_NCS
@@ -160,7 +160,7 @@ INSERT INTO GD_GE
 	"3ca86034-c12b-47a1-b317-25d2334b633f",
 	23,
 	0,
-	'escher::ooaofooa::Component::Component Library::Interface Reference');
+	'mcooa::ooaofooa::Component::Component Library::Interface Reference');
 INSERT INTO GD_SHP
 	VALUES ("60e67b19-65d3-4b85-90db-595dfa9373ec");
 INSERT INTO GD_NCS
@@ -189,7 +189,7 @@ INSERT INTO GD_GE
 	"809c86e8-3c6a-4f03-8aec-7c06b2d79d50",
 	24,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4701');
+	'mcooa::ooaofooa::Component::Component Library::R4701');
 INSERT INTO GD_CON
 	VALUES ("38296e99-4f7d-4bce-a523-586d2d03ed81",
 	"00000000-0000-0000-0000-000000000000");
@@ -289,7 +289,7 @@ INSERT INTO GD_GE
 	"7e4dcf80-ca14-476a-83d1-f4765df4dc96",
 	21,
 	0,
-	'escher::ooaofooa::Component::Component Library::Imported Provision');
+	'mcooa::ooaofooa::Component::Component Library::Imported Provision');
 INSERT INTO GD_SHP
 	VALUES ("991cda24-f4c0-41c5-87b3-5cdccbeb1f45");
 INSERT INTO GD_NCS
@@ -348,7 +348,7 @@ INSERT INTO GD_GE
 	"37a1865e-5315-4809-8e2d-5cf033caedce",
 	21,
 	0,
-	'escher::ooaofooa::Component::Component Library::Imported Requirement');
+	'mcooa::ooaofooa::Component::Component Library::Imported Requirement');
 INSERT INTO GD_SHP
 	VALUES ("e807e8c2-bbca-4af1-838e-a7a747eb5b7e");
 INSERT INTO GD_NCS
@@ -407,7 +407,7 @@ INSERT INTO GD_GE
 	"65486c93-9cf9-4f94-97af-7a5c8fe4d317",
 	36,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4703');
+	'mcooa::ooaofooa::Component::Component Library::R4703');
 INSERT INTO GD_CON
 	VALUES ("4184ff25-dfb4-4838-af89-28b32f6ba7f4",
 	"00000000-0000-0000-0000-000000000000");
@@ -523,7 +523,7 @@ INSERT INTO GD_GE
 	"c4c0de4f-e2d3-48cc-9a42-1fb6d5e3b2a9",
 	35,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4703::Imported Provision');
+	'mcooa::ooaofooa::Component::Component Library::R4703::Imported Provision');
 INSERT INTO GD_CON
 	VALUES ("c35cc6c5-9df6-4c0f-b720-af283a0b41ad",
 	"00000000-0000-0000-0000-000000000000");
@@ -636,7 +636,7 @@ INSERT INTO GD_GE
 	"227c0d2c-f5b6-413a-bb56-db472986ea11",
 	35,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4703::Imported Requirement');
+	'mcooa::ooaofooa::Component::Component Library::R4703::Imported Requirement');
 INSERT INTO GD_CON
 	VALUES ("1cf20680-3960-4c9a-a8c2-80bff3bb40b6",
 	"00000000-0000-0000-0000-000000000000");
@@ -749,7 +749,7 @@ INSERT INTO GD_GE
 	"76133bc5-1092-460e-b972-ecd69cd372a0",
 	23,
 	0,
-	'escher::ooaofooa::Component::Component Library::Delegation');
+	'mcooa::ooaofooa::Component::Component Library::Delegation');
 INSERT INTO GD_SHP
 	VALUES ("045d92d1-52e8-4893-bb56-10276205040c");
 INSERT INTO GD_NCS
@@ -778,7 +778,7 @@ INSERT INTO GD_GE
 	"498d22fe-454a-4513-bde1-2de4701d1671",
 	24,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4704');
+	'mcooa::ooaofooa::Component::Component Library::R4704');
 INSERT INTO GD_CON
 	VALUES ("f8670649-6c35-4c43-895b-4fc4ad94869d",
 	"00000000-0000-0000-0000-000000000000");
@@ -878,7 +878,7 @@ INSERT INTO GD_GE
 	"c42d4cf8-46dd-4d56-8deb-55e071e14369",
 	23,
 	0,
-	'escher::ooaofooa::Component::Component Library::Satisfaction');
+	'mcooa::ooaofooa::Component::Component Library::Satisfaction');
 INSERT INTO GD_SHP
 	VALUES ("817831a9-58e3-43c2-8be7-94feafb43601");
 INSERT INTO GD_NCS
@@ -912,7 +912,7 @@ INSERT INTO GD_GE
 	"233320c3-b6f6-4bd4-b3ea-5e76d454a681",
 	21,
 	0,
-	'escher::ooaofooa::Component::Component Library::Imported Provision In Satisfaction');
+	'mcooa::ooaofooa::Component::Component Library::Imported Provision In Satisfaction');
 INSERT INTO GD_SHP
 	VALUES ("a82200af-f18a-4369-b723-742ce1830637");
 INSERT INTO GD_NCS
@@ -941,7 +941,7 @@ INSERT INTO GD_GE
 	"0b4bffb6-63ac-4adb-a7bb-932d79b0215d",
 	24,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4705');
+	'mcooa::ooaofooa::Component::Component Library::R4705');
 INSERT INTO GD_CON
 	VALUES ("8a1664fb-bc67-40ae-a32b-821fff35c85d",
 	"00000000-0000-0000-0000-000000000000");
@@ -1049,7 +1049,7 @@ INSERT INTO GD_GE
 	"0b4bffb6-63ac-4adb-a7bb-932d79b0215d",
 	34,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4705::Imported Provision In Satisfaction');
+	'mcooa::ooaofooa::Component::Component Library::R4705::Imported Provision In Satisfaction');
 INSERT INTO GD_CON
 	VALUES ("8ed348bc-eea6-4dfd-a89d-0fb9590777a7",
 	"00000000-0000-0000-0000-000000000000");
@@ -1149,7 +1149,7 @@ INSERT INTO GD_GE
 	"f853913d-147d-4b21-8fc3-8476721ea860",
 	24,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4706');
+	'mcooa::ooaofooa::Component::Component Library::R4706');
 INSERT INTO GD_CON
 	VALUES ("23a333a0-3737-4a76-850f-11d5b257a259",
 	"00000000-0000-0000-0000-000000000000");
@@ -1249,7 +1249,7 @@ INSERT INTO GD_GE
 	"d934a5e7-4d6c-4f43-95b9-d0cd1535a77a",
 	21,
 	0,
-	'escher::ooaofooa::Component::Component Library::Port Reference');
+	'mcooa::ooaofooa::Component::Component Library::Port Reference');
 INSERT INTO GD_SHP
 	VALUES ("fe886bc2-473e-41c5-acf1-613fd3a3e12f");
 INSERT INTO GD_NCS
@@ -1288,7 +1288,7 @@ INSERT INTO GD_GE
 	"e727fc29-b6c1-40f6-9a11-83c99c1c3b04",
 	23,
 	0,
-	'escher::ooaofooa::Component::Component Library::Port');
+	'mcooa::ooaofooa::Component::Component Library::Port');
 INSERT INTO GD_SHP
 	VALUES ("12a0bf8f-951d-4d7c-a833-509743846eaf");
 INSERT INTO GD_NCS
@@ -1317,7 +1317,7 @@ INSERT INTO GD_GE
 	"3536e068-cfac-4c8c-a4b2-d1ca73f971d3",
 	24,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4707');
+	'mcooa::ooaofooa::Component::Component Library::R4707');
 INSERT INTO GD_CON
 	VALUES ("9fce83a0-070a-483c-9ba6-caf82d1348f5",
 	"00000000-0000-0000-0000-000000000000");
@@ -1417,7 +1417,7 @@ INSERT INTO GD_GE
 	"d0ce4c77-f1d1-46ea-b7b0-6673002e60ab",
 	24,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4708');
+	'mcooa::ooaofooa::Component::Component Library::R4708');
 INSERT INTO GD_CON
 	VALUES ("54b9ec14-385c-40f4-bd1e-47861591fcff",
 	"00000000-0000-0000-0000-000000000000");
@@ -1517,7 +1517,7 @@ INSERT INTO GD_GE
 	"5693edc9-2899-415c-a86d-646c57d33d08",
 	24,
 	0,
-	'escher::ooaofooa::Component::Component Library::R4709');
+	'mcooa::ooaofooa::Component::Component Library::R4709');
 INSERT INTO GD_CON
 	VALUES ("6bf3c2f3-9060-415b-b52d-dbd868c4c9e7",
 	"00000000-0000-0000-0000-000000000000");
@@ -2317,7 +2317,7 @@ INSERT INTO PE_PE
 INSERT INTO EP_PKG_PROXY
 	VALUES ("0386b376-83bc-4b96-90a7-65cedde5a0e3",
 	"00000000-0000-0000-0000-000000000000",
-	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"00c718a4-fada-4398-be36-d920a6735b6a",
 	'Component',
 	'// This is used by schema_gen to ignore this subsystem (for publication)
 TRANSLATE_FOR_EXTERNAL_USE:FALSE
@@ -2327,7 +2327,7 @@ required for modeling components.',
 	4000,
 	'../Component.xtuml');
 INSERT INTO S_SYS_PROXY
-	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'escher',
+	VALUES ("00c718a4-fada-4398-be36-d920a6735b6a",
+	'mcooa',
 	1,
-	'../../../escher.xtuml');
+	'../../../mcooa.xtuml');
