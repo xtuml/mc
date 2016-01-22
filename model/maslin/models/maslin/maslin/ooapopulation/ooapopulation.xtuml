@@ -169,7 +169,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Package>',
 	'',
 	'',
-	'../../../../../escher/models/escher/ooaofooa/Element Packaging/Element Packaging.xtuml');
+	'../../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
 INSERT INTO O_TFR
 	VALUES ("6d27ebf1-bb50-4835-85e2-b21d260ab92c",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -219,13 +219,6 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Package>',
-	'',
-	'',
-	'../../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("73477a97-5ece-48fc-b867-a6d17b3feb4a",
 	"9c97aa3a-d0d2-409c-86d0-9194db2476c5",
@@ -244,19 +237,24 @@ INSERT INTO O_TFR
 	1,
 	'self.createSystem();
 
-// TODO - This needs work.  As written it assumes a project will have already been created, this may not be true.
-//   Thus the wiring package may not exist, so we should check that before trying to create the component reference.
-//   Also, if a Project did come first, the domain/component may already exist because it would have been forward referenced there.
+// Create a component in the Library package if it doesn''t already exist
+lib_pkg = self.lib_pkg;
+select any c_c related by lib_pkg->PE_PE[R8000]->C_C[R8001] where ( param.name == selected.Name );
 
-// Create a component in the Library package
-c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
-self.Component_newPackage(c_c:c_c, pkg_name:"internals");
+if ( empty c_c )
+  c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
+  self.Component_newPackage(c_c:c_c, pkg_name:param.name);
 
-// Create a component reference in the project wiring package
-cl_ic = self.Package_newImportedComponent(ep_pkg:self.wiring_pkg);
+  // Create a component reference in the project wiring package
+  wiring_pkg = self.wiring_pkg;
+  if ( not_empty wiring_pkg )
+    cl_ic = self.Package_newImportedComponent(ep_pkg:self.wiring_pkg);
 
-// Assign the component reference to the component 
-self.ComponentReference_assignToComp(cl_ic:cl_ic, c_c:c_c);',
+    // Assign the component reference to the component 
+    self.ComponentReference_assignToComp(cl_ic:cl_ic, c_c:c_c);
+  end if;
+end if;
+',
 	1,
 	'',
 	"9438bf8f-4666-499e-9822-00e7b064286f");
@@ -315,7 +313,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Component>',
 	'',
 	'',
-	'../../../../../escher/models/escher/ooaofooa/Component/Component.xtuml');
+	'../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
 INSERT INTO O_TFR
 	VALUES ("69c066cc-2506-4998-b894-060151a8f78f",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -336,13 +334,6 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("67f93d18-1045-4c6c-b0d5-a692023c471c",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Component>',
-	'',
-	'',
-	'../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("9d676a9b-81ea-4e5a-8daa-b049672d005e",
 	"69c066cc-2506-4998-b894-060151a8f78f",
@@ -542,7 +533,7 @@ if ( empty s_sys )
   self.current_sys = s_sys;
 
   // Create a package named "Library" and cache it
-  self.lib_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"Library");
+  self.lib_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"library");
 end if;
 
 ',
@@ -577,7 +568,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	3,
+	1,
 	'',
 	"cd1f0452-4df9-45c5-949f-e319f8cb63e8");
 INSERT INTO O_TPARM
@@ -597,7 +588,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	3,
+	1,
 	'',
 	"87050544-e583-4582-86a9-367a73543eb0");
 INSERT INTO O_TFR
@@ -608,7 +599,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	3,
+	1,
 	'',
 	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80");
 INSERT INTO O_TFR
@@ -619,7 +610,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	3,
+	1,
 	'',
 	"10b41e09-87b2-4ef5-89ad-9ef4c39d9637");
 INSERT INTO O_TFR
@@ -630,7 +621,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	3,
+	1,
 	'',
 	"a442a038-3373-4282-a5fc-098af44e9cbe");
 INSERT INTO O_TFR
@@ -641,7 +632,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
-	3,
+	1,
 	'',
 	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
 INSERT INTO O_TFR
