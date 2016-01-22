@@ -67,15 +67,30 @@ UserPreOoaInitializationCalloutf( void )
  * When this callout function returns, the system dispatcher will allow the
  * xtUML application analysis state models to start consuming events.
  */
+#include <string.h>
 void
 UserPostOoaInitializationCalloutf( void )
 {
-  /* Insert implementation specific code here.  */
   int i;
+  char s[ 1024 ], element[ ESCHER_SYS_MAX_STRING_LEN ], value[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ];
+  char * p, * q;
+  T_clear();
+  while ( ( p = fgets( s, 1024, stdin ) ) != NULL ) {
+    int i, j;
+    i = 0;
+    p[ strlen(p) - 1 ] = 0;
+    if ( ( q = strsep( &p, "," ) ) != NULL ) Escher_strcpy( element, q );
+    while ( ( q = strsep(&p, ",")) != NULL ) { Escher_strcpy( value[ i++ ], q ); }
+    fprintf( stderr, "%s:", element );
+    for ( j=0; j<i; j++ ) {
+      fprintf( stderr, "%d%s", j, value[ j ] );
+    }
+    fprintf( stderr, "\n" );
+    maslin_in_populate( element, value );
+  }
   for ( i = 0; i < maslin_MAX_CLASS_NUMBERS; i++ ) {
     Escher_dump_instances( 0, i );
   }
-  SYS_USER_CO_PRINTF( "UserPostOoaInitializationCallout\n" )
 }
 
 /*
