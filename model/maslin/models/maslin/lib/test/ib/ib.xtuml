@@ -1,0 +1,126 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("a1788d48-aac3-4257-96e0-e311d981fe00",
+	"00000000-0000-0000-0000-000000000000",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'ib',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("03198b38-69a6-4786-b866-8b15115ced79",
+	112,
+	"a1788d48-aac3-4257-96e0-e311d981fe00",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'4.1.17',
+	'maslin::lib::test::ib');
+INSERT INTO DIM_DIA
+	VALUES ("03198b38-69a6-4786-b866-8b15115ced79",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("f614fda4-c656-4798-99cf-c8caad307757",
+	"00000000-0000-0000-0000-000000000000",
+	'doTest',
+	'',
+	'parms[8] = "";
+
+parms[0] = "SAC";
+send out::populate(element:"domain", value:parms);
+
+parms[0] = "Group_For_Session";
+send out::populate(element:"object", value:parms);
+//attribute,group_id,true,false
+//attribute,session_id,true,false
+
+parms[0] = "Group_Operation";
+send out::populate(element:"object", value:parms);
+//attribute,operation_id,true,false
+//attribute,group_id,true,false
+
+parms[0] = "Operation";
+send out::populate(element:"object", value:parms);
+//attribute,operation_id,true,true
+//attribute,operation_name,false,false
+
+parms[0] = "Session";
+send out::populate(element:"object", value:parms);
+//attribute,session_id,true,true
+//attribute,logon_time,false,false
+//attribute,session_heartbeat_timer,false,false
+//attribute,session_heartbeat_failure,false,false
+//attribute,workstation_id,false,false
+//attribute,user_id,false,false
+//attribute,access_specification_id,false,false
+//attribute,has_timed_out,false,false
+//attribute,login_name,false,false
+
+parms[0] = "Session_Specification";
+send out::populate(element:"object", value:parms);
+//attribute,access_specification_id,true,true
+//attribute,session_heartbeat_time,false,false
+//attribute,session_heartbeat_failure_threshold,false,false
+
+parms[0] = "User";
+send out::populate(element:"object", value:parms);
+//attribute,user_id,true,false
+//attribute,login_name,true,false
+//attribute,user_name,false,false
+//attribute,is_logged_on,false,false
+
+parms[0] = "Workstation";
+send out::populate(element:"object", value:parms);
+//attribute,workstation_id,true,true
+//attribute,workstation_hostname,false,false
+
+parms[0] = "Session_Operation";
+send out::populate(element:"object", value:parms);
+//attribute,operation_id,true,false
+//attribute,session_id,true,false
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("f614fda4-c656-4798-99cf-c8caad307757",
+	1,
+	"a1788d48-aac3-4257-96e0-e311d981fe00",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("a1788d48-aac3-4257-96e0-e311d981fe00",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"34014914-3d78-4e0f-a02f-662f2a121416",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("34014914-3d78-4e0f-a02f-662f2a121416",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'test',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../test.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("319083ee-ba5f-4645-a409-d6249f9350bd",
+	'maslin',
+	1,
+	'../../../maslin.xtuml');
