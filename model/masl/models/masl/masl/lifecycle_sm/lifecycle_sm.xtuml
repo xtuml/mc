@@ -1,0 +1,130 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("fb0b7c31-3a4d-490a-8fa7-60657fcb7e8b",
+	'lifecycle_sm',
+	3727,
+	'lifecycle_sm',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("0c0710d4-e077-4234-9d95-6b76e6346885",
+	"fb0b7c31-3a4d-490a-8fa7-60657fcb7e8b",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'//T::include( file:"masl/t.project_begin.masl" );
+//select many projectdomains related by self->projectdomain[R3701.''configures''];
+//for each projectdomain in projectdomains
+//  projectdomain.render();
+//end for;
+//T::include( file:"masl/t.project_end.masl" );',
+	1,
+	'',
+	"b5bbff45-4508-42a4-9e88-c0f416c6b332");
+INSERT INTO O_TFR
+	VALUES ("b5bbff45-4508-42a4-9e88-c0f416c6b332",
+	"fb0b7c31-3a4d-490a-8fa7-60657fcb7e8b",
+	'populate',
+	'',
+	"ca501b30-037e-4c33-97e0-3e6fa875aaf5",
+	0,
+	'object = param.object;
+parent = param.parent;
+create object instance lifecycle of lifecycle_sm;
+relate lifecycle to object across R3735;
+relate lifecycle to parent across R3734;
+return lifecycle;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("f35beaf3-ee58-422c-b3fa-ca7ebec0c544",
+	"b5bbff45-4508-42a4-9e88-c0f416c6b332",
+	'object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("0ee73a88-7fc6-45e3-b2d1-1883ed76f181",
+	"b5bbff45-4508-42a4-9e88-c0f416c6b332",
+	'parent',
+	"eefb9a09-70e7-4c0f-927f-7758f32e96fc",
+	0,
+	'',
+	"f35beaf3-ee58-422c-b3fa-ca7ebec0c544",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("eefb9a09-70e7-4c0f-927f-7758f32e96fc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<state_machine>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("ca501b30-037e-4c33-97e0-3e6fa875aaf5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<lifecycle_sm>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("fc1c50d3-d518-4d6d-ba60-027da8ee09e9",
+	"fb0b7c31-3a4d-490a-8fa7-60657fcb7e8b",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many lifecycles from instances of lifecycle_sm;
+for each lifecycle in lifecycles
+  select one object related by lifecycle->object[R3735];
+  if ( empty object )
+    TRACE::log( flavor:"failure", id:5, message:"Lifecycle has no object." );
+    valid = false;
+  end if;
+  select one statemachine related by lifecycle->state_machine[R3734];
+  if (empty statemachine)
+    TRACE::log( flavor:"failure", id:5, message:"Lifecycle has no parent." );
+    valid = false;
+  end if;
+end for;
+
+return valid;
+',
+	1,
+	'',
+	"0c0710d4-e077-4234-9d95-6b76e6346885");
+INSERT INTO O_ID
+	VALUES (0,
+	"fb0b7c31-3a4d-490a-8fa7-60657fcb7e8b");
+INSERT INTO O_ID
+	VALUES (1,
+	"fb0b7c31-3a4d-490a-8fa7-60657fcb7e8b");
+INSERT INTO O_ID
+	VALUES (2,
+	"fb0b7c31-3a4d-490a-8fa7-60657fcb7e8b");
+INSERT INTO PE_PE
+	VALUES ("fb0b7c31-3a4d-490a-8fa7-60657fcb7e8b",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');
