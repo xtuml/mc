@@ -72,7 +72,7 @@ UserPostOoaInitializationCalloutf( void )
 {
   /* Insert implementation specific code here.  */
   int i;
-  for ( i = 0; i < ooaofooa_MAX_CLASS_NUMBERS; i++ ) {
+  for ( i = 0; i < maslin_MAX_CLASS_NUMBERS; i++ ) {
     Escher_dump_instances( 0, i );
   }
   SYS_USER_CO_PRINTF( "UserPostOoaInitializationCallout\n" )

@@ -1,4 +1,7 @@
 .invoke MarkSystemConfigurationPackage( "systest" )
+.invoke TagDynamicMemoryAllocationOn( 10 )
+.invoke TagInstanceLoading()
+.invoke TagMaximumStringLength( 256 )
 .//============================================================================
 .// File:  system.mark
 .//
