@@ -1,0 +1,143 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("501b65c3-9659-4675-a599-d56c0792e389",
+	'transition_result',
+	3729,
+	'transition_result',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("eb49de77-ccd7-4d9c-b17a-fe4a505b8a3b",
+	"501b65c3-9659-4675-a599-d56c0792e389",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'//T::include( file:"masl/t.project_begin.masl" );
+//select many projectdomains related by self->projectdomain[R3701.''configures''];
+//for each projectdomain in projectdomains
+//  projectdomain.render();
+//end for;
+//T::include( file:"masl/t.project_end.masl" );',
+	1,
+	'',
+	"935fe6b9-46ce-495c-9af1-326826cf0dce");
+INSERT INTO O_TFR
+	VALUES ("935fe6b9-46ce-495c-9af1-326826cf0dce",
+	"501b65c3-9659-4675-a599-d56c0792e389",
+	'populate',
+	'',
+	"211160de-0313-4b2b-a829-0fbdd73ce94b",
+	0,
+	'transition = param.transition;
+create object instance result of transition_result;
+if ( "cannot_happen" == param.name ) or ( "ignore" == param.name )
+  nonstate_target = nonstate_target::populate(type:param.name, parent:result);
+else
+  select any state from instances of state where selected.name == param.name;
+  if (not_empty state)
+    relate result to state across R3729;
+  else
+    TRACE::log( flavor:"failure", id:35, message:"invalid state name:  " + param.name );
+  end if;
+end if;
+relate result to transition across R3731;
+return result;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("01d09d14-097d-4ec3-8e75-b11e208813aa",
+	"935fe6b9-46ce-495c-9af1-326826cf0dce",
+	'name',
+	"34fac455-523f-4aa2-932b-a33981ceacad",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("742cdc88-ffce-40b8-8f47-9df4c851f2cb",
+	"935fe6b9-46ce-495c-9af1-326826cf0dce",
+	'transition',
+	"cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
+	0,
+	'',
+	"01d09d14-097d-4ec3-8e75-b11e208813aa",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<transition_rule>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("211160de-0313-4b2b-a829-0fbdd73ce94b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<transition_result>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("7fd99182-6602-4552-a5a0-0175f80e8041",
+	"501b65c3-9659-4675-a599-d56c0792e389",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many transition_results from instances of transition_result;
+for each transition_result in transition_results
+  select one state related by transition_result->state[R3729];
+  if (empty state)
+    select one nonstate related by transition_result->nonstate_target[R3729];
+    if (empty nonstate)
+      TRACE::log( flavor:"failure", id:54, message:"Transition result has no child." );
+      valid = false;
+    end if;
+  end if;
+  select any transition related by transition_result->transition_rule[R3731];
+  if (empty transition)
+    TRACE::log( flavor:"failure", id:54, message:"Transition result belongs to no transition rule." );
+    valid = false;
+  end if;
+end for;
+
+// Validate siblings and subordinates.
+// NOTE: state object validation is driven by state_machine, so no need to 
+//       duplicate here.
+return ( valid and nonstate_target::validate() );',
+	1,
+	'',
+	"eb49de77-ccd7-4d9c-b17a-fe4a505b8a3b");
+INSERT INTO O_ID
+	VALUES (0,
+	"501b65c3-9659-4675-a599-d56c0792e389");
+INSERT INTO O_ID
+	VALUES (1,
+	"501b65c3-9659-4675-a599-d56c0792e389");
+INSERT INTO O_ID
+	VALUES (2,
+	"501b65c3-9659-4675-a599-d56c0792e389");
+INSERT INTO PE_PE
+	VALUES ("501b65c3-9659-4675-a599-d56c0792e389",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');
