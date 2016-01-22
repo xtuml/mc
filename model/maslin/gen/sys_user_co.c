@@ -71,19 +71,17 @@ UserPreOoaInitializationCalloutf( void )
 void
 UserPostOoaInitializationCalloutf( void )
 {
-  int i;
   char s[ 1024 ], element[ ESCHER_SYS_MAX_STRING_LEN ], value[ 8 ][ ESCHER_SYS_MAX_STRING_LEN ];
   char * p, * q;
-  T_clear();
+  int i, j;
   while ( ( p = fgets( s, 1024, stdin ) ) != NULL ) {
-    int i, j;
     i = 0;
     p[ strlen(p) - 1 ] = 0;
-    if ( ( q = strsep( &p, "," ) ) != NULL ) Escher_strcpy( element, q );
-    while ( ( q = strsep(&p, ",")) != NULL ) { Escher_strcpy( value[ i++ ], q ); }
-    fprintf( stderr, "%s:", element );
+    if ( ( q = strsep( &p, "," ) ) != 0 ) { strcpy( element, q ); }
+    while ( ( q = strsep(&p, ",")) != 0 ) { strcpy( value[ i++ ], q ); }
+    fprintf( stderr, "%s", element );
     for ( j=0; j<i; j++ ) {
-      fprintf( stderr, "%d%s", j, value[ j ] );
+      fprintf( stderr, ",%s", value[ j ] );
     }
     fprintf( stderr, "\n" );
     maslin_in_populate( element, value );
