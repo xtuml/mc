@@ -1,0 +1,6 @@
+T_b("      ");
+T_b(visibility);
+T_b(" function ");
+T_b(name);
+T_b(" (");
+T_b("\n");

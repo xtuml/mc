@@ -169,7 +169,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Value>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("78b31496-6076-4dd8-8735-0fe545ec3613",
 	1,
@@ -487,7 +487,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Attribute Value Reference>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f50c3544-51b9-4b1e-9d86-ae3feb6511a0",
 	1,
@@ -558,7 +558,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Member Value Reference>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("58813b15-ff17-469e-8c56-31e82ccd3d7a",
 	1,
@@ -824,7 +824,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Unary Operation>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("a15150c0-975d-478f-817d-216b133dad0d",
 	1,
@@ -927,7 +927,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Binary Operation>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("b75017bc-5809-4d17-9917-a72f42a376c3",
 	1,
@@ -1002,7 +1002,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Message Value>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("23cc3939-8a2a-4679-8a6f-c5bf09dd5c80",
 	1,
@@ -1112,7 +1112,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Bridge Value>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("a7a5a4da-85da-4dd2-9a55-6343ea3e433e",
 	1,
@@ -1236,7 +1236,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Operation Value>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("9ecf858b-1754-4310-98ca-bfc868482b6c",
 	1,
@@ -1333,7 +1333,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Function Value>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("012ffb89-1ff4-429b-a61c-5a1b2f62ca8f",
 	1,
@@ -1410,7 +1410,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Array Element Reference>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("23566da9-94d6-4d16-b8c1-38bbfa32f440",
 	1,
@@ -1485,7 +1485,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Array Length Value>',
 	'',
 	'',
-	'../../ooaofooa/Value/Value.xtuml');
+	'../../../mcooa/ooaofooa/Value/Value.xtuml');
 INSERT INTO PE_PE
 	VALUES ("0926862f-c6a5-4509-966c-1f1c30ee6c43",
 	1,

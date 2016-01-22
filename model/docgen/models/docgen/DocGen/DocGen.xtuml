@@ -391,7 +391,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Package>',
 	'',
 	'',
-	'../../../../escher/models/escher/ooaofooa/Element Packaging/Element Packaging.xtuml');
+	'../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("612f8a87-ac5d-4514-8a01-68d425d71cf0",
 	"85def55e-2712-4f24-9f19-683970bbe0bc",
@@ -457,7 +457,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<System Model>',
 	'',
 	'',
-	'../../../../escher/models/escher/ooaofooa/Domain/Domain.xtuml');
+	'../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("9b6df949-bfd3-4d53-beb7-28b55d0d5509",
 	"ab65f127-2b2d-4224-a2c3-8366063ac8de",
@@ -518,7 +518,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Component>',
 	'',
 	'',
-	'../../../../escher/models/escher/ooaofooa/Component/Component.xtuml');
+	'../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("3507338c-9aac-4525-b993-16fbeaa3dd00",
 	"cfcb323b-a73a-45e0-83e8-20fae5eb17c0",
@@ -668,7 +668,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref_set<Package>',
 	'',
 	'',
-	'../../../../escher/models/escher/ooaofooa/Element Packaging/Element Packaging.xtuml');
+	'../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("7299391b-a852-4a32-bc82-d264e55de7b0",
 	"c5c0a74e-51fc-45f9-88f3-cdded216a47b",
@@ -789,7 +789,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref_set<Interface>',
 	'',
 	'',
-	'../../../../escher/models/escher/ooaofooa/Component/Component.xtuml');
+	'../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("b5ac9786-a7c0-4b63-8312-a35c769ffeca",
 	"238ee6dd-aec9-463d-9ded-c4ef3947a91b",
@@ -955,7 +955,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref_set<Component>',
 	'',
 	'',
-	'../../../../escher/models/escher/ooaofooa/Component/Component.xtuml');
+	'../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("52ef59d3-a0a0-4cca-9b7f-8421a1d58934",
 	"6d078aa2-26e1-480f-9366-15c6e9a67c4a",

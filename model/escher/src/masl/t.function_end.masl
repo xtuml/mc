@@ -1,0 +1,5 @@
+T_b("      ");
+T_b(") return ");
+T_b(self->returntype);
+T_b(";");
+T_b("\n");

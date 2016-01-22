@@ -2396,7 +2396,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<Interface Instance>',
 	'',
 	'',
-	'../../ooaofooa/Translation Extensions/Translation Extensions.xtuml');
+	'../../extensions/Translation Extensions/Translation Extensions.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("589f8cdd-1a31-4c63-9062-648549a1c41e",
 	"dfd99b99-ee81-4e3a-aab6-d036b256003c",
@@ -3852,7 +3852,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref_set<Extended Port>',
 	'',
 	'',
-	'../../ooaofooa/Translation Extensions/Translation Extensions.xtuml');
+	'../../extensions/Translation Extensions/Translation Extensions.xtuml');
 INSERT INTO S_SPARM
 	VALUES ("4e8c2b4c-b19a-4355-978c-e383241b02ec",
 	"a841e38e-47cd-4c83-8391-bc29ef90d337",
@@ -4646,7 +4646,7 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<System Tags>',
 	'',
 	'',
-	'../../ooaofooa/Translation Marking/Translation Marking.xtuml');
+	'../../extensions/Translation Marking/Translation Marking.xtuml');
 INSERT INTO S_SYNC
 	VALUES ("1bf80ad8-0ce1-4de3-9213-f4df249a5efe",
 	"00000000-0000-0000-0000-000000000000",
