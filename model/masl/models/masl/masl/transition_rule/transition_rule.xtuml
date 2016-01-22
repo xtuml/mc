@@ -14,12 +14,23 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'select one transition_event related by self->event[R3732];
+event = transition_event.name;
+end = "";
+select one state related by self->transition_result[R3731]->state[R3729];
+if (empty state)
+  select one nonstate related by self->transition_result[R3731]->nonstate_target[R3729];
+  end = nonstate.type;
+else
+  end = state.name;
+end if;
+T::include( file:"masl/t.transition_render.masl" );
+select one previous related by self->transition_rule[R3739.''precedes''];
+if (not_empty previous)
+  T::b( s:"," );
+  previous.render();
+end if;
+',
 	1,
 	'',
 	"61cbacc5-6b2e-43ae-9d15-deb00472cb96");
@@ -32,12 +43,15 @@ INSERT INTO O_TFR
 	0,
 	'state = param.state;
 event = param.event;
-create object instance transition of transition;
-relate transition to state across R3730;
+previous = param.previous_rule;
+create object instance transition of transition_rule;
+if (empty previous)
+  relate transition to state across R3730;
+else
+  relate transition to previous across R3739.''succeeds'';
+end if;
 relate transition to event across R3732;
 result = transition_result::populate(name:param.result, transition:transition);
-select any transition_table related by state->object[R3725]->transition_table[R3734];
-relate transition to transition_table across R3733;
 return transition;',
 	1,
 	'',
@@ -90,6 +104,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("3742cf7e-2a0f-41a7-8948-d9f6e5e0e375",
+	"61cbacc5-6b2e-43ae-9d15-deb00472cb96",
+	'previous_rule',
+	"cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
+	0,
+	'',
+	"e9bde333-ac46-4abb-818a-ce651a3878cb",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
 	"00000000-0000-0000-0000-000000000000",
@@ -105,7 +128,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-select many transitions from instances of transition;
+select many transitions from instances of transition_rule;
 for each transition in transitions
   select one state related by transition->state[R3730];
   if (empty state)
@@ -120,11 +143,6 @@ for each transition in transitions
   select one event related by transition->event[R3732];
   if (empty state)
     TRACE::log( flavor:"failure", id:52, message:"Transition has no event." );
-    valid = false;
-  end if;
-  select one transition_table related by transition->transition_table[R3733];
-  if (empty transition_table)
-    TRACE::log( flavor:"failure", id:53, message:"There is no transition table." );
     valid = false;
   end if;
 end for;

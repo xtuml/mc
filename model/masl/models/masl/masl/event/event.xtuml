@@ -5,9 +5,15 @@ INSERT INTO O_OBJ
 	'event',
 	3718,
 	'event',
-	'Discussion: Polymorphic events are the only events allowed for supertype objects.
-The implication is that only subtype (non-sub/supertype subtypes) objects are allowed
-to have state models.',
+	'An event can cause a transition from one state to another state, depending upon 
+the transition rules specified for the current state of the object. Events that 
+don''t cause a transition to a new state are specified to be ignored or 
+unexpected (marked as can''t happen). Handling of the to non-state transitions 
+is up to the architecture.
+
+Discussion: Polymorphic events are the only events allowed for supertype 
+objects. The implication is that only subtype (non-sub/supertype subtypes) 
+objects are allowed to have state models.',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
 	VALUES ("7cc55eed-756b-4590-8e59-184f782869d6",
@@ -99,9 +105,9 @@ INSERT INTO O_TFR
 	'valid = true;
 select many events from instances of event;
 for each event in events
-  select one object related by event->object[R3728];
-  if ( empty object )
-    TRACE::log( flavor:"failure", id:31, message:"event with no object:  " + event.name );
+  select one state_machine related by event->state_machine[R3737];
+  if ( empty state_machine )
+    TRACE::log( flavor:"failure", id:31, message:"event with no state machine:  " + event.name );
     valid = false;
   end if;
   if ( ( "assigner" != event.type ) and

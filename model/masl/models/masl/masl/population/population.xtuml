@@ -55,10 +55,21 @@ elif ( "parameter" == element )
   end if;
 elif ( "attribute" == element )
   population.attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:population.object );
+elif ( "transitiontable" == element )
+  population.transitiontable = state_machine::populate( type:value[0], object:population.object );
 elif ( "state" == element )
-  population.state = state::populate( name:value[0], type:value[1], object:population.object );
+  population.state = state::populate( name:value[0], type:value[1], state_machine:population.transitiontable );
 elif ( "event" == element )
-  population.event = event::populate( name:value[0], type:value[1], object:population.object );
+  population.event = event::populate( name:value[0], type:value[1], state_machine:population.transitiontable );
+elif ( "transition" == element )
+  // Check to see if this is the first rule in the transition row.
+  if ( "" == value[3] ) 
+    // first rule
+    select any empty_transition from instances of transition_rule where false;
+    population.transition = transition_rule::populate( event:population.event, result:value[0], state:population.state, previous_rule:empty_transition );
+  else
+    population.transition = transition_rule::populate( event:population.event, result:value[0], state:population.state, previous_rule:population.transition );
+  end if;
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;
@@ -275,6 +286,106 @@ INSERT INTO S_DT_PROXY
 	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<attribute>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("4c238f4f-941e-4449-a962-a0b7d908ce7a",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("4c238f4f-941e-4449-a962-a0b7d908ce7a",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("4c238f4f-941e-4449-a962-a0b7d908ce7a",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"c55c033d-7b57-4e89-bf0b-6d7a859a9dd8",
+	'state',
+	'',
+	'',
+	'state',
+	0,
+	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("69d4ad00-8c78-47f0-95c9-b7519011b8ea",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<state>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("caf3c62f-1b02-4d70-b4e5-4ec9eb16a681",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("caf3c62f-1b02-4d70-b4e5-4ec9eb16a681",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("caf3c62f-1b02-4d70-b4e5-4ec9eb16a681",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"4c238f4f-941e-4449-a962-a0b7d908ce7a",
+	'event',
+	'',
+	'',
+	'event',
+	0,
+	"10f010a5-972a-427c-a610-080e185e1082",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<event>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("9436ed2e-10e4-47a2-acd6-6391f7710c67",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("9436ed2e-10e4-47a2-acd6-6391f7710c67",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("9436ed2e-10e4-47a2-acd6-6391f7710c67",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"caf3c62f-1b02-4d70-b4e5-4ec9eb16a681",
+	'transitiontable',
+	'',
+	'',
+	'transitiontable',
+	0,
+	"eefb9a09-70e7-4c0f-927f-7758f32e96fc",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("eefb9a09-70e7-4c0f-927f-7758f32e96fc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<state_machine>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("64ff3896-00d9-4678-9339-af08d92b55fb",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("64ff3896-00d9-4678-9339-af08d92b55fb",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("64ff3896-00d9-4678-9339-af08d92b55fb",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"9436ed2e-10e4-47a2-acd6-6391f7710c67",
+	'transition',
+	'',
+	'',
+	'transition',
+	0,
+	"cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<transition_rule>',
 	'',
 	'',
 	'../masl.xtuml');

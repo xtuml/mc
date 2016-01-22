@@ -101,9 +101,14 @@ INSERT INTO O_TFR
 	'valid = true;
 select many states from instances of state;
 for each state in states
-  select one object related by state->object[R3725];
-  if ( empty object )
-    TRACE::log( flavor:"failure", id:31, message:"state with no object:  " + state.name );
+select one state_machine related by state->state_machine[R3738];
+  if ( empty state_machine )
+    TRACE::log( flavor:"failure", id:31, message:"state with no state machine:  " + state.name );
+    valid = false;
+  end if;
+  select one parent related by state->transition_result[R3729];
+  if (empty parent)
+    TRACE::log( flavor:"failure", id:55, message:"State, " + state.name + ", has no parent." );
     valid = false;
   end if;
   if ( ( "assigner" != state.type ) and

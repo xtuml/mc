@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("fb0b7c31-3a4d-490a-8fa7-60657fcb7e8b",
 	'lifecycle_sm',
-	3708,
+	3727,
 	'lifecycle_sm',
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -86,29 +86,22 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
+select many lifecycles from instances of lifecycle_sm;
+for each lifecycle in lifecycles
+  select one object related by lifecycle->object[R3735];
+  if ( empty object )
+    TRACE::log( flavor:"failure", id:5, message:"Lifecycle has no object." );
+    valid = false;
+  end if;
+  select one statemachine related by lifecycle->state_machine[R3734];
+  if (empty statemachine)
+    TRACE::log( flavor:"failure", id:5, message:"Lifecycle has no parent." );
+    valid = false;
+  end if;
+end for;
 
-// Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
 return valid;
 ',
-	1,
-	'',
-	"2057943b-4975-468a-a0af-6b3fcd1ba088");
-INSERT INTO O_TFR
-	VALUES ("2057943b-4975-468a-a0af-6b3fcd1ba088",
-	"fb0b7c31-3a4d-490a-8fa7-60657fcb7e8b",
-	'tostring',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'value[8] = "";
-value[0] = self.name;
-//out::( element:"template_class", value:value );',
 	1,
 	'',
 	"0c0710d4-e077-4234-9d95-6b76e6346885");

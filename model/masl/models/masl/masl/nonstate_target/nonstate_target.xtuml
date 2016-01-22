@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("1edf44c1-c878-4659-a2b6-aff8263231cd",
 	'nonstate_target',
-	3708,
+	3730,
 	'nonstate_target',
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -91,23 +91,15 @@ for each nonstate in nonstate_targets
     TRACE::log( flavor:"failure", id:54, message:"Invalid non-state target: " + nonstate.type );
     valid = false;
   end if;
+  select one parent related by nonstate->transition_result[R3729];
+  if (empty parent)
+    TRACE::log( flavor:"failure", id:55, message:"Non-state target has no parent." );
+    valid = false;
+  end if;
 end for;
 
 return valid;
 ',
-	1,
-	'',
-	"35160db2-ac55-4f07-8268-ece65da1e0fc");
-INSERT INTO O_TFR
-	VALUES ("35160db2-ac55-4f07-8268-ece65da1e0fc",
-	"1edf44c1-c878-4659-a2b6-aff8263231cd",
-	'tostring',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'value[8] = "";
-value[0] = self.type;
-//out::( element:"template_class", value:value );',
 	1,
 	'',
 	"89db767d-e070-4825-ac0c-382fe7a99c74");

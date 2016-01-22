@@ -100,7 +100,7 @@ for each object in objects
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and attribute::validate() );',
+return ( valid and attribute::validate() and state_machine::validate() );',
 	1,
 	'',
 	"62436e5d-b2f0-45bd-824c-bf910bc153d7");

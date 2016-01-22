@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("501b65c3-9659-4675-a599-d56c0792e389",
 	'transition_result',
-	3708,
+	3729,
 	'transition_result',
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -75,7 +75,7 @@ INSERT INTO O_TPARM
 INSERT INTO S_DT_PROXY
 	VALUES ("cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<transition>',
+	'inst_ref<transition_rule>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -104,23 +104,17 @@ for each transition_result in transition_results
       valid = false;
     end if;
   end if;
+  select any transition related by transition_result->transition_rule[R3731];
+  if (empty transition)
+    TRACE::log( flavor:"failure", id:54, message:"Transition result belongs to no transition rule." );
+    valid = false;
+  end if;
 end for;
 
 // Validate siblings and subordinates.
+// NOTE: state object validation is driven by state_machine, so no need to 
+//       duplicate here.
 return ( valid and nonstate_target::validate() );',
-	1,
-	'',
-	"5cdac619-7bee-4d79-b9aa-9fe2ead0860a");
-INSERT INTO O_TFR
-	VALUES ("5cdac619-7bee-4d79-b9aa-9fe2ead0860a",
-	"501b65c3-9659-4675-a599-d56c0792e389",
-	'tostring',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'value[8] = "";
-value[0] = self.name;
-//out::( element:"template_class", value:value );',
 	1,
 	'',
 	"eb49de77-ccd7-4d9c-b17a-fe4a505b8a3b");

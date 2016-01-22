@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("6c482622-745c-4b4b-93a3-d619f4ffab2c",
 	'assigner_sm',
-	3708,
+	3728,
 	'assigner_sm',
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -86,29 +86,22 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
+select many assigners from instances of assigner_sm;
+for each assigner in assigners
+  select one object related by assigner->object[R3736];
+  if ( empty object )
+    TRACE::log( flavor:"failure", id:5, message:"Assigner has no object." );
+    valid = false;
+  end if;
+  select one statemachine related by assigner->state_machine[R3734];
+  if (empty statemachine)
+    TRACE::log( flavor:"failure", id:5, message:"Assigner has no parent." );
+    valid = false;
+  end if;
+end for;
 
-// Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
 return valid;
 ',
-	1,
-	'',
-	"f1da74c4-a67c-46de-9924-b4148c589ac9");
-INSERT INTO O_TFR
-	VALUES ("f1da74c4-a67c-46de-9924-b4148c589ac9",
-	"6c482622-745c-4b4b-93a3-d619f4ffab2c",
-	'tostring',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'value[8] = "";
-value[0] = self.name;
-//out::( element:"template_class", value:value );',
 	1,
 	'',
 	"01ed0091-2630-4a1f-a10e-d7dfb3819c8e");

@@ -3,7 +3,7 @@
 INSERT INTO O_OBJ
 	VALUES ("8acb394f-39a0-4e91-bf6e-50ba9286e525",
 	'state_machine',
-	3708,
+	3726,
 	'state_machine',
 	'State machine is also representative of the transition table in MASL. It 
 provides grouping per object of states events and transition rules.',
@@ -15,12 +15,23 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_begin.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'T::include( file:"masl/t.transitiontable_begin.masl" );
+select many states related by self->state[R3738];
+for each state in states
+  state.render();
+end for;
+select many events related by self->event[R3737];
+for each event in events
+  event.render();
+end for;
+for each state in states
+   start = state.name;
+   T::include ( file:"masl/t.transitionrow_begin.masl" );
+   select one transition_rule related by state->transition_rule[R3730];
+   transition_rule.render();
+   T::include ( file:"masl/t.transitionrow_end.masl" );
+end for;
+T::include( file:"masl/t.transitiontable_end.masl" );',
 	1,
 	'',
 	"8930d86e-438f-4a56-b595-3a8b60fe9123");
@@ -89,29 +100,30 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
+select many machines from instances of state_machine;
+for each machine in machines
+  select any state related by machine->state[R3738];
+  if ( empty state )
+    TRACE::log( flavor:"failure", id:5, message:machine.type + " State machine has no states." );
+    valid = false;
+  end if;
+  select any event related by machine->event[R3737];
+  if ( empty state )
+    TRACE::log( flavor:"failure", id:5, message:machine.type + " State machine has no events." );
+    valid = false;
+  end if;
+  select one lifecycle related by machine->lifecycle_sm[R3734];
+  if (empty lifecycle)
+    select one assigner related by machine->assigner_sm[R3734];
+    if (empty assigner)
+      TRACE::log( flavor:"failure", id:5, message:machine.type + " State machine has no child." );
+      valid = false;
+    end if;
+  end if;
+end for;
 
 // Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
-return valid;
-',
-	1,
-	'',
-	"e3d3d6c0-107e-48fa-82f1-c70f5a80d902");
-INSERT INTO O_TFR
-	VALUES ("e3d3d6c0-107e-48fa-82f1-c70f5a80d902",
-	"8acb394f-39a0-4e91-bf6e-50ba9286e525",
-	'tostring',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'value[8] = "";
-value[0] = self.name;
-//out::( element:"template_class", value:value );',
+return ( valid and lifecycle_sm::validate() and assigner_sm::validate() and state::validate() and event::validate() and transition_rule::validate() );',
 	1,
 	'',
 	"bc4dbe48-4b74-418f-8d9a-0f3351e63b7d");
