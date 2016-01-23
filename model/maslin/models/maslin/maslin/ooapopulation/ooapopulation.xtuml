@@ -254,7 +254,8 @@ if ( empty c_c )
     self.ComponentReference_assignToComp(cl_ic:cl_ic, c_c:c_c);
   end if;
 end if;
-',
+
+self.current_component = c_c;',
 	1,
 	'',
 	"9438bf8f-4666-499e-9822-00e7b064286f");
@@ -428,7 +429,18 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'',
+	'// Create a Model Class with name if it doesn''t already exist, Put inside component''s "<component name>" pkg
+// Get the package with the same name as the component, this is where we put the "internal behavior"
+current_component = self.current_component;
+select any internals_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == current_component.Name);
+
+// See if a model class already exists
+select any o_obj related by internals_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == param.name);
+
+if ( empty o_obj )
+  // The object has not been declared already, create it
+  // TODO - Package_newClass(class_name: param.name, parent:internal_pkg);
+end if;',
 	1,
 	'',
 	"3ed1f3e8-afb7-40dc-a2d2-2caac1c499d4");
@@ -942,6 +954,24 @@ INSERT INTO O_ATTR
 	'current_sys',
 	0,
 	"4b886601-55ee-4d42-a1f8-f5c45d459db2",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("619f4747-9795-4d99-a5ac-563d99ffbda4",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("619f4747-9795-4d99-a5ac-563d99ffbda4",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("619f4747-9795-4d99-a5ac-563d99ffbda4",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"d14202df-9ea9-4589-a309-406b4ed0b070",
+	'current_component',
+	'',
+	'',
+	'current_component',
+	0,
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
 	'',
 	'');
 INSERT INTO O_ID
