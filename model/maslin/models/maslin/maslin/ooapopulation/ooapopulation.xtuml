@@ -437,10 +437,11 @@ select any internals_pkg related by current_component->PE_PE[R8003]->EP_PKG[R800
 
 // See if a model class already exists
 select any o_obj related by internals_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == param.name);
+self.current_class = o_obj;
 
 if ( empty o_obj )
   // The object has not been declared already, create it
-  self.Package_newClass(ep_pkg:internals_pkg, class_name: param.name);
+  self.current_class = self.Package_newClass(ep_pkg:internals_pkg, class_name: param.name); 
 end if;
 
 // TODO - this needs to work in concert with Package_newClass and ModelClass_initialize since the first time through 
@@ -689,7 +690,7 @@ INSERT INTO O_TFR
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'Package_newClass',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"63f4ff99-f127-443b-a678-30ace41da702",
 	1,
 	'ep_pkg = param.ep_pkg;
 
@@ -701,7 +702,9 @@ pe.type = ElementTypeConstants::CLASS;
 self.PackageableElement_initialize(pe_pe:pe); // OOA - pe.initialize();
 
 relate ep_pkg to pe across R8000;
-self.ModelClass_initialize(o_obj:cl, name:param.class_name); // OOA - cl.initialize();',
+self.ModelClass_initialize(o_obj:cl, name:param.class_name); // OOA - cl.initialize();
+
+return cl;',
 	1,
 	'',
 	"9c97aa3a-d0d2-409c-86d0-9194db2476c5");
@@ -723,6 +726,13 @@ INSERT INTO O_TPARM
 	'',
 	"9e81a5f3-e669-49c4-8751-23b2facf5522",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Model Class>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO O_TFR
 	VALUES ("6355664b-4091-4bc3-ac82-c6d3580da3ad",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -791,13 +801,6 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Model Class>',
-	'',
-	'',
-	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("f9266be0-a4b2-457d-a083-584bdc37335f",
 	"6355664b-4091-4bc3-ac82-c6d3580da3ad",
@@ -917,6 +920,24 @@ INSERT INTO O_ATTR
 	'current_component',
 	0,
 	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("628299ab-4589-4cfb-9c7d-c61c627dd3c1",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("628299ab-4589-4cfb-9c7d-c61c627dd3c1",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("628299ab-4589-4cfb-9c7d-c61c627dd3c1",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"619f4747-9795-4d99-a5ac-563d99ffbda4",
+	'current_class',
+	'',
+	'',
+	'current_class',
+	0,
+	"63f4ff99-f127-443b-a678-30ace41da702",
 	'',
 	'');
 INSERT INTO O_ID
