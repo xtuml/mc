@@ -1,4 +1,5 @@
 .invoke MarkSystemConfigurationPackage( "sysmasl" )
+.invoke TagDynamicMemoryAllocationOn( 10 )
 .//===========================================================================
 .// File:  system.mark
 .//

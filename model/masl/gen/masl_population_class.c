@@ -21,10 +21,6 @@ void
 masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[8][ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * value[8]={0,0,0,0,0,0,0,0};c_t element[ESCHER_SYS_MAX_STRING_LEN];masl_population * population=0;
-int i;
-printf("masl_population_op_populate:  %s",p_element);
-for(i=0;i<8;i++) { if (p_value[i][0]) { printf(",%s",p_value[i]); } else { break; }}
-printf("\n");
   /* ASSIGN element = PARAM.element */
   Escher_strcpy( element, p_element );
   /* ASSIGN value = PARAM.value */

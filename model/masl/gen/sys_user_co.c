@@ -82,11 +82,6 @@ UserPostOoaInitializationCalloutf( void )
     p[ strlen(p) - 1 ] = 0;
     if ( ( q = strsep( &p, "," ) ) != NULL ) Escher_strcpy( element, q );
     while ( ( q = strsep(&p, ",")) != NULL ) { Escher_strcpy( value[ i++ ], q ); }
-    fprintf( stderr, "%s:", element );
-    for ( j=0; j<i; j++ ) {
-      fprintf( stderr, "%d%s", j, value[ j ] );
-    }
-    fprintf( stderr, "\n" );
     masl_in_populate( element, value );
   }
   masl_in_render( "project", "*" );

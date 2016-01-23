@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("c90bc4fd-5a83-4406-96cd-3c3e3a99dca9",
-	'normalrel',
+	'regularrel',
 	3721,
-	'normalrel',
+	'regularrel',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
