@@ -4,7 +4,7 @@ INSERT INTO EP_PKG
 	VALUES ("60badd64-9803-41ef-bf5c-23e18f030edf",
 	"00000000-0000-0000-0000-000000000000",
 	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
-	'imported_masl',
+	'masl_imported',
 	'masl',
 	0);
 INSERT INTO GD_MD
@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'masl::lib::masl::imported_masl');
+	'masl::lib::masl::masl_imported');
 INSERT INTO DIM_DIA
 	VALUES ("c27c5cc8-eea9-44d2-8235-e251f849b70a",
 	'',
