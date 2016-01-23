@@ -89,13 +89,31 @@ printf("\n");
     /* ASSIGN population.attribute = attribute::populate(defaultvalue:value[3], name:value[0], object:population.object, preferred:value[1], unique:value[2]) */
     population->attribute = masl_attribute_op_populate(value[3], value[0], population->object, value[1], value[2]);
   }
+  else if ( ( Escher_strcmp( "transitiontable", element ) == 0 ) ) {
+    /* ASSIGN population.transitiontable = state_machine::populate(object:population.object, type:value[0]) */
+    population->transitiontable = masl_state_machine_op_populate(population->object, value[0]);
+  }
   else if ( ( Escher_strcmp( "state", element ) == 0 ) ) {
-    /* ASSIGN population.state = state::populate(name:value[0], object:population.object, type:value[1]) */
-    population->state = masl_state_op_populate(value[0], population->object, value[1]);
+    /* ASSIGN population.state = state::populate(name:value[0], state_machine:population.transitiontable, type:value[1]) */
+    population->state = masl_state_op_populate(value[0], population->transitiontable, value[1]);
   }
   else if ( ( Escher_strcmp( "event", element ) == 0 ) ) {
-    /* ASSIGN population.event = event::populate(name:value[0], object:population.object, type:value[1]) */
-    population->event = masl_event_op_populate(value[0], population->object, value[1]);
+    /* ASSIGN population.event = event::populate(name:value[0], state_machine:population.transitiontable, type:value[1]) */
+    population->event = masl_event_op_populate(value[0], population->transitiontable, value[1]);
+  }
+  else if ( ( Escher_strcmp( "transition", element ) == 0 ) ) {
+    /* IF ( (  == value[3] ) ) */
+    if ( ( Escher_strcmp( "", value[3] ) == 0 ) ) {
+      masl_transition_rule * empty_transition=0;
+      /* SELECT any empty_transition FROM INSTANCES OF transition_rule WHERE FALSE */
+      empty_transition = 0;
+      /* ASSIGN population.transition = transition_rule::populate(event:population.event, previous_rule:empty_transition, result:value[0], state:population.state) */
+      population->transition = masl_transition_rule_op_populate(population->event, empty_transition, value[0], population->state);
+    }
+    else {
+      /* ASSIGN population.transition = transition_rule::populate(event:population.event, previous_rule:population.transition, result:value[0], state:population.state) */
+      population->transition = masl_transition_rule_op_populate(population->event, population->transition, value[0], population->state);
+    }
   }
   else {
     /* TRACE::log( flavor:failure, id:39, message:( unrecognized element:   + element ) ) */
