@@ -28,11 +28,13 @@ INSERT INTO O_TFR
 	"3e82ef73-92f1-464a-9961-915da3477b00",
 	'populate',
 	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
 	0,
-	'create object instance template_class of parameter;
-template_class.name = param.name;
-return template_class;',
+	'domain = param.domain;
+relationship = relationship::populate( name:param.name, domain:domain );
+create object instance subsuper of subsuper;
+relate subsuper to relationship across R3721;
+return relationship;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -52,10 +54,26 @@ INSERT INTO S_DT_PROXY
 	'',
 	'""',
 	'../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("4a6c9848-7777-46cd-9c5b-a3e8a5fc95f0",
+	"bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"85980317-2e31-48e5-9292-2f0f1460093a",
+	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<relationship>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -80,24 +98,6 @@ return valid;
 	1,
 	'',
 	"4c2a935c-9f82-483a-8ea4-76b47f7b44ab");
-INSERT INTO O_NBATTR
-	VALUES ("179eeec4-e18f-4ba5-9244-c7f410ba4c89",
-	"3e82ef73-92f1-464a-9961-915da3477b00");
-INSERT INTO O_BATTR
-	VALUES ("179eeec4-e18f-4ba5-9244-c7f410ba4c89",
-	"3e82ef73-92f1-464a-9961-915da3477b00");
-INSERT INTO O_ATTR
-	VALUES ("179eeec4-e18f-4ba5-9244-c7f410ba4c89",
-	"3e82ef73-92f1-464a-9961-915da3477b00",
-	"00000000-0000-0000-0000-000000000000",
-	'name',
-	'',
-	'',
-	'name',
-	0,
-	"34fac455-523f-4aa2-932b-a33981ceacad",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"3e82ef73-92f1-464a-9961-915da3477b00");

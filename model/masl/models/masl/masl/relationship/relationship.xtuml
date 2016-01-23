@@ -14,12 +14,10 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'T::include( file:"masl/t.relationship_begin.masl" );
+select one participation related by self->participation[R3713.''engages''];
+participation.render();
+T::include( file:"masl/t.relationship_end.masl" );',
 	1,
 	'',
 	"ba9f72fd-fca7-4102-b768-e6f9748221de");
@@ -28,11 +26,13 @@ INSERT INTO O_TFR
 	"d47576b6-a215-43fb-bb91-bdb6435f137b",
 	'populate',
 	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
 	0,
-	'create object instance template_class of parameter;
-template_class.name = param.name;
-return template_class;',
+	'domain = param.domain;
+create object instance relationship of relationship;
+relationship.name = param.name;
+relate relationship to domain across R3712;
+return relationship;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -52,10 +52,26 @@ INSERT INTO S_DT_PROXY
 	'',
 	'""',
 	'../../types/types.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("bac8a22f-cf33-441e-8691-7025b57b381b",
+	"ba9f72fd-fca7-4102-b768-e6f9748221de",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"34512c79-e13d-4aad-a93f-b5dbc3058208",
+	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<relationship>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -67,16 +83,21 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
+select many relationships from instances of relationship;
+for each relationship in relationships
+  if ( "" == relationship.name )
+    TRACE::log( flavor:"failure", id:75, message:"relationship with no name." );
+    valid = false;
+  end if;
+  select one domain related by relationship->domain[R3712];
+  if ( empty domain )
+    TRACE::log( flavor:"failure", id:75, message:"relationship with no domain:  " + relationship.name );
+    valid = false;
+  end if;
+end for;
 
 // Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
-return valid;
-',
+return ( valid and participation::validate() and regularrel::validate() and subsuper::validate() and associative::validate() );',
 	1,
 	'',
 	"d12801c5-5fe6-4b0e-b77a-fd4c687cd875");
@@ -95,7 +116,7 @@ INSERT INTO O_ATTR
 	'',
 	'name',
 	0,
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_ID

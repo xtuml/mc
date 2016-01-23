@@ -70,6 +70,14 @@ elif ( "transition" == element )
   else
     population.transition = transition_rule::populate( event:population.event, result:value[0], state:population.state, previous_rule:population.transition );
   end if;
+elif ( "regularrel" == element )
+  population.relationship = regularrel::populate( name:value[0], domain:population.domain );
+elif ( "associative" == element )
+  population.relationship = associative::populate( name:value[0], domain:population.domain );
+elif ( "subsuper" == element )
+  population.relationship = subsuper::populate( name:value[0], domain:population.domain );
+elif ( "participation" == element )
+  p = participation::populate( phrase:value[0], conditionality:value[1], multiplicity:value[2], objectname:value[3], relationship:population.relationship );
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;
@@ -386,6 +394,31 @@ INSERT INTO S_DT_PROXY
 	VALUES ("cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<transition_rule>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("607f0248-5754-4ffd-ab9f-b62c0d74b31c",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("607f0248-5754-4ffd-ab9f-b62c0d74b31c",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("607f0248-5754-4ffd-ab9f-b62c0d74b31c",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"64ff3896-00d9-4678-9339-af08d92b55fb",
+	'relationship',
+	'',
+	'',
+	'relationship',
+	0,
+	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<relationship>',
 	'',
 	'',
 	'../masl.xtuml');

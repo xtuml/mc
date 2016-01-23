@@ -111,6 +111,23 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->transition = masl_transition_rule_op_populate(population->event, population->transition, value[0], population->state);
     }
   }
+  else if ( ( Escher_strcmp( "regularrel", element ) == 0 ) ) {
+    /* ASSIGN population.relationship = regularrel::populate(domain:population.domain, name:value[0]) */
+    population->relationship = masl_regularrel_op_populate(population->domain, value[0]);
+  }
+  else if ( ( Escher_strcmp( "associative", element ) == 0 ) ) {
+    /* ASSIGN population.relationship = associative::populate(domain:population.domain, name:value[0]) */
+    population->relationship = masl_associative_op_populate(population->domain, value[0]);
+  }
+  else if ( ( Escher_strcmp( "subsuper", element ) == 0 ) ) {
+    /* ASSIGN population.relationship = subsuper::populate(domain:population.domain, name:value[0]) */
+    population->relationship = masl_subsuper_op_populate(population->domain, value[0]);
+  }
+  else if ( ( Escher_strcmp( "participation", element ) == 0 ) ) {
+    masl_participation * p;
+    /* ASSIGN p = participation::populate(conditionality:value[1], multiplicity:value[2], objectname:value[3], phrase:value[0], relationship:population.relationship) */
+    p = masl_participation_op_populate(value[1], value[2], value[3], value[0], population->relationship);
+  }
   else {
     /* TRACE::log( flavor:failure, id:39, message:( unrecognized element:   + element ) ) */
     TRACE_log( "failure", 39, Escher_stradd( "unrecognized element:  ", element ) );

@@ -84,6 +84,10 @@ select many activities related by self->activity[R3707.''receives through''];
 for each activity in activities
   activity.render();
 end for;
+select many relationships related by self->relationship[R3712];
+for each relationship in relationships
+  relationship.render();
+end for;
 for each object in objects
   object.render();
 end for;
@@ -108,7 +112,7 @@ for each domain in domains;
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and terminator::validate() and activity::validate() and object::validate() );
+return ( valid and terminator::validate() and activity::validate() and object::validate() and relationship::validate() );
 ',
 	1,
 	'',
