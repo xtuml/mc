@@ -137,7 +137,7 @@ self.Package_initialize(ep_pkg:package, name:param.pkg_name); // OOA - package.i
 return package; ',
 	1,
 	'',
-	"59fd5264-7d22-47ce-a615-605f9ee03143");
+	"a9942ae9-1501-49c7-afb1-84aa422a85e5");
 INSERT INTO O_TPARM
 	VALUES ("c0ea2b5d-984c-4673-8b25-82eec8098da2",
 	"0ff33986-594c-49e8-84a0-7eb628272d32",
@@ -182,7 +182,7 @@ pe_pe = param.pe_pe;
 pe_pe.Visibility = Visibility::Public;',
 	1,
 	'',
-	"dc1b8351-2cfd-4870-b038-21d1052f3c05");
+	"6355664b-4091-4bc3-ac82-c6d3580da3ad");
 INSERT INTO O_TPARM
 	VALUES ("6a17224a-e16d-4c87-a4b6-3504f24b8992",
 	"6d27ebf1-bb50-4835-85e2-b21d260ab92c",
@@ -284,12 +284,12 @@ relate component to pe across R8001;
 relate pe to ep_pkg across R8000;
 pe.type = ElementTypeConstants::COMPONENT;
 self.PackageableElement_initialize(pe_pe:pe); // OOA - pe.initialize();
-self.Component_initialize(c_c:component,name:param.component_name); // OOA - component.initialize();
+self.Component_initialize(c_c:component, name:param.component_name); // OOA - component.initialize();
 
-return component;  // TODO - might make more sense to cache this in ooapopulation instead as current_component',
+return component;',
 	1,
 	'',
-	"a9942ae9-1501-49c7-afb1-84aa422a85e5");
+	"c46c404c-7529-4f5d-a19f-bd7f8ce04703");
 INSERT INTO O_TPARM
 	VALUES ("516962af-ce9e-4d62-a525-bbbbeaa22aec",
 	"59fd5264-7d22-47ce-a615-605f9ee03143",
@@ -430,6 +430,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'// Create a Model Class with name if it doesn''t already exist, Put inside component''s "<component name>" pkg
+
 // Get the package with the same name as the component, this is where we put the "internal behavior"
 current_component = self.current_component;
 select any internals_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == current_component.Name);
@@ -439,8 +440,14 @@ select any o_obj related by internals_pkg->PE_PE[R8000]->O_OBJ[R8001] where (sel
 
 if ( empty o_obj )
   // The object has not been declared already, create it
-  // TODO - Package_newClass(class_name: param.name, parent:internal_pkg);
-end if;',
+  self.Package_newClass(ep_pkg:internals_pkg, class_name: param.name);
+end if;
+
+// TODO - this needs to work in concert with Package_newClass and ModelClass_initialize since the first time through 
+//   could just be a forward declaration to an object.  Then the next time we see it we''ll be given more parameters
+//   to configure the class with.  Thus, we need to do more work here to set the key letters, class number, etc if we
+//   are given them as params.  Or, in the case where we saw the class defintion first then see another class declaration
+//   later, we basically just do nothing and return.',
 	1,
 	'',
 	"3ed1f3e8-afb7-40dc-a2d2-2caac1c499d4");
@@ -667,12 +674,175 @@ self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
 return importedComp;',
 	1,
 	'',
-	"9c97aa3a-d0d2-409c-86d0-9194db2476c5");
+	"59fd5264-7d22-47ce-a615-605f9ee03143");
 INSERT INTO O_TPARM
 	VALUES ("e952b8f1-7170-41cf-90c0-cc2e46eff7d6",
 	"a9942ae9-1501-49c7-afb1-84aa422a85e5",
 	'ep_pkg',
 	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("c46c404c-7529-4f5d-a19f-bd7f8ce04703",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_newClass',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'ep_pkg = param.ep_pkg;
+
+create object instance cl of O_OBJ;
+// create Packageable Element supertype and hook up to this package.
+create object instance pe of PE_PE;
+relate cl to pe across R8001;
+pe.type = ElementTypeConstants::CLASS;
+self.PackageableElement_initialize(pe_pe:pe); // OOA - pe.initialize();
+
+relate ep_pkg to pe across R8000;
+self.ModelClass_initialize(o_obj:cl, name:param.class_name); // OOA - cl.initialize();',
+	1,
+	'',
+	"9c97aa3a-d0d2-409c-86d0-9194db2476c5");
+INSERT INTO O_TPARM
+	VALUES ("9e81a5f3-e669-49c4-8751-23b2facf5522",
+	"c46c404c-7529-4f5d-a19f-bd7f8ce04703",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a18acae9-7cbd-4467-9517-c7dae02db45c",
+	"c46c404c-7529-4f5d-a19f-bd7f8ce04703",
+	'class_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9e81a5f3-e669-49c4-8751-23b2facf5522",
+	'');
+INSERT INTO O_TFR
+	VALUES ("6355664b-4091-4bc3-ac82-c6d3580da3ad",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ModelClass_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_obj = param.o_obj;
+o_obj.Name = param.name;
+
+select one packageableElem related by o_obj->PE_PE[R8001];
+select one package related by packageableElem->EP_PKG[R8000];
+select one component related by packageableElem->C_C[R8003];
+
+// Note that this is here just to get the variable classes into context.
+select many classes related by package->PE_PE[R8000]->O_OBJ[R8001];
+
+  if (not_empty package)
+    // we''re in a package, get the classes in the package and set the class number
+    select many classes related by package->PE_PE[R8000]->O_OBJ[R8001];
+    if ( package.Num_Rng == 0 )
+      o_obj.Numb = 1;
+    else
+      o_obj.Numb = package.Num_Rng;
+    end if;
+  else
+    rootCompIdInPkg = self.Component_getRootComponentId(c_c:component); // OOA - rootCompIdInPkg = component.getRootComponentId();
+    select any rootComponent from instances of C_C where (selected.Id == rootCompIdInPkg);
+    select one package related by rootComponent->PE_PE[R8001]->EP_PKG[R8000];
+    
+    if ( package.Num_Rng == 0 )
+      o_obj.Numb = 1;
+    else
+      o_obj.Numb = package.Num_Rng;
+    end if;
+  end if;
+
+// for each model-class associated with this model-class''s
+// owning subsystem or package
+for each clazz in classes
+  // if this class equals self, skip it
+  if (clazz.Obj_ID == o_obj.Obj_ID) continue; end if;
+
+  // if this other class''s number is greater than this model-class''s number
+  if (clazz.Numb >= o_obj.Numb)
+    // have this model-class''s number be just greater
+    // than this other class''s number
+    o_obj.Numb = clazz.Numb + 1;
+  end if;
+end for;
+
+// MASL object names are not allowed to have spaces, so we can just use the name as the default key letters
+o_obj.Key_Lett = o_obj.Name; // OOA - o_obj.Key_Lett = OS::remove_spaces(s:name);
+self.ModelClass_addIdentifiers(o_obj:o_obj); // OOA - o_obj.addIdentifiers();
+
+',
+	1,
+	'',
+	"746859b9-4abd-48d5-ab0d-ea689a3e3b5b");
+INSERT INTO O_TPARM
+	VALUES ("da659b0e-173f-470b-b017-b739ba8a6b65",
+	"6355664b-4091-4bc3-ac82-c6d3580da3ad",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Model Class>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("f9266be0-a4b2-457d-a083-584bdc37335f",
+	"6355664b-4091-4bc3-ac82-c6d3580da3ad",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"da659b0e-173f-470b-b017-b739ba8a6b65",
+	'');
+INSERT INTO O_TFR
+	VALUES ("746859b9-4abd-48d5-ab0d-ea689a3e3b5b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ModelClass_addIdentifiers',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_obj = param.o_obj;
+
+select any oid1 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 0 );
+if ( empty oid1 )
+  create object instance oid1 of O_ID;
+  oid1.Oid_ID = 0;
+  relate oid1 to o_obj across R104;
+end if;
+select any oid2 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 1 );
+if ( empty oid2 )
+  create object instance oid2 of O_ID;
+  oid2.Oid_ID = 1;
+  relate oid2 to o_obj across R104;
+end if;
+select any oid3 related by o_obj->O_ID[R104] where ( selected.Oid_ID == 2 );
+if ( empty oid3 )
+  create object instance oid3 of O_ID;
+  oid3.Oid_ID = 2;
+  relate oid3 to o_obj across R104;
+end if;
+',
+	1,
+	'',
+	"dc1b8351-2cfd-4870-b038-21d1052f3c05");
+INSERT INTO O_TPARM
+	VALUES ("f4fdbf93-a3aa-4805-9619-7b5430a18536",
+	"746859b9-4abd-48d5-ab0d-ea689a3e3b5b",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
