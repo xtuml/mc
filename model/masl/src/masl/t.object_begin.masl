@@ -1,4 +1,4 @@
-T_b("    ");
+T_b("  ");
 T_b("object ");
 T_b(self->name);
 T_b(" is");

@@ -86,6 +86,27 @@ INSERT INTO C_PP
 	0,
 	'',
 	"c8bd4b2c-f395-42b8-91df-78e41fae76fe");
+INSERT INTO C_EP
+	VALUES ("7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	-1,
+	'validate',
+	'');
+INSERT INTO C_AS
+	VALUES ("7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	'validate',
+	'',
+	0,
+	"a3e03e28-b19f-4bea-84df-d70f77be36d1");
+INSERT INTO C_PP
+	VALUES ("52c55100-1dc3-4312-be5f-ae7d3a93ad29",
+	"7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'element',
+	'',
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO PE_PE
 	VALUES ("d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
 	1,

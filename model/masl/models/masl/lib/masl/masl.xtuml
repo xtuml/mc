@@ -74,7 +74,7 @@ INSERT INTO GD_GE
 	"60badd64-9803-41ef-bf5c-23e18f030edf",
 	108,
 	0,
-	'masl::lib::masl::imported_masl');
+	'masl::lib::masl::masl_imported');
 INSERT INTO GD_SHP
 	VALUES ("18b37037-c8e8-4a3f-bb98-1b909c69c04e");
 INSERT INTO GD_NCS
@@ -366,13 +366,43 @@ INSERT INTO SPR_PS
 	VALUES ("d0885c5b-c5e1-439d-8530-5993d8c070d1",
 	'render',
 	'',
-	'::render( element:param.element, name:param.name );',
+	'::render( element:param.element, name:param.name );
+',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("a3e03e28-b19f-4bea-84df-d70f77be36d1",
 	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
 	-1,
 	'render',
+	'',
+	'../MASLDSL/MASLDSL.xtuml');
+INSERT INTO SPR_PEP
+	VALUES ("4059bf2d-3e86-4046-9eb9-65eb47c4001c",
+	"7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	"7039b2a2-b4c6-40a7-9b36-5577e4748919");
+INSERT INTO SPR_PS
+	VALUES ("4059bf2d-3e86-4046-9eb9-65eb47c4001c",
+	'validate',
+	'',
+	'valid = true;
+if ( "project" == param.element )
+  valid = project::validate();
+elif ( "domain" == param.element )
+  valid = domain::validate();
+elif ( "object" == param.element )
+  valid = object::validate();
+else
+  TRACE::log( flavor:"warning", id:90, message:"unrecognized model element in validate" );
+end if;
+if ( not valid )
+  TRACE::log( flavor:"failure", id:91, message:"model did not validate" );
+end if;',
+	1);
+INSERT INTO C_EP_PROXY
+	VALUES ("7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	-1,
+	'validate',
 	'',
 	'../MASLDSL/MASLDSL.xtuml');
 INSERT INTO C_I_PROXY
@@ -415,6 +445,16 @@ INSERT INTO SPR_REP
 INSERT INTO SPR_RS
 	VALUES ("29ba869c-f729-4cfd-838e-e4436cb24092",
 	'render',
+	'',
+	'',
+	1);
+INSERT INTO SPR_REP
+	VALUES ("6ec91888-b21f-4310-8550-a2cd9cac36fb",
+	"7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82");
+INSERT INTO SPR_RS
+	VALUES ("6ec91888-b21f-4310-8550-a2cd9cac36fb",
+	'validate',
 	'',
 	'',
 	1);

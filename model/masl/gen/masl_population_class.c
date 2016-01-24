@@ -28,6 +28,10 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   value[1] = p_value[1];
   value[2] = p_value[2];
   value[3] = p_value[3];
+  value[4] = p_value[4];
+  value[5] = p_value[5];
+  value[6] = p_value[6];
+  value[7] = p_value[7];
   /* SELECT any population FROM INSTANCES OF population */
   population = (masl_population *) Escher_SetGetAny( &pG_masl_population_extent.active );
   /* IF ( empty population ) */
@@ -116,8 +120,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     population->relationship = masl_regularrel_op_populate(population->domain, value[0]);
   }
   else if ( ( Escher_strcmp( "associative", element ) == 0 ) ) {
-    /* ASSIGN population.relationship = associative::populate(domain:population.domain, name:value[0]) */
-    population->relationship = masl_associative_op_populate(population->domain, value[0]);
+    /* ASSIGN population.relationship = associative::populate(domain:population.domain, name:value[0], using:value[1]) */
+    population->relationship = masl_associative_op_populate(population->domain, value[0], value[1]);
   }
   else if ( ( Escher_strcmp( "subsuper", element ) == 0 ) ) {
     /* ASSIGN population.relationship = subsuper::populate(domain:population.domain, name:value[0]) */
@@ -125,8 +129,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   }
   else if ( ( Escher_strcmp( "participation", element ) == 0 ) ) {
     masl_participation * p;
-    /* ASSIGN p = participation::populate(conditionality:value[1], multiplicity:value[2], objectname:value[3], phrase:value[0], relationship:population.relationship) */
-    p = masl_participation_op_populate(value[1], value[2], value[3], value[0], population->relationship);
+    /* ASSIGN p = participation::populate(conditionality:value[2], fromobject:value[0], multiplicity:value[3], phrase:value[1], relationship:population.relationship, toobject:value[4]) */
+    p = masl_participation_op_populate(value[2], value[0], value[3], value[1], population->relationship, value[4]);
   }
   else {
     /* TRACE::log( flavor:failure, id:39, message:( unrecognized element:   + element ) ) */

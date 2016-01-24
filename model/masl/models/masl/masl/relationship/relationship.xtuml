@@ -14,10 +14,22 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.relationship_begin.masl" );
-select one participation related by self->participation[R3713.''engages''];
-participation.render();
-T::include( file:"masl/t.relationship_end.masl" );',
+	'select one regularrel related by self->regularrel[R3721];
+if ( not_empty regularrel )
+  regularrel.render();
+else
+select one associative related by self->associative[R3721];
+if ( not_empty associative )
+  associative.render();
+else
+select one subsuper related by self->subsuper[R3721];
+if ( not_empty subsuper )
+  subsuper.render();
+else
+  TRACE::log( flavor:"failure", id:82, message:"missing subtype relationship while rendering" );
+end if;
+end if;
+end if;',
 	1,
 	'',
 	"ba9f72fd-fca7-4102-b768-e6f9748221de");
@@ -29,9 +41,13 @@ INSERT INTO O_TFR
 	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
 	0,
 	'domain = param.domain;
-create object instance relationship of relationship;
-relationship.name = param.name;
-relate relationship to domain across R3712;
+name = param.name;
+select any relationship related by domain->relationship[R3712] where ( selected.name == name );
+if ( empty relationship )
+  create object instance relationship of relationship;
+  relationship.name = param.name;
+  relate relationship to domain across R3712;
+end if;
 return relationship;',
 	1,
 	'',

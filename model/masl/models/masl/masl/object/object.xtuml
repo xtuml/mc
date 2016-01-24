@@ -31,10 +31,14 @@ INSERT INTO O_TFR
 	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	0,
 	'domain = param.domain;
-create object instance object of object;
-object.name = param.name;
-object.key_letters = object.name;
-relate domain to object across R3708.''has abstract'';
+name = param.name;
+select any object related by domain->object[R3708.''has abstract''] where ( selected.name == name );
+if ( empty object )
+  create object instance object of object;
+  object.name = param.name;
+  object.key_letters = object.name;
+  relate domain to object across R3708.''has abstract'';
+end if;
 return object;',
 	1,
 	'',

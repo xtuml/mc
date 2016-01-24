@@ -1,0 +1,3 @@
+  relationship ${relationship.name} is ${one_object.name} ${participation.oneconditionality} ${participation.onephrase} ${participation.onemultiplicity} ${other_object.name},
+    ${other_object.name} ${participation.otherconditionality} ${participation.otherphrase} ${participation.othermultiplicity} ${one_object.name},
+    using ${using_object.name};

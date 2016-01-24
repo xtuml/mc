@@ -14,12 +14,16 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'select one relationship related by self->relationship[R3721];
+select one participation related by relationship->participation[R3713.''engages''];
+select one one_object related by participation->object[R3714.''one''];
+select any other_object related by participation->object[R3720.''other''];
+select one using_object related by participation->object[R3715.''uses''];
+if ( ( empty one_object ) or ( empty other_object ) or ( empty using_object ) )
+  TRACE::log( flavor:"failure", id:55, message:"missing one or other object on associative render" );
+end if;
+T::include( file:"masl/t.associative.masl" );
+',
 	1,
 	'',
 	"d2b70be7-d4e3-42c0-a39d-623da36f965d");
@@ -31,9 +35,20 @@ INSERT INTO O_TFR
 	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
 	0,
 	'domain = param.domain;
+using_objectname = param.using;
 relationship = relationship::populate( name:param.name, domain:domain );
-create object instance associative of associative;
-relate associative to relationship across R3721;
+select one associative related by relationship->associative[R3721];
+if ( empty associative )
+  create object instance associative of associative;
+  relate associative to relationship across R3721;
+end if;
+if ( "" != using_objectname )
+  select one participation related by relationship->participation[R3713];
+  select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == using_objectname );
+  if ( not_empty object )
+    relate participation to object across R3715.''uses'';
+  end if;
+end if;
 return relationship;',
 	1,
 	'',
@@ -61,7 +76,7 @@ INSERT INTO O_TPARM
 	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	0,
 	'',
-	"3db1f298-b54d-4746-8b73-dc0bc32a9593",
+	"0b526c3a-f112-4c72-bb75-592e0f0b0933",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
@@ -70,6 +85,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("0b526c3a-f112-4c72-bb75-592e0f0b0933",
+	"d2b70be7-d4e3-42c0-a39d-623da36f965d",
+	'using',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3db1f298-b54d-4746-8b73-dc0bc32a9593",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
 	"00000000-0000-0000-0000-000000000000",
@@ -85,14 +109,18 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
+select many associatives from instances of associative;
+for each associative in associatives
+  select one participation related by associative->relationship[R3721]->participation[R3713.''engages''];
+  select one one_object related by participation->object[R3714.''one''];
+  select any other_object related by participation->object[R3720.''other''];
+  select one uses_object related by participation->object[R3715.''uses''];
+  if ( ( empty participation ) or ( empty one_object ) or ( empty other_object ) or ( empty uses_object ) )
+    TRACE::log( flavor:"failure", id:5, message:"associative is missing related objects." );
+    valid = false;
+  end if;
+end for;
 
-// Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
 return valid;
 ',
 	1,

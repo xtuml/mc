@@ -1,1 +1,1 @@
-  domain ${self.name} is
+domain ${self.name} is

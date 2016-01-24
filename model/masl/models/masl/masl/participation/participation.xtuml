@@ -32,32 +32,36 @@ INSERT INTO O_TFR
 	0,
 	'// populate gets called more than once to obtain both halves
 // of regular or associative relationship participations.
+fromobject = param.fromobject;
+phrase = param.phrase;
+conditionality = param.conditionality;
+multiplicity = param.multiplicity;
+toobject = param.toobject;
 relationship = param.relationship;
-objectname = param.objectname;
 select one participation related by relationship->participation[R3713.''engages''];
 if ( empty participation )
   // first half, always get this
   create object instance participation of participation;
-  participation.onephrase = param.phrase;
-  participation.oneconditionality = param.conditionality;
-  participation.onemultiplicity = param.multiplicity;
+  participation.onephrase = phrase;
+  participation.oneconditionality = conditionality;
+  participation.onemultiplicity = multiplicity;
   relate relationship to participation across R3713.''engages'';
-  select any object related by participation->relationship[R3713]->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == objectname );
+  select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
   if ( not_empty object )
     relate participation to object across R3714.''one'';
   else
-    TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + objectname );
+    TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + fromobject );
     valid = false;
   end if;
 else
-  participation.otherphrase = param.phrase;
-  participation.otherconditionality = param.conditionality;
-  participation.othermultiplicity = param.multiplicity;
-  select any object related by participation->relationship[R3713]->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == objectname );
+  participation.otherphrase = phrase;
+  participation.otherconditionality = conditionality;
+  participation.othermultiplicity = multiplicity;
+  select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
   if ( not_empty object )
     relate participation to object across R3720.''other'';
   else
-    TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + objectname );
+    TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + fromobject );
     valid = false;
   end if;
 end if;
@@ -72,7 +76,7 @@ INSERT INTO O_TPARM
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"75710807-cc55-4c8a-872f-68ba59bdbdbd",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("3d816441-4b22-4b21-91fd-14df91ae049e",
@@ -111,11 +115,20 @@ INSERT INTO S_DT_PROXY
 INSERT INTO O_TPARM
 	VALUES ("dde64bb0-77e6-4926-a7f6-30deba766e53",
 	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
-	'objectname',
+	'toobject',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"4dfc73a9-d768-4878-a68a-dd4262f2a283",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("75710807-cc55-4c8a-872f-68ba59bdbdbd",
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	'fromobject',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("54954f4e-9821-47ec-9365-ecd9c1b057b9",

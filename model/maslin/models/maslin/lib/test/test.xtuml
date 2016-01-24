@@ -240,6 +240,23 @@ INSERT INTO C_EP_PROXY
 	'populate',
 	'',
 	'../../../../../masl/models/masl/lib/MASLDSL/MASLDSL.xtuml');
+INSERT INTO SPR_REP
+	VALUES ("673081f6-bd48-4677-977e-5ee1995db8f1",
+	"7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	"a1f64161-7d59-4f75-a989-9739af6e60f7");
+INSERT INTO SPR_RS
+	VALUES ("673081f6-bd48-4677-977e-5ee1995db8f1",
+	'validate',
+	'',
+	'',
+	3);
+INSERT INTO C_EP_PROXY
+	VALUES ("7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	-1,
+	'validate',
+	'',
+	'../../../../../masl/models/masl/lib/MASLDSL/MASLDSL.xtuml');
 INSERT INTO C_I_PROXY
 	VALUES ("d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
 	"00000000-0000-0000-0000-000000000000",

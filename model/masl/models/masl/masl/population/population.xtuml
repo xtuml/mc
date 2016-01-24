@@ -73,11 +73,11 @@ elif ( "transition" == element )
 elif ( "regularrel" == element )
   population.relationship = regularrel::populate( name:value[0], domain:population.domain );
 elif ( "associative" == element )
-  population.relationship = associative::populate( name:value[0], domain:population.domain );
+  population.relationship = associative::populate( name:value[0], using:value[1], domain:population.domain );
 elif ( "subsuper" == element )
   population.relationship = subsuper::populate( name:value[0], domain:population.domain );
 elif ( "participation" == element )
-  p = participation::populate( phrase:value[0], conditionality:value[1], multiplicity:value[2], objectname:value[3], relationship:population.relationship );
+  p = participation::populate( fromobject:value[0], phrase:value[1], conditionality:value[2], multiplicity:value[3], toobject:value[4], relationship:population.relationship );
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;

@@ -1,1 +1,1 @@
-    object ${self.name} is
+  object ${self.name} is
