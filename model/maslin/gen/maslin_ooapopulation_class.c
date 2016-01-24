@@ -815,12 +815,6 @@ void
 maslin_ooapopulation_instancedumper( Escher_iHandle_t instance )
 {
   maslin_ooapopulation * self = (maslin_ooapopulation *) instance;
-  printf( "INSERT INTO ooapopulation VALUES ( ,,,, );\n",
-    self->current_sys,
-    self->wiring_pkg,
-    self->lib_pkg,
-    self->current_component,
-    self->current_class );
 }
 
 /*----------------------------------------------------------------------------
