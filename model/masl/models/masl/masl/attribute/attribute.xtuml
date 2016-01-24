@@ -127,11 +127,11 @@ for each attribute in attributes
     TRACE::log( flavor:"failure", id:29, message:"orphan attribute with no object:  " + attribute.name );
     valid = false;
   end if;
-  select one type related by attribute->type[R3717];
-  if ( empty type )
-    TRACE::log( flavor:"failure", id:29, message:"attribute with no type:  " + attribute.name );
-    valid = false;
-  end if;
+  //select one type related by attribute->type[R3717];
+  //if ( empty type )
+    //TRACE::log( flavor:"failure", id:29, message:"attribute with no type:  " + attribute.name );
+    //valid = false;
+  //end if;
 end for;
 
 // Validate siblings and subordinates.
