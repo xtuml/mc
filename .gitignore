@@ -8,3 +8,5 @@ mcmc/arlan/template_engine.tab.o
 mcmc/arlan/y.tab.h
 
 code_generation/
+
+*.oal
