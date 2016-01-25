@@ -25,17 +25,17 @@ INSERT INTO O_TFR
 	"b4ca2a06-2c75-4a67-9247-4d345b518ce0",
 	'populate',
 	'',
-	"34c9de7b-2411-4a0f-a120-7e5d7a0cfff1",
+	"19181ecc-b61f-4d45-adfa-53dc55a14253",
 	0,
 	'domain = param.domain;
-//select any template related by domain->template[R3799];
-select any template from instances of template; // DELETE THIS LINE
-if ( empty template )
-  create object instance template of template;
-  template.name = param.name;
-  //relate template to domain across R3799;
+//select any dictionary related by domain->dictionary[R3799];
+select any dictionary from instances of dictionary; // DELETE THIS LINE
+if ( empty dictionary )
+  create object instance dictionary of dictionary;
+  dictionary.name = param.name;
+  //relate dictionary to domain across R3799;
 end if;
-return template;',
+return dictionary;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -72,9 +72,9 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../masl/masl.xtuml');
 INSERT INTO S_DT_PROXY
-	VALUES ("34c9de7b-2411-4a0f-a120-7e5d7a0cfff1",
+	VALUES ("19181ecc-b61f-4d45-adfa-53dc55a14253",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<template>',
+	'inst_ref<dictionary>',
 	'',
 	'',
 	'../masltypes.xtuml');

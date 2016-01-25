@@ -25,17 +25,17 @@ INSERT INTO O_TFR
 	"e7ad95a5-9f11-405a-9b72-6b74bedf87f2",
 	'populate',
 	'',
-	"34c9de7b-2411-4a0f-a120-7e5d7a0cfff1",
+	"25cf1c85-eb83-4253-8d2e-91d11609dd8b",
 	0,
 	'domain = param.domain;
-//select any template related by domain->template[R3799];
-select any template from instances of template; // DELETE THIS LINE
-if ( empty template )
-  create object instance template of template;
-  template.name = param.name;
-  //relate template to domain across R3799;
+//select any member related by domain->member[R3799];
+select any member from instances of member; // DELETE THIS LINE
+if ( empty member )
+  create object instance member of member;
+  member.name = param.name;
+  //relate member to domain across R3799;
 end if;
-return template;',
+return member;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -72,9 +72,9 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../../masl/masl.xtuml');
 INSERT INTO S_DT_PROXY
-	VALUES ("34c9de7b-2411-4a0f-a120-7e5d7a0cfff1",
+	VALUES ("25cf1c85-eb83-4253-8d2e-91d11609dd8b",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<template>',
+	'inst_ref<member>',
 	'',
 	'',
 	'../masltypes.xtuml');
@@ -126,6 +126,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("295b74d1-d7ef-47eb-bb2c-da7e4950ee56",
+	"e7ad95a5-9f11-405a-9b72-6b74bedf87f2");
+INSERT INTO O_BATTR
+	VALUES ("295b74d1-d7ef-47eb-bb2c-da7e4950ee56",
+	"e7ad95a5-9f11-405a-9b72-6b74bedf87f2");
+INSERT INTO O_ATTR
+	VALUES ("295b74d1-d7ef-47eb-bb2c-da7e4950ee56",
+	"e7ad95a5-9f11-405a-9b72-6b74bedf87f2",
+	"486b8e9a-e552-4791-90a0-bd5e07a37279",
+	'defaultvalue',
+	'',
+	'',
+	'defaultvalue',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
