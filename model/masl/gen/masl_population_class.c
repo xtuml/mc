@@ -39,6 +39,10 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     /* CREATE OBJECT INSTANCE population OF population */
     population = (masl_population *) Escher_CreateInstance( masl_DOMAIN_ID, masl_population_CLASS_NUMBER );
   }
+  /* IF ( (  == value[0] ) ) */
+  if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
+    /* RETURN  */
+    return;  }
   /* IF ( ( project == element ) ) */
   if ( ( Escher_strcmp( "project", element ) == 0 ) ) {
     /* ASSIGN population.project = project::populate(name:value[0]) */

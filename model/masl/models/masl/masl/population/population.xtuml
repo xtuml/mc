@@ -24,6 +24,11 @@ if ( empty population )
   create object instance population of population;
 end if;
 
+// throw out if it has no args
+if ( "" == value[0] )
+  return;
+end if;
+
 if ( "project" == element )
   population.project = project::populate( name:value[0] );
 elif ( "domain" == element )
