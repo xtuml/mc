@@ -1,0 +1,10 @@
+arc/specialized
+mcmc/arlan/lex.yy.c
+mcmc/arlan/lex.yy.o
+mcmc/arlan/template_engine.o
+mcmc/arlan/template_engine.output
+mcmc/arlan/template_engine.tab.c
+mcmc/arlan/template_engine.tab.o
+mcmc/arlan/y.tab.h
+
+code_generation/
