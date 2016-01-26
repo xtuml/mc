@@ -22,10 +22,10 @@ if ( ( empty one_object ) )
 end if;
 T::include( file:"masl/t.subsuper_begin.masl" );
 select many other_objects related by participation->object[R3720.''other''];
-seperator = "";
+separator = "";
 for each other_object in other_objects
   T::include( file:"masl/t.subsuper_other.masl" );
-  seperator = ",";
+  separator = ",";
 end for;
 T::include( file:"masl/t.subsuper_end.masl" );
 ',

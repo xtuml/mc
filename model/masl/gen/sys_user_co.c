@@ -86,7 +86,7 @@ UserPostOoaInitializationCalloutf( void )
   }
   masl_in_validate( "project" );
   masl_in_render( "project", "*" );
-  T_emit( "mcmaslout.txt" );
+  T_emit( "stdout" );
 }
 
 /*

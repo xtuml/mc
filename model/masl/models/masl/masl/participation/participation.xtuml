@@ -14,12 +14,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'// Rendering for participation is in each subtype of relationship.',
 	1,
 	'',
 	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d");
@@ -171,7 +166,6 @@ for each participation in participations
     valid = false;
   end if;
 end for;
-
 return valid;
 ',
 	1,

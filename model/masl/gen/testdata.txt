@@ -1,5 +1,12 @@
 project,System
 domain,UI
+type,dogshape,public,honkin_integer
+type,catshape,public,meowing_real
+object,dog
+attribute,name,preferred,,phydeaux
+attribute,weight,,,0
+object,owner
+object,cat
 terminator,UIComm
 activity,lapResetPressed,UIComm,service
 activity,startStopPressed,UIComm,service

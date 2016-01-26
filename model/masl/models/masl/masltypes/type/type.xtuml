@@ -14,8 +14,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_begin.masl" );
-T::include( file:"masl/t.object_end.masl" );
+	'T::include( file:"masl/t.type_begin.masl" );
+T::include( file:"masl/t.type_end.masl" );
 ',
 	1,
 	'',
@@ -28,12 +28,13 @@ INSERT INTO O_TFR
 	"e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
 	0,
 	'domain = param.domain;
-//select any type related by domain->type[R3799];
-select any type from instances of type; // DELETE THIS LINE
+select any type related by domain->type[R3776] where ( selected.name == param.name );
 if ( empty type )
   create object instance type of type;
   type.name = param.name;
-  //relate type to domain across R3799;
+  type.visibility = param.visibility;
+  type.body = param.body; // This holds the string body of the type definition.
+  relate type to domain across R3776;
 end if;
 return type;',
 	1,
@@ -62,7 +63,7 @@ INSERT INTO O_TPARM
 	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	0,
 	'',
-	"510c49ab-e667-498b-ab0a-9aeb37c96665",
+	"22144d30-5e43-44d9-8a89-61ba5cdde66a",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
@@ -71,6 +72,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../masl/masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("6aa68c11-a83e-4ce6-a969-4dba28dff993",
+	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
+	'visibility',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"510c49ab-e667-498b-ab0a-9aeb37c96665",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("22144d30-5e43-44d9-8a89-61ba5cdde66a",
+	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
+	'body',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6aa68c11-a83e-4ce6-a969-4dba28dff993",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
 	"00000000-0000-0000-0000-000000000000",
@@ -86,11 +105,13 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-select many templates from instances of template;
-if ( empty templates )
-  TRACE::log( flavor:"failure", id:5, message:"There are no templates." );
-  valid = false;
-end if;
+select many types from instances of type;
+for each type in types
+  if ( "" == type.name )
+    TRACE::log( flavor:"failure", id:5, message:"type with no name" );
+    valid = false;
+  end if;
+end for;
 
 // Validate siblings and subordinates.
 //return ( valid and structure::validate() );
@@ -144,6 +165,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'visibility',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("36193e21-77c9-4afb-8061-b8f18d3807f1",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_BATTR
+	VALUES ("36193e21-77c9-4afb-8061-b8f18d3807f1",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_ATTR
+	VALUES ("36193e21-77c9-4afb-8061-b8f18d3807f1",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	"979a39c9-0bf7-4d9d-b2d1-7e6565fc61ce",
+	'body',
+	'',
+	'',
+	'body',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
