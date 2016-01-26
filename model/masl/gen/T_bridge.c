@@ -45,7 +45,9 @@ T_emit( c_t * p_file )
   static int first = 0;
   if ( first == 0 ) {
     first = 1;
-    if ( 0 == ( outputfile = fopen( p_file, "w" ) ) ) {
+    if ( strcmp( "stdout", p_file ) == 0 ) {
+      outputfile = stdout;
+    } else if ( 0 == ( outputfile = fopen( p_file, "w" ) ) ) {
       T_print( "bad news could not open output file" );
       T_exit( 1 );
     }
