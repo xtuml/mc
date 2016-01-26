@@ -24,11 +24,6 @@ if ( empty population )
   create object instance population of population;
 end if;
 
-// throw out if it has no args
-if ( "" == value[0] )
-  return;
-end if;
-
 if ( "project" == element )
   if ( "" == value[0] )
   	select any empty_project from instances of project where ( false );
@@ -57,36 +52,26 @@ elif ( "terminator" == element )
   else
     population.terminator = terminator::populate( name:value[0], domain:population.domain );
   end if;
-elif ( "activity" == element )
+elif ( "service" == element )
   if ( "" == value[0] )
   	select any empty_activity from instances of activity where ( false );
   	population.activity = empty_activity;
   else
-    // Check to see if the parent is a domain or a terminator.
-    if ( "" != value[1] )
-      // activity is child of terminator
-      population.activity = activity::populate( name:value[0], terminator:population.terminator, flavor:value[2] );
-    elif ( false )
-      // activity is child of object
-    elif ( false )
-      // activity is child of domain
-    else
-      TRACE::log( flavor:"failure", id:40, message:"unrecognized activity:  " + value[0] );
-   	end if;
+    population.activity = service::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3] );
+  end if;
+elif ( "function" == element )
+  if ( "" == value[0] )
+  	select any empty_activity from instances of activity where ( false );
+  	population.activity = empty_activity;
+  else
+    population.activity = function::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3] );
   end if;
 elif ( "parameter" == element )
   if ( "" == value[0] )
   	select any empty_parameter from instances of parameter where ( false );
   	population.parameter = empty_parameter;
   else
-    // Check to see if the parent is an activity or a sibling parameter.
-    if ( "" == value[3] )
-      // first parameter
-      select any empty_parameter from instances of parameter where ( false );
-      population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:empty_parameter );
-    else
-      population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:population.parameter );
-    end if;
+    population.parameter = parameter::populate( name:value[0], direction:value[1] );
   end if;
 elif ( "attribute" == element )
   if ( "" == value[0] )

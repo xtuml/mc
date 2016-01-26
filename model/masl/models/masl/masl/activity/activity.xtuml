@@ -14,69 +14,85 @@ INSERT INTO O_TFR
 	'',
 	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	0,
-	'terminator = param.terminator;
+	'visibility = param.visibility;
+name = param.name;
+
+// get population object
+select any population from instances of population;
+if ( empty population )
+  TRACE::log( flavor:"failure", id:39, message:"no population object" );
+  select any empty_activity from instances of activity where false;
+  return empty_activity;
+end if;
+
+// TODO check to see if it is empty or not and link it to it''s proper parent
+// for now just assume it is a terminator service
 create object instance activity of activity;
-activity.name = param.name;
-if ( not_empty terminator )
-  relate terminator to activity across R3703.''sends'';
-/*
-elif ( not_empty domain )
-  relate domain to activity across R3707.''receives through'';
-*/
+if ( "public" == visibility )
+  activity.visibility = masl_visibility::public;
+elif ( "private" == visibility )
+  activity.visibility = masl_visibility::private;
 else
-  TRACE::log( flavor:"failure", id:19, message:"activity did not have parent:  " + param.flavor );
+  TRACE::log( flavor:"failure", id:39, message:"invalid visibility" );
 end if;
-if ( "function" == param.flavor )
-  function = function::populate( returntype:"myint", activity:activity );
-elif ( "service" == param.flavor )
-  service = service::populate( activity:activity ); 
+activity.name = name;
+
+domain = population.domain;
+terminator = population.terminator;
+object = population.object;
+if ( empty terminator and empty object )
+  // child of domain
+  relate activity to domain across R3707;
+elif ( not_empty terminator )
+  // child of terminator
+  relate activity to terminator across R3703;
+elif ( not_empty object )
+  // child of object
+  // TODO relationship between activity and object
+  //relate activity to object across R3703;
 else
-  TRACE::log( flavor:"failure", id:18, message:"invalid flavor of activity:  " + param.flavor );
+  TRACE::log( flavor:"failure", id:39, message:"no parent for activity found" );
 end if;
+
 return activity;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
-	VALUES ("a362d391-ac06-4685-bef6-b666ec71450e",
+	VALUES ("585355bf-c759-4c64-aa52-63cf9d1e7530",
 	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
-	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
-INSERT INTO O_TPARM
-	VALUES ("f097e4e5-2dad-4628-80d7-348298143567",
-	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
-	'terminator',
-	"a2661e87-6030-4167-bef8-2ff6c815e67e",
-	0,
-	'',
-	"a362d391-ac06-4685-bef6-b666ec71450e",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("a2661e87-6030-4167-bef8-2ff6c815e67e",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<terminator>',
-	'',
-	'',
-	'../masl.xtuml');
-INSERT INTO O_TPARM
-	VALUES ("2f553dec-bf8c-4d16-b5fd-b00bc5cb0e46",
-	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
-	'flavor',
+	'visibility',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"f097e4e5-2dad-4628-80d7-348298143567",
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a0bc78f5-fe93-4ba5-bee4-743fb96c6b5a",
+	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"585355bf-c759-4c64-aa52-63cf9d1e7530",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("8f65c084-b0ee-4dd6-9184-2b3b0951f930",
+	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	'instance',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a0bc78f5-fe93-4ba5-bee4-743fb96c6b5a",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("06420c83-f74c-4062-8a17-c9ba14df3251",
+	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	'deferred_relationship',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"8f65c084-b0ee-4dd6-9184-2b3b0951f930",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
@@ -168,6 +184,13 @@ INSERT INTO O_ATTR
 	"34fac455-523f-4aa2-932b-a33981ceacad",
 	'',
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
+	"00000000-0000-0000-0000-000000000000",
+	'str',
+	'',
+	'""',
+	'../../types/types.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("968777bc-23a5-4528-b2ca-54fae8483fce",
 	"4431e956-be8b-40e7-83ed-ac781e31719b");

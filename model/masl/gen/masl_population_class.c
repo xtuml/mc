@@ -39,10 +39,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     /* CREATE OBJECT INSTANCE population OF population */
     population = (masl_population *) Escher_CreateInstance( masl_DOMAIN_ID, masl_population_CLASS_NUMBER );
   }
-  /* IF ( (  == value[0] ) ) */
-  if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
-    /* RETURN  */
-    return;  }
   /* IF ( ( project == element ) ) */
   if ( ( Escher_strcmp( "project", element ) == 0 ) ) {
     /* IF ( (  == value[0] ) ) */
@@ -100,7 +96,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->terminator = masl_terminator_op_populate(population->domain, value[0]);
     }
   }
-  else if ( ( Escher_strcmp( "activity", element ) == 0 ) ) {
+  else if ( ( Escher_strcmp( "service", element ) == 0 ) ) {
     /* IF ( (  == value[0] ) ) */
     if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
       masl_activity * empty_activity=0;
@@ -110,19 +106,22 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->activity = empty_activity;
     }
     else {
-      /* IF ( (  != value[1] ) ) */
-      if ( ( Escher_strcmp( "", value[1] ) != 0 ) ) {
-        /* ASSIGN population.activity = activity::populate(flavor:value[2], name:value[0], terminator:population.terminator) */
-        population->activity = masl_activity_op_populate(value[2], value[0], population->terminator);
-      }
-      else if ( FALSE ) {
-      }
-      else if ( FALSE ) {
-      }
-      else {
-        /* TRACE::log( flavor:failure, id:40, message:( unrecognized activity:   + value[0] ) ) */
-        TRACE_log( "failure", 40, Escher_stradd( "unrecognized activity:  ", value[0] ) );
-      }
+      /* ASSIGN population.activity = service::populate(deferred_relationship:value[3], instance:value[2], name:value[1], visibility:value[0]) */
+      population->activity = masl_service_op_populate(value[3], value[2], value[1], value[0]);
+    }
+  }
+  else if ( ( Escher_strcmp( "function", element ) == 0 ) ) {
+    /* IF ( (  == value[0] ) ) */
+    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
+      masl_activity * empty_activity=0;
+      /* SELECT any empty_activity FROM INSTANCES OF activity WHERE FALSE */
+      empty_activity = 0;
+      /* ASSIGN population.activity = empty_activity */
+      population->activity = empty_activity;
+    }
+    else {
+      /* ASSIGN population.activity = function::populate(deferred_relationship:value[3], instance:value[2], name:value[1], visibility:value[0]) */
+      population->activity = masl_function_op_populate(value[3], value[2], value[1], value[0]);
     }
   }
   else if ( ( Escher_strcmp( "parameter", element ) == 0 ) ) {
@@ -135,18 +134,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->parameter = empty_parameter;
     }
     else {
-      /* IF ( (  == value[3] ) ) */
-      if ( ( Escher_strcmp( "", value[3] ) == 0 ) ) {
-        masl_parameter * empty_parameter=0;
-        /* SELECT any empty_parameter FROM INSTANCES OF parameter WHERE FALSE */
-        empty_parameter = 0;
-        /* ASSIGN population.parameter = parameter::populate(activity:population.activity, direction:value[2], name:value[0], previous_parameter:empty_parameter, type:value[1]) */
-        population->parameter = masl_parameter_op_populate(population->activity, value[2], value[0], empty_parameter, value[1]);
-      }
-      else {
-        /* ASSIGN population.parameter = parameter::populate(activity:population.activity, direction:value[2], name:value[0], previous_parameter:population.parameter, type:value[1]) */
-        population->parameter = masl_parameter_op_populate(population->activity, value[2], value[0], population->parameter, value[1]);
-      }
+      /* ASSIGN population.parameter = parameter::populate(direction:value[1], name:value[0]) */
+      population->parameter = masl_parameter_op_populate(value[1], value[0]);
     }
   }
   else if ( ( Escher_strcmp( "attribute", element ) == 0 ) ) {
