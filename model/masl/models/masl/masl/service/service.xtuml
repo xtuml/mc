@@ -12,35 +12,63 @@ INSERT INTO O_TFR
 	"669c9e5d-eb78-45b7-866e-089542dfb839",
 	'populate',
 	'',
-	"84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
+	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	0,
-	'activity = param.activity;
-create object instance service of service;
-relate activity to service across R3704;
-return service;',
+	'visibility = param.visibility;
+name = param.name;
+instance = param.instance;
+rel = param.deferred_relationship;
+
+activity = activity::populate( visibility:visibility, name:name, instance:instance, deferred_relationship:rel );
+select one service related by activity->service[R3704];
+if ( empty service )
+  create object instance service of service;
+  relate service to activity across R3704;
+end if;
+return activity;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
-	VALUES ("0728b065-2580-4dd0-8c47-422c2b930d65",
+	VALUES ("ca8187cf-a56b-4110-a85f-8c1927ffb12f",
 	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
-	'activity',
-	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	'visibility',
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("bde79d70-72b4-4487-8dd9-966cd7f8ddb8",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ca8187cf-a56b-4110-a85f-8c1927ffb12f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("c991c4c0-eb41-4a9a-8a06-1dfb31876798",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'instance',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"bde79d70-72b4-4487-8dd9-966cd7f8ddb8",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("276edef5-6372-42e6-890b-8cffa87930c7",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'deferred_relationship',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c991c4c0-eb41-4a9a-8a06-1dfb31876798",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<activity>',
-	'',
-	'',
-	'../masl.xtuml');
-INSERT INTO S_DT_PROXY
-	VALUES ("84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<service>',
 	'',
 	'',
 	'../masl.xtuml');
