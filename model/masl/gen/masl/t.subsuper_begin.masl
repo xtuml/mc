@@ -1,0 +1,1 @@
+  relationship ${relationship.name} is ${one_object.name} is_a (\

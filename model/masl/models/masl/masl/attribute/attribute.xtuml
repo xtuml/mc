@@ -19,7 +19,7 @@ select many referentials related by self->referential[R3718.''refers through''];
 for each referential in referentials
   referential.render();
 end for;
-select one type related by self->type[R3717];
+select one type related by self->typeref[R3717]->type[R3762];
 T::include( file:"masl/t.attribute_end.masl" );',
 	1,
 	'',

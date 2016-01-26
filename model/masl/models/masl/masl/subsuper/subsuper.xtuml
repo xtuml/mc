@@ -14,14 +14,21 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one participation related by self->relationship[R3721]->participation[R3713.''engages''];
-participation.render();
-//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'select one relationship related by self->relationship[R3721];
+select one participation related by relationship->participation[R3713.''engages''];
+select one one_object related by participation->object[R3714.''one''];
+if ( ( empty one_object ) )
+  TRACE::log( flavor:"failure", id:55, message:"missing one or other object on associative render" );
+end if;
+T::include( file:"masl/t.subsuper_begin.masl" );
+select many other_objects related by participation->object[R3720.''other''];
+seperator = "";
+for each other_object in other_objects
+  T::include( file:"masl/t.subsuper_other.masl" );
+  seperator = ",";
+end for;
+T::include( file:"masl/t.subsuper_end.masl" );
+',
 	1,
 	'',
 	"bf6b990a-0c43-4fcb-ab3f-c0ac06ee8ac7");
