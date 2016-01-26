@@ -255,8 +255,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->state = empty_state;
     }
     else {
-      /* ASSIGN population.state = state::populate(name:value[0], state_machine:population.transitiontable, type:value[1]) */
-      population->state = masl_state_op_populate(value[0], population->transitiontable, value[1]);
+      /* ASSIGN population.state = state::populate(name:value[0], object:population.object, type:value[1]) */
+      population->state = masl_state_op_populate(value[0], population->object, value[1]);
     }
   }
   else if ( ( Escher_strcmp( "event", element ) == 0 ) ) {
@@ -269,8 +269,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->event = empty_event;
     }
     else {
-      /* ASSIGN population.event = event::populate(name:value[0], state_machine:population.transitiontable, type:value[1]) */
-      population->event = masl_event_op_populate(value[0], population->transitiontable, value[1]);
+      /* ASSIGN population.event = event::populate(name:value[0], object:population.object, type:value[1]) */
+      population->event = masl_event_op_populate(value[0], population->object, value[1]);
     }
   }
   else if ( ( Escher_strcmp( "transition", element ) == 0 ) ) {
@@ -340,9 +340,18 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     }
   }
   else if ( ( Escher_strcmp( "participation", element ) == 0 ) ) {
-    masl_participation * p;
-    /* ASSIGN p = participation::populate(conditionality:value[2], fromobject:value[0], multiplicity:value[3], phrase:value[1], relationship:population.relationship, toobject:value[4]) */
-    p = masl_participation_op_populate(value[2], value[0], value[3], value[1], population->relationship, value[4]);
+    /* IF ( (  == value[0] ) ) */
+    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
+      masl_participation * empty_participation=0;
+      /* SELECT any empty_participation FROM INSTANCES OF participation WHERE FALSE */
+      empty_participation = 0;
+      /* ASSIGN population.participation = empty_participation */
+      population->participation = empty_participation;
+    }
+    else {
+      /* ASSIGN population.participation = participation::populate(conditionality:value[2], fromobject:value[0], multiplicity:value[3], participation:population.participation, phrase:value[1], relationship:population.relationship, toobject:value[4]) */
+      population->participation = masl_participation_op_populate(value[2], value[0], value[3], population->participation, value[1], population->relationship, value[4]);
+    }
   }
   else if ( ( Escher_strcmp( "type", element ) == 0 ) ) {
     /* IF ( (  == value[0] ) ) */
