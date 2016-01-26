@@ -18,12 +18,14 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.state_begin.masl" );
+	'/*
+T::include( file:"masl/t.state_begin.masl" );
 select one parameter related by self->parameter[R3726.''carries first''];
 if ( not_empty parameter )
   parameter.render();
 end if;
-T::include( file:"masl/t.state_end.masl" );',
+T::include( file:"masl/t.state_end.masl" );
+*/',
 	1,
 	'',
 	"b5fb225a-420f-41b5-b16e-930a5ff3ea82");
@@ -34,11 +36,15 @@ INSERT INTO O_TFR
 	'',
 	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
 	0,
-	'state_machine = param.state_machine;
+	'/*
+state_machine = param.state_machine;
 create object instance state of state;
 state.name = param.name;
 state.type = param.type;
 relate state to state_machine across R3738;
+return state;
+*/
+create object instance state of state;
 return state;',
 	1,
 	'',
@@ -98,7 +104,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
-	'valid = true;
+	'/*
+valid = true;
 select many states from instances of state;
 for each state in states
 select one state_machine related by state->state_machine[R3738];
@@ -122,7 +129,8 @@ select one state_machine related by state->state_machine[R3738];
   end if;
 end for;
 return valid;
-',
+*/
+return true;',
 	1,
 	'',
 	"3831770b-0142-457e-9e20-b77e34cfaa75");

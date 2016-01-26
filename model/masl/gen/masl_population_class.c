@@ -39,10 +39,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     /* CREATE OBJECT INSTANCE population OF population */
     population = (masl_population *) Escher_CreateInstance( masl_DOMAIN_ID, masl_population_CLASS_NUMBER );
   }
-  /* IF ( (  == value[0] ) ) */
-  if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
-    /* RETURN  */
-    return;  }
   /* IF ( ( project == element ) ) */
   if ( ( Escher_strcmp( "project", element ) == 0 ) ) {
     /* IF ( (  == value[0] ) ) */
@@ -100,7 +96,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->terminator = masl_terminator_op_populate(population->domain, value[0]);
     }
   }
-  else if ( ( Escher_strcmp( "activity", element ) == 0 ) ) {
+  else if ( ( ( Escher_strcmp( "service", element ) == 0 ) || ( Escher_strcmp( "function", element ) == 0 ) ) ) {
     /* IF ( (  == value[0] ) ) */
     if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
       masl_activity * empty_activity=0;
@@ -110,18 +106,44 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->activity = empty_activity;
     }
     else {
-      /* IF ( (  != value[1] ) ) */
-      if ( ( Escher_strcmp( "", value[1] ) != 0 ) ) {
-        /* ASSIGN population.activity = activity::populate(flavor:value[2], name:value[0], terminator:population.terminator) */
-        population->activity = masl_activity_op_populate(value[2], value[0], population->terminator);
+      masl_object * parent_object;masl_terminator * parent_terminator;masl_domain * parent_domain;
+      /* ASSIGN parent_domain = population.domain */
+      parent_domain = population->domain;
+      /* ASSIGN parent_terminator = population.terminator */
+      parent_terminator = population->terminator;
+      /* ASSIGN parent_object = population.object */
+      parent_object = population->object;
+      /* IF ( ( not_empty parent_domain and empty parent_terminator ) ) */
+      if ( ( ( 0 != parent_domain ) && ( 0 == parent_terminator ) ) ) {
+        /* SELECT any parent_terminator FROM INSTANCES OF terminator WHERE FALSE */
+        parent_terminator = 0;
+        /* SELECT any parent_object FROM INSTANCES OF object WHERE FALSE */
+        parent_object = 0;
       }
-      else if ( FALSE ) {
+      else if ( ( 0 != parent_terminator ) ) {
+        /* SELECT any parent_domain FROM INSTANCES OF domain WHERE FALSE */
+        parent_domain = 0;
+        /* SELECT any parent_object FROM INSTANCES OF object WHERE FALSE */
+        parent_object = 0;
       }
-      else if ( FALSE ) {
+      else if ( ( 0 != parent_object ) ) {
+        /* SELECT any parent_domain FROM INSTANCES OF domain WHERE FALSE */
+        parent_domain = 0;
+        /* SELECT any parent_terminator FROM INSTANCES OF terminator WHERE FALSE */
+        parent_terminator = 0;
       }
       else {
-        /* TRACE::log( flavor:failure, id:40, message:( unrecognized activity:   + value[0] ) ) */
-        TRACE_log( "failure", 40, Escher_stradd( "unrecognized activity:  ", value[0] ) );
+        /* TRACE::log( flavor:failure, id:39, message:no parent for activity found ) */
+        TRACE_log( "failure", 39, "no parent for activity found" );
+      }
+      /* IF ( ( service == element ) ) */
+      if ( ( Escher_strcmp( "service", element ) == 0 ) ) {
+        /* ASSIGN population.activity = service::populate(deferred_relationship:value[3], instance:value[2], name:value[1], parent_domain:parent_domain, parent_object:parent_object, parent_terminator:parent_terminator, visibility:value[0]) */
+        population->activity = masl_service_op_populate(value[3], value[2], value[1], parent_domain, parent_object, parent_terminator, value[0]);
+      }
+      else if ( ( Escher_strcmp( "function", element ) == 0 ) ) {
+        /* ASSIGN population.activity = function::populate(deferred_relationship:value[3], instance:value[2], name:value[1], parent_domain:parent_domain, parent_object:parent_object, parent_terminator:parent_terminator, visibility:value[0]) */
+        population->activity = masl_function_op_populate(value[3], value[2], value[1], parent_domain, parent_object, parent_terminator, value[0]);
       }
     }
   }
@@ -135,18 +157,22 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->parameter = empty_parameter;
     }
     else {
-      /* IF ( (  == value[3] ) ) */
-      if ( ( Escher_strcmp( "", value[3] ) == 0 ) ) {
-        masl_parameter * empty_parameter=0;
-        /* SELECT any empty_parameter FROM INSTANCES OF parameter WHERE FALSE */
-        empty_parameter = 0;
-        /* ASSIGN population.parameter = parameter::populate(activity:population.activity, direction:value[2], name:value[0], previous_parameter:empty_parameter, type:value[1]) */
-        population->parameter = masl_parameter_op_populate(population->activity, value[2], value[0], empty_parameter, value[1]);
+      masl_parameter * sibling_parameter;masl_activity * parent_activity;
+      /* ASSIGN parent_activity = population.activity */
+      parent_activity = population->activity;
+      /* ASSIGN sibling_parameter = population.parameter */
+      sibling_parameter = population->parameter;
+      /* IF ( not_empty sibling_parameter ) */
+      if ( ( 0 != sibling_parameter ) ) {
+        /* SELECT any parent_activity FROM INSTANCES OF activity WHERE FALSE */
+        parent_activity = 0;
       }
-      else {
-        /* ASSIGN population.parameter = parameter::populate(activity:population.activity, direction:value[2], name:value[0], previous_parameter:population.parameter, type:value[1]) */
-        population->parameter = masl_parameter_op_populate(population->activity, value[2], value[0], population->parameter, value[1]);
+      else if ( ( 0 != parent_activity ) ) {
+        /* SELECT any sibling_parameter FROM INSTANCES OF parameter WHERE FALSE */
+        sibling_parameter = 0;
       }
+      /* ASSIGN population.parameter = parameter::populate(direction:value[1], name:value[0], parent_activity:parent_activity, sibling_parameter:sibling_parameter) */
+      population->parameter = masl_parameter_op_populate(value[1], value[0], parent_activity, sibling_parameter);
     }
   }
   else if ( ( Escher_strcmp( "attribute", element ) == 0 ) ) {
@@ -161,6 +187,48 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     else {
       /* ASSIGN population.attribute = attribute::populate(defaultvalue:value[3], name:value[0], object:population.object, preferred:value[1], unique:value[2]) */
       population->attribute = masl_attribute_op_populate(value[3], value[0], population->object, value[1], value[2]);
+    }
+  }
+  else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
+    /* IF ( (  == value[0] ) ) */
+    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
+    }
+    else {
+      masl_typeref * p;masl_attribute * parent_attribute;masl_parameter * parent_parameter;masl_activity * parent_activity;masl_function * parent_function=0;
+      /* ASSIGN parent_activity = population.activity */
+      parent_activity = population->activity;
+      /* SELECT one parent_function RELATED BY parent_activity->function[R3704] */
+      parent_function = 0;
+      if ( ( 0 != parent_activity ) && ( masl_function_CLASS_NUMBER == parent_activity->R3704_object_id ) )      parent_function = ( 0 != parent_activity ) ? (masl_function *) parent_activity->R3704_subtype : 0;
+      /* ASSIGN parent_parameter = population.parameter */
+      parent_parameter = population->parameter;
+      /* ASSIGN parent_attribute = population.attribute */
+      parent_attribute = population->attribute;
+      /* IF ( ( not_empty parent_function and empty parent_parameter ) ) */
+      if ( ( ( 0 != parent_function ) && ( 0 == parent_parameter ) ) ) {
+        /* SELECT any parent_parameter FROM INSTANCES OF parameter WHERE FALSE */
+        parent_parameter = 0;
+        /* SELECT any parent_attribute FROM INSTANCES OF attribute WHERE FALSE */
+        parent_attribute = 0;
+      }
+      else if ( ( 0 != parent_parameter ) ) {
+        /* SELECT any parent_attribute FROM INSTANCES OF attribute WHERE FALSE */
+        parent_attribute = 0;
+        /* SELECT any parent_function FROM INSTANCES OF function WHERE FALSE */
+        parent_function = 0;
+      }
+      else if ( ( 0 != parent_attribute ) ) {
+        /* SELECT any parent_parameter FROM INSTANCES OF parameter WHERE FALSE */
+        parent_parameter = 0;
+        /* SELECT any parent_function FROM INSTANCES OF function WHERE FALSE */
+        parent_function = 0;
+      }
+      else {
+        /* TRACE::log( flavor:failure, id:39, message:no parent for typeref ) */
+        TRACE_log( "failure", 39, "no parent for typeref" );
+      }
+      /* ASSIGN p = typeref::populate(body:value[0], domain:population.domain, name:, parent_attribute:parent_attribute, parent_function:parent_function, parent_parameter:parent_parameter) */
+      p = masl_typeref_op_populate(value[0], population->domain, "", parent_attribute, parent_function, parent_parameter);
     }
   }
   else if ( ( Escher_strcmp( "transitiontable", element ) == 0 ) ) {
@@ -284,20 +352,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       empty_type = 0;
       /* ASSIGN population.type = empty_type */
       population->type = empty_type;
-    }
-    else {
-      /* ASSIGN population.type = type::populate(body:value[2], domain:population.domain, name:value[0], visibility:value[1]) */
-      population->type = masl_type_op_populate(value[2], population->domain, value[0], value[1]);
-    }
-  }
-  else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
-    /* IF ( (  == value[0] ) ) */
-    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
-      masl_typeref * empty_typeref=0;
-      /* SELECT any empty_typeref FROM INSTANCES OF typeref WHERE FALSE */
-      empty_typeref = 0;
-      /* ASSIGN population.typeref = empty_typeref */
-      population->typeref = empty_typeref;
     }
     else {
       /* ASSIGN population.type = type::populate(body:value[2], domain:population.domain, name:value[0], visibility:value[1]) */

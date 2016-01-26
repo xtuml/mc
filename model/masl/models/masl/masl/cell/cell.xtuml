@@ -30,10 +30,14 @@ INSERT INTO O_TFR
 	'',
 	"37c8bb16-c4a9-41de-91c4-06bedcca9acf",
 	0,
-	'state_machine = param.statemachine;
+	'/*
+state_machine = param.statemachine;
 create object instance cell of cell;
 select any start_state related by state_machine->object[
 cell.notransition = param.endstate;
+return cell;
+*/
+create object instance cell of cell;
 return cell;',
 	1,
 	'',
@@ -117,7 +121,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'value[8] = "";
-value[0] = self.name;
+//value[0] = self.name;
 //out::( element:"template_class", value:value );',
 	1,
 	'',
