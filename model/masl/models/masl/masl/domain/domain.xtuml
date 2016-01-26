@@ -76,6 +76,10 @@ select many objects related by self->object[R3708.''has abstract''];
 for each object in objects
   object.render_declaration();
 end for;
+select many types related by self->type[R3776];
+for each type in types
+  type.render();
+end for;
 select many terminators related by self->terminator[R3702.''sends through''];
 for each terminator in terminators
   terminator.render();
@@ -112,7 +116,14 @@ for each domain in domains;
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and terminator::validate() and activity::validate() and object::validate() and relationship::validate() );
+return ( 
+  valid
+  and terminator::validate()
+  and activity::validate()
+  and object::validate()
+  and relationship::validate()
+  and type::validate()
+);
 ',
 	1,
 	'',
