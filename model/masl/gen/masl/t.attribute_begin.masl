@@ -1,1 +1,1 @@
-    ${self.name} : ${self.preferred} ${self.unique}
+    ${self.name} : ${self.preferred} ${self.unique} \

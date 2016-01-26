@@ -28,7 +28,7 @@ INSERT INTO O_TFR
 	"e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
 	0,
 	'domain = param.domain;
-select any type related by domain->type[R3776];
+select any type related by domain->type[R3776] where ( selected.name == param.name );
 if ( empty type )
   create object instance type of type;
   type.name = param.name;
