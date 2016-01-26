@@ -25,17 +25,17 @@ INSERT INTO O_TFR
 	"8e83f3d0-9312-48bd-803d-f55634d8f9e7",
 	'populate',
 	'',
-	"34c9de7b-2411-4a0f-a120-7e5d7a0cfff1",
+	"0740d88e-e232-4c45-a8af-5542c1eb67d2",
 	0,
 	'domain = param.domain;
-//select any template related by domain->template[R3799];
-select any template from instances of template; // DELETE THIS LINE
-if ( empty template )
-  create object instance template of template;
-  template.name = param.name;
-  //relate template to domain across R3799;
+//select any expression related by domain->expression[R3799];
+select any expression from instances of expression; // DELETE THIS LINE
+if ( empty expression )
+  create object instance expression of expression;
+  expression.name = param.name;
+  //relate expression to domain across R3799;
 end if;
-return template;',
+return expression;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -72,12 +72,12 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../masl.xtuml');
 INSERT INTO S_DT_PROXY
-	VALUES ("34c9de7b-2411-4a0f-a120-7e5d7a0cfff1",
+	VALUES ("0740d88e-e232-4c45-a8af-5542c1eb67d2",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<template>',
+	'inst_ref<expression>',
 	'',
 	'',
-	'../../masltypes/masltypes.xtuml');
+	'../masl.xtuml');
 INSERT INTO O_TFR
 	VALUES ("14af9a0e-c845-4fc9-8905-5abbc556ea38",
 	"8e83f3d0-9312-48bd-803d-f55634d8f9e7",

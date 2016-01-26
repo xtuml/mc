@@ -6316,7 +6316,7 @@ INSERT INTO S_IRDT
 INSERT INTO O_OBJ_PROXY
 	VALUES ("55b957d7-057a-49f6-a626-04962e8fbd80",
 	'constrained_array',
-	3762,
+	3773,
 	'constrained_array',
 	'',
 	"00000000-0000-0000-0000-000000000000",
