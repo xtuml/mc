@@ -14,17 +14,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'direction = "";
-if ( directiontype::in == self.direction )
-  direction = "in";
-elif ( directiontype::out == self.direction )
-  direction = "out";
-elif ( directiontype::inout == self.direction )
-  direction = "inout";
-else
-  TRACE::log( flavor:"failure", id:28, message:"parameter got invalid direction." );
-end if;
-T::include( file:"masl/t.parameter.masl" );
+	'T::include( file:"masl/t.parameter.masl" );
 select one parametertype related by self->typeref[R3740];
 parametertype.render();
 select one parameter related by self->parameter[R3706.''precedes''];
@@ -42,35 +32,21 @@ INSERT INTO O_TFR
 	'',
 	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
 	0,
-	'// get population object
-select any population from instances of population;
-if ( empty population )
-  TRACE::log( flavor:"failure", id:39, message:"no population object" );
-  select any empty_parameter from instances of parameter where false;
-  return empty_parameter;
-end if;
-
-create object instance parameter of parameter;
+	'create object instance parameter of parameter;
 parameter.name = param.name;
-if ( "in" == param.direction )
-  parameter.direction = directiontype::in;
-elif ( "out" == param.direction )
-  parameter.direction = directiontype::out;
-elif ( "inout" == param.direction )
-  parameter.direction = directiontype::inout;
+parameter.direction = param.direction;
+
+// relate to parent
+parent_activity = param.parent_activity;
+sibling_parameter = param.sibling_parameter;
+if ( not_empty sibling_parameter )
+  relate parameter to sibling_parameter across R3706.''succeeds'';
+elif ( not_empty parent_activity )
+  relate parent_activity to parameter across R3705.''carries first'';
 else
-  // bad
-  TRACE::log( flavor:"failure", id:41, message:"invalid direction given for parameter:  " + parameter.name );
+  TRACE::log( flavor:"failure", id:39, message:"no parent for parameter" );
 end if;
 
-
-activity = population.activity;
-previous_parameter = population.parameter;
-if ( empty previous_parameter )
-  relate activity to parameter across R3705.''carries first'';
-else
-  relate parameter to previous_parameter across R3706.''succeeds'';
-end if;
 return parameter;',
 	1,
 	'',
@@ -92,6 +68,31 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"832e40af-41d8-47f7-af18-a29df551fa7f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d8805b5d-6460-4e51-abdc-7526fa57435d",
+	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	'parent_activity',
+	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	0,
+	'',
+	"4fef2767-f1c2-4879-bc16-1b7df94b783d",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<activity>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("4824ff63-86d9-4355-8939-9deebe8f2804",
+	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	'sibling_parameter',
+	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	0,
+	'',
+	"d8805b5d-6460-4e51-abdc-7526fa57435d",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
@@ -189,16 +190,9 @@ INSERT INTO O_ATTR
 	'',
 	'direction',
 	0,
-	"146cb4c3-2b62-44ae-a7a2-82a577891858",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("146cb4c3-2b62-44ae-a7a2-82a577891858",
-	"00000000-0000-0000-0000-000000000000",
-	'directiontype',
-	'',
-	'',
-	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");

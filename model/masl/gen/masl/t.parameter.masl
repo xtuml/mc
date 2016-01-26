@@ -1,1 +1,1 @@
-        ${self.name} : ${direction} \
+        ${self.name} : ${self.direction} \

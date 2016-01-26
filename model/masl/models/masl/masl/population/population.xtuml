@@ -52,26 +52,50 @@ elif ( "terminator" == element )
   else
     population.terminator = terminator::populate( name:value[0], domain:population.domain );
   end if;
-elif ( "service" == element )
+elif ( "service" == element or "function" == element )
   if ( "" == value[0] )
   	select any empty_activity from instances of activity where ( false );
   	population.activity = empty_activity;
   else
-    population.activity = service::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3] );
-  end if;
-elif ( "function" == element )
-  if ( "" == value[0] )
-  	select any empty_activity from instances of activity where ( false );
-  	population.activity = empty_activity;
-  else
-    population.activity = function::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3] );
+    parent_domain = population.domain;
+	parent_terminator = population.terminator;
+	parent_object = population.object;
+	if ( not_empty parent_domain and empty parent_terminator )
+	  // child of domain
+  	  select any parent_terminator from instances of terminator where ( false );
+  	  select any parent_object from instances of object where ( false );
+	elif ( not_empty parent_terminator )
+	  // child of terminator
+  	  select any parent_domain from instances of domain where ( false );
+  	  select any parent_object from instances of object where ( false );
+	elif ( not_empty parent_object )
+	  // child of object
+  	  select any parent_domain from instances of domain where ( false );
+  	  select any parent_terminator from instances of terminator where ( false );
+	else
+	  TRACE::log( flavor:"failure", id:39, message:"no parent for activity found" );
+	end if;
+	if ( "service" == element )
+      population.activity = service::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+	elif ( "function" == element )
+      population.activity = function::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+	end if;
   end if;
 elif ( "parameter" == element )
   if ( "" == value[0] )
   	select any empty_parameter from instances of parameter where ( false );
   	population.parameter = empty_parameter;
   else
-    population.parameter = parameter::populate( name:value[0], direction:value[1] );
+  	parent_activity = population.activity;
+  	sibling_parameter = population.parameter;
+  	if ( not_empty sibling_parameter )
+  	  // sibling of parameter
+  	  select any parent_activity from instances of activity where ( false );
+  	elif ( not_empty parent_activity )
+  	  // child of activity
+  	  select any sibling_parameter from instances of parameter where ( false );
+  	end if;
+    population.parameter = parameter::populate( name:value[0], direction:value[1], parent_activity:parent_activity, sibling_parameter:sibling_parameter );
   end if;
 elif ( "attribute" == element )
   if ( "" == value[0] )
@@ -167,13 +191,6 @@ elif ( "type" == element )
   if ( "" == value[0] )
   	select any empty_type from instances of type where ( false );
   	population.type = empty_type;
-  else
-    population.type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:population.domain );
-  end if;
-elif ( "typeref" == element )
-  if ( "" == value[0] )
-  	select any empty_typeref from instances of typeref where ( false );
-  	population.typeref = empty_typeref;
   else
     population.type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:population.domain );
   end if;

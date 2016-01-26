@@ -14,44 +14,23 @@ INSERT INTO O_TFR
 	'',
 	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	0,
-	'visibility = param.visibility;
-name = param.name;
+	'create object instance activity of activity;
+activity.name = param.name;
+activity.visibility = param.visibility;
 
-// get population object
-select any population from instances of population;
-if ( empty population )
-  TRACE::log( flavor:"failure", id:39, message:"no population object" );
-  select any empty_activity from instances of activity where false;
-  return empty_activity;
-end if;
-
-// TODO check to see if it is empty or not and link it to it''s proper parent
-// for now just assume it is a terminator service
-create object instance activity of activity;
-if ( "public" == visibility )
-  activity.visibility = masl_visibility::public;
-elif ( "private" == visibility )
-  activity.visibility = masl_visibility::private;
-else
-  TRACE::log( flavor:"failure", id:39, message:"invalid visibility" );
-end if;
-activity.name = name;
-
-domain = population.domain;
-terminator = population.terminator;
-object = population.object;
-if ( empty terminator and empty object )
-  // child of domain
-  relate activity to domain across R3707;
-elif ( not_empty terminator )
-  // child of terminator
-  relate activity to terminator across R3703;
-elif ( not_empty object )
-  // child of object
+// relate to parent
+parent_domain = param.parent_domain;
+parent_terminator = param.parent_terminator;
+parent_object = param.parent_object;
+if ( not_empty parent_domain )
+  relate activity to parent_domain across R3707;
+elif ( not_empty parent_terminator )
+  relate activity to parent_terminator across R3703;
+elif ( not_empty parent_object )
   // TODO relationship between activity and object
-  //relate activity to object across R3703;
+  //relate activity to parent_object across R3703;
 else
-  TRACE::log( flavor:"failure", id:39, message:"no parent for activity found" );
+  TRACE::log( flavor:"failure", id:39, message:"no parent for activity" );
 end if;
 
 return activity;',
@@ -94,6 +73,54 @@ INSERT INTO O_TPARM
 	'',
 	"8f65c084-b0ee-4dd6-9184-2b3b0951f930",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("f90a7bc6-931a-48e1-b249-56328eb537e4",
+	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	'parent_domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"06420c83-f74c-4062-8a17-c9ba14df3251",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("f85168d2-021d-4164-a1e7-deb13c2c0484",
+	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	'parent_terminator',
+	"a2661e87-6030-4167-bef8-2ff6c815e67e",
+	0,
+	'',
+	"f90a7bc6-931a-48e1-b249-56328eb537e4",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a2661e87-6030-4167-bef8-2ff6c815e67e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminator>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("b760b385-8f47-4a05-899a-aca8d9ad4e53",
+	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	'parent_object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"f85168d2-021d-4164-a1e7-deb13c2c0484",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	"00000000-0000-0000-0000-000000000000",
@@ -110,20 +137,10 @@ INSERT INTO O_TFR
 	1,
 	'select one function related by self->function[R3704];
 select one service related by self->service[R3704];
-visibility = "";
-if ( masl_visibility::public == self.visibility )
-  visibility = "public";
-elif ( masl_visibility::private == self.visibility )
-  visibility = "private";
-elif ( masl_visibility::protected == self.visibility )
-  visibility = "protected";
-else
-  TRACE::log( flavor:"failure", id:12, message:"invalid visibilty passed to activity" );
-end if;
 if ( not_empty function )
-  function.render( name:self.name, visibility:visibility );
+  function.render( name:self.name, visibility:self.visibility );
 elif ( not_empty service )
-  service.render( name:self.name, visibility:visibility );
+  service.render( name:self.name, visibility:self.visibility );
 else
   TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
 end if;
@@ -206,16 +223,9 @@ INSERT INTO O_ATTR
 	'',
 	'visibility',
 	0,
-	"eb16ea0a-6bad-41bd-ac5c-84946c0126d6",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("eb16ea0a-6bad-41bd-ac5c-84946c0126d6",
-	"00000000-0000-0000-0000-000000000000",
-	'masl_visibility',
-	'This type exists in ooaofooa.',
-	'',
-	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"4431e956-be8b-40e7-83ed-ac781e31719b");

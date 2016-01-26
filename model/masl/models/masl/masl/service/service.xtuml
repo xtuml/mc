@@ -14,12 +14,7 @@ INSERT INTO O_TFR
 	'',
 	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	0,
-	'visibility = param.visibility;
-name = param.name;
-instance = param.instance;
-rel = param.deferred_relationship;
-
-activity = activity::populate( visibility:visibility, name:name, instance:instance, deferred_relationship:rel );
+	'activity = activity::populate( visibility:param.visibility, name:param.name, instance:param.instance, deferred_relationship:param.deferred_relationship, parent_domain:param.parent_domain, parent_terminator:param.parent_terminator, parent_object:param.parent_object );
 select one service related by activity->service[R3704];
 if ( empty service )
   create object instance service of service;
@@ -65,6 +60,54 @@ INSERT INTO O_TPARM
 	'',
 	"c991c4c0-eb41-4a9a-8a06-1dfb31876798",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("e321632d-2048-45e6-86c7-36db4bceb004",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'parent_domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"276edef5-6372-42e6-890b-8cffa87930c7",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("d57f0ba4-8b3b-4d27-bd38-cf4c5b703b60",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'parent_terminator',
+	"a2661e87-6030-4167-bef8-2ff6c815e67e",
+	0,
+	'',
+	"e321632d-2048-45e6-86c7-36db4bceb004",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a2661e87-6030-4167-bef8-2ff6c815e67e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminator>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("6a6124d3-23bf-48b6-82cc-e938bc2a9d72",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'parent_object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"d57f0ba4-8b3b-4d27-bd38-cf4c5b703b60",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	"00000000-0000-0000-0000-000000000000",

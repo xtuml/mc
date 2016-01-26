@@ -14,12 +14,7 @@ INSERT INTO O_TFR
 	'',
 	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	0,
-	'visibility = param.visibility;
-name = param.name;
-instance = param.instance;
-rel = param.deferred_relationship;
-
-activity = activity::populate( visibility:visibility, name:name, instance:instance, deferred_relationship:rel );
+	'activity = activity::populate( visibility:param.visibility, name:param.name, instance:param.instance, deferred_relationship:param.deferred_relationship, parent_domain:param.parent_domain, parent_terminator:param.parent_terminator, parent_object:param.parent_object );
 select one function related by activity->function[R3704];
 if ( empty function )
   create object instance function of function;
@@ -65,6 +60,54 @@ INSERT INTO O_TPARM
 	'',
 	"a02ded46-768e-4321-9a9f-6b55cb219b8b",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("cb10d00b-e374-4159-9bc3-e66f65296464",
+	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	'parent_domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"7894cf96-6c95-49ab-a912-bcd82856c033",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("999d50f1-c7f5-42b0-b418-718d7dd618e9",
+	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	'parent_terminator',
+	"a2661e87-6030-4167-bef8-2ff6c815e67e",
+	0,
+	'',
+	"cb10d00b-e374-4159-9bc3-e66f65296464",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a2661e87-6030-4167-bef8-2ff6c815e67e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminator>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("8b45dbd4-8e30-460a-80a9-63c2d4b48036",
+	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	'parent_object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"999d50f1-c7f5-42b0-b418-718d7dd618e9",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	"00000000-0000-0000-0000-000000000000",
