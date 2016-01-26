@@ -141,14 +141,14 @@ elif ( "state" == element )
   	select any empty_state from instances of state where ( false );
   	population.state = empty_state;
   else
-    population.state = state::populate( name:value[0], type:value[1], state_machine:population.transitiontable );
+    population.state = state::populate( name:value[0], type:value[1], object:population.object );
   end if;
 elif ( "event" == element )
   if ( "" == value[0] )
   	select any empty_event from instances of event where ( false );
   	population.event = empty_event;
   else
-    population.event = event::populate( name:value[0], type:value[1], state_machine:population.transitiontable );
+    population.event = event::populate( name:value[0], type:value[1], object:population.object );
   end if;
 elif ( "transition" == element )
   if ( "" == value[0] )

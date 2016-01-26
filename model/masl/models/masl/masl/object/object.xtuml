@@ -19,6 +19,18 @@ select many attributes related by self->attribute[R3709.''is characterized by'']
 for each attribute in attributes
   attribute.render();
 end for;
+select many states related by self->state[R3735.''enters''];
+for each state in states
+  state.render();
+end for;
+select many events related by self->event[R3736.''is triggered by''];
+for each event in events
+  event.render();
+end for;
+select many state_machines related by self->state_machine[R3734];
+for each state_machine in state_machines
+  state_machine.render();
+end for;
 T::include( file:"masl/t.object_end.masl" );',
 	1,
 	'',
@@ -104,7 +116,12 @@ for each object in objects
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and attribute::validate() and state_machine::validate() );',
+return ( valid and
+  attribute::validate() and
+  state::validate() and
+  event::validate() and
+  state_machine::validate()
+);',
 	1,
 	'',
 	"62436e5d-b2f0-45bd-824c-bf910bc153d7");
