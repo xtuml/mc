@@ -62,28 +62,66 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'doTest',
 	'',
-	'parms[8] = "";
+	'params[8] = "";
 
-parms[0] = "SAC";
-send out::populate(element:"domain", value:parms);
+params[0] = "SAC";
+send out::populate(element:"domain", value:params);
 
-parms[0] = "Group_For_Session";
-send out::populate(element:"object", value:parms);
-//attribute,group_id,true,false
-//attribute,session_id,true,false
+params[1] = "private";
+params[0] = "logged_on_type";
+send out::populate(element:"type", value:params);
 
-parms[0] = "Group_Operation";
-send out::populate(element:"object", value:parms);
-//attribute,operation_id,true,false
-//attribute,group_id,true,false
+params[1] = "private";
+params[0] = "group_type";
+send out::populate(element:"type", value:params);
 
-parms[0] = "Operation";
-send out::populate(element:"object", value:parms);
-//attribute,operation_id,true,true
-//attribute,operation_name,false,false
+params[0] = "Group_For_Session";
+send out::populate(element:"object", value:params);
 
-parms[0] = "Session";
-send out::populate(element:"object", value:parms);
+params[3] = "";
+params[2] = "false";
+params[1] = "true";
+params[0] = "group_id";
+send out::populate(element:"attribute", value:params);
+
+params[3] = "";
+params[2] = "false";
+params[1] = "true";
+params[0] = "session_id";
+send out::populate(element:"attribute", value:params);
+
+params[0] = "Group_Operation";
+send out::populate(element:"object", value:params);
+
+params[3] = "";
+params[2] = "false";
+params[1] = "true";
+params[0] = "operation_id";
+send out::populate(element:"attribute", value:params);
+
+params[3] = "";
+params[2] = "false";
+params[1] = "true";
+params[0] = "group_id";
+send out::populate(element:"attribute", value:params);
+
+params[0] = "Operation";
+send out::populate(element:"object", value:params);
+
+params[3] = "";
+params[2] = "true";
+params[1] = "true";
+params[0] = "operation_id";
+send out::populate(element:"attribute", value:params);
+
+params[3] = "";
+params[2] = "false";
+params[1] = "false";
+params[0] = "operation_name";
+send out::populate(element:"attribute", value:params);
+
+params[0] = "Session";
+send out::populate(element:"object", value:params);
 //attribute,session_id,true,true
 //attribute,logon_time,false,false
 //attribute,session_heartbeat_timer,false,false
@@ -94,26 +132,26 @@ send out::populate(element:"object", value:parms);
 //attribute,has_timed_out,false,false
 //attribute,login_name,false,false
 
-parms[0] = "Session_Specification";
-send out::populate(element:"object", value:parms);
+params[0] = "Session_Specification";
+send out::populate(element:"object", value:params);
 //attribute,access_specification_id,true,true
 //attribute,session_heartbeat_time,false,false
 //attribute,session_heartbeat_failure_threshold,false,false
 
-parms[0] = "User";
-send out::populate(element:"object", value:parms);
+params[0] = "User";
+send out::populate(element:"object", value:params);
 //attribute,user_id,true,false
 //attribute,login_name,true,false
 //attribute,user_name,false,false
 //attribute,is_logged_on,false,false
 
-parms[0] = "Workstation";
-send out::populate(element:"object", value:parms);
+params[0] = "Workstation";
+send out::populate(element:"object", value:params);
 //attribute,workstation_id,true,true
 //attribute,workstation_hostname,false,false
 
-parms[0] = "Session_Operation";
-send out::populate(element:"object", value:parms);
+params[0] = "Session_Operation";
+send out::populate(element:"object", value:params);
 //attribute,operation_id,true,false
 //attribute,session_id,true,false
 ',

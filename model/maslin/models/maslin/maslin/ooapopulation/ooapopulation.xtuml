@@ -37,11 +37,13 @@ elif ( "activity" == element )
 elif ( "parameter" == element )
   ooapopulation.transformParameter();
 elif ( "attribute" == element )
-  ooapopulation.transformAttribute();
+  ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2], initialization:param.value[3]);
 elif ( "state" == element )
   ooapopulation.transformState();
 elif ( "event" == element )
   ooapopulation.transformEvent();
+elif ( "type" == element )
+  ooapopulation.transformType(name:param.value[0], visibility:param.value[1]);
 else
   TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -182,7 +184,7 @@ pe_pe = param.pe_pe;
 pe_pe.Visibility = Visibility::Public;',
 	1,
 	'',
-	"6355664b-4091-4bc3-ac82-c6d3580da3ad");
+	"d16c3058-c420-428a-ab22-69a134a0c5d4");
 INSERT INTO O_TPARM
 	VALUES ("6a17224a-e16d-4c87-a4b6-3504f24b8992",
 	"6d27ebf1-bb50-4835-85e2-b21d260ab92c",
@@ -243,7 +245,7 @@ select any c_c related by lib_pkg->PE_PE[R8000]->C_C[R8001] where ( param.name =
 
 if ( empty c_c )
   c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
-  self.Component_newPackage(c_c:c_c, pkg_name:param.name);
+  internal_bhv_pkg = self.Component_newPackage(c_c:c_c, pkg_name:param.name);
 
   // Create a component reference in the project wiring package
   wiring_pkg = self.wiring_pkg;
@@ -466,7 +468,7 @@ INSERT INTO O_TFR
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'Component_newPackage',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
 	1,
 	'c_c = param.c_c;
 
@@ -482,7 +484,8 @@ relate c_c to pe across R8003;
 self.Package_initialize(ep_pkg:package, name:param.pkg_name); // OOA - package.initialize();
 pe.type = ElementTypeConstants::PACKAGE;
 self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
-',
+
+return package;',
 	1,
 	'',
 	"69c066cc-2506-4998-b894-060151a8f78f");
@@ -527,7 +530,7 @@ end if;
 return c_c.Id;',
 	1,
 	'',
-	"fd3b1e58-e9c3-41df-a82e-724733a56a61");
+	"c59ea70d-68ee-4b9e-a501-5920a749fab1");
 INSERT INTO O_TPARM
 	VALUES ("f8b32f28-f05b-4aca-bf2b-629bbb42455c",
 	"edbc08df-df72-4ee9-9365-1a3d836b9fbd",
@@ -570,7 +573,7 @@ INSERT INTO O_TFR
 	'',
 	1,
 	'',
-	"8dc83f08-897b-47cb-9ef3-db03c1fa412c");
+	"62cc7ec1-12c6-444f-8e9c-8bf257676b92");
 INSERT INTO O_TPARM
 	VALUES ("f4e74870-5f4d-4477-b491-66bc68360f61",
 	"dc1b8351-2cfd-4870-b038-21d1052f3c05",
@@ -629,10 +632,47 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'',
+	'attr_name = param.name;
+self.current_attribute = self.ModelClass_newAttribute(o_obj:self.current_class, attr_name:attr_name);',
 	1,
 	'',
 	"10b41e09-87b2-4ef5-89ad-9ef4c39d9637");
+INSERT INTO O_TPARM
+	VALUES ("940cf8f4-900c-46df-8ea1-f1bf2112d77d",
+	"9438bf8f-4666-499e-9822-00e7b064286f",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("c9da22f0-d999-4439-bff0-f37fcd96ea79",
+	"9438bf8f-4666-499e-9822-00e7b064286f",
+	'preferred',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"940cf8f4-900c-46df-8ea1-f1bf2112d77d",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("db6b42fc-fe49-46d2-a83d-b89e1e50a1d2",
+	"9438bf8f-4666-499e-9822-00e7b064286f",
+	'unique',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c9da22f0-d999-4439-bff0-f37fcd96ea79",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("db0a77c6-667c-404d-a3ad-aa7d523048a1",
+	"9438bf8f-4666-499e-9822-00e7b064286f",
+	'initialization',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"db6b42fc-fe49-46d2-a83d-b89e1e50a1d2",
+	'');
 INSERT INTO O_TFR
 	VALUES ("cd1f0452-4df9-45c5-949f-e319f8cb63e8",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -675,7 +715,7 @@ self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
 return importedComp;',
 	1,
 	'',
-	"59fd5264-7d22-47ce-a615-605f9ee03143");
+	"dff68b05-f692-4f7e-8745-e96def65ae8a");
 INSERT INTO O_TPARM
 	VALUES ("e952b8f1-7170-41cf-90c0-cc2e46eff7d6",
 	"a9942ae9-1501-49c7-afb1-84aa422a85e5",
@@ -840,7 +880,7 @@ end if;
 ',
 	1,
 	'',
-	"dc1b8351-2cfd-4870-b038-21d1052f3c05");
+	"422bcbaa-4170-4d52-85ed-ca2708fdec8e");
 INSERT INTO O_TPARM
 	VALUES ("f4fdbf93-a3aa-4805-9619-7b5430a18536",
 	"746859b9-4abd-48d5-ab0d-ea689a3e3b5b",
@@ -849,6 +889,277 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("d16c3058-c420-428a-ab22-69a134a0c5d4",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ModelClass_newAttribute',
+	'',
+	"579b8247-e153-481d-8926-384cdc722464",
+	1,
+	'o_obj = param.o_obj;
+
+// NOTE: This is a heavily modified version of Model Class::newAttribute.  That function in the OOAofOOA does
+//   extra work for classes in Sequence Diagrams that we don''t have to deal with here in masl convert.
+
+//
+// Find the last attribute currently in the list
+//
+create object instance newAttr of O_ATTR;
+self.ModelClass_addAttributeToOrdering(o_obj:o_obj, newAttr:newAttr);
+relate o_obj to newAttr across R102;
+self.Attribute_initialize(o_attr:newAttr, name:param.attr_name);
+return newAttr;
+',
+	1,
+	'',
+	"6355664b-4091-4bc3-ac82-c6d3580da3ad");
+INSERT INTO O_TPARM
+	VALUES ("814e896b-a144-48bc-9c81-9b19d37c4cba",
+	"d16c3058-c420-428a-ab22-69a134a0c5d4",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("5f636fc7-4fa6-4b72-aa84-dd0558283598",
+	"d16c3058-c420-428a-ab22-69a134a0c5d4",
+	'attr_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"814e896b-a144-48bc-9c81-9b19d37c4cba",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("579b8247-e153-481d-8926-384cdc722464",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TFR
+	VALUES ("422bcbaa-4170-4d52-85ed-ca2708fdec8e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ModelClass_addAttributeToOrdering',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_obj = param.o_obj;
+newAttr = param.newAttr;
+
+select many attrs related by o_obj->O_ATTR[R102];
+for each attr in attrs
+ select one nextAttr related by attr->O_ATTR[R103.''precedes''];
+  if (empty nextAttr)
+    break;
+  end if;
+end for;
+if (not_empty attr)
+  //
+  // If there was a previous last attribute link this one to the end . . .
+  // NOTE: Modified from the ooa version of this function here because it turns off listeners which
+  //   we don''t have to worry about during masl convert.
+  relate attr to newAttr across R103.''precedes'';
+end if;
+',
+	1,
+	'',
+	"dc1b8351-2cfd-4870-b038-21d1052f3c05");
+INSERT INTO O_TPARM
+	VALUES ("f6154d00-1de4-41c1-b3fa-c613684e5544",
+	"422bcbaa-4170-4d52-85ed-ca2708fdec8e",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("c29c3535-aedb-4204-b849-80fec22e2e65",
+	"422bcbaa-4170-4d52-85ed-ca2708fdec8e",
+	'newAttr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"f6154d00-1de4-41c1-b3fa-c613684e5544",
+	'');
+INSERT INTO O_TFR
+	VALUES ("c59ea70d-68ee-4b9e-a501-5920a749fab1",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Attribute_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_attr = param.o_attr;
+
+// Heavily modified version of Attribute::initialize() for MASL import.  Here we do not assign a default type as in OOAofOOA.
+o_attr.Prefix = "";
+o_attr.Pfx_Mode = 0;
+o_attr.Root_Nam = param.name;
+
+create object instance ba of O_BATTR;
+relate o_attr to ba across R106;
+create object instance nba of O_NBATTR;
+relate ba to nba across R107;',
+	1,
+	'',
+	"4ff26a31-e07b-4af1-8221-5dc73754ca14");
+INSERT INTO O_TPARM
+	VALUES ("9cb4d766-d51c-43c7-a331-72f1e7bcf49d",
+	"c59ea70d-68ee-4b9e-a501-5920a749fab1",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("adec9387-e4c5-4bce-aecd-04c0d01bab95",
+	"c59ea70d-68ee-4b9e-a501-5920a749fab1",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9cb4d766-d51c-43c7-a331-72f1e7bcf49d",
+	'');
+INSERT INTO O_TFR
+	VALUES ("4ff26a31-e07b-4af1-8221-5dc73754ca14",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformType',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// TODO
+//  - the new type will go into the "types" package under the component (creating "types pkg" if it doesn''t exist)
+//  - do we need to check to see if the named type already exists???
+//  - create the new masl type as a udt.  The udt will be tied to a S_DT, whose core type is MASLtype (ba5eda7a-def5-0000-0000-000000000011)
+
+// Get the "types" package in this component
+current_component = self.current_component;
+select any types_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "types");
+
+// Create the types package if it doesn''t already exist
+if ( empty types_pkg )
+  types_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"types");
+end if;
+
+// See if type already exists
+select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
+
+if ( empty s_dt )
+  // The type doesn''t already exist, create it
+  self.Package_newDatatype(ep_pkg:types_pkg, type_name: param.name);
+end if;
+',
+	1,
+	'',
+	"fd3b1e58-e9c3-41df-a82e-724733a56a61");
+INSERT INTO O_TPARM
+	VALUES ("0da10f2a-658a-4a79-a574-742bd07fcd7e",
+	"4ff26a31-e07b-4af1-8221-5dc73754ca14",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a0a9e16a-e53d-4319-b2f4-5fc2422354f9",
+	"4ff26a31-e07b-4af1-8221-5dc73754ca14",
+	'visibility',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0da10f2a-658a-4a79-a574-742bd07fcd7e",
+	'');
+INSERT INTO O_TFR
+	VALUES ("dff68b05-f692-4f7e-8745-e96def65ae8a",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_newDatatype',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'ep_pkg = param.ep_pkg;
+
+// Create the new data type
+create object instance dt of S_DT;
+// create Packageable Element supertype and hook up to this package.
+create object instance pe of PE_PE;
+relate dt to pe across R8001;
+relate pe to ep_pkg across R8000;
+
+create object instance udt of S_UDT;
+relate dt to udt across R17;
+
+// dt_id = STRING::atou(s:"ba5eda7a-def5-0000-0000-000000000011");  // Default to core MASLtype type (ba5eda7a-def5-0000-0000-000000000011)
+// NOTE - The OOA version of this function does a relate of the new UDT to the MASLtype core type.  Here we
+// "relate" by directly assigning the referential attribute.
+//     select any masltype_pe from instances of PE_PE where selected.Element_ID == dt_id;
+//     select one masltype_dt related by masltype_pe->S_DT[R8001]; 
+//     relate udt to masltype_dt across R18;
+// TODO - add back when we allow UUID assignment.  For now we hand edit the id in or override the instance dumper: udt.CDT_DT_ID = dt_id;
+
+self.Datatype_initialize(s_dt:dt, name:param.type_name); // OOA - dt.initialize(newname:param.name);
+pe.type = ElementTypeConstants::DATATYPE;
+self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();',
+	1,
+	'',
+	"59fd5264-7d22-47ce-a615-605f9ee03143");
+INSERT INTO O_TPARM
+	VALUES ("7e236b3e-4137-4721-904c-0421968bc15b",
+	"dff68b05-f692-4f7e-8745-e96def65ae8a",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("375d4091-f830-4ebc-80e3-6f408861dc4e",
+	"dff68b05-f692-4f7e-8745-e96def65ae8a",
+	'type_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7e236b3e-4137-4721-904c-0421968bc15b",
+	'');
+INSERT INTO O_TFR
+	VALUES ("62cc7ec1-12c6-444f-8e9c-8bf257676b92",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Datatype_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'param.s_dt.Name = param.name;',
+	1,
+	'',
+	"8dc83f08-897b-47cb-9ef3-db03c1fa412c");
+INSERT INTO O_TPARM
+	VALUES ("fb1564c5-ad69-434b-ae34-3524e3c96530",
+	"62cc7ec1-12c6-444f-8e9c-8bf257676b92",
+	's_dt',
+	"4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Data Type>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("b656b72f-1ab3-495e-91ff-71f6c956c757",
+	"62cc7ec1-12c6-444f-8e9c-8bf257676b92",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"fb1564c5-ad69-434b-ae34-3524e3c96530",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
@@ -913,7 +1224,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("619f4747-9795-4d99-a5ac-563d99ffbda4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"d14202df-9ea9-4589-a309-406b4ed0b070",
+	"628299ab-4589-4cfb-9c7d-c61c627dd3c1",
 	'current_component',
 	'',
 	'',
@@ -931,13 +1242,31 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("628299ab-4589-4cfb-9c7d-c61c627dd3c1",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"619f4747-9795-4d99-a5ac-563d99ffbda4",
+	"6139bb3c-17ee-4d48-8ec9-bc73c62c2715",
 	'current_class',
 	'',
 	'',
 	'current_class',
 	0,
 	"63f4ff99-f127-443b-a678-30ace41da702",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6139bb3c-17ee-4d48-8ec9-bc73c62c2715",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("6139bb3c-17ee-4d48-8ec9-bc73c62c2715",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("6139bb3c-17ee-4d48-8ec9-bc73c62c2715",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"d14202df-9ea9-4589-a309-406b4ed0b070",
+	'current_attribute',
+	'',
+	'',
+	'current_attribute',
+	0,
+	"579b8247-e153-481d-8926-384cdc722464",
 	'',
 	'');
 INSERT INTO O_ID
