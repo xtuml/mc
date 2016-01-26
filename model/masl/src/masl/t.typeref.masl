@@ -1,2 +1,2 @@
-T_b(self->name);
+T_b(self->body);
 T_b("");

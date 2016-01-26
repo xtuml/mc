@@ -157,9 +157,41 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
     }
     else {
-      masl_typeref * p;
-      /* ASSIGN p = typeref::populate(name:value[0]) */
-      p = masl_typeref_op_populate(value[0]);
+      masl_typeref * p;masl_attribute * parent_attribute;masl_parameter * parent_parameter;masl_activity * parent_activity;masl_function * parent_function=0;
+      /* ASSIGN parent_activity = population.activity */
+      parent_activity = population->activity;
+      /* SELECT one parent_function RELATED BY parent_activity->function[R3704] */
+      parent_function = 0;
+      if ( ( 0 != parent_activity ) && ( masl_function_CLASS_NUMBER == parent_activity->R3704_object_id ) )      parent_function = ( 0 != parent_activity ) ? (masl_function *) parent_activity->R3704_subtype : 0;
+      /* ASSIGN parent_parameter = population.parameter */
+      parent_parameter = population->parameter;
+      /* ASSIGN parent_attribute = population.attribute */
+      parent_attribute = population->attribute;
+      /* IF ( ( not_empty parent_function and empty parent_parameter ) ) */
+      if ( ( ( 0 != parent_function ) && ( 0 == parent_parameter ) ) ) {
+        /* SELECT any parent_parameter FROM INSTANCES OF parameter WHERE FALSE */
+        parent_parameter = 0;
+        /* SELECT any parent_attribute FROM INSTANCES OF attribute WHERE FALSE */
+        parent_attribute = 0;
+      }
+      else if ( ( 0 != parent_parameter ) ) {
+        /* SELECT any parent_attribute FROM INSTANCES OF attribute WHERE FALSE */
+        parent_attribute = 0;
+        /* SELECT any parent_function FROM INSTANCES OF function WHERE FALSE */
+        parent_function = 0;
+      }
+      else if ( ( 0 != parent_attribute ) ) {
+        /* SELECT any parent_parameter FROM INSTANCES OF parameter WHERE FALSE */
+        parent_parameter = 0;
+        /* SELECT any parent_function FROM INSTANCES OF function WHERE FALSE */
+        parent_function = 0;
+      }
+      else {
+        /* TRACE::log( flavor:failure, id:39, message:no parent for typeref ) */
+        TRACE_log( "failure", 39, "no parent for typeref" );
+      }
+      /* ASSIGN p = typeref::populate(body:value[0], domain:population.domain, name:, parent_attribute:parent_attribute, parent_function:parent_function, parent_parameter:parent_parameter) */
+      p = masl_typeref_op_populate(value[0], population->domain, "", parent_attribute, parent_function, parent_parameter);
     }
   }
   else if ( ( Escher_strcmp( "transitiontable", element ) == 0 ) ) {

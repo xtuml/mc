@@ -1,1 +1,1 @@
-      ) return ${returntype.name};
+      ) return ${returntype.body};

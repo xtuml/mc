@@ -84,7 +84,26 @@ elif ( "typeref" == element )
   if ( "" == value[0] )
   	// do nothing (this is a leaf node)
   else
-    p = typeref::populate( name:value[0] );
+    parent_activity = population.activity;
+    select one parent_function related by parent_activity->function[R3704];
+    parent_parameter = population.parameter;
+    parent_attribute = population.attribute;
+    if ( not_empty parent_function and empty parent_parameter )
+      // child of function
+      select any parent_parameter from instances of parameter where false;
+      select any parent_attribute from instances of attribute where false;
+    elif ( not_empty parent_parameter )
+      select any parent_attribute from instances of attribute where false;
+      select any parent_function from instances of function where false;
+      // child of parameter
+    elif ( not_empty parent_attribute )
+      select any parent_parameter from instances of parameter where false;
+      select any parent_function from instances of function where false;
+      // child of attribute
+    else
+      TRACE::log( flavor:"failure", id:39, message:"no parent for typeref" );
+    end if;
+    p = typeref::populate( name:"", body:value[0], domain:population.domain, parent_parameter:parent_parameter, parent_function:parent_function, parent_attribute:parent_attribute );
   end if;
 elif ( "transitiontable" == element )
   if ( "" == value[0] )
