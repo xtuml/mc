@@ -54,15 +54,28 @@ if ( empty participation )
     valid = false;
   end if;
 else
-  participation.otherphrase = phrase;
-  participation.otherconditionality = conditionality;
-  participation.othermultiplicity = multiplicity;
-  select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
-  if ( not_empty object )
-    relate participation to object across R3720.''other'';
+  select one subsuper related by relationship->subsuper[R3721];
+  if ( empty subsuper )
+  	// binary relationship
+	participation.otherphrase = phrase;
+	participation.otherconditionality = conditionality;
+	participation.othermultiplicity = multiplicity;
+	select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
+	if ( not_empty object )
+	  relate participation to object across R3720.''other'';
+	else
+	  TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + fromobject );
+	  valid = false;
+	end if;
   else
-    TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + fromobject );
-    valid = false;
+  	// subsuper relationship
+  	select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
+	if ( not_empty object )
+	  relate participation to object across R3720.''other'';
+	else
+	  TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + fromobject );
+	  valid = false;
+	end if;
   end if;
 end if;
 return participation;',
