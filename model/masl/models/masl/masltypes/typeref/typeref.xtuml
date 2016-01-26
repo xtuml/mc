@@ -41,7 +41,7 @@ parent_parameter = param.parent_parameter;
 parent_function = param.parent_function;
 parent_attribute = param.parent_attribute;
 if ( not_empty parent_parameter )
-  relate typeref to parent_parameter across R3740;
+  relate typeref to parent_parameter across R3742;
 elif ( not_empty parent_function )
   relate typeref to parent_function across R3741;
 elif ( not_empty parent_attribute )
