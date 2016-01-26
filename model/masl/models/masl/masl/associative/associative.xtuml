@@ -45,7 +45,7 @@ end if;
 if ( "" != using_objectname )
   select one participation related by relationship->participation[R3713];
   select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == using_objectname );
-  if ( not_empty object )
+  if ( not_empty object and not_empty participation )
     relate participation to object across R3715.''uses'';
   end if;
 end if;

@@ -186,7 +186,12 @@ elif ( "subsuper" == element )
     population.relationship = subsuper::populate( name:value[0], domain:population.domain );
   end if;
 elif ( "participation" == element )
-  p = participation::populate( fromobject:value[0], phrase:value[1], conditionality:value[2], multiplicity:value[3], toobject:value[4], relationship:population.relationship );
+  if ( "" == value[0] )
+  	select any empty_participation from instances of participation where ( false );
+  	population.participation = empty_participation;
+  else
+	population.participation = participation::populate( fromobject:value[0], phrase:value[1], conditionality:value[2], multiplicity:value[3], toobject:value[4], relationship:population.relationship, participation:population.participation );
+  end if;
 elif ( "type" == element )
   if ( "" == value[0] )
   	select any empty_type from instances of type where ( false );
@@ -588,6 +593,31 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../masltypes/masltypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("fa9182fe-b3c6-42a6-859c-6f32c325e5f8",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("fa9182fe-b3c6-42a6-859c-6f32c325e5f8",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("fa9182fe-b3c6-42a6-859c-6f32c325e5f8",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"c41de62b-4dfc-4a2d-bfda-666aa886d2b6",
+	'participation',
+	'',
+	'',
+	'participation',
+	0,
+	"54954f4e-9821-47ec-9365-ecd9c1b057b9",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("54954f4e-9821-47ec-9365-ecd9c1b057b9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<participation>',
+	'',
+	'',
+	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
