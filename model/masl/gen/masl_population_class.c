@@ -255,8 +255,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->state = empty_state;
     }
     else {
-      /* ASSIGN population.state = state::populate(name:value[0], state_machine:population.transitiontable, type:value[1]) */
-      population->state = masl_state_op_populate(value[0], population->transitiontable, value[1]);
+      /* ASSIGN population.state = state::populate(name:value[0], object:population.object, type:value[1]) */
+      population->state = masl_state_op_populate(value[0], population->object, value[1]);
     }
   }
   else if ( ( Escher_strcmp( "event", element ) == 0 ) ) {
@@ -269,8 +269,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->event = empty_event;
     }
     else {
-      /* ASSIGN population.event = event::populate(name:value[0], state_machine:population.transitiontable, type:value[1]) */
-      population->event = masl_event_op_populate(value[0], population->transitiontable, value[1]);
+      /* ASSIGN population.event = event::populate(name:value[0], object:population.object, type:value[1]) */
+      population->event = masl_event_op_populate(value[0], population->object, value[1]);
     }
   }
   else if ( ( Escher_strcmp( "transition", element ) == 0 ) ) {

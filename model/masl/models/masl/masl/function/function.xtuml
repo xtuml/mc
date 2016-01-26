@@ -138,23 +138,16 @@ INSERT INTO O_TPARM
 	VALUES ("63f0e4a9-953d-4562-b089-ee7781ca3b32",
 	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc",
 	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("d0eaff55-b926-4428-987d-8ff587b1caa4",
 	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc",
 	'visibility',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"63f0e4a9-953d-4562-b089-ee7781ca3b32",
