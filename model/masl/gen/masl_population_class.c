@@ -152,6 +152,16 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->attribute = masl_attribute_op_populate(value[3], value[0], population->object, value[1], value[2]);
     }
   }
+  else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
+    /* IF ( (  == value[0] ) ) */
+    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
+    }
+    else {
+      masl_typeref * p;
+      /* ASSIGN p = typeref::populate(name:value[0]) */
+      p = masl_typeref_op_populate(value[0]);
+    }
+  }
   else if ( ( Escher_strcmp( "transitiontable", element ) == 0 ) ) {
     /* IF ( (  == value[0] ) ) */
     if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {

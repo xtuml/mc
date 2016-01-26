@@ -1,3 +1,5 @@
 T_b("      ");
-T_b(") return integer;");
+T_b(") return ");
+T_b(returntype->name);
+T_b(";");
 T_b("\n");

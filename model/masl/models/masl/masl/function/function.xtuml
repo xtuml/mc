@@ -86,6 +86,7 @@ select one parameter related by self->activity[R3704]->parameter[R3705.''carries
 if ( not_empty parameter )
   parameter.render();
 end if;
+select one returntype related by self->typeref[R3741];
 T::include( file:"masl/t.function_end.masl" );',
 	1,
 	'',

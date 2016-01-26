@@ -80,6 +80,12 @@ elif ( "attribute" == element )
   else
     population.attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:population.object );
   end if;
+elif ( "typeref" == element )
+  if ( "" == value[0] )
+  	// do nothing (this is a leaf node)
+  else
+    p = typeref::populate( name:value[0] );
+  end if;
 elif ( "transitiontable" == element )
   if ( "" == value[0] )
   	select any empty_transitiontable from instances of state_machine where ( false );

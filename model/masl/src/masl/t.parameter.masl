@@ -2,4 +2,4 @@ T_b("        ");
 T_b(self->name);
 T_b(" : ");
 T_b(direction);
-T_b("");
+T_b(" ");

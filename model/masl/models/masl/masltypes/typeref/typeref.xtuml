@@ -14,9 +14,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.object_begin.masl" );
-//T::include( file:"masl/t.object_end.masl" );
-',
+	'T::include( file:"masl/t.typeref.masl" );',
 	1,
 	'',
 	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5");
@@ -27,13 +25,41 @@ INSERT INTO O_TFR
 	'',
 	"f692a6d2-9ba0-4d0a-8339-8e4f35b37d21",
 	0,
-	'domain = param.domain;
-//select any typeref related by domain->typeref[R3799];
-select any typeref from instances of typeref; // DELETE THIS LINE
+	'name = param.name;
+
+// get population object
+select any population from instances of population;
+if ( empty population )
+  TRACE::log( flavor:"failure", id:39, message:"no population object" );
+  select any empty_typeref from instances of typeref where false;
+  return empty_typeref;
+end if;
+
+// check if the typeref already exists
+select any typeref from instances of typeref where ( name == selected.name );
 if ( empty typeref )
   create object instance typeref of typeref;
-  //relate typeref to domain across R3799;
+  typeref.name = name;
 end if;
+
+attribute = population.attribute;
+activity = population.activity;
+select one function related by activity->function[R3704];
+parameter = population.parameter;
+
+if ( empty attribute and empty parameter )
+  // child of function
+  relate typeref to function across R3741;
+elif ( not_empty attribute )
+  // child of attribute
+  relate typeref to attribute across R3717;
+elif ( not_empty parameter )
+  // child of parameter
+  relate typeref to parameter across R3740;
+else
+  TRACE::log( flavor:"failure", id:39, message:"no parent for typeref found" );
+end if;
+
 return typeref;',
 	1,
 	'',
@@ -42,34 +68,11 @@ INSERT INTO O_TPARM
 	VALUES ("58cc5a01-d644-42d2-9d46-ebada9ca0958",
 	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
 	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
-INSERT INTO O_TPARM
-	VALUES ("275d29d6-7596-46f3-9c0a-fa1d4497a189",
-	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
-	'domain',
-	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
-	0,
-	'',
-	"58cc5a01-d644-42d2-9d46-ebada9ca0958",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<domain>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("f692a6d2-9ba0-4d0a-8339-8e4f35b37d21",
 	"00000000-0000-0000-0000-000000000000",
@@ -111,6 +114,24 @@ INSERT INTO O_TFR
 	1,
 	'',
 	"4c31359f-e19b-4e4e-b98a-d9189bcb5da5");
+INSERT INTO O_NBATTR
+	VALUES ("b6dd4d6e-8d0a-4714-84ff-d583c2e908a2",
+	"46656013-39ba-446e-bd49-34aabd941dac");
+INSERT INTO O_BATTR
+	VALUES ("b6dd4d6e-8d0a-4714-84ff-d583c2e908a2",
+	"46656013-39ba-446e-bd49-34aabd941dac");
+INSERT INTO O_ATTR
+	VALUES ("b6dd4d6e-8d0a-4714-84ff-d583c2e908a2",
+	"46656013-39ba-446e-bd49-34aabd941dac",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"46656013-39ba-446e-bd49-34aabd941dac");
