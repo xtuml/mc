@@ -104,6 +104,85 @@ elif ( "attribute" == element )
   else
     population.attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:population.object );
   end if;
+elif ( "referential" == element )
+  if ( "" == value[0] )
+    // do nothing (this is a leaf node)
+  else
+    domain_name = value[1];
+    relationship_name = value[0];
+    roleOrObj = value[2];
+    obj = value[3];
+    attr = value[4];
+    
+    current_object = population.object;
+
+    // get the domain of the relationship (if not specified use current domain)
+    select any parent_domain from instances of domain where false;
+    if ( "" == domain_name )
+      parent_domain = population.domain;
+    else
+      select any parent_domain from instances of domain where ( selected.name == domain_name );
+    end if;
+    
+    // select the relationship
+    select any relationship from instances of relationship where false;
+    if ( not_empty parent_domain )
+      select any relationship related by parent_domain->relationship[R3712] where ( selected.name == relationship_name );
+    end if;
+    
+    // traverse to find the object
+    select any target_object from instances of object where false;
+    if ( not_empty relationship )
+      select one participation related by relationship->participation[R3713];
+
+      if ( "" == roleOrObj and "" == obj )
+      	// not given role or object
+      	select one target_object related by participation->object[R3714];
+      	if ( target_object == current_object )
+      	  // not the one we''re looking for (referentials will require a role phrase, so we can be sure of this)
+      	  select any target_object related by participation->object[R3720];
+      	end if;
+      elif ( "" != roleOrObj )
+        // given roleOrObj
+        if ( participation.otherphrase == roleOrObj )
+       	  // current object is the other
+          // the target object is the one
+      	  select one target_object related by participation->object[R3714];
+        elif ( participation.onephrase == roleOrObj )
+       	  // current object is the one 
+          // the target object is the other
+          if ( "" != obj )
+            // given an obj name
+      	    select any target_object related by participation->object[R3720] where ( selected.name == obj );
+      	  else
+      	    // not given an obj name
+      	    select any target_object related by participation->object[R3720];
+      	  end if;
+        else
+          // roleOrObj is an object name
+      	  select one target_object related by participation->object[R3714] where ( selected.name == roleOrObj );
+      	  if ( empty target_object )
+      	    select any target_object related by participation->object[R3720] where ( selected.name == roleOrObj );
+      	  end if;
+        end if;
+      else
+        // not important
+      end if;
+    end if;
+    
+    // find the referring attribute
+    select any referring_attr from instances of attribute where false;
+    if ( not_empty target_object )
+      select any referring_attr related by target_object->attribute[R3709] where ( selected.name == attr );
+    end if;
+    
+    // if the referring attribute is empty (not created yet), populate it
+    if ( empty referring_attr )
+      referring_attr = attribute::populate( name:attr, preferred:"", unique:"", defaultvalue:"", object:target_object );
+    end if;
+      
+    p = referential::populate( relationship:relationship, referred_attr:population.attribute, referring_attr:referring_attr );
+  end if;
 elif ( "typeref" == element )
   if ( "" == value[0] )
   	// do nothing (this is a leaf node)
@@ -187,6 +266,10 @@ elif ( "type" == element )
   else
     population.type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:population.domain );
   end if;
+elif ( "pragma" == element )
+  // do nothing
+elif ( "pragmaitem" == element )
+  // do nothing
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;

@@ -15,10 +15,14 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'T::include( file:"masl/t.attribute_begin.masl" );
-select many referentials related by self->referential[R3718.''refers through''];
-for each referential in referentials
-  referential.render();
-end for;
+select many referentials related by self->referential[R3746.''referred by''];
+if ( not_empty referentials )
+  T::include( file:"masl/t.referentials_begin.masl" );
+  for each referential in referentials
+    referential.render();
+  end for;
+  T::include( file:"masl/t.referentials_end.masl" );
+end if;
 select one type related by self->typeref[R3717]->type[R3762];
 T::include( file:"masl/t.attribute_end.masl" );',
 	1,
@@ -32,8 +36,11 @@ INSERT INTO O_TFR
 	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
 	0,
 	'object = param.object;
-create object instance attribute of attribute;
-attribute.name = param.name;
+select any attribute related by object->attribute[R3709] where ( selected.name == param.name );
+if ( empty attribute )
+  create object instance attribute of attribute;
+  attribute.name = param.name;
+end if;
 attribute.preferred = param.preferred;
 attribute.unique = param.unique;
 attribute.defaultvalue = param.defaultvalue;

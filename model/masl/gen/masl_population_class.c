@@ -189,6 +189,155 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->attribute = masl_attribute_op_populate(value[3], value[0], population->object, value[1], value[2]);
     }
   }
+  else if ( ( Escher_strcmp( "referential", element ) == 0 ) ) {
+    /* IF ( (  == value[0] ) ) */
+    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
+    }
+    else {
+      masl_parameter * p;masl_object * current_object;c_t attr[ESCHER_SYS_MAX_STRING_LEN];c_t obj[ESCHER_SYS_MAX_STRING_LEN];c_t roleOrObj[ESCHER_SYS_MAX_STRING_LEN];c_t relationship_name[ESCHER_SYS_MAX_STRING_LEN];c_t domain_name[ESCHER_SYS_MAX_STRING_LEN];masl_attribute * referring_attr=0;masl_object * target_object=0;masl_relationship * relationship=0;masl_domain * parent_domain=0;
+      /* ASSIGN domain_name = value[1] */
+      Escher_strcpy( domain_name, value[1] );
+      /* ASSIGN relationship_name = value[0] */
+      Escher_strcpy( relationship_name, value[0] );
+      /* ASSIGN roleOrObj = value[2] */
+      Escher_strcpy( roleOrObj, value[2] );
+      /* ASSIGN obj = value[3] */
+      Escher_strcpy( obj, value[3] );
+      /* ASSIGN attr = value[4] */
+      Escher_strcpy( attr, value[4] );
+      /* ASSIGN current_object = population.object */
+      current_object = population->object;
+      /* SELECT any parent_domain FROM INSTANCES OF domain WHERE FALSE */
+      parent_domain = 0;
+      /* IF ( (  == domain_name ) ) */
+      if ( ( Escher_strcmp( "", domain_name ) == 0 ) ) {
+        /* ASSIGN parent_domain = population.domain */
+        parent_domain = population->domain;
+      }
+      else {
+        /* SELECT any parent_domain FROM INSTANCES OF domain WHERE ( SELECTED.name == domain_name ) */
+        parent_domain = 0;
+        { masl_domain * selected;
+          Escher_Iterator_s iterparent_domainmasl_domain;
+          Escher_IteratorReset( &iterparent_domainmasl_domain, &pG_masl_domain_extent.active );
+          while ( (selected = (masl_domain *) Escher_IteratorNext( &iterparent_domainmasl_domain )) != 0 ) {
+            if ( ( Escher_strcmp( selected->name, domain_name ) == 0 ) ) {
+              parent_domain = selected;
+              break;
+            }
+          }
+        }
+      }
+      /* SELECT any relationship FROM INSTANCES OF relationship WHERE FALSE */
+      relationship = 0;
+      /* IF ( not_empty parent_domain ) */
+      if ( ( 0 != parent_domain ) ) {
+        /* SELECT any relationship RELATED BY parent_domain->relationship[R3712] WHERE ( ( SELECTED.name == relationship_name ) ) */
+        relationship = 0;
+        if ( 0 != parent_domain ) {
+          masl_relationship * selected;
+          Escher_Iterator_s irelationship_R3712;
+          Escher_IteratorReset( &irelationship_R3712, &parent_domain->relationship_R3712 );
+          while ( 0 != ( selected = (masl_relationship *) Escher_IteratorNext( &irelationship_R3712 ) ) ) {
+            if ( ( Escher_strcmp( selected->name, relationship_name ) == 0 ) ) {
+              relationship = selected;
+              break;
+        }}}
+      }
+      /* SELECT any target_object FROM INSTANCES OF object WHERE FALSE */
+      target_object = 0;
+      /* IF ( not_empty relationship ) */
+      if ( ( 0 != relationship ) ) {
+        masl_participation * participation=0;
+        /* SELECT one participation RELATED BY relationship->participation[R3713] */
+        participation = ( 0 != relationship ) ? relationship->participation_R3713_engages : 0;
+        /* IF ( ( (  == roleOrObj ) and (  == obj ) ) ) */
+        if ( ( ( Escher_strcmp( "", roleOrObj ) == 0 ) && ( Escher_strcmp( "", obj ) == 0 ) ) ) {
+          /* SELECT one target_object RELATED BY participation->object[R3714] */
+          target_object = ( 0 != participation ) ? participation->object_R3714_one : 0;
+          /* IF ( ( target_object == current_object ) ) */
+          if ( ( target_object == current_object ) ) {
+            /* SELECT any target_object RELATED BY participation->object[R3720] */
+            target_object = ( 0 != participation ) ? (masl_object *) Escher_SetGetAny( &participation->object_R3720_other ) : 0;
+          }
+        }
+        else if ( ( Escher_strcmp( "", roleOrObj ) != 0 ) ) {
+          /* IF ( ( participation.otherphrase == roleOrObj ) ) */
+          if ( ( Escher_strcmp( participation->otherphrase, roleOrObj ) == 0 ) ) {
+            /* SELECT one target_object RELATED BY participation->object[R3714] */
+            target_object = ( 0 != participation ) ? participation->object_R3714_one : 0;
+          }
+          else if ( ( Escher_strcmp( participation->onephrase, roleOrObj ) == 0 ) ) {
+            /* IF ( (  != obj ) ) */
+            if ( ( Escher_strcmp( "", obj ) != 0 ) ) {
+              /* SELECT any target_object RELATED BY participation->object[R3720] WHERE ( ( SELECTED.name == obj ) ) */
+              target_object = 0;
+              if ( 0 != participation ) {
+                masl_object * selected;
+                Escher_Iterator_s iobject_R3720_other;
+                Escher_IteratorReset( &iobject_R3720_other, &participation->object_R3720_other );
+                while ( 0 != ( selected = (masl_object *) Escher_IteratorNext( &iobject_R3720_other ) ) ) {
+                  if ( ( Escher_strcmp( selected->name, obj ) == 0 ) ) {
+                    target_object = selected;
+                    break;
+              }}}
+            }
+            else {
+              /* SELECT any target_object RELATED BY participation->object[R3720] */
+              target_object = ( 0 != participation ) ? (masl_object *) Escher_SetGetAny( &participation->object_R3720_other ) : 0;
+            }
+          }
+          else {
+            /* SELECT one target_object RELATED BY participation->object[R3714] WHERE ( ( SELECTED.name == roleOrObj ) ) */
+            {target_object = 0;
+            {masl_object * selected = ( 0 != participation ) ? participation->object_R3714_one : 0;
+            if ( ( 0 != selected ) && ( Escher_strcmp( selected->name, roleOrObj ) == 0 ) ) {
+              target_object = selected;
+            }}}
+            /* IF ( empty target_object ) */
+            if ( ( 0 == target_object ) ) {
+              /* SELECT any target_object RELATED BY participation->object[R3720] WHERE ( ( SELECTED.name == roleOrObj ) ) */
+              target_object = 0;
+              if ( 0 != participation ) {
+                masl_object * selected;
+                Escher_Iterator_s iobject_R3720_other;
+                Escher_IteratorReset( &iobject_R3720_other, &participation->object_R3720_other );
+                while ( 0 != ( selected = (masl_object *) Escher_IteratorNext( &iobject_R3720_other ) ) ) {
+                  if ( ( Escher_strcmp( selected->name, roleOrObj ) == 0 ) ) {
+                    target_object = selected;
+                    break;
+              }}}
+            }
+          }
+        }
+        else {
+        }
+      }
+      /* SELECT any referring_attr FROM INSTANCES OF attribute WHERE FALSE */
+      referring_attr = 0;
+      /* IF ( not_empty target_object ) */
+      if ( ( 0 != target_object ) ) {
+        /* SELECT any referring_attr RELATED BY target_object->attribute[R3709] WHERE ( ( SELECTED.name == attr ) ) */
+        referring_attr = 0;
+        if ( 0 != target_object ) {
+          masl_attribute * selected;
+          Escher_Iterator_s iattribute_R3709_is_characterized_by;
+          Escher_IteratorReset( &iattribute_R3709_is_characterized_by, &target_object->attribute_R3709_is_characterized_by );
+          while ( 0 != ( selected = (masl_attribute *) Escher_IteratorNext( &iattribute_R3709_is_characterized_by ) ) ) {
+            if ( ( Escher_strcmp( selected->name, attr ) == 0 ) ) {
+              referring_attr = selected;
+              break;
+        }}}
+      }
+      /* IF ( empty referring_attr ) */
+      if ( ( 0 == referring_attr ) ) {
+        /* ASSIGN referring_attr = attribute::populate(defaultvalue:, name:attr, object:target_object, preferred:, unique:) */
+        referring_attr = masl_attribute_op_populate("", attr, target_object, "", "");
+      }
+      /* ASSIGN p = referential::populate(referred_attr:population.attribute, referring_attr:referring_attr, relationship:relationship) */
+      p = masl_referential_op_populate(population->attribute, referring_attr, relationship);
+    }
+  }
   else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
     /* IF ( (  == value[0] ) ) */
     if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
@@ -347,6 +496,10 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* ASSIGN population.type = type::populate(body:value[2], domain:population.domain, name:value[0], visibility:value[1]) */
       population->type = masl_type_op_populate(value[2], population->domain, value[0], value[1]);
     }
+  }
+  else if ( ( Escher_strcmp( "pragma", element ) == 0 ) ) {
+  }
+  else if ( ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) {
   }
   else {
     /* TRACE::log( flavor:failure, id:39, message:( unrecognized element:   + element ) ) */

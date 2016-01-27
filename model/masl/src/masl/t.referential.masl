@@ -1,0 +1,14 @@
+if ( 0!=strcmp("",domainname) ) {
+T_b(domainname);
+T_b("::");
+}
+T_b(relationshipname);
+T_b(".");
+if ( 0!=strcmp("",rolephrase) ) {
+T_b(rolephrase);
+T_b(".");
+}
+T_b(objectname);
+T_b(".");
+T_b(attribute);
+T_b(" ");

@@ -14,12 +14,41 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'select one referring_attr related by self->attribute[R3746.''referred by''];
+attribute = referring_attr.name;
+
+select one object related by referring_attr->object[R3709];
+objectname = object.name;
+
+select one relationship related by self->relationship[R3744];
+relationshipname = relationship.name;
+
+select one domain related by relationship->domain[R3712];
+domainname = "";
+
+// check if subsuper
+rolephrase = "";
+select one subsuper related by relationship->subsuper[R3721];
+if ( empty subsuper )
+  // if it is not subsuper, include the role phrase
+  select one part related by relationship->participation[R3713];
+
+  // check if it''s other or one
+  select one one_object related by part->object[R3714];
+  select any other_object related by part->object[R3720];
+  if ( object == one_object )
+    // other
+    rolephrase = part.otherphrase;
+  elif ( object == other_object )
+    // one
+    rolephrase = part.onephrase;
+  else
+    // bad TODO add log here
+  end if;
+  
+end if;
+
+T::include( file:"masl/t.referential.masl" );',
 	1,
 	'',
 	"b4c92004-4eda-4905-8e5a-1e4ee121b90a");
@@ -30,20 +59,61 @@ INSERT INTO O_TFR
 	'',
 	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
 	0,
-	'create object instance template_class of parameter;
-template_class.name = param.name;
-return template_class;',
+	'create object instance referential of referential;
+
+relationship = param.relationship;
+referred_attr = param.referred_attr;
+referring_attr = param.referring_attr;
+
+relate referential to relationship across R3744;
+relate referring_attr to referred_attr across R3746.''refers to'' using referential;
+
+// TODO remove this
+select any ref from instances of parameter where false;
+return ref;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
-	VALUES ("dad2d224-d400-4d3d-84bf-ca39586cee43",
+	VALUES ("db14bfd5-5404-4504-b5ed-5491fe046331",
 	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
-	'name',
-	"ba5eda7a-def5-0000-0000-000000000004",
+	'relationship',
+	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<relationship>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("1ef02a7f-8b35-4ded-b319-e07dee8cdd95",
+	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
+	'referred_attr',
+	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	0,
+	'',
+	"db14bfd5-5404-4504-b5ed-5491fe046331",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<attribute>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("0912eaaf-ef89-4298-af95-da10f941a672",
+	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
+	'referring_attr',
+	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	0,
+	'',
+	"1ef02a7f-8b35-4ded-b319-e07dee8cdd95",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
@@ -73,24 +143,6 @@ return valid;
 	1,
 	'',
 	"29b4edbe-2a0d-41ae-846f-5b961e250517");
-INSERT INTO O_NBATTR
-	VALUES ("4c3698ea-cc2e-4de1-a84d-72769487cdf7",
-	"4edb2c3e-b86b-4835-9c39-392a9b29eba6");
-INSERT INTO O_BATTR
-	VALUES ("4c3698ea-cc2e-4de1-a84d-72769487cdf7",
-	"4edb2c3e-b86b-4835-9c39-392a9b29eba6");
-INSERT INTO O_ATTR
-	VALUES ("4c3698ea-cc2e-4de1-a84d-72769487cdf7",
-	"4edb2c3e-b86b-4835-9c39-392a9b29eba6",
-	"00000000-0000-0000-0000-000000000000",
-	'name',
-	'',
-	'',
-	'name',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"4edb2c3e-b86b-4835-9c39-392a9b29eba6");
