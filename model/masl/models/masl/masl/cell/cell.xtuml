@@ -14,8 +14,15 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_begin.masl" );
-//T::include( file:"masl/t.project_end.masl" );',
+	'select one start_state related by self->state[R3732];
+select one transition_event related by self->event[R3732];
+select one end_state related by self->state[R3731.''transitions to''];
+separator = ",";
+endstate = self.notransition;
+if ( not_empty end_state )
+  endstate = end_state.name;
+end if;
+T::include( file:"masl/t.cell.masl" );',
 	1,
 	'',
 	"3c72dc54-c840-4dad-9e21-e6a9a8521c00");
