@@ -131,10 +131,10 @@ elif ( "typeref" == element )
   end if;
 elif ( "transitiontable" == element )
   if ( "" == value[0] )
-  	select any empty_transitiontable from instances of state_machine where ( false );
-  	population.transitiontable = empty_transitiontable;
+  	select any empty_state_machine from instances of state_machine where ( false );
+  	population.state_machine = empty_state_machine;
   else
-    population.transitiontable = state_machine::populate( type:value[0], object:population.object );
+    population.state_machine = state_machine::populate( type:value[0], object:population.object );
   end if;
 elif ( "state" == element )
   if ( "" == value[0] )
@@ -151,19 +151,7 @@ elif ( "event" == element )
     population.event = event::populate( name:value[0], type:value[1], object:population.object );
   end if;
 elif ( "transition" == element )
-  if ( "" == value[0] )
-  	select any empty_transition from instances of transition_rule where ( false );
-  	population.transition = empty_transition;
-  else
-    // Check to see if this is the first rule in the transition row.
-    if ( "" == value[3] ) 
-      // first rule
-      select any empty_transition from instances of transition_rule where false;
-      population.transition = transition_rule::populate( event:population.event, result:value[0], state:population.state, previous_rule:empty_transition );
-    else
-      population.transition = transition_rule::populate( event:population.event, result:value[0], state:population.state, previous_rule:population.transition );
-    end if;
-  end if;
+  c = cell::populate( startstate:value[0], event:value[1], endstate:value[2], statemachine:population.state_machine );
 elif ( "regularrel" == element )
   if ( "" == value[0] )
   	select any empty_relationship from instances of relationship where ( false );
@@ -478,10 +466,10 @@ INSERT INTO O_ATTR
 	VALUES ("9436ed2e-10e4-47a2-acd6-6391f7710c67",
 	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
 	"caf3c62f-1b02-4d70-b4e5-4ec9eb16a681",
-	'transitiontable',
+	'state_machine',
 	'',
 	'',
-	'transitiontable',
+	'state_machine',
 	0,
 	"eefb9a09-70e7-4c0f-927f-7758f32e96fc",
 	'',
@@ -503,18 +491,18 @@ INSERT INTO O_ATTR
 	VALUES ("64ff3896-00d9-4678-9339-af08d92b55fb",
 	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
 	"9436ed2e-10e4-47a2-acd6-6391f7710c67",
-	'transition',
+	'cell',
 	'',
 	'',
-	'transition',
+	'cell',
 	0,
-	"cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
+	"37c8bb16-c4a9-41de-91c4-06bedcca9acf",
 	'',
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
+	VALUES ("37c8bb16-c4a9-41de-91c4-06bedcca9acf",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<transition_rule>',
+	'inst_ref<cell>',
 	'',
 	'',
 	'../masl.xtuml');
