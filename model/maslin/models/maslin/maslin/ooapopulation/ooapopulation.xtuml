@@ -234,7 +234,7 @@ pe_pe = param.pe_pe;
 pe_pe.Visibility = Visibility::Public;',
 	1,
 	'',
-	"b44f67b8-f281-4aa2-9adc-27b62605a7c1");
+	"df742b16-077b-4e8d-acf5-363505b130c5");
 INSERT INTO O_TPARM
 	VALUES ("6a17224a-e16d-4c87-a4b6-3504f24b8992",
 	"6d27ebf1-bb50-4835-85e2-b21d260ab92c",
@@ -881,7 +881,7 @@ self.ModelClass_addIdentifiers(o_obj:o_obj); // OOA - o_obj.addIdentifiers();
 ',
 	1,
 	'',
-	"746859b9-4abd-48d5-ab0d-ea689a3e3b5b");
+	"dc363b24-255d-4fa8-ba3e-633881fbaebf");
 INSERT INTO O_TPARM
 	VALUES ("da659b0e-173f-470b-b017-b739ba8a6b65",
 	"6355664b-4091-4bc3-ac82-c6d3580da3ad",
@@ -1218,8 +1218,14 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'',
-	3,
+	'// TODO:
+//   1) see if "functions" package exists in the component, create it if it does not.
+//   2) create domain function for the incoming function/service
+//   3) if the function/service is public
+//        - see if there is an interface named "????", tied to port named "???" on the component, create if not
+//        - create an interface operation identical to the domain function/service
+//        - modify the action body of the operation on the port to call the domain function/service',
+	1,
 	'',
 	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
 INSERT INTO O_TPARM
@@ -1266,8 +1272,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'op_name = param.name;
-//self.current_class_op = 
-self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name);',
+self.current_class_op = self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name);',
 	1,
 	'',
 	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80");
@@ -1312,10 +1317,17 @@ INSERT INTO O_TFR
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'ModelClass_newOperation',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
 	1,
-	'',
-	3,
+	'o_obj = param.o_obj;
+
+create object instance operation of O_TFR;
+relate o_obj to operation across R115;
+self.Operation_initialize(o_tfr:operation, name:param.op_name);
+
+return operation;
+',
+	1,
 	'',
 	"d16c3058-c420-428a-ab22-69a134a0c5d4");
 INSERT INTO O_TPARM
@@ -1335,6 +1347,110 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"cf0f4faa-7ab4-4f2c-ac3c-298e1e67de28",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Operation>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TFR
+	VALUES ("df742b16-077b-4e8d-acf5-363505b130c5",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Operation_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_tfr = param.o_tfr;
+
+// NOTE: This is a heavily modified version of OOAofOOA''s Operation::initialize()
+
+select one clazz related by o_tfr->O_OBJ[R115];
+self.ModelClass_addOperationToOrdering(o_obj: clazz, newTfr:o_tfr);
+
+/* TODO - we need to figure out how to set the return type to void
+  // Owning Class is in a package . . . 
+  select one system related by o_tfr->O_OBJ[R115]->PE_PE[R8001]->
+                                                    EP_PKG[R8000]->S_SYS[R1405];
+  if not_empty system
+    dt_id = system.getCoreTypeId(name:"void");
+    select any pe from instances of PE_PE where selected.Element_ID == dt_id;
+    select one def_dt related by pe->S_DT[R8001];
+    relate o_tfr to def_dt across R116;
+  else
+    // this is an error, if the system is not
+    // found we cannot find the core type
+    USER::logError(msg:"Unable to locate system root for data type: void",path:"");
+  end if;
+*/
+
+o_tfr.Name = param.name;
+o_tfr.Instance_Based = Scope::Instance;
+o_tfr.Suc_Pars = ParseStatus::parseInitial;
+',
+	1,
+	'',
+	"b44f67b8-f281-4aa2-9adc-27b62605a7c1");
+INSERT INTO O_TPARM
+	VALUES ("cd7b3b59-9273-4b04-b995-fee5aaf28023",
+	"df742b16-077b-4e8d-acf5-363505b130c5",
+	'o_tfr',
+	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("37e8e692-2e3a-4924-bff7-6d67ea9f189e",
+	"df742b16-077b-4e8d-acf5-363505b130c5",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"cd7b3b59-9273-4b04-b995-fee5aaf28023",
+	'');
+INSERT INTO O_TFR
+	VALUES ("dc363b24-255d-4fa8-ba3e-633881fbaebf",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ModelClass_addOperationToOrdering',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_obj = param.o_obj;
+operation = param.newTfr;
+
+if(not_empty operation)
+  select many peers related by o_obj->O_TFR[R115];
+  for each peer in peers
+    if (peer != operation)
+      select one predecessor related by peer->O_TFR[R125.''precedes''];
+      if (empty predecessor)
+        relate operation to peer across R125.''succeeds'';
+      end if;
+    end if;
+  end for;
+end if;',
+	1,
+	'',
+	"746859b9-4abd-48d5-ab0d-ea689a3e3b5b");
+INSERT INTO O_TPARM
+	VALUES ("a05d38c9-bed4-4c14-a6a8-622ab2e1a3eb",
+	"dc363b24-255d-4fa8-ba3e-633881fbaebf",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("be81f7cd-2a26-46a7-aae0-b5274600f167",
+	"dc363b24-255d-4fa8-ba3e-633881fbaebf",
+	'newTfr',
+	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	0,
+	'',
+	"a05d38c9-bed4-4c14-a6a8-622ab2e1a3eb",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
@@ -1459,7 +1575,7 @@ INSERT INTO O_ATTR
 	'',
 	'current_class_op',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000002",
+	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
 	'',
 	'');
 INSERT INTO O_ID
