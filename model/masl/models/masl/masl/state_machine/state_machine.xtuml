@@ -15,19 +15,17 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'/*
-T::include( file:"masl/t.transitiontable_begin.masl" );
-select many states related by self->cell[R3743.''is matrix of'']->state[R3732];
-//select many events related by self->event[R3737];
-for each state in states
- start = state.name;
- T::include ( file:"masl/t.transitionrow_begin.masl" );
- //select one transition_rule related by state->transition_rule[R3730];
- //transition_rule.render();
- T::include ( file:"masl/t.transitionrow_end.masl" );
+	'T::include( file:"masl/t.transitiontable_begin.masl" );
+select many start_states related by self->cell[R3743]->state[R3732];
+for each start_state in start_states
+  T::include( file:"masl/t.transitionrow_begin.masl" );
+  select many cells related by start_state->cell[R3732];
+  for each cell in cells
+    cell.render();
+  end for;
+  T::include( file:"masl/t.transitionrow_end.masl" );
 end for;
-T::include( file:"masl/t.transitiontable_end.masl" );
-*/',
+T::include( file:"masl/t.transitiontable_end.masl" );',
 	1,
 	'',
 	"8930d86e-438f-4a56-b595-3a8b60fe9123");

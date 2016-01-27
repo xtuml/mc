@@ -234,15 +234,15 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   else if ( ( Escher_strcmp( "transitiontable", element ) == 0 ) ) {
     /* IF ( (  == value[0] ) ) */
     if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
-      masl_state_machine * empty_transitiontable=0;
-      /* SELECT any empty_transitiontable FROM INSTANCES OF state_machine WHERE FALSE */
-      empty_transitiontable = 0;
-      /* ASSIGN population.transitiontable = empty_transitiontable */
-      population->transitiontable = empty_transitiontable;
+      masl_state_machine * empty_state_machine=0;
+      /* SELECT any empty_state_machine FROM INSTANCES OF state_machine WHERE FALSE */
+      empty_state_machine = 0;
+      /* ASSIGN population.state_machine = empty_state_machine */
+      population->state_machine = empty_state_machine;
     }
     else {
-      /* ASSIGN population.transitiontable = state_machine::populate(object:population.object, type:value[0]) */
-      population->transitiontable = masl_state_machine_op_populate(population->object, value[0]);
+      /* ASSIGN population.state_machine = state_machine::populate(object:population.object, type:value[0]) */
+      population->state_machine = masl_state_machine_op_populate(population->object, value[0]);
     }
   }
   else if ( ( Escher_strcmp( "state", element ) == 0 ) ) {
@@ -274,28 +274,9 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     }
   }
   else if ( ( Escher_strcmp( "transition", element ) == 0 ) ) {
-    /* IF ( (  == value[0] ) ) */
-    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
-      masl_transition_rule * empty_transition=0;
-      /* SELECT any empty_transition FROM INSTANCES OF transition_rule WHERE FALSE */
-      empty_transition = 0;
-      /* ASSIGN population.transition = empty_transition */
-      population->transition = empty_transition;
-    }
-    else {
-      /* IF ( (  == value[3] ) ) */
-      if ( ( Escher_strcmp( "", value[3] ) == 0 ) ) {
-        masl_transition_rule * empty_transition=0;
-        /* SELECT any empty_transition FROM INSTANCES OF transition_rule WHERE FALSE */
-        empty_transition = 0;
-        /* ASSIGN population.transition = transition_rule::populate(event:population.event, previous_rule:empty_transition, result:value[0], state:population.state) */
-        population->transition = masl_transition_rule_op_populate(population->event, empty_transition, value[0], population->state);
-      }
-      else {
-        /* ASSIGN population.transition = transition_rule::populate(event:population.event, previous_rule:population.transition, result:value[0], state:population.state) */
-        population->transition = masl_transition_rule_op_populate(population->event, population->transition, value[0], population->state);
-      }
-    }
+    masl_cell * c;
+    /* ASSIGN c = cell::populate(endstate:value[2], event:value[1], startstate:value[0], statemachine:population.state_machine) */
+    c = masl_cell_op_populate(value[2], value[1], value[0], population->state_machine);
   }
   else if ( ( Escher_strcmp( "regularrel", element ) == 0 ) ) {
     /* IF ( (  == value[0] ) ) */

@@ -1,4 +1,4 @@
-T_b("      ");
+T_b("    ");
 T_b(self->type);
 T_b(" state ");
 T_b(self->name);

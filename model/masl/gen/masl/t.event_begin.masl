@@ -1,1 +1,1 @@
-      ${self.type} event ${self.name}(\
+    ${self.type} event ${self.name}(\
