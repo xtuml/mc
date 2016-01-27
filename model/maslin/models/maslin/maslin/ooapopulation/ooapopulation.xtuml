@@ -25,25 +25,75 @@ if ( empty ooapopulation )
 end if;
 
 if ( "project" == element )
-  ooapopulation.transformProject(name:param.value[0]);
+  if ( "" != param.value[0] )
+    ooapopulation.transformProject(name:param.value[0]);
+  end if;
 elif ( "domain" == element )
-  ooapopulation.transformDomain(name:param.value[0]);
+  if ( "" == param.value[0] )
+    select any c_c from instances of C_C where (false);
+    current_component = c_c;
+  else
+    ooapopulation.transformDomain(name:param.value[0]);
+  end if;
 elif ( "object" == element )
-  ooapopulation.transformObject(name:param.value[0]);
+  if ( "" == param.value[0] )
+    select any o_obj from instances of O_OBJ where (false);
+    current_class = o_obj;
+  else
+    ooapopulation.transformObject(name:param.value[0]);
+  end if;
 elif ( "terminator" == element )
-  ooapopulation.transformTerminator(name:param.value[0]);
+  if ( "" != param.value[0] )
+    ooapopulation.transformTerminator(name:param.value[0]);
+  end if;
 elif ( "activity" == element )
-  ooapopulation.transformActivity();
+  if ( "" != param.value[0] )
+    ooapopulation.transformActivity();
+  end if;
 elif ( "parameter" == element )
-  ooapopulation.transformParameter();
+  if ( "" != param.value[0] )
+    ooapopulation.transformParameter();
+  end if;
 elif ( "attribute" == element )
-  ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2], initialization:param.value[3]);
+  if ( "" != param.value[0] )
+    ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2], initialization:param.value[3]);
+  end if;
 elif ( "state" == element )
-  ooapopulation.transformState();
+  if ( "" != param.value[0] )
+    ooapopulation.transformState();
+  end if;
 elif ( "event" == element )
-  ooapopulation.transformEvent();
+  if ( "" != param.value[0] )
+    ooapopulation.transformEvent();
+  end if;
 elif ( "type" == element )
-  ooapopulation.transformType(name:param.value[0], visibility:param.value[1]);
+  if ( "" != param.value[0] )
+    ooapopulation.transformType(name:param.value[0], visibility:param.value[1]);
+  end if;
+elif ( "function" == element )
+  //  See if we''re processing inside a domain, object, or terminator.  Then call the appropriate conversion function.
+  if ( "" != param.value[0] )
+    clazz = ooapopulation.current_class;
+    if ( not_empty clazz )
+      ooapopulation.transformObjectFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
+    // TODO -elif ( not_empty ooapopulation.current_port )
+    // TODO -  ooapopulation.transformTerminatorFunction();
+    else
+      ooapopulation.transformDomainFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
+    end if;
+  end if;
+elif ( "service" == element )
+  //  See if we''re processing inside a domain, object, or terminator.  Then call the appropriate conversion function.
+  if ( "" != param.value[0] )
+    clazz = ooapopulation.current_class;
+    if ( not_empty clazz )
+      ooapopulation.transformObjectFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
+    // TODO -elif ( not_empty ooapopulation.current_port )
+    // TODO -  ooapopulation.transformTerminatorFunction();
+    else
+      ooapopulation.transformDomainFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
+    end if;
+  end if;
 else
   TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -184,7 +234,7 @@ pe_pe = param.pe_pe;
 pe_pe.Visibility = Visibility::Public;',
 	1,
 	'',
-	"d16c3058-c420-428a-ab22-69a134a0c5d4");
+	"b44f67b8-f281-4aa2-9adc-27b62605a7c1");
 INSERT INTO O_TPARM
 	VALUES ("6a17224a-e16d-4c87-a4b6-3504f24b8992",
 	"6d27ebf1-bb50-4835-85e2-b21d260ab92c",
@@ -624,7 +674,7 @@ INSERT INTO O_TFR
 	'',
 	1,
 	'',
-	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80");
+	"f2b299ab-c59f-4a3c-b813-659a745c2710");
 INSERT INTO O_TFR
 	VALUES ("9438bf8f-4666-499e-9822-00e7b064286f",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -694,7 +744,7 @@ INSERT INTO O_TFR
 	'',
 	1,
 	'',
-	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
+	"f2d9d56f-7fb7-485b-9cf5-6188743dd596");
 INSERT INTO O_TFR
 	VALUES ("a9942ae9-1501-49c7-afb1-84aa422a85e5",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -1161,6 +1211,131 @@ INSERT INTO O_TPARM
 	'',
 	"fb1564c5-ad69-434b-ae34-3524e3c96530",
 	'');
+INSERT INTO O_TFR
+	VALUES ("f2d9d56f-7fb7-485b-9cf5-6188743dd596",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformDomainFunction',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	3,
+	'',
+	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
+INSERT INTO O_TPARM
+	VALUES ("ac1fb869-ac0a-4149-8711-065870838f23",
+	"f2d9d56f-7fb7-485b-9cf5-6188743dd596",
+	'visibility',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("9bd07cf8-1638-47f6-99ef-aac82f7ffbaa",
+	"f2d9d56f-7fb7-485b-9cf5-6188743dd596",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ac1fb869-ac0a-4149-8711-065870838f23",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("feb1cd43-bb0f-4f88-abd0-c527eee66c65",
+	"f2d9d56f-7fb7-485b-9cf5-6188743dd596",
+	'instance',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9bd07cf8-1638-47f6-99ef-aac82f7ffbaa",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("17ce02bf-5d9c-4050-b80a-573a7deb7a74",
+	"f2d9d56f-7fb7-485b-9cf5-6188743dd596",
+	'relationship',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"feb1cd43-bb0f-4f88-abd0-c527eee66c65",
+	'');
+INSERT INTO O_TFR
+	VALUES ("f2b299ab-c59f-4a3c-b813-659a745c2710",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformObjectFunction',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'op_name = param.name;
+//self.current_class_op = 
+self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name);',
+	1,
+	'',
+	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80");
+INSERT INTO O_TPARM
+	VALUES ("2d2e0fbe-4572-4f0a-969a-a19348ab65b3",
+	"f2b299ab-c59f-4a3c-b813-659a745c2710",
+	'visibility',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("84493d64-7b95-425a-a6e4-9ecdc673b2f9",
+	"f2b299ab-c59f-4a3c-b813-659a745c2710",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"2d2e0fbe-4572-4f0a-969a-a19348ab65b3",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("302dbd74-7ed1-4a13-9caf-be95b3597037",
+	"f2b299ab-c59f-4a3c-b813-659a745c2710",
+	'instance',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"84493d64-7b95-425a-a6e4-9ecdc673b2f9",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("144a0b1a-61cf-4cd3-a93f-da5bdda735ef",
+	"f2b299ab-c59f-4a3c-b813-659a745c2710",
+	'relationship',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"302dbd74-7ed1-4a13-9caf-be95b3597037",
+	'');
+INSERT INTO O_TFR
+	VALUES ("b44f67b8-f281-4aa2-9adc-27b62605a7c1",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ModelClass_newOperation',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	3,
+	'',
+	"d16c3058-c420-428a-ab22-69a134a0c5d4");
+INSERT INTO O_TPARM
+	VALUES ("cf0f4faa-7ab4-4f2c-ac3c-298e1e67de28",
+	"b44f67b8-f281-4aa2-9adc-27b62605a7c1",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("8162170e-904b-4723-bcda-ff75073bcdd6",
+	"b44f67b8-f281-4aa2-9adc-27b62605a7c1",
+	'op_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"cf0f4faa-7ab4-4f2c-ac3c-298e1e67de28",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -1224,7 +1399,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("619f4747-9795-4d99-a5ac-563d99ffbda4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"628299ab-4589-4cfb-9c7d-c61c627dd3c1",
+	"ec1c00cb-7e3e-4cb0-890b-6dbb1db4f6fd",
 	'current_component',
 	'',
 	'',
@@ -1267,6 +1442,24 @@ INSERT INTO O_ATTR
 	'current_attribute',
 	0,
 	"579b8247-e153-481d-8926-384cdc722464",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ec1c00cb-7e3e-4cb0-890b-6dbb1db4f6fd",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("ec1c00cb-7e3e-4cb0-890b-6dbb1db4f6fd",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("ec1c00cb-7e3e-4cb0-890b-6dbb1db4f6fd",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"628299ab-4589-4cfb-9c7d-c61c627dd3c1",
+	'current_class_op',
+	'',
+	'',
+	'current_class_op',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID
