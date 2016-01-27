@@ -35,4 +35,4 @@ Input is of the form:
 These must be provided in the correct order as expected from the parser
 or from the xtuml2masl M2M transform.
 
-The output will go to `mcmaslout.txt`.  
+The output will go to `stdout`.  

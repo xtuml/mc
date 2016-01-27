@@ -33,7 +33,7 @@ conditionality = param.conditionality;
 multiplicity = param.multiplicity;
 toobject = param.toobject;
 relationship = param.relationship;
-select one participation related by relationship->participation[R3713.''engages''];
+participation = param.participation;
 if ( empty participation )
   // first half, always get this
   create object instance participation of participation;
@@ -137,6 +137,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("6e7ab2c3-79d4-49cb-8e87-3ddcf823a546",
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	'participation',
+	"54954f4e-9821-47ec-9365-ecd9c1b057b9",
+	0,
+	'',
+	"874f754c-1ed7-4706-8d2f-58a0f34b8b60",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("54954f4e-9821-47ec-9365-ecd9c1b057b9",

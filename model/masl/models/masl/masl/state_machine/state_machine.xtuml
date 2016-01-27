@@ -15,7 +15,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.transitiontable_begin.masl" );
+	'/*
+T::include( file:"masl/t.transitiontable_begin.masl" );
 select many states related by self->state[R3738];
 for each state in states
   state.render();
@@ -31,7 +32,8 @@ for each state in states
    transition_rule.render();
    T::include ( file:"masl/t.transitionrow_end.masl" );
 end for;
-T::include( file:"masl/t.transitiontable_end.masl" );',
+T::include( file:"masl/t.transitiontable_end.masl" );
+*/',
 	1,
 	'',
 	"8930d86e-438f-4a56-b595-3a8b60fe9123");
@@ -42,12 +44,13 @@ INSERT INTO O_TFR
 	'',
 	"eefb9a09-70e7-4c0f-927f-7758f32e96fc",
 	0,
-	'create object instance state_machine of state_machine;
+	'object = param.object;
+create object instance state_machine of state_machine;
+relate state_machine to object across R3734.''defines lifecycle of'';
 state_machine.type = param.type;
-if ("assigner" == param.type)
-  assigner = assigner_sm::populate(object:param.object, parent:state_machine);
-else
-  lifecycle = lifecycle_sm::populate(object:param.object, parent:state_machine);
+if ( "assigner" != state_machine.type )
+  // Create the default non-existent state.
+  s = state::populate( name:"non_existent", type:"normal", object:object );
 end if;
 return state_machine;',
 	1,
@@ -57,18 +60,11 @@ INSERT INTO O_TPARM
 	VALUES ("500de992-1102-49b2-9b91-9e17e6fc2154",
 	"8930d86e-438f-4a56-b595-3a8b60fe9123",
 	'type',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("d21b0898-f219-443c-8640-9c9c7f6dba23",
 	"8930d86e-438f-4a56-b595-3a8b60fe9123",
@@ -99,7 +95,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
-	'valid = true;
+	'/*
+valid = true;
 select many machines from instances of state_machine;
 for each machine in machines
   select any state related by machine->state[R3738];
@@ -123,7 +120,9 @@ for each machine in machines
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and lifecycle_sm::validate() and assigner_sm::validate() and state::validate() and event::validate() and transition_rule::validate() );',
+return ( valid and lifecycle_sm::validate() and assigner_sm::validate() and state::validate() and event::validate() and transition_rule::validate() );
+*/
+return true;',
 	1,
 	'',
 	"bc4dbe48-4b74-418f-8d9a-0f3351e63b7d");
@@ -142,7 +141,7 @@ INSERT INTO O_ATTR
 	'',
 	'type',
 	0,
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_ID

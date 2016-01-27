@@ -24,11 +24,6 @@ if ( empty population )
   create object instance population of population;
 end if;
 
-// throw out if it has no args
-if ( "" == value[0] )
-  return;
-end if;
-
 if ( "project" == element )
   if ( "" == value[0] )
   	select any empty_project from instances of project where ( false );
@@ -57,36 +52,50 @@ elif ( "terminator" == element )
   else
     population.terminator = terminator::populate( name:value[0], domain:population.domain );
   end if;
-elif ( "activity" == element )
+elif ( "service" == element or "function" == element )
   if ( "" == value[0] )
   	select any empty_activity from instances of activity where ( false );
   	population.activity = empty_activity;
   else
-    // Check to see if the parent is a domain or a terminator.
-    if ( "" != value[1] )
-      // activity is child of terminator
-      population.activity = activity::populate( name:value[0], terminator:population.terminator, flavor:value[2] );
-    elif ( false )
-      // activity is child of object
-    elif ( false )
-      // activity is child of domain
-    else
-      TRACE::log( flavor:"failure", id:40, message:"unrecognized activity:  " + value[0] );
-   	end if;
+    parent_domain = population.domain;
+	parent_terminator = population.terminator;
+	parent_object = population.object;
+	if ( not_empty parent_domain and empty parent_terminator )
+	  // child of domain
+  	  select any parent_terminator from instances of terminator where ( false );
+  	  select any parent_object from instances of object where ( false );
+	elif ( not_empty parent_terminator )
+	  // child of terminator
+  	  select any parent_domain from instances of domain where ( false );
+  	  select any parent_object from instances of object where ( false );
+	elif ( not_empty parent_object )
+	  // child of object
+  	  select any parent_domain from instances of domain where ( false );
+  	  select any parent_terminator from instances of terminator where ( false );
+	else
+	  TRACE::log( flavor:"failure", id:39, message:"no parent for activity found" );
+	end if;
+	if ( "service" == element )
+      population.activity = service::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+	elif ( "function" == element )
+      population.activity = function::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+	end if;
   end if;
 elif ( "parameter" == element )
   if ( "" == value[0] )
   	select any empty_parameter from instances of parameter where ( false );
   	population.parameter = empty_parameter;
   else
-    // Check to see if the parent is an activity or a sibling parameter.
-    if ( "" == value[3] )
-      // first parameter
-      select any empty_parameter from instances of parameter where ( false );
-      population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:empty_parameter );
-    else
-      population.parameter = parameter::populate( name:value[0], type:value[1], direction:value[2], activity:population.activity, previous_parameter:population.parameter );
-    end if;
+  	parent_activity = population.activity;
+  	sibling_parameter = population.parameter;
+  	if ( not_empty sibling_parameter )
+  	  // sibling of parameter
+  	  select any parent_activity from instances of activity where ( false );
+  	elif ( not_empty parent_activity )
+  	  // child of activity
+  	  select any sibling_parameter from instances of parameter where ( false );
+  	end if;
+    population.parameter = parameter::populate( name:value[0], direction:value[1], parent_activity:parent_activity, sibling_parameter:sibling_parameter );
   end if;
 elif ( "attribute" == element )
   if ( "" == value[0] )
@@ -94,6 +103,31 @@ elif ( "attribute" == element )
   	population.attribute = empty_attribute;
   else
     population.attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:population.object );
+  end if;
+elif ( "typeref" == element )
+  if ( "" == value[0] )
+  	// do nothing (this is a leaf node)
+  else
+    parent_activity = population.activity;
+    select one parent_function related by parent_activity->function[R3704];
+    parent_parameter = population.parameter;
+    parent_attribute = population.attribute;
+    if ( not_empty parent_function and empty parent_parameter )
+      // child of function
+      select any parent_parameter from instances of parameter where false;
+      select any parent_attribute from instances of attribute where false;
+    elif ( not_empty parent_parameter )
+      select any parent_attribute from instances of attribute where false;
+      select any parent_function from instances of function where false;
+      // child of parameter
+    elif ( not_empty parent_attribute )
+      select any parent_parameter from instances of parameter where false;
+      select any parent_function from instances of function where false;
+      // child of attribute
+    else
+      TRACE::log( flavor:"failure", id:39, message:"no parent for typeref" );
+    end if;
+    p = typeref::populate( name:"", body:value[0], domain:population.domain, parent_parameter:parent_parameter, parent_function:parent_function, parent_attribute:parent_attribute );
   end if;
 elif ( "transitiontable" == element )
   if ( "" == value[0] )
@@ -107,14 +141,14 @@ elif ( "state" == element )
   	select any empty_state from instances of state where ( false );
   	population.state = empty_state;
   else
-    population.state = state::populate( name:value[0], type:value[1], state_machine:population.transitiontable );
+    population.state = state::populate( name:value[0], type:value[1], object:population.object );
   end if;
 elif ( "event" == element )
   if ( "" == value[0] )
   	select any empty_event from instances of event where ( false );
   	population.event = empty_event;
   else
-    population.event = event::populate( name:value[0], type:value[1], state_machine:population.transitiontable );
+    population.event = event::populate( name:value[0], type:value[1], object:population.object );
   end if;
 elif ( "transition" == element )
   if ( "" == value[0] )
@@ -152,18 +186,16 @@ elif ( "subsuper" == element )
     population.relationship = subsuper::populate( name:value[0], domain:population.domain );
   end if;
 elif ( "participation" == element )
-  p = participation::populate( fromobject:value[0], phrase:value[1], conditionality:value[2], multiplicity:value[3], toobject:value[4], relationship:population.relationship );
+  if ( "" == value[0] )
+  	select any empty_participation from instances of participation where ( false );
+  	population.participation = empty_participation;
+  else
+	population.participation = participation::populate( fromobject:value[0], phrase:value[1], conditionality:value[2], multiplicity:value[3], toobject:value[4], relationship:population.relationship, participation:population.participation );
+  end if;
 elif ( "type" == element )
   if ( "" == value[0] )
   	select any empty_type from instances of type where ( false );
   	population.type = empty_type;
-  else
-    population.type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:population.domain );
-  end if;
-elif ( "typeref" == element )
-  if ( "" == value[0] )
-  	select any empty_typeref from instances of typeref where ( false );
-  	population.typeref = empty_typeref;
   else
     population.type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:population.domain );
   end if;
@@ -561,6 +593,31 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../masltypes/masltypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("fa9182fe-b3c6-42a6-859c-6f32c325e5f8",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("fa9182fe-b3c6-42a6-859c-6f32c325e5f8",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("fa9182fe-b3c6-42a6-859c-6f32c325e5f8",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"c41de62b-4dfc-4a2d-bfda-666aa886d2b6",
+	'participation',
+	'',
+	'',
+	'participation',
+	0,
+	"54954f4e-9821-47ec-9365-ecd9c1b057b9",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("54954f4e-9821-47ec-9365-ecd9c1b057b9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<participation>',
+	'',
+	'',
+	'../masl.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");

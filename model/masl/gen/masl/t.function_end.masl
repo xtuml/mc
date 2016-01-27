@@ -1,1 +1,1 @@
-      ) return ${self.returntype};
+      ) return ${returntype.body};

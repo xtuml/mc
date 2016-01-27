@@ -45,7 +45,7 @@ end if;
 if ( "" != using_objectname )
   select one participation related by relationship->participation[R3713];
   select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == using_objectname );
-  if ( not_empty object )
+  if ( not_empty object and not_empty participation )
     relate participation to object across R3715.''uses'';
   end if;
 end if;
@@ -57,18 +57,11 @@ INSERT INTO O_TPARM
 	VALUES ("3db1f298-b54d-4746-8b73-dc0bc32a9593",
 	"d2b70be7-d4e3-42c0-a39d-623da36f965d",
 	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("11e1f4da-863a-44de-b014-c4b6031e5e45",
 	"d2b70be7-d4e3-42c0-a39d-623da36f965d",

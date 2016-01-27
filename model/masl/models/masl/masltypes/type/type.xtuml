@@ -28,7 +28,7 @@ INSERT INTO O_TFR
 	"e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
 	0,
 	'domain = param.domain;
-select any type related by domain->type[R3776];
+select any type related by domain->type[R3776] where ( selected.name == param.name );
 if ( empty type )
   create object instance type of type;
   type.name = param.name;
@@ -44,18 +44,11 @@ INSERT INTO O_TPARM
 	VALUES ("510c49ab-e667-498b-ab0a-9aeb37c96665",
 	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
 	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("304f7b58-e73d-42ac-82b5-77828b9d0959",
 	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",

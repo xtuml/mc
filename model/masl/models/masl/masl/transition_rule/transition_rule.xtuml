@@ -14,7 +14,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one transition_event related by self->event[R3732];
+	'/*
+select one transition_event related by self->event[R3732];
 event = transition_event.name;
 end = "";
 select one state related by self->transition_result[R3731]->state[R3729];
@@ -30,6 +31,7 @@ if (not_empty previous)
   T::b( s:"," );
   previous.render();
 end if;
+*/
 ',
 	1,
 	'',
@@ -41,7 +43,8 @@ INSERT INTO O_TFR
 	'',
 	"cad8a7f6-aa14-4a83-bf5b-84ec4a5baff1",
 	0,
-	'state = param.state;
+	'/*
+state = param.state;
 event = param.event;
 previous = param.previous_rule;
 create object instance transition of transition_rule;
@@ -52,6 +55,9 @@ else
 end if;
 relate transition to event across R3732;
 result = transition_result::populate(name:param.result, transition:transition);
+return transition;
+*/
+create object instance transition of transition_rule;
 return transition;',
 	1,
 	'',
@@ -60,18 +66,11 @@ INSERT INTO O_TPARM
 	VALUES ("2c717bba-7874-4f9e-9819-64af85f38d28",
 	"61cbacc5-6b2e-43ae-9d15-deb00472cb96",
 	'result',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("2662e4cf-c9f7-4773-9d0f-fd66f868fd01",
 	"61cbacc5-6b2e-43ae-9d15-deb00472cb96",
@@ -127,7 +126,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
-	'valid = true;
+	'/*
+valid = true;
 select many transitions from instances of transition_rule;
 for each transition in transitions
   select one state related by transition->state[R3730];
@@ -148,7 +148,9 @@ for each transition in transitions
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and transition_result::validate() );',
+return ( valid and transition_result::validate() );
+*/
+return true;',
 	1,
 	'',
 	"89e244ac-5bd2-4f0c-81ca-b9117b79256b");
