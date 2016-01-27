@@ -15,10 +15,6 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'//T::include( file:"masl/t.project_begin.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
 //T::include( file:"masl/t.project_end.masl" );',
 	1,
 	'',
@@ -30,14 +26,30 @@ INSERT INTO O_TFR
 	'',
 	"37c8bb16-c4a9-41de-91c4-06bedcca9acf",
 	0,
-	'/*
+	'// We have a cell in a transition table.
+// States lead the rows.  Events head the columns.
+// Cells can contain a transtion state, ignore or cant_happan.
+// Associate the starting state and event with the cell and link the end state.
 state_machine = param.statemachine;
 create object instance cell of cell;
-select any start_state related by state_machine->object[
+relate state_machine to cell across R3743.''is matrix of'';
+select any start_state related by state_machine->object[R3734]->state[R3735] where ( selected.name == param.startstate );
+if ( empty start_state )
+  TRACE::log( flavor:"failure", id:90, message:"could not find state for state machine with name:  " + param.startstate );
+end if;
+select any transition_event related by state_machine->object[R3734]->event[R3736] where ( selected.name == param.event );
+if ( empty transition_event )
+  TRACE::log( flavor:"failure", id:91, message:"could not find event for state machine with name:  " + param.event );
+end if;
 cell.notransition = param.endstate;
-return cell;
-*/
-create object instance cell of cell;
+if ( ( "ignore" != param.endstate ) and ( "cant_happen" != param.endstate ) )
+  select any end_state related by state_machine->object[R3734]->state[R3735] where ( selected.name == param.endstate );
+  if ( empty end_state )
+    TRACE::log( flavor:"failure", id:92, message:"could not find state for state machine with name:  " + param.endstate );
+  end if;
+  relate cell to end_state across R3731.''transitions to'';
+end if;
+relate start_state to transition_event across R3732 using cell;
 return cell;',
 	1,
 	'',
@@ -100,14 +112,20 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
-
-// Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
+select many cells from instances of cell;
+for each cell in cells
+  select one state_machine related by cell->state_machine[R3743];
+  if ( empty state_machine )
+    TRACE::log( flavor:"failure", id:89, message:"cell with no parent state machine" );
+    valid = false;
+  end if;
+  select one start_state related by cell->state[R3732];
+  select one transition_event related by cell->event[R3732];
+  if ( ( empty start_state ) or ( empty transition_event ) )
+    TRACE::log( flavor:"failure", id:88, message:"cell missing start start or event" );
+    valid = false;
+  end if;
+end for;
 return valid;
 ',
 	1,
