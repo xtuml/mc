@@ -15,15 +15,19 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'T::include( file:"masl/t.attribute_begin.masl" );
-select many referentials related by self->referential[R3746.''referred by''];
+select many referentials related by self->referential[R3746.''references''];
 if ( not_empty referentials )
   T::include( file:"masl/t.referentials_begin.masl" );
+  separator = "";
   for each referential in referentials
+  	T::b( s:separator );
     referential.render();
+    separator = ", ";
   end for;
   T::include( file:"masl/t.referentials_end.masl" );
 end if;
-select one type related by self->typeref[R3717]->type[R3762];
+select one attributetype related by self->typeref[R3717];
+attributetype.render();
 T::include( file:"masl/t.attribute_end.masl" );',
 	1,
 	'',

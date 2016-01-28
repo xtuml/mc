@@ -130,7 +130,8 @@ elif ( "referential" == element )
       select any relationship related by parent_domain->relationship[R3712] where ( selected.name == relationship_name );
     end if;
     
-    // traverse to find the object
+    // traverse to find the target object
+    rolephrase = "";
     select any target_object from instances of object where false;
     if ( not_empty relationship )
       select one participation related by relationship->participation[R3713];
@@ -139,7 +140,7 @@ elif ( "referential" == element )
       	// not given role or object
       	select one target_object related by participation->object[R3714];
       	if ( target_object == current_object )
-      	  // not the one we''re looking for (referentials will require a role phrase, so we can be sure of this)
+      	  // not the one we''re looking for (reflexives will require a role phrase, so we can be sure that the target object is not the current object)
       	  select any target_object related by participation->object[R3720];
       	end if;
       elif ( "" != roleOrObj )
@@ -147,41 +148,44 @@ elif ( "referential" == element )
         if ( participation.otherphrase == roleOrObj )
        	  // current object is the other
           // the target object is the one
+          rolephrase = participation.otherphrase;
       	  select one target_object related by participation->object[R3714];
         elif ( participation.onephrase == roleOrObj )
        	  // current object is the one 
-          // the target object is the other
+          // the target object is the other (or one of the others)
+          rolephrase = participation.onephrase;
           if ( "" != obj )
             // given an obj name
       	    select any target_object related by participation->object[R3720] where ( selected.name == obj );
       	  else
-      	    // not given an obj name
+      	    // not given an obj name (there is only one other otherwise the MASL is ambiguous)
       	    select any target_object related by participation->object[R3720];
       	  end if;
         else
-          // roleOrObj is an object name
-      	  select one target_object related by participation->object[R3714] where ( selected.name == roleOrObj );
+          // roleOrObj does not match one of the phrases, so it is an object name
+      	  select one target_object related by participation->object[R3714] where ( selected.name == roleOrObj ); 	// matches the one
       	  if ( empty target_object )
-      	    select any target_object related by participation->object[R3720] where ( selected.name == roleOrObj );
+      	    select any target_object related by participation->object[R3720] where ( selected.name == roleOrObj );	// matches an other
       	  end if;
         end if;
       else
+        // given just obj (should never happen)
         // not important
       end if;
     end if;
     
-    // find the referring attribute
-    select any referring_attr from instances of attribute where false;
+    // find the referred_to attribute
+    select any referred_to from instances of attribute where false;
     if ( not_empty target_object )
-      select any referring_attr related by target_object->attribute[R3709] where ( selected.name == attr );
+      select any referred_to related by target_object->attribute[R3709] where ( selected.name == attr );
     end if;
     
-    // if the referring attribute is empty (not created yet), populate it
-    if ( empty referring_attr )
-      referring_attr = attribute::populate( name:attr, preferred:"", unique:"", defaultvalue:"", object:target_object );
+    // if the referred_to attribute is empty (not created yet), populate it
+    if ( empty referred_to )
+      referred_to = attribute::populate( name:attr, preferred:"", unique:"", defaultvalue:"", object:target_object );
     end if;
       
-    p = referential::populate( relationship:relationship, referred_attr:population.attribute, referring_attr:referring_attr );
+    p = referential::populate( relationship:relationship, referring:population.attribute, referred_to:referred_to, rolephrase:rolephrase );
   end if;
 elif ( "typeref" == element )
   if ( "" == value[0] )

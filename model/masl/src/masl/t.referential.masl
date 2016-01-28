@@ -11,4 +11,4 @@ T_b(".");
 T_b(objectname);
 T_b(".");
 T_b(attribute);
-T_b(" ");
+T_b("");

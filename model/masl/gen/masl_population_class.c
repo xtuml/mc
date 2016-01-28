@@ -194,7 +194,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
     }
     else {
-      masl_parameter * p;masl_object * current_object;c_t attr[ESCHER_SYS_MAX_STRING_LEN];c_t obj[ESCHER_SYS_MAX_STRING_LEN];c_t roleOrObj[ESCHER_SYS_MAX_STRING_LEN];c_t relationship_name[ESCHER_SYS_MAX_STRING_LEN];c_t domain_name[ESCHER_SYS_MAX_STRING_LEN];masl_attribute * referring_attr=0;masl_object * target_object=0;masl_relationship * relationship=0;masl_domain * parent_domain=0;
+      masl_referential * p;c_t rolephrase[ESCHER_SYS_MAX_STRING_LEN];masl_object * current_object;c_t attr[ESCHER_SYS_MAX_STRING_LEN];c_t obj[ESCHER_SYS_MAX_STRING_LEN];c_t roleOrObj[ESCHER_SYS_MAX_STRING_LEN];c_t relationship_name[ESCHER_SYS_MAX_STRING_LEN];c_t domain_name[ESCHER_SYS_MAX_STRING_LEN];masl_attribute * referred_to=0;masl_object * target_object=0;masl_relationship * relationship=0;masl_domain * parent_domain=0;
       /* ASSIGN domain_name = value[1] */
       Escher_strcpy( domain_name, value[1] );
       /* ASSIGN relationship_name = value[0] */
@@ -244,6 +244,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
               break;
         }}}
       }
+      /* ASSIGN rolephrase =  */
+      Escher_strcpy( rolephrase, "" );
       /* SELECT any target_object FROM INSTANCES OF object WHERE FALSE */
       target_object = 0;
       /* IF ( not_empty relationship ) */
@@ -264,10 +266,14 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
         else if ( ( Escher_strcmp( "", roleOrObj ) != 0 ) ) {
           /* IF ( ( participation.otherphrase == roleOrObj ) ) */
           if ( ( Escher_strcmp( participation->otherphrase, roleOrObj ) == 0 ) ) {
+            /* ASSIGN rolephrase = participation.otherphrase */
+            Escher_strcpy( rolephrase, participation->otherphrase );
             /* SELECT one target_object RELATED BY participation->object[R3714] */
             target_object = ( 0 != participation ) ? participation->object_R3714_one : 0;
           }
           else if ( ( Escher_strcmp( participation->onephrase, roleOrObj ) == 0 ) ) {
+            /* ASSIGN rolephrase = participation.onephrase */
+            Escher_strcpy( rolephrase, participation->onephrase );
             /* IF ( (  != obj ) ) */
             if ( ( Escher_strcmp( "", obj ) != 0 ) ) {
               /* SELECT any target_object RELATED BY participation->object[R3720] WHERE ( ( SELECTED.name == obj ) ) */
@@ -313,29 +319,29 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
         else {
         }
       }
-      /* SELECT any referring_attr FROM INSTANCES OF attribute WHERE FALSE */
-      referring_attr = 0;
+      /* SELECT any referred_to FROM INSTANCES OF attribute WHERE FALSE */
+      referred_to = 0;
       /* IF ( not_empty target_object ) */
       if ( ( 0 != target_object ) ) {
-        /* SELECT any referring_attr RELATED BY target_object->attribute[R3709] WHERE ( ( SELECTED.name == attr ) ) */
-        referring_attr = 0;
+        /* SELECT any referred_to RELATED BY target_object->attribute[R3709] WHERE ( ( SELECTED.name == attr ) ) */
+        referred_to = 0;
         if ( 0 != target_object ) {
           masl_attribute * selected;
           Escher_Iterator_s iattribute_R3709_is_characterized_by;
           Escher_IteratorReset( &iattribute_R3709_is_characterized_by, &target_object->attribute_R3709_is_characterized_by );
           while ( 0 != ( selected = (masl_attribute *) Escher_IteratorNext( &iattribute_R3709_is_characterized_by ) ) ) {
             if ( ( Escher_strcmp( selected->name, attr ) == 0 ) ) {
-              referring_attr = selected;
+              referred_to = selected;
               break;
         }}}
       }
-      /* IF ( empty referring_attr ) */
-      if ( ( 0 == referring_attr ) ) {
-        /* ASSIGN referring_attr = attribute::populate(defaultvalue:, name:attr, object:target_object, preferred:, unique:) */
-        referring_attr = masl_attribute_op_populate("", attr, target_object, "", "");
+      /* IF ( empty referred_to ) */
+      if ( ( 0 == referred_to ) ) {
+        /* ASSIGN referred_to = attribute::populate(defaultvalue:, name:attr, object:target_object, preferred:, unique:) */
+        referred_to = masl_attribute_op_populate("", attr, target_object, "", "");
       }
-      /* ASSIGN p = referential::populate(referred_attr:population.attribute, referring_attr:referring_attr, relationship:relationship) */
-      p = masl_referential_op_populate(population->attribute, referring_attr, relationship);
+      /* ASSIGN p = referential::populate(referred_to:referred_to, referring:population.attribute, relationship:relationship, rolephrase:rolephrase) */
+      p = masl_referential_op_populate(referred_to, population->attribute, relationship, rolephrase);
     }
   }
   else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
