@@ -1,4 +1,4 @@
-.invoke MarkSystemConfigurationPackage( "systest" )
+.invoke MarkSystemConfigurationPackage( "sysmaslin" )
 .invoke TagDynamicMemoryAllocationOn( 10 )
 .invoke TagInstanceLoading()
 .invoke TagMaximumStringLength( 256 )
