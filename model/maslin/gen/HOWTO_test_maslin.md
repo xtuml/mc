@@ -12,9 +12,8 @@ You need to get the following projects from the mc repository:
   * mcshared
 
 
-## TODO - Test in verifier?
-Need to figure out if testing in verifier works or not.
-
+## Test in verifier
+The project does not currently support testing in verifier.
 
 ## Test the Executable
 The maslin project contains a test component with a test function called `doTest`.  You 
@@ -31,9 +30,11 @@ The C compiler is turned off, so you will need to compile the generated C code.
   * `make -f makefile.maslin`
 
 ### Run the executable.  
-`./mcmaslin`
+`./mcmaslin > /tmp/converted.xtuml`
 
-Provide input by typing into the standard input.  
+You can then fire up BridgePoint, create a new xtUML project and import /tmp/converted.xtuml into it.
+
+If you disable the doTest init function, you can provide input by typing into the standard input:  
 ```
 project,fi
 domain,fo
@@ -52,7 +53,5 @@ Input is of the form:
 <element name>,<attribute value>,...
 ```
 
-These must be provided in the correct order as expected from the parser
-or from the xtuml2masl M2M transform.
+These must be provided in the correct order as expected from the parser or from the xtuml2masl M2M transform.
 
-The output will go to `mcmaslout.txt`.  
