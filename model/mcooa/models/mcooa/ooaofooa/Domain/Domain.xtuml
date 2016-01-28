@@ -6352,7 +6352,7 @@ INSERT INTO O_OBJ_PROXY
 	'S_DT',
 	'An analyst can assign a data type to the various data items in the models, i.e., class attribute, state machine event data item, operation and bridge parameters and return values.  This data type does not capture the representation of the data items, but rather, the characteristics of the data items including:  1) Value Definition, i.e., whole numbers, 2) Value Range, i.e., values between 0 and 10, 3) Operations, i.e., +, -, *, /',
 	"00000000-0000-0000-0000-000000000000",
-	'../Domain/Data Type/Data Type.xtuml');
+	'./Data Type/Data Type.xtuml');
 INSERT INTO PE_PE
 	VALUES ("4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
 	1,
@@ -6554,7 +6554,7 @@ INSERT INTO O_OBJ_PROXY
 -----------
 PEI:true',
 	"00000000-0000-0000-0000-000000000000",
-	'../Domain/System Model/System Model.xtuml');
+	'./System Model/System Model.xtuml');
 INSERT INTO PE_PE
 	VALUES ("4b886601-55ee-4d42-a1f8-f5c45d459db2",
 	1,
@@ -6573,6 +6573,46 @@ INSERT INTO S_IRDT
 	"73fe84bb-5d30-42e4-a735-a91b9e943be7");
 INSERT INTO PE_PE
 	VALUES ("38095d7a-889d-4adc-afd6-290bb92f0b46",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("60690409-5a69-45db-896b-5a63a9103c18",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("60690409-5a69-45db-896b-5a63a9103c18",
+	0,
+	"259423d7-4bec-4988-a8db-ed2761a9e68e");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("259423d7-4bec-4988-a8db-ed2761a9e68e",
+	'Function',
+	16,
+	'S_SYNC',
+	'A function (S_SYNC) is a method associated with the domain (S_DOM).  It can be thought of as a global function within the domain.  Functions can be synchronously called from action specifications or used to provide a definition for bridge method  in another domain.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Function/Function.xtuml');
+INSERT INTO PE_PE
+	VALUES ("60690409-5a69-45db-896b-5a63a9103c18",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("2fae2d92-497e-4d6d-bc98-006133961cfa",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Function>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2fae2d92-497e-4d6d-bc98-006133961cfa",
+	1,
+	"259423d7-4bec-4988-a8db-ed2761a9e68e");
+INSERT INTO PE_PE
+	VALUES ("2fae2d92-497e-4d6d-bc98-006133961cfa",
 	1,
 	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
 	"00000000-0000-0000-0000-000000000000",
@@ -6961,14 +7001,6 @@ INSERT INTO R_OIR
 	"462ea1e4-5a40-445a-8e9e-d2e99a7837e7",
 	"e2b8ce2e-0bf7-4381-be4e-fd6cc22a5dfb",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("b23d48f2-7281-4a18-8944-41a4182b7ce1",
-	'Data Type',
-	9,
-	'S_DT',
-	'An analyst can assign a data type to the various data items in the models, i.e., class attribute, state machine event data item, operation and bridge parameters and return values.  This data type does not capture the representation of the data items, but rather, the characteristics of the data items including:  1) Value Definition, i.e., whole numbers, 2) Value Range, i.e., values between 0 and 10, 3) Operations, i.e., +, -, *, /',
-	"00000000-0000-0000-0000-000000000000",
-	'./Data Type/Data Type.xtuml');
 INSERT INTO PE_PE
 	VALUES ("462ea1e4-5a40-445a-8e9e-d2e99a7837e7",
 	1,
@@ -8084,14 +8116,6 @@ INSERT INTO R_OIR
 	"1dec6403-b479-4086-9dd7-7f202d972c02",
 	"ac8ddd87-7020-4434-942c-fe1633b12f57",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("259423d7-4bec-4988-a8db-ed2761a9e68e",
-	'Function',
-	16,
-	'S_SYNC',
-	'A function (S_SYNC) is a method associated with the domain (S_DOM).  It can be thought of as a global function within the domain.  Functions can be synchronously called from action specifications or used to provide a definition for bridge method  in another domain.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Function/Function.xtuml');
 INSERT INTO R_PART
 	VALUES ("d85f11b7-7911-41f1-bb27-1d8a498c1427",
 	"1dec6403-b479-4086-9dd7-7f202d972c02",
@@ -8327,16 +8351,6 @@ INSERT INTO R_OIR
 	"d99320cd-4467-47e2-8195-e10804b7df05",
 	"6b8d954d-df49-4533-9945-d0e5c1546f7e",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("73fe84bb-5d30-42e4-a735-a91b9e943be7",
-	'System Model',
-	18,
-	'S_SYS',
-	'A system is described by one or more models, each drawn from different subject matters. Each subject matter model is called a domain.
------------
-PEI:true',
-	"00000000-0000-0000-0000-000000000000",
-	'./System Model/System Model.xtuml');
 INSERT INTO R_FORM
 	VALUES ("d85f11b7-7911-41f1-bb27-1d8a498c1427",
 	"d99320cd-4467-47e2-8195-e10804b7df05",
