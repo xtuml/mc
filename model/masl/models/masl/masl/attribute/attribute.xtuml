@@ -36,15 +36,16 @@ INSERT INTO O_TFR
 	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
 	0,
 	'object = param.object;
+
 select any attribute related by object->attribute[R3709] where ( selected.name == param.name );
 if ( empty attribute )
   create object instance attribute of attribute;
   attribute.name = param.name;
+  relate object to attribute across R3709.''is characterized by'';
 end if;
 attribute.preferred = param.preferred;
 attribute.unique = param.unique;
 attribute.defaultvalue = param.defaultvalue;
-relate object to attribute across R3709.''is characterized by'';
 return attribute;',
 	1,
 	'',
