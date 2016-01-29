@@ -88,14 +88,14 @@ INSERT INTO S_DT_PROXY
 	'inst_ref<markable_element>',
 	'',
 	'',
-	'../maslpragmas.xtuml');
+	'../maslpopulation.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<pragma>',
 	'',
 	'',
-	'../maslpragmas.xtuml');
+	'../maslpopulation.xtuml');
 INSERT INTO O_TFR
 	VALUES ("75a7df50-2388-4bb4-b569-d82c95666375",
 	"bd654b77-3ff1-445c-bca4-df6599e92ed2",
@@ -154,7 +154,7 @@ INSERT INTO EP_PKG_PROXY
 	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
 	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
 	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
-	'maslpragmas',
+	'maslpopulation',
 	'',
 	0,
-	'../maslpragmas.xtuml');
+	'../maslpopulation.xtuml');

@@ -1,0 +1,32 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("290f38ad-8da5-4ebb-ab7b-d2056c167899",
+	'unmarkable',
+	3777,
+	'unmarkable',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_ID
+	VALUES (0,
+	"290f38ad-8da5-4ebb-ab7b-d2056c167899");
+INSERT INTO O_ID
+	VALUES (1,
+	"290f38ad-8da5-4ebb-ab7b-d2056c167899");
+INSERT INTO O_ID
+	VALUES (2,
+	"290f38ad-8da5-4ebb-ab7b-d2056c167899");
+INSERT INTO PE_PE
+	VALUES ("290f38ad-8da5-4ebb-ab7b-d2056c167899",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');
