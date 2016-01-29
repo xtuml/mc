@@ -20,10 +20,8 @@ for each domain in domains
   domain.render();
 end for;
 T::include( file:"masl/t.project_end.masl" );
-select any pragma_list related by self->markable_element[R3783]->pragma_list[R3782] where ( "default" == selected.name );
-if ( not_empty pragma_list )
-  pragma_list.render();
-end if;',
+select one markable_element related by self->markable_element[R3783];
+markable_element.render( list:"default" );',
 	1,
 	'',
 	"e2f67167-96b5-451c-8a07-34573a645fed");
@@ -34,9 +32,9 @@ INSERT INTO O_TFR
 	'',
 	"f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
 	0,
-	'markable_element = markable_element::populate();
-create object instance project of project;
+	'create object instance project of project;
 project.name = param.name;
+markable_element = markable_element::populate();
 relate project to markable_element across R3783;
 return project;',
 	1,

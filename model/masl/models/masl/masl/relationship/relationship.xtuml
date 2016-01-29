@@ -29,7 +29,9 @@ else
   TRACE::log( flavor:"failure", id:82, message:"missing subtype relationship while rendering" );
 end if;
 end if;
-end if;',
+end if;
+select one markable_element related by self->markable_element[R3783];
+markable_element.render( list:"default" );',
 	1,
 	'',
 	"ba9f72fd-fca7-4102-b768-e6f9748221de");
@@ -48,6 +50,8 @@ if ( empty relationship )
   relationship.name = param.name;
   relate relationship to domain across R3712;
 end if;
+markable_element = markable_element::populate();
+relate relationship to markable_element across R3783;
 return relationship;',
 	1,
 	'',

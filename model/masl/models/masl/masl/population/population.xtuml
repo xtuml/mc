@@ -241,26 +241,18 @@ elif ( "event" == element )
   end if;
 elif ( "transition" == element )
   c = cell::populate( startstate:value[0], event:value[1], endstate:value[2], statemachine:population.state_machine );
-elif ( "regularrel" == element )
+elif ( "regularrel" == element or "associative" == element or "subsuper" == element )
   if ( "" == value[0] )
   	select any empty_relationship from instances of relationship where ( false );
   	population.relationship = empty_relationship;
   else
-    population.relationship = regularrel::populate( name:value[0], domain:population.domain );
-  end if;
-elif ( "associative" == element )
-  if ( "" == value[0] )
-  	select any empty_relationship from instances of relationship where ( false );
-  	population.relationship = empty_relationship;
-  else
-    population.relationship = associative::populate( name:value[0], using:value[1], domain:population.domain );
-  end if;
-elif ( "subsuper" == element )
-  if ( "" == value[0] )
-  	select any empty_relationship from instances of relationship where ( false );
-  	population.relationship = empty_relationship;
-  else
-    population.relationship = subsuper::populate( name:value[0], domain:population.domain );
+    if ( "regularrel" == element )
+      population.relationship = regularrel::populate( name:value[0], domain:population.domain );
+    elif ( "associative" == element )
+      population.relationship = associative::populate( name:value[0], using:value[1], domain:population.domain );
+    elif ( "subsuper" == element )
+      population.relationship = subsuper::populate( name:value[0], domain:population.domain );
+    end if;
   end if;
 elif ( "participation" == element )
   if ( "" == value[0] )

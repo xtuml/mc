@@ -447,7 +447,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     /* ASSIGN c = cell::populate(endstate:value[2], event:value[1], startstate:value[0], statemachine:population.state_machine) */
     c = masl_cell_op_populate(value[2], value[1], value[0], population->state_machine);
   }
-  else if ( ( Escher_strcmp( "regularrel", element ) == 0 ) ) {
+  else if ( ( ( ( Escher_strcmp( "regularrel", element ) == 0 ) || ( Escher_strcmp( "associative", element ) == 0 ) ) || ( Escher_strcmp( "subsuper", element ) == 0 ) ) ) {
     /* IF ( (  == value[0] ) ) */
     if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
       masl_relationship * empty_relationship=0;
@@ -457,36 +457,19 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->relationship = empty_relationship;
     }
     else {
-      /* ASSIGN population.relationship = regularrel::populate(domain:population.domain, name:value[0]) */
-      population->relationship = masl_regularrel_op_populate(population->domain, value[0]);
-    }
-  }
-  else if ( ( Escher_strcmp( "associative", element ) == 0 ) ) {
-    /* IF ( (  == value[0] ) ) */
-    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
-      masl_relationship * empty_relationship=0;
-      /* SELECT any empty_relationship FROM INSTANCES OF relationship WHERE FALSE */
-      empty_relationship = 0;
-      /* ASSIGN population.relationship = empty_relationship */
-      population->relationship = empty_relationship;
-    }
-    else {
-      /* ASSIGN population.relationship = associative::populate(domain:population.domain, name:value[0], using:value[1]) */
-      population->relationship = masl_associative_op_populate(population->domain, value[0], value[1]);
-    }
-  }
-  else if ( ( Escher_strcmp( "subsuper", element ) == 0 ) ) {
-    /* IF ( (  == value[0] ) ) */
-    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
-      masl_relationship * empty_relationship=0;
-      /* SELECT any empty_relationship FROM INSTANCES OF relationship WHERE FALSE */
-      empty_relationship = 0;
-      /* ASSIGN population.relationship = empty_relationship */
-      population->relationship = empty_relationship;
-    }
-    else {
-      /* ASSIGN population.relationship = subsuper::populate(domain:population.domain, name:value[0]) */
-      population->relationship = masl_subsuper_op_populate(population->domain, value[0]);
+      /* IF ( ( regularrel == element ) ) */
+      if ( ( Escher_strcmp( "regularrel", element ) == 0 ) ) {
+        /* ASSIGN population.relationship = regularrel::populate(domain:population.domain, name:value[0]) */
+        population->relationship = masl_regularrel_op_populate(population->domain, value[0]);
+      }
+      else if ( ( Escher_strcmp( "associative", element ) == 0 ) ) {
+        /* ASSIGN population.relationship = associative::populate(domain:population.domain, name:value[0], using:value[1]) */
+        population->relationship = masl_associative_op_populate(population->domain, value[0], value[1]);
+      }
+      else if ( ( Escher_strcmp( "subsuper", element ) == 0 ) ) {
+        /* ASSIGN population.relationship = subsuper::populate(domain:population.domain, name:value[0]) */
+        population->relationship = masl_subsuper_op_populate(population->domain, value[0]);
+      }
     }
   }
   else if ( ( Escher_strcmp( "participation", element ) == 0 ) ) {

@@ -27,7 +27,9 @@ select one parameter related by self->parameter[R3727.''carries first''];
 if ( not_empty parameter )
   parameter.render();
 end if;
-T::include( file:"masl/t.event_end.masl" );',
+T::include( file:"masl/t.event_end.masl" );
+select one markable_element related by self->markable_element[R3783];
+markable_element.render( list:"default" );',
 	1,
 	'',
 	"34c41c49-4657-452d-86b6-5b3b59f0b61d");
@@ -43,6 +45,8 @@ create object instance event of event;
 event.name = param.name;
 event.type = param.type;
 relate event to object across R3736;
+markable_element = markable_element::populate();
+relate event to markable_element across R3783;
 return event;',
 	1,
 	'',

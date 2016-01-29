@@ -25,7 +25,9 @@ for each start_state in start_states
   end for;
   T::include( file:"masl/t.transitionrow_end.masl" );
 end for;
-T::include( file:"masl/t.transitiontable_end.masl" );',
+T::include( file:"masl/t.transitiontable_end.masl" );
+select one markable_element related by self->markable_element[R3783];
+markable_element.render( list:"default" );',
 	1,
 	'',
 	"8930d86e-438f-4a56-b595-3a8b60fe9123");
@@ -44,6 +46,8 @@ if ( "assigner" != state_machine.type )
   // Create the default non-existent state.
   s = state::populate( name:"non_existent", type:"normal", object:object );
 end if;
+markable_element = markable_element::populate();
+relate state_machine to markable_element across R3783;
 return state_machine;',
 	1,
 	'',

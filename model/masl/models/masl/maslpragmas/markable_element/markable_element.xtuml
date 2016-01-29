@@ -60,6 +60,29 @@ value[0] = "";
 	1,
 	'',
 	"7b3548a2-2120-43ca-904f-0de8634f06a1");
+INSERT INTO O_TFR
+	VALUES ("b1850fad-bb57-4d6f-91b1-23e0e7ef73db",
+	"1416f703-db51-4598-b9ca-f24cc279da0e",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select any pragma_list related by self->pragma_list[R3782] where ( param.list == selected.name );
+if ( not_empty pragma_list )
+  pragma_list.render();
+end if;',
+	1,
+	'',
+	"31e08a49-b6f3-44e9-bba4-062ba7bc3191");
+INSERT INTO O_TPARM
+	VALUES ("1cdbdfe2-4cf8-4764-82c0-bc187c2afb72",
+	"b1850fad-bb57-4d6f-91b1-23e0e7ef73db",
+	'list',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"1416f703-db51-4598-b9ca-f24cc279da0e");

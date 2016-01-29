@@ -28,7 +28,9 @@ if ( not_empty referentials )
 end if;
 select one attributetype related by self->typeref[R3717];
 attributetype.render();
-T::include( file:"masl/t.attribute_end.masl" );',
+T::include( file:"masl/t.attribute_end.masl" );
+select one markable_element related by self->markable_element[R3783];
+markable_element.render( list:"default" );',
 	1,
 	'',
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71");
@@ -50,6 +52,8 @@ end if;
 attribute.preferred = param.preferred;
 attribute.unique = param.unique;
 attribute.defaultvalue = param.defaultvalue;
+markable_element = markable_element::populate();
+relate attribute to markable_element across R3783;
 return attribute;',
 	1,
 	'',
