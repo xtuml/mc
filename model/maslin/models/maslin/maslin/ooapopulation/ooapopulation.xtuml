@@ -1261,7 +1261,7 @@ if ( "public" == param.visibility )
   
   // d
   select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
-  spr_po.Action_Semantics = "::" + param.name + "();";
+  // TODO - this isn''t working yet. - spr_po.Action_Semantics = "::" + param.name + "();";
 end if;
 ',
 	1,
