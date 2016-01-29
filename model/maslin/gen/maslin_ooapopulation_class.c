@@ -69,11 +69,11 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX
   else if ( ( Escher_strcmp( "domain", element ) == 0 ) ) {
     /* IF ( (  == PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
-      maslin_C_C * current_component;maslin_C_C * c_c=0;
+      maslin_C_C * c_c=0;
       /* SELECT any c_c FROM INSTANCES OF C_C WHERE FALSE */
       c_c = 0;
-      /* ASSIGN current_component = c_c */
-      current_component = c_c;
+      /* ASSIGN ooapopulation.current_component = c_c */
+      ooapopulation->current_component = c_c;
     }
     else {
       /* ooapopulation.transformDomain( name:PARAM.value[0] ) */
@@ -83,11 +83,11 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX
   else if ( ( Escher_strcmp( "object", element ) == 0 ) ) {
     /* IF ( (  == PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
-      maslin_O_OBJ * current_class;maslin_O_OBJ * o_obj=0;
+      maslin_O_OBJ * o_obj=0;
       /* SELECT any o_obj FROM INSTANCES OF O_OBJ WHERE FALSE */
       o_obj = 0;
-      /* ASSIGN current_class = o_obj */
-      current_class = o_obj;
+      /* ASSIGN ooapopulation.current_class = o_obj */
+      ooapopulation->current_class = o_obj;
     }
     else {
       /* ooapopulation.transformObject( name:PARAM.value[0] ) */
