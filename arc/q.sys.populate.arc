@@ -1236,7 +1236,7 @@
   .select many te_pos from instances of TE_PO
   .for each te_po in te_pos
     .select many te_macts related by te_po->TE_MACT[R2006]
-    .invoke mact_sort( te_macts )
+    .invoke r = mact_sort( te_macts )
     .assign te_mact = r.result
     .if ( not_empty te_mact )
       .// relate te_po to te_mact across R2099.'has first';
