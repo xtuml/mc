@@ -31,14 +31,14 @@ if ( "project" == element )
 elif ( "domain" == element )
   if ( "" == param.value[0] )
     select any c_c from instances of C_C where (false);
-    current_component = c_c;
+    ooapopulation.current_component = c_c;
   else
     ooapopulation.transformDomain(name:param.value[0]);
   end if;
 elif ( "object" == element )
   if ( "" == param.value[0] )
     select any o_obj from instances of O_OBJ where (false);
-    current_class = o_obj;
+    ooapopulation.current_class = o_obj;
   else
     ooapopulation.transformObject(name:param.value[0]);
   end if;
