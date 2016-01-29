@@ -90,7 +90,7 @@ INSERT INTO GD_GE
 	"5a21b94f-788a-4b1e-9641-6e9c160bcf75",
 	21,
 	0,
-	'masl::maslpragmas::pragma item');
+	'masl::maslpragmas::pragma_item');
 INSERT INTO GD_SHP
 	VALUES ("8d36d93e-b9e8-4189-bf36-440494392382");
 INSERT INTO GD_NCS
@@ -138,7 +138,7 @@ INSERT INTO GD_GE
 	"cfd4331c-1aa0-4ec0-8687-8b5bb7478570",
 	24,
 	0,
-	'masl::maslpragmas::R1');
+	'masl::maslpragmas::R3780');
 INSERT INTO GD_CON
 	VALUES ("dc802266-26c9-4f31-800c-22523a3baa47",
 	"00000000-0000-0000-0000-000000000000");
@@ -172,8 +172,8 @@ INSERT INTO DIM_ND
 	0.000000,
 	"b10c16c6-cfca-4eea-b570-07b7bbbf7760");
 INSERT INTO DIM_GE
-	VALUES (4412.000000,
-	3045.500000,
+	VALUES (4379.000000,
+	3045.000000,
 	"b10c16c6-cfca-4eea-b570-07b7bbbf7760",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
@@ -238,7 +238,7 @@ INSERT INTO GD_GE
 	"1416f703-db51-4598-b9ca-f24cc279da0e",
 	21,
 	0,
-	'masl::maslpragmas::markable element');
+	'masl::maslpragmas::markable_element');
 INSERT INTO GD_SHP
 	VALUES ("db568e5b-95cb-45cc-822e-6f8b69f35df5");
 INSERT INTO GD_NCS
@@ -291,7 +291,7 @@ INSERT INTO GD_GE
 	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
 	21,
 	0,
-	'masl::maslpragmas::pragma list');
+	'masl::maslpragmas::pragma_list');
 INSERT INTO GD_SHP
 	VALUES ("d8bdc16c-6c5d-4484-9628-dfa31de6f0ec");
 INSERT INTO GD_NCS
@@ -339,7 +339,7 @@ INSERT INTO GD_GE
 	"7aaa8619-528d-49d5-b39c-cc580eee2c74",
 	24,
 	0,
-	'masl::maslpragmas::R2');
+	'masl::maslpragmas::R3781');
 INSERT INTO GD_CON
 	VALUES ("909fdfbc-e821-4d34-8017-733acbe03745",
 	"00000000-0000-0000-0000-000000000000");
@@ -373,8 +373,8 @@ INSERT INTO DIM_ND
 	0.000000,
 	"af4c906c-86fb-471c-9ea5-1d2ac8262f23");
 INSERT INTO DIM_GE
-	VALUES (4586.000000,
-	2958.000000,
+	VALUES (4569.000000,
+	2956.000000,
 	"af4c906c-86fb-471c-9ea5-1d2ac8262f23",
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
@@ -439,7 +439,7 @@ INSERT INTO GD_GE
 	"7e3bba57-b6fb-4bc7-98d8-d225a9e30c4f",
 	24,
 	0,
-	'masl::maslpragmas::R3');
+	'masl::maslpragmas::R3782');
 INSERT INTO GD_CON
 	VALUES ("f924de77-441b-4e6b-b609-1811bb5f8f09",
 	"00000000-0000-0000-0000-000000000000");
@@ -473,7 +473,7 @@ INSERT INTO DIM_ND
 	0.000000,
 	"710ca843-c218-436e-be21-8923a517e1fc");
 INSERT INTO DIM_GE
-	VALUES (4686.000000,
+	VALUES (4663.000000,
 	3045.000000,
 	"710ca843-c218-436e-be21-8923a517e1fc",
 	"00000000-0000-0000-0000-000000000000");
@@ -931,7 +931,7 @@ INSERT INTO GD_GE
 	"7f7b24a2-b3c4-45db-bb30-1bf9789a23b8",
 	36,
 	0,
-	'masl::maslpragmas::R4');
+	'masl::maslpragmas::R3783');
 INSERT INTO GD_CON
 	VALUES ("e3d4b837-3ce4-4dde-91fa-f22e5e1c694b",
 	"00000000-0000-0000-0000-000000000000");
@@ -1145,7 +1145,7 @@ INSERT INTO GD_GE
 	"cd9739f9-8e0d-4fe9-831d-2dde26847793",
 	35,
 	0,
-	'masl::maslpragmas::R4::type');
+	'masl::maslpragmas::R3783::type');
 INSERT INTO GD_CON
 	VALUES ("626f54d4-2e1e-46df-9dc5-8f909e52f416",
 	"00000000-0000-0000-0000-000000000000");
@@ -1245,7 +1245,7 @@ INSERT INTO GD_GE
 	"e5000ff6-66df-448a-ab87-b5e54b9c7b9f",
 	35,
 	0,
-	'masl::maslpragmas::R4::member');
+	'masl::maslpragmas::R3783::member');
 INSERT INTO GD_CON
 	VALUES ("dbba92ee-7a8c-4267-94ca-347ee83265e3",
 	"00000000-0000-0000-0000-000000000000");
@@ -1345,7 +1345,7 @@ INSERT INTO GD_GE
 	"8c734af7-971d-43b5-a85d-4dd6a74c35af",
 	35,
 	0,
-	'masl::maslpragmas::R4::terminator');
+	'masl::maslpragmas::R3783::terminator');
 INSERT INTO GD_CON
 	VALUES ("19654b17-0e88-4004-a854-49b8e318fce8",
 	"00000000-0000-0000-0000-000000000000");
@@ -1458,7 +1458,7 @@ INSERT INTO GD_GE
 	"9ada8387-95b3-49f5-bd56-d940fdecdfab",
 	35,
 	0,
-	'masl::maslpragmas::R4::activity');
+	'masl::maslpragmas::R3783::activity');
 INSERT INTO GD_CON
 	VALUES ("b457b77e-23be-4ca3-a404-b7d1018be972",
 	"00000000-0000-0000-0000-000000000000");
@@ -1571,7 +1571,7 @@ INSERT INTO GD_GE
 	"d0db94b8-ae13-4e9b-a74c-ff75a27321ca",
 	35,
 	0,
-	'masl::maslpragmas::R4::domain');
+	'masl::maslpragmas::R3783::domain');
 INSERT INTO GD_CON
 	VALUES ("02d9a1b9-4a66-4e8f-92c1-61662cdef752",
 	"00000000-0000-0000-0000-000000000000");
@@ -1684,7 +1684,7 @@ INSERT INTO GD_GE
 	"94b4e4bd-3dbf-40a4-b8df-444f3271ae70",
 	35,
 	0,
-	'masl::maslpragmas::R4::project');
+	'masl::maslpragmas::R3783::project');
 INSERT INTO GD_CON
 	VALUES ("ebd22f0d-ef07-46b1-a6bc-df3adda98720",
 	"00000000-0000-0000-0000-000000000000");
@@ -1797,7 +1797,7 @@ INSERT INTO GD_GE
 	"d4116bb6-3fb7-4271-81f1-73af04e7ab0b",
 	35,
 	0,
-	'masl::maslpragmas::R4::state_machine');
+	'masl::maslpragmas::R3783::state_machine');
 INSERT INTO GD_CON
 	VALUES ("cdb66fd5-6ba8-43c6-861f-7df2153772c5",
 	"00000000-0000-0000-0000-000000000000");
@@ -1910,7 +1910,7 @@ INSERT INTO GD_GE
 	"0d8d2e7c-76aa-4645-b92b-812f0f0d34ca",
 	35,
 	0,
-	'masl::maslpragmas::R4::event');
+	'masl::maslpragmas::R3783::event');
 INSERT INTO GD_CON
 	VALUES ("f8431222-c035-44f3-8b07-a1603600181c",
 	"00000000-0000-0000-0000-000000000000");
@@ -2023,7 +2023,7 @@ INSERT INTO GD_GE
 	"f20c8d3c-8405-44a1-8402-3d194745a1c5",
 	35,
 	0,
-	'masl::maslpragmas::R4::identifier');
+	'masl::maslpragmas::R3783::identifier');
 INSERT INTO GD_CON
 	VALUES ("84244f7e-4c4f-402b-9295-33aabcdc600d",
 	"00000000-0000-0000-0000-000000000000");
@@ -2136,7 +2136,7 @@ INSERT INTO GD_GE
 	"1ad18ec6-c751-4c72-a09f-b79ef003dba3",
 	35,
 	0,
-	'masl::maslpragmas::R4::attribute');
+	'masl::maslpragmas::R3783::attribute');
 INSERT INTO GD_CON
 	VALUES ("79695e7b-ba39-4f28-b004-33bc6b459edb",
 	"00000000-0000-0000-0000-000000000000");
@@ -2249,7 +2249,7 @@ INSERT INTO GD_GE
 	"4ca1f1b9-042a-402e-b92d-26ae5f2cb7d3",
 	35,
 	0,
-	'masl::maslpragmas::R4::object');
+	'masl::maslpragmas::R3783::object');
 INSERT INTO GD_CON
 	VALUES ("090a34e8-4584-4548-9d25-60286675e305",
 	"00000000-0000-0000-0000-000000000000");
@@ -2362,7 +2362,7 @@ INSERT INTO GD_GE
 	"c3683dd0-8762-47c7-b502-a9eb2b2b3386",
 	35,
 	0,
-	'masl::maslpragmas::R4::relationship');
+	'masl::maslpragmas::R3783::relationship');
 INSERT INTO GD_CON
 	VALUES ("058819dd-06f6-40a1-9145-936a58a59c57",
 	"00000000-0000-0000-0000-000000000000");
@@ -2475,7 +2475,7 @@ INSERT INTO GD_GE
 	"209cb71e-e04d-4133-9e6b-d87eda3cefaf",
 	35,
 	0,
-	'masl::maslpragmas::R4::exception');
+	'masl::maslpragmas::R3783::exception');
 INSERT INTO GD_CON
 	VALUES ("9d90e434-ea59-4916-ad47-580077ae0c85",
 	"00000000-0000-0000-0000-000000000000");
@@ -2576,11 +2576,131 @@ INSERT INTO DIM_DIA
 	4000.000000,
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<markable_element>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
+	0,
+	"1416f703-db51-4598-b9ca-f24cc279da0e");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("1416f703-db51-4598-b9ca-f24cc279da0e",
+	'markable_element',
+	3774,
+	'markable_element',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./markable_element/markable_element.xtuml');
+INSERT INTO PE_PE
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("31f6d7a6-a33d-4218-b95b-058c01cb96db",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<markable_element>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("31f6d7a6-a33d-4218-b95b-058c01cb96db",
+	1,
+	"1416f703-db51-4598-b9ca-f24cc279da0e");
+INSERT INTO PE_PE
+	VALUES ("31f6d7a6-a33d-4218-b95b-058c01cb96db",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<pragma>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
+	0,
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("bd654b77-3ff1-445c-bca4-df6599e92ed2",
+	'pragma',
+	3713,
+	'pragma',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./pragma/pragma.xtuml');
+INSERT INTO PE_PE
+	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("c9a84b9b-a58f-4638-b3f1-c494cff1cf60",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<pragma>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("c9a84b9b-a58f-4638-b3f1-c494cff1cf60",
+	1,
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2");
+INSERT INTO PE_PE
+	VALUES ("c9a84b9b-a58f-4638-b3f1-c494cff1cf60",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0cef8d6c-2d3e-48a5-8f24-7c89b37b2087",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<pragma_list>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0cef8d6c-2d3e-48a5-8f24-7c89b37b2087",
+	0,
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
+	'pragma_list',
+	3775,
+	'pragma_list',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./pragma_list/pragma_list.xtuml');
+INSERT INTO PE_PE
+	VALUES ("0cef8d6c-2d3e-48a5-8f24-7c89b37b2087",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("9d1c080b-4662-43a6-8573-6667be76aa5b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<pragma_list>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9d1c080b-4662-43a6-8573-6667be76aa5b",
+	1,
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c");
+INSERT INTO PE_PE
+	VALUES ("9d1c080b-4662-43a6-8573-6667be76aa5b",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("cfd4331c-1aa0-4ec0-8687-8b5bb7478570");
 INSERT INTO R_REL
 	VALUES ("cfd4331c-1aa0-4ec0-8687-8b5bb7478570",
-	1,
+	3780,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO R_PART
@@ -2602,12 +2722,12 @@ INSERT INTO R_OIR
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_OBJ_PROXY
 	VALUES ("5a21b94f-788a-4b1e-9641-6e9c160bcf75",
-	'pragma item',
+	'pragma_item',
 	3712,
-	'pragmaitem',
+	'pragma_item',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'./pragma item/pragma item.xtuml');
+	'./pragma_item/pragma_item.xtuml');
 INSERT INTO R_PART
 	VALUES ("bd654b77-3ff1-445c-bca4-df6599e92ed2",
 	"cfd4331c-1aa0-4ec0-8687-8b5bb7478570",
@@ -2625,14 +2745,6 @@ INSERT INTO R_OIR
 	"cfd4331c-1aa0-4ec0-8687-8b5bb7478570",
 	"eeb8332c-3872-42a1-83f5-0c54d72e57ec",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("bd654b77-3ff1-445c-bca4-df6599e92ed2",
-	'pragma',
-	3713,
-	'pragma',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./pragma/pragma.xtuml');
 INSERT INTO PE_PE
 	VALUES ("cfd4331c-1aa0-4ec0-8687-8b5bb7478570",
 	1,
@@ -2643,7 +2755,7 @@ INSERT INTO R_SIMP
 	VALUES ("7aaa8619-528d-49d5-b39c-cc580eee2c74");
 INSERT INTO R_REL
 	VALUES ("7aaa8619-528d-49d5-b39c-cc580eee2c74",
-	2,
+	3781,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO R_PART
@@ -2680,14 +2792,6 @@ INSERT INTO R_OIR
 	"7aaa8619-528d-49d5-b39c-cc580eee2c74",
 	"a0249308-bfd3-40a7-aea1-cf115fef0824",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
-	'pragma list',
-	3775,
-	'pragma list',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./pragma list/pragma list.xtuml');
 INSERT INTO PE_PE
 	VALUES ("7aaa8619-528d-49d5-b39c-cc580eee2c74",
 	1,
@@ -2698,7 +2802,7 @@ INSERT INTO R_SIMP
 	VALUES ("7e3bba57-b6fb-4bc7-98d8-d225a9e30c4f");
 INSERT INTO R_REL
 	VALUES ("7e3bba57-b6fb-4bc7-98d8-d225a9e30c4f",
-	3,
+	3782,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO R_PART
@@ -2735,14 +2839,6 @@ INSERT INTO R_OIR
 	"7e3bba57-b6fb-4bc7-98d8-d225a9e30c4f",
 	"59384306-5033-417f-abf1-cef8784c0f62",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("1416f703-db51-4598-b9ca-f24cc279da0e",
-	'markable element',
-	3774,
-	'markable element',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./markable element/markable element.xtuml');
 INSERT INTO PE_PE
 	VALUES ("7e3bba57-b6fb-4bc7-98d8-d225a9e30c4f",
 	1,
@@ -2753,7 +2849,7 @@ INSERT INTO R_SUBSUP
 	VALUES ("7f7b24a2-b3c4-45db-bb30-1bf9789a23b8");
 INSERT INTO R_REL
 	VALUES ("7f7b24a2-b3c4-45db-bb30-1bf9789a23b8",
-	4,
+	3783,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO R_SUPER

@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
-	'pragma list',
+	'pragma_list',
 	3775,
-	'pragma list',
+	'pragma_list',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -14,12 +14,11 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_begin.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'select many pragmas related by self->pragma[R3781];
+for each pragma in pragmas
+  pragma.render();
+end for;
+T::b( s:"\n" );',
 	1,
 	'',
 	"dfc45d22-6737-433d-87a3-2b9da3a4c108");
@@ -28,11 +27,13 @@ INSERT INTO O_TFR
 	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
 	'populate',
 	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"0cef8d6c-2d3e-48a5-8f24-7c89b37b2087",
 	0,
-	'create object instance template_class of parameter;
-template_class.name = param.name;
-return template_class;',
+	'element = param.element;
+create object instance pragma_list of pragma_list;
+pragma_list.name = param.name;
+relate pragma_list to element across R3782;
+return pragma_list;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -45,13 +46,29 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("d259e777-0734-4d03-9d61-021ae8591cd4",
+	"dfc45d22-6737-433d-87a3-2b9da3a4c108",
+	'element',
+	"fd8da7a6-2f02-4846-958e-f29128812fc2",
+	0,
+	'',
+	"d77c1061-a228-48bb-83f3-84535d403e4c",
+	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
+	'inst_ref<markable_element>',
 	'',
 	'',
-	'../../masl/masl.xtuml');
+	'../maslpragmas.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("0cef8d6c-2d3e-48a5-8f24-7c89b37b2087",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<pragma_list>',
+	'',
+	'',
+	'../maslpragmas.xtuml');
 INSERT INTO O_TFR
 	VALUES ("0ba22b89-f9b5-4929-95d6-a6a4b7408d35",
 	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",

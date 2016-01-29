@@ -50,8 +50,15 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->project = empty_project;
     }
     else {
-      /* ASSIGN population.project = project::populate(name:value[0]) */
-      population->project = masl_project_op_populate(value[0]);
+      masl_project * project;masl_markable_element * markable_element=0;
+      /* ASSIGN project = project::populate(name:value[0]) */
+      project = masl_project_op_populate(value[0]);
+      /* SELECT one markable_element RELATED BY project->markable_element[R3783] */
+      markable_element = ( 0 != project ) ? project->markable_element_R3783 : 0;
+      /* ASSIGN population.project = project */
+      population->project = project;
+      /* ASSIGN population.markable_element = markable_element */
+      population->markable_element = markable_element;
     }
   }
   else if ( ( Escher_strcmp( "domain", element ) == 0 ) ) {
@@ -64,8 +71,15 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       population->domain = empty_domain;
     }
     else {
-      /* ASSIGN population.domain = domain::populate(name:value[0], project:population.project) */
-      population->domain = masl_domain_op_populate(value[0], population->project);
+      masl_domain * domain;masl_markable_element * markable_element=0;
+      /* ASSIGN domain = domain::populate(name:value[0], project:population.project) */
+      domain = masl_domain_op_populate(value[0], population->project);
+      /* SELECT one markable_element RELATED BY domain->markable_element[R3783] */
+      markable_element = ( 0 != domain ) ? domain->markable_element_R3783 : 0;
+      /* ASSIGN population.domain = domain */
+      population->domain = domain;
+      /* ASSIGN population.markable_element = markable_element */
+      population->markable_element = markable_element;
     }
   }
   else if ( ( Escher_strcmp( "object", element ) == 0 ) ) {
@@ -504,8 +518,27 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     }
   }
   else if ( ( Escher_strcmp( "pragma", element ) == 0 ) ) {
+    /* IF ( (  == value[0] ) ) */
+    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
+      masl_pragma * empty_pragma=0;
+      /* SELECT any empty_pragma FROM INSTANCES OF pragma WHERE FALSE */
+      empty_pragma = 0;
+      /* ASSIGN population.pragma = empty_pragma */
+      population->pragma = empty_pragma;
+    }
+    else {
+      /* ASSIGN population.pragma = pragma::populate(element:population.markable_element, list:value[1], name:value[0]) */
+      population->pragma = masl_pragma_op_populate(population->markable_element, value[1], value[0]);
+    }
   }
   else if ( ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) {
+    /* IF ( (  == value[0] ) ) */
+    if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
+    }
+    else {
+      /* pragma_item::populate( pragma:population.pragma, value:value[0] ) */
+      masl_pragma_item_op_populate( population->pragma, value[0] );
+    }
   }
   else {
     /* TRACE::log( flavor:failure, id:39, message:( unrecognized element:   + element ) ) */

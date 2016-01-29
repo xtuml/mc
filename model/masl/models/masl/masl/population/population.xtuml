@@ -29,14 +29,20 @@ if ( "project" == element )
   	select any empty_project from instances of project where ( false );
   	population.project = empty_project;
   else
-    population.project = project::populate( name:value[0] );
+    project = project::populate( name:value[0] );
+    select one markable_element related by project->markable_element[R3783];
+    population.project = project;
+    population.markable_element = markable_element;
   end if;
 elif ( "domain" == element )
   if ( "" == value[0] )
   	select any empty_domain from instances of domain where ( false );
   	population.domain = empty_domain;
   else
-    population.domain = domain::populate( name:value[0], project:population.project );
+    domain = domain::populate( name:value[0], project:population.project );
+    select one markable_element related by domain->markable_element[R3783];
+    population.domain = domain;
+    population.markable_element = markable_element;
   end if;
 elif ( "object" == element )
   if ( "" == value[0] )
@@ -271,9 +277,18 @@ elif ( "type" == element )
     population.type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:population.domain );
   end if;
 elif ( "pragma" == element )
-  // do nothing
+  if ( "" == value[0] )
+  	select any empty_pragma from instances of pragma where ( false );
+  	population.pragma = empty_pragma;
+  else
+    population.pragma = pragma::populate( name:value[0], list:value[1], element:population.markable_element );
+  end if;
 elif ( "pragmaitem" == element )
-  // do nothing
+  if ( "" == value[0] )
+    // do nothing (this is a leaf node)
+  else
+    pragma_item::populate( value:value[0], pragma:population.pragma );
+  end if;
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;
@@ -693,6 +708,56 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("323b6a4c-1da2-4e22-ae71-f5b7bd988bb9",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("323b6a4c-1da2-4e22-ae71-f5b7bd988bb9",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("323b6a4c-1da2-4e22-ae71-f5b7bd988bb9",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"fa9182fe-b3c6-42a6-859c-6f32c325e5f8",
+	'markable_element',
+	'',
+	'',
+	'markable_element',
+	0,
+	"fd8da7a6-2f02-4846-958e-f29128812fc2",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<markable_element>',
+	'',
+	'',
+	'../../maslpragmas/maslpragmas.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("8bcc8e3c-bd14-498b-ae38-ef252020ed13",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("8bcc8e3c-bd14-498b-ae38-ef252020ed13",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("8bcc8e3c-bd14-498b-ae38-ef252020ed13",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"323b6a4c-1da2-4e22-ae71-f5b7bd988bb9",
+	'pragma',
+	'',
+	'',
+	'pragma',
+	0,
+	"fedbd69c-1013-4150-8595-97f557dea434",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<pragma>',
+	'',
+	'',
+	'../../maslpragmas/maslpragmas.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");

@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("5a21b94f-788a-4b1e-9641-6e9c160bcf75",
-	'pragma item',
+	'pragma_item',
 	3712,
-	'pragmaitem',
+	'pragma_item',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -14,12 +14,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'T::include( file:"masl/t.pragmaitem.masl" );',
 	1,
 	'',
 	"dbfe2180-cdec-46ab-af99-d99b13ede7b2");
@@ -28,10 +23,12 @@ INSERT INTO O_TFR
 	"5a21b94f-788a-4b1e-9641-6e9c160bcf75",
 	'populate',
 	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'create object instance template_class of parameter;
-return template_class;',
+	'pragma = param.pragma;
+create object instance pragma_item of pragma_item;
+pragma_item.value = param.value;
+relate pragma_item to pragma across R3780;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -44,13 +41,22 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("db4d0f55-bfe9-42c2-bad8-f27711b5cd4c",
+	"dbfe2180-cdec-46ab-af99-d99b13ede7b2",
+	'pragma',
+	"fedbd69c-1013-4150-8595-97f557dea434",
+	0,
+	'',
+	"646339c0-d3e1-46c8-a478-0afaa1744d0c",
+	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
+	'inst_ref<pragma>',
 	'',
 	'',
-	'../../masl/masl.xtuml');
+	'../maslpragmas.xtuml');
 INSERT INTO O_TFR
 	VALUES ("89681ebe-88c7-4be3-b8be-62be4b5961ac",
 	"5a21b94f-788a-4b1e-9641-6e9c160bcf75",

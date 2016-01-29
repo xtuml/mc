@@ -2,46 +2,30 @@
 
 INSERT INTO O_OBJ
 	VALUES ("1416f703-db51-4598-b9ca-f24cc279da0e",
-	'markable element',
+	'markable_element',
 	3774,
-	'markable element',
+	'markable_element',
 	'',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_TFR
-	VALUES ("fc7f30dc-082f-496b-9f9b-76fe2589f6eb",
-	"1416f703-db51-4598-b9ca-f24cc279da0e",
-	'render',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'//T::include( file:"masl/t.project_begin.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
-	1,
-	'',
-	"7b3548a2-2120-43ca-904f-0de8634f06a1");
 INSERT INTO O_TFR
 	VALUES ("7b3548a2-2120-43ca-904f-0de8634f06a1",
 	"1416f703-db51-4598-b9ca-f24cc279da0e",
 	'populate',
 	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"fd8da7a6-2f02-4846-958e-f29128812fc2",
 	0,
-	'create object instance template_class of parameter;
-return template_class;',
+	'create object instance markable_element of markable_element;
+return markable_element;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
+	'inst_ref<markable_element>',
 	'',
 	'',
-	'../../masl/masl.xtuml');
+	'../maslpragmas.xtuml');
 INSERT INTO O_TFR
 	VALUES ("31e08a49-b6f3-44e9-bba4-062ba7bc3191",
 	"1416f703-db51-4598-b9ca-f24cc279da0e",
@@ -75,7 +59,7 @@ value[0] = "";
 //out::( element:"template_class", value:value );',
 	1,
 	'',
-	"fc7f30dc-082f-496b-9f9b-76fe2589f6eb");
+	"7b3548a2-2120-43ca-904f-0de8634f06a1");
 INSERT INTO O_ID
 	VALUES (0,
 	"1416f703-db51-4598-b9ca-f24cc279da0e");

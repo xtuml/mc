@@ -14,12 +14,15 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'T::include( file:"masl/t.pragma_begin.masl" );
+select many pragma_items related by self->pragma_item[R3780];
+separator = "";
+for each pragma_item in pragma_items
+  T::b( s:separator );
+  pragma_item.render();
+  separator = ", ";
+end for;
+T::include( file:"masl/t.pragma_end.masl" );',
 	1,
 	'',
 	"a2751ebc-236b-471c-85b9-3fa412f91703");
@@ -28,11 +31,27 @@ INSERT INTO O_TFR
 	"bd654b77-3ff1-445c-bca4-df6599e92ed2",
 	'populate',
 	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"fedbd69c-1013-4150-8595-97f557dea434",
 	0,
-	'create object instance template_class of parameter;
-template_class.name = param.name;
-return template_class;',
+	'element = param.element;
+
+// get the pragma list
+list_name = "";
+if ( "" == param.list )
+  list_name = "default";
+else
+  list_name = param.list;
+end if;
+select any pragma_list related by element->pragma_list[R3782] where ( selected.name == list_name );
+if ( empty pragma_list )
+  pragma_list = pragma_list::populate( name:list_name, element:element );
+end if;
+
+create object instance pragma of pragma;
+pragma.name = param.name;
+relate pragma to pragma_list across R3781;
+
+return pragma;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -45,13 +64,38 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("778e5754-7fbc-40ea-b180-6a785ca1f4ad",
+	"a2751ebc-236b-471c-85b9-3fa412f91703",
+	'list',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0c8cc016-ea19-48a9-8ad4-833df1771dcb",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("8520699e-c8ef-4109-836b-aaa8d48ccb86",
+	"a2751ebc-236b-471c-85b9-3fa412f91703",
+	'element',
+	"fd8da7a6-2f02-4846-958e-f29128812fc2",
+	0,
+	'',
+	"778e5754-7fbc-40ea-b180-6a785ca1f4ad",
+	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
+	'inst_ref<markable_element>',
 	'',
 	'',
-	'../../masl/masl.xtuml');
+	'../maslpragmas.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<pragma>',
+	'',
+	'',
+	'../maslpragmas.xtuml');
 INSERT INTO O_TFR
 	VALUES ("75a7df50-2388-4bb4-b569-d82c95666375",
 	"bd654b77-3ff1-445c-bca4-df6599e92ed2",
