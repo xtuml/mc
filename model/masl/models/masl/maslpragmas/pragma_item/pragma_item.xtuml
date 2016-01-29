@@ -1,0 +1,121 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("5a21b94f-788a-4b1e-9641-6e9c160bcf75",
+	'pragma_item',
+	3712,
+	'pragma_item',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("9b7874e3-4cb3-45a3-a0c6-a4d5b38e6f53",
+	"5a21b94f-788a-4b1e-9641-6e9c160bcf75",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.pragmaitem.masl" );',
+	1,
+	'',
+	"dbfe2180-cdec-46ab-af99-d99b13ede7b2");
+INSERT INTO O_TFR
+	VALUES ("dbfe2180-cdec-46ab-af99-d99b13ede7b2",
+	"5a21b94f-788a-4b1e-9641-6e9c160bcf75",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'pragma = param.pragma;
+create object instance pragma_item of pragma_item;
+pragma_item.value = param.value;
+relate pragma_item to pragma across R3780;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("646339c0-d3e1-46c8-a478-0afaa1744d0c",
+	"dbfe2180-cdec-46ab-af99-d99b13ede7b2",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("db4d0f55-bfe9-42c2-bad8-f27711b5cd4c",
+	"dbfe2180-cdec-46ab-af99-d99b13ede7b2",
+	'pragma',
+	"fedbd69c-1013-4150-8595-97f557dea434",
+	0,
+	'',
+	"646339c0-d3e1-46c8-a478-0afaa1744d0c",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<pragma>',
+	'',
+	'',
+	'../maslpragmas.xtuml');
+INSERT INTO O_TFR
+	VALUES ("89681ebe-88c7-4be3-b8be-62be4b5961ac",
+	"5a21b94f-788a-4b1e-9641-6e9c160bcf75",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+//select many projects from instances of project;
+//if ( empty projects )
+//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
+//  valid = false;
+//end if;
+
+// Validate siblings and subordinates.
+//return ( valid and projectdomain::validate() );
+return valid;
+',
+	1,
+	'',
+	"9b7874e3-4cb3-45a3-a0c6-a4d5b38e6f53");
+INSERT INTO O_NBATTR
+	VALUES ("9e22e8a7-0fd0-4095-abda-f6acf176a38f",
+	"5a21b94f-788a-4b1e-9641-6e9c160bcf75");
+INSERT INTO O_BATTR
+	VALUES ("9e22e8a7-0fd0-4095-abda-f6acf176a38f",
+	"5a21b94f-788a-4b1e-9641-6e9c160bcf75");
+INSERT INTO O_ATTR
+	VALUES ("9e22e8a7-0fd0-4095-abda-f6acf176a38f",
+	"5a21b94f-788a-4b1e-9641-6e9c160bcf75",
+	"00000000-0000-0000-0000-000000000000",
+	'value',
+	'',
+	'',
+	'value',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"5a21b94f-788a-4b1e-9641-6e9c160bcf75");
+INSERT INTO O_ID
+	VALUES (1,
+	"5a21b94f-788a-4b1e-9641-6e9c160bcf75");
+INSERT INTO O_ID
+	VALUES (2,
+	"5a21b94f-788a-4b1e-9641-6e9c160bcf75");
+INSERT INTO PE_PE
+	VALUES ("5a21b94f-788a-4b1e-9641-6e9c160bcf75",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpragmas',
+	'',
+	0,
+	'../maslpragmas.xtuml');

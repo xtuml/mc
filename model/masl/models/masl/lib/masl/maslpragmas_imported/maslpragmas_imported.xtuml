@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("abfff799-4b7f-43e8-a63b-479add5a1591",
+	"00000000-0000-0000-0000-000000000000",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpragmas_imported',
+	'maslpragmas',
+	0);
+INSERT INTO GD_MD
+	VALUES ("4a0c1de3-7eec-4be0-8315-99066f0040fa",
+	112,
+	"abfff799-4b7f-43e8-a63b-479add5a1591",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'4.1.17',
+	'masl::lib::masl::maslpragmas_imported');
+INSERT INTO DIM_DIA
+	VALUES ("4a0c1de3-7eec-4be0-8315-99066f0040fa",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("abfff799-4b7f-43e8-a63b-479add5a1591",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"78775e10-f3b1-4b47-b908-ad2144f025e4",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("78775e10-f3b1-4b47-b908-ad2144f025e4",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'masl',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../masl.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	1,
+	'../../../masl.xtuml');

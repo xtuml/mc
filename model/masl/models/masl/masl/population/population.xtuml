@@ -29,14 +29,20 @@ if ( "project" == element )
   	select any empty_project from instances of project where ( false );
   	population.project = empty_project;
   else
-    population.project = project::populate( name:value[0] );
+    project = project::populate( name:value[0] );
+    select one markable_element related by project->markable_element[R3783];
+    population.project = project;
+    population.markable_element = markable_element;
   end if;
 elif ( "domain" == element )
   if ( "" == value[0] )
   	select any empty_domain from instances of domain where ( false );
   	population.domain = empty_domain;
   else
-    population.domain = domain::populate( name:value[0], project:population.project );
+    domain = domain::populate( name:value[0], project:population.project );
+    select one markable_element related by domain->markable_element[R3783];
+    population.domain = domain;
+    population.markable_element = markable_element;
   end if;
 elif ( "object" == element )
   if ( "" == value[0] )
@@ -130,7 +136,8 @@ elif ( "referential" == element )
       select any relationship related by parent_domain->relationship[R3712] where ( selected.name == relationship_name );
     end if;
     
-    // traverse to find the object
+    // traverse to find the target object
+    rolephrase = "";
     select any target_object from instances of object where false;
     if ( not_empty relationship )
       select one participation related by relationship->participation[R3713];
@@ -139,7 +146,7 @@ elif ( "referential" == element )
       	// not given role or object
       	select one target_object related by participation->object[R3714];
       	if ( target_object == current_object )
-      	  // not the one we''re looking for (referentials will require a role phrase, so we can be sure of this)
+      	  // not the one we''re looking for (reflexives will require a role phrase, so we can be sure that the target object is not the current object)
       	  select any target_object related by participation->object[R3720];
       	end if;
       elif ( "" != roleOrObj )
@@ -147,41 +154,44 @@ elif ( "referential" == element )
         if ( participation.otherphrase == roleOrObj )
        	  // current object is the other
           // the target object is the one
+          rolephrase = participation.otherphrase;
       	  select one target_object related by participation->object[R3714];
         elif ( participation.onephrase == roleOrObj )
        	  // current object is the one 
-          // the target object is the other
+          // the target object is the other (or one of the others)
+          rolephrase = participation.onephrase;
           if ( "" != obj )
             // given an obj name
       	    select any target_object related by participation->object[R3720] where ( selected.name == obj );
       	  else
-      	    // not given an obj name
+      	    // not given an obj name (there is only one other otherwise the MASL is ambiguous)
       	    select any target_object related by participation->object[R3720];
       	  end if;
         else
-          // roleOrObj is an object name
-      	  select one target_object related by participation->object[R3714] where ( selected.name == roleOrObj );
+          // roleOrObj does not match one of the phrases, so it is an object name
+      	  select one target_object related by participation->object[R3714] where ( selected.name == roleOrObj ); 	// matches the one
       	  if ( empty target_object )
-      	    select any target_object related by participation->object[R3720] where ( selected.name == roleOrObj );
+      	    select any target_object related by participation->object[R3720] where ( selected.name == roleOrObj );	// matches an other
       	  end if;
         end if;
       else
+        // given just obj (should never happen)
         // not important
       end if;
     end if;
     
-    // find the referring attribute
-    select any referring_attr from instances of attribute where false;
+    // find the referred_to attribute
+    select any referred_to from instances of attribute where false;
     if ( not_empty target_object )
-      select any referring_attr related by target_object->attribute[R3709] where ( selected.name == attr );
+      select any referred_to related by target_object->attribute[R3709] where ( selected.name == attr );
     end if;
     
-    // if the referring attribute is empty (not created yet), populate it
-    if ( empty referring_attr )
-      referring_attr = attribute::populate( name:attr, preferred:"", unique:"", defaultvalue:"", object:target_object );
+    // if the referred_to attribute is empty (not created yet), populate it
+    if ( empty referred_to )
+      referred_to = attribute::populate( name:attr, preferred:"", unique:"", defaultvalue:"", object:target_object );
     end if;
       
-    p = referential::populate( relationship:relationship, referred_attr:population.attribute, referring_attr:referring_attr );
+    p = referential::populate( relationship:relationship, referring:population.attribute, referred_to:referred_to, rolephrase:rolephrase );
   end if;
 elif ( "typeref" == element )
   if ( "" == value[0] )
@@ -267,9 +277,18 @@ elif ( "type" == element )
     population.type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:population.domain );
   end if;
 elif ( "pragma" == element )
-  // do nothing
+  if ( "" == value[0] )
+  	select any empty_pragma from instances of pragma where ( false );
+  	population.pragma = empty_pragma;
+  else
+    population.pragma = pragma::populate( name:value[0], list:value[1], element:population.markable_element );
+  end if;
 elif ( "pragmaitem" == element )
-  // do nothing
+  if ( "" == value[0] )
+    // do nothing (this is a leaf node)
+  else
+    pragma_item::populate( value:value[0], pragma:population.pragma );
+  end if;
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;
@@ -689,6 +708,56 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("323b6a4c-1da2-4e22-ae71-f5b7bd988bb9",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("323b6a4c-1da2-4e22-ae71-f5b7bd988bb9",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("323b6a4c-1da2-4e22-ae71-f5b7bd988bb9",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"fa9182fe-b3c6-42a6-859c-6f32c325e5f8",
+	'markable_element',
+	'',
+	'',
+	'markable_element',
+	0,
+	"fd8da7a6-2f02-4846-958e-f29128812fc2",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<markable_element>',
+	'',
+	'',
+	'../../maslpragmas/maslpragmas.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("8bcc8e3c-bd14-498b-ae38-ef252020ed13",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_BATTR
+	VALUES ("8bcc8e3c-bd14-498b-ae38-ef252020ed13",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");
+INSERT INTO O_ATTR
+	VALUES ("8bcc8e3c-bd14-498b-ae38-ef252020ed13",
+	"e778bb5b-31bd-4e26-a675-39010cc7f4b4",
+	"323b6a4c-1da2-4e22-ae71-f5b7bd988bb9",
+	'pragma',
+	'',
+	'',
+	'pragma',
+	0,
+	"fedbd69c-1013-4150-8595-97f557dea434",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<pragma>',
+	'',
+	'',
+	'../../maslpragmas/maslpragmas.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"e778bb5b-31bd-4e26-a675-39010cc7f4b4");

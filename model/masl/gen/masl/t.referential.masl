@@ -5,4 +5,4 @@ ${relationshipname}.\
 .if ( "" != rolephrase )
 ${rolephrase}.\
 .end if
-${objectname}.${attribute} \
+${objectname}.${attribute}\

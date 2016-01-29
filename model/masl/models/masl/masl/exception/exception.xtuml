@@ -1,20 +1,20 @@
 -- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO O_OBJ
-	VALUES ("cda2c109-be70-42a6-801c-9232fb40b887",
-	'pragma item',
-	3712,
-	'pragmaitem',
+	VALUES ("aa7fe657-6de6-4c75-93c4-792bf649f07a",
+	'exception',
+	3776,
+	'exception',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
-	VALUES ("721b1acb-b164-419f-a085-400e69900646",
-	"cda2c109-be70-42a6-801c-9232fb40b887",
+	VALUES ("e82f49c4-f822-4fd8-81a4-c6e29694a572",
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a",
 	'render',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
+	'//T::include( file:"masl/t.project_begin.masl" );
 //select many projectdomains related by self->projectdomain[R3701.''configures''];
 //for each projectdomain in projectdomains
 //  projectdomain.render();
@@ -22,23 +22,23 @@ INSERT INTO O_TFR
 //T::include( file:"masl/t.project_end.masl" );',
 	1,
 	'',
-	"7cfbd9f8-b678-4713-96dc-6b23e1d756e6");
+	"2410aa23-0abe-49b3-8580-3468cf315f79");
 INSERT INTO O_TFR
-	VALUES ("7cfbd9f8-b678-4713-96dc-6b23e1d756e6",
-	"cda2c109-be70-42a6-801c-9232fb40b887",
+	VALUES ("2410aa23-0abe-49b3-8580-3468cf315f79",
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a",
 	'populate',
 	'',
 	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
 	0,
 	'create object instance template_class of parameter;
-template_class.name = param.name;
+//template_class.name = param.name;
 return template_class;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
-	VALUES ("9f271289-d59a-4f33-8576-8a8f1dd13a7a",
-	"7cfbd9f8-b678-4713-96dc-6b23e1d756e6",
+	VALUES ("9ed436f3-c804-4b7e-9ef3-da6e1f30437e",
+	"2410aa23-0abe-49b3-8580-3468cf315f79",
 	'name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
@@ -53,8 +53,8 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../masl.xtuml');
 INSERT INTO O_TFR
-	VALUES ("bde55ebc-899b-4e5a-a2bf-9cfad0f7a162",
-	"cda2c109-be70-42a6-801c-9232fb40b887",
+	VALUES ("efb10397-aa37-47f0-a05b-0b3a5a552ebd",
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a",
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
@@ -72,16 +72,29 @@ return valid;
 ',
 	1,
 	'',
-	"721b1acb-b164-419f-a085-400e69900646");
+	"ff2d74b9-890f-417e-b1d7-1849fb78a6eb");
+INSERT INTO O_TFR
+	VALUES ("ff2d74b9-890f-417e-b1d7-1849fb78a6eb",
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[8] = "";
+value[0] = self.name;
+//out::( element:"template_class", value:value );',
+	1,
+	'',
+	"e82f49c4-f822-4fd8-81a4-c6e29694a572");
 INSERT INTO O_NBATTR
-	VALUES ("d94a2707-8499-4fcd-9020-5c78c698e8c9",
-	"cda2c109-be70-42a6-801c-9232fb40b887");
+	VALUES ("87b48d59-06bc-47c1-a605-a3018358aed5",
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a");
 INSERT INTO O_BATTR
-	VALUES ("d94a2707-8499-4fcd-9020-5c78c698e8c9",
-	"cda2c109-be70-42a6-801c-9232fb40b887");
+	VALUES ("87b48d59-06bc-47c1-a605-a3018358aed5",
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a");
 INSERT INTO O_ATTR
-	VALUES ("d94a2707-8499-4fcd-9020-5c78c698e8c9",
-	"cda2c109-be70-42a6-801c-9232fb40b887",
+	VALUES ("87b48d59-06bc-47c1-a605-a3018358aed5",
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a",
 	"00000000-0000-0000-0000-000000000000",
 	'name',
 	'',
@@ -93,15 +106,15 @@ INSERT INTO O_ATTR
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	"cda2c109-be70-42a6-801c-9232fb40b887");
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a");
 INSERT INTO O_ID
 	VALUES (1,
-	"cda2c109-be70-42a6-801c-9232fb40b887");
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a");
 INSERT INTO O_ID
 	VALUES (2,
-	"cda2c109-be70-42a6-801c-9232fb40b887");
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a");
 INSERT INTO PE_PE
-	VALUES ("cda2c109-be70-42a6-801c-9232fb40b887",
+	VALUES ("aa7fe657-6de6-4c75-93c4-792bf649f07a",
 	1,
 	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
 	"00000000-0000-0000-0000-000000000000",

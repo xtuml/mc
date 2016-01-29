@@ -14,12 +14,14 @@ INSERT INTO O_TFR
 	'',
 	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	0,
-	'project = param.project;
+	'markable_element = markable_element::populate();
+project = param.project;
 create object instance domain of domain;
 domain.name = param.name;
 if ( not_empty project )
   relate project to domain across R3701.''configures'';
 end if;
+relate domain to markable_element across R3783;
 return domain;',
 	1,
 	'',
@@ -88,7 +90,11 @@ end for;
 for each object in objects
   object.render();
 end for;
-T::include( file:"masl/t.domain_end.masl" );',
+T::include( file:"masl/t.domain_end.masl" );
+select any pragma_list related by self->markable_element[R3783]->pragma_list[R3782] where ( "default" == selected.name );
+if ( not_empty pragma_list )
+  pragma_list.render();
+end if;',
 	1,
 	'',
 	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4");
