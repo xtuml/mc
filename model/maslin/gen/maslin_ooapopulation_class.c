@@ -37,7 +37,7 @@ maslin_ooapopulation_instanceloader( Escher_iHandle_t instance, const c_t * avls
  * class operation:  populate
  */
 void
-maslin_ooapopulation_op_populate( c_t * p_element, c_t * p_value[8] )
+maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX_STRING_LEN] )
 {
   c_t * value[8]={0,0,0,0,0,0,0,0};c_t * element=0;maslin_ooapopulation * ooapopulation=0;
   /* ASSIGN element = PARAM.element */
@@ -179,7 +179,7 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t * p_value[8] )
   }
   else {
     /* TRACE::log( flavor:failure, id:59, message:( maslin unrecognized element:   + element ) ) */
-    TRACE_log( "failure", 59, Escher_stradd( "maslin unrecognized element:  ", element ) );
+    // TRACE_log( "failure", 59, Escher_stradd( "maslin unrecognized element:  ", element ) );
   }
 }
 

@@ -95,7 +95,7 @@ elif ( "service" == element )
     end if;
   end if;
 else
-  TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
+  // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
 ',
 	1,
