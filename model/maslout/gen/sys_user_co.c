@@ -54,20 +54,10 @@ void
 UserPreOoaInitializationCalloutf( c_t * argv0 )
 {
   /* Insert implementation specific code here.  */
-  static char * a[2] = { "UserPostOoaInitializationCalloutf", "a.xtuml" };
+  static char * a[2] = { "UserPreOoaInitializationCalloutf", "a.xtuml" };
   fprintf( stderr, "loading...\n" );
   Escher_xtUML_load( 2, a );
   fprintf( stderr, "loaded.\n" );
-  //read_marking_invocations();
-  if ( strstr( argv0, "xtuml2maslproject" ) ) {
-    fprintf( stderr, "projecting...\n" );
-    maslout_masl_project();
-  } else if ( strstr( argv0, "xtuml2masldomain" ) ) {
-    fprintf( stderr, "domaining...\n" );
-    maslout_masl_domain();
-  }
-  fprintf( stderr, "done.\n" );
-  SYS_USER_CO_PRINTF( "UserPreOoaInitializationCallout\n" )
 }
 
 /*
@@ -80,9 +70,16 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
  */
 #include <string.h>
 void
-UserPostOoaInitializationCalloutf( void )
+UserPostOoaInitializationCalloutf( c_t * argv0 )
 {
-  /* Insert implementation specific code here.  */
+  if ( strstr( argv0, "xtuml2maslproject" ) ) {
+    fprintf( stderr, "projecting...\n" );
+    maslout_masl_project();
+  } else if ( strstr( argv0, "xtuml2masldomain" ) ) {
+    fprintf( stderr, "domaining...\n" );
+    maslout_masl_domain();
+  }
+  fprintf( stderr, "done.\n" );
   SYS_USER_CO_PRINTF( "UserPostOoaInitializationCallout\n" )
 }
 
@@ -102,6 +99,7 @@ UserBackgroundProcessingCalloutf( void )
   TIM_tick();
   #endif
   /* Insert implementation specific code here.  */
+  exit(0);
 }
 
 /*

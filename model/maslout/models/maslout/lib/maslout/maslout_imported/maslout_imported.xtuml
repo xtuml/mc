@@ -5,7 +5,7 @@ INSERT INTO EP_PKG
 	"00000000-0000-0000-0000-000000000000",
 	"53107551-b0b9-4155-a13f-41b410f63a54",
 	'maslout_imported',
-	'maslout',
+	'',
 	0);
 INSERT INTO GD_MD
 	VALUES ("77fe7d4d-51d6-4276-af06-63cebf5e0482",
@@ -33,6 +33,243 @@ INSERT INTO DIM_DIA
 	4000.000000,
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("0c6d00ab-17d3-41f1-8a7a-cb0fdfc9c315",
+	"00000000-0000-0000-0000-000000000000",
+	'masl_domain',
+	'',
+	'LOG::LogInfo( message:"Starting Domain" );
+
+// CDS get name from marking or context menu
+name = "Tracking";
+// Query and Populate
+// Query the xtUML meta-model and populate the MASL meta-model.
+::xtuml_component_to_masl_domain( name:name );
+
+out::render( element:"domain", name:"Tracking" );
+
+LOG::LogInfo( message:"Done" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("0c6d00ab-17d3-41f1-8a7a-cb0fdfc9c315",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9a5ac824-671b-4cb6-9d93-37b700ffd92c",
+	"00000000-0000-0000-0000-000000000000",
+	'masl_project',
+	'',
+	'LOG::LogInfo( message:"Starting Project" );
+
+// Query and Populate
+// Query the xtUML meta-model and populate the MASL meta-model.
+::xtuml_package_to_masl_project( name:"System" );
+
+out::render( element:"project", name:"System" );
+
+LOG::LogInfo( message:"Done" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("9a5ac824-671b-4cb6-9d93-37b700ffd92c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("84687e5f-e288-4907-9432-62372e5f265f",
+	"00000000-0000-0000-0000-000000000000",
+	'xtuml_component_to_masl_domain',
+	'',
+	'value[8] = "";
+name = param.name;
+select any c_c from instances of C_C where ( selected.Name == param.name );
+if ( not_empty c_c )
+  value[0] = c_c.Name;
+  out::populate( element:"domain", value:value );
+else
+  TRACE::log( flavor:"failure", id:34, message:"did not find component with name " + param.name );
+end if;
+
+
+select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+for each o_obj in o_objs
+  value[0] = o_obj.Name;
+  out::populate( element:"object", value:value );
+  
+  select many o_attrs related by o_obj->O_ATTR[R102];
+  for each o_attr in o_attrs
+    value[0] = o_attr.Name;
+    value[1] = ""; // preferred
+    value[2] = ""; // unique
+    value[3] = ""; // default value
+    out::populate( element:"attribute", value:value );
+  end for;
+end for;
+
+/*
+object is a; // declaration
+private type is ...
+service(s)
+terminator(s)
+  
+// CDS hacked
+select many o_objs related by 
+select many o_objs related by te_c->TE_CLASS[R2064]->O_OBJ[R2019];
+    
+  select many te_pos related by te_c->TE_PO[R2005];
+  for each te_po in te_pos
+  
+    terminator = terminator::populate( name:te_po.Name, domain:domain );
+
+    select one te_mact related by te_po->TE_MACT[R2099.''has first''];
+    while ( not_empty te_mact )
+    
+      // CDS figure out the real difference between function and service
+      flavor = "function";
+      if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
+        flavor = "service";
+      end if;
+      activity = activity::populate( name:te_mact.Name, terminator:terminator, flavor:flavor );
+      
+      select any te_parm related by te_mact->TE_ABA[R2010]->TE_PARM[R2062];
+      first_te_parm = te_parm;
+      select any parameter from instances of parameter where ( false );
+      while ( not_empty te_parm )
+        // CDS model and pass correct type
+        parameter = parameter::populate( name:te_parm.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
+        select one te_parm related by te_parm->TE_PARM[R2041.''precedes''];
+      end while;
+      
+      select one te_mact related by te_mact->TE_MACT[R2083.''precedes''];
+    end while;
+    
+  end for;
+ */',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cf4db11c-a368-4494-9f14-382c45cdc747",
+	"84687e5f-e288-4907-9432-62372e5f265f",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("84687e5f-e288-4907-9432-62372e5f265f",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bbd421d2-e67f-41ea-be98-398a6baf075d",
+	"00000000-0000-0000-0000-000000000000",
+	'xtuml_package_to_masl_project',
+	'',
+	'// Mappings:
+// xtUML  -->  MASL
+// system configuration package --> project
+// component in configuration package --> (project)domain
+// port --> terminator
+// message --> terminator function or service
+
+select many ep_pkgs from instances of EP_PKG where ( selected.Name == param.name );
+markedsystems = cardinality ep_pkgs;
+if ( empty ep_pkgs )
+  TRACE::log( flavor:"failure", id:1, message:"ERROR:  Marked configuration package was not found in model:" + param.name );
+end if;
+if ( markedsystems > 1 )
+  TRACE::log( flavor:"failure", id:2, message:"WARNING:  More than one package is marked as a system build... choose only one." );
+end if;
+
+value[8] = "";
+value[0] = param.name;
+out::populate( element:"project", value:value );
+
+// CDS revisit this
+//select many direct_c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001];
+//select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
+select many c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
+//c_cs = direct_c_cs + referred_c_cs;
+for each c_c in c_cs
+
+  value[0] = c_c.Name;
+  out::populate( element:"domain", value:value );
+  
+  select many c_pos related by c_c->C_PO[R4010];
+  for each c_po in c_pos
+  
+    value[0] = c_po.Name;
+    out::populate( element:"terminator", value:value );
+
+    select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
+    for each c_ep in c_eps
+    
+      // CDS figure out the real difference between function and service
+      flavor = "function";
+      //if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
+        flavor = "service";
+      //end if;
+      //activity = activity::populate( name:c_ep.Name, terminator:terminator, flavor:flavor );
+      value[0] = c_ep.Name;
+      value[1] = c_po.Name;
+      value[2] = flavor;
+      out::populate( element:"activity", value:value );
+      
+      select any c_pp related by c_ep->C_PP[R4006];
+      first_c_pp = c_pp;
+      while ( not_empty c_pp )
+        first_c_pp = c_pp;
+        select one c_pp related by c_pp->C_PP[R4021.''precedes''];
+      end while;
+      previous = "";
+      c_pp = first_c_pp;
+      while ( not_empty c_pp )
+        // CDS model and pass correct type
+        // CDS model and pass correct direction
+        //parameter = parameter::populate( name:c_pp.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
+        value[0] = c_pp.Name;
+        value[1] = "mytype";
+        value[2] = "in";
+        value[3] = previous;
+        out::populate( element:"parameter", value:value );
+        previous = c_pp.Name;
+        select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
+      end while;
+      
+    end for;
+    
+  end for;
+    
+end for;
+
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e1434ed1-bb84-419d-aa6a-b3a6dcaae855",
+	"bbd421d2-e67f-41ea-be98-398a6baf075d",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("bbd421d2-e67f-41ea-be98-398a6baf075d",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	1,

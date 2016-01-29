@@ -58,14 +58,14 @@ void UserPreOoaInitializationCalloutf( char * );
  * When this callout function returns, the system dispatcher will allow the
  * xtUML application analysis state models to start consuming events.
  */
-void UserPostOoaInitializationCalloutf( void );
+void UserPostOoaInitializationCalloutf( char * );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
 #define UserPostOoaInitializationCallout()
    hook for this callout.  */
 
 #ifndef UserPostOoaInitializationCallout
-#define UserPostOoaInitializationCallout() UserPostOoaInitializationCalloutf()
+#define UserPostOoaInitializationCallout() UserPostOoaInitializationCalloutf( *argv )
 #endif
 
 /*
