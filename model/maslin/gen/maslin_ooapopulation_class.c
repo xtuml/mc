@@ -24,8 +24,9 @@ maslin_ooapopulation_instanceloader( Escher_iHandle_t instance, const c_t * avls
   maslin_ooapopulation * self = (maslin_ooapopulation *) instance;
   /* Initialize application analysis class attributes.  */
   Escher_memset( &self->current_sys, avlstring[ 1 ], sizeof( self->current_sys ) );
-  Escher_memset( &self->wiring_pkg, avlstring[ 1 ], sizeof( self->wiring_pkg ) );
   Escher_memset( &self->lib_pkg, avlstring[ 1 ], sizeof( self->lib_pkg ) );
+  Escher_memset( &self->systypes_pkg, avlstring[ 1 ], sizeof( self->systypes_pkg ) );
+  Escher_memset( &self->wiring_pkg, avlstring[ 1 ], sizeof( self->wiring_pkg ) );
   Escher_memset( &self->current_attribute, avlstring[ 1 ], sizeof( self->current_attribute ) );
   Escher_memset( &self->current_class, avlstring[ 1 ], sizeof( self->current_class ) );
   Escher_memset( &self->current_class_op, avlstring[ 1 ], sizeof( self->current_class_op ) );
@@ -141,6 +142,13 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX
     if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
       /* ooapopulation.transformType( name:PARAM.value[0], visibility:PARAM.value[1] ) */
       maslin_ooapopulation_op_transformType( ooapopulation,  p_value[0], p_value[1] );
+    }
+  }
+  else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
+    /* IF ( (  != PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
+      /* ooapopulation.transformType( name:PARAM.value[0], visibility:public ) */
+      maslin_ooapopulation_op_transformType( ooapopulation,  p_value[0], "public" );
     }
   }
   else if ( ( Escher_strcmp( "function", element ) == 0 ) ) {
@@ -589,6 +597,30 @@ maslin_ooapopulation_op_createSystem( maslin_ooapopulation * self)
     self->current_sys = s_sys;
     /* ASSIGN self.lib_pkg = self.SystemModel_newPackage(pkg_name:library, s_sys:s_sys) */
     self->lib_pkg = maslin_ooapopulation_op_SystemModel_newPackage(self, "library", s_sys);
+    /* ASSIGN self.systypes_pkg = self.SystemModel_newPackage(pkg_name:types, s_sys:s_sys) */
+    self->systypes_pkg = maslin_ooapopulation_op_SystemModel_newPackage(self, "types", s_sys);
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:void ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "void" );
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:character ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "character" );
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:wcharacter ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "wcharacter" );
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:boolean ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "boolean" );
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:byte ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "byte" );
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:string ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "string" );
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:wstring ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "wstring" );
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:device ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "device" );
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:enum ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "enum" );
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:event ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "event" );
+    /* self.Package_newDatatype( ep_pkg:self.systypes_pkg, type_name:instance ) */
+    maslin_ooapopulation_op_Package_newDatatype( self,  self->systypes_pkg, "instance" );
   }
 }
 
@@ -968,7 +1000,7 @@ maslin_ooapopulation_op_ModelClass_addAttributeToOrdering( maslin_ooapopulation 
 void
 maslin_ooapopulation_op_Attribute_initialize( maslin_ooapopulation * self, c_t * p_name, maslin_O_ATTR * p_o_attr )
 {
-  maslin_O_ATTR * o_attr;maslin_O_NBATTR * nba;maslin_O_BATTR * ba;
+  maslin_EP_PKG * systypes_pkg;maslin_O_ATTR * o_attr;maslin_O_NBATTR * nba;maslin_O_BATTR * ba;maslin_S_DT * def_dt=0;
   /* ASSIGN o_attr = PARAM.o_attr */
   o_attr = p_o_attr;
   /* ASSIGN o_attr.Prefix =  */
@@ -977,6 +1009,22 @@ maslin_ooapopulation_op_Attribute_initialize( maslin_ooapopulation * self, c_t *
   o_attr->Pfx_Mode = 0;
   /* ASSIGN o_attr.Root_Nam = PARAM.name */
   o_attr->Root_Nam = Escher_strcpy( o_attr->Root_Nam, p_name );
+  /* ASSIGN systypes_pkg = self.systypes_pkg */
+  systypes_pkg = self->systypes_pkg;
+  /* SELECT any def_dt RELATED BY systypes_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Name == string ) ) */
+  def_dt = 0;
+  {  if ( 0 != systypes_pkg ) {
+  maslin_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &systypes_pkg->PE_PE_R8000_contains );
+  while ( ( 0 == def_dt ) && ( 0 != ( PE_PE_R8000_contains = (maslin_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( maslin_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {maslin_S_DT * selected = (maslin_S_DT *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "string" ) == 0 ) ) {
+    def_dt = selected;
+  }}
+}}}
+  /* RELATE o_attr TO def_dt ACROSS R114 */
+  maslin_O_ATTR_R114_Link_is_defined_by( def_dt, o_attr );
   /* CREATE OBJECT INSTANCE ba OF O_BATTR */
   ba = (maslin_O_BATTR *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_O_BATTR_CLASS_NUMBER );
   ba->Attr_ID = (Escher_UniqueID_t) ba;
@@ -997,25 +1045,31 @@ nba->Obj_ID = (Escher_UniqueID_t) nba;
 void
 maslin_ooapopulation_op_transformType( maslin_ooapopulation * self, c_t * p_name, c_t * p_visibility )
 {
-  maslin_C_C * current_component;maslin_S_DT * s_dt=0;maslin_EP_PKG * types_pkg=0;
-  /* ASSIGN current_component = self.current_component */
-  current_component = self->current_component;
-  /* SELECT any types_pkg RELATED BY current_component->PE_PE[R8003]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == types ) ) */
-  types_pkg = 0;
-  {  if ( 0 != current_component ) {
-  maslin_PE_PE * PE_PE_R8003_contains;
-  Escher_Iterator_s iPE_PE_R8003_contains;
-  Escher_IteratorReset( &iPE_PE_R8003_contains, &current_component->PE_PE_R8003_contains );
-  while ( ( 0 == types_pkg ) && ( 0 != ( PE_PE_R8003_contains = (maslin_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) ) {
-  if ( ( 0 != PE_PE_R8003_contains ) && ( maslin_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) )  {maslin_EP_PKG * selected = (maslin_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
-  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "types" ) == 0 ) ) {
-    types_pkg = selected;
-  }}
+  maslin_EP_PKG * types_pkg;maslin_S_DT * s_dt=0;
+  /* ASSIGN types_pkg = self.systypes_pkg */
+  types_pkg = self->systypes_pkg;
+  /* IF ( ( private == PARAM.visibility ) ) */
+  if ( ( Escher_strcmp( "private", p_visibility ) == 0 ) ) {
+    maslin_C_C * current_component;
+    /* ASSIGN current_component = self.current_component */
+    current_component = self->current_component;
+    /* SELECT any types_pkg RELATED BY current_component->PE_PE[R8003]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == types ) ) */
+    types_pkg = 0;
+    {    if ( 0 != current_component ) {
+    maslin_PE_PE * PE_PE_R8003_contains;
+    Escher_Iterator_s iPE_PE_R8003_contains;
+    Escher_IteratorReset( &iPE_PE_R8003_contains, &current_component->PE_PE_R8003_contains );
+    while ( ( 0 == types_pkg ) && ( 0 != ( PE_PE_R8003_contains = (maslin_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) ) {
+    if ( ( 0 != PE_PE_R8003_contains ) && ( maslin_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) )    {maslin_EP_PKG * selected = (maslin_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "types" ) == 0 ) ) {
+      types_pkg = selected;
+    }}
 }}}
-  /* IF ( empty types_pkg ) */
-  if ( ( 0 == types_pkg ) ) {
-    /* ASSIGN types_pkg = self.Component_newPackage(c_c:current_component, pkg_name:types) */
-    types_pkg = maslin_ooapopulation_op_Component_newPackage(self, current_component, "types");
+    /* IF ( empty types_pkg ) */
+    if ( ( 0 == types_pkg ) ) {
+      /* ASSIGN types_pkg = self.Component_newPackage(c_c:current_component, pkg_name:types) */
+      types_pkg = maslin_ooapopulation_op_Component_newPackage(self, current_component, "types");
+    }
   }
   /* SELECT any s_dt RELATED BY types_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Name == PARAM.name ) ) */
   s_dt = 0;
@@ -1166,7 +1220,7 @@ maslin_ooapopulation_op_transformDomainFunction( maslin_ooapopulation * self, c_
     if ( ( 0 != SPR_PEP_R4501 ) && ( maslin_SPR_PO_CLASS_NUMBER == SPR_PEP_R4501->R4503_object_id ) )    spr_po = (maslin_SPR_PO *) SPR_PEP_R4501->R4503_subtype;
 }}}
     /* ASSIGN spr_po.Action_Semantics = ( ( :: + PARAM.name ) + (); ) */
-    spr_po->Action_Semantics = Escher_strcpy( spr_po->Action_Semantics, Escher_stradd( Escher_stradd( "::", p_name ), "();" ) );
+    // spr_po->Action_Semantics = Escher_strcpy( spr_po->Action_Semantics, Escher_stradd( Escher_stradd( "::", p_name ), "();" ) );
   }
 }
 
@@ -1210,13 +1264,29 @@ maslin_ooapopulation_op_ModelClass_newOperation( maslin_ooapopulation * self, ma
 void
 maslin_ooapopulation_op_Operation_initialize( maslin_ooapopulation * self, c_t * p_name, maslin_O_TFR * p_o_tfr )
 {
-  maslin_O_TFR * o_tfr;maslin_O_OBJ * clazz=0;
+  maslin_EP_PKG * systypes_pkg;maslin_O_TFR * o_tfr;maslin_O_OBJ * clazz=0;maslin_S_DT * def_dt=0;
   /* ASSIGN o_tfr = PARAM.o_tfr */
   o_tfr = p_o_tfr;
   /* SELECT one clazz RELATED BY o_tfr->O_OBJ[R115] */
   clazz = ( 0 != o_tfr ) ? o_tfr->O_OBJ_R115_is_associated_with : 0;
   /* self.ModelClass_addOperationToOrdering( newTfr:o_tfr, o_obj:clazz ) */
   maslin_ooapopulation_op_ModelClass_addOperationToOrdering( self,  o_tfr, clazz );
+  /* ASSIGN systypes_pkg = self.systypes_pkg */
+  systypes_pkg = self->systypes_pkg;
+  /* SELECT any def_dt RELATED BY systypes_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Name == void ) ) */
+  def_dt = 0;
+  {  if ( 0 != systypes_pkg ) {
+  maslin_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &systypes_pkg->PE_PE_R8000_contains );
+  while ( ( 0 == def_dt ) && ( 0 != ( PE_PE_R8000_contains = (maslin_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( maslin_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {maslin_S_DT * selected = (maslin_S_DT *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "void" ) == 0 ) ) {
+    def_dt = selected;
+  }}
+}}}
+  /* RELATE o_tfr TO def_dt ACROSS R116 */
+  maslin_O_TFR_R116_Link_defines_the_type_of_return_code( def_dt, o_tfr );
   /* ASSIGN o_tfr.Name = PARAM.name */
   o_tfr->Name = Escher_strcpy( o_tfr->Name, p_name );
   /* ASSIGN o_tfr.Instance_Based = Instance */
@@ -1299,7 +1369,7 @@ maslin_ooapopulation_op_Package_newFunction( maslin_ooapopulation * self, maslin
 void
 maslin_ooapopulation_op_Function_initialize( maslin_ooapopulation * self, c_t * p_name, maslin_S_SYNC * p_s_sync )
 {
-  maslin_S_SYNC * s_sync;maslin_C_C * component=0;maslin_EP_PKG * package=0;maslin_PE_PE * packageableElem=0;
+  maslin_EP_PKG * systypes_pkg;maslin_S_SYNC * s_sync;maslin_C_C * component=0;maslin_EP_PKG * package=0;maslin_PE_PE * packageableElem=0;maslin_S_DT * def_dt=0;
   /* ASSIGN s_sync = PARAM.s_sync */
   s_sync = p_s_sync;
   /* SELECT one packageableElem RELATED BY s_sync->PE_PE[R8001] */
@@ -1308,6 +1378,22 @@ maslin_ooapopulation_op_Function_initialize( maslin_ooapopulation * self, c_t * 
   package = ( 0 != packageableElem ) ? packageableElem->EP_PKG_R8000_contained_by : 0;
   /* SELECT one component RELATED BY packageableElem->C_C[R8003] */
   component = ( 0 != packageableElem ) ? packageableElem->C_C_R8003_contained_in : 0;
+  /* ASSIGN systypes_pkg = self.systypes_pkg */
+  systypes_pkg = self->systypes_pkg;
+  /* SELECT any def_dt RELATED BY systypes_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Name == void ) ) */
+  def_dt = 0;
+  {  if ( 0 != systypes_pkg ) {
+  maslin_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &systypes_pkg->PE_PE_R8000_contains );
+  while ( ( 0 == def_dt ) && ( 0 != ( PE_PE_R8000_contains = (maslin_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( maslin_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {maslin_S_DT * selected = (maslin_S_DT *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "void" ) == 0 ) ) {
+    def_dt = selected;
+  }}
+}}}
+  /* RELATE s_sync TO def_dt ACROSS R25 */
+  maslin_S_SYNC_R25_Link_defines_return_type( def_dt, s_sync );
   /* ASSIGN s_sync.Name = PARAM.name */
   s_sync->Name = Escher_strcpy( s_sync->Name, p_name );
   /* ASSIGN s_sync.Suc_Pars = parseInitial */
@@ -1592,7 +1678,7 @@ maslin_ooapopulation_op_InterfaceReference_createSignalsAndOperations( maslin_oo
 void
 maslin_ooapopulation_op_InterfaceOperation_initialize( maslin_ooapopulation * self, maslin_C_IO * p_c_io, c_t * p_name )
 {
-  maslin_C_IO * c_io;maslin_C_I * interface=0;maslin_C_C * component=0;maslin_EP_PKG * package=0;maslin_PE_PE * packageableElem=0;
+  maslin_EP_PKG * systypes_pkg;maslin_C_IO * c_io;maslin_C_I * interface=0;maslin_C_C * component=0;maslin_EP_PKG * package=0;maslin_PE_PE * packageableElem=0;maslin_S_DT * def_dt=0;
   /* ASSIGN c_io = PARAM.c_io */
   c_io = p_c_io;
   /* SELECT one packageableElem RELATED BY c_io->C_EP[R4004]->C_I[R4003]->PE_PE[R8001] */
@@ -1617,6 +1703,22 @@ maslin_ooapopulation_op_InterfaceOperation_initialize( maslin_ooapopulation * se
 }}}
   /* self.Interface_addInterfaceOperationToOrder( c_i:interface, c_io:c_io ) */
   maslin_ooapopulation_op_Interface_addInterfaceOperationToOrder( self,  interface, c_io );
+  /* ASSIGN systypes_pkg = self.systypes_pkg */
+  systypes_pkg = self->systypes_pkg;
+  /* SELECT any def_dt RELATED BY systypes_pkg->PE_PE[R8000]->S_DT[R8001] WHERE ( ( SELECTED.Name == void ) ) */
+  def_dt = 0;
+  {  if ( 0 != systypes_pkg ) {
+  maslin_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &systypes_pkg->PE_PE_R8000_contains );
+  while ( ( 0 == def_dt ) && ( 0 != ( PE_PE_R8000_contains = (maslin_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( maslin_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {maslin_S_DT * selected = (maslin_S_DT *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "void" ) == 0 ) ) {
+    def_dt = selected;
+  }}
+}}}
+  /* RELATE c_io TO def_dt ACROSS R4008 */
+  maslin_C_IO_R4008_Link_defines_return_type( def_dt, c_io );
   /* ASSIGN c_io.Name = PARAM.name */
   c_io->Name = Escher_strcpy( c_io->Name, p_name );
   /* ASSIGN c_io.Direction = ServerClient */
