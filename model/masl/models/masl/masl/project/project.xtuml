@@ -34,7 +34,7 @@ INSERT INTO O_TFR
 	0,
 	'create object instance project of project;
 project.name = param.name;
-markable_element = markable_element::populate();
+markable_element = markable_element::populate( name:"project" );
 relate project to markable_element across R3783;
 return project;',
 	1,

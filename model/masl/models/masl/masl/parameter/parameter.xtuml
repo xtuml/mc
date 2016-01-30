@@ -47,6 +47,9 @@ else
   TRACE::log( flavor:"failure", id:39, message:"no parent for parameter" );
 end if;
 
+unmarkable = unmarkable::populate( name:"parameter" );
+relate parameter to unmarkable across R3788;
+
 return parameter;',
 	1,
 	'',

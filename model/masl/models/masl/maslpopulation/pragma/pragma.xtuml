@@ -45,11 +45,15 @@ end if;
 select any pragma_list related by element->pragma_list[R3782] where ( selected.name == list_name );
 if ( empty pragma_list )
   pragma_list = pragma_list::populate( name:list_name, element:element );
+  TRACE::log( flavor:"levi", id:99, message:"creating list: " + list_name );
 end if;
 
 create object instance pragma of pragma;
 pragma.name = param.name;
 relate pragma to pragma_list across R3781;
+
+unmarkable = unmarkable::populate( name:"pragma" );
+relate pragma to unmarkable across R3788;
 
 return pragma;',
 	1,

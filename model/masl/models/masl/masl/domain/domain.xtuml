@@ -20,7 +20,7 @@ domain.name = param.name;
 if ( not_empty project )
   relate project to domain across R3701.''configures'';
 end if;
-markable_element = markable_element::populate();
+markable_element = markable_element::populate( name:"domain" );
 relate domain to markable_element across R3783;
 return domain;',
 	1,

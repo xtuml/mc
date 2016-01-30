@@ -41,6 +41,7 @@ select one associative related by relationship->associative[R3721];
 if ( empty associative )
   create object instance associative of associative;
   relate associative to relationship across R3721;
+  TRACE::log( flavor:"levi", id:99, message:"creating assoc" );
 end if;
 if ( "" != using_objectname )
   select one participation related by relationship->participation[R3713];

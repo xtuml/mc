@@ -15,10 +15,21 @@ INSERT INTO O_TFR
 	"fd8da7a6-2f02-4846-958e-f29128812fc2",
 	0,
 	'create object instance markable_element of markable_element;
+element = element::populate( name:param.name );
+relate markable_element to element across R3786;
 return markable_element;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("2e7d1984-31c5-4319-b3ff-d5baaf6973f1",
+	"7b3548a2-2120-43ca-904f-0de8634f06a1",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
 	"00000000-0000-0000-0000-000000000000",
@@ -67,7 +78,13 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select any pragma_list related by self->pragma_list[R3782] where ( param.list == selected.name );
+	'TRACE::log( flavor:"levi", id:99, message:"rendering list: " + param.list );
+select many lists related by self->pragma_list[R3782];
+for each list in lists
+  TRACE::log( flavor:"levi", id:99, message:"list: " + list.name );
+end for;
+
+select any pragma_list related by self->pragma_list[R3782] where ( param.list == selected.name );
 if ( not_empty pragma_list )
   pragma_list.render();
 end if;',

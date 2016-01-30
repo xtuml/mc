@@ -46,7 +46,7 @@ if ( "assigner" != state_machine.type )
   // Create the default non-existent state.
   s = state::populate( name:"non_existent", type:"normal", object:object );
 end if;
-markable_element = markable_element::populate();
+markable_element = markable_element::populate( name:"transitiontable" );
 relate state_machine to markable_element across R3783;
 return state_machine;',
 	1,

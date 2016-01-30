@@ -48,12 +48,12 @@ if ( empty attribute )
   create object instance attribute of attribute;
   attribute.name = param.name;
   relate object to attribute across R3709.''is characterized by'';
+  markable_element = markable_element::populate( name:"attribute" );
+  relate attribute to markable_element across R3783;
 end if;
 attribute.preferred = param.preferred;
 attribute.unique = param.unique;
 attribute.defaultvalue = param.defaultvalue;
-markable_element = markable_element::populate();
-relate attribute to markable_element across R3783;
 return attribute;',
 	1,
 	'',

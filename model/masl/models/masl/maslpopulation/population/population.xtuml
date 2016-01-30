@@ -24,48 +24,51 @@ if ( empty population )
   create object instance population of population;
 end if;
 
-if ( "project" == element )
-  if ( "" == value[0] )
-  	select any empty_project from instances of project where ( false );
-  	population.project = empty_project;
-  else
-    project = project::populate( name:value[0] );
-    select one markable_element related by project->markable_element[R3783];
-    population.project = project;
-    population.markable_element = markable_element;
-  end if;
-elif ( "domain" == element )
-  if ( "" == value[0] )
-  	select any empty_domain from instances of domain where ( false );
-  	population.domain = empty_domain;
-  else
-    domain = domain::populate( name:value[0], project:population.project );
-    select one markable_element related by domain->markable_element[R3783];
-    population.domain = domain;
-    population.markable_element = markable_element;
-  end if;
-elif ( "object" == element )
-  if ( "" == value[0] )
-  	select any empty_object from instances of object where ( false );
-  	population.object = empty_object;
-  else
-    population.object = object::populate( name:value[0], domain:population.domain );
-  end if;
-elif ( "terminator" == element )
-  if ( "" == value[0] )
-  	select any empty_terminator from instances of terminator where ( false );
-  	population.terminator = empty_terminator;
-  else
-    population.terminator = terminator::populate( name:value[0], domain:population.domain );
-  end if;
+element_name = "";
+if ( "regularrel" == element or "associative" == element or "subsuper" == element )
+  element_name = "relationship";
 elif ( "service" == element or "function" == element )
-  if ( "" == value[0] )
-  	select any empty_activity from instances of activity where ( false );
-  	population.activity = empty_activity;
-  else
-    parent_domain = population.domain;
-	parent_terminator = population.terminator;
-	parent_object = population.object;
+  element_name = "activity";
+else
+  element_name = element;
+end if;
+
+// pop the current element stack
+if ( "" == value[0] )
+  select one current_element related by population->element[R3784.''has current''] where ( selected.name == element_name );
+  if ( not_empty current_element )
+	TRACE::log( flavor:"levi", id:99, message:"popping stack: " + element );
+    select one parent_element related by current_element->element[R3787.''child of''];	// select parent
+    unrelate population from current_element across R3784.''has current'';				// unrelate current element
+    relate population to parent_element across R3784.''has current'';						// relate the parent as the new current
+    unrelate population from current_element across R3789.''has active'';					// remove from the active collection
+  end if;
+  return;
+end if;
+
+if ( "project" == element )
+    project = project::populate( name:value[0] );
+    select one new_element related by project->markable_element[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
+elif ( "domain" == element )
+	select one parent_project related by population->element[R3784.''has current'']->markable_element[R3786]->project[R3783];
+    domain = domain::populate( name:value[0], project:parent_project );
+    select one new_element related by domain->markable_element[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
+elif ( "object" == element )
+	select one parent_domain related by population->element[R3784.''has current'']->markable_element[R3786]->domain[R3783];
+    object = object::populate( name:value[0], domain:parent_domain );
+    select one new_element related by object->markable_element[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
+elif ( "terminator" == element )
+	select one parent_domain related by population->element[R3784.''has current'']->markable_element[R3786]->domain[R3783];
+    terminator = terminator::populate( name:value[0], domain:parent_domain );
+    select one new_element related by terminator->markable_element[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
+elif ( "service" == element or "function" == element )
+	select one parent_domain related by population->element[R3784.''has current'']->markable_element[R3786]->domain[R3783];
+	select one parent_terminator related by population->element[R3784.''has current'']->markable_element[R3786]->terminator[R3783];
+	select one parent_object related by population->element[R3784.''has current'']->markable_element[R3786]->object[R3783];
 	if ( not_empty parent_domain and empty parent_terminator )
 	  // child of domain
   	  select any parent_terminator from instances of terminator where ( false );
@@ -81,19 +84,18 @@ elif ( "service" == element or "function" == element )
 	else
 	  TRACE::log( flavor:"failure", id:39, message:"no parent for activity found" );
 	end if;
+
+	select any activity from instances of activity where false;
 	if ( "service" == element )
-      population.activity = service::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+      activity = service::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
 	elif ( "function" == element )
-      population.activity = function::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+      activity = function::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
 	end if;
-  end if;
+    select one new_element related by activity->markable_element[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
 elif ( "parameter" == element )
-  if ( "" == value[0] )
-  	select any empty_parameter from instances of parameter where ( false );
-  	population.parameter = empty_parameter;
-  else
-  	parent_activity = population.activity;
-  	sibling_parameter = population.parameter;
+	select one parent_activity related by population->element[R3784.''has current'']->markable_element[R3786]->activity[R3783];
+	select one sibling_parameter related by population->element[R3784.''has current'']->unmarkable[R3786]->parameter[R3788];
   	if ( not_empty sibling_parameter )
   	  // sibling of parameter
   	  select any parent_activity from instances of activity where ( false );
@@ -101,31 +103,28 @@ elif ( "parameter" == element )
   	  // child of activity
   	  select any sibling_parameter from instances of parameter where ( false );
   	end if;
-    population.parameter = parameter::populate( name:value[0], direction:value[1], parent_activity:parent_activity, sibling_parameter:sibling_parameter );
-  end if;
+    parameter = parameter::populate( name:value[0], direction:value[1], parent_activity:parent_activity, sibling_parameter:sibling_parameter );
+    select one new_element related by parameter->unmarkable[R3788]->element[R3786];
+    population.push_element( new_element:new_element );
 elif ( "attribute" == element )
-  if ( "" == value[0] )
-  	select any empty_attribute from instances of attribute where ( false );
-  	population.attribute = empty_attribute;
-  else
-    population.attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:population.object );
-  end if;
+	select one parent_object related by population->element[R3784.''has current'']->markable_element[R3786]->object[R3783];
+    attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:parent_object );
+    select one new_element related by attribute->markable_element[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
 elif ( "referential" == element )
-  if ( "" == value[0] )
-    // do nothing (this is a leaf node)
-  else
+	TRACE::log( flavor:"levi", id:99, message:"referential called" );
     domain_name = value[1];
     relationship_name = value[0];
     roleOrObj = value[2];
     obj = value[3];
     attr = value[4];
     
-    current_object = population.object;
+	select any current_object related by population->element[R3789.''has active'']->markable_element[R3786]->object[R3783];
 
     // get the domain of the relationship (if not specified use current domain)
     select any parent_domain from instances of domain where false;
     if ( "" == domain_name )
-      parent_domain = population.domain;
+	  select any parent_domain related by population->element[R3789.''has active'']->markable_element[R3786]->domain[R3783];
     else
       select any parent_domain from instances of domain where ( selected.name == domain_name );
     end if;
@@ -191,16 +190,13 @@ elif ( "referential" == element )
       referred_to = attribute::populate( name:attr, preferred:"", unique:"", defaultvalue:"", object:target_object );
     end if;
       
-    p = referential::populate( relationship:relationship, referring:population.attribute, referred_to:referred_to, rolephrase:rolephrase );
-  end if;
+	select one parent_attribute related by population->element[R3784.''has current'']->markable_element[R3786]->attribute[R3783];
+    p = referential::populate( relationship:relationship, referring:parent_attribute, referred_to:referred_to, rolephrase:rolephrase );
+    // referential is a leaf node and does not get pushed onto the current element stack
 elif ( "typeref" == element )
-  if ( "" == value[0] )
-  	// do nothing (this is a leaf node)
-  else
-    parent_activity = population.activity;
-    select one parent_function related by parent_activity->function[R3704];
-    parent_parameter = population.parameter;
-    parent_attribute = population.attribute;
+	select one parent_function related by population->element[R3784.''has current'']->markable_element[R3786]->activity[R3783]->function[R3704];
+	select one parent_parameter related by population->element[R3784.''has current'']->unmarkable[R3786]->parameter[R3788];
+	select one parent_attribute related by population->element[R3784.''has current'']->markable_element[R3786]->attribute[R3783];
     if ( not_empty parent_function and empty parent_parameter )
       // child of function
       select any parent_parameter from instances of parameter where false;
@@ -216,71 +212,66 @@ elif ( "typeref" == element )
     else
       TRACE::log( flavor:"failure", id:39, message:"no parent for typeref" );
     end if;
-    p = typeref::populate( name:"", body:value[0], domain:population.domain, parent_parameter:parent_parameter, parent_function:parent_function, parent_attribute:parent_attribute );
-  end if;
+	select any parent_domain related by population->element[R3789.''has active'']->markable_element[R3786]->domain[R3783];
+    p = typeref::populate( name:"", body:value[0], domain:parent_domain, parent_parameter:parent_parameter, parent_function:parent_function, parent_attribute:parent_attribute );
+    // typeref is a leaf node and does not get pushed onto the current element stack
 elif ( "transitiontable" == element )
-  if ( "" == value[0] )
-  	select any empty_state_machine from instances of state_machine where ( false );
-  	population.state_machine = empty_state_machine;
-  else
-    population.state_machine = state_machine::populate( type:value[0], object:population.object );
-  end if;
+	select one parent_object related by population->element[R3784.''has current'']->markable_element[R3786]->object[R3783];
+    state_machine = state_machine::populate( type:value[0], object:parent_object );
+    select one new_element related by state_machine->markable_element[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
 elif ( "state" == element )
-  if ( "" == value[0] )
-  	select any empty_state from instances of state where ( false );
-  	population.state = empty_state;
-  else
-    population.state = state::populate( name:value[0], type:value[1], object:population.object );
-  end if;
+	select one parent_object related by population->element[R3784.''has current'']->markable_element[R3786]->object[R3783];
+    state = state::populate( name:value[0], type:value[1], object:parent_object );
+    //select one new_element related by state->markable_element[R3783]->element[R3786];
+    //population.push_element( new_element:new_element );
 elif ( "event" == element )
-  if ( "" == value[0] )
-  	select any empty_event from instances of event where ( false );
-  	population.event = empty_event;
-  else
-    population.event = event::populate( name:value[0], type:value[1], object:population.object );
-  end if;
+	select one parent_object related by population->element[R3784.''has current'']->markable_element[R3786]->object[R3783];
+    event = event::populate( name:value[0], type:value[1], object:parent_object );
+    select one new_element related by event->markable_element[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
 elif ( "transition" == element )
-  c = cell::populate( startstate:value[0], event:value[1], endstate:value[2], statemachine:population.state_machine );
+  select one parent_state_machine related by population->element[R3784.''has current'']->markable_element[R3786]->state_machine[R3783];
+  c = cell::populate( startstate:value[0], event:value[1], endstate:value[2], statemachine:parent_state_machine );
+  // transition is a leaf node and does not get pushed onto the current element stack
 elif ( "regularrel" == element or "associative" == element or "subsuper" == element )
-  if ( "" == value[0] )
-  	select any empty_relationship from instances of relationship where ( false );
-  	population.relationship = empty_relationship;
-  else
+	select any parent_domain related by population->element[R3789.''has active'']->markable_element[R3786]->domain[R3783];
+	
+	select one curr related by population->element[R3784.''has current''];
+	TRACE::log( flavor:"levi", id:99, message:"curr:  " + curr.name );
+	TRACE::log( flavor:"levi", id:99, message:"parent_domain:  " + parent_domain.name );
+	select any relationship from instances of relationship where false;
     if ( "regularrel" == element )
-      population.relationship = regularrel::populate( name:value[0], domain:population.domain );
+      relationship = regularrel::populate( name:value[0], domain:parent_domain );
     elif ( "associative" == element )
-      population.relationship = associative::populate( name:value[0], using:value[1], domain:population.domain );
+      relationship = associative::populate( name:value[0], using:value[1], domain:parent_domain );
     elif ( "subsuper" == element )
-      population.relationship = subsuper::populate( name:value[0], domain:population.domain );
+      relationship = subsuper::populate( name:value[0], domain:parent_domain );
+    else
+	  TRACE::log( flavor:"levi", id:99, message:"this is very bad" );
     end if;
-  end if;
+    select one new_element related by relationship->markable_element[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
 elif ( "participation" == element )
-  if ( "" == value[0] )
-  	select any empty_participation from instances of participation where ( false );
-  	population.participation = empty_participation;
-  else
-	population.participation = participation::populate( fromobject:value[0], phrase:value[1], conditionality:value[2], multiplicity:value[3], toobject:value[4], relationship:population.relationship, participation:population.participation );
-  end if;
+	select any parent_relationship related by population->element[R3789.''has active'']->markable_element[R3786]->relationship[R3783];
+	select one parent_participation related by population->element[R3784.''has current'']->unmarkable[R3786]->participation[R3788];
+	participation = participation::populate( fromobject:value[0], phrase:value[1], conditionality:value[2], multiplicity:value[3], toobject:value[4], relationship:parent_relationship, participation:parent_participation );
+    select one new_element related by participation->unmarkable[R3788]->element[R3786];
+    population.push_element( new_element:new_element );
 elif ( "type" == element )
-  if ( "" == value[0] )
-  	select any empty_type from instances of type where ( false );
-  	population.type = empty_type;
-  else
-    population.type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:population.domain );
-  end if;
+	select one parent_domain related by population->element[R3784.''has current'']->markable_element[R3786]->domain[R3783];
+    type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:parent_domain );
+    select one new_element related by type->markable_element[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
 elif ( "pragma" == element )
-  if ( "" == value[0] )
-  	select any empty_pragma from instances of pragma where ( false );
-  	population.pragma = empty_pragma;
-  else
-    population.pragma = pragma::populate( name:value[0], list:value[1], element:population.markable_element );
-  end if;
+	select one markable related by population->element[R3784.''has current'']->markable_element[R3786];
+    pragma = pragma::populate( name:value[0], list:value[1], element:markable );
+    select one new_element related by pragma->unmarkable[R3788]->element[R3786];
+    population.push_element( new_element:new_element );
 elif ( "pragmaitem" == element )
-  if ( "" == value[0] )
-    // do nothing (this is a leaf node)
-  else
-    pragma_item::populate( value:value[0], pragma:population.pragma );
-  end if;
+	select one parent_pragma related by population->element[R3784.''has current'']->unmarkable[R3786]->pragma[R3788];
+    pragma_item::populate( value:value[0], pragma:parent_pragma );
+  	// pragmaitem is a leaf node and does not get pushed onto the current element stack
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;
@@ -325,428 +316,40 @@ INSERT INTO S_DIM
 	"00000000-0000-0000-0000-000000000000",
 	"9512a253-55be-4406-ad59-7f46c53583b9",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_NBATTR
-	VALUES ("eee22c48-228f-4fa4-afdc-99564d4fe7f2",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("eee22c48-228f-4fa4-afdc-99564d4fe7f2",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("eee22c48-228f-4fa4-afdc-99564d4fe7f2",
+INSERT INTO O_TFR
+	VALUES ("fda9e6cd-9f1a-4a08-8191-224b29fa17d9",
 	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"00000000-0000-0000-0000-000000000000",
-	'project',
+	'push_element',
 	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'new_element = param.new_element;
+TRACE::log( flavor:"levi", id:99, message:"pushing stack: " + new_element.name );
+select one current_element related by self->element[R3784.''has current''];
+if ( current_element == new_element )
+  TRACE::log( flavor:"levi", id:99, message:"can''t push same element twice" );
+else
+  unrelate self from current_element across R3784.''has current'';	// unrelate current element
+  relate self to new_element across R3784.''has current'';			// relate the new as the current
+  relate new_element to current_element across R3787.''child of'';
+  relate self to new_element across R3789.''has active'';			// add to the active collection
+end if;',
+	1,
 	'',
-	'project',
+	"0b670cc8-7c15-43ad-acfe-044fce10d262");
+INSERT INTO O_TPARM
+	VALUES ("7df6c973-3a73-457e-9609-81c16160dc30",
+	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9",
+	'new_element',
+	"3989a0a6-1287-4fd5-9b4c-6f98e273a076",
 	0,
-	"f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
 	'',
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
+	VALUES ("3989a0a6-1287-4fd5-9b4c-6f98e273a076",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<project>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("a7eea262-582e-40a1-b13d-c0035e7bb30e",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("a7eea262-582e-40a1-b13d-c0035e7bb30e",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("a7eea262-582e-40a1-b13d-c0035e7bb30e",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"eee22c48-228f-4fa4-afdc-99564d4fe7f2",
-	'domain',
-	'',
-	'',
-	'domain',
-	0,
-	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<domain>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("cf513f48-b7e4-40e1-8072-b8b93271cab7",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("cf513f48-b7e4-40e1-8072-b8b93271cab7",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("cf513f48-b7e4-40e1-8072-b8b93271cab7",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"a7eea262-582e-40a1-b13d-c0035e7bb30e",
-	'object',
-	'',
-	'',
-	'object',
-	0,
-	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<object>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("24f13904-d2ca-4d81-8717-83cc948054e3",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("24f13904-d2ca-4d81-8717-83cc948054e3",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("24f13904-d2ca-4d81-8717-83cc948054e3",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"cf513f48-b7e4-40e1-8072-b8b93271cab7",
-	'terminator',
-	'',
-	'',
-	'terminator',
-	0,
-	"a2661e87-6030-4167-bef8-2ff6c815e67e",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("a2661e87-6030-4167-bef8-2ff6c815e67e",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<terminator>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("f8504261-1a25-4132-b02a-1bd7c2252b93",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("f8504261-1a25-4132-b02a-1bd7c2252b93",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("f8504261-1a25-4132-b02a-1bd7c2252b93",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"24f13904-d2ca-4d81-8717-83cc948054e3",
-	'activity',
-	'',
-	'',
-	'activity',
-	0,
-	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<activity>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("bf04ab9c-dd0e-4e7c-9d7f-b66552ffb81f",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("bf04ab9c-dd0e-4e7c-9d7f-b66552ffb81f",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("bf04ab9c-dd0e-4e7c-9d7f-b66552ffb81f",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"f8504261-1a25-4132-b02a-1bd7c2252b93",
-	'parameter',
-	'',
-	'',
-	'parameter',
-	0,
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("dc24bca6-6ad7-4323-8313-5f53779b990c",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("dc24bca6-6ad7-4323-8313-5f53779b990c",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("dc24bca6-6ad7-4323-8313-5f53779b990c",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"bf04ab9c-dd0e-4e7c-9d7f-b66552ffb81f",
-	'attribute',
-	'',
-	'',
-	'attribute',
-	0,
-	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<attribute>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("db79bbd2-33c0-4706-aca8-9b51e80542f8",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("db79bbd2-33c0-4706-aca8-9b51e80542f8",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("db79bbd2-33c0-4706-aca8-9b51e80542f8",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"dc24bca6-6ad7-4323-8313-5f53779b990c",
-	'state',
-	'',
-	'',
-	'state',
-	0,
-	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("69d4ad00-8c78-47f0-95c9-b7519011b8ea",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<state>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("02a2edd7-adf1-4f34-8c70-7ed89c08a855",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("02a2edd7-adf1-4f34-8c70-7ed89c08a855",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("02a2edd7-adf1-4f34-8c70-7ed89c08a855",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"db79bbd2-33c0-4706-aca8-9b51e80542f8",
-	'event',
-	'',
-	'',
-	'event',
-	0,
-	"10f010a5-972a-427c-a610-080e185e1082",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<event>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("8e8f5775-6602-4a27-90b1-d96d204eb190",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("8e8f5775-6602-4a27-90b1-d96d204eb190",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("8e8f5775-6602-4a27-90b1-d96d204eb190",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"02a2edd7-adf1-4f34-8c70-7ed89c08a855",
-	'state_machine',
-	'',
-	'',
-	'state_machine',
-	0,
-	"eefb9a09-70e7-4c0f-927f-7758f32e96fc",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("eefb9a09-70e7-4c0f-927f-7758f32e96fc",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<state_machine>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("5fca7f7f-4b96-4b61-8bba-e503aba83940",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("5fca7f7f-4b96-4b61-8bba-e503aba83940",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("5fca7f7f-4b96-4b61-8bba-e503aba83940",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"8e8f5775-6602-4a27-90b1-d96d204eb190",
-	'cell',
-	'',
-	'',
-	'cell',
-	0,
-	"37c8bb16-c4a9-41de-91c4-06bedcca9acf",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("37c8bb16-c4a9-41de-91c4-06bedcca9acf",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<cell>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("fa65002a-bc86-44f1-be6f-5d78eb8f631b",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("fa65002a-bc86-44f1-be6f-5d78eb8f631b",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("fa65002a-bc86-44f1-be6f-5d78eb8f631b",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"5fca7f7f-4b96-4b61-8bba-e503aba83940",
-	'relationship',
-	'',
-	'',
-	'relationship',
-	0,
-	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<relationship>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("5ff639de-6372-4e51-8a05-f40dd779a13c",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("5ff639de-6372-4e51-8a05-f40dd779a13c",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("5ff639de-6372-4e51-8a05-f40dd779a13c",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"fa65002a-bc86-44f1-be6f-5d78eb8f631b",
-	'type',
-	'',
-	'',
-	'type',
-	0,
-	"e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<type>',
-	'',
-	'',
-	'../../masltypes/masltypes.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("b47a383a-715e-400a-9f27-bdc5fffe4735",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("b47a383a-715e-400a-9f27-bdc5fffe4735",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("b47a383a-715e-400a-9f27-bdc5fffe4735",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"5ff639de-6372-4e51-8a05-f40dd779a13c",
-	'typeref',
-	'',
-	'',
-	'typeref',
-	0,
-	"f692a6d2-9ba0-4d0a-8339-8e4f35b37d21",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("f692a6d2-9ba0-4d0a-8339-8e4f35b37d21",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<typeref>',
-	'',
-	'',
-	'../../masltypes/masltypes.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("12cd2ee7-31b6-4dfb-bcc8-efdfe285ee0e",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("12cd2ee7-31b6-4dfb-bcc8-efdfe285ee0e",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("12cd2ee7-31b6-4dfb-bcc8-efdfe285ee0e",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"b47a383a-715e-400a-9f27-bdc5fffe4735",
-	'participation',
-	'',
-	'',
-	'participation',
-	0,
-	"54954f4e-9821-47ec-9365-ecd9c1b057b9",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("54954f4e-9821-47ec-9365-ecd9c1b057b9",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<participation>',
-	'',
-	'',
-	'../../masl/masl.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("2bf28d1e-3186-4bc9-a9e9-4b5c112c487c",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("2bf28d1e-3186-4bc9-a9e9-4b5c112c487c",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("2bf28d1e-3186-4bc9-a9e9-4b5c112c487c",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"12cd2ee7-31b6-4dfb-bcc8-efdfe285ee0e",
-	'markable_element',
-	'',
-	'',
-	'markable_element',
-	0,
-	"fd8da7a6-2f02-4846-958e-f29128812fc2",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<markable_element>',
-	'',
-	'',
-	'../maslpopulation.xtuml');
-INSERT INTO O_NBATTR
-	VALUES ("1d618a6d-52db-4bd8-987e-227e54318b1f",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_BATTR
-	VALUES ("1d618a6d-52db-4bd8-987e-227e54318b1f",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
-INSERT INTO O_ATTR
-	VALUES ("1d618a6d-52db-4bd8-987e-227e54318b1f",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	"2bf28d1e-3186-4bc9-a9e9-4b5c112c487c",
-	'pragma',
-	'',
-	'',
-	'pragma',
-	0,
-	"fedbd69c-1013-4150-8595-97f557dea434",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<pragma>',
+	'inst_ref<element>',
 	'',
 	'',
 	'../maslpopulation.xtuml');

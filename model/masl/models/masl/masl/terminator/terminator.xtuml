@@ -18,7 +18,7 @@ INSERT INTO O_TFR
 create object instance terminator of terminator;
 terminator.name = param.name;
 relate domain to terminator across R3702.''sends through'';
-markable_element = markable_element::populate();
+markable_element = markable_element::populate( name:"terminator" );
 relate domain to markable_element across R3783;
 return terminator;',
 	1,

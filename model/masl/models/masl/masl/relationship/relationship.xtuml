@@ -49,9 +49,9 @@ if ( empty relationship )
   create object instance relationship of relationship;
   relationship.name = param.name;
   relate relationship to domain across R3712;
+  markable_element = markable_element::populate( name:"relationship" );
+  relate relationship to markable_element across R3783;
 end if;
-markable_element = markable_element::populate();
-relate relationship to markable_element across R3783;
 return relationship;',
 	1,
 	'',

@@ -45,7 +45,7 @@ create object instance event of event;
 event.name = param.name;
 event.type = param.type;
 relate event to object across R3736;
-markable_element = markable_element::populate();
+markable_element = markable_element::populate( name:"event" );
 relate event to markable_element across R3783;
 return event;',
 	1,
