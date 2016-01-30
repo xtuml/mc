@@ -57,6 +57,85 @@ extern void mark_pass( c_t * );
  */
 
 /*
+ * Domain Function:  association2relationship
+ */
+void
+maslout_association2relationship( maslout_C_C * p_c_c )
+{
+  maslout_R_REL * r_rel=0;maslout_C_C * c_c;c_t * value[9]={0};Escher_ObjectSet_s r_rels_space={0}; Escher_ObjectSet_s * r_rels = &r_rels_space;
+  /* ASSIGN value[8] =  */
+  value[8] = Escher_strcpy( value[8], "" );
+  /* ASSIGN c_c = PARAM.c_c */
+  c_c = p_c_c;
+  /* SELECT many r_rels RELATED BY c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->R_REL[R8001] */
+  Escher_ClearSet( r_rels );
+  {  if ( 0 != c_c ) {
+  maslout_PE_PE * PE_PE_R8003_contains;
+  Escher_Iterator_s iPE_PE_R8003_contains;
+  Escher_IteratorReset( &iPE_PE_R8003_contains, &c_c->PE_PE_R8003_contains );
+  while ( 0 != ( PE_PE_R8003_contains = (maslout_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) {
+  maslout_EP_PKG * R8001_subtype = (maslout_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
+  if ( 0 != R8001_subtype )  if ( ( 0 != PE_PE_R8003_contains ) && ( maslout_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) ) {
+  maslout_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &R8001_subtype->PE_PE_R8000_contains );
+  while ( 0 != ( PE_PE_R8000_contains = (maslout_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( maslout_R_REL_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {maslout_R_REL * R8001_subtype = PE_PE_R8000_contains->R8001_subtype;
+  if ( ! Escher_SetContains( (Escher_ObjectSet_s *) r_rels, R8001_subtype ) ) {
+    Escher_SetInsertElement( (Escher_ObjectSet_s *) r_rels, R8001_subtype );
+  }}}}}}}
+  /* FOR EACH r_rel IN r_rels */
+  { Escher_Iterator_s iterr_rel;
+  maslout_R_REL * iir_rel;
+  Escher_IteratorReset( &iterr_rel, r_rels );
+  while ( (iir_rel = (maslout_R_REL *)Escher_IteratorNext( &iterr_rel )) != 0 ) {
+    r_rel = iir_rel; {
+    maslout_R_SUBSUP * r_subsup=0;maslout_R_ASSOC * r_assoc=0;maslout_R_SIMP * r_simp=0;
+    /* ASSIGN value[0] = ( R + T::s(r_rel.Numb) ) */
+    value[0] = Escher_strcpy( value[0], Escher_stradd( "R", T_s( r_rel->Numb ) ) );
+    /* SELECT one r_simp RELATED BY r_rel->R_SIMP[R206] */
+    r_simp = 0;
+    if ( ( 0 != r_rel ) && ( maslout_R_SIMP_CLASS_NUMBER == r_rel->R206_object_id ) )    r_simp = ( 0 != r_rel ) ? (maslout_R_SIMP *) r_rel->R206_subtype : 0;
+    /* IF ( not_empty r_simp ) */
+    if ( ( 0 != r_simp ) ) {
+      /* out::populate(element:regularrel, value:value) */
+      maslout_out_populate( "regularrel", value );
+    }
+    /* SELECT one r_assoc RELATED BY r_rel->R_ASSOC[R206] */
+    r_assoc = 0;
+    if ( ( 0 != r_rel ) && ( maslout_R_ASSOC_CLASS_NUMBER == r_rel->R206_object_id ) )    r_assoc = ( 0 != r_rel ) ? (maslout_R_ASSOC *) r_rel->R206_subtype : 0;
+    /* IF ( not_empty r_assoc ) */
+    if ( ( 0 != r_assoc ) ) {
+      maslout_O_OBJ * o_obj=0;
+      /* SELECT one o_obj RELATED BY r_assoc->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201] */
+      o_obj = 0;
+      {      if ( 0 != r_assoc ) {
+      maslout_R_ASSR * R_ASSR_R211_uses_a_formalizer = r_assoc->R_ASSR_R211_uses_a_formalizer;
+      if ( 0 != R_ASSR_R211_uses_a_formalizer ) {
+      maslout_R_RGO * R_RGO_R205 = R_ASSR_R211_uses_a_formalizer->R_RGO_R205;
+      if ( 0 != R_RGO_R205 ) {
+      maslout_R_OIR * R_OIR_R203 = R_RGO_R205->R_OIR_R203;
+      if ( 0 != R_OIR_R203 ) {
+      o_obj = R_OIR_R203->O_OBJ_R201_abstracts_association_between_instances_of;
+}}}}}
+      /* ASSIGN value[1] = o_obj.Name */
+      value[1] = Escher_strcpy( value[1], o_obj->Name );
+      /* out::populate(element:associative, value:value) */
+      maslout_out_populate( "associative", value );
+    }
+    /* SELECT one r_subsup RELATED BY r_rel->R_SUBSUP[R206] */
+    r_subsup = 0;
+    if ( ( 0 != r_rel ) && ( maslout_R_SUBSUP_CLASS_NUMBER == r_rel->R206_object_id ) )    r_subsup = ( 0 != r_rel ) ? (maslout_R_SUBSUP *) r_rel->R206_subtype : 0;
+    /* IF ( not_empty r_subsup ) */
+    if ( ( 0 != r_subsup ) ) {
+      /* out::populate(element:subsuper, value:value) */
+      maslout_out_populate( "subsuper", value );
+    }
+  }}}
+  Escher_ClearSet( r_rels ); 
+}
+
+/*
  * Domain Function:  attribute2attribute
  */
 void
@@ -171,6 +250,8 @@ maslout_component2domain( c_t * p_name )
     maslout_out_populate( "domain", value );
     /* ::type2type( c_c:c_c ) */
     maslout_type2type( c_c );
+    /* ::association2relationship( c_c:c_c ) */
+    maslout_association2relationship( c_c );
     /* ::port2terminator( c_c:c_c ) */
     maslout_port2terminator( c_c );
     /* ::class2object( c_c:c_c ) */
@@ -436,6 +517,8 @@ maslout_type2type( maslout_C_C * p_c_c )
     value[0] = Escher_strcpy( value[0], s_dt->Name );
     /* ASSIGN value[1] = private */
     value[1] = Escher_strcpy( value[1], "private" );
+    /* ASSIGN value[2] = s_dt.Descrip */
+    value[2] = Escher_strcpy( value[2], s_dt->Descrip );
     /* out::populate(element:type, value:value) */
     maslout_out_populate( "type", value );
   }}}
@@ -470,6 +553,8 @@ maslout_type2type( maslout_C_C * p_c_c )
     value[0] = Escher_strcpy( value[0], s_dt->Name );
     /* ASSIGN value[1] = public */
     value[1] = Escher_strcpy( value[1], "public" );
+    /* ASSIGN value[2] = s_dt.Descrip */
+    value[2] = Escher_strcpy( value[2], s_dt->Descrip );
     /* out::populate(element:type, value:value) */
     maslout_out_populate( "type", value );
   }}}

@@ -96,49 +96,11 @@ else
   value[0] = c_c.Name;
   out::populate( element:"domain", value:value );
   ::type2type( c_c:c_c );
+  ::association2relationship( c_c:c_c );
   ::port2terminator( c_c:c_c );
   ::class2object( c_c:c_c );
 end if;
-      
-/*
-object is a; // declaration
-private type is ...
-service(s)
-terminator(s)
-  
-// CDS hacked
-select many o_objs related by 
-select many o_objs related by te_c->TE_CLASS[R2064]->O_OBJ[R2019];
-    
-  select many te_pos related by te_c->TE_PO[R2005];
-  for each te_po in te_pos
-  
-    terminator = terminator::populate( name:te_po.Name, domain:domain );
-
-    select one te_mact related by te_po->TE_MACT[R2099.''has first''];
-    while ( not_empty te_mact )
-    
-      // CDS figure out the real difference between function and service
-      flavor = "function";
-      if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
-        flavor = "service";
-      end if;
-      activity = activity::populate( name:te_mact.Name, terminator:terminator, flavor:flavor );
-      
-      select any te_parm related by te_mact->TE_ABA[R2010]->TE_PARM[R2062];
-      first_te_parm = te_parm;
-      select any parameter from instances of parameter where ( false );
-      while ( not_empty te_parm )
-        // CDS model and pass correct type
-        parameter = parameter::populate( name:te_parm.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
-        select one te_parm related by te_parm->TE_PARM[R2041.''precedes''];
-      end while;
-      
-      select one te_mact related by te_mact->TE_MACT[R2083.''precedes''];
-    end while;
-    
-  end for;
- */',
+      ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
@@ -428,6 +390,7 @@ select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_D
 for each s_dt in s_dts
   value[0] = s_dt.Name;
   value[1] = "private";
+  value[2] = s_dt.Descrip;  // body of type
   out::populate( element:"type", value:value );
 end for;
 // CDS Data types in packages directly off of the system are considered public.
@@ -435,6 +398,7 @@ select many s_dts related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_
 for each s_dt in s_dts
   value[0] = s_dt.Name;
   value[1] = "public";
+  value[2] = s_dt.Descrip;  // body of type
   out::populate( element:"type", value:value );
 end for;
 ',
@@ -452,6 +416,51 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("2f0e3a99-9a8b-44dc-9428-f75cfbd83fdd",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
+	"00000000-0000-0000-0000-000000000000",
+	'association2relationship',
+	'',
+	'value[8] = "";
+c_c = param.c_c;
+select many r_rels related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->R_REL[R8001];
+for each r_rel in r_rels
+  value[0] = "R" + STRING::itoa( i:r_rel.Numb );  // itoa to form relationship name
+  select one r_simp related by r_rel->R_SIMP[R206];
+  if ( not_empty r_simp )
+    out::populate( element:"regularrel", value:value );
+  end if;
+  select one r_assoc related by r_rel->R_ASSOC[R206];
+  if ( not_empty r_assoc )
+    // Get the name of the associator.
+    select one o_obj related by r_assoc->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
+    value[1] = o_obj.Name;
+    out::populate( element:"associative", value:value );
+  end if;
+  select one r_subsup related by r_rel->R_SUBSUP[R206];
+  if ( not_empty r_subsup )
+    out::populate( element:"subsuper", value:value );
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("51c46f46-bc0f-4bf0-8fe4-af7d3be1667e",
+	"59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
