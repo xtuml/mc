@@ -57,74 +57,52 @@ extern void mark_pass( c_t * );
  */
 
 /*
- * Domain Function:  masl_domain
+ * Domain Function:  attribute2attribute
  */
 void
-maslout_masl_domain()
+maslout_attribute2attribute( maslout_O_OBJ * p_o_obj )
 {
-  c_t * name=0;
-  /* LOG::LogInfo( message:Starting Domain ) */
-  LOG_LogInfo( "Starting Domain" );
-  /* ASSIGN name = Tracking */
-  name = Escher_strcpy( name, "Tracking" );
-  /* ::xtuml_component_to_masl_domain( name:name ) */
-  maslout_xtuml_component_to_masl_domain( name );
-  /* SEND out::render(element:domain, name:Tracking) */
-  maslout_out_render( "domain", "Tracking" );
-  /* LOG::LogInfo( message:Done ) */
-  LOG_LogInfo( "Done" );
-}
-
-/*
- * Domain Function:  masl_project
- */
-void
-maslout_masl_project()
-{
-  /* LOG::LogInfo( message:Starting Project ) */
-  LOG_LogInfo( "Starting Project" );
-  /* ::xtuml_package_to_masl_project( name:System ) */
-  maslout_xtuml_package_to_masl_project( "System" );
-  /* SEND out::render(element:project, name:System) */
-  maslout_out_render( "project", "System" );
-  /* LOG::LogInfo( message:Done ) */
-  LOG_LogInfo( "Done" );
-}
-
-/*
- * Domain Function:  xtuml_component_to_masl_domain
- */
-void
-maslout_xtuml_component_to_masl_domain( c_t * p_name )
-{
-  maslout_O_OBJ * o_obj=0;c_t * name=0;c_t * value[9]={0};maslout_C_C * c_c=0;Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;
+  maslout_O_ATTR * o_attr=0;maslout_O_OBJ * o_obj;c_t * value[9]={0};Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;
   /* ASSIGN value[8] =  */
   value[8] = Escher_strcpy( value[8], "" );
-  /* ASSIGN name = PARAM.name */
-  name = Escher_strcpy( name, p_name );
-  /* SELECT any c_c FROM INSTANCES OF C_C WHERE ( SELECTED.Name == PARAM.name ) */
-  c_c = 0;
-  { maslout_C_C * selected;
-    Escher_Iterator_s iterc_cmaslout_C_C;
-    Escher_IteratorReset( &iterc_cmaslout_C_C, &pG_maslout_C_C_extent.active );
-    while ( (selected = (maslout_C_C *) Escher_IteratorNext( &iterc_cmaslout_C_C )) != 0 ) {
-      if ( ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
-        c_c = selected;
-        break;
-      }
-    }
+  /* ASSIGN o_obj = PARAM.o_obj */
+  o_obj = p_o_obj;
+  /* SELECT many o_attrs RELATED BY o_obj->O_ATTR[R102] */
+  Escher_ClearSet( o_attrs );
+  if ( 0 != o_obj ) {
+    Escher_CopySet( o_attrs, &o_obj->O_ATTR_R102_has_characteristics_abstracted_by );
   }
-  /* IF ( not_empty c_c ) */
-  if ( ( 0 != c_c ) ) {
-    /* ASSIGN value[0] = c_c.Name */
-    value[0] = Escher_strcpy( value[0], c_c->Name );
-    /* out::populate(element:domain, value:value) */
-    maslout_out_populate( "domain", value );
-  }
-  else {
-    /* TRACE::log( flavor:failure, id:34, message:( did not find component with name  + PARAM.name ) ) */
-    TRACE_log( "failure", 34, Escher_stradd( "did not find component with name ", p_name ) );
-  }
+  /* FOR EACH o_attr IN o_attrs */
+  { Escher_Iterator_s itero_attr;
+  maslout_O_ATTR * iio_attr;
+  Escher_IteratorReset( &itero_attr, o_attrs );
+  while ( (iio_attr = (maslout_O_ATTR *)Escher_IteratorNext( &itero_attr )) != 0 ) {
+    o_attr = iio_attr; {
+    /* ASSIGN value[0] = o_attr.Name */
+    value[0] = Escher_strcpy( value[0], o_attr->Name );
+    /* ASSIGN value[1] =  */
+    value[1] = Escher_strcpy( value[1], "" );
+    /* ASSIGN value[2] =  */
+    value[2] = Escher_strcpy( value[2], "" );
+    /* ASSIGN value[3] =  */
+    value[3] = Escher_strcpy( value[3], "" );
+    /* out::populate(element:attribute, value:value) */
+    maslout_out_populate( "attribute", value );
+  }}}
+  Escher_ClearSet( o_attrs ); 
+}
+
+/*
+ * Domain Function:  class2object
+ */
+void
+maslout_class2object( maslout_C_C * p_c_c )
+{
+  maslout_O_OBJ * o_obj=0;maslout_C_C * c_c;c_t * value[9]={0};Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;
+  /* ASSIGN value[8] =  */
+  value[8] = Escher_strcpy( value[8], "" );
+  /* ASSIGN c_c = PARAM.c_c */
+  c_c = p_c_c;
   /* SELECT many o_objs RELATED BY c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001] */
   Escher_ClearSet( o_objs );
   {  if ( 0 != c_c ) {
@@ -148,43 +126,148 @@ maslout_xtuml_component_to_masl_domain( c_t * p_name )
   Escher_IteratorReset( &itero_obj, o_objs );
   while ( (iio_obj = (maslout_O_OBJ *)Escher_IteratorNext( &itero_obj )) != 0 ) {
     o_obj = iio_obj; {
-    maslout_O_ATTR * o_attr=0;Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;
     /* ASSIGN value[0] = o_obj.Name */
     value[0] = Escher_strcpy( value[0], o_obj->Name );
     /* out::populate(element:object, value:value) */
     maslout_out_populate( "object", value );
-    /* SELECT many o_attrs RELATED BY o_obj->O_ATTR[R102] */
-    Escher_ClearSet( o_attrs );
-    if ( 0 != o_obj ) {
-      Escher_CopySet( o_attrs, &o_obj->O_ATTR_R102_has_characteristics_abstracted_by );
-    }
-    /* FOR EACH o_attr IN o_attrs */
-    { Escher_Iterator_s itero_attr;
-    maslout_O_ATTR * iio_attr;
-    Escher_IteratorReset( &itero_attr, o_attrs );
-    while ( (iio_attr = (maslout_O_ATTR *)Escher_IteratorNext( &itero_attr )) != 0 ) {
-      o_attr = iio_attr; {
-      /* ASSIGN value[0] = o_attr.Name */
-      value[0] = Escher_strcpy( value[0], o_attr->Name );
-      /* ASSIGN value[1] =  */
-      value[1] = Escher_strcpy( value[1], "" );
-      /* ASSIGN value[2] =  */
-      value[2] = Escher_strcpy( value[2], "" );
-      /* ASSIGN value[3] =  */
-      value[3] = Escher_strcpy( value[3], "" );
-      /* out::populate(element:attribute, value:value) */
-      maslout_out_populate( "attribute", value );
-    }}}
-    Escher_ClearSet( o_attrs ); 
+    /* ::attribute2attribute( o_obj:o_obj ) */
+    maslout_attribute2attribute( o_obj );
   }}}
   Escher_ClearSet( o_objs ); 
 }
 
 /*
- * Domain Function:  xtuml_package_to_masl_project
+ * Domain Function:  component2domain
  */
 void
-maslout_xtuml_package_to_masl_project( c_t * p_name )
+maslout_component2domain( c_t * p_name )
+{
+  c_t * name=0;c_t * value[9]={0};maslout_C_C * c_c=0;
+  /* ASSIGN value[8] =  */
+  value[8] = Escher_strcpy( value[8], "" );
+  /* ASSIGN name = PARAM.name */
+  name = Escher_strcpy( name, p_name );
+  /* SELECT any c_c FROM INSTANCES OF C_C WHERE ( SELECTED.Name == PARAM.name ) */
+  c_c = 0;
+  { maslout_C_C * selected;
+    Escher_Iterator_s iterc_cmaslout_C_C;
+    Escher_IteratorReset( &iterc_cmaslout_C_C, &pG_maslout_C_C_extent.active );
+    while ( (selected = (maslout_C_C *) Escher_IteratorNext( &iterc_cmaslout_C_C )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
+        c_c = selected;
+        break;
+      }
+    }
+  }
+  /* IF ( empty c_c ) */
+  if ( ( 0 == c_c ) ) {
+    /* TRACE::log( flavor:failure, id:34, message:( did not find component with name  + PARAM.name ) ) */
+    TRACE_log( "failure", 34, Escher_stradd( "did not find component with name ", p_name ) );
+  }
+  else {
+    /* ASSIGN value[0] = c_c.Name */
+    value[0] = Escher_strcpy( value[0], c_c->Name );
+    /* out::populate(element:domain, value:value) */
+    maslout_out_populate( "domain", value );
+    /* ::type2type( c_c:c_c ) */
+    maslout_type2type( c_c );
+    /* ::port2terminator( c_c:c_c ) */
+    maslout_port2terminator( c_c );
+    /* ::class2object( c_c:c_c ) */
+    maslout_class2object( c_c );
+  }
+}
+
+/*
+ * Domain Function:  masl_domain
+ */
+void
+maslout_masl_domain()
+{
+  c_t * name=0;
+  /* LOG::LogInfo( message:Starting Domain ) */
+  LOG_LogInfo( "Starting Domain" );
+  /* ASSIGN name = Tracking */
+  name = Escher_strcpy( name, "Tracking" );
+  /* ::component2domain( name:name ) */
+  maslout_component2domain( name );
+  /* SEND out::render(element:domain, name:Tracking) */
+  maslout_out_render( "domain", "Tracking" );
+  /* LOG::LogInfo( message:Done ) */
+  LOG_LogInfo( "Done" );
+}
+
+/*
+ * Domain Function:  masl_project
+ */
+void
+maslout_masl_project()
+{
+  /* LOG::LogInfo( message:Starting Project ) */
+  LOG_LogInfo( "Starting Project" );
+  /* ::package2project( name:System ) */
+  maslout_package2project( "System" );
+  /* SEND out::render(element:project, name:System) */
+  maslout_out_render( "project", "System" );
+  /* LOG::LogInfo( message:Done ) */
+  LOG_LogInfo( "Done" );
+}
+
+/*
+ * Domain Function:  message2function
+ */
+void
+maslout_message2function( maslout_C_PO * p_c_po )
+{
+  maslout_C_EP * c_ep=0;maslout_C_PO * c_po;c_t * value[9]={0};Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
+  /* ASSIGN value[8] =  */
+  value[8] = Escher_strcpy( value[8], "" );
+  /* ASSIGN c_po = PARAM.c_po */
+  c_po = p_c_po;
+  /* SELECT many c_eps RELATED BY c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003] */
+  Escher_ClearSet( c_eps );
+  {  if ( 0 != c_po ) {
+  maslout_C_IR * C_IR_R4016_exposes;
+  Escher_Iterator_s iC_IR_R4016_exposes;
+  Escher_IteratorReset( &iC_IR_R4016_exposes, &c_po->C_IR_R4016_exposes );
+  while ( 0 != ( C_IR_R4016_exposes = (maslout_C_IR *) Escher_IteratorNext( &iC_IR_R4016_exposes ) ) ) {
+  maslout_C_I * C_I_R4012_may_be_defined_by = C_IR_R4016_exposes->C_I_R4012_may_be_defined_by;
+  if ( 0 != C_I_R4012_may_be_defined_by ) {
+  maslout_C_EP * C_EP_R4003_is_defined_by;
+  Escher_Iterator_s iC_EP_R4003_is_defined_by;
+  Escher_IteratorReset( &iC_EP_R4003_is_defined_by, &C_I_R4012_may_be_defined_by->C_EP_R4003_is_defined_by );
+  while ( 0 != ( C_EP_R4003_is_defined_by = (maslout_C_EP *) Escher_IteratorNext( &iC_EP_R4003_is_defined_by ) ) ) {
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_eps, C_EP_R4003_is_defined_by ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) c_eps, C_EP_R4003_is_defined_by );
+  }}}}}}
+  /* FOR EACH c_ep IN c_eps */
+  { Escher_Iterator_s iterc_ep;
+  maslout_C_EP * iic_ep;
+  Escher_IteratorReset( &iterc_ep, c_eps );
+  while ( (iic_ep = (maslout_C_EP *)Escher_IteratorNext( &iterc_ep )) != 0 ) {
+    c_ep = iic_ep; {
+    c_t * element=0;
+    /* ASSIGN element = function */
+    element = Escher_strcpy( element, "function" );
+    /* ASSIGN element = service */
+    element = Escher_strcpy( element, "service" );
+    /* ASSIGN value[0] = public */
+    value[0] = Escher_strcpy( value[0], "public" );
+    /* ASSIGN value[1] = c_ep.Name */
+    value[1] = Escher_strcpy( value[1], c_ep->Name );
+    /* out::populate(element:element, value:value) */
+    maslout_out_populate( element, value );
+    /* ::parameter2parameter( c_ep:c_ep ) */
+    maslout_parameter2parameter( c_ep );
+  }}}
+  Escher_ClearSet( c_eps ); 
+}
+
+/*
+ * Domain Function:  package2project
+ */
+void
+maslout_package2project( c_t * p_name )
 {
   maslout_C_C * c_c=0;c_t * value[9]={0};i_t markedsystems;Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;
   /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == PARAM.name ) */
@@ -238,100 +321,159 @@ maslout_xtuml_package_to_masl_project( c_t * p_name )
   Escher_IteratorReset( &iterc_c, c_cs );
   while ( (iic_c = (maslout_C_C *)Escher_IteratorNext( &iterc_c )) != 0 ) {
     c_c = iic_c; {
-    maslout_C_PO * c_po=0;Escher_ObjectSet_s c_pos_space={0}; Escher_ObjectSet_s * c_pos = &c_pos_space;
-    /* ASSIGN value[0] = c_c.Name */
-    value[0] = Escher_strcpy( value[0], c_c->Name );
-    /* out::populate(element:domain, value:value) */
-    maslout_out_populate( "domain", value );
-    /* SELECT many c_pos RELATED BY c_c->C_PO[R4010] */
-    Escher_ClearSet( c_pos );
-    if ( 0 != c_c ) {
-      Escher_CopySet( c_pos, &c_c->C_PO_R4010_communicates_through );
-    }
-    /* FOR EACH c_po IN c_pos */
-    { Escher_Iterator_s iterc_po;
-    maslout_C_PO * iic_po;
-    Escher_IteratorReset( &iterc_po, c_pos );
-    while ( (iic_po = (maslout_C_PO *)Escher_IteratorNext( &iterc_po )) != 0 ) {
-      c_po = iic_po; {
-      maslout_C_EP * c_ep=0;Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
-      /* ASSIGN value[0] = c_po.Name */
-      value[0] = Escher_strcpy( value[0], c_po->Name );
-      /* out::populate(element:terminator, value:value) */
-      maslout_out_populate( "terminator", value );
-      /* SELECT many c_eps RELATED BY c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003] */
-      Escher_ClearSet( c_eps );
-      {      if ( 0 != c_po ) {
-      maslout_C_IR * C_IR_R4016_exposes;
-      Escher_Iterator_s iC_IR_R4016_exposes;
-      Escher_IteratorReset( &iC_IR_R4016_exposes, &c_po->C_IR_R4016_exposes );
-      while ( 0 != ( C_IR_R4016_exposes = (maslout_C_IR *) Escher_IteratorNext( &iC_IR_R4016_exposes ) ) ) {
-      maslout_C_I * C_I_R4012_may_be_defined_by = C_IR_R4016_exposes->C_I_R4012_may_be_defined_by;
-      if ( 0 != C_I_R4012_may_be_defined_by ) {
-      maslout_C_EP * C_EP_R4003_is_defined_by;
-      Escher_Iterator_s iC_EP_R4003_is_defined_by;
-      Escher_IteratorReset( &iC_EP_R4003_is_defined_by, &C_I_R4012_may_be_defined_by->C_EP_R4003_is_defined_by );
-      while ( 0 != ( C_EP_R4003_is_defined_by = (maslout_C_EP *) Escher_IteratorNext( &iC_EP_R4003_is_defined_by ) ) ) {
-        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_eps, C_EP_R4003_is_defined_by ) ) {
-          Escher_SetInsertElement( (Escher_ObjectSet_s *) c_eps, C_EP_R4003_is_defined_by );
-      }}}}}}
-      /* FOR EACH c_ep IN c_eps */
-      { Escher_Iterator_s iterc_ep;
-      maslout_C_EP * iic_ep;
-      Escher_IteratorReset( &iterc_ep, c_eps );
-      while ( (iic_ep = (maslout_C_EP *)Escher_IteratorNext( &iterc_ep )) != 0 ) {
-        c_ep = iic_ep; {
-        c_t * previous=0;maslout_C_PP * first_c_pp;c_t * flavor=0;maslout_C_PP * c_pp=0;
-        /* ASSIGN flavor = function */
-        flavor = Escher_strcpy( flavor, "function" );
-        /* ASSIGN flavor = service */
-        flavor = Escher_strcpy( flavor, "service" );
-        /* ASSIGN value[0] = c_ep.Name */
-        value[0] = Escher_strcpy( value[0], c_ep->Name );
-        /* ASSIGN value[1] = c_po.Name */
-        value[1] = Escher_strcpy( value[1], c_po->Name );
-        /* ASSIGN value[2] = flavor */
-        value[2] = Escher_strcpy( value[2], flavor );
-        /* out::populate(element:activity, value:value) */
-        maslout_out_populate( "activity", value );
-        /* SELECT any c_pp RELATED BY c_ep->C_PP[R4006] */
-        c_pp = ( 0 != c_ep ) ? (maslout_C_PP *) Escher_SetGetAny( &c_ep->C_PP_R4006_is_parameter_to ) : 0;
-        /* ASSIGN first_c_pp = c_pp */
-        first_c_pp = c_pp;
-        /* WHILE ( not_empty c_pp ) */
-        while ( ( 0 != c_pp ) ) {
-          /* ASSIGN first_c_pp = c_pp */
-          first_c_pp = c_pp;
-          /* SELECT one c_pp RELATED BY c_pp->C_PP[R4021.precedes] */
-          c_pp = ( 0 != c_pp ) ? c_pp->C_PP_R4021_precedes : 0;
-        }
-        /* ASSIGN previous =  */
-        previous = Escher_strcpy( previous, "" );
-        /* ASSIGN c_pp = first_c_pp */
-        c_pp = first_c_pp;
-        /* WHILE ( not_empty c_pp ) */
-        while ( ( 0 != c_pp ) ) {
-          /* ASSIGN value[0] = c_pp.Name */
-          value[0] = Escher_strcpy( value[0], c_pp->Name );
-          /* ASSIGN value[1] = mytype */
-          value[1] = Escher_strcpy( value[1], "mytype" );
-          /* ASSIGN value[2] = in */
-          value[2] = Escher_strcpy( value[2], "in" );
-          /* ASSIGN value[3] = previous */
-          value[3] = Escher_strcpy( value[3], previous );
-          /* out::populate(element:parameter, value:value) */
-          maslout_out_populate( "parameter", value );
-          /* ASSIGN previous = c_pp.Name */
-          previous = Escher_strcpy( previous, c_pp->Name );
-          /* SELECT one c_pp RELATED BY c_pp->C_PP[R4021.succeeds] */
-          c_pp = ( 0 != c_pp ) ? c_pp->C_PP_R4021_succeeds : 0;
-        }
-      }}}
-      Escher_ClearSet( c_eps ); 
-    }}}
-    Escher_ClearSet( c_pos ); 
+    /* ::component2domain( name:c_c.Name ) */
+    maslout_component2domain( c_c->Name );
   }}}
   Escher_ClearSet( ep_pkgs );Escher_ClearSet( c_cs ); 
+}
+
+/*
+ * Domain Function:  parameter2parameter
+ */
+void
+maslout_parameter2parameter( maslout_C_EP * p_c_ep )
+{
+  c_t * previous=0;maslout_C_PP * first_c_pp;maslout_C_EP * c_ep;c_t * value[9]={0};maslout_C_PP * c_pp=0;
+  /* ASSIGN value[8] =  */
+  value[8] = Escher_strcpy( value[8], "" );
+  /* ASSIGN c_ep = PARAM.c_ep */
+  c_ep = p_c_ep;
+  /* SELECT any c_pp RELATED BY c_ep->C_PP[R4006] */
+  c_pp = ( 0 != c_ep ) ? (maslout_C_PP *) Escher_SetGetAny( &c_ep->C_PP_R4006_is_parameter_to ) : 0;
+  /* ASSIGN first_c_pp = c_pp */
+  first_c_pp = c_pp;
+  /* WHILE ( not_empty c_pp ) */
+  while ( ( 0 != c_pp ) ) {
+    /* ASSIGN first_c_pp = c_pp */
+    first_c_pp = c_pp;
+    /* SELECT one c_pp RELATED BY c_pp->C_PP[R4021.precedes] */
+    c_pp = ( 0 != c_pp ) ? c_pp->C_PP_R4021_precedes : 0;
+  }
+  /* ASSIGN previous =  */
+  previous = Escher_strcpy( previous, "" );
+  /* ASSIGN c_pp = first_c_pp */
+  c_pp = first_c_pp;
+  /* WHILE ( not_empty c_pp ) */
+  while ( ( 0 != c_pp ) ) {
+    /* ASSIGN value[0] = c_pp.Name */
+    value[0] = Escher_strcpy( value[0], c_pp->Name );
+    /* ASSIGN value[1] = in */
+    value[1] = Escher_strcpy( value[1], "in" );
+    /* out::populate(element:parameter, value:value) */
+    maslout_out_populate( "parameter", value );
+    /* SELECT one c_pp RELATED BY c_pp->C_PP[R4021.succeeds] */
+    c_pp = ( 0 != c_pp ) ? c_pp->C_PP_R4021_succeeds : 0;
+  }
+}
+
+/*
+ * Domain Function:  port2terminator
+ */
+void
+maslout_port2terminator( maslout_C_C * p_c_c )
+{
+  maslout_C_PO * c_po=0;maslout_C_C * c_c;c_t * value[8]={0};Escher_ObjectSet_s c_pos_space={0}; Escher_ObjectSet_s * c_pos = &c_pos_space;
+  /* ASSIGN value[7] =  */
+  value[7] = Escher_strcpy( value[7], "" );
+  /* ASSIGN c_c = PARAM.c_c */
+  c_c = p_c_c;
+  /* SELECT many c_pos RELATED BY c_c->C_PO[R4010] */
+  Escher_ClearSet( c_pos );
+  if ( 0 != c_c ) {
+    Escher_CopySet( c_pos, &c_c->C_PO_R4010_communicates_through );
+  }
+  /* FOR EACH c_po IN c_pos */
+  { Escher_Iterator_s iterc_po;
+  maslout_C_PO * iic_po;
+  Escher_IteratorReset( &iterc_po, c_pos );
+  while ( (iic_po = (maslout_C_PO *)Escher_IteratorNext( &iterc_po )) != 0 ) {
+    c_po = iic_po; {
+    /* ASSIGN value[0] = c_po.Name */
+    value[0] = Escher_strcpy( value[0], c_po->Name );
+    /* out::populate(element:terminator, value:value) */
+    maslout_out_populate( "terminator", value );
+    /* ::message2function( c_po:c_po ) */
+    maslout_message2function( c_po );
+  }}}
+  Escher_ClearSet( c_pos ); 
+}
+
+/*
+ * Domain Function:  type2type
+ */
+void
+maslout_type2type( maslout_C_C * p_c_c )
+{
+  maslout_S_DT * s_dt=0;maslout_C_C * c_c;c_t * value[9]={0};Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;
+  /* ASSIGN value[8] =  */
+  value[8] = Escher_strcpy( value[8], "" );
+  /* ASSIGN c_c = PARAM.c_c */
+  c_c = p_c_c;
+  /* SELECT many s_dts RELATED BY c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001] */
+  Escher_ClearSet( s_dts );
+  {  if ( 0 != c_c ) {
+  maslout_PE_PE * PE_PE_R8003_contains;
+  Escher_Iterator_s iPE_PE_R8003_contains;
+  Escher_IteratorReset( &iPE_PE_R8003_contains, &c_c->PE_PE_R8003_contains );
+  while ( 0 != ( PE_PE_R8003_contains = (maslout_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) {
+  maslout_EP_PKG * R8001_subtype = (maslout_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
+  if ( 0 != R8001_subtype )  if ( ( 0 != PE_PE_R8003_contains ) && ( maslout_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) ) {
+  maslout_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &R8001_subtype->PE_PE_R8000_contains );
+  while ( 0 != ( PE_PE_R8000_contains = (maslout_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( maslout_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {maslout_S_DT * R8001_subtype = PE_PE_R8000_contains->R8001_subtype;
+  if ( ! Escher_SetContains( (Escher_ObjectSet_s *) s_dts, R8001_subtype ) ) {
+    Escher_SetInsertElement( (Escher_ObjectSet_s *) s_dts, R8001_subtype );
+  }}}}}}}
+  /* FOR EACH s_dt IN s_dts */
+  { Escher_Iterator_s iters_dt;
+  maslout_S_DT * iis_dt;
+  Escher_IteratorReset( &iters_dt, s_dts );
+  while ( (iis_dt = (maslout_S_DT *)Escher_IteratorNext( &iters_dt )) != 0 ) {
+    s_dt = iis_dt; {
+    /* ASSIGN value[0] = s_dt.Name */
+    value[0] = Escher_strcpy( value[0], s_dt->Name );
+    /* ASSIGN value[1] = private */
+    value[1] = Escher_strcpy( value[1], "private" );
+    /* out::populate(element:type, value:value) */
+    maslout_out_populate( "type", value );
+  }}}
+  /* SELECT many s_dts RELATED BY c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001] */
+  Escher_ClearSet( s_dts );
+  {  if ( 0 != c_c ) {
+  maslout_PE_PE * PE_PE_R8001 = c_c->PE_PE_R8001;
+  if ( 0 != PE_PE_R8001 ) {
+  maslout_EP_PKG * EP_PKG_R8000_contained_by = PE_PE_R8001->EP_PKG_R8000_contained_by;
+  if ( 0 != EP_PKG_R8000_contained_by ) {
+  maslout_S_SYS * S_SYS_R1405 = EP_PKG_R8000_contained_by->S_SYS_R1405;
+  if ( 0 != S_SYS_R1405 ) {
+  maslout_EP_PKG * EP_PKG_R1401_contains;
+  Escher_Iterator_s iEP_PKG_R1401_contains;
+  Escher_IteratorReset( &iEP_PKG_R1401_contains, &S_SYS_R1405->EP_PKG_R1401_contains );
+  while ( 0 != ( EP_PKG_R1401_contains = (maslout_EP_PKG *) Escher_IteratorNext( &iEP_PKG_R1401_contains ) ) ) {
+  maslout_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &EP_PKG_R1401_contains->PE_PE_R8000_contains );
+  while ( 0 != ( PE_PE_R8000_contains = (maslout_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( maslout_S_DT_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {maslout_S_DT * R8001_subtype = PE_PE_R8000_contains->R8001_subtype;
+  if ( ! Escher_SetContains( (Escher_ObjectSet_s *) s_dts, R8001_subtype ) ) {
+    Escher_SetInsertElement( (Escher_ObjectSet_s *) s_dts, R8001_subtype );
+  }}}}}}}}}
+  /* FOR EACH s_dt IN s_dts */
+  { Escher_Iterator_s iters_dt;
+  maslout_S_DT * iis_dt;
+  Escher_IteratorReset( &iters_dt, s_dts );
+  while ( (iis_dt = (maslout_S_DT *)Escher_IteratorNext( &iters_dt )) != 0 ) {
+    s_dt = iis_dt; {
+    /* ASSIGN value[0] = s_dt.Name */
+    value[0] = Escher_strcpy( value[0], s_dt->Name );
+    /* ASSIGN value[1] = public */
+    value[1] = Escher_strcpy( value[1], "public" );
+    /* out::populate(element:type, value:value) */
+    maslout_out_populate( "type", value );
+  }}}
+  Escher_ClearSet( s_dts ); 
 }
 Escher_idf maslout_instance_dumpers[ maslout_MAX_CLASS_NUMBERS ] = {
   maslout_MSG_M_instancedumper,
