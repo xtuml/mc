@@ -21,8 +21,8 @@ INSERT INTO GD_MD
 	1,
 	0,
 	0,
-	0,
-	0,
+	200,
+	150,
 	0,
 	'',
 	'maslout::lib::maslout::maslout_imported');
@@ -99,6 +99,11 @@ else
   ::association2relationship( c_c:c_c );
   ::port2terminator( c_c:c_c );
   ::class2object( c_c:c_c );
+  
+  // end domain
+  value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
+  value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
+  out::populate( element:"domain", value:value );
 end if;
       ',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -313,13 +318,26 @@ INSERT INTO S_SYNC
 c_c = param.c_c;
 select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
 for each o_obj in o_objs
+  // create forward references
   value[0] = o_obj.Name;
   out::populate( element:"object", value:value );
+end for;
+
+for each o_obj in o_objs
+  value[0] = o_obj.Name;
+  out::populate( element:"object", value:value );
+  
+  // Link the attributes to each object.
   ::attribute2attribute( c_c:c_c, o_obj:o_obj );
   
   // Set up the identifiers for the 
   ::identifier2identifier( o_obj:o_obj );
 end for;
+
+// end object
+value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
+value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
+out::populate( element:"object", value:value );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -460,6 +478,8 @@ for each s_dt in s_dts
   value[2] = s_dt.Descrip;  // body of type
   out::populate( element:"type", value:value );
 end for;
+value[0] = ""; value[1] = ""; value[2] = "";
+out::populate( element:"type", value:value );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -488,11 +508,16 @@ INSERT INTO S_SYNC
 c_c = param.c_c;
 select many r_rels related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->R_REL[R8001];
 for each r_rel in r_rels
+  value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
+  value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
   value[0] = "R" + STRING::itoa( i:r_rel.Numb );  // itoa to form relationship name
   select one r_simp related by r_rel->R_SIMP[R206];
   if ( not_empty r_simp )
     out::populate( element:"regularrel", value:value );
+    // now add participation
+    ::simpleass2regularrel( r_simp:r_simp );
   end if;
+  
   select one r_assoc related by r_rel->R_ASSOC[R206];
   if ( not_empty r_assoc )
     // Get the name of the associator.
@@ -500,6 +525,7 @@ for each r_rel in r_rels
     value[1] = o_obj.Name;
     out::populate( element:"associative", value:value );
   end if;
+  
   select one r_subsup related by r_rel->R_SUBSUP[R206];
   if ( not_empty r_subsup )
     out::populate( element:"subsuper", value:value );
@@ -562,6 +588,80 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("09d28e26-8c9d-40c0-b89a-276922023942",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("844ea9b2-b764-49f9-b6c3-b594fc02b28e",
+	"00000000-0000-0000-0000-000000000000",
+	'simpleass2regularrel',
+	'',
+	'value[7] = "";
+r_simp = param.r_simp;
+select many r_parts related by r_simp->R_PART[R207];
+i = 0;
+name = ""; phrase = ""; cond = ""; mult = ""; toname = "";
+for each r_part in r_parts
+  select one o_obj related by r_part->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]; 
+  value[0] = o_obj.Name;
+  value[1] = r_part.Txt_Phrs;
+  if ( 0 == r_part.Cond )
+    value[2] = "conditional";
+  else
+    value[2] = "unconditional";
+  end if;
+  if ( 0 == r_part.Mult )
+    value[3] = "one";
+  else
+    value[3] = "many";
+  end if;
+  value[4] = ""; // CDS - get toname
+  out::populate( element:"participation", value:value );
+  i = i + 1;
+end for;
+
+if ( 1 == i )
+  // only one participant, go get the formalizer
+  select one r_form related by r_simp->R_FORM[R208];
+  select one o_obj related by r_form->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]; 
+  value[0] = o_obj.Name;
+  value[1] = r_form.Txt_Phrs;
+  if ( 0 == r_form.Cond )
+    value[2] = "conditional";
+  else
+    value[2] = "unconditional";
+  end if;
+  if ( 0 == r_form.Mult )
+    value[3] = "one";
+  else
+    value[3] = "many";
+  end if;
+  value[4] = ""; // CDS - get toname
+  out::populate( element:"participation", value:value );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("11a9addd-1ac4-4fa9-abbd-0ff170d8e031",
+	"844ea9b2-b764-49f9-b6c3-b594fc02b28e",
+	'r_simp',
+	"322c65da-132b-421a-a1b1-f757cb0acff7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("322c65da-132b-421a-a1b1-f757cb0acff7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Simple Association>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO PE_PE
+	VALUES ("844ea9b2-b764-49f9-b6c3-b594fc02b28e",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",

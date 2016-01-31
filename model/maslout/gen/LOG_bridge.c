@@ -17,7 +17,7 @@
 void
 LOG_LogSuccess( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
 {
-  printf( "%s\n", p_message );
+  fprintf( stderr, "%s\n", p_message );
 }
 
 
@@ -27,7 +27,7 @@ LOG_LogSuccess( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
 void
 LOG_LogFailure( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
 {
-  printf( "%s\n", p_message );
+  fprintf( stderr, "%s\n", p_message );
 }
 
 
@@ -37,7 +37,7 @@ LOG_LogFailure( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
 void
 LOG_LogInfo( c_t p_message[ESCHER_SYS_MAX_STRING_LEN])
 {
-  printf( "%s\n", p_message );
+  fprintf( stderr, "%s\n", p_message );
 }
 
 
@@ -71,7 +71,7 @@ LOG_LogTime( c_t p_message[ESCHER_SYS_MAX_STRING_LEN], Escher_TimeStamp_t p_t)
 void
 LOG_LogReal( c_t p_message[ESCHER_SYS_MAX_STRING_LEN], r_t p_r)
 {
-  printf( "%s, %f\n", p_message, p_r );
+  fprintf( stderr, "%s, %f\n", p_message, p_r );
 }
 
 
@@ -81,7 +81,7 @@ LOG_LogReal( c_t p_message[ESCHER_SYS_MAX_STRING_LEN], r_t p_r)
 void
 LOG_LogInteger( i_t p_message)
 {
-  printf( "%d\n", p_message );
+  fprintf( stderr, "%d\n", p_message );
 }
 
 
