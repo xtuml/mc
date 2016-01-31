@@ -11,13 +11,12 @@
 #include "maslout.h"
 #include "TRACE_bridge.h"
 #include "STRING_bridge.h"
-#include "T_bridge.h"
 #include "LOG_bridge.h"
 #include "maslout_classes.h"
 
 /*
- * Interface:  MASLDSL
- * Provided Port:  out
+ * Interface:  serial
+ * Required Port:  out
  * To Provider Message:  populate
  */
 void
@@ -32,8 +31,8 @@ maslout_out_populate( c_t * p_element, c_t * p_value[8] )
 }
 
 /*
- * Interface:  MASLDSL
- * Provided Port:  out
+ * Interface:  serial
+ * Required Port:  out
  * To Provider Message:  render
  */
 void
@@ -42,8 +41,8 @@ maslout_out_render( c_t * p_element, c_t * p_name )
 }
 
 /*
- * Interface:  MASLDSL
- * Provided Port:  out
+ * Interface:  serial
+ * Required Port:  out
  * To Provider Message:  validate
  */
 void
@@ -91,8 +90,8 @@ maslout_association2relationship( maslout_C_C * p_c_c )
   while ( (iir_rel = (maslout_R_REL *)Escher_IteratorNext( &iterr_rel )) != 0 ) {
     r_rel = iir_rel; {
     maslout_R_SUBSUP * r_subsup=0;maslout_R_ASSOC * r_assoc=0;maslout_R_SIMP * r_simp=0;
-    /* ASSIGN value[0] = ( R + T::s(r_rel.Numb) ) */
-    value[0] = Escher_strcpy( value[0], Escher_stradd( "R", T_s( r_rel->Numb ) ) );
+    /* ASSIGN value[0] = ( R + STRING::itoa(r_rel.Numb) ) */
+    value[0] = Escher_strcpy( value[0], Escher_stradd( "R", STRING_itoa( r_rel->Numb ) ) );
     /* SELECT one r_simp RELATED BY r_rel->R_SIMP[R206] */
     r_simp = 0;
     if ( ( 0 != r_rel ) && ( maslout_R_SIMP_CLASS_NUMBER == r_rel->R206_object_id ) )    r_simp = ( 0 != r_rel ) ? (maslout_R_SIMP *) r_rel->R206_subtype : 0;
@@ -139,13 +138,13 @@ maslout_association2relationship( maslout_C_C * p_c_c )
  * Domain Function:  attribute2attribute
  */
 void
-maslout_attribute2attribute( maslout_O_OBJ * p_o_obj )
+maslout_attribute2attribute( maslout_C_C * p_c_c, maslout_O_OBJ * p_o_obj )
 {
-  maslout_O_ATTR * o_attr=0;maslout_O_OBJ * o_obj;c_t * value[9]={0};Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;
-  /* ASSIGN value[8] =  */
-  value[8] = Escher_strcpy( value[8], "" );
+  maslout_O_ATTR * o_attr=0;maslout_C_C * c_c;maslout_O_OBJ * o_obj;Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;
   /* ASSIGN o_obj = PARAM.o_obj */
   o_obj = p_o_obj;
+  /* ASSIGN c_c = PARAM.c_c */
+  c_c = p_c_c;
   /* SELECT many o_attrs RELATED BY o_obj->O_ATTR[R102] */
   Escher_ClearSet( o_attrs );
   if ( 0 != o_obj ) {
@@ -157,16 +156,90 @@ maslout_attribute2attribute( maslout_O_OBJ * p_o_obj )
   Escher_IteratorReset( &itero_attr, o_attrs );
   while ( (iio_attr = (maslout_O_ATTR *)Escher_IteratorNext( &itero_attr )) != 0 ) {
     o_attr = iio_attr; {
+    c_t * value[9]={0};maslout_O_REF * o_ref=0;maslout_S_DT * s_dt=0;maslout_O_OIDA * o_oida=0;
+    /* ASSIGN value[8] =  */
+    value[8] = Escher_strcpy( value[8], "" );
     /* ASSIGN value[0] = o_attr.Name */
     value[0] = Escher_strcpy( value[0], o_attr->Name );
     /* ASSIGN value[1] =  */
     value[1] = Escher_strcpy( value[1], "" );
+    /* SELECT any o_oida RELATED BY o_attr->O_OIDA[R105] WHERE ( ( SELECTED.Oid_ID == 1 ) ) */
+    o_oida = 0;
+    if ( 0 != o_attr ) {
+      maslout_O_OIDA * selected;
+      Escher_Iterator_s iO_OIDA_R105;
+      Escher_IteratorReset( &iO_OIDA_R105, &o_attr->O_OIDA_R105 );
+      while ( 0 != ( selected = (maslout_O_OIDA *) Escher_IteratorNext( &iO_OIDA_R105 ) ) ) {
+        if ( ( selected->Oid_ID == 1 ) ) {
+          o_oida = selected;
+          break;
+    }}}
+    /* IF ( not_empty o_oida ) */
+    if ( ( 0 != o_oida ) ) {
+      /* ASSIGN value[1] = preferred */
+      value[1] = Escher_strcpy( value[1], "preferred" );
+    }
     /* ASSIGN value[2] =  */
     value[2] = Escher_strcpy( value[2], "" );
-    /* ASSIGN value[3] =  */
-    value[3] = Escher_strcpy( value[3], "" );
+    /* SELECT one s_dt RELATED BY o_attr->S_DT[R114] */
+    s_dt = ( 0 != o_attr ) ? o_attr->S_DT_R114_defines_type_of : 0;
+    /* IF ( ( unique_id == s_dt.Name ) ) */
+    if ( ( Escher_strcmp( "unique_id", s_dt->Name ) == 0 ) ) {
+      /* ASSIGN value[2] = unique */
+      value[2] = Escher_strcpy( value[2], "unique" );
+    }
     /* out::populate(element:attribute, value:value) */
     maslout_out_populate( "attribute", value );
+    /* ASSIGN value[1] =  */
+    value[1] = Escher_strcpy( value[1], "" );
+    /* ASSIGN value[2] =  */
+    value[2] = Escher_strcpy( value[2], "" );
+    /* ASSIGN value[0] = o_attr.DefaultValue */
+    value[0] = Escher_strcpy( value[0], o_attr->DefaultValue );
+    /* IF ( (  == o_attr.DefaultValue ) ) */
+    if ( ( Escher_strcmp( "", o_attr->DefaultValue ) == 0 ) ) {
+      /* ASSIGN value[0] = s_dt.DefaultValue */
+      value[0] = Escher_strcpy( value[0], s_dt->DefaultValue );
+    }
+    /* IF ( (  != value[0] ) ) */
+    if ( ( Escher_strcmp( "", value[0] ) != 0 ) ) {
+      /* out::populate(element:expression, value:value) */
+      maslout_out_populate( "expression", value );
+    }
+    /* ASSIGN value[0] = s_dt.Name */
+    value[0] = Escher_strcpy( value[0], s_dt->Name );
+    /* out::populate(element:typeref, value:value) */
+    maslout_out_populate( "typeref", value );
+    /* SELECT any o_ref RELATED BY o_attr->O_RATTR[R106]->O_REF[R108] */
+    o_ref = 0;
+    {    if ( 0 != o_attr ) {
+    maslout_O_RATTR * R106_subtype = (maslout_O_RATTR *) o_attr->R106_subtype;
+    if ( 0 != R106_subtype )    if ( ( 0 != o_attr ) && ( maslout_O_RATTR_CLASS_NUMBER == o_attr->R106_object_id ) ) {
+    o_ref = ( 0 != R106_subtype ) ? (maslout_O_REF *) Escher_SetGetAny( &R106_subtype->O_REF_R108_resolves_ ) : 0;
+}}}
+    /* IF ( not_empty o_ref ) */
+    if ( ( 0 != o_ref ) ) {
+      /* ASSIGN value[0] = o_ref.Rel_Name */
+      value[0] = Escher_strcpy( value[0], o_ref->Rel_Name );
+      /* ASSIGN value[1] = c_c.Name */
+      value[1] = Escher_strcpy( value[1], c_c->Name );
+      /* ASSIGN value[2] = o_ref.RObj_Name */
+      value[2] = Escher_strcpy( value[2], o_ref->RObj_Name );
+      /* ASSIGN value[3] = o_obj.Name */
+      value[3] = Escher_strcpy( value[3], o_obj->Name );
+      /* ASSIGN value[4] = o_attr.Name */
+      value[4] = Escher_strcpy( value[4], o_attr->Name );
+      /* out::populate(element:referential, value:value) */
+      maslout_out_populate( "referential", value );
+      /* ASSIGN value[1] =  */
+      value[1] = Escher_strcpy( value[1], "" );
+      /* ASSIGN value[2] =  */
+      value[2] = Escher_strcpy( value[2], "" );
+      /* ASSIGN value[3] =  */
+      value[3] = Escher_strcpy( value[3], "" );
+      /* ASSIGN value[4] =  */
+      value[4] = Escher_strcpy( value[4], "" );
+    }
   }}}
   Escher_ClearSet( o_attrs ); 
 }
@@ -209,8 +282,8 @@ maslout_class2object( maslout_C_C * p_c_c )
     value[0] = Escher_strcpy( value[0], o_obj->Name );
     /* out::populate(element:object, value:value) */
     maslout_out_populate( "object", value );
-    /* ::attribute2attribute( o_obj:o_obj ) */
-    maslout_attribute2attribute( o_obj );
+    /* ::attribute2attribute( c_c:c_c, o_obj:o_obj ) */
+    maslout_attribute2attribute( c_c, o_obj );
   }}}
   Escher_ClearSet( o_objs ); 
 }

@@ -315,7 +315,10 @@ select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_
 for each o_obj in o_objs
   value[0] = o_obj.Name;
   out::populate( element:"object", value:value );
-  ::attribute2attribute( o_obj:o_obj );
+  ::attribute2attribute( c_c:c_c, o_obj:o_obj );
+  
+  // Set up the identifiers for the 
+  ::identifier2identifier( o_obj:o_obj );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -341,17 +344,64 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'attribute2attribute',
 	'',
-	'value[8] = "";
+	'/*
+  Attribute (O_ATTR) -> attribute
+  primary identifier (O_OIDA == 1) -> preferred
+  Attribute type of unique_id (O_ATTR->S_DT) -> unique
+*/
+  
 o_obj = param.o_obj;
+c_c = param.c_c;
 select many o_attrs related by o_obj->O_ATTR[R102];
 for each o_attr in o_attrs
+  value[8] = ""; // initialize length
   value[0] = o_attr.Name;
-  value[1] = ""; // preferred
-  value[2] = ""; // unique
-  // CDS o_attr.DefaultValue
-  // CDS select the type and get defaultValue from type
-  value[3] = ""; // default value
+  value[1] = "";
+  // See if this attribute is in the primary identifier.
+  select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 1 );
+  if ( not_empty o_oida )
+    value[1] = "preferred";
+  end if;
+  value[2] = "";
+  // See if the type of this attribute is unique_id.
+  select one s_dt related by o_attr->S_DT[R114];
+  if ( "unique_id" == s_dt.Name )
+    value[2] = "unique";
+  end if;
   out::populate( element:"attribute", value:value );
+  value[1] = "";
+  value[2] = "";
+  
+  // The default value comes first from the attribute then from its type.
+  value[0] = o_attr.DefaultValue;
+  if ( "" == o_attr.DefaultValue )
+    value[0] = s_dt.DefaultValue;
+  end if;
+  if ( "" != value[0] )
+    // Do not populate expression unless we have something useful.
+    out::populate( element:"expression", value:value );
+  end if;
+  
+  // Populate the type referred to by this attribute as a type reference.
+  // CDS - I think we may need to pass array dimension information from here.
+  value[0] = s_dt.Name;
+  out::populate( element:"typeref", value:value );
+  
+  // See if this attribute is a referential.
+  select any o_ref related by o_attr->O_RATTR[R106]->O_REF[R108];
+  if ( not_empty o_ref )
+    value[0] = o_ref.Rel_Name; // relationship name/number
+    value[1] = c_c.Name; // domain name
+    value[2] = o_ref.RObj_Name; // role or object:  object name always exists
+    value[3] = o_obj.Name; // parent object
+    value[4] = o_attr.Name; // attribute name
+    out::populate( element:"referential", value:value );
+    value[1] = "";
+    value[2] = "";
+    value[3] = "";
+    value[4] = "";
+  end if;
+  
 end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -363,7 +413,7 @@ INSERT INTO S_SPARM
 	"63f4ff99-f127-443b-a678-30ace41da702",
 	0,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"44cd8d5d-9f12-4f3a-b2bf-016ed0e68b7f",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
@@ -372,6 +422,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("44cd8d5d-9f12-4f3a-b2bf-016ed0e68b7f",
+	"636cf3d3-f72d-4072-b665-cde360ef7edb",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO PE_PE
 	VALUES ("636cf3d3-f72d-4072-b665-cde360ef7edb",
 	1,
@@ -461,6 +520,38 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("09d28e26-8c9d-40c0-b89a-276922023942",
+	"00000000-0000-0000-0000-000000000000",
+	'identifier2identifier',
+	'',
+	'value[8] = "";
+o_obj = param.o_obj;
+select many o_ids related by o_obj->O_ID[R104];
+for each o_id in o_ids
+  select many o_attrs related by o_id->O_ATTR[R105];
+  value[0] = ""; // o_id.Name;
+  out::populate( element:"identifier", value:value );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a84bec3f-93e6-496d-aa58-e382e6c4e593",
+	"09d28e26-8c9d-40c0-b89a-276922023942",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("09d28e26-8c9d-40c0-b89a-276922023942",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
