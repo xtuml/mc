@@ -86,7 +86,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'component2domain',
 	'',
-	'value[8] = "";
+	'value[7] = "";
 name = param.name;
 // component -> domain
 select any c_c from instances of C_C where ( selected.Name == param.name );
@@ -133,7 +133,7 @@ if ( markedsystems > 1 )
   TRACE::log( flavor:"failure", id:2, message:"WARNING:  More than one package is marked as a system build... choose only one." );
 end if;
 
-value[8] = "";
+value[7] = ""; // initialize length
 value[0] = param.name;
 out::populate( element:"project", value:value );
 
@@ -212,7 +212,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'message2function',
 	'',
-	'value[8] = "";
+	'value[7] = ""; // initialize length
 c_po = param.c_po;
 // message -> function/service
 select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
@@ -259,7 +259,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'parameter2parameter',
 	'',
-	'value[8] = "";
+	'value[7] = ""; // initialize length
 c_ep = param.c_ep;
 select any c_pp related by c_ep->C_PP[R4006];
 first_c_pp = c_pp;
@@ -270,7 +270,7 @@ end while;
 previous = "";
 c_pp = first_c_pp;
 while ( not_empty c_pp )
-  // CDS model and pass correct type
+  // CDS model and pass correct type reference
   // CDS model and pass correct direction
   //parameter = parameter::populate( name:c_pp.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
   value[0] = c_pp.Name;
@@ -309,7 +309,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'class2object',
 	'',
-	'value[8] = "";
+	'value[7] = "";
 c_c = param.c_c;
 select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
 for each o_obj in o_objs
@@ -350,11 +350,11 @@ INSERT INTO S_SYNC
   Attribute type of unique_id (O_ATTR->S_DT) -> unique
 */
   
+value[7] = ""; // initialize length
 o_obj = param.o_obj;
 c_c = param.c_c;
 select many o_attrs related by o_obj->O_ATTR[R102];
 for each o_attr in o_attrs
-  value[8] = ""; // initialize length
   value[0] = o_attr.Name;
   value[1] = "";
   // See if this attribute is in the primary identifier.
@@ -442,7 +442,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'type2type',
 	'',
-	'value[8] = "";
+	'value[7] = ""; // initialize length
 c_c = param.c_c;
 // CDS Data types in packages inside the component are considered private.
 select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001];
@@ -484,7 +484,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'association2relationship',
 	'',
-	'value[8] = "";
+	'value[7] = "";
 c_c = param.c_c;
 select many r_rels related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->R_REL[R8001];
 for each r_rel in r_rels
@@ -529,13 +529,23 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'identifier2identifier',
 	'',
-	'value[8] = "";
+	'/*
+  Assuming 8 or less identifier attributes.
+*/
 o_obj = param.o_obj;
 select many o_ids related by o_obj->O_ID[R104];
 for each o_id in o_ids
+  value[7] = ""; value[6] = ""; value[5] = ""; value[4] = "";
+  value[3] = ""; value[2] = ""; value[1] = ""; value[0] = "";
   select many o_attrs related by o_id->O_ATTR[R105];
-  value[0] = ""; // o_id.Name;
-  out::populate( element:"identifier", value:value );
+  i = 0;
+  for each o_attr in o_attrs
+    value[i] = o_attr.Name;
+    i = i + 1;
+  end for;
+  if ( not_empty o_attrs )
+    out::populate( element:"identifier", value:value );
+  end if;
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",

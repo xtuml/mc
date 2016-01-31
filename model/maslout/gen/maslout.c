@@ -61,9 +61,9 @@ extern void mark_pass( c_t * );
 void
 maslout_association2relationship( maslout_C_C * p_c_c )
 {
-  maslout_R_REL * r_rel=0;maslout_C_C * c_c;c_t * value[9]={0};Escher_ObjectSet_s r_rels_space={0}; Escher_ObjectSet_s * r_rels = &r_rels_space;
-  /* ASSIGN value[8] =  */
-  value[8] = Escher_strcpy( value[8], "" );
+  maslout_R_REL * r_rel=0;maslout_C_C * c_c;c_t * value[8]={0};Escher_ObjectSet_s r_rels_space={0}; Escher_ObjectSet_s * r_rels = &r_rels_space;
+  /* ASSIGN value[7] =  */
+  value[7] = Escher_strcpy( value[7], "" );
   /* ASSIGN c_c = PARAM.c_c */
   c_c = p_c_c;
   /* SELECT many r_rels RELATED BY c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->R_REL[R8001] */
@@ -140,7 +140,9 @@ maslout_association2relationship( maslout_C_C * p_c_c )
 void
 maslout_attribute2attribute( maslout_C_C * p_c_c, maslout_O_OBJ * p_o_obj )
 {
-  maslout_O_ATTR * o_attr=0;maslout_C_C * c_c;maslout_O_OBJ * o_obj;Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;
+  maslout_O_ATTR * o_attr=0;maslout_C_C * c_c;maslout_O_OBJ * o_obj;c_t * value[8]={0};Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;
+  /* ASSIGN value[7] =  */
+  value[7] = Escher_strcpy( value[7], "" );
   /* ASSIGN o_obj = PARAM.o_obj */
   o_obj = p_o_obj;
   /* ASSIGN c_c = PARAM.c_c */
@@ -156,9 +158,7 @@ maslout_attribute2attribute( maslout_C_C * p_c_c, maslout_O_OBJ * p_o_obj )
   Escher_IteratorReset( &itero_attr, o_attrs );
   while ( (iio_attr = (maslout_O_ATTR *)Escher_IteratorNext( &itero_attr )) != 0 ) {
     o_attr = iio_attr; {
-    c_t * value[9]={0};maslout_O_REF * o_ref=0;maslout_S_DT * s_dt=0;maslout_O_OIDA * o_oida=0;
-    /* ASSIGN value[8] =  */
-    value[8] = Escher_strcpy( value[8], "" );
+    maslout_O_REF * o_ref=0;maslout_S_DT * s_dt=0;maslout_O_OIDA * o_oida=0;
     /* ASSIGN value[0] = o_attr.Name */
     value[0] = Escher_strcpy( value[0], o_attr->Name );
     /* ASSIGN value[1] =  */
@@ -250,9 +250,9 @@ maslout_attribute2attribute( maslout_C_C * p_c_c, maslout_O_OBJ * p_o_obj )
 void
 maslout_class2object( maslout_C_C * p_c_c )
 {
-  maslout_O_OBJ * o_obj=0;maslout_C_C * c_c;c_t * value[9]={0};Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;
-  /* ASSIGN value[8] =  */
-  value[8] = Escher_strcpy( value[8], "" );
+  maslout_O_OBJ * o_obj=0;maslout_C_C * c_c;c_t * value[8]={0};Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;
+  /* ASSIGN value[7] =  */
+  value[7] = Escher_strcpy( value[7], "" );
   /* ASSIGN c_c = PARAM.c_c */
   c_c = p_c_c;
   /* SELECT many o_objs RELATED BY c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001] */
@@ -284,6 +284,8 @@ maslout_class2object( maslout_C_C * p_c_c )
     maslout_out_populate( "object", value );
     /* ::attribute2attribute( c_c:c_c, o_obj:o_obj ) */
     maslout_attribute2attribute( c_c, o_obj );
+    /* ::identifier2identifier( o_obj:o_obj ) */
+    maslout_identifier2identifier( o_obj );
   }}}
   Escher_ClearSet( o_objs ); 
 }
@@ -294,9 +296,9 @@ maslout_class2object( maslout_C_C * p_c_c )
 void
 maslout_component2domain( c_t * p_name )
 {
-  c_t * name=0;c_t * value[9]={0};maslout_C_C * c_c=0;
-  /* ASSIGN value[8] =  */
-  value[8] = Escher_strcpy( value[8], "" );
+  c_t * name=0;c_t * value[8]={0};maslout_C_C * c_c=0;
+  /* ASSIGN value[7] =  */
+  value[7] = Escher_strcpy( value[7], "" );
   /* ASSIGN name = PARAM.name */
   name = Escher_strcpy( name, p_name );
   /* SELECT any c_c FROM INSTANCES OF C_C WHERE ( SELECTED.Name == PARAM.name ) */
@@ -330,6 +332,77 @@ maslout_component2domain( c_t * p_name )
     /* ::class2object( c_c:c_c ) */
     maslout_class2object( c_c );
   }
+}
+
+/*
+ * Domain Function:  identifier2identifier
+ */
+void
+maslout_identifier2identifier( maslout_O_OBJ * p_o_obj )
+{
+  maslout_O_ID * o_id=0;maslout_O_OBJ * o_obj;Escher_ObjectSet_s o_ids_space={0}; Escher_ObjectSet_s * o_ids = &o_ids_space;
+  /* ASSIGN o_obj = PARAM.o_obj */
+  o_obj = p_o_obj;
+  /* SELECT many o_ids RELATED BY o_obj->O_ID[R104] */
+  Escher_ClearSet( o_ids );
+  if ( 0 != o_obj ) {
+    Escher_CopySet( o_ids, &o_obj->O_ID_R104_is_identified_by );
+  }
+  /* FOR EACH o_id IN o_ids */
+  { Escher_Iterator_s itero_id;
+  maslout_O_ID * iio_id;
+  Escher_IteratorReset( &itero_id, o_ids );
+  while ( (iio_id = (maslout_O_ID *)Escher_IteratorNext( &itero_id )) != 0 ) {
+    o_id = iio_id; {
+    maslout_O_ATTR * o_attr=0;i_t i;c_t * value[8]={0};Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;
+    /* ASSIGN value[7] =  */
+    value[7] = Escher_strcpy( value[7], "" );
+    /* ASSIGN value[6] =  */
+    value[6] = Escher_strcpy( value[6], "" );
+    /* ASSIGN value[5] =  */
+    value[5] = Escher_strcpy( value[5], "" );
+    /* ASSIGN value[4] =  */
+    value[4] = Escher_strcpy( value[4], "" );
+    /* ASSIGN value[3] =  */
+    value[3] = Escher_strcpy( value[3], "" );
+    /* ASSIGN value[2] =  */
+    value[2] = Escher_strcpy( value[2], "" );
+    /* ASSIGN value[1] =  */
+    value[1] = Escher_strcpy( value[1], "" );
+    /* ASSIGN value[0] =  */
+    value[0] = Escher_strcpy( value[0], "" );
+    /* SELECT many o_attrs RELATED BY o_id->O_ATTR[R105] */
+    Escher_ClearSet( o_attrs );
+    {    if ( 0 != o_id ) {
+    maslout_O_OIDA * O_OIDA_R105;
+    Escher_Iterator_s iO_OIDA_R105;
+    Escher_IteratorReset( &iO_OIDA_R105, &o_id->O_OIDA_R105 );
+    while ( 0 != ( O_OIDA_R105 = (maslout_O_OIDA *) Escher_IteratorNext( &iO_OIDA_R105 ) ) ) {
+    {maslout_O_ATTR * O_ATTR_R105_is_made_up_of_ = O_OIDA_R105->O_ATTR_R105_is_made_up_of_;
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) o_attrs, O_ATTR_R105_is_made_up_of_ ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) o_attrs, O_ATTR_R105_is_made_up_of_ );
+    }}}}}
+    /* ASSIGN i = 0 */
+    i = 0;
+    /* FOR EACH o_attr IN o_attrs */
+    { Escher_Iterator_s itero_attr;
+    maslout_O_ATTR * iio_attr;
+    Escher_IteratorReset( &itero_attr, o_attrs );
+    while ( (iio_attr = (maslout_O_ATTR *)Escher_IteratorNext( &itero_attr )) != 0 ) {
+      o_attr = iio_attr; {
+      /* ASSIGN value[i] = o_attr.Name */
+      value[i] = Escher_strcpy( value[i], o_attr->Name );
+      /* ASSIGN i = ( i + 1 ) */
+      i = ( i + 1 );
+    }}}
+    /* IF ( not_empty o_attrs ) */
+    if ( ( ! Escher_SetIsEmpty( o_attrs ) ) ) {
+      /* out::populate(element:identifier, value:value) */
+      maslout_out_populate( "identifier", value );
+    }
+    Escher_ClearSet( o_attrs ); 
+  }}}
+  Escher_ClearSet( o_ids ); 
 }
 
 /*
@@ -373,9 +446,9 @@ maslout_masl_project()
 void
 maslout_message2function( maslout_C_PO * p_c_po )
 {
-  maslout_C_EP * c_ep=0;maslout_C_PO * c_po;c_t * value[9]={0};Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
-  /* ASSIGN value[8] =  */
-  value[8] = Escher_strcpy( value[8], "" );
+  maslout_C_EP * c_ep=0;maslout_C_PO * c_po;c_t * value[8]={0};Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
+  /* ASSIGN value[7] =  */
+  value[7] = Escher_strcpy( value[7], "" );
   /* ASSIGN c_po = PARAM.c_po */
   c_po = p_c_po;
   /* SELECT many c_eps RELATED BY c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003] */
@@ -423,7 +496,7 @@ maslout_message2function( maslout_C_PO * p_c_po )
 void
 maslout_package2project( c_t * p_name )
 {
-  maslout_C_C * c_c=0;c_t * value[9]={0};i_t markedsystems;Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;
+  maslout_C_C * c_c=0;c_t * value[8]={0};i_t markedsystems;Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;
   /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == PARAM.name ) */
   Escher_ClearSet( ep_pkgs );
   { maslout_EP_PKG * selected;
@@ -447,8 +520,8 @@ maslout_package2project( c_t * p_name )
     /* TRACE::log( flavor:failure, id:2, message:WARNING:  More than one package is marked as a system build... choose only one. ) */
     TRACE_log( "failure", 2, "WARNING:  More than one package is marked as a system build... choose only one." );
   }
-  /* ASSIGN value[8] =  */
-  value[8] = Escher_strcpy( value[8], "" );
+  /* ASSIGN value[7] =  */
+  value[7] = Escher_strcpy( value[7], "" );
   /* ASSIGN value[0] = PARAM.name */
   value[0] = Escher_strcpy( value[0], p_name );
   /* out::populate(element:project, value:value) */
@@ -487,9 +560,9 @@ maslout_package2project( c_t * p_name )
 void
 maslout_parameter2parameter( maslout_C_EP * p_c_ep )
 {
-  c_t * previous=0;maslout_C_PP * first_c_pp;maslout_C_EP * c_ep;c_t * value[9]={0};maslout_C_PP * c_pp=0;
-  /* ASSIGN value[8] =  */
-  value[8] = Escher_strcpy( value[8], "" );
+  c_t * previous=0;maslout_C_PP * first_c_pp;maslout_C_EP * c_ep;c_t * value[8]={0};maslout_C_PP * c_pp=0;
+  /* ASSIGN value[7] =  */
+  value[7] = Escher_strcpy( value[7], "" );
   /* ASSIGN c_ep = PARAM.c_ep */
   c_ep = p_c_ep;
   /* SELECT any c_pp RELATED BY c_ep->C_PP[R4006] */
@@ -558,9 +631,9 @@ maslout_port2terminator( maslout_C_C * p_c_c )
 void
 maslout_type2type( maslout_C_C * p_c_c )
 {
-  maslout_S_DT * s_dt=0;maslout_C_C * c_c;c_t * value[9]={0};Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;
-  /* ASSIGN value[8] =  */
-  value[8] = Escher_strcpy( value[8], "" );
+  maslout_S_DT * s_dt=0;maslout_C_C * c_c;c_t * value[8]={0};Escher_ObjectSet_s s_dts_space={0}; Escher_ObjectSet_s * s_dts = &s_dts_space;
+  /* ASSIGN value[7] =  */
+  value[7] = Escher_strcpy( value[7], "" );
   /* ASSIGN c_c = PARAM.c_c */
   c_c = p_c_c;
   /* SELECT many s_dts RELATED BY c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001] */
