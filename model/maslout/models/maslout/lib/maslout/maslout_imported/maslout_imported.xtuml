@@ -86,7 +86,9 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'component2domain',
 	'',
-	'value[7] = "";
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
 name = param.name;
 // component -> domain
 select any c_c from instances of C_C where ( selected.Name == param.name );
@@ -95,15 +97,14 @@ if ( empty c_c )
 else
   value[0] = c_c.Name;
   out::populate( element:"domain", value:value );
+  
   ::type2type( c_c:c_c );
-  ::association2relationship( c_c:c_c );
+  ::function2service( c_c:c_c );
   ::port2terminator( c_c:c_c );
+  ::association2relationship( c_c:c_c );
   ::class2object( c_c:c_c );
   
-  // end domain
-  value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
-  value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
-  out::populate( element:"domain", value:value );
+  out::populate( element:"domain", value:emptyvalue );
 end if;
       ',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -129,7 +130,10 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'package2project',
 	'',
-	'select many ep_pkgs from instances of EP_PKG where ( selected.Name == param.name );
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+select many ep_pkgs from instances of EP_PKG where ( selected.Name == param.name );
 markedsystems = cardinality ep_pkgs;
 if ( empty ep_pkgs )
   TRACE::log( flavor:"failure", id:1, message:"ERROR:  Marked configuration package was not found in model:" + param.name );
@@ -138,7 +142,6 @@ if ( markedsystems > 1 )
   TRACE::log( flavor:"failure", id:2, message:"WARNING:  More than one package is marked as a system build... choose only one." );
 end if;
 
-value[7] = ""; // initialize length
 value[0] = param.name;
 out::populate( element:"project", value:value );
 
@@ -151,6 +154,8 @@ for each c_c in c_cs
   ::component2domain( name:c_c.Name );
 end for;
 
+// end project
+out::populate( element:"project", value:emptyvalue );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -175,14 +180,18 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'port2terminator',
 	'',
-	'value[7] = "";
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
 c_c = param.c_c;
 // (outbound) port -> terminator
 select many c_pos related by c_c->C_PO[R4010];
 for each c_po in c_pos
   value[0] = c_po.Name;
   out::populate( element:"terminator", value:value );
-  ::message2function( c_po:c_po );
+  ::message2service( c_po:c_po );
+  // end terminator
+  out::populate( element:"terminator", value:emptyvalue );
 end for;
 
   
@@ -215,9 +224,11 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
 	"00000000-0000-0000-0000-000000000000",
-	'message2function',
+	'message2service',
 	'',
 	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
 c_po = param.c_po;
 // message -> function/service
 select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
@@ -228,10 +239,12 @@ for each c_ep in c_eps
   //if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
     element = "service";
   //end if;
-  value[0] = "public";
+  value[0] = "public"; // Messages turn into public services.
   value[1] = c_ep.Name;
   out::populate( element:element, value:value );
-  ::parameter2parameter( c_ep:c_ep );
+  ::parameterC_PP2parameter( c_ep:c_ep );
+  out::populate( element:element, value:emptyvalue );
+  
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -262,9 +275,11 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
 	"00000000-0000-0000-0000-000000000000",
-	'parameter2parameter',
+	'parameterC_PP2parameter',
 	'',
 	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
 c_ep = param.c_ep;
 select any c_pp related by c_ep->C_PP[R4006];
 first_c_pp = c_pp;
@@ -281,6 +296,7 @@ while ( not_empty c_pp )
   value[0] = c_pp.Name;
   value[1] = "in";
   out::populate( element:"parameter", value:value );
+  out::populate( element:"parameter", value:emptyvalue );
   select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
 end while;
 ',
@@ -314,7 +330,9 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'class2object',
 	'',
-	'value[7] = "";
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
 c_c = param.c_c;
 select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
 for each o_obj in o_objs
@@ -335,9 +353,7 @@ for each o_obj in o_objs
 end for;
 
 // end object
-value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
-value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
-out::populate( element:"object", value:value );
+out::populate( element:"object", value:emptyvalue );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -461,7 +477,9 @@ INSERT INTO S_SYNC
 	'type2type',
 	'',
 	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 c_c = param.c_c;
+
 // CDS Data types in packages inside the component are considered private.
 select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
@@ -470,6 +488,7 @@ for each s_dt in s_dts
   value[2] = s_dt.Descrip;  // body of type
   out::populate( element:"type", value:value );
 end for;
+
 // CDS Data types in packages directly off of the system are considered public.
 select many s_dts related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
@@ -478,8 +497,6 @@ for each s_dt in s_dts
   value[2] = s_dt.Descrip;  // body of type
   out::populate( element:"type", value:value );
 end for;
-value[0] = ""; value[1] = ""; value[2] = "";
-out::populate( element:"type", value:value );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -662,6 +679,93 @@ INSERT INTO S_DT_PROXY
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
 INSERT INTO PE_PE
 	VALUES ("844ea9b2-b764-49f9-b6c3-b594fc02b28e",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ca010eda-543b-4971-abfb-32b006d6d31c",
+	"00000000-0000-0000-0000-000000000000",
+	'function2service',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+select many s_syncs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_SYNC[R8001];
+for each s_sync in s_syncs
+
+  value[0] = "private"; // Domain functions are all private, even if used by messages.
+  value[1] = s_sync.Name;
+  value[2] = ""; // not instance
+  value[3] = ""; // not deferred
+  
+  // find return type if exists
+  select one s_dt related by s_sync->S_DT[R25];
+  returntype = "";
+  if ( empty s_dt )
+    out::populate( element:"service", value:value );
+    ::parameterS_SPARM2parameter( s_sync:s_sync );
+    // CDS - typeref goes here
+    out::populate( element:"service", value:emptyvalue );
+  else
+    out::populate( element:"function", value:value );
+    ::parameterS_SPARM2parameter( s_sync:s_sync );
+    out::populate( element:"function", value:emptyvalue );
+  end if;
+  
+end for;
+
+  
+
+  
+
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6f121837-e5ec-493f-a1f1-f42c2bc5c711",
+	"ca010eda-543b-4971-abfb-32b006d6d31c",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("ca010eda-543b-4971-abfb-32b006d6d31c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
+	"00000000-0000-0000-0000-000000000000",
+	'parameterS_SPARM2parameter',
+	'',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	3,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("60fb8b97-7f20-4095-b943-e08c3a8e2e31",
+	"be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
+	's_sync',
+	"60690409-5a69-45db-896b-5a63a9103c18",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("60690409-5a69-45db-896b-5a63a9103c18",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO PE_PE
+	VALUES ("be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
