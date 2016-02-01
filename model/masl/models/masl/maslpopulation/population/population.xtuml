@@ -43,6 +43,10 @@ if ( "" == value[0] )
     unrelate population from current_element across R3789.''has active'';					// remove from the active collection
     return;
   end if;
+  // check if it is a leaf node and ignore if there are no args
+  if ( "typeref" == element or "referential" == element or "pragmaitem" == element or "transition" == element )
+    return;
+  end if;
 end if;
 
 if ( "project" == element )

@@ -74,9 +74,13 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       masl_element_R3784_Link_has_current( population, parent_element );
       /* UNRELATE population FROM current_element ACROSS R3789 */
       masl_element_R3789_Unlink_has_active( population, current_element );
-    }
-    /* RETURN  */
-    return;  }
+      /* RETURN  */
+      return;    }
+    /* IF ( ( ( ( ( typeref == element ) or ( referential == element ) ) or ( pragmaitem == element ) ) or ( transition == element ) ) ) */
+    if ( ( ( ( ( Escher_strcmp( "typeref", element ) == 0 ) || ( Escher_strcmp( "referential", element ) == 0 ) ) || ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) || ( Escher_strcmp( "transition", element ) == 0 ) ) ) {
+      /* RETURN  */
+      return;    }
+  }
   /* IF ( ( project == element ) ) */
   if ( ( Escher_strcmp( "project", element ) == 0 ) ) {
     masl_project * project;masl_element * new_element=0;
