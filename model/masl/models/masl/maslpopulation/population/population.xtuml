@@ -48,27 +48,27 @@ end if;
 
 if ( "project" == element )
     project = project::populate( name:value[0] );
-    select one new_element related by project->markable_element[R3783]->element[R3786];
+    select one new_element related by project->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "domain" == element )
-	select one parent_project related by population->element[R3784.''has current'']->markable_element[R3786]->project[R3783];
+	select one parent_project related by population->element[R3784.''has current'']->markable[R3786]->project[R3783];
     domain = domain::populate( name:value[0], project:parent_project );
-    select one new_element related by domain->markable_element[R3783]->element[R3786];
+    select one new_element related by domain->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "object" == element )
-	select one parent_domain related by population->element[R3784.''has current'']->markable_element[R3786]->domain[R3783];
+	select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
     object = object::populate( name:value[0], domain:parent_domain );
-    select one new_element related by object->markable_element[R3783]->element[R3786];
+    select one new_element related by object->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "terminator" == element )
-	select one parent_domain related by population->element[R3784.''has current'']->markable_element[R3786]->domain[R3783];
+	select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
     terminator = terminator::populate( name:value[0], domain:parent_domain );
-    select one new_element related by terminator->markable_element[R3783]->element[R3786];
+    select one new_element related by terminator->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "service" == element or "function" == element )
-	select one parent_domain related by population->element[R3784.''has current'']->markable_element[R3786]->domain[R3783];
-	select one parent_terminator related by population->element[R3784.''has current'']->markable_element[R3786]->terminator[R3783];
-	select one parent_object related by population->element[R3784.''has current'']->markable_element[R3786]->object[R3783];
+	select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
+	select one parent_terminator related by population->element[R3784.''has current'']->markable[R3786]->terminator[R3783];
+	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
 	if ( not_empty parent_domain and empty parent_terminator )
 	  // child of domain
   	  select any parent_terminator from instances of terminator where ( false );
@@ -91,10 +91,10 @@ elif ( "service" == element or "function" == element )
 	elif ( "function" == element )
       activity = function::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
 	end if;
-    select one new_element related by activity->markable_element[R3783]->element[R3786];
+    select one new_element related by activity->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "parameter" == element )
-	select one parent_activity related by population->element[R3784.''has current'']->markable_element[R3786]->activity[R3783];
+	select one parent_activity related by population->element[R3784.''has current'']->markable[R3786]->activity[R3783];
 	select one sibling_parameter related by population->element[R3784.''has current'']->unmarkable[R3786]->parameter[R3788];
   	if ( not_empty sibling_parameter )
   	  // sibling of parameter
@@ -107,9 +107,9 @@ elif ( "parameter" == element )
     select one new_element related by parameter->unmarkable[R3788]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "attribute" == element )
-	select one parent_object related by population->element[R3784.''has current'']->markable_element[R3786]->object[R3783];
+	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
     attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:parent_object );
-    select one new_element related by attribute->markable_element[R3783]->element[R3786];
+    select one new_element related by attribute->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "referential" == element )
 	TRACE::log( flavor:"levi", id:99, message:"referential called" );
@@ -119,12 +119,12 @@ elif ( "referential" == element )
     obj = value[3];
     attr = value[4];
     
-	select any current_object related by population->element[R3789.''has active'']->markable_element[R3786]->object[R3783];
+	select any current_object related by population->element[R3789.''has active'']->markable[R3786]->object[R3783];
 
     // get the domain of the relationship (if not specified use current domain)
     select any parent_domain from instances of domain where false;
     if ( "" == domain_name )
-	  select any parent_domain related by population->element[R3789.''has active'']->markable_element[R3786]->domain[R3783];
+	  select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
     else
       select any parent_domain from instances of domain where ( selected.name == domain_name );
     end if;
@@ -190,13 +190,13 @@ elif ( "referential" == element )
       referred_to = attribute::populate( name:attr, preferred:"", unique:"", defaultvalue:"", object:target_object );
     end if;
       
-	select one parent_attribute related by population->element[R3784.''has current'']->markable_element[R3786]->attribute[R3783];
+	select one parent_attribute related by population->element[R3784.''has current'']->markable[R3786]->attribute[R3783];
     p = referential::populate( relationship:relationship, referring:parent_attribute, referred_to:referred_to, rolephrase:rolephrase );
     // referential is a leaf node and does not get pushed onto the current element stack
 elif ( "typeref" == element )
-	select one parent_function related by population->element[R3784.''has current'']->markable_element[R3786]->activity[R3783]->function[R3704];
+	select one parent_function related by population->element[R3784.''has current'']->markable[R3786]->activity[R3783]->function[R3704];
 	select one parent_parameter related by population->element[R3784.''has current'']->unmarkable[R3786]->parameter[R3788];
-	select one parent_attribute related by population->element[R3784.''has current'']->markable_element[R3786]->attribute[R3783];
+	select one parent_attribute related by population->element[R3784.''has current'']->markable[R3786]->attribute[R3783];
     if ( not_empty parent_function and empty parent_parameter )
       // child of function
       select any parent_parameter from instances of parameter where false;
@@ -212,30 +212,30 @@ elif ( "typeref" == element )
     else
       TRACE::log( flavor:"failure", id:39, message:"no parent for typeref" );
     end if;
-	select any parent_domain related by population->element[R3789.''has active'']->markable_element[R3786]->domain[R3783];
+	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
     p = typeref::populate( name:"", body:value[0], domain:parent_domain, parent_parameter:parent_parameter, parent_function:parent_function, parent_attribute:parent_attribute );
     // typeref is a leaf node and does not get pushed onto the current element stack
 elif ( "transitiontable" == element )
-	select one parent_object related by population->element[R3784.''has current'']->markable_element[R3786]->object[R3783];
+	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
     state_machine = state_machine::populate( type:value[0], object:parent_object );
-    select one new_element related by state_machine->markable_element[R3783]->element[R3786];
+    select one new_element related by state_machine->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "state" == element )
-	select one parent_object related by population->element[R3784.''has current'']->markable_element[R3786]->object[R3783];
+	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
     state = state::populate( name:value[0], type:value[1], object:parent_object );
-    //select one new_element related by state->markable_element[R3783]->element[R3786];
+    //select one new_element related by state->markable[R3783]->element[R3786];
     //population.push_element( new_element:new_element );
 elif ( "event" == element )
-	select one parent_object related by population->element[R3784.''has current'']->markable_element[R3786]->object[R3783];
+	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
     event = event::populate( name:value[0], type:value[1], object:parent_object );
-    select one new_element related by event->markable_element[R3783]->element[R3786];
+    select one new_element related by event->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "transition" == element )
-  select one parent_state_machine related by population->element[R3784.''has current'']->markable_element[R3786]->state_machine[R3783];
+  select one parent_state_machine related by population->element[R3784.''has current'']->markable[R3786]->state_machine[R3783];
   c = cell::populate( startstate:value[0], event:value[1], endstate:value[2], statemachine:parent_state_machine );
   // transition is a leaf node and does not get pushed onto the current element stack
 elif ( "regularrel" == element or "associative" == element or "subsuper" == element )
-	select any parent_domain related by population->element[R3789.''has active'']->markable_element[R3786]->domain[R3783];
+	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
 	
 	select one curr related by population->element[R3784.''has current''];
 	TRACE::log( flavor:"levi", id:99, message:"curr:  " + curr.name );
@@ -250,21 +250,21 @@ elif ( "regularrel" == element or "associative" == element or "subsuper" == elem
     else
 	  TRACE::log( flavor:"levi", id:99, message:"this is very bad" );
     end if;
-    select one new_element related by relationship->markable_element[R3783]->element[R3786];
+    select one new_element related by relationship->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "participation" == element )
-	select any parent_relationship related by population->element[R3789.''has active'']->markable_element[R3786]->relationship[R3783];
+	select any parent_relationship related by population->element[R3789.''has active'']->markable[R3786]->relationship[R3783];
 	select one parent_participation related by population->element[R3784.''has current'']->unmarkable[R3786]->participation[R3788];
 	participation = participation::populate( fromobject:value[0], phrase:value[1], conditionality:value[2], multiplicity:value[3], toobject:value[4], relationship:parent_relationship, participation:parent_participation );
     select one new_element related by participation->unmarkable[R3788]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "type" == element )
-	select one parent_domain related by population->element[R3784.''has current'']->markable_element[R3786]->domain[R3783];
+	select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
     type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:parent_domain );
-    select one new_element related by type->markable_element[R3783]->element[R3786];
+    select one new_element related by type->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "pragma" == element )
-	select one markable related by population->element[R3784.''has current'']->markable_element[R3786];
+	select one markable related by population->element[R3784.''has current'']->markable[R3786];
     pragma = pragma::populate( name:value[0], list:value[1], element:markable );
     select one new_element related by pragma->unmarkable[R3788]->element[R3786];
     population.push_element( new_element:new_element );

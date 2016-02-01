@@ -243,7 +243,7 @@ INSERT INTO GD_GE
 	"1416f703-db51-4598-b9ca-f24cc279da0e",
 	21,
 	0,
-	'masl::maslpopulation::markable_element');
+	'masl::maslpopulation::markable');
 INSERT INTO GD_SHP
 	VALUES ("db568e5b-95cb-45cc-822e-6f8b69f35df5");
 INSERT INTO GD_NCS
@@ -3037,7 +3037,7 @@ INSERT INTO GD_GE
 	"c7ca790b-36af-4452-a1ca-32a6597d7a6e",
 	35,
 	0,
-	'masl::maslpopulation::R3786::markable_element');
+	'masl::maslpopulation::R3786::markable');
 INSERT INTO GD_CON
 	VALUES ("b54a8613-f77c-4ad4-86ed-8bd2f1d143f3",
 	"00000000-0000-0000-0000-000000000000");
@@ -4063,7 +4063,7 @@ INSERT INTO DIM_DIA
 INSERT INTO S_DT
 	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<markable_element>',
+	'inst_ref<markable>',
 	'',
 	'');
 INSERT INTO S_IRDT
@@ -4072,12 +4072,12 @@ INSERT INTO S_IRDT
 	"1416f703-db51-4598-b9ca-f24cc279da0e");
 INSERT INTO O_OBJ_PROXY
 	VALUES ("1416f703-db51-4598-b9ca-f24cc279da0e",
-	'markable_element',
+	'markable',
 	3774,
-	'markable_element',
+	'markable',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'./markable_element/markable_element.xtuml');
+	'./markable/markable.xtuml');
 INSERT INTO PE_PE
 	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
 	1,
@@ -4087,7 +4087,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("31f6d7a6-a33d-4218-b95b-058c01cb96db",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<markable_element>',
+	'inst_ref_set<markable>',
 	'',
 	'');
 INSERT INTO S_IRDT

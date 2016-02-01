@@ -59,7 +59,7 @@ INSERT INTO O_TPARM
 INSERT INTO S_DT_PROXY
 	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<markable_element>',
+	'inst_ref<markable>',
 	'',
 	'',
 	'../maslpopulation.xtuml');

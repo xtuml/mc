@@ -84,112 +84,112 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     masl_project * project;masl_element * new_element=0;
     /* ASSIGN project = project::populate(name:value[0]) */
     project = masl_project_op_populate(value[0]);
-    /* SELECT one new_element RELATED BY project->markable_element[R3783]->element[R3786] */
+    /* SELECT one new_element RELATED BY project->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != project ) {
-    masl_markable_element * markable_element_R3783 = project->markable_element_R3783;
-    if ( 0 != markable_element_R3783 ) {
-    new_element = markable_element_R3783->element_R3786;
+    masl_markable * markable_R3783 = project->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "domain", element ) == 0 ) ) {
     masl_domain * domain;masl_element * new_element=0;masl_project * parent_project=0;
-    /* SELECT one parent_project RELATED BY population->element[R3784.has current]->markable_element[R3786]->project[R3783] */
+    /* SELECT one parent_project RELATED BY population->element[R3784.has current]->markable[R3786]->project[R3783] */
     parent_project = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_project_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_project = (masl_project *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN domain = domain::populate(name:value[0], project:parent_project) */
     domain = masl_domain_op_populate(value[0], parent_project);
-    /* SELECT one new_element RELATED BY domain->markable_element[R3783]->element[R3786] */
+    /* SELECT one new_element RELATED BY domain->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != domain ) {
-    masl_markable_element * markable_element_R3783 = domain->markable_element_R3783;
-    if ( 0 != markable_element_R3783 ) {
-    new_element = markable_element_R3783->element_R3786;
+    masl_markable * markable_R3783 = domain->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "object", element ) == 0 ) ) {
     masl_object * object;masl_element * new_element=0;masl_domain * parent_domain=0;
-    /* SELECT one parent_domain RELATED BY population->element[R3784.has current]->markable_element[R3786]->domain[R3783] */
+    /* SELECT one parent_domain RELATED BY population->element[R3784.has current]->markable[R3786]->domain[R3783] */
     parent_domain = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_domain_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_domain = (masl_domain *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN object = object::populate(domain:parent_domain, name:value[0]) */
     object = masl_object_op_populate(parent_domain, value[0]);
-    /* SELECT one new_element RELATED BY object->markable_element[R3783]->element[R3786] */
+    /* SELECT one new_element RELATED BY object->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != object ) {
-    masl_markable_element * markable_element_R3783 = object->markable_element_R3783;
-    if ( 0 != markable_element_R3783 ) {
-    new_element = markable_element_R3783->element_R3786;
+    masl_markable * markable_R3783 = object->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "terminator", element ) == 0 ) ) {
     masl_terminator * terminator;masl_element * new_element=0;masl_domain * parent_domain=0;
-    /* SELECT one parent_domain RELATED BY population->element[R3784.has current]->markable_element[R3786]->domain[R3783] */
+    /* SELECT one parent_domain RELATED BY population->element[R3784.has current]->markable[R3786]->domain[R3783] */
     parent_domain = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_domain_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_domain = (masl_domain *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN terminator = terminator::populate(domain:parent_domain, name:value[0]) */
     terminator = masl_terminator_op_populate(parent_domain, value[0]);
-    /* SELECT one new_element RELATED BY terminator->markable_element[R3783]->element[R3786] */
+    /* SELECT one new_element RELATED BY terminator->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != terminator ) {
-    masl_markable_element * markable_element_R3783 = terminator->markable_element_R3783;
-    if ( 0 != markable_element_R3783 ) {
-    new_element = markable_element_R3783->element_R3786;
+    masl_markable * markable_R3783 = terminator->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( ( Escher_strcmp( "service", element ) == 0 ) || ( Escher_strcmp( "function", element ) == 0 ) ) ) {
     masl_activity * activity=0;masl_element * new_element=0;masl_object * parent_object=0;masl_terminator * parent_terminator=0;masl_domain * parent_domain=0;
-    /* SELECT one parent_domain RELATED BY population->element[R3784.has current]->markable_element[R3786]->domain[R3783] */
+    /* SELECT one parent_domain RELATED BY population->element[R3784.has current]->markable[R3786]->domain[R3783] */
     parent_domain = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_domain_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_domain = (masl_domain *) R3786_subtype->R3783_subtype;
 }}}}
-    /* SELECT one parent_terminator RELATED BY population->element[R3784.has current]->markable_element[R3786]->terminator[R3783] */
+    /* SELECT one parent_terminator RELATED BY population->element[R3784.has current]->markable[R3786]->terminator[R3783] */
     parent_terminator = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_terminator_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_terminator = (masl_terminator *) R3786_subtype->R3783_subtype;
 }}}}
-    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable_element[R3786]->object[R3783] */
+    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable[R3786]->object[R3783] */
     parent_object = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
 }}}}
     /* IF ( ( not_empty parent_domain and empty parent_terminator ) ) */
@@ -226,25 +226,25 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* ASSIGN activity = function::populate(deferred_relationship:value[3], instance:value[2], name:value[1], parent_domain:parent_domain, parent_object:parent_object, parent_terminator:parent_terminator, visibility:value[0]) */
       activity = masl_function_op_populate(value[3], value[2], value[1], parent_domain, parent_object, parent_terminator, value[0]);
     }
-    /* SELECT one new_element RELATED BY activity->markable_element[R3783]->element[R3786] */
+    /* SELECT one new_element RELATED BY activity->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != activity ) {
-    masl_markable_element * markable_element_R3783 = activity->markable_element_R3783;
-    if ( 0 != markable_element_R3783 ) {
-    new_element = markable_element_R3783->element_R3786;
+    masl_markable * markable_R3783 = activity->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "parameter", element ) == 0 ) ) {
     masl_parameter * parameter;masl_element * new_element=0;masl_parameter * sibling_parameter=0;masl_activity * parent_activity=0;
-    /* SELECT one parent_activity RELATED BY population->element[R3784.has current]->markable_element[R3786]->activity[R3783] */
+    /* SELECT one parent_activity RELATED BY population->element[R3784.has current]->markable[R3786]->activity[R3783] */
     parent_activity = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_activity_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_activity = (masl_activity *) R3786_subtype->R3783_subtype;
 }}}}
     /* SELECT one sibling_parameter RELATED BY population->element[R3784.has current]->unmarkable[R3786]->parameter[R3788] */
@@ -279,23 +279,23 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   }
   else if ( ( Escher_strcmp( "attribute", element ) == 0 ) ) {
     masl_attribute * attribute;masl_element * new_element=0;masl_object * parent_object=0;
-    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable_element[R3786]->object[R3783] */
+    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable[R3786]->object[R3783] */
     parent_object = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN attribute = attribute::populate(defaultvalue:value[3], name:value[0], object:parent_object, preferred:value[1], unique:value[2]) */
     attribute = masl_attribute_op_populate(value[3], value[0], parent_object, value[1], value[2]);
-    /* SELECT one new_element RELATED BY attribute->markable_element[R3783]->element[R3786] */
+    /* SELECT one new_element RELATED BY attribute->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != attribute ) {
-    masl_markable_element * markable_element_R3783 = attribute->markable_element_R3783;
-    if ( 0 != markable_element_R3783 ) {
-    new_element = markable_element_R3783->element_R3786;
+    masl_markable * markable_R3783 = attribute->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
@@ -314,30 +314,30 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     Escher_strcpy( obj, value[3] );
     /* ASSIGN attr = value[4] */
     Escher_strcpy( attr, value[4] );
-    /* SELECT any current_object RELATED BY population->element[R3789.has active]->markable_element[R3786]->object[R3783] */
+    /* SELECT any current_object RELATED BY population->element[R3789.has active]->markable[R3786]->object[R3783] */
     current_object = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3789_has_active;
     Escher_Iterator_s ielement_R3789_has_active;
     Escher_IteratorReset( &ielement_R3789_has_active, &population->element_R3789_has_active );
     while ( ( 0 == current_object ) && ( 0 != ( element_R3789_has_active = (masl_element *) Escher_IteratorNext( &ielement_R3789_has_active ) ) ) ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3789_has_active->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_element_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3789_has_active->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    current_object = (masl_object *) R3786_subtype->R3783_subtype;
 }}}}
     /* SELECT any parent_domain FROM INSTANCES OF domain WHERE FALSE */
     parent_domain = 0;
     /* IF ( (  == domain_name ) ) */
     if ( ( Escher_strcmp( "", domain_name ) == 0 ) ) {
-      /* SELECT any parent_domain RELATED BY population->element[R3789.has active]->markable_element[R3786]->domain[R3783] */
+      /* SELECT any parent_domain RELATED BY population->element[R3789.has active]->markable[R3786]->domain[R3783] */
       parent_domain = 0;
       {      if ( 0 != population ) {
       masl_element * element_R3789_has_active;
       Escher_Iterator_s ielement_R3789_has_active;
       Escher_IteratorReset( &ielement_R3789_has_active, &population->element_R3789_has_active );
       while ( ( 0 == parent_domain ) && ( 0 != ( element_R3789_has_active = (masl_element *) Escher_IteratorNext( &ielement_R3789_has_active ) ) ) ) {
-      masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3789_has_active->R3786_subtype;
-      if ( 0 != R3786_subtype )      if ( ( 0 != element_R3789_has_active ) && ( masl_markable_element_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
+      masl_markable * R3786_subtype = (masl_markable *) element_R3789_has_active->R3786_subtype;
+      if ( 0 != R3786_subtype )      if ( ( 0 != element_R3789_has_active ) && ( masl_markable_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
       if ( ( 0 != R3786_subtype ) && ( masl_domain_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )      parent_domain = (masl_domain *) R3786_subtype->R3783_subtype;
 }}}}
     }
@@ -467,13 +467,13 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* ASSIGN referred_to = attribute::populate(defaultvalue:, name:attr, object:target_object, preferred:, unique:) */
       referred_to = masl_attribute_op_populate("", attr, target_object, "", "");
     }
-    /* SELECT one parent_attribute RELATED BY population->element[R3784.has current]->markable_element[R3786]->attribute[R3783] */
+    /* SELECT one parent_attribute RELATED BY population->element[R3784.has current]->markable[R3786]->attribute[R3783] */
     parent_attribute = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_attribute_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_attribute = (masl_attribute *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN p = referential::populate(referred_to:referred_to, referring:parent_attribute, relationship:relationship, rolephrase:rolephrase) */
@@ -481,13 +481,13 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   }
   else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
     masl_typeref * p;masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_parameter * parent_parameter=0;masl_function * parent_function=0;
-    /* SELECT one parent_function RELATED BY population->element[R3784.has current]->markable_element[R3786]->activity[R3783]->function[R3704] */
+    /* SELECT one parent_function RELATED BY population->element[R3784.has current]->markable[R3786]->activity[R3783]->function[R3704] */
     parent_function = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     masl_activity * R3783_subtype = (masl_activity *) R3786_subtype->R3783_subtype;
     if ( 0 != R3783_subtype )    if ( ( 0 != R3786_subtype ) && ( masl_activity_CLASS_NUMBER == R3786_subtype->R3783_object_id ) ) {
     if ( ( 0 != R3783_subtype ) && ( masl_function_CLASS_NUMBER == R3783_subtype->R3704_object_id ) )    parent_function = (masl_function *) R3783_subtype->R3704_subtype;
@@ -501,13 +501,13 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_unmarkable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_parameter_CLASS_NUMBER == R3786_subtype->R3788_object_id ) )    parent_parameter = (masl_parameter *) R3786_subtype->R3788_subtype;
 }}}}
-    /* SELECT one parent_attribute RELATED BY population->element[R3784.has current]->markable_element[R3786]->attribute[R3783] */
+    /* SELECT one parent_attribute RELATED BY population->element[R3784.has current]->markable[R3786]->attribute[R3783] */
     parent_attribute = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_attribute_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_attribute = (masl_attribute *) R3786_subtype->R3783_subtype;
 }}}}
     /* IF ( ( not_empty parent_function and empty parent_parameter ) ) */
@@ -533,15 +533,15 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* TRACE::log( flavor:failure, id:39, message:no parent for typeref ) */
       TRACE_log( "failure", 39, "no parent for typeref" );
     }
-    /* SELECT any parent_domain RELATED BY population->element[R3789.has active]->markable_element[R3786]->domain[R3783] */
+    /* SELECT any parent_domain RELATED BY population->element[R3789.has active]->markable[R3786]->domain[R3783] */
     parent_domain = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3789_has_active;
     Escher_Iterator_s ielement_R3789_has_active;
     Escher_IteratorReset( &ielement_R3789_has_active, &population->element_R3789_has_active );
     while ( ( 0 == parent_domain ) && ( 0 != ( element_R3789_has_active = (masl_element *) Escher_IteratorNext( &ielement_R3789_has_active ) ) ) ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3789_has_active->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_element_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3789_has_active->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_domain_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_domain = (masl_domain *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN p = typeref::populate(body:value[0], domain:parent_domain, name:, parent_attribute:parent_attribute, parent_function:parent_function, parent_parameter:parent_parameter) */
@@ -549,36 +549,36 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   }
   else if ( ( Escher_strcmp( "transitiontable", element ) == 0 ) ) {
     masl_state_machine * state_machine;masl_element * new_element=0;masl_object * parent_object=0;
-    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable_element[R3786]->object[R3783] */
+    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable[R3786]->object[R3783] */
     parent_object = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN state_machine = state_machine::populate(object:parent_object, type:value[0]) */
     state_machine = masl_state_machine_op_populate(parent_object, value[0]);
-    /* SELECT one new_element RELATED BY state_machine->markable_element[R3783]->element[R3786] */
+    /* SELECT one new_element RELATED BY state_machine->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != state_machine ) {
-    masl_markable_element * markable_element_R3783 = state_machine->markable_element_R3783;
-    if ( 0 != markable_element_R3783 ) {
-    new_element = markable_element_R3783->element_R3786;
+    masl_markable * markable_R3783 = state_machine->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "state", element ) == 0 ) ) {
     masl_state * state;masl_object * parent_object=0;
-    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable_element[R3786]->object[R3783] */
+    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable[R3786]->object[R3783] */
     parent_object = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN state = state::populate(name:value[0], object:parent_object, type:value[1]) */
@@ -586,36 +586,36 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   }
   else if ( ( Escher_strcmp( "event", element ) == 0 ) ) {
     masl_event * event;masl_element * new_element=0;masl_object * parent_object=0;
-    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable_element[R3786]->object[R3783] */
+    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable[R3786]->object[R3783] */
     parent_object = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN event = event::populate(name:value[0], object:parent_object, type:value[1]) */
     event = masl_event_op_populate(value[0], parent_object, value[1]);
-    /* SELECT one new_element RELATED BY event->markable_element[R3783]->element[R3786] */
+    /* SELECT one new_element RELATED BY event->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != event ) {
-    masl_markable_element * markable_element_R3783 = event->markable_element_R3783;
-    if ( 0 != markable_element_R3783 ) {
-    new_element = markable_element_R3783->element_R3786;
+    masl_markable * markable_R3783 = event->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "transition", element ) == 0 ) ) {
     masl_cell * c;masl_state_machine * parent_state_machine=0;
-    /* SELECT one parent_state_machine RELATED BY population->element[R3784.has current]->markable_element[R3786]->state_machine[R3783] */
+    /* SELECT one parent_state_machine RELATED BY population->element[R3784.has current]->markable[R3786]->state_machine[R3783] */
     parent_state_machine = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_state_machine_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_state_machine = (masl_state_machine *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN c = cell::populate(endstate:value[2], event:value[1], startstate:value[0], statemachine:parent_state_machine) */
@@ -623,15 +623,15 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   }
   else if ( ( ( ( Escher_strcmp( "regularrel", element ) == 0 ) || ( Escher_strcmp( "associative", element ) == 0 ) ) || ( Escher_strcmp( "subsuper", element ) == 0 ) ) ) {
     masl_relationship * relationship=0;masl_element * new_element=0;masl_element * curr=0;masl_domain * parent_domain=0;
-    /* SELECT any parent_domain RELATED BY population->element[R3789.has active]->markable_element[R3786]->domain[R3783] */
+    /* SELECT any parent_domain RELATED BY population->element[R3789.has active]->markable[R3786]->domain[R3783] */
     parent_domain = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3789_has_active;
     Escher_Iterator_s ielement_R3789_has_active;
     Escher_IteratorReset( &ielement_R3789_has_active, &population->element_R3789_has_active );
     while ( ( 0 == parent_domain ) && ( 0 != ( element_R3789_has_active = (masl_element *) Escher_IteratorNext( &ielement_R3789_has_active ) ) ) ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3789_has_active->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_element_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3789_has_active->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_domain_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_domain = (masl_domain *) R3786_subtype->R3783_subtype;
 }}}}
     /* SELECT one curr RELATED BY population->element[R3784.has current] */
@@ -659,27 +659,27 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* TRACE::log( flavor:levi, id:99, message:this is very bad ) */
       TRACE_log( "levi", 99, "this is very bad" );
     }
-    /* SELECT one new_element RELATED BY relationship->markable_element[R3783]->element[R3786] */
+    /* SELECT one new_element RELATED BY relationship->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != relationship ) {
-    masl_markable_element * markable_element_R3783 = relationship->markable_element_R3783;
-    if ( 0 != markable_element_R3783 ) {
-    new_element = markable_element_R3783->element_R3786;
+    masl_markable * markable_R3783 = relationship->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "participation", element ) == 0 ) ) {
     masl_participation * participation;masl_element * new_element=0;masl_participation * parent_participation=0;masl_relationship * parent_relationship=0;
-    /* SELECT any parent_relationship RELATED BY population->element[R3789.has active]->markable_element[R3786]->relationship[R3783] */
+    /* SELECT any parent_relationship RELATED BY population->element[R3789.has active]->markable[R3786]->relationship[R3783] */
     parent_relationship = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3789_has_active;
     Escher_Iterator_s ielement_R3789_has_active;
     Escher_IteratorReset( &ielement_R3789_has_active, &population->element_R3789_has_active );
     while ( ( 0 == parent_relationship ) && ( 0 != ( element_R3789_has_active = (masl_element *) Escher_IteratorNext( &ielement_R3789_has_active ) ) ) ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3789_has_active->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_element_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3789_has_active->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_relationship_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_relationship = (masl_relationship *) R3786_subtype->R3783_subtype;
 }}}}
     /* SELECT one parent_participation RELATED BY population->element[R3784.has current]->unmarkable[R3786]->participation[R3788] */
@@ -705,35 +705,35 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   }
   else if ( ( Escher_strcmp( "type", element ) == 0 ) ) {
     masl_type * type;masl_element * new_element=0;masl_domain * parent_domain=0;
-    /* SELECT one parent_domain RELATED BY population->element[R3784.has current]->markable_element[R3786]->domain[R3783] */
+    /* SELECT one parent_domain RELATED BY population->element[R3784.has current]->markable[R3786]->domain[R3783] */
     parent_domain = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    masl_markable_element * R3786_subtype = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_domain_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_domain = (masl_domain *) R3786_subtype->R3783_subtype;
 }}}}
     /* ASSIGN type = type::populate(body:value[2], domain:parent_domain, name:value[0], visibility:value[1]) */
     type = masl_type_op_populate(value[2], parent_domain, value[0], value[1]);
-    /* SELECT one new_element RELATED BY type->markable_element[R3783]->element[R3786] */
+    /* SELECT one new_element RELATED BY type->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != type ) {
-    masl_markable_element * markable_element_R3783 = type->markable_element_R3783;
-    if ( 0 != markable_element_R3783 ) {
-    new_element = markable_element_R3783->element_R3786;
+    masl_markable * markable_R3783 = type->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "pragma", element ) == 0 ) ) {
-    masl_pragma * pragma;masl_element * new_element=0;masl_markable_element * markable=0;
-    /* SELECT one markable RELATED BY population->element[R3784.has current]->markable_element[R3786] */
+    masl_pragma * pragma;masl_element * new_element=0;masl_markable * markable=0;
+    /* SELECT one markable RELATED BY population->element[R3784.has current]->markable[R3786] */
     markable = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
-    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_element_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) )    markable = (masl_markable_element *) element_R3784_has_current->R3786_subtype;
+    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) )    markable = (masl_markable *) element_R3784_has_current->R3786_subtype;
 }}}
     /* ASSIGN pragma = pragma::populate(element:markable, list:value[1], name:value[0]) */
     pragma = masl_pragma_op_populate(markable, value[1], value[0]);

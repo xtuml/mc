@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("1416f703-db51-4598-b9ca-f24cc279da0e",
-	'markable_element',
+	'markable',
 	3774,
-	'markable_element',
+	'markable',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -14,10 +14,10 @@ INSERT INTO O_TFR
 	'',
 	"fd8da7a6-2f02-4846-958e-f29128812fc2",
 	0,
-	'create object instance markable_element of markable_element;
+	'create object instance markable of markable;
 element = element::populate( name:param.name );
-relate markable_element to element across R3786;
-return markable_element;',
+relate markable to element across R3786;
+return markable;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -33,7 +33,7 @@ INSERT INTO O_TPARM
 INSERT INTO S_DT_PROXY
 	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<markable_element>',
+	'inst_ref<markable>',
 	'',
 	'',
 	'../maslpopulation.xtuml');
