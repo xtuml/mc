@@ -31,14 +31,14 @@ if ( "project" == element )
 elif ( "domain" == element )
   if ( "" == param.value[0] )
     select any c_c from instances of C_C where (false);
-    current_component = c_c;
+    ooapopulation.current_component = c_c;
   else
     ooapopulation.transformDomain(name:param.value[0]);
   end if;
 elif ( "object" == element )
   if ( "" == param.value[0] )
     select any o_obj from instances of O_OBJ where (false);
-    current_class = o_obj;
+    ooapopulation.current_class = o_obj;
   else
     ooapopulation.transformObject(name:param.value[0]);
   end if;
@@ -95,7 +95,7 @@ elif ( "service" == element )
     end if;
   end if;
 else
-  TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
+  // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
 ',
 	1,
@@ -189,7 +189,7 @@ self.Package_initialize(ep_pkg:package, name:param.pkg_name); // OOA - package.i
 return package; ',
 	1,
 	'',
-	"a9942ae9-1501-49c7-afb1-84aa422a85e5");
+	"806a97a3-4a9d-4fe2-994e-8b5705b455fc");
 INSERT INTO O_TPARM
 	VALUES ("c0ea2b5d-984c-4673-8b25-82eec8098da2",
 	"0ff33986-594c-49e8-84a0-7eb628272d32",
@@ -538,7 +538,7 @@ self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
 return package;',
 	1,
 	'',
-	"69c066cc-2506-4998-b894-060151a8f78f");
+	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d");
 INSERT INTO O_TPARM
 	VALUES ("285fb005-4c64-4bab-a540-5f73ef671f89",
 	"747f4c49-5479-4ea7-b653-6c1a4424d418",
@@ -623,7 +623,7 @@ INSERT INTO O_TFR
 	'',
 	1,
 	'',
-	"62cc7ec1-12c6-444f-8e9c-8bf257676b92");
+	"36fd6526-df46-4e49-a8b1-ee0bebdf9755");
 INSERT INTO O_TPARM
 	VALUES ("f4e74870-5f4d-4477-b491-66bc68360f61",
 	"dc1b8351-2cfd-4870-b038-21d1052f3c05",
@@ -765,7 +765,7 @@ self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
 return importedComp;',
 	1,
 	'',
-	"dff68b05-f692-4f7e-8745-e96def65ae8a");
+	"833a364d-a80a-4900-ba69-199bd9cc4581");
 INSERT INTO O_TPARM
 	VALUES ("e952b8f1-7170-41cf-90c0-cc2e46eff7d6",
 	"a9942ae9-1501-49c7-afb1-84aa422a85e5",
@@ -1016,7 +1016,7 @@ end if;
 ',
 	1,
 	'',
-	"dc1b8351-2cfd-4870-b038-21d1052f3c05");
+	"3bb45e5b-9cf4-4566-8bb6-47f1f59b17d2");
 INSERT INTO O_TPARM
 	VALUES ("f6154d00-1de4-41c1-b3fa-c613684e5544",
 	"422bcbaa-4170-4d52-85ed-ca2708fdec8e",
@@ -1218,13 +1218,52 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// TODO:
-//   1) see if "functions" package exists in the component, create it if it does not.
-//   2) create domain function for the incoming function/service
-//   3) if the function/service is public
-//        - see if there is an interface named "????", tied to port named "???" on the component, create if not
-//        - create an interface operation identical to the domain function/service
-//        - modify the action body of the operation on the port to call the domain function/service',
+	'// See if "functions" package exists in the component, create it if it does not.
+current_component = self.current_component;
+select any functions_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "functions");
+if ( empty functions_pkg )
+  functions_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"functions");
+end if;
+
+// Create a domain function for the incoming function/service
+self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
+
+// If the function/service is public:
+//   a) see if there is an "interfaces" package in the library package. Note the design decision here to put the interfaces under
+//        the library (and hence next to the components) rather than pushed up a level (directly under the system).
+//   b) see if there is an interface named "<comp name>_if", formalized to a port named (port name does not matter I think) 
+//        on the component, create if not
+//   c) create an interface operation identical to the domain function/service
+//   d) modify the action body of the operation on the port to call the domain function/service
+if ( "public" == param.visibility )
+  // a
+  lib_pkg = self.lib_pkg;
+  select any interfaces_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "interfaces");
+  if ( empty interfaces_pkg )
+    interfaces_pkg = self.Package_newPackage(ep_pkg:lib_pkg, package_name:"interfaces");
+  end if;
+  
+  // b
+  comp_if_name = current_component.Name + "_if";
+  select any comp_if related by interfaces_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+  if ( empty comp_if )
+    // create the interface
+    comp_if = self.Package_newInterface(ep_pkg:interfaces_pkg, interface_name:comp_if_name);
+    // create a port & provided interface from the component
+    comp_port_name = current_component.Name + "_port";
+    new_ir = self.Component_initializeProvision(c_c:current_component, c_i:comp_if, port_name:comp_port_name);
+    // formalize the new interface reference to it
+    self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  end if;
+  
+  // c - Note that we (currently) always create an interface operation, never a signal
+  c_ep = self.Interface_newExecutableProperty(c_i:comp_if, ep_name:param.name, asynchronous:false);
+  
+  // d
+  select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
+  spr_po.Action_Semantics = "::" + param.name + "();";
+end if;
+',
 	1,
 	'',
 	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
@@ -1451,6 +1490,551 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"a05d38c9-bed4-4c14-a6a8-622ab2e1a3eb",
+	'');
+INSERT INTO O_TFR
+	VALUES ("833a364d-a80a-4900-ba69-199bd9cc4581",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_newFunction',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'ep_pkg = param.ep_pkg;
+
+create object instance fn of S_SYNC;
+// create Packageable Element supertype and hook up to this package.
+create object instance pe of PE_PE;
+relate fn to pe across R8001;
+relate pe to ep_pkg across R8000;
+pe.type = ElementTypeConstants::FUNCTION;
+self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+
+self.Function_initialize(s_sync:fn, name:param.function_name); // OOA - fn.initialize();',
+	1,
+	'',
+	"dff68b05-f692-4f7e-8745-e96def65ae8a");
+INSERT INTO O_TPARM
+	VALUES ("984f5127-57dd-444a-bee0-82d7dfd66060",
+	"833a364d-a80a-4900-ba69-199bd9cc4581",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("e234e0e4-75f3-4617-a4c6-0bc5935d4928",
+	"833a364d-a80a-4900-ba69-199bd9cc4581",
+	'function_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"984f5127-57dd-444a-bee0-82d7dfd66060",
+	'');
+INSERT INTO O_TFR
+	VALUES ("3bb45e5b-9cf4-4566-8bb6-47f1f59b17d2",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Function_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	's_sync = param.s_sync;
+
+// Heavily modified version of OOAofOOA''s Function::initialize()
+select one packageableElem related by s_sync->PE_PE[R8001];
+select one package related by packageableElem->EP_PKG[R8000];
+select one component related by packageableElem->C_C[R8003];
+
+// TODO - removed a big block of code that set the default return type to void.  Do we need something like this put back
+//   in?  Since this operation handles both functions and services, and services have void return types, I don''t think we can
+//   expect to always get a return type on the MASLDSL interface and thus, we need to add code to default to void here.
+
+s_sync.Name = param.name;
+s_sync.Suc_Pars = ParseStatus::parseInitial;
+',
+	1,
+	'',
+	"dc1b8351-2cfd-4870-b038-21d1052f3c05");
+INSERT INTO O_TPARM
+	VALUES ("3cb3aeea-f1ce-4635-bdff-3b25945ae365",
+	"3bb45e5b-9cf4-4566-8bb6-47f1f59b17d2",
+	's_sync',
+	"60690409-5a69-45db-896b-5a63a9103c18",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("60690409-5a69-45db-896b-5a63a9103c18",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("4d77076f-98d5-4df8-bc9a-238abbd5ce31",
+	"3bb45e5b-9cf4-4566-8bb6-47f1f59b17d2",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3cb3aeea-f1ce-4635-bdff-3b25945ae365",
+	'');
+INSERT INTO O_TFR
+	VALUES ("94ecebda-10c4-43bf-b76c-0901fd3873c5",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_newPackage',
+	'',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	1,
+	'ep_pkg = param.ep_pkg;
+
+// Package::newPackage()
+create object instance package of EP_PKG;
+// create Packageable Element supertype and hook up to this package.
+create object instance pe of PE_PE;
+relate package to pe across R8001;
+select one system related by ep_pkg->S_SYS[R1405];
+relate package to system across R1405;
+relate ep_pkg to pe across R8000;
+package.Name = param.package_name; // OOA - package.initialize();
+pe.type = ElementTypeConstants::PACKAGE;
+self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+
+return package;',
+	1,
+	'',
+	"d5710fc1-354b-4875-9d9e-0ad9f4c1f63e");
+INSERT INTO O_TPARM
+	VALUES ("83553bfc-7222-452c-ba80-a953d0c1945e",
+	"94ecebda-10c4-43bf-b76c-0901fd3873c5",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d4ab8f93-1343-41d6-9adb-f41bb28aa3ab",
+	"94ecebda-10c4-43bf-b76c-0901fd3873c5",
+	'package_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"83553bfc-7222-452c-ba80-a953d0c1945e",
+	'');
+INSERT INTO O_TFR
+	VALUES ("d5710fc1-354b-4875-9d9e-0ad9f4c1f63e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_newInterface',
+	'',
+	"80698720-cc57-44ba-8aa5-600c524db338",
+	1,
+	'ep_pkg = param.ep_pkg;
+
+create object instance interface of C_I;
+// create Packageable Element supertype and hook up to this package.
+create object instance pe of PE_PE;
+relate interface to pe across R8001;
+relate pe to ep_pkg across R8000;
+pe.type = ElementTypeConstants::INTERFACE;
+self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+interface.Name = param.interface_name; // OOA - interface.initialize();
+
+return interface;',
+	1,
+	'',
+	"a9942ae9-1501-49c7-afb1-84aa422a85e5");
+INSERT INTO O_TPARM
+	VALUES ("5fb1d906-85a8-4f3f-9503-c12849352c22",
+	"d5710fc1-354b-4875-9d9e-0ad9f4c1f63e",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d162f45c-2f28-4c6a-9f32-26218059a11b",
+	"d5710fc1-354b-4875-9d9e-0ad9f4c1f63e",
+	'interface_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"5fb1d906-85a8-4f3f-9503-c12849352c22",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("80698720-cc57-44ba-8aa5-600c524db338",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Interface>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO O_TFR
+	VALUES ("75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Component_initializeProvision',
+	'',
+	"3068be83-fc38-4a02-a09f-a2dc428b84f6",
+	1,
+	'c_c = param.c_c;
+c_i = param.c_i;
+
+// The OOA version of this function does _a lot_ more work than we have to do here.
+create object instance provision of C_P;
+create object instance interfaceRef of C_IR;
+create object instance port of C_PO;
+relate provision to interfaceRef across R4009;
+relate interfaceRef to port across R4016;
+relate port to c_c across R4010;
+provision.InformalName = "Unnamed_Interface"; // OOA - provision.initialize();
+self.Port_initialize(c_po:port, name:param.port_name); // OOA - port.initialize();
+
+return interfaceRef;',
+	1,
+	'',
+	"69c066cc-2506-4998-b894-060151a8f78f");
+INSERT INTO O_TPARM
+	VALUES ("cf4bd80f-3895-4c80-897b-2a439dc0d5c7",
+	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("835af959-b640-4f41-b348-a6c9267980ac",
+	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d",
+	'c_i',
+	"80698720-cc57-44ba-8aa5-600c524db338",
+	0,
+	'',
+	"cf4bd80f-3895-4c80-897b-2a439dc0d5c7",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a0e3fc5e-33f9-47a5-9e00-6fe59650f5a6",
+	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d",
+	'port_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"835af959-b640-4f41-b348-a6c9267980ac",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3068be83-fc38-4a02-a09f-a2dc428b84f6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Interface Reference>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO O_TFR
+	VALUES ("806a97a3-4a9d-4fe2-994e-8b5705b455fc",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Port_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_po = param.c_po;
+
+c_po.DoNotShowPortOnCanvas = false;
+c_po.Name = param.name;',
+	1,
+	'',
+	"94ecebda-10c4-43bf-b76c-0901fd3873c5");
+INSERT INTO O_TPARM
+	VALUES ("52f437ae-7a8f-42da-8f40-94b805566100",
+	"806a97a3-4a9d-4fe2-994e-8b5705b455fc",
+	'c_po',
+	"7956bd81-f6de-4bc8-9851-92214668ced1",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7956bd81-f6de-4bc8-9851-92214668ced1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Port>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("8ea8bf0c-a0e7-437c-828f-7ac25ddb18a5",
+	"806a97a3-4a9d-4fe2-994e-8b5705b455fc",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"52f437ae-7a8f-42da-8f40-94b805566100",
+	'');
+INSERT INTO O_TFR
+	VALUES ("36fd6526-df46-4e49-a8b1-ee0bebdf9755",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'InterfaceReference_formalize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_i = param.c_i;
+c_ir = param.c_ir;
+
+// This version is nothing like the OOAofOOA InterfaceReference::formalize().  We have cut out functionality that isn''t needed for MASL
+// convert (e.g. handling of delegations, formalizing the other side of a satisfaction, etc)
+
+self.InterfaceReference_createSignalsAndOperations(c_i:c_i, c_ir:c_ir);
+relate c_i to c_ir across R4012;
+',
+	1,
+	'',
+	"4ed94333-e76e-470c-95ec-c351a39b2df5");
+INSERT INTO O_TPARM
+	VALUES ("b28ea15f-4587-47bc-9c11-1ed1ce1706a8",
+	"36fd6526-df46-4e49-a8b1-ee0bebdf9755",
+	'c_i',
+	"80698720-cc57-44ba-8aa5-600c524db338",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("1578598d-dd8b-46c5-939e-33e413402a82",
+	"36fd6526-df46-4e49-a8b1-ee0bebdf9755",
+	'c_ir',
+	"3068be83-fc38-4a02-a09f-a2dc428b84f6",
+	0,
+	'',
+	"b28ea15f-4587-47bc-9c11-1ed1ce1706a8",
+	'');
+INSERT INTO O_TFR
+	VALUES ("4ed94333-e76e-470c-95ec-c351a39b2df5",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'InterfaceReference_createSignalsAndOperations',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'interface = param.c_i;
+c_ir = param.c_ir;
+
+if(not_empty interface)
+  select many operations related by interface->C_EP[R4003]->C_IO[R4004];
+  select many signals related by interface->C_EP[R4003]->C_AS[R4004];
+  select one requirement related by c_ir->C_R[R4009];
+  if(not_empty requirement)
+    for each signal in signals
+      select one ep related by signal->C_EP[R4004];
+      create object instance req_ep of SPR_REP;
+      create object instance req_signal of SPR_RS;
+      req_signal.Suc_Pars = ParseStatus::parseInitial; // OOA - req_signal.initialize();
+      relate requirement to ep across R4500 using req_ep;
+      relate req_signal to req_ep across R4502;
+    end for;
+    for each operation in operations
+      select one ep related by operation->C_EP[R4004];
+      create object instance req_ep of SPR_REP;
+      create object instance req_operation of SPR_RO;
+      req_operation.Suc_Pars = ParseStatus::parseInitial; // OOA - req_operation.initialize();
+      relate requirement to ep across R4500 using req_ep;
+      relate req_operation to req_ep across R4502;
+    end for;
+  else
+    select one provision related by c_ir->C_P[R4009];
+    for each signal in signals
+      select one ep related by signal->C_EP[R4004];
+      create object instance pro_ep of SPR_PEP;
+      create object instance pro_signal of SPR_PS;
+      pro_signal.Suc_Pars = ParseStatus::parseInitial; // OOA - pro_signal.initialize();
+      relate provision to ep across R4501 using pro_ep;
+      relate pro_signal to pro_ep across R4503;
+    end for;
+    for each operation in operations
+      select one ep related by operation->C_EP[R4004];
+      create object instance pro_ep of SPR_PEP;
+      create object instance pro_operation of SPR_PO;
+      pro_operation.Suc_Pars = ParseStatus::parseInitial; // OOA - pro_operation.initialize();
+      relate provision to ep across R4501 using pro_ep;
+      relate pro_operation to pro_ep across R4503;
+    end for;
+  end if;
+end if;',
+	1,
+	'',
+	"5a638f8c-37fc-48ad-85a7-117da5262634");
+INSERT INTO O_TPARM
+	VALUES ("9850e799-4e62-4c3f-b192-033885ef68e2",
+	"4ed94333-e76e-470c-95ec-c351a39b2df5",
+	'c_i',
+	"80698720-cc57-44ba-8aa5-600c524db338",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("e17e61a5-2e2a-46f8-8bf8-60a79260f7b8",
+	"4ed94333-e76e-470c-95ec-c351a39b2df5",
+	'c_ir',
+	"3068be83-fc38-4a02-a09f-a2dc428b84f6",
+	0,
+	'',
+	"9850e799-4e62-4c3f-b192-033885ef68e2",
+	'');
+INSERT INTO O_TFR
+	VALUES ("5a638f8c-37fc-48ad-85a7-117da5262634",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'InterfaceOperation_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_io = param.c_io;
+
+// This is a heavily modified version  of OOAofOOA''s Interface Operation::initialize()
+select one packageableElem related by c_io->C_EP[R4004]->C_I[R4003]->PE_PE[R8001];
+select one package related by packageableElem->EP_PKG[R8000];
+select one component related by packageableElem->C_C[R8003];
+
+select one interface related by c_io->C_EP[R4004]->C_I[R4003];
+self.Interface_addInterfaceOperationToOrder(c_i:interface, c_io:c_io); // OOA - interface.addInterfaceOperationToOrder(id:c_io.Id);
+
+// TODO - need to set the default return type
+  /*def_dt_id = GD::NULL_UNIQUE_ID();
+  if not_empty system
+    def_dt_id = system.getCoreTypeId(name:"void");
+  end if;
+  select any pe from instances of PE_PE where selected.Element_ID == def_dt_id;
+  select one def_dt related by pe->S_DT[R8001]; 
+  relate c_io to def_dt across R4008;*/
+
+c_io.Name = param.name;
+c_io.Direction = IFDirectionType::ServerClient;  // Note: in MASL convert we just always default the direction.
+',
+	1,
+	'',
+	"102c4921-1e91-4570-87ba-0ccd6106d389");
+INSERT INTO O_TPARM
+	VALUES ("ef2ab14f-b464-494a-8d6e-75c207ac34c0",
+	"5a638f8c-37fc-48ad-85a7-117da5262634",
+	'c_io',
+	"4e59980a-6ac2-4a28-8ad8-7f1ada83c53a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4e59980a-6ac2-4a28-8ad8-7f1ada83c53a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Interface Operation>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("b1e44a40-4c5e-4dec-9302-daece81240e6",
+	"5a638f8c-37fc-48ad-85a7-117da5262634",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ef2ab14f-b464-494a-8d6e-75c207ac34c0",
+	'');
+INSERT INTO O_TFR
+	VALUES ("102c4921-1e91-4570-87ba-0ccd6106d389",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Interface_newExecutableProperty',
+	'',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	1,
+	'c_i = param.c_i;
+
+create object instance signal of C_EP;
+relate c_i to signal across R4003;
+select many references related by c_i->C_IR[R4012];
+if(param.asynchronous)
+ //create object instance asignal of C_AS;
+ //relate signal to asignal across R4004;
+ //asignal.initialize();
+else
+ create object instance ssignal of C_IO;
+ relate signal to ssignal across R4004;
+ self.InterfaceOperation_initialize(c_io:ssignal, name:param.ep_name); // OOA - ssignal.initialize();
+end if;
+
+return signal;',
+	1,
+	'',
+	"eaeaa954-9f69-450a-a5a6-1b0d98435d31");
+INSERT INTO O_TPARM
+	VALUES ("2b7848d2-1f57-47fd-b47d-3add03222a89",
+	"102c4921-1e91-4570-87ba-0ccd6106d389",
+	'c_i',
+	"80698720-cc57-44ba-8aa5-600c524db338",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("2c54836e-7547-4590-be29-e7a50e06f176",
+	"102c4921-1e91-4570-87ba-0ccd6106d389",
+	'ep_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"2b7848d2-1f57-47fd-b47d-3add03222a89",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("0305e3a0-6b28-461e-9dec-6e1f7dccce1a",
+	"102c4921-1e91-4570-87ba-0ccd6106d389",
+	'asynchronous',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"2c54836e-7547-4590-be29-e7a50e06f176",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5441230d-b4d6-495f-9e87-84acf5819d26",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Executable Property>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO O_TFR
+	VALUES ("eaeaa954-9f69-450a-a5a6-1b0d98435d31",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Interface_addInterfaceOperationToOrder',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_i = param.c_i;
+interfaceOperation = param.c_io;
+
+// Slightly modified version compared to OOA
+if(not_empty interfaceOperation)
+  select many peers related by c_i->C_EP[R4003]->C_IO[R4004];
+  for each peer in peers
+    if (peer != interfaceOperation)
+      select one predecessor related by peer->C_IO[R4019.''precedes''];
+      if (empty predecessor)
+        relate interfaceOperation to peer across R4019.''succeeds'';
+      end if;
+    end if;
+  end for;
+end if;
+',
+	1,
+	'',
+	"62cc7ec1-12c6-444f-8e9c-8bf257676b92");
+INSERT INTO O_TPARM
+	VALUES ("3f0a949c-ae5b-44f0-ba87-4ca67b763463",
+	"eaeaa954-9f69-450a-a5a6-1b0d98435d31",
+	'c_i',
+	"80698720-cc57-44ba-8aa5-600c524db338",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("71c4f6d8-076e-48d0-8b01-40d50ef46bc9",
+	"eaeaa954-9f69-450a-a5a6-1b0d98435d31",
+	'c_io',
+	"4e59980a-6ac2-4a28-8ad8-7f1ada83c53a",
+	0,
+	'',
+	"3f0a949c-ae5b-44f0-ba87-4ca67b763463",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",

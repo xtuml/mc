@@ -24,7 +24,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	0,
-	'4.0.0',
+	'4.1.17',
 	'mcooa::ooaofooa::Association');
 INSERT INTO GD_GE
 	VALUES ("1b962e93-afc6-45fa-8fe2-5d6a0ea0941c",
@@ -4240,6 +4240,126 @@ INSERT INTO PE_PE
 	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("322c65da-132b-421a-a1b1-f757cb0acff7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Simple Association>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("322c65da-132b-421a-a1b1-f757cb0acff7",
+	0,
+	"d66f90e1-b52f-46d5-aba7-133f29cfc533");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("d66f90e1-b52f-46d5-aba7-133f29cfc533",
+	'Simple Association',
+	205,
+	'R_SIMP',
+	'A simple association (R_SIMP) is an association between two classs which are formalized with referential attributes in one of the classes.  The class that holds the referential attributes for  the association is know as the referring class in the association (R_RGO) and is the formalizer of the association (R_FORM).  The class that participates in the association and carries the identifying attributes used to formalize the association is the referred to class  (R_RTO) and is a participant in the association (R_PART).',
+	"00000000-0000-0000-0000-000000000000",
+	'./Simple Association/Simple Association.xtuml');
+INSERT INTO PE_PE
+	VALUES ("322c65da-132b-421a-a1b1-f757cb0acff7",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("f63d96f7-9ded-49a4-ae6f-8dbc24620b95",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Simple Association>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f63d96f7-9ded-49a4-ae6f-8dbc24620b95",
+	1,
+	"d66f90e1-b52f-46d5-aba7-133f29cfc533");
+INSERT INTO PE_PE
+	VALUES ("f63d96f7-9ded-49a4-ae6f-8dbc24620b95",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Subtype Supertype Association>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	0,
+	"403aae04-4b8c-4ecf-8bd2-f82a03e0392a");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("403aae04-4b8c-4ecf-8bd2-f82a03e0392a",
+	'Subtype Supertype Association',
+	212,
+	'R_SUBSUP',
+	'A supertype/subtype association (R_SUBSUP) is an  between two classes, a supertype (R_SUPER) and a subtype (R_SUB).   The class that holds the referential attributes for  the association is know as the referring class in the association (R_RGO) and the class that participates in the association and carries the identifying attributes used to formalize the association is the referred to class  (R_RTO).  Supertype/Subtype associations are always formalized in the subtype (R_SUB).',
+	"00000000-0000-0000-0000-000000000000",
+	'./Subtype Supertype Association/Subtype Supertype Association.xtuml');
+INSERT INTO PE_PE
+	VALUES ("8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0d5d9dd0-cf60-4a4f-81a0-0d614f916c89",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Subtype Supertype Association>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0d5d9dd0-cf60-4a4f-81a0-0d614f916c89",
+	1,
+	"403aae04-4b8c-4ecf-8bd2-f82a03e0392a");
+INSERT INTO PE_PE
+	VALUES ("0d5d9dd0-cf60-4a4f-81a0-0d614f916c89",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7f02c6dd-ea5d-4892-801e-a1515764350f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Linked Association>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7f02c6dd-ea5d-4892-801e-a1515764350f",
+	0,
+	"eb1a8ef7-1584-484d-95f9-a66318d4c167");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("eb1a8ef7-1584-484d-95f9-a66318d4c167",
+	'Linked Association',
+	208,
+	'R_ASSOC',
+	'A linked association (R_ASSOC) is an association between two classes (R_AONE and R_AOTH)  which is formalized in an associative class (R_ASSR).  The class that holds the referential attributes for  the association is known as the referring class in the association (R_RGO) and the class that participates in the association and carries the identifying attributes used to formalize the association is the referred to class  (R_RTO).  Linked associations require formalization of the association in a class called the associator (R_ASSR).',
+	"00000000-0000-0000-0000-000000000000",
+	'./Linked Association/Linked Association.xtuml');
+INSERT INTO PE_PE
+	VALUES ("7f02c6dd-ea5d-4892-801e-a1515764350f",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("1aaa586c-fe32-4662-9c3e-06ebdedbbe60",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Linked Association>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("1aaa586c-fe32-4662-9c3e-06ebdedbbe60",
+	1,
+	"eb1a8ef7-1584-484d-95f9-a66318d4c167");
+INSERT INTO PE_PE
+	VALUES ("1aaa586c-fe32-4662-9c3e-06ebdedbbe60",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_ASSOC
 	VALUES ("f6d85576-e786-4695-8763-44f6acf45986");
 INSERT INTO R_REL
@@ -4389,14 +4509,6 @@ INSERT INTO R_OIR
 	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
 	"97ac9e75-3bad-40c3-978d-3e287bd7f123",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("d66f90e1-b52f-46d5-aba7-133f29cfc533",
-	'Simple Association',
-	205,
-	'R_SIMP',
-	'A simple association (R_SIMP) is an association between two classs which are formalized with referential attributes in one of the classes.  The class that holds the referential attributes for  the association is know as the referring class in the association (R_RGO) and is the formalizer of the association (R_FORM).  The class that participates in the association and carries the identifying attributes used to formalize the association is the referred to class  (R_RTO) and is a participant in the association (R_PART).',
-	"00000000-0000-0000-0000-000000000000",
-	'./Simple Association/Simple Association.xtuml');
 INSERT INTO R_SUB
 	VALUES ("2202aa51-b695-45d8-8da6-f74d57befe86",
 	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
@@ -4431,14 +4543,6 @@ INSERT INTO R_OIR
 	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
 	"e27d43ee-8fb0-40c1-95d8-b354fd9a4e8b",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("eb1a8ef7-1584-484d-95f9-a66318d4c167",
-	'Linked Association',
-	208,
-	'R_ASSOC',
-	'A linked association (R_ASSOC) is an association between two classes (R_AONE and R_AOTH)  which is formalized in an associative class (R_ASSR).  The class that holds the referential attributes for  the association is known as the referring class in the association (R_RGO) and the class that participates in the association and carries the identifying attributes used to formalize the association is the referred to class  (R_RTO).  Linked associations require formalization of the association in a class called the associator (R_ASSR).',
-	"00000000-0000-0000-0000-000000000000",
-	'./Linked Association/Linked Association.xtuml');
 INSERT INTO R_SUB
 	VALUES ("403aae04-4b8c-4ecf-8bd2-f82a03e0392a",
 	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
@@ -4452,14 +4556,6 @@ INSERT INTO R_OIR
 	"5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
 	"0a8171ef-097f-4dcd-a6de-683553d16457",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("403aae04-4b8c-4ecf-8bd2-f82a03e0392a",
-	'Subtype Supertype Association',
-	212,
-	'R_SUBSUP',
-	'A supertype/subtype association (R_SUBSUP) is an  between two classes, a supertype (R_SUPER) and a subtype (R_SUB).   The class that holds the referential attributes for  the association is know as the referring class in the association (R_RGO) and the class that participates in the association and carries the identifying attributes used to formalize the association is the referred to class  (R_RTO).  Supertype/Subtype associations are always formalized in the subtype (R_SUB).',
-	"00000000-0000-0000-0000-000000000000",
-	'./Subtype Supertype Association/Subtype Supertype Association.xtuml');
 INSERT INTO PE_PE
 	VALUES ("5be5fe82-9b2e-4a39-8fb7-a3bcb995ae0f",
 	1,

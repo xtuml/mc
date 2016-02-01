@@ -3391,7 +3391,7 @@ Requirement and Provision.  The links are setup when either the Provision or
 Requirement is formalized against an interface that is defined in an Interface
 Diagram',
 	"00000000-0000-0000-0000-000000000000",
-	'../Component/Component/Component.xtuml');
+	'./Component/Component.xtuml');
 INSERT INTO PE_PE
 	VALUES ("67f93d18-1045-4c6c-b0d5-a692023c471c",
 	1,
@@ -3431,7 +3431,7 @@ INSERT INTO O_OBJ_PROXY
 	'C_I',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'../Component/Interface/Interface.xtuml');
+	'./Interface/Interface.xtuml');
 INSERT INTO PE_PE
 	VALUES ("80698720-cc57-44ba-8aa5-600c524db338",
 	1,
@@ -3490,6 +3490,166 @@ INSERT INTO S_IRDT
 	"e4603e90-f1ad-4858-9ce8-ef88c19d0aea");
 INSERT INTO PE_PE
 	VALUES ("4bb6b175-de43-4bbf-9d4f-0bdd34ab8988",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7956bd81-f6de-4bc8-9851-92214668ced1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Port>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7956bd81-f6de-4bc8-9851-92214668ced1",
+	0,
+	"a51ede54-1c48-489d-81df-267e29b65eb0");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a51ede54-1c48-489d-81df-267e29b65eb0",
+	'Port',
+	4013,
+	'C_PO',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Port/Port.xtuml');
+INSERT INTO PE_PE
+	VALUES ("7956bd81-f6de-4bc8-9851-92214668ced1",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("8e0c4001-deb3-4510-ab19-d6ba7befe638",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Port>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("8e0c4001-deb3-4510-ab19-d6ba7befe638",
+	1,
+	"a51ede54-1c48-489d-81df-267e29b65eb0");
+INSERT INTO PE_PE
+	VALUES ("8e0c4001-deb3-4510-ab19-d6ba7befe638",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("3068be83-fc38-4a02-a09f-a2dc428b84f6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Interface Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("3068be83-fc38-4a02-a09f-a2dc428b84f6",
+	0,
+	"3b482811-3f69-424b-aeb4-99b6848e1c55");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("3b482811-3f69-424b-aeb4-99b6848e1c55",
+	'Interface Reference',
+	4011,
+	'C_IR',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Interface Reference/Interface Reference.xtuml');
+INSERT INTO PE_PE
+	VALUES ("3068be83-fc38-4a02-a09f-a2dc428b84f6",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("114b9417-28d3-46fa-b43c-f2b9c1450441",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Interface Reference>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("114b9417-28d3-46fa-b43c-f2b9c1450441",
+	1,
+	"3b482811-3f69-424b-aeb4-99b6848e1c55");
+INSERT INTO PE_PE
+	VALUES ("114b9417-28d3-46fa-b43c-f2b9c1450441",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("4e59980a-6ac2-4a28-8ad8-7f1ada83c53a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Interface Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("4e59980a-6ac2-4a28-8ad8-7f1ada83c53a",
+	0,
+	"4ba39764-b7af-4af1-bce5-8de5a492eb78");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("4ba39764-b7af-4af1-bce5-8de5a492eb78",
+	'Interface Operation',
+	4006,
+	'C_IO',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Interface Operation/Interface Operation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4e59980a-6ac2-4a28-8ad8-7f1ada83c53a",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("c182fd3a-66e1-4655-b211-d5931754d8a0",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Interface Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("c182fd3a-66e1-4655-b211-d5931754d8a0",
+	1,
+	"4ba39764-b7af-4af1-bce5-8de5a492eb78");
+INSERT INTO PE_PE
+	VALUES ("c182fd3a-66e1-4655-b211-d5931754d8a0",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("5441230d-b4d6-495f-9e87-84acf5819d26",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Executable Property>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	"6a79432d-1ff6-4918-9c49-54508db4187b");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("6a79432d-1ff6-4918-9c49-54508db4187b",
+	'Executable Property',
+	4004,
+	'C_EP',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./Executable Property/Executable Property.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5441230d-b4d6-495f-9e87-84acf5819d26",
+	1,
+	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("d031a028-6b7a-47f2-9cd6-9e576db3022f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Executable Property>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("d031a028-6b7a-47f2-9cd6-9e576db3022f",
+	1,
+	"6a79432d-1ff6-4918-9c49-54508db4187b");
+INSERT INTO PE_PE
+	VALUES ("d031a028-6b7a-47f2-9cd6-9e576db3022f",
 	1,
 	"0386b376-83bc-4b96-90a7-65cedde5a0e3",
 	"00000000-0000-0000-0000-000000000000",
@@ -3659,14 +3819,6 @@ INSERT INTO R_OIR
 	"9f310fa5-9cbc-4a0c-9b0b-6ea8a9963f46",
 	"fc8bae8a-8871-449e-b99a-466f4ae5e48d",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a9120b56-197a-48fd-9ca0-9774cba03f3f",
-	'Interface',
-	4001,
-	'C_I',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Interface/Interface.xtuml');
 INSERT INTO R_FORM
 	VALUES ("6a79432d-1ff6-4918-9c49-54508db4187b",
 	"9f310fa5-9cbc-4a0c-9b0b-6ea8a9963f46",
@@ -3683,14 +3835,6 @@ INSERT INTO R_OIR
 	"9f310fa5-9cbc-4a0c-9b0b-6ea8a9963f46",
 	"80c14c4d-5c34-4130-8ebf-4825170dd482",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("6a79432d-1ff6-4918-9c49-54508db4187b",
-	'Executable Property',
-	4004,
-	'C_EP',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Executable Property/Executable Property.xtuml');
 INSERT INTO PE_PE
 	VALUES ("9f310fa5-9cbc-4a0c-9b0b-6ea8a9963f46",
 	1,
@@ -3747,14 +3891,6 @@ INSERT INTO R_OIR
 	"9e00ee7d-55f0-440f-b082-8495f664d45b",
 	"af2da01a-ef73-47e3-8139-5434a835810c",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("4ba39764-b7af-4af1-bce5-8de5a492eb78",
-	'Interface Operation',
-	4006,
-	'C_IO',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Interface Operation/Interface Operation.xtuml');
 INSERT INTO R_SUB
 	VALUES ("0bee843d-db58-4abf-b0e3-884051803232",
 	"9e00ee7d-55f0-440f-b082-8495f664d45b",
@@ -3993,14 +4129,6 @@ INSERT INTO R_OIR
 	"2e0ab39f-c8f4-47fb-8572-d97588c4fa04",
 	"f452e017-8667-4504-9782-69609c96fad9",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("3b482811-3f69-424b-aeb4-99b6848e1c55",
-	'Interface Reference',
-	4011,
-	'C_IR',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Interface Reference/Interface Reference.xtuml');
 INSERT INTO R_SUB
 	VALUES ("2c54b171-6013-43d9-ad8b-01b1e1cf59fe",
 	"2e0ab39f-c8f4-47fb-8572-d97588c4fa04",
@@ -4276,21 +4404,6 @@ INSERT INTO R_OIR
 	"9c299a1d-e2be-488a-ad87-6eebd15baf7d",
 	"17e5c4d3-a705-4b1a-8a0e-73f4041fc00c",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("efc93ef7-432d-47d5-9541-033eef7f2676",
-	'Component',
-	4000,
-	'C_C',
-	'A component defines the content of a system.  Its associations with other
-components are defined through interfaces that are either provided or required
-by the component.
-
-A Component is related to an Interface through two different link classes,
-Requirement and Provision.  The links are setup when either the Provision or
-Requirement is formalized against an interface that is defined in an Interface
-Diagram',
-	"00000000-0000-0000-0000-000000000000",
-	'./Component/Component.xtuml');
 INSERT INTO R_FORM
 	VALUES ("a51ede54-1c48-489d-81df-267e29b65eb0",
 	"9c299a1d-e2be-488a-ad87-6eebd15baf7d",
@@ -4307,14 +4420,6 @@ INSERT INTO R_OIR
 	"9c299a1d-e2be-488a-ad87-6eebd15baf7d",
 	"9646ff87-6a62-4a6d-af72-795b0b70ec5a",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a51ede54-1c48-489d-81df-267e29b65eb0",
-	'Port',
-	4013,
-	'C_PO',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./Port/Port.xtuml');
 INSERT INTO PE_PE
 	VALUES ("9c299a1d-e2be-488a-ad87-6eebd15baf7d",
 	1,
