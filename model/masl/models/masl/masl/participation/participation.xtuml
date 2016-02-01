@@ -35,9 +35,6 @@ toobject = param.toobject;
 relationship = param.relationship;
 participation = param.participation;
 
-TRACE::log( flavor:"levi", id:99, message:"fromobject:  " + fromobject );
-TRACE::log( flavor:"levi", id:99, message:"relationship:  " + relationship.name );
-
 if ( empty participation )
   // first half, always get this
   create object instance participation of participation;
@@ -45,9 +42,6 @@ if ( empty participation )
   participation.oneconditionality = conditionality;
   participation.onemultiplicity = multiplicity;
   relate relationship to participation across R3713.''engages'';
-
-  select one dn related by relationship->domain[R3712];
-  TRACE::log( flavor:"levi", id:99, message:"domain:  " + dn.name );
 
   select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
   if ( not_empty object )

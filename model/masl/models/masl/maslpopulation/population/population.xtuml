@@ -37,7 +37,6 @@ end if;
 if ( "" == value[0] )
   select one current_element related by population->element[R3784.''has current''] where ( selected.name == element_name );
   if ( not_empty current_element )
-	TRACE::log( flavor:"levi", id:99, message:"popping stack: " + element );
     select one parent_element related by current_element->element[R3787.''child of''];	// select parent
     unrelate population from current_element across R3784.''has current'';				// unrelate current element
     relate population to parent_element across R3784.''has current'';						// relate the parent as the new current
@@ -112,7 +111,6 @@ elif ( "attribute" == element )
     select one new_element related by attribute->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "referential" == element )
-	TRACE::log( flavor:"levi", id:99, message:"referential called" );
     domain_name = value[1];
     relationship_name = value[0];
     roleOrObj = value[2];
@@ -237,9 +235,6 @@ elif ( "transition" == element )
 elif ( "regularrel" == element or "associative" == element or "subsuper" == element )
 	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
 	
-	select one curr related by population->element[R3784.''has current''];
-	TRACE::log( flavor:"levi", id:99, message:"curr:  " + curr.name );
-	TRACE::log( flavor:"levi", id:99, message:"parent_domain:  " + parent_domain.name );
 	select any relationship from instances of relationship where false;
     if ( "regularrel" == element )
       relationship = regularrel::populate( name:value[0], domain:parent_domain );
@@ -247,8 +242,6 @@ elif ( "regularrel" == element or "associative" == element or "subsuper" == elem
       relationship = associative::populate( name:value[0], using:value[1], domain:parent_domain );
     elif ( "subsuper" == element )
       relationship = subsuper::populate( name:value[0], domain:parent_domain );
-    else
-	  TRACE::log( flavor:"levi", id:99, message:"this is very bad" );
     end if;
     select one new_element related by relationship->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
@@ -324,10 +317,9 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'new_element = param.new_element;
-TRACE::log( flavor:"levi", id:99, message:"pushing stack: " + new_element.name );
 select one current_element related by self->element[R3784.''has current''];
 if ( current_element == new_element )
-  TRACE::log( flavor:"levi", id:99, message:"can''t push same element twice" );
+  TRACE::log( flavor:"info", id:75, message:"duplicate element not pushed" );
 else
   unrelate self from current_element across R3784.''has current'';	// unrelate current element
   relate self to new_element across R3784.''has current'';			// relate the new as the current

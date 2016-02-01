@@ -33,7 +33,6 @@ INSERT INTO O_TFR
 create object instance pragma_list of pragma_list;
 pragma_list.name = param.name;
 relate pragma_list to element across R3782;
-TRACE::log( flavor:"levi", id:99, message:"created/related list: " + pragma_list.name );
 return pragma_list;',
 	1,
 	'',

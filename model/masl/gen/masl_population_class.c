@@ -66,8 +66,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     /* IF ( not_empty current_element ) */
     if ( ( 0 != current_element ) ) {
       masl_element * parent_element=0;
-      /* TRACE::log( flavor:levi, id:99, message:( popping stack:  + element ) ) */
-      TRACE_log( "levi", 99, Escher_stradd( "popping stack: ", element ) );
       /* SELECT one parent_element RELATED BY current_element->element[R3787.child of] */
       parent_element = ( 0 != current_element ) ? current_element->element_R3787_child_of : 0;
       /* UNRELATE population FROM current_element ACROSS R3784 */
@@ -302,8 +300,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   }
   else if ( ( Escher_strcmp( "referential", element ) == 0 ) ) {
     masl_referential * p;c_t rolephrase[ESCHER_SYS_MAX_STRING_LEN];c_t attr[ESCHER_SYS_MAX_STRING_LEN];c_t obj[ESCHER_SYS_MAX_STRING_LEN];c_t roleOrObj[ESCHER_SYS_MAX_STRING_LEN];c_t relationship_name[ESCHER_SYS_MAX_STRING_LEN];c_t domain_name[ESCHER_SYS_MAX_STRING_LEN];masl_attribute * referred_to=0;masl_object * target_object=0;masl_relationship * relationship=0;masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_object * current_object=0;
-    /* TRACE::log( flavor:levi, id:99, message:referential called ) */
-    TRACE_log( "levi", 99, "referential called" );
     /* ASSIGN domain_name = value[1] */
     Escher_strcpy( domain_name, value[1] );
     /* ASSIGN relationship_name = value[0] */
@@ -622,7 +618,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     c = masl_cell_op_populate(value[2], value[1], value[0], parent_state_machine);
   }
   else if ( ( ( ( Escher_strcmp( "regularrel", element ) == 0 ) || ( Escher_strcmp( "associative", element ) == 0 ) ) || ( Escher_strcmp( "subsuper", element ) == 0 ) ) ) {
-    masl_relationship * relationship=0;masl_element * new_element=0;masl_element * curr=0;masl_domain * parent_domain=0;
+    masl_relationship * relationship=0;masl_element * new_element=0;masl_domain * parent_domain=0;
     /* SELECT any parent_domain RELATED BY population->element[R3789.has active]->markable[R3786]->domain[R3783] */
     parent_domain = 0;
     {    if ( 0 != population ) {
@@ -634,12 +630,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_domain_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_domain = (masl_domain *) R3786_subtype->R3783_subtype;
 }}}}
-    /* SELECT one curr RELATED BY population->element[R3784.has current] */
-    curr = ( 0 != population ) ? population->element_R3784_has_current : 0;
-    /* TRACE::log( flavor:levi, id:99, message:( curr:   + curr.name ) ) */
-    TRACE_log( "levi", 99, Escher_stradd( "curr:  ", curr->name ) );
-    /* TRACE::log( flavor:levi, id:99, message:( parent_domain:   + parent_domain.name ) ) */
-    TRACE_log( "levi", 99, Escher_stradd( "parent_domain:  ", parent_domain->name ) );
     /* SELECT any relationship FROM INSTANCES OF relationship WHERE FALSE */
     relationship = 0;
     /* IF ( ( regularrel == element ) ) */
@@ -654,10 +644,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     else if ( ( Escher_strcmp( "subsuper", element ) == 0 ) ) {
       /* ASSIGN relationship = subsuper::populate(domain:parent_domain, name:value[0]) */
       relationship = masl_subsuper_op_populate(parent_domain, value[0]);
-    }
-    else {
-      /* TRACE::log( flavor:levi, id:99, message:this is very bad ) */
-      TRACE_log( "levi", 99, "this is very bad" );
     }
     /* SELECT one new_element RELATED BY relationship->markable[R3783]->element[R3786] */
     new_element = 0;
@@ -776,14 +762,12 @@ masl_population_op_push_element( masl_population * self, masl_element * p_new_el
   masl_element * new_element;masl_element * current_element=0;
   /* ASSIGN new_element = PARAM.new_element */
   new_element = p_new_element;
-  /* TRACE::log( flavor:levi, id:99, message:( pushing stack:  + new_element.name ) ) */
-  TRACE_log( "levi", 99, Escher_stradd( "pushing stack: ", new_element->name ) );
   /* SELECT one current_element RELATED BY self->element[R3784.has current] */
   current_element = ( 0 != self ) ? self->element_R3784_has_current : 0;
   /* IF ( ( current_element == new_element ) ) */
   if ( ( current_element == new_element ) ) {
-    /* TRACE::log( flavor:levi, id:99, message:can't push same element twice ) */
-    TRACE_log( "levi", 99, "can't push same element twice" );
+    /* TRACE::log( flavor:info, id:75, message:duplicate element not pushed ) */
+    TRACE_log( "info", 75, "duplicate element not pushed" );
   }
   else {
     /* UNRELATE self FROM current_element ACROSS R3784 */

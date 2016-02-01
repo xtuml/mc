@@ -78,13 +78,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'TRACE::log( flavor:"levi", id:99, message:"rendering list: " + param.list );
-select many lists related by self->pragma_list[R3782];
-for each list in lists
-  TRACE::log( flavor:"levi", id:99, message:"list: " + list.name );
-end for;
-
-select any pragma_list related by self->pragma_list[R3782] where ( param.list == selected.name );
+	'select any pragma_list related by self->pragma_list[R3782] where ( param.list == selected.name );
 if ( not_empty pragma_list )
   pragma_list.render();
 end if;',
