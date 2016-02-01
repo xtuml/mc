@@ -14,12 +14,13 @@ INSERT INTO O_TFR
 	'',
 	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	0,
-	'activity = activity::populate( visibility:param.visibility, name:param.name, instance:param.instance, deferred_relationship:param.deferred_relationship, parent_domain:param.parent_domain, parent_terminator:param.parent_terminator, parent_object:param.parent_object );
-select one function related by activity->function[R3704];
-if ( empty function )
-  create object instance function of function;
-  relate function to activity across R3704;
-end if;
+	'activity = activity::populate( name:param.name, parent_domain:param.parent_domain, parent_terminator:param.parent_terminator, parent_object:param.parent_object );
+
+create object instance function of function;
+function.visibility = param.visibility;
+function.instance = param.instance;
+// TODO deal with deferred function
+relate function to activity across R3704;
 return activity;',
 	1,
 	'',
@@ -123,7 +124,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'name = param.name;
-visibility = param.visibility;
+visibility = self.visibility;
 T::include( file:"masl/t.function_begin.masl" );
 select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
 if ( not_empty parameter )
@@ -142,15 +143,6 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO O_TPARM
-	VALUES ("d0eaff55-b926-4428-987d-8ff587b1caa4",
-	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc",
-	'visibility',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"63f0e4a9-953d-4562-b089-ee7781ca3b32",
 	'');
 INSERT INTO O_TFR
 	VALUES ("3668380d-531d-4fe0-84c1-4d984a2aaa53",
@@ -178,6 +170,42 @@ return ( valid );
 	1,
 	'',
 	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc");
+INSERT INTO O_NBATTR
+	VALUES ("6874e016-5548-463e-a51a-c63ea78ca5f7",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_BATTR
+	VALUES ("6874e016-5548-463e-a51a-c63ea78ca5f7",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_ATTR
+	VALUES ("6874e016-5548-463e-a51a-c63ea78ca5f7",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970",
+	"00000000-0000-0000-0000-000000000000",
+	'visibility',
+	'',
+	'',
+	'visibility',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("69fb8c4d-f075-4e02-90e0-44f80358a4fb",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_BATTR
+	VALUES ("69fb8c4d-f075-4e02-90e0-44f80358a4fb",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_ATTR
+	VALUES ("69fb8c4d-f075-4e02-90e0-44f80358a4fb",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970",
+	"6874e016-5548-463e-a51a-c63ea78ca5f7",
+	'instance',
+	'',
+	'',
+	'instance',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"2a532900-c65a-4b9d-bc79-d836cdc84970");

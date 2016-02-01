@@ -38,7 +38,7 @@ INSERT INTO O_TFR
 	"4edb2c3e-b86b-4835-9c39-392a9b29eba6",
 	'populate',
 	'',
-	"f2d72b54-1612-465b-b607-6f027aeb92eb",
+	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
 	'create object instance referential of referential;
 
@@ -49,9 +49,7 @@ referred_to = param.referred_to;
 referring = param.referring;
 
 relate referential to relationship across R3744;
-relate referring to referred_to across R3746.''references'' using referential;
-
-return referential;',
+relate referring to referred_to across R3746.''references'' using referential;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -105,13 +103,6 @@ INSERT INTO O_TPARM
 	'',
 	"0912eaaf-ef89-4298-af95-da10f941a672",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("f2d72b54-1612-465b-b607-6f027aeb92eb",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<referential>',
-	'',
-	'',
-	'../masl.xtuml');
 INSERT INTO O_TFR
 	VALUES ("d6141d88-d169-47be-83f8-5d8b40a75351",
 	"4edb2c3e-b86b-4835-9c39-392a9b29eba6",
