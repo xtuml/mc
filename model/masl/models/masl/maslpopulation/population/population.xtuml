@@ -57,7 +57,6 @@ elif ( "domain" == element )
 	select one parent_project related by population->element[R3784.''has current'']->markable[R3786]->project[R3783];
 	if ( empty parent_project )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     domain = domain::populate( name:value[0], project:parent_project );
@@ -67,7 +66,6 @@ elif ( "object" == element )
 	select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
 	if ( empty parent_domain )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     object = object::populate( name:value[0], domain:parent_domain );
@@ -77,7 +75,6 @@ elif ( "terminator" == element )
 	select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
 	if ( empty parent_domain )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     terminator = terminator::populate( name:value[0], domain:parent_domain );
@@ -90,7 +87,6 @@ elif ( "service" == element or "function" == element or "state" == element )
 
 	if ( empty parent_domain and empty parent_terminator and empty parent_object )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
 	
@@ -111,7 +107,6 @@ elif ( "parameter" == element )
 
 	if ( empty parent_activity and empty sibling_parameter )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
 
@@ -122,7 +117,6 @@ elif ( "attribute" == element )
 	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
 	if ( empty parent_object )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], defaultvalue:value[3], object:parent_object );
@@ -206,7 +200,6 @@ elif ( "referential" == element )
 	select one parent_attribute related by population->element[R3784.''has current'']->markable[R3786]->attribute[R3783];
 	if ( empty parent_attribute )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     referential::populate( relationship:relationship, referring:parent_attribute, referred_to:referred_to, rolephrase:rolephrase );
@@ -218,7 +211,6 @@ elif ( "typeref" == element )
 
 	if ( empty parent_function and empty parent_parameter and empty parent_attribute )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
 	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
@@ -228,7 +220,6 @@ elif ( "transitiontable" == element )
 	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
 	if ( empty parent_object )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     state_machine = state_machine::populate( type:value[0], object:parent_object );
@@ -238,7 +229,6 @@ elif ( "event" == element )
 	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
 	if ( empty parent_object )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     event = event::populate( name:value[0], type:value[1], object:parent_object );
@@ -248,7 +238,6 @@ elif ( "transition" == element )
   	select one parent_state_machine related by population->element[R3784.''has current'']->markable[R3786]->state_machine[R3783];
 	if ( empty parent_state_machine )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     cell::populate( startstate:value[0], event:value[1], endstate:value[2], statemachine:parent_state_machine );
@@ -258,7 +247,6 @@ elif ( "regularrel" == element or "associative" == element or "subsuper" == elem
 	
 	if ( empty parent_domain )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
 
@@ -277,7 +265,6 @@ elif ( "participation" == element )
 	select one parent_participation related by population->element[R3784.''has current'']->unmarkable[R3786]->participation[R3788];
 	if ( empty parent_relationship and empty parent_participation )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
 	participation = participation::populate( fromobject:value[0], phrase:value[1], conditionality:value[2], multiplicity:value[3], toobject:value[4], relationship:parent_relationship, participation:parent_participation );
@@ -287,7 +274,6 @@ elif ( "type" == element )
 	select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
 	if ( empty parent_domain )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     type = type::populate( name:value[0], visibility:value[1], body:value[2], domain:parent_domain );
@@ -297,7 +283,6 @@ elif ( "pragma" == element )
 	select one markable related by population->element[R3784.''has current'']->markable[R3786];
 	if ( empty markable )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     pragma = pragma::populate( name:value[0], list:value[1], element:markable );
@@ -307,7 +292,6 @@ elif ( "pragmaitem" == element )
 	select one parent_pragma related by population->element[R3784.''has current'']->unmarkable[R3786]->pragma[R3788];
 	if ( empty parent_pragma )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
-	  population.active_trace();
 	  population.stack_trace();
 	end if;
     pragma_item::populate( value:value[0], pragma:parent_pragma );
@@ -368,7 +352,6 @@ select one current_element related by self->element[R3784.''has current''];
 if ( empty new_element )
   TRACE::log( flavor:"error", id:76, message:"pushing empty element. current element: " + current_element.name );
   self.stack_trace();
-  self.active_trace();
 end if;
 if ( current_element == new_element )
   TRACE::log( flavor:"info", id:75, message:"duplicate element not pushed: " + new_element.name );
@@ -416,22 +399,6 @@ TRACE::log( flavor:"stack_trace", id:82, message:"done." );',
 	1,
 	'',
 	"fda9e6cd-9f1a-4a08-8191-224b29fa17d9");
-INSERT INTO O_TFR
-	VALUES ("c63e3357-03e8-4fb2-8144-0bbd93b94a37",
-	"7b8b1d90-b801-4fda-bfce-b400c0d94add",
-	'active_trace',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'TRACE::log( flavor:"active_trace", id:81, message:"outputting active elements:" );
-select many active_elements related by self->element[R3789.''has active''];
-for each element in active_elements
-  TRACE::log( flavor:"active_trace", id:81, message:element.name );
-end for;
-TRACE::log( flavor:"active_trace", id:81, message:"done." );',
-	1,
-	'',
-	"c73179e4-9bbc-442a-b633-7d7b096f9ba1");
 INSERT INTO O_ID
 	VALUES (0,
 	"7b8b1d90-b801-4fda-bfce-b400c0d94add");
