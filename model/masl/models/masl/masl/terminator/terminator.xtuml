@@ -19,7 +19,7 @@ create object instance terminator of terminator;
 terminator.name = param.name;
 relate domain to terminator across R3702.''sends through'';
 markable = markable::populate( name:"terminator" );
-relate domain to markable across R3783;
+relate terminator to markable across R3783;
 return terminator;',
 	1,
 	'',

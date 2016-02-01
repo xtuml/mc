@@ -68,22 +68,7 @@ elif ( "service" == element or "function" == element )
 	select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
 	select one parent_terminator related by population->element[R3784.''has current'']->markable[R3786]->terminator[R3783];
 	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
-	if ( not_empty parent_domain and empty parent_terminator )
-	  // child of domain
-  	  select any parent_terminator from instances of terminator where ( false );
-  	  select any parent_object from instances of object where ( false );
-	elif ( not_empty parent_terminator )
-	  // child of terminator
-  	  select any parent_domain from instances of domain where ( false );
-  	  select any parent_object from instances of object where ( false );
-	elif ( not_empty parent_object )
-	  // child of object
-  	  select any parent_domain from instances of domain where ( false );
-  	  select any parent_terminator from instances of terminator where ( false );
-	else
-	  TRACE::log( flavor:"failure", id:39, message:"no parent for activity found" );
-	end if;
-
+	
 	select any activity from instances of activity where false;
 	if ( "service" == element )
       activity = service::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
@@ -319,7 +304,7 @@ INSERT INTO O_TFR
 	'new_element = param.new_element;
 select one current_element related by self->element[R3784.''has current''];
 if ( current_element == new_element )
-  TRACE::log( flavor:"info", id:75, message:"duplicate element not pushed" );
+  TRACE::log( flavor:"info", id:75, message:"duplicate element not pushed: " + new_element.name );
 else
   unrelate self from current_element across R3784.''has current'';	// unrelate current element
   relate self to new_element across R3784.''has current'';			// relate the new as the current

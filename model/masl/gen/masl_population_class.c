@@ -190,29 +190,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
 }}}}
-    /* IF ( ( not_empty parent_domain and empty parent_terminator ) ) */
-    if ( ( ( 0 != parent_domain ) && ( 0 == parent_terminator ) ) ) {
-      /* SELECT any parent_terminator FROM INSTANCES OF terminator WHERE FALSE */
-      parent_terminator = 0;
-      /* SELECT any parent_object FROM INSTANCES OF object WHERE FALSE */
-      parent_object = 0;
-    }
-    else if ( ( 0 != parent_terminator ) ) {
-      /* SELECT any parent_domain FROM INSTANCES OF domain WHERE FALSE */
-      parent_domain = 0;
-      /* SELECT any parent_object FROM INSTANCES OF object WHERE FALSE */
-      parent_object = 0;
-    }
-    else if ( ( 0 != parent_object ) ) {
-      /* SELECT any parent_domain FROM INSTANCES OF domain WHERE FALSE */
-      parent_domain = 0;
-      /* SELECT any parent_terminator FROM INSTANCES OF terminator WHERE FALSE */
-      parent_terminator = 0;
-    }
-    else {
-      /* TRACE::log( flavor:failure, id:39, message:no parent for activity found ) */
-      TRACE_log( "failure", 39, "no parent for activity found" );
-    }
     /* SELECT any activity FROM INSTANCES OF activity WHERE FALSE */
     activity = 0;
     /* IF ( ( service == element ) ) */
@@ -766,8 +743,8 @@ masl_population_op_push_element( masl_population * self, masl_element * p_new_el
   current_element = ( 0 != self ) ? self->element_R3784_has_current : 0;
   /* IF ( ( current_element == new_element ) ) */
   if ( ( current_element == new_element ) ) {
-    /* TRACE::log( flavor:info, id:75, message:duplicate element not pushed ) */
-    TRACE_log( "info", 75, "duplicate element not pushed" );
+    /* TRACE::log( flavor:info, id:75, message:( duplicate element not pushed:  + new_element.name ) ) */
+    TRACE_log( "info", 75, Escher_stradd( "duplicate element not pushed: ", new_element->name ) );
   }
   else {
     /* UNRELATE self FROM current_element ACROSS R3784 */
