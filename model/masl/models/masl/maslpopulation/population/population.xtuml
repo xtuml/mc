@@ -181,29 +181,15 @@ elif ( "referential" == element )
     end if;
       
 	select one parent_attribute related by population->element[R3784.''has current'']->markable[R3786]->attribute[R3783];
-    p = referential::populate( relationship:relationship, referring:parent_attribute, referred_to:referred_to, rolephrase:rolephrase );
+    referential::populate( relationship:relationship, referring:parent_attribute, referred_to:referred_to, rolephrase:rolephrase );
     // referential is a leaf node and does not get pushed onto the current element stack
 elif ( "typeref" == element )
 	select one parent_function related by population->element[R3784.''has current'']->markable[R3786]->activity[R3783]->function[R3704];
 	select one parent_parameter related by population->element[R3784.''has current'']->unmarkable[R3786]->parameter[R3788];
 	select one parent_attribute related by population->element[R3784.''has current'']->markable[R3786]->attribute[R3783];
-    if ( not_empty parent_function and empty parent_parameter )
-      // child of function
-      select any parent_parameter from instances of parameter where false;
-      select any parent_attribute from instances of attribute where false;
-    elif ( not_empty parent_parameter )
-      select any parent_attribute from instances of attribute where false;
-      select any parent_function from instances of function where false;
-      // child of parameter
-    elif ( not_empty parent_attribute )
-      select any parent_parameter from instances of parameter where false;
-      select any parent_function from instances of function where false;
-      // child of attribute
-    else
-      TRACE::log( flavor:"failure", id:39, message:"no parent for typeref" );
-    end if;
+
 	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
-    p = typeref::populate( name:"", body:value[0], domain:parent_domain, parent_parameter:parent_parameter, parent_function:parent_function, parent_attribute:parent_attribute );
+    typeref::populate( name:"", body:value[0], domain:parent_domain, parent_parameter:parent_parameter, parent_function:parent_function, parent_attribute:parent_attribute );
     // typeref is a leaf node and does not get pushed onto the current element stack
 /*	IGNORE STATE MACHINES FOR NOW TODO
 elif ( "transitiontable" == element )
@@ -220,7 +206,7 @@ elif ( "event" == element )
 /*	IGNORE STATE MACHINES FOR NOW TODO
 elif ( "transition" == element )
   select one parent_state_machine related by population->element[R3784.''has current'']->markable[R3786]->state_machine[R3783];
-  c = cell::populate( startstate:value[0], event:value[1], endstate:value[2], statemachine:parent_state_machine );
+  cell::populate( startstate:value[0], event:value[1], endstate:value[2], statemachine:parent_state_machine );
   // transition is a leaf node and does not get pushed onto the current element stack
  */
 elif ( "regularrel" == element or "associative" == element or "subsuper" == element )

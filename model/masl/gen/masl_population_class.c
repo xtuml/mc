@@ -284,7 +284,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "referential", element ) == 0 ) ) {
-    masl_referential * p;c_t rolephrase[ESCHER_SYS_MAX_STRING_LEN];c_t attr[ESCHER_SYS_MAX_STRING_LEN];c_t obj[ESCHER_SYS_MAX_STRING_LEN];c_t roleOrObj[ESCHER_SYS_MAX_STRING_LEN];c_t relationship_name[ESCHER_SYS_MAX_STRING_LEN];c_t domain_name[ESCHER_SYS_MAX_STRING_LEN];masl_attribute * referred_to=0;masl_object * target_object=0;masl_relationship * relationship=0;masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_object * current_object=0;
+    c_t rolephrase[ESCHER_SYS_MAX_STRING_LEN];c_t attr[ESCHER_SYS_MAX_STRING_LEN];c_t obj[ESCHER_SYS_MAX_STRING_LEN];c_t roleOrObj[ESCHER_SYS_MAX_STRING_LEN];c_t relationship_name[ESCHER_SYS_MAX_STRING_LEN];c_t domain_name[ESCHER_SYS_MAX_STRING_LEN];masl_attribute * referred_to=0;masl_object * target_object=0;masl_relationship * relationship=0;masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_object * current_object=0;
     /* ASSIGN domain_name = value[1] */
     Escher_strcpy( domain_name, value[1] );
     /* ASSIGN relationship_name = value[0] */
@@ -457,11 +457,11 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_attribute_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_attribute = (masl_attribute *) R3786_subtype->R3783_subtype;
 }}}}
-    /* ASSIGN p = referential::populate(referred_to:referred_to, referring:parent_attribute, relationship:relationship, rolephrase:rolephrase) */
-    p = masl_referential_op_populate(referred_to, parent_attribute, relationship, rolephrase);
+    /* referential::populate( referred_to:referred_to, referring:parent_attribute, relationship:relationship, rolephrase:rolephrase ) */
+    masl_referential_op_populate( referred_to, parent_attribute, relationship, rolephrase );
   }
   else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
-    masl_typeref * p;masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_parameter * parent_parameter=0;masl_function * parent_function=0;
+    masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_parameter * parent_parameter=0;masl_function * parent_function=0;
     /* SELECT one parent_function RELATED BY population->element[R3784.has current]->markable[R3786]->activity[R3783]->function[R3704] */
     parent_function = 0;
     {    if ( 0 != population ) {
@@ -491,29 +491,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_attribute_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_attribute = (masl_attribute *) R3786_subtype->R3783_subtype;
 }}}}
-    /* IF ( ( not_empty parent_function and empty parent_parameter ) ) */
-    if ( ( ( 0 != parent_function ) && ( 0 == parent_parameter ) ) ) {
-      /* SELECT any parent_parameter FROM INSTANCES OF parameter WHERE FALSE */
-      parent_parameter = 0;
-      /* SELECT any parent_attribute FROM INSTANCES OF attribute WHERE FALSE */
-      parent_attribute = 0;
-    }
-    else if ( ( 0 != parent_parameter ) ) {
-      /* SELECT any parent_attribute FROM INSTANCES OF attribute WHERE FALSE */
-      parent_attribute = 0;
-      /* SELECT any parent_function FROM INSTANCES OF function WHERE FALSE */
-      parent_function = 0;
-    }
-    else if ( ( 0 != parent_attribute ) ) {
-      /* SELECT any parent_parameter FROM INSTANCES OF parameter WHERE FALSE */
-      parent_parameter = 0;
-      /* SELECT any parent_function FROM INSTANCES OF function WHERE FALSE */
-      parent_function = 0;
-    }
-    else {
-      /* TRACE::log( flavor:failure, id:39, message:no parent for typeref ) */
-      TRACE_log( "failure", 39, "no parent for typeref" );
-    }
     /* SELECT any parent_domain RELATED BY population->element[R3789.has active]->markable[R3786]->domain[R3783] */
     parent_domain = 0;
     {    if ( 0 != population ) {
@@ -525,8 +502,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_domain_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_domain = (masl_domain *) R3786_subtype->R3783_subtype;
 }}}}
-    /* ASSIGN p = typeref::populate(body:value[0], domain:parent_domain, name:, parent_attribute:parent_attribute, parent_function:parent_function, parent_parameter:parent_parameter) */
-    p = masl_typeref_op_populate(value[0], parent_domain, "", parent_attribute, parent_function, parent_parameter);
+    /* typeref::populate( body:value[0], domain:parent_domain, name:, parent_attribute:parent_attribute, parent_function:parent_function, parent_parameter:parent_parameter ) */
+    masl_typeref_op_populate( value[0], parent_domain, "", parent_attribute, parent_function, parent_parameter );
   }
   else if ( ( Escher_strcmp( "event", element ) == 0 ) ) {
     masl_event * event;masl_element * new_element=0;masl_object * parent_object=0;

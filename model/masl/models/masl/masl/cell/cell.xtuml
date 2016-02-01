@@ -31,7 +31,7 @@ INSERT INTO O_TFR
 	"c2429e06-c16b-4289-bcbe-3a6f799a7b4b",
 	'populate',
 	'',
-	"37c8bb16-c4a9-41de-91c4-06bedcca9acf",
+	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
 	'// We have a cell in a transition table.
 // States lead the rows.  Events head the columns.
@@ -59,9 +59,7 @@ if ( ( "ignore" != param.endstate ) and ( "cant_happen" != param.endstate ) )
 end if;
 relate start_state to transition_event across R3732 using cell;
 return cell;
-*/
-create object instance cell of cell;
-return cell;',
+*/',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -105,13 +103,6 @@ INSERT INTO S_DT_PROXY
 	VALUES ("eefb9a09-70e7-4c0f-927f-7758f32e96fc",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<state_machine>',
-	'',
-	'',
-	'../masl.xtuml');
-INSERT INTO S_DT_PROXY
-	VALUES ("37c8bb16-c4a9-41de-91c4-06bedcca9acf",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<cell>',
 	'',
 	'',
 	'../masl.xtuml');
