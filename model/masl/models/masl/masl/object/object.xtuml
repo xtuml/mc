@@ -19,9 +19,9 @@ select many attributes related by self->attribute[R3709.''is characterized by'']
 for each attribute in attributes
   attribute.render();
 end for;
-select many states related by self->state[R3735.''enters''];
-for each state in states
-  state.render();
+select many activities related by self->activity[R3747];
+for each activity in activities
+  activity.render();
 end for;
 select many events related by self->event[R3736.''is triggered by''];
 for each event in events

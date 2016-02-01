@@ -16,7 +16,6 @@ INSERT INTO O_TFR
 	0,
 	'create object instance activity of activity;
 activity.name = param.name;
-activity.visibility = param.visibility;
 
 // relate to parent
 parent_domain = param.parent_domain;
@@ -27,8 +26,7 @@ if ( not_empty parent_domain )
 elif ( not_empty parent_terminator )
   relate activity to parent_terminator across R3703;
 elif ( not_empty parent_object )
-  // TODO relationship between activity and object
-  //relate activity to parent_object across R3703;
+  relate activity to parent_object across R3747.''defines behavior of'';
 else
   TRACE::log( flavor:"failure", id:39, message:"no parent for activity" );
 end if;
@@ -41,40 +39,13 @@ return activity;',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
-	VALUES ("585355bf-c759-4c64-aa52-63cf9d1e7530",
-	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
-	'visibility',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'');
-INSERT INTO O_TPARM
 	VALUES ("a0bc78f5-fe93-4ba5-bee4-743fb96c6b5a",
 	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
 	'name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"585355bf-c759-4c64-aa52-63cf9d1e7530",
-	'');
-INSERT INTO O_TPARM
-	VALUES ("8f65c084-b0ee-4dd6-9184-2b3b0951f930",
-	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
-	'instance',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"a0bc78f5-fe93-4ba5-bee4-743fb96c6b5a",
-	'');
-INSERT INTO O_TPARM
-	VALUES ("06420c83-f74c-4062-8a17-c9ba14df3251",
-	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
-	'deferred_relationship',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"8f65c084-b0ee-4dd6-9184-2b3b0951f930",
+	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("f90a7bc6-931a-48e1-b249-56328eb537e4",
@@ -83,7 +54,7 @@ INSERT INTO O_TPARM
 	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	0,
 	'',
-	"06420c83-f74c-4062-8a17-c9ba14df3251",
+	"a0bc78f5-fe93-4ba5-bee4-743fb96c6b5a",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
@@ -140,19 +111,16 @@ INSERT INTO O_TFR
 	1,
 	'select one function related by self->function[R3704];
 select one service related by self->service[R3704];
+select one state related by self->state[R3704];
 if ( not_empty function )
-  function.render( name:self.name, visibility:self.visibility );
+  function.render( name:self.name );
 elif ( not_empty service )
-  service.render( name:self.name, visibility:self.visibility );
+  service.render( name:self.name );
+elif ( not_empty state )
+  state.render( name:self.name );
 else
   TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
-end if;
-/*
-select one pragma related by self->pragma[R3706];
-if ( not_empty pragma )
-  pragma.render();
-end if;
-*/',
+end if;',
 	1,
 	'',
 	"7baced44-2e68-4af0-bf91-6ab83eb77f66");
@@ -200,24 +168,6 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'name',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("968777bc-23a5-4528-b2ca-54fae8483fce",
-	"4431e956-be8b-40e7-83ed-ac781e31719b");
-INSERT INTO O_BATTR
-	VALUES ("968777bc-23a5-4528-b2ca-54fae8483fce",
-	"4431e956-be8b-40e7-83ed-ac781e31719b");
-INSERT INTO O_ATTR
-	VALUES ("968777bc-23a5-4528-b2ca-54fae8483fce",
-	"4431e956-be8b-40e7-83ed-ac781e31719b",
-	"27d8c431-aa99-4f85-8118-e3c78c95bcdb",
-	'visibility',
-	'',
-	'',
-	'visibility',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

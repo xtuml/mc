@@ -27,7 +27,7 @@ end if;
 element_name = "";
 if ( "regularrel" == element or "associative" == element or "subsuper" == element )
   element_name = "relationship";
-elif ( "service" == element or "function" == element )
+elif ( "service" == element or "function" == element or "state" == element )
   element_name = "activity";
 else
   element_name = element;
@@ -41,8 +41,8 @@ if ( "" == value[0] )
     unrelate population from current_element across R3784.''has current'';				// unrelate current element
     relate population to parent_element across R3784.''has current'';						// relate the parent as the new current
     unrelate population from current_element across R3789.''has active'';					// remove from the active collection
+    return;
   end if;
-  return;
 end if;
 
 if ( "project" == element )
@@ -64,7 +64,7 @@ elif ( "terminator" == element )
     terminator = terminator::populate( name:value[0], domain:parent_domain );
     select one new_element related by terminator->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
-elif ( "service" == element or "function" == element )
+elif ( "service" == element or "function" == element or "state" == element )
 	select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
 	select one parent_terminator related by population->element[R3784.''has current'']->markable[R3786]->terminator[R3783];
 	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
@@ -74,7 +74,10 @@ elif ( "service" == element or "function" == element )
       activity = service::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
 	elif ( "function" == element )
       activity = function::populate( visibility:value[0], name:value[1], instance:value[2], deferred_relationship:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+    elif ( "state" == element )
+      activity = state::populate( name:value[0], type:value[1], object:parent_object );
 	end if;
+
     select one new_element related by activity->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "parameter" == element )
@@ -198,25 +201,24 @@ elif ( "typeref" == element )
 	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
     p = typeref::populate( name:"", body:value[0], domain:parent_domain, parent_parameter:parent_parameter, parent_function:parent_function, parent_attribute:parent_attribute );
     // typeref is a leaf node and does not get pushed onto the current element stack
+/*	IGNORE STATE MACHINES FOR NOW TODO
 elif ( "transitiontable" == element )
 	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
     state_machine = state_machine::populate( type:value[0], object:parent_object );
     select one new_element related by state_machine->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
-elif ( "state" == element )
-	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
-    state = state::populate( name:value[0], type:value[1], object:parent_object );
-    //select one new_element related by state->markable[R3783]->element[R3786];
-    //population.push_element( new_element:new_element );
+*/
 elif ( "event" == element )
 	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
     event = event::populate( name:value[0], type:value[1], object:parent_object );
     select one new_element related by event->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
+/*	IGNORE STATE MACHINES FOR NOW TODO
 elif ( "transition" == element )
   select one parent_state_machine related by population->element[R3784.''has current'']->markable[R3786]->state_machine[R3783];
   c = cell::populate( startstate:value[0], event:value[1], endstate:value[2], statemachine:parent_state_machine );
   // transition is a leaf node and does not get pushed onto the current element stack
+ */
 elif ( "regularrel" == element or "associative" == element or "subsuper" == element )
 	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
 	
@@ -303,6 +305,9 @@ INSERT INTO O_TFR
 	1,
 	'new_element = param.new_element;
 select one current_element related by self->element[R3784.''has current''];
+if ( empty new_element )
+  TRACE::log( flavor:"warning", id:76, message:"pushing empty element. current element: " + current_element.name );
+end if;
 if ( current_element == new_element )
   TRACE::log( flavor:"info", id:75, message:"duplicate element not pushed: " + new_element.name );
 else

@@ -18,8 +18,9 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.state_begin.masl" );
-select one parameter related by self->parameter[R3739.''carries first''];
+	'name = param.name;
+T::include( file:"masl/t.state_begin.masl" );
+select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
 if ( not_empty parameter )
   parameter.render();
 end if;
@@ -27,19 +28,33 @@ T::include( file:"masl/t.state_end.masl" );',
 	1,
 	'',
 	"b5fb225a-420f-41b5-b16e-930a5ff3ea82");
+INSERT INTO O_TPARM
+	VALUES ("fa419d69-899b-493c-9c2e-267e26ec23d3",
+	"3831770b-0142-457e-9e20-b77e34cfaa75",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_TFR
 	VALUES ("b5fb225a-420f-41b5-b16e-930a5ff3ea82",
 	"64886a99-6942-49c6-b7d7-2dc495c52db1",
 	'populate',
 	'',
-	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
+	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	0,
-	'object = param.object;
+	'parent_object = param.object;
+select any parent_domain from instances of domain where false;
+select any parent_terminator from instances of terminator where false;
+
+activity = activity::populate( name:param.name, parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+
 create object instance state of state;
-state.name = param.name;
 state.type = param.type;
-relate state to object across R3735;
-return state;',
+relate state to activity across R3704;
+
+return activity;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -78,9 +93,9 @@ INSERT INTO O_TPARM
 	"daab49b8-c192-4486-9062-252eb12909ec",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("69d4ad00-8c78-47f0-95c9-b7519011b8ea",
+	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<state>',
+	'inst_ref<activity>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -91,7 +106,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
-	'valid = true;
+	'/*
+valid = true;
 select many states from instances of state;
 for each state in states
 select one object related by state->object[R3735];
@@ -113,38 +129,22 @@ select one object related by state->object[R3735];
     valid = false;
   end if;
 end for;
-return valid;',
+return valid;
+*/
+return true;',
 	1,
 	'',
 	"3831770b-0142-457e-9e20-b77e34cfaa75");
 INSERT INTO O_NBATTR
-	VALUES ("4d0df277-98e4-4b2d-b320-de56b3e1f8e0",
+	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
 	"64886a99-6942-49c6-b7d7-2dc495c52db1");
 INSERT INTO O_BATTR
-	VALUES ("4d0df277-98e4-4b2d-b320-de56b3e1f8e0",
+	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
 	"64886a99-6942-49c6-b7d7-2dc495c52db1");
 INSERT INTO O_ATTR
-	VALUES ("4d0df277-98e4-4b2d-b320-de56b3e1f8e0",
+	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
 	"64886a99-6942-49c6-b7d7-2dc495c52db1",
 	"00000000-0000-0000-0000-000000000000",
-	'name',
-	'',
-	'',
-	'name',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
-	"64886a99-6942-49c6-b7d7-2dc495c52db1");
-INSERT INTO O_BATTR
-	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
-	"64886a99-6942-49c6-b7d7-2dc495c52db1");
-INSERT INTO O_ATTR
-	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
-	"64886a99-6942-49c6-b7d7-2dc495c52db1",
-	"4d0df277-98e4-4b2d-b320-de56b3e1f8e0",
 	'type',
 	'',
 	'',

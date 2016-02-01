@@ -20,7 +20,7 @@ select one end_state related by self->state[R3731.''transitions to''];
 separator = ",";
 endstate = self.notransition;
 if ( not_empty end_state )
-  endstate = end_state.name;
+  //endstate = end_state.name;
 end if;
 T::include( file:"masl/t.cell.masl" );',
 	1,
@@ -37,6 +37,7 @@ INSERT INTO O_TFR
 // States lead the rows.  Events head the columns.
 // Cells can contain a transtion state, ignore or cant_happan.
 // Associate the starting state and event with the cell and link the end state.
+/*
 state_machine = param.statemachine;
 create object instance cell of cell;
 relate state_machine to cell across R3743.''is matrix of'';
@@ -57,6 +58,9 @@ if ( ( "ignore" != param.endstate ) and ( "cant_happen" != param.endstate ) )
   relate cell to end_state across R3731.''transitions to'';
 end if;
 relate start_state to transition_event across R3732 using cell;
+return cell;
+*/
+create object instance cell of cell;
 return cell;',
 	1,
 	'',

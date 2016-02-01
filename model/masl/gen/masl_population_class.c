@@ -46,7 +46,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     /* ASSIGN element_name = relationship */
     Escher_strcpy( element_name, "relationship" );
   }
-  else if ( ( ( Escher_strcmp( "service", element ) == 0 ) || ( Escher_strcmp( "function", element ) == 0 ) ) ) {
+  else if ( ( ( ( Escher_strcmp( "service", element ) == 0 ) || ( Escher_strcmp( "function", element ) == 0 ) ) || ( Escher_strcmp( "state", element ) == 0 ) ) ) {
     /* ASSIGN element_name = activity */
     Escher_strcpy( element_name, "activity" );
   }
@@ -161,7 +161,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
-  else if ( ( ( Escher_strcmp( "service", element ) == 0 ) || ( Escher_strcmp( "function", element ) == 0 ) ) ) {
+  else if ( ( ( ( Escher_strcmp( "service", element ) == 0 ) || ( Escher_strcmp( "function", element ) == 0 ) ) || ( Escher_strcmp( "state", element ) == 0 ) ) ) {
     masl_activity * activity=0;masl_element * new_element=0;masl_object * parent_object=0;masl_terminator * parent_terminator=0;masl_domain * parent_domain=0;
     /* SELECT one parent_domain RELATED BY population->element[R3784.has current]->markable[R3786]->domain[R3783] */
     parent_domain = 0;
@@ -200,6 +200,10 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     else if ( ( Escher_strcmp( "function", element ) == 0 ) ) {
       /* ASSIGN activity = function::populate(deferred_relationship:value[3], instance:value[2], name:value[1], parent_domain:parent_domain, parent_object:parent_object, parent_terminator:parent_terminator, visibility:value[0]) */
       activity = masl_function_op_populate(value[3], value[2], value[1], parent_domain, parent_object, parent_terminator, value[0]);
+    }
+    else if ( ( Escher_strcmp( "state", element ) == 0 ) ) {
+      /* ASSIGN activity = state::populate(name:value[0], object:parent_object, type:value[1]) */
+      activity = masl_state_op_populate(value[0], parent_object, value[1]);
     }
     /* SELECT one new_element RELATED BY activity->markable[R3783]->element[R3786] */
     new_element = 0;
@@ -520,43 +524,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     /* ASSIGN p = typeref::populate(body:value[0], domain:parent_domain, name:, parent_attribute:parent_attribute, parent_function:parent_function, parent_parameter:parent_parameter) */
     p = masl_typeref_op_populate(value[0], parent_domain, "", parent_attribute, parent_function, parent_parameter);
   }
-  else if ( ( Escher_strcmp( "transitiontable", element ) == 0 ) ) {
-    masl_state_machine * state_machine;masl_element * new_element=0;masl_object * parent_object=0;
-    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable[R3786]->object[R3783] */
-    parent_object = 0;
-    {    if ( 0 != population ) {
-    masl_element * element_R3784_has_current = population->element_R3784_has_current;
-    if ( 0 != element_R3784_has_current ) {
-    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
-    if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
-}}}}
-    /* ASSIGN state_machine = state_machine::populate(object:parent_object, type:value[0]) */
-    state_machine = masl_state_machine_op_populate(parent_object, value[0]);
-    /* SELECT one new_element RELATED BY state_machine->markable[R3783]->element[R3786] */
-    new_element = 0;
-    {    if ( 0 != state_machine ) {
-    masl_markable * markable_R3783 = state_machine->markable_R3783;
-    if ( 0 != markable_R3783 ) {
-    new_element = markable_R3783->element_R3786;
-}}}
-    /* population.push_element( new_element:new_element ) */
-    masl_population_op_push_element( population,  new_element );
-  }
-  else if ( ( Escher_strcmp( "state", element ) == 0 ) ) {
-    masl_state * state;masl_object * parent_object=0;
-    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable[R3786]->object[R3783] */
-    parent_object = 0;
-    {    if ( 0 != population ) {
-    masl_element * element_R3784_has_current = population->element_R3784_has_current;
-    if ( 0 != element_R3784_has_current ) {
-    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
-    if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
-}}}}
-    /* ASSIGN state = state::populate(name:value[0], object:parent_object, type:value[1]) */
-    state = masl_state_op_populate(value[0], parent_object, value[1]);
-  }
   else if ( ( Escher_strcmp( "event", element ) == 0 ) ) {
     masl_event * event;masl_element * new_element=0;masl_object * parent_object=0;
     /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable[R3786]->object[R3783] */
@@ -579,20 +546,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
 }}}
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
-  }
-  else if ( ( Escher_strcmp( "transition", element ) == 0 ) ) {
-    masl_cell * c;masl_state_machine * parent_state_machine=0;
-    /* SELECT one parent_state_machine RELATED BY population->element[R3784.has current]->markable[R3786]->state_machine[R3783] */
-    parent_state_machine = 0;
-    {    if ( 0 != population ) {
-    masl_element * element_R3784_has_current = population->element_R3784_has_current;
-    if ( 0 != element_R3784_has_current ) {
-    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
-    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
-    if ( ( 0 != R3786_subtype ) && ( masl_state_machine_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_state_machine = (masl_state_machine *) R3786_subtype->R3783_subtype;
-}}}}
-    /* ASSIGN c = cell::populate(endstate:value[2], event:value[1], startstate:value[0], statemachine:parent_state_machine) */
-    c = masl_cell_op_populate(value[2], value[1], value[0], parent_state_machine);
   }
   else if ( ( ( ( Escher_strcmp( "regularrel", element ) == 0 ) || ( Escher_strcmp( "associative", element ) == 0 ) ) || ( Escher_strcmp( "subsuper", element ) == 0 ) ) ) {
     masl_relationship * relationship=0;masl_element * new_element=0;masl_domain * parent_domain=0;
@@ -741,6 +694,11 @@ masl_population_op_push_element( masl_population * self, masl_element * p_new_el
   new_element = p_new_element;
   /* SELECT one current_element RELATED BY self->element[R3784.has current] */
   current_element = ( 0 != self ) ? self->element_R3784_has_current : 0;
+  /* IF ( empty new_element ) */
+  if ( ( 0 == new_element ) ) {
+    /* TRACE::log( flavor:warning, id:76, message:( pushing empty element. current element:  + current_element.name ) ) */
+    TRACE_log( "warning", 76, Escher_stradd( "pushing empty element. current element: ", current_element->name ) );
+  }
   /* IF ( ( current_element == new_element ) ) */
   if ( ( current_element == new_element ) ) {
     /* TRACE::log( flavor:info, id:75, message:( duplicate element not pushed:  + new_element.name ) ) */
