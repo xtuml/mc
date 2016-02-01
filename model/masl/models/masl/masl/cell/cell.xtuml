@@ -21,7 +21,6 @@ endstate = self.notransition;
 if ( not_empty end_state )
   select one end_state_activity related by end_state->activity[R3704];
   endstate = end_state_activity.name;
-  TRACE::log( flavor:"levi", id:99, message:"non empty end state" );
 end if;
 T::include( file:"masl/t.cell.masl" );',
 	1,
