@@ -19,12 +19,15 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'name = param.name;
-T::include( file:"masl/t.state_begin.masl" );
-select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-if ( not_empty parameter )
-  parameter.render();
-end if;
-T::include( file:"masl/t.state_end.masl" );',
+// spellings taken directly from the lexer grammar
+if ( "non_existent" != name and "Non_Existent" != name and "Non_Existant" != name )
+  T::include( file:"masl/t.state_begin.masl" );
+  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render();
+  end if;
+  T::include( file:"masl/t.state_end.masl" );
+end if;',
 	1,
 	'',
 	"b5fb225a-420f-41b5-b16e-930a5ff3ea82");

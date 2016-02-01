@@ -17,10 +17,11 @@ INSERT INTO O_TFR
 	'select one start_state related by self->state[R3732];
 select one transition_event related by self->event[R3732];
 select one end_state related by self->state[R3731.''transitions to''];
-separator = ",";
 endstate = self.notransition;
 if ( not_empty end_state )
-  //endstate = end_state.name;
+  select one end_state_activity related by end_state->activity[R3704];
+  endstate = end_state_activity.name;
+  TRACE::log( flavor:"levi", id:99, message:"non empty end state" );
 end if;
 T::include( file:"masl/t.cell.masl" );',
 	1,
@@ -37,11 +38,11 @@ INSERT INTO O_TFR
 // States lead the rows.  Events head the columns.
 // Cells can contain a transtion state, ignore or cant_happan.
 // Associate the starting state and event with the cell and link the end state.
-/*
 state_machine = param.statemachine;
 create object instance cell of cell;
 relate state_machine to cell across R3743.''is matrix of'';
-select any start_state related by state_machine->object[R3734]->state[R3735] where ( selected.name == param.startstate );
+select any start_state_activity related by state_machine->object[R3734]->activity[R3747] where ( selected.name == param.startstate );
+select one start_state related by start_state_activity->state[R3704];
 if ( empty start_state )
   TRACE::log( flavor:"failure", id:90, message:"could not find state for state machine with name:  " + param.startstate );
 end if;
@@ -49,17 +50,18 @@ select any transition_event related by state_machine->object[R3734]->event[R3736
 if ( empty transition_event )
   TRACE::log( flavor:"failure", id:91, message:"could not find event for state machine with name:  " + param.event );
 end if;
-cell.notransition = param.endstate;
-if ( ( "ignore" != param.endstate ) and ( "cant_happen" != param.endstate ) )
-  select any end_state related by state_machine->object[R3734]->state[R3735] where ( selected.name == param.endstate );
+cell.notransition = "";
+if ( ( "Ignore" != param.endstate ) and ( "Cannot_Happen" != param.endstate ) and ( "cannot_happen" != param.endstate ) )	// these spellings are taken directly from the lexer grammar
+  select any end_state_activity related by state_machine->object[R3734]->activity[R3747] where ( selected.name == param.endstate );
+  select one end_state related by end_state_activity->state[R3704];
   if ( empty end_state )
     TRACE::log( flavor:"failure", id:92, message:"could not find state for state machine with name:  " + param.endstate );
   end if;
   relate cell to end_state across R3731.''transitions to'';
+else
+  cell.notransition = param.endstate;
 end if;
-relate start_state to transition_event across R3732 using cell;
-return cell;
-*/',
+relate start_state to transition_event across R3732 using cell;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
