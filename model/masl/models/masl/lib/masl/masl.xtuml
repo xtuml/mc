@@ -98,7 +98,7 @@ INSERT INTO GD_GE
 	"7039b2a2-b4c6-40a7-9b36-5577e4748919",
 	94,
 	0,
-	'masl::lib::masl::in::MASLDSL');
+	'masl::lib::masl::in::serial');
 INSERT INTO GD_CON
 	VALUES ("7706966f-adfe-4e06-8395-2dcf008d55d8",
 	"00000000-0000-0000-0000-000000000000");
@@ -222,7 +222,7 @@ INSERT INTO GD_GE
 	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82",
 	93,
 	0,
-	'masl::lib::masl::out::MASLDSL');
+	'masl::lib::masl::out::serial');
 INSERT INTO GD_CON
 	VALUES ("aacb5b38-d2b7-403f-9f9c-5f978a6e0ef1",
 	"00000000-0000-0000-0000-000000000000");
@@ -346,7 +346,7 @@ INSERT INTO GD_GE
 	"abfff799-4b7f-43e8-a63b-479add5a1591",
 	108,
 	0,
-	'masl::lib::masl::maslpragmas_imported');
+	'masl::lib::masl::maslpopulation_imported');
 INSERT INTO GD_SHP
 	VALUES ("e2e9815d-c153-4163-b5ac-0a11fd6d7fb4");
 INSERT INTO GD_NCS
@@ -379,57 +379,38 @@ INSERT INTO C_PO
 	0);
 INSERT INTO C_IR
 	VALUES ("7039b2a2-b4c6-40a7-9b36-5577e4748919",
-	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	"00000000-0000-0000-0000-000000000000",
 	"80759413-1326-4744-843d-fbc6cd3cee0d");
 INSERT INTO C_P
 	VALUES ("7039b2a2-b4c6-40a7-9b36-5577e4748919",
-	'MASLDSL',
+	'serial',
 	'Unnamed Interface',
 	'',
-	'masl::in::MASLDSL');
+	'masl::in::serial');
 INSERT INTO SPR_PEP
-	VALUES ("d51bda52-e071-4e57-8ea9-fd67c68152d1",
-	"c81b1086-4258-4925-bc8d-72b26c7204b7",
-	"7039b2a2-b4c6-40a7-9b36-5577e4748919");
-INSERT INTO SPR_PO
-	VALUES ("d51bda52-e071-4e57-8ea9-fd67c68152d1",
-	'populate',
-	'',
-	'population::populate( element:param.element, value:param.value );
-',
-	1);
-INSERT INTO C_EP_PROXY
-	VALUES ("c81b1086-4258-4925-bc8d-72b26c7204b7",
-	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
-	-1,
-	'populate',
-	'',
-	'../MASLDSL/MASLDSL.xtuml');
-INSERT INTO SPR_PEP
-	VALUES ("d0885c5b-c5e1-439d-8530-5993d8c070d1",
-	"a3e03e28-b19f-4bea-84df-d70f77be36d1",
+	VALUES ("f2ec2fc4-dd57-4100-ae43-1e16319054f7",
+	"841b86d1-7346-4506-8512-0d2cebeb6545",
 	"7039b2a2-b4c6-40a7-9b36-5577e4748919");
 INSERT INTO SPR_PS
-	VALUES ("d0885c5b-c5e1-439d-8530-5993d8c070d1",
+	VALUES ("f2ec2fc4-dd57-4100-ae43-1e16319054f7",
 	'render',
 	'',
-	'::render( element:param.element, name:param.name );
-',
+	'::render( element:param.element, name:param.name );',
 	1);
 INSERT INTO C_EP_PROXY
-	VALUES ("a3e03e28-b19f-4bea-84df-d70f77be36d1",
-	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	VALUES ("841b86d1-7346-4506-8512-0d2cebeb6545",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	-1,
 	'render',
 	'',
-	'../MASLDSL/MASLDSL.xtuml');
+	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
 INSERT INTO SPR_PEP
-	VALUES ("4059bf2d-3e86-4046-9eb9-65eb47c4001c",
-	"7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	VALUES ("28a1ad89-c65d-4864-9ec4-b77479a09282",
+	"b57fb261-23b3-4e1c-95ad-ff8458bab1cd",
 	"7039b2a2-b4c6-40a7-9b36-5577e4748919");
 INSERT INTO SPR_PS
-	VALUES ("4059bf2d-3e86-4046-9eb9-65eb47c4001c",
+	VALUES ("28a1ad89-c65d-4864-9ec4-b77479a09282",
 	'validate',
 	'',
 	'valid = true;
@@ -447,18 +428,35 @@ if ( not valid )
 end if;',
 	1);
 INSERT INTO C_EP_PROXY
-	VALUES ("7b41e9a8-5bef-4dc0-b047-6937f50771c7",
-	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	VALUES ("b57fb261-23b3-4e1c-95ad-ff8458bab1cd",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	-1,
 	'validate',
 	'',
-	'../MASLDSL/MASLDSL.xtuml');
-INSERT INTO C_I_PROXY
-	VALUES ("d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
-	"00000000-0000-0000-0000-000000000000",
-	'MASLDSL',
+	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
+INSERT INTO SPR_PEP
+	VALUES ("712a0a63-d745-476c-89e2-0ec478640b64",
+	"6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",
+	"7039b2a2-b4c6-40a7-9b36-5577e4748919");
+INSERT INTO SPR_PO
+	VALUES ("712a0a63-d745-476c-89e2-0ec478640b64",
+	'populate',
 	'',
-	'../MASLDSL/MASLDSL.xtuml');
+	'population::populate( element:param.element, value:param.value );',
+	1);
+INSERT INTO C_EP_PROXY
+	VALUES ("6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
+	-1,
+	'populate',
+	'',
+	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
+INSERT INTO C_I_PROXY
+	VALUES ("c221853e-39ef-4a21-8a0f-9730c3b2f618",
+	"00000000-0000-0000-0000-000000000000",
+	'serial',
+	'',
+	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
 INSERT INTO C_PO
 	VALUES ("762e3382-6ab0-49f1-8fdc-597c737196a9",
 	"78775e10-f3b1-4b47-b908-ad2144f025e4",
@@ -467,45 +465,45 @@ INSERT INTO C_PO
 	0);
 INSERT INTO C_IR
 	VALUES ("b3c57db2-ca71-4f44-98f3-6a9ccce00a82",
-	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	"00000000-0000-0000-0000-000000000000",
 	"762e3382-6ab0-49f1-8fdc-597c737196a9");
 INSERT INTO C_R
 	VALUES ("b3c57db2-ca71-4f44-98f3-6a9ccce00a82",
-	'MASLDSL',
+	'serial',
 	'',
 	'Unnamed Interface',
-	'masl::out::MASLDSL');
+	'masl::out::serial');
 INSERT INTO SPR_REP
-	VALUES ("f14c2ab1-3d07-4a58-9a26-e176c74a1321",
-	"c81b1086-4258-4925-bc8d-72b26c7204b7",
-	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82");
-INSERT INTO SPR_RO
-	VALUES ("f14c2ab1-3d07-4a58-9a26-e176c74a1321",
-	'populate',
-	'',
-	'',
-	1);
-INSERT INTO SPR_REP
-	VALUES ("29ba869c-f729-4cfd-838e-e4436cb24092",
-	"a3e03e28-b19f-4bea-84df-d70f77be36d1",
+	VALUES ("e467aa82-1b15-4eee-bf51-e171d2e49961",
+	"841b86d1-7346-4506-8512-0d2cebeb6545",
 	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82");
 INSERT INTO SPR_RS
-	VALUES ("29ba869c-f729-4cfd-838e-e4436cb24092",
+	VALUES ("e467aa82-1b15-4eee-bf51-e171d2e49961",
 	'render',
 	'',
 	'',
-	1);
+	3);
 INSERT INTO SPR_REP
-	VALUES ("6ec91888-b21f-4310-8550-a2cd9cac36fb",
-	"7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	VALUES ("62945064-c1eb-4670-8650-c889e075a742",
+	"b57fb261-23b3-4e1c-95ad-ff8458bab1cd",
 	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82");
 INSERT INTO SPR_RS
-	VALUES ("6ec91888-b21f-4310-8550-a2cd9cac36fb",
+	VALUES ("62945064-c1eb-4670-8650-c889e075a742",
 	'validate',
 	'',
 	'',
-	1);
+	3);
+INSERT INTO SPR_REP
+	VALUES ("8c080adf-d6e1-423e-9e78-347825b643d1",
+	"6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",
+	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82");
+INSERT INTO SPR_RO
+	VALUES ("8c080adf-d6e1-423e-9e78-347825b643d1",
+	'populate',
+	'',
+	'',
+	3);
 INSERT INTO PE_PE
 	VALUES ("78775e10-f3b1-4b47-b908-ad2144f025e4",
 	1,

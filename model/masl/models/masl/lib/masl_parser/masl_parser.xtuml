@@ -64,7 +64,7 @@ INSERT INTO GD_GE
 	"58b0e248-aaa3-45b0-a6ef-4c258fa83981",
 	93,
 	0,
-	'masl::lib::masl_parser::Port1::MASLDSL');
+	'masl::lib::masl_parser::Port1::serial');
 INSERT INTO GD_CON
 	VALUES ("98138c76-dfbf-4511-8a82-31065fb1027c",
 	"00000000-0000-0000-0000-000000000000");
@@ -173,72 +173,72 @@ INSERT INTO C_PO
 	0);
 INSERT INTO C_IR
 	VALUES ("58b0e248-aaa3-45b0-a6ef-4c258fa83981",
-	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	"00000000-0000-0000-0000-000000000000",
 	"eef0c029-d45f-4d33-8f36-fc2c3abf4001");
 INSERT INTO C_R
 	VALUES ("58b0e248-aaa3-45b0-a6ef-4c258fa83981",
-	'MASLDSL',
+	'serial',
 	'',
 	'Unnamed Interface',
-	'masl_parser::Port1::MASLDSL');
+	'masl_parser::Port1::serial');
 INSERT INTO SPR_REP
-	VALUES ("a07768d8-174e-4ea8-8f1d-c8359d6a287b",
-	"a3e03e28-b19f-4bea-84df-d70f77be36d1",
+	VALUES ("8773e31c-821d-45ec-a2fb-77a6580271bb",
+	"841b86d1-7346-4506-8512-0d2cebeb6545",
 	"58b0e248-aaa3-45b0-a6ef-4c258fa83981");
 INSERT INTO SPR_RS
-	VALUES ("a07768d8-174e-4ea8-8f1d-c8359d6a287b",
+	VALUES ("8773e31c-821d-45ec-a2fb-77a6580271bb",
 	'render',
 	'',
 	'',
-	1);
+	3);
 INSERT INTO C_EP_PROXY
-	VALUES ("a3e03e28-b19f-4bea-84df-d70f77be36d1",
-	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	VALUES ("841b86d1-7346-4506-8512-0d2cebeb6545",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	-1,
 	'render',
 	'',
-	'../MASLDSL/MASLDSL.xtuml');
+	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
 INSERT INTO SPR_REP
-	VALUES ("aac65c0e-3efa-4ed1-9d6c-8f79d3113425",
-	"c81b1086-4258-4925-bc8d-72b26c7204b7",
-	"58b0e248-aaa3-45b0-a6ef-4c258fa83981");
-INSERT INTO SPR_RO
-	VALUES ("aac65c0e-3efa-4ed1-9d6c-8f79d3113425",
-	'populate',
-	'',
-	'',
-	1);
-INSERT INTO C_EP_PROXY
-	VALUES ("c81b1086-4258-4925-bc8d-72b26c7204b7",
-	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
-	-1,
-	'populate',
-	'',
-	'../MASLDSL/MASLDSL.xtuml');
-INSERT INTO SPR_REP
-	VALUES ("a58d70ef-942a-486d-a9aa-201b77bb6d98",
-	"7b41e9a8-5bef-4dc0-b047-6937f50771c7",
+	VALUES ("fd7ba029-46c5-4613-bff0-eda148b321f9",
+	"b57fb261-23b3-4e1c-95ad-ff8458bab1cd",
 	"58b0e248-aaa3-45b0-a6ef-4c258fa83981");
 INSERT INTO SPR_RS
-	VALUES ("a58d70ef-942a-486d-a9aa-201b77bb6d98",
+	VALUES ("fd7ba029-46c5-4613-bff0-eda148b321f9",
 	'validate',
 	'',
 	'',
 	3);
 INSERT INTO C_EP_PROXY
-	VALUES ("7b41e9a8-5bef-4dc0-b047-6937f50771c7",
-	"d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
+	VALUES ("b57fb261-23b3-4e1c-95ad-ff8458bab1cd",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	-1,
 	'validate',
 	'',
-	'../MASLDSL/MASLDSL.xtuml');
-INSERT INTO C_I_PROXY
-	VALUES ("d0c02858-aa2b-42f0-a9bd-9252fdb1944d",
-	"00000000-0000-0000-0000-000000000000",
-	'MASLDSL',
+	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
+INSERT INTO SPR_REP
+	VALUES ("5fb26403-e639-4a41-9c80-ed65233f3f6e",
+	"6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",
+	"58b0e248-aaa3-45b0-a6ef-4c258fa83981");
+INSERT INTO SPR_RO
+	VALUES ("5fb26403-e639-4a41-9c80-ed65233f3f6e",
+	'populate',
 	'',
-	'../MASLDSL/MASLDSL.xtuml');
+	'',
+	3);
+INSERT INTO C_EP_PROXY
+	VALUES ("6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
+	-1,
+	'populate',
+	'',
+	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
+INSERT INTO C_I_PROXY
+	VALUES ("c221853e-39ef-4a21-8a0f-9730c3b2f618",
+	"00000000-0000-0000-0000-000000000000",
+	'serial',
+	'',
+	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
 INSERT INTO PE_PE
 	VALUES ("e713f40f-2f92-444c-8643-f1caf4371293",
 	1,
