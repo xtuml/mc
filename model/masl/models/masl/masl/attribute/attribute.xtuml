@@ -15,12 +15,22 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'T::include( file:"masl/t.attribute_begin.masl" );
-select many referentials related by self->referential[R3718.''refers through''];
-for each referential in referentials
-  referential.render();
-end for;
-select one type related by self->typeref[R3717]->type[R3762];
-T::include( file:"masl/t.attribute_end.masl" );',
+select many referentials related by self->referential[R3746.''references''];
+if ( not_empty referentials )
+  T::include( file:"masl/t.referentials_begin.masl" );
+  separator = "";
+  for each referential in referentials
+  	T::b( s:separator );
+    referential.render();
+    separator = ", ";
+  end for;
+  T::include( file:"masl/t.referentials_end.masl" );
+end if;
+select one attributetype related by self->typeref[R3717];
+attributetype.render();
+T::include( file:"masl/t.attribute_end.masl" );
+select one markable related by self->markable[R3783];
+markable.render( list:"default" );',
 	1,
 	'',
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71");
@@ -32,12 +42,18 @@ INSERT INTO O_TFR
 	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
 	0,
 	'object = param.object;
-create object instance attribute of attribute;
-attribute.name = param.name;
+
+select any attribute related by object->attribute[R3709] where ( selected.name == param.name );
+if ( empty attribute )
+  create object instance attribute of attribute;
+  attribute.name = param.name;
+  relate object to attribute across R3709.''is characterized by'';
+  markable = markable::populate( name:"attribute" );
+  relate attribute to markable across R3783;
+end if;
 attribute.preferred = param.preferred;
 attribute.unique = param.unique;
 attribute.defaultvalue = param.defaultvalue;
-relate object to attribute across R3709.''is characterized by'';
 return attribute;',
 	1,
 	'',
@@ -46,18 +62,11 @@ INSERT INTO O_TPARM
 	VALUES ("f87125ba-42aa-4a4d-912d-a8e86fe9600d",
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
 	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("b90a5b96-97a1-4611-b06d-9f8fb8924c93",
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
@@ -80,7 +89,7 @@ INSERT INTO O_TPARM
 	VALUES ("c36f5e3e-3842-4a5b-ab80-ce3199b5847a",
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
 	'defaultvalue',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"95952fdd-517e-4d1c-9a3c-e4cdf53ec35e",
@@ -156,7 +165,7 @@ INSERT INTO O_ATTR
 	'',
 	'name',
 	0,
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_NBATTR

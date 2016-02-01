@@ -189,18 +189,11 @@ INSERT INTO S_SPARM
 	VALUES ("4a3551e3-a634-4cbb-87b1-b6fbeb3d98d3",
 	"bf3e36c8-ff31-4887-824f-6c47deca534a",
 	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../../../masl/models/masl/types/types.xtuml');
 INSERT INTO PE_PE
 	VALUES ("bf3e36c8-ff31-4887-824f-6c47deca534a",
 	1,

@@ -29,7 +29,9 @@ else
   TRACE::log( flavor:"failure", id:82, message:"missing subtype relationship while rendering" );
 end if;
 end if;
-end if;',
+end if;
+select one markable related by self->markable[R3783];
+markable.render( list:"default" );',
 	1,
 	'',
 	"ba9f72fd-fca7-4102-b768-e6f9748221de");
@@ -47,6 +49,8 @@ if ( empty relationship )
   create object instance relationship of relationship;
   relationship.name = param.name;
   relate relationship to domain across R3712;
+  markable = markable::populate( name:"relationship" );
+  relate relationship to markable across R3783;
 end if;
 return relationship;',
 	1,
@@ -56,18 +60,11 @@ INSERT INTO O_TPARM
 	VALUES ("34512c79-e13d-4aad-a93f-b5dbc3058208",
 	"ba9f72fd-fca7-4102-b768-e6f9748221de",
 	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("bac8a22f-cf33-441e-8691-7025b57b381b",
 	"ba9f72fd-fca7-4102-b768-e6f9748221de",

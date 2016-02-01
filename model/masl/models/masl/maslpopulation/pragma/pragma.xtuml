@@ -1,0 +1,163 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("bd654b77-3ff1-445c-bca4-df6599e92ed2",
+	'pragma',
+	3713,
+	'pragma',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("26e558f4-4c8e-4ddf-a140-8b13409ffb34",
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.pragma_begin.masl" );
+select many pragma_items related by self->pragma_item[R3780];
+separator = "";
+for each pragma_item in pragma_items
+  T::b( s:separator );
+  pragma_item.render();
+  separator = ", ";
+end for;
+T::include( file:"masl/t.pragma_end.masl" );',
+	1,
+	'',
+	"a2751ebc-236b-471c-85b9-3fa412f91703");
+INSERT INTO O_TFR
+	VALUES ("a2751ebc-236b-471c-85b9-3fa412f91703",
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2",
+	'populate',
+	'',
+	"fedbd69c-1013-4150-8595-97f557dea434",
+	0,
+	'element = param.element;
+
+// get the pragma list
+list_name = "";
+if ( "" == param.list )
+  list_name = "default";
+else
+  list_name = param.list;
+end if;
+select any pragma_list related by element->pragma_list[R3782] where ( selected.name == list_name );
+if ( empty pragma_list )
+  pragma_list = pragma_list::populate( name:list_name, element:element );
+end if;
+
+create object instance pragma of pragma;
+pragma.name = param.name;
+relate pragma to pragma_list across R3781;
+
+unmarkable = unmarkable::populate( name:"pragma" );
+relate pragma to unmarkable across R3788;
+
+return pragma;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("0c8cc016-ea19-48a9-8ad4-833df1771dcb",
+	"a2751ebc-236b-471c-85b9-3fa412f91703",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("778e5754-7fbc-40ea-b180-6a785ca1f4ad",
+	"a2751ebc-236b-471c-85b9-3fa412f91703",
+	'list',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0c8cc016-ea19-48a9-8ad4-833df1771dcb",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("8520699e-c8ef-4109-836b-aaa8d48ccb86",
+	"a2751ebc-236b-471c-85b9-3fa412f91703",
+	'element',
+	"fd8da7a6-2f02-4846-958e-f29128812fc2",
+	0,
+	'',
+	"778e5754-7fbc-40ea-b180-6a785ca1f4ad",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<markable>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("fedbd69c-1013-4150-8595-97f557dea434",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<pragma>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_TFR
+	VALUES ("75a7df50-2388-4bb4-b569-d82c95666375",
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+//select many projects from instances of project;
+//if ( empty projects )
+//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
+//  valid = false;
+//end if;
+
+// Validate siblings and subordinates.
+//return ( valid and projectdomain::validate() );
+return valid;
+',
+	1,
+	'',
+	"26e558f4-4c8e-4ddf-a140-8b13409ffb34");
+INSERT INTO O_NBATTR
+	VALUES ("3d6ffc15-15cb-4df1-a30a-8828c3961885",
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2");
+INSERT INTO O_BATTR
+	VALUES ("3d6ffc15-15cb-4df1-a30a-8828c3961885",
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2");
+INSERT INTO O_ATTR
+	VALUES ("3d6ffc15-15cb-4df1-a30a-8828c3961885",
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2");
+INSERT INTO O_ID
+	VALUES (1,
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2");
+INSERT INTO O_ID
+	VALUES (2,
+	"bd654b77-3ff1-445c-bca4-df6599e92ed2");
+INSERT INTO PE_PE
+	VALUES ("bd654b77-3ff1-445c-bca4-df6599e92ed2",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');

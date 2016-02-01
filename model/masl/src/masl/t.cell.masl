@@ -1,0 +1,6 @@
+T_b("        ");
+T_b(transition_event->name);
+T_b(" => ");
+T_b(endstate);
+T_b(separator);
+T_b("\n");

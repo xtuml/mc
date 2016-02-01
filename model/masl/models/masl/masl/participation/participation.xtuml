@@ -33,7 +33,8 @@ conditionality = param.conditionality;
 multiplicity = param.multiplicity;
 toobject = param.toobject;
 relationship = param.relationship;
-select one participation related by relationship->participation[R3713.''engages''];
+participation = param.participation;
+
 if ( empty participation )
   // first half, always get this
   create object instance participation of participation;
@@ -41,6 +42,7 @@ if ( empty participation )
   participation.oneconditionality = conditionality;
   participation.onemultiplicity = multiplicity;
   relate relationship to participation across R3713.''engages'';
+
   select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
   if ( not_empty object )
     relate participation to object across R3714.''one'';
@@ -48,6 +50,8 @@ if ( empty participation )
     TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + fromobject );
     valid = false;
   end if;
+  unmarkable = unmarkable::populate( name:"participation" );
+  relate participation to unmarkable across R3788;
 else
   select one subsuper related by relationship->subsuper[R3721];
   if ( empty subsuper )
@@ -55,6 +59,7 @@ else
 	participation.otherphrase = phrase;
 	participation.otherconditionality = conditionality;
 	participation.othermultiplicity = multiplicity;
+	
 	select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
 	if ( not_empty object )
 	  relate participation to object across R3720.''other'';
@@ -73,6 +78,7 @@ else
 	end if;
   end if;
 end if;
+
 return participation;',
 	1,
 	'',
@@ -137,6 +143,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("6e7ab2c3-79d4-49cb-8e87-3ddcf823a546",
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	'participation',
+	"54954f4e-9821-47ec-9365-ecd9c1b057b9",
+	0,
+	'',
+	"874f754c-1ed7-4706-8d2f-58a0f34b8b60",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("54954f4e-9821-47ec-9365-ecd9c1b057b9",

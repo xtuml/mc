@@ -18,6 +18,8 @@ INSERT INTO O_TFR
 create object instance terminator of terminator;
 terminator.name = param.name;
 relate domain to terminator across R3702.''sends through'';
+markable = markable::populate( name:"terminator" );
+relate terminator to markable across R3783;
 return terminator;',
 	1,
 	'',
@@ -26,18 +28,11 @@ INSERT INTO O_TPARM
 	VALUES ("482ed084-339f-448f-bf07-47c5f631d477",
 	"9d4928ce-a77c-493e-8754-575b9eb1494c",
 	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("47423e57-669f-40fd-b841-be11188b2f41",
 	"9d4928ce-a77c-493e-8754-575b9eb1494c",
@@ -73,7 +68,9 @@ select many activitys related by self->activity[R3703.''sends''];
 for each activity in activitys
   activity.render();
 end for;
-T::include( file:"masl/t.terminator_end.masl" );',
+T::include( file:"masl/t.terminator_end.masl" );
+select one markable related by self->markable[R3783];
+markable.render( list:"default" );',
 	1,
 	'',
 	"9d4928ce-a77c-493e-8754-575b9eb1494c");
@@ -115,7 +112,7 @@ INSERT INTO O_ATTR
 	'',
 	'name',
 	0,
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_ID

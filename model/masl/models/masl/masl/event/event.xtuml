@@ -27,7 +27,9 @@ select one parameter related by self->parameter[R3727.''carries first''];
 if ( not_empty parameter )
   parameter.render();
 end if;
-T::include( file:"masl/t.event_end.masl" );',
+T::include( file:"masl/t.event_end.masl" );
+select one markable related by self->markable[R3783];
+markable.render( list:"default" );',
 	1,
 	'',
 	"34c41c49-4657-452d-86b6-5b3b59f0b61d");
@@ -38,15 +40,13 @@ INSERT INTO O_TFR
 	'',
 	"10f010a5-972a-427c-a610-080e185e1082",
 	0,
-	'/*
-state_machine = param.state_machine;
+	'object = param.object;
 create object instance event of event;
 event.name = param.name;
 event.type = param.type;
-relate event to state_machine across R3737;
-return event;
-*/
-create object instance event of event;
+relate event to object across R3736;
+markable = markable::populate( name:"event" );
+relate event to markable across R3783;
 return event;',
 	1,
 	'',
@@ -55,23 +55,16 @@ INSERT INTO O_TPARM
 	VALUES ("508cc063-9ce3-4a0c-b3b2-45e3c0f6e4ea",
 	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
 	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("a36049a4-43db-45a5-a2ca-723b79d81a8a",
 	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
 	'type',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"508cc063-9ce3-4a0c-b3b2-45e3c0f6e4ea",
@@ -79,16 +72,16 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("fcc23318-85ee-4642-a9d5-95e8850aed31",
 	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
-	'state_machine',
-	"eefb9a09-70e7-4c0f-927f-7758f32e96fc",
+	'object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	0,
 	'',
 	"a36049a4-43db-45a5-a2ca-723b79d81a8a",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("eefb9a09-70e7-4c0f-927f-7758f32e96fc",
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<state_machine>',
+	'inst_ref<object>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -106,13 +99,12 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
-	'/*
-valid = true;
+	'valid = true;
 select many events from instances of event;
 for each event in events
-  select one state_machine related by event->state_machine[R3737];
-  if ( empty state_machine )
-    TRACE::log( flavor:"failure", id:31, message:"event with no state machine:  " + event.name );
+select one object related by event->object[R3736];
+  if ( empty object )
+    TRACE::log( flavor:"failure", id:31, message:"event with no object:  " + event.name );
     valid = false;
   end if;
   if ( ( "assigner" != event.type ) and
@@ -122,11 +114,12 @@ for each event in events
     TRACE::log( flavor:"failure", id:31, message:"event with invalid type:  " + event.name );
     valid = false;
   end if;
+  if ( "" == event.name )
+    TRACE::log( flavor:"failure", id:32, message:"event with no name on object:  " + object.name );
+    valid = false;
+  end if;
 end for;
-return valid;
-*/
-return true;
-',
+return valid;',
 	1,
 	'',
 	"7cc55eed-756b-4590-8e59-184f782869d6");
@@ -145,7 +138,7 @@ INSERT INTO O_ATTR
 	'',
 	'name',
 	0,
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_NBATTR

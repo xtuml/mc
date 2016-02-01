@@ -19,7 +19,21 @@ select many attributes related by self->attribute[R3709.''is characterized by'']
 for each attribute in attributes
   attribute.render();
 end for;
-T::include( file:"masl/t.object_end.masl" );',
+select many states related by self->state[R3735.''enters''];
+for each state in states
+  state.render();
+end for;
+select many events related by self->event[R3736.''is triggered by''];
+for each event in events
+  event.render();
+end for;
+select many state_machines related by self->state_machine[R3734];
+for each state_machine in state_machines
+  state_machine.render();
+end for;
+T::include( file:"masl/t.object_end.masl" );
+select one markable related by self->markable[R3783];
+markable.render( list:"definition" );',
 	1,
 	'',
 	"08a62993-0de5-465c-bb72-ba84e7590350");
@@ -38,6 +52,8 @@ if ( empty object )
   object.name = param.name;
   object.key_letters = object.name;
   relate domain to object across R3708.''has abstract'';
+  markable = markable::populate( name:"object" );
+  relate object to markable across R3783;
 end if;
 return object;',
 	1,
@@ -47,18 +63,11 @@ INSERT INTO O_TPARM
 	VALUES ("fe0bf592-4377-4dcc-8d5c-806c966de9bb",
 	"08a62993-0de5-465c-bb72-ba84e7590350",
 	'name',
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("34fac455-523f-4aa2-932b-a33981ceacad",
-	"00000000-0000-0000-0000-000000000000",
-	'str',
-	'',
-	'""',
-	'../../types/types.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("9f200455-a0b6-4610-b986-c1cb925a5fa4",
 	"08a62993-0de5-465c-bb72-ba84e7590350",
@@ -104,7 +113,12 @@ for each object in objects
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and attribute::validate() and state_machine::validate() );',
+return ( valid and
+  attribute::validate() and
+  state::validate() and
+  event::validate() and
+  state_machine::validate()
+);',
 	1,
 	'',
 	"62436e5d-b2f0-45bd-824c-bf910bc153d7");
@@ -115,7 +129,9 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.object_declaration.masl" );',
+	'T::include( file:"masl/t.object_declaration.masl" );
+select one markable related by self->markable[R3783];
+markable.render( list:"declaration" );',
 	1,
 	'',
 	"94d08134-61ae-4921-adee-96a5ef2d9522");
@@ -134,7 +150,7 @@ INSERT INTO O_ATTR
 	'',
 	'name',
 	0,
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_NBATTR
@@ -152,7 +168,7 @@ INSERT INTO O_ATTR
 	'',
 	'key_letters',
 	0,
-	"34fac455-523f-4aa2-932b-a33981ceacad",
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_ID

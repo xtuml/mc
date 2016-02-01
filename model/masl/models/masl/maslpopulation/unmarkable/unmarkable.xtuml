@@ -1,0 +1,62 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("290f38ad-8da5-4ebb-ab7b-d2056c167899",
+	'unmarkable',
+	3777,
+	'unmarkable',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("999c9ca2-d4ca-46fc-8026-903631dab597",
+	"290f38ad-8da5-4ebb-ab7b-d2056c167899",
+	'populate',
+	'',
+	"3118e38d-d36d-4e08-8a38-785baac21797",
+	0,
+	'create object instance unmarkable of unmarkable;
+element = element::populate( name:param.name );
+relate unmarkable to element across R3786;
+return unmarkable;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("081f21f2-bfc9-4132-85c4-f296bcd44910",
+	"999c9ca2-d4ca-46fc-8026-903631dab597",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3118e38d-d36d-4e08-8a38-785baac21797",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<unmarkable>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_ID
+	VALUES (0,
+	"290f38ad-8da5-4ebb-ab7b-d2056c167899");
+INSERT INTO O_ID
+	VALUES (1,
+	"290f38ad-8da5-4ebb-ab7b-d2056c167899");
+INSERT INTO O_ID
+	VALUES (2,
+	"290f38ad-8da5-4ebb-ab7b-d2056c167899");
+INSERT INTO PE_PE
+	VALUES ("290f38ad-8da5-4ebb-ab7b-d2056c167899",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');

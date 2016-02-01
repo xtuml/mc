@@ -1,0 +1,146 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
+	'pragma_list',
+	3775,
+	'pragma_list',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("0ac83b8c-f011-4483-9f58-9cc3b3836bff",
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select many pragmas related by self->pragma[R3781];
+for each pragma in pragmas
+  pragma.render();
+end for;
+T::b( s:"\n" );',
+	1,
+	'',
+	"dfc45d22-6737-433d-87a3-2b9da3a4c108");
+INSERT INTO O_TFR
+	VALUES ("dfc45d22-6737-433d-87a3-2b9da3a4c108",
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
+	'populate',
+	'',
+	"0cef8d6c-2d3e-48a5-8f24-7c89b37b2087",
+	0,
+	'element = param.element;
+create object instance pragma_list of pragma_list;
+pragma_list.name = param.name;
+relate pragma_list to element across R3782;
+return pragma_list;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("d77c1061-a228-48bb-83f3-84535d403e4c",
+	"dfc45d22-6737-433d-87a3-2b9da3a4c108",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d259e777-0734-4d03-9d61-021ae8591cd4",
+	"dfc45d22-6737-433d-87a3-2b9da3a4c108",
+	'element',
+	"fd8da7a6-2f02-4846-958e-f29128812fc2",
+	0,
+	'',
+	"d77c1061-a228-48bb-83f3-84535d403e4c",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<markable>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("0cef8d6c-2d3e-48a5-8f24-7c89b37b2087",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<pragma_list>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_TFR
+	VALUES ("0ba22b89-f9b5-4929-95d6-a6a4b7408d35",
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+//select many projects from instances of project;
+//if ( empty projects )
+//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
+//  valid = false;
+//end if;
+
+// Validate siblings and subordinates.
+//return ( valid and projectdomain::validate() );
+return valid;
+',
+	1,
+	'',
+	"e557c4de-ea3c-48df-9f8e-33c5bee13d04");
+INSERT INTO O_TFR
+	VALUES ("e557c4de-ea3c-48df-9f8e-33c5bee13d04",
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[8] = "";
+value[0] = self.name;
+//out::( element:"template_class", value:value );',
+	1,
+	'',
+	"0ac83b8c-f011-4483-9f58-9cc3b3836bff");
+INSERT INTO O_NBATTR
+	VALUES ("85851714-b158-4a69-8af4-11efa63aad7a",
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c");
+INSERT INTO O_BATTR
+	VALUES ("85851714-b158-4a69-8af4-11efa63aad7a",
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c");
+INSERT INTO O_ATTR
+	VALUES ("85851714-b158-4a69-8af4-11efa63aad7a",
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c");
+INSERT INTO O_ID
+	VALUES (1,
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c");
+INSERT INTO O_ID
+	VALUES (2,
+	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c");
+INSERT INTO PE_PE
+	VALUES ("0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');

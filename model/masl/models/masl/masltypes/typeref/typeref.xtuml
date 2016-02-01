@@ -14,8 +14,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"masl/t.typeref.masl" );
-TRACE::log( flavor:"levi", id:39, message:"rendering typeref" );',
+	'T::include( file:"masl/t.typeref.masl" );',
 	1,
 	'',
 	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5");

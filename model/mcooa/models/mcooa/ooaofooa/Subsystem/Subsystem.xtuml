@@ -4379,7 +4379,7 @@ INSERT INTO O_OBJ_PROXY
 	'O_OBJ',
 	'A model class represents an abstraction of a real world thing.  All instances of a class have the same characteristics and conform to the same set of rules.  The characteristics of a class are captured as attributes.  Each class within a domain are assigned a unique name, number, and keyletter.',
 	"00000000-0000-0000-0000-000000000000",
-	'../Subsystem/Model Class/Model Class.xtuml');
+	'./Model Class/Model Class.xtuml');
 INSERT INTO PE_PE
 	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
 	1,
@@ -4522,6 +4522,46 @@ INSERT INTO PE_PE
 	"0c6a5602-ebe1-4264-b018-1fae479545e7",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	0,
+	"2885ad55-db02-484b-a5b1-080cb4a91daa");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("2885ad55-db02-484b-a5b1-080cb4a91daa",
+	'Operation',
+	112,
+	'O_TFR',
+	'A Operation is a method associated with a class.  Operations can be synchronously called from Action Specifications.  Two types of operations exist.  Class-based operations affect the class as a whole.  Instance-based operations affect only an instance.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Operation/Operation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("a1967634-41a8-4ca6-8ca3-6ba6e4e2b2f8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Operation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("a1967634-41a8-4ca6-8ca3-6ba6e4e2b2f8",
+	1,
+	"2885ad55-db02-484b-a5b1-080cb4a91daa");
+INSERT INTO PE_PE
+	VALUES ("a1967634-41a8-4ca6-8ca3-6ba6e4e2b2f8",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("2af9f4dc-52e1-4e55-a2ed-eba51502a75f");
 INSERT INTO R_REL
@@ -4562,14 +4602,6 @@ INSERT INTO R_OIR
 	"2af9f4dc-52e1-4e55-a2ed-eba51502a75f",
 	"920bdc2a-ab74-422a-a812-b186d4fe7ba5",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("2885ad55-db02-484b-a5b1-080cb4a91daa",
-	'Operation',
-	112,
-	'O_TFR',
-	'A Operation is a method associated with a class.  Operations can be synchronously called from Action Specifications.  Two types of operations exist.  Class-based operations affect the class as a whole.  Instance-based operations affect only an instance.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Operation/Operation.xtuml');
 INSERT INTO R_FORM
 	VALUES ("b2aa8a18-d18d-4649-aa7a-fc5b4b2c9e90",
 	"2af9f4dc-52e1-4e55-a2ed-eba51502a75f",
@@ -4770,14 +4802,6 @@ INSERT INTO R_OIR
 	"000e840a-1b6a-46ff-be25-ec5cefb8087e",
 	"659bbd73-5920-43cf-8446-aad0626dd6b1",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("e545984c-062c-43fd-9deb-1a46d657e094",
-	'Model Class',
-	101,
-	'O_OBJ',
-	'A model class represents an abstraction of a real world thing.  All instances of a class have the same characteristics and conform to the same set of rules.  The characteristics of a class are captured as attributes.  Each class within a domain are assigned a unique name, number, and keyletter.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Model Class/Model Class.xtuml');
 INSERT INTO PE_PE
 	VALUES ("000e840a-1b6a-46ff-be25-ec5cefb8087e",
 	1,
@@ -4807,14 +4831,6 @@ INSERT INTO R_OIR
 	"15a37c07-0bb3-4c4d-a4b7-cb2e2cc512ae",
 	"5e267575-9eb0-452a-8ea3-de2c7305daf9",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("5d58dffb-2a82-4a68-876c-1c0cc11dc66c",
-	'Attribute',
-	103,
-	'O_ATTR',
-	'An attribute is an abstraction of a single characteristic possessed by a class.  Usually classes contain a set of attributes to completely capture all pertinent information.  Each attribute is given a unique name within a class.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Attribute/Attribute.xtuml');
 INSERT INTO R_PART
 	VALUES ("e545984c-062c-43fd-9deb-1a46d657e094",
 	"15a37c07-0bb3-4c4d-a4b7-cb2e2cc512ae",
