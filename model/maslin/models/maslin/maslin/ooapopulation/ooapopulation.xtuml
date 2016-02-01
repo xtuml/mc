@@ -22,6 +22,7 @@ value = param.value;
 select any ooapopulation from instances of ooapopulation;
 if ( empty ooapopulation )
   create object instance ooapopulation of ooapopulation;
+  ooapopulation.processingIdentifier = false;
 end if;
 
 if ( "project" == element )
@@ -54,9 +55,23 @@ elif ( "parameter" == element )
   if ( "" != param.value[0] )
     ooapopulation.transformParameter();
   end if;
+elif ( "identifier" == element )
+  if ( "" == param.value[0] )
+    ooapopulation.processingIdentifier = false;
+  else
+    ooapopulation.processingIdentifier = true;
+  end if;
 elif ( "attribute" == element )
-  if ( "" != param.value[0] )
-    ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2], initialization:param.value[3]);
+  if ( "" == param.value[0] )
+    select any o_attr from instances of O_ATTR where (false);
+    ooapopulation.current_attribute = o_attr;
+  else
+    if ( ooapopulation.processingIdentifier )
+      // TODO - set the ooapopulation.current_attribute as an identifier on the current_class.  NOTE that we assume here that the attribute
+      //   has already been created inside the current class.
+    else
+      ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2], initialization:param.value[3]);
+    end if;
   end if;
 elif ( "state" == element )
   if ( "" != param.value[0] )
@@ -2196,6 +2211,24 @@ INSERT INTO O_ATTR
 	'systypes_pkg',
 	0,
 	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"619f4747-9795-4d99-a5ac-563d99ffbda4",
+	'processingIdentifier',
+	'',
+	'',
+	'processingIdentifier',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
 INSERT INTO O_ID
