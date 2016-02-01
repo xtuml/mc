@@ -1,0 +1,57 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("4fa432d6-f766-429d-b04e-a31f17dc5815",
+	"00000000-0000-0000-0000-000000000000",
+	"53107551-b0b9-4155-a13f-41b410f63a54",
+	'mcooa_imported',
+	'ooaofooa',
+	0);
+INSERT INTO GD_MD
+	VALUES ("8853cd3a-97c6-4c44-9018-2f06828acbfd",
+	112,
+	"4fa432d6-f766-429d-b04e-a31f17dc5815",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'maslout::lib::maslout::mcooa_imported');
+INSERT INTO DIM_DIA
+	VALUES ("8853cd3a-97c6-4c44-9018-2f06828acbfd",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("4fa432d6-f766-429d-b04e-a31f17dc5815",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'maslout',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../maslout.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("53107551-b0b9-4155-a13f-41b410f63a54",
+	'maslout',
+	1,
+	'../../../maslout.xtuml');
