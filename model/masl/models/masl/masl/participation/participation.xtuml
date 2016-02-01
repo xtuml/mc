@@ -34,6 +34,7 @@ multiplicity = param.multiplicity;
 toobject = param.toobject;
 relationship = param.relationship;
 participation = param.participation;
+
 if ( empty participation )
   // first half, always get this
   create object instance participation of participation;
@@ -41,6 +42,7 @@ if ( empty participation )
   participation.oneconditionality = conditionality;
   participation.onemultiplicity = multiplicity;
   relate relationship to participation across R3713.''engages'';
+
   select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
   if ( not_empty object )
     relate participation to object across R3714.''one'';
@@ -48,6 +50,8 @@ if ( empty participation )
     TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + fromobject );
     valid = false;
   end if;
+  unmarkable = unmarkable::populate( name:"participation" );
+  relate participation to unmarkable across R3788;
 else
   select one subsuper related by relationship->subsuper[R3721];
   if ( empty subsuper )
@@ -55,6 +59,7 @@ else
 	participation.otherphrase = phrase;
 	participation.otherconditionality = conditionality;
 	participation.othermultiplicity = multiplicity;
+	
 	select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
 	if ( not_empty object )
 	  relate participation to object across R3720.''other'';
@@ -73,6 +78,7 @@ else
 	end if;
   end if;
 end if;
+
 return participation;',
 	1,
 	'',

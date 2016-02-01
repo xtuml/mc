@@ -35,6 +35,8 @@ if ( empty type )
   type.visibility = param.visibility;
   type.body = param.body; // This holds the string body of the type definition.
   relate type to domain across R3776;
+  markable = markable::populate( name:"type" );
+  relate type to markable across R3783;
 end if;
 return type;',
 	1,

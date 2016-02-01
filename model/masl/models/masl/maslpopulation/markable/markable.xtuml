@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("1416f703-db51-4598-b9ca-f24cc279da0e",
-	'markable_element',
+	'markable',
 	3774,
-	'markable_element',
+	'markable',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -14,18 +14,29 @@ INSERT INTO O_TFR
 	'',
 	"fd8da7a6-2f02-4846-958e-f29128812fc2",
 	0,
-	'create object instance markable_element of markable_element;
-return markable_element;',
+	'create object instance markable of markable;
+element = element::populate( name:param.name );
+relate markable to element across R3786;
+return markable;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("2e7d1984-31c5-4319-b3ff-d5baaf6973f1",
+	"7b3548a2-2120-43ca-904f-0de8634f06a1",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<markable_element>',
+	'inst_ref<markable>',
 	'',
 	'',
-	'../maslpragmas.xtuml');
+	'../maslpopulation.xtuml');
 INSERT INTO O_TFR
 	VALUES ("31e08a49-b6f3-44e9-bba4-062ba7bc3191",
 	"1416f703-db51-4598-b9ca-f24cc279da0e",
@@ -102,7 +113,7 @@ INSERT INTO EP_PKG_PROXY
 	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
 	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
 	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
-	'maslpragmas',
+	'maslpopulation',
 	'',
 	0,
-	'../maslpragmas.xtuml');
+	'../maslpopulation.xtuml');

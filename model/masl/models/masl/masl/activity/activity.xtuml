@@ -33,6 +33,9 @@ else
   TRACE::log( flavor:"failure", id:39, message:"no parent for activity" );
 end if;
 
+markable = markable::populate( name:"activity" );
+relate activity to markable across R3783;
+
 return activity;',
 	1,
 	'',

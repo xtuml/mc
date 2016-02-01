@@ -30,8 +30,8 @@ else
 end if;
 end if;
 end if;
-select one markable_element related by self->markable_element[R3783];
-markable_element.render( list:"default" );',
+select one markable related by self->markable[R3783];
+markable.render( list:"default" );',
 	1,
 	'',
 	"ba9f72fd-fca7-4102-b768-e6f9748221de");
@@ -49,9 +49,9 @@ if ( empty relationship )
   create object instance relationship of relationship;
   relationship.name = param.name;
   relate relationship to domain across R3712;
+  markable = markable::populate( name:"relationship" );
+  relate relationship to markable across R3783;
 end if;
-markable_element = markable_element::populate();
-relate relationship to markable_element across R3783;
 return relationship;',
 	1,
 	'',

@@ -5,7 +5,7 @@ INSERT INTO EP_PKG
 	"00000000-0000-0000-0000-000000000000",
 	"53107551-b0b9-4155-a13f-41b410f63a54",
 	'maslout_imported',
-	'maslout',
+	'',
 	0);
 INSERT INTO GD_MD
 	VALUES ("77fe7d4d-51d6-4276-af06-63cebf5e0482",
@@ -21,8 +21,8 @@ INSERT INTO GD_MD
 	1,
 	0,
 	0,
-	0,
-	0,
+	200,
+	150,
 	0,
 	'',
 	'maslout::lib::maslout::maslout_imported');
@@ -33,6 +33,639 @@ INSERT INTO DIM_DIA
 	4000.000000,
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("0c6d00ab-17d3-41f1-8a7a-cb0fdfc9c315",
+	"00000000-0000-0000-0000-000000000000",
+	'masl_domain',
+	'',
+	'LOG::LogInfo( message:"Starting Domain" );
+
+// CDS get name from marking or context menu
+name = "Tracking";
+// Query and Populate
+// Query the xtUML meta-model and populate the MASL meta-model.
+::component2domain( name:name );
+
+out::render( element:"domain", name:"Tracking" );
+
+LOG::LogInfo( message:"Done" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("0c6d00ab-17d3-41f1-8a7a-cb0fdfc9c315",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9a5ac824-671b-4cb6-9d93-37b700ffd92c",
+	"00000000-0000-0000-0000-000000000000",
+	'masl_project',
+	'',
+	'LOG::LogInfo( message:"Starting Project" );
+
+// Query and Populate
+// Query the xtUML meta-model and populate the MASL meta-model.
+::package2project( name:"System" );
+
+out::render( element:"project", name:"System" );
+
+LOG::LogInfo( message:"Done" );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("9a5ac824-671b-4cb6-9d93-37b700ffd92c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("84687e5f-e288-4907-9432-62372e5f265f",
+	"00000000-0000-0000-0000-000000000000",
+	'component2domain',
+	'',
+	'value[7] = "";
+name = param.name;
+// component -> domain
+select any c_c from instances of C_C where ( selected.Name == param.name );
+if ( empty c_c )
+  TRACE::log( flavor:"failure", id:34, message:"did not find component with name " + param.name );
+else
+  value[0] = c_c.Name;
+  out::populate( element:"domain", value:value );
+  ::type2type( c_c:c_c );
+  ::association2relationship( c_c:c_c );
+  ::port2terminator( c_c:c_c );
+  ::class2object( c_c:c_c );
+  
+  // end domain
+  value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
+  value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
+  out::populate( element:"domain", value:value );
+end if;
+      ',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cf4db11c-a368-4494-9f14-382c45cdc747",
+	"84687e5f-e288-4907-9432-62372e5f265f",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("84687e5f-e288-4907-9432-62372e5f265f",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bbd421d2-e67f-41ea-be98-398a6baf075d",
+	"00000000-0000-0000-0000-000000000000",
+	'package2project',
+	'',
+	'select many ep_pkgs from instances of EP_PKG where ( selected.Name == param.name );
+markedsystems = cardinality ep_pkgs;
+if ( empty ep_pkgs )
+  TRACE::log( flavor:"failure", id:1, message:"ERROR:  Marked configuration package was not found in model:" + param.name );
+end if;
+if ( markedsystems > 1 )
+  TRACE::log( flavor:"failure", id:2, message:"WARNING:  More than one package is marked as a system build... choose only one." );
+end if;
+
+value[7] = ""; // initialize length
+value[0] = param.name;
+out::populate( element:"project", value:value );
+
+// CDS revisit this
+//select many direct_c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001];
+//select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
+select many c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
+//c_cs = direct_c_cs + referred_c_cs;
+for each c_c in c_cs
+  ::component2domain( name:c_c.Name );
+end for;
+
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e1434ed1-bb84-419d-aa6a-b3a6dcaae855",
+	"bbd421d2-e67f-41ea-be98-398a6baf075d",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("bbd421d2-e67f-41ea-be98-398a6baf075d",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
+	"00000000-0000-0000-0000-000000000000",
+	'port2terminator',
+	'',
+	'value[7] = "";
+c_c = param.c_c;
+// (outbound) port -> terminator
+select many c_pos related by c_c->C_PO[R4010];
+for each c_po in c_pos
+  value[0] = c_po.Name;
+  out::populate( element:"terminator", value:value );
+  ::message2function( c_po:c_po );
+end for;
+
+  
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e557817d-dd43-43a1-b7c1-a522bda54d2a",
+	"3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("67f93d18-1045-4c6c-b0d5-a692023c471c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Component>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO PE_PE
+	VALUES ("3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
+	"00000000-0000-0000-0000-000000000000",
+	'message2function',
+	'',
+	'value[7] = ""; // initialize length
+c_po = param.c_po;
+// message -> function/service
+select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
+for each c_ep in c_eps
+    
+  // CDS figure out the real difference between function and service
+  element = "function";
+  //if ( ( "SPR_PS" == te_mact.subtypeKL ) or ( "SPR_RS" == te_mact.subtypeKL ) )
+    element = "service";
+  //end if;
+  value[0] = "public";
+  value[1] = c_ep.Name;
+  out::populate( element:element, value:value );
+  ::parameter2parameter( c_ep:c_ep );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8898a959-9ae1-44df-90ff-dcc22215a9db",
+	"d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
+	'c_po',
+	"7956bd81-f6de-4bc8-9851-92214668ced1",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7956bd81-f6de-4bc8-9851-92214668ced1",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Port>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO PE_PE
+	VALUES ("d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
+	"00000000-0000-0000-0000-000000000000",
+	'parameter2parameter',
+	'',
+	'value[7] = ""; // initialize length
+c_ep = param.c_ep;
+select any c_pp related by c_ep->C_PP[R4006];
+first_c_pp = c_pp;
+while ( not_empty c_pp )
+  first_c_pp = c_pp;
+  select one c_pp related by c_pp->C_PP[R4021.''precedes''];
+end while;
+previous = "";
+c_pp = first_c_pp;
+while ( not_empty c_pp )
+  // CDS model and pass correct type reference
+  // CDS model and pass correct direction
+  //parameter = parameter::populate( name:c_pp.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
+  value[0] = c_pp.Name;
+  value[1] = "in";
+  out::populate( element:"parameter", value:value );
+  select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
+end while;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a476bde7-fb21-4a1f-b22b-46b5fe763364",
+	"dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
+	'c_ep',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5441230d-b4d6-495f-9e87-84acf5819d26",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Executable Property>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO PE_PE
+	VALUES ("dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5139df0f-0bdf-49e5-a6c0-bf87d5a4ee4d",
+	"00000000-0000-0000-0000-000000000000",
+	'class2object',
+	'',
+	'value[7] = "";
+c_c = param.c_c;
+select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
+for each o_obj in o_objs
+  // create forward references
+  value[0] = o_obj.Name;
+  out::populate( element:"object", value:value );
+end for;
+
+for each o_obj in o_objs
+  value[0] = o_obj.Name;
+  out::populate( element:"object", value:value );
+  
+  // Link the attributes to each object.
+  ::attribute2attribute( c_c:c_c, o_obj:o_obj );
+  
+  // Set up the identifiers for the 
+  ::identifier2identifier( o_obj:o_obj );
+end for;
+
+// end object
+value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
+value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
+out::populate( element:"object", value:value );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("15b7c710-66b8-4afc-8a74-5728d734391a",
+	"5139df0f-0bdf-49e5-a6c0-bf87d5a4ee4d",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("5139df0f-0bdf-49e5-a6c0-bf87d5a4ee4d",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("636cf3d3-f72d-4072-b665-cde360ef7edb",
+	"00000000-0000-0000-0000-000000000000",
+	'attribute2attribute',
+	'',
+	'/*
+  Attribute (O_ATTR) -> attribute
+  primary identifier (O_OIDA == 1) -> preferred
+  Attribute type of unique_id (O_ATTR->S_DT) -> unique
+*/
+  
+value[7] = ""; // initialize length
+o_obj = param.o_obj;
+c_c = param.c_c;
+select many o_attrs related by o_obj->O_ATTR[R102];
+for each o_attr in o_attrs
+  value[0] = o_attr.Name;
+  value[1] = "";
+  // See if this attribute is in the primary identifier.
+  select any o_oida related by o_attr->O_OIDA[R105] where ( selected.Oid_ID == 1 );
+  if ( not_empty o_oida )
+    value[1] = "preferred";
+  end if;
+  value[2] = "";
+  // See if the type of this attribute is unique_id.
+  select one s_dt related by o_attr->S_DT[R114];
+  if ( "unique_id" == s_dt.Name )
+    value[2] = "unique";
+  end if;
+  out::populate( element:"attribute", value:value );
+  value[1] = "";
+  value[2] = "";
+  
+  // The default value comes first from the attribute then from its type.
+  value[0] = o_attr.DefaultValue;
+  if ( "" == o_attr.DefaultValue )
+    value[0] = s_dt.DefaultValue;
+  end if;
+  if ( "" != value[0] )
+    // Do not populate expression unless we have something useful.
+    out::populate( element:"expression", value:value );
+  end if;
+  
+  // Populate the type referred to by this attribute as a type reference.
+  // CDS - I think we may need to pass array dimension information from here.
+  value[0] = s_dt.Name;
+  out::populate( element:"typeref", value:value );
+  
+  // See if this attribute is a referential.
+  select any o_ref related by o_attr->O_RATTR[R106]->O_REF[R108];
+  if ( not_empty o_ref )
+    value[0] = o_ref.Rel_Name; // relationship name/number
+    value[1] = c_c.Name; // domain name
+    value[2] = o_ref.RObj_Name; // role or object:  object name always exists
+    value[3] = o_obj.Name; // parent object
+    value[4] = o_attr.Name; // attribute name
+    out::populate( element:"referential", value:value );
+    value[1] = "";
+    value[2] = "";
+    value[3] = "";
+    value[4] = "";
+  end if;
+  
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4488e70f-8f35-4b8b-9c0b-8f144d9acacf",
+	"636cf3d3-f72d-4072-b665-cde360ef7edb",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"44cd8d5d-9f12-4f3a-b2bf-016ed0e68b7f",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Model Class>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("44cd8d5d-9f12-4f3a-b2bf-016ed0e68b7f",
+	"636cf3d3-f72d-4072-b665-cde360ef7edb",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("636cf3d3-f72d-4072-b665-cde360ef7edb",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2f0e3a99-9a8b-44dc-9428-f75cfbd83fdd",
+	"00000000-0000-0000-0000-000000000000",
+	'type2type',
+	'',
+	'value[7] = ""; // initialize length
+c_c = param.c_c;
+// CDS Data types in packages inside the component are considered private.
+select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001];
+for each s_dt in s_dts
+  value[0] = s_dt.Name;
+  value[1] = "private";
+  value[2] = s_dt.Descrip;  // body of type
+  out::populate( element:"type", value:value );
+end for;
+// CDS Data types in packages directly off of the system are considered public.
+select many s_dts related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001];
+for each s_dt in s_dts
+  value[0] = s_dt.Name;
+  value[1] = "public";
+  value[2] = s_dt.Descrip;  // body of type
+  out::populate( element:"type", value:value );
+end for;
+value[0] = ""; value[1] = ""; value[2] = "";
+out::populate( element:"type", value:value );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("07c30bd2-62a1-4290-9717-fc84fa995641",
+	"2f0e3a99-9a8b-44dc-9428-f75cfbd83fdd",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("2f0e3a99-9a8b-44dc-9428-f75cfbd83fdd",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
+	"00000000-0000-0000-0000-000000000000",
+	'association2relationship',
+	'',
+	'value[7] = "";
+c_c = param.c_c;
+select many r_rels related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->R_REL[R8001];
+for each r_rel in r_rels
+  value[0] = ""; value[1] = ""; value[2] = ""; value[3] = "";
+  value[4] = ""; value[5] = ""; value[6] = ""; value[7] = "";
+  value[0] = "R" + STRING::itoa( i:r_rel.Numb );  // itoa to form relationship name
+  select one r_simp related by r_rel->R_SIMP[R206];
+  if ( not_empty r_simp )
+    out::populate( element:"regularrel", value:value );
+    // now add participation
+    ::simpleass2regularrel( r_simp:r_simp );
+  end if;
+  
+  select one r_assoc related by r_rel->R_ASSOC[R206];
+  if ( not_empty r_assoc )
+    // Get the name of the associator.
+    select one o_obj related by r_assoc->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
+    value[1] = o_obj.Name;
+    out::populate( element:"associative", value:value );
+  end if;
+  
+  select one r_subsup related by r_rel->R_SUBSUP[R206];
+  if ( not_empty r_subsup )
+    out::populate( element:"subsuper", value:value );
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("51c46f46-bc0f-4bf0-8fe4-af7d3be1667e",
+	"59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("59846fd7-dd0d-4c7a-b24d-c8bad6617b7c",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("09d28e26-8c9d-40c0-b89a-276922023942",
+	"00000000-0000-0000-0000-000000000000",
+	'identifier2identifier',
+	'',
+	'/*
+  Assuming 8 or less identifier attributes.
+*/
+o_obj = param.o_obj;
+select many o_ids related by o_obj->O_ID[R104];
+for each o_id in o_ids
+  value[7] = ""; value[6] = ""; value[5] = ""; value[4] = "";
+  value[3] = ""; value[2] = ""; value[1] = ""; value[0] = "";
+  select many o_attrs related by o_id->O_ATTR[R105];
+  i = 0;
+  for each o_attr in o_attrs
+    value[i] = o_attr.Name;
+    i = i + 1;
+  end for;
+  if ( not_empty o_attrs )
+    out::populate( element:"identifier", value:value );
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a84bec3f-93e6-496d-aa58-e382e6c4e593",
+	"09d28e26-8c9d-40c0-b89a-276922023942",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("09d28e26-8c9d-40c0-b89a-276922023942",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("844ea9b2-b764-49f9-b6c3-b594fc02b28e",
+	"00000000-0000-0000-0000-000000000000",
+	'simpleass2regularrel',
+	'',
+	'value[7] = "";
+r_simp = param.r_simp;
+select many r_parts related by r_simp->R_PART[R207];
+i = 0;
+name = ""; phrase = ""; cond = ""; mult = ""; toname = "";
+for each r_part in r_parts
+  select one o_obj related by r_part->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]; 
+  value[0] = o_obj.Name;
+  value[1] = r_part.Txt_Phrs;
+  if ( 0 == r_part.Cond )
+    value[2] = "conditional";
+  else
+    value[2] = "unconditional";
+  end if;
+  if ( 0 == r_part.Mult )
+    value[3] = "one";
+  else
+    value[3] = "many";
+  end if;
+  value[4] = ""; // CDS - get toname
+  out::populate( element:"participation", value:value );
+  i = i + 1;
+end for;
+
+if ( 1 == i )
+  // only one participant, go get the formalizer
+  select one r_form related by r_simp->R_FORM[R208];
+  select one o_obj related by r_form->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]; 
+  value[0] = o_obj.Name;
+  value[1] = r_form.Txt_Phrs;
+  if ( 0 == r_form.Cond )
+    value[2] = "conditional";
+  else
+    value[2] = "unconditional";
+  end if;
+  if ( 0 == r_form.Mult )
+    value[3] = "one";
+  else
+    value[3] = "many";
+  end if;
+  value[4] = ""; // CDS - get toname
+  out::populate( element:"participation", value:value );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("11a9addd-1ac4-4fa9-abbd-0ff170d8e031",
+	"844ea9b2-b764-49f9-b6c3-b594fc02b28e",
+	'r_simp',
+	"322c65da-132b-421a-a1b1-f757cb0acff7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("322c65da-132b-421a-a1b1-f757cb0acff7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Simple Association>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO PE_PE
+	VALUES ("844ea9b2-b764-49f9-b6c3-b594fc02b28e",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	1,
