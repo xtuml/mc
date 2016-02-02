@@ -248,7 +248,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "parameter", element ) == 0 ) ) {
-    masl_parameter * parameter;masl_element * new_element=0;masl_parameter * sibling_parameter=0;masl_activity * parent_activity=0;
+    masl_parameter * parameter;masl_element * new_element=0;masl_event * parent_event=0;masl_parameter * sibling_parameter=0;masl_activity * parent_activity=0;
     /* SELECT one parent_activity RELATED BY population->element[R3784.has current]->markable[R3786]->activity[R3783] */
     parent_activity = 0;
     {    if ( 0 != population ) {
@@ -267,15 +267,24 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_unmarkable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_parameter_CLASS_NUMBER == R3786_subtype->R3788_object_id ) )    sibling_parameter = (masl_parameter *) R3786_subtype->R3788_subtype;
 }}}}
-    /* IF ( ( empty parent_activity and empty sibling_parameter ) ) */
-    if ( ( ( 0 == parent_activity ) && ( 0 == sibling_parameter ) ) ) {
+    /* SELECT one parent_event RELATED BY population->element[R3784.has current]->markable[R3786]->event[R3783] */
+    parent_event = 0;
+    {    if ( 0 != population ) {
+    masl_element * element_R3784_has_current = population->element_R3784_has_current;
+    if ( 0 != element_R3784_has_current ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    if ( ( 0 != R3786_subtype ) && ( masl_event_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_event = (masl_event *) R3786_subtype->R3783_subtype;
+}}}}
+    /* IF ( ( ( empty parent_activity and empty sibling_parameter ) and empty parent_event ) ) */
+    if ( ( ( ( 0 == parent_activity ) && ( 0 == sibling_parameter ) ) && ( 0 == parent_event ) ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
-    /* ASSIGN parameter = parameter::populate(direction:value[1], name:value[0], parent_activity:parent_activity, sibling_parameter:sibling_parameter) */
-    parameter = masl_parameter_op_populate(value[1], value[0], parent_activity, sibling_parameter);
+    /* ASSIGN parameter = parameter::populate(direction:value[1], name:value[0], parent_activity:parent_activity, parent_event:parent_event, sibling_parameter:sibling_parameter) */
+    parameter = masl_parameter_op_populate(value[1], value[0], parent_activity, parent_event, sibling_parameter);
     /* SELECT one new_element RELATED BY parameter->unmarkable[R3788]->element[R3786] */
     new_element = 0;
     {    if ( 0 != parameter ) {
@@ -917,8 +926,6 @@ masl_population_op_push_element( masl_population * self, masl_element * p_new_el
   }
   /* IF ( ( current_element == new_element ) ) */
   if ( ( current_element == new_element ) ) {
-    /* TRACE::log( flavor:info, id:75, message:( duplicate element not pushed:  + new_element.name ) ) */
-    TRACE_log( "info", 75, Escher_stradd( "duplicate element not pushed: ", new_element->name ) );
   }
   else {
     /* UNRELATE self FROM current_element ACROSS R3784 */

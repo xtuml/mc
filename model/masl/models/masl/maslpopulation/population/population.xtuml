@@ -108,13 +108,14 @@ elif ( "service" == element or "function" == element or "state" == element )
 elif ( "parameter" == element )
 	select one parent_activity related by population->element[R3784.''has current'']->markable[R3786]->activity[R3783];
 	select one sibling_parameter related by population->element[R3784.''has current'']->unmarkable[R3786]->parameter[R3788];
+	select one parent_event related by population->element[R3784.''has current'']->markable[R3786]->event[R3783];
 
-	if ( empty parent_activity and empty sibling_parameter )
+	if ( empty parent_activity and empty sibling_parameter and empty parent_event )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
 	  population.stack_trace();
 	end if;
 
-    parameter = parameter::populate( name:value[0], direction:value[1], parent_activity:parent_activity, sibling_parameter:sibling_parameter );
+    parameter = parameter::populate( name:value[0], direction:value[1], parent_activity:parent_activity, sibling_parameter:sibling_parameter, parent_event:parent_event );
     select one new_element related by parameter->unmarkable[R3788]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "attribute" == element )
