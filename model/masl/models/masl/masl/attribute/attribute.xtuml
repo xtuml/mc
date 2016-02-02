@@ -28,6 +28,11 @@ if ( not_empty referentials )
 end if;
 select one attributetype related by self->typeref[R3717];
 attributetype.render();
+select one expression related by self->expression[R3745];
+if ( not_empty expression )
+	T::include( file:"masl/t.attribute_assign.masl" );
+	expression.render();
+end if;
 T::include( file:"masl/t.attribute_end.masl" );
 select one markable related by self->markable[R3783];
 markable.render( list:"default" );',
@@ -53,7 +58,7 @@ if ( empty attribute )
 end if;
 attribute.preferred = param.preferred;
 attribute.unique = param.unique;
-attribute.defaultvalue = param.defaultvalue;
+
 return attribute;',
 	1,
 	'',
@@ -86,22 +91,13 @@ INSERT INTO O_TPARM
 	"b90a5b96-97a1-4611-b06d-9f8fb8924c93",
 	'');
 INSERT INTO O_TPARM
-	VALUES ("c36f5e3e-3842-4a5b-ab80-ce3199b5847a",
-	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
-	'defaultvalue',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"95952fdd-517e-4d1c-9a3c-e4cdf53ec35e",
-	'');
-INSERT INTO O_TPARM
 	VALUES ("809b8aea-858a-40be-afae-06ffd349baef",
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
 	'object',
 	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	0,
 	'',
-	"c36f5e3e-3842-4a5b-ab80-ce3199b5847a",
+	"95952fdd-517e-4d1c-9a3c-e4cdf53ec35e",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
@@ -200,24 +196,6 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'unique',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("90d6aa59-6546-4c64-a372-200e2610b943",
-	"514b84aa-197a-464c-a09e-e7f135680958");
-INSERT INTO O_BATTR
-	VALUES ("90d6aa59-6546-4c64-a372-200e2610b943",
-	"514b84aa-197a-464c-a09e-e7f135680958");
-INSERT INTO O_ATTR
-	VALUES ("90d6aa59-6546-4c64-a372-200e2610b943",
-	"514b84aa-197a-464c-a09e-e7f135680958",
-	"9a1530ed-4471-48ad-a081-3a4b3cad3ac9",
-	'defaultvalue',
-	'',
-	'',
-	'defaultvalue',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
