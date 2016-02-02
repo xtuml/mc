@@ -119,11 +119,12 @@ elif ( "parameter" == element )
     population.push_element( new_element:new_element );
 elif ( "attribute" == element )
 	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
-	if ( empty parent_object )
+	select one parent_identifier related by population->element[R3784.''has current'']->markable[R3786]->identifier[R3783];
+	if ( empty parent_object and empty parent_identifier )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
 	  population.stack_trace();
 	end if;
-    attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], object:parent_object );
+    attribute = attribute::populate( name:value[0], preferred:value[1], unique:value[2], parent_object:parent_object, parent_identifier:parent_identifier );
     select one new_element related by attribute->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "expression" == element )
@@ -134,6 +135,15 @@ elif ( "expression" == element )
 	end if;
     e = expression::populate( body:value[0], parent_attribute:parent_attribute );
     // expression is a leaf node (for now)
+elif ( "identifier" == element )
+	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
+	if ( empty parent_object )
+      TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
+	  population.stack_trace();
+	end if;
+    identifier = identifier::populate( parent_object:parent_object );
+    select one new_element related by identifier->markable[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
 elif ( "referential" == element )
     domain_name = value[1];
     relationship_name = value[0]; roleOrObj = value[2]; obj = value[3]; attr = value[4];
@@ -206,7 +216,8 @@ elif ( "referential" == element )
     
     // if the referred_to attribute is empty (not created yet), populate it
     if ( empty referred_to )
-      referred_to = attribute::populate( name:attr, preferred:"", unique:"", object:target_object );
+      select any empty_identifier from instances of identifier where false;
+      referred_to = attribute::populate( name:attr, preferred:"", unique:"", parent_object:target_object, parent_identifier:empty_identifier );
     end if;
       
 	select one parent_attribute related by population->element[R3784.''has current'']->markable[R3786]->attribute[R3783];

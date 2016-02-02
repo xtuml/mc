@@ -287,7 +287,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "attribute", element ) == 0 ) ) {
-    masl_attribute * attribute;masl_element * new_element=0;masl_object * parent_object=0;
+    masl_attribute * attribute;masl_element * new_element=0;masl_identifier * parent_identifier=0;masl_object * parent_object=0;
     /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable[R3786]->object[R3783] */
     parent_object = 0;
     {    if ( 0 != population ) {
@@ -297,15 +297,24 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
 }}}}
-    /* IF ( empty parent_object ) */
-    if ( ( 0 == parent_object ) ) {
+    /* SELECT one parent_identifier RELATED BY population->element[R3784.has current]->markable[R3786]->identifier[R3783] */
+    parent_identifier = 0;
+    {    if ( 0 != population ) {
+    masl_element * element_R3784_has_current = population->element_R3784_has_current;
+    if ( 0 != element_R3784_has_current ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    if ( ( 0 != R3786_subtype ) && ( masl_identifier_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_identifier = (masl_identifier *) R3786_subtype->R3783_subtype;
+}}}}
+    /* IF ( ( empty parent_object and empty parent_identifier ) ) */
+    if ( ( ( 0 == parent_object ) && ( 0 == parent_identifier ) ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
-    /* ASSIGN attribute = attribute::populate(name:value[0], object:parent_object, preferred:value[1], unique:value[2]) */
-    attribute = masl_attribute_op_populate(value[0], parent_object, value[1], value[2]);
+    /* ASSIGN attribute = attribute::populate(name:value[0], parent_identifier:parent_identifier, parent_object:parent_object, preferred:value[1], unique:value[2]) */
+    attribute = masl_attribute_op_populate(value[0], parent_identifier, parent_object, value[1], value[2]);
     /* SELECT one new_element RELATED BY attribute->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != attribute ) {
@@ -336,6 +345,36 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     }
     /* ASSIGN e = expression::populate(body:value[0], parent_attribute:parent_attribute) */
     e = masl_expression_op_populate(value[0], parent_attribute);
+  }
+  else if ( ( Escher_strcmp( "identifier", element ) == 0 ) ) {
+    masl_identifier * identifier;masl_element * new_element=0;masl_object * parent_object=0;
+    /* SELECT one parent_object RELATED BY population->element[R3784.has current]->markable[R3786]->object[R3783] */
+    parent_object = 0;
+    {    if ( 0 != population ) {
+    masl_element * element_R3784_has_current = population->element_R3784_has_current;
+    if ( 0 != element_R3784_has_current ) {
+    masl_markable * R3786_subtype = (masl_markable *) element_R3784_has_current->R3786_subtype;
+    if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
+    if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
+}}}}
+    /* IF ( empty parent_object ) */
+    if ( ( 0 == parent_object ) ) {
+      /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
+      TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
+      /* population.stack_trace() */
+      masl_population_op_stack_trace( population );
+    }
+    /* ASSIGN identifier = identifier::populate(parent_object:parent_object) */
+    identifier = masl_identifier_op_populate(parent_object);
+    /* SELECT one new_element RELATED BY identifier->markable[R3783]->element[R3786] */
+    new_element = 0;
+    {    if ( 0 != identifier ) {
+    masl_markable * markable_R3783 = identifier->markable_R3783;
+    if ( 0 != markable_R3783 ) {
+    new_element = markable_R3783->element_R3786;
+}}}
+    /* population.push_element( new_element:new_element ) */
+    masl_population_op_push_element( population,  new_element );
   }
   else if ( ( Escher_strcmp( "referential", element ) == 0 ) ) {
     c_t rolephrase[ESCHER_SYS_MAX_STRING_LEN];c_t attr[ESCHER_SYS_MAX_STRING_LEN];c_t obj[ESCHER_SYS_MAX_STRING_LEN];c_t roleOrObj[ESCHER_SYS_MAX_STRING_LEN];c_t relationship_name[ESCHER_SYS_MAX_STRING_LEN];c_t domain_name[ESCHER_SYS_MAX_STRING_LEN];masl_attribute * referred_to=0;masl_object * target_object=0;masl_relationship * relationship=0;masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_object * current_object=0;
@@ -499,8 +538,11 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     }
     /* IF ( empty referred_to ) */
     if ( ( 0 == referred_to ) ) {
-      /* ASSIGN referred_to = attribute::populate(name:attr, object:target_object, preferred:, unique:) */
-      referred_to = masl_attribute_op_populate(attr, target_object, "", "");
+      masl_identifier * empty_identifier=0;
+      /* SELECT any empty_identifier FROM INSTANCES OF identifier WHERE FALSE */
+      empty_identifier = 0;
+      /* ASSIGN referred_to = attribute::populate(name:attr, parent_identifier:empty_identifier, parent_object:target_object, preferred:, unique:) */
+      referred_to = masl_attribute_op_populate(attr, empty_identifier, target_object, "", "");
     }
     /* SELECT one parent_attribute RELATED BY population->element[R3784.has current]->markable[R3786]->attribute[R3783] */
     parent_attribute = 0;

@@ -19,6 +19,10 @@ select many attributes related by self->attribute[R3709.''is characterized by'']
 for each attribute in attributes
   attribute.render();
 end for;
+select many identifiers related by self->identifier[R3711];
+for each identifier in identifiers
+  identifier.render();
+end for;
 select many activities related by self->activity[R3747];
 for each activity in activities
   activity.render();

@@ -46,18 +46,33 @@ INSERT INTO O_TFR
 	'',
 	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
 	0,
-	'object = param.object;
+	'parent_object = param.parent_object;
+parent_identifier = param.parent_identifier;
 
-select any attribute related by object->attribute[R3709] where ( selected.name == param.name );
-if ( empty attribute )
-  create object instance attribute of attribute;
-  attribute.name = param.name;
-  relate object to attribute across R3709.''is characterized by'';
-  markable = markable::populate( name:"attribute" );
-  relate attribute to markable across R3783;
+select any attribute from instances of attribute where false;
+if ( not_empty parent_object )
+  select any attribute related by parent_object->attribute[R3709] where ( selected.name == param.name );
+  if ( empty attribute )
+	create object instance attribute of attribute;
+	attribute.name = param.name;
+	relate parent_object to attribute across R3709.''is characterized by'';
+	markable = markable::populate( name:"attribute" );
+  	relate attribute to markable across R3783;
+  end if;
+  attribute.preferred = param.preferred;
+  attribute.unique = param.unique;
+elif ( not_empty parent_identifier )
+  select any attribute related by parent_identifier->object[R3711]->attribute[R3709] where ( selected.name == param.name );
+  if ( empty attribute )
+	create object instance attribute of attribute;
+	attribute.name = param.name;
+	relate parent_object to attribute across R3709.''is characterized by'';
+	markable = markable::populate( name:"attribute" );
+  	relate attribute to markable across R3783;
+  end if;
+  relate attribute to parent_identifier across R3710;
+else
 end if;
-attribute.preferred = param.preferred;
-attribute.unique = param.unique;
 
 return attribute;',
 	1,
@@ -93,7 +108,7 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("809b8aea-858a-40be-afae-06ffd349baef",
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
-	'object',
+	'parent_object',
 	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	0,
 	'',
@@ -103,6 +118,22 @@ INSERT INTO S_DT_PROXY
 	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("41c70d3b-129f-4617-88ac-bc20829ba5a7",
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	'parent_identifier',
+	"e6c43785-3f60-4e81-9de5-93ac1b89d287",
+	0,
+	'',
+	"809b8aea-858a-40be-afae-06ffd349baef",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e6c43785-3f60-4e81-9de5-93ac1b89d287",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<identifier>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -146,6 +177,17 @@ return valid;
 	1,
 	'',
 	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059");
+INSERT INTO O_TFR
+	VALUES ("65a587c5-8adb-485c-b877-28413cb9bbff",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	'render_name',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.attribute_name.masl" );',
+	1,
+	'',
+	"57ca507c-d88a-4bcb-8a8d-d86fe4680b5e");
 INSERT INTO O_NBATTR
 	VALUES ("6ed52915-ba48-441a-83a8-e2427e0b0ca2",
 	"514b84aa-197a-464c-a09e-e7f135680958");

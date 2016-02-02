@@ -14,12 +14,15 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_start.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'T::include( file:"masl/t.identifier_begin.masl" );
+separator = "";
+select many attributes related by self->attribute[R3710.''composed of''];
+for each attribute in attributes
+  T::b( s:separator );
+  attribute.render_name();
+  separator = ", ";
+end for;
+T::include( file:"masl/t.identifier_end.masl" );',
 	1,
 	'',
 	"3a62bad0-c0d0-4ab5-8e1c-b68f3d948c03");
@@ -28,27 +31,37 @@ INSERT INTO O_TFR
 	"23bcc05c-16f4-4c07-ba58-2879196804a1",
 	'populate',
 	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"e6c43785-3f60-4e81-9de5-93ac1b89d287",
 	0,
-	'create object instance template_class of parameter;
-template_class.name = param.name;
-return template_class;',
+	'parent_object = param.parent_object;
+create object instance identifier of identifier;
+relate identifier to parent_object across R3711.''identifies'';
+markable = markable::populate( name:"identifier" );
+relate identifier to markable across R3783;
+return identifier;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("4ae35a22-665a-4861-80bb-ebaaa618805e",
 	"3a62bad0-c0d0-4ab5-8e1c-b68f3d948c03",
-	'name',
-	"ba5eda7a-def5-0000-0000-000000000004",
+	'parent_object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("e6c43785-3f60-4e81-9de5-93ac1b89d287",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<identifier>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -73,24 +86,6 @@ return valid;
 	1,
 	'',
 	"f8bab69a-2ca8-422b-9895-3a2e74eb7083");
-INSERT INTO O_NBATTR
-	VALUES ("1ddf36d3-43f9-4170-b576-08b3e615ecd5",
-	"23bcc05c-16f4-4c07-ba58-2879196804a1");
-INSERT INTO O_BATTR
-	VALUES ("1ddf36d3-43f9-4170-b576-08b3e615ecd5",
-	"23bcc05c-16f4-4c07-ba58-2879196804a1");
-INSERT INTO O_ATTR
-	VALUES ("1ddf36d3-43f9-4170-b576-08b3e615ecd5",
-	"23bcc05c-16f4-4c07-ba58-2879196804a1",
-	"00000000-0000-0000-0000-000000000000",
-	'name',
-	'',
-	'',
-	'name',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"23bcc05c-16f4-4c07-ba58-2879196804a1");
