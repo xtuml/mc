@@ -101,8 +101,8 @@ else
   ::type2type( c_c:c_c );
   ::function2service( c_c:c_c );
   ::port2terminator( c_c:c_c );
-  ::association2relationship( c_c:c_c );
   ::class2object( c_c:c_c );
+  ::association2relationship( c_c:c_c );
   
   out::populate( element:"domain", value:emptyvalue );
 end if;
@@ -336,12 +336,6 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 c_c = param.c_c;
 select many o_objs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001];
 for each o_obj in o_objs
-  // create forward references
-  value[0] = o_obj.Name;
-  out::populate( element:"object", value:value );
-end for;
-
-for each o_obj in o_objs
   value[0] = o_obj.Name;
   out::populate( element:"object", value:value );
   
@@ -350,10 +344,9 @@ for each o_obj in o_objs
   
   // Set up the identifiers for the 
   ::identifier2identifier( o_obj:o_obj );
+  
+  out::populate( element:"object", value:emptyvalue );
 end for;
-
-// end object
-out::populate( element:"object", value:emptyvalue );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -385,6 +378,8 @@ INSERT INTO S_SYNC
 */
   
 value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
 o_obj = param.o_obj;
 c_c = param.c_c;
 select many o_attrs related by o_obj->O_ATTR[R102];
@@ -420,6 +415,7 @@ for each o_attr in o_attrs
   // CDS - I think we may need to pass array dimension information from here.
   value[0] = s_dt.Name;
   out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
   
   // See if this attribute is a referential.
   select any o_ref related by o_attr->O_RATTR[R106]->O_REF[R108];
@@ -435,6 +431,8 @@ for each o_attr in o_attrs
     value[3] = "";
     value[4] = "";
   end if;
+  
+  out::populate( element:"attribute", value:emptyvalue );
   
 end for;',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -487,6 +485,7 @@ for each s_dt in s_dts
   value[1] = "private";
   value[2] = s_dt.Descrip;  // body of type
   out::populate( element:"type", value:value );
+  out::populate( element:"type", value:emptyvalue );
 end for;
 
 // CDS Data types in packages directly off of the system are considered public.
@@ -496,6 +495,7 @@ for each s_dt in s_dts
   value[1] = "public";
   value[2] = s_dt.Descrip;  // body of type
   out::populate( element:"type", value:value );
+  out::populate( element:"type", value:emptyvalue );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -521,7 +521,9 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'association2relationship',
 	'',
-	'value[7] = "";
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
 c_c = param.c_c;
 select many r_rels related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->R_REL[R8001];
 for each r_rel in r_rels
@@ -533,6 +535,7 @@ for each r_rel in r_rels
     out::populate( element:"regularrel", value:value );
     // now add participation
     ::simpleass2regularrel( r_simp:r_simp );
+    out::populate( element:"regularrel", value:emptyvalue );
   end if;
   
   select one r_assoc related by r_rel->R_ASSOC[R206];
@@ -541,11 +544,13 @@ for each r_rel in r_rels
     select one o_obj related by r_assoc->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
     value[1] = o_obj.Name;
     out::populate( element:"associative", value:value );
+    out::populate( element:"associative", value:emptyvalue );
   end if;
   
   select one r_subsup related by r_rel->R_SUBSUP[R206];
   if ( not_empty r_subsup )
     out::populate( element:"subsuper", value:value );
+    out::populate( element:"subsuper", value:emptyvalue );
   end if;
 end for;
 ',
@@ -614,27 +619,28 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'simpleass2regularrel',
 	'',
-	'value[7] = "";
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
 r_simp = param.r_simp;
 select many r_parts related by r_simp->R_PART[R207];
+name[7] = ""; phrase[7] = ""; cond[7] = ""; mult[7]= ""; toname[7] = "";
 i = 0;
-name = ""; phrase = ""; cond = ""; mult = ""; toname = "";
 for each r_part in r_parts
   select one o_obj related by r_part->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]; 
-  value[0] = o_obj.Name;
-  value[1] = r_part.Txt_Phrs;
+  name[i] = o_obj.Name;
+  phrase[i] = r_part.Txt_Phrs;
   if ( 0 == r_part.Cond )
-    value[2] = "conditional";
+    cond[i] = "unconditional";
   else
-    value[2] = "unconditional";
+    cond[i] = "conditional";
   end if;
   if ( 0 == r_part.Mult )
-    value[3] = "one";
+    mult[i] = "one";
   else
-    value[3] = "many";
+    mult[i] = "many";
   end if;
-  value[4] = ""; // CDS - get toname
-  out::populate( element:"participation", value:value );
+  toname[i] = ""; // CDS - get toname
   i = i + 1;
 end for;
 
@@ -642,21 +648,37 @@ if ( 1 == i )
   // only one participant, go get the formalizer
   select one r_form related by r_simp->R_FORM[R208];
   select one o_obj related by r_form->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201]; 
-  value[0] = o_obj.Name;
-  value[1] = r_form.Txt_Phrs;
+  name[1] = o_obj.Name;
+  phrase[1] = r_form.Txt_Phrs;
   if ( 0 == r_form.Cond )
-    value[2] = "conditional";
+    cond[1] = "unconditional";
   else
-    value[2] = "unconditional";
+    cond[1] = "conditional";
   end if;
   if ( 0 == r_form.Mult )
-    value[3] = "one";
+    mult[1] = "one";
   else
-    value[3] = "many";
+    mult[1] = "many";
   end if;
-  value[4] = ""; // CDS - get toname
-  out::populate( element:"participation", value:value );
+  toname[1] = ""; // CDS - get toname
 end if;
+
+value[0] = name[1];
+value[1] = phrase[0];
+value[2] = cond[0];
+value[3] = mult[0];
+value[4] = name[0];
+out::populate( element:"participation", value:value );
+
+value[0] = name[0];
+value[1] = phrase[1];
+value[2] = cond[1];
+value[3] = mult[1];
+value[4] = name[1];
+out::populate( element:"participation", value:value );
+
+out::populate( element:"participation", value:emptyvalue );
+
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -746,7 +768,7 @@ INSERT INTO S_SYNC
 	'',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
-	3,
+	1,
 	'');
 INSERT INTO S_SPARM
 	VALUES ("60fb8b97-7f20-4095-b943-e08c3a8e2e31",
