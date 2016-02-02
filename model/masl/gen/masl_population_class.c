@@ -111,8 +111,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_project ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -143,8 +141,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_domain ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -175,8 +171,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_domain ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -225,8 +219,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( ( ( 0 == parent_domain ) && ( 0 == parent_terminator ) ) && ( 0 == parent_object ) ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -279,8 +271,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( ( 0 == parent_activity ) && ( 0 == sibling_parameter ) ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -311,8 +301,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_object ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -506,8 +494,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_attribute ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -549,8 +535,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( ( ( 0 == parent_function ) && ( 0 == parent_parameter ) ) && ( 0 == parent_attribute ) ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -583,8 +567,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_object ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -615,8 +597,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_object ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -647,8 +627,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_state_machine ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -672,8 +650,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_domain ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -728,8 +704,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( ( 0 == parent_relationship ) && ( 0 == parent_participation ) ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -760,8 +734,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_domain ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -790,8 +762,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == markable ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -822,8 +792,6 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( ( 0 == parent_pragma ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
-      /* population.active_trace() */
-      masl_population_op_active_trace( population );
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
@@ -853,8 +821,6 @@ masl_population_op_push_element( masl_population * self, masl_element * p_new_el
     TRACE_log( "error", 76, Escher_stradd( "pushing empty element. current element: ", current_element->name ) );
     /* self.stack_trace() */
     masl_population_op_stack_trace( self );
-    /* self.active_trace() */
-    masl_population_op_active_trace( self );
   }
   /* IF ( ( current_element == new_element ) ) */
   if ( ( current_element == new_element ) ) {
@@ -893,34 +859,6 @@ masl_population_op_stack_trace( masl_population * self)
   }
   /* TRACE::log( flavor:stack_trace, id:82, message:done. ) */
   TRACE_log( "stack_trace", 82, "done." );
-}
-
-/*
- * instance operation:  active_trace
- */
-void
-masl_population_op_active_trace( masl_population * self)
-{
-  masl_element * element=0;Escher_ObjectSet_s active_elements_space={0}; Escher_ObjectSet_s * active_elements = &active_elements_space;
-  /* TRACE::log( flavor:active_trace, id:81, message:outputting active elements: ) */
-  TRACE_log( "active_trace", 81, "outputting active elements:" );
-  /* SELECT many active_elements RELATED BY self->element[R3789.has active] */
-  Escher_ClearSet( active_elements );
-  if ( 0 != self ) {
-    Escher_CopySet( active_elements, &self->element_R3789_has_active );
-  }
-  /* FOR EACH element IN active_elements */
-  { Escher_Iterator_s iterelement;
-  masl_element * iielement;
-  Escher_IteratorReset( &iterelement, active_elements );
-  while ( (iielement = (masl_element *)Escher_IteratorNext( &iterelement )) != 0 ) {
-    element = iielement; {
-    /* TRACE::log( flavor:active_trace, id:81, message:element.name ) */
-    TRACE_log( "active_trace", 81, element->name );
-  }}}
-  /* TRACE::log( flavor:active_trace, id:81, message:done. ) */
-  TRACE_log( "active_trace", 81, "done." );
-  Escher_ClearSet( active_elements ); 
 }
 
 
