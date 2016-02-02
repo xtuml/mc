@@ -146,7 +146,10 @@ elif ( "identifier" == element )
     population.push_element( new_element:new_element );
 elif ( "referential" == element )
     domain_name = value[1];
-    relationship_name = value[0]; roleOrObj = value[2]; obj = value[3]; attr = value[4];
+    relationship_name = value[0];
+    roleOrObj = value[2];
+    obj = value[3];
+    attr = value[4];
     
 	select any current_object related by population->element[R3789.''has active'']->markable[R3786]->object[R3783];
 
@@ -386,7 +389,7 @@ if ( empty new_element )
   self.stack_trace();
 end if;
 if ( current_element == new_element )
-  TRACE::log( flavor:"info", id:75, message:"duplicate element not pushed: " + new_element.name );
+  //TRACE::log( flavor:"info", id:75, message:"duplicate element not pushed: " + new_element.name );
 else
   unrelate self from current_element across R3784.''has current'';	// unrelate current element
   relate self to new_element across R3784.''has current'';			// relate the new as the current

@@ -139,7 +139,7 @@ for each activity in activitys;
   select one terminator related by activity->terminator[R3703];
   select one domain related by activity->domain[R3707];
   if ( ( empty terminator ) and ( empty domain ) )
-    TRACE::log( flavor:"failure", id:8, message:"activity has no parent teriminator or domain." );
+    TRACE::log( flavor:"failure", id:8, message:"activity has no parent terminator or domain." );
     valid = false;
   end if;
   select one function related by activity->function[R3704];
