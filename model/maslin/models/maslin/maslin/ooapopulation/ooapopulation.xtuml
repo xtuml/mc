@@ -22,7 +22,7 @@ value = param.value;
 select any ooapopulation from instances of ooapopulation;
 if ( empty ooapopulation )
   create object instance ooapopulation of ooapopulation;
-  ooapopulation.processingIdentifier = false;
+  ooapopulation.processingIdentifier = -1;
 end if;
 
 if ( "project" == element )
@@ -40,6 +40,7 @@ elif ( "object" == element )
   if ( "" == param.value[0] )
     select any o_obj from instances of O_OBJ where (false);
     ooapopulation.current_class = o_obj;
+    ooapopulation.processingIdentifier = -1;
   else
     ooapopulation.transformObject(name:param.value[0]);
   end if;
@@ -56,19 +57,27 @@ elif ( "parameter" == element )
     ooapopulation.transformParameter();
   end if;
 elif ( "identifier" == element )
-  if ( "" == param.value[0] )
-    ooapopulation.processingIdentifier = false;
-  else
-    ooapopulation.processingIdentifier = true;
+  if ( "" != param.value[0] )
+    // Note that this works in concert with object processing, which resets the processingIdentifier attribute to -1 when we
+    // see the end of an object.
+    ooapopulation.processingIdentifier = ooapopulation.processingIdentifier + 1;
+    // Safety check to not exceed xtUML limit of 3 identifiers
+    if ( 3 == ooapopulation.processingIdentifier )
+      // TODO - do we need to output a warning here?
+      ooapopulation.processingIdentifier = 2;
+    end if;
   end if;
 elif ( "attribute" == element )
   if ( "" == param.value[0] )
     select any o_attr from instances of O_ATTR where (false);
     ooapopulation.current_attribute = o_attr;
   else
-    if ( ooapopulation.processingIdentifier )
-      // TODO - set the ooapopulation.current_attribute as an identifier on the current_class.  NOTE that we assume here that the attribute
+    if ( ooapopulation.processingIdentifier >= 0 )
+      // TODO - set the named attribute as an identifier on the current_class.  NOTE that we assume here that the attribute
       //   has already been created inside the current class.
+      o_obj = ooapopulation.current_class;
+      select any o_attr related by o_obj->O_ATTR[R102] where ( selected.Name == param.value[0] );
+      ooapopulation.Attribute_addToIdentifier(o_attr:o_attr, oid:ooapopulation.processingIdentifier);
     else
       ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2], initialization:param.value[3]);
     end if;
@@ -1100,7 +1109,7 @@ create object instance nba of O_NBATTR;
 relate ba to nba across R107;',
 	1,
 	'',
-	"4ff26a31-e07b-4af1-8221-5dc73754ca14");
+	"4b15fc81-c210-44f8-9c04-0c7b1bf99672");
 INSERT INTO O_TPARM
 	VALUES ("9cb4d766-d51c-43c7-a331-72f1e7bcf49d",
 	"c59ea70d-68ee-4b9e-a501-5920a749fab1",
@@ -2069,6 +2078,45 @@ INSERT INTO O_TPARM
 	'',
 	"3f0a949c-ae5b-44f0-ba87-4ca67b763463",
 	'');
+INSERT INTO O_TFR
+	VALUES ("4b15fc81-c210-44f8-9c04-0c7b1bf99672",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Attribute_addToIdentifier',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_attr = param.o_attr;
+
+select any oid related by o_attr->O_OBJ[R102]->O_ID[R104]
+     where selected.Oid_ID == param.oid;
+create object instance oida of O_OIDA;
+relate o_attr to oid across R105 using oida;
+select many rto_set related by oid->R_RTO[R109];
+// TODO SKB - leaving out for now, will need to add back in
+//for each rto in rto_set
+//  rto.addAttributeToIdentifier( attr_id: self.Attr_ID );
+//end for;',
+	1,
+	'',
+	"4ff26a31-e07b-4af1-8221-5dc73754ca14");
+INSERT INTO O_TPARM
+	VALUES ("cb2ae4c9-5b59-44e2-91e3-8383b7e048cb",
+	"4b15fc81-c210-44f8-9c04-0c7b1bf99672",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("19dae9c8-49d2-41cf-8ccd-4d0428fa168f",
+	"4b15fc81-c210-44f8-9c04-0c7b1bf99672",
+	'oid',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"cb2ae4c9-5b59-44e2-91e3-8383b7e048cb",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -2228,7 +2276,7 @@ INSERT INTO O_ATTR
 	'',
 	'processingIdentifier',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000001",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID
