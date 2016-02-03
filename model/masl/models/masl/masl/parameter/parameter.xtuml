@@ -39,10 +39,13 @@ parameter.direction = param.direction;
 // relate to parent
 parent_activity = param.parent_activity;
 sibling_parameter = param.sibling_parameter;
+parent_event = param.parent_event;
 if ( not_empty sibling_parameter )
   relate parameter to sibling_parameter across R3706.''succeeds'';
 elif ( not_empty parent_activity )
   relate parent_activity to parameter across R3705.''carries first'';
+elif ( not_empty parent_event )
+  relate parent_event to parameter across R3727.''carries first'';
 else
   TRACE::log( flavor:"failure", id:39, message:"no parent for parameter" );
 end if;
@@ -101,6 +104,22 @@ INSERT INTO S_DT_PROXY
 	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<parameter>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("3aad2d78-9102-452f-88a8-5d36ad97a305",
+	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	'parent_event',
+	"10f010a5-972a-427c-a610-080e185e1082",
+	0,
+	'',
+	"4824ff63-86d9-4355-8939-9deebe8f2804",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<event>',
 	'',
 	'',
 	'../masl.xtuml');

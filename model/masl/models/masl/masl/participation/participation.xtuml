@@ -47,7 +47,7 @@ if ( empty participation )
   if ( not_empty object )
     relate participation to object across R3714.''one'';
   else
-    TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + fromobject );
+    TRACE::log( flavor:"failure", id:84, message:"participation names non-existent object:  " + fromobject );
     valid = false;
   end if;
   unmarkable = unmarkable::populate( name:"participation" );
@@ -64,7 +64,7 @@ else
 	if ( not_empty object )
 	  relate participation to object across R3720.''other'';
 	else
-	  TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + fromobject );
+	  TRACE::log( flavor:"failure", id:84, message:"participation names non-existent object:  " + fromobject );
 	  valid = false;
 	end if;
   else
@@ -73,7 +73,7 @@ else
 	if ( not_empty object )
 	  relate participation to object across R3720.''other'';
 	else
-	  TRACE::log( flavor:"failure", id:84, message:"participation names non-existant object:  " + fromobject );
+	  TRACE::log( flavor:"failure", id:84, message:"participation names non-existent object:  " + fromobject );
 	  valid = false;
 	end if;
   end if;

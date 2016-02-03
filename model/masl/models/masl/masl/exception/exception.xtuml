@@ -14,12 +14,9 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'//T::include( file:"masl/t.project_begin.masl" );
-//select many projectdomains related by self->projectdomain[R3701.''configures''];
-//for each projectdomain in projectdomains
-//  projectdomain.render();
-//end for;
-//T::include( file:"masl/t.project_end.masl" );',
+	'T::include( file:"masl/t.exception.masl" );
+select one markable related by self->markable[R3783];
+markable.render( list:"default" );',
 	1,
 	'',
 	"2410aa23-0abe-49b3-8580-3468cf315f79");
@@ -28,11 +25,16 @@ INSERT INTO O_TFR
 	"aa7fe657-6de6-4c75-93c4-792bf649f07a",
 	'populate',
 	'',
-	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"f586dd4c-af92-4f76-9be6-cab4228babd6",
 	0,
-	'create object instance template_class of parameter;
-//template_class.name = param.name;
-return template_class;',
+	'parent_domain = param.parent_domain;
+create object instance exception of exception;
+exception.name = param.name;
+exception.visibility = param.visibility;
+relate exception to parent_domain across R3748;
+markable = markable::populate( name:"exception" );
+relate exception to markable across R3783;
+return exception;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -45,10 +47,35 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("c2261317-9805-4c03-8af7-84dc20c1b8a6",
+	"2410aa23-0abe-49b3-8580-3468cf315f79",
+	'visibility',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9ed436f3-c804-4b7e-9ef3-da6e1f30437e",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("bf356d29-6567-42a9-9d9f-1a6dce1b5940",
+	"2410aa23-0abe-49b3-8580-3468cf315f79",
+	'parent_domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"c2261317-9805-4c03-8af7-84dc20c1b8a6",
+	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<parameter>',
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("f586dd4c-af92-4f76-9be6-cab4228babd6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<exception>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -100,6 +127,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6a3479b1-56b5-430d-afef-4c9aa618e1ae",
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a");
+INSERT INTO O_BATTR
+	VALUES ("6a3479b1-56b5-430d-afef-4c9aa618e1ae",
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a");
+INSERT INTO O_ATTR
+	VALUES ("6a3479b1-56b5-430d-afef-4c9aa618e1ae",
+	"aa7fe657-6de6-4c75-93c4-792bf649f07a",
+	"87b48d59-06bc-47c1-a605-a3018358aed5",
+	'visibility',
+	'',
+	'',
+	'visibility',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
