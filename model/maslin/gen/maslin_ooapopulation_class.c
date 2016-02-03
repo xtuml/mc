@@ -10,8 +10,6 @@
 #include "maslin_sys_types.h"
 #include "LOG_bridge.h"
 #include "STRING_bridge.h"
-#include "T_bridge.h"
-#include "TRACE_bridge.h"
 #include "maslin_classes.h"
 
 /*
@@ -31,6 +29,7 @@ maslin_ooapopulation_instanceloader( Escher_iHandle_t instance, const c_t * avls
   Escher_memset( &self->current_class, avlstring[ 1 ], sizeof( self->current_class ) );
   Escher_memset( &self->current_class_op, avlstring[ 1 ], sizeof( self->current_class_op ) );
   Escher_memset( &self->current_component, avlstring[ 1 ], sizeof( self->current_component ) );
+  self->processingIdentifier = Escher_atoi( avlstring[ 1 ] );
   return return_identifier;
 }
 
@@ -58,6 +57,8 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX
   if ( ( 0 == ooapopulation ) ) {
     /* CREATE OBJECT INSTANCE ooapopulation OF ooapopulation */
     ooapopulation = (maslin_ooapopulation *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_ooapopulation_CLASS_NUMBER );
+    /* ASSIGN ooapopulation.processingIdentifier = - 1 */
+    ooapopulation->processingIdentifier = -1;
   }
   /* IF ( ( project == element ) ) */
   if ( ( Escher_strcmp( "project", element ) == 0 ) ) {
@@ -89,6 +90,8 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX
       o_obj = 0;
       /* ASSIGN ooapopulation.current_class = o_obj */
       ooapopulation->current_class = o_obj;
+      /* ASSIGN ooapopulation.processingIdentifier = - 1 */
+      ooapopulation->processingIdentifier = -1;
     }
     else {
       /* ooapopulation.transformObject( name:PARAM.value[0] ) */
@@ -116,11 +119,51 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX
       maslin_ooapopulation_op_transformParameter( ooapopulation );
     }
   }
-  else if ( ( Escher_strcmp( "attribute", element ) == 0 ) ) {
+  else if ( ( Escher_strcmp( "identifier", element ) == 0 ) ) {
     /* IF ( (  != PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
-      /* ooapopulation.transformAttribute( initialization:PARAM.value[3], name:PARAM.value[0], preferred:PARAM.value[1], unique:PARAM.value[2] ) */
-      maslin_ooapopulation_op_transformAttribute( ooapopulation,  p_value[3], p_value[0], p_value[1], p_value[2] );
+      /* ASSIGN ooapopulation.processingIdentifier = ( ooapopulation.processingIdentifier + 1 ) */
+      ooapopulation->processingIdentifier = ( ooapopulation->processingIdentifier + 1 );
+      /* IF ( ( 3 == ooapopulation.processingIdentifier ) ) */
+      if ( ( 3 == ooapopulation->processingIdentifier ) ) {
+        /* ASSIGN ooapopulation.processingIdentifier = 2 */
+        ooapopulation->processingIdentifier = 2;
+      }
+    }
+  }
+  else if ( ( Escher_strcmp( "attribute", element ) == 0 ) ) {
+    /* IF ( (  == PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+      maslin_O_ATTR * o_attr=0;
+      /* SELECT any o_attr FROM INSTANCES OF O_ATTR WHERE FALSE */
+      o_attr = 0;
+      /* ASSIGN ooapopulation.current_attribute = o_attr */
+      ooapopulation->current_attribute = o_attr;
+    }
+    else {
+      /* IF ( ( ooapopulation.processingIdentifier >= 0 ) ) */
+      if ( ( ooapopulation->processingIdentifier >= 0 ) ) {
+        maslin_O_OBJ * o_obj;maslin_O_ATTR * o_attr=0;
+        /* ASSIGN o_obj = ooapopulation.current_class */
+        o_obj = ooapopulation->current_class;
+        /* SELECT any o_attr RELATED BY o_obj->O_ATTR[R102] WHERE ( ( SELECTED.Name == PARAM.value[0] ) ) */
+        o_attr = 0;
+        if ( 0 != o_obj ) {
+          maslin_O_ATTR * selected;
+          Escher_Iterator_s iO_ATTR_R102_has_characteristics_abstracted_by;
+          Escher_IteratorReset( &iO_ATTR_R102_has_characteristics_abstracted_by, &o_obj->O_ATTR_R102_has_characteristics_abstracted_by );
+          while ( 0 != ( selected = (maslin_O_ATTR *) Escher_IteratorNext( &iO_ATTR_R102_has_characteristics_abstracted_by ) ) ) {
+            if ( ( Escher_strcmp( selected->Name, p_value[0] ) == 0 ) ) {
+              o_attr = selected;
+              break;
+        }}}
+        /* ooapopulation.Attribute_addToIdentifier( o_attr:o_attr, oid:ooapopulation.processingIdentifier ) */
+        maslin_ooapopulation_op_Attribute_addToIdentifier( ooapopulation,  o_attr, ooapopulation->processingIdentifier );
+      }
+      else {
+        /* ooapopulation.transformAttribute( initialization:PARAM.value[3], name:PARAM.value[0], preferred:PARAM.value[1], unique:PARAM.value[2] ) */
+        maslin_ooapopulation_op_transformAttribute( ooapopulation,  p_value[3], p_value[0], p_value[1], p_value[2] );
+      }
     }
   }
   else if ( ( Escher_strcmp( "state", element ) == 0 ) ) {
@@ -1809,6 +1852,43 @@ maslin_ooapopulation_op_Interface_addInterfaceOperationToOrder( maslin_ooapopula
     }}}
     Escher_ClearSet( peers ); 
   }
+}
+
+/*
+ * instance operation:  Attribute_addToIdentifier
+ */
+void
+maslin_ooapopulation_op_Attribute_addToIdentifier( maslin_ooapopulation * self, maslin_O_ATTR * p_o_attr, const i_t p_oid )
+{
+  maslin_O_ATTR * o_attr;maslin_O_OIDA * oida;Escher_ObjectSet_s rto_set_space={0}; Escher_ObjectSet_s * rto_set = &rto_set_space;maslin_O_ID * oid=0;
+  /* ASSIGN o_attr = PARAM.o_attr */
+  o_attr = p_o_attr;
+  /* SELECT any oid RELATED BY o_attr->O_OBJ[R102]->O_ID[R104] WHERE ( ( SELECTED.Oid_ID == PARAM.oid ) ) */
+  oid = 0;
+  {  if ( 0 != o_attr ) {
+  maslin_O_OBJ * O_OBJ_R102_abstracts_characteristics_of = o_attr->O_OBJ_R102_abstracts_characteristics_of;
+  if ( 0 != O_OBJ_R102_abstracts_characteristics_of ) {
+  maslin_O_ID * selected;
+  Escher_Iterator_s iO_ID_R104_is_identified_by;
+  Escher_IteratorReset( &iO_ID_R104_is_identified_by, &O_OBJ_R102_abstracts_characteristics_of->O_ID_R104_is_identified_by );
+  while ( 0 != ( selected = (maslin_O_ID *) Escher_IteratorNext( &iO_ID_R104_is_identified_by ) ) ) {
+    if ( ( selected->Oid_ID == p_oid ) ) {
+      oid = selected;
+      break;
+  }}
+}}}
+  /* CREATE OBJECT INSTANCE oida OF O_OIDA */
+  oida = (maslin_O_OIDA *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_O_OIDA_CLASS_NUMBER );
+  oida->Attr_ID = (Escher_UniqueID_t) oida;
+oida->Obj_ID = (Escher_UniqueID_t) oida;
+  /* RELATE o_attr TO oid ACROSS R105 USING oida */
+  maslin_O_OIDA_R105_Link( oid, o_attr, oida );
+  /* SELECT many rto_set RELATED BY oid->R_RTO[R109] */
+  Escher_ClearSet( rto_set );
+  if ( 0 != oid ) {
+    Escher_CopySet( rto_set, &oid->R_RTO_R109_identifies_for_this_association_ );
+  }
+  Escher_ClearSet( rto_set ); 
 }
 
 /*

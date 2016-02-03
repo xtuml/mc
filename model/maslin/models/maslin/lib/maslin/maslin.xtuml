@@ -350,7 +350,7 @@ INSERT INTO C_PO
 	0);
 INSERT INTO C_IR
 	VALUES ("e78261d4-10c7-4603-aea3-2c4b076c8ce1",
-	"1ece8eb3-1e88-422c-80ba-41403cb93b83",
+	"aae114c8-5690-4023-a3d0-05fff0c36f37",
 	"00000000-0000-0000-0000-000000000000",
 	"c65ce1a5-ae2a-4142-8cad-80ff01f39fcd");
 INSERT INTO C_P
@@ -360,11 +360,11 @@ INSERT INTO C_P
 	'',
 	'maslin::persist::SQL');
 INSERT INTO C_I_PROXY
-	VALUES ("1ece8eb3-1e88-422c-80ba-41403cb93b83",
+	VALUES ("aae114c8-5690-4023-a3d0-05fff0c36f37",
 	"00000000-0000-0000-0000-000000000000",
 	'SQL',
 	'',
-	'../../../../../masl/models/masl/lib/SQL/SQL.xtuml');
+	'../../../../../mcshared/models/mcshared/lib/SQL/SQL.xtuml');
 INSERT INTO C_PO
 	VALUES ("839d4074-88fd-4180-b4c7-d6df962a3711",
 	"151b01f8-b2a3-40f2-9ea0-e59d1402e141",
