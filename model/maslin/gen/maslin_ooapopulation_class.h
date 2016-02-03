@@ -22,12 +22,14 @@ struct maslin_ooapopulation {
 
   /* application analysis class attributes */
   maslin_S_SYS * current_sys;  
-  maslin_EP_PKG * wiring_pkg;  
   maslin_EP_PKG * lib_pkg;  
+  maslin_EP_PKG * systypes_pkg;  
+  maslin_EP_PKG * wiring_pkg;  
   maslin_O_ATTR * current_attribute;  
   maslin_O_OBJ * current_class;  
   maslin_O_TFR * current_class_op;  
   maslin_C_C * current_component;  
+  i_t processingIdentifier;  
 };
 void maslin_ooapopulation_instancedumper( Escher_iHandle_t );
 Escher_iHandle_t maslin_ooapopulation_instanceloader( Escher_iHandle_t, const c_t * [] );
@@ -79,6 +81,7 @@ void maslin_ooapopulation_op_InterfaceReference_createSignalsAndOperations( masl
 void maslin_ooapopulation_op_InterfaceOperation_initialize( maslin_ooapopulation *, maslin_C_IO *, c_t * );
 maslin_C_EP * maslin_ooapopulation_op_Interface_newExecutableProperty( maslin_ooapopulation *, const bool, maslin_C_I *, c_t * );
 void maslin_ooapopulation_op_Interface_addInterfaceOperationToOrder( maslin_ooapopulation *, maslin_C_I *, maslin_C_IO * );
+void maslin_ooapopulation_op_Attribute_addToIdentifier( maslin_ooapopulation *, maslin_O_ATTR *, const i_t );
 
 
 #define maslin_ooapopulation_MAX_EXTENT_SIZE 10

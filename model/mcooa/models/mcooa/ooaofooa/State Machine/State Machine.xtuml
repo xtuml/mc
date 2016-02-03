@@ -24,7 +24,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	0,
-	'',
+	'4.1.17',
 	'mcooa::ooaofooa::State Machine');
 INSERT INTO GD_GE
 	VALUES ("3121125c-63f0-4b05-b959-fed7fd8a48e6",
@@ -7378,6 +7378,46 @@ INSERT INTO PE_PE
 	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine Event>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	0,
+	"a532550b-16f4-4e0e-8849-1a53aa26896f");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("a532550b-16f4-4e0e-8849-1a53aa26896f",
+	'State Machine Event',
+	503,
+	'SM_EVT',
+	'Represents an event for this state machine.  Events can be either State Event Matrix events (SM_SEVT) or polymorphic events (SM_PEVT).',
+	"00000000-0000-0000-0000-000000000000",
+	'./State Machine Event/State Machine Event.xtuml');
+INSERT INTO PE_PE
+	VALUES ("33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7750cfe0-2d1c-4981-a24d-717abfe95858",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<State Machine Event>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7750cfe0-2d1c-4981-a24d-717abfe95858",
+	1,
+	"a532550b-16f4-4e0e-8849-1a53aa26896f");
+INSERT INTO PE_PE
+	VALUES ("7750cfe0-2d1c-4981-a24d-717abfe95858",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("13d08a46-4678-4d63-824c-fb651cd2e4eb");
 INSERT INTO R_REL
@@ -7401,14 +7441,6 @@ INSERT INTO R_OIR
 	"13d08a46-4678-4d63-824c-fb651cd2e4eb",
 	"0b792638-9178-4e91-894f-1090680001c0",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("a532550b-16f4-4e0e-8849-1a53aa26896f",
-	'State Machine Event',
-	503,
-	'SM_EVT',
-	'Represents an event for this state machine.  Events can be either State Event Matrix events (SM_SEVT) or polymorphic events (SM_PEVT).',
-	"00000000-0000-0000-0000-000000000000",
-	'./State Machine Event/State Machine Event.xtuml');
 INSERT INTO R_PART
 	VALUES ("6faf0b89-3a94-49bf-b3b5-03b5e842613a",
 	"13d08a46-4678-4d63-824c-fb651cd2e4eb",

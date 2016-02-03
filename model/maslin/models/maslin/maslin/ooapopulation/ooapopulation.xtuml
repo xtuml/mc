@@ -22,6 +22,7 @@ value = param.value;
 select any ooapopulation from instances of ooapopulation;
 if ( empty ooapopulation )
   create object instance ooapopulation of ooapopulation;
+  ooapopulation.processingIdentifier = -1;
 end if;
 
 if ( "project" == element )
@@ -39,6 +40,7 @@ elif ( "object" == element )
   if ( "" == param.value[0] )
     select any o_obj from instances of O_OBJ where (false);
     ooapopulation.current_class = o_obj;
+    ooapopulation.processingIdentifier = -1;
   else
     ooapopulation.transformObject(name:param.value[0]);
   end if;
@@ -54,9 +56,31 @@ elif ( "parameter" == element )
   if ( "" != param.value[0] )
     ooapopulation.transformParameter();
   end if;
-elif ( "attribute" == element )
+elif ( "identifier" == element )
   if ( "" != param.value[0] )
-    ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2], initialization:param.value[3]);
+    // Note that this works in concert with object processing, which resets the processingIdentifier attribute to -1 when we
+    // see the end of an object.
+    ooapopulation.processingIdentifier = ooapopulation.processingIdentifier + 1;
+    // Safety check to not exceed xtUML limit of 3 identifiers
+    if ( 3 == ooapopulation.processingIdentifier )
+      // TODO - do we need to output a warning here?
+      ooapopulation.processingIdentifier = 2;
+    end if;
+  end if;
+elif ( "attribute" == element )
+  if ( "" == param.value[0] )
+    select any o_attr from instances of O_ATTR where (false);
+    ooapopulation.current_attribute = o_attr;
+  else
+    if ( ooapopulation.processingIdentifier >= 0 )
+      // TODO - set the named attribute as an identifier on the current_class.  NOTE that we assume here that the attribute
+      //   has already been created inside the current class.
+      o_obj = ooapopulation.current_class;
+      select any o_attr related by o_obj->O_ATTR[R102] where ( selected.Name == param.value[0] );
+      ooapopulation.Attribute_addToIdentifier(o_attr:o_attr, oid:ooapopulation.processingIdentifier);
+    else
+      ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2], initialization:param.value[3]);
+    end if;
   end if;
 elif ( "state" == element )
   if ( "" != param.value[0] )
@@ -69,6 +93,16 @@ elif ( "event" == element )
 elif ( "type" == element )
   if ( "" != param.value[0] )
     ooapopulation.transformType(name:param.value[0], visibility:param.value[1]);
+  end if;
+elif ( "typeref" == element )
+  if ( "" != param.value[0] )
+    // TODO - note that we''re current making all typerefs public.  Perhaps we''ll need a mechanism to migrate them from public to private (and 
+    //   rehome their parent package)?
+    ooapopulation.transformType(name:param.value[0], visibility:"public");
+    
+    // TODO - Now that we created a typeref, create a switch statement that sets whatever element we''re currently processing to the type
+    //   cases: attribute, s_sync/o_tfr/c_io return type, s_sync/o_tfr/c_io parameter, etc
+    //   - E.g. In ooaofooa see SetTypeOnO_ATTRAction.java O_ATTR_SetType(), need to figure out if there is an OAL function behind this, or just archetype.  Basically need to do the same work...
   end if;
 elif ( "function" == element )
   //  See if we''re processing inside a domain, object, or terminator.  Then call the appropriate conversion function.
@@ -605,8 +639,23 @@ if ( empty s_sys )
   s_sys.Name = "ConvertedModel";
   self.current_sys = s_sys;
 
-  // Create a package named "Library" and cache it
+  // Create a package named "library" and cache it
   self.lib_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"library");
+  
+  // Create a system level types package and cache it
+  //   TODO - revisit this when we figure out type handling for import into BP
+  self.systypes_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"types");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "void");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "character");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "wcharacter");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "boolean");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "byte");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "string");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "wstring");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "device");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "enum");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "event");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "instance");
 end if;
 
 ',
@@ -620,7 +669,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
-	'',
+	'// TODO - populate this activity
+return false;',
 	1,
 	'',
 	"36fd6526-df46-4e49-a8b1-ee0bebdf9755");
@@ -1049,13 +1099,19 @@ o_attr.Prefix = "";
 o_attr.Pfx_Mode = 0;
 o_attr.Root_Nam = param.name;
 
+// TODO - assign a default type to aid in testing.  When attribute types are handled on the populate interface this can be removed to the // END comment
+systypes_pkg = self.systypes_pkg;
+select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+relate o_attr to def_dt across R114;
+// END
+
 create object instance ba of O_BATTR;
 relate o_attr to ba across R106;
 create object instance nba of O_NBATTR;
 relate ba to nba across R107;',
 	1,
 	'',
-	"4ff26a31-e07b-4af1-8221-5dc73754ca14");
+	"4b15fc81-c210-44f8-9c04-0c7b1bf99672");
 INSERT INTO O_TPARM
 	VALUES ("9cb4d766-d51c-43c7-a331-72f1e7bcf49d",
 	"c59ea70d-68ee-4b9e-a501-5920a749fab1",
@@ -1081,18 +1137,21 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// TODO
-//  - the new type will go into the "types" package under the component (creating "types pkg" if it doesn''t exist)
-//  - do we need to check to see if the named type already exists???
-//  - create the new masl type as a udt.  The udt will be tied to a S_DT, whose core type is MASLtype (ba5eda7a-def5-0000-0000-000000000011)
+	'// TODO - What special handling is needed in the case that we already saw a typeref and created the s_dt.  Are we now getting a full "definition"
+//   of the type with info that must be added to the s_dt?
+ 
+// If the type visibility is public, put it in the system level types package, if private, put it inside the component
+types_pkg = self.systypes_pkg;
 
-// Get the "types" package in this component
-current_component = self.current_component;
-select any types_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "types");
+if ( "private" == param.visibility )
+  // Get the "types" package in this component
+  current_component = self.current_component;
+  select any types_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "types");
 
-// Create the types package if it doesn''t already exist
-if ( empty types_pkg )
-  types_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"types");
+  // Create the types package if it doesn''t already exist
+  if ( empty types_pkg )
+    types_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"types");
+  end if;
 end if;
 
 // See if type already exists
@@ -1261,7 +1320,7 @@ if ( "public" == param.visibility )
   
   // d
   select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
-  spr_po.Action_Semantics = "::" + param.name + "();";
+  // TODO - this isn''t working yet. - spr_po.Action_Semantics = "::" + param.name + "();";
 end if;
 ',
 	1,
@@ -1408,21 +1467,10 @@ INSERT INTO O_TFR
 select one clazz related by o_tfr->O_OBJ[R115];
 self.ModelClass_addOperationToOrdering(o_obj: clazz, newTfr:o_tfr);
 
-/* TODO - we need to figure out how to set the return type to void
-  // Owning Class is in a package . . . 
-  select one system related by o_tfr->O_OBJ[R115]->PE_PE[R8001]->
-                                                    EP_PKG[R8000]->S_SYS[R1405];
-  if not_empty system
-    dt_id = system.getCoreTypeId(name:"void");
-    select any pe from instances of PE_PE where selected.Element_ID == dt_id;
-    select one def_dt related by pe->S_DT[R8001];
-    relate o_tfr to def_dt across R116;
-  else
-    // this is an error, if the system is not
-    // found we cannot find the core type
-    USER::logError(msg:"Unable to locate system root for data type: void",path:"");
-  end if;
-*/
+// Since this operation handles both functions and services, and services have void return types, we default to void here.
+systypes_pkg = self.systypes_pkg;
+select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
+relate o_tfr to def_dt across R116;
 
 o_tfr.Name = param.name;
 o_tfr.Instance_Based = Scope::Instance;
@@ -1544,9 +1592,10 @@ select one packageableElem related by s_sync->PE_PE[R8001];
 select one package related by packageableElem->EP_PKG[R8000];
 select one component related by packageableElem->C_C[R8003];
 
-// TODO - removed a big block of code that set the default return type to void.  Do we need something like this put back
-//   in?  Since this operation handles both functions and services, and services have void return types, I don''t think we can
-//   expect to always get a return type on the MASLDSL interface and thus, we need to add code to default to void here.
+// Since this operation handles both functions and services, and services have void return types, we default to void here.
+systypes_pkg = self.systypes_pkg;
+select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
+relate s_sync to def_dt across R25;
 
 s_sync.Name = param.name;
 s_sync.Suc_Pars = ParseStatus::parseInitial;
@@ -1892,14 +1941,9 @@ select one component related by packageableElem->C_C[R8003];
 select one interface related by c_io->C_EP[R4004]->C_I[R4003];
 self.Interface_addInterfaceOperationToOrder(c_i:interface, c_io:c_io); // OOA - interface.addInterfaceOperationToOrder(id:c_io.Id);
 
-// TODO - need to set the default return type
-  /*def_dt_id = GD::NULL_UNIQUE_ID();
-  if not_empty system
-    def_dt_id = system.getCoreTypeId(name:"void");
-  end if;
-  select any pe from instances of PE_PE where selected.Element_ID == def_dt_id;
-  select one def_dt related by pe->S_DT[R8001]; 
-  relate c_io to def_dt across R4008;*/
+systypes_pkg = self.systypes_pkg;
+select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
+relate c_io to def_dt across R4008;
 
 c_io.Name = param.name;
 c_io.Direction = IFDirectionType::ServerClient;  // Note: in MASL convert we just always default the direction.
@@ -2036,6 +2080,45 @@ INSERT INTO O_TPARM
 	'',
 	"3f0a949c-ae5b-44f0-ba87-4ca67b763463",
 	'');
+INSERT INTO O_TFR
+	VALUES ("4b15fc81-c210-44f8-9c04-0c7b1bf99672",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Attribute_addToIdentifier',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_attr = param.o_attr;
+
+select any oid related by o_attr->O_OBJ[R102]->O_ID[R104]
+     where selected.Oid_ID == param.oid;
+create object instance oida of O_OIDA;
+relate o_attr to oid across R105 using oida;
+// TODO SKB - leaving out for now, will need to add back in
+//select many rto_set related by oid->R_RTO[R109];
+//for each rto in rto_set
+//  rto.addAttributeToIdentifier( attr_id: self.Attr_ID );
+//end for;',
+	1,
+	'',
+	"4ff26a31-e07b-4af1-8221-5dc73754ca14");
+INSERT INTO O_TPARM
+	VALUES ("cb2ae4c9-5b59-44e2-91e3-8383b7e048cb",
+	"4b15fc81-c210-44f8-9c04-0c7b1bf99672",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("19dae9c8-49d2-41cf-8ccd-4d0428fa168f",
+	"4b15fc81-c210-44f8-9c04-0c7b1bf99672",
+	'oid',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"cb2ae4c9-5b59-44e2-91e3-8383b7e048cb",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -2045,7 +2128,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"a87535cf-69f9-40c1-89b7-ec610331473e",
+	"905dcf80-14b6-447f-a4a5-f1373afcb527",
 	'wiring_pkg',
 	'',
 	'',
@@ -2063,7 +2146,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
+	"a87535cf-69f9-40c1-89b7-ec610331473e",
 	'lib_pkg',
 	'',
 	'',
@@ -2135,7 +2218,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("6139bb3c-17ee-4d48-8ec9-bc73c62c2715",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"d14202df-9ea9-4589-a309-406b4ed0b070",
+	"f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
 	'current_attribute',
 	'',
 	'',
@@ -2160,6 +2243,42 @@ INSERT INTO O_ATTR
 	'current_class_op',
 	0,
 	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("905dcf80-14b6-447f-a4a5-f1373afcb527",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("905dcf80-14b6-447f-a4a5-f1373afcb527",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("905dcf80-14b6-447f-a4a5-f1373afcb527",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"d14202df-9ea9-4589-a309-406b4ed0b070",
+	'systypes_pkg',
+	'',
+	'',
+	'systypes_pkg',
+	0,
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"619f4747-9795-4d99-a5ac-563d99ffbda4",
+	'processingIdentifier',
+	'',
+	'',
+	'processingIdentifier',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID

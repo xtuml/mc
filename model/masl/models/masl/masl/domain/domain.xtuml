@@ -128,6 +128,21 @@ return (
 ',
 	1,
 	'',
+	"e6bc5a45-5a39-4d36-8cfb-9189cb568011");
+INSERT INTO O_TFR
+	VALUES ("e6bc5a45-5a39-4d36-8cfb-9189cb568011",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+value[0] = self.name;
+out::tostring( element:"domain", value:value );
+out::tostring( element:"domain", value:emptyvalue );',
+	1,
+	'',
 	"0d6eab48-8a19-474c-a54c-d16da938995b");
 INSERT INTO O_NBATTR
 	VALUES ("4fc1a43d-5822-49e1-b600-7ff700768a17",
