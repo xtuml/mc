@@ -48,14 +48,22 @@ INSERT INTO O_TFR
 	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	0,
 	'parent_object = param.object;
-select any parent_domain from instances of domain where false;
-select any parent_terminator from instances of terminator where false;
 
-activity = activity::populate( name:param.name, parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+select any activity related by parent_object->activity[R3747]->state[R3704]->activity[R3704] where ( selected.name == param.name );
+select one state related by activity->state[R3704];
+if ( empty activity )
 
-create object instance state of state;
+  select any parent_domain from instances of domain where false;
+  select any parent_terminator from instances of terminator where false;
+
+  activity = activity::populate( name:param.name, parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+
+  create object instance state of state;
+  relate state to activity across R3704;
+
+end if;
+
 state.type = param.type;
-relate state to activity across R3704;
 
 return activity;',
 	1,
