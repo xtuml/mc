@@ -865,7 +865,7 @@ for each sm_state in sm_states
     else
       select one sm_eign related by sm_seme->SM_EIGN[R504];
       if ( not_empty sm_eign )
-        value[2] = "ignore";
+        value[2] = "Ignore";
       else
         select one sm_ch related by sm_seme->SM_CH[R504];
         if ( not_empty sm_ch )
@@ -1089,7 +1089,7 @@ INSERT INTO S_SYNC
 	'',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
-	3,
+	1,
 	'');
 INSERT INTO S_SPARM
 	VALUES ("82f62d53-ef7e-4045-a8b7-e0fd0eeceec7",
@@ -1120,7 +1120,7 @@ INSERT INTO S_SYNC
 	'',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
-	3,
+	1,
 	'');
 INSERT INTO S_SPARM
 	VALUES ("cf4ea895-58ef-476c-837b-8dfa3a918c5a",
