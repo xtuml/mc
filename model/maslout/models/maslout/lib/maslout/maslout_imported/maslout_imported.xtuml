@@ -242,7 +242,15 @@ for each c_ep in c_eps
   value[0] = "public"; // Messages turn into public services.
   value[1] = c_ep.Name;
   out::populate( element:element, value:value );
-  ::parameterC_PP2parameter( c_ep:c_ep );
+  
+  select any c_pp related by c_ep->C_PP[R4006];
+  first_c_pp = c_pp;
+  while ( not_empty c_pp )
+    first_c_pp = c_pp;
+    select one c_pp related by c_pp->C_PP[R4021.''precedes''];
+  end while;
+  ::parameterC_PP2parameter( c_pp:first_c_pp );
+  
   out::populate( element:element, value:emptyvalue );
   
 end for;
@@ -280,25 +288,16 @@ INSERT INTO S_SYNC
 	'value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
-c_ep = param.c_ep;
-select any c_pp related by c_ep->C_PP[R4006];
-first_c_pp = c_pp;
-while ( not_empty c_pp )
-  first_c_pp = c_pp;
-  select one c_pp related by c_pp->C_PP[R4021.''precedes''];
-end while;
-previous = "";
-c_pp = first_c_pp;
-while ( not_empty c_pp )
-  // CDS model and pass correct type reference
-  // CDS model and pass correct direction
-  //parameter = parameter::populate( name:c_pp.Name, type:"mytype", direction:directiontype::in, activity:activity, previous_parameter:parameter );
+c_pp = param.c_pp;
+if ( not_empty c_pp )
   value[0] = c_pp.Name;
-  value[1] = "in";
+  value[1] = "in"; // CDS model and pass correct direction
   out::populate( element:"parameter", value:value );
-  out::populate( element:"parameter", value:emptyvalue );
+  // CDS model and pass correct type reference
   select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
-end while;
+  ::parameterC_PP2parameter( c_pp:c_pp );
+  out::populate( element:"parameter", value:emptyvalue );
+end if;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -306,16 +305,16 @@ end while;
 INSERT INTO S_SPARM
 	VALUES ("a476bde7-fb21-4a1f-b22b-46b5fe763364",
 	"dce601c3-b3f2-4e01-8fbd-cb588f25eb5b",
-	'c_ep',
-	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("5441230d-b4d6-495f-9e87-84acf5819d26",
+	VALUES ("4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Executable Property>',
+	'inst_ref<Property Parameter>',
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
@@ -342,8 +341,23 @@ for each o_obj in o_objs
   // Link the attributes to each object.
   ::attribute2attribute( c_c:c_c, o_obj:o_obj );
   
-  // Set up the identifiers for the 
+  // Set up the identifiers for this object.
   ::identifier2identifier( o_obj:o_obj );
+  
+  select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
+  if ( not_empty sm_sm )
+    // blank type is normal
+    ::state2state( sm_sm:sm_sm, type:"" );
+    ::event2event( sm_sm:sm_sm, type:"" );
+    ::statemachine2statemachine( sm_sm:sm_sm, type:"" );
+  end if;
+  
+  select one sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517];
+  if ( not_empty sm_sm )
+    ::state2state( sm_sm:sm_sm, type:"assigner" );
+    ::event2event( sm_sm:sm_sm, type:"assigner" );
+    ::statemachine2statemachine( sm_sm:sm_sm, type:"assigner" );
+  end if;
   
   out::populate( element:"object", value:emptyvalue );
 end for;
@@ -544,12 +558,14 @@ for each r_rel in r_rels
     select one o_obj related by r_assoc->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
     value[1] = o_obj.Name;
     out::populate( element:"associative", value:value );
+    ::associative2associative( r_assoc:r_assoc );
     out::populate( element:"associative", value:emptyvalue );
   end if;
   
   select one r_subsup related by r_rel->R_SUBSUP[R206];
   if ( not_empty r_subsup )
     out::populate( element:"subsuper", value:value );
+    ::subsuper2subsuper( r_subsup:r_subsup );
     out::populate( element:"subsuper", value:emptyvalue );
   end if;
 end for;
@@ -722,17 +738,25 @@ for each s_sync in s_syncs
   value[2] = ""; // not instance
   value[3] = ""; // not deferred
   
+  // Get the first parameter.
+  select any s_sparm related by s_sync->S_SPARM[R24];
+  first_s_sparm = s_sparm;
+  while ( not_empty s_sparm )
+    first_s_sparm = s_sparm;
+    select one s_sparm related by s_sparm->S_SPARM[R54.''precedes''];
+  end while;
+  
   // find return type if exists
   select one s_dt related by s_sync->S_DT[R25];
   returntype = "";
   if ( empty s_dt )
     out::populate( element:"service", value:value );
-    ::parameterS_SPARM2parameter( s_sync:s_sync );
+    ::parameterS_SPARM2parameter( s_sparm:first_s_sparm );
     // CDS - typeref goes here
     out::populate( element:"service", value:emptyvalue );
   else
     out::populate( element:"function", value:value );
-    ::parameterS_SPARM2parameter( s_sync:s_sync );
+    ::parameterS_SPARM2parameter( s_sparm:first_s_sparm );
     out::populate( element:"function", value:emptyvalue );
   end if;
   
@@ -766,28 +790,356 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'parameterS_SPARM2parameter',
 	'',
-	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+s_sparm = param.s_sparm;
+if ( not_empty s_sparm )
+  value[0] = s_sparm.Name;
+  value[1] = "in"; // CDS model and pass correct direction
+  out::populate( element:"parameter", value:value );
+  // CDS model and pass correct type reference
+  select one s_sparm related by s_sparm->S_SPARM[R54.''succeeds''];
+  ::parameterS_SPARM2parameter( s_sparm:s_sparm );
+  out::populate( element:"parameter", value:emptyvalue );
+end if;
+',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
 INSERT INTO S_SPARM
 	VALUES ("60fb8b97-7f20-4095-b943-e08c3a8e2e31",
 	"be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
-	's_sync',
-	"60690409-5a69-45db-896b-5a63a9103c18",
+	's_sparm',
+	"a01a1995-8ff8-44fe-abb1-b11213d98016",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("60690409-5a69-45db-896b-5a63a9103c18",
+	VALUES ("a01a1995-8ff8-44fe-abb1-b11213d98016",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Function>',
+	'inst_ref<Function Parameter>',
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
 INSERT INTO PE_PE
 	VALUES ("be1ccb4a-cb4a-474d-b0b2-ed38f9f68441",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("78002803-6c30-4367-95a3-30a4b7969a69",
+	"00000000-0000-0000-0000-000000000000",
+	'statemachine2statemachine',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+sm_sm = param.sm_sm;
+value[0] = param.type;
+out::populate( element:"transitiontable", value:value );
+
+// Get all the transitions starting with "non_existent" state.
+select many sm_crtxns related by sm_sm->SM_TXN[R505]->SM_CRTXN[R507];
+value[0] = "non_existent";
+for each sm_crtxn in sm_crtxns
+  select one sm_evt related by sm_crtxn->SM_LEVT[R509]->SM_SEVT[R526]->SM_EVT[R525];
+  value[1] = sm_evt.Mning;
+  select one sm_state related by sm_crtxn->SM_TXN[R507]->SM_STATE[R506];
+  value[2] = sm_state.Name;
+end for;
+select many sm_states related by sm_sm->SM_STATE[R501];
+for each sm_state in sm_states
+  value[0] = sm_state.Name;
+  value[1] = "";
+  value[2] = "";
+  select many sm_semes related by sm_state->SM_SEME[R503]; 
+  for each sm_seme in sm_semes
+    select one sm_evt related by sm_seme->SM_SEVT[R503]->SM_EVT[R525];
+    value[1] = sm_evt.Mning;
+    select one next_sm_state related by sm_seme->SM_NSTXN[R504]->SM_TXN[R507]->SM_STATE[R506];
+    if ( not_empty next_sm_state )
+      value[2] = next_sm_state.Name;
+    else
+      select one sm_eign related by sm_seme->SM_EIGN[R504];
+      if ( not_empty sm_eign )
+        value[2] = "ignore";
+      else
+        select one sm_ch related by sm_seme->SM_CH[R504];
+        if ( not_empty sm_ch )
+          value[2] = "cannot_happen";
+        else
+          TRACE::log( flavor:"failure", id:102, message:"invalid state machine" );
+        end if;
+      end if;
+    end if;
+    out::populate( element:"transition", value:value );
+    out::populate( element:"transition", value:emptyvalue );
+  end for;
+end for;
+
+out::populate( element:"transitiontable", value:emptyvalue );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5276c784-1f5f-4e92-a593-1c486c8cf8af",
+	"78002803-6c30-4367-95a3-30a4b7969a69",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f6562655-0940-4f4f-a1ae-7094b79949a7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("3072f139-aa6e-4401-8f4d-6ab4cfd561fe",
+	"78002803-6c30-4367-95a3-30a4b7969a69",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"5276c784-1f5f-4e92-a593-1c486c8cf8af",
+	'');
+INSERT INTO PE_PE
+	VALUES ("78002803-6c30-4367-95a3-30a4b7969a69",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7b593c09-c6aa-4291-b5ae-af8401687cb2",
+	"00000000-0000-0000-0000-000000000000",
+	'event2event',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+sm_sm = param.sm_sm;
+select many sm_evts related by sm_sm->SM_EVT[R502];
+for each sm_evt in sm_evts
+  value[0] = sm_evt.Mning;
+  value[1] = param.type;
+  out::populate( element:"event", value:value );
+  
+  // Get first parameter.
+  select any sm_evtdi related by sm_evt->SM_EVTDI[R532];
+  first_sm_evtdi = sm_evtdi;
+  while ( not_empty sm_evtdi )
+    first_sm_evtdi = sm_evtdi;
+    select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
+  end while;
+  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
+  
+  out::populate( element:"event", value:emptyvalue );
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9d4415e3-ad34-4d40-883c-8f8647a5f282",
+	"7b593c09-c6aa-4291-b5ae-af8401687cb2",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7d621c7d-0fca-4ab6-9aa2-647b9c85918e",
+	"7b593c09-c6aa-4291-b5ae-af8401687cb2",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9d4415e3-ad34-4d40-883c-8f8647a5f282",
+	'');
+INSERT INTO PE_PE
+	VALUES ("7b593c09-c6aa-4291-b5ae-af8401687cb2",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b22bbb4b-d763-4757-840e-44c5ac1216bd",
+	"00000000-0000-0000-0000-000000000000",
+	'state2state',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+sm_sm = param.sm_sm;
+select many sm_states related by sm_sm->SM_STATE[R501];
+select any sm_state related by sm_sm->SM_STATE[R501];
+lowest = sm_state.Numb; // any random state number
+
+if ( "assigner" == param.type )
+  // Find the lowest numbered state to be ASSIGNER START.
+  for each sm_state in sm_states
+    if ( sm_state.Numb < lowest )
+      lowest = sm_state.Numb;
+    end if;
+  end for;
+end if;
+
+for each sm_state in sm_states
+  value[0] = sm_state.Name;
+  value[1] = param.type;
+  if ( ( "assigner" == param.type ) and ( lowest == sm_state.Numb ) )
+    value[1] = value[1] + " start";
+  end if;
+  out::populate( element:"state", value:value );
+
+  // MASL states declare their parameter signatures.
+  // Traverse to any event transitioning to this state and use its parameters.
+  select any sm_evtdi related by sm_state->SM_TXN[R506]->SM_NSTXN[R507]->SM_SEME[R504]->SM_SEVT[R503]->SM_EVT[R525]->SM_EVTDI[R532];
+  // Get first parameter.
+  first_sm_evtdi = sm_evtdi;
+  while ( not_empty sm_evtdi )
+    first_sm_evtdi = sm_evtdi;
+    select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
+  end while;
+  ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
+  
+  out::populate( element:"state", value:emptyvalue );
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("39e07600-0fc3-4419-bea9-f719b03957e9",
+	"b22bbb4b-d763-4757-840e-44c5ac1216bd",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b4d96123-4ced-4577-9028-1ae0b33e681d",
+	"b22bbb4b-d763-4757-840e-44c5ac1216bd",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"39e07600-0fc3-4419-bea9-f719b03957e9",
+	'');
+INSERT INTO PE_PE
+	VALUES ("b22bbb4b-d763-4757-840e-44c5ac1216bd",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("45112864-29c1-4db8-9cd5-3121f843a9ff",
+	"00000000-0000-0000-0000-000000000000",
+	'parameterSM_EVTDI2parameter',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+sm_evtdi = param.sm_evtdi;
+if ( not_empty sm_evtdi )
+  value[0] = sm_evtdi.Name;
+  value[1] = "in"; // CDS model and pass correct direction
+  out::populate( element:"parameter", value:value );
+  // CDS model and pass correct type reference
+  select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
+  ::parameterSM_EVTDI2parameter( sm_evtdi:sm_evtdi );
+  out::populate( element:"parameter", value:emptyvalue );
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3cc94496-ce2a-4ae7-a208-d9eb28187713",
+	"45112864-29c1-4db8-9cd5-3121f843a9ff",
+	'sm_evtdi',
+	"9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9067a5b1-aa5d-499a-b13e-9bde5fc3e2cd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine Event Data Item>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO PE_PE
+	VALUES ("45112864-29c1-4db8-9cd5-3121f843a9ff",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4202b26a-3a0c-4d52-93bc-ac44e489e824",
+	"00000000-0000-0000-0000-000000000000",
+	'associative2associative',
+	'',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	3,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("82f62d53-ef7e-4045-a8b7-e0fd0eeceec7",
+	"4202b26a-3a0c-4d52-93bc-ac44e489e824",
+	'r_assoc',
+	"7f02c6dd-ea5d-4892-801e-a1515764350f",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7f02c6dd-ea5d-4892-801e-a1515764350f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Linked Association>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4202b26a-3a0c-4d52-93bc-ac44e489e824",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("470c92fd-02d6-42c6-89f5-2309dd2c79e0",
+	"00000000-0000-0000-0000-000000000000",
+	'subsuper2subsuper',
+	'',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	3,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cf4ea895-58ef-476c-837b-8dfa3a918c5a",
+	"470c92fd-02d6-42c6-89f5-2309dd2c79e0",
+	'r_subsup',
+	"8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("8f3b0ab8-e566-4e03-9159-7047140c04a7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Subtype Supertype Association>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO PE_PE
+	VALUES ("470c92fd-02d6-42c6-89f5-2309dd2c79e0",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
