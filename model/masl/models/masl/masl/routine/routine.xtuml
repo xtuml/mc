@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("669c9e5d-eb78-45b7-866e-089542dfb839",
-	'service',
+	'routine',
 	3704,
-	'service',
+	'routine',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -17,18 +17,18 @@ INSERT INTO O_TFR
 	'parent_domain = param.parent_domain;
 parent_terminator = param.parent_terminator;
 activity = activity::populate( name:param.name );
-create object instance service of service;
-service.visibility = param.visibility;
-// TODO deal with deferred service
+create object instance routine of routine;
+routine.visibility = param.visibility;
+// TODO deal with deferred routine
 if ( not_empty parent_terminator )
-  relate service to parent_terminator across R3791;
+  relate routine to parent_terminator across R3791;
 elif ( not_empty parent_domain )
-  relate service to parent_domain across R3790;
+  relate routine to parent_domain across R3790;
 end if;
-relate service to activity across R3704;
-markable = markable::populate( name:"service" );
+relate routine to activity across R3704;
+markable = markable::populate( name:"routine" );
 relate activity to markable across R3783;
-return service;',
+return routine;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -85,7 +85,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO S_DT_PROXY
 	VALUES ("84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<service>',
+	'inst_ref<routine>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -134,11 +134,11 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'valid = true;
-select many services from instances of service;
-for each service in services;
-  select one activity related by service->activity[R3704];
+select many routines from instances of routine;
+for each routine in routines;
+  select one activity related by routine->activity[R3704];
   if ( empty activity )
-    TRACE::log( flavor:"failure", id:10, message:"service has no parent activity." );
+    TRACE::log( flavor:"failure", id:10, message:"routine has no parent activity." );
     valid = false;
   end if;
 end for;

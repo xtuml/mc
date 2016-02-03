@@ -394,7 +394,7 @@ INSERT INTO GD_GE
 	"669c9e5d-eb78-45b7-866e-089542dfb839",
 	21,
 	0,
-	'masl::masl::service');
+	'masl::masl::routine');
 INSERT INTO GD_SHP
 	VALUES ("97b89194-3739-4d7b-9b6e-f2f3966e0fbb");
 INSERT INTO GD_NCS
@@ -660,7 +660,7 @@ INSERT INTO GD_GE
 	"1a981768-eb78-49c8-8429-82c87bedf09b",
 	35,
 	0,
-	'masl::masl::R3704::service');
+	'masl::masl::R3704::routine');
 INSERT INTO GD_CON
 	VALUES ("4d5db1a1-cea4-4feb-9897-e1f2a00995aa",
 	"00000000-0000-0000-0000-000000000000");
@@ -6339,7 +6339,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<service>',
+	'inst_ref<routine>',
 	'',
 	'');
 INSERT INTO S_IRDT
@@ -6348,12 +6348,12 @@ INSERT INTO S_IRDT
 	"669c9e5d-eb78-45b7-866e-089542dfb839");
 INSERT INTO O_OBJ_PROXY
 	VALUES ("669c9e5d-eb78-45b7-866e-089542dfb839",
-	'service',
+	'routine',
 	3704,
-	'service',
+	'routine',
 	'',
 	"00000000-0000-0000-0000-000000000000",
-	'./service/service.xtuml');
+	'./routine/routine.xtuml');
 INSERT INTO PE_PE
 	VALUES ("84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
 	1,
@@ -6363,7 +6363,7 @@ INSERT INTO PE_PE
 INSERT INTO S_DT
 	VALUES ("0ecf14cf-1f18-401d-b171-e8bc86eb5e12",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref_set<service>',
+	'inst_ref_set<routine>',
 	'',
 	'');
 INSERT INTO S_IRDT

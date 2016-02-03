@@ -83,8 +83,8 @@ select many terminators related by self->terminator[R3702.''sends through''];
 for each terminator in terminators
   terminator.render();
 end for;
-select many service_activities related by self->service[R3790.''provides'']->activity[R3704];
-for each activity in service_activities
+select many routine_activities related by self->routine[R3790.''provides'']->activity[R3704];
+for each activity in routine_activities
   activity.render();
 end for;
 select many relationships related by self->relationship[R3712];

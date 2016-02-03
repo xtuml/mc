@@ -82,7 +82,7 @@ elif ( "terminator" == element )
     terminator = terminator::populate( name:value[0], domain:parent_domain );
     select one new_element related by terminator->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
-elif ( "service" == element )
+elif ( "routine" == element )
 	select one parent_domain related by population->element[R3784.''has current'']->markable[R3786]->domain[R3783];
 	select one parent_terminator related by population->element[R3784.''has current'']->markable[R3786]->terminator[R3783];
 
@@ -91,8 +91,8 @@ elif ( "service" == element )
 	  population.stack_trace();
 	end if;
 
-    service = service::populate( visibility:value[0], name:value[1], parent_domain:parent_domain, parent_terminator:parent_terminator );
-    select one new_element related by service->activity[R3704]->markable[R3783]->element[R3786];
+    routine = routine::populate( visibility:value[0], name:value[1], parent_domain:parent_domain, parent_terminator:parent_terminator );
+    select one new_element related by routine->activity[R3704]->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "operation" == element )
 	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];
@@ -244,17 +244,17 @@ elif ( "referential" == element )
     referential::populate( relationship:relationship, referring:parent_attribute, referred_to:referred_to, rolephrase:rolephrase );
     // referential is a leaf node and does not get pushed onto the current element stack
 elif ( "typeref" == element )
-	select one parent_service related by population->element[R3784.''has current'']->markable[R3786]->activity[R3783]->service[R3704];
+	select one parent_routine related by population->element[R3784.''has current'']->markable[R3786]->activity[R3783]->routine[R3704];
 	select one parent_operation related by population->element[R3784.''has current'']->markable[R3786]->activity[R3783]->operation[R3704];
 	select one parent_parameter related by population->element[R3784.''has current'']->unmarkable[R3786]->parameter[R3788];
 	select one parent_attribute related by population->element[R3784.''has current'']->markable[R3786]->attribute[R3783];
 
-	if ( empty parent_service and empty parent_operation and empty parent_parameter and empty parent_attribute )
+	if ( empty parent_routine and empty parent_operation and empty parent_parameter and empty parent_attribute )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
 	  population.stack_trace();
 	end if;
 	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
-    typeref::populate( name:"", body:value[0], domain:parent_domain, parent_parameter:parent_parameter, parent_operation:parent_operation, parent_attribute:parent_attribute, parent_service:parent_service );
+    typeref::populate( name:"", body:value[0], domain:parent_domain, parent_parameter:parent_parameter, parent_operation:parent_operation, parent_attribute:parent_attribute, parent_routine:parent_routine );
     // typeref is a leaf node and does not get pushed onto the current element stack
 elif ( "transitiontable" == element )
 	select one parent_object related by population->element[R3784.''has current'']->markable[R3786]->object[R3783];

@@ -182,8 +182,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     /* population.push_element( new_element:new_element ) */
     masl_population_op_push_element( population,  new_element );
   }
-  else if ( ( Escher_strcmp( "service", element ) == 0 ) ) {
-    masl_service * service;masl_element * new_element=0;masl_terminator * parent_terminator=0;masl_domain * parent_domain=0;
+  else if ( ( Escher_strcmp( "routine", element ) == 0 ) ) {
+    masl_routine * routine;masl_element * new_element=0;masl_terminator * parent_terminator=0;masl_domain * parent_domain=0;
     /* SELECT one parent_domain RELATED BY population->element[R3784.has current]->markable[R3786]->domain[R3783] */
     parent_domain = 0;
     {    if ( 0 != population ) {
@@ -209,12 +209,12 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
-    /* ASSIGN service = service::populate(name:value[1], parent_domain:parent_domain, parent_terminator:parent_terminator, visibility:value[0]) */
-    service = masl_service_op_populate(value[1], parent_domain, parent_terminator, value[0]);
-    /* SELECT one new_element RELATED BY service->activity[R3704]->markable[R3783]->element[R3786] */
+    /* ASSIGN routine = routine::populate(name:value[1], parent_domain:parent_domain, parent_terminator:parent_terminator, visibility:value[0]) */
+    routine = masl_routine_op_populate(value[1], parent_domain, parent_terminator, value[0]);
+    /* SELECT one new_element RELATED BY routine->activity[R3704]->markable[R3783]->element[R3786] */
     new_element = 0;
-    {    if ( 0 != service ) {
-    masl_activity * activity_R3704 = service->activity_R3704;
+    {    if ( 0 != routine ) {
+    masl_activity * activity_R3704 = routine->activity_R3704;
     if ( 0 != activity_R3704 ) {
     masl_markable * markable_R3783 = activity_R3704->markable_R3783;
     if ( 0 != markable_R3783 ) {
@@ -613,9 +613,9 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     masl_referential_op_populate( referred_to, parent_attribute, relationship, rolephrase );
   }
   else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
-    masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_parameter * parent_parameter=0;masl_operation * parent_operation=0;masl_service * parent_service=0;
-    /* SELECT one parent_service RELATED BY population->element[R3784.has current]->markable[R3786]->activity[R3783]->service[R3704] */
-    parent_service = 0;
+    masl_domain * parent_domain=0;masl_attribute * parent_attribute=0;masl_parameter * parent_parameter=0;masl_operation * parent_operation=0;masl_routine * parent_routine=0;
+    /* SELECT one parent_routine RELATED BY population->element[R3784.has current]->markable[R3786]->activity[R3783]->routine[R3704] */
+    parent_routine = 0;
     {    if ( 0 != population ) {
     masl_element * element_R3784_has_current = population->element_R3784_has_current;
     if ( 0 != element_R3784_has_current ) {
@@ -623,7 +623,7 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     masl_activity * R3783_subtype = (masl_activity *) R3786_subtype->R3783_subtype;
     if ( 0 != R3783_subtype )    if ( ( 0 != R3786_subtype ) && ( masl_activity_CLASS_NUMBER == R3786_subtype->R3783_object_id ) ) {
-    if ( ( 0 != R3783_subtype ) && ( masl_service_CLASS_NUMBER == R3783_subtype->R3704_object_id ) )    parent_service = (masl_service *) R3783_subtype->R3704_subtype;
+    if ( ( 0 != R3783_subtype ) && ( masl_routine_CLASS_NUMBER == R3783_subtype->R3704_object_id ) )    parent_routine = (masl_routine *) R3783_subtype->R3704_subtype;
 }}}}}
     /* SELECT one parent_operation RELATED BY population->element[R3784.has current]->markable[R3786]->activity[R3783]->operation[R3704] */
     parent_operation = 0;
@@ -654,8 +654,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_attribute_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_attribute = (masl_attribute *) R3786_subtype->R3783_subtype;
 }}}}
-    /* IF ( ( ( ( empty parent_service and empty parent_operation ) and empty parent_parameter ) and empty parent_attribute ) ) */
-    if ( ( ( ( ( 0 == parent_service ) && ( 0 == parent_operation ) ) && ( 0 == parent_parameter ) ) && ( 0 == parent_attribute ) ) ) {
+    /* IF ( ( ( ( empty parent_routine and empty parent_operation ) and empty parent_parameter ) and empty parent_attribute ) ) */
+    if ( ( ( ( ( 0 == parent_routine ) && ( 0 == parent_operation ) ) && ( 0 == parent_parameter ) ) && ( 0 == parent_attribute ) ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
       TRACE_log( "failure", 83, Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( Escher_stradd( "no parent element for: [ ", element ), ", " ), value[0] ), ", " ), value[1] ), ", " ), value[2] ), ", " ), value[3] ), ", " ), value[4] ), ", " ), value[5] ), ", " ), value[6] ), ", " ), value[7] ), " ]" ) );
       /* population.stack_trace() */
@@ -672,8 +672,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3789_has_active ) && ( masl_markable_CLASS_NUMBER == element_R3789_has_active->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_domain_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_domain = (masl_domain *) R3786_subtype->R3783_subtype;
 }}}}
-    /* typeref::populate( body:value[0], domain:parent_domain, name:, parent_attribute:parent_attribute, parent_operation:parent_operation, parent_parameter:parent_parameter, parent_service:parent_service ) */
-    masl_typeref_op_populate( value[0], parent_domain, "", parent_attribute, parent_operation, parent_parameter, parent_service );
+    /* typeref::populate( body:value[0], domain:parent_domain, name:, parent_attribute:parent_attribute, parent_operation:parent_operation, parent_parameter:parent_parameter, parent_routine:parent_routine ) */
+    masl_typeref_op_populate( value[0], parent_domain, "", parent_attribute, parent_operation, parent_parameter, parent_routine );
   }
   else if ( ( Escher_strcmp( "transitiontable", element ) == 0 ) ) {
     masl_state_machine * state_machine;masl_element * new_element=0;masl_object * parent_object=0;

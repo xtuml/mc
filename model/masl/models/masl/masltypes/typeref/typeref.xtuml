@@ -39,15 +39,15 @@ end if;
 parent_parameter = param.parent_parameter;
 parent_operation = param.parent_operation;
 parent_attribute = param.parent_attribute;
-parent_service = param.parent_service;
+parent_routine = param.parent_routine;
 if ( not_empty parent_parameter )
   relate typeref to parent_parameter across R3742;
 elif ( not_empty parent_operation )
   relate typeref to parent_operation across R3741;
 elif ( not_empty parent_attribute )
   relate typeref to parent_attribute across R3717;
-elif ( not_empty parent_service )
-  relate typeref to parent_service across R3792;
+elif ( not_empty parent_routine )
+  relate typeref to parent_routine across R3792;
 else
   TRACE::log( flavor:"failure", id:39, message:"no parent for typeref" );
 end if;',
@@ -139,7 +139,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO O_TPARM
 	VALUES ("ef630de3-69af-4b84-9882-d59da699d12e",
 	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
-	'parent_service',
+	'parent_routine',
 	"84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
 	0,
 	'',
@@ -148,7 +148,7 @@ INSERT INTO O_TPARM
 INSERT INTO S_DT_PROXY
 	VALUES ("84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<service>',
+	'inst_ref<routine>',
 	'',
 	'',
 	'../../masl/masl.xtuml');

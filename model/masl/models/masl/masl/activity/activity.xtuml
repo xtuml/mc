@@ -45,12 +45,12 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'select one operation related by self->operation[R3704];
-select one service related by self->service[R3704];
+select one routine related by self->routine[R3704];
 select one state related by self->state[R3704];
 if ( not_empty operation )
   operation.render( name:self.name );
-elif ( not_empty service )
-  service.render( name:self.name );
+elif ( not_empty routine )
+  routine.render( name:self.name );
 elif ( not_empty state )
   state.render( name:self.name );
 else
@@ -79,15 +79,15 @@ for each activity in activitys;
     valid = false;
   end if;
   select one function related by activity->function[R3704];
-  select one service related by activity->service[R3704];
-  if ( ( empty function ) and ( empty service ) )
-    TRACE::log( flavor:"failure", id:9, message:"activity has no child function or service." );
+  select one routine related by activity->routine[R3704];
+  if ( ( empty function ) and ( empty routine ) )
+    TRACE::log( flavor:"failure", id:9, message:"activity has no child function or routine." );
     valid = false;
   end if;
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and function::validate() and service::validate() and parameter::validate() );
+return ( valid and function::validate() and routine::validate() and parameter::validate() );
 */
 return true;
 ',
