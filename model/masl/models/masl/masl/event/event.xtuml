@@ -41,12 +41,16 @@ INSERT INTO O_TFR
 	"10f010a5-972a-427c-a610-080e185e1082",
 	0,
 	'object = param.object;
-create object instance event of event;
-event.name = param.name;
+
+select any event related by object->event[R3736] where ( selected.name == param.name );
+if ( empty event );
+  create object instance event of event;
+  event.name = param.name;
+  relate event to object across R3736;
+  markable = markable::populate( name:"event" );
+  relate event to markable across R3783;
+end if;
 event.type = param.type;
-relate event to object across R3736;
-markable = markable::populate( name:"event" );
-relate event to markable across R3783;
 return event;',
 	1,
 	'',
