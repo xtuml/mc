@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("2a532900-c65a-4b9d-bc79-d836cdc84970",
-	'function',
+	'operation',
 	3705,
-	'function',
+	'operation',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -202,6 +202,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'instance',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8ea0da74-e6fc-4fc2-bba3-90c11f9991e8",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_BATTR
+	VALUES ("8ea0da74-e6fc-4fc2-bba3-90c11f9991e8",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_ATTR
+	VALUES ("8ea0da74-e6fc-4fc2-bba3-90c11f9991e8",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970",
+	"69fb8c4d-f075-4e02-90e0-44f80358a4fb",
+	'flavor',
+	'',
+	'',
+	'flavor',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
