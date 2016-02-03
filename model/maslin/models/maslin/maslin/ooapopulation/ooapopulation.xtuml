@@ -102,6 +102,7 @@ elif ( "typeref" == element )
     
     // TODO - Now that we created a typeref, create a switch statement that sets whatever element we''re currently processing to the type
     //   cases: attribute, s_sync/o_tfr/c_io return type, s_sync/o_tfr/c_io parameter, etc
+    //   - E.g. In ooaofooa see SetTypeOnO_ATTRAction.java O_ATTR_SetType(), need to figure out if there is an OAL function behind this, or just archetype.  Basically need to do the same work...
   end if;
 elif ( "function" == element )
   //  See if we''re processing inside a domain, object, or terminator.  Then call the appropriate conversion function.
@@ -668,7 +669,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
-	'',
+	'// TODO - populate this activity
+return false;',
 	1,
 	'',
 	"36fd6526-df46-4e49-a8b1-ee0bebdf9755");
@@ -2091,8 +2093,8 @@ select any oid related by o_attr->O_OBJ[R102]->O_ID[R104]
      where selected.Oid_ID == param.oid;
 create object instance oida of O_OIDA;
 relate o_attr to oid across R105 using oida;
-select many rto_set related by oid->R_RTO[R109];
 // TODO SKB - leaving out for now, will need to add back in
+//select many rto_set related by oid->R_RTO[R109];
 //for each rto in rto_set
 //  rto.addAttributeToIdentifier( attr_id: self.Attr_ID );
 //end for;',
