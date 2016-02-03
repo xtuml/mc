@@ -12,16 +12,23 @@ INSERT INTO O_TFR
 	"669c9e5d-eb78-45b7-866e-089542dfb839",
 	'populate',
 	'',
-	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	"84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
 	0,
-	'activity = activity::populate( name:param.name, parent_domain:param.parent_domain, parent_terminator:param.parent_terminator, parent_object:param.parent_object );
-
+	'parent_domain = param.parent_domain;
+parent_terminator = param.parent_terminator;
+activity = activity::populate( name:param.name );
 create object instance service of service;
 service.visibility = param.visibility;
-service.instance = param.instance;
 // TODO deal with deferred service
+if ( not_empty parent_terminator )
+  relate service to parent_terminator across R3791;
+elif ( not_empty parent_domain )
+  relate service to parent_domain across R3790;
+end if;
 relate service to activity across R3704;
-return activity;',
+markable = markable::populate( name:"service" );
+relate activity to markable across R3783;
+return service;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -44,31 +51,13 @@ INSERT INTO O_TPARM
 	"ca8187cf-a56b-4110-a85f-8c1927ffb12f",
 	'');
 INSERT INTO O_TPARM
-	VALUES ("c991c4c0-eb41-4a9a-8a06-1dfb31876798",
-	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
-	'instance',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"bde79d70-72b4-4487-8dd9-966cd7f8ddb8",
-	'');
-INSERT INTO O_TPARM
-	VALUES ("276edef5-6372-42e6-890b-8cffa87930c7",
-	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
-	'deferred_relationship',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"c991c4c0-eb41-4a9a-8a06-1dfb31876798",
-	'');
-INSERT INTO O_TPARM
 	VALUES ("e321632d-2048-45e6-86c7-36db4bceb004",
 	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
 	'parent_domain',
 	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
 	0,
 	'',
-	"276edef5-6372-42e6-890b-8cffa87930c7",
+	"bde79d70-72b4-4487-8dd9-966cd7f8ddb8",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
@@ -93,26 +82,10 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl.xtuml');
-INSERT INTO O_TPARM
-	VALUES ("6a6124d3-23bf-48b6-82cc-e938bc2a9d72",
-	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
-	'parent_object',
-	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
-	0,
-	'',
-	"d57f0ba4-8b3b-4d27-bd38-cf4c5b703b60",
-	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	VALUES ("84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<object>',
-	'',
-	'',
-	'../masl.xtuml');
-INSERT INTO S_DT_PROXY
-	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<activity>',
+	'inst_ref<service>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -125,12 +98,22 @@ INSERT INTO O_TFR
 	1,
 	'name = param.name;
 visibility = self.visibility;
-T::include( file:"masl/t.service_begin.masl" );
-select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-if ( not_empty parameter )
-  parameter.render();
-end if;
-T::include( file:"masl/t.service_end.masl" );',
+select one returntype related by self->typeref[R3792];
+if ( not_empty returntype )
+  T::include( file:"masl/t.function_begin.masl" );
+  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render();
+  end if;
+  T::include( file:"masl/t.function_end.masl" );
+else
+  T::include( file:"masl/t.service_begin.masl" );
+  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render();
+  end if;
+  T::include( file:"masl/t.service_end.masl" );
+end if;',
 	1,
 	'',
 	"b5d33493-0c68-42fd-90e7-2e4e5910aea9");
@@ -178,24 +161,6 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'visibility',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("f149781d-fa1f-4616-9805-5591426a02e2",
-	"669c9e5d-eb78-45b7-866e-089542dfb839");
-INSERT INTO O_BATTR
-	VALUES ("f149781d-fa1f-4616-9805-5591426a02e2",
-	"669c9e5d-eb78-45b7-866e-089542dfb839");
-INSERT INTO O_ATTR
-	VALUES ("f149781d-fa1f-4616-9805-5591426a02e2",
-	"669c9e5d-eb78-45b7-866e-089542dfb839",
-	"8aca0e9a-cee8-4a45-a146-5b9cd6bbe8af",
-	'flavor',
-	'',
-	'',
-	'flavor',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

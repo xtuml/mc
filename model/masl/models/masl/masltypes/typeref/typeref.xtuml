@@ -37,14 +37,17 @@ end if;
 
 // relate to parent
 parent_parameter = param.parent_parameter;
-parent_function = param.parent_function;
+parent_operation = param.parent_operation;
 parent_attribute = param.parent_attribute;
+parent_service = param.parent_service;
 if ( not_empty parent_parameter )
   relate typeref to parent_parameter across R3742;
-elif ( not_empty parent_function )
-  relate typeref to parent_function across R3741;
+elif ( not_empty parent_operation )
+  relate typeref to parent_operation across R3741;
 elif ( not_empty parent_attribute )
   relate typeref to parent_attribute across R3717;
+elif ( not_empty parent_service )
+  relate typeref to parent_service across R3792;
 else
   TRACE::log( flavor:"failure", id:39, message:"no parent for typeref" );
 end if;',
@@ -104,7 +107,7 @@ INSERT INTO S_DT_PROXY
 INSERT INTO O_TPARM
 	VALUES ("e0974db8-ff2c-47a1-b29e-f7d0815a2304",
 	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
-	'parent_function',
+	'parent_operation',
 	"1e5bcd4f-5fa3-4d29-b0f3-c585a35b6c90",
 	0,
 	'',
@@ -113,7 +116,7 @@ INSERT INTO O_TPARM
 INSERT INTO S_DT_PROXY
 	VALUES ("1e5bcd4f-5fa3-4d29-b0f3-c585a35b6c90",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<function>',
+	'inst_ref<operation>',
 	'',
 	'',
 	'../../masl/masl.xtuml');
@@ -130,6 +133,22 @@ INSERT INTO S_DT_PROXY
 	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<attribute>',
+	'',
+	'',
+	'../../masl/masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("ef630de3-69af-4b84-9882-d59da699d12e",
+	"d1a8515c-9f6b-45ce-a3db-9ffb0c2603d5",
+	'parent_service',
+	"84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
+	0,
+	'',
+	"339c7b67-52e6-448c-b673-9a8e36e265dc",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<service>',
 	'',
 	'',
 	'../../masl/masl.xtuml');
