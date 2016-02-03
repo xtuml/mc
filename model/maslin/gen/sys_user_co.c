@@ -75,33 +75,28 @@ UserPostOoaInitializationCalloutf( void )
   char * p, * q;
   int i, j;
   while ( ( p = fgets( s, 1024, stdin ) ) != NULL ) {
-      i = 0;
-      p[ strlen(p) - 1 ] = 0;
-      if ( ( q = strsep( &p, "," ) ) != NULL ) { strcpy( element, q ); }
+    i = 0;
+    p[ strlen(p) - 1 ] = 0;
+    if ( ( q = strsep( &p, "," ) ) != NULL ) { strcpy( element, q ); }
 
-      while ( p != NULL ) {
-    	  q = strsep(&p, ",");
-    	  strcpy( value[ i++ ], q );
-      }
-      fprintf( stderr, "%s", element );
-      for ( j=0; j<i; j++ ) {
-        fprintf( stderr, ",%s", value[ j ] );
-      }
-      fprintf( stderr, "\n" );
-      maslin_in_populate( element, value );
+    while ( p != NULL ) {
+      q = strsep(&p, ",");
+      strcpy( value[ i++ ], q );
     }
+    maslin_in_populate( element, value );
+  }
 
-    // For the masl conversion, we have a system, but we don't want that to be the root type during import.
-    // Instead, we want the user to create a project, then import this file, so the root types are packages.
-    // Output the header info to specify this, then dump the in-memory instances.
-    printf("-- root-types-contained: Package_c\n");
-    printf("-- BP 7.1 content: StreamData syschar: 3 persistence-version: 7.1.6\n\n");
-    for ( i = 0; i < maslin_MAX_CLASS_NUMBERS; i++ ) {
-      // Skip dumping the system instance
-      if ( i != maslin_S_SYS_CLASS_NUMBER ) {
-        Escher_dump_instances( 0, i );
-      }
+  // For the masl conversion, we have a system, but we don't want that to be the root type during import.
+  // Instead, we want the user to create a project, then import this file, so the root types are packages.
+  // Output the header info to specify this, then dump the in-memory instances.
+  printf("-- root-types-contained: Package_c\n");
+  printf("-- BP 7.1 content: StreamData syschar: 3 persistence-version: 7.1.6\n\n");
+  for ( i = 0; i < maslin_MAX_CLASS_NUMBERS; i++ ) {
+    // Skip dumping the system instance
+    if ( i != maslin_S_SYS_CLASS_NUMBER ) {
+      Escher_dump_instances( 0, i );
     }
+  }
 }
 
 /*
