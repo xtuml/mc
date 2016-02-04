@@ -23,8 +23,12 @@ select many identifiers related by self->identifier[R3711];
 for each identifier in identifiers
   identifier.render();
 end for;
-select many activities related by self->activity[R3747];
-for each activity in activities
+select many operation_activities related by self->operation[R3749]->activity[R3704];
+for each activity in operation_activities
+  activity.render();
+end for;
+select many state_activities related by self->state[R3750]->activity[R3704];
+for each activity in state_activities
   activity.render();
 end for;
 select many events related by self->event[R3736.''is triggered by''];

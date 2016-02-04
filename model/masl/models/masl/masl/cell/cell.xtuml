@@ -41,11 +41,10 @@ state_machine = param.statemachine;
 select one parent_object related by state_machine->object[R3734.''defines lifecycle of''];
 create object instance cell of cell;
 relate state_machine to cell across R3743.''is matrix of'';
-select any start_state_activity related by state_machine->object[R3734]->activity[R3747] where ( selected.name == param.startstate );
+select any start_state_activity related by state_machine->object[R3734]->state[R3750]->activity[R3704] where ( selected.name == param.startstate );
 select one start_state related by start_state_activity->state[R3704];
 if ( empty start_state )
-  activity = state::populate( name:param.startstate, type:"", object:parent_object );
-  select one start_state related by activity->state[R3704];
+  start_state = state::populate( name:param.startstate, type:"", object:parent_object );
   //TRACE::log( flavor:"failure", id:90, message:"could not find state for state machine with name:  " + param.startstate );
 end if;
 select any transition_event related by state_machine->object[R3734]->event[R3736] where ( selected.name == param.event );
@@ -55,11 +54,10 @@ if ( empty transition_event )
 end if;
 cell.notransition = "";
 if ( ( "Ignore" != param.endstate ) and ( "Cannot_Happen" != param.endstate ) and ( "cannot_happen" != param.endstate ) )	// these spellings are taken directly from the lexer grammar
-  select any end_state_activity related by state_machine->object[R3734]->activity[R3747] where ( selected.name == param.endstate );
+  select any end_state_activity related by state_machine->object[R3734]->state[R3750]->activity[R3704] where ( selected.name == param.endstate );
   select one end_state related by end_state_activity->state[R3704];
   if ( empty end_state )
-    activity = state::populate( name:param.endstate, type:"", object:parent_object );
-    select one end_state related by activity->state[R3704];
+    end_state = state::populate( name:param.endstate, type:"", object:parent_object );
     //TRACE::log( flavor:"failure", id:92, message:"could not find state for state machine with name:  " + param.endstate );
   end if;
   relate cell to end_state across R3731.''transitions to'';
