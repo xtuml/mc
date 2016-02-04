@@ -43,15 +43,9 @@ INSERT INTO O_TFR
 	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
 	0,
 	'domain = param.domain;
-name = param.name;
-select any relationship related by domain->relationship[R3712] where ( selected.name == name );
-if ( empty relationship )
-  create object instance relationship of relationship;
-  relationship.name = param.name;
-  relate relationship to domain across R3712;
-  markable = markable::populate( name:"relationship" );
-  relate relationship to markable across R3783;
-end if;
+create object instance relationship of relationship;
+relationship.name = param.name;
+relate relationship to domain across R3712;
 return relationship;',
 	1,
 	'',

@@ -31,16 +31,15 @@ INSERT INTO O_TFR
 	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9",
 	'populate',
 	'',
-	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	"b58c3ffa-bb52-4536-8c10-174e3b98594a",
 	0,
 	'domain = param.domain;
 relationship = relationship::populate( name:param.name, domain:domain );
-select one regularrel related by relationship->regularrel[R3721];
-if ( empty regularrel )
-  create object instance regularrel of regularrel;
-  relate regularrel to relationship across R3721;
-end if;
-return relationship;',
+create object instance regularrel of regularrel;
+relate regularrel to relationship across R3721;
+markable = markable::populate( name:"regularrel" );
+relate relationship to markable across R3783;
+return regularrel;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -70,9 +69,9 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../masl.xtuml');
 INSERT INTO S_DT_PROXY
-	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	VALUES ("b58c3ffa-bb52-4536-8c10-174e3b98594a",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<relationship>',
+	'inst_ref<regularrel>',
 	'',
 	'',
 	'../masl.xtuml');
