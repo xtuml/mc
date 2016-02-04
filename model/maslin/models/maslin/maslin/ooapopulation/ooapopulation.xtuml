@@ -102,7 +102,10 @@ elif ( "typeref" == element )
     
     // TODO - Now that we created a typeref, create a switch statement that sets whatever element we''re currently processing to the type
     //   cases: attribute, s_sync/o_tfr/c_io return type, s_sync/o_tfr/c_io parameter, etc
-    //   - E.g. In ooaofooa see SetTypeOnO_ATTRAction.java O_ATTR_SetType(), need to figure out if there is an OAL function behind this, or just archetype.  Basically need to do the same work...
+    o_attr = ooapopulation.current_attribute;
+    if ( not_empty o_attr )
+      ooapopulation.Attribute_setType(o_attr:ooapopulation.current_attribute, type_name:param.value[0]); 
+    end if;
   end if;
 elif ( "function" == element )
   //  See if we''re processing inside a domain, object, or terminator.  Then call the appropriate conversion function.
@@ -614,7 +617,7 @@ end if;
 return c_c.Id;',
 	1,
 	'',
-	"c59ea70d-68ee-4b9e-a501-5920a749fab1");
+	"2b8ec32a-cfed-4c9c-81fa-61a4f530fe75");
 INSERT INTO O_TPARM
 	VALUES ("f8b32f28-f05b-4aca-bf2b-629bbb42455c",
 	"edbc08df-df72-4ee9-9365-1a3d836b9fbd",
@@ -2118,6 +2121,60 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"cb2ae4c9-5b59-44e2-91e3-8383b7e048cb",
+	'');
+INSERT INTO O_TFR
+	VALUES ("2b8ec32a-cfed-4c9c-81fa-61a4f530fe75",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Attribute_setType',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_attr = param.o_attr;
+type_name = param.type_name;
+
+// NOTE: This isn''t really a copied operation from the OOAofOOA, but we''re following the same paradigm for it
+//   as other functions that are from the OOA
+
+// Get a handle to the DT that is named as a parameter, output error if none found
+//   TODO - This is a very broad selection.  Is that OK?  Can we assume that during convert we won''t see data that 
+//     has multiple (different) types with the same name?  Keith thinks so.
+select any s_dt from instances of S_DT where ( selected.Name == type_name );
+if ( empty s_dt )
+  // TODO - what should the ID be set to?
+  TRACE::log( flavor:"failure", id:0, message:"could not find datatype  " + type_name + " to set for attribute " + o_attr.Name);
+end if;
+
+// Get a handle to the DT that is currently associated with the attribute
+select one cur_s_dt related by o_attr->S_DT[R114];
+
+// If the new DT does not equal the existing DT, continue
+if ( s_dt != cur_s_dt )
+  // un-relate the existing DT across R114
+  unrelate o_attr from cur_s_dt across R114;
+  
+  // relate the new attribute across R114
+  relate o_attr to s_dt across R114;
+end if;',
+	1,
+	'',
+	"c59ea70d-68ee-4b9e-a501-5920a749fab1");
+INSERT INTO O_TPARM
+	VALUES ("1466d53f-f12e-4fca-8fc1-106ad988b02b",
+	"2b8ec32a-cfed-4c9c-81fa-61a4f530fe75",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("cfc1eca9-f055-4701-9614-ab17f53be76a",
+	"2b8ec32a-cfed-4c9c-81fa-61a4f530fe75",
+	'type_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"1466d53f-f12e-4fca-8fc1-106ad988b02b",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
