@@ -154,7 +154,7 @@ select many terminators related by self->terminator[R3702.''sends through''];
 for each terminator in terminators
   //terminator.tostring();
 end for;
-select many activities related by self->activity[R3707.''receives through''];
+select many activities related by self->routine[R3790.''provides'']->activity[R3704];
 for each activity in activities
   //activity.tostring();
 end for;
