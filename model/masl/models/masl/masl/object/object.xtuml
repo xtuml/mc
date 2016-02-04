@@ -19,8 +19,16 @@ select many attributes related by self->attribute[R3709.''is characterized by'']
 for each attribute in attributes
   attribute.render();
 end for;
-select many activities related by self->activity[R3747];
-for each activity in activities
+select many identifiers related by self->identifier[R3711];
+for each identifier in identifiers
+  identifier.render();
+end for;
+select many operation_activities related by self->operation[R3749]->activity[R3704];
+for each activity in operation_activities
+  activity.render();
+end for;
+select many state_activities related by self->state[R3750]->activity[R3704];
+for each activity in state_activities
   activity.render();
 end for;
 select many events related by self->event[R3736.''is triggered by''];
@@ -121,7 +129,7 @@ return ( valid and
 );',
 	1,
 	'',
-	"62436e5d-b2f0-45bd-824c-bf910bc153d7");
+	"5f2cb104-b641-4a62-a93f-91b78ab62058");
 INSERT INTO O_TFR
 	VALUES ("62436e5d-b2f0-45bd-824c-bf910bc153d7",
 	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
@@ -135,6 +143,28 @@ markable.render( list:"declaration" );',
 	1,
 	'',
 	"94d08134-61ae-4921-adee-96a5ef2d9522");
+INSERT INTO O_TFR
+	VALUES ("5f2cb104-b641-4a62-a93f-91b78ab62058",
+	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.name;
+value[1] = self.key_letters;
+out::tostring( element:"object", value:value );
+select many attributes related by self->attribute[R3709.''is characterized by''];
+for each attribute in attributes
+  //attribute.tostring();
+end for;
+out::tostring( element:"object", value:emptyvalue );
+',
+	1,
+	'',
+	"62436e5d-b2f0-45bd-824c-bf910bc153d7");
 INSERT INTO O_NBATTR
 	VALUES ("e4200518-32d3-4bef-abc2-bcb823d3dfe9",
 	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");

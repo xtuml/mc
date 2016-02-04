@@ -75,6 +75,27 @@ return ( valid and domain::validate() );
 ',
 	1,
 	'',
+	"777ea3b3-5800-4366-929f-6b25c189a72c");
+INSERT INTO O_TFR
+	VALUES ("777ea3b3-5800-4366-929f-6b25c189a72c",
+	"1aae3602-9f31-44c3-9e1a-8fc72f926fb4",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.name;
+out::tostring( element:"project", value:value );
+select many domains related by self->domain[R3701.''configures''];
+for each domain in domains
+  domain.tostring();
+end for;
+out::tostring( element:"project", value:emptyvalue );
+',
+	1,
+	'',
 	"57484f67-1062-40d4-9042-c2cd834a94d5");
 INSERT INTO O_NBATTR
 	VALUES ("33280c57-b6f9-4c0a-85ca-27880c727a15",

@@ -75,12 +75,16 @@ select many types related by self->type[R3776];
 for each type in types
   type.render();
 end for;
+select many exceptions related by self->exception[R3748];
+for each exception in exceptions
+  exception.render();
+end for;
 select many terminators related by self->terminator[R3702.''sends through''];
 for each terminator in terminators
   terminator.render();
 end for;
-select many activities related by self->activity[R3707.''receives through''];
-for each activity in activities
+select many routine_activities related by self->routine[R3790.''provides'']->activity[R3704];
+for each activity in routine_activities
   activity.render();
 end for;
 select many relationships related by self->relationship[R3712];
@@ -121,6 +125,51 @@ return (
   and relationship::validate()
   and type::validate()
 );
+',
+	1,
+	'',
+	"e6bc5a45-5a39-4d36-8cfb-9189cb568011");
+INSERT INTO O_TFR
+	VALUES ("e6bc5a45-5a39-4d36-8cfb-9189cb568011",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.name;
+out::tostring( element:"domain", value:value );
+
+select many types related by self->type[R3776];
+for each type in types
+  //type.tostring();
+end for;
+select many exceptions related by self->exception[R3748];
+for each exception in exceptions
+  //exception.tostring();
+end for;
+select many terminators related by self->terminator[R3702.''sends through''];
+for each terminator in terminators
+  //terminator.tostring();
+end for;
+select many activities related by self->activity[R3707.''receives through''];
+for each activity in activities
+  //activity.tostring();
+end for;
+select many relationships related by self->relationship[R3712];
+for each relationship in relationships
+  //relationship.tostring();
+end for;
+select many objects related by self->object[R3708.''has abstract''];
+for each object in objects
+  object.tostring();
+end for;
+select one markable related by self->markable[R3783];
+//markable.tostring();
+
+out::tostring( element:"domain", value:emptyvalue );
 ',
 	1,
 	'',

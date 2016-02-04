@@ -17,23 +17,6 @@ INSERT INTO O_TFR
 	'create object instance activity of activity;
 activity.name = param.name;
 
-// relate to parent
-parent_domain = param.parent_domain;
-parent_terminator = param.parent_terminator;
-parent_object = param.parent_object;
-if ( not_empty parent_domain )
-  relate activity to parent_domain across R3707;
-elif ( not_empty parent_terminator )
-  relate activity to parent_terminator across R3703;
-elif ( not_empty parent_object )
-  relate activity to parent_object across R3747.''defines behavior of'';
-else
-  TRACE::log( flavor:"failure", id:39, message:"no parent for activity" );
-end if;
-
-markable = markable::populate( name:"activity" );
-relate activity to markable across R3783;
-
 return activity;',
 	1,
 	'',
@@ -47,54 +30,6 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO O_TPARM
-	VALUES ("f90a7bc6-931a-48e1-b249-56328eb537e4",
-	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
-	'parent_domain',
-	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
-	0,
-	'',
-	"a0bc78f5-fe93-4ba5-bee4-743fb96c6b5a",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<domain>',
-	'',
-	'',
-	'../masl.xtuml');
-INSERT INTO O_TPARM
-	VALUES ("f85168d2-021d-4164-a1e7-deb13c2c0484",
-	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
-	'parent_terminator',
-	"a2661e87-6030-4167-bef8-2ff6c815e67e",
-	0,
-	'',
-	"f90a7bc6-931a-48e1-b249-56328eb537e4",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("a2661e87-6030-4167-bef8-2ff6c815e67e",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<terminator>',
-	'',
-	'',
-	'../masl.xtuml');
-INSERT INTO O_TPARM
-	VALUES ("b760b385-8f47-4a05-899a-aca8d9ad4e53",
-	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
-	'parent_object',
-	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
-	0,
-	'',
-	"f85168d2-021d-4164-a1e7-deb13c2c0484",
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<object>',
-	'',
-	'',
-	'../masl.xtuml');
 INSERT INTO S_DT_PROXY
 	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
 	"00000000-0000-0000-0000-000000000000",
@@ -109,13 +44,13 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one function related by self->function[R3704];
-select one service related by self->service[R3704];
+	'select one operation related by self->operation[R3704];
+select one routine related by self->routine[R3704];
 select one state related by self->state[R3704];
-if ( not_empty function )
-  function.render( name:self.name );
-elif ( not_empty service )
-  service.render( name:self.name );
+if ( not_empty operation )
+  operation.render( name:self.name );
+elif ( not_empty routine )
+  routine.render( name:self.name );
 elif ( not_empty state )
   state.render( name:self.name );
 else
@@ -133,25 +68,28 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
-	'valid = true;
+	'/*
+valid = true;
 select many activitys from instances of activity;
 for each activity in activitys;
   select one terminator related by activity->terminator[R3703];
   select one domain related by activity->domain[R3707];
   if ( ( empty terminator ) and ( empty domain ) )
-    TRACE::log( flavor:"failure", id:8, message:"activity has no parent teriminator or domain." );
+    TRACE::log( flavor:"failure", id:8, message:"activity has no parent terminator or domain." );
     valid = false;
   end if;
   select one function related by activity->function[R3704];
-  select one service related by activity->service[R3704];
-  if ( ( empty function ) and ( empty service ) )
-    TRACE::log( flavor:"failure", id:9, message:"activity has no child function or service." );
+  select one routine related by activity->routine[R3704];
+  if ( ( empty function ) and ( empty routine ) )
+    TRACE::log( flavor:"failure", id:9, message:"activity has no child function or routine." );
     valid = false;
   end if;
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and function::validate() and service::validate() and parameter::validate() );
+return ( valid and function::validate() and routine::validate() and parameter::validate() );
+*/
+return true;
 ',
 	1,
 	'',

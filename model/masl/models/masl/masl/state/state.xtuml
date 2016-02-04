@@ -45,19 +45,26 @@ INSERT INTO O_TFR
 	"64886a99-6942-49c6-b7d7-2dc495c52db1",
 	'populate',
 	'',
-	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
 	0,
 	'parent_object = param.object;
-select any parent_domain from instances of domain where false;
-select any parent_terminator from instances of terminator where false;
 
-activity = activity::populate( name:param.name, parent_domain:parent_domain, parent_terminator:parent_terminator, parent_object:parent_object );
+select any activity related by parent_object->state[R3750]->activity[R3704] where ( selected.name == param.name );
+select one state related by activity->state[R3704];
+if ( empty state )
+  activity = activity::populate( name:param.name );
 
-create object instance state of state;
+  create object instance state of state;
+  relate state to parent_object across R3750;
+  relate state to activity across R3704;
+  markable = markable::populate( name:"state" );
+  relate activity to markable across R3783;
+
+end if;
+
 state.type = param.type;
-relate state to activity across R3704;
 
-return activity;',
+return state;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -96,9 +103,9 @@ INSERT INTO O_TPARM
 	"daab49b8-c192-4486-9062-252eb12909ec",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	VALUES ("69d4ad00-8c78-47f0-95c9-b7519011b8ea",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<activity>',
+	'inst_ref<state>',
 	'',
 	'',
 	'../masl.xtuml');
