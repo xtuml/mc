@@ -150,6 +150,7 @@ INSERT INTO O_TFR
 emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
 
 value[0] = self.name;
+value[1] = self.key_letters;
 out::tostring( element:"object", value:value );
 select many attributes related by self->attribute[R3709.''is characterized by''];
 for each attribute in attributes
