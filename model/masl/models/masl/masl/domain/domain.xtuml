@@ -127,7 +127,6 @@ return (
   and type::validate()
 );
 */
-TRACE::log( flavor:"levi", id:45, message:"domain is validating." );
 return true;',
 	1,
 	'',

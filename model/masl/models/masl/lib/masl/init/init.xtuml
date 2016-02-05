@@ -142,8 +142,6 @@ valid = root_element.validate();
 
 if ( not valid )
   TRACE::log( flavor:"failure", id:91, message:"model did not validate" );
-else
-  TRACE::log( flavor:"success", id:97, message:"model is valid" );
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
