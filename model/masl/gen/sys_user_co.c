@@ -85,7 +85,7 @@ UserPostOoaInitializationCalloutf( void )
     masl_in_populate( element, value );
   }
   masl_in_validate( "" );
-  masl_in_render( "domain", "*" );
+  masl_in_render( "", "*" );
   T_emit( "stdout" );
 }
 

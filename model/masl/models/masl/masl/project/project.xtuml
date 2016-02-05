@@ -21,7 +21,7 @@ for each domain in domains
 end for;
 T::include( file:"masl/t.project_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"e2f67167-96b5-451c-8a07-34573a645fed");

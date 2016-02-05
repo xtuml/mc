@@ -57,7 +57,7 @@ else
   TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
 end if;
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"7baced44-2e68-4af0-bf91-6ab83eb77f66");

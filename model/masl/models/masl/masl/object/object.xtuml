@@ -41,7 +41,7 @@ for each state_machine in state_machines
 end for;
 T::include( file:"masl/t.object_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"definition" );',
+markable.render_marking( list:"definition" );',
 	1,
 	'',
 	"08a62993-0de5-465c-bb72-ba84e7590350");
@@ -142,7 +142,7 @@ INSERT INTO O_TFR
 	1,
 	'T::include( file:"masl/t.object_declaration.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"declaration" );',
+markable.render_marking( list:"declaration" );',
 	1,
 	'',
 	"94d08134-61ae-4921-adee-96a5ef2d9522");

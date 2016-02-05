@@ -70,7 +70,7 @@ for each activity in routine_activities
 end for;
 T::include( file:"masl/t.terminator_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"9d4928ce-a77c-493e-8754-575b9eb1494c");

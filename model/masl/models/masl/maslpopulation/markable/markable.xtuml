@@ -108,7 +108,7 @@ value[0] = "";
 INSERT INTO O_TFR
 	VALUES ("b1850fad-bb57-4d6f-91b1-23e0e7ef73db",
 	"1416f703-db51-4598-b9ca-f24cc279da0e",
-	'render',
+	'render_marking',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -128,6 +128,57 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TFR
+	VALUES ("bdb91b44-d996-4257-bce3-96c137ff0633",
+	"1416f703-db51-4598-b9ca-f24cc279da0e",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one project related by self->project[R3783];
+select one domain related by self->domain[R3783];
+select one exception related by self->exception[R3783];
+select one type related by self->type[R3783];
+select one member related by self->member[R3783];
+select one terminator related by self->terminator[R3783];
+select one activity related by self->activity[R3783];
+select one relationship related by self->relationship[R3783];
+select one object related by self->object[R3783];
+select one attribute related by self->attribute[R3783];
+select one event related by self->event[R3783];
+select one identifier related by self->identifier[R3783];
+select one state_machine related by self->state_machine[R3783];
+
+if ( not_empty project )
+  project.render();
+elif ( not_empty domain )
+  domain.render();
+elif ( not_empty exception )
+  exception.render();
+elif ( not_empty type )
+  type.render();
+elif ( not_empty member )
+  member.render();
+elif ( not_empty terminator )
+  terminator.render();
+elif ( not_empty activity )
+  activity.render();
+elif ( not_empty relationship )
+  relationship.render();
+elif ( not_empty object )
+  object.render();
+elif ( not_empty attribute )
+  attribute.render();
+elif ( not_empty event )
+  event.render();
+elif ( not_empty identifier )
+  identifier.render();
+else
+  state_machine.render();
+end if;',
+	1,
+	'',
+	"b1850fad-bb57-4d6f-91b1-23e0e7ef73db");
 INSERT INTO O_ID
 	VALUES (0,
 	"1416f703-db51-4598-b9ca-f24cc279da0e");

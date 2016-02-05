@@ -86,6 +86,12 @@ elif ( "domain" == element )
       domain.render();
     end for;
   end if;
+elif ( "" == element )	// render from the root
+  select any population from instances of population;
+  select one root_element related by population->element[R3785];
+  if ( not_empty root_element )
+    root_element.render();
+  end if;
 else
   TRACE::log( flavor:"error", id:53, message:"unrecognized element type on render interface:  " + element );
 end if;

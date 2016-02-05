@@ -35,7 +35,7 @@ if ( not_empty expression )
 end if;
 T::include( file:"masl/t.attribute_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71");

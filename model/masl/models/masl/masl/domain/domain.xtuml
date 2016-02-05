@@ -96,7 +96,7 @@ for each object in objects
 end for;
 T::include( file:"masl/t.domain_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4");
