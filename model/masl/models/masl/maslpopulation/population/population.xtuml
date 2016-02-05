@@ -24,16 +24,9 @@ if ( empty population )
   create object instance population of population;
 end if;
 
-element_name = "";
-if ( "regularrel" == element or "associative" == element or "subsuper" == element )
-  element_name = "relationship";
-else
-  element_name = element;
-end if;
-
 // pop the current element stack
 if ( "" == value[0] )
-  select one current_element related by population->element[R3784.''has current''] where ( selected.name == element_name );
+  select one current_element related by population->element[R3784.''has current''] where ( selected.name == element );
   if ( not_empty current_element )
     select one parent_element related by current_element->element[R3787.''child of''];	// select parent
     unrelate population from current_element across R3784.''has current'';				// unrelate current element
@@ -282,23 +275,32 @@ elif ( "transition" == element )
 	end if;
     cell::populate( startstate:value[0], event:value[1], endstate:value[2], statemachine:parent_state_machine );
     // transition is a leaf node and does not get pushed onto the current element stack
-elif ( "regularrel" == element or "associative" == element or "subsuper" == element )
+elif ( "regularrel" == element )
 	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
-	
 	if ( empty parent_domain )
       TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
 	  population.stack_trace();
 	end if;
-
-	select any relationship from instances of relationship where false;
-    if ( "regularrel" == element )
-      relationship = regularrel::populate( name:value[0], domain:parent_domain );
-    elif ( "associative" == element )
-      relationship = associative::populate( name:value[0], using:value[1], domain:parent_domain );
-    elif ( "subsuper" == element )
-      relationship = subsuper::populate( name:value[0], domain:parent_domain );
-    end if;
-    select one new_element related by relationship->markable[R3783]->element[R3786];
+    regularrel = regularrel::populate( name:value[0], domain:parent_domain );
+    select one new_element related by regularrel->relationship[R3721]->markable[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
+elif ( "associative" == element )
+	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
+	if ( empty parent_domain )
+      TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
+	  population.stack_trace();
+	end if;
+    associative = associative::populate( name:value[0], using:value[1], domain:parent_domain );
+    select one new_element related by associative->relationship[R3721]->markable[R3783]->element[R3786];
+    population.push_element( new_element:new_element );
+elif ( "subsuper" == element )
+	select any parent_domain related by population->element[R3789.''has active'']->markable[R3786]->domain[R3783];
+	if ( empty parent_domain )
+      TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
+	  population.stack_trace();
+	end if;
+    subsuper = subsuper::populate( name:value[0], domain:parent_domain );
+    select one new_element related by subsuper->relationship[R3721]->markable[R3783]->element[R3786];
     population.push_element( new_element:new_element );
 elif ( "participation" == element )
 	select any parent_relationship related by population->element[R3789.''has active'']->markable[R3786]->relationship[R3783];

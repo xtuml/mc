@@ -1,0 +1,5 @@
+    ${visibility} ${instance}\
+.if ( "" != deferred )
+ deferred ( ${deferred} )\
+.end if
+ ${flavor} ${name} (

@@ -1,0 +1,17 @@
+T_b("    ");
+T_b(visibility);
+T_b(" ");
+T_b(instance);
+T_b("");
+if ( 0!=strcmp("",deferred) ) {
+T_b(" ");
+T_b("deferred ( ");
+T_b(deferred);
+T_b(" )");
+}
+T_b(" ");
+T_b(flavor);
+T_b(" ");
+T_b(name);
+T_b(" (");
+T_b("\n");

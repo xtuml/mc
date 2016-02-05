@@ -20,7 +20,11 @@ create object instance operation of operation;
 operation.visibility = param.visibility;
 operation.instance = param.instance;
 relate operation to parent_object across R3749;
-// TODO deal with deferred operation
+if ( "" != param.deferred_relationship )
+  select any relationship related by operation->object[R3749]->participation[R3714]->relationship[R3713] where ( selected.name == param.deferred_relationship );
+  select one subsuper related by relationship->subsuper[R3721];
+  relate operation to subsuper across R3793.''defers to'';
+end if;
 relate operation to activity across R3704;
 markable = markable::populate( name:"operation" );
 relate activity to markable across R3783;
@@ -96,22 +100,25 @@ INSERT INTO O_TFR
 	1,
 	'name = param.name;
 visibility = self.visibility;
-select one returntype related by self->typeref[R3741];
-if ( not_empty returntype )
-  T::include( file:"masl/t.function_begin.masl" );
-  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-  if ( not_empty parameter )
-    parameter.render();
-  end if;
-  T::include( file:"masl/t.function_end.masl" );
-else
-  T::include( file:"masl/t.service_begin.masl" );
-  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-  if ( not_empty parameter )
-    parameter.render();
-  end if;
-  T::include( file:"masl/t.service_end.masl" );
-end if;',
+deferred = "";
+instance = self.instance;
+flavor = "service";
+returntype = "";
+select one relationship related by self->subsuper[R3793.''defers to'']->relationship[R3721];
+if ( not_empty relationship )
+  deferred = relationship.name;
+end if;
+select one returntyperef related by self->typeref[R3741];
+if ( not_empty returntyperef )
+  flavor = "function";
+  returntype = returntyperef.body;
+end if;
+T::include( file:"masl/t.operation_begin.masl" );
+select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.operation_end.masl" );',
 	1,
 	'',
 	"bf04f00c-4226-4f60-932e-b8c6751d1a21");

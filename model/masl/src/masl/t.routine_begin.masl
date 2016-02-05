@@ -1,6 +1,8 @@
 T_b("    ");
 T_b(visibility);
-T_b(" function ");
+T_b(" ");
+T_b(flavor);
+T_b(" ");
 T_b(name);
 T_b(" (");
 T_b("\n");

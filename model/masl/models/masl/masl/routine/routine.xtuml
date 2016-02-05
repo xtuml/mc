@@ -98,22 +98,19 @@ INSERT INTO O_TFR
 	1,
 	'name = param.name;
 visibility = self.visibility;
-select one returntype related by self->typeref[R3792];
-if ( not_empty returntype )
-  T::include( file:"masl/t.function_begin.masl" );
-  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-  if ( not_empty parameter )
-    parameter.render();
-  end if;
-  T::include( file:"masl/t.function_end.masl" );
-else
-  T::include( file:"masl/t.service_begin.masl" );
-  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-  if ( not_empty parameter )
-    parameter.render();
-  end if;
-  T::include( file:"masl/t.service_end.masl" );
-end if;',
+flavor = "service";
+returntype = "";
+select one returntyperef related by self->typeref[R3792];
+if ( not_empty returntyperef )
+  flavor = "function";
+  returntype = returntyperef.body;
+end if;
+T::include( file:"masl/t.routine_begin.masl" );
+select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.routine_end.masl" );',
 	1,
 	'',
 	"b5d33493-0c68-42fd-90e7-2e4e5910aea9");
