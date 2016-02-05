@@ -10,6 +10,7 @@
 #include "maslin_sys_types.h"
 #include "LOG_bridge.h"
 #include "STRING_bridge.h"
+#include "TRACE_bridge.h"
 #include "maslin_classes.h"
 
 /*
@@ -190,8 +191,16 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX
   else if ( ( Escher_strcmp( "typeref", element ) == 0 ) ) {
     /* IF ( (  != PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
+      maslin_O_ATTR * o_attr;
       /* ooapopulation.transformType( name:PARAM.value[0], visibility:public ) */
       maslin_ooapopulation_op_transformType( ooapopulation,  p_value[0], "public" );
+      /* ASSIGN o_attr = ooapopulation.current_attribute */
+      o_attr = ooapopulation->current_attribute;
+      /* IF ( not_empty o_attr ) */
+      if ( ( 0 != o_attr ) ) {
+        /* ooapopulation.Attribute_setType( o_attr:ooapopulation.current_attribute, type_name:PARAM.value[0] ) */
+        maslin_ooapopulation_op_Attribute_setType( ooapopulation,  ooapopulation->current_attribute, p_value[0] );
+      }
     }
   }
   else if ( ( Escher_strcmp( "function", element ) == 0 ) ) {
@@ -673,7 +682,9 @@ maslin_ooapopulation_op_createSystem( maslin_ooapopulation * self)
 bool
 maslin_ooapopulation_op_InterfaceReference_isFormal( maslin_ooapopulation * self, c_t * p_c_ir )
 {
-
+  /* RETURN FALSE */
+  {bool xtumlOALrv = FALSE;
+  return xtumlOALrv;}
 }
 
 /*
@@ -1860,7 +1871,7 @@ maslin_ooapopulation_op_Interface_addInterfaceOperationToOrder( maslin_ooapopula
 void
 maslin_ooapopulation_op_Attribute_addToIdentifier( maslin_ooapopulation * self, maslin_O_ATTR * p_o_attr, const i_t p_oid )
 {
-  maslin_O_ATTR * o_attr;maslin_O_OIDA * oida;Escher_ObjectSet_s rto_set_space={0}; Escher_ObjectSet_s * rto_set = &rto_set_space;maslin_O_ID * oid=0;
+  maslin_O_ATTR * o_attr;maslin_O_OIDA * oida;maslin_O_ID * oid=0;
   /* ASSIGN o_attr = PARAM.o_attr */
   o_attr = p_o_attr;
   /* SELECT any oid RELATED BY o_attr->O_OBJ[R102]->O_ID[R104] WHERE ( ( SELECTED.Oid_ID == PARAM.oid ) ) */
@@ -1883,12 +1894,45 @@ maslin_ooapopulation_op_Attribute_addToIdentifier( maslin_ooapopulation * self, 
 oida->Obj_ID = (Escher_UniqueID_t) oida;
   /* RELATE o_attr TO oid ACROSS R105 USING oida */
   maslin_O_OIDA_R105_Link( oid, o_attr, oida );
-  /* SELECT many rto_set RELATED BY oid->R_RTO[R109] */
-  Escher_ClearSet( rto_set );
-  if ( 0 != oid ) {
-    Escher_CopySet( rto_set, &oid->R_RTO_R109_identifies_for_this_association_ );
+}
+
+/*
+ * instance operation:  Attribute_setType
+ */
+void
+maslin_ooapopulation_op_Attribute_setType( maslin_ooapopulation * self, maslin_O_ATTR * p_o_attr, c_t * p_type_name )
+{
+  c_t * type_name=0;maslin_O_ATTR * o_attr;maslin_S_DT * s_dt=0;maslin_S_DT * cur_s_dt=0;
+  /* ASSIGN o_attr = PARAM.o_attr */
+  o_attr = p_o_attr;
+  /* ASSIGN type_name = PARAM.type_name */
+  type_name = Escher_strcpy( type_name, p_type_name );
+  /* SELECT any s_dt FROM INSTANCES OF S_DT WHERE ( SELECTED.Name == type_name ) */
+  s_dt = 0;
+  { maslin_S_DT * selected;
+    Escher_Iterator_s iters_dtmaslin_S_DT;
+    Escher_IteratorReset( &iters_dtmaslin_S_DT, &pG_maslin_S_DT_extent.active );
+    while ( (selected = (maslin_S_DT *) Escher_IteratorNext( &iters_dtmaslin_S_DT )) != 0 ) {
+      if ( ( Escher_strcmp( selected->Name, type_name ) == 0 ) ) {
+        s_dt = selected;
+        break;
+      }
+    }
   }
-  Escher_ClearSet( rto_set ); 
+  /* IF ( empty s_dt ) */
+  if ( ( 0 == s_dt ) ) {
+    /* TRACE::log( flavor:failure, id:0, message:( ( ( could not find datatype   + type_name ) +  to set for attribute  ) + o_attr.Name ) ) */
+    TRACE_log( "failure", 0, Escher_stradd( Escher_stradd( Escher_stradd( "could not find datatype  ", type_name ), " to set for attribute " ), o_attr->Name ) );
+  }
+  /* SELECT one cur_s_dt RELATED BY o_attr->S_DT[R114] */
+  cur_s_dt = ( 0 != o_attr ) ? o_attr->S_DT_R114_defines_type_of : 0;
+  /* IF ( ( s_dt != cur_s_dt ) ) */
+  if ( ( s_dt != cur_s_dt ) ) {
+    /* UNRELATE o_attr FROM cur_s_dt ACROSS R114 */
+    maslin_O_ATTR_R114_Unlink_is_defined_by( cur_s_dt, o_attr );
+    /* RELATE o_attr TO s_dt ACROSS R114 */
+    maslin_O_ATTR_R114_Link_is_defined_by( s_dt, o_attr );
+  }
 }
 
 /*

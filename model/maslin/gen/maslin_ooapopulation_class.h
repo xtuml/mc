@@ -82,6 +82,7 @@ void maslin_ooapopulation_op_InterfaceOperation_initialize( maslin_ooapopulation
 maslin_C_EP * maslin_ooapopulation_op_Interface_newExecutableProperty( maslin_ooapopulation *, const bool, maslin_C_I *, c_t * );
 void maslin_ooapopulation_op_Interface_addInterfaceOperationToOrder( maslin_ooapopulation *, maslin_C_I *, maslin_C_IO * );
 void maslin_ooapopulation_op_Attribute_addToIdentifier( maslin_ooapopulation *, maslin_O_ATTR *, const i_t );
+void maslin_ooapopulation_op_Attribute_setType( maslin_ooapopulation *, maslin_O_ATTR *, c_t * );
 
 
 #define maslin_ooapopulation_MAX_EXTENT_SIZE 10
