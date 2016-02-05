@@ -31,7 +31,7 @@ end if;
 end if;
 end if;
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"ba9f72fd-fca7-4102-b768-e6f9748221de");
@@ -88,8 +88,9 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
+/*
 select many relationships from instances of relationship;
 for each relationship in relationships
   if ( "" == relationship.name )
@@ -104,7 +105,9 @@ for each relationship in relationships
 end for;
 
 // Validate siblings and subordinates.
-return ( valid and participation::validate() and regularrel::validate() and subsuper::validate() and associative::validate() );',
+return ( valid and participation::validate() and regularrel::validate() and subsuper::validate() and associative::validate() );
+*/
+return valid;',
 	1,
 	'',
 	"d12801c5-5fe6-4b0e-b77a-fd4c687cd875");

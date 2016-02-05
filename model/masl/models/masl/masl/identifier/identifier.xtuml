@@ -24,7 +24,7 @@ for each attribute in attributes
 end for;
 T::include( file:"masl/t.identifier_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"3a62bad0-c0d0-4ab5-8e1c-b68f3d948c03");
@@ -73,7 +73,7 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
 //select many projects from instances of project;
 //if ( empty projects )

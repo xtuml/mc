@@ -29,7 +29,7 @@ if ( not_empty parameter )
 end if;
 T::include( file:"masl/t.event_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"34c41c49-4657-452d-86b6-5b3b59f0b61d");
@@ -102,7 +102,7 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
 select many events from instances of event;
 for each event in events

@@ -96,7 +96,7 @@ for each object in objects
 end for;
 T::include( file:"masl/t.domain_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4");
@@ -106,8 +106,9 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
+/*
 select many domains from instances of domain;
 for each domain in domains;
   if ( "" == domain.name )
@@ -125,7 +126,8 @@ return (
   and relationship::validate()
   and type::validate()
 );
-',
+*/
+return true;',
 	1,
 	'',
 	"e6bc5a45-5a39-4d36-8cfb-9189cb568011");

@@ -57,7 +57,7 @@ else
   TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
 end if;
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"7baced44-2e68-4af0-bf91-6ab83eb77f66");
@@ -67,9 +67,9 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
-	'/*
-valid = true;
+	1,
+	'valid = true;
+/*
 select many activitys from instances of activity;
 for each activity in activitys;
   select one terminator related by activity->terminator[R3703];
@@ -89,8 +89,8 @@ end for;
 // Validate siblings and subordinates.
 return ( valid and function::validate() and routine::validate() and parameter::validate() );
 */
-return true;
-',
+
+return true;',
 	1,
 	'',
 	"cce75d87-818b-4fc3-a50d-f92d030db143");
