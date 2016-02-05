@@ -19,6 +19,7 @@ INSERT INTO O_TFR
 element = param.element;
 value = param.value;
 
+// get the population singleton object
 select any population from instances of population;
 if ( empty population )
   create object instance population of population;
@@ -350,7 +351,14 @@ elif ( "pragmaitem" == element )
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;
-',
+
+// set up the root element if it doesn''t exist
+select one root_element related by population->element[R3785.''has root''];
+if ( empty root_element )
+  // set the current element as the root
+  select one current_element related by population->element[R3784.''has current''];
+  relate population to current_element across R3785.''has root'';
+end if;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");

@@ -20,7 +20,7 @@
 void
 masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_value[8][ESCHER_SYS_MAX_STRING_LEN] )
 {
-  c_t element_name[ESCHER_SYS_MAX_STRING_LEN];c_t * value[8]={0,0,0,0,0,0,0,0};c_t element[ESCHER_SYS_MAX_STRING_LEN];masl_population * population=0;
+  c_t element_name[ESCHER_SYS_MAX_STRING_LEN];c_t * value[8]={0,0,0,0,0,0,0,0};c_t element[ESCHER_SYS_MAX_STRING_LEN];masl_population * population=0;masl_element * root_element=0;
   /* ASSIGN element = PARAM.element */
   Escher_strcpy( element, p_element );
   /* ASSIGN value = PARAM.value */
@@ -1000,6 +1000,16 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
   else {
     /* TRACE::log( flavor:failure, id:39, message:( unrecognized element:   + element ) ) */
     TRACE_log( "failure", 39, Escher_stradd( "unrecognized element:  ", element ) );
+  }
+  /* SELECT one root_element RELATED BY population->element[R3785.has root] */
+  root_element = ( 0 != population ) ? population->element_R3785_has_root : 0;
+  /* IF ( empty root_element ) */
+  if ( ( 0 == root_element ) ) {
+    masl_element * current_element=0;
+    /* SELECT one current_element RELATED BY population->element[R3784.has current] */
+    current_element = ( 0 != population ) ? population->element_R3784_has_current : 0;
+    /* RELATE population TO current_element ACROSS R3785 */
+    masl_element_R3785_Link_has_root( population, current_element );
   }
 }
 

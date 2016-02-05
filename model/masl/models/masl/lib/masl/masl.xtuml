@@ -413,19 +413,7 @@ INSERT INTO SPR_PS
 	VALUES ("28a1ad89-c65d-4864-9ec4-b77479a09282",
 	'validate',
 	'',
-	'valid = true;
-if ( "project" == param.element )
-  valid = project::validate();
-elif ( "domain" == param.element )
-  valid = domain::validate();
-elif ( "object" == param.element )
-  valid = object::validate();
-else
-  TRACE::log( flavor:"warning", id:90, message:"unrecognized model element in validate" );
-end if;
-if ( not valid )
-  TRACE::log( flavor:"failure", id:91, message:"model did not validate" );
-end if;',
+	'::validate();',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("b57fb261-23b3-4e1c-95ad-ff8458bab1cd",
@@ -483,7 +471,7 @@ INSERT INTO SPR_RS
 	'render',
 	'',
 	'',
-	3);
+	1);
 INSERT INTO SPR_REP
 	VALUES ("62945064-c1eb-4670-8650-c889e075a742",
 	"b57fb261-23b3-4e1c-95ad-ff8458bab1cd",
@@ -493,7 +481,7 @@ INSERT INTO SPR_RS
 	'validate',
 	'',
 	'',
-	3);
+	1);
 INSERT INTO SPR_REP
 	VALUES ("8c080adf-d6e1-423e-9e78-347825b643d1",
 	"6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",
@@ -503,7 +491,7 @@ INSERT INTO SPR_RO
 	'populate',
 	'',
 	'',
-	3);
+	1);
 INSERT INTO PE_PE
 	VALUES ("78775e10-f3b1-4b47-b908-ad2144f025e4",
 	1,

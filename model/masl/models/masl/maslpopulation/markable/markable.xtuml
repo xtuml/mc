@@ -43,18 +43,52 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
 
-// Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
-return valid;
-',
+select one project related by self->project[R3783];
+select one domain related by self->domain[R3783];
+select one exception related by self->exception[R3783];
+select one type related by self->type[R3783];
+select one member related by self->member[R3783];
+select one terminator related by self->terminator[R3783];
+select one activity related by self->activity[R3783];
+select one relationship related by self->relationship[R3783];
+select one object related by self->object[R3783];
+select one attribute related by self->attribute[R3783];
+select one event related by self->event[R3783];
+select one identifier related by self->identifier[R3783];
+select one state_machine related by self->state_machine[R3783];
+
+if ( not_empty project )
+  valid = project.validate();
+elif ( not_empty domain )
+  valid = domain.validate();
+elif ( not_empty exception )
+  valid = exception.validate();
+elif ( not_empty type )
+  valid = type.validate();
+elif ( not_empty member )
+  valid = member.validate();
+elif ( not_empty terminator )
+  valid = terminator.validate();
+elif ( not_empty activity )
+  valid = activity.validate();
+elif ( not_empty relationship )
+  valid = relationship.validate();
+elif ( not_empty object )
+  valid = object.validate();
+elif ( not_empty attribute )
+  valid = attribute.validate();
+elif ( not_empty event )
+  valid = event.validate();
+elif ( not_empty identifier )
+  valid = identifier.validate();
+else
+  valid = state_machine.validate();
+end if;
+
+return valid;',
 	1,
 	'',
 	"b246cf4b-42f5-4e3d-86ae-056cc20a61b8");

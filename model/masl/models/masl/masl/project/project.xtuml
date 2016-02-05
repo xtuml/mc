@@ -62,8 +62,9 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
+/*
 select many projects from instances of project;
 if ( empty projects )
   TRACE::log( flavor:"failure", id:5, message:"There is no project." );
@@ -72,7 +73,9 @@ end if;
 
 // Validate siblings and subordinates.
 return ( valid and domain::validate() );
-',
+
+*/
+return valid;',
 	1,
 	'',
 	"777ea3b3-5800-4366-929f-6b25c189a72c");

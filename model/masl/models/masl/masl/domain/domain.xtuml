@@ -106,8 +106,9 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
+/*
 select many domains from instances of domain;
 for each domain in domains;
   if ( "" == domain.name )
@@ -125,7 +126,9 @@ return (
   and relationship::validate()
   and type::validate()
 );
-',
+*/
+TRACE::log( flavor:"levi", id:45, message:"domain is validating." );
+return true;',
 	1,
 	'',
 	"e6bc5a45-5a39-4d36-8cfb-9189cb568011");

@@ -105,8 +105,9 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
+/*
 select many objects from instances of object;
 for each object in objects
   select one domain related by object->domain[R3708];
@@ -126,7 +127,9 @@ return ( valid and
   state::validate() and
   event::validate() and
   state_machine::validate()
-);',
+);
+*/
+return valid;',
 	1,
 	'',
 	"5f2cb104-b641-4a62-a93f-91b78ab62058");

@@ -80,8 +80,9 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
+/*
 select many terminators from instances of terminator;
 for each terminator in terminators;
   select one domain related by terminator->domain[R3702];
@@ -93,7 +94,9 @@ end for;
 
 // Validate siblings and subordinates.
 return ( valid and activity::validate() );
-',
+
+*/
+return valid;',
 	1,
 	'',
 	"d5232840-adc7-4197-8452-034e5bebae67");

@@ -150,8 +150,9 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
+/*
 select many attributes from instances of attribute;
 for each attribute in attributes
   if ( "" == attribute.name )
@@ -172,6 +173,7 @@ end for;
 
 // Validate siblings and subordinates.
 return ( valid and referential::validate() and identifier::validate() );
+*/
 return valid;
 ',
 	1,
