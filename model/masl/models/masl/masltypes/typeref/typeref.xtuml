@@ -180,9 +180,12 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'value[8] = "";
-//value[0] = self.name;
-//out::( element:"template_class", value:value );',
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.body;
+out::tostring( element:"typeref", value:value );
+out::tostring( element:"typeref", value:emptyvalue );',
 	1,
 	'',
 	"4c31359f-e19b-4e4e-b98a-d9189bcb5da5");

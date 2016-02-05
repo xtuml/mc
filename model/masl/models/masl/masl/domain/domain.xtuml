@@ -144,7 +144,7 @@ out::tostring( element:"domain", value:value );
 
 select many types related by self->type[R3776];
 for each type in types
-  //type.tostring();
+  type.tostring();
 end for;
 select many exceptions related by self->exception[R3748];
 for each exception in exceptions
