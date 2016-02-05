@@ -989,7 +989,10 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 sm_sm = param.sm_sm;
 select many sm_states related by sm_sm->SM_STATE[R501];
 select any sm_state related by sm_sm->SM_STATE[R501];
-lowest = sm_state.Numb; // any random state number
+lowest = 7777;
+if ( not_empty sm_state )
+  lowest = sm_state.Numb; // any random state number
+end if;
 
 if ( "assigner" == param.type )
   // Find the lowest numbered state to be ASSIGNER START.
