@@ -203,26 +203,23 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX
       }
     }
   }
-  else if ( ( Escher_strcmp( "function", element ) == 0 ) ) {
+  else if ( ( Escher_strcmp( "routine", element ) == 0 ) ) {
     /* IF ( (  != PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
-      maslin_O_OBJ * clazz;
-      /* ASSIGN clazz = ooapopulation.current_class */
-      clazz = ooapopulation->current_class;
-      /* IF ( not_empty clazz ) */
-      if ( ( 0 != clazz ) ) {
-        /* ooapopulation.transformObjectFunction( instance:PARAM.value[2], name:PARAM.value[1], relationship:PARAM.value[3], visibility:PARAM.value[0] ) */
-        maslin_ooapopulation_op_transformObjectFunction( ooapopulation,  p_value[2], p_value[1], p_value[3], p_value[0] );
-      }
-      else {
-        /* ooapopulation.transformDomainFunction( instance:PARAM.value[2], name:PARAM.value[1], relationship:PARAM.value[3], visibility:PARAM.value[0] ) */
-        maslin_ooapopulation_op_transformDomainFunction( ooapopulation,  p_value[2], p_value[1], p_value[3], p_value[0] );
-      }
+      /* ooapopulation.transformDomainFunction( instance:PARAM.value[2], name:PARAM.value[1], relationship:PARAM.value[3], visibility:PARAM.value[0] ) */
+      maslin_ooapopulation_op_transformDomainFunction( ooapopulation,  p_value[2], p_value[1], p_value[3], p_value[0] );
     }
   }
-  else if ( ( Escher_strcmp( "service", element ) == 0 ) ) {
-    /* IF ( (  != PARAM.value[0] ) ) */
-    if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
+  else if ( ( Escher_strcmp( "operation", element ) == 0 ) ) {
+    /* IF ( (  == PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+      maslin_O_TFR * o_tfr=0;
+      /* SELECT any o_tfr FROM INSTANCES OF O_TFR WHERE FALSE */
+      o_tfr = 0;
+      /* ASSIGN ooapopulation.current_class_op = o_tfr */
+      ooapopulation->current_class_op = o_tfr;
+    }
+    else {
       maslin_O_OBJ * clazz;
       /* ASSIGN clazz = ooapopulation.current_class */
       clazz = ooapopulation->current_class;
@@ -230,10 +227,6 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX
       if ( ( 0 != clazz ) ) {
         /* ooapopulation.transformObjectFunction( instance:PARAM.value[2], name:PARAM.value[1], relationship:PARAM.value[3], visibility:PARAM.value[0] ) */
         maslin_ooapopulation_op_transformObjectFunction( ooapopulation,  p_value[2], p_value[1], p_value[3], p_value[0] );
-      }
-      else {
-        /* ooapopulation.transformDomainFunction( instance:PARAM.value[2], name:PARAM.value[1], relationship:PARAM.value[3], visibility:PARAM.value[0] ) */
-        maslin_ooapopulation_op_transformDomainFunction( ooapopulation,  p_value[2], p_value[1], p_value[3], p_value[0] );
       }
     }
   }
@@ -1273,8 +1266,6 @@ maslin_ooapopulation_op_transformDomainFunction( maslin_ooapopulation * self, c_
     while ( ( 0 == spr_po ) && ( 0 != ( SPR_PEP_R4501 = (maslin_SPR_PEP *) Escher_IteratorNext( &iSPR_PEP_R4501 ) ) ) ) {
     if ( ( 0 != SPR_PEP_R4501 ) && ( maslin_SPR_PO_CLASS_NUMBER == SPR_PEP_R4501->R4503_object_id ) )    spr_po = (maslin_SPR_PO *) SPR_PEP_R4501->R4503_subtype;
 }}}
-    /* ASSIGN spr_po.Action_Semantics = ( ( :: + PARAM.name ) + (); ) */
-    // spr_po->Action_Semantics = Escher_strcpy( spr_po->Action_Semantics, Escher_stradd( Escher_stradd( "::", p_name ), "();" ) );
   }
 }
 

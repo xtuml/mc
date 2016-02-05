@@ -9,12 +9,13 @@
 
 #include "maslin_sys_types.h"
 #include "maslin.h"
+#include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "LOG_bridge.h"
 #include "maslin_classes.h"
 
 /*
- * Interface:  MASLDSL
+ * Interface:  serial
  * Provided Port:  in
  * To Provider Message:  populate
  */
@@ -26,7 +27,7 @@ maslin_in_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX_STRING_LEN] )
 }
 
 /*
- * Interface:  MASLDSL
+ * Interface:  serial
  * Provided Port:  in
  * To Provider Message:  render
  */
@@ -36,7 +37,17 @@ maslin_in_render( c_t * p_element, c_t * p_name )
 }
 
 /*
- * Interface:  MASLDSL
+ * Interface:  serial
+ * Provided Port:  in
+ * To Provider Message:  tostring
+ */
+void
+maslin_in_tostring( c_t * p_element, c_t * p_name )
+{
+}
+
+/*
+ * Interface:  serial
  * Provided Port:  in
  * To Provider Message:  validate
  */

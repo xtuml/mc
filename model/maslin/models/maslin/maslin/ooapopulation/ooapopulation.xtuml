@@ -107,28 +107,24 @@ elif ( "typeref" == element )
       ooapopulation.Attribute_setType(o_attr:ooapopulation.current_attribute, type_name:param.value[0]); 
     end if;
   end if;
-elif ( "function" == element )
+elif ( "routine" == element )
   //  See if we''re processing inside a domain, object, or terminator.  Then call the appropriate conversion function.
   if ( "" != param.value[0] )
-    clazz = ooapopulation.current_class;
-    if ( not_empty clazz )
-      ooapopulation.transformObjectFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
-    // TODO -elif ( not_empty ooapopulation.current_port )
+    // TODO -if ( not_empty ooapopulation.current_port )
     // TODO -  ooapopulation.transformTerminatorFunction();
-    else
+    //else
       ooapopulation.transformDomainFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
-    end if;
+    //end if;
   end if;
-elif ( "service" == element )
+elif ( "operation" == element )
   //  See if we''re processing inside a domain, object, or terminator.  Then call the appropriate conversion function.
-  if ( "" != param.value[0] )
+  if ( "" == param.value[0] )
+    select any o_tfr from instances of O_TFR where (false);
+    ooapopulation.current_class_op = o_tfr;
+  else
     clazz = ooapopulation.current_class;
     if ( not_empty clazz )
       ooapopulation.transformObjectFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
-    // TODO -elif ( not_empty ooapopulation.current_port )
-    // TODO -  ooapopulation.transformTerminatorFunction();
-    else
-      ooapopulation.transformDomainFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
     end if;
   end if;
 else
