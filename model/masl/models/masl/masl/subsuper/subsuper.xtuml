@@ -89,19 +89,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-select many subsupers from instances of subsuper;
-for each subsuper in subsupers
-  select one participation related by subsuper->relationship[R3721]->participation[R3713.''engages''];
-  select one one_object related by participation->object[R3714.''one''];
-  select many other_objects related by participation->object[R3720.''other''];
-  if ( ( empty participation ) or ( empty one_object ) or ( empty other_objects ) )
-    TRACE::log( flavor:"failure", id:5, message:"subsuper is missing related objects." );
-    valid = false;
-  end if;
-end for;
-
-return valid;
-',
+return valid;',
 	1,
 	'',
 	"4c2a935c-9f82-483a-8ea4-76b47f7b44ab");

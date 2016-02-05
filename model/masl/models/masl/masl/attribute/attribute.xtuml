@@ -152,30 +152,58 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-/*
-select many attributes from instances of attribute;
-for each attribute in attributes
-  if ( "" == attribute.name )
-    TRACE::log( flavor:"failure", id:28, message:"attribute with no name" );
-    valid = false;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"attribute has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate preferred
+if ( "" != self.preferred and "preferred" != self.preferred )
+  TRACE::log( flavor:"failure", id:101, message:"invalid preferred for attribute: " + self.preferred );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate unique
+if ( "" != self.unique and "unique" != self.unique )
+  TRACE::log( flavor:"failure", id:101, message:"invalid unique for attribute: " + self.unique );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate referentials
+select many child_referentials related by self->referential[R3746.''references''];
+for each referential in child_referentials
+  valid = referential.validate();
+  if ( false == valid )
+    return valid;	// short circuit
   end if;
-  select one object related by attribute->object[R3709];
-  if ( empty object )
-    TRACE::log( flavor:"failure", id:29, message:"orphan attribute with no object:  " + attribute.name );
-    valid = false;
-  end if;
-  //select one type related by attribute->type[R3717];
-  //if ( empty type )
-    //TRACE::log( flavor:"failure", id:29, message:"attribute with no type:  " + attribute.name );
-    //valid = false;
-  //end if;
 end for;
 
-// Validate siblings and subordinates.
-return ( valid and referential::validate() and identifier::validate() );
-*/
-return valid;
-',
+// validate expression
+select one expression related by self->expression[R3745.''initialized by''];
+if ( not_empty expression )
+  valid = expression.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end if;
+
+// validate typeref
+select one typeref related by self->typeref[R3717];
+if ( not_empty typeref )
+  valid = typeref.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"no typeref for attribute" );
+end if;
+
+return valid;',
 	1,
 	'',
 	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059");

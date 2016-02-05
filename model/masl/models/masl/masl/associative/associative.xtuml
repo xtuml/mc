@@ -105,20 +105,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-select many associatives from instances of associative;
-for each associative in associatives
-  select one participation related by associative->relationship[R3721]->participation[R3713.''engages''];
-  select one one_object related by participation->object[R3714.''one''];
-  select any other_object related by participation->object[R3720.''other''];
-  select one uses_object related by participation->object[R3715.''uses''];
-  if ( ( empty participation ) or ( empty one_object ) or ( empty other_object ) or ( empty uses_object ) )
-    TRACE::log( flavor:"failure", id:5, message:"associative is missing related objects." );
-    valid = false;
-  end if;
-end for;
-
-return valid;
-',
+return valid;',
 	1,
 	'',
 	"e33bf2e0-9bd6-4f0a-ac61-d30836116225");

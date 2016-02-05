@@ -82,16 +82,15 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-select many templates from instances of template;
-if ( empty templates )
-  TRACE::log( flavor:"failure", id:5, message:"There are no templates." );
+
+// validate body
+if ( "" == self.body )
+  TRACE::log( flavor:"failure", id:101, message:"typeref has no body." );
   valid = false;
+  return valid;		// short circuit
 end if;
 
-// Validate siblings and subordinates.
-//return ( valid and structure::validate() );
-return valid;
-',
+return valid;',
 	1,
 	'',
 	"bdd852cd-1211-4881-b3ec-e0d41e154c8e");

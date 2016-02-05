@@ -108,26 +108,69 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-/*
-select many domains from instances of domain;
-for each domain in domains;
-  if ( "" == domain.name )
-    TRACE::log( flavor:"failure", id:4, message:"domain has no name." );
-    valid = false;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"domain has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate types
+select many child_types related by self->type[R3719.''defines''];
+for each type in child_types
+  valid = type.validate();
+  if ( false == valid )
+    return valid;	// short circuit
   end if;
 end for;
 
-// Validate siblings and subordinates.
-return ( 
-  valid
-  and terminator::validate()
-  and activity::validate()
-  and object::validate()
-  and relationship::validate()
-  and type::validate()
-);
-*/
-return true;',
+// validate exceptions
+select many child_exceptions related by self->exception[R3748.''defines''];
+for each exception in child_exceptions
+  valid = exception.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate routines
+select many child_routines related by self->routine[R3790.''provides''];
+for each routine in child_routines
+  valid = routine.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate terminators
+select many child_terminators related by self->terminator[R3702.''sends through''];
+for each terminator in child_terminators
+  valid = terminator.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate relationships
+select many child_relationships related by self->relationship[R3712];
+for each relationship in child_relationships
+  valid = relationship.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate objects
+select many child_objects related by self->object[R3708.''has abstract''];
+for each object in child_objects
+  valid = object.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
 	1,
 	'',
 	"e6bc5a45-5a39-4d36-8cfb-9189cb568011");

@@ -64,17 +64,23 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-/*
-select many projects from instances of project;
-if ( empty projects )
-  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"project has no name." );
   valid = false;
+  return valid;		// short circuit
 end if;
 
-// Validate siblings and subordinates.
-return ( valid and domain::validate() );
+// validate children
+select many child_domains related by self->domain[R3701.''configures''];
+for each domain in child_domains
+  valid = domain.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
 
-*/
 return valid;',
 	1,
 	'',

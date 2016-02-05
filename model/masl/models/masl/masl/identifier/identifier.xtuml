@@ -75,16 +75,18 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
 
-// Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
-return valid;
-',
+// check at least one other object
+select many attributes related by self->attribute[R3710.''composed of''];
+if ( 1 > cardinality attributes )
+  n = cardinality attributes;
+  LOG::LogInteger( message:n );
+  TRACE::log( flavor:"failure", id:101, message:"at least one attribute is required for identifier." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+return valid;',
 	1,
 	'',
 	"f8bab69a-2ca8-422b-9895-3a2e74eb7083");

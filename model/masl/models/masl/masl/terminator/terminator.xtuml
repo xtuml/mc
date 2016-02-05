@@ -82,20 +82,23 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-/*
-select many terminators from instances of terminator;
-for each terminator in terminators;
-  select one domain related by terminator->domain[R3702];
-  if ( empty domain )
-    TRACE::log( flavor:"failure", id:15, message:"terminator has no parent domain." );
-    valid = false;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"terminator has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select many child_routines related by self->routine[R3791.''sends''];
+for each routine in child_routines
+  valid = routine.validate();
+  if ( false == valid )
+    return valid;	// short circuit
   end if;
 end for;
 
-// Validate siblings and subordinates.
-return ( valid and activity::validate() );
-
-*/
 return valid;',
 	1,
 	'',
