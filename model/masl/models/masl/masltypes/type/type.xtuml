@@ -100,18 +100,29 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-select many types from instances of type;
-for each type in types
-  if ( "" == type.name )
-    TRACE::log( flavor:"failure", id:5, message:"type with no name" );
-    valid = false;
-  end if;
-end for;
 
-// Validate siblings and subordinates.
-//return ( valid and structure::validate() );
-return valid;
-',
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"type has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate visibility
+if ( "public" != self.visibility and "private" != self.visibility )
+  TRACE::log( flavor:"failure", id:101, message:"invalid visibility for routine: " + self.visibility );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate body
+if ( "" == self.body )
+  TRACE::log( flavor:"failure", id:101, message:"type has no body." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+return valid;',
 	1,
 	'',
 	"2001763c-11c6-4ec8-acc1-baebed654580");

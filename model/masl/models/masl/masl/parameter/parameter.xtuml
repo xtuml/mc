@@ -131,26 +131,39 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-select many parameters from instances of parameter;
-for each parameter in parameters
-  // Look for either a previous parameter or an activity.
-  select one previous_parameter related by parameter->parameter[R3706.''succeeds''];
-  if ( empty previous_parameter )
-    select one activity related by parameter->activity[R3705];
-    if ( empty activity )
-      TRACE::log( flavor:"failure", id:13, message:"parameter has no parent activity." );
-      valid = false;
-    end if;
-  end if;
-  if ( ( "" == parameter.name ) or ( "" == parameter.type ) )
-    TRACE::log( flavor:"failure", id:14, message:"parameter has empty name or type." );
-    valid = false;
-  end if;
-end for;
 
-// Validate siblings and subordinates.
-return ( valid );
-',
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"parameter has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate direction
+if ( "in" != self.direction and "out" != self.direction )
+  TRACE::log( flavor:"failure", id:101, message:"invalid direction for parameter: " + self.direction );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate typeref
+select one typeref related by self->typeref[R3742];
+if ( not_empty typeref )
+  valid = typeref.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"no typeref for parameter" );
+end if;
+
+// validate next parameter
+select one next_param related by self->parameter[R3706.''precedes''];
+if ( not_empty next_param )
+  valid = next_param.validate();
+end if;
+
+return valid;',
 	1,
 	'',
 	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7");
@@ -173,33 +186,15 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("7f17b890-b423-4326-a606-27de7e130ae7",
+	VALUES ("5a7b7b91-1e25-40fe-aa3b-48c430383a52",
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
 INSERT INTO O_BATTR
-	VALUES ("7f17b890-b423-4326-a606-27de7e130ae7",
+	VALUES ("5a7b7b91-1e25-40fe-aa3b-48c430383a52",
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
 INSERT INTO O_ATTR
-	VALUES ("7f17b890-b423-4326-a606-27de7e130ae7",
+	VALUES ("5a7b7b91-1e25-40fe-aa3b-48c430383a52",
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
 	"1b90aca9-efb5-4368-b361-a564280cf7f2",
-	'type',
-	'',
-	'',
-	'type',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("5a7b7b91-1e25-40fe-aa3b-48c430383a52",
-	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
-INSERT INTO O_BATTR
-	VALUES ("5a7b7b91-1e25-40fe-aa3b-48c430383a52",
-	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
-INSERT INTO O_ATTR
-	VALUES ("5a7b7b91-1e25-40fe-aa3b-48c430383a52",
-	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
-	"7f17b890-b423-4326-a606-27de7e130ae7",
 	'direction',
 	'',
 	'',

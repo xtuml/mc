@@ -116,32 +116,29 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
-	'/*
-valid = true;
-select many states from instances of state;
-for each state in states
-select one object related by state->object[R3735];
-  if ( empty object )
-    TRACE::log( flavor:"failure", id:31, message:"state with no object:  " + state.name );
-    valid = false;
+	'valid = true;
+
+// validate type
+if ( "" != self.type and "assigner" != self.type and "assigner start" != self.type and "creation" != self.type and "terminal" != self.type )
+  TRACE::log( flavor:"failure", id:101, message:"invalid type for state: " + self.type );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one child_activity related by self->activity[R3704];
+if ( not_empty child_activity )
+  valid = child_activity.validate();
+  if ( false == valid )
+    return valid;	// short circuit
   end if;
-  if ( ( "assigner" != state.type ) and
-     ( "start" != state.type ) and
-     ( "creation" != state.type ) and
-     ( "terminal" != state.type ) and
-     ( "normal" != state.type ) and 
-     ( "" != state.type) )
-    TRACE::log( flavor:"failure", id:32, message:"state with invalid type:  " + state.name );
-    valid = false;
-  end if;
-  if ( "" == state.name )
-    TRACE::log( flavor:"failure", id:32, message:"state with no name on object:  " + object.name );
-    valid = false;
-  end if;
-end for;
-return valid;
-*/
-return true;',
+else
+  TRACE::log( flavor:"failure", id:101, message:"no activity for state" );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+return valid;',
 	1,
 	'',
 	"3831770b-0142-457e-9e20-b77e34cfaa75");

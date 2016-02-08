@@ -90,23 +90,51 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-/*
-select many relationships from instances of relationship;
-for each relationship in relationships
-  if ( "" == relationship.name )
-    TRACE::log( flavor:"failure", id:75, message:"relationship with no name." );
-    valid = false;
-  end if;
-  select one domain related by relationship->domain[R3712];
-  if ( empty domain )
-    TRACE::log( flavor:"failure", id:75, message:"relationship with no domain:  " + relationship.name );
-    valid = false;
-  end if;
-end for;
 
-// Validate siblings and subordinates.
-return ( valid and participation::validate() and regularrel::validate() and subsuper::validate() and associative::validate() );
-*/
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"relationship has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one associative related by self->associative[R3721];
+select one regularrel related by self->regularrel[R3721];
+select one subsuper related by self->subsuper[R3721];
+
+if ( not_empty associative )
+  valid = associative.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+elif ( not_empty regularrel )
+  valid = regularrel.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+elif ( not_empty subsuper )
+  valid = subsuper.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"relationship has no subtype." );
+  valid = false;
+  return valid;
+end if;
+
+select one participation related by self->participation[R3713.''engages''];
+if ( not_empty participation )
+  valid = participation.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"relationship has no participation." );
+  valid = false;
+end if;
+
 return valid;',
 	1,
 	'',

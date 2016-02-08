@@ -138,22 +138,54 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
-	'/*valid = true;
-select many functions from instances of function;
-for each function in functions;
-  if ( "" == function.returntype )
-    TRACE::log( flavor:"failure", id:9, message:"function has no returntype." );
+	'valid = true;
+
+// validate visibility
+if ( "public" != self.visibility and "private" != self.visibility )
+  TRACE::log( flavor:"failure", id:101, message:"invalid visibility for routine: " + self.visibility );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate instance
+if ( "instance" != self.instance and "" != self.instance )
+  TRACE::log( flavor:"failure", id:101, message:"invalid instance for routine: " + self.instance );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate deferred
+select one subsuper related by self->subsuper[R3793.''defers to''];
+if ( not_empty subsuper )
+  select one parent_object related by self->object[R3749.''transforms''];
+  select one target_object related by self->subsuper[R3793.''defers to'']->relationship[R3721]->participation[R3713.''engages'']->object[R3714.''one''];
+  if ( parent_object != target_object )
+    TRACE::log( flavor:"failure", id:101, message:"invalid relationship for deferred operation" );
     valid = false;
+    return valid;		// short circuit
   end if;
-  select one activity related by function->activity[R3704];
-  if ( empty activity )
-    TRACE::log( flavor:"failure", id:10, message:"function has no parent activity." );
-    valid = false;
+end if;
+
+
+// validate children
+select one child_activity related by self->activity[R3704];
+if ( not_empty child_activity )
+  valid = child_activity.validate();
+  if ( false == valid )
+    return valid;	// short circuit
   end if;
-end for;
-return ( valid );
-*/
-',
+else
+  TRACE::log( flavor:"failure", id:101, message:"no activity for operation" );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+select one returntyperef related by self->typeref[R3741];
+if ( not_empty returntyperef )
+  valid = returntyperef.validate();
+end if;
+
+return valid;',
 	1,
 	'',
 	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc");

@@ -104,25 +104,20 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-select many events from instances of event;
-for each event in events
-select one object related by event->object[R3736];
-  if ( empty object )
-    TRACE::log( flavor:"failure", id:31, message:"event with no object:  " + event.name );
-    valid = false;
-  end if;
-  if ( ( "assigner" != event.type ) and
-     ( "creation" != event.type ) and
-     ( "normal" != event.type ) and 
-     ( "" != event.type ) )
-    TRACE::log( flavor:"failure", id:31, message:"event with invalid type:  " + event.name );
-    valid = false;
-  end if;
-  if ( "" == event.name )
-    TRACE::log( flavor:"failure", id:32, message:"event with no name on object:  " + object.name );
-    valid = false;
-  end if;
-end for;
+
+// validate type
+if ( "" != self.type and "assigner" != self.type and "creation" != self.type )
+  TRACE::log( flavor:"failure", id:101, message:"invalid type for event: " + self.type );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one first_param related by self->parameter[R3727.''carries first''];
+if ( not_empty first_param )
+  valid = first_param.validate();
+end if;
+
 return valid;',
 	1,
 	'',
