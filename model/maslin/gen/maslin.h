@@ -15,6 +15,7 @@ extern	"C"	{
 #include "maslin_sys_types.h"
 void maslin_in_populate( c_t *, c_t [8][ESCHER_SYS_MAX_STRING_LEN] );
 void maslin_in_render( c_t *, c_t * );
+void maslin_in_tostring( c_t *, c_t * );
 void maslin_in_validate( c_t * );
 
 #ifdef	__cplusplus
