@@ -86,7 +86,7 @@ UserPostOoaInitializationCalloutf( void )
   }
   masl_in_validate( "" );
   masl_in_render( "", "*" );
-  masl_in_tostring( "project", "System" );
+  //masl_in_tostring( "project", "System" );
   T_emit( "stdout" );
 }
 
