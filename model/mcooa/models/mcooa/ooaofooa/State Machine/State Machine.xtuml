@@ -7498,6 +7498,46 @@ INSERT INTO PE_PE
 	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("f1d56d88-4138-4bdf-a9a2-306b73878dab",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Transition>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f1d56d88-4138-4bdf-a9a2-306b73878dab",
+	0,
+	"b923981f-a939-4ab1-a7a8-ab77d3b92a41");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("b923981f-a939-4ab1-a7a8-ab77d3b92a41",
+	'Transition',
+	508,
+	'SM_TXN',
+	'A transition represents a change in state of an instance.  It is represented by a line between to states (SM_NETXN and SM_NSTXN), or a line into a single state (SM_CRTXN).  Transitions are labeled with a single event (SM_EVT).',
+	"00000000-0000-0000-0000-000000000000",
+	'./Transition/Transition.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f1d56d88-4138-4bdf-a9a2-306b73878dab",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("636d438f-fc0c-4720-b4c3-6011ba093914",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Transition>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("636d438f-fc0c-4720-b4c3-6011ba093914",
+	1,
+	"b923981f-a939-4ab1-a7a8-ab77d3b92a41");
+INSERT INTO PE_PE
+	VALUES ("636d438f-fc0c-4720-b4c3-6011ba093914",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("13d08a46-4678-4d63-824c-fb651cd2e4eb");
 INSERT INTO R_REL
@@ -7811,14 +7851,6 @@ INSERT INTO R_OIR
 	"cb2b6f88-02da-446a-ad93-505517f57293",
 	"fc36fb44-ec9a-47a7-9aa4-fbf6e5eb204a",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("b923981f-a939-4ab1-a7a8-ab77d3b92a41",
-	'Transition',
-	508,
-	'SM_TXN',
-	'A transition represents a change in state of an instance.  It is represented by a line between to states (SM_NETXN and SM_NSTXN), or a line into a single state (SM_CRTXN).  Transitions are labeled with a single event (SM_EVT).',
-	"00000000-0000-0000-0000-000000000000",
-	'./Transition/Transition.xtuml');
 INSERT INTO R_SUB
 	VALUES ("514ac2d7-d386-4b4d-b0cc-ce3548c0ac1e",
 	"cb2b6f88-02da-446a-ad93-505517f57293",
