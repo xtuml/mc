@@ -7418,6 +7418,86 @@ INSERT INTO PE_PE
 	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("ce86dade-b263-4245-8001-19dd4123f4f9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine State>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("ce86dade-b263-4245-8001-19dd4123f4f9",
+	0,
+	"e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd",
+	'State Machine State',
+	502,
+	'SM_STATE',
+	'Represents a state in the state machine.',
+	"00000000-0000-0000-0000-000000000000",
+	'./State Machine State/State Machine State.xtuml');
+INSERT INTO PE_PE
+	VALUES ("ce86dade-b263-4245-8001-19dd4123f4f9",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("83829ad7-0305-49ca-a717-c128ef2c42dc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<State Machine State>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("83829ad7-0305-49ca-a717-c128ef2c42dc",
+	1,
+	"e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd");
+INSERT INTO PE_PE
+	VALUES ("83829ad7-0305-49ca-a717-c128ef2c42dc",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("e62eb4e0-7b0c-4f70-877e-0192af434e3a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<SEM Event>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("e62eb4e0-7b0c-4f70-877e-0192af434e3a",
+	0,
+	"041138e2-fb32-43bf-b3df-6300cbb76025");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("041138e2-fb32-43bf-b3df-6300cbb76025",
+	'SEM Event',
+	525,
+	'SM_SEVT',
+	'An SEM (State Event Matrix) event is one that appears in the state event matrix.  Contrast this to a polymorphic event which is defined at the supertype-level but does not appear in the SEM for the super-type.  An SEM event can either be a local event (SM_LEVT), in the case of an event that is defined in the state machine for the class, or a non-local event (SM_NLEVT) which is an alias for a polymorphic event (SM_PEVT) defined in the super-type but accessible via the subtype.',
+	"00000000-0000-0000-0000-000000000000",
+	'./SEM Event/SEM Event.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e62eb4e0-7b0c-4f70-877e-0192af434e3a",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("c5c82670-5634-486b-9d3c-c5029e65f38f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<SEM Event>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("c5c82670-5634-486b-9d3c-c5029e65f38f",
+	1,
+	"041138e2-fb32-43bf-b3df-6300cbb76025");
+INSERT INTO PE_PE
+	VALUES ("c5c82670-5634-486b-9d3c-c5029e65f38f",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("13d08a46-4678-4d63-824c-fb651cd2e4eb");
 INSERT INTO R_REL
@@ -7503,14 +7583,6 @@ INSERT INTO R_OIR
 	"f2ea5db0-e70e-4a62-9fcd-37bf6c146a75",
 	"7011f80f-d3e9-43ad-a061-e847fa72005b",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("e6d8ada6-6e33-47b5-9d80-fcb65f33c2fd",
-	'State Machine State',
-	502,
-	'SM_STATE',
-	'Represents a state in the state machine.',
-	"00000000-0000-0000-0000-000000000000",
-	'./State Machine State/State Machine State.xtuml');
 INSERT INTO R_PART
 	VALUES ("6faf0b89-3a94-49bf-b3b5-03b5e842613a",
 	"f2ea5db0-e70e-4a62-9fcd-37bf6c146a75",
@@ -9250,14 +9322,6 @@ INSERT INTO R_OIR
 	"46a6caa1-6369-4674-aa54-1ed19b66a52f",
 	"c5e95270-6968-42b3-be35-295083a9ac05",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("041138e2-fb32-43bf-b3df-6300cbb76025",
-	'SEM Event',
-	525,
-	'SM_SEVT',
-	'An SEM (State Event Matrix) event is one that appears in the state event matrix.  Contrast this to a polymorphic event which is defined at the supertype-level but does not appear in the SEM for the super-type.  An SEM event can either be a local event (SM_LEVT), in the case of an event that is defined in the state machine for the class, or a non-local event (SM_NLEVT) which is an alias for a polymorphic event (SM_PEVT) defined in the super-type but accessible via the subtype.',
-	"00000000-0000-0000-0000-000000000000",
-	'./SEM Event/SEM Event.xtuml');
 INSERT INTO R_SUB
 	VALUES ("06b0f6ef-e655-49f3-9e5b-f995a1e199dd",
 	"46a6caa1-6369-4674-aa54-1ed19b66a52f",

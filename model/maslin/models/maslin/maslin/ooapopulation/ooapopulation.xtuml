@@ -84,11 +84,11 @@ elif ( "attribute" == element )
   end if;
 elif ( "state" == element )
   if ( "" != param.value[0] )
-    ooapopulation.transformState();
+    ooapopulation.transformState(name:param.value[0], type:param.value[1]);
   end if;
 elif ( "event" == element )
   if ( "" != param.value[0] )
-    ooapopulation.transformEvent();
+    ooapopulation.transformEvent(name:param.value[0], type:param.value[1]);
   end if;
 elif ( "type" == element )
   if ( "" != param.value[0] )
@@ -222,7 +222,7 @@ self.Package_initialize(ep_pkg:package, name:param.pkg_name); // OOA - package.i
 return package; ',
 	1,
 	'',
-	"806a97a3-4a9d-4fe2-994e-8b5705b455fc");
+	"8d27a753-f5b1-44d2-9c37-5af98d0b7339");
 INSERT INTO O_TPARM
 	VALUES ("c0ea2b5d-984c-4673-8b25-82eec8098da2",
 	"0ff33986-594c-49e8-84a0-7eb628272d32",
@@ -779,10 +779,42 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'',
+	'current_class = self.current_class;
+
+//  TODO - This currently doesn''t do anything with values other than assigner in the "type" parameter.  Needs to be
+//    enhanced to handle these.
+
+select any sm_sm from instances of SM_SM where ( false );
+if ( "assigner" == param.type )
+  sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
+else
+  sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ISM");
+end if;
+
+//  Create new xtUML state machine state
+self.StateMachine_newState(sm_sm:sm_sm, name:param.name);
+',
 	1,
 	'',
 	"a442a038-3373-4282-a5fc-098af44e9cbe");
+INSERT INTO O_TPARM
+	VALUES ("6cb4e208-1494-413a-bbd6-97b5eafc6fcd",
+	"cd1f0452-4df9-45c5-949f-e319f8cb63e8",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("76efac52-8273-4c89-a55a-9e6c9f8d3248",
+	"cd1f0452-4df9-45c5-949f-e319f8cb63e8",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6cb4e208-1494-413a-bbd6-97b5eafc6fcd",
+	'');
 INSERT INTO O_TFR
 	VALUES ("3ed1f3e8-afb7-40dc-a2d2-2caac1c499d4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -790,10 +822,42 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'',
+	'current_class = self.current_class;
+
+//  TODO - This currently doesn''t do anything with values other than assigner in the "type" parameter.  Needs to be
+//    enhanced to handle these.
+
+select any sm_sm from instances of SM_SM where ( false );
+if ( "assigner" == param.type )
+  sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
+else
+  sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ISM");
+end if;
+
+//  Create new xtUML state machine state
+self.StateMachine_newEvent(sm_sm:sm_sm, name:param.name);
+',
 	1,
 	'',
 	"f2d9d56f-7fb7-485b-9cf5-6188743dd596");
+INSERT INTO O_TPARM
+	VALUES ("17fe3bc0-db1f-42ae-aaf8-128ca30e8063",
+	"3ed1f3e8-afb7-40dc-a2d2-2caac1c499d4",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("6b5a687e-a02d-4776-ad84-6d78f739e88d",
+	"3ed1f3e8-afb7-40dc-a2d2-2caac1c499d4",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"17fe3bc0-db1f-42ae-aaf8-128ca30e8063",
+	'');
 INSERT INTO O_TFR
 	VALUES ("a9942ae9-1501-49c7-afb1-84aa422a85e5",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -930,7 +994,7 @@ self.ModelClass_addIdentifiers(o_obj:o_obj); // OOA - o_obj.addIdentifiers();
 ',
 	1,
 	'',
-	"dc363b24-255d-4fa8-ba3e-633881fbaebf");
+	"fa8fd3b5-5a41-4eb5-99e7-a6bc53a46707");
 INSERT INTO O_TPARM
 	VALUES ("da659b0e-173f-470b-b017-b739ba8a6b65",
 	"6355664b-4091-4bc3-ac82-c6d3580da3ad",
@@ -2172,6 +2236,401 @@ INSERT INTO O_TPARM
 	'',
 	"1466d53f-f12e-4fca-8fc1-106ad988b02b",
 	'');
+INSERT INTO O_TFR
+	VALUES ("fa8fd3b5-5a41-4eb5-99e7-a6bc53a46707",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ModelClass_create_sm',
+	'',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	1,
+	'o_obj = param.o_obj;
+
+// This is a modified version of the OOAofOOA version of this function
+if (param.sm_type == "ISM")
+  select one ism related by o_obj->SM_ISM[R518];
+  if (not_empty ism)
+    select one sm_sm related by ism->SM_SM[R517];
+    return sm_sm;
+  else
+    create object instance ism of SM_ISM;
+    relate o_obj to ism across R518;
+    create object instance sm of SM_SM;
+    relate ism to sm across R517;
+    create object instance moore of SM_MOORE;
+    relate sm to moore across R510;
+    // add current state attribute
+    newAttr = self.ModelClass_newAttribute(o_obj:o_obj, attr_name:"current_state");
+
+    // TODO - Another type issue here ... when creating an ISM, a new class attribute is created "current_state" whose
+    //        type is state<State Model>, thus we need this type as a PEI that we can use during this assignment.
+      // if the state model dt was not found check the system level
+      // dts, traversing through a package or through the domain if it is the
+      // formal content of a component.
+      /*select one system related by o_obj->PE_PE[R8001]->
+                                                    EP_PKG[R8000]->S_SYS[R1405];
+
+      dt_id = GD::NULL_UNIQUE_ID();
+      if not_empty system
+        dt_id = system.getCoreTypeId(name:"state<State_Model>");
+      end if;
+      select any pe from instances of PE_PE where selected.Element_ID == dt_id;
+      select one dt related by pe->S_DT[R8001];
+
+    if (not_empty dt)
+      select one oldDT related by attr->S_DT[R114];
+      unrelate attr from oldDT across R114;
+      relate attr to dt across R114;
+    else
+      // TODO - assign different ID?
+      TRACE::log( flavor:"failure", id:59, message:"Unable to locate expected data type: state<State_Model> while creating state machine for " + o_obj.Name );
+    end if;*/
+    return sm;
+  end if;
+elif (param.sm_type == "ASM")
+  select one sm_asm related by o_obj->SM_ASM[R519];
+  if(not_empty sm_asm)
+    select one sm_sm related by sm_asm->SM_SM[R517];
+    return sm_sm;
+  else
+    create object instance sm_asm of SM_ASM;
+    relate o_obj to sm_asm across R519;
+    create object instance sm of SM_SM;
+    relate sm_asm to sm across R517;
+    create object instance moore of SM_MOORE;
+    relate sm to moore across R510;
+    return sm;
+  end if;
+end if;
+select any sm_sm from instances of SM_SM where ( false );
+return sm_sm;',
+	1,
+	'',
+	"dc363b24-255d-4fa8-ba3e-633881fbaebf");
+INSERT INTO O_TPARM
+	VALUES ("4440cf90-e58b-442a-bcfe-57c371190c5b",
+	"fa8fd3b5-5a41-4eb5-99e7-a6bc53a46707",
+	'sm_type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a12afe92-a540-45bc-8b8c-8655252f986e",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a12afe92-a540-45bc-8b8c-8655252f986e",
+	"fa8fd3b5-5a41-4eb5-99e7-a6bc53a46707",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f6562655-0940-4f4f-a1ae-7094b79949a7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO O_TFR
+	VALUES ("bc18a8a6-8343-4640-9953-070d98414a12",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachine_newState',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_sm = param.sm_sm;
+
+create object instance st of SM_STATE;
+relate sm_sm to st across R501;
+self.StateMachineState_initialize(sm_state:st, name:param.name); // OOA - st.initialize();',
+	1,
+	'',
+	"9bf9cd87-5a44-46e2-b3c6-f4b6d456609d");
+INSERT INTO O_TPARM
+	VALUES ("eb358bbe-39dd-408b-9a64-352e1e9cde3f",
+	"bc18a8a6-8343-4640-9953-070d98414a12",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("6ffe93b8-03aa-4f14-8796-5c0c36edc240",
+	"bc18a8a6-8343-4640-9953-070d98414a12",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"eb358bbe-39dd-408b-9a64-352e1e9cde3f",
+	'');
+INSERT INTO O_TFR
+	VALUES ("8d27a753-f5b1-44d2-9c37-5af98d0b7339",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachineState_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_state = param.sm_state;
+
+// This is a heavily modified version of the function in the OOAofOOA
+sm_state.Name = param.name;
+
+// set this state''s number to a default value
+sm_state.Numb = 1;
+
+// for each state associated with this state''s state machine
+select many states related by sm_state->SM_SM[R501]->SM_STATE[R501];
+for each state in states
+  // if this state equals sm_state, skip it
+  if (state.SMstt_ID == sm_state.SMstt_ID) continue; end if;
+
+  // if this other state''s number is greater than this state''s number
+  if ( state.Numb >= sm_state.Numb )
+    // have this state''s number be just greater than this
+    // other state''s number
+    sm_state.Numb = state.Numb + 1;
+  end if;
+end for;
+
+create object instance ah of SM_AH;
+create object instance moah of SM_MOAH;
+relate ah to moah across R513;
+select one sm related by sm_state->SM_SM[R501];
+select one msm related by sm->SM_MOORE[R510];
+relate sm_state to msm across R511 using moah;
+create object instance act of SM_ACT;
+relate act to ah across R514;
+relate act to sm across R515;
+//
+// create SEM entry instances
+//
+select many event_set related by sm->SM_EVT[R502]->SM_SEVT[R525];
+for each event in event_set
+  create object instance sem of SM_SEME;
+  // TODO: get default subtype from preferences (SKB Note: this TODO is from the OOAofOOA, not MASLIN)
+  create object instance ch of SM_CH;
+  relate sm_state to event across R503 using sem;
+  relate ch to sem across R504;
+end for;
+
+act.Suc_Pars = ParseStatus::parseInitial;',
+	1,
+	'',
+	"fcecf336-d019-41b1-8fed-2d87543e22ec");
+INSERT INTO O_TPARM
+	VALUES ("3f91fa97-9082-4afb-9851-a627ddd6bece",
+	"8d27a753-f5b1-44d2-9c37-5af98d0b7339",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4471cf81-cb5c-4bb5-a78e-d1c61a1019ed",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("4471cf81-cb5c-4bb5-a78e-d1c61a1019ed",
+	"8d27a753-f5b1-44d2-9c37-5af98d0b7339",
+	'sm_state',
+	"ce86dade-b263-4245-8001-19dd4123f4f9",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ce86dade-b263-4245-8001-19dd4123f4f9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine State>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO O_TFR
+	VALUES ("9bf9cd87-5a44-46e2-b3c6-f4b6d456609d",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachine_newEvent',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_sm = param.sm_sm;
+
+create object instance newEvent of SM_EVT;
+relate sm_sm to newEvent across R502;
+self.StateMachineEvent_initialize(sm_evt:newEvent, name:param.name); // OOA - newEvent.initialize();
+',
+	1,
+	'',
+	"95d28c71-7112-48a3-9945-3db8666f33fa");
+INSERT INTO O_TPARM
+	VALUES ("62908e76-4dab-4aee-91a4-864c95ce4fae",
+	"9bf9cd87-5a44-46e2-b3c6-f4b6d456609d",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("8803b827-8934-4198-bcdd-56c4d4524fd8",
+	"9bf9cd87-5a44-46e2-b3c6-f4b6d456609d",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"62908e76-4dab-4aee-91a4-864c95ce4fae",
+	'');
+INSERT INTO O_TFR
+	VALUES ("7275e256-3909-4d82-8c71-c51ad5614ea7",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachineEvent_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_evt = param.sm_evt;
+
+// This is a fairly heavily modified version of the same function in OOAofOOA
+sm_evt.Mning = param.name;
+
+// set this event''s number to a default value
+sm_evt.Numb = 1;
+
+// give this event a unique number
+self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false); // OOA - sm_evt.setUniqueNumber(checkForDuplicate:false);
+
+select one sm related by sm_evt->SM_SM[R502];                                   
+create object instance semEvt of SM_SEVT;
+relate sm_evt to semEvt across R525;
+create object instance locEvt of SM_LEVT;
+relate semEvt to locEvt across R526;
+//
+self.SEMEvent_createDefaultMatrixEntries(sm_sevt:semEvt); // OOA - semEvt.createDefaultMatrixEntries();
+',
+	1,
+	'',
+	"bc18a8a6-8343-4640-9953-070d98414a12");
+INSERT INTO O_TPARM
+	VALUES ("2727a3e8-9a4d-42d4-bb55-3fd47506d30c",
+	"7275e256-3909-4d82-8c71-c51ad5614ea7",
+	'sm_evt',
+	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine Event>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("67b0f95f-8d83-4ada-9efe-fe6145c977f9",
+	"7275e256-3909-4d82-8c71-c51ad5614ea7",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"2727a3e8-9a4d-42d4-bb55-3fd47506d30c",
+	'');
+INSERT INTO O_TFR
+	VALUES ("fcecf336-d019-41b1-8fed-2d87543e22ec",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachineEvent_setUniqueNumber',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_evt = param.sm_evt;
+checkForDuplicate = param.checkForDuplicate;
+
+// for each event associated with this event''s state machine
+select one sm related by sm_evt->SM_SM[R502];
+select many events related by sm->SM_EVT[R502];
+foundDuplicate = false;
+originalNumb = sm_evt.Numb;
+for each event in events
+  // if this event is sm_evt, skip it
+  if (event.SMevt_ID == sm_evt.SMevt_ID)  continue;  end if;
+
+  if(event.Numb == sm_evt.Numb)
+    foundDuplicate = true;
+  end if;
+
+  // if this other event''s number is greater than this event''s number
+  if (event.Numb >= sm_evt.Numb)
+    // have this event''s number be just greater than that of 
+    // this other event
+    sm_evt.Numb = event.Numb + 1;
+  end if;
+end for;
+if(not foundDuplicate and param.checkForDuplicate)
+  sm_evt.Numb = originalNumb;
+end if;',
+	1,
+	'',
+	"7275e256-3909-4d82-8c71-c51ad5614ea7");
+INSERT INTO O_TPARM
+	VALUES ("b48d203a-25d7-41eb-bec6-fa61194538a9",
+	"fcecf336-d019-41b1-8fed-2d87543e22ec",
+	'sm_evt',
+	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("13e0b14e-a2b8-4a85-b25c-52f9107c2e02",
+	"fcecf336-d019-41b1-8fed-2d87543e22ec",
+	'checkForDuplicate',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"b48d203a-25d7-41eb-bec6-fa61194538a9",
+	'');
+INSERT INTO O_TFR
+	VALUES ("95d28c71-7112-48a3-9945-3db8666f33fa",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'SEMEvent_createDefaultMatrixEntries',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_sevt = param.sm_sevt;
+
+/*
+Creates a can''t-happen matrix entry for this event for each state in this event''s 
+state machine.
+*/
+
+// for each state in this event''s state machine
+select many states related by sm_sevt->SM_EVT[R525]->SM_SM[R502]->SM_STATE[R501];
+for each state in states
+    // create an event-matrix-entry to relate this state to this event
+    create object instance entry of SM_SEME;
+    relate state to sm_sevt across R503 using entry;
+    
+    // create a can''t-happen entry to classify the event-matrix
+    // entry created above
+    create object instance cantHappen of SM_CH;
+    relate cantHappen to entry across R504;
+end for;
+',
+	1,
+	'',
+	"806a97a3-4a9d-4fe2-994e-8b5705b455fc");
+INSERT INTO O_TPARM
+	VALUES ("ce7ac460-d5ae-4d86-86d2-4e244dba0a7e",
+	"95d28c71-7112-48a3-9945-3db8666f33fa",
+	'sm_sevt',
+	"e62eb4e0-7b0c-4f70-877e-0192af434e3a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e62eb4e0-7b0c-4f70-877e-0192af434e3a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<SEM Event>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
