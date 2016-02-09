@@ -158,18 +158,17 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-select many templates from instances of template;
-if ( empty templates )
-  TRACE::log( flavor:"failure", id:5, message:"There are no templates." );
+
+// validate body
+if ( "" == self.body )
+  TRACE::log( flavor:"failure", id:101, message:"typeref has no body." );
   valid = false;
+  return valid;		// short circuit
 end if;
 
-// Validate siblings and subordinates.
-//return ( valid and structure::validate() );
-return valid;
-',
+return valid;',
 	1,
 	'',
 	"33c31fc6-9275-430e-955f-f3e08966cd22");
@@ -180,9 +179,12 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'value[8] = "";
-//value[0] = self.name;
-//out::( element:"template_class", value:value );',
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.body;
+out::tostring( element:"typeref", value:value );
+out::tostring( element:"typeref", value:emptyvalue );',
 	1,
 	'',
 	"4c31359f-e19b-4e4e-b98a-d9189bcb5da5");

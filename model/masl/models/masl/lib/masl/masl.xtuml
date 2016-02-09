@@ -413,19 +413,7 @@ INSERT INTO SPR_PS
 	VALUES ("28a1ad89-c65d-4864-9ec4-b77479a09282",
 	'validate',
 	'',
-	'valid = true;
-if ( "project" == param.element )
-  valid = project::validate();
-elif ( "domain" == param.element )
-  valid = domain::validate();
-elif ( "object" == param.element )
-  valid = object::validate();
-else
-  TRACE::log( flavor:"warning", id:90, message:"unrecognized model element in validate" );
-end if;
-if ( not valid )
-  TRACE::log( flavor:"failure", id:91, message:"model did not validate" );
-end if;',
+	'::validate();',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("b57fb261-23b3-4e1c-95ad-ff8458bab1cd",

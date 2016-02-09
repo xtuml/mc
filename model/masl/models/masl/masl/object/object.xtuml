@@ -41,7 +41,7 @@ for each state_machine in state_machines
 end for;
 T::include( file:"masl/t.object_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"definition" );',
+markable.render_marking( list:"definition" );',
 	1,
 	'',
 	"08a62993-0de5-465c-bb72-ba84e7590350");
@@ -58,7 +58,6 @@ select any object related by domain->object[R3708.''has abstract''] where ( sele
 if ( empty object )
   create object instance object of object;
   object.name = param.name;
-  object.key_letters = object.name;
   relate domain to object across R3708.''has abstract'';
   markable = markable::populate( name:"object" );
   relate object to markable across R3783;
@@ -105,28 +104,71 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-select many objects from instances of object;
-for each object in objects
-  select one domain related by object->domain[R3708];
-  if ( empty domain )
-    TRACE::log( flavor:"failure", id:25, message:"object with no domain:  " + object.name );
-    valid = false;
-  end if;
-  if ( ( "" == object.name ) or ( "" == object.key_letters ) )
-    TRACE::log( flavor:"failure", id:26, message:"object with missing attribute values" );
-    valid = false;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"object has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate attributes
+select many child_attributes related by self->attribute[R3709.''is characterized by''];
+for each attribute in child_attributes
+  valid = attribute.validate();
+  if ( false == valid )
+    return valid;	// short circuit
   end if;
 end for;
 
-// Validate siblings and subordinates.
-return ( valid and
-  attribute::validate() and
-  state::validate() and
-  event::validate() and
-  state_machine::validate()
-);',
+// validate identifiers
+select many child_identifiers related by self->identifier[R3711];
+for each identifier in child_identifiers
+  valid = identifier.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate operations
+select many child_operations related by self->operation[R3749];
+for each operation in child_operations
+  valid = operation.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate states
+select many child_states related by self->state[R3750];
+for each state in child_states
+  valid = state.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate events
+select many child_events related by self->event[R3736.''is triggered by''];
+for each event in child_events
+  valid = event.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate state machines
+select many child_state_machines related by self->state_machine[R3734];
+for each state_machine in child_state_machines
+  valid = state_machine.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
 	1,
 	'',
 	"5f2cb104-b641-4a62-a93f-91b78ab62058");
@@ -139,7 +181,7 @@ INSERT INTO O_TFR
 	1,
 	'T::include( file:"masl/t.object_declaration.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"declaration" );',
+markable.render_marking( list:"declaration" );',
 	1,
 	'',
 	"94d08134-61ae-4921-adee-96a5ef2d9522");
@@ -154,12 +196,35 @@ INSERT INTO O_TFR
 emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
 
 value[0] = self.name;
-value[1] = self.key_letters;
 out::tostring( element:"object", value:value );
+
 select many attributes related by self->attribute[R3709.''is characterized by''];
 for each attribute in attributes
-  //attribute.tostring();
+  attribute.tostring();
 end for;
+select many identifiers related by self->identifier[R3711];
+for each identifier in identifiers
+  //identifier.tostring();
+end for;
+select many operation_activities related by self->operation[R3749]->activity[R3704];
+for each activity in operation_activities
+  //activity.tostring();
+end for;
+select many state_activities related by self->state[R3750]->activity[R3704];
+for each activity in state_activities
+  //activity.tostring();
+end for;
+select many events related by self->event[R3736.''is triggered by''];
+for each event in events
+  //event.tostring();
+end for;
+select many state_machines related by self->state_machine[R3734];
+for each state_machine in state_machines
+  //state_machine.tostring();
+end for;
+select one markable related by self->markable[R3783];
+//markable.tostring( list:"definition" );
+
 out::tostring( element:"object", value:emptyvalue );
 ',
 	1,
@@ -179,24 +244,6 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'name',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES ("6f3aeed7-7692-4717-91d3-102aa70fe71a",
-	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
-INSERT INTO O_BATTR
-	VALUES ("6f3aeed7-7692-4717-91d3-102aa70fe71a",
-	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495");
-INSERT INTO O_ATTR
-	VALUES ("6f3aeed7-7692-4717-91d3-102aa70fe71a",
-	"c3fb5002-9e75-4ca6-bf1e-0bcad30ab495",
-	"e4200518-32d3-4bef-abc2-bcb823d3dfe9",
-	'key_letters',
-	'',
-	'',
-	'key_letters',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

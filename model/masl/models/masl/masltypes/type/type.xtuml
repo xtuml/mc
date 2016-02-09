@@ -98,20 +98,31 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-select many types from instances of type;
-for each type in types
-  if ( "" == type.name )
-    TRACE::log( flavor:"failure", id:5, message:"type with no name" );
-    valid = false;
-  end if;
-end for;
 
-// Validate siblings and subordinates.
-//return ( valid and structure::validate() );
-return valid;
-',
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"type has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate visibility
+if ( "public" != self.visibility and "private" != self.visibility )
+  TRACE::log( flavor:"failure", id:101, message:"invalid visibility for routine: " + self.visibility );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate body
+if ( "" == self.body )
+  TRACE::log( flavor:"failure", id:101, message:"type has no body." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+return valid;',
 	1,
 	'',
 	"2001763c-11c6-4ec8-acc1-baebed654580");
@@ -122,9 +133,14 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'value[8] = "";
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
 value[0] = self.name;
-//out::( element:"template_class", value:value );',
+value[1] = self.visibility;
+value[2] = self.body;
+out::tostring( element:"type", value:value );
+out::tostring( element:"type", value:emptyvalue );',
 	1,
 	'',
 	"b7dd3c52-3a6c-4cea-b528-2625ea83d95d");

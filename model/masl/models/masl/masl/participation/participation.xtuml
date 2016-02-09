@@ -166,23 +166,82 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-select many participations from instances of participation;
-for each participation in participations
-  select one relationship related by participation->relationship[R3713];
-  if ( empty relationship )
-    TRACE::log( flavor:"failure", id:5, message:"participation with no relationship" );
-    valid = false;
+
+select one associative related by self->relationship[R3713]->associative[R3721];
+select one regularrel related by self->relationship[R3713]->regularrel[R3721];
+select one subsuper related by self->relationship[R3713]->subsuper[R3721];
+
+// check one object
+select one one_object related by self->object[R3714.''one''];
+if ( empty one_object )
+  TRACE::log( flavor:"failure", id:101, message:"participation has no one object." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+if ( not_empty associative or not_empty regularrel )
+  // check all attributes
+  if ( "" == self.onephrase )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no one phrase." );
+	valid = false;
+	return valid;		// short circuit
   end if;
-  select one one_object related by participation->object[R3714.''one''];
-  if ( empty one_object )
-    TRACE::log( flavor:"failure", id:5, message:"participation with no one-side object" );
-    valid = false;
+  if ( "" == self.oneconditionality )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no one conditionality." );
+	valid = false;
+	return valid;		// short circuit
   end if;
-end for;
-return valid;
-',
+  if ( "" == self.onemultiplicity )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no one multiplicity." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+  if ( "" == self.otherphrase )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no other phrase." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+  if ( "" == self.otherconditionality )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no other conditionality." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+  if ( "" == self.othermultiplicity )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no other multiplicity." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+
+  // check only one other object
+  select many others related by self->object[R3720.''other''];
+  if ( 1 != cardinality others )
+	TRACE::log( flavor:"failure", id:101, message:"exactly one other object is required for associative or regular participation." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+
+  if ( not_empty associative )
+    // check uses object
+    select one uses related by self->object[R3715.''uses''];
+    if ( empty uses )
+	  TRACE::log( flavor:"failure", id:101, message:"no uses object for associative participation." );
+	  valid = false;
+	  return valid;		// short circuit
+    end if;
+  end if;
+else
+  // check at least one other object
+  select many others related by self->object[R3720.''other''];
+  if ( 1 > cardinality others )
+	TRACE::log( flavor:"failure", id:101, message:"at least one other object is required for subsuper participation." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+end if;
+
+return valid;',
 	1,
 	'',
 	"cf42fb5a-3aad-4c33-af67-0d26c26e746f");

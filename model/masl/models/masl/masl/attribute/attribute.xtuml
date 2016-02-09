@@ -35,7 +35,7 @@ if ( not_empty expression )
 end if;
 T::include( file:"masl/t.attribute_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"4c9d4539-8201-424e-84cc-ac2ce8b70c71");
@@ -150,33 +150,63 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-select many attributes from instances of attribute;
-for each attribute in attributes
-  if ( "" == attribute.name )
-    TRACE::log( flavor:"failure", id:28, message:"attribute with no name" );
-    valid = false;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"attribute has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate preferred
+if ( "" != self.preferred and "preferred" != self.preferred )
+  TRACE::log( flavor:"failure", id:101, message:"invalid preferred for attribute: " + self.preferred );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate unique
+if ( "" != self.unique and "unique" != self.unique )
+  TRACE::log( flavor:"failure", id:101, message:"invalid unique for attribute: " + self.unique );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate referentials
+select many child_referentials related by self->referential[R3746.''references''];
+for each referential in child_referentials
+  valid = referential.validate();
+  if ( false == valid )
+    return valid;	// short circuit
   end if;
-  select one object related by attribute->object[R3709];
-  if ( empty object )
-    TRACE::log( flavor:"failure", id:29, message:"orphan attribute with no object:  " + attribute.name );
-    valid = false;
-  end if;
-  //select one type related by attribute->type[R3717];
-  //if ( empty type )
-    //TRACE::log( flavor:"failure", id:29, message:"attribute with no type:  " + attribute.name );
-    //valid = false;
-  //end if;
 end for;
 
-// Validate siblings and subordinates.
-return ( valid and referential::validate() and identifier::validate() );
-return valid;
-',
+// validate expression
+select one expression related by self->expression[R3745.''initialized by''];
+if ( not_empty expression )
+  valid = expression.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end if;
+
+// validate typeref
+select one typeref related by self->typeref[R3717];
+if ( not_empty typeref )
+  valid = typeref.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"no typeref for attribute" );
+end if;
+
+return valid;',
 	1,
 	'',
-	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059");
+	"fd542ea4-7e21-4c67-ad18-2c26e8875a97");
 INSERT INTO O_TFR
 	VALUES ("65a587c5-8adb-485c-b877-28413cb9bbff",
 	"514b84aa-197a-464c-a09e-e7f135680958",
@@ -187,7 +217,44 @@ INSERT INTO O_TFR
 	'T::include( file:"masl/t.attribute_name.masl" );',
 	1,
 	'',
-	"57ca507c-d88a-4bcb-8a8d-d86fe4680b5e");
+	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059");
+INSERT INTO O_TFR
+	VALUES ("fd542ea4-7e21-4c67-ad18-2c26e8875a97",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.name;
+value[1] = self.preferred;
+value[2] = self.unique;
+out::tostring( element:"attribute", value:value );
+
+select many referentials related by self->referential[R3746.''references''];
+if ( not_empty referentials )
+  separator = "";
+  for each referential in referentials
+    //referential.tostring();
+    separator = ", ";
+  end for;
+end if;
+select one attributetype related by self->typeref[R3717];
+attributetype.tostring();
+select one expression related by self->expression[R3745];
+if ( not_empty expression )
+  expression.tostring();
+end if;
+select one markable related by self->markable[R3783];
+//markable.tostring();
+
+out::tostring( element:"attribute", value:emptyvalue );
+',
+	1,
+	'',
+	"65a587c5-8adb-485c-b877-28413cb9bbff");
 INSERT INTO O_NBATTR
 	VALUES ("6ed52915-ba48-441a-83a8-e2427e0b0ca2",
 	"514b84aa-197a-464c-a09e-e7f135680958");

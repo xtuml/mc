@@ -109,18 +109,41 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
 
-// Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
-return valid;
-',
+// validate relationship
+select one relationship related by self->relationship[R3744.''specifies''];
+if ( not_empty relationship )
+  select one participation related by relationship->participation[R3713.''engages''];
+  if ( not_empty participation )
+    select any object from instances of object where false;
+    if ( "" == self.rolephrase or participation.otherphrase == self.rolephrase )	// one in subsuper
+      select one object related by participation->object[R3714.''one''];
+    elif ( participation.onephrase == self.rolephrase )								// other
+      select any object related by participation->object[R3720.''other''];
+    else
+  	  TRACE::log( flavor:"failure", id:101, message:"invalid rolephrase for referential" );
+      valid = false;
+      return valid;		// short circuit
+    end if;
+
+    select one references related by self->attribute[R3746.''references''];
+    select any referred_to related by object->attribute[R3709.''is characterized by''] where ( selected.name == references.name );
+    if ( referred_to != references )
+  	  TRACE::log( flavor:"failure", id:101, message:"attribute mismatch: " + referred_to.name + ", " + references.name );
+      valid = false;
+      return valid;		// short circuit
+    end if;
+  end if;
+  // if there is no participation, it is taken care of by validation of relationship
+else
+  TRACE::log( flavor:"failure", id:101, message:"no relationship for referential" );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+return valid;',
 	1,
 	'',
 	"29b4edbe-2a0d-41ae-846f-5b961e250517");

@@ -57,7 +57,7 @@ else
   TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
 end if;
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"7baced44-2e68-4af0-bf91-6ab83eb77f66");
@@ -67,30 +67,23 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
-	'/*
-valid = true;
-select many activitys from instances of activity;
-for each activity in activitys;
-  select one terminator related by activity->terminator[R3703];
-  select one domain related by activity->domain[R3707];
-  if ( ( empty terminator ) and ( empty domain ) )
-    TRACE::log( flavor:"failure", id:8, message:"activity has no parent terminator or domain." );
-    valid = false;
-  end if;
-  select one function related by activity->function[R3704];
-  select one routine related by activity->routine[R3704];
-  if ( ( empty function ) and ( empty routine ) )
-    TRACE::log( flavor:"failure", id:9, message:"activity has no child function or routine." );
-    valid = false;
-  end if;
-end for;
+	1,
+	'valid = true;
 
-// Validate siblings and subordinates.
-return ( valid and function::validate() and routine::validate() and parameter::validate() );
-*/
-return true;
-',
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"activity has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one first_param related by self->parameter[R3705.''carries first''];
+if ( not_empty first_param )
+  valid = first_param.validate();
+end if;
+
+return valid;',
 	1,
 	'',
 	"cce75d87-818b-4fc3-a50d-f92d030db143");

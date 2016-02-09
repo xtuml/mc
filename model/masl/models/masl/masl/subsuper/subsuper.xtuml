@@ -37,13 +37,15 @@ INSERT INTO O_TFR
 	"3e82ef73-92f1-464a-9961-915da3477b00",
 	'populate',
 	'',
-	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	"728521fc-a27c-417a-b5c9-bef25e895869",
 	0,
 	'domain = param.domain;
 relationship = relationship::populate( name:param.name, domain:domain );
 create object instance subsuper of subsuper;
 relate subsuper to relationship across R3721;
-return relationship;',
+markable = markable::populate( name:"subsuper" );
+relate relationship to markable across R3783;
+return subsuper;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -73,9 +75,9 @@ INSERT INTO S_DT_PROXY
 	'',
 	'../masl.xtuml');
 INSERT INTO S_DT_PROXY
-	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	VALUES ("728521fc-a27c-417a-b5c9-bef25e895869",
 	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<relationship>',
+	'inst_ref<subsuper>',
 	'',
 	'',
 	'../masl.xtuml');
@@ -85,21 +87,9 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-select many subsupers from instances of subsuper;
-for each subsuper in subsupers
-  select one participation related by subsuper->relationship[R3721]->participation[R3713.''engages''];
-  select one one_object related by participation->object[R3714.''one''];
-  select many other_objects related by participation->object[R3720.''other''];
-  if ( ( empty participation ) or ( empty one_object ) or ( empty other_objects ) )
-    TRACE::log( flavor:"failure", id:5, message:"subsuper is missing related objects." );
-    valid = false;
-  end if;
-end for;
-
-return valid;
-',
+return valid;',
 	1,
 	'',
 	"4c2a935c-9f82-483a-8ea4-76b47f7b44ab");

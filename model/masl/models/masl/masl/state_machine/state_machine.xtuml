@@ -30,10 +30,10 @@ for each start_state in start_states
     separator = ",\n";
   end for;
   T::include( file:"masl/t.transitionrow_end.masl" );
-  markable.render( list:start_state_name + "_pragmalist" );
+  markable.render_marking( list:start_state_name + "_pragmalist" );
 end for;
 T::include( file:"masl/t.transitiontable_end.masl" );
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"8930d86e-438f-4a56-b595-3a8b60fe9123");
@@ -99,35 +99,26 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
-	'/*
-valid = true;
-select many machines from instances of state_machine;
-for each machine in machines
-  select any state related by machine->state[R3738];
-  if ( empty state )
-    TRACE::log( flavor:"failure", id:5, message:machine.type + " State machine has no states." );
-    valid = false;
-  end if;
-  select any event related by machine->event[R3737];
-  if ( empty state )
-    TRACE::log( flavor:"failure", id:5, message:machine.type + " State machine has no events." );
-    valid = false;
-  end if;
-  select one lifecycle related by machine->lifecycle_sm[R3734];
-  if (empty lifecycle)
-    select one assigner related by machine->assigner_sm[R3734];
-    if (empty assigner)
-      TRACE::log( flavor:"failure", id:5, message:machine.type + " State machine has no child." );
-      valid = false;
-    end if;
+	1,
+	'valid = true;
+
+// validate type
+if ( "" != self.type and "assigner" != self.type )
+  TRACE::log( flavor:"failure", id:101, message:"invalid type for state_machine: " + self.type );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate cells
+select many child_cells related by self->cell[R3743.''is matrix of''];
+for each cell in child_cells
+  valid = cell.validate();
+  if ( false == valid )
+    return valid;	// short circuit
   end if;
 end for;
 
-// Validate siblings and subordinates.
-return ( valid and lifecycle_sm::validate() and assigner_sm::validate() and state::validate() and event::validate() and transition_rule::validate() );
-*/
-return true;',
+return valid;',
 	1,
 	'',
 	"bc4dbe48-4b74-418f-8d9a-0f3351e63b7d");

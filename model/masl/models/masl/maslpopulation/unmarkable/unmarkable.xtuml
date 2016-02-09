@@ -37,6 +37,76 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../maslpopulation.xtuml');
+INSERT INTO O_TFR
+	VALUES ("cb5e8ced-21c0-4534-8804-fa9c565a5424",
+	"290f38ad-8da5-4ebb-ab7b-d2056c167899",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+select one parameter related by self->parameter[R3788];
+select one participation related by self->participation[R3788];
+select one typeref related by self->typeref[R3788];
+select one referential related by self->referential[R3788];
+select one cell related by self->cell[R3788];
+select one pragma related by self->pragma[R3788];
+select one pragma_item related by self->pragma_item[R3788];
+
+if ( not_empty parameter )
+  valid = parameter.validate();
+elif ( not_empty participation )
+  valid = participation.validate();
+elif ( not_empty typeref )
+  valid = typeref.validate();
+elif ( not_empty referential )
+  valid = referential.validate();
+elif ( not_empty cell )
+  valid = cell.validate();
+elif ( not_empty pragma )
+  valid = pragma.validate();
+else
+  valid = pragma_item.validate();
+end if;
+
+return valid;',
+	1,
+	'',
+	"999c9ca2-d4ca-46fc-8026-903631dab597");
+INSERT INTO O_TFR
+	VALUES ("c7899cac-73ee-476b-be1f-de045e0f424f",
+	"290f38ad-8da5-4ebb-ab7b-d2056c167899",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one parameter related by self->parameter[R3788];
+select one participation related by self->participation[R3788];
+select one typeref related by self->typeref[R3788];
+select one referential related by self->referential[R3788];
+select one cell related by self->cell[R3788];
+select one pragma related by self->pragma[R3788];
+select one pragma_item related by self->pragma_item[R3788];
+
+if ( not_empty parameter )
+  parameter.render();
+elif ( not_empty participation )
+  participation.render();
+elif ( not_empty typeref )
+  typeref.render();
+elif ( not_empty referential )
+  referential.render();
+elif ( not_empty cell )
+  cell.render();
+elif ( not_empty pragma )
+  pragma.render();
+else
+  pragma_item.render();
+end if;',
+	1,
+	'',
+	"cb5e8ced-21c0-4534-8804-fa9c565a5424");
 INSERT INTO O_ID
 	VALUES (0,
 	"290f38ad-8da5-4ebb-ab7b-d2056c167899");

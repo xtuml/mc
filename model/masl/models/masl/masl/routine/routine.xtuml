@@ -98,22 +98,19 @@ INSERT INTO O_TFR
 	1,
 	'name = param.name;
 visibility = self.visibility;
-select one returntype related by self->typeref[R3792];
-if ( not_empty returntype )
-  T::include( file:"masl/t.function_begin.masl" );
-  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-  if ( not_empty parameter )
-    parameter.render();
-  end if;
-  T::include( file:"masl/t.function_end.masl" );
-else
-  T::include( file:"masl/t.service_begin.masl" );
-  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
-  if ( not_empty parameter )
-    parameter.render();
-  end if;
-  T::include( file:"masl/t.service_end.masl" );
-end if;',
+flavor = "service";
+returntype = "";
+select one returntyperef related by self->typeref[R3792];
+if ( not_empty returntyperef )
+  flavor = "function";
+  returntype = returntyperef.body;
+end if;
+T::include( file:"masl/t.routine_begin.masl" );
+select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.routine_end.masl" );',
 	1,
 	'',
 	"b5d33493-0c68-42fd-90e7-2e4e5910aea9");
@@ -132,18 +129,35 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-select many routines from instances of routine;
-for each routine in routines;
-  select one activity related by routine->activity[R3704];
-  if ( empty activity )
-    TRACE::log( flavor:"failure", id:10, message:"routine has no parent activity." );
-    valid = false;
+
+// validate visibility
+if ( "public" != self.visibility and "private" != self.visibility )
+  TRACE::log( flavor:"failure", id:101, message:"invalid visibility for routine: " + self.visibility );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one child_activity related by self->activity[R3704];
+if ( not_empty child_activity )
+  valid = child_activity.validate();
+  if ( false == valid )
+    return valid;	// short circuit
   end if;
-end for;
-return ( valid );
-',
+else
+  TRACE::log( flavor:"failure", id:101, message:"no activity for routine" );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+select one returntyperef related by self->typeref[R3792];
+if ( not_empty returntyperef )
+  valid = returntyperef.validate();
+end if;
+
+return valid;',
 	1,
 	'',
 	"f9b377c0-d337-4e40-9132-58d2adc9509f");

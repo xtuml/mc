@@ -117,24 +117,37 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-select many cells from instances of cell;
-for each cell in cells
-  select one state_machine related by cell->state_machine[R3743];
-  if ( empty state_machine )
-    TRACE::log( flavor:"failure", id:89, message:"cell with no parent state machine" );
+
+select one start_state related by self->state[R3732];
+select one event related by self->event[R3732];
+select one end_state related by self->state[R3731];
+
+// validate start state
+if ( empty start_state )
+  TRACE::log( flavor:"failure", id:101, message:"cell has no start state." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate event
+if ( empty event )
+  TRACE::log( flavor:"failure", id:101, message:"cell has no transition event." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate end state
+if ( empty end_state )
+  if ( "Ignore" != self.notransition and "Cannot_Happen" != self.notransition and "cannot_happen" != self.notransition )	// these spellings are taken directly from the lexer grammar
+    TRACE::log( flavor:"failure", id:101, message:"cell has no end state with invalid no transition: " + self.notransition );
     valid = false;
+    return valid;		// short circuit
   end if;
-  select one start_state related by cell->state[R3732];
-  select one transition_event related by cell->event[R3732];
-  if ( ( empty start_state ) or ( empty transition_event ) )
-    TRACE::log( flavor:"failure", id:88, message:"cell missing start start or event" );
-    valid = false;
-  end if;
-end for;
-return valid;
-',
+end if;
+
+return valid;',
 	1,
 	'',
 	"2014fa3a-0901-4300-92a8-c5a7ea753d0e");

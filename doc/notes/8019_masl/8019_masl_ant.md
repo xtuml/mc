@@ -69,22 +69,6 @@ MASL from MASL-extended xtUML models.
 4.3.1 Structural xtUML shall be edited normally.  
 4.3.2 MASL activities shall be edited as text.  
 
-4.4 Non-functional Requirements  
-4.4.1 MASL support shall be accomplished using model-based engineering and
-an explicit model-driven architecture.  A model of the MASL syntax shall be
-established as a basis for the work.  xtUML OAL activities shall be written
-to perform model-to-model (M2M) transformations from/to xtUML to/from MASL.
-The export functionality represents a model-based model compiler translating
-xtUML to MASL.  
-4.4.2 There shall be a strong segregation of template from query.  
-4.4.3 Activities in the model of MASL shall be free of references to xtUML
-or other non-MASL model elements.  
-4.4.4 Natural (naming and descriptive attribute) identifiers shall be
-established on MASL classes where appropriate.  Arbitrary (`unique_id`)
-identifiers shall be avoided and used only as documented necessary.  
-4.4.5 Use `TE_*` classes only as documented necessary (as for marking).  
-
-
 5. Analysis
 -----------
 5.1 Import Flow  

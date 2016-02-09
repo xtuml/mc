@@ -31,7 +31,7 @@ end if;
 end if;
 end if;
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"ba9f72fd-fca7-4102-b768-e6f9748221de");
@@ -43,15 +43,9 @@ INSERT INTO O_TFR
 	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
 	0,
 	'domain = param.domain;
-name = param.name;
-select any relationship related by domain->relationship[R3712] where ( selected.name == name );
-if ( empty relationship )
-  create object instance relationship of relationship;
-  relationship.name = param.name;
-  relate relationship to domain across R3712;
-  markable = markable::populate( name:"relationship" );
-  relate relationship to markable across R3783;
-end if;
+create object instance relationship of relationship;
+relationship.name = param.name;
+relate relationship to domain across R3712;
 return relationship;',
 	1,
 	'',
@@ -94,23 +88,54 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-select many relationships from instances of relationship;
-for each relationship in relationships
-  if ( "" == relationship.name )
-    TRACE::log( flavor:"failure", id:75, message:"relationship with no name." );
-    valid = false;
-  end if;
-  select one domain related by relationship->domain[R3712];
-  if ( empty domain )
-    TRACE::log( flavor:"failure", id:75, message:"relationship with no domain:  " + relationship.name );
-    valid = false;
-  end if;
-end for;
 
-// Validate siblings and subordinates.
-return ( valid and participation::validate() and regularrel::validate() and subsuper::validate() and associative::validate() );',
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"relationship has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one associative related by self->associative[R3721];
+select one regularrel related by self->regularrel[R3721];
+select one subsuper related by self->subsuper[R3721];
+
+if ( not_empty associative )
+  valid = associative.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+elif ( not_empty regularrel )
+  valid = regularrel.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+elif ( not_empty subsuper )
+  valid = subsuper.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"relationship has no subtype." );
+  valid = false;
+  return valid;
+end if;
+
+select one participation related by self->participation[R3713.''engages''];
+if ( not_empty participation )
+  valid = participation.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"relationship has no participation." );
+  valid = false;
+end if;
+
+return valid;',
 	1,
 	'',
 	"d12801c5-5fe6-4b0e-b77a-fd4c687cd875");

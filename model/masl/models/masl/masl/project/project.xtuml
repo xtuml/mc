@@ -21,7 +21,7 @@ for each domain in domains
 end for;
 T::include( file:"masl/t.project_end.masl" );
 select one markable related by self->markable[R3783];
-markable.render( list:"default" );',
+markable.render_marking( list:"default" );',
 	1,
 	'',
 	"e2f67167-96b5-451c-8a07-34573a645fed");
@@ -62,17 +62,26 @@ INSERT INTO O_TFR
 	'validate',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000001",
-	0,
+	1,
 	'valid = true;
-select many projects from instances of project;
-if ( empty projects )
-  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"project has no name." );
   valid = false;
+  return valid;		// short circuit
 end if;
 
-// Validate siblings and subordinates.
-return ( valid and domain::validate() );
-',
+// validate children
+select many child_domains related by self->domain[R3701.''configures''];
+for each domain in child_domains
+  valid = domain.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
 	1,
 	'',
 	"777ea3b3-5800-4366-929f-6b25c189a72c");
