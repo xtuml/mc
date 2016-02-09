@@ -53,7 +53,7 @@ void maslin_ooapopulation_op_transformTerminator( maslin_ooapopulation *, c_t * 
 void maslin_ooapopulation_op_transformActivity( maslin_ooapopulation * );
 void maslin_ooapopulation_op_transformParameter( maslin_ooapopulation * );
 void maslin_ooapopulation_op_transformAttribute( maslin_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
-void maslin_ooapopulation_op_transformState( maslin_ooapopulation * );
+void maslin_ooapopulation_op_transformState( maslin_ooapopulation *, c_t *, c_t * );
 void maslin_ooapopulation_op_transformEvent( maslin_ooapopulation * );
 maslin_CL_IC * maslin_ooapopulation_op_Package_newImportedComponent( maslin_ooapopulation *, maslin_EP_PKG * );
 maslin_O_OBJ * maslin_ooapopulation_op_Package_newClass( maslin_ooapopulation *, c_t *, maslin_EP_PKG * );
@@ -83,6 +83,9 @@ maslin_C_EP * maslin_ooapopulation_op_Interface_newExecutableProperty( maslin_oo
 void maslin_ooapopulation_op_Interface_addInterfaceOperationToOrder( maslin_ooapopulation *, maslin_C_I *, maslin_C_IO * );
 void maslin_ooapopulation_op_Attribute_addToIdentifier( maslin_ooapopulation *, maslin_O_ATTR *, const i_t );
 void maslin_ooapopulation_op_Attribute_setType( maslin_ooapopulation *, maslin_O_ATTR *, c_t * );
+maslin_SM_SM * maslin_ooapopulation_op_ModelClass_create_sm( maslin_ooapopulation *, maslin_O_OBJ *, c_t * );
+void maslin_ooapopulation_op_StateMachine_newState( maslin_ooapopulation *, c_t *, maslin_SM_SM * );
+void maslin_ooapopulation_op_StateMachineState_initialize( maslin_ooapopulation *, c_t *, maslin_SM_STATE * );
 
 
 #define maslin_ooapopulation_MAX_EXTENT_SIZE 10

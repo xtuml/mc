@@ -170,8 +170,8 @@ maslin_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS_MAX
   else if ( ( Escher_strcmp( "state", element ) == 0 ) ) {
     /* IF ( (  != PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
-      /* ooapopulation.transformState() */
-      maslin_ooapopulation_op_transformState( ooapopulation );
+      /* ooapopulation.transformState( name:PARAM.value[0], type:PARAM.value[1] ) */
+      maslin_ooapopulation_op_transformState( ooapopulation,  p_value[0], p_value[1] );
     }
   }
   else if ( ( Escher_strcmp( "event", element ) == 0 ) ) {
@@ -724,9 +724,24 @@ maslin_ooapopulation_op_transformAttribute( maslin_ooapopulation * self, c_t * p
  * instance operation:  transformState
  */
 void
-maslin_ooapopulation_op_transformState( maslin_ooapopulation * self)
+maslin_ooapopulation_op_transformState( maslin_ooapopulation * self, c_t * p_name, c_t * p_type )
 {
-
+  maslin_O_OBJ * current_class;maslin_SM_SM * sm_sm=0;
+  /* ASSIGN current_class = self.current_class */
+  current_class = self->current_class;
+  /* SELECT any sm_sm FROM INSTANCES OF SM_SM WHERE FALSE */
+  sm_sm = 0;
+  /* IF ( ( assigner == PARAM.type ) ) */
+  if ( ( Escher_strcmp( "assigner", p_type ) == 0 ) ) {
+    /* ASSIGN sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:ASM) */
+    sm_sm = maslin_ooapopulation_op_ModelClass_create_sm(self, current_class, "ASM");
+  }
+  else {
+    /* ASSIGN sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:ISM) */
+    sm_sm = maslin_ooapopulation_op_ModelClass_create_sm(self, current_class, "ISM");
+  }
+  /* self.StateMachine_newState( name:PARAM.name, sm_sm:sm_sm ) */
+  maslin_ooapopulation_op_StateMachine_newState( self,  p_name, sm_sm );
 }
 
 /*
@@ -1924,6 +1939,223 @@ maslin_ooapopulation_op_Attribute_setType( maslin_ooapopulation * self, maslin_O
     /* RELATE o_attr TO s_dt ACROSS R114 */
     maslin_O_ATTR_R114_Link_is_defined_by( s_dt, o_attr );
   }
+}
+
+/*
+ * instance operation:  ModelClass_create_sm
+ */
+maslin_SM_SM *
+maslin_ooapopulation_op_ModelClass_create_sm( maslin_ooapopulation * self, maslin_O_OBJ * p_o_obj, c_t * p_sm_type )
+{
+  maslin_O_OBJ * o_obj;maslin_SM_SM * sm_sm=0;
+  /* ASSIGN o_obj = PARAM.o_obj */
+  o_obj = p_o_obj;
+  /* IF ( ( PARAM.sm_type == ISM ) ) */
+  if ( ( Escher_strcmp( p_sm_type, "ISM" ) == 0 ) ) {
+    maslin_SM_ISM * ism=0;
+    /* SELECT one ism RELATED BY o_obj->SM_ISM[R518] */
+    ism = ( 0 != o_obj ) ? o_obj->SM_ISM_R518 : 0;
+    /* IF ( not_empty ism ) */
+    if ( ( 0 != ism ) ) {
+      maslin_SM_SM * sm_sm=0;
+      /* SELECT one sm_sm RELATED BY ism->SM_SM[R517] */
+      sm_sm = ( 0 != ism ) ? ism->SM_SM_R517 : 0;
+      /* RETURN sm_sm */
+      {maslin_SM_SM * xtumlOALrv = sm_sm;
+      return xtumlOALrv;}
+    }
+    else {
+      maslin_O_ATTR * newAttr;maslin_SM_MOORE * moore;maslin_SM_SM * sm;
+      /* CREATE OBJECT INSTANCE ism OF SM_ISM */
+      ism = (maslin_SM_ISM *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_ISM_CLASS_NUMBER );
+      ism->SM_ID = (Escher_UniqueID_t) ism;
+      /* RELATE o_obj TO ism ACROSS R518 */
+      maslin_SM_ISM_R518_Link( o_obj, ism );
+      /* CREATE OBJECT INSTANCE sm OF SM_SM */
+      sm = (maslin_SM_SM *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_SM_CLASS_NUMBER );
+      sm->SM_ID = (Escher_UniqueID_t) sm;
+      /* RELATE ism TO sm ACROSS R517 */
+      maslin_SM_ISM_R517_Link( sm, ism );
+      /* CREATE OBJECT INSTANCE moore OF SM_MOORE */
+      moore = (maslin_SM_MOORE *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_MOORE_CLASS_NUMBER );
+      moore->SM_ID = (Escher_UniqueID_t) moore;
+      /* RELATE sm TO moore ACROSS R510 */
+      maslin_SM_MOORE_R510_Link( sm, moore );
+      /* ASSIGN newAttr = self.ModelClass_newAttribute(attr_name:current_state, o_obj:o_obj) */
+      newAttr = maslin_ooapopulation_op_ModelClass_newAttribute(self, "current_state", o_obj);
+      /* RETURN sm */
+      {maslin_SM_SM * xtumlOALrv = sm;
+      return xtumlOALrv;}
+    }
+  }
+  else if ( ( Escher_strcmp( p_sm_type, "ASM" ) == 0 ) ) {
+    maslin_SM_ASM * sm_asm=0;
+    /* SELECT one sm_asm RELATED BY o_obj->SM_ASM[R519] */
+    sm_asm = ( 0 != o_obj ) ? o_obj->SM_ASM_R519 : 0;
+    /* IF ( not_empty sm_asm ) */
+    if ( ( 0 != sm_asm ) ) {
+      maslin_SM_SM * sm_sm=0;
+      /* SELECT one sm_sm RELATED BY sm_asm->SM_SM[R517] */
+      sm_sm = ( 0 != sm_asm ) ? sm_asm->SM_SM_R517 : 0;
+      /* RETURN sm_sm */
+      {maslin_SM_SM * xtumlOALrv = sm_sm;
+      return xtumlOALrv;}
+    }
+    else {
+      maslin_SM_MOORE * moore;maslin_SM_SM * sm;
+      /* CREATE OBJECT INSTANCE sm_asm OF SM_ASM */
+      sm_asm = (maslin_SM_ASM *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_ASM_CLASS_NUMBER );
+      sm_asm->SM_ID = (Escher_UniqueID_t) sm_asm;
+      /* RELATE o_obj TO sm_asm ACROSS R519 */
+      maslin_SM_ASM_R519_Link( o_obj, sm_asm );
+      /* CREATE OBJECT INSTANCE sm OF SM_SM */
+      sm = (maslin_SM_SM *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_SM_CLASS_NUMBER );
+      sm->SM_ID = (Escher_UniqueID_t) sm;
+      /* RELATE sm_asm TO sm ACROSS R517 */
+      maslin_SM_ASM_R517_Link( sm, sm_asm );
+      /* CREATE OBJECT INSTANCE moore OF SM_MOORE */
+      moore = (maslin_SM_MOORE *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_MOORE_CLASS_NUMBER );
+      moore->SM_ID = (Escher_UniqueID_t) moore;
+      /* RELATE sm TO moore ACROSS R510 */
+      maslin_SM_MOORE_R510_Link( sm, moore );
+      /* RETURN sm */
+      {maslin_SM_SM * xtumlOALrv = sm;
+      return xtumlOALrv;}
+    }
+  }
+  /* SELECT any sm_sm FROM INSTANCES OF SM_SM WHERE FALSE */
+  sm_sm = 0;
+  /* RETURN sm_sm */
+  {maslin_SM_SM * xtumlOALrv = sm_sm;
+  return xtumlOALrv;}
+}
+
+/*
+ * instance operation:  StateMachine_newState
+ */
+void
+maslin_ooapopulation_op_StateMachine_newState( maslin_ooapopulation * self, c_t * p_name, maslin_SM_SM * p_sm_sm )
+{
+  maslin_SM_SM * sm_sm;maslin_SM_STATE * st;
+  /* ASSIGN sm_sm = PARAM.sm_sm */
+  sm_sm = p_sm_sm;
+  /* CREATE OBJECT INSTANCE st OF SM_STATE */
+  st = (maslin_SM_STATE *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_STATE_CLASS_NUMBER );
+  st->SMstt_ID = (Escher_UniqueID_t) st;
+st->SM_ID = (Escher_UniqueID_t) st;
+st->SMspd_ID = (Escher_UniqueID_t) st;
+  /* RELATE sm_sm TO st ACROSS R501 */
+  maslin_SM_STATE_R501_Link_is_decomposed_into( sm_sm, st );
+  /* self.StateMachineState_initialize( name:PARAM.name, sm_state:st ) */
+  maslin_ooapopulation_op_StateMachineState_initialize( self,  p_name, st );
+}
+
+/*
+ * instance operation:  StateMachineState_initialize
+ */
+void
+maslin_ooapopulation_op_StateMachineState_initialize( maslin_ooapopulation * self, c_t * p_name, maslin_SM_STATE * p_sm_state )
+{
+  maslin_SM_SEVT * event=0;maslin_SM_STATE * state=0;maslin_SM_STATE * sm_state;maslin_SM_ACT * act;maslin_SM_MOAH * moah;maslin_SM_AH * ah;Escher_ObjectSet_s event_set_space={0}; Escher_ObjectSet_s * event_set = &event_set_space;maslin_SM_MOORE * msm=0;maslin_SM_SM * sm=0;Escher_ObjectSet_s states_space={0}; Escher_ObjectSet_s * states = &states_space;
+  /* ASSIGN sm_state = PARAM.sm_state */
+  sm_state = p_sm_state;
+  /* ASSIGN sm_state.Name = PARAM.name */
+  sm_state->Name = Escher_strcpy( sm_state->Name, p_name );
+  /* ASSIGN sm_state.Numb = 1 */
+  sm_state->Numb = 1;
+  /* SELECT many states RELATED BY sm_state->SM_SM[R501]->SM_STATE[R501] */
+  Escher_ClearSet( states );
+  {  if ( 0 != sm_state ) {
+  maslin_SM_SM * SM_SM_R501 = sm_state->SM_SM_R501;
+  if ( 0 != SM_SM_R501 ) {
+  maslin_SM_STATE * SM_STATE_R501_is_decomposed_into;
+  Escher_Iterator_s iSM_STATE_R501_is_decomposed_into;
+  Escher_IteratorReset( &iSM_STATE_R501_is_decomposed_into, &SM_SM_R501->SM_STATE_R501_is_decomposed_into );
+  while ( 0 != ( SM_STATE_R501_is_decomposed_into = (maslin_SM_STATE *) Escher_IteratorNext( &iSM_STATE_R501_is_decomposed_into ) ) ) {
+    if ( ! Escher_SetContains( (Escher_ObjectSet_s *) states, SM_STATE_R501_is_decomposed_into ) ) {
+      Escher_SetInsertElement( (Escher_ObjectSet_s *) states, SM_STATE_R501_is_decomposed_into );
+  }}}}}
+  /* FOR EACH state IN states */
+  { Escher_Iterator_s iterstate;
+  maslin_SM_STATE * iistate;
+  Escher_IteratorReset( &iterstate, states );
+  while ( (iistate = (maslin_SM_STATE *)Escher_IteratorNext( &iterstate )) != 0 ) {
+    state = iistate; {
+    /* IF ( ( state.SMstt_ID == sm_state.SMstt_ID ) ) */
+    if ( ( state->SMstt_ID == sm_state->SMstt_ID ) ) {
+      /* CONTINUE */
+      continue;
+    }
+    /* IF ( ( state.Numb >= sm_state.Numb ) ) */
+    if ( ( state->Numb >= sm_state->Numb ) ) {
+      /* ASSIGN sm_state.Numb = ( state.Numb + 1 ) */
+      sm_state->Numb = ( state->Numb + 1 );
+    }
+  }}}
+  /* CREATE OBJECT INSTANCE ah OF SM_AH */
+  ah = (maslin_SM_AH *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_AH_CLASS_NUMBER );
+  ah->Act_ID = (Escher_UniqueID_t) ah;
+ah->SM_ID = (Escher_UniqueID_t) ah;
+  /* CREATE OBJECT INSTANCE moah OF SM_MOAH */
+  moah = (maslin_SM_MOAH *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_MOAH_CLASS_NUMBER );
+  moah->Act_ID = (Escher_UniqueID_t) moah;
+moah->SM_ID = (Escher_UniqueID_t) moah;
+moah->SMstt_ID = (Escher_UniqueID_t) moah;
+  /* RELATE ah TO moah ACROSS R513 */
+  maslin_SM_MOAH_R513_Link( ah, moah );
+  /* SELECT one sm RELATED BY sm_state->SM_SM[R501] */
+  sm = ( 0 != sm_state ) ? sm_state->SM_SM_R501 : 0;
+  /* SELECT one msm RELATED BY sm->SM_MOORE[R510] */
+  msm = 0;
+  if ( ( 0 != sm ) && ( maslin_SM_MOORE_CLASS_NUMBER == sm->R510_object_id ) )  msm = ( 0 != sm ) ? (maslin_SM_MOORE *) sm->R510_subtype : 0;
+  /* RELATE sm_state TO msm ACROSS R511 USING moah */
+  maslin_SM_MOAH_R511_Link( msm, sm_state, moah );
+  /* CREATE OBJECT INSTANCE act OF SM_ACT */
+  act = (maslin_SM_ACT *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_ACT_CLASS_NUMBER );
+  act->Act_ID = (Escher_UniqueID_t) act;
+act->SM_ID = (Escher_UniqueID_t) act;
+  /* RELATE act TO ah ACROSS R514 */
+  maslin_SM_AH_R514_Link_resides_in( act, ah );
+  /* RELATE act TO sm ACROSS R515 */
+  maslin_SM_ACT_R515_Link_contains( sm, act );
+  /* SELECT many event_set RELATED BY sm->SM_EVT[R502]->SM_SEVT[R525] */
+  Escher_ClearSet( event_set );
+  {  if ( 0 != sm ) {
+  maslin_SM_EVT * SM_EVT_R502_can_be_communicated_to_via;
+  Escher_Iterator_s iSM_EVT_R502_can_be_communicated_to_via;
+  Escher_IteratorReset( &iSM_EVT_R502_can_be_communicated_to_via, &sm->SM_EVT_R502_can_be_communicated_to_via );
+  while ( 0 != ( SM_EVT_R502_can_be_communicated_to_via = (maslin_SM_EVT *) Escher_IteratorNext( &iSM_EVT_R502_can_be_communicated_to_via ) ) ) {
+  if ( ( 0 != SM_EVT_R502_can_be_communicated_to_via ) && ( maslin_SM_SEVT_CLASS_NUMBER == SM_EVT_R502_can_be_communicated_to_via->R525_object_id ) )  {maslin_SM_SEVT * R525_subtype = SM_EVT_R502_can_be_communicated_to_via->R525_subtype;
+  if ( ! Escher_SetContains( (Escher_ObjectSet_s *) event_set, R525_subtype ) ) {
+    Escher_SetInsertElement( (Escher_ObjectSet_s *) event_set, R525_subtype );
+  }}}}}
+  /* FOR EACH event IN event_set */
+  { Escher_Iterator_s iterevent;
+  maslin_SM_SEVT * iievent;
+  Escher_IteratorReset( &iterevent, event_set );
+  while ( (iievent = (maslin_SM_SEVT *)Escher_IteratorNext( &iterevent )) != 0 ) {
+    event = iievent; {
+    maslin_SM_CH * ch;maslin_SM_SEME * sem;
+    /* CREATE OBJECT INSTANCE sem OF SM_SEME */
+    sem = (maslin_SM_SEME *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_SEME_CLASS_NUMBER );
+    sem->SMstt_ID = (Escher_UniqueID_t) sem;
+sem->SMevt_ID = (Escher_UniqueID_t) sem;
+sem->SM_ID = (Escher_UniqueID_t) sem;
+sem->SMspd_ID = (Escher_UniqueID_t) sem;
+    /* CREATE OBJECT INSTANCE ch OF SM_CH */
+    ch = (maslin_SM_CH *) Escher_CreateInstance( maslin_DOMAIN_ID, maslin_SM_CH_CLASS_NUMBER );
+    ch->SMstt_ID = (Escher_UniqueID_t) ch;
+ch->SMevt_ID = (Escher_UniqueID_t) ch;
+ch->SM_ID = (Escher_UniqueID_t) ch;
+ch->SMspd_ID = (Escher_UniqueID_t) ch;
+    /* RELATE sm_state TO event ACROSS R503 USING sem */
+    maslin_SM_SEME_R503_Link( sm_state, event, sem );
+    /* RELATE ch TO sem ACROSS R504 */
+    maslin_SM_CH_R504_Link( sem, ch );
+  }}}
+  /* ASSIGN act.Suc_Pars = parseInitial */
+  act->Suc_Pars = maslin_ParseStatus_parseInitial_e;
+  Escher_ClearSet( event_set ); Escher_ClearSet( states ); 
 }
 
 /*
