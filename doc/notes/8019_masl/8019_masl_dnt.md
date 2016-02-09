@@ -24,6 +24,7 @@ See [2].
 
 4. Requirements
 ---------------
+4.1-4.3 are stated in [2].  
 4.4 Non-functional Requirements  
 These requirements are design-specific requirements and thus stated here
 rather than in the analysis note.  
@@ -43,6 +44,15 @@ identifiers shall be avoided and used only as documented necessary.
 
 5. Analysis
 -----------
+See [2].  
+
+dividing types into its own model
+modeling type and typeref (and not the rest at first)
+view of population (maintaining parent-child context)
+view of pragma (marking)
+serialize (MASL DSL)
+maslout, maslin, masl, parser
+
 
 6. Design
 ---------
@@ -63,7 +73,7 @@ associated instances for the particular formalized association.
 6.2.2 Program a `populate` class-based operation for each MASL class to
 create an instance of the class and initialize attribute values.  Return
 a reference to the created instance.  In some cases, create subtype
-instances.    
+instances.  
 6.2.3 Provide a `validate` class-based operation for each MASL class to
 check the correctness of the attribute values for each instance.  Query
 for correct links to related classes.  Report deviations.  
