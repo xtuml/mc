@@ -205,10 +205,34 @@ emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; 
 
 value[0] = self.name;
 out::tostring( element:"object", value:value );
+
 select many attributes related by self->attribute[R3709.''is characterized by''];
 for each attribute in attributes
-  //attribute.tostring();
+  attribute.tostring();
 end for;
+select many identifiers related by self->identifier[R3711];
+for each identifier in identifiers
+  //identifier.tostring();
+end for;
+select many operation_activities related by self->operation[R3749]->activity[R3704];
+for each activity in operation_activities
+  //activity.tostring();
+end for;
+select many state_activities related by self->state[R3750]->activity[R3704];
+for each activity in state_activities
+  //activity.tostring();
+end for;
+select many events related by self->event[R3736.''is triggered by''];
+for each event in events
+  //event.tostring();
+end for;
+select many state_machines related by self->state_machine[R3734];
+for each state_machine in state_machines
+  //state_machine.tostring();
+end for;
+select one markable related by self->markable[R3783];
+//markable.tostring( list:"definition" );
+
 out::tostring( element:"object", value:emptyvalue );
 ',
 	1,

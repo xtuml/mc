@@ -214,7 +214,7 @@ end for;
 return valid;',
 	1,
 	'',
-	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059");
+	"fd542ea4-7e21-4c67-ad18-2c26e8875a97");
 INSERT INTO O_TFR
 	VALUES ("65a587c5-8adb-485c-b877-28413cb9bbff",
 	"514b84aa-197a-464c-a09e-e7f135680958",
@@ -225,7 +225,44 @@ INSERT INTO O_TFR
 	'T::include( file:"masl/t.attribute_name.masl" );',
 	1,
 	'',
-	"57ca507c-d88a-4bcb-8a8d-d86fe4680b5e");
+	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059");
+INSERT INTO O_TFR
+	VALUES ("fd542ea4-7e21-4c67-ad18-2c26e8875a97",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.name;
+value[1] = self.preferred;
+value[2] = self.unique;
+out::tostring( element:"attribute", value:value );
+
+select many referentials related by self->referential[R3746.''references''];
+if ( not_empty referentials )
+  separator = "";
+  for each referential in referentials
+    //referential.tostring();
+    separator = ", ";
+  end for;
+end if;
+select one attributetype related by self->typeref[R3717];
+attributetype.tostring();
+select one expression related by self->expression[R3745];
+if ( not_empty expression )
+  expression.tostring();
+end if;
+select one markable related by self->markable[R3783];
+//markable.tostring();
+
+out::tostring( element:"attribute", value:emptyvalue );
+',
+	1,
+	'',
+	"65a587c5-8adb-485c-b877-28413cb9bbff");
 INSERT INTO O_NBATTR
 	VALUES ("6ed52915-ba48-441a-83a8-e2427e0b0ca2",
 	"514b84aa-197a-464c-a09e-e7f135680958");

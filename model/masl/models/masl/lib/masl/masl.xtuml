@@ -439,6 +439,33 @@ INSERT INTO C_EP_PROXY
 	'populate',
 	'',
 	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
+INSERT INTO SPR_PEP
+	VALUES ("795e6a61-5ceb-4b6c-8dbd-2170267e2208",
+	"ced5b2cb-72ab-4598-bfc9-ca432e933ccb",
+	"7039b2a2-b4c6-40a7-9b36-5577e4748919");
+INSERT INTO SPR_PS
+	VALUES ("795e6a61-5ceb-4b6c-8dbd-2170267e2208",
+	'tostring',
+	'',
+	'if ( "project" == param.element )
+  select any project from instances of project where ( selected.name == param.name );
+  if ( not_empty project )
+    project.tostring();
+  end if;
+elif ( "domain" == param.element )
+  select any domain from instances of domain where ( selected.name == param.name );
+  if ( not_empty domain )
+    domain.tostring();
+  end if;
+end if;',
+	1);
+INSERT INTO C_EP_PROXY
+	VALUES ("ced5b2cb-72ab-4598-bfc9-ca432e933ccb",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
+	-1,
+	'tostring',
+	'',
+	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
 INSERT INTO C_I_PROXY
 	VALUES ("c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	"00000000-0000-0000-0000-000000000000",
@@ -492,6 +519,16 @@ INSERT INTO SPR_RO
 	'',
 	'',
 	1);
+INSERT INTO SPR_REP
+	VALUES ("0ceecacc-6042-4df5-b0e5-6dc5635a1f8c",
+	"ced5b2cb-72ab-4598-bfc9-ca432e933ccb",
+	"b3c57db2-ca71-4f44-98f3-6a9ccce00a82");
+INSERT INTO SPR_RS
+	VALUES ("0ceecacc-6042-4df5-b0e5-6dc5635a1f8c",
+	'tostring',
+	'',
+	'',
+	3);
 INSERT INTO PE_PE
 	VALUES ("78775e10-f3b1-4b47-b908-ad2144f025e4",
 	1,

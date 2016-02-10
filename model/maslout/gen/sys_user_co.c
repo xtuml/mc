@@ -74,10 +74,10 @@ UserPostOoaInitializationCalloutf( c_t * argv0 )
 {
   if ( strstr( argv0, "xtuml2maslproject" ) ) {
     fprintf( stderr, "projecting...\n" );
-    maslout_masl_project();
+    maslout_masl_project( "System" );
   } else if ( strstr( argv0, "xtuml2masldomain" ) ) {
     fprintf( stderr, "domaining...\n" );
-    maslout_masl_domain();
+    maslout_masl_domain( "*" );
   }
   fprintf( stderr, "done.\n" );
   SYS_USER_CO_PRINTF( "UserPostOoaInitializationCallout\n" )
@@ -91,6 +91,7 @@ UserPostOoaInitializationCalloutf( c_t * argv0 )
  * It is invoked at the 'top' of the system dispatcher loop, immediately
  * prior to dispatching any xtUML application analysis events.
  */
+#include <stdlib.h>
 void
 UserBackgroundProcessingCalloutf( void )
 {
