@@ -56,6 +56,12 @@ elif ( not_empty state )
 else
   TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
 end if;
+
+select one code_block related by self->code_block[R3794];
+if ( not_empty code_block )
+  code_block.render();
+end if;
+
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
@@ -81,6 +87,11 @@ end if;
 select one first_param related by self->parameter[R3705.''carries first''];
 if ( not_empty first_param )
   valid = first_param.validate();
+end if;
+
+select one code_block related by self->code_block[R3794];
+if ( not_empty code_block )
+  valid = code_block.validate();
 end if;
 
 select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];

@@ -40,7 +40,8 @@ if ( "" == value[0] )
   	   "referential" == element or
   	   "pragmaitem" == element or 
   	   "transition" == element or
-  	   "expression" == element )
+  	   "expression" == element or
+  	   "codeblock" == element )
     return;
   end if;
 end if;
@@ -350,6 +351,14 @@ elif ( "pragmaitem" == element )
 	end if;
     pragma_item::populate( value:value[0], pragma:parent_pragma );
   	// pragmaitem is a leaf node and does not get pushed onto the current element stack
+elif ( "codeblock" == element )
+	select one parent_activity related by population->element[R3784.''has current'']->markable[R3786]->activity[R3783];
+	if ( not_empty root_element and empty parent_activity )
+      TRACE::log( flavor:"failure", id:83, message:"no parent element for: [ " + element + ", " + value[0] + ", " + value[1] + ", " + value[2] + ", " + value[3] + ", " + value[4] + ", " + value[5] + ", " + value[6] + ", " + value[7] + " ]" );
+	  population.stack_trace();
+	end if;
+    code_block::populate( sourcefile:value[0], parent_activity:parent_activity );
+  	// code_block is a leaf node and does not get pushed onto the current element stack
 else
   TRACE::log( flavor:"failure", id:39, message:"unrecognized element:  " + element );
 end if;
