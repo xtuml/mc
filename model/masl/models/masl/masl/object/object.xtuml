@@ -168,6 +168,14 @@ for each state_machine in child_state_machines
   end if;
 end for;
 
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
 return valid;',
 	1,
 	'',

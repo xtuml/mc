@@ -65,16 +65,15 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	1,
 	'valid = true;
-//select many projects from instances of project;
-//if ( empty projects )
-//  TRACE::log( flavor:"failure", id:5, message:"There is no project." );
-//  valid = false;
-//end if;
 
-// Validate siblings and subordinates.
-//return ( valid and projectdomain::validate() );
-return valid;
-',
+// validate name
+if ( "" == self.value )
+  TRACE::log( flavor:"failure", id:101, message:"pragma_item has no value." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+return valid;',
 	1,
 	'',
 	"9b7874e3-4cb3-45a3-a0c6-a4d5b38e6f53");
