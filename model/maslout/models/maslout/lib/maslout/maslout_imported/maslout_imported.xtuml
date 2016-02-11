@@ -1466,6 +1466,39 @@ INSERT INTO PE_PE
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("3cdbcb50-657d-4b2a-bd28-8cc238ef02a1",
+	"00000000-0000-0000-0000-000000000000",
+	'Descrip2pragma',
+	'',
+	'/*
+Use the parsekeyword feature to extract pragmas from text (Descrip) fields.
+*/
+value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+value[0] = "";
+value[1] = "";
+out::populate( element:"pragma", value:value );
+out::populate( element:"pragma", value:emptyvalue );',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("02aacd79-8ff9-4fde-aa3b-8f63ce839092",
+	"3cdbcb50-657d-4b2a-bd28-8cc238ef02a1",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("3cdbcb50-657d-4b2a-bd28-8cc238ef02a1",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	1,

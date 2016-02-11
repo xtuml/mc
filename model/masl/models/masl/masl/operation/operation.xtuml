@@ -15,19 +15,26 @@ INSERT INTO O_TFR
 	"1e5bcd4f-5fa3-4d29-b0f3-c585a35b6c90",
 	0,
 	'parent_object = param.parent_object;
-activity = activity::populate( name:param.name );
-create object instance operation of operation;
-operation.visibility = param.visibility;
-operation.instance = param.instance;
-relate operation to parent_object across R3749;
-if ( "" != param.deferred_relationship )
-  select any relationship related by operation->object[R3749]->participation[R3714]->relationship[R3713] where ( selected.name == param.deferred_relationship );
-  select one subsuper related by relationship->subsuper[R3721];
-  relate operation to subsuper across R3793.''defers to'';
+
+select any activity related by parent_object->operation[R3749]->activity[R3704] where ( selected.name == param.name );
+select one operation related by activity->operation[R3704];
+
+if ( empty operation )
+  activity = activity::populate( name:param.name );
+  create object instance operation of operation;
+  operation.visibility = param.visibility;
+  operation.instance = param.instance;
+  relate operation to parent_object across R3749;
+  if ( "" != param.deferred_relationship )
+    select any relationship related by operation->object[R3749]->participation[R3714]->relationship[R3713] where ( selected.name == param.deferred_relationship );
+    select one subsuper related by relationship->subsuper[R3721];
+    relate operation to subsuper across R3793.''defers to'';
+  end if;
+  relate operation to activity across R3704;
+  markable = markable::populate( name:"operation" );
+  relate activity to markable across R3783;
 end if;
-relate operation to activity across R3704;
-markable = markable::populate( name:"operation" );
-relate activity to markable across R3783;
+
 return operation;',
 	1,
 	'',

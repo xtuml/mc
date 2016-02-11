@@ -66,35 +66,44 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'T::include( file:"masl/t.domain_begin.masl" );
+
 select many objects related by self->object[R3708.''has abstract''];
 // Provide forward declaration of objects for use in relationships.
 for each object in objects
   object.render_declaration();
 end for;
+
 select many types related by self->type[R3776];
 for each type in types
   type.render();
 end for;
+
 select many exceptions related by self->exception[R3748];
 for each exception in exceptions
   exception.render();
 end for;
-select many terminators related by self->terminator[R3702.''sends through''];
-for each terminator in terminators
-  terminator.render();
-end for;
+
 select many routine_activities related by self->routine[R3790.''provides'']->activity[R3704];
 for each activity in routine_activities
   activity.render();
 end for;
+
+select many terminators related by self->terminator[R3702.''sends through''];
+for each terminator in terminators
+  terminator.render();
+end for;
+
 select many relationships related by self->relationship[R3712];
 for each relationship in relationships
   relationship.render();
 end for;
+
 for each object in objects
   object.render();
 end for;
+
 T::include( file:"masl/t.domain_end.masl" );
+
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
@@ -165,6 +174,14 @@ end for;
 select many child_objects related by self->object[R3708.''has abstract''];
 for each object in child_objects
   valid = object.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
   if ( false == valid )
     return valid;	// short circuit
   end if;
