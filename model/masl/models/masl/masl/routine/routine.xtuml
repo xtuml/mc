@@ -16,18 +16,30 @@ INSERT INTO O_TFR
 	0,
 	'parent_domain = param.parent_domain;
 parent_terminator = param.parent_terminator;
-activity = activity::populate( name:param.name );
-create object instance routine of routine;
-routine.visibility = param.visibility;
-// TODO deal with deferred routine
+
+// check if it already exists
+select any activity from instances of activity where false;
 if ( not_empty parent_terminator )
-  relate routine to parent_terminator across R3791;
+  select any activity related by parent_terminator->routine[R3791.''sends'']->activity[R3704] where ( selected.name == param.name );
 elif ( not_empty parent_domain )
-  relate routine to parent_domain across R3790;
+  select any activity related by parent_domain->routine[R3790.''provides'']->activity[R3704] where ( selected.name == param.name );
 end if;
-relate routine to activity across R3704;
-markable = markable::populate( name:"routine" );
-relate activity to markable across R3783;
+select one routine related by activity->routine[R3704];
+
+if ( empty routine )
+  activity = activity::populate( name:param.name );
+  create object instance routine of routine;
+  routine.visibility = param.visibility;
+  if ( not_empty parent_terminator )
+    relate routine to parent_terminator across R3791;
+  elif ( not_empty parent_domain )
+    relate routine to parent_domain across R3790;
+  end if;
+  relate routine to activity across R3704;
+  markable = markable::populate( name:"routine" );
+  relate activity to markable across R3783;
+end if;
+
 return routine;',
 	1,
 	'',

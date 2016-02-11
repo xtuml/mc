@@ -55,6 +55,7 @@ if ( empty state )
   activity = activity::populate( name:param.name );
 
   create object instance state of state;
+  state.type = param.type;
   relate state to parent_object across R3750;
   relate state to activity across R3704;
   markable = markable::populate( name:"state" );
@@ -62,7 +63,9 @@ if ( empty state )
 
 end if;
 
-state.type = param.type;
+if ( "" != param.type )
+  state.type = param.type;
+end if;
 
 return state;',
 	1,

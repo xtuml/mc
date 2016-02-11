@@ -39,8 +39,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     /* CREATE OBJECT INSTANCE population OF population */
     population = (masl_population *) Escher_CreateInstance( masl_DOMAIN_ID, masl_population_CLASS_NUMBER );
   }
-  /* IF ( (  == value[0] ) ) */
-  if ( ( Escher_strcmp( "", value[0] ) == 0 ) ) {
+  /* IF ( ( ( ( ( ( ( ( (  == value[0] ) and (  == value[1] ) ) and (  == value[2] ) ) and (  == value[3] ) ) and (  == value[4] ) ) and (  == value[5] ) ) and (  == value[6] ) ) and (  == value[7] ) ) ) */
+  if ( ( ( ( ( ( ( ( ( Escher_strcmp( "", value[0] ) == 0 ) && ( Escher_strcmp( "", value[1] ) == 0 ) ) && ( Escher_strcmp( "", value[2] ) == 0 ) ) && ( Escher_strcmp( "", value[3] ) == 0 ) ) && ( Escher_strcmp( "", value[4] ) == 0 ) ) && ( Escher_strcmp( "", value[5] ) == 0 ) ) && ( Escher_strcmp( "", value[6] ) == 0 ) ) && ( Escher_strcmp( "", value[7] ) == 0 ) ) ) {
     masl_element * current_element=0;
     /* SELECT one current_element RELATED BY population->element[R3784.has current] WHERE ( ( SELECTED.name == element ) ) */
     {current_element = 0;
@@ -193,6 +193,37 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_terminator_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_terminator = (masl_terminator *) R3786_subtype->R3783_subtype;
 }}}}
+    /* IF ( ( empty parent_domain and empty parent_terminator ) ) */
+    if ( ( ( 0 == parent_domain ) && ( 0 == parent_terminator ) ) ) {
+      /* SELECT any parent_domain FROM INSTANCES OF domain WHERE ( SELECTED.name == value[0] ) */
+      parent_domain = 0;
+      { masl_domain * selected;
+        Escher_Iterator_s iterparent_domainmasl_domain;
+        Escher_IteratorReset( &iterparent_domainmasl_domain, &pG_masl_domain_extent.active );
+        while ( (selected = (masl_domain *) Escher_IteratorNext( &iterparent_domainmasl_domain )) != 0 ) {
+          if ( ( Escher_strcmp( selected->name, value[0] ) == 0 ) ) {
+            parent_domain = selected;
+            break;
+          }
+        }
+      }
+      /* SELECT any parent_terminator RELATED BY parent_domain->terminator[R3702] WHERE ( ( SELECTED.name == value[1] ) ) */
+      parent_terminator = 0;
+      if ( 0 != parent_domain ) {
+        masl_terminator * selected;
+        Escher_Iterator_s iterminator_R3702_sends_through;
+        Escher_IteratorReset( &iterminator_R3702_sends_through, &parent_domain->terminator_R3702_sends_through );
+        while ( 0 != ( selected = (masl_terminator *) Escher_IteratorNext( &iterminator_R3702_sends_through ) ) ) {
+          if ( ( Escher_strcmp( selected->name, value[1] ) == 0 ) ) {
+            parent_terminator = selected;
+            break;
+      }}}
+      /* IF ( not_empty parent_terminator ) */
+      if ( ( 0 != parent_terminator ) ) {
+        /* SELECT any parent_domain FROM INSTANCES OF domain WHERE FALSE */
+        parent_domain = 0;
+      }
+    }
     /* IF ( ( ( not_empty root_element and empty parent_domain ) and empty parent_terminator ) ) */
     if ( ( ( ( 0 != root_element ) && ( 0 == parent_domain ) ) && ( 0 == parent_terminator ) ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
@@ -200,8 +231,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
-    /* ASSIGN routine = routine::populate(name:value[1], parent_domain:parent_domain, parent_terminator:parent_terminator, visibility:value[0]) */
-    routine = masl_routine_op_populate(value[1], parent_domain, parent_terminator, value[0]);
+    /* ASSIGN routine = routine::populate(name:value[3], parent_domain:parent_domain, parent_terminator:parent_terminator, visibility:value[2]) */
+    routine = masl_routine_op_populate(value[3], parent_domain, parent_terminator, value[2]);
     /* SELECT one new_element RELATED BY routine->activity[R3704]->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != routine ) {
@@ -225,6 +256,33 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
 }}}}
+    /* IF ( empty parent_object ) */
+    if ( ( 0 == parent_object ) ) {
+      masl_domain * parent_domain=0;
+      /* SELECT any parent_domain FROM INSTANCES OF domain WHERE ( SELECTED.name == value[0] ) */
+      parent_domain = 0;
+      { masl_domain * selected;
+        Escher_Iterator_s iterparent_domainmasl_domain;
+        Escher_IteratorReset( &iterparent_domainmasl_domain, &pG_masl_domain_extent.active );
+        while ( (selected = (masl_domain *) Escher_IteratorNext( &iterparent_domainmasl_domain )) != 0 ) {
+          if ( ( Escher_strcmp( selected->name, value[0] ) == 0 ) ) {
+            parent_domain = selected;
+            break;
+          }
+        }
+      }
+      /* SELECT any parent_object RELATED BY parent_domain->object[R3708] WHERE ( ( SELECTED.name == value[1] ) ) */
+      parent_object = 0;
+      if ( 0 != parent_domain ) {
+        masl_object * selected;
+        Escher_Iterator_s iobject_R3708_has_abstract;
+        Escher_IteratorReset( &iobject_R3708_has_abstract, &parent_domain->object_R3708_has_abstract );
+        while ( 0 != ( selected = (masl_object *) Escher_IteratorNext( &iobject_R3708_has_abstract ) ) ) {
+          if ( ( Escher_strcmp( selected->name, value[1] ) == 0 ) ) {
+            parent_object = selected;
+            break;
+      }}}
+    }
     /* IF ( ( not_empty root_element and empty parent_object ) ) */
     if ( ( ( 0 != root_element ) && ( 0 == parent_object ) ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
@@ -232,8 +290,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
-    /* ASSIGN operation = operation::populate(deferred_relationship:value[3], instance:value[2], name:value[1], parent_object:parent_object, visibility:value[0]) */
-    operation = masl_operation_op_populate(value[3], value[2], value[1], parent_object, value[0]);
+    /* ASSIGN operation = operation::populate(deferred_relationship:value[5], instance:value[4], name:value[3], parent_object:parent_object, visibility:value[2]) */
+    operation = masl_operation_op_populate(value[5], value[4], value[3], parent_object, value[2]);
     /* SELECT one new_element RELATED BY operation->activity[R3704]->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != operation ) {
@@ -257,6 +315,33 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
     if ( 0 != R3786_subtype )    if ( ( 0 != element_R3784_has_current ) && ( masl_markable_CLASS_NUMBER == element_R3784_has_current->R3786_object_id ) ) {
     if ( ( 0 != R3786_subtype ) && ( masl_object_CLASS_NUMBER == R3786_subtype->R3783_object_id ) )    parent_object = (masl_object *) R3786_subtype->R3783_subtype;
 }}}}
+    /* IF ( empty parent_object ) */
+    if ( ( 0 == parent_object ) ) {
+      masl_domain * parent_domain=0;
+      /* SELECT any parent_domain FROM INSTANCES OF domain WHERE ( SELECTED.name == value[0] ) */
+      parent_domain = 0;
+      { masl_domain * selected;
+        Escher_Iterator_s iterparent_domainmasl_domain;
+        Escher_IteratorReset( &iterparent_domainmasl_domain, &pG_masl_domain_extent.active );
+        while ( (selected = (masl_domain *) Escher_IteratorNext( &iterparent_domainmasl_domain )) != 0 ) {
+          if ( ( Escher_strcmp( selected->name, value[0] ) == 0 ) ) {
+            parent_domain = selected;
+            break;
+          }
+        }
+      }
+      /* SELECT any parent_object RELATED BY parent_domain->object[R3708] WHERE ( ( SELECTED.name == value[1] ) ) */
+      parent_object = 0;
+      if ( 0 != parent_domain ) {
+        masl_object * selected;
+        Escher_Iterator_s iobject_R3708_has_abstract;
+        Escher_IteratorReset( &iobject_R3708_has_abstract, &parent_domain->object_R3708_has_abstract );
+        while ( 0 != ( selected = (masl_object *) Escher_IteratorNext( &iobject_R3708_has_abstract ) ) ) {
+          if ( ( Escher_strcmp( selected->name, value[1] ) == 0 ) ) {
+            parent_object = selected;
+            break;
+      }}}
+    }
     /* IF ( ( not_empty root_element and empty parent_object ) ) */
     if ( ( ( 0 != root_element ) && ( 0 == parent_object ) ) ) {
       /* TRACE::log( flavor:failure, id:83, message:( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( ( no parent element for: [  + element ) + ,  ) + value[0] ) + ,  ) + value[1] ) + ,  ) + value[2] ) + ,  ) + value[3] ) + ,  ) + value[4] ) + ,  ) + value[5] ) + ,  ) + value[6] ) + ,  ) + value[7] ) +  ] ) ) */
@@ -264,8 +349,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
-    /* ASSIGN state = state::populate(name:value[0], object:parent_object, type:value[1]) */
-    state = masl_state_op_populate(value[0], parent_object, value[1]);
+    /* ASSIGN state = state::populate(name:value[2], object:parent_object, type:value[3]) */
+    state = masl_state_op_populate(value[2], parent_object, value[3]);
     /* SELECT one new_element RELATED BY state->activity[R3704]->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != state ) {
@@ -744,8 +829,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
-    /* cell::populate( endstate:value[2], event:value[1], startstate:value[0], statemachine:parent_state_machine ) */
-    masl_cell_op_populate( value[2], value[1], value[0], parent_state_machine );
+    /* cell::populate( endstate:value[4], event:value[3], startstate:value[0], statemachine:parent_state_machine ) */
+    masl_cell_op_populate( value[4], value[3], value[0], parent_state_machine );
   }
   else if ( ( Escher_strcmp( "regularrel", element ) == 0 ) ) {
     masl_regularrel * regularrel;masl_element * new_element=0;masl_domain * parent_domain=0;
@@ -801,8 +886,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
-    /* ASSIGN associative = associative::populate(domain:parent_domain, name:value[0], using:value[1]) */
-    associative = masl_associative_op_populate(parent_domain, value[0], value[1]);
+    /* ASSIGN associative = associative::populate(domain:parent_domain, name:value[0], using:value[2]) */
+    associative = masl_associative_op_populate(parent_domain, value[0], value[2]);
     /* SELECT one new_element RELATED BY associative->relationship[R3721]->markable[R3783]->element[R3786] */
     new_element = 0;
     {    if ( 0 != associative ) {
@@ -878,8 +963,8 @@ masl_population_op_populate( c_t p_element[ESCHER_SYS_MAX_STRING_LEN], c_t p_val
       /* population.stack_trace() */
       masl_population_op_stack_trace( population );
     }
-    /* ASSIGN participation = participation::populate(conditionality:value[2], fromobject:value[0], multiplicity:value[3], participation:parent_participation, phrase:value[1], relationship:parent_relationship, toobject:value[4]) */
-    participation = masl_participation_op_populate(value[2], value[0], value[3], parent_participation, value[1], parent_relationship, value[4]);
+    /* ASSIGN participation = participation::populate(conditionality:value[3], fromobject:value[1], multiplicity:value[4], participation:parent_participation, phrase:value[2], relationship:parent_relationship, toobject:value[6]) */
+    participation = masl_participation_op_populate(value[3], value[1], value[4], parent_participation, value[2], parent_relationship, value[6]);
     /* SELECT one new_element RELATED BY participation->unmarkable[R3788]->element[R3786] */
     new_element = 0;
     {    if ( 0 != participation ) {

@@ -57,11 +57,6 @@ else
   TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
 end if;
 
-select one code_block related by self->code_block[R3794];
-if ( not_empty code_block )
-  code_block.render();
-end if;
-
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"default" );',
 	1,
@@ -106,6 +101,20 @@ return valid;',
 	1,
 	'',
 	"cce75d87-818b-4fc3-a50d-f92d030db143");
+INSERT INTO O_TFR
+	VALUES ("59878c70-2372-4cca-8e50-2da017c40ff6",
+	"4431e956-be8b-40e7-83ed-ac781e31719b",
+	'render_definition',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one code_block related by self->code_block[R3794];
+if ( not_empty code_block )
+  code_block.render();
+end if;',
+	1,
+	'',
+	"4c53013a-af89-41b3-917d-8832a0def9ef");
 INSERT INTO O_NBATTR
 	VALUES ("27d8c431-aa99-4f85-8118-e3c78c95bcdb",
 	"4431e956-be8b-40e7-83ed-ac781e31719b");
