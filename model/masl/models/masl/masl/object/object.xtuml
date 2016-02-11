@@ -15,31 +15,39 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'T::include( file:"masl/t.object_begin.masl" );
+
 select many attributes related by self->attribute[R3709.''is characterized by''];
 for each attribute in attributes
   attribute.render();
 end for;
+
 select many identifiers related by self->identifier[R3711];
 for each identifier in identifiers
   identifier.render();
 end for;
+
 select many operation_activities related by self->operation[R3749]->activity[R3704];
 for each activity in operation_activities
   activity.render();
 end for;
+
 select many state_activities related by self->state[R3750]->activity[R3704];
 for each activity in state_activities
   activity.render();
 end for;
+
 select many events related by self->event[R3736.''is triggered by''];
 for each event in events
   event.render();
 end for;
+
 select many state_machines related by self->state_machine[R3734];
 for each state_machine in state_machines
   state_machine.render();
 end for;
+
 T::include( file:"masl/t.object_end.masl" );
+
 select one markable related by self->markable[R3783];
 markable.render_marking( list:"definition" );',
 	1,
@@ -163,6 +171,14 @@ end for;
 select many child_state_machines related by self->state_machine[R3734];
 for each state_machine in child_state_machines
   valid = state_machine.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
   if ( false == valid )
     return valid;	// short circuit
   end if;
