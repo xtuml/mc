@@ -30,6 +30,7 @@ struct maslin_ooapopulation {
   maslin_O_TFR * current_class_op;  
   maslin_C_C * current_component;  
   i_t processingIdentifier;  
+  bool processingISM;  
 };
 void maslin_ooapopulation_instancedumper( Escher_iHandle_t );
 Escher_iHandle_t maslin_ooapopulation_instanceloader( Escher_iHandle_t, const c_t * [] );
@@ -90,6 +91,11 @@ void maslin_ooapopulation_op_StateMachine_newEvent( maslin_ooapopulation *, c_t 
 void maslin_ooapopulation_op_StateMachineEvent_initialize( maslin_ooapopulation *, c_t *, maslin_SM_EVT * );
 void maslin_ooapopulation_op_StateMachineEvent_setUniqueNumber( maslin_ooapopulation *, const bool, maslin_SM_EVT * );
 void maslin_ooapopulation_op_SEMEvent_createDefaultMatrixEntries( maslin_ooapopulation *, maslin_SM_SEVT * );
+void maslin_ooapopulation_op_transformTransition( maslin_ooapopulation *, c_t *, c_t *, c_t * );
+void maslin_ooapopulation_op_StateMachine_newTransition( maslin_ooapopulation *, c_t *, c_t *, maslin_SM_SM *, c_t * );
+void maslin_ooapopulation_op_Transition_initialize( maslin_ooapopulation *, maslin_SM_TXN * );
+void maslin_ooapopulation_op_StateMachine_newCreationTransition( maslin_ooapopulation *, c_t *, c_t *, maslin_SM_SM * );
+void maslin_ooapopulation_op_Transition_addEvent( maslin_ooapopulation *, c_t *, maslin_SM_TXN * );
 
 
 #define maslin_ooapopulation_MAX_EXTENT_SIZE 10

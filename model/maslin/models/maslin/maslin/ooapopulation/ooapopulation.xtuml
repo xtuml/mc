@@ -23,6 +23,7 @@ select any ooapopulation from instances of ooapopulation;
 if ( empty ooapopulation )
   create object instance ooapopulation of ooapopulation;
   ooapopulation.processingIdentifier = -1;
+  ooapopulation.processingISM = true;
 end if;
 
 if ( "project" == element )
@@ -127,6 +128,14 @@ elif ( "operation" == element )
       ooapopulation.transformObjectFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
     end if;
   end if;
+elif ( "transitiontable" == element )
+  if ( "assigner" == param.value[0] )
+    ooapopulation.processingISM = false;
+  else
+    ooapopulation.processingISM = true;
+  end if;
+elif ( "transition" == element )
+  ooapopulation.transformTransition(eventName:param.value[1], startState:param.value[0], endState:param.value[2]);
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -1227,7 +1236,7 @@ end if;
 ',
 	1,
 	'',
-	"fd3b1e58-e9c3-41df-a82e-724733a56a61");
+	"7e69abb2-76bc-4021-8183-9dc2025688bb");
 INSERT INTO O_TPARM
 	VALUES ("0da10f2a-658a-4a79-a574-742bd07fcd7e",
 	"4ff26a31-e07b-4af1-8221-5dc73754ca14",
@@ -2458,7 +2467,7 @@ self.StateMachineEvent_initialize(sm_evt:newEvent, name:param.name); // OOA - ne
 ',
 	1,
 	'',
-	"95d28c71-7112-48a3-9945-3db8666f33fa");
+	"bbd564a6-2b4f-4af1-8925-05597ade9485");
 INSERT INTO O_TPARM
 	VALUES ("62908e76-4dab-4aee-91a4-864c95ce4fae",
 	"9bf9cd87-5a44-46e2-b3c6-f4b6d456609d",
@@ -2505,7 +2514,7 @@ self.SEMEvent_createDefaultMatrixEntries(sm_sevt:semEvt); // OOA - semEvt.create
 ',
 	1,
 	'',
-	"bc18a8a6-8343-4640-9953-070d98414a12");
+	"4976f346-397d-40d4-b939-c1ab6cc5bbea");
 INSERT INTO O_TPARM
 	VALUES ("2727a3e8-9a4d-42d4-bb55-3fd47506d30c",
 	"7275e256-3909-4d82-8c71-c51ad5614ea7",
@@ -2631,6 +2640,314 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO O_TFR
+	VALUES ("7e69abb2-76bc-4021-8183-9dc2025688bb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformTransition',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'current_class = self.current_class;
+
+select any sm_sm from instances of SM_SM where ( false );
+
+if ( true == self.processingISM )
+  select one sm_sm related by current_class->SM_ISM[R518]->SM_SM[R517];
+else
+  select one sm_sm related by current_class->SM_ASM[R519]->SM_SM[R517];
+end if;
+
+if ( ("Non_Existent" == param.startState) or ("Non_Existant" == param.startState) )
+  self.StateMachine_newCreationTransition(sm_sm: sm_sm, eventName:param.eventName, endState:param.endState);
+else
+  self.StateMachine_newTransition(sm_sm: sm_sm, eventName:param.eventName, startState:param.startState, endState:param.endState);
+end if;
+',
+	1,
+	'',
+	"fd3b1e58-e9c3-41df-a82e-724733a56a61");
+INSERT INTO O_TPARM
+	VALUES ("d8b6a3cf-04fd-47d1-8e5b-186cdc6d49bf",
+	"7e69abb2-76bc-4021-8183-9dc2025688bb",
+	'eventName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("78e3225e-60e8-49da-9fb1-cffd3900fe18",
+	"7e69abb2-76bc-4021-8183-9dc2025688bb",
+	'startState',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d8b6a3cf-04fd-47d1-8e5b-186cdc6d49bf",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a3b278e6-0ee0-410b-b114-b793a8bcfa4e",
+	"7e69abb2-76bc-4021-8183-9dc2025688bb",
+	'endState',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"78e3225e-60e8-49da-9fb1-cffd3900fe18",
+	'');
+INSERT INTO O_TFR
+	VALUES ("4976f346-397d-40d4-b939-c1ab6cc5bbea",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachine_newTransition',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_sm = param.sm_sm;
+
+// Similar to the same function in OOAofOOA but here we do some extra work to handle case where the endState is 
+// not really a state but is "Ignore" or "Cannot_Happen"
+
+select any fromState related by sm_sm->SM_STATE[R501] where (selected.Name == param.startState);
+
+if ( "Ignore" == param.endState )
+  // TODO - handle setting the transition type on the event, look at StateMachineEvent ignoreOnState 
+elif ( "Cannot_Happen" == param.endState )
+  // TODO - handle setting the transition type on the event, look at StateMachineEvent sayCantHappenOnState
+else
+  select any toState related by sm_sm->SM_STATE[R501] where (selected.Name == param.endState);
+  if (not_empty fromState and not_empty toState)
+    create object instance tr of SM_TXN;
+    create object instance net of SM_NETXN;
+    relate tr to net across R507;
+    relate net to fromState across R508;
+    relate tr to toState across R506;
+    relate sm_sm to tr across R505;
+    self.Transition_initialize(sm_txn:tr); // OOA - tr.initialize();
+    // TODO - assign the event to the new transition
+  /*else
+      TODO - LOG error message?*/
+  end if;
+end if;',
+	1,
+	'',
+	"bc18a8a6-8343-4640-9953-070d98414a12");
+INSERT INTO O_TPARM
+	VALUES ("446e11af-bd56-4a5c-8b52-d70f13e1a063",
+	"4976f346-397d-40d4-b939-c1ab6cc5bbea",
+	'eventName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"9318a84f-7ca6-499e-a3e0-6925da2eef80",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a1d66220-fa0b-4ede-9bae-c3c068d60fba",
+	"4976f346-397d-40d4-b939-c1ab6cc5bbea",
+	'startState',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"446e11af-bd56-4a5c-8b52-d70f13e1a063",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("8e305ec5-a8f4-4074-b246-c01ebb72b76b",
+	"4976f346-397d-40d4-b939-c1ab6cc5bbea",
+	'endState',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a1d66220-fa0b-4ede-9bae-c3c068d60fba",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("9318a84f-7ca6-499e-a3e0-6925da2eef80",
+	"4976f346-397d-40d4-b939-c1ab6cc5bbea",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("9e1603f8-30b3-45e7-a697-d89f16f10bf0",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Transition_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_txn = param.sm_txn;
+
+// Transition.initialize()
+// Create the action home
+create object instance ah of SM_AH;
+create object instance tah of SM_TAH;
+relate ah to tah across R513;
+select one sm related by sm_txn->SM_SM[R505];  
+create object instance act of SM_ACT;
+act.Suc_Pars = ParseStatus::parseInitial;
+relate act to ah across R514;
+relate act to sm across R515;
+relate sm_txn to tah across R530;
+',
+	1,
+	'',
+	"b9a56abe-561b-4c63-aae8-9127fa0316e7");
+INSERT INTO O_TPARM
+	VALUES ("a9787f3a-ea1e-4da7-983e-996a97efc9d0",
+	"9e1603f8-30b3-45e7-a697-d89f16f10bf0",
+	'sm_txn',
+	"f1d56d88-4138-4bdf-a9a2-306b73878dab",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f1d56d88-4138-4bdf-a9a2-306b73878dab",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Transition>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO O_TFR
+	VALUES ("bbd564a6-2b4f-4af1-8925-05597ade9485",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateMachine_newCreationTransition',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_sm = param.sm_sm;
+
+if ( "Ignore" == param.endState )
+  // TODO - handle setting the transition type on the event, look at StateMachineEvent ignoreOnState
+  //   ...but do we care about this on creation events in xtUML land? 
+elif ( "Cannot_Happen" == param.endState )
+  // TODO - handle setting the transition type on the event, look at StateMachineEvent sayCantHappenOnState
+  //   ...but do we care about this on creation events in xtUML land? 
+else
+  select any state related by sm_sm->SM_STATE[R501] where (selected.Name == param.endState);
+  if (not_empty state)
+    create object instance tr of SM_TXN;
+    create object instance ct of SM_CRTXN;
+    relate tr to ct across R507;
+    relate tr to state across R506;
+    relate sm_sm to tr across R505;
+    self.Transition_initialize(sm_txn:tr); // OOA - tr.initialize();
+    // TODO - assign the event to the new transition
+  /*else
+      TODO - LOG error message?*/
+  end if;
+end if;',
+	1,
+	'',
+	"95d28c71-7112-48a3-9945-3db8666f33fa");
+INSERT INTO O_TPARM
+	VALUES ("ebfa211d-04c7-4122-8421-7b4986727737",
+	"bbd564a6-2b4f-4af1-8925-05597ade9485",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("534e77a1-f4c2-423a-bfb6-60c8e65abcb6",
+	"bbd564a6-2b4f-4af1-8925-05597ade9485",
+	'eventName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ebfa211d-04c7-4122-8421-7b4986727737",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("c207bdac-25bf-4d73-933f-8924a1a5fa80",
+	"bbd564a6-2b4f-4af1-8925-05597ade9485",
+	'endState',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"534e77a1-f4c2-423a-bfb6-60c8e65abcb6",
+	'');
+INSERT INTO O_TFR
+	VALUES ("b9a56abe-561b-4c63-aae8-9127fa0316e7",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Transition_addEvent',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_txn = param.sm_txn;
+
+// TODO
+
+// find the event corresponding to the one given that is associated with 
+// this transition''s state machine, which in fact may be the one given, or not
+// if the given event is polymorphic
+/*select any event from instances of SM_EVT 
+    where selected.SMevt_ID == param.eventId
+        and selected.SM_ID == param.eventStateMachineId;
+select one sm related by sm_txn->SM_SM[R505];
+eventId = event.getAssociatedEventForStateMachine(stateMachineId:sm.SM_ID);
+select any event from instances of SM_EVT where selected.SMevt_ID == eventId;
+        
+ select one no_evt_txn related by sm_txn->SM_NETXN[R507];
+ if ( not_empty no_evt_txn )
+   select one orig_state related by no_evt_txn->SM_STATE[R508];
+   unrelate no_evt_txn from orig_state across R508;
+   unrelate no_evt_txn from sm_txn across R507;
+   delete object instance no_evt_txn;
+   create object instance ns_txn of SM_NSTXN;
+   relate sm_txn to ns_txn across R507;
+   
+   select any seme related by orig_state->SM_SEME[R503] 
+       where selected.SMevt_ID == event.SMevt_ID;
+   seme.disposeChOrEi();
+   relate ns_txn to seme across R504;
+ else
+   select one ns_txn related by sm_txn->SM_NSTXN[R507];
+   if ( not_empty ns_txn )
+     select one seme related by ns_txn->SM_SEME[R504];
+     select one orig_state related by seme->SM_STATE[R503];
+
+     // change SEME caused by old event to be cant happen
+     create object instance ch of SM_CH;
+     unrelate ns_txn from seme across R504;
+     relate seme to ch across R504;
+     
+     // find SEME caused by new event
+     select any new_seme related by orig_state->SM_SEME[R503] 
+         where selected.SMevt_ID == event.SMevt_ID;
+     new_seme.disposeChOrEi();
+     relate new_seme to ns_txn across R504;
+     // state supplemental dataset should be unchanged
+   else
+     select one cr_txn related by sm_txn->SM_CRTXN[R507];
+     select one levt related by cr_txn->SM_LEVT[R509];
+     if ( not_empty levt )
+       unrelate cr_txn from levt across R509;
+     end if;
+     select one new_evt related by event->SM_SEVT[R525]->SM_LEVT[R526];         
+     relate cr_txn to new_evt across R509;
+   end if;
+ end if;*/
+
+',
+	1,
+	'',
+	"0ff33986-594c-49e8-84a0-7eb628272d32");
+INSERT INTO O_TPARM
+	VALUES ("48f10510-5096-44fc-a719-204eda762c85",
+	"b9a56abe-561b-4c63-aae8-9127fa0316e7",
+	'eventName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a6c8f437-c153-493f-9d9a-cc3cb8e6f469",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a6c8f437-c153-493f-9d9a-cc3cb8e6f469",
+	"b9a56abe-561b-4c63-aae8-9127fa0316e7",
+	'sm_txn',
+	"f1d56d88-4138-4bdf-a9a2-306b73878dab",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -2791,6 +3108,24 @@ INSERT INTO O_ATTR
 	'processingIdentifier',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("45769a88-3b54-414b-8e30-d357063e4f0f",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("45769a88-3b54-414b-8e30-d357063e4f0f",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("45769a88-3b54-414b-8e30-d357063e4f0f",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"86e22f6d-21e0-4640-9a87-a4f66244ee02",
+	'processingISM',
+	'',
+	'',
+	'processingISM',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
 INSERT INTO O_ID
