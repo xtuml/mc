@@ -159,8 +159,10 @@ public class MaslImportParser {
             setOutput( output );
         }
         else {
+            File f = new File( fn );
+            out = f.getName();
             try {
-                output = new PrintStream( fn + ".masldsl" );
+                output = new PrintStream( out + ".masldsl" );
             } catch ( FileNotFoundException e ) {
                 System.err.println( "-parse: ERROR " + e );
             }
