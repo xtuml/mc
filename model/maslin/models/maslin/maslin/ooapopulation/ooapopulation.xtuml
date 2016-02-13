@@ -109,7 +109,7 @@ elif ( "typeref" == element )
     end if;
   end if;
 elif ( "routine" == element )
-  //  See if we''re processing inside a domain, object, or terminator.  Then call the appropriate conversion function.
+  //  See if we''re processing inside a domain or terminator.  Then call the appropriate conversion function.
   if ( "" != param.value[0] )
     // TODO -if ( not_empty ooapopulation.current_port )
     // TODO -  ooapopulation.transformTerminatorFunction();
@@ -118,7 +118,6 @@ elif ( "routine" == element )
     //end if;
   end if;
 elif ( "operation" == element )
-  //  See if we''re processing inside a domain, object, or terminator.  Then call the appropriate conversion function.
   if ( "" == param.value[0] )
     select any o_tfr from instances of O_TFR where (false);
     ooapopulation.current_class_op = o_tfr;
@@ -331,14 +330,22 @@ INSERT INTO O_TFR
 	1,
 	'self.createSystem();
 
-// Create a component in the Library package if it doesn''t already exist
+// Create a package named the same as the domain and cache it
+self.lib_pkg = self.SystemModel_newPackage(s_sys:self.current_sys, pkg_name:param.name);
+
+// Create a component in the library package if it doesn''t already exist
 lib_pkg = self.lib_pkg;
 select any c_c related by lib_pkg->PE_PE[R8000]->C_C[R8001] where ( param.name == selected.Name );
 
 if ( empty c_c )
+  // Create the component itself and a package inside it to hold the internal behavior
   c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
   internal_bhv_pkg = self.Component_newPackage(c_c:c_c, pkg_name:param.name);
 
+  // Create a package to hold public bits that other components will need visibility to
+  shared_pkg = self.Package_newPackage(ep_pkg:self.lib_pkg, package_name:"Shared");
+  
+  /* TODO - We may not want to do any of the project-related work here...  Need to revisit later
   // Create a component reference in the project wiring package
   wiring_pkg = self.wiring_pkg;
   if ( not_empty wiring_pkg )
@@ -346,7 +353,7 @@ if ( empty c_c )
 
     // Assign the component reference to the component 
     self.ComponentReference_assignToComp(cl_ic:cl_ic, c_c:c_c);
-  end if;
+  end if;*/
 end if;
 
 self.current_component = c_c;',
@@ -647,9 +654,6 @@ if ( empty s_sys )
   s_sys.Name = "ConvertedModel";
   self.current_sys = s_sys;
 
-  // Create a package named "library" and cache it
-  self.lib_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"library");
-  
   // Create a system level types package and cache it
   //   TODO - revisit this when we figure out type handling for import into BP
   self.systypes_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"types");
@@ -1212,8 +1216,9 @@ INSERT INTO O_TFR
 	'// TODO - What special handling is needed in the case that we already saw a typeref and created the s_dt.  Are we now getting a full "definition"
 //   of the type with info that must be added to the s_dt?
  
-// If the type visibility is public, put it in the system level types package, if private, put it inside the component
-types_pkg = self.systypes_pkg;
+// If the type visibility is public, put it in the package of shared public data.  If private, put it inside the component.
+lib_pkg = self.lib_pkg;
+select any types_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
 
 if ( "private" == param.visibility )
   // Get the "types" package in this component
@@ -1227,9 +1232,11 @@ if ( "private" == param.visibility )
 end if;
 
 // See if type already exists
+systypes_pkg = self.systypes_pkg;
+select any sys_s_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
 select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
 
-if ( empty s_dt )
+if ( (empty sys_s_dt) and (empty s_dt) )
   // The type doesn''t already exist, create it
   self.Package_newDatatype(ep_pkg:types_pkg, type_name: param.name);
 end if;
@@ -1360,8 +1367,7 @@ end if;
 self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
 
 // If the function/service is public:
-//   a) see if there is an "interfaces" package in the library package. Note the design decision here to put the interfaces under
-//        the library (and hence next to the components) rather than pushed up a level (directly under the system).
+//   a) get the "Shared" package under the library package.
 //   b) see if there is an interface named "<comp name>_if", formalized to a port named (port name does not matter I think) 
 //        on the component, create if not
 //   c) create an interface operation identical to the domain function/service
@@ -1369,17 +1375,14 @@ self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
 if ( "public" == param.visibility )
   // a
   lib_pkg = self.lib_pkg;
-  select any interfaces_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "interfaces");
-  if ( empty interfaces_pkg )
-    interfaces_pkg = self.Package_newPackage(ep_pkg:lib_pkg, package_name:"interfaces");
-  end if;
+  select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
   
   // b
   comp_if_name = current_component.Name + "_if";
-  select any comp_if related by interfaces_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+  select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
   if ( empty comp_if )
     // create the interface
-    comp_if = self.Package_newInterface(ep_pkg:interfaces_pkg, interface_name:comp_if_name);
+    comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
     // create a port & provided interface from the component
     comp_port_name = current_component.Name + "_port";
     new_ir = self.Component_initializeProvision(c_c:current_component, c_i:comp_if, port_name:comp_port_name);
