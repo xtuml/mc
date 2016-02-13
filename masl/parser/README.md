@@ -3,28 +3,50 @@ HOWTO build and run the MASL parser
 
 ## Build the parser
 
-From the `masl_parser` directory, run:
+From the `parser` directory, run:
 ```bash
 ant
 ```
 
 ## Run the parser
 
-To parse a project or domain model file, from the `masl_parser` directory, run:
+
+### Usage:
+
+Parse single MASL file:
 ```bash
-java -cp build:lib/antlr-3.5.2-complete.jar Main [ <rule> ] <masl_file> [ > output_file ]
+java -cp <classpath> MaslImportParser -f <rule> <MASL file> [-o [file name] ]
 ```
-The resulting MASLDSL will be printed to standard out, or you can optionally redirect it
-to a file or pipe it to another application.
 
-States, functions, and services are defined in separate files. To run the parser against
-these files, you must specify the AST rule that you want to parse.
+Parse MASL domain:
+```bash
+java -cp <classpath> MaslImportParser -d <domain directory> [-o [file name] ]
+```
 
-If no rule is provided, the parser will default to parse domains or projects.
+Parse MASL project:
+```bash
+java -cp <classpath> MaslImportParser -p <project directory> [-o [file name] ]
+```
+
+### Output
+
+If the `-o` flag not specified, the output defaults to `stdout`.
+
+If the `-o` flag is specified with no file name, the output file name is automatically
+chosen and the output file is placed in the current working directory.
+
+If the `-o` flag is specified with a file name, the output is written to the specified file.
+
+### Rules
+
+When parsing a single MASL file, you must specify the walker rule you want to parse
+with.
 
 The available rules are:
-* `domainServiceDefinition`  
-* `terminatorServiceDefinition`  
-* `projectTerminatorServiceDefinition`  
-* `objectServiceDefinition`  
-* `stateDefinition`  
+* `target`
+* `activityDefinition`
+* `objectServiceDefinition`
+* `stateDefinition`
+* `domainServiceDefinition`
+* `terminatorServiceDefinition`
+* `projectTerminatorServiceDefinition`
