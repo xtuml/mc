@@ -185,26 +185,41 @@ to establish hierarchical organization and naming conventions.
 
 7. Design Comments
 ------------------
-7.1 Inter-Project References for Class Diagrams  
+7.1 Technology Choices  
+Non-functional requirements stated in section 4 establish an MDA workflow.
+This requires a model compiler chain.  Two choices of model compiler were
+considered for this work, MC-Java and MC-C.  
+
+As a target language Java is better suited for the Conversion/Import and
+Export flows.  We explored using MC-Java, but it has weaknesses that
+disqualify it in its current state.  Specifically, it cannot support
+instance reference passing, component interfacing and IPRs for classes.
+There were other short-comings.  A test was performed to see if the models
+and action language support needed would translate.  This test failed.  
+
+For the basic phase 1 project, we have chosen to use the same C model
+compiler flow used for the model-based C model compiler (mcmc).  
+
+7.2 Inter-Project References for Class Diagrams  
 It was deemed a critical requirement at the beginning of this project that 
 class diagrams be shared across projects.  Thus, inter-project referencing
 (IPR) for classes was enabled in an engineering build of BridgePoint.
 
-7.2 Refactoring of Escher  
+7.3 Refactoring of Escher  
 The MC-3020 model compiler (escher) contains a "naked" OOAofOOA, a class
 diagram of the xtUML meta-model with all operations and state machines
 stripped off.  The model compiler model also contained `docgen`, `Document`
 and `MC EEs`.  This model has been refactored and divided into separate
 projects.  Reuse is now possible, and build times are affected favorably.  
 
-7.2.1 MCOOA  
+7.3.1 MCOOA  
 With escher refactored, `maslin (masl2xtuml)` and `maslout (xtuml2masl)`
 both independently can reference the `mcooa` (naked OOAofOOA).
 `maslin` populates this model from MASLDSL [4].  `maslout` emits MASLDSL
 based on queries of this model.  Both can share architectural
 EEs defined in `mcshared` [9].  
 
-7.3 Further Segregating M2M Transformations  
+7.4 Further Segregating M2M Transformations  
 The xtUML meta-model (ooaofooa) and the model of MASL represent separate
 subject matters.  Model-to-Model (M2M) Transformations span both subject
 matters and seem to require selecting from a source model and creating,
