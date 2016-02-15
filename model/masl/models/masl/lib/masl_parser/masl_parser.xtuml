@@ -64,7 +64,7 @@ INSERT INTO GD_GE
 	"58b0e248-aaa3-45b0-a6ef-4c258fa83981",
 	93,
 	0,
-	'masl::lib::masl_parser::Port1::serial');
+	'masl::lib::masl_parser::out::serial');
 INSERT INTO GD_CON
 	VALUES ("98138c76-dfbf-4511-8a82-31065fb1027c",
 	"00000000-0000-0000-0000-000000000000");
@@ -168,7 +168,7 @@ INSERT INTO DIM_DIA
 INSERT INTO C_PO
 	VALUES ("eef0c029-d45f-4d33-8f36-fc2c3abf4001",
 	"e713f40f-2f92-444c-8643-f1caf4371293",
-	'Port1',
+	'out',
 	0,
 	0);
 INSERT INTO C_IR
@@ -181,7 +181,7 @@ INSERT INTO C_R
 	'serial',
 	'',
 	'Unnamed Interface',
-	'masl_parser::Port1::serial');
+	'masl_parser::out::serial');
 INSERT INTO SPR_REP
 	VALUES ("8773e31c-821d-45ec-a2fb-77a6580271bb",
 	"841b86d1-7346-4506-8512-0d2cebeb6545",
