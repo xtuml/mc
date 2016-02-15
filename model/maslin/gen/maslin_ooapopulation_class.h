@@ -29,6 +29,7 @@ struct maslin_ooapopulation {
   maslin_O_OBJ * current_class;  
   maslin_O_TFR * current_class_op;  
   maslin_C_C * current_component;  
+  maslin_S_SYNC * current_domain_function;  
   i_t processingIdentifier;  
   bool processingISM;  
 };
@@ -52,7 +53,7 @@ void maslin_ooapopulation_op_createSystem( maslin_ooapopulation * );
 bool maslin_ooapopulation_op_InterfaceReference_isFormal( maslin_ooapopulation *, c_t * );
 void maslin_ooapopulation_op_transformTerminator( maslin_ooapopulation *, c_t * );
 void maslin_ooapopulation_op_transformActivity( maslin_ooapopulation * );
-void maslin_ooapopulation_op_transformParameter( maslin_ooapopulation * );
+void maslin_ooapopulation_op_transformParameter( maslin_ooapopulation *, c_t *, c_t * );
 void maslin_ooapopulation_op_transformAttribute( maslin_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
 void maslin_ooapopulation_op_transformState( maslin_ooapopulation *, c_t *, c_t * );
 void maslin_ooapopulation_op_transformEvent( maslin_ooapopulation *, c_t *, c_t * );
@@ -71,7 +72,7 @@ void maslin_ooapopulation_op_transformObjectFunction( maslin_ooapopulation *, c_
 maslin_O_TFR * maslin_ooapopulation_op_ModelClass_newOperation( maslin_ooapopulation *, maslin_O_OBJ *, c_t * );
 void maslin_ooapopulation_op_Operation_initialize( maslin_ooapopulation *, c_t *, maslin_O_TFR * );
 void maslin_ooapopulation_op_ModelClass_addOperationToOrdering( maslin_ooapopulation *, maslin_O_TFR *, maslin_O_OBJ * );
-void maslin_ooapopulation_op_Package_newFunction( maslin_ooapopulation *, maslin_EP_PKG *, c_t * );
+maslin_S_SYNC * maslin_ooapopulation_op_Package_newFunction( maslin_ooapopulation *, maslin_EP_PKG *, c_t * );
 void maslin_ooapopulation_op_Function_initialize( maslin_ooapopulation *, c_t *, maslin_S_SYNC * );
 maslin_EP_PKG * maslin_ooapopulation_op_Package_newPackage( maslin_ooapopulation *, maslin_EP_PKG *, c_t * );
 maslin_C_I * maslin_ooapopulation_op_Package_newInterface( maslin_ooapopulation *, maslin_EP_PKG *, c_t * );
@@ -96,6 +97,14 @@ void maslin_ooapopulation_op_StateMachine_newTransition( maslin_ooapopulation *,
 void maslin_ooapopulation_op_Transition_initialize( maslin_ooapopulation *, maslin_SM_TXN * );
 void maslin_ooapopulation_op_StateMachine_newCreationTransition( maslin_ooapopulation *, c_t *, c_t *, maslin_SM_SM * );
 void maslin_ooapopulation_op_Transition_addEvent( maslin_ooapopulation *, c_t *, maslin_SM_TXN * );
+void maslin_ooapopulation_op_Operation_newParameter( maslin_ooapopulation *, maslin_O_TFR *, c_t * );
+void maslin_ooapopulation_op_OperationParameter_initialize( maslin_ooapopulation *, c_t *, maslin_O_TPARM * );
+void maslin_ooapopulation_op_Operation_createParameterInInteractions( maslin_ooapopulation *, maslin_O_TFR *, maslin_O_TPARM * );
+void maslin_ooapopulation_op_Operation_addParameterToOrdering( maslin_ooapopulation *, maslin_O_TFR *, maslin_O_TPARM * );
+void maslin_ooapopulation_op_Function_newParameter( maslin_ooapopulation *, c_t *, maslin_S_SYNC * );
+void maslin_ooapopulation_op_FunctionParameter_initialize( maslin_ooapopulation *, c_t *, maslin_S_SPARM * );
+void maslin_ooapopulation_op_Function_addParameterToOrder( maslin_ooapopulation *, maslin_S_SPARM *, maslin_S_SYNC * );
+void maslin_ooapopulation_op_Function_createMessageArgumentsForParameter( maslin_ooapopulation *, maslin_S_SPARM *, maslin_S_SYNC * );
 
 
 #define maslin_ooapopulation_MAX_EXTENT_SIZE 10
