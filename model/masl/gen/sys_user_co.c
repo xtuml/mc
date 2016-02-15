@@ -84,9 +84,9 @@ UserPostOoaInitializationCalloutf( void )
     while ( ( q = strsep(&p, ",")) != NULL ) { Escher_strcpy( value[ i++ ], q ); }
     masl_in_populate( element, value );
   }
-  masl_control_validate( "" );
-  masl_control_render( "", "*" );
-  //masl_control_tostring( "project", "System" );
+  masl_gen_validate( "" );
+  masl_gen_render( "", "*" );
+  //masl_gen_tostring( "project", "System" );
   T_emit( "stdout" );
 }
 
