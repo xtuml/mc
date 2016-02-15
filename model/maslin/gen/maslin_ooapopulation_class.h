@@ -22,7 +22,7 @@ struct maslin_ooapopulation {
 
   /* application analysis class attributes */
   maslin_S_SYS * current_sys;
-  maslin_EP_PKG * lib_pkg;  
+  maslin_EP_PKG * lib_pkg;
   maslin_EP_PKG * systypes_pkg;  
   maslin_EP_PKG * wiring_pkg;  
   maslin_O_ATTR * current_attribute;  
