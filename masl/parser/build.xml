@@ -1,0 +1,81 @@
+<project name="MASLParser" default="compile" basedir=".">
+    <description>
+    </description>
+
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="src-gen" location="src-gen"/>
+    <property name="lib" location="lib"/>
+    <property name="build" location="build"/>
+    <property name="dist" location="dist"/>
+
+    <target name="init" depends="clean">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the build directory structure used by compile -->
+        <mkdir dir="${build}"/>
+        <mkdir dir="${src-gen}"/>
+    </target>
+
+    <target name="generate" depends="init" description="generate the language artifacts">
+        <java classname="org.antlr.Tool">
+            <classpath>
+                <fileset dir="${lib}">
+                    <include name="**/*.jar" />
+                </fileset>
+            </classpath>
+            <arg value="-fo"/>
+            <arg value="${src-gen}"/>
+            <arg value="${src}/MaslLexer.g"/>
+        </java>
+        <java classname="org.antlr.Tool">
+            <classpath>
+                <fileset dir="${lib}">
+                    <include name="**/*.jar" />
+                </fileset>
+            </classpath>
+            <arg value="-fo"/>
+            <arg value="${src-gen}"/>
+            <arg value="${src}/MaslParser.g"/>
+        </java>
+        <java classname="org.antlr.Tool">
+            <classpath>
+                <fileset dir="${lib}">
+                    <include name="**/*.jar" />
+                </fileset>
+            </classpath>
+            <arg value="-fo"/>
+            <arg value="${src-gen}"/>
+            <arg value="${src}/MaslWalker.g"/>
+        </java>
+    </target>
+
+    <target name="compile" depends="generate" description="compile the source">
+        <!-- Compile the java code from ${src} into ${build} -->
+        <javac destdir="${build}" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib}">
+                    <include name="**/*.jar" />
+                </fileset>
+            </classpath>
+            <src path="${src}"/>
+            <src path="${src-gen}"/>
+        </javac>
+    </target>
+
+    <target name="dist" depends="compile" description="generate the distribution">
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}/lib"/>
+
+        <!-- Put everything in ${build} into the MASLParser-${DSTAMP}.jar file -->
+        <jar jarfile="${dist}/lib/MASLParser-${DSTAMP}.jar" basedir="${build}"/>
+    </target>
+
+    <target name="clean"
+        description="clean up">
+        <!-- Delete the ${build} and ${dist} directory trees -->
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+        <delete dir="${src-gen}"/>
+    </target>
+</project>
