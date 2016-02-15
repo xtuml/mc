@@ -73,7 +73,7 @@ end if;
 return valid;',
 	1,
 	'',
-	"999c9ca2-d4ca-46fc-8026-903631dab597");
+	"c7899cac-73ee-476b-be1f-de045e0f424f");
 INSERT INTO O_TFR
 	VALUES ("c7899cac-73ee-476b-be1f-de045e0f424f",
 	"290f38ad-8da5-4ebb-ab7b-d2056c167899",
@@ -106,7 +106,7 @@ else
 end if;',
 	1,
 	'',
-	"cb5e8ced-21c0-4534-8804-fa9c565a5424");
+	"999c9ca2-d4ca-46fc-8026-903631dab597");
 INSERT INTO O_ID
 	VALUES (0,
 	"290f38ad-8da5-4ebb-ab7b-d2056c167899");

@@ -1473,6 +1473,7 @@ INSERT INTO S_SYNC
 	'',
 	'/*
 Use the parsekeyword feature to extract pragmas from text (Descrip) fields.
+CDS - not...  Let us do something different than parsekeyword.
 */
 value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";

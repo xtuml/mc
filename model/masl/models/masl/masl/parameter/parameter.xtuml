@@ -24,7 +24,7 @@ if ( not_empty parameter )
 end if;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7");
 INSERT INTO O_TFR
 	VALUES ("5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
@@ -56,7 +56,7 @@ relate parameter to unmarkable across R3788;
 return parameter;',
 	1,
 	'',
-	"0fd206d4-b40b-4ad7-be27-9150e91afb40");
+	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TPARM
 	VALUES ("832e40af-41d8-47f7-af18-a29df551fa7f",
 	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
@@ -166,7 +166,7 @@ end if;
 return valid;',
 	1,
 	'',
-	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7");
+	"0fd206d4-b40b-4ad7-be27-9150e91afb40");
 INSERT INTO O_NBATTR
 	VALUES ("1b90aca9-efb5-4368-b361-a564280cf7f2",
 	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");

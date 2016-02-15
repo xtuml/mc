@@ -230,12 +230,21 @@ technique seems to be working well enough to keep.
 
 8. Unit Test
 ------------
-**[the below was copied from the ant; make it a real test spec]**  
-7.1 Round Trip  
-7.1.1 Import an existing MASL model.  
-7.1.2 Export the model.  
-7.1.3 Compare the exported model with the imported model.  They
+8.1 SAC Round Trip  
+8.1.1 Convert and import SAC.  
+8.1.2 See it in BridgePoint as a component model.  Observe
+no shared types.  Observe types, functions, ports and classes to
+match those of the MASL model.  
+8.1.3 Export the model.  
+8.1.4 Compare the exported SAC model with the imported model.  They
 should be equivalent.  
+8.2 MASL-idiom GPS Watch Round Trip  
+8.2.1 Open MASL-idiom GPS Watch.  
+8.2.2 Observe it.  
+8.2.3 Export it.  
+8.2.4 Convert and import the exported MASL.  
+8.2.5 Observe the newly imported GPS Watch and see the functional
+equivalent.  
 
 End
 ---
