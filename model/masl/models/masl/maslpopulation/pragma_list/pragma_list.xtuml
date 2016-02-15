@@ -97,19 +97,6 @@ end for;
 return valid;',
 	1,
 	'',
-	"e557c4de-ea3c-48df-9f8e-33c5bee13d04");
-INSERT INTO O_TFR
-	VALUES ("e557c4de-ea3c-48df-9f8e-33c5bee13d04",
-	"0dbfa016-6dd2-4102-8bc1-3820ebd3a38c",
-	'tostring',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'value[8] = "";
-value[0] = self.name;
-//out::( element:"template_class", value:value );',
-	1,
-	'',
 	"0ac83b8c-f011-4483-9f58-9cc3b3836bff");
 INSERT INTO O_NBATTR
 	VALUES ("85851714-b158-4a69-8af4-11efa63aad7a",

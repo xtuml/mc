@@ -91,7 +91,7 @@ end if;
 return valid;',
 	1,
 	'',
-	"b246cf4b-42f5-4e3d-86ae-056cc20a61b8");
+	"b1850fad-bb57-4d6f-91b1-23e0e7ef73db");
 INSERT INTO O_TFR
 	VALUES ("b246cf4b-42f5-4e3d-86ae-056cc20a61b8",
 	"1416f703-db51-4598-b9ca-f24cc279da0e",
@@ -118,7 +118,7 @@ if ( not_empty pragma_list )
 end if;',
 	1,
 	'',
-	"31e08a49-b6f3-44e9-bba4-062ba7bc3191");
+	"bdb91b44-d996-4257-bce3-96c137ff0633");
 INSERT INTO O_TPARM
 	VALUES ("1cdbdfe2-4cf8-4764-82c0-bc187c2afb72",
 	"b1850fad-bb57-4d6f-91b1-23e0e7ef73db",
@@ -178,7 +178,7 @@ else
 end if;',
 	1,
 	'',
-	"b1850fad-bb57-4d6f-91b1-23e0e7ef73db");
+	"b246cf4b-42f5-4e3d-86ae-056cc20a61b8");
 INSERT INTO O_ID
 	VALUES (0,
 	"1416f703-db51-4598-b9ca-f24cc279da0e");

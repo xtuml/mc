@@ -100,7 +100,7 @@ end for;
 return valid;',
 	1,
 	'',
-	"cce75d87-818b-4fc3-a50d-f92d030db143");
+	"59878c70-2372-4cca-8e50-2da017c40ff6");
 INSERT INTO O_TFR
 	VALUES ("59878c70-2372-4cca-8e50-2da017c40ff6",
 	"4431e956-be8b-40e7-83ed-ac781e31719b",
@@ -114,7 +114,7 @@ if ( not_empty code_block )
 end if;',
 	1,
 	'',
-	"4c53013a-af89-41b3-917d-8832a0def9ef");
+	"cce75d87-818b-4fc3-a50d-f92d030db143");
 INSERT INTO O_NBATTR
 	VALUES ("27d8c431-aa99-4f85-8118-e3c78c95bcdb",
 	"4431e956-be8b-40e7-83ed-ac781e31719b");
