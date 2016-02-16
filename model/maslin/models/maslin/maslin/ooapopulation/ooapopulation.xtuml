@@ -55,7 +55,7 @@ elif ( "activity" == element )
   end if;
 elif ( "parameter" == element )
   if ( "" != param.value[0] )
-    ooapopulation.transformParameter();
+    ooapopulation.transformParameter(name:param.value[0], direction:param.value[1]);
   end if;
 elif ( "identifier" == element )
   if ( "" != param.value[0] )
@@ -110,7 +110,10 @@ elif ( "typeref" == element )
   end if;
 elif ( "routine" == element )
   //  See if we''re processing inside a domain or terminator.  Then call the appropriate conversion function.
-  if ( "" != param.value[0] )
+  if ( "" == param.value[0] )
+    select any s_sync from instances of S_SYNC where ( false );
+    ooapopulation.current_domain_function = s_sync;
+  else
     // TODO -if ( not_empty ooapopulation.current_port )
     // TODO -  ooapopulation.transformTerminatorFunction();
     //else
@@ -275,7 +278,7 @@ pe_pe = param.pe_pe;
 pe_pe.Visibility = Visibility::Public;',
 	1,
 	'',
-	"df742b16-077b-4e8d-acf5-363505b130c5");
+	"e7700947-8940-4165-936d-4d03f7965e7e");
 INSERT INTO O_TPARM
 	VALUES ("6a17224a-e16d-4c87-a4b6-3504f24b8992",
 	"6d27ebf1-bb50-4835-85e2-b21d260ab92c",
@@ -733,10 +736,36 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'',
+	'// Check to see what type of element this parameter goes to.  Pass control appropriately.
+class_op = self.current_class_op;
+domain_function = self.current_domain_function;
+
+if ( not_empty class_op )
+  self.Operation_newParameter(o_tfr:class_op, parameter_name:param.name);
+elif ( not_empty domain_function )
+  self.Function_newParameter(s_sync:domain_function, parameter_name:param.name);
+end if;',
 	1,
 	'',
 	"f2b299ab-c59f-4a3c-b813-659a745c2710");
+INSERT INTO O_TPARM
+	VALUES ("2cdbf275-4053-4059-9944-b935359ea8eb",
+	"9fda3415-6862-461d-ab35-5239c783bde0",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("55369144-6cb9-4395-9f5c-c0722dec7b72",
+	"9fda3415-6862-461d-ab35-5239c783bde0",
+	'direction',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"2cdbf275-4053-4059-9944-b935359ea8eb",
+	'');
 INSERT INTO O_TFR
 	VALUES ("9438bf8f-4666-499e-9822-00e7b064286f",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -1364,7 +1393,7 @@ if ( empty functions_pkg )
 end if;
 
 // Create a domain function for the incoming function/service
-self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
+self.current_domain_function = self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
 
 // If the function/service is public:
 //   a) get the "Shared" package under the library package.
@@ -1553,7 +1582,7 @@ o_tfr.Suc_Pars = ParseStatus::parseInitial;
 ',
 	1,
 	'',
-	"b44f67b8-f281-4aa2-9adc-27b62605a7c1");
+	"fa586bd2-1a62-4b97-a659-eb8c7baa156b");
 INSERT INTO O_TPARM
 	VALUES ("cd7b3b59-9273-4b04-b995-fee5aaf28023",
 	"df742b16-077b-4e8d-acf5-363505b130c5",
@@ -1619,7 +1648,7 @@ INSERT INTO O_TFR
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'Package_newFunction',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"60690409-5a69-45db-896b-5a63a9103c18",
 	1,
 	'ep_pkg = param.ep_pkg;
 
@@ -1631,7 +1660,9 @@ relate pe to ep_pkg across R8000;
 pe.type = ElementTypeConstants::FUNCTION;
 self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
 
-self.Function_initialize(s_sync:fn, name:param.function_name); // OOA - fn.initialize();',
+self.Function_initialize(s_sync:fn, name:param.function_name); // OOA - fn.initialize();
+
+return fn;',
 	1,
 	'',
 	"dff68b05-f692-4f7e-8745-e96def65ae8a");
@@ -1653,6 +1684,13 @@ INSERT INTO O_TPARM
 	'',
 	"984f5127-57dd-444a-bee0-82d7dfd66060",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("60690409-5a69-45db-896b-5a63a9103c18",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
 INSERT INTO O_TFR
 	VALUES ("3bb45e5b-9cf4-4566-8bb6-47f1f59b17d2",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -1687,13 +1725,6 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("60690409-5a69-45db-896b-5a63a9103c18",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Function>',
-	'',
-	'',
-	'../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("4d77076f-98d5-4df8-bc9a-238abbd5ce31",
 	"3bb45e5b-9cf4-4566-8bb6-47f1f59b17d2",
@@ -2951,6 +2982,341 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TFR
+	VALUES ("c05e4e81-e31b-407e-82a8-6f734786b680",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Operation_newParameter',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_tfr = param.o_tfr;
+
+create object instance parm of O_TPARM;
+relate o_tfr to parm across R117;
+self.OperationParameter_initialize(o_tparm:parm, name:param.parameter_name); // OOA - parm.initialize();
+self.Operation_createParameterInInteractions(o_tparm: parm, o_tfr:o_tfr); // OOA - self.createParameterInInteractions(id:parm.TParm_ID);',
+	1,
+	'',
+	"df742b16-077b-4e8d-acf5-363505b130c5");
+INSERT INTO O_TPARM
+	VALUES ("2ea81742-689c-4322-aafb-183681cd3584",
+	"c05e4e81-e31b-407e-82a8-6f734786b680",
+	'o_tfr',
+	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("e81a1f40-b737-4ec6-9b50-a26d49620f75",
+	"c05e4e81-e31b-407e-82a8-6f734786b680",
+	'parameter_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"2ea81742-689c-4322-aafb-183681cd3584",
+	'');
+INSERT INTO O_TFR
+	VALUES ("e7700947-8940-4165-936d-4d03f7965e7e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'OperationParameter_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_tparm = param.o_tparm;
+
+// Note: this is a heavily modified version of the function from OOAofOOA
+select one operation related by o_tparm->O_TFR[R117];
+self.Operation_addParameterToOrdering(o_tfr:operation, o_tparm:o_tparm); // OOA - operation.addParameterToOrdering(id:self.TParm_ID);
+
+// TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
+systypes_pkg = self.systypes_pkg;
+select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+// END
+
+relate o_tparm to def_dt across R118;
+o_tparm.Name = param.name;
+',
+	1,
+	'',
+	"c05e4e81-e31b-407e-82a8-6f734786b680");
+INSERT INTO O_TPARM
+	VALUES ("c42b2a6f-1e21-44d9-91ea-ad04a012f86e",
+	"e7700947-8940-4165-936d-4d03f7965e7e",
+	'o_tparm',
+	"eeb98cba-1a0c-4d36-80f1-c0199a301aaf",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("eeb98cba-1a0c-4d36-80f1-c0199a301aaf",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Operation Parameter>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("bc8a0a78-3f25-4090-a78c-79599ad890d7",
+	"e7700947-8940-4165-936d-4d03f7965e7e",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"c42b2a6f-1e21-44d9-91ea-ad04a012f86e",
+	'');
+INSERT INTO O_TFR
+	VALUES ("fa586bd2-1a62-4b97-a659-eb8c7baa156b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Operation_createParameterInInteractions',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_tparm = param.o_tparm;
+o_tfr = param.o_tfr;
+
+// for each message associated with this bridge
+// create a message argument
+select many messages related by o_tfr->MSG_O[R1011]->MSG_SM[R1020]->MSG_M[R1018];
+for each message in messages
+  create object instance arg of MSG_A;
+  create object instance oa of MSG_OA;
+  relate oa to o_tparm across R1015;
+  relate oa to arg across R1013;
+  relate message to arg across R1001;
+end for;
+',
+	1,
+	'',
+	"9d4210cf-13a0-4a9c-a3e1-2351437a6a42");
+INSERT INTO O_TPARM
+	VALUES ("df6dba44-bcd7-4e46-b2a6-485ef003844f",
+	"fa586bd2-1a62-4b97-a659-eb8c7baa156b",
+	'o_tparm',
+	"eeb98cba-1a0c-4d36-80f1-c0199a301aaf",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("32ecdcab-e89e-4856-a8ec-c66a2cbbffad",
+	"fa586bd2-1a62-4b97-a659-eb8c7baa156b",
+	'o_tfr',
+	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	0,
+	'',
+	"df6dba44-bcd7-4e46-b2a6-485ef003844f",
+	'');
+INSERT INTO O_TFR
+	VALUES ("9d4210cf-13a0-4a9c-a3e1-2351437a6a42",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Operation_addParameterToOrdering',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_tfr = param.o_tfr;
+parameter = param.o_tparm;
+
+if(not_empty parameter)
+  select many peers related by o_tfr->O_TPARM[R117];
+  for each peer in peers
+    if (peer != parameter)
+      select one predecessor related by peer->O_TPARM[R124.''precedes''];
+      if (empty predecessor)
+        relate parameter to peer across R124.''succeeds'';
+      end if;
+    end if;
+  end for;
+end if;',
+	1,
+	'',
+	"b44f67b8-f281-4aa2-9adc-27b62605a7c1");
+INSERT INTO O_TPARM
+	VALUES ("73e8922e-3160-41ad-8cca-68d25a87239c",
+	"9d4210cf-13a0-4a9c-a3e1-2351437a6a42",
+	'o_tfr',
+	"5cb6d426-f094-4cad-8cdb-b16506c9f2e6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("262b6740-2fe8-4a02-bc96-f2460b867f2d",
+	"9d4210cf-13a0-4a9c-a3e1-2351437a6a42",
+	'o_tparm',
+	"eeb98cba-1a0c-4d36-80f1-c0199a301aaf",
+	0,
+	'',
+	"73e8922e-3160-41ad-8cca-68d25a87239c",
+	'');
+INSERT INTO O_TFR
+	VALUES ("59006327-25ec-491c-862a-bcb648543e48",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Function_newParameter',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	's_sync = param.s_sync;
+
+create object instance parm of S_SPARM;
+relate s_sync to parm across R24;
+self.FunctionParameter_initialize(s_sparm:parm, name:param.parameter_name); // OOA - parm.initialize();
+self.Function_createMessageArgumentsForParameter(s_sync:s_sync, s_sparm:parm); // OOA - self.createMessageArgumentsForParameter(id:parm.SParm_ID);',
+	1,
+	'',
+	"9e1603f8-30b3-45e7-a697-d89f16f10bf0");
+INSERT INTO O_TPARM
+	VALUES ("e6c7ea19-8682-4da9-b6c0-ed0cf389ddca",
+	"59006327-25ec-491c-862a-bcb648543e48",
+	's_sync',
+	"60690409-5a69-45db-896b-5a63a9103c18",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("e40a3897-701d-4b75-8343-42634d615a3e",
+	"59006327-25ec-491c-862a-bcb648543e48",
+	'parameter_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e6c7ea19-8682-4da9-b6c0-ed0cf389ddca",
+	'');
+INSERT INTO O_TFR
+	VALUES ("c4648b6f-189d-4a22-8512-1a81979ba4d5",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'FunctionParameter_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	's_sparm = param.s_sparm;
+
+select one function related by s_sparm->S_SYNC[R24];
+self.Function_addParameterToOrder(s_sync:function, s_sparm:s_sparm); // OOA - function.addParameterToOrder(id:self.SParm_ID);
+
+// TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
+systypes_pkg = self.systypes_pkg;
+select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+// END
+
+relate s_sparm to def_dt across R26;
+s_sparm.Name = param.name;
+    ',
+	1,
+	'',
+	"59006327-25ec-491c-862a-bcb648543e48");
+INSERT INTO O_TPARM
+	VALUES ("2164f926-dcf0-4d95-981b-80ffcafb027b",
+	"c4648b6f-189d-4a22-8512-1a81979ba4d5",
+	's_sparm',
+	"a01a1995-8ff8-44fe-abb1-b11213d98016",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a01a1995-8ff8-44fe-abb1-b11213d98016",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function Parameter>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("37a578d8-5d36-4171-9299-9b25516fe275",
+	"c4648b6f-189d-4a22-8512-1a81979ba4d5",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"2164f926-dcf0-4d95-981b-80ffcafb027b",
+	'');
+INSERT INTO O_TFR
+	VALUES ("535c79c8-822d-495a-8b3f-74d92ed73803",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Function_addParameterToOrder',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	's_sync = param.s_sync;
+parameter = param.s_sparm;
+
+if(not_empty parameter)
+  select many peers related by s_sync->S_SPARM[R24];
+  for each peer in peers
+    if (peer != parameter)
+      select one predecessor related by peer->S_SPARM[R54.''precedes''];
+      if (empty predecessor)
+        relate parameter to peer across R54.''succeeds'';
+      end if;
+    end if;
+  end for;
+end if;
+',
+	1,
+	'',
+	"c4648b6f-189d-4a22-8512-1a81979ba4d5");
+INSERT INTO O_TPARM
+	VALUES ("b2804676-124f-447f-87fb-28a22ba7c9dc",
+	"535c79c8-822d-495a-8b3f-74d92ed73803",
+	's_sync',
+	"60690409-5a69-45db-896b-5a63a9103c18",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("999999e3-d71e-4736-93c9-518a69aabf3e",
+	"535c79c8-822d-495a-8b3f-74d92ed73803",
+	's_sparm',
+	"a01a1995-8ff8-44fe-abb1-b11213d98016",
+	0,
+	'',
+	"b2804676-124f-447f-87fb-28a22ba7c9dc",
+	'');
+INSERT INTO O_TFR
+	VALUES ("fb586e84-fe0c-437d-a171-fa3b7388d3b6",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Function_createMessageArgumentsForParameter',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	's_sync = param.s_sync;
+parameter = param.s_sparm;
+
+if(not_empty parameter)
+  // for each message associated with this function
+  // create a message argument
+  select many messages related by s_sync->MSG_F[R1010]->MSG_SM[R1020]->MSG_M[R1018];
+  for each message in messages
+    create object instance arg of MSG_A;
+    create object instance fa of MSG_FA;
+    relate fa to parameter across R1016;
+    relate fa to arg across R1013;
+    relate message to arg across R1001;  
+  end for;
+end if;',
+	1,
+	'',
+	"535c79c8-822d-495a-8b3f-74d92ed73803");
+INSERT INTO O_TPARM
+	VALUES ("4bae02c0-d341-42d8-8b66-d89295499d7c",
+	"fb586e84-fe0c-437d-a171-fa3b7388d3b6",
+	's_sync',
+	"60690409-5a69-45db-896b-5a63a9103c18",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d8c22c5e-9f70-4f5a-96f0-dd3503801c8a",
+	"fb586e84-fe0c-437d-a171-fa3b7388d3b6",
+	's_sparm',
+	"a01a1995-8ff8-44fe-abb1-b11213d98016",
+	0,
+	'',
+	"4bae02c0-d341-42d8-8b66-d89295499d7c",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -3104,7 +3470,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"619f4747-9795-4d99-a5ac-563d99ffbda4",
+	"b893e803-e1ba-4494-a95d-d0ff48b1700c",
 	'processingIdentifier',
 	'',
 	'',
@@ -3129,6 +3495,24 @@ INSERT INTO O_ATTR
 	'processingISM',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b893e803-e1ba-4494-a95d-d0ff48b1700c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("b893e803-e1ba-4494-a95d-d0ff48b1700c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("b893e803-e1ba-4494-a95d-d0ff48b1700c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"619f4747-9795-4d99-a5ac-563d99ffbda4",
+	'current_domain_function',
+	'',
+	'',
+	'current_domain_function',
+	0,
+	"60690409-5a69-45db-896b-5a63a9103c18",
 	'',
 	'');
 INSERT INTO O_ID

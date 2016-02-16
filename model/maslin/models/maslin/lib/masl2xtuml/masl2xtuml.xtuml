@@ -4,7 +4,7 @@ INSERT INTO C_C
 	VALUES ("151b01f8-b2a3-40f2-9ea0-e59d1402e141",
 	"00000000-0000-0000-0000-000000000000",
 	"00000000-0000-0000-0000-000000000000",
-	'maslin',
+	'masl2xtuml',
 	'',
 	0,
 	"00000000-0000-0000-0000-000000000000",
@@ -28,14 +28,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'maslin::lib::maslin');
+	'maslin::lib::masl2xtuml');
 INSERT INTO GD_GE
 	VALUES ("9aeb6979-7145-49cf-b06b-cf214ff6dc2b",
 	"36e4ee9f-0cbd-49fc-bda8-ef003226fb43",
 	"151b01f8-b2a3-40f2-9ea0-e59d1402e141",
 	103,
 	0,
-	'maslin::lib::maslin');
+	'maslin::lib::masl2xtuml');
 INSERT INTO GD_SHP
 	VALUES ("9aeb6979-7145-49cf-b06b-cf214ff6dc2b");
 INSERT INTO GD_CTR
@@ -69,7 +69,7 @@ INSERT INTO GD_GE
 	"e78261d4-10c7-4603-aea3-2c4b076c8ce1",
 	94,
 	0,
-	'maslin::lib::maslin::persist::SQL');
+	'maslin::lib::masl2xtuml::persist::SQL');
 INSERT INTO GD_CON
 	VALUES ("00e514f0-44a4-48ed-85c2-9f59afe9e0d1",
 	"00000000-0000-0000-0000-000000000000");
@@ -169,7 +169,7 @@ INSERT INTO GD_GE
 	"d2a759d0-e944-4eee-9156-dfe02bff93c6",
 	94,
 	0,
-	'maslin::lib::maslin::in::serial');
+	'maslin::lib::masl2xtuml::in::serial');
 INSERT INTO GD_CON
 	VALUES ("de8e936a-05b2-4d1d-aa9b-2f6d81a9e650",
 	"00000000-0000-0000-0000-000000000000");
@@ -269,7 +269,7 @@ INSERT INTO GD_GE
 	"135fcb5e-5d72-4157-acf4-145ad6b21ac6",
 	108,
 	0,
-	'maslin::lib::maslin::ib');
+	'maslin::lib::masl2xtuml::ib');
 INSERT INTO GD_SHP
 	VALUES ("c49fe22c-3e5e-491c-874e-c7469318348f");
 INSERT INTO GD_NCS
@@ -293,7 +293,7 @@ INSERT INTO GD_GE
 	"5f2cf168-b236-4381-bfbe-288dc412eff5",
 	108,
 	0,
-	'maslin::lib::maslin::ooaofooa_imported');
+	'maslin::lib::masl2xtuml::ooaofooa_imported');
 INSERT INTO GD_SHP
 	VALUES ("5ab35b84-4480-4061-a860-d14fc96ddebc");
 INSERT INTO GD_NCS
@@ -317,7 +317,7 @@ INSERT INTO GD_GE
 	"8e89b5df-e1a2-4c2e-8a0e-7ad1a76ba4f4",
 	108,
 	0,
-	'maslin::lib::maslin::maslin_imported');
+	'maslin::lib::masl2xtuml::maslin_imported');
 INSERT INTO GD_SHP
 	VALUES ("be041cbf-5e5a-4659-af21-4a71789a784e");
 INSERT INTO GD_NCS
@@ -358,7 +358,7 @@ INSERT INTO C_P
 	'SQL',
 	'Unnamed Interface',
 	'',
-	'maslin::persist::SQL');
+	'masl2xtuml::persist::SQL');
 INSERT INTO C_I_PROXY
 	VALUES ("aae114c8-5690-4023-a3d0-05fff0c36f37",
 	"00000000-0000-0000-0000-000000000000",
@@ -381,7 +381,7 @@ INSERT INTO C_P
 	'serial',
 	'Unnamed Interface',
 	'',
-	'maslin::in::serial');
+	'masl2xtuml::in::serial');
 INSERT INTO SPR_PEP
 	VALUES ("eeaf2e41-365c-4986-bb29-adc64f09c75f",
 	"6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",
