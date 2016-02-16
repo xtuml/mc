@@ -859,7 +859,7 @@ for each s_sync in s_syncs
   end if;
   
   // Populate the action langauge body.
-  ::body2action();
+  ::body2action( name:"", text:"" );
   
   out::populate( element:"routine", value:emptyvalue );
   
@@ -1595,6 +1595,7 @@ INSERT INTO S_SYNC
 	'value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
+/*
 c_c = param.c_c;
 value[0] = c_c.Name;
 value[1] = "domain";
@@ -1632,7 +1633,8 @@ for each s_sync in s_syncs
   
   out::populate( element:"routine", value:emptyvalue );
   
-end for;',
+end for;
+*/',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');

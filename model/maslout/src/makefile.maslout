@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wno-pointer-to-int-cast -g
 SOURCES := $(shell ls *.c)
 OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE=xtuml2maslproject
+EXECUTABLE=x2m
 
 all:  $(SOURCES) $(EXECUTABLE)
 
