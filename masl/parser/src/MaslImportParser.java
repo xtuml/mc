@@ -162,7 +162,7 @@ public class MaslImportParser {
             File f = new File( fn );
             out = f.getName();
             try {
-                output = new PrintStream( out + ".masldsl" );
+                output = new PrintStream( out + ".smasl" );
             } catch ( FileNotFoundException e ) {
                 System.err.println( "-parse: ERROR " + e );
             }
@@ -218,7 +218,7 @@ public class MaslImportParser {
                     // set the domain name
                     domainName = f.getName().substring( 0, f.getName().length() - 4 );
                     try {
-                        output = new PrintStream( domainName + ".masldsl" );
+                        output = new PrintStream( domainName + ".smasl" );
                     } catch ( FileNotFoundException e ) {
                         System.err.println( "-parse: ERROR " + e );
                     }
@@ -292,7 +292,7 @@ public class MaslImportParser {
                     // set the project name
                     projectName = f.getName().substring( 0, f.getName().length() - 4 );
                     try {
-                        output = new PrintStream( projectName + ".masldsl" );
+                        output = new PrintStream( projectName + ".smasl" );
                     } catch ( FileNotFoundException e ) {
                         System.err.println( "-parse: ERROR " + e );
                     }
