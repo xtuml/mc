@@ -98,16 +98,13 @@ else
   select many ep_pkgs from instances of EP_PKG where ( selected.Name == project );
 end if;
 markedsystems = cardinality ep_pkgs;
-if ( empty ep_pkgs )
+if ( 0 == markedsystems )
   TRACE::log( flavor:"failure", id:1, message:"ERROR:  Marked configuration package was not found in model:" + project );
-end if;
-if ( markedsystems > 1 )
+elif ( markedsystems > 1 )
   TRACE::log( flavor:"failure", id:2, message:"WARNING:  More than one package is marked as a system build... choose only one." );
 end if;
 
 ::package2project( ep_pkgs:ep_pkgs );
-
-//out::render( element:"project", name:project );
 
 LOG::LogInfo( message:"Done" );',
 	"ba5eda7a-def5-0000-0000-000000000000",
@@ -308,6 +305,9 @@ for each c_ep in c_eps
       out::populate( element:"typeref", value:emptyvalue );
     end if;
   end if;
+  
+  // Populate the action langauge body.
+  ::body2action( name:c_ep.Name, text:"" );
   
   out::populate( element:"routine", value:emptyvalue );
   
@@ -857,6 +857,10 @@ for each s_sync in s_syncs
       out::populate( element:"typeref", value:emptyvalue );
     end if;
   end if;
+  
+  // Populate the action langauge body.
+  ::body2action();
+  
   out::populate( element:"routine", value:emptyvalue );
   
 end for;
@@ -1579,6 +1583,79 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("3cdbcb50-657d-4b2a-bd28-8cc238ef02a1",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9feb3491-f835-4302-9628-50c776b209ed",
+	"00000000-0000-0000-0000-000000000000",
+	'body2action',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+value[0] = c_c.Name;
+value[1] = "domain";
+select many s_syncs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_SYNC[R8001];
+for each s_sync in s_syncs
+
+  value[2] = "private"; // Domain functions are all private, even if used by messages.
+  value[3] = s_sync.Name;
+  value[4] = ""; // not instance
+  value[5] = ""; // not deferred
+  
+  // Get the first parameter.
+  select any s_sparm related by s_sync->S_SPARM[R24];
+  first_s_sparm = s_sparm;
+  while ( not_empty s_sparm )
+    first_s_sparm = s_sparm;
+    select one s_sparm related by s_sparm->S_SPARM[R54.''precedes''];
+  end while;
+  
+  out::populate( element:"routine", value:value );
+  ::parameterS_SPARM2parameter( s_sparm:first_s_sparm );
+  // find return type if exists
+  select one s_dt related by s_sync->S_DT[R25];
+  if ( not_empty s_dt )
+    // Do not send a void typeref.  No typeref equals void in MASL.
+    if ( "void" != s_dt.Name )
+      value[0] = s_dt.Name;
+      out::populate( element:"typeref", value:value );
+      out::populate( element:"typeref", value:emptyvalue );
+    end if;
+  end if;
+  
+  // Populate the action langauge body.
+  ::body2action();
+  
+  out::populate( element:"routine", value:emptyvalue );
+  
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8dd08552-fe99-4071-95f5-32ada1023ceb",
+	"9feb3491-f835-4302-9628-50c776b209ed",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"66dfda05-05dc-4065-bbdc-476aa9f06535",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("66dfda05-05dc-4065-bbdc-476aa9f06535",
+	"9feb3491-f835-4302-9628-50c776b209ed",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("9feb3491-f835-4302-9628-50c776b209ed",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
