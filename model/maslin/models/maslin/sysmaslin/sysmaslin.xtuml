@@ -32,7 +32,7 @@ INSERT INTO GD_GE
 	"f87ccb61-02db-46b3-a64a-a26150ef6f18",
 	100,
 	0,
-	'maslin::sysmaslin::maslin::lib::maslin');
+	'maslin::sysmaslin::maslin::lib::masl2xtuml');
 INSERT INTO GD_SHP
 	VALUES ("000aaa44-4522-43ca-8ec3-7e799d6f74a4");
 INSERT INTO GD_NCS
@@ -66,7 +66,7 @@ INSERT INTO GD_GE
 	"0a2ff46a-827d-466e-bb1a-6a145579b1c1",
 	105,
 	0,
-	'maslin::sysmaslin::maslin::lib::maslin::::SQL');
+	'maslin::sysmaslin::maslin::lib::masl2xtuml::::SQL');
 INSERT INTO GD_CON
 	VALUES ("a53a7508-20e3-410f-b538-ceb131d1ace7",
 	"00000000-0000-0000-0000-000000000000");
@@ -166,7 +166,7 @@ INSERT INTO GD_GE
 	"d8270d0e-67fd-4753-b37e-95e89dc05b6c",
 	105,
 	0,
-	'maslin::sysmaslin::maslin::lib::maslin::::serial');
+	'maslin::sysmaslin::maslin::lib::masl2xtuml::::serial');
 INSERT INTO GD_CON
 	VALUES ("b969c94b-3260-4a47-80c1-461e614dd50d",
 	"00000000-0000-0000-0000-000000000000");
@@ -274,7 +274,7 @@ INSERT INTO CL_IC
 	"00000000-0000-0000-0000-000000000000",
 	0,
 	'',
-	'maslin::lib::maslin',
+	'maslin::lib::masl2xtuml',
 	'');
 INSERT INTO CL_POR
 	VALUES ("f87ccb61-02db-46b3-a64a-a26150ef6f18",
@@ -297,7 +297,7 @@ INSERT INTO C_IR_PROXY
 	"aae114c8-5690-4023-a3d0-05fff0c36f37",
 	"00000000-0000-0000-0000-000000000000",
 	"c65ce1a5-ae2a-4142-8cad-80ff01f39fcd",
-	'../lib/maslin/maslin.xtuml');
+	'../lib/masl2xtuml/masl2xtuml.xtuml');
 INSERT INTO CL_POR
 	VALUES ("f87ccb61-02db-46b3-a64a-a26150ef6f18",
 	"00000000-0000-0000-0000-000000000000",
@@ -319,7 +319,7 @@ INSERT INTO C_IR_PROXY
 	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	"00000000-0000-0000-0000-000000000000",
 	"839d4074-88fd-4180-b4c7-d6df962a3711",
-	'../lib/maslin/maslin.xtuml');
+	'../lib/masl2xtuml/masl2xtuml.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f87ccb61-02db-46b3-a64a-a26150ef6f18",
 	1,
@@ -330,13 +330,13 @@ INSERT INTO C_C_PROXY
 	VALUES ("151b01f8-b2a3-40f2-9ea0-e59d1402e141",
 	"00000000-0000-0000-0000-000000000000",
 	"00000000-0000-0000-0000-000000000000",
-	'maslin',
+	'masl2xtuml',
 	'',
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	0,
 	'',
-	'../lib/maslin/maslin.xtuml');
+	'../lib/masl2xtuml/masl2xtuml.xtuml');
 INSERT INTO PE_PE
 	VALUES ("02b1ab34-82e4-4df6-ab03-e3f8f6bc8143",
 	1,

@@ -4,7 +4,7 @@ INSERT INTO C_C
 	VALUES ("22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
 	"00000000-0000-0000-0000-000000000000",
 	"00000000-0000-0000-0000-000000000000",
-	'maslout',
+	'xtuml2masl',
 	'',
 	0,
 	"00000000-0000-0000-0000-000000000000",
@@ -28,14 +28,14 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'4.1.17',
-	'maslout::lib::maslout');
+	'maslout::lib::xtuml2masl');
 INSERT INTO GD_GE
 	VALUES ("1a1b21e2-f8f6-4bf2-b838-e20f69dc1541",
 	"d6125d27-531d-4640-967a-ee5126d58b0c",
 	"22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
 	103,
 	0,
-	'maslout::lib::maslout');
+	'maslout::lib::xtuml2masl');
 INSERT INTO GD_SHP
 	VALUES ("1a1b21e2-f8f6-4bf2-b838-e20f69dc1541");
 INSERT INTO GD_CTR
@@ -74,7 +74,7 @@ INSERT INTO GD_GE
 	"83a3a961-5780-4ae6-b4a0-42325ff7fcfe",
 	94,
 	0,
-	'maslout::lib::maslout::load::SQL');
+	'maslout::lib::xtuml2masl::load::SQL');
 INSERT INTO GD_CON
 	VALUES ("2436b913-e903-47ec-be06-65a6f0ea2e63",
 	"00000000-0000-0000-0000-000000000000");
@@ -174,7 +174,7 @@ INSERT INTO GD_GE
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	108,
 	0,
-	'maslout::lib::maslout::maslout_imported');
+	'maslout::lib::xtuml2masl::maslout_imported');
 INSERT INTO GD_SHP
 	VALUES ("e68013dc-5280-4ed6-a7e6-d6b2ed502080");
 INSERT INTO GD_NCS
@@ -198,7 +198,7 @@ INSERT INTO GD_GE
 	"4fa432d6-f766-429d-b04e-a31f17dc5815",
 	108,
 	0,
-	'maslout::lib::maslout::mcooa_imported');
+	'maslout::lib::xtuml2masl::mcooa_imported');
 INSERT INTO GD_SHP
 	VALUES ("c407970a-00d7-40d5-968c-05d7f17cab4f");
 INSERT INTO GD_NCS
@@ -222,7 +222,7 @@ INSERT INTO GD_GE
 	"04bf518d-e85d-4b8f-9871-d8efa29d9f5b",
 	93,
 	0,
-	'maslout::lib::maslout::out::serial');
+	'maslout::lib::xtuml2masl::out::serial');
 INSERT INTO GD_CON
 	VALUES ("38b5bb11-7c50-4efa-a406-86152bfc5f56",
 	"00000000-0000-0000-0000-000000000000");
@@ -339,7 +339,7 @@ INSERT INTO C_P
 	'SQL',
 	'Unnamed Interface',
 	'',
-	'maslout::load::SQL');
+	'xtuml2masl::load::SQL');
 INSERT INTO C_I_PROXY
 	VALUES ("aae114c8-5690-4023-a3d0-05fff0c36f37",
 	"00000000-0000-0000-0000-000000000000",
@@ -362,7 +362,7 @@ INSERT INTO C_R
 	'serial',
 	'',
 	'Unnamed Interface',
-	'maslout::out::serial');
+	'xtuml2masl::out::serial');
 INSERT INTO SPR_REP
 	VALUES ("f6ecc738-2765-4aa6-9a66-245c2498de7c",
 	"6e3df598-100b-4d34-b3d2-2a4ecdb2ac3c",

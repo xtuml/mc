@@ -32,7 +32,7 @@ INSERT INTO GD_GE
 	"81f5b291-10d8-4f16-86d9-022261b28d02",
 	100,
 	0,
-	'maslout::sysmaslout::maslout::lib::maslout');
+	'maslout::sysmaslout::maslout::lib::xtuml2masl');
 INSERT INTO GD_SHP
 	VALUES ("1e375434-8f00-4c05-a237-1e6f5faff86d");
 INSERT INTO GD_NCS
@@ -71,7 +71,7 @@ INSERT INTO GD_GE
 	"1bf97214-8344-4bf2-91fc-22902e306df2",
 	105,
 	0,
-	'maslout::sysmaslout::maslout::lib::maslout::load::SQL');
+	'maslout::sysmaslout::maslout::lib::xtuml2masl::load::SQL');
 INSERT INTO GD_CON
 	VALUES ("6da36675-781c-4a01-98a5-28831488e459",
 	"00000000-0000-0000-0000-000000000000");
@@ -171,7 +171,7 @@ INSERT INTO GD_GE
 	"cb0d1b54-91f0-4bc0-8c85-c787eb88466f",
 	106,
 	0,
-	'maslout::sysmaslout::maslout::lib::maslout::::serial');
+	'maslout::sysmaslout::maslout::lib::xtuml2masl::::serial');
 INSERT INTO GD_CON
 	VALUES ("37138ddc-84be-414c-a654-558cb1104c7f",
 	"00000000-0000-0000-0000-000000000000");
@@ -279,7 +279,7 @@ INSERT INTO CL_IC
 	"00000000-0000-0000-0000-000000000000",
 	0,
 	'',
-	'maslout::lib::maslout',
+	'maslout::lib::xtuml2masl',
 	'');
 INSERT INTO CL_POR
 	VALUES ("81f5b291-10d8-4f16-86d9-022261b28d02",
@@ -299,17 +299,17 @@ INSERT INTO CL_IP
 	'');
 INSERT INTO C_IR_PROXY
 	VALUES ("83a3a961-5780-4ae6-b4a0-42325ff7fcfe",
-	"1ece8eb3-1e88-422c-80ba-41403cb93b83",
+	"aae114c8-5690-4023-a3d0-05fff0c36f37",
 	"00000000-0000-0000-0000-000000000000",
 	"3e253dde-b516-47f7-bcce-23ddb8caf1a7",
-	'../lib/maslout/maslout.xtuml');
+	'../lib/xtuml2masl/xtuml2masl.xtuml');
 INSERT INTO C_PO_PROXY
 	VALUES ("3e253dde-b516-47f7-bcce-23ddb8caf1a7",
 	"22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
 	'load',
 	0,
 	0,
-	'../lib/maslout/maslout.xtuml');
+	'../lib/xtuml2masl/xtuml2masl.xtuml');
 INSERT INTO CL_POR
 	VALUES ("81f5b291-10d8-4f16-86d9-022261b28d02",
 	"00000000-0000-0000-0000-000000000000",
@@ -332,7 +332,7 @@ INSERT INTO C_IR_PROXY
 	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	"00000000-0000-0000-0000-000000000000",
 	"9ff08c01-97a3-4d66-8272-f12565195464",
-	'../lib/maslout/maslout.xtuml');
+	'../lib/xtuml2masl/xtuml2masl.xtuml');
 INSERT INTO PE_PE
 	VALUES ("81f5b291-10d8-4f16-86d9-022261b28d02",
 	1,
@@ -343,13 +343,13 @@ INSERT INTO C_C_PROXY
 	VALUES ("22a3ee25-8b8c-4f5d-b9eb-0420268865dc",
 	"00000000-0000-0000-0000-000000000000",
 	"00000000-0000-0000-0000-000000000000",
-	'maslout',
+	'xtuml2masl',
 	'',
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	0,
 	'',
-	'../lib/maslout/maslout.xtuml');
+	'../lib/xtuml2masl/xtuml2masl.xtuml');
 INSERT INTO PE_PE
 	VALUES ("444e7ecf-57b7-4722-8ddc-9ae9efcd2b46",
 	1,
