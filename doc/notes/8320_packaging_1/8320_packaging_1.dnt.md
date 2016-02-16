@@ -227,7 +227,7 @@ java -cp build:lib/antlr-3.5.2-complete.jar MaslImportParser -p $MASL_DIR | ./ma
 
 7.2 Combination of `masl2xtuml` and `maslvalidate`
 
-Future design may lead us to assimilate `maslvalidate` into `masl2xtuml` for purpose of simplicity of
+Future design may lead to assimilation of `maslvalidate` into `masl2xtuml` for purpose of simplicity of
 use.
 
 8. Unit Test
