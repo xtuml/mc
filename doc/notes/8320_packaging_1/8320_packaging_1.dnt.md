@@ -70,7 +70,7 @@ parser HOWTO [[2.4]](#2.4).
 
 6.1.2.1 Inputs
 
-`masl` reads MASLDSL from standard input until the end of the file is reached. It also takes
+`masl` reads serial MASL from standard input until the end of the file is reached. It also takes
 a validation flag.
 
 6.1.2.2 Outputs
@@ -88,7 +88,7 @@ nothing to standard out. Any other error messages are written to standard error.
 
 6.1.3.1 Inputs
 
-`maslin` reads MASLDSL from standard input until the end of the file is reached.
+`maslin` reads serial MASL from standard input until the end of the file is reached.
 
 6.1.3.2 Outputs
 
@@ -107,7 +107,7 @@ a project (`-p`) or domain (`-d`) directive.
 
 6.1.4.2 Outputs
 
-`maslout` outputs MASLDSL to standard out. Any error messages are written to standard error.
+`maslout` outputs serial MASL to standard out. Any error messages are written to standard error.
 
 ```sh
 ./maslout [-p | -d] < input_file > output_file
