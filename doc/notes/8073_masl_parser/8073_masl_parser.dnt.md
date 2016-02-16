@@ -150,11 +150,12 @@ The specifications of these naming conventions can be found in the SRS [[2.3]](#
 6.4 Command line usage
 
 The parser is run from the command line in one of three modes: file, domain, or project.
+See the parser howto README for additional details [[2.4]](#2.4).
 
 6.4.1 File mode
 
 In file mode, the parser is directed to a single file to parse and is provided a walker rule
-with which to parse against. See the parser howto README for details [[2.4](#2.4).
+with which to parse against.
 
 6.4.2 Domain mode
 
