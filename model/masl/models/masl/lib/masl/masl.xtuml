@@ -275,7 +275,7 @@ INSERT INTO GD_GE
 	"4ebc1bcb-73d2-443e-a865-ff6c9398aa16",
 	94,
 	0,
-	'masl::lib::masl::control::control');
+	'masl::lib::masl::gen::gen');
 INSERT INTO GD_CON
 	VALUES ("7fd7c6fd-afdb-429a-8d63-560187c92e18",
 	"00000000-0000-0000-0000-000000000000");
@@ -419,7 +419,7 @@ INSERT INTO C_I_PROXY
 INSERT INTO C_PO
 	VALUES ("408647f8-99f2-4dc5-9bd2-2636b465ddbd",
 	"78775e10-f3b1-4b47-b908-ad2144f025e4",
-	'control',
+	'gen',
 	0,
 	0);
 INSERT INTO C_IR
@@ -429,10 +429,10 @@ INSERT INTO C_IR
 	"408647f8-99f2-4dc5-9bd2-2636b465ddbd");
 INSERT INTO C_P
 	VALUES ("4ebc1bcb-73d2-443e-a865-ff6c9398aa16",
-	'control',
+	'gen',
 	'Unnamed Interface',
 	'',
-	'masl::control::control');
+	'masl::gen::gen');
 INSERT INTO SPR_PEP
 	VALUES ("fb7bb327-37da-4312-9cff-c3d42aa49d79",
 	"bf2670be-70c3-4455-a751-ecc960ffedb8",
@@ -441,7 +441,7 @@ INSERT INTO SPR_PS
 	VALUES ("fb7bb327-37da-4312-9cff-c3d42aa49d79",
 	'render',
 	'',
-	'::render( element:param.element, name:param.name );',
+	'file::render( element:param.element, name:param.name );',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("bf2670be-70c3-4455-a751-ecc960ffedb8",
@@ -449,7 +449,7 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'render',
 	'',
-	'../control/control.xtuml');
+	'../gen/gen.xtuml');
 INSERT INTO SPR_PEP
 	VALUES ("8507fe72-ecda-4eba-bf0e-3c1404f4c361",
 	"4f3928ea-6523-484f-8d57-340cf7fe859b",
@@ -476,7 +476,7 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'tostring',
 	'',
-	'../control/control.xtuml');
+	'../gen/gen.xtuml');
 INSERT INTO SPR_PEP
 	VALUES ("de8c2480-5fcd-4ddf-8250-bb47fa815a2a",
 	"f49538b2-41b6-4418-8b44-e9e8230876a5",
@@ -485,7 +485,7 @@ INSERT INTO SPR_PS
 	VALUES ("de8c2480-5fcd-4ddf-8250-bb47fa815a2a",
 	'validate',
 	'',
-	'::validate();',
+	'file::validate();',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("f49538b2-41b6-4418-8b44-e9e8230876a5",
@@ -493,13 +493,13 @@ INSERT INTO C_EP_PROXY
 	-1,
 	'validate',
 	'',
-	'../control/control.xtuml');
+	'../gen/gen.xtuml');
 INSERT INTO C_I_PROXY
 	VALUES ("965609b5-99d9-40ca-bc70-74dd6acccf34",
 	"00000000-0000-0000-0000-000000000000",
-	'control',
+	'gen',
 	'',
-	'../control/control.xtuml');
+	'../gen/gen.xtuml');
 INSERT INTO PE_PE
 	VALUES ("78775e10-f3b1-4b47-b908-ad2144f025e4",
 	1,

@@ -3,7 +3,7 @@
 INSERT INTO C_I
 	VALUES ("965609b5-99d9-40ca-bc70-74dd6acccf34",
 	"00000000-0000-0000-0000-000000000000",
-	'control',
+	'gen',
 	'');
 INSERT INTO C_EP
 	VALUES ("bf2670be-70c3-4455-a751-ecc960ffedb8",
