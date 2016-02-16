@@ -85,9 +85,10 @@ UserPostOoaInitializationCalloutf( void )
     masl_in_populate( element, value );
   }
   masl_gen_validate( "" );
-  masl_gen_render( "", "*" );
+  masl_gen_render( "project", "*" );
   //masl_gen_tostring( "project", "System" );
   T_emit( "stdout" );
+  exit(0);
 }
 
 /*

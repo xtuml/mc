@@ -17,7 +17,7 @@ INSERT INTO O_TFR
 	'T::include( file:"masl/t.project_begin.masl" );
 select many domains related by self->domain[R3701.''configures''];
 for each domain in domains
-  domain.render();
+  domain.render_project();
 end for;
 T::include( file:"masl/t.project_end.masl" );
 select one markable related by self->markable[R3783];

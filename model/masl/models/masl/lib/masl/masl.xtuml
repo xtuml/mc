@@ -441,7 +441,7 @@ INSERT INTO SPR_PS
 	VALUES ("fb7bb327-37da-4312-9cff-c3d42aa49d79",
 	'render',
 	'',
-	'::render( element:param.element, name:param.name );',
+	'file::render( element:param.element, name:param.name );',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("bf2670be-70c3-4455-a751-ecc960ffedb8",
@@ -485,7 +485,7 @@ INSERT INTO SPR_PS
 	VALUES ("de8c2480-5fcd-4ddf-8250-bb47fa815a2a",
 	'validate',
 	'',
-	'::validate();',
+	'file::validate();',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("f49538b2-41b6-4418-8b44-e9e8230876a5",

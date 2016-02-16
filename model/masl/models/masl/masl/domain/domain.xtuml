@@ -235,6 +235,27 @@ out::tostring( element:"domain", value:emptyvalue );
 ',
 	1,
 	'',
+	"892cc2c0-a74a-40f1-99c2-f7a70d95e67f");
+INSERT INTO O_TFR
+	VALUES ("892cc2c0-a74a-40f1-99c2-f7a70d95e67f",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'render_project',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.domain_begin.masl" );
+
+select many terminators related by self->terminator[R3702.''sends through''];
+for each terminator in terminators
+  terminator.render();
+end for;
+
+T::include( file:"masl/t.domain_end.masl" );
+
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"project" );',
+	1,
+	'',
 	"0d6eab48-8a19-474c-a54c-d16da938995b");
 INSERT INTO O_NBATTR
 	VALUES ("4fc1a43d-5822-49e1-b600-7ff700768a17",
