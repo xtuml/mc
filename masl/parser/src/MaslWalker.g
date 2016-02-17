@@ -278,7 +278,7 @@ typeDeclaration
                                                               {
                                                                   args[0] = $typeName.name;
                                                                   args[1] = $typeVisibility.visibility;
-                                                                  args[2] = "blah";
+                                                                  args[2] = $TYPE.text;
                                                                   populate( "type", args );
                                                               }
                                    pragmaList[""]				
@@ -415,6 +415,7 @@ unconstrainedArrayDefinition
 // Type Reference
 //---------------------------------------------------------
 
+/*
 typeReference
 returns [String type]
 //returns [BasicType type]
@@ -426,6 +427,12 @@ returns [String type]
                               | setTypeRef                  { $type = "levi"; }//$setTypeRef.type }
                               | bagTypeRef                  { $type = "levi"; }//$bagTypeRef.type }
                               | dictionaryTypeRef           { $type = "levi"; }//$dictionaryTypeRef.type }
+                              ;
+                              */
+typeReference
+returns [String type]
+//returns [BasicType type]
+                              : TYPE_REF                    { $type = $TYPE_REF.text; }
                               ;
 
 instanceTypeRef
