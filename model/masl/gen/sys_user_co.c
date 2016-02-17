@@ -61,6 +61,42 @@ UserPreOoaInitializationCalloutf( void )
   SYS_USER_CO_PRINTF( "UserPreOoaInitializationCallout\n" )
 }
 
+/* 
+ * serial_MASL_decode
+ *
+ * This function decodes a serial MASL string, replacing
+ * '%25' with '%', '%2C' with ',', and '%0A' with '\n'
+ * Since, all replacements are fewer characters than the
+ * original, it can be done in place.
+ * It expects a well formed string as an argument
+ */
+void
+serial_MASL_decode( char * buf )
+{
+    char * b = buf;
+    int buf_len = strlen(buf);
+
+    while ( *b ) {
+        if ( *b == '%' && *(b+1) && *(b+1) == '2' && *(b+2) && *(b+2) == '5' ) {
+            // replace '%25' with '%'
+            *b = '%';
+            Escher_strcpy( b+1, b+3 );
+        }
+        else if ( *b == '%' && *(b+1) && *(b+1) == '2' && *(b+2) && *(b+2) == 'C' ) {
+            // replace '%2C' with ','
+            *b = ',';
+            Escher_strcpy( b+1, b+3 );
+        }
+        else if ( *b == '%' && *(b+1) && *(b+1) == '0' && *(b+2) && *(b+2) == 'A' ) {
+            // replace '%0A' with '\n'
+            *b = '\n';
+            Escher_strcpy( b+1, b+3 );
+        }
+        b++;
+    }
+
+}
+
 /*
  * UserPostOoaInitializationCallout
  *
@@ -81,7 +117,11 @@ UserPostOoaInitializationCalloutf( void )
     i = 0;
     p[ strlen(p) - 1 ] = 0;
     if ( ( q = strsep( &p, "," ) ) != NULL ) Escher_strcpy( element, q );
-    while ( ( q = strsep(&p, ",")) != NULL ) { Escher_strcpy( value[ i++ ], q ); }
+    while ( ( q = strsep(&p, ",")) != NULL ) {
+        Escher_strcpy( value[ i ], q );
+        serial_MASL_decode( value[ i ] );
+        i++;
+    }
     masl_in_populate( element, value );
   }
   masl_gen_validate( "" );

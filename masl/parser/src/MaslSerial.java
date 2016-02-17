@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.regex.Matcher;
 
 public class MaslSerial implements Serial {
 
@@ -33,12 +34,18 @@ public class MaslSerial implements Serial {
                 output.print( "," );
 
                 // print arg
-                output.print( arg );
+                output.print( serial_MASL_encode( arg ) );
             }
         }
 
         // print newline
         output.println();
+    }
+
+    // encode the serial MASL
+    // uses a subset of URL encoding (only replaces '%', ',', and '\n')
+    private String serial_MASL_encode( String str ) {
+        return str.replaceAll( "%", "%25" ).replaceAll( ",", "%2C" ).replaceAll( "\n", "%0A" );
     }
 
 }
