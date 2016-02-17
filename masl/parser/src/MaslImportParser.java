@@ -205,8 +205,8 @@ public class MaslImportParser {
         // read the directory
         dir = new File( directory );
         domainFiles = dir.listFiles();
-        if ( null == directory ) {
-            System.err.println( "-listFiles: ERROR" );
+        if ( null == domainFiles ) {
+            System.err.println( "-parseDomain: ERROR listFiles() returned null" );
             return;
         }
 
@@ -279,8 +279,8 @@ public class MaslImportParser {
         // read the directory
         dir = new File( directory );
         projectFiles = dir.listFiles();
-        if ( null == directory ) {
-            System.err.println( "-listFiles: ERROR" );
+        if ( null == projectFiles ) {
+            System.err.println( "-parseProject: ERROR listFiles() returned null" );
             return;
         }
 

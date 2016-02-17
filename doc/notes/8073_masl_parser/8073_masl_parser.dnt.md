@@ -19,6 +19,7 @@ the ability to read in MASL input files, and populate the model of the MASL synt
 <a id="2.2"></a>2.2 [Serial MASL internal engineering documentation](https://docs.google.com/spreadsheets/d/1tPnk-JC5Idyhz2tUbgDGPlNbmHm2fZyA2cbf7IFYyVY/edit#gid=0)  
 <a id="2.3"></a>2.3 [Raven Basic SRS](https://docs.google.com/document/d/1EzGRGyjIIk1Xx_v83c3zE_OV5pVbdsnEy2TxPasDhCc/edit)  
 <a id="2.4"></a>2.4 [Parser HOWTO](https://github.com/leviathan747/mc/blob/8320_packaging/masl/parser/README.md)  
+<a id="2.5"></a>2.5 [MASL persistence naming conventions]()  
 
 3. Background
 -------------
@@ -71,16 +72,20 @@ contains exactly eight commas.
 Population of a MASL model is stateful. For example, if a `project` element is populated, and then the
 next population is a `domain` element, it is important to remember which `project` had been populated
 before in order to know who the `domain` belongs to. Serial MASL facilitates this statefulness by implementing
-end tags.
+"end tags".
 
 An element is created by a line of serial MASL starting with the element name, followed by the argument values.
 When all of the children of the current element have been populated, another line of serial MASL follows which
 consists of the element name followed by eight commas (each argument value is an empty string).
 
-Note that it is legal to initialize population of an element with no arguments (e.g. in MASL, `identifier`
-has no attributes, but simply relationships to attributes). The implementation must account for this and
-recognize that a line of serial MASL is only an end tag if there was a corresponding population that preceded
-it.
+Note that it is legal to initialize population of an element with no arguments. For example, in MASL, `identifier`
+has no features other than relationships to the attributes that define it. However, it simplifies the providing
+implementations to reserve commands with all empty arguments to denote end tags. In a case such as the above
+example, a symbolic argument will be passed to differentiate the populate command from an end tag. This symbolic
+argument will have no meaning, and the implementation should ignore it.
+```
+identifier,symbolic,,,,,,,
+```
 
 6.1.1.4 Leaf elements
 
@@ -146,6 +151,7 @@ Given a MASL domain directory, the parser first searches for a `.mod` file, whic
 finds and parses every `.svc`, `.fn`, `.ext`, `.scn`, `.al`, and `.tr` file in that directory.
 
 The specifications of these naming conventions can be found in the SRS [[2.3]](#2.3).
+And in this document [[2.6]](#2.6).
 
 6.4 Command line usage
 
@@ -178,11 +184,34 @@ into the specified file.
 8. Unit Test
 ------------
 
-8.1 Test command line arguments  
-8.2 Parse domain and compare to hand written serial MASL  
-8.3 Parse invalid domain  
-8.4 Parse project and compare to hand written serial MASL  
-8.5 Parse invalid project  
+8.1 Test command line usage  
+8.1.1 Run with `-f` flag, verify parses file.  
+8.1.2 Run with `-f` flag and no walker rule, verify error reported to standard error.  
+8.1.3 Run with `-f` flag and invalid walker rule, verify error reported to standard error.  
+8.1.4 Run with `-f` flag and no file name, verify error reported to standard error.  
+8.1.5 Run with `-f` flag against non-MASL file, verify errors reported to standard error.  
+8.1.6 Run with `-p` flag, verify parses project.  
+8.1.7 Run with `-p` flag in a directory with no `.prj` file, verify errors reported to standard error.  
+8.1.8 Run with `-p` flag and no directory, verify error reported to standard error.  
+8.1.9 Run with `-d` flag, verify parses domain.  
+8.1.10 Run with `-d` flag in a directory with no `.mod` file, verify errors reported to standard error.  
+8.1.11 Run with `-d` flag and no directory, verify error reported to standard error.  
+8.1.12 Run with invalid flag, verify usage printed to standard error.  
+8.1.13 Run no `-o` flag, verify output to standard out.  
+8.1.14 Run `-o` flag only, verify output to a file in the current working directory.  
+8.1.15 Run `-o` flag with specified file, verify output to specified file.  
+
+8.2 SAC domain round trip  
+8.2.1 Parse SAC domain.  
+8.2.2 Use model of MASL to populate and render SAC domain from the output of the parser.  
+8.2.3 Compare output from the model of MASL to the original SAC domain MASL files.  
+8.2.4 Verify syntactical equivalency.  
+
+8.3 SAC_PROC project round trip  
+8.3.1 Parse SAC_PROC project.  
+8.3.2 Use model of MASL to populate and render SAC_PROC project from the output of the parser.  
+8.3.3 Compare output from the model of MASL to the original SAC_PROC project MASL files.  
+8.3.4 Verify syntactical equivalency.  
 
 End
 ---

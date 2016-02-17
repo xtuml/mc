@@ -833,6 +833,7 @@ identifierDefinition
 
                               : ^( IDENTIFIER
                                                             {
+                                                                args[0] = "symbolic";           // symbolic argument
                                                                 populate( "identifier", args );
                                                             }
                                    ( attributeName          
@@ -845,7 +846,7 @@ identifierDefinition
                                    pragmaList[""]
                                  )                     
                                                             {
-                                                                populate( "identifier", args );  // end attribute
+                                                                populate( "identifier", args );  // end identifier
                                                             }
                               ;
 
