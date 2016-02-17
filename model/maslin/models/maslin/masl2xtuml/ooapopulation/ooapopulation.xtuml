@@ -3534,7 +3534,7 @@ INSERT INTO EP_PKG_PROXY
 	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"319083ee-ba5f-4645-a409-d6249f9350bd",
 	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	'maslin',
+	'masl2xtuml',
 	'',
 	0,
-	'../maslin.xtuml');
+	'../masl2xtuml.xtuml');

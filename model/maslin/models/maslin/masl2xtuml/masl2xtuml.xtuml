@@ -4,7 +4,7 @@ INSERT INTO EP_PKG
 	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"319083ee-ba5f-4645-a409-d6249f9350bd",
 	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	'maslin',
+	'masl2xtuml',
 	'',
 	0);
 INSERT INTO GD_MD
@@ -25,14 +25,14 @@ INSERT INTO GD_MD
 	150,
 	0,
 	'4.1.17',
-	'maslin::maslin');
+	'maslin::masl2xtuml');
 INSERT INTO GD_GE
 	VALUES ("0eebd259-4588-4d3e-871e-d8af06fe8e88",
 	"d1ac7608-69c4-46e3-a047-52a730ddf509",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	21,
 	0,
-	'maslin::maslin::ooapopulation');
+	'maslin::masl2xtuml::ooapopulation');
 INSERT INTO GD_SHP
 	VALUES ("0eebd259-4588-4d3e-871e-d8af06fe8e88");
 INSERT INTO GD_NCS

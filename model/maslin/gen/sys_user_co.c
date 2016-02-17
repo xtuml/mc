@@ -83,7 +83,7 @@ UserPostOoaInitializationCalloutf( void )
       q = strsep(&p, ",");
       strcpy( value[ i++ ], q );
     }
-    maslin_in_populate( element, value );
+    masl2xtuml_in_populate( element, value );
   }
 
   // For the masl conversion, we have a system, but we don't want that to be the root type during import.
@@ -91,9 +91,9 @@ UserPostOoaInitializationCalloutf( void )
   // Output the header info to specify this, then dump the in-memory instances.
   printf("-- root-types-contained: Package_c\n");
   printf("-- BP 7.1 content: StreamData syschar: 3 persistence-version: 7.1.6\n\n");
-  for ( i = 0; i < maslin_MAX_CLASS_NUMBERS; i++ ) {
+  for ( i = 0; i < masl2xtuml_MAX_CLASS_NUMBERS; i++ ) {
     // Skip dumping the system instance
-    if ( i != maslin_S_SYS_CLASS_NUMBER ) {
+    if ( i != masl2xtuml_S_SYS_CLASS_NUMBER ) {
       Escher_dump_instances( 0, i );
     }
   }
