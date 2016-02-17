@@ -30,10 +30,13 @@ The following are xtUML models:
 [9] [MC shared types and EEs](https://github.com/xtuml/mc/model/mcshared/)  
 The following is a referenced issue:  
 [10] [8230 Additional meta-model elements to store MASL](https://support.onefact.net/redmine/issues/8230)  
-
-3. Background
--------------
-See [2].  
+Following is a note the contains overview diagrams of the flow.  
+[11] [8320 Packaging 1 Design Note](https://github.com/xtuml/mc/doc/notes/8320_packaging_1/8320_packaging_1_dnt.md)  
+This design note describes the naming conventions for files containing MASL.  
+[12] [8074 File Naming Conventions Design Note](https://github.com/xtuml/mc/doc/notes/8074_files_dnt.md)  
+[13] [8066 Build MASL model with MC-Java](https://support.onefact.net/redmine/issues/8066)  
+[14] [Engineering Build with class IPRs](https://s3.amazonaws.com/xtuml-releases/internal-build/BridgePoint_8061_ipr_classes_linux.zip)  
+[15] [8330 GPS Watch Acceptance Test](https://support.onefact.net/redmine/issues/8330)  
 
 4. Requirements
 ---------------
@@ -64,24 +67,48 @@ identifiers shall be avoided and used only as documented necessary.
 
 5. Analysis
 -----------
-See [2].  
+5.1 See [2].  
+
+5.2 Background on Segregating M2M Transformations  
+The xtUML meta-model (ooaofooa) and the model of MASL represent separate
+subject matters.  Model-to-Model (M2M) Transformations span both subject
+matters and seem to require selecting from a source model and creating,
+relating and initializing into a destination model.  This broad span of
+knowledge across subject matters is troublesome.
+
+An option exists that retains a stricter subject matter separation.
+By establishing a domain-specific communication protocol between the MASL
+and xtUML domains, looser coupling and a greater level of insulation
+can be maintained.  It is recognized that the M2M transformation queries
+must retain knowledge of class names in both domains, however, the
+communication channel delegates the serialization of the classes in
+one or the other domain and allows the M2M queries to remain ignorant
+of the relational structure of the foreign domain.  The M2M queries
+are housed in one domain only.  The choice of home domain seems a pragmatic
+issue.  In the case of xtUML and MASL, the xtUML domain is housing both
+the `xtuml2masl` queries and the `masl2xtuml` queries.  This choice
+is largely due to xtUML being the more complex component.  
+
+The use of a string serialization protocol is an idea new to this team
+and represents an area of further research.  As of this writing, the
+technique seems to be working well enough to keep.  
 
 6. Design
 ---------
 #### 6.1 Overall Flow  
 In this project, MASL serves as both input and output.  On the input
 flow, textual MASL is parsed, converted into xtUML and imported into
-BridgePoint.  On the output flow, xtUML is converted into a MASL xtUML
-instance population and then rendered into textual MASL.  
+BridgePoint.  On the output flow, xtUML is converted into instances
+in a model of MASL syntax and then rendered into textual MASL.
 
 6.1.1 `parser`  
 The parser is a Java application generated from an `antlr` grammar of
 the textual MASL syntax.  A second grammar builds and walks an abstract
 syntax tree (AST) of the language.  The parser serializes MASL into 
-`MASLDSL` which is represented as comma separated strings.  
+serial MASL which is represented as comma separated strings.  
 
 6.1.2 `masl2xtuml`  
-`masl2xtuml (maslin)` receives as input MASLDSL.  The MASLDSL may
+`masl2xtuml` receives as input serial MASL.  The serialized MASL may
 come directly from the parser or come from a populated model of the
 syntax of MASL.  A model-to-model
 transformation query creates instances of xtUML meta-model classes,
@@ -90,16 +117,16 @@ The result is an xtUML model representing the equivalent functionality
 as the input MASL model.  
 
 6.1.3 `xtuml2masl`  
-`xtuml2masl (maslout)` selects against the xtUML meta-model and emits
-a stream of MASLDSL across an interface to a model of MASL syntax.
-This model-to-model transformation converts xtUML intances into MASL
-represented as MASLDSL serialized strings.  
+`xtuml2masl` queries the xtUML meta-model and emits
+a stream of serial MASL across an interface to a model of MASL syntax.
+This model-to-model transformation converts xtUML instances into MASL
+represented as MASL serialized strings.  
 
 6.1.4 `mcmasl`  
-The MASL syntax model receives the MASLDSL and populates instances of classes
+The MASL syntax model receives the serial MASL and populates instances of classes
 in the model of MASL syntax.  Once populated, the MASL instance population
 is validated and then rendered into textual MASL in files named according
-to a set of rules capturing file naming conventions.  
+to a set of rules capturing file naming conventions.  [12]  
 
 #### 6.2 Model of MASL  
 
@@ -109,20 +136,20 @@ structure of the MASL language.  For this issue only the structural MASL
 (project, domain, class, state machine, type) is modeled.  This model
 is informed by the MASL parser abstract syntax tree (AST).  The syntax
 model of MASL is a step incrementally higher in abstraction than the AST,
-but does not try to abstract the semantics; this is truly a model of syntax.  
+but does not specify the semantics; this is truly a model of syntax.  
 
 6.2.2 MASL Types  
 A class diagram of MASL Types is built that captures the typing system.
 The typing system is largely independent of the rest of the syntax.
 The connection occurs through `type references` leaving most of the
-type system nicely modeled in its own diagram.  
+type system loosely coupled in a separate diagram.  
 
-At the present time, `type` and `typeref` are modeled more carefully
+For the basic solution, `type` and `typeref` are modeled more rigorously
 than the remaining model of the type system.  This is because until
 activities are parsed, only `type` and `typeref` "touch" the structural
 MASL.  No parsing, processing, validating or rendering will be done
 with the detailed subordinate classes in the model of the type system.
-In the initial design of the flow, aspects of typing including container
+In the initial design of the flow, aspects of typing that include container
 types (set, bag, sequence, array) and other type modifiers will be
 stored in the xtUML model in proximity to the typed model elements
 (probably description fields or other simple string properties).  
@@ -132,20 +159,20 @@ MASL population, marking (pragmas) and file packaging are modeled
 independently of the syntax on their own class diagram.
 
 6.2.3.1 Population  
-The population of MASL through input serial string MASLDSL is a somewhat
+The population of MASL through input serial string MASL is a somewhat
 separate concern from syntax.  A `population` class together with
-`population` class-based operations on the MASL syntax classes coordinate
+`populate` class-based operations on the MASL syntax classes coordinate
 to create and link legal instances in the model of MASL.  An input stream
-of string data (MASLDSL) is directed by the `population` class to the
-correct classes for creation, initialization and linking of the MASL
+of MASL represented as string data is directed by the `population` class to
+the correct classes for creation, initialization and linking of the MASL
 syntax class instances.
 
-An important function of the `population` class is to maintain context
-for the input stream of MASLDSL.  A parent/child association is maintained
-on `element` that enables the syntax population operations to know which
+An important function of the `population` class is to maintain context for
+the input stream of serialized MASL.  A parent/child association is maintained
+on `element` that enables the syntax `populate` operations to know which
 previously created model element is the container for the present model
-element.  In a sense, this context is representing in the MASL model the
-hierarchy of the parser abstract syntax tree (AST).
+element.  This context represents in the MASL model the
+hierarchy of the abstract syntax tree (AST) of the parser.
 
 6.2.3.2 Marking  
 A model of marking is depicted that relates the `pragma` class to all
@@ -155,7 +182,7 @@ because pragmas are arbitrary and can be attached to most of the syntax
 classes in the model of MASL.  
 
 As `pragma`s are encountered in the MASL input stream during `masl2xtuml`
-processing, the plan of record is to store the pragma information into
+processing, the plan of record is to store the pragma information in
 the description (`Descrip`) fields of the marked model elements.  During
 the `xtuml2masl` processing, the pragmas will be supplied to the down
 stream model compilers.  In the future, pragmas or other marking artifacts
@@ -195,15 +222,15 @@ Export flows.  We explored using MC-Java, but it has weaknesses that
 disqualify it in its current state.  Specifically, it cannot support
 instance reference passing, component interfacing and IPRs for classes.
 There were other short-comings.  A test was performed to see if the models
-and action language support needed would translate.  This test failed.  
+and action language support needed would translate.  This test failed.  [13]
 
 For the basic phase 1 project, we have chosen to use the same C model
-compiler flow used for the model-based C model compiler (mcmc).  
+compiler flow used for the model-based C model compiler (mcmc).
 
 7.2 Inter-Project References for Class Diagrams  
 It was deemed a critical requirement at the beginning of this project that 
 class diagrams be shared across projects.  Thus, inter-project referencing
-(IPR) for classes was enabled in an engineering build of BridgePoint.
+(IPR) for classes was enabled in an engineering build of BridgePoint.  [14]
 
 7.3 Refactoring of Escher  
 The MC-3020 model compiler (escher) contains a "naked" OOAofOOA, a class
@@ -213,35 +240,11 @@ and `MC EEs`.  This model has been refactored and divided into separate
 projects.  Reuse is now possible, and build times are affected favorably.  
 
 7.3.1 MCOOA  
-With escher refactored, `maslin (masl2xtuml)` and `maslout (xtuml2masl)`
+With escher refactored, `masl2xtuml` and `xtuml2masl`
 both independently can reference the `mcooa` (naked OOAofOOA).
-`maslin` populates this model from MASLDSL [4].  `maslout` emits MASLDSL
-based on queries of this model.  Both can share architectural
-EEs defined in `mcshared` [9].  
-
-7.4 Further Segregating M2M Transformations  
-The xtUML meta-model (ooaofooa) and the model of MASL represent separate
-subject matters.  Model-to-Model (M2M) Transformations span both subject
-matters and seem to require selecting from a source model and creating,
-relating and initializing into a destination model.  This broad span of
-knowledge across subject matters is troublesome.
-
-An option exists that retains a stricter subject matter separation.
-By establishing a domain-specific communication protocol between the MASL
-and xtUML domains, looser coupling and a greater level of insulation
-can be maintained.  It is recognized that the M2M tranformation queries
-must retain knowledge of class names in both domains, however, the
-communication channel delegates the serialization of the classes in
-one or the other domain and allows the M2M queries to remain ignorant
-of the relational structure of the foreign domain.  The M2M queries
-are housed one domain only.  The choice of home domain seems a pragmatic
-issue.  In the case of xtUML and MASL, the xtUML domain is housing both
-the `xtuml2masl` queries and the `masl2xtuml` queries.  This choice
-is largely due to xtUML being the more complex component.  
-
-The use of a string serialization protocol is an idea new to this team
-and represents an area of further research.  As of this writing, the
-technique seems to be working well enough to keep.  
+`masl2xtuml` populates this model from serial MASL [4].  `xtuml2masl`
+emits serial MASL based on queries of this model.  Both can share
+architectural EEs and interfaces defined in `mcshared` [9].  
 
 8. Unit Test
 ------------
@@ -253,7 +256,7 @@ match those of the MASL model.
 8.1.3 Export the model.  
 8.1.4 Compare the exported SAC model with the imported model.  They
 should be equivalent.  
-8.2 MASL-idiom GPS Watch Round Trip  
+8.2 MASL-idiom GPS Watch Round Trip [15]  
 8.2.1 Open MASL-idiom GPS Watch.  
 8.2.2 Observe it.  
 8.2.3 Export it.  
