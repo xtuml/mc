@@ -1,11 +1,11 @@
 import java.io.*;
 
-public class MaslDSLExporter implements Serial {
+public class MaslSerial implements Serial {
 
     private PrintStream     output;             // output stream
 
     // public constructor
-    public MaslDSLExporter() {
+    public MaslSerial() {
         output = System.out;
     }
 
@@ -40,14 +40,5 @@ public class MaslDSLExporter implements Serial {
         // print newline
         output.println();
     }
-
-    // render
-    public void render( String element, String name ) {}
-
-    // tostring
-    public void tostring( String element, String name ) {}
-
-    // validate
-    public void validate( String element ) {}
 
 }

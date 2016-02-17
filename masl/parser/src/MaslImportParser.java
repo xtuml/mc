@@ -330,7 +330,7 @@ public class MaslImportParser {
     // main method
     public static void main(String args[]) throws Exception {
 
-        Serial              serial = new MaslDSLExporter();             // create new serial interface
+        Serial              serial = new MaslSerial();                  // create new serial interface
         MaslImportParser    parser = new MaslImportParser( serial );    // create new parser
 
         // check input args
