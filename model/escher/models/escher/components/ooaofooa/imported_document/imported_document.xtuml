@@ -4,7 +4,7 @@ INSERT INTO EP_PKG
 	VALUES ("87849648-c448-4ca5-892c-0366a0a27a57",
 	"00000000-0000-0000-0000-000000000000",
 	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'imported_Document',
+	'Document_imported',
 	'Document',
 	0);
 INSERT INTO GD_MD
@@ -25,7 +25,7 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'escher::components::ooaofooa::imported_Document');
+	'escher::components::ooaofooa::Document_imported');
 INSERT INTO DIM_DIA
 	VALUES ("c8d9e77a-6d8b-4b89-b785-08102db7bf33",
 	'',

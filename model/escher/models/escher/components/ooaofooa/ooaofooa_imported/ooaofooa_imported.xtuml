@@ -1,16 +1,16 @@
 -- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO EP_PKG
-	VALUES ("65c65ceb-44cf-4039-a85c-4028817dc00c",
+	VALUES ("fbaad373-b0f3-4997-9bea-e67180bb4650",
 	"00000000-0000-0000-0000-000000000000",
 	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
-	'imported_maslout',
-	'xtuml2masl',
+	'ooaofooa_imported',
+	'ooaofooa',
 	0);
 INSERT INTO GD_MD
-	VALUES ("a037ce92-f7b1-4d00-87c2-2ef8a680a3e8",
+	VALUES ("a1d26d79-44ef-42f8-a396-0b21296f06c7",
 	112,
-	"65c65ceb-44cf-4039-a85c-4028817dc00c",
+	"fbaad373-b0f3-4997-9bea-e67180bb4650",
 	108,
 	0,
 	0,
@@ -25,16 +25,16 @@ INSERT INTO GD_MD
 	0,
 	0,
 	'',
-	'escher::components::ooaofooa::imported_maslout');
+	'escher::components::ooaofooa::ooaofooa_imported');
 INSERT INTO DIM_DIA
-	VALUES ("a037ce92-f7b1-4d00-87c2-2ef8a680a3e8",
+	VALUES ("a1d26d79-44ef-42f8-a396-0b21296f06c7",
 	'',
 	1.000000,
 	4000.000000,
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO PE_PE
-	VALUES ("65c65ceb-44cf-4039-a85c-4028817dc00c",
+	VALUES ("fbaad373-b0f3-4997-9bea-e67180bb4650",
 	1,
 	"00000000-0000-0000-0000-000000000000",
 	"6dfad0c7-c5dd-47a8-8ed2-939c030112bb",
