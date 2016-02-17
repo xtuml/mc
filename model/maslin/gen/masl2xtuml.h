@@ -1,24 +1,21 @@
 /*----------------------------------------------------------------------------
- * File:  maslin.h
+ * File:  masl2xtuml.h
  *
  * UML Component (Module) Declaration (Operations and Signals)
  *
  * your copyright statement can go here (from te_copyright.body)
  *--------------------------------------------------------------------------*/
 
-#ifndef MASLIN_H
-#define MASLIN_H
+#ifndef MASL2XTUML_H
+#define MASL2XTUML_H
 #ifdef	__cplusplus
 extern	"C"	{
 #endif
 
 #include "maslin_sys_types.h"
-void maslin_in_populate( c_t *, c_t [8][ESCHER_SYS_MAX_STRING_LEN] );
-void maslin_in_render( c_t *, c_t * );
-void maslin_in_tostring( c_t *, c_t * );
-void maslin_in_validate( c_t * );
+void masl2xtuml_in_populate( c_t *, c_t [8][ESCHER_SYS_MAX_STRING_LEN] );
 
 #ifdef	__cplusplus
 }
 #endif
-#endif  /* MASLIN_H */
+#endif  /* MASL2XTUML_H */
