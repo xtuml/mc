@@ -63,6 +63,19 @@
         </javac>
     </target>
 
+    <target name="recompile" description="recompile the source">
+        <!-- Compile the java code from ${src} into ${build} -->
+        <javac destdir="${build}" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib}">
+                    <include name="**/*.jar" />
+                </fileset>
+            </classpath>
+            <src path="${src}"/>
+            <src path="${src-gen}"/>
+        </javac>
+    </target>
+
     <target name="dist" depends="compile" description="generate the distribution">
         <!-- Create the distribution directory -->
         <mkdir dir="${dist}/lib"/>
