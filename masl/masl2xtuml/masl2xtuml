@@ -59,6 +59,6 @@ done
 # process projects
 for project in ${PROJ_DIRS[*]}; do
     FN=$OUT_DIR/$RANDOM.xtuml
-    #echo "java -cp $CLASSPATH MaslImportParser -p $project > $FN"
-    java -cp $CLASSPATH MaslImportParser -p $project > $FN
+    #echo "java -cp $CLASSPATH MaslImportParser -p $project | m2x > $FN"
+    java -cp $CLASSPATH MaslImportParser -p $project | m2x > $FN
 done

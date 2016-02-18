@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#   ./masl [-v | -vo] < input_file > output_file
 #   ./masl [-v | -vo] [ -o <output directory> ] < input_file 
 
 # USAGE
