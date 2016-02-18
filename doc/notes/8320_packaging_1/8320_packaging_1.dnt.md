@@ -74,17 +74,18 @@ parser HOWTO [[2.4]](#2.4).
 6.1.2.1 Inputs
 
 `masl` reads serial MASL from standard input until the end of the file is reached. It also takes
-a validation flag.
+an optional validation flag and optional output directory.
 
 6.1.2.2 Outputs
 
-`masl` writes MASL to standard out. If the validation flag (`-v`) is set, it first validates the
+`masl` writes MASL to the output directory or the current working directory if no output directory
+is specified. If the validation flag (`-v`) is set, it first validates the
 model and writes any validation failures to standard error. If the validate only flag (`-vo`) is
-set, it only validates the model (writing validation failures to standard error), outputs
-nothing to standard out. Any other error messages are written to standard error.
+set, it only validates the model (writing validation failures to standard error), and no output
+MASL is written. Any other error messages are written to standard error.
 
 ```sh
-./masl [-v | -vo] < input_file > output_file
+./masl [-v | -vo] [ -o <output directory> ] < input_file
 ```
 
 #### 6.1.3 `m2x`
@@ -113,7 +114,7 @@ a project (`-p`) or domain (`-d`) directive.
 `x2m` outputs serial MASL to standard out. Any error messages are written to standard error.
 
 ```sh
-./x2m [-p | -d] < input_file > output_file
+./x2m <-p | -d> < input_file > output_file
 ```
 
 ### 6.2 Use case flows
