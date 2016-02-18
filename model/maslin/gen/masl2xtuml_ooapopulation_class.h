@@ -21,15 +21,16 @@ extern	"C"	{
 struct masl2xtuml_ooapopulation {
 
   /* application analysis class attributes */
-  masl2xtuml_S_SYS * current_sys;
-  masl2xtuml_EP_PKG * lib_pkg;
-  masl2xtuml_EP_PKG * systypes_pkg;
-  masl2xtuml_EP_PKG * wiring_pkg;
-  masl2xtuml_O_ATTR * current_attribute;
-  masl2xtuml_O_OBJ * current_class;
-  masl2xtuml_O_TFR * current_class_op;
-  masl2xtuml_C_C * current_component;
-  masl2xtuml_S_SYNC * current_domain_function;
+  masl2xtuml_S_SYS * current_sys;  
+  masl2xtuml_EP_PKG * lib_pkg;  
+  masl2xtuml_EP_PKG * systypes_pkg;  
+  masl2xtuml_EP_PKG * wiring_pkg;  
+  masl2xtuml_O_ATTR * current_attribute;  
+  masl2xtuml_O_OBJ * current_class;  
+  masl2xtuml_O_TFR * current_class_op;  
+  masl2xtuml_C_C * current_component;  
+  masl2xtuml_S_SYNC * current_domain_function;  
+  masl2xtuml_S_SPARM * current_function_param;  
   i_t processingIdentifier;  
   bool processingISM;  
 };
@@ -101,10 +102,11 @@ void masl2xtuml_ooapopulation_op_Operation_newParameter( masl2xtuml_ooapopulatio
 void masl2xtuml_ooapopulation_op_OperationParameter_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_O_TPARM * );
 void masl2xtuml_ooapopulation_op_Operation_createParameterInInteractions( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, masl2xtuml_O_TPARM * );
 void masl2xtuml_ooapopulation_op_Operation_addParameterToOrdering( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, masl2xtuml_O_TPARM * );
-void masl2xtuml_ooapopulation_op_Function_newParameter( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_S_SYNC * );
+masl2xtuml_S_SPARM * masl2xtuml_ooapopulation_op_Function_newParameter( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_S_SYNC * );
 void masl2xtuml_ooapopulation_op_FunctionParameter_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_S_SPARM * );
 void masl2xtuml_ooapopulation_op_Function_addParameterToOrder( masl2xtuml_ooapopulation *, masl2xtuml_S_SPARM *, masl2xtuml_S_SYNC * );
 void masl2xtuml_ooapopulation_op_Function_createMessageArgumentsForParameter( masl2xtuml_ooapopulation *, masl2xtuml_S_SPARM *, masl2xtuml_S_SYNC * );
+void masl2xtuml_ooapopulation_op_FunctionParameter_setType( masl2xtuml_ooapopulation *, masl2xtuml_S_SPARM *, c_t * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10

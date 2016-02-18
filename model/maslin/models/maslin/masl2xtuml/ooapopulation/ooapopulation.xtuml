@@ -54,7 +54,11 @@ elif ( "activity" == element )
     ooapopulation.transformActivity();
   end if;
 elif ( "parameter" == element )
-  if ( "" != param.value[0] )
+  if ( "" == param.value[0] )
+    select any s_sparm from instances of S_SPARM where (false);
+    ooapopulation.current_function_param = s_sparm;
+    // TODO - null out other parameter cache values as they are implemented
+  else
     ooapopulation.transformParameter(name:param.value[0], direction:param.value[1]);
   end if;
 elif ( "identifier" == element )
@@ -106,6 +110,10 @@ elif ( "typeref" == element )
     o_attr = ooapopulation.current_attribute;
     if ( not_empty o_attr )
       ooapopulation.Attribute_setType(o_attr:ooapopulation.current_attribute, type_name:param.value[0]); 
+    end if;
+    s_sparm = ooapopulation.current_function_param;
+    if ( not_empty s_sparm )
+      ooapopulation.FunctionParameter_setType(s_sparm:ooapopulation.current_function_param, type_name:param.value[0]); 
     end if;
   end if;
 elif ( "routine" == element )
@@ -743,7 +751,7 @@ domain_function = self.current_domain_function;
 if ( not_empty class_op )
   self.Operation_newParameter(o_tfr:class_op, parameter_name:param.name);
 elif ( not_empty domain_function )
-  self.Function_newParameter(s_sync:domain_function, parameter_name:param.name);
+  self.current_function_param = self.Function_newParameter(s_sync:domain_function, parameter_name:param.name);
 end if;',
 	1,
 	'',
@@ -3154,14 +3162,16 @@ INSERT INTO O_TFR
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
 	'Function_newParameter',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"a01a1995-8ff8-44fe-abb1-b11213d98016",
 	1,
 	's_sync = param.s_sync;
 
 create object instance parm of S_SPARM;
 relate s_sync to parm across R24;
 self.FunctionParameter_initialize(s_sparm:parm, name:param.parameter_name); // OOA - parm.initialize();
-self.Function_createMessageArgumentsForParameter(s_sync:s_sync, s_sparm:parm); // OOA - self.createMessageArgumentsForParameter(id:parm.SParm_ID);',
+self.Function_createMessageArgumentsForParameter(s_sync:s_sync, s_sparm:parm); // OOA - self.createMessageArgumentsForParameter(id:parm.SParm_ID);
+
+return parm;',
 	1,
 	'',
 	"9e1603f8-30b3-45e7-a697-d89f16f10bf0");
@@ -3183,6 +3193,13 @@ INSERT INTO O_TPARM
 	'',
 	"e6c7ea19-8682-4da9-b6c0-ed0cf389ddca",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a01a1995-8ff8-44fe-abb1-b11213d98016",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function Parameter>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
 INSERT INTO O_TFR
 	VALUES ("c4648b6f-189d-4a22-8512-1a81979ba4d5",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -3215,13 +3232,6 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("a01a1995-8ff8-44fe-abb1-b11213d98016",
-	"00000000-0000-0000-0000-000000000000",
-	'inst_ref<Function Parameter>',
-	'',
-	'',
-	'../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("37a578d8-5d36-4171-9299-9b25516fe275",
 	"c4648b6f-189d-4a22-8512-1a81979ba4d5",
@@ -3316,6 +3326,60 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"4bae02c0-d341-42d8-8b66-d89295499d7c",
+	'');
+INSERT INTO O_TFR
+	VALUES ("77c5fd32-dff1-44a1-bb77-ac8d2ebf2e3c",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'FunctionParameter_setType',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	's_sparm = param.s_sparm;
+type_name = param.type_name;
+
+// NOTE: This isn''t really a copied operation from the OOAofOOA, but we''re following the same paradigm for it
+//   as other functions that are from the OOA
+
+// Get a handle to the DT that is named as a parameter, output error if none found
+//   TODO - This is a very broad selection.  Is that OK?  Can we assume that during convert we won''t see data that 
+//     has multiple (different) types with the same name?  Keith thinks so.
+select any s_dt from instances of S_DT where ( selected.Name == type_name );
+if ( empty s_dt )
+  // TODO - what should the ID be set to?
+  TRACE::log( flavor:"failure", id:0, message:"could not find datatype  " + type_name + " to set for attribute " + s_sparm.Name);
+end if;
+
+// Get a handle to the DT that is currently associated with the attribute
+select one cur_s_dt related by s_sparm->S_DT[R26];
+
+// If the new DT does not equal the existing DT, continue
+if ( s_dt != cur_s_dt )
+  // un-relate the existing DT across R26
+  unrelate s_sparm from cur_s_dt across R26;
+  
+  // relate the new attribute across R26
+  relate s_sparm to s_dt across R26;
+end if;',
+	1,
+	'',
+	"fb586e84-fe0c-437d-a171-fa3b7388d3b6");
+INSERT INTO O_TPARM
+	VALUES ("ed8aaacc-d025-49fe-a4ac-9e4ecdbd0cc4",
+	"77c5fd32-dff1-44a1-bb77-ac8d2ebf2e3c",
+	's_sparm',
+	"a01a1995-8ff8-44fe-abb1-b11213d98016",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("2fb53a0e-e51e-4845-9480-18dce9ed9165",
+	"77c5fd32-dff1-44a1-bb77-ac8d2ebf2e3c",
+	'type_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ed8aaacc-d025-49fe-a4ac-9e4ecdbd0cc4",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
@@ -3470,7 +3534,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"b893e803-e1ba-4494-a95d-d0ff48b1700c",
+	"a3e129f2-38f6-47c9-a46a-4043ca376af6",
 	'processingIdentifier',
 	'',
 	'',
@@ -3513,6 +3577,24 @@ INSERT INTO O_ATTR
 	'current_domain_function',
 	0,
 	"60690409-5a69-45db-896b-5a63a9103c18",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("a3e129f2-38f6-47c9-a46a-4043ca376af6",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("a3e129f2-38f6-47c9-a46a-4043ca376af6",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("a3e129f2-38f6-47c9-a46a-4043ca376af6",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"b893e803-e1ba-4494-a95d-d0ff48b1700c",
+	'current_function_param',
+	'',
+	'',
+	'current_function_param',
+	0,
+	"a01a1995-8ff8-44fe-abb1-b11213d98016",
 	'',
 	'');
 INSERT INTO O_ID
