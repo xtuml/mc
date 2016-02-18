@@ -1,5 +1,0 @@
-T_b(type->name);
-T_b(" ");
-T_b("assignment");
-T_b(" ;");
-T_b("\n");
