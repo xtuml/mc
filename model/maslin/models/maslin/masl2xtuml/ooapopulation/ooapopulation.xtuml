@@ -84,7 +84,7 @@ elif ( "attribute" == element )
       select any o_attr related by o_obj->O_ATTR[R102] where ( selected.Name == param.value[0] );
       ooapopulation.Attribute_addToIdentifier(o_attr:o_attr, oid:ooapopulation.processingIdentifier);
     else
-      ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2], initialization:param.value[3]);
+      ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2]);
     end if;
   end if;
 elif ( "state" == element )
@@ -782,6 +782,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'attr_name = param.name;
+// TODO - handle other parameters to this function
 self.current_attribute = self.ModelClass_newAttribute(o_obj:self.current_class, attr_name:attr_name);',
 	1,
 	'',
@@ -812,15 +813,6 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"c9da22f0-d999-4439-bff0-f37fcd96ea79",
-	'');
-INSERT INTO O_TPARM
-	VALUES ("db0a77c6-667c-404d-a3ad-aa7d523048a1",
-	"9438bf8f-4666-499e-9822-00e7b064286f",
-	'initialization',
-	"ba5eda7a-def5-0000-0000-000000000004",
-	0,
-	'',
-	"db6b42fc-fe49-46d2-a83d-b89e1e50a1d2",
 	'');
 INSERT INTO O_TFR
 	VALUES ("cd1f0452-4df9-45c5-949f-e319f8cb63e8",
