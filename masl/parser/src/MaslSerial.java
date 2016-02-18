@@ -42,10 +42,24 @@ public class MaslSerial implements Serial {
         output.println();
     }
 
-    // encode the serial MASL
-    // uses a subset of URL encoding (only replaces '%', ',', and '\n')
+    /* 
+     * serial_MASL_encode
+     *
+     * This function encodes a serial MASL string, replacing
+     * special characters according to the following table:
+     *
+     * | Character | Encoding |
+     * |:---------:|:--------:|
+     * | %         | %25      |
+     * | ,         | %2C      |
+     * | \n        | %0A      |
+     * | \r        | %0D      |
+     *
+     * expects a string to encode as an argument
+     */
     private String serial_MASL_encode( String str ) {
-        return str.replaceAll( "%", "%25" ).replaceAll( ",", "%2C" ).replaceAll( "\n", "%0A" );
+        if ( null == str ) return null;
+        return str.replaceAll( "%", "%25" ).replaceAll( ",", "%2C" ).replaceAll( "\n", "%0A" ).replaceAll( "\r", "%0D" );
     }
 
 }

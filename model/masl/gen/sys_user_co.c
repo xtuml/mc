@@ -65,34 +65,58 @@ UserPreOoaInitializationCalloutf( void )
  * serial_MASL_decode
  *
  * This function decodes a serial MASL string, replacing
- * '%25' with '%', '%2C' with ',', and '%0A' with '\n'
+ * special characters according to the following table:
+ *
+ * | Character | Encoding |
+ * |:---------:|:--------:|
+ * | %         | %25      |
+ * | ,         | %2C      |
+ * | \n        | %0A      |
+ * | \r        | %0D      |
+ *
  * Since, all replacements are fewer characters than the
- * original, it can be done in place.
- * It expects a well formed string as an argument
+ * original, it can be done in place with no need for 
+ * reallocation.
+ *
+ * expects a well formed (null terminated) string as an
+ * argument
  */
 void
 serial_MASL_decode( char * buf )
 {
+    if ( !buf ) return;
+
     char * b = buf;
     int buf_len = strlen(buf);
 
     while ( *b ) {
+
+        // replace '%25' with '%'
         if ( *b == '%' && *(b+1) && *(b+1) == '2' && *(b+2) && *(b+2) == '5' ) {
-            // replace '%25' with '%'
             *b = '%';
             Escher_strcpy( b+1, b+3 );
         }
-        else if ( *b == '%' && *(b+1) && *(b+1) == '2' && *(b+2) && *(b+2) == 'C' ) {
-            // replace '%2C' with ','
+        // replace '%2C' with ','
+        else if ( *b == '%' && *(b+1) && *(b+1) == '2' && *(b+2) && ( *(b+2) == 'C' || *(b+2) == 'c' ) ) {
             *b = ',';
             Escher_strcpy( b+1, b+3 );
         }
-        else if ( *b == '%' && *(b+1) && *(b+1) == '0' && *(b+2) && *(b+2) == 'A' ) {
-            // replace '%0A' with '\n'
+        // replace '%0A' with '\n'
+        else if ( *b == '%' && *(b+1) && *(b+1) == '0' && *(b+2) && ( *(b+2) == 'A' || *(b+2) == 'a' ) ) {
             *b = '\n';
             Escher_strcpy( b+1, b+3 );
         }
+        // replace '%0D' with '\r'
+        else if ( *b == '%' && *(b+1) && *(b+1) == '0' && *(b+2) && ( *(b+2) == 'D' || *(b+2) == 'd' ) ) {
+            *b = '\r';
+            Escher_strcpy( b+1, b+3 );
+        }
+        else {
+            // nothing
+        }
+
         b++;
+
     }
 
 }
