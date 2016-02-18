@@ -89,7 +89,8 @@ elif ( "attribute" == element )
   end if;
 elif ( "state" == element )
   if ( "" != param.value[0] )
-    ooapopulation.transformState(name:param.value[0], type:param.value[1]);
+    // TODO - handle the domain and object  parameters from smasl
+    ooapopulation.transformState(name:param.value[2], type:param.value[3]);
   end if;
 elif ( "event" == element )
   if ( "" != param.value[0] )
@@ -97,13 +98,13 @@ elif ( "event" == element )
   end if;
 elif ( "type" == element )
   if ( "" != param.value[0] )
-    ooapopulation.transformType(name:param.value[0], visibility:param.value[1]);
+    ooapopulation.transformType(name:param.value[0], visibility:param.value[1], definition:param.value[2]);
   end if;
 elif ( "typeref" == element )
   if ( "" != param.value[0] )
     // TODO - note that we''re current making all typerefs public.  Perhaps we''ll need a mechanism to migrate them from public to private (and 
     //   rehome their parent package)?
-    ooapopulation.transformType(name:param.value[0], visibility:"public");
+    ooapopulation.transformType(name:param.value[0], visibility:"public", definition:"");
     
     // TODO - Now that we created a typeref, create a switch statement that sets whatever element we''re currently processing to the type
     //   cases: attribute, s_sync/o_tfr/c_io return type, s_sync/o_tfr/c_io parameter, etc
@@ -118,24 +119,32 @@ elif ( "typeref" == element )
   end if;
 elif ( "routine" == element )
   //  See if we''re processing inside a domain or terminator.  Then call the appropriate conversion function.
-  if ( "" == param.value[0] )
+  if ( "" == param.value[3] )
     select any s_sync from instances of S_SYNC where ( false );
     ooapopulation.current_domain_function = s_sync;
   else
     // TODO -if ( not_empty ooapopulation.current_port )
     // TODO -  ooapopulation.transformTerminatorFunction();
     //else
-      ooapopulation.transformDomainFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
+      ooapopulation.transformDomainFunction(visibility:param.value[2], name:param.value[3], domain:param.value[0], terminator:param.value[1]);
     //end if;
   end if;
 elif ( "operation" == element )
-  if ( "" == param.value[0] )
+  if ( "" == param.value[3] )
     select any o_tfr from instances of O_TFR where (false);
     ooapopulation.current_class_op = o_tfr;
   else
     clazz = ooapopulation.current_class;
     if ( not_empty clazz )
-      ooapopulation.transformObjectFunction(visibility:param.value[0], name:param.value[1], instance:param.value[2], relationship:param.value[3]);
+    /*  TODO - do something with the domain and object parameters....
+domain
+object
+visibility
+name
+instance
+relationship
+    */
+      ooapopulation.transformObjectFunction(visibility:param.value[2], name:param.value[3], instance:param.value[4], relationship:param.value[5]);
     end if;
   end if;
 elif ( "transitiontable" == element )
@@ -145,7 +154,14 @@ elif ( "transitiontable" == element )
     ooapopulation.processingISM = true;
   end if;
 elif ( "transition" == element )
-  ooapopulation.transformTransition(eventName:param.value[1], startState:param.value[0], endState:param.value[2]);
+  /*  TODO - do something with the eventDomain and eventObject parameters....
+startstate
+eventDomain
+eventObject
+event
+endstate
+  */
+  ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4]);
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -668,17 +684,17 @@ if ( empty s_sys )
   // Create a system level types package and cache it
   //   TODO - revisit this when we figure out type handling for import into BP
   self.systypes_pkg = self.SystemModel_newPackage(s_sys:s_sys, pkg_name:"types");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "void");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "character");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "wcharacter");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "boolean");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "byte");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "string");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "wstring");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "device");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "enum");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "event");
-  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "instance");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "void", definition:"");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "character", definition:"");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "wcharacter", definition:"");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "boolean", definition:"");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "byte", definition:"");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "string", definition:"");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "wstring", definition:"");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "device", definition:"");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "enum", definition:"");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "event", definition:"");
+  self.Package_newDatatype(ep_pkg:self.systypes_pkg, type_name: "instance", definition:"");
 end if;
 
 ',
@@ -749,9 +765,15 @@ class_op = self.current_class_op;
 domain_function = self.current_domain_function;
 
 if ( not_empty class_op )
-  self.Operation_newParameter(o_tfr:class_op, parameter_name:param.name);
+  select any o_tparm related by class_op->O_TPARM[R117] where ( selected.Name == param.name );
+  if ( empty o_tparm )
+    self.Operation_newParameter(o_tfr:class_op, parameter_name:param.name);
+  end if;
 elif ( not_empty domain_function )
-  self.current_function_param = self.Function_newParameter(s_sync:domain_function, parameter_name:param.name);
+  select any s_sparm related by domain_function->S_SPARM[R24] where ( selected.Name == param.name );
+  if ( empty  s_sparm )
+    self.current_function_param = self.Function_newParameter(s_sync:domain_function, parameter_name:param.name);
+  end if;
 end if;',
 	1,
 	'',
@@ -1267,7 +1289,7 @@ select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.
 
 if ( (empty sys_s_dt) and (empty s_dt) )
   // The type doesn''t already exist, create it
-  self.Package_newDatatype(ep_pkg:types_pkg, type_name: param.name);
+  self.Package_newDatatype(ep_pkg:types_pkg, type_name:param.name, definition:param.definition);
 end if;
 ',
 	1,
@@ -1290,6 +1312,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"0da10f2a-658a-4a79-a574-742bd07fcd7e",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("e1d721a5-5131-4bd7-9dbf-31d95160d9f5",
+	"4ff26a31-e07b-4af1-8221-5dc73754ca14",
+	'definition',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a0a9e16a-e53d-4319-b2f4-5fc2422354f9",
 	'');
 INSERT INTO O_TFR
 	VALUES ("dff68b05-f692-4f7e-8745-e96def65ae8a",
@@ -1320,7 +1351,12 @@ relate dt to udt across R17;
 
 self.Datatype_initialize(s_dt:dt, name:param.type_name); // OOA - dt.initialize(newname:param.name);
 pe.type = ElementTypeConstants::DATATYPE;
-self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();',
+self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+
+// For complex MASL types we store the definition in the description
+if ( "" != param.definition )
+  dt.Descrip = param.definition;
+end if;',
 	1,
 	'',
 	"59fd5264-7d22-47ce-a615-605f9ee03143");
@@ -1341,6 +1377,15 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"7e236b3e-4137-4721-904c-0421968bc15b",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("78125cd9-a1af-4ea0-8114-9fb461dec434",
+	"dff68b05-f692-4f7e-8745-e96def65ae8a",
+	'definition',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"375d4091-f830-4ebc-80e3-6f408861dc4e",
 	'');
 INSERT INTO O_TFR
 	VALUES ("62cc7ec1-12c6-444f-8e9c-8bf257676b92",
@@ -1387,46 +1432,56 @@ INSERT INTO O_TFR
 	1,
 	'// See if "functions" package exists in the component, create it if it does not.
 current_component = self.current_component;
+if ( empty current_component )
+  select any current_component from instances of C_C where ( selected.Name == param.domain );
+end if;
+
 select any functions_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == "functions");
 if ( empty functions_pkg )
   functions_pkg = self.Component_newPackage(c_c:current_component, pkg_name:"functions");
 end if;
 
-// Create a domain function for the incoming function/service
-self.current_domain_function = self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
+// Check to see if the function already exists, if not, create it.
+select any domFunc related by functions_pkg->PE_PE[R8000]->S_SYNC[R8001] where ( selected.Name == param.name );
 
-// If the function/service is public:
-//   a) get the "Shared" package under the library package.
-//   b) see if there is an interface named "<comp name>_if", formalized to a port named (port name does not matter I think) 
-//        on the component, create if not
-//   c) create an interface operation identical to the domain function/service
-//   d) modify the action body of the operation on the port to call the domain function/service
-if ( "public" == param.visibility )
-  // a
-  lib_pkg = self.lib_pkg;
-  select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+if ( not_empty domFunc )
+  self.current_domain_function = domFunc;
+else
+  // Create a domain function for the incoming function/service
+  self.current_domain_function = self.Package_newFunction(ep_pkg:functions_pkg, function_name: param.name);
+
+  // If the function/service is public:
+  //   a) get the "Shared" package under the library package.
+  //   b) see if there is an interface named "<comp name>_if", formalized to a port named (port name does not matter I think) 
+  //        on the component, create if not
+  //   c) create an interface operation identical to the domain function/service
+  //   d) modify the action body of the operation on the port to call the domain function/service
+  if ( "public" == param.visibility )
+    // a
+    lib_pkg = self.lib_pkg;
+    select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
   
-  // b
-  comp_if_name = current_component.Name + "_if";
-  select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
-  if ( empty comp_if )
-    // create the interface
-    comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
-    // create a port & provided interface from the component
-    comp_port_name = current_component.Name + "_port";
-    new_ir = self.Component_initializeProvision(c_c:current_component, c_i:comp_if, port_name:comp_port_name);
-    // formalize the new interface reference to it
-    self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+    // b
+    comp_if_name = current_component.Name + "_if";
+    select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+    if ( empty comp_if )
+      // create the interface
+      comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
+      // create a port & provided interface from the component
+      comp_port_name = current_component.Name + "_port";
+      new_ir = self.Component_initializeProvision(c_c:current_component, c_i:comp_if, port_name:comp_port_name);
+      // formalize the new interface reference to it
+      self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+    end if;
+  
+    // c - Note that we (currently) always create an interface operation, never a signal
+    c_ep = self.Interface_newExecutableProperty(c_i:comp_if, ep_name:param.name, asynchronous:false);
+  
+    // d
+    select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
+    // TODO - this isn''t working yet. - spr_po.Action_Semantics = "::" + param.name + "();";
   end if;
-  
-  // c - Note that we (currently) always create an interface operation, never a signal
-  c_ep = self.Interface_newExecutableProperty(c_i:comp_if, ep_name:param.name, asynchronous:false);
-  
-  // d
-  select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
-  // TODO - this isn''t working yet. - spr_po.Action_Semantics = "::" + param.name + "();";
-end if;
-',
+end if;',
 	1,
 	'',
 	"07d3849c-9f14-49f4-8d47-bb9f1891ecc0");
@@ -1451,7 +1506,7 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("feb1cd43-bb0f-4f88-abd0-c527eee66c65",
 	"f2d9d56f-7fb7-485b-9cf5-6188743dd596",
-	'instance',
+	'domain',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
@@ -1460,7 +1515,7 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("17ce02bf-5d9c-4050-b80a-573a7deb7a74",
 	"f2d9d56f-7fb7-485b-9cf5-6188743dd596",
-	'relationship',
+	'terminator',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',

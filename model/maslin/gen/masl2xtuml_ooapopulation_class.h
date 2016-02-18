@@ -55,7 +55,7 @@ bool masl2xtuml_ooapopulation_op_InterfaceReference_isFormal( masl2xtuml_ooapopu
 void masl2xtuml_ooapopulation_op_transformTerminator( masl2xtuml_ooapopulation *, c_t * );
 void masl2xtuml_ooapopulation_op_transformActivity( masl2xtuml_ooapopulation * );
 void masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation *, c_t *, c_t * );
-void masl2xtuml_ooapopulation_op_transformAttribute( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_transformAttribute( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformState( masl2xtuml_ooapopulation *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformEvent( masl2xtuml_ooapopulation *, c_t *, c_t * );
 masl2xtuml_CL_IC * masl2xtuml_ooapopulation_op_Package_newImportedComponent( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
@@ -65,8 +65,8 @@ void masl2xtuml_ooapopulation_op_ModelClass_addIdentifiers( masl2xtuml_ooapopula
 masl2xtuml_O_ATTR * masl2xtuml_ooapopulation_op_ModelClass_newAttribute( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_O_OBJ * );
 void masl2xtuml_ooapopulation_op_ModelClass_addAttributeToOrdering( masl2xtuml_ooapopulation *, masl2xtuml_O_ATTR *, masl2xtuml_O_OBJ * );
 void masl2xtuml_ooapopulation_op_Attribute_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_O_ATTR * );
-void masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation *, c_t *, c_t * );
-void masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG *, c_t * );
+void masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_EP_PKG *, c_t * );
 void masl2xtuml_ooapopulation_op_Datatype_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_S_DT * );
 void masl2xtuml_ooapopulation_op_transformDomainFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformObjectFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
