@@ -12,10 +12,6 @@
 #include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "T_bridge.h"
-#include "LOG_bridge.h"
-#include "TRACE_bridge.h"
-#include "STRING_bridge.h"
-#include "T_bridge.h"
 #include "POP_bridge.h"
 #include "LOG_bridge.h"
 #include "ooaofooa_classes.h"
@@ -13791,20 +13787,16 @@ ooaofooa_getContainerListForS_SYS( c_t * p_container_list, ooaofooa_S_SYS * p_sy
 }
 
 /*
- * Domain Function:  hoover_docgen_document_masl
+ * Domain Function:  hoover_docgen_document
  */
 void
-ooaofooa_hoover_docgen_document_masl()
+ooaofooa_hoover_docgen_document()
 {
-  ooaofooa_project * project=0;ooaofooa_DOC_DOC * doc_doc=0;
+  ooaofooa_DOC_DOC * doc_doc=0;
   /* SELECT any doc_doc FROM INSTANCES OF DOC_DOC */
   doc_doc = (ooaofooa_DOC_DOC *) Escher_SetGetAny( &pG_ooaofooa_DOC_DOC_extent.active );
-  /* SELECT any project FROM INSTANCES OF project */
-  project = (ooaofooa_project *) Escher_SetGetAny( &pG_ooaofooa_project_extent.active );
   /* ::docgen(  ) */
   ooaofooa_docgen();
-  /* ::masl_project(  ) */
-  ooaofooa_masl_project();
 }
 
 /*
@@ -14592,88 +14584,6 @@ ooaofooa_mark_all( c_t * p_f, c_t * p_p1, c_t * p_p2, c_t * p_p3, c_t * p_p4, c_
     else {
     }
   }
-}
-
-/*
- * Domain Function:  masl_domain
- */
-void
-ooaofooa_masl_domain()
-{
-  c_t * name=0;ooaofooa_domain * domain=0;
-  /* LOG::LogInfo( message:Starting Domain ) */
-  LOG_LogInfo( "Starting Domain" );
-  /* T::clear(  ) */
-  T_clear();
-  /* ASSIGN name = Tracking */
-  name = Escher_strcpy( name, "Tracking" );
-  /* ::xtuml_component_to_masl_domain( name:name ) */
-  ooaofooa_xtuml_component_to_masl_domain( name );
-  /* IF ( not domain::validate() ) */
-  if ( !ooaofooa_domain_op_validate() ) {
-    /* LOG::LogFailure( message:( ( domain ( + name ) + ) did not validate. ) ) */
-    LOG_LogFailure( Escher_stradd( Escher_stradd( "domain (", name ), ") did not validate." ) );
-  }
-  /* SELECT any domain FROM INSTANCES OF domain WHERE ( SELECTED.name == name ) */
-  domain = 0;
-  { ooaofooa_domain * selected;
-    Escher_Iterator_s iterdomainooaofooa_domain;
-    Escher_IteratorReset( &iterdomainooaofooa_domain, &pG_ooaofooa_domain_extent.active );
-    while ( (selected = (ooaofooa_domain *) Escher_IteratorNext( &iterdomainooaofooa_domain )) != 0 ) {
-      if ( ( Escher_strcmp( selected->name, name ) == 0 ) ) {
-        domain = selected;
-        break;
-      }
-    }
-  }
-  /* IF ( not_empty domain ) */
-  if ( ( 0 != domain ) ) {
-    /* domain.render() */
-    ooaofooa_domain_op_render( domain );
-    /* T::emit( file:mcmaslout.txt ) */
-    T_emit( "mcmaslout.txt" );
-  }
-  else {
-    /* TRACE::log( flavor:failure, id:4, message:no selected domain to render ) */
-    TRACE_log( "failure", 4, "no selected domain to render" );
-  }
-  /* LOG::LogInfo( message:Done ) */
-  LOG_LogInfo( "Done" );
-}
-
-/*
- * Domain Function:  masl_project
- */
-void
-ooaofooa_masl_project()
-{
-  ooaofooa_project * project=0;
-  /* LOG::LogInfo( message:Starting Project ) */
-  LOG_LogInfo( "Starting Project" );
-  /* T::clear(  ) */
-  T_clear();
-  /* ::xtuml_package_to_masl_project( name:System ) */
-  ooaofooa_xtuml_package_to_masl_project( "System" );
-  /* IF ( not project::validate() ) */
-  if ( !ooaofooa_project_op_validate() ) {
-    /* LOG::LogFailure( message:project did not validate. ) */
-    LOG_LogFailure( "project did not validate." );
-  }
-  /* SELECT any project FROM INSTANCES OF project */
-  project = (ooaofooa_project *) Escher_SetGetAny( &pG_ooaofooa_project_extent.active );
-  /* IF ( not_empty project ) */
-  if ( ( 0 != project ) ) {
-    /* project.render() */
-    ooaofooa_project_op_render( project );
-    /* T::emit( file:mcmaslout.txt ) */
-    T_emit( "mcmaslout.txt" );
-  }
-  else {
-    /* TRACE::log( flavor:failure, id:4, message:no selected project to render ) */
-    TRACE_log( "failure", 4, "no selected project to render" );
-  }
-  /* LOG::LogInfo( message:Done ) */
-  LOG_LogInfo( "Done" );
 }
 
 /*
@@ -27565,247 +27475,6 @@ ooaofooa_where_clause_mark_selected_attributes( ooaofooa_V_BIN * p_v_bin )
   else {
   }
 }
-
-/*
- * Domain Function:  xtuml_component_to_masl_domain
- */
-void
-ooaofooa_xtuml_component_to_masl_domain( c_t * p_name )
-{
-  ooaofooa_O_OBJ * o_obj=0;c_t * value[9]={0};ooaofooa_C_C * c_c=0;Escher_ObjectSet_s o_objs_space={0}; Escher_ObjectSet_s * o_objs = &o_objs_space;
-  /* ASSIGN value[8] =  */
-  value[8] = Escher_strcpy( value[8], "" );
-  /* SELECT any c_c FROM INSTANCES OF C_C WHERE ( SELECTED.Name == PARAM.name ) */
-  c_c = 0;
-  { ooaofooa_C_C * selected;
-    Escher_Iterator_s iterc_cooaofooa_C_C;
-    Escher_IteratorReset( &iterc_cooaofooa_C_C, &pG_ooaofooa_C_C_extent.active );
-    while ( (selected = (ooaofooa_C_C *) Escher_IteratorNext( &iterc_cooaofooa_C_C )) != 0 ) {
-      if ( ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
-        c_c = selected;
-        break;
-      }
-    }
-  }
-  /* IF ( not_empty c_c ) */
-  if ( ( 0 != c_c ) ) {
-    /* ASSIGN value[0] = c_c.Name */
-    value[0] = Escher_strcpy( value[0], c_c->Name );
-    /* population::populate( element:domain, value:value ) */
-    ooaofooa_population_op_populate( "domain", value );
-  }
-  else {
-    /* TRACE::log( flavor:failure, id:34, message:( did not find component with name  + PARAM.name ) ) */
-    TRACE_log( "failure", 34, Escher_stradd( "did not find component with name ", p_name ) );
-  }
-  /* SELECT many o_objs RELATED BY c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->O_OBJ[R8001] */
-  Escher_ClearSet( o_objs );
-  {  if ( 0 != c_c ) {
-  ooaofooa_PE_PE * PE_PE_R8003_contains;
-  Escher_Iterator_s iPE_PE_R8003_contains;
-  Escher_IteratorReset( &iPE_PE_R8003_contains, &c_c->PE_PE_R8003_contains );
-  while ( 0 != ( PE_PE_R8003_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) {
-  ooaofooa_EP_PKG * R8001_subtype = (ooaofooa_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
-  if ( 0 != R8001_subtype )  if ( ( 0 != PE_PE_R8003_contains ) && ( ooaofooa_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) ) {
-  ooaofooa_PE_PE * PE_PE_R8000_contains;
-  Escher_Iterator_s iPE_PE_R8000_contains;
-  Escher_IteratorReset( &iPE_PE_R8000_contains, &R8001_subtype->PE_PE_R8000_contains );
-  while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
-  if ( ( 0 != PE_PE_R8000_contains ) && ( ooaofooa_O_OBJ_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {ooaofooa_O_OBJ * R8001_subtype = PE_PE_R8000_contains->R8001_subtype;
-  if ( ! Escher_SetContains( (Escher_ObjectSet_s *) o_objs, R8001_subtype ) ) {
-    Escher_SetInsertElement( (Escher_ObjectSet_s *) o_objs, R8001_subtype );
-  }}}}}}}
-  /* FOR EACH o_obj IN o_objs */
-  { Escher_Iterator_s itero_obj;
-  ooaofooa_O_OBJ * iio_obj;
-  Escher_IteratorReset( &itero_obj, o_objs );
-  while ( (iio_obj = (ooaofooa_O_OBJ *)Escher_IteratorNext( &itero_obj )) != 0 ) {
-    o_obj = iio_obj; {
-    ooaofooa_O_ATTR * o_attr=0;Escher_ObjectSet_s o_attrs_space={0}; Escher_ObjectSet_s * o_attrs = &o_attrs_space;
-    /* ASSIGN value[0] = o_obj.Name */
-    value[0] = Escher_strcpy( value[0], o_obj->Name );
-    /* population::populate( element:object, value:value ) */
-    ooaofooa_population_op_populate( "object", value );
-    /* SELECT many o_attrs RELATED BY o_obj->O_ATTR[R102] */
-    Escher_ClearSet( o_attrs );
-    if ( 0 != o_obj ) {
-      Escher_CopySet( o_attrs, &o_obj->O_ATTR_R102_has_characteristics_abstracted_by );
-    }
-    /* FOR EACH o_attr IN o_attrs */
-    { Escher_Iterator_s itero_attr;
-    ooaofooa_O_ATTR * iio_attr;
-    Escher_IteratorReset( &itero_attr, o_attrs );
-    while ( (iio_attr = (ooaofooa_O_ATTR *)Escher_IteratorNext( &itero_attr )) != 0 ) {
-      o_attr = iio_attr; {
-      /* ASSIGN value[0] = o_attr.Name */
-      value[0] = Escher_strcpy( value[0], o_attr->Name );
-      /* ASSIGN value[1] =  */
-      value[1] = Escher_strcpy( value[1], "" );
-      /* ASSIGN value[2] =  */
-      value[2] = Escher_strcpy( value[2], "" );
-      /* ASSIGN value[3] =  */
-      value[3] = Escher_strcpy( value[3], "" );
-      /* population::populate( element:attribute, value:value ) */
-      ooaofooa_population_op_populate( "attribute", value );
-    }}}
-    Escher_ClearSet( o_attrs ); 
-  }}}
-  Escher_ClearSet( o_objs ); 
-}
-
-/*
- * Domain Function:  xtuml_package_to_masl_project
- */
-void
-ooaofooa_xtuml_package_to_masl_project( c_t * p_name )
-{
-  ooaofooa_C_C * c_c=0;c_t * value[9]={0};i_t markedsystems;Escher_ObjectSet_s ep_pkgs_space={0}; Escher_ObjectSet_s * ep_pkgs = &ep_pkgs_space;Escher_ObjectSet_s c_cs_space={0}; Escher_ObjectSet_s * c_cs = &c_cs_space;
-  /* SELECT many ep_pkgs FROM INSTANCES OF EP_PKG WHERE ( SELECTED.Name == PARAM.name ) */
-  Escher_ClearSet( ep_pkgs );
-  { ooaofooa_EP_PKG * selected;
-    Escher_Iterator_s iterep_pkgsooaofooa_EP_PKG;
-    Escher_IteratorReset( &iterep_pkgsooaofooa_EP_PKG, &pG_ooaofooa_EP_PKG_extent.active );
-    while ( (selected = (ooaofooa_EP_PKG *) Escher_IteratorNext( &iterep_pkgsooaofooa_EP_PKG )) != 0 ) {
-      if ( ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
-        Escher_SetInsertElement( ep_pkgs, selected );
-      }
-    }
-  }
-  /* ASSIGN markedsystems = cardinality ep_pkgs */
-  markedsystems = Escher_SetCardinality( ep_pkgs );
-  /* IF ( empty ep_pkgs ) */
-  if ( Escher_SetIsEmpty( ep_pkgs ) ) {
-    /* TRACE::log( flavor:failure, id:1, message:( ERROR:  Marked configuration package was not found in model: + PARAM.name ) ) */
-    TRACE_log( "failure", 1, Escher_stradd( "ERROR:  Marked configuration package was not found in model:", p_name ) );
-  }
-  /* IF ( ( markedsystems > 1 ) ) */
-  if ( ( markedsystems > 1 ) ) {
-    /* TRACE::log( flavor:failure, id:2, message:WARNING:  More than one package is marked as a system build... choose only one. ) */
-    TRACE_log( "failure", 2, "WARNING:  More than one package is marked as a system build... choose only one." );
-  }
-  /* ASSIGN value[8] =  */
-  value[8] = Escher_strcpy( value[8], "" );
-  /* ASSIGN value[0] = PARAM.name */
-  value[0] = Escher_strcpy( value[0], p_name );
-  /* population::populate( element:project, value:value ) */
-  ooaofooa_population_op_populate( "project", value );
-  /* SELECT many c_cs RELATED BY ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201] */
-  Escher_ClearSet( c_cs );
-  {  ooaofooa_EP_PKG * ooaofooa_EP_PKG_linkage;
-  Escher_Iterator_s start_many_iterator;
-  Escher_IteratorReset( &start_many_iterator, ep_pkgs );
-  while ( 0 != ( ooaofooa_EP_PKG_linkage = (ooaofooa_EP_PKG *) Escher_IteratorNext( &start_many_iterator ) ) ) {
-  ooaofooa_PE_PE * PE_PE_R8000_contains;
-  Escher_Iterator_s iPE_PE_R8000_contains;
-  Escher_IteratorReset( &iPE_PE_R8000_contains, &ooaofooa_EP_PKG_linkage->PE_PE_R8000_contains );
-  while ( 0 != ( PE_PE_R8000_contains = (ooaofooa_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) {
-  ooaofooa_CL_IC * R8001_subtype = (ooaofooa_CL_IC *) PE_PE_R8000_contains->R8001_subtype;
-  if ( 0 != R8001_subtype )  if ( ( 0 != PE_PE_R8000_contains ) && ( ooaofooa_CL_IC_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) ) {
-  {ooaofooa_C_C * C_C_R4201_represents = R8001_subtype->C_C_R4201_represents;
-  if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_cs, C_C_R4201_represents ) ) {
-    Escher_SetInsertElement( (Escher_ObjectSet_s *) c_cs, C_C_R4201_represents );
-  }}}}}}
-  /* FOR EACH c_c IN c_cs */
-  { Escher_Iterator_s iterc_c;
-  ooaofooa_C_C * iic_c;
-  Escher_IteratorReset( &iterc_c, c_cs );
-  while ( (iic_c = (ooaofooa_C_C *)Escher_IteratorNext( &iterc_c )) != 0 ) {
-    c_c = iic_c; {
-    ooaofooa_C_PO * c_po=0;Escher_ObjectSet_s c_pos_space={0}; Escher_ObjectSet_s * c_pos = &c_pos_space;
-    /* ASSIGN value[0] = c_c.Name */
-    value[0] = Escher_strcpy( value[0], c_c->Name );
-    /* population::populate( element:domain, value:value ) */
-    ooaofooa_population_op_populate( "domain", value );
-    /* SELECT many c_pos RELATED BY c_c->C_PO[R4010] */
-    Escher_ClearSet( c_pos );
-    if ( 0 != c_c ) {
-      Escher_CopySet( c_pos, &c_c->C_PO_R4010_communicates_through );
-    }
-    /* FOR EACH c_po IN c_pos */
-    { Escher_Iterator_s iterc_po;
-    ooaofooa_C_PO * iic_po;
-    Escher_IteratorReset( &iterc_po, c_pos );
-    while ( (iic_po = (ooaofooa_C_PO *)Escher_IteratorNext( &iterc_po )) != 0 ) {
-      c_po = iic_po; {
-      ooaofooa_C_EP * c_ep=0;Escher_ObjectSet_s c_eps_space={0}; Escher_ObjectSet_s * c_eps = &c_eps_space;
-      /* ASSIGN value[0] = c_po.Name */
-      value[0] = Escher_strcpy( value[0], c_po->Name );
-      /* population::populate( element:terminator, value:value ) */
-      ooaofooa_population_op_populate( "terminator", value );
-      /* SELECT many c_eps RELATED BY c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003] */
-      Escher_ClearSet( c_eps );
-      {      if ( 0 != c_po ) {
-      ooaofooa_C_IR * C_IR_R4016_exposes;
-      Escher_Iterator_s iC_IR_R4016_exposes;
-      Escher_IteratorReset( &iC_IR_R4016_exposes, &c_po->C_IR_R4016_exposes );
-      while ( 0 != ( C_IR_R4016_exposes = (ooaofooa_C_IR *) Escher_IteratorNext( &iC_IR_R4016_exposes ) ) ) {
-      ooaofooa_C_I * C_I_R4012_may_be_defined_by = C_IR_R4016_exposes->C_I_R4012_may_be_defined_by;
-      if ( 0 != C_I_R4012_may_be_defined_by ) {
-      ooaofooa_C_EP * C_EP_R4003_is_defined_by;
-      Escher_Iterator_s iC_EP_R4003_is_defined_by;
-      Escher_IteratorReset( &iC_EP_R4003_is_defined_by, &C_I_R4012_may_be_defined_by->C_EP_R4003_is_defined_by );
-      while ( 0 != ( C_EP_R4003_is_defined_by = (ooaofooa_C_EP *) Escher_IteratorNext( &iC_EP_R4003_is_defined_by ) ) ) {
-        if ( ! Escher_SetContains( (Escher_ObjectSet_s *) c_eps, C_EP_R4003_is_defined_by ) ) {
-          Escher_SetInsertElement( (Escher_ObjectSet_s *) c_eps, C_EP_R4003_is_defined_by );
-      }}}}}}
-      /* FOR EACH c_ep IN c_eps */
-      { Escher_Iterator_s iterc_ep;
-      ooaofooa_C_EP * iic_ep;
-      Escher_IteratorReset( &iterc_ep, c_eps );
-      while ( (iic_ep = (ooaofooa_C_EP *)Escher_IteratorNext( &iterc_ep )) != 0 ) {
-        c_ep = iic_ep; {
-        c_t * previous=0;ooaofooa_C_PP * first_c_pp;c_t * flavor=0;ooaofooa_C_PP * c_pp=0;
-        /* ASSIGN flavor = function */
-        flavor = Escher_strcpy( flavor, "function" );
-        /* ASSIGN flavor = service */
-        flavor = Escher_strcpy( flavor, "service" );
-        /* ASSIGN value[0] = c_ep.Name */
-        value[0] = Escher_strcpy( value[0], c_ep->Name );
-        /* ASSIGN value[1] = c_po.Name */
-        value[1] = Escher_strcpy( value[1], c_po->Name );
-        /* ASSIGN value[2] = flavor */
-        value[2] = Escher_strcpy( value[2], flavor );
-        /* population::populate( element:activity, value:value ) */
-        ooaofooa_population_op_populate( "activity", value );
-        /* SELECT any c_pp RELATED BY c_ep->C_PP[R4006] */
-        c_pp = ( 0 != c_ep ) ? (ooaofooa_C_PP *) Escher_SetGetAny( &c_ep->C_PP_R4006_is_parameter_to ) : 0;
-        /* ASSIGN first_c_pp = c_pp */
-        first_c_pp = c_pp;
-        /* WHILE ( not_empty c_pp ) */
-        while ( ( 0 != c_pp ) ) {
-          /* ASSIGN first_c_pp = c_pp */
-          first_c_pp = c_pp;
-          /* SELECT one c_pp RELATED BY c_pp->C_PP[R4021.precedes] */
-          c_pp = ( 0 != c_pp ) ? c_pp->C_PP_R4021_precedes : 0;
-        }
-        /* ASSIGN previous =  */
-        previous = Escher_strcpy( previous, "" );
-        /* ASSIGN c_pp = first_c_pp */
-        c_pp = first_c_pp;
-        /* WHILE ( not_empty c_pp ) */
-        while ( ( 0 != c_pp ) ) {
-          /* ASSIGN value[0] = c_pp.Name */
-          value[0] = Escher_strcpy( value[0], c_pp->Name );
-          /* ASSIGN value[1] = mytype */
-          value[1] = Escher_strcpy( value[1], "mytype" );
-          /* ASSIGN value[2] = in */
-          value[2] = Escher_strcpy( value[2], "in" );
-          /* ASSIGN value[3] = previous */
-          value[3] = Escher_strcpy( value[3], previous );
-          /* population::populate( element:parameter, value:value ) */
-          ooaofooa_population_op_populate( "parameter", value );
-          /* ASSIGN previous = c_pp.Name */
-          previous = Escher_strcpy( previous, c_pp->Name );
-          /* SELECT one c_pp RELATED BY c_pp->C_PP[R4021.succeeds] */
-          c_pp = ( 0 != c_pp ) ? c_pp->C_PP_R4021_succeeds : 0;
-        }
-      }}}
-      Escher_ClearSet( c_eps ); 
-    }}}
-    Escher_ClearSet( c_pos ); 
-  }}}
-  Escher_ClearSet( ep_pkgs );Escher_ClearSet( c_cs ); 
-}
 Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_MSG_M_instancedumper,
   ooaofooa_MSG_A_instancedumper,
@@ -28043,31 +27712,6 @@ Escher_idf ooaofooa_instance_dumpers[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   ooaofooa_S_SDT_instancedumper,
   ooaofooa_S_MBR_instancedumper,
   ooaofooa_S_DIM_instancedumper,
-  ooaofooa_project_instancedumper,
-  ooaofooa_domain_instancedumper,
-  ooaofooa_terminator_instancedumper,
-  ooaofooa_service_instancedumper,
-  ooaofooa_function_instancedumper,
-  ooaofooa_activity_instancedumper,
-  ooaofooa_parameter_instancedumper,
-  ooaofooa_template_class_instancedumper,
-  ooaofooa_object_instancedumper,
-  ooaofooa_attribute_instancedumper,
-  ooaofooa_pragmaitem_instancedumper,
-  ooaofooa_pragma_instancedumper,
-  ooaofooa_identifier_instancedumper,
-  ooaofooa_statemachine_instancedumper,
-  ooaofooa_state_instancedumper,
-  ooaofooa_transition_instancedumper,
-  ooaofooa_event_instancedumper,
-  ooaofooa_type_instancedumper,
-  ooaofooa_referential_instancedumper,
-  ooaofooa_normalrel_instancedumper,
-  ooaofooa_associative_instancedumper,
-  ooaofooa_subsuper_instancedumper,
-  ooaofooa_participation_instancedumper,
-  ooaofooa_relationship_instancedumper,
-  ooaofooa_population_instancedumper,
   ooaofooa_S_EE_instancedumper,
   ooaofooa_C_C_instancedumper,
   ooaofooa_C_I_instancedumper,
@@ -28509,31 +28153,6 @@ Escher_Extent_t * const ooaofooa_class_info[ ooaofooa_MAX_CLASS_NUMBERS ] = {
   &pG_ooaofooa_S_SDT_extent,
   &pG_ooaofooa_S_MBR_extent,
   &pG_ooaofooa_S_DIM_extent,
-  &pG_ooaofooa_project_extent,
-  &pG_ooaofooa_domain_extent,
-  &pG_ooaofooa_terminator_extent,
-  &pG_ooaofooa_service_extent,
-  &pG_ooaofooa_function_extent,
-  &pG_ooaofooa_activity_extent,
-  &pG_ooaofooa_parameter_extent,
-  &pG_ooaofooa_template_class_extent,
-  &pG_ooaofooa_object_extent,
-  &pG_ooaofooa_attribute_extent,
-  &pG_ooaofooa_pragmaitem_extent,
-  &pG_ooaofooa_pragma_extent,
-  &pG_ooaofooa_identifier_extent,
-  &pG_ooaofooa_statemachine_extent,
-  &pG_ooaofooa_state_extent,
-  &pG_ooaofooa_transition_extent,
-  &pG_ooaofooa_event_extent,
-  &pG_ooaofooa_type_extent,
-  &pG_ooaofooa_referential_extent,
-  &pG_ooaofooa_normalrel_extent,
-  &pG_ooaofooa_associative_extent,
-  &pG_ooaofooa_subsuper_extent,
-  &pG_ooaofooa_participation_extent,
-  &pG_ooaofooa_relationship_extent,
-  &pG_ooaofooa_population_extent,
   &pG_ooaofooa_S_EE_extent,
   &pG_ooaofooa_C_C_extent,
   &pG_ooaofooa_C_I_extent,
