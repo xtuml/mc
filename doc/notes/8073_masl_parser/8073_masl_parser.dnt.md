@@ -95,6 +95,26 @@ properly without requiring end tags for the leaf nodes.
 
 A list of the leaf nodes is available in the documentation of serial MASL [[2.2]](#2.2).
 
+6.1.1.5 Special characters
+
+Serial MASL contains two special characters: `,` and `\n`. Commas delimit the arguments, and newlines
+separate distinct populate commands. It is necessary to encode each of the arguments so that a string
+value does not interfere with the parsing of the serial MASL.
+
+For our encoding scheme, we chose a subset of the URL encoding scheme. That is, special characters are
+replaced by `%` followed by two hex digits representing the ASCII value of the character. Our scheme
+adheres to the following mapping.
+
+| Character | Encoding |
+|:---------:|:--------:|
+| %         | %25      |
+| ,         | %2C      |
+| \n        | %0A      |
+| \r        | %0D      |
+
+Our encoding is not case sensitive. That is, '%0D' and '%0d' should both be interpreted by the decoder
+to be '\r'.
+
 6.2 Derivation from ANTLR grammar
 
 The MASL parser is derived directly from a modified copy of the MASL ANTLR grammar source code

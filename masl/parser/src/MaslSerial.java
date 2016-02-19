@@ -1,11 +1,12 @@
 import java.io.*;
+import java.util.regex.Matcher;
 
-public class MaslDSLExporter implements Serial {
+public class MaslSerial implements Serial {
 
     private PrintStream     output;             // output stream
 
     // public constructor
-    public MaslDSLExporter() {
+    public MaslSerial() {
         output = System.out;
     }
 
@@ -33,7 +34,7 @@ public class MaslDSLExporter implements Serial {
                 output.print( "," );
 
                 // print arg
-                output.print( arg );
+                output.print( serial_MASL_encode( arg ) );
             }
         }
 
@@ -41,13 +42,24 @@ public class MaslDSLExporter implements Serial {
         output.println();
     }
 
-    // render
-    public void render( String element, String name ) {}
-
-    // tostring
-    public void tostring( String element, String name ) {}
-
-    // validate
-    public void validate( String element ) {}
+    /* 
+     * serial_MASL_encode
+     *
+     * This function encodes a serial MASL string, replacing
+     * special characters according to the following table:
+     *
+     * | Character | Encoding |
+     * |:---------:|:--------:|
+     * | %         | %25      |
+     * | ,         | %2C      |
+     * | \n        | %0A      |
+     * | \r        | %0D      |
+     *
+     * expects a string to encode as an argument
+     */
+    private String serial_MASL_encode( String str ) {
+        if ( null == str ) return null;
+        return str.replaceAll( "%", "%25" ).replaceAll( ",", "%2C" ).replaceAll( "\n", "%0A" ).replaceAll( "\r", "%0D" );
+    }
 
 }

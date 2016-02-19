@@ -39,12 +39,12 @@ public class MaslImportParser {
 
         current_file = fn;
 
-        MaslLexer              lex;
+        MaslLexer               lex;
         CommonTokenStream       tokens;
-        MaslParser             parser;
+        MaslParser              parser;
         CommonTree              tree;
         CommonTreeNodeStream    nodes;
-        MaslWalker                  walker;
+        MaslWalker              walker;
 
         try {
             lex = new MaslLexer( new ANTLRFileStream( fn ) );
@@ -52,6 +52,7 @@ public class MaslImportParser {
             System.err.println( e );
             return;
         }
+        lex.setMaslParser( this );
 
         tokens = new CommonTokenStream( lex );
         parser = new MaslParser( tokens );
@@ -211,6 +212,7 @@ public class MaslImportParser {
         }
 
         // parse the domain file
+        boolean found_mod = false;
         for ( File f : domainFiles ) {
             if ( Pattern.matches( ".*\\.mod", f.getName() ) ) {
 
@@ -227,8 +229,14 @@ public class MaslImportParser {
 
                 // parse the file
                 parse( "target", f.getPath() );
+                found_mod = true;
                 break;
             }
+        }
+
+        if ( !found_mod ) {
+            System.err.println( "-parseDomain: ERROR no .mod file found in directory" );
+            return;
         }
 
         // parse all activities ( according the defined file extension convention )
@@ -285,6 +293,7 @@ public class MaslImportParser {
         }
 
         // parse the project file
+        boolean found_prj = false;
         for ( File f : projectFiles ) {
             if ( Pattern.matches( ".*\\.prj", f.getName() ) ) {
 
@@ -301,8 +310,14 @@ public class MaslImportParser {
 
                 // parse the file
                 parse( "target", f.getPath() );
+                found_prj = true;
                 break;
             }
+        }
+
+        if ( !found_prj ) {
+            System.err.println( "-parseProject: ERROR no .prj file found in directory" );
+            return;
         }
 
         // parse all activities ( according the defined file extension convention )
@@ -330,7 +345,7 @@ public class MaslImportParser {
     // main method
     public static void main(String args[]) throws Exception {
 
-        Serial              serial = new MaslDSLExporter();             // create new serial interface
+        Serial              serial = new MaslSerial();                  // create new serial interface
         MaslImportParser    parser = new MaslImportParser( serial );    // create new parser
 
         // check input args
@@ -396,7 +411,7 @@ public class MaslImportParser {
                     return;
                 }
 
-                // parse the domain
+                // parse the project
                 parser.parseProject( args[1], out );
             }
             else {

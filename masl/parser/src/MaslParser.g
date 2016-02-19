@@ -83,6 +83,7 @@ tokens
   TRANSITION_TABLE;
   TYPE_DECLARATION;
   TYPE_NAME;
+  TYPE_REF;
   UNARY_MINUS;
   UNARY_PLUS;
   UNCONSTRAINED_ARRAY; 
@@ -202,7 +203,7 @@ typeForwardDeclaration        : typeVisibility TYPE typeName SEMI pragmaList    
                               ;
 
 typeDeclaration               : typeVisibility TYPE typeName IS
-                                typeDefinition SEMI pragmaList                             ->^( TYPE 
+                                typeDef=typeDefinition SEMI pragmaList                          ->^( TYPE[$typeDef.text]
                                                                                                 typeName 
                                                                                                 typeVisibility 
                                                                                                 pragmaList?
@@ -301,11 +302,20 @@ indexTypeReference            : namedTypeRef
 // Type Reference
 //---------------------------------------------------------
 
+/*
 typeReference
                               : namedTypeRef                                              -> namedTypeRef
                               | instanceTypeRef                                           -> instanceTypeRef
                               | collectionTypeRef                                         -> collectionTypeRef
                               | deprecatedType                                            -> deprecatedType 
+                              ;
+                              */
+
+typeReference
+                              : named=namedTypeRef                                        -> TYPE_REF[$named.text]
+                              | inst=instanceTypeRef                                      -> TYPE_REF[$inst.text]
+                              | col=collectionTypeRef                                     -> TYPE_REF[$col.text]
+                              | depr=deprecatedType                                       -> TYPE_REF[$depr.text]
                               ;
 
 typeReferenceWithCA           : typeReference                                             -> typeReference
