@@ -7,9 +7,9 @@
 # USAGE
 print_usage () { echo "Usage:" $0 "[-p <project source directory(s) ...> ] [-d <domain source directory(s) ...> ]"; }
 
-# set up path
-export PATH=$PATH:../lib
-CLASSPATH=../parser/build:../parser/lib/antlr-3.5.2-complete.jar
+# set up paths
+export PATH=$PATH:`cat path`
+CLASSPATH=`cat classpath`
 
 # input variables
 PROJ_DIRS=()
