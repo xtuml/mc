@@ -27,7 +27,7 @@ Design note for the MASL parser.
 <a id="2.4"></a>2.4 [Parser HOWTO](https://github.com/leviathan747/mc/blob/8320_packaging/masl/parser/README.md)  
 HOWTO build and run the MASL parser.  
 
-<a id="2.5"></a>2.5 [Build import/export flow](https://github.com/leviathan747/mc/blob/8320_packaging/masl/parser/README.md)  
+<a id="2.5"></a>2.5 [Build import/export flow](https://support.onefact.net/issues/8320)  
 This is the parent issue.  
 
 <a id="2.6"></a>2.6 [MASL persistence naming conventions]()  
