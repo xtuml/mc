@@ -45,7 +45,7 @@ All requirements from sections 4 of [[2.1]](#2.1) and [[2.2]](#2.2) apply along 
 additional requirements.
 
 4.1 The convert and export utilities shall be packaged in a BridgePoint plugin.  
-4.2 Each of the four core components (see section 4) shall be independent of one another.  
+4.2 Each of the four core components (see section 6.1) shall be independent of one another.  
 4.3 The utilities shall have the capability to convert/export in "batch" mode.  
 4.4 The components shall be "wired" together using the serial interface as specified in
 the MASL parser design note [[2.3]](#2.3).  
