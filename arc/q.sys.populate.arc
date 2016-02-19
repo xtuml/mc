@@ -1247,6 +1247,8 @@
   .//
   .//
   .// Create the generated links (associations) and connect them.
+  .// CDS - consider moving this in under the TE_C loop.
+  .// also consider selecting these from include r_oirs.
   .select many r_rels from instances of R_REL
   .for each r_rel in r_rels
     .create object instance te_rel of TE_REL
