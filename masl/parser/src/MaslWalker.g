@@ -81,6 +81,7 @@ private void populate( String classname, String[] args ) {
 
 // get the current file
 private String getFile() {
+    if ( null == masl_parser ) return null;
     return masl_parser.getFile();
 }
 

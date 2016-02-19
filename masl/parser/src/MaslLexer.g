@@ -5,8 +5,31 @@ lexer grammar MaslLexer;
 @SuppressWarnings("all")
 }
 
+@header
+{
+import java.io.*;
+}
+
 @members
 {
+// parent masl parser
+private MaslImportParser masl_parser = null;
+
+// set the parent masl parser
+public void setMaslParser( MaslImportParser p ) {
+    if ( p != null )
+        this.masl_parser = p;
+    else
+        this.masl_parser = null;
+}
+
+// get the current file name
+private String getFileName() {
+    if ( null == masl_parser ) return null;
+    File f = new File( masl_parser.getFile() );
+    return f.getName();
+}
+
 }
 
 //==============================================================================================================
@@ -180,7 +203,7 @@ FALSE                         : 'false';
 
 
 LINE_NO                       : '#LINE#' { setText(""+$line); $type=IntegerLiteral; };
-//FILE_NAME                     : '#FILE#' { setText("\"" + maslFile.getFile().getName() + "\""); $type=StringLiteral; };
+FILE_NAME                     : '#FILE#' { setText("\"" + getFileName() + "\""); $type=StringLiteral; };
 
 
 // Numeric Literals

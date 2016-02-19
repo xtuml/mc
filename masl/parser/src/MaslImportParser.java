@@ -39,12 +39,12 @@ public class MaslImportParser {
 
         current_file = fn;
 
-        MaslLexer              lex;
+        MaslLexer               lex;
         CommonTokenStream       tokens;
-        MaslParser             parser;
+        MaslParser              parser;
         CommonTree              tree;
         CommonTreeNodeStream    nodes;
-        MaslWalker                  walker;
+        MaslWalker              walker;
 
         try {
             lex = new MaslLexer( new ANTLRFileStream( fn ) );
@@ -52,6 +52,7 @@ public class MaslImportParser {
             System.err.println( e );
             return;
         }
+        lex.setMaslParser( this );
 
         tokens = new CommonTokenStream( lex );
         parser = new MaslParser( tokens );
