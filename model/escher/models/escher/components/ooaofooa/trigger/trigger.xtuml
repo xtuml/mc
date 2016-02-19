@@ -36,12 +36,10 @@ INSERT INTO DIM_DIA
 INSERT INTO S_SYNC
 	VALUES ("2d8d3e0c-a3fe-4ad3-b977-bdb0c6d71a5b",
 	"00000000-0000-0000-0000-000000000000",
-	'hoover_docgen_document_masl',
+	'hoover_docgen_document',
 	'',
 	'select any doc_doc from instances of DOC_DOC;  // document/Document
-select any project from instances of project;  // masl/project
-::docgen();  // docgen/docgen
-::masl_project();  // maslout/masl_project',
+::docgen();  // docgen/docgen',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');

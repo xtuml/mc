@@ -59,7 +59,7 @@ INSERT INTO GD_GE
 	"fbaad373-b0f3-4997-9bea-e67180bb4650",
 	108,
 	0,
-	'escher::components::ooaofooa::imported_ooaofooa');
+	'escher::components::ooaofooa::ooaofooa_imported');
 INSERT INTO GD_SHP
 	VALUES ("532cb1aa-5a7d-4894-9e46-06ddc59094eb");
 INSERT INTO GD_NCS
@@ -83,7 +83,7 @@ INSERT INTO GD_GE
 	"e820ff6f-2bda-41e0-aa22-28beccf70dea",
 	108,
 	0,
-	'escher::components::ooaofooa::imported_mcmc');
+	'escher::components::ooaofooa::mcmc_imported');
 INSERT INTO GD_SHP
 	VALUES ("285afd87-79c9-47f0-80b9-f50cbc870ab7");
 INSERT INTO GD_NCS
@@ -107,7 +107,7 @@ INSERT INTO GD_GE
 	"87849648-c448-4ca5-892c-0366a0a27a57",
 	108,
 	0,
-	'escher::components::ooaofooa::imported_Document');
+	'escher::components::ooaofooa::Document_imported');
 INSERT INTO GD_SHP
 	VALUES ("2c9d54ef-9255-4e9f-ba5c-affb07bae908");
 INSERT INTO GD_NCS
@@ -131,7 +131,7 @@ INSERT INTO GD_GE
 	"e93a3d25-dd34-49c1-9cc6-d4103b1a05e8",
 	108,
 	0,
-	'escher::components::ooaofooa::imported_DocGen');
+	'escher::components::ooaofooa::DocGen_imported');
 INSERT INTO GD_SHP
 	VALUES ("7d6e413c-7cfd-4842-9ad2-89473643271a");
 INSERT INTO GD_NCS
@@ -147,30 +147,6 @@ INSERT INTO DIM_GE
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
 	VALUES ("7d6e413c-7cfd-4842-9ad2-89473643271a",
-	0,
-	"196ec594-33fa-43a5-93e3-9b5d4cc60a64");
-INSERT INTO GD_GE
-	VALUES ("34cf9147-985a-41cf-9857-9a54769e0123",
-	"96bf152e-288c-4467-8b25-e9e252f9384d",
-	"bc04128c-2d5d-40bb-b88f-2a8eeb572379",
-	108,
-	0,
-	'escher::components::ooaofooa::imported_masl');
-INSERT INTO GD_SHP
-	VALUES ("34cf9147-985a-41cf-9857-9a54769e0123");
-INSERT INTO GD_NCS
-	VALUES ("34cf9147-985a-41cf-9857-9a54769e0123");
-INSERT INTO DIM_ND
-	VALUES (129.000000,
-	113.000000,
-	"34cf9147-985a-41cf-9857-9a54769e0123");
-INSERT INTO DIM_GE
-	VALUES (4576.000000,
-	3104.000000,
-	"34cf9147-985a-41cf-9857-9a54769e0123",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ELE
-	VALUES ("34cf9147-985a-41cf-9857-9a54769e0123",
 	0,
 	"196ec594-33fa-43a5-93e3-9b5d4cc60a64");
 INSERT INTO GD_GE
@@ -195,30 +171,6 @@ INSERT INTO DIM_GE
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO DIM_ELE
 	VALUES ("ae6b7a74-72f3-4117-a845-4b82a5443976",
-	0,
-	"196ec594-33fa-43a5-93e3-9b5d4cc60a64");
-INSERT INTO GD_GE
-	VALUES ("8ebaf5a2-26d5-44ca-be6d-359c13676703",
-	"96bf152e-288c-4467-8b25-e9e252f9384d",
-	"65c65ceb-44cf-4039-a85c-4028817dc00c",
-	108,
-	0,
-	'escher::components::ooaofooa::imported_maslout');
-INSERT INTO GD_SHP
-	VALUES ("8ebaf5a2-26d5-44ca-be6d-359c13676703");
-INSERT INTO GD_NCS
-	VALUES ("8ebaf5a2-26d5-44ca-be6d-359c13676703");
-INSERT INTO DIM_ND
-	VALUES (208.000000,
-	80.000000,
-	"8ebaf5a2-26d5-44ca-be6d-359c13676703");
-INSERT INTO DIM_GE
-	VALUES (4112.000000,
-	3376.000000,
-	"8ebaf5a2-26d5-44ca-be6d-359c13676703",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ELE
-	VALUES ("8ebaf5a2-26d5-44ca-be6d-359c13676703",
 	0,
 	"196ec594-33fa-43a5-93e3-9b5d4cc60a64");
 INSERT INTO GD_GE

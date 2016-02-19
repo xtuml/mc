@@ -30,7 +30,7 @@ The C compiler is turned off, so you will need to compile the generated C code.
   * `make -f makefile.maslin`
 
 ### Run the executable.  
-`./mcmaslin > /tmp/converted.xtuml`
+`./m2x > /tmp/converted.xtuml`
 
 You can then fire up BridgePoint, create a new xtUML project and import /tmp/converted.xtuml into it.
 
@@ -44,8 +44,8 @@ terminator,fum
 
 (That last input is control-D to end the file input.)
 
-Another way to run is to redirect input from a file.  A file with test data is `masl/gen/testdata.txt`.
-`./mcmaslin < ../../masl/gen/testdata.txt`
+Another way to run is to redirect input from a file.  A file with test data is `maslin/test_data/SAC.masldsl`.
+`./m2x < ./maslin/test_data/SAC.masldsl`
 
 Input is of the form:  
 ```

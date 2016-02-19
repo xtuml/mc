@@ -15,7 +15,6 @@
 #include "TRACE_bridge.h"
 #include "V_bridge.h"
 #include "V_bridge.h"
-#include "maslout_sys_types.h"
 
 /*
  * Bridge:  v

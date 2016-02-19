@@ -72,12 +72,12 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
 void
 UserPostOoaInitializationCalloutf( c_t * argv0 )
 {
-  if ( strstr( argv0, "xtuml2maslproject" ) ) {
+  if ( strstr( argv0, "x2m" ) ) {
     fprintf( stderr, "projecting...\n" );
-    maslout_masl_project( "System" );
+    xtuml2masl_masl_project( "*" );
   } else if ( strstr( argv0, "xtuml2masldomain" ) ) {
     fprintf( stderr, "domaining...\n" );
-    maslout_masl_domain( "*" );
+    xtuml2masl_masl_domain( "*" );
   }
   fprintf( stderr, "done.\n" );
   SYS_USER_CO_PRINTF( "UserPostOoaInitializationCallout\n" )

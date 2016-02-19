@@ -1,4 +1,0 @@
-T_b("project ");
-T_b(self->name);
-T_b(" is");
-T_b("\n");
