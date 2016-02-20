@@ -154,13 +154,7 @@ elif ( "transitiontable" == element )
     ooapopulation.processingISM = true;
   end if;
 elif ( "transition" == element )
-  /*  TODO - do something with the eventDomain and eventObject parameters....
-startstate
-eventDomain
-eventObject
-event
-endstate
-  */
+  //  TODO - do something with the eventDomain and eventObject parameters in phase 2
   ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4]);
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
