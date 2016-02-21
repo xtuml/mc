@@ -1,0 +1,107 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("5ca51438-ac7b-4657-b618-bf0edf742eae",
+	'date',
+	2302,
+	'DOC_DATE',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("f4fd01d1-4c5b-462d-b84f-88cd366238c3",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO O_BATTR
+	VALUES ("f4fd01d1-4c5b-462d-b84f-88cd366238c3",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO O_ATTR
+	VALUES ("f4fd01d1-4c5b-462d-b84f-88cd366238c3",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae",
+	"00000000-0000-0000-0000-000000000000",
+	'year',
+	'',
+	'',
+	'year',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("31f80384-784f-400d-a510-934c4c699a5a",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO O_BATTR
+	VALUES ("31f80384-784f-400d-a510-934c4c699a5a",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO O_ATTR
+	VALUES ("31f80384-784f-400d-a510-934c4c699a5a",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae",
+	"f4fd01d1-4c5b-462d-b84f-88cd366238c3",
+	'month',
+	'',
+	'',
+	'month',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b81cd648-963e-4349-9819-dd2c6ac45b31",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO O_BATTR
+	VALUES ("b81cd648-963e-4349-9819-dd2c6ac45b31",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO O_ATTR
+	VALUES ("b81cd648-963e-4349-9819-dd2c6ac45b31",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae",
+	"31f80384-784f-400d-a510-934c4c699a5a",
+	'day',
+	'',
+	'',
+	'day',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("07164916-8789-407b-96d3-497e4e138e9a",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO O_BATTR
+	VALUES ("07164916-8789-407b-96d3-497e4e138e9a",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO O_ATTR
+	VALUES ("07164916-8789-407b-96d3-497e4e138e9a",
+	"5ca51438-ac7b-4657-b618-bf0edf742eae",
+	"b81cd648-963e-4349-9819-dd2c6ac45b31",
+	'time',
+	'',
+	'',
+	'time',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO O_ID
+	VALUES (1,
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO O_ID
+	VALUES (2,
+	"5ca51438-ac7b-4657-b618-bf0edf742eae");
+INSERT INTO PE_PE
+	VALUES ("5ca51438-ac7b-4657-b618-bf0edf742eae",
+	1,
+	"1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');

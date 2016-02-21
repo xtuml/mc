@@ -1,0 +1,139 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'file',
+	3778,
+	'file',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("4c11d43c-eebe-45da-af8c-2e21b2196111",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'element = param.element;
+name = param.name;
+if ( "project" == element )
+  select many projects from instances of project where ( selected.name == name );
+  if ( ( "*" == name ) or ( "" == name ) )
+    select many projects from instances of project;
+  end if;
+  if ( empty projects )
+    TRACE::log( flavor:"error", id:51, message:"could not render project:  " + name );
+  else
+    for each project in projects
+      project.render();
+    end for;
+  end if;
+elif ( "domain" == element )
+  select many domains from instances of domain where ( selected.name == name );
+  if ( ( "*" == name ) or ( "" == name ) )
+    select many domains from instances of domain;
+  end if;
+  if ( empty domains )
+    TRACE::log( flavor:"error", id:52, message:"could not render domain:  " + name );
+  else
+    for each domain in domains
+      domain.render();
+    end for;
+  end if;
+elif ( "" == element )	// render from the root
+  select any population from instances of population;
+  select one root_element related by population->element[R3785];
+  if ( not_empty root_element )
+    root_element.render();
+  end if;
+else
+  TRACE::log( flavor:"error", id:53, message:"unrecognized element type on render interface:  " + element );
+end if;
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("e5cf8b40-420d-4501-88bd-ebcfca9f7251",
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	'element',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("ef19dc39-fe10-4b07-a157-d4ab1bc5976b",
+	"4c11d43c-eebe-45da-af8c-2e21b2196111",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e5cf8b40-420d-4501-88bd-ebcfca9f7251",
+	'');
+INSERT INTO O_TFR
+	VALUES ("a7863684-8575-4990-b290-dce44c1b53df",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'valid = true;
+
+// get root element
+select any population from instances of population;
+select one root_element related by population->element[R3785];
+if ( empty root_element )
+  TRACE::log( flavor:"warning", id:90, message:"no root element in validate" );
+end if;
+
+// validate
+valid = root_element.validate();
+
+if ( not valid )
+  TRACE::log( flavor:"failure", id:91, message:"model did not validate" );
+end if;',
+	1,
+	'',
+	"4c11d43c-eebe-45da-af8c-2e21b2196111");
+INSERT INTO O_NBATTR
+	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_BATTR
+	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ATTR
+	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ID
+	VALUES (1,
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ID
+	VALUES (2,
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO PE_PE
+	VALUES ("687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');

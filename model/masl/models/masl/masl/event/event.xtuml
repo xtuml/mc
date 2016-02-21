@@ -1,0 +1,193 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	'event',
+	3718,
+	'event',
+	'An event can cause a transition from one state to another state, depending upon 
+the transition rules specified for the current state of the object. Events that 
+don''t cause a transition to a new state are specified to be ignored or 
+unexpected (marked as can''t happen). Handling of the to non-state transitions 
+is up to the architecture.
+
+Discussion: Polymorphic events are the only events allowed for supertype 
+objects. The implication is that only subtype (non-sub/supertype subtypes) 
+objects are allowed to have state models.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("7cc55eed-756b-4590-8e59-184f782869d6",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.event_begin.masl" );
+select one parameter related by self->parameter[R3727.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.event_end.masl" );
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"34c41c49-4657-452d-86b6-5b3b59f0b61d");
+INSERT INTO O_TFR
+	VALUES ("34c41c49-4657-452d-86b6-5b3b59f0b61d",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	'populate',
+	'',
+	"10f010a5-972a-427c-a610-080e185e1082",
+	0,
+	'object = param.object;
+
+select any event related by object->event[R3736] where ( selected.name == param.name );
+if ( empty event );
+  create object instance event of event;
+  event.name = param.name;
+  relate event to object across R3736;
+  markable = markable::populate( name:"event" );
+  relate event to markable across R3783;
+end if;
+event.type = param.type;
+return event;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("508cc063-9ce3-4a0c-b3b2-45e3c0f6e4ea",
+	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a36049a4-43db-45a5-a2ca-723b79d81a8a",
+	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"508cc063-9ce3-4a0c-b3b2-45e3c0f6e4ea",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("fcc23318-85ee-4642-a9d5-95e8850aed31",
+	"34c41c49-4657-452d-86b6-5b3b59f0b61d",
+	'object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"a36049a4-43db-45a5-a2ca-723b79d81a8a",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<event>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("ff96bb8d-f068-4122-a323-bc3b48af115d",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate type
+if ( "" != self.type and "assigner" != self.type and "creation" != self.type )
+  TRACE::log( flavor:"failure", id:101, message:"invalid type for event: " + self.type );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one first_param related by self->parameter[R3727.''carries first''];
+if ( not_empty first_param )
+  valid = first_param.validate();
+end if;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"7cc55eed-756b-4590-8e59-184f782869d6");
+INSERT INTO O_NBATTR
+	VALUES ("b9413c9b-6c34-47d9-8cc0-9016fcb520be",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_BATTR
+	VALUES ("b9413c9b-6c34-47d9-8cc0-9016fcb520be",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_ATTR
+	VALUES ("b9413c9b-6c34-47d9-8cc0-9016fcb520be",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("94acbc98-dc11-48da-9b86-a400a4d27bad",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_BATTR
+	VALUES ("94acbc98-dc11-48da-9b86-a400a4d27bad",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_ATTR
+	VALUES ("94acbc98-dc11-48da-9b86-a400a4d27bad",
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	"b9413c9b-6c34-47d9-8cc0-9016fcb520be",
+	'type',
+	'The event type is "assigner", "creation", or "normal".
+
+NOTE: An empty string ("") is equivalent to "normal".',
+	'',
+	'type',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_ID
+	VALUES (1,
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO O_ID
+	VALUES (2,
+	"a689a6ef-30fb-4c78-95e0-e65abb7edc57");
+INSERT INTO PE_PE
+	VALUES ("a689a6ef-30fb-4c78-95e0-e65abb7edc57",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

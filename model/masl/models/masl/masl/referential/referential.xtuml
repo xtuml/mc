@@ -1,0 +1,190 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("4edb2c3e-b86b-4835-9c39-392a9b29eba6",
+	'referential',
+	3720,
+	'referential',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("29b4edbe-2a0d-41ae-846f-5b961e250517",
+	"4edb2c3e-b86b-4835-9c39-392a9b29eba6",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one referred_to related by self->attribute[R3746.''references''];
+attribute = referred_to.name;
+
+select one object related by referred_to->object[R3709];
+objectname = object.name;
+
+select one relationship related by self->relationship[R3744];
+relationshipname = relationship.name;
+
+select one domain related by relationship->domain[R3712];
+domainname = "";
+
+// check if subsuper
+rolephrase = self.rolephrase;
+
+T::include( file:"masl/t.referential.masl" );',
+	1,
+	'',
+	"b4c92004-4eda-4905-8e5a-1e4ee121b90a");
+INSERT INTO O_TFR
+	VALUES ("b4c92004-4eda-4905-8e5a-1e4ee121b90a",
+	"4edb2c3e-b86b-4835-9c39-392a9b29eba6",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'create object instance referential of referential;
+
+referential.rolephrase = param.rolephrase;
+
+relationship = param.relationship;
+referred_to = param.referred_to;
+referring = param.referring;
+
+relate referential to relationship across R3744;
+relate referring to referred_to across R3746.''references'' using referential;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("db14bfd5-5404-4504-b5ed-5491fe046331",
+	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
+	'relationship',
+	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<relationship>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("1ef02a7f-8b35-4ded-b319-e07dee8cdd95",
+	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
+	'referred_to',
+	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	0,
+	'',
+	"db14bfd5-5404-4504-b5ed-5491fe046331",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<attribute>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("0912eaaf-ef89-4298-af95-da10f941a672",
+	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
+	'referring',
+	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	0,
+	'',
+	"1ef02a7f-8b35-4ded-b319-e07dee8cdd95",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("5ac64716-94ce-4d57-820c-d4e88cbe2e81",
+	"b4c92004-4eda-4905-8e5a-1e4ee121b90a",
+	'rolephrase',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0912eaaf-ef89-4298-af95-da10f941a672",
+	'');
+INSERT INTO O_TFR
+	VALUES ("d6141d88-d169-47be-83f8-5d8b40a75351",
+	"4edb2c3e-b86b-4835-9c39-392a9b29eba6",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate relationship
+select one relationship related by self->relationship[R3744.''specifies''];
+if ( not_empty relationship )
+  select one participation related by relationship->participation[R3713.''engages''];
+  if ( not_empty participation )
+    select any object from instances of object where false;
+    if ( "" == self.rolephrase or participation.otherphrase == self.rolephrase )	// one in subsuper
+      select one object related by participation->object[R3714.''one''];
+    elif ( participation.onephrase == self.rolephrase )								// other
+      select any object related by participation->object[R3720.''other''];
+    else
+  	  TRACE::log( flavor:"failure", id:101, message:"invalid rolephrase for referential" );
+      valid = false;
+      return valid;		// short circuit
+    end if;
+
+    select one references related by self->attribute[R3746.''references''];
+    select any referred_to related by object->attribute[R3709.''is characterized by''] where ( selected.name == references.name );
+    if ( referred_to != references )
+  	  TRACE::log( flavor:"failure", id:101, message:"attribute mismatch: " + referred_to.name + ", " + references.name );
+      valid = false;
+      return valid;		// short circuit
+    end if;
+  end if;
+  // if there is no participation, it is taken care of by validation of relationship
+else
+  TRACE::log( flavor:"failure", id:101, message:"no relationship for referential" );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+return valid;',
+	1,
+	'',
+	"29b4edbe-2a0d-41ae-846f-5b961e250517");
+INSERT INTO O_NBATTR
+	VALUES ("9c9bd5cd-cca2-4346-8912-408d2a45128f",
+	"4edb2c3e-b86b-4835-9c39-392a9b29eba6");
+INSERT INTO O_BATTR
+	VALUES ("9c9bd5cd-cca2-4346-8912-408d2a45128f",
+	"4edb2c3e-b86b-4835-9c39-392a9b29eba6");
+INSERT INTO O_ATTR
+	VALUES ("9c9bd5cd-cca2-4346-8912-408d2a45128f",
+	"4edb2c3e-b86b-4835-9c39-392a9b29eba6",
+	"00000000-0000-0000-0000-000000000000",
+	'rolephrase',
+	'',
+	'',
+	'rolephrase',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"4edb2c3e-b86b-4835-9c39-392a9b29eba6");
+INSERT INTO O_ID
+	VALUES (1,
+	"4edb2c3e-b86b-4835-9c39-392a9b29eba6");
+INSERT INTO O_ID
+	VALUES (2,
+	"4edb2c3e-b86b-4835-9c39-392a9b29eba6");
+INSERT INTO PE_PE
+	VALUES ("4edb2c3e-b86b-4835-9c39-392a9b29eba6",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

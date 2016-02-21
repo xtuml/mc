@@ -130,8 +130,8 @@ int Escher_xtUML_load(
     return 1;
   }
   if ( (xtumlfile = fopen( argv[1], "r" )) == 0 ) {
-    printf( "%s failed to open %s\n", argv[0], argv[1] );
-    return 1;
+    /* no named file, so read from standard input */
+    xtumlfile = stdin;
   }
   init();               /* Initialize the xml storage area.      */
   printf( "-- Read %s on the %s command line.\n", argv[1], argv[0] );

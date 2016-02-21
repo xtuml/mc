@@ -1,0 +1,112 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("c90bc4fd-5a83-4406-96cd-3c3e3a99dca9",
+	'regularrel',
+	3721,
+	'regularrel',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("afcc243a-f54c-4f52-bd7b-f6d298a24668",
+	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one relationship related by self->relationship[R3721];
+select one participation related by relationship->participation[R3713.''engages''];
+select one one_object related by participation->object[R3714.''one''];
+select any other_object related by participation->object[R3720.''other''];
+if ( ( empty one_object ) or ( empty other_object ) )
+  TRACE::log( flavor:"failure", id:55, message:"missing one or other object on regularrel render" );
+end if;
+T::include( file:"masl/t.regularrel.masl" );
+',
+	1,
+	'',
+	"5e9cac57-f962-4093-b1d1-7d06e81fd27d");
+INSERT INTO O_TFR
+	VALUES ("5e9cac57-f962-4093-b1d1-7d06e81fd27d",
+	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9",
+	'populate',
+	'',
+	"b58c3ffa-bb52-4536-8c10-174e3b98594a",
+	0,
+	'domain = param.domain;
+relationship = relationship::populate( name:param.name, domain:domain );
+create object instance regularrel of regularrel;
+relate regularrel to relationship across R3721;
+markable = markable::populate( name:"regularrel" );
+relate relationship to markable across R3783;
+return regularrel;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("46cb7c75-cd77-457d-a3ef-6ea1abb5183e",
+	"5e9cac57-f962-4093-b1d1-7d06e81fd27d",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("f4bdf2d6-0beb-4c05-a779-7f7b33221d40",
+	"5e9cac57-f962-4093-b1d1-7d06e81fd27d",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"46cb7c75-cd77-457d-a3ef-6ea1abb5183e",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("b58c3ffa-bb52-4536-8c10-174e3b98594a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<regularrel>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("009d0bee-fc0f-4f6c-87b7-884764a28593",
+	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+return valid;',
+	1,
+	'',
+	"afcc243a-f54c-4f52-bd7b-f6d298a24668");
+INSERT INTO O_ID
+	VALUES (0,
+	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9");
+INSERT INTO O_ID
+	VALUES (1,
+	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9");
+INSERT INTO O_ID
+	VALUES (2,
+	"c90bc4fd-5a83-4406-96cd-3c3e3a99dca9");
+INSERT INTO PE_PE
+	VALUES ("c90bc4fd-5a83-4406-96cd-3c3e3a99dca9",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

@@ -1,0 +1,158 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("4431e956-be8b-40e7-83ed-ac781e31719b",
+	'activity',
+	3706,
+	'activity',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	"4431e956-be8b-40e7-83ed-ac781e31719b",
+	'populate',
+	'',
+	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	0,
+	'create object instance activity of activity;
+activity.name = param.name;
+
+return activity;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("a0bc78f5-fe93-4ba5-bee4-743fb96c6b5a",
+	"7baced44-2e68-4af0-bf91-6ab83eb77f66",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<activity>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("cce75d87-818b-4fc3-a50d-f92d030db143",
+	"4431e956-be8b-40e7-83ed-ac781e31719b",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one operation related by self->operation[R3704];
+select one routine related by self->routine[R3704];
+select one state related by self->state[R3704];
+if ( not_empty operation )
+  operation.render( name:self.name );
+elif ( not_empty routine )
+  routine.render( name:self.name );
+elif ( not_empty state )
+  state.render( name:self.name );
+else
+  TRACE::log( flavor:"failure", id:11, message:"no subtype for activity" );
+end if;
+
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"7baced44-2e68-4af0-bf91-6ab83eb77f66");
+INSERT INTO O_TFR
+	VALUES ("4c53013a-af89-41b3-917d-8832a0def9ef",
+	"4431e956-be8b-40e7-83ed-ac781e31719b",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"activity has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one first_param related by self->parameter[R3705.''carries first''];
+if ( not_empty first_param )
+  valid = first_param.validate();
+end if;
+
+select one code_block related by self->code_block[R3794];
+if ( not_empty code_block )
+  valid = code_block.validate();
+end if;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"59878c70-2372-4cca-8e50-2da017c40ff6");
+INSERT INTO O_TFR
+	VALUES ("59878c70-2372-4cca-8e50-2da017c40ff6",
+	"4431e956-be8b-40e7-83ed-ac781e31719b",
+	'render_definition',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one code_block related by self->code_block[R3794];
+if ( not_empty code_block )
+  code_block.render();
+end if;',
+	1,
+	'',
+	"cce75d87-818b-4fc3-a50d-f92d030db143");
+INSERT INTO O_NBATTR
+	VALUES ("27d8c431-aa99-4f85-8118-e3c78c95bcdb",
+	"4431e956-be8b-40e7-83ed-ac781e31719b");
+INSERT INTO O_BATTR
+	VALUES ("27d8c431-aa99-4f85-8118-e3c78c95bcdb",
+	"4431e956-be8b-40e7-83ed-ac781e31719b");
+INSERT INTO O_ATTR
+	VALUES ("27d8c431-aa99-4f85-8118-e3c78c95bcdb",
+	"4431e956-be8b-40e7-83ed-ac781e31719b",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"4431e956-be8b-40e7-83ed-ac781e31719b");
+INSERT INTO O_ID
+	VALUES (1,
+	"4431e956-be8b-40e7-83ed-ac781e31719b");
+INSERT INTO O_ID
+	VALUES (2,
+	"4431e956-be8b-40e7-83ed-ac781e31719b");
+INSERT INTO PE_PE
+	VALUES ("4431e956-be8b-40e7-83ed-ac781e31719b",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

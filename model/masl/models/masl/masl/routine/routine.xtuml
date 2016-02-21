@@ -1,0 +1,216 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("669c9e5d-eb78-45b7-866e-089542dfb839",
+	'routine',
+	3704,
+	'routine',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	"669c9e5d-eb78-45b7-866e-089542dfb839",
+	'populate',
+	'',
+	"84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
+	0,
+	'parent_domain = param.parent_domain;
+parent_terminator = param.parent_terminator;
+
+// check if it already exists
+select any activity from instances of activity where false;
+if ( not_empty parent_terminator )
+  select any activity related by parent_terminator->routine[R3791.''sends'']->activity[R3704] where ( selected.name == param.name );
+elif ( not_empty parent_domain )
+  select any activity related by parent_domain->routine[R3790.''provides'']->activity[R3704] where ( selected.name == param.name );
+end if;
+select one routine related by activity->routine[R3704];
+
+if ( empty routine )
+  activity = activity::populate( name:param.name );
+  create object instance routine of routine;
+  routine.visibility = param.visibility;
+  if ( not_empty parent_terminator )
+    relate routine to parent_terminator across R3791;
+  elif ( not_empty parent_domain )
+    relate routine to parent_domain across R3790;
+  end if;
+  relate routine to activity across R3704;
+  markable = markable::populate( name:"routine" );
+  relate activity to markable across R3783;
+end if;
+
+return routine;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("ca8187cf-a56b-4110-a85f-8c1927ffb12f",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'visibility',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("bde79d70-72b4-4487-8dd9-966cd7f8ddb8",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ca8187cf-a56b-4110-a85f-8c1927ffb12f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("e321632d-2048-45e6-86c7-36db4bceb004",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'parent_domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"bde79d70-72b4-4487-8dd9-966cd7f8ddb8",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("d57f0ba4-8b3b-4d27-bd38-cf4c5b703b60",
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9",
+	'parent_terminator',
+	"a2661e87-6030-4167-bef8-2ff6c815e67e",
+	0,
+	'',
+	"e321632d-2048-45e6-86c7-36db4bceb004",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a2661e87-6030-4167-bef8-2ff6c815e67e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<terminator>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("84c27ba7-4fbf-422a-b84f-b3c47e4a1019",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<routine>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("f9b377c0-d337-4e40-9132-58d2adc9509f",
+	"669c9e5d-eb78-45b7-866e-089542dfb839",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'name = param.name;
+visibility = self.visibility;
+flavor = "service";
+returntype = "";
+select one returntyperef related by self->typeref[R3792];
+if ( not_empty returntyperef )
+  flavor = "function";
+  returntype = returntyperef.body;
+end if;
+T::include( file:"masl/t.routine_begin.masl" );
+select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.routine_end.masl" );',
+	1,
+	'',
+	"b5d33493-0c68-42fd-90e7-2e4e5910aea9");
+INSERT INTO O_TPARM
+	VALUES ("50f1c918-0b50-448a-a847-0df4f6816afe",
+	"f9b377c0-d337-4e40-9132-58d2adc9509f",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("8e678211-5bb7-4f1f-8485-4ab32c2a9867",
+	"669c9e5d-eb78-45b7-866e-089542dfb839",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate visibility
+if ( "public" != self.visibility and "private" != self.visibility )
+  TRACE::log( flavor:"failure", id:101, message:"invalid visibility for routine: " + self.visibility );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one child_activity related by self->activity[R3704];
+if ( not_empty child_activity )
+  valid = child_activity.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"no activity for routine" );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+select one returntyperef related by self->typeref[R3792];
+if ( not_empty returntyperef )
+  valid = returntyperef.validate();
+end if;
+
+return valid;',
+	1,
+	'',
+	"f9b377c0-d337-4e40-9132-58d2adc9509f");
+INSERT INTO O_NBATTR
+	VALUES ("8aca0e9a-cee8-4a45-a146-5b9cd6bbe8af",
+	"669c9e5d-eb78-45b7-866e-089542dfb839");
+INSERT INTO O_BATTR
+	VALUES ("8aca0e9a-cee8-4a45-a146-5b9cd6bbe8af",
+	"669c9e5d-eb78-45b7-866e-089542dfb839");
+INSERT INTO O_ATTR
+	VALUES ("8aca0e9a-cee8-4a45-a146-5b9cd6bbe8af",
+	"669c9e5d-eb78-45b7-866e-089542dfb839",
+	"00000000-0000-0000-0000-000000000000",
+	'visibility',
+	'',
+	'',
+	'visibility',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"669c9e5d-eb78-45b7-866e-089542dfb839");
+INSERT INTO O_ID
+	VALUES (1,
+	"669c9e5d-eb78-45b7-866e-089542dfb839");
+INSERT INTO O_ID
+	VALUES (2,
+	"669c9e5d-eb78-45b7-866e-089542dfb839");
+INSERT INTO PE_PE
+	VALUES ("669c9e5d-eb78-45b7-866e-089542dfb839",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

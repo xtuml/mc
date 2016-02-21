@@ -1,0 +1,109 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("bc2eba42-a1ca-4c38-8522-0855df1f4d50",
+	'slist',
+	2053,
+	'TE_SLIST',
+	'access:te_prefix
+One type of container is a singly-linked list.  Container specializations
+specific to singly-linked lists are defined here.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_REF
+	VALUES ("bc2eba42-a1ca-4c38-8522-0855df1f4d50",
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
+	0,
+	"531c1090-b89b-4336-91aa-6aeb12018e66",
+	"7cebc0b3-0f9e-43f6-af83-b6d53545ab22",
+	"59f4b255-0660-4cbf-bf7e-954c4fd99e0d",
+	"c43823af-8791-42c0-88c1-61d08f8c25bd",
+	"a3fdcdfd-47a1-4ae6-8be3-2097c7e09733",
+	"b067ed6b-c975-4b1a-9b46-4cd42e7400c4",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'container',
+	'flavor',
+	'R2045');
+INSERT INTO R_RGO_PROXY
+	VALUES ("bc2eba42-a1ca-4c38-8522-0855df1f4d50",
+	"7cebc0b3-0f9e-43f6-af83-b6d53545ab22",
+	"59f4b255-0660-4cbf-bf7e-954c4fd99e0d",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("531c1090-b89b-4336-91aa-6aeb12018e66",
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
+	0,
+	"7cebc0b3-0f9e-43f6-af83-b6d53545ab22",
+	"c43823af-8791-42c0-88c1-61d08f8c25bd",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("a3fdcdfd-47a1-4ae6-8be3-2097c7e09733",
+	"bc2eba42-a1ca-4c38-8522-0855df1f4d50",
+	"531c1090-b89b-4336-91aa-6aeb12018e66",
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
+	1,
+	'flavor');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("531c1090-b89b-4336-91aa-6aeb12018e66",
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
+	'../container/container.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("a3fdcdfd-47a1-4ae6-8be3-2097c7e09733",
+	"bc2eba42-a1ca-4c38-8522-0855df1f4d50",
+	"00000000-0000-0000-0000-000000000000",
+	'flavor',
+	'The flavor of the container identifies the type (sub-type) of container.',
+	'',
+	'flavor',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("43ce57e6-3a32-40e2-83bb-32cc5faba206",
+	"bc2eba42-a1ca-4c38-8522-0855df1f4d50");
+INSERT INTO O_BATTR
+	VALUES ("43ce57e6-3a32-40e2-83bb-32cc5faba206",
+	"bc2eba42-a1ca-4c38-8522-0855df1f4d50");
+INSERT INTO O_ATTR
+	VALUES ("43ce57e6-3a32-40e2-83bb-32cc5faba206",
+	"bc2eba42-a1ca-4c38-8522-0855df1f4d50",
+	"a3fdcdfd-47a1-4ae6-8be3-2097c7e09733",
+	'remove_node',
+	'This is the name of the routine that removes a singly-linked list node.',
+	'',
+	'remove_node',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "SetRemoveNode"');
+INSERT INTO O_ID
+	VALUES (0,
+	"bc2eba42-a1ca-4c38-8522-0855df1f4d50");
+INSERT INTO O_OIDA
+	VALUES ("a3fdcdfd-47a1-4ae6-8be3-2097c7e09733",
+	"bc2eba42-a1ca-4c38-8522-0855df1f4d50",
+	0,
+	'flavor');
+INSERT INTO O_ID
+	VALUES (1,
+	"bc2eba42-a1ca-4c38-8522-0855df1f4d50");
+INSERT INTO O_ID
+	VALUES (2,
+	"bc2eba42-a1ca-4c38-8522-0855df1f4d50");
+INSERT INTO PE_PE
+	VALUES ("bc2eba42-a1ca-4c38-8522-0855df1f4d50",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');
