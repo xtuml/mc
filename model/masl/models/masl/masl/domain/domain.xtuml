@@ -1,0 +1,300 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'domain',
+	3702,
+	'domain',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'populate',
+	'',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'project = param.project;
+create object instance domain of domain;
+domain.name = param.name;
+if ( not_empty project )
+  relate project to domain across R3701.''configures'';
+end if;
+markable = markable::populate( name:"domain" );
+relate domain to markable across R3783;
+return domain;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("11b21edf-33b3-49d7-8a2d-c247985704d7",
+	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("987ba81d-6fe9-40f2-ad79-a7d08847d4f2",
+	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4",
+	'project',
+	"f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
+	0,
+	'',
+	"11b21edf-33b3-49d7-8a2d-c247985704d7",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f6bc1fc3-7c5a-4872-a359-b2e25e1712d9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<project>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("0d6eab48-8a19-474c-a54c-d16da938995b",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.domain_begin.masl" );
+
+select many objects related by self->object[R3708.''has abstract''];
+// Provide forward declaration of objects for use in relationships.
+for each object in objects
+  object.render_declaration();
+end for;
+
+select many types related by self->type[R3776];
+for each type in types
+  type.render();
+end for;
+
+select many exceptions related by self->exception[R3748];
+for each exception in exceptions
+  exception.render();
+end for;
+
+select many routine_activities related by self->routine[R3790.''provides'']->activity[R3704];
+for each activity in routine_activities
+  activity.render();
+end for;
+
+select many terminators related by self->terminator[R3702.''sends through''];
+for each terminator in terminators
+  terminator.render();
+end for;
+
+select many relationships related by self->relationship[R3712];
+for each relationship in relationships
+  relationship.render();
+end for;
+
+for each object in objects
+  object.render();
+end for;
+
+T::include( file:"masl/t.domain_end.masl" );
+
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"b20f6b27-99e6-4c7a-8509-a6b8cc8832d4");
+INSERT INTO O_TFR
+	VALUES ("923d7453-ca83-4d45-8c3f-abdabf2d922c",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"domain has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate types
+select many child_types related by self->type[R3719.''defines''];
+for each type in child_types
+  valid = type.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate exceptions
+select many child_exceptions related by self->exception[R3748.''defines''];
+for each exception in child_exceptions
+  valid = exception.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate routines
+select many child_routines related by self->routine[R3790.''provides''];
+for each routine in child_routines
+  valid = routine.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate terminators
+select many child_terminators related by self->terminator[R3702.''sends through''];
+for each terminator in child_terminators
+  valid = terminator.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate relationships
+select many child_relationships related by self->relationship[R3712];
+for each relationship in child_relationships
+  valid = relationship.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate objects
+select many child_objects related by self->object[R3708.''has abstract''];
+for each object in child_objects
+  valid = object.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"e6bc5a45-5a39-4d36-8cfb-9189cb568011");
+INSERT INTO O_TFR
+	VALUES ("e6bc5a45-5a39-4d36-8cfb-9189cb568011",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.name;
+out::tostring( element:"domain", value:value );
+
+select many types related by self->type[R3776];
+for each type in types
+  type.tostring();
+end for;
+select many exceptions related by self->exception[R3748];
+for each exception in exceptions
+  //exception.tostring();
+end for;
+select many terminators related by self->terminator[R3702.''sends through''];
+for each terminator in terminators
+  //terminator.tostring();
+end for;
+select many activities related by self->routine[R3790.''provides'']->activity[R3704];
+for each activity in activities
+  //activity.tostring();
+end for;
+select many relationships related by self->relationship[R3712];
+for each relationship in relationships
+  //relationship.tostring();
+end for;
+select many objects related by self->object[R3708.''has abstract''];
+for each object in objects
+  object.tostring();
+end for;
+select one markable related by self->markable[R3783];
+//markable.tostring();
+
+out::tostring( element:"domain", value:emptyvalue );
+',
+	1,
+	'',
+	"892cc2c0-a74a-40f1-99c2-f7a70d95e67f");
+INSERT INTO O_TFR
+	VALUES ("892cc2c0-a74a-40f1-99c2-f7a70d95e67f",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	'render_project',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.domain_begin.masl" );
+
+select many terminators related by self->terminator[R3702.''sends through''];
+for each terminator in terminators
+  terminator.render();
+end for;
+
+T::include( file:"masl/t.domain_end.masl" );
+
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"project" );',
+	1,
+	'',
+	"0d6eab48-8a19-474c-a54c-d16da938995b");
+INSERT INTO O_NBATTR
+	VALUES ("4fc1a43d-5822-49e1-b600-7ff700768a17",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO O_BATTR
+	VALUES ("4fc1a43d-5822-49e1-b600-7ff700768a17",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO O_ATTR
+	VALUES ("4fc1a43d-5822-49e1-b600-7ff700768a17",
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO O_ID
+	VALUES (1,
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO O_ID
+	VALUES (2,
+	"621fab3d-5e00-4d9f-b132-b5ae65e4324f");
+INSERT INTO PE_PE
+	VALUES ("621fab3d-5e00-4d9f-b132-b5ae65e4324f",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

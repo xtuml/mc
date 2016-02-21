@@ -1,0 +1,139 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("88d7fab2-ac63-471c-8601-37374c5207ee",
+	'Extended Dimension',
+	2067,
+	'TE_DIM',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("f8578984-eca0-420d-bdeb-41abb199ecb1",
+	"88d7fab2-ac63-471c-8601-37374c5207ee");
+INSERT INTO O_BATTR
+	VALUES ("f8578984-eca0-420d-bdeb-41abb199ecb1",
+	"88d7fab2-ac63-471c-8601-37374c5207ee");
+INSERT INTO O_ATTR
+	VALUES ("f8578984-eca0-420d-bdeb-41abb199ecb1",
+	"88d7fab2-ac63-471c-8601-37374c5207ee",
+	"6a702ddb-391e-4042-b962-4472d9d95c68",
+	'elementCount',
+	'',
+	'',
+	'elementCount',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("0a90e1a9-3203-4a88-8cb4-6dce436e9145",
+	"88d7fab2-ac63-471c-8601-37374c5207ee");
+INSERT INTO O_BATTR
+	VALUES ("0a90e1a9-3203-4a88-8cb4-6dce436e9145",
+	"88d7fab2-ac63-471c-8601-37374c5207ee");
+INSERT INTO O_ATTR
+	VALUES ("0a90e1a9-3203-4a88-8cb4-6dce436e9145",
+	"88d7fab2-ac63-471c-8601-37374c5207ee",
+	"f8578984-eca0-420d-bdeb-41abb199ecb1",
+	'dimensionCount',
+	'',
+	'',
+	'dimensionCount',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6a702ddb-391e-4042-b962-4472d9d95c68",
+	"88d7fab2-ac63-471c-8601-37374c5207ee");
+INSERT INTO O_BATTR
+	VALUES ("6a702ddb-391e-4042-b962-4472d9d95c68",
+	"88d7fab2-ac63-471c-8601-37374c5207ee");
+INSERT INTO O_ATTR
+	VALUES ("6a702ddb-391e-4042-b962-4472d9d95c68",
+	"88d7fab2-ac63-471c-8601-37374c5207ee",
+	"00000000-0000-0000-0000-000000000000",
+	'te_dimID',
+	'',
+	'',
+	'te_dimID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("88d7fab2-ac63-471c-8601-37374c5207ee",
+	"88d7fab2-ac63-471c-8601-37374c5207ee",
+	0,
+	"6a702ddb-391e-4042-b962-4472d9d95c68",
+	"5d1191c8-32da-46a3-b3f9-c877f62b051f",
+	"04e4f30d-b5dd-4ada-98f0-e440b8d1a21c",
+	"70150b41-8638-4a04-b578-e5a63acb865c",
+	"2294e978-c988-4bbd-97cf-4401b12c0484",
+	"500d8fd3-ff92-4103-9b80-0e585cd57147",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Extended Dimension',
+	'te_dimID',
+	'R2060.''precedes''');
+INSERT INTO R_RGO_PROXY
+	VALUES ("88d7fab2-ac63-471c-8601-37374c5207ee",
+	"5d1191c8-32da-46a3-b3f9-c877f62b051f",
+	"04e4f30d-b5dd-4ada-98f0-e440b8d1a21c",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("6a702ddb-391e-4042-b962-4472d9d95c68",
+	"88d7fab2-ac63-471c-8601-37374c5207ee",
+	0,
+	"5d1191c8-32da-46a3-b3f9-c877f62b051f",
+	"70150b41-8638-4a04-b578-e5a63acb865c",
+	'../Translation Extensions.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("2294e978-c988-4bbd-97cf-4401b12c0484",
+	"88d7fab2-ac63-471c-8601-37374c5207ee",
+	"6a702ddb-391e-4042-b962-4472d9d95c68",
+	"88d7fab2-ac63-471c-8601-37374c5207ee",
+	1,
+	'te_dimID');
+INSERT INTO O_ATTR
+	VALUES ("2294e978-c988-4bbd-97cf-4401b12c0484",
+	"88d7fab2-ac63-471c-8601-37374c5207ee",
+	"0a90e1a9-3203-4a88-8cb4-6dce436e9145",
+	'next_te_dimID',
+	'',
+	'next_',
+	'te_dimID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"88d7fab2-ac63-471c-8601-37374c5207ee");
+INSERT INTO O_OIDA
+	VALUES ("6a702ddb-391e-4042-b962-4472d9d95c68",
+	"88d7fab2-ac63-471c-8601-37374c5207ee",
+	0,
+	'te_dimID');
+INSERT INTO O_ID
+	VALUES (1,
+	"88d7fab2-ac63-471c-8601-37374c5207ee");
+INSERT INTO O_ID
+	VALUES (2,
+	"88d7fab2-ac63-471c-8601-37374c5207ee");
+INSERT INTO PE_PE
+	VALUES ("88d7fab2-ac63-471c-8601-37374c5207ee",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

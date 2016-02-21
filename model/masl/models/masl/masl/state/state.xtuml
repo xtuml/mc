@@ -1,0 +1,188 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("64886a99-6942-49c6-b7d7-2dc495c52db1",
+	'state',
+	3716,
+	'state',
+	'A state represents the lifecycle of an object. The states are contained in a 
+state machine, which can be instance-based or object-based (aka. an assigner). 
+In MASL, the state types specify the state machine type.
+
+The NON_EXISTANT state is the state of an instance before it is created.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("3831770b-0142-457e-9e20-b77e34cfaa75",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'name = param.name;
+// spellings taken directly from the lexer grammar
+if ( "non_existent" != name and "Non_Existent" != name and "Non_Existant" != name )
+  T::include( file:"masl/t.state_begin.masl" );
+  select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+  if ( not_empty parameter )
+    parameter.render();
+  end if;
+  T::include( file:"masl/t.state_end.masl" );
+end if;',
+	1,
+	'',
+	"b5fb225a-420f-41b5-b16e-930a5ff3ea82");
+INSERT INTO O_TPARM
+	VALUES ("fa419d69-899b-493c-9c2e-267e26ec23d3",
+	"3831770b-0142-457e-9e20-b77e34cfaa75",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("b5fb225a-420f-41b5-b16e-930a5ff3ea82",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1",
+	'populate',
+	'',
+	"69d4ad00-8c78-47f0-95c9-b7519011b8ea",
+	0,
+	'parent_object = param.object;
+
+select any activity related by parent_object->state[R3750]->activity[R3704] where ( selected.name == param.name );
+select one state related by activity->state[R3704];
+if ( empty state )
+  activity = activity::populate( name:param.name );
+
+  create object instance state of state;
+  state.type = param.type;
+  relate state to parent_object across R3750;
+  relate state to activity across R3704;
+  markable = markable::populate( name:"state" );
+  relate activity to markable across R3783;
+
+end if;
+
+if ( "" != param.type )
+  state.type = param.type;
+end if;
+
+return state;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("daab49b8-c192-4486-9062-252eb12909ec",
+	"b5fb225a-420f-41b5-b16e-930a5ff3ea82",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("f50031d6-65c0-47d2-b2b3-639eb073dac1",
+	"b5fb225a-420f-41b5-b16e-930a5ff3ea82",
+	'object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"9919940a-4ce4-4b7f-aa5c-f861279746be",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("9919940a-4ce4-4b7f-aa5c-f861279746be",
+	"b5fb225a-420f-41b5-b16e-930a5ff3ea82",
+	'type',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"daab49b8-c192-4486-9062-252eb12909ec",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("69d4ad00-8c78-47f0-95c9-b7519011b8ea",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<state>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("b4a78249-07fc-4485-9abc-09ff3aea3776",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate type
+if ( "" != self.type and "assigner" != self.type and "assigner start" != self.type and "creation" != self.type and "terminal" != self.type )
+  TRACE::log( flavor:"failure", id:101, message:"invalid type for state: " + self.type );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate children
+select one child_activity related by self->activity[R3704];
+if ( not_empty child_activity )
+  valid = child_activity.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"no activity for state" );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+return valid;',
+	1,
+	'',
+	"3831770b-0142-457e-9e20-b77e34cfaa75");
+INSERT INTO O_NBATTR
+	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO O_BATTR
+	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO O_ATTR
+	VALUES ("4f20ad64-150f-46da-94ac-ab3758b1a3ac",
+	"64886a99-6942-49c6-b7d7-2dc495c52db1",
+	"00000000-0000-0000-0000-000000000000",
+	'type',
+	'',
+	'',
+	'type',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO O_ID
+	VALUES (1,
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO O_ID
+	VALUES (2,
+	"64886a99-6942-49c6-b7d7-2dc495c52db1");
+INSERT INTO PE_PE
+	VALUES ("64886a99-6942-49c6-b7d7-2dc495c52db1",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

@@ -26,8 +26,8 @@
  * PersistLinkCacheDepth:  128
  *
  * Component Name:  ooaofooa
- * MaxObjExtent:  4790
- * MaxRelExtent:  4360
+ * MaxObjExtent:  4410
+ * MaxRelExtent:  3650
  * MaxSelectExtent:  910
  * MaxSelfEvents:  0
  * MaxNonSelfEvents:  0
@@ -78,7 +78,7 @@ typedef unsigned char bool;
 #define ESCHER_SYS_MAX_STRING_LEN 840
 #define ESCHER_PERSIST_INST_CACHE_DEPTH 128
 #define ESCHER_PERSIST_LINK_CACHE_DEPTH 128
-#define ESCHER_SYS_MAX_ASSOCIATION_EXTENT 4360
+#define ESCHER_SYS_MAX_ASSOCIATION_EXTENT 3650
 #define ESCHER_SYS_MAX_TRANSIENT_EXTENT 910
 #define SYS_MAX_CONTAINERS ( ESCHER_SYS_MAX_ASSOCIATION_EXTENT + ESCHER_SYS_MAX_TRANSIENT_EXTENT )
 #define ESCHER_SYS_MAX_SELF_EVENTS 0
@@ -87,7 +87,6 @@ typedef unsigned char bool;
 #define ESCHER_SYS_MAX_XTUML_TIMERS 0
 #define ESCHER_SYS_MAX_INTERLEAVED_BRIDGES 0
 #define ESCHER_SYS_MAX_INTERLEAVED_BRIDGE_DATA 8
-
 
 /*
  * Core types with byte widths defined for MISRA-C compliance.

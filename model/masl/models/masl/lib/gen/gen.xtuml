@@ -1,0 +1,102 @@
+-- BP 7.1.6 content: Interface syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO C_I
+	VALUES ("965609b5-99d9-40ca-bc70-74dd6acccf34",
+	"00000000-0000-0000-0000-000000000000",
+	'gen',
+	'');
+INSERT INTO C_EP
+	VALUES ("bf2670be-70c3-4455-a751-ecc960ffedb8",
+	"965609b5-99d9-40ca-bc70-74dd6acccf34",
+	-1,
+	'render',
+	'');
+INSERT INTO C_AS
+	VALUES ("bf2670be-70c3-4455-a751-ecc960ffedb8",
+	'render',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO C_PP
+	VALUES ("f2788bfa-df95-493f-ad9c-d49df056e94f",
+	"bf2670be-70c3-4455-a751-ecc960ffedb8",
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'element',
+	'',
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO C_PP
+	VALUES ("d3d4383f-d614-4d80-9998-712c2977b460",
+	"bf2670be-70c3-4455-a751-ecc960ffedb8",
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'name',
+	'',
+	0,
+	'',
+	"f2788bfa-df95-493f-ad9c-d49df056e94f");
+INSERT INTO C_EP
+	VALUES ("4f3928ea-6523-484f-8d57-340cf7fe859b",
+	"965609b5-99d9-40ca-bc70-74dd6acccf34",
+	-1,
+	'tostring',
+	'');
+INSERT INTO C_AS
+	VALUES ("4f3928ea-6523-484f-8d57-340cf7fe859b",
+	'tostring',
+	'',
+	0,
+	"bf2670be-70c3-4455-a751-ecc960ffedb8");
+INSERT INTO C_PP
+	VALUES ("65a38217-df8e-49f6-ad34-9913fb968ca8",
+	"4f3928ea-6523-484f-8d57-340cf7fe859b",
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'element',
+	'',
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO C_PP
+	VALUES ("b74eefcc-f3e2-4c87-bbf9-88db0384ae44",
+	"4f3928ea-6523-484f-8d57-340cf7fe859b",
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'name',
+	'',
+	0,
+	'',
+	"65a38217-df8e-49f6-ad34-9913fb968ca8");
+INSERT INTO C_EP
+	VALUES ("f49538b2-41b6-4418-8b44-e9e8230876a5",
+	"965609b5-99d9-40ca-bc70-74dd6acccf34",
+	-1,
+	'validate',
+	'');
+INSERT INTO C_AS
+	VALUES ("f49538b2-41b6-4418-8b44-e9e8230876a5",
+	'validate',
+	'',
+	0,
+	"4f3928ea-6523-484f-8d57-340cf7fe859b");
+INSERT INTO C_PP
+	VALUES ("bbb7bc7f-64f1-41b6-8906-597d02d9f2fe",
+	"f49538b2-41b6-4418-8b44-e9e8230876a5",
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'element',
+	'',
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO PE_PE
+	VALUES ("965609b5-99d9-40ca-bc70-74dd6acccf34",
+	1,
+	"d5d2099b-4471-4432-8706-af913e60898a",
+	"00000000-0000-0000-0000-000000000000",
+	6);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d5d2099b-4471-4432-8706-af913e60898a",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'lib',
+	'',
+	0,
+	'../lib.xtuml');

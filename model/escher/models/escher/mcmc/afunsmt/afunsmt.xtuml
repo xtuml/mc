@@ -1,0 +1,4931 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'afunsmt',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("4b0454b4-8a58-4bef-ab20-476e89adbf7f",
+	112,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'',
+	'escher::mcmc::afunsmt');
+INSERT INTO DIM_DIA
+	VALUES ("4b0454b4-8a58-4bef-ab20-476e89adbf7f",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("d1c8a8b3-9285-43a2-88a3-9e6184d20a70",
+	"00000000-0000-0000-0000-000000000000",
+	'GetFixedSizeClassExtentInfo',
+	'',
+	'//============================================================================
+// This archetype file contains utility functions for implementation namings
+// that span multiple archetype files.
+//============================================================================
+//
+//
+//============================================================================
+// Return a information on variables and types used in defining the
+// instance collections for a class.
+//============================================================================
+te_class = param.te_class;
+return ( "pG_" + te_class.GeneratedName ) + "_extent";
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7e727807-43ae-4aae-aec7-acb67f332ae4",
+	"d1c8a8b3-9285-43a2-88a3-9e6184d20a70",
+	'te_class',
+	"a4c72a7c-2bdb-49fd-8096-759f23d860e2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a4c72a7c-2bdb-49fd-8096-759f23d860e2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended Class>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO PE_PE
+	VALUES ("d1c8a8b3-9285-43a2-88a3-9e6184d20a70",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("3b27712b-2995-45ac-b37f-9793564201ce",
+	"00000000-0000-0000-0000-000000000000",
+	'GetNavigateLinkMethodName',
+	'',
+	'//
+//============================================================================
+from_o_obj = param.from_o_obj;
+to_o_obj = param.to_o_obj;
+r_rel = param.r_rel;
+rel_phrase = param.rel_phrase;
+//
+result = "";
+select one te_c related by to_o_obj->TE_CLASS[R2019]->TE_C[R2064];
+if ( not_empty te_c )
+  result = "${te_c.Name}_${to_o_obj.Key_Lett}_R$t{r_rel.Numb}_From_${from_o_obj.Key_Lett}";
+  //
+  r = ::GetRelationshipSuffix( right_o_obj:to_o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
+  suffix = r;
+  if ( "" != suffix )
+    result = ( result + "_" ) + suffix;
+  end if;
+end if;
+return result;
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4a240cfb-4ffd-4869-8f49-d48f782a9132",
+	"3b27712b-2995-45ac-b37f-9793564201ce",
+	'from_o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Model Class>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("da3e6103-7233-4d81-8347-90cd19d2e365",
+	"3b27712b-2995-45ac-b37f-9793564201ce",
+	'to_o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"4a240cfb-4ffd-4869-8f49-d48f782a9132",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ea4f0be1-897f-4386-8c87-54b666d2abc8",
+	"3b27712b-2995-45ac-b37f-9793564201ce",
+	'r_rel',
+	"4480b008-8c74-4f57-9256-08b7365520bc",
+	0,
+	'',
+	"da3e6103-7233-4d81-8347-90cd19d2e365",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4480b008-8c74-4f57-9256-08b7365520bc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Association>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("cdd188b4-e792-4424-92c6-61c9e6f4f79f",
+	"3b27712b-2995-45ac-b37f-9793564201ce",
+	'rel_phrase',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ea4f0be1-897f-4386-8c87-54b666d2abc8",
+	'');
+INSERT INTO PE_PE
+	VALUES ("3b27712b-2995-45ac-b37f-9793564201ce",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("02e852a7-2395-4a42-9080-2fbbfb5a15ef",
+	"00000000-0000-0000-0000-000000000000",
+	'GetRelateToName',
+	'',
+	'//
+//============================================================================
+o_obj = param.o_obj;
+r_rel = param.r_rel;
+rel_phrase = param.rel_phrase;
+result = "";
+select one te_class related by o_obj->TE_CLASS[R2019];
+if ( not_empty te_class )
+  result = te_class.GeneratedName + "_R$t{r_rel.Numb}_Link";
+  r = ::GetRelationshipSuffix( right_o_obj:o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
+  suffix = r;
+  if ( "" != suffix )
+    result = ( result + "_" ) + suffix;
+  end if;
+end if;
+return result;
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d851277b-2f9b-4be6-a7ca-ce526966534b",
+	"02e852a7-2395-4a42-9080-2fbbfb5a15ef",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ac54655f-b11f-43f3-a7f1-2b885e51a5e4",
+	"02e852a7-2395-4a42-9080-2fbbfb5a15ef",
+	'r_rel',
+	"4480b008-8c74-4f57-9256-08b7365520bc",
+	0,
+	'',
+	"d851277b-2f9b-4be6-a7ca-ce526966534b",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e5e2838b-0308-426d-b49e-f6b73a2d331b",
+	"02e852a7-2395-4a42-9080-2fbbfb5a15ef",
+	'rel_phrase',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"ac54655f-b11f-43f3-a7f1-2b885e51a5e4",
+	'');
+INSERT INTO PE_PE
+	VALUES ("02e852a7-2395-4a42-9080-2fbbfb5a15ef",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f2f07657-65fc-4a0f-ad64-d5794063fb42",
+	"00000000-0000-0000-0000-000000000000",
+	'GetUnrelateFromName',
+	'',
+	'//
+//============================================================================
+o_obj = param.o_obj;
+r_rel = param.r_rel;
+rel_phrase = param.rel_phrase;
+result = "";
+select one te_class related by o_obj->TE_CLASS[R2019];
+if ( not_empty te_class )
+  result = te_class.GeneratedName + "_R$t{r_rel.Numb}_Unlink";
+  r = ::GetRelationshipSuffix( right_o_obj:o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
+  suffix = r;
+  if ( "" != suffix )
+    result = ( result + "_" ) + suffix;
+  end if;
+end if;
+return result;
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("10b26906-bec6-494e-b117-2c325ef78b95",
+	"f2f07657-65fc-4a0f-ad64-d5794063fb42",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("37a9d7f2-cae9-4335-8b5e-6d69abfc6103",
+	"f2f07657-65fc-4a0f-ad64-d5794063fb42",
+	'r_rel',
+	"4480b008-8c74-4f57-9256-08b7365520bc",
+	0,
+	'',
+	"10b26906-bec6-494e-b117-2c325ef78b95",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a7fb48ca-5279-4035-95ac-7557ab60f24d",
+	"f2f07657-65fc-4a0f-ad64-d5794063fb42",
+	'rel_phrase',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"37a9d7f2-cae9-4335-8b5e-6d69abfc6103",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f2f07657-65fc-4a0f-ad64-d5794063fb42",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("82bd0277-438a-4b0a-b93f-ad18152383d7",
+	"00000000-0000-0000-0000-000000000000",
+	'PEIGetRelationshipSetContainerName',
+	'',
+	'//
+//============================================================================
+// Return the name of the object relationship container array.
+// This array of containoids is used to optimize relationships when
+// there are preexisting instances.
+//============================================================================
+te_class = param.te_class;
+return te_class.GeneratedName + "_rel_set_lists";
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("469c70f3-697c-48c1-a09c-4bbb48c33b4a",
+	"82bd0277-438a-4b0a-b93f-ad18152383d7",
+	'te_class',
+	"a4c72a7c-2bdb-49fd-8096-759f23d860e2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("82bd0277-438a-4b0a-b93f-ad18152383d7",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("04cb49cb-1583-43a4-9a37-5c8145934901",
+	"00000000-0000-0000-0000-000000000000",
+	'GetDomainDispatcherTableName',
+	'',
+	'//
+//============================================================================
+// Return the name and type of the domain dispatcher.
+//============================================================================
+registered_name = param.registered_name;
+return registered_name + "_EventDispatcher";
+return "EventTaker_t";
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("06fe668a-4d94-4090-bd17-3c4aabb46479",
+	"04cb49cb-1583-43a4-9a37-5c8145934901",
+	'registered_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("04cb49cb-1583-43a4-9a37-5c8145934901",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ece98fbf-d9e0-4c83-8b48-84723824af0b",
+	"00000000-0000-0000-0000-000000000000",
+	'GetSuperTypePolymorphicEventMethodName',
+	'',
+	'//
+//============================================================================
+te_class = param.te_class;
+r_rel = param.r_rel;
+return te_class.GeneratedName + "_R$t{r_rel.Numb}PolymorphicEvent";
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e4a56ba1-1338-40d4-88fd-c6ffc16622c1",
+	"ece98fbf-d9e0-4c83-8b48-84723824af0b",
+	'te_class',
+	"a4c72a7c-2bdb-49fd-8096-759f23d860e2",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ec4eaea5-1f9a-48b1-9e59-61c53d1468bb",
+	"ece98fbf-d9e0-4c83-8b48-84723824af0b",
+	'r_rel',
+	"4480b008-8c74-4f57-9256-08b7365520bc",
+	0,
+	'',
+	"e4a56ba1-1338-40d4-88fd-c6ffc16622c1",
+	'');
+INSERT INTO PE_PE
+	VALUES ("ece98fbf-d9e0-4c83-8b48-84723824af0b",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c5ccc2da-c5f1-4c0f-90e6-60d43551acfc",
+	"00000000-0000-0000-0000-000000000000",
+	'GetDomainTypeIDFromString',
+	'',
+	'//
+//============================================================================
+dom_name = param.dom_name;
+return T::r(s:dom_name) + "_DOMAIN_ID";
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4441e2e4-e691-43ea-943f-3590867bd347",
+	"c5ccc2da-c5f1-4c0f-90e6-60d43551acfc",
+	'dom_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("c5ccc2da-c5f1-4c0f-90e6-60d43551acfc",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("998886cd-2ee2-442c-bb33-9f9c0a1a8770",
+	"00000000-0000-0000-0000-000000000000",
+	'GetPersistentCheckMarkPostName',
+	'',
+	'//
+//============================================================================
+// Provide a name for the routine that will check if an instance is
+// dirty, mark it if is not and queue it for flusing later.
+//============================================================================
+select any te_instance from instances of TE_INSTANCE;
+select any te_prefix from instances of TE_PREFIX;
+select any te_typemap from instances of TE_TYPEMAP;
+return te_prefix.result + "PersistenceCheckMarkPost";
+return "void";
+return "  ${te_instance.handle},\n  const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}";
+return "  ${te_instance.handle} instance,\n  const ${te_typemap.domain_number_name} domain_num,\n  const ${te_typemap.object_number_name} class_num";
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("998886cd-2ee2-442c-bb33-9f9c0a1a8770",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("66990586-1fe1-4f79-80c2-47e87e7bae90",
+	"00000000-0000-0000-0000-000000000000",
+	'GetPersistentPostLinkName',
+	'',
+	'//
+//============================================================================
+// Provide a name for the routine that will post links to the persistence
+// flush queue.
+//============================================================================
+select any te_instance from instances of TE_INSTANCE;
+select any te_prefix from instances of TE_PREFIX;
+select any te_typemap from instances of TE_TYPEMAP;
+return te_prefix.result + "PersistencePostLink";
+return "void";
+return "  const s1_t, const ${te_typemap.domain_number_name},\n  const ${te_typemap.object_number_name}, const ${te_typemap.instance_index_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name},\n  ${te_instance.handle}, const ${te_typemap.object_number_name}";
+return "  const s1_t operation, const ${te_typemap.domain_number_name} domain,\n  const ${te_typemap.object_number_name} owning_class, const ${te_typemap.instance_index_name} ri,\n  ${te_instance.handle} left, const ${te_typemap.object_number_name} l,\n   ${te_instance.handle} right, const ${te_typemap.object_number_name} r,\n  ${te_instance.handle} assoc, const ${te_typemap.object_number_name} a";
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("66990586-1fe1-4f79-80c2-47e87e7bae90",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9a8f61e1-582a-4334-9e42-3a7f05776533",
+	"00000000-0000-0000-0000-000000000000",
+	'blck_xlate',
+	'',
+	'//============================================================================
+// This function provides indirection and a single point of turning for
+// fragment versus OAL instance based code generation.
+//============================================================================
+//
+//
+// This function produces the code for an action given the outer
+// block.  It traverses each statement in order and generates for it.
+//
+// If the statement is a control statement, then there are two
+// buffers of generated code, otherwise there is only one.
+//
+trace = param.trace;
+te_blk = param.te_blk;
+te_aba = param.te_aba;
+if ( "" != te_blk.declaration )
+  ::aba_code_append( te_aba:te_aba, s:te_blk.indentation );
+  ::aba_code_append( te_aba:te_aba, s:te_blk.declaration );
+  ::aba_code_append( te_aba:te_aba, s:"\n" );
+end if;
+select one te_smt related by te_blk->TE_SMT[R2014];
+if ( not_empty te_smt )
+  select one act_smt related by te_smt->ACT_SMT[R2038];
+  // We have statements in this block.
+  // Get empty handles into scope.
+  select one current_act_if related by act_smt->ACT_IF[R603] where ( false );
+  select one empty_act_smt related by current_act_if->ACT_SMT[R603] where ( false );
+  while ( not_empty act_smt )
+    next = empty_act_smt;
+    select one te_smt related by act_smt->TE_SMT[R2038];
+    if ( "" != te_smt.OAL )
+      statement_comment = ( ( te_blk.indentation + "/" ) + ( "* " + te_smt.OAL ) ) + ( " *" + "/\n" );
+      ::aba_code_append( te_aba:te_aba, s:statement_comment );
+      if ( trace )
+        statement_trace = ( ( te_blk.indentation + "XTUML_OAL_STMT_TRACE( " ) + ( T::s(i:te_blk.depth) + ", &quot;" ) ) + ( te_smt.OAL + "&quot; );\n" );
+        ::aba_code_append( te_aba:te_aba, s:statement_trace );
+      end if;
+    end if;
+    ::aba_code_append( te_aba:te_aba, s:te_smt.buffer );
+    select one for_te_blk related by act_smt->ACT_FOR[R603]->ACT_BLK[R605]->TE_BLK[R2016];
+    if ( not_empty for_te_blk )
+      ::blck_xlate( trace:trace, te_blk:for_te_blk, te_aba:te_aba );
+    else
+      select one whl_te_blk related by act_smt->ACT_WHL[R603]->ACT_BLK[R608]->TE_BLK[R2016];
+      if ( not_empty whl_te_blk )
+        ::blck_xlate( trace:trace, te_blk:whl_te_blk, te_aba:te_aba );
+      else
+        select one act_if related by act_smt->ACT_IF[R603];
+        if ( not_empty act_if )
+          current_act_if = act_if;
+          select one if_te_blk related by act_if->ACT_BLK[R607]->TE_BLK[R2016];
+          if ( not_empty if_te_blk )
+            ::blck_xlate( trace:trace, te_blk:if_te_blk, te_aba:te_aba );
+          end if;
+          // ELIF and ELSE are not linked across R661.  So, get the next
+          // one from here.
+          select any next related by act_if->ACT_EL[R682]->ACT_SMT[R603];
+          if ( empty next )
+            select one next related by act_if->ACT_E[R683]->ACT_SMT[R603];
+          else
+            select many next_elif_act_smts related by act_if->ACT_EL[R682]->ACT_SMT[R603];
+            for each next_elif_act_smt in next_elif_act_smts
+              if ( next_elif_act_smt.LineNumber < next.LineNumber )
+                next = next_elif_act_smt;
+              end if;
+            end for;
+          end if;
+        else
+          select one eli_te_blk related by act_smt->ACT_EL[R603]->ACT_BLK[R658]->TE_BLK[R2016];
+          if ( not_empty eli_te_blk )
+            ::blck_xlate( trace:trace, te_blk:eli_te_blk, te_aba:te_aba );
+            // ELIF and ELSE are not linked across R661.  So, get the next
+            // one from here.
+            select any next related by current_act_if->ACT_EL[R682]->ACT_SMT[R603] where ( selected.LineNumber > act_smt.LineNumber );
+            if ( empty next )
+              select one next related by current_act_if->ACT_E[R683]->ACT_SMT[R603];
+              if ( empty next )
+                select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.''succeeds''];
+              end if;
+            else
+              select many next_elif_act_smts related by current_act_if->ACT_EL[R682]->ACT_SMT[R603] where ( selected.LineNumber > act_smt.LineNumber );
+              for each next_elif_act_smt in next_elif_act_smts
+                if ( next_elif_act_smt.LineNumber < next.LineNumber )
+                  next = next_elif_act_smt;
+                end if;
+              end for;
+            end if;
+          else
+            select one else_te_blk related by act_smt->ACT_E[R603]->ACT_BLK[R606]->TE_BLK[R2016];
+            if ( not_empty else_te_blk )
+              ::blck_xlate( trace:trace, te_blk:else_te_blk, te_aba:te_aba );
+              select one next related by current_act_if->ACT_SMT[R603]->ACT_SMT[R661.''succeeds''];
+            end if;
+          end if;
+        end if;
+      end if;
+    end if;
+    if ( "" != te_smt.buffer2 )
+      ::aba_code_append( te_aba:te_aba, s:te_smt.buffer2 );
+      ::aba_code_append( te_aba:te_aba, s:"\n" );
+    end if;
+    if ( empty next )
+      select one next related by act_smt->ACT_SMT[R661.''succeeds''];
+    end if;
+    act_smt = next;
+  end while;
+  if ( "" != te_blk.deallocation )
+    ::aba_code_append( te_aba:te_aba, s:te_blk.indentation );
+    ::aba_code_append( te_aba:te_aba, s:te_blk.deallocation );
+    ::aba_code_append( te_aba:te_aba, s:"\n" );
+  end if;
+end if;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("91ab8145-c69a-485c-b6f4-bd0d138ac952",
+	"9a8f61e1-582a-4334-9e42-3a7f05776533",
+	'trace',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("348bc492-0144-410a-81dc-a65439eeb145",
+	"9a8f61e1-582a-4334-9e42-3a7f05776533",
+	'te_blk',
+	"6f416e29-b15b-4964-bd9f-8e31148e3f67",
+	0,
+	'',
+	"91ab8145-c69a-485c-b6f4-bd0d138ac952",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6f416e29-b15b-4964-bd9f-8e31148e3f67",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended Block>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation OAL/Translation OAL.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("2d026605-bd1e-458d-83c0-2b9b9183cb7e",
+	"9a8f61e1-582a-4334-9e42-3a7f05776533",
+	'te_aba',
+	"044779c7-f309-4b44-a24c-2b497f1c2c80",
+	0,
+	'',
+	"348bc492-0144-410a-81dc-a65439eeb145",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("044779c7-f309-4b44-a24c-2b497f1c2c80",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Action Block Anchor>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9a8f61e1-582a-4334-9e42-3a7f05776533",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0ecd7884-0f91-4a1d-8f04-5c602e6dbe54",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_buffer_append',
+	'',
+	'//
+te_smt = param.te_smt;
+s = param.s;
+te_smt.buffer = te_smt.buffer + s;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b45d813f-d60f-44ae-a222-59430cdd3076",
+	"0ecd7884-0f91-4a1d-8f04-5c602e6dbe54",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4a833e61-41b9-4471-b677-09dc2d05327a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended Statement>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation OAL/Translation OAL.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("72824680-65b6-4a64-b35a-50ea684c8334",
+	"0ecd7884-0f91-4a1d-8f04-5c602e6dbe54",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b45d813f-d60f-44ae-a222-59430cdd3076",
+	'');
+INSERT INTO PE_PE
+	VALUES ("0ecd7884-0f91-4a1d-8f04-5c602e6dbe54",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("45d81cd4-746a-49b9-8a42-14b04804a86f",
+	"00000000-0000-0000-0000-000000000000",
+	'blk_declaration_append',
+	'',
+	'//
+te_blk = param.te_blk;
+s = param.s;
+te_blk.declaration = te_blk.declaration + s;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("07b36023-bef1-405f-acd6-32b0a22a9178",
+	"45d81cd4-746a-49b9-8a42-14b04804a86f",
+	'te_blk',
+	"6f416e29-b15b-4964-bd9f-8e31148e3f67",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7958fa08-0b2f-41df-ad5f-6b85a6ad9ebf",
+	"45d81cd4-746a-49b9-8a42-14b04804a86f",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"07b36023-bef1-405f-acd6-32b0a22a9178",
+	'');
+INSERT INTO PE_PE
+	VALUES ("45d81cd4-746a-49b9-8a42-14b04804a86f",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f2b6cae8-8a7a-44c3-a265-45913fe55d06",
+	"00000000-0000-0000-0000-000000000000",
+	'blk_deallocation_append',
+	'',
+	'//
+te_blk = param.te_blk;
+s = param.s;
+te_blk.deallocation = te_blk.deallocation + s;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d5a4c551-3982-417a-91aa-8109953931af",
+	"f2b6cae8-8a7a-44c3-a265-45913fe55d06",
+	'te_blk',
+	"6f416e29-b15b-4964-bd9f-8e31148e3f67",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ac742feb-aa29-46ea-9aa6-0892aed92031",
+	"f2b6cae8-8a7a-44c3-a265-45913fe55d06",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d5a4c551-3982-417a-91aa-8109953931af",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f2b6cae8-8a7a-44c3-a265-45913fe55d06",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4733f94a-b3f9-482d-a7c0-bc8800ec5a22",
+	"00000000-0000-0000-0000-000000000000",
+	'aba_code_append',
+	'',
+	'//
+te_aba = param.te_aba;
+s = param.s;
+te_aba.code = te_aba.code + s;
+::oal( s:"strcat( te_aba->code, p_s ); // Ccode" );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7b2e72f8-f06e-4fb4-bc83-087df8bbdc6d",
+	"4733f94a-b3f9-482d-a7c0-bc8800ec5a22",
+	'te_aba',
+	"044779c7-f309-4b44-a24c-2b497f1c2c80",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1b2655bc-aad3-443f-8f3a-3e4ce6185c24",
+	"4733f94a-b3f9-482d-a7c0-bc8800ec5a22",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7b2e72f8-f06e-4fb4-bc83-087df8bbdc6d",
+	'');
+INSERT INTO PE_PE
+	VALUES ("4733f94a-b3f9-482d-a7c0-bc8800ec5a22",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("10a75d3b-df09-407a-b4f4-82249e90616a",
+	"00000000-0000-0000-0000-000000000000",
+	'TE_ABA_rollup',
+	'',
+	'//============================================================================
+// This query rolls up (accumulates) the translated statements into
+// a single string attribute on the action block anchor (TE_ABA).
+// After this roll-up, the ACT_* and V_* instances are no longer needed.
+//============================================================================
+//
+//
+::oal( s:"char b[1000000]; // Ccode" );
+parseSuccessful = ParseStatus::parseSuccessful;
+select any empty_act_blk from instances of ACT_BLK where ( false );
+select many te_cs from instances of TE_C where ( selected.included_in_build );
+for each te_c in te_cs
+  select many te_abas related by te_c->TE_ABA[R2088];
+  for each te_aba in te_abas
+    select one te_blk related by te_aba->TE_BLK[R2011];
+    if ( not_empty te_blk )
+      ::oal( s:"te_aba->code = &b[0]; *te_aba->code = 0; // Ccode" );
+      ::blck_xlate( trace:te_c.StmtTrace, te_blk:te_blk, te_aba:te_aba );
+      ::oal( s:"te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode" );
+    else
+      te_aba.code = ( "\n  /" + "* WARNING!  Skipping unsuccessful or unparsed action.  *" ) + "/\n";
+    end if;
+  end for;
+end for;
+// Process EEs outside of components.
+select many te_ees from instances of TE_EE where ( ( selected.RegisteredName != "TIM" ) and selected.Included );
+for each te_ee in te_ees
+  select one te_c related by te_ee->TE_C[R2085];
+  if ( empty te_c )
+    select many s_brgs related by te_ee->S_EE[R2020]->S_BRG[R19];
+    for each s_brg in s_brgs
+      select one act_blk related by s_brg->ACT_BRB[R697]->ACT_ACT[R698]->ACT_BLK[R666];
+      select one te_aba related by s_brg->TE_BRG[R2025]->TE_ABA[R2010];
+      if ( not_empty act_blk )
+        select one te_blk related by act_blk->TE_BLK[R2016];
+        ::oal( s:"te_aba->code = &b[0]; *te_aba->code = 0; // Ccode" );
+        ::blck_xlate( trace:false, te_blk:te_blk, te_aba:te_aba );
+        ::oal( s:"te_aba->code = Escher_strcpy( te_aba->code, &b[0] ); // Ccode" );
+      end if;
+    end for;
+  end if;
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("10a75d3b-df09-407a-b4f4-82249e90616a",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4f98ec46-daf0-4c66-a03e-de149084827b",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_translate_control_statements',
+	'',
+	'//====================================================================
+//
+// File:      $RCSfile: q.oal.translate.arc,v $
+//
+//
+//====================================================================
+//
+//    Purpose:    This file contains the functions that generate
+//                action language from the populated OOA of BPAL.
+//
+//============================================================================
+//
+//  These functions are part one of a two-step translation of
+//  the action language from the model of OAL.  Each of the invoked
+//  functions below translate a specific part of the OAL.  For
+//  example the val_literal_boolean_values() function generates all
+//  of the code for each literal boolean value found in all of the
+//  actions for a domain.  The function smt_ifs()
+//  generates the code for all of the if statements found in the
+//  actions for a domain.  
+//
+//  Each of the functions places the generated code for its
+//  element in an attribute of the supertype, called _buffer_.
+//  In the case of a value, the supertype is V_VAL, for a
+//  statement, the supertype is ACT_SMT.
+//
+//  Once all of the values and statements have been translated,
+//  and all of the code is in the buffers,  the function
+//  blck_xlate is called to order the statements.
+//
+//============================================================================
+//
+::smt_ifs();
+::smt_elses();
+::smt_fors();
+::smt_whiles();
+::smt_elifs();
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("4f98ec46-daf0-4c66-a03e-de149084827b",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9b2c8b73-d6c1-424c-81ef-8aedf4c2e22d",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_translate_other_statements',
+	'',
+	'//
+::smt_assigns();
+::smt_create_instances();
+::smt_delete_instances();
+::smt_create_events_to_instance();
+::smt_create_events_to_class();
+::smt_create_events_to_creator();
+::smt_relates();
+::smt_unrelates();
+::smt_selects();
+::smt_select_wheres();
+::smt_select_relateds();
+::smt_select_related_wheres();
+::smt_relate_usings();
+::smt_unrelate_usings();
+::smt_generate_precreated_events();
+::smt_generate_events();
+::smt_generate_class_events();
+::smt_generate_creator_events();
+::smt_sgns();
+::smt_iops();
+::smt_operates();
+::smt_bridges();
+::smt_functions();
+::smt_returns();
+::smt_controls();
+::smt_breaks();
+::smt_continues();
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("9b2c8b73-d6c1-424c-81ef-8aedf4c2e22d",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a583ba58-19c4-4842-b20e-2ab5abb0a738",
+	"00000000-0000-0000-0000-000000000000",
+	'oal_translate',
+	'',
+	'//
+// 
+//
+//.print "translating values"
+//.invoke val_translate()
+//.print "showing values"
+//.invoke oal_v_val_test()
+T::print(s:"translating control statements");
+::smt_translate_control_statements();
+T::print(s:"translating other statements");
+::smt_translate_other_statements();
+T::print(s:"rolling up statements into action bodies");
+::TE_ABA_rollup();
+T::print(s:"done translating statements");
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("a583ba58-19c4-4842-b20e-2ab5abb0a738",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4099e37d-c6c1-4b5f-9ff2-07efa73d0e69",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_fors',
+	'',
+	'//====================================================================
+// $RCSfile: q.smt.generate.arc,v $
+//
+//====================================================================
+// ----------------------------------------------------------
+// gen for statements
+// ----------------------------------------------------------
+select many act_fors from instances of ACT_FOR;
+for each act_for in act_fors
+  select one te_smt related by act_for->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_for( te_smt:te_smt, act_for:act_for );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("4099e37d-c6c1-4b5f-9ff2-07efa73d0e69",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1e9826c1-7244-426a-a7fb-ca2737997ea9",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_for',
+	'',
+	'// --------------------------------------------------------
+// gen for statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_for = param.act_for;
+select one te_class related by act_for->O_OBJ[R670]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select any te_file from instances of TE_FILE;
+  select any te_for from instances of TE_FOR;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  select any te_set from instances of TE_SET;
+  select one v_var related by act_for->V_VAR[R614];
+  select one te_var related by v_var->TE_VAR[R2039];
+  select one set_v_var related by act_for->V_VAR[R652];
+  select one set_te_var related by set_v_var->TE_VAR[R2039];
+  te_for.isImplicit = act_for.is_implicit;
+  te_for.class_name = te_class.GeneratedName;
+  te_for.loop_variable = te_var.buffer;
+  te_for.set_variable = set_te_var.buffer;
+  ws = te_blk.indentation;
+  te_smt.buffer2 = ws + "}}}";
+  if ( te_for.isImplicit )
+    d = ( te_for.class_name + " * " ) + ( te_for.loop_variable + "=0;" );
+    ::blk_declaration_append( te_blk:te_blk, s:d );
+  end if;
+  iterator = "iter" + te_for.loop_variable;
+  current_instance = "ii" + te_for.loop_variable;
+  T::include(file:"c/t.smt.for.c");
+  te_smt.OAL = "FOR EACH ${v_var.Name} IN ${set_v_var.Name}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cc16f22d-3bbd-4e21-bd69-02fba1302132",
+	"1e9826c1-7244-426a-a7fb-ca2737997ea9",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ff1b7571-fcfa-4332-bfa6-d42e56d68340",
+	"1e9826c1-7244-426a-a7fb-ca2737997ea9",
+	'act_for',
+	"5f3e2b9f-0432-4222-bce6-7ac8c9a492e2",
+	0,
+	'',
+	"cc16f22d-3bbd-4e21-bd69-02fba1302132",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5f3e2b9f-0432-4222-bce6-7ac8c9a492e2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<For Stmt>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Body/Body.xtuml');
+INSERT INTO PE_PE
+	VALUES ("1e9826c1-7244-426a-a7fb-ca2737997ea9",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("8ccb4ce1-b5a1-4726-82ad-dc0e72e56531",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_ifs',
+	'',
+	'//
+// ----------------------------------------------------------
+// gen if statements
+// ----------------------------------------------------------
+select many act_ifs from instances of ACT_IF;
+for each act_if in act_ifs
+  select one te_smt related by act_if->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_if( te_smt:te_smt, act_if:act_if );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("8ccb4ce1-b5a1-4726-82ad-dc0e72e56531",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("196481a5-7312-454c-b784-5b05ffb76b14",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_if',
+	'',
+	'// --------------------------------------------------------
+// gen if statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_if = param.act_if;
+select any te_file from instances of TE_FILE;
+select one condition_te_val related by act_if->V_VAL[R625]->TE_VAL[R2040];
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+te_smt.buffer2 = ws + "}";
+T::include(file:"c/t.smt.if.c");
+te_smt.OAL = "IF ( ${condition_te_val.OAL} )";
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e77ecf51-365a-4c55-b5a2-9e2146bff227",
+	"196481a5-7312-454c-b784-5b05ffb76b14",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("bd693bf9-c4d7-437b-a48e-7e2734781c70",
+	"196481a5-7312-454c-b784-5b05ffb76b14",
+	'act_if',
+	"bb76d140-b203-4872-8599-9118f0d24469",
+	0,
+	'',
+	"e77ecf51-365a-4c55-b5a2-9e2146bff227",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("bb76d140-b203-4872-8599-9118f0d24469",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<If Stmt>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Body/Body.xtuml');
+INSERT INTO PE_PE
+	VALUES ("196481a5-7312-454c-b784-5b05ffb76b14",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6149aabd-4c64-4890-8e09-f92292148dfa",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_whiles',
+	'',
+	'// ----------------------------------------------------------
+// gen while statements
+// ----------------------------------------------------------
+select many act_whls from instances of ACT_WHL;
+for each act_whl in act_whls
+  select one te_smt related by act_whl->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_while( te_smt:te_smt, act_whl:act_whl );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("6149aabd-4c64-4890-8e09-f92292148dfa",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9ba7f867-8e98-42a5-ba4c-d3bbeb7f3334",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_while',
+	'',
+	'// --------------------------------------------------------
+// gen while statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_whl = param.act_whl;
+select any te_file from instances of TE_FILE;
+select one condition_te_val related by act_whl->V_VAL[R626]->TE_VAL[R2040];
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+te_smt.buffer2 = ws + "}";
+T::include(file:"c/t.smt.while.c");
+te_smt.OAL = "WHILE ( ${condition_te_val.OAL} )";
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a1eb39b9-e426-430a-8451-95aa69f94744",
+	"9ba7f867-8e98-42a5-ba4c-d3bbeb7f3334",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a42a8c22-605f-426d-92a4-9919760fc3e6",
+	"9ba7f867-8e98-42a5-ba4c-d3bbeb7f3334",
+	'act_whl',
+	"86e01ede-4100-4b04-9d71-5d50a8ab4dd8",
+	0,
+	'',
+	"a1eb39b9-e426-430a-8451-95aa69f94744",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("86e01ede-4100-4b04-9d71-5d50a8ab4dd8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<While Stmt>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Body/Body.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9ba7f867-8e98-42a5-ba4c-d3bbeb7f3334",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("05df0d19-1b73-4a1e-9f2d-e0db41d84b8a",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_elses',
+	'',
+	'// ----------------------------------------------------------
+// gen else statements
+// ----------------------------------------------------------
+select many act_es from instances of ACT_E;
+for each act_e in act_es
+  select one te_smt related by act_e->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_else( te_smt:te_smt, act_e:act_e );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("05df0d19-1b73-4a1e-9f2d-e0db41d84b8a",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0e4f5ec0-eab8-43a8-9d06-91739f544bb3",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_else',
+	'',
+	'// --------------------------------------------------------
+// gen else statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_e = param.act_e;
+select any te_file from instances of TE_FILE;
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+te_smt.buffer2 = ws + "}";
+T::include(file:"c/t.smt.else.c");
+// Skip tracing ELSE because it falls between } and else.
+//.assign te_smt.OAL = "ELSE"
+te_smt.OAL = "";
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d18b8900-ff8e-49c9-acb8-4679bf525071",
+	"0e4f5ec0-eab8-43a8-9d06-91739f544bb3",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6056c9e5-772c-4b2b-81d1-58664c9283ed",
+	"0e4f5ec0-eab8-43a8-9d06-91739f544bb3",
+	'act_e',
+	"8352abb9-2cc1-4d33-86e1-7ab2ff26c552",
+	0,
+	'',
+	"d18b8900-ff8e-49c9-acb8-4679bf525071",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("8352abb9-2cc1-4d33-86e1-7ab2ff26c552",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Else Stmt>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Body/Body.xtuml');
+INSERT INTO PE_PE
+	VALUES ("0e4f5ec0-eab8-43a8-9d06-91739f544bb3",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("81e542f7-9358-41a4-9402-30d972497114",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_elifs',
+	'',
+	'//
+// ----------------------------------------------------------
+// gen elif statements
+// ----------------------------------------------------------
+select many act_els from instances of ACT_EL;
+for each act_el in act_els
+  select one te_smt related by act_el->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_elif( te_smt:te_smt, act_el:act_el );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("81e542f7-9358-41a4-9402-30d972497114",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5833b34b-3945-4033-8560-c7dac84f48a7",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_elif',
+	'',
+	'// --------------------------------------------------------
+// gen elif statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_el = param.act_el;
+select any te_file from instances of TE_FILE;
+select one condition_te_val related by act_el->V_VAL[R659]->TE_VAL[R2040];
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+te_smt.buffer2 = ws + "}";
+T::include(file:"c/t.smt.elif.c");
+// Skip tracing ELIF because it falls between } and else.
+//.assign te_smt.OAL = "ELIF ( ${condition.OAL} )"
+te_smt.OAL = "";
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2976e11b-5b62-4aad-b4ab-f08f1adfe941",
+	"5833b34b-3945-4033-8560-c7dac84f48a7",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0556a7b6-2292-4396-81c3-de63ef8bfedf",
+	"5833b34b-3945-4033-8560-c7dac84f48a7",
+	'act_el',
+	"c73f7572-ce31-4792-9718-8a411cbfe1eb",
+	0,
+	'',
+	"2976e11b-5b62-4aad-b4ab-f08f1adfe941",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("c73f7572-ce31-4792-9718-8a411cbfe1eb",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ElseIf Stmt>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Body/Body.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5833b34b-3945-4033-8560-c7dac84f48a7",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("8ef67a31-55d2-4cba-989f-7044d17cead6",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_assigns',
+	'',
+	'//
+// --------------------------------------------------------
+// assignment to attribute statements
+// --------------------------------------------------------
+select many act_ais from instances of ACT_AI;
+for each act_ai in act_ais
+  select one te_smt related by act_ai->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_assign( te_smt:te_smt, act_ai:act_ai );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("8ef67a31-55d2-4cba-989f-7044d17cead6",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("b51efbca-3979-4d92-b8b9-b5a41a6f6132",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_assign',
+	'',
+	'//
+// --------------------------------------------------------
+// gen_asgn_attr_statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_ai = param.act_ai;
+select any te_assign from instances of TE_ASSIGN;
+select any te_file from instances of TE_FILE;
+select any te_instance from instances of TE_INSTANCE;
+select any te_set from instances of TE_SET;
+select any te_string from instances of TE_STRING;
+select any te_sys from instances of TE_SYS;
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+select one r_v_val related by act_ai->V_VAL[R609];
+select one l_v_val related by act_ai->V_VAL[R689];
+select one r_te_dt related by r_v_val->S_DT[R820]->TE_DT[R2021];
+select one l_te_dt related by l_v_val->S_DT[R820]->TE_DT[R2021];
+select one r_te_val related by r_v_val->TE_VAL[R2040];
+select one l_te_val related by l_v_val->TE_VAL[R2040];
+if ( empty l_te_dt )
+  l_te_dt = r_te_dt;
+end if;
+te_assign.Core_Typ = r_te_dt.Core_Typ;
+te_assign.rval_dimensions = r_te_val.dimensions;
+te_assign.dimensions = l_te_val.dimensions;
+te_assign.array_spec = l_te_val.array_spec;
+te_assign.left_declaration = "";
+te_assign.lval = l_te_val.buffer;
+te_assign.rval = r_te_val.buffer;
+r = ::V_VAL_drill_for_V_VAL_root( v_val:l_v_val );
+root_v_val = r;
+element_count = 0;
+select one r_te_dim related by r_te_val->TE_DIM[R2079];
+if ( not_empty r_te_dim )
+  element_count = r_te_dim.elementCount;
+end if;
+te_assign.isImplicit = root_v_val.isImplicit;
+if ( te_assign.isImplicit )
+  select one root_te_val related by root_v_val->TE_VAL[R2040];
+  te_assign.left_declaration = ( r_te_dt.ExtName + " " ) + root_te_val.buffer;
+  if ( 8 == r_te_dt.Core_Typ )
+    select one te_class related by root_v_val->V_IRF[R801]->V_VAR[R808]->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+    if ( not_empty te_class )
+      te_assign.left_declaration = ( te_class.GeneratedName + " * " ) + ( root_te_val.buffer + ";" );
+      ::blk_declaration_append( te_blk:te_blk, s:te_assign.left_declaration );
+    end if;
+  elif ( ( 9 == te_assign.Core_Typ ) or ( 21 == te_assign.Core_Typ ) )
+    // First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
+    selection_result_variable = te_assign.lval;
+    d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;";
+    ::blk_declaration_append( te_blk:te_blk, s:d );
+    // Push deallocation into the block so that it is available at gen time for break/continue/return.
+    d = ( ( te_set.module + te_set.clear ) + ( "( " + te_assign.lval ) ) + " );";
+    ::blk_deallocation_append( te_blk:te_blk, s:d );
+  elif ( ( 4 == r_te_dt.Core_Typ ) and ( te_sys.InstanceLoading ) )
+    // CDS 128 is a bit arbitrary.  It is intended to be a reasonable
+    // maximum for a transient array of strings needing initialization.
+    // string
+    d = te_assign.left_declaration + te_assign.array_spec;
+    if ( "" == te_assign.array_spec )
+      d = d + "=0";
+    else
+      if ( te_sys.InstanceLoading )
+        d = d + "={0";
+        if ( element_count < 128 )
+          i = element_count - 1;
+          // Only provide initializer for arrays of reasonable size.
+          while ( i > 0 )
+            i = i - 1;
+            d = d + ",0";
+          end while;
+        end if;
+        d = d + "}";
+      end if;
+    end if;
+    d = d + ";";
+    ::blk_declaration_append( te_blk:te_blk, s:d );
+  else
+    d = ( te_assign.left_declaration + te_assign.array_spec ) + ";";
+    ::blk_declaration_append( te_blk:te_blk, s:d );
+  end if;
+end if;
+is_parameter = false;
+select one v_pvl related by r_v_val->V_PVL[R801];
+if ( not_empty v_pvl )
+  is_parameter = true;
+end if;
+T::include(file:"c/t.smt.assign.c");
+te_smt.OAL = "ASSIGN ${l_te_val.OAL} = ${r_te_val.OAL}";
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("432b8ce5-6bbb-4225-a365-55c05710096c",
+	"b51efbca-3979-4d92-b8b9-b5a41a6f6132",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a9248e6e-7edc-4dc1-8af4-920019bdea03",
+	"b51efbca-3979-4d92-b8b9-b5a41a6f6132",
+	'act_ai',
+	"dd812f1d-8408-4547-b6a7-b4647dde5560",
+	0,
+	'',
+	"432b8ce5-6bbb-4225-a365-55c05710096c",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("dd812f1d-8408-4547-b6a7-b4647dde5560",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Assign to Member>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Instance Access/Instance Access.xtuml');
+INSERT INTO PE_PE
+	VALUES ("b51efbca-3979-4d92-b8b9-b5a41a6f6132",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e8439987-b221-4d80-a129-69cf514bd6d8",
+	"00000000-0000-0000-0000-000000000000",
+	'V_VAL_drill_for_V_VAL_root',
+	'',
+	'//
+// Find the root of the given value instance.  We may need to
+// recurse down in the case of structures and arrays.
+v_val = param.v_val;
+result = v_val;
+select one root_v_val related by v_val->V_AER[R801]->V_VAL[R838];
+if ( not_empty root_v_val )
+  r = ::V_VAL_drill_for_V_VAL_root( v_val:root_v_val );
+  result = r;
+else
+  select one root_v_val related by v_val->V_MVL[R801]->V_VAL[R837];
+  if ( not_empty root_v_val )
+    r = ::V_VAL_drill_for_V_VAL_root( v_val:root_v_val );
+    result = r;
+  end if;
+end if;
+return result;
+',
+	"5400d269-ee31-4742-ac70-8532512a854c",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8cc28903-6670-4512-b9d2-21d474409686",
+	"e8439987-b221-4d80-a129-69cf514bd6d8",
+	'v_val',
+	"5400d269-ee31-4742-ac70-8532512a854c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("5400d269-ee31-4742-ac70-8532512a854c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Value>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e8439987-b221-4d80-a129-69cf514bd6d8",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("26660229-a463-410a-97c1-488a3656dcdd",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_create_instances',
+	'',
+	'//
+//
+// --------------------------------------------------------
+// create instance statements
+// --------------------------------------------------------
+select many act_crs from instances of ACT_CR;
+for each act_cr in act_crs
+  select one te_smt related by act_cr->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_create_instance( te_smt:te_smt, act_cr:act_cr );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("26660229-a463-410a-97c1-488a3656dcdd",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("364ece84-f038-4899-8422-eed36fce1406",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_create_instance',
+	'',
+	'//
+// --------------------------------------------------------
+// create instance statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_cr = param.act_cr;
+select one o_obj related by act_cr->O_OBJ[R671];
+select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select any te_file from instances of TE_FILE;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one v_var related by act_cr->V_VAR[R633];
+  select one te_var related by v_var->TE_VAR[R2039];
+  select one te_c related by te_class->TE_C[R2064];
+  select any te_instance from instances of TE_INSTANCE;
+  r = ::GetDomainTypeIDFromString( dom_name:te_c.Name );
+  dom_id = r;
+  r = ::AutoInitializeUniqueIDs( te_class:te_class, instance:te_var.buffer );
+  init_uniques = r;
+  if ( act_cr.is_implicit )
+    d = ( te_class.GeneratedName + " * " ) + ( te_var.buffer + ";" );
+    ::blk_declaration_append( te_blk:te_blk, s:d );
+  end if;
+  T::include(file:"c/t.smt.create_instance.c");
+  te_smt.OAL = "CREATE OBJECT INSTANCE ${v_var.Name} OF ${te_class.Key_Lett}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("53c87d4b-a2d6-4b0e-8565-8e62f4a1749c",
+	"364ece84-f038-4899-8422-eed36fce1406",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("59477b92-05d0-42a3-93b2-14c597e8966c",
+	"364ece84-f038-4899-8422-eed36fce1406",
+	'act_cr',
+	"07240b48-02ee-409d-b202-725bbb1b6707",
+	0,
+	'',
+	"53c87d4b-a2d6-4b0e-8565-8e62f4a1749c",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("07240b48-02ee-409d-b202-725bbb1b6707",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Create>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Instance Access/Instance Access.xtuml');
+INSERT INTO PE_PE
+	VALUES ("364ece84-f038-4899-8422-eed36fce1406",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("16d72313-c96f-49c5-80a5-ee0122c93433",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_delete_instances',
+	'',
+	'//
+// --------------------------------------------------------
+// delete instance statements
+// --------------------------------------------------------
+select many act_dels from instances of ACT_DEL;
+del_count = 0;
+for each act_del in act_dels
+  select one te_smt related by act_del->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_delete_instance( te_smt:te_smt, act_del:act_del );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("16d72313-c96f-49c5-80a5-ee0122c93433",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e468eb9e-eb35-423a-b098-0ee9f70fa21f",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_delete_instance',
+	'',
+	'//
+// --------------------------------------------------------
+// delete instance statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_del = param.act_del;
+select one v_var related by act_del->V_VAR[R634];
+select one te_class related by v_var->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select any te_file from instances of TE_FILE;
+  select any te_instance from instances of TE_INSTANCE;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one te_var related by v_var->TE_VAR[R2039];
+  select one te_c related by te_class->TE_C[R2064];
+  r = ::GetDomainTypeIDFromString( dom_name:te_c.Name );
+  dom_id = r;
+  T::include(file:"c/t.smt.delete_instance.c");
+  te_smt.OAL = "DELETE OBJECT INSTANCE ${v_var.Name}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a01ac1e8-46bd-49eb-a2bf-1728226151e1",
+	"e468eb9e-eb35-423a-b098-0ee9f70fa21f",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a18e930a-8d5b-4bc7-a078-0aee63206711",
+	"e468eb9e-eb35-423a-b098-0ee9f70fa21f",
+	'act_del',
+	"a3a3437e-a8c2-4229-b348-ba64feaa5de5",
+	0,
+	'',
+	"a01ac1e8-46bd-49eb-a2bf-1728226151e1",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a3a3437e-a8c2-4229-b348-ba64feaa5de5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Delete>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Instance Access/Instance Access.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e468eb9e-eb35-423a-b098-0ee9f70fa21f",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9813026b-7f77-4303-ad45-7736d405040c",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_create_events_to_instance',
+	'',
+	'// --------------------------------------------------------
+// create event instance to instance statements
+// --------------------------------------------------------
+select many e_ceis from instances of E_CEI;
+for each e_cei in e_ceis
+  select one e_csme related by e_cei->E_CSME[R704];
+  select one te_smt related by e_csme->E_CES[R702]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038];
+  select one recipient_v_var related by e_cei->V_VAR[R711];
+  select one recipient_te_var related by recipient_v_var->TE_VAR[R2039];
+  r = ::smt_create_event( te_smt:te_smt, e_csme:e_csme, recipient:recipient_te_var.buffer, recipient_OAL:recipient_v_var.Name );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("9813026b-7f77-4303-ad45-7736d405040c",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("481da654-cf6f-4150-be2b-8c7cdcd491b9",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_create_events_to_class',
+	'',
+	'//
+// --------------------------------------------------------
+// create event instance to class statements
+// --------------------------------------------------------
+select many e_ceas from instances of E_CEA;
+for each e_cea in e_ceas
+  select one e_csme related by e_cea->E_CSME[R704];
+  select one te_smt related by e_csme->E_CES[R702]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_create_event( te_smt:te_smt, e_csme:e_csme, recipient:"0", recipient_OAL:"CLASS" );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("481da654-cf6f-4150-be2b-8c7cdcd491b9",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("82b593ce-538c-4523-96ba-c1d018431f10",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_create_events_to_creator',
+	'',
+	'//
+// --------------------------------------------------------
+// create event instance to creator statements
+// --------------------------------------------------------
+select many e_cecs from instances of E_CEC;
+for each e_cec in e_cecs
+  select one e_csme related by e_cec->E_CSME[R704];
+  select one te_smt related by e_csme->E_CES[R702]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_create_event( te_smt:te_smt, e_csme:e_csme, recipient:"0", recipient_OAL:"CREATOR" );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("82b593ce-538c-4523-96ba-c1d018431f10",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7847f352-30c9-48f3-862f-7f636e783e1c",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_create_event',
+	'',
+	'//
+// --------------------------------------------------------
+// create event instance statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+e_csme = param.e_csme;
+recipient = param.recipient;
+recipient_OAL = param.recipient_OAL;
+select one e_ces related by e_csme->E_CES[R702];
+select one e_ess related by e_ces->E_ESS[R701];
+select one sm_evt related by e_csme->SM_EVT[R706];
+select one o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+if ( empty o_obj )
+  select one o_obj related by sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519];
+end if;
+select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select one sm_pevt related by sm_evt->SM_PEVT[R525];
+  if ( not_empty sm_pevt )
+    select any poly_sm_evt related by o_obj->SM_ISM[R518]->SM_SM[R517]->SM_EVT[R502] where ( selected.Drv_Lbl == ( sm_evt.Drv_Lbl + "*" ) );
+    if ( not_empty poly_sm_evt )
+      sm_evt = poly_sm_evt;
+    end if;
+  end if;
+  select one te_evt related by sm_evt->TE_EVT[R2036];
+  if ( te_evt.Used )
+    select any te_file from instances of TE_FILE;
+    select any te_eq from instances of TE_EQ;
+    select any te_thread from instances of TE_THREAD;
+    select any te_instance from instances of TE_INSTANCE;
+    select one te_blk related by te_smt->TE_BLK[R2078];
+    ws = te_blk.indentation;
+    select one v_var related by e_ces->V_VAR[R710];
+    select one te_var related by v_var->TE_VAR[R2039];
+    select many v_pars related by e_ess->V_PAR[R700];
+    parameters = "";
+    parameter_OAL = "";
+    if ( not_empty v_pars )
+      delimeter = "";
+      for each v_par in v_pars
+        select one par_te_dt related by v_par->V_VAL[R800]->S_DT[R820]->TE_DT[R2021];
+        select one par_te_val related by v_par->V_VAL[R800]->TE_VAL[R2040];
+        r = ::t_oal_smt_event_parameters( evt_msg_var:te_var.buffer, parameter:v_par.Name, value:par_te_val.buffer, value_type:par_te_dt.Core_Typ, ws:te_blk.indentation );
+        parameters = parameters + r;
+        parameter_OAL = ( parameter_OAL + delimeter ) + par_te_val.OAL;
+        delimeter = ", ";
+      end for;
+    end if;
+    if ( e_ces.is_implicit )
+      d = "";
+      if ( "" == parameters )
+        d = ( te_eq.base_event_type + " * " ) + ( te_var.buffer + ";" );
+      else
+        d = ( te_evt.GeneratedName + " * " ) + ( te_var.buffer + ";" );
+      end if;
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+    end if;
+    T::include(file:"c/t.smt.create_event.c");
+    te_smt.OAL = "CREATE EVENT INSTANCE ${v_var.Name}( ${parameter_OAL} ) TO ${recipient_OAL}";
+  end if;
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c87bba94-0008-4c94-97b6-a06f79afc3e8",
+	"7847f352-30c9-48f3-862f-7f636e783e1c",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("a7e5da98-8757-4d4b-94a8-670ff1d18d51",
+	"7847f352-30c9-48f3-862f-7f636e783e1c",
+	'e_csme',
+	"93d1d566-a5c1-4302-b1db-ce8a112e8575",
+	0,
+	'',
+	"c87bba94-0008-4c94-97b6-a06f79afc3e8",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("93d1d566-a5c1-4302-b1db-ce8a112e8575",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Create SM Event Statement>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Event/Event.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("52755eff-22d3-496d-b5a6-1efbc4836b50",
+	"7847f352-30c9-48f3-862f-7f636e783e1c",
+	'recipient',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a7e5da98-8757-4d4b-94a8-670ff1d18d51",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5b31845a-ea09-42a8-a8e2-e664ac2ef00b",
+	"7847f352-30c9-48f3-862f-7f636e783e1c",
+	'recipient_OAL',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"52755eff-22d3-496d-b5a6-1efbc4836b50",
+	'');
+INSERT INTO PE_PE
+	VALUES ("7847f352-30c9-48f3-862f-7f636e783e1c",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0a354815-6c2e-422a-a3a3-b4d5c6f7fc91",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_relates',
+	'',
+	'//
+// --------------------------------------------------------
+//  relate statements
+// --------------------------------------------------------
+select many act_rels from instances of ACT_REL;
+for each act_rel in act_rels
+  select one te_smt related by act_rel->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_relate( te_smt:te_smt, act_rel:act_rel );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("0a354815-6c2e-422a-a3a3-b4d5c6f7fc91",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e9d37de9-28e8-414f-bda5-6ec291a17c18",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_relate',
+	'',
+	'//
+// --------------------------------------------------------
+//  relate statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_rel = param.act_rel;
+select one one_v_var related by act_rel->V_VAR[R615];
+select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818];
+select one te_class related by one_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select any te_file from instances of TE_FILE;
+  select any te_target from instances of TE_TARGET;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one one_te_var related by one_v_var->TE_VAR[R2039];
+  select one oth_v_var related by act_rel->V_VAR[R616];
+  select one oth_te_var related by oth_v_var->TE_VAR[R2039];
+  select one oth_o_obj related by oth_v_var->V_INT[R814]->O_OBJ[R818];
+  select one r_rel related by act_rel->R_REL[R653];
+  r1 = ::is_reflexive( r_rel:r_rel );
+  is_reflexive = r1;
+  r2 = ::TE_REL_IsLeftFormalizer( left_o_obj:one_o_obj, r_rel:r_rel, rel_phrase:act_rel.relationship_phrase );
+  left_is_formalizer = r2;
+  o_obj = oth_o_obj;
+  if ( left_is_formalizer )
+    o_obj = one_o_obj;
+  end if;
+  r = ::GetRelateToName( o_obj:o_obj, r_rel:r_rel, rel_phrase:act_rel.relationship_phrase );
+  relate_method = r;
+  select one te_class related by o_obj->TE_CLASS[R2019];
+  thismodule = "";
+  if ( "C" != te_target.language )
+    thismodule = ", thismodule";
+  end if;
+  T::include(file:"c/t.smt.relate.c");
+  te_smt.OAL = "RELATE ${one_v_var.Name} TO ${oth_v_var.Name} ACROSS R$t{r_rel.Numb}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("51867a3a-26c9-4b00-8237-8b954b9afed8",
+	"e9d37de9-28e8-414f-bda5-6ec291a17c18",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("757fd533-9ad5-4bf6-9e43-1399eeedd4bf",
+	"e9d37de9-28e8-414f-bda5-6ec291a17c18",
+	'act_rel',
+	"d5097eb3-4f7a-4187-8d85-db8765b299c4",
+	0,
+	'',
+	"51867a3a-26c9-4b00-8237-8b954b9afed8",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("d5097eb3-4f7a-4187-8d85-db8765b299c4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Relate>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e9d37de9-28e8-414f-bda5-6ec291a17c18",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("ca114159-1f46-48cd-a574-f0df490c7824",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_relate_usings',
+	'',
+	'//
+// --------------------------------------------------------
+select many act_rus from instances of ACT_RU;
+for each act_ru in act_rus
+  select one te_smt related by act_ru->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_relate_using( te_smt:te_smt, act_ru:act_ru );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("ca114159-1f46-48cd-a574-f0df490c7824",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("14af5744-0b96-4bf8-a0b6-8f094d7608ff",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_relate_using',
+	'',
+	'//
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_ru = param.act_ru;
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+select one r_rel related by act_ru->R_REL[R654];
+r = ::is_reflexive( r_rel:r_rel );
+is_reflexive = r;
+one_rel_phrase = "";
+oth_rel_phrase = "";
+if ( is_reflexive )
+  select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
+  select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210];
+  select one one_obj related by act_ru->V_VAR[R617]->V_INT[R814]->O_OBJ[R818];
+  if ( one_obj.Obj_ID == aone.Obj_ID )
+    if ( aone.Txt_Phrs == act_ru.relationship_phrase )
+      one_rel_phrase = aone.Txt_Phrs;
+      oth_rel_phrase = aoth.Txt_Phrs;
+    else
+      one_rel_phrase = aoth.Txt_Phrs;
+      oth_rel_phrase = aone.Txt_Phrs;
+    end if;
+  else
+    if ( aoth.Txt_Phrs == act_ru.relationship_phrase )
+      one_rel_phrase = aoth.Txt_Phrs;
+      oth_rel_phrase = aone.Txt_Phrs;
+    else
+      one_rel_phrase = aone.Txt_Phrs;
+      oth_rel_phrase = aoth.Txt_Phrs;
+    end if;
+  end if;
+end if;
+select one one_v_var related by act_ru->V_VAR[R617];
+select one one_te_var related by one_v_var->TE_VAR[R2039];
+select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818];
+select one oth_v_var related by act_ru->V_VAR[R618];
+select one oth_te_var related by oth_v_var->TE_VAR[R2039];
+select one oth_o_obj related by oth_v_var->V_INT[R814]->O_OBJ[R818];
+select one ass_v_var related by act_ru->V_VAR[R619];
+select one ass_te_var related by ass_v_var->TE_VAR[R2039];
+select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818];
+select one ass_te_class related by ass_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty ass_te_class )
+  select any te_file from instances of TE_FILE;
+  select any te_target from instances of TE_TARGET;
+  thismodule = "";
+  if ( "C" != te_target.language )
+    thismodule = ", thismodule";
+  end if;
+  r1 = ::GetRelateToName( o_obj:ass_o_obj, r_rel:r_rel, rel_phrase:act_ru.relationship_phrase );
+  relate_method = r1;
+  left_obj_is_aone = false;
+  select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
+  if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
+    left_obj_is_aone = true;
+  end if;
+  T::include(file:"c/t.smt.relate_using.c");
+  te_smt.OAL = "RELATE ${one_te_var.OAL} TO ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("09ebfd3c-97e2-4e70-9b05-59304d700196",
+	"14af5744-0b96-4bf8-a0b6-8f094d7608ff",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("cdc2abd5-a134-45a5-96b4-c045059cfff1",
+	"14af5744-0b96-4bf8-a0b6-8f094d7608ff",
+	'act_ru',
+	"d67aab73-fa78-4bdb-b3a2-3d9eb1e798e2",
+	0,
+	'',
+	"09ebfd3c-97e2-4e70-9b05-59304d700196",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("d67aab73-fa78-4bdb-b3a2-3d9eb1e798e2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Relate Using>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
+INSERT INTO PE_PE
+	VALUES ("14af5744-0b96-4bf8-a0b6-8f094d7608ff",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7f9dc803-4f4e-4fa9-848d-adfbbe9202f0",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_unrelates',
+	'',
+	'//
+// --------------------------------------------------------
+select many act_unrs from instances of ACT_UNR;
+for each act_unr in act_unrs
+  select one te_smt related by act_unr->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_unrelate( te_smt:te_smt, act_unr:act_unr );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("7f9dc803-4f4e-4fa9-848d-adfbbe9202f0",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("2973925c-8582-4978-af12-9be899a7a18e",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_unrelate',
+	'',
+	'//
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_unr = param.act_unr;
+select one one_v_var related by act_unr->V_VAR[R620];
+select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818];
+select one te_class related by one_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select any te_file from instances of TE_FILE;
+  select any te_target from instances of TE_TARGET;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one one_te_var related by one_v_var->TE_VAR[R2039];
+  select one oth_v_var related by act_unr->V_VAR[R621];
+  select one oth_te_var related by oth_v_var->TE_VAR[R2039];
+  select one oth_o_obj related by oth_v_var->V_INT[R814]->O_OBJ[R818];
+  select one r_rel related by act_unr->R_REL[R655];
+  r1 = ::is_reflexive( r_rel:r_rel );
+  is_reflexive = r1;
+  r2 = ::TE_REL_IsLeftFormalizer( left_o_obj:one_o_obj, r_rel:r_rel, rel_phrase:act_unr.relationship_phrase );
+  left_is_formalizer = r2;
+  o_obj = oth_o_obj;
+  if ( left_is_formalizer )
+    o_obj = one_o_obj;
+  end if;
+  r = ::GetUnrelateFromName( o_obj:o_obj, r_rel:r_rel, rel_phrase:act_unr.relationship_phrase );
+  unrelate_method = r;
+  select one te_class related by o_obj->TE_CLASS[R2019];
+  thismodule = "";
+  if ( "C" != te_target.language )
+    thismodule = ", thismodule";
+  end if;
+  T::include(file:"c/t.smt.unrelate.c");
+  te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5f047288-2288-4cc4-bc5c-0684fea1ffd4",
+	"2973925c-8582-4978-af12-9be899a7a18e",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ed80cacc-5a9f-45c7-a4d2-bc80c80fbe9a",
+	"2973925c-8582-4978-af12-9be899a7a18e",
+	'act_unr',
+	"eb4d7904-ebb3-44a2-a564-13c9f7978b60",
+	0,
+	'',
+	"5f047288-2288-4cc4-bc5c-0684fea1ffd4",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("eb4d7904-ebb3-44a2-a564-13c9f7978b60",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Unrelate>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
+INSERT INTO PE_PE
+	VALUES ("2973925c-8582-4978-af12-9be899a7a18e",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6e548026-0a80-4b51-9f3e-21eb7a890532",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_unrelate_usings',
+	'',
+	'//
+// --------------------------------------------------------
+select many act_urus from instances of ACT_URU;
+for each act_uru in act_urus
+  select one te_smt related by act_uru->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_unrelate_using( te_smt:te_smt, act_uru:act_uru );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("6e548026-0a80-4b51-9f3e-21eb7a890532",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("388666d0-0eb3-450b-90c3-382917d04151",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_unrelate_using',
+	'',
+	'//
+te_smt = param.te_smt;
+act_uru = param.act_uru;
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+select one r_rel related by act_uru->R_REL[R656];
+r = ::is_reflexive( r_rel:r_rel );
+is_reflexive = r;
+one_rel_phrase = "";
+oth_rel_phrase = "";
+if ( is_reflexive )
+  select one aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
+  select one aoth related by r_rel->R_ASSOC[R206]->R_AOTH[R210];
+  select one one_obj related by act_uru->V_VAR[R622]->V_INT[R814]->O_OBJ[R818];
+  if ( one_obj.Obj_ID == aone.Obj_ID )
+    if ( aone.Txt_Phrs == act_uru.relationship_phrase )
+      one_rel_phrase = aone.Txt_Phrs;
+      oth_rel_phrase = aoth.Txt_Phrs;
+    else
+      one_rel_phrase = aoth.Txt_Phrs;
+      oth_rel_phrase = aone.Txt_Phrs;
+    end if;
+  else
+    if ( aoth.Txt_Phrs == act_uru.relationship_phrase )
+      one_rel_phrase = aoth.Txt_Phrs;
+      oth_rel_phrase = aone.Txt_Phrs;
+    else
+      one_rel_phrase = aone.Txt_Phrs;
+      oth_rel_phrase = aoth.Txt_Phrs;
+    end if;
+  end if;
+end if;
+select one one_v_var related by act_uru->V_VAR[R622];
+select one one_te_var related by one_v_var->TE_VAR[R2039];
+select one one_o_obj related by one_v_var->V_INT[R814]->O_OBJ[R818];
+select one oth_v_var related by act_uru->V_VAR[R623];
+select one oth_te_var related by oth_v_var->TE_VAR[R2039];
+select one oth_o_obj related by oth_v_var->V_INT[R814]->O_OBJ[R818];
+select one ass_v_var related by act_uru->V_VAR[R624];
+select one ass_te_var related by ass_v_var->TE_VAR[R2039];
+select one ass_o_obj related by ass_v_var->V_INT[R814]->O_OBJ[R818];
+select one ass_te_class related by ass_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty ass_te_class )
+  select any te_file from instances of TE_FILE;
+  select any te_target from instances of TE_TARGET;
+  thismodule = "";
+  if ( "C" != te_target.language )
+    thismodule = ", thismodule";
+  end if;
+  r1 = ::GetUnrelateFromName( o_obj:ass_o_obj, r_rel:r_rel, rel_phrase:act_uru.relationship_phrase );
+  unrelate_method = r1;
+  left_obj_is_aone = false;
+  select one r_aone related by r_rel->R_ASSOC[R206]->R_AONE[R209];
+  if ( one_o_obj.Obj_ID == r_aone.Obj_ID )
+    left_obj_is_aone = true;
+  end if;
+  T::include(file:"c/t.smt.unrelate_using.c");
+  te_smt.OAL = "UNRELATE ${one_te_var.OAL} FROM ${oth_te_var.OAL} ACROSS R$t{r_rel.Numb} USING ${ass_te_var.OAL}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b0c37c9c-f556-4d6f-b0a4-c9bfcbe6480c",
+	"388666d0-0eb3-450b-90c3-382917d04151",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ce761754-7391-4690-a48f-fa1ea5dd10b6",
+	"388666d0-0eb3-450b-90c3-382917d04151",
+	'act_uru',
+	"0c25b822-1415-4179-a600-998ebcb89b17",
+	0,
+	'',
+	"b0c37c9c-f556-4d6f-b0a4-c9bfcbe6480c",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("0c25b822-1415-4179-a600-998ebcb89b17",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Unrelate Using>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Relate And Unrelate/Relate And Unrelate.xtuml');
+INSERT INTO PE_PE
+	VALUES ("388666d0-0eb3-450b-90c3-382917d04151",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("07cdac0a-c7d8-4aa4-8df8-ff016c9e3752",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_selects',
+	'',
+	'//
+// --------------------------------------------------------
+// select statements
+// --------------------------------------------------------
+select many act_fios from instances of ACT_FIO;
+for each act_fio in act_fios
+  select one te_smt related by act_fio->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_select( te_smt:te_smt, act_fio:act_fio );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("07cdac0a-c7d8-4aa4-8df8-ff016c9e3752",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c99133b4-3b7a-467a-8402-d2c128aa97c5",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_select',
+	'',
+	'//
+// --------------------------------------------------------
+// select instance statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_fio = param.act_fio;
+select one o_obj related by act_fio->O_OBJ[R677];
+select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select any te_file from instances of TE_FILE;
+  select any te_extent from instances of TE_EXTENT;
+  select any te_select from instances of TE_SELECT;
+  select any te_set from instances of TE_SET;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one v_var related by act_fio->V_VAR[R639];
+  select one te_var related by v_var->TE_VAR[R2039];
+  te_select.is_implicit = act_fio.is_implicit;
+  te_select.class_name = te_class.GeneratedName;
+  te_select.target_class_name = te_class.Name;
+  te_select.multiplicity = act_fio.cardinality;
+  te_select.var_name = te_var.buffer;
+  r = ::GetFixedSizeClassExtentInfo( te_class:te_class );
+  extent = r;
+  if ( "any" == te_select.multiplicity )
+    if ( te_select.is_implicit )
+      // Declare (first OAL usage of) inst_ref<Object> handle variable.
+      d = ( te_select.class_name + " * " ) + ( te_select.var_name + "=0;" );
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+    end if;
+  elif ( "many" == te_select.multiplicity )
+    if ( te_select.is_implicit )
+      // First OAL use of inst_ref_set<Object> handle set. Initialize with class extent.
+      selection_result_variable = te_select.var_name;
+      d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;";
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+      // Push deallocation into the block so that it is available at gen time for break/continue/return.
+      d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select.var_name ) ) + " );";
+      ::blk_deallocation_append( te_blk:te_blk, s:d );
+    end if;
+  else
+    T::print(s:"\nERROR:  select ${te_select.multiplicity} is not any or many.");
+    T::exit(i:101);
+  end if;
+  T::include(file:"c/t.smt.select.c");
+  te_smt.OAL = "SELECT ${act_fio.cardinality} ${v_var.Name} FROM INSTANCES OF ${te_class.Key_Lett}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5dd39f33-9a6f-43e9-85e8-faa5aa4fda74",
+	"c99133b4-3b7a-467a-8402-d2c128aa97c5",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b68db21f-4404-4383-9449-345ebcfbd621",
+	"c99133b4-3b7a-467a-8402-d2c128aa97c5",
+	'act_fio',
+	"42f4ea26-5209-40ef-9c07-9e6e6abf7b73",
+	0,
+	'',
+	"5dd39f33-9a6f-43e9-85e8-faa5aa4fda74",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42f4ea26-5209-40ef-9c07-9e6e6abf7b73",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Select From Instances>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Selection/Selection.xtuml');
+INSERT INTO PE_PE
+	VALUES ("c99133b4-3b7a-467a-8402-d2c128aa97c5",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("0eb5fd66-2f34-441f-bb70-0b0a904a6056",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_select_wheres',
+	'',
+	'//
+// --------------------------------------------------------
+// select instance where statements
+// --------------------------------------------------------
+select many act_fiws from instances of ACT_FIW;
+for each act_fiw in act_fiws
+  select one te_smt related by act_fiw->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_select_where( te_smt:te_smt, act_fiw:act_fiw );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("0eb5fd66-2f34-441f-bb70-0b0a904a6056",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("309cb86c-69a8-4d82-ac66-4dfa9367452a",
+	"00000000-0000-0000-0000-000000000000",
+	'v_val_find_v_slr_return_buffer',
+	'',
+	'//
+//
+//
+// Recursively drill down into the where clause expression marking
+// selected attributes along the way.
+//
+v_val = param.v_val;
+result = "selected";
+select one v_slr related by v_val->V_SLR[R801];
+if ( not_empty v_slr )
+  select one te_val related by v_val->TE_VAL[R2040];
+  result = te_val.buffer;
+else
+  select one v_avl related by v_val->V_AVL[R801];
+  if ( not_empty v_avl )
+    select one root_v_val related by v_avl->V_VAL[R807];
+    r = ::v_val_find_v_slr_return_buffer( v_val:root_v_val );
+    result = r;
+  else
+    select one v_bin related by v_val->V_BIN[R801];
+    if ( not_empty v_bin )
+      select one left_v_val related by v_bin->V_VAL[R802];
+      r = ::v_val_find_v_slr_return_buffer( v_val:left_v_val );
+      result = r;
+      if ( "selected" != result )
+        select one right_v_val related by v_bin->V_VAL[R803];
+        r = ::v_val_find_v_slr_return_buffer( v_val:right_v_val );
+        result = r;
+      end if;
+    else
+      select one v_uny related by v_val->V_UNY[R801];
+      if ( not_empty v_uny )
+        select one uny_v_val related by v_uny->V_VAL[R804];
+        r = ::v_val_find_v_slr_return_buffer( v_val:uny_v_val );
+        result = r;
+      end if;
+    end if;
+  end if;
+end if;
+return result;
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("5cad26b3-862c-4268-9b7a-20190789ff0e",
+	"309cb86c-69a8-4d82-ac66-4dfa9367452a",
+	'v_val',
+	"5400d269-ee31-4742-ac70-8532512a854c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("309cb86c-69a8-4d82-ac66-4dfa9367452a",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("426aadad-89b4-4e6b-abd4-cf332d8d0735",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_select_where',
+	'',
+	'// --------------------------------------------------------
+// select instance where statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_fiw = param.act_fiw;
+select one o_obj related by act_fiw->O_OBJ[R676];
+select one te_class related by o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty te_class )
+  select any te_extent from instances of TE_EXTENT;
+  select any te_file from instances of TE_FILE;
+  select any te_select_where from instances of TE_SELECT_WHERE;
+  select any te_set from instances of TE_SET;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one v_var related by act_fiw->V_VAR[R665];
+  select one te_var related by v_var->TE_VAR[R2039];
+  select one where_v_val related by act_fiw->V_VAL[R610];
+  select one where_te_val related by where_v_val->TE_VAL[R2040];
+  r = ::v_val_find_v_slr_return_buffer( v_val:where_v_val );
+  slrname = r;
+  te_select_where.is_implicit = act_fiw.is_implicit;
+  te_select_where.class_name = te_class.GeneratedName;
+  te_select_where.oal_var_name = o_obj.Name;
+  te_select_where.class_description = o_obj.Descrip;
+  te_select_where.multiplicity = act_fiw.cardinality;
+  te_select_where.var_name = te_var.buffer;
+  te_select_where.selected_var_name = slrname;
+  te_select_where.where_clause = where_te_val.buffer;
+  te_select_where.special = false;
+  if ( "any" == te_select_where.multiplicity )
+    if ( te_select_where.is_implicit )
+      // Declare (first OAL usage of) inst_ref<Object> handle variable.
+      d = ( te_select_where.class_name + " * " ) + ( te_select_where.var_name + "=0;" );
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+    end if;
+  elif ( "many" == te_select_where.multiplicity )
+    if ( te_select_where.is_implicit )
+      // First OAL usage of inst_ref_set<Object> handle set
+      selection_result_variable = te_select_where.var_name;
+      d = "${te_set.scope}${te_set.base_class} ${selection_result_variable}_space={0}; ${te_set.scope}${te_set.base_class} * ${selection_result_variable} = &${selection_result_variable}_space;";
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+      // Push deallocation into the block so that it is available at gen time for break/continue/return.
+      d = ( ( te_set.module + te_set.clear ) + ( "( " + te_select_where.var_name ) ) + " );";
+      ::blk_deallocation_append( te_blk:te_blk, s:d );
+    end if;
+  else
+    T::print(s:"\nERROR:  stmt_select_from_instances_of_where: Select ${te_select_where.multiplicity} is not any or many.");
+    T::exit(i:101);
+  end if;
+  r = ::GetFixedSizeClassExtentInfo( te_class:te_class );
+  extent = r;
+  r = ::ExpandNonOptimizedSpecialWhereComparison( o_obj:o_obj, special:te_select_where.special, selected_var_name:te_select_where.selected_var_name );
+  where_comp = r;
+  iterator = ( "iter" + te_select_where.var_name ) + te_select_where.class_name;
+  // *** Built in select any special where clause.
+  select any o_id related by o_obj->O_ID[R104] where ( selected.Oid_ID == -1 );
+  select one te_where related by o_id->TE_WHERE[R2032];
+  r = ::CreateSpecialWhereComparisonArguments( te_class:te_class, o_id:o_id );
+  arguments = r;
+  T::include(file:"c/t.smt.select_where.c");
+  te_smt.OAL = "SELECT ${act_fiw.cardinality} ${v_var.Name} FROM INSTANCES OF ${te_class.Key_Lett} WHERE ${where_te_val.OAL}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("42ca7470-8425-4d62-898f-7c85185ccfcc",
+	"426aadad-89b4-4e6b-abd4-cf332d8d0735",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("80dd024f-496a-4d49-b3a4-96933cf82c3d",
+	"426aadad-89b4-4e6b-abd4-cf332d8d0735",
+	'act_fiw',
+	"2527a5ea-3890-49e4-9f12-44ef91b2fdab",
+	0,
+	'',
+	"42ca7470-8425-4d62-898f-7c85185ccfcc",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2527a5ea-3890-49e4-9f12-44ef91b2fdab",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Select From Instances Where>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Selection/Selection.xtuml');
+INSERT INTO PE_PE
+	VALUES ("426aadad-89b4-4e6b-abd4-cf332d8d0735",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("45c07cf1-6db9-4597-9f1a-af717ee336ec",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_select_relateds',
+	'',
+	'// --------------------------------------------------------
+// select instance related by statement
+// --------------------------------------------------------
+select many act_srs from instances of ACT_SR;
+for each act_sr in act_srs
+  select one act_sel related by act_sr->ACT_SEL[R664];
+  select one te_smt related by act_sel->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_select_related( te_smt:te_smt, act_sel:act_sel, by_where:false );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("45c07cf1-6db9-4597-9f1a-af717ee336ec",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1981a26b-1c71-48a7-bbed-60fcf2cca6a9",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_select_related_wheres',
+	'',
+	'//
+// --------------------------------------------------------
+// select related by where statements
+// --------------------------------------------------------
+select many act_srws from instances of ACT_SRW;
+for each act_srw in act_srws
+  select one act_sel related by act_srw->ACT_SEL[R664];
+  select one te_smt related by act_sel->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_select_related( te_smt:te_smt, act_sel:act_sel, by_where:true );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("1981a26b-1c71-48a7-bbed-60fcf2cca6a9",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c4623245-748b-4f0e-b54c-f279f92af6b5",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_generate_precreated_events',
+	'',
+	'//
+// --------------------------------------------------------
+// generate pre-created event statements
+// --------------------------------------------------------
+select many e_gprs from instances of E_GPR;
+for each e_gpr in e_gprs
+  select one te_smt related by e_gpr->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_generate_precreated_event( te_smt:te_smt, e_gpr:e_gpr );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("c4623245-748b-4f0e-b54c-f279f92af6b5",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("fcd9fe85-1611-4d3d-9f73-c3fe660c13bf",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_generate_precreated_event',
+	'',
+	'//
+te_smt = param.te_smt;
+e_gpr = param.e_gpr;
+select any te_file from instances of TE_FILE;
+select any te_eq from instances of TE_EQ;
+select any te_instance from instances of TE_INSTANCE;
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+select one te_val related by e_gpr->V_VAL[R714]->TE_VAL[R2040];
+// CDS - May need to do some investigating to see how to tell if
+// this event is self-directed or not.
+self_directed = false;
+// CDS - Also may need to dig inside, get the sm_evt and then see if this
+// event is polymorphic.
+T::include(file:"c/t.smt.generate_precreated_event.c");
+te_smt.OAL = "GENERATE ${te_val.OAL}";
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("14e657c2-7753-4ca9-8166-7ea2552606bd",
+	"fcd9fe85-1611-4d3d-9f73-c3fe660c13bf",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("22f2980c-257e-4b9e-956f-ec34112e9807",
+	"fcd9fe85-1611-4d3d-9f73-c3fe660c13bf",
+	'e_gpr',
+	"13c04771-67be-42a3-a789-b68f0f9c6f54",
+	0,
+	'',
+	"14e657c2-7753-4ca9-8166-7ea2552606bd",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("13c04771-67be-42a3-a789-b68f0f9c6f54",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate Preexisting Event>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Event/Event.xtuml');
+INSERT INTO PE_PE
+	VALUES ("fcd9fe85-1611-4d3d-9f73-c3fe660c13bf",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c2815c1e-6672-47c9-affa-5bc666ecddcb",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_generate_events',
+	'',
+	'//
+//
+// --------------------------------------------------------
+// generate event statements
+// --------------------------------------------------------
+select many e_gens from instances of E_GEN;
+for each e_gen in e_gens
+  select one te_smt related by e_gen->E_GSME[R705]->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_generate_event( te_smt:te_smt, e_gen:e_gen );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("c2815c1e-6672-47c9-affa-5bc666ecddcb",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("1934d3e3-127b-4475-b681-c3bfc61ab4f8",
+	"00000000-0000-0000-0000-000000000000",
+	'print_v_pars',
+	'',
+	'//
+v_par = param.v_par;
+done = false;
+while ( not done )
+  if ( empty v_par )
+    done = true;
+  else
+    T::print(s:"-=-=-=-=-=-=-=-=-=-=-=-=-=- v_par is ${v_par.Name}");
+    select any sm_evtdi related by v_par->V_VAL[R800]->V_EDV[R801]->V_EPR[R834]->SM_EVTDI[R846];
+    if ( not_empty sm_evtdi )
+      T::print(s:"-=m=m=m=-=-=-=-=-=-=-=-=-=- sm_evtdi is ${sm_evtdi.Name}");
+    end if;
+    select one v_par related by v_par->V_PAR[R816.''precedes''];
+  end if;
+end while;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0df642a1-9f57-4cec-b8fa-56b6a6ac2436",
+	"1934d3e3-127b-4475-b681-c3bfc61ab4f8",
+	'v_par',
+	"2f2a9dba-8f5a-45a4-8c26-dfe684dbe206",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2f2a9dba-8f5a-45a4-8c26-dfe684dbe206",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Actual Parameter>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Value/Value.xtuml');
+INSERT INTO PE_PE
+	VALUES ("1934d3e3-127b-4475-b681-c3bfc61ab4f8",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("e544fbf4-0202-4417-889f-5c1c3891adc7",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_generate_event',
+	'',
+	'//
+te_smt = param.te_smt;
+e_gen = param.e_gen;
+select one e_gsme related by e_gen->E_GSME[R705];
+select one e_ess related by e_gsme->E_GES[R703]->E_ESS[R701];
+select one sm_evt related by e_gsme->SM_EVT[R707];
+select one te_class related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+select one te_evt related by sm_evt->TE_EVT[R2036];
+if ( ( not_empty te_class ) and ( not_empty te_evt ) )
+  select any te_file from instances of TE_FILE;
+  select any te_eq from instances of TE_EQ;
+  select any te_instance from instances of TE_INSTANCE;
+  select any te_thread from instances of TE_THREAD;
+  select one v_var related by e_gen->V_VAR[R712];
+  select one te_var related by v_var->TE_VAR[R2039];
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  te_class.Included = true;
+  select many v_pars related by e_ess->V_PAR[R700];
+  parameters = "";
+  parameter_OAL = "";
+  if ( not_empty v_pars )
+    delimeter = "";
+    for each v_par in v_pars
+      select one par_te_dt related by v_par->V_VAL[R800]->S_DT[R820]->TE_DT[R2021];
+      select one par_te_val related by v_par->V_VAL[R800]->TE_VAL[R2040];
+      r = ::t_oal_smt_event_parameters( evt_msg_var:"", parameter:v_par.Name, value:par_te_val.buffer, value_type:par_te_dt.Core_Typ, ws:te_blk.indentation );
+      parameters = parameters + r;
+      parameter_OAL = ( parameter_OAL + delimeter ) + par_te_val.OAL;
+      delimeter = ", ";
+    end for;
+  end if;
+  self_directed = false;
+  if ( "self" == T::l(s:v_var.Name) )
+    // CDS - This is a simplistic way to detect event-to-self.
+    self_directed = true;
+  end if;
+  var_name = te_var.buffer;
+  T::include(file:"c/t.smt.generate.c");
+  te_smt.OAL = "GENERATE ${sm_evt.Drv_Lbl}:${sm_evt.Mning}(${parameter_OAL}) TO ${v_var.Name}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4233efe3-3b88-4bda-ad47-311db3a822ad",
+	"e544fbf4-0202-4417-889f-5c1c3891adc7",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ffd43842-6aac-4bea-b5b0-86f2ee210488",
+	"e544fbf4-0202-4417-889f-5c1c3891adc7",
+	'e_gen',
+	"96a86795-2af3-4a37-b7ca-4c4d48c158c6",
+	0,
+	'',
+	"4233efe3-3b88-4bda-ad47-311db3a822ad",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("96a86795-2af3-4a37-b7ca-4c4d48c158c6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Event/Event.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e544fbf4-0202-4417-889f-5c1c3891adc7",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("30f82a93-1aa1-4de2-92cb-d45bd464496f",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_generate_creator_events',
+	'',
+	'//
+// --------------------------------------------------------
+// generate creator event statement
+// --------------------------------------------------------
+select many e_gecs from instances of E_GEC;
+for each e_gec in e_gecs
+  ::smt_generate_creator_event( e_gec:e_gec );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("30f82a93-1aa1-4de2-92cb-d45bd464496f",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a767e5ec-94a2-40ae-97f8-33321c1ee9ed",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_generate_creator_event',
+	'',
+	'//
+e_gec = param.e_gec;
+select one e_gsme related by e_gec->E_GSME[R705];
+select one te_smt related by e_gsme->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038];
+r = ::smt_generate_class_event( te_smt:te_smt, e_gsme:e_gsme );
+::smt_buffer_append( te_smt:te_smt, s:r );
+te_smt.OAL = te_smt.OAL + " CREATOR";
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("1719da73-b727-4254-b0ce-db85688d2a70",
+	"a767e5ec-94a2-40ae-97f8-33321c1ee9ed",
+	'e_gec',
+	"15e3b1f7-ac50-4ac6-a9e7-b3a34775b110",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("15e3b1f7-ac50-4ac6-a9e7-b3a34775b110",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate to Creator>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Event/Event.xtuml');
+INSERT INTO PE_PE
+	VALUES ("a767e5ec-94a2-40ae-97f8-33321c1ee9ed",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f30b3467-c547-4f49-bc46-8785c454b6b8",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_generate_class_events',
+	'',
+	'//
+// --------------------------------------------------------
+// generate class event statement
+// --------------------------------------------------------
+select many e_gars from instances of E_GAR;
+for each e_gar in e_gars
+  ::smt_generate_event_to_class( e_gar:e_gar );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("f30b3467-c547-4f49-bc46-8785c454b6b8",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c5f57aad-91f6-43ab-a2fe-03bfc127b82a",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_generate_event_to_class',
+	'',
+	'//
+e_gar = param.e_gar;
+select one e_gsme related by e_gar->E_GSME[R705];
+select one te_smt related by e_gsme->E_GES[R703]->E_ESS[R701]->ACT_SMT[R603]->TE_SMT[R2038];
+r = ::smt_generate_class_event( te_smt:te_smt, e_gsme:e_gsme );
+::smt_buffer_append( te_smt:te_smt, s:r );
+te_smt.OAL = te_smt.OAL + " CLASS";
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4c794693-3f46-4f24-8040-40bc6a519b31",
+	"c5f57aad-91f6-43ab-a2fe-03bfc127b82a",
+	'e_gar',
+	"a3a4673a-ee57-4401-8af2-841329a14c2b",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a3a4673a-ee57-4401-8af2-841329a14c2b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate to Class>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Event/Event.xtuml');
+INSERT INTO PE_PE
+	VALUES ("c5f57aad-91f6-43ab-a2fe-03bfc127b82a",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f07c403b-a300-4878-be73-f7228df1116b",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_generate_class_event',
+	'',
+	'//
+te_smt = param.te_smt;
+e_gsme = param.e_gsme;
+select one e_ess related by e_gsme->E_GES[R703]->E_ESS[R701];
+select one te_smt related by e_ess->ACT_SMT[R603]->TE_SMT[R2038];
+select one act_act related by e_ess->ACT_SMT[R603]->ACT_BLK[R602]->ACT_ACT[R601];
+select one act_sab related by act_act->ACT_SAB[R698];
+select one sm_evt related by e_gsme->SM_EVT[R707];
+select one o_obj related by act_sab->SM_ACT[R691]->SM_SM[R515]->SM_ISM[R517]->O_OBJ[R518];
+if ( empty o_obj )
+  select one o_obj related by act_sab->SM_ACT[R691]->SM_SM[R515]->SM_ASM[R517]->O_OBJ[R519];
+end if;
+select one tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ISM[R517]->O_OBJ[R518];
+if ( empty tgt_o_obj )
+  select one tgt_o_obj related by sm_evt->SM_SM[R502]->SM_ASM[R517]->O_OBJ[R519];
+end if;
+select one te_class related by tgt_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+select one te_evt related by sm_evt->TE_EVT[R2036];
+if ( ( not_empty te_class ) and ( not_empty te_evt ) )
+  select any te_eq from instances of TE_EQ;
+  select any te_file from instances of TE_FILE;
+  select any te_instance from instances of TE_INSTANCE;
+  select any te_thread from instances of TE_THREAD;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  parameters = "";
+  parameter_OAL = "";
+  self_directed = false;
+  te_class.Included = true;
+  if ( "state" == act_act.Type )
+    if ( o_obj == tgt_o_obj )
+      self_directed = true;
+    end if;
+  elif ( "transition" == act_act.Type )
+    if ( o_obj == tgt_o_obj )
+      self_directed = true;
+    end if;
+  end if;
+  select many v_pars related by e_ess->V_PAR[R700];
+  if ( not_empty v_pars )
+    delimeter = "";
+    for each v_par in v_pars
+      select one par_te_dt related by v_par->V_VAL[R800]->S_DT[R820]->TE_DT[R2021];
+      select one par_te_val related by v_par->V_VAL[R800]->TE_VAL[R2040];
+      r = ::t_oal_smt_event_parameters( evt_msg_var:"", parameter:v_par.Name, value:par_te_val.buffer, value_type:par_te_dt.Core_Typ, ws:ws );
+      parameters = parameters + r;
+      parameter_OAL = ( parameter_OAL + delimeter ) + par_te_val.OAL;
+      delimeter = ", ";
+    end for;
+  end if;
+  var_name = "0";
+  T::include(file:"c/t.smt.generate.c");
+  te_smt.OAL = "GENERATE ${sm_evt.Drv_Lbl}:${sm_evt.Mning}(${parameter_OAL}) TO ${tgt_o_obj.Key_Lett}";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("942c79a1-cbe4-438e-814e-481a9fe1e0ac",
+	"f07c403b-a300-4878-be73-f7228df1116b",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("12330cb1-d7e4-4882-bbfb-e389a0f28ff7",
+	"f07c403b-a300-4878-be73-f7228df1116b",
+	'e_gsme',
+	"f3a543ea-92bb-4c30-8624-7b71eea5d05d",
+	0,
+	'',
+	"942c79a1-cbe4-438e-814e-481a9fe1e0ac",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f3a543ea-92bb-4c30-8624-7b71eea5d05d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Generate SM Event Statement>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Event/Event.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f07c403b-a300-4878-be73-f7228df1116b",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7e6dbe70-92d6-476d-9f2b-0d6f67534bf0",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_sgns',
+	'',
+	'//
+// --------------------------------------------------------
+// inter-component interface signal
+// --------------------------------------------------------
+select many act_sgns from instances of ACT_SGN;
+for each act_sgn in act_sgns
+  ::smt_sgn( act_sgn:act_sgn );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("7e6dbe70-92d6-476d-9f2b-0d6f67534bf0",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("6c05ce84-7847-48e3-8ff0-ae8b6557de20",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_sgn',
+	'',
+	'//
+act_sgn = param.act_sgn;
+select one te_smt related by act_sgn->ACT_SMT[R603]->TE_SMT[R2038];
+select one te_blk related by te_smt->TE_BLK[R2078];
+select one te_mact related by act_sgn->SPR_PS[R663]->TE_MACT[R2051];
+if ( empty te_mact )
+  select one te_mact related by act_sgn->SPR_RS[R660]->TE_MACT[R2053];
+end if;
+select many v_pars related by act_sgn->V_PAR[R662];
+r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, te_blk:te_blk, sretvar:"", is_statement:true );
+::smt_buffer_append( te_smt:te_smt, s:r );
+te_smt.OAL = "SEND ${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})";
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("417952b4-812f-45de-b5b3-cee5d9f0884c",
+	"6c05ce84-7847-48e3-8ff0-ae8b6557de20",
+	'act_sgn',
+	"a5d7357e-b251-4e0f-8026-7df3117e656e",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a5d7357e-b251-4e0f-8026-7df3117e656e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Signal Invocation>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Invocation/Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("6c05ce84-7847-48e3-8ff0-ae8b6557de20",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("79552a95-38da-429a-b087-a5fd7af7083e",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_iops',
+	'',
+	'//
+// --------------------------------------------------------
+// inter-component interface operation
+// --------------------------------------------------------
+select many act_iops from instances of ACT_IOP;
+for each act_iop in act_iops
+  ::smt_iop( act_iop:act_iop );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("79552a95-38da-429a-b087-a5fd7af7083e",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5ffdb3ad-73b8-4f3f-9f4e-6392be92af03",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_iop',
+	'',
+	'//
+act_iop = param.act_iop;
+select one te_smt related by act_iop->ACT_SMT[R603]->TE_SMT[R2038];
+select one te_blk related by te_smt->TE_BLK[R2078];
+select one te_mact related by act_iop->SPR_RO[R657]->TE_MACT[R2052];
+if ( empty te_mact )
+  select one te_mact related by act_iop->SPR_PO[R680]->TE_MACT[R2050];
+end if;
+select many v_pars related by act_iop->V_PAR[R679];
+r = ::q_render_msg( te_mact:te_mact, v_pars:v_pars, te_blk:te_blk, sretvar:"", is_statement:true );
+::smt_buffer_append( te_smt:te_smt, s:r );
+te_smt.OAL = "${te_mact.PortName}::${te_mact.MessageName}(${te_mact.OALParamBuffer})";
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b7ca3071-7993-4bce-89e0-377b5ba983f0",
+	"5ffdb3ad-73b8-4f3f-9f4e-6392be92af03",
+	'act_iop',
+	"9f69a539-939f-48b2-af91-df79b147e499",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9f69a539-939f-48b2-af91-df79b147e499",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Interface Operation Invocation>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Invocation/Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5ffdb3ad-73b8-4f3f-9f4e-6392be92af03",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("04c15c15-2533-46d2-b998-18f04eeb2863",
+	"00000000-0000-0000-0000-000000000000",
+	'q_render_msg',
+	'',
+	'//
+// -------------------------------------------------------------------
+// Render the call and parameter list for an inter-component message
+// -------------------------------------------------------------------
+te_mact = param.te_mact;
+v_pars = param.v_pars;
+te_blk = param.te_blk;
+sretvar = param.sretvar;
+is_statement = param.is_statement;
+select any te_file from instances of TE_FILE;
+select any te_sys from instances of TE_SYS;
+select any te_target from instances of TE_TARGET;
+parameters = "";
+te_mact.OALParamBuffer = "";
+ws = "";
+if ( is_statement )
+  ws = te_blk.indentation;
+end if;
+if ( not_empty v_pars )
+  r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
+  te_parm = r;
+  parameters = te_parm.ParamBuffer;
+  te_mact.OALParamBuffer = te_parm.OALParamBuffer;
+end if;
+select one te_aba related by te_mact->TE_ABA[R2010];
+// Support by reference string return values.
+if ( "c_t *" == te_aba.ReturnDataType )
+  if ( not te_sys.InstanceLoading )
+    te_blk.declaration = ( ( te_blk.declaration + "c_t " ) + ( sretvar + te_aba.array_spec ) ) + ";";
+    if ( "" == parameters )
+      parameters = sretvar;
+    else
+      parameters = ( ( sretvar + ", " ) + parameters );
+    end if;
+  end if;
+end if;
+name = te_mact.GeneratedName;
+if ( "C++" == te_target.language )
+  // Now navigate out across the satisfaction to get the port index of the
+  // foreign component (instance).
+  select one te_po related by te_mact->TE_PO[R2006];
+  foreign_te_po = te_po;
+  if ( te_po.Provision )
+    direction = IFDirectionType::ServerClient;
+    if ( direction == te_mact.Direction )
+      name = ( te_mact.PortName + "->" ) + name;
+    end if;
+    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.''requires or delegates'']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
+  else
+    direction = IFDirectionType::ClientServer;
+    if ( direction == te_mact.Direction )
+      name = ( te_mact.PortName + "->" ) + name;
+    end if;
+    select any foreign_te_po related by te_po->TE_IIR[R2080]->TE_IIR[R2081.''provides or is delegated'']->TE_PO[R2080] where ( ( selected.PackageName == te_po.PackageName ) and ( selected.ID != te_po.ID ) );
+  end if;
+  name = "thismodule->" + name;
+  if ( not_empty foreign_te_po )
+    if ( foreign_te_po.polymorphic )
+      if ( "" != parameters )
+        parameters = ", " + parameters;
+      end if;
+      parameters = T::s(i:foreign_te_po.sibling) + parameters;
+    end if;
+  end if;
+end if;
+T::include(file:"c/t.smt.iop.c");
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c544698b-61cb-4718-8b97-27fd41996c21",
+	"04c15c15-2533-46d2-b998-18f04eeb2863",
+	'te_mact',
+	"026512d0-8760-4cb8-9267-673322497da6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("026512d0-8760-4cb8-9267-673322497da6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Extended Message Action>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/extensions/Translation Extensions/Translation Extensions.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("e3f36c09-1051-493a-9671-ddc45610cb72",
+	"04c15c15-2533-46d2-b998-18f04eeb2863",
+	'v_pars',
+	"cff0610c-aa78-4735-bf53-f7fa31ce74fd",
+	0,
+	'',
+	"c544698b-61cb-4718-8b97-27fd41996c21",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("cff0610c-aa78-4735-bf53-f7fa31ce74fd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Actual Parameter>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Value/Value.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("4c3fb4f2-f8d7-43fb-bb11-230de0a949e0",
+	"04c15c15-2533-46d2-b998-18f04eeb2863",
+	'te_blk',
+	"6f416e29-b15b-4964-bd9f-8e31148e3f67",
+	0,
+	'',
+	"e3f36c09-1051-493a-9671-ddc45610cb72",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("13a54e5f-3b11-47f8-a3b7-5d6859439c41",
+	"04c15c15-2533-46d2-b998-18f04eeb2863",
+	'sretvar',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4c3fb4f2-f8d7-43fb-bb11-230de0a949e0",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("4f7a9ee8-5349-4a06-8048-26571c9369f1",
+	"04c15c15-2533-46d2-b998-18f04eeb2863",
+	'is_statement',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"13a54e5f-3b11-47f8-a3b7-5d6859439c41",
+	'');
+INSERT INTO PE_PE
+	VALUES ("04c15c15-2533-46d2-b998-18f04eeb2863",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("78ec2f34-db1c-49b5-a951-7b7dc46bfd1d",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_operates',
+	'',
+	'//
+// --------------------------------------------------------
+// class operation statement
+// --------------------------------------------------------
+select many act_tfms from instances of ACT_TFM;
+for each act_tfm in act_tfms
+  select one te_smt related by act_tfm->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_operate( te_smt:te_smt, act_tfm:act_tfm );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("78ec2f34-db1c-49b5-a951-7b7dc46bfd1d",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7e3ad1a7-29fe-482b-88bb-52eeff3a65e6",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_operate',
+	'',
+	'//
+te_smt = param.te_smt;
+act_tfm = param.act_tfm;
+select one o_tfr related by act_tfm->O_TFR[R673];
+select one te_tfr related by o_tfr->TE_TFR[R2024];
+select one te_class related by o_tfr->O_OBJ[R115]->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( ( not_empty te_tfr ) and ( not_empty te_class ) )
+  select any te_file from instances of TE_FILE;
+  select any te_target from instances of TE_TARGET;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one te_var related by act_tfm->V_VAR[R667]->TE_VAR[R2039];
+  var_name = "";
+  instance_based = false;
+  if ( te_tfr.Instance_Based == 1 )
+    instance_based = true;
+    var_name = te_var.buffer;
+  end if;
+  parameters = "";
+  parameter_OAL = "";
+  select many v_pars related by act_tfm->V_PAR[R627];
+  if ( not_empty v_pars )
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
+    te_parm = r;
+    parameters = te_parm.ParamBuffer;
+    parameter_OAL = te_parm.OALParamBuffer;
+  end if;
+  operation_name = te_tfr.GeneratedName;
+  uses_thismodule = false;
+  if ( "C++" == te_target.language )
+    uses_thismodule = true;
+    if ( not instance_based )
+      operation_name = ( te_class.GeneratedName + "::" ) + te_tfr.GeneratedName;
+    end if;
+  end if;
+  T::include(file:"c/t.smt.operation.c");
+  if ( instance_based )
+    te_smt.OAL = ( te_var.OAL + "." ) + ( te_tfr.Name + "(" );
+  else
+    te_smt.OAL = ( te_class.Key_Lett + "::" ) + ( te_tfr.Name + "(" );
+  end if;
+  if ( "" != parameter_OAL )
+    te_smt.OAL = ( te_smt.OAL + " " ) + ( parameter_OAL + " " );
+  end if;
+  te_smt.OAL = te_smt.OAL + ")";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("65b47145-2e94-400a-87d5-c54e500c4bf1",
+	"7e3ad1a7-29fe-482b-88bb-52eeff3a65e6",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("fd3c4e9b-009c-46b9-8d35-67f05d17acf2",
+	"7e3ad1a7-29fe-482b-88bb-52eeff3a65e6",
+	'act_tfm',
+	"c3a0c649-c89b-4f9b-9fdc-719fe83d5949",
+	0,
+	'',
+	"65b47145-2e94-400a-87d5-c54e500c4bf1",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("c3a0c649-c89b-4f9b-9fdc-719fe83d5949",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Operation Invocation>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Invocation/Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("7e3ad1a7-29fe-482b-88bb-52eeff3a65e6",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("81aed510-c4ba-4550-89ff-64b2f1e741b6",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_bridges',
+	'',
+	'//
+// --------------------------------------------------------
+// bridge statement
+// --------------------------------------------------------
+select many act_brgs from instances of ACT_BRG;
+for each act_brg in act_brgs
+  select one te_smt related by act_brg->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_bridge( te_smt:te_smt, act_brg:act_brg );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("81aed510-c4ba-4550-89ff-64b2f1e741b6",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("790840a7-9d44-41a6-b5cd-3710f958f869",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_bridge',
+	'',
+	'//
+te_smt = param.te_smt;
+act_brg = param.act_brg;
+select one s_brg related by act_brg->S_BRG[R674];
+select one te_brg related by s_brg->TE_BRG[R2025];
+if ( not_empty te_brg )
+  select any te_file from instances of TE_FILE;
+  select any te_target from instances of TE_TARGET;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  select one te_ee related by s_brg->S_EE[R19]->TE_EE[R2020];
+  te_ee.Included = true;
+  parameters = "";
+  parameter_OAL = "";
+  select many v_pars related by act_brg->V_PAR[R628];
+  if ( not_empty v_pars )
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
+    te_parm = r;
+    parameters = te_parm.ParamBuffer;
+    parameter_OAL = te_parm.OALParamBuffer;
+  end if;
+  bridge_name = te_brg.GeneratedName;
+  if ( "C++" == te_target.language )
+    bridge_name = ( te_ee.RegisteredName + "::" ) + bridge_name;
+    select one te_c related by te_ee->TE_C[R2085];
+    if ( ( "TIM" != te_brg.EEkeyletters ) and ( not_empty te_c ) )
+      if ( "" == parameters )
+        parameters = "thismodule";
+      else
+        parameters = "thismodule, " + parameters;
+      end if;
+    end if;
+  end if;
+  T::include(file:"c/t.smt.bridge.c");
+  te_smt.OAL = "${te_brg.EEkeyletters}::${te_brg.Name}( ${parameter_OAL} )";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c8e6b4f4-fc54-4d7f-9ad7-acf8ec3d78c4",
+	"790840a7-9d44-41a6-b5cd-3710f958f869",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("23bc3379-c190-4133-bec1-a4c53631ece0",
+	"790840a7-9d44-41a6-b5cd-3710f958f869",
+	'act_brg',
+	"9401259e-aff6-4747-8963-a78cca9bb312",
+	0,
+	'',
+	"c8e6b4f4-fc54-4d7f-9ad7-acf8ec3d78c4",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9401259e-aff6-4747-8963-a78cca9bb312",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Bridge Invocation>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Invocation/Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("790840a7-9d44-41a6-b5cd-3710f958f869",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("098ad207-f2f0-40da-8b3d-c5834fcfe9b5",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_functions',
+	'',
+	'//
+// --------------------------------------------------------
+// function statement
+// --------------------------------------------------------
+select many act_fncs from instances of ACT_FNC;
+for each act_fnc in act_fncs
+  select one te_smt related by act_fnc->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_function( te_smt:te_smt, act_fnc:act_fnc );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("098ad207-f2f0-40da-8b3d-c5834fcfe9b5",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c022b900-af5f-4101-8002-6f7c4edb2804",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_function',
+	'',
+	'//
+te_smt = param.te_smt;
+act_fnc = param.act_fnc;
+//
+select one te_sync related by act_fnc->S_SYNC[R675]->TE_SYNC[R2023];
+if ( not_empty te_sync )
+  select any te_file from instances of TE_FILE;
+  select any te_target from instances of TE_TARGET;
+  select one te_blk related by te_smt->TE_BLK[R2078];
+  ws = te_blk.indentation;
+  parameters = "";
+  parameter_OAL = "";
+  select many v_pars related by act_fnc->V_PAR[R669];
+  if ( not_empty v_pars )
+    r = ::gen_parameter_list( v_pars:v_pars, prefix_param_delimiter:false );
+    te_parm = r;
+    parameters = te_parm.ParamBuffer;
+    parameter_OAL = te_parm.OALParamBuffer;
+  end if;
+  function_name = te_sync.intraface_method;
+  if ( "C++" == te_target.language )
+    function_name = "thismodule->" + function_name;
+  end if;
+  T::include(file:"c/t.smt.function.c");
+  te_smt.OAL = "::${te_sync.Name}( ${parameter_OAL} )";
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2e0d7849-b6e7-45ff-b1a3-3a0676acd475",
+	"c022b900-af5f-4101-8002-6f7c4edb2804",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("154ac18f-3cb0-4d6d-9f6b-a71872f04487",
+	"c022b900-af5f-4101-8002-6f7c4edb2804",
+	'act_fnc',
+	"86cad241-b50f-4db8-85e7-1f596daa2aaf",
+	0,
+	'',
+	"2e0d7849-b6e7-45ff-b1a3-3a0676acd475",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("86cad241-b50f-4db8-85e7-1f596daa2aaf",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Function Invocation>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Invocation/Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("c022b900-af5f-4101-8002-6f7c4edb2804",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("01176c28-6466-48f7-9d42-63d4208c3909",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_returns',
+	'',
+	'//
+// --------------------------------------------------------
+// return statements
+// --------------------------------------------------------
+select many act_rets from instances of ACT_RET;
+for each act_ret in act_rets
+  select one te_smt related by act_ret->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_return( te_smt:te_smt, act_ret:act_ret );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("01176c28-6466-48f7-9d42-63d4208c3909",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a5562f22-3fe6-43a3-abf8-1b739be5a4c4",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_return',
+	'',
+	'//
+// --------------------------------------------------------
+// return statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_ret = param.act_ret;
+select any te_file from instances of TE_FILE;
+select any te_instance from instances of TE_INSTANCE;
+select any te_string from instances of TE_STRING;
+select any te_sys from instances of TE_SYS;
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+select one v_val related by act_ret->V_VAL[R668];
+intCast1 = "";
+intCast2 = "";
+value = "0";
+value_OAL = "";
+// Deallocate any variables allocated from this block and all higher blocks in this action.
+deallocation = te_blk.deallocation;
+select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078];
+while ( not_empty parent_te_blk )
+  te_blk = parent_te_blk;
+  deallocation = deallocation + parent_te_blk.deallocation;
+  select one parent_te_blk related by parent_te_blk->TE_SMT[R2015]->TE_BLK[R2078];
+end while;
+select one te_aba related by te_blk->TE_ABA[R2011];
+if ( not_empty te_aba )
+  if ( not_empty v_val )
+    if ( ( "i_t" == te_aba.ReturnDataType ) or ( "dt_xtUMLInteger" == te_aba.ReturnDataType ) )
+      // resolve the core data type of v_val
+      select one s_dt related by v_val->S_DT[R820];
+      select any core_s_dt from instances of S_DT where ( false );
+      select one s_udt related by s_dt->S_UDT[R17];
+      if ( not_empty s_udt )
+        r = ::GetBaseTypeForUDT( s_udt:s_udt );
+        core_s_dt = r;
+      end if;
+      if ( not_empty core_s_dt )
+        s_dt = core_s_dt;
+      end if;
+      //
+      // if the value is of the _real_ type
+      if ( "real" == s_dt.Name )
+        // cast the value to an int, to avoid a "possible loss of precision"
+        // syntax error in the generated code
+        intCast1 = ( "(" + te_aba.ReturnDataType ) + ")(";
+        intCast2 = ")";
+      end if;
+    end if;
+    select one te_val related by v_val->TE_VAL[R2040];
+    value = te_val.buffer;
+    value_OAL = te_val.OAL;
+  end if;
+  //
+  T::include(file:"c/t.smt.return.c");
+  te_smt.OAL = "RETURN " + value_OAL;
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("d3624be7-f152-4b6d-a8e4-8b6846b0e020",
+	"a5562f22-3fe6-43a3-abf8-1b739be5a4c4",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8517a383-9fa9-4dd3-bac8-965e032bfef4",
+	"a5562f22-3fe6-43a3-abf8-1b739be5a4c4",
+	'act_ret',
+	"e1613f59-f8aa-49fe-b922-77a457143277",
+	0,
+	'',
+	"d3624be7-f152-4b6d-a8e4-8b6846b0e020",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e1613f59-f8aa-49fe-b922-77a457143277",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Return Stmt>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Invocation/Invocation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("a5562f22-3fe6-43a3-abf8-1b739be5a4c4",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("826fa08e-11db-4048-861d-431fdff1999e",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_controls',
+	'',
+	'//
+// --------------------------------------------------------
+// control statements
+// --------------------------------------------------------
+select many act_ctls from instances of ACT_CTL;
+for each act_ctl in act_ctls
+  select one te_smt related by act_ctl->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_control( te_smt:te_smt, act_ctl:act_ctl );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("826fa08e-11db-4048-861d-431fdff1999e",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("8a6282d8-c3e5-42d5-9ce0-96eabb41c917",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_control',
+	'',
+	'//
+// --------------------------------------------------------
+// control statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_ctl = param.act_ctl;
+select any te_file from instances of TE_FILE;
+select any te_target from instances of TE_TARGET;
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+T::include(file:"c/t.smt.control.c");
+te_smt.OAL = "CONTROL";
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("04b8fc4e-fa9b-4a80-80fd-91ddfdf27111",
+	"8a6282d8-c3e5-42d5-9ce0-96eabb41c917",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("40177675-4489-4cfc-8674-bf6e02c80e58",
+	"8a6282d8-c3e5-42d5-9ce0-96eabb41c917",
+	'act_ctl',
+	"dbe30ccb-7f4a-4fde-b51a-cfd0b3dac9c9",
+	0,
+	'',
+	"04b8fc4e-fa9b-4a80-80fd-91ddfdf27111",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("dbe30ccb-7f4a-4fde-b51a-cfd0b3dac9c9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Control>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Body/Body.xtuml');
+INSERT INTO PE_PE
+	VALUES ("8a6282d8-c3e5-42d5-9ce0-96eabb41c917",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("cb85aba3-9c2f-417d-97f4-4a3e0b1eaade",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_breaks',
+	'',
+	'//
+// --------------------------------------------------------
+// break statements
+// --------------------------------------------------------
+select many act_brks from instances of ACT_BRK;
+for each act_brk in act_brks
+  select one te_smt related by act_brk->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_break( te_smt:te_smt, act_brk:act_brk );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("cb85aba3-9c2f-417d-97f4-4a3e0b1eaade",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("9a4f705b-1f1b-4ac6-88e9-2974c3f34562",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_break',
+	'',
+	'//
+// --------------------------------------------------------
+// break statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_brk = param.act_brk;
+select any te_file from instances of TE_FILE;
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+// Deallocate any variables allocated from this block and higher blocks up to containing WHILE or FOR.
+deallocation = te_blk.deallocation;
+select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078];
+while ( not_empty parent_te_blk )
+  select one parent_te_smt related by parent_te_blk->TE_SMT[R2015];
+  if ( not_empty parent_te_smt )
+    deallocation = deallocation + parent_te_blk.deallocation;
+    if ( ( "TE_WHL" == parent_te_smt.subtypeKL ) or ( "TE_FOR" == parent_te_smt.subtypeKL ) )
+      break;
+    end if;
+  end if;
+  select one parent_te_blk related by parent_te_smt->TE_BLK[R2078];
+end while;
+T::include(file:"c/t.smt.break.c");
+te_smt.OAL = "BREAK";
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("59eb1fe2-de1a-4aba-a3ec-af1b3686326a",
+	"9a4f705b-1f1b-4ac6-88e9-2974c3f34562",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("7820b56d-fc78-4f07-896b-393953d0b3d0",
+	"9a4f705b-1f1b-4ac6-88e9-2974c3f34562",
+	'act_brk',
+	"da79315c-1694-40ef-bd42-87a95148b582",
+	0,
+	'',
+	"59eb1fe2-de1a-4aba-a3ec-af1b3686326a",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("da79315c-1694-40ef-bd42-87a95148b582",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Break>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Body/Body.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9a4f705b-1f1b-4ac6-88e9-2974c3f34562",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("d97643e5-2ec9-4da5-91a9-8bc2aa5eae2f",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_continues',
+	'',
+	'//
+// --------------------------------------------------------
+// continue statements
+// --------------------------------------------------------
+select many act_cons from instances of ACT_CON;
+for each act_con in act_cons
+  select one te_smt related by act_con->ACT_SMT[R603]->TE_SMT[R2038];
+  r = ::smt_continue( te_smt:te_smt, act_con:act_con );
+  ::smt_buffer_append( te_smt:te_smt, s:r );
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("d97643e5-2ec9-4da5-91a9-8bc2aa5eae2f",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("bb96d1e3-4e4c-4645-a1da-e72a662e03e2",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_continue',
+	'',
+	'//
+// --------------------------------------------------------
+// continue statement
+// --------------------------------------------------------
+te_smt = param.te_smt;
+act_con = param.act_con;
+select any te_file from instances of TE_FILE;
+select one te_blk related by te_smt->TE_BLK[R2078];
+ws = te_blk.indentation;
+// Deallocate any variables allocated from this block and higher blocks up to containing WHILE or FOR.
+deallocation = te_blk.deallocation;
+select one parent_te_blk related by te_blk->TE_SMT[R2015]->TE_BLK[R2078];
+while ( not_empty parent_te_blk )
+  select one parent_te_smt related by parent_te_blk->TE_SMT[R2015];
+  if ( not_empty parent_te_smt )
+    deallocation = deallocation + parent_te_blk.deallocation;
+    if ( ( "TE_WHL" == parent_te_smt.subtypeKL ) or ( "TE_FOR" == parent_te_smt.subtypeKL ) )
+      break;
+    end if;
+  end if;
+  select one parent_te_blk related by parent_te_smt->TE_BLK[R2078];
+end while;
+T::include(file:"c/t.smt.continue.c");
+te_smt.OAL = "CONTINUE";
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("c531af40-da35-44e2-bc13-b92c35108206",
+	"bb96d1e3-4e4c-4645-a1da-e72a662e03e2",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9fa4dcf9-3434-4852-acb8-6595d53648e4",
+	"bb96d1e3-4e4c-4645-a1da-e72a662e03e2",
+	'act_con',
+	"d64b7f9b-4188-431e-8dd3-f34c683c0a7a",
+	0,
+	'',
+	"c531af40-da35-44e2-bc13-b92c35108206",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("d64b7f9b-4188-431e-8dd3-f34c683c0a7a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Continue>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Body/Body.xtuml');
+INSERT INTO PE_PE
+	VALUES ("bb96d1e3-4e4c-4645-a1da-e72a662e03e2",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("7acb5291-ff24-4ac2-9da6-49d789a4b7e4",
+	"00000000-0000-0000-0000-000000000000",
+	'smt_select_related',
+	'',
+	'//
+te_smt = param.te_smt;
+act_sel = param.act_sel;
+by_where = param.by_where;
+select any te_file from instances of TE_FILE;
+select any te_set from instances of TE_SET;
+select any empty_te_lnk from instances of TE_LNK where ( false );
+select any empty_act_lnk from instances of ACT_LNK where ( false );
+select one te_blk related by te_smt->TE_BLK[R2078];
+select one start_v_val related by act_sel->V_VAL[R613];
+select one start_te_val related by start_v_val->TE_VAL[R2040];
+select one start_v_var related by start_v_val->V_IRF[R801]->V_VAR[R808];
+select one start_o_obj related by start_v_var->V_INT[R814]->O_OBJ[R818];
+start_many = false;
+if ( empty start_v_var )
+  start_many = true;
+  select one start_v_var related by start_v_val->V_ISR[R801]->V_VAR[R809];
+  select one start_o_obj related by start_v_var->V_INS[R814]->O_OBJ[R819];
+end if;
+select one start_te_class related by start_o_obj->TE_CLASS[R2019] where ( not selected.ExcludeFromGen );
+if ( not_empty start_te_class )
+  // QUERY and POPULATE:  FactoryTE_SELECT_RELATED
+  // Create and link the translation instance for select_related.
+  create object instance te_select_related of TE_SELECT_RELATED;
+  te_select_related.by_where = by_where;
+  te_select_related.is_implicit = act_sel.is_implicit;
+  te_select_related.multiplicity = act_sel.cardinality;
+  relate te_select_related to start_te_class across R2077;
+  select one start_te_var related by start_v_var->TE_VAR[R2039];
+  te_select_related.start_var = start_te_val.buffer;
+  te_select_related.start_var_OAL = start_te_val.OAL;
+  if ( start_many )
+    te_select_related.start_many = true;
+  end if;
+  select one act_lnk related by act_sel->ACT_LNK[R637];
+  select one te_lnk related by act_lnk->TE_LNK[R2042];
+  // Here we detect and insert a link association if we have
+  // traversed directly from aone to aoth (or vice versa) across an
+  // associative association.  Insert the associative link between
+  // the starting variable and the first link in the chain.
+  r = ::detect_and_insert_associator_TE_LNK( te_lnk:empty_te_lnk, next_te_lnk:te_lnk, act_lnk:empty_act_lnk, next_act_lnk:act_lnk, start_o_obj:start_o_obj );
+  assr_te_lnk = r;
+  if ( not_empty assr_te_lnk )
+    te_lnk = assr_te_lnk;
+  end if;
+  // We detect first here.  We detect last in primary query/populate.
+  te_lnk.first = true;
+  // For the first link, the left (set) reference is the link start variable.
+  te_lnk.left = te_select_related.start_var;
+  select one result_v_var related by act_sel->V_VAR[R638];
+  select one result_te_var related by result_v_var->TE_VAR[R2039];
+  te_select_related.result_var = result_te_var.buffer;
+  te_select_related.result_var_OAL = result_te_var.OAL;
+  select one te_class related by result_v_var->V_INT[R814]->O_OBJ[R818]->TE_CLASS[R2019];
+  if ( "many" == te_select_related.multiplicity )
+    select one te_class related by result_v_var->V_INS[R814]->O_OBJ[R819]->TE_CLASS[R2019];
+  end if;
+  if ( te_select_related.start_many )
+    te_lnk.left = te_select_related.te_classGeneratedName + "_linkage";
+  end if;
+  if ( te_select_related.by_where )
+    select one where_te_val related by act_sel->ACT_SRW[R664]->V_VAL[R611]->TE_VAL[R2040];
+    relate where_te_val to te_select_related across R2074;
+    te_select_related.where_clause = where_te_val.buffer;
+    te_select_related.where_clause_OAL = where_te_val.OAL;
+  end if;
+  relate te_select_related to te_smt across R2069;
+  relate te_select_related to start_te_val across R2070;
+  relate te_select_related to start_te_var across R2094;
+  relate te_select_related to te_lnk across R2073;
+  //
+  // RENDER
+  // Truth Table
+  //
+  // Notes:
+  // 1) Selecting "many" or "any" through a chain that has multiplicity 1
+  //    all the way through should not be allowed by the OAL parser.
+  //    However, maybe a parser will not catch it.  Therefore, we will
+  //    support the construct in the code generator.  We will treat it
+  //    like the corresponding "one" case but populate an result set.
+  // 2) Selecting "one" through a chain that has multiplicity M should
+  //    not be allowed by the OAL parser.  However, maybe a parser will
+  //    miss it.  Therefore, we will do something that makes sense.  We
+  //    treat it like the "any" case in the code generator.
+  //
+  //   A <*----R1----1> B <*----R2----1> C
+  //     <1----R9----*>   <1----R8----*>
+  //
+  // single-link chains
+  // Declaration based upon multiplicity.
+  //  #  | first | last | startmany | multiplicity | linkmult | by_where | example
+  //  1  |   T   |  T   |     F     |   "one"      |  0:one   |    F     | select one b related by a->B[R1];
+  //  2  |   T   |  T   |     F     |   "one"      |  0:one   |    T     | select one b related by a->B[R1] where ( selected.i == 7 );
+  //  3  |   T   |  T   |     F     | "one"->"any" |  1:many  |    F     | select one b related by a->B[R9];                              // Note 2
+  //  4  |   T   |  T   |     F     | "one"->"any" |  1:many  |    T     | select one b related by a->B[R9] where ( selected.i == 7 );    // Note 2
+  //  5  |   T   |  T   |     F     |   "any"      |  0:one   |    F     | select any b related by a->B[R1];                              // Note 1
+  //  6  |   T   |  T   |     F     |   "any"      |  0:one   |    T     | select any b related by a->B[R1] where ( selected.i == 7 );    // Note 1
+  //  7  |   T   |  T   |     F     |   "any"      |  1:many  |    F     | select any b related by a->B[R9];
+  //  8  |   T   |  T   |     F     |   "any"      |  1:many  |    T     | select any b related by a->B[R9] where ( selected.i == 7 );
+  //  9  |   T   |  T   |     F     |   "many"     |  0:one   |    F     | select many bs related by a->B[R1];                            // Note 1
+  // 10  |   T   |  T   |     F     |   "many"     |  0:one   |    T     | select many bs related by a->B[R1] where ( selected.i == 7 );  // Note 1
+  // 11  |   T   |  T   |     F     |   "many"     |  1:many  |    F     | select many bs related by a->B[R9];
+  // 12  |   T   |  T   |     F     |   "many"     |  1:many  |    T     | select many bs related by a->B[R9] where ( selected.i == 7 );
+  // 13  |   T   |  T   |     T     | "one"->"any" |  0:one   |    F     | select one b related by as->B[R1];                             // Note 2
+  // 14  |   T   |  T   |     T     | "one"->"any" |  0:one   |    T     | select one b related by as->B[R1] where ( selected.i == 7 );   // Note 2
+  // 15  |   T   |  T   |     T     | "one"->"any" |  1:many  |    F     | select one b related by as->B[R9];                             // Note 2
+  // 16  |   T   |  T   |     T     | "one"->"any" |  1:many  |    T     | select one b related by as->B[R9] where ( selected.i == 7 );   // Note 2
+  // 17  |   T   |  T   |     T     |   "any"      |  0:one   |    F     | select any b related by as->B[R1];
+  // 18  |   T   |  T   |     T     |   "any"      |  0:one   |    T     | select any b related by as->B[R1] where ( selected.i == 7 );
+  // 19  |   T   |  T   |     T     |   "any"      |  1:many  |    F     | select any b related by as->B[R9];
+  // 20  |   T   |  T   |     T     |   "any"      |  1:many  |    T     | select any b related by as->B[R9] where ( selected.i == 7 );
+  // 21  |   T   |  T   |     T     |   "many"     |  0:one   |    F     | select many bs related by as->B[R1];
+  // 22  |   T   |  T   |     T     |   "many"     |  0:one   |    T     | select many bs related by as->B[R1] where ( selected.i == 7 );
+  // 23  |   T   |  T   |     T     |   "many"     |  1:many  |    F     | select many bs related by as->B[R9];
+  // 24  |   T   |  T   |     T     |   "many"     |  1:many  |    T     | select many bs related by as->B[R9] where ( selected.i == 7 );
+  // multi-link chains
+  // Declaration/initialization based upon multiplicity.
+  // First iterator based upon startmany.
+  // Chaining based upon multiplicity (and "any").
+  //  #  | first | last | multiplicity | linkmult | by_where | example
+  //  1m |   T   |  F   |   "one"      |  0:one   |    F     | select one c related by a(s)->B[R1]->C[R2];
+  //  2m |   T   |  F   |   "one"      |  0:one   |    T     | select one c related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );
+  //  3m |   T   |  F   | "one"->"any" |  1:many  |    F     | select one c related by a(s)->B[R9]->C[R8];                              // Note 2
+  //  4m |   T   |  F   | "one"->"any" |  1:many  |    T     | select one c related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );    // Note 2
+  //  5m |   T   |  F   |   "any"      |  0:one   |    F     | select any c related by a(s)->B[R1]->C[R2];                              // Note 1, 2
+  //  6m |   T   |  F   |   "any"      |  0:one   |    T     | select any c related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );    // Note 1, 2
+  //  7m |   T   |  F   |   "any"      |  1:many  |    F     | select any c related by a(s)->B[R9]->C[R8];
+  //  8m |   T   |  F   |   "any"      |  1:many  |    T     | select any c related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );
+  //  9m |   T   |  F   |   "many"     |  0:one   |    F     | select many cs related by a(s)->B[R1]->C[R2];                            // Note 1
+  // 10m |   T   |  F   |   "many"     |  0:one   |    T     | select many cs related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );  // Note 1
+  // 11m |   T   |  F   |   "many"     |  1:many  |    F     | select many cs related by a(s)->B[R9]->C[R8];
+  // 12m |   T   |  F   |   "many"     |  1:many  |    T     | select many cs related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );
+  //
+  ws = te_blk.indentation;
+  te_smt.OAL = "SELECT ${te_select_related.multiplicity} ${te_select_related.result_var_OAL} RELATED BY ${te_select_related.start_var_OAL}";
+  // declaration
+  if ( te_select_related.is_implicit )
+    if ( "many" == te_select_related.multiplicity )
+      d = "${te_set.scope}${te_set.base_class} ${te_select_related.result_var}_space={0}; ${te_set.scope}${te_set.base_class} * ${te_select_related.result_var} = &${te_select_related.result_var}_space;";
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+      d = "${te_set.module}${te_set.clear}( ${te_select_related.result_var} ); ";
+      // Push deallocation into the block so that it is available at gen time for break/continue/return.
+      ::blk_deallocation_append( te_blk:te_blk, s:d );
+    else
+      d = "${te_class.GeneratedName} * ${te_select_related.result_var}=0;";
+      ::blk_declaration_append( te_blk:te_blk, s:d );
+    end if;
+  end if;
+  cast = "";
+  subtypecheck = "";
+  select any sub_r_rel from instances of R_REL where ( false );
+  if ( "subsuper" == te_lnk.assoc_type )
+    select any sub_r_rel related by te_class->O_OBJ[R2019]->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_REL[R206] where ( selected.Numb == te_lnk.rel_number );
+    if ( not_empty sub_r_rel )
+      lnk_te_class = te_class;
+      cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) ";
+      subtypecheck = "${ws}if ( ( 0 != ${te_lnk.left} ) && ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id ) )";
+    end if;
+  end if;
+  // single-link chains
+  //  #  | first | last | startmany | multiplicity | linkmult | by_where | example
+  if ( ( te_lnk.first ) and ( te_lnk.last ) )
+    te_smt.OAL = te_smt.OAL + te_lnk.OAL;
+    if ( not te_select_related.start_many )
+      if ( "one" == te_select_related.multiplicity )
+        if ( 0 == te_lnk.Mult )
+          if ( not_empty sub_r_rel )
+            T::include(file:"c/t.smt_sr.result_ref_init.c");
+T::b(s:subtypecheck);
+          end if;
+          if ( not te_select_related.by_where )
+            //  1  |   T   |  T   |     F     |   "one"      |  0:one   |    F     | select one b related by a->B[R1];
+            T::include(file:"c/t.smt_sr.oneany_atob1.c");
+          else
+            //  2  |   T   |  T   |     F     |   "one"      |  0:one   |    T     | select one b related by a->B[R1] where ( selected.i == 7 );
+            T::include(file:"c/t.smt_sr.oneany_atob1where.c");
+          end if;
+        else
+          if ( not te_select_related.by_where )
+            //  3  |   T   |  T   |     F     | "one"->"any" |  1:many  |    F     | select one b related by a->B[R9];                              // Note 2
+            T::include(file:"c/t.smt_sr.oneany_atobm.c");
+          else
+            //  4  |   T   |  T   |     F     | "one"->"any" |  1:many  |    T     | select one b related by a->B[R9] where ( selected.i == 7 );    // Note 2
+            T::include(file:"c/t.smt_sr.oneany_atobmwhere.c");
+          end if;
+        end if;
+      elif ( "any" == te_select_related.multiplicity )
+        if ( 0 == te_lnk.Mult )
+          if ( not_empty sub_r_rel )
+            T::include(file:"c/t.smt_sr.result_ref_init.c");
+T::b(s:subtypecheck);
+          end if;
+          if ( not te_select_related.by_where )
+            //  5  |   T   |  T   |     F     |   "any"      |  0:one   |    F     | select any b related by a->B[R1];                              // Note 1
+            T::include(file:"c/t.smt_sr.oneany_atob1.c");
+          else
+            //  6  |   T   |  T   |     F     |   "any"      |  0:one   |    T     | select any b related by a->B[R1] where ( selected.i == 7 );    // Note 1
+            T::include(file:"c/t.smt_sr.oneany_atob1where.c");
+          end if;
+        else
+          if ( not te_select_related.by_where )
+            //  7  |   T   |  T   |     F     |   "any"      |  1:many  |    F     | select any b related by a->B[R9];
+            T::include(file:"c/t.smt_sr.oneany_atobm.c");
+          else
+            //  8  |   T   |  T   |     F     |   "any"      |  1:many  |    T     | select any b related by a->B[R9] where ( selected.i == 7 );
+            T::include(file:"c/t.smt_sr.oneany_atobmwhere.c");
+          end if;
+        end if;
+      else
+        if ( 0 == te_lnk.Mult )
+          if ( not te_select_related.by_where )
+            //  9  |   T   |  T   |     F     |   "many"     |  0:one   |    F     | select many bs related by a->B[R1];                            // Note 1
+            T::include(file:"c/t.smt_sr.many_atob1.c");
+          else
+            // 10  |   T   |  T   |     F     |   "many"     |  0:one   |    T     | select many bs related by a->B[R1] where ( selected.i == 7 );  // Note 1
+            T::include(file:"c/t.smt_sr.many_atob1where.c");
+          end if;
+        else
+          if ( not te_select_related.by_where )
+            // 11  |   T   |  T   |     F     |   "many"     |  1:many  |    F     | select many bs related by a->B[R9];
+            T::include(file:"c/t.smt_sr.many_atobm.c");
+          else
+            // 12  |   T   |  T   |     F     |   "many"     |  1:many  |    T     | select many bs related by a->B[R9] where ( selected.i == 7 );
+            T::include(file:"c/t.smt_sr.many_atobmwhere.c");
+          end if;
+        end if;
+      end if;
+    else
+      if ( "one" == te_select_related.multiplicity )
+        if ( 0 == te_lnk.Mult )
+          if ( not te_select_related.by_where )
+            // 13  |   T   |  T   |     T     | "one"->"any" |  0:one   |    F     | select one b related by as->B[R1];                             // Note 2
+            T::include(file:"c/t.smt_sr.oneany_astob1.c");
+          else
+            // 14  |   T   |  T   |     T     | "one"->"any" |  0:one   |    T     | select one b related by as->B[R1] where ( selected.i == 7 );   // Note 2
+            T::include(file:"c/t.smt_sr.oneany_astob1where.c");
+          end if;
+        else
+          if ( not te_select_related.by_where )
+            // 15  |   T   |  T   |     T     | "one"->"any" |  1:many  |    F     | select one b related by as->B[R9];                             // Note 2
+            T::include(file:"c/t.smt_sr.oneany_astobm.c");
+          else
+            // 16  |   T   |  T   |     T     | "one"->"any" |  1:many  |    T     | select one b related by as->B[R9] where ( selected.i == 7 );   // Note 2
+            T::include(file:"c/t.smt_sr.oneany_astobmwhere.c");
+          end if;
+        end if;
+      elif ( "any" == te_select_related.multiplicity )
+        if ( 0 == te_lnk.Mult )
+          if ( not te_select_related.by_where )
+            // 17  |   T   |  T   |     T     |   "any"      |  0:one   |    F     | select any b related by as->B[R1];
+            T::include(file:"c/t.smt_sr.oneany_astob1.c");
+          else
+            // 18  |   T   |  T   |     T     |   "any"      |  0:one   |    T     | select any b related by as->B[R1] where ( selected.i == 7 );
+            T::include(file:"c/t.smt_sr.oneany_astob1where.c");
+          end if;
+        else
+          if ( not te_select_related.by_where )
+            // 19  |   T   |  T   |     T     |   "any"      |  1:many  |    F     | select any b related by as->B[R9];
+            T::include(file:"c/t.smt_sr.oneany_astobm.c");
+          else
+            // 20  |   T   |  T   |     T     |   "any"      |  1:many  |    T     | select any b related by as->B[R9] where ( selected.i == 7 );
+            T::include(file:"c/t.smt_sr.oneany_astobmwhere.c");
+          end if;
+        end if;
+      else
+        if ( 0 == te_lnk.Mult )
+          if ( not te_select_related.by_where )
+            // 21  |   T   |  T   |     T     |   "many"     |  0:one   |    F     | select many bs related by as->B[R1];
+            T::include(file:"c/t.smt_sr.many_astob1.c");
+          else
+            // 22  |   T   |  T   |     T     |   "many"     |  0:one   |    T     | select many bs related by as->B[R1] where ( selected.i == 7 );
+            T::include(file:"c/t.smt_sr.many_astob1where.c");
+          end if;
+        else
+          if ( not te_select_related.by_where )
+            // 23  |   T   |  T   |     T     |   "many"     |  1:many  |    F     | select many bs related by as->B[R9];
+            T::include(file:"c/t.smt_sr.many_astobm.c");
+          else
+            // 24  |   T   |  T   |     T     |   "many"     |  1:many  |    T     | select many bs related by as->B[R9] where ( selected.i == 7 );
+            T::include(file:"c/t.smt_sr.many_astobmwhere.c");
+          end if; // by_where
+        end if; // last link mult
+      end if; // one, any, many
+    end if; // start many
+  else
+    //
+    // multi-link chains
+    // multi-link chains
+    // This may need to be refactored to remove some degree of control.
+    depth = 0;
+    if ( "many" == te_select_related.multiplicity )
+      T::include(file:"c/t.smt_sr.result_set_init.c");
+    else
+      if ( te_select_related.result_var != te_select_related.start_var )
+        // Do not initialize result when it is the same as starting variable.
+        T::include(file:"c/t.smt_sr.result_ref_init.c");
+      end if;
+    end if;
+T::b(s:ws + "{");
+    depth = depth + 1;
+    if ( te_select_related.start_many )
+      depth = depth + 1;
+      T::include(file:"c/t.smt_sr.start_many.c");
+    else
+      depth = depth + 1;
+      T::include(file:"c/t.smt_sr.start_one.c");
+    end if;
+    // drill through the chained links
+    while ( not te_lnk.last )
+      depth = depth + 1;
+      te_smt.OAL = te_smt.OAL + te_lnk.OAL;
+      if ( 0 == te_lnk.Mult )
+        cast = "";
+        subtypecheck = "";
+        if ( "subsuper" == te_lnk.assoc_type )
+          select one lnk_te_class related by te_lnk->TE_CLASS[R2076];
+          select any sub_r_rel related by lnk_te_class->O_OBJ[R2019]->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_REL[R206] where ( selected.Numb == te_lnk.rel_number );
+          if ( not_empty sub_r_rel )
+            cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) ";
+            subtypecheck = "${ws}if ( ( 0 != ${te_lnk.left} ) && ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id ) )";
+          end if;
+        end if;
+        result_equals_start = false;
+        if ( te_select_related.result_var == te_lnk.left )
+          result_equals_start = true;
+        end if;
+        T::include(file:"c/t.smt_sr.chainto1.c");
+      else
+        T::include(file:"c/t.smt_sr.chaintom.c");
+      end if;
+      select one te_lnk related by te_lnk->TE_LNK[R2075.''precedes''];
+    end while;
+    te_smt.OAL = te_smt.OAL + te_lnk.OAL;
+    cast = "";
+    subtypecheck = "";
+    if ( "subsuper" == te_lnk.assoc_type )
+      select any sub_r_rel related by te_class->O_OBJ[R2019]->R_OIR[R201]->R_RGO[R203]->R_SUB[R205]->R_SUBSUP[R213]->R_REL[R206] where ( selected.Numb == te_lnk.rel_number );
+      if ( not_empty sub_r_rel )
+        lnk_te_class = te_class;
+        cast = ( "(" + te_lnk.te_classGeneratedName ) + " *) ";
+        subtypecheck = "${ws}if ( ( 0 != ${te_lnk.left} ) && ( ${lnk_te_class.system_class_number} == ${te_lnk.left}->R$t{te_lnk.rel_number}_object_id ) )";
+      end if;
+    end if;
+    // now finish up
+    if ( "one" == te_select_related.multiplicity )
+      if ( 0 == te_lnk.Mult )
+        if ( not_empty sub_r_rel )
+T::b(s:subtypecheck);
+        end if;
+        if ( not te_select_related.by_where )
+          //  1m |   T   |  F   |   "one"      |  0:one   |    F     | select one c related by a(s)->B[R1]->C[R2];
+          T::include(file:"c/t.smt_sr.multi_oneany_astob1.c");
+        else
+          //  2m |   T   |  F   |   "one"      |  0:one   |    T     | select one c related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );
+          T::include(file:"c/t.smt_sr.multi_oneany_astob1where.c");
+        end if;
+      else
+        if ( not te_select_related.by_where )
+          //  3m |   T   |  F   | "one"->"any" |  1:many  |    F     | select one c related by a(s)->B[R9]->C[R8];                              // Note 2
+          T::include(file:"c/t.smt_sr.oneany_atobm.c");
+        else
+          //  4m |   T   |  F   | "one"->"any" |  1:many  |    T     | select one c related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );    // Note 2
+          T::include(file:"c/t.smt_sr.multi_oneany_astobmwhere.c");
+        end if;
+      end if;
+    elif ( "any" == te_select_related.multiplicity )
+      if ( 0 == te_lnk.Mult )
+        if ( not_empty sub_r_rel )
+T::b(s:subtypecheck);
+        end if;
+        if ( not te_select_related.by_where )
+          //  5m |   T   |  F   |   "any"      |  0:one   |    F     | select any c related by a(s)->B[R1]->C[R2];                              // Note 1, 2
+          T::include(file:"c/t.smt_sr.multi_oneany_astob1.c");
+        else
+          //  6m |   T   |  F   |   "any"      |  0:one   |    T     | select any c related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );    // Note 1, 2
+          T::include(file:"c/t.smt_sr.multi_oneany_astob1where.c");
+        end if;
+      else
+        if ( not te_select_related.by_where )
+          //  7m |   T   |  F   |   "any"      |  1:many  |    F     | select any c related by a(s)->B[R9]->C[R8];
+          T::include(file:"c/t.smt_sr.oneany_atobm.c");
+        else
+          //  8m |   T   |  F   |   "any"      |  1:many  |    T     | select any c related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );
+          T::include(file:"c/t.smt_sr.multi_oneany_astobmwhere.c");
+        end if;
+      end if;
+    else
+      if ( 0 == te_lnk.Mult )
+        if ( not_empty sub_r_rel )
+T::b(s:subtypecheck);
+        end if;
+        if ( not te_select_related.by_where )
+          //  9m |   T   |  F   |   "many"     |  0:one   |    F     | select many cs related by a(s)->B[R1]->C[R2];                            // Note 1
+          T::include(file:"c/t.smt_sr.multi_many_astob1.c");
+        else
+          // 10m |   T   |  F   |   "many"     |  0:one   |    T     | select many cs related by a(s)->B[R1]->C[R2] where ( selected.i == 7 );  // Note 1
+          T::include(file:"c/t.smt_sr.multi_many_astob1where.c");
+        end if;
+      else
+        if ( not te_select_related.by_where )
+          // 11m |   T   |  F   |   "many"     |  1:many  |    F     | select many cs related by a(s)->B[R9]->C[R8];
+          T::include(file:"c/t.smt_sr.multi_many_astobm.c");
+        else
+          // 12m |   T   |  F   |   "many"     |  1:many  |    T     | select many cs related by a(s)->B[R9]->C[R8] where ( selected.i == 7 );
+          T::include(file:"c/t.smt_sr.multi_many_astobmwhere.c");
+        end if; // by_where
+      end if; // last link mult
+    end if; // one, any, many
+    //
+    while ( depth > 0 )
+T::b(s:"}");
+      depth = depth - 1;
+    end while;
+    ::oal( s:"T_b( \\n ); // Ccode" );
+
+  end if;
+  if ( te_select_related.by_where )
+    te_smt.OAL = te_smt.OAL + " WHERE ( ${te_select_related.where_clause_OAL} )";
+  end if;
+end if;
+return T::body();
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("6236097e-37c7-4ac0-af13-92fd8ce6d0de",
+	"7acb5291-ff24-4ac2-9da6-49d789a4b7e4",
+	'te_smt',
+	"4a833e61-41b9-4471-b677-09dc2d05327a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("3bbac08f-576e-4c5b-a2c4-5adebf31c337",
+	"7acb5291-ff24-4ac2-9da6-49d789a4b7e4",
+	'act_sel',
+	"633aa463-4eea-4f3c-aa01-8220a7870baa",
+	0,
+	'',
+	"6236097e-37c7-4ac0-af13-92fd8ce6d0de",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("633aa463-4eea-4f3c-aa01-8220a7870baa",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Select>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Selection/Selection.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("2bb59c9e-8f69-4214-a0fd-951c3cc56247",
+	"7acb5291-ff24-4ac2-9da6-49d789a4b7e4",
+	'by_where',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"3bbac08f-576e-4c5b-a2c4-5adebf31c337",
+	'');
+INSERT INTO PE_PE
+	VALUES ("7acb5291-ff24-4ac2-9da6-49d789a4b7e4",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("11008ea2-36c2-4623-ba37-26db74a7e8a9",
+	"00000000-0000-0000-0000-000000000000",
+	'GetRelationshipDataMemberName',
+	'',
+	'//============================================================================
+// This archetype file contains utility functions for relationship namings
+// that span multiple archetype files.
+//============================================================================
+//
+//
+//============================================================================
+// This function returns the name of the object member data to be used
+// for (optimized) storage of a link to a related object.
+//============================================================================
+o_obj = param.o_obj;
+r_rel = param.r_rel;
+rel_phrase = param.rel_phrase;
+result = ( o_obj.Key_Lett + "_R" ) + T::s(i:r_rel.Numb);
+obj_id = "";
+r = ::GetRelationshipSuffix( right_o_obj:o_obj, r_rel:r_rel, rel_phrase:rel_phrase );
+suffix = r;
+if ( "" != suffix )
+  result = result + ( "_" + suffix );
+end if;
+// Subtype-Supertype relationship?
+select one subsup_rel related by r_rel->R_SUBSUP[R206];
+if ( not_empty subsup_rel )
+  select any subtype related by r_rel->R_SUBSUP[R206]->R_SUB[R213] where ( selected.Obj_ID == o_obj.Obj_ID );
+  if ( not_empty subtype )
+    result = ( "R" + T::s(i:r_rel.Numb) ) + "_subtype";
+    obj_id = ( "R" + T::s(i:r_rel.Numb) ) + "_object_id";
+  end if;
+end if;
+return result;
+return obj_id;
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("61ad06c3-fe91-49da-b9b2-5b78f1e6f222",
+	"11008ea2-36c2-4623-ba37-26db74a7e8a9",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2509f168-7a7c-457d-984b-b14513671101",
+	"11008ea2-36c2-4623-ba37-26db74a7e8a9",
+	'r_rel',
+	"4480b008-8c74-4f57-9256-08b7365520bc",
+	0,
+	'',
+	"61ad06c3-fe91-49da-b9b2-5b78f1e6f222",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("518c07dd-a16e-4715-a082-2b858d6421a9",
+	"11008ea2-36c2-4623-ba37-26db74a7e8a9",
+	'rel_phrase',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"2509f168-7a7c-457d-984b-b14513671101",
+	'');
+INSERT INTO PE_PE
+	VALUES ("11008ea2-36c2-4623-ba37-26db74a7e8a9",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("43571268-c1ec-4a02-96a7-5a7c9c383833",
+	"00000000-0000-0000-0000-000000000000",
+	'GetRelationshipSuffix',
+	'',
+	'//
+//============================================================================
+// Given a relationship <rel> and the object at the other (e.g., right)
+// end <right_obj>, determine the suffix to be used in the relationship
+// link, unlink, and navigation accessor methods.
+// Parameter <rel_phrase> is used for reflexive relationships to determine
+// which "end" of the relationship to get the suffix for.
+//============================================================================
+right_o_obj = param.right_o_obj;
+r_rel = param.r_rel;
+rel_phrase = param.rel_phrase;
+//
+result = "";
+select one simple_rel related by r_rel->R_SIMP[R206];
+if ( not_empty simple_rel )
+  select any participant related by simple_rel->R_PART[R207];
+  select one formalizer related by simple_rel->R_FORM[R208];
+  if ( right_o_obj.Obj_ID == participant.Obj_ID )
+    result = T::underscore(s:participant.Txt_Phrs);
+  else
+    result = T::underscore(s:formalizer.Txt_Phrs);
+  end if;
+  if ( participant.Obj_ID == formalizer.Obj_ID )
+    if ( participant.Txt_Phrs == rel_phrase )
+      result = T::underscore(s:participant.Txt_Phrs);
+    elif ( formalizer.Txt_Phrs == rel_phrase )
+      result = T::underscore(s:formalizer.Txt_Phrs);
+    else
+      msg = "\nTRANSLATION ERROR:  ${right_o_obj.Key_Lett}[R$t{r_rel.Numb}.''${rel_phrase}'']";
+      msg = msg + "\nInternal logic error for reflexive simple relationship.";
+      T::print(s:"${msg}");
+      T::exit(i:101);
+    end if;
+  end if;
+else
+  select one assoc_rel related by r_rel->R_ASSOC[R206];
+  if ( not_empty assoc_rel )
+    select one assr related by assoc_rel->R_ASSR[R211];
+    select one one_side related by assoc_rel->R_AONE[R209];
+    select one other_side related by assoc_rel->R_AOTH[R210];
+    if ( one_side.Obj_ID == other_side.Obj_ID )
+      // Reflexive associative relationship
+      if ( rel_phrase == one_side.Txt_Phrs )
+        result = T::underscore(s:one_side.Txt_Phrs);
+        // CDS Consider checking here for one side versus other side.
+        // In a role-symmetric reflexive associative, the relationship
+        // phrase may be identical on both ends.
+      elif ( rel_phrase == other_side.Txt_Phrs )
+        result = T::underscore(s:other_side.Txt_Phrs);
+      else
+        msg = "\nTRANSLATION ERROR:  ${right_o_obj.Key_Lett}[R$t{r_rel.Numb}.''${rel_phrase}'']";
+        msg = msg + "\nInternal logic error for reflexive associative relationship.";
+        T::print(s:"${msg}");
+        T::exit(i:101);
+      end if;
+      if ( right_o_obj.Obj_ID == assr.Obj_ID )
+      end if;
+    else
+      if ( right_o_obj.Obj_ID == one_side.Obj_ID )
+        result = T::underscore(s:one_side.Txt_Phrs);
+      elif ( right_o_obj.Obj_ID == other_side.Obj_ID )
+        result = T::underscore(s:other_side.Txt_Phrs);
+      end if;
+    end if; // one_side.Obj_ID == other_side.Obj_ID
+  end if; // not_empty assoc_rel
+end if; //  not_empty simp_rel
+return result;
+',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("8391e8a2-9042-49d7-84c2-d6baef7dcf8e",
+	"43571268-c1ec-4a02-96a7-5a7c9c383833",
+	'right_o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("212cd0c1-4ad4-4ed6-8237-8bd9fdf2551d",
+	"43571268-c1ec-4a02-96a7-5a7c9c383833",
+	'r_rel',
+	"4480b008-8c74-4f57-9256-08b7365520bc",
+	0,
+	'',
+	"8391e8a2-9042-49d7-84c2-d6baef7dcf8e",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("edbcca43-029c-43aa-bd44-aee075737872",
+	"43571268-c1ec-4a02-96a7-5a7c9c383833",
+	'rel_phrase',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"212cd0c1-4ad4-4ed6-8237-8bd9fdf2551d",
+	'');
+INSERT INTO PE_PE
+	VALUES ("43571268-c1ec-4a02-96a7-5a7c9c383833",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f1ce3d87-c56d-4c84-ac83-7e675d99778b",
+	"00000000-0000-0000-0000-000000000000",
+	'TE_REL_IsLeftFormalizer',
+	'',
+	'//
+//============================================================================
+// Returns whether the left O_OBJ is the formalizer.
+//=============================================================================
+left_o_obj = param.left_o_obj;
+r_rel = param.r_rel;
+rel_phrase = param.rel_phrase;
+//
+result = false;
+select one r_simp related by r_rel->R_SIMP[R206];
+if ( not_empty r_simp )
+  select one formalizer related by r_simp->R_FORM[R208];
+  select any participant related by r_simp->R_PART[R207];
+  if ( participant.Obj_ID != formalizer.Obj_ID )
+    // *** Normal Simple Relationship
+    if ( left_o_obj.Obj_ID == formalizer.Obj_ID )
+      // Left object is formalizer, right object is participant.
+      result = true;
+    end if;
+  else
+    // *** Simple Reflexive Relationship
+    if ( rel_phrase == participant.Txt_Phrs )
+      // Left object is formalizer, right object is participant.
+      result = true;
+    end if;
+  end if;
+else
+  select one subtype_supertype_rel related by r_rel->R_SUBSUP[R206];
+  // Subtype-Supertype relationship?
+  if ( not_empty subtype_supertype_rel )
+    // Left object is the subtype (formalizer)?
+    select any subtype related by subtype_supertype_rel->R_SUB[R213] where ( selected.Obj_ID == left_o_obj.Obj_ID );
+    if ( not_empty subtype )
+      result = true;
+    end if;
+  end if;
+end if;
+return result;
+',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("bd8d46fb-d6d3-4b03-8e94-115e3c0fbf10",
+	"f1ce3d87-c56d-4c84-ac83-7e675d99778b",
+	'left_o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("0dac9321-9cd2-443a-bce1-32ca7e34645c",
+	"f1ce3d87-c56d-4c84-ac83-7e675d99778b",
+	'r_rel',
+	"4480b008-8c74-4f57-9256-08b7365520bc",
+	0,
+	'',
+	"bd8d46fb-d6d3-4b03-8e94-115e3c0fbf10",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("32c4d64f-0eeb-4555-bee9-4e9f1446db74",
+	"f1ce3d87-c56d-4c84-ac83-7e675d99778b",
+	'rel_phrase',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0dac9321-9cd2-443a-bce1-32ca7e34645c",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f1ce3d87-c56d-4c84-ac83-7e675d99778b",
+	1,
+	"3233cd49-1f36-4109-a25a-31502fa991cd",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("3233cd49-1f36-4109-a25a-31502fa991cd",
+	1,
+	"f76021f0-a257-44e3-a11e-4104b91c38ec",
+	"00000000-0000-0000-0000-000000000000",
+	7);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("f76021f0-a257-44e3-a11e-4104b91c38ec",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'mcmc',
+	'',
+	0,
+	'../mcmc.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'escher',
+	1,
+	'../../escher.xtuml');

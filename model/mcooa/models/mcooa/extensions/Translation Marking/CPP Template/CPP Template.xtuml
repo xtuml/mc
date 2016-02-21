@@ -1,0 +1,340 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("baf60b8d-e26c-4740-8365-2bf8277905f9",
+	'CPP Template',
+	2209,
+	'TM_TEMPLATE',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("5f993b0f-e6a1-4710-a810-293f141fb503",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_BATTR
+	VALUES ("5f993b0f-e6a1-4710-a810-293f141fb503",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_ATTR
+	VALUES ("5f993b0f-e6a1-4710-a810-293f141fb503",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"00000000-0000-0000-0000-000000000000",
+	'ID',
+	'',
+	'',
+	'ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"cc81652c-bad9-48d2-b648-d4bac5e4f54b",
+	0,
+	"9a867758-003f-4ac7-a589-e8a524346b75",
+	"41d69ea0-f3a3-4f37-a5c3-a698e7977f83",
+	"47355c5a-094f-466f-8e1e-e2338404725c",
+	"61282aed-e8fc-4c75-bbe8-8253a74c1995",
+	"7a957f8e-d0f7-4034-bdc8-4e0c33bce447",
+	"f67e0ecd-5531-4fe2-a1fa-90e8fe84d9b9",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Component Mark',
+	'Package',
+	'R2800');
+INSERT INTO R_RGO_PROXY
+	VALUES ("baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"41d69ea0-f3a3-4f37-a5c3-a698e7977f83",
+	"47355c5a-094f-466f-8e1e-e2338404725c",
+	'../Translation Marking.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("9a867758-003f-4ac7-a589-e8a524346b75",
+	"cc81652c-bad9-48d2-b648-d4bac5e4f54b",
+	0,
+	"41d69ea0-f3a3-4f37-a5c3-a698e7977f83",
+	"61282aed-e8fc-4c75-bbe8-8253a74c1995",
+	'../Translation Marking.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("7a957f8e-d0f7-4034-bdc8-4e0c33bce447",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"9a867758-003f-4ac7-a589-e8a524346b75",
+	"cc81652c-bad9-48d2-b648-d4bac5e4f54b",
+	1,
+	'Package');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("9a867758-003f-4ac7-a589-e8a524346b75",
+	"cc81652c-bad9-48d2-b648-d4bac5e4f54b",
+	'../Component Mark/Component Mark.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("7a957f8e-d0f7-4034-bdc8-4e0c33bce447",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"5f993b0f-e6a1-4710-a810-293f141fb503",
+	'tm_cPackage',
+	'',
+	'tm_c',
+	'Package',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"cc81652c-bad9-48d2-b648-d4bac5e4f54b",
+	0,
+	"ee607655-e538-4c3c-a35e-b3987e2221a6",
+	"41d69ea0-f3a3-4f37-a5c3-a698e7977f83",
+	"47355c5a-094f-466f-8e1e-e2338404725c",
+	"61282aed-e8fc-4c75-bbe8-8253a74c1995",
+	"fc1d536e-ad8a-48e3-b70c-3ab9b355caeb",
+	"525e5be7-13ec-4139-985b-01e98ebc8ca2",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Component Mark',
+	'Name',
+	'R2800');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("ee607655-e538-4c3c-a35e-b3987e2221a6",
+	"cc81652c-bad9-48d2-b648-d4bac5e4f54b",
+	0,
+	"41d69ea0-f3a3-4f37-a5c3-a698e7977f83",
+	"61282aed-e8fc-4c75-bbe8-8253a74c1995",
+	'../Translation Marking.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("fc1d536e-ad8a-48e3-b70c-3ab9b355caeb",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"ee607655-e538-4c3c-a35e-b3987e2221a6",
+	"cc81652c-bad9-48d2-b648-d4bac5e4f54b",
+	1,
+	'Name');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("ee607655-e538-4c3c-a35e-b3987e2221a6",
+	"cc81652c-bad9-48d2-b648-d4bac5e4f54b",
+	'../Component Mark/Component Mark.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("fc1d536e-ad8a-48e3-b70c-3ab9b355caeb",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"7a957f8e-d0f7-4034-bdc8-4e0c33bce447",
+	'tm_cName',
+	'',
+	'tm_c',
+	'Name',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"ce408740-cf9e-4b93-a2fd-b06c1be3193c",
+	0,
+	"3404ef49-0d42-4470-9539-a1eb015fb10f",
+	"818dc175-a95c-40fb-b193-0753dd78d096",
+	"04d2e615-7741-4d1b-a98a-00b7960c35a3",
+	"b6508aa3-65fd-42a0-a8ec-5448336e87ed",
+	"00c8efed-461b-4a91-9dd2-c0f02656eb6d",
+	"d7d346b4-93a9-4328-8502-725a63c27264",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Interface Mark',
+	'Package',
+	'R2802');
+INSERT INTO R_RGO_PROXY
+	VALUES ("baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"818dc175-a95c-40fb-b193-0753dd78d096",
+	"04d2e615-7741-4d1b-a98a-00b7960c35a3",
+	'../Translation Marking.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("3404ef49-0d42-4470-9539-a1eb015fb10f",
+	"ce408740-cf9e-4b93-a2fd-b06c1be3193c",
+	0,
+	"818dc175-a95c-40fb-b193-0753dd78d096",
+	"b6508aa3-65fd-42a0-a8ec-5448336e87ed",
+	'../Translation Marking.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("00c8efed-461b-4a91-9dd2-c0f02656eb6d",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"3404ef49-0d42-4470-9539-a1eb015fb10f",
+	"ce408740-cf9e-4b93-a2fd-b06c1be3193c",
+	1,
+	'Package');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("3404ef49-0d42-4470-9539-a1eb015fb10f",
+	"ce408740-cf9e-4b93-a2fd-b06c1be3193c",
+	'../Interface Mark/Interface Mark.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("00c8efed-461b-4a91-9dd2-c0f02656eb6d",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"fc1d536e-ad8a-48e3-b70c-3ab9b355caeb",
+	'tm_ifPackage',
+	'',
+	'tm_if',
+	'Package',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"ce408740-cf9e-4b93-a2fd-b06c1be3193c",
+	0,
+	"2be28aed-046c-4446-95bd-8ca887bbd669",
+	"818dc175-a95c-40fb-b193-0753dd78d096",
+	"04d2e615-7741-4d1b-a98a-00b7960c35a3",
+	"b6508aa3-65fd-42a0-a8ec-5448336e87ed",
+	"5427c7e5-c112-4f40-b72b-0db166bcc2e3",
+	"64ca0def-8534-4b2d-872a-6b3074e7c3e6",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'Interface Mark',
+	'Name',
+	'R2802');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("2be28aed-046c-4446-95bd-8ca887bbd669",
+	"ce408740-cf9e-4b93-a2fd-b06c1be3193c",
+	0,
+	"818dc175-a95c-40fb-b193-0753dd78d096",
+	"b6508aa3-65fd-42a0-a8ec-5448336e87ed",
+	'../Translation Marking.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("5427c7e5-c112-4f40-b72b-0db166bcc2e3",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"2be28aed-046c-4446-95bd-8ca887bbd669",
+	"ce408740-cf9e-4b93-a2fd-b06c1be3193c",
+	1,
+	'Name');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("2be28aed-046c-4446-95bd-8ca887bbd669",
+	"ce408740-cf9e-4b93-a2fd-b06c1be3193c",
+	'../Interface Mark/Interface Mark.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("5427c7e5-c112-4f40-b72b-0db166bcc2e3",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"00c8efed-461b-4a91-9dd2-c0f02656eb6d",
+	'tm_ifName',
+	'',
+	'tm_if',
+	'Name',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("cc20848e-82c4-464f-b0a2-0c586256f37b",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_BATTR
+	VALUES ("cc20848e-82c4-464f-b0a2-0c586256f37b",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_ATTR
+	VALUES ("cc20848e-82c4-464f-b0a2-0c586256f37b",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"44fa3c87-4e22-452b-bd49-266c06f88c61",
+	'template_actual_parameters',
+	'',
+	'',
+	'template_actual_parameters',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("95fd9b06-7625-4387-9823-d56d2591c0d9",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_BATTR
+	VALUES ("95fd9b06-7625-4387-9823-d56d2591c0d9",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_ATTR
+	VALUES ("95fd9b06-7625-4387-9823-d56d2591c0d9",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"5427c7e5-c112-4f40-b72b-0db166bcc2e3",
+	'current',
+	'',
+	'',
+	'current',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("13db3f59-42ca-4550-8ef6-7cc672c0ee40",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_BATTR
+	VALUES ("13db3f59-42ca-4550-8ef6-7cc672c0ee40",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_ATTR
+	VALUES ("13db3f59-42ca-4550-8ef6-7cc672c0ee40",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"95fd9b06-7625-4387-9823-d56d2591c0d9",
+	'template_parameters',
+	'',
+	'',
+	'template_parameters',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("44fa3c87-4e22-452b-bd49-266c06f88c61",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_BATTR
+	VALUES ("44fa3c87-4e22-452b-bd49-266c06f88c61",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_ATTR
+	VALUES ("44fa3c87-4e22-452b-bd49-266c06f88c61",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"13db3f59-42ca-4550-8ef6-7cc672c0ee40",
+	'template_parameters_default',
+	'',
+	'',
+	'template_parameters_default',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("0d68f92a-5a8c-48c1-8d21-afaa5b04d074",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_BATTR
+	VALUES ("0d68f92a-5a8c-48c1-8d21-afaa5b04d074",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_ATTR
+	VALUES ("0d68f92a-5a8c-48c1-8d21-afaa5b04d074",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	"cc20848e-82c4-464f-b0a2-0c586256f37b",
+	'template_default_instantiation',
+	'',
+	'',
+	'template_default_instantiation',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_OIDA
+	VALUES ("5f993b0f-e6a1-4710-a810-293f141fb503",
+	"baf60b8d-e26c-4740-8365-2bf8277905f9",
+	0,
+	'ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO O_ID
+	VALUES (2,
+	"baf60b8d-e26c-4740-8365-2bf8277905f9");
+INSERT INTO PE_PE
+	VALUES ("baf60b8d-e26c-4740-8365-2bf8277905f9",
+	1,
+	"81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Marking',
+	'This subsystem contains classes intended for marking or coloring the user
+model to guide the translation process.',
+	0,
+	'../Translation Marking.xtuml');

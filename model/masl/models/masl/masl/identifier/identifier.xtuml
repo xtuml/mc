@@ -1,0 +1,123 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("23bcc05c-16f4-4c07-ba58-2879196804a1",
+	'identifier',
+	3714,
+	'identifier',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("f8bab69a-2ca8-422b-9895-3a2e74eb7083",
+	"23bcc05c-16f4-4c07-ba58-2879196804a1",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.identifier_begin.masl" );
+separator = "";
+select many attributes related by self->attribute[R3710.''composed of''];
+for each attribute in attributes
+  T::b( s:separator );
+  attribute.render_name();
+  separator = ", ";
+end for;
+T::include( file:"masl/t.identifier_end.masl" );
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"3a62bad0-c0d0-4ab5-8e1c-b68f3d948c03");
+INSERT INTO O_TFR
+	VALUES ("3a62bad0-c0d0-4ab5-8e1c-b68f3d948c03",
+	"23bcc05c-16f4-4c07-ba58-2879196804a1",
+	'populate',
+	'',
+	"e6c43785-3f60-4e81-9de5-93ac1b89d287",
+	0,
+	'parent_object = param.parent_object;
+create object instance identifier of identifier;
+relate identifier to parent_object across R3711.''identifies'';
+markable = markable::populate( name:"identifier" );
+relate identifier to markable across R3783;
+return identifier;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("4ae35a22-665a-4861-80bb-ebaaa618805e",
+	"3a62bad0-c0d0-4ab5-8e1c-b68f3d948c03",
+	'parent_object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("e6c43785-3f60-4e81-9de5-93ac1b89d287",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<identifier>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("2e1ceb77-1c90-48d2-947a-d5e66d61cfb7",
+	"23bcc05c-16f4-4c07-ba58-2879196804a1",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// check at least one other object
+select many attributes related by self->attribute[R3710.''composed of''];
+if ( 1 > cardinality attributes )
+  n = cardinality attributes;
+  LOG::LogInteger( message:n );
+  TRACE::log( flavor:"failure", id:101, message:"at least one attribute is required for identifier." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"f8bab69a-2ca8-422b-9895-3a2e74eb7083");
+INSERT INTO O_ID
+	VALUES (0,
+	"23bcc05c-16f4-4c07-ba58-2879196804a1");
+INSERT INTO O_ID
+	VALUES (1,
+	"23bcc05c-16f4-4c07-ba58-2879196804a1");
+INSERT INTO O_ID
+	VALUES (2,
+	"23bcc05c-16f4-4c07-ba58-2879196804a1");
+INSERT INTO PE_PE
+	VALUES ("23bcc05c-16f4-4c07-ba58-2879196804a1",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

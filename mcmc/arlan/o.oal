@@ -1526,7 +1526,6 @@ select any te_target from instances of TE_TARGET;
 select any te_thread from instances of TE_THREAD;
 select any te_tim from instances of TE_TIM;
 select any te_typemap from instances of TE_TYPEMAP;
-select any empty_cp_cp from instances of CP_CP where ( false );
 select many empty_ep_pkgs from instances of EP_PKG where ( false );
 select any empty_te_c from instances of TE_C where ( false );
 select any empty_te_dim from instances of TE_DIM where ( false );
@@ -1805,7 +1804,6 @@ end for;
 // a package has been marked, translate only the components contained
 // in the package (or referenced from it).
 ep_pkgs = empty_ep_pkgs;
-cp_cp = empty_cp_cp;
 package_to_build = "";
 select any tm_build from instances of TM_BUILD;
 markedsystems = 0;
@@ -1844,6 +1842,43 @@ else
 end if;
 te_file.types = ( te_sys.Name + "_" ) + te_file.types;
 te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main;
+//
+// Select "Imported" Packages and link them to their imports to the
+// appropriate component.
+// Imported packages are empty packages imbedded within components
+// that have the name of the target package as their description.
+// Get the components that are part of the project.
+select many te_cs from instances of TE_C where ( selected.included_in_build );
+select many c_cs related by te_cs->C_C[R2054];
+for each c_c in c_cs
+  // Get the packages contained in this component.
+  select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+  for each ep_pkg in ep_pkgs
+    // Get the packages that are empty (having no elements inside).
+    select any pe_pe related by ep_pkg->PE_PE[R8000];
+    if ( empty pe_pe )
+      // We found an empty package, now check to see if it is marked as imported.
+      if ( "" != ep_pkg.Descrip )
+        select any imported_ep_pkg from instances of EP_PKG where ( selected.Name == ep_pkg.Descrip );
+        if ( not_empty imported_ep_pkg )
+          // We found a package that has a name as specified in the embedded package Descrip.
+          // Disconnect the embedded package.  Relate the imported package.
+          select one s_sys related by imported_ep_pkg->S_SYS[R1401];
+          if ( not_empty s_sys )
+            unrelate imported_ep_pkg from s_sys across R1401;
+          end if;
+          select one s_sys related by imported_ep_pkg->S_SYS[R1405];
+          if ( not_empty s_sys )
+            unrelate imported_ep_pkg from s_sys across R1405;
+          end if;
+          select one pe_pe related by ep_pkg->PE_PE[R8001];
+          unrelate pe_pe from ep_pkg across R8001;
+          relate pe_pe to imported_ep_pkg across R8001;
+        end if;
+      end if;
+    end if;
+  end for;
+end for;
 //
 // Create and link the Extended model compiler instances.
 // Do not fully initialize, yet.  Create and link and mark.
@@ -2570,6 +2605,10 @@ select many te_pos from instances of TE_PO;
 for each te_po in te_pos
   select many te_macts related by te_po->TE_MACT[R2006];
   ::mact_sort( te_macts:te_macts );
+  te_mact = r;
+  if ( not_empty te_mact )
+    relate te_po to te_mact across R2099.'has first';
+  end if;
 end for;
 //
 //
@@ -3950,7 +3989,7 @@ else
 end if;
 return result;
 @@@
-mact_sort@void@@te_macts@inst_ref_set<Extended Message Action>@@@
+mact_sort@inst_ref<Extended Message Action>@@te_macts@inst_ref_set<Extended Message Action>@@@
 //
 // Sort a list of TE_MACTs.
 te_macts = param.te_macts;
@@ -3969,6 +4008,7 @@ while ( not_empty te_mact )
   counter = counter + 1;
   select one te_mact related by te_mact->TE_MACT[R2083.'precedes'];
 end while;
+return head_te_mact;
 @@@
 mact_insert@inst_ref<Extended Message Action>@@head_te_mact@inst_ref<Extended Message Action>@@te_mact@inst_ref<Extended Message Action>@@@
 head_te_mact = param.head_te_mact;
