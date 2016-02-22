@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #   ./xtuml2masl [-v | -vo] [-p <xtUML file(s) ...> ] [-d <xtUML file(s) ...> ] \
 #       [ -o <output directory> ]

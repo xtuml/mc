@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #   ./masl2xtuml [-p <project source directory(s) ...> ] \
 #       [-d <domain source directory(s) ...> ] [ -o <output directory> ]
