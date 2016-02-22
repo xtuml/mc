@@ -80,12 +80,12 @@ an optional validation flag and optional output directory.
 
 `masl` writes MASL to the output directory or the current working directory if no output directory
 is specified. If the validation flag (`-v`) is set, it first validates the
-model and writes any validation failures to standard error. If the validate only flag (`-vo`) is
+model and writes any validation failures to standard error. If the validate only flag (`-V`) is
 set, it only validates the model (writing validation failures to standard error), and no output
 MASL is written. Any other error messages are written to standard error.
 
 ```sh
-./masl [-v | -vo] [ -o <output directory> ] < input_file
+./masl [-v | -V] [ -o <output directory> ] < input_file
 ```
 
 #### 6.1.3 `m2x`

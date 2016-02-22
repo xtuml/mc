@@ -9,7 +9,6 @@
 
 #include "sys_sys_types.h"
 #include "ooaofooa.h"
-#include "TRACE_bridge.h"
 #include "STRING_bridge.h"
 #include "T_bridge.h"
 #include "POP_bridge.h"
