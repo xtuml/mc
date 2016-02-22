@@ -1,0 +1,8 @@
+.if ( "" != domainname )
+${domainname}::\
+.end if
+${relationshipname}.\
+.if ( "" != rolephrase )
+${rolephrase}.\
+.end if
+${objectname}.${attribute}\

@@ -1,0 +1,231 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("56998698-5cbd-405c-920e-291faf20126c",
+	'type',
+	3751,
+	'type',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("b7dd3c52-3a6c-4cea-b528-2625ea83d95d",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.type_begin.masl" );
+T::include( file:"masl/t.type_end.masl" );
+',
+	1,
+	'',
+	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd");
+INSERT INTO O_TFR
+	VALUES ("0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'populate',
+	'',
+	"e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
+	0,
+	'domain = param.domain;
+select any type related by domain->type[R3776] where ( selected.name == param.name );
+if ( empty type )
+  create object instance type of type;
+  type.name = param.name;
+  type.visibility = param.visibility;
+  type.body = param.body; // This holds the string body of the type definition.
+  relate type to domain across R3776;
+  markable = markable::populate( name:"type" );
+  relate type to markable across R3783;
+end if;
+return type;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("510c49ab-e667-498b-ab0a-9aeb37c96665",
+	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("304f7b58-e73d-42ac-82b5-77828b9d0959",
+	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"22144d30-5e43-44d9-8a89-61ba5cdde66a",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../../masl/masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("6aa68c11-a83e-4ce6-a969-4dba28dff993",
+	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
+	'visibility',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"510c49ab-e667-498b-ab0a-9aeb37c96665",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("22144d30-5e43-44d9-8a89-61ba5cdde66a",
+	"0815bcd4-c756-4bb7-9299-0e92ec85bbcd",
+	'body',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"6aa68c11-a83e-4ce6-a969-4dba28dff993",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e12ff5a2-a2e3-47fc-ac86-3e549ed59035",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<type>',
+	'',
+	'',
+	'../masltypes.xtuml');
+INSERT INTO O_TFR
+	VALUES ("5b986c98-201f-430d-8adc-56c14bb3ace5",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"type has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate visibility
+if ( "public" != self.visibility and "private" != self.visibility )
+  TRACE::log( flavor:"failure", id:101, message:"invalid visibility for routine: " + self.visibility );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate body
+if ( "" == self.body )
+  TRACE::log( flavor:"failure", id:101, message:"type has no body." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"2001763c-11c6-4ec8-acc1-baebed654580");
+INSERT INTO O_TFR
+	VALUES ("2001763c-11c6-4ec8-acc1-baebed654580",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.name;
+value[1] = self.visibility;
+value[2] = self.body;
+out::tostring( element:"type", value:value );
+out::tostring( element:"type", value:emptyvalue );',
+	1,
+	'',
+	"b7dd3c52-3a6c-4cea-b528-2625ea83d95d");
+INSERT INTO O_NBATTR
+	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_BATTR
+	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_ATTR
+	VALUES ("5e32207e-907b-433a-96bc-6d26e98067dc",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("979a39c9-0bf7-4d9d-b2d1-7e6565fc61ce",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_BATTR
+	VALUES ("979a39c9-0bf7-4d9d-b2d1-7e6565fc61ce",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_ATTR
+	VALUES ("979a39c9-0bf7-4d9d-b2d1-7e6565fc61ce",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	"5e32207e-907b-433a-96bc-6d26e98067dc",
+	'visibility',
+	'',
+	'',
+	'visibility',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("36193e21-77c9-4afb-8061-b8f18d3807f1",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_BATTR
+	VALUES ("36193e21-77c9-4afb-8061-b8f18d3807f1",
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_ATTR
+	VALUES ("36193e21-77c9-4afb-8061-b8f18d3807f1",
+	"56998698-5cbd-405c-920e-291faf20126c",
+	"979a39c9-0bf7-4d9d-b2d1-7e6565fc61ce",
+	'body',
+	'',
+	'',
+	'body',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_ID
+	VALUES (1,
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO O_ID
+	VALUES (2,
+	"56998698-5cbd-405c-920e-291faf20126c");
+INSERT INTO PE_PE
+	VALUES ("56998698-5cbd-405c-920e-291faf20126c",
+	1,
+	"b25c01b0-4491-4a75-a109-e8e515d7c29b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("b25c01b0-4491-4a75-a109-e8e515d7c29b",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masltypes',
+	'',
+	0,
+	'../masltypes.xtuml');

@@ -900,6 +900,7 @@ ${aoth_fundamentals.body}\
     .assign phrase = ".'${te_relinfo.rel_phrase}'"
   .end if
   .//
+  .if ( not_empty te_c )
   .if ( this_o_obj.Obj_ID != related_o_obj.Obj_ID )
     .// Non-reflexive - linkage based on navigation needs
     .if ( te_relinfo.is_formalizer )
@@ -926,6 +927,7 @@ ${aoth_fundamentals.body}\
   .else
     .// Reflexive - always need bi-directional linkage
     .assign storage_needed = true
+  .end if
   .end if
   .//
   .if ( te_relinfo.gen_declaration )
@@ -1021,19 +1023,21 @@ ${aoth_fundamentals.body}\
       .assign gen_navigate = true
     .end if
     .if ( gen_navigate )
-      .// Get the base names of the methods and data members to be generated.
-      .select any te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == related_o_obj.Obj_ID )
-      .invoke navigate_method  = GetNavigateLinkMethodName( this_o_obj, related_o_obj, r_rel, te_relinfo.rel_phrase )
-      .invoke member_data_name = GetRelationshipDataMemberName( related_o_obj, r_rel, te_relinfo.rel_phrase )
-      .//
-      .// Add the relationship navigation accessor method declaration as an inline
       .select one te_class related by this_o_obj->TE_CLASS[R2019]
       .select one related_te_class related by related_o_obj->TE_CLASS[R2019]
       .select one te_c related by te_class->TE_C[R2064]
-      .select one te_oir1 related by r_rto->R_OIR[R203]->TE_OIR[R2035]
-      .select one te_oir2 related by r_rgo->R_OIR[R203]->TE_OIR[R2035]
-      .assign navigated = ( te_oir1.NavigatedTo or te_oir2.NavigatedTo )
-      .include "${te_file.arc_path}/t.class.link.h"
+      .if ( ( ( not_empty te_class ) and ( not_empty related_te_class ) ) and ( not_empty te_c ) )
+        .// Get the base names of the methods and data members to be generated.
+        .select any te_oir related by r_rel->R_OIR[R201]->TE_OIR[R2035] where ( selected.Obj_ID == related_o_obj.Obj_ID )
+        .invoke navigate_method  = GetNavigateLinkMethodName( this_o_obj, related_o_obj, r_rel, te_relinfo.rel_phrase )
+        .invoke member_data_name = GetRelationshipDataMemberName( related_o_obj, r_rel, te_relinfo.rel_phrase )
+        .//
+        .// Add the relationship navigation accessor method declaration as an inline
+        .select one te_oir1 related by r_rto->R_OIR[R203]->TE_OIR[R2035]
+        .select one te_oir2 related by r_rgo->R_OIR[R203]->TE_OIR[R2035]
+        .assign navigated = ( te_oir1.NavigatedTo or te_oir2.NavigatedTo )
+        .include "${te_file.arc_path}/t.class.link.h"
+      .end if
     .end if
   .end if
 .end function

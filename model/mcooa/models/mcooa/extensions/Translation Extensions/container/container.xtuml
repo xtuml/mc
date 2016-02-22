@@ -1,0 +1,58 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
+	'container',
+	2049,
+	'TE_CONTAINER',
+	'Collections can be maintained in more than one variety of container.
+Singly-linked lists and doubly-linked lists are two varieties.  The
+container is the mechanism used to keep sets of elements together.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("531c1090-b89b-4336-91aa-6aeb12018e66",
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67");
+INSERT INTO O_BATTR
+	VALUES ("531c1090-b89b-4336-91aa-6aeb12018e66",
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67");
+INSERT INTO O_ATTR
+	VALUES ("531c1090-b89b-4336-91aa-6aeb12018e66",
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
+	"00000000-0000-0000-0000-000000000000",
+	'flavor',
+	'',
+	'',
+	'flavor',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67");
+INSERT INTO O_OIDA
+	VALUES ("531c1090-b89b-4336-91aa-6aeb12018e66",
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
+	0,
+	'flavor');
+INSERT INTO O_ID
+	VALUES (1,
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67");
+INSERT INTO O_ID
+	VALUES (2,
+	"62c3106f-47e7-4e2f-8947-c0e1bfdd2a67");
+INSERT INTO PE_PE
+	VALUES ("62c3106f-47e7-4e2f-8947-c0e1bfdd2a67",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

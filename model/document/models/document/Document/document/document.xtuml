@@ -1,0 +1,229 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("5fa1e958-322e-4789-b7e3-2be66306459a",
+	'document',
+	2300,
+	'DOC_DOC',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("0eda650a-a410-43ad-a42e-3f49e0761a4a",
+	"5fa1e958-322e-4789-b7e3-2be66306459a",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'LOG::LogInfo( message:"document start" );
+
+T::include( file:"docbook/t.documentbegin.xml" );
+select one doc_sec related by self->DOC_SEC[R2300];
+doc_sec.render( doc_doc:self );
+T::include( file:"docbook/t.documentend.xml" );
+
+// Dump buffer to output file.
+T::emit( file:self.filename );
+
+LOG::LogInfo( message:"document finish" );
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("ca13f4aa-f412-4d70-a71e-a8f586f00efd",
+	"5fa1e958-322e-4789-b7e3-2be66306459a",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one doc_sec related by self->DOC_SEC[R2300];
+if ( empty doc_sec )
+  LOG::LogFailure( message:"!Document has no first section." );
+end if;
+
+// section
+DOC_SEC::validate();
+
+// paragraph
+DOC_PAR::validate();
+
+// table
+DOC_TBL::validate();
+
+// row
+DOC_ROW::validate();
+
+',
+	1,
+	'',
+	"0eda650a-a410-43ad-a42e-3f49e0761a4a");
+INSERT INTO O_NBATTR
+	VALUES ("628315c4-9ddc-456d-b099-6a452a2d24de",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_BATTR
+	VALUES ("628315c4-9ddc-456d-b099-6a452a2d24de",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_ATTR
+	VALUES ("628315c4-9ddc-456d-b099-6a452a2d24de",
+	"5fa1e958-322e-4789-b7e3-2be66306459a",
+	"00000000-0000-0000-0000-000000000000",
+	'title',
+	'',
+	'',
+	'title',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'"BridgePoint xtUML Model"');
+INSERT INTO O_NBATTR
+	VALUES ("df34c244-0bc4-484e-8b0b-3582f8fa459f",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_BATTR
+	VALUES ("df34c244-0bc4-484e-8b0b-3582f8fa459f",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_ATTR
+	VALUES ("df34c244-0bc4-484e-8b0b-3582f8fa459f",
+	"5fa1e958-322e-4789-b7e3-2be66306459a",
+	"55193af6-e60d-4bb7-9789-45703c2207b2",
+	'font_family',
+	'',
+	'',
+	'font_family',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("55193af6-e60d-4bb7-9789-45703c2207b2",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_BATTR
+	VALUES ("55193af6-e60d-4bb7-9789-45703c2207b2",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_ATTR
+	VALUES ("55193af6-e60d-4bb7-9789-45703c2207b2",
+	"5fa1e958-322e-4789-b7e3-2be66306459a",
+	"918e055d-00fd-4a23-8b70-3d740f90885c",
+	'author',
+	'',
+	'',
+	'author',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("802d7b82-cda5-47d2-b463-f8168ac2c36d",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_BATTR
+	VALUES ("802d7b82-cda5-47d2-b463-f8168ac2c36d",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_ATTR
+	VALUES ("802d7b82-cda5-47d2-b463-f8168ac2c36d",
+	"5fa1e958-322e-4789-b7e3-2be66306459a",
+	"df34c244-0bc4-484e-8b0b-3582f8fa459f",
+	'company',
+	'',
+	'',
+	'company',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("918e055d-00fd-4a23-8b70-3d740f90885c",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_BATTR
+	VALUES ("918e055d-00fd-4a23-8b70-3d740f90885c",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_ATTR
+	VALUES ("918e055d-00fd-4a23-8b70-3d740f90885c",
+	"5fa1e958-322e-4789-b7e3-2be66306459a",
+	"628315c4-9ddc-456d-b099-6a452a2d24de",
+	'subtitle',
+	'',
+	'',
+	'subtitle',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("156f1029-26fc-4056-9d52-91f1fd6bab72",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_BATTR
+	VALUES ("156f1029-26fc-4056-9d52-91f1fd6bab72",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_ATTR
+	VALUES ("156f1029-26fc-4056-9d52-91f1fd6bab72",
+	"5fa1e958-322e-4789-b7e3-2be66306459a",
+	"802d7b82-cda5-47d2-b463-f8168ac2c36d",
+	'copyright',
+	'',
+	'',
+	'copyright',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("4e327103-c730-4580-ae22-10cc69614175",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_BATTR
+	VALUES ("4e327103-c730-4580-ae22-10cc69614175",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_ATTR
+	VALUES ("4e327103-c730-4580-ae22-10cc69614175",
+	"5fa1e958-322e-4789-b7e3-2be66306459a",
+	"156f1029-26fc-4056-9d52-91f1fd6bab72",
+	'filename',
+	'',
+	'',
+	'filename',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b6b602ad-4fc8-4382-80e2-2b4805db645a",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_BATTR
+	VALUES ("b6b602ad-4fc8-4382-80e2-2b4805db645a",
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_ATTR
+	VALUES ("b6b602ad-4fc8-4382-80e2-2b4805db645a",
+	"5fa1e958-322e-4789-b7e3-2be66306459a",
+	"4e327103-c730-4580-ae22-10cc69614175",
+	'model_image_ext',
+	'',
+	'',
+	'model_image_ext',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_ID
+	VALUES (1,
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO O_ID
+	VALUES (2,
+	"5fa1e958-322e-4789-b7e3-2be66306459a");
+INSERT INTO PE_PE
+	VALUES ("5fa1e958-322e-4789-b7e3-2be66306459a",
+	1,
+	"1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');

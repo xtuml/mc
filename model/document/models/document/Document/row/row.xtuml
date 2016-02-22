@@ -1,0 +1,235 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("e1a1fe3c-a77e-4f77-898c-0a724fae12a0",
+	'row',
+	2312,
+	'DOC_ROW',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("692dd6a4-bf4a-483c-bdc5-bada2a8c3da7",
+	"e1a1fe3c-a77e-4f77-898c-0a724fae12a0",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select any doc_row from instances of DOC_ROW;
+doc_row = self;
+
+if ( self.head )
+  T::include( file:"docbook/t.tableheadbegin.xml" );
+end if;
+T::include( file:"docbook/t.tablerowbegin.xml" );
+select one doc_cell related by self->DOC_CELL[R2310];
+if ( not_empty doc_cell )
+  doc_cell.render();
+end if;
+T::include( file:"docbook/t.tablerowend.xml" );
+if ( self.head )
+  T::include( file:"docbook/t.tableheadend.xml" );
+  T::include( file:"docbook/t.tablebodybegin.xml" );
+end if;
+
+// Render the next (and the next and the next) row.
+select one doc_row related by self->DOC_ROW[R2303.''follows''];
+if ( not_empty doc_row )
+  doc_row.render();
+else
+  T::include( file:"docbook/t.tablebodyend.xml" );
+end if;
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("ae1fccc0-2732-4a90-8f49-98caa001c980",
+	"e1a1fe3c-a77e-4f77-898c-0a724fae12a0",
+	'populate',
+	'',
+	"fce7a1d4-1709-417b-baf6-1330b19531a9",
+	0,
+	'//
+// Add a row with a given number of columns formatted per the 
+// format array.
+//
+predecessor = param.predecessor;
+select any empty_doc_cell from instances of DOC_CELL where ( false );
+create object instance doc_row of DOC_ROW;
+if ( not_empty predecessor )
+  relate predecessor to doc_row across R2303.''follows'';
+  doc_row.head = false;
+else
+  doc_row.head = true;
+end if;
+doc_cell = empty_doc_cell;
+new_doc_cell = empty_doc_cell;
+counter = 0;
+while ( counter < param.count )
+  if ( param.format[ counter ] == "text" )
+    dc = DOC_CELL::populate_paragraph( text:param.columns[ counter ], predecessor:doc_cell );
+    new_doc_cell = dc;
+  elif ( param.format[ counter ] == "image" )
+    dc = DOC_CELL::populate_image( image:param.columns[ counter ], predecessor:doc_cell );
+    new_doc_cell = dc;
+  else
+    LOG::LogFailure( message:"DOC_ROW::populate - invalid format no text or image" );
+  end if;
+  if ( empty doc_cell )
+    relate doc_row to new_doc_cell across R2310;
+  end if;
+  doc_cell = new_doc_cell;
+  counter = counter + 1;
+end while;
+return doc_row;
+',
+	1,
+	'',
+	"692dd6a4-bf4a-483c-bdc5-bada2a8c3da7");
+INSERT INTO O_TPARM
+	VALUES ("911249a5-36e8-46fb-b389-21066e507626",
+	"ae1fccc0-2732-4a90-8f49-98caa001c980",
+	'predecessor',
+	"fce7a1d4-1709-417b-baf6-1330b19531a9",
+	0,
+	'',
+	"fad73e2f-a191-4fc5-826f-050352d75b26",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fce7a1d4-1709-417b-baf6-1330b19531a9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<row>',
+	'',
+	'',
+	'../Document.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("fc54944e-4a45-4006-8c77-65490e0c5463",
+	"ae1fccc0-2732-4a90-8f49-98caa001c980",
+	'count',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("fad73e2f-a191-4fc5-826f-050352d75b26",
+	"ae1fccc0-2732-4a90-8f49-98caa001c980",
+	'columns',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'[8]',
+	"806b02e7-1353-4531-8659-d2c84b623c0d",
+	'');
+INSERT INTO S_DIM
+	VALUES (8,
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"fad73e2f-a191-4fc5-826f-050352d75b26",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"728314ea-c75b-4393-ab47-cb5d46a2e7e8",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("806b02e7-1353-4531-8659-d2c84b623c0d",
+	"ae1fccc0-2732-4a90-8f49-98caa001c980",
+	'format',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'[8]',
+	"fc54944e-4a45-4006-8c77-65490e0c5463",
+	'Give the types of the columns.');
+INSERT INTO S_DIM
+	VALUES (8,
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"806b02e7-1353-4531-8659-d2c84b623c0d",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"9f5a71fa-0b52-4f9f-9047-23deec0d18b8",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("78d6bc8f-1247-4ab6-a4ec-2d7bf533966b",
+	"e1a1fe3c-a77e-4f77-898c-0a724fae12a0",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// A row must be part of a table or have a predecessor.
+select many doc_rows from instances of DOC_ROW;
+for each doc_row in doc_rows
+  select one predecessor_doc_row related by doc_row->DOC_ROW[R2303.''precedes''];
+  if ( ( empty predecessor_doc_row ) )
+    select one parent_doc_tbl related by doc_row->DOC_TBL[R2317];
+  if ( empty parent_doc_tbl )
+    LOG::LogFailure( message:"!Row is not linked." );
+  end if;
+  end if;
+end for;
+',
+	1,
+	'',
+	"ae1fccc0-2732-4a90-8f49-98caa001c980");
+INSERT INTO O_NBATTR
+	VALUES ("37100cfc-45d7-4c71-b9d3-b8a1b71aa048",
+	"e1a1fe3c-a77e-4f77-898c-0a724fae12a0");
+INSERT INTO O_BATTR
+	VALUES ("37100cfc-45d7-4c71-b9d3-b8a1b71aa048",
+	"e1a1fe3c-a77e-4f77-898c-0a724fae12a0");
+INSERT INTO O_ATTR
+	VALUES ("37100cfc-45d7-4c71-b9d3-b8a1b71aa048",
+	"e1a1fe3c-a77e-4f77-898c-0a724fae12a0",
+	"00000000-0000-0000-0000-000000000000",
+	'head',
+	'',
+	'',
+	'head',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"e1a1fe3c-a77e-4f77-898c-0a724fae12a0");
+INSERT INTO O_ID
+	VALUES (1,
+	"e1a1fe3c-a77e-4f77-898c-0a724fae12a0");
+INSERT INTO O_ID
+	VALUES (2,
+	"e1a1fe3c-a77e-4f77-898c-0a724fae12a0");
+INSERT INTO PE_PE
+	VALUES ("e1a1fe3c-a77e-4f77-898c-0a724fae12a0",
+	1,
+	"1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');

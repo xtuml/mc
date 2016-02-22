@@ -1,0 +1,141 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("4efc2858-f08e-43bf-8100-13e805f43493",
+	'relationship storage',
+	2061,
+	'TE_RELSTORE',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("cd80de56-b556-4ddc-bd07-7e56597f515f",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_BATTR
+	VALUES ("cd80de56-b556-4ddc-bd07-7e56597f515f",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_ATTR
+	VALUES ("cd80de56-b556-4ddc-bd07-7e56597f515f",
+	"4efc2858-f08e-43bf-8100-13e805f43493",
+	"a6a87ef8-b349-4c52-a2e3-c5072a90dee2",
+	'data_init',
+	'default:',
+	'',
+	'data_init',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'""');
+INSERT INTO O_NBATTR
+	VALUES ("be82625f-df01-4121-8085-e7b189226e5e",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_BATTR
+	VALUES ("be82625f-df01-4121-8085-e7b189226e5e",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_ATTR
+	VALUES ("be82625f-df01-4121-8085-e7b189226e5e",
+	"4efc2858-f08e-43bf-8100-13e805f43493",
+	"cd80de56-b556-4ddc-bd07-7e56597f515f",
+	'link_calls',
+	'default:',
+	'',
+	'link_calls',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'""');
+INSERT INTO O_NBATTR
+	VALUES ("488d8a13-e348-47f8-a443-1950477ff69e",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_BATTR
+	VALUES ("488d8a13-e348-47f8-a443-1950477ff69e",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_ATTR
+	VALUES ("488d8a13-e348-47f8-a443-1950477ff69e",
+	"4efc2858-f08e-43bf-8100-13e805f43493",
+	"be82625f-df01-4121-8085-e7b189226e5e",
+	'link_index',
+	'default:0',
+	'',
+	'link_index',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'0');
+INSERT INTO O_NBATTR
+	VALUES ("f3b24f6e-9f98-40d0-8345-3c359f9caa6d",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_BATTR
+	VALUES ("f3b24f6e-9f98-40d0-8345-3c359f9caa6d",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_ATTR
+	VALUES ("f3b24f6e-9f98-40d0-8345-3c359f9caa6d",
+	"4efc2858-f08e-43bf-8100-13e805f43493",
+	"488d8a13-e348-47f8-a443-1950477ff69e",
+	'data_fini',
+	'',
+	'',
+	'data_fini',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'""');
+INSERT INTO O_NBATTR
+	VALUES ("0a8c79ff-e858-43b8-bc5f-1e75943070ac",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_BATTR
+	VALUES ("0a8c79ff-e858-43b8-bc5f-1e75943070ac",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_ATTR
+	VALUES ("0a8c79ff-e858-43b8-bc5f-1e75943070ac",
+	"4efc2858-f08e-43bf-8100-13e805f43493",
+	"f3b24f6e-9f98-40d0-8345-3c359f9caa6d",
+	'self_name',
+	'',
+	'',
+	'self_name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'"self"');
+INSERT INTO O_NBATTR
+	VALUES ("a6a87ef8-b349-4c52-a2e3-c5072a90dee2",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_BATTR
+	VALUES ("a6a87ef8-b349-4c52-a2e3-c5072a90dee2",
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_ATTR
+	VALUES ("a6a87ef8-b349-4c52-a2e3-c5072a90dee2",
+	"4efc2858-f08e-43bf-8100-13e805f43493",
+	"00000000-0000-0000-0000-000000000000",
+	'data_declare',
+	'default:',
+	'',
+	'data_declare',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'""');
+INSERT INTO O_ID
+	VALUES (0,
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_ID
+	VALUES (1,
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO O_ID
+	VALUES (2,
+	"4efc2858-f08e-43bf-8100-13e805f43493");
+INSERT INTO PE_PE
+	VALUES ("4efc2858-f08e-43bf-8100-13e805f43493",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

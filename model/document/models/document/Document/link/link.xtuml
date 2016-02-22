@@ -1,0 +1,71 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a",
+	'link',
+	2308,
+	'DOC_LINK',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("96e723a0-447d-4247-a31c-1c676cfe96c2",
+	"f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a");
+INSERT INTO O_BATTR
+	VALUES ("96e723a0-447d-4247-a31c-1c676cfe96c2",
+	"f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a");
+INSERT INTO O_ATTR
+	VALUES ("96e723a0-447d-4247-a31c-1c676cfe96c2",
+	"f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a",
+	"00000000-0000-0000-0000-000000000000",
+	'target',
+	'',
+	'',
+	'target',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ffe56194-9aa8-4c5c-89fe-7f0ebfdcb025",
+	"f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a");
+INSERT INTO O_BATTR
+	VALUES ("ffe56194-9aa8-4c5c-89fe-7f0ebfdcb025",
+	"f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a");
+INSERT INTO O_ATTR
+	VALUES ("ffe56194-9aa8-4c5c-89fe-7f0ebfdcb025",
+	"f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a",
+	"96e723a0-447d-4247-a31c-1c676cfe96c2",
+	'text',
+	'',
+	'',
+	'text',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a");
+INSERT INTO O_ID
+	VALUES (1,
+	"f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a");
+INSERT INTO O_ID
+	VALUES (2,
+	"f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a");
+INSERT INTO PE_PE
+	VALUES ("f2c85f52-b8f5-4fec-ae5d-e16a4bf5640a",
+	1,
+	"1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');

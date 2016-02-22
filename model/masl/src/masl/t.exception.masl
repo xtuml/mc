@@ -1,0 +1,6 @@
+T_b("  ");
+T_b(self->visibility);
+T_b(" exception ");
+T_b(self->name);
+T_b(";");
+T_b("\n");
