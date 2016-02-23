@@ -38,6 +38,18 @@ elif ( "domain" == element )
   else
     for each domain in domains
       domain.render();
+      select many activities related by domain->terminator[R3702]->routine[R3791]->activity[R3704];
+      for each activity in activities
+        activity.render();
+      end for;
+      select many activities related by domain->object[R3708]->operation[R3749]->activity[R3704];
+      for each activity in activities
+        activity.render();
+      end for;
+      select many activities related by domain->object[R3708]->state[R3750]->activity[R3704];
+      for each activity in activities
+        activity.render();
+      end for;
     end for;
   end if;
 elif ( "" == element )	// render from the root

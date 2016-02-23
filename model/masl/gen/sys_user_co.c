@@ -149,11 +149,12 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     masl_in_populate( element, value );
   }
 
-  int validate = 0; int Validateonly = 0; int outputfile = 0; char * outputfilename = 0;
+  int validate = 0; int Validateonly = 0; int outputfile = 0;
+  char * outputfilename = 0; char * projectdomain = 0; char * name = "";
   {
     int c, index;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "vVo:" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "vVo:d::p::" ) ) != -1 ) {
       switch ( c ) {
         case 'v':
           validate = 1; break;
@@ -161,8 +162,14 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           Validateonly = 1; break;
         case 'o':
           outputfilename = optarg; break;
+        case 'd':
+          projectdomain = "domain";
+          name = optarg; break;
+        case 'p':
+          projectdomain = "project";
+          name = optarg; break;
         case '?':
-          if ('o' == optopt ) {
+          if ( 'o' == optopt ) {
             fprintf( stderr, "Option -%c requires an argument.\n", optopt );
           } else if ( isprint (optopt) ) {
             fprintf( stderr, "Unknown option `-%c'.\n", optopt );
@@ -170,7 +177,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
             fprintf( stderr, "Unknown option character `\\x%x'.\n", optopt );
           }
         default:
-          ; // CDS - abort ();
+          abort (); // die ignominiously
       }
     }
   }
@@ -178,7 +185,12 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     masl_gen_validate( "" );
   }
   if ( ! Validateonly ) {
-    masl_gen_render( "project", "*" );
+    if ( projectdomain ) {
+      masl_gen_render( projectdomain, name );
+    } else {
+      masl_gen_render( "project", "" );
+      masl_gen_render( "domain", "" );
+    }
     if ( outputfilename ) {
       T_emit( outputfilename );
     } else {
