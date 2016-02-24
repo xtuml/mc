@@ -15,7 +15,7 @@
  *--------------------------------------------------------------------------*/
 
 #include "masl_sys_types.h"
-#include "masl_project_class.h"
+#include "masl_file_class.h"
 #include "T_bridge.h"
 #include "sys_user_co.h"
 
@@ -130,6 +130,8 @@ serial_MASL_decode( char * buf )
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
@@ -149,8 +151,8 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     masl_in_populate( element, value );
   }
 
-  int validate = 0; int Validateonly = 0; int outputfile = 0;
-  char * outputfilename = 0; char * projectdomain = 0; char * name = "";
+  int validate = 0; int Validateonly = 0;
+  char * outdirname = 0; char * projectdomain = 0; char * name = "";
   {
     int c, index;
     opterr = 0;
@@ -161,7 +163,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
         case 'V':
           Validateonly = 1; break;
         case 'o':
-          outputfilename = optarg; break;
+          outdirname = optarg; break;
         case 'd':
           projectdomain = "domain";
           name = optarg; break;
@@ -185,16 +187,15 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     masl_gen_validate( "" );
   }
   if ( ! Validateonly ) {
+    if ( outdirname ) {
+      masl_file_op_directory( outdirname );
+      mkdir( outdirname, S_IWUSR );
+    }
     if ( projectdomain ) {
       masl_gen_render( projectdomain, name );
     } else {
       masl_gen_render( "project", "" );
       masl_gen_render( "domain", "" );
-    }
-    if ( outputfilename ) {
-      T_emit( outputfilename );
-    } else {
-      T_emit( "stdout" );
     }
   }
   exit(0);
