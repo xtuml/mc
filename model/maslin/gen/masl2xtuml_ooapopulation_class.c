@@ -234,6 +234,90 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       }
     }
   }
+  else if ( ( Escher_strcmp( "associative", element ) == 0 ) ) {
+    /* IF ( (  == PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+      /* ooapopulation.clearRelationshipCache() */
+      masl2xtuml_ooapopulation_op_clearRelationshipCache( ooapopulation );
+    }
+    else {
+      /* ASSIGN ooapopulation.current_rel.type = ASSOCIATIVE */
+      ooapopulation->current_rel.type = masl2xtuml_RELATIONSHIP_TYPE_ASSOCIATIVE_e;
+      /* ASSIGN ooapopulation.current_rel.number = PARAM.value[0] */
+      ooapopulation->current_rel.number = Escher_strcpy( ooapopulation->current_rel.number, p_value[0] );
+      /* ASSIGN ooapopulation.current_rel.usingObj = PARAM.value[2] */
+      ooapopulation->current_rel.usingObj = Escher_strcpy( ooapopulation->current_rel.usingObj, p_value[2] );
+    }
+  }
+  else if ( ( Escher_strcmp( "regularrel", element ) == 0 ) ) {
+    /* IF ( (  == PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+      /* ooapopulation.clearRelationshipCache() */
+      masl2xtuml_ooapopulation_op_clearRelationshipCache( ooapopulation );
+    }
+    else {
+      /* ASSIGN ooapopulation.current_rel.type = REGULAR */
+      ooapopulation->current_rel.type = masl2xtuml_RELATIONSHIP_TYPE_REGULAR_e;
+      /* ASSIGN ooapopulation.current_rel.number = PARAM.value[0] */
+      ooapopulation->current_rel.number = Escher_strcpy( ooapopulation->current_rel.number, p_value[0] );
+    }
+  }
+  else if ( ( Escher_strcmp( "subsuper", element ) == 0 ) ) {
+    /* IF ( (  == PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+      /* ooapopulation.clearRelationshipCache() */
+      masl2xtuml_ooapopulation_op_clearRelationshipCache( ooapopulation );
+    }
+    else {
+      /* ASSIGN ooapopulation.current_rel.type = SUBSUPER */
+      ooapopulation->current_rel.type = masl2xtuml_RELATIONSHIP_TYPE_SUBSUPER_e;
+      /* ASSIGN ooapopulation.current_rel.number = PARAM.value[0] */
+      ooapopulation->current_rel.number = Escher_strcpy( ooapopulation->current_rel.number, p_value[0] );
+    }
+  }
+  else if ( ( Escher_strcmp( "participation", element ) == 0 ) ) {
+    /* IF ( (  == PARAM.value[1] ) ) */
+    if ( ( Escher_strcmp( "", p_value[1] ) == 0 ) ) {
+      /* ooapopulation.transformAssociation() */
+      masl2xtuml_ooapopulation_op_transformAssociation( ooapopulation );
+    }
+    else {
+      bool isFirst;masl2xtuml_ooaparticipation * part;masl2xtuml_ooaparticipation * firstPart=0;
+      /* ASSIGN isFirst = FALSE */
+      isFirst = FALSE;
+      /* SELECT any firstPart FROM INSTANCES OF ooaparticipation WHERE ( SELECTED.isFirst == TRUE ) */
+      firstPart = 0;
+      { masl2xtuml_ooaparticipation * selected;
+        Escher_Iterator_s iterfirstPartmasl2xtuml_ooaparticipation;
+        Escher_IteratorReset( &iterfirstPartmasl2xtuml_ooaparticipation, &pG_masl2xtuml_ooaparticipation_extent.active );
+        while ( (selected = (masl2xtuml_ooaparticipation *) Escher_IteratorNext( &iterfirstPartmasl2xtuml_ooaparticipation )) != 0 ) {
+          if ( ( selected->isFirst == TRUE ) ) {
+            firstPart = selected;
+            break;
+          }
+        }
+      }
+      /* IF ( empty firstPart ) */
+      if ( ( 0 == firstPart ) ) {
+        /* ASSIGN isFirst = TRUE */
+        isFirst = TRUE;
+      }
+      /* CREATE OBJECT INSTANCE part OF ooaparticipation */
+      part = (masl2xtuml_ooaparticipation *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_ooaparticipation_CLASS_NUMBER );
+      /* ASSIGN part.fromDomain = PARAM.value[0] */
+      part->fromDomain = Escher_strcpy( part->fromDomain, p_value[0] );
+      /* ASSIGN part.className = PARAM.value[1] */
+      part->className = Escher_strcpy( part->className, p_value[1] );
+      /* ASSIGN part.phrase = PARAM.value[2] */
+      part->phrase = Escher_strcpy( part->phrase, p_value[2] );
+      /* ASSIGN part.conditionality = PARAM.value[3] */
+      part->conditionality = Escher_strcpy( part->conditionality, p_value[3] );
+      /* ASSIGN part.multiplicity = PARAM.value[4] */
+      part->multiplicity = Escher_strcpy( part->multiplicity, p_value[4] );
+      /* ASSIGN part.isFirst = isFirst */
+      part->isFirst = isFirst;
+    }
+  }
   else if ( ( Escher_strcmp( "routine", element ) == 0 ) ) {
     /* IF ( (  == PARAM.value[3] ) ) */
     if ( ( Escher_strcmp( "", p_value[3] ) == 0 ) ) {
@@ -3048,6 +3132,206 @@ masl2xtuml_ooapopulation_op_OperationParameter_setType( masl2xtuml_ooapopulation
     /* RELATE o_tparm TO s_dt ACROSS R118 */
     masl2xtuml_O_TPARM_R118_Link_defines_the_type_of_( s_dt, o_tparm );
   }
+}
+
+/*
+ * instance operation:  clearRelationshipCache
+ */
+void
+masl2xtuml_ooapopulation_op_clearRelationshipCache( masl2xtuml_ooapopulation * self)
+{
+  masl2xtuml_ooaparticipation * part=0;Escher_ObjectSet_s parts_space={0}; Escher_ObjectSet_s * parts = &parts_space;
+  /* ASSIGN self.current_rel.type = NONE */
+  self->current_rel.type = masl2xtuml_RELATIONSHIP_TYPE_NONE_e;
+  /* ASSIGN self.current_rel.number =  */
+  self->current_rel.number = Escher_strcpy( self->current_rel.number, "" );
+  /* ASSIGN self.current_rel.usingObj =  */
+  self->current_rel.usingObj = Escher_strcpy( self->current_rel.usingObj, "" );
+  /* SELECT many parts FROM INSTANCES OF ooaparticipation */
+  Escher_CopySet( parts, &pG_masl2xtuml_ooaparticipation_extent.active );
+  /* FOR EACH part IN parts */
+  { Escher_Iterator_s iterpart;
+  masl2xtuml_ooaparticipation * iipart;
+  Escher_IteratorReset( &iterpart, parts );
+  while ( (iipart = (masl2xtuml_ooaparticipation *)Escher_IteratorNext( &iterpart )) != 0 ) {
+    part = iipart; {
+    /* DELETE OBJECT INSTANCE part */
+    if ( 0 == part ) {
+      XTUML_EMPTY_HANDLE_TRACE( "ooaparticipation", "Escher_DeleteInstance" );
+    }
+    Escher_DeleteInstance( (Escher_iHandle_t) part, masl2xtuml_DOMAIN_ID, masl2xtuml_ooaparticipation_CLASS_NUMBER );
+  }}}
+  Escher_ClearSet( parts );
+}
+
+/*
+ * instance operation:  Package_newAssociation
+ */
+void
+masl2xtuml_ooapopulation_op_Package_newAssociation( masl2xtuml_ooapopulation * self, masl2xtuml_EP_PKG * p_ep_pkg )
+{
+  masl2xtuml_EP_PKG * ep_pkg;masl2xtuml_ooaparticipation * toOOAPart=0;masl2xtuml_ooaparticipation * fromOOAPart=0;masl2xtuml_O_OBJ * toClass=0;masl2xtuml_O_OBJ * fromClass=0;
+  /* ASSIGN ep_pkg = PARAM.ep_pkg */
+  ep_pkg = p_ep_pkg;
+  /* SELECT any fromOOAPart FROM INSTANCES OF ooaparticipation WHERE ( SELECTED.isFirst == TRUE ) */
+  fromOOAPart = 0;
+  { masl2xtuml_ooaparticipation * selected;
+    Escher_Iterator_s iterfromOOAPartmasl2xtuml_ooaparticipation;
+    Escher_IteratorReset( &iterfromOOAPartmasl2xtuml_ooaparticipation, &pG_masl2xtuml_ooaparticipation_extent.active );
+    while ( (selected = (masl2xtuml_ooaparticipation *) Escher_IteratorNext( &iterfromOOAPartmasl2xtuml_ooaparticipation )) != 0 ) {
+      if ( ( selected->isFirst == TRUE ) ) {
+        fromOOAPart = selected;
+        break;
+      }
+    }
+  }
+  /* SELECT any toOOAPart FROM INSTANCES OF ooaparticipation WHERE ( SELECTED.isFirst == FALSE ) */
+  toOOAPart = 0;
+  { masl2xtuml_ooaparticipation * selected;
+    Escher_Iterator_s itertoOOAPartmasl2xtuml_ooaparticipation;
+    Escher_IteratorReset( &itertoOOAPartmasl2xtuml_ooaparticipation, &pG_masl2xtuml_ooaparticipation_extent.active );
+    while ( (selected = (masl2xtuml_ooaparticipation *) Escher_IteratorNext( &itertoOOAPartmasl2xtuml_ooaparticipation )) != 0 ) {
+      if ( ( selected->isFirst == FALSE ) ) {
+        toOOAPart = selected;
+        break;
+      }
+    }
+  }
+  /* SELECT any fromClass RELATED BY ep_pkg->PE_PE[R8000]->O_OBJ[R8001] WHERE ( ( SELECTED.Name == fromOOAPart.className ) ) */
+  fromClass = 0;
+  {  if ( 0 != ep_pkg ) {
+  masl2xtuml_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &ep_pkg->PE_PE_R8000_contains );
+  while ( ( 0 == fromClass ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_O_OBJ_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_O_OBJ * selected = (masl2xtuml_O_OBJ *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, fromOOAPart->className ) == 0 ) ) {
+    fromClass = selected;
+  }}
+}}}
+  /* SELECT any toClass RELATED BY ep_pkg->PE_PE[R8000]->O_OBJ[R8001] WHERE ( ( SELECTED.Name == toOOAPart.className ) ) */
+  toClass = 0;
+  {  if ( 0 != ep_pkg ) {
+  masl2xtuml_PE_PE * PE_PE_R8000_contains;
+  Escher_Iterator_s iPE_PE_R8000_contains;
+  Escher_IteratorReset( &iPE_PE_R8000_contains, &ep_pkg->PE_PE_R8000_contains );
+  while ( ( 0 == toClass ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_O_OBJ_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_O_OBJ * selected = (masl2xtuml_O_OBJ *) PE_PE_R8000_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, toOOAPart->className ) == 0 ) ) {
+    toClass = selected;
+  }}
+}}}
+  /* IF ( ( not_empty fromClass and not_empty toClass ) ) */
+  if ( ( ( 0 != fromClass ) && ( 0 != toClass ) ) ) {
+    masl2xtuml_R_PART * toPART;masl2xtuml_R_RTO * toRTO;masl2xtuml_R_OIR * toOIR;masl2xtuml_R_PART * fromPART;masl2xtuml_R_RTO * fromRTO;masl2xtuml_R_OIR * fromOIR;masl2xtuml_R_SIMP * simp;masl2xtuml_PE_PE * pe;masl2xtuml_R_REL * assoc;
+    /* CREATE OBJECT INSTANCE assoc OF R_REL */
+    assoc = (masl2xtuml_R_REL *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_REL_CLASS_NUMBER );
+    assoc->Rel_ID = (Escher_UniqueID_t) assoc;
+    /* CREATE OBJECT INSTANCE pe OF PE_PE */
+    pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
+    pe->Element_ID = (Escher_UniqueID_t) pe;
+    /* RELATE assoc TO pe ACROSS R8001 */
+    masl2xtuml_R_REL_R8001_Link( pe, assoc );
+    /* RELATE pe TO ep_pkg ACROSS R8000 */
+    masl2xtuml_PE_PE_R8000_Link_contains( ep_pkg, pe );
+    /* ASSIGN pe.type = ASSOCIATION */
+    pe->type = masl2xtuml_ElementTypeConstants_ASSOCIATION_e;
+    /* self.PackageableElement_initialize( pe_pe:pe ) */
+    masl2xtuml_ooapopulation_op_PackageableElement_initialize( self,  pe );
+    /* self.Association_initialize( r_rel:assoc ) */
+    masl2xtuml_ooapopulation_op_Association_initialize( self,  assoc );
+    /* CREATE OBJECT INSTANCE simp OF R_SIMP */
+    simp = (masl2xtuml_R_SIMP *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_SIMP_CLASS_NUMBER );
+    simp->Rel_ID = (Escher_UniqueID_t) simp;
+    /* RELATE simp TO assoc ACROSS R206 */
+    masl2xtuml_R_SIMP_R206_Link( assoc, simp );
+    /* CREATE OBJECT INSTANCE fromOIR OF R_OIR */
+    fromOIR = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
+    fromOIR->Obj_ID = (Escher_UniqueID_t) fromOIR;
+fromOIR->Rel_ID = (Escher_UniqueID_t) fromOIR;
+fromOIR->OIR_ID = (Escher_UniqueID_t) fromOIR;
+    /* RELATE fromClass TO assoc ACROSS R201 USING fromOIR */
+    masl2xtuml_R_OIR_R201_Link( assoc, fromClass, fromOIR );
+    /* CREATE OBJECT INSTANCE fromRTO OF R_RTO */
+    fromRTO = (masl2xtuml_R_RTO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RTO_CLASS_NUMBER );
+    fromRTO->Obj_ID = (Escher_UniqueID_t) fromRTO;
+fromRTO->Rel_ID = (Escher_UniqueID_t) fromRTO;
+fromRTO->OIR_ID = (Escher_UniqueID_t) fromRTO;
+    /* RELATE fromOIR TO fromRTO ACROSS R203 */
+    masl2xtuml_R_RTO_R203_Link( fromOIR, fromRTO );
+    /* CREATE OBJECT INSTANCE fromPART OF R_PART */
+    fromPART = (masl2xtuml_R_PART *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_PART_CLASS_NUMBER );
+    fromPART->Obj_ID = (Escher_UniqueID_t) fromPART;
+fromPART->Rel_ID = (Escher_UniqueID_t) fromPART;
+fromPART->OIR_ID = (Escher_UniqueID_t) fromPART;
+    /* RELATE fromPART TO fromRTO ACROSS R204 */
+    masl2xtuml_R_PART_R204_Link( fromRTO, fromPART );
+    /* RELATE fromPART TO simp ACROSS R207 */
+    masl2xtuml_R_PART_R207_Link_relates( simp, fromPART );
+    /* CREATE OBJECT INSTANCE toOIR OF R_OIR */
+    toOIR = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
+    toOIR->Obj_ID = (Escher_UniqueID_t) toOIR;
+toOIR->Rel_ID = (Escher_UniqueID_t) toOIR;
+toOIR->OIR_ID = (Escher_UniqueID_t) toOIR;
+    /* RELATE toClass TO assoc ACROSS R201 USING toOIR */
+    masl2xtuml_R_OIR_R201_Link( assoc, toClass, toOIR );
+    /* CREATE OBJECT INSTANCE toRTO OF R_RTO */
+    toRTO = (masl2xtuml_R_RTO *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_RTO_CLASS_NUMBER );
+    toRTO->Obj_ID = (Escher_UniqueID_t) toRTO;
+toRTO->Rel_ID = (Escher_UniqueID_t) toRTO;
+toRTO->OIR_ID = (Escher_UniqueID_t) toRTO;
+    /* RELATE toOIR TO toRTO ACROSS R203 */
+    masl2xtuml_R_RTO_R203_Link( toOIR, toRTO );
+    /* CREATE OBJECT INSTANCE toPART OF R_PART */
+    toPART = (masl2xtuml_R_PART *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_PART_CLASS_NUMBER );
+    toPART->Obj_ID = (Escher_UniqueID_t) toPART;
+toPART->Rel_ID = (Escher_UniqueID_t) toPART;
+toPART->OIR_ID = (Escher_UniqueID_t) toPART;
+    /* RELATE toPART TO toRTO ACROSS R204 */
+    masl2xtuml_R_PART_R204_Link( toRTO, toPART );
+    /* RELATE toPART TO simp ACROSS R207 */
+    masl2xtuml_R_PART_R207_Link_relates( simp, toPART );
+  }
+}
+
+/*
+ * instance operation:  Association_initialize
+ */
+void
+masl2xtuml_ooapopulation_op_Association_initialize( masl2xtuml_ooapopulation * self, masl2xtuml_R_REL * p_r_rel )
+{
+  i_t relNumber;masl2xtuml_R_REL * r_rel;
+  /* ASSIGN r_rel = PARAM.r_rel */
+  r_rel = p_r_rel;
+  /* ASSIGN relNumber = STRING::atoi(s:self.current_rel.number) */
+  relNumber = STRING_atoi( self->current_rel.number );
+  /* ASSIGN r_rel.Numb = relNumber */
+  r_rel->Numb = relNumber;
+}
+
+/*
+ * instance operation:  transformAssociation
+ */
+void
+masl2xtuml_ooapopulation_op_transformAssociation( masl2xtuml_ooapopulation * self)
+{
+  masl2xtuml_C_C * current_component;masl2xtuml_EP_PKG * internals_pkg=0;
+  /* ASSIGN current_component = self.current_component */
+  current_component = self->current_component;
+  /* SELECT any internals_pkg RELATED BY current_component->PE_PE[R8003]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == current_component.Name ) ) */
+  internals_pkg = 0;
+  {  if ( 0 != current_component ) {
+  masl2xtuml_PE_PE * PE_PE_R8003_contains;
+  Escher_Iterator_s iPE_PE_R8003_contains;
+  Escher_IteratorReset( &iPE_PE_R8003_contains, &current_component->PE_PE_R8003_contains );
+  while ( ( 0 == internals_pkg ) && ( 0 != ( PE_PE_R8003_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8003_contains ) ) ) ) {
+  if ( ( 0 != PE_PE_R8003_contains ) && ( masl2xtuml_EP_PKG_CLASS_NUMBER == PE_PE_R8003_contains->R8001_object_id ) )  {masl2xtuml_EP_PKG * selected = (masl2xtuml_EP_PKG *) PE_PE_R8003_contains->R8001_subtype;
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, current_component->Name ) == 0 ) ) {
+    internals_pkg = selected;
+  }}
+}}}
+  /* self.Package_newAssociation( ep_pkg:internals_pkg ) */
+  masl2xtuml_ooapopulation_op_Package_newAssociation( self,  internals_pkg );
 }
 
 /*

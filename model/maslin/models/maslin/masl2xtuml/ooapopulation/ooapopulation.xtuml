@@ -123,6 +123,45 @@ elif ( "typeref" == element )
       ooapopulation.OperationParameter_setType(o_tparm:ooapopulation.current_operation_param, type_name:param.value[0]); 
     end if;
   end if;
+elif ( "associative" == element )
+  if ( "" == param.value[0] )
+    ooapopulation.clearRelationshipCache();
+  else
+    ooapopulation.current_rel.type = RELATIONSHIP_TYPE::ASSOCIATIVE;
+    ooapopulation.current_rel.number = param.value[0];
+    ooapopulation.current_rel.usingObj = param.value[2];
+  end if;
+elif ( "regularrel" == element )
+  if ( "" == param.value[0] )
+    ooapopulation.clearRelationshipCache();
+  else
+    ooapopulation.current_rel.type = RELATIONSHIP_TYPE::REGULAR;
+    ooapopulation.current_rel.number = param.value[0];
+  end if;
+elif ( "subsuper" == element )
+  if ( "" == param.value[0] )
+    ooapopulation.clearRelationshipCache();
+  else
+    ooapopulation.current_rel.type = RELATIONSHIP_TYPE::SUBSUPER;
+    ooapopulation.current_rel.number = param.value[0];
+  end if;
+elif ( "participation" == element )
+  if ( "" == param.value[1] )
+    ooapopulation.transformAssociation();
+  else
+    isFirst = false;
+    select any firstPart from instances of ooaparticipation where ( selected.isFirst == true );
+    if ( empty firstPart )
+      isFirst = true;
+    end if;
+    create object instance part of ooaparticipation;
+    part.fromDomain = param.value[0];
+    part.className = param.value[1];
+    part.phrase = param.value[2];
+    part.conditionality = param.value[3];
+    part.multiplicity = param.value[4];
+    part.isFirst = isFirst;
+  end if;
 elif ( "routine" == element )
   //  See if we''re processing inside a domain or terminator.  Then call the appropriate conversion function.
   if ( "" == param.value[3] )
@@ -302,7 +341,7 @@ pe_pe = param.pe_pe;
 pe_pe.Visibility = Visibility::Public;',
 	1,
 	'',
-	"b723c974-e873-4522-8eae-2657f6f89c20");
+	"94ecebda-10c4-43bf-b76c-0901fd3873c5");
 INSERT INTO O_TPARM
 	VALUES ("6a17224a-e16d-4c87-a4b6-3504f24b8992",
 	"6d27ebf1-bb50-4835-85e2-b21d260ab92c",
@@ -329,7 +368,7 @@ INSERT INTO O_TFR
 	'param.ep_pkg.Name = param.name;',
 	1,
 	'',
-	"6d27ebf1-bb50-4835-85e2-b21d260ab92c");
+	"b723c974-e873-4522-8eae-2657f6f89c20");
 INSERT INTO O_TPARM
 	VALUES ("5a94768b-9a96-4630-93bc-5fb624b542cc",
 	"9c97aa3a-d0d2-409c-86d0-9194db2476c5",
@@ -700,7 +739,7 @@ end if;
 ',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"d38ae9a8-5ce0-4042-a2cc-14aae4cbc971");
 INSERT INTO O_TFR
 	VALUES ("dc1b8351-2cfd-4870-b038-21d1052f3c05",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -808,7 +847,7 @@ INSERT INTO O_TFR
 self.current_attribute = self.ModelClass_newAttribute(o_obj:self.current_class, attr_name:attr_name);',
 	1,
 	'',
-	"10b41e09-87b2-4ef5-89ad-9ef4c39d9637");
+	"a1b455eb-8d8e-44a5-a755-7bd2a08eaec7");
 INSERT INTO O_TPARM
 	VALUES ("940cf8f4-900c-46df-8ea1-f1bf2112d77d",
 	"9438bf8f-4666-499e-9822-00e7b064286f",
@@ -974,7 +1013,7 @@ self.ModelClass_initialize(o_obj:cl, name:param.class_name); // OOA - cl.initial
 return cl;',
 	1,
 	'',
-	"9c97aa3a-d0d2-409c-86d0-9194db2476c5");
+	"d1b5e917-bf32-4867-853a-b46ead34387f");
 INSERT INTO O_TPARM
 	VALUES ("9e81a5f3-e669-49c4-8751-23b2facf5522",
 	"c46c404c-7529-4f5d-a19f-bd7f8ce04703",
@@ -1950,7 +1989,7 @@ c_po.DoNotShowPortOnCanvas = false;
 c_po.Name = param.name;',
 	1,
 	'',
-	"94ecebda-10c4-43bf-b76c-0901fd3873c5");
+	"6d27ebf1-bb50-4835-85e2-b21d260ab92c");
 INSERT INTO O_TPARM
 	VALUES ("52f437ae-7a8f-42da-8f40-94b805566100",
 	"806a97a3-4a9d-4fe2-994e-8b5705b455fc",
@@ -2261,7 +2300,7 @@ relate o_attr to oid across R105 using oida;
 //end for;',
 	1,
 	'',
-	"4ff26a31-e07b-4af1-8221-5dc73754ca14");
+	"5cec88a1-a445-447f-89b0-5f866ba2805b");
 INSERT INTO O_TPARM
 	VALUES ("cb2ae4c9-5b59-44e2-91e3-8383b7e048cb",
 	"4b15fc81-c210-44f8-9c04-0c7b1bf99672",
@@ -3484,6 +3523,153 @@ INSERT INTO O_TPARM
 	'',
 	"50504e2c-f800-4802-a0a0-5bb4190410d6",
 	'');
+INSERT INTO O_TFR
+	VALUES ("d38ae9a8-5ce0-4042-a2cc-14aae4cbc971",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'clearRelationshipCache',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'self.current_rel.type = RELATIONSHIP_TYPE::NONE;
+self.current_rel.number = "";
+self.current_rel.usingObj = "";
+
+select many parts from instances of ooaparticipation;
+for each part in parts
+  delete object instance part;
+end for;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("d1b5e917-bf32-4867-853a-b46ead34387f",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_newAssociation',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'ep_pkg = param.ep_pkg;
+select any fromOOAPart from instances of ooaparticipation where (selected.isFirst == true );
+select any toOOAPart from instances of ooaparticipation where (selected.isFirst == false );
+
+// What follows is a heavily modified version of OOAofOOA''s Package::newAssociation()
+  
+select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == fromOOAPart.className);
+/* TODO - not handling association to imported class, don''t think we need to.
+select any fromIClass related by ep_pkg->PE_PE[R8000]->O_IOBJ[R8001] where (selected.IObj_ID == param.from);
+if (param.fromIsImported)
+  if (not_empty fromIClass)
+    select one fromClass related by fromIClass->O_OBJ[R101];
+  end if;
+end if;*/
+select any toClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == toOOAPart.className);
+/* TODO - not handling association to imported class, don''t think we need to.
+select any toIClass related by ep_pkg->PE_PE[R8000]->O_IOBJ[R8001] where (selected.IObj_ID == param.to);
+if (param.toIsImported)
+  if (not_empty toIClass)
+    select one toClass related by toIClass->O_OBJ[R101];
+  end if;
+end if;*/
+//
+if (not_empty fromClass and not_empty toClass)
+  create object instance assoc of R_REL;
+  // create Packageable Element supertype and hook up to this package.
+  create object instance pe of PE_PE;
+  relate assoc to pe across R8001;
+  relate pe to ep_pkg across R8000;
+  pe.type = ElementTypeConstants::ASSOCIATION;
+  self.PackageableElement_initialize(pe_pe:pe);
+  self.Association_initialize(r_rel:assoc);
+  create object instance simp of R_SIMP;
+  relate simp to assoc across R206;
+  //
+  create object instance fromOIR of R_OIR;
+  relate fromClass to assoc across R201 using fromOIR;
+  create object instance fromRTO of R_RTO;
+  relate fromOIR to fromRTO across R203;
+  create object instance fromPART of R_PART;
+  relate fromPART to fromRTO across R204;
+  relate fromPART to simp across R207;
+  /* TODO - not handling imported class associations
+  if (param.fromIsImported)
+    if (not_empty fromIClass)
+      relate fromOIR to fromIClass across R202;
+    end if;
+  end if;*/
+  //
+  create object instance toOIR of R_OIR;
+  relate toClass to assoc across R201 using toOIR;
+  create object instance toRTO of R_RTO;
+  relate toOIR to toRTO across R203;
+  create object instance toPART of R_PART;
+  relate toPART to toRTO across R204;
+  relate toPART to simp across R207;
+  /* TODO - not handling imported class associations
+  if (param.toIsImported)
+    if (not_empty toIClass)
+      relate toOIR to toIClass across R202;
+    end if;
+  end if;*/
+end if;
+',
+	1,
+	'',
+	"9c97aa3a-d0d2-409c-86d0-9194db2476c5");
+INSERT INTO O_TPARM
+	VALUES ("c43bdd14-a7b3-4c51-9705-c51442c57211",
+	"d1b5e917-bf32-4867-853a-b46ead34387f",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("5cec88a1-a445-447f-89b0-5f866ba2805b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Association_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_rel = param.r_rel;
+
+relNumber = STRING::atoi(s:self.current_rel.number);
+r_rel.Numb = relNumber;',
+	1,
+	'',
+	"4ff26a31-e07b-4af1-8221-5dc73754ca14");
+INSERT INTO O_TPARM
+	VALUES ("da6080e7-95eb-420a-8803-d5242efb9c93",
+	"5cec88a1-a445-447f-89b0-5f866ba2805b",
+	'r_rel',
+	"4480b008-8c74-4f57-9256-08b7365520bc",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4480b008-8c74-4f57-9256-08b7365520bc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Association>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("a1b455eb-8d8e-44a5-a755-7bd2a08eaec7",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformAssociation',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Get the package with the same name as the component, this is where we put the "internal behavior"
+current_component = self.current_component;
+select any internals_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == current_component.Name);
+
+self.Package_newAssociation(ep_pkg:internals_pkg); 
+',
+	1,
+	'',
+	"10b41e09-87b2-4ef5-89ad-9ef4c39d9637");
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -3637,7 +3823,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"639dfebf-4ad6-4c83-a9ff-7f599558ec59",
+	"7b4c3a78-f304-4264-baa7-b5a804fc511b",
 	'processingIdentifier',
 	'',
 	'',
@@ -3718,6 +3904,31 @@ INSERT INTO O_ATTR
 	"eeb98cba-1a0c-4d36-80f1-c0199a301aaf",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("7b4c3a78-f304-4264-baa7-b5a804fc511b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("7b4c3a78-f304-4264-baa7-b5a804fc511b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("7b4c3a78-f304-4264-baa7-b5a804fc511b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"639dfebf-4ad6-4c83-a9ff-7f599558ec59",
+	'current_rel',
+	'',
+	'',
+	'current_rel',
+	0,
+	"adf5f27c-f258-4227-9506-a77e056789cf",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("adf5f27c-f258-4227-9506-a77e056789cf",
+	"00000000-0000-0000-0000-000000000000",
+	'relationship_data',
+	'',
+	'',
+	'../masl2xtuml.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
