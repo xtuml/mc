@@ -573,8 +573,7 @@ CREATE TABLE C_EP (
 	Interface_Id	UNIQUE_ID,
 	Direction	INTEGER,
 	Name	STRING,
-	Descrip	STRING,
-	Order	INTEGER );
+	Descrip	STRING );
 
 -- Class:  4005.  Interface Signal
 CREATE TABLE C_AS (
@@ -3428,8 +3427,7 @@ CREATE TABLE V_PAR (
 	Name	STRING,
 	Next_Value_ID	UNIQUE_ID,
 	labelLineNumber	INTEGER,
-	labelColumn	INTEGER,
-	Order	INTEGER );
+	labelColumn	INTEGER );
 
 -- Class:  802.  Binary Operation
 CREATE TABLE V_BIN (

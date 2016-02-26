@@ -73,11 +73,7 @@
   .//
   .if ( obj_key_lett == "R_REL" )
     .assign addOrder = true
-  .elif ( obj_key_lett == "C_EP" )
-    .assign addOrder = true
   .elif ( obj_key_lett == "O_OBJ" )
-    .assign addOrder = true
-  .elif ( obj_key_lett == "V_PAR" )
     .assign addOrder = true
   .elif ( obj_key_lett == "EP_PKG" )
     .assign addOrder = true
