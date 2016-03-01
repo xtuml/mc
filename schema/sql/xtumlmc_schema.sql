@@ -1402,7 +1402,7 @@ CREATE TABLE SM_SM (
 CREATE TABLE SM_STATE (
 	SMstt_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID,
+	SMspd_IDdeprecated	UNIQUE_ID,
 	Name	STRING,
 	Numb	INTEGER,
 	Final	INTEGER );
@@ -1410,7 +1410,7 @@ CREATE TABLE SM_STATE (
 CREATE TABLE SM_EVT (
 	SMevt_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID,
+	SMspd_IDdeprecated	UNIQUE_ID,
 	Numb	INTEGER,
 	Mning	STRING,
 	Is_Lbl_U	INTEGER,
@@ -1422,34 +1422,34 @@ CREATE TABLE SM_SEME (
 	SMstt_ID	UNIQUE_ID,
 	SMevt_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID );
+	SMspd_IDdeprecated	UNIQUE_ID );
 -- Class:  505.  New State Transition
 CREATE TABLE SM_NSTXN (
 	Trans_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
 	SMstt_ID	UNIQUE_ID,
 	SMevt_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID );
+	SMspd_IDdeprecated	UNIQUE_ID );
 -- Class:  506.  Event Ignored
 CREATE TABLE SM_EIGN (
 	SMstt_ID	UNIQUE_ID,
 	SMevt_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID,
+	SMspd_IDdeprecated	UNIQUE_ID,
 	Descrip	STRING );
 -- Class:  507.  Cant Happen
 CREATE TABLE SM_CH (
 	SMstt_ID	UNIQUE_ID,
 	SMevt_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID,
+	SMspd_IDdeprecated	UNIQUE_ID,
 	Descrip	STRING );
 -- Class:  508.  Transition
 CREATE TABLE SM_TXN (
 	Trans_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
 	SMstt_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID );
+	SMspd_IDdeprecated	UNIQUE_ID );
 -- Class:  509.  No Event Transition
 CREATE TABLE SM_NETXN (
 	Trans_ID	UNIQUE_ID,
@@ -1511,7 +1511,7 @@ CREATE TABLE SM_ASM (
 CREATE TABLE SM_PEVT (
 	SMevt_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID,
+	SMspd_IDdeprecated	UNIQUE_ID,
 	localClassName	STRING,
 	localClassKL	STRING,
 	localEventMning	STRING );
@@ -1519,26 +1519,26 @@ CREATE TABLE SM_PEVT (
 CREATE TABLE SM_SEVT (
 	SMevt_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID );
+	SMspd_IDdeprecated	UNIQUE_ID );
 -- Class:  526.  Non Local Event
 CREATE TABLE SM_NLEVT (
 	SMevt_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID,
+	SMspd_IDdeprecated	UNIQUE_ID,
 	polySMevt_ID	UNIQUE_ID,
 	polySM_ID	UNIQUE_ID,
-	polySMspd_ID	UNIQUE_ID,
+	polySMspd_IDdeprecated	UNIQUE_ID,
 	Local_Meaning	STRING );
 -- Class:  527.  Local Event
 CREATE TABLE SM_LEVT (
 	SMevt_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID );
+	SMspd_IDdeprecated	UNIQUE_ID );
 -- Class:  528.  Signal Event
 CREATE TABLE SM_SGEVT (
 	SMevt_ID	UNIQUE_ID,
 	SM_ID	UNIQUE_ID,
-	SMspd_ID	UNIQUE_ID,
+	SMspd_IDdeprecated	UNIQUE_ID,
 	Provided_Signal_Id	UNIQUE_ID,
 	Required_Signal_Id	UNIQUE_ID,
 	signal_name	STRING );

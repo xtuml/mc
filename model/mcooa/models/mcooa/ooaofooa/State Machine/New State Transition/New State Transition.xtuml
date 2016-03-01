@@ -232,52 +232,22 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
-INSERT INTO O_REF
-	VALUES ("d115faba-acad-4b3a-8be9-879fa61e2750",
-	"8319fa0a-b17c-41de-9b95-a9dfb2058b64",
-	0,
-	"1b6e5dbd-a114-4d34-89b6-673b3c9d910b",
-	"f711374d-725f-4dc7-a1e0-988e2cd27937",
-	"f08fb3af-8084-47f2-a661-b50208e0ab61",
-	"aab8ae5d-ca9a-4adf-8198-fd2a62bcea8a",
-	"534638b9-6c9c-490d-90c4-2fa2cbd7999f",
-	"3e4c7e77-0302-46d2-8296-b390e1326ef3",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'State Event Matrix Entry',
-	'SMspd_ID',
-	'R504');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("1b6e5dbd-a114-4d34-89b6-673b3c9d910b",
-	"8319fa0a-b17c-41de-9b95-a9dfb2058b64",
-	0,
-	"f711374d-725f-4dc7-a1e0-988e2cd27937",
-	"aab8ae5d-ca9a-4adf-8198-fd2a62bcea8a",
-	'../State Machine.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("534638b9-6c9c-490d-90c4-2fa2cbd7999f",
-	"d115faba-acad-4b3a-8be9-879fa61e2750",
-	"95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	1,
-	'SMspd_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	'../Event Supplemental Data/Event Supplemental Data.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("a80cd7a5-3894-43f9-b002-08546b22be1e",
+	"d115faba-acad-4b3a-8be9-879fa61e2750");
+INSERT INTO O_BATTR
+	VALUES ("a80cd7a5-3894-43f9-b002-08546b22be1e",
+	"d115faba-acad-4b3a-8be9-879fa61e2750");
 INSERT INTO O_ATTR
-	VALUES ("534638b9-6c9c-490d-90c4-2fa2cbd7999f",
+	VALUES ("a80cd7a5-3894-43f9-b002-08546b22be1e",
 	"d115faba-acad-4b3a-8be9-879fa61e2750",
 	"7709b452-ab5c-4d88-a0ab-c07239b646dc",
-	'SMspd_ID',
-	'
-
-',
+	'SMspd_IDdeprecated',
 	'',
-	'SMspd_ID',
+	'',
+	'SMspd_IDdeprecated',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID
@@ -293,11 +263,6 @@ INSERT INTO O_OIDA
 	"d115faba-acad-4b3a-8be9-879fa61e2750",
 	0,
 	'SMstt_ID');
-INSERT INTO O_OIDA
-	VALUES ("534638b9-6c9c-490d-90c4-2fa2cbd7999f",
-	"d115faba-acad-4b3a-8be9-879fa61e2750",
-	0,
-	'SMspd_ID');
 INSERT INTO O_OIDA
 	VALUES ("322e21bd-1d15-4294-9edd-36fdb2eb2167",
 	"d115faba-acad-4b3a-8be9-879fa61e2750",
