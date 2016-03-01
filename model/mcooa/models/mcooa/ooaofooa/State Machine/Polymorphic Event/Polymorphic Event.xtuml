@@ -104,59 +104,13 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
-INSERT INTO O_REF
-	VALUES ("06b0f6ef-e655-49f3-9e5b-f995a1e199dd",
-	"a532550b-16f4-4e0e-8849-1a53aa26896f",
-	1,
-	"09a13f71-e683-4da6-a687-795c10a746da",
-	"46a6caa1-6369-4674-aa54-1ed19b66a52f",
-	"e1a9e6bd-e8e3-475f-87e4-e4b49e6ad708",
-	"05db52c9-4db9-425d-a49d-4d663b82f7b8",
-	"4ac4b71f-142b-4844-a2b1-29e6aaf463f5",
-	"8707a7d2-a9af-4f09-9419-fd7711ea6d0a",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'State Machine Event',
-	'SMspd_ID',
-	'R525');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("09a13f71-e683-4da6-a687-795c10a746da",
-	"a532550b-16f4-4e0e-8849-1a53aa26896f",
-	1,
-	"46a6caa1-6369-4674-aa54-1ed19b66a52f",
-	"05db52c9-4db9-425d-a49d-4d663b82f7b8",
-	'../State Machine.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("4ac4b71f-142b-4844-a2b1-29e6aaf463f5",
-	"06b0f6ef-e655-49f3-9e5b-f995a1e199dd",
-	"95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	1,
-	'SMspd_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	'../Event Supplemental Data/Event Supplemental Data.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("4ac4b71f-142b-4844-a2b1-29e6aaf463f5",
-	"06b0f6ef-e655-49f3-9e5b-f995a1e199dd",
-	"3c9092dc-dee6-4380-a93c-15c58bd8364a",
-	'SMspd_ID',
-	'',
-	'',
-	'SMspd_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
 INSERT INTO O_BATTR
 	VALUES ("1ef31d47-73cf-4350-87fc-0d4e77ba4875",
 	"06b0f6ef-e655-49f3-9e5b-f995a1e199dd");
 INSERT INTO O_ATTR
 	VALUES ("1ef31d47-73cf-4350-87fc-0d4e77ba4875",
 	"06b0f6ef-e655-49f3-9e5b-f995a1e199dd",
-	"4ac4b71f-142b-4844-a2b1-29e6aaf463f5",
+	"050bbdec-4749-4ef9-b90a-e45d82b89f74",
 	'localClassName',
 	'User_Visible:false',
 	'',
@@ -193,6 +147,24 @@ INSERT INTO O_ATTR
 	'localEventMning',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("050bbdec-4749-4ef9-b90a-e45d82b89f74",
+	"06b0f6ef-e655-49f3-9e5b-f995a1e199dd");
+INSERT INTO O_BATTR
+	VALUES ("050bbdec-4749-4ef9-b90a-e45d82b89f74",
+	"06b0f6ef-e655-49f3-9e5b-f995a1e199dd");
+INSERT INTO O_ATTR
+	VALUES ("050bbdec-4749-4ef9-b90a-e45d82b89f74",
+	"06b0f6ef-e655-49f3-9e5b-f995a1e199dd",
+	"3c9092dc-dee6-4380-a93c-15c58bd8364a",
+	'SMspd_IDdeprecated',
+	'',
+	'',
+	'SMspd_IDdeprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID

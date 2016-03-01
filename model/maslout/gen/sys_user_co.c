@@ -34,7 +34,7 @@
  * things like memory initialization, early hardware duties, etc.
  */
 void
-UserInitializationCalloutf( char * s )
+UserInitializationCalloutf( void )
 {
 /* Activate this invocation to initialize the example simple TIM.  */
   #if ESCHER_SYS_MAX_XTUML_TIMERS > 0
@@ -51,13 +51,11 @@ UserInitializationCalloutf( char * s )
  * initialization functions.
  */
 void
-UserPreOoaInitializationCalloutf( c_t * argv0 )
+UserPreOoaInitializationCalloutf( void )
 {
   /* Insert implementation specific code here.  */
   static char * a[2] = { "UserPreOoaInitializationCalloutf", "a.xtuml" };
-  fprintf( stderr, "loading...\n" );
   Escher_xtUML_load( 2, a );
-  fprintf( stderr, "loaded.\n" );
 }
 
 /*
@@ -69,18 +67,36 @@ UserPreOoaInitializationCalloutf( c_t * argv0 )
  * xtUML application analysis state models to start consuming events.
  */
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 void
-UserPostOoaInitializationCalloutf( c_t * argv0 )
+UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
-  if ( strstr( argv0, "x2m" ) ) {
-    fprintf( stderr, "projecting...\n" );
+  int project = 0; int domain = 0;
+  {
+    int c;
+    opterr = 0;
+    while ( ( c = getopt ( argc, argv, "dp" ) ) != -1 ) {
+      switch ( c ) {
+        case 'd':
+          project = 1; break;
+        case 'p':
+          project = 1; break;
+        case '?':
+            fprintf( stderr, "Unknown option character `\\x%x'.\n", optopt );
+            break;
+        default:
+          abort (); // die ignominiously
+      }
+    }
+  }
+  if ( project ) {
     xtuml2masl_masl_project( "*" );
-  } else if ( strstr( argv0, "xtuml2masldomain" ) ) {
-    fprintf( stderr, "domaining...\n" );
+  } else if ( domain ) {
     xtuml2masl_masl_domain( "*" );
   }
-  fprintf( stderr, "done.\n" );
-  SYS_USER_CO_PRINTF( "UserPostOoaInitializationCallout\n" )
 }
 
 /*
@@ -91,7 +107,6 @@ UserPostOoaInitializationCalloutf( c_t * argv0 )
  * It is invoked at the 'top' of the system dispatcher loop, immediately
  * prior to dispatching any xtUML application analysis events.
  */
-#include <stdlib.h>
 void
 UserBackgroundProcessingCalloutf( void )
 {

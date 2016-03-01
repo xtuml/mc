@@ -66,57 +66,6 @@ The key letters assigned to an external entity on a domains SPM.',
 	'');
 INSERT INTO O_REF
 	VALUES ("239df24f-295d-41f2-8bc5-72c6538640fd",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	0,
-	"6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"9c425e58-792e-4559-849f-47da3281026a",
-	"9aa86807-3cef-4e79-8322-d5986f31410b",
-	"3a536729-420b-4c9b-a0d5-ceef77e2cb9a",
-	"52f8ee5c-beaf-4121-9670-274d1fe764a7",
-	"79a8903a-17b2-41bc-8270-24c422205b4a",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Domain',
-	'Dom_ID',
-	'R8.''interacts with''');
-INSERT INTO R_RGO_PROXY
-	VALUES ("239df24f-295d-41f2-8bc5-72c6538640fd",
-	"9c425e58-792e-4559-849f-47da3281026a",
-	"9aa86807-3cef-4e79-8322-d5986f31410b",
-	'../Domain.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	0,
-	"9c425e58-792e-4559-849f-47da3281026a",
-	"3a536729-420b-4c9b-a0d5-ceef77e2cb9a",
-	'../Domain.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("52f8ee5c-beaf-4121-9670-274d1fe764a7",
-	"239df24f-295d-41f2-8bc5-72c6538640fd",
-	"6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	1,
-	'Dom_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	'../Domain/Domain.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("52f8ee5c-beaf-4121-9670-274d1fe764a7",
-	"239df24f-295d-41f2-8bc5-72c6538640fd",
-	"b109b8f4-c9a7-4bc8-97b8-229aeff71ce5",
-	'Dom_ID',
-	'',
-	'',
-	'Dom_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
-INSERT INTO O_REF
-	VALUES ("239df24f-295d-41f2-8bc5-72c6538640fd",
 	"e7378c46-7ebc-4b9f-a934-91d48b1a4774",
 	0,
 	"41dd50fe-c407-44c8-bb3d-913f6bb68dd0",
@@ -176,7 +125,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("3bb08efb-76fd-4af2-995a-1c0d06a58a89",
 	"239df24f-295d-41f2-8bc5-72c6538640fd",
-	"52f8ee5c-beaf-4121-9670-274d1fe764a7",
+	"3cdc49c9-1e74-4964-b0af-87d14eba02d8",
 	'Realized_Class_Path',
 	'',
 	'',
@@ -219,6 +168,24 @@ INSERT INTO O_ATTR
 	'isRealized',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3cdc49c9-1e74-4964-b0af-87d14eba02d8",
+	"239df24f-295d-41f2-8bc5-72c6538640fd");
+INSERT INTO O_BATTR
+	VALUES ("3cdc49c9-1e74-4964-b0af-87d14eba02d8",
+	"239df24f-295d-41f2-8bc5-72c6538640fd");
+INSERT INTO O_ATTR
+	VALUES ("3cdc49c9-1e74-4964-b0af-87d14eba02d8",
+	"239df24f-295d-41f2-8bc5-72c6538640fd",
+	"b109b8f4-c9a7-4bc8-97b8-229aeff71ce5",
+	'Dom_IDdeprecated',
+	'',
+	'',
+	'Dom_IDdeprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID

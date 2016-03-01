@@ -156,54 +156,6 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
-INSERT INTO O_REF
-	VALUES ("c5dbbb30-e26a-44b1-a774-132c89134ed2",
-	"8319fa0a-b17c-41de-9b95-a9dfb2058b64",
-	0,
-	"1b6e5dbd-a114-4d34-89b6-673b3c9d910b",
-	"f711374d-725f-4dc7-a1e0-988e2cd27937",
-	"ecbe4d30-5812-49e6-bc32-58ee7b0fbbcc",
-	"aab8ae5d-ca9a-4adf-8198-fd2a62bcea8a",
-	"95f336f6-f494-4dc2-a1f8-9230c73cae08",
-	"eda3c296-c45b-49b2-9760-70630e2d18e4",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'State Event Matrix Entry',
-	'SMspd_ID',
-	'R504');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("1b6e5dbd-a114-4d34-89b6-673b3c9d910b",
-	"8319fa0a-b17c-41de-9b95-a9dfb2058b64",
-	0,
-	"f711374d-725f-4dc7-a1e0-988e2cd27937",
-	"aab8ae5d-ca9a-4adf-8198-fd2a62bcea8a",
-	'../State Machine.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("95f336f6-f494-4dc2-a1f8-9230c73cae08",
-	"c5dbbb30-e26a-44b1-a774-132c89134ed2",
-	"95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	1,
-	'SMspd_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	'../Event Supplemental Data/Event Supplemental Data.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("95f336f6-f494-4dc2-a1f8-9230c73cae08",
-	"c5dbbb30-e26a-44b1-a774-132c89134ed2",
-	"313dcdda-5afc-459d-8b93-868e4c630f2b",
-	'SMspd_ID',
-	'
-
-',
-	'',
-	'SMspd_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
 INSERT INTO O_NBATTR
 	VALUES ("0a8a4fd4-b8a5-4d30-a1ba-fef1be88ea62",
 	"c5dbbb30-e26a-44b1-a774-132c89134ed2");
@@ -213,7 +165,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("0a8a4fd4-b8a5-4d30-a1ba-fef1be88ea62",
 	"c5dbbb30-e26a-44b1-a774-132c89134ed2",
-	"95f336f6-f494-4dc2-a1f8-9230c73cae08",
+	"8e7fd27b-3a8a-4184-bf0c-d5a06be49fab",
 	'Descrip',
 	'Full Name: Description
 Description: An explanation of why the event cant happen while the instance is in this state.',
@@ -223,14 +175,27 @@ Description: An explanation of why the event cant happen while the instance is i
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("8e7fd27b-3a8a-4184-bf0c-d5a06be49fab",
+	"c5dbbb30-e26a-44b1-a774-132c89134ed2");
+INSERT INTO O_BATTR
+	VALUES ("8e7fd27b-3a8a-4184-bf0c-d5a06be49fab",
+	"c5dbbb30-e26a-44b1-a774-132c89134ed2");
+INSERT INTO O_ATTR
+	VALUES ("8e7fd27b-3a8a-4184-bf0c-d5a06be49fab",
+	"c5dbbb30-e26a-44b1-a774-132c89134ed2",
+	"313dcdda-5afc-459d-8b93-868e4c630f2b",
+	'SMspd_IDdeprecated',
+	'',
+	'',
+	'SMspd_IDdeprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"c5dbbb30-e26a-44b1-a774-132c89134ed2");
-INSERT INTO O_OIDA
-	VALUES ("95f336f6-f494-4dc2-a1f8-9230c73cae08",
-	"c5dbbb30-e26a-44b1-a774-132c89134ed2",
-	0,
-	'SMspd_ID');
 INSERT INTO O_OIDA
 	VALUES ("3714af7a-f195-44ee-97c2-75a596638b16",
 	"c5dbbb30-e26a-44b1-a774-132c89134ed2",

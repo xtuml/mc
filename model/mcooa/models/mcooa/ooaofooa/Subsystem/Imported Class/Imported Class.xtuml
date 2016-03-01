@@ -33,64 +33,13 @@ User_Visible: false',
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
-INSERT INTO O_REF
-	VALUES ("0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb",
-	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
-	0,
-	"0417f3e9-b8ec-4b51-9bf6-0d947972890a",
-	"18e771b8-18aa-49ef-b13d-d012c3257999",
-	"a918924d-3050-472d-8f30-7b1378240cc7",
-	"36a6cdc8-5877-4f34-bf58-e363195678d7",
-	"6cfde71b-0ba0-4b9c-a2b6-bf7a7f05132d",
-	"72058c95-f4f8-401c-97b9-a5ca47249d58",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Subsystem',
-	'SS_ID',
-	'R3.''represents a class from another subsystem in''');
-INSERT INTO R_RGO_PROXY
-	VALUES ("0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb",
-	"18e771b8-18aa-49ef-b13d-d012c3257999",
-	"a918924d-3050-472d-8f30-7b1378240cc7",
-	'../../Domain/Domain.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("0417f3e9-b8ec-4b51-9bf6-0d947972890a",
-	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
-	0,
-	"18e771b8-18aa-49ef-b13d-d012c3257999",
-	"36a6cdc8-5877-4f34-bf58-e363195678d7",
-	'../../Domain/Domain.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("6cfde71b-0ba0-4b9c-a2b6-bf7a7f05132d",
-	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb",
-	"0417f3e9-b8ec-4b51-9bf6-0d947972890a",
-	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
-	1,
-	'SS_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("0417f3e9-b8ec-4b51-9bf6-0d947972890a",
-	"3b20dde8-2eec-47fb-8a8d-cf719b4446be",
-	'../../Domain/Subsystem/Subsystem.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("6cfde71b-0ba0-4b9c-a2b6-bf7a7f05132d",
-	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb",
-	"3af32dee-ae72-4506-92e6-50c014340f40",
-	'SS_ID',
-	'',
-	'',
-	'SS_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
 INSERT INTO O_BATTR
 	VALUES ("0f2d08fd-5c53-41f6-928b-08e49251d6fd",
 	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb");
 INSERT INTO O_ATTR
 	VALUES ("0f2d08fd-5c53-41f6-928b-08e49251d6fd",
 	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb",
-	"6cfde71b-0ba0-4b9c-a2b6-bf7a7f05132d",
+	"412ef359-e7e8-4265-a970-0980faa64219",
 	'Obj_Name',
 	'Full Name: Class Name
 Description:  This attribute provides identifying information for the Class related to this Imported Class.  This is used to associate the Imported Class to its related Class when importing a subsystem containing the Imported Class into a new/different domain.
@@ -217,6 +166,24 @@ Description: Uniquely identifies an instance of imported class',
 	'IObj_ID',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("412ef359-e7e8-4265-a970-0980faa64219",
+	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb");
+INSERT INTO O_BATTR
+	VALUES ("412ef359-e7e8-4265-a970-0980faa64219",
+	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb");
+INSERT INTO O_ATTR
+	VALUES ("412ef359-e7e8-4265-a970-0980faa64219",
+	"0a7bfe11-5ef2-4b3e-8e6e-00f5398fbddb",
+	"3af32dee-ae72-4506-92e6-50c014340f40",
+	'SS_IDdeprecated',
+	'',
+	'',
+	'SS_IDdeprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID

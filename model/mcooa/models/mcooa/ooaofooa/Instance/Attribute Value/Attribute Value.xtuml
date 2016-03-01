@@ -185,6 +185,42 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("591d6a5e-7c98-4895-944e-e98c234571a7",
+	"0fe5580c-7b8d-405a-99d8-ec49adfb57c8");
+INSERT INTO O_BATTR
+	VALUES ("591d6a5e-7c98-4895-944e-e98c234571a7",
+	"0fe5580c-7b8d-405a-99d8-ec49adfb57c8");
+INSERT INTO O_ATTR
+	VALUES ("591d6a5e-7c98-4895-944e-e98c234571a7",
+	"0fe5580c-7b8d-405a-99d8-ec49adfb57c8",
+	"fef6b9f1-21ed-4b98-b275-b8c08cfd87af",
+	'RuntimeValue_ID',
+	'',
+	'',
+	'RuntimeValue_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("adc9671c-0953-4847-b70b-e0be3893ab42",
+	"0fe5580c-7b8d-405a-99d8-ec49adfb57c8");
+INSERT INTO O_BATTR
+	VALUES ("adc9671c-0953-4847-b70b-e0be3893ab42",
+	"0fe5580c-7b8d-405a-99d8-ec49adfb57c8");
+INSERT INTO O_ATTR
+	VALUES ("adc9671c-0953-4847-b70b-e0be3893ab42",
+	"0fe5580c-7b8d-405a-99d8-ec49adfb57c8",
+	"591d6a5e-7c98-4895-944e-e98c234571a7",
+	'Derived_RuntimeValue_ID',
+	'',
+	'',
+	'Derived_RuntimeValue_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"0fe5580c-7b8d-405a-99d8-ec49adfb57c8");

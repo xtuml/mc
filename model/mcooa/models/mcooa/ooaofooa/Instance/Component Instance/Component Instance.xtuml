@@ -79,57 +79,6 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
-INSERT INTO O_REF
-	VALUES ("68f2931e-32b4-46c9-9065-29e17ba38409",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	0,
-	"6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"f44f5876-26a7-4669-b3bf-f518e86a764c",
-	"c0e59c21-fbe7-4232-90f3-8d5ace3c0f02",
-	"9d306eb6-08c6-4bb2-927b-31cb02dc58f8",
-	"0ebe8221-a6b4-49f9-a9de-2889d10e838d",
-	"cb1df09d-441c-4371-adb1-0c722f6020c0",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Domain',
-	'Dom_ID',
-	'R2948.''is verifying''');
-INSERT INTO R_RGO_PROXY
-	VALUES ("68f2931e-32b4-46c9-9065-29e17ba38409",
-	"f44f5876-26a7-4669-b3bf-f518e86a764c",
-	"c0e59c21-fbe7-4232-90f3-8d5ace3c0f02",
-	'../Instance.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	0,
-	"f44f5876-26a7-4669-b3bf-f518e86a764c",
-	"9d306eb6-08c6-4bb2-927b-31cb02dc58f8",
-	'../Instance.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("0ebe8221-a6b4-49f9-a9de-2889d10e838d",
-	"68f2931e-32b4-46c9-9065-29e17ba38409",
-	"6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	1,
-	'Dom_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	'../../Domain/Domain/Domain.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("0ebe8221-a6b4-49f9-a9de-2889d10e838d",
-	"68f2931e-32b4-46c9-9065-29e17ba38409",
-	"cd6c76c3-4bb4-480a-bfbb-8c4afcc5e438",
-	'Dom_ID',
-	'',
-	'',
-	'Dom_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
 INSERT INTO O_BATTR
 	VALUES ("e2eb2312-eb33-4220-8d5a-2e0c50b4a730",
 	"68f2931e-32b4-46c9-9065-29e17ba38409");
@@ -230,7 +179,7 @@ INSERT INTO O_BATTR_PROXY
 INSERT INTO O_ATTR
 	VALUES ("2603d727-8a5f-43f9-b578-8a65bb1ab887",
 	"68f2931e-32b4-46c9-9065-29e17ba38409",
-	"0ebe8221-a6b4-49f9-a9de-2889d10e838d",
+	"49a8c77b-3531-451e-a5f0-bfe3cb9dffe2",
 	'Component_Id',
 	'',
 	'Component_',
@@ -405,6 +354,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../Datatypes/Datatypes.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("49a8c77b-3531-451e-a5f0-bfe3cb9dffe2",
+	"68f2931e-32b4-46c9-9065-29e17ba38409");
+INSERT INTO O_BATTR
+	VALUES ("49a8c77b-3531-451e-a5f0-bfe3cb9dffe2",
+	"68f2931e-32b4-46c9-9065-29e17ba38409");
+INSERT INTO O_ATTR
+	VALUES ("49a8c77b-3531-451e-a5f0-bfe3cb9dffe2",
+	"68f2931e-32b4-46c9-9065-29e17ba38409",
+	"cd6c76c3-4bb4-480a-bfbb-8c4afcc5e438",
+	'Dom_IDdeprecated',
+	'',
+	'',
+	'Dom_IDdeprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"68f2931e-32b4-46c9-9065-29e17ba38409");
