@@ -23,6 +23,7 @@ scope WhereClauseScope
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.io.*;
 }
 
 @annotations
@@ -82,7 +83,8 @@ private void populate( String classname, String[] args ) {
 // get the current file
 private String getFile() {
     if ( null == masl_parser ) return null;
-    return masl_parser.getFile();
+    File f = new File( masl_parser.getFile() );
+    return f.getName();
 }
 
 }
