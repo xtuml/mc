@@ -49,7 +49,7 @@ INSERT INTO O_BATTR_PROXY
 INSERT INTO O_ATTR
 	VALUES ("65db40e8-dc51-46b1-91da-f01d2baa811d",
 	"3d304c9b-5e7f-47cc-9a71-3b4e6d28430a",
-	"da87a7cf-7405-4b42-8177-a4ead728baec",
+	"0379f749-e2a4-4ddc-9a45-1268fda109e6",
 	'Value_ID',
 	'',
 	'',
@@ -123,6 +123,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'ValueInStackFrame_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("0379f749-e2a4-4ddc-9a45-1268fda109e6",
+	"3d304c9b-5e7f-47cc-9a71-3b4e6d28430a");
+INSERT INTO O_BATTR
+	VALUES ("0379f749-e2a4-4ddc-9a45-1268fda109e6",
+	"3d304c9b-5e7f-47cc-9a71-3b4e6d28430a");
+INSERT INTO O_ATTR
+	VALUES ("0379f749-e2a4-4ddc-9a45-1268fda109e6",
+	"3d304c9b-5e7f-47cc-9a71-3b4e6d28430a",
+	"da87a7cf-7405-4b42-8177-a4ead728baec",
+	'RuntimeValue_ID',
+	'',
+	'',
+	'RuntimeValue_ID',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000005",
 	'',

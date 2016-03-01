@@ -50,13 +50,6 @@
 .end function
 .//
 .//============================================================================
-.// Return <result> the name of the generated file to be emitted.
-.//============================================================================
-.function GetSchemaFileName
-  .assign attr_result = "xtumlmc_schema.sql"
-.end function
-.//
-.//============================================================================
 .// CreateObjectSQLTableEntry
 .//   Create an SQL table <body> for the given object instance reference <obj>.
 .// The general form of the table is as follows:
@@ -851,11 +844,7 @@ ${rop.body}
 .//============================================================================
 .function CreateFileHeader
   .//
-.invoke schema_file = GetSchemaFileName()
 -- ============================================================================
--- $$RCSfile: schema_gen.arc,v $$
---
--- Description:
 -- This file provides an SQL schema suitable for use with the
 -- BridgePoint Model Compilers.
 --
@@ -871,7 +860,6 @@ ${rop.body}
 .// Main body
 .//============================================================================
 .//
-.invoke schema_file = GetSchemaFileName()
 .invoke schema_path = GetSchemaDirectory()
 .//
 .invoke header = CreateFileHeader()
@@ -919,7 +907,7 @@ ${obj_table.body}
   .end while
 .end if
 .//
-.emit to file "${schema_path.result}/${schema_file.result}"
+.emit to file "${schema_path.result}/xtumlmc_schema.sql"
 .//
 .//============================================================================
 .//============================================================================

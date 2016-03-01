@@ -1,7 +1,4 @@
 -- ============================================================================
--- $RCSfile: xtumlmc_schema.sql,v $
---
--- Description:
 -- This file provides an SQL schema suitable for use with the
 -- BridgePoint Model Compilers.
 --
@@ -17,11 +14,11 @@
 -- Class:  1101.  Activity Node
 CREATE TABLE A_N (
 	Id	UNIQUE_ID,
-	deprecatedPackage_ID	UNIQUE_ID );
+	Package_IDdeprecated	UNIQUE_ID );
 -- Class:  1102.  Activity Edge
 CREATE TABLE A_E (
 	Id	UNIQUE_ID,
-	deprecatedPackage_ID	UNIQUE_ID,
+	Package_IDdeprecated	UNIQUE_ID,
 	Guard	STRING,
 	Descrip	STRING,
 	TargetId	UNIQUE_ID,
@@ -66,7 +63,8 @@ CREATE TABLE A_GA (
 	Descrip	STRING );
 -- Class:  1112.  Accept Event
 CREATE TABLE A_AE (
-	Id	UNIQUE_ID );
+	Id	UNIQUE_ID,
+	Package_IDdeprecated	UNIQUE_ID );
 -- Class:  1114.  Send Signal
 CREATE TABLE A_SS (
 	Id	UNIQUE_ID,
@@ -75,7 +73,7 @@ CREATE TABLE A_SS (
 -- Class:  1301.  Activity Partition
 CREATE TABLE A_AP (
 	Id	UNIQUE_ID,
-	deprecatedPackage_ID	UNIQUE_ID,
+	Package_IDdeprecated	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING );
 -- Class:  1302.  Accept Time Event Action
@@ -96,7 +94,7 @@ CREATE TABLE R_REL (
 	Rel_ID	UNIQUE_ID,
 	Numb	INTEGER,
 	Descrip	STRING,
-	SS_ID	UNIQUE_ID );
+	SS_IDdeprecated	UNIQUE_ID );
 -- Class:  202.  Class In Association
 CREATE TABLE R_OIR (
 	Obj_ID	UNIQUE_ID,
@@ -350,18 +348,18 @@ CREATE TABLE COMM_LNK (
 -- Class:  4000.  Component
 CREATE TABLE C_C (
 	Id	UNIQUE_ID,
-	deprecatedPackage_ID	UNIQUE_ID,
-	NestedComponent_Id	UNIQUE_ID,
+	Package_IDdeprecated	UNIQUE_ID,
+	NestedComponent_IDdeprecated	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING,
 	Mult	INTEGER,
-	deprecatedRoot_Package_ID	UNIQUE_ID,
+	Root_Package_IDdeprecated	UNIQUE_ID,
 	isRealized	BOOLEAN,
 	Realized_Class_Path	STRING );
 -- Class:  4001.  Interface
 CREATE TABLE C_I (
 	Id	UNIQUE_ID,
-	deprecatedPackage_ID	UNIQUE_ID,
+	Package_IDdeprecated	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING );
 -- Class:  4002.  Provision
@@ -470,7 +468,7 @@ CREATE TABLE CL_IC (
 	Id	UNIQUE_ID,
 	AssignedComp_Id	UNIQUE_ID,
 	ParentComp_Id	UNIQUE_ID,
-	deprecatedComponent_Package_ID	UNIQUE_ID,
+	Component_Package_IDdeprecated	UNIQUE_ID,
 	Mult	INTEGER,
 	ClassifierName	STRING,
 	Name	STRING,
@@ -512,30 +510,13 @@ CREATE TABLE CNST_LSC (
 -- ============================================================================
 -- Classes In Package:  Domain  
 -- ============================================================================
--- Class:  1.  Domain
-CREATE TABLE S_DOM (
-	Dom_ID	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING,
-	Full_Der	INTEGER,
-	Config_ID	UNIQUE_ID,
-	Sys_ID	UNIQUE_ID );
--- Class:  2.  Subsystem
-CREATE TABLE S_SS (
-	SS_ID	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING,
-	Prefix	STRING,
-	Num_Rng	INTEGER,
-	Dom_ID	UNIQUE_ID,
-	Config_ID	UNIQUE_ID );
 -- Class:  3.  External Entity
 CREATE TABLE S_EE (
 	EE_ID	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING,
 	Key_Lett	STRING,
-	Dom_ID	UNIQUE_ID,
+	Dom_IDdeprecated	UNIQUE_ID,
 	Realized_Class_Path	STRING,
 	Label	STRING,
 	isRealized	BOOLEAN );
@@ -544,40 +525,11 @@ CREATE TABLE S_EEM (
 	EEmod_ID	UNIQUE_ID,
 	EE_ID	UNIQUE_ID,
 	Modl_Typ	INTEGER,
-	SS_ID	UNIQUE_ID );
--- Class:  5.  External Entity Data Item
-CREATE TABLE S_EEDI (
-	EEdi_ID	UNIQUE_ID,
-	EE_ID	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING,
-	DT_ID	UNIQUE_ID );
--- Class:  6.  External Entity Event
-CREATE TABLE S_EEEVT (
-	EEevt_ID	UNIQUE_ID,
-	EE_ID	UNIQUE_ID,
-	Numb	INTEGER,
-	Mning	STRING,
-	Is_Lbl_U	INTEGER,
-	Unq_Lbl	STRING,
-	Drv_Lbl	STRING,
-	Descrip	STRING );
--- Class:  7.  External Entity Event Data Item
-CREATE TABLE S_EEEDI (
-	EEedi_ID	UNIQUE_ID,
-	EE_ID	UNIQUE_ID,
-	Name	STRING,
-	Descrip	STRING,
-	DT_ID	UNIQUE_ID );
--- Class:  8.  External Entity Event Data
-CREATE TABLE S_EEEDT (
-	EE_ID	UNIQUE_ID,
-	EEevt_ID	UNIQUE_ID,
-	EEedi_ID	UNIQUE_ID );
+	SS_IDdeprecated	UNIQUE_ID );
 -- Class:  9.  Data Type
 CREATE TABLE S_DT (
 	DT_ID	UNIQUE_ID,
-	Dom_ID	UNIQUE_ID,
+	Dom_IDdeprecated	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING,
 	DefaultValue	STRING );
@@ -624,7 +576,7 @@ CREATE TABLE S_ENUM (
 -- Class:  16.  Function
 CREATE TABLE S_SYNC (
 	Sync_ID	UNIQUE_ID,
-	Dom_ID	UNIQUE_ID,
+	Dom_IDdeprecated	UNIQUE_ID,
 	Name	STRING,
 	Descrip	STRING,
 	Action_Semantics	STRING,
@@ -718,16 +670,6 @@ CREATE TABLE E_GAR (
 -- Class:  705.  Generate to Creator
 CREATE TABLE E_GEC (
 	Statement_ID	UNIQUE_ID );
--- Class:  706.  Create Event to External Entity
-CREATE TABLE E_CEE (
-	Statement_ID	UNIQUE_ID,
-	EE_ID	UNIQUE_ID,
-	EEevt_ID	UNIQUE_ID );
--- Class:  707.  Generate to External Entity
-CREATE TABLE E_GEE (
-	Statement_ID	UNIQUE_ID,
-	EE_ID	UNIQUE_ID,
-	EEevt_ID	UNIQUE_ID );
 -- Class:  708.  Create Event to Creator
 CREATE TABLE E_CEC (
 	Statement_ID	UNIQUE_ID );
@@ -762,7 +704,6 @@ CREATE TABLE E_CSME (
 CREATE TABLE E_GSME (
 	Statement_ID	UNIQUE_ID,
 	SMevt_ID	UNIQUE_ID );
-
 -- ============================================================================
 -- Classes In Package:  Globals  
 -- ============================================================================
@@ -818,7 +759,7 @@ CREATE TABLE I_INS (
 CREATE TABLE I_EXE (
 	Running	BOOLEAN,
 	Execution_Engine_ID	UNIQUE_ID,
-	Dom_ID	UNIQUE_ID,
+	Dom_IDdeprecated	UNIQUE_ID,
 	Component_Id	UNIQUE_ID,
 	Package_ID	UNIQUE_ID,
 	Next_Unique_ID	INTEGER,
@@ -1557,13 +1498,13 @@ CREATE TABLE O_OBJ (
 	Numb	INTEGER,
 	Key_Lett	STRING,
 	Descrip	STRING,
-	SS_ID	UNIQUE_ID );
+	SS_IDdeprecated	UNIQUE_ID );
 -- Class:  102.  Imported Class
 CREATE TABLE O_IOBJ (
 	IObj_ID	UNIQUE_ID,
 	Obj_ID	UNIQUE_ID,
 	Modl_Typ	INTEGER,
-	SS_ID	UNIQUE_ID,
+	SS_IDdeprecated	UNIQUE_ID,
 	Obj_Name	STRING,
 	Obj_KL	STRING );
 -- Class:  103.  Attribute
@@ -3378,36 +3319,8 @@ CREATE ROP REF_ID R1505	FROM 1C CNST_SYC	(Previous_Const_ID, Previous_DT_DT_ID) 
 -- ============================================================================
 -- Relationships In Package:  Domain  
 -- ============================================================================
-CREATE ROP REF_ID R1	FROM MC S_SS	(Dom_ID)
-			  TO 1  S_DOM	(Dom_ID);
-CREATE ROP REF_ID R2	FROM MC O_OBJ	(SS_ID)
-			  TO 1C S_SS	(SS_ID);
-CREATE ROP REF_ID R3	FROM MC O_IOBJ	(SS_ID)
-			  TO 1  S_SS	(SS_ID);
-CREATE ROP REF_ID R4	FROM MC R_REL	(SS_ID)
-			  TO 1C S_SS	(SS_ID);
-CREATE ROP REF_ID R7	FROM MC S_EEM	(SS_ID)
-			  TO 1  S_SS	(SS_ID);
-CREATE ROP REF_ID R8	FROM MC S_EE	(Dom_ID)
-			  TO 1  S_DOM	(Dom_ID);
 CREATE ROP REF_ID R9	FROM MC S_EEM	(EE_ID)
 			  TO 1  S_EE	(EE_ID);
-CREATE ROP REF_ID R10	FROM MC S_EEEVT	(EE_ID)
-			  TO 1  S_EE	(EE_ID);
-CREATE ROP REF_ID R11	FROM MC S_EEDI	(EE_ID)
-			  TO 1  S_EE	(EE_ID);
-CREATE ROP REF_ID R12	FROM MC S_EEEDI	(EE_ID)
-			  TO 1  S_EE	(EE_ID);
-CREATE ROP REF_ID R13	FROM MC S_EEEDT	(EEedi_ID, EE_ID)
-			  TO 1  S_EEEDI	(EEedi_ID, EE_ID);
-CREATE ROP REF_ID R13	FROM MC S_EEEDT	(EEevt_ID, EE_ID)
-			  TO 1  S_EEEVT	(EEevt_ID, EE_ID);
-CREATE ROP REF_ID R14	FROM MC S_DT	(Dom_ID)
-			  TO 1C S_DOM	(Dom_ID);
-CREATE ROP REF_ID R15	FROM MC S_EEDI	(DT_ID)
-			  TO 1  S_DT	(DT_ID);
-CREATE ROP REF_ID R16	FROM MC S_EEEDI	(DT_ID)
-			  TO 1  S_DT	(DT_ID);
 CREATE ROP REF_ID R17	FROM 1C S_CDT	(DT_ID)
 			  TO 1  S_DT	(DT_ID);
 CREATE ROP REF_ID R17	FROM 1C S_UDT	(DT_ID)
@@ -3428,8 +3341,6 @@ CREATE ROP REF_ID R21	FROM MC S_BPARM	(Brg_ID)
 			  TO 1  S_BRG	(Brg_ID);
 CREATE ROP REF_ID R22	FROM MC S_BPARM	(DT_ID)
 			  TO 1  S_DT	(DT_ID);
-CREATE ROP REF_ID R23	FROM MC S_SYNC	(Dom_ID)
-			  TO 1  S_DOM	(Dom_ID);
 CREATE ROP REF_ID R24	FROM MC S_SPARM	(Sync_ID)
 			  TO 1  S_SYNC	(Sync_ID);
 CREATE ROP REF_ID R25	FROM MC S_SYNC	(DT_ID)
@@ -3438,8 +3349,6 @@ CREATE ROP REF_ID R26	FROM MC S_SPARM	(DT_ID)
 			  TO 1  S_DT	(DT_ID);
 CREATE ROP REF_ID R27	FROM MC S_ENUM	(EDT_DT_ID)
 			  TO 1  S_EDT	(DT_ID);
-CREATE ROP REF_ID R28	FROM MC S_DOM	(Sys_ID)
-			  TO 1C S_SYS	(Sys_ID);
 CREATE ROP REF_ID R44	FROM MC S_MBR	(Parent_DT_DT_ID)
 			  TO 1  S_SDT	(DT_ID);
 CREATE ROP REF_ID R45	FROM MC S_MBR	(DT_ID)
@@ -3478,12 +3387,8 @@ CREATE ROP REF_ID R701	FROM 1C E_CES	(Statement_ID)
 			  TO 1  E_ESS	(Statement_ID);
 CREATE ROP REF_ID R701	FROM 1C E_GES	(Statement_ID)
 			  TO 1  E_ESS	(Statement_ID);
-CREATE ROP REF_ID R702	FROM 1C E_CEE	(Statement_ID)
-			  TO 1  E_CES	(Statement_ID);
 CREATE ROP REF_ID R702	FROM 1C E_CSME	(Statement_ID)
 			  TO 1  E_CES	(Statement_ID);
-CREATE ROP REF_ID R703	FROM 1C E_GEE	(Statement_ID)
-			  TO 1  E_GES	(Statement_ID);
 CREATE ROP REF_ID R703	FROM 1C E_GSME	(Statement_ID)
 			  TO 1  E_GES	(Statement_ID);
 CREATE ROP REF_ID R704	FROM 1C E_CEI	(Statement_ID)
@@ -3502,10 +3407,6 @@ CREATE ROP REF_ID R706	FROM MC E_CSME	(SMevt_ID)
 			  TO 1  SM_EVT	(SMevt_ID);
 CREATE ROP REF_ID R707	FROM MC E_GSME	(SMevt_ID)
 			  TO 1  SM_EVT	(SMevt_ID);
-CREATE ROP REF_ID R708	FROM MC E_CEE	(EEevt_ID, EE_ID)
-			  TO 1  S_EEEVT	(EEevt_ID, EE_ID);
-CREATE ROP REF_ID R709	FROM MC E_GEE	(EEevt_ID, EE_ID)
-			  TO 1  S_EEEVT	(EEevt_ID, EE_ID);
 CREATE ROP REF_ID R710	FROM MC E_CES	(Var_ID)
 			  TO 1  V_VAR	(Var_ID);
 CREATE ROP REF_ID R711	FROM MC E_CEI	(Var_ID)
@@ -3514,7 +3415,6 @@ CREATE ROP REF_ID R712	FROM MC E_GEN	(Var_ID)
 			  TO 1  V_VAR	(Var_ID);
 CREATE ROP REF_ID R714	FROM 1C E_GPR	(Value_ID)
 			  TO 1C V_VAL	(Value_ID);
-
 -- ============================================================================
 -- Relationships In Package:  Globals  
 -- ============================================================================
@@ -3583,8 +3483,6 @@ CREATE ROP REF_ID R2946	FROM 1C I_SQE	(Event_ID)
 			  TO 1  I_EVI	(Event_ID);
 CREATE ROP REF_ID R2947	FROM 1C I_SQE	(Next_Self_Queue_Entry_ID) PHRASE 'follows'
 			  TO 1C I_SQE	(Self_Queue_Entry_ID) PHRASE 'precedes';
-CREATE ROP REF_ID R2948	FROM 1C I_EXE	(Dom_ID)
-			  TO 1C S_DOM	(Dom_ID);
 CREATE ROP REF_ID R2949	FROM MC I_MON	(Execution_Engine_ID)
 			  TO 1  I_EXE	(Execution_Engine_ID);
 CREATE ROP REF_ID R2949	FROM 1C I_MON	(Inst_ID)
@@ -4091,7 +3989,7 @@ CREATE ROP REF_ID R111	FROM MC O_REF	(RAttr_ID, ROIR_ID, ROid_ID, RObj_ID, Rel_I
 CREATE ROP REF_ID R112	FROM 1C O_REF	(PARef_ID) PHRASE 'succeeds'
 			  TO 1C O_REF	(ARef_ID) PHRASE 'precedes';
 CREATE ROP REF_ID R113	FROM MC O_RATTR	(BAttr_ID, BObj_ID)
-			  TO 1C O_BATTR	(Attr_ID, Obj_ID);
+			  TO 1  O_BATTR	(Attr_ID, Obj_ID);
 CREATE ROP REF_ID R114	FROM MC O_ATTR	(DT_ID)
 			  TO 1  S_DT	(DT_ID);
 CREATE ROP REF_ID R115	FROM MC O_TFR	(Obj_ID)
@@ -4508,7 +4406,7 @@ CREATE ROP REF_ID R818	FROM MC V_INT	(Obj_ID)
 CREATE ROP REF_ID R819	FROM MC V_INS	(Obj_ID)
 			  TO 1  O_OBJ	(Obj_ID);
 CREATE ROP REF_ID R820	FROM MC V_VAL	(DT_ID)
-			  TO 1C S_DT	(DT_ID);
+			  TO 1  S_DT	(DT_ID);
 CREATE ROP REF_ID R821	FROM MC V_TRN	(DT_ID)
 			  TO 1C S_DT	(DT_ID);
 CREATE ROP REF_ID R823	FROM MC V_VAR	(Block_ID)
@@ -4576,3 +4474,5 @@ CREATE ROP REF_ID R3200	FROM 1C S_AW	(Brg_ID)
 			  TO 1  S_BRG	(Brg_ID);
 CREATE ROP REF_ID R3201	FROM MC S_AW	(Sync_ID)
 			  TO 1C S_SYNC	(Sync_ID);
+
+
