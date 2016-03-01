@@ -1,0 +1,242 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("855c829b-2adf-4281-a5f9-14194b41aecf",
+	'string',
+	2045,
+	'TE_STRING',
+	'access:te_prefix
+The model compiler supplies its own string manipulation routines.
+This is because some embedded C compilers do not supply the string
+library or supply one that is not satisfactory.
+',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("72ee0a64-1307-4e85-8ddc-270942737356",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("72ee0a64-1307-4e85-8ddc-270942737356",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("72ee0a64-1307-4e85-8ddc-270942737356",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"00000000-0000-0000-0000-000000000000",
+	'memset',
+	'This is the name of a routine that writes memory directory byte by byte.',
+	'',
+	'memset',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "memset"');
+INSERT INTO O_NBATTR
+	VALUES ("10a214a5-aa6f-4e2e-9745-4ee5ba427f9a",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("10a214a5-aa6f-4e2e-9745-4ee5ba427f9a",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("10a214a5-aa6f-4e2e-9745-4ee5ba427f9a",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"72ee0a64-1307-4e85-8ddc-270942737356",
+	'memmove',
+	'This is the name of the routine that moves memory directly byte by byte
+from one location to another.',
+	'',
+	'memmove',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "memmove"');
+INSERT INTO O_NBATTR
+	VALUES ("f9144896-b7b9-4024-969f-9763089313b9",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("f9144896-b7b9-4024-969f-9763089313b9",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("f9144896-b7b9-4024-969f-9763089313b9",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"10a214a5-aa6f-4e2e-9745-4ee5ba427f9a",
+	'strcpy',
+	'Copy one string to another.
+',
+	'',
+	'strcpy',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "strcpy"');
+INSERT INTO O_NBATTR
+	VALUES ("06109776-a818-4024-aeda-88f95204a778",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("06109776-a818-4024-aeda-88f95204a778",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("06109776-a818-4024-aeda-88f95204a778",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"f9144896-b7b9-4024-969f-9763089313b9",
+	'stradd',
+	'Concatenate one string onto the end of another.
+',
+	'',
+	'stradd',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "stradd"');
+INSERT INTO O_NBATTR
+	VALUES ("cbb468b4-e2de-43f2-a75d-d948d992aece",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("cbb468b4-e2de-43f2-a75d-d948d992aece",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("cbb468b4-e2de-43f2-a75d-d948d992aece",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"06109776-a818-4024-aeda-88f95204a778",
+	'strlen',
+	'',
+	'',
+	'strlen',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "strlen"');
+INSERT INTO O_NBATTR
+	VALUES ("a0834dd6-f065-4f45-a1d0-39d3eb84fa48",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("a0834dd6-f065-4f45-a1d0-39d3eb84fa48",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("a0834dd6-f065-4f45-a1d0-39d3eb84fa48",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"44cab476-90d3-4ccf-a084-1d1c03db984c",
+	'itoa',
+	'Convert an integer into a string.
+',
+	'',
+	'itoa',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "itoa"');
+INSERT INTO O_NBATTR
+	VALUES ("beeb09bf-90ff-44e8-a4e5-c4fc73e3af6a",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("beeb09bf-90ff-44e8-a4e5-c4fc73e3af6a",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("beeb09bf-90ff-44e8-a4e5-c4fc73e3af6a",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"a0834dd6-f065-4f45-a1d0-39d3eb84fa48",
+	'atoi',
+	'Convert a string of digits into an integer.
+',
+	'',
+	'atoi',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "atoi"');
+INSERT INTO O_NBATTR
+	VALUES ("8787db95-c10d-4909-9c03-e70e7a2b76f4",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("8787db95-c10d-4909-9c03-e70e7a2b76f4",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("8787db95-c10d-4909-9c03-e70e7a2b76f4",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"cbb468b4-e2de-43f2-a75d-d948d992aece",
+	'strcmp',
+	'Compare two strings for less than, greater than or equal to.
+',
+	'',
+	'strcmp',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "strcmp"');
+INSERT INTO O_NBATTR
+	VALUES ("ca1f428e-cdd2-4ca9-a4ac-c13ae152f5b5",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("ca1f428e-cdd2-4ca9-a4ac-c13ae152f5b5",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("ca1f428e-cdd2-4ca9-a4ac-c13ae152f5b5",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"beeb09bf-90ff-44e8-a4e5-c4fc73e3af6a",
+	'max_string_length',
+	'This macro value defines the limit for string lengths in the generated
+system.',
+	'',
+	'max_string_length',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.define_u + "SYS_MAX_STRING_LEN"');
+INSERT INTO O_NBATTR
+	VALUES ("de276dcf-5d97-4b70-8ca1-39ff5bdaba85",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("de276dcf-5d97-4b70-8ca1-39ff5bdaba85",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("de276dcf-5d97-4b70-8ca1-39ff5bdaba85",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"ca1f428e-cdd2-4ca9-a4ac-c13ae152f5b5",
+	'debug_buffer_depth',
+	'This macro definition defines the buffers for model debugging messages.',
+	'',
+	'debug_buffer_depth',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.define_u + "DEBUG_BUFFER_DEPTH"');
+INSERT INTO O_NBATTR
+	VALUES ("44cab476-90d3-4ccf-a084-1d1c03db984c",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_BATTR
+	VALUES ("44cab476-90d3-4ccf-a084-1d1c03db984c",
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ATTR
+	VALUES ("44cab476-90d3-4ccf-a084-1d1c03db984c",
+	"855c829b-2adf-4281-a5f9-14194b41aecf",
+	"8787db95-c10d-4909-9c03-e70e7a2b76f4",
+	'strget',
+	'',
+	'',
+	'strget',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "strget"');
+INSERT INTO O_ID
+	VALUES (0,
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ID
+	VALUES (1,
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO O_ID
+	VALUES (2,
+	"855c829b-2adf-4281-a5f9-14194b41aecf");
+INSERT INTO PE_PE
+	VALUES ("855c829b-2adf-4281-a5f9-14194b41aecf",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

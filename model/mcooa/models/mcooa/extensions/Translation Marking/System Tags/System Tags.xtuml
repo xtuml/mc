@@ -1,0 +1,382 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("fa363aa4-f325-484c-816f-cc8b9b95c909",
+	'System Tags',
+	2207,
+	'TM_SYSTAG',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("22537797-9d80-43af-a073-2e3f0d92d34e",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("22537797-9d80-43af-a073-2e3f0d92d34e",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("22537797-9d80-43af-a073-2e3f0d92d34e",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"00000000-0000-0000-0000-000000000000",
+	'MaxStringLen',
+	'The model compiler uses fixed length character arrays to implement strings.  This mark establishes the length of the character arrays containing strings.
+',
+	'',
+	'MaxStringLen',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("900930a3-bf1c-4f72-bf82-b8ec1e05a894",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("900930a3-bf1c-4f72-bf82-b8ec1e05a894",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("900930a3-bf1c-4f72-bf82-b8ec1e05a894",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"22537797-9d80-43af-a073-2e3f0d92d34e",
+	'MaxRelExtent',
+	'Sets of instances are collected for various AL operations. Relationships with multiplicity MANY require set container mechanisms at the implementation level to manage the collection of related instances. The maximum number of instances allowed in such collections can be controlled with a mark.
+
+',
+	'',
+	'MaxRelExtent',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("30a8a392-4545-4da3-9b8e-96ffc48d1bb8",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("30a8a392-4545-4da3-9b8e-96ffc48d1bb8",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("30a8a392-4545-4da3-9b8e-96ffc48d1bb8",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"900930a3-bf1c-4f72-bf82-b8ec1e05a894",
+	'MaxSelectExtent',
+	'Another operation requiring set manipulation is a selection (SELECT MANY) that may result in a collection of multiple instances.
+
+',
+	'',
+	'MaxSelectExtent',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("866ae937-af23-41f0-8fc6-5aa5cf8bed68",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("866ae937-af23-41f0-8fc6-5aa5cf8bed68",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("866ae937-af23-41f0-8fc6-5aa5cf8bed68",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"30a8a392-4545-4da3-9b8e-96ffc48d1bb8",
+	'MaxSelfEvents',
+	'The model compiler attempts to dynamically calculate reasonable and safe values for queue depths within the event generation and delivery mechanism. However, for optimization purposes the user may wish to override these values.
+
+',
+	'',
+	'MaxSelfEvents',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3c25d6f1-fb0c-4668-965e-1fbeee590da2",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("3c25d6f1-fb0c-4668-965e-1fbeee590da2",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("3c25d6f1-fb0c-4668-965e-1fbeee590da2",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"866ae937-af23-41f0-8fc6-5aa5cf8bed68",
+	'MaxNonSelfEvents',
+	'The model compiler attempts to dynamically calculate reasonable and safe values for queue depths within the event generation and delivery mechanism.  However, for optimization purposes the user may wish to override these values.
+
+',
+	'',
+	'MaxNonSelfEvents',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("731d2cc7-14d6-45aa-aa2f-cc30f9260cb7",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("731d2cc7-14d6-45aa-aa2f-cc30f9260cb7",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("731d2cc7-14d6-45aa-aa2f-cc30f9260cb7",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"3c25d6f1-fb0c-4668-965e-1fbeee590da2",
+	'MaxTimers',
+	'A mark is provided so the system analyst can direct the model compiler to increase or decrease the timer queue used to manage multiple pending xtUML timers (delayed events). To override the compiler calculated queue depth for pending xtUML timers this mark is provided.
+
+',
+	'',
+	'MaxTimers',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("c08bbb94-752c-4190-8bfc-d73dd1a882aa",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("c08bbb94-752c-4190-8bfc-d73dd1a882aa",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("c08bbb94-752c-4190-8bfc-d73dd1a882aa",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"731d2cc7-14d6-45aa-aa2f-cc30f9260cb7",
+	'MaxInterleavedBridges',
+	'Use this mark to expand or reduce the depth of the queue used to interleave ``asynchronous'''' bridge operations between state actions. The default will be a system divined value that should be relatively safe in most cases.
+
+',
+	'',
+	'MaxInterleavedBridges',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("458c4575-cd15-4940-8467-06dc8ee461ee",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("458c4575-cd15-4940-8467-06dc8ee461ee",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("458c4575-cd15-4940-8467-06dc8ee461ee",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"c08bbb94-752c-4190-8bfc-d73dd1a882aa",
+	'MaxInterleavedBridgeDataSize',
+	'Use this mark to define how many bytes of argument data come in across an interleaved bridge operation.',
+	'',
+	'MaxInterleavedBridgeDataSize',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d07e8226-06f0-4cc3-9c5c-eb97b03c8290",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("d07e8226-06f0-4cc3-9c5c-eb97b03c8290",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("d07e8226-06f0-4cc3-9c5c-eb97b03c8290",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"458c4575-cd15-4940-8467-06dc8ee461ee",
+	'CollectionsFlavor',
+	'Collection types available are singly-linked lists and doubly-linked lists.
+',
+	'',
+	'CollectionsFlavor',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5f089096-0a61-4005-92b0-727ce99696f6",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("5f089096-0a61-4005-92b0-727ce99696f6",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("5f089096-0a61-4005-92b0-727ce99696f6",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"d07e8226-06f0-4cc3-9c5c-eb97b03c8290",
+	'PersistInstanceCacheDepth',
+	'This mark is used to specify the maximum number of instances and links that can be queued waiting to be flushed to non-volatile storage (NVS). As instances and links become "dirty" they get queued to NVS. When PERSIST::Commit is called these queues are flushed. 
+instance_depth is the number of instances that can be queued waiting to be flushed to non-volatile storage 
+ 
+',
+	'',
+	'PersistInstanceCacheDepth',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("e37aa531-d731-4a63-8818-9350496b6f38",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("e37aa531-d731-4a63-8818-9350496b6f38",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("e37aa531-d731-4a63-8818-9350496b6f38",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"5f089096-0a61-4005-92b0-727ce99696f6",
+	'PersistLinkCacheDepth',
+	'This mark is used to specify the maximum number of instances and links that can be queued waiting to be flushed to non-volatile storage (NVS). As instances and links become "dirty" they get queued to NVS. When PERSIST::Commit is called these queues are flushed. 
+link_depth is the number of links that can be queued waiting to be flushed to non-volatile storage (NVS). 
+ 
+',
+	'',
+	'PersistLinkCacheDepth',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("eebf94e1-1048-4ef3-b924-446d6acade8c",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("eebf94e1-1048-4ef3-b924-446d6acade8c",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("eebf94e1-1048-4ef3-b924-446d6acade8c",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"e37aa531-d731-4a63-8818-9350496b6f38",
+	'UnitsToDynamicallyAllocate',
+	'By default, the model compiler statically allocates instance data and all mechanistic collection containers. This is great for many deeply embedded applications. However, some applications require the flexibility of dynamically allocated storage. In such an application, the number of instances of elements from the xtUML model file is not predictable. Here, the application needs to be able to allocate more memory when the statically allocated memory runs out. 
+additional_instances is the number of additional instances to allocate each time space for new instances runs out.
+ 
+',
+	'',
+	'UnitsToDynamicallyAllocate',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("391d9d97-9d33-4019-b7a7-136b9dd12249",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("391d9d97-9d33-4019-b7a7-136b9dd12249",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("391d9d97-9d33-4019-b7a7-136b9dd12249",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"7323d14c-7508-412c-889c-b6bca54735ce",
+	'InstanceLoading',
+	'This mark enables an instance loader that parses an input xtUML model file and loads in the SQL-formatted pre-existing instance data.  It is mostly useful for model-based model compiler development.
+
+',
+	'',
+	'InstanceLoading',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7323d14c-7508-412c-889c-b6bca54735ce",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("7323d14c-7508-412c-889c-b6bca54735ce",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("7323d14c-7508-412c-889c-b6bca54735ce",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"eebf94e1-1048-4ef3-b924-446d6acade8c",
+	'VFB',
+	'',
+	'',
+	'VFB',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8ebf219a-9a33-484d-b5d4-e810c3e47abc",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("8ebf219a-9a33-484d-b5d4-e810c3e47abc",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("8ebf219a-9a33-484d-b5d4-e810c3e47abc",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"391d9d97-9d33-4019-b7a7-136b9dd12249",
+	'SystemCPortsType',
+	'',
+	'',
+	'SystemCPortsType',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3b02aa4b-6c19-401a-a14e-306b84153448",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("3b02aa4b-6c19-401a-a14e-306b84153448",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("3b02aa4b-6c19-401a-a14e-306b84153448",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"8ebf219a-9a33-484d-b5d4-e810c3e47abc",
+	'AllPortsPoly',
+	'',
+	'',
+	'AllPortsPoly',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("30bd31ed-e86c-4e60-9d35-daa11ba25375",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("30bd31ed-e86c-4e60-9d35-daa11ba25375",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("30bd31ed-e86c-4e60-9d35-daa11ba25375",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"3b02aa4b-6c19-401a-a14e-306b84153448",
+	'StructuredMessaging',
+	'',
+	'',
+	'StructuredMessaging',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2bc8157a-ff8b-434f-ae7a-f2b83db4570a",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_BATTR
+	VALUES ("2bc8157a-ff8b-434f-ae7a-f2b83db4570a",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ATTR
+	VALUES ("2bc8157a-ff8b-434f-ae7a-f2b83db4570a",
+	"fa363aa4-f325-484c-816f-cc8b9b95c909",
+	"30bd31ed-e86c-4e60-9d35-daa11ba25375",
+	'NetworkSockets',
+	'',
+	'',
+	'NetworkSockets',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ID
+	VALUES (1,
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO O_ID
+	VALUES (2,
+	"fa363aa4-f325-484c-816f-cc8b9b95c909");
+INSERT INTO PE_PE
+	VALUES ("fa363aa4-f325-484c-816f-cc8b9b95c909",
+	1,
+	"81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Marking',
+	'This subsystem contains classes intended for marking or coloring the user
+model to guide the translation process.',
+	0,
+	'../Translation Marking.xtuml');

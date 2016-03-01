@@ -1,0 +1,5 @@
+T_b("  ");
+T_b("terminator ");
+T_b(self->name);
+T_b(" is");
+T_b("\n");

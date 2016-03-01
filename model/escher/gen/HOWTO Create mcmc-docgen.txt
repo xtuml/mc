@@ -1,0 +1,136 @@
+Building mcmc (which serves to be both mcmc and docgen).
+-------------
+
+Summary:
+- Convert RSL queries into OAL and import into model of model compiler.
+- Convert RSL templates into C code templates.
+- Build dynamic template engine.
+- Generate C code from model compiler model.
+- Compile and link.
+
+Needed:
+#
+# NOTE: some of the pieces you will need to perform this process are in the 
+# xtuml/mc github repository.  So, you'll need to pull that repository via CLI
+# or BridgePoint, get the latest master, and use the data from the repository 
+# to configure BP and run the process to build mcmc
+#
+- Linux BridgePoint with source MC installed (specifically, the prior official BP release 
+  with matching source MC)
+- Enable preference:  Allow operations inside where clauses of select statements
+- Copy <git>/xtuml/mc/etc/org.xtuml.bp.core.function.gen_*.jar to your installation's dropins/ folder
+- xtuml/mc/model/escher
+- rsl2oal (lives in xtuml/mc/mcmc/arlan)
+- current_list.sh (lives in xtuml/mc/mcmc/arlan)
+- convert_templates.sh (lives in xtuml/mc/mcmc/arlan)
+- golden source from previous build (xtuml/mc/model/escher/src410)
+- flex (>=2.5.35) & bison (>=2.5)
+
+Update the RSL-to-OAL translator.
+- Create function signatures for OAL from the RSL by running the
+  following in the (git master) mc/arc folder:
+  + cd <git repo>/mc/arc
+  + egrep -r -e "^\.function " -e "^ *\.param " -e ".end function" * | awk '{if ($1 ~ ".function") printf("{\"%s\"",$2); else if ($0 ~ "\.param ") printf(",\"%s\"",$4); else if ($1 ~ ".end" && $2 ~ "function") printf("},\n");}' | sort | uniq > ~/funcsigs.h
+  + Then, vimdiff ~/funcsigs.h ../mcmc/arlan/funcsigs.h (Or use a sissy GUI diff'er like "meld").  Copy relevant updates into the arlan/ based file.
+    # NOTE: Order differences do not matter.  Also, funcsigs.h changes are not needed 
+    # unless new functions or new parameters were added (or return types changed)... and 
+    # only in the list of files in current_list.sh (the ones that affect mcmc).
+  + In the mc/mcmc/arlan/ folder: make -f makefile.rsl2oal
+
+Run the rsl2oal translator.
+- Translate RSL to OAL:
+  + Copy old o*.oal to a backup location (in /tmp/).
+  + sh ./current_list.sh
+  + diff with old version of o.oal, o2.oal, o3.oal, o4.oal looking for extra
+    blank space.  (Clean up that extra blank space.)
+- In the MC model, delete functions from afun, afunmark, afunsmt, afunval
+  but leave afun::a0.
+- Next we create OAL functions from the RSL data.  For each function package
+  below, Right-click on the Function Package > BridgePoint Utilities > "Generate Functions from List...":
+  + afun gets o.oal
+  + afunval gets o2.oal
+  + afunsmt gets o3.oal
+  + afunmark gets o4.oal
+  Parse all activities.  Fix the following by hand-editing:
+    afunstmt > smt_select_related: Change ${subtypecheck}\ to subtypecheck in 5 or 6 places
+    afunstmt > smt_select_related: Change ${ws}{\ to ws + "{"
+    afunstmt > smt_select_related: Change }\ to "}"
+    afunmark > T_atoi:  STRING_TO_INTEGER // Comment this out and return 0.
+    # NOTE:  You may see parse errors indicated on """ in OAL.  You can safely ignore these parse errors.
+    # The output C code for these will be properly tranlated to \""
+     
+Update the template engine.
+- In the mc/mcmc/arlan/ folder: make -f makefile.template
+- Copy lex.yy.c, template_engine.tab.c and y.tab.h to ../../model/escher/gen folder
+- mkdir ../../model/escher/src/c
+- sh ./convert_templates.sh to translate RSL templates into C code templates.
+
+Generate the code.
+- In BP project escher, Build Project
+  # NOTE 1: At this point you must verify that none of the files we have in the gen/ folder overwrote valid changes.
+  # To check this: diff gen/code_generation/_ch/<somefile>.orig src/<somefile>
+  # If there are new & valid changes that should be included going forward, edit them in to gen/<somefile>.
+  # Once all the changes are made, you will need to build the project again.
+  # 
+  # NOTE 2: If the ooaofooa.c file has a lot of diff's that show up in lines with T() calls, this is likely due 
+  # to a flex problem.  It is most easily rectified by rebuilding the prior version of mcmc (from a src<ver>/ folder)
+  # on the system you are currently using, then putting that into the mc source plugin and building again with
+  # the new mcmc in place.
+- The following diffs come from files in the gen folder.  Verify the following 
+  changes are now in the src/ folder.
+  + Edit ooaofooa_TE_ABA_class.h:
+    c_t * code;
+- Remove an extraneous line feed in 2 templates.
+  + vimdiff ../src410/c/t.smt_sr.multi_many_astob1.c c/t.smt_sr.multi_many_astob1.c
+  + vimdiff ../src410/c/t.smt_sr.multi_many_astobm.c c/t.smt_sr.multi_many_astobm.c
+- Copy gen/docbook_h to src/docbook.
+
+Compile the code.
+# NOTE:  The Linux version will have the template parser linked in.  It is
+# not worth keeping a DOS flex library prepared to link in.  So, yywrap.c compiles
+# to a dummy routine to satisfy the link for Windows.
+- cd escher/src
+- i686-w64-mingw32-gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -static -o mcmc.exe
+- gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast -m32 *.c -static -o mcmc
+- gcc -DTEMPLATE_ENGINE -Wno-pointer-to-int-cast *.c -static -l:libfl.a -o mcmc64
+# NOTE:  To set up Debian/Ubuntu for 32-bit builds, do this:
+# sudo apt-get install g++-multilib libc6-dev-i386
+
+Commit changes
+# Commit any modifications made to existing parts and pieces in the model or mcmc.  However,
+# we do not add any new files that may have been created.  Most specifically, we do not 
+# add *.c/h files under src/
+
+
+Running DocGen
+--------------
+- To run DocGen inside Verifier
+  o Create src/lib/
+  o Copy libsrc/*.java to src/lib/
+  o Build the project with the Java Builder only
+  o Check out <SVN>/trunk/Models/Test/DocGenTest
+  o Create a Model Verifier Application launch configuration for the bp.core project
+  o Run this launch config
+  o In session explorer, expand bp.core/ooaofooa/DocGen
+  o Execute docgen_load_project
+  o Execute docgen
+  o doc.xml will be created in the gen/ folder of the project
+  
+  NOTE: You can use other models, but they must be a sibling to the bp.core 
+        project in the workspace and they must be (re)named DocGenTest or you 
+        must modify docgen_load_project for the model name you want to use.
+  NOTE2: doc.xml is appended to each time docgen is run.  You must manually
+         delete it between runs.
+               
+- If you need to run docgen.exe by hand for testing, build your sample model
+  with MC3020, this will give you gen/code_generation/_system.sql
+  o To debug with CDT inside eclipse, copy this _system.sql to 
+    escher/a.xtuml, then create a debug launch configuration
+    of type C/C++ Application that points to Debug/docgen.exe
+  o To run via the command line, copy this _system.sql to a.xtuml as a directory
+    sibling of docgen.exe, then just execute ./docgen.exe
+
+
+
+
+

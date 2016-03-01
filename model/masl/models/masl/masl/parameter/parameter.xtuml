@@ -1,0 +1,228 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("50adf108-96a5-428d-9e6b-bee3c6efb5a3",
+	'parameter',
+	3707,
+	'parameter',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("0fd206d4-b40b-4ad7-be27-9150e91afb40",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.parameter.masl" );
+select one parametertype related by self->typeref[R3742];
+parametertype.render();
+select one parameter related by self->parameter[R3706.''precedes''];
+if ( not_empty parameter )
+  T::b( s:"," );
+  parameter.render();
+end if;',
+	1,
+	'',
+	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7");
+INSERT INTO O_TFR
+	VALUES ("5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
+	'populate',
+	'',
+	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	0,
+	'create object instance parameter of parameter;
+parameter.name = param.name;
+parameter.direction = param.direction;
+
+// relate to parent
+parent_activity = param.parent_activity;
+sibling_parameter = param.sibling_parameter;
+parent_event = param.parent_event;
+if ( not_empty sibling_parameter )
+  relate parameter to sibling_parameter across R3706.''succeeds'';
+elif ( not_empty parent_activity )
+  relate parent_activity to parameter across R3705.''carries first'';
+elif ( not_empty parent_event )
+  relate parent_event to parameter across R3727.''carries first'';
+else
+  TRACE::log( flavor:"failure", id:39, message:"no parent for parameter" );
+end if;
+
+unmarkable = unmarkable::populate( name:"parameter" );
+relate parameter to unmarkable across R3788;
+
+return parameter;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("832e40af-41d8-47f7-af18-a29df551fa7f",
+	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("4fef2767-f1c2-4879-bc16-1b7df94b783d",
+	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	'direction',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"832e40af-41d8-47f7-af18-a29df551fa7f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d8805b5d-6460-4e51-abdc-7526fa57435d",
+	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	'parent_activity',
+	"1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	0,
+	'',
+	"4fef2767-f1c2-4879-bc16-1b7df94b783d",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("1b2a92d7-e97c-4b62-9e83-f7969ef6a845",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<activity>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("4824ff63-86d9-4355-8939-9deebe8f2804",
+	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	'sibling_parameter',
+	"71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	0,
+	'',
+	"d8805b5d-6460-4e51-abdc-7526fa57435d",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("71d8ba5c-3bc4-411b-9bd3-5d4703ec2c25",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<parameter>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("3aad2d78-9102-452f-88a8-5d36ad97a305",
+	"5b7ef3f9-c9ad-41e3-99a9-7b3b5eda0ab7",
+	'parent_event',
+	"10f010a5-972a-427c-a610-080e185e1082",
+	0,
+	'',
+	"4824ff63-86d9-4355-8939-9deebe8f2804",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("10f010a5-972a-427c-a610-080e185e1082",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<event>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("532b4a1b-ed1c-4ba7-ac49-47ffc466bf58",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"parameter has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate direction
+if ( "in" != self.direction and "out" != self.direction )
+  TRACE::log( flavor:"failure", id:101, message:"invalid direction for parameter: " + self.direction );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate typeref
+select one typeref related by self->typeref[R3742];
+if ( not_empty typeref )
+  valid = typeref.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"no typeref for parameter" );
+end if;
+
+// validate next parameter
+select one next_param related by self->parameter[R3706.''precedes''];
+if ( not_empty next_param )
+  valid = next_param.validate();
+end if;
+
+return valid;',
+	1,
+	'',
+	"0fd206d4-b40b-4ad7-be27-9150e91afb40");
+INSERT INTO O_NBATTR
+	VALUES ("1b90aca9-efb5-4368-b361-a564280cf7f2",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
+INSERT INTO O_BATTR
+	VALUES ("1b90aca9-efb5-4368-b361-a564280cf7f2",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
+INSERT INTO O_ATTR
+	VALUES ("1b90aca9-efb5-4368-b361-a564280cf7f2",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5a7b7b91-1e25-40fe-aa3b-48c430383a52",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
+INSERT INTO O_BATTR
+	VALUES ("5a7b7b91-1e25-40fe-aa3b-48c430383a52",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
+INSERT INTO O_ATTR
+	VALUES ("5a7b7b91-1e25-40fe-aa3b-48c430383a52",
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3",
+	"1b90aca9-efb5-4368-b361-a564280cf7f2",
+	'direction',
+	'',
+	'',
+	'direction',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
+INSERT INTO O_ID
+	VALUES (1,
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
+INSERT INTO O_ID
+	VALUES (2,
+	"50adf108-96a5-428d-9e6b-bee3c6efb5a3");
+INSERT INTO PE_PE
+	VALUES ("50adf108-96a5-428d-9e6b-bee3c6efb5a3",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

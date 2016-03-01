@@ -28,7 +28,6 @@
   .select any te_thread from instances of TE_THREAD
   .select any te_tim from instances of TE_TIM
   .select any te_typemap from instances of TE_TYPEMAP
-  .select any empty_cp_cp from instances of CP_CP where ( false )
   .select many empty_ep_pkgs from instances of EP_PKG where ( false )
   .select any empty_te_c from instances of TE_C where ( false )
   .select any empty_te_dim from instances of TE_DIM where ( false )
@@ -350,7 +349,6 @@
   .// a package has been marked, translate only the components contained
   .// in the package (or referenced from it).
   .assign ep_pkgs = empty_ep_pkgs
-  .assign cp_cp = empty_cp_cp
   .assign package_to_build = ""
   .select any tm_build from instances of TM_BUILD
   .assign markedsystems = 0
@@ -389,6 +387,45 @@
   .end if
   .assign te_file.types = ( te_sys.Name + "_" ) + te_file.types
   .assign te_file.sys_main = ( te_sys.Name + "_" ) + te_file.sys_main
+  .//
+  .// Select "Imported" Packages and link them to their imports to the
+  .// appropriate component.
+  .// Imported packages are empty packages imbedded within components
+  .// that have the name of the target package as their description.
+  .// Get the components that are part of the project.
+  .select many te_cs from instances of TE_C where ( selected.included_in_build )
+  .select many c_cs related by te_cs->C_C[R2054]
+  .for each c_c in c_cs
+    .// Get the packages contained in this component.
+    .select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001]
+    .for each ep_pkg in ep_pkgs
+      .// Get the packages that are empty (having no elements inside).
+      .select any pe_pe related by ep_pkg->PE_PE[R8000]
+      .if ( empty pe_pe )
+        .// We found an empty package, now check to see if it is marked as imported.
+        .if ( "" != ep_pkg.Descrip )
+          .select any imported_ep_pkg from instances of EP_PKG where ( selected.Name == ep_pkg.Descrip )
+          .if ( not_empty imported_ep_pkg )
+            .// We found a package that has a name as specified in the embedded package Descrip.
+            .// Disconnect the embedded package.  Relate the imported package.
+            .select one s_sys related by imported_ep_pkg->S_SYS[R1401]
+            .if ( not_empty s_sys )
+              .// unrelate imported_ep_pkg from s_sys across R1401;
+              .assign imported_ep_pkg.Sys_ID = 0
+              .// end unrelate
+            .end if
+            .select one pe_pe related by ep_pkg->PE_PE[R8001]
+            .// unrelate pe_pe from ep_pkg across R8001;
+            .assign pe_pe.Element_ID = 0
+            .// end unrelate
+            .// relate pe_pe to imported_ep_pkg across R8001;
+            .assign pe_pe.Element_ID = imported_ep_pkg.Package_ID
+            .// end relate
+          .end if
+        .end if
+      .end if
+    .end for
+  .end for
   .//
   .// Create and link the Extended model compiler instances.
   .// Do not fully initialize, yet.  Create and link and mark.
@@ -1199,11 +1236,19 @@
   .select many te_pos from instances of TE_PO
   .for each te_po in te_pos
     .select many te_macts related by te_po->TE_MACT[R2006]
-    .invoke mact_sort( te_macts )
+    .invoke r = mact_sort( te_macts )
+    .assign te_mact = r.result
+    .if ( not_empty te_mact )
+      .// relate te_po to te_mact across R2099.'has first';
+      .assign te_po.first_te_mactID = te_mact.ID
+      .// end relate
+    .end if
   .end for
   .//
   .//
   .// Create the generated links (associations) and connect them.
+  .// CDS - consider moving this in under the TE_C loop.
+  .// also consider selecting these from include r_oirs.
   .select many r_rels from instances of R_REL
   .for each r_rel in r_rels
     .create object instance te_rel of TE_REL
@@ -2759,7 +2804,7 @@
 .end function
 .//
 .// Sort a list of TE_MACTs.
-.function mact_sort
+.function mact_sort .// te_mact
   .param inst_ref_set te_macts
   .// Declare an empty instance reference.
   .select any head_te_mact related by te_macts->TE_MACT[R2083.'succeeds'] where ( false )
@@ -2777,6 +2822,7 @@
     .assign counter = counter + 1
     .select one te_mact related by te_mact->TE_MACT[R2083.'succeeds']
   .end while
+  .assign attr_result = head_te_mact
 .end function
 .function mact_insert .// te_mact
   .param inst_ref head_te_mact

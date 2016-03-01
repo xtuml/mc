@@ -1,0 +1,107 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("f042dc13-84d3-4bca-bb21-1e28777dc90c",
+	'address',
+	2305,
+	'DOC_ADDR',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("7f63af72-4188-41fd-812b-79d51deac5ba",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO O_BATTR
+	VALUES ("7f63af72-4188-41fd-812b-79d51deac5ba",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO O_ATTR
+	VALUES ("7f63af72-4188-41fd-812b-79d51deac5ba",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c",
+	"00000000-0000-0000-0000-000000000000",
+	'street',
+	'',
+	'',
+	'street',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("c5a8f06e-97c9-447f-aef0-3078a1a76fd7",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO O_BATTR
+	VALUES ("c5a8f06e-97c9-447f-aef0-3078a1a76fd7",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO O_ATTR
+	VALUES ("c5a8f06e-97c9-447f-aef0-3078a1a76fd7",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c",
+	"7f63af72-4188-41fd-812b-79d51deac5ba",
+	'city',
+	'',
+	'',
+	'city',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("1c568724-26d5-4041-9905-91f55a81d074",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO O_BATTR
+	VALUES ("1c568724-26d5-4041-9905-91f55a81d074",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO O_ATTR
+	VALUES ("1c568724-26d5-4041-9905-91f55a81d074",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c",
+	"c5a8f06e-97c9-447f-aef0-3078a1a76fd7",
+	'state',
+	'',
+	'',
+	'state',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3a00d7fb-8ae7-4c71-8fbe-461078b3dd90",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO O_BATTR
+	VALUES ("3a00d7fb-8ae7-4c71-8fbe-461078b3dd90",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO O_ATTR
+	VALUES ("3a00d7fb-8ae7-4c71-8fbe-461078b3dd90",
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c",
+	"1c568724-26d5-4041-9905-91f55a81d074",
+	'postcode',
+	'',
+	'',
+	'postcode',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO O_ID
+	VALUES (1,
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO O_ID
+	VALUES (2,
+	"f042dc13-84d3-4bca-bb21-1e28777dc90c");
+INSERT INTO PE_PE
+	VALUES ("f042dc13-84d3-4bca-bb21-1e28777dc90c",
+	1,
+	"1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');

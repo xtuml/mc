@@ -1,0 +1,155 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6d7fd98a-a7ac-41c9-9052-ab9b464757d2",
+	'figure',
+	2307,
+	'DOC_FIG',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("9c09387a-239f-43ed-b769-475642e624f4",
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select any doc_fig from instances of DOC_FIG;
+doc_fig = self;
+T::include( file:"docbook/t.figurebegin.xml" );
+select one doc_img related by self->DOC_IMG[R2313];
+if ( not_empty doc_img )
+  doc_img.render();
+end if;
+T::include( file:"docbook/t.figureend.xml" );
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("3a69c897-b6b9-4edc-a425-5ffbb7e7067e",
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2",
+	'populate',
+	'',
+	"cd20917e-b0c2-499e-8844-30025c897e1b",
+	0,
+	'// Create the figure and the associated image.
+// Link paragraph to figure and figure to image.
+doc_par = param.doc_par;
+create object instance doc_fig of DOC_FIG;
+relate doc_fig to doc_par across R2316;
+doc_fig.title = param.title;
+// Remove blanks to make an identifier for this figure.
+doc_fig.ident = T::r( s:param.image_target );
+create object instance doc_img of DOC_IMG;
+relate doc_img to doc_fig across R2313;
+select any doc_doc from instances of DOC_DOC;
+doc_img.target = param.image_target + doc_doc.model_image_ext;
+return doc_fig;
+',
+	1,
+	'',
+	"9c09387a-239f-43ed-b769-475642e624f4");
+INSERT INTO O_TPARM
+	VALUES ("79974fb7-c4dd-4f0f-8999-59bbab5c7a2c",
+	"3a69c897-b6b9-4edc-a425-5ffbb7e7067e",
+	'title',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("e3371649-c1d5-4eab-8afc-a0136c8131d2",
+	"3a69c897-b6b9-4edc-a425-5ffbb7e7067e",
+	'image_target',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"79974fb7-c4dd-4f0f-8999-59bbab5c7a2c",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("c27c5c28-e5ad-4d42-8fe0-f4ed4548c4c6",
+	"3a69c897-b6b9-4edc-a425-5ffbb7e7067e",
+	'doc_par',
+	"1e22a7fa-abd8-4676-a5ff-2cb3c9bff5fe",
+	0,
+	'',
+	"e3371649-c1d5-4eab-8afc-a0136c8131d2",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("1e22a7fa-abd8-4676-a5ff-2cb3c9bff5fe",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<paragraph>',
+	'',
+	'',
+	'../Document.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("cd20917e-b0c2-499e-8844-30025c897e1b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<figure>',
+	'',
+	'',
+	'../Document.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("97245ccd-87ba-45d1-aff4-8a2cd1a4124f",
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2");
+INSERT INTO O_BATTR
+	VALUES ("97245ccd-87ba-45d1-aff4-8a2cd1a4124f",
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2");
+INSERT INTO O_ATTR
+	VALUES ("97245ccd-87ba-45d1-aff4-8a2cd1a4124f",
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2",
+	"00000000-0000-0000-0000-000000000000",
+	'title',
+	'',
+	'',
+	'title',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("fdf95ab1-d539-4fa1-98c1-f09ccfcd6b72",
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2");
+INSERT INTO O_BATTR
+	VALUES ("fdf95ab1-d539-4fa1-98c1-f09ccfcd6b72",
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2");
+INSERT INTO O_ATTR
+	VALUES ("fdf95ab1-d539-4fa1-98c1-f09ccfcd6b72",
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2",
+	"97245ccd-87ba-45d1-aff4-8a2cd1a4124f",
+	'ident',
+	'',
+	'',
+	'ident',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2");
+INSERT INTO O_ID
+	VALUES (1,
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2");
+INSERT INTO O_ID
+	VALUES (2,
+	"6d7fd98a-a7ac-41c9-9052-ab9b464757d2");
+INSERT INTO PE_PE
+	VALUES ("6d7fd98a-a7ac-41c9-9052-ab9b464757d2",
+	1,
+	"1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');

@@ -1,0 +1,342 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("514b84aa-197a-464c-a09e-e7f135680958",
+	'attribute',
+	3711,
+	'attribute',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("fb972f5f-d2bd-4c5f-afe9-7eadca2ff059",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.attribute_begin.masl" );
+select many referentials related by self->referential[R3746.''references''];
+if ( not_empty referentials )
+  T::include( file:"masl/t.referentials_begin.masl" );
+  separator = "";
+  for each referential in referentials
+  	T::b( s:separator );
+    referential.render();
+    separator = ", ";
+  end for;
+  T::include( file:"masl/t.referentials_end.masl" );
+end if;
+select one attributetype related by self->typeref[R3717];
+attributetype.render();
+select one expression related by self->expression[R3745];
+if ( not_empty expression )
+	T::include( file:"masl/t.attribute_assign.masl" );
+	expression.render();
+end if;
+T::include( file:"masl/t.attribute_end.masl" );
+select one markable related by self->markable[R3783];
+markable.render_marking( list:"default" );',
+	1,
+	'',
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71");
+INSERT INTO O_TFR
+	VALUES ("4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	'populate',
+	'',
+	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	0,
+	'parent_object = param.parent_object;
+parent_identifier = param.parent_identifier;
+
+select any attribute from instances of attribute where false;
+if ( not_empty parent_object )
+  select any attribute related by parent_object->attribute[R3709] where ( selected.name == param.name );
+  if ( empty attribute )
+	create object instance attribute of attribute;
+	attribute.name = param.name;
+	relate parent_object to attribute across R3709.''is characterized by'';
+	markable = markable::populate( name:"attribute" );
+  	relate attribute to markable across R3783;
+  end if;
+  attribute.preferred = param.preferred;
+  attribute.unique = param.unique;
+elif ( not_empty parent_identifier )
+  select any attribute related by parent_identifier->object[R3711]->attribute[R3709] where ( selected.name == param.name );
+  if ( empty attribute )
+	create object instance attribute of attribute;
+	attribute.name = param.name;
+	relate parent_object to attribute across R3709.''is characterized by'';
+	markable = markable::populate( name:"attribute" );
+  	relate attribute to markable across R3783;
+  end if;
+  relate attribute to parent_identifier across R3710;
+else
+end if;
+
+return attribute;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("f87125ba-42aa-4a4d-912d-a8e86fe9600d",
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("b90a5b96-97a1-4611-b06d-9f8fb8924c93",
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	'preferred',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"f87125ba-42aa-4a4d-912d-a8e86fe9600d",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("95952fdd-517e-4d1c-9a3c-e4cdf53ec35e",
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	'unique',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b90a5b96-97a1-4611-b06d-9f8fb8924c93",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("809b8aea-858a-40be-afae-06ffd349baef",
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	'parent_object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"95952fdd-517e-4d1c-9a3c-e4cdf53ec35e",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("41c70d3b-129f-4617-88ac-bc20829ba5a7",
+	"4c9d4539-8201-424e-84cc-ac2ce8b70c71",
+	'parent_identifier',
+	"e6c43785-3f60-4e81-9de5-93ac1b89d287",
+	0,
+	'',
+	"809b8aea-858a-40be-afae-06ffd349baef",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("e6c43785-3f60-4e81-9de5-93ac1b89d287",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<identifier>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<attribute>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("57ca507c-d88a-4bcb-8a8d-d86fe4680b5e",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate name
+if ( "" == self.name )
+  TRACE::log( flavor:"failure", id:101, message:"attribute has no name." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate preferred
+if ( "" != self.preferred and "preferred" != self.preferred )
+  TRACE::log( flavor:"failure", id:101, message:"invalid preferred for attribute: " + self.preferred );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate unique
+if ( "" != self.unique and "unique" != self.unique )
+  TRACE::log( flavor:"failure", id:101, message:"invalid unique for attribute: " + self.unique );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate referentials
+select many child_referentials related by self->referential[R3746.''references''];
+for each referential in child_referentials
+  valid = referential.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+// validate expression
+select one expression related by self->expression[R3745.''initialized by''];
+if ( not_empty expression )
+  valid = expression.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end if;
+
+// validate typeref
+select one typeref related by self->typeref[R3717];
+if ( not_empty typeref )
+  valid = typeref.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"no typeref for attribute" );
+end if;
+
+select many child_pragma_lists related by self->markable[R3783]->pragma_list[R3782];
+for each pragma_list in child_pragma_lists
+  valid = pragma_list.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+end for;
+
+return valid;',
+	1,
+	'',
+	"fd542ea4-7e21-4c67-ad18-2c26e8875a97");
+INSERT INTO O_TFR
+	VALUES ("65a587c5-8adb-485c-b877-28413cb9bbff",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	'render_name',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.attribute_name.masl" );',
+	1,
+	'',
+	"fb972f5f-d2bd-4c5f-afe9-7eadca2ff059");
+INSERT INTO O_TFR
+	VALUES ("fd542ea4-7e21-4c67-ad18-2c26e8875a97",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[7] = "";
+emptyvalue[7] = ""; emptyvalue[6] = ""; emptyvalue[5] = ""; emptyvalue[4] = ""; emptyvalue[3] = ""; emptyvalue[2] = ""; emptyvalue[1] = ""; emptyvalue[0] = "";
+
+value[0] = self.name;
+value[1] = self.preferred;
+value[2] = self.unique;
+out::tostring( element:"attribute", value:value );
+
+select many referentials related by self->referential[R3746.''references''];
+if ( not_empty referentials )
+  separator = "";
+  for each referential in referentials
+    //referential.tostring();
+    separator = ", ";
+  end for;
+end if;
+select one attributetype related by self->typeref[R3717];
+attributetype.tostring();
+select one expression related by self->expression[R3745];
+if ( not_empty expression )
+  expression.tostring();
+end if;
+select one markable related by self->markable[R3783];
+//markable.tostring();
+
+out::tostring( element:"attribute", value:emptyvalue );
+',
+	1,
+	'',
+	"65a587c5-8adb-485c-b877-28413cb9bbff");
+INSERT INTO O_NBATTR
+	VALUES ("6ed52915-ba48-441a-83a8-e2427e0b0ca2",
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO O_BATTR
+	VALUES ("6ed52915-ba48-441a-83a8-e2427e0b0ca2",
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO O_ATTR
+	VALUES ("6ed52915-ba48-441a-83a8-e2427e0b0ca2",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2444187c-b318-4bc6-95ab-96625c52c849",
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO O_BATTR
+	VALUES ("2444187c-b318-4bc6-95ab-96625c52c849",
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO O_ATTR
+	VALUES ("2444187c-b318-4bc6-95ab-96625c52c849",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	"6ed52915-ba48-441a-83a8-e2427e0b0ca2",
+	'preferred',
+	'',
+	'',
+	'preferred',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("9a1530ed-4471-48ad-a081-3a4b3cad3ac9",
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO O_BATTR
+	VALUES ("9a1530ed-4471-48ad-a081-3a4b3cad3ac9",
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO O_ATTR
+	VALUES ("9a1530ed-4471-48ad-a081-3a4b3cad3ac9",
+	"514b84aa-197a-464c-a09e-e7f135680958",
+	"2444187c-b318-4bc6-95ab-96625c52c849",
+	'unique',
+	'',
+	'',
+	'unique',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO O_ID
+	VALUES (1,
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO O_ID
+	VALUES (2,
+	"514b84aa-197a-464c-a09e-e7f135680958");
+INSERT INTO PE_PE
+	VALUES ("514b84aa-197a-464c-a09e-e7f135680958",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

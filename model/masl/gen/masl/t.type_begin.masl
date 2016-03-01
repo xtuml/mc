@@ -1,0 +1,1 @@
+  ${self.visibility} type ${self.name} is ${self.body}

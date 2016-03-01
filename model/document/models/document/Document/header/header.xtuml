@@ -1,0 +1,53 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("5b39235e-629f-49f0-b8fd-1a920f4bd330",
+	'header',
+	2303,
+	'DOC_HEAD',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("17e36bf6-f23e-4f92-a73a-bcb5a6f49b95",
+	"5b39235e-629f-49f0-b8fd-1a920f4bd330");
+INSERT INTO O_BATTR
+	VALUES ("17e36bf6-f23e-4f92-a73a-bcb5a6f49b95",
+	"5b39235e-629f-49f0-b8fd-1a920f4bd330");
+INSERT INTO O_ATTR
+	VALUES ("17e36bf6-f23e-4f92-a73a-bcb5a6f49b95",
+	"5b39235e-629f-49f0-b8fd-1a920f4bd330",
+	"00000000-0000-0000-0000-000000000000",
+	'text',
+	'',
+	'',
+	'text',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"5b39235e-629f-49f0-b8fd-1a920f4bd330");
+INSERT INTO O_ID
+	VALUES (1,
+	"5b39235e-629f-49f0-b8fd-1a920f4bd330");
+INSERT INTO O_ID
+	VALUES (2,
+	"5b39235e-629f-49f0-b8fd-1a920f4bd330");
+INSERT INTO PE_PE
+	VALUES ("5b39235e-629f-49f0-b8fd-1a920f4bd330",
+	1,
+	"1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');
