@@ -57,38 +57,6 @@
 .end function
 .//
 .//============================================================================
-.// AddSpecialAttrs
-.//   Adds special-case attribute to some classes for the model compiler or
-.//   customer use.  These additions used to be done by hand.  This function 
-.//   does them automatically.
-.//
-.// Inputs:
-.// <obj_key_lett>   : string
-.//============================================================================
-.function AddSpecialAttrs
-  .param string obj_key_lett
-  .//
-  .assign addOrder = false
-  .assign addDescrip = false
-  .//
-  .if ( obj_key_lett == "R_REL" )
-    .assign addOrder = true
-  .elif ( obj_key_lett == "O_OBJ" )
-    .assign addOrder = true
-  .elif ( obj_key_lett == "EP_PKG" )
-    .assign addOrder = true
-  .end if
-  .if ( addOrder )
-,
-	Order	INTEGER\
-  .end if
-  .if ( addDescrip )
-,
-	Descrip	STRING\
-  .end if
-.end function
-.//
-.//============================================================================
 .// CreateObjectSQLTableEntry
 .//   Create an SQL table <body> for the given object instance reference <obj>.
 .// The general form of the table is as follows:
@@ -170,8 +138,7 @@ CREATE TABLE ${obj.Key_Lett} (
           .end if
         .end if
         .if ( empty next_attr )
-          .invoke special_attrs = AddSpecialAttrs( obj.Key_Lett )
-${special_attrs.body} );
+ );
         .end if
         .assign current_attr = next_attr
       .end while
@@ -257,7 +224,6 @@ CREATE ROP REF_ID R${rel_num}	FROM ${from_mc} $ru{from_obj_kl}	(${ref_attrs}\
 -- ============================================================================
 -- Classes In Package:  ${ep_pkg.Name}  
 -- ============================================================================
-
     .invoke SortAscendingByNumbAttr( obj_set )
     .assign item_count = cardinality obj_set
     .assign item_number = 0
@@ -377,8 +343,8 @@ ${relationship.body}
       .select one obj_identifier related by referred_to_obj->O_ID[R109]
       .if ( not_empty obj_identifier )
          .invoke rop_attrs = GetRelatedAttributes( referring_obj, referred_to_obj )
-         .assign ref_attrs = rop_attrs.ref_attr_list
-         .assign id_attrs  = rop_attrs.id_attr_list
+         .assign ref_attrs = rop_attrs.ref_attrib_list
+         .assign id_attrs  = rop_attrs.id_attrib_list
       .end if
       .//
       .invoke rop = CreateROP_REF_ID( rel.Numb, form_mc.result, formalizer_obj.Key_Lett, ref_attrs, from_phrase, part_mc.result, participant_obj.Key_Lett, id_attrs, to_phrase)
@@ -446,8 +412,8 @@ ${rop.body}
     .select one obj_identifier related by one_referred_obj->O_ID[R109]
     .if ( not_empty obj_identifier )
       .invoke rop_attrs = GetRelatedAttributes( referring_obj, one_referred_obj )
-      .assign ref_attrs = rop_attrs.ref_attr_list
-      .assign id_attrs  = rop_attrs.id_attr_list
+      .assign ref_attrs = rop_attrs.ref_attrib_list
+      .assign id_attrs  = rop_attrs.id_attrib_list
       .// Handle the "Object As Associated One Side" (R_AONE)
       .invoke rop = CreateROP_REF_ID( rel.Numb, other_mc.result, associator_obj.Key_Lett, ref_attrs, from_phrase, assoc_mc.result, one_side_obj.Key_Lett, id_attrs, to_phrase)
 ${rop.body}
@@ -456,14 +422,13 @@ ${rop.body}
       .print "${error_msg}"
 -- ${error_msg}
     .end if
-
     .assign ref_attrs = ""
     .assign id_attrs  = ""
     .select one obj_identifier related by other_referred_obj->O_ID[R109]
     .if ( not_empty obj_identifier )
       .invoke rop_attrs = GetRelatedAttributes( referring_obj, other_referred_obj )
-      .assign ref_attrs = rop_attrs.ref_attr_list
-      .assign id_attrs  = rop_attrs.id_attr_list
+      .assign ref_attrs = rop_attrs.ref_attrib_list
+      .assign id_attrs  = rop_attrs.id_attrib_list
       .// Handle the "Object As Associated Other Side" (R_AOTH)
       .invoke rop = CreateROP_REF_ID( rel.Numb, one_mc.result, associator_obj.Key_Lett, ref_attrs, from_phrase, assoc_mc.result, other_side_obj.Key_Lett, id_attrs, to_phrase)
 ${rop.body}
@@ -505,8 +470,8 @@ ${rop.body}
       .select one obj_identifier related by referred_to_obj->O_ID[R109]
       .if ( not_empty obj_identifier )
          .invoke rop_attrs = GetRelatedAttributes( referring_obj, referred_to_obj )
-         .assign ref_attrs = rop_attrs.ref_attr_list
-         .assign id_attrs  = rop_attrs.id_attr_list
+         .assign ref_attrs = rop_attrs.ref_attrib_list
+         .assign id_attrs  = rop_attrs.id_attrib_list
          .if ( (rel.Numb >= 2000) and (rel.Numb < 3000) )
            .// Allow 'floating subtypes' in translation extentions subsystem.
          .invoke rop = CreateROP_REF_ID( rel.Numb, "1C", subtype_obj.Key_Lett, ref_attrs, "", "1C", supertype_obj.Key_Lett, id_attrs, "")
@@ -521,10 +486,6 @@ ${rop.body}
 -- ${error_msg}
       .end if
       .//
-      .// Leave a bank line between ROPs.
-      .if ( not_last subtype_set )
-
-      .end if
     .end for
   .else
     .assign error_msg = "ERROR:  R${rel.Numb} supertype ${supertype_obj.Key_Lett} has no subtypes"
@@ -570,9 +531,9 @@ ${rop.body}
 .// <rto> - Instance reference to Referred To Object In Rel (R_RTO).
 .//
 .// Returns:
-.// <ref_attr_list> - String. A comma seperated list of the referential
+.// <ref_attrib_list> - String. A comma seperated list of the referential
 .// attributes in the object which formalizes the relationship.
-.// <id_attr_list>  - String. A comma seperated list of the identifying
+.// <id_attrib_list>  - String. A comma seperated list of the identifying
 .// attributes in the object which is referred to in the relationship.
 .//
 .// Notes:
@@ -587,13 +548,14 @@ ${rop.body}
   .param inst_ref rgo
   .param inst_ref rto
   .//
-  .assign attr_ref_attr_list = ""
-  .assign attr_id_attr_list  = ""
+  .assign attr_ref_attrib_list = ""
+  .assign attr_id_attrib_list  = ""
   .assign error_msg = ""
   .assign paranoid = TRUE
   .//
   .select one oid related by rto->O_ID[R109]
   .if ( not_empty oid )
+    .assign delim = ""
     .select many oida_set related by oid->O_OIDA[R105]
     .for each oida in oida_set
       .//
@@ -646,9 +608,9 @@ ${rop.body}
       .// corresponds to the referential attribute just found.
       .if ( paranoid == TRUE )
         .// There should only be *one* of these, so we check the cardinality first.
-        .select many id_attr_set related by oida->O_ATTR[R105] where ((selected.Attr_ID == oida.Attr_ID) and (selected.Obj_ID == oida.Obj_ID))
-        .if ( (cardinality id_attr_set) != 1 )
-          .assign card = cardinality id_attr_set
+        .select many id_attrib_set related by oida->O_ATTR[R105] where ((selected.Attr_ID == oida.Attr_ID) and (selected.Obj_ID == oida.Obj_ID))
+        .if ( (cardinality id_attrib_set) != 1 )
+          .assign card = cardinality id_attrib_set
           .select any referring_obj from instances of O_OBJ where (selected.Obj_ID == rgo.Obj_ID)
           .select any referred_to_obj from instances of O_OBJ where (selected.Obj_ID == rto.Obj_ID)
           .select any rel from instances of R_REL where (selected.Rel_ID == rgo.Rel_ID)
@@ -664,12 +626,11 @@ ${rop.body}
       .select any id_attr related by oida->O_ATTR[R105] where ((selected.Attr_ID == oida.Attr_ID) and (selected.Obj_ID == oida.Obj_ID))
       .//
       .// Add the attributes to the comparison lists.
-      .assign attr_ref_attr_list = attr_ref_attr_list + ref_attr.Name
-      .assign attr_id_attr_list  = attr_id_attr_list + id_attr.Name
-      .if ( not_last oida_set )
-        .assign attr_ref_attr_list = attr_ref_attr_list + ", "
-        .assign attr_id_attr_list  = attr_id_attr_list + ", "
-      .end if
+      .assign attr_ref_attrib_list = attr_ref_attrib_list + delim
+      .assign attr_id_attrib_list  = attr_id_attrib_list + delim
+      .assign attr_ref_attrib_list = attr_ref_attrib_list + ref_attr.Name
+      .assign attr_id_attrib_list  = attr_id_attrib_list + id_attr.Name
+      .assign delim = ", "
       .//
     .end for
   .else
@@ -924,9 +885,10 @@ ${header.body}
   .// Sort the subsystems into assending order
   .//.select many ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001] where ( selected.Name != "Translation Extensions" ) and ( selected.Name != "Translation Marking" ) and ( selected.Name != "Translation OAL" )
   .//
-  .select many ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001]
-    .select many nested_ep_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]
-    .assign ep_pkgs = ep_pkgs | nested_ep_pkgs
+  .//.select many ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001]
+  .select many ep_pkgs from instances of EP_PKG
+    .//.select many nested_ep_pkgs related by ep_pkgs->PE_PE[R8000]->EP_PKG[R8001]
+    .//.assign ep_pkgs = ep_pkgs | nested_ep_pkgs
   .invoke SortSetAlphabeticallyByNameAttrib( ep_pkgs )
   .assign count  = cardinality ep_pkgs
   .assign number = 0
