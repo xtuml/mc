@@ -22,7 +22,7 @@ extern	"C"	{
  * things like memory initialization, early hardware duties, etc.
  *
  */
-void UserInitializationCalloutf( char * );
+void UserInitializationCalloutf( void );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
    hook for this callout.
@@ -31,7 +31,7 @@ void UserInitializationCalloutf( char * );
  */
 
 #ifndef UserInitializationCallout
-#define UserInitializationCallout() UserInitializationCalloutf( *argv );
+#define UserInitializationCallout() UserInitializationCalloutf()
 #endif
 
 /*
@@ -40,14 +40,14 @@ void UserInitializationCalloutf( char * );
  * This function is invoked immediately prior to executing any xtUML
  * initialization functions.
  */
-void UserPreOoaInitializationCalloutf( char * );
+void UserPreOoaInitializationCalloutf( void );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
 #define UserPreOoaInitializationCallout()
    hook for this callout.  */
 
 #ifndef UserPreOoaInitializationCallout
-#define UserPreOoaInitializationCallout() UserPreOoaInitializationCalloutf( *argv )
+#define UserPreOoaInitializationCallout() UserPreOoaInitializationCalloutf()
 #endif
 
 /*
@@ -58,14 +58,15 @@ void UserPreOoaInitializationCalloutf( char * );
  * When this callout function returns, the system dispatcher will allow the
  * xtUML application analysis state models to start consuming events.
  */
-void UserPostOoaInitializationCalloutf( char * );
+void UserPostOoaInitializationCalloutf( int, char ** );
 /* The following empty definition renders the callout hook invisible.
    Delete or comment out the following define to activate the in line
+   hook for this callout.  
 #define UserPostOoaInitializationCallout()
-   hook for this callout.  */
+   */
 
 #ifndef UserPostOoaInitializationCallout
-#define UserPostOoaInitializationCallout() UserPostOoaInitializationCalloutf( *argv )
+#define UserPostOoaInitializationCallout() UserPostOoaInitializationCalloutf( argc, argv )
 #endif
 
 /*

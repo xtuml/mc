@@ -26,6 +26,24 @@ if ( "project" == element )
   else
     for each project in projects
       project.render();
+      select one file related by project->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        file.emit( name:project.name + file.suffix );
+      end if;
+      // terminator services
+      select many terminators related by project->domain[R3701]->terminator[R3702];
+      for each terminator in terminators
+        select many activities related by terminator->routine[R3791]->activity[R3704];
+        for each activity in activities
+          select one code_block related by activity->code_block[R3794];
+          code_block.render();
+          select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
+          if ( not_empty file )
+            file.suffix = ".tr";
+            file.emit( name:terminator.name + "_" + activity.name + file.suffix );
+          end if;
+        end for;
+      end for;
     end for;
   end if;
 elif ( "domain" == element )
@@ -38,6 +56,60 @@ elif ( "domain" == element )
   else
     for each domain in domains
       domain.render();
+      select one file related by domain->markable[R3783]->element[R3786]->file[R3795];
+      if ( not_empty file )
+        file.emit( name:domain.name + file.suffix );
+      end if;
+      // CDS - maybe we need null terminator services?
+      // functions
+      select many routines related by domain->routine[R3790];
+      for each routine in routines
+        select one activity related by routine->activity[R3704];
+        select one code_block related by activity->code_block[R3794];
+        code_block.render();
+        select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
+        if ( not_empty file )
+          select one typeref related by routine->typeref[R3792];
+          if ( not_empty typeref )
+            file.suffix = ".fn"; // default is .svc
+          end if;
+          file.emit( name:activity.name + file.suffix );
+        end if;
+      end for;
+      // class operations
+      select many objects related by domain->object[R3708];
+      for each object in objects
+        select many activities related by object->operation[R3749]->activity[R3704];
+        for each activity in activities
+          select one code_block related by activity->code_block[R3794];
+          code_block.render();
+          select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
+          if ( not_empty file )
+            select one typeref related by activity->operation[R3704]->typeref[R3741];
+            if ( not_empty typeref )
+              file.suffix = ".fn"; // default is .svc
+            end if;
+            file.emit( name:domain.name + "_" + object.name + "_" + activity.name + file.suffix );
+          end if;
+        end for;
+      end for;
+      // state actions
+      select many objects related by domain->object[R3708];
+      for each object in objects
+        select many activities related by object->operation[R3749]->activity[R3704];
+        for each activity in activities
+          select one code_block related by activity->code_block[R3794];
+          code_block.render();
+          select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
+          if ( not_empty file )
+            file.emit( name:object.name + "_" + activity.name + ".tr" );
+          end if;
+        end for;
+      end for;
+      select many code_blocks related by domain->object[R3708]->state[R3750]->activity[R3704]->code_block[R3794];
+      for each code_block in code_blocks
+        code_block.render();
+      end for;
     end for;
   end if;
 elif ( "" == element )	// render from the root
@@ -52,7 +124,7 @@ end if;
 ',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52");
 INSERT INTO O_TPARM
 	VALUES ("e5cf8b40-420d-4501-88bd-ebcfca9f7251",
 	"4c11d43c-eebe-45da-af8c-2e21b2196111",
@@ -96,6 +168,109 @@ end if;',
 	1,
 	'',
 	"4c11d43c-eebe-45da-af8c-2e21b2196111");
+INSERT INTO O_TFR
+	VALUES ("af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'element = param.element;
+name = param.name;
+if ( "project" == name )
+  create object instance file of file;
+  relate file to element across R3795;
+  file.suffix = ".prj";
+elif ( "domain" == name )
+  create object instance file of file;
+  relate file to element across R3795;
+  file.suffix = ".mod";
+elif ( "code_block" == name )
+  create object instance file of file;
+  relate file to element across R3795;
+  file.suffix = ".svc"; // default, likely to change
+else
+  // no file needed
+end if;
+',
+	1,
+	'',
+	"2f147788-5a86-4450-bedd-f6c445ca097c");
+INSERT INTO O_TPARM
+	VALUES ("d350bed6-dabc-4263-9eea-a69fcc05e73e",
+	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	'element',
+	"3989a0a6-1287-4fd5-9b4c-6f98e273a076",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("3989a0a6-1287-4fd5-9b4c-6f98e273a076",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<element>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("6c8f49be-0ccb-4b8a-ae38-a983e455e4a4",
+	"af1a8b7d-4b4c-49f8-814a-e7ac1cb47c52",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"d350bed6-dabc-4263-9eea-a69fcc05e73e",
+	'');
+INSERT INTO O_TFR
+	VALUES ("0652aa1a-382c-4f76-b3b5-f382ef04ba69",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'directory',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'select many files from instances of file;
+for each file in files
+  file.directory = param.name;
+end for;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("99921c31-1323-40cf-a690-4971823e7fb4",
+	"0652aa1a-382c-4f76-b3b5-f382ef04ba69",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("2f147788-5a86-4450-bedd-f6c445ca097c",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'emit',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'self.name = param.name;
+fullfilename = self.name;
+if ( "stdout" == self.directory )
+  fullfilename = "stdout";
+elif ( "" != self.directory )
+  fullfilename = self.directory + "/" + self.name;
+end if;
+T::emit( file:fullfilename );',
+	1,
+	'',
+	"0652aa1a-382c-4f76-b3b5-f382ef04ba69");
+INSERT INTO O_TPARM
+	VALUES ("1e4e6c03-8024-460f-b234-2e3697d13d06",
+	"2f147788-5a86-4450-bedd-f6c445ca097c",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("5256ef06-1883-421b-9b6b-05abea717422",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
@@ -110,6 +285,42 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_BATTR
+	VALUES ("9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ATTR
+	VALUES ("9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	"5256ef06-1883-421b-9b6b-05abea717422",
+	'directory',
+	'',
+	'',
+	'directory',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ad78f124-85c3-4822-b5ec-16c2b83db644",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_BATTR
+	VALUES ("ad78f124-85c3-4822-b5ec-16c2b83db644",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4");
+INSERT INTO O_ATTR
+	VALUES ("ad78f124-85c3-4822-b5ec-16c2b83db644",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	"9cefce8b-496f-41de-bc4f-f7b0cc6613de",
+	'suffix',
+	'',
+	'',
+	'suffix',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',

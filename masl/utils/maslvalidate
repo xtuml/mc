@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #   ./maslvalidate [-p <project source directory(s) ...> ] \
 #       [-d <domain source directory(s) ...> ]

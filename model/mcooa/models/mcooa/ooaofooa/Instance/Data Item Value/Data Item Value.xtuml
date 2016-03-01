@@ -197,7 +197,7 @@ INSERT INTO O_BATTR_PROXY
 INSERT INTO O_ATTR
 	VALUES ("ee3ebba3-6dd5-421e-be57-00badfbe3f26",
 	"38f4e5cd-527d-4dd5-a331-9ef742da9d8f",
-	"fc048350-a487-428a-8888-e0c3d641d675",
+	"e28515c1-e96f-4900-bcf7-0009a9008ea3",
 	'PP_Id',
 	'',
 	'',
@@ -220,6 +220,24 @@ INSERT INTO O_ATTR
 	'',
 	'',
 	'DIV_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("e28515c1-e96f-4900-bcf7-0009a9008ea3",
+	"38f4e5cd-527d-4dd5-a331-9ef742da9d8f");
+INSERT INTO O_BATTR
+	VALUES ("e28515c1-e96f-4900-bcf7-0009a9008ea3",
+	"38f4e5cd-527d-4dd5-a331-9ef742da9d8f");
+INSERT INTO O_ATTR
+	VALUES ("e28515c1-e96f-4900-bcf7-0009a9008ea3",
+	"38f4e5cd-527d-4dd5-a331-9ef742da9d8f",
+	"fc048350-a487-428a-8888-e0c3d641d675",
+	'RuntimeValue_ID',
+	'',
+	'',
+	'RuntimeValue_ID',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
