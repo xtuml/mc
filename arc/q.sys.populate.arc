@@ -1535,7 +1535,7 @@
     .else
       .assign msg = ( "\nERROR:  Did not find a datatype associated with variable " + v_var.Name ) + ".\n"
       .assign msg = msg + "Check usages of variable for parse errors in the action language.\n"
-      .assign msg = msg + "[Parse All Activies and look for errors in the Problems view.]\n"
+      .assign msg = msg + "[Parse All Activities and look for errors in the Problems view.]\n"
       .print "${msg}"
     .end if
   .end for
