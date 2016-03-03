@@ -1056,6 +1056,94 @@ sub modelFinderCallback($$)
 }
 
 #---------------------------------------------------------------------------
+# Export a BridgePoint model to MASL
+#---------------------------------------------------------------------------
+sub xtuml2masl;
+sub xtuml2masl
+{
+  # xtumlmc_build xtuml2masl [-v | -V] [-p <xtUML file(s) ...> ] [-d <xtUML file(s) ...> ] [ -o <output directory> ]
+
+  # get command line arguments
+  my @param_list = @_;
+
+  # set the path
+  my $current_path = $ENV{'PATH'};
+  my $masl_bin_dir = $ENV{'MASL_BIN_DIR'};
+  $ENV{'PATH'} = "$masl_bin_dir:$current_path";
+
+  # input variables
+  my $validate = "";
+  my @proj_files;
+  my @dom_files;
+  my $out_dir = "";
+
+  # parse arguments
+  my $directive = "";
+  foreach my $arg(@param_list) {
+    if ( ( $arg eq "-v" or $arg eq "-V" ) and $validate eq "" ) {   # if we encounter a validate flag, set the validation
+      $validate = "$arg";
+      $directive = "";                                              # encounterint a validation flag resets the directive because
+    }
+    elsif ( $arg eq "-p" or $arg eq "-d" or $arg eq "-o" ) {        # set the directive
+      $directive = "$arg";
+    }
+    elsif ( $directive eq "-p" ) {                                   # add a project file
+      push @proj_files, $arg;
+    }
+    elsif ( $directive eq "-d" ) {                                  # add a domain file
+      push @dom_files, $arg;
+    }
+    elsif ( $directive eq "-o" and $out_dir eq "" ) {                # only can set the output directory once
+      $out_dir = "$arg";
+    }
+    else {
+      print STDERR "Usage: xtumlmc_build xtuml2masl [-v | -V] [-p <xtUML file(s) ...> ] [-d <xtUML file(s) ...> ] [ -o <output directory> ]\n";
+      exit 1;
+    }
+  }
+
+  print STDERR "Initializing MASL export...\n";
+
+  # if no out directory was given, give the current working directory
+  if ( $out_dir eq "" ) { $out_dir = "."; }
+
+  # make the output directory if ther is one
+  use File::Path qw(make_path);
+  eval { make_path("$out_dir") };
+  if ($@) {
+    print STDERR "-masl2xtuml: ERROR could not create directory '$out_dir'\n";
+    exit 1
+  }
+
+  # process domains
+  foreach $d (@dom_files) {
+    # scoop all into one file
+    &ConvertMultiFileToSingleFile ( "$d", "$out_dir/a.xtuml" );
+
+    # process the file
+    system( "cat \"$out_dir/a.xtuml\" | x2m -d | masl $validate -o \"$out_dir\"" );
+
+    # delete the intermediate file
+    unlink "$out_dir/a.xtuml";
+  }
+
+  # process projects
+  foreach $p (@proj_files) {
+    # scoop all into one file
+    &ConvertMultiFileToSingleFile ( "$p", "$out_dir/a.xtuml" );
+
+    # process the file
+    system( "cat \"$out_dir/a.xtuml\" | x2m -p | masl $validate -o \"$out_dir\"" );
+
+    # delete the intermediate file
+    unlink "$out_dir/a.xtuml";
+  }
+
+  print STDERR "Done.\n";
+
+}
+
+#---------------------------------------------------------------------------
 # Show function usage.
 #---------------------------------------------------------------------------
 sub usage();
@@ -1151,6 +1239,7 @@ if ( 0 < @ARGV ) {
 # and passing the name of the routine as the first argument.
 #
 my %xtumlmc_utility_routines = (
+  "xtuml2masl" => TRUE,
   "xtumlmc_gen_erate" => TRUE,
   "xtumlmc_gen_file" => TRUE,
   "xtumlmc_gen_import" => TRUE,

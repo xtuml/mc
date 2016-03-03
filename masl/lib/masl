@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#   ./masl [-v | -vo] [ -o <output directory> ] < input_file 
+#   ./masl [-v | -V] [ -o <output directory> ] < input_file 
 
 # USAGE
-print_usage () { echo "Usage:" $0 "[-v | -vo] [ -o <output directory> ] < input_file"; }
+print_usage () { echo "Usage:" $0 "[-v | -V] [ -o <output directory> ] < input_file" 1>&2; }
 
 # input variables
 VALIDATE=
@@ -11,13 +11,13 @@ OUT_DIR=
 
 # parse arguments
 DIRECTIVE=
-for arg in $@; do
-    if [[ ( $arg == "-v" || $arg == "-vo" ) && $VALIDATE == "" ]]; then     # if we encounter a validate flag, set the validation
+for arg in "$@"; do
+    if { [ "$arg" = "-v" ] || [ "$arg" = "-V" ]; } && [ "$VALIDATE" = "" ]; then    # if we encounter a validate flag, set the validation
         VALIDATE=$arg
-        DIRECTIVE=                                                          # encounterint a validation flag resets the directive because
-    elif [[ $arg == "-o" ]]; then                                           # set the directive
+        DIRECTIVE=                                                              # encounterint a validation flag resets the directive because
+    elif [ "$arg" = "-o" ]; then                                                    # set the directive
         DIRECTIVE=$arg
-    elif [[ $DIRECTIVE == "-o" && $OUT_DIR == "" ]]; then                   # only can set the output directory once
+    elif [ "$DIRECTIVE" = "-o" ] && [ "$OUT_DIR" = "" ]; then                       # only can set the output directory once
         OUT_DIR=$arg
     else
         print_usage
@@ -26,11 +26,11 @@ for arg in $@; do
 done
 
 # if no out directory was given, give the current working directory
-if [[ $OUT_DIR == "" ]]; then OUT_DIR=.; fi
+if [ "$OUT_DIR" = "" ]; then OUT_DIR=.; fi
 
-# only produce output if -vo is not set
-if [[ $VALIDATE != "-vo" ]]; then
+# only produce output if -V is not set
+if [ "$VALIDATE" != "-V" ]; then
     DIR=$OUT_DIR/masl_files_$RANDOM
-    mkdir $DIR
-    cat > $DIR/maslfile.masl
+    mkdir "$DIR"
+    cat > "$DIR/maslfile.masl"
 fi
