@@ -7,6 +7,54 @@ INSERT INTO O_OBJ
 	'ooaparticipation',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("ced89bcc-b656-48de-a568-97884307c6f8",
+	"ce95eea3-943c-4dec-aa03-64998bfbcdcb",
+	'getMult',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'if ( "one" == param.text )
+  return 0;
+else
+  return 1;
+end if;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("88d7cf4a-8fed-4752-9f41-c1bf2d7abd3b",
+	"ced89bcc-b656-48de-a568-97884307c6f8",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("defb60a1-bdfe-4dac-bd09-6f74807706cd",
+	"ce95eea3-943c-4dec-aa03-64998bfbcdcb",
+	'getCond',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'if ( "unconditionally" == param.text )
+  return 0;
+else
+  return 1;
+end if;',
+	1,
+	'',
+	"ced89bcc-b656-48de-a568-97884307c6f8");
+INSERT INTO O_TPARM
+	VALUES ("e74b893c-35e1-4ef9-aed4-bf2242b3c618",
+	"defb60a1-bdfe-4dac-bd09-6f74807706cd",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("d45b1af0-6385-4805-a386-0a6c217283aa",
 	"ce95eea3-943c-4dec-aa03-64998bfbcdcb");
@@ -76,7 +124,7 @@ INSERT INTO O_ATTR
 	'',
 	'conditionality',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_NBATTR
@@ -94,7 +142,7 @@ INSERT INTO O_ATTR
 	'',
 	'multiplicity',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000004",
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_NBATTR

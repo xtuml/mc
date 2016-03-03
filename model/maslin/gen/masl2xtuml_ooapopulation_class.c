@@ -252,6 +252,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
   else if ( ( Escher_strcmp( "regularrel", element ) == 0 ) ) {
     /* IF ( (  == PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+      /* ooapopulation.transformAssociation() */
+      masl2xtuml_ooapopulation_op_transformAssociation( ooapopulation );
       /* ooapopulation.clearRelationshipCache() */
       masl2xtuml_ooapopulation_op_clearRelationshipCache( ooapopulation );
     }
@@ -276,12 +278,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     }
   }
   else if ( ( Escher_strcmp( "participation", element ) == 0 ) ) {
-    /* IF ( (  == PARAM.value[1] ) ) */
-    if ( ( Escher_strcmp( "", p_value[1] ) == 0 ) ) {
-      /* ooapopulation.transformAssociation() */
-      masl2xtuml_ooapopulation_op_transformAssociation( ooapopulation );
-    }
-    else {
+    /* IF ( (  != PARAM.value[1] ) ) */
+    if ( ( Escher_strcmp( "", p_value[1] ) != 0 ) ) {
       bool isFirst;masl2xtuml_ooaparticipation * part;masl2xtuml_ooaparticipation * firstPart=0;
       /* ASSIGN isFirst = FALSE */
       isFirst = FALSE;
@@ -310,10 +308,10 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       part->className = Escher_strcpy( part->className, p_value[1] );
       /* ASSIGN part.phrase = PARAM.value[2] */
       part->phrase = Escher_strcpy( part->phrase, p_value[2] );
-      /* ASSIGN part.conditionality = PARAM.value[3] */
-      part->conditionality = Escher_strcpy( part->conditionality, p_value[3] );
-      /* ASSIGN part.multiplicity = PARAM.value[4] */
-      part->multiplicity = Escher_strcpy( part->multiplicity, p_value[4] );
+      /* ASSIGN part.conditionality = ooaparticipation::getMult(text:PARAM.value[3]) */
+      part->conditionality = masl2xtuml_ooaparticipation_op_getMult(p_value[3]);
+      /* ASSIGN part.multiplicity = ooaparticipation::getMult(text:PARAM.value[4]) */
+      part->multiplicity = masl2xtuml_ooaparticipation_op_getMult(p_value[4]);
       /* ASSIGN part.isFirst = isFirst */
       part->isFirst = isFirst;
     }
@@ -3268,6 +3266,12 @@ fromPART->OIR_ID = (Escher_UniqueID_t) fromPART;
     masl2xtuml_R_PART_R204_Link( fromRTO, fromPART );
     /* RELATE fromPART TO simp ACROSS R207 */
     masl2xtuml_R_PART_R207_Link_relates( simp, fromPART );
+    /* ASSIGN fromPART.Mult = fromOOAPart.multiplicity */
+    fromPART->Mult = fromOOAPart->multiplicity;
+    /* ASSIGN fromPART.Cond = fromOOAPart.conditionality */
+    fromPART->Cond = fromOOAPart->conditionality;
+    /* ASSIGN fromPART.Txt_Phrs = fromOOAPart.phrase */
+    fromPART->Txt_Phrs = Escher_strcpy( fromPART->Txt_Phrs, fromOOAPart->phrase );
     /* CREATE OBJECT INSTANCE toOIR OF R_OIR */
     toOIR = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
     toOIR->Obj_ID = (Escher_UniqueID_t) toOIR;
@@ -3291,6 +3295,12 @@ toPART->OIR_ID = (Escher_UniqueID_t) toPART;
     masl2xtuml_R_PART_R204_Link( toRTO, toPART );
     /* RELATE toPART TO simp ACROSS R207 */
     masl2xtuml_R_PART_R207_Link_relates( simp, toPART );
+    /* ASSIGN toPART.Mult = toOOAPart.multiplicity */
+    toPART->Mult = toOOAPart->multiplicity;
+    /* ASSIGN toPART.Cond = toOOAPart.conditionality */
+    toPART->Cond = toOOAPart->conditionality;
+    /* ASSIGN toPART.Txt_Phrs = toOOAPart.phrase */
+    toPART->Txt_Phrs = Escher_strcpy( toPART->Txt_Phrs, toOOAPart->phrase );
   }
 }
 

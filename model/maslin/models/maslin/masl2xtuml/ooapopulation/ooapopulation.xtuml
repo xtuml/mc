@@ -125,6 +125,7 @@ elif ( "typeref" == element )
   end if;
 elif ( "associative" == element )
   if ( "" == param.value[0] )
+    ooapopulation.transformAssociation();
     ooapopulation.clearRelationshipCache();
   else
     ooapopulation.current_rel.type = RELATIONSHIP_TYPE::ASSOCIATIVE;
@@ -133,6 +134,7 @@ elif ( "associative" == element )
   end if;
 elif ( "regularrel" == element )
   if ( "" == param.value[0] )
+    ooapopulation.transformAssociation();
     ooapopulation.clearRelationshipCache();
   else
     ooapopulation.current_rel.type = RELATIONSHIP_TYPE::REGULAR;
@@ -146,9 +148,7 @@ elif ( "subsuper" == element )
     ooapopulation.current_rel.number = param.value[0];
   end if;
 elif ( "participation" == element )
-  if ( "" == param.value[1] )
-    ooapopulation.transformAssociation();
-  else
+  if ( "" != param.value[1] )
     isFirst = false;
     select any firstPart from instances of ooaparticipation where ( selected.isFirst == true );
     if ( empty firstPart )
@@ -158,8 +158,8 @@ elif ( "participation" == element )
     part.fromDomain = param.value[0];
     part.className = param.value[1];
     part.phrase = param.value[2];
-    part.conditionality = param.value[3];
-    part.multiplicity = param.value[4];
+    part.conditionality = ooaparticipation::getMult(text:param.value[3]);
+    part.multiplicity = ooaparticipation::getMult(text:param.value[4]); 
     part.isFirst = isFirst;
   end if;
 elif ( "routine" == element )
@@ -1013,7 +1013,7 @@ self.ModelClass_initialize(o_obj:cl, name:param.class_name); // OOA - cl.initial
 return cl;',
 	1,
 	'',
-	"d1b5e917-bf32-4867-853a-b46ead34387f");
+	"e5ab0186-8756-4d6c-bb89-26bf2f9e1423");
 INSERT INTO O_TPARM
 	VALUES ("9e81a5f3-e669-49c4-8751-23b2facf5522",
 	"c46c404c-7529-4f5d-a19f-bd7f8ce04703",
@@ -3596,6 +3596,9 @@ if (not_empty fromClass and not_empty toClass)
       relate fromOIR to fromIClass across R202;
     end if;
   end if;*/
+  fromPART.Mult = fromOOAPart.multiplicity;
+  fromPART.Cond = fromOOAPart.conditionality;
+  fromPART.Txt_Phrs = fromOOAPart.phrase;
   //
   create object instance toOIR of R_OIR;
   relate toClass to assoc across R201 using toOIR;
@@ -3610,6 +3613,10 @@ if (not_empty fromClass and not_empty toClass)
       relate toOIR to toIClass across R202;
     end if;
   end if;*/
+  // TODO - set phrase, cond, mult
+  toPART.Mult = toOOAPart.multiplicity;
+  toPART.Cond = toOOAPart.conditionality;
+  toPART.Txt_Phrs = toOOAPart.phrase;
 end if;
 ',
 	1,
@@ -3665,11 +3672,71 @@ INSERT INTO O_TFR
 current_component = self.current_component;
 select any internals_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == current_component.Name);
 
-self.Package_newAssociation(ep_pkg:internals_pkg); 
+if (  self.current_rel.type == RELATIONSHIP_TYPE::ASSOCIATIVE )
+  self.Package_newAssociative(ep_pkg:internals_pkg);
+elif ( self.current_rel.type == RELATIONSHIP_TYPE::REGULAR )
+  self.Package_newAssociation(ep_pkg:internals_pkg); 
+end if;
 ',
 	1,
 	'',
 	"10b41e09-87b2-4ef5-89ad-9ef4c39d9637");
+INSERT INTO O_TFR
+	VALUES ("e5ab0186-8756-4d6c-bb89-26bf2f9e1423",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Package_newAssociative',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'ep_pkg = param.ep_pkg;
+select any fromOOAPart from instances of ooaparticipation where (selected.isFirst == true );
+select any toOOAPart from instances of ooaparticipation where (selected.isFirst == false );
+
+// What follows is a heavily modified version of OOAofOOA''s Package::newAssociative()
+/*  TODO - skipping imported classes for now
+if (param.fromIsImportedClass)
+  select any fromIClass related by self->PE_PE[R8000]->O_IOBJ[R8001] where (selected.IObj_ID == param.from);
+  if (not_empty fromIClass)
+    select one fromClass related by fromIClass->O_OBJ[R101];
+  end if;
+end if;*/
+select any toAssoc related by ep_pkg->PE_PE[R8000]->R_REL[R8001] where (selected.Rel_ID == param.to);
+// get the already related class in relationship instances
+select many classes related by toAssoc->R_OIR[R201]->O_OBJ[R201];
+for each clazz in classes
+  if (clazz == fromClass)
+    // A class cannot be it''s own link class
+    return false;
+  end if;
+end for;
+if (empty fromClass or empty toAssoc)
+  // One of the elements was not found
+  return false;
+end if;
+select one simp related by toAssoc->R_SIMP[R206];
+if (empty simp)
+  // Only simple associations can have link classes attached. 
+  return false;
+else
+  if (param.fromIsImportedClass)
+    simp.migrateToLinked(using: fromClass.Obj_ID, imported_id: param.from);
+  else
+    simp.migrateToLinked(using: fromClass.Obj_ID, imported_id: GD::NULL_UNIQUE_ID());
+  end if;
+  return true;
+end if;',
+	1,
+	'',
+	"d1b5e917-bf32-4867-853a-b46ead34387f");
+INSERT INTO O_TPARM
+	VALUES ("6c4fdbc7-00fb-4e26-a50e-3ba5331e8088",
+	"e5ab0186-8756-4d6c-bb89-26bf2f9e1423",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
