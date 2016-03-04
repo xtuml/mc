@@ -38,7 +38,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'masl_domain',
 	'',
-	'LOG::LogInfo( message:"Starting Domain" );
+	'TRACE::log( flavor:"info", id:103, message:"Starting domain." );
 
 domain = param.domain;
 
@@ -60,7 +60,7 @@ else
   end for;
 end if;
 
-LOG::LogInfo( message:"Done" );
+TRACE::log( flavor:"info", id:104, message:"Done." );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -85,7 +85,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'masl_project',
 	'',
-	'LOG::LogInfo( message:"Starting Project" );
+	'TRACE::log( flavor:"info", id:101, message:"Starting Project" );
 
 project = param.project;
 // Query and Populate
@@ -93,20 +93,19 @@ project = param.project;
 
 select many ep_pkgs from instances of EP_PKG where ( false );
 if ( ( "" == project ) or ( "*" == project ) )
-  select many ep_pkgs from instances of EP_PKG;
+  // CDS - temporary for marking the project
+  select many ep_pkgs from instances of EP_PKG where ( selected.Descrip == project );
 else
   select many ep_pkgs from instances of EP_PKG where ( selected.Name == project );
 end if;
-markedsystems = cardinality ep_pkgs;
-if ( 0 == markedsystems )
-  TRACE::log( flavor:"failure", id:1, message:"ERROR:  Marked configuration package was not found in model:" + project );
-elif ( markedsystems > 1 )
-  TRACE::log( flavor:"failure", id:2, message:"WARNING:  More than one package is marked as a system build... choose only one." );
+if ( empty ep_pkgs )
+  TRACE::log( flavor:"failure", id:1, message:"ERROR:  project package was not found:" + project );
 end if;
 
 ::package2project( ep_pkgs:ep_pkgs );
 
-LOG::LogInfo( message:"Done" );',
+TRACE::log( flavor:"info", id:102, message:"Done" );
+',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
@@ -365,11 +364,9 @@ if ( not_empty c_pp )
   end if;
   out::populate( element:"parameter", value:value );
   select one s_dt related by c_pp->S_DT[R4007];
-  if ( "void" != s_dt.Name )
-    value[0] = s_dt.Name;
-    out::populate( element:"typeref", value:value );
-    out::populate( element:"typeref", value:emptyvalue );
-  end if;
+  value[0] = s_dt.Name;
+  out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
   select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
   ::parameterC_PP2parameter( c_pp:c_pp );
   out::populate( element:"parameter", value:emptyvalue );
@@ -570,7 +567,7 @@ INSERT INTO S_SYNC
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 c_c = param.c_c;
 
-// CDS Data types in packages inside the component are considered private.
+// Data types in packages inside the component are considered private.
 select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
   value[0] = s_dt.Name;
@@ -580,7 +577,7 @@ for each s_dt in s_dts
   out::populate( element:"type", value:emptyvalue );
 end for;
 
-// CDS Data types in packages directly off of the system are considered public.
+// Data types in packages directly off of the system are considered public.
 select many s_dts related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
   value[0] = s_dt.Name;
@@ -834,8 +831,6 @@ for each s_sync in s_syncs
 
   value[2] = "private"; // Domain functions are all private, even if used by messages.
   value[3] = s_sync.Name;
-  value[4] = ""; // not instance
-  value[5] = ""; // not deferred
   
   // Get the first parameter.
   select any s_sparm related by s_sync->S_SPARM[R24];
@@ -903,11 +898,9 @@ if ( not_empty s_sparm )
   end if;
   out::populate( element:"parameter", value:value );
   select one s_dt related by s_sparm->S_DT[R26];
-  if ( "void" != s_dt.Name )
-    value[0] = s_dt.Name;
-    out::populate( element:"typeref", value:value );
-    out::populate( element:"typeref", value:emptyvalue );
-  end if;
+  value[0] = s_dt.Name;
+  out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
   select one s_sparm related by s_sparm->S_SPARM[R54.''succeeds''];
   ::parameterS_SPARM2parameter( s_sparm:s_sparm );
   out::populate( element:"parameter", value:emptyvalue );
@@ -1047,7 +1040,7 @@ sm_sm = param.sm_sm;
 select many sm_evts related by sm_sm->SM_EVT[R502];
 for each sm_evt in sm_evts
   value[0] = sm_evt.Mning;
-  value[1] = param.type;
+  value[1] = param.type; // CDS - creation events?
   out::populate( element:"event", value:value );
   
   // Get first parameter.
@@ -1114,7 +1107,7 @@ if ( "assigner" == param.type )
   end for;
 end if;
 
-value[0] = ""; // domain
+value[0] = ""; // domain, grammar allows this but we are not using it
 value[1] = o_obj.Name;
 for each sm_state in sm_states
   value[2] = sm_state.Name;
@@ -1187,11 +1180,9 @@ if ( not_empty sm_evtdi )
   value[1] = "in";
   out::populate( element:"parameter", value:value );
   select one s_dt related by sm_evtdi->S_DT[R524];
-  if ( "void" != s_dt.Name )
-    value[0] = s_dt.Name;
-    out::populate( element:"typeref", value:value );
-    out::populate( element:"typeref", value:emptyvalue );
-  end if;
+  value[0] = s_dt.Name;
+  out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
   select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
   ::parameterSM_EVTDI2parameter( sm_evtdi:sm_evtdi );
   out::populate( element:"parameter", value:emptyvalue );
@@ -1465,11 +1456,9 @@ if ( not_empty o_tparm )
   end if;
   out::populate( element:"parameter", value:value );
   select one s_dt related by o_tparm->S_DT[R118];
-  if ( "void" != s_dt.Name )
-    value[0] = s_dt.Name;
-    out::populate( element:"typeref", value:value );
-    out::populate( element:"typeref", value:emptyvalue );
-  end if;
+  value[0] = s_dt.Name;
+  out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
   select one o_tparm related by o_tparm->O_TPARM[R124.''succeeds''];
   ::parameterO_TPARM2parameter( o_tparm:o_tparm );
   out::populate( element:"parameter", value:emptyvalue );
@@ -1518,11 +1507,9 @@ if ( not_empty s_bparm )
   end if;
   out::populate( element:"parameter", value:value );
   select one s_dt related by s_bparm->S_DT[R22];
-  if ( "void" != s_dt.Name )
-    value[0] = s_dt.Name;
-    out::populate( element:"typeref", value:value );
-    out::populate( element:"typeref", value:emptyvalue );
-  end if;
+  value[0] = s_dt.Name;
+  out::populate( element:"typeref", value:value );
+  out::populate( element:"typeref", value:emptyvalue );
   select one s_bparm related by s_bparm->S_BPARM[R55.''succeeds''];
   ::parameterS_BPARM2parameter( s_bparm:s_bparm );
   out::populate( element:"parameter", value:emptyvalue );

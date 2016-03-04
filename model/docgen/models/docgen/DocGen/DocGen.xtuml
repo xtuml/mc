@@ -1196,14 +1196,9 @@ if ( not_empty o_objs )
         if ( ( "" != o_tfr.Descrip ) or ( "" != o_tfr.Action_Semantics_internal ) )
           title = "";
           select one o_obj related by o_tfr->O_OBJ[R115];
-          select one s_ss related by o_obj->S_SS[R2];
           select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
           select one c_c related by o_obj->PE_PE[R8001]->C_C[R8003];
           // set up the title based on the container we just identified
-          if ( not_empty s_ss )
-            select one s_dom related by s_ss->S_DOM[R1];
-            title = s_dom.Name + ":" + s_ss.Name + ":" + o_obj.Name + ":  " + o_tfr.Name;
-          end if;
           if ( not_empty ep_pkg )
             title = ep_pkg.Name + ":" + o_obj.Name + ":  " + o_tfr.Name;
           end if;
@@ -1226,13 +1221,9 @@ if ( not_empty o_objs )
         if ( "" != o_dbattr.Action_Semantics_internal )
           title = "";
           select one o_obj related by o_attr->O_OBJ[R102];
-          select one s_ss related by o_obj->S_SS[R2];
           select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
           select one c_c related by o_obj->PE_PE[R8001]->C_C[R8003];
           // set up the title based on the container we just identified
-          if ( not_empty s_ss )
-            title = s_ss.Name + ":" + o_obj.Name + ":  " + o_attr.Name;
-          end if;
           if ( not_empty ep_pkg )
             title = ep_pkg.Name + ":" + o_obj.Name + ":  " + o_attr.Name;
           end if;
