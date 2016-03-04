@@ -3,6 +3,7 @@ HOWTO build and run the MASL parser
 
 ## Build the parser
 
+(Be sure to have a jdk installed.  On ubuntu, `sudo apt-get install default-jdk`.)
 From the `parser` directory, run:
 ```bash
 ant
@@ -12,6 +13,8 @@ ant
 
 
 ### Usage:
+
+(classpath will be the `build` directory and the antlr jar, `lib/antlr-3.5.2-complete.jar`)
 
 Parse single MASL file:
 ```bash

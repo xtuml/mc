@@ -487,7 +487,10 @@ for each o_attr in o_attrs
   if ( "unique_id" == s_dt.Name )
     value[2] = "unique";
   end if;
-  out::populate( element:"attribute", value:value );
+  // Do not populate a current_state attribute with type state<State_Model>.
+  if ( ( "current_state" != value[0] ) or ( "state<State_Model>" != value[2] ) )
+    out::populate( element:"attribute", value:value );
+  end if;
   value[1] = "";
   value[2] = "";
   
