@@ -77,7 +77,6 @@
   .//.invoke r = TE_CLASS_instance_dumper()
   .//${r.body}
   .//.emit to file "../../src/q.class.instance.dump.arc"
-  .//.include "${te_file.arc_path}/schema_gen.arc"
   .//.exit 507
   .//.print "dumping instances ${info.date}"
   .//.include "${te_file.arc_path}/q.class.instance.dump.arc"

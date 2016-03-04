@@ -75,27 +75,33 @@ void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
   int project = 0; int domain = 0;
+  int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "dp" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "d::p::" ) ) != -1 ) {
       switch ( c ) {
         case 'd':
-          project = 1; break;
+          domain = 1;
+          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
+          break;
         case 'p':
-          project = 1; break;
+          project = 1;
+          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
+          break;
         case '?':
-            fprintf( stderr, "Unknown option character `\\x%x'.\n", optopt );
+            fprintf( stderr, "Unknown option character '%c'.\n", optopt );
             break;
         default:
           abort (); // die ignominiously
       }
     }
   }
+  int i = 0;
   if ( project ) {
-    xtuml2masl_masl_project( "*" );
+    while ( i < namecount ) xtuml2masl_masl_project( name[ i++ ] );
   } else if ( domain ) {
-    xtuml2masl_masl_domain( "*" );
+    while ( i < namecount ) xtuml2masl_masl_domain( name[ i++ ] );
   }
 }
 
