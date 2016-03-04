@@ -4360,6 +4360,166 @@ INSERT INTO PE_PE
 	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("893ea6d3-466d-498e-b58a-cf5966da5549",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Referred To Class in Assoc>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("893ea6d3-466d-498e-b58a-cf5966da5549",
+	0,
+	"fce4fc45-804f-4b40-a02a-6ec20b65f8fa");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("fce4fc45-804f-4b40-a02a-6ec20b65f8fa",
+	'Referred To Class in Assoc',
+	203,
+	'R_RTO',
+	'A Referred To Class In Association is a class which contains identifying attributes which are referred to across the association.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Referred To Class in Assoc/Referred To Class in Assoc.xtuml');
+INSERT INTO PE_PE
+	VALUES ("893ea6d3-466d-498e-b58a-cf5966da5549",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("01343ef8-4e79-4341-b2e5-bc07c495d5d6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Referred To Class in Assoc>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("01343ef8-4e79-4341-b2e5-bc07c495d5d6",
+	1,
+	"fce4fc45-804f-4b40-a02a-6ec20b65f8fa");
+INSERT INTO PE_PE
+	VALUES ("01343ef8-4e79-4341-b2e5-bc07c495d5d6",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("9a6e9e32-b2f0-4344-b3a3-123b16423c3d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class As Simple Formalizer>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9a6e9e32-b2f0-4344-b3a3-123b16423c3d",
+	0,
+	"18a8da76-3be8-4bd9-9b66-2316596d000c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("18a8da76-3be8-4bd9-9b66-2316596d000c",
+	'Class As Simple Formalizer',
+	207,
+	'R_FORM',
+	'A Class As Simple Formalizer is the referring class in a simple association.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Class As Simple Formalizer/Class As Simple Formalizer.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9a6e9e32-b2f0-4344-b3a3-123b16423c3d",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("9d3bd2c6-a409-4b8e-af77-6a746a0d9367",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Class As Simple Formalizer>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9d3bd2c6-a409-4b8e-af77-6a746a0d9367",
+	1,
+	"18a8da76-3be8-4bd9-9b66-2316596d000c");
+INSERT INTO PE_PE
+	VALUES ("9d3bd2c6-a409-4b8e-af77-6a746a0d9367",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("f6b00fbb-5d4e-4e79-bd36-f3289da7ee17",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Referring Class In Assoc>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f6b00fbb-5d4e-4e79-bd36-f3289da7ee17",
+	0,
+	"5c45299a-16aa-4288-b543-83d44015bebe");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("5c45299a-16aa-4288-b543-83d44015bebe",
+	'Referring Class In Assoc',
+	204,
+	'R_RGO',
+	'A referring Class In Association is a class which contains referential attributes which refer to identifying attributes across the association.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Referring Class In Assoc/Referring Class In Assoc.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f6b00fbb-5d4e-4e79-bd36-f3289da7ee17",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("d1dc40c8-f957-4dd3-9d39-38cbfd3ed5fa",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Referring Class In Assoc>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("d1dc40c8-f957-4dd3-9d39-38cbfd3ed5fa",
+	1,
+	"5c45299a-16aa-4288-b543-83d44015bebe");
+INSERT INTO PE_PE
+	VALUES ("d1dc40c8-f957-4dd3-9d39-38cbfd3ed5fa",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("054a18f5-5e57-449b-b46f-5da2e9690ba5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class As Link>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("054a18f5-5e57-449b-b46f-5da2e9690ba5",
+	0,
+	"29c1a3fa-6086-4718-837f-7b66d5103f2c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("29c1a3fa-6086-4718-837f-7b66d5103f2c",
+	'Class As Link',
+	211,
+	'R_ASSR',
+	'The Associator is the class that formalizes the linked association between two classes.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Class As Link/Class As Link.xtuml');
+INSERT INTO PE_PE
+	VALUES ("054a18f5-5e57-449b-b46f-5da2e9690ba5",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("834d9678-21ed-446c-a582-8a8d8b0821bf",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Class As Link>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("834d9678-21ed-446c-a582-8a8d8b0821bf",
+	1,
+	"29c1a3fa-6086-4718-837f-7b66d5103f2c");
+INSERT INTO PE_PE
+	VALUES ("834d9678-21ed-446c-a582-8a8d8b0821bf",
+	1,
+	"c8ad4c40-3192-4a56-8698-48d14f0cf073",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_ASSOC
 	VALUES ("f6d85576-e786-4695-8763-44f6acf45986");
 INSERT INTO R_REL
@@ -4657,14 +4817,6 @@ INSERT INTO R_OIR
 	"b862c4af-3767-4677-8725-5ad9da85a1f7",
 	"662b9214-a2b6-4c5e-8cb4-14ef85eb269d",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("18a8da76-3be8-4bd9-9b66-2316596d000c",
-	'Class As Simple Formalizer',
-	207,
-	'R_FORM',
-	'A Class As Simple Formalizer is the referring class in a simple association.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Class As Simple Formalizer/Class As Simple Formalizer.xtuml');
 INSERT INTO R_PART
 	VALUES ("d66f90e1-b52f-46d5-aba7-133f29cfc533",
 	"b862c4af-3767-4677-8725-5ad9da85a1f7",
@@ -4847,14 +4999,6 @@ INSERT INTO R_OIR
 	"b3efb4a7-26a9-409c-9d5c-82063d356a2e",
 	"eff1d795-e273-4886-b3c9-108b20cedccd",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("29c1a3fa-6086-4718-837f-7b66d5103f2c",
-	'Class As Link',
-	211,
-	'R_ASSR',
-	'The Associator is the class that formalizes the linked association between two classes.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Class As Link/Class As Link.xtuml');
 INSERT INTO R_PART
 	VALUES ("eb1a8ef7-1584-484d-95f9-a66318d4c167",
 	"b3efb4a7-26a9-409c-9d5c-82063d356a2e",
@@ -5218,14 +5362,6 @@ INSERT INTO R_OIR
 	"3b9be78f-fcd2-4891-9c3e-131fc2675486",
 	"04067513-3bcc-4103-90eb-f618dd1d6df2",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("fce4fc45-804f-4b40-a02a-6ec20b65f8fa",
-	'Referred To Class in Assoc',
-	203,
-	'R_RTO',
-	'A Referred To Class In Association is a class which contains identifying attributes which are referred to across the association.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Referred To Class in Assoc/Referred To Class in Assoc.xtuml');
 INSERT INTO R_SUB
 	VALUES ("5c45299a-16aa-4288-b543-83d44015bebe",
 	"3b9be78f-fcd2-4891-9c3e-131fc2675486",
@@ -5239,14 +5375,6 @@ INSERT INTO R_OIR
 	"3b9be78f-fcd2-4891-9c3e-131fc2675486",
 	"80f46aef-d4e9-4bb0-9e49-1c2984d9b815",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("5c45299a-16aa-4288-b543-83d44015bebe",
-	'Referring Class In Assoc',
-	204,
-	'R_RGO',
-	'A referring Class In Association is a class which contains referential attributes which refer to identifying attributes across the association.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Referring Class In Assoc/Referring Class In Assoc.xtuml');
 INSERT INTO R_SUB
 	VALUES ("a8d21f98-8e16-4a2e-a72b-3f276ac297a8",
 	"3b9be78f-fcd2-4891-9c3e-131fc2675486",
