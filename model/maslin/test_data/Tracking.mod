@@ -1,14 +1,20 @@
 domain Tracking is
   object Achievement;
   object Display;
-  object Goal;
-  object GoalSpec;
   object HeartRateSample;
   object LapMarker;
   object TrackLog;
   object TrackPoint;
   object WorkoutSession;
   object WorkoutTimer;
+  object Goal;
+  object GoalSpec;
+  public type GoalCriteria is The criteria type for a particular workout goal.  
+  ;
+  public type GoalDisposition is Disposition of a currently executing goal.
+  ;
+  public type GoalSpan is 
+  ;
     private service GoalTest_1 (
     );
     private service Initialize (
@@ -90,7 +96,6 @@ domain Tracking is
     );
   end object;
   object Display is
-    current_state :   state<State_Model>;
     public  function goalDispositionIndicator (
     ) return Indicator;
      state displayDistance();
@@ -117,52 +122,6 @@ domain Tracking is
         modeChange => displayDistance,
         refresh => displayLapCount      ); 
     end transition;
-  end object;
-  object Goal is
-    disposition :   GoalDisposition;
-    start :   real;
-    ID :  unique unique_id;
-    current_state :   state<State_Model>;
-    evaluationTimer :   inst_ref<Timer>;
-    public  service create (
-        sequenceNumber : in integer    );
-    public instance service calculateStart (
-    );
-    public instance function evaluateAchievement (
-    ) return GoalDisposition;
-    public instance service evaluateCompletion (
-    );
-    public  service nextGoal (
-    );
-     state Executing();
-     state Completed();
-     state Paused();
-     event Completed();
-     event Evaluate();
-     event Pause();
-     transition is
-      Executing (
-        Completed => Completed,
-        Evaluate => Executing,
-        Pause => Paused      ); 
-      Completed (
-        Completed => Ignore,
-        Evaluate => Ignore,
-        Pause => cannot_happen      ); 
-      Paused (
-        Completed => Completed,
-        Evaluate => Executing,
-        Pause => cannot_happen      ); 
-    end transition;
-  end object;
-  object GoalSpec is
-    minimum :   real;
-    maximum :   real;
-    span :   real;
-    criteriaType :   GoalCriteria;
-    spanType :   GoalSpan;
-    sequenceNumber : preferred  integer;
-    identifier is ( sequenceNumber );
   end object;
   object HeartRateSample is
     heartRate :   integer;
@@ -202,13 +161,12 @@ domain Tracking is
     );
     public instance service initialize (
     );
-    public  service create (
+    public  service sessioncreate (
     );
     public instance service reset (
     );
   end object;
   object WorkoutTimer is
-    current_state :   state<State_Model>;
     time :   integer;
     timer :   inst_ref<Timer>;
     public instance service activate (
@@ -237,5 +195,50 @@ domain Tracking is
         lapResetPressed => stopped,
         tick => Ignore      ); 
     end transition;
+  end object;
+  object Goal is
+    disposition :   GoalDisposition;
+    goalstart :   real;
+    ID :  unique unique_id;
+    evaluationTimer :   inst_ref<Timer>;
+    public  service goalcreate (
+        sequenceNumber : in integer    );
+    public instance service calculateStart (
+    );
+    public instance function evaluateAchievement (
+    ) return GoalDisposition;
+    public instance service evaluateCompletion (
+    );
+    public  service nextGoal (
+    );
+     state Executing();
+     state Completed();
+     state Paused();
+     event Completed();
+     event Evaluate();
+     event Pause();
+     transition is
+      Executing (
+        Completed => Completed,
+        Evaluate => Executing,
+        Pause => Paused      ); 
+      Completed (
+        Completed => Ignore,
+        Evaluate => Ignore,
+        Pause => cannot_happen      ); 
+      Paused (
+        Completed => Completed,
+        Evaluate => Executing,
+        Pause => cannot_happen      ); 
+    end transition;
+  end object;
+  object GoalSpec is
+    minimum :   real;
+    maximum :   real;
+    span :   real;
+    criteriaType :   GoalCriteria;
+    spanType :   GoalSpan;
+    sequenceNumber : preferred  integer;
+    identifier is ( sequenceNumber );
   end object;
 end domain;

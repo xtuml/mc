@@ -275,183 +275,100 @@ INSERT INTO PE_PE
 	1,
 	26,
 	0,
-	4);
-INSERT INTO O_OBJ
+	5);
+INSERT INTO S_EE
 	VALUES (27,
-	'HeartRateMonitor',
-	1,
-	'HeartRateMonitor',
-	'Represents the heart-rate monitoring facility.',
-	0);
-INSERT INTO O_NBATTR
-	VALUES (28,
-	27);
-INSERT INTO O_BATTR
-	VALUES (28,
-	27);
-INSERT INTO O_ATTR
+	'Logging',
+	'',
+	'LOG',
+	0,
+	'',
+	'Logging',
+	1);
+INSERT INTO S_BRG
 	VALUES (28,
 	27,
-	0,
-	'recentHeartRate',
-	'Most recent heart-rate sample, expressed in beats per minute.',
+	'LogSuccess',
 	'',
-	'recentHeartRate',
 	0,
 	29,
 	'',
+	1,
 	'');
-INSERT INTO O_NBATTR
+INSERT INTO S_BPARM
 	VALUES (30,
-	27);
-INSERT INTO O_BATTR
-	VALUES (30,
-	27);
-INSERT INTO O_ATTR
-	VALUES (30,
-	27,
 	28,
-	'timer',
-	'Handle for underlying timer mechanism enabling the 
-generation of delayed events that drive the model
-of the heart-rate monitor.',
-	'',
-	'timer',
-	0,
+	'message',
 	31,
+	0,
 	'',
+	0,
 	'');
-INSERT INTO O_ID
-	VALUES (0,
-	27);
-INSERT INTO O_ID
-	VALUES (1,
-	27);
-INSERT INTO O_ID
-	VALUES (2,
-	27);
-INSERT INTO SM_ASM
+INSERT INTO ACT_BRB
 	VALUES (32,
-	27);
-INSERT INTO SM_SM
+	28);
+INSERT INTO ACT_ACT
 	VALUES (32,
-	'',
-	0);
-INSERT INTO SM_MOORE
-	VALUES (32);
-INSERT INTO SM_LEVT
-	VALUES (33,
-	32,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (33,
-	32,
-	0);
-INSERT INTO SM_EVT
-	VALUES (33,
-	32,
+	'bridge',
 	0,
-	3,
-	'timeout',
-	0,
-	'',
-	'HeartRateMonitor_A3',
-	'');
-INSERT INTO SM_LEVT
-	VALUES (12,
-	32,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (12,
-	32,
-	0);
-INSERT INTO SM_EVT
-	VALUES (12,
-	32,
-	0,
-	1,
-	'registerListener',
-	0,
-	'',
-	'HeartRateMonitor_A1',
-	'');
-INSERT INTO SM_LEVT
-	VALUES (18,
-	32,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (18,
-	32,
-	0);
-INSERT INTO SM_EVT
-	VALUES (18,
-	32,
-	0,
-	2,
-	'unregisterListener',
-	0,
-	'',
-	'HeartRateMonitor_A2',
-	'');
-INSERT INTO SM_STATE
-	VALUES (34,
-	32,
-	0,
-	'idle',
-	1,
-	0);
-INSERT INTO SM_EIGN
-	VALUES (34,
 	33,
-	32,
 	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (34,
-	33,
-	32,
-	0);
-INSERT INTO SM_SEME
-	VALUES (34,
-	12,
-	32,
-	0);
-INSERT INTO SM_CH
-	VALUES (34,
-	18,
-	32,
 	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (34,
-	18,
-	32,
+	'Logging::LogSuccess',
 	0);
-INSERT INTO SM_MOAH
-	VALUES (35,
-	32,
-	34);
-INSERT INTO SM_AH
-	VALUES (35,
-	32);
-INSERT INTO SM_ACT
-	VALUES (35,
-	32,
-	1,
+INSERT INTO ACT_BLK
+	VALUES (33,
+	0,
+	0,
+	0,
 	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	32,
+	0);
+INSERT INTO S_BRG
+	VALUES (34,
+	27,
+	'LogFailure',
+	'',
+	0,
+	29,
+	'',
+	1,
 	'');
-INSERT INTO ACT_SAB
+INSERT INTO S_BPARM
+	VALUES (35,
+	34,
+	'message',
+	31,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
 	VALUES (36,
-	32,
-	35);
+	34);
 INSERT INTO ACT_ACT
 	VALUES (36,
-	'class state',
+	'bridge',
 	0,
 	37,
 	0,
 	0,
-	'HeartRateMonitor::idle',
+	'Logging::LogFailure',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (37,
@@ -476,74 +393,49 @@ INSERT INTO ACT_BLK
 	0,
 	36,
 	0);
-INSERT INTO SM_STATE
+INSERT INTO S_BRG
 	VALUES (38,
-	32,
+	27,
+	'LogInfo',
+	'',
 	0,
-	'monitoring',
-	2,
-	0);
-INSERT INTO SM_SEME
-	VALUES (38,
-	33,
-	32,
-	0);
-INSERT INTO SM_CH
-	VALUES (38,
-	12,
-	32,
-	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (38,
-	12,
-	32,
-	0);
-INSERT INTO SM_SEME
-	VALUES (38,
-	18,
-	32,
-	0);
-INSERT INTO SM_MOAH
-	VALUES (39,
-	32,
-	38);
-INSERT INTO SM_AH
-	VALUES (39,
-	32);
-INSERT INTO SM_ACT
-	VALUES (39,
-	32,
+	29,
+	'',
 	1,
-	'select any monitor from instances of HeartRateMonitor;
-send Unspecified::heartRateChanged(heartRate: monitor.recentHeartRate);
-monitor.recentHeartRate = monitor.recentHeartRate + 1;',
 	'');
-INSERT INTO ACT_SAB
+INSERT INTO S_BPARM
+	VALUES (39,
+	38,
+	'message',
+	31,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
 	VALUES (40,
-	32,
-	39);
+	38);
 INSERT INTO ACT_ACT
 	VALUES (40,
-	'class state',
+	'bridge',
 	0,
 	41,
 	0,
 	0,
-	'HeartRateMonitor::monitoring',
+	'Logging::LogInfo',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (41,
-	1,
 	0,
 	0,
-	'Unspecified',
+	0,
 	'',
 	'',
-	3,
-	1,
-	2,
-	6,
+	'',
+	0,
+	0,
+	0,
+	0,
 	0,
 	0,
 	0,
@@ -555,259 +447,54 @@ INSERT INTO ACT_BLK
 	0,
 	40,
 	0);
-INSERT INTO ACT_SMT
+INSERT INTO S_BRG
 	VALUES (42,
-	41,
-	43,
-	1,
-	1,
-	'HeartRateMonitor::monitoring line: 1');
-INSERT INTO ACT_FIO
-	VALUES (42,
-	44,
-	1,
-	'any',
 	27,
-	1,
-	38);
-INSERT INTO ACT_SMT
-	VALUES (43,
-	41,
-	45,
-	2,
-	1,
-	'HeartRateMonitor::monitoring line: 2');
-INSERT INTO ACT_IOP
-	VALUES (43,
-	2,
-	19,
-	2,
-	6,
-	0,
-	22,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (45,
-	41,
-	0,
-	3,
-	1,
-	'HeartRateMonitor::monitoring line: 3');
-INSERT INTO ACT_AI
-	VALUES (45,
-	46,
-	47,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (48,
-	0,
-	0,
-	2,
-	47,
-	53,
-	0,
-	0,
-	0,
-	0,
-	49,
-	41);
-INSERT INTO V_IRF
-	VALUES (48,
-	44);
-INSERT INTO V_VAL
-	VALUES (50,
-	0,
-	0,
-	2,
-	55,
-	69,
-	0,
-	0,
-	0,
+	'LogDate',
+	'',
 	0,
 	29,
-	41);
-INSERT INTO V_AVL
-	VALUES (50,
-	48,
-	27,
-	28);
-INSERT INTO V_PAR
-	VALUES (50,
-	43,
-	0,
-	'heartRate',
-	0,
-	2,
-	36);
-INSERT INTO V_VAL
-	VALUES (51,
+	'',
 	1,
-	0,
-	3,
-	1,
-	7,
-	0,
-	0,
-	0,
-	0,
-	49,
-	41);
-INSERT INTO V_IRF
-	VALUES (51,
-	44);
-INSERT INTO V_VAL
-	VALUES (47,
-	1,
-	0,
-	3,
-	9,
-	23,
-	0,
-	0,
-	0,
-	0,
-	29,
-	41);
-INSERT INTO V_AVL
-	VALUES (47,
-	51,
-	27,
-	28);
-INSERT INTO V_VAL
-	VALUES (52,
-	0,
-	0,
-	3,
-	27,
-	33,
-	0,
-	0,
-	0,
-	0,
-	49,
-	41);
-INSERT INTO V_IRF
-	VALUES (52,
-	44);
-INSERT INTO V_VAL
-	VALUES (53,
-	0,
-	0,
-	3,
-	35,
-	49,
-	0,
-	0,
-	0,
-	0,
-	29,
-	41);
-INSERT INTO V_AVL
-	VALUES (53,
-	52,
-	27,
-	28);
-INSERT INTO V_VAL
-	VALUES (46,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	29,
-	41);
-INSERT INTO V_BIN
-	VALUES (46,
-	54,
-	53,
-	'+');
-INSERT INTO V_VAL
-	VALUES (54,
-	0,
-	0,
-	3,
-	53,
-	53,
-	0,
-	0,
-	0,
-	0,
-	29,
-	41);
-INSERT INTO V_LIN
-	VALUES (54,
-	'1');
-INSERT INTO V_VAR
-	VALUES (44,
-	41,
-	'monitor',
-	1,
-	49);
-INSERT INTO V_INT
-	VALUES (44,
-	0,
-	27);
-INSERT INTO SM_NSTXN
-	VALUES (55,
-	32,
-	34,
-	12,
-	0);
-INSERT INTO SM_TAH
-	VALUES (56,
-	32,
-	55);
-INSERT INTO SM_AH
-	VALUES (56,
-	32);
-INSERT INTO SM_ACT
-	VALUES (56,
-	32,
-	1,
-	'
-select any monitor from instances of HeartRateMonitor;
-if (empty monitor)
-  create object instance monitor of HeartRateMonitor;
-end if;
-monitor.recentHeartRate = 50;
-
-LOG::LogInfo(message: "listener registered");
-
-// start timer
-create event instance timeout of HeartRateMonitor_A3:timeout() to HeartRateMonitor class;
-monitor.timer = TIM::timer_start_recurring( event_inst: timeout, microseconds: (HeartRateSamplingPeriod * 1000000) ); ',
 	'');
-INSERT INTO ACT_TAB
-	VALUES (57,
-	32,
-	56);
+INSERT INTO S_BPARM
+	VALUES (43,
+	42,
+	'd',
+	44,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES (45,
+	42,
+	'message',
+	31,
+	0,
+	'',
+	43,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (46,
+	42);
 INSERT INTO ACT_ACT
-	VALUES (57,
-	'class transition',
+	VALUES (46,
+	'bridge',
 	0,
-	58,
+	47,
 	0,
 	0,
-	'HeartRateMonitor_A1: registerListener',
+	'Logging::LogDate',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (58,
-	1,
+	VALUES (47,
 	0,
 	0,
-	'TIM',
+	0,
 	'',
 	'',
-	12,
-	1,
-	12,
-	17,
+	'',
 	0,
 	0,
 	0,
@@ -817,861 +504,875 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	57,
+	0,
+	0,
+	0,
+	0,
+	46,
 	0);
-INSERT INTO ACT_SMT
-	VALUES (59,
-	58,
-	60,
-	2,
-	1,
-	'HeartRateMonitor_A1: registerListener line: 2');
-INSERT INTO ACT_FIO
-	VALUES (59,
-	61,
-	1,
-	'any',
+INSERT INTO S_BRG
+	VALUES (48,
 	27,
-	2,
-	38);
-INSERT INTO ACT_SMT
-	VALUES (60,
-	58,
-	62,
-	3,
+	'LogTime',
+	'',
+	0,
+	29,
+	'',
 	1,
-	'HeartRateMonitor_A1: registerListener line: 3');
-INSERT INTO ACT_IF
+	'');
+INSERT INTO S_BPARM
+	VALUES (49,
+	48,
+	't',
+	50,
+	0,
+	'',
+	51,
+	'');
+INSERT INTO S_BPARM
+	VALUES (51,
+	48,
+	'message',
+	31,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (52,
+	48);
+INSERT INTO ACT_ACT
+	VALUES (52,
+	'bridge',
+	0,
+	53,
+	0,
+	0,
+	'Logging::LogTime',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (53,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	52,
+	0);
+INSERT INTO S_BRG
+	VALUES (54,
+	27,
+	'LogReal',
+	'',
+	0,
+	29,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (55,
+	54,
+	'r',
+	56,
+	0,
+	'',
+	57,
+	'');
+INSERT INTO S_BPARM
+	VALUES (57,
+	54,
+	'message',
+	31,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (58,
+	54);
+INSERT INTO ACT_ACT
+	VALUES (58,
+	'bridge',
+	0,
+	59,
+	0,
+	0,
+	'Logging::LogReal',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (59,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	58,
+	0);
+INSERT INTO S_BRG
 	VALUES (60,
-	63,
+	27,
+	'LogInteger',
+	'',
+	0,
+	29,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (61,
+	60,
+	'message',
+	62,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (63,
+	60);
+INSERT INTO ACT_ACT
+	VALUES (63,
+	'bridge',
+	0,
 	64,
 	0,
+	0,
+	'Logging::LogInteger',
 	0);
-INSERT INTO ACT_SMT
-	VALUES (62,
-	58,
-	65,
-	6,
-	1,
-	'HeartRateMonitor_A1: registerListener line: 6');
-INSERT INTO ACT_AI
-	VALUES (62,
-	66,
-	67,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (65,
-	58,
-	68,
-	8,
-	1,
-	'HeartRateMonitor_A1: registerListener line: 8');
-INSERT INTO ACT_BRG
-	VALUES (65,
-	69,
-	8,
-	6,
-	8,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (68,
-	58,
-	70,
-	11,
-	1,
-	'HeartRateMonitor_A1: registerListener line: 11');
-INSERT INTO E_ESS
-	VALUES (68,
-	1,
-	0,
-	11,
-	34,
-	11,
-	54,
-	11,
-	67,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (68,
-	1,
-	71);
-INSERT INTO E_CSME
-	VALUES (68,
-	33);
-INSERT INTO E_CEA
-	VALUES (68);
-INSERT INTO ACT_SMT
-	VALUES (70,
-	58,
-	0,
-	12,
-	1,
-	'HeartRateMonitor_A1: registerListener line: 12');
-INSERT INTO ACT_AI
-	VALUES (70,
-	72,
-	73,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (74,
-	0,
-	0,
-	3,
-	11,
-	17,
-	0,
-	0,
-	0,
-	0,
-	49,
-	58);
-INSERT INTO V_IRF
-	VALUES (74,
-	61);
-INSERT INTO V_VAL
+INSERT INTO ACT_BLK
 	VALUES (64,
 	0,
 	0,
-	-1,
-	-1,
-	-1,
+	0,
+	'',
+	'',
+	'',
 	0,
 	0,
 	0,
 	0,
-	75,
-	58);
-INSERT INTO V_UNY
-	VALUES (64,
-	74,
-	'empty');
-INSERT INTO V_VAL
-	VALUES (76,
-	1,
-	0,
-	6,
-	1,
-	7,
 	0,
 	0,
 	0,
 	0,
-	49,
-	58);
-INSERT INTO V_IRF
-	VALUES (76,
-	61);
-INSERT INTO V_VAL
-	VALUES (67,
-	1,
-	0,
-	6,
-	9,
-	23,
 	0,
 	0,
 	0,
 	0,
-	29,
-	58);
-INSERT INTO V_AVL
-	VALUES (67,
-	76,
-	27,
-	28);
-INSERT INTO V_VAL
-	VALUES (66,
 	0,
-	0,
-	6,
-	27,
-	28,
-	0,
-	0,
-	0,
-	0,
-	29,
-	58);
-INSERT INTO V_LIN
-	VALUES (66,
-	'50');
-INSERT INTO V_VAL
-	VALUES (77,
-	0,
-	0,
-	8,
-	23,
-	42,
-	0,
-	0,
-	0,
-	0,
-	78,
-	58);
-INSERT INTO V_LST
-	VALUES (77,
-	'listener registered');
-INSERT INTO V_PAR
-	VALUES (77,
-	65,
-	0,
-	'message',
-	0,
-	8,
-	14);
-INSERT INTO V_VAL
-	VALUES (79,
-	1,
-	0,
-	12,
-	1,
-	7,
-	0,
-	0,
-	0,
-	0,
-	49,
-	58);
-INSERT INTO V_IRF
-	VALUES (79,
-	61);
-INSERT INTO V_VAL
-	VALUES (73,
-	1,
-	0,
-	12,
-	9,
-	13,
-	0,
-	0,
-	0,
-	0,
-	31,
-	58);
-INSERT INTO V_AVL
-	VALUES (73,
-	79,
-	27,
-	30);
-INSERT INTO V_VAL
-	VALUES (72,
-	0,
-	0,
-	12,
-	22,
-	-1,
-	12,
-	45,
-	12,
-	66,
-	31,
-	58);
-INSERT INTO V_BRV
-	VALUES (72,
-	80,
-	1,
-	12,
-	17);
-INSERT INTO V_VAL
-	VALUES (81,
-	0,
-	0,
-	12,
-	57,
 	63,
-	0,
-	0,
-	0,
-	0,
-	82,
-	58);
-INSERT INTO V_TVL
-	VALUES (81,
-	71);
-INSERT INTO V_PAR
-	VALUES (81,
-	0,
-	72,
-	'event_inst',
-	83,
-	12,
-	45);
-INSERT INTO V_VAL
-	VALUES (84,
-	0,
-	0,
-	12,
-	81,
-	103,
-	0,
-	0,
-	0,
-	0,
-	29,
-	58);
-INSERT INTO V_SCV
-	VALUES (84,
-	85,
-	29);
-INSERT INTO V_VAL
-	VALUES (83,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	29,
-	58);
-INSERT INTO V_BIN
-	VALUES (83,
-	86,
-	84,
-	'*');
-INSERT INTO V_PAR
-	VALUES (83,
-	0,
-	72,
-	'microseconds',
-	0,
-	12,
-	66);
-INSERT INTO V_VAL
-	VALUES (86,
-	0,
-	0,
-	12,
-	107,
-	113,
-	0,
-	0,
-	0,
-	0,
-	29,
-	58);
-INSERT INTO V_LIN
-	VALUES (86,
-	'1000000');
-INSERT INTO V_VAR
-	VALUES (61,
-	58,
-	'monitor',
-	1,
-	49);
-INSERT INTO V_INT
-	VALUES (61,
-	0,
-	27);
-INSERT INTO V_VAR
-	VALUES (71,
-	58,
-	'timeout',
-	1,
-	82);
-INSERT INTO V_TRN
-	VALUES (71,
-	0,
-	'');
-INSERT INTO ACT_BLK
-	VALUES (63,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	4,
-	3,
-	4,
-	37,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	57,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (87,
-	63,
-	0,
-	4,
-	3,
-	'HeartRateMonitor_A1: registerListener line: 4');
-INSERT INTO ACT_CR
-	VALUES (87,
-	61,
-	0,
-	27,
-	4,
-	37);
-INSERT INTO SM_TXN
-	VALUES (55,
-	32,
-	38,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (88,
-	32,
-	38,
-	18,
-	0);
-INSERT INTO SM_TAH
-	VALUES (89,
-	32,
-	88);
-INSERT INTO SM_AH
-	VALUES (89,
-	32);
-INSERT INTO SM_ACT
-	VALUES (89,
-	32,
-	1,
-	'select any monitor from instances of HeartRateMonitor;
-res = TIM::timer_cancel(timer_inst_ref: monitor.timer);
-if ( res )
-  LOG::LogSuccess( message: "Heart Rate Monitor: timer_cancel() succeeded." );
-else
-  LOG::LogFailure( message: "Heart Rate Monitor: timer_cancel() failed." );
-end if;',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (90,
-	32,
-	89);
-INSERT INTO ACT_ACT
-	VALUES (90,
-	'class transition',
-	0,
-	91,
-	0,
-	0,
-	'HeartRateMonitor_A2: unregisterListener',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (91,
-	1,
-	0,
-	0,
-	'TIM',
-	'',
-	'',
-	5,
-	1,
-	2,
-	7,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	90,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (92,
-	91,
-	93,
-	1,
-	1,
-	'HeartRateMonitor_A2: unregisterListener line: 1');
-INSERT INTO ACT_FIO
-	VALUES (92,
-	94,
-	1,
-	'any',
-	27,
-	1,
-	38);
-INSERT INTO ACT_SMT
-	VALUES (93,
-	91,
-	95,
-	2,
-	1,
-	'HeartRateMonitor_A2: unregisterListener line: 2');
-INSERT INTO ACT_AI
-	VALUES (93,
-	96,
-	97,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (95,
-	91,
-	0,
-	3,
-	1,
-	'HeartRateMonitor_A2: unregisterListener line: 3');
-INSERT INTO ACT_IF
-	VALUES (95,
-	98,
-	99,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (100,
-	91,
-	0,
-	5,
-	1,
-	'HeartRateMonitor_A2: unregisterListener line: 5');
-INSERT INTO ACT_E
-	VALUES (100,
-	101,
-	95);
-INSERT INTO V_VAL
-	VALUES (97,
-	1,
-	1,
-	2,
-	1,
-	3,
-	0,
-	0,
-	0,
-	0,
-	75,
-	91);
-INSERT INTO V_TVL
-	VALUES (97,
-	102);
-INSERT INTO V_VAL
-	VALUES (96,
-	0,
-	0,
-	2,
-	12,
-	-1,
-	2,
-	25,
-	0,
-	0,
-	75,
-	91);
-INSERT INTO V_BRV
-	VALUES (96,
-	103,
-	1,
-	2,
-	7);
-INSERT INTO V_VAL
-	VALUES (104,
-	0,
-	0,
-	2,
-	41,
-	47,
-	0,
-	0,
-	0,
-	0,
-	49,
-	91);
-INSERT INTO V_IRF
-	VALUES (104,
-	94);
-INSERT INTO V_VAL
-	VALUES (105,
-	0,
-	0,
-	2,
-	49,
-	53,
-	0,
-	0,
-	0,
-	0,
-	31,
-	91);
-INSERT INTO V_AVL
-	VALUES (105,
-	104,
-	27,
-	30);
-INSERT INTO V_PAR
-	VALUES (105,
-	0,
-	96,
-	'timer_inst_ref',
-	0,
-	2,
-	25);
-INSERT INTO V_VAL
-	VALUES (99,
-	0,
-	0,
-	3,
-	6,
-	8,
-	0,
-	0,
-	0,
-	0,
-	75,
-	91);
-INSERT INTO V_TVL
-	VALUES (99,
-	102);
-INSERT INTO V_VAR
-	VALUES (94,
-	91,
-	'monitor',
-	1,
-	49);
-INSERT INTO V_INT
-	VALUES (94,
-	0,
-	27);
-INSERT INTO V_VAR
-	VALUES (102,
-	91,
-	'res',
-	1,
-	75);
-INSERT INTO V_TRN
-	VALUES (102,
-	0,
-	'');
-INSERT INTO ACT_BLK
-	VALUES (98,
-	0,
-	0,
-	0,
-	'LOG',
-	'',
-	'',
-	4,
-	3,
-	4,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	90,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (106,
-	98,
-	0,
-	4,
-	3,
-	'HeartRateMonitor_A2: unregisterListener line: 4');
-INSERT INTO ACT_BRG
-	VALUES (106,
-	107,
-	4,
-	8,
-	4,
-	3);
-INSERT INTO V_VAL
-	VALUES (108,
-	0,
-	0,
-	4,
-	29,
-	74,
-	0,
-	0,
-	0,
-	0,
-	78,
-	98);
-INSERT INTO V_LST
-	VALUES (108,
-	'Heart Rate Monitor: timer_cancel() succeeded.');
-INSERT INTO V_PAR
-	VALUES (108,
-	106,
-	0,
-	'message',
-	0,
-	4,
-	20);
-INSERT INTO ACT_BLK
-	VALUES (101,
-	0,
-	0,
-	0,
-	'LOG',
-	'',
-	'',
-	6,
-	3,
-	6,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	90,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (109,
-	101,
-	0,
-	6,
-	3,
-	'HeartRateMonitor_A2: unregisterListener line: 6');
-INSERT INTO ACT_BRG
-	VALUES (109,
-	110,
-	6,
-	8,
-	6,
-	3);
-INSERT INTO V_VAL
-	VALUES (111,
-	0,
-	0,
-	6,
-	29,
-	71,
-	0,
-	0,
-	0,
-	0,
-	78,
-	101);
-INSERT INTO V_LST
-	VALUES (111,
-	'Heart Rate Monitor: timer_cancel() failed.');
-INSERT INTO V_PAR
-	VALUES (111,
-	109,
-	0,
-	'message',
-	0,
-	6,
-	20);
-INSERT INTO SM_TXN
-	VALUES (88,
-	32,
-	34,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (112,
-	32,
-	38,
-	33,
-	0);
-INSERT INTO SM_TAH
-	VALUES (113,
-	32,
-	112);
-INSERT INTO SM_AH
-	VALUES (113,
-	32);
-INSERT INTO SM_ACT
-	VALUES (113,
-	32,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (114,
-	32,
-	113);
-INSERT INTO ACT_ACT
-	VALUES (114,
-	'class transition',
-	0,
-	115,
-	0,
-	0,
-	'HeartRateMonitor_A3: timeout',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (115,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	114,
-	0);
-INSERT INTO SM_TXN
-	VALUES (112,
-	32,
-	38,
 	0);
 INSERT INTO PE_PE
-	VALUES (116,
+	VALUES (65,
 	1,
 	26,
 	0,
 	5);
 INSERT INTO S_EE
-	VALUES (116,
-	'Logging',
-	'',
-	'LOG',
+	VALUES (65,
+	'Time',
+	'The Time external entity provides date, timestamp, and timer related operations.',
+	'TIM',
 	0,
 	'',
-	'Logging',
+	'Time',
 	1);
 INSERT INTO S_BRG
-	VALUES (107,
-	116,
-	'LogSuccess',
+	VALUES (66,
+	65,
+	'current_date',
+	'',
+	1,
+	44,
+	'',
+	1,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (67,
+	66);
+INSERT INTO ACT_ACT
+	VALUES (67,
+	'bridge',
+	0,
+	68,
+	0,
+	0,
+	'Time::current_date',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (68,
+	0,
+	0,
+	0,
+	'',
+	'',
 	'',
 	0,
-	117,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	67,
+	0);
+INSERT INTO S_BRG
+	VALUES (69,
+	65,
+	'create_date',
+	'',
+	1,
+	44,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (70,
+	69,
+	'second',
+	62,
+	0,
+	'',
+	71,
+	'');
+INSERT INTO S_BPARM
+	VALUES (72,
+	69,
+	'minute',
+	62,
+	0,
+	'',
+	73,
+	'');
+INSERT INTO S_BPARM
+	VALUES (73,
+	69,
+	'hour',
+	62,
+	0,
+	'',
+	74,
+	'');
+INSERT INTO S_BPARM
+	VALUES (74,
+	69,
+	'day',
+	62,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES (71,
+	69,
+	'month',
+	62,
+	0,
+	'',
+	72,
+	'');
+INSERT INTO S_BPARM
+	VALUES (75,
+	69,
+	'year',
+	62,
+	0,
+	'',
+	70,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (76,
+	69);
+INSERT INTO ACT_ACT
+	VALUES (76,
+	'bridge',
+	0,
+	77,
+	0,
+	0,
+	'Time::create_date',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (77,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	76,
+	0);
+INSERT INTO S_BRG
+	VALUES (78,
+	65,
+	'get_second',
+	'',
+	1,
+	62,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (79,
+	78,
+	'date',
+	44,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (80,
+	78);
+INSERT INTO ACT_ACT
+	VALUES (80,
+	'bridge',
+	0,
+	81,
+	0,
+	0,
+	'Time::get_second',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (81,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	80,
+	0);
+INSERT INTO S_BRG
+	VALUES (82,
+	65,
+	'get_minute',
+	'',
+	1,
+	62,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (83,
+	82,
+	'date',
+	44,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (84,
+	82);
+INSERT INTO ACT_ACT
+	VALUES (84,
+	'bridge',
+	0,
+	85,
+	0,
+	0,
+	'Time::get_minute',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (85,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	84,
+	0);
+INSERT INTO S_BRG
+	VALUES (86,
+	65,
+	'get_hour',
+	'',
+	1,
+	62,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (87,
+	86,
+	'date',
+	44,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (88,
+	86);
+INSERT INTO ACT_ACT
+	VALUES (88,
+	'bridge',
+	0,
+	89,
+	0,
+	0,
+	'Time::get_hour',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (89,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	88,
+	0);
+INSERT INTO S_BRG
+	VALUES (90,
+	65,
+	'get_day',
+	'',
+	1,
+	62,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (91,
+	90,
+	'date',
+	44,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (92,
+	90);
+INSERT INTO ACT_ACT
+	VALUES (92,
+	'bridge',
+	0,
+	93,
+	0,
+	0,
+	'Time::get_day',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (93,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	92,
+	0);
+INSERT INTO S_BRG
+	VALUES (94,
+	65,
+	'get_month',
+	'',
+	1,
+	62,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (95,
+	94,
+	'date',
+	44,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (96,
+	94);
+INSERT INTO ACT_ACT
+	VALUES (96,
+	'bridge',
+	0,
+	97,
+	0,
+	0,
+	'Time::get_month',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (97,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	96,
+	0);
+INSERT INTO S_BRG
+	VALUES (98,
+	65,
+	'get_year',
+	'',
+	1,
+	62,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (99,
+	98,
+	'date',
+	44,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (100,
+	98);
+INSERT INTO ACT_ACT
+	VALUES (100,
+	'bridge',
+	0,
+	101,
+	0,
+	0,
+	'Time::get_year',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (101,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	100,
+	0);
+INSERT INTO S_BRG
+	VALUES (102,
+	65,
+	'current_clock',
+	'',
+	1,
+	50,
+	'',
+	1,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (103,
+	102);
+INSERT INTO ACT_ACT
+	VALUES (103,
+	'bridge',
+	0,
+	104,
+	0,
+	0,
+	'Time::current_clock',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (104,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	103,
+	0);
+INSERT INTO S_BRG
+	VALUES (105,
+	65,
+	'timer_start',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Returns the instance
+handle of the timer.',
+	1,
+	106,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (107,
+	105,
+	'microseconds',
+	62,
+	0,
+	'',
+	108,
+	'');
+INSERT INTO S_BPARM
+	VALUES (108,
+	105,
+	'event_inst',
+	109,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (110,
+	105);
+INSERT INTO ACT_ACT
+	VALUES (110,
+	'bridge',
+	0,
+	111,
+	0,
+	0,
+	'Time::timer_start',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (111,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	110,
+	0);
+INSERT INTO S_BRG
+	VALUES (112,
+	65,
+	'timer_start_recurring',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Upon expiration, the
+timer will be restarted and fire again in the specified number of microseconds
+generating the passed event. This bridge operation returns the instance handle
+of the timer.',
+	1,
+	106,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (113,
+	112,
+	'microseconds',
+	62,
+	0,
+	'',
+	114,
+	'');
+INSERT INTO S_BPARM
+	VALUES (114,
+	112,
+	'event_inst',
+	109,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (115,
+	112);
+INSERT INTO ACT_ACT
+	VALUES (115,
+	'bridge',
+	0,
+	116,
+	0,
+	0,
+	'Time::timer_start_recurring',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (116,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	115,
+	0);
+INSERT INTO S_BRG
+	VALUES (117,
+	65,
+	'timer_remaining_time',
+	'Returns the time remaining (in microseconds) for the passed timer instance. If
+the timer has expired, a zero value is returned.',
+	1,
+	62,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (118,
-	107,
-	'message',
-	78,
+	117,
+	'timer_inst_ref',
+	106,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (119,
-	107);
+	117);
 INSERT INTO ACT_ACT
 	VALUES (119,
 	'bridge',
@@ -1679,7 +1380,7 @@ INSERT INTO ACT_ACT
 	120,
 	0,
 	0,
-	'Logging::LogSuccess',
+	'Time::timer_remaining_time',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (120,
@@ -1705,81 +1406,39 @@ INSERT INTO ACT_BLK
 	119,
 	0);
 INSERT INTO S_BRG
-	VALUES (110,
-	116,
-	'LogFailure',
-	'',
-	0,
-	117,
+	VALUES (121,
+	65,
+	'timer_reset_time',
+	'This bridge operation attempts to set the passed existing timer to expire in
+the specified number of microseconds. If the timer exists (that is, it has not
+expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
+is returned.',
+	1,
+	122,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (121,
-	110,
-	'message',
-	78,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (122,
-	110);
-INSERT INTO ACT_ACT
-	VALUES (122,
-	'bridge',
-	0,
-	123,
-	0,
-	0,
-	'Logging::LogFailure',
-	0);
-INSERT INTO ACT_BLK
 	VALUES (123,
-	0,
-	0,
+	121,
+	'timer_inst_ref',
+	106,
 	0,
 	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	122,
-	0);
-INSERT INTO S_BRG
-	VALUES (69,
-	116,
-	'LogInfo',
-	'',
-	0,
-	117,
-	'',
-	1,
+	124,
 	'');
 INSERT INTO S_BPARM
 	VALUES (124,
-	69,
-	'message',
-	78,
+	121,
+	'microseconds',
+	62,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (125,
-	69);
+	121);
 INSERT INTO ACT_ACT
 	VALUES (125,
 	'bridge',
@@ -1787,7 +1446,7 @@ INSERT INTO ACT_ACT
 	126,
 	0,
 	0,
-	'Logging::LogInfo',
+	'Time::timer_reset_time',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (126,
@@ -1814,109 +1473,48 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (127,
-	116,
-	'LogDate',
-	'',
-	0,
-	117,
+	65,
+	'timer_add_time',
+	'This bridge operation attempts to add the specified number of microseconds to a
+passed existing timer. If the timer exists (that is, it has not expired), a TRUE
+value is returned. If the timer no longer exists, a FALSE value is returned.',
+	1,
+	122,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (128,
 	127,
-	'd',
-	129,
+	'timer_inst_ref',
+	106,
 	0,
 	'',
-	0,
+	129,
 	'');
 INSERT INTO S_BPARM
-	VALUES (130,
+	VALUES (129,
 	127,
-	'message',
-	78,
+	'microseconds',
+	62,
 	0,
 	'',
-	128,
+	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (131,
+	VALUES (130,
 	127);
 INSERT INTO ACT_ACT
-	VALUES (131,
+	VALUES (130,
 	'bridge',
-	0,
-	132,
-	0,
-	0,
-	'Logging::LogDate',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (132,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
 	0,
 	131,
-	0);
-INSERT INTO S_BRG
-	VALUES (133,
-	116,
-	'LogTime',
-	'',
-	0,
-	117,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (134,
-	133,
-	't',
-	135,
-	0,
-	'',
-	136,
-	'');
-INSERT INTO S_BPARM
-	VALUES (136,
-	133,
-	'message',
-	78,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (137,
-	133);
-INSERT INTO ACT_ACT
-	VALUES (137,
-	'bridge',
-	0,
-	138,
 	0,
 	0,
-	'Logging::LogTime',
+	'Time::timer_add_time',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (138,
+	VALUES (131,
 	0,
 	0,
 	0,
@@ -1936,47 +1534,246 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	137,
+	130,
 	0);
 INSERT INTO S_BRG
-	VALUES (139,
-	116,
-	'LogReal',
-	'',
-	0,
-	117,
+	VALUES (132,
+	65,
+	'timer_cancel',
+	'This bridge operation cancels and deletes the passed timer instance. If the 
+timer exists (that is, it had not expired), a TRUE value is returned. If the
+timer no longer exists, a FALSE value is returned.',
+	1,
+	122,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (140,
-	139,
-	'r',
-	141,
-	0,
-	'',
-	142,
-	'');
-INSERT INTO S_BPARM
-	VALUES (142,
-	139,
-	'message',
-	78,
+	VALUES (133,
+	132,
+	'timer_inst_ref',
+	106,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (143,
+	VALUES (134,
+	132);
+INSERT INTO ACT_ACT
+	VALUES (134,
+	'bridge',
+	0,
+	135,
+	0,
+	0,
+	'Time::timer_cancel',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (135,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	134,
+	0);
+INSERT INTO PE_PE
+	VALUES (136,
+	1,
+	26,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (136,
+	'HeartRateMonitor',
+	1,
+	'HeartRateMonitor',
+	'Represents the heart-rate monitoring facility.',
+	0);
+INSERT INTO O_NBATTR
+	VALUES (137,
+	136);
+INSERT INTO O_BATTR
+	VALUES (137,
+	136);
+INSERT INTO O_ATTR
+	VALUES (137,
+	136,
+	0,
+	'recentHeartRate',
+	'Most recent heart-rate sample, expressed in beats per minute.',
+	'',
+	'recentHeartRate',
+	0,
+	62,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (138,
+	136);
+INSERT INTO O_BATTR
+	VALUES (138,
+	136);
+INSERT INTO O_ATTR
+	VALUES (138,
+	136,
+	137,
+	'timer',
+	'Handle for underlying timer mechanism enabling the 
+generation of delayed events that drive the model
+of the heart-rate monitor.',
+	'',
+	'timer',
+	0,
+	106,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	136);
+INSERT INTO O_ID
+	VALUES (1,
+	136);
+INSERT INTO O_ID
+	VALUES (2,
+	136);
+INSERT INTO SM_ASM
+	VALUES (139,
+	136);
+INSERT INTO SM_SM
+	VALUES (139,
+	'',
+	0);
+INSERT INTO SM_MOORE
+	VALUES (139);
+INSERT INTO SM_LEVT
+	VALUES (140,
+	139,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (140,
+	139,
+	0);
+INSERT INTO SM_EVT
+	VALUES (140,
+	139,
+	0,
+	3,
+	'timeout',
+	0,
+	'',
+	'HeartRateMonitor_A3',
+	'');
+INSERT INTO SM_LEVT
+	VALUES (12,
+	139,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (12,
+	139,
+	0);
+INSERT INTO SM_EVT
+	VALUES (12,
+	139,
+	0,
+	1,
+	'registerListener',
+	0,
+	'',
+	'HeartRateMonitor_A1',
+	'');
+INSERT INTO SM_LEVT
+	VALUES (18,
+	139,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (18,
+	139,
+	0);
+INSERT INTO SM_EVT
+	VALUES (18,
+	139,
+	0,
+	2,
+	'unregisterListener',
+	0,
+	'',
+	'HeartRateMonitor_A2',
+	'');
+INSERT INTO SM_STATE
+	VALUES (141,
+	139,
+	0,
+	'idle',
+	1,
+	0);
+INSERT INTO SM_EIGN
+	VALUES (141,
+	140,
+	139,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (141,
+	140,
+	139,
+	0);
+INSERT INTO SM_SEME
+	VALUES (141,
+	12,
+	139,
+	0);
+INSERT INTO SM_CH
+	VALUES (141,
+	18,
+	139,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (141,
+	18,
+	139,
+	0);
+INSERT INTO SM_MOAH
+	VALUES (142,
+	139,
+	141);
+INSERT INTO SM_AH
+	VALUES (142,
 	139);
+INSERT INTO SM_ACT
+	VALUES (142,
+	139,
+	1,
+	'',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (143,
+	139,
+	142);
 INSERT INTO ACT_ACT
 	VALUES (143,
-	'bridge',
+	'class state',
 	0,
 	144,
 	0,
 	0,
-	'Logging::LogReal',
+	'HeartRateMonitor::idle',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (144,
@@ -2001,49 +1798,74 @@ INSERT INTO ACT_BLK
 	0,
 	143,
 	0);
-INSERT INTO S_BRG
+INSERT INTO SM_STATE
 	VALUES (145,
-	116,
-	'LogInteger',
-	'',
+	139,
 	0,
-	117,
-	'',
-	1,
+	'monitoring',
+	2,
+	0);
+INSERT INTO SM_SEME
+	VALUES (145,
+	140,
+	139,
+	0);
+INSERT INTO SM_CH
+	VALUES (145,
+	12,
+	139,
+	0,
 	'');
-INSERT INTO S_BPARM
+INSERT INTO SM_SEME
+	VALUES (145,
+	12,
+	139,
+	0);
+INSERT INTO SM_SEME
+	VALUES (145,
+	18,
+	139,
+	0);
+INSERT INTO SM_MOAH
 	VALUES (146,
-	145,
-	'message',
-	29,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (147,
+	139,
 	145);
+INSERT INTO SM_AH
+	VALUES (146,
+	139);
+INSERT INTO SM_ACT
+	VALUES (146,
+	139,
+	1,
+	'select any monitor from instances of HeartRateMonitor;
+send Unspecified::heartRateChanged(heartRate: monitor.recentHeartRate);
+monitor.recentHeartRate = monitor.recentHeartRate + 1;',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (147,
+	139,
+	146);
 INSERT INTO ACT_ACT
 	VALUES (147,
-	'bridge',
+	'class state',
 	0,
 	148,
 	0,
 	0,
-	'Logging::LogInteger',
+	'HeartRateMonitor::monitoring',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (148,
+	1,
 	0,
 	0,
-	0,
+	'Unspecified',
 	'',
 	'',
-	'',
-	0,
-	0,
-	0,
-	0,
+	3,
+	1,
+	2,
+	6,
 	0,
 	0,
 	0,
@@ -2055,208 +1877,259 @@ INSERT INTO ACT_BLK
 	0,
 	147,
 	0);
-INSERT INTO PE_PE
+INSERT INTO ACT_SMT
 	VALUES (149,
+	148,
+	150,
 	1,
-	26,
-	0,
-	5);
-INSERT INTO S_EE
+	1,
+	'HeartRateMonitor::monitoring line: 1');
+INSERT INTO ACT_FIO
 	VALUES (149,
-	'Time',
-	'The Time external entity provides date, timestamp, and timer related operations.',
-	'TIM',
-	0,
-	'',
-	'Time',
-	1);
-INSERT INTO S_BRG
-	VALUES (150,
-	149,
-	'current_date',
-	'',
-	1,
-	129,
-	'',
-	1,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (151,
-	150);
-INSERT INTO ACT_ACT
-	VALUES (151,
-	'bridge',
-	0,
-	152,
-	0,
-	0,
-	'Time::current_date',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (152,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
 	151,
+	1,
+	'any',
+	136,
+	1,
+	38);
+INSERT INTO ACT_SMT
+	VALUES (150,
+	148,
+	152,
+	2,
+	1,
+	'HeartRateMonitor::monitoring line: 2');
+INSERT INTO ACT_IOP
+	VALUES (150,
+	2,
+	19,
+	2,
+	6,
+	0,
+	22,
 	0);
-INSERT INTO S_BRG
-	VALUES (153,
-	149,
-	'create_date',
-	'',
+INSERT INTO ACT_SMT
+	VALUES (152,
+	148,
+	0,
+	3,
 	1,
-	129,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (154,
+	'HeartRateMonitor::monitoring line: 3');
+INSERT INTO ACT_AI
+	VALUES (152,
 	153,
-	'second',
-	29,
-	0,
-	'',
-	155,
-	'');
-INSERT INTO S_BPARM
-	VALUES (156,
-	153,
-	'minute',
-	29,
-	0,
-	'',
-	157,
-	'');
-INSERT INTO S_BPARM
-	VALUES (157,
-	153,
-	'hour',
-	29,
-	0,
-	'',
-	158,
-	'');
-INSERT INTO S_BPARM
-	VALUES (158,
-	153,
-	'day',
-	29,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO S_BPARM
-	VALUES (155,
-	153,
-	'month',
-	29,
-	0,
-	'',
-	156,
-	'');
-INSERT INTO S_BPARM
-	VALUES (159,
-	153,
-	'year',
-	29,
-	0,
-	'',
 	154,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (160,
-	153);
-INSERT INTO ACT_ACT
-	VALUES (160,
-	'bridge',
 	0,
-	161,
-	0,
-	0,
-	'Time::create_date',
 	0);
-INSERT INTO ACT_BLK
+INSERT INTO V_VAL
+	VALUES (155,
+	0,
+	0,
+	2,
+	47,
+	53,
+	0,
+	0,
+	0,
+	0,
+	156,
+	148);
+INSERT INTO V_IRF
+	VALUES (155,
+	151);
+INSERT INTO V_VAL
+	VALUES (157,
+	0,
+	0,
+	2,
+	55,
+	69,
+	0,
+	0,
+	0,
+	0,
+	62,
+	148);
+INSERT INTO V_AVL
+	VALUES (157,
+	155,
+	136,
+	137);
+INSERT INTO V_PAR
+	VALUES (157,
+	150,
+	0,
+	'heartRate',
+	0,
+	2,
+	36);
+INSERT INTO V_VAL
+	VALUES (158,
+	1,
+	0,
+	3,
+	1,
+	7,
+	0,
+	0,
+	0,
+	0,
+	156,
+	148);
+INSERT INTO V_IRF
+	VALUES (158,
+	151);
+INSERT INTO V_VAL
+	VALUES (154,
+	1,
+	0,
+	3,
+	9,
+	23,
+	0,
+	0,
+	0,
+	0,
+	62,
+	148);
+INSERT INTO V_AVL
+	VALUES (154,
+	158,
+	136,
+	137);
+INSERT INTO V_VAL
+	VALUES (159,
+	0,
+	0,
+	3,
+	27,
+	33,
+	0,
+	0,
+	0,
+	0,
+	156,
+	148);
+INSERT INTO V_IRF
+	VALUES (159,
+	151);
+INSERT INTO V_VAL
+	VALUES (160,
+	0,
+	0,
+	3,
+	35,
+	49,
+	0,
+	0,
+	0,
+	0,
+	62,
+	148);
+INSERT INTO V_AVL
+	VALUES (160,
+	159,
+	136,
+	137);
+INSERT INTO V_VAL
+	VALUES (153,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	62,
+	148);
+INSERT INTO V_BIN
+	VALUES (153,
+	161,
+	160,
+	'+');
+INSERT INTO V_VAL
 	VALUES (161,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	3,
+	53,
+	53,
 	0,
 	0,
 	0,
 	0,
+	62,
+	148);
+INSERT INTO V_LIN
+	VALUES (161,
+	'1');
+INSERT INTO V_VAR
+	VALUES (151,
+	148,
+	'monitor',
+	1,
+	156);
+INSERT INTO V_INT
+	VALUES (151,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	160,
-	0);
-INSERT INTO S_BRG
+	136);
+INSERT INTO SM_NSTXN
 	VALUES (162,
-	149,
-	'get_second',
-	'',
-	1,
-	29,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
+	139,
+	141,
+	12,
+	0);
+INSERT INTO SM_TAH
 	VALUES (163,
-	162,
-	'date',
-	129,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (164,
+	139,
 	162);
+INSERT INTO SM_AH
+	VALUES (163,
+	139);
+INSERT INTO SM_ACT
+	VALUES (163,
+	139,
+	1,
+	'
+select any monitor from instances of HeartRateMonitor;
+if (empty monitor)
+  create object instance monitor of HeartRateMonitor;
+end if;
+monitor.recentHeartRate = 50;
+
+LOG::LogInfo(message: "listener registered");
+
+// start timer
+create event instance timeout of HeartRateMonitor_A3:timeout() to HeartRateMonitor class;
+monitor.timer = TIM::timer_start_recurring( event_inst: timeout, microseconds: (HeartRateSamplingPeriod * 1000000) ); ',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (164,
+	139,
+	163);
 INSERT INTO ACT_ACT
 	VALUES (164,
-	'bridge',
+	'class transition',
 	0,
 	165,
 	0,
 	0,
-	'Time::get_second',
+	'HeartRateMonitor_A1: registerListener',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (165,
+	1,
 	0,
 	0,
-	0,
+	'TIM',
 	'',
 	'',
-	'',
-	0,
-	0,
-	0,
-	0,
+	12,
+	1,
+	12,
+	17,
 	0,
 	0,
 	0,
@@ -2268,306 +2141,379 @@ INSERT INTO ACT_BLK
 	0,
 	164,
 	0);
-INSERT INTO S_BRG
+INSERT INTO ACT_SMT
 	VALUES (166,
-	149,
-	'get_minute',
-	'',
+	165,
+	167,
+	2,
 	1,
-	29,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (167,
-	166,
-	'date',
-	129,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (168,
-	166);
-INSERT INTO ACT_ACT
-	VALUES (168,
-	'bridge',
-	0,
-	169,
-	0,
-	0,
-	'Time::get_minute',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (169,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	'HeartRateMonitor_A1: registerListener line: 2');
+INSERT INTO ACT_FIO
+	VALUES (166,
 	168,
-	0);
-INSERT INTO S_BRG
-	VALUES (170,
-	149,
-	'get_hour',
-	'',
 	1,
-	29,
-	'',
+	'any',
+	136,
+	2,
+	38);
+INSERT INTO ACT_SMT
+	VALUES (167,
+	165,
+	169,
+	3,
 	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (171,
+	'HeartRateMonitor_A1: registerListener line: 3');
+INSERT INTO ACT_IF
+	VALUES (167,
 	170,
-	'date',
-	129,
+	171,
 	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (172,
-	170);
-INSERT INTO ACT_ACT
-	VALUES (172,
-	'bridge',
-	0,
-	173,
-	0,
-	0,
-	'Time::get_hour',
 	0);
-INSERT INTO ACT_BLK
+INSERT INTO ACT_SMT
+	VALUES (169,
+	165,
+	172,
+	6,
+	1,
+	'HeartRateMonitor_A1: registerListener line: 6');
+INSERT INTO ACT_AI
+	VALUES (169,
+	173,
+	174,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (172,
+	165,
+	175,
+	8,
+	1,
+	'HeartRateMonitor_A1: registerListener line: 8');
+INSERT INTO ACT_BRG
+	VALUES (172,
+	38,
+	8,
+	6,
+	8,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (175,
+	165,
+	176,
+	11,
+	1,
+	'HeartRateMonitor_A1: registerListener line: 11');
+INSERT INTO E_ESS
+	VALUES (175,
+	1,
+	0,
+	11,
+	34,
+	11,
+	54,
+	11,
+	67,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (175,
+	1,
+	177);
+INSERT INTO E_CSME
+	VALUES (175,
+	140);
+INSERT INTO E_CEA
+	VALUES (175);
+INSERT INTO ACT_SMT
+	VALUES (176,
+	165,
+	0,
+	12,
+	1,
+	'HeartRateMonitor_A1: registerListener line: 12');
+INSERT INTO ACT_AI
+	VALUES (176,
+	178,
+	179,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (180,
+	0,
+	0,
+	3,
+	11,
+	17,
+	0,
+	0,
+	0,
+	0,
+	156,
+	165);
+INSERT INTO V_IRF
+	VALUES (180,
+	168);
+INSERT INTO V_VAL
+	VALUES (171,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	122,
+	165);
+INSERT INTO V_UNY
+	VALUES (171,
+	180,
+	'empty');
+INSERT INTO V_VAL
+	VALUES (181,
+	1,
+	0,
+	6,
+	1,
+	7,
+	0,
+	0,
+	0,
+	0,
+	156,
+	165);
+INSERT INTO V_IRF
+	VALUES (181,
+	168);
+INSERT INTO V_VAL
+	VALUES (174,
+	1,
+	0,
+	6,
+	9,
+	23,
+	0,
+	0,
+	0,
+	0,
+	62,
+	165);
+INSERT INTO V_AVL
+	VALUES (174,
+	181,
+	136,
+	137);
+INSERT INTO V_VAL
 	VALUES (173,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	6,
+	27,
+	28,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	172,
-	0);
-INSERT INTO S_BRG
-	VALUES (174,
-	149,
-	'get_day',
-	'',
-	1,
-	29,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (175,
-	174,
-	'date',
-	129,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (176,
-	174);
-INSERT INTO ACT_ACT
-	VALUES (176,
-	'bridge',
-	0,
-	177,
-	0,
-	0,
-	'Time::get_day',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (177,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	176,
-	0);
-INSERT INTO S_BRG
-	VALUES (178,
-	149,
-	'get_month',
-	'',
-	1,
-	29,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (179,
-	178,
-	'date',
-	129,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (180,
-	178);
-INSERT INTO ACT_ACT
-	VALUES (180,
-	'bridge',
-	0,
-	181,
-	0,
-	0,
-	'Time::get_month',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (181,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	180,
-	0);
-INSERT INTO S_BRG
+	62,
+	165);
+INSERT INTO V_LIN
+	VALUES (173,
+	'50');
+INSERT INTO V_VAL
 	VALUES (182,
-	149,
-	'get_year',
-	'',
-	1,
-	29,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
+	0,
+	0,
+	8,
+	23,
+	42,
+	0,
+	0,
+	0,
+	0,
+	31,
+	165);
+INSERT INTO V_LST
+	VALUES (182,
+	'listener registered');
+INSERT INTO V_PAR
+	VALUES (182,
+	172,
+	0,
+	'message',
+	0,
+	8,
+	14);
+INSERT INTO V_VAL
 	VALUES (183,
-	182,
-	'date',
-	129,
+	1,
 	0,
-	'',
+	12,
+	1,
+	7,
 	0,
-	'');
-INSERT INTO ACT_BRB
+	0,
+	0,
+	0,
+	156,
+	165);
+INSERT INTO V_IRF
+	VALUES (183,
+	168);
+INSERT INTO V_VAL
+	VALUES (179,
+	1,
+	0,
+	12,
+	9,
+	13,
+	0,
+	0,
+	0,
+	0,
+	106,
+	165);
+INSERT INTO V_AVL
+	VALUES (179,
+	183,
+	136,
+	138);
+INSERT INTO V_VAL
+	VALUES (178,
+	0,
+	0,
+	12,
+	22,
+	-1,
+	12,
+	45,
+	12,
+	66,
+	106,
+	165);
+INSERT INTO V_BRV
+	VALUES (178,
+	112,
+	1,
+	12,
+	17);
+INSERT INTO V_VAL
 	VALUES (184,
-	182);
-INSERT INTO ACT_ACT
-	VALUES (184,
-	'bridge',
 	0,
+	0,
+	12,
+	57,
+	63,
+	0,
+	0,
+	0,
+	0,
+	109,
+	165);
+INSERT INTO V_TVL
+	VALUES (184,
+	177);
+INSERT INTO V_PAR
+	VALUES (184,
+	0,
+	178,
+	'event_inst',
 	185,
+	12,
+	45);
+INSERT INTO V_VAL
+	VALUES (186,
 	0,
 	0,
-	'Time::get_year',
-	0);
-INSERT INTO ACT_BLK
+	12,
+	81,
+	103,
+	0,
+	0,
+	0,
+	0,
+	62,
+	165);
+INSERT INTO V_SCV
+	VALUES (186,
+	187,
+	62);
+INSERT INTO V_VAL
 	VALUES (185,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	-1,
+	-1,
+	-1,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	184,
-	0);
-INSERT INTO S_BRG
-	VALUES (186,
-	149,
-	'current_clock',
-	'',
-	1,
-	135,
-	'',
-	1,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (187,
-	186);
-INSERT INTO ACT_ACT
-	VALUES (187,
-	'bridge',
-	0,
+	62,
+	165);
+INSERT INTO V_BIN
+	VALUES (185,
 	188,
+	186,
+	'*');
+INSERT INTO V_PAR
+	VALUES (185,
 	0,
+	178,
+	'microseconds',
 	0,
-	'Time::current_clock',
-	0);
-INSERT INTO ACT_BLK
+	12,
+	66);
+INSERT INTO V_VAL
 	VALUES (188,
 	0,
 	0,
+	12,
+	107,
+	113,
+	0,
+	0,
+	0,
+	0,
+	62,
+	165);
+INSERT INTO V_LIN
+	VALUES (188,
+	'1000000');
+INSERT INTO V_VAR
+	VALUES (168,
+	165,
+	'monitor',
+	1,
+	156);
+INSERT INTO V_INT
+	VALUES (168,
+	0,
+	136);
+INSERT INTO V_VAR
+	VALUES (177,
+	165,
+	'timeout',
+	1,
+	109);
+INSERT INTO V_TRN
+	VALUES (177,
+	0,
+	'');
+INSERT INTO ACT_BLK
+	VALUES (170,
+	0,
+	0,
 	0,
 	'',
 	'',
 	'',
+	4,
+	3,
+	4,
+	37,
 	0,
 	0,
 	0,
@@ -2577,66 +2523,77 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	187,
+	164,
 	0);
-INSERT INTO S_BRG
+INSERT INTO ACT_SMT
 	VALUES (189,
-	149,
-	'timer_start',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Returns the instance
-handle of the timer.',
-	1,
-	31,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
+	170,
+	0,
+	4,
+	3,
+	'HeartRateMonitor_A1: registerListener line: 4');
+INSERT INTO ACT_CR
+	VALUES (189,
+	168,
+	0,
+	136,
+	4,
+	37);
+INSERT INTO SM_TXN
+	VALUES (162,
+	139,
+	145,
+	0);
+INSERT INTO SM_NSTXN
 	VALUES (190,
-	189,
-	'microseconds',
-	29,
-	0,
-	'',
-	191,
-	'');
-INSERT INTO S_BPARM
+	139,
+	145,
+	18,
+	0);
+INSERT INTO SM_TAH
 	VALUES (191,
-	189,
-	'event_inst',
-	82,
-	0,
-	'',
-	0,
+	139,
+	190);
+INSERT INTO SM_AH
+	VALUES (191,
+	139);
+INSERT INTO SM_ACT
+	VALUES (191,
+	139,
+	1,
+	'select any monitor from instances of HeartRateMonitor;
+res = TIM::timer_cancel(timer_inst_ref: monitor.timer);
+if ( res )
+  LOG::LogSuccess( message: "Heart Rate Monitor: timer_cancel() succeeded." );
+else
+  LOG::LogFailure( message: "Heart Rate Monitor: timer_cancel() failed." );
+end if;',
 	'');
-INSERT INTO ACT_BRB
+INSERT INTO ACT_TAB
 	VALUES (192,
-	189);
+	139,
+	191);
 INSERT INTO ACT_ACT
 	VALUES (192,
-	'bridge',
+	'class transition',
 	0,
 	193,
 	0,
 	0,
-	'Time::timer_start',
+	'HeartRateMonitor_A2: unregisterListener',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (193,
+	1,
 	0,
 	0,
-	0,
+	'TIM',
 	'',
 	'',
-	'',
-	0,
-	0,
-	0,
-	0,
+	5,
+	1,
+	2,
+	7,
 	0,
 	0,
 	0,
@@ -2648,244 +2605,244 @@ INSERT INTO ACT_BLK
 	0,
 	192,
 	0);
-INSERT INTO S_BRG
-	VALUES (80,
-	149,
-	'timer_start_recurring',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Upon expiration, the
-timer will be restarted and fire again in the specified number of microseconds
-generating the passed event. This bridge operation returns the instance handle
-of the timer.',
-	1,
-	31,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
+INSERT INTO ACT_SMT
 	VALUES (194,
-	80,
-	'microseconds',
-	29,
-	0,
-	'',
+	193,
 	195,
-	'');
-INSERT INTO S_BPARM
-	VALUES (195,
-	80,
-	'event_inst',
-	82,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (196,
-	80);
-INSERT INTO ACT_ACT
-	VALUES (196,
-	'bridge',
-	0,
-	197,
-	0,
-	0,
-	'Time::timer_start_recurring',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (197,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	1,
+	1,
+	'HeartRateMonitor_A2: unregisterListener line: 1');
+INSERT INTO ACT_FIO
+	VALUES (194,
 	196,
-	0);
-INSERT INTO S_BRG
-	VALUES (198,
-	149,
-	'timer_remaining_time',
-	'Returns the time remaining (in microseconds) for the passed timer instance. If
-the timer has expired, a zero value is returned.',
 	1,
-	29,
-	'',
+	'any',
+	136,
 	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (199,
+	38);
+INSERT INTO ACT_SMT
+	VALUES (195,
+	193,
+	197,
+	2,
+	1,
+	'HeartRateMonitor_A2: unregisterListener line: 2');
+INSERT INTO ACT_AI
+	VALUES (195,
 	198,
-	'timer_inst_ref',
-	31,
+	199,
 	0,
-	'',
+	0);
+INSERT INTO ACT_SMT
+	VALUES (197,
+	193,
 	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (200,
-	198);
-INSERT INTO ACT_ACT
-	VALUES (200,
-	'bridge',
-	0,
+	3,
+	1,
+	'HeartRateMonitor_A2: unregisterListener line: 3');
+INSERT INTO ACT_IF
+	VALUES (197,
+	200,
 	201,
 	0,
-	0,
-	'Time::timer_remaining_time',
 	0);
-INSERT INTO ACT_BLK
-	VALUES (201,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	200,
-	0);
-INSERT INTO S_BRG
+INSERT INTO ACT_SMT
 	VALUES (202,
-	149,
-	'timer_reset_time',
-	'This bridge operation attempts to set the passed existing timer to expire in
-the specified number of microseconds. If the timer exists (that is, it has not
-expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
-is returned.',
+	193,
+	0,
+	5,
 	1,
-	75,
-	'',
+	'HeartRateMonitor_A2: unregisterListener line: 5');
+INSERT INTO ACT_E
+	VALUES (202,
+	203,
+	197);
+INSERT INTO V_VAL
+	VALUES (199,
 	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (203,
-	202,
-	'timer_inst_ref',
-	31,
+	1,
+	2,
+	1,
+	3,
 	0,
-	'',
-	204,
-	'');
-INSERT INTO S_BPARM
-	VALUES (204,
-	202,
-	'microseconds',
-	29,
 	0,
-	'',
 	0,
-	'');
-INSERT INTO ACT_BRB
+	0,
+	122,
+	193);
+INSERT INTO V_TVL
+	VALUES (199,
+	204);
+INSERT INTO V_VAL
+	VALUES (198,
+	0,
+	0,
+	2,
+	12,
+	-1,
+	2,
+	25,
+	0,
+	0,
+	122,
+	193);
+INSERT INTO V_BRV
+	VALUES (198,
+	132,
+	1,
+	2,
+	7);
+INSERT INTO V_VAL
 	VALUES (205,
-	202);
-INSERT INTO ACT_ACT
+	0,
+	0,
+	2,
+	41,
+	47,
+	0,
+	0,
+	0,
+	0,
+	156,
+	193);
+INSERT INTO V_IRF
 	VALUES (205,
-	'bridge',
-	0,
-	206,
-	0,
-	0,
-	'Time::timer_reset_time',
-	0);
-INSERT INTO ACT_BLK
+	196);
+INSERT INTO V_VAL
 	VALUES (206,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	2,
+	49,
+	53,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	106,
+	193);
+INSERT INTO V_AVL
+	VALUES (206,
 	205,
-	0);
-INSERT INTO S_BRG
-	VALUES (207,
-	149,
-	'timer_add_time',
-	'This bridge operation attempts to add the specified number of microseconds to a
-passed existing timer. If the timer exists (that is, it has not expired), a TRUE
-value is returned. If the timer no longer exists, a FALSE value is returned.',
+	136,
+	138);
+INSERT INTO V_PAR
+	VALUES (206,
+	0,
+	198,
+	'timer_inst_ref',
+	0,
+	2,
+	25);
+INSERT INTO V_VAL
+	VALUES (201,
+	0,
+	0,
+	3,
+	6,
+	8,
+	0,
+	0,
+	0,
+	0,
+	122,
+	193);
+INSERT INTO V_TVL
+	VALUES (201,
+	204);
+INSERT INTO V_VAR
+	VALUES (196,
+	193,
+	'monitor',
 	1,
-	75,
-	'',
+	156);
+INSERT INTO V_INT
+	VALUES (196,
+	0,
+	136);
+INSERT INTO V_VAR
+	VALUES (204,
+	193,
+	'res',
 	1,
+	122);
+INSERT INTO V_TRN
+	VALUES (204,
+	0,
 	'');
-INSERT INTO S_BPARM
+INSERT INTO ACT_BLK
+	VALUES (200,
+	0,
+	0,
+	0,
+	'LOG',
+	'',
+	'',
+	4,
+	3,
+	4,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	192,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (207,
+	200,
+	0,
+	4,
+	3,
+	'HeartRateMonitor_A2: unregisterListener line: 4');
+INSERT INTO ACT_BRG
+	VALUES (207,
+	28,
+	4,
+	8,
+	4,
+	3);
+INSERT INTO V_VAL
+	VALUES (208,
+	0,
+	0,
+	4,
+	29,
+	74,
+	0,
+	0,
+	0,
+	0,
+	31,
+	200);
+INSERT INTO V_LST
+	VALUES (208,
+	'Heart Rate Monitor: timer_cancel() succeeded.');
+INSERT INTO V_PAR
 	VALUES (208,
 	207,
-	'timer_inst_ref',
-	31,
 	0,
-	'',
-	209,
-	'');
-INSERT INTO S_BPARM
-	VALUES (209,
-	207,
-	'microseconds',
-	29,
+	'message',
 	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (210,
-	207);
-INSERT INTO ACT_ACT
-	VALUES (210,
-	'bridge',
-	0,
-	211,
-	0,
-	0,
-	'Time::timer_add_time',
-	0);
+	4,
+	20);
 INSERT INTO ACT_BLK
-	VALUES (211,
+	VALUES (203,
 	0,
 	0,
 	0,
+	'LOG',
 	'',
 	'',
-	'',
+	6,
+	3,
+	6,
+	3,
 	0,
 	0,
 	0,
@@ -2895,44 +2852,82 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	210,
+	192,
 	0);
-INSERT INTO S_BRG
-	VALUES (103,
-	149,
-	'timer_cancel',
-	'This bridge operation cancels and deletes the passed timer instance. If the 
-timer exists (that is, it had not expired), a TRUE value is returned. If the
-timer no longer exists, a FALSE value is returned.',
-	1,
-	75,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (212,
-	103,
-	'timer_inst_ref',
+INSERT INTO ACT_SMT
+	VALUES (209,
+	203,
+	0,
+	6,
+	3,
+	'HeartRateMonitor_A2: unregisterListener line: 6');
+INSERT INTO ACT_BRG
+	VALUES (209,
+	34,
+	6,
+	8,
+	6,
+	3);
+INSERT INTO V_VAL
+	VALUES (210,
+	0,
+	0,
+	6,
+	29,
+	71,
+	0,
+	0,
+	0,
+	0,
 	31,
+	203);
+INSERT INTO V_LST
+	VALUES (210,
+	'Heart Rate Monitor: timer_cancel() failed.');
+INSERT INTO V_PAR
+	VALUES (210,
+	209,
 	0,
+	'message',
+	0,
+	6,
+	20);
+INSERT INTO SM_TXN
+	VALUES (190,
+	139,
+	141,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (211,
+	139,
+	145,
+	140,
+	0);
+INSERT INTO SM_TAH
+	VALUES (212,
+	139,
+	211);
+INSERT INTO SM_AH
+	VALUES (212,
+	139);
+INSERT INTO SM_ACT
+	VALUES (212,
+	139,
+	1,
 	'',
-	0,
 	'');
-INSERT INTO ACT_BRB
+INSERT INTO ACT_TAB
 	VALUES (213,
-	103);
+	139,
+	212);
 INSERT INTO ACT_ACT
 	VALUES (213,
-	'bridge',
+	'class transition',
 	0,
 	214,
 	0,
 	0,
-	'Time::timer_cancel',
+	'HeartRateMonitor_A3: timeout',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (214,
@@ -2957,6 +2952,11 @@ INSERT INTO ACT_BLK
 	0,
 	213,
 	0);
+INSERT INTO SM_TXN
+	VALUES (211,
+	139,
+	145,
+	0);
 INSERT INTO PE_PE
 	VALUES (215,
 	1,
@@ -2970,6 +2970,47 @@ INSERT INTO EP_PKG
 	'shared',
 	'',
 	0);
+INSERT INTO PE_PE
+	VALUES (216,
+	1,
+	215,
+	0,
+	10);
+INSERT INTO CNST_CSP
+	VALUES (216,
+	'HeartRateConstants',
+	'SamplingPeriod is expressed in seconds and represents the period at which heart-rate samples are recorded.
+AveragingWindow is expressed in samples and represents the number of samples used when calculating the current average.');
+INSERT INTO CNST_SYC
+	VALUES (217,
+	'HeartRateAveragingWindow',
+	'',
+	62,
+	216,
+	187,
+	62);
+INSERT INTO CNST_LFSC
+	VALUES (217,
+	62);
+INSERT INTO CNST_LSC
+	VALUES (217,
+	62,
+	'5');
+INSERT INTO CNST_SYC
+	VALUES (187,
+	'HeartRateSamplingPeriod',
+	'',
+	62,
+	216,
+	0,
+	0);
+INSERT INTO CNST_LFSC
+	VALUES (187,
+	62);
+INSERT INTO CNST_LSC
+	VALUES (187,
+	62,
+	'3');
 INSERT INTO PE_PE
 	VALUES (6,
 	1,
@@ -2989,7 +3030,7 @@ INSERT INTO C_EP
 	'');
 INSERT INTO C_IO
 	VALUES (8,
-	117,
+	29,
 	'registerListener',
 	'',
 	0,
@@ -3003,7 +3044,7 @@ INSERT INTO C_EP
 	'');
 INSERT INTO C_IO
 	VALUES (14,
-	117,
+	29,
 	'unregisterListener',
 	'',
 	0,
@@ -3028,136 +3069,95 @@ INSERT INTO C_EP
 	'');
 INSERT INTO C_IO
 	VALUES (23,
-	117,
+	29,
 	'heartRateChanged',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_PP
-	VALUES (216,
+	VALUES (218,
 	23,
-	29,
+	62,
 	'heartRate',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO PE_PE
-	VALUES (217,
-	1,
-	215,
-	0,
-	10);
-INSERT INTO CNST_CSP
-	VALUES (217,
-	'HeartRateConstants',
-	'SamplingPeriod is expressed in seconds and represents the period at which heart-rate samples are recorded.
-AveragingWindow is expressed in samples and represents the number of samples used when calculating the current average.');
-INSERT INTO CNST_SYC
-	VALUES (218,
-	'HeartRateAveragingWindow',
-	'',
-	29,
-	217,
-	85,
-	29);
-INSERT INTO CNST_LFSC
-	VALUES (218,
-	29);
-INSERT INTO CNST_LSC
-	VALUES (218,
-	29,
-	'5');
-INSERT INTO CNST_SYC
-	VALUES (85,
-	'HeartRateSamplingPeriod',
-	'',
-	29,
-	217,
-	0,
-	0);
-INSERT INTO CNST_LFSC
-	VALUES (85,
-	29);
-INSERT INTO CNST_LSC
-	VALUES (85,
-	29,
-	'3');
-INSERT INTO PE_PE
-	VALUES (117,
+	VALUES (29,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (117,
+	VALUES (29,
 	0,
 	'void',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (117,
+	VALUES (29,
 	0);
 INSERT INTO PE_PE
-	VALUES (75,
+	VALUES (122,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (75,
+	VALUES (122,
 	0,
 	'boolean',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (75,
+	VALUES (122,
 	1);
 INSERT INTO PE_PE
-	VALUES (29,
+	VALUES (62,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (29,
+	VALUES (62,
 	0,
 	'integer',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (29,
+	VALUES (62,
 	2);
 INSERT INTO PE_PE
-	VALUES (141,
+	VALUES (56,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (141,
+	VALUES (56,
 	0,
 	'real',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (141,
+	VALUES (56,
 	3);
 INSERT INTO PE_PE
-	VALUES (78,
+	VALUES (31,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (78,
+	VALUES (31,
 	0,
 	'string',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (78,
+	VALUES (31,
 	4);
 INSERT INTO PE_PE
 	VALUES (219,
@@ -3205,19 +3205,19 @@ INSERT INTO S_CDT
 	VALUES (221,
 	7);
 INSERT INTO PE_PE
-	VALUES (49,
+	VALUES (156,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (49,
+	VALUES (156,
 	0,
 	'inst_ref<Object>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (49,
+	VALUES (156,
 	8);
 INSERT INTO PE_PE
 	VALUES (222,
@@ -3235,19 +3235,19 @@ INSERT INTO S_CDT
 	VALUES (222,
 	9);
 INSERT INTO PE_PE
-	VALUES (82,
+	VALUES (109,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (82,
+	VALUES (109,
 	0,
 	'inst<Event>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (82,
+	VALUES (109,
 	10);
 INSERT INTO PE_PE
 	VALUES (223,
@@ -3295,50 +3295,50 @@ INSERT INTO S_CDT
 	VALUES (225,
 	13);
 INSERT INTO PE_PE
-	VALUES (129,
+	VALUES (44,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (129,
+	VALUES (44,
 	0,
 	'date',
 	'',
 	'');
 INSERT INTO S_UDT
-	VALUES (129,
+	VALUES (44,
 	223,
 	1);
 INSERT INTO PE_PE
-	VALUES (31,
+	VALUES (106,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (31,
+	VALUES (106,
 	0,
 	'inst_ref<Timer>',
 	'',
 	'');
 INSERT INTO S_UDT
-	VALUES (31,
+	VALUES (106,
 	224,
 	3);
 INSERT INTO PE_PE
-	VALUES (135,
+	VALUES (50,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (135,
+	VALUES (50,
 	0,
 	'timestamp',
 	'',
 	'');
 INSERT INTO S_UDT
-	VALUES (135,
+	VALUES (50,
 	223,
 	2);

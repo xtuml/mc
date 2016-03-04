@@ -17,9 +17,513 @@ INSERT INTO PE_PE
 	1,
 	2,
 	0,
+	7);
+INSERT INTO EP_PKG
+	VALUES (3,
+	0,
+	1,
+	'shared',
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES (4,
+	1,
+	3,
+	0,
+	6);
+INSERT INTO C_I
+	VALUES (4,
+	0,
+	'TrackingHeartRateMonitor',
+	'');
+INSERT INTO C_EP
+	VALUES (5,
+	4,
+	-1,
+	'registerListener',
+	'');
+INSERT INTO C_IO
+	VALUES (5,
+	6,
+	'registerListener',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (7,
+	4,
+	-1,
+	'unregisterListener',
+	'');
+INSERT INTO C_IO
+	VALUES (7,
+	6,
+	'unregisterListener',
+	'',
+	0,
+	'',
+	5);
+INSERT INTO PE_PE
+	VALUES (8,
+	1,
+	3,
+	0,
+	6);
+INSERT INTO C_I
+	VALUES (8,
+	0,
+	'TrackingLocation',
+	'');
+INSERT INTO C_EP
+	VALUES (9,
+	8,
+	-1,
+	'getDistance',
+	'Returns distance, in kilometers, between the "from" and "to" coordinates passed as parameters.
+The coordinates must be passed as decimal degrees.');
+INSERT INTO C_IO
+	VALUES (9,
+	10,
+	'getDistance',
+	'Returns distance, in kilometers, between the "from" and "to" coordinates passed as parameters.
+The coordinates must be passed as decimal degrees.',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (11,
+	9,
+	10,
+	'fromLat',
+	'Latitude for the "from" coordinates.',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (12,
+	9,
+	10,
+	'toLat',
+	'Latitude for the "to" coordinates.',
+	0,
+	'',
+	13);
+INSERT INTO C_PP
+	VALUES (13,
+	9,
+	10,
+	'fromLong',
+	'Longitude for the "from" coordinates.',
+	0,
+	'',
+	11);
+INSERT INTO C_PP
+	VALUES (14,
+	9,
+	10,
+	'toLong',
+	'Longitude for the "to" coordinates.',
+	0,
+	'',
+	12);
+INSERT INTO C_EP
+	VALUES (15,
+	8,
+	-1,
+	'getLocation',
+	'');
+INSERT INTO C_IO
+	VALUES (15,
+	6,
+	'getLocation',
+	'',
+	0,
+	'',
+	9);
+INSERT INTO C_PP
+	VALUES (16,
+	15,
+	10,
+	'latitude',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (17,
+	15,
+	10,
+	'longitude',
+	'',
+	0,
+	'',
+	16);
+INSERT INTO C_EP
+	VALUES (18,
+	8,
+	-1,
+	'registerListener',
+	'');
+INSERT INTO C_IO
+	VALUES (18,
+	6,
+	'registerListener',
+	'',
+	0,
+	'',
+	15);
+INSERT INTO C_EP
+	VALUES (19,
+	8,
+	-1,
+	'unregisterListener',
+	'');
+INSERT INTO C_IO
+	VALUES (19,
+	6,
+	'unregisterListener',
+	'',
+	0,
+	'',
+	18);
+INSERT INTO PE_PE
+	VALUES (20,
+	1,
+	3,
+	0,
+	6);
+INSERT INTO C_I
+	VALUES (20,
+	0,
+	'TrackingUI',
+	'');
+INSERT INTO C_EP
+	VALUES (21,
+	20,
+	-1,
+	'setData',
+	'');
+INSERT INTO C_IO
+	VALUES (21,
+	6,
+	'setData',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (22,
+	21,
+	10,
+	'value',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (23,
+	21,
+	24,
+	'unit',
+	'',
+	0,
+	'',
+	22);
+INSERT INTO C_EP
+	VALUES (25,
+	20,
+	-1,
+	'setIndicator',
+	'');
+INSERT INTO C_IO
+	VALUES (25,
+	6,
+	'setIndicator',
+	'',
+	0,
+	'',
+	21);
+INSERT INTO C_PP
+	VALUES (26,
+	25,
+	27,
+	'indicator',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (28,
+	20,
+	-1,
+	'setTime',
+	'');
+INSERT INTO C_IO
+	VALUES (28,
+	6,
+	'setTime',
+	'',
+	0,
+	'',
+	25);
+INSERT INTO C_PP
+	VALUES (29,
+	28,
+	30,
+	'time',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (31,
+	20,
+	-1,
+	'newGoalSpec',
+	'');
+INSERT INTO C_IO
+	VALUES (31,
+	6,
+	'newGoalSpec',
+	'',
+	0,
+	'',
+	28);
+INSERT INTO C_PP
+	VALUES (32,
+	31,
+	30,
+	'sequenceNumber',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (33,
+	31,
+	10,
+	'minimum',
+	'',
+	0,
+	'',
+	32);
+INSERT INTO C_PP
+	VALUES (34,
+	31,
+	10,
+	'maximum',
+	'',
+	0,
+	'',
+	33);
+INSERT INTO C_PP
+	VALUES (35,
+	31,
+	10,
+	'span',
+	'',
+	0,
+	'',
+	34);
+INSERT INTO C_PP
+	VALUES (36,
+	31,
+	37,
+	'criteriaType',
+	'',
+	0,
+	'',
+	35);
+INSERT INTO C_PP
+	VALUES (38,
+	31,
+	39,
+	'spanType',
+	'',
+	0,
+	'',
+	36);
+INSERT INTO PE_PE
+	VALUES (40,
+	1,
+	3,
+	0,
+	6);
+INSERT INTO C_I
+	VALUES (40,
+	0,
+	'Tracking',
+	'');
+INSERT INTO C_EP
+	VALUES (41,
+	40,
+	-1,
+	'heartRateChanged',
+	'');
+INSERT INTO C_IO
+	VALUES (41,
+	6,
+	'heartRateChanged',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (42,
+	41,
+	30,
+	'heartRate',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_EP
+	VALUES (43,
+	40,
+	-1,
+	'lapResetPressed',
+	'');
+INSERT INTO C_IO
+	VALUES (43,
+	6,
+	'lapResetPressed',
+	'',
+	0,
+	'',
+	41);
+INSERT INTO C_EP
+	VALUES (44,
+	40,
+	-1,
+	'modePressed',
+	'');
+INSERT INTO C_IO
+	VALUES (44,
+	6,
+	'modePressed',
+	'',
+	0,
+	'',
+	43);
+INSERT INTO C_EP
+	VALUES (45,
+	40,
+	-1,
+	'setTargetPressed',
+	'');
+INSERT INTO C_IO
+	VALUES (45,
+	6,
+	'setTargetPressed',
+	'',
+	0,
+	'',
+	44);
+INSERT INTO C_EP
+	VALUES (46,
+	40,
+	-1,
+	'startStopPressed',
+	'');
+INSERT INTO C_IO
+	VALUES (46,
+	6,
+	'startStopPressed',
+	'',
+	0,
+	'',
+	45);
+INSERT INTO C_EP
+	VALUES (47,
+	40,
+	-1,
+	'newGoalSpec',
+	'');
+INSERT INTO C_IO
+	VALUES (47,
+	6,
+	'newGoalSpec',
+	'',
+	0,
+	'',
+	46);
+INSERT INTO C_PP
+	VALUES (48,
+	47,
+	30,
+	'sequenceNumber',
+	'',
+	0,
+	'',
+	0);
+INSERT INTO C_PP
+	VALUES (49,
+	47,
+	10,
+	'minimum',
+	'',
+	0,
+	'',
+	48);
+INSERT INTO C_PP
+	VALUES (50,
+	47,
+	10,
+	'maximum',
+	'',
+	0,
+	'',
+	49);
+INSERT INTO C_PP
+	VALUES (51,
+	47,
+	10,
+	'span',
+	'',
+	0,
+	'',
+	50);
+INSERT INTO C_PP
+	VALUES (52,
+	47,
+	37,
+	'criteriaType',
+	'',
+	0,
+	'',
+	51);
+INSERT INTO C_PP
+	VALUES (53,
+	47,
+	39,
+	'spanType',
+	'',
+	0,
+	'',
+	52);
+INSERT INTO C_EP
+	VALUES (54,
+	40,
+	-1,
+	'lightPressed',
+	'');
+INSERT INTO C_IO
+	VALUES (54,
+	6,
+	'lightPressed',
+	'',
+	0,
+	'',
+	47);
+INSERT INTO PE_PE
+	VALUES (55,
+	1,
+	2,
+	0,
 	2);
 INSERT INTO C_C
-	VALUES (3,
+	VALUES (55,
 	0,
 	0,
 	'Tracking',
@@ -31,47 +535,47 @@ product.',
 	0,
 	'');
 INSERT INTO C_PO
-	VALUES (4,
-	3,
+	VALUES (56,
+	55,
 	'Location',
 	0,
 	0);
 INSERT INTO C_IR
-	VALUES (5,
-	6,
+	VALUES (57,
+	8,
 	0,
-	4);
+	56);
 INSERT INTO C_R
-	VALUES (5,
+	VALUES (57,
 	'TrackingLocation',
 	'',
 	'Unnamed Interface',
 	'Tracking::Location::TrackingLocation');
 INSERT INTO SPR_REP
-	VALUES (7,
-	8,
-	5);
+	VALUES (58,
+	9,
+	57);
 INSERT INTO SPR_RO
-	VALUES (7,
+	VALUES (58,
 	'getDistance',
 	'Returns distance, in kilometers, between the "from" and "to" coordinates passed as parameters.
 The coordinates must be passed as decimal degrees.',
 	'return 1;',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (9,
-	7);
+	VALUES (59,
+	58);
 INSERT INTO ACT_ACT
-	VALUES (9,
+	VALUES (59,
 	'interface operation',
 	0,
-	10,
+	60,
 	0,
 	0,
 	'Location::TrackingLocation::getDistance',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (10,
+	VALUES (60,
 	0,
 	0,
 	0,
@@ -91,20 +595,20 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	9,
+	59,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (11,
-	10,
+	VALUES (61,
+	60,
 	0,
 	1,
 	1,
 	'Location::TrackingLocation::getDistance line: 1');
 INSERT INTO ACT_RET
-	VALUES (11,
-	12);
+	VALUES (61,
+	62);
 INSERT INTO V_VAL
-	VALUES (12,
+	VALUES (62,
 	0,
 	0,
 	1,
@@ -114,35 +618,35 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	10);
+	30,
+	60);
 INSERT INTO V_LIN
-	VALUES (12,
+	VALUES (62,
 	'1');
 INSERT INTO SPR_REP
-	VALUES (14,
+	VALUES (63,
 	15,
-	5);
+	57);
 INSERT INTO SPR_RO
-	VALUES (14,
+	VALUES (63,
 	'getLocation',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (16,
-	14);
+	VALUES (64,
+	63);
 INSERT INTO ACT_ACT
-	VALUES (16,
+	VALUES (64,
 	'interface operation',
 	0,
-	17,
+	65,
 	0,
 	0,
 	'Location::TrackingLocation::getLocation',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (17,
+	VALUES (65,
 	0,
 	0,
 	0,
@@ -162,32 +666,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	16,
+	64,
 	0);
 INSERT INTO SPR_REP
-	VALUES (18,
-	19,
-	5);
+	VALUES (66,
+	18,
+	57);
 INSERT INTO SPR_RO
-	VALUES (18,
+	VALUES (66,
 	'registerListener',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (20,
-	18);
+	VALUES (67,
+	66);
 INSERT INTO ACT_ACT
-	VALUES (20,
+	VALUES (67,
 	'interface operation',
 	0,
-	21,
+	68,
 	0,
 	0,
 	'Location::TrackingLocation::registerListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (21,
+	VALUES (68,
 	0,
 	0,
 	0,
@@ -207,32 +711,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	20,
+	67,
 	0);
 INSERT INTO SPR_REP
-	VALUES (22,
-	23,
-	5);
+	VALUES (69,
+	19,
+	57);
 INSERT INTO SPR_RO
-	VALUES (22,
+	VALUES (69,
 	'unregisterListener',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (24,
-	22);
+	VALUES (70,
+	69);
 INSERT INTO ACT_ACT
-	VALUES (24,
+	VALUES (70,
 	'interface operation',
 	0,
-	25,
+	71,
 	0,
 	0,
 	'Location::TrackingLocation::unregisterListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (25,
+	VALUES (71,
 	0,
 	0,
 	0,
@@ -252,49 +756,49 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	24,
+	70,
 	0);
 INSERT INTO C_PO
-	VALUES (26,
-	3,
+	VALUES (72,
+	55,
 	'UI',
 	0,
 	0);
 INSERT INTO C_IR
-	VALUES (27,
-	28,
+	VALUES (73,
+	20,
 	0,
-	26);
+	72);
 INSERT INTO C_R
-	VALUES (27,
+	VALUES (73,
 	'TrackingUI',
 	'',
 	'Unnamed Interface',
 	'Tracking::UI::TrackingUI');
 INSERT INTO SPR_REP
-	VALUES (29,
-	30,
-	27);
+	VALUES (74,
+	21,
+	73);
 INSERT INTO SPR_RO
-	VALUES (29,
+	VALUES (74,
 	'setData',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (31,
-	29);
+	VALUES (75,
+	74);
 INSERT INTO ACT_ACT
-	VALUES (31,
+	VALUES (75,
 	'interface operation',
 	0,
-	32,
+	76,
 	0,
 	0,
 	'UI::TrackingUI::setData',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (32,
+	VALUES (76,
 	0,
 	0,
 	0,
@@ -314,32 +818,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	31,
+	75,
 	0);
 INSERT INTO SPR_REP
-	VALUES (33,
-	34,
-	27);
+	VALUES (77,
+	25,
+	73);
 INSERT INTO SPR_RO
-	VALUES (33,
+	VALUES (77,
 	'setIndicator',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (35,
-	33);
+	VALUES (78,
+	77);
 INSERT INTO ACT_ACT
-	VALUES (35,
+	VALUES (78,
 	'interface operation',
 	0,
-	36,
+	79,
 	0,
 	0,
 	'UI::TrackingUI::setIndicator',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (36,
+	VALUES (79,
 	0,
 	0,
 	0,
@@ -359,32 +863,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	35,
+	78,
 	0);
 INSERT INTO SPR_REP
-	VALUES (37,
-	38,
-	27);
+	VALUES (80,
+	28,
+	73);
 INSERT INTO SPR_RO
-	VALUES (37,
+	VALUES (80,
 	'setTime',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (39,
-	37);
+	VALUES (81,
+	80);
 INSERT INTO ACT_ACT
-	VALUES (39,
+	VALUES (81,
 	'interface operation',
 	0,
-	40,
+	82,
 	0,
 	0,
 	'UI::TrackingUI::setTime',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (40,
+	VALUES (82,
 	0,
 	0,
 	0,
@@ -404,32 +908,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	39,
+	81,
 	0);
 INSERT INTO SPR_REP
-	VALUES (41,
-	42,
-	27);
+	VALUES (83,
+	31,
+	73);
 INSERT INTO SPR_RO
-	VALUES (41,
+	VALUES (83,
 	'newGoalSpec',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (43,
-	41);
+	VALUES (84,
+	83);
 INSERT INTO ACT_ACT
-	VALUES (43,
+	VALUES (84,
 	'interface operation',
 	0,
-	44,
+	85,
 	0,
 	0,
 	'UI::TrackingUI::newGoalSpec',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (44,
+	VALUES (85,
 	0,
 	0,
 	0,
@@ -449,49 +953,49 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	43,
+	84,
 	0);
 INSERT INTO C_PO
-	VALUES (45,
-	3,
+	VALUES (86,
+	55,
 	'HeartRateMonitor',
 	0,
 	0);
 INSERT INTO C_IR
-	VALUES (46,
-	47,
+	VALUES (87,
+	4,
 	0,
-	45);
+	86);
 INSERT INTO C_R
-	VALUES (46,
+	VALUES (87,
 	'TrackingHeartRateMonitor',
 	'',
 	'Unnamed Interface',
 	'Tracking::HeartRateMonitor::TrackingHeartRateMonitor');
 INSERT INTO SPR_REP
-	VALUES (48,
-	49,
-	46);
+	VALUES (88,
+	5,
+	87);
 INSERT INTO SPR_RO
-	VALUES (48,
+	VALUES (88,
 	'registerListener',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (50,
-	48);
+	VALUES (89,
+	88);
 INSERT INTO ACT_ACT
-	VALUES (50,
+	VALUES (89,
 	'interface operation',
 	0,
-	51,
+	90,
 	0,
 	0,
 	'HeartRateMonitor::TrackingHeartRateMonitor::registerListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (51,
+	VALUES (90,
 	0,
 	0,
 	0,
@@ -511,32 +1015,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	50,
+	89,
 	0);
 INSERT INTO SPR_REP
-	VALUES (52,
-	53,
-	46);
+	VALUES (91,
+	7,
+	87);
 INSERT INTO SPR_RO
-	VALUES (52,
+	VALUES (91,
 	'unregisterListener',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (54,
-	52);
+	VALUES (92,
+	91);
 INSERT INTO ACT_ACT
-	VALUES (54,
+	VALUES (92,
 	'interface operation',
 	0,
-	55,
+	93,
 	0,
 	0,
 	'HeartRateMonitor::TrackingHeartRateMonitor::unregisterListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (55,
+	VALUES (93,
 	0,
 	0,
 	0,
@@ -556,31 +1060,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	54,
+	92,
 	0);
 INSERT INTO C_PO
-	VALUES (56,
-	3,
+	VALUES (94,
+	55,
 	'Tracking',
 	0,
 	0);
 INSERT INTO C_IR
-	VALUES (57,
-	58,
+	VALUES (95,
+	40,
 	0,
-	56);
+	94);
 INSERT INTO C_P
-	VALUES (57,
+	VALUES (95,
 	'Tracking',
 	'Unnamed Interface',
 	'',
 	'Tracking::Tracking::Tracking');
 INSERT INTO SPR_PEP
-	VALUES (59,
-	60,
-	57);
+	VALUES (96,
+	41,
+	95);
 INSERT INTO SPR_PO
-	VALUES (59,
+	VALUES (96,
 	'heartRateChanged',
 	'',
 	'// Find the singleton instance of the workout session
@@ -594,19 +1098,19 @@ if (not empty session)
 end if;',
 	1);
 INSERT INTO ACT_POB
-	VALUES (61,
-	59);
+	VALUES (97,
+	96);
 INSERT INTO ACT_ACT
-	VALUES (61,
+	VALUES (97,
 	'interface operation',
 	0,
-	62,
+	98,
 	0,
 	0,
 	'Tracking::Tracking::heartRateChanged',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (62,
+	VALUES (98,
 	1,
 	0,
 	0,
@@ -626,38 +1130,38 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	61,
+	97,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (63,
-	62,
-	64,
+	VALUES (99,
+	98,
+	100,
 	6,
 	1,
 	'Tracking::Tracking::heartRateChanged line: 6');
 INSERT INTO ACT_FIO
-	VALUES (63,
-	65,
+	VALUES (99,
+	101,
 	1,
 	'any',
-	66,
+	102,
 	6,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (64,
-	62,
+	VALUES (100,
+	98,
 	0,
 	7,
 	1,
 	'Tracking::Tracking::heartRateChanged line: 7');
 INSERT INTO ACT_IF
-	VALUES (64,
-	67,
-	68,
+	VALUES (100,
+	103,
+	104,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (69,
+	VALUES (105,
 	0,
 	0,
 	7,
@@ -667,13 +1171,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	62);
+	106,
+	98);
 INSERT INTO V_IRF
-	VALUES (69,
-	65);
+	VALUES (105,
+	101);
 INSERT INTO V_VAL
-	VALUES (71,
+	VALUES (107,
 	0,
 	0,
 	-1,
@@ -683,14 +1187,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	62);
+	108,
+	98);
 INSERT INTO V_UNY
-	VALUES (71,
-	69,
+	VALUES (107,
+	105,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (68,
+	VALUES (104,
 	0,
 	0,
 	-1,
@@ -700,24 +1204,24 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	62);
+	108,
+	98);
 INSERT INTO V_UNY
-	VALUES (68,
-	71,
+	VALUES (104,
+	107,
 	'not');
 INSERT INTO V_VAR
-	VALUES (65,
-	62,
+	VALUES (101,
+	98,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (65,
+	VALUES (101,
 	0,
-	66);
+	102);
 INSERT INTO ACT_BLK
-	VALUES (67,
+	VALUES (103,
 	0,
 	0,
 	0,
@@ -737,25 +1241,25 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	61,
+	97,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (73,
-	67,
+	VALUES (109,
+	103,
 	0,
 	8,
 	3,
 	'Tracking::Tracking::heartRateChanged line: 8');
 INSERT INTO ACT_TFM
-	VALUES (73,
-	74,
-	65,
+	VALUES (109,
+	110,
+	101,
 	8,
 	11,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (75,
+	VALUES (111,
 	0,
 	0,
 	8,
@@ -765,28 +1269,28 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	67);
+	30,
+	103);
 INSERT INTO V_PVL
-	VALUES (75,
+	VALUES (111,
 	0,
 	0,
 	0,
-	76);
+	42);
 INSERT INTO V_PAR
-	VALUES (75,
-	73,
+	VALUES (111,
+	109,
 	0,
 	'heartRate',
 	0,
 	8,
 	30);
 INSERT INTO SPR_PEP
-	VALUES (77,
-	78,
-	57);
+	VALUES (112,
+	43,
+	95);
 INSERT INTO SPR_PO
-	VALUES (77,
+	VALUES (112,
 	'lapResetPressed',
 	'',
 	'// Find the singleton instance of the workout timer 
@@ -801,19 +1305,19 @@ end if;
 ',
 	1);
 INSERT INTO ACT_POB
-	VALUES (79,
-	77);
+	VALUES (113,
+	112);
 INSERT INTO ACT_ACT
-	VALUES (79,
+	VALUES (113,
 	'interface operation',
 	0,
-	80,
+	114,
 	0,
 	0,
 	'Tracking::Tracking::lapResetPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (80,
+	VALUES (114,
 	1,
 	0,
 	0,
@@ -833,49 +1337,49 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	79,
+	113,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (81,
-	80,
-	82,
+	VALUES (115,
+	114,
+	116,
 	4,
 	1,
 	'Tracking::Tracking::lapResetPressed line: 4');
 INSERT INTO ACT_FIO
-	VALUES (81,
-	83,
+	VALUES (115,
+	117,
 	1,
 	'any',
-	84,
+	118,
 	4,
 	43);
 INSERT INTO ACT_SMT
-	VALUES (82,
-	80,
+	VALUES (116,
+	114,
 	0,
 	5,
 	1,
 	'Tracking::Tracking::lapResetPressed line: 5');
 INSERT INTO ACT_IF
-	VALUES (82,
-	85,
-	86,
+	VALUES (116,
+	119,
+	120,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (87,
-	80,
+	VALUES (121,
+	114,
 	0,
 	7,
 	1,
 	'Tracking::Tracking::lapResetPressed line: 7');
 INSERT INTO ACT_E
-	VALUES (87,
-	88,
-	82);
+	VALUES (121,
+	122,
+	116);
 INSERT INTO V_VAL
-	VALUES (89,
+	VALUES (123,
 	0,
 	0,
 	5,
@@ -885,13 +1389,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	80);
+	106,
+	114);
 INSERT INTO V_IRF
-	VALUES (89,
-	83);
+	VALUES (123,
+	117);
 INSERT INTO V_VAL
-	VALUES (90,
+	VALUES (124,
 	0,
 	0,
 	-1,
@@ -901,14 +1405,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	80);
+	108,
+	114);
 INSERT INTO V_UNY
-	VALUES (90,
-	89,
+	VALUES (124,
+	123,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (86,
+	VALUES (120,
 	0,
 	0,
 	-1,
@@ -918,24 +1422,24 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	80);
+	108,
+	114);
 INSERT INTO V_UNY
-	VALUES (86,
-	90,
+	VALUES (120,
+	124,
 	'not');
 INSERT INTO V_VAR
-	VALUES (83,
-	80,
+	VALUES (117,
+	114,
 	'workoutTimer',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (83,
+	VALUES (117,
 	0,
-	84);
+	118);
 INSERT INTO ACT_BLK
-	VALUES (85,
+	VALUES (119,
 	0,
 	0,
 	0,
@@ -955,17 +1459,17 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	79,
+	113,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (91,
-	85,
+	VALUES (125,
+	119,
 	0,
 	6,
 	3,
 	'Tracking::Tracking::lapResetPressed line: 6');
 INSERT INTO E_ESS
-	VALUES (91,
+	VALUES (125,
 	1,
 	0,
 	6,
@@ -979,15 +1483,15 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_GES
-	VALUES (91);
+	VALUES (125);
 INSERT INTO E_GSME
-	VALUES (91,
-	92);
+	VALUES (125,
+	126);
 INSERT INTO E_GEN
-	VALUES (91,
-	83);
+	VALUES (125,
+	117);
 INSERT INTO ACT_BLK
-	VALUES (88,
+	VALUES (122,
 	0,
 	0,
 	0,
@@ -1007,24 +1511,24 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	79,
+	113,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (93,
-	88,
+	VALUES (127,
+	122,
 	0,
 	8,
 	3,
 	'Tracking::Tracking::lapResetPressed line: 8');
 INSERT INTO ACT_BRG
-	VALUES (93,
-	94,
+	VALUES (127,
+	128,
 	8,
 	8,
 	8,
 	3);
 INSERT INTO V_VAL
-	VALUES (95,
+	VALUES (129,
 	0,
 	0,
 	8,
@@ -1034,25 +1538,25 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	96,
-	88);
+	130,
+	122);
 INSERT INTO V_LST
-	VALUES (95,
+	VALUES (129,
 	'Tracking:UI:lapResetPressed - No WorkoutTimer, so nothing to do.');
 INSERT INTO V_PAR
-	VALUES (95,
-	93,
+	VALUES (129,
+	127,
 	0,
 	'message',
 	0,
 	8,
 	20);
 INSERT INTO SPR_PEP
-	VALUES (97,
-	98,
-	57);
+	VALUES (131,
+	44,
+	95);
 INSERT INTO SPR_PO
-	VALUES (97,
+	VALUES (131,
 	'modePressed',
 	'',
 	'// Notify the display to change modes.
@@ -1066,19 +1570,19 @@ if ( not empty session )
 end if;',
 	1);
 INSERT INTO ACT_POB
-	VALUES (99,
-	97);
+	VALUES (132,
+	131);
 INSERT INTO ACT_ACT
-	VALUES (99,
+	VALUES (132,
 	'interface operation',
 	0,
-	100,
+	133,
 	0,
 	0,
 	'Tracking::Tracking::modePressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (100,
+	VALUES (133,
 	1,
 	0,
 	0,
@@ -1098,38 +1602,38 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	99,
+	132,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (101,
-	100,
-	102,
+	VALUES (134,
+	133,
+	135,
 	5,
 	1,
 	'Tracking::Tracking::modePressed line: 5');
 INSERT INTO ACT_FIO
-	VALUES (101,
-	103,
+	VALUES (134,
+	136,
 	1,
 	'any',
-	66,
+	102,
 	5,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (102,
-	100,
+	VALUES (135,
+	133,
 	0,
 	6,
 	1,
 	'Tracking::Tracking::modePressed line: 6');
 INSERT INTO ACT_IF
-	VALUES (102,
-	104,
-	105,
+	VALUES (135,
+	137,
+	138,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (106,
+	VALUES (139,
 	0,
 	0,
 	6,
@@ -1139,30 +1643,30 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	100);
-INSERT INTO V_IRF
-	VALUES (106,
-	103);
-INSERT INTO V_VAL
-	VALUES (107,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	100);
-INSERT INTO V_UNY
-	VALUES (107,
 	106,
+	133);
+INSERT INTO V_IRF
+	VALUES (139,
+	136);
+INSERT INTO V_VAL
+	VALUES (140,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	133);
+INSERT INTO V_UNY
+	VALUES (140,
+	139,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (105,
+	VALUES (138,
 	0,
 	0,
 	-1,
@@ -1172,24 +1676,24 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	100);
+	108,
+	133);
 INSERT INTO V_UNY
-	VALUES (105,
-	107,
+	VALUES (138,
+	140,
 	'not');
 INSERT INTO V_VAR
-	VALUES (103,
-	100,
+	VALUES (136,
+	133,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (103,
+	VALUES (136,
 	0,
-	66);
+	102);
 INSERT INTO ACT_BLK
-	VALUES (104,
+	VALUES (137,
 	1,
 	0,
 	0,
@@ -1209,31 +1713,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	99,
+	132,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (108,
-	104,
-	109,
+	VALUES (141,
+	137,
+	142,
 	7,
 	3,
 	'Tracking::Tracking::modePressed line: 7');
 INSERT INTO ACT_SEL
-	VALUES (108,
-	110,
+	VALUES (141,
+	143,
 	1,
 	'one',
-	111);
+	144);
 INSERT INTO ACT_SR
-	VALUES (108);
+	VALUES (141);
 INSERT INTO ACT_LNK
-	VALUES (112,
+	VALUES (145,
 	'''current status indicated on''',
-	108,
-	113,
+	141,
+	146,
 	0,
 	2,
-	114,
+	147,
 	7,
 	42,
 	7,
@@ -1241,14 +1745,14 @@ INSERT INTO ACT_LNK
 	7,
 	53);
 INSERT INTO ACT_SMT
-	VALUES (109,
-	104,
+	VALUES (142,
+	137,
 	0,
 	8,
 	3,
 	'Tracking::Tracking::modePressed line: 8');
 INSERT INTO E_ESS
-	VALUES (109,
+	VALUES (142,
 	1,
 	0,
 	8,
@@ -1262,15 +1766,15 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_GES
-	VALUES (109);
+	VALUES (142);
 INSERT INTO E_GSME
-	VALUES (109,
-	115);
+	VALUES (142,
+	148);
 INSERT INTO E_GEN
-	VALUES (109,
-	110);
+	VALUES (142,
+	143);
 INSERT INTO V_VAL
-	VALUES (111,
+	VALUES (144,
 	0,
 	0,
 	7,
@@ -1280,27 +1784,27 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	104);
+	106,
+	137);
 INSERT INTO V_IRF
-	VALUES (111,
-	103);
+	VALUES (144,
+	136);
 INSERT INTO V_VAR
-	VALUES (110,
-	104,
+	VALUES (143,
+	137,
 	'display',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (110,
+	VALUES (143,
 	0,
-	114);
+	147);
 INSERT INTO SPR_PEP
-	VALUES (116,
-	117,
-	57);
+	VALUES (149,
+	45,
+	95);
 INSERT INTO SPR_PO
-	VALUES (116,
+	VALUES (149,
 	'setTargetPressed',
 	'',
 	'// If a goal is currently executing, advance to the next one,
@@ -1308,19 +1812,19 @@ INSERT INTO SPR_PO
 Goal::nextGoal();',
 	1);
 INSERT INTO ACT_POB
-	VALUES (118,
-	116);
+	VALUES (150,
+	149);
 INSERT INTO ACT_ACT
-	VALUES (118,
+	VALUES (150,
 	'interface operation',
 	0,
-	119,
+	151,
 	0,
 	0,
 	'Tracking::Tracking::setTargetPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (119,
+	VALUES (151,
 	0,
 	0,
 	0,
@@ -1340,54 +1844,54 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	118,
+	150,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (120,
-	119,
+	VALUES (152,
+	151,
 	0,
 	3,
 	1,
 	'Tracking::Tracking::setTargetPressed line: 3');
 INSERT INTO ACT_TFM
-	VALUES (120,
-	121,
+	VALUES (152,
+	153,
 	0,
 	3,
 	7,
 	3,
 	1);
 INSERT INTO SPR_PEP
-	VALUES (122,
-	123,
-	57);
+	VALUES (154,
+	46,
+	95);
 INSERT INTO SPR_PO
-	VALUES (122,
+	VALUES (154,
 	'startStopPressed',
 	'',
 	'// If necessary, create a workout session and everything required to 
 // support it.  Then, forward this signal to the workout timer.
 
-WorkoutSession::create();
+WorkoutSession::sessioncreate();
 
 // Forward this signal, as an event, to the singleton instance of WorkoutTimer.
 select any workoutTimer from instances of WorkoutTimer;
 generate WorkoutTimer1:startStopPressed() to workoutTimer;',
 	1);
 INSERT INTO ACT_POB
-	VALUES (124,
-	122);
+	VALUES (155,
+	154);
 INSERT INTO ACT_ACT
-	VALUES (124,
+	VALUES (155,
 	'interface operation',
 	0,
-	125,
+	156,
 	0,
 	0,
 	'Tracking::Tracking::startStopPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (125,
+	VALUES (156,
 	1,
 	0,
 	0,
@@ -1407,47 +1911,47 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	124,
+	155,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (126,
-	125,
-	127,
+	VALUES (157,
+	156,
+	158,
 	4,
 	1,
 	'Tracking::Tracking::startStopPressed line: 4');
 INSERT INTO ACT_TFM
-	VALUES (126,
-	128,
+	VALUES (157,
+	159,
 	0,
 	4,
 	17,
 	4,
 	1);
 INSERT INTO ACT_SMT
-	VALUES (127,
-	125,
-	129,
+	VALUES (158,
+	156,
+	160,
 	7,
 	1,
 	'Tracking::Tracking::startStopPressed line: 7');
 INSERT INTO ACT_FIO
-	VALUES (127,
-	130,
+	VALUES (158,
+	161,
 	1,
 	'any',
-	84,
+	118,
 	7,
 	43);
 INSERT INTO ACT_SMT
-	VALUES (129,
-	125,
+	VALUES (160,
+	156,
 	0,
 	8,
 	1,
 	'Tracking::Tracking::startStopPressed line: 8');
 INSERT INTO E_ESS
-	VALUES (129,
+	VALUES (160,
 	1,
 	0,
 	8,
@@ -1461,29 +1965,29 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_GES
-	VALUES (129);
+	VALUES (160);
 INSERT INTO E_GSME
-	VALUES (129,
-	131);
+	VALUES (160,
+	162);
 INSERT INTO E_GEN
-	VALUES (129,
-	130);
+	VALUES (160,
+	161);
 INSERT INTO V_VAR
-	VALUES (130,
-	125,
+	VALUES (161,
+	156,
 	'workoutTimer',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (130,
+	VALUES (161,
 	0,
-	84);
+	118);
 INSERT INTO SPR_PEP
-	VALUES (132,
-	133,
-	57);
+	VALUES (163,
+	47,
+	95);
 INSERT INTO SPR_PO
-	VALUES (132,
+	VALUES (163,
 	'newGoalSpec',
 	'',
 	'// Create a new goal specification and relate it to the
@@ -1501,19 +2005,19 @@ if ( not empty session )
 end if;',
 	1);
 INSERT INTO ACT_POB
-	VALUES (134,
-	132);
+	VALUES (164,
+	163);
 INSERT INTO ACT_ACT
-	VALUES (134,
+	VALUES (164,
 	'interface operation',
 	0,
-	135,
+	165,
 	0,
 	0,
 	'Tracking::Tracking::newGoalSpec',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (135,
+	VALUES (165,
 	1,
 	0,
 	0,
@@ -1533,38 +2037,38 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	134,
+	164,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (136,
-	135,
-	137,
+	VALUES (166,
+	165,
+	167,
 	3,
 	1,
 	'Tracking::Tracking::newGoalSpec line: 3');
 INSERT INTO ACT_FIO
-	VALUES (136,
-	138,
+	VALUES (166,
+	168,
 	1,
 	'any',
-	66,
+	102,
 	3,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (137,
-	135,
+	VALUES (167,
+	165,
 	0,
 	4,
 	1,
 	'Tracking::Tracking::newGoalSpec line: 4');
 INSERT INTO ACT_IF
-	VALUES (137,
-	139,
-	140,
+	VALUES (167,
+	169,
+	170,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (141,
+	VALUES (171,
 	0,
 	0,
 	4,
@@ -1574,13 +2078,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	135);
+	106,
+	165);
 INSERT INTO V_IRF
-	VALUES (141,
-	138);
+	VALUES (171,
+	168);
 INSERT INTO V_VAL
-	VALUES (142,
+	VALUES (172,
 	0,
 	0,
 	-1,
@@ -1590,14 +2094,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	135);
+	108,
+	165);
 INSERT INTO V_UNY
-	VALUES (142,
-	141,
+	VALUES (172,
+	171,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (140,
+	VALUES (170,
 	0,
 	0,
 	-1,
@@ -1607,24 +2111,24 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	135);
+	108,
+	165);
 INSERT INTO V_UNY
-	VALUES (140,
-	142,
+	VALUES (170,
+	172,
 	'not');
 INSERT INTO V_VAR
-	VALUES (138,
-	135,
+	VALUES (168,
+	165,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (138,
+	VALUES (168,
 	0,
-	66);
+	102);
 INSERT INTO ACT_BLK
-	VALUES (139,
+	VALUES (169,
 	0,
 	0,
 	0,
@@ -1644,119 +2148,119 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	134,
+	164,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (143,
-	139,
-	144,
+	VALUES (173,
+	169,
+	174,
 	5,
 	3,
 	'Tracking::Tracking::newGoalSpec line: 5');
 INSERT INTO ACT_CR
-	VALUES (143,
-	145,
+	VALUES (173,
+	175,
 	1,
-	146,
+	176,
 	5,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (144,
-	139,
-	147,
+	VALUES (174,
+	169,
+	177,
 	6,
 	3,
 	'Tracking::Tracking::newGoalSpec line: 6');
 INSERT INTO ACT_AI
-	VALUES (144,
-	148,
-	149,
+	VALUES (174,
+	178,
+	179,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (147,
-	139,
-	150,
+	VALUES (177,
+	169,
+	180,
 	7,
 	3,
 	'Tracking::Tracking::newGoalSpec line: 7');
 INSERT INTO ACT_AI
-	VALUES (147,
-	151,
-	152,
+	VALUES (177,
+	181,
+	182,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (150,
-	139,
-	153,
+	VALUES (180,
+	169,
+	183,
 	8,
 	3,
 	'Tracking::Tracking::newGoalSpec line: 8');
 INSERT INTO ACT_AI
-	VALUES (150,
-	154,
-	155,
+	VALUES (180,
+	184,
+	185,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (153,
-	139,
-	156,
+	VALUES (183,
+	169,
+	186,
 	9,
 	3,
 	'Tracking::Tracking::newGoalSpec line: 9');
 INSERT INTO ACT_AI
-	VALUES (153,
-	157,
-	158,
+	VALUES (183,
+	187,
+	188,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (156,
-	139,
-	159,
+	VALUES (186,
+	169,
+	189,
 	10,
 	3,
 	'Tracking::Tracking::newGoalSpec line: 10');
 INSERT INTO ACT_AI
-	VALUES (156,
-	160,
-	161,
+	VALUES (186,
+	190,
+	191,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (159,
-	139,
-	162,
+	VALUES (189,
+	169,
+	192,
 	11,
 	3,
 	'Tracking::Tracking::newGoalSpec line: 11');
 INSERT INTO ACT_AI
-	VALUES (159,
-	163,
-	164,
+	VALUES (189,
+	193,
+	194,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (162,
-	139,
+	VALUES (192,
+	169,
 	0,
 	12,
 	3,
 	'Tracking::Tracking::newGoalSpec line: 12');
 INSERT INTO ACT_REL
-	VALUES (162,
-	145,
-	138,
+	VALUES (192,
+	175,
+	168,
 	'''included in''',
-	165,
+	195,
 	12,
 	37,
 	12,
 	41);
 INSERT INTO V_VAL
-	VALUES (166,
+	VALUES (196,
 	1,
 	0,
 	6,
@@ -1766,13 +2270,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	139);
+	106,
+	169);
 INSERT INTO V_IRF
-	VALUES (166,
-	145);
+	VALUES (196,
+	175);
 INSERT INTO V_VAL
-	VALUES (149,
+	VALUES (179,
 	1,
 	0,
 	6,
@@ -1782,15 +2286,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	139);
+	30,
+	169);
 INSERT INTO V_AVL
-	VALUES (149,
-	166,
-	146,
-	167);
+	VALUES (179,
+	196,
+	176,
+	197);
 INSERT INTO V_VAL
-	VALUES (148,
+	VALUES (178,
 	0,
 	0,
 	6,
@@ -1800,16 +2304,16 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	139);
+	30,
+	169);
 INSERT INTO V_PVL
-	VALUES (148,
+	VALUES (178,
 	0,
 	0,
 	0,
-	168);
+	48);
 INSERT INTO V_VAL
-	VALUES (169,
+	VALUES (198,
 	1,
 	0,
 	7,
@@ -1819,103 +2323,103 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	139);
+	106,
+	169);
 INSERT INTO V_IRF
-	VALUES (169,
-	145);
-INSERT INTO V_VAL
-	VALUES (152,
-	1,
-	0,
-	7,
-	12,
-	18,
-	0,
-	0,
-	0,
-	0,
-	170,
-	139);
-INSERT INTO V_AVL
-	VALUES (152,
-	169,
-	146,
-	171);
-INSERT INTO V_VAL
-	VALUES (151,
-	0,
-	0,
-	7,
-	28,
-	34,
-	0,
-	0,
-	0,
-	0,
-	170,
-	139);
-INSERT INTO V_PVL
-	VALUES (151,
-	0,
-	0,
-	0,
-	172);
-INSERT INTO V_VAL
-	VALUES (173,
-	1,
-	0,
-	8,
-	3,
-	10,
-	0,
-	0,
-	0,
-	0,
-	70,
-	139);
-INSERT INTO V_IRF
-	VALUES (173,
-	145);
-INSERT INTO V_VAL
-	VALUES (155,
-	1,
-	0,
-	8,
-	12,
-	18,
-	0,
-	0,
-	0,
-	0,
-	170,
-	139);
-INSERT INTO V_AVL
-	VALUES (155,
-	173,
-	146,
-	174);
-INSERT INTO V_VAL
-	VALUES (154,
-	0,
-	0,
-	8,
-	28,
-	34,
-	0,
-	0,
-	0,
-	0,
-	170,
-	139);
-INSERT INTO V_PVL
-	VALUES (154,
-	0,
-	0,
-	0,
+	VALUES (198,
 	175);
 INSERT INTO V_VAL
-	VALUES (176,
+	VALUES (182,
+	1,
+	0,
+	7,
+	12,
+	18,
+	0,
+	0,
+	0,
+	0,
+	10,
+	169);
+INSERT INTO V_AVL
+	VALUES (182,
+	198,
+	176,
+	199);
+INSERT INTO V_VAL
+	VALUES (181,
+	0,
+	0,
+	7,
+	28,
+	34,
+	0,
+	0,
+	0,
+	0,
+	10,
+	169);
+INSERT INTO V_PVL
+	VALUES (181,
+	0,
+	0,
+	0,
+	49);
+INSERT INTO V_VAL
+	VALUES (200,
+	1,
+	0,
+	8,
+	3,
+	10,
+	0,
+	0,
+	0,
+	0,
+	106,
+	169);
+INSERT INTO V_IRF
+	VALUES (200,
+	175);
+INSERT INTO V_VAL
+	VALUES (185,
+	1,
+	0,
+	8,
+	12,
+	18,
+	0,
+	0,
+	0,
+	0,
+	10,
+	169);
+INSERT INTO V_AVL
+	VALUES (185,
+	200,
+	176,
+	201);
+INSERT INTO V_VAL
+	VALUES (184,
+	0,
+	0,
+	8,
+	28,
+	34,
+	0,
+	0,
+	0,
+	0,
+	10,
+	169);
+INSERT INTO V_PVL
+	VALUES (184,
+	0,
+	0,
+	0,
+	50);
+INSERT INTO V_VAL
+	VALUES (202,
 	1,
 	0,
 	9,
@@ -1925,13 +2429,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	139);
+	106,
+	169);
 INSERT INTO V_IRF
-	VALUES (176,
-	145);
+	VALUES (202,
+	175);
 INSERT INTO V_VAL
-	VALUES (158,
+	VALUES (188,
 	1,
 	0,
 	9,
@@ -1941,15 +2445,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	139);
+	10,
+	169);
 INSERT INTO V_AVL
-	VALUES (158,
+	VALUES (188,
+	202,
 	176,
-	146,
-	177);
+	203);
 INSERT INTO V_VAL
-	VALUES (157,
+	VALUES (187,
 	0,
 	0,
 	9,
@@ -1959,16 +2463,16 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	139);
+	10,
+	169);
 INSERT INTO V_PVL
-	VALUES (157,
+	VALUES (187,
 	0,
 	0,
 	0,
-	178);
+	51);
 INSERT INTO V_VAL
-	VALUES (179,
+	VALUES (204,
 	1,
 	0,
 	10,
@@ -1978,13 +2482,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	139);
+	106,
+	169);
 INSERT INTO V_IRF
-	VALUES (179,
-	145);
+	VALUES (204,
+	175);
 INSERT INTO V_VAL
-	VALUES (161,
+	VALUES (191,
 	1,
 	0,
 	10,
@@ -1994,15 +2498,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	180,
-	139);
+	37,
+	169);
 INSERT INTO V_AVL
-	VALUES (161,
-	179,
-	146,
-	181);
+	VALUES (191,
+	204,
+	176,
+	205);
 INSERT INTO V_VAL
-	VALUES (160,
+	VALUES (190,
 	0,
 	0,
 	10,
@@ -2012,16 +2516,16 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	180,
-	139);
+	37,
+	169);
 INSERT INTO V_PVL
-	VALUES (160,
+	VALUES (190,
 	0,
 	0,
 	0,
-	182);
+	52);
 INSERT INTO V_VAL
-	VALUES (183,
+	VALUES (206,
 	1,
 	0,
 	11,
@@ -2031,13 +2535,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	139);
+	106,
+	169);
 INSERT INTO V_IRF
-	VALUES (183,
-	145);
+	VALUES (206,
+	175);
 INSERT INTO V_VAL
-	VALUES (164,
+	VALUES (194,
 	1,
 	0,
 	11,
@@ -2047,15 +2551,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	184,
-	139);
+	39,
+	169);
 INSERT INTO V_AVL
-	VALUES (164,
-	183,
-	146,
-	185);
+	VALUES (194,
+	206,
+	176,
+	207);
 INSERT INTO V_VAL
-	VALUES (163,
+	VALUES (193,
 	0,
 	0,
 	11,
@@ -2065,48 +2569,48 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	184,
-	139);
+	39,
+	169);
 INSERT INTO V_PVL
-	VALUES (163,
+	VALUES (193,
 	0,
 	0,
 	0,
-	186);
+	53);
 INSERT INTO V_VAR
-	VALUES (145,
-	139,
+	VALUES (175,
+	169,
 	'goalSpec',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (145,
+	VALUES (175,
 	0,
-	146);
+	176);
 INSERT INTO SPR_PEP
-	VALUES (187,
-	188,
-	57);
+	VALUES (208,
+	54,
+	95);
 INSERT INTO SPR_PO
-	VALUES (187,
+	VALUES (208,
 	'lightPressed',
 	'',
 	'',
 	1);
 INSERT INTO ACT_POB
-	VALUES (189,
-	187);
+	VALUES (209,
+	208);
 INSERT INTO ACT_ACT
-	VALUES (189,
+	VALUES (209,
 	'interface operation',
 	0,
-	190,
+	210,
 	0,
 	0,
 	'Tracking::Tracking::lightPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (190,
+	VALUES (210,
 	0,
 	0,
 	0,
@@ -2126,29 +2630,29 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	189,
+	209,
 	0);
 INSERT INTO PE_PE
-	VALUES (191,
+	VALUES (211,
 	1,
 	0,
-	3,
+	55,
 	7);
 INSERT INTO EP_PKG
-	VALUES (191,
+	VALUES (211,
 	0,
 	1,
 	'Tracking',
 	'',
 	0);
 INSERT INTO PE_PE
-	VALUES (192,
+	VALUES (212,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (192,
+	VALUES (212,
 	1,
 	'Indicates the first track point for a track log.  In
 other words, this is the first recorded location in 
@@ -2158,98 +2662,98 @@ Established when the first track point is recorded and
 exists for the lifetime of the track log.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (192);
+	VALUES (212);
 INSERT INTO R_PART
-	VALUES (193,
-	192,
-	194,
+	VALUES (213,
+	212,
+	214,
 	0,
 	1,
 	'is start of');
 INSERT INTO R_RTO
-	VALUES (193,
-	192,
-	194,
+	VALUES (213,
+	212,
+	214,
 	-1);
 INSERT INTO R_OIR
-	VALUES (193,
-	192,
-	194,
+	VALUES (213,
+	212,
+	214,
 	0);
 INSERT INTO R_PART
-	VALUES (195,
-	192,
-	196,
+	VALUES (215,
+	212,
+	216,
 	0,
 	1,
 	'has first');
 INSERT INTO R_RTO
-	VALUES (195,
-	192,
-	196,
+	VALUES (215,
+	212,
+	216,
 	-1);
 INSERT INTO R_OIR
-	VALUES (195,
-	192,
-	196,
+	VALUES (215,
+	212,
+	216,
 	0);
 INSERT INTO PE_PE
-	VALUES (197,
+	VALUES (217,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (197,
+	VALUES (217,
 	2,
 	'Chronologically sequences the track points in a track log.
 Established each time a new track point is recorded and 
 exists for the lifetime of the track log.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (197);
+	VALUES (217);
 INSERT INTO R_PART
-	VALUES (195,
-	197,
-	198,
+	VALUES (215,
+	217,
+	218,
 	0,
 	1,
 	'preceeds');
 INSERT INTO R_RTO
-	VALUES (195,
-	197,
-	198,
+	VALUES (215,
+	217,
+	218,
 	-1);
 INSERT INTO R_OIR
-	VALUES (195,
-	197,
-	198,
+	VALUES (215,
+	217,
+	218,
 	0);
 INSERT INTO R_PART
-	VALUES (195,
-	197,
-	199,
+	VALUES (215,
+	217,
+	219,
 	0,
 	1,
 	'follows');
 INSERT INTO R_RTO
-	VALUES (195,
-	197,
-	199,
+	VALUES (215,
+	217,
+	219,
 	-1);
 INSERT INTO R_OIR
-	VALUES (195,
-	197,
-	199,
+	VALUES (215,
+	217,
+	219,
 	0);
 INSERT INTO PE_PE
-	VALUES (200,
+	VALUES (220,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (200,
+	VALUES (220,
 	3,
 	'Represents the most recently recorded track point
 in a track log.  
@@ -2257,576 +2761,576 @@ Established each time a new track point is recorded and
 removed from the previously recorded track point at the same time.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (200);
+	VALUES (220);
 INSERT INTO R_PART
-	VALUES (195,
-	200,
-	201,
+	VALUES (215,
+	220,
+	221,
 	0,
 	1,
 	'has last');
 INSERT INTO R_RTO
-	VALUES (195,
-	200,
-	201,
+	VALUES (215,
+	220,
+	221,
 	-1);
 INSERT INTO R_OIR
-	VALUES (195,
-	200,
-	201,
+	VALUES (215,
+	220,
+	221,
 	0);
 INSERT INTO R_PART
-	VALUES (193,
-	200,
-	202,
+	VALUES (213,
+	220,
+	222,
 	0,
 	1,
 	'is last for');
 INSERT INTO R_RTO
-	VALUES (193,
-	200,
-	202,
+	VALUES (213,
+	220,
+	222,
 	-1);
 INSERT INTO R_OIR
-	VALUES (193,
-	200,
-	202,
+	VALUES (213,
+	220,
+	222,
 	0);
 INSERT INTO PE_PE
-	VALUES (203,
+	VALUES (223,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (203,
+	VALUES (223,
 	5,
 	'Established when a lap marker is created and exists
 for the lifetime of the track log.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (203);
+	VALUES (223);
 INSERT INTO R_PART
-	VALUES (204,
-	203,
-	205,
+	VALUES (224,
+	223,
+	225,
 	1,
 	1,
 	'has laps defined by');
 INSERT INTO R_RTO
-	VALUES (204,
-	203,
-	205,
+	VALUES (224,
+	223,
+	225,
 	-1);
 INSERT INTO R_OIR
-	VALUES (204,
-	203,
-	205,
+	VALUES (224,
+	223,
+	225,
 	0);
 INSERT INTO R_PART
-	VALUES (193,
-	203,
-	206,
+	VALUES (213,
+	223,
+	226,
 	0,
 	0,
 	'marks end of lap in');
 INSERT INTO R_RTO
-	VALUES (193,
-	203,
-	206,
+	VALUES (213,
+	223,
+	226,
 	-1);
 INSERT INTO R_OIR
-	VALUES (193,
-	203,
-	206,
+	VALUES (213,
+	223,
+	226,
 	0);
 INSERT INTO PE_PE
-	VALUES (113,
+	VALUES (146,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (113,
+	VALUES (146,
 	7,
 	'Established when a workout session is created and 
 exists for the duration of the session.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (113);
+	VALUES (146);
 INSERT INTO R_PART
-	VALUES (66,
-	113,
-	207,
+	VALUES (102,
+	146,
+	227,
 	0,
 	0,
 	'indicates current status of');
 INSERT INTO R_RTO
-	VALUES (66,
-	113,
-	207,
+	VALUES (102,
+	146,
+	227,
 	-1);
 INSERT INTO R_OIR
-	VALUES (66,
-	113,
-	207,
+	VALUES (102,
+	146,
+	227,
 	0);
 INSERT INTO R_PART
-	VALUES (114,
-	113,
-	208,
+	VALUES (147,
+	146,
+	228,
 	0,
 	0,
 	'current status indicated on');
 INSERT INTO R_RTO
-	VALUES (114,
-	113,
-	208,
+	VALUES (147,
+	146,
+	228,
 	-1);
 INSERT INTO R_OIR
-	VALUES (114,
-	113,
-	208,
+	VALUES (147,
+	146,
+	228,
 	0);
 INSERT INTO PE_PE
-	VALUES (209,
+	VALUES (229,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (209,
+	VALUES (229,
 	8,
 	'Established when a workout session is created and exists for the duration
 of the session.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (209);
+	VALUES (229);
 INSERT INTO R_PART
-	VALUES (66,
-	209,
-	210,
+	VALUES (102,
+	229,
+	230,
 	0,
 	0,
 	'acts as the stopwatch for');
 INSERT INTO R_RTO
-	VALUES (66,
-	209,
-	210,
+	VALUES (102,
+	229,
+	230,
 	-1);
 INSERT INTO R_OIR
-	VALUES (66,
-	209,
-	210,
+	VALUES (102,
+	229,
+	230,
 	0);
 INSERT INTO R_PART
-	VALUES (84,
-	209,
-	211,
+	VALUES (118,
+	229,
+	231,
 	0,
 	0,
 	'is timed by');
 INSERT INTO R_RTO
-	VALUES (84,
-	209,
-	211,
+	VALUES (118,
+	229,
+	231,
 	-1);
 INSERT INTO R_OIR
-	VALUES (84,
-	209,
-	211,
+	VALUES (118,
+	229,
+	231,
 	0);
 INSERT INTO PE_PE
-	VALUES (212,
+	VALUES (232,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (212,
+	VALUES (232,
 	4,
 	'Established when a workout session is created and
 exists for the duration of the session.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (212);
+	VALUES (232);
 INSERT INTO R_PART
-	VALUES (66,
-	212,
-	213,
+	VALUES (102,
+	232,
+	233,
 	0,
 	0,
 	'represents path for');
 INSERT INTO R_RTO
-	VALUES (66,
-	212,
-	213,
+	VALUES (102,
+	232,
+	233,
 	-1);
 INSERT INTO R_OIR
-	VALUES (66,
-	212,
-	213,
+	VALUES (102,
+	232,
+	233,
 	0);
 INSERT INTO R_PART
-	VALUES (193,
-	212,
-	214,
+	VALUES (213,
+	232,
+	234,
 	0,
 	0,
 	'captures path in');
 INSERT INTO R_RTO
-	VALUES (193,
-	212,
-	214,
+	VALUES (213,
+	232,
+	234,
 	-1);
 INSERT INTO R_OIR
-	VALUES (193,
-	212,
-	214,
+	VALUES (213,
+	232,
+	234,
 	0);
 INSERT INTO PE_PE
-	VALUES (215,
+	VALUES (235,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (215,
+	VALUES (235,
 	6,
 	'Established when a heart rate sample is created and exists for
 the duration of the workout session.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (215);
+	VALUES (235);
 INSERT INTO R_PART
-	VALUES (216,
-	215,
-	217,
+	VALUES (236,
+	235,
+	237,
 	1,
 	1,
 	'tracks heart rate over time as');
 INSERT INTO R_RTO
-	VALUES (216,
-	215,
-	217,
+	VALUES (236,
+	235,
+	237,
 	-1);
 INSERT INTO R_OIR
-	VALUES (216,
-	215,
-	217,
+	VALUES (236,
+	235,
+	237,
 	0);
 INSERT INTO R_PART
-	VALUES (66,
-	215,
-	218,
+	VALUES (102,
+	235,
+	238,
 	0,
 	0,
 	'was collected during');
 INSERT INTO R_RTO
-	VALUES (66,
-	215,
-	218,
+	VALUES (102,
+	235,
+	238,
 	-1);
 INSERT INTO R_OIR
-	VALUES (66,
-	215,
-	218,
+	VALUES (102,
+	235,
+	238,
 	0);
 INSERT INTO PE_PE
-	VALUES (219,
+	VALUES (239,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (219,
+	VALUES (239,
 	9,
 	'Established when goal execution begins and removed when it ends.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (219);
+	VALUES (239);
 INSERT INTO R_PART
-	VALUES (146,
-	219,
-	220,
+	VALUES (176,
+	239,
+	240,
 	0,
 	0,
 	'specified by');
 INSERT INTO R_RTO
-	VALUES (146,
-	219,
-	220,
+	VALUES (176,
+	239,
+	240,
 	-1);
 INSERT INTO R_OIR
-	VALUES (146,
-	219,
-	220,
+	VALUES (176,
+	239,
+	240,
 	0);
 INSERT INTO R_PART
-	VALUES (221,
-	219,
-	222,
+	VALUES (241,
+	239,
+	242,
 	1,
 	1,
 	'specifies');
 INSERT INTO R_RTO
-	VALUES (221,
-	219,
-	222,
+	VALUES (241,
+	239,
+	242,
 	-1);
 INSERT INTO R_OIR
-	VALUES (221,
-	219,
-	222,
+	VALUES (241,
+	239,
+	242,
 	0);
 INSERT INTO PE_PE
-	VALUES (165,
+	VALUES (195,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (165,
+	VALUES (195,
 	10,
 	'Established when a goal specification is created and exists 
 for the duration of a workout session.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (165);
+	VALUES (195);
 INSERT INTO R_PART
-	VALUES (66,
-	165,
-	223,
+	VALUES (102,
+	195,
+	243,
 	0,
 	0,
 	'included in');
 INSERT INTO R_RTO
-	VALUES (66,
-	165,
-	223,
+	VALUES (102,
+	195,
+	243,
 	-1);
 INSERT INTO R_OIR
-	VALUES (66,
-	165,
-	223,
+	VALUES (102,
+	195,
+	243,
 	0);
 INSERT INTO R_PART
-	VALUES (146,
-	165,
-	224,
+	VALUES (176,
+	195,
+	244,
 	1,
 	1,
 	'includes');
 INSERT INTO R_RTO
-	VALUES (146,
-	165,
-	224,
+	VALUES (176,
+	195,
+	244,
 	-1);
 INSERT INTO R_OIR
-	VALUES (146,
-	165,
-	224,
+	VALUES (176,
+	195,
+	244,
 	0);
 INSERT INTO PE_PE
-	VALUES (225,
+	VALUES (245,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (225,
+	VALUES (245,
 	11,
 	'Established when a goal begins executing and removed when it ends.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (225);
+	VALUES (245);
 INSERT INTO R_PART
-	VALUES (66,
-	225,
-	226,
+	VALUES (102,
+	245,
+	246,
 	0,
 	1,
 	'is currently executing within');
 INSERT INTO R_RTO
-	VALUES (66,
-	225,
-	226,
+	VALUES (102,
+	245,
+	246,
 	-1);
 INSERT INTO R_OIR
-	VALUES (66,
-	225,
-	226,
+	VALUES (102,
+	245,
+	246,
 	0);
 INSERT INTO R_PART
-	VALUES (221,
-	225,
-	227,
+	VALUES (241,
+	245,
+	247,
 	0,
 	1,
 	'is currently executing');
 INSERT INTO R_RTO
-	VALUES (221,
-	225,
-	227,
+	VALUES (241,
+	245,
+	247,
 	-1);
 INSERT INTO R_OIR
-	VALUES (221,
-	225,
-	227,
+	VALUES (241,
+	245,
+	247,
 	0);
 INSERT INTO PE_PE
-	VALUES (228,
+	VALUES (248,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (228,
+	VALUES (248,
 	12,
 	'Established when an achievement period begins and exists for 
 the duration of the associated workout session.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (228);
+	VALUES (248);
 INSERT INTO R_PART
-	VALUES (221,
-	228,
-	229,
+	VALUES (241,
+	248,
+	249,
 	0,
 	0,
 	'specifies achievement of');
 INSERT INTO R_RTO
-	VALUES (221,
-	228,
-	229,
+	VALUES (241,
+	248,
+	249,
 	-1);
 INSERT INTO R_OIR
-	VALUES (221,
-	228,
-	229,
+	VALUES (241,
+	248,
+	249,
 	0);
 INSERT INTO R_PART
-	VALUES (230,
-	228,
-	231,
+	VALUES (250,
+	248,
+	251,
 	1,
 	1,
 	'has recorded');
 INSERT INTO R_RTO
-	VALUES (230,
-	228,
-	231,
+	VALUES (250,
+	248,
+	251,
 	-1);
 INSERT INTO R_OIR
-	VALUES (230,
-	228,
-	231,
+	VALUES (250,
+	248,
+	251,
 	0);
 INSERT INTO PE_PE
-	VALUES (232,
+	VALUES (252,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (232,
+	VALUES (252,
 	13,
 	'Established when a goal completes execution and exists for the 
 duration of the associated workout session.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (232);
+	VALUES (252);
 INSERT INTO R_PART
-	VALUES (221,
-	232,
-	233,
+	VALUES (241,
+	252,
+	253,
 	1,
 	1,
 	'has executed');
 INSERT INTO R_RTO
-	VALUES (221,
-	232,
-	233,
+	VALUES (241,
+	252,
+	253,
 	-1);
 INSERT INTO R_OIR
-	VALUES (221,
-	232,
-	233,
+	VALUES (241,
+	252,
+	253,
 	0);
 INSERT INTO R_PART
-	VALUES (66,
-	232,
-	234,
+	VALUES (102,
+	252,
+	254,
 	0,
 	0,
 	'was executed within');
 INSERT INTO R_RTO
-	VALUES (66,
-	232,
-	234,
+	VALUES (102,
+	252,
+	254,
 	-1);
 INSERT INTO R_OIR
-	VALUES (66,
-	232,
-	234,
+	VALUES (102,
+	252,
+	254,
 	0);
 INSERT INTO PE_PE
-	VALUES (235,
+	VALUES (255,
 	1,
-	191,
+	211,
 	0,
 	9);
 INSERT INTO R_REL
-	VALUES (235,
+	VALUES (255,
 	14,
 	'Represents an open achievement record, one for which a start time has been recorded
 but no end time has yet been recorded.  In other words, this association exists only
 while the currently executing goal is being achieved.',
 	0);
 INSERT INTO R_SIMP
-	VALUES (235);
+	VALUES (255);
 INSERT INTO R_PART
-	VALUES (221,
-	235,
-	236,
+	VALUES (241,
+	255,
+	256,
 	0,
 	1,
 	'is open for');
 INSERT INTO R_RTO
-	VALUES (221,
-	235,
-	236,
+	VALUES (241,
+	255,
+	256,
 	-1);
 INSERT INTO R_OIR
-	VALUES (221,
-	235,
-	236,
+	VALUES (241,
+	255,
+	256,
 	0);
 INSERT INTO R_PART
-	VALUES (230,
-	235,
-	237,
+	VALUES (250,
+	255,
+	257,
 	0,
 	1,
 	'has open');
 INSERT INTO R_RTO
-	VALUES (230,
-	235,
-	237,
+	VALUES (250,
+	255,
+	257,
 	-1);
 INSERT INTO R_OIR
-	VALUES (230,
-	235,
-	237,
+	VALUES (250,
+	255,
+	257,
 	0);
 INSERT INTO PE_PE
-	VALUES (238,
+	VALUES (258,
 	1,
-	191,
+	211,
 	0,
 	5);
 INSERT INTO S_EE
-	VALUES (238,
+	VALUES (258,
 	'Logging',
 	'',
 	'LOG',
@@ -2835,261 +3339,27 @@ INSERT INTO S_EE
 	'Logging',
 	1);
 INSERT INTO S_BRG
-	VALUES (239,
-	238,
+	VALUES (259,
+	258,
 	'LogSuccess',
 	'',
 	0,
-	240,
+	6,
 	'',
 	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (241,
-	239,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (242,
-	239);
-INSERT INTO ACT_ACT
-	VALUES (242,
-	'bridge',
-	0,
-	243,
-	0,
-	0,
-	'Logging::LogSuccess',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (243,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	242,
-	0);
-INSERT INTO S_BRG
-	VALUES (94,
-	238,
-	'LogFailure',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (244,
-	94,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (245,
-	94);
-INSERT INTO ACT_ACT
-	VALUES (245,
-	'bridge',
-	0,
-	246,
-	0,
-	0,
-	'Logging::LogFailure',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (246,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	245,
-	0);
-INSERT INTO S_BRG
-	VALUES (247,
-	238,
-	'LogInfo',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (248,
-	247,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (249,
-	247);
-INSERT INTO ACT_ACT
-	VALUES (249,
-	'bridge',
-	0,
-	250,
-	0,
-	0,
-	'Logging::LogInfo',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (250,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	249,
-	0);
-INSERT INTO S_BRG
-	VALUES (251,
-	238,
-	'LogDate',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (252,
-	251,
-	'd',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO S_BPARM
-	VALUES (254,
-	251,
-	'message',
-	96,
-	0,
-	'',
-	252,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (255,
-	251);
-INSERT INTO ACT_ACT
-	VALUES (255,
-	'bridge',
-	0,
-	256,
-	0,
-	0,
-	'Logging::LogDate',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (256,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	255,
-	0);
-INSERT INTO S_BRG
-	VALUES (257,
-	238,
-	'LogTime',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (258,
-	257,
-	't',
-	259,
-	0,
-	'',
-	260,
 	'');
 INSERT INTO S_BPARM
 	VALUES (260,
-	257,
+	259,
 	'message',
-	96,
+	130,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (261,
-	257);
+	259);
 INSERT INTO ACT_ACT
 	VALUES (261,
 	'bridge',
@@ -3097,7 +3367,7 @@ INSERT INTO ACT_ACT
 	262,
 	0,
 	0,
-	'Logging::LogTime',
+	'Logging::LogSuccess',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (262,
@@ -3123,47 +3393,38 @@ INSERT INTO ACT_BLK
 	261,
 	0);
 INSERT INTO S_BRG
+	VALUES (128,
+	258,
+	'LogFailure',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
 	VALUES (263,
-	238,
-	'LogReal',
+	128,
+	'message',
+	130,
+	0,
 	'',
 	0,
-	240,
-	'',
-	1,
 	'');
-INSERT INTO S_BPARM
+INSERT INTO ACT_BRB
 	VALUES (264,
-	263,
-	'r',
-	170,
+	128);
+INSERT INTO ACT_ACT
+	VALUES (264,
+	'bridge',
 	0,
-	'',
 	265,
-	'');
-INSERT INTO S_BPARM
+	0,
+	0,
+	'Logging::LogFailure',
+	0);
+INSERT INTO ACT_BLK
 	VALUES (265,
-	263,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (266,
-	263);
-INSERT INTO ACT_ACT
-	VALUES (266,
-	'bridge',
-	0,
-	267,
-	0,
-	0,
-	'Logging::LogReal',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (267,
 	0,
 	0,
 	0,
@@ -3183,41 +3444,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	266,
+	264,
 	0);
 INSERT INTO S_BRG
-	VALUES (268,
-	238,
-	'LogInteger',
+	VALUES (266,
+	258,
+	'LogInfo',
 	'',
 	0,
-	240,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (269,
-	268,
+	VALUES (267,
+	266,
 	'message',
-	13,
+	130,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (270,
-	268);
+	VALUES (268,
+	266);
 INSERT INTO ACT_ACT
-	VALUES (270,
+	VALUES (268,
 	'bridge',
 	0,
-	271,
+	269,
 	0,
 	0,
-	'Logging::LogInteger',
+	'Logging::LogInfo',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (271,
+	VALUES (269,
 	0,
 	0,
 	0,
@@ -3237,36 +3498,39 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	270,
+	268,
 	0);
-INSERT INTO PE_PE
-	VALUES (272,
-	1,
-	191,
-	0,
-	5);
-INSERT INTO S_EE
-	VALUES (272,
-	'Time',
-	'The Time external entity provides date, timestamp, and timer related operations.',
-	'TIM',
-	0,
-	'',
-	'Time',
-	1);
 INSERT INTO S_BRG
-	VALUES (273,
+	VALUES (270,
+	258,
+	'LogDate',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (271,
+	270,
+	'd',
 	272,
-	'current_date',
+	0,
 	'',
-	1,
-	253,
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES (273,
+	270,
+	'message',
+	130,
+	0,
 	'',
-	1,
+	271,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (274,
-	273);
+	270);
 INSERT INTO ACT_ACT
 	VALUES (274,
 	'bridge',
@@ -3274,7 +3538,7 @@ INSERT INTO ACT_ACT
 	275,
 	0,
 	0,
-	'Time::current_date',
+	'Logging::LogDate',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (275,
@@ -3301,82 +3565,322 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (276,
-	272,
-	'create_date',
+	258,
+	'LogTime',
 	'',
-	1,
-	253,
+	0,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (277,
 	276,
-	'second',
-	13,
-	0,
-	'',
+	't',
 	278,
-	'');
-INSERT INTO S_BPARM
-	VALUES (279,
-	276,
-	'minute',
-	13,
-	0,
-	'',
-	280,
-	'');
-INSERT INTO S_BPARM
-	VALUES (280,
-	276,
-	'hour',
-	13,
-	0,
-	'',
-	281,
-	'');
-INSERT INTO S_BPARM
-	VALUES (281,
-	276,
-	'day',
-	13,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO S_BPARM
-	VALUES (278,
-	276,
-	'month',
-	13,
 	0,
 	'',
 	279,
 	'');
 INSERT INTO S_BPARM
-	VALUES (282,
+	VALUES (279,
 	276,
-	'year',
-	13,
+	'message',
+	130,
 	0,
 	'',
-	277,
+	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (283,
+	VALUES (280,
 	276);
 INSERT INTO ACT_ACT
-	VALUES (283,
+	VALUES (280,
 	'bridge',
 	0,
+	281,
+	0,
+	0,
+	'Logging::LogTime',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (281,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	280,
+	0);
+INSERT INTO S_BRG
+	VALUES (282,
+	258,
+	'LogReal',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (283,
+	282,
+	'r',
+	10,
+	0,
+	'',
 	284,
+	'');
+INSERT INTO S_BPARM
+	VALUES (284,
+	282,
+	'message',
+	130,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (285,
+	282);
+INSERT INTO ACT_ACT
+	VALUES (285,
+	'bridge',
+	0,
+	286,
+	0,
+	0,
+	'Logging::LogReal',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (286,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	285,
+	0);
+INSERT INTO S_BRG
+	VALUES (287,
+	258,
+	'LogInteger',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (288,
+	287,
+	'message',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (289,
+	287);
+INSERT INTO ACT_ACT
+	VALUES (289,
+	'bridge',
+	0,
+	290,
+	0,
+	0,
+	'Logging::LogInteger',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (290,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	289,
+	0);
+INSERT INTO PE_PE
+	VALUES (291,
+	1,
+	211,
+	0,
+	5);
+INSERT INTO S_EE
+	VALUES (291,
+	'Time',
+	'The Time external entity provides date, timestamp, and timer related operations.',
+	'TIM',
+	0,
+	'',
+	'Time',
+	1);
+INSERT INTO S_BRG
+	VALUES (292,
+	291,
+	'current_date',
+	'',
+	1,
+	272,
+	'',
+	1,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (293,
+	292);
+INSERT INTO ACT_ACT
+	VALUES (293,
+	'bridge',
+	0,
+	294,
+	0,
+	0,
+	'Time::current_date',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (294,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	293,
+	0);
+INSERT INTO S_BRG
+	VALUES (295,
+	291,
+	'create_date',
+	'',
+	1,
+	272,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (296,
+	295,
+	'second',
+	30,
+	0,
+	'',
+	297,
+	'');
+INSERT INTO S_BPARM
+	VALUES (298,
+	295,
+	'minute',
+	30,
+	0,
+	'',
+	299,
+	'');
+INSERT INTO S_BPARM
+	VALUES (299,
+	295,
+	'hour',
+	30,
+	0,
+	'',
+	300,
+	'');
+INSERT INTO S_BPARM
+	VALUES (300,
+	295,
+	'day',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES (297,
+	295,
+	'month',
+	30,
+	0,
+	'',
+	298,
+	'');
+INSERT INTO S_BPARM
+	VALUES (301,
+	295,
+	'year',
+	30,
+	0,
+	'',
+	296,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (302,
+	295);
+INSERT INTO ACT_ACT
+	VALUES (302,
+	'bridge',
+	0,
+	303,
 	0,
 	0,
 	'Time::create_date',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (284,
+	VALUES (303,
 	0,
 	0,
 	0,
@@ -3396,41 +3900,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	283,
+	302,
 	0);
 INSERT INTO S_BRG
-	VALUES (285,
-	272,
+	VALUES (304,
+	291,
 	'get_second',
 	'',
 	1,
-	13,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (286,
-	285,
+	VALUES (305,
+	304,
 	'date',
-	253,
+	272,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (287,
-	285);
+	VALUES (306,
+	304);
 INSERT INTO ACT_ACT
-	VALUES (287,
+	VALUES (306,
 	'bridge',
 	0,
-	288,
+	307,
 	0,
 	0,
 	'Time::get_second',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (288,
+	VALUES (307,
 	0,
 	0,
 	0,
@@ -3450,291 +3954,30 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	287,
+	306,
 	0);
 INSERT INTO S_BRG
-	VALUES (289,
-	272,
+	VALUES (308,
+	291,
 	'get_minute',
 	'',
 	1,
-	13,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (290,
-	289,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (291,
-	289);
-INSERT INTO ACT_ACT
-	VALUES (291,
-	'bridge',
-	0,
-	292,
-	0,
-	0,
-	'Time::get_minute',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (292,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	291,
-	0);
-INSERT INTO S_BRG
-	VALUES (293,
-	272,
-	'get_hour',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (294,
-	293,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (295,
-	293);
-INSERT INTO ACT_ACT
-	VALUES (295,
-	'bridge',
-	0,
-	296,
-	0,
-	0,
-	'Time::get_hour',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (296,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	295,
-	0);
-INSERT INTO S_BRG
-	VALUES (297,
-	272,
-	'get_day',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (298,
-	297,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (299,
-	297);
-INSERT INTO ACT_ACT
-	VALUES (299,
-	'bridge',
-	0,
-	300,
-	0,
-	0,
-	'Time::get_day',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (300,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	299,
-	0);
-INSERT INTO S_BRG
-	VALUES (301,
-	272,
-	'get_month',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (302,
-	301,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (303,
-	301);
-INSERT INTO ACT_ACT
-	VALUES (303,
-	'bridge',
-	0,
-	304,
-	0,
-	0,
-	'Time::get_month',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (304,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	303,
-	0);
-INSERT INTO S_BRG
-	VALUES (305,
-	272,
-	'get_year',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (306,
-	305,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (307,
-	305);
-INSERT INTO ACT_ACT
-	VALUES (307,
-	'bridge',
-	0,
-	308,
-	0,
-	0,
-	'Time::get_year',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (308,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	307,
-	0);
-INSERT INTO S_BRG
 	VALUES (309,
+	308,
+	'date',
 	272,
-	'current_clock',
+	0,
 	'',
-	1,
-	259,
-	'',
-	1,
+	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (310,
-	309);
+	308);
 INSERT INTO ACT_ACT
 	VALUES (310,
 	'bridge',
@@ -3742,7 +3985,7 @@ INSERT INTO ACT_ACT
 	311,
 	0,
 	0,
-	'Time::current_clock',
+	'Time::get_minute',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (311,
@@ -3769,48 +4012,37 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (312,
+	291,
+	'get_hour',
+	'',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (313,
+	312,
+	'date',
 	272,
-	'timer_start',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Returns the instance
-handle of the timer.',
-	1,
-	313,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (314,
-	312,
-	'microseconds',
-	13,
-	0,
-	'',
-	315,
-	'');
-INSERT INTO S_BPARM
-	VALUES (315,
-	312,
-	'event_inst',
-	316,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (317,
+	VALUES (314,
 	312);
 INSERT INTO ACT_ACT
-	VALUES (317,
+	VALUES (314,
 	'bridge',
 	0,
-	318,
+	315,
 	0,
 	0,
-	'Time::timer_start',
+	'Time::get_hour',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (318,
+	VALUES (315,
 	0,
 	0,
 	0,
@@ -3830,43 +4062,84 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	317,
+	314,
 	0);
 INSERT INTO S_BRG
-	VALUES (319,
-	272,
-	'timer_start_recurring',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Upon expiration, the
-timer will be restarted and fire again in the specified number of microseconds
-generating the passed event. This bridge operation returns the instance handle
-of the timer.',
+	VALUES (316,
+	291,
+	'get_day',
+	'',
 	1,
-	313,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (320,
-	319,
-	'microseconds',
-	13,
+	VALUES (317,
+	316,
+	'date',
+	272,
 	0,
 	'',
-	321,
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (318,
+	316);
+INSERT INTO ACT_ACT
+	VALUES (318,
+	'bridge',
+	0,
+	319,
+	0,
+	0,
+	'Time::get_day',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (319,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	318,
+	0);
+INSERT INTO S_BRG
+	VALUES (320,
+	291,
+	'get_month',
+	'',
+	1,
+	30,
+	'',
+	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (321,
-	319,
-	'event_inst',
-	316,
+	320,
+	'date',
+	272,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (322,
-	319);
+	320);
 INSERT INTO ACT_ACT
 	VALUES (322,
 	'bridge',
@@ -3874,7 +4147,7 @@ INSERT INTO ACT_ACT
 	323,
 	0,
 	0,
-	'Time::timer_start_recurring',
+	'Time::get_month',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (323,
@@ -3901,20 +4174,19 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (324,
-	272,
-	'timer_remaining_time',
-	'Returns the time remaining (in microseconds) for the passed timer instance. If
-the timer has expired, a zero value is returned.',
+	291,
+	'get_year',
+	'',
 	1,
-	13,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (325,
 	324,
-	'timer_inst_ref',
-	313,
+	'date',
+	272,
 	0,
 	'',
 	0,
@@ -3929,7 +4201,7 @@ INSERT INTO ACT_ACT
 	327,
 	0,
 	0,
-	'Time::timer_remaining_time',
+	'Time::get_year',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (327,
@@ -3956,49 +4228,28 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (328,
-	272,
-	'timer_reset_time',
-	'This bridge operation attempts to set the passed existing timer to expire in
-the specified number of microseconds. If the timer exists (that is, it has not
-expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
-is returned.',
-	1,
-	72,
+	291,
+	'current_clock',
 	'',
 	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (329,
-	328,
-	'timer_inst_ref',
-	313,
-	0,
+	278,
 	'',
-	330,
-	'');
-INSERT INTO S_BPARM
-	VALUES (330,
-	328,
-	'microseconds',
-	13,
-	0,
-	'',
-	0,
+	1,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (331,
+	VALUES (329,
 	328);
 INSERT INTO ACT_ACT
-	VALUES (331,
+	VALUES (329,
 	'bridge',
 	0,
-	332,
+	330,
 	0,
 	0,
-	'Time::timer_reset_time',
+	'Time::current_clock',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (332,
+	VALUES (330,
 	0,
 	0,
 	0,
@@ -4018,41 +4269,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	331,
+	329,
 	0);
 INSERT INTO S_BRG
-	VALUES (333,
-	272,
-	'timer_add_time',
-	'This bridge operation attempts to add the specified number of microseconds to a
-passed existing timer. If the timer exists (that is, it has not expired), a TRUE
-value is returned. If the timer no longer exists, a FALSE value is returned.',
+	VALUES (331,
+	291,
+	'timer_start',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Returns the instance
+handle of the timer.',
 	1,
-	72,
+	332,
 	'',
 	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (333,
+	331,
+	'microseconds',
+	30,
+	0,
+	'',
+	334,
 	'');
 INSERT INTO S_BPARM
 	VALUES (334,
-	333,
-	'timer_inst_ref',
-	313,
-	0,
-	'',
+	331,
+	'event_inst',
 	335,
-	'');
-INSERT INTO S_BPARM
-	VALUES (335,
-	333,
-	'microseconds',
-	13,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (336,
-	333);
+	331);
 INSERT INTO ACT_ACT
 	VALUES (336,
 	'bridge',
@@ -4060,7 +4311,7 @@ INSERT INTO ACT_ACT
 	337,
 	0,
 	0,
-	'Time::timer_add_time',
+	'Time::timer_start',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (337,
@@ -4087,39 +4338,292 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (338,
-	272,
-	'timer_cancel',
-	'This bridge operation cancels and deletes the passed timer instance. If the 
-timer exists (that is, it had not expired), a TRUE value is returned. If the
-timer no longer exists, a FALSE value is returned.',
+	291,
+	'timer_start_recurring',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Upon expiration, the
+timer will be restarted and fire again in the specified number of microseconds
+generating the passed event. This bridge operation returns the instance handle
+of the timer.',
 	1,
-	72,
+	332,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (339,
 	338,
-	'timer_inst_ref',
-	313,
+	'microseconds',
+	30,
+	0,
+	'',
+	340,
+	'');
+INSERT INTO S_BPARM
+	VALUES (340,
+	338,
+	'event_inst',
+	335,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (340,
+	VALUES (341,
 	338);
 INSERT INTO ACT_ACT
-	VALUES (340,
+	VALUES (341,
 	'bridge',
 	0,
+	342,
+	0,
+	0,
+	'Time::timer_start_recurring',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (342,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
 	341,
+	0);
+INSERT INTO S_BRG
+	VALUES (343,
+	291,
+	'timer_remaining_time',
+	'Returns the time remaining (in microseconds) for the passed timer instance. If
+the timer has expired, a zero value is returned.',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (344,
+	343,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (345,
+	343);
+INSERT INTO ACT_ACT
+	VALUES (345,
+	'bridge',
+	0,
+	346,
+	0,
+	0,
+	'Time::timer_remaining_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (346,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	345,
+	0);
+INSERT INTO S_BRG
+	VALUES (347,
+	291,
+	'timer_reset_time',
+	'This bridge operation attempts to set the passed existing timer to expire in
+the specified number of microseconds. If the timer exists (that is, it has not
+expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
+is returned.',
+	1,
+	108,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (348,
+	347,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	349,
+	'');
+INSERT INTO S_BPARM
+	VALUES (349,
+	347,
+	'microseconds',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (350,
+	347);
+INSERT INTO ACT_ACT
+	VALUES (350,
+	'bridge',
+	0,
+	351,
+	0,
+	0,
+	'Time::timer_reset_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (351,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	350,
+	0);
+INSERT INTO S_BRG
+	VALUES (352,
+	291,
+	'timer_add_time',
+	'This bridge operation attempts to add the specified number of microseconds to a
+passed existing timer. If the timer exists (that is, it has not expired), a TRUE
+value is returned. If the timer no longer exists, a FALSE value is returned.',
+	1,
+	108,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (353,
+	352,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	354,
+	'');
+INSERT INTO S_BPARM
+	VALUES (354,
+	352,
+	'microseconds',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (355,
+	352);
+INSERT INTO ACT_ACT
+	VALUES (355,
+	'bridge',
+	0,
+	356,
+	0,
+	0,
+	'Time::timer_add_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (356,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	355,
+	0);
+INSERT INTO S_BRG
+	VALUES (357,
+	291,
+	'timer_cancel',
+	'This bridge operation cancels and deletes the passed timer instance. If the 
+timer exists (that is, it had not expired), a TRUE value is returned. If the
+timer no longer exists, a FALSE value is returned.',
+	1,
+	108,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (358,
+	357,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (359,
+	357);
+INSERT INTO ACT_ACT
+	VALUES (359,
+	'bridge',
+	0,
+	360,
 	0,
 	0,
 	'Time::timer_cancel',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (341,
+	VALUES (360,
 	0,
 	0,
 	0,
@@ -4139,16 +4643,16 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	340,
+	359,
 	0);
 INSERT INTO PE_PE
-	VALUES (342,
+	VALUES (361,
 	1,
-	191,
+	211,
 	0,
 	1);
 INSERT INTO S_SYNC
-	VALUES (342,
+	VALUES (361,
 	0,
 	'GoalTest_1',
 	'',
@@ -4188,23 +4692,23 @@ send UI::newGoalSpec(
   criteriaType: GoalCriteria::Pace,
   spanType: GoalSpan::Time );
   ',
-	240,
+	6,
 	1,
 	'');
 INSERT INTO ACT_FNB
-	VALUES (343,
-	342);
+	VALUES (362,
+	361);
 INSERT INTO ACT_ACT
-	VALUES (343,
+	VALUES (362,
 	'function',
 	0,
-	344,
+	363,
 	0,
 	0,
 	'GoalTest_1',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (344,
+	VALUES (363,
 	0,
 	0,
 	0,
@@ -4224,86 +4728,86 @@ INSERT INTO ACT_BLK
 	35,
 	13,
 	0,
-	343,
+	362,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (345,
-	344,
-	346,
+	VALUES (364,
+	363,
+	365,
 	2,
 	1,
 	'GoalTest_1 line: 2');
 INSERT INTO ACT_FNC
-	VALUES (345,
-	347,
+	VALUES (364,
+	366,
 	2,
 	3);
 INSERT INTO ACT_SMT
-	VALUES (346,
-	344,
-	348,
+	VALUES (365,
+	363,
+	367,
 	5,
 	1,
 	'GoalTest_1 line: 5');
 INSERT INTO ACT_IOP
-	VALUES (346,
+	VALUES (365,
 	5,
 	10,
 	5,
 	6,
 	0,
-	41,
+	83,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (348,
-	344,
-	349,
+	VALUES (367,
+	363,
+	368,
 	13,
 	1,
 	'GoalTest_1 line: 13');
 INSERT INTO ACT_IOP
-	VALUES (348,
+	VALUES (367,
 	13,
 	10,
 	13,
 	6,
 	0,
-	41,
+	83,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (349,
-	344,
-	350,
+	VALUES (368,
+	363,
+	369,
 	21,
 	1,
 	'GoalTest_1 line: 21');
 INSERT INTO ACT_IOP
-	VALUES (349,
+	VALUES (368,
 	21,
 	10,
 	21,
 	6,
 	0,
-	41,
+	83,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (350,
-	344,
+	VALUES (369,
+	363,
 	0,
 	29,
 	1,
 	'GoalTest_1 line: 29');
 INSERT INTO ACT_IOP
-	VALUES (350,
+	VALUES (369,
 	29,
 	10,
 	29,
 	6,
 	0,
-	41,
+	83,
 	0);
 INSERT INTO V_VAL
-	VALUES (351,
+	VALUES (370,
 	0,
 	0,
 	6,
@@ -4313,21 +4817,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	344);
+	30,
+	363);
 INSERT INTO V_LIN
-	VALUES (351,
+	VALUES (370,
 	'1');
 INSERT INTO V_PAR
-	VALUES (351,
-	346,
+	VALUES (370,
+	365,
 	0,
 	'sequenceNumber',
-	352,
+	371,
 	6,
 	3);
 INSERT INTO V_VAL
-	VALUES (352,
+	VALUES (371,
 	0,
 	0,
 	7,
@@ -4337,21 +4841,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	344);
+	10,
+	363);
 INSERT INTO V_LRL
-	VALUES (352,
+	VALUES (371,
 	'2.0');
 INSERT INTO V_PAR
-	VALUES (352,
-	346,
+	VALUES (371,
+	365,
 	0,
 	'minimum',
-	353,
+	372,
 	7,
 	3);
 INSERT INTO V_VAL
-	VALUES (353,
+	VALUES (372,
 	0,
 	0,
 	8,
@@ -4361,21 +4865,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	344);
+	10,
+	363);
 INSERT INTO V_LRL
-	VALUES (353,
+	VALUES (372,
 	'8.0');
 INSERT INTO V_PAR
-	VALUES (353,
-	346,
+	VALUES (372,
+	365,
 	0,
 	'maximum',
-	354,
+	373,
 	8,
 	3);
 INSERT INTO V_VAL
-	VALUES (354,
+	VALUES (373,
 	0,
 	0,
 	9,
@@ -4385,21 +4889,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	344);
+	10,
+	363);
 INSERT INTO V_LRL
-	VALUES (354,
+	VALUES (373,
 	'150.0');
 INSERT INTO V_PAR
-	VALUES (354,
-	346,
+	VALUES (373,
+	365,
 	0,
 	'span',
-	355,
+	374,
 	9,
 	3);
 INSERT INTO V_VAL
-	VALUES (355,
+	VALUES (374,
 	0,
 	0,
 	10,
@@ -4409,23 +4913,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	180,
-	344);
+	37,
+	363);
 INSERT INTO V_LEN
-	VALUES (355,
-	356,
+	VALUES (374,
+	375,
 	10,
 	17);
 INSERT INTO V_PAR
-	VALUES (355,
-	346,
+	VALUES (374,
+	365,
 	0,
 	'criteriaType',
-	357,
+	376,
 	10,
 	3);
 INSERT INTO V_VAL
-	VALUES (357,
+	VALUES (376,
 	0,
 	0,
 	11,
@@ -4435,23 +4939,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	184,
-	344);
+	39,
+	363);
 INSERT INTO V_LEN
-	VALUES (357,
-	358,
+	VALUES (376,
+	377,
 	11,
 	13);
 INSERT INTO V_PAR
-	VALUES (357,
-	346,
+	VALUES (376,
+	365,
 	0,
 	'spanType',
 	0,
 	11,
 	3);
 INSERT INTO V_VAL
-	VALUES (359,
+	VALUES (378,
 	0,
 	0,
 	14,
@@ -4461,21 +4965,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	344);
+	30,
+	363);
 INSERT INTO V_LIN
-	VALUES (359,
+	VALUES (378,
 	'2');
 INSERT INTO V_PAR
-	VALUES (359,
-	348,
+	VALUES (378,
+	367,
 	0,
 	'sequenceNumber',
-	360,
+	379,
 	14,
 	3);
 INSERT INTO V_VAL
-	VALUES (360,
+	VALUES (379,
 	0,
 	0,
 	15,
@@ -4485,21 +4989,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	344);
+	10,
+	363);
 INSERT INTO V_LRL
-	VALUES (360,
+	VALUES (379,
 	'60.0');
 INSERT INTO V_PAR
-	VALUES (360,
-	348,
+	VALUES (379,
+	367,
 	0,
 	'minimum',
-	361,
+	380,
 	15,
 	3);
 INSERT INTO V_VAL
-	VALUES (361,
+	VALUES (380,
 	0,
 	0,
 	16,
@@ -4509,21 +5013,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	344);
+	10,
+	363);
 INSERT INTO V_LRL
-	VALUES (361,
+	VALUES (380,
 	'80.0');
 INSERT INTO V_PAR
-	VALUES (361,
-	348,
+	VALUES (380,
+	367,
 	0,
 	'maximum',
-	362,
+	381,
 	16,
 	3);
 INSERT INTO V_VAL
-	VALUES (362,
+	VALUES (381,
 	0,
 	0,
 	17,
@@ -4533,21 +5037,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	344);
+	30,
+	363);
 INSERT INTO V_LIN
-	VALUES (362,
+	VALUES (381,
 	'10');
 INSERT INTO V_PAR
-	VALUES (362,
-	348,
+	VALUES (381,
+	367,
 	0,
 	'span',
-	363,
+	382,
 	17,
 	3);
 INSERT INTO V_VAL
-	VALUES (363,
+	VALUES (382,
 	0,
 	0,
 	18,
@@ -4557,23 +5061,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	180,
-	344);
+	37,
+	363);
 INSERT INTO V_LEN
-	VALUES (363,
-	364,
+	VALUES (382,
+	383,
 	18,
 	17);
 INSERT INTO V_PAR
-	VALUES (363,
-	348,
+	VALUES (382,
+	367,
 	0,
 	'criteriaType',
-	365,
+	384,
 	18,
 	3);
 INSERT INTO V_VAL
-	VALUES (365,
+	VALUES (384,
 	0,
 	0,
 	19,
@@ -4583,23 +5087,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	184,
-	344);
+	39,
+	363);
 INSERT INTO V_LEN
-	VALUES (365,
-	366,
+	VALUES (384,
+	385,
 	19,
 	13);
 INSERT INTO V_PAR
-	VALUES (365,
-	348,
+	VALUES (384,
+	367,
 	0,
 	'spanType',
 	0,
 	19,
 	3);
 INSERT INTO V_VAL
-	VALUES (367,
+	VALUES (386,
 	0,
 	0,
 	22,
@@ -4609,21 +5113,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	344);
+	30,
+	363);
 INSERT INTO V_LIN
-	VALUES (367,
+	VALUES (386,
 	'3');
 INSERT INTO V_PAR
-	VALUES (367,
-	349,
+	VALUES (386,
+	368,
 	0,
 	'sequenceNumber',
-	368,
+	387,
 	22,
 	3);
 INSERT INTO V_VAL
-	VALUES (368,
+	VALUES (387,
 	0,
 	0,
 	23,
@@ -4633,21 +5137,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	344);
+	10,
+	363);
 INSERT INTO V_LRL
-	VALUES (368,
+	VALUES (387,
 	'5.0');
 INSERT INTO V_PAR
-	VALUES (368,
-	349,
+	VALUES (387,
+	368,
 	0,
 	'minimum',
-	369,
+	388,
 	23,
 	3);
 INSERT INTO V_VAL
-	VALUES (369,
+	VALUES (388,
 	0,
 	0,
 	24,
@@ -4657,21 +5161,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	344);
+	10,
+	363);
 INSERT INTO V_LRL
-	VALUES (369,
+	VALUES (388,
 	'6.0');
 INSERT INTO V_PAR
-	VALUES (369,
-	349,
+	VALUES (388,
+	368,
 	0,
 	'maximum',
-	370,
+	389,
 	24,
 	3);
 INSERT INTO V_VAL
-	VALUES (370,
+	VALUES (389,
 	0,
 	0,
 	25,
@@ -4681,21 +5185,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	344);
+	30,
+	363);
 INSERT INTO V_LIN
-	VALUES (370,
+	VALUES (389,
 	'15');
 INSERT INTO V_PAR
-	VALUES (370,
-	349,
+	VALUES (389,
+	368,
 	0,
 	'span',
-	371,
+	390,
 	25,
 	3);
 INSERT INTO V_VAL
-	VALUES (371,
+	VALUES (390,
 	0,
 	0,
 	26,
@@ -4705,23 +5209,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	180,
-	344);
+	37,
+	363);
 INSERT INTO V_LEN
-	VALUES (371,
-	356,
+	VALUES (390,
+	375,
 	26,
 	17);
 INSERT INTO V_PAR
-	VALUES (371,
-	349,
+	VALUES (390,
+	368,
 	0,
 	'criteriaType',
-	372,
+	391,
 	26,
 	3);
 INSERT INTO V_VAL
-	VALUES (372,
+	VALUES (391,
 	0,
 	0,
 	27,
@@ -4731,23 +5235,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	184,
-	344);
+	39,
+	363);
 INSERT INTO V_LEN
-	VALUES (372,
-	366,
+	VALUES (391,
+	385,
 	27,
 	13);
 INSERT INTO V_PAR
-	VALUES (372,
-	349,
+	VALUES (391,
+	368,
 	0,
 	'spanType',
 	0,
 	27,
 	3);
 INSERT INTO V_VAL
-	VALUES (373,
+	VALUES (392,
 	0,
 	0,
 	30,
@@ -4757,21 +5261,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	344);
+	30,
+	363);
 INSERT INTO V_LIN
-	VALUES (373,
+	VALUES (392,
 	'4');
 INSERT INTO V_PAR
-	VALUES (373,
-	350,
+	VALUES (392,
+	369,
 	0,
 	'sequenceNumber',
-	374,
+	393,
 	30,
 	3);
 INSERT INTO V_VAL
-	VALUES (374,
+	VALUES (393,
 	0,
 	0,
 	31,
@@ -4781,21 +5285,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	344);
+	10,
+	363);
 INSERT INTO V_LRL
-	VALUES (374,
+	VALUES (393,
 	'1.0');
 INSERT INTO V_PAR
-	VALUES (374,
-	350,
+	VALUES (393,
+	369,
 	0,
 	'minimum',
-	375,
+	394,
 	31,
 	3);
 INSERT INTO V_VAL
-	VALUES (375,
+	VALUES (394,
 	0,
 	0,
 	32,
@@ -4805,21 +5309,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	344);
+	10,
+	363);
 INSERT INTO V_LRL
-	VALUES (375,
+	VALUES (394,
 	'2.0');
 INSERT INTO V_PAR
-	VALUES (375,
-	350,
+	VALUES (394,
+	369,
 	0,
 	'maximum',
-	376,
+	395,
 	32,
 	3);
 INSERT INTO V_VAL
-	VALUES (376,
+	VALUES (395,
 	0,
 	0,
 	33,
@@ -4829,21 +5333,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	344);
+	30,
+	363);
 INSERT INTO V_LIN
-	VALUES (376,
+	VALUES (395,
 	'15');
 INSERT INTO V_PAR
-	VALUES (376,
-	350,
+	VALUES (395,
+	369,
 	0,
 	'span',
-	377,
+	396,
 	33,
 	3);
 INSERT INTO V_VAL
-	VALUES (377,
+	VALUES (396,
 	0,
 	0,
 	34,
@@ -4853,23 +5357,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	180,
-	344);
+	37,
+	363);
 INSERT INTO V_LEN
-	VALUES (377,
-	356,
+	VALUES (396,
+	375,
 	34,
 	17);
 INSERT INTO V_PAR
-	VALUES (377,
-	350,
+	VALUES (396,
+	369,
 	0,
 	'criteriaType',
-	378,
+	397,
 	34,
 	3);
 INSERT INTO V_VAL
-	VALUES (378,
+	VALUES (397,
 	0,
 	0,
 	35,
@@ -4879,51 +5383,51 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	184,
-	344);
+	39,
+	363);
 INSERT INTO V_LEN
-	VALUES (378,
-	366,
+	VALUES (397,
+	385,
 	35,
 	13);
 INSERT INTO V_PAR
-	VALUES (378,
-	350,
+	VALUES (397,
+	369,
 	0,
 	'spanType',
 	0,
 	35,
 	3);
 INSERT INTO PE_PE
-	VALUES (347,
+	VALUES (366,
 	1,
-	191,
+	211,
 	0,
 	1);
 INSERT INTO S_SYNC
-	VALUES (347,
+	VALUES (366,
 	0,
 	'Initialize',
 	'',
 	'// Create a workout session and everything required to support it.
-WorkoutSession::create();',
-	240,
+WorkoutSession::sessioncreate();',
+	6,
 	1,
 	'');
 INSERT INTO ACT_FNB
-	VALUES (379,
-	347);
+	VALUES (398,
+	366);
 INSERT INTO ACT_ACT
-	VALUES (379,
+	VALUES (398,
 	'function',
 	0,
-	380,
+	399,
 	0,
 	0,
 	'Initialize',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (380,
+	VALUES (399,
 	0,
 	0,
 	0,
@@ -4943,31 +5447,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	379,
+	398,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (381,
-	380,
+	VALUES (400,
+	399,
 	0,
 	2,
 	1,
 	'Initialize line: 2');
 INSERT INTO ACT_TFM
-	VALUES (381,
-	128,
+	VALUES (400,
+	159,
 	0,
 	2,
 	17,
 	2,
 	1);
 INSERT INTO PE_PE
-	VALUES (230,
+	VALUES (250,
 	1,
-	191,
+	211,
 	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (230,
+	VALUES (250,
 	'Achievement',
 	10,
 	'Achievement',
@@ -4975,11 +5479,11 @@ INSERT INTO O_OBJ
 which a particular goal was being met (achieved).',
 	0);
 INSERT INTO O_TFR
-	VALUES (382,
-	230,
+	VALUES (401,
+	250,
 	'close',
 	'',
-	240,
+	6,
 	1,
 	'// Close this open achievement record by storing the end time, relating this
 //   record as a recorded one and unrelating it as the open one.
@@ -4996,19 +5500,19 @@ relate self to goal across R12.''specifies achievement of'';
 	'',
 	0);
 INSERT INTO ACT_OPB
-	VALUES (383,
-	382);
+	VALUES (402,
+	401);
 INSERT INTO ACT_ACT
-	VALUES (383,
+	VALUES (402,
 	'operation',
 	0,
-	384,
+	403,
 	0,
 	0,
 	'Achievement::close',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (384,
+	VALUES (403,
 	1,
 	0,
 	0,
@@ -5028,31 +5532,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	383,
+	402,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (385,
-	384,
-	386,
+	VALUES (404,
+	403,
+	405,
 	3,
 	1,
 	'Achievement::close line: 3');
 INSERT INTO ACT_SEL
-	VALUES (385,
-	387,
+	VALUES (404,
+	406,
 	1,
 	'one',
-	388);
+	407);
 INSERT INTO ACT_SR
-	VALUES (385);
+	VALUES (404);
 INSERT INTO ACT_LNK
-	VALUES (389,
+	VALUES (408,
 	'''is open for''',
-	385,
-	235,
+	404,
+	255,
 	0,
 	2,
-	221,
+	241,
 	3,
 	34,
 	3,
@@ -5060,28 +5564,28 @@ INSERT INTO ACT_LNK
 	3,
 	43);
 INSERT INTO ACT_SMT
-	VALUES (386,
-	384,
-	390,
+	VALUES (405,
+	403,
+	409,
 	4,
 	1,
 	'Achievement::close line: 4');
 INSERT INTO ACT_SEL
-	VALUES (386,
-	391,
+	VALUES (405,
+	410,
 	1,
 	'one',
-	392);
+	411);
 INSERT INTO ACT_SR
-	VALUES (386);
+	VALUES (405);
 INSERT INTO ACT_LNK
-	VALUES (393,
+	VALUES (412,
 	'''is currently executing within''',
-	386,
-	225,
-	394,
+	405,
+	245,
+	413,
 	2,
-	66,
+	102,
 	5,
 	9,
 	5,
@@ -5089,13 +5593,13 @@ INSERT INTO ACT_LNK
 	5,
 	28);
 INSERT INTO ACT_LNK
-	VALUES (394,
+	VALUES (413,
 	'''is timed by''',
 	0,
-	209,
+	229,
 	0,
 	2,
-	84,
+	118,
 	5,
 	62,
 	5,
@@ -5103,54 +5607,54 @@ INSERT INTO ACT_LNK
 	5,
 	78);
 INSERT INTO ACT_SMT
-	VALUES (390,
-	384,
-	395,
+	VALUES (409,
+	403,
+	414,
 	6,
 	3,
 	'Achievement::close line: 6');
 INSERT INTO ACT_AI
-	VALUES (390,
-	396,
-	397,
+	VALUES (409,
+	415,
+	416,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (395,
-	384,
-	398,
+	VALUES (414,
+	403,
+	417,
 	7,
 	1,
 	'Achievement::close line: 7');
 INSERT INTO ACT_UNR
-	VALUES (395,
-	399,
-	387,
+	VALUES (414,
+	418,
+	406,
 	'''is open for''',
-	235,
+	255,
 	7,
 	32,
 	7,
 	36);
 INSERT INTO ACT_SMT
-	VALUES (398,
-	384,
+	VALUES (417,
+	403,
 	0,
 	8,
 	1,
 	'Achievement::close line: 8');
 INSERT INTO ACT_REL
-	VALUES (398,
-	399,
-	387,
+	VALUES (417,
+	418,
+	406,
 	'''specifies achievement of''',
-	228,
+	248,
 	8,
 	28,
 	8,
 	32);
 INSERT INTO V_VAL
-	VALUES (388,
+	VALUES (407,
 	0,
 	0,
 	3,
@@ -5160,13 +5664,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	384);
+	106,
+	403);
 INSERT INTO V_IRF
-	VALUES (388,
-	399);
+	VALUES (407,
+	418);
 INSERT INTO V_VAL
-	VALUES (392,
+	VALUES (411,
 	0,
 	0,
 	5,
@@ -5176,13 +5680,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	384);
+	106,
+	403);
 INSERT INTO V_IRF
-	VALUES (392,
-	387);
+	VALUES (411,
+	406);
 INSERT INTO V_VAL
-	VALUES (400,
+	VALUES (419,
 	1,
 	0,
 	6,
@@ -5192,13 +5696,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	384);
+	106,
+	403);
 INSERT INTO V_IRF
-	VALUES (400,
-	399);
+	VALUES (419,
+	418);
 INSERT INTO V_VAL
-	VALUES (397,
+	VALUES (416,
 	1,
 	0,
 	6,
@@ -5208,15 +5712,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	384);
+	30,
+	403);
 INSERT INTO V_AVL
-	VALUES (397,
-	400,
-	230,
-	401);
+	VALUES (416,
+	419,
+	250,
+	420);
 INSERT INTO V_VAL
-	VALUES (402,
+	VALUES (421,
 	0,
 	0,
 	6,
@@ -5226,13 +5730,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	384);
+	106,
+	403);
 INSERT INTO V_IRF
-	VALUES (402,
-	391);
+	VALUES (421,
+	410);
 INSERT INTO V_VAL
-	VALUES (396,
+	VALUES (415,
 	0,
 	0,
 	6,
@@ -5242,52 +5746,52 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	384);
-INSERT INTO V_AVL
-	VALUES (396,
-	402,
-	84,
+	30,
 	403);
+INSERT INTO V_AVL
+	VALUES (415,
+	421,
+	118,
+	422);
 INSERT INTO V_VAR
-	VALUES (387,
-	384,
+	VALUES (406,
+	403,
 	'goal',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (387,
+	VALUES (406,
 	0,
-	221);
+	241);
 INSERT INTO V_VAR
-	VALUES (399,
-	384,
+	VALUES (418,
+	403,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (399,
+	VALUES (418,
 	0,
-	230);
+	250);
 INSERT INTO V_VAR
-	VALUES (391,
-	384,
+	VALUES (410,
+	403,
 	'workoutTimer',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (391,
+	VALUES (410,
 	0,
-	84);
+	118);
 INSERT INTO O_NBATTR
-	VALUES (404,
-	230);
+	VALUES (423,
+	250);
 INSERT INTO O_BATTR
-	VALUES (404,
-	230);
+	VALUES (423,
+	250);
 INSERT INTO O_ATTR
-	VALUES (404,
-	230,
+	VALUES (423,
+	250,
 	0,
 	'startTime',
 	'Starting time for this achievement, expressed as the number of seconds
@@ -5295,45 +5799,45 @@ since the beginning of the associated workout session.',
 	'',
 	'startTime',
 	0,
-	13,
+	30,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (401,
-	230);
+	VALUES (420,
+	250);
 INSERT INTO O_BATTR
-	VALUES (401,
-	230);
+	VALUES (420,
+	250);
 INSERT INTO O_ATTR
-	VALUES (401,
-	230,
-	404,
+	VALUES (420,
+	250,
+	423,
 	'endTime',
 	'Ending time for this achievement, expressed as the number of seconds
 since the beginning of the associated workout session.',
 	'',
 	'endTime',
 	0,
-	13,
+	30,
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	230);
+	250);
 INSERT INTO O_ID
 	VALUES (1,
-	230);
+	250);
 INSERT INTO O_ID
 	VALUES (2,
-	230);
+	250);
 INSERT INTO PE_PE
-	VALUES (114,
+	VALUES (147,
 	1,
-	191,
+	211,
 	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (114,
+	VALUES (147,
 	'Display',
 	6,
 	'Display',
@@ -5344,11 +5848,11 @@ This is a singleton instance.
 ',
 	0);
 INSERT INTO O_TFR
-	VALUES (405,
-	114,
+	VALUES (424,
+	147,
 	'goalDispositionIndicator',
 	'',
-	406,
+	27,
 	0,
 	'// Return the indicator value representing the disposition of 
 // the currently executing goal, if one exists.  If there is
@@ -5377,19 +5881,19 @@ return( indicator );',
 	'',
 	0);
 INSERT INTO ACT_OPB
-	VALUES (407,
-	405);
+	VALUES (425,
+	424);
 INSERT INTO ACT_ACT
-	VALUES (407,
+	VALUES (425,
 	'class operation',
 	0,
-	408,
+	426,
 	0,
 	0,
 	'Display::goalDispositionIndicator',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (408,
+	VALUES (426,
 	1,
 	0,
 	0,
@@ -5409,46 +5913,46 @@ INSERT INTO ACT_BLK
 	12,
 	13,
 	0,
-	407,
+	425,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (409,
-	408,
-	410,
+	VALUES (427,
+	426,
+	428,
 	7,
 	1,
 	'Display::goalDispositionIndicator line: 7');
 INSERT INTO ACT_FIO
-	VALUES (409,
-	411,
+	VALUES (427,
+	429,
 	1,
 	'any',
-	66,
+	102,
 	7,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (410,
-	408,
-	412,
+	VALUES (428,
+	426,
+	430,
 	8,
 	1,
 	'Display::goalDispositionIndicator line: 8');
 INSERT INTO ACT_SEL
-	VALUES (410,
-	413,
+	VALUES (428,
+	431,
 	1,
 	'one',
-	414);
+	432);
 INSERT INTO ACT_SR
-	VALUES (410);
+	VALUES (428);
 INSERT INTO ACT_LNK
-	VALUES (415,
+	VALUES (433,
 	'''is currently executing''',
-	410,
-	225,
+	428,
+	245,
 	0,
 	2,
-	221,
+	241,
 	8,
 	37,
 	8,
@@ -5456,43 +5960,43 @@ INSERT INTO ACT_LNK
 	8,
 	46);
 INSERT INTO ACT_SMT
-	VALUES (412,
-	408,
-	416,
+	VALUES (430,
+	426,
+	434,
 	12,
 	1,
 	'Display::goalDispositionIndicator line: 12');
 INSERT INTO ACT_AI
-	VALUES (412,
-	417,
-	418,
+	VALUES (430,
+	435,
+	436,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (416,
-	408,
-	419,
+	VALUES (434,
+	426,
+	437,
 	13,
 	1,
 	'Display::goalDispositionIndicator line: 13');
 INSERT INTO ACT_IF
-	VALUES (416,
-	420,
-	421,
+	VALUES (434,
+	438,
+	439,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (419,
-	408,
+	VALUES (437,
+	426,
 	0,
 	23,
 	1,
 	'Display::goalDispositionIndicator line: 23');
 INSERT INTO ACT_RET
-	VALUES (419,
-	422);
+	VALUES (437,
+	440);
 INSERT INTO V_VAL
-	VALUES (414,
+	VALUES (432,
 	0,
 	0,
 	8,
@@ -5502,13 +6006,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	408);
+	106,
+	426);
 INSERT INTO V_IRF
-	VALUES (414,
-	411);
+	VALUES (432,
+	429);
 INSERT INTO V_VAL
-	VALUES (418,
+	VALUES (436,
 	1,
 	1,
 	12,
@@ -5518,13 +6022,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	408);
+	27,
+	426);
 INSERT INTO V_TVL
-	VALUES (418,
-	423);
+	VALUES (436,
+	441);
 INSERT INTO V_VAL
-	VALUES (417,
+	VALUES (435,
 	0,
 	0,
 	12,
@@ -5534,15 +6038,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	408);
+	27,
+	426);
 INSERT INTO V_LEN
-	VALUES (417,
-	424,
+	VALUES (435,
+	442,
 	12,
 	13);
 INSERT INTO V_VAL
-	VALUES (425,
+	VALUES (443,
 	0,
 	0,
 	13,
@@ -5552,13 +6056,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	408);
+	106,
+	426);
 INSERT INTO V_IRF
-	VALUES (425,
-	413);
+	VALUES (443,
+	431);
 INSERT INTO V_VAL
-	VALUES (426,
+	VALUES (444,
 	0,
 	0,
 	-1,
@@ -5568,14 +6072,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	408);
+	108,
+	426);
 INSERT INTO V_UNY
-	VALUES (426,
-	425,
+	VALUES (444,
+	443,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (421,
+	VALUES (439,
 	0,
 	0,
 	-1,
@@ -5585,14 +6089,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	408);
+	108,
+	426);
 INSERT INTO V_UNY
-	VALUES (421,
-	426,
+	VALUES (439,
+	444,
 	'not');
 INSERT INTO V_VAL
-	VALUES (422,
+	VALUES (440,
 	0,
 	0,
 	23,
@@ -5602,43 +6106,43 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	408);
+	27,
+	426);
 INSERT INTO V_TVL
-	VALUES (422,
-	423);
+	VALUES (440,
+	441);
 INSERT INTO V_VAR
-	VALUES (411,
-	408,
+	VALUES (429,
+	426,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (411,
+	VALUES (429,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (413,
-	408,
+	VALUES (431,
+	426,
 	'goal',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (413,
+	VALUES (431,
 	0,
-	221);
+	241);
 INSERT INTO V_VAR
-	VALUES (423,
-	408,
+	VALUES (441,
+	426,
 	'indicator',
 	1,
-	406);
+	27);
 INSERT INTO V_TRN
-	VALUES (423,
+	VALUES (441,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (420,
+	VALUES (438,
 	0,
 	0,
 	0,
@@ -5658,46 +6162,46 @@ INSERT INTO ACT_BLK
 	16,
 	30,
 	0,
-	407,
+	425,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (427,
-	420,
+	VALUES (445,
+	438,
 	0,
 	14,
 	3,
 	'Display::goalDispositionIndicator line: 14');
 INSERT INTO ACT_IF
-	VALUES (427,
-	428,
-	429,
+	VALUES (445,
+	446,
+	447,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (430,
-	420,
+	VALUES (448,
+	438,
 	0,
 	16,
 	3,
 	'Display::goalDispositionIndicator line: 16');
 INSERT INTO ACT_EL
-	VALUES (430,
-	431,
-	432,
-	427);
+	VALUES (448,
+	449,
+	450,
+	445);
 INSERT INTO ACT_SMT
-	VALUES (433,
-	420,
+	VALUES (451,
+	438,
 	0,
 	18,
 	3,
 	'Display::goalDispositionIndicator line: 18');
 INSERT INTO ACT_E
-	VALUES (433,
-	434,
-	427);
+	VALUES (451,
+	452,
+	445);
 INSERT INTO V_VAL
-	VALUES (435,
+	VALUES (453,
 	0,
 	0,
 	14,
@@ -5707,13 +6211,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	420);
+	106,
+	438);
 INSERT INTO V_IRF
-	VALUES (435,
-	413);
+	VALUES (453,
+	431);
 INSERT INTO V_VAL
-	VALUES (436,
+	VALUES (454,
 	0,
 	0,
 	14,
@@ -5723,15 +6227,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	437,
-	420);
-INSERT INTO V_AVL
-	VALUES (436,
-	435,
-	221,
+	455,
 	438);
+INSERT INTO V_AVL
+	VALUES (454,
+	453,
+	241,
+	456);
 INSERT INTO V_VAL
-	VALUES (429,
+	VALUES (447,
 	0,
 	0,
 	-1,
@@ -5741,15 +6245,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	420);
+	108,
+	438);
 INSERT INTO V_BIN
-	VALUES (429,
-	439,
-	436,
+	VALUES (447,
+	457,
+	454,
 	'==');
 INSERT INTO V_VAL
-	VALUES (439,
+	VALUES (457,
 	0,
 	0,
 	14,
@@ -5759,15 +6263,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	437,
-	420);
+	455,
+	438);
 INSERT INTO V_LEN
-	VALUES (439,
-	440,
+	VALUES (457,
+	458,
 	14,
 	28);
 INSERT INTO V_VAL
-	VALUES (441,
+	VALUES (459,
 	0,
 	0,
 	16,
@@ -5777,13 +6281,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	420);
+	106,
+	438);
 INSERT INTO V_IRF
-	VALUES (441,
-	413);
+	VALUES (459,
+	431);
 INSERT INTO V_VAL
-	VALUES (442,
+	VALUES (460,
 	0,
 	0,
 	16,
@@ -5793,15 +6297,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	437,
-	420);
-INSERT INTO V_AVL
-	VALUES (442,
-	441,
-	221,
+	455,
 	438);
+INSERT INTO V_AVL
+	VALUES (460,
+	459,
+	241,
+	456);
 INSERT INTO V_VAL
-	VALUES (432,
+	VALUES (450,
 	0,
 	0,
 	-1,
@@ -5811,15 +6315,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	420);
+	108,
+	438);
 INSERT INTO V_BIN
-	VALUES (432,
-	443,
-	442,
+	VALUES (450,
+	461,
+	460,
 	'==');
 INSERT INTO V_VAL
-	VALUES (443,
+	VALUES (461,
 	0,
 	0,
 	16,
@@ -5829,15 +6333,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	437,
-	420);
+	455,
+	438);
 INSERT INTO V_LEN
-	VALUES (443,
-	444,
+	VALUES (461,
+	462,
 	16,
 	30);
 INSERT INTO ACT_BLK
-	VALUES (428,
+	VALUES (446,
 	0,
 	0,
 	0,
@@ -5857,23 +6361,23 @@ INSERT INTO ACT_BLK
 	15,
 	17,
 	0,
-	407,
+	425,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (445,
-	428,
+	VALUES (463,
+	446,
 	0,
 	15,
 	5,
 	'Display::goalDispositionIndicator line: 15');
 INSERT INTO ACT_AI
-	VALUES (445,
-	446,
-	447,
+	VALUES (463,
+	464,
+	465,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (447,
+	VALUES (465,
 	1,
 	0,
 	15,
@@ -5883,13 +6387,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	428);
+	27,
+	446);
 INSERT INTO V_TVL
-	VALUES (447,
-	423);
+	VALUES (465,
+	441);
 INSERT INTO V_VAL
-	VALUES (446,
+	VALUES (464,
 	0,
 	0,
 	15,
@@ -5899,15 +6403,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	428);
+	27,
+	446);
 INSERT INTO V_LEN
-	VALUES (446,
-	448,
+	VALUES (464,
+	466,
 	15,
 	17);
 INSERT INTO ACT_BLK
-	VALUES (431,
+	VALUES (449,
 	0,
 	0,
 	0,
@@ -5927,23 +6431,23 @@ INSERT INTO ACT_BLK
 	17,
 	17,
 	0,
-	407,
+	425,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (449,
-	431,
+	VALUES (467,
+	449,
 	0,
 	17,
 	5,
 	'Display::goalDispositionIndicator line: 17');
 INSERT INTO ACT_AI
-	VALUES (449,
-	450,
-	451,
+	VALUES (467,
+	468,
+	469,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (451,
+	VALUES (469,
 	1,
 	0,
 	17,
@@ -5953,13 +6457,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	431);
+	27,
+	449);
 INSERT INTO V_TVL
-	VALUES (451,
-	423);
+	VALUES (469,
+	441);
 INSERT INTO V_VAL
-	VALUES (450,
+	VALUES (468,
 	0,
 	0,
 	17,
@@ -5969,15 +6473,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	431);
+	27,
+	449);
 INSERT INTO V_LEN
-	VALUES (450,
-	452,
+	VALUES (468,
+	470,
 	17,
 	17);
 INSERT INTO ACT_BLK
-	VALUES (434,
+	VALUES (452,
 	0,
 	0,
 	0,
@@ -5997,23 +6501,23 @@ INSERT INTO ACT_BLK
 	19,
 	17,
 	0,
-	407,
+	425,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (453,
-	434,
+	VALUES (471,
+	452,
 	0,
 	19,
 	5,
 	'Display::goalDispositionIndicator line: 19');
 INSERT INTO ACT_AI
-	VALUES (453,
-	454,
-	455,
+	VALUES (471,
+	472,
+	473,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (455,
+	VALUES (473,
 	1,
 	0,
 	19,
@@ -6023,13 +6527,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	434);
+	27,
+	452);
 INSERT INTO V_TVL
-	VALUES (455,
-	423);
+	VALUES (473,
+	441);
 INSERT INTO V_VAL
-	VALUES (454,
+	VALUES (472,
 	0,
 	0,
 	19,
@@ -6039,60 +6543,60 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	434);
+	27,
+	452);
 INSERT INTO V_LEN
-	VALUES (454,
-	456,
+	VALUES (472,
+	474,
 	19,
 	17);
 INSERT INTO O_NBATTR
-	VALUES (457,
-	114);
+	VALUES (475,
+	147);
 INSERT INTO O_BATTR
-	VALUES (457,
-	114);
+	VALUES (475,
+	147);
 INSERT INTO O_ATTR
-	VALUES (457,
-	114,
+	VALUES (475,
+	147,
 	0,
 	'current_state',
 	'',
 	'',
 	'current_state',
 	0,
-	458,
+	476,
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	114);
+	147);
 INSERT INTO O_ID
 	VALUES (1,
-	114);
+	147);
 INSERT INTO O_ID
 	VALUES (2,
-	114);
+	147);
 INSERT INTO SM_ISM
-	VALUES (459,
-	114);
+	VALUES (477,
+	147);
 INSERT INTO SM_SM
-	VALUES (459,
+	VALUES (477,
 	'',
 	0);
 INSERT INTO SM_MOORE
-	VALUES (459);
+	VALUES (477);
 INSERT INTO SM_LEVT
-	VALUES (115,
-	459,
+	VALUES (148,
+	477,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (115,
-	459,
+	VALUES (148,
+	477,
 	0);
 INSERT INTO SM_EVT
-	VALUES (115,
-	459,
+	VALUES (148,
+	477,
 	0,
 	1,
 	'modeChange',
@@ -6101,16 +6605,16 @@ INSERT INTO SM_EVT
 	'Display1',
 	'');
 INSERT INTO SM_LEVT
-	VALUES (460,
-	459,
+	VALUES (478,
+	477,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (460,
-	459,
+	VALUES (478,
+	477,
 	0);
 INSERT INTO SM_EVT
-	VALUES (460,
-	459,
+	VALUES (478,
+	477,
 	0,
 	2,
 	'refresh',
@@ -6119,32 +6623,32 @@ INSERT INTO SM_EVT
 	'Display2',
 	'');
 INSERT INTO SM_STATE
-	VALUES (461,
-	459,
+	VALUES (479,
+	477,
 	0,
 	'displayDistance',
 	1,
 	0);
 INSERT INTO SM_SEME
-	VALUES (461,
-	115,
-	459,
+	VALUES (479,
+	148,
+	477,
 	0);
 INSERT INTO SM_SEME
-	VALUES (461,
-	460,
-	459,
+	VALUES (479,
+	478,
+	477,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (462,
-	459,
-	461);
+	VALUES (480,
+	477,
+	479);
 INSERT INTO SM_AH
-	VALUES (462,
-	459);
+	VALUES (480,
+	477);
 INSERT INTO SM_ACT
-	VALUES (462,
-	459,
+	VALUES (480,
+	477,
 	1,
 	'select one session related by self->WorkoutSession[R7.''indicates current status of''];
 distance = session.accumulatedDistance;
@@ -6156,20 +6660,20 @@ end if;
 send UI::setIndicator( indicator: Display::goalDispositionIndicator() );',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (463,
-	459,
-	462);
+	VALUES (481,
+	477,
+	480);
 INSERT INTO ACT_ACT
-	VALUES (463,
+	VALUES (481,
 	'state',
 	0,
-	464,
+	482,
 	0,
 	0,
 	'Display::displayDistance',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (464,
+	VALUES (482,
 	1,
 	0,
 	0,
@@ -6189,31 +6693,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	463,
+	481,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (465,
-	464,
-	466,
+	VALUES (483,
+	482,
+	484,
 	1,
 	1,
 	'Display::displayDistance line: 1');
 INSERT INTO ACT_SEL
-	VALUES (465,
-	467,
+	VALUES (483,
+	485,
 	1,
 	'one',
-	468);
+	486);
 INSERT INTO ACT_SR
-	VALUES (465);
+	VALUES (483);
 INSERT INTO ACT_LNK
-	VALUES (469,
+	VALUES (487,
 	'''indicates current status of''',
-	465,
-	113,
+	483,
+	146,
 	0,
 	2,
-	66,
+	102,
 	1,
 	37,
 	1,
@@ -6221,60 +6725,60 @@ INSERT INTO ACT_LNK
 	1,
 	55);
 INSERT INTO ACT_SMT
-	VALUES (466,
-	464,
-	470,
+	VALUES (484,
+	482,
+	488,
 	2,
 	1,
 	'Display::displayDistance line: 2');
 INSERT INTO ACT_AI
-	VALUES (466,
-	471,
-	472,
+	VALUES (484,
+	489,
+	490,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (470,
-	464,
-	473,
+	VALUES (488,
+	482,
+	491,
 	3,
 	1,
 	'Display::displayDistance line: 3');
 INSERT INTO ACT_IF
-	VALUES (470,
-	474,
-	475,
+	VALUES (488,
+	492,
+	493,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (476,
-	464,
+	VALUES (494,
+	482,
 	0,
 	5,
 	1,
 	'Display::displayDistance line: 5');
 INSERT INTO ACT_E
-	VALUES (476,
-	477,
-	470);
+	VALUES (494,
+	495,
+	488);
 INSERT INTO ACT_SMT
-	VALUES (473,
-	464,
+	VALUES (491,
+	482,
 	0,
 	8,
 	1,
 	'Display::displayDistance line: 8');
 INSERT INTO ACT_IOP
-	VALUES (473,
+	VALUES (491,
 	8,
 	10,
 	8,
 	6,
 	0,
-	33,
+	77,
 	0);
 INSERT INTO V_VAL
-	VALUES (468,
+	VALUES (486,
 	0,
 	0,
 	1,
@@ -6284,13 +6788,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	464);
+	106,
+	482);
 INSERT INTO V_IRF
-	VALUES (468,
-	478);
+	VALUES (486,
+	496);
 INSERT INTO V_VAL
-	VALUES (472,
+	VALUES (490,
 	1,
 	1,
 	2,
@@ -6300,13 +6804,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	464);
+	10,
+	482);
 INSERT INTO V_TVL
-	VALUES (472,
-	479);
+	VALUES (490,
+	497);
 INSERT INTO V_VAL
-	VALUES (480,
+	VALUES (498,
 	0,
 	0,
 	2,
@@ -6316,13 +6820,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	464);
+	106,
+	482);
 INSERT INTO V_IRF
-	VALUES (480,
-	467);
+	VALUES (498,
+	485);
 INSERT INTO V_VAL
-	VALUES (471,
+	VALUES (489,
 	0,
 	0,
 	2,
@@ -6332,15 +6836,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	464);
+	10,
+	482);
 INSERT INTO V_AVL
-	VALUES (471,
-	480,
-	66,
-	481);
+	VALUES (489,
+	498,
+	102,
+	499);
 INSERT INTO V_VAL
-	VALUES (482,
+	VALUES (500,
 	0,
 	0,
 	3,
@@ -6350,13 +6854,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	464);
+	10,
+	482);
 INSERT INTO V_TVL
-	VALUES (482,
-	479);
+	VALUES (500,
+	497);
 INSERT INTO V_VAL
-	VALUES (475,
+	VALUES (493,
 	0,
 	0,
 	-1,
@@ -6366,15 +6870,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	464);
+	108,
+	482);
 INSERT INTO V_BIN
-	VALUES (475,
-	483,
-	482,
+	VALUES (493,
+	501,
+	500,
 	'>');
 INSERT INTO V_VAL
-	VALUES (483,
+	VALUES (501,
 	0,
 	0,
 	3,
@@ -6384,13 +6888,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	464);
+	10,
+	482);
 INSERT INTO V_LRL
-	VALUES (483,
+	VALUES (501,
 	'1000.0');
 INSERT INTO V_VAL
-	VALUES (484,
+	VALUES (502,
 	0,
 	0,
 	8,
@@ -6400,55 +6904,55 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	464);
+	27,
+	482);
 INSERT INTO V_TRV
-	VALUES (484,
-	405,
+	VALUES (502,
+	424,
 	0,
 	1,
 	8,
 	35);
 INSERT INTO V_PAR
-	VALUES (484,
-	473,
+	VALUES (502,
+	491,
 	0,
 	'indicator',
 	0,
 	8,
 	24);
 INSERT INTO V_VAR
-	VALUES (467,
-	464,
+	VALUES (485,
+	482,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (467,
+	VALUES (485,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (478,
-	464,
+	VALUES (496,
+	482,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (478,
+	VALUES (496,
 	0,
-	114);
+	147);
 INSERT INTO V_VAR
-	VALUES (479,
-	464,
+	VALUES (497,
+	482,
 	'distance',
 	1,
-	170);
+	10);
 INSERT INTO V_TRN
-	VALUES (479,
+	VALUES (497,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (474,
+	VALUES (492,
 	0,
 	0,
 	0,
@@ -6468,26 +6972,26 @@ INSERT INTO ACT_BLK
 	4,
 	52,
 	0,
-	463,
+	481,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (485,
-	474,
+	VALUES (503,
+	492,
 	0,
 	4,
 	3,
 	'Display::displayDistance line: 4');
 INSERT INTO ACT_IOP
-	VALUES (485,
+	VALUES (503,
 	4,
 	12,
 	4,
 	8,
 	0,
-	29,
+	74,
 	0);
 INSERT INTO V_VAL
-	VALUES (486,
+	VALUES (504,
 	0,
 	0,
 	4,
@@ -6497,13 +7001,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	474);
+	10,
+	492);
 INSERT INTO V_TVL
-	VALUES (486,
-	479);
+	VALUES (504,
+	497);
 INSERT INTO V_VAL
-	VALUES (487,
+	VALUES (505,
 	0,
 	0,
 	-1,
@@ -6513,23 +7017,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	474);
+	10,
+	492);
 INSERT INTO V_BIN
-	VALUES (487,
-	488,
-	486,
+	VALUES (505,
+	506,
+	504,
 	'/');
 INSERT INTO V_PAR
-	VALUES (487,
-	485,
+	VALUES (505,
+	503,
 	0,
 	'value',
-	489,
+	507,
 	4,
 	20);
 INSERT INTO V_VAL
-	VALUES (488,
+	VALUES (506,
 	0,
 	0,
 	4,
@@ -6539,13 +7043,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	474);
+	10,
+	492);
 INSERT INTO V_LRL
-	VALUES (488,
+	VALUES (506,
 	'1000.0');
 INSERT INTO V_VAL
-	VALUES (489,
+	VALUES (507,
 	0,
 	0,
 	4,
@@ -6555,23 +7059,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	490,
-	474);
+	24,
+	492);
 INSERT INTO V_LEN
-	VALUES (489,
-	491,
+	VALUES (507,
+	508,
 	4,
 	52);
 INSERT INTO V_PAR
-	VALUES (489,
-	485,
+	VALUES (507,
+	503,
 	0,
 	'unit',
 	0,
 	4,
 	46);
 INSERT INTO ACT_BLK
-	VALUES (477,
+	VALUES (495,
 	0,
 	0,
 	0,
@@ -6591,26 +7095,26 @@ INSERT INTO ACT_BLK
 	6,
 	43,
 	0,
-	463,
+	481,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (492,
-	477,
+	VALUES (509,
+	495,
 	0,
 	6,
 	3,
 	'Display::displayDistance line: 6');
 INSERT INTO ACT_IOP
-	VALUES (492,
+	VALUES (509,
 	6,
 	12,
 	6,
 	8,
 	0,
-	29,
+	74,
 	0);
 INSERT INTO V_VAL
-	VALUES (493,
+	VALUES (510,
 	0,
 	0,
 	6,
@@ -6620,21 +7124,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	477);
+	10,
+	495);
 INSERT INTO V_TVL
-	VALUES (493,
-	479);
+	VALUES (510,
+	497);
 INSERT INTO V_PAR
-	VALUES (493,
-	492,
+	VALUES (510,
+	509,
 	0,
 	'value',
-	494,
+	511,
 	6,
 	20);
 INSERT INTO V_VAL
-	VALUES (494,
+	VALUES (511,
 	0,
 	0,
 	6,
@@ -6644,48 +7148,48 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	490,
-	477);
+	24,
+	495);
 INSERT INTO V_LEN
-	VALUES (494,
-	495,
+	VALUES (511,
+	512,
 	6,
 	43);
 INSERT INTO V_PAR
-	VALUES (494,
-	492,
+	VALUES (511,
+	509,
 	0,
 	'unit',
 	0,
 	6,
 	37);
 INSERT INTO SM_STATE
-	VALUES (496,
-	459,
+	VALUES (513,
+	477,
 	0,
 	'displaySpeed',
 	2,
 	0);
 INSERT INTO SM_SEME
-	VALUES (496,
-	115,
-	459,
+	VALUES (513,
+	148,
+	477,
 	0);
 INSERT INTO SM_SEME
-	VALUES (496,
-	460,
-	459,
+	VALUES (513,
+	478,
+	477,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (497,
-	459,
-	496);
+	VALUES (514,
+	477,
+	513);
 INSERT INTO SM_AH
-	VALUES (497,
-	459);
+	VALUES (514,
+	477);
 INSERT INTO SM_ACT
-	VALUES (497,
-	459,
+	VALUES (514,
+	477,
 	1,
 	'select one session 
   related by self->WorkoutSession[R7.''indicates current status of''];
@@ -6694,20 +7198,20 @@ send UI::setData(value: speed, unit: Unit::kmPerHour);
 send UI::setIndicator( indicator: Display::goalDispositionIndicator() );',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (498,
-	459,
-	497);
+	VALUES (515,
+	477,
+	514);
 INSERT INTO ACT_ACT
-	VALUES (498,
+	VALUES (515,
 	'state',
 	0,
-	499,
+	516,
 	0,
 	0,
 	'Display::displaySpeed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (499,
+	VALUES (516,
 	1,
 	0,
 	0,
@@ -6727,31 +7231,31 @@ INSERT INTO ACT_BLK
 	4,
 	38,
 	0,
-	498,
+	515,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (500,
-	499,
-	501,
+	VALUES (517,
+	516,
+	518,
 	1,
 	1,
 	'Display::displaySpeed line: 1');
 INSERT INTO ACT_SEL
-	VALUES (500,
-	502,
+	VALUES (517,
+	519,
 	1,
 	'one',
-	503);
+	520);
 INSERT INTO ACT_SR
-	VALUES (500);
+	VALUES (517);
 INSERT INTO ACT_LNK
-	VALUES (504,
+	VALUES (521,
 	'''indicates current status of''',
-	500,
-	113,
+	517,
+	146,
 	0,
 	2,
-	66,
+	102,
 	2,
 	20,
 	2,
@@ -6759,52 +7263,52 @@ INSERT INTO ACT_LNK
 	2,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (501,
-	499,
-	505,
+	VALUES (518,
+	516,
+	522,
 	3,
 	1,
 	'Display::displaySpeed line: 3');
 INSERT INTO ACT_AI
-	VALUES (501,
-	506,
-	507,
+	VALUES (518,
+	523,
+	524,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (505,
-	499,
-	508,
+	VALUES (522,
+	516,
+	525,
 	4,
 	1,
 	'Display::displaySpeed line: 4');
 INSERT INTO ACT_IOP
-	VALUES (505,
+	VALUES (522,
 	4,
 	10,
 	4,
 	6,
 	0,
-	29,
+	74,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (508,
-	499,
+	VALUES (525,
+	516,
 	0,
 	5,
 	1,
 	'Display::displaySpeed line: 5');
 INSERT INTO ACT_IOP
-	VALUES (508,
+	VALUES (525,
 	5,
 	10,
 	5,
 	6,
 	0,
-	33,
+	77,
 	0);
 INSERT INTO V_VAL
-	VALUES (503,
+	VALUES (520,
 	0,
 	0,
 	2,
@@ -6814,13 +7318,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	499);
+	106,
+	516);
 INSERT INTO V_IRF
-	VALUES (503,
-	509);
+	VALUES (520,
+	526);
 INSERT INTO V_VAL
-	VALUES (507,
+	VALUES (524,
 	1,
 	1,
 	3,
@@ -6830,13 +7334,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	499);
+	10,
+	516);
 INSERT INTO V_TVL
-	VALUES (507,
-	510);
+	VALUES (524,
+	527);
 INSERT INTO V_VAL
-	VALUES (511,
+	VALUES (528,
 	0,
 	0,
 	3,
@@ -6846,13 +7350,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	499);
+	106,
+	516);
 INSERT INTO V_IRF
-	VALUES (511,
-	502);
+	VALUES (528,
+	519);
 INSERT INTO V_VAL
-	VALUES (506,
+	VALUES (523,
 	0,
 	0,
 	3,
@@ -6862,15 +7366,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	499);
+	10,
+	516);
 INSERT INTO V_AVL
-	VALUES (506,
-	511,
-	66,
-	512);
+	VALUES (523,
+	528,
+	102,
+	529);
 INSERT INTO V_VAL
-	VALUES (513,
+	VALUES (530,
 	0,
 	0,
 	4,
@@ -6880,21 +7384,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	499);
+	10,
+	516);
 INSERT INTO V_TVL
-	VALUES (513,
-	510);
+	VALUES (530,
+	527);
 INSERT INTO V_PAR
-	VALUES (513,
-	505,
+	VALUES (530,
+	522,
 	0,
 	'value',
-	514,
+	531,
 	4,
 	18);
 INSERT INTO V_VAL
-	VALUES (514,
+	VALUES (531,
 	0,
 	0,
 	4,
@@ -6904,23 +7408,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	490,
-	499);
+	24,
+	516);
 INSERT INTO V_LEN
-	VALUES (514,
-	515,
+	VALUES (531,
+	532,
 	4,
 	38);
 INSERT INTO V_PAR
-	VALUES (514,
-	505,
+	VALUES (531,
+	522,
 	0,
 	'unit',
 	0,
 	4,
 	32);
 INSERT INTO V_VAL
-	VALUES (516,
+	VALUES (533,
 	0,
 	0,
 	5,
@@ -6930,80 +7434,80 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	499);
+	27,
+	516);
 INSERT INTO V_TRV
-	VALUES (516,
-	405,
+	VALUES (533,
+	424,
 	0,
 	1,
 	5,
 	35);
 INSERT INTO V_PAR
-	VALUES (516,
-	508,
+	VALUES (533,
+	525,
 	0,
 	'indicator',
 	0,
 	5,
 	24);
 INSERT INTO V_VAR
-	VALUES (502,
-	499,
+	VALUES (519,
+	516,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (502,
+	VALUES (519,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (509,
-	499,
+	VALUES (526,
+	516,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (509,
+	VALUES (526,
 	0,
-	114);
+	147);
 INSERT INTO V_VAR
-	VALUES (510,
-	499,
+	VALUES (527,
+	516,
 	'speed',
 	1,
-	170);
+	10);
 INSERT INTO V_TRN
-	VALUES (510,
+	VALUES (527,
 	0,
 	'');
 INSERT INTO SM_STATE
-	VALUES (517,
-	459,
+	VALUES (534,
+	477,
 	0,
 	'displayPace',
 	3,
 	0);
 INSERT INTO SM_SEME
-	VALUES (517,
-	115,
-	459,
+	VALUES (534,
+	148,
+	477,
 	0);
 INSERT INTO SM_SEME
-	VALUES (517,
-	460,
-	459,
+	VALUES (534,
+	478,
+	477,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (518,
-	459,
-	517);
+	VALUES (535,
+	477,
+	534);
 INSERT INTO SM_AH
-	VALUES (518,
-	459);
+	VALUES (535,
+	477);
 INSERT INTO SM_ACT
-	VALUES (518,
-	459,
+	VALUES (535,
+	477,
 	1,
 	'select one session 
   related by self->WorkoutSession[R7.''indicates current status of''];
@@ -7012,20 +7516,20 @@ send UI::setData(value: pace, unit: Unit::minPerKm);
 send UI::setIndicator( indicator: Display::goalDispositionIndicator() );',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (519,
-	459,
-	518);
+	VALUES (536,
+	477,
+	535);
 INSERT INTO ACT_ACT
-	VALUES (519,
+	VALUES (536,
 	'state',
 	0,
-	520,
+	537,
 	0,
 	0,
 	'Display::displayPace',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (520,
+	VALUES (537,
 	1,
 	0,
 	0,
@@ -7045,31 +7549,31 @@ INSERT INTO ACT_BLK
 	4,
 	37,
 	0,
-	519,
+	536,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (521,
-	520,
-	522,
+	VALUES (538,
+	537,
+	539,
 	1,
 	1,
 	'Display::displayPace line: 1');
 INSERT INTO ACT_SEL
-	VALUES (521,
-	523,
+	VALUES (538,
+	540,
 	1,
 	'one',
-	524);
+	541);
 INSERT INTO ACT_SR
-	VALUES (521);
+	VALUES (538);
 INSERT INTO ACT_LNK
-	VALUES (525,
+	VALUES (542,
 	'''indicates current status of''',
-	521,
-	113,
+	538,
+	146,
 	0,
 	2,
-	66,
+	102,
 	2,
 	20,
 	2,
@@ -7077,52 +7581,52 @@ INSERT INTO ACT_LNK
 	2,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (522,
-	520,
-	526,
+	VALUES (539,
+	537,
+	543,
 	3,
 	1,
 	'Display::displayPace line: 3');
 INSERT INTO ACT_AI
-	VALUES (522,
-	527,
-	528,
+	VALUES (539,
+	544,
+	545,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (526,
-	520,
-	529,
+	VALUES (543,
+	537,
+	546,
 	4,
 	1,
 	'Display::displayPace line: 4');
 INSERT INTO ACT_IOP
-	VALUES (526,
+	VALUES (543,
 	4,
 	10,
 	4,
 	6,
 	0,
-	29,
+	74,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (529,
-	520,
+	VALUES (546,
+	537,
 	0,
 	5,
 	1,
 	'Display::displayPace line: 5');
 INSERT INTO ACT_IOP
-	VALUES (529,
+	VALUES (546,
 	5,
 	10,
 	5,
 	6,
 	0,
-	33,
+	77,
 	0);
 INSERT INTO V_VAL
-	VALUES (524,
+	VALUES (541,
 	0,
 	0,
 	2,
@@ -7132,13 +7636,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	520);
+	106,
+	537);
 INSERT INTO V_IRF
-	VALUES (524,
-	530);
+	VALUES (541,
+	547);
 INSERT INTO V_VAL
-	VALUES (528,
+	VALUES (545,
 	1,
 	1,
 	3,
@@ -7148,13 +7652,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	520);
+	10,
+	537);
 INSERT INTO V_TVL
-	VALUES (528,
-	531);
+	VALUES (545,
+	548);
 INSERT INTO V_VAL
-	VALUES (532,
+	VALUES (549,
 	0,
 	0,
 	3,
@@ -7164,13 +7668,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	520);
+	106,
+	537);
 INSERT INTO V_IRF
-	VALUES (532,
-	523);
+	VALUES (549,
+	540);
 INSERT INTO V_VAL
-	VALUES (527,
+	VALUES (544,
 	0,
 	0,
 	3,
@@ -7180,15 +7684,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	520);
+	10,
+	537);
 INSERT INTO V_AVL
-	VALUES (527,
-	532,
-	66,
-	533);
+	VALUES (544,
+	549,
+	102,
+	550);
 INSERT INTO V_VAL
-	VALUES (534,
+	VALUES (551,
 	0,
 	0,
 	4,
@@ -7198,21 +7702,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	520);
+	10,
+	537);
 INSERT INTO V_TVL
-	VALUES (534,
-	531);
+	VALUES (551,
+	548);
 INSERT INTO V_PAR
-	VALUES (534,
-	526,
+	VALUES (551,
+	543,
 	0,
 	'value',
-	535,
+	552,
 	4,
 	18);
 INSERT INTO V_VAL
-	VALUES (535,
+	VALUES (552,
 	0,
 	0,
 	4,
@@ -7222,23 +7726,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	490,
-	520);
+	24,
+	537);
 INSERT INTO V_LEN
-	VALUES (535,
-	536,
+	VALUES (552,
+	553,
 	4,
 	37);
 INSERT INTO V_PAR
-	VALUES (535,
-	526,
+	VALUES (552,
+	543,
 	0,
 	'unit',
 	0,
 	4,
 	31);
 INSERT INTO V_VAL
-	VALUES (537,
+	VALUES (554,
 	0,
 	0,
 	5,
@@ -7248,80 +7752,80 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	520);
+	27,
+	537);
 INSERT INTO V_TRV
-	VALUES (537,
-	405,
+	VALUES (554,
+	424,
 	0,
 	1,
 	5,
 	35);
 INSERT INTO V_PAR
-	VALUES (537,
-	529,
+	VALUES (554,
+	546,
 	0,
 	'indicator',
 	0,
 	5,
 	24);
 INSERT INTO V_VAR
-	VALUES (523,
-	520,
+	VALUES (540,
+	537,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (523,
+	VALUES (540,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (530,
-	520,
+	VALUES (547,
+	537,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (530,
+	VALUES (547,
 	0,
-	114);
+	147);
 INSERT INTO V_VAR
-	VALUES (531,
-	520,
+	VALUES (548,
+	537,
 	'pace',
 	1,
-	170);
+	10);
 INSERT INTO V_TRN
-	VALUES (531,
+	VALUES (548,
 	0,
 	'');
 INSERT INTO SM_STATE
-	VALUES (538,
-	459,
+	VALUES (555,
+	477,
 	0,
 	'displayHeartRate',
 	4,
 	0);
 INSERT INTO SM_SEME
-	VALUES (538,
-	115,
-	459,
+	VALUES (555,
+	148,
+	477,
 	0);
 INSERT INTO SM_SEME
-	VALUES (538,
-	460,
-	459,
+	VALUES (555,
+	478,
+	477,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (539,
-	459,
-	538);
+	VALUES (556,
+	477,
+	555);
 INSERT INTO SM_AH
-	VALUES (539,
-	459);
+	VALUES (556,
+	477);
 INSERT INTO SM_ACT
-	VALUES (539,
-	459,
+	VALUES (556,
+	477,
 	1,
 	'select one session 
   related by self->WorkoutSession[R7.''indicates current status of''];
@@ -7331,20 +7835,20 @@ send UI::setIndicator( indicator: Display::goalDispositionIndicator() );
 ',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (540,
-	459,
-	539);
+	VALUES (557,
+	477,
+	556);
 INSERT INTO ACT_ACT
-	VALUES (540,
+	VALUES (557,
 	'state',
 	0,
-	541,
+	558,
 	0,
 	0,
 	'Display::displayHeartRate',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (541,
+	VALUES (558,
 	1,
 	0,
 	0,
@@ -7364,31 +7868,31 @@ INSERT INTO ACT_BLK
 	4,
 	42,
 	0,
-	540,
+	557,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (542,
-	541,
-	543,
+	VALUES (559,
+	558,
+	560,
 	1,
 	1,
 	'Display::displayHeartRate line: 1');
 INSERT INTO ACT_SEL
-	VALUES (542,
-	544,
+	VALUES (559,
+	561,
 	1,
 	'one',
-	545);
+	562);
 INSERT INTO ACT_SR
-	VALUES (542);
+	VALUES (559);
 INSERT INTO ACT_LNK
-	VALUES (546,
+	VALUES (563,
 	'''indicates current status of''',
-	542,
-	113,
+	559,
+	146,
 	0,
 	2,
-	66,
+	102,
 	2,
 	20,
 	2,
@@ -7396,52 +7900,52 @@ INSERT INTO ACT_LNK
 	2,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (543,
-	541,
-	547,
+	VALUES (560,
+	558,
+	564,
 	3,
 	1,
 	'Display::displayHeartRate line: 3');
 INSERT INTO ACT_AI
-	VALUES (543,
-	548,
-	549,
+	VALUES (560,
+	565,
+	566,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (547,
-	541,
-	550,
+	VALUES (564,
+	558,
+	567,
 	4,
 	1,
 	'Display::displayHeartRate line: 4');
 INSERT INTO ACT_IOP
-	VALUES (547,
+	VALUES (564,
 	4,
 	10,
 	4,
 	6,
 	0,
-	29,
+	74,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (550,
-	541,
+	VALUES (567,
+	558,
 	0,
 	5,
 	1,
 	'Display::displayHeartRate line: 5');
 INSERT INTO ACT_IOP
-	VALUES (550,
+	VALUES (567,
 	5,
 	10,
 	5,
 	6,
 	0,
-	33,
+	77,
 	0);
 INSERT INTO V_VAL
-	VALUES (545,
+	VALUES (562,
 	0,
 	0,
 	2,
@@ -7451,13 +7955,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	541);
+	106,
+	558);
 INSERT INTO V_IRF
-	VALUES (545,
-	551);
+	VALUES (562,
+	568);
 INSERT INTO V_VAL
-	VALUES (549,
+	VALUES (566,
 	1,
 	1,
 	3,
@@ -7467,13 +7971,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	541);
+	30,
+	558);
 INSERT INTO V_TVL
-	VALUES (549,
-	552);
+	VALUES (566,
+	569);
 INSERT INTO V_VAL
-	VALUES (553,
+	VALUES (570,
 	0,
 	0,
 	3,
@@ -7483,13 +7987,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	541);
+	106,
+	558);
 INSERT INTO V_IRF
-	VALUES (553,
-	544);
+	VALUES (570,
+	561);
 INSERT INTO V_VAL
-	VALUES (548,
+	VALUES (565,
 	0,
 	0,
 	3,
@@ -7499,15 +8003,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	541);
+	30,
+	558);
 INSERT INTO V_AVL
-	VALUES (548,
-	553,
-	66,
-	554);
+	VALUES (565,
+	570,
+	102,
+	571);
 INSERT INTO V_VAL
-	VALUES (555,
+	VALUES (572,
 	0,
 	0,
 	4,
@@ -7517,21 +8021,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	541);
+	30,
+	558);
 INSERT INTO V_TVL
-	VALUES (555,
-	552);
+	VALUES (572,
+	569);
 INSERT INTO V_PAR
-	VALUES (555,
-	547,
+	VALUES (572,
+	564,
 	0,
 	'value',
-	556,
+	573,
 	4,
 	18);
 INSERT INTO V_VAL
-	VALUES (556,
+	VALUES (573,
 	0,
 	0,
 	4,
@@ -7541,23 +8045,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	490,
-	541);
+	24,
+	558);
 INSERT INTO V_LEN
-	VALUES (556,
-	557,
+	VALUES (573,
+	574,
 	4,
 	42);
 INSERT INTO V_PAR
-	VALUES (556,
-	547,
+	VALUES (573,
+	564,
 	0,
 	'unit',
 	0,
 	4,
 	36);
 INSERT INTO V_VAL
-	VALUES (558,
+	VALUES (575,
 	0,
 	0,
 	5,
@@ -7567,80 +8071,80 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	541);
+	27,
+	558);
 INSERT INTO V_TRV
-	VALUES (558,
-	405,
+	VALUES (575,
+	424,
 	0,
 	1,
 	5,
 	35);
 INSERT INTO V_PAR
-	VALUES (558,
-	550,
+	VALUES (575,
+	567,
 	0,
 	'indicator',
 	0,
 	5,
 	24);
 INSERT INTO V_VAR
-	VALUES (544,
-	541,
+	VALUES (561,
+	558,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (544,
+	VALUES (561,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (551,
-	541,
+	VALUES (568,
+	558,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (551,
+	VALUES (568,
 	0,
-	114);
+	147);
 INSERT INTO V_VAR
-	VALUES (552,
-	541,
+	VALUES (569,
+	558,
 	'heartRate',
 	1,
-	13);
+	30);
 INSERT INTO V_TRN
-	VALUES (552,
+	VALUES (569,
 	0,
 	'');
 INSERT INTO SM_STATE
-	VALUES (559,
-	459,
+	VALUES (576,
+	477,
 	0,
 	'displayLapCount',
 	5,
 	0);
 INSERT INTO SM_SEME
-	VALUES (559,
-	115,
-	459,
+	VALUES (576,
+	148,
+	477,
 	0);
 INSERT INTO SM_SEME
-	VALUES (559,
-	460,
-	459,
+	VALUES (576,
+	478,
+	477,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (560,
-	459,
-	559);
+	VALUES (577,
+	477,
+	576);
 INSERT INTO SM_AH
-	VALUES (560,
-	459);
+	VALUES (577,
+	477);
 INSERT INTO SM_ACT
-	VALUES (560,
-	459,
+	VALUES (577,
+	477,
 	1,
 	'select many lapMarkers related by
   self->WorkoutSession[R7.''indicates current status of'']->
@@ -7650,20 +8154,20 @@ send UI::setIndicator( indicator: Display::goalDispositionIndicator() );
 ',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (561,
-	459,
-	560);
+	VALUES (578,
+	477,
+	577);
 INSERT INTO ACT_ACT
-	VALUES (561,
+	VALUES (578,
 	'state',
 	0,
-	562,
+	579,
 	0,
 	0,
 	'Display::displayLapCount',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (562,
+	VALUES (579,
 	1,
 	0,
 	0,
@@ -7683,31 +8187,31 @@ INSERT INTO ACT_BLK
 	4,
 	55,
 	0,
-	561,
+	578,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (563,
-	562,
-	564,
+	VALUES (580,
+	579,
+	581,
 	1,
 	1,
 	'Display::displayLapCount line: 1');
 INSERT INTO ACT_SEL
-	VALUES (563,
-	565,
+	VALUES (580,
+	582,
 	1,
 	'many',
-	566);
+	583);
 INSERT INTO ACT_SR
-	VALUES (563);
+	VALUES (580);
 INSERT INTO ACT_LNK
-	VALUES (567,
+	VALUES (584,
 	'''indicates current status of''',
-	563,
-	113,
-	568,
+	580,
+	146,
+	585,
 	2,
-	66,
+	102,
 	2,
 	9,
 	2,
@@ -7715,13 +8219,13 @@ INSERT INTO ACT_LNK
 	2,
 	27);
 INSERT INTO ACT_LNK
-	VALUES (568,
+	VALUES (585,
 	'''captures path in''',
 	0,
-	212,
-	569,
+	232,
+	586,
 	2,
-	193,
+	213,
 	3,
 	3,
 	3,
@@ -7729,13 +8233,13 @@ INSERT INTO ACT_LNK
 	3,
 	15);
 INSERT INTO ACT_LNK
-	VALUES (569,
+	VALUES (586,
 	'''has laps defined by''',
 	0,
-	203,
+	223,
 	0,
 	3,
-	204,
+	224,
 	3,
 	36,
 	3,
@@ -7743,39 +8247,39 @@ INSERT INTO ACT_LNK
 	3,
 	49);
 INSERT INTO ACT_SMT
-	VALUES (564,
-	562,
-	570,
+	VALUES (581,
+	579,
+	587,
 	4,
 	1,
 	'Display::displayLapCount line: 4');
 INSERT INTO ACT_IOP
-	VALUES (564,
+	VALUES (581,
 	4,
 	10,
 	4,
 	6,
 	0,
-	29,
+	74,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (570,
-	562,
+	VALUES (587,
+	579,
 	0,
 	5,
 	1,
 	'Display::displayLapCount line: 5');
 INSERT INTO ACT_IOP
-	VALUES (570,
+	VALUES (587,
 	5,
 	10,
 	5,
 	6,
 	0,
-	33,
+	77,
 	0);
 INSERT INTO V_VAL
-	VALUES (566,
+	VALUES (583,
 	0,
 	0,
 	2,
@@ -7785,13 +8289,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	562);
+	106,
+	579);
 INSERT INTO V_IRF
-	VALUES (566,
-	571);
+	VALUES (583,
+	588);
 INSERT INTO V_VAL
-	VALUES (572,
+	VALUES (589,
 	0,
 	0,
 	4,
@@ -7801,13 +8305,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	573,
-	562);
+	590,
+	579);
 INSERT INTO V_ISR
-	VALUES (572,
-	565);
+	VALUES (589,
+	582);
 INSERT INTO V_VAL
-	VALUES (574,
+	VALUES (591,
 	0,
 	0,
 	-1,
@@ -7817,22 +8321,22 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	562);
+	30,
+	579);
 INSERT INTO V_UNY
-	VALUES (574,
-	572,
+	VALUES (591,
+	589,
 	'cardinality');
 INSERT INTO V_PAR
-	VALUES (574,
-	564,
+	VALUES (591,
+	581,
 	0,
 	'value',
-	575,
+	592,
 	4,
 	18);
 INSERT INTO V_VAL
-	VALUES (575,
+	VALUES (592,
 	0,
 	0,
 	4,
@@ -7842,23 +8346,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	490,
-	562);
+	24,
+	579);
 INSERT INTO V_LEN
-	VALUES (575,
-	576,
+	VALUES (592,
+	593,
 	4,
 	55);
 INSERT INTO V_PAR
-	VALUES (575,
-	564,
+	VALUES (592,
+	581,
 	0,
 	'unit',
 	0,
 	4,
 	49);
 INSERT INTO V_VAL
-	VALUES (577,
+	VALUES (594,
 	0,
 	0,
 	5,
@@ -7868,616 +8372,136 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	406,
-	562);
+	27,
+	579);
 INSERT INTO V_TRV
-	VALUES (577,
-	405,
+	VALUES (594,
+	424,
 	0,
 	1,
 	5,
 	35);
 INSERT INTO V_PAR
-	VALUES (577,
-	570,
+	VALUES (594,
+	587,
 	0,
 	'indicator',
 	0,
 	5,
 	24);
 INSERT INTO V_VAR
-	VALUES (565,
-	562,
+	VALUES (582,
+	579,
 	'lapMarkers',
 	1,
-	573);
+	590);
 INSERT INTO V_INS
-	VALUES (565,
-	204);
+	VALUES (582,
+	224);
 INSERT INTO V_VAR
-	VALUES (571,
-	562,
+	VALUES (588,
+	579,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (571,
-	0,
-	114);
-INSERT INTO SM_NSTXN
-	VALUES (578,
-	459,
-	461,
-	115,
-	0);
-INSERT INTO SM_TAH
-	VALUES (579,
-	459,
-	578);
-INSERT INTO SM_AH
-	VALUES (579,
-	459);
-INSERT INTO SM_ACT
-	VALUES (579,
-	459,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (580,
-	459,
-	579);
-INSERT INTO ACT_ACT
-	VALUES (580,
-	'transition',
-	0,
-	581,
-	0,
-	0,
-	'Display1: modeChange',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (581,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	580,
-	0);
-INSERT INTO SM_TXN
-	VALUES (578,
-	459,
-	496,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (582,
-	459,
-	496,
-	115,
-	0);
-INSERT INTO SM_TAH
-	VALUES (583,
-	459,
-	582);
-INSERT INTO SM_AH
-	VALUES (583,
-	459);
-INSERT INTO SM_ACT
-	VALUES (583,
-	459,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (584,
-	459,
-	583);
-INSERT INTO ACT_ACT
-	VALUES (584,
-	'transition',
-	0,
-	585,
-	0,
-	0,
-	'Display1: modeChange',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (585,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	584,
-	0);
-INSERT INTO SM_TXN
-	VALUES (582,
-	459,
-	517,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (586,
-	459,
-	517,
-	115,
-	0);
-INSERT INTO SM_TAH
-	VALUES (587,
-	459,
-	586);
-INSERT INTO SM_AH
-	VALUES (587,
-	459);
-INSERT INTO SM_ACT
-	VALUES (587,
-	459,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
 	VALUES (588,
-	459,
-	587);
-INSERT INTO ACT_ACT
-	VALUES (588,
-	'transition',
 	0,
-	589,
-	0,
-	0,
-	'Display1: modeChange',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (589,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	588,
-	0);
-INSERT INTO SM_TXN
-	VALUES (586,
-	459,
-	538,
-	0);
+	147);
 INSERT INTO SM_NSTXN
-	VALUES (590,
-	459,
-	538,
-	115,
+	VALUES (595,
+	477,
+	479,
+	148,
 	0);
 INSERT INTO SM_TAH
-	VALUES (591,
-	459,
-	590);
-INSERT INTO SM_AH
-	VALUES (591,
-	459);
-INSERT INTO SM_ACT
-	VALUES (591,
-	459,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (592,
-	459,
-	591);
-INSERT INTO ACT_ACT
-	VALUES (592,
-	'transition',
-	0,
-	593,
-	0,
-	0,
-	'Display1: modeChange',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (593,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	592,
-	0);
-INSERT INTO SM_TXN
-	VALUES (590,
-	459,
-	559,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (594,
-	459,
-	461,
-	460,
-	0);
-INSERT INTO SM_TAH
-	VALUES (595,
-	459,
-	594);
-INSERT INTO SM_AH
-	VALUES (595,
-	459);
-INSERT INTO SM_ACT
-	VALUES (595,
-	459,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
 	VALUES (596,
-	459,
+	477,
 	595);
-INSERT INTO ACT_ACT
+INSERT INTO SM_AH
 	VALUES (596,
+	477);
+INSERT INTO SM_ACT
+	VALUES (596,
+	477,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (597,
+	477,
+	596);
+INSERT INTO ACT_ACT
+	VALUES (597,
 	'transition',
+	0,
+	598,
+	0,
+	0,
+	'Display1: modeChange',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (598,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
 	0,
 	597,
-	0,
-	0,
-	'Display2: refresh',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (597,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	596,
 	0);
 INSERT INTO SM_TXN
-	VALUES (594,
-	459,
-	461,
+	VALUES (595,
+	477,
+	513,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (598,
-	459,
-	496,
-	460,
+	VALUES (599,
+	477,
+	513,
+	148,
 	0);
 INSERT INTO SM_TAH
-	VALUES (599,
-	459,
-	598);
-INSERT INTO SM_AH
-	VALUES (599,
-	459);
-INSERT INTO SM_ACT
-	VALUES (599,
-	459,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
 	VALUES (600,
-	459,
+	477,
 	599);
-INSERT INTO ACT_ACT
+INSERT INTO SM_AH
 	VALUES (600,
-	'transition',
-	0,
-	601,
-	0,
-	0,
-	'Display2: refresh',
-	0);
-INSERT INTO ACT_BLK
+	477);
+INSERT INTO SM_ACT
+	VALUES (600,
+	477,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
 	VALUES (601,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	600,
-	0);
-INSERT INTO SM_TXN
-	VALUES (598,
-	459,
-	496,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (602,
-	459,
-	538,
-	460,
-	0);
-INSERT INTO SM_TAH
-	VALUES (603,
-	459,
-	602);
-INSERT INTO SM_AH
-	VALUES (603,
-	459);
-INSERT INTO SM_ACT
-	VALUES (603,
-	459,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (604,
-	459,
-	603);
+	477,
+	600);
 INSERT INTO ACT_ACT
-	VALUES (604,
+	VALUES (601,
 	'transition',
 	0,
-	605,
-	0,
-	0,
-	'Display2: refresh',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (605,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	604,
-	0);
-INSERT INTO SM_TXN
-	VALUES (602,
-	459,
-	538,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (606,
-	459,
-	559,
-	460,
-	0);
-INSERT INTO SM_TAH
-	VALUES (607,
-	459,
-	606);
-INSERT INTO SM_AH
-	VALUES (607,
-	459);
-INSERT INTO SM_ACT
-	VALUES (607,
-	459,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (608,
-	459,
-	607);
-INSERT INTO ACT_ACT
-	VALUES (608,
-	'transition',
-	0,
-	609,
-	0,
-	0,
-	'Display2: refresh',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (609,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	608,
-	0);
-INSERT INTO SM_TXN
-	VALUES (606,
-	459,
-	559,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (610,
-	459,
-	517,
-	460,
-	0);
-INSERT INTO SM_TAH
-	VALUES (611,
-	459,
-	610);
-INSERT INTO SM_AH
-	VALUES (611,
-	459);
-INSERT INTO SM_ACT
-	VALUES (611,
-	459,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (612,
-	459,
-	611);
-INSERT INTO ACT_ACT
-	VALUES (612,
-	'transition',
-	0,
-	613,
-	0,
-	0,
-	'Display2: refresh',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (613,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	612,
-	0);
-INSERT INTO SM_TXN
-	VALUES (610,
-	459,
-	517,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (614,
-	459,
-	559,
-	115,
-	0);
-INSERT INTO SM_TAH
-	VALUES (615,
-	459,
-	614);
-INSERT INTO SM_AH
-	VALUES (615,
-	459);
-INSERT INTO SM_ACT
-	VALUES (615,
-	459,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (616,
-	459,
-	615);
-INSERT INTO ACT_ACT
-	VALUES (616,
-	'transition',
-	0,
-	617,
+	602,
 	0,
 	0,
 	'Display1: modeChange',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (617,
+	VALUES (602,
 	0,
 	0,
 	0,
@@ -8497,6379 +8521,470 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	616,
+	601,
 	0);
 INSERT INTO SM_TXN
-	VALUES (614,
-	459,
-	461,
+	VALUES (599,
+	477,
+	534,
 	0);
-INSERT INTO PE_PE
-	VALUES (221,
-	1,
-	191,
-	0,
-	4);
-INSERT INTO O_OBJ
-	VALUES (221,
-	'Goal',
-	9,
-	'Goal',
-	'Each instance represents a particular goal as it is executing.
-This class knows how to evaluate whether the goal is being achieved 
-and whether the goal has completed.',
+INSERT INTO SM_NSTXN
+	VALUES (603,
+	477,
+	534,
+	148,
 	0);
-INSERT INTO O_TFR
-	VALUES (618,
-	221,
-	'create',
-	'',
-	240,
-	0,
-	'// Create and activate an instance of a goal specified by
-//   the goal specification, if it exists, identified by 
-//   the incoming parameter.
-
-// Find the goal specification for this goal, then
-//   create and relate this goal to the specification
-//   and to the singleton workout session.
-select any goalSpec from instances of GoalSpec 
-  where ( selected.sequenceNumber == param.sequenceNumber );
-if ( not empty goalSpec )
-  create object instance goal of Goal;
-  relate goal to goalSpec across R9.''specified by'';
-  select any session from instances of WorkoutSession;  // WorkoutSession is a singleton
-  relate goal to session across R11.''is currently executing within'';
-
-  // Initialize this goal.
-  goal.calculateStart();
-  goal.disposition = GoalDisposition::Increase;
-
-  // Start a timer that periodically causes evaluation of goal achievement.
-  create event instance evaluateEvent of Goal2:Evaluate to goal;
-  goal.evaluationTimer = TIM::timer_start_recurring( event_inst: evaluateEvent, microseconds: evaluationPeriod );
-end if;
-
-',
+INSERT INTO SM_TAH
+	VALUES (604,
+	477,
+	603);
+INSERT INTO SM_AH
+	VALUES (604,
+	477);
+INSERT INTO SM_ACT
+	VALUES (604,
+	477,
 	1,
 	'',
-	0);
-INSERT INTO O_TPARM
-	VALUES (619,
-	618,
-	'sequenceNumber',
-	13,
-	0,
-	'',
-	0,
-	'Sequence number of the goal specification for which an instance of a goal should be created.');
-INSERT INTO ACT_OPB
-	VALUES (620,
-	618);
+	'');
+INSERT INTO ACT_TAB
+	VALUES (605,
+	477,
+	604);
 INSERT INTO ACT_ACT
-	VALUES (620,
-	'class operation',
+	VALUES (605,
+	'transition',
 	0,
-	621,
+	606,
 	0,
 	0,
-	'Goal::create',
+	'Display1: modeChange',
 	0);
 INSERT INTO ACT_BLK
+	VALUES (606,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	605,
+	0);
+INSERT INTO SM_TXN
+	VALUES (603,
+	477,
+	555,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (607,
+	477,
+	555,
+	148,
+	0);
+INSERT INTO SM_TAH
+	VALUES (608,
+	477,
+	607);
+INSERT INTO SM_AH
+	VALUES (608,
+	477);
+INSERT INTO SM_ACT
+	VALUES (608,
+	477,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (609,
+	477,
+	608);
+INSERT INTO ACT_ACT
+	VALUES (609,
+	'transition',
+	0,
+	610,
+	0,
+	0,
+	'Display1: modeChange',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (610,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	609,
+	0);
+INSERT INTO SM_TXN
+	VALUES (607,
+	477,
+	576,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (611,
+	477,
+	479,
+	478,
+	0);
+INSERT INTO SM_TAH
+	VALUES (612,
+	477,
+	611);
+INSERT INTO SM_AH
+	VALUES (612,
+	477);
+INSERT INTO SM_ACT
+	VALUES (612,
+	477,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (613,
+	477,
+	612);
+INSERT INTO ACT_ACT
+	VALUES (613,
+	'transition',
+	0,
+	614,
+	0,
+	0,
+	'Display2: refresh',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (614,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	613,
+	0);
+INSERT INTO SM_TXN
+	VALUES (611,
+	477,
+	479,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (615,
+	477,
+	513,
+	478,
+	0);
+INSERT INTO SM_TAH
+	VALUES (616,
+	477,
+	615);
+INSERT INTO SM_AH
+	VALUES (616,
+	477);
+INSERT INTO SM_ACT
+	VALUES (616,
+	477,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (617,
+	477,
+	616);
+INSERT INTO ACT_ACT
+	VALUES (617,
+	'transition',
+	0,
+	618,
+	0,
+	0,
+	'Display2: refresh',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (618,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	617,
+	0);
+INSERT INTO SM_TXN
+	VALUES (615,
+	477,
+	513,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (619,
+	477,
+	555,
+	478,
+	0);
+INSERT INTO SM_TAH
+	VALUES (620,
+	477,
+	619);
+INSERT INTO SM_AH
+	VALUES (620,
+	477);
+INSERT INTO SM_ACT
+	VALUES (620,
+	477,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
 	VALUES (621,
-	1,
+	477,
+	620);
+INSERT INTO ACT_ACT
+	VALUES (621,
+	'transition',
 	0,
-	1,
-	'',
-	'',
-	'',
-	10,
-	1,
-	8,
-	39,
+	622,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	620,
+	'Display2: refresh',
 	0);
-INSERT INTO ACT_SMT
+INSERT INTO ACT_BLK
 	VALUES (622,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
 	621,
-	623,
-	8,
-	1,
-	'Goal::create line: 8');
-INSERT INTO ACT_FIW
-	VALUES (622,
-	624,
-	1,
-	'any',
-	625,
-	146,
-	8,
-	39);
-INSERT INTO ACT_SMT
+	0);
+INSERT INTO SM_TXN
+	VALUES (619,
+	477,
+	555,
+	0);
+INSERT INTO SM_NSTXN
 	VALUES (623,
-	621,
-	0,
-	10,
+	477,
+	576,
+	478,
+	0);
+INSERT INTO SM_TAH
+	VALUES (624,
+	477,
+	623);
+INSERT INTO SM_AH
+	VALUES (624,
+	477);
+INSERT INTO SM_ACT
+	VALUES (624,
+	477,
 	1,
-	'Goal::create line: 10');
-INSERT INTO ACT_IF
-	VALUES (623,
-	626,
-	627,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (628,
-	0,
-	0,
-	9,
-	11,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	70,
-	621);
-INSERT INTO V_SLR
-	VALUES (628,
-	0,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (629,
-	0,
-	0,
-	9,
-	20,
-	33,
-	0,
-	0,
-	0,
-	0,
-	13,
-	621);
-INSERT INTO V_AVL
-	VALUES (629,
-	628,
-	146,
-	167);
-INSERT INTO V_VAL
+	'',
+	'');
+INSERT INTO ACT_TAB
 	VALUES (625,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	621);
-INSERT INTO V_BIN
-	VALUES (625,
-	630,
-	629,
-	'==');
-INSERT INTO V_VAL
-	VALUES (630,
-	0,
-	0,
-	9,
-	44,
-	57,
-	0,
-	0,
-	0,
-	0,
-	13,
-	621);
-INSERT INTO V_PVL
-	VALUES (630,
-	0,
-	0,
-	619,
-	0);
-INSERT INTO V_VAL
-	VALUES (631,
-	0,
-	0,
-	10,
-	16,
-	23,
-	0,
-	0,
-	0,
-	0,
-	70,
-	621);
-INSERT INTO V_IRF
-	VALUES (631,
+	477,
 	624);
-INSERT INTO V_VAL
-	VALUES (632,
+INSERT INTO ACT_ACT
+	VALUES (625,
+	'transition',
+	0,
+	626,
 	0,
 	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	621);
-INSERT INTO V_UNY
-	VALUES (632,
-	631,
-	'empty');
-INSERT INTO V_VAL
-	VALUES (627,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	621);
-INSERT INTO V_UNY
-	VALUES (627,
-	632,
-	'not');
-INSERT INTO V_VAR
-	VALUES (624,
-	621,
-	'goalSpec',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (624,
-	0,
-	146);
+	'Display2: refresh',
+	0);
 INSERT INTO ACT_BLK
 	VALUES (626,
-	1,
 	0,
 	0,
-	'TIM',
+	0,
 	'',
 	'',
-	22,
-	3,
-	22,
-	26,
+	'',
 	0,
 	0,
-	14,
-	33,
-	14,
-	37,
-	18,
-	22,
 	0,
-	620,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	625,
 	0);
-INSERT INTO ACT_SMT
+INSERT INTO SM_TXN
+	VALUES (623,
+	477,
+	576,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (627,
+	477,
+	534,
+	478,
+	0);
+INSERT INTO SM_TAH
+	VALUES (628,
+	477,
+	627);
+INSERT INTO SM_AH
+	VALUES (628,
+	477);
+INSERT INTO SM_ACT
+	VALUES (628,
+	477,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (629,
+	477,
+	628);
+INSERT INTO ACT_ACT
+	VALUES (629,
+	'transition',
+	0,
+	630,
+	0,
+	0,
+	'Display2: refresh',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (630,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	629,
+	0);
+INSERT INTO SM_TXN
+	VALUES (627,
+	477,
+	534,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (631,
+	477,
+	576,
+	148,
+	0);
+INSERT INTO SM_TAH
+	VALUES (632,
+	477,
+	631);
+INSERT INTO SM_AH
+	VALUES (632,
+	477);
+INSERT INTO SM_ACT
+	VALUES (632,
+	477,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
 	VALUES (633,
-	626,
+	477,
+	632);
+INSERT INTO ACT_ACT
+	VALUES (633,
+	'transition',
+	0,
 	634,
-	11,
-	3,
-	'Goal::create line: 11');
-INSERT INTO ACT_CR
-	VALUES (633,
-	635,
-	1,
-	221,
-	11,
-	34);
-INSERT INTO ACT_SMT
+	0,
+	0,
+	'Display1: modeChange',
+	0);
+INSERT INTO ACT_BLK
 	VALUES (634,
-	626,
-	636,
-	12,
-	3,
-	'Goal::create line: 12');
-INSERT INTO ACT_REL
-	VALUES (634,
-	635,
-	624,
-	'''specified by''',
-	219,
-	12,
-	34,
-	12,
-	37);
-INSERT INTO ACT_SMT
-	VALUES (636,
-	626,
-	637,
-	13,
-	3,
-	'Goal::create line: 13');
-INSERT INTO ACT_FIO
-	VALUES (636,
-	638,
-	1,
-	'any',
-	66,
-	13,
-	40);
-INSERT INTO ACT_SMT
-	VALUES (637,
-	626,
-	639,
-	14,
-	3,
-	'Goal::create line: 14');
-INSERT INTO ACT_REL
-	VALUES (637,
-	635,
-	638,
-	'''is currently executing within''',
-	225,
-	14,
-	33,
-	14,
-	37);
-INSERT INTO ACT_SMT
-	VALUES (639,
-	626,
-	640,
-	17,
-	3,
-	'Goal::create line: 17');
-INSERT INTO ACT_TFM
-	VALUES (639,
-	641,
-	635,
-	17,
-	8,
 	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (640,
-	626,
-	642,
-	18,
-	3,
-	'Goal::create line: 18');
-INSERT INTO ACT_AI
-	VALUES (640,
-	643,
-	644,
 	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (642,
-	626,
-	645,
-	21,
-	3,
-	'Goal::create line: 21');
-INSERT INTO E_ESS
-	VALUES (642,
-	1,
 	0,
-	21,
-	42,
-	21,
-	48,
-	13,
-	40,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (642,
-	1,
-	646);
-INSERT INTO E_CSME
-	VALUES (642,
-	647);
-INSERT INTO E_CEI
-	VALUES (642,
-	635);
-INSERT INTO ACT_SMT
-	VALUES (645,
-	626,
-	0,
-	22,
-	3,
-	'Goal::create line: 22');
-INSERT INTO ACT_AI
-	VALUES (645,
-	648,
-	649,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (650,
-	1,
-	0,
-	18,
-	3,
-	6,
-	0,
-	0,
-	0,
-	0,
-	70,
-	626);
-INSERT INTO V_IRF
-	VALUES (650,
-	635);
-INSERT INTO V_VAL
-	VALUES (644,
-	1,
-	0,
-	18,
-	8,
-	18,
-	0,
-	0,
-	0,
-	0,
-	437,
-	626);
-INSERT INTO V_AVL
-	VALUES (644,
-	650,
-	221,
-	438);
-INSERT INTO V_VAL
-	VALUES (643,
-	0,
-	0,
-	18,
-	39,
-	46,
-	0,
-	0,
-	0,
-	0,
-	437,
-	626);
-INSERT INTO V_LEN
-	VALUES (643,
-	440,
-	18,
-	22);
-INSERT INTO V_VAL
-	VALUES (651,
-	1,
-	0,
-	22,
-	3,
-	6,
-	0,
-	0,
-	0,
-	0,
-	70,
-	626);
-INSERT INTO V_IRF
-	VALUES (651,
-	635);
-INSERT INTO V_VAL
-	VALUES (649,
-	1,
-	0,
-	22,
-	8,
-	22,
-	0,
-	0,
-	0,
-	0,
-	313,
-	626);
-INSERT INTO V_AVL
-	VALUES (649,
-	651,
-	221,
-	652);
-INSERT INTO V_VAL
-	VALUES (648,
-	0,
-	0,
-	22,
-	31,
-	-1,
-	22,
-	54,
-	22,
-	81,
-	313,
-	626);
-INSERT INTO V_BRV
-	VALUES (648,
-	319,
-	1,
-	22,
-	26);
-INSERT INTO V_VAL
-	VALUES (653,
-	0,
-	0,
-	22,
-	66,
-	78,
-	0,
-	0,
-	0,
-	0,
-	316,
-	626);
-INSERT INTO V_TVL
-	VALUES (653,
-	646);
-INSERT INTO V_PAR
-	VALUES (653,
-	0,
-	648,
-	'event_inst',
-	654,
-	22,
-	54);
-INSERT INTO V_VAL
-	VALUES (654,
-	0,
-	0,
-	22,
-	95,
-	110,
-	0,
-	0,
-	0,
-	0,
-	13,
-	626);
-INSERT INTO V_SCV
-	VALUES (654,
-	655,
-	13);
-INSERT INTO V_PAR
-	VALUES (654,
-	0,
-	648,
-	'microseconds',
-	0,
-	22,
-	81);
-INSERT INTO V_VAR
-	VALUES (635,
-	626,
-	'goal',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (635,
-	0,
-	221);
-INSERT INTO V_VAR
-	VALUES (638,
-	626,
-	'session',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (638,
-	0,
-	66);
-INSERT INTO V_VAR
-	VALUES (646,
-	626,
-	'evaluateEvent',
-	1,
-	316);
-INSERT INTO V_TRN
-	VALUES (646,
-	0,
-	'');
-INSERT INTO O_TFR
-	VALUES (641,
-	221,
-	'calculateStart',
-	'',
-	240,
-	1,
-	'// Based on the span type for this goal, calculate and
-//   store the value of the start attribute.
-select one goalSpec related by self->GoalSpec[R9.''specified by''];
-if ( goalSpec.spanType == GoalSpan::Time )
-  select one workoutTimer related by 
-    self->WorkoutSession[R11.''is currently executing within'']->WorkoutTimer[R8.''is timed by''];
-  self.start = workoutTimer.time;
-elif ( goalSpec.spanType == GoalSpan::Distance )
-  select one session related by self->WorkoutSession[R11.''is currently executing within''];
-  self.start = session.accumulatedDistance;
-else
-  LOG::LogFailure( message: "Goal.calculateStart: Unknown Goal Span Type." );
-end if;',
-	1,
-	'',
-	618);
-INSERT INTO ACT_OPB
-	VALUES (656,
-	641);
-INSERT INTO ACT_ACT
-	VALUES (656,
-	'operation',
-	0,
-	657,
-	0,
-	0,
-	'Goal::calculateStart',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (657,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	11,
-	1,
-	3,
-	38,
-	0,
-	0,
-	3,
-	47,
-	3,
-	50,
-	8,
-	29,
-	0,
-	656,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (658,
-	657,
-	659,
-	3,
-	1,
-	'Goal::calculateStart line: 3');
-INSERT INTO ACT_SEL
-	VALUES (658,
-	660,
-	1,
-	'one',
-	661);
-INSERT INTO ACT_SR
-	VALUES (658);
-INSERT INTO ACT_LNK
-	VALUES (662,
-	'''specified by''',
-	658,
-	219,
-	0,
-	2,
-	146,
-	3,
-	38,
-	3,
-	47,
-	3,
-	50);
-INSERT INTO ACT_SMT
-	VALUES (659,
-	657,
-	0,
-	4,
-	1,
-	'Goal::calculateStart line: 4');
-INSERT INTO ACT_IF
-	VALUES (659,
-	663,
-	664,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (665,
-	657,
-	0,
-	8,
-	1,
-	'Goal::calculateStart line: 8');
-INSERT INTO ACT_EL
-	VALUES (665,
-	666,
-	667,
-	659);
-INSERT INTO ACT_SMT
-	VALUES (668,
-	657,
-	0,
-	11,
-	1,
-	'Goal::calculateStart line: 11');
-INSERT INTO ACT_E
-	VALUES (668,
-	669,
-	659);
-INSERT INTO V_VAL
-	VALUES (661,
-	0,
-	0,
-	3,
-	32,
-	35,
-	0,
-	0,
-	0,
-	0,
-	70,
-	657);
-INSERT INTO V_IRF
-	VALUES (661,
-	670);
-INSERT INTO V_VAL
-	VALUES (671,
-	0,
-	0,
-	4,
-	6,
-	13,
-	0,
-	0,
-	0,
-	0,
-	70,
-	657);
-INSERT INTO V_IRF
-	VALUES (671,
-	660);
-INSERT INTO V_VAL
-	VALUES (672,
-	0,
-	0,
-	4,
-	15,
-	22,
-	0,
-	0,
-	0,
-	0,
-	184,
-	657);
-INSERT INTO V_AVL
-	VALUES (672,
-	671,
-	146,
-	185);
-INSERT INTO V_VAL
-	VALUES (664,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	657);
-INSERT INTO V_BIN
-	VALUES (664,
-	673,
-	672,
-	'==');
-INSERT INTO V_VAL
-	VALUES (673,
-	0,
-	0,
-	4,
-	37,
-	40,
-	0,
-	0,
-	0,
-	0,
-	184,
-	657);
-INSERT INTO V_LEN
-	VALUES (673,
-	366,
-	4,
-	27);
-INSERT INTO V_VAL
-	VALUES (674,
-	0,
-	0,
-	8,
-	8,
-	15,
-	0,
-	0,
-	0,
-	0,
-	70,
-	657);
-INSERT INTO V_IRF
-	VALUES (674,
-	660);
-INSERT INTO V_VAL
-	VALUES (675,
-	0,
-	0,
-	8,
-	17,
-	24,
-	0,
-	0,
-	0,
-	0,
-	184,
-	657);
-INSERT INTO V_AVL
-	VALUES (675,
-	674,
-	146,
-	185);
-INSERT INTO V_VAL
-	VALUES (667,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	657);
-INSERT INTO V_BIN
-	VALUES (667,
-	676,
-	675,
-	'==');
-INSERT INTO V_VAL
-	VALUES (676,
-	0,
-	0,
-	8,
-	39,
-	46,
-	0,
-	0,
-	0,
-	0,
-	184,
-	657);
-INSERT INTO V_LEN
-	VALUES (676,
-	358,
-	8,
-	29);
-INSERT INTO V_VAR
-	VALUES (660,
-	657,
-	'goalSpec',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (660,
-	0,
-	146);
-INSERT INTO V_VAR
-	VALUES (670,
-	657,
-	'self',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (670,
-	0,
-	221);
-INSERT INTO ACT_BLK
-	VALUES (663,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	7,
-	3,
-	6,
-	64,
-	0,
-	0,
-	6,
-	77,
-	6,
-	80,
-	0,
-	0,
-	0,
-	656,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (677,
-	663,
-	678,
-	5,
-	3,
-	'Goal::calculateStart line: 5');
-INSERT INTO ACT_SEL
-	VALUES (677,
-	679,
-	1,
-	'one',
-	680);
-INSERT INTO ACT_SR
-	VALUES (677);
-INSERT INTO ACT_LNK
-	VALUES (681,
-	'''is currently executing within''',
-	677,
-	225,
-	682,
-	2,
-	66,
-	6,
-	11,
-	6,
-	26,
-	6,
-	30);
-INSERT INTO ACT_LNK
-	VALUES (682,
-	'''is timed by''',
-	0,
-	209,
-	0,
-	2,
-	84,
-	6,
-	64,
-	6,
-	77,
-	6,
-	80);
-INSERT INTO ACT_SMT
-	VALUES (678,
-	663,
-	0,
-	7,
-	3,
-	'Goal::calculateStart line: 7');
-INSERT INTO ACT_AI
-	VALUES (678,
-	683,
-	684,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (680,
-	0,
-	0,
-	6,
-	5,
-	8,
-	0,
-	0,
-	0,
-	0,
-	70,
-	663);
-INSERT INTO V_IRF
-	VALUES (680,
-	670);
-INSERT INTO V_VAL
-	VALUES (685,
-	1,
-	0,
-	7,
-	3,
-	6,
-	0,
-	0,
-	0,
-	0,
-	70,
-	663);
-INSERT INTO V_IRF
-	VALUES (685,
-	670);
-INSERT INTO V_VAL
-	VALUES (684,
-	1,
-	0,
-	7,
-	8,
-	12,
-	0,
-	0,
-	0,
-	0,
-	170,
-	663);
-INSERT INTO V_AVL
-	VALUES (684,
-	685,
-	221,
-	686);
-INSERT INTO V_VAL
-	VALUES (687,
-	0,
-	0,
-	7,
-	16,
-	27,
-	0,
-	0,
-	0,
-	0,
-	70,
-	663);
-INSERT INTO V_IRF
-	VALUES (687,
-	679);
-INSERT INTO V_VAL
-	VALUES (683,
-	0,
-	0,
-	7,
-	29,
-	32,
-	0,
-	0,
-	0,
-	0,
-	13,
-	663);
-INSERT INTO V_AVL
-	VALUES (683,
-	687,
-	84,
-	403);
-INSERT INTO V_VAR
-	VALUES (679,
-	663,
-	'workoutTimer',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (679,
-	0,
-	84);
-INSERT INTO ACT_BLK
-	VALUES (666,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	10,
-	3,
-	9,
-	39,
-	0,
-	0,
-	9,
-	54,
-	9,
-	58,
-	0,
-	0,
-	0,
-	656,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (688,
-	666,
-	689,
-	9,
-	3,
-	'Goal::calculateStart line: 9');
-INSERT INTO ACT_SEL
-	VALUES (688,
-	690,
-	1,
-	'one',
-	691);
-INSERT INTO ACT_SR
-	VALUES (688);
-INSERT INTO ACT_LNK
-	VALUES (692,
-	'''is currently executing within''',
-	688,
-	225,
-	0,
-	2,
-	66,
-	9,
-	39,
-	9,
-	54,
-	9,
-	58);
-INSERT INTO ACT_SMT
-	VALUES (689,
-	666,
-	0,
-	10,
-	3,
-	'Goal::calculateStart line: 10');
-INSERT INTO ACT_AI
-	VALUES (689,
-	693,
-	694,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (691,
-	0,
-	0,
-	9,
-	33,
-	36,
-	0,
-	0,
-	0,
-	0,
-	70,
-	666);
-INSERT INTO V_IRF
-	VALUES (691,
-	670);
-INSERT INTO V_VAL
-	VALUES (695,
-	1,
-	0,
-	10,
-	3,
-	6,
-	0,
-	0,
-	0,
-	0,
-	70,
-	666);
-INSERT INTO V_IRF
-	VALUES (695,
-	670);
-INSERT INTO V_VAL
-	VALUES (694,
-	1,
-	0,
-	10,
-	8,
-	12,
-	0,
-	0,
-	0,
-	0,
-	170,
-	666);
-INSERT INTO V_AVL
-	VALUES (694,
-	695,
-	221,
-	686);
-INSERT INTO V_VAL
-	VALUES (696,
-	0,
-	0,
-	10,
-	16,
-	22,
-	0,
-	0,
-	0,
-	0,
-	70,
-	666);
-INSERT INTO V_IRF
-	VALUES (696,
-	690);
-INSERT INTO V_VAL
-	VALUES (693,
-	0,
-	0,
-	10,
-	24,
-	42,
-	0,
-	0,
-	0,
-	0,
-	170,
-	666);
-INSERT INTO V_AVL
-	VALUES (693,
-	696,
-	66,
-	481);
-INSERT INTO V_VAR
-	VALUES (690,
-	666,
-	'session',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (690,
-	0,
-	66);
-INSERT INTO ACT_BLK
-	VALUES (669,
-	0,
-	0,
-	0,
-	'LOG',
-	'',
-	'',
-	12,
-	3,
-	12,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	656,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (697,
-	669,
-	0,
-	12,
-	3,
-	'Goal::calculateStart line: 12');
-INSERT INTO ACT_BRG
-	VALUES (697,
-	94,
-	12,
-	8,
-	12,
-	3);
-INSERT INTO V_VAL
-	VALUES (698,
-	0,
-	0,
-	12,
-	29,
-	73,
-	0,
-	0,
-	0,
-	0,
-	96,
-	669);
-INSERT INTO V_LST
-	VALUES (698,
-	'Goal.calculateStart: Unknown Goal Span Type.');
-INSERT INTO V_PAR
-	VALUES (698,
-	697,
-	0,
-	'message',
-	0,
-	12,
-	20);
-INSERT INTO O_TFR
-	VALUES (699,
-	221,
-	'evaluateAchievement',
-	'',
-	437,
-	1,
-	'// Based on the type of goal, determine whether this one is 
-//   currently being achieved and return a value indicating
-//   the disposition of the this goal.    
-
-// Find the related goal specification and workout session for this goal.
-select one goalSpec related by self->GoalSpec[R9.''specified by''];
-select one session related by self->WorkoutSession[R11.''is currently executing within''];
-
-// Based on the goal criteria type, get the appropriate current value
-//   for comparison against the criteria (minimum and maximum).
-currentValue = 0.0;  // Explicit declaration
-if ( goalSpec.criteriaType == GoalCriteria::HeartRate )
-  currentValue = session.currentHeartRate;
-elif ( goalSpec.criteriaType == GoalCriteria::Pace )
-  currentValue = session.currentPace;
-else
-  LOG::LogFailure( message: "Goal.evaluateAchievement: Unknown Goal Criteria Type." );
-end if;
- 
-// Compare the current value against the criteria to calculate the return value.
-goalDisposition = GoalDisposition::Achieving; 
-if ( currentValue < goalSpec.minimum )
-  goalDisposition = GoalDisposition::Increase;
-elif ( currentValue > goalSpec.maximum )
-  goalDisposition = GoalDisposition::Decrease;
-end if;
-
-// Invert the disposition value to produce a logical, semantic disposition for
-//   goal types, such as pace, that require it.
-if ( goalSpec.criteriaType == GoalCriteria::Pace )
-  if ( goalDisposition == GoalDisposition::Increase )
-    goalDisposition = GoalDisposition::Decrease;
-  elif ( goalDisposition == GoalDisposition::Decrease )
-    goalDisposition = GoalDisposition::Increase;
-  end if;
-end if;
- 
-return( goalDisposition );',
-	1,
-	'',
-	641);
-INSERT INTO ACT_OPB
-	VALUES (700,
-	699);
-INSERT INTO ACT_ACT
-	VALUES (700,
-	'operation',
-	0,
-	701,
-	0,
-	0,
-	'Goal::evaluateAchievement',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (701,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	38,
-	1,
-	7,
-	37,
-	0,
-	0,
-	7,
-	52,
-	7,
-	56,
-	30,
-	31,
-	0,
-	700,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (702,
-	701,
-	703,
-	6,
-	1,
-	'Goal::evaluateAchievement line: 6');
-INSERT INTO ACT_SEL
-	VALUES (702,
-	704,
-	1,
-	'one',
-	705);
-INSERT INTO ACT_SR
-	VALUES (702);
-INSERT INTO ACT_LNK
-	VALUES (706,
-	'''specified by''',
-	702,
-	219,
-	0,
-	2,
-	146,
-	6,
-	38,
-	6,
-	47,
-	6,
-	50);
-INSERT INTO ACT_SMT
-	VALUES (703,
-	701,
-	707,
-	7,
-	1,
-	'Goal::evaluateAchievement line: 7');
-INSERT INTO ACT_SEL
-	VALUES (703,
-	708,
-	1,
-	'one',
-	709);
-INSERT INTO ACT_SR
-	VALUES (703);
-INSERT INTO ACT_LNK
-	VALUES (710,
-	'''is currently executing within''',
-	703,
-	225,
-	0,
-	2,
-	66,
-	7,
-	37,
-	7,
-	52,
-	7,
-	56);
-INSERT INTO ACT_SMT
-	VALUES (707,
-	701,
-	711,
-	11,
-	1,
-	'Goal::evaluateAchievement line: 11');
-INSERT INTO ACT_AI
-	VALUES (707,
-	712,
-	713,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (711,
-	701,
-	714,
-	12,
-	1,
-	'Goal::evaluateAchievement line: 12');
-INSERT INTO ACT_IF
-	VALUES (711,
-	715,
-	716,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (717,
-	701,
-	0,
-	14,
-	1,
-	'Goal::evaluateAchievement line: 14');
-INSERT INTO ACT_EL
-	VALUES (717,
-	718,
-	719,
-	711);
-INSERT INTO ACT_SMT
-	VALUES (720,
-	701,
-	0,
-	16,
-	1,
-	'Goal::evaluateAchievement line: 16');
-INSERT INTO ACT_E
-	VALUES (720,
-	721,
-	711);
-INSERT INTO ACT_SMT
-	VALUES (714,
-	701,
-	722,
-	21,
-	1,
-	'Goal::evaluateAchievement line: 21');
-INSERT INTO ACT_AI
-	VALUES (714,
-	723,
-	724,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (722,
-	701,
-	725,
-	22,
-	1,
-	'Goal::evaluateAchievement line: 22');
-INSERT INTO ACT_IF
-	VALUES (722,
-	726,
-	727,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (728,
-	701,
-	0,
-	24,
-	1,
-	'Goal::evaluateAchievement line: 24');
-INSERT INTO ACT_EL
-	VALUES (728,
-	729,
-	730,
-	722);
-INSERT INTO ACT_SMT
-	VALUES (725,
-	701,
-	731,
-	30,
-	1,
-	'Goal::evaluateAchievement line: 30');
-INSERT INTO ACT_IF
-	VALUES (725,
-	732,
-	733,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (731,
-	701,
-	0,
-	38,
-	1,
-	'Goal::evaluateAchievement line: 38');
-INSERT INTO ACT_RET
-	VALUES (731,
-	734);
-INSERT INTO V_VAL
-	VALUES (705,
-	0,
-	0,
-	6,
-	32,
-	35,
-	0,
-	0,
-	0,
-	0,
-	70,
-	701);
-INSERT INTO V_IRF
-	VALUES (705,
-	735);
-INSERT INTO V_VAL
-	VALUES (709,
-	0,
-	0,
-	7,
-	31,
-	34,
-	0,
-	0,
-	0,
-	0,
-	70,
-	701);
-INSERT INTO V_IRF
-	VALUES (709,
-	735);
-INSERT INTO V_VAL
-	VALUES (713,
-	1,
-	1,
-	11,
-	1,
-	12,
-	0,
-	0,
-	0,
-	0,
-	170,
-	701);
-INSERT INTO V_TVL
-	VALUES (713,
-	736);
-INSERT INTO V_VAL
-	VALUES (712,
-	0,
-	0,
-	11,
-	16,
-	18,
-	0,
-	0,
-	0,
-	0,
-	170,
-	701);
-INSERT INTO V_LRL
-	VALUES (712,
-	'0.0');
-INSERT INTO V_VAL
-	VALUES (737,
-	0,
-	0,
-	12,
-	6,
-	13,
-	0,
-	0,
-	0,
-	0,
-	70,
-	701);
-INSERT INTO V_IRF
-	VALUES (737,
-	704);
-INSERT INTO V_VAL
-	VALUES (738,
-	0,
-	0,
-	12,
-	15,
-	26,
-	0,
-	0,
-	0,
-	0,
-	180,
-	701);
-INSERT INTO V_AVL
-	VALUES (738,
-	737,
-	146,
-	181);
-INSERT INTO V_VAL
-	VALUES (716,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	701);
-INSERT INTO V_BIN
-	VALUES (716,
-	739,
-	738,
-	'==');
-INSERT INTO V_VAL
-	VALUES (739,
-	0,
-	0,
-	12,
-	45,
-	53,
-	0,
-	0,
-	0,
-	0,
-	180,
-	701);
-INSERT INTO V_LEN
-	VALUES (739,
-	364,
-	12,
-	31);
-INSERT INTO V_VAL
-	VALUES (740,
-	0,
-	0,
-	14,
-	8,
-	15,
-	0,
-	0,
-	0,
-	0,
-	70,
-	701);
-INSERT INTO V_IRF
-	VALUES (740,
-	704);
-INSERT INTO V_VAL
-	VALUES (741,
-	0,
-	0,
-	14,
-	17,
-	28,
-	0,
-	0,
-	0,
-	0,
-	180,
-	701);
-INSERT INTO V_AVL
-	VALUES (741,
-	740,
-	146,
-	181);
-INSERT INTO V_VAL
-	VALUES (719,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	701);
-INSERT INTO V_BIN
-	VALUES (719,
-	742,
-	741,
-	'==');
-INSERT INTO V_VAL
-	VALUES (742,
-	0,
-	0,
-	14,
-	47,
-	50,
-	0,
-	0,
-	0,
-	0,
-	180,
-	701);
-INSERT INTO V_LEN
-	VALUES (742,
-	356,
-	14,
-	33);
-INSERT INTO V_VAL
-	VALUES (724,
-	1,
-	1,
-	21,
-	1,
-	15,
-	0,
-	0,
-	0,
-	0,
-	437,
-	701);
-INSERT INTO V_TVL
-	VALUES (724,
-	743);
-INSERT INTO V_VAL
-	VALUES (723,
-	0,
-	0,
-	21,
-	36,
-	44,
-	0,
-	0,
-	0,
-	0,
-	437,
-	701);
-INSERT INTO V_LEN
-	VALUES (723,
-	744,
-	21,
-	19);
-INSERT INTO V_VAL
-	VALUES (745,
-	0,
-	0,
-	22,
-	6,
-	17,
-	0,
-	0,
-	0,
-	0,
-	170,
-	701);
-INSERT INTO V_TVL
-	VALUES (745,
-	736);
-INSERT INTO V_VAL
-	VALUES (727,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	701);
-INSERT INTO V_BIN
-	VALUES (727,
-	746,
-	745,
-	'<');
-INSERT INTO V_VAL
-	VALUES (747,
-	0,
-	0,
-	22,
-	21,
-	28,
-	0,
-	0,
-	0,
-	0,
-	70,
-	701);
-INSERT INTO V_IRF
-	VALUES (747,
-	704);
-INSERT INTO V_VAL
-	VALUES (746,
-	0,
-	0,
-	22,
-	30,
-	36,
-	0,
-	0,
-	0,
-	0,
-	170,
-	701);
-INSERT INTO V_AVL
-	VALUES (746,
-	747,
-	146,
-	171);
-INSERT INTO V_VAL
-	VALUES (748,
-	0,
-	0,
-	24,
-	8,
-	19,
-	0,
-	0,
-	0,
-	0,
-	170,
-	701);
-INSERT INTO V_TVL
-	VALUES (748,
-	736);
-INSERT INTO V_VAL
-	VALUES (730,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	701);
-INSERT INTO V_BIN
-	VALUES (730,
-	749,
-	748,
-	'>');
-INSERT INTO V_VAL
-	VALUES (750,
-	0,
-	0,
-	24,
-	23,
-	30,
-	0,
-	0,
-	0,
-	0,
-	70,
-	701);
-INSERT INTO V_IRF
-	VALUES (750,
-	704);
-INSERT INTO V_VAL
-	VALUES (749,
-	0,
-	0,
-	24,
-	32,
-	38,
-	0,
-	0,
-	0,
-	0,
-	170,
-	701);
-INSERT INTO V_AVL
-	VALUES (749,
-	750,
-	146,
-	174);
-INSERT INTO V_VAL
-	VALUES (751,
-	0,
-	0,
-	30,
-	6,
-	13,
-	0,
-	0,
-	0,
-	0,
-	70,
-	701);
-INSERT INTO V_IRF
-	VALUES (751,
-	704);
-INSERT INTO V_VAL
-	VALUES (752,
-	0,
-	0,
-	30,
-	15,
-	26,
-	0,
-	0,
-	0,
-	0,
-	180,
-	701);
-INSERT INTO V_AVL
-	VALUES (752,
-	751,
-	146,
-	181);
-INSERT INTO V_VAL
-	VALUES (733,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	701);
-INSERT INTO V_BIN
-	VALUES (733,
-	753,
-	752,
-	'==');
-INSERT INTO V_VAL
-	VALUES (753,
-	0,
-	0,
-	30,
-	45,
-	48,
-	0,
-	0,
-	0,
-	0,
-	180,
-	701);
-INSERT INTO V_LEN
-	VALUES (753,
-	356,
-	30,
-	31);
-INSERT INTO V_VAL
-	VALUES (734,
-	0,
-	0,
-	38,
-	9,
-	23,
-	0,
-	0,
-	0,
-	0,
-	437,
-	701);
-INSERT INTO V_TVL
-	VALUES (734,
-	743);
-INSERT INTO V_VAR
-	VALUES (704,
-	701,
-	'goalSpec',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (704,
-	0,
-	146);
-INSERT INTO V_VAR
-	VALUES (735,
-	701,
-	'self',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (735,
-	0,
-	221);
-INSERT INTO V_VAR
-	VALUES (708,
-	701,
-	'session',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (708,
-	0,
-	66);
-INSERT INTO V_VAR
-	VALUES (736,
-	701,
-	'currentValue',
-	1,
-	170);
-INSERT INTO V_TRN
-	VALUES (736,
-	0,
-	'');
-INSERT INTO V_VAR
-	VALUES (743,
-	701,
-	'goalDisposition',
-	1,
-	437);
-INSERT INTO V_TRN
-	VALUES (743,
-	0,
-	'');
-INSERT INTO ACT_BLK
-	VALUES (715,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	13,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	700,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (754,
-	715,
-	0,
-	13,
-	3,
-	'Goal::evaluateAchievement line: 13');
-INSERT INTO ACT_AI
-	VALUES (754,
-	755,
-	756,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (756,
-	1,
-	0,
-	13,
-	3,
-	14,
-	0,
-	0,
-	0,
-	0,
-	170,
-	715);
-INSERT INTO V_TVL
-	VALUES (756,
-	736);
-INSERT INTO V_VAL
-	VALUES (757,
-	0,
-	0,
-	13,
-	18,
-	24,
-	0,
-	0,
-	0,
-	0,
-	70,
-	715);
-INSERT INTO V_IRF
-	VALUES (757,
-	708);
-INSERT INTO V_VAL
-	VALUES (755,
-	0,
-	0,
-	13,
-	26,
-	41,
-	0,
-	0,
-	0,
-	0,
-	13,
-	715);
-INSERT INTO V_AVL
-	VALUES (755,
-	757,
-	66,
-	554);
-INSERT INTO ACT_BLK
-	VALUES (718,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	15,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	700,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (758,
-	718,
-	0,
-	15,
-	3,
-	'Goal::evaluateAchievement line: 15');
-INSERT INTO ACT_AI
-	VALUES (758,
-	759,
-	760,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (760,
-	1,
-	0,
-	15,
-	3,
-	14,
-	0,
-	0,
-	0,
-	0,
-	170,
-	718);
-INSERT INTO V_TVL
-	VALUES (760,
-	736);
-INSERT INTO V_VAL
-	VALUES (761,
-	0,
-	0,
-	15,
-	18,
-	24,
-	0,
-	0,
-	0,
-	0,
-	70,
-	718);
-INSERT INTO V_IRF
-	VALUES (761,
-	708);
-INSERT INTO V_VAL
-	VALUES (759,
-	0,
-	0,
-	15,
-	26,
-	36,
-	0,
-	0,
-	0,
-	0,
-	170,
-	718);
-INSERT INTO V_AVL
-	VALUES (759,
-	761,
-	66,
-	533);
-INSERT INTO ACT_BLK
-	VALUES (721,
-	0,
-	0,
-	0,
-	'LOG',
-	'',
-	'',
-	17,
-	3,
-	17,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	700,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (762,
-	721,
-	0,
-	17,
-	3,
-	'Goal::evaluateAchievement line: 17');
-INSERT INTO ACT_BRG
-	VALUES (762,
-	94,
-	17,
-	8,
-	17,
-	3);
-INSERT INTO V_VAL
-	VALUES (763,
-	0,
-	0,
-	17,
-	29,
-	82,
-	0,
-	0,
-	0,
-	0,
-	96,
-	721);
-INSERT INTO V_LST
-	VALUES (763,
-	'Goal.evaluateAchievement: Unknown Goal Criteria Type.');
-INSERT INTO V_PAR
-	VALUES (763,
-	762,
-	0,
-	'message',
-	0,
-	17,
-	20);
-INSERT INTO ACT_BLK
-	VALUES (726,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	23,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	23,
-	21,
-	0,
-	700,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (764,
-	726,
-	0,
-	23,
-	3,
-	'Goal::evaluateAchievement line: 23');
-INSERT INTO ACT_AI
-	VALUES (764,
-	765,
-	766,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (766,
-	1,
-	0,
-	23,
-	3,
-	17,
-	0,
-	0,
-	0,
-	0,
-	437,
-	726);
-INSERT INTO V_TVL
-	VALUES (766,
-	743);
-INSERT INTO V_VAL
-	VALUES (765,
-	0,
-	0,
-	23,
-	38,
-	45,
-	0,
-	0,
-	0,
-	0,
-	437,
-	726);
-INSERT INTO V_LEN
-	VALUES (765,
-	440,
-	23,
-	21);
-INSERT INTO ACT_BLK
-	VALUES (729,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	25,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	25,
-	21,
-	0,
-	700,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (767,
-	729,
-	0,
-	25,
-	3,
-	'Goal::evaluateAchievement line: 25');
-INSERT INTO ACT_AI
-	VALUES (767,
-	768,
-	769,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (769,
-	1,
-	0,
-	25,
-	3,
-	17,
-	0,
-	0,
-	0,
-	0,
-	437,
-	729);
-INSERT INTO V_TVL
-	VALUES (769,
-	743);
-INSERT INTO V_VAL
-	VALUES (768,
-	0,
-	0,
-	25,
-	38,
-	45,
-	0,
-	0,
-	0,
-	0,
-	437,
-	729);
-INSERT INTO V_LEN
-	VALUES (768,
-	444,
-	25,
-	21);
-INSERT INTO ACT_BLK
-	VALUES (732,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	33,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	33,
-	29,
-	0,
-	700,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (770,
-	732,
-	0,
-	31,
-	3,
-	'Goal::evaluateAchievement line: 31');
-INSERT INTO ACT_IF
-	VALUES (770,
-	771,
-	772,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (773,
-	732,
-	0,
-	33,
-	3,
-	'Goal::evaluateAchievement line: 33');
-INSERT INTO ACT_EL
-	VALUES (773,
-	774,
-	775,
-	770);
-INSERT INTO V_VAL
-	VALUES (776,
-	0,
-	0,
-	31,
-	8,
-	22,
-	0,
-	0,
-	0,
-	0,
-	437,
-	732);
-INSERT INTO V_TVL
-	VALUES (776,
-	743);
-INSERT INTO V_VAL
-	VALUES (772,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	732);
-INSERT INTO V_BIN
-	VALUES (772,
-	777,
-	776,
-	'==');
-INSERT INTO V_VAL
-	VALUES (777,
-	0,
-	0,
-	31,
-	44,
-	51,
-	0,
-	0,
-	0,
-	0,
-	437,
-	732);
-INSERT INTO V_LEN
-	VALUES (777,
-	440,
-	31,
-	27);
-INSERT INTO V_VAL
-	VALUES (778,
-	0,
-	0,
-	33,
-	10,
-	24,
-	0,
-	0,
-	0,
-	0,
-	437,
-	732);
-INSERT INTO V_TVL
-	VALUES (778,
-	743);
-INSERT INTO V_VAL
-	VALUES (775,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	732);
-INSERT INTO V_BIN
-	VALUES (775,
-	779,
-	778,
-	'==');
-INSERT INTO V_VAL
-	VALUES (779,
-	0,
-	0,
-	33,
-	46,
-	53,
-	0,
-	0,
-	0,
-	0,
-	437,
-	732);
-INSERT INTO V_LEN
-	VALUES (779,
-	444,
-	33,
-	29);
-INSERT INTO ACT_BLK
-	VALUES (771,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	32,
-	5,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	32,
-	23,
-	0,
-	700,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (780,
-	771,
-	0,
-	32,
-	5,
-	'Goal::evaluateAchievement line: 32');
-INSERT INTO ACT_AI
-	VALUES (780,
-	781,
-	782,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (782,
-	1,
-	0,
-	32,
-	5,
-	19,
-	0,
-	0,
-	0,
-	0,
-	437,
-	771);
-INSERT INTO V_TVL
-	VALUES (782,
-	743);
-INSERT INTO V_VAL
-	VALUES (781,
-	0,
-	0,
-	32,
-	40,
-	47,
-	0,
-	0,
-	0,
-	0,
-	437,
-	771);
-INSERT INTO V_LEN
-	VALUES (781,
-	444,
-	32,
-	23);
-INSERT INTO ACT_BLK
-	VALUES (774,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	34,
-	5,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	34,
-	23,
-	0,
-	700,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (783,
-	774,
-	0,
-	34,
-	5,
-	'Goal::evaluateAchievement line: 34');
-INSERT INTO ACT_AI
-	VALUES (783,
-	784,
-	785,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (785,
-	1,
-	0,
-	34,
-	5,
-	19,
-	0,
-	0,
-	0,
-	0,
-	437,
-	774);
-INSERT INTO V_TVL
-	VALUES (785,
-	743);
-INSERT INTO V_VAL
-	VALUES (784,
-	0,
-	0,
-	34,
-	40,
-	47,
-	0,
-	0,
-	0,
-	0,
-	437,
-	774);
-INSERT INTO V_LEN
-	VALUES (784,
-	440,
-	34,
-	23);
-INSERT INTO O_TFR
-	VALUES (786,
-	221,
-	'evaluateCompletion',
-	'',
-	240,
-	1,
-	'// Based on the span type for this goal, determine 
-//  whether it has been completed, update achievement
-//  records as necessary, and advance to the next goal
-//  if appropriate.
-
-select one goalSpec related by self->GoalSpec[R9.''specified by''];
-
-// Based on the span type for the goal, get the elapsed span 
-//   for comparison against the specified span for the goal.
-elapsedSpan = 0.0;  // Explicit declaration
-if ( goalSpec.spanType == GoalSpan::Distance )
-  select one session related by self->WorkoutSession[R11.''is currently executing within''];
-  elapsedSpan = session.accumulatedDistance - self.start;
-elif ( goalSpec.spanType == GoalSpan::Time )
-  select one workoutTimer related by 
-    self->WorkoutSession[R11.''is currently executing within'']->WorkoutTimer[R8.''is timed by''];
-  elapsedSpan = workoutTimer.time - self.start;
-else
-  LOG::LogFailure( message: "Goal.evaluateCompletion: Unknown Goal Span Type." );
-end if;
-
-// Compare the current value against the specified span to determine 
-//   whether the execution of this workout goal is complete.
-if ( elapsedSpan >= goalSpec.span )
-  select one openAchievement related by self->Achievement[R14.''has open''];
-  if ( not empty openAchievement )
-    openAchievement.close();
-  end if;
-  generate Goal1:Completed to self;
-end if;
-',
-	1,
-	'',
-	699);
-INSERT INTO ACT_OPB
-	VALUES (787,
-	786);
-INSERT INTO ACT_ACT
-	VALUES (787,
-	'operation',
-	0,
-	788,
-	0,
-	0,
-	'Goal::evaluateCompletion',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (788,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	24,
-	1,
-	6,
-	38,
-	0,
-	0,
-	6,
-	47,
-	6,
-	50,
-	14,
-	29,
-	0,
-	787,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (789,
-	788,
-	790,
-	6,
-	1,
-	'Goal::evaluateCompletion line: 6');
-INSERT INTO ACT_SEL
-	VALUES (789,
-	791,
-	1,
-	'one',
-	792);
-INSERT INTO ACT_SR
-	VALUES (789);
-INSERT INTO ACT_LNK
-	VALUES (793,
-	'''specified by''',
-	789,
-	219,
-	0,
-	2,
-	146,
-	6,
-	38,
-	6,
-	47,
-	6,
-	50);
-INSERT INTO ACT_SMT
-	VALUES (790,
-	788,
-	794,
-	10,
-	1,
-	'Goal::evaluateCompletion line: 10');
-INSERT INTO ACT_AI
-	VALUES (790,
-	795,
-	796,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (794,
-	788,
-	797,
-	11,
-	1,
-	'Goal::evaluateCompletion line: 11');
-INSERT INTO ACT_IF
-	VALUES (794,
-	798,
-	799,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (800,
-	788,
-	0,
-	14,
-	1,
-	'Goal::evaluateCompletion line: 14');
-INSERT INTO ACT_EL
-	VALUES (800,
-	801,
-	802,
-	794);
-INSERT INTO ACT_SMT
-	VALUES (803,
-	788,
-	0,
-	18,
-	1,
-	'Goal::evaluateCompletion line: 18');
-INSERT INTO ACT_E
-	VALUES (803,
-	804,
-	794);
-INSERT INTO ACT_SMT
-	VALUES (797,
-	788,
-	0,
-	24,
-	1,
-	'Goal::evaluateCompletion line: 24');
-INSERT INTO ACT_IF
-	VALUES (797,
-	805,
-	806,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (792,
-	0,
-	0,
-	6,
-	32,
-	35,
-	0,
-	0,
-	0,
-	0,
-	70,
-	788);
-INSERT INTO V_IRF
-	VALUES (792,
-	807);
-INSERT INTO V_VAL
-	VALUES (796,
-	1,
-	1,
-	10,
-	1,
-	11,
-	0,
-	0,
-	0,
-	0,
-	170,
-	788);
-INSERT INTO V_TVL
-	VALUES (796,
-	808);
-INSERT INTO V_VAL
-	VALUES (795,
-	0,
-	0,
-	10,
-	15,
-	17,
-	0,
-	0,
-	0,
-	0,
-	170,
-	788);
-INSERT INTO V_LRL
-	VALUES (795,
-	'0.0');
-INSERT INTO V_VAL
-	VALUES (809,
-	0,
-	0,
-	11,
-	6,
-	13,
-	0,
-	0,
-	0,
-	0,
-	70,
-	788);
-INSERT INTO V_IRF
-	VALUES (809,
-	791);
-INSERT INTO V_VAL
-	VALUES (810,
-	0,
-	0,
-	11,
-	15,
-	22,
-	0,
-	0,
-	0,
-	0,
-	184,
-	788);
-INSERT INTO V_AVL
-	VALUES (810,
-	809,
-	146,
-	185);
-INSERT INTO V_VAL
-	VALUES (799,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	788);
-INSERT INTO V_BIN
-	VALUES (799,
-	811,
-	810,
-	'==');
-INSERT INTO V_VAL
-	VALUES (811,
-	0,
-	0,
-	11,
-	37,
-	44,
-	0,
-	0,
-	0,
-	0,
-	184,
-	788);
-INSERT INTO V_LEN
-	VALUES (811,
-	358,
-	11,
-	27);
-INSERT INTO V_VAL
-	VALUES (812,
-	0,
-	0,
-	14,
-	8,
-	15,
-	0,
-	0,
-	0,
-	0,
-	70,
-	788);
-INSERT INTO V_IRF
-	VALUES (812,
-	791);
-INSERT INTO V_VAL
-	VALUES (813,
-	0,
-	0,
-	14,
-	17,
-	24,
-	0,
-	0,
-	0,
-	0,
-	184,
-	788);
-INSERT INTO V_AVL
-	VALUES (813,
-	812,
-	146,
-	185);
-INSERT INTO V_VAL
-	VALUES (802,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	788);
-INSERT INTO V_BIN
-	VALUES (802,
-	814,
-	813,
-	'==');
-INSERT INTO V_VAL
-	VALUES (814,
-	0,
-	0,
-	14,
-	39,
-	42,
-	0,
-	0,
-	0,
-	0,
-	184,
-	788);
-INSERT INTO V_LEN
-	VALUES (814,
-	366,
-	14,
-	29);
-INSERT INTO V_VAL
-	VALUES (815,
-	0,
-	0,
-	24,
-	6,
-	16,
-	0,
-	0,
-	0,
-	0,
-	170,
-	788);
-INSERT INTO V_TVL
-	VALUES (815,
-	808);
-INSERT INTO V_VAL
-	VALUES (806,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	788);
-INSERT INTO V_BIN
-	VALUES (806,
-	816,
-	815,
-	'>=');
-INSERT INTO V_VAL
-	VALUES (817,
-	0,
-	0,
-	24,
-	21,
-	28,
-	0,
-	0,
-	0,
-	0,
-	70,
-	788);
-INSERT INTO V_IRF
-	VALUES (817,
-	791);
-INSERT INTO V_VAL
-	VALUES (816,
-	0,
-	0,
-	24,
-	30,
-	33,
-	0,
-	0,
-	0,
-	0,
-	170,
-	788);
-INSERT INTO V_AVL
-	VALUES (816,
-	817,
-	146,
-	177);
-INSERT INTO V_VAR
-	VALUES (791,
-	788,
-	'goalSpec',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (791,
-	0,
-	146);
-INSERT INTO V_VAR
-	VALUES (807,
-	788,
-	'self',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (807,
-	0,
-	221);
-INSERT INTO V_VAR
-	VALUES (808,
-	788,
-	'elapsedSpan',
-	1,
-	170);
-INSERT INTO V_TRN
-	VALUES (808,
-	0,
-	'');
-INSERT INTO ACT_BLK
-	VALUES (798,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	13,
-	3,
-	12,
-	39,
-	0,
-	0,
-	12,
-	54,
-	12,
-	58,
-	0,
-	0,
-	0,
-	787,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (818,
-	798,
-	819,
-	12,
-	3,
-	'Goal::evaluateCompletion line: 12');
-INSERT INTO ACT_SEL
-	VALUES (818,
-	820,
-	1,
-	'one',
-	821);
-INSERT INTO ACT_SR
-	VALUES (818);
-INSERT INTO ACT_LNK
-	VALUES (822,
-	'''is currently executing within''',
-	818,
-	225,
-	0,
-	2,
-	66,
-	12,
-	39,
-	12,
-	54,
-	12,
-	58);
-INSERT INTO ACT_SMT
-	VALUES (819,
-	798,
-	0,
-	13,
-	3,
-	'Goal::evaluateCompletion line: 13');
-INSERT INTO ACT_AI
-	VALUES (819,
-	823,
-	824,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (821,
-	0,
-	0,
-	12,
-	33,
-	36,
-	0,
-	0,
-	0,
-	0,
-	70,
-	798);
-INSERT INTO V_IRF
-	VALUES (821,
-	807);
-INSERT INTO V_VAL
-	VALUES (824,
-	1,
-	0,
-	13,
-	3,
-	13,
-	0,
-	0,
-	0,
-	0,
-	170,
-	798);
-INSERT INTO V_TVL
-	VALUES (824,
-	808);
-INSERT INTO V_VAL
-	VALUES (825,
-	0,
-	0,
-	13,
-	17,
-	23,
-	0,
-	0,
-	0,
-	0,
-	70,
-	798);
-INSERT INTO V_IRF
-	VALUES (825,
-	820);
-INSERT INTO V_VAL
-	VALUES (826,
-	0,
-	0,
-	13,
-	25,
-	43,
-	0,
-	0,
-	0,
-	0,
-	170,
-	798);
-INSERT INTO V_AVL
-	VALUES (826,
-	825,
-	66,
-	481);
-INSERT INTO V_VAL
-	VALUES (823,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	170,
-	798);
-INSERT INTO V_BIN
-	VALUES (823,
-	827,
-	826,
-	'-');
-INSERT INTO V_VAL
-	VALUES (828,
-	0,
-	0,
-	13,
-	47,
-	50,
-	0,
-	0,
-	0,
-	0,
-	70,
-	798);
-INSERT INTO V_IRF
-	VALUES (828,
-	807);
-INSERT INTO V_VAL
-	VALUES (827,
-	0,
-	0,
-	13,
-	52,
-	56,
-	0,
-	0,
-	0,
-	0,
-	170,
-	798);
-INSERT INTO V_AVL
-	VALUES (827,
-	828,
-	221,
-	686);
-INSERT INTO V_VAR
-	VALUES (820,
-	798,
-	'session',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (820,
-	0,
-	66);
-INSERT INTO ACT_BLK
-	VALUES (801,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	17,
-	3,
-	16,
-	64,
-	0,
-	0,
-	16,
-	77,
-	16,
-	80,
-	0,
-	0,
-	0,
-	787,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (829,
-	801,
-	830,
-	15,
-	3,
-	'Goal::evaluateCompletion line: 15');
-INSERT INTO ACT_SEL
-	VALUES (829,
-	831,
-	1,
-	'one',
-	832);
-INSERT INTO ACT_SR
-	VALUES (829);
-INSERT INTO ACT_LNK
-	VALUES (833,
-	'''is currently executing within''',
-	829,
-	225,
-	834,
-	2,
-	66,
-	16,
-	11,
-	16,
-	26,
-	16,
-	30);
-INSERT INTO ACT_LNK
-	VALUES (834,
-	'''is timed by''',
-	0,
-	209,
-	0,
-	2,
-	84,
-	16,
-	64,
-	16,
-	77,
-	16,
-	80);
-INSERT INTO ACT_SMT
-	VALUES (830,
-	801,
-	0,
-	17,
-	3,
-	'Goal::evaluateCompletion line: 17');
-INSERT INTO ACT_AI
-	VALUES (830,
-	835,
-	836,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (832,
-	0,
-	0,
-	16,
-	5,
-	8,
-	0,
-	0,
-	0,
-	0,
-	70,
-	801);
-INSERT INTO V_IRF
-	VALUES (832,
-	807);
-INSERT INTO V_VAL
-	VALUES (836,
-	1,
-	0,
-	17,
-	3,
-	13,
-	0,
-	0,
-	0,
-	0,
-	170,
-	801);
-INSERT INTO V_TVL
-	VALUES (836,
-	808);
-INSERT INTO V_VAL
-	VALUES (837,
-	0,
-	0,
-	17,
-	17,
-	28,
-	0,
-	0,
-	0,
-	0,
-	70,
-	801);
-INSERT INTO V_IRF
-	VALUES (837,
-	831);
-INSERT INTO V_VAL
-	VALUES (838,
-	0,
-	0,
-	17,
-	30,
-	33,
-	0,
-	0,
-	0,
-	0,
-	13,
-	801);
-INSERT INTO V_AVL
-	VALUES (838,
-	837,
-	84,
-	403);
-INSERT INTO V_VAL
-	VALUES (835,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	170,
-	801);
-INSERT INTO V_BIN
-	VALUES (835,
-	839,
-	838,
-	'-');
-INSERT INTO V_VAL
-	VALUES (840,
-	0,
-	0,
-	17,
-	37,
-	40,
-	0,
-	0,
-	0,
-	0,
-	70,
-	801);
-INSERT INTO V_IRF
-	VALUES (840,
-	807);
-INSERT INTO V_VAL
-	VALUES (839,
-	0,
-	0,
-	17,
-	42,
-	46,
-	0,
-	0,
-	0,
-	0,
-	170,
-	801);
-INSERT INTO V_AVL
-	VALUES (839,
-	840,
-	221,
-	686);
-INSERT INTO V_VAR
-	VALUES (831,
-	801,
-	'workoutTimer',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (831,
-	0,
-	84);
-INSERT INTO ACT_BLK
-	VALUES (804,
-	0,
-	0,
-	0,
-	'LOG',
-	'',
-	'',
-	19,
-	3,
-	19,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	787,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (841,
-	804,
-	0,
-	19,
-	3,
-	'Goal::evaluateCompletion line: 19');
-INSERT INTO ACT_BRG
-	VALUES (841,
-	94,
-	19,
-	8,
-	19,
-	3);
-INSERT INTO V_VAL
-	VALUES (842,
-	0,
-	0,
-	19,
-	29,
-	77,
-	0,
-	0,
-	0,
-	0,
-	96,
-	804);
-INSERT INTO V_LST
-	VALUES (842,
-	'Goal.evaluateCompletion: Unknown Goal Span Type.');
-INSERT INTO V_PAR
-	VALUES (842,
-	841,
-	0,
-	'message',
-	0,
-	19,
-	20);
-INSERT INTO ACT_BLK
-	VALUES (805,
-	1,
-	0,
-	0,
-	'V_VAR.Var_ID',
-	'',
-	'',
-	29,
-	3,
-	25,
-	47,
-	0,
-	0,
-	25,
-	59,
-	25,
-	63,
-	0,
-	0,
-	0,
-	787,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (843,
-	805,
-	844,
-	25,
-	3,
-	'Goal::evaluateCompletion line: 25');
-INSERT INTO ACT_SEL
-	VALUES (843,
-	845,
-	1,
-	'one',
-	846);
-INSERT INTO ACT_SR
-	VALUES (843);
-INSERT INTO ACT_LNK
-	VALUES (847,
-	'''has open''',
-	843,
-	235,
-	0,
-	2,
-	230,
-	25,
-	47,
-	25,
-	59,
-	25,
-	63);
-INSERT INTO ACT_SMT
-	VALUES (844,
-	805,
-	848,
-	26,
-	3,
-	'Goal::evaluateCompletion line: 26');
-INSERT INTO ACT_IF
-	VALUES (844,
-	849,
-	850,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (848,
-	805,
-	0,
-	29,
-	3,
-	'Goal::evaluateCompletion line: 29');
-INSERT INTO E_ESS
-	VALUES (848,
-	1,
-	0,
-	29,
-	12,
-	29,
-	18,
-	25,
-	47,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_GES
-	VALUES (848);
-INSERT INTO E_GSME
-	VALUES (848,
-	851);
-INSERT INTO E_GEN
-	VALUES (848,
-	807);
-INSERT INTO V_VAL
-	VALUES (846,
-	0,
-	0,
-	25,
-	41,
-	44,
-	0,
-	0,
-	0,
-	0,
-	70,
-	805);
-INSERT INTO V_IRF
-	VALUES (846,
-	807);
-INSERT INTO V_VAL
-	VALUES (852,
-	0,
-	0,
-	26,
-	18,
-	32,
-	0,
-	0,
-	0,
-	0,
-	70,
-	805);
-INSERT INTO V_IRF
-	VALUES (852,
-	845);
-INSERT INTO V_VAL
-	VALUES (853,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	805);
-INSERT INTO V_UNY
-	VALUES (853,
-	852,
-	'empty');
-INSERT INTO V_VAL
-	VALUES (850,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	805);
-INSERT INTO V_UNY
-	VALUES (850,
-	853,
-	'not');
-INSERT INTO V_VAR
-	VALUES (845,
-	805,
-	'openAchievement',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (845,
-	0,
-	230);
-INSERT INTO ACT_BLK
-	VALUES (849,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	27,
-	5,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	787,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (854,
-	849,
-	0,
-	27,
-	5,
-	'Goal::evaluateCompletion line: 27');
-INSERT INTO ACT_TFM
-	VALUES (854,
-	382,
-	845,
-	27,
-	21,
-	0,
-	0);
-INSERT INTO O_TFR
-	VALUES (121,
-	221,
-	'nextGoal',
-	'',
-	240,
-	0,
-	'// Advance to the next goal or start the first one if one
-//   is currently not exectuing.
-
-//  If there is a goal currently executing, notify it that its execution
-//    has completed.
-//  Otherwise, create and start a goal for the first goal specification
-//    if one exists.
-select any session from instances of WorkoutSession;  // WorkoutSession is a singleton.
-if ( not empty session )
-  select one goal related by session->Goal[R11.''is currently executing''];
-  if ( not empty goal )
-    generate Goal1:Completed to goal;
-  else
-    Goal::create( sequenceNumber: GoalSpecOrigin );
-  end if;
-end if;',
-	1,
-	'',
-	786);
-INSERT INTO ACT_OPB
-	VALUES (855,
-	121);
-INSERT INTO ACT_ACT
-	VALUES (855,
-	'class operation',
-	0,
-	856,
-	0,
-	0,
-	'Goal::nextGoal',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (856,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	9,
-	1,
-	8,
-	38,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	855,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (857,
-	856,
-	858,
-	8,
-	1,
-	'Goal::nextGoal line: 8');
-INSERT INTO ACT_FIO
-	VALUES (857,
-	859,
-	1,
-	'any',
-	66,
-	8,
-	38);
-INSERT INTO ACT_SMT
-	VALUES (858,
-	856,
-	0,
-	9,
-	1,
-	'Goal::nextGoal line: 9');
-INSERT INTO ACT_IF
-	VALUES (858,
-	860,
-	861,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (862,
-	0,
-	0,
-	9,
-	16,
-	22,
-	0,
-	0,
-	0,
-	0,
-	70,
-	856);
-INSERT INTO V_IRF
-	VALUES (862,
-	859);
-INSERT INTO V_VAL
-	VALUES (863,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	856);
-INSERT INTO V_UNY
-	VALUES (863,
-	862,
-	'empty');
-INSERT INTO V_VAL
-	VALUES (861,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	856);
-INSERT INTO V_UNY
-	VALUES (861,
-	863,
-	'not');
-INSERT INTO V_VAR
-	VALUES (859,
-	856,
-	'session',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (859,
-	0,
-	66);
-INSERT INTO ACT_BLK
-	VALUES (860,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	13,
-	3,
-	10,
-	39,
-	0,
-	0,
-	10,
-	44,
-	10,
-	48,
-	0,
-	0,
-	0,
-	855,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (864,
-	860,
-	865,
-	10,
-	3,
-	'Goal::nextGoal line: 10');
-INSERT INTO ACT_SEL
-	VALUES (864,
-	866,
-	1,
-	'one',
-	867);
-INSERT INTO ACT_SR
-	VALUES (864);
-INSERT INTO ACT_LNK
-	VALUES (868,
-	'''is currently executing''',
-	864,
-	225,
-	0,
-	2,
-	221,
-	10,
-	39,
-	10,
-	44,
-	10,
-	48);
-INSERT INTO ACT_SMT
-	VALUES (865,
-	860,
-	0,
-	11,
-	3,
-	'Goal::nextGoal line: 11');
-INSERT INTO ACT_IF
-	VALUES (865,
-	869,
-	870,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (871,
-	860,
-	0,
-	13,
-	3,
-	'Goal::nextGoal line: 13');
-INSERT INTO ACT_E
-	VALUES (871,
-	872,
-	865);
-INSERT INTO V_VAL
-	VALUES (867,
-	0,
-	0,
-	10,
-	30,
-	36,
-	0,
-	0,
-	0,
-	0,
-	70,
-	860);
-INSERT INTO V_IRF
-	VALUES (867,
-	859);
-INSERT INTO V_VAL
-	VALUES (873,
-	0,
-	0,
-	11,
-	18,
-	21,
-	0,
-	0,
-	0,
-	0,
-	70,
-	860);
-INSERT INTO V_IRF
-	VALUES (873,
-	866);
-INSERT INTO V_VAL
-	VALUES (874,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	860);
-INSERT INTO V_UNY
-	VALUES (874,
-	873,
-	'empty');
-INSERT INTO V_VAL
-	VALUES (870,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	860);
-INSERT INTO V_UNY
-	VALUES (870,
-	874,
-	'not');
-INSERT INTO V_VAR
-	VALUES (866,
-	860,
-	'goal',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (866,
-	0,
-	221);
-INSERT INTO ACT_BLK
-	VALUES (869,
-	0,
-	0,
-	0,
-	'V_VAR.Var_ID',
-	'',
-	'',
-	12,
-	5,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	855,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (875,
-	869,
-	0,
-	12,
-	5,
-	'Goal::nextGoal line: 12');
-INSERT INTO E_ESS
-	VALUES (875,
-	1,
-	0,
-	12,
-	14,
-	12,
-	20,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_GES
-	VALUES (875);
-INSERT INTO E_GSME
-	VALUES (875,
-	851);
-INSERT INTO E_GEN
-	VALUES (875,
-	866);
-INSERT INTO ACT_BLK
-	VALUES (872,
-	0,
-	0,
-	0,
-	'Goal',
-	'',
-	'',
-	14,
-	5,
-	14,
-	5,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	855,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (876,
-	872,
-	0,
-	14,
-	5,
-	'Goal::nextGoal line: 14');
-INSERT INTO ACT_TFM
-	VALUES (876,
-	618,
-	0,
-	14,
-	11,
-	14,
-	5);
-INSERT INTO V_VAL
-	VALUES (877,
-	0,
-	0,
-	14,
-	35,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	872);
-INSERT INTO V_SCV
-	VALUES (877,
-	878,
-	13);
-INSERT INTO V_PAR
-	VALUES (877,
-	876,
-	0,
-	'sequenceNumber',
-	0,
-	14,
-	19);
-INSERT INTO O_NBATTR
-	VALUES (438,
-	221);
-INSERT INTO O_BATTR
-	VALUES (438,
-	221);
-INSERT INTO O_ATTR
-	VALUES (438,
-	221,
-	686,
-	'disposition',
-	'The disposition of this goal.  See data type descriptions for details.
-This attribute represents the logical or semantic disposition of the goal.
-For example, a disposition indicating the need to increase the value in question
-for a heart-rate goal means that activity should be increased to drive up the 
-heart rate.  Since pace is the inverse of speed, a disposition indicating 
-the need to increase the value in question (pace) means that the user must
-increase speed, causing a lower (faster) pace number.',
-	'',
-	'disposition',
-	0,
-	437,
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES (686,
-	221);
-INSERT INTO O_BATTR
-	VALUES (686,
-	221);
-INSERT INTO O_ATTR
-	VALUES (686,
-	221,
-	879,
-	'start',
-	'Captures the starting point of the span for this particular goal so 
-that the end of the goal execution period can be determined.  In other
-words, using the value of this attribute together with the span specified
-by the associated goal specification, the goal knows when it is finished.
-
-For distance-based goals, it is expressed as the accumulated distance
-in meters for the associated workout session at the time this goal
-execution commenced.
-
-For time-based goals, it is expressed as the elapsed time in seconds
-for the associated workout session at the time this goal execution
-commenced.',
-	'',
-	'start',
-	0,
-	170,
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES (879,
-	221);
-INSERT INTO O_BATTR
-	VALUES (879,
-	221);
-INSERT INTO O_ATTR
-	VALUES (879,
-	221,
-	0,
-	'ID',
-	'An arbitrary identifier.',
-	'',
-	'ID',
-	0,
-	880,
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES (881,
-	221);
-INSERT INTO O_BATTR
-	VALUES (881,
-	221);
-INSERT INTO O_ATTR
-	VALUES (881,
-	221,
-	652,
-	'current_state',
-	'',
-	'',
-	'current_state',
-	0,
-	458,
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES (652,
-	221);
-INSERT INTO O_BATTR
-	VALUES (652,
-	221);
-INSERT INTO O_ATTR
-	VALUES (652,
-	221,
-	438,
-	'evaluationTimer',
-	'Handle for the timer used for periodic evaluation of goal achievement.',
-	'',
-	'evaluationTimer',
-	0,
-	313,
-	'',
-	'');
-INSERT INTO O_ID
-	VALUES (0,
-	221);
-INSERT INTO O_ID
-	VALUES (1,
-	221);
-INSERT INTO O_ID
-	VALUES (2,
-	221);
-INSERT INTO SM_ISM
-	VALUES (882,
-	221);
-INSERT INTO SM_SM
-	VALUES (882,
-	'',
-	0);
-INSERT INTO SM_MOORE
-	VALUES (882);
-INSERT INTO SM_LEVT
-	VALUES (851,
-	882,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (851,
-	882,
-	0);
-INSERT INTO SM_EVT
-	VALUES (851,
-	882,
-	0,
-	1,
-	'Completed',
-	0,
-	'',
-	'Goal1',
-	'Indicates that execution of this goal has been completed.  ');
-INSERT INTO SM_LEVT
-	VALUES (647,
-	882,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (647,
-	882,
-	0);
-INSERT INTO SM_EVT
-	VALUES (647,
-	882,
-	0,
-	2,
-	'Evaluate',
-	0,
-	'',
-	'Goal2',
-	'Indicates that this goal should be evaluated for completeness and achievement.');
-INSERT INTO SM_LEVT
-	VALUES (883,
-	882,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (883,
-	882,
-	0);
-INSERT INTO SM_EVT
-	VALUES (883,
-	882,
-	0,
-	3,
-	'Pause',
-	0,
-	'',
-	'Goal3',
-	'');
-INSERT INTO SM_STATE
-	VALUES (884,
-	882,
-	0,
-	'Executing',
-	1,
-	0);
-INSERT INTO SM_SEME
-	VALUES (884,
-	851,
-	882,
-	0);
-INSERT INTO SM_SEME
-	VALUES (884,
-	647,
-	882,
-	0);
-INSERT INTO SM_SEME
-	VALUES (884,
-	883,
-	882,
-	0);
-INSERT INTO SM_MOAH
-	VALUES (885,
-	882,
-	884);
-INSERT INTO SM_AH
-	VALUES (885,
-	882);
-INSERT INTO SM_ACT
-	VALUES (885,
-	882,
-	1,
-	'// Determine whether this goal is currently being achieved.
-disposition = self.evaluateAchievement();
-
-// Update achievement records if necessary.  There are four cases:
-//   0. Still not achieving this goal. 
-//   1. Just started achieving this goal.
-//   2. Just stopped achieving this goal.
-//   3. Still achieving this goal.
-// For cases 0 and 3, there is nothing to be done for achievement records.
-// Case 1 requires the creation of a new achievment record, storing the start time.
-// Case 2 requires the storing of the end time for the open achievement record.
-if ( (self.disposition != GoalDisposition::Achieving) and (disposition == GoalDisposition::Achieving) )
-  // Case 1, create achievement record, store start time, relate it as open record.
-  create object instance achievement of Achievement;
-  relate self to achievement across R14.''has open'';
-  select one workoutTimer related by 
-    self->WorkoutSession[R11.''is currently executing within'']->WorkoutTimer[R8.''is timed by''];
-  achievement.startTime = workoutTimer.time;
-elif ( (self.disposition == GoalDisposition::Achieving) and (disposition != GoalDisposition::Achieving) )
-  // Case 2, store end time, relate as recorded record, unrelate as open record.
-  select one achievement related by self->Achievement[R14.''has open''];
-  achievement.close();
-end if;
-
-// Update disposition of this goal.
-self.disposition = disposition;
-
-// Determine whether execution of this goal is complete, 
-//  and if so, advance to the next one if it exists.
-self.evaluateCompletion();',
-	'');
-INSERT INTO ACT_SAB
-	VALUES (886,
-	882,
-	885);
-INSERT INTO ACT_ACT
-	VALUES (886,
-	'state',
-	0,
-	887,
-	0,
-	0,
-	'Goal::Executing',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (887,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	30,
-	1,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	19,
-	77,
-	0,
-	886,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (888,
-	887,
-	889,
-	2,
-	1,
-	'Goal::Executing line: 2');
-INSERT INTO ACT_AI
-	VALUES (888,
-	890,
-	891,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (889,
-	887,
-	892,
-	12,
-	1,
-	'Goal::Executing line: 12');
-INSERT INTO ACT_IF
-	VALUES (889,
-	893,
-	894,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (895,
-	887,
-	0,
-	19,
-	1,
-	'Goal::Executing line: 19');
-INSERT INTO ACT_EL
-	VALUES (895,
-	896,
-	897,
-	889);
-INSERT INTO ACT_SMT
-	VALUES (892,
-	887,
-	898,
-	26,
-	1,
-	'Goal::Executing line: 26');
-INSERT INTO ACT_AI
-	VALUES (892,
-	899,
-	900,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (898,
-	887,
-	0,
-	30,
-	1,
-	'Goal::Executing line: 30');
-INSERT INTO ACT_TFM
-	VALUES (898,
-	786,
-	901,
-	30,
-	6,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (891,
-	1,
-	1,
-	2,
-	1,
-	11,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_TVL
-	VALUES (891,
-	902);
-INSERT INTO V_VAL
-	VALUES (890,
-	0,
-	0,
-	2,
-	20,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_TRV
-	VALUES (890,
-	699,
-	901,
-	1,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (903,
-	0,
-	0,
-	12,
-	7,
-	10,
-	0,
-	0,
-	0,
-	0,
-	70,
-	887);
-INSERT INTO V_IRF
-	VALUES (903,
-	901);
-INSERT INTO V_VAL
-	VALUES (904,
-	0,
-	0,
-	12,
-	12,
-	22,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_AVL
-	VALUES (904,
-	903,
-	221,
-	438);
-INSERT INTO V_VAL
-	VALUES (905,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	887);
-INSERT INTO V_BIN
-	VALUES (905,
-	906,
-	904,
-	'!=');
-INSERT INTO V_VAL
-	VALUES (906,
-	0,
-	0,
-	12,
-	44,
-	52,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_LEN
-	VALUES (906,
-	744,
-	12,
-	27);
-INSERT INTO V_VAL
-	VALUES (907,
-	0,
-	0,
-	12,
-	60,
-	70,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_TVL
-	VALUES (907,
-	902);
-INSERT INTO V_VAL
-	VALUES (908,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	887);
-INSERT INTO V_BIN
-	VALUES (908,
-	909,
-	907,
-	'==');
-INSERT INTO V_VAL
-	VALUES (909,
-	0,
-	0,
-	12,
-	92,
-	100,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_LEN
-	VALUES (909,
-	744,
-	12,
-	75);
-INSERT INTO V_VAL
-	VALUES (894,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	887);
-INSERT INTO V_BIN
-	VALUES (894,
-	908,
-	905,
-	'and');
-INSERT INTO V_VAL
-	VALUES (910,
-	0,
-	0,
-	19,
-	9,
-	12,
-	0,
-	0,
-	0,
-	0,
-	70,
-	887);
-INSERT INTO V_IRF
-	VALUES (910,
-	901);
-INSERT INTO V_VAL
-	VALUES (911,
-	0,
-	0,
-	19,
-	14,
-	24,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_AVL
-	VALUES (911,
-	910,
-	221,
-	438);
-INSERT INTO V_VAL
-	VALUES (912,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	887);
-INSERT INTO V_BIN
-	VALUES (912,
-	913,
-	911,
-	'==');
-INSERT INTO V_VAL
-	VALUES (913,
-	0,
-	0,
-	19,
-	46,
-	54,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_LEN
-	VALUES (913,
-	744,
-	19,
-	29);
-INSERT INTO V_VAL
-	VALUES (914,
-	0,
-	0,
-	19,
-	62,
-	72,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_TVL
-	VALUES (914,
-	902);
-INSERT INTO V_VAL
-	VALUES (915,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	887);
-INSERT INTO V_BIN
-	VALUES (915,
-	916,
-	914,
-	'!=');
-INSERT INTO V_VAL
-	VALUES (916,
-	0,
-	0,
-	19,
-	94,
-	102,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_LEN
-	VALUES (916,
-	744,
-	19,
-	77);
-INSERT INTO V_VAL
-	VALUES (897,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	887);
-INSERT INTO V_BIN
-	VALUES (897,
-	915,
-	912,
-	'and');
-INSERT INTO V_VAL
-	VALUES (917,
-	1,
-	0,
-	26,
-	1,
-	4,
-	0,
-	0,
-	0,
-	0,
-	70,
-	887);
-INSERT INTO V_IRF
-	VALUES (917,
-	901);
-INSERT INTO V_VAL
-	VALUES (900,
-	1,
-	0,
-	26,
-	6,
-	16,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_AVL
-	VALUES (900,
-	917,
-	221,
-	438);
-INSERT INTO V_VAL
-	VALUES (899,
-	0,
-	0,
-	26,
-	20,
-	30,
-	0,
-	0,
-	0,
-	0,
-	437,
-	887);
-INSERT INTO V_TVL
-	VALUES (899,
-	902);
-INSERT INTO V_VAR
-	VALUES (902,
-	887,
-	'disposition',
-	1,
-	437);
-INSERT INTO V_TRN
-	VALUES (902,
-	0,
-	'');
-INSERT INTO V_VAR
-	VALUES (901,
-	887,
-	'self',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (901,
-	0,
-	221);
-INSERT INTO ACT_BLK
-	VALUES (893,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	18,
-	3,
-	17,
-	64,
-	0,
-	0,
-	17,
-	77,
-	17,
-	80,
-	0,
-	0,
-	0,
-	886,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (918,
-	893,
-	919,
-	14,
-	3,
-	'Goal::Executing line: 14');
-INSERT INTO ACT_CR
-	VALUES (918,
-	920,
-	1,
-	230,
-	14,
-	41);
-INSERT INTO ACT_SMT
-	VALUES (919,
-	893,
-	921,
-	15,
-	3,
-	'Goal::Executing line: 15');
-INSERT INTO ACT_REL
-	VALUES (919,
-	901,
-	920,
-	'''has open''',
-	235,
-	15,
-	37,
-	15,
-	41);
-INSERT INTO ACT_SMT
-	VALUES (921,
-	893,
-	922,
-	16,
-	3,
-	'Goal::Executing line: 16');
-INSERT INTO ACT_SEL
-	VALUES (921,
-	923,
-	1,
-	'one',
-	924);
-INSERT INTO ACT_SR
-	VALUES (921);
-INSERT INTO ACT_LNK
-	VALUES (925,
-	'''is currently executing within''',
-	921,
-	225,
-	926,
-	2,
-	66,
-	17,
-	11,
-	17,
-	26,
-	17,
-	30);
-INSERT INTO ACT_LNK
-	VALUES (926,
-	'''is timed by''',
-	0,
-	209,
-	0,
-	2,
-	84,
-	17,
-	64,
-	17,
-	77,
-	17,
-	80);
-INSERT INTO ACT_SMT
-	VALUES (922,
-	893,
-	0,
-	18,
-	3,
-	'Goal::Executing line: 18');
-INSERT INTO ACT_AI
-	VALUES (922,
-	927,
-	928,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (924,
-	0,
-	0,
-	17,
-	5,
-	8,
-	0,
-	0,
-	0,
-	0,
-	70,
-	893);
-INSERT INTO V_IRF
-	VALUES (924,
-	901);
-INSERT INTO V_VAL
-	VALUES (929,
-	1,
-	0,
-	18,
-	3,
-	13,
-	0,
-	0,
-	0,
-	0,
-	70,
-	893);
-INSERT INTO V_IRF
-	VALUES (929,
-	920);
-INSERT INTO V_VAL
-	VALUES (928,
-	1,
-	0,
-	18,
-	15,
-	23,
-	0,
-	0,
-	0,
-	0,
-	13,
-	893);
-INSERT INTO V_AVL
-	VALUES (928,
-	929,
-	230,
-	404);
-INSERT INTO V_VAL
-	VALUES (930,
-	0,
-	0,
-	18,
-	27,
-	38,
-	0,
-	0,
-	0,
-	0,
-	70,
-	893);
-INSERT INTO V_IRF
-	VALUES (930,
-	923);
-INSERT INTO V_VAL
-	VALUES (927,
-	0,
-	0,
-	18,
-	40,
-	43,
-	0,
-	0,
-	0,
-	0,
-	13,
-	893);
-INSERT INTO V_AVL
-	VALUES (927,
-	930,
-	84,
-	403);
-INSERT INTO V_VAR
-	VALUES (920,
-	893,
-	'achievement',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (920,
-	0,
-	230);
-INSERT INTO V_VAR
-	VALUES (923,
-	893,
-	'workoutTimer',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (923,
-	0,
-	84);
-INSERT INTO ACT_BLK
-	VALUES (896,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	22,
-	3,
-	21,
-	43,
-	0,
-	0,
-	21,
-	55,
-	21,
-	59,
-	0,
-	0,
-	0,
-	886,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (931,
-	896,
-	932,
-	21,
-	3,
-	'Goal::Executing line: 21');
-INSERT INTO ACT_SEL
-	VALUES (931,
-	933,
-	1,
-	'one',
-	934);
-INSERT INTO ACT_SR
-	VALUES (931);
-INSERT INTO ACT_LNK
-	VALUES (935,
-	'''has open''',
-	931,
-	235,
-	0,
-	2,
-	230,
-	21,
-	43,
-	21,
-	55,
-	21,
-	59);
-INSERT INTO ACT_SMT
-	VALUES (932,
-	896,
-	0,
-	22,
-	3,
-	'Goal::Executing line: 22');
-INSERT INTO ACT_TFM
-	VALUES (932,
-	382,
-	933,
-	22,
-	15,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (934,
-	0,
-	0,
-	21,
-	37,
-	40,
-	0,
-	0,
-	0,
-	0,
-	70,
-	896);
-INSERT INTO V_IRF
-	VALUES (934,
-	901);
-INSERT INTO V_VAR
-	VALUES (933,
-	896,
-	'achievement',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (933,
-	0,
-	230);
-INSERT INTO SM_STATE
-	VALUES (936,
-	882,
-	0,
-	'Completed',
-	2,
-	0);
-INSERT INTO SM_EIGN
-	VALUES (936,
-	851,
-	882,
-	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (936,
-	851,
-	882,
-	0);
-INSERT INTO SM_EIGN
-	VALUES (936,
-	647,
-	882,
-	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (936,
-	647,
-	882,
-	0);
-INSERT INTO SM_CH
-	VALUES (936,
-	883,
-	882,
-	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (936,
-	883,
-	882,
-	0);
-INSERT INTO SM_MOAH
-	VALUES (937,
-	882,
-	936);
-INSERT INTO SM_AH
-	VALUES (937,
-	882);
-INSERT INTO SM_ACT
-	VALUES (937,
-	882,
-	1,
-	'// Stop executing this goal and begin executing the next one, if there is one.
-
-// Stop the goal-evaluation timer, ignoring the return code which indicates 
-//   whether a timer event was in flight when the timer was cancelled.
-cancelSucceeded = TIM::timer_cancel( timer_inst_ref: self.evaluationTimer );
-
-// If this goal has an open achievement record, close it.
-select one openAchievement related by self->Achievement[R14.''has open''];
-if ( not empty openAchievement )
-  openAchievement.close();
-end if;
-
-// Add this goal to the collection of those that have already executed.
-select one session related by self->WorkoutSession[R11.''is currently executing within''];
-relate self to session across R13.''was executed within'';
-
-// Remove this goal from the collection of currently executing ones.
-unrelate self from session across R11.''is currently executing within'';
-
-// Find the next goal specification in the sequence and start executing it, if it exists.
-select one currentGoalSpec related by self->GoalSpec[R9.''specified by''];
-
-select any nextGoalSpec related by session->GoalSpec[R10.''includes'']
-  where ( selected.sequenceNumber == (currentGoalSpec.sequenceNumber + 1) );
-  
-if ( not empty nextGoalSpec )
-  Goal::create( sequenceNumber: nextGoalSpec.sequenceNumber );
-end if;
-',
-	'');
-INSERT INTO ACT_SAB
-	VALUES (938,
-	882,
-	937);
-INSERT INTO ACT_ACT
-	VALUES (938,
-	'state',
-	0,
-	939,
-	0,
-	0,
-	'Goal::Completed',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (939,
-	1,
-	0,
-	1,
-	'',
-	'',
-	'',
-	26,
-	1,
-	23,
-	45,
-	0,
-	0,
-	23,
-	54,
-	23,
-	58,
-	0,
-	0,
-	0,
-	938,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (940,
-	939,
-	941,
-	5,
-	1,
-	'Goal::Completed line: 5');
-INSERT INTO ACT_AI
-	VALUES (940,
-	942,
-	943,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (941,
-	939,
-	944,
-	8,
-	1,
-	'Goal::Completed line: 8');
-INSERT INTO ACT_SEL
-	VALUES (941,
-	945,
-	1,
-	'one',
-	946);
-INSERT INTO ACT_SR
-	VALUES (941);
-INSERT INTO ACT_LNK
-	VALUES (947,
-	'''has open''',
-	941,
-	235,
-	0,
-	2,
-	230,
-	8,
-	45,
-	8,
-	57,
-	8,
-	61);
-INSERT INTO ACT_SMT
-	VALUES (944,
-	939,
-	948,
-	9,
-	1,
-	'Goal::Completed line: 9');
-INSERT INTO ACT_IF
-	VALUES (944,
-	949,
-	950,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (948,
-	939,
-	951,
-	14,
-	1,
-	'Goal::Completed line: 14');
-INSERT INTO ACT_SEL
-	VALUES (948,
-	952,
-	1,
-	'one',
-	953);
-INSERT INTO ACT_SR
-	VALUES (948);
-INSERT INTO ACT_LNK
-	VALUES (954,
-	'''is currently executing within''',
-	948,
-	225,
-	0,
-	2,
-	66,
-	14,
-	37,
-	14,
-	52,
-	14,
-	56);
-INSERT INTO ACT_SMT
-	VALUES (951,
-	939,
-	955,
-	15,
-	1,
-	'Goal::Completed line: 15');
-INSERT INTO ACT_REL
-	VALUES (951,
-	956,
-	952,
-	'''was executed within''',
-	232,
-	15,
-	31,
-	15,
-	35);
-INSERT INTO ACT_SMT
-	VALUES (955,
-	939,
-	957,
-	18,
-	1,
-	'Goal::Completed line: 18');
-INSERT INTO ACT_UNR
-	VALUES (955,
-	956,
-	952,
-	'''is currently executing within''',
-	225,
-	18,
-	35,
-	18,
-	39);
-INSERT INTO ACT_SMT
-	VALUES (957,
-	939,
-	958,
-	21,
-	1,
-	'Goal::Completed line: 21');
-INSERT INTO ACT_SEL
-	VALUES (957,
-	959,
-	1,
-	'one',
-	960);
-INSERT INTO ACT_SR
-	VALUES (957);
-INSERT INTO ACT_LNK
-	VALUES (961,
-	'''specified by''',
-	957,
-	219,
-	0,
-	2,
-	146,
-	21,
-	45,
-	21,
-	54,
-	21,
-	57);
-INSERT INTO ACT_SMT
-	VALUES (958,
-	939,
-	962,
-	23,
-	1,
-	'Goal::Completed line: 23');
-INSERT INTO ACT_SEL
-	VALUES (958,
-	963,
-	1,
-	'any',
-	964);
-INSERT INTO ACT_SRW
-	VALUES (958,
-	965);
-INSERT INTO ACT_LNK
-	VALUES (966,
-	'''includes''',
-	958,
-	165,
-	0,
-	3,
-	146,
-	23,
-	45,
-	23,
-	54,
-	23,
-	58);
-INSERT INTO ACT_SMT
-	VALUES (962,
-	939,
-	0,
-	26,
-	1,
-	'Goal::Completed line: 26');
-INSERT INTO ACT_IF
-	VALUES (962,
-	967,
-	968,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (943,
-	1,
-	1,
-	5,
-	1,
-	15,
-	0,
-	0,
-	0,
-	0,
-	72,
-	939);
-INSERT INTO V_TVL
-	VALUES (943,
-	969);
-INSERT INTO V_VAL
-	VALUES (942,
-	0,
-	0,
-	5,
-	24,
-	-1,
-	5,
-	38,
-	0,
-	0,
-	72,
-	939);
-INSERT INTO V_BRV
-	VALUES (942,
-	338,
-	1,
-	5,
-	19);
-INSERT INTO V_VAL
-	VALUES (970,
-	0,
-	0,
-	5,
-	54,
-	57,
-	0,
-	0,
-	0,
-	0,
-	70,
-	939);
-INSERT INTO V_IRF
-	VALUES (970,
-	956);
-INSERT INTO V_VAL
-	VALUES (971,
-	0,
-	0,
-	5,
-	59,
-	73,
-	0,
-	0,
-	0,
-	0,
-	313,
-	939);
-INSERT INTO V_AVL
-	VALUES (971,
-	970,
-	221,
-	652);
-INSERT INTO V_PAR
-	VALUES (971,
-	0,
-	942,
-	'timer_inst_ref',
-	0,
-	5,
-	38);
-INSERT INTO V_VAL
-	VALUES (946,
-	0,
-	0,
-	8,
-	39,
-	42,
-	0,
-	0,
-	0,
-	0,
-	70,
-	939);
-INSERT INTO V_IRF
-	VALUES (946,
-	956);
-INSERT INTO V_VAL
-	VALUES (972,
-	0,
-	0,
-	9,
-	16,
-	30,
-	0,
-	0,
-	0,
-	0,
-	70,
-	939);
-INSERT INTO V_IRF
-	VALUES (972,
-	945);
-INSERT INTO V_VAL
-	VALUES (973,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	939);
-INSERT INTO V_UNY
-	VALUES (973,
-	972,
-	'empty');
-INSERT INTO V_VAL
-	VALUES (950,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	939);
-INSERT INTO V_UNY
-	VALUES (950,
-	973,
-	'not');
-INSERT INTO V_VAL
-	VALUES (953,
-	0,
-	0,
-	14,
-	31,
-	34,
-	0,
-	0,
-	0,
-	0,
-	70,
-	939);
-INSERT INTO V_IRF
-	VALUES (953,
-	956);
-INSERT INTO V_VAL
-	VALUES (960,
-	0,
-	0,
-	21,
-	39,
-	42,
-	0,
-	0,
-	0,
-	0,
-	70,
-	939);
-INSERT INTO V_IRF
-	VALUES (960,
-	956);
-INSERT INTO V_VAL
-	VALUES (964,
-	0,
-	0,
-	23,
-	36,
-	42,
-	0,
-	0,
-	0,
-	0,
-	70,
-	939);
-INSERT INTO V_IRF
-	VALUES (964,
-	952);
-INSERT INTO V_VAL
-	VALUES (974,
-	0,
-	0,
-	24,
-	11,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	70,
-	939);
-INSERT INTO V_SLR
-	VALUES (974,
-	0,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (975,
-	0,
-	0,
-	24,
-	20,
-	33,
-	0,
-	0,
-	0,
-	0,
-	13,
-	939);
-INSERT INTO V_AVL
-	VALUES (975,
-	974,
-	146,
-	167);
-INSERT INTO V_VAL
-	VALUES (965,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	939);
-INSERT INTO V_BIN
-	VALUES (965,
-	976,
-	975,
-	'==');
-INSERT INTO V_VAL
-	VALUES (977,
-	0,
-	0,
-	24,
-	39,
-	53,
-	0,
-	0,
-	0,
-	0,
-	70,
-	939);
-INSERT INTO V_IRF
-	VALUES (977,
-	959);
-INSERT INTO V_VAL
-	VALUES (978,
-	0,
-	0,
-	24,
-	55,
-	68,
-	0,
-	0,
-	0,
-	0,
-	13,
-	939);
-INSERT INTO V_AVL
-	VALUES (978,
-	977,
-	146,
-	167);
-INSERT INTO V_VAL
-	VALUES (976,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	13,
-	939);
-INSERT INTO V_BIN
-	VALUES (976,
-	979,
-	978,
-	'+');
-INSERT INTO V_VAL
-	VALUES (979,
-	0,
-	0,
-	24,
-	72,
-	72,
-	0,
-	0,
-	0,
-	0,
-	13,
-	939);
-INSERT INTO V_LIN
-	VALUES (979,
-	'1');
-INSERT INTO V_VAL
-	VALUES (980,
-	0,
-	0,
-	26,
-	16,
-	27,
-	0,
-	0,
-	0,
-	0,
-	70,
-	939);
-INSERT INTO V_IRF
-	VALUES (980,
-	963);
-INSERT INTO V_VAL
-	VALUES (981,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	939);
-INSERT INTO V_UNY
-	VALUES (981,
-	980,
-	'empty');
-INSERT INTO V_VAL
-	VALUES (968,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	939);
-INSERT INTO V_UNY
-	VALUES (968,
-	981,
-	'not');
-INSERT INTO V_VAR
-	VALUES (969,
-	939,
-	'cancelSucceeded',
-	1,
-	72);
-INSERT INTO V_TRN
-	VALUES (969,
-	0,
-	'');
-INSERT INTO V_VAR
-	VALUES (956,
-	939,
-	'self',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (956,
-	0,
-	221);
-INSERT INTO V_VAR
-	VALUES (945,
-	939,
-	'openAchievement',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (945,
-	0,
-	230);
-INSERT INTO V_VAR
-	VALUES (952,
-	939,
-	'session',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (952,
-	0,
-	66);
-INSERT INTO V_VAR
-	VALUES (959,
-	939,
-	'currentGoalSpec',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (959,
-	0,
-	146);
-INSERT INTO V_VAR
-	VALUES (963,
-	939,
-	'nextGoalSpec',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (963,
-	0,
-	146);
-INSERT INTO ACT_BLK
-	VALUES (949,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	10,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	938,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (982,
-	949,
-	0,
-	10,
-	3,
-	'Goal::Completed line: 10');
-INSERT INTO ACT_TFM
-	VALUES (982,
-	382,
-	945,
-	10,
-	19,
-	0,
-	0);
-INSERT INTO ACT_BLK
-	VALUES (967,
-	0,
-	0,
-	0,
-	'Goal',
-	'',
-	'',
-	27,
-	3,
-	27,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	938,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (983,
-	967,
-	0,
-	27,
-	3,
-	'Goal::Completed line: 27');
-INSERT INTO ACT_TFM
-	VALUES (983,
-	618,
-	0,
-	27,
-	9,
-	27,
-	3);
-INSERT INTO V_VAL
-	VALUES (984,
-	0,
-	0,
-	27,
-	33,
-	44,
-	0,
-	0,
-	0,
-	0,
-	70,
-	967);
-INSERT INTO V_IRF
-	VALUES (984,
-	963);
-INSERT INTO V_VAL
-	VALUES (985,
-	0,
-	0,
-	27,
-	46,
-	59,
-	0,
-	0,
-	0,
-	0,
-	13,
-	967);
-INSERT INTO V_AVL
-	VALUES (985,
-	984,
-	146,
-	167);
-INSERT INTO V_PAR
-	VALUES (985,
-	983,
-	0,
-	'sequenceNumber',
-	0,
-	27,
-	17);
-INSERT INTO SM_STATE
-	VALUES (986,
-	882,
-	0,
-	'Paused',
-	3,
-	0);
-INSERT INTO SM_SEME
-	VALUES (986,
-	851,
-	882,
-	0);
-INSERT INTO SM_SEME
-	VALUES (986,
-	647,
-	882,
-	0);
-INSERT INTO SM_CH
-	VALUES (986,
-	883,
-	882,
-	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (986,
-	883,
-	882,
-	0);
-INSERT INTO SM_MOAH
-	VALUES (987,
-	882,
-	986);
-INSERT INTO SM_AH
-	VALUES (987,
-	882);
-INSERT INTO SM_ACT
-	VALUES (987,
-	882,
-	1,
-	'// Deactivate evaluation timer, ignoring the return code because this 
-//   state model ignores any latent timer events.
-cancelSucceeded = TIM::timer_cancel( timer_inst_ref: self.evaluationTimer );',
-	'');
-INSERT INTO ACT_SAB
-	VALUES (988,
-	882,
-	987);
-INSERT INTO ACT_ACT
-	VALUES (988,
-	'state',
-	0,
-	989,
-	0,
-	0,
-	'Goal::Paused',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (989,
-	0,
-	0,
-	0,
-	'TIM',
-	'',
-	'',
-	3,
-	1,
-	3,
-	19,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	988,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (990,
-	989,
-	0,
-	3,
-	1,
-	'Goal::Paused line: 3');
-INSERT INTO ACT_AI
-	VALUES (990,
-	991,
-	992,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (992,
-	1,
-	1,
-	3,
-	1,
-	15,
-	0,
-	0,
-	0,
-	0,
-	72,
-	989);
-INSERT INTO V_TVL
-	VALUES (992,
-	993);
-INSERT INTO V_VAL
-	VALUES (991,
-	0,
-	0,
-	3,
-	24,
-	-1,
-	3,
-	38,
-	0,
-	0,
-	72,
-	989);
-INSERT INTO V_BRV
-	VALUES (991,
-	338,
-	1,
-	3,
-	19);
-INSERT INTO V_VAL
-	VALUES (994,
-	0,
-	0,
-	3,
-	54,
-	57,
-	0,
-	0,
-	0,
-	0,
-	70,
-	989);
-INSERT INTO V_IRF
-	VALUES (994,
-	995);
-INSERT INTO V_VAL
-	VALUES (996,
-	0,
-	0,
-	3,
-	59,
-	73,
-	0,
-	0,
-	0,
-	0,
-	313,
-	989);
-INSERT INTO V_AVL
-	VALUES (996,
-	994,
-	221,
-	652);
-INSERT INTO V_PAR
-	VALUES (996,
-	0,
-	991,
-	'timer_inst_ref',
-	0,
-	3,
-	38);
-INSERT INTO V_VAR
-	VALUES (993,
-	989,
-	'cancelSucceeded',
-	1,
-	72);
-INSERT INTO V_TRN
-	VALUES (993,
-	0,
-	'');
-INSERT INTO V_VAR
-	VALUES (995,
-	989,
-	'self',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (995,
-	0,
-	221);
-INSERT INTO SM_NSTXN
-	VALUES (997,
-	882,
-	884,
-	851,
-	0);
-INSERT INTO SM_TAH
-	VALUES (998,
-	882,
-	997);
-INSERT INTO SM_AH
-	VALUES (998,
-	882);
-INSERT INTO SM_ACT
-	VALUES (998,
-	882,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (999,
-	882,
-	998);
-INSERT INTO ACT_ACT
-	VALUES (999,
-	'transition',
-	0,
-	1000,
-	0,
-	0,
-	'Goal1: Completed',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1000,
-	0,
-	0,
-	0,
 	'',
 	'',
 	'',
@@ -14886,684 +9001,119 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	999,
+	633,
 	0);
 INSERT INTO SM_TXN
-	VALUES (997,
-	882,
-	936,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (1001,
-	882,
-	884,
-	647,
-	0);
-INSERT INTO SM_TAH
-	VALUES (1002,
-	882,
-	1001);
-INSERT INTO SM_AH
-	VALUES (1002,
-	882);
-INSERT INTO SM_ACT
-	VALUES (1002,
-	882,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (1003,
-	882,
-	1002);
-INSERT INTO ACT_ACT
-	VALUES (1003,
-	'transition',
-	0,
-	1004,
-	0,
-	0,
-	'Goal2: Evaluate',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1004,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1003,
-	0);
-INSERT INTO SM_TXN
-	VALUES (1001,
-	882,
-	884,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (1005,
-	882,
-	884,
-	883,
-	0);
-INSERT INTO SM_TAH
-	VALUES (1006,
-	882,
-	1005);
-INSERT INTO SM_AH
-	VALUES (1006,
-	882);
-INSERT INTO SM_ACT
-	VALUES (1006,
-	882,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (1007,
-	882,
-	1006);
-INSERT INTO ACT_ACT
-	VALUES (1007,
-	'transition',
-	0,
-	1008,
-	0,
-	0,
-	'Goal3: Pause',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1008,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1007,
-	0);
-INSERT INTO SM_TXN
-	VALUES (1005,
-	882,
-	986,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (1009,
-	882,
-	986,
-	647,
-	0);
-INSERT INTO SM_TAH
-	VALUES (1010,
-	882,
-	1009);
-INSERT INTO SM_AH
-	VALUES (1010,
-	882);
-INSERT INTO SM_ACT
-	VALUES (1010,
-	882,
-	1,
-	'// Start a timer that periodically causes evaluation of goal achievement.
-create event instance evaluateEvent of Goal2:Evaluate to self;
-self.evaluationTimer = TIM::timer_start_recurring( event_inst: evaluateEvent, microseconds: evaluationPeriod );',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (1011,
-	882,
-	1010);
-INSERT INTO ACT_ACT
-	VALUES (1011,
-	'transition',
-	0,
-	1012,
-	0,
-	0,
-	'Goal2: Evaluate',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1012,
-	0,
-	0,
-	0,
-	'TIM',
-	'',
-	'',
-	3,
-	1,
-	3,
-	24,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1011,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1013,
-	1012,
-	1014,
-	2,
-	1,
-	'Goal2: Evaluate line: 2');
-INSERT INTO E_ESS
-	VALUES (1013,
-	1,
-	0,
-	2,
-	40,
-	2,
-	46,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (1013,
-	1,
-	1015);
-INSERT INTO E_CSME
-	VALUES (1013,
-	647);
-INSERT INTO E_CEI
-	VALUES (1013,
-	1016);
-INSERT INTO ACT_SMT
-	VALUES (1014,
-	1012,
-	0,
-	3,
-	1,
-	'Goal2: Evaluate line: 3');
-INSERT INTO ACT_AI
-	VALUES (1014,
-	1017,
-	1018,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (1019,
-	1,
-	0,
-	3,
-	1,
-	4,
-	0,
-	0,
-	0,
-	0,
-	70,
-	1012);
-INSERT INTO V_IRF
-	VALUES (1019,
-	1016);
-INSERT INTO V_VAL
-	VALUES (1018,
-	1,
-	0,
-	3,
-	6,
-	20,
-	0,
-	0,
-	0,
-	0,
-	313,
-	1012);
-INSERT INTO V_AVL
-	VALUES (1018,
-	1019,
-	221,
-	652);
-INSERT INTO V_VAL
-	VALUES (1017,
-	0,
-	0,
-	3,
-	29,
-	-1,
-	3,
-	52,
-	3,
-	79,
-	313,
-	1012);
-INSERT INTO V_BRV
-	VALUES (1017,
-	319,
-	1,
-	3,
-	24);
-INSERT INTO V_VAL
-	VALUES (1020,
-	0,
-	0,
-	3,
-	64,
-	76,
-	0,
-	0,
-	0,
-	0,
-	316,
-	1012);
-INSERT INTO V_TVL
-	VALUES (1020,
-	1015);
-INSERT INTO V_PAR
-	VALUES (1020,
-	0,
-	1017,
-	'event_inst',
-	1021,
-	3,
-	52);
-INSERT INTO V_VAL
-	VALUES (1021,
-	0,
-	0,
-	3,
-	93,
-	108,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1012);
-INSERT INTO V_SCV
-	VALUES (1021,
-	655,
-	13);
-INSERT INTO V_PAR
-	VALUES (1021,
-	0,
-	1017,
-	'microseconds',
-	0,
-	3,
-	79);
-INSERT INTO V_VAR
-	VALUES (1015,
-	1012,
-	'evaluateEvent',
-	1,
-	316);
-INSERT INTO V_TRN
-	VALUES (1015,
-	0,
-	'');
-INSERT INTO V_VAR
-	VALUES (1016,
-	1012,
-	'self',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (1016,
-	0,
-	221);
-INSERT INTO SM_TXN
-	VALUES (1009,
-	882,
-	884,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (1022,
-	882,
-	986,
-	851,
-	0);
-INSERT INTO SM_TAH
-	VALUES (1023,
-	882,
-	1022);
-INSERT INTO SM_AH
-	VALUES (1023,
-	882);
-INSERT INTO SM_ACT
-	VALUES (1023,
-	882,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (1024,
-	882,
-	1023);
-INSERT INTO ACT_ACT
-	VALUES (1024,
-	'transition',
-	0,
-	1025,
-	0,
-	0,
-	'Goal1: Completed',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1025,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1024,
-	0);
-INSERT INTO SM_TXN
-	VALUES (1022,
-	882,
-	936,
+	VALUES (631,
+	477,
+	479,
 	0);
 INSERT INTO PE_PE
-	VALUES (146,
+	VALUES (236,
 	1,
-	191,
+	211,
 	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (146,
-	'GoalSpec',
-	8,
-	'GoalSpec',
-	'Each instance specifies one particular workout goal.  The actual execution of the goal
-along with evaluation of whether it is currently being achieved is handled by another
-class, not this one.
-
-The criteria for the goal are merely numerical figures for comparison against the 
-measured quantity.  Accordingly, the terms may create confusion with certain goal
-types such as pace.  Since pace is the inverse of speed, a lower number represents
-a faster speed.  Even so, when specifying a pace-related goal the value for 
-minimum should be the lowest number (fastest pace) and the value for maximum should
-be the higher number (slower pace).',
-	0);
-INSERT INTO O_NBATTR
-	VALUES (171,
-	146);
-INSERT INTO O_BATTR
-	VALUES (171,
-	146);
-INSERT INTO O_ATTR
-	VALUES (171,
-	146,
-	167,
-	'minimum',
-	'The minimum value for the quantity associated with the goal.
-For example, a minimum heart rate to be maintained.
-The units (e.g., beats per minute or minutes per km) for this
-attribute are determined by another attribute indicating the 
-type of criteria for this goal.',
-	'',
-	'minimum',
-	0,
-	170,
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES (174,
-	146);
-INSERT INTO O_BATTR
-	VALUES (174,
-	146);
-INSERT INTO O_ATTR
-	VALUES (174,
-	146,
-	171,
-	'maximum',
-	'The maximum value for the quantity associated with the goal.
-For example, a maximum pace to be maintained.
-The units (e.g., beats per minute or minutes per km) for this
-attribute are determined by another attribute indicating the 
-type of criteria for this goal.',
-	'',
-	'maximum',
-	0,
-	170,
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES (177,
-	146);
-INSERT INTO O_BATTR
-	VALUES (177,
-	146);
-INSERT INTO O_ATTR
-	VALUES (177,
-	146,
-	174,
-	'span',
-	'The span of the goal.  For example, a time-based goal specifies a span
-as a duration or length of time, while a distance-based goal uses specifies
-a distance.  The units for this attribute (e.g., seconds or km) are specified 
-by another attribute indicating the type of span.
-',
-	'',
-	'span',
-	0,
-	170,
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES (181,
-	146);
-INSERT INTO O_BATTR
-	VALUES (181,
-	146);
-INSERT INTO O_ATTR
-	VALUES (181,
-	146,
-	177,
-	'criteriaType',
-	'See data type description.',
-	'',
-	'criteriaType',
-	0,
-	180,
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES (185,
-	146);
-INSERT INTO O_BATTR
-	VALUES (185,
-	146);
-INSERT INTO O_ATTR
-	VALUES (185,
-	146,
-	181,
-	'spanType',
-	'See data type description.',
-	'',
-	'spanType',
-	0,
-	184,
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES (167,
-	146);
-INSERT INTO O_BATTR
-	VALUES (167,
-	146);
-INSERT INTO O_ATTR
-	VALUES (167,
-	146,
-	0,
-	'sequenceNumber',
-	'Workout goals are sequenced according to a number specified by the user when the goal
-is specified.  This attribute represents that user-specified number. ',
-	'',
-	'sequenceNumber',
-	0,
-	13,
-	'',
-	'');
-INSERT INTO O_ID
-	VALUES (0,
-	146);
-INSERT INTO O_OIDA
-	VALUES (167,
-	146,
-	0,
-	'sequenceNumber');
-INSERT INTO O_ID
-	VALUES (1,
-	146);
-INSERT INTO O_ID
-	VALUES (2,
-	146);
-INSERT INTO PE_PE
-	VALUES (216,
-	1,
-	191,
-	0,
-	4);
-INSERT INTO O_OBJ
-	VALUES (216,
+	VALUES (236,
 	'HeartRateSample',
 	5,
 	'HeartRateSample',
 	'Each instance represents a single heart-rate sample.',
 	0);
 INSERT INTO O_NBATTR
-	VALUES (1026,
-	216);
+	VALUES (635,
+	236);
 INSERT INTO O_BATTR
-	VALUES (1026,
-	216);
+	VALUES (635,
+	236);
 INSERT INTO O_ATTR
-	VALUES (1026,
-	216,
+	VALUES (635,
+	236,
 	0,
 	'heartRate',
 	'Heart rate expressed in beats per minute.',
 	'',
 	'heartRate',
 	0,
-	13,
+	30,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (1027,
-	216);
+	VALUES (636,
+	236);
 INSERT INTO O_BATTR
-	VALUES (1027,
-	216);
+	VALUES (636,
+	236);
 INSERT INTO O_ATTR
-	VALUES (1027,
-	216,
-	1026,
+	VALUES (636,
+	236,
+	635,
 	'time',
 	'Number of seconds between start time for the associated workout and recording of this heart rate sample.',
 	'',
 	'time',
 	0,
-	13,
+	30,
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	216);
+	236);
 INSERT INTO O_ID
 	VALUES (1,
-	216);
+	236);
 INSERT INTO O_ID
 	VALUES (2,
-	216);
+	236);
 INSERT INTO PE_PE
-	VALUES (204,
+	VALUES (224,
 	1,
-	191,
+	211,
 	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (204,
+	VALUES (224,
 	'LapMarker',
 	4,
 	'LapMarker',
 	'Each instance represents a single lap marker.',
 	0);
 INSERT INTO O_NBATTR
-	VALUES (1028,
-	204);
+	VALUES (637,
+	224);
 INSERT INTO O_BATTR
-	VALUES (1028,
-	204);
+	VALUES (637,
+	224);
 INSERT INTO O_ATTR
-	VALUES (1028,
-	204,
+	VALUES (637,
+	224,
 	0,
 	'lapTime',
 	'Number of seconds between start time for the associated workout and this lap marker.',
 	'',
 	'lapTime',
 	0,
-	13,
+	30,
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	204);
+	224);
 INSERT INTO O_ID
 	VALUES (1,
-	204);
+	224);
 INSERT INTO O_ID
 	VALUES (2,
-	204);
+	224);
 INSERT INTO PE_PE
-	VALUES (193,
+	VALUES (213,
 	1,
-	191,
+	211,
 	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (193,
+	VALUES (213,
 	'TrackLog',
 	2,
 	'TrackLog',
@@ -15575,11 +9125,11 @@ However, future releases may add a capability for storing
 multiple track logs on the device.',
 	0);
 INSERT INTO O_TFR
-	VALUES (1029,
-	193,
+	VALUES (638,
+	213,
 	'addTrackPoint',
 	'',
-	240,
+	6,
 	1,
 	'// Add a track point to this track log, update the accumulated distance
 // and current speed, and then notify the UI.
@@ -15628,19 +9178,19 @@ self.updateDisplay();',
 	'',
 	0);
 INSERT INTO ACT_OPB
-	VALUES (1030,
-	1029);
+	VALUES (639,
+	638);
 INSERT INTO ACT_ACT
-	VALUES (1030,
+	VALUES (639,
 	'operation',
 	0,
-	1031,
+	640,
 	0,
 	0,
 	'TrackLog::addTrackPoint',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1031,
+	VALUES (640,
 	1,
 	0,
 	0,
@@ -15660,45 +9210,45 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1030,
+	639,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1032,
-	1031,
-	1033,
+	VALUES (641,
+	640,
+	642,
 	5,
 	1,
 	'TrackLog::addTrackPoint line: 5');
 INSERT INTO ACT_CR
-	VALUES (1032,
-	1034,
+	VALUES (641,
+	643,
 	1,
-	195,
+	215,
 	5,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (1033,
-	1031,
-	1035,
+	VALUES (642,
+	640,
+	644,
 	6,
 	1,
 	'TrackLog::addTrackPoint line: 6');
 INSERT INTO ACT_SEL
-	VALUES (1033,
-	1036,
+	VALUES (642,
+	645,
 	1,
 	'one',
-	1037);
+	646);
 INSERT INTO ACT_SR
-	VALUES (1033);
+	VALUES (642);
 INSERT INTO ACT_LNK
-	VALUES (1038,
+	VALUES (647,
 	'''represents path for''',
-	1033,
-	212,
-	1039,
+	642,
+	232,
+	648,
 	2,
-	66,
+	102,
 	7,
 	9,
 	7,
@@ -15706,13 +9256,13 @@ INSERT INTO ACT_LNK
 	7,
 	27);
 INSERT INTO ACT_LNK
-	VALUES (1039,
+	VALUES (648,
 	'''is timed by''',
 	0,
-	209,
+	229,
 	0,
 	2,
-	84,
+	118,
 	7,
 	51,
 	7,
@@ -15720,57 +9270,57 @@ INSERT INTO ACT_LNK
 	7,
 	67);
 INSERT INTO ACT_SMT
-	VALUES (1035,
-	1031,
-	1040,
+	VALUES (644,
+	640,
+	649,
 	8,
 	1,
 	'TrackLog::addTrackPoint line: 8');
 INSERT INTO ACT_AI
-	VALUES (1035,
-	1041,
-	1042,
+	VALUES (644,
+	650,
+	651,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1040,
-	1031,
-	1043,
+	VALUES (649,
+	640,
+	652,
 	9,
 	1,
 	'TrackLog::addTrackPoint line: 9');
 INSERT INTO ACT_IOP
-	VALUES (1040,
+	VALUES (649,
 	9,
 	16,
 	9,
 	6,
 	0,
-	14,
+	63,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1043,
-	1031,
-	1044,
+	VALUES (652,
+	640,
+	653,
 	12,
 	1,
 	'TrackLog::addTrackPoint line: 12');
 INSERT INTO ACT_SEL
-	VALUES (1043,
-	1045,
+	VALUES (652,
+	654,
 	1,
 	'one',
-	1046);
+	655);
 INSERT INTO ACT_SR
-	VALUES (1043);
+	VALUES (652);
 INSERT INTO ACT_LNK
-	VALUES (1047,
+	VALUES (656,
 	'',
-	1043,
-	192,
+	652,
+	212,
 	0,
 	2,
-	195,
+	215,
 	12,
 	40,
 	12,
@@ -15778,28 +9328,28 @@ INSERT INTO ACT_LNK
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1044,
-	1031,
-	1048,
+	VALUES (653,
+	640,
+	657,
 	13,
 	1,
 	'TrackLog::addTrackPoint line: 13');
 INSERT INTO ACT_SEL
-	VALUES (1044,
-	1049,
+	VALUES (653,
+	658,
 	1,
 	'one',
-	1050);
+	659);
 INSERT INTO ACT_SR
-	VALUES (1044);
+	VALUES (653);
 INSERT INTO ACT_LNK
-	VALUES (1051,
+	VALUES (660,
 	'',
-	1044,
-	200,
+	653,
+	220,
 	0,
 	2,
-	195,
+	215,
 	13,
 	39,
 	13,
@@ -15807,117 +9357,117 @@ INSERT INTO ACT_LNK
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1048,
-	1031,
-	1052,
+	VALUES (657,
+	640,
+	661,
 	16,
 	1,
 	'TrackLog::addTrackPoint line: 16');
 INSERT INTO ACT_AI
-	VALUES (1048,
-	1053,
-	1054,
+	VALUES (657,
+	662,
+	663,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1052,
-	1031,
-	1055,
+	VALUES (661,
+	640,
+	664,
 	17,
 	1,
 	'TrackLog::addTrackPoint line: 17');
 INSERT INTO ACT_AI
-	VALUES (1052,
-	1056,
-	1057,
+	VALUES (661,
+	665,
+	666,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1055,
-	1031,
-	1058,
+	VALUES (664,
+	640,
+	667,
 	18,
 	1,
 	'TrackLog::addTrackPoint line: 18');
 INSERT INTO ACT_AI
-	VALUES (1055,
-	1059,
-	1060,
+	VALUES (664,
+	668,
+	669,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1058,
-	1031,
-	1061,
+	VALUES (667,
+	640,
+	670,
 	19,
 	1,
 	'TrackLog::addTrackPoint line: 19');
 INSERT INTO ACT_IF
-	VALUES (1058,
-	1062,
-	1063,
+	VALUES (667,
+	671,
+	672,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1064,
-	1031,
+	VALUES (673,
+	640,
 	0,
 	23,
 	1,
 	'TrackLog::addTrackPoint line: 23');
 INSERT INTO ACT_E
-	VALUES (1064,
-	1065,
-	1058);
+	VALUES (673,
+	674,
+	667);
 INSERT INTO ACT_SMT
-	VALUES (1061,
-	1031,
-	1066,
+	VALUES (670,
+	640,
+	675,
 	33,
 	1,
 	'TrackLog::addTrackPoint line: 33');
 INSERT INTO ACT_AI
-	VALUES (1061,
-	1067,
-	1068,
+	VALUES (670,
+	676,
+	677,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1066,
-	1031,
-	1069,
+	VALUES (675,
+	640,
+	678,
 	34,
 	1,
 	'TrackLog::addTrackPoint line: 34');
 INSERT INTO ACT_IF
-	VALUES (1066,
-	1070,
-	1071,
+	VALUES (675,
+	679,
+	680,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1069,
-	1031,
-	1072,
+	VALUES (678,
+	640,
+	681,
 	39,
 	1,
 	'TrackLog::addTrackPoint line: 39');
 INSERT INTO ACT_SEL
-	VALUES (1069,
-	1073,
+	VALUES (678,
+	682,
 	1,
 	'one',
-	1074);
+	683);
 INSERT INTO ACT_SR
-	VALUES (1069);
+	VALUES (678);
 INSERT INTO ACT_LNK
-	VALUES (1075,
+	VALUES (684,
 	'''represents path for''',
-	1069,
-	212,
+	678,
+	232,
 	0,
 	2,
-	66,
+	102,
 	39,
 	37,
 	39,
@@ -15925,35 +9475,35 @@ INSERT INTO ACT_LNK
 	39,
 	55);
 INSERT INTO ACT_SMT
-	VALUES (1072,
-	1031,
-	1076,
+	VALUES (681,
+	640,
+	685,
 	40,
 	1,
 	'TrackLog::addTrackPoint line: 40');
 INSERT INTO ACT_AI
-	VALUES (1072,
-	1077,
-	1078,
+	VALUES (681,
+	686,
+	687,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1076,
-	1031,
+	VALUES (685,
+	640,
 	0,
 	43,
 	1,
 	'TrackLog::addTrackPoint line: 43');
 INSERT INTO ACT_TFM
-	VALUES (1076,
-	1079,
-	1080,
+	VALUES (685,
+	688,
+	689,
 	43,
 	6,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1037,
+	VALUES (646,
 	0,
 	0,
 	7,
@@ -15963,13 +9513,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1037,
-	1080);
+	VALUES (646,
+	689);
 INSERT INTO V_VAL
-	VALUES (1081,
+	VALUES (690,
 	1,
 	0,
 	8,
@@ -15979,13 +9529,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1081,
-	1034);
+	VALUES (690,
+	643);
 INSERT INTO V_VAL
-	VALUES (1042,
+	VALUES (651,
 	1,
 	0,
 	8,
@@ -15995,15 +9545,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1031);
+	30,
+	640);
 INSERT INTO V_AVL
-	VALUES (1042,
-	1081,
-	195,
-	1082);
+	VALUES (651,
+	690,
+	215,
+	691);
 INSERT INTO V_VAL
-	VALUES (1083,
+	VALUES (692,
 	0,
 	0,
 	8,
@@ -16013,13 +9563,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1083,
-	1036);
+	VALUES (692,
+	645);
 INSERT INTO V_VAL
-	VALUES (1041,
+	VALUES (650,
 	0,
 	0,
 	8,
@@ -16029,15 +9579,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1031);
+	30,
+	640);
 INSERT INTO V_AVL
-	VALUES (1041,
-	1083,
-	84,
-	403);
+	VALUES (650,
+	692,
+	118,
+	422);
 INSERT INTO V_VAL
-	VALUES (1084,
+	VALUES (693,
 	0,
 	0,
 	9,
@@ -16047,13 +9597,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1084,
-	1034);
+	VALUES (693,
+	643);
 INSERT INTO V_VAL
-	VALUES (1085,
+	VALUES (694,
 	0,
 	0,
 	9,
@@ -16063,23 +9613,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_AVL
-	VALUES (1085,
-	1084,
-	195,
-	1086);
+	VALUES (694,
+	693,
+	215,
+	695);
 INSERT INTO V_PAR
-	VALUES (1085,
-	1040,
+	VALUES (694,
+	649,
 	0,
 	'latitude',
-	1087,
+	696,
 	9,
 	29);
 INSERT INTO V_VAL
-	VALUES (1088,
+	VALUES (697,
 	0,
 	0,
 	9,
@@ -16089,13 +9639,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1088,
-	1034);
+	VALUES (697,
+	643);
 INSERT INTO V_VAL
-	VALUES (1087,
+	VALUES (696,
 	0,
 	0,
 	9,
@@ -16105,23 +9655,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_AVL
-	VALUES (1087,
-	1088,
-	195,
-	1089);
+	VALUES (696,
+	697,
+	215,
+	698);
 INSERT INTO V_PAR
-	VALUES (1087,
-	1040,
+	VALUES (696,
+	649,
 	0,
 	'longitude',
 	0,
 	9,
 	60);
 INSERT INTO V_VAL
-	VALUES (1046,
+	VALUES (655,
 	0,
 	0,
 	12,
@@ -16131,13 +9681,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1046,
-	1080);
+	VALUES (655,
+	689);
 INSERT INTO V_VAL
-	VALUES (1050,
+	VALUES (659,
 	0,
 	0,
 	13,
@@ -16147,13 +9697,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1050,
-	1080);
+	VALUES (659,
+	689);
 INSERT INTO V_VAL
-	VALUES (1054,
+	VALUES (663,
 	1,
 	1,
 	16,
@@ -16163,13 +9713,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1031);
+	108,
+	640);
 INSERT INTO V_TVL
-	VALUES (1054,
-	1090);
+	VALUES (663,
+	699);
 INSERT INTO V_VAL
-	VALUES (1053,
+	VALUES (662,
 	0,
 	0,
 	-1,
@@ -16179,13 +9729,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1031);
+	108,
+	640);
 INSERT INTO V_LBO
-	VALUES (1053,
+	VALUES (662,
 	'FALSE');
 INSERT INTO V_VAL
-	VALUES (1057,
+	VALUES (666,
 	1,
 	1,
 	17,
@@ -16195,13 +9745,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_TVL
-	VALUES (1057,
-	1091);
+	VALUES (666,
+	700);
 INSERT INTO V_VAL
-	VALUES (1056,
+	VALUES (665,
 	0,
 	0,
 	17,
@@ -16211,13 +9761,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_LRL
-	VALUES (1056,
+	VALUES (665,
 	'0.0');
 INSERT INTO V_VAL
-	VALUES (1060,
+	VALUES (669,
 	1,
 	1,
 	18,
@@ -16227,13 +9777,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_TVL
-	VALUES (1060,
-	1092);
+	VALUES (669,
+	701);
 INSERT INTO V_VAL
-	VALUES (1059,
+	VALUES (668,
 	0,
 	0,
 	18,
@@ -16243,13 +9793,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_LRL
-	VALUES (1059,
+	VALUES (668,
 	'0.0');
 INSERT INTO V_VAL
-	VALUES (1093,
+	VALUES (702,
 	0,
 	0,
 	19,
@@ -16259,13 +9809,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1093,
-	1045);
+	VALUES (702,
+	654);
 INSERT INTO V_VAL
-	VALUES (1063,
+	VALUES (672,
 	0,
 	0,
 	-1,
@@ -16275,14 +9825,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1031);
+	108,
+	640);
 INSERT INTO V_UNY
-	VALUES (1063,
-	1093,
+	VALUES (672,
+	702,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1068,
+	VALUES (677,
 	1,
 	1,
 	33,
@@ -16292,13 +9842,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_TVL
-	VALUES (1068,
-	1094);
+	VALUES (677,
+	703);
 INSERT INTO V_VAL
-	VALUES (1067,
+	VALUES (676,
 	0,
 	0,
 	33,
@@ -16308,13 +9858,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_LRL
-	VALUES (1067,
+	VALUES (676,
 	'0.0');
 INSERT INTO V_VAL
-	VALUES (1095,
+	VALUES (704,
 	0,
 	0,
 	34,
@@ -16324,13 +9874,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1031);
+	108,
+	640);
 INSERT INTO V_TVL
-	VALUES (1095,
-	1090);
+	VALUES (704,
+	699);
 INSERT INTO V_VAL
-	VALUES (1071,
+	VALUES (680,
 	0,
 	0,
 	-1,
@@ -16340,14 +9890,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1031);
+	108,
+	640);
 INSERT INTO V_UNY
-	VALUES (1071,
-	1095,
+	VALUES (680,
+	704,
 	'not');
 INSERT INTO V_VAL
-	VALUES (1074,
+	VALUES (683,
 	0,
 	0,
 	39,
@@ -16357,13 +9907,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1074,
-	1080);
+	VALUES (683,
+	689);
 INSERT INTO V_VAL
-	VALUES (1096,
+	VALUES (705,
 	1,
 	0,
 	40,
@@ -16373,13 +9923,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1096,
-	1073);
+	VALUES (705,
+	682);
 INSERT INTO V_VAL
-	VALUES (1078,
+	VALUES (687,
 	1,
 	0,
 	40,
@@ -16389,15 +9939,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_AVL
-	VALUES (1078,
-	1096,
-	66,
-	481);
+	VALUES (687,
+	705,
+	102,
+	499);
 INSERT INTO V_VAL
-	VALUES (1097,
+	VALUES (706,
 	0,
 	0,
 	40,
@@ -16407,13 +9957,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1031);
+	106,
+	640);
 INSERT INTO V_IRF
-	VALUES (1097,
-	1073);
+	VALUES (706,
+	682);
 INSERT INTO V_VAL
-	VALUES (1098,
+	VALUES (707,
 	0,
 	0,
 	40,
@@ -16423,15 +9973,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_AVL
-	VALUES (1098,
-	1097,
-	66,
-	481);
+	VALUES (707,
+	706,
+	102,
+	499);
 INSERT INTO V_VAL
-	VALUES (1077,
+	VALUES (686,
 	0,
 	0,
 	-1,
@@ -16441,15 +9991,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_BIN
-	VALUES (1077,
-	1099,
-	1098,
+	VALUES (686,
+	708,
+	707,
 	'+');
 INSERT INTO V_VAL
-	VALUES (1099,
+	VALUES (708,
 	0,
 	0,
 	40,
@@ -16459,113 +10009,113 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1031);
+	10,
+	640);
 INSERT INTO V_TVL
-	VALUES (1099,
-	1094);
+	VALUES (708,
+	703);
 INSERT INTO V_VAR
-	VALUES (1034,
-	1031,
+	VALUES (643,
+	640,
 	'trackPoint',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1034,
+	VALUES (643,
 	0,
-	195);
+	215);
 INSERT INTO V_VAR
-	VALUES (1036,
-	1031,
+	VALUES (645,
+	640,
 	'workoutTimer',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1036,
+	VALUES (645,
 	0,
-	84);
+	118);
 INSERT INTO V_VAR
-	VALUES (1080,
-	1031,
+	VALUES (689,
+	640,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1080,
+	VALUES (689,
 	0,
-	193);
+	213);
 INSERT INTO V_VAR
-	VALUES (1045,
-	1031,
+	VALUES (654,
+	640,
 	'firstPoint',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1045,
+	VALUES (654,
 	0,
-	195);
+	215);
 INSERT INTO V_VAR
-	VALUES (1049,
-	1031,
+	VALUES (658,
+	640,
 	'lastPoint',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1049,
+	VALUES (658,
 	0,
-	195);
+	215);
 INSERT INTO V_VAR
-	VALUES (1090,
-	1031,
+	VALUES (699,
+	640,
 	'isFirstTrackPoint',
 	1,
-	72);
+	108);
 INSERT INTO V_TRN
-	VALUES (1090,
+	VALUES (699,
 	0,
 	'');
 INSERT INTO V_VAR
-	VALUES (1091,
-	1031,
+	VALUES (700,
+	640,
 	'lastLatitude',
 	1,
-	170);
+	10);
 INSERT INTO V_TRN
-	VALUES (1091,
+	VALUES (700,
 	0,
 	'');
 INSERT INTO V_VAR
-	VALUES (1092,
-	1031,
+	VALUES (701,
+	640,
 	'lastLongitude',
 	1,
-	170);
+	10);
 INSERT INTO V_TRN
-	VALUES (1092,
+	VALUES (701,
 	0,
 	'');
 INSERT INTO V_VAR
-	VALUES (1094,
-	1031,
+	VALUES (703,
+	640,
 	'distance',
 	1,
-	170);
+	10);
 INSERT INTO V_TRN
-	VALUES (1094,
+	VALUES (703,
 	0,
 	'');
 INSERT INTO V_VAR
-	VALUES (1073,
-	1031,
+	VALUES (682,
+	640,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1073,
+	VALUES (682,
 	0,
-	66);
+	102);
 INSERT INTO ACT_BLK
-	VALUES (1062,
+	VALUES (671,
 	0,
 	0,
 	0,
@@ -16585,57 +10135,57 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1030,
+	639,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1100,
-	1062,
-	1101,
+	VALUES (709,
+	671,
+	710,
 	20,
 	3,
 	'TrackLog::addTrackPoint line: 20');
 INSERT INTO ACT_AI
-	VALUES (1100,
-	1102,
-	1103,
+	VALUES (709,
+	711,
+	712,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1101,
-	1062,
-	1104,
+	VALUES (710,
+	671,
+	713,
 	21,
 	3,
 	'TrackLog::addTrackPoint line: 21');
 INSERT INTO ACT_REL
-	VALUES (1101,
-	1080,
-	1034,
+	VALUES (710,
+	689,
+	643,
 	'''has first''',
-	192,
+	212,
 	21,
 	36,
 	21,
 	39);
 INSERT INTO ACT_SMT
-	VALUES (1104,
-	1062,
+	VALUES (713,
+	671,
 	0,
 	22,
 	3,
 	'TrackLog::addTrackPoint line: 22');
 INSERT INTO ACT_REL
-	VALUES (1104,
-	1080,
-	1034,
+	VALUES (713,
+	689,
+	643,
 	'''has last''',
-	200,
+	220,
 	22,
 	36,
 	22,
 	39);
 INSERT INTO V_VAL
-	VALUES (1103,
+	VALUES (712,
 	1,
 	0,
 	20,
@@ -16645,13 +10195,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1062);
+	108,
+	671);
 INSERT INTO V_TVL
-	VALUES (1103,
-	1090);
+	VALUES (712,
+	699);
 INSERT INTO V_VAL
-	VALUES (1102,
+	VALUES (711,
 	0,
 	0,
 	-1,
@@ -16661,13 +10211,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1062);
+	108,
+	671);
 INSERT INTO V_LBO
-	VALUES (1102,
+	VALUES (711,
 	'TRUE');
 INSERT INTO ACT_BLK
-	VALUES (1065,
+	VALUES (674,
 	0,
 	0,
 	0,
@@ -16687,87 +10237,87 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1030,
+	639,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1105,
-	1065,
-	1106,
+	VALUES (714,
+	674,
+	715,
 	25,
 	3,
 	'TrackLog::addTrackPoint line: 25');
 INSERT INTO ACT_AI
-	VALUES (1105,
-	1107,
-	1108,
+	VALUES (714,
+	716,
+	717,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1106,
-	1065,
-	1109,
+	VALUES (715,
+	674,
+	718,
 	26,
 	3,
 	'TrackLog::addTrackPoint line: 26');
 INSERT INTO ACT_AI
-	VALUES (1106,
-	1110,
-	1111,
+	VALUES (715,
+	719,
+	720,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1109,
-	1065,
-	1112,
+	VALUES (718,
+	674,
+	721,
 	27,
 	3,
 	'TrackLog::addTrackPoint line: 27');
 INSERT INTO ACT_UNR
-	VALUES (1109,
-	1080,
-	1049,
+	VALUES (718,
+	689,
+	658,
 	'''has last''',
-	200,
+	220,
 	27,
 	39,
 	27,
 	42);
 INSERT INTO ACT_SMT
-	VALUES (1112,
-	1065,
-	1113,
+	VALUES (721,
+	674,
+	722,
 	28,
 	3,
 	'TrackLog::addTrackPoint line: 28');
 INSERT INTO ACT_REL
-	VALUES (1112,
-	1080,
-	1034,
+	VALUES (721,
+	689,
+	643,
 	'''has last''',
-	200,
+	220,
 	28,
 	36,
 	28,
 	39);
 INSERT INTO ACT_SMT
-	VALUES (1113,
-	1065,
+	VALUES (722,
+	674,
 	0,
 	29,
 	3,
 	'TrackLog::addTrackPoint line: 29');
 INSERT INTO ACT_REL
-	VALUES (1113,
-	1049,
-	1034,
+	VALUES (722,
+	658,
+	643,
 	'''follows''',
-	197,
+	217,
 	29,
 	41,
 	29,
 	44);
 INSERT INTO V_VAL
-	VALUES (1108,
+	VALUES (717,
 	1,
 	0,
 	25,
@@ -16777,13 +10327,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1065);
+	10,
+	674);
 INSERT INTO V_TVL
-	VALUES (1108,
-	1091);
+	VALUES (717,
+	700);
 INSERT INTO V_VAL
-	VALUES (1114,
+	VALUES (723,
 	0,
 	0,
 	25,
@@ -16793,13 +10343,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1065);
+	106,
+	674);
 INSERT INTO V_IRF
-	VALUES (1114,
-	1049);
+	VALUES (723,
+	658);
 INSERT INTO V_VAL
-	VALUES (1107,
+	VALUES (716,
 	0,
 	0,
 	25,
@@ -16809,15 +10359,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1065);
+	10,
+	674);
 INSERT INTO V_AVL
-	VALUES (1107,
-	1114,
-	195,
-	1086);
+	VALUES (716,
+	723,
+	215,
+	695);
 INSERT INTO V_VAL
-	VALUES (1111,
+	VALUES (720,
 	1,
 	0,
 	26,
@@ -16827,13 +10377,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1065);
+	10,
+	674);
 INSERT INTO V_TVL
-	VALUES (1111,
-	1092);
+	VALUES (720,
+	701);
 INSERT INTO V_VAL
-	VALUES (1115,
+	VALUES (724,
 	0,
 	0,
 	26,
@@ -16843,13 +10393,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1065);
+	106,
+	674);
 INSERT INTO V_IRF
-	VALUES (1115,
-	1049);
+	VALUES (724,
+	658);
 INSERT INTO V_VAL
-	VALUES (1110,
+	VALUES (719,
 	0,
 	0,
 	26,
@@ -16859,15 +10409,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1065);
+	10,
+	674);
 INSERT INTO V_AVL
-	VALUES (1110,
-	1115,
-	195,
-	1089);
+	VALUES (719,
+	724,
+	215,
+	698);
 INSERT INTO ACT_BLK
-	VALUES (1070,
+	VALUES (679,
 	0,
 	0,
 	0,
@@ -16887,23 +10437,23 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1030,
+	639,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1116,
-	1070,
+	VALUES (725,
+	679,
 	0,
 	35,
 	3,
 	'TrackLog::addTrackPoint line: 35');
 INSERT INTO ACT_AI
-	VALUES (1116,
-	1117,
-	1118,
+	VALUES (725,
+	726,
+	727,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1118,
+	VALUES (727,
 	1,
 	0,
 	35,
@@ -16913,13 +10463,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1070);
+	10,
+	679);
 INSERT INTO V_TVL
-	VALUES (1118,
-	1094);
+	VALUES (727,
+	703);
 INSERT INTO V_VAL
-	VALUES (1117,
+	VALUES (726,
 	0,
 	0,
 	35,
@@ -16929,18 +10479,18 @@ INSERT INTO V_VAL
 	42,
 	36,
 	66,
-	170,
-	1070);
+	10,
+	679);
 INSERT INTO V_MSV
-	VALUES (1117,
+	VALUES (726,
 	0,
-	7,
+	58,
 	1,
 	35,
 	19,
 	0);
 INSERT INTO V_VAL
-	VALUES (1119,
+	VALUES (728,
 	0,
 	0,
 	35,
@@ -16950,21 +10500,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1070);
+	10,
+	679);
 INSERT INTO V_TVL
-	VALUES (1119,
-	1091);
+	VALUES (728,
+	700);
 INSERT INTO V_PAR
-	VALUES (1119,
+	VALUES (728,
 	0,
-	1117,
+	726,
 	'fromLat',
-	1120,
+	729,
 	35,
 	42);
 INSERT INTO V_VAL
-	VALUES (1120,
+	VALUES (729,
 	0,
 	0,
 	35,
@@ -16974,21 +10524,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1070);
+	10,
+	679);
 INSERT INTO V_TVL
-	VALUES (1120,
-	1092);
+	VALUES (729,
+	701);
 INSERT INTO V_PAR
-	VALUES (1120,
+	VALUES (729,
 	0,
-	1117,
+	726,
 	'fromLong',
-	1121,
+	730,
 	35,
 	65);
 INSERT INTO V_VAL
-	VALUES (1122,
+	VALUES (731,
 	0,
 	0,
 	36,
@@ -16998,13 +10548,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1070);
+	106,
+	679);
 INSERT INTO V_IRF
-	VALUES (1122,
-	1034);
+	VALUES (731,
+	643);
 INSERT INTO V_VAL
-	VALUES (1121,
+	VALUES (730,
 	0,
 	0,
 	36,
@@ -17014,23 +10564,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1070);
+	10,
+	679);
 INSERT INTO V_AVL
-	VALUES (1121,
-	1122,
-	195,
-	1086);
+	VALUES (730,
+	731,
+	215,
+	695);
 INSERT INTO V_PAR
-	VALUES (1121,
+	VALUES (730,
 	0,
-	1117,
+	726,
 	'toLat',
-	1123,
+	732,
 	36,
 	38);
 INSERT INTO V_VAL
-	VALUES (1124,
+	VALUES (733,
 	0,
 	0,
 	36,
@@ -17040,13 +10590,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1070);
+	106,
+	679);
 INSERT INTO V_IRF
-	VALUES (1124,
-	1034);
+	VALUES (733,
+	643);
 INSERT INTO V_VAL
-	VALUES (1123,
+	VALUES (732,
 	0,
 	0,
 	36,
@@ -17056,27 +10606,27 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1070);
+	10,
+	679);
 INSERT INTO V_AVL
-	VALUES (1123,
-	1124,
-	195,
-	1089);
+	VALUES (732,
+	733,
+	215,
+	698);
 INSERT INTO V_PAR
-	VALUES (1123,
+	VALUES (732,
 	0,
-	1117,
+	726,
 	'toLong',
 	0,
 	36,
 	66);
 INSERT INTO O_TFR
-	VALUES (1125,
-	193,
+	VALUES (734,
+	213,
 	'clearTrackPoints',
 	'',
-	240,
+	6,
 	1,
 	'select one nextPoint related by self->TrackPoint[R1];
 select one lastPoint related by self->TrackPoint[R3];
@@ -17100,21 +10650,21 @@ end while;
 ',
 	1,
 	'',
-	1029);
+	638);
 INSERT INTO ACT_OPB
-	VALUES (1126,
-	1125);
+	VALUES (735,
+	734);
 INSERT INTO ACT_ACT
-	VALUES (1126,
+	VALUES (735,
 	'operation',
 	0,
-	1127,
+	736,
 	0,
 	0,
 	'TrackLog::clearTrackPoints',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1127,
+	VALUES (736,
 	1,
 	0,
 	0,
@@ -17134,31 +10684,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1126,
+	735,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1128,
-	1127,
-	1129,
+	VALUES (737,
+	736,
+	738,
 	1,
 	1,
 	'TrackLog::clearTrackPoints line: 1');
 INSERT INTO ACT_SEL
-	VALUES (1128,
-	1130,
+	VALUES (737,
+	739,
 	1,
 	'one',
-	1131);
+	740);
 INSERT INTO ACT_SR
-	VALUES (1128);
+	VALUES (737);
 INSERT INTO ACT_LNK
-	VALUES (1132,
+	VALUES (741,
 	'',
-	1128,
-	192,
+	737,
+	212,
 	0,
 	2,
-	195,
+	215,
 	1,
 	39,
 	1,
@@ -17166,28 +10716,28 @@ INSERT INTO ACT_LNK
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1129,
-	1127,
-	1133,
+	VALUES (738,
+	736,
+	742,
 	2,
 	1,
 	'TrackLog::clearTrackPoints line: 2');
 INSERT INTO ACT_SEL
-	VALUES (1129,
-	1134,
+	VALUES (738,
+	743,
 	1,
 	'one',
-	1135);
+	744);
 INSERT INTO ACT_SR
-	VALUES (1129);
+	VALUES (738);
 INSERT INTO ACT_LNK
-	VALUES (1136,
+	VALUES (745,
 	'',
-	1129,
-	200,
+	738,
+	220,
 	0,
 	2,
-	195,
+	215,
 	2,
 	39,
 	2,
@@ -17195,44 +10745,44 @@ INSERT INTO ACT_LNK
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1133,
-	1127,
-	1137,
+	VALUES (742,
+	736,
+	746,
 	4,
 	1,
 	'TrackLog::clearTrackPoints line: 4');
 INSERT INTO ACT_IF
-	VALUES (1133,
-	1138,
-	1139,
+	VALUES (742,
+	747,
+	748,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1137,
-	1127,
-	1140,
+	VALUES (746,
+	736,
+	749,
 	8,
 	1,
 	'TrackLog::clearTrackPoints line: 8');
 INSERT INTO ACT_IF
-	VALUES (1137,
-	1141,
-	1142,
+	VALUES (746,
+	750,
+	751,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1140,
-	1127,
+	VALUES (749,
+	736,
 	0,
 	12,
 	1,
 	'TrackLog::clearTrackPoints line: 12');
 INSERT INTO ACT_WHL
-	VALUES (1140,
-	1143,
-	1144);
+	VALUES (749,
+	752,
+	753);
 INSERT INTO V_VAL
-	VALUES (1131,
+	VALUES (740,
 	0,
 	0,
 	1,
@@ -17242,13 +10792,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1127);
+	106,
+	736);
 INSERT INTO V_IRF
-	VALUES (1131,
-	1145);
+	VALUES (740,
+	754);
 INSERT INTO V_VAL
-	VALUES (1135,
+	VALUES (744,
 	0,
 	0,
 	2,
@@ -17258,13 +10808,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1127);
+	106,
+	736);
 INSERT INTO V_IRF
-	VALUES (1135,
-	1145);
+	VALUES (744,
+	754);
 INSERT INTO V_VAL
-	VALUES (1146,
+	VALUES (755,
 	0,
 	0,
 	4,
@@ -17274,13 +10824,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1127);
+	106,
+	736);
 INSERT INTO V_IRF
-	VALUES (1146,
-	1134);
+	VALUES (755,
+	743);
 INSERT INTO V_VAL
-	VALUES (1147,
+	VALUES (756,
 	0,
 	0,
 	-1,
@@ -17290,14 +10840,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1127);
+	108,
+	736);
 INSERT INTO V_UNY
-	VALUES (1147,
-	1146,
+	VALUES (756,
+	755,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1139,
+	VALUES (748,
 	0,
 	0,
 	-1,
@@ -17307,14 +10857,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1127);
+	108,
+	736);
 INSERT INTO V_UNY
-	VALUES (1139,
-	1147,
+	VALUES (748,
+	756,
 	'not');
 INSERT INTO V_VAL
-	VALUES (1148,
+	VALUES (757,
 	0,
 	0,
 	8,
@@ -17324,13 +10874,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1127);
+	106,
+	736);
 INSERT INTO V_IRF
-	VALUES (1148,
-	1130);
+	VALUES (757,
+	739);
 INSERT INTO V_VAL
-	VALUES (1149,
+	VALUES (758,
 	0,
 	0,
 	-1,
@@ -17340,14 +10890,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1127);
+	108,
+	736);
 INSERT INTO V_UNY
-	VALUES (1149,
-	1148,
+	VALUES (758,
+	757,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1142,
+	VALUES (751,
 	0,
 	0,
 	-1,
@@ -17357,14 +10907,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1127);
+	108,
+	736);
 INSERT INTO V_UNY
-	VALUES (1142,
-	1149,
+	VALUES (751,
+	758,
 	'not');
 INSERT INTO V_VAL
-	VALUES (1150,
+	VALUES (759,
 	0,
 	0,
 	12,
@@ -17374,13 +10924,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1127);
+	106,
+	736);
 INSERT INTO V_IRF
-	VALUES (1150,
-	1130);
+	VALUES (759,
+	739);
 INSERT INTO V_VAL
-	VALUES (1151,
+	VALUES (760,
 	0,
 	0,
 	-1,
@@ -17390,14 +10940,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1127);
+	108,
+	736);
 INSERT INTO V_UNY
-	VALUES (1151,
-	1150,
+	VALUES (760,
+	759,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1143,
+	VALUES (752,
 	0,
 	0,
 	-1,
@@ -17407,44 +10957,44 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1127);
+	108,
+	736);
 INSERT INTO V_UNY
-	VALUES (1143,
-	1151,
+	VALUES (752,
+	760,
 	'not');
 INSERT INTO V_VAR
-	VALUES (1130,
-	1127,
+	VALUES (739,
+	736,
 	'nextPoint',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1130,
+	VALUES (739,
 	0,
-	195);
+	215);
 INSERT INTO V_VAR
-	VALUES (1145,
-	1127,
+	VALUES (754,
+	736,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1145,
+	VALUES (754,
 	0,
-	193);
+	213);
 INSERT INTO V_VAR
-	VALUES (1134,
-	1127,
+	VALUES (743,
+	736,
 	'lastPoint',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1134,
+	VALUES (743,
 	0,
-	195);
+	215);
 INSERT INTO ACT_BLK
-	VALUES (1138,
+	VALUES (747,
 	0,
 	0,
 	0,
@@ -17464,27 +11014,27 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1126,
+	735,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1152,
-	1138,
+	VALUES (761,
+	747,
 	0,
 	5,
 	3,
 	'TrackLog::clearTrackPoints line: 5');
 INSERT INTO ACT_UNR
-	VALUES (1152,
-	1145,
-	1134,
+	VALUES (761,
+	754,
+	743,
 	'',
-	200,
+	220,
 	5,
 	39,
 	0,
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1141,
+	VALUES (750,
 	0,
 	0,
 	0,
@@ -17504,27 +11054,27 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1126,
+	735,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1153,
-	1141,
+	VALUES (762,
+	750,
 	0,
 	9,
 	3,
 	'TrackLog::clearTrackPoints line: 9');
 INSERT INTO ACT_UNR
-	VALUES (1153,
-	1145,
-	1130,
+	VALUES (762,
+	754,
+	739,
 	'',
-	192,
+	212,
 	9,
 	39,
 	0,
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1144,
+	VALUES (753,
 	1,
 	0,
 	0,
@@ -17544,44 +11094,44 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1126,
+	735,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1154,
-	1144,
-	1155,
+	VALUES (763,
+	753,
+	764,
 	13,
 	3,
 	'TrackLog::clearTrackPoints line: 13');
 INSERT INTO ACT_AI
-	VALUES (1154,
-	1156,
-	1157,
+	VALUES (763,
+	765,
+	766,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1155,
-	1144,
-	1158,
+	VALUES (764,
+	753,
+	767,
 	14,
 	3,
 	'TrackLog::clearTrackPoints line: 14');
 INSERT INTO ACT_SEL
-	VALUES (1155,
-	1130,
+	VALUES (764,
+	739,
 	0,
 	'one',
-	1159);
+	768);
 INSERT INTO ACT_SR
-	VALUES (1155);
+	VALUES (764);
 INSERT INTO ACT_LNK
-	VALUES (1160,
+	VALUES (769,
 	'''follows''',
-	1155,
-	197,
+	764,
+	217,
 	0,
 	2,
-	195,
+	215,
 	14,
 	46,
 	14,
@@ -17589,30 +11139,30 @@ INSERT INTO ACT_LNK
 	14,
 	60);
 INSERT INTO ACT_SMT
-	VALUES (1158,
-	1144,
-	1161,
+	VALUES (767,
+	753,
+	770,
 	15,
 	3,
 	'TrackLog::clearTrackPoints line: 15');
 INSERT INTO ACT_IF
-	VALUES (1158,
-	1162,
-	1163,
+	VALUES (767,
+	771,
+	772,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1161,
-	1144,
+	VALUES (770,
+	753,
 	0,
 	18,
 	3,
 	'TrackLog::clearTrackPoints line: 18');
 INSERT INTO ACT_DEL
-	VALUES (1161,
-	1164);
+	VALUES (770,
+	773);
 INSERT INTO V_VAL
-	VALUES (1157,
+	VALUES (766,
 	1,
 	1,
 	13,
@@ -17622,13 +11172,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1144);
+	106,
+	753);
 INSERT INTO V_IRF
-	VALUES (1157,
-	1164);
+	VALUES (766,
+	773);
 INSERT INTO V_VAL
-	VALUES (1156,
+	VALUES (765,
 	0,
 	0,
 	13,
@@ -17638,13 +11188,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1144);
+	106,
+	753);
 INSERT INTO V_IRF
-	VALUES (1156,
-	1130);
+	VALUES (765,
+	739);
 INSERT INTO V_VAL
-	VALUES (1159,
+	VALUES (768,
 	0,
 	0,
 	14,
@@ -17654,13 +11204,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1144);
+	106,
+	753);
 INSERT INTO V_IRF
-	VALUES (1159,
-	1130);
+	VALUES (768,
+	739);
 INSERT INTO V_VAL
-	VALUES (1165,
+	VALUES (774,
 	0,
 	0,
 	15,
@@ -17670,13 +11220,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1144);
+	106,
+	753);
 INSERT INTO V_IRF
-	VALUES (1165,
-	1130);
+	VALUES (774,
+	739);
 INSERT INTO V_VAL
-	VALUES (1163,
+	VALUES (772,
 	0,
 	0,
 	-1,
@@ -17686,24 +11236,24 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1144);
+	108,
+	753);
 INSERT INTO V_UNY
-	VALUES (1163,
-	1165,
+	VALUES (772,
+	774,
 	'not_empty');
 INSERT INTO V_VAR
-	VALUES (1164,
-	1144,
+	VALUES (773,
+	753,
 	'prevPoint',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1164,
+	VALUES (773,
 	0,
-	195);
+	215);
 INSERT INTO ACT_BLK
-	VALUES (1162,
+	VALUES (771,
 	0,
 	0,
 	0,
@@ -17723,31 +11273,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1126,
+	735,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1166,
-	1162,
+	VALUES (775,
+	771,
 	0,
 	16,
 	5,
 	'TrackLog::clearTrackPoints line: 16');
 INSERT INTO ACT_UNR
-	VALUES (1166,
-	1164,
-	1130,
+	VALUES (775,
+	773,
+	739,
 	'''follows''',
-	197,
+	217,
 	16,
 	46,
 	16,
 	49);
 INSERT INTO O_TFR
-	VALUES (1167,
-	193,
+	VALUES (776,
+	213,
 	'addLapMarker',
 	'',
-	240,
+	6,
 	1,
 	'select one timer related by self->WorkoutSession[R4.''represents path for'']->WorkoutTimer[R8.''is timed by''];
 create object instance lapMarker of LapMarker;
@@ -17758,21 +11308,21 @@ relate self to lapMarker across R5.''has laps defined by'';
 self.updateDisplay();',
 	1,
 	'',
-	1125);
+	734);
 INSERT INTO ACT_OPB
-	VALUES (1168,
-	1167);
+	VALUES (777,
+	776);
 INSERT INTO ACT_ACT
-	VALUES (1168,
+	VALUES (777,
 	'operation',
 	0,
-	1169,
+	778,
 	0,
 	0,
 	'TrackLog::addLapMarker',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1169,
+	VALUES (778,
 	1,
 	0,
 	0,
@@ -17792,31 +11342,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1168,
+	777,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1170,
-	1169,
-	1171,
+	VALUES (779,
+	778,
+	780,
 	1,
 	1,
 	'TrackLog::addLapMarker line: 1');
 INSERT INTO ACT_SEL
-	VALUES (1170,
-	1172,
+	VALUES (779,
+	781,
 	1,
 	'one',
-	1173);
+	782);
 INSERT INTO ACT_SR
-	VALUES (1170);
+	VALUES (779);
 INSERT INTO ACT_LNK
-	VALUES (1174,
+	VALUES (783,
 	'''represents path for''',
-	1170,
-	212,
-	1175,
+	779,
+	232,
+	784,
 	2,
-	66,
+	102,
 	1,
 	35,
 	1,
@@ -17824,13 +11374,13 @@ INSERT INTO ACT_LNK
 	1,
 	53);
 INSERT INTO ACT_LNK
-	VALUES (1175,
+	VALUES (784,
 	'''is timed by''',
 	0,
-	209,
+	229,
 	0,
 	2,
-	84,
+	118,
 	1,
 	77,
 	1,
@@ -17838,66 +11388,66 @@ INSERT INTO ACT_LNK
 	1,
 	93);
 INSERT INTO ACT_SMT
-	VALUES (1171,
-	1169,
-	1176,
+	VALUES (780,
+	778,
+	785,
 	2,
 	1,
 	'TrackLog::addLapMarker line: 2');
 INSERT INTO ACT_CR
-	VALUES (1171,
-	1177,
+	VALUES (780,
+	786,
 	1,
-	204,
+	224,
 	2,
 	37);
 INSERT INTO ACT_SMT
-	VALUES (1176,
-	1169,
-	1178,
+	VALUES (785,
+	778,
+	787,
 	3,
 	1,
 	'TrackLog::addLapMarker line: 3');
 INSERT INTO ACT_AI
-	VALUES (1176,
-	1179,
-	1180,
+	VALUES (785,
+	788,
+	789,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1178,
-	1169,
-	1181,
+	VALUES (787,
+	778,
+	790,
 	4,
 	1,
 	'TrackLog::addLapMarker line: 4');
 INSERT INTO ACT_REL
-	VALUES (1178,
-	1182,
-	1177,
+	VALUES (787,
+	791,
+	786,
 	'''has laps defined by''',
-	203,
+	223,
 	4,
 	33,
 	4,
 	36);
 INSERT INTO ACT_SMT
-	VALUES (1181,
-	1169,
+	VALUES (790,
+	778,
 	0,
 	7,
 	1,
 	'TrackLog::addLapMarker line: 7');
 INSERT INTO ACT_TFM
-	VALUES (1181,
-	1079,
-	1182,
+	VALUES (790,
+	688,
+	791,
 	7,
 	6,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1173,
+	VALUES (782,
 	0,
 	0,
 	1,
@@ -17907,13 +11457,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1169);
+	106,
+	778);
 INSERT INTO V_IRF
-	VALUES (1173,
-	1182);
+	VALUES (782,
+	791);
 INSERT INTO V_VAL
-	VALUES (1183,
+	VALUES (792,
 	1,
 	0,
 	3,
@@ -17923,13 +11473,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1169);
+	106,
+	778);
 INSERT INTO V_IRF
-	VALUES (1183,
-	1177);
+	VALUES (792,
+	786);
 INSERT INTO V_VAL
-	VALUES (1180,
+	VALUES (789,
 	1,
 	0,
 	3,
@@ -17939,15 +11489,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1169);
+	30,
+	778);
 INSERT INTO V_AVL
-	VALUES (1180,
-	1183,
-	204,
-	1028);
+	VALUES (789,
+	792,
+	224,
+	637);
 INSERT INTO V_VAL
-	VALUES (1184,
+	VALUES (793,
 	0,
 	0,
 	3,
@@ -17957,13 +11507,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1169);
+	106,
+	778);
 INSERT INTO V_IRF
-	VALUES (1184,
-	1172);
+	VALUES (793,
+	781);
 INSERT INTO V_VAL
-	VALUES (1179,
+	VALUES (788,
 	0,
 	0,
 	3,
@@ -17973,49 +11523,49 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1169);
+	30,
+	778);
 INSERT INTO V_AVL
-	VALUES (1179,
-	1184,
-	84,
-	403);
+	VALUES (788,
+	793,
+	118,
+	422);
 INSERT INTO V_VAR
-	VALUES (1172,
-	1169,
+	VALUES (781,
+	778,
 	'timer',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1172,
+	VALUES (781,
 	0,
-	84);
+	118);
 INSERT INTO V_VAR
-	VALUES (1182,
-	1169,
+	VALUES (791,
+	778,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1182,
+	VALUES (791,
 	0,
-	193);
+	213);
 INSERT INTO V_VAR
-	VALUES (1177,
-	1169,
+	VALUES (786,
+	778,
 	'lapMarker',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1177,
+	VALUES (786,
 	0,
-	204);
+	224);
 INSERT INTO O_TFR
-	VALUES (1185,
-	193,
+	VALUES (794,
+	213,
 	'clearLapMarkers',
 	'',
-	240,
+	6,
 	1,
 	'select many lapMarkers related by self->LapMarker[R5];
 for each lapMarker in lapMarkers
@@ -18024,21 +11574,21 @@ for each lapMarker in lapMarkers
 end for;',
 	1,
 	'',
-	1167);
+	776);
 INSERT INTO ACT_OPB
-	VALUES (1186,
-	1185);
+	VALUES (795,
+	794);
 INSERT INTO ACT_ACT
-	VALUES (1186,
+	VALUES (795,
 	'operation',
 	0,
-	1187,
+	796,
 	0,
 	0,
 	'TrackLog::clearLapMarkers',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1187,
+	VALUES (796,
 	1,
 	0,
 	0,
@@ -18058,31 +11608,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1186,
+	795,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1188,
-	1187,
-	1189,
+	VALUES (797,
+	796,
+	798,
 	1,
 	1,
 	'TrackLog::clearLapMarkers line: 1');
 INSERT INTO ACT_SEL
-	VALUES (1188,
-	1190,
+	VALUES (797,
+	799,
 	1,
 	'many',
-	1191);
+	800);
 INSERT INTO ACT_SR
-	VALUES (1188);
+	VALUES (797);
 INSERT INTO ACT_LNK
-	VALUES (1192,
+	VALUES (801,
 	'',
-	1188,
-	203,
+	797,
+	223,
 	0,
 	3,
-	204,
+	224,
 	1,
 	41,
 	1,
@@ -18090,21 +11640,21 @@ INSERT INTO ACT_LNK
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1189,
-	1187,
+	VALUES (798,
+	796,
 	0,
 	2,
 	1,
 	'TrackLog::clearLapMarkers line: 2');
 INSERT INTO ACT_FOR
-	VALUES (1189,
-	1193,
+	VALUES (798,
+	802,
 	1,
-	1194,
-	1190,
-	204);
+	803,
+	799,
+	224);
 INSERT INTO V_VAL
-	VALUES (1191,
+	VALUES (800,
 	0,
 	0,
 	1,
@@ -18114,42 +11664,42 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1187);
+	106,
+	796);
 INSERT INTO V_IRF
-	VALUES (1191,
-	1195);
+	VALUES (800,
+	804);
 INSERT INTO V_VAR
-	VALUES (1190,
-	1187,
+	VALUES (799,
+	796,
 	'lapMarkers',
 	1,
-	573);
+	590);
 INSERT INTO V_INS
-	VALUES (1190,
-	204);
+	VALUES (799,
+	224);
 INSERT INTO V_VAR
-	VALUES (1195,
-	1187,
+	VALUES (804,
+	796,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1195,
+	VALUES (804,
 	0,
-	193);
+	213);
 INSERT INTO V_VAR
-	VALUES (1194,
-	1187,
+	VALUES (803,
+	796,
 	'lapMarker',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1194,
+	VALUES (803,
 	1,
-	204);
+	224);
 INSERT INTO ACT_BLK
-	VALUES (1193,
+	VALUES (802,
 	0,
 	0,
 	0,
@@ -18169,41 +11719,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1186,
+	795,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1196,
-	1193,
-	1197,
+	VALUES (805,
+	802,
+	806,
 	3,
 	3,
 	'TrackLog::clearLapMarkers line: 3');
 INSERT INTO ACT_UNR
-	VALUES (1196,
-	1195,
-	1194,
+	VALUES (805,
+	804,
+	803,
 	'',
-	203,
+	223,
 	3,
 	39,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1197,
-	1193,
+	VALUES (806,
+	802,
 	0,
 	4,
 	3,
 	'TrackLog::clearLapMarkers line: 4');
 INSERT INTO ACT_DEL
-	VALUES (1197,
-	1194);
+	VALUES (806,
+	803);
 INSERT INTO O_TFR
-	VALUES (1079,
-	193,
+	VALUES (688,
+	213,
 	'updateDisplay',
 	'',
-	240,
+	6,
 	1,
 	'// Update the display so that newly updated values will be shown.
 select one display related by 
@@ -18211,21 +11761,21 @@ select one display related by
 generate Display2:refresh to display;',
 	1,
 	'',
-	1185);
+	794);
 INSERT INTO ACT_OPB
-	VALUES (1198,
-	1079);
+	VALUES (807,
+	688);
 INSERT INTO ACT_ACT
-	VALUES (1198,
+	VALUES (807,
 	'operation',
 	0,
-	1199,
+	808,
 	0,
 	0,
 	'TrackLog::updateDisplay',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1199,
+	VALUES (808,
 	1,
 	0,
 	0,
@@ -18245,31 +11795,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1198,
+	807,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1200,
-	1199,
-	1201,
+	VALUES (809,
+	808,
+	810,
 	2,
 	1,
 	'TrackLog::updateDisplay line: 2');
 INSERT INTO ACT_SEL
-	VALUES (1200,
-	1202,
+	VALUES (809,
+	811,
 	1,
 	'one',
-	1203);
+	812);
 INSERT INTO ACT_SR
-	VALUES (1200);
+	VALUES (809);
 INSERT INTO ACT_LNK
-	VALUES (1204,
+	VALUES (813,
 	'''represents path for''',
-	1200,
-	212,
-	1205,
+	809,
+	232,
+	814,
 	2,
-	66,
+	102,
 	3,
 	9,
 	3,
@@ -18277,13 +11827,13 @@ INSERT INTO ACT_LNK
 	3,
 	27);
 INSERT INTO ACT_LNK
-	VALUES (1205,
+	VALUES (814,
 	'''current status indicated on''',
 	0,
-	113,
+	146,
 	0,
 	2,
-	114,
+	147,
 	3,
 	51,
 	3,
@@ -18291,14 +11841,14 @@ INSERT INTO ACT_LNK
 	3,
 	62);
 INSERT INTO ACT_SMT
-	VALUES (1201,
-	1199,
+	VALUES (810,
+	808,
 	0,
 	4,
 	1,
 	'TrackLog::updateDisplay line: 4');
 INSERT INTO E_ESS
-	VALUES (1201,
+	VALUES (810,
 	1,
 	0,
 	4,
@@ -18312,15 +11862,15 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_GES
-	VALUES (1201);
+	VALUES (810);
 INSERT INTO E_GSME
-	VALUES (1201,
-	460);
+	VALUES (810,
+	478);
 INSERT INTO E_GEN
-	VALUES (1201,
-	1202);
+	VALUES (810,
+	811);
 INSERT INTO V_VAL
-	VALUES (1203,
+	VALUES (812,
 	0,
 	0,
 	3,
@@ -18330,48 +11880,48 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1199);
+	106,
+	808);
 INSERT INTO V_IRF
-	VALUES (1203,
-	1206);
+	VALUES (812,
+	815);
 INSERT INTO V_VAR
-	VALUES (1202,
-	1199,
+	VALUES (811,
+	808,
 	'display',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1202,
+	VALUES (811,
 	0,
-	114);
+	147);
 INSERT INTO V_VAR
-	VALUES (1206,
-	1199,
+	VALUES (815,
+	808,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1206,
+	VALUES (815,
 	0,
-	193);
+	213);
 INSERT INTO O_ID
 	VALUES (0,
-	193);
+	213);
 INSERT INTO O_ID
 	VALUES (1,
-	193);
+	213);
 INSERT INTO O_ID
 	VALUES (2,
-	193);
+	213);
 INSERT INTO PE_PE
-	VALUES (195,
+	VALUES (215,
 	1,
-	191,
+	211,
 	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (195,
+	VALUES (215,
 	'TrackPoint',
 	3,
 	'TrackPoint',
@@ -18379,14 +11929,14 @@ INSERT INTO O_OBJ
 passed during a workout session.',
 	0);
 INSERT INTO O_NBATTR
-	VALUES (1082,
-	195);
+	VALUES (691,
+	215);
 INSERT INTO O_BATTR
-	VALUES (1082,
-	195);
+	VALUES (691,
+	215);
 INSERT INTO O_ATTR
-	VALUES (1082,
-	195,
+	VALUES (691,
+	215,
 	0,
 	'time',
 	'Number of seconds between start time for the associated workout and recording of this location.
@@ -18394,64 +11944,64 @@ INSERT INTO O_ATTR
 	'',
 	'time',
 	0,
-	13,
+	30,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (1089,
-	195);
+	VALUES (698,
+	215);
 INSERT INTO O_BATTR
-	VALUES (1089,
-	195);
+	VALUES (698,
+	215);
 INSERT INTO O_ATTR
-	VALUES (1089,
-	195,
-	1082,
+	VALUES (698,
+	215,
+	691,
 	'longitude',
 	'Longitude, expressed in decimal degrees where eastern figures are positve
 and western ones are negative.',
 	'',
 	'longitude',
 	0,
-	170,
+	10,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (1086,
-	195);
+	VALUES (695,
+	215);
 INSERT INTO O_BATTR
-	VALUES (1086,
-	195);
+	VALUES (695,
+	215);
 INSERT INTO O_ATTR
-	VALUES (1086,
-	195,
-	1089,
+	VALUES (695,
+	215,
+	698,
 	'latitude',
 	'Latitude, expressed in decimal degrees, where northern figures are positive
 and southern ones are negative.',
 	'',
 	'latitude',
 	0,
-	170,
+	10,
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	195);
+	215);
 INSERT INTO O_ID
 	VALUES (1,
-	195);
+	215);
 INSERT INTO O_ID
 	VALUES (2,
-	195);
+	215);
 INSERT INTO PE_PE
-	VALUES (66,
+	VALUES (102,
 	1,
-	191,
+	211,
 	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (66,
+	VALUES (102,
 	'WorkoutSession',
 	7,
 	'WorkoutSession',
@@ -18464,11 +12014,11 @@ at any given time.  Other sessions represent completed
 or planned workout sessions.',
 	0);
 INSERT INTO O_TFR
-	VALUES (74,
-	66,
+	VALUES (110,
+	102,
 	'addHeartRateSample',
 	'',
-	240,
+	6,
 	1,
 	'// Add a new heart-rate sample and notify the UI of the current heart rate.
 
@@ -18487,28 +12037,28 @@ generate Display2:refresh to display;',
 	'',
 	0);
 INSERT INTO O_TPARM
-	VALUES (1207,
-	74,
+	VALUES (816,
+	110,
 	'heartRate',
-	13,
+	30,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_OPB
-	VALUES (1208,
-	74);
+	VALUES (817,
+	110);
 INSERT INTO ACT_ACT
-	VALUES (1208,
+	VALUES (817,
 	'operation',
 	0,
-	1209,
+	818,
 	0,
 	0,
 	'WorkoutSession::addHeartRateSample',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1209,
+	VALUES (818,
 	1,
 	0,
 	0,
@@ -18528,31 +12078,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1208,
+	817,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1210,
-	1209,
-	1211,
+	VALUES (819,
+	818,
+	820,
 	3,
 	1,
 	'WorkoutSession::addHeartRateSample line: 3');
 INSERT INTO ACT_SEL
-	VALUES (1210,
-	1212,
+	VALUES (819,
+	821,
 	1,
 	'one',
-	1213);
+	822);
 INSERT INTO ACT_SR
-	VALUES (1210);
+	VALUES (819);
 INSERT INTO ACT_LNK
-	VALUES (1214,
+	VALUES (823,
 	'''is timed by''',
-	1210,
-	209,
+	819,
+	229,
 	0,
 	2,
-	84,
+	118,
 	3,
 	42,
 	3,
@@ -18560,85 +12110,85 @@ INSERT INTO ACT_LNK
 	3,
 	58);
 INSERT INTO ACT_SMT
-	VALUES (1211,
-	1209,
-	1215,
+	VALUES (820,
+	818,
+	824,
 	6,
 	1,
 	'WorkoutSession::addHeartRateSample line: 6');
 INSERT INTO ACT_CR
-	VALUES (1211,
-	1216,
+	VALUES (820,
+	825,
 	1,
-	216,
+	236,
 	6,
 	34);
 INSERT INTO ACT_SMT
-	VALUES (1215,
-	1209,
-	1217,
+	VALUES (824,
+	818,
+	826,
 	7,
 	1,
 	'WorkoutSession::addHeartRateSample line: 7');
 INSERT INTO ACT_AI
-	VALUES (1215,
-	1218,
-	1219,
+	VALUES (824,
+	827,
+	828,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1217,
-	1209,
-	1220,
+	VALUES (826,
+	818,
+	829,
 	8,
 	1,
 	'WorkoutSession::addHeartRateSample line: 8');
 INSERT INTO ACT_AI
-	VALUES (1217,
-	1221,
-	1222,
+	VALUES (826,
+	830,
+	831,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1220,
-	1209,
-	1223,
+	VALUES (829,
+	818,
+	832,
 	9,
 	1,
 	'WorkoutSession::addHeartRateSample line: 9');
 INSERT INTO ACT_REL
-	VALUES (1220,
-	1224,
-	1216,
+	VALUES (829,
+	833,
+	825,
 	'''tracks heart rate over time as''',
-	215,
+	235,
 	9,
 	30,
 	9,
 	33);
 INSERT INTO ACT_SMT
-	VALUES (1223,
-	1209,
-	1225,
+	VALUES (832,
+	818,
+	834,
 	12,
 	1,
 	'WorkoutSession::addHeartRateSample line: 12');
 INSERT INTO ACT_SEL
-	VALUES (1223,
-	1226,
+	VALUES (832,
+	835,
 	1,
 	'one',
-	1227);
+	836);
 INSERT INTO ACT_SR
-	VALUES (1223);
+	VALUES (832);
 INSERT INTO ACT_LNK
-	VALUES (1228,
+	VALUES (837,
 	'''current status indicated on''',
-	1223,
-	113,
+	832,
+	146,
 	0,
 	2,
-	114,
+	147,
 	12,
 	37,
 	12,
@@ -18646,14 +12196,14 @@ INSERT INTO ACT_LNK
 	12,
 	48);
 INSERT INTO ACT_SMT
-	VALUES (1225,
-	1209,
+	VALUES (834,
+	818,
 	0,
 	13,
 	1,
 	'WorkoutSession::addHeartRateSample line: 13');
 INSERT INTO E_ESS
-	VALUES (1225,
+	VALUES (834,
 	1,
 	0,
 	13,
@@ -18667,15 +12217,15 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_GES
-	VALUES (1225);
+	VALUES (834);
 INSERT INTO E_GSME
-	VALUES (1225,
-	460);
+	VALUES (834,
+	478);
 INSERT INTO E_GEN
-	VALUES (1225,
-	1226);
+	VALUES (834,
+	835);
 INSERT INTO V_VAL
-	VALUES (1213,
+	VALUES (822,
 	0,
 	0,
 	3,
@@ -18685,13 +12235,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1209);
+	106,
+	818);
 INSERT INTO V_IRF
-	VALUES (1213,
-	1224);
+	VALUES (822,
+	833);
 INSERT INTO V_VAL
-	VALUES (1229,
+	VALUES (838,
 	1,
 	0,
 	7,
@@ -18701,13 +12251,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1209);
+	106,
+	818);
 INSERT INTO V_IRF
-	VALUES (1229,
-	1216);
+	VALUES (838,
+	825);
 INSERT INTO V_VAL
-	VALUES (1219,
+	VALUES (828,
 	1,
 	0,
 	7,
@@ -18717,15 +12267,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1209);
+	30,
+	818);
 INSERT INTO V_AVL
-	VALUES (1219,
-	1229,
-	216,
-	1026);
+	VALUES (828,
+	838,
+	236,
+	635);
 INSERT INTO V_VAL
-	VALUES (1218,
+	VALUES (827,
 	0,
 	0,
 	7,
@@ -18735,16 +12285,16 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1209);
+	30,
+	818);
 INSERT INTO V_PVL
-	VALUES (1218,
+	VALUES (827,
 	0,
 	0,
-	1207,
+	816,
 	0);
 INSERT INTO V_VAL
-	VALUES (1230,
+	VALUES (839,
 	1,
 	0,
 	8,
@@ -18754,13 +12304,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1209);
+	106,
+	818);
 INSERT INTO V_IRF
-	VALUES (1230,
-	1216);
+	VALUES (839,
+	825);
 INSERT INTO V_VAL
-	VALUES (1222,
+	VALUES (831,
 	1,
 	0,
 	8,
@@ -18770,15 +12320,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1209);
+	30,
+	818);
 INSERT INTO V_AVL
-	VALUES (1222,
-	1230,
-	216,
-	1027);
+	VALUES (831,
+	839,
+	236,
+	636);
 INSERT INTO V_VAL
-	VALUES (1231,
+	VALUES (840,
 	0,
 	0,
 	8,
@@ -18788,13 +12338,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1209);
+	106,
+	818);
 INSERT INTO V_IRF
-	VALUES (1231,
-	1212);
+	VALUES (840,
+	821);
 INSERT INTO V_VAL
-	VALUES (1221,
+	VALUES (830,
 	0,
 	0,
 	8,
@@ -18804,15 +12354,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1209);
+	30,
+	818);
 INSERT INTO V_AVL
-	VALUES (1221,
-	1231,
-	84,
-	403);
+	VALUES (830,
+	840,
+	118,
+	422);
 INSERT INTO V_VAL
-	VALUES (1227,
+	VALUES (836,
 	0,
 	0,
 	12,
@@ -18822,57 +12372,57 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1209);
+	106,
+	818);
 INSERT INTO V_IRF
-	VALUES (1227,
-	1224);
+	VALUES (836,
+	833);
 INSERT INTO V_VAR
-	VALUES (1212,
-	1209,
+	VALUES (821,
+	818,
 	'workoutTimer',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1212,
+	VALUES (821,
 	0,
-	84);
+	118);
 INSERT INTO V_VAR
-	VALUES (1224,
-	1209,
+	VALUES (833,
+	818,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1224,
+	VALUES (833,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (1216,
-	1209,
+	VALUES (825,
+	818,
 	'sample',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1216,
+	VALUES (825,
 	0,
-	216);
+	236);
 INSERT INTO V_VAR
-	VALUES (1226,
-	1209,
+	VALUES (835,
+	818,
 	'display',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1226,
+	VALUES (835,
 	0,
-	114);
+	147);
 INSERT INTO O_TFR
-	VALUES (1232,
-	66,
+	VALUES (841,
+	102,
 	'clearHeartRateSamples',
 	'',
-	240,
+	6,
 	1,
 	'select many samples related by self->HeartRateSample[R6];
 for each sample in samples
@@ -18881,21 +12431,21 @@ for each sample in samples
 end for;',
 	1,
 	'',
-	74);
+	110);
 INSERT INTO ACT_OPB
-	VALUES (1233,
-	1232);
+	VALUES (842,
+	841);
 INSERT INTO ACT_ACT
-	VALUES (1233,
+	VALUES (842,
 	'operation',
 	0,
-	1234,
+	843,
 	0,
 	0,
 	'WorkoutSession::clearHeartRateSamples',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1234,
+	VALUES (843,
 	1,
 	0,
 	0,
@@ -18915,31 +12465,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1233,
+	842,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1235,
-	1234,
-	1236,
+	VALUES (844,
+	843,
+	845,
 	1,
 	1,
 	'WorkoutSession::clearHeartRateSamples line: 1');
 INSERT INTO ACT_SEL
-	VALUES (1235,
-	1237,
+	VALUES (844,
+	846,
 	1,
 	'many',
-	1238);
+	847);
 INSERT INTO ACT_SR
-	VALUES (1235);
+	VALUES (844);
 INSERT INTO ACT_LNK
-	VALUES (1239,
+	VALUES (848,
 	'',
-	1235,
-	215,
+	844,
+	235,
 	0,
 	3,
-	216,
+	236,
 	1,
 	38,
 	1,
@@ -18947,21 +12497,21 @@ INSERT INTO ACT_LNK
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1236,
-	1234,
+	VALUES (845,
+	843,
 	0,
 	2,
 	1,
 	'WorkoutSession::clearHeartRateSamples line: 2');
 INSERT INTO ACT_FOR
-	VALUES (1236,
-	1240,
+	VALUES (845,
+	849,
 	1,
-	1241,
-	1237,
-	216);
+	850,
+	846,
+	236);
 INSERT INTO V_VAL
-	VALUES (1238,
+	VALUES (847,
 	0,
 	0,
 	1,
@@ -18971,42 +12521,42 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1234);
+	106,
+	843);
 INSERT INTO V_IRF
-	VALUES (1238,
-	1242);
+	VALUES (847,
+	851);
 INSERT INTO V_VAR
-	VALUES (1237,
-	1234,
+	VALUES (846,
+	843,
 	'samples',
 	1,
-	573);
+	590);
 INSERT INTO V_INS
-	VALUES (1237,
-	216);
+	VALUES (846,
+	236);
 INSERT INTO V_VAR
-	VALUES (1242,
-	1234,
+	VALUES (851,
+	843,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1242,
+	VALUES (851,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (1241,
-	1234,
+	VALUES (850,
+	843,
 	'sample',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1241,
+	VALUES (850,
 	1,
-	216);
+	236);
 INSERT INTO ACT_BLK
-	VALUES (1240,
+	VALUES (849,
 	0,
 	0,
 	0,
@@ -19026,41 +12576,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1233,
+	842,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1243,
-	1240,
-	1244,
+	VALUES (852,
+	849,
+	853,
 	3,
 	3,
 	'WorkoutSession::clearHeartRateSamples line: 3');
 INSERT INTO ACT_UNR
-	VALUES (1243,
-	1242,
-	1241,
+	VALUES (852,
+	851,
+	850,
 	'',
-	215,
+	235,
 	3,
 	36,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1244,
-	1240,
+	VALUES (853,
+	849,
 	0,
 	4,
 	3,
 	'WorkoutSession::clearHeartRateSamples line: 4');
 INSERT INTO ACT_DEL
-	VALUES (1244,
-	1241);
+	VALUES (853,
+	850);
 INSERT INTO O_TFR
-	VALUES (1245,
-	66,
+	VALUES (854,
+	102,
 	'initialize',
 	'',
-	240,
+	6,
 	1,
 	'// Initialize this workout session.
 
@@ -19069,21 +12619,21 @@ self.startTime = TIM::current_clock();
 self.accumulatedDistance = 0.0;',
 	1,
 	'',
-	1232);
+	841);
 INSERT INTO ACT_OPB
-	VALUES (1246,
-	1245);
+	VALUES (855,
+	854);
 INSERT INTO ACT_ACT
-	VALUES (1246,
+	VALUES (855,
 	'operation',
 	0,
-	1247,
+	856,
 	0,
 	0,
 	'WorkoutSession::initialize',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1247,
+	VALUES (856,
 	0,
 	0,
 	0,
@@ -19103,49 +12653,49 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1246,
+	855,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1248,
-	1247,
-	1249,
+	VALUES (857,
+	856,
+	858,
 	3,
 	1,
 	'WorkoutSession::initialize line: 3');
 INSERT INTO ACT_AI
-	VALUES (1248,
-	1250,
-	1251,
+	VALUES (857,
+	859,
+	860,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1249,
-	1247,
-	1252,
+	VALUES (858,
+	856,
+	861,
 	4,
 	1,
 	'WorkoutSession::initialize line: 4');
 INSERT INTO ACT_AI
-	VALUES (1249,
-	1253,
-	1254,
+	VALUES (858,
+	862,
+	863,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1252,
-	1247,
+	VALUES (861,
+	856,
 	0,
 	5,
 	1,
 	'WorkoutSession::initialize line: 5');
 INSERT INTO ACT_AI
-	VALUES (1252,
-	1255,
-	1256,
+	VALUES (861,
+	864,
+	865,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1257,
+	VALUES (866,
 	1,
 	0,
 	3,
@@ -19155,13 +12705,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1247);
+	106,
+	856);
 INSERT INTO V_IRF
-	VALUES (1257,
-	1258);
+	VALUES (866,
+	867);
 INSERT INTO V_VAL
-	VALUES (1251,
+	VALUES (860,
 	1,
 	0,
 	3,
@@ -19171,15 +12721,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	253,
-	1247);
+	272,
+	856);
 INSERT INTO V_AVL
-	VALUES (1251,
-	1257,
-	66,
-	1259);
+	VALUES (860,
+	866,
+	102,
+	868);
 INSERT INTO V_VAL
-	VALUES (1250,
+	VALUES (859,
 	0,
 	0,
 	3,
@@ -19189,16 +12739,16 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	253,
-	1247);
+	272,
+	856);
 INSERT INTO V_BRV
-	VALUES (1250,
-	273,
+	VALUES (859,
+	292,
 	1,
 	3,
 	18);
 INSERT INTO V_VAL
-	VALUES (1260,
+	VALUES (869,
 	1,
 	0,
 	4,
@@ -19208,13 +12758,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1247);
+	106,
+	856);
 INSERT INTO V_IRF
-	VALUES (1260,
-	1258);
+	VALUES (869,
+	867);
 INSERT INTO V_VAL
-	VALUES (1254,
+	VALUES (863,
 	1,
 	0,
 	4,
@@ -19224,15 +12774,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	259,
-	1247);
+	278,
+	856);
 INSERT INTO V_AVL
-	VALUES (1254,
-	1260,
-	66,
-	1261);
+	VALUES (863,
+	869,
+	102,
+	870);
 INSERT INTO V_VAL
-	VALUES (1253,
+	VALUES (862,
 	0,
 	0,
 	4,
@@ -19242,16 +12792,16 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	259,
-	1247);
+	278,
+	856);
 INSERT INTO V_BRV
-	VALUES (1253,
-	309,
+	VALUES (862,
+	328,
 	1,
 	4,
 	18);
 INSERT INTO V_VAL
-	VALUES (1262,
+	VALUES (871,
 	1,
 	0,
 	5,
@@ -19261,13 +12811,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1247);
+	106,
+	856);
 INSERT INTO V_IRF
-	VALUES (1262,
-	1258);
+	VALUES (871,
+	867);
 INSERT INTO V_VAL
-	VALUES (1256,
+	VALUES (865,
 	1,
 	0,
 	5,
@@ -19277,15 +12827,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1247);
+	10,
+	856);
 INSERT INTO V_AVL
-	VALUES (1256,
-	1262,
-	66,
-	481);
+	VALUES (865,
+	871,
+	102,
+	499);
 INSERT INTO V_VAL
-	VALUES (1255,
+	VALUES (864,
 	0,
 	0,
 	5,
@@ -19295,27 +12845,27 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1247);
+	10,
+	856);
 INSERT INTO V_LRL
-	VALUES (1255,
+	VALUES (864,
 	'0.0');
 INSERT INTO V_VAR
-	VALUES (1258,
-	1247,
+	VALUES (867,
+	856,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1258,
+	VALUES (867,
 	0,
-	66);
+	102);
 INSERT INTO O_TFR
-	VALUES (128,
-	66,
-	'create',
+	VALUES (159,
+	102,
+	'sessioncreate',
 	'',
-	240,
+	6,
 	0,
 	'// Unless a workout session already exists, create and initialize a 
 // workout session, workout timer, and tracklog, and relate them all.
@@ -19347,21 +12897,21 @@ end if;
 ',
 	1,
 	'',
-	1245);
+	854);
 INSERT INTO ACT_OPB
-	VALUES (1263,
-	128);
+	VALUES (872,
+	159);
 INSERT INTO ACT_ACT
-	VALUES (1263,
+	VALUES (872,
 	'class operation',
 	0,
-	1264,
+	873,
 	0,
 	0,
-	'WorkoutSession::create',
+	'WorkoutSession::sessioncreate',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1264,
+	VALUES (873,
 	1,
 	0,
 	0,
@@ -19381,38 +12931,38 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1263,
+	872,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1265,
-	1264,
-	1266,
+	VALUES (874,
+	873,
+	875,
 	4,
 	1,
-	'WorkoutSession::create line: 4');
+	'WorkoutSession::sessioncreate line: 4');
 INSERT INTO ACT_FIO
-	VALUES (1265,
-	1267,
+	VALUES (874,
+	876,
 	1,
 	'any',
-	66,
+	102,
 	4,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (1266,
-	1264,
+	VALUES (875,
+	873,
 	0,
 	6,
 	1,
-	'WorkoutSession::create line: 6');
+	'WorkoutSession::sessioncreate line: 6');
 INSERT INTO ACT_IF
-	VALUES (1266,
-	1268,
-	1269,
+	VALUES (875,
+	877,
+	878,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1270,
+	VALUES (879,
 	0,
 	0,
 	6,
@@ -19422,13 +12972,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1264);
+	106,
+	873);
 INSERT INTO V_IRF
-	VALUES (1270,
-	1267);
+	VALUES (879,
+	876);
 INSERT INTO V_VAL
-	VALUES (1269,
+	VALUES (878,
 	0,
 	0,
 	-1,
@@ -19438,24 +12988,24 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1264);
+	108,
+	873);
 INSERT INTO V_UNY
-	VALUES (1269,
-	1270,
+	VALUES (878,
+	879,
 	'empty');
 INSERT INTO V_VAR
-	VALUES (1267,
-	1264,
+	VALUES (876,
+	873,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1267,
+	VALUES (876,
 	0,
-	66);
+	102);
 INSERT INTO ACT_BLK
-	VALUES (1268,
+	VALUES (877,
 	0,
 	0,
 	0,
@@ -19475,181 +13025,181 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1263,
+	872,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1271,
-	1268,
-	1272,
+	VALUES (880,
+	877,
+	881,
 	9,
 	3,
-	'WorkoutSession::create line: 9');
+	'WorkoutSession::sessioncreate line: 9');
 INSERT INTO ACT_CR
-	VALUES (1271,
-	1267,
+	VALUES (880,
+	876,
 	0,
-	66,
+	102,
 	9,
 	37);
 INSERT INTO ACT_SMT
-	VALUES (1272,
-	1268,
-	1273,
+	VALUES (881,
+	877,
+	882,
 	10,
 	3,
-	'WorkoutSession::create line: 10');
+	'WorkoutSession::sessioncreate line: 10');
 INSERT INTO ACT_TFM
-	VALUES (1272,
-	1245,
-	1267,
+	VALUES (881,
+	854,
+	876,
 	10,
 	11,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1273,
-	1268,
-	1274,
+	VALUES (882,
+	877,
+	883,
 	13,
 	3,
-	'WorkoutSession::create line: 13');
+	'WorkoutSession::sessioncreate line: 13');
 INSERT INTO ACT_CR
-	VALUES (1273,
-	1275,
+	VALUES (882,
+	884,
 	1,
-	84,
+	118,
 	13,
 	42);
 INSERT INTO ACT_SMT
-	VALUES (1274,
-	1268,
-	1276,
+	VALUES (883,
+	877,
+	885,
 	14,
 	3,
-	'WorkoutSession::create line: 14');
+	'WorkoutSession::sessioncreate line: 14');
 INSERT INTO ACT_TFM
-	VALUES (1274,
-	1277,
-	1275,
+	VALUES (883,
+	886,
+	884,
 	14,
 	16,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1276,
-	1268,
-	1278,
+	VALUES (885,
+	877,
+	887,
 	17,
 	3,
-	'WorkoutSession::create line: 17');
+	'WorkoutSession::sessioncreate line: 17');
 INSERT INTO ACT_CR
-	VALUES (1276,
-	1279,
+	VALUES (885,
+	888,
 	1,
-	193,
+	213,
 	17,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (1278,
-	1268,
-	1280,
+	VALUES (887,
+	877,
+	889,
 	20,
 	3,
-	'WorkoutSession::create line: 20');
+	'WorkoutSession::sessioncreate line: 20');
 INSERT INTO ACT_CR
-	VALUES (1278,
-	1281,
+	VALUES (887,
+	890,
 	1,
-	114,
+	147,
 	20,
 	37);
 INSERT INTO ACT_SMT
-	VALUES (1280,
-	1268,
-	1282,
+	VALUES (889,
+	877,
+	891,
 	23,
 	3,
-	'WorkoutSession::create line: 23');
+	'WorkoutSession::sessioncreate line: 23');
 INSERT INTO ACT_REL
-	VALUES (1280,
-	1279,
-	1267,
+	VALUES (889,
+	888,
+	876,
 	'''represents path for''',
-	212,
+	232,
 	23,
 	37,
 	23,
 	40);
 INSERT INTO ACT_SMT
-	VALUES (1282,
-	1268,
-	1283,
+	VALUES (891,
+	877,
+	892,
 	24,
 	3,
-	'WorkoutSession::create line: 24');
+	'WorkoutSession::sessioncreate line: 24');
 INSERT INTO ACT_REL
-	VALUES (1282,
-	1275,
-	1267,
+	VALUES (891,
+	884,
+	876,
 	'''acts as the stopwatch for''',
-	209,
+	229,
 	24,
 	41,
 	24,
 	44);
 INSERT INTO ACT_SMT
-	VALUES (1283,
-	1268,
+	VALUES (892,
+	877,
 	0,
 	25,
 	3,
-	'WorkoutSession::create line: 25');
+	'WorkoutSession::sessioncreate line: 25');
 INSERT INTO ACT_REL
-	VALUES (1283,
-	1281,
-	1267,
+	VALUES (892,
+	890,
+	876,
 	'''indicates current status of''',
-	113,
+	146,
 	25,
 	36,
 	25,
 	39);
 INSERT INTO V_VAR
-	VALUES (1275,
-	1268,
+	VALUES (884,
+	877,
 	'workoutTimer',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1275,
+	VALUES (884,
 	0,
-	84);
+	118);
 INSERT INTO V_VAR
-	VALUES (1279,
-	1268,
+	VALUES (888,
+	877,
 	'trackLog',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1279,
+	VALUES (888,
 	0,
-	193);
+	213);
 INSERT INTO V_VAR
-	VALUES (1281,
-	1268,
+	VALUES (890,
+	877,
 	'display',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1281,
+	VALUES (890,
 	0,
-	114);
+	147);
 INSERT INTO O_TFR
-	VALUES (1284,
-	66,
+	VALUES (893,
+	102,
 	'reset',
 	'',
-	240,
+	6,
 	1,
 	'// Reset this session, including the timer, track log, goal specifications,
 // goals, and achievement records.
@@ -19700,21 +13250,21 @@ self.clearHeartRateSamples();
 ',
 	1,
 	'',
-	128);
+	159);
 INSERT INTO ACT_OPB
-	VALUES (1285,
-	1284);
+	VALUES (894,
+	893);
 INSERT INTO ACT_ACT
-	VALUES (1285,
+	VALUES (894,
 	'operation',
 	0,
-	1286,
+	895,
 	0,
 	0,
 	'WorkoutSession::reset',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1286,
+	VALUES (895,
 	1,
 	0,
 	0,
@@ -19734,31 +13284,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1285,
+	894,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1287,
-	1286,
-	1288,
+	VALUES (896,
+	895,
+	897,
 	5,
 	1,
 	'WorkoutSession::reset line: 5');
 INSERT INTO ACT_SEL
-	VALUES (1287,
-	1289,
+	VALUES (896,
+	898,
 	1,
 	'one',
-	1290);
+	899);
 INSERT INTO ACT_SR
-	VALUES (1287);
+	VALUES (896);
 INSERT INTO ACT_LNK
-	VALUES (1291,
+	VALUES (900,
 	'''is timed by''',
-	1287,
-	209,
+	896,
+	229,
 	0,
 	2,
-	84,
+	118,
 	5,
 	42,
 	5,
@@ -19766,43 +13316,43 @@ INSERT INTO ACT_LNK
 	5,
 	58);
 INSERT INTO ACT_SMT
-	VALUES (1288,
-	1286,
-	1292,
+	VALUES (897,
+	895,
+	901,
 	6,
 	1,
 	'WorkoutSession::reset line: 6');
 INSERT INTO ACT_TFM
-	VALUES (1288,
-	1277,
-	1289,
+	VALUES (897,
+	886,
+	898,
 	6,
 	14,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1292,
-	1286,
-	1293,
+	VALUES (901,
+	895,
+	902,
 	9,
 	1,
 	'WorkoutSession::reset line: 9');
 INSERT INTO ACT_SEL
-	VALUES (1292,
-	1294,
+	VALUES (901,
+	903,
 	1,
 	'one',
-	1295);
+	904);
 INSERT INTO ACT_SR
-	VALUES (1292);
+	VALUES (901);
 INSERT INTO ACT_LNK
-	VALUES (1296,
+	VALUES (905,
 	'''captures path in''',
-	1292,
-	212,
+	901,
+	232,
 	0,
 	2,
-	193,
+	213,
 	9,
 	38,
 	9,
@@ -19810,58 +13360,58 @@ INSERT INTO ACT_LNK
 	9,
 	50);
 INSERT INTO ACT_SMT
-	VALUES (1293,
-	1286,
-	1297,
+	VALUES (902,
+	895,
+	906,
 	10,
 	1,
 	'WorkoutSession::reset line: 10');
 INSERT INTO ACT_TFM
-	VALUES (1293,
-	1125,
-	1294,
+	VALUES (902,
+	734,
+	903,
 	10,
 	10,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1297,
-	1286,
-	1298,
+	VALUES (906,
+	895,
+	907,
 	11,
 	1,
 	'WorkoutSession::reset line: 11');
 INSERT INTO ACT_TFM
-	VALUES (1297,
-	1185,
-	1294,
+	VALUES (906,
+	794,
+	903,
 	11,
 	10,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1298,
-	1286,
-	1299,
+	VALUES (907,
+	895,
+	908,
 	14,
 	1,
 	'WorkoutSession::reset line: 14');
 INSERT INTO ACT_SEL
-	VALUES (1298,
-	1300,
+	VALUES (907,
+	909,
 	1,
 	'many',
-	1301);
+	910);
 INSERT INTO ACT_SR
-	VALUES (1298);
+	VALUES (907);
 INSERT INTO ACT_LNK
-	VALUES (1302,
+	VALUES (911,
 	'''includes''',
-	1298,
-	165,
+	907,
+	195,
 	0,
 	3,
-	146,
+	176,
 	14,
 	40,
 	14,
@@ -19869,42 +13419,42 @@ INSERT INTO ACT_LNK
 	14,
 	53);
 INSERT INTO ACT_SMT
-	VALUES (1299,
-	1286,
-	1303,
+	VALUES (908,
+	895,
+	912,
 	15,
 	1,
 	'WorkoutSession::reset line: 15');
 INSERT INTO ACT_FOR
-	VALUES (1299,
-	1304,
+	VALUES (908,
+	913,
 	1,
-	1305,
-	1300,
-	146);
+	914,
+	909,
+	176);
 INSERT INTO ACT_SMT
-	VALUES (1303,
-	1286,
-	1306,
+	VALUES (912,
+	895,
+	915,
 	21,
 	1,
 	'WorkoutSession::reset line: 21');
 INSERT INTO ACT_SEL
-	VALUES (1303,
-	1307,
+	VALUES (912,
+	916,
 	1,
 	'one',
-	1308);
+	917);
 INSERT INTO ACT_SR
-	VALUES (1303);
+	VALUES (912);
 INSERT INTO ACT_LNK
-	VALUES (1309,
+	VALUES (918,
 	'''is currently executing''',
-	1303,
-	225,
+	912,
+	245,
 	0,
 	2,
-	221,
+	241,
 	21,
 	43,
 	21,
@@ -19912,41 +13462,41 @@ INSERT INTO ACT_LNK
 	21,
 	52);
 INSERT INTO ACT_SMT
-	VALUES (1306,
-	1286,
-	1310,
+	VALUES (915,
+	895,
+	919,
 	22,
 	1,
 	'WorkoutSession::reset line: 22');
 INSERT INTO ACT_IF
-	VALUES (1306,
-	1311,
-	1312,
+	VALUES (915,
+	920,
+	921,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1310,
-	1286,
-	1313,
+	VALUES (919,
+	895,
+	922,
 	33,
 	1,
 	'WorkoutSession::reset line: 33');
 INSERT INTO ACT_SEL
-	VALUES (1310,
-	1314,
+	VALUES (919,
+	923,
 	1,
 	'many',
-	1315);
+	924);
 INSERT INTO ACT_SR
-	VALUES (1310);
+	VALUES (919);
 INSERT INTO ACT_LNK
-	VALUES (1316,
+	VALUES (925,
 	'''has executed''',
-	1310,
-	232,
+	919,
+	252,
 	0,
 	3,
-	221,
+	241,
 	33,
 	36,
 	33,
@@ -19954,49 +13504,49 @@ INSERT INTO ACT_LNK
 	33,
 	45);
 INSERT INTO ACT_SMT
-	VALUES (1313,
-	1286,
-	1317,
+	VALUES (922,
+	895,
+	926,
 	34,
 	1,
 	'WorkoutSession::reset line: 34');
 INSERT INTO ACT_FOR
-	VALUES (1313,
-	1318,
+	VALUES (922,
+	927,
 	1,
-	1319,
-	1314,
-	221);
+	928,
+	923,
+	241);
 INSERT INTO ACT_SMT
-	VALUES (1317,
-	1286,
-	1320,
+	VALUES (926,
+	895,
+	929,
 	45,
 	1,
 	'WorkoutSession::reset line: 45');
 INSERT INTO ACT_AI
-	VALUES (1317,
-	1321,
-	1322,
+	VALUES (926,
+	930,
+	931,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1320,
-	1286,
+	VALUES (929,
+	895,
 	0,
 	46,
 	1,
 	'WorkoutSession::reset line: 46');
 INSERT INTO ACT_TFM
-	VALUES (1320,
-	1232,
-	1323,
+	VALUES (929,
+	841,
+	932,
 	46,
 	6,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1290,
+	VALUES (899,
 	0,
 	0,
 	5,
@@ -20006,13 +13556,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1286);
+	106,
+	895);
 INSERT INTO V_IRF
-	VALUES (1290,
-	1323);
+	VALUES (899,
+	932);
 INSERT INTO V_VAL
-	VALUES (1295,
+	VALUES (904,
 	0,
 	0,
 	9,
@@ -20022,13 +13572,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1286);
+	106,
+	895);
 INSERT INTO V_IRF
-	VALUES (1295,
-	1323);
+	VALUES (904,
+	932);
 INSERT INTO V_VAL
-	VALUES (1301,
+	VALUES (910,
 	0,
 	0,
 	14,
@@ -20038,13 +13588,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1286);
+	106,
+	895);
 INSERT INTO V_IRF
-	VALUES (1301,
-	1323);
+	VALUES (910,
+	932);
 INSERT INTO V_VAL
-	VALUES (1308,
+	VALUES (917,
 	0,
 	0,
 	21,
@@ -20054,13 +13604,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1286);
+	106,
+	895);
 INSERT INTO V_IRF
-	VALUES (1308,
-	1323);
+	VALUES (917,
+	932);
 INSERT INTO V_VAL
-	VALUES (1324,
+	VALUES (933,
 	0,
 	0,
 	22,
@@ -20070,13 +13620,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1286);
+	106,
+	895);
 INSERT INTO V_IRF
-	VALUES (1324,
-	1307);
+	VALUES (933,
+	916);
 INSERT INTO V_VAL
-	VALUES (1325,
+	VALUES (934,
 	0,
 	0,
 	-1,
@@ -20086,14 +13636,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1286);
+	108,
+	895);
 INSERT INTO V_UNY
-	VALUES (1325,
-	1324,
+	VALUES (934,
+	933,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1312,
+	VALUES (921,
 	0,
 	0,
 	-1,
@@ -20103,14 +13653,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1286);
+	108,
+	895);
 INSERT INTO V_UNY
-	VALUES (1312,
-	1325,
+	VALUES (921,
+	934,
 	'not');
 INSERT INTO V_VAL
-	VALUES (1315,
+	VALUES (924,
 	0,
 	0,
 	33,
@@ -20120,13 +13670,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1286);
+	106,
+	895);
 INSERT INTO V_IRF
-	VALUES (1315,
-	1323);
+	VALUES (924,
+	932);
 INSERT INTO V_VAL
-	VALUES (1326,
+	VALUES (935,
 	1,
 	0,
 	45,
@@ -20136,13 +13686,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1286);
+	106,
+	895);
 INSERT INTO V_IRF
-	VALUES (1326,
-	1323);
+	VALUES (935,
+	932);
 INSERT INTO V_VAL
-	VALUES (1322,
+	VALUES (931,
 	1,
 	0,
 	45,
@@ -20152,15 +13702,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1286);
+	10,
+	895);
 INSERT INTO V_AVL
-	VALUES (1322,
-	1326,
-	66,
-	481);
+	VALUES (931,
+	935,
+	102,
+	499);
 INSERT INTO V_VAL
-	VALUES (1321,
+	VALUES (930,
 	0,
 	0,
 	45,
@@ -20170,91 +13720,91 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1286);
+	10,
+	895);
 INSERT INTO V_LRL
-	VALUES (1321,
+	VALUES (930,
 	'0.0');
 INSERT INTO V_VAR
-	VALUES (1289,
-	1286,
+	VALUES (898,
+	895,
 	'workoutTimer',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1289,
+	VALUES (898,
 	0,
-	84);
+	118);
 INSERT INTO V_VAR
-	VALUES (1323,
-	1286,
+	VALUES (932,
+	895,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1323,
+	VALUES (932,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (1294,
-	1286,
+	VALUES (903,
+	895,
 	'trackLog',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1294,
+	VALUES (903,
 	0,
-	193);
+	213);
 INSERT INTO V_VAR
-	VALUES (1300,
-	1286,
+	VALUES (909,
+	895,
 	'goalSpecs',
 	1,
-	573);
+	590);
 INSERT INTO V_INS
-	VALUES (1300,
-	146);
+	VALUES (909,
+	176);
 INSERT INTO V_VAR
-	VALUES (1305,
-	1286,
+	VALUES (914,
+	895,
 	'goalSpec',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1305,
+	VALUES (914,
 	1,
-	146);
+	176);
 INSERT INTO V_VAR
-	VALUES (1307,
-	1286,
+	VALUES (916,
+	895,
 	'executingGoal',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1307,
+	VALUES (916,
 	0,
-	221);
+	241);
 INSERT INTO V_VAR
-	VALUES (1314,
-	1286,
+	VALUES (923,
+	895,
 	'goals',
 	1,
-	573);
+	590);
 INSERT INTO V_INS
-	VALUES (1314,
-	221);
+	VALUES (923,
+	241);
 INSERT INTO V_VAR
-	VALUES (1319,
-	1286,
+	VALUES (928,
+	895,
 	'goal',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1319,
+	VALUES (928,
 	1,
-	221);
+	241);
 INSERT INTO ACT_BLK
-	VALUES (1304,
+	VALUES (913,
 	0,
 	0,
 	0,
@@ -20274,37 +13824,37 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1285,
+	894,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1327,
-	1304,
-	1328,
+	VALUES (936,
+	913,
+	937,
 	16,
 	3,
 	'WorkoutSession::reset line: 16');
 INSERT INTO ACT_UNR
-	VALUES (1327,
-	1323,
-	1305,
+	VALUES (936,
+	932,
+	914,
 	'''includes''',
-	165,
+	195,
 	16,
 	38,
 	16,
 	42);
 INSERT INTO ACT_SMT
-	VALUES (1328,
-	1304,
+	VALUES (937,
+	913,
 	0,
 	17,
 	3,
 	'WorkoutSession::reset line: 17');
 INSERT INTO ACT_DEL
-	VALUES (1328,
-	1305);
+	VALUES (937,
+	914);
 INSERT INTO ACT_BLK
-	VALUES (1311,
+	VALUES (920,
 	1,
 	0,
 	0,
@@ -20324,31 +13874,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1285,
+	894,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1329,
-	1311,
-	1330,
+	VALUES (938,
+	920,
+	939,
 	23,
 	3,
 	'WorkoutSession::reset line: 23');
 INSERT INTO ACT_SEL
-	VALUES (1329,
-	1331,
+	VALUES (938,
+	940,
 	1,
 	'one',
-	1332);
+	941);
 INSERT INTO ACT_SR
-	VALUES (1329);
+	VALUES (938);
 INSERT INTO ACT_LNK
-	VALUES (1333,
+	VALUES (942,
 	'''has open''',
-	1329,
-	235,
+	938,
+	255,
 	0,
 	2,
-	230,
+	250,
 	23,
 	56,
 	23,
@@ -20356,47 +13906,47 @@ INSERT INTO ACT_LNK
 	23,
 	72);
 INSERT INTO ACT_SMT
-	VALUES (1330,
-	1311,
-	1334,
+	VALUES (939,
+	920,
+	943,
 	24,
 	3,
 	'WorkoutSession::reset line: 24');
 INSERT INTO ACT_IF
-	VALUES (1330,
-	1335,
-	1336,
+	VALUES (939,
+	944,
+	945,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1334,
-	1311,
-	1337,
+	VALUES (943,
+	920,
+	946,
 	28,
 	3,
 	'WorkoutSession::reset line: 28');
 INSERT INTO ACT_UNR
-	VALUES (1334,
-	1323,
-	1307,
+	VALUES (943,
+	932,
+	916,
 	'''is currently executing''',
-	225,
+	245,
 	28,
 	43,
 	28,
 	47);
 INSERT INTO ACT_SMT
-	VALUES (1337,
-	1311,
+	VALUES (946,
+	920,
 	0,
 	29,
 	3,
 	'WorkoutSession::reset line: 29');
 INSERT INTO ACT_DEL
-	VALUES (1337,
-	1307);
+	VALUES (946,
+	916);
 INSERT INTO V_VAL
-	VALUES (1332,
+	VALUES (941,
 	0,
 	0,
 	23,
@@ -20406,13 +13956,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1311);
+	106,
+	920);
 INSERT INTO V_IRF
-	VALUES (1332,
-	1307);
+	VALUES (941,
+	916);
 INSERT INTO V_VAL
-	VALUES (1338,
+	VALUES (947,
 	0,
 	0,
 	24,
@@ -20422,13 +13972,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1311);
+	106,
+	920);
 INSERT INTO V_IRF
-	VALUES (1338,
-	1331);
+	VALUES (947,
+	940);
 INSERT INTO V_VAL
-	VALUES (1339,
+	VALUES (948,
 	0,
 	0,
 	-1,
@@ -20438,14 +13988,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1311);
+	108,
+	920);
 INSERT INTO V_UNY
-	VALUES (1339,
-	1338,
+	VALUES (948,
+	947,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1336,
+	VALUES (945,
 	0,
 	0,
 	-1,
@@ -20455,24 +14005,24 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1311);
+	108,
+	920);
 INSERT INTO V_UNY
-	VALUES (1336,
-	1339,
+	VALUES (945,
+	948,
 	'not');
 INSERT INTO V_VAR
-	VALUES (1331,
-	1311,
+	VALUES (940,
+	920,
 	'openAchievement',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1331,
+	VALUES (940,
 	0,
-	230);
+	250);
 INSERT INTO ACT_BLK
-	VALUES (1335,
+	VALUES (944,
 	0,
 	0,
 	0,
@@ -20492,37 +14042,37 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1285,
+	894,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1340,
-	1335,
-	1341,
+	VALUES (949,
+	944,
+	950,
 	25,
 	5,
 	'WorkoutSession::reset line: 25');
 INSERT INTO ACT_UNR
-	VALUES (1340,
-	1331,
-	1307,
+	VALUES (949,
+	940,
+	916,
 	'''is open for''',
-	235,
+	255,
 	25,
 	56,
 	25,
 	60);
 INSERT INTO ACT_SMT
-	VALUES (1341,
-	1335,
+	VALUES (950,
+	944,
 	0,
 	26,
 	5,
 	'WorkoutSession::reset line: 26');
 INSERT INTO ACT_DEL
-	VALUES (1341,
-	1331);
+	VALUES (950,
+	940);
 INSERT INTO ACT_BLK
-	VALUES (1318,
+	VALUES (927,
 	1,
 	0,
 	0,
@@ -20542,31 +14092,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1285,
+	894,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1342,
-	1318,
-	1343,
+	VALUES (951,
+	927,
+	952,
 	35,
 	3,
 	'WorkoutSession::reset line: 35');
 INSERT INTO ACT_SEL
-	VALUES (1342,
-	1344,
+	VALUES (951,
+	953,
 	1,
 	'many',
-	1345);
+	954);
 INSERT INTO ACT_SR
-	VALUES (1342);
+	VALUES (951);
 INSERT INTO ACT_LNK
-	VALUES (1346,
+	VALUES (955,
 	'''has recorded''',
-	1342,
-	228,
+	951,
+	248,
 	0,
 	3,
-	230,
+	250,
 	35,
 	45,
 	35,
@@ -20574,48 +14124,48 @@ INSERT INTO ACT_LNK
 	35,
 	61);
 INSERT INTO ACT_SMT
-	VALUES (1343,
-	1318,
-	1347,
+	VALUES (952,
+	927,
+	956,
 	36,
 	3,
 	'WorkoutSession::reset line: 36');
 INSERT INTO ACT_FOR
-	VALUES (1343,
-	1348,
+	VALUES (952,
+	957,
 	1,
-	1349,
-	1344,
-	230);
+	958,
+	953,
+	250);
 INSERT INTO ACT_SMT
-	VALUES (1347,
-	1318,
-	1350,
+	VALUES (956,
+	927,
+	959,
 	40,
 	3,
 	'WorkoutSession::reset line: 40');
 INSERT INTO ACT_UNR
-	VALUES (1347,
-	1323,
-	1319,
+	VALUES (956,
+	932,
+	928,
 	'''has executed''',
-	232,
+	252,
 	40,
 	34,
 	40,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (1350,
-	1318,
+	VALUES (959,
+	927,
 	0,
 	41,
 	3,
 	'WorkoutSession::reset line: 41');
 INSERT INTO ACT_DEL
-	VALUES (1350,
-	1319);
+	VALUES (959,
+	928);
 INSERT INTO V_VAL
-	VALUES (1345,
+	VALUES (954,
 	0,
 	0,
 	35,
@@ -20625,32 +14175,32 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1318);
+	106,
+	927);
 INSERT INTO V_IRF
-	VALUES (1345,
-	1319);
+	VALUES (954,
+	928);
 INSERT INTO V_VAR
-	VALUES (1344,
-	1318,
+	VALUES (953,
+	927,
 	'achievements',
 	1,
-	573);
+	590);
 INSERT INTO V_INS
-	VALUES (1344,
-	230);
+	VALUES (953,
+	250);
 INSERT INTO V_VAR
-	VALUES (1349,
-	1318,
+	VALUES (958,
+	927,
 	'achievement',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1349,
+	VALUES (958,
 	1,
-	230);
+	250);
 INSERT INTO ACT_BLK
-	VALUES (1348,
+	VALUES (957,
 	0,
 	0,
 	0,
@@ -20670,74 +14220,74 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1285,
+	894,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1351,
-	1348,
-	1352,
+	VALUES (960,
+	957,
+	961,
 	37,
 	5,
 	'WorkoutSession::reset line: 37');
 INSERT INTO ACT_UNR
-	VALUES (1351,
-	1319,
-	1349,
+	VALUES (960,
+	928,
+	958,
 	'''has recorded''',
-	228,
+	248,
 	37,
 	43,
 	37,
 	47);
 INSERT INTO ACT_SMT
-	VALUES (1352,
-	1348,
+	VALUES (961,
+	957,
 	0,
 	38,
 	5,
 	'WorkoutSession::reset line: 38');
 INSERT INTO ACT_DEL
-	VALUES (1352,
-	1349);
+	VALUES (961,
+	958);
 INSERT INTO O_NBATTR
-	VALUES (1259,
-	66);
+	VALUES (868,
+	102);
 INSERT INTO O_BATTR
-	VALUES (1259,
-	66);
+	VALUES (868,
+	102);
 INSERT INTO O_ATTR
-	VALUES (1259,
-	66,
+	VALUES (868,
+	102,
 	0,
 	'startDate',
 	'UTC Date on which this session commenced.',
 	'',
 	'startDate',
 	0,
-	253,
+	272,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (1261,
-	66);
+	VALUES (870,
+	102);
 INSERT INTO O_BATTR
-	VALUES (1261,
-	66);
+	VALUES (870,
+	102);
 INSERT INTO O_ATTR
-	VALUES (1261,
-	66,
-	1259,
+	VALUES (870,
+	102,
+	868,
 	'startTime',
 	'UTC time at which this session commenced.',
 	'',
 	'startTime',
 	0,
-	259,
+	278,
 	'',
 	'');
 INSERT INTO O_DBATTR
-	VALUES (512,
-	66,
+	VALUES (529,
+	102,
 	'// Calculate the current speed, expressed in km per hour, by summing 
 // the straight-line distance between each of several of the most recent 
 // track points and then dividing that sum by the elapsed time between 
@@ -20770,21 +14320,21 @@ end if;
 self.currentSpeed = speed;',
 	1);
 INSERT INTO ACT_DAB
-	VALUES (1353,
-	66,
-	512,
+	VALUES (962,
+	102,
+	529,
 	1);
 INSERT INTO ACT_ACT
-	VALUES (1353,
+	VALUES (962,
 	'derived attribute',
 	0,
-	1354,
+	963,
 	0,
 	0,
 	'WorkoutSession::currentSpeed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1354,
+	VALUES (963,
 	1,
 	0,
 	0,
@@ -20804,31 +14354,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1353,
+	962,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1355,
-	1354,
-	1356,
+	VALUES (964,
+	963,
+	965,
 	6,
 	1,
 	'WorkoutSession::currentSpeed line: 6');
 INSERT INTO ACT_SEL
-	VALUES (1355,
-	1357,
+	VALUES (964,
+	966,
 	1,
 	'one',
-	1358);
+	967);
 INSERT INTO ACT_SR
-	VALUES (1355);
+	VALUES (964);
 INSERT INTO ACT_LNK
-	VALUES (1359,
+	VALUES (968,
 	'''captures path in''',
-	1355,
-	212,
-	1360,
+	964,
+	232,
+	969,
 	2,
-	193,
+	213,
 	6,
 	39,
 	6,
@@ -20836,13 +14386,13 @@ INSERT INTO ACT_LNK
 	6,
 	51);
 INSERT INTO ACT_LNK
-	VALUES (1360,
+	VALUES (969,
 	'''has last''',
 	0,
-	200,
+	220,
 	0,
 	2,
-	195,
+	215,
 	6,
 	72,
 	6,
@@ -20850,46 +14400,46 @@ INSERT INTO ACT_LNK
 	6,
 	86);
 INSERT INTO ACT_SMT
-	VALUES (1356,
-	1354,
-	1361,
+	VALUES (965,
+	963,
+	970,
 	7,
 	1,
 	'WorkoutSession::currentSpeed line: 7');
 INSERT INTO ACT_AI
-	VALUES (1356,
-	1362,
-	1363,
+	VALUES (965,
+	971,
+	972,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1361,
-	1354,
-	1364,
+	VALUES (970,
+	963,
+	973,
 	8,
 	1,
 	'WorkoutSession::currentSpeed line: 8');
 INSERT INTO ACT_IF
-	VALUES (1361,
-	1365,
-	1366,
+	VALUES (970,
+	974,
+	975,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1364,
-	1354,
+	VALUES (973,
+	963,
 	0,
 	30,
 	1,
 	'WorkoutSession::currentSpeed line: 30');
 INSERT INTO ACT_AI
-	VALUES (1364,
-	1367,
-	1368,
+	VALUES (973,
+	976,
+	977,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1358,
+	VALUES (967,
 	0,
 	0,
 	6,
@@ -20899,13 +14449,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1354);
+	106,
+	963);
 INSERT INTO V_IRF
-	VALUES (1358,
-	1369);
+	VALUES (967,
+	978);
 INSERT INTO V_VAL
-	VALUES (1363,
+	VALUES (972,
 	1,
 	1,
 	7,
@@ -20915,13 +14465,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1354);
+	10,
+	963);
 INSERT INTO V_TVL
-	VALUES (1363,
-	1370);
+	VALUES (972,
+	979);
 INSERT INTO V_VAL
-	VALUES (1362,
+	VALUES (971,
 	0,
 	0,
 	7,
@@ -20931,13 +14481,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1354);
+	10,
+	963);
 INSERT INTO V_LRL
-	VALUES (1362,
+	VALUES (971,
 	'0.0');
 INSERT INTO V_VAL
-	VALUES (1371,
+	VALUES (980,
 	0,
 	0,
 	8,
@@ -20947,13 +14497,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1354);
+	106,
+	963);
 INSERT INTO V_IRF
-	VALUES (1371,
-	1357);
+	VALUES (980,
+	966);
 INSERT INTO V_VAL
-	VALUES (1372,
+	VALUES (981,
 	0,
 	0,
 	-1,
@@ -20963,14 +14513,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1354);
+	108,
+	963);
 INSERT INTO V_UNY
-	VALUES (1372,
-	1371,
+	VALUES (981,
+	980,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1366,
+	VALUES (975,
 	0,
 	0,
 	-1,
@@ -20980,14 +14530,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1354);
+	108,
+	963);
 INSERT INTO V_UNY
-	VALUES (1366,
-	1372,
+	VALUES (975,
+	981,
 	'not');
 INSERT INTO V_VAL
-	VALUES (1373,
+	VALUES (982,
 	1,
 	0,
 	30,
@@ -20997,13 +14547,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1354);
+	106,
+	963);
 INSERT INTO V_IRF
-	VALUES (1373,
-	1369);
+	VALUES (982,
+	978);
 INSERT INTO V_VAL
-	VALUES (1368,
+	VALUES (977,
 	1,
 	0,
 	30,
@@ -21013,15 +14563,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1354);
+	10,
+	963);
 INSERT INTO V_AVL
-	VALUES (1368,
-	1373,
-	66,
-	512);
+	VALUES (977,
+	982,
+	102,
+	529);
 INSERT INTO V_VAL
-	VALUES (1367,
+	VALUES (976,
 	0,
 	0,
 	30,
@@ -21031,43 +14581,43 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1354);
+	10,
+	963);
 INSERT INTO V_TVL
-	VALUES (1367,
-	1370);
+	VALUES (976,
+	979);
 INSERT INTO V_VAR
-	VALUES (1357,
-	1354,
+	VALUES (966,
+	963,
 	'lastPoint',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1357,
+	VALUES (966,
 	0,
-	195);
+	215);
 INSERT INTO V_VAR
-	VALUES (1369,
-	1354,
+	VALUES (978,
+	963,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1369,
+	VALUES (978,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (1370,
-	1354,
+	VALUES (979,
+	963,
 	'speed',
 	1,
-	170);
+	10);
 INSERT INTO V_TRN
-	VALUES (1370,
+	VALUES (979,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (1365,
+	VALUES (974,
 	0,
 	0,
 	0,
@@ -21087,112 +14637,112 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1353,
+	962,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1374,
-	1365,
-	1375,
+	VALUES (983,
+	974,
+	984,
 	9,
 	3,
 	'WorkoutSession::currentSpeed line: 9');
 INSERT INTO ACT_AI
-	VALUES (1374,
-	1376,
-	1377,
+	VALUES (983,
+	985,
+	986,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1375,
-	1365,
-	1378,
+	VALUES (984,
+	974,
+	987,
 	10,
 	3,
 	'WorkoutSession::currentSpeed line: 10');
 INSERT INTO ACT_AI
-	VALUES (1375,
-	1379,
-	1380,
+	VALUES (984,
+	988,
+	989,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1378,
-	1365,
-	1381,
+	VALUES (987,
+	974,
+	990,
 	11,
 	3,
 	'WorkoutSession::currentSpeed line: 11');
 INSERT INTO ACT_AI
-	VALUES (1378,
-	1382,
-	1383,
+	VALUES (987,
+	991,
+	992,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1381,
-	1365,
-	1384,
+	VALUES (990,
+	974,
+	993,
 	12,
 	3,
 	'WorkoutSession::currentSpeed line: 12');
 INSERT INTO ACT_AI
-	VALUES (1381,
-	1385,
-	1386,
+	VALUES (990,
+	994,
+	995,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1384,
-	1365,
-	1387,
+	VALUES (993,
+	974,
+	996,
 	13,
 	3,
 	'WorkoutSession::currentSpeed line: 13');
 INSERT INTO ACT_AI
-	VALUES (1384,
-	1388,
-	1389,
+	VALUES (993,
+	997,
+	998,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1387,
-	1365,
-	1390,
+	VALUES (996,
+	974,
+	999,
 	14,
 	3,
 	'WorkoutSession::currentSpeed line: 14');
 INSERT INTO ACT_WHL
-	VALUES (1387,
-	1391,
-	1392);
+	VALUES (996,
+	1000,
+	1001);
 INSERT INTO ACT_SMT
-	VALUES (1390,
-	1365,
-	1393,
+	VALUES (999,
+	974,
+	1002,
 	25,
 	3,
 	'WorkoutSession::currentSpeed line: 25');
 INSERT INTO ACT_AI
-	VALUES (1390,
-	1394,
-	1395,
+	VALUES (999,
+	1003,
+	1004,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1393,
-	1365,
+	VALUES (1002,
+	974,
 	0,
 	26,
 	3,
 	'WorkoutSession::currentSpeed line: 26');
 INSERT INTO ACT_AI
-	VALUES (1393,
-	1396,
-	1397,
+	VALUES (1002,
+	1005,
+	1006,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1377,
+	VALUES (986,
 	1,
 	1,
 	9,
@@ -21202,13 +14752,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1365);
+	106,
+	974);
 INSERT INTO V_IRF
-	VALUES (1377,
-	1398);
+	VALUES (986,
+	1007);
 INSERT INTO V_VAL
-	VALUES (1376,
+	VALUES (985,
 	0,
 	0,
 	9,
@@ -21218,13 +14768,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1365);
+	106,
+	974);
 INSERT INTO V_IRF
-	VALUES (1376,
-	1357);
+	VALUES (985,
+	966);
 INSERT INTO V_VAL
-	VALUES (1380,
+	VALUES (989,
 	1,
 	1,
 	10,
@@ -21234,13 +14784,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1365);
+	30,
+	974);
 INSERT INTO V_TVL
-	VALUES (1380,
-	1399);
+	VALUES (989,
+	1008);
 INSERT INTO V_VAL
-	VALUES (1379,
+	VALUES (988,
 	0,
 	0,
 	10,
@@ -21250,14 +14800,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1365);
+	30,
+	974);
 INSERT INTO V_SCV
-	VALUES (1379,
-	1400,
-	13);
+	VALUES (988,
+	1009,
+	30);
 INSERT INTO V_VAL
-	VALUES (1383,
+	VALUES (992,
 	1,
 	1,
 	11,
@@ -21267,13 +14817,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_TVL
-	VALUES (1383,
-	1401);
+	VALUES (992,
+	1010);
 INSERT INTO V_VAL
-	VALUES (1382,
+	VALUES (991,
 	0,
 	0,
 	11,
@@ -21283,13 +14833,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_LRL
-	VALUES (1382,
+	VALUES (991,
 	'0.0');
 INSERT INTO V_VAL
-	VALUES (1386,
+	VALUES (995,
 	1,
 	1,
 	12,
@@ -21299,13 +14849,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_TVL
-	VALUES (1386,
-	1402);
+	VALUES (995,
+	1011);
 INSERT INTO V_VAL
-	VALUES (1385,
+	VALUES (994,
 	0,
 	0,
 	12,
@@ -21315,13 +14865,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_LRL
-	VALUES (1385,
+	VALUES (994,
 	'0.0');
 INSERT INTO V_VAL
-	VALUES (1389,
+	VALUES (998,
 	1,
 	0,
 	13,
@@ -21331,13 +14881,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_TVL
-	VALUES (1389,
-	1402);
+	VALUES (998,
+	1011);
 INSERT INTO V_VAL
-	VALUES (1403,
+	VALUES (1012,
 	0,
 	0,
 	13,
@@ -21347,13 +14897,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1365);
+	106,
+	974);
 INSERT INTO V_IRF
-	VALUES (1403,
-	1357);
+	VALUES (1012,
+	966);
 INSERT INTO V_VAL
-	VALUES (1388,
+	VALUES (997,
 	0,
 	0,
 	13,
@@ -21363,15 +14913,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1365);
+	30,
+	974);
 INSERT INTO V_AVL
-	VALUES (1388,
-	1403,
-	195,
-	1082);
+	VALUES (997,
+	1012,
+	215,
+	691);
 INSERT INTO V_VAL
-	VALUES (1404,
+	VALUES (1013,
 	0,
 	0,
 	14,
@@ -21381,13 +14931,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1365);
+	30,
+	974);
 INSERT INTO V_TVL
-	VALUES (1404,
-	1399);
+	VALUES (1013,
+	1008);
 INSERT INTO V_VAL
-	VALUES (1391,
+	VALUES (1000,
 	0,
 	0,
 	-1,
@@ -21397,15 +14947,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1365);
+	108,
+	974);
 INSERT INTO V_BIN
-	VALUES (1391,
-	1405,
-	1404,
+	VALUES (1000,
+	1014,
+	1013,
 	'>');
 INSERT INTO V_VAL
-	VALUES (1405,
+	VALUES (1014,
 	0,
 	0,
 	14,
@@ -21415,13 +14965,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1365);
+	30,
+	974);
 INSERT INTO V_LIN
-	VALUES (1405,
+	VALUES (1014,
 	'0');
 INSERT INTO V_VAL
-	VALUES (1395,
+	VALUES (1004,
 	1,
 	0,
 	25,
@@ -21431,13 +14981,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_TVL
-	VALUES (1395,
-	1402);
+	VALUES (1004,
+	1011);
 INSERT INTO V_VAL
-	VALUES (1406,
+	VALUES (1015,
 	0,
 	0,
 	25,
@@ -21447,13 +14997,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_TVL
-	VALUES (1406,
-	1402);
+	VALUES (1015,
+	1011);
 INSERT INTO V_VAL
-	VALUES (1394,
+	VALUES (1003,
 	0,
 	0,
 	-1,
@@ -21463,15 +15013,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_BIN
-	VALUES (1394,
-	1407,
-	1406,
+	VALUES (1003,
+	1016,
+	1015,
 	'-');
 INSERT INTO V_VAL
-	VALUES (1408,
+	VALUES (1017,
 	0,
 	0,
 	25,
@@ -21481,13 +15031,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1365);
+	106,
+	974);
 INSERT INTO V_IRF
-	VALUES (1408,
-	1398);
+	VALUES (1017,
+	1007);
 INSERT INTO V_VAL
-	VALUES (1407,
+	VALUES (1016,
 	0,
 	0,
 	25,
@@ -21497,15 +15047,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1365);
+	30,
+	974);
 INSERT INTO V_AVL
-	VALUES (1407,
-	1408,
-	195,
-	1082);
+	VALUES (1016,
+	1017,
+	215,
+	691);
 INSERT INTO V_VAL
-	VALUES (1397,
+	VALUES (1006,
 	1,
 	0,
 	26,
@@ -21515,13 +15065,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_TVL
-	VALUES (1397,
-	1370);
+	VALUES (1006,
+	979);
 INSERT INTO V_VAL
-	VALUES (1409,
+	VALUES (1018,
 	0,
 	0,
 	26,
@@ -21531,13 +15081,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_TVL
-	VALUES (1409,
-	1401);
+	VALUES (1018,
+	1010);
 INSERT INTO V_VAL
-	VALUES (1410,
+	VALUES (1019,
 	0,
 	0,
 	-1,
@@ -21547,15 +15097,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_BIN
-	VALUES (1410,
-	1411,
-	1409,
+	VALUES (1019,
+	1020,
+	1018,
 	'/');
 INSERT INTO V_VAL
-	VALUES (1411,
+	VALUES (1020,
 	0,
 	0,
 	26,
@@ -21565,13 +15115,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1365);
+	30,
+	974);
 INSERT INTO V_LIN
-	VALUES (1411,
+	VALUES (1020,
 	'1000');
 INSERT INTO V_VAL
-	VALUES (1396,
+	VALUES (1005,
 	0,
 	0,
 	-1,
@@ -21581,15 +15131,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_BIN
-	VALUES (1396,
-	1412,
-	1410,
+	VALUES (1005,
+	1021,
+	1019,
 	'/');
 INSERT INTO V_VAL
-	VALUES (1413,
+	VALUES (1022,
 	0,
 	0,
 	26,
@@ -21599,13 +15149,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_TVL
-	VALUES (1413,
-	1402);
+	VALUES (1022,
+	1011);
 INSERT INTO V_VAL
-	VALUES (1412,
+	VALUES (1021,
 	0,
 	0,
 	-1,
@@ -21615,15 +15165,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1365);
+	10,
+	974);
 INSERT INTO V_BIN
-	VALUES (1412,
-	1414,
-	1413,
+	VALUES (1021,
+	1023,
+	1022,
 	'/');
 INSERT INTO V_VAL
-	VALUES (1414,
+	VALUES (1023,
 	0,
 	0,
 	26,
@@ -21633,54 +15183,54 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1365);
+	30,
+	974);
 INSERT INTO V_SCV
-	VALUES (1414,
-	1415,
-	13);
+	VALUES (1023,
+	1024,
+	30);
 INSERT INTO V_VAR
-	VALUES (1398,
-	1365,
+	VALUES (1007,
+	974,
 	'cursor',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1398,
+	VALUES (1007,
 	0,
-	195);
+	215);
 INSERT INTO V_VAR
-	VALUES (1399,
-	1365,
+	VALUES (1008,
+	974,
 	'index',
 	1,
-	13);
+	30);
 INSERT INTO V_TRN
-	VALUES (1399,
+	VALUES (1008,
 	0,
 	'');
 INSERT INTO V_VAR
-	VALUES (1401,
-	1365,
+	VALUES (1010,
+	974,
 	'totalDistance',
 	1,
-	170);
+	10);
 INSERT INTO V_TRN
-	VALUES (1401,
+	VALUES (1010,
 	0,
 	'');
 INSERT INTO V_VAR
-	VALUES (1402,
-	1365,
+	VALUES (1011,
+	974,
 	'elapsedTime',
 	1,
-	170);
+	10);
 INSERT INTO V_TRN
-	VALUES (1402,
+	VALUES (1011,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (1392,
+	VALUES (1001,
 	1,
 	0,
 	0,
@@ -21700,31 +15250,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1353,
+	962,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1416,
-	1392,
-	1417,
+	VALUES (1025,
+	1001,
+	1026,
 	15,
 	5,
 	'WorkoutSession::currentSpeed line: 15');
 INSERT INTO ACT_SEL
-	VALUES (1416,
-	1418,
+	VALUES (1025,
+	1027,
 	1,
 	'one',
-	1419);
+	1028);
 INSERT INTO ACT_SR
-	VALUES (1416);
+	VALUES (1025);
 INSERT INTO ACT_LNK
-	VALUES (1420,
+	VALUES (1029,
 	'preceeds',
-	1416,
-	197,
+	1025,
+	217,
 	0,
 	2,
-	195,
+	215,
 	15,
 	49,
 	15,
@@ -21732,72 +15282,72 @@ INSERT INTO ACT_LNK
 	15,
 	63);
 INSERT INTO ACT_SMT
-	VALUES (1417,
-	1392,
-	1421,
+	VALUES (1026,
+	1001,
+	1030,
 	16,
 	5,
 	'WorkoutSession::currentSpeed line: 16');
 INSERT INTO ACT_IF
-	VALUES (1417,
-	1422,
-	1423,
+	VALUES (1026,
+	1031,
+	1032,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1421,
-	1392,
-	1424,
+	VALUES (1030,
+	1001,
+	1033,
 	19,
 	5,
 	'WorkoutSession::currentSpeed line: 19');
 INSERT INTO ACT_AI
-	VALUES (1421,
-	1425,
-	1426,
+	VALUES (1030,
+	1034,
+	1035,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1424,
-	1392,
-	1427,
+	VALUES (1033,
+	1001,
+	1036,
 	21,
 	5,
 	'WorkoutSession::currentSpeed line: 21');
 INSERT INTO ACT_AI
-	VALUES (1424,
-	1428,
-	1429,
+	VALUES (1033,
+	1037,
+	1038,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1427,
-	1392,
-	1430,
+	VALUES (1036,
+	1001,
+	1039,
 	22,
 	5,
 	'WorkoutSession::currentSpeed line: 22');
 INSERT INTO ACT_AI
-	VALUES (1427,
-	1431,
-	1432,
+	VALUES (1036,
+	1040,
+	1041,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1430,
-	1392,
+	VALUES (1039,
+	1001,
 	0,
 	23,
 	5,
 	'WorkoutSession::currentSpeed line: 23');
 INSERT INTO ACT_AI
-	VALUES (1430,
-	1433,
-	1434,
+	VALUES (1039,
+	1042,
+	1043,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1419,
+	VALUES (1028,
 	0,
 	0,
 	15,
@@ -21807,13 +15357,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1392);
+	106,
+	1001);
 INSERT INTO V_IRF
-	VALUES (1419,
-	1398);
+	VALUES (1028,
+	1007);
 INSERT INTO V_VAL
-	VALUES (1435,
+	VALUES (1044,
 	0,
 	0,
 	16,
@@ -21823,13 +15373,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1392);
+	106,
+	1001);
 INSERT INTO V_IRF
-	VALUES (1435,
-	1418);
+	VALUES (1044,
+	1027);
 INSERT INTO V_VAL
-	VALUES (1423,
+	VALUES (1032,
 	0,
 	0,
 	-1,
@@ -21839,14 +15389,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1392);
+	108,
+	1001);
 INSERT INTO V_UNY
-	VALUES (1423,
-	1435,
+	VALUES (1032,
+	1044,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1426,
+	VALUES (1035,
 	1,
 	1,
 	19,
@@ -21856,13 +15406,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1392);
+	10,
+	1001);
 INSERT INTO V_TVL
-	VALUES (1426,
-	1436);
+	VALUES (1035,
+	1045);
 INSERT INTO V_VAL
-	VALUES (1425,
+	VALUES (1034,
 	0,
 	0,
 	19,
@@ -21872,18 +15422,18 @@ INSERT INTO V_VAL
 	44,
 	20,
 	70,
-	170,
-	1392);
+	10,
+	1001);
 INSERT INTO V_MSV
-	VALUES (1425,
+	VALUES (1034,
 	0,
-	7,
+	58,
 	1,
 	19,
 	21,
 	0);
 INSERT INTO V_VAL
-	VALUES (1437,
+	VALUES (1046,
 	0,
 	0,
 	19,
@@ -21893,13 +15443,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1392);
+	106,
+	1001);
 INSERT INTO V_IRF
-	VALUES (1437,
-	1398);
+	VALUES (1046,
+	1007);
 INSERT INTO V_VAL
-	VALUES (1438,
+	VALUES (1047,
 	0,
 	0,
 	19,
@@ -21909,23 +15459,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1392);
+	10,
+	1001);
 INSERT INTO V_AVL
-	VALUES (1438,
-	1437,
-	195,
-	1086);
+	VALUES (1047,
+	1046,
+	215,
+	695);
 INSERT INTO V_PAR
-	VALUES (1438,
+	VALUES (1047,
 	0,
-	1425,
+	1034,
 	'fromLat',
-	1439,
+	1048,
 	19,
 	44);
 INSERT INTO V_VAL
-	VALUES (1440,
+	VALUES (1049,
 	0,
 	0,
 	19,
@@ -21935,13 +15485,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1392);
+	106,
+	1001);
 INSERT INTO V_IRF
-	VALUES (1440,
-	1398);
+	VALUES (1049,
+	1007);
 INSERT INTO V_VAL
-	VALUES (1439,
+	VALUES (1048,
 	0,
 	0,
 	19,
@@ -21951,23 +15501,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1392);
+	10,
+	1001);
 INSERT INTO V_AVL
-	VALUES (1439,
-	1440,
-	195,
-	1089);
+	VALUES (1048,
+	1049,
+	215,
+	698);
 INSERT INTO V_PAR
-	VALUES (1439,
+	VALUES (1048,
 	0,
-	1425,
+	1034,
 	'fromLong',
-	1441,
+	1050,
 	19,
 	69);
 INSERT INTO V_VAL
-	VALUES (1442,
+	VALUES (1051,
 	0,
 	0,
 	20,
@@ -21977,13 +15527,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1392);
+	106,
+	1001);
 INSERT INTO V_IRF
-	VALUES (1442,
-	1418);
+	VALUES (1051,
+	1027);
 INSERT INTO V_VAL
-	VALUES (1441,
+	VALUES (1050,
 	0,
 	0,
 	20,
@@ -21993,23 +15543,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1392);
+	10,
+	1001);
 INSERT INTO V_AVL
-	VALUES (1441,
-	1442,
-	195,
-	1086);
+	VALUES (1050,
+	1051,
+	215,
+	695);
 INSERT INTO V_PAR
-	VALUES (1441,
+	VALUES (1050,
 	0,
-	1425,
+	1034,
 	'toLat',
-	1443,
+	1052,
 	20,
 	39);
 INSERT INTO V_VAL
-	VALUES (1444,
+	VALUES (1053,
 	0,
 	0,
 	20,
@@ -22019,13 +15569,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1392);
+	106,
+	1001);
 INSERT INTO V_IRF
-	VALUES (1444,
-	1418);
+	VALUES (1053,
+	1027);
 INSERT INTO V_VAL
-	VALUES (1443,
+	VALUES (1052,
 	0,
 	0,
 	20,
@@ -22035,23 +15585,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1392);
+	10,
+	1001);
 INSERT INTO V_AVL
-	VALUES (1443,
-	1444,
-	195,
-	1089);
+	VALUES (1052,
+	1053,
+	215,
+	698);
 INSERT INTO V_PAR
-	VALUES (1443,
+	VALUES (1052,
 	0,
-	1425,
+	1034,
 	'toLong',
 	0,
 	20,
 	70);
 INSERT INTO V_VAL
-	VALUES (1429,
+	VALUES (1038,
 	1,
 	0,
 	21,
@@ -22061,13 +15611,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1392);
+	10,
+	1001);
 INSERT INTO V_TVL
-	VALUES (1429,
-	1401);
+	VALUES (1038,
+	1010);
 INSERT INTO V_VAL
-	VALUES (1445,
+	VALUES (1054,
 	0,
 	0,
 	21,
@@ -22077,13 +15627,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1392);
+	10,
+	1001);
 INSERT INTO V_TVL
-	VALUES (1445,
-	1401);
+	VALUES (1054,
+	1010);
 INSERT INTO V_VAL
-	VALUES (1428,
+	VALUES (1037,
 	0,
 	0,
 	-1,
@@ -22093,15 +15643,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1392);
+	10,
+	1001);
 INSERT INTO V_BIN
-	VALUES (1428,
-	1446,
-	1445,
+	VALUES (1037,
+	1055,
+	1054,
 	'+');
 INSERT INTO V_VAL
-	VALUES (1446,
+	VALUES (1055,
 	0,
 	0,
 	21,
@@ -22111,13 +15661,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1392);
+	10,
+	1001);
 INSERT INTO V_TVL
-	VALUES (1446,
-	1436);
+	VALUES (1055,
+	1045);
 INSERT INTO V_VAL
-	VALUES (1432,
+	VALUES (1041,
 	1,
 	0,
 	22,
@@ -22127,13 +15677,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1392);
+	30,
+	1001);
 INSERT INTO V_TVL
-	VALUES (1432,
-	1399);
+	VALUES (1041,
+	1008);
 INSERT INTO V_VAL
-	VALUES (1447,
+	VALUES (1056,
 	0,
 	0,
 	22,
@@ -22143,13 +15693,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1392);
+	30,
+	1001);
 INSERT INTO V_TVL
-	VALUES (1447,
-	1399);
+	VALUES (1056,
+	1008);
 INSERT INTO V_VAL
-	VALUES (1431,
+	VALUES (1040,
 	0,
 	0,
 	-1,
@@ -22159,15 +15709,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1392);
+	30,
+	1001);
 INSERT INTO V_BIN
-	VALUES (1431,
-	1448,
-	1447,
+	VALUES (1040,
+	1057,
+	1056,
 	'-');
 INSERT INTO V_VAL
-	VALUES (1448,
+	VALUES (1057,
 	0,
 	0,
 	22,
@@ -22177,13 +15727,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1392);
+	30,
+	1001);
 INSERT INTO V_LIN
-	VALUES (1448,
+	VALUES (1057,
 	'1');
 INSERT INTO V_VAL
-	VALUES (1434,
+	VALUES (1043,
 	1,
 	0,
 	23,
@@ -22193,13 +15743,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1392);
+	106,
+	1001);
 INSERT INTO V_IRF
-	VALUES (1434,
-	1398);
+	VALUES (1043,
+	1007);
 INSERT INTO V_VAL
-	VALUES (1433,
+	VALUES (1042,
 	0,
 	0,
 	23,
@@ -22209,33 +15759,33 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1392);
+	106,
+	1001);
 INSERT INTO V_IRF
-	VALUES (1433,
-	1418);
+	VALUES (1042,
+	1027);
 INSERT INTO V_VAR
-	VALUES (1418,
-	1392,
+	VALUES (1027,
+	1001,
 	'previousPoint',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1418,
+	VALUES (1027,
 	0,
-	195);
+	215);
 INSERT INTO V_VAR
-	VALUES (1436,
-	1392,
+	VALUES (1045,
+	1001,
 	'distance',
 	1,
-	170);
+	10);
 INSERT INTO V_TRN
-	VALUES (1436,
+	VALUES (1045,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (1422,
+	VALUES (1031,
 	0,
 	0,
 	0,
@@ -22255,24 +15805,24 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1353,
+	962,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1449,
-	1422,
+	VALUES (1058,
+	1031,
 	0,
 	17,
 	7,
 	'WorkoutSession::currentSpeed line: 17');
 INSERT INTO ACT_BRK
-	VALUES (1449);
+	VALUES (1058);
 INSERT INTO O_BATTR
-	VALUES (512,
-	66);
+	VALUES (529,
+	102);
 INSERT INTO O_ATTR
-	VALUES (512,
-	66,
-	1261,
+	VALUES (529,
+	102,
+	870,
 	'currentSpeed',
 	'The current speed of the device, expressed in kilometers per hour, averaged 
 over a predefined number of the most recently acquired track points.
@@ -22280,12 +15830,12 @@ over a predefined number of the most recently acquired track points.
 	'',
 	'currentSpeed',
 	0,
-	170,
+	10,
 	'',
 	'');
 INSERT INTO O_DBATTR
-	VALUES (533,
-	66,
+	VALUES (550,
+	102,
 	'// Calculate current pace from current speed, converting from km/hour to minutes/km.
 
 if ( self.currentSpeed != 0.0 )
@@ -22295,21 +15845,21 @@ else
 end if;',
 	1);
 INSERT INTO ACT_DAB
-	VALUES (1450,
-	66,
-	533,
+	VALUES (1059,
+	102,
+	550,
 	1);
 INSERT INTO ACT_ACT
-	VALUES (1450,
+	VALUES (1059,
 	'derived attribute',
 	0,
-	1451,
+	1060,
 	0,
 	0,
 	'WorkoutSession::currentPace',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1451,
+	VALUES (1060,
 	0,
 	0,
 	0,
@@ -22329,34 +15879,34 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1450,
+	1059,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1452,
-	1451,
+	VALUES (1061,
+	1060,
 	0,
 	3,
 	1,
 	'WorkoutSession::currentPace line: 3');
 INSERT INTO ACT_IF
-	VALUES (1452,
-	1453,
-	1454,
+	VALUES (1061,
+	1062,
+	1063,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1455,
-	1451,
+	VALUES (1064,
+	1060,
 	0,
 	5,
 	1,
 	'WorkoutSession::currentPace line: 5');
 INSERT INTO ACT_E
-	VALUES (1455,
-	1456,
-	1452);
+	VALUES (1064,
+	1065,
+	1061);
 INSERT INTO V_VAL
-	VALUES (1457,
+	VALUES (1066,
 	0,
 	0,
 	3,
@@ -22366,13 +15916,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1451);
+	106,
+	1060);
 INSERT INTO V_IRF
-	VALUES (1457,
-	1458);
+	VALUES (1066,
+	1067);
 INSERT INTO V_VAL
-	VALUES (1459,
+	VALUES (1068,
 	0,
 	0,
 	3,
@@ -22382,15 +15932,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1451);
+	10,
+	1060);
 INSERT INTO V_AVL
-	VALUES (1459,
-	1457,
-	66,
-	512);
+	VALUES (1068,
+	1066,
+	102,
+	529);
 INSERT INTO V_VAL
-	VALUES (1454,
+	VALUES (1063,
 	0,
 	0,
 	-1,
@@ -22400,15 +15950,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1451);
+	108,
+	1060);
 INSERT INTO V_BIN
-	VALUES (1454,
-	1460,
-	1459,
+	VALUES (1063,
+	1069,
+	1068,
 	'!=');
 INSERT INTO V_VAL
-	VALUES (1460,
+	VALUES (1069,
 	0,
 	0,
 	3,
@@ -22418,23 +15968,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1451);
+	10,
+	1060);
 INSERT INTO V_LRL
-	VALUES (1460,
+	VALUES (1069,
 	'0.0');
 INSERT INTO V_VAR
-	VALUES (1458,
-	1451,
+	VALUES (1067,
+	1060,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1458,
+	VALUES (1067,
 	0,
-	66);
+	102);
 INSERT INTO ACT_BLK
-	VALUES (1453,
+	VALUES (1062,
 	0,
 	0,
 	0,
@@ -22454,23 +16004,23 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1450,
+	1059,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1461,
-	1453,
+	VALUES (1070,
+	1062,
 	0,
 	4,
 	3,
 	'WorkoutSession::currentPace line: 4');
 INSERT INTO ACT_AI
-	VALUES (1461,
-	1462,
-	1463,
+	VALUES (1070,
+	1071,
+	1072,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1464,
+	VALUES (1073,
 	1,
 	0,
 	4,
@@ -22480,13 +16030,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1453);
+	106,
+	1062);
 INSERT INTO V_IRF
-	VALUES (1464,
-	1458);
+	VALUES (1073,
+	1067);
 INSERT INTO V_VAL
-	VALUES (1463,
+	VALUES (1072,
 	1,
 	0,
 	4,
@@ -22496,15 +16046,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1453);
+	10,
+	1062);
 INSERT INTO V_AVL
-	VALUES (1463,
-	1464,
-	66,
-	533);
+	VALUES (1072,
+	1073,
+	102,
+	550);
 INSERT INTO V_VAL
-	VALUES (1465,
+	VALUES (1074,
 	0,
 	0,
 	4,
@@ -22514,13 +16064,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1453);
+	10,
+	1062);
 INSERT INTO V_LRL
-	VALUES (1465,
+	VALUES (1074,
 	'60.0');
 INSERT INTO V_VAL
-	VALUES (1462,
+	VALUES (1071,
 	0,
 	0,
 	-1,
@@ -22530,15 +16080,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1453);
+	10,
+	1062);
 INSERT INTO V_BIN
-	VALUES (1462,
-	1466,
-	1465,
+	VALUES (1071,
+	1075,
+	1074,
 	'/');
 INSERT INTO V_VAL
-	VALUES (1467,
+	VALUES (1076,
 	0,
 	0,
 	4,
@@ -22548,13 +16098,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1453);
+	106,
+	1062);
 INSERT INTO V_IRF
-	VALUES (1467,
-	1458);
+	VALUES (1076,
+	1067);
 INSERT INTO V_VAL
-	VALUES (1466,
+	VALUES (1075,
 	0,
 	0,
 	4,
@@ -22564,15 +16114,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1453);
+	10,
+	1062);
 INSERT INTO V_AVL
-	VALUES (1466,
-	1467,
-	66,
-	512);
+	VALUES (1075,
+	1076,
+	102,
+	529);
 INSERT INTO ACT_BLK
-	VALUES (1456,
+	VALUES (1065,
 	0,
 	0,
 	0,
@@ -22592,23 +16142,23 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1450,
+	1059,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1468,
-	1456,
+	VALUES (1077,
+	1065,
 	0,
 	6,
 	3,
 	'WorkoutSession::currentPace line: 6');
 INSERT INTO ACT_AI
-	VALUES (1468,
-	1469,
-	1470,
+	VALUES (1077,
+	1078,
+	1079,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1471,
+	VALUES (1080,
 	1,
 	0,
 	6,
@@ -22618,13 +16168,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1456);
+	106,
+	1065);
 INSERT INTO V_IRF
-	VALUES (1471,
-	1458);
+	VALUES (1080,
+	1067);
 INSERT INTO V_VAL
-	VALUES (1470,
+	VALUES (1079,
 	1,
 	0,
 	6,
@@ -22634,15 +16184,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1456);
+	10,
+	1065);
 INSERT INTO V_AVL
-	VALUES (1470,
-	1471,
-	66,
-	533);
+	VALUES (1079,
+	1080,
+	102,
+	550);
 INSERT INTO V_VAL
-	VALUES (1469,
+	VALUES (1078,
 	0,
 	0,
 	6,
@@ -22652,29 +16202,29 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	1456);
+	10,
+	1065);
 INSERT INTO V_LRL
-	VALUES (1469,
+	VALUES (1078,
 	'0.0');
 INSERT INTO O_BATTR
-	VALUES (533,
-	66);
+	VALUES (550,
+	102);
 INSERT INTO O_ATTR
-	VALUES (533,
-	66,
-	512,
+	VALUES (550,
+	102,
+	529,
 	'currentPace',
 	'The inverse of currentSpeed, expressed in minutes per kilometer.',
 	'',
 	'currentPace',
 	0,
-	170,
+	10,
 	'',
 	'');
 INSERT INTO O_DBATTR
-	VALUES (554,
-	66,
+	VALUES (571,
+	102,
 	'// Calculate sliding average using the most recent samples.
 
 select one workoutTimer related by self->WorkoutTimer[R8.''is timed by''];
@@ -22694,21 +16244,21 @@ end if;
 ',
 	1);
 INSERT INTO ACT_DAB
-	VALUES (1472,
-	66,
-	554,
+	VALUES (1081,
+	102,
+	571,
 	1);
 INSERT INTO ACT_ACT
-	VALUES (1472,
+	VALUES (1081,
 	'derived attribute',
 	0,
-	1473,
+	1082,
 	0,
 	0,
 	'WorkoutSession::currentHeartRate',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1473,
+	VALUES (1082,
 	1,
 	0,
 	1,
@@ -22728,31 +16278,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1472,
+	1081,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1474,
-	1473,
-	1475,
+	VALUES (1083,
+	1082,
+	1084,
 	3,
 	1,
 	'WorkoutSession::currentHeartRate line: 3');
 INSERT INTO ACT_SEL
-	VALUES (1474,
-	1476,
+	VALUES (1083,
+	1085,
 	1,
 	'one',
-	1477);
+	1086);
 INSERT INTO ACT_SR
-	VALUES (1474);
+	VALUES (1083);
 INSERT INTO ACT_LNK
-	VALUES (1478,
+	VALUES (1087,
 	'''is timed by''',
-	1474,
-	209,
+	1083,
+	229,
 	0,
 	2,
-	84,
+	118,
 	3,
 	42,
 	3,
@@ -22760,29 +16310,29 @@ INSERT INTO ACT_LNK
 	3,
 	58);
 INSERT INTO ACT_SMT
-	VALUES (1475,
-	1473,
-	1479,
+	VALUES (1084,
+	1082,
+	1088,
 	4,
 	1,
 	'WorkoutSession::currentHeartRate line: 4');
 INSERT INTO ACT_SEL
-	VALUES (1475,
-	1480,
+	VALUES (1084,
+	1089,
 	1,
 	'many',
-	1481);
+	1090);
 INSERT INTO ACT_SRW
-	VALUES (1475,
-	1482);
+	VALUES (1084,
+	1091);
 INSERT INTO ACT_LNK
-	VALUES (1483,
+	VALUES (1092,
 	'''tracks heart rate over time as''',
-	1475,
-	215,
+	1084,
+	235,
 	0,
 	3,
-	216,
+	236,
 	4,
 	38,
 	4,
@@ -22790,71 +16340,71 @@ INSERT INTO ACT_LNK
 	4,
 	57);
 INSERT INTO ACT_SMT
-	VALUES (1479,
-	1473,
-	1484,
+	VALUES (1088,
+	1082,
+	1093,
 	6,
 	1,
 	'WorkoutSession::currentHeartRate line: 6');
 INSERT INTO ACT_AI
-	VALUES (1479,
-	1485,
-	1486,
+	VALUES (1088,
+	1094,
+	1095,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1484,
-	1473,
-	1487,
+	VALUES (1093,
+	1082,
+	1096,
 	7,
 	1,
 	'WorkoutSession::currentHeartRate line: 7');
 INSERT INTO ACT_AI
-	VALUES (1484,
-	1488,
-	1489,
+	VALUES (1093,
+	1097,
+	1098,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1487,
-	1473,
-	1490,
+	VALUES (1096,
+	1082,
+	1099,
 	8,
 	1,
 	'WorkoutSession::currentHeartRate line: 8');
 INSERT INTO ACT_FOR
-	VALUES (1487,
-	1491,
+	VALUES (1096,
+	1100,
 	1,
-	1492,
-	1480,
-	216);
+	1101,
+	1089,
+	236);
 INSERT INTO ACT_SMT
-	VALUES (1490,
-	1473,
+	VALUES (1099,
+	1082,
 	0,
 	12,
 	1,
 	'WorkoutSession::currentHeartRate line: 12');
 INSERT INTO ACT_IF
-	VALUES (1490,
-	1493,
-	1494,
+	VALUES (1099,
+	1102,
+	1103,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1495,
-	1473,
+	VALUES (1104,
+	1082,
 	0,
 	14,
 	1,
 	'WorkoutSession::currentHeartRate line: 14');
 INSERT INTO ACT_E
-	VALUES (1495,
-	1496,
-	1490);
+	VALUES (1104,
+	1105,
+	1099);
 INSERT INTO V_VAL
-	VALUES (1477,
+	VALUES (1086,
 	0,
 	0,
 	3,
@@ -22864,13 +16414,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1473);
+	106,
+	1082);
 INSERT INTO V_IRF
-	VALUES (1477,
-	1497);
+	VALUES (1086,
+	1106);
 INSERT INTO V_VAL
-	VALUES (1481,
+	VALUES (1090,
 	0,
 	0,
 	4,
@@ -22880,13 +16430,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1473);
+	106,
+	1082);
 INSERT INTO V_IRF
-	VALUES (1481,
-	1497);
+	VALUES (1090,
+	1106);
 INSERT INTO V_VAL
-	VALUES (1498,
+	VALUES (1107,
 	0,
 	0,
 	5,
@@ -22896,15 +16446,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1473);
+	106,
+	1082);
 INSERT INTO V_SLR
-	VALUES (1498,
+	VALUES (1107,
 	0,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1499,
+	VALUES (1108,
 	0,
 	0,
 	5,
@@ -22914,15 +16464,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_AVL
-	VALUES (1499,
-	1498,
-	216,
-	1027);
+	VALUES (1108,
+	1107,
+	236,
+	636);
 INSERT INTO V_VAL
-	VALUES (1482,
+	VALUES (1091,
 	0,
 	0,
 	-1,
@@ -22932,15 +16482,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1473);
+	108,
+	1082);
 INSERT INTO V_BIN
-	VALUES (1482,
-	1500,
-	1499,
+	VALUES (1091,
+	1109,
+	1108,
 	'>=');
 INSERT INTO V_VAL
-	VALUES (1501,
+	VALUES (1110,
 	0,
 	0,
 	5,
@@ -22950,13 +16500,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1473);
+	106,
+	1082);
 INSERT INTO V_IRF
-	VALUES (1501,
-	1476);
+	VALUES (1110,
+	1085);
 INSERT INTO V_VAL
-	VALUES (1502,
+	VALUES (1111,
 	0,
 	0,
 	5,
@@ -22966,15 +16516,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_AVL
-	VALUES (1502,
-	1501,
-	84,
-	403);
+	VALUES (1111,
+	1110,
+	118,
+	422);
 INSERT INTO V_VAL
-	VALUES (1500,
+	VALUES (1109,
 	0,
 	0,
 	-1,
@@ -22984,15 +16534,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_BIN
-	VALUES (1500,
-	1503,
-	1502,
+	VALUES (1109,
+	1112,
+	1111,
 	'-');
 INSERT INTO V_VAL
-	VALUES (1504,
+	VALUES (1113,
 	0,
 	0,
 	5,
@@ -23002,14 +16552,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_SCV
-	VALUES (1504,
-	1505,
-	13);
+	VALUES (1113,
+	1114,
+	30);
 INSERT INTO V_VAL
-	VALUES (1503,
+	VALUES (1112,
 	0,
 	0,
 	-1,
@@ -23019,15 +16569,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_BIN
-	VALUES (1503,
-	1506,
-	1504,
+	VALUES (1112,
+	1115,
+	1113,
 	'*');
 INSERT INTO V_VAL
-	VALUES (1506,
+	VALUES (1115,
 	0,
 	0,
 	5,
@@ -23037,14 +16587,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_SCV
-	VALUES (1506,
-	1507,
-	13);
+	VALUES (1115,
+	1116,
+	30);
 INSERT INTO V_VAL
-	VALUES (1486,
+	VALUES (1095,
 	1,
 	1,
 	6,
@@ -23054,13 +16604,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_TVL
-	VALUES (1486,
-	1508);
+	VALUES (1095,
+	1117);
 INSERT INTO V_VAL
-	VALUES (1485,
+	VALUES (1094,
 	0,
 	0,
 	6,
@@ -23070,13 +16620,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_LIN
-	VALUES (1485,
+	VALUES (1094,
 	'0');
 INSERT INTO V_VAL
-	VALUES (1489,
+	VALUES (1098,
 	1,
 	1,
 	7,
@@ -23086,13 +16636,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_TVL
-	VALUES (1489,
-	1509);
+	VALUES (1098,
+	1118);
 INSERT INTO V_VAL
-	VALUES (1488,
+	VALUES (1097,
 	0,
 	0,
 	7,
@@ -23102,13 +16652,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_LIN
-	VALUES (1488,
+	VALUES (1097,
 	'0');
 INSERT INTO V_VAL
-	VALUES (1510,
+	VALUES (1119,
 	0,
 	0,
 	12,
@@ -23118,13 +16668,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_TVL
-	VALUES (1510,
-	1508);
+	VALUES (1119,
+	1117);
 INSERT INTO V_VAL
-	VALUES (1494,
+	VALUES (1103,
 	0,
 	0,
 	-1,
@@ -23134,15 +16684,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1473);
+	108,
+	1082);
 INSERT INTO V_BIN
-	VALUES (1494,
-	1511,
-	1510,
+	VALUES (1103,
+	1120,
+	1119,
 	'>');
 INSERT INTO V_VAL
-	VALUES (1511,
+	VALUES (1120,
 	0,
 	0,
 	12,
@@ -23152,72 +16702,72 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1473);
+	30,
+	1082);
 INSERT INTO V_LIN
-	VALUES (1511,
+	VALUES (1120,
 	'0');
 INSERT INTO V_VAR
-	VALUES (1476,
-	1473,
+	VALUES (1085,
+	1082,
 	'workoutTimer',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1476,
+	VALUES (1085,
 	0,
-	84);
+	118);
 INSERT INTO V_VAR
-	VALUES (1497,
-	1473,
+	VALUES (1106,
+	1082,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1497,
+	VALUES (1106,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (1480,
-	1473,
+	VALUES (1089,
+	1082,
 	'samples',
 	1,
-	573);
+	590);
 INSERT INTO V_INS
-	VALUES (1480,
-	216);
+	VALUES (1089,
+	236);
 INSERT INTO V_VAR
-	VALUES (1508,
-	1473,
+	VALUES (1117,
+	1082,
 	'numberOfSamples',
 	1,
-	13);
+	30);
 INSERT INTO V_TRN
-	VALUES (1508,
+	VALUES (1117,
 	0,
 	'');
 INSERT INTO V_VAR
-	VALUES (1509,
-	1473,
+	VALUES (1118,
+	1082,
 	'sum',
 	1,
-	13);
+	30);
 INSERT INTO V_TRN
-	VALUES (1509,
+	VALUES (1118,
 	0,
 	'');
 INSERT INTO V_VAR
-	VALUES (1492,
-	1473,
+	VALUES (1101,
+	1082,
 	'sample',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1492,
+	VALUES (1101,
 	1,
-	216);
+	236);
 INSERT INTO ACT_BLK
-	VALUES (1491,
+	VALUES (1100,
 	0,
 	0,
 	0,
@@ -23237,36 +16787,36 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1472,
+	1081,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1512,
-	1491,
-	1513,
+	VALUES (1121,
+	1100,
+	1122,
 	9,
 	3,
 	'WorkoutSession::currentHeartRate line: 9');
 INSERT INTO ACT_AI
-	VALUES (1512,
-	1514,
-	1515,
+	VALUES (1121,
+	1123,
+	1124,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1513,
-	1491,
+	VALUES (1122,
+	1100,
 	0,
 	10,
 	3,
 	'WorkoutSession::currentHeartRate line: 10');
 INSERT INTO ACT_AI
-	VALUES (1513,
-	1516,
-	1517,
+	VALUES (1122,
+	1125,
+	1126,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1515,
+	VALUES (1124,
 	1,
 	0,
 	9,
@@ -23276,13 +16826,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1491);
+	30,
+	1100);
 INSERT INTO V_TVL
-	VALUES (1515,
-	1508);
+	VALUES (1124,
+	1117);
 INSERT INTO V_VAL
-	VALUES (1518,
+	VALUES (1127,
 	0,
 	0,
 	9,
@@ -23292,13 +16842,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1491);
+	30,
+	1100);
 INSERT INTO V_TVL
-	VALUES (1518,
-	1508);
+	VALUES (1127,
+	1117);
 INSERT INTO V_VAL
-	VALUES (1514,
+	VALUES (1123,
 	0,
 	0,
 	-1,
@@ -23308,15 +16858,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1491);
+	30,
+	1100);
 INSERT INTO V_BIN
-	VALUES (1514,
-	1519,
-	1518,
+	VALUES (1123,
+	1128,
+	1127,
 	'+');
 INSERT INTO V_VAL
-	VALUES (1519,
+	VALUES (1128,
 	0,
 	0,
 	9,
@@ -23326,13 +16876,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1491);
+	30,
+	1100);
 INSERT INTO V_LIN
-	VALUES (1519,
+	VALUES (1128,
 	'1');
 INSERT INTO V_VAL
-	VALUES (1517,
+	VALUES (1126,
 	1,
 	0,
 	10,
@@ -23342,13 +16892,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1491);
+	30,
+	1100);
 INSERT INTO V_TVL
-	VALUES (1517,
-	1509);
+	VALUES (1126,
+	1118);
 INSERT INTO V_VAL
-	VALUES (1520,
+	VALUES (1129,
 	0,
 	0,
 	10,
@@ -23358,13 +16908,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1491);
+	30,
+	1100);
 INSERT INTO V_TVL
-	VALUES (1520,
-	1509);
+	VALUES (1129,
+	1118);
 INSERT INTO V_VAL
-	VALUES (1516,
+	VALUES (1125,
 	0,
 	0,
 	-1,
@@ -23374,15 +16924,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1491);
+	30,
+	1100);
 INSERT INTO V_BIN
-	VALUES (1516,
-	1521,
-	1520,
+	VALUES (1125,
+	1130,
+	1129,
 	'+');
 INSERT INTO V_VAL
-	VALUES (1522,
+	VALUES (1131,
 	0,
 	0,
 	10,
@@ -23392,13 +16942,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1491);
+	106,
+	1100);
 INSERT INTO V_IRF
-	VALUES (1522,
-	1492);
+	VALUES (1131,
+	1101);
 INSERT INTO V_VAL
-	VALUES (1521,
+	VALUES (1130,
 	0,
 	0,
 	10,
@@ -23408,15 +16958,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1491);
+	30,
+	1100);
 INSERT INTO V_AVL
-	VALUES (1521,
-	1522,
-	216,
-	1026);
+	VALUES (1130,
+	1131,
+	236,
+	635);
 INSERT INTO ACT_BLK
-	VALUES (1493,
+	VALUES (1102,
 	0,
 	0,
 	0,
@@ -23436,23 +16986,23 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1472,
+	1081,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1523,
-	1493,
+	VALUES (1132,
+	1102,
 	0,
 	13,
 	3,
 	'WorkoutSession::currentHeartRate line: 13');
 INSERT INTO ACT_AI
-	VALUES (1523,
-	1524,
-	1525,
+	VALUES (1132,
+	1133,
+	1134,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1526,
+	VALUES (1135,
 	1,
 	0,
 	13,
@@ -23462,13 +17012,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1493);
+	106,
+	1102);
 INSERT INTO V_IRF
-	VALUES (1526,
-	1497);
+	VALUES (1135,
+	1106);
 INSERT INTO V_VAL
-	VALUES (1525,
+	VALUES (1134,
 	1,
 	0,
 	13,
@@ -23478,15 +17028,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1493);
+	30,
+	1102);
 INSERT INTO V_AVL
-	VALUES (1525,
-	1526,
-	66,
-	554);
+	VALUES (1134,
+	1135,
+	102,
+	571);
 INSERT INTO V_VAL
-	VALUES (1527,
+	VALUES (1136,
 	0,
 	0,
 	13,
@@ -23496,13 +17046,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1493);
+	30,
+	1102);
 INSERT INTO V_TVL
-	VALUES (1527,
-	1509);
+	VALUES (1136,
+	1118);
 INSERT INTO V_VAL
-	VALUES (1524,
+	VALUES (1133,
 	0,
 	0,
 	-1,
@@ -23512,15 +17062,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1493);
+	30,
+	1102);
 INSERT INTO V_BIN
-	VALUES (1524,
-	1528,
-	1527,
+	VALUES (1133,
+	1137,
+	1136,
 	'/');
 INSERT INTO V_VAL
-	VALUES (1528,
+	VALUES (1137,
 	0,
 	0,
 	13,
@@ -23530,13 +17080,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1493);
+	30,
+	1102);
 INSERT INTO V_TVL
-	VALUES (1528,
-	1508);
+	VALUES (1137,
+	1117);
 INSERT INTO ACT_BLK
-	VALUES (1496,
+	VALUES (1105,
 	0,
 	0,
 	0,
@@ -23556,23 +17106,23 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1472,
+	1081,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1529,
-	1496,
+	VALUES (1138,
+	1105,
 	0,
 	15,
 	3,
 	'WorkoutSession::currentHeartRate line: 15');
 INSERT INTO ACT_AI
-	VALUES (1529,
-	1530,
-	1531,
+	VALUES (1138,
+	1139,
+	1140,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1532,
+	VALUES (1141,
 	1,
 	0,
 	15,
@@ -23582,13 +17132,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1496);
+	106,
+	1105);
 INSERT INTO V_IRF
-	VALUES (1532,
-	1497);
+	VALUES (1141,
+	1106);
 INSERT INTO V_VAL
-	VALUES (1531,
+	VALUES (1140,
 	1,
 	0,
 	15,
@@ -23598,15 +17148,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1496);
+	30,
+	1105);
 INSERT INTO V_AVL
-	VALUES (1531,
-	1532,
-	66,
-	554);
+	VALUES (1140,
+	1141,
+	102,
+	571);
 INSERT INTO V_VAL
-	VALUES (1530,
+	VALUES (1139,
 	0,
 	0,
 	15,
@@ -23616,72 +17166,72 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1496);
+	30,
+	1105);
 INSERT INTO V_LIN
-	VALUES (1530,
+	VALUES (1139,
 	'0');
 INSERT INTO O_BATTR
-	VALUES (554,
-	66);
+	VALUES (571,
+	102);
 INSERT INTO O_ATTR
-	VALUES (554,
-	66,
-	533,
+	VALUES (571,
+	102,
+	550,
 	'currentHeartRate',
 	'Current heart rate, expressed in beats per minute, averaged over 
 a predefined number of the most recent heart-rate samples.',
 	'',
 	'currentHeartRate',
 	0,
-	13,
+	30,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (481,
-	66);
+	VALUES (499,
+	102);
 INSERT INTO O_BATTR
-	VALUES (481,
-	66);
+	VALUES (499,
+	102);
 INSERT INTO O_ATTR
-	VALUES (481,
-	66,
-	554,
+	VALUES (499,
+	102,
+	571,
 	'accumulatedDistance',
 	'Accumulated distance, expressed in meters, for this workout session.',
 	'',
 	'accumulatedDistance',
 	0,
-	170,
+	10,
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	66);
+	102);
 INSERT INTO O_OIDA
-	VALUES (1259,
-	66,
+	VALUES (868,
+	102,
 	0,
 	'startDate');
 INSERT INTO O_OIDA
-	VALUES (1261,
-	66,
+	VALUES (870,
+	102,
 	0,
 	'startTime');
 INSERT INTO O_ID
 	VALUES (1,
-	66);
+	102);
 INSERT INTO O_ID
 	VALUES (2,
-	66);
+	102);
 INSERT INTO PE_PE
-	VALUES (84,
+	VALUES (118,
 	1,
-	191,
+	211,
 	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (84,
+	VALUES (118,
 	'WorkoutTimer',
 	1,
 	'WorkoutTimer',
@@ -23697,11 +17247,11 @@ This is a singleton instance.
 ',
 	0);
 INSERT INTO O_TFR
-	VALUES (1533,
-	84,
+	VALUES (1142,
+	118,
 	'activate',
 	'',
-	240,
+	6,
 	1,
 	'// Start the underlying timer that drives the workout timer.
 create event instance evt of WorkoutTimer3:tick() to self;
@@ -23721,19 +17271,19 @@ send HeartRateMonitor::registerListener();',
 	'',
 	0);
 INSERT INTO ACT_OPB
-	VALUES (1534,
-	1533);
+	VALUES (1143,
+	1142);
 INSERT INTO ACT_ACT
-	VALUES (1534,
+	VALUES (1143,
 	'operation',
 	0,
-	1535,
+	1144,
 	0,
 	0,
 	'WorkoutTimer::activate',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1535,
+	VALUES (1144,
 	1,
 	0,
 	0,
@@ -23753,17 +17303,17 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1534,
+	1143,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1536,
-	1535,
-	1537,
+	VALUES (1145,
+	1144,
+	1146,
 	2,
 	1,
 	'WorkoutTimer::activate line: 2');
 INSERT INTO E_ESS
-	VALUES (1536,
+	VALUES (1145,
 	1,
 	0,
 	2,
@@ -23777,51 +17327,51 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_CES
-	VALUES (1536,
+	VALUES (1145,
 	1,
-	1538);
+	1147);
 INSERT INTO E_CSME
-	VALUES (1536,
-	1539);
+	VALUES (1145,
+	1148);
 INSERT INTO E_CEI
-	VALUES (1536,
-	1540);
+	VALUES (1145,
+	1149);
 INSERT INTO ACT_SMT
-	VALUES (1537,
-	1535,
-	1541,
+	VALUES (1146,
+	1144,
+	1150,
 	3,
 	1,
 	'WorkoutTimer::activate line: 3');
 INSERT INTO ACT_AI
-	VALUES (1537,
-	1542,
-	1543,
+	VALUES (1146,
+	1151,
+	1152,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1541,
-	1535,
-	1544,
+	VALUES (1150,
+	1144,
+	1153,
 	6,
 	1,
 	'WorkoutTimer::activate line: 6');
 INSERT INTO ACT_SEL
-	VALUES (1541,
-	1545,
+	VALUES (1150,
+	1154,
 	1,
 	'one',
-	1546);
+	1155);
 INSERT INTO ACT_SR
-	VALUES (1541);
+	VALUES (1150);
 INSERT INTO ACT_LNK
-	VALUES (1547,
+	VALUES (1156,
 	'''acts as the stopwatch for''',
-	1541,
-	209,
-	1548,
+	1150,
+	229,
+	1157,
 	2,
-	66,
+	102,
 	7,
 	9,
 	7,
@@ -23829,13 +17379,13 @@ INSERT INTO ACT_LNK
 	7,
 	27);
 INSERT INTO ACT_LNK
-	VALUES (1548,
+	VALUES (1157,
 	'''is currently executing''',
 	0,
-	225,
+	245,
 	0,
 	2,
-	221,
+	241,
 	7,
 	57,
 	7,
@@ -23843,52 +17393,52 @@ INSERT INTO ACT_LNK
 	7,
 	66);
 INSERT INTO ACT_SMT
-	VALUES (1544,
-	1535,
-	1549,
+	VALUES (1153,
+	1144,
+	1158,
 	8,
 	1,
 	'WorkoutTimer::activate line: 8');
 INSERT INTO ACT_IF
-	VALUES (1544,
-	1550,
-	1551,
+	VALUES (1153,
+	1159,
+	1160,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1549,
-	1535,
-	1552,
+	VALUES (1158,
+	1144,
+	1161,
 	13,
 	1,
 	'WorkoutTimer::activate line: 13');
 INSERT INTO ACT_IOP
-	VALUES (1549,
+	VALUES (1158,
 	13,
 	16,
 	13,
 	6,
 	0,
-	18,
+	66,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1552,
-	1535,
+	VALUES (1161,
+	1144,
 	0,
 	14,
 	1,
 	'WorkoutTimer::activate line: 14');
 INSERT INTO ACT_IOP
-	VALUES (1552,
+	VALUES (1161,
 	14,
 	24,
 	14,
 	6,
 	0,
-	48,
+	88,
 	0);
 INSERT INTO V_VAL
-	VALUES (1553,
+	VALUES (1162,
 	1,
 	0,
 	3,
@@ -23898,13 +17448,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1535);
+	106,
+	1144);
 INSERT INTO V_IRF
-	VALUES (1553,
-	1540);
+	VALUES (1162,
+	1149);
 INSERT INTO V_VAL
-	VALUES (1543,
+	VALUES (1152,
 	1,
 	0,
 	3,
@@ -23914,15 +17464,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	313,
-	1535);
+	332,
+	1144);
 INSERT INTO V_AVL
-	VALUES (1543,
-	1553,
-	84,
-	1554);
+	VALUES (1152,
+	1162,
+	118,
+	1163);
 INSERT INTO V_VAL
-	VALUES (1542,
+	VALUES (1151,
 	0,
 	0,
 	3,
@@ -23932,16 +17482,16 @@ INSERT INTO V_VAL
 	42,
 	3,
 	59,
-	313,
-	1535);
+	332,
+	1144);
 INSERT INTO V_BRV
-	VALUES (1542,
-	319,
+	VALUES (1151,
+	338,
 	1,
 	3,
 	14);
 INSERT INTO V_VAL
-	VALUES (1555,
+	VALUES (1164,
 	0,
 	0,
 	3,
@@ -23951,21 +17501,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	316,
-	1535);
+	335,
+	1144);
 INSERT INTO V_TVL
-	VALUES (1555,
-	1538);
+	VALUES (1164,
+	1147);
 INSERT INTO V_PAR
-	VALUES (1555,
+	VALUES (1164,
 	0,
-	1542,
+	1151,
 	'event_inst',
-	1556,
+	1165,
 	3,
 	42);
 INSERT INTO V_VAL
-	VALUES (1557,
+	VALUES (1166,
 	0,
 	0,
 	3,
@@ -23975,14 +17525,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1535);
+	30,
+	1144);
 INSERT INTO V_SCV
-	VALUES (1557,
-	1558,
-	13);
+	VALUES (1166,
+	1167,
+	30);
 INSERT INTO V_VAL
-	VALUES (1556,
+	VALUES (1165,
 	0,
 	0,
 	-1,
@@ -23992,23 +17542,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1535);
+	30,
+	1144);
 INSERT INTO V_BIN
-	VALUES (1556,
-	1559,
-	1557,
+	VALUES (1165,
+	1168,
+	1166,
 	'*');
 INSERT INTO V_PAR
-	VALUES (1556,
+	VALUES (1165,
 	0,
-	1542,
+	1151,
 	'microseconds',
 	0,
 	3,
 	59);
 INSERT INTO V_VAL
-	VALUES (1559,
+	VALUES (1168,
 	0,
 	0,
 	3,
@@ -24018,13 +17568,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1535);
+	30,
+	1144);
 INSERT INTO V_LIN
-	VALUES (1559,
+	VALUES (1168,
 	'1000000');
 INSERT INTO V_VAL
-	VALUES (1546,
+	VALUES (1155,
 	0,
 	0,
 	7,
@@ -24034,13 +17584,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1535);
+	106,
+	1144);
 INSERT INTO V_IRF
-	VALUES (1546,
-	1540);
+	VALUES (1155,
+	1149);
 INSERT INTO V_VAL
-	VALUES (1560,
+	VALUES (1169,
 	0,
 	0,
 	8,
@@ -24050,13 +17600,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1535);
+	106,
+	1144);
 INSERT INTO V_IRF
-	VALUES (1560,
-	1545);
+	VALUES (1169,
+	1154);
 INSERT INTO V_VAL
-	VALUES (1561,
+	VALUES (1170,
 	0,
 	0,
 	-1,
@@ -24066,14 +17616,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1535);
+	108,
+	1144);
 INSERT INTO V_UNY
-	VALUES (1561,
-	1560,
+	VALUES (1170,
+	1169,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1551,
+	VALUES (1160,
 	0,
 	0,
 	-1,
@@ -24083,44 +17633,44 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1535);
+	108,
+	1144);
 INSERT INTO V_UNY
-	VALUES (1551,
-	1561,
+	VALUES (1160,
+	1170,
 	'not');
 INSERT INTO V_VAR
-	VALUES (1538,
-	1535,
+	VALUES (1147,
+	1144,
 	'evt',
 	1,
-	316);
+	335);
 INSERT INTO V_TRN
-	VALUES (1538,
+	VALUES (1147,
 	0,
 	'');
 INSERT INTO V_VAR
-	VALUES (1540,
-	1535,
+	VALUES (1149,
+	1144,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1540,
+	VALUES (1149,
 	0,
-	84);
+	118);
 INSERT INTO V_VAR
-	VALUES (1545,
-	1535,
+	VALUES (1154,
+	1144,
 	'executingGoal',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1545,
+	VALUES (1154,
 	0,
-	221);
+	241);
 INSERT INTO ACT_BLK
-	VALUES (1550,
+	VALUES (1159,
 	0,
 	0,
 	0,
@@ -24140,17 +17690,17 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1534,
+	1143,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1562,
-	1550,
+	VALUES (1171,
+	1159,
 	0,
 	9,
 	3,
 	'WorkoutTimer::activate line: 9');
 INSERT INTO E_ESS
-	VALUES (1562,
+	VALUES (1171,
 	1,
 	0,
 	9,
@@ -24164,19 +17714,19 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_GES
-	VALUES (1562);
+	VALUES (1171);
 INSERT INTO E_GSME
-	VALUES (1562,
-	647);
+	VALUES (1171,
+	1172);
 INSERT INTO E_GEN
-	VALUES (1562,
-	1545);
+	VALUES (1171,
+	1154);
 INSERT INTO O_TFR
-	VALUES (1563,
-	84,
+	VALUES (1173,
+	118,
 	'deactivate',
 	'',
-	240,
+	6,
 	1,
 	'// Cancel the timer driving the workout timer, ignoring the return code.
 cancelSucceeded = TIM::timer_cancel(timer_inst_ref: self.timer);
@@ -24193,21 +17743,21 @@ send Location::unregisterListener();
 send HeartRateMonitor::unregisterListener();',
 	1,
 	'',
-	1533);
+	1142);
 INSERT INTO ACT_OPB
-	VALUES (1564,
-	1563);
+	VALUES (1174,
+	1173);
 INSERT INTO ACT_ACT
-	VALUES (1564,
+	VALUES (1174,
 	'operation',
 	0,
-	1565,
+	1175,
 	0,
 	0,
 	'WorkoutTimer::deactivate',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1565,
+	VALUES (1175,
 	1,
 	0,
 	0,
@@ -24227,44 +17777,44 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1564,
+	1174,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1566,
-	1565,
-	1567,
+	VALUES (1176,
+	1175,
+	1177,
 	2,
 	1,
 	'WorkoutTimer::deactivate line: 2');
 INSERT INTO ACT_AI
-	VALUES (1566,
-	1568,
-	1569,
+	VALUES (1176,
+	1178,
+	1179,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1567,
-	1565,
-	1570,
+	VALUES (1177,
+	1175,
+	1180,
 	5,
 	1,
 	'WorkoutTimer::deactivate line: 5');
 INSERT INTO ACT_SEL
-	VALUES (1567,
-	1571,
+	VALUES (1177,
+	1181,
 	1,
 	'one',
-	1572);
+	1182);
 INSERT INTO ACT_SR
-	VALUES (1567);
+	VALUES (1177);
 INSERT INTO ACT_LNK
-	VALUES (1573,
+	VALUES (1183,
 	'''acts as the stopwatch for''',
-	1567,
-	209,
-	1574,
+	1177,
+	229,
+	1184,
 	2,
-	66,
+	102,
 	6,
 	9,
 	6,
@@ -24272,13 +17822,13 @@ INSERT INTO ACT_LNK
 	6,
 	27);
 INSERT INTO ACT_LNK
-	VALUES (1574,
+	VALUES (1184,
 	'''is currently executing''',
 	0,
-	225,
+	245,
 	0,
 	2,
-	221,
+	241,
 	6,
 	57,
 	6,
@@ -24286,52 +17836,52 @@ INSERT INTO ACT_LNK
 	6,
 	66);
 INSERT INTO ACT_SMT
-	VALUES (1570,
-	1565,
-	1575,
+	VALUES (1180,
+	1175,
+	1185,
 	7,
 	1,
 	'WorkoutTimer::deactivate line: 7');
 INSERT INTO ACT_IF
-	VALUES (1570,
-	1576,
-	1577,
+	VALUES (1180,
+	1186,
+	1187,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1575,
-	1565,
-	1578,
+	VALUES (1185,
+	1175,
+	1188,
 	12,
 	1,
 	'WorkoutTimer::deactivate line: 12');
 INSERT INTO ACT_IOP
-	VALUES (1575,
+	VALUES (1185,
 	12,
 	16,
 	12,
 	6,
 	0,
-	22,
+	69,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1578,
-	1565,
+	VALUES (1188,
+	1175,
 	0,
 	13,
 	1,
 	'WorkoutTimer::deactivate line: 13');
 INSERT INTO ACT_IOP
-	VALUES (1578,
+	VALUES (1188,
 	13,
 	24,
 	13,
 	6,
 	0,
-	52,
+	91,
 	0);
 INSERT INTO V_VAL
-	VALUES (1569,
+	VALUES (1179,
 	1,
 	1,
 	2,
@@ -24341,13 +17891,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1565);
+	108,
+	1175);
 INSERT INTO V_TVL
-	VALUES (1569,
-	1579);
+	VALUES (1179,
+	1189);
 INSERT INTO V_VAL
-	VALUES (1568,
+	VALUES (1178,
 	0,
 	0,
 	2,
@@ -24357,16 +17907,16 @@ INSERT INTO V_VAL
 	37,
 	0,
 	0,
-	72,
-	1565);
+	108,
+	1175);
 INSERT INTO V_BRV
-	VALUES (1568,
-	338,
+	VALUES (1178,
+	357,
 	1,
 	2,
 	19);
 INSERT INTO V_VAL
-	VALUES (1580,
+	VALUES (1190,
 	0,
 	0,
 	2,
@@ -24376,13 +17926,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1565);
+	106,
+	1175);
 INSERT INTO V_IRF
-	VALUES (1580,
-	1581);
+	VALUES (1190,
+	1191);
 INSERT INTO V_VAL
-	VALUES (1582,
+	VALUES (1192,
 	0,
 	0,
 	2,
@@ -24392,23 +17942,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	313,
-	1565);
+	332,
+	1175);
 INSERT INTO V_AVL
-	VALUES (1582,
-	1580,
-	84,
-	1554);
+	VALUES (1192,
+	1190,
+	118,
+	1163);
 INSERT INTO V_PAR
-	VALUES (1582,
+	VALUES (1192,
 	0,
-	1568,
+	1178,
 	'timer_inst_ref',
 	0,
 	2,
 	37);
 INSERT INTO V_VAL
-	VALUES (1572,
+	VALUES (1182,
 	0,
 	0,
 	6,
@@ -24418,13 +17968,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1565);
+	106,
+	1175);
 INSERT INTO V_IRF
-	VALUES (1572,
-	1581);
+	VALUES (1182,
+	1191);
 INSERT INTO V_VAL
-	VALUES (1583,
+	VALUES (1193,
 	0,
 	0,
 	7,
@@ -24434,13 +17984,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1565);
+	106,
+	1175);
 INSERT INTO V_IRF
-	VALUES (1583,
-	1571);
+	VALUES (1193,
+	1181);
 INSERT INTO V_VAL
-	VALUES (1584,
+	VALUES (1194,
 	0,
 	0,
 	-1,
@@ -24450,14 +18000,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1565);
+	108,
+	1175);
 INSERT INTO V_UNY
-	VALUES (1584,
-	1583,
+	VALUES (1194,
+	1193,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1577,
+	VALUES (1187,
 	0,
 	0,
 	-1,
@@ -24467,44 +18017,44 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1565);
+	108,
+	1175);
 INSERT INTO V_UNY
-	VALUES (1577,
-	1584,
+	VALUES (1187,
+	1194,
 	'not');
 INSERT INTO V_VAR
-	VALUES (1579,
-	1565,
+	VALUES (1189,
+	1175,
 	'cancelSucceeded',
 	1,
-	72);
+	108);
 INSERT INTO V_TRN
-	VALUES (1579,
+	VALUES (1189,
 	0,
 	'');
 INSERT INTO V_VAR
-	VALUES (1581,
-	1565,
+	VALUES (1191,
+	1175,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1581,
+	VALUES (1191,
 	0,
-	84);
+	118);
 INSERT INTO V_VAR
-	VALUES (1571,
-	1565,
+	VALUES (1181,
+	1175,
 	'executingGoal',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1571,
+	VALUES (1181,
 	0,
-	221);
+	241);
 INSERT INTO ACT_BLK
-	VALUES (1576,
+	VALUES (1186,
 	0,
 	0,
 	0,
@@ -24524,17 +18074,17 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1564,
+	1174,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1585,
-	1576,
+	VALUES (1195,
+	1186,
 	0,
 	8,
 	3,
 	'WorkoutTimer::deactivate line: 8');
 INSERT INTO E_ESS
-	VALUES (1585,
+	VALUES (1195,
 	1,
 	0,
 	8,
@@ -24548,40 +18098,40 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_GES
-	VALUES (1585);
+	VALUES (1195);
 INSERT INTO E_GSME
-	VALUES (1585,
-	883);
+	VALUES (1195,
+	1196);
 INSERT INTO E_GEN
-	VALUES (1585,
-	1571);
+	VALUES (1195,
+	1181);
 INSERT INTO O_TFR
-	VALUES (1277,
-	84,
+	VALUES (886,
+	118,
 	'initialize',
 	'',
-	240,
+	6,
 	1,
 	'// Initialize this instance.
 
 self.time = 0;',
 	1,
 	'',
-	1563);
+	1173);
 INSERT INTO ACT_OPB
-	VALUES (1586,
-	1277);
+	VALUES (1197,
+	886);
 INSERT INTO ACT_ACT
-	VALUES (1586,
+	VALUES (1197,
 	'operation',
 	0,
-	1587,
+	1198,
 	0,
 	0,
 	'WorkoutTimer::initialize',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1587,
+	VALUES (1198,
 	0,
 	0,
 	0,
@@ -24601,23 +18151,23 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1586,
+	1197,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1588,
-	1587,
+	VALUES (1199,
+	1198,
 	0,
 	3,
 	1,
 	'WorkoutTimer::initialize line: 3');
 INSERT INTO ACT_AI
-	VALUES (1588,
-	1589,
-	1590,
+	VALUES (1199,
+	1200,
+	1201,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1591,
+	VALUES (1202,
 	1,
 	0,
 	3,
@@ -24627,13 +18177,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1587);
+	106,
+	1198);
 INSERT INTO V_IRF
-	VALUES (1591,
-	1592);
+	VALUES (1202,
+	1203);
 INSERT INTO V_VAL
-	VALUES (1590,
+	VALUES (1201,
 	1,
 	0,
 	3,
@@ -24643,15 +18193,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1587);
+	30,
+	1198);
 INSERT INTO V_AVL
-	VALUES (1590,
-	1591,
-	84,
-	403);
+	VALUES (1201,
+	1202,
+	118,
+	422);
 INSERT INTO V_VAL
-	VALUES (1589,
+	VALUES (1200,
 	0,
 	0,
 	3,
@@ -24661,106 +18211,106 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1587);
+	30,
+	1198);
 INSERT INTO V_LIN
-	VALUES (1589,
+	VALUES (1200,
 	'0');
 INSERT INTO V_VAR
-	VALUES (1592,
-	1587,
+	VALUES (1203,
+	1198,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1592,
+	VALUES (1203,
 	0,
-	84);
+	118);
 INSERT INTO O_NBATTR
-	VALUES (1593,
-	84);
+	VALUES (1204,
+	118);
 INSERT INTO O_BATTR
-	VALUES (1593,
-	84);
+	VALUES (1204,
+	118);
 INSERT INTO O_ATTR
-	VALUES (1593,
-	84,
+	VALUES (1204,
+	118,
 	0,
 	'current_state',
 	'',
 	'',
 	'current_state',
 	0,
-	458,
+	476,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (403,
-	84);
+	VALUES (422,
+	118);
 INSERT INTO O_BATTR
-	VALUES (403,
-	84);
+	VALUES (422,
+	118);
 INSERT INTO O_ATTR
-	VALUES (403,
-	84,
-	1593,
+	VALUES (422,
+	118,
+	1204,
 	'time',
 	'Number of seconds elapsed during the associated workout session.
 Time elapses only when this timer is running.',
 	'',
 	'time',
 	0,
-	13,
+	30,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (1554,
-	84);
+	VALUES (1163,
+	118);
 INSERT INTO O_BATTR
-	VALUES (1554,
-	84);
+	VALUES (1163,
+	118);
 INSERT INTO O_ATTR
-	VALUES (1554,
-	84,
-	403,
+	VALUES (1163,
+	118,
+	422,
 	'timer',
 	'Handle for underlying timer mechanism that produces the 
 delayed events enabling the timer to track elapsed time.',
 	'',
 	'timer',
 	0,
-	313,
+	332,
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	84);
+	118);
 INSERT INTO O_ID
 	VALUES (1,
-	84);
+	118);
 INSERT INTO O_ID
 	VALUES (2,
-	84);
+	118);
 INSERT INTO SM_ISM
-	VALUES (1594,
-	84);
+	VALUES (1205,
+	118);
 INSERT INTO SM_SM
-	VALUES (1594,
+	VALUES (1205,
 	'',
 	0);
 INSERT INTO SM_MOORE
-	VALUES (1594);
+	VALUES (1205);
 INSERT INTO SM_LEVT
-	VALUES (131,
-	1594,
+	VALUES (162,
+	1205,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (131,
-	1594,
+	VALUES (162,
+	1205,
 	0);
 INSERT INTO SM_EVT
-	VALUES (131,
-	1594,
+	VALUES (162,
+	1205,
 	0,
 	1,
 	'startStopPressed',
@@ -24769,16 +18319,16 @@ INSERT INTO SM_EVT
 	'WorkoutTimer1',
 	'');
 INSERT INTO SM_LEVT
-	VALUES (92,
-	1594,
+	VALUES (126,
+	1205,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (92,
-	1594,
+	VALUES (126,
+	1205,
 	0);
 INSERT INTO SM_EVT
-	VALUES (92,
-	1594,
+	VALUES (126,
+	1205,
 	0,
 	2,
 	'lapResetPressed',
@@ -24787,16 +18337,16 @@ INSERT INTO SM_EVT
 	'WorkoutTimer2',
 	'');
 INSERT INTO SM_LEVT
-	VALUES (1539,
-	1594,
+	VALUES (1148,
+	1205,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (1539,
-	1594,
+	VALUES (1148,
+	1205,
 	0);
 INSERT INTO SM_EVT
-	VALUES (1539,
-	1594,
+	VALUES (1148,
+	1205,
 	0,
 	3,
 	'tick',
@@ -24805,49 +18355,49 @@ INSERT INTO SM_EVT
 	'WorkoutTimer3',
 	'');
 INSERT INTO SM_STATE
-	VALUES (1595,
-	1594,
+	VALUES (1206,
+	1205,
 	0,
 	'stopped',
 	1,
 	0);
 INSERT INTO SM_SEME
-	VALUES (1595,
-	131,
-	1594,
+	VALUES (1206,
+	162,
+	1205,
 	0);
 INSERT INTO SM_EIGN
-	VALUES (1595,
-	92,
-	1594,
+	VALUES (1206,
+	126,
+	1205,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (1595,
-	92,
-	1594,
+	VALUES (1206,
+	126,
+	1205,
 	0);
 INSERT INTO SM_EIGN
-	VALUES (1595,
-	1539,
-	1594,
+	VALUES (1206,
+	1148,
+	1205,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (1595,
-	1539,
-	1594,
+	VALUES (1206,
+	1148,
+	1205,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (1596,
-	1594,
-	1595);
+	VALUES (1207,
+	1205,
+	1206);
 INSERT INTO SM_AH
-	VALUES (1596,
-	1594);
+	VALUES (1207,
+	1205);
 INSERT INTO SM_ACT
-	VALUES (1596,
-	1594,
+	VALUES (1207,
+	1205,
 	1,
 	'// Reset the session
 select one session related by self->WorkoutSession[R8.''acts as the stopwatch for''];
@@ -24861,20 +18411,20 @@ select one display related by
 generate Display2:refresh to display;',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (1597,
-	1594,
-	1596);
+	VALUES (1208,
+	1205,
+	1207);
 INSERT INTO ACT_ACT
-	VALUES (1597,
+	VALUES (1208,
 	'state',
 	0,
-	1598,
+	1209,
 	0,
 	0,
 	'WorkoutTimer::stopped',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1598,
+	VALUES (1209,
 	1,
 	0,
 	0,
@@ -24894,31 +18444,31 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1597,
+	1208,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1599,
-	1598,
-	1600,
+	VALUES (1210,
+	1209,
+	1211,
 	2,
 	1,
 	'WorkoutTimer::stopped line: 2');
 INSERT INTO ACT_SEL
-	VALUES (1599,
-	1601,
+	VALUES (1210,
+	1212,
 	1,
 	'one',
-	1602);
+	1213);
 INSERT INTO ACT_SR
-	VALUES (1599);
+	VALUES (1210);
 INSERT INTO ACT_LNK
-	VALUES (1603,
+	VALUES (1214,
 	'''acts as the stopwatch for''',
-	1599,
-	209,
+	1210,
+	229,
 	0,
 	2,
-	66,
+	102,
 	2,
 	37,
 	2,
@@ -24926,59 +18476,59 @@ INSERT INTO ACT_LNK
 	2,
 	55);
 INSERT INTO ACT_SMT
-	VALUES (1600,
-	1598,
-	1604,
+	VALUES (1211,
+	1209,
+	1215,
 	3,
 	1,
 	'WorkoutTimer::stopped line: 3');
 INSERT INTO ACT_TFM
-	VALUES (1600,
-	1284,
-	1601,
+	VALUES (1211,
+	893,
+	1212,
 	3,
 	9,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1604,
-	1598,
-	1605,
+	VALUES (1215,
+	1209,
+	1216,
 	6,
 	1,
 	'WorkoutTimer::stopped line: 6');
 INSERT INTO ACT_IOP
-	VALUES (1604,
+	VALUES (1215,
 	6,
 	10,
 	6,
 	6,
 	0,
-	37,
+	80,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1605,
-	1598,
-	1606,
+	VALUES (1216,
+	1209,
+	1217,
 	7,
 	1,
 	'WorkoutTimer::stopped line: 7');
 INSERT INTO ACT_SEL
-	VALUES (1605,
-	1607,
+	VALUES (1216,
+	1218,
 	1,
 	'one',
-	1608);
+	1219);
 INSERT INTO ACT_SR
-	VALUES (1605);
+	VALUES (1216);
 INSERT INTO ACT_LNK
-	VALUES (1609,
+	VALUES (1220,
 	'''acts as the stopwatch for''',
-	1605,
-	209,
-	1610,
+	1216,
+	229,
+	1221,
 	2,
-	66,
+	102,
 	8,
 	9,
 	8,
@@ -24986,13 +18536,13 @@ INSERT INTO ACT_LNK
 	8,
 	27);
 INSERT INTO ACT_LNK
-	VALUES (1610,
+	VALUES (1221,
 	'''current status indicated on''',
 	0,
-	113,
+	146,
 	0,
 	2,
-	114,
+	147,
 	9,
 	3,
 	9,
@@ -25000,14 +18550,14 @@ INSERT INTO ACT_LNK
 	9,
 	14);
 INSERT INTO ACT_SMT
-	VALUES (1606,
-	1598,
+	VALUES (1217,
+	1209,
 	0,
 	10,
 	1,
 	'WorkoutTimer::stopped line: 10');
 INSERT INTO E_ESS
-	VALUES (1606,
+	VALUES (1217,
 	1,
 	0,
 	10,
@@ -25021,15 +18571,15 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_GES
-	VALUES (1606);
+	VALUES (1217);
 INSERT INTO E_GSME
-	VALUES (1606,
-	460);
+	VALUES (1217,
+	478);
 INSERT INTO E_GEN
-	VALUES (1606,
-	1607);
+	VALUES (1217,
+	1218);
 INSERT INTO V_VAL
-	VALUES (1602,
+	VALUES (1213,
 	0,
 	0,
 	2,
@@ -25039,13 +18589,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1598);
+	106,
+	1209);
 INSERT INTO V_IRF
-	VALUES (1602,
-	1611);
+	VALUES (1213,
+	1222);
 INSERT INTO V_VAL
-	VALUES (1612,
+	VALUES (1223,
 	0,
 	0,
 	6,
@@ -25055,13 +18605,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1598);
+	106,
+	1209);
 INSERT INTO V_IRF
-	VALUES (1612,
-	1611);
+	VALUES (1223,
+	1222);
 INSERT INTO V_VAL
-	VALUES (1613,
+	VALUES (1224,
 	0,
 	0,
 	6,
@@ -25071,23 +18621,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1598);
+	30,
+	1209);
 INSERT INTO V_AVL
-	VALUES (1613,
-	1612,
-	84,
-	403);
+	VALUES (1224,
+	1223,
+	118,
+	422);
 INSERT INTO V_PAR
-	VALUES (1613,
-	1604,
+	VALUES (1224,
+	1215,
 	0,
 	'time',
 	0,
 	6,
 	18);
 INSERT INTO V_VAL
-	VALUES (1608,
+	VALUES (1219,
 	0,
 	0,
 	8,
@@ -25097,91 +18647,91 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1598);
+	106,
+	1209);
 INSERT INTO V_IRF
-	VALUES (1608,
-	1611);
+	VALUES (1219,
+	1222);
 INSERT INTO V_VAR
-	VALUES (1601,
-	1598,
+	VALUES (1212,
+	1209,
 	'session',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1601,
+	VALUES (1212,
 	0,
-	66);
+	102);
 INSERT INTO V_VAR
-	VALUES (1611,
-	1598,
+	VALUES (1222,
+	1209,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1611,
+	VALUES (1222,
 	0,
-	84);
+	118);
 INSERT INTO V_VAR
-	VALUES (1607,
-	1598,
+	VALUES (1218,
+	1209,
 	'display',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1607,
+	VALUES (1218,
 	0,
-	114);
+	147);
 INSERT INTO SM_STATE
-	VALUES (1614,
-	1594,
+	VALUES (1225,
+	1205,
 	0,
 	'running',
 	2,
 	0);
 INSERT INTO SM_SEME
-	VALUES (1614,
-	131,
-	1594,
+	VALUES (1225,
+	162,
+	1205,
 	0);
 INSERT INTO SM_SEME
-	VALUES (1614,
-	92,
-	1594,
+	VALUES (1225,
+	126,
+	1205,
 	0);
 INSERT INTO SM_SEME
-	VALUES (1614,
-	1539,
-	1594,
+	VALUES (1225,
+	1148,
+	1205,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (1615,
-	1594,
-	1614);
+	VALUES (1226,
+	1205,
+	1225);
 INSERT INTO SM_AH
-	VALUES (1615,
-	1594);
+	VALUES (1226,
+	1205);
 INSERT INTO SM_ACT
-	VALUES (1615,
-	1594,
+	VALUES (1226,
+	1205,
 	1,
 	'',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (1616,
-	1594,
-	1615);
+	VALUES (1227,
+	1205,
+	1226);
 INSERT INTO ACT_ACT
-	VALUES (1616,
+	VALUES (1227,
 	'state',
 	0,
-	1617,
+	1228,
 	0,
 	0,
 	'WorkoutTimer::running',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1617,
+	VALUES (1228,
 	0,
 	0,
 	0,
@@ -25201,64 +18751,64 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1616,
+	1227,
 	0);
 INSERT INTO SM_STATE
-	VALUES (1618,
-	1594,
+	VALUES (1229,
+	1205,
 	0,
 	'paused',
 	3,
 	0);
 INSERT INTO SM_SEME
-	VALUES (1618,
-	131,
-	1594,
+	VALUES (1229,
+	162,
+	1205,
 	0);
 INSERT INTO SM_SEME
-	VALUES (1618,
-	92,
-	1594,
+	VALUES (1229,
+	126,
+	1205,
 	0);
 INSERT INTO SM_EIGN
-	VALUES (1618,
-	1539,
-	1594,
+	VALUES (1229,
+	1148,
+	1205,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (1618,
-	1539,
-	1594,
+	VALUES (1229,
+	1148,
+	1205,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (1619,
-	1594,
-	1618);
+	VALUES (1230,
+	1205,
+	1229);
 INSERT INTO SM_AH
-	VALUES (1619,
-	1594);
+	VALUES (1230,
+	1205);
 INSERT INTO SM_ACT
-	VALUES (1619,
-	1594,
+	VALUES (1230,
+	1205,
 	1,
 	'',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (1620,
-	1594,
-	1619);
+	VALUES (1231,
+	1205,
+	1230);
 INSERT INTO ACT_ACT
-	VALUES (1620,
+	VALUES (1231,
 	'state',
 	0,
-	1621,
+	1232,
 	0,
 	0,
 	'WorkoutTimer::paused',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1621,
+	VALUES (1232,
 	0,
 	0,
 	0,
@@ -25278,43 +18828,43 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1620,
+	1231,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (1622,
-	1594,
-	1595,
-	131,
+	VALUES (1233,
+	1205,
+	1206,
+	162,
 	0);
 INSERT INTO SM_TAH
-	VALUES (1623,
-	1594,
-	1622);
+	VALUES (1234,
+	1205,
+	1233);
 INSERT INTO SM_AH
-	VALUES (1623,
-	1594);
+	VALUES (1234,
+	1205);
 INSERT INTO SM_ACT
-	VALUES (1623,
-	1594,
+	VALUES (1234,
+	1205,
 	1,
 	'// Start the timer.
 self.activate();',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (1624,
-	1594,
-	1623);
+	VALUES (1235,
+	1205,
+	1234);
 INSERT INTO ACT_ACT
-	VALUES (1624,
+	VALUES (1235,
 	'transition',
 	0,
-	1625,
+	1236,
 	0,
 	0,
 	'WorkoutTimer1: startStopPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1625,
+	VALUES (1236,
 	0,
 	0,
 	0,
@@ -25334,54 +18884,54 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1624,
+	1235,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1626,
-	1625,
+	VALUES (1237,
+	1236,
 	0,
 	2,
 	1,
 	'WorkoutTimer1: startStopPressed line: 2');
 INSERT INTO ACT_TFM
-	VALUES (1626,
-	1533,
-	1627,
+	VALUES (1237,
+	1142,
+	1238,
 	2,
 	6,
 	0,
 	0);
 INSERT INTO V_VAR
-	VALUES (1627,
-	1625,
+	VALUES (1238,
+	1236,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1627,
+	VALUES (1238,
 	0,
-	84);
+	118);
 INSERT INTO SM_TXN
-	VALUES (1622,
-	1594,
-	1614,
+	VALUES (1233,
+	1205,
+	1225,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (1628,
-	1594,
-	1614,
-	92,
+	VALUES (1239,
+	1205,
+	1225,
+	126,
 	0);
 INSERT INTO SM_TAH
-	VALUES (1629,
-	1594,
-	1628);
+	VALUES (1240,
+	1205,
+	1239);
 INSERT INTO SM_AH
-	VALUES (1629,
-	1594);
+	VALUES (1240,
+	1205);
 INSERT INTO SM_ACT
-	VALUES (1629,
-	1594,
+	VALUES (1240,
+	1205,
 	1,
 	'select any trackLog from instances of TrackLog;
 if (not empty trackLog)
@@ -25389,20 +18939,20 @@ if (not empty trackLog)
 end if;',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (1630,
-	1594,
-	1629);
+	VALUES (1241,
+	1205,
+	1240);
 INSERT INTO ACT_ACT
-	VALUES (1630,
+	VALUES (1241,
 	'transition',
 	0,
-	1631,
+	1242,
 	0,
 	0,
 	'WorkoutTimer2: lapResetPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1631,
+	VALUES (1242,
 	1,
 	0,
 	0,
@@ -25422,38 +18972,38 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1630,
+	1241,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1632,
-	1631,
-	1633,
+	VALUES (1243,
+	1242,
+	1244,
 	1,
 	1,
 	'WorkoutTimer2: lapResetPressed line: 1');
 INSERT INTO ACT_FIO
-	VALUES (1632,
-	1634,
+	VALUES (1243,
+	1245,
 	1,
 	'any',
-	193,
+	213,
 	1,
 	39);
 INSERT INTO ACT_SMT
-	VALUES (1633,
-	1631,
+	VALUES (1244,
+	1242,
 	0,
 	2,
 	1,
 	'WorkoutTimer2: lapResetPressed line: 2');
 INSERT INTO ACT_IF
-	VALUES (1633,
-	1635,
-	1636,
+	VALUES (1244,
+	1246,
+	1247,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (1637,
+	VALUES (1248,
 	0,
 	0,
 	2,
@@ -25463,13 +19013,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1631);
+	106,
+	1242);
 INSERT INTO V_IRF
-	VALUES (1637,
-	1634);
+	VALUES (1248,
+	1245);
 INSERT INTO V_VAL
-	VALUES (1638,
+	VALUES (1249,
 	0,
 	0,
 	-1,
@@ -25479,14 +19029,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1631);
+	108,
+	1242);
 INSERT INTO V_UNY
-	VALUES (1638,
-	1637,
+	VALUES (1249,
+	1248,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (1636,
+	VALUES (1247,
 	0,
 	0,
 	-1,
@@ -25496,24 +19046,24 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	1631);
+	108,
+	1242);
 INSERT INTO V_UNY
-	VALUES (1636,
-	1638,
+	VALUES (1247,
+	1249,
 	'not');
 INSERT INTO V_VAR
-	VALUES (1634,
-	1631,
+	VALUES (1245,
+	1242,
 	'trackLog',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1634,
+	VALUES (1245,
 	0,
-	193);
+	213);
 INSERT INTO ACT_BLK
-	VALUES (1635,
+	VALUES (1246,
 	0,
 	0,
 	0,
@@ -25533,62 +19083,62 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1630,
+	1241,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1639,
-	1635,
+	VALUES (1250,
+	1246,
 	0,
 	3,
 	3,
 	'WorkoutTimer2: lapResetPressed line: 3');
 INSERT INTO ACT_TFM
-	VALUES (1639,
-	1167,
-	1634,
+	VALUES (1250,
+	776,
+	1245,
 	3,
 	12,
 	0,
 	0);
 INSERT INTO SM_TXN
-	VALUES (1628,
-	1594,
-	1614,
+	VALUES (1239,
+	1205,
+	1225,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (1640,
-	1594,
-	1618,
-	92,
+	VALUES (1251,
+	1205,
+	1229,
+	126,
 	0);
 INSERT INTO SM_TAH
-	VALUES (1641,
-	1594,
-	1640);
+	VALUES (1252,
+	1205,
+	1251);
 INSERT INTO SM_AH
-	VALUES (1641,
-	1594);
+	VALUES (1252,
+	1205);
 INSERT INTO SM_ACT
-	VALUES (1641,
-	1594,
+	VALUES (1252,
+	1205,
 	1,
 	'',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (1642,
-	1594,
-	1641);
+	VALUES (1253,
+	1205,
+	1252);
 INSERT INTO ACT_ACT
-	VALUES (1642,
+	VALUES (1253,
 	'transition',
 	0,
-	1643,
+	1254,
 	0,
 	0,
 	'WorkoutTimer2: lapResetPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1643,
+	VALUES (1254,
 	0,
 	0,
 	0,
@@ -25608,47 +19158,47 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1642,
+	1253,
 	0);
 INSERT INTO SM_TXN
-	VALUES (1640,
-	1594,
-	1595,
+	VALUES (1251,
+	1205,
+	1206,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (1644,
-	1594,
-	1618,
-	131,
+	VALUES (1255,
+	1205,
+	1229,
+	162,
 	0);
 INSERT INTO SM_TAH
-	VALUES (1645,
-	1594,
-	1644);
+	VALUES (1256,
+	1205,
+	1255);
 INSERT INTO SM_AH
-	VALUES (1645,
-	1594);
+	VALUES (1256,
+	1205);
 INSERT INTO SM_ACT
-	VALUES (1645,
-	1594,
+	VALUES (1256,
+	1205,
 	1,
 	'self.activate();',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (1646,
-	1594,
-	1645);
+	VALUES (1257,
+	1205,
+	1256);
 INSERT INTO ACT_ACT
-	VALUES (1646,
+	VALUES (1257,
 	'transition',
 	0,
-	1647,
+	1258,
 	0,
 	0,
 	'WorkoutTimer1: startStopPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1647,
+	VALUES (1258,
 	0,
 	0,
 	0,
@@ -25668,72 +19218,72 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1646,
+	1257,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1648,
-	1647,
+	VALUES (1259,
+	1258,
 	0,
 	1,
 	1,
 	'WorkoutTimer1: startStopPressed line: 1');
 INSERT INTO ACT_TFM
-	VALUES (1648,
-	1533,
-	1649,
+	VALUES (1259,
+	1142,
+	1260,
 	1,
 	6,
 	0,
 	0);
 INSERT INTO V_VAR
-	VALUES (1649,
-	1647,
+	VALUES (1260,
+	1258,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1649,
+	VALUES (1260,
 	0,
-	84);
+	118);
 INSERT INTO SM_TXN
-	VALUES (1644,
-	1594,
-	1614,
+	VALUES (1255,
+	1205,
+	1225,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (1650,
-	1594,
-	1614,
-	131,
+	VALUES (1261,
+	1205,
+	1225,
+	162,
 	0);
 INSERT INTO SM_TAH
-	VALUES (1651,
-	1594,
-	1650);
+	VALUES (1262,
+	1205,
+	1261);
 INSERT INTO SM_AH
-	VALUES (1651,
-	1594);
+	VALUES (1262,
+	1205);
 INSERT INTO SM_ACT
-	VALUES (1651,
-	1594,
+	VALUES (1262,
+	1205,
 	1,
 	'self.deactivate();',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (1652,
-	1594,
-	1651);
+	VALUES (1263,
+	1205,
+	1262);
 INSERT INTO ACT_ACT
-	VALUES (1652,
+	VALUES (1263,
 	'transition',
 	0,
-	1653,
+	1264,
 	0,
 	0,
 	'WorkoutTimer1: startStopPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1653,
+	VALUES (1264,
 	0,
 	0,
 	0,
@@ -25753,54 +19303,54 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1652,
+	1263,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1654,
-	1653,
+	VALUES (1265,
+	1264,
 	0,
 	1,
 	1,
 	'WorkoutTimer1: startStopPressed line: 1');
 INSERT INTO ACT_TFM
-	VALUES (1654,
-	1563,
-	1655,
+	VALUES (1265,
+	1173,
+	1266,
 	1,
 	6,
 	0,
 	0);
 INSERT INTO V_VAR
-	VALUES (1655,
-	1653,
+	VALUES (1266,
+	1264,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1655,
+	VALUES (1266,
 	0,
-	84);
+	118);
 INSERT INTO SM_TXN
-	VALUES (1650,
-	1594,
-	1618,
+	VALUES (1261,
+	1205,
+	1229,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (1656,
-	1594,
-	1614,
-	1539,
+	VALUES (1267,
+	1205,
+	1225,
+	1148,
 	0);
 INSERT INTO SM_TAH
-	VALUES (1657,
-	1594,
-	1656);
+	VALUES (1268,
+	1205,
+	1267);
 INSERT INTO SM_AH
-	VALUES (1657,
-	1594);
+	VALUES (1268,
+	1205);
 INSERT INTO SM_ACT
-	VALUES (1657,
-	1594,
+	VALUES (1268,
+	1205,
 	1,
 	'// Update the stopwatch time.
 self.time = self.time + timerPeriod;
@@ -25814,20 +19364,20 @@ trackLog.addTrackPoint();
 send UI::setTime(time: self.time);',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (1658,
-	1594,
-	1657);
+	VALUES (1269,
+	1205,
+	1268);
 INSERT INTO ACT_ACT
-	VALUES (1658,
+	VALUES (1269,
 	'transition',
 	0,
-	1659,
+	1270,
 	0,
 	0,
 	'WorkoutTimer3: tick',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1659,
+	VALUES (1270,
 	1,
 	0,
 	0,
@@ -25847,44 +19397,44 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1658,
+	1269,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1660,
-	1659,
-	1661,
+	VALUES (1271,
+	1270,
+	1272,
 	2,
 	1,
 	'WorkoutTimer3: tick line: 2');
 INSERT INTO ACT_AI
-	VALUES (1660,
-	1662,
-	1663,
+	VALUES (1271,
+	1273,
+	1274,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1661,
-	1659,
-	1664,
+	VALUES (1272,
+	1270,
+	1275,
 	5,
 	1,
 	'WorkoutTimer3: tick line: 5');
 INSERT INTO ACT_SEL
-	VALUES (1661,
-	1665,
+	VALUES (1272,
+	1276,
 	1,
 	'one',
-	1666);
+	1277);
 INSERT INTO ACT_SR
-	VALUES (1661);
+	VALUES (1272);
 INSERT INTO ACT_LNK
-	VALUES (1667,
+	VALUES (1278,
 	'''acts as the stopwatch for''',
-	1661,
-	209,
-	1668,
+	1272,
+	229,
+	1279,
 	2,
-	66,
+	102,
 	6,
 	9,
 	6,
@@ -25892,13 +19442,13 @@ INSERT INTO ACT_LNK
 	6,
 	27);
 INSERT INTO ACT_LNK
-	VALUES (1668,
+	VALUES (1279,
 	'''captures path in''',
 	0,
-	212,
+	232,
 	0,
 	2,
-	193,
+	213,
 	6,
 	57,
 	6,
@@ -25906,38 +19456,38 @@ INSERT INTO ACT_LNK
 	6,
 	69);
 INSERT INTO ACT_SMT
-	VALUES (1664,
-	1659,
-	1669,
+	VALUES (1275,
+	1270,
+	1280,
 	7,
 	1,
 	'WorkoutTimer3: tick line: 7');
 INSERT INTO ACT_TFM
-	VALUES (1664,
-	1029,
-	1665,
+	VALUES (1275,
+	638,
+	1276,
 	7,
 	10,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1669,
-	1659,
+	VALUES (1280,
+	1270,
 	0,
 	10,
 	1,
 	'WorkoutTimer3: tick line: 10');
 INSERT INTO ACT_IOP
-	VALUES (1669,
+	VALUES (1280,
 	10,
 	10,
 	10,
 	6,
 	0,
-	37,
+	80,
 	0);
 INSERT INTO V_VAL
-	VALUES (1670,
+	VALUES (1281,
 	1,
 	0,
 	2,
@@ -25947,13 +19497,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1659);
+	106,
+	1270);
 INSERT INTO V_IRF
-	VALUES (1670,
-	1671);
+	VALUES (1281,
+	1282);
 INSERT INTO V_VAL
-	VALUES (1663,
+	VALUES (1274,
 	1,
 	0,
 	2,
@@ -25963,15 +19513,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1659);
+	30,
+	1270);
 INSERT INTO V_AVL
-	VALUES (1663,
-	1670,
-	84,
-	403);
+	VALUES (1274,
+	1281,
+	118,
+	422);
 INSERT INTO V_VAL
-	VALUES (1672,
+	VALUES (1283,
 	0,
 	0,
 	2,
@@ -25981,13 +19531,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1659);
+	106,
+	1270);
 INSERT INTO V_IRF
-	VALUES (1672,
-	1671);
+	VALUES (1283,
+	1282);
 INSERT INTO V_VAL
-	VALUES (1673,
+	VALUES (1284,
 	0,
 	0,
 	2,
@@ -25997,15 +19547,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1659);
+	30,
+	1270);
 INSERT INTO V_AVL
-	VALUES (1673,
-	1672,
-	84,
-	403);
+	VALUES (1284,
+	1283,
+	118,
+	422);
 INSERT INTO V_VAL
-	VALUES (1662,
+	VALUES (1273,
 	0,
 	0,
 	-1,
@@ -26015,15 +19565,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1659);
+	30,
+	1270);
 INSERT INTO V_BIN
-	VALUES (1662,
-	1674,
-	1673,
+	VALUES (1273,
+	1285,
+	1284,
 	'+');
 INSERT INTO V_VAL
-	VALUES (1674,
+	VALUES (1285,
 	0,
 	0,
 	2,
@@ -26033,14 +19583,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1659);
+	30,
+	1270);
 INSERT INTO V_SCV
-	VALUES (1674,
-	1558,
-	13);
+	VALUES (1285,
+	1167,
+	30);
 INSERT INTO V_VAL
-	VALUES (1666,
+	VALUES (1277,
 	0,
 	0,
 	6,
@@ -26050,13 +19600,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1659);
+	106,
+	1270);
 INSERT INTO V_IRF
-	VALUES (1666,
-	1671);
+	VALUES (1277,
+	1282);
 INSERT INTO V_VAL
-	VALUES (1675,
+	VALUES (1286,
 	0,
 	0,
 	10,
@@ -26066,13 +19616,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	1659);
+	106,
+	1270);
 INSERT INTO V_IRF
-	VALUES (1675,
-	1671);
+	VALUES (1286,
+	1282);
 INSERT INTO V_VAL
-	VALUES (1676,
+	VALUES (1287,
 	0,
 	0,
 	10,
@@ -26082,995 +19632,7493 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	1659);
+	30,
+	1270);
 INSERT INTO V_AVL
-	VALUES (1676,
-	1675,
-	84,
-	403);
+	VALUES (1287,
+	1286,
+	118,
+	422);
 INSERT INTO V_PAR
-	VALUES (1676,
-	1669,
+	VALUES (1287,
+	1280,
 	0,
 	'time',
 	0,
 	10,
 	18);
 INSERT INTO V_VAR
-	VALUES (1671,
-	1659,
+	VALUES (1282,
+	1270,
 	'self',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1671,
+	VALUES (1282,
 	0,
-	84);
+	118);
 INSERT INTO V_VAR
-	VALUES (1665,
-	1659,
+	VALUES (1276,
+	1270,
 	'trackLog',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (1665,
+	VALUES (1276,
 	0,
-	193);
+	213);
 INSERT INTO SM_TXN
-	VALUES (1656,
-	1594,
-	1614,
+	VALUES (1267,
+	1205,
+	1225,
 	0);
 INSERT INTO PE_PE
+	VALUES (241,
+	1,
+	211,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (241,
+	'Goal',
+	9,
+	'Goal',
+	'Each instance represents a particular goal as it is executing.
+This class knows how to evaluate whether the goal is being achieved 
+and whether the goal has completed.',
+	0);
+INSERT INTO O_TFR
+	VALUES (1288,
+	241,
+	'goalcreate',
+	'',
+	6,
+	0,
+	'// Create and activate an instance of a goal specified by
+//   the goal specification, if it exists, identified by 
+//   the incoming parameter.
+
+// Find the goal specification for this goal, then
+//   create and relate this goal to the specification
+//   and to the singleton workout session.
+select any goalSpec from instances of GoalSpec 
+  where ( selected.sequenceNumber == param.sequenceNumber );
+if ( not empty goalSpec )
+  create object instance goal of Goal;
+  relate goal to goalSpec across R9.''specified by'';
+  select any session from instances of WorkoutSession;  // WorkoutSession is a singleton
+  relate goal to session across R11.''is currently executing within'';
+
+  // Initialize this goal.
+  goal.calculateStart();
+  goal.disposition = GoalDisposition::Increase;
+
+  // Start a timer that periodically causes evaluation of goal achievement.
+  create event instance evaluateEvent of Goal2:Evaluate to goal;
+  goal.evaluationTimer = TIM::timer_start_recurring( event_inst: evaluateEvent, microseconds: evaluationPeriod );
+end if;
+
+',
+	1,
+	'',
+	0);
+INSERT INTO O_TPARM
+	VALUES (1289,
+	1288,
+	'sequenceNumber',
+	30,
+	0,
+	'',
+	0,
+	'Sequence number of the goal specification for which an instance of a goal should be created.');
+INSERT INTO ACT_OPB
+	VALUES (1290,
+	1288);
+INSERT INTO ACT_ACT
+	VALUES (1290,
+	'class operation',
+	0,
+	1291,
+	0,
+	0,
+	'Goal::goalcreate',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1291,
+	1,
+	0,
+	1,
+	'',
+	'',
+	'',
+	10,
+	1,
+	8,
+	39,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1290,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1292,
+	1291,
+	1293,
+	8,
+	1,
+	'Goal::goalcreate line: 8');
+INSERT INTO ACT_FIW
+	VALUES (1292,
+	1294,
+	1,
+	'any',
+	1295,
+	176,
+	8,
+	39);
+INSERT INTO ACT_SMT
+	VALUES (1293,
+	1291,
+	0,
+	10,
+	1,
+	'Goal::goalcreate line: 10');
+INSERT INTO ACT_IF
+	VALUES (1293,
+	1296,
+	1297,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1298,
+	0,
+	0,
+	9,
+	11,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1291);
+INSERT INTO V_SLR
+	VALUES (1298,
+	0,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1299,
+	0,
+	0,
+	9,
+	20,
+	33,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1291);
+INSERT INTO V_AVL
+	VALUES (1299,
+	1298,
+	176,
+	197);
+INSERT INTO V_VAL
+	VALUES (1295,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1291);
+INSERT INTO V_BIN
+	VALUES (1295,
+	1300,
+	1299,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1300,
+	0,
+	0,
+	9,
+	44,
+	57,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1291);
+INSERT INTO V_PVL
+	VALUES (1300,
+	0,
+	0,
+	1289,
+	0);
+INSERT INTO V_VAL
+	VALUES (1301,
+	0,
+	0,
+	10,
+	16,
+	23,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1291);
+INSERT INTO V_IRF
+	VALUES (1301,
+	1294);
+INSERT INTO V_VAL
+	VALUES (1302,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1291);
+INSERT INTO V_UNY
+	VALUES (1302,
+	1301,
+	'empty');
+INSERT INTO V_VAL
+	VALUES (1297,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1291);
+INSERT INTO V_UNY
+	VALUES (1297,
+	1302,
+	'not');
+INSERT INTO V_VAR
+	VALUES (1294,
+	1291,
+	'goalSpec',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1294,
+	0,
+	176);
+INSERT INTO ACT_BLK
+	VALUES (1296,
+	1,
+	0,
+	0,
+	'TIM',
+	'',
+	'',
+	22,
+	3,
+	22,
+	26,
+	0,
+	0,
+	14,
+	33,
+	14,
+	37,
+	18,
+	22,
+	0,
+	1290,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1303,
+	1296,
+	1304,
+	11,
+	3,
+	'Goal::goalcreate line: 11');
+INSERT INTO ACT_CR
+	VALUES (1303,
+	1305,
+	1,
+	241,
+	11,
+	34);
+INSERT INTO ACT_SMT
+	VALUES (1304,
+	1296,
+	1306,
+	12,
+	3,
+	'Goal::goalcreate line: 12');
+INSERT INTO ACT_REL
+	VALUES (1304,
+	1305,
+	1294,
+	'''specified by''',
+	239,
+	12,
+	34,
+	12,
+	37);
+INSERT INTO ACT_SMT
+	VALUES (1306,
+	1296,
+	1307,
+	13,
+	3,
+	'Goal::goalcreate line: 13');
+INSERT INTO ACT_FIO
+	VALUES (1306,
+	1308,
+	1,
+	'any',
+	102,
+	13,
+	40);
+INSERT INTO ACT_SMT
+	VALUES (1307,
+	1296,
+	1309,
+	14,
+	3,
+	'Goal::goalcreate line: 14');
+INSERT INTO ACT_REL
+	VALUES (1307,
+	1305,
+	1308,
+	'''is currently executing within''',
+	245,
+	14,
+	33,
+	14,
+	37);
+INSERT INTO ACT_SMT
+	VALUES (1309,
+	1296,
+	1310,
+	17,
+	3,
+	'Goal::goalcreate line: 17');
+INSERT INTO ACT_TFM
+	VALUES (1309,
+	1311,
+	1305,
+	17,
+	8,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1310,
+	1296,
+	1312,
+	18,
+	3,
+	'Goal::goalcreate line: 18');
+INSERT INTO ACT_AI
+	VALUES (1310,
+	1313,
+	1314,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1312,
+	1296,
+	1315,
+	21,
+	3,
+	'Goal::goalcreate line: 21');
+INSERT INTO E_ESS
+	VALUES (1312,
+	1,
+	0,
+	21,
+	42,
+	21,
+	48,
+	13,
+	40,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1312,
+	1,
+	1316);
+INSERT INTO E_CSME
+	VALUES (1312,
+	1172);
+INSERT INTO E_CEI
+	VALUES (1312,
+	1305);
+INSERT INTO ACT_SMT
+	VALUES (1315,
+	1296,
+	0,
+	22,
+	3,
+	'Goal::goalcreate line: 22');
+INSERT INTO ACT_AI
+	VALUES (1315,
+	1317,
+	1318,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1319,
+	1,
+	0,
+	18,
+	3,
+	6,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1296);
+INSERT INTO V_IRF
+	VALUES (1319,
+	1305);
+INSERT INTO V_VAL
+	VALUES (1314,
+	1,
+	0,
+	18,
+	8,
+	18,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1296);
+INSERT INTO V_AVL
+	VALUES (1314,
+	1319,
+	241,
+	456);
+INSERT INTO V_VAL
+	VALUES (1313,
+	0,
+	0,
+	18,
+	39,
+	46,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1296);
+INSERT INTO V_LEN
+	VALUES (1313,
+	458,
+	18,
+	22);
+INSERT INTO V_VAL
+	VALUES (1320,
+	1,
+	0,
+	22,
+	3,
+	6,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1296);
+INSERT INTO V_IRF
+	VALUES (1320,
+	1305);
+INSERT INTO V_VAL
+	VALUES (1318,
+	1,
+	0,
+	22,
+	8,
+	22,
+	0,
+	0,
+	0,
+	0,
+	332,
+	1296);
+INSERT INTO V_AVL
+	VALUES (1318,
+	1320,
+	241,
+	1321);
+INSERT INTO V_VAL
+	VALUES (1317,
+	0,
+	0,
+	22,
+	31,
+	-1,
+	22,
+	54,
+	22,
+	81,
+	332,
+	1296);
+INSERT INTO V_BRV
+	VALUES (1317,
+	338,
+	1,
+	22,
+	26);
+INSERT INTO V_VAL
+	VALUES (1322,
+	0,
+	0,
+	22,
+	66,
+	78,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1296);
+INSERT INTO V_TVL
+	VALUES (1322,
+	1316);
+INSERT INTO V_PAR
+	VALUES (1322,
+	0,
+	1317,
+	'event_inst',
+	1323,
+	22,
+	54);
+INSERT INTO V_VAL
+	VALUES (1323,
+	0,
+	0,
+	22,
+	95,
+	110,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1296);
+INSERT INTO V_SCV
+	VALUES (1323,
+	1324,
+	30);
+INSERT INTO V_PAR
+	VALUES (1323,
+	0,
+	1317,
+	'microseconds',
+	0,
+	22,
+	81);
+INSERT INTO V_VAR
+	VALUES (1305,
+	1296,
+	'goal',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1305,
+	0,
+	241);
+INSERT INTO V_VAR
+	VALUES (1308,
+	1296,
+	'session',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1308,
+	0,
+	102);
+INSERT INTO V_VAR
+	VALUES (1316,
+	1296,
+	'evaluateEvent',
+	1,
+	335);
+INSERT INTO V_TRN
+	VALUES (1316,
+	0,
+	'');
+INSERT INTO O_TFR
+	VALUES (1311,
+	241,
+	'calculateStart',
+	'',
+	6,
+	1,
+	'// Based on the span type for this goal, calculate and
+//   store the value of the start attribute.
+select one goalSpec related by self->GoalSpec[R9.''specified by''];
+if ( goalSpec.spanType == GoalSpan::Time )
+  select one workoutTimer related by 
+    self->WorkoutSession[R11.''is currently executing within'']->WorkoutTimer[R8.''is timed by''];
+  self.goalstart = workoutTimer.time;
+elif ( goalSpec.spanType == GoalSpan::Distance )
+  select one session related by self->WorkoutSession[R11.''is currently executing within''];
+  self.goalstart = session.accumulatedDistance;
+else
+  LOG::LogFailure( message: "Goal.calculateStart: Unknown Goal Span Type." );
+end if;',
+	1,
+	'',
+	1288);
+INSERT INTO ACT_OPB
+	VALUES (1325,
+	1311);
+INSERT INTO ACT_ACT
+	VALUES (1325,
+	'operation',
+	0,
+	1326,
+	0,
+	0,
+	'Goal::calculateStart',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1326,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	11,
+	1,
+	3,
+	38,
+	0,
+	0,
+	3,
+	47,
+	3,
+	50,
+	8,
+	29,
+	0,
+	1325,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1327,
+	1326,
+	1328,
+	3,
+	1,
+	'Goal::calculateStart line: 3');
+INSERT INTO ACT_SEL
+	VALUES (1327,
+	1329,
+	1,
+	'one',
+	1330);
+INSERT INTO ACT_SR
+	VALUES (1327);
+INSERT INTO ACT_LNK
+	VALUES (1331,
+	'''specified by''',
+	1327,
+	239,
+	0,
+	2,
+	176,
+	3,
+	38,
+	3,
+	47,
+	3,
+	50);
+INSERT INTO ACT_SMT
+	VALUES (1328,
+	1326,
+	0,
+	4,
+	1,
+	'Goal::calculateStart line: 4');
+INSERT INTO ACT_IF
+	VALUES (1328,
+	1332,
+	1333,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1334,
+	1326,
+	0,
+	8,
+	1,
+	'Goal::calculateStart line: 8');
+INSERT INTO ACT_EL
+	VALUES (1334,
+	1335,
+	1336,
+	1328);
+INSERT INTO ACT_SMT
+	VALUES (1337,
+	1326,
+	0,
+	11,
+	1,
+	'Goal::calculateStart line: 11');
+INSERT INTO ACT_E
+	VALUES (1337,
+	1338,
+	1328);
+INSERT INTO V_VAL
+	VALUES (1330,
+	0,
+	0,
+	3,
+	32,
+	35,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1326);
+INSERT INTO V_IRF
+	VALUES (1330,
+	1339);
+INSERT INTO V_VAL
+	VALUES (1340,
+	0,
+	0,
+	4,
+	6,
+	13,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1326);
+INSERT INTO V_IRF
+	VALUES (1340,
+	1329);
+INSERT INTO V_VAL
+	VALUES (1341,
+	0,
+	0,
+	4,
+	15,
+	22,
+	0,
+	0,
+	0,
+	0,
+	39,
+	1326);
+INSERT INTO V_AVL
+	VALUES (1341,
+	1340,
+	176,
+	207);
+INSERT INTO V_VAL
+	VALUES (1333,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1326);
+INSERT INTO V_BIN
+	VALUES (1333,
+	1342,
+	1341,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1342,
+	0,
+	0,
+	4,
+	37,
+	40,
+	0,
+	0,
+	0,
+	0,
+	39,
+	1326);
+INSERT INTO V_LEN
+	VALUES (1342,
+	385,
+	4,
+	27);
+INSERT INTO V_VAL
+	VALUES (1343,
+	0,
+	0,
+	8,
+	8,
+	15,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1326);
+INSERT INTO V_IRF
+	VALUES (1343,
+	1329);
+INSERT INTO V_VAL
+	VALUES (1344,
+	0,
+	0,
+	8,
+	17,
+	24,
+	0,
+	0,
+	0,
+	0,
+	39,
+	1326);
+INSERT INTO V_AVL
+	VALUES (1344,
+	1343,
+	176,
+	207);
+INSERT INTO V_VAL
+	VALUES (1336,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1326);
+INSERT INTO V_BIN
+	VALUES (1336,
+	1345,
+	1344,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1345,
+	0,
+	0,
+	8,
+	39,
+	46,
+	0,
+	0,
+	0,
+	0,
+	39,
+	1326);
+INSERT INTO V_LEN
+	VALUES (1345,
+	377,
+	8,
+	29);
+INSERT INTO V_VAR
+	VALUES (1329,
+	1326,
+	'goalSpec',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1329,
+	0,
+	176);
+INSERT INTO V_VAR
+	VALUES (1339,
+	1326,
+	'self',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1339,
+	0,
+	241);
+INSERT INTO ACT_BLK
+	VALUES (1332,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	7,
+	3,
+	6,
+	64,
+	0,
+	0,
+	6,
+	77,
+	6,
+	80,
+	0,
+	0,
+	0,
+	1325,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1346,
+	1332,
+	1347,
+	5,
+	3,
+	'Goal::calculateStart line: 5');
+INSERT INTO ACT_SEL
+	VALUES (1346,
+	1348,
+	1,
+	'one',
+	1349);
+INSERT INTO ACT_SR
+	VALUES (1346);
+INSERT INTO ACT_LNK
+	VALUES (1350,
+	'''is currently executing within''',
+	1346,
+	245,
+	1351,
+	2,
+	102,
+	6,
+	11,
+	6,
+	26,
+	6,
+	30);
+INSERT INTO ACT_LNK
+	VALUES (1351,
+	'''is timed by''',
+	0,
+	229,
+	0,
+	2,
+	118,
+	6,
+	64,
+	6,
+	77,
+	6,
+	80);
+INSERT INTO ACT_SMT
+	VALUES (1347,
+	1332,
+	0,
+	7,
+	3,
+	'Goal::calculateStart line: 7');
+INSERT INTO ACT_AI
+	VALUES (1347,
+	1352,
+	1353,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1349,
+	0,
+	0,
+	6,
+	5,
+	8,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1332);
+INSERT INTO V_IRF
+	VALUES (1349,
+	1339);
+INSERT INTO V_VAL
+	VALUES (1354,
+	1,
+	0,
+	7,
+	3,
+	6,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1332);
+INSERT INTO V_IRF
+	VALUES (1354,
+	1339);
+INSERT INTO V_VAL
+	VALUES (1353,
+	1,
+	0,
+	7,
+	8,
+	16,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1332);
+INSERT INTO V_AVL
+	VALUES (1353,
+	1354,
+	241,
+	1355);
+INSERT INTO V_VAL
+	VALUES (1356,
+	0,
+	0,
+	7,
+	20,
+	31,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1332);
+INSERT INTO V_IRF
+	VALUES (1356,
+	1348);
+INSERT INTO V_VAL
+	VALUES (1352,
+	0,
+	0,
+	7,
+	33,
+	36,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1332);
+INSERT INTO V_AVL
+	VALUES (1352,
+	1356,
+	118,
+	422);
+INSERT INTO V_VAR
+	VALUES (1348,
+	1332,
+	'workoutTimer',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1348,
+	0,
+	118);
+INSERT INTO ACT_BLK
+	VALUES (1335,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	10,
+	3,
+	9,
+	39,
+	0,
+	0,
+	9,
+	54,
+	9,
+	58,
+	0,
+	0,
+	0,
+	1325,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1357,
+	1335,
+	1358,
+	9,
+	3,
+	'Goal::calculateStart line: 9');
+INSERT INTO ACT_SEL
+	VALUES (1357,
+	1359,
+	1,
+	'one',
+	1360);
+INSERT INTO ACT_SR
+	VALUES (1357);
+INSERT INTO ACT_LNK
+	VALUES (1361,
+	'''is currently executing within''',
+	1357,
+	245,
+	0,
+	2,
+	102,
+	9,
+	39,
+	9,
+	54,
+	9,
+	58);
+INSERT INTO ACT_SMT
+	VALUES (1358,
+	1335,
+	0,
+	10,
+	3,
+	'Goal::calculateStart line: 10');
+INSERT INTO ACT_AI
+	VALUES (1358,
+	1362,
+	1363,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1360,
+	0,
+	0,
+	9,
+	33,
+	36,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1335);
+INSERT INTO V_IRF
+	VALUES (1360,
+	1339);
+INSERT INTO V_VAL
+	VALUES (1364,
+	1,
+	0,
+	10,
+	3,
+	6,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1335);
+INSERT INTO V_IRF
+	VALUES (1364,
+	1339);
+INSERT INTO V_VAL
+	VALUES (1363,
+	1,
+	0,
+	10,
+	8,
+	16,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1335);
+INSERT INTO V_AVL
+	VALUES (1363,
+	1364,
+	241,
+	1355);
+INSERT INTO V_VAL
+	VALUES (1365,
+	0,
+	0,
+	10,
+	20,
+	26,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1335);
+INSERT INTO V_IRF
+	VALUES (1365,
+	1359);
+INSERT INTO V_VAL
+	VALUES (1362,
+	0,
+	0,
+	10,
+	28,
+	46,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1335);
+INSERT INTO V_AVL
+	VALUES (1362,
+	1365,
+	102,
+	499);
+INSERT INTO V_VAR
+	VALUES (1359,
+	1335,
+	'session',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1359,
+	0,
+	102);
+INSERT INTO ACT_BLK
+	VALUES (1338,
+	0,
+	0,
+	0,
+	'LOG',
+	'',
+	'',
+	12,
+	3,
+	12,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1325,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1366,
+	1338,
+	0,
+	12,
+	3,
+	'Goal::calculateStart line: 12');
+INSERT INTO ACT_BRG
+	VALUES (1366,
+	128,
+	12,
+	8,
+	12,
+	3);
+INSERT INTO V_VAL
+	VALUES (1367,
+	0,
+	0,
+	12,
+	29,
+	73,
+	0,
+	0,
+	0,
+	0,
+	130,
+	1338);
+INSERT INTO V_LST
+	VALUES (1367,
+	'Goal.calculateStart: Unknown Goal Span Type.');
+INSERT INTO V_PAR
+	VALUES (1367,
+	1366,
+	0,
+	'message',
+	0,
+	12,
+	20);
+INSERT INTO O_TFR
+	VALUES (1368,
+	241,
+	'evaluateAchievement',
+	'',
+	455,
+	1,
+	'// Based on the type of goal, determine whether this one is 
+//   currently being achieved and return a value indicating
+//   the disposition of the this goal.    
+
+// Find the related goal specification and workout session for this goal.
+select one goalSpec related by self->GoalSpec[R9.''specified by''];
+select one session related by self->WorkoutSession[R11.''is currently executing within''];
+
+// Based on the goal criteria type, get the appropriate current value
+//   for comparison against the criteria (minimum and maximum).
+currentValue = 0.0;  // Explicit declaration
+if ( goalSpec.criteriaType == GoalCriteria::HeartRate )
+  currentValue = session.currentHeartRate;
+elif ( goalSpec.criteriaType == GoalCriteria::Pace )
+  currentValue = session.currentPace;
+else
+  LOG::LogFailure( message: "Goal.evaluateAchievement: Unknown Goal Criteria Type." );
+end if;
+ 
+// Compare the current value against the criteria to calculate the return value.
+goalDisposition = GoalDisposition::Achieving; 
+if ( currentValue < goalSpec.minimum )
+  goalDisposition = GoalDisposition::Increase;
+elif ( currentValue > goalSpec.maximum )
+  goalDisposition = GoalDisposition::Decrease;
+end if;
+
+// Invert the disposition value to produce a logical, semantic disposition for
+//   goal types, such as pace, that require it.
+if ( goalSpec.criteriaType == GoalCriteria::Pace )
+  if ( goalDisposition == GoalDisposition::Increase )
+    goalDisposition = GoalDisposition::Decrease;
+  elif ( goalDisposition == GoalDisposition::Decrease )
+    goalDisposition = GoalDisposition::Increase;
+  end if;
+end if;
+ 
+return( goalDisposition );',
+	1,
+	'',
+	1311);
+INSERT INTO ACT_OPB
+	VALUES (1369,
+	1368);
+INSERT INTO ACT_ACT
+	VALUES (1369,
+	'operation',
+	0,
+	1370,
+	0,
+	0,
+	'Goal::evaluateAchievement',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1370,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	38,
+	1,
+	7,
+	37,
+	0,
+	0,
+	7,
+	52,
+	7,
+	56,
+	30,
+	31,
+	0,
+	1369,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1371,
+	1370,
+	1372,
+	6,
+	1,
+	'Goal::evaluateAchievement line: 6');
+INSERT INTO ACT_SEL
+	VALUES (1371,
+	1373,
+	1,
+	'one',
+	1374);
+INSERT INTO ACT_SR
+	VALUES (1371);
+INSERT INTO ACT_LNK
+	VALUES (1375,
+	'''specified by''',
+	1371,
+	239,
+	0,
+	2,
+	176,
+	6,
+	38,
+	6,
+	47,
+	6,
+	50);
+INSERT INTO ACT_SMT
+	VALUES (1372,
+	1370,
+	1376,
+	7,
+	1,
+	'Goal::evaluateAchievement line: 7');
+INSERT INTO ACT_SEL
+	VALUES (1372,
+	1377,
+	1,
+	'one',
+	1378);
+INSERT INTO ACT_SR
+	VALUES (1372);
+INSERT INTO ACT_LNK
+	VALUES (1379,
+	'''is currently executing within''',
+	1372,
+	245,
+	0,
+	2,
+	102,
+	7,
+	37,
+	7,
+	52,
+	7,
+	56);
+INSERT INTO ACT_SMT
+	VALUES (1376,
+	1370,
+	1380,
+	11,
+	1,
+	'Goal::evaluateAchievement line: 11');
+INSERT INTO ACT_AI
+	VALUES (1376,
+	1381,
+	1382,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1380,
+	1370,
+	1383,
+	12,
+	1,
+	'Goal::evaluateAchievement line: 12');
+INSERT INTO ACT_IF
+	VALUES (1380,
+	1384,
+	1385,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1386,
+	1370,
+	0,
+	14,
+	1,
+	'Goal::evaluateAchievement line: 14');
+INSERT INTO ACT_EL
+	VALUES (1386,
+	1387,
+	1388,
+	1380);
+INSERT INTO ACT_SMT
+	VALUES (1389,
+	1370,
+	0,
+	16,
+	1,
+	'Goal::evaluateAchievement line: 16');
+INSERT INTO ACT_E
+	VALUES (1389,
+	1390,
+	1380);
+INSERT INTO ACT_SMT
+	VALUES (1383,
+	1370,
+	1391,
+	21,
+	1,
+	'Goal::evaluateAchievement line: 21');
+INSERT INTO ACT_AI
+	VALUES (1383,
+	1392,
+	1393,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1391,
+	1370,
+	1394,
+	22,
+	1,
+	'Goal::evaluateAchievement line: 22');
+INSERT INTO ACT_IF
+	VALUES (1391,
+	1395,
+	1396,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1397,
+	1370,
+	0,
+	24,
+	1,
+	'Goal::evaluateAchievement line: 24');
+INSERT INTO ACT_EL
+	VALUES (1397,
+	1398,
+	1399,
+	1391);
+INSERT INTO ACT_SMT
+	VALUES (1394,
+	1370,
+	1400,
+	30,
+	1,
+	'Goal::evaluateAchievement line: 30');
+INSERT INTO ACT_IF
+	VALUES (1394,
+	1401,
+	1402,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1400,
+	1370,
+	0,
+	38,
+	1,
+	'Goal::evaluateAchievement line: 38');
+INSERT INTO ACT_RET
+	VALUES (1400,
+	1403);
+INSERT INTO V_VAL
+	VALUES (1374,
+	0,
+	0,
+	6,
+	32,
+	35,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1370);
+INSERT INTO V_IRF
+	VALUES (1374,
+	1404);
+INSERT INTO V_VAL
+	VALUES (1378,
+	0,
+	0,
+	7,
+	31,
+	34,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1370);
+INSERT INTO V_IRF
+	VALUES (1378,
+	1404);
+INSERT INTO V_VAL
+	VALUES (1382,
+	1,
+	1,
+	11,
+	1,
+	12,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1370);
+INSERT INTO V_TVL
+	VALUES (1382,
+	1405);
+INSERT INTO V_VAL
+	VALUES (1381,
+	0,
+	0,
+	11,
+	16,
+	18,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1370);
+INSERT INTO V_LRL
+	VALUES (1381,
+	'0.0');
+INSERT INTO V_VAL
+	VALUES (1406,
+	0,
+	0,
+	12,
+	6,
+	13,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1370);
+INSERT INTO V_IRF
+	VALUES (1406,
+	1373);
+INSERT INTO V_VAL
+	VALUES (1407,
+	0,
+	0,
+	12,
+	15,
+	26,
+	0,
+	0,
+	0,
+	0,
+	37,
+	1370);
+INSERT INTO V_AVL
+	VALUES (1407,
+	1406,
+	176,
+	205);
+INSERT INTO V_VAL
+	VALUES (1385,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1370);
+INSERT INTO V_BIN
+	VALUES (1385,
+	1408,
+	1407,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1408,
+	0,
+	0,
+	12,
+	45,
+	53,
+	0,
+	0,
+	0,
+	0,
+	37,
+	1370);
+INSERT INTO V_LEN
+	VALUES (1408,
+	383,
+	12,
+	31);
+INSERT INTO V_VAL
+	VALUES (1409,
+	0,
+	0,
+	14,
+	8,
+	15,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1370);
+INSERT INTO V_IRF
+	VALUES (1409,
+	1373);
+INSERT INTO V_VAL
+	VALUES (1410,
+	0,
+	0,
+	14,
+	17,
+	28,
+	0,
+	0,
+	0,
+	0,
+	37,
+	1370);
+INSERT INTO V_AVL
+	VALUES (1410,
+	1409,
+	176,
+	205);
+INSERT INTO V_VAL
+	VALUES (1388,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1370);
+INSERT INTO V_BIN
+	VALUES (1388,
+	1411,
+	1410,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1411,
+	0,
+	0,
+	14,
+	47,
+	50,
+	0,
+	0,
+	0,
+	0,
+	37,
+	1370);
+INSERT INTO V_LEN
+	VALUES (1411,
+	375,
+	14,
+	33);
+INSERT INTO V_VAL
+	VALUES (1393,
+	1,
+	1,
+	21,
+	1,
+	15,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1370);
+INSERT INTO V_TVL
+	VALUES (1393,
+	1412);
+INSERT INTO V_VAL
+	VALUES (1392,
+	0,
+	0,
+	21,
+	36,
+	44,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1370);
+INSERT INTO V_LEN
+	VALUES (1392,
+	1413,
+	21,
+	19);
+INSERT INTO V_VAL
+	VALUES (1414,
+	0,
+	0,
+	22,
+	6,
+	17,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1370);
+INSERT INTO V_TVL
+	VALUES (1414,
+	1405);
+INSERT INTO V_VAL
+	VALUES (1396,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1370);
+INSERT INTO V_BIN
+	VALUES (1396,
+	1415,
+	1414,
+	'<');
+INSERT INTO V_VAL
+	VALUES (1416,
+	0,
+	0,
+	22,
+	21,
+	28,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1370);
+INSERT INTO V_IRF
+	VALUES (1416,
+	1373);
+INSERT INTO V_VAL
+	VALUES (1415,
+	0,
+	0,
+	22,
+	30,
+	36,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1370);
+INSERT INTO V_AVL
+	VALUES (1415,
+	1416,
+	176,
+	199);
+INSERT INTO V_VAL
+	VALUES (1417,
+	0,
+	0,
+	24,
+	8,
+	19,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1370);
+INSERT INTO V_TVL
+	VALUES (1417,
+	1405);
+INSERT INTO V_VAL
+	VALUES (1399,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1370);
+INSERT INTO V_BIN
+	VALUES (1399,
+	1418,
+	1417,
+	'>');
+INSERT INTO V_VAL
+	VALUES (1419,
+	0,
+	0,
+	24,
+	23,
+	30,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1370);
+INSERT INTO V_IRF
+	VALUES (1419,
+	1373);
+INSERT INTO V_VAL
+	VALUES (1418,
+	0,
+	0,
+	24,
+	32,
+	38,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1370);
+INSERT INTO V_AVL
+	VALUES (1418,
+	1419,
+	176,
+	201);
+INSERT INTO V_VAL
+	VALUES (1420,
+	0,
+	0,
+	30,
+	6,
+	13,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1370);
+INSERT INTO V_IRF
+	VALUES (1420,
+	1373);
+INSERT INTO V_VAL
+	VALUES (1421,
+	0,
+	0,
+	30,
+	15,
+	26,
+	0,
+	0,
+	0,
+	0,
+	37,
+	1370);
+INSERT INTO V_AVL
+	VALUES (1421,
+	1420,
+	176,
+	205);
+INSERT INTO V_VAL
+	VALUES (1402,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1370);
+INSERT INTO V_BIN
+	VALUES (1402,
+	1422,
+	1421,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1422,
+	0,
+	0,
+	30,
+	45,
+	48,
+	0,
+	0,
+	0,
+	0,
+	37,
+	1370);
+INSERT INTO V_LEN
+	VALUES (1422,
+	375,
+	30,
+	31);
+INSERT INTO V_VAL
+	VALUES (1403,
+	0,
+	0,
+	38,
+	9,
+	23,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1370);
+INSERT INTO V_TVL
+	VALUES (1403,
+	1412);
+INSERT INTO V_VAR
+	VALUES (1373,
+	1370,
+	'goalSpec',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1373,
+	0,
+	176);
+INSERT INTO V_VAR
+	VALUES (1404,
+	1370,
+	'self',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1404,
+	0,
+	241);
+INSERT INTO V_VAR
+	VALUES (1377,
+	1370,
+	'session',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1377,
+	0,
+	102);
+INSERT INTO V_VAR
+	VALUES (1405,
+	1370,
+	'currentValue',
+	1,
+	10);
+INSERT INTO V_TRN
+	VALUES (1405,
+	0,
+	'');
+INSERT INTO V_VAR
+	VALUES (1412,
+	1370,
+	'goalDisposition',
+	1,
+	455);
+INSERT INTO V_TRN
+	VALUES (1412,
+	0,
+	'');
+INSERT INTO ACT_BLK
+	VALUES (1384,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	13,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1369,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1423,
+	1384,
+	0,
+	13,
+	3,
+	'Goal::evaluateAchievement line: 13');
+INSERT INTO ACT_AI
+	VALUES (1423,
+	1424,
+	1425,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1425,
+	1,
+	0,
+	13,
+	3,
+	14,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1384);
+INSERT INTO V_TVL
+	VALUES (1425,
+	1405);
+INSERT INTO V_VAL
+	VALUES (1426,
+	0,
+	0,
+	13,
+	18,
+	24,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1384);
+INSERT INTO V_IRF
+	VALUES (1426,
+	1377);
+INSERT INTO V_VAL
+	VALUES (1424,
+	0,
+	0,
+	13,
+	26,
+	41,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1384);
+INSERT INTO V_AVL
+	VALUES (1424,
+	1426,
+	102,
+	571);
+INSERT INTO ACT_BLK
+	VALUES (1387,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	15,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1369,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1427,
+	1387,
+	0,
+	15,
+	3,
+	'Goal::evaluateAchievement line: 15');
+INSERT INTO ACT_AI
+	VALUES (1427,
+	1428,
+	1429,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1429,
+	1,
+	0,
+	15,
+	3,
+	14,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1387);
+INSERT INTO V_TVL
+	VALUES (1429,
+	1405);
+INSERT INTO V_VAL
+	VALUES (1430,
+	0,
+	0,
+	15,
+	18,
+	24,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1387);
+INSERT INTO V_IRF
+	VALUES (1430,
+	1377);
+INSERT INTO V_VAL
+	VALUES (1428,
+	0,
+	0,
+	15,
+	26,
+	36,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1387);
+INSERT INTO V_AVL
+	VALUES (1428,
+	1430,
+	102,
+	550);
+INSERT INTO ACT_BLK
+	VALUES (1390,
+	0,
+	0,
+	0,
+	'LOG',
+	'',
+	'',
+	17,
+	3,
+	17,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1369,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1431,
+	1390,
+	0,
+	17,
+	3,
+	'Goal::evaluateAchievement line: 17');
+INSERT INTO ACT_BRG
+	VALUES (1431,
+	128,
+	17,
+	8,
+	17,
+	3);
+INSERT INTO V_VAL
+	VALUES (1432,
+	0,
+	0,
+	17,
+	29,
+	82,
+	0,
+	0,
+	0,
+	0,
+	130,
+	1390);
+INSERT INTO V_LST
+	VALUES (1432,
+	'Goal.evaluateAchievement: Unknown Goal Criteria Type.');
+INSERT INTO V_PAR
+	VALUES (1432,
+	1431,
+	0,
+	'message',
+	0,
+	17,
+	20);
+INSERT INTO ACT_BLK
+	VALUES (1395,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	23,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	23,
+	21,
+	0,
+	1369,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1433,
+	1395,
+	0,
+	23,
+	3,
+	'Goal::evaluateAchievement line: 23');
+INSERT INTO ACT_AI
+	VALUES (1433,
+	1434,
+	1435,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1435,
+	1,
+	0,
+	23,
+	3,
+	17,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1395);
+INSERT INTO V_TVL
+	VALUES (1435,
+	1412);
+INSERT INTO V_VAL
+	VALUES (1434,
+	0,
+	0,
+	23,
+	38,
+	45,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1395);
+INSERT INTO V_LEN
+	VALUES (1434,
+	458,
+	23,
+	21);
+INSERT INTO ACT_BLK
+	VALUES (1398,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	25,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	25,
+	21,
+	0,
+	1369,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1436,
+	1398,
+	0,
+	25,
+	3,
+	'Goal::evaluateAchievement line: 25');
+INSERT INTO ACT_AI
+	VALUES (1436,
+	1437,
+	1438,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1438,
+	1,
+	0,
+	25,
+	3,
+	17,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1398);
+INSERT INTO V_TVL
+	VALUES (1438,
+	1412);
+INSERT INTO V_VAL
+	VALUES (1437,
+	0,
+	0,
+	25,
+	38,
+	45,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1398);
+INSERT INTO V_LEN
+	VALUES (1437,
+	462,
+	25,
+	21);
+INSERT INTO ACT_BLK
+	VALUES (1401,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	33,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	33,
+	29,
+	0,
+	1369,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1439,
+	1401,
+	0,
+	31,
+	3,
+	'Goal::evaluateAchievement line: 31');
+INSERT INTO ACT_IF
+	VALUES (1439,
+	1440,
+	1441,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1442,
+	1401,
+	0,
+	33,
+	3,
+	'Goal::evaluateAchievement line: 33');
+INSERT INTO ACT_EL
+	VALUES (1442,
+	1443,
+	1444,
+	1439);
+INSERT INTO V_VAL
+	VALUES (1445,
+	0,
+	0,
+	31,
+	8,
+	22,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1401);
+INSERT INTO V_TVL
+	VALUES (1445,
+	1412);
+INSERT INTO V_VAL
+	VALUES (1441,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1401);
+INSERT INTO V_BIN
+	VALUES (1441,
+	1446,
+	1445,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1446,
+	0,
+	0,
+	31,
+	44,
+	51,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1401);
+INSERT INTO V_LEN
+	VALUES (1446,
+	458,
+	31,
+	27);
+INSERT INTO V_VAL
+	VALUES (1447,
+	0,
+	0,
+	33,
+	10,
+	24,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1401);
+INSERT INTO V_TVL
+	VALUES (1447,
+	1412);
+INSERT INTO V_VAL
+	VALUES (1444,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1401);
+INSERT INTO V_BIN
+	VALUES (1444,
+	1448,
+	1447,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1448,
+	0,
+	0,
+	33,
+	46,
+	53,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1401);
+INSERT INTO V_LEN
+	VALUES (1448,
+	462,
+	33,
+	29);
+INSERT INTO ACT_BLK
+	VALUES (1440,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	32,
+	5,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	32,
+	23,
+	0,
+	1369,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1449,
+	1440,
+	0,
+	32,
+	5,
+	'Goal::evaluateAchievement line: 32');
+INSERT INTO ACT_AI
+	VALUES (1449,
+	1450,
+	1451,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1451,
+	1,
+	0,
+	32,
+	5,
+	19,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1440);
+INSERT INTO V_TVL
+	VALUES (1451,
+	1412);
+INSERT INTO V_VAL
+	VALUES (1450,
+	0,
+	0,
+	32,
+	40,
+	47,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1440);
+INSERT INTO V_LEN
+	VALUES (1450,
+	462,
+	32,
+	23);
+INSERT INTO ACT_BLK
+	VALUES (1443,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	34,
+	5,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	34,
+	23,
+	0,
+	1369,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1452,
+	1443,
+	0,
+	34,
+	5,
+	'Goal::evaluateAchievement line: 34');
+INSERT INTO ACT_AI
+	VALUES (1452,
+	1453,
+	1454,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1454,
+	1,
+	0,
+	34,
+	5,
+	19,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1443);
+INSERT INTO V_TVL
+	VALUES (1454,
+	1412);
+INSERT INTO V_VAL
+	VALUES (1453,
+	0,
+	0,
+	34,
+	40,
+	47,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1443);
+INSERT INTO V_LEN
+	VALUES (1453,
+	458,
+	34,
+	23);
+INSERT INTO O_TFR
+	VALUES (1455,
+	241,
+	'evaluateCompletion',
+	'',
+	6,
+	1,
+	'// Based on the span type for this goal, determine 
+//  whether it has been completed, update achievement
+//  records as necessary, and advance to the next goal
+//  if appropriate.
+
+select one goalSpec related by self->GoalSpec[R9.''specified by''];
+
+// Based on the span type for the goal, get the elapsed span 
+//   for comparison against the specified span for the goal.
+elapsedSpan = 0.0;  // Explicit declaration
+if ( goalSpec.spanType == GoalSpan::Distance )
+  select one session related by self->WorkoutSession[R11.''is currently executing within''];
+  elapsedSpan = session.accumulatedDistance - self.goalstart;
+elif ( goalSpec.spanType == GoalSpan::Time )
+  select one workoutTimer related by 
+    self->WorkoutSession[R11.''is currently executing within'']->WorkoutTimer[R8.''is timed by''];
+  elapsedSpan = workoutTimer.time - self.goalstart;
+else
+  LOG::LogFailure( message: "Goal.evaluateCompletion: Unknown Goal Span Type." );
+end if;
+
+// Compare the current value against the specified span to determine 
+//   whether the execution of this workout goal is complete.
+if ( elapsedSpan >= goalSpec.span )
+  select one openAchievement related by self->Achievement[R14.''has open''];
+  if ( not empty openAchievement )
+    openAchievement.close();
+  end if;
+  generate Goal1:Completed to self;
+end if;
+',
+	1,
+	'',
+	1368);
+INSERT INTO ACT_OPB
+	VALUES (1456,
+	1455);
+INSERT INTO ACT_ACT
+	VALUES (1456,
+	'operation',
+	0,
+	1457,
+	0,
+	0,
+	'Goal::evaluateCompletion',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1457,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	24,
+	1,
+	6,
+	38,
+	0,
+	0,
+	6,
+	47,
+	6,
+	50,
+	14,
+	29,
+	0,
+	1456,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1458,
+	1457,
+	1459,
+	6,
+	1,
+	'Goal::evaluateCompletion line: 6');
+INSERT INTO ACT_SEL
+	VALUES (1458,
+	1460,
+	1,
+	'one',
+	1461);
+INSERT INTO ACT_SR
+	VALUES (1458);
+INSERT INTO ACT_LNK
+	VALUES (1462,
+	'''specified by''',
+	1458,
+	239,
+	0,
+	2,
+	176,
+	6,
+	38,
+	6,
+	47,
+	6,
+	50);
+INSERT INTO ACT_SMT
+	VALUES (1459,
+	1457,
+	1463,
+	10,
+	1,
+	'Goal::evaluateCompletion line: 10');
+INSERT INTO ACT_AI
+	VALUES (1459,
+	1464,
+	1465,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1463,
+	1457,
+	1466,
+	11,
+	1,
+	'Goal::evaluateCompletion line: 11');
+INSERT INTO ACT_IF
+	VALUES (1463,
+	1467,
+	1468,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1469,
+	1457,
+	0,
+	14,
+	1,
+	'Goal::evaluateCompletion line: 14');
+INSERT INTO ACT_EL
+	VALUES (1469,
+	1470,
+	1471,
+	1463);
+INSERT INTO ACT_SMT
+	VALUES (1472,
+	1457,
+	0,
+	18,
+	1,
+	'Goal::evaluateCompletion line: 18');
+INSERT INTO ACT_E
+	VALUES (1472,
+	1473,
+	1463);
+INSERT INTO ACT_SMT
+	VALUES (1466,
+	1457,
+	0,
+	24,
+	1,
+	'Goal::evaluateCompletion line: 24');
+INSERT INTO ACT_IF
+	VALUES (1466,
+	1474,
+	1475,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1461,
+	0,
+	0,
+	6,
+	32,
+	35,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1457);
+INSERT INTO V_IRF
+	VALUES (1461,
+	1476);
+INSERT INTO V_VAL
+	VALUES (1465,
+	1,
+	1,
+	10,
+	1,
+	11,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1457);
+INSERT INTO V_TVL
+	VALUES (1465,
+	1477);
+INSERT INTO V_VAL
+	VALUES (1464,
+	0,
+	0,
+	10,
+	15,
+	17,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1457);
+INSERT INTO V_LRL
+	VALUES (1464,
+	'0.0');
+INSERT INTO V_VAL
+	VALUES (1478,
+	0,
+	0,
+	11,
+	6,
+	13,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1457);
+INSERT INTO V_IRF
+	VALUES (1478,
+	1460);
+INSERT INTO V_VAL
+	VALUES (1479,
+	0,
+	0,
+	11,
+	15,
+	22,
+	0,
+	0,
+	0,
+	0,
+	39,
+	1457);
+INSERT INTO V_AVL
+	VALUES (1479,
+	1478,
+	176,
+	207);
+INSERT INTO V_VAL
+	VALUES (1468,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1457);
+INSERT INTO V_BIN
+	VALUES (1468,
+	1480,
+	1479,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1480,
+	0,
+	0,
+	11,
+	37,
+	44,
+	0,
+	0,
+	0,
+	0,
+	39,
+	1457);
+INSERT INTO V_LEN
+	VALUES (1480,
+	377,
+	11,
+	27);
+INSERT INTO V_VAL
+	VALUES (1481,
+	0,
+	0,
+	14,
+	8,
+	15,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1457);
+INSERT INTO V_IRF
+	VALUES (1481,
+	1460);
+INSERT INTO V_VAL
+	VALUES (1482,
+	0,
+	0,
+	14,
+	17,
+	24,
+	0,
+	0,
+	0,
+	0,
+	39,
+	1457);
+INSERT INTO V_AVL
+	VALUES (1482,
+	1481,
+	176,
+	207);
+INSERT INTO V_VAL
+	VALUES (1471,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1457);
+INSERT INTO V_BIN
+	VALUES (1471,
+	1483,
+	1482,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1483,
+	0,
+	0,
+	14,
+	39,
+	42,
+	0,
+	0,
+	0,
+	0,
+	39,
+	1457);
+INSERT INTO V_LEN
+	VALUES (1483,
+	385,
+	14,
+	29);
+INSERT INTO V_VAL
+	VALUES (1484,
+	0,
+	0,
+	24,
+	6,
+	16,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1457);
+INSERT INTO V_TVL
+	VALUES (1484,
+	1477);
+INSERT INTO V_VAL
+	VALUES (1475,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1457);
+INSERT INTO V_BIN
+	VALUES (1475,
+	1485,
+	1484,
+	'>=');
+INSERT INTO V_VAL
+	VALUES (1486,
+	0,
+	0,
+	24,
+	21,
+	28,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1457);
+INSERT INTO V_IRF
+	VALUES (1486,
+	1460);
+INSERT INTO V_VAL
+	VALUES (1485,
+	0,
+	0,
+	24,
+	30,
+	33,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1457);
+INSERT INTO V_AVL
+	VALUES (1485,
+	1486,
+	176,
+	203);
+INSERT INTO V_VAR
+	VALUES (1460,
+	1457,
+	'goalSpec',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1460,
+	0,
+	176);
+INSERT INTO V_VAR
+	VALUES (1476,
+	1457,
+	'self',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1476,
+	0,
+	241);
+INSERT INTO V_VAR
+	VALUES (1477,
+	1457,
+	'elapsedSpan',
+	1,
+	10);
+INSERT INTO V_TRN
+	VALUES (1477,
+	0,
+	'');
+INSERT INTO ACT_BLK
+	VALUES (1467,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	13,
+	3,
+	12,
+	39,
+	0,
+	0,
+	12,
+	54,
+	12,
+	58,
+	0,
+	0,
+	0,
+	1456,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1487,
+	1467,
+	1488,
+	12,
+	3,
+	'Goal::evaluateCompletion line: 12');
+INSERT INTO ACT_SEL
+	VALUES (1487,
+	1489,
+	1,
+	'one',
+	1490);
+INSERT INTO ACT_SR
+	VALUES (1487);
+INSERT INTO ACT_LNK
+	VALUES (1491,
+	'''is currently executing within''',
+	1487,
+	245,
+	0,
+	2,
+	102,
+	12,
+	39,
+	12,
+	54,
+	12,
+	58);
+INSERT INTO ACT_SMT
+	VALUES (1488,
+	1467,
+	0,
+	13,
+	3,
+	'Goal::evaluateCompletion line: 13');
+INSERT INTO ACT_AI
+	VALUES (1488,
+	1492,
+	1493,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1490,
+	0,
+	0,
+	12,
+	33,
+	36,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1467);
+INSERT INTO V_IRF
+	VALUES (1490,
+	1476);
+INSERT INTO V_VAL
+	VALUES (1493,
+	1,
+	0,
+	13,
+	3,
+	13,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1467);
+INSERT INTO V_TVL
+	VALUES (1493,
+	1477);
+INSERT INTO V_VAL
+	VALUES (1494,
+	0,
+	0,
+	13,
+	17,
+	23,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1467);
+INSERT INTO V_IRF
+	VALUES (1494,
+	1489);
+INSERT INTO V_VAL
+	VALUES (1495,
+	0,
+	0,
+	13,
+	25,
+	43,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1467);
+INSERT INTO V_AVL
+	VALUES (1495,
+	1494,
+	102,
+	499);
+INSERT INTO V_VAL
+	VALUES (1492,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1467);
+INSERT INTO V_BIN
+	VALUES (1492,
+	1496,
+	1495,
+	'-');
+INSERT INTO V_VAL
+	VALUES (1497,
+	0,
+	0,
+	13,
+	47,
+	50,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1467);
+INSERT INTO V_IRF
+	VALUES (1497,
+	1476);
+INSERT INTO V_VAL
+	VALUES (1496,
+	0,
+	0,
+	13,
+	52,
+	60,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1467);
+INSERT INTO V_AVL
+	VALUES (1496,
+	1497,
+	241,
+	1355);
+INSERT INTO V_VAR
+	VALUES (1489,
+	1467,
+	'session',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1489,
+	0,
+	102);
+INSERT INTO ACT_BLK
+	VALUES (1470,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	17,
+	3,
+	16,
+	64,
+	0,
+	0,
+	16,
+	77,
+	16,
+	80,
+	0,
+	0,
+	0,
+	1456,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1498,
+	1470,
+	1499,
+	15,
+	3,
+	'Goal::evaluateCompletion line: 15');
+INSERT INTO ACT_SEL
+	VALUES (1498,
+	1500,
+	1,
+	'one',
+	1501);
+INSERT INTO ACT_SR
+	VALUES (1498);
+INSERT INTO ACT_LNK
+	VALUES (1502,
+	'''is currently executing within''',
+	1498,
+	245,
+	1503,
+	2,
+	102,
+	16,
+	11,
+	16,
+	26,
+	16,
+	30);
+INSERT INTO ACT_LNK
+	VALUES (1503,
+	'''is timed by''',
+	0,
+	229,
+	0,
+	2,
+	118,
+	16,
+	64,
+	16,
+	77,
+	16,
+	80);
+INSERT INTO ACT_SMT
+	VALUES (1499,
+	1470,
+	0,
+	17,
+	3,
+	'Goal::evaluateCompletion line: 17');
+INSERT INTO ACT_AI
+	VALUES (1499,
+	1504,
+	1505,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1501,
+	0,
+	0,
+	16,
+	5,
+	8,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1470);
+INSERT INTO V_IRF
+	VALUES (1501,
+	1476);
+INSERT INTO V_VAL
+	VALUES (1505,
+	1,
+	0,
+	17,
+	3,
+	13,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1470);
+INSERT INTO V_TVL
+	VALUES (1505,
+	1477);
+INSERT INTO V_VAL
+	VALUES (1506,
+	0,
+	0,
+	17,
+	17,
+	28,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1470);
+INSERT INTO V_IRF
+	VALUES (1506,
+	1500);
+INSERT INTO V_VAL
+	VALUES (1507,
+	0,
+	0,
+	17,
+	30,
+	33,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1470);
+INSERT INTO V_AVL
+	VALUES (1507,
+	1506,
+	118,
+	422);
+INSERT INTO V_VAL
+	VALUES (1504,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1470);
+INSERT INTO V_BIN
+	VALUES (1504,
+	1508,
+	1507,
+	'-');
+INSERT INTO V_VAL
+	VALUES (1509,
+	0,
+	0,
+	17,
+	37,
+	40,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1470);
+INSERT INTO V_IRF
+	VALUES (1509,
+	1476);
+INSERT INTO V_VAL
+	VALUES (1508,
+	0,
+	0,
+	17,
+	42,
+	50,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1470);
+INSERT INTO V_AVL
+	VALUES (1508,
+	1509,
+	241,
+	1355);
+INSERT INTO V_VAR
+	VALUES (1500,
+	1470,
+	'workoutTimer',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1500,
+	0,
+	118);
+INSERT INTO ACT_BLK
+	VALUES (1473,
+	0,
+	0,
+	0,
+	'LOG',
+	'',
+	'',
+	19,
+	3,
+	19,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1456,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1510,
+	1473,
+	0,
+	19,
+	3,
+	'Goal::evaluateCompletion line: 19');
+INSERT INTO ACT_BRG
+	VALUES (1510,
+	128,
+	19,
+	8,
+	19,
+	3);
+INSERT INTO V_VAL
+	VALUES (1511,
+	0,
+	0,
+	19,
+	29,
+	77,
+	0,
+	0,
+	0,
+	0,
+	130,
+	1473);
+INSERT INTO V_LST
+	VALUES (1511,
+	'Goal.evaluateCompletion: Unknown Goal Span Type.');
+INSERT INTO V_PAR
+	VALUES (1511,
+	1510,
+	0,
+	'message',
+	0,
+	19,
+	20);
+INSERT INTO ACT_BLK
+	VALUES (1474,
+	1,
+	0,
+	0,
+	'V_VAR.Var_ID',
+	'',
+	'',
+	29,
+	3,
+	25,
+	47,
+	0,
+	0,
+	25,
+	59,
+	25,
+	63,
+	0,
+	0,
+	0,
+	1456,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1512,
+	1474,
+	1513,
+	25,
+	3,
+	'Goal::evaluateCompletion line: 25');
+INSERT INTO ACT_SEL
+	VALUES (1512,
+	1514,
+	1,
+	'one',
+	1515);
+INSERT INTO ACT_SR
+	VALUES (1512);
+INSERT INTO ACT_LNK
+	VALUES (1516,
+	'''has open''',
+	1512,
+	255,
+	0,
+	2,
+	250,
+	25,
+	47,
+	25,
+	59,
+	25,
+	63);
+INSERT INTO ACT_SMT
+	VALUES (1513,
+	1474,
+	1517,
+	26,
+	3,
+	'Goal::evaluateCompletion line: 26');
+INSERT INTO ACT_IF
+	VALUES (1513,
+	1518,
+	1519,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1517,
+	1474,
+	0,
+	29,
+	3,
+	'Goal::evaluateCompletion line: 29');
+INSERT INTO E_ESS
+	VALUES (1517,
+	1,
+	0,
+	29,
+	12,
+	29,
+	18,
+	25,
+	47,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_GES
+	VALUES (1517);
+INSERT INTO E_GSME
+	VALUES (1517,
+	1520);
+INSERT INTO E_GEN
+	VALUES (1517,
+	1476);
+INSERT INTO V_VAL
+	VALUES (1515,
+	0,
+	0,
+	25,
+	41,
+	44,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1474);
+INSERT INTO V_IRF
+	VALUES (1515,
+	1476);
+INSERT INTO V_VAL
+	VALUES (1521,
+	0,
+	0,
+	26,
+	18,
+	32,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1474);
+INSERT INTO V_IRF
+	VALUES (1521,
+	1514);
+INSERT INTO V_VAL
+	VALUES (1522,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1474);
+INSERT INTO V_UNY
+	VALUES (1522,
+	1521,
+	'empty');
+INSERT INTO V_VAL
+	VALUES (1519,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1474);
+INSERT INTO V_UNY
+	VALUES (1519,
+	1522,
+	'not');
+INSERT INTO V_VAR
+	VALUES (1514,
+	1474,
+	'openAchievement',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1514,
+	0,
+	250);
+INSERT INTO ACT_BLK
+	VALUES (1518,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	27,
+	5,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1456,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1523,
+	1518,
+	0,
+	27,
+	5,
+	'Goal::evaluateCompletion line: 27');
+INSERT INTO ACT_TFM
+	VALUES (1523,
+	401,
+	1514,
+	27,
+	21,
+	0,
+	0);
+INSERT INTO O_TFR
+	VALUES (153,
+	241,
+	'nextGoal',
+	'',
+	6,
+	0,
+	'// Advance to the next goal or start the first one if one
+//   is currently not exectuing.
+
+//  If there is a goal currently executing, notify it that its execution
+//    has completed.
+//  Otherwise, create and start a goal for the first goal specification
+//    if one exists.
+select any session from instances of WorkoutSession;  // WorkoutSession is a singleton.
+if ( not empty session )
+  select one goal related by session->Goal[R11.''is currently executing''];
+  if ( not empty goal )
+    generate Goal1:Completed to goal;
+  else
+    Goal::goalcreate( sequenceNumber: GoalSpecOrigin );
+  end if;
+end if;',
+	1,
+	'',
+	1455);
+INSERT INTO ACT_OPB
+	VALUES (1524,
+	153);
+INSERT INTO ACT_ACT
+	VALUES (1524,
+	'class operation',
+	0,
+	1525,
+	0,
+	0,
+	'Goal::nextGoal',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1525,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	9,
+	1,
+	8,
+	38,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1524,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1526,
+	1525,
+	1527,
+	8,
+	1,
+	'Goal::nextGoal line: 8');
+INSERT INTO ACT_FIO
+	VALUES (1526,
+	1528,
+	1,
+	'any',
+	102,
+	8,
+	38);
+INSERT INTO ACT_SMT
+	VALUES (1527,
+	1525,
+	0,
+	9,
+	1,
+	'Goal::nextGoal line: 9');
+INSERT INTO ACT_IF
+	VALUES (1527,
+	1529,
+	1530,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1531,
+	0,
+	0,
+	9,
+	16,
+	22,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1525);
+INSERT INTO V_IRF
+	VALUES (1531,
+	1528);
+INSERT INTO V_VAL
+	VALUES (1532,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1525);
+INSERT INTO V_UNY
+	VALUES (1532,
+	1531,
+	'empty');
+INSERT INTO V_VAL
+	VALUES (1530,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1525);
+INSERT INTO V_UNY
+	VALUES (1530,
+	1532,
+	'not');
+INSERT INTO V_VAR
+	VALUES (1528,
+	1525,
+	'session',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1528,
+	0,
+	102);
+INSERT INTO ACT_BLK
+	VALUES (1529,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	13,
+	3,
+	10,
+	39,
+	0,
+	0,
+	10,
+	44,
+	10,
+	48,
+	0,
+	0,
+	0,
+	1524,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1533,
+	1529,
+	1534,
+	10,
+	3,
+	'Goal::nextGoal line: 10');
+INSERT INTO ACT_SEL
+	VALUES (1533,
+	1535,
+	1,
+	'one',
+	1536);
+INSERT INTO ACT_SR
+	VALUES (1533);
+INSERT INTO ACT_LNK
+	VALUES (1537,
+	'''is currently executing''',
+	1533,
+	245,
+	0,
+	2,
+	241,
+	10,
+	39,
+	10,
+	44,
+	10,
+	48);
+INSERT INTO ACT_SMT
+	VALUES (1534,
+	1529,
+	0,
+	11,
+	3,
+	'Goal::nextGoal line: 11');
+INSERT INTO ACT_IF
+	VALUES (1534,
+	1538,
+	1539,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1540,
+	1529,
+	0,
+	13,
+	3,
+	'Goal::nextGoal line: 13');
+INSERT INTO ACT_E
+	VALUES (1540,
+	1541,
+	1534);
+INSERT INTO V_VAL
+	VALUES (1536,
+	0,
+	0,
+	10,
+	30,
+	36,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1529);
+INSERT INTO V_IRF
+	VALUES (1536,
+	1528);
+INSERT INTO V_VAL
+	VALUES (1542,
+	0,
+	0,
+	11,
+	18,
+	21,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1529);
+INSERT INTO V_IRF
+	VALUES (1542,
+	1535);
+INSERT INTO V_VAL
+	VALUES (1543,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1529);
+INSERT INTO V_UNY
+	VALUES (1543,
+	1542,
+	'empty');
+INSERT INTO V_VAL
+	VALUES (1539,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1529);
+INSERT INTO V_UNY
+	VALUES (1539,
+	1543,
+	'not');
+INSERT INTO V_VAR
+	VALUES (1535,
+	1529,
+	'goal',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1535,
+	0,
+	241);
+INSERT INTO ACT_BLK
+	VALUES (1538,
+	0,
+	0,
+	0,
+	'V_VAR.Var_ID',
+	'',
+	'',
+	12,
+	5,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1524,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1544,
+	1538,
+	0,
+	12,
+	5,
+	'Goal::nextGoal line: 12');
+INSERT INTO E_ESS
+	VALUES (1544,
+	1,
+	0,
+	12,
+	14,
+	12,
+	20,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_GES
+	VALUES (1544);
+INSERT INTO E_GSME
+	VALUES (1544,
+	1520);
+INSERT INTO E_GEN
+	VALUES (1544,
+	1535);
+INSERT INTO ACT_BLK
+	VALUES (1541,
+	0,
+	0,
+	0,
+	'Goal',
+	'',
+	'',
+	14,
+	5,
+	14,
+	5,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1524,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1545,
+	1541,
+	0,
+	14,
+	5,
+	'Goal::nextGoal line: 14');
+INSERT INTO ACT_TFM
+	VALUES (1545,
+	1288,
+	0,
+	14,
+	11,
+	14,
+	5);
+INSERT INTO V_VAL
+	VALUES (1546,
+	0,
+	0,
+	14,
+	39,
+	52,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1541);
+INSERT INTO V_SCV
+	VALUES (1546,
+	1547,
+	30);
+INSERT INTO V_PAR
+	VALUES (1546,
+	1545,
+	0,
+	'sequenceNumber',
+	0,
+	14,
+	23);
+INSERT INTO O_NBATTR
+	VALUES (456,
+	241);
+INSERT INTO O_BATTR
+	VALUES (456,
+	241);
+INSERT INTO O_ATTR
+	VALUES (456,
+	241,
+	1355,
+	'disposition',
+	'The disposition of this goal.  See data type descriptions for details.
+This attribute represents the logical or semantic disposition of the goal.
+For example, a disposition indicating the need to increase the value in question
+for a heart-rate goal means that activity should be increased to drive up the 
+heart rate.  Since pace is the inverse of speed, a disposition indicating 
+the need to increase the value in question (pace) means that the user must
+increase speed, causing a lower (faster) pace number.',
+	'',
+	'disposition',
+	0,
+	455,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (1355,
+	241);
+INSERT INTO O_BATTR
+	VALUES (1355,
+	241);
+INSERT INTO O_ATTR
+	VALUES (1355,
+	241,
+	1548,
+	'goalstart',
+	'Captures the starting point of the span for this particular goal so 
+that the end of the goal execution period can be determined.  In other
+words, using the value of this attribute together with the span specified
+by the associated goal specification, the goal knows when it is finished.
+
+For distance-based goals, it is expressed as the accumulated distance
+in meters for the associated workout session at the time this goal
+execution commenced.
+
+For time-based goals, it is expressed as the elapsed time in seconds
+for the associated workout session at the time this goal execution
+commenced.',
+	'',
+	'goalstart',
+	0,
+	10,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (1548,
+	241);
+INSERT INTO O_BATTR
+	VALUES (1548,
+	241);
+INSERT INTO O_ATTR
+	VALUES (1548,
+	241,
+	0,
+	'ID',
+	'An arbitrary identifier.',
+	'',
+	'ID',
+	0,
+	1549,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (1550,
+	241);
+INSERT INTO O_BATTR
+	VALUES (1550,
+	241);
+INSERT INTO O_ATTR
+	VALUES (1550,
+	241,
+	1321,
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	476,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (1321,
+	241);
+INSERT INTO O_BATTR
+	VALUES (1321,
+	241);
+INSERT INTO O_ATTR
+	VALUES (1321,
+	241,
+	456,
+	'evaluationTimer',
+	'Handle for the timer used for periodic evaluation of goal achievement.',
+	'',
+	'evaluationTimer',
+	0,
+	332,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	241);
+INSERT INTO O_ID
+	VALUES (1,
+	241);
+INSERT INTO O_ID
+	VALUES (2,
+	241);
+INSERT INTO SM_ISM
+	VALUES (1551,
+	241);
+INSERT INTO SM_SM
+	VALUES (1551,
+	'',
+	0);
+INSERT INTO SM_MOORE
+	VALUES (1551);
+INSERT INTO SM_LEVT
+	VALUES (1520,
+	1551,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1520,
+	1551,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1520,
+	1551,
+	0,
+	1,
+	'Completed',
+	0,
+	'',
+	'Goal1',
+	'Indicates that execution of this goal has been completed.  ');
+INSERT INTO SM_LEVT
+	VALUES (1172,
+	1551,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1172,
+	1551,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1172,
+	1551,
+	0,
+	2,
+	'Evaluate',
+	0,
+	'',
+	'Goal2',
+	'Indicates that this goal should be evaluated for completeness and achievement.');
+INSERT INTO SM_LEVT
+	VALUES (1196,
+	1551,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1196,
+	1551,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1196,
+	1551,
+	0,
+	3,
+	'Pause',
+	0,
+	'',
+	'Goal3',
+	'');
+INSERT INTO SM_STATE
+	VALUES (1552,
+	1551,
+	0,
+	'Executing',
+	1,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1552,
+	1520,
+	1551,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1552,
+	1172,
+	1551,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1552,
+	1196,
+	1551,
+	0);
+INSERT INTO SM_MOAH
+	VALUES (1553,
+	1551,
+	1552);
+INSERT INTO SM_AH
+	VALUES (1553,
+	1551);
+INSERT INTO SM_ACT
+	VALUES (1553,
+	1551,
+	1,
+	'// Determine whether this goal is currently being achieved.
+disposition = self.evaluateAchievement();
+
+// Update achievement records if necessary.  There are four cases:
+//   0. Still not achieving this goal. 
+//   1. Just started achieving this goal.
+//   2. Just stopped achieving this goal.
+//   3. Still achieving this goal.
+// For cases 0 and 3, there is nothing to be done for achievement records.
+// Case 1 requires the creation of a new achievment record, storing the start time.
+// Case 2 requires the storing of the end time for the open achievement record.
+if ( (self.disposition != GoalDisposition::Achieving) and (disposition == GoalDisposition::Achieving) )
+  // Case 1, create achievement record, store start time, relate it as open record.
+  create object instance achievement of Achievement;
+  relate self to achievement across R14.''has open'';
+  select one workoutTimer related by 
+    self->WorkoutSession[R11.''is currently executing within'']->WorkoutTimer[R8.''is timed by''];
+  achievement.startTime = workoutTimer.time;
+elif ( (self.disposition == GoalDisposition::Achieving) and (disposition != GoalDisposition::Achieving) )
+  // Case 2, store end time, relate as recorded record, unrelate as open record.
+  select one achievement related by self->Achievement[R14.''has open''];
+  achievement.close();
+end if;
+
+// Update disposition of this goal.
+self.disposition = disposition;
+
+// Determine whether execution of this goal is complete, 
+//  and if so, advance to the next one if it exists.
+self.evaluateCompletion();',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (1554,
+	1551,
+	1553);
+INSERT INTO ACT_ACT
+	VALUES (1554,
+	'state',
+	0,
+	1555,
+	0,
+	0,
+	'Goal::Executing',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1555,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	30,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	19,
+	77,
+	0,
+	1554,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1556,
+	1555,
+	1557,
+	2,
+	1,
+	'Goal::Executing line: 2');
+INSERT INTO ACT_AI
+	VALUES (1556,
+	1558,
+	1559,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1557,
+	1555,
+	1560,
+	12,
+	1,
+	'Goal::Executing line: 12');
+INSERT INTO ACT_IF
+	VALUES (1557,
+	1561,
+	1562,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1563,
+	1555,
+	0,
+	19,
+	1,
+	'Goal::Executing line: 19');
+INSERT INTO ACT_EL
+	VALUES (1563,
+	1564,
+	1565,
+	1557);
+INSERT INTO ACT_SMT
+	VALUES (1560,
+	1555,
+	1566,
+	26,
+	1,
+	'Goal::Executing line: 26');
+INSERT INTO ACT_AI
+	VALUES (1560,
+	1567,
+	1568,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1566,
+	1555,
+	0,
+	30,
+	1,
+	'Goal::Executing line: 30');
+INSERT INTO ACT_TFM
+	VALUES (1566,
+	1455,
+	1569,
+	30,
+	6,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1559,
+	1,
+	1,
+	2,
+	1,
+	11,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_TVL
+	VALUES (1559,
+	1570);
+INSERT INTO V_VAL
+	VALUES (1558,
+	0,
+	0,
+	2,
+	20,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_TRV
+	VALUES (1558,
+	1368,
+	1569,
+	1,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1571,
+	0,
+	0,
+	12,
+	7,
+	10,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1555);
+INSERT INTO V_IRF
+	VALUES (1571,
+	1569);
+INSERT INTO V_VAL
+	VALUES (1572,
+	0,
+	0,
+	12,
+	12,
+	22,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_AVL
+	VALUES (1572,
+	1571,
+	241,
+	456);
+INSERT INTO V_VAL
+	VALUES (1573,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1555);
+INSERT INTO V_BIN
+	VALUES (1573,
+	1574,
+	1572,
+	'!=');
+INSERT INTO V_VAL
+	VALUES (1574,
+	0,
+	0,
+	12,
+	44,
+	52,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_LEN
+	VALUES (1574,
+	1413,
+	12,
+	27);
+INSERT INTO V_VAL
+	VALUES (1575,
+	0,
+	0,
+	12,
+	60,
+	70,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_TVL
+	VALUES (1575,
+	1570);
+INSERT INTO V_VAL
+	VALUES (1576,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1555);
+INSERT INTO V_BIN
+	VALUES (1576,
+	1577,
+	1575,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1577,
+	0,
+	0,
+	12,
+	92,
+	100,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_LEN
+	VALUES (1577,
+	1413,
+	12,
+	75);
+INSERT INTO V_VAL
+	VALUES (1562,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1555);
+INSERT INTO V_BIN
+	VALUES (1562,
+	1576,
+	1573,
+	'and');
+INSERT INTO V_VAL
+	VALUES (1578,
+	0,
+	0,
+	19,
+	9,
+	12,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1555);
+INSERT INTO V_IRF
+	VALUES (1578,
+	1569);
+INSERT INTO V_VAL
+	VALUES (1579,
+	0,
+	0,
+	19,
+	14,
+	24,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_AVL
+	VALUES (1579,
+	1578,
+	241,
+	456);
+INSERT INTO V_VAL
+	VALUES (1580,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1555);
+INSERT INTO V_BIN
+	VALUES (1580,
+	1581,
+	1579,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1581,
+	0,
+	0,
+	19,
+	46,
+	54,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_LEN
+	VALUES (1581,
+	1413,
+	19,
+	29);
+INSERT INTO V_VAL
+	VALUES (1582,
+	0,
+	0,
+	19,
+	62,
+	72,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_TVL
+	VALUES (1582,
+	1570);
+INSERT INTO V_VAL
+	VALUES (1583,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1555);
+INSERT INTO V_BIN
+	VALUES (1583,
+	1584,
+	1582,
+	'!=');
+INSERT INTO V_VAL
+	VALUES (1584,
+	0,
+	0,
+	19,
+	94,
+	102,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_LEN
+	VALUES (1584,
+	1413,
+	19,
+	77);
+INSERT INTO V_VAL
+	VALUES (1565,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1555);
+INSERT INTO V_BIN
+	VALUES (1565,
+	1583,
+	1580,
+	'and');
+INSERT INTO V_VAL
+	VALUES (1585,
+	1,
+	0,
+	26,
+	1,
+	4,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1555);
+INSERT INTO V_IRF
+	VALUES (1585,
+	1569);
+INSERT INTO V_VAL
+	VALUES (1568,
+	1,
+	0,
+	26,
+	6,
+	16,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_AVL
+	VALUES (1568,
+	1585,
+	241,
+	456);
+INSERT INTO V_VAL
+	VALUES (1567,
+	0,
+	0,
+	26,
+	20,
+	30,
+	0,
+	0,
+	0,
+	0,
+	455,
+	1555);
+INSERT INTO V_TVL
+	VALUES (1567,
+	1570);
+INSERT INTO V_VAR
+	VALUES (1570,
+	1555,
+	'disposition',
+	1,
+	455);
+INSERT INTO V_TRN
+	VALUES (1570,
+	0,
+	'');
+INSERT INTO V_VAR
+	VALUES (1569,
+	1555,
+	'self',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1569,
+	0,
+	241);
+INSERT INTO ACT_BLK
+	VALUES (1561,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	18,
+	3,
+	17,
+	64,
+	0,
+	0,
+	17,
+	77,
+	17,
+	80,
+	0,
+	0,
+	0,
+	1554,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1586,
+	1561,
+	1587,
+	14,
+	3,
+	'Goal::Executing line: 14');
+INSERT INTO ACT_CR
+	VALUES (1586,
+	1588,
+	1,
+	250,
+	14,
+	41);
+INSERT INTO ACT_SMT
+	VALUES (1587,
+	1561,
+	1589,
+	15,
+	3,
+	'Goal::Executing line: 15');
+INSERT INTO ACT_REL
+	VALUES (1587,
+	1569,
+	1588,
+	'''has open''',
+	255,
+	15,
+	37,
+	15,
+	41);
+INSERT INTO ACT_SMT
+	VALUES (1589,
+	1561,
+	1590,
+	16,
+	3,
+	'Goal::Executing line: 16');
+INSERT INTO ACT_SEL
+	VALUES (1589,
+	1591,
+	1,
+	'one',
+	1592);
+INSERT INTO ACT_SR
+	VALUES (1589);
+INSERT INTO ACT_LNK
+	VALUES (1593,
+	'''is currently executing within''',
+	1589,
+	245,
+	1594,
+	2,
+	102,
+	17,
+	11,
+	17,
+	26,
+	17,
+	30);
+INSERT INTO ACT_LNK
+	VALUES (1594,
+	'''is timed by''',
+	0,
+	229,
+	0,
+	2,
+	118,
+	17,
+	64,
+	17,
+	77,
+	17,
+	80);
+INSERT INTO ACT_SMT
+	VALUES (1590,
+	1561,
+	0,
+	18,
+	3,
+	'Goal::Executing line: 18');
+INSERT INTO ACT_AI
+	VALUES (1590,
+	1595,
+	1596,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1592,
+	0,
+	0,
+	17,
+	5,
+	8,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1561);
+INSERT INTO V_IRF
+	VALUES (1592,
+	1569);
+INSERT INTO V_VAL
+	VALUES (1597,
+	1,
+	0,
+	18,
+	3,
+	13,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1561);
+INSERT INTO V_IRF
+	VALUES (1597,
+	1588);
+INSERT INTO V_VAL
+	VALUES (1596,
+	1,
+	0,
+	18,
+	15,
+	23,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1561);
+INSERT INTO V_AVL
+	VALUES (1596,
+	1597,
+	250,
+	423);
+INSERT INTO V_VAL
+	VALUES (1598,
+	0,
+	0,
+	18,
+	27,
+	38,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1561);
+INSERT INTO V_IRF
+	VALUES (1598,
+	1591);
+INSERT INTO V_VAL
+	VALUES (1595,
+	0,
+	0,
+	18,
+	40,
+	43,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1561);
+INSERT INTO V_AVL
+	VALUES (1595,
+	1598,
+	118,
+	422);
+INSERT INTO V_VAR
+	VALUES (1588,
+	1561,
+	'achievement',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1588,
+	0,
+	250);
+INSERT INTO V_VAR
+	VALUES (1591,
+	1561,
+	'workoutTimer',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1591,
+	0,
+	118);
+INSERT INTO ACT_BLK
+	VALUES (1564,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	22,
+	3,
+	21,
+	43,
+	0,
+	0,
+	21,
+	55,
+	21,
+	59,
+	0,
+	0,
+	0,
+	1554,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1599,
+	1564,
+	1600,
+	21,
+	3,
+	'Goal::Executing line: 21');
+INSERT INTO ACT_SEL
+	VALUES (1599,
+	1601,
+	1,
+	'one',
+	1602);
+INSERT INTO ACT_SR
+	VALUES (1599);
+INSERT INTO ACT_LNK
+	VALUES (1603,
+	'''has open''',
+	1599,
+	255,
+	0,
+	2,
+	250,
+	21,
+	43,
+	21,
+	55,
+	21,
+	59);
+INSERT INTO ACT_SMT
+	VALUES (1600,
+	1564,
+	0,
+	22,
+	3,
+	'Goal::Executing line: 22');
+INSERT INTO ACT_TFM
+	VALUES (1600,
+	401,
+	1601,
+	22,
+	15,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1602,
+	0,
+	0,
+	21,
+	37,
+	40,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1564);
+INSERT INTO V_IRF
+	VALUES (1602,
+	1569);
+INSERT INTO V_VAR
+	VALUES (1601,
+	1564,
+	'achievement',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1601,
+	0,
+	250);
+INSERT INTO SM_STATE
+	VALUES (1604,
+	1551,
+	0,
+	'Completed',
+	2,
+	0);
+INSERT INTO SM_EIGN
+	VALUES (1604,
+	1520,
+	1551,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (1604,
+	1520,
+	1551,
+	0);
+INSERT INTO SM_EIGN
+	VALUES (1604,
+	1172,
+	1551,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (1604,
+	1172,
+	1551,
+	0);
+INSERT INTO SM_CH
+	VALUES (1604,
+	1196,
+	1551,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (1604,
+	1196,
+	1551,
+	0);
+INSERT INTO SM_MOAH
+	VALUES (1605,
+	1551,
+	1604);
+INSERT INTO SM_AH
+	VALUES (1605,
+	1551);
+INSERT INTO SM_ACT
+	VALUES (1605,
+	1551,
+	1,
+	'// Stop executing this goal and begin executing the next one, if there is one.
+
+// Stop the goal-evaluation timer, ignoring the return code which indicates 
+//   whether a timer event was in flight when the timer was cancelled.
+cancelSucceeded = TIM::timer_cancel( timer_inst_ref: self.evaluationTimer );
+
+// If this goal has an open achievement record, close it.
+select one openAchievement related by self->Achievement[R14.''has open''];
+if ( not empty openAchievement )
+  openAchievement.close();
+end if;
+
+// Add this goal to the collection of those that have already executed.
+select one session related by self->WorkoutSession[R11.''is currently executing within''];
+relate self to session across R13.''was executed within'';
+
+// Remove this goal from the collection of currently executing ones.
+unrelate self from session across R11.''is currently executing within'';
+
+// Find the next goal specification in the sequence and start executing it, if it exists.
+select one currentGoalSpec related by self->GoalSpec[R9.''specified by''];
+
+select any nextGoalSpec related by session->GoalSpec[R10.''includes'']
+  where ( selected.sequenceNumber == (currentGoalSpec.sequenceNumber + 1) );
+  
+if ( not empty nextGoalSpec )
+  Goal::goalcreate( sequenceNumber: nextGoalSpec.sequenceNumber );
+end if;
+',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (1606,
+	1551,
+	1605);
+INSERT INTO ACT_ACT
+	VALUES (1606,
+	'state',
+	0,
+	1607,
+	0,
+	0,
+	'Goal::Completed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1607,
+	1,
+	0,
+	1,
+	'',
+	'',
+	'',
+	26,
+	1,
+	23,
+	45,
+	0,
+	0,
+	23,
+	54,
+	23,
+	58,
+	0,
+	0,
+	0,
+	1606,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1608,
+	1607,
+	1609,
+	5,
+	1,
+	'Goal::Completed line: 5');
+INSERT INTO ACT_AI
+	VALUES (1608,
+	1610,
+	1611,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1609,
+	1607,
+	1612,
+	8,
+	1,
+	'Goal::Completed line: 8');
+INSERT INTO ACT_SEL
+	VALUES (1609,
+	1613,
+	1,
+	'one',
+	1614);
+INSERT INTO ACT_SR
+	VALUES (1609);
+INSERT INTO ACT_LNK
+	VALUES (1615,
+	'''has open''',
+	1609,
+	255,
+	0,
+	2,
+	250,
+	8,
+	45,
+	8,
+	57,
+	8,
+	61);
+INSERT INTO ACT_SMT
+	VALUES (1612,
+	1607,
+	1616,
+	9,
+	1,
+	'Goal::Completed line: 9');
+INSERT INTO ACT_IF
+	VALUES (1612,
+	1617,
+	1618,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1616,
+	1607,
+	1619,
+	14,
+	1,
+	'Goal::Completed line: 14');
+INSERT INTO ACT_SEL
+	VALUES (1616,
+	1620,
+	1,
+	'one',
+	1621);
+INSERT INTO ACT_SR
+	VALUES (1616);
+INSERT INTO ACT_LNK
+	VALUES (1622,
+	'''is currently executing within''',
+	1616,
+	245,
+	0,
+	2,
+	102,
+	14,
+	37,
+	14,
+	52,
+	14,
+	56);
+INSERT INTO ACT_SMT
+	VALUES (1619,
+	1607,
+	1623,
+	15,
+	1,
+	'Goal::Completed line: 15');
+INSERT INTO ACT_REL
+	VALUES (1619,
+	1624,
+	1620,
+	'''was executed within''',
+	252,
+	15,
+	31,
+	15,
+	35);
+INSERT INTO ACT_SMT
+	VALUES (1623,
+	1607,
+	1625,
+	18,
+	1,
+	'Goal::Completed line: 18');
+INSERT INTO ACT_UNR
+	VALUES (1623,
+	1624,
+	1620,
+	'''is currently executing within''',
+	245,
+	18,
+	35,
+	18,
+	39);
+INSERT INTO ACT_SMT
+	VALUES (1625,
+	1607,
+	1626,
+	21,
+	1,
+	'Goal::Completed line: 21');
+INSERT INTO ACT_SEL
+	VALUES (1625,
+	1627,
+	1,
+	'one',
+	1628);
+INSERT INTO ACT_SR
+	VALUES (1625);
+INSERT INTO ACT_LNK
+	VALUES (1629,
+	'''specified by''',
+	1625,
+	239,
+	0,
+	2,
+	176,
+	21,
+	45,
+	21,
+	54,
+	21,
+	57);
+INSERT INTO ACT_SMT
+	VALUES (1626,
+	1607,
+	1630,
+	23,
+	1,
+	'Goal::Completed line: 23');
+INSERT INTO ACT_SEL
+	VALUES (1626,
+	1631,
+	1,
+	'any',
+	1632);
+INSERT INTO ACT_SRW
+	VALUES (1626,
+	1633);
+INSERT INTO ACT_LNK
+	VALUES (1634,
+	'''includes''',
+	1626,
+	195,
+	0,
+	3,
+	176,
+	23,
+	45,
+	23,
+	54,
+	23,
+	58);
+INSERT INTO ACT_SMT
+	VALUES (1630,
+	1607,
+	0,
+	26,
+	1,
+	'Goal::Completed line: 26');
+INSERT INTO ACT_IF
+	VALUES (1630,
+	1635,
+	1636,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1611,
+	1,
+	1,
+	5,
+	1,
+	15,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1607);
+INSERT INTO V_TVL
+	VALUES (1611,
+	1637);
+INSERT INTO V_VAL
+	VALUES (1610,
+	0,
+	0,
+	5,
+	24,
+	-1,
+	5,
+	38,
+	0,
+	0,
+	108,
+	1607);
+INSERT INTO V_BRV
+	VALUES (1610,
+	357,
+	1,
+	5,
+	19);
+INSERT INTO V_VAL
+	VALUES (1638,
+	0,
+	0,
+	5,
+	54,
+	57,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1607);
+INSERT INTO V_IRF
+	VALUES (1638,
+	1624);
+INSERT INTO V_VAL
+	VALUES (1639,
+	0,
+	0,
+	5,
+	59,
+	73,
+	0,
+	0,
+	0,
+	0,
+	332,
+	1607);
+INSERT INTO V_AVL
+	VALUES (1639,
+	1638,
+	241,
+	1321);
+INSERT INTO V_PAR
+	VALUES (1639,
+	0,
+	1610,
+	'timer_inst_ref',
+	0,
+	5,
+	38);
+INSERT INTO V_VAL
+	VALUES (1614,
+	0,
+	0,
+	8,
+	39,
+	42,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1607);
+INSERT INTO V_IRF
+	VALUES (1614,
+	1624);
+INSERT INTO V_VAL
+	VALUES (1640,
+	0,
+	0,
+	9,
+	16,
+	30,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1607);
+INSERT INTO V_IRF
+	VALUES (1640,
+	1613);
+INSERT INTO V_VAL
+	VALUES (1641,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1607);
+INSERT INTO V_UNY
+	VALUES (1641,
+	1640,
+	'empty');
+INSERT INTO V_VAL
+	VALUES (1618,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1607);
+INSERT INTO V_UNY
+	VALUES (1618,
+	1641,
+	'not');
+INSERT INTO V_VAL
+	VALUES (1621,
+	0,
+	0,
+	14,
+	31,
+	34,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1607);
+INSERT INTO V_IRF
+	VALUES (1621,
+	1624);
+INSERT INTO V_VAL
+	VALUES (1628,
+	0,
+	0,
+	21,
+	39,
+	42,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1607);
+INSERT INTO V_IRF
+	VALUES (1628,
+	1624);
+INSERT INTO V_VAL
+	VALUES (1632,
+	0,
+	0,
+	23,
+	36,
+	42,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1607);
+INSERT INTO V_IRF
+	VALUES (1632,
+	1620);
+INSERT INTO V_VAL
+	VALUES (1642,
+	0,
+	0,
+	24,
+	11,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1607);
+INSERT INTO V_SLR
+	VALUES (1642,
+	0,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1643,
+	0,
+	0,
+	24,
+	20,
+	33,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1607);
+INSERT INTO V_AVL
+	VALUES (1643,
+	1642,
+	176,
+	197);
+INSERT INTO V_VAL
+	VALUES (1633,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1607);
+INSERT INTO V_BIN
+	VALUES (1633,
+	1644,
+	1643,
+	'==');
+INSERT INTO V_VAL
+	VALUES (1645,
+	0,
+	0,
+	24,
+	39,
+	53,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1607);
+INSERT INTO V_IRF
+	VALUES (1645,
+	1627);
+INSERT INTO V_VAL
+	VALUES (1646,
+	0,
+	0,
+	24,
+	55,
+	68,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1607);
+INSERT INTO V_AVL
+	VALUES (1646,
+	1645,
+	176,
+	197);
+INSERT INTO V_VAL
+	VALUES (1644,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1607);
+INSERT INTO V_BIN
+	VALUES (1644,
+	1647,
+	1646,
+	'+');
+INSERT INTO V_VAL
+	VALUES (1647,
+	0,
+	0,
+	24,
+	72,
+	72,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1607);
+INSERT INTO V_LIN
+	VALUES (1647,
+	'1');
+INSERT INTO V_VAL
+	VALUES (1648,
+	0,
+	0,
+	26,
+	16,
+	27,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1607);
+INSERT INTO V_IRF
+	VALUES (1648,
+	1631);
+INSERT INTO V_VAL
+	VALUES (1649,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1607);
+INSERT INTO V_UNY
+	VALUES (1649,
+	1648,
+	'empty');
+INSERT INTO V_VAL
+	VALUES (1636,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1607);
+INSERT INTO V_UNY
+	VALUES (1636,
+	1649,
+	'not');
+INSERT INTO V_VAR
+	VALUES (1637,
+	1607,
+	'cancelSucceeded',
+	1,
+	108);
+INSERT INTO V_TRN
+	VALUES (1637,
+	0,
+	'');
+INSERT INTO V_VAR
+	VALUES (1624,
+	1607,
+	'self',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1624,
+	0,
+	241);
+INSERT INTO V_VAR
+	VALUES (1613,
+	1607,
+	'openAchievement',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1613,
+	0,
+	250);
+INSERT INTO V_VAR
+	VALUES (1620,
+	1607,
+	'session',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1620,
+	0,
+	102);
+INSERT INTO V_VAR
+	VALUES (1627,
+	1607,
+	'currentGoalSpec',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1627,
+	0,
+	176);
+INSERT INTO V_VAR
+	VALUES (1631,
+	1607,
+	'nextGoalSpec',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1631,
+	0,
+	176);
+INSERT INTO ACT_BLK
+	VALUES (1617,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	10,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1606,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1650,
+	1617,
+	0,
+	10,
+	3,
+	'Goal::Completed line: 10');
+INSERT INTO ACT_TFM
+	VALUES (1650,
+	401,
+	1613,
+	10,
+	19,
+	0,
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1635,
+	0,
+	0,
+	0,
+	'Goal',
+	'',
+	'',
+	27,
+	3,
+	27,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1606,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1651,
+	1635,
+	0,
+	27,
+	3,
+	'Goal::Completed line: 27');
+INSERT INTO ACT_TFM
+	VALUES (1651,
+	1288,
+	0,
+	27,
+	9,
+	27,
+	3);
+INSERT INTO V_VAL
+	VALUES (1652,
+	0,
+	0,
+	27,
+	37,
+	48,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1635);
+INSERT INTO V_IRF
+	VALUES (1652,
+	1631);
+INSERT INTO V_VAL
+	VALUES (1653,
+	0,
+	0,
+	27,
+	50,
+	63,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1635);
+INSERT INTO V_AVL
+	VALUES (1653,
+	1652,
+	176,
+	197);
+INSERT INTO V_PAR
+	VALUES (1653,
+	1651,
+	0,
+	'sequenceNumber',
+	0,
+	27,
+	21);
+INSERT INTO SM_STATE
+	VALUES (1654,
+	1551,
+	0,
+	'Paused',
+	3,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1654,
+	1520,
+	1551,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1654,
+	1172,
+	1551,
+	0);
+INSERT INTO SM_CH
+	VALUES (1654,
+	1196,
+	1551,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (1654,
+	1196,
+	1551,
+	0);
+INSERT INTO SM_MOAH
+	VALUES (1655,
+	1551,
+	1654);
+INSERT INTO SM_AH
+	VALUES (1655,
+	1551);
+INSERT INTO SM_ACT
+	VALUES (1655,
+	1551,
+	1,
+	'// Deactivate evaluation timer, ignoring the return code because this 
+//   state model ignores any latent timer events.
+cancelSucceeded = TIM::timer_cancel( timer_inst_ref: self.evaluationTimer );',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (1656,
+	1551,
+	1655);
+INSERT INTO ACT_ACT
+	VALUES (1656,
+	'state',
+	0,
+	1657,
+	0,
+	0,
+	'Goal::Paused',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1657,
+	0,
+	0,
+	0,
+	'TIM',
+	'',
+	'',
+	3,
+	1,
+	3,
+	19,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1656,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1658,
+	1657,
+	0,
+	3,
+	1,
+	'Goal::Paused line: 3');
+INSERT INTO ACT_AI
+	VALUES (1658,
+	1659,
+	1660,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1660,
+	1,
+	1,
+	3,
+	1,
+	15,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1657);
+INSERT INTO V_TVL
+	VALUES (1660,
+	1661);
+INSERT INTO V_VAL
+	VALUES (1659,
+	0,
+	0,
+	3,
+	24,
+	-1,
+	3,
+	38,
+	0,
+	0,
+	108,
+	1657);
+INSERT INTO V_BRV
+	VALUES (1659,
+	357,
+	1,
+	3,
+	19);
+INSERT INTO V_VAL
+	VALUES (1662,
+	0,
+	0,
+	3,
+	54,
+	57,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1657);
+INSERT INTO V_IRF
+	VALUES (1662,
+	1663);
+INSERT INTO V_VAL
+	VALUES (1664,
+	0,
+	0,
+	3,
+	59,
+	73,
+	0,
+	0,
+	0,
+	0,
+	332,
+	1657);
+INSERT INTO V_AVL
+	VALUES (1664,
+	1662,
+	241,
+	1321);
+INSERT INTO V_PAR
+	VALUES (1664,
+	0,
+	1659,
+	'timer_inst_ref',
+	0,
+	3,
+	38);
+INSERT INTO V_VAR
+	VALUES (1661,
+	1657,
+	'cancelSucceeded',
+	1,
+	108);
+INSERT INTO V_TRN
+	VALUES (1661,
+	0,
+	'');
+INSERT INTO V_VAR
+	VALUES (1663,
+	1657,
+	'self',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1663,
+	0,
+	241);
+INSERT INTO SM_NSTXN
+	VALUES (1665,
+	1551,
+	1552,
+	1520,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1666,
+	1551,
+	1665);
+INSERT INTO SM_AH
+	VALUES (1666,
+	1551);
+INSERT INTO SM_ACT
+	VALUES (1666,
+	1551,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1667,
+	1551,
+	1666);
+INSERT INTO ACT_ACT
+	VALUES (1667,
+	'transition',
+	0,
+	1668,
+	0,
+	0,
+	'Goal1: Completed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1668,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1667,
+	0);
+INSERT INTO SM_TXN
+	VALUES (1665,
+	1551,
+	1604,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (1669,
+	1551,
+	1552,
+	1172,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1670,
+	1551,
+	1669);
+INSERT INTO SM_AH
+	VALUES (1670,
+	1551);
+INSERT INTO SM_ACT
+	VALUES (1670,
+	1551,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1671,
+	1551,
+	1670);
+INSERT INTO ACT_ACT
+	VALUES (1671,
+	'transition',
+	0,
+	1672,
+	0,
+	0,
+	'Goal2: Evaluate',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1672,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1671,
+	0);
+INSERT INTO SM_TXN
+	VALUES (1669,
+	1551,
+	1552,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (1673,
+	1551,
+	1552,
+	1196,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1674,
+	1551,
+	1673);
+INSERT INTO SM_AH
+	VALUES (1674,
+	1551);
+INSERT INTO SM_ACT
+	VALUES (1674,
+	1551,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1675,
+	1551,
+	1674);
+INSERT INTO ACT_ACT
+	VALUES (1675,
+	'transition',
+	0,
+	1676,
+	0,
+	0,
+	'Goal3: Pause',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1676,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1675,
+	0);
+INSERT INTO SM_TXN
+	VALUES (1673,
+	1551,
+	1654,
+	0);
+INSERT INTO SM_NSTXN
 	VALUES (1677,
+	1551,
+	1654,
+	1172,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1678,
+	1551,
+	1677);
+INSERT INTO SM_AH
+	VALUES (1678,
+	1551);
+INSERT INTO SM_ACT
+	VALUES (1678,
+	1551,
+	1,
+	'// Start a timer that periodically causes evaluation of goal achievement.
+create event instance evaluateEvent of Goal2:Evaluate to self;
+self.evaluationTimer = TIM::timer_start_recurring( event_inst: evaluateEvent, microseconds: evaluationPeriod );',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1679,
+	1551,
+	1678);
+INSERT INTO ACT_ACT
+	VALUES (1679,
+	'transition',
+	0,
+	1680,
+	0,
+	0,
+	'Goal2: Evaluate',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1680,
+	0,
+	0,
+	0,
+	'TIM',
+	'',
+	'',
+	3,
+	1,
+	3,
+	24,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1679,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1681,
+	1680,
+	1682,
+	2,
+	1,
+	'Goal2: Evaluate line: 2');
+INSERT INTO E_ESS
+	VALUES (1681,
+	1,
+	0,
+	2,
+	40,
+	2,
+	46,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1681,
+	1,
+	1683);
+INSERT INTO E_CSME
+	VALUES (1681,
+	1172);
+INSERT INTO E_CEI
+	VALUES (1681,
+	1684);
+INSERT INTO ACT_SMT
+	VALUES (1682,
+	1680,
+	0,
+	3,
+	1,
+	'Goal2: Evaluate line: 3');
+INSERT INTO ACT_AI
+	VALUES (1682,
+	1685,
+	1686,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1687,
+	1,
+	0,
+	3,
+	1,
+	4,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1680);
+INSERT INTO V_IRF
+	VALUES (1687,
+	1684);
+INSERT INTO V_VAL
+	VALUES (1686,
+	1,
+	0,
+	3,
+	6,
+	20,
+	0,
+	0,
+	0,
+	0,
+	332,
+	1680);
+INSERT INTO V_AVL
+	VALUES (1686,
+	1687,
+	241,
+	1321);
+INSERT INTO V_VAL
+	VALUES (1685,
+	0,
+	0,
+	3,
+	29,
+	-1,
+	3,
+	52,
+	3,
+	79,
+	332,
+	1680);
+INSERT INTO V_BRV
+	VALUES (1685,
+	338,
+	1,
+	3,
+	24);
+INSERT INTO V_VAL
+	VALUES (1688,
+	0,
+	0,
+	3,
+	64,
+	76,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1680);
+INSERT INTO V_TVL
+	VALUES (1688,
+	1683);
+INSERT INTO V_PAR
+	VALUES (1688,
+	0,
+	1685,
+	'event_inst',
+	1689,
+	3,
+	52);
+INSERT INTO V_VAL
+	VALUES (1689,
+	0,
+	0,
+	3,
+	93,
+	108,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1680);
+INSERT INTO V_SCV
+	VALUES (1689,
+	1324,
+	30);
+INSERT INTO V_PAR
+	VALUES (1689,
+	0,
+	1685,
+	'microseconds',
+	0,
+	3,
+	79);
+INSERT INTO V_VAR
+	VALUES (1683,
+	1680,
+	'evaluateEvent',
+	1,
+	335);
+INSERT INTO V_TRN
+	VALUES (1683,
+	0,
+	'');
+INSERT INTO V_VAR
+	VALUES (1684,
+	1680,
+	'self',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1684,
+	0,
+	241);
+INSERT INTO SM_TXN
+	VALUES (1677,
+	1551,
+	1552,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (1690,
+	1551,
+	1654,
+	1520,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1691,
+	1551,
+	1690);
+INSERT INTO SM_AH
+	VALUES (1691,
+	1551);
+INSERT INTO SM_ACT
+	VALUES (1691,
+	1551,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1692,
+	1551,
+	1691);
+INSERT INTO ACT_ACT
+	VALUES (1692,
+	'transition',
+	0,
+	1693,
+	0,
+	0,
+	'Goal1: Completed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1693,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1692,
+	0);
+INSERT INTO SM_TXN
+	VALUES (1690,
+	1551,
+	1604,
+	0);
+INSERT INTO PE_PE
+	VALUES (176,
+	1,
+	211,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (176,
+	'GoalSpec',
+	8,
+	'GoalSpec',
+	'Each instance specifies one particular workout goal.  The actual execution of the goal
+along with evaluation of whether it is currently being achieved is handled by another
+class, not this one.
+
+The criteria for the goal are merely numerical figures for comparison against the 
+measured quantity.  Accordingly, the terms may create confusion with certain goal
+types such as pace.  Since pace is the inverse of speed, a lower number represents
+a faster speed.  Even so, when specifying a pace-related goal the value for 
+minimum should be the lowest number (fastest pace) and the value for maximum should
+be the higher number (slower pace).',
+	0);
+INSERT INTO O_NBATTR
+	VALUES (199,
+	176);
+INSERT INTO O_BATTR
+	VALUES (199,
+	176);
+INSERT INTO O_ATTR
+	VALUES (199,
+	176,
+	197,
+	'minimum',
+	'The minimum value for the quantity associated with the goal.
+For example, a minimum heart rate to be maintained.
+The units (e.g., beats per minute or minutes per km) for this
+attribute are determined by another attribute indicating the 
+type of criteria for this goal.',
+	'',
+	'minimum',
+	0,
+	10,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (201,
+	176);
+INSERT INTO O_BATTR
+	VALUES (201,
+	176);
+INSERT INTO O_ATTR
+	VALUES (201,
+	176,
+	199,
+	'maximum',
+	'The maximum value for the quantity associated with the goal.
+For example, a maximum pace to be maintained.
+The units (e.g., beats per minute or minutes per km) for this
+attribute are determined by another attribute indicating the 
+type of criteria for this goal.',
+	'',
+	'maximum',
+	0,
+	10,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (203,
+	176);
+INSERT INTO O_BATTR
+	VALUES (203,
+	176);
+INSERT INTO O_ATTR
+	VALUES (203,
+	176,
+	201,
+	'span',
+	'The span of the goal.  For example, a time-based goal specifies a span
+as a duration or length of time, while a distance-based goal uses specifies
+a distance.  The units for this attribute (e.g., seconds or km) are specified 
+by another attribute indicating the type of span.
+',
+	'',
+	'span',
+	0,
+	10,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (205,
+	176);
+INSERT INTO O_BATTR
+	VALUES (205,
+	176);
+INSERT INTO O_ATTR
+	VALUES (205,
+	176,
+	203,
+	'criteriaType',
+	'See data type description.',
+	'',
+	'criteriaType',
+	0,
+	37,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (207,
+	176);
+INSERT INTO O_BATTR
+	VALUES (207,
+	176);
+INSERT INTO O_ATTR
+	VALUES (207,
+	176,
+	205,
+	'spanType',
+	'See data type description.',
+	'',
+	'spanType',
+	0,
+	39,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (197,
+	176);
+INSERT INTO O_BATTR
+	VALUES (197,
+	176);
+INSERT INTO O_ATTR
+	VALUES (197,
+	176,
+	0,
+	'sequenceNumber',
+	'Workout goals are sequenced according to a number specified by the user when the goal
+is specified.  This attribute represents that user-specified number. ',
+	'',
+	'sequenceNumber',
+	0,
+	30,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	176);
+INSERT INTO O_OIDA
+	VALUES (197,
+	176,
+	0,
+	'sequenceNumber');
+INSERT INTO O_ID
+	VALUES (1,
+	176);
+INSERT INTO O_ID
+	VALUES (2,
+	176);
+INSERT INTO PE_PE
+	VALUES (1694,
 	1,
 	2,
 	0,
-	7);
-INSERT INTO EP_PKG
-	VALUES (1677,
-	0,
-	1,
-	'shared',
+	22);
+INSERT INTO C_SF
+	VALUES (1694,
+	57,
+	1695,
 	'',
-	0);
+	'GPSWatch::TrackingLocation::TrackingLocation -o)- Tracking::Location::TrackingLocation');
 INSERT INTO PE_PE
-	VALUES (180,
+	VALUES (1696,
 	1,
-	1677,
+	2,
+	0,
+	22);
+INSERT INTO C_SF
+	VALUES (1696,
+	73,
+	1697,
+	'',
+	'GPSWatch::TrackingUI::TrackingUI -o)- Tracking::UI::TrackingUI');
+INSERT INTO PE_PE
+	VALUES (1698,
+	1,
+	2,
+	0,
+	22);
+INSERT INTO C_SF
+	VALUES (1698,
+	87,
+	1699,
+	'',
+	'GPSWatch::TrackingHeartRateMonitor::TrackingHeartRateMonitor -o)- Tracking::HeartRateMonitor::TrackingHeartRateMonitor');
+INSERT INTO PE_PE
+	VALUES (1700,
+	1,
+	2,
+	0,
+	22);
+INSERT INTO C_SF
+	VALUES (1700,
+	1701,
+	95,
+	'',
+	'Tracking::Tracking::Tracking -o)- GPSWatch::Tracking::Tracking');
+INSERT INTO PE_PE
+	VALUES (37,
+	1,
+	2,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (180,
+	VALUES (37,
 	0,
 	'GoalCriteria',
 	'The criteria type for a particular workout goal.  ',
 	'');
 INSERT INTO S_EDT
-	VALUES (180);
+	VALUES (37);
 INSERT INTO S_ENUM
-	VALUES (364,
+	VALUES (383,
 	'HeartRate',
 	'A heart-rate criteria is specified as a range of heart rates between
 minimum and maximum values, in beats per minute.',
-	180,
+	37,
 	0);
 INSERT INTO S_ENUM
-	VALUES (356,
+	VALUES (375,
 	'Pace',
 	'A pace criteria is specified as a range of paces between
 miniumum and maximum values specified in minutes per kilometer.',
-	180,
-	364);
+	37,
+	383);
 INSERT INTO PE_PE
-	VALUES (437,
+	VALUES (455,
 	1,
-	1677,
+	2,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (437,
+	VALUES (455,
 	0,
 	'GoalDisposition',
 	'Disposition of a currently executing goal.',
 	'');
 INSERT INTO S_EDT
-	VALUES (437);
+	VALUES (455);
 INSERT INTO S_ENUM
-	VALUES (744,
+	VALUES (1413,
 	'Achieving',
 	'The goal is currently being achieved.',
-	437,
+	455,
 	0);
 INSERT INTO S_ENUM
-	VALUES (440,
+	VALUES (458,
 	'Increase',
 	'The value associated with the goal is presently below the minimum 
 specified in the criteria for the goal, so the user must increase
 that value to achieve the goal.',
-	437,
-	744);
+	455,
+	1413);
 INSERT INTO S_ENUM
-	VALUES (444,
+	VALUES (462,
 	'Decrease',
 	'The value associated with the goal is presently above the maximum 
 specified in the criteria for the goal, so the user must decrease
 that value to achieve the goal.',
-	437,
-	440);
+	455,
+	458);
 INSERT INTO PE_PE
-	VALUES (184,
+	VALUES (39,
 	1,
-	1677,
+	2,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (184,
+	VALUES (39,
 	0,
 	'GoalSpan',
 	'',
 	'');
 INSERT INTO S_EDT
-	VALUES (184);
+	VALUES (39);
 INSERT INTO S_ENUM
-	VALUES (358,
+	VALUES (377,
 	'Distance',
 	'A distance-based span is specified in meters.',
-	184,
+	39,
 	0);
 INSERT INTO S_ENUM
-	VALUES (366,
+	VALUES (385,
 	'Time',
 	'A time-based span is specified in seconds.',
-	184,
-	358);
+	39,
+	377);
 INSERT INTO PE_PE
-	VALUES (1678,
+	VALUES (1702,
 	1,
-	1677,
+	2,
 	0,
 	10);
 INSERT INTO CNST_CSP
-	VALUES (1678,
+	VALUES (1702,
 	'GoalAchievement',
 	'evaluationPeriod is the period, expressed in microseconds, at which goal achievement is evaluated.');
 INSERT INTO CNST_SYC
-	VALUES (655,
+	VALUES (1324,
 	'evaluationPeriod',
 	'',
-	13,
-	1678,
+	30,
+	1702,
 	0,
 	0);
 INSERT INTO CNST_LFSC
-	VALUES (655,
-	13);
+	VALUES (1324,
+	30);
 INSERT INTO CNST_LSC
-	VALUES (655,
-	13,
+	VALUES (1324,
+	30,
 	'3000000');
 INSERT INTO PE_PE
-	VALUES (1679,
+	VALUES (1703,
 	1,
-	1677,
+	2,
 	0,
 	10);
 INSERT INTO CNST_CSP
-	VALUES (1679,
+	VALUES (1703,
 	'GoalSpec',
 	'GoalSpecOrigin indicates the sequence number of the first goal.');
 INSERT INTO CNST_SYC
-	VALUES (878,
+	VALUES (1547,
 	'GoalSpecOrigin',
 	'',
-	13,
-	1679,
+	30,
+	1703,
 	0,
 	0);
 INSERT INTO CNST_LFSC
-	VALUES (878,
-	13);
+	VALUES (1547,
+	30);
 INSERT INTO CNST_LSC
-	VALUES (878,
-	13,
+	VALUES (1547,
+	30,
 	'1');
 INSERT INTO PE_PE
-	VALUES (1680,
+	VALUES (1704,
 	1,
-	1677,
+	2,
 	0,
 	10);
 INSERT INTO CNST_CSP
-	VALUES (1680,
+	VALUES (1704,
 	'WorkoutTimer',
 	'timerPeriod specifies, in seconds, the period for the workout timer.');
 INSERT INTO CNST_SYC
-	VALUES (1558,
+	VALUES (1167,
 	'timerPeriod',
 	'',
-	13,
-	1680,
+	30,
+	1704,
 	0,
 	0);
 INSERT INTO CNST_LFSC
-	VALUES (1558,
-	13);
+	VALUES (1167,
+	30);
 INSERT INTO CNST_LSC
-	VALUES (1558,
-	13,
+	VALUES (1167,
+	30,
 	'1');
 INSERT INTO PE_PE
 	VALUES (6,
-	1,
-	1677,
-	0,
-	6);
-INSERT INTO C_I
-	VALUES (6,
-	0,
-	'TrackingLocation',
-	'');
-INSERT INTO C_EP
-	VALUES (8,
-	6,
-	-1,
-	'getDistance',
-	'Returns distance, in kilometers, between the "from" and "to" coordinates passed as parameters.
-The coordinates must be passed as decimal degrees.');
-INSERT INTO C_IO
-	VALUES (8,
-	170,
-	'getDistance',
-	'Returns distance, in kilometers, between the "from" and "to" coordinates passed as parameters.
-The coordinates must be passed as decimal degrees.',
-	0,
-	'',
-	0);
-INSERT INTO C_PP
-	VALUES (1681,
-	8,
-	170,
-	'fromLat',
-	'Latitude for the "from" coordinates.',
-	0,
-	'',
-	0);
-INSERT INTO C_PP
-	VALUES (1682,
-	8,
-	170,
-	'toLat',
-	'Latitude for the "to" coordinates.',
-	0,
-	'',
-	1683);
-INSERT INTO C_PP
-	VALUES (1683,
-	8,
-	170,
-	'fromLong',
-	'Longitude for the "from" coordinates.',
-	0,
-	'',
-	1681);
-INSERT INTO C_PP
-	VALUES (1684,
-	8,
-	170,
-	'toLong',
-	'Longitude for the "to" coordinates.',
-	0,
-	'',
-	1682);
-INSERT INTO C_EP
-	VALUES (15,
-	6,
-	-1,
-	'getLocation',
-	'');
-INSERT INTO C_IO
-	VALUES (15,
-	240,
-	'getLocation',
-	'',
-	0,
-	'',
-	8);
-INSERT INTO C_PP
-	VALUES (1685,
-	15,
-	170,
-	'latitude',
-	'',
-	0,
-	'',
-	0);
-INSERT INTO C_PP
-	VALUES (1686,
-	15,
-	170,
-	'longitude',
-	'',
-	0,
-	'',
-	1685);
-INSERT INTO C_EP
-	VALUES (19,
-	6,
-	-1,
-	'registerListener',
-	'');
-INSERT INTO C_IO
-	VALUES (19,
-	240,
-	'registerListener',
-	'',
-	0,
-	'',
-	15);
-INSERT INTO C_EP
-	VALUES (23,
-	6,
-	-1,
-	'unregisterListener',
-	'');
-INSERT INTO C_IO
-	VALUES (23,
-	240,
-	'unregisterListener',
-	'',
-	0,
-	'',
-	19);
-INSERT INTO PE_PE
-	VALUES (28,
-	1,
-	1677,
-	0,
-	6);
-INSERT INTO C_I
-	VALUES (28,
-	0,
-	'TrackingUI',
-	'');
-INSERT INTO C_EP
-	VALUES (30,
-	28,
-	-1,
-	'setData',
-	'');
-INSERT INTO C_IO
-	VALUES (30,
-	240,
-	'setData',
-	'',
-	0,
-	'',
-	0);
-INSERT INTO C_PP
-	VALUES (1687,
-	30,
-	170,
-	'value',
-	'',
-	0,
-	'',
-	0);
-INSERT INTO C_PP
-	VALUES (1688,
-	30,
-	490,
-	'unit',
-	'',
-	0,
-	'',
-	1687);
-INSERT INTO C_EP
-	VALUES (34,
-	28,
-	-1,
-	'setIndicator',
-	'');
-INSERT INTO C_IO
-	VALUES (34,
-	240,
-	'setIndicator',
-	'',
-	0,
-	'',
-	30);
-INSERT INTO C_PP
-	VALUES (1689,
-	34,
-	406,
-	'indicator',
-	'',
-	0,
-	'',
-	0);
-INSERT INTO C_EP
-	VALUES (38,
-	28,
-	-1,
-	'setTime',
-	'');
-INSERT INTO C_IO
-	VALUES (38,
-	240,
-	'setTime',
-	'',
-	0,
-	'',
-	34);
-INSERT INTO C_PP
-	VALUES (1690,
-	38,
-	13,
-	'time',
-	'',
-	0,
-	'',
-	0);
-INSERT INTO C_EP
-	VALUES (42,
-	28,
-	-1,
-	'newGoalSpec',
-	'');
-INSERT INTO C_IO
-	VALUES (42,
-	240,
-	'newGoalSpec',
-	'',
-	0,
-	'',
-	38);
-INSERT INTO C_PP
-	VALUES (1691,
-	42,
-	13,
-	'sequenceNumber',
-	'',
-	0,
-	'',
-	0);
-INSERT INTO C_PP
-	VALUES (1692,
-	42,
-	170,
-	'minimum',
-	'',
-	0,
-	'',
-	1691);
-INSERT INTO C_PP
-	VALUES (1693,
-	42,
-	170,
-	'maximum',
-	'',
-	0,
-	'',
-	1692);
-INSERT INTO C_PP
-	VALUES (1694,
-	42,
-	170,
-	'span',
-	'',
-	0,
-	'',
-	1693);
-INSERT INTO C_PP
-	VALUES (1695,
-	42,
-	180,
-	'criteriaType',
-	'',
-	0,
-	'',
-	1694);
-INSERT INTO C_PP
-	VALUES (1696,
-	42,
-	184,
-	'spanType',
-	'',
-	0,
-	'',
-	1695);
-INSERT INTO PE_PE
-	VALUES (47,
-	1,
-	1677,
-	0,
-	6);
-INSERT INTO C_I
-	VALUES (47,
-	0,
-	'TrackingHeartRateMonitor',
-	'');
-INSERT INTO C_EP
-	VALUES (49,
-	47,
-	-1,
-	'registerListener',
-	'');
-INSERT INTO C_IO
-	VALUES (49,
-	240,
-	'registerListener',
-	'',
-	0,
-	'',
-	0);
-INSERT INTO C_EP
-	VALUES (53,
-	47,
-	-1,
-	'unregisterListener',
-	'');
-INSERT INTO C_IO
-	VALUES (53,
-	240,
-	'unregisterListener',
-	'',
-	0,
-	'',
-	49);
-INSERT INTO PE_PE
-	VALUES (58,
-	1,
-	1677,
-	0,
-	6);
-INSERT INTO C_I
-	VALUES (58,
-	0,
-	'Tracking',
-	'');
-INSERT INTO C_EP
-	VALUES (60,
-	58,
-	-1,
-	'heartRateChanged',
-	'');
-INSERT INTO C_IO
-	VALUES (60,
-	240,
-	'heartRateChanged',
-	'',
-	0,
-	'',
-	0);
-INSERT INTO C_PP
-	VALUES (76,
-	60,
-	13,
-	'heartRate',
-	'',
-	0,
-	'',
-	0);
-INSERT INTO C_EP
-	VALUES (78,
-	58,
-	-1,
-	'lapResetPressed',
-	'');
-INSERT INTO C_IO
-	VALUES (78,
-	240,
-	'lapResetPressed',
-	'',
-	0,
-	'',
-	60);
-INSERT INTO C_EP
-	VALUES (98,
-	58,
-	-1,
-	'modePressed',
-	'');
-INSERT INTO C_IO
-	VALUES (98,
-	240,
-	'modePressed',
-	'',
-	0,
-	'',
-	78);
-INSERT INTO C_EP
-	VALUES (117,
-	58,
-	-1,
-	'setTargetPressed',
-	'');
-INSERT INTO C_IO
-	VALUES (117,
-	240,
-	'setTargetPressed',
-	'',
-	0,
-	'',
-	98);
-INSERT INTO C_EP
-	VALUES (123,
-	58,
-	-1,
-	'startStopPressed',
-	'');
-INSERT INTO C_IO
-	VALUES (123,
-	240,
-	'startStopPressed',
-	'',
-	0,
-	'',
-	117);
-INSERT INTO C_EP
-	VALUES (133,
-	58,
-	-1,
-	'newGoalSpec',
-	'');
-INSERT INTO C_IO
-	VALUES (133,
-	240,
-	'newGoalSpec',
-	'',
-	0,
-	'',
-	123);
-INSERT INTO C_PP
-	VALUES (168,
-	133,
-	13,
-	'sequenceNumber',
-	'',
-	0,
-	'',
-	0);
-INSERT INTO C_PP
-	VALUES (172,
-	133,
-	170,
-	'minimum',
-	'',
-	0,
-	'',
-	168);
-INSERT INTO C_PP
-	VALUES (175,
-	133,
-	170,
-	'maximum',
-	'',
-	0,
-	'',
-	172);
-INSERT INTO C_PP
-	VALUES (178,
-	133,
-	170,
-	'span',
-	'',
-	0,
-	'',
-	175);
-INSERT INTO C_PP
-	VALUES (182,
-	133,
-	180,
-	'criteriaType',
-	'',
-	0,
-	'',
-	178);
-INSERT INTO C_PP
-	VALUES (186,
-	133,
-	184,
-	'spanType',
-	'',
-	0,
-	'',
-	182);
-INSERT INTO C_EP
-	VALUES (188,
-	58,
-	-1,
-	'lightPressed',
-	'');
-INSERT INTO C_IO
-	VALUES (188,
-	240,
-	'lightPressed',
-	'',
-	0,
-	'',
-	133);
-INSERT INTO PE_PE
-	VALUES (240,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (240,
+	VALUES (6,
 	0,
 	'void',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (240,
+	VALUES (6,
 	0);
 INSERT INTO PE_PE
-	VALUES (72,
+	VALUES (108,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (72,
+	VALUES (108,
 	0,
 	'boolean',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (72,
+	VALUES (108,
 	1);
 INSERT INTO PE_PE
-	VALUES (13,
+	VALUES (30,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (13,
+	VALUES (30,
 	0,
 	'integer',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (13,
+	VALUES (30,
 	2);
 INSERT INTO PE_PE
-	VALUES (170,
+	VALUES (10,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (170,
+	VALUES (10,
 	0,
 	'real',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (170,
+	VALUES (10,
 	3);
 INSERT INTO PE_PE
-	VALUES (96,
+	VALUES (130,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (96,
+	VALUES (130,
 	0,
 	'string',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (96,
+	VALUES (130,
 	4);
 INSERT INTO PE_PE
-	VALUES (880,
+	VALUES (1549,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (880,
+	VALUES (1549,
 	0,
 	'unique_id',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (880,
+	VALUES (1549,
 	5);
 INSERT INTO PE_PE
-	VALUES (458,
+	VALUES (476,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (458,
+	VALUES (476,
 	0,
 	'state<State_Model>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (458,
+	VALUES (476,
 	6);
 INSERT INTO PE_PE
-	VALUES (1697,
+	VALUES (1705,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (1697,
+	VALUES (1705,
 	0,
 	'same_as<Base_Attribute>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (1697,
+	VALUES (1705,
 	7);
 INSERT INTO PE_PE
-	VALUES (70,
+	VALUES (106,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (70,
+	VALUES (106,
 	0,
 	'inst_ref<Object>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (70,
+	VALUES (106,
 	8);
 INSERT INTO PE_PE
-	VALUES (573,
+	VALUES (590,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (573,
+	VALUES (590,
 	0,
 	'inst_ref_set<Object>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (573,
+	VALUES (590,
 	9);
 INSERT INTO PE_PE
-	VALUES (316,
+	VALUES (335,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (316,
+	VALUES (335,
 	0,
 	'inst<Event>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (316,
+	VALUES (335,
 	10);
 INSERT INTO PE_PE
-	VALUES (1698,
+	VALUES (1706,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (1698,
+	VALUES (1706,
 	0,
 	'inst<Mapping>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (1698,
+	VALUES (1706,
 	11);
 INSERT INTO PE_PE
-	VALUES (1699,
+	VALUES (1707,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (1699,
+	VALUES (1707,
 	0,
 	'inst_ref<Mapping>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (1699,
+	VALUES (1707,
 	12);
 INSERT INTO PE_PE
-	VALUES (1700,
+	VALUES (1708,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (1700,
+	VALUES (1708,
 	0,
 	'component_ref',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (1700,
+	VALUES (1708,
 	13);
 INSERT INTO PE_PE
-	VALUES (253,
+	VALUES (272,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (253,
+	VALUES (272,
 	0,
 	'date',
 	'',
 	'');
 INSERT INTO S_UDT
-	VALUES (253,
-	1698,
+	VALUES (272,
+	1706,
 	1);
 INSERT INTO PE_PE
-	VALUES (313,
+	VALUES (332,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (313,
+	VALUES (332,
 	0,
 	'inst_ref<Timer>',
 	'',
 	'');
 INSERT INTO S_UDT
-	VALUES (313,
-	1699,
+	VALUES (332,
+	1707,
 	3);
 INSERT INTO PE_PE
-	VALUES (259,
+	VALUES (278,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (259,
+	VALUES (278,
 	0,
 	'timestamp',
 	'',
 	'');
 INSERT INTO S_UDT
-	VALUES (259,
-	1698,
+	VALUES (278,
+	1706,
 	2);
 -- root-types-contained: SystemModel_c
 -- BP 7.1 content: StreamData syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO S_SYS
-	VALUES (1701,
+	VALUES (1709,
 	'UI',
 	1);
 INSERT INTO EP_PKG
-	VALUES (1702,
-	1701,
-	1701,
+	VALUES (1710,
+	1709,
+	1709,
 	'UI',
 	'',
 	0);
 INSERT INTO PE_PE
-	VALUES (1703,
+	VALUES (1711,
 	1,
-	1702,
+	1710,
 	0,
 	2);
 INSERT INTO C_C
-	VALUES (1703,
+	VALUES (1711,
 	0,
 	0,
 	'UI',
@@ -27087,140 +27135,31 @@ allow generated code to connect to the exact same animated watch.',
 	0,
 	'');
 INSERT INTO C_PO
-	VALUES (1704,
-	1703,
+	VALUES (1712,
+	1711,
 	'UI',
 	0,
 	0);
 INSERT INTO C_IR
-	VALUES (1705,
-	1706,
+	VALUES (1713,
+	1714,
 	0,
-	1704);
+	1712);
 INSERT INTO C_P
-	VALUES (1705,
+	VALUES (1713,
 	'UI',
 	'Unnamed Interface',
 	'',
 	'UI::UI::UI');
 INSERT INTO SPR_PEP
-	VALUES (1707,
-	1708,
-	1705);
-INSERT INTO SPR_PO
-	VALUES (1707,
-	'setTime',
-	'',
-	'GuiBridge::setTime(time: param.time);',
-	1);
-INSERT INTO ACT_POB
-	VALUES (1709,
-	1707);
-INSERT INTO ACT_ACT
-	VALUES (1709,
-	'interface operation',
-	0,
-	1710,
-	0,
-	0,
-	'UI::UI::setTime',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1710,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	1,
-	1,
-	1,
-	1,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1709,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1711,
-	1710,
-	0,
-	1,
-	1,
-	'UI::UI::setTime line: 1');
-INSERT INTO ACT_BRG
-	VALUES (1711,
-	1712,
-	1,
-	12,
-	1,
-	1);
-INSERT INTO V_VAL
-	VALUES (1713,
-	0,
-	0,
-	1,
-	32,
-	35,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1710);
-INSERT INTO V_PVL
-	VALUES (1713,
-	0,
-	0,
-	0,
-	1714);
-INSERT INTO V_PAR
-	VALUES (1713,
-	1711,
-	0,
-	'time',
-	0,
-	1,
-	20);
-INSERT INTO SPR_PEP
 	VALUES (1715,
 	1716,
-	1705);
+	1713);
 INSERT INTO SPR_PO
 	VALUES (1715,
-	'setData',
+	'setTime',
 	'',
-	'if (param.unit == Unit::km)
-  GuiBridge::setData(value: param.value, unit: 0);
-elif (param.unit == Unit::meters)
-  GuiBridge::setData(value: param.value, unit: 1);
-elif (param.unit == Unit::minPerKm)
-  GuiBridge::setData(value: param.value, unit: 2);
-elif (param.unit == Unit::kmPerHour)
-  GuiBridge::setData(value: param.value, unit: 3);
-elif (param.unit == Unit::miles)
-  GuiBridge::setData(value: param.value, unit: 4);
-elif (param.unit == Unit::yards)
-  GuiBridge::setData(value: param.value, unit: 5);
-elif (param.unit == Unit::feet)
-  GuiBridge::setData(value: param.value, unit: 6);
-elif (param.unit == Unit::minPerMile)
-  GuiBridge::setData(value: param.value, unit: 7);
-elif (param.unit == Unit::mph)
-  GuiBridge::setData(value: param.value, unit: 8);
-elif (param.unit == Unit::bpm)
-  GuiBridge::setData(value: param.value, unit: 9);
-elif (param.unit == Unit::laps)
-  GuiBridge::setData(value: param.value, unit: 10);
-end if;
-',
+	'::setTime(time:param.time);',
 	1);
 INSERT INTO ACT_POB
 	VALUES (1717,
@@ -27232,7 +27171,7 @@ INSERT INTO ACT_ACT
 	1718,
 	0,
 	0,
-	'UI::UI::setData',
+	'UI::UI::setTime',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (1718,
@@ -27242,7 +27181,7 @@ INSERT INTO ACT_BLK
 	'',
 	'',
 	'',
-	21,
+	1,
 	1,
 	0,
 	0,
@@ -27252,8 +27191,8 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	21,
-	21,
+	0,
+	0,
 	0,
 	1717,
 	0);
@@ -27263,926 +27202,72 @@ INSERT INTO ACT_SMT
 	0,
 	1,
 	1,
-	'UI::UI::setData line: 1');
-INSERT INTO ACT_IF
+	'UI::UI::setTime line: 1');
+INSERT INTO ACT_FNC
 	VALUES (1719,
 	1720,
-	1721,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1722,
-	1718,
-	0,
-	3,
 	1,
-	'UI::UI::setData line: 3');
-INSERT INTO ACT_EL
-	VALUES (1722,
-	1723,
-	1724,
-	1719);
-INSERT INTO ACT_SMT
-	VALUES (1725,
-	1718,
-	0,
-	5,
-	1,
-	'UI::UI::setData line: 5');
-INSERT INTO ACT_EL
-	VALUES (1725,
-	1726,
-	1727,
-	1719);
-INSERT INTO ACT_SMT
-	VALUES (1728,
-	1718,
-	0,
-	7,
-	1,
-	'UI::UI::setData line: 7');
-INSERT INTO ACT_EL
-	VALUES (1728,
-	1729,
-	1730,
-	1719);
-INSERT INTO ACT_SMT
-	VALUES (1731,
-	1718,
-	0,
-	9,
-	1,
-	'UI::UI::setData line: 9');
-INSERT INTO ACT_EL
-	VALUES (1731,
-	1732,
-	1733,
-	1719);
-INSERT INTO ACT_SMT
-	VALUES (1734,
-	1718,
-	0,
-	11,
-	1,
-	'UI::UI::setData line: 11');
-INSERT INTO ACT_EL
-	VALUES (1734,
-	1735,
-	1736,
-	1719);
-INSERT INTO ACT_SMT
-	VALUES (1737,
-	1718,
-	0,
-	13,
-	1,
-	'UI::UI::setData line: 13');
-INSERT INTO ACT_EL
-	VALUES (1737,
-	1738,
-	1739,
-	1719);
-INSERT INTO ACT_SMT
-	VALUES (1740,
-	1718,
-	0,
-	15,
-	1,
-	'UI::UI::setData line: 15');
-INSERT INTO ACT_EL
-	VALUES (1740,
-	1741,
-	1742,
-	1719);
-INSERT INTO ACT_SMT
-	VALUES (1743,
-	1718,
-	0,
-	17,
-	1,
-	'UI::UI::setData line: 17');
-INSERT INTO ACT_EL
-	VALUES (1743,
-	1744,
-	1745,
-	1719);
-INSERT INTO ACT_SMT
-	VALUES (1746,
-	1718,
-	0,
-	19,
-	1,
-	'UI::UI::setData line: 19');
-INSERT INTO ACT_EL
-	VALUES (1746,
-	1747,
-	1748,
-	1719);
-INSERT INTO ACT_SMT
-	VALUES (1749,
-	1718,
-	0,
-	21,
-	1,
-	'UI::UI::setData line: 21');
-INSERT INTO ACT_EL
-	VALUES (1749,
-	1750,
-	1751,
-	1719);
-INSERT INTO V_VAL
-	VALUES (1752,
-	0,
-	0,
-	1,
-	11,
-	14,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1752,
-	0,
-	0,
-	0,
-	1753);
+	3);
 INSERT INTO V_VAL
 	VALUES (1721,
 	0,
 	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1721,
-	1754,
-	1752,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1754,
-	0,
-	0,
 	1,
+	22,
 	25,
-	26,
 	0,
 	0,
 	0,
 	0,
-	490,
+	30,
 	1718);
-INSERT INTO V_LEN
-	VALUES (1754,
-	491,
+INSERT INTO V_PVL
+	VALUES (1721,
+	0,
+	0,
+	0,
+	1722);
+INSERT INTO V_PAR
+	VALUES (1721,
+	1719,
+	0,
+	'time',
+	0,
 	1,
-	19);
-INSERT INTO V_VAL
-	VALUES (1755,
-	0,
-	0,
-	3,
-	13,
-	16,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1755,
-	0,
-	0,
-	0,
-	1753);
-INSERT INTO V_VAL
-	VALUES (1724,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1724,
-	1756,
-	1755,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1756,
-	0,
-	0,
-	3,
-	27,
-	32,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_LEN
-	VALUES (1756,
-	495,
-	3,
-	21);
-INSERT INTO V_VAL
-	VALUES (1757,
-	0,
-	0,
-	5,
-	13,
-	16,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1757,
-	0,
-	0,
-	0,
-	1753);
-INSERT INTO V_VAL
-	VALUES (1727,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1727,
-	1758,
-	1757,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1758,
-	0,
-	0,
-	5,
-	27,
-	34,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_LEN
-	VALUES (1758,
-	536,
-	5,
-	21);
-INSERT INTO V_VAL
-	VALUES (1759,
-	0,
-	0,
-	7,
-	13,
-	16,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1759,
-	0,
-	0,
-	0,
-	1753);
-INSERT INTO V_VAL
-	VALUES (1730,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1730,
-	1760,
-	1759,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1760,
-	0,
-	0,
-	7,
-	27,
-	35,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_LEN
-	VALUES (1760,
-	515,
-	7,
-	21);
-INSERT INTO V_VAL
-	VALUES (1761,
-	0,
-	0,
-	9,
-	13,
-	16,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1761,
-	0,
-	0,
-	0,
-	1753);
-INSERT INTO V_VAL
-	VALUES (1733,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1733,
-	1762,
-	1761,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1762,
-	0,
-	0,
-	9,
-	27,
-	31,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_LEN
-	VALUES (1762,
-	1763,
-	9,
-	21);
-INSERT INTO V_VAL
-	VALUES (1764,
-	0,
-	0,
-	11,
-	13,
-	16,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1764,
-	0,
-	0,
-	0,
-	1753);
-INSERT INTO V_VAL
-	VALUES (1736,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1736,
-	1765,
-	1764,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1765,
-	0,
-	0,
-	11,
-	27,
-	31,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_LEN
-	VALUES (1765,
-	1766,
-	11,
-	21);
-INSERT INTO V_VAL
-	VALUES (1767,
-	0,
-	0,
-	13,
-	13,
-	16,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1767,
-	0,
-	0,
-	0,
-	1753);
-INSERT INTO V_VAL
-	VALUES (1739,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1739,
-	1768,
-	1767,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1768,
-	0,
-	0,
-	13,
-	27,
-	30,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_LEN
-	VALUES (1768,
-	1769,
-	13,
-	21);
-INSERT INTO V_VAL
-	VALUES (1770,
-	0,
-	0,
-	15,
-	13,
-	16,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1770,
-	0,
-	0,
-	0,
-	1753);
-INSERT INTO V_VAL
-	VALUES (1742,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1742,
-	1771,
-	1770,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1771,
-	0,
-	0,
-	15,
-	27,
-	36,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_LEN
-	VALUES (1771,
-	1772,
-	15,
-	21);
-INSERT INTO V_VAL
-	VALUES (1773,
-	0,
-	0,
-	17,
-	13,
-	16,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1773,
-	0,
-	0,
-	0,
-	1753);
-INSERT INTO V_VAL
-	VALUES (1745,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1745,
-	1774,
-	1773,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1774,
-	0,
-	0,
-	17,
-	27,
-	29,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_LEN
-	VALUES (1774,
-	1775,
-	17,
-	21);
-INSERT INTO V_VAL
-	VALUES (1776,
-	0,
-	0,
-	19,
-	13,
-	16,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1776,
-	0,
-	0,
-	0,
-	1753);
-INSERT INTO V_VAL
-	VALUES (1748,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1748,
-	1777,
-	1776,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1777,
-	0,
-	0,
-	19,
-	27,
-	29,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_LEN
-	VALUES (1777,
-	557,
-	19,
-	21);
-INSERT INTO V_VAL
-	VALUES (1778,
-	0,
-	0,
-	21,
-	13,
-	16,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_PVL
-	VALUES (1778,
-	0,
-	0,
-	0,
-	1753);
-INSERT INTO V_VAL
-	VALUES (1751,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1718);
-INSERT INTO V_BIN
-	VALUES (1751,
-	1779,
-	1778,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1779,
-	0,
-	0,
-	21,
-	27,
-	30,
-	0,
-	0,
-	0,
-	0,
-	490,
-	1718);
-INSERT INTO V_LEN
-	VALUES (1779,
-	576,
-	21,
-	21);
-INSERT INTO ACT_BLK
-	VALUES (1720,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	2,
-	3,
-	2,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1717,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1780,
-	1720,
-	0,
-	2,
-	3,
-	'UI::UI::setData line: 2');
-INSERT INTO ACT_BRG
-	VALUES (1780,
-	1781,
-	2,
-	14,
-	2,
-	3);
-INSERT INTO V_VAL
-	VALUES (1782,
-	0,
-	0,
-	2,
-	35,
-	39,
-	0,
-	0,
-	0,
-	0,
-	170,
-	1720);
-INSERT INTO V_PVL
-	VALUES (1782,
-	0,
-	0,
-	0,
-	1783);
-INSERT INTO V_PAR
-	VALUES (1782,
-	1780,
-	0,
-	'value',
-	1784,
-	2,
-	22);
-INSERT INTO V_VAL
-	VALUES (1784,
-	0,
-	0,
-	2,
-	48,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1720);
-INSERT INTO V_LIN
-	VALUES (1784,
-	'0');
-INSERT INTO V_PAR
-	VALUES (1784,
-	1780,
-	0,
-	'unit',
-	0,
-	2,
-	42);
-INSERT INTO ACT_BLK
+	11);
+INSERT INTO SPR_PEP
 	VALUES (1723,
-	0,
-	0,
-	0,
-	'GuiBridge',
+	1724,
+	1713);
+INSERT INTO SPR_PO
+	VALUES (1723,
+	'setData',
 	'',
-	'',
-	4,
-	3,
-	4,
-	3,
+	'::setData( value:param.value, unit:param.unit );
+',
+	1);
+INSERT INTO ACT_POB
+	VALUES (1725,
+	1723);
+INSERT INTO ACT_ACT
+	VALUES (1725,
+	'interface operation',
+	0,
+	1726,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1717,
+	'UI::UI::setData',
 	0);
-INSERT INTO ACT_SMT
-	VALUES (1785,
-	1723,
-	0,
-	4,
-	3,
-	'UI::UI::setData line: 4');
-INSERT INTO ACT_BRG
-	VALUES (1785,
-	1781,
-	4,
-	14,
-	4,
-	3);
-INSERT INTO V_VAL
-	VALUES (1786,
-	0,
-	0,
-	4,
-	35,
-	39,
-	0,
-	0,
-	0,
-	0,
-	170,
-	1723);
-INSERT INTO V_PVL
-	VALUES (1786,
-	0,
-	0,
-	0,
-	1783);
-INSERT INTO V_PAR
-	VALUES (1786,
-	1785,
-	0,
-	'value',
-	1787,
-	4,
-	22);
-INSERT INTO V_VAL
-	VALUES (1787,
-	0,
-	0,
-	4,
-	48,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1723);
-INSERT INTO V_LIN
-	VALUES (1787,
-	'1');
-INSERT INTO V_PAR
-	VALUES (1787,
-	1785,
-	0,
-	'unit',
-	0,
-	4,
-	42);
 INSERT INTO ACT_BLK
 	VALUES (1726,
 	0,
 	0,
 	0,
-	'GuiBridge',
 	'',
 	'',
-	6,
-	3,
-	6,
-	3,
+	'',
+	1,
+	1,
 	0,
 	0,
 	0,
@@ -28192,801 +27277,100 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1717,
+	0,
+	0,
+	1725,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1788,
+	VALUES (1727,
 	1726,
 	0,
-	6,
-	3,
-	'UI::UI::setData line: 6');
-INSERT INTO ACT_BRG
-	VALUES (1788,
-	1781,
-	6,
-	14,
-	6,
+	1,
+	1,
+	'UI::UI::setData line: 1');
+INSERT INTO ACT_FNC
+	VALUES (1727,
+	1728,
+	1,
 	3);
 INSERT INTO V_VAL
-	VALUES (1789,
+	VALUES (1729,
 	0,
 	0,
-	6,
-	35,
-	39,
+	1,
+	24,
+	28,
 	0,
 	0,
 	0,
 	0,
-	170,
+	10,
 	1726);
 INSERT INTO V_PVL
-	VALUES (1789,
-	0,
-	0,
-	0,
-	1783);
-INSERT INTO V_PAR
-	VALUES (1789,
-	1788,
-	0,
-	'value',
-	1790,
-	6,
-	22);
-INSERT INTO V_VAL
-	VALUES (1790,
-	0,
-	0,
-	6,
-	48,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1726);
-INSERT INTO V_LIN
-	VALUES (1790,
-	'2');
-INSERT INTO V_PAR
-	VALUES (1790,
-	1788,
-	0,
-	'unit',
-	0,
-	6,
-	42);
-INSERT INTO ACT_BLK
 	VALUES (1729,
 	0,
 	0,
 	0,
-	'GuiBridge',
-	'',
-	'',
-	8,
-	3,
-	8,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1717,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1791,
-	1729,
-	0,
-	8,
-	3,
-	'UI::UI::setData line: 8');
-INSERT INTO ACT_BRG
-	VALUES (1791,
-	1781,
-	8,
-	14,
-	8,
-	3);
-INSERT INTO V_VAL
-	VALUES (1792,
-	0,
-	0,
-	8,
-	35,
-	39,
-	0,
-	0,
-	0,
-	0,
-	170,
-	1729);
-INSERT INTO V_PVL
-	VALUES (1792,
-	0,
-	0,
-	0,
-	1783);
+	1730);
 INSERT INTO V_PAR
-	VALUES (1792,
-	1791,
+	VALUES (1729,
+	1727,
 	0,
 	'value',
-	1793,
-	8,
-	22);
+	1731,
+	1,
+	12);
 INSERT INTO V_VAL
-	VALUES (1793,
+	VALUES (1731,
 	0,
 	0,
-	8,
-	48,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1729);
-INSERT INTO V_LIN
-	VALUES (1793,
-	'3');
-INSERT INTO V_PAR
-	VALUES (1793,
-	1791,
-	0,
-	'unit',
-	0,
-	8,
-	42);
-INSERT INTO ACT_BLK
-	VALUES (1732,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	10,
-	3,
-	10,
-	3,
+	1,
+	42,
+	45,
 	0,
 	0,
 	0,
 	0,
+	24,
+	1726);
+INSERT INTO V_PVL
+	VALUES (1731,
 	0,
 	0,
 	0,
-	0,
-	0,
-	1717,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1794,
-	1732,
-	0,
-	10,
-	3,
-	'UI::UI::setData line: 10');
-INSERT INTO ACT_BRG
-	VALUES (1794,
-	1781,
-	10,
-	14,
-	10,
-	3);
-INSERT INTO V_VAL
-	VALUES (1795,
-	0,
-	0,
-	10,
-	35,
-	39,
-	0,
-	0,
-	0,
-	0,
-	170,
 	1732);
-INSERT INTO V_PVL
-	VALUES (1795,
-	0,
-	0,
-	0,
-	1783);
 INSERT INTO V_PAR
-	VALUES (1795,
-	1794,
-	0,
-	'value',
-	1796,
-	10,
-	22);
-INSERT INTO V_VAL
-	VALUES (1796,
-	0,
-	0,
-	10,
-	48,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1732);
-INSERT INTO V_LIN
-	VALUES (1796,
-	'4');
-INSERT INTO V_PAR
-	VALUES (1796,
-	1794,
+	VALUES (1731,
+	1727,
 	0,
 	'unit',
 	0,
-	10,
-	42);
-INSERT INTO ACT_BLK
-	VALUES (1735,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	12,
-	3,
-	12,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1717,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1797,
-	1735,
-	0,
-	12,
-	3,
-	'UI::UI::setData line: 12');
-INSERT INTO ACT_BRG
-	VALUES (1797,
-	1781,
-	12,
-	14,
-	12,
-	3);
-INSERT INTO V_VAL
-	VALUES (1798,
-	0,
-	0,
-	12,
-	35,
-	39,
-	0,
-	0,
-	0,
-	0,
-	170,
-	1735);
-INSERT INTO V_PVL
-	VALUES (1798,
-	0,
-	0,
-	0,
-	1783);
-INSERT INTO V_PAR
-	VALUES (1798,
-	1797,
-	0,
-	'value',
-	1799,
-	12,
-	22);
-INSERT INTO V_VAL
-	VALUES (1799,
-	0,
-	0,
-	12,
-	48,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1735);
-INSERT INTO V_LIN
-	VALUES (1799,
-	'5');
-INSERT INTO V_PAR
-	VALUES (1799,
-	1797,
-	0,
-	'unit',
-	0,
-	12,
-	42);
-INSERT INTO ACT_BLK
-	VALUES (1738,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	14,
-	3,
-	14,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1717,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1800,
-	1738,
-	0,
-	14,
-	3,
-	'UI::UI::setData line: 14');
-INSERT INTO ACT_BRG
-	VALUES (1800,
-	1781,
-	14,
-	14,
-	14,
-	3);
-INSERT INTO V_VAL
-	VALUES (1801,
-	0,
-	0,
-	14,
-	35,
-	39,
-	0,
-	0,
-	0,
-	0,
-	170,
-	1738);
-INSERT INTO V_PVL
-	VALUES (1801,
-	0,
-	0,
-	0,
-	1783);
-INSERT INTO V_PAR
-	VALUES (1801,
-	1800,
-	0,
-	'value',
-	1802,
-	14,
-	22);
-INSERT INTO V_VAL
-	VALUES (1802,
-	0,
-	0,
-	14,
-	48,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1738);
-INSERT INTO V_LIN
-	VALUES (1802,
-	'6');
-INSERT INTO V_PAR
-	VALUES (1802,
-	1800,
-	0,
-	'unit',
-	0,
-	14,
-	42);
-INSERT INTO ACT_BLK
-	VALUES (1741,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	16,
-	3,
-	16,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1717,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1803,
-	1741,
-	0,
-	16,
-	3,
-	'UI::UI::setData line: 16');
-INSERT INTO ACT_BRG
-	VALUES (1803,
-	1781,
-	16,
-	14,
-	16,
-	3);
-INSERT INTO V_VAL
-	VALUES (1804,
-	0,
-	0,
-	16,
-	35,
-	39,
-	0,
-	0,
-	0,
-	0,
-	170,
-	1741);
-INSERT INTO V_PVL
-	VALUES (1804,
-	0,
-	0,
-	0,
-	1783);
-INSERT INTO V_PAR
-	VALUES (1804,
-	1803,
-	0,
-	'value',
-	1805,
-	16,
-	22);
-INSERT INTO V_VAL
-	VALUES (1805,
-	0,
-	0,
-	16,
-	48,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1741);
-INSERT INTO V_LIN
-	VALUES (1805,
-	'7');
-INSERT INTO V_PAR
-	VALUES (1805,
-	1803,
-	0,
-	'unit',
-	0,
-	16,
-	42);
-INSERT INTO ACT_BLK
-	VALUES (1744,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	18,
-	3,
-	18,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1717,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1806,
-	1744,
-	0,
-	18,
-	3,
-	'UI::UI::setData line: 18');
-INSERT INTO ACT_BRG
-	VALUES (1806,
-	1781,
-	18,
-	14,
-	18,
-	3);
-INSERT INTO V_VAL
-	VALUES (1807,
-	0,
-	0,
-	18,
-	35,
-	39,
-	0,
-	0,
-	0,
-	0,
-	170,
-	1744);
-INSERT INTO V_PVL
-	VALUES (1807,
-	0,
-	0,
-	0,
-	1783);
-INSERT INTO V_PAR
-	VALUES (1807,
-	1806,
-	0,
-	'value',
-	1808,
-	18,
-	22);
-INSERT INTO V_VAL
-	VALUES (1808,
-	0,
-	0,
-	18,
-	48,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1744);
-INSERT INTO V_LIN
-	VALUES (1808,
-	'8');
-INSERT INTO V_PAR
-	VALUES (1808,
-	1806,
-	0,
-	'unit',
-	0,
-	18,
-	42);
-INSERT INTO ACT_BLK
-	VALUES (1747,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	20,
-	3,
-	20,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1717,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1809,
-	1747,
-	0,
-	20,
-	3,
-	'UI::UI::setData line: 20');
-INSERT INTO ACT_BRG
-	VALUES (1809,
-	1781,
-	20,
-	14,
-	20,
-	3);
-INSERT INTO V_VAL
-	VALUES (1810,
-	0,
-	0,
-	20,
-	35,
-	39,
-	0,
-	0,
-	0,
-	0,
-	170,
-	1747);
-INSERT INTO V_PVL
-	VALUES (1810,
-	0,
-	0,
-	0,
-	1783);
-INSERT INTO V_PAR
-	VALUES (1810,
-	1809,
-	0,
-	'value',
-	1811,
-	20,
-	22);
-INSERT INTO V_VAL
-	VALUES (1811,
-	0,
-	0,
-	20,
-	48,
-	48,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1747);
-INSERT INTO V_LIN
-	VALUES (1811,
-	'9');
-INSERT INTO V_PAR
-	VALUES (1811,
-	1809,
-	0,
-	'unit',
-	0,
-	20,
-	42);
-INSERT INTO ACT_BLK
-	VALUES (1750,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	22,
-	3,
-	22,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1717,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1812,
-	1750,
-	0,
-	22,
-	3,
-	'UI::UI::setData line: 22');
-INSERT INTO ACT_BRG
-	VALUES (1812,
-	1781,
-	22,
-	14,
-	22,
-	3);
-INSERT INTO V_VAL
-	VALUES (1813,
-	0,
-	0,
-	22,
-	35,
-	39,
-	0,
-	0,
-	0,
-	0,
-	170,
-	1750);
-INSERT INTO V_PVL
-	VALUES (1813,
-	0,
-	0,
-	0,
-	1783);
-INSERT INTO V_PAR
-	VALUES (1813,
-	1812,
-	0,
-	'value',
-	1814,
-	22,
-	22);
-INSERT INTO V_VAL
-	VALUES (1814,
-	0,
-	0,
-	22,
-	48,
-	49,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1750);
-INSERT INTO V_LIN
-	VALUES (1814,
-	'10');
-INSERT INTO V_PAR
-	VALUES (1814,
-	1812,
-	0,
-	'unit',
-	0,
-	22,
-	42);
+	1,
+	31);
 INSERT INTO SPR_PEP
-	VALUES (1815,
-	1816,
-	1705);
+	VALUES (1733,
+	1734,
+	1713);
 INSERT INTO SPR_PO
-	VALUES (1815,
+	VALUES (1733,
 	'startTest',
 	'',
-	'generate TestCase2:start(iterations: 2) to TestCase creator;',
+	'generate TestCase2:tcstart(iterations: 2) to TestCase creator;',
 	1);
 INSERT INTO ACT_POB
-	VALUES (1817,
-	1815);
+	VALUES (1735,
+	1733);
 INSERT INTO ACT_ACT
-	VALUES (1817,
+	VALUES (1735,
 	'interface operation',
 	0,
-	1818,
+	1736,
 	0,
 	0,
 	'UI::UI::startTest',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1818,
+	VALUES (1736,
 	0,
 	0,
 	0,
@@ -28996,7 +27380,7 @@ INSERT INTO ACT_BLK
 	1,
 	1,
 	1,
-	44,
+	46,
 	0,
 	0,
 	0,
@@ -29006,17 +27390,17 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1817,
+	1735,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1819,
-	1818,
+	VALUES (1737,
+	1736,
 	0,
 	1,
 	1,
 	'UI::UI::startTest line: 1');
 INSERT INTO E_ESS
-	VALUES (1819,
+	VALUES (1737,
 	1,
 	0,
 	1,
@@ -29024,639 +27408,159 @@ INSERT INTO E_ESS
 	1,
 	20,
 	1,
-	44,
+	46,
 	1,
-	26,
+	28,
 	0,
 	0);
 INSERT INTO V_PAR
-	VALUES (1820,
-	1819,
+	VALUES (1738,
+	1737,
 	0,
 	'iterations',
 	0,
 	1,
-	26);
+	28);
 INSERT INTO E_GES
-	VALUES (1819);
+	VALUES (1737);
 INSERT INTO E_GSME
-	VALUES (1819,
-	1821);
+	VALUES (1737,
+	1739);
 INSERT INTO E_GEC
-	VALUES (1819);
+	VALUES (1737);
 INSERT INTO V_VAL
-	VALUES (1820,
+	VALUES (1738,
 	0,
 	0,
 	1,
-	38,
-	38,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1818);
-INSERT INTO V_LIN
-	VALUES (1820,
-	'2');
-INSERT INTO SPR_PEP
-	VALUES (1822,
-	1823,
-	1705);
-INSERT INTO SPR_PO
-	VALUES (1822,
-	'setIndicator',
-	'',
-	'// Map values of UIDatatypes/Indicator to values defined in WatchGUI.java.
-if ( param.indicator == Indicator::Blank  )
-  GuiBridge::setIndicator( value: 0 );
-elif ( param.indicator == Indicator::Down )
-  GuiBridge::setIndicator( value: 1 );
-elif ( param.indicator == Indicator::Flat )
-  GuiBridge::setIndicator( value: 2 );
-elif ( param.indicator == Indicator::Up )
-  GuiBridge::setIndicator( value: 3 );
-end if;',
-	1);
-INSERT INTO ACT_POB
-	VALUES (1824,
-	1822);
-INSERT INTO ACT_ACT
-	VALUES (1824,
-	'interface operation',
-	0,
-	1825,
-	0,
-	0,
-	'UI::UI::setIndicator',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1825,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	8,
-	1,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	8,
-	27,
-	0,
-	1824,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1826,
-	1825,
-	0,
-	2,
-	1,
-	'UI::UI::setIndicator line: 2');
-INSERT INTO ACT_IF
-	VALUES (1826,
-	1827,
-	1828,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1829,
-	1825,
-	0,
-	4,
-	1,
-	'UI::UI::setIndicator line: 4');
-INSERT INTO ACT_EL
-	VALUES (1829,
-	1830,
-	1831,
-	1826);
-INSERT INTO ACT_SMT
-	VALUES (1832,
-	1825,
-	0,
-	6,
-	1,
-	'UI::UI::setIndicator line: 6');
-INSERT INTO ACT_EL
-	VALUES (1832,
-	1833,
-	1834,
-	1826);
-INSERT INTO ACT_SMT
-	VALUES (1835,
-	1825,
-	0,
-	8,
-	1,
-	'UI::UI::setIndicator line: 8');
-INSERT INTO ACT_EL
-	VALUES (1835,
-	1836,
-	1837,
-	1826);
-INSERT INTO V_VAL
-	VALUES (1838,
-	0,
-	0,
-	2,
-	12,
-	20,
-	0,
-	0,
-	0,
-	0,
-	406,
-	1825);
-INSERT INTO V_PVL
-	VALUES (1838,
-	0,
-	0,
-	0,
-	1839);
-INSERT INTO V_VAL
-	VALUES (1828,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1825);
-INSERT INTO V_BIN
-	VALUES (1828,
-	1840,
-	1838,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1840,
-	0,
-	0,
-	2,
-	36,
+	40,
 	40,
 	0,
 	0,
 	0,
 	0,
-	406,
-	1825);
-INSERT INTO V_LEN
-	VALUES (1840,
-	424,
-	2,
-	25);
-INSERT INTO V_VAL
-	VALUES (1841,
-	0,
-	0,
-	4,
-	14,
-	22,
-	0,
-	0,
-	0,
-	0,
-	406,
-	1825);
-INSERT INTO V_PVL
-	VALUES (1841,
-	0,
-	0,
-	0,
-	1839);
-INSERT INTO V_VAL
-	VALUES (1831,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1825);
-INSERT INTO V_BIN
-	VALUES (1831,
-	1842,
-	1841,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1842,
-	0,
-	0,
-	4,
-	38,
-	41,
-	0,
-	0,
-	0,
-	0,
-	406,
-	1825);
-INSERT INTO V_LEN
-	VALUES (1842,
-	452,
-	4,
-	27);
-INSERT INTO V_VAL
-	VALUES (1843,
-	0,
-	0,
-	6,
-	14,
-	22,
-	0,
-	0,
-	0,
-	0,
-	406,
-	1825);
-INSERT INTO V_PVL
-	VALUES (1843,
-	0,
-	0,
-	0,
-	1839);
-INSERT INTO V_VAL
-	VALUES (1834,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1825);
-INSERT INTO V_BIN
-	VALUES (1834,
-	1844,
-	1843,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1844,
-	0,
-	0,
-	6,
-	38,
-	41,
-	0,
-	0,
-	0,
-	0,
-	406,
-	1825);
-INSERT INTO V_LEN
-	VALUES (1844,
-	456,
-	6,
-	27);
-INSERT INTO V_VAL
-	VALUES (1845,
-	0,
-	0,
-	8,
-	14,
-	22,
-	0,
-	0,
-	0,
-	0,
-	406,
-	1825);
-INSERT INTO V_PVL
-	VALUES (1845,
-	0,
-	0,
-	0,
-	1839);
-INSERT INTO V_VAL
-	VALUES (1837,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	1825);
-INSERT INTO V_BIN
-	VALUES (1837,
-	1846,
-	1845,
-	'==');
-INSERT INTO V_VAL
-	VALUES (1846,
-	0,
-	0,
-	8,
-	38,
-	39,
-	0,
-	0,
-	0,
-	0,
-	406,
-	1825);
-INSERT INTO V_LEN
-	VALUES (1846,
-	448,
-	8,
-	27);
-INSERT INTO ACT_BLK
-	VALUES (1827,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	3,
-	3,
-	3,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1824,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1847,
-	1827,
-	0,
-	3,
-	3,
-	'UI::UI::setIndicator line: 3');
-INSERT INTO ACT_BRG
-	VALUES (1847,
-	1848,
-	3,
-	14,
-	3,
-	3);
-INSERT INTO V_VAL
-	VALUES (1849,
-	0,
-	0,
-	3,
-	35,
-	35,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1827);
+	30,
+	1736);
 INSERT INTO V_LIN
-	VALUES (1849,
-	'0');
-INSERT INTO V_PAR
-	VALUES (1849,
-	1847,
-	0,
-	'value',
-	0,
-	3,
-	28);
-INSERT INTO ACT_BLK
-	VALUES (1830,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	5,
-	3,
-	5,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1824,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1850,
-	1830,
-	0,
-	5,
-	3,
-	'UI::UI::setIndicator line: 5');
-INSERT INTO ACT_BRG
-	VALUES (1850,
-	1848,
-	5,
-	14,
-	5,
-	3);
-INSERT INTO V_VAL
-	VALUES (1851,
-	0,
-	0,
-	5,
-	35,
-	35,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1830);
-INSERT INTO V_LIN
-	VALUES (1851,
-	'1');
-INSERT INTO V_PAR
-	VALUES (1851,
-	1850,
-	0,
-	'value',
-	0,
-	5,
-	28);
-INSERT INTO ACT_BLK
-	VALUES (1833,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	7,
-	3,
-	7,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1824,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1852,
-	1833,
-	0,
-	7,
-	3,
-	'UI::UI::setIndicator line: 7');
-INSERT INTO ACT_BRG
-	VALUES (1852,
-	1848,
-	7,
-	14,
-	7,
-	3);
-INSERT INTO V_VAL
-	VALUES (1853,
-	0,
-	0,
-	7,
-	35,
-	35,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1833);
-INSERT INTO V_LIN
-	VALUES (1853,
+	VALUES (1738,
 	'2');
-INSERT INTO V_PAR
-	VALUES (1853,
-	1852,
-	0,
-	'value',
-	0,
-	7,
-	28);
-INSERT INTO ACT_BLK
-	VALUES (1836,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	9,
-	3,
-	9,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1824,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (1854,
-	1836,
-	0,
-	9,
-	3,
-	'UI::UI::setIndicator line: 9');
-INSERT INTO ACT_BRG
-	VALUES (1854,
-	1848,
-	9,
-	14,
-	9,
-	3);
-INSERT INTO V_VAL
-	VALUES (1855,
-	0,
-	0,
-	9,
-	35,
-	35,
-	0,
-	0,
-	0,
-	0,
-	13,
-	1836);
-INSERT INTO V_LIN
-	VALUES (1855,
-	'3');
-INSERT INTO V_PAR
-	VALUES (1855,
-	1854,
-	0,
-	'value',
-	0,
-	9,
-	28);
 INSERT INTO SPR_PEP
-	VALUES (1856,
-	1857,
-	1705);
+	VALUES (1740,
+	1741,
+	1713);
 INSERT INTO SPR_PO
-	VALUES (1856,
-	'newGoalSpec',
+	VALUES (1740,
+	'setIndicator',
 	'',
-	'',
+	'::setIndicator( indicator:param.indicator );
+',
 	1);
 INSERT INTO ACT_POB
-	VALUES (1858,
-	1856);
+	VALUES (1742,
+	1740);
 INSERT INTO ACT_ACT
-	VALUES (1858,
+	VALUES (1742,
 	'interface operation',
 	0,
-	1859,
+	1743,
+	0,
+	0,
+	'UI::UI::setIndicator',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1743,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1742,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1744,
+	1743,
+	0,
+	1,
+	1,
+	'UI::UI::setIndicator line: 1');
+INSERT INTO ACT_FNC
+	VALUES (1744,
+	1745,
+	1,
+	3);
+INSERT INTO V_VAL
+	VALUES (1746,
+	0,
+	0,
+	1,
+	33,
+	41,
+	0,
+	0,
+	0,
+	0,
+	27,
+	1743);
+INSERT INTO V_PVL
+	VALUES (1746,
+	0,
+	0,
+	0,
+	1747);
+INSERT INTO V_PAR
+	VALUES (1746,
+	1744,
+	0,
+	'indicator',
+	0,
+	1,
+	17);
+INSERT INTO SPR_PEP
+	VALUES (1748,
+	1749,
+	1713);
+INSERT INTO SPR_PO
+	VALUES (1748,
+	'newGoalSpec',
+	'',
+	'::newGoalSpec( sequenceNumber:param.sequenceNumber, minimum:param.minimum, maximum:param.maximum, span:param.span, criteriaType:param.criteriaType, spanType:param.spanType );',
+	1);
+INSERT INTO ACT_POB
+	VALUES (1750,
+	1748);
+INSERT INTO ACT_ACT
+	VALUES (1750,
+	'interface operation',
+	0,
+	1751,
 	0,
 	0,
 	'UI::UI::newGoalSpec',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1859,
+	VALUES (1751,
 	0,
 	0,
 	0,
 	'',
 	'',
 	'',
+	1,
+	1,
 	0,
 	0,
 	0,
@@ -29668,51 +27572,223 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	0,
-	0,
-	1858,
+	1750,
 	0);
+INSERT INTO ACT_SMT
+	VALUES (1752,
+	1751,
+	0,
+	1,
+	1,
+	'UI::UI::newGoalSpec line: 1');
+INSERT INTO ACT_FNC
+	VALUES (1752,
+	1753,
+	1,
+	3);
+INSERT INTO V_VAL
+	VALUES (1754,
+	0,
+	0,
+	1,
+	37,
+	50,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1751);
+INSERT INTO V_PVL
+	VALUES (1754,
+	0,
+	0,
+	0,
+	1755);
+INSERT INTO V_PAR
+	VALUES (1754,
+	1752,
+	0,
+	'sequenceNumber',
+	1756,
+	1,
+	16);
+INSERT INTO V_VAL
+	VALUES (1756,
+	0,
+	0,
+	1,
+	67,
+	73,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1751);
+INSERT INTO V_PVL
+	VALUES (1756,
+	0,
+	0,
+	0,
+	1757);
+INSERT INTO V_PAR
+	VALUES (1756,
+	1752,
+	0,
+	'minimum',
+	1758,
+	1,
+	53);
+INSERT INTO V_VAL
+	VALUES (1758,
+	0,
+	0,
+	1,
+	90,
+	96,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1751);
+INSERT INTO V_PVL
+	VALUES (1758,
+	0,
+	0,
+	0,
+	1759);
+INSERT INTO V_PAR
+	VALUES (1758,
+	1752,
+	0,
+	'maximum',
+	1760,
+	1,
+	76);
+INSERT INTO V_VAL
+	VALUES (1760,
+	0,
+	0,
+	1,
+	110,
+	113,
+	0,
+	0,
+	0,
+	0,
+	10,
+	1751);
+INSERT INTO V_PVL
+	VALUES (1760,
+	0,
+	0,
+	0,
+	1761);
+INSERT INTO V_PAR
+	VALUES (1760,
+	1752,
+	0,
+	'span',
+	1762,
+	1,
+	99);
+INSERT INTO V_VAL
+	VALUES (1762,
+	0,
+	0,
+	1,
+	135,
+	146,
+	0,
+	0,
+	0,
+	0,
+	37,
+	1751);
+INSERT INTO V_PVL
+	VALUES (1762,
+	0,
+	0,
+	0,
+	1763);
+INSERT INTO V_PAR
+	VALUES (1762,
+	1752,
+	0,
+	'criteriaType',
+	1764,
+	1,
+	116);
+INSERT INTO V_VAL
+	VALUES (1764,
+	0,
+	0,
+	1,
+	164,
+	171,
+	0,
+	0,
+	0,
+	0,
+	39,
+	1751);
+INSERT INTO V_PVL
+	VALUES (1764,
+	0,
+	0,
+	0,
+	1765);
+INSERT INTO V_PAR
+	VALUES (1764,
+	1752,
+	0,
+	'spanType',
+	0,
+	1,
+	149);
 INSERT INTO C_PO
-	VALUES (1860,
-	1703,
+	VALUES (1766,
+	1711,
 	'Tracking',
 	0,
 	0);
 INSERT INTO C_IR
-	VALUES (1861,
-	1862,
+	VALUES (1767,
+	1768,
 	0,
-	1860);
+	1766);
 INSERT INTO C_R
-	VALUES (1861,
+	VALUES (1767,
 	'UITracking',
 	'',
 	'Unnamed Interface',
 	'UI::Tracking::UITracking');
 INSERT INTO SPR_REP
-	VALUES (1863,
-	1864,
-	1861);
+	VALUES (1769,
+	1770,
+	1767);
 INSERT INTO SPR_RO
-	VALUES (1863,
+	VALUES (1769,
 	'setTargetPressed',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (1865,
-	1863);
+	VALUES (1771,
+	1769);
 INSERT INTO ACT_ACT
-	VALUES (1865,
+	VALUES (1771,
 	'interface operation',
 	0,
-	1866,
+	1772,
 	0,
 	0,
 	'Tracking::UITracking::setTargetPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1866,
+	VALUES (1772,
 	0,
 	0,
 	0,
@@ -29732,32 +27808,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1865,
+	1771,
 	0);
 INSERT INTO SPR_REP
-	VALUES (1867,
-	1868,
-	1861);
+	VALUES (1773,
+	1774,
+	1767);
 INSERT INTO SPR_RO
-	VALUES (1867,
+	VALUES (1773,
 	'startStopPressed',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (1869,
-	1867);
+	VALUES (1775,
+	1773);
 INSERT INTO ACT_ACT
-	VALUES (1869,
+	VALUES (1775,
 	'interface operation',
 	0,
-	1870,
+	1776,
 	0,
 	0,
 	'Tracking::UITracking::startStopPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1870,
+	VALUES (1776,
 	0,
 	0,
 	0,
@@ -29777,32 +27853,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1869,
+	1775,
 	0);
 INSERT INTO SPR_REP
-	VALUES (1871,
-	1872,
-	1861);
+	VALUES (1777,
+	1778,
+	1767);
 INSERT INTO SPR_RO
-	VALUES (1871,
+	VALUES (1777,
 	'lapResetPressed',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (1873,
-	1871);
+	VALUES (1779,
+	1777);
 INSERT INTO ACT_ACT
-	VALUES (1873,
+	VALUES (1779,
 	'interface operation',
 	0,
-	1874,
+	1780,
 	0,
 	0,
 	'Tracking::UITracking::lapResetPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1874,
+	VALUES (1780,
 	0,
 	0,
 	0,
@@ -29822,32 +27898,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1873,
+	1779,
 	0);
 INSERT INTO SPR_REP
-	VALUES (1875,
-	1876,
-	1861);
+	VALUES (1781,
+	1782,
+	1767);
 INSERT INTO SPR_RO
-	VALUES (1875,
+	VALUES (1781,
 	'modePressed',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (1877,
-	1875);
+	VALUES (1783,
+	1781);
 INSERT INTO ACT_ACT
-	VALUES (1877,
+	VALUES (1783,
 	'interface operation',
 	0,
-	1878,
+	1784,
 	0,
 	0,
 	'Tracking::UITracking::modePressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1878,
+	VALUES (1784,
 	0,
 	0,
 	0,
@@ -29867,32 +27943,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1877,
+	1783,
 	0);
 INSERT INTO SPR_REP
-	VALUES (1879,
-	1880,
-	1861);
+	VALUES (1785,
+	1786,
+	1767);
 INSERT INTO SPR_RO
-	VALUES (1879,
+	VALUES (1785,
 	'newGoalSpec',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (1881,
-	1879);
+	VALUES (1787,
+	1785);
 INSERT INTO ACT_ACT
-	VALUES (1881,
+	VALUES (1787,
 	'interface operation',
 	0,
-	1882,
+	1788,
 	0,
 	0,
 	'Tracking::UITracking::newGoalSpec',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1882,
+	VALUES (1788,
 	0,
 	0,
 	0,
@@ -29912,32 +27988,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1881,
+	1787,
 	0);
 INSERT INTO SPR_REP
-	VALUES (1883,
-	1884,
-	1861);
+	VALUES (1789,
+	1790,
+	1767);
 INSERT INTO SPR_RO
-	VALUES (1883,
+	VALUES (1789,
 	'lightPressed',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (1885,
-	1883);
+	VALUES (1791,
+	1789);
 INSERT INTO ACT_ACT
-	VALUES (1885,
+	VALUES (1791,
 	'interface operation',
 	0,
-	1886,
+	1792,
 	0,
 	0,
 	'Tracking::UITracking::lightPressed',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1886,
+	VALUES (1792,
 	0,
 	0,
 	0,
@@ -29957,263 +28033,1893 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1885,
+	1791,
 	0);
 INSERT INTO PE_PE
-	VALUES (1887,
+	VALUES (1793,
 	1,
 	0,
-	1703,
+	1711,
 	7);
 INSERT INTO EP_PKG
-	VALUES (1887,
+	VALUES (1793,
 	0,
-	1701,
-	'ButtonFunctions',
-	'Each function within this package represents one of the buttons
-on the watch.  When a function is executed, it sends the 
-corresponding interface signal out through the UI port.
-This allows a user executing models in Verifier to simulate
-the use of the watch by invoking these functions to 
-represent button pushes.',
+	1709,
+	'UI',
+	'',
 	0);
 INSERT INTO PE_PE
-	VALUES (1888,
+	VALUES (1794,
 	1,
-	1887,
+	1793,
 	0,
-	1);
-INSERT INTO S_SYNC
-	VALUES (1888,
-	0,
-	'sendLapResetPressed',
+	4);
+INSERT INTO O_OBJ
+	VALUES (1794,
+	'TestCase',
+	2,
+	'TestCase',
+	'Represents a very simple automated test case.',
+	0);
+INSERT INTO O_TFR
+	VALUES (1795,
+	1794,
+	'execute',
 	'',
-	'send Tracking::lapResetPressed();',
-	240,
+	6,
+	0,
+	'generate TestCase2:tcstart(iterations: 2) to TestCase creator;',
 	1,
-	'');
-INSERT INTO ACT_FNB
-	VALUES (1889,
-	1888);
+	'',
+	0);
+INSERT INTO ACT_OPB
+	VALUES (1796,
+	1795);
 INSERT INTO ACT_ACT
-	VALUES (1889,
-	'function',
+	VALUES (1796,
+	'class operation',
 	0,
-	1890,
+	1797,
 	0,
 	0,
-	'sendLapResetPressed',
+	'TestCase::execute',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1890,
+	VALUES (1797,
+	0,
+	0,
+	0,
+	'',
+	'iterations',
+	'iterations',
+	1,
+	1,
+	1,
+	46,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1796,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1798,
+	1797,
+	0,
+	1,
+	1,
+	'TestCase::execute line: 1');
+INSERT INTO E_ESS
+	VALUES (1798,
+	1,
+	0,
+	1,
+	10,
+	1,
+	20,
+	1,
+	46,
+	1,
+	28,
+	0,
+	0);
+INSERT INTO V_PAR
+	VALUES (1799,
+	1798,
+	0,
+	'iterations',
+	0,
+	1,
+	28);
+INSERT INTO E_GES
+	VALUES (1798);
+INSERT INTO E_GSME
+	VALUES (1798,
+	1739);
+INSERT INTO E_GEC
+	VALUES (1798);
+INSERT INTO V_VAL
+	VALUES (1799,
+	0,
+	0,
+	1,
+	40,
+	40,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1797);
+INSERT INTO V_LIN
+	VALUES (1799,
+	'2');
+INSERT INTO O_NBATTR
+	VALUES (1800,
+	1794);
+INSERT INTO O_BATTR
+	VALUES (1800,
+	1794);
+INSERT INTO O_ATTR
+	VALUES (1800,
+	1794,
+	0,
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	476,
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES (1801,
+	1794);
+INSERT INTO O_BATTR
+	VALUES (1801,
+	1794);
+INSERT INTO O_ATTR
+	VALUES (1801,
+	1794,
+	1800,
+	'iterations',
+	'',
+	'',
+	'iterations',
+	0,
+	30,
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	1794);
+INSERT INTO O_ID
+	VALUES (1,
+	1794);
+INSERT INTO O_ID
+	VALUES (2,
+	1794);
+INSERT INTO SM_ISM
+	VALUES (1802,
+	1794);
+INSERT INTO SM_SM
+	VALUES (1802,
+	'',
+	0);
+INSERT INTO SM_MOORE
+	VALUES (1802);
+INSERT INTO SM_EVTDI
+	VALUES (1803,
+	1802,
+	'iterations',
+	'',
+	30,
+	'',
+	1739,
+	0);
+INSERT INTO SM_LEVT
+	VALUES (1804,
+	1802,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1804,
+	1802,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1804,
+	1802,
+	0,
+	1,
+	'tcdelay',
+	0,
+	'',
+	'TestCase1',
+	'');
+INSERT INTO SM_LEVT
+	VALUES (1739,
+	1802,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1739,
+	1802,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1739,
+	1802,
+	0,
+	2,
+	'tcstart',
+	0,
+	'',
+	'TestCase2',
+	'');
+INSERT INTO SM_LEVT
+	VALUES (1805,
+	1802,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1805,
+	1802,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1805,
+	1802,
+	0,
+	3,
+	'tcfinish',
+	0,
+	'',
+	'TestCase3',
+	'');
+INSERT INTO SM_STATE
+	VALUES (1806,
+	1802,
+	0,
+	'pressStartStop',
+	2,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1806,
+	1804,
+	1802,
+	0);
+INSERT INTO SM_CH
+	VALUES (1806,
+	1739,
+	1802,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (1806,
+	1739,
+	1802,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1806,
+	1805,
+	1802,
+	0);
+INSERT INTO SM_MOAH
+	VALUES (1807,
+	1802,
+	1806);
+INSERT INTO SM_AH
+	VALUES (1807,
+	1802);
+INSERT INTO SM_ACT
+	VALUES (1807,
+	1802,
+	1,
+	'if (self.iterations > 0)
+  self.iterations = self.iterations - 1;
+  create event instance evt of TestCase1 to self;
+  handle = TIM::timer_start(event_inst: evt, microseconds: 4000000);
+  send Tracking::startStopPressed();
+else
+  generate TestCase3:tcfinish to self;
+  send Tracking::lapResetPressed();
+end if;',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (1808,
+	1802,
+	1807);
+INSERT INTO ACT_ACT
+	VALUES (1808,
+	'state',
+	0,
+	1809,
+	0,
+	0,
+	'TestCase::pressStartStop',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1809,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	6,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1808,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1810,
+	1809,
+	0,
+	1,
+	1,
+	'TestCase::pressStartStop line: 1');
+INSERT INTO ACT_IF
+	VALUES (1810,
+	1811,
+	1812,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1813,
+	1809,
+	0,
+	6,
+	1,
+	'TestCase::pressStartStop line: 6');
+INSERT INTO ACT_E
+	VALUES (1813,
+	1814,
+	1810);
+INSERT INTO V_VAL
+	VALUES (1815,
+	0,
+	0,
+	1,
+	5,
+	8,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1809);
+INSERT INTO V_IRF
+	VALUES (1815,
+	1816);
+INSERT INTO V_VAL
+	VALUES (1817,
+	0,
+	0,
+	1,
+	10,
+	19,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1809);
+INSERT INTO V_AVL
+	VALUES (1817,
+	1815,
+	1794,
+	1801);
+INSERT INTO V_VAL
+	VALUES (1812,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	1809);
+INSERT INTO V_BIN
+	VALUES (1812,
+	1818,
+	1817,
+	'>');
+INSERT INTO V_VAL
+	VALUES (1818,
+	0,
+	0,
+	1,
+	23,
+	23,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1809);
+INSERT INTO V_LIN
+	VALUES (1818,
+	'0');
+INSERT INTO V_VAR
+	VALUES (1816,
+	1809,
+	'self',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1816,
+	0,
+	1794);
+INSERT INTO ACT_BLK
+	VALUES (1811,
 	0,
 	0,
 	0,
 	'Tracking',
 	'',
 	'',
+	5,
+	3,
+	5,
+	8,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1808,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1819,
+	1811,
+	1820,
+	2,
+	3,
+	'TestCase::pressStartStop line: 2');
+INSERT INTO ACT_AI
+	VALUES (1819,
+	1821,
+	1822,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1820,
+	1811,
+	1823,
+	3,
+	3,
+	'TestCase::pressStartStop line: 3');
+INSERT INTO E_ESS
+	VALUES (1820,
 	1,
+	0,
+	3,
+	32,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1820,
 	1,
+	1824);
+INSERT INTO E_CSME
+	VALUES (1820,
+	1804);
+INSERT INTO E_CEI
+	VALUES (1820,
+	1816);
+INSERT INTO ACT_SMT
+	VALUES (1823,
+	1811,
+	1825,
+	4,
+	3,
+	'TestCase::pressStartStop line: 4');
+INSERT INTO ACT_AI
+	VALUES (1823,
+	1826,
+	1827,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1825,
+	1811,
+	0,
+	5,
+	3,
+	'TestCase::pressStartStop line: 5');
+INSERT INTO ACT_IOP
+	VALUES (1825,
+	5,
+	18,
+	5,
+	8,
+	0,
+	1773,
+	0);
+INSERT INTO V_VAL
+	VALUES (1828,
 	1,
+	0,
+	2,
+	3,
 	6,
 	0,
 	0,
 	0,
 	0,
+	106,
+	1811);
+INSERT INTO V_IRF
+	VALUES (1828,
+	1816);
+INSERT INTO V_VAL
+	VALUES (1822,
+	1,
+	0,
+	2,
+	8,
+	17,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1811);
+INSERT INTO V_AVL
+	VALUES (1822,
+	1828,
+	1794,
+	1801);
+INSERT INTO V_VAL
+	VALUES (1829,
+	0,
+	0,
+	2,
+	21,
+	24,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1811);
+INSERT INTO V_IRF
+	VALUES (1829,
+	1816);
+INSERT INTO V_VAL
+	VALUES (1830,
+	0,
+	0,
+	2,
+	26,
+	35,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1811);
+INSERT INTO V_AVL
+	VALUES (1830,
+	1829,
+	1794,
+	1801);
+INSERT INTO V_VAL
+	VALUES (1821,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1811);
+INSERT INTO V_BIN
+	VALUES (1821,
+	1831,
+	1830,
+	'-');
+INSERT INTO V_VAL
+	VALUES (1831,
+	0,
+	0,
+	2,
+	39,
+	39,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1811);
+INSERT INTO V_LIN
+	VALUES (1831,
+	'1');
+INSERT INTO V_VAL
+	VALUES (1827,
+	1,
+	1,
+	4,
+	3,
+	8,
+	0,
+	0,
+	0,
+	0,
+	332,
+	1811);
+INSERT INTO V_TVL
+	VALUES (1827,
+	1832);
+INSERT INTO V_VAL
+	VALUES (1826,
+	0,
+	0,
+	4,
+	17,
+	-1,
+	4,
+	29,
+	4,
+	46,
+	332,
+	1811);
+INSERT INTO V_BRV
+	VALUES (1826,
+	1833,
+	1,
+	4,
+	12);
+INSERT INTO V_VAL
+	VALUES (1834,
+	0,
+	0,
+	4,
+	41,
+	43,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1811);
+INSERT INTO V_TVL
+	VALUES (1834,
+	1824);
+INSERT INTO V_PAR
+	VALUES (1834,
+	0,
+	1826,
+	'event_inst',
+	1835,
+	4,
+	29);
+INSERT INTO V_VAL
+	VALUES (1835,
+	0,
+	0,
+	4,
+	60,
+	66,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1811);
+INSERT INTO V_LIN
+	VALUES (1835,
+	'4000000');
+INSERT INTO V_PAR
+	VALUES (1835,
+	0,
+	1826,
+	'microseconds',
+	0,
+	4,
+	46);
+INSERT INTO V_VAR
+	VALUES (1824,
+	1811,
+	'evt',
+	1,
+	335);
+INSERT INTO V_TRN
+	VALUES (1824,
+	0,
+	'');
+INSERT INTO V_VAR
+	VALUES (1832,
+	1811,
+	'handle',
+	1,
+	332);
+INSERT INTO V_TRN
+	VALUES (1832,
+	0,
+	'');
+INSERT INTO ACT_BLK
+	VALUES (1814,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	8,
+	3,
+	8,
+	8,
 	0,
 	0,
 	0,
 	0,
 	0,
-	1889,
+	0,
+	0,
+	0,
+	0,
+	1808,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (1891,
-	1890,
+	VALUES (1836,
+	1814,
+	1837,
+	7,
+	3,
+	'TestCase::pressStartStop line: 7');
+INSERT INTO E_ESS
+	VALUES (1836,
+	1,
+	0,
+	7,
+	12,
+	7,
+	22,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_GES
+	VALUES (1836);
+INSERT INTO E_GSME
+	VALUES (1836,
+	1805);
+INSERT INTO E_GEN
+	VALUES (1836,
+	1816);
+INSERT INTO ACT_SMT
+	VALUES (1837,
+	1814,
+	0,
+	8,
+	3,
+	'TestCase::pressStartStop line: 8');
+INSERT INTO ACT_IOP
+	VALUES (1837,
+	8,
+	18,
+	8,
+	8,
+	0,
+	1777,
+	0);
+INSERT INTO SM_STATE
+	VALUES (1838,
+	1802,
+	0,
+	'testCaseFinished',
+	3,
+	1);
+INSERT INTO SM_CH
+	VALUES (1838,
+	1804,
+	1802,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (1838,
+	1804,
+	1802,
+	0);
+INSERT INTO SM_CH
+	VALUES (1838,
+	1739,
+	1802,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (1838,
+	1739,
+	1802,
+	0);
+INSERT INTO SM_CH
+	VALUES (1838,
+	1805,
+	1802,
+	0,
+	'');
+INSERT INTO SM_SEME
+	VALUES (1838,
+	1805,
+	1802,
+	0);
+INSERT INTO SM_MOAH
+	VALUES (1839,
+	1802,
+	1838);
+INSERT INTO SM_AH
+	VALUES (1839,
+	1802);
+INSERT INTO SM_ACT
+	VALUES (1839,
+	1802,
+	1,
+	'LOG::LogInfo(message: "End of test case"); ',
+	'');
+INSERT INTO ACT_SAB
+	VALUES (1840,
+	1802,
+	1839);
+INSERT INTO ACT_ACT
+	VALUES (1840,
+	'state',
+	0,
+	1841,
+	0,
+	0,
+	'TestCase::testCaseFinished',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1841,
+	0,
+	0,
+	0,
+	'LOG',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1840,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1842,
+	1841,
 	0,
 	1,
 	1,
-	'sendLapResetPressed line: 1');
-INSERT INTO ACT_IOP
-	VALUES (1891,
+	'TestCase::testCaseFinished line: 1');
+INSERT INTO ACT_BRG
+	VALUES (1842,
+	1843,
+	1,
+	6,
+	1,
+	1);
+INSERT INTO V_VAL
+	VALUES (1844,
+	0,
+	0,
+	1,
+	23,
+	39,
+	0,
+	0,
+	0,
+	0,
+	130,
+	1841);
+INSERT INTO V_LST
+	VALUES (1844,
+	'End of test case');
+INSERT INTO V_PAR
+	VALUES (1844,
+	1842,
+	0,
+	'message',
+	0,
+	1,
+	14);
+INSERT INTO SM_NSTXN
+	VALUES (1845,
+	1802,
+	1806,
+	1804,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1846,
+	1802,
+	1845);
+INSERT INTO SM_AH
+	VALUES (1846,
+	1802);
+INSERT INTO SM_ACT
+	VALUES (1846,
+	1802,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1847,
+	1802,
+	1846);
+INSERT INTO ACT_ACT
+	VALUES (1847,
+	'transition',
+	0,
+	1848,
+	0,
+	0,
+	'TestCase1: tcdelay',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1848,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1847,
+	0);
+INSERT INTO SM_TXN
+	VALUES (1845,
+	1802,
+	1806,
+	0);
+INSERT INTO SM_CRTXN
+	VALUES (1849,
+	1802,
+	1739,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1850,
+	1802,
+	1849);
+INSERT INTO SM_AH
+	VALUES (1850,
+	1802);
+INSERT INTO SM_ACT
+	VALUES (1850,
+	1802,
+	1,
+	'LOG::LogInfo(message: "Start of test case"); 
+self.iterations = rcvd_evt.iterations * 2;',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1851,
+	1802,
+	1850);
+INSERT INTO ACT_ACT
+	VALUES (1851,
+	'transition',
+	0,
+	1852,
+	0,
+	0,
+	'TestCase2: tcstart(iterations)',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1852,
+	0,
+	0,
+	0,
+	'LOG',
+	'',
+	'',
+	2,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1851,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1853,
+	1852,
+	1854,
+	1,
+	1,
+	'TestCase2: tcstart(iterations) line: 1');
+INSERT INTO ACT_BRG
+	VALUES (1853,
+	1843,
+	1,
+	6,
+	1,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (1854,
+	1852,
+	0,
+	2,
+	1,
+	'TestCase2: tcstart(iterations) line: 2');
+INSERT INTO ACT_AI
+	VALUES (1854,
+	1855,
+	1856,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (1857,
+	0,
+	0,
+	1,
+	23,
+	41,
+	0,
+	0,
+	0,
+	0,
+	130,
+	1852);
+INSERT INTO V_LST
+	VALUES (1857,
+	'Start of test case');
+INSERT INTO V_PAR
+	VALUES (1857,
+	1853,
+	0,
+	'message',
+	0,
+	1,
+	14);
+INSERT INTO V_VAL
+	VALUES (1858,
+	1,
+	0,
+	2,
+	1,
+	4,
+	0,
+	0,
+	0,
+	0,
+	106,
+	1852);
+INSERT INTO V_IRF
+	VALUES (1858,
+	1859);
+INSERT INTO V_VAL
+	VALUES (1856,
+	1,
+	0,
+	2,
+	6,
+	15,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1852);
+INSERT INTO V_AVL
+	VALUES (1856,
+	1858,
+	1794,
+	1801);
+INSERT INTO V_VAL
+	VALUES (1860,
+	0,
+	0,
+	2,
+	28,
+	37,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1852);
+INSERT INTO V_EDV
+	VALUES (1860);
+INSERT INTO V_EPR
+	VALUES (1860,
+	1802,
+	1803,
+	0);
+INSERT INTO V_VAL
+	VALUES (1855,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1852);
+INSERT INTO V_BIN
+	VALUES (1855,
+	1861,
+	1860,
+	'*');
+INSERT INTO V_VAL
+	VALUES (1861,
+	0,
+	0,
+	2,
+	41,
+	41,
+	0,
+	0,
+	0,
+	0,
+	30,
+	1852);
+INSERT INTO V_LIN
+	VALUES (1861,
+	'2');
+INSERT INTO V_VAR
+	VALUES (1859,
+	1852,
+	'self',
+	1,
+	106);
+INSERT INTO V_INT
+	VALUES (1859,
+	0,
+	1794);
+INSERT INTO SM_TXN
+	VALUES (1849,
+	1802,
+	1806,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (1862,
+	1802,
+	1806,
+	1805,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1863,
+	1802,
+	1862);
+INSERT INTO SM_AH
+	VALUES (1863,
+	1802);
+INSERT INTO SM_ACT
+	VALUES (1863,
+	1802,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1864,
+	1802,
+	1863);
+INSERT INTO ACT_ACT
+	VALUES (1864,
+	'transition',
+	0,
+	1865,
+	0,
+	0,
+	'TestCase3: tcfinish',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1865,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1864,
+	0);
+INSERT INTO SM_TXN
+	VALUES (1862,
+	1802,
+	1838,
+	0);
+INSERT INTO PE_PE
+	VALUES (1866,
+	1,
+	1793,
+	0,
+	4);
+INSERT INTO O_OBJ
+	VALUES (1866,
+	'UI',
+	1,
+	'UI',
+	'Provides an interface between Verifier and an external user interface representing 
+the watch, in this case an animated rendition of the watch containing virtual
+buttons that can be "pushed" by clicking on them with a mouse.
+
+The system is first primed by creating, within the Verifier execution engine, an 
+instance of each event that can be received by this class-based state machine.
+This priming is done through execution of the feed*() bridge operations within 
+the GuiBridge external entity.  Each of these operations is bound to a realized
+Java function that queues the appropriate event within the Verifier execution 
+engine.
+
+Whenever a button on the animated watch is pushed, it causes the associated
+event to be generated.  The activity on the transition then queues another instance
+of the same event within the Verifier execution engine before sending the 
+corresponding interface signal out through the UI port.  That interface signal 
+can then be received by an application, such as the Tracking component, that is 
+controlled by the animated watch.',
+	0);
+INSERT INTO O_TFR
+	VALUES (1867,
+	1866,
+	'connect',
+	'',
+	6,
+	0,
+	'GuiBridge::connect();
+
+create event instance evt of UI_A3:setTargetPressed() to UI class;
+GuiBridge::feedSetTargetPressedEvent(evt: evt);
+
+create event instance evt of UI_A4:startStopPressed() to UI class;
+GuiBridge::feedStartStopPressedEvent(evt: evt);
+
+create event instance evt of UI_A5:lapResetPressed() to UI class;
+GuiBridge::feedLapResetPressedEvent(evt: evt);
+
+create event instance evt of UI_A6:lightPressed() to UI class;
+GuiBridge::feedLightPressedEvent(evt: evt);
+
+create event instance evt of UI_A7:modePressed() to UI class;
+GuiBridge::feedModePressedEvent(evt: evt);',
+	1,
+	'',
+	0);
+INSERT INTO ACT_OPB
+	VALUES (1868,
+	1867);
+INSERT INTO ACT_ACT
+	VALUES (1868,
+	'class operation',
+	0,
+	1869,
+	0,
+	0,
+	'UI::connect',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1869,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	16,
 	1,
 	16,
 	1,
-	6,
 	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1868,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1870,
+	1869,
 	1871,
-	0);
-INSERT INTO PE_PE
-	VALUES (1892,
 	1,
-	1887,
-	0,
+	1,
+	'UI::connect line: 1');
+INSERT INTO ACT_BRG
+	VALUES (1870,
+	1872,
+	1,
+	12,
+	1,
 	1);
-INSERT INTO S_SYNC
-	VALUES (1892,
-	0,
-	'sendLightPressed',
-	'',
-	'send Tracking::lightPressed();',
-	240,
+INSERT INTO ACT_SMT
+	VALUES (1871,
+	1869,
+	1873,
+	3,
 	1,
-	'');
-INSERT INTO ACT_FNB
-	VALUES (1893,
-	1892);
-INSERT INTO ACT_ACT
-	VALUES (1893,
-	'function',
+	'UI::connect line: 3');
+INSERT INTO E_ESS
+	VALUES (1871,
+	1,
 	0,
-	1894,
+	3,
+	30,
+	3,
+	36,
+	3,
+	58,
 	0,
 	0,
-	'sendLightPressed',
+	0,
 	0);
-INSERT INTO ACT_BLK
+INSERT INTO E_CES
+	VALUES (1871,
+	1,
+	1874);
+INSERT INTO E_CSME
+	VALUES (1871,
+	1875);
+INSERT INTO E_CEA
+	VALUES (1871);
+INSERT INTO ACT_SMT
+	VALUES (1873,
+	1869,
+	1876,
+	4,
+	1,
+	'UI::connect line: 4');
+INSERT INTO ACT_BRG
+	VALUES (1873,
+	1877,
+	4,
+	12,
+	4,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (1876,
+	1869,
+	1878,
+	6,
+	1,
+	'UI::connect line: 6');
+INSERT INTO E_ESS
+	VALUES (1876,
+	1,
+	0,
+	6,
+	30,
+	6,
+	36,
+	6,
+	58,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1876,
+	0,
+	1874);
+INSERT INTO E_CSME
+	VALUES (1876,
+	1879);
+INSERT INTO E_CEA
+	VALUES (1876);
+INSERT INTO ACT_SMT
+	VALUES (1878,
+	1869,
+	1880,
+	7,
+	1,
+	'UI::connect line: 7');
+INSERT INTO ACT_BRG
+	VALUES (1878,
+	1881,
+	7,
+	12,
+	7,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (1880,
+	1869,
+	1882,
+	9,
+	1,
+	'UI::connect line: 9');
+INSERT INTO E_ESS
+	VALUES (1880,
+	1,
+	0,
+	9,
+	30,
+	9,
+	36,
+	9,
+	57,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1880,
+	0,
+	1874);
+INSERT INTO E_CSME
+	VALUES (1880,
+	1883);
+INSERT INTO E_CEA
+	VALUES (1880);
+INSERT INTO ACT_SMT
+	VALUES (1882,
+	1869,
+	1884,
+	10,
+	1,
+	'UI::connect line: 10');
+INSERT INTO ACT_BRG
+	VALUES (1882,
+	1885,
+	10,
+	12,
+	10,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (1884,
+	1869,
+	1886,
+	12,
+	1,
+	'UI::connect line: 12');
+INSERT INTO E_ESS
+	VALUES (1884,
+	1,
+	0,
+	12,
+	30,
+	12,
+	36,
+	12,
+	54,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1884,
+	0,
+	1874);
+INSERT INTO E_CSME
+	VALUES (1884,
+	1887);
+INSERT INTO E_CEA
+	VALUES (1884);
+INSERT INTO ACT_SMT
+	VALUES (1886,
+	1869,
+	1888,
+	13,
+	1,
+	'UI::connect line: 13');
+INSERT INTO ACT_BRG
+	VALUES (1886,
+	1889,
+	13,
+	12,
+	13,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (1888,
+	1869,
+	1890,
+	15,
+	1,
+	'UI::connect line: 15');
+INSERT INTO E_ESS
+	VALUES (1888,
+	1,
+	0,
+	15,
+	30,
+	15,
+	36,
+	15,
+	53,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1888,
+	0,
+	1874);
+INSERT INTO E_CSME
+	VALUES (1888,
+	1891);
+INSERT INTO E_CEA
+	VALUES (1888);
+INSERT INTO ACT_SMT
+	VALUES (1890,
+	1869,
+	0,
+	16,
+	1,
+	'UI::connect line: 16');
+INSERT INTO ACT_BRG
+	VALUES (1890,
+	1892,
+	16,
+	12,
+	16,
+	1);
+INSERT INTO V_VAL
+	VALUES (1893,
+	0,
+	0,
+	4,
+	43,
+	45,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1869);
+INSERT INTO V_TVL
+	VALUES (1893,
+	1874);
+INSERT INTO V_PAR
+	VALUES (1893,
+	1873,
+	0,
+	'evt',
+	0,
+	4,
+	38);
+INSERT INTO V_VAL
 	VALUES (1894,
 	0,
 	0,
-	0,
-	'Tracking',
-	'',
-	'',
-	1,
-	1,
-	1,
-	6,
+	7,
+	43,
+	45,
 	0,
 	0,
 	0,
 	0,
+	335,
+	1869);
+INSERT INTO V_TVL
+	VALUES (1894,
+	1874);
+INSERT INTO V_PAR
+	VALUES (1894,
+	1878,
 	0,
+	'evt',
 	0,
-	0,
-	0,
-	0,
-	1893,
-	0);
-INSERT INTO ACT_SMT
+	7,
+	38);
+INSERT INTO V_VAL
 	VALUES (1895,
-	1894,
 	0,
-	1,
-	1,
-	'sendLightPressed line: 1');
-INSERT INTO ACT_IOP
+	0,
+	10,
+	42,
+	44,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1869);
+INSERT INTO V_TVL
 	VALUES (1895,
-	1,
+	1874);
+INSERT INTO V_PAR
+	VALUES (1895,
+	1882,
+	0,
+	'evt',
+	0,
+	10,
+	37);
+INSERT INTO V_VAL
+	VALUES (1896,
+	0,
+	0,
+	13,
+	39,
+	41,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1869);
+INSERT INTO V_TVL
+	VALUES (1896,
+	1874);
+INSERT INTO V_PAR
+	VALUES (1896,
+	1886,
+	0,
+	'evt',
+	0,
+	13,
+	34);
+INSERT INTO V_VAL
+	VALUES (1897,
+	0,
+	0,
 	16,
-	1,
-	6,
+	38,
+	40,
 	0,
-	1883,
-	0);
-INSERT INTO PE_PE
-	VALUES (1896,
-	1,
-	1887,
 	0,
-	1);
-INSERT INTO S_SYNC
-	VALUES (1896,
 	0,
-	'sendModePressed',
-	'',
-	'send Tracking::modePressed();',
-	240,
+	0,
+	335,
+	1869);
+INSERT INTO V_TVL
+	VALUES (1897,
+	1874);
+INSERT INTO V_PAR
+	VALUES (1897,
+	1890,
+	0,
+	'evt',
+	0,
+	16,
+	33);
+INSERT INTO V_VAR
+	VALUES (1874,
+	1869,
+	'evt',
 	1,
+	335);
+INSERT INTO V_TRN
+	VALUES (1874,
+	0,
 	'');
-INSERT INTO ACT_FNB
-	VALUES (1897,
-	1896);
-INSERT INTO ACT_ACT
-	VALUES (1897,
-	'function',
-	0,
-	1898,
-	0,
-	0,
-	'sendModePressed',
-	0);
-INSERT INTO ACT_BLK
+INSERT INTO O_ID
+	VALUES (0,
+	1866);
+INSERT INTO O_ID
+	VALUES (1,
+	1866);
+INSERT INTO O_ID
+	VALUES (2,
+	1866);
+INSERT INTO SM_ASM
 	VALUES (1898,
-	0,
-	0,
-	0,
-	'Tracking',
+	1866);
+INSERT INTO SM_SM
+	VALUES (1898,
 	'',
-	'',
-	1,
-	1,
-	1,
-	6,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1897,
 	0);
-INSERT INTO ACT_SMT
+INSERT INTO SM_MOORE
+	VALUES (1898);
+INSERT INTO SM_LEVT
+	VALUES (1875,
+	1898,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1875,
+	1898,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1875,
+	1898,
+	0,
+	3,
+	'setTargetPressed',
+	0,
+	'',
+	'UI_A3',
+	'');
+INSERT INTO SM_LEVT
+	VALUES (1879,
+	1898,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1879,
+	1898,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1879,
+	1898,
+	0,
+	4,
+	'startStopPressed',
+	0,
+	'',
+	'UI_A4',
+	'');
+INSERT INTO SM_LEVT
+	VALUES (1883,
+	1898,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1883,
+	1898,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1883,
+	1898,
+	0,
+	5,
+	'lapResetPressed',
+	0,
+	'',
+	'UI_A5',
+	'');
+INSERT INTO SM_LEVT
+	VALUES (1887,
+	1898,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1887,
+	1898,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1887,
+	1898,
+	0,
+	6,
+	'lightPressed',
+	0,
+	'',
+	'UI_A6',
+	'');
+INSERT INTO SM_LEVT
+	VALUES (1891,
+	1898,
+	0);
+INSERT INTO SM_SEVT
+	VALUES (1891,
+	1898,
+	0);
+INSERT INTO SM_EVT
+	VALUES (1891,
+	1898,
+	0,
+	7,
+	'modePressed',
+	0,
+	'',
+	'UI_A7',
+	'');
+INSERT INTO SM_STATE
 	VALUES (1899,
 	1898,
 	0,
+	'running',
 	1,
-	1,
-	'sendModePressed line: 1');
-INSERT INTO ACT_IOP
-	VALUES (1899,
-	1,
-	16,
-	1,
-	6,
-	0,
-	1875,
 	0);
-INSERT INTO PE_PE
-	VALUES (1900,
-	1,
+INSERT INTO SM_SEME
+	VALUES (1899,
+	1875,
+	1898,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1899,
+	1879,
+	1898,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1899,
+	1883,
+	1898,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1899,
 	1887,
-	0,
-	1);
-INSERT INTO S_SYNC
+	1898,
+	0);
+INSERT INTO SM_SEME
+	VALUES (1899,
+	1891,
+	1898,
+	0);
+INSERT INTO SM_MOAH
 	VALUES (1900,
-	0,
-	'sendStartStopPressed',
-	'',
-	'send Tracking::startStopPressed();',
-	240,
+	1898,
+	1899);
+INSERT INTO SM_AH
+	VALUES (1900,
+	1898);
+INSERT INTO SM_ACT
+	VALUES (1900,
+	1898,
 	1,
+	'',
 	'');
-INSERT INTO ACT_FNB
+INSERT INTO ACT_SAB
 	VALUES (1901,
+	1898,
 	1900);
 INSERT INTO ACT_ACT
 	VALUES (1901,
-	'function',
+	'class state',
 	0,
 	1902,
 	0,
 	0,
-	'sendStartStopPressed',
+	'UI::running',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (1902,
 	0,
 	0,
 	0,
-	'Tracking',
 	'',
 	'',
-	1,
-	1,
-	1,
-	6,
+	'',
+	0,
+	0,
+	0,
+	0,
 	0,
 	0,
 	0,
@@ -30225,61 +29931,52 @@ INSERT INTO ACT_BLK
 	0,
 	1901,
 	0);
-INSERT INTO ACT_SMT
+INSERT INTO SM_NSTXN
 	VALUES (1903,
-	1902,
-	0,
-	1,
-	1,
-	'sendStartStopPressed line: 1');
-INSERT INTO ACT_IOP
-	VALUES (1903,
-	1,
-	16,
-	1,
-	6,
-	0,
-	1867,
+	1898,
+	1899,
+	1875,
 	0);
-INSERT INTO PE_PE
+INSERT INTO SM_TAH
 	VALUES (1904,
-	1,
-	1887,
-	0,
-	1);
-INSERT INTO S_SYNC
+	1898,
+	1903);
+INSERT INTO SM_AH
 	VALUES (1904,
-	0,
-	'sendTargetPressed',
-	'',
-	'send Tracking::setTargetPressed();',
-	240,
+	1898);
+INSERT INTO SM_ACT
+	VALUES (1904,
+	1898,
 	1,
+	'create event instance evt of UI_A3:setTargetPressed() to UI class;
+GuiBridge::feedSetTargetPressedEvent(evt: evt);
+::sendTargetPressed();',
 	'');
-INSERT INTO ACT_FNB
+INSERT INTO ACT_TAB
 	VALUES (1905,
+	1898,
 	1904);
 INSERT INTO ACT_ACT
 	VALUES (1905,
-	'function',
+	'class transition',
 	0,
 	1906,
 	0,
 	0,
-	'sendTargetPressed',
+	'UI_A3: setTargetPressed',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (1906,
 	0,
 	0,
 	0,
-	'Tracking',
+	'GuiBridge',
 	'',
 	'',
+	3,
 	1,
+	2,
 	1,
-	1,
-	6,
 	0,
 	0,
 	0,
@@ -30294,40 +29991,714 @@ INSERT INTO ACT_BLK
 INSERT INTO ACT_SMT
 	VALUES (1907,
 	1906,
-	0,
+	1908,
 	1,
 	1,
-	'sendTargetPressed line: 1');
-INSERT INTO ACT_IOP
+	'UI_A3: setTargetPressed line: 1');
+INSERT INTO E_ESS
 	VALUES (1907,
 	1,
-	16,
-	1,
-	6,
 	0,
-	1863,
+	1,
+	30,
+	1,
+	36,
+	1,
+	58,
+	0,
+	0,
+	0,
 	0);
-INSERT INTO PE_PE
-	VALUES (1908,
+INSERT INTO E_CES
+	VALUES (1907,
 	1,
-	0,
-	1703,
-	7);
-INSERT INTO EP_PKG
+	1909);
+INSERT INTO E_CSME
+	VALUES (1907,
+	1875);
+INSERT INTO E_CEA
+	VALUES (1907);
+INSERT INTO ACT_SMT
 	VALUES (1908,
-	0,
-	1701,
-	'UI',
-	'',
-	0);
-INSERT INTO PE_PE
-	VALUES (1909,
+	1906,
+	1910,
+	2,
 	1,
+	'UI_A3: setTargetPressed line: 2');
+INSERT INTO ACT_BRG
+	VALUES (1908,
+	1877,
+	2,
+	12,
+	2,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (1910,
+	1906,
+	0,
+	3,
+	1,
+	'UI_A3: setTargetPressed line: 3');
+INSERT INTO ACT_FNC
+	VALUES (1910,
+	1911,
+	3,
+	3);
+INSERT INTO V_VAL
+	VALUES (1912,
+	0,
+	0,
+	2,
+	43,
+	45,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1906);
+INSERT INTO V_TVL
+	VALUES (1912,
+	1909);
+INSERT INTO V_PAR
+	VALUES (1912,
 	1908,
+	0,
+	'evt',
+	0,
+	2,
+	38);
+INSERT INTO V_VAR
+	VALUES (1909,
+	1906,
+	'evt',
+	1,
+	335);
+INSERT INTO V_TRN
+	VALUES (1909,
+	0,
+	'');
+INSERT INTO SM_TXN
+	VALUES (1903,
+	1898,
+	1899,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (1913,
+	1898,
+	1899,
+	1879,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1914,
+	1898,
+	1913);
+INSERT INTO SM_AH
+	VALUES (1914,
+	1898);
+INSERT INTO SM_ACT
+	VALUES (1914,
+	1898,
+	1,
+	'create event instance evt of UI_A4:startStopPressed() to UI class;
+GuiBridge::feedStartStopPressedEvent(evt: evt);
+::sendStartStopPressed();',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1915,
+	1898,
+	1914);
+INSERT INTO ACT_ACT
+	VALUES (1915,
+	'class transition',
+	0,
+	1916,
+	0,
+	0,
+	'UI_A4: startStopPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1916,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	3,
+	1,
+	2,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1915,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1917,
+	1916,
+	1918,
+	1,
+	1,
+	'UI_A4: startStopPressed line: 1');
+INSERT INTO E_ESS
+	VALUES (1917,
+	1,
+	0,
+	1,
+	30,
+	1,
+	36,
+	1,
+	58,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1917,
+	1,
+	1919);
+INSERT INTO E_CSME
+	VALUES (1917,
+	1879);
+INSERT INTO E_CEA
+	VALUES (1917);
+INSERT INTO ACT_SMT
+	VALUES (1918,
+	1916,
+	1920,
+	2,
+	1,
+	'UI_A4: startStopPressed line: 2');
+INSERT INTO ACT_BRG
+	VALUES (1918,
+	1881,
+	2,
+	12,
+	2,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (1920,
+	1916,
+	0,
+	3,
+	1,
+	'UI_A4: startStopPressed line: 3');
+INSERT INTO ACT_FNC
+	VALUES (1920,
+	1921,
+	3,
+	3);
+INSERT INTO V_VAL
+	VALUES (1922,
+	0,
+	0,
+	2,
+	43,
+	45,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1916);
+INSERT INTO V_TVL
+	VALUES (1922,
+	1919);
+INSERT INTO V_PAR
+	VALUES (1922,
+	1918,
+	0,
+	'evt',
+	0,
+	2,
+	38);
+INSERT INTO V_VAR
+	VALUES (1919,
+	1916,
+	'evt',
+	1,
+	335);
+INSERT INTO V_TRN
+	VALUES (1919,
+	0,
+	'');
+INSERT INTO SM_TXN
+	VALUES (1913,
+	1898,
+	1899,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (1923,
+	1898,
+	1899,
+	1883,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1924,
+	1898,
+	1923);
+INSERT INTO SM_AH
+	VALUES (1924,
+	1898);
+INSERT INTO SM_ACT
+	VALUES (1924,
+	1898,
+	1,
+	'create event instance evt of UI_A5:lapResetPressed() to UI class;
+GuiBridge::feedLapResetPressedEvent(evt: evt);
+::sendLapResetPressed();',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1925,
+	1898,
+	1924);
+INSERT INTO ACT_ACT
+	VALUES (1925,
+	'class transition',
+	0,
+	1926,
+	0,
+	0,
+	'UI_A5: lapResetPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1926,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	3,
+	1,
+	2,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1925,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1927,
+	1926,
+	1928,
+	1,
+	1,
+	'UI_A5: lapResetPressed line: 1');
+INSERT INTO E_ESS
+	VALUES (1927,
+	1,
+	0,
+	1,
+	30,
+	1,
+	36,
+	1,
+	57,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1927,
+	1,
+	1929);
+INSERT INTO E_CSME
+	VALUES (1927,
+	1883);
+INSERT INTO E_CEA
+	VALUES (1927);
+INSERT INTO ACT_SMT
+	VALUES (1928,
+	1926,
+	1930,
+	2,
+	1,
+	'UI_A5: lapResetPressed line: 2');
+INSERT INTO ACT_BRG
+	VALUES (1928,
+	1885,
+	2,
+	12,
+	2,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (1930,
+	1926,
+	0,
+	3,
+	1,
+	'UI_A5: lapResetPressed line: 3');
+INSERT INTO ACT_FNC
+	VALUES (1930,
+	1931,
+	3,
+	3);
+INSERT INTO V_VAL
+	VALUES (1932,
+	0,
+	0,
+	2,
+	42,
+	44,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1926);
+INSERT INTO V_TVL
+	VALUES (1932,
+	1929);
+INSERT INTO V_PAR
+	VALUES (1932,
+	1928,
+	0,
+	'evt',
+	0,
+	2,
+	37);
+INSERT INTO V_VAR
+	VALUES (1929,
+	1926,
+	'evt',
+	1,
+	335);
+INSERT INTO V_TRN
+	VALUES (1929,
+	0,
+	'');
+INSERT INTO SM_TXN
+	VALUES (1923,
+	1898,
+	1899,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (1933,
+	1898,
+	1899,
+	1887,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1934,
+	1898,
+	1933);
+INSERT INTO SM_AH
+	VALUES (1934,
+	1898);
+INSERT INTO SM_ACT
+	VALUES (1934,
+	1898,
+	1,
+	'create event instance evt of UI_A6:lightPressed() to UI class;
+GuiBridge::feedLightPressedEvent(evt: evt);
+::sendLightPressed();',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1935,
+	1898,
+	1934);
+INSERT INTO ACT_ACT
+	VALUES (1935,
+	'class transition',
+	0,
+	1936,
+	0,
+	0,
+	'UI_A6: lightPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1936,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	3,
+	1,
+	2,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1935,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1937,
+	1936,
+	1938,
+	1,
+	1,
+	'UI_A6: lightPressed line: 1');
+INSERT INTO E_ESS
+	VALUES (1937,
+	1,
+	0,
+	1,
+	30,
+	1,
+	36,
+	1,
+	54,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1937,
+	1,
+	1939);
+INSERT INTO E_CSME
+	VALUES (1937,
+	1887);
+INSERT INTO E_CEA
+	VALUES (1937);
+INSERT INTO ACT_SMT
+	VALUES (1938,
+	1936,
+	1940,
+	2,
+	1,
+	'UI_A6: lightPressed line: 2');
+INSERT INTO ACT_BRG
+	VALUES (1938,
+	1889,
+	2,
+	12,
+	2,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (1940,
+	1936,
+	0,
+	3,
+	1,
+	'UI_A6: lightPressed line: 3');
+INSERT INTO ACT_FNC
+	VALUES (1940,
+	1941,
+	3,
+	3);
+INSERT INTO V_VAL
+	VALUES (1942,
+	0,
+	0,
+	2,
+	39,
+	41,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1936);
+INSERT INTO V_TVL
+	VALUES (1942,
+	1939);
+INSERT INTO V_PAR
+	VALUES (1942,
+	1938,
+	0,
+	'evt',
+	0,
+	2,
+	34);
+INSERT INTO V_VAR
+	VALUES (1939,
+	1936,
+	'evt',
+	1,
+	335);
+INSERT INTO V_TRN
+	VALUES (1939,
+	0,
+	'');
+INSERT INTO SM_TXN
+	VALUES (1933,
+	1898,
+	1899,
+	0);
+INSERT INTO SM_NSTXN
+	VALUES (1943,
+	1898,
+	1899,
+	1891,
+	0);
+INSERT INTO SM_TAH
+	VALUES (1944,
+	1898,
+	1943);
+INSERT INTO SM_AH
+	VALUES (1944,
+	1898);
+INSERT INTO SM_ACT
+	VALUES (1944,
+	1898,
+	1,
+	'create event instance evt of UI_A7:modePressed() to UI class;
+GuiBridge::feedModePressedEvent(evt: evt);
+::sendModePressed();',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (1945,
+	1898,
+	1944);
+INSERT INTO ACT_ACT
+	VALUES (1945,
+	'class transition',
+	0,
+	1946,
+	0,
+	0,
+	'UI_A7: modePressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (1946,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	3,
+	1,
+	2,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1945,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (1947,
+	1946,
+	1948,
+	1,
+	1,
+	'UI_A7: modePressed line: 1');
+INSERT INTO E_ESS
+	VALUES (1947,
+	1,
+	0,
+	1,
+	30,
+	1,
+	36,
+	1,
+	53,
+	0,
+	0,
+	0,
+	0);
+INSERT INTO E_CES
+	VALUES (1947,
+	1,
+	1949);
+INSERT INTO E_CSME
+	VALUES (1947,
+	1891);
+INSERT INTO E_CEA
+	VALUES (1947);
+INSERT INTO ACT_SMT
+	VALUES (1948,
+	1946,
+	1950,
+	2,
+	1,
+	'UI_A7: modePressed line: 2');
+INSERT INTO ACT_BRG
+	VALUES (1948,
+	1892,
+	2,
+	12,
+	2,
+	1);
+INSERT INTO ACT_SMT
+	VALUES (1950,
+	1946,
+	0,
+	3,
+	1,
+	'UI_A7: modePressed line: 3');
+INSERT INTO ACT_FNC
+	VALUES (1950,
+	1951,
+	3,
+	3);
+INSERT INTO V_VAL
+	VALUES (1952,
+	0,
+	0,
+	2,
+	38,
+	40,
+	0,
+	0,
+	0,
+	0,
+	335,
+	1946);
+INSERT INTO V_TVL
+	VALUES (1952,
+	1949);
+INSERT INTO V_PAR
+	VALUES (1952,
+	1948,
+	0,
+	'evt',
+	0,
+	2,
+	33);
+INSERT INTO V_VAR
+	VALUES (1949,
+	1946,
+	'evt',
+	1,
+	335);
+INSERT INTO V_TRN
+	VALUES (1949,
+	0,
+	'');
+INSERT INTO SM_TXN
+	VALUES (1943,
+	1898,
+	1899,
+	0);
+INSERT INTO PE_PE
+	VALUES (1953,
+	1,
+	1793,
 	0,
 	5);
 INSERT INTO S_EE
-	VALUES (1909,
+	VALUES (1953,
 	'Time',
 	'The Time external entity provides date, timestamp, and timer related operations.',
 	'TIM',
@@ -30336,29 +30707,29 @@ INSERT INTO S_EE
 	'Time',
 	1);
 INSERT INTO S_BRG
-	VALUES (1910,
-	1909,
+	VALUES (1954,
+	1953,
 	'current_date',
 	'',
 	1,
-	253,
+	272,
 	'',
 	1,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (1911,
-	1910);
+	VALUES (1955,
+	1954);
 INSERT INTO ACT_ACT
-	VALUES (1911,
+	VALUES (1955,
 	'bridge',
 	0,
-	1912,
+	1956,
 	0,
 	0,
 	'Time::current_date',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1912,
+	VALUES (1956,
 	0,
 	0,
 	0,
@@ -30378,86 +30749,86 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1911,
+	1955,
 	0);
 INSERT INTO S_BRG
-	VALUES (1913,
-	1909,
+	VALUES (1957,
+	1953,
 	'create_date',
 	'',
 	1,
-	253,
+	272,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (1914,
-	1913,
+	VALUES (1958,
+	1957,
 	'second',
-	13,
+	30,
 	0,
 	'',
-	1915,
+	1959,
 	'');
 INSERT INTO S_BPARM
-	VALUES (1916,
-	1913,
+	VALUES (1960,
+	1957,
 	'minute',
-	13,
+	30,
 	0,
 	'',
-	1917,
+	1961,
 	'');
 INSERT INTO S_BPARM
-	VALUES (1917,
-	1913,
+	VALUES (1961,
+	1957,
 	'hour',
-	13,
+	30,
 	0,
 	'',
-	1918,
+	1962,
 	'');
 INSERT INTO S_BPARM
-	VALUES (1918,
-	1913,
+	VALUES (1962,
+	1957,
 	'day',
-	13,
+	30,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO S_BPARM
-	VALUES (1915,
-	1913,
+	VALUES (1959,
+	1957,
 	'month',
-	13,
+	30,
 	0,
 	'',
-	1916,
+	1960,
 	'');
 INSERT INTO S_BPARM
-	VALUES (1919,
-	1913,
+	VALUES (1963,
+	1957,
 	'year',
-	13,
+	30,
 	0,
 	'',
-	1914,
+	1958,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (1920,
-	1913);
+	VALUES (1964,
+	1957);
 INSERT INTO ACT_ACT
-	VALUES (1920,
+	VALUES (1964,
 	'bridge',
 	0,
-	1921,
+	1965,
 	0,
 	0,
 	'Time::create_date',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1921,
+	VALUES (1965,
 	0,
 	0,
 	0,
@@ -30477,41 +30848,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1920,
+	1964,
 	0);
 INSERT INTO S_BRG
-	VALUES (1922,
-	1909,
+	VALUES (1966,
+	1953,
 	'get_second',
 	'',
 	1,
-	13,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (1923,
-	1922,
+	VALUES (1967,
+	1966,
 	'date',
-	253,
+	272,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (1924,
-	1922);
+	VALUES (1968,
+	1966);
 INSERT INTO ACT_ACT
-	VALUES (1924,
+	VALUES (1968,
 	'bridge',
 	0,
-	1925,
+	1969,
 	0,
 	0,
 	'Time::get_second',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1925,
+	VALUES (1969,
 	0,
 	0,
 	0,
@@ -30531,41 +30902,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1924,
+	1968,
 	0);
 INSERT INTO S_BRG
-	VALUES (1926,
-	1909,
+	VALUES (1970,
+	1953,
 	'get_minute',
 	'',
 	1,
-	13,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (1927,
-	1926,
+	VALUES (1971,
+	1970,
 	'date',
-	253,
+	272,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (1928,
-	1926);
+	VALUES (1972,
+	1970);
 INSERT INTO ACT_ACT
-	VALUES (1928,
+	VALUES (1972,
 	'bridge',
 	0,
-	1929,
+	1973,
 	0,
 	0,
 	'Time::get_minute',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1929,
+	VALUES (1973,
 	0,
 	0,
 	0,
@@ -30585,41 +30956,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1928,
+	1972,
 	0);
 INSERT INTO S_BRG
-	VALUES (1930,
-	1909,
+	VALUES (1974,
+	1953,
 	'get_hour',
 	'',
 	1,
-	13,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (1931,
-	1930,
+	VALUES (1975,
+	1974,
 	'date',
-	253,
+	272,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (1932,
-	1930);
+	VALUES (1976,
+	1974);
 INSERT INTO ACT_ACT
-	VALUES (1932,
+	VALUES (1976,
 	'bridge',
 	0,
-	1933,
+	1977,
 	0,
 	0,
 	'Time::get_hour',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1933,
+	VALUES (1977,
 	0,
 	0,
 	0,
@@ -30639,619 +31010,23 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1932,
+	1976,
 	0);
 INSERT INTO S_BRG
-	VALUES (1934,
-	1909,
+	VALUES (1978,
+	1953,
 	'get_day',
 	'',
 	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1935,
-	1934,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (1936,
-	1934);
-INSERT INTO ACT_ACT
-	VALUES (1936,
-	'bridge',
-	0,
-	1937,
-	0,
-	0,
-	'Time::get_day',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1937,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1936,
-	0);
-INSERT INTO S_BRG
-	VALUES (1938,
-	1909,
-	'get_month',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1939,
-	1938,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (1940,
-	1938);
-INSERT INTO ACT_ACT
-	VALUES (1940,
-	'bridge',
-	0,
-	1941,
-	0,
-	0,
-	'Time::get_month',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1941,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1940,
-	0);
-INSERT INTO S_BRG
-	VALUES (1942,
-	1909,
-	'get_year',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1943,
-	1942,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (1944,
-	1942);
-INSERT INTO ACT_ACT
-	VALUES (1944,
-	'bridge',
-	0,
-	1945,
-	0,
-	0,
-	'Time::get_year',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1945,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1944,
-	0);
-INSERT INTO S_BRG
-	VALUES (1946,
-	1909,
-	'current_clock',
-	'',
-	1,
-	259,
-	'',
-	1,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (1947,
-	1946);
-INSERT INTO ACT_ACT
-	VALUES (1947,
-	'bridge',
-	0,
-	1948,
-	0,
-	0,
-	'Time::current_clock',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1948,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1947,
-	0);
-INSERT INTO S_BRG
-	VALUES (1949,
-	1909,
-	'timer_start',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Returns the instance
-handle of the timer.',
-	1,
-	313,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1950,
-	1949,
-	'microseconds',
-	13,
-	0,
-	'',
-	1951,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1951,
-	1949,
-	'event_inst',
-	316,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (1952,
-	1949);
-INSERT INTO ACT_ACT
-	VALUES (1952,
-	'bridge',
-	0,
-	1953,
-	0,
-	0,
-	'Time::timer_start',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1953,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1952,
-	0);
-INSERT INTO S_BRG
-	VALUES (1954,
-	1909,
-	'timer_start_recurring',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Upon expiration, the
-timer will be restarted and fire again in the specified number of microseconds
-generating the passed event. This bridge operation returns the instance handle
-of the timer.',
-	1,
-	313,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1955,
-	1954,
-	'microseconds',
-	13,
-	0,
-	'',
-	1956,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1956,
-	1954,
-	'event_inst',
-	316,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (1957,
-	1954);
-INSERT INTO ACT_ACT
-	VALUES (1957,
-	'bridge',
-	0,
-	1958,
-	0,
-	0,
-	'Time::timer_start_recurring',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1958,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1957,
-	0);
-INSERT INTO S_BRG
-	VALUES (1959,
-	1909,
-	'timer_remaining_time',
-	'Returns the time remaining (in microseconds) for the passed timer instance. If
-the timer has expired, a zero value is returned.',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1960,
-	1959,
-	'timer_inst_ref',
-	313,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (1961,
-	1959);
-INSERT INTO ACT_ACT
-	VALUES (1961,
-	'bridge',
-	0,
-	1962,
-	0,
-	0,
-	'Time::timer_remaining_time',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1962,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1961,
-	0);
-INSERT INTO S_BRG
-	VALUES (1963,
-	1909,
-	'timer_reset_time',
-	'This bridge operation attempts to set the passed existing timer to expire in
-the specified number of microseconds. If the timer exists (that is, it has not
-expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
-is returned.',
-	1,
-	72,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1964,
-	1963,
-	'timer_inst_ref',
-	313,
-	0,
-	'',
-	1965,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1965,
-	1963,
-	'microseconds',
-	13,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (1966,
-	1963);
-INSERT INTO ACT_ACT
-	VALUES (1966,
-	'bridge',
-	0,
-	1967,
-	0,
-	0,
-	'Time::timer_reset_time',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1967,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1966,
-	0);
-INSERT INTO S_BRG
-	VALUES (1968,
-	1909,
-	'timer_add_time',
-	'This bridge operation attempts to add the specified number of microseconds to a
-passed existing timer. If the timer exists (that is, it has not expired), a TRUE
-value is returned. If the timer no longer exists, a FALSE value is returned.',
-	1,
-	72,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1969,
-	1968,
-	'timer_inst_ref',
-	313,
-	0,
-	'',
-	1970,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1970,
-	1968,
-	'microseconds',
-	13,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (1971,
-	1968);
-INSERT INTO ACT_ACT
-	VALUES (1971,
-	'bridge',
-	0,
-	1972,
-	0,
-	0,
-	'Time::timer_add_time',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1972,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1971,
-	0);
-INSERT INTO S_BRG
-	VALUES (1973,
-	1909,
-	'timer_cancel',
-	'This bridge operation cancels and deletes the passed timer instance. If the 
-timer exists (that is, it had not expired), a TRUE value is returned. If the
-timer no longer exists, a FALSE value is returned.',
-	1,
-	72,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (1974,
-	1973,
-	'timer_inst_ref',
-	313,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (1975,
-	1973);
-INSERT INTO ACT_ACT
-	VALUES (1975,
-	'bridge',
-	0,
-	1976,
-	0,
-	0,
-	'Time::timer_cancel',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (1976,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1975,
-	0);
-INSERT INTO PE_PE
-	VALUES (1977,
-	1,
-	1908,
-	0,
-	5);
-INSERT INTO S_EE
-	VALUES (1977,
-	'Graphical User Interface',
-	'',
-	'GuiBridge',
-	0,
-	'',
-	'Graphical User Interface',
-	1);
-INSERT INTO S_BRG
-	VALUES (1978,
-	1977,
-	'feedSetTargetPressedEvent',
-	'',
-	0,
-	240,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (1979,
 	1978,
-	'evt',
-	316,
+	'date',
+	272,
 	0,
 	'',
 	0,
@@ -31266,7 +31041,7 @@ INSERT INTO ACT_ACT
 	1981,
 	0,
 	0,
-	'Graphical User Interface::feedSetTargetPressedEvent',
+	'Time::get_day',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (1981,
@@ -31293,19 +31068,19 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (1982,
-	1977,
-	'feedModePressedEvent',
+	1953,
+	'get_month',
 	'',
-	0,
-	240,
+	1,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (1983,
 	1982,
-	'evt',
-	316,
+	'date',
+	272,
 	0,
 	'',
 	0,
@@ -31320,7 +31095,7 @@ INSERT INTO ACT_ACT
 	1985,
 	0,
 	0,
-	'Graphical User Interface::feedModePressedEvent',
+	'Time::get_month',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (1985,
@@ -31347,19 +31122,19 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (1986,
-	1977,
-	'feedLightPressedEvent',
+	1953,
+	'get_year',
 	'',
-	0,
-	240,
+	1,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (1987,
 	1986,
-	'evt',
-	316,
+	'date',
+	272,
 	0,
 	'',
 	0,
@@ -31374,7 +31149,7 @@ INSERT INTO ACT_ACT
 	1989,
 	0,
 	0,
-	'Graphical User Interface::feedLightPressedEvent',
+	'Time::get_year',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (1989,
@@ -31401,37 +31176,28 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (1990,
-	1977,
-	'feedLapResetPressedEvent',
+	1953,
+	'current_clock',
 	'',
-	0,
-	240,
+	1,
+	278,
 	'',
 	1,
 	'');
-INSERT INTO S_BPARM
-	VALUES (1991,
-	1990,
-	'evt',
-	316,
-	0,
-	'',
-	0,
-	'');
 INSERT INTO ACT_BRB
-	VALUES (1992,
+	VALUES (1991,
 	1990);
 INSERT INTO ACT_ACT
-	VALUES (1992,
+	VALUES (1991,
 	'bridge',
 	0,
-	1993,
+	1992,
 	0,
 	0,
-	'Graphical User Interface::feedLapResetPressedEvent',
+	'Time::current_clock',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1993,
+	VALUES (1992,
 	0,
 	0,
 	0,
@@ -31451,41 +31217,52 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1992,
+	1991,
 	0);
 INSERT INTO S_BRG
-	VALUES (1994,
-	1977,
-	'feedStartStopPressedEvent',
-	'',
-	0,
-	240,
+	VALUES (1833,
+	1953,
+	'timer_start',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Returns the instance
+handle of the timer.',
+	1,
+	332,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (1995,
+	VALUES (1993,
+	1833,
+	'microseconds',
+	30,
+	0,
+	'',
 	1994,
-	'evt',
-	316,
+	'');
+INSERT INTO S_BPARM
+	VALUES (1994,
+	1833,
+	'event_inst',
+	335,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (1996,
-	1994);
+	VALUES (1995,
+	1833);
 INSERT INTO ACT_ACT
-	VALUES (1996,
+	VALUES (1995,
 	'bridge',
 	0,
-	1997,
+	1996,
 	0,
 	0,
-	'Graphical User Interface::feedStartStopPressedEvent',
+	'Time::timer_start',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (1997,
+	VALUES (1996,
 	0,
 	0,
 	0,
@@ -31505,39 +31282,43 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	1996,
+	1995,
 	0);
 INSERT INTO S_BRG
-	VALUES (1781,
-	1977,
-	'setData',
-	'',
-	0,
-	240,
+	VALUES (1997,
+	1953,
+	'timer_start_recurring',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Upon expiration, the
+timer will be restarted and fire again in the specified number of microseconds
+generating the passed event. This bridge operation returns the instance handle
+of the timer.',
+	1,
+	332,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (1998,
-	1781,
-	'value',
-	170,
+	1997,
+	'microseconds',
+	30,
 	0,
 	'',
-	0,
+	1999,
 	'');
 INSERT INTO S_BPARM
 	VALUES (1999,
-	1781,
-	'unit',
-	13,
+	1997,
+	'event_inst',
+	335,
 	0,
 	'',
-	1998,
+	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (2000,
-	1781);
+	1997);
 INSERT INTO ACT_ACT
 	VALUES (2000,
 	'bridge',
@@ -31545,7 +31326,7 @@ INSERT INTO ACT_ACT
 	2001,
 	0,
 	0,
-	'Graphical User Interface::setData',
+	'Time::timer_start_recurring',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2001,
@@ -31571,126 +31352,94 @@ INSERT INTO ACT_BLK
 	2000,
 	0);
 INSERT INTO S_BRG
-	VALUES (1712,
-	1977,
-	'setTime',
-	'',
-	0,
-	240,
+	VALUES (2002,
+	1953,
+	'timer_remaining_time',
+	'Returns the time remaining (in microseconds) for the passed timer instance. If
+the timer has expired, a zero value is returned.',
+	1,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2002,
-	1712,
-	'time',
-	13,
+	VALUES (2003,
+	2002,
+	'timer_inst_ref',
+	332,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2003,
-	1712);
+	VALUES (2004,
+	2002);
 INSERT INTO ACT_ACT
-	VALUES (2003,
+	VALUES (2004,
 	'bridge',
+	0,
+	2005,
+	0,
+	0,
+	'Time::timer_remaining_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2005,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
 	0,
 	2004,
-	0,
-	0,
-	'Graphical User Interface::setTime',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2004,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2003,
 	0);
 INSERT INTO S_BRG
-	VALUES (2005,
-	1977,
-	'connect',
-	'',
-	0,
-	240,
+	VALUES (2006,
+	1953,
+	'timer_reset_time',
+	'This bridge operation attempts to set the passed existing timer to expire in
+the specified number of microseconds. If the timer exists (that is, it has not
+expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
+is returned.',
+	1,
+	108,
 	'',
 	1,
 	'');
-INSERT INTO ACT_BRB
-	VALUES (2006,
-	2005);
-INSERT INTO ACT_ACT
-	VALUES (2006,
-	'bridge',
-	0,
-	2007,
-	0,
-	0,
-	'Graphical User Interface::connect',
-	0);
-INSERT INTO ACT_BLK
+INSERT INTO S_BPARM
 	VALUES (2007,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
 	2006,
-	0);
-INSERT INTO S_BRG
-	VALUES (1848,
-	1977,
-	'setIndicator',
-	'',
+	'timer_inst_ref',
+	332,
 	0,
-	240,
 	'',
-	1,
+	2008,
 	'');
 INSERT INTO S_BPARM
 	VALUES (2008,
-	1848,
-	'value',
-	13,
+	2006,
+	'microseconds',
+	30,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (2009,
-	1848);
+	2006);
 INSERT INTO ACT_ACT
 	VALUES (2009,
 	'bridge',
@@ -31698,7 +31447,7 @@ INSERT INTO ACT_ACT
 	2010,
 	0,
 	0,
-	'Graphical User Interface::setIndicator',
+	'Time::timer_reset_time',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2010,
@@ -31723,43 +31472,39 @@ INSERT INTO ACT_BLK
 	0,
 	2009,
 	0);
-INSERT INTO PE_PE
-	VALUES (2011,
-	1,
-	1908,
-	0,
-	5);
-INSERT INTO S_EE
-	VALUES (2011,
-	'Logging',
-	'',
-	'LOG',
-	0,
-	'',
-	'Logging',
-	1);
 INSERT INTO S_BRG
-	VALUES (2012,
-	2011,
-	'LogSuccess',
-	'',
-	0,
-	240,
+	VALUES (2011,
+	1953,
+	'timer_add_time',
+	'This bridge operation attempts to add the specified number of microseconds to a
+passed existing timer. If the timer exists (that is, it has not expired), a TRUE
+value is returned. If the timer no longer exists, a FALSE value is returned.',
+	1,
+	108,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
+	VALUES (2012,
+	2011,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	2013,
+	'');
+INSERT INTO S_BPARM
 	VALUES (2013,
-	2012,
-	'message',
-	96,
+	2011,
+	'microseconds',
+	30,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (2014,
-	2012);
+	2011);
 INSERT INTO ACT_ACT
 	VALUES (2014,
 	'bridge',
@@ -31767,7 +31512,7 @@ INSERT INTO ACT_ACT
 	2015,
 	0,
 	0,
-	'Logging::LogSuccess',
+	'Time::timer_add_time',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2015,
@@ -31794,19 +31539,21 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (2016,
-	2011,
-	'LogFailure',
-	'',
-	0,
-	240,
+	1953,
+	'timer_cancel',
+	'This bridge operation cancels and deletes the passed timer instance. If the 
+timer exists (that is, it had not expired), a TRUE value is returned. If the
+timer no longer exists, a FALSE value is returned.',
+	1,
+	108,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (2017,
 	2016,
-	'message',
-	96,
+	'timer_inst_ref',
+	332,
 	0,
 	'',
 	0,
@@ -31821,7 +31568,7 @@ INSERT INTO ACT_ACT
 	2019,
 	0,
 	0,
-	'Logging::LogFailure',
+	'Time::timer_cancel',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2019,
@@ -31846,28 +31593,43 @@ INSERT INTO ACT_BLK
 	0,
 	2018,
 	0);
-INSERT INTO S_BRG
+INSERT INTO PE_PE
 	VALUES (2020,
-	2011,
-	'LogInfo',
+	1,
+	1793,
+	0,
+	5);
+INSERT INTO S_EE
+	VALUES (2020,
+	'Graphical User Interface',
+	'',
+	'GuiBridge',
+	0,
+	'',
+	'Graphical User Interface',
+	1);
+INSERT INTO S_BRG
+	VALUES (1877,
+	2020,
+	'feedSetTargetPressedEvent',
 	'',
 	0,
-	240,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (2021,
-	2020,
-	'message',
-	96,
+	1877,
+	'evt',
+	335,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (2022,
-	2020);
+	1877);
 INSERT INTO ACT_ACT
 	VALUES (2022,
 	'bridge',
@@ -31875,7 +31637,7 @@ INSERT INTO ACT_ACT
 	2023,
 	0,
 	0,
-	'Logging::LogInfo',
+	'Graphical User Interface::feedSetTargetPressedEvent',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2023,
@@ -31901,47 +31663,38 @@ INSERT INTO ACT_BLK
 	2022,
 	0);
 INSERT INTO S_BRG
-	VALUES (2024,
-	2011,
-	'LogDate',
+	VALUES (1892,
+	2020,
+	'feedModePressedEvent',
 	'',
 	0,
-	240,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2025,
-	2024,
-	'd',
-	253,
+	VALUES (2024,
+	1892,
+	'evt',
+	335,
 	0,
 	'',
 	0,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2026,
-	2024,
-	'message',
-	96,
-	0,
-	'',
-	2025,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2027,
-	2024);
+	VALUES (2025,
+	1892);
 INSERT INTO ACT_ACT
-	VALUES (2027,
+	VALUES (2025,
 	'bridge',
 	0,
-	2028,
+	2026,
 	0,
 	0,
-	'Logging::LogDate',
+	'Graphical User Interface::feedModePressedEvent',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2028,
+	VALUES (2026,
 	0,
 	0,
 	0,
@@ -31961,50 +31714,668 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2027,
+	2025,
 	0);
 INSERT INTO S_BRG
-	VALUES (2029,
-	2011,
-	'LogTime',
+	VALUES (1889,
+	2020,
+	'feedLightPressedEvent',
 	'',
 	0,
-	240,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2027,
+	1889,
+	'evt',
+	335,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2028,
+	1889);
+INSERT INTO ACT_ACT
+	VALUES (2028,
+	'bridge',
+	0,
+	2029,
+	0,
+	0,
+	'Graphical User Interface::feedLightPressedEvent',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2029,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2028,
+	0);
+INSERT INTO S_BRG
+	VALUES (1885,
+	2020,
+	'feedLapResetPressedEvent',
+	'',
+	0,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (2030,
-	2029,
-	't',
-	259,
-	0,
-	'',
-	2031,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2031,
-	2029,
-	'message',
-	96,
+	1885,
+	'evt',
+	335,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2032,
-	2029);
+	VALUES (2031,
+	1885);
 INSERT INTO ACT_ACT
-	VALUES (2032,
+	VALUES (2031,
 	'bridge',
 	0,
-	2033,
+	2032,
+	0,
+	0,
+	'Graphical User Interface::feedLapResetPressedEvent',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2032,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2031,
+	0);
+INSERT INTO S_BRG
+	VALUES (1881,
+	2020,
+	'feedStartStopPressedEvent',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2033,
+	1881,
+	'evt',
+	335,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2034,
+	1881);
+INSERT INTO ACT_ACT
+	VALUES (2034,
+	'bridge',
+	0,
+	2035,
+	0,
+	0,
+	'Graphical User Interface::feedStartStopPressedEvent',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2035,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2034,
+	0);
+INSERT INTO S_BRG
+	VALUES (2036,
+	2020,
+	'setData',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2037,
+	2036,
+	'value',
+	10,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2038,
+	2036,
+	'unit',
+	30,
+	0,
+	'',
+	2037,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2039,
+	2036);
+INSERT INTO ACT_ACT
+	VALUES (2039,
+	'bridge',
+	0,
+	2040,
+	0,
+	0,
+	'Graphical User Interface::setData',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2040,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2039,
+	0);
+INSERT INTO S_BRG
+	VALUES (2041,
+	2020,
+	'setTime',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2042,
+	2041,
+	'time',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2043,
+	2041);
+INSERT INTO ACT_ACT
+	VALUES (2043,
+	'bridge',
+	0,
+	2044,
+	0,
+	0,
+	'Graphical User Interface::setTime',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2044,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2043,
+	0);
+INSERT INTO S_BRG
+	VALUES (1872,
+	2020,
+	'connect',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2045,
+	1872);
+INSERT INTO ACT_ACT
+	VALUES (2045,
+	'bridge',
+	0,
+	2046,
+	0,
+	0,
+	'Graphical User Interface::connect',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2046,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2045,
+	0);
+INSERT INTO S_BRG
+	VALUES (2047,
+	2020,
+	'setIndicator',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2048,
+	2047,
+	'value',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2049,
+	2047);
+INSERT INTO ACT_ACT
+	VALUES (2049,
+	'bridge',
+	0,
+	2050,
+	0,
+	0,
+	'Graphical User Interface::setIndicator',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2050,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2049,
+	0);
+INSERT INTO PE_PE
+	VALUES (2051,
+	1,
+	1793,
+	0,
+	5);
+INSERT INTO S_EE
+	VALUES (2051,
+	'Logging',
+	'',
+	'LOG',
+	0,
+	'',
+	'Logging',
+	1);
+INSERT INTO S_BRG
+	VALUES (2052,
+	2051,
+	'LogSuccess',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2053,
+	2052,
+	'message',
+	130,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2054,
+	2052);
+INSERT INTO ACT_ACT
+	VALUES (2054,
+	'bridge',
+	0,
+	2055,
+	0,
+	0,
+	'Logging::LogSuccess',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2055,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2054,
+	0);
+INSERT INTO S_BRG
+	VALUES (2056,
+	2051,
+	'LogFailure',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2057,
+	2056,
+	'message',
+	130,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2058,
+	2056);
+INSERT INTO ACT_ACT
+	VALUES (2058,
+	'bridge',
+	0,
+	2059,
+	0,
+	0,
+	'Logging::LogFailure',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2059,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2058,
+	0);
+INSERT INTO S_BRG
+	VALUES (1843,
+	2051,
+	'LogInfo',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2060,
+	1843,
+	'message',
+	130,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2061,
+	1843);
+INSERT INTO ACT_ACT
+	VALUES (2061,
+	'bridge',
+	0,
+	2062,
+	0,
+	0,
+	'Logging::LogInfo',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2062,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2061,
+	0);
+INSERT INTO S_BRG
+	VALUES (2063,
+	2051,
+	'LogDate',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2064,
+	2063,
+	'd',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2065,
+	2063,
+	'message',
+	130,
+	0,
+	'',
+	2064,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2066,
+	2063);
+INSERT INTO ACT_ACT
+	VALUES (2066,
+	'bridge',
+	0,
+	2067,
+	0,
+	0,
+	'Logging::LogDate',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2067,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2066,
+	0);
+INSERT INTO S_BRG
+	VALUES (2068,
+	2051,
+	'LogTime',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2069,
+	2068,
+	't',
+	278,
+	0,
+	'',
+	2070,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2070,
+	2068,
+	'message',
+	130,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2071,
+	2068);
+INSERT INTO ACT_ACT
+	VALUES (2071,
+	'bridge',
+	0,
+	2072,
 	0,
 	0,
 	'Logging::LogTime',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2033,
+	VALUES (2072,
 	0,
 	0,
 	0,
@@ -32024,50 +32395,50 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2032,
+	2071,
 	0);
 INSERT INTO S_BRG
-	VALUES (2034,
-	2011,
+	VALUES (2073,
+	2051,
 	'LogReal',
 	'',
 	0,
-	240,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2035,
-	2034,
+	VALUES (2074,
+	2073,
 	'r',
-	170,
+	10,
 	0,
 	'',
-	2036,
+	2075,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2036,
-	2034,
+	VALUES (2075,
+	2073,
 	'message',
-	96,
+	130,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2037,
-	2034);
+	VALUES (2076,
+	2073);
 INSERT INTO ACT_ACT
-	VALUES (2037,
+	VALUES (2076,
 	'bridge',
 	0,
-	2038,
+	2077,
 	0,
 	0,
 	'Logging::LogReal',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2038,
+	VALUES (2077,
 	0,
 	0,
 	0,
@@ -32087,41 +32458,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2037,
+	2076,
 	0);
 INSERT INTO S_BRG
-	VALUES (2039,
-	2011,
+	VALUES (2078,
+	2051,
 	'LogInteger',
 	'',
 	0,
-	240,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2040,
-	2039,
+	VALUES (2079,
+	2078,
 	'message',
-	13,
+	30,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2041,
-	2039);
+	VALUES (2080,
+	2078);
 INSERT INTO ACT_ACT
-	VALUES (2041,
+	VALUES (2080,
 	'bridge',
 	0,
-	2042,
+	2081,
 	0,
 	0,
 	'Logging::LogInteger',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2042,
+	VALUES (2081,
 	0,
 	0,
 	0,
@@ -32141,16 +32512,16 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2041,
+	2080,
 	0);
 INSERT INTO PE_PE
-	VALUES (2043,
+	VALUES (2082,
 	1,
-	1908,
+	1793,
 	0,
 	1);
 INSERT INTO S_SYNC
-	VALUES (2043,
+	VALUES (2082,
 	0,
 	'createGoals_1',
 	'',
@@ -32187,23 +32558,23 @@ send Tracking::newGoalSpec(
   criteriaType: GoalCriteria::Pace,
   spanType: GoalSpan::Time );
   ',
-	240,
+	6,
 	1,
 	'');
 INSERT INTO ACT_FNB
-	VALUES (2044,
-	2043);
+	VALUES (2083,
+	2082);
 INSERT INTO ACT_ACT
-	VALUES (2044,
+	VALUES (2083,
 	'function',
 	0,
-	2045,
+	2084,
 	0,
 	0,
 	'createGoals_1',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2045,
+	VALUES (2084,
 	0,
 	0,
 	0,
@@ -32223,74 +32594,74 @@ INSERT INTO ACT_BLK
 	32,
 	13,
 	0,
-	2044,
+	2083,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2046,
-	2045,
-	2047,
+	VALUES (2085,
+	2084,
+	2086,
 	2,
 	1,
 	'createGoals_1 line: 2');
 INSERT INTO ACT_IOP
-	VALUES (2046,
+	VALUES (2085,
 	2,
 	16,
 	2,
 	6,
 	0,
-	1879,
+	1785,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2047,
-	2045,
-	2048,
+	VALUES (2086,
+	2084,
+	2087,
 	10,
 	1,
 	'createGoals_1 line: 10');
 INSERT INTO ACT_IOP
-	VALUES (2047,
+	VALUES (2086,
 	10,
 	16,
 	10,
 	6,
 	0,
-	1879,
+	1785,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2048,
-	2045,
-	2049,
+	VALUES (2087,
+	2084,
+	2088,
 	18,
 	1,
 	'createGoals_1 line: 18');
 INSERT INTO ACT_IOP
-	VALUES (2048,
+	VALUES (2087,
 	18,
 	16,
 	18,
 	6,
 	0,
-	1879,
+	1785,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2049,
-	2045,
+	VALUES (2088,
+	2084,
 	0,
 	26,
 	1,
 	'createGoals_1 line: 26');
 INSERT INTO ACT_IOP
-	VALUES (2049,
+	VALUES (2088,
 	26,
 	16,
 	26,
 	6,
 	0,
-	1879,
+	1785,
 	0);
 INSERT INTO V_VAL
-	VALUES (2050,
+	VALUES (2089,
 	0,
 	0,
 	3,
@@ -32300,21 +32671,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2045);
+	30,
+	2084);
 INSERT INTO V_LIN
-	VALUES (2050,
+	VALUES (2089,
 	'1');
 INSERT INTO V_PAR
-	VALUES (2050,
-	2046,
+	VALUES (2089,
+	2085,
 	0,
 	'sequenceNumber',
-	2051,
+	2090,
 	3,
 	3);
 INSERT INTO V_VAL
-	VALUES (2051,
+	VALUES (2090,
 	0,
 	0,
 	4,
@@ -32324,21 +32695,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2045);
+	10,
+	2084);
 INSERT INTO V_LRL
-	VALUES (2051,
+	VALUES (2090,
 	'2.0');
 INSERT INTO V_PAR
-	VALUES (2051,
-	2046,
+	VALUES (2090,
+	2085,
 	0,
 	'minimum',
-	2052,
+	2091,
 	4,
 	3);
 INSERT INTO V_VAL
-	VALUES (2052,
+	VALUES (2091,
 	0,
 	0,
 	5,
@@ -32348,21 +32719,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2045);
+	10,
+	2084);
 INSERT INTO V_LRL
-	VALUES (2052,
+	VALUES (2091,
 	'8.0');
 INSERT INTO V_PAR
-	VALUES (2052,
-	2046,
+	VALUES (2091,
+	2085,
 	0,
 	'maximum',
-	2053,
+	2092,
 	5,
 	3);
 INSERT INTO V_VAL
-	VALUES (2053,
+	VALUES (2092,
 	0,
 	0,
 	6,
@@ -32372,21 +32743,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2045);
+	10,
+	2084);
 INSERT INTO V_LRL
-	VALUES (2053,
+	VALUES (2092,
 	'150.0');
 INSERT INTO V_PAR
-	VALUES (2053,
-	2046,
+	VALUES (2092,
+	2085,
 	0,
 	'span',
-	2054,
+	2093,
 	6,
 	3);
 INSERT INTO V_VAL
-	VALUES (2054,
+	VALUES (2093,
 	0,
 	0,
 	7,
@@ -32396,23 +32767,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	180,
-	2045);
+	37,
+	2084);
 INSERT INTO V_LEN
-	VALUES (2054,
-	356,
+	VALUES (2093,
+	375,
 	7,
 	17);
 INSERT INTO V_PAR
-	VALUES (2054,
-	2046,
+	VALUES (2093,
+	2085,
 	0,
 	'criteriaType',
-	2055,
+	2094,
 	7,
 	3);
 INSERT INTO V_VAL
-	VALUES (2055,
+	VALUES (2094,
 	0,
 	0,
 	8,
@@ -32422,23 +32793,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	184,
-	2045);
+	39,
+	2084);
 INSERT INTO V_LEN
-	VALUES (2055,
-	358,
+	VALUES (2094,
+	377,
 	8,
 	13);
 INSERT INTO V_PAR
-	VALUES (2055,
-	2046,
+	VALUES (2094,
+	2085,
 	0,
 	'spanType',
 	0,
 	8,
 	3);
 INSERT INTO V_VAL
-	VALUES (2056,
+	VALUES (2095,
 	0,
 	0,
 	11,
@@ -32448,21 +32819,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2045);
+	30,
+	2084);
 INSERT INTO V_LIN
-	VALUES (2056,
+	VALUES (2095,
 	'2');
 INSERT INTO V_PAR
-	VALUES (2056,
-	2047,
+	VALUES (2095,
+	2086,
 	0,
 	'sequenceNumber',
-	2057,
+	2096,
 	11,
 	3);
 INSERT INTO V_VAL
-	VALUES (2057,
+	VALUES (2096,
 	0,
 	0,
 	12,
@@ -32472,21 +32843,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2045);
+	10,
+	2084);
 INSERT INTO V_LRL
-	VALUES (2057,
+	VALUES (2096,
 	'60.0');
 INSERT INTO V_PAR
-	VALUES (2057,
-	2047,
+	VALUES (2096,
+	2086,
 	0,
 	'minimum',
-	2058,
+	2097,
 	12,
 	3);
 INSERT INTO V_VAL
-	VALUES (2058,
+	VALUES (2097,
 	0,
 	0,
 	13,
@@ -32496,21 +32867,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2045);
+	10,
+	2084);
 INSERT INTO V_LRL
-	VALUES (2058,
+	VALUES (2097,
 	'80.0');
 INSERT INTO V_PAR
-	VALUES (2058,
-	2047,
+	VALUES (2097,
+	2086,
 	0,
 	'maximum',
-	2059,
+	2098,
 	13,
 	3);
 INSERT INTO V_VAL
-	VALUES (2059,
+	VALUES (2098,
 	0,
 	0,
 	14,
@@ -32520,21 +32891,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2045);
+	30,
+	2084);
 INSERT INTO V_LIN
-	VALUES (2059,
+	VALUES (2098,
 	'10');
 INSERT INTO V_PAR
-	VALUES (2059,
-	2047,
+	VALUES (2098,
+	2086,
 	0,
 	'span',
-	2060,
+	2099,
 	14,
 	3);
 INSERT INTO V_VAL
-	VALUES (2060,
+	VALUES (2099,
 	0,
 	0,
 	15,
@@ -32544,23 +32915,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	180,
-	2045);
+	37,
+	2084);
 INSERT INTO V_LEN
-	VALUES (2060,
-	364,
+	VALUES (2099,
+	383,
 	15,
 	17);
 INSERT INTO V_PAR
-	VALUES (2060,
-	2047,
+	VALUES (2099,
+	2086,
 	0,
 	'criteriaType',
-	2061,
+	2100,
 	15,
 	3);
 INSERT INTO V_VAL
-	VALUES (2061,
+	VALUES (2100,
 	0,
 	0,
 	16,
@@ -32570,23 +32941,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	184,
-	2045);
+	39,
+	2084);
 INSERT INTO V_LEN
-	VALUES (2061,
-	366,
+	VALUES (2100,
+	385,
 	16,
 	13);
 INSERT INTO V_PAR
-	VALUES (2061,
-	2047,
+	VALUES (2100,
+	2086,
 	0,
 	'spanType',
 	0,
 	16,
 	3);
 INSERT INTO V_VAL
-	VALUES (2062,
+	VALUES (2101,
 	0,
 	0,
 	19,
@@ -32596,21 +32967,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2045);
+	30,
+	2084);
 INSERT INTO V_LIN
-	VALUES (2062,
+	VALUES (2101,
 	'3');
 INSERT INTO V_PAR
-	VALUES (2062,
-	2048,
+	VALUES (2101,
+	2087,
 	0,
 	'sequenceNumber',
-	2063,
+	2102,
 	19,
 	3);
 INSERT INTO V_VAL
-	VALUES (2063,
+	VALUES (2102,
 	0,
 	0,
 	20,
@@ -32620,21 +32991,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2045);
+	10,
+	2084);
 INSERT INTO V_LRL
-	VALUES (2063,
+	VALUES (2102,
 	'5.0');
 INSERT INTO V_PAR
-	VALUES (2063,
-	2048,
+	VALUES (2102,
+	2087,
 	0,
 	'minimum',
-	2064,
+	2103,
 	20,
 	3);
 INSERT INTO V_VAL
-	VALUES (2064,
+	VALUES (2103,
 	0,
 	0,
 	21,
@@ -32644,21 +33015,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2045);
+	10,
+	2084);
 INSERT INTO V_LRL
-	VALUES (2064,
+	VALUES (2103,
 	'6.0');
 INSERT INTO V_PAR
-	VALUES (2064,
-	2048,
+	VALUES (2103,
+	2087,
 	0,
 	'maximum',
-	2065,
+	2104,
 	21,
 	3);
 INSERT INTO V_VAL
-	VALUES (2065,
+	VALUES (2104,
 	0,
 	0,
 	22,
@@ -32668,21 +33039,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2045);
+	30,
+	2084);
 INSERT INTO V_LIN
-	VALUES (2065,
+	VALUES (2104,
 	'15');
 INSERT INTO V_PAR
-	VALUES (2065,
-	2048,
+	VALUES (2104,
+	2087,
 	0,
 	'span',
-	2066,
+	2105,
 	22,
 	3);
 INSERT INTO V_VAL
-	VALUES (2066,
+	VALUES (2105,
 	0,
 	0,
 	23,
@@ -32692,23 +33063,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	180,
-	2045);
+	37,
+	2084);
 INSERT INTO V_LEN
-	VALUES (2066,
-	356,
+	VALUES (2105,
+	375,
 	23,
 	17);
 INSERT INTO V_PAR
-	VALUES (2066,
-	2048,
+	VALUES (2105,
+	2087,
 	0,
 	'criteriaType',
-	2067,
+	2106,
 	23,
 	3);
 INSERT INTO V_VAL
-	VALUES (2067,
+	VALUES (2106,
 	0,
 	0,
 	24,
@@ -32718,23 +33089,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	184,
-	2045);
+	39,
+	2084);
 INSERT INTO V_LEN
-	VALUES (2067,
-	366,
+	VALUES (2106,
+	385,
 	24,
 	13);
 INSERT INTO V_PAR
-	VALUES (2067,
-	2048,
+	VALUES (2106,
+	2087,
 	0,
 	'spanType',
 	0,
 	24,
 	3);
 INSERT INTO V_VAL
-	VALUES (2068,
+	VALUES (2107,
 	0,
 	0,
 	27,
@@ -32744,21 +33115,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2045);
+	30,
+	2084);
 INSERT INTO V_LIN
-	VALUES (2068,
+	VALUES (2107,
 	'4');
 INSERT INTO V_PAR
-	VALUES (2068,
-	2049,
+	VALUES (2107,
+	2088,
 	0,
 	'sequenceNumber',
-	2069,
+	2108,
 	27,
 	3);
 INSERT INTO V_VAL
-	VALUES (2069,
+	VALUES (2108,
 	0,
 	0,
 	28,
@@ -32768,21 +33139,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2045);
+	10,
+	2084);
 INSERT INTO V_LRL
-	VALUES (2069,
+	VALUES (2108,
 	'1.0');
 INSERT INTO V_PAR
-	VALUES (2069,
-	2049,
+	VALUES (2108,
+	2088,
 	0,
 	'minimum',
-	2070,
+	2109,
 	28,
 	3);
 INSERT INTO V_VAL
-	VALUES (2070,
+	VALUES (2109,
 	0,
 	0,
 	29,
@@ -32792,21 +33163,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2045);
+	10,
+	2084);
 INSERT INTO V_LRL
-	VALUES (2070,
+	VALUES (2109,
 	'2.0');
 INSERT INTO V_PAR
-	VALUES (2070,
-	2049,
+	VALUES (2109,
+	2088,
 	0,
 	'maximum',
-	2071,
+	2110,
 	29,
 	3);
 INSERT INTO V_VAL
-	VALUES (2071,
+	VALUES (2110,
 	0,
 	0,
 	30,
@@ -32816,21 +33187,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2045);
+	30,
+	2084);
 INSERT INTO V_LIN
-	VALUES (2071,
+	VALUES (2110,
 	'15');
 INSERT INTO V_PAR
-	VALUES (2071,
-	2049,
+	VALUES (2110,
+	2088,
 	0,
 	'span',
-	2072,
+	2111,
 	30,
 	3);
 INSERT INTO V_VAL
-	VALUES (2072,
+	VALUES (2111,
 	0,
 	0,
 	31,
@@ -32840,23 +33211,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	180,
-	2045);
+	37,
+	2084);
 INSERT INTO V_LEN
-	VALUES (2072,
-	356,
+	VALUES (2111,
+	375,
 	31,
 	17);
 INSERT INTO V_PAR
-	VALUES (2072,
-	2049,
+	VALUES (2111,
+	2088,
 	0,
 	'criteriaType',
-	2073,
+	2112,
 	31,
 	3);
 INSERT INTO V_VAL
-	VALUES (2073,
+	VALUES (2112,
 	0,
 	0,
 	32,
@@ -32866,50 +33237,50 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	184,
-	2045);
+	39,
+	2084);
 INSERT INTO V_LEN
-	VALUES (2073,
-	366,
+	VALUES (2112,
+	385,
 	32,
 	13);
 INSERT INTO V_PAR
-	VALUES (2073,
-	2049,
+	VALUES (2112,
+	2088,
 	0,
 	'spanType',
 	0,
 	32,
 	3);
 INSERT INTO PE_PE
-	VALUES (2074,
+	VALUES (2113,
 	1,
-	1908,
+	1793,
 	0,
 	1);
 INSERT INTO S_SYNC
-	VALUES (2074,
+	VALUES (2113,
 	0,
 	'init',
 	'',
 	'GuiBridge::connect();',
-	240,
+	6,
 	1,
 	'');
 INSERT INTO ACT_FNB
-	VALUES (2075,
-	2074);
+	VALUES (2114,
+	2113);
 INSERT INTO ACT_ACT
-	VALUES (2075,
+	VALUES (2114,
 	'function',
 	0,
-	2076,
+	2115,
 	0,
 	0,
 	'init',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2076,
+	VALUES (2115,
 	0,
 	0,
 	0,
@@ -32929,51 +33300,51 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2075,
+	2114,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2077,
-	2076,
+	VALUES (2116,
+	2115,
 	0,
 	1,
 	1,
 	'init line: 1');
 INSERT INTO ACT_BRG
-	VALUES (2077,
-	2005,
+	VALUES (2116,
+	1872,
 	1,
 	12,
 	1,
 	1);
 INSERT INTO PE_PE
-	VALUES (2078,
+	VALUES (2117,
 	1,
-	1908,
+	1793,
 	0,
 	1);
 INSERT INTO S_SYNC
-	VALUES (2078,
+	VALUES (2117,
 	0,
 	'RunTestCase',
 	'',
 	'TestCase::execute();',
-	240,
+	6,
 	1,
 	'');
 INSERT INTO ACT_FNB
-	VALUES (2079,
-	2078);
+	VALUES (2118,
+	2117);
 INSERT INTO ACT_ACT
-	VALUES (2079,
+	VALUES (2118,
 	'function',
 	0,
-	2080,
+	2119,
 	0,
 	0,
 	'RunTestCase',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2080,
+	VALUES (2119,
 	0,
 	0,
 	0,
@@ -32993,885 +33364,194 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2079,
+	2118,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2081,
-	2080,
+	VALUES (2120,
+	2119,
 	0,
 	1,
 	1,
 	'RunTestCase line: 1');
 INSERT INTO ACT_TFM
-	VALUES (2081,
-	2082,
+	VALUES (2120,
+	1795,
 	0,
 	1,
 	11,
 	1,
 	1);
 INSERT INTO PE_PE
-	VALUES (2083,
+	VALUES (1931,
 	1,
-	1908,
+	1793,
 	0,
-	4);
-INSERT INTO O_OBJ
-	VALUES (2083,
-	'TestCase',
-	2,
-	'TestCase',
-	'Represents a very simple automated test case.',
-	0);
-INSERT INTO O_TFR
-	VALUES (2082,
-	2083,
-	'execute',
-	'',
-	240,
-	0,
-	'generate TestCase2:start(iterations: 2) to TestCase creator;',
-	1,
-	'',
-	0);
-INSERT INTO ACT_OPB
-	VALUES (2084,
-	2082);
-INSERT INTO ACT_ACT
-	VALUES (2084,
-	'class operation',
-	0,
-	2085,
-	0,
-	0,
-	'TestCase::execute',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2085,
-	0,
-	0,
-	0,
-	'',
-	'iterations',
-	'iterations',
-	1,
-	1,
-	1,
-	44,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2084,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2086,
-	2085,
-	0,
-	1,
-	1,
-	'TestCase::execute line: 1');
-INSERT INTO E_ESS
-	VALUES (2086,
-	1,
-	0,
-	1,
-	10,
-	1,
-	20,
-	1,
-	44,
-	1,
-	26,
-	0,
-	0);
-INSERT INTO V_PAR
-	VALUES (2087,
-	2086,
-	0,
-	'iterations',
-	0,
-	1,
-	26);
-INSERT INTO E_GES
-	VALUES (2086);
-INSERT INTO E_GSME
-	VALUES (2086,
-	1821);
-INSERT INTO E_GEC
-	VALUES (2086);
-INSERT INTO V_VAL
-	VALUES (2087,
-	0,
-	0,
-	1,
-	38,
-	38,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2085);
-INSERT INTO V_LIN
-	VALUES (2087,
-	'2');
-INSERT INTO O_NBATTR
-	VALUES (2088,
-	2083);
-INSERT INTO O_BATTR
-	VALUES (2088,
-	2083);
-INSERT INTO O_ATTR
-	VALUES (2088,
-	2083,
-	0,
-	'current_state',
-	'',
-	'',
-	'current_state',
-	0,
-	458,
-	'',
-	'');
-INSERT INTO O_NBATTR
-	VALUES (2089,
-	2083);
-INSERT INTO O_BATTR
-	VALUES (2089,
-	2083);
-INSERT INTO O_ATTR
-	VALUES (2089,
-	2083,
-	2088,
-	'iterations',
-	'',
-	'',
-	'iterations',
-	0,
-	13,
-	'',
-	'');
-INSERT INTO O_ID
-	VALUES (0,
-	2083);
-INSERT INTO O_ID
-	VALUES (1,
-	2083);
-INSERT INTO O_ID
-	VALUES (2,
-	2083);
-INSERT INTO SM_ISM
-	VALUES (2090,
-	2083);
-INSERT INTO SM_SM
-	VALUES (2090,
-	'',
-	0);
-INSERT INTO SM_MOORE
-	VALUES (2090);
-INSERT INTO SM_EVTDI
-	VALUES (2091,
-	2090,
-	'iterations',
-	'',
-	13,
-	'',
-	1821,
-	0);
-INSERT INTO SM_LEVT
-	VALUES (2092,
-	2090,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (2092,
-	2090,
-	0);
-INSERT INTO SM_EVT
-	VALUES (2092,
-	2090,
-	0,
-	1,
-	'delay',
-	0,
-	'',
-	'TestCase1',
-	'');
-INSERT INTO SM_LEVT
-	VALUES (1821,
-	2090,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (1821,
-	2090,
-	0);
-INSERT INTO SM_EVT
-	VALUES (1821,
-	2090,
-	0,
-	2,
-	'start',
-	0,
-	'',
-	'TestCase2',
-	'');
-INSERT INTO SM_LEVT
-	VALUES (2093,
-	2090,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (2093,
-	2090,
-	0);
-INSERT INTO SM_EVT
-	VALUES (2093,
-	2090,
-	0,
-	3,
-	'finish',
-	0,
-	'',
-	'TestCase3',
-	'');
-INSERT INTO SM_STATE
-	VALUES (2094,
-	2090,
-	0,
-	'pressStartStop',
-	2,
-	0);
-INSERT INTO SM_SEME
-	VALUES (2094,
-	2092,
-	2090,
-	0);
-INSERT INTO SM_CH
-	VALUES (2094,
-	1821,
-	2090,
-	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (2094,
-	1821,
-	2090,
-	0);
-INSERT INTO SM_SEME
-	VALUES (2094,
-	2093,
-	2090,
-	0);
-INSERT INTO SM_MOAH
-	VALUES (2095,
-	2090,
-	2094);
-INSERT INTO SM_AH
-	VALUES (2095,
-	2090);
-INSERT INTO SM_ACT
-	VALUES (2095,
-	2090,
-	1,
-	'if (self.iterations > 0)
-  self.iterations = self.iterations - 1;
-  create event instance evt of TestCase1 to self;
-  handle = TIM::timer_start(event_inst: evt, microseconds: 4000000);
-  send Tracking::startStopPressed();
-else
-  generate TestCase3:finish to self;
-  send Tracking::lapResetPressed();
-end if;',
-	'');
-INSERT INTO ACT_SAB
-	VALUES (2096,
-	2090,
-	2095);
-INSERT INTO ACT_ACT
-	VALUES (2096,
-	'state',
-	0,
-	2097,
-	0,
-	0,
-	'TestCase::pressStartStop',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2097,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	6,
-	1,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2096,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2098,
-	2097,
-	0,
-	1,
-	1,
-	'TestCase::pressStartStop line: 1');
-INSERT INTO ACT_IF
-	VALUES (2098,
-	2099,
-	2100,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2101,
-	2097,
-	0,
-	6,
-	1,
-	'TestCase::pressStartStop line: 6');
-INSERT INTO ACT_E
-	VALUES (2101,
-	2102,
-	2098);
-INSERT INTO V_VAL
-	VALUES (2103,
-	0,
-	0,
-	1,
-	5,
-	8,
-	0,
-	0,
-	0,
-	0,
-	70,
-	2097);
-INSERT INTO V_IRF
-	VALUES (2103,
-	2104);
-INSERT INTO V_VAL
-	VALUES (2105,
-	0,
-	0,
-	1,
-	10,
-	19,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2097);
-INSERT INTO V_AVL
-	VALUES (2105,
-	2103,
-	2083,
-	2089);
-INSERT INTO V_VAL
-	VALUES (2100,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	72,
-	2097);
-INSERT INTO V_BIN
-	VALUES (2100,
-	2106,
-	2105,
-	'>');
-INSERT INTO V_VAL
-	VALUES (2106,
-	0,
-	0,
-	1,
-	23,
-	23,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2097);
-INSERT INTO V_LIN
-	VALUES (2106,
-	'0');
-INSERT INTO V_VAR
-	VALUES (2104,
-	2097,
-	'self',
-	1,
-	70);
-INSERT INTO V_INT
-	VALUES (2104,
-	0,
-	2083);
-INSERT INTO ACT_BLK
-	VALUES (2099,
-	0,
-	0,
-	0,
-	'Tracking',
-	'',
-	'',
-	5,
-	3,
-	5,
-	8,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2096,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2107,
-	2099,
-	2108,
-	2,
-	3,
-	'TestCase::pressStartStop line: 2');
-INSERT INTO ACT_AI
-	VALUES (2107,
-	2109,
-	2110,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2108,
-	2099,
-	2111,
-	3,
-	3,
-	'TestCase::pressStartStop line: 3');
-INSERT INTO E_ESS
-	VALUES (2108,
-	1,
-	0,
-	3,
-	32,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (2108,
-	1,
-	2112);
-INSERT INTO E_CSME
-	VALUES (2108,
-	2092);
-INSERT INTO E_CEI
-	VALUES (2108,
-	2104);
-INSERT INTO ACT_SMT
-	VALUES (2111,
-	2099,
-	2113,
-	4,
-	3,
-	'TestCase::pressStartStop line: 4');
-INSERT INTO ACT_AI
-	VALUES (2111,
-	2114,
-	2115,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2113,
-	2099,
-	0,
-	5,
-	3,
-	'TestCase::pressStartStop line: 5');
-INSERT INTO ACT_IOP
-	VALUES (2113,
-	5,
-	18,
-	5,
-	8,
-	0,
-	1867,
-	0);
-INSERT INTO V_VAL
-	VALUES (2116,
-	1,
-	0,
-	2,
-	3,
-	6,
-	0,
-	0,
-	0,
-	0,
-	70,
-	2099);
-INSERT INTO V_IRF
-	VALUES (2116,
-	2104);
-INSERT INTO V_VAL
-	VALUES (2110,
-	1,
-	0,
-	2,
-	8,
-	17,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2099);
-INSERT INTO V_AVL
-	VALUES (2110,
-	2116,
-	2083,
-	2089);
-INSERT INTO V_VAL
-	VALUES (2117,
-	0,
-	0,
-	2,
-	21,
-	24,
-	0,
-	0,
-	0,
-	0,
-	70,
-	2099);
-INSERT INTO V_IRF
-	VALUES (2117,
-	2104);
-INSERT INTO V_VAL
-	VALUES (2118,
-	0,
-	0,
-	2,
-	26,
-	35,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2099);
-INSERT INTO V_AVL
-	VALUES (2118,
-	2117,
-	2083,
-	2089);
-INSERT INTO V_VAL
-	VALUES (2109,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2099);
-INSERT INTO V_BIN
-	VALUES (2109,
-	2119,
-	2118,
-	'-');
-INSERT INTO V_VAL
-	VALUES (2119,
-	0,
-	0,
-	2,
-	39,
-	39,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2099);
-INSERT INTO V_LIN
-	VALUES (2119,
-	'1');
-INSERT INTO V_VAL
-	VALUES (2115,
-	1,
-	1,
-	4,
-	3,
-	8,
-	0,
-	0,
-	0,
-	0,
-	313,
-	2099);
-INSERT INTO V_TVL
-	VALUES (2115,
-	2120);
-INSERT INTO V_VAL
-	VALUES (2114,
-	0,
-	0,
-	4,
-	17,
-	-1,
-	4,
-	29,
-	4,
-	46,
-	313,
-	2099);
-INSERT INTO V_BRV
-	VALUES (2114,
-	1949,
-	1,
-	4,
-	12);
-INSERT INTO V_VAL
-	VALUES (2121,
-	0,
-	0,
-	4,
-	41,
-	43,
-	0,
-	0,
-	0,
-	0,
-	316,
-	2099);
-INSERT INTO V_TVL
-	VALUES (2121,
-	2112);
-INSERT INTO V_PAR
-	VALUES (2121,
-	0,
-	2114,
-	'event_inst',
-	2122,
-	4,
-	29);
-INSERT INTO V_VAL
-	VALUES (2122,
-	0,
-	0,
-	4,
-	60,
-	66,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2099);
-INSERT INTO V_LIN
-	VALUES (2122,
-	'4000000');
-INSERT INTO V_PAR
-	VALUES (2122,
-	0,
-	2114,
-	'microseconds',
-	0,
-	4,
-	46);
-INSERT INTO V_VAR
-	VALUES (2112,
-	2099,
-	'evt',
-	1,
-	316);
-INSERT INTO V_TRN
-	VALUES (2112,
-	0,
-	'');
-INSERT INTO V_VAR
-	VALUES (2120,
-	2099,
-	'handle',
-	1,
-	313);
-INSERT INTO V_TRN
-	VALUES (2120,
-	0,
-	'');
-INSERT INTO ACT_BLK
-	VALUES (2102,
-	0,
-	0,
-	0,
-	'Tracking',
-	'',
-	'',
-	8,
-	3,
-	8,
-	8,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2096,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2123,
-	2102,
-	2124,
-	7,
-	3,
-	'TestCase::pressStartStop line: 7');
-INSERT INTO E_ESS
-	VALUES (2123,
-	1,
-	0,
-	7,
-	12,
-	7,
-	22,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_GES
-	VALUES (2123);
-INSERT INTO E_GSME
-	VALUES (2123,
-	2093);
-INSERT INTO E_GEN
-	VALUES (2123,
-	2104);
-INSERT INTO ACT_SMT
-	VALUES (2124,
-	2102,
-	0,
-	8,
-	3,
-	'TestCase::pressStartStop line: 8');
-INSERT INTO ACT_IOP
-	VALUES (2124,
-	8,
-	18,
-	8,
-	8,
-	0,
-	1871,
-	0);
-INSERT INTO SM_STATE
-	VALUES (2125,
-	2090,
-	0,
-	'testCaseFinished',
-	3,
 	1);
-INSERT INTO SM_CH
-	VALUES (2125,
-	2092,
-	2090,
+INSERT INTO S_SYNC
+	VALUES (1931,
 	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (2125,
-	2092,
-	2090,
-	0);
-INSERT INTO SM_CH
-	VALUES (2125,
-	1821,
-	2090,
-	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (2125,
-	1821,
-	2090,
-	0);
-INSERT INTO SM_CH
-	VALUES (2125,
-	2093,
-	2090,
-	0,
-	'');
-INSERT INTO SM_SEME
-	VALUES (2125,
-	2093,
-	2090,
-	0);
-INSERT INTO SM_MOAH
-	VALUES (2126,
-	2090,
-	2125);
-INSERT INTO SM_AH
-	VALUES (2126,
-	2090);
-INSERT INTO SM_ACT
-	VALUES (2126,
-	2090,
+	'sendLapResetPressed',
+	'',
+	'send Tracking::lapResetPressed();',
+	6,
 	1,
-	'LOG::LogInfo(message: "End of test case"); ',
 	'');
-INSERT INTO ACT_SAB
+INSERT INTO ACT_FNB
+	VALUES (2121,
+	1931);
+INSERT INTO ACT_ACT
+	VALUES (2121,
+	'function',
+	0,
+	2122,
+	0,
+	0,
+	'sendLapResetPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2122,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	1,
+	1,
+	1,
+	6,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2121,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2123,
+	2122,
+	0,
+	1,
+	1,
+	'sendLapResetPressed line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2123,
+	1,
+	16,
+	1,
+	6,
+	0,
+	1777,
+	0);
+INSERT INTO PE_PE
+	VALUES (1941,
+	1,
+	1793,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (1941,
+	0,
+	'sendLightPressed',
+	'',
+	'send Tracking::lightPressed();',
+	6,
+	1,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (2124,
+	1941);
+INSERT INTO ACT_ACT
+	VALUES (2124,
+	'function',
+	0,
+	2125,
+	0,
+	0,
+	'sendLightPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2125,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	1,
+	1,
+	1,
+	6,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2124,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2126,
+	2125,
+	0,
+	1,
+	1,
+	'sendLightPressed line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2126,
+	1,
+	16,
+	1,
+	6,
+	0,
+	1789,
+	0);
+INSERT INTO PE_PE
+	VALUES (1951,
+	1,
+	1793,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (1951,
+	0,
+	'sendModePressed',
+	'',
+	'send Tracking::modePressed();',
+	6,
+	1,
+	'');
+INSERT INTO ACT_FNB
 	VALUES (2127,
-	2090,
-	2126);
+	1951);
 INSERT INTO ACT_ACT
 	VALUES (2127,
-	'state',
+	'function',
 	0,
 	2128,
 	0,
 	0,
-	'TestCase::testCaseFinished',
+	'sendModePressed',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2128,
 	0,
 	0,
 	0,
-	'LOG',
+	'Tracking',
 	'',
 	'',
 	1,
 	1,
 	1,
-	1,
+	6,
 	0,
 	0,
 	0,
@@ -33889,82 +33569,121 @@ INSERT INTO ACT_SMT
 	0,
 	1,
 	1,
-	'TestCase::testCaseFinished line: 1');
-INSERT INTO ACT_BRG
+	'sendModePressed line: 1');
+INSERT INTO ACT_IOP
 	VALUES (2129,
-	2020,
+	1,
+	16,
 	1,
 	6,
-	1,
-	1);
-INSERT INTO V_VAL
-	VALUES (2130,
 	0,
-	0,
-	1,
-	23,
-	39,
-	0,
-	0,
-	0,
-	0,
-	96,
-	2128);
-INSERT INTO V_LST
-	VALUES (2130,
-	'End of test case');
-INSERT INTO V_PAR
-	VALUES (2130,
-	2129,
-	0,
-	'message',
-	0,
-	1,
-	14);
-INSERT INTO SM_NSTXN
-	VALUES (2131,
-	2090,
-	2094,
-	2092,
+	1781,
 	0);
-INSERT INTO SM_TAH
-	VALUES (2132,
-	2090,
-	2131);
-INSERT INTO SM_AH
-	VALUES (2132,
-	2090);
-INSERT INTO SM_ACT
-	VALUES (2132,
-	2090,
+INSERT INTO PE_PE
+	VALUES (1921,
 	1,
+	1793,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (1921,
+	0,
+	'sendStartStopPressed',
 	'',
+	'send Tracking::startStopPressed();',
+	6,
+	1,
 	'');
-INSERT INTO ACT_TAB
+INSERT INTO ACT_FNB
+	VALUES (2130,
+	1921);
+INSERT INTO ACT_ACT
+	VALUES (2130,
+	'function',
+	0,
+	2131,
+	0,
+	0,
+	'sendStartStopPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2131,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	1,
+	1,
+	1,
+	6,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2130,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2132,
+	2131,
+	0,
+	1,
+	1,
+	'sendStartStopPressed line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2132,
+	1,
+	16,
+	1,
+	6,
+	0,
+	1773,
+	0);
+INSERT INTO PE_PE
+	VALUES (1911,
+	1,
+	1793,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (1911,
+	0,
+	'sendTargetPressed',
+	'',
+	'send Tracking::setTargetPressed();',
+	6,
+	1,
+	'');
+INSERT INTO ACT_FNB
 	VALUES (2133,
-	2090,
-	2132);
+	1911);
 INSERT INTO ACT_ACT
 	VALUES (2133,
-	'transition',
+	'function',
 	0,
 	2134,
 	0,
 	0,
-	'TestCase1: delay',
+	'sendTargetPressed',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2134,
 	0,
 	0,
 	0,
+	'Tracking',
 	'',
 	'',
-	'',
-	0,
-	0,
-	0,
-	0,
+	1,
+	1,
+	1,
+	6,
 	0,
 	0,
 	0,
@@ -33976,1121 +33695,863 @@ INSERT INTO ACT_BLK
 	0,
 	2133,
 	0);
-INSERT INTO SM_TXN
-	VALUES (2131,
-	2090,
-	2094,
-	0);
-INSERT INTO SM_CRTXN
-	VALUES (2135,
-	2090,
-	1821,
-	0);
-INSERT INTO SM_TAH
-	VALUES (2136,
-	2090,
-	2135);
-INSERT INTO SM_AH
-	VALUES (2136,
-	2090);
-INSERT INTO SM_ACT
-	VALUES (2136,
-	2090,
-	1,
-	'LOG::LogInfo(message: "Start of test case"); 
-self.iterations = rcvd_evt.iterations * 2;',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (2137,
-	2090,
-	2136);
-INSERT INTO ACT_ACT
-	VALUES (2137,
-	'transition',
-	0,
-	2138,
-	0,
-	0,
-	'TestCase2: start(iterations)',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2138,
-	0,
-	0,
-	0,
-	'LOG',
-	'',
-	'',
-	2,
-	1,
-	1,
-	1,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2137,
-	0);
 INSERT INTO ACT_SMT
-	VALUES (2139,
-	2138,
-	2140,
+	VALUES (2135,
+	2134,
+	0,
 	1,
 	1,
-	'TestCase2: start(iterations) line: 1');
-INSERT INTO ACT_BRG
-	VALUES (2139,
-	2020,
+	'sendTargetPressed line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2135,
+	1,
+	16,
 	1,
 	6,
+	0,
+	1769,
+	0);
+INSERT INTO PE_PE
+	VALUES (1728,
 	1,
+	1793,
+	0,
 	1);
+INSERT INTO S_SYNC
+	VALUES (1728,
+	0,
+	'setData',
+	'',
+	'if (param.unit == Unit::km)
+  GuiBridge::setData(value: param.value, unit: 0);
+elif (param.unit == Unit::meters)
+  GuiBridge::setData(value: param.value, unit: 1);
+elif (param.unit == Unit::minPerKm)
+  GuiBridge::setData(value: param.value, unit: 2);
+elif (param.unit == Unit::kmPerHour)
+  GuiBridge::setData(value: param.value, unit: 3);
+elif (param.unit == Unit::miles)
+  GuiBridge::setData(value: param.value, unit: 4);
+elif (param.unit == Unit::yards)
+  GuiBridge::setData(value: param.value, unit: 5);
+elif (param.unit == Unit::feet)
+  GuiBridge::setData(value: param.value, unit: 6);
+elif (param.unit == Unit::minPerMile)
+  GuiBridge::setData(value: param.value, unit: 7);
+elif (param.unit == Unit::mph)
+  GuiBridge::setData(value: param.value, unit: 8);
+elif (param.unit == Unit::bpm)
+  GuiBridge::setData(value: param.value, unit: 9);
+elif (param.unit == Unit::laps)
+  GuiBridge::setData(value: param.value, unit: 10);
+end if;
+',
+	6,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (2136,
+	1728,
+	'value',
+	10,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_SPARM
+	VALUES (2137,
+	1728,
+	'unit',
+	24,
+	0,
+	'',
+	2136,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (2138,
+	1728);
+INSERT INTO ACT_ACT
+	VALUES (2138,
+	'function',
+	0,
+	2139,
+	0,
+	0,
+	'setData',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2139,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	21,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	21,
+	21,
+	0,
+	2138,
+	0);
 INSERT INTO ACT_SMT
 	VALUES (2140,
-	2138,
+	2139,
 	0,
-	2,
 	1,
-	'TestCase2: start(iterations) line: 2');
-INSERT INTO ACT_AI
+	1,
+	'setData line: 1');
+INSERT INTO ACT_IF
 	VALUES (2140,
 	2141,
 	2142,
 	0,
 	0);
-INSERT INTO V_VAL
-	VALUES (2143,
-	0,
-	0,
-	1,
-	23,
-	41,
-	0,
-	0,
-	0,
-	0,
-	96,
-	2138);
-INSERT INTO V_LST
-	VALUES (2143,
-	'Start of test case');
-INSERT INTO V_PAR
+INSERT INTO ACT_SMT
 	VALUES (2143,
 	2139,
 	0,
-	'message',
-	0,
+	3,
 	1,
-	14);
-INSERT INTO V_VAL
-	VALUES (2144,
-	1,
-	0,
-	2,
-	1,
-	4,
-	0,
-	0,
-	0,
-	0,
-	70,
-	2138);
-INSERT INTO V_IRF
-	VALUES (2144,
-	2145);
-INSERT INTO V_VAL
-	VALUES (2142,
-	1,
-	0,
-	2,
-	6,
-	15,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2138);
-INSERT INTO V_AVL
-	VALUES (2142,
+	'setData line: 3');
+INSERT INTO ACT_EL
+	VALUES (2143,
 	2144,
-	2083,
-	2089);
-INSERT INTO V_VAL
+	2145,
+	2140);
+INSERT INTO ACT_SMT
 	VALUES (2146,
+	2139,
 	0,
-	0,
-	2,
-	28,
-	37,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2138);
-INSERT INTO V_EDV
-	VALUES (2146);
-INSERT INTO V_EPR
+	5,
+	1,
+	'setData line: 5');
+INSERT INTO ACT_EL
 	VALUES (2146,
-	2090,
-	2091,
-	0);
-INSERT INTO V_VAL
-	VALUES (2141,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2138);
-INSERT INTO V_BIN
-	VALUES (2141,
 	2147,
-	2146,
-	'*');
-INSERT INTO V_VAL
-	VALUES (2147,
+	2148,
+	2140);
+INSERT INTO ACT_SMT
+	VALUES (2149,
+	2139,
 	0,
+	7,
+	1,
+	'setData line: 7');
+INSERT INTO ACT_EL
+	VALUES (2149,
+	2150,
+	2151,
+	2140);
+INSERT INTO ACT_SMT
+	VALUES (2152,
+	2139,
 	0,
-	2,
-	41,
-	41,
+	9,
+	1,
+	'setData line: 9');
+INSERT INTO ACT_EL
+	VALUES (2152,
+	2153,
+	2154,
+	2140);
+INSERT INTO ACT_SMT
+	VALUES (2155,
+	2139,
 	0,
-	0,
-	0,
+	11,
+	1,
+	'setData line: 11');
+INSERT INTO ACT_EL
+	VALUES (2155,
+	2156,
+	2157,
+	2140);
+INSERT INTO ACT_SMT
+	VALUES (2158,
+	2139,
 	0,
 	13,
-	2138);
-INSERT INTO V_LIN
-	VALUES (2147,
-	'2');
-INSERT INTO V_VAR
-	VALUES (2145,
-	2138,
-	'self',
 	1,
-	70);
-INSERT INTO V_INT
+	'setData line: 13');
+INSERT INTO ACT_EL
+	VALUES (2158,
+	2159,
+	2160,
+	2140);
+INSERT INTO ACT_SMT
+	VALUES (2161,
+	2139,
+	0,
+	15,
+	1,
+	'setData line: 15');
+INSERT INTO ACT_EL
+	VALUES (2161,
+	2162,
+	2163,
+	2140);
+INSERT INTO ACT_SMT
+	VALUES (2164,
+	2139,
+	0,
+	17,
+	1,
+	'setData line: 17');
+INSERT INTO ACT_EL
+	VALUES (2164,
+	2165,
+	2166,
+	2140);
+INSERT INTO ACT_SMT
+	VALUES (2167,
+	2139,
+	0,
+	19,
+	1,
+	'setData line: 19');
+INSERT INTO ACT_EL
+	VALUES (2167,
+	2168,
+	2169,
+	2140);
+INSERT INTO ACT_SMT
+	VALUES (2170,
+	2139,
+	0,
+	21,
+	1,
+	'setData line: 21');
+INSERT INTO ACT_EL
+	VALUES (2170,
+	2171,
+	2172,
+	2140);
+INSERT INTO V_VAL
+	VALUES (2173,
+	0,
+	0,
+	1,
+	11,
+	14,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
+	VALUES (2173,
+	0,
+	2137,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (2142,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2142,
+	2174,
+	2173,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2174,
+	0,
+	0,
+	1,
+	25,
+	26,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_LEN
+	VALUES (2174,
+	508,
+	1,
+	19);
+INSERT INTO V_VAL
+	VALUES (2175,
+	0,
+	0,
+	3,
+	13,
+	16,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
+	VALUES (2175,
+	0,
+	2137,
+	0,
+	0);
+INSERT INTO V_VAL
 	VALUES (2145,
 	0,
-	2083);
-INSERT INTO SM_TXN
-	VALUES (2135,
-	2090,
-	2094,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2145,
+	2176,
+	2175,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2176,
+	0,
+	0,
+	3,
+	27,
+	32,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_LEN
+	VALUES (2176,
+	512,
+	3,
+	21);
+INSERT INTO V_VAL
+	VALUES (2177,
+	0,
+	0,
+	5,
+	13,
+	16,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
+	VALUES (2177,
+	0,
+	2137,
+	0,
 	0);
-INSERT INTO SM_NSTXN
+INSERT INTO V_VAL
 	VALUES (2148,
-	2090,
-	2094,
-	2093,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2148,
+	2178,
+	2177,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2178,
+	0,
+	0,
+	5,
+	27,
+	34,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_LEN
+	VALUES (2178,
+	553,
+	5,
+	21);
+INSERT INTO V_VAL
+	VALUES (2179,
+	0,
+	0,
+	7,
+	13,
+	16,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
+	VALUES (2179,
+	0,
+	2137,
+	0,
 	0);
-INSERT INTO SM_TAH
-	VALUES (2149,
-	2090,
-	2148);
-INSERT INTO SM_AH
-	VALUES (2149,
-	2090);
-INSERT INTO SM_ACT
-	VALUES (2149,
-	2090,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (2150,
-	2090,
-	2149);
-INSERT INTO ACT_ACT
-	VALUES (2150,
-	'transition',
-	0,
-	2151,
-	0,
-	0,
-	'TestCase3: finish',
-	0);
-INSERT INTO ACT_BLK
+INSERT INTO V_VAL
 	VALUES (2151,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	-1,
+	-1,
+	-1,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2150,
-	0);
-INSERT INTO SM_TXN
-	VALUES (2148,
-	2090,
-	2125,
-	0);
-INSERT INTO PE_PE
-	VALUES (2152,
-	1,
-	1908,
-	0,
-	4);
-INSERT INTO O_OBJ
-	VALUES (2152,
-	'UI',
-	1,
-	'UI',
-	'Provides an interface between Verifier and an external user interface representing 
-the watch, in this case an animated rendition of the watch containing virtual
-buttons that can be "pushed" by clicking on them with a mouse.
-
-The system is first primed by creating, within the Verifier execution engine, an 
-instance of each event that can be received by this class-based state machine.
-This priming is done through execution of the feed*() bridge operations within 
-the GuiBridge external entity.  Each of these operations is bound to a realized
-Java function that queues the appropriate event within the Verifier execution 
-engine.
-
-Whenever a button on the animated watch is pushed, it causes the associated
-event to be generated.  The activity on the transition then queues another instance
-of the same event within the Verifier execution engine before sending the 
-corresponding interface signal out through the UI port.  That interface signal 
-can then be received by an application, such as the Tracking component, that is 
-controlled by the animated watch.',
-	0);
-INSERT INTO O_TFR
-	VALUES (2153,
-	2152,
-	'connect',
-	'',
-	240,
-	0,
-	'GuiBridge::connect();
-
-create event instance evt of UI_A3:setTargetPressed() to UI class;
-GuiBridge::feedSetTargetPressedEvent(evt: evt);
-
-create event instance evt of UI_A4:startStopPressed() to UI class;
-GuiBridge::feedStartStopPressedEvent(evt: evt);
-
-create event instance evt of UI_A5:lapResetPressed() to UI class;
-GuiBridge::feedLapResetPressedEvent(evt: evt);
-
-create event instance evt of UI_A6:lightPressed() to UI class;
-GuiBridge::feedLightPressedEvent(evt: evt);
-
-create event instance evt of UI_A7:modePressed() to UI class;
-GuiBridge::feedModePressedEvent(evt: evt);',
-	1,
-	'',
-	0);
-INSERT INTO ACT_OPB
-	VALUES (2154,
-	2153);
-INSERT INTO ACT_ACT
-	VALUES (2154,
-	'class operation',
-	0,
-	2155,
-	0,
-	0,
-	'UI::connect',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2155,
-	0,
-	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	16,
-	1,
-	16,
-	1,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2154,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2156,
-	2155,
-	2157,
-	1,
-	1,
-	'UI::connect line: 1');
-INSERT INTO ACT_BRG
-	VALUES (2156,
-	2005,
-	1,
-	12,
-	1,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (2157,
-	2155,
-	2158,
-	3,
-	1,
-	'UI::connect line: 3');
-INSERT INTO E_ESS
-	VALUES (2157,
-	1,
-	0,
-	3,
-	30,
-	3,
-	36,
-	3,
-	58,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (2157,
-	1,
-	2159);
-INSERT INTO E_CSME
-	VALUES (2157,
-	2160);
-INSERT INTO E_CEA
-	VALUES (2157);
-INSERT INTO ACT_SMT
-	VALUES (2158,
-	2155,
-	2161,
-	4,
-	1,
-	'UI::connect line: 4');
-INSERT INTO ACT_BRG
-	VALUES (2158,
-	1978,
-	4,
-	12,
-	4,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (2161,
-	2155,
-	2162,
-	6,
-	1,
-	'UI::connect line: 6');
-INSERT INTO E_ESS
-	VALUES (2161,
-	1,
-	0,
-	6,
-	30,
-	6,
-	36,
-	6,
-	58,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (2161,
-	0,
-	2159);
-INSERT INTO E_CSME
-	VALUES (2161,
-	2163);
-INSERT INTO E_CEA
-	VALUES (2161);
-INSERT INTO ACT_SMT
-	VALUES (2162,
-	2155,
-	2164,
-	7,
-	1,
-	'UI::connect line: 7');
-INSERT INTO ACT_BRG
-	VALUES (2162,
-	1994,
-	7,
-	12,
-	7,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (2164,
-	2155,
-	2165,
-	9,
-	1,
-	'UI::connect line: 9');
-INSERT INTO E_ESS
-	VALUES (2164,
-	1,
-	0,
-	9,
-	30,
-	9,
-	36,
-	9,
-	57,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (2164,
-	0,
-	2159);
-INSERT INTO E_CSME
-	VALUES (2164,
-	2166);
-INSERT INTO E_CEA
-	VALUES (2164);
-INSERT INTO ACT_SMT
-	VALUES (2165,
-	2155,
-	2167,
-	10,
-	1,
-	'UI::connect line: 10');
-INSERT INTO ACT_BRG
-	VALUES (2165,
-	1990,
-	10,
-	12,
-	10,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (2167,
-	2155,
-	2168,
-	12,
-	1,
-	'UI::connect line: 12');
-INSERT INTO E_ESS
-	VALUES (2167,
-	1,
-	0,
-	12,
-	30,
-	12,
-	36,
-	12,
-	54,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (2167,
-	0,
-	2159);
-INSERT INTO E_CSME
-	VALUES (2167,
-	2169);
-INSERT INTO E_CEA
-	VALUES (2167);
-INSERT INTO ACT_SMT
-	VALUES (2168,
-	2155,
-	2170,
-	13,
-	1,
-	'UI::connect line: 13');
-INSERT INTO ACT_BRG
-	VALUES (2168,
-	1986,
-	13,
-	12,
-	13,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (2170,
-	2155,
-	2171,
-	15,
-	1,
-	'UI::connect line: 15');
-INSERT INTO E_ESS
-	VALUES (2170,
-	1,
-	0,
-	15,
-	30,
-	15,
-	36,
-	15,
-	53,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (2170,
-	0,
-	2159);
-INSERT INTO E_CSME
-	VALUES (2170,
-	2172);
-INSERT INTO E_CEA
-	VALUES (2170);
-INSERT INTO ACT_SMT
-	VALUES (2171,
-	2155,
-	0,
-	16,
-	1,
-	'UI::connect line: 16');
-INSERT INTO ACT_BRG
-	VALUES (2171,
-	1982,
-	16,
-	12,
-	16,
-	1);
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2151,
+	2180,
+	2179,
+	'==');
 INSERT INTO V_VAL
-	VALUES (2173,
-	0,
-	0,
-	4,
-	43,
-	45,
-	0,
-	0,
-	0,
-	0,
-	316,
-	2155);
-INSERT INTO V_TVL
-	VALUES (2173,
-	2159);
-INSERT INTO V_PAR
-	VALUES (2173,
-	2158,
-	0,
-	'evt',
-	0,
-	4,
-	38);
-INSERT INTO V_VAL
-	VALUES (2174,
-	0,
-	0,
-	7,
-	43,
-	45,
-	0,
-	0,
-	0,
-	0,
-	316,
-	2155);
-INSERT INTO V_TVL
-	VALUES (2174,
-	2159);
-INSERT INTO V_PAR
-	VALUES (2174,
-	2162,
-	0,
-	'evt',
-	0,
-	7,
-	38);
-INSERT INTO V_VAL
-	VALUES (2175,
-	0,
-	0,
-	10,
-	42,
-	44,
-	0,
-	0,
-	0,
-	0,
-	316,
-	2155);
-INSERT INTO V_TVL
-	VALUES (2175,
-	2159);
-INSERT INTO V_PAR
-	VALUES (2175,
-	2165,
-	0,
-	'evt',
-	0,
-	10,
-	37);
-INSERT INTO V_VAL
-	VALUES (2176,
-	0,
-	0,
-	13,
-	39,
-	41,
-	0,
-	0,
-	0,
-	0,
-	316,
-	2155);
-INSERT INTO V_TVL
-	VALUES (2176,
-	2159);
-INSERT INTO V_PAR
-	VALUES (2176,
-	2168,
-	0,
-	'evt',
-	0,
-	13,
-	34);
-INSERT INTO V_VAL
-	VALUES (2177,
-	0,
-	0,
-	16,
-	38,
-	40,
-	0,
-	0,
-	0,
-	0,
-	316,
-	2155);
-INSERT INTO V_TVL
-	VALUES (2177,
-	2159);
-INSERT INTO V_PAR
-	VALUES (2177,
-	2171,
-	0,
-	'evt',
-	0,
-	16,
-	33);
-INSERT INTO V_VAR
-	VALUES (2159,
-	2155,
-	'evt',
-	1,
-	316);
-INSERT INTO V_TRN
-	VALUES (2159,
-	0,
-	'');
-INSERT INTO O_ID
-	VALUES (0,
-	2152);
-INSERT INTO O_ID
-	VALUES (1,
-	2152);
-INSERT INTO O_ID
-	VALUES (2,
-	2152);
-INSERT INTO SM_ASM
-	VALUES (2178,
-	2152);
-INSERT INTO SM_SM
-	VALUES (2178,
-	'',
-	0);
-INSERT INTO SM_MOORE
-	VALUES (2178);
-INSERT INTO SM_LEVT
-	VALUES (2160,
-	2178,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (2160,
-	2178,
-	0);
-INSERT INTO SM_EVT
-	VALUES (2160,
-	2178,
-	0,
-	3,
-	'setTargetPressed',
-	0,
-	'',
-	'UI_A3',
-	'');
-INSERT INTO SM_LEVT
-	VALUES (2163,
-	2178,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (2163,
-	2178,
-	0);
-INSERT INTO SM_EVT
-	VALUES (2163,
-	2178,
-	0,
-	4,
-	'startStopPressed',
-	0,
-	'',
-	'UI_A4',
-	'');
-INSERT INTO SM_LEVT
-	VALUES (2166,
-	2178,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (2166,
-	2178,
-	0);
-INSERT INTO SM_EVT
-	VALUES (2166,
-	2178,
-	0,
-	5,
-	'lapResetPressed',
-	0,
-	'',
-	'UI_A5',
-	'');
-INSERT INTO SM_LEVT
-	VALUES (2169,
-	2178,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (2169,
-	2178,
-	0);
-INSERT INTO SM_EVT
-	VALUES (2169,
-	2178,
-	0,
-	6,
-	'lightPressed',
-	0,
-	'',
-	'UI_A6',
-	'');
-INSERT INTO SM_LEVT
-	VALUES (2172,
-	2178,
-	0);
-INSERT INTO SM_SEVT
-	VALUES (2172,
-	2178,
-	0);
-INSERT INTO SM_EVT
-	VALUES (2172,
-	2178,
-	0,
-	7,
-	'modePressed',
-	0,
-	'',
-	'UI_A7',
-	'');
-INSERT INTO SM_STATE
-	VALUES (2179,
-	2178,
-	0,
-	'running',
-	1,
-	0);
-INSERT INTO SM_SEME
-	VALUES (2179,
-	2160,
-	2178,
-	0);
-INSERT INTO SM_SEME
-	VALUES (2179,
-	2163,
-	2178,
-	0);
-INSERT INTO SM_SEME
-	VALUES (2179,
-	2166,
-	2178,
-	0);
-INSERT INTO SM_SEME
-	VALUES (2179,
-	2169,
-	2178,
-	0);
-INSERT INTO SM_SEME
-	VALUES (2179,
-	2172,
-	2178,
-	0);
-INSERT INTO SM_MOAH
 	VALUES (2180,
-	2178,
-	2179);
-INSERT INTO SM_AH
+	0,
+	0,
+	7,
+	27,
+	35,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_LEN
 	VALUES (2180,
-	2178);
-INSERT INTO SM_ACT
-	VALUES (2180,
-	2178,
-	1,
-	'',
-	'');
-INSERT INTO ACT_SAB
+	532,
+	7,
+	21);
+INSERT INTO V_VAL
 	VALUES (2181,
-	2178,
-	2180);
-INSERT INTO ACT_ACT
-	VALUES (2181,
-	'class state',
 	0,
+	0,
+	9,
+	13,
+	16,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
+	VALUES (2181,
+	0,
+	2137,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (2154,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2154,
 	2182,
-	0,
-	0,
-	'UI::running',
-	0);
-INSERT INTO ACT_BLK
+	2181,
+	'==');
+INSERT INTO V_VAL
 	VALUES (2182,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	9,
+	27,
+	31,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2181,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (2183,
-	2178,
-	2179,
-	2160,
-	0);
-INSERT INTO SM_TAH
+	24,
+	2139);
+INSERT INTO V_LEN
+	VALUES (2182,
+	2183,
+	9,
+	21);
+INSERT INTO V_VAL
 	VALUES (2184,
-	2178,
-	2183);
-INSERT INTO SM_AH
+	0,
+	0,
+	11,
+	13,
+	16,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
 	VALUES (2184,
-	2178);
-INSERT INTO SM_ACT
-	VALUES (2184,
-	2178,
-	1,
-	'create event instance evt of UI_A3:setTargetPressed() to UI class;
-GuiBridge::feedSetTargetPressedEvent(evt: evt);
-::sendTargetPressed();',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (2185,
-	2178,
-	2184);
-INSERT INTO ACT_ACT
-	VALUES (2185,
-	'class transition',
 	0,
-	2186,
+	2137,
 	0,
-	0,
-	'UI_A3: setTargetPressed',
 	0);
-INSERT INTO ACT_BLK
-	VALUES (2186,
+INSERT INTO V_VAL
+	VALUES (2157,
 	0,
 	0,
-	0,
-	'GuiBridge',
-	'',
-	'',
-	3,
-	1,
-	2,
-	1,
+	-1,
+	-1,
+	-1,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2157,
 	2185,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2187,
+	2184,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2185,
+	0,
+	0,
+	11,
+	27,
+	31,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_LEN
+	VALUES (2185,
 	2186,
+	11,
+	21);
+INSERT INTO V_VAL
+	VALUES (2187,
+	0,
+	0,
+	13,
+	13,
+	16,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
+	VALUES (2187,
+	0,
+	2137,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (2160,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2160,
 	2188,
-	1,
-	1,
-	'UI_A3: setTargetPressed line: 1');
-INSERT INTO E_ESS
-	VALUES (2187,
-	1,
+	2187,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2188,
 	0,
-	1,
+	0,
+	13,
+	27,
 	30,
-	1,
-	36,
-	1,
-	58,
 	0,
 	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_LEN
+	VALUES (2188,
+	2189,
+	13,
+	21);
+INSERT INTO V_VAL
+	VALUES (2190,
+	0,
+	0,
+	15,
+	13,
+	16,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
+	VALUES (2190,
+	0,
+	2137,
 	0,
 	0);
-INSERT INTO E_CES
-	VALUES (2187,
-	1,
-	2189);
-INSERT INTO E_CSME
-	VALUES (2187,
-	2160);
-INSERT INTO E_CEA
-	VALUES (2187);
-INSERT INTO ACT_SMT
-	VALUES (2188,
-	2186,
-	2190,
-	2,
-	1,
-	'UI_A3: setTargetPressed line: 2');
-INSERT INTO ACT_BRG
-	VALUES (2188,
-	1978,
-	2,
-	12,
-	2,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (2190,
-	2186,
+INSERT INTO V_VAL
+	VALUES (2163,
 	0,
-	3,
-	1,
-	'UI_A3: setTargetPressed line: 3');
-INSERT INTO ACT_FNC
-	VALUES (2190,
-	1904,
-	3,
-	3);
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2163,
+	2191,
+	2190,
+	'==');
 INSERT INTO V_VAL
 	VALUES (2191,
 	0,
 	0,
-	2,
-	43,
-	45,
+	15,
+	27,
+	36,
 	0,
 	0,
 	0,
 	0,
-	316,
-	2186);
-INSERT INTO V_TVL
+	24,
+	2139);
+INSERT INTO V_LEN
 	VALUES (2191,
-	2189);
-INSERT INTO V_PAR
-	VALUES (2191,
-	2188,
+	2192,
+	15,
+	21);
+INSERT INTO V_VAL
+	VALUES (2193,
 	0,
-	'evt',
 	0,
-	2,
-	38);
-INSERT INTO V_VAR
-	VALUES (2189,
-	2186,
-	'evt',
-	1,
-	316);
-INSERT INTO V_TRN
-	VALUES (2189,
+	17,
+	13,
+	16,
 	0,
-	'');
-INSERT INTO SM_TXN
-	VALUES (2183,
-	2178,
-	2179,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
+	VALUES (2193,
+	0,
+	2137,
+	0,
 	0);
-INSERT INTO SM_NSTXN
-	VALUES (2192,
-	2178,
-	2179,
-	2163,
-	0);
-INSERT INTO SM_TAH
-	VALUES (2193,
-	2178,
-	2192);
-INSERT INTO SM_AH
-	VALUES (2193,
-	2178);
-INSERT INTO SM_ACT
-	VALUES (2193,
-	2178,
-	1,
-	'create event instance evt of UI_A4:startStopPressed() to UI class;
-GuiBridge::feedStartStopPressedEvent(evt: evt);
-::sendStartStopPressed();',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (2194,
-	2178,
-	2193);
-INSERT INTO ACT_ACT
-	VALUES (2194,
-	'class transition',
+INSERT INTO V_VAL
+	VALUES (2166,
 	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2166,
+	2194,
+	2193,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2194,
+	0,
+	0,
+	17,
+	27,
+	29,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_LEN
+	VALUES (2194,
 	2195,
+	17,
+	21);
+INSERT INTO V_VAL
+	VALUES (2196,
 	0,
 	0,
-	'UI_A4: startStopPressed',
+	19,
+	13,
+	16,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
+	VALUES (2196,
+	0,
+	2137,
+	0,
 	0);
+INSERT INTO V_VAL
+	VALUES (2169,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2169,
+	2197,
+	2196,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2197,
+	0,
+	0,
+	19,
+	27,
+	29,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_LEN
+	VALUES (2197,
+	574,
+	19,
+	21);
+INSERT INTO V_VAL
+	VALUES (2198,
+	0,
+	0,
+	21,
+	13,
+	16,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_PVL
+	VALUES (2198,
+	0,
+	2137,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (2172,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2139);
+INSERT INTO V_BIN
+	VALUES (2172,
+	2199,
+	2198,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2199,
+	0,
+	0,
+	21,
+	27,
+	30,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2139);
+INSERT INTO V_LEN
+	VALUES (2199,
+	593,
+	21,
+	21);
 INSERT INTO ACT_BLK
-	VALUES (2195,
+	VALUES (2141,
 	0,
 	0,
 	0,
 	'GuiBridge',
 	'',
 	'',
+	2,
 	3,
-	1,
 	2,
-	1,
+	3,
 	0,
 	0,
 	0,
@@ -35100,149 +34561,173 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2194,
+	2138,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2196,
-	2195,
-	2197,
-	1,
-	1,
-	'UI_A4: startStopPressed line: 1');
-INSERT INTO E_ESS
-	VALUES (2196,
-	1,
+	VALUES (2200,
+	2141,
 	0,
-	1,
-	30,
-	1,
-	36,
-	1,
-	58,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (2196,
-	1,
-	2198);
-INSERT INTO E_CSME
-	VALUES (2196,
-	2163);
-INSERT INTO E_CEA
-	VALUES (2196);
-INSERT INTO ACT_SMT
-	VALUES (2197,
-	2195,
-	2199,
 	2,
-	1,
-	'UI_A4: startStopPressed line: 2');
+	3,
+	'setData line: 2');
 INSERT INTO ACT_BRG
-	VALUES (2197,
-	1994,
+	VALUES (2200,
+	2036,
 	2,
-	12,
+	14,
 	2,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (2199,
-	2195,
-	0,
-	3,
-	1,
-	'UI_A4: startStopPressed line: 3');
-INSERT INTO ACT_FNC
-	VALUES (2199,
-	1900,
-	3,
 	3);
 INSERT INTO V_VAL
-	VALUES (2200,
-	0,
-	0,
-	2,
-	43,
-	45,
-	0,
-	0,
-	0,
-	0,
-	316,
-	2195);
-INSERT INTO V_TVL
-	VALUES (2200,
-	2198);
-INSERT INTO V_PAR
-	VALUES (2200,
-	2197,
-	0,
-	'evt',
-	0,
-	2,
-	38);
-INSERT INTO V_VAR
-	VALUES (2198,
-	2195,
-	'evt',
-	1,
-	316);
-INSERT INTO V_TRN
-	VALUES (2198,
-	0,
-	'');
-INSERT INTO SM_TXN
-	VALUES (2192,
-	2178,
-	2179,
-	0);
-INSERT INTO SM_NSTXN
 	VALUES (2201,
-	2178,
-	2179,
-	2166,
+	0,
+	0,
+	2,
+	35,
+	39,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2141);
+INSERT INTO V_PVL
+	VALUES (2201,
+	0,
+	2136,
+	0,
 	0);
-INSERT INTO SM_TAH
-	VALUES (2202,
-	2178,
-	2201);
-INSERT INTO SM_AH
-	VALUES (2202,
-	2178);
-INSERT INTO SM_ACT
-	VALUES (2202,
-	2178,
-	1,
-	'create event instance evt of UI_A5:lapResetPressed() to UI class;
-GuiBridge::feedLapResetPressedEvent(evt: evt);
-::sendLapResetPressed();',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (2203,
-	2178,
-	2202);
-INSERT INTO ACT_ACT
-	VALUES (2203,
-	'class transition',
+INSERT INTO V_PAR
+	VALUES (2201,
+	2200,
 	0,
-	2204,
+	'value',
+	2202,
+	2,
+	22);
+INSERT INTO V_VAL
+	VALUES (2202,
 	0,
 	0,
-	'UI_A5: lapResetPressed',
-	0);
+	2,
+	48,
+	48,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2141);
+INSERT INTO V_LIN
+	VALUES (2202,
+	'0');
+INSERT INTO V_PAR
+	VALUES (2202,
+	2200,
+	0,
+	'unit',
+	0,
+	2,
+	42);
 INSERT INTO ACT_BLK
+	VALUES (2144,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	4,
+	3,
+	4,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2138,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2203,
+	2144,
+	0,
+	4,
+	3,
+	'setData line: 4');
+INSERT INTO ACT_BRG
+	VALUES (2203,
+	2036,
+	4,
+	14,
+	4,
+	3);
+INSERT INTO V_VAL
 	VALUES (2204,
 	0,
 	0,
+	4,
+	35,
+	39,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2144);
+INSERT INTO V_PVL
+	VALUES (2204,
+	0,
+	2136,
+	0,
+	0);
+INSERT INTO V_PAR
+	VALUES (2204,
+	2203,
+	0,
+	'value',
+	2205,
+	4,
+	22);
+INSERT INTO V_VAL
+	VALUES (2205,
+	0,
+	0,
+	4,
+	48,
+	48,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2144);
+INSERT INTO V_LIN
+	VALUES (2205,
+	'1');
+INSERT INTO V_PAR
+	VALUES (2205,
+	2203,
+	0,
+	'unit',
+	0,
+	4,
+	42);
+INSERT INTO ACT_BLK
+	VALUES (2147,
+	0,
+	0,
 	0,
 	'GuiBridge',
 	'',
 	'',
+	6,
 	3,
-	1,
-	2,
-	1,
+	6,
+	3,
 	0,
 	0,
 	0,
@@ -35252,149 +34737,261 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2203,
+	2138,
 	0);
-INSERT INTO ACT_SMT
-	VALUES (2205,
-	2204,
-	2206,
-	1,
-	1,
-	'UI_A5: lapResetPressed line: 1');
-INSERT INTO E_ESS
-	VALUES (2205,
-	1,
-	0,
-	1,
-	30,
-	1,
-	36,
-	1,
-	57,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (2205,
-	1,
-	2207);
-INSERT INTO E_CSME
-	VALUES (2205,
-	2166);
-INSERT INTO E_CEA
-	VALUES (2205);
 INSERT INTO ACT_SMT
 	VALUES (2206,
-	2204,
-	2208,
-	2,
-	1,
-	'UI_A5: lapResetPressed line: 2');
+	2147,
+	0,
+	6,
+	3,
+	'setData line: 6');
 INSERT INTO ACT_BRG
 	VALUES (2206,
-	1990,
-	2,
-	12,
-	2,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (2208,
-	2204,
-	0,
-	3,
-	1,
-	'UI_A5: lapResetPressed line: 3');
-INSERT INTO ACT_FNC
-	VALUES (2208,
-	1888,
-	3,
+	2036,
+	6,
+	14,
+	6,
 	3);
 INSERT INTO V_VAL
-	VALUES (2209,
+	VALUES (2207,
 	0,
 	0,
-	2,
-	42,
-	44,
+	6,
+	35,
+	39,
 	0,
 	0,
 	0,
 	0,
-	316,
-	2204);
-INSERT INTO V_TVL
-	VALUES (2209,
-	2207);
+	10,
+	2147);
+INSERT INTO V_PVL
+	VALUES (2207,
+	0,
+	2136,
+	0,
+	0);
 INSERT INTO V_PAR
-	VALUES (2209,
+	VALUES (2207,
 	2206,
 	0,
-	'evt',
-	0,
-	2,
-	37);
-INSERT INTO V_VAR
-	VALUES (2207,
-	2204,
-	'evt',
-	1,
-	316);
-INSERT INTO V_TRN
-	VALUES (2207,
-	0,
-	'');
-INSERT INTO SM_TXN
-	VALUES (2201,
-	2178,
-	2179,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (2210,
-	2178,
-	2179,
-	2169,
-	0);
-INSERT INTO SM_TAH
-	VALUES (2211,
-	2178,
-	2210);
-INSERT INTO SM_AH
-	VALUES (2211,
-	2178);
-INSERT INTO SM_ACT
-	VALUES (2211,
-	2178,
-	1,
-	'create event instance evt of UI_A6:lightPressed() to UI class;
-GuiBridge::feedLightPressedEvent(evt: evt);
-::sendLightPressed();',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (2212,
-	2178,
-	2211);
-INSERT INTO ACT_ACT
-	VALUES (2212,
-	'class transition',
-	0,
-	2213,
+	'value',
+	2208,
+	6,
+	22);
+INSERT INTO V_VAL
+	VALUES (2208,
 	0,
 	0,
-	'UI_A6: lightPressed',
-	0);
+	6,
+	48,
+	48,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2147);
+INSERT INTO V_LIN
+	VALUES (2208,
+	'2');
+INSERT INTO V_PAR
+	VALUES (2208,
+	2206,
+	0,
+	'unit',
+	0,
+	6,
+	42);
 INSERT INTO ACT_BLK
+	VALUES (2150,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	8,
+	3,
+	8,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2138,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2209,
+	2150,
+	0,
+	8,
+	3,
+	'setData line: 8');
+INSERT INTO ACT_BRG
+	VALUES (2209,
+	2036,
+	8,
+	14,
+	8,
+	3);
+INSERT INTO V_VAL
+	VALUES (2210,
+	0,
+	0,
+	8,
+	35,
+	39,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2150);
+INSERT INTO V_PVL
+	VALUES (2210,
+	0,
+	2136,
+	0,
+	0);
+INSERT INTO V_PAR
+	VALUES (2210,
+	2209,
+	0,
+	'value',
+	2211,
+	8,
+	22);
+INSERT INTO V_VAL
+	VALUES (2211,
+	0,
+	0,
+	8,
+	48,
+	48,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2150);
+INSERT INTO V_LIN
+	VALUES (2211,
+	'3');
+INSERT INTO V_PAR
+	VALUES (2211,
+	2209,
+	0,
+	'unit',
+	0,
+	8,
+	42);
+INSERT INTO ACT_BLK
+	VALUES (2153,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	10,
+	3,
+	10,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2138,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2212,
+	2153,
+	0,
+	10,
+	3,
+	'setData line: 10');
+INSERT INTO ACT_BRG
+	VALUES (2212,
+	2036,
+	10,
+	14,
+	10,
+	3);
+INSERT INTO V_VAL
 	VALUES (2213,
 	0,
 	0,
+	10,
+	35,
+	39,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2153);
+INSERT INTO V_PVL
+	VALUES (2213,
+	0,
+	2136,
+	0,
+	0);
+INSERT INTO V_PAR
+	VALUES (2213,
+	2212,
+	0,
+	'value',
+	2214,
+	10,
+	22);
+INSERT INTO V_VAL
+	VALUES (2214,
+	0,
+	0,
+	10,
+	48,
+	48,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2153);
+INSERT INTO V_LIN
+	VALUES (2214,
+	'4');
+INSERT INTO V_PAR
+	VALUES (2214,
+	2212,
+	0,
+	'unit',
+	0,
+	10,
+	42);
+INSERT INTO ACT_BLK
+	VALUES (2156,
+	0,
+	0,
 	0,
 	'GuiBridge',
 	'',
 	'',
+	12,
 	3,
-	1,
-	2,
-	1,
+	12,
+	3,
 	0,
 	0,
 	0,
@@ -35404,149 +35001,261 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2212,
+	2138,
 	0);
-INSERT INTO ACT_SMT
-	VALUES (2214,
-	2213,
-	2215,
-	1,
-	1,
-	'UI_A6: lightPressed line: 1');
-INSERT INTO E_ESS
-	VALUES (2214,
-	1,
-	0,
-	1,
-	30,
-	1,
-	36,
-	1,
-	54,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (2214,
-	1,
-	2216);
-INSERT INTO E_CSME
-	VALUES (2214,
-	2169);
-INSERT INTO E_CEA
-	VALUES (2214);
 INSERT INTO ACT_SMT
 	VALUES (2215,
-	2213,
-	2217,
-	2,
-	1,
-	'UI_A6: lightPressed line: 2');
+	2156,
+	0,
+	12,
+	3,
+	'setData line: 12');
 INSERT INTO ACT_BRG
 	VALUES (2215,
-	1986,
-	2,
+	2036,
 	12,
-	2,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (2217,
-	2213,
-	0,
-	3,
-	1,
-	'UI_A6: lightPressed line: 3');
-INSERT INTO ACT_FNC
-	VALUES (2217,
-	1892,
-	3,
+	14,
+	12,
 	3);
 INSERT INTO V_VAL
-	VALUES (2218,
+	VALUES (2216,
 	0,
 	0,
-	2,
+	12,
+	35,
 	39,
-	41,
 	0,
 	0,
 	0,
 	0,
-	316,
-	2213);
-INSERT INTO V_TVL
-	VALUES (2218,
-	2216);
+	10,
+	2156);
+INSERT INTO V_PVL
+	VALUES (2216,
+	0,
+	2136,
+	0,
+	0);
 INSERT INTO V_PAR
-	VALUES (2218,
+	VALUES (2216,
 	2215,
 	0,
-	'evt',
-	0,
-	2,
-	34);
-INSERT INTO V_VAR
-	VALUES (2216,
-	2213,
-	'evt',
-	1,
-	316);
-INSERT INTO V_TRN
-	VALUES (2216,
-	0,
-	'');
-INSERT INTO SM_TXN
-	VALUES (2210,
-	2178,
-	2179,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (2219,
-	2178,
-	2179,
-	2172,
-	0);
-INSERT INTO SM_TAH
-	VALUES (2220,
-	2178,
-	2219);
-INSERT INTO SM_AH
-	VALUES (2220,
-	2178);
-INSERT INTO SM_ACT
-	VALUES (2220,
-	2178,
-	1,
-	'create event instance evt of UI_A7:modePressed() to UI class;
-GuiBridge::feedModePressedEvent(evt: evt);
-::sendModePressed();',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (2221,
-	2178,
-	2220);
-INSERT INTO ACT_ACT
-	VALUES (2221,
-	'class transition',
-	0,
-	2222,
+	'value',
+	2217,
+	12,
+	22);
+INSERT INTO V_VAL
+	VALUES (2217,
 	0,
 	0,
-	'UI_A7: modePressed',
-	0);
+	12,
+	48,
+	48,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2156);
+INSERT INTO V_LIN
+	VALUES (2217,
+	'5');
+INSERT INTO V_PAR
+	VALUES (2217,
+	2215,
+	0,
+	'unit',
+	0,
+	12,
+	42);
 INSERT INTO ACT_BLK
+	VALUES (2159,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	14,
+	3,
+	14,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2138,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2218,
+	2159,
+	0,
+	14,
+	3,
+	'setData line: 14');
+INSERT INTO ACT_BRG
+	VALUES (2218,
+	2036,
+	14,
+	14,
+	14,
+	3);
+INSERT INTO V_VAL
+	VALUES (2219,
+	0,
+	0,
+	14,
+	35,
+	39,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2159);
+INSERT INTO V_PVL
+	VALUES (2219,
+	0,
+	2136,
+	0,
+	0);
+INSERT INTO V_PAR
+	VALUES (2219,
+	2218,
+	0,
+	'value',
+	2220,
+	14,
+	22);
+INSERT INTO V_VAL
+	VALUES (2220,
+	0,
+	0,
+	14,
+	48,
+	48,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2159);
+INSERT INTO V_LIN
+	VALUES (2220,
+	'6');
+INSERT INTO V_PAR
+	VALUES (2220,
+	2218,
+	0,
+	'unit',
+	0,
+	14,
+	42);
+INSERT INTO ACT_BLK
+	VALUES (2162,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	16,
+	3,
+	16,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2138,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2221,
+	2162,
+	0,
+	16,
+	3,
+	'setData line: 16');
+INSERT INTO ACT_BRG
+	VALUES (2221,
+	2036,
+	16,
+	14,
+	16,
+	3);
+INSERT INTO V_VAL
 	VALUES (2222,
 	0,
 	0,
+	16,
+	35,
+	39,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2162);
+INSERT INTO V_PVL
+	VALUES (2222,
+	0,
+	2136,
+	0,
+	0);
+INSERT INTO V_PAR
+	VALUES (2222,
+	2221,
+	0,
+	'value',
+	2223,
+	16,
+	22);
+INSERT INTO V_VAL
+	VALUES (2223,
+	0,
+	0,
+	16,
+	48,
+	48,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2162);
+INSERT INTO V_LIN
+	VALUES (2223,
+	'7');
+INSERT INTO V_PAR
+	VALUES (2223,
+	2221,
+	0,
+	'unit',
+	0,
+	16,
+	42);
+INSERT INTO ACT_BLK
+	VALUES (2165,
+	0,
+	0,
 	0,
 	'GuiBridge',
 	'',
 	'',
+	18,
 	3,
-	1,
-	2,
-	1,
+	18,
+	3,
 	0,
 	0,
 	0,
@@ -35556,576 +35265,1507 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2221,
+	2138,
 	0);
-INSERT INTO ACT_SMT
-	VALUES (2223,
-	2222,
-	2224,
-	1,
-	1,
-	'UI_A7: modePressed line: 1');
-INSERT INTO E_ESS
-	VALUES (2223,
-	1,
-	0,
-	1,
-	30,
-	1,
-	36,
-	1,
-	53,
-	0,
-	0,
-	0,
-	0);
-INSERT INTO E_CES
-	VALUES (2223,
-	1,
-	2225);
-INSERT INTO E_CSME
-	VALUES (2223,
-	2172);
-INSERT INTO E_CEA
-	VALUES (2223);
 INSERT INTO ACT_SMT
 	VALUES (2224,
-	2222,
-	2226,
-	2,
-	1,
-	'UI_A7: modePressed line: 2');
+	2165,
+	0,
+	18,
+	3,
+	'setData line: 18');
 INSERT INTO ACT_BRG
 	VALUES (2224,
-	1982,
-	2,
-	12,
-	2,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (2226,
-	2222,
-	0,
-	3,
-	1,
-	'UI_A7: modePressed line: 3');
-INSERT INTO ACT_FNC
-	VALUES (2226,
-	1896,
-	3,
+	2036,
+	18,
+	14,
+	18,
 	3);
 INSERT INTO V_VAL
+	VALUES (2225,
+	0,
+	0,
+	18,
+	35,
+	39,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2165);
+INSERT INTO V_PVL
+	VALUES (2225,
+	0,
+	2136,
+	0,
+	0);
+INSERT INTO V_PAR
+	VALUES (2225,
+	2224,
+	0,
+	'value',
+	2226,
+	18,
+	22);
+INSERT INTO V_VAL
+	VALUES (2226,
+	0,
+	0,
+	18,
+	48,
+	48,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2165);
+INSERT INTO V_LIN
+	VALUES (2226,
+	'8');
+INSERT INTO V_PAR
+	VALUES (2226,
+	2224,
+	0,
+	'unit',
+	0,
+	18,
+	42);
+INSERT INTO ACT_BLK
+	VALUES (2168,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	20,
+	3,
+	20,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2138,
+	0);
+INSERT INTO ACT_SMT
 	VALUES (2227,
+	2168,
+	0,
+	20,
+	3,
+	'setData line: 20');
+INSERT INTO ACT_BRG
+	VALUES (2227,
+	2036,
+	20,
+	14,
+	20,
+	3);
+INSERT INTO V_VAL
+	VALUES (2228,
+	0,
+	0,
+	20,
+	35,
+	39,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2168);
+INSERT INTO V_PVL
+	VALUES (2228,
+	0,
+	2136,
+	0,
+	0);
+INSERT INTO V_PAR
+	VALUES (2228,
+	2227,
+	0,
+	'value',
+	2229,
+	20,
+	22);
+INSERT INTO V_VAL
+	VALUES (2229,
+	0,
+	0,
+	20,
+	48,
+	48,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2168);
+INSERT INTO V_LIN
+	VALUES (2229,
+	'9');
+INSERT INTO V_PAR
+	VALUES (2229,
+	2227,
+	0,
+	'unit',
+	0,
+	20,
+	42);
+INSERT INTO ACT_BLK
+	VALUES (2171,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	22,
+	3,
+	22,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2138,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2230,
+	2171,
+	0,
+	22,
+	3,
+	'setData line: 22');
+INSERT INTO ACT_BRG
+	VALUES (2230,
+	2036,
+	22,
+	14,
+	22,
+	3);
+INSERT INTO V_VAL
+	VALUES (2231,
+	0,
+	0,
+	22,
+	35,
+	39,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2171);
+INSERT INTO V_PVL
+	VALUES (2231,
+	0,
+	2136,
+	0,
+	0);
+INSERT INTO V_PAR
+	VALUES (2231,
+	2230,
+	0,
+	'value',
+	2232,
+	22,
+	22);
+INSERT INTO V_VAL
+	VALUES (2232,
+	0,
+	0,
+	22,
+	48,
+	49,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2171);
+INSERT INTO V_LIN
+	VALUES (2232,
+	'10');
+INSERT INTO V_PAR
+	VALUES (2232,
+	2230,
+	0,
+	'unit',
+	0,
+	22,
+	42);
+INSERT INTO PE_PE
+	VALUES (1720,
+	1,
+	1793,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (1720,
+	0,
+	'setTime',
+	'',
+	'GuiBridge::setTime(time: param.time);',
+	6,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (2233,
+	1720,
+	'time',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (2234,
+	1720);
+INSERT INTO ACT_ACT
+	VALUES (2234,
+	'function',
+	0,
+	2235,
+	0,
+	0,
+	'setTime',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2235,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2234,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2236,
+	2235,
+	0,
+	1,
+	1,
+	'setTime line: 1');
+INSERT INTO ACT_BRG
+	VALUES (2236,
+	2041,
+	1,
+	12,
+	1,
+	1);
+INSERT INTO V_VAL
+	VALUES (2237,
+	0,
+	0,
+	1,
+	32,
+	35,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2235);
+INSERT INTO V_PVL
+	VALUES (2237,
+	0,
+	2233,
+	0,
+	0);
+INSERT INTO V_PAR
+	VALUES (2237,
+	2236,
+	0,
+	'time',
+	0,
+	1,
+	20);
+INSERT INTO PE_PE
+	VALUES (1745,
+	1,
+	1793,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (1745,
+	0,
+	'setIndicator',
+	'',
+	'// Map values of UIDatatypes/Indicator to values defined in WatchGUI.java.
+if ( param.indicator == Indicator::Blank  )
+  GuiBridge::setIndicator( value: 0 );
+elif ( param.indicator == Indicator::Down )
+  GuiBridge::setIndicator( value: 1 );
+elif ( param.indicator == Indicator::Flat )
+  GuiBridge::setIndicator( value: 2 );
+elif ( param.indicator == Indicator::Up )
+  GuiBridge::setIndicator( value: 3 );
+end if;',
+	6,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (2238,
+	1745,
+	'indicator',
+	27,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (2239,
+	1745);
+INSERT INTO ACT_ACT
+	VALUES (2239,
+	'function',
+	0,
+	2240,
+	0,
+	0,
+	'setIndicator',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2240,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	8,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	8,
+	27,
+	0,
+	2239,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2241,
+	2240,
+	0,
+	2,
+	1,
+	'setIndicator line: 2');
+INSERT INTO ACT_IF
+	VALUES (2241,
+	2242,
+	2243,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2244,
+	2240,
+	0,
+	4,
+	1,
+	'setIndicator line: 4');
+INSERT INTO ACT_EL
+	VALUES (2244,
+	2245,
+	2246,
+	2241);
+INSERT INTO ACT_SMT
+	VALUES (2247,
+	2240,
+	0,
+	6,
+	1,
+	'setIndicator line: 6');
+INSERT INTO ACT_EL
+	VALUES (2247,
+	2248,
+	2249,
+	2241);
+INSERT INTO ACT_SMT
+	VALUES (2250,
+	2240,
+	0,
+	8,
+	1,
+	'setIndicator line: 8');
+INSERT INTO ACT_EL
+	VALUES (2250,
+	2251,
+	2252,
+	2241);
+INSERT INTO V_VAL
+	VALUES (2253,
 	0,
 	0,
 	2,
-	38,
+	12,
+	20,
+	0,
+	0,
+	0,
+	0,
+	27,
+	2240);
+INSERT INTO V_PVL
+	VALUES (2253,
+	0,
+	2238,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (2243,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2240);
+INSERT INTO V_BIN
+	VALUES (2243,
+	2254,
+	2253,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2254,
+	0,
+	0,
+	2,
+	36,
 	40,
 	0,
 	0,
 	0,
 	0,
-	316,
-	2222);
-INSERT INTO V_TVL
-	VALUES (2227,
-	2225);
-INSERT INTO V_PAR
-	VALUES (2227,
-	2224,
-	0,
-	'evt',
-	0,
+	27,
+	2240);
+INSERT INTO V_LEN
+	VALUES (2254,
+	442,
 	2,
-	33);
-INSERT INTO V_VAR
-	VALUES (2225,
-	2222,
-	'evt',
+	25);
+INSERT INTO V_VAL
+	VALUES (2255,
+	0,
+	0,
+	4,
+	14,
+	22,
+	0,
+	0,
+	0,
+	0,
+	27,
+	2240);
+INSERT INTO V_PVL
+	VALUES (2255,
+	0,
+	2238,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (2246,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2240);
+INSERT INTO V_BIN
+	VALUES (2246,
+	2256,
+	2255,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2256,
+	0,
+	0,
+	4,
+	38,
+	41,
+	0,
+	0,
+	0,
+	0,
+	27,
+	2240);
+INSERT INTO V_LEN
+	VALUES (2256,
+	470,
+	4,
+	27);
+INSERT INTO V_VAL
+	VALUES (2257,
+	0,
+	0,
+	6,
+	14,
+	22,
+	0,
+	0,
+	0,
+	0,
+	27,
+	2240);
+INSERT INTO V_PVL
+	VALUES (2257,
+	0,
+	2238,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (2249,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2240);
+INSERT INTO V_BIN
+	VALUES (2249,
+	2258,
+	2257,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2258,
+	0,
+	0,
+	6,
+	38,
+	41,
+	0,
+	0,
+	0,
+	0,
+	27,
+	2240);
+INSERT INTO V_LEN
+	VALUES (2258,
+	474,
+	6,
+	27);
+INSERT INTO V_VAL
+	VALUES (2259,
+	0,
+	0,
+	8,
+	14,
+	22,
+	0,
+	0,
+	0,
+	0,
+	27,
+	2240);
+INSERT INTO V_PVL
+	VALUES (2259,
+	0,
+	2238,
+	0,
+	0);
+INSERT INTO V_VAL
+	VALUES (2252,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	108,
+	2240);
+INSERT INTO V_BIN
+	VALUES (2252,
+	2260,
+	2259,
+	'==');
+INSERT INTO V_VAL
+	VALUES (2260,
+	0,
+	0,
+	8,
+	38,
+	39,
+	0,
+	0,
+	0,
+	0,
+	27,
+	2240);
+INSERT INTO V_LEN
+	VALUES (2260,
+	466,
+	8,
+	27);
+INSERT INTO ACT_BLK
+	VALUES (2242,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	3,
+	3,
+	3,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2239,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2261,
+	2242,
+	0,
+	3,
+	3,
+	'setIndicator line: 3');
+INSERT INTO ACT_BRG
+	VALUES (2261,
+	2047,
+	3,
+	14,
+	3,
+	3);
+INSERT INTO V_VAL
+	VALUES (2262,
+	0,
+	0,
+	3,
+	35,
+	35,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2242);
+INSERT INTO V_LIN
+	VALUES (2262,
+	'0');
+INSERT INTO V_PAR
+	VALUES (2262,
+	2261,
+	0,
+	'value',
+	0,
+	3,
+	28);
+INSERT INTO ACT_BLK
+	VALUES (2245,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	5,
+	3,
+	5,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2239,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2263,
+	2245,
+	0,
+	5,
+	3,
+	'setIndicator line: 5');
+INSERT INTO ACT_BRG
+	VALUES (2263,
+	2047,
+	5,
+	14,
+	5,
+	3);
+INSERT INTO V_VAL
+	VALUES (2264,
+	0,
+	0,
+	5,
+	35,
+	35,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2245);
+INSERT INTO V_LIN
+	VALUES (2264,
+	'1');
+INSERT INTO V_PAR
+	VALUES (2264,
+	2263,
+	0,
+	'value',
+	0,
+	5,
+	28);
+INSERT INTO ACT_BLK
+	VALUES (2248,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	7,
+	3,
+	7,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2239,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2265,
+	2248,
+	0,
+	7,
+	3,
+	'setIndicator line: 7');
+INSERT INTO ACT_BRG
+	VALUES (2265,
+	2047,
+	7,
+	14,
+	7,
+	3);
+INSERT INTO V_VAL
+	VALUES (2266,
+	0,
+	0,
+	7,
+	35,
+	35,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2248);
+INSERT INTO V_LIN
+	VALUES (2266,
+	'2');
+INSERT INTO V_PAR
+	VALUES (2266,
+	2265,
+	0,
+	'value',
+	0,
+	7,
+	28);
+INSERT INTO ACT_BLK
+	VALUES (2251,
+	0,
+	0,
+	0,
+	'GuiBridge',
+	'',
+	'',
+	9,
+	3,
+	9,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2239,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2267,
+	2251,
+	0,
+	9,
+	3,
+	'setIndicator line: 9');
+INSERT INTO ACT_BRG
+	VALUES (2267,
+	2047,
+	9,
+	14,
+	9,
+	3);
+INSERT INTO V_VAL
+	VALUES (2268,
+	0,
+	0,
+	9,
+	35,
+	35,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2251);
+INSERT INTO V_LIN
+	VALUES (2268,
+	'3');
+INSERT INTO V_PAR
+	VALUES (2268,
+	2267,
+	0,
+	'value',
+	0,
+	9,
+	28);
+INSERT INTO PE_PE
+	VALUES (1753,
 	1,
-	316);
-INSERT INTO V_TRN
-	VALUES (2225,
+	1793,
+	0,
+	1);
+INSERT INTO S_SYNC
+	VALUES (1753,
+	0,
+	'newGoalSpec',
+	'',
+	'',
+	6,
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES (2269,
+	1753,
+	'sequenceNumber',
+	30,
+	0,
+	'',
 	0,
 	'');
-INSERT INTO SM_TXN
-	VALUES (2219,
-	2178,
-	2179,
+INSERT INTO S_SPARM
+	VALUES (2270,
+	1753,
+	'minimum',
+	10,
+	0,
+	'',
+	2269,
+	'');
+INSERT INTO S_SPARM
+	VALUES (2271,
+	1753,
+	'maximum',
+	10,
+	0,
+	'',
+	2270,
+	'');
+INSERT INTO S_SPARM
+	VALUES (2272,
+	1753,
+	'span',
+	10,
+	0,
+	'',
+	2271,
+	'');
+INSERT INTO S_SPARM
+	VALUES (2273,
+	1753,
+	'criteriaType',
+	37,
+	0,
+	'',
+	2272,
+	'');
+INSERT INTO S_SPARM
+	VALUES (2274,
+	1753,
+	'spanType',
+	39,
+	0,
+	'',
+	2273,
+	'');
+INSERT INTO ACT_FNB
+	VALUES (2275,
+	1753);
+INSERT INTO ACT_ACT
+	VALUES (2275,
+	'function',
+	0,
+	2276,
+	0,
+	0,
+	'newGoalSpec',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2276,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2275,
 	0);
 INSERT INTO PE_PE
-	VALUES (2228,
+	VALUES (2277,
 	1,
-	1702,
+	1710,
 	0,
 	7);
 INSERT INTO EP_PKG
-	VALUES (2228,
+	VALUES (2277,
 	0,
-	1701,
+	1709,
 	'shared',
 	'',
 	0);
 INSERT INTO PE_PE
-	VALUES (490,
+	VALUES (1714,
 	1,
-	2228,
-	0,
-	3);
-INSERT INTO S_DT
-	VALUES (490,
-	0,
-	'Unit',
-	'',
-	'');
-INSERT INTO S_EDT
-	VALUES (490);
-INSERT INTO S_ENUM
-	VALUES (491,
-	'km',
-	'',
-	490,
-	0);
-INSERT INTO S_ENUM
-	VALUES (495,
-	'meters',
-	'',
-	490,
-	491);
-INSERT INTO S_ENUM
-	VALUES (536,
-	'minPerKm',
-	'',
-	490,
-	495);
-INSERT INTO S_ENUM
-	VALUES (515,
-	'kmPerHour',
-	'',
-	490,
-	536);
-INSERT INTO S_ENUM
-	VALUES (1763,
-	'miles',
-	'',
-	490,
-	515);
-INSERT INTO S_ENUM
-	VALUES (1766,
-	'yards',
-	'',
-	490,
-	1763);
-INSERT INTO S_ENUM
-	VALUES (1769,
-	'feet',
-	'',
-	490,
-	1766);
-INSERT INTO S_ENUM
-	VALUES (1772,
-	'minPerMile',
-	'',
-	490,
-	1769);
-INSERT INTO S_ENUM
-	VALUES (1775,
-	'mph',
-	'',
-	490,
-	1772);
-INSERT INTO S_ENUM
-	VALUES (557,
-	'bpm',
-	'',
-	490,
-	1775);
-INSERT INTO S_ENUM
-	VALUES (576,
-	'laps',
-	'',
-	490,
-	557);
-INSERT INTO PE_PE
-	VALUES (406,
-	1,
-	2228,
-	0,
-	3);
-INSERT INTO S_DT
-	VALUES (406,
-	0,
-	'Indicator',
-	'',
-	'');
-INSERT INTO S_EDT
-	VALUES (406);
-INSERT INTO S_ENUM
-	VALUES (424,
-	'Blank',
-	'',
-	406,
-	0);
-INSERT INTO S_ENUM
-	VALUES (452,
-	'Down',
-	'',
-	406,
-	424);
-INSERT INTO S_ENUM
-	VALUES (456,
-	'Flat',
-	'',
-	406,
-	452);
-INSERT INTO S_ENUM
-	VALUES (448,
-	'Up',
-	'',
-	406,
-	456);
-INSERT INTO PE_PE
-	VALUES (1706,
-	1,
-	2228,
+	2277,
 	0,
 	6);
 INSERT INTO C_I
-	VALUES (1706,
+	VALUES (1714,
 	0,
 	'UI',
 	'');
 INSERT INTO C_EP
-	VALUES (1708,
-	1706,
+	VALUES (1716,
+	1714,
 	-1,
 	'setTime',
 	'');
 INSERT INTO C_IO
-	VALUES (1708,
-	240,
+	VALUES (1716,
+	6,
 	'setTime',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_PP
-	VALUES (1714,
-	1708,
-	13,
+	VALUES (1722,
+	1716,
+	30,
 	'time',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_EP
-	VALUES (1716,
-	1706,
+	VALUES (1724,
+	1714,
 	-1,
 	'setData',
 	'');
 INSERT INTO C_IO
-	VALUES (1716,
-	240,
+	VALUES (1724,
+	6,
 	'setData',
 	'',
 	0,
 	'',
-	1708);
+	1716);
 INSERT INTO C_PP
-	VALUES (1783,
-	1716,
-	170,
+	VALUES (1730,
+	1724,
+	10,
 	'value',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_PP
-	VALUES (1753,
-	1716,
-	490,
+	VALUES (1732,
+	1724,
+	24,
 	'unit',
 	'',
 	0,
 	'',
-	1783);
+	1730);
 INSERT INTO C_EP
-	VALUES (1816,
-	1706,
+	VALUES (1734,
+	1714,
 	-1,
 	'startTest',
 	'');
 INSERT INTO C_IO
-	VALUES (1816,
-	240,
+	VALUES (1734,
+	6,
 	'startTest',
 	'',
 	0,
 	'',
-	1716);
+	1724);
 INSERT INTO C_EP
-	VALUES (1823,
-	1706,
+	VALUES (1741,
+	1714,
 	-1,
 	'setIndicator',
 	'');
 INSERT INTO C_IO
-	VALUES (1823,
-	240,
+	VALUES (1741,
+	6,
 	'setIndicator',
 	'',
 	0,
 	'',
-	1816);
+	1734);
 INSERT INTO C_PP
-	VALUES (1839,
-	1823,
-	406,
+	VALUES (1747,
+	1741,
+	27,
 	'indicator',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_EP
-	VALUES (1857,
-	1706,
+	VALUES (1749,
+	1714,
 	-1,
 	'newGoalSpec',
 	'');
 INSERT INTO C_IO
-	VALUES (1857,
-	240,
+	VALUES (1749,
+	6,
 	'newGoalSpec',
 	'',
 	0,
 	'',
-	1823);
+	1741);
 INSERT INTO C_PP
-	VALUES (2229,
-	1857,
-	13,
+	VALUES (1755,
+	1749,
+	30,
 	'sequenceNumber',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_PP
-	VALUES (2230,
-	1857,
-	170,
+	VALUES (1757,
+	1749,
+	10,
 	'minimum',
 	'',
 	0,
 	'',
-	2229);
+	1755);
 INSERT INTO C_PP
-	VALUES (2231,
-	1857,
-	170,
+	VALUES (1759,
+	1749,
+	10,
 	'maximum',
 	'',
 	0,
 	'',
-	2230);
+	1757);
 INSERT INTO C_PP
-	VALUES (2232,
-	1857,
-	170,
+	VALUES (1761,
+	1749,
+	10,
 	'span',
 	'',
 	0,
 	'',
-	2231);
+	1759);
 INSERT INTO C_PP
-	VALUES (2233,
-	1857,
-	180,
+	VALUES (1763,
+	1749,
+	37,
 	'criteriaType',
 	'',
 	0,
 	'',
-	2232);
+	1761);
 INSERT INTO C_PP
-	VALUES (2234,
-	1857,
-	184,
+	VALUES (1765,
+	1749,
+	39,
 	'spanType',
 	'',
 	0,
 	'',
-	2233);
+	1763);
 INSERT INTO PE_PE
-	VALUES (1862,
+	VALUES (1768,
 	1,
-	2228,
+	2277,
 	0,
 	6);
 INSERT INTO C_I
-	VALUES (1862,
+	VALUES (1768,
 	0,
 	'UITracking',
 	'');
 INSERT INTO C_EP
-	VALUES (1864,
-	1862,
+	VALUES (1770,
+	1768,
 	-1,
 	'setTargetPressed',
 	'');
 INSERT INTO C_IO
-	VALUES (1864,
-	240,
+	VALUES (1770,
+	6,
 	'setTargetPressed',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_EP
-	VALUES (1868,
-	1862,
+	VALUES (1774,
+	1768,
 	-1,
 	'startStopPressed',
 	'');
 INSERT INTO C_IO
-	VALUES (1868,
-	240,
+	VALUES (1774,
+	6,
 	'startStopPressed',
 	'',
 	0,
 	'',
-	1864);
+	1770);
 INSERT INTO C_EP
-	VALUES (1872,
-	1862,
+	VALUES (1778,
+	1768,
 	-1,
 	'lapResetPressed',
 	'');
 INSERT INTO C_IO
-	VALUES (1872,
-	240,
+	VALUES (1778,
+	6,
 	'lapResetPressed',
 	'',
 	0,
 	'',
-	1868);
+	1774);
 INSERT INTO C_EP
-	VALUES (1876,
-	1862,
+	VALUES (1782,
+	1768,
 	-1,
 	'modePressed',
 	'');
 INSERT INTO C_IO
-	VALUES (1876,
-	240,
+	VALUES (1782,
+	6,
 	'modePressed',
 	'',
 	0,
 	'',
-	1872);
+	1778);
 INSERT INTO C_EP
-	VALUES (1880,
-	1862,
+	VALUES (1786,
+	1768,
 	-1,
 	'newGoalSpec',
 	'');
 INSERT INTO C_IO
-	VALUES (1880,
-	240,
+	VALUES (1786,
+	6,
 	'newGoalSpec',
 	'',
 	0,
 	'',
-	1876);
+	1782);
 INSERT INTO C_PP
-	VALUES (2235,
-	1880,
-	13,
+	VALUES (2278,
+	1786,
+	30,
 	'sequenceNumber',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_PP
-	VALUES (2236,
-	1880,
-	170,
+	VALUES (2279,
+	1786,
+	10,
 	'minimum',
 	'',
 	0,
 	'',
-	2235);
+	2278);
 INSERT INTO C_PP
-	VALUES (2237,
-	1880,
-	170,
+	VALUES (2280,
+	1786,
+	10,
 	'maximum',
 	'',
 	0,
 	'',
-	2236);
+	2279);
 INSERT INTO C_PP
-	VALUES (2238,
-	1880,
-	170,
+	VALUES (2281,
+	1786,
+	10,
 	'span',
 	'',
 	0,
 	'',
-	2237);
+	2280);
 INSERT INTO C_PP
-	VALUES (2239,
-	1880,
-	180,
+	VALUES (2282,
+	1786,
+	37,
 	'criteriaType',
 	'',
 	0,
 	'',
-	2238);
+	2281);
 INSERT INTO C_PP
-	VALUES (2240,
-	1880,
-	184,
+	VALUES (2283,
+	1786,
+	39,
 	'spanType',
 	'',
 	0,
 	'',
-	2239);
+	2282);
 INSERT INTO C_EP
-	VALUES (1884,
-	1862,
+	VALUES (1790,
+	1768,
 	-1,
 	'lightPressed',
 	'');
 INSERT INTO C_IO
-	VALUES (1884,
-	240,
+	VALUES (1790,
+	6,
 	'lightPressed',
 	'',
 	0,
 	'',
-	1880);
+	1786);
+INSERT INTO PE_PE
+	VALUES (24,
+	1,
+	1710,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (24,
+	0,
+	'Unit',
+	'',
+	'');
+INSERT INTO S_EDT
+	VALUES (24);
+INSERT INTO S_ENUM
+	VALUES (508,
+	'km',
+	'',
+	24,
+	0);
+INSERT INTO S_ENUM
+	VALUES (512,
+	'meters',
+	'',
+	24,
+	508);
+INSERT INTO S_ENUM
+	VALUES (553,
+	'minPerKm',
+	'',
+	24,
+	512);
+INSERT INTO S_ENUM
+	VALUES (532,
+	'kmPerHour',
+	'',
+	24,
+	553);
+INSERT INTO S_ENUM
+	VALUES (2183,
+	'miles',
+	'',
+	24,
+	532);
+INSERT INTO S_ENUM
+	VALUES (2186,
+	'yards',
+	'',
+	24,
+	2183);
+INSERT INTO S_ENUM
+	VALUES (2189,
+	'feet',
+	'',
+	24,
+	2186);
+INSERT INTO S_ENUM
+	VALUES (2192,
+	'minPerMile',
+	'',
+	24,
+	2189);
+INSERT INTO S_ENUM
+	VALUES (2195,
+	'mph',
+	'',
+	24,
+	2192);
+INSERT INTO S_ENUM
+	VALUES (574,
+	'bpm',
+	'',
+	24,
+	2195);
+INSERT INTO S_ENUM
+	VALUES (593,
+	'laps',
+	'',
+	24,
+	574);
+INSERT INTO PE_PE
+	VALUES (27,
+	1,
+	1710,
+	0,
+	3);
+INSERT INTO S_DT
+	VALUES (27,
+	0,
+	'Indicator',
+	'',
+	'');
+INSERT INTO S_EDT
+	VALUES (27);
+INSERT INTO S_ENUM
+	VALUES (442,
+	'Blank',
+	'',
+	27,
+	0);
+INSERT INTO S_ENUM
+	VALUES (470,
+	'Down',
+	'',
+	27,
+	442);
+INSERT INTO S_ENUM
+	VALUES (474,
+	'Flat',
+	'',
+	27,
+	470);
+INSERT INTO S_ENUM
+	VALUES (466,
+	'Up',
+	'',
+	27,
+	474);
 -- root-types-contained: SystemModel_c
 -- BP 7.1 content: StreamData syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO S_SYS
-	VALUES (2241,
+	VALUES (2284,
 	'HeartRateMonitor',
 	1);
 INSERT INTO EP_PKG
-	VALUES (2242,
-	2241,
-	2241,
+	VALUES (2285,
+	2284,
+	2284,
 	'HeartRateMonitor',
 	'',
 	0);
 INSERT INTO PE_PE
-	VALUES (2243,
+	VALUES (2286,
 	1,
-	2242,
+	2285,
 	0,
 	2);
 INSERT INTO C_C
-	VALUES (2243,
+	VALUES (2286,
 	0,
 	0,
 	'HeartRateMonitor',
@@ -36135,28 +36775,28 @@ INSERT INTO C_C
 	0,
 	'');
 INSERT INTO C_PO
-	VALUES (2244,
-	2243,
+	VALUES (2287,
+	2286,
 	'HeartRateMonitor',
 	0,
 	0);
 INSERT INTO C_IR
-	VALUES (2245,
-	2246,
+	VALUES (2288,
+	2289,
 	0,
-	2244);
+	2287);
 INSERT INTO C_P
-	VALUES (2245,
+	VALUES (2288,
 	'HeartRateMonitor',
 	'Unnamed Interface',
 	'',
 	'HeartRateMonitor::HeartRateMonitor::HeartRateMonitor');
 INSERT INTO SPR_PEP
-	VALUES (2247,
-	2248,
-	2245);
+	VALUES (2290,
+	2291,
+	2288);
 INSERT INTO SPR_PO
-	VALUES (2247,
+	VALUES (2290,
 	'registerListener',
 	'',
 	'generate HeartRateMonitor_A1:registerListener() to HeartRateMonitor class;
@@ -36164,19 +36804,19 @@ INSERT INTO SPR_PO
 ',
 	1);
 INSERT INTO ACT_POB
-	VALUES (2249,
-	2247);
+	VALUES (2292,
+	2290);
 INSERT INTO ACT_ACT
-	VALUES (2249,
+	VALUES (2292,
 	'interface operation',
 	0,
-	2250,
+	2293,
 	0,
 	0,
 	'HeartRateMonitor::HeartRateMonitor::registerListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2250,
+	VALUES (2293,
 	0,
 	0,
 	0,
@@ -36196,17 +36836,17 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2249,
+	2292,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2251,
-	2250,
+	VALUES (2294,
+	2293,
 	0,
 	1,
 	1,
 	'HeartRateMonitor::HeartRateMonitor::registerListener line: 1');
 INSERT INTO E_ESS
-	VALUES (2251,
+	VALUES (2294,
 	1,
 	0,
 	1,
@@ -36220,18 +36860,18 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_GES
-	VALUES (2251);
+	VALUES (2294);
 INSERT INTO E_GSME
-	VALUES (2251,
-	2252);
+	VALUES (2294,
+	2295);
 INSERT INTO E_GAR
-	VALUES (2251);
+	VALUES (2294);
 INSERT INTO SPR_PEP
-	VALUES (2253,
-	2254,
-	2245);
+	VALUES (2296,
+	2297,
+	2288);
 INSERT INTO SPR_PO
-	VALUES (2253,
+	VALUES (2296,
 	'unregisterListener',
 	'',
 	'generate HeartRateMonitor_A2:unregisterListener() to HeartRateMonitor class;
@@ -36239,19 +36879,19 @@ INSERT INTO SPR_PO
 ',
 	1);
 INSERT INTO ACT_POB
-	VALUES (2255,
-	2253);
+	VALUES (2298,
+	2296);
 INSERT INTO ACT_ACT
-	VALUES (2255,
+	VALUES (2298,
 	'interface operation',
 	0,
-	2256,
+	2299,
 	0,
 	0,
 	'HeartRateMonitor::HeartRateMonitor::unregisterListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2256,
+	VALUES (2299,
 	0,
 	0,
 	0,
@@ -36271,17 +36911,17 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2255,
+	2298,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2257,
-	2256,
+	VALUES (2300,
+	2299,
 	0,
 	1,
 	1,
 	'HeartRateMonitor::HeartRateMonitor::unregisterListener line: 1');
 INSERT INTO E_ESS
-	VALUES (2257,
+	VALUES (2300,
 	1,
 	0,
 	1,
@@ -36295,53 +36935,53 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_GES
-	VALUES (2257);
+	VALUES (2300);
 INSERT INTO E_GSME
-	VALUES (2257,
-	2258);
+	VALUES (2300,
+	2301);
 INSERT INTO E_GAR
-	VALUES (2257);
+	VALUES (2300);
 INSERT INTO C_PO
-	VALUES (2259,
-	2243,
+	VALUES (2302,
+	2286,
 	'Unspecified',
 	0,
 	0);
 INSERT INTO C_IR
-	VALUES (2260,
-	2261,
+	VALUES (2303,
+	2304,
 	0,
-	2259);
+	2302);
 INSERT INTO C_R
-	VALUES (2260,
+	VALUES (2303,
 	'HeartRateMonitorUnspecified',
 	'',
 	'Unnamed Interface',
 	'HeartRateMonitor::Unspecified::HeartRateMonitorUnspecified');
 INSERT INTO SPR_REP
-	VALUES (2262,
-	2263,
-	2260);
+	VALUES (2305,
+	2306,
+	2303);
 INSERT INTO SPR_RO
-	VALUES (2262,
+	VALUES (2305,
 	'heartRateChanged',
 	'',
 	'',
 	1);
 INSERT INTO ACT_ROB
-	VALUES (2264,
-	2262);
+	VALUES (2307,
+	2305);
 INSERT INTO ACT_ACT
-	VALUES (2264,
+	VALUES (2307,
 	'interface operation',
 	0,
-	2265,
+	2308,
 	0,
 	0,
 	'Unspecified::HeartRateMonitorUnspecified::heartRateChanged',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2265,
+	VALUES (2308,
 	0,
 	0,
 	0,
@@ -36361,29 +37001,29 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2264,
+	2307,
 	0);
 INSERT INTO PE_PE
-	VALUES (2266,
+	VALUES (2309,
 	1,
 	0,
-	2243,
+	2286,
 	7);
 INSERT INTO EP_PKG
-	VALUES (2266,
+	VALUES (2309,
 	0,
-	2241,
+	2284,
 	'HeartRateMonitor',
 	'',
 	0);
 INSERT INTO PE_PE
-	VALUES (2267,
+	VALUES (2310,
 	1,
-	2266,
+	2309,
 	0,
 	5);
 INSERT INTO S_EE
-	VALUES (2267,
+	VALUES (2310,
 	'Logging',
 	'',
 	'LOG',
@@ -36392,38 +37032,38 @@ INSERT INTO S_EE
 	'Logging',
 	1);
 INSERT INTO S_BRG
-	VALUES (2268,
-	2267,
+	VALUES (2311,
+	2310,
 	'LogSuccess',
 	'',
 	0,
-	240,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2269,
-	2268,
+	VALUES (2312,
+	2311,
 	'message',
-	96,
+	130,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2270,
-	2268);
+	VALUES (2313,
+	2311);
 INSERT INTO ACT_ACT
-	VALUES (2270,
+	VALUES (2313,
 	'bridge',
 	0,
-	2271,
+	2314,
 	0,
 	0,
 	'Logging::LogSuccess',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2271,
+	VALUES (2314,
 	0,
 	0,
 	0,
@@ -36443,41 +37083,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2270,
+	2313,
 	0);
 INSERT INTO S_BRG
-	VALUES (2272,
-	2267,
+	VALUES (2315,
+	2310,
 	'LogFailure',
 	'',
 	0,
-	240,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2273,
-	2272,
+	VALUES (2316,
+	2315,
 	'message',
-	96,
+	130,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2274,
-	2272);
+	VALUES (2317,
+	2315);
 INSERT INTO ACT_ACT
-	VALUES (2274,
+	VALUES (2317,
 	'bridge',
 	0,
-	2275,
+	2318,
 	0,
 	0,
 	'Logging::LogFailure',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2275,
+	VALUES (2318,
 	0,
 	0,
 	0,
@@ -36497,41 +37137,41 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2274,
+	2317,
 	0);
 INSERT INTO S_BRG
-	VALUES (2276,
-	2267,
+	VALUES (2319,
+	2310,
 	'LogInfo',
 	'',
 	0,
-	240,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2277,
-	2276,
+	VALUES (2320,
+	2319,
 	'message',
-	96,
+	130,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2278,
-	2276);
+	VALUES (2321,
+	2319);
 INSERT INTO ACT_ACT
-	VALUES (2278,
+	VALUES (2321,
 	'bridge',
 	0,
-	2279,
+	2322,
 	0,
 	0,
 	'Logging::LogInfo',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2279,
+	VALUES (2322,
 	0,
 	0,
 	0,
@@ -36551,594 +37191,39 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2278,
+	2321,
 	0);
 INSERT INTO S_BRG
-	VALUES (2280,
-	2267,
+	VALUES (2323,
+	2310,
 	'LogDate',
 	'',
 	0,
-	240,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2281,
-	2280,
-	'd',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2282,
-	2280,
-	'message',
-	96,
-	0,
-	'',
-	2281,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2283,
-	2280);
-INSERT INTO ACT_ACT
-	VALUES (2283,
-	'bridge',
-	0,
-	2284,
-	0,
-	0,
-	'Logging::LogDate',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2284,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2283,
-	0);
-INSERT INTO S_BRG
-	VALUES (2285,
-	2267,
-	'LogTime',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2286,
-	2285,
-	't',
-	259,
-	0,
-	'',
-	2287,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2287,
-	2285,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2288,
-	2285);
-INSERT INTO ACT_ACT
-	VALUES (2288,
-	'bridge',
-	0,
-	2289,
-	0,
-	0,
-	'Logging::LogTime',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2289,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2288,
-	0);
-INSERT INTO S_BRG
-	VALUES (2290,
-	2267,
-	'LogReal',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2291,
-	2290,
-	'r',
-	170,
-	0,
-	'',
-	2292,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2292,
-	2290,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2293,
-	2290);
-INSERT INTO ACT_ACT
-	VALUES (2293,
-	'bridge',
-	0,
-	2294,
-	0,
-	0,
-	'Logging::LogReal',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2294,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2293,
-	0);
-INSERT INTO S_BRG
-	VALUES (2295,
-	2267,
-	'LogInteger',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2296,
-	2295,
-	'message',
-	13,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2297,
-	2295);
-INSERT INTO ACT_ACT
-	VALUES (2297,
-	'bridge',
-	0,
-	2298,
-	0,
-	0,
-	'Logging::LogInteger',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2298,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2297,
-	0);
-INSERT INTO PE_PE
-	VALUES (2299,
-	1,
-	2266,
-	0,
-	5);
-INSERT INTO S_EE
-	VALUES (2299,
-	'Time',
-	'The Time external entity provides date, timestamp, and timer related operations.',
-	'TIM',
-	0,
-	'',
-	'Time',
-	1);
-INSERT INTO S_BRG
-	VALUES (2300,
-	2299,
-	'current_date',
-	'',
-	1,
-	253,
-	'',
-	1,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2301,
-	2300);
-INSERT INTO ACT_ACT
-	VALUES (2301,
-	'bridge',
-	0,
-	2302,
-	0,
-	0,
-	'Time::current_date',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2302,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2301,
-	0);
-INSERT INTO S_BRG
-	VALUES (2303,
-	2299,
-	'create_date',
-	'',
-	1,
-	253,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2304,
-	2303,
-	'second',
-	13,
-	0,
-	'',
-	2305,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2306,
-	2303,
-	'minute',
-	13,
-	0,
-	'',
-	2307,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2307,
-	2303,
-	'hour',
-	13,
-	0,
-	'',
-	2308,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2308,
-	2303,
-	'day',
-	13,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2305,
-	2303,
-	'month',
-	13,
-	0,
-	'',
-	2306,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2309,
-	2303,
-	'year',
-	13,
-	0,
-	'',
-	2304,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2310,
-	2303);
-INSERT INTO ACT_ACT
-	VALUES (2310,
-	'bridge',
-	0,
-	2311,
-	0,
-	0,
-	'Time::create_date',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2311,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2310,
-	0);
-INSERT INTO S_BRG
-	VALUES (2312,
-	2299,
-	'get_second',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2313,
-	2312,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2314,
-	2312);
-INSERT INTO ACT_ACT
-	VALUES (2314,
-	'bridge',
-	0,
-	2315,
-	0,
-	0,
-	'Time::get_second',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2315,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2314,
-	0);
-INSERT INTO S_BRG
-	VALUES (2316,
-	2299,
-	'get_minute',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2317,
-	2316,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2318,
-	2316);
-INSERT INTO ACT_ACT
-	VALUES (2318,
-	'bridge',
-	0,
-	2319,
-	0,
-	0,
-	'Time::get_minute',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2319,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2318,
-	0);
-INSERT INTO S_BRG
-	VALUES (2320,
-	2299,
-	'get_hour',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2321,
-	2320,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2322,
-	2320);
-INSERT INTO ACT_ACT
-	VALUES (2322,
-	'bridge',
-	0,
-	2323,
-	0,
-	0,
-	'Time::get_hour',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2323,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2322,
-	0);
-INSERT INTO S_BRG
 	VALUES (2324,
-	2299,
-	'get_day',
+	2323,
+	'd',
+	272,
+	0,
 	'',
-	1,
-	13,
-	'',
-	1,
+	0,
 	'');
 INSERT INTO S_BPARM
 	VALUES (2325,
-	2324,
-	'date',
-	253,
+	2323,
+	'message',
+	130,
 	0,
 	'',
-	0,
+	2324,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (2326,
-	2324);
+	2323);
 INSERT INTO ACT_ACT
 	VALUES (2326,
 	'bridge',
@@ -37146,7 +37231,7 @@ INSERT INTO ACT_ACT
 	2327,
 	0,
 	0,
-	'Time::get_day',
+	'Logging::LogDate',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2327,
@@ -37173,268 +37258,223 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (2328,
-	2299,
-	'get_month',
+	2310,
+	'LogTime',
 	'',
-	1,
-	13,
+	0,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (2329,
 	2328,
-	'date',
-	253,
+	't',
+	278,
+	0,
+	'',
+	2330,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2330,
+	2328,
+	'message',
+	130,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2330,
+	VALUES (2331,
 	2328);
 INSERT INTO ACT_ACT
-	VALUES (2330,
+	VALUES (2331,
 	'bridge',
+	0,
+	2332,
+	0,
+	0,
+	'Logging::LogTime',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2332,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
 	0,
 	2331,
-	0,
-	0,
-	'Time::get_month',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2331,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2330,
 	0);
 INSERT INTO S_BRG
-	VALUES (2332,
-	2299,
-	'get_year',
+	VALUES (2333,
+	2310,
+	'LogReal',
 	'',
-	1,
-	13,
+	0,
+	6,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2333,
-	2332,
-	'date',
-	253,
+	VALUES (2334,
+	2333,
+	'r',
+	10,
 	0,
 	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2334,
-	2332);
-INSERT INTO ACT_ACT
-	VALUES (2334,
-	'bridge',
-	0,
 	2335,
-	0,
-	0,
-	'Time::get_year',
-	0);
-INSERT INTO ACT_BLK
+	'');
+INSERT INTO S_BPARM
 	VALUES (2335,
-	0,
-	0,
+	2333,
+	'message',
+	130,
 	0,
 	'',
-	'',
-	'',
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2334,
-	0);
-INSERT INTO S_BRG
-	VALUES (2336,
-	2299,
-	'current_clock',
-	'',
-	1,
-	259,
-	'',
-	1,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2337,
-	2336);
+	VALUES (2336,
+	2333);
 INSERT INTO ACT_ACT
-	VALUES (2337,
+	VALUES (2336,
 	'bridge',
-	0,
-	2338,
-	0,
-	0,
-	'Time::current_clock',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2338,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
 	0,
 	2337,
+	0,
+	0,
+	'Logging::LogReal',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2337,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2336,
 	0);
 INSERT INTO S_BRG
+	VALUES (2338,
+	2310,
+	'LogInteger',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
 	VALUES (2339,
-	2299,
-	'timer_start',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Returns the instance
-handle of the timer.',
-	1,
-	313,
+	2338,
+	'message',
+	30,
+	0,
 	'',
-	1,
+	0,
 	'');
-INSERT INTO S_BPARM
+INSERT INTO ACT_BRB
 	VALUES (2340,
-	2339,
-	'microseconds',
-	13,
+	2338);
+INSERT INTO ACT_ACT
+	VALUES (2340,
+	'bridge',
 	0,
-	'',
 	2341,
-	'');
-INSERT INTO S_BPARM
+	0,
+	0,
+	'Logging::LogInteger',
+	0);
+INSERT INTO ACT_BLK
 	VALUES (2341,
-	2339,
-	'event_inst',
-	316,
+	0,
+	0,
 	0,
 	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2342,
-	2339);
-INSERT INTO ACT_ACT
-	VALUES (2342,
-	'bridge',
-	0,
-	2343,
+	'',
+	'',
 	0,
 	0,
-	'Time::timer_start',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2340,
 	0);
-INSERT INTO ACT_BLK
+INSERT INTO PE_PE
+	VALUES (2342,
+	1,
+	2309,
+	0,
+	5);
+INSERT INTO S_EE
+	VALUES (2342,
+	'Time',
+	'The Time external entity provides date, timestamp, and timer related operations.',
+	'TIM',
+	0,
+	'',
+	'Time',
+	1);
+INSERT INTO S_BRG
 	VALUES (2343,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
 	2342,
-	0);
-INSERT INTO S_BRG
-	VALUES (2344,
-	2299,
-	'timer_start_recurring',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Upon expiration, the
-timer will be restarted and fire again in the specified number of microseconds
-generating the passed event. This bridge operation returns the instance handle
-of the timer.',
-	1,
-	313,
+	'current_date',
 	'',
 	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2345,
-	2344,
-	'microseconds',
-	13,
-	0,
+	272,
 	'',
-	2346,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2346,
-	2344,
-	'event_inst',
-	316,
-	0,
-	'',
-	0,
+	1,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2347,
-	2344);
+	VALUES (2344,
+	2343);
 INSERT INTO ACT_ACT
-	VALUES (2347,
+	VALUES (2344,
 	'bridge',
 	0,
-	2348,
+	2345,
 	0,
 	0,
-	'Time::timer_start_recurring',
+	'Time::current_date',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2348,
+	VALUES (2345,
 	0,
 	0,
 	0,
@@ -37454,42 +37494,86 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2347,
+	2344,
 	0);
 INSERT INTO S_BRG
-	VALUES (2349,
-	2299,
-	'timer_remaining_time',
-	'Returns the time remaining (in microseconds) for the passed timer instance. If
-the timer has expired, a zero value is returned.',
-	1,
-	13,
+	VALUES (2346,
+	2342,
+	'create_date',
 	'',
 	1,
+	272,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2347,
+	2346,
+	'second',
+	30,
+	0,
+	'',
+	2348,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2349,
+	2346,
+	'minute',
+	30,
+	0,
+	'',
+	2350,
 	'');
 INSERT INTO S_BPARM
 	VALUES (2350,
-	2349,
-	'timer_inst_ref',
-	313,
+	2346,
+	'hour',
+	30,
+	0,
+	'',
+	2351,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2351,
+	2346,
+	'day',
+	30,
 	0,
 	'',
 	0,
 	'');
+INSERT INTO S_BPARM
+	VALUES (2348,
+	2346,
+	'month',
+	30,
+	0,
+	'',
+	2349,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2352,
+	2346,
+	'year',
+	30,
+	0,
+	'',
+	2347,
+	'');
 INSERT INTO ACT_BRB
-	VALUES (2351,
-	2349);
+	VALUES (2353,
+	2346);
 INSERT INTO ACT_ACT
-	VALUES (2351,
+	VALUES (2353,
 	'bridge',
 	0,
-	2352,
+	2354,
 	0,
 	0,
-	'Time::timer_remaining_time',
+	'Time::create_date',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2352,
+	VALUES (2354,
 	0,
 	0,
 	0,
@@ -37509,107 +37593,84 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2351,
+	2353,
 	0);
 INSERT INTO S_BRG
-	VALUES (2353,
-	2299,
-	'timer_reset_time',
-	'This bridge operation attempts to set the passed existing timer to expire in
-the specified number of microseconds. If the timer exists (that is, it has not
-expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
-is returned.',
-	1,
-	72,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2354,
-	2353,
-	'timer_inst_ref',
-	313,
-	0,
-	'',
-	2355,
-	'');
-INSERT INTO S_BPARM
 	VALUES (2355,
-	2353,
-	'microseconds',
-	13,
+	2342,
+	'get_second',
+	'',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2356,
+	2355,
+	'date',
+	272,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2356,
-	2353);
+	VALUES (2357,
+	2355);
 INSERT INTO ACT_ACT
-	VALUES (2356,
+	VALUES (2357,
 	'bridge',
+	0,
+	2358,
+	0,
+	0,
+	'Time::get_second',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2358,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
 	0,
 	2357,
-	0,
-	0,
-	'Time::timer_reset_time',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2357,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2356,
 	0);
 INSERT INTO S_BRG
-	VALUES (2358,
-	2299,
-	'timer_add_time',
-	'This bridge operation attempts to add the specified number of microseconds to a
-passed existing timer. If the timer exists (that is, it has not expired), a TRUE
-value is returned. If the timer no longer exists, a FALSE value is returned.',
-	1,
-	72,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
 	VALUES (2359,
-	2358,
-	'timer_inst_ref',
-	313,
-	0,
+	2342,
+	'get_minute',
 	'',
-	2360,
+	1,
+	30,
+	'',
+	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (2360,
-	2358,
-	'microseconds',
-	13,
+	2359,
+	'date',
+	272,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
 	VALUES (2361,
-	2358);
+	2359);
 INSERT INTO ACT_ACT
 	VALUES (2361,
 	'bridge',
@@ -37617,7 +37678,7 @@ INSERT INTO ACT_ACT
 	2362,
 	0,
 	0,
-	'Time::timer_add_time',
+	'Time::get_minute',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2362,
@@ -37644,21 +37705,19 @@ INSERT INTO ACT_BLK
 	0);
 INSERT INTO S_BRG
 	VALUES (2363,
-	2299,
-	'timer_cancel',
-	'This bridge operation cancels and deletes the passed timer instance. If the 
-timer exists (that is, it had not expired), a TRUE value is returned. If the
-timer no longer exists, a FALSE value is returned.',
+	2342,
+	'get_hour',
+	'',
 	1,
-	72,
+	30,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
 	VALUES (2364,
 	2363,
-	'timer_inst_ref',
-	313,
+	'date',
+	272,
 	0,
 	'',
 	0,
@@ -37673,7 +37732,7 @@ INSERT INTO ACT_ACT
 	2366,
 	0,
 	0,
-	'Time::timer_cancel',
+	'Time::get_hour',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2366,
@@ -37698,47 +37757,628 @@ INSERT INTO ACT_BLK
 	0,
 	2365,
 	0);
-INSERT INTO PE_PE
+INSERT INTO S_BRG
 	VALUES (2367,
+	2342,
+	'get_day',
+	'',
 	1,
-	2266,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2368,
+	2367,
+	'date',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2369,
+	2367);
+INSERT INTO ACT_ACT
+	VALUES (2369,
+	'bridge',
+	0,
+	2370,
+	0,
+	0,
+	'Time::get_day',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2370,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2369,
+	0);
+INSERT INTO S_BRG
+	VALUES (2371,
+	2342,
+	'get_month',
+	'',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2372,
+	2371,
+	'date',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2373,
+	2371);
+INSERT INTO ACT_ACT
+	VALUES (2373,
+	'bridge',
+	0,
+	2374,
+	0,
+	0,
+	'Time::get_month',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2374,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2373,
+	0);
+INSERT INTO S_BRG
+	VALUES (2375,
+	2342,
+	'get_year',
+	'',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2376,
+	2375,
+	'date',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2377,
+	2375);
+INSERT INTO ACT_ACT
+	VALUES (2377,
+	'bridge',
+	0,
+	2378,
+	0,
+	0,
+	'Time::get_year',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2378,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2377,
+	0);
+INSERT INTO S_BRG
+	VALUES (2379,
+	2342,
+	'current_clock',
+	'',
+	1,
+	278,
+	'',
+	1,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2380,
+	2379);
+INSERT INTO ACT_ACT
+	VALUES (2380,
+	'bridge',
+	0,
+	2381,
+	0,
+	0,
+	'Time::current_clock',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2381,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2380,
+	0);
+INSERT INTO S_BRG
+	VALUES (2382,
+	2342,
+	'timer_start',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Returns the instance
+handle of the timer.',
+	1,
+	332,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2383,
+	2382,
+	'microseconds',
+	30,
+	0,
+	'',
+	2384,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2384,
+	2382,
+	'event_inst',
+	335,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2385,
+	2382);
+INSERT INTO ACT_ACT
+	VALUES (2385,
+	'bridge',
+	0,
+	2386,
+	0,
+	0,
+	'Time::timer_start',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2386,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2385,
+	0);
+INSERT INTO S_BRG
+	VALUES (2387,
+	2342,
+	'timer_start_recurring',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Upon expiration, the
+timer will be restarted and fire again in the specified number of microseconds
+generating the passed event. This bridge operation returns the instance handle
+of the timer.',
+	1,
+	332,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2388,
+	2387,
+	'microseconds',
+	30,
+	0,
+	'',
+	2389,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2389,
+	2387,
+	'event_inst',
+	335,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2390,
+	2387);
+INSERT INTO ACT_ACT
+	VALUES (2390,
+	'bridge',
+	0,
+	2391,
+	0,
+	0,
+	'Time::timer_start_recurring',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2391,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2390,
+	0);
+INSERT INTO S_BRG
+	VALUES (2392,
+	2342,
+	'timer_remaining_time',
+	'Returns the time remaining (in microseconds) for the passed timer instance. If
+the timer has expired, a zero value is returned.',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2393,
+	2392,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2394,
+	2392);
+INSERT INTO ACT_ACT
+	VALUES (2394,
+	'bridge',
+	0,
+	2395,
+	0,
+	0,
+	'Time::timer_remaining_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2395,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2394,
+	0);
+INSERT INTO S_BRG
+	VALUES (2396,
+	2342,
+	'timer_reset_time',
+	'This bridge operation attempts to set the passed existing timer to expire in
+the specified number of microseconds. If the timer exists (that is, it has not
+expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
+is returned.',
+	1,
+	108,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2397,
+	2396,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	2398,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2398,
+	2396,
+	'microseconds',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2399,
+	2396);
+INSERT INTO ACT_ACT
+	VALUES (2399,
+	'bridge',
+	0,
+	2400,
+	0,
+	0,
+	'Time::timer_reset_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2400,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2399,
+	0);
+INSERT INTO S_BRG
+	VALUES (2401,
+	2342,
+	'timer_add_time',
+	'This bridge operation attempts to add the specified number of microseconds to a
+passed existing timer. If the timer exists (that is, it has not expired), a TRUE
+value is returned. If the timer no longer exists, a FALSE value is returned.',
+	1,
+	108,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2402,
+	2401,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	2403,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2403,
+	2401,
+	'microseconds',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2404,
+	2401);
+INSERT INTO ACT_ACT
+	VALUES (2404,
+	'bridge',
+	0,
+	2405,
+	0,
+	0,
+	'Time::timer_add_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2405,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2404,
+	0);
+INSERT INTO S_BRG
+	VALUES (2406,
+	2342,
+	'timer_cancel',
+	'This bridge operation cancels and deletes the passed timer instance. If the 
+timer exists (that is, it had not expired), a TRUE value is returned. If the
+timer no longer exists, a FALSE value is returned.',
+	1,
+	108,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2407,
+	2406,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2408,
+	2406);
+INSERT INTO ACT_ACT
+	VALUES (2408,
+	'bridge',
+	0,
+	2409,
+	0,
+	0,
+	'Time::timer_cancel',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2409,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2408,
+	0);
+INSERT INTO PE_PE
+	VALUES (2410,
+	1,
+	2309,
 	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (2367,
+	VALUES (2410,
 	'HeartRateMonitor',
 	1,
 	'HeartRateMonitor',
 	'Represents the heart-rate monitoring facility.',
 	0);
 INSERT INTO O_NBATTR
-	VALUES (2368,
-	2367);
+	VALUES (2411,
+	2410);
 INSERT INTO O_BATTR
-	VALUES (2368,
-	2367);
+	VALUES (2411,
+	2410);
 INSERT INTO O_ATTR
-	VALUES (2368,
-	2367,
+	VALUES (2411,
+	2410,
 	0,
 	'recentHeartRate',
 	'Most recent heart-rate sample, expressed in beats per minute.',
 	'',
 	'recentHeartRate',
 	0,
-	13,
+	30,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (2369,
-	2367);
+	VALUES (2412,
+	2410);
 INSERT INTO O_BATTR
-	VALUES (2369,
-	2367);
+	VALUES (2412,
+	2410);
 INSERT INTO O_ATTR
-	VALUES (2369,
-	2367,
-	2368,
+	VALUES (2412,
+	2410,
+	2411,
 	'timer',
 	'Handle for underlying timer mechanism enabling the 
 generation of delayed events that drive the model
@@ -37746,38 +38386,38 @@ of the heart-rate monitor.',
 	'',
 	'timer',
 	0,
-	313,
+	332,
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	2367);
+	2410);
 INSERT INTO O_ID
 	VALUES (1,
-	2367);
+	2410);
 INSERT INTO O_ID
 	VALUES (2,
-	2367);
+	2410);
 INSERT INTO SM_ASM
-	VALUES (2370,
-	2367);
+	VALUES (2413,
+	2410);
 INSERT INTO SM_SM
-	VALUES (2370,
+	VALUES (2413,
 	'',
 	0);
 INSERT INTO SM_MOORE
-	VALUES (2370);
+	VALUES (2413);
 INSERT INTO SM_LEVT
-	VALUES (2371,
-	2370,
+	VALUES (2414,
+	2413,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (2371,
-	2370,
+	VALUES (2414,
+	2413,
 	0);
 INSERT INTO SM_EVT
-	VALUES (2371,
-	2370,
+	VALUES (2414,
+	2413,
 	0,
 	3,
 	'timeout',
@@ -37786,16 +38426,16 @@ INSERT INTO SM_EVT
 	'HeartRateMonitor_A3',
 	'');
 INSERT INTO SM_LEVT
-	VALUES (2252,
-	2370,
+	VALUES (2295,
+	2413,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (2252,
-	2370,
+	VALUES (2295,
+	2413,
 	0);
 INSERT INTO SM_EVT
-	VALUES (2252,
-	2370,
+	VALUES (2295,
+	2413,
 	0,
 	1,
 	'registerListener',
@@ -37804,16 +38444,16 @@ INSERT INTO SM_EVT
 	'HeartRateMonitor_A1',
 	'');
 INSERT INTO SM_LEVT
-	VALUES (2258,
-	2370,
+	VALUES (2301,
+	2413,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (2258,
-	2370,
+	VALUES (2301,
+	2413,
 	0);
 INSERT INTO SM_EVT
-	VALUES (2258,
-	2370,
+	VALUES (2301,
+	2413,
 	0,
 	2,
 	'unregisterListener',
@@ -37822,67 +38462,67 @@ INSERT INTO SM_EVT
 	'HeartRateMonitor_A2',
 	'');
 INSERT INTO SM_STATE
-	VALUES (2372,
-	2370,
+	VALUES (2415,
+	2413,
 	0,
 	'idle',
 	1,
 	0);
 INSERT INTO SM_EIGN
-	VALUES (2372,
-	2371,
-	2370,
+	VALUES (2415,
+	2414,
+	2413,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (2372,
-	2371,
-	2370,
+	VALUES (2415,
+	2414,
+	2413,
 	0);
 INSERT INTO SM_SEME
-	VALUES (2372,
-	2252,
-	2370,
+	VALUES (2415,
+	2295,
+	2413,
 	0);
 INSERT INTO SM_CH
-	VALUES (2372,
-	2258,
-	2370,
+	VALUES (2415,
+	2301,
+	2413,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (2372,
-	2258,
-	2370,
+	VALUES (2415,
+	2301,
+	2413,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (2373,
-	2370,
-	2372);
+	VALUES (2416,
+	2413,
+	2415);
 INSERT INTO SM_AH
-	VALUES (2373,
-	2370);
+	VALUES (2416,
+	2413);
 INSERT INTO SM_ACT
-	VALUES (2373,
-	2370,
+	VALUES (2416,
+	2413,
 	1,
 	'',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (2374,
-	2370,
-	2373);
+	VALUES (2417,
+	2413,
+	2416);
 INSERT INTO ACT_ACT
-	VALUES (2374,
+	VALUES (2417,
 	'class state',
 	0,
-	2375,
+	2418,
 	0,
 	0,
 	'HeartRateMonitor::idle',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2375,
+	VALUES (2418,
 	0,
 	0,
 	0,
@@ -37902,66 +38542,66 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2374,
+	2417,
 	0);
 INSERT INTO SM_STATE
-	VALUES (2376,
-	2370,
+	VALUES (2419,
+	2413,
 	0,
 	'monitoring',
 	2,
 	0);
 INSERT INTO SM_SEME
-	VALUES (2376,
-	2371,
-	2370,
+	VALUES (2419,
+	2414,
+	2413,
 	0);
 INSERT INTO SM_CH
-	VALUES (2376,
-	2252,
-	2370,
+	VALUES (2419,
+	2295,
+	2413,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (2376,
-	2252,
-	2370,
+	VALUES (2419,
+	2295,
+	2413,
 	0);
 INSERT INTO SM_SEME
-	VALUES (2376,
-	2258,
-	2370,
+	VALUES (2419,
+	2301,
+	2413,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (2377,
-	2370,
-	2376);
+	VALUES (2420,
+	2413,
+	2419);
 INSERT INTO SM_AH
-	VALUES (2377,
-	2370);
+	VALUES (2420,
+	2413);
 INSERT INTO SM_ACT
-	VALUES (2377,
-	2370,
+	VALUES (2420,
+	2413,
 	1,
 	'select any monitor from instances of HeartRateMonitor;
 send Unspecified::heartRateChanged(heartRate: monitor.recentHeartRate);
 monitor.recentHeartRate = monitor.recentHeartRate + 1;',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (2378,
-	2370,
-	2377);
+	VALUES (2421,
+	2413,
+	2420);
 INSERT INTO ACT_ACT
-	VALUES (2378,
+	VALUES (2421,
 	'class state',
 	0,
-	2379,
+	2422,
 	0,
 	0,
 	'HeartRateMonitor::monitoring',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2379,
+	VALUES (2422,
 	1,
 	0,
 	0,
@@ -37981,54 +38621,54 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2378,
+	2421,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2380,
-	2379,
-	2381,
+	VALUES (2423,
+	2422,
+	2424,
 	1,
 	1,
 	'HeartRateMonitor::monitoring line: 1');
 INSERT INTO ACT_FIO
-	VALUES (2380,
-	2382,
+	VALUES (2423,
+	2425,
 	1,
 	'any',
-	2367,
+	2410,
 	1,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (2381,
-	2379,
-	2383,
+	VALUES (2424,
+	2422,
+	2426,
 	2,
 	1,
 	'HeartRateMonitor::monitoring line: 2');
 INSERT INTO ACT_IOP
-	VALUES (2381,
+	VALUES (2424,
 	2,
 	19,
 	2,
 	6,
 	0,
-	2262,
+	2305,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2383,
-	2379,
+	VALUES (2426,
+	2422,
 	0,
 	3,
 	1,
 	'HeartRateMonitor::monitoring line: 3');
 INSERT INTO ACT_AI
-	VALUES (2383,
-	2384,
-	2385,
+	VALUES (2426,
+	2427,
+	2428,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (2386,
+	VALUES (2429,
 	0,
 	0,
 	2,
@@ -38038,13 +38678,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2379);
+	106,
+	2422);
 INSERT INTO V_IRF
-	VALUES (2386,
-	2382);
+	VALUES (2429,
+	2425);
 INSERT INTO V_VAL
-	VALUES (2387,
+	VALUES (2430,
 	0,
 	0,
 	2,
@@ -38054,23 +38694,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2379);
+	30,
+	2422);
 INSERT INTO V_AVL
-	VALUES (2387,
-	2386,
-	2367,
-	2368);
+	VALUES (2430,
+	2429,
+	2410,
+	2411);
 INSERT INTO V_PAR
-	VALUES (2387,
-	2381,
+	VALUES (2430,
+	2424,
 	0,
 	'heartRate',
 	0,
 	2,
 	36);
 INSERT INTO V_VAL
-	VALUES (2388,
+	VALUES (2431,
 	1,
 	0,
 	3,
@@ -38080,13 +38720,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2379);
+	106,
+	2422);
 INSERT INTO V_IRF
-	VALUES (2388,
-	2382);
+	VALUES (2431,
+	2425);
 INSERT INTO V_VAL
-	VALUES (2385,
+	VALUES (2428,
 	1,
 	0,
 	3,
@@ -38096,15 +38736,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2379);
+	30,
+	2422);
 INSERT INTO V_AVL
-	VALUES (2385,
-	2388,
-	2367,
-	2368);
+	VALUES (2428,
+	2431,
+	2410,
+	2411);
 INSERT INTO V_VAL
-	VALUES (2389,
+	VALUES (2432,
 	0,
 	0,
 	3,
@@ -38114,13 +38754,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2379);
+	106,
+	2422);
 INSERT INTO V_IRF
-	VALUES (2389,
-	2382);
+	VALUES (2432,
+	2425);
 INSERT INTO V_VAL
-	VALUES (2390,
+	VALUES (2433,
 	0,
 	0,
 	3,
@@ -38130,15 +38770,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2379);
+	30,
+	2422);
 INSERT INTO V_AVL
-	VALUES (2390,
-	2389,
-	2367,
-	2368);
+	VALUES (2433,
+	2432,
+	2410,
+	2411);
 INSERT INTO V_VAL
-	VALUES (2384,
+	VALUES (2427,
 	0,
 	0,
 	-1,
@@ -38148,15 +38788,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2379);
+	30,
+	2422);
 INSERT INTO V_BIN
-	VALUES (2384,
-	2391,
-	2390,
+	VALUES (2427,
+	2434,
+	2433,
 	'+');
 INSERT INTO V_VAL
-	VALUES (2391,
+	VALUES (2434,
 	0,
 	0,
 	3,
@@ -38166,37 +38806,37 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2379);
+	30,
+	2422);
 INSERT INTO V_LIN
-	VALUES (2391,
+	VALUES (2434,
 	'1');
 INSERT INTO V_VAR
-	VALUES (2382,
-	2379,
+	VALUES (2425,
+	2422,
 	'monitor',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (2382,
+	VALUES (2425,
 	0,
-	2367);
+	2410);
 INSERT INTO SM_NSTXN
-	VALUES (2392,
-	2370,
-	2372,
-	2252,
+	VALUES (2435,
+	2413,
+	2415,
+	2295,
 	0);
 INSERT INTO SM_TAH
-	VALUES (2393,
-	2370,
-	2392);
+	VALUES (2436,
+	2413,
+	2435);
 INSERT INTO SM_AH
-	VALUES (2393,
-	2370);
+	VALUES (2436,
+	2413);
 INSERT INTO SM_ACT
-	VALUES (2393,
-	2370,
+	VALUES (2436,
+	2413,
 	1,
 	'
 select any monitor from instances of HeartRateMonitor;
@@ -38212,20 +38852,20 @@ create event instance timeout of HeartRateMonitor_A3:timeout() to HeartRateMonit
 monitor.timer = TIM::timer_start_recurring( event_inst: timeout, microseconds: (HeartRateSamplingPeriod * 1000000) ); ',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (2394,
-	2370,
-	2393);
+	VALUES (2437,
+	2413,
+	2436);
 INSERT INTO ACT_ACT
-	VALUES (2394,
+	VALUES (2437,
 	'class transition',
 	0,
-	2395,
+	2438,
 	0,
 	0,
 	'HeartRateMonitor_A1: registerListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2395,
+	VALUES (2438,
 	1,
 	0,
 	0,
@@ -38245,72 +38885,72 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2394,
+	2437,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2396,
-	2395,
-	2397,
+	VALUES (2439,
+	2438,
+	2440,
 	2,
 	1,
 	'HeartRateMonitor_A1: registerListener line: 2');
 INSERT INTO ACT_FIO
-	VALUES (2396,
-	2398,
+	VALUES (2439,
+	2441,
 	1,
 	'any',
-	2367,
+	2410,
 	2,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (2397,
-	2395,
-	2399,
+	VALUES (2440,
+	2438,
+	2442,
 	3,
 	1,
 	'HeartRateMonitor_A1: registerListener line: 3');
 INSERT INTO ACT_IF
-	VALUES (2397,
-	2400,
-	2401,
+	VALUES (2440,
+	2443,
+	2444,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2399,
-	2395,
-	2402,
+	VALUES (2442,
+	2438,
+	2445,
 	6,
 	1,
 	'HeartRateMonitor_A1: registerListener line: 6');
 INSERT INTO ACT_AI
-	VALUES (2399,
-	2403,
-	2404,
+	VALUES (2442,
+	2446,
+	2447,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2402,
-	2395,
-	2405,
+	VALUES (2445,
+	2438,
+	2448,
 	8,
 	1,
 	'HeartRateMonitor_A1: registerListener line: 8');
 INSERT INTO ACT_BRG
-	VALUES (2402,
-	2276,
+	VALUES (2445,
+	2319,
 	8,
 	6,
 	8,
 	1);
 INSERT INTO ACT_SMT
-	VALUES (2405,
-	2395,
-	2406,
+	VALUES (2448,
+	2438,
+	2449,
 	11,
 	1,
 	'HeartRateMonitor_A1: registerListener line: 11');
 INSERT INTO E_ESS
-	VALUES (2405,
+	VALUES (2448,
 	1,
 	0,
 	11,
@@ -38324,29 +38964,29 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_CES
-	VALUES (2405,
+	VALUES (2448,
 	1,
-	2407);
+	2450);
 INSERT INTO E_CSME
-	VALUES (2405,
-	2371);
+	VALUES (2448,
+	2414);
 INSERT INTO E_CEA
-	VALUES (2405);
+	VALUES (2448);
 INSERT INTO ACT_SMT
-	VALUES (2406,
-	2395,
+	VALUES (2449,
+	2438,
 	0,
 	12,
 	1,
 	'HeartRateMonitor_A1: registerListener line: 12');
 INSERT INTO ACT_AI
-	VALUES (2406,
-	2408,
-	2409,
+	VALUES (2449,
+	2451,
+	2452,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (2410,
+	VALUES (2453,
 	0,
 	0,
 	3,
@@ -38356,13 +38996,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2395);
+	106,
+	2438);
 INSERT INTO V_IRF
-	VALUES (2410,
-	2398);
+	VALUES (2453,
+	2441);
 INSERT INTO V_VAL
-	VALUES (2401,
+	VALUES (2444,
 	0,
 	0,
 	-1,
@@ -38372,14 +39012,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	2395);
+	108,
+	2438);
 INSERT INTO V_UNY
-	VALUES (2401,
-	2410,
+	VALUES (2444,
+	2453,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (2411,
+	VALUES (2454,
 	1,
 	0,
 	6,
@@ -38389,13 +39029,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2395);
+	106,
+	2438);
 INSERT INTO V_IRF
-	VALUES (2411,
-	2398);
+	VALUES (2454,
+	2441);
 INSERT INTO V_VAL
-	VALUES (2404,
+	VALUES (2447,
 	1,
 	0,
 	6,
@@ -38405,15 +39045,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2395);
+	30,
+	2438);
 INSERT INTO V_AVL
-	VALUES (2404,
-	2411,
-	2367,
-	2368);
+	VALUES (2447,
+	2454,
+	2410,
+	2411);
 INSERT INTO V_VAL
-	VALUES (2403,
+	VALUES (2446,
 	0,
 	0,
 	6,
@@ -38423,13 +39063,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2395);
+	30,
+	2438);
 INSERT INTO V_LIN
-	VALUES (2403,
+	VALUES (2446,
 	'50');
 INSERT INTO V_VAL
-	VALUES (2412,
+	VALUES (2455,
 	0,
 	0,
 	8,
@@ -38439,21 +39079,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	96,
-	2395);
+	130,
+	2438);
 INSERT INTO V_LST
-	VALUES (2412,
+	VALUES (2455,
 	'listener registered');
 INSERT INTO V_PAR
-	VALUES (2412,
-	2402,
+	VALUES (2455,
+	2445,
 	0,
 	'message',
 	0,
 	8,
 	14);
 INSERT INTO V_VAL
-	VALUES (2413,
+	VALUES (2456,
 	1,
 	0,
 	12,
@@ -38463,13 +39103,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2395);
+	106,
+	2438);
 INSERT INTO V_IRF
-	VALUES (2413,
-	2398);
+	VALUES (2456,
+	2441);
 INSERT INTO V_VAL
-	VALUES (2409,
+	VALUES (2452,
 	1,
 	0,
 	12,
@@ -38479,15 +39119,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	313,
-	2395);
+	332,
+	2438);
 INSERT INTO V_AVL
-	VALUES (2409,
-	2413,
-	2367,
-	2369);
+	VALUES (2452,
+	2456,
+	2410,
+	2412);
 INSERT INTO V_VAL
-	VALUES (2408,
+	VALUES (2451,
 	0,
 	0,
 	12,
@@ -38497,16 +39137,16 @@ INSERT INTO V_VAL
 	45,
 	12,
 	66,
-	313,
-	2395);
+	332,
+	2438);
 INSERT INTO V_BRV
-	VALUES (2408,
-	2344,
+	VALUES (2451,
+	2387,
 	1,
 	12,
 	17);
 INSERT INTO V_VAL
-	VALUES (2414,
+	VALUES (2457,
 	0,
 	0,
 	12,
@@ -38516,21 +39156,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	316,
-	2395);
+	335,
+	2438);
 INSERT INTO V_TVL
-	VALUES (2414,
-	2407);
+	VALUES (2457,
+	2450);
 INSERT INTO V_PAR
-	VALUES (2414,
+	VALUES (2457,
 	0,
-	2408,
+	2451,
 	'event_inst',
-	2415,
+	2458,
 	12,
 	45);
 INSERT INTO V_VAL
-	VALUES (2416,
+	VALUES (2459,
 	0,
 	0,
 	12,
@@ -38540,14 +39180,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2395);
+	30,
+	2438);
 INSERT INTO V_SCV
-	VALUES (2416,
-	1505,
-	13);
+	VALUES (2459,
+	1114,
+	30);
 INSERT INTO V_VAL
-	VALUES (2415,
+	VALUES (2458,
 	0,
 	0,
 	-1,
@@ -38557,23 +39197,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2395);
+	30,
+	2438);
 INSERT INTO V_BIN
-	VALUES (2415,
-	2417,
-	2416,
+	VALUES (2458,
+	2460,
+	2459,
 	'*');
 INSERT INTO V_PAR
-	VALUES (2415,
+	VALUES (2458,
 	0,
-	2408,
+	2451,
 	'microseconds',
 	0,
 	12,
 	66);
 INSERT INTO V_VAL
-	VALUES (2417,
+	VALUES (2460,
 	0,
 	0,
 	12,
@@ -38583,33 +39223,33 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2395);
+	30,
+	2438);
 INSERT INTO V_LIN
-	VALUES (2417,
+	VALUES (2460,
 	'1000000');
 INSERT INTO V_VAR
-	VALUES (2398,
-	2395,
+	VALUES (2441,
+	2438,
 	'monitor',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (2398,
+	VALUES (2441,
 	0,
-	2367);
+	2410);
 INSERT INTO V_VAR
-	VALUES (2407,
-	2395,
+	VALUES (2450,
+	2438,
 	'timeout',
 	1,
-	316);
+	335);
 INSERT INTO V_TRN
-	VALUES (2407,
+	VALUES (2450,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (2400,
+	VALUES (2443,
 	0,
 	0,
 	0,
@@ -38629,43 +39269,43 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2394,
+	2437,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2418,
-	2400,
+	VALUES (2461,
+	2443,
 	0,
 	4,
 	3,
 	'HeartRateMonitor_A1: registerListener line: 4');
 INSERT INTO ACT_CR
-	VALUES (2418,
-	2398,
+	VALUES (2461,
+	2441,
 	0,
-	2367,
+	2410,
 	4,
 	37);
 INSERT INTO SM_TXN
-	VALUES (2392,
-	2370,
-	2376,
+	VALUES (2435,
+	2413,
+	2419,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (2419,
-	2370,
-	2376,
-	2258,
+	VALUES (2462,
+	2413,
+	2419,
+	2301,
 	0);
 INSERT INTO SM_TAH
-	VALUES (2420,
-	2370,
-	2419);
+	VALUES (2463,
+	2413,
+	2462);
 INSERT INTO SM_AH
-	VALUES (2420,
-	2370);
+	VALUES (2463,
+	2413);
 INSERT INTO SM_ACT
-	VALUES (2420,
-	2370,
+	VALUES (2463,
+	2413,
 	1,
 	'select any monitor from instances of HeartRateMonitor;
 res = TIM::timer_cancel(timer_inst_ref: monitor.timer);
@@ -38676,20 +39316,20 @@ else
 end if;',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (2421,
-	2370,
-	2420);
+	VALUES (2464,
+	2413,
+	2463);
 INSERT INTO ACT_ACT
-	VALUES (2421,
+	VALUES (2464,
 	'class transition',
 	0,
-	2422,
+	2465,
 	0,
 	0,
 	'HeartRateMonitor_A2: unregisterListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2422,
+	VALUES (2465,
 	1,
 	0,
 	0,
@@ -38709,62 +39349,62 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2421,
+	2464,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2423,
-	2422,
-	2424,
+	VALUES (2466,
+	2465,
+	2467,
 	1,
 	1,
 	'HeartRateMonitor_A2: unregisterListener line: 1');
 INSERT INTO ACT_FIO
-	VALUES (2423,
-	2425,
+	VALUES (2466,
+	2468,
 	1,
 	'any',
-	2367,
+	2410,
 	1,
 	38);
 INSERT INTO ACT_SMT
-	VALUES (2424,
-	2422,
-	2426,
+	VALUES (2467,
+	2465,
+	2469,
 	2,
 	1,
 	'HeartRateMonitor_A2: unregisterListener line: 2');
 INSERT INTO ACT_AI
-	VALUES (2424,
-	2427,
-	2428,
+	VALUES (2467,
+	2470,
+	2471,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2426,
-	2422,
+	VALUES (2469,
+	2465,
 	0,
 	3,
 	1,
 	'HeartRateMonitor_A2: unregisterListener line: 3');
 INSERT INTO ACT_IF
-	VALUES (2426,
-	2429,
-	2430,
+	VALUES (2469,
+	2472,
+	2473,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2431,
-	2422,
+	VALUES (2474,
+	2465,
 	0,
 	5,
 	1,
 	'HeartRateMonitor_A2: unregisterListener line: 5');
 INSERT INTO ACT_E
-	VALUES (2431,
-	2432,
-	2426);
+	VALUES (2474,
+	2475,
+	2469);
 INSERT INTO V_VAL
-	VALUES (2428,
+	VALUES (2471,
 	1,
 	1,
 	2,
@@ -38774,13 +39414,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	2422);
+	108,
+	2465);
 INSERT INTO V_TVL
-	VALUES (2428,
-	2433);
+	VALUES (2471,
+	2476);
 INSERT INTO V_VAL
-	VALUES (2427,
+	VALUES (2470,
 	0,
 	0,
 	2,
@@ -38790,16 +39430,16 @@ INSERT INTO V_VAL
 	25,
 	0,
 	0,
-	72,
-	2422);
+	108,
+	2465);
 INSERT INTO V_BRV
-	VALUES (2427,
-	2363,
+	VALUES (2470,
+	2406,
 	1,
 	2,
 	7);
 INSERT INTO V_VAL
-	VALUES (2434,
+	VALUES (2477,
 	0,
 	0,
 	2,
@@ -38809,13 +39449,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2422);
+	106,
+	2465);
 INSERT INTO V_IRF
-	VALUES (2434,
-	2425);
+	VALUES (2477,
+	2468);
 INSERT INTO V_VAL
-	VALUES (2435,
+	VALUES (2478,
 	0,
 	0,
 	2,
@@ -38825,23 +39465,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	313,
-	2422);
+	332,
+	2465);
 INSERT INTO V_AVL
-	VALUES (2435,
-	2434,
-	2367,
-	2369);
+	VALUES (2478,
+	2477,
+	2410,
+	2412);
 INSERT INTO V_PAR
-	VALUES (2435,
+	VALUES (2478,
 	0,
-	2427,
+	2470,
 	'timer_inst_ref',
 	0,
 	2,
 	25);
 INSERT INTO V_VAL
-	VALUES (2430,
+	VALUES (2473,
 	0,
 	0,
 	3,
@@ -38851,33 +39491,33 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	2422);
+	108,
+	2465);
 INSERT INTO V_TVL
-	VALUES (2430,
-	2433);
+	VALUES (2473,
+	2476);
 INSERT INTO V_VAR
-	VALUES (2425,
-	2422,
+	VALUES (2468,
+	2465,
 	'monitor',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (2425,
+	VALUES (2468,
 	0,
-	2367);
+	2410);
 INSERT INTO V_VAR
-	VALUES (2433,
-	2422,
+	VALUES (2476,
+	2465,
 	'res',
 	1,
-	72);
+	108);
 INSERT INTO V_TRN
-	VALUES (2433,
+	VALUES (2476,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (2429,
+	VALUES (2472,
 	0,
 	0,
 	0,
@@ -38897,24 +39537,24 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2421,
+	2464,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2436,
-	2429,
+	VALUES (2479,
+	2472,
 	0,
 	4,
 	3,
 	'HeartRateMonitor_A2: unregisterListener line: 4');
 INSERT INTO ACT_BRG
-	VALUES (2436,
-	2268,
+	VALUES (2479,
+	2311,
 	4,
 	8,
 	4,
 	3);
 INSERT INTO V_VAL
-	VALUES (2437,
+	VALUES (2480,
 	0,
 	0,
 	4,
@@ -38924,21 +39564,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	96,
-	2429);
+	130,
+	2472);
 INSERT INTO V_LST
-	VALUES (2437,
+	VALUES (2480,
 	'Heart Rate Monitor: timer_cancel() succeeded.');
 INSERT INTO V_PAR
-	VALUES (2437,
-	2436,
+	VALUES (2480,
+	2479,
 	0,
 	'message',
 	0,
 	4,
 	20);
 INSERT INTO ACT_BLK
-	VALUES (2432,
+	VALUES (2475,
 	0,
 	0,
 	0,
@@ -38958,24 +39598,24 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2421,
+	2464,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2438,
-	2432,
+	VALUES (2481,
+	2475,
 	0,
 	6,
 	3,
 	'HeartRateMonitor_A2: unregisterListener line: 6');
 INSERT INTO ACT_BRG
-	VALUES (2438,
-	2272,
+	VALUES (2481,
+	2315,
 	6,
 	8,
 	6,
 	3);
 INSERT INTO V_VAL
-	VALUES (2439,
+	VALUES (2482,
 	0,
 	0,
 	6,
@@ -38985,58 +39625,58 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	96,
-	2432);
+	130,
+	2475);
 INSERT INTO V_LST
-	VALUES (2439,
+	VALUES (2482,
 	'Heart Rate Monitor: timer_cancel() failed.');
 INSERT INTO V_PAR
-	VALUES (2439,
-	2438,
+	VALUES (2482,
+	2481,
 	0,
 	'message',
 	0,
 	6,
 	20);
 INSERT INTO SM_TXN
-	VALUES (2419,
-	2370,
-	2372,
+	VALUES (2462,
+	2413,
+	2415,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (2440,
-	2370,
-	2376,
-	2371,
+	VALUES (2483,
+	2413,
+	2419,
+	2414,
 	0);
 INSERT INTO SM_TAH
-	VALUES (2441,
-	2370,
-	2440);
+	VALUES (2484,
+	2413,
+	2483);
 INSERT INTO SM_AH
-	VALUES (2441,
-	2370);
+	VALUES (2484,
+	2413);
 INSERT INTO SM_ACT
-	VALUES (2441,
-	2370,
+	VALUES (2484,
+	2413,
 	1,
 	'',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (2442,
-	2370,
-	2441);
+	VALUES (2485,
+	2413,
+	2484);
 INSERT INTO ACT_ACT
-	VALUES (2442,
+	VALUES (2485,
 	'class transition',
 	0,
-	2443,
+	2486,
 	0,
 	0,
 	'HeartRateMonitor_A3: timeout',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2443,
+	VALUES (2486,
 	0,
 	0,
 	0,
@@ -39056,135 +39696,135 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2442,
+	2485,
 	0);
 INSERT INTO SM_TXN
-	VALUES (2440,
-	2370,
-	2376,
+	VALUES (2483,
+	2413,
+	2419,
 	0);
 INSERT INTO PE_PE
-	VALUES (2444,
+	VALUES (2487,
 	1,
-	2242,
+	2285,
 	0,
 	7);
 INSERT INTO EP_PKG
-	VALUES (2444,
+	VALUES (2487,
 	0,
-	2241,
+	2284,
 	'shared',
 	'',
 	0);
 INSERT INTO PE_PE
-	VALUES (2445,
+	VALUES (2488,
 	1,
-	2444,
+	2487,
 	0,
 	10);
 INSERT INTO CNST_CSP
-	VALUES (2445,
+	VALUES (2488,
 	'HeartRateConstants',
 	'SamplingPeriod is expressed in seconds and represents the period at which heart-rate samples are recorded.
 AveragingWindow is expressed in samples and represents the number of samples used when calculating the current average.');
 INSERT INTO CNST_SYC
-	VALUES (1507,
+	VALUES (1116,
 	'HeartRateAveragingWindow',
 	'',
-	13,
-	2445,
-	1505,
-	13);
+	30,
+	2488,
+	1114,
+	30);
 INSERT INTO CNST_LFSC
-	VALUES (1507,
-	13);
+	VALUES (1116,
+	30);
 INSERT INTO CNST_LSC
-	VALUES (1507,
-	13,
+	VALUES (1116,
+	30,
 	'5');
 INSERT INTO CNST_SYC
-	VALUES (1505,
+	VALUES (1114,
 	'HeartRateSamplingPeriod',
 	'',
-	13,
-	2445,
+	30,
+	2488,
 	0,
 	0);
 INSERT INTO CNST_LFSC
-	VALUES (1505,
-	13);
+	VALUES (1114,
+	30);
 INSERT INTO CNST_LSC
-	VALUES (1505,
-	13,
+	VALUES (1114,
+	30,
 	'3');
 INSERT INTO PE_PE
-	VALUES (2246,
+	VALUES (2289,
 	1,
-	2444,
+	2487,
 	0,
 	6);
 INSERT INTO C_I
-	VALUES (2246,
+	VALUES (2289,
 	0,
 	'HeartRateMonitor',
 	'');
 INSERT INTO C_EP
-	VALUES (2248,
-	2246,
+	VALUES (2291,
+	2289,
 	-1,
 	'registerListener',
 	'');
 INSERT INTO C_IO
-	VALUES (2248,
-	240,
+	VALUES (2291,
+	6,
 	'registerListener',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_EP
-	VALUES (2254,
-	2246,
+	VALUES (2297,
+	2289,
 	-1,
 	'unregisterListener',
 	'');
 INSERT INTO C_IO
-	VALUES (2254,
-	240,
+	VALUES (2297,
+	6,
 	'unregisterListener',
 	'',
 	0,
 	'',
-	2248);
+	2291);
 INSERT INTO PE_PE
-	VALUES (2261,
+	VALUES (2304,
 	1,
-	2444,
+	2487,
 	0,
 	6);
 INSERT INTO C_I
-	VALUES (2261,
+	VALUES (2304,
 	0,
 	'HeartRateMonitorUnspecified',
 	'');
 INSERT INTO C_EP
-	VALUES (2263,
-	2261,
+	VALUES (2306,
+	2304,
 	-1,
 	'heartRateChanged',
 	'');
 INSERT INTO C_IO
-	VALUES (2263,
-	240,
+	VALUES (2306,
+	6,
 	'heartRateChanged',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_PP
-	VALUES (2446,
-	2263,
-	13,
+	VALUES (2489,
+	2306,
+	30,
 	'heartRate',
 	'',
 	0,
@@ -39194,73 +39834,330 @@ INSERT INTO C_PP
 -- BP 7.1 content: StreamData syschar: 3 persistence-version: 7.1.6
 
 INSERT INTO S_SYS
-	VALUES (2447,
-	'Location',
+	VALUES (2490,
+	'GPSWatch',
 	1);
 INSERT INTO EP_PKG
-	VALUES (2448,
-	2447,
-	2447,
-	'Location',
+	VALUES (2491,
+	2490,
+	2490,
+	'GPSWatch',
 	'',
 	0);
 INSERT INTO PE_PE
-	VALUES (2449,
+	VALUES (2492,
 	1,
-	2448,
+	2491,
+	0,
+	21);
+INSERT INTO CL_IC
+	VALUES (2492,
+	2286,
+	0,
+	0,
+	0,
+	'',
+	'HeartRateMonitor::HeartRateMonitor::HeartRateMonitor',
+	'');
+INSERT INTO CL_POR
+	VALUES (2492,
+	2287,
+	'HeartRateMonitor',
+	2493);
+INSERT INTO CL_IIR
+	VALUES (2494,
+	2288,
+	2493,
+	0,
+	'HeartRateMonitor',
+	'');
+INSERT INTO CL_IP
+	VALUES (2494,
+	'HeartRateMonitor',
+	'');
+INSERT INTO CL_IPINS
+	VALUES (2495,
+	2494);
+INSERT INTO CL_POR
+	VALUES (2492,
+	2302,
+	'Unspecified',
+	2496);
+INSERT INTO CL_IIR
+	VALUES (2497,
+	2303,
+	2496,
+	0,
+	'HeartRateMonitorUnspecified',
+	'');
+INSERT INTO CL_IR
+	VALUES (2497,
+	2498,
+	'HeartRateMonitorUnspecified',
+	'');
+INSERT INTO PE_PE
+	VALUES (2499,
+	1,
+	2491,
+	0,
+	21);
+INSERT INTO CL_IC
+	VALUES (2499,
+	55,
+	0,
+	0,
+	0,
+	'',
+	'Tracking::Tracking::Tracking',
+	'');
+INSERT INTO CL_POR
+	VALUES (2499,
+	56,
+	'Location',
+	2500);
+INSERT INTO CL_IIR
+	VALUES (2501,
+	57,
+	2500,
+	0,
+	'TrackingLocation',
+	'');
+INSERT INTO CL_IR
+	VALUES (2501,
+	1694,
+	'TrackingLocation',
+	'');
+INSERT INTO CL_POR
+	VALUES (2499,
+	72,
+	'UI',
+	2502);
+INSERT INTO CL_IIR
+	VALUES (2503,
+	73,
+	2502,
+	0,
+	'TrackingUI',
+	'');
+INSERT INTO CL_IR
+	VALUES (2503,
+	1696,
+	'TrackingUI',
+	'');
+INSERT INTO CL_POR
+	VALUES (2499,
+	86,
+	'HeartRateMonitor',
+	2504);
+INSERT INTO CL_IIR
+	VALUES (2505,
+	87,
+	2504,
+	0,
+	'TrackingHeartRateMonitor',
+	'');
+INSERT INTO CL_IR
+	VALUES (2505,
+	1698,
+	'TrackingHeartRateMonitor',
+	'');
+INSERT INTO CL_POR
+	VALUES (2499,
+	94,
+	'Tracking',
+	2506);
+INSERT INTO CL_IIR
+	VALUES (2507,
+	95,
+	2506,
+	0,
+	'Tracking',
+	'');
+INSERT INTO CL_IP
+	VALUES (2507,
+	'Tracking',
+	'');
+INSERT INTO CL_IPINS
+	VALUES (1700,
+	2507);
+INSERT INTO PE_PE
+	VALUES (2508,
+	1,
+	2491,
+	0,
+	21);
+INSERT INTO CL_IC
+	VALUES (2508,
+	1711,
+	0,
+	0,
+	0,
+	'',
+	'UI::UI::UI',
+	'');
+INSERT INTO CL_POR
+	VALUES (2508,
+	1712,
+	'UI',
+	2509);
+INSERT INTO CL_IIR
+	VALUES (2510,
+	1713,
+	2509,
+	0,
+	'UI',
+	'');
+INSERT INTO CL_IP
+	VALUES (2510,
+	'UI',
+	'');
+INSERT INTO CL_IPINS
+	VALUES (2511,
+	2510);
+INSERT INTO CL_POR
+	VALUES (2508,
+	1766,
+	'Tracking',
+	2512);
+INSERT INTO CL_IIR
+	VALUES (2513,
+	1767,
+	2512,
+	0,
+	'UITracking',
+	'');
+INSERT INTO CL_IR
+	VALUES (2513,
+	2514,
+	'UITracking',
+	'');
+INSERT INTO PE_PE
+	VALUES (2515,
+	1,
+	2491,
+	0,
+	21);
+INSERT INTO CL_IC
+	VALUES (2515,
+	2516,
+	0,
+	0,
+	0,
+	'',
+	'Location::Location::Location',
+	'');
+INSERT INTO CL_POR
+	VALUES (2515,
+	2517,
+	'Location',
+	2518);
+INSERT INTO CL_IIR
+	VALUES (2519,
+	2520,
+	2518,
+	0,
+	'Location',
+	'');
+INSERT INTO CL_IP
+	VALUES (2519,
+	'Location',
+	'');
+INSERT INTO CL_IPINS
+	VALUES (2521,
+	2519);
+INSERT INTO PE_PE
+	VALUES (2498,
+	1,
+	2491,
+	0,
+	22);
+INSERT INTO C_SF
+	VALUES (2498,
+	2303,
+	2522,
+	'',
+	'GPSWatch::HeartRateMonitorUnspecified::HeartRateMonitorUnspecified -o)- HeartRateMonitor::Unspecified::HeartRateMonitorUnspecified');
+INSERT INTO PE_PE
+	VALUES (2495,
+	1,
+	2491,
+	0,
+	22);
+INSERT INTO C_SF
+	VALUES (2495,
+	2523,
+	2288,
+	'',
+	'HeartRateMonitor::HeartRateMonitor::HeartRateMonitor -o)- GPSWatch::HeartRateMonitor::HeartRateMonitor');
+INSERT INTO PE_PE
+	VALUES (2521,
+	1,
+	2491,
+	0,
+	22);
+INSERT INTO C_SF
+	VALUES (2521,
+	2524,
+	2520,
+	'',
+	'Location::Location::Location -o)- GPSWatch::Location::Location');
+INSERT INTO PE_PE
+	VALUES (2525,
+	1,
+	2491,
 	0,
 	2);
 INSERT INTO C_C
-	VALUES (2449,
+	VALUES (2525,
 	0,
 	0,
-	'Location',
-	'Simulates a the GPS hardware/firmware. This component is only behavioral and included for testing purposes.',
+	'GPSWatch',
+	'',
 	0,
 	0,
 	0,
 	'');
 INSERT INTO C_PO
-	VALUES (2450,
-	2449,
+	VALUES (2526,
+	2525,
 	'Location',
 	0,
 	0);
 INSERT INTO C_IR
-	VALUES (2451,
-	2452,
+	VALUES (2524,
+	2527,
 	0,
-	2450);
-INSERT INTO C_P
-	VALUES (2451,
+	2526);
+INSERT INTO C_R
+	VALUES (2524,
 	'Location',
-	'Unnamed Interface',
 	'',
-	'Location::Location::Location');
-INSERT INTO SPR_PEP
-	VALUES (2453,
-	2454,
-	2451);
-INSERT INTO SPR_PO
-	VALUES (2453,
+	'Unnamed Interface',
+	'GPSWatch::Location::Location');
+INSERT INTO SPR_REP
+	VALUES (2528,
+	2529,
+	2524);
+INSERT INTO SPR_RO
+	VALUES (2528,
 	'getLocation',
 	'',
 	'',
 	1);
-INSERT INTO ACT_POB
-	VALUES (2455,
-	2453);
+INSERT INTO ACT_ROB
+	VALUES (2530,
+	2528);
 INSERT INTO ACT_ACT
-	VALUES (2455,
+	VALUES (2530,
 	'interface operation',
 	0,
-	2456,
+	2531,
 	0,
 	0,
 	'Location::Location::getLocation',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2456,
+	VALUES (2531,
 	0,
 	0,
 	0,
@@ -39280,48 +40177,38 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2455,
+	2530,
 	0);
-INSERT INTO SPR_PEP
-	VALUES (2457,
-	2458,
-	2451);
-INSERT INTO SPR_PO
-	VALUES (2457,
+INSERT INTO SPR_REP
+	VALUES (2532,
+	2533,
+	2524);
+INSERT INTO SPR_RO
+	VALUES (2532,
 	'getDistance',
 	'',
-	'// Return the straight-line distance, expressed in meters, between the
-// two points passed as parameters, expressed in decimal degrees.
-
-deltaLat = param.toLat - param.fromLat;
-deltaLong = param.toLong - param.fromLong;
-sumSquares = (deltaLat * deltaLat) + (deltaLong * deltaLong);
-return ( (MATH::sqrt( x: sumSquares ) * kmPerDegree * 1000 ) );',
+	'',
 	1);
-INSERT INTO ACT_POB
-	VALUES (2459,
-	2457);
+INSERT INTO ACT_ROB
+	VALUES (2534,
+	2532);
 INSERT INTO ACT_ACT
-	VALUES (2459,
+	VALUES (2534,
 	'interface operation',
 	0,
-	2460,
+	2535,
 	0,
 	0,
 	'Location::Location::getDistance',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2460,
+	VALUES (2535,
 	0,
 	0,
 	0,
-	'MATH',
 	'',
 	'',
-	7,
-	1,
-	7,
-	11,
+	'',
 	0,
 	0,
 	0,
@@ -39331,501 +40218,36 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2459,
+	0,
+	0,
+	0,
+	0,
+	2534,
 	0);
-INSERT INTO ACT_SMT
-	VALUES (2461,
-	2460,
-	2462,
-	4,
-	1,
-	'Location::Location::getDistance line: 4');
-INSERT INTO ACT_AI
-	VALUES (2461,
-	2463,
-	2464,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2462,
-	2460,
-	2465,
-	5,
-	1,
-	'Location::Location::getDistance line: 5');
-INSERT INTO ACT_AI
-	VALUES (2462,
-	2466,
-	2467,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2465,
-	2460,
-	2468,
-	6,
-	1,
-	'Location::Location::getDistance line: 6');
-INSERT INTO ACT_AI
-	VALUES (2465,
-	2469,
-	2470,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (2468,
-	2460,
-	0,
-	7,
-	1,
-	'Location::Location::getDistance line: 7');
-INSERT INTO ACT_RET
-	VALUES (2468,
-	2471);
-INSERT INTO V_VAL
-	VALUES (2464,
-	1,
-	1,
-	4,
-	1,
-	8,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_TVL
-	VALUES (2464,
-	2472);
-INSERT INTO V_VAL
-	VALUES (2473,
-	0,
-	0,
-	4,
-	18,
-	22,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_PVL
-	VALUES (2473,
-	0,
-	0,
-	0,
-	2474);
-INSERT INTO V_VAL
-	VALUES (2463,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_BIN
-	VALUES (2463,
-	2475,
-	2473,
-	'-');
-INSERT INTO V_VAL
-	VALUES (2475,
-	0,
-	0,
-	4,
-	32,
-	38,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_PVL
-	VALUES (2475,
-	0,
-	0,
-	0,
-	2476);
-INSERT INTO V_VAL
-	VALUES (2467,
-	1,
-	1,
-	5,
-	1,
-	9,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_TVL
-	VALUES (2467,
-	2477);
-INSERT INTO V_VAL
-	VALUES (2478,
-	0,
-	0,
-	5,
-	19,
-	24,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_PVL
-	VALUES (2478,
-	0,
-	0,
-	0,
-	2479);
-INSERT INTO V_VAL
-	VALUES (2466,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_BIN
-	VALUES (2466,
-	2480,
-	2478,
-	'-');
-INSERT INTO V_VAL
-	VALUES (2480,
-	0,
-	0,
-	5,
-	34,
-	41,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_PVL
-	VALUES (2480,
-	0,
-	0,
-	0,
-	2481);
-INSERT INTO V_VAL
-	VALUES (2470,
-	1,
-	1,
-	6,
-	1,
-	10,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_TVL
-	VALUES (2470,
-	2482);
-INSERT INTO V_VAL
-	VALUES (2483,
-	0,
-	0,
-	6,
-	15,
-	22,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_TVL
-	VALUES (2483,
-	2472);
-INSERT INTO V_VAL
-	VALUES (2484,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_BIN
-	VALUES (2484,
-	2485,
-	2483,
-	'*');
-INSERT INTO V_VAL
-	VALUES (2485,
-	0,
-	0,
-	6,
-	26,
-	33,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_TVL
-	VALUES (2485,
-	2472);
-INSERT INTO V_VAL
-	VALUES (2469,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_BIN
-	VALUES (2469,
-	2486,
-	2484,
-	'+');
-INSERT INTO V_VAL
-	VALUES (2487,
-	0,
-	0,
-	6,
-	39,
-	47,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_TVL
-	VALUES (2487,
-	2477);
-INSERT INTO V_VAL
-	VALUES (2486,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_BIN
-	VALUES (2486,
-	2488,
-	2487,
-	'*');
-INSERT INTO V_VAL
-	VALUES (2488,
-	0,
-	0,
-	6,
-	51,
-	59,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_TVL
-	VALUES (2488,
-	2477);
-INSERT INTO V_VAL
-	VALUES (2489,
-	0,
-	0,
-	7,
-	17,
-	-1,
-	7,
-	23,
-	0,
-	0,
-	170,
-	2460);
-INSERT INTO V_BRV
-	VALUES (2489,
-	2490,
-	1,
-	7,
-	11);
-INSERT INTO V_VAL
-	VALUES (2491,
-	0,
-	0,
-	7,
-	26,
-	35,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_TVL
-	VALUES (2491,
-	2482);
-INSERT INTO V_PAR
-	VALUES (2491,
-	0,
-	2489,
-	'x',
-	0,
-	7,
-	23);
-INSERT INTO V_VAL
-	VALUES (2492,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	170,
-	2460);
-INSERT INTO V_BIN
-	VALUES (2492,
-	2493,
-	2489,
-	'*');
-INSERT INTO V_VAL
-	VALUES (2493,
-	0,
-	0,
-	7,
-	41,
-	51,
-	0,
-	0,
-	0,
-	0,
-	170,
-	2460);
-INSERT INTO V_SCV
-	VALUES (2493,
-	2494,
-	170);
-INSERT INTO V_VAL
-	VALUES (2471,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	170,
-	2460);
-INSERT INTO V_BIN
-	VALUES (2471,
-	2495,
-	2492,
-	'*');
-INSERT INTO V_VAL
-	VALUES (2495,
-	0,
-	0,
-	7,
-	55,
-	58,
-	0,
-	0,
-	0,
-	0,
-	13,
-	2460);
-INSERT INTO V_LIN
-	VALUES (2495,
-	'1000');
-INSERT INTO V_VAR
-	VALUES (2472,
-	2460,
-	'deltaLat',
-	1,
-	13);
-INSERT INTO V_TRN
-	VALUES (2472,
-	0,
-	'');
-INSERT INTO V_VAR
-	VALUES (2477,
-	2460,
-	'deltaLong',
-	1,
-	13);
-INSERT INTO V_TRN
-	VALUES (2477,
-	0,
-	'');
-INSERT INTO V_VAR
-	VALUES (2482,
-	2460,
-	'sumSquares',
-	1,
-	13);
-INSERT INTO V_TRN
-	VALUES (2482,
-	0,
-	'');
-INSERT INTO SPR_PEP
-	VALUES (2496,
-	2497,
-	2451);
-INSERT INTO SPR_PO
-	VALUES (2496,
+INSERT INTO SPR_REP
+	VALUES (2536,
+	2537,
+	2524);
+INSERT INTO SPR_RO
+	VALUES (2536,
 	'registerListener',
 	'',
 	'',
 	1);
-INSERT INTO ACT_POB
-	VALUES (2498,
-	2496);
+INSERT INTO ACT_ROB
+	VALUES (2538,
+	2536);
 INSERT INTO ACT_ACT
-	VALUES (2498,
+	VALUES (2538,
 	'interface operation',
 	0,
-	2499,
+	2539,
 	0,
 	0,
 	'Location::Location::registerListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2499,
+	VALUES (2539,
 	0,
 	0,
 	0,
@@ -39845,32 +40267,32 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2498,
+	2538,
 	0);
-INSERT INTO SPR_PEP
-	VALUES (2500,
-	2501,
-	2451);
-INSERT INTO SPR_PO
-	VALUES (2500,
+INSERT INTO SPR_REP
+	VALUES (2540,
+	2541,
+	2524);
+INSERT INTO SPR_RO
+	VALUES (2540,
 	'unregisterListener',
 	'',
 	'',
 	1);
-INSERT INTO ACT_POB
-	VALUES (2502,
-	2500);
+INSERT INTO ACT_ROB
+	VALUES (2542,
+	2540);
 INSERT INTO ACT_ACT
-	VALUES (2502,
+	VALUES (2542,
 	'interface operation',
 	0,
-	2503,
+	2543,
 	0,
 	0,
 	'Location::Location::unregisterListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2503,
+	VALUES (2543,
 	0,
 	0,
 	0,
@@ -39889,531 +40311,50 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	0,
-	2502,
-	0);
-INSERT INTO PE_PE
-	VALUES (2504,
-	1,
-	0,
-	2449,
-	7);
-INSERT INTO EP_PKG
-	VALUES (2504,
-	0,
-	2447,
-	'Location',
-	'',
-	0);
-INSERT INTO PE_PE
-	VALUES (2505,
-	1,
-	2504,
-	0,
-	10);
-INSERT INTO CNST_CSP
-	VALUES (2505,
-	'simulatedGPS',
-	'Constants specifying the behavior of the simulated GPS.
-
-initialLatitude and initialLongitude specify, as decimal degrees, 
-the initial location of the simulated GPS.
-
-latitudeIncrement and longitudeIncrement specify, as decimal degrees, 
-the distance the simulated GPS moves during each update period.
-
-updatePeriod specifies, in microseconds, the update period for the
-simulated GPS.  In other words, the simulated GPS updates its location
-once per updatePeriod.');
-INSERT INTO CNST_SYC
-	VALUES (2506,
-	'longitudeIncrement',
-	'',
-	170,
-	2505,
-	0,
-	0);
-INSERT INTO CNST_LFSC
-	VALUES (2506,
-	170);
-INSERT INTO CNST_LSC
-	VALUES (2506,
-	170,
-	'0.00002');
-INSERT INTO CNST_SYC
-	VALUES (2507,
-	'latitudeIncrement',
-	'',
-	170,
-	2505,
-	2506,
-	170);
-INSERT INTO CNST_LFSC
-	VALUES (2507,
-	170);
-INSERT INTO CNST_LSC
-	VALUES (2507,
-	170,
-	'0.00001');
-INSERT INTO CNST_SYC
-	VALUES (2508,
-	'initialLatitude',
-	'',
-	170,
-	2505,
-	2507,
-	170);
-INSERT INTO CNST_LFSC
-	VALUES (2508,
-	170);
-INSERT INTO CNST_LSC
-	VALUES (2508,
-	170,
-	'32.432237');
-INSERT INTO CNST_SYC
-	VALUES (2509,
-	'initialLongitude',
-	'',
-	170,
-	2505,
-	2508,
-	170);
-INSERT INTO CNST_LFSC
-	VALUES (2509,
-	170);
-INSERT INTO CNST_LSC
-	VALUES (2509,
-	170,
-	'-110.812283');
-INSERT INTO CNST_SYC
-	VALUES (2510,
-	'updatePeriod',
-	'',
-	13,
-	2505,
-	2509,
-	170);
-INSERT INTO CNST_LFSC
-	VALUES (2510,
-	13);
-INSERT INTO CNST_LSC
-	VALUES (2510,
-	13,
-	'1000000');
-INSERT INTO PE_PE
-	VALUES (2511,
-	1,
-	2504,
-	0,
-	5);
-INSERT INTO S_EE
-	VALUES (2511,
-	'Math',
-	'',
-	'MATH',
-	0,
-	'',
-	'Math',
-	1);
-INSERT INTO S_BRG
-	VALUES (2490,
-	2511,
-	'sqrt',
-	'',
-	0,
-	170,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2512,
-	2490,
-	'x',
-	170,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2513,
-	2490);
-INSERT INTO ACT_ACT
-	VALUES (2513,
-	'bridge',
-	0,
-	2514,
-	0,
-	0,
-	'Math::sqrt',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2514,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2513,
-	0);
-INSERT INTO PE_PE
-	VALUES (2515,
-	1,
-	2504,
-	0,
-	5);
-INSERT INTO S_EE
-	VALUES (2515,
-	'Logging',
-	'',
-	'LOG',
-	0,
-	'',
-	'Logging',
-	1);
-INSERT INTO S_BRG
-	VALUES (2516,
-	2515,
-	'LogSuccess',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2517,
-	2516,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2518,
-	2516);
-INSERT INTO ACT_ACT
-	VALUES (2518,
-	'bridge',
-	0,
-	2519,
-	0,
-	0,
-	'Logging::LogSuccess',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2519,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2518,
-	0);
-INSERT INTO S_BRG
-	VALUES (2520,
-	2515,
-	'LogFailure',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2521,
-	2520,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2522,
-	2520);
-INSERT INTO ACT_ACT
-	VALUES (2522,
-	'bridge',
-	0,
-	2523,
-	0,
-	0,
-	'Logging::LogFailure',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2523,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2522,
-	0);
-INSERT INTO S_BRG
-	VALUES (2524,
-	2515,
-	'LogInfo',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2525,
-	2524,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2526,
-	2524);
-INSERT INTO ACT_ACT
-	VALUES (2526,
-	'bridge',
-	0,
-	2527,
-	0,
-	0,
-	'Logging::LogInfo',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2527,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2526,
-	0);
-INSERT INTO S_BRG
-	VALUES (2528,
-	2515,
-	'LogDate',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2529,
-	2528,
-	'd',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2530,
-	2528,
-	'message',
-	96,
-	0,
-	'',
-	2529,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2531,
-	2528);
-INSERT INTO ACT_ACT
-	VALUES (2531,
-	'bridge',
-	0,
-	2532,
-	0,
-	0,
-	'Logging::LogDate',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2532,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2531,
-	0);
-INSERT INTO S_BRG
-	VALUES (2533,
-	2515,
-	'LogTime',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2534,
-	2533,
-	't',
-	259,
-	0,
-	'',
-	2535,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2535,
-	2533,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2536,
-	2533);
-INSERT INTO ACT_ACT
-	VALUES (2536,
-	'bridge',
-	0,
-	2537,
-	0,
-	0,
-	'Logging::LogTime',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2537,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2536,
-	0);
-INSERT INTO S_BRG
-	VALUES (2538,
-	2515,
-	'LogReal',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2539,
-	2538,
-	'r',
-	170,
-	0,
-	'',
-	2540,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2540,
-	2538,
-	'message',
-	96,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2541,
-	2538);
-INSERT INTO ACT_ACT
-	VALUES (2541,
-	'bridge',
 	0,
 	2542,
+	0);
+INSERT INTO C_PO
+	VALUES (2544,
+	2525,
+	'HeartRateMonitor',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES (2523,
+	2289,
+	0,
+	2544);
+INSERT INTO C_R
+	VALUES (2523,
+	'HeartRateMonitor',
+	'',
+	'Unnamed Interface',
+	'GPSWatch::HeartRateMonitor::HeartRateMonitor');
+INSERT INTO SPR_REP
+	VALUES (2545,
+	2291,
+	2523);
+INSERT INTO SPR_RO
+	VALUES (2545,
+	'registerListener',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2546,
+	2545);
+INSERT INTO ACT_ACT
+	VALUES (2546,
+	'interface operation',
+	0,
+	2547,
 	0,
 	0,
-	'Logging::LogReal',
+	'HeartRateMonitor::HeartRateMonitor::registerListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2542,
+	VALUES (2547,
 	0,
 	0,
 	0,
@@ -40432,99 +40373,30 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	0,
-	2541,
-	0);
-INSERT INTO S_BRG
-	VALUES (2543,
-	2515,
-	'LogInteger',
-	'',
-	0,
-	240,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2544,
-	2543,
-	'message',
-	13,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2545,
-	2543);
-INSERT INTO ACT_ACT
-	VALUES (2545,
-	'bridge',
 	0,
 	2546,
-	0,
-	0,
-	'Logging::LogInteger',
 	0);
-INSERT INTO ACT_BLK
-	VALUES (2546,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2545,
-	0);
-INSERT INTO PE_PE
-	VALUES (2547,
-	1,
-	2504,
-	0,
-	5);
-INSERT INTO S_EE
-	VALUES (2547,
-	'Time',
-	'The Time external entity provides date, timestamp, and timer related operations.',
-	'TIM',
-	0,
-	'',
-	'Time',
-	1);
-INSERT INTO S_BRG
+INSERT INTO SPR_REP
 	VALUES (2548,
-	2547,
-	'current_date',
+	2297,
+	2523);
+INSERT INTO SPR_RO
+	VALUES (2548,
+	'unregisterListener',
 	'',
-	1,
-	253,
 	'',
-	1,
-	'');
-INSERT INTO ACT_BRB
+	1);
+INSERT INTO ACT_ROB
 	VALUES (2549,
 	2548);
 INSERT INTO ACT_ACT
 	VALUES (2549,
-	'bridge',
+	'interface operation',
 	0,
 	2550,
 	0,
 	0,
-	'Time::current_date',
+	'HeartRateMonitor::HeartRateMonitor::unregisterListener',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2550,
@@ -40549,84 +40421,47 @@ INSERT INTO ACT_BLK
 	0,
 	2549,
 	0);
-INSERT INTO S_BRG
+INSERT INTO C_PO
 	VALUES (2551,
-	2547,
-	'create_date',
-	'',
-	1,
-	253,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
+	2525,
+	'UI',
+	0,
+	0);
+INSERT INTO C_IR
 	VALUES (2552,
-	2551,
-	'second',
-	13,
+	1714,
 	0,
-	'',
-	2553,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2554,
-	2551,
-	'minute',
-	13,
-	0,
-	'',
-	2555,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2555,
-	2551,
-	'hour',
-	13,
-	0,
-	'',
-	2556,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2556,
-	2551,
-	'day',
-	13,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2553,
-	2551,
-	'month',
-	13,
-	0,
-	'',
-	2554,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2557,
-	2551,
-	'year',
-	13,
-	0,
-	'',
-	2552,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2558,
 	2551);
+INSERT INTO C_R
+	VALUES (2552,
+	'UI',
+	'',
+	'Unnamed Interface',
+	'GPSWatch::UI::UI');
+INSERT INTO SPR_REP
+	VALUES (2553,
+	1716,
+	2552);
+INSERT INTO SPR_RO
+	VALUES (2553,
+	'setTime',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2554,
+	2553);
 INSERT INTO ACT_ACT
-	VALUES (2558,
-	'bridge',
+	VALUES (2554,
+	'interface operation',
 	0,
-	2559,
+	2555,
 	0,
 	0,
-	'Time::create_date',
+	'UI::UI::setTime',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2559,
+	VALUES (2555,
 	0,
 	0,
 	0,
@@ -40645,42 +40480,33 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
+	0,
+	2554,
+	0);
+INSERT INTO SPR_REP
+	VALUES (2556,
+	1724,
+	2552);
+INSERT INTO SPR_RO
+	VALUES (2556,
+	'setData',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2557,
+	2556);
+INSERT INTO ACT_ACT
+	VALUES (2557,
+	'interface operation',
 	0,
 	2558,
-	0);
-INSERT INTO S_BRG
-	VALUES (2560,
-	2547,
-	'get_second',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2561,
-	2560,
-	'date',
-	253,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2562,
-	2560);
-INSERT INTO ACT_ACT
-	VALUES (2562,
-	'bridge',
-	0,
-	2563,
 	0,
 	0,
-	'Time::get_second',
+	'UI::UI::setData',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2563,
+	VALUES (2558,
 	0,
 	0,
 	0,
@@ -40700,38 +40526,119 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2562,
+	2557,
 	0);
-INSERT INTO S_BRG
-	VALUES (2564,
-	2547,
-	'get_minute',
+INSERT INTO SPR_REP
+	VALUES (2559,
+	1734,
+	2552);
+INSERT INTO SPR_RO
+	VALUES (2559,
+	'startTest',
 	'',
-	1,
-	13,
 	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2565,
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2560,
+	2559);
+INSERT INTO ACT_ACT
+	VALUES (2560,
+	'interface operation',
+	0,
+	2561,
+	0,
+	0,
+	'UI::UI::startTest',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2561,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2560,
+	0);
+INSERT INTO SPR_REP
+	VALUES (2562,
+	1741,
+	2552);
+INSERT INTO SPR_RO
+	VALUES (2562,
+	'setIndicator',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2563,
+	2562);
+INSERT INTO ACT_ACT
+	VALUES (2563,
+	'interface operation',
+	0,
 	2564,
-	'date',
-	253,
+	0,
+	0,
+	'UI::UI::setIndicator',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2564,
+	0,
+	0,
 	0,
 	'',
+	'',
+	'',
 	0,
-	'');
-INSERT INTO ACT_BRB
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2563,
+	0);
+INSERT INTO SPR_REP
+	VALUES (2565,
+	1749,
+	2552);
+INSERT INTO SPR_RO
+	VALUES (2565,
+	'newGoalSpec',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
 	VALUES (2566,
-	2564);
+	2565);
 INSERT INTO ACT_ACT
 	VALUES (2566,
-	'bridge',
+	'interface operation',
 	0,
 	2567,
 	0,
 	0,
-	'Time::get_minute',
+	'UI::UI::newGoalSpec',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2567,
@@ -40756,49 +40663,57 @@ INSERT INTO ACT_BLK
 	0,
 	2566,
 	0);
-INSERT INTO S_BRG
+INSERT INTO C_PO
 	VALUES (2568,
-	2547,
-	'get_hour',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2569,
-	2568,
-	'date',
-	253,
+	2525,
+	'TrackingHeartRateMonitor',
 	0,
-	'',
+	0);
+INSERT INTO C_IR
+	VALUES (1699,
+	4,
 	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2570,
 	2568);
+INSERT INTO C_P
+	VALUES (1699,
+	'TrackingHeartRateMonitor',
+	'Unnamed Interface',
+	'',
+	'GPSWatch::TrackingHeartRateMonitor::TrackingHeartRateMonitor');
+INSERT INTO SPR_PEP
+	VALUES (2569,
+	5,
+	1699);
+INSERT INTO SPR_PO
+	VALUES (2569,
+	'registerListener',
+	'',
+	'HeartRateMonitor::registerListener();',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2570,
+	2569);
 INSERT INTO ACT_ACT
 	VALUES (2570,
-	'bridge',
+	'interface operation',
 	0,
 	2571,
 	0,
 	0,
-	'Time::get_hour',
+	'TrackingHeartRateMonitor::TrackingHeartRateMonitor::registerListener',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2571,
 	0,
 	0,
 	0,
+	'HeartRateMonitor',
 	'',
 	'',
-	'',
-	0,
-	0,
-	0,
-	0,
+	1,
+	1,
+	1,
+	1,
 	0,
 	0,
 	0,
@@ -40810,49 +40725,56 @@ INSERT INTO ACT_BLK
 	0,
 	2570,
 	0);
-INSERT INTO S_BRG
+INSERT INTO ACT_SMT
 	VALUES (2572,
-	2547,
-	'get_day',
-	'',
+	2571,
+	0,
 	1,
-	13,
-	'',
 	1,
-	'');
-INSERT INTO S_BPARM
+	'TrackingHeartRateMonitor::TrackingHeartRateMonitor::registerListener line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2572,
+	1,
+	19,
+	1,
+	1,
+	0,
+	2545,
+	0);
+INSERT INTO SPR_PEP
 	VALUES (2573,
-	2572,
-	'date',
-	253,
-	0,
+	7,
+	1699);
+INSERT INTO SPR_PO
+	VALUES (2573,
+	'unregisterListener',
 	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
+	'HeartRateMonitor::unregisterListener();',
+	1);
+INSERT INTO ACT_POB
 	VALUES (2574,
-	2572);
+	2573);
 INSERT INTO ACT_ACT
 	VALUES (2574,
-	'bridge',
+	'interface operation',
 	0,
 	2575,
 	0,
 	0,
-	'Time::get_day',
+	'TrackingHeartRateMonitor::TrackingHeartRateMonitor::unregisterListener',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2575,
 	0,
 	0,
 	0,
+	'HeartRateMonitor',
 	'',
 	'',
-	'',
-	0,
-	0,
-	0,
-	0,
+	1,
+	1,
+	1,
+	1,
 	0,
 	0,
 	0,
@@ -40864,466 +40786,627 @@ INSERT INTO ACT_BLK
 	0,
 	2574,
 	0);
-INSERT INTO S_BRG
+INSERT INTO ACT_SMT
 	VALUES (2576,
-	2547,
-	'get_month',
-	'',
+	2575,
+	0,
 	1,
-	13,
-	'',
 	1,
-	'');
-INSERT INTO S_BPARM
+	'TrackingHeartRateMonitor::TrackingHeartRateMonitor::unregisterListener line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2576,
+	1,
+	19,
+	1,
+	1,
+	0,
+	2548,
+	0);
+INSERT INTO C_PO
 	VALUES (2577,
-	2576,
-	'date',
-	253,
+	2525,
+	'TrackingLocation',
 	0,
+	0);
+INSERT INTO C_IR
+	VALUES (1695,
+	8,
+	0,
+	2577);
+INSERT INTO C_P
+	VALUES (1695,
+	'TrackingLocation',
+	'Unnamed Interface',
 	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
+	'GPSWatch::TrackingLocation::TrackingLocation');
+INSERT INTO SPR_PEP
 	VALUES (2578,
-	2576);
+	9,
+	1695);
+INSERT INTO SPR_PO
+	VALUES (2578,
+	'getDistance',
+	'Returns distance, in kilometers, between the "from" and "to" coordinates passed as parameters.
+The coordinates must be passed as decimal degrees.',
+	'return Location::getDistance(fromLat:param.fromLat, fromLong:param.fromLong, toLat:param.toLat, toLong:param.toLong);',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2579,
+	2578);
 INSERT INTO ACT_ACT
-	VALUES (2578,
-	'bridge',
+	VALUES (2579,
+	'interface operation',
+	0,
+	2580,
+	0,
+	0,
+	'TrackingLocation::TrackingLocation::getDistance',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2580,
+	0,
+	0,
+	0,
+	'Location',
+	'',
+	'',
+	1,
+	1,
+	1,
+	8,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
 	0,
 	2579,
-	0,
-	0,
-	'Time::get_month',
 	0);
-INSERT INTO ACT_BLK
-	VALUES (2579,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2578,
-	0);
-INSERT INTO S_BRG
-	VALUES (2580,
-	2547,
-	'get_year',
-	'',
-	1,
-	13,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
+INSERT INTO ACT_SMT
 	VALUES (2581,
 	2580,
-	'date',
-	253,
 	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
+	1,
+	1,
+	'TrackingLocation::TrackingLocation::getDistance line: 1');
+INSERT INTO ACT_RET
+	VALUES (2581,
+	2582);
+INSERT INTO V_VAL
 	VALUES (2582,
+	0,
+	0,
+	1,
+	18,
+	29,
+	1,
+	30,
+	1,
+	97,
+	10,
 	2580);
-INSERT INTO ACT_ACT
+INSERT INTO V_MSV
 	VALUES (2582,
-	'bridge',
 	0,
-	2583,
-	0,
-	0,
-	'Time::get_year',
+	2532,
+	1,
+	1,
+	8,
 	0);
-INSERT INTO ACT_BLK
+INSERT INTO V_VAL
+	VALUES (2583,
+	0,
+	0,
+	1,
+	44,
+	50,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2580);
+INSERT INTO V_PVL
 	VALUES (2583,
 	0,
 	0,
 	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	11);
+INSERT INTO V_PAR
+	VALUES (2583,
 	0,
 	2582,
-	0);
-INSERT INTO S_BRG
+	'fromLat',
+	2584,
+	1,
+	30);
+INSERT INTO V_VAL
 	VALUES (2584,
-	2547,
-	'current_clock',
-	'',
-	1,
-	259,
-	'',
-	1,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2585,
-	2584);
-INSERT INTO ACT_ACT
-	VALUES (2585,
-	'bridge',
 	0,
+	0,
+	1,
+	68,
+	75,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2580);
+INSERT INTO V_PVL
+	VALUES (2584,
+	0,
+	0,
+	0,
+	13);
+INSERT INTO V_PAR
+	VALUES (2584,
+	0,
+	2582,
+	'fromLong',
+	2585,
+	1,
+	53);
+INSERT INTO V_VAL
+	VALUES (2585,
+	0,
+	0,
+	1,
+	90,
+	94,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2580);
+INSERT INTO V_PVL
+	VALUES (2585,
+	0,
+	0,
+	0,
+	12);
+INSERT INTO V_PAR
+	VALUES (2585,
+	0,
+	2582,
+	'toLat',
 	2586,
+	1,
+	78);
+INSERT INTO V_VAL
+	VALUES (2586,
 	0,
 	0,
-	'Time::current_clock',
-	0);
-INSERT INTO ACT_BLK
+	1,
+	110,
+	115,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2580);
+INSERT INTO V_PVL
 	VALUES (2586,
 	0,
 	0,
 	0,
-	'',
-	'',
-	'',
+	14);
+INSERT INTO V_PAR
+	VALUES (2586,
 	0,
+	2582,
+	'toLong',
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	2585,
-	0);
-INSERT INTO S_BRG
+	1,
+	97);
+INSERT INTO SPR_PEP
 	VALUES (2587,
-	2547,
-	'timer_start',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Returns the instance
-handle of the timer.',
-	1,
-	313,
+	15,
+	1695);
+INSERT INTO SPR_PO
+	VALUES (2587,
+	'getLocation',
 	'',
-	1,
-	'');
-INSERT INTO S_BPARM
+	'Location::getLocation(latitude:param.latitude, longitude:param.longitude);',
+	1);
+INSERT INTO ACT_POB
 	VALUES (2588,
-	2587,
-	'microseconds',
-	13,
-	0,
-	'',
-	2589,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2589,
-	2587,
-	'event_inst',
-	316,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2590,
 	2587);
 INSERT INTO ACT_ACT
-	VALUES (2590,
-	'bridge',
+	VALUES (2588,
+	'interface operation',
 	0,
-	2591,
+	2589,
 	0,
 	0,
-	'Time::timer_start',
+	'TrackingLocation::TrackingLocation::getLocation',
 	0);
 INSERT INTO ACT_BLK
+	VALUES (2589,
+	0,
+	0,
+	0,
+	'Location',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2588,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2590,
+	2589,
+	0,
+	1,
+	1,
+	'TrackingLocation::TrackingLocation::getLocation line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2590,
+	1,
+	11,
+	1,
+	1,
+	0,
+	2528,
+	0);
+INSERT INTO V_VAL
+	VALUES (2591,
+	0,
+	0,
+	1,
+	38,
+	45,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2589);
+INSERT INTO V_PVL
 	VALUES (2591,
 	0,
 	0,
 	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	16);
+INSERT INTO V_PAR
+	VALUES (2591,
 	2590,
-	0);
-INSERT INTO S_BRG
+	0,
+	'latitude',
+	2592,
+	1,
+	23);
+INSERT INTO V_VAL
 	VALUES (2592,
-	2547,
-	'timer_start_recurring',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Upon expiration, the
-timer will be restarted and fire again in the specified number of microseconds
-generating the passed event. This bridge operation returns the instance handle
-of the timer.',
+	0,
+	0,
 	1,
-	313,
-	'',
+	64,
+	72,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2589);
+INSERT INTO V_PVL
+	VALUES (2592,
+	0,
+	0,
+	0,
+	17);
+INSERT INTO V_PAR
+	VALUES (2592,
+	2590,
+	0,
+	'longitude',
+	0,
 	1,
-	'');
-INSERT INTO S_BPARM
+	48);
+INSERT INTO SPR_PEP
 	VALUES (2593,
-	2592,
-	'microseconds',
-	13,
-	0,
+	18,
+	1695);
+INSERT INTO SPR_PO
+	VALUES (2593,
+	'registerListener',
 	'',
-	2594,
-	'');
-INSERT INTO S_BPARM
+	'Location::registerListener();',
+	1);
+INSERT INTO ACT_POB
 	VALUES (2594,
-	2592,
-	'event_inst',
-	316,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2595,
-	2592);
+	2593);
 INSERT INTO ACT_ACT
-	VALUES (2595,
-	'bridge',
-	0,
-	2596,
-	0,
-	0,
-	'Time::timer_start_recurring',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2596,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	VALUES (2594,
+	'interface operation',
 	0,
 	2595,
+	0,
+	0,
+	'TrackingLocation::TrackingLocation::registerListener',
 	0);
-INSERT INTO S_BRG
+INSERT INTO ACT_BLK
+	VALUES (2595,
+	0,
+	0,
+	0,
+	'Location',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2594,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2596,
+	2595,
+	0,
+	1,
+	1,
+	'TrackingLocation::TrackingLocation::registerListener line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2596,
+	1,
+	11,
+	1,
+	1,
+	0,
+	2536,
+	0);
+INSERT INTO SPR_PEP
 	VALUES (2597,
-	2547,
-	'timer_remaining_time',
-	'Returns the time remaining (in microseconds) for the passed timer instance. If
-the timer has expired, a zero value is returned.',
-	1,
-	13,
+	19,
+	1695);
+INSERT INTO SPR_PO
+	VALUES (2597,
+	'unregisterListener',
 	'',
-	1,
-	'');
-INSERT INTO S_BPARM
+	'Location::unregisterListener();',
+	1);
+INSERT INTO ACT_POB
 	VALUES (2598,
-	2597,
-	'timer_inst_ref',
-	313,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2599,
 	2597);
 INSERT INTO ACT_ACT
-	VALUES (2599,
-	'bridge',
-	0,
-	2600,
-	0,
-	0,
-	'Time::timer_remaining_time',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (2600,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	VALUES (2598,
+	'interface operation',
 	0,
 	2599,
-	0);
-INSERT INTO S_BRG
-	VALUES (2601,
-	2547,
-	'timer_reset_time',
-	'This bridge operation attempts to set the passed existing timer to expire in
-the specified number of microseconds. If the timer exists (that is, it has not
-expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
-is returned.',
-	1,
-	72,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2602,
-	2601,
-	'timer_inst_ref',
-	313,
-	0,
-	'',
-	2603,
-	'');
-INSERT INTO S_BPARM
-	VALUES (2603,
-	2601,
-	'microseconds',
-	13,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (2604,
-	2601);
-INSERT INTO ACT_ACT
-	VALUES (2604,
-	'bridge',
-	0,
-	2605,
 	0,
 	0,
-	'Time::timer_reset_time',
+	'TrackingLocation::TrackingLocation::unregisterListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2605,
+	VALUES (2599,
 	0,
 	0,
 	0,
+	'Location',
 	'',
 	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2598,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2600,
+	2599,
+	0,
+	1,
+	1,
+	'TrackingLocation::TrackingLocation::unregisterListener line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2600,
+	1,
+	11,
+	1,
+	1,
+	0,
+	2540,
+	0);
+INSERT INTO C_PO
+	VALUES (2601,
+	2525,
+	'TrackingUI',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES (1697,
+	20,
+	0,
+	2601);
+INSERT INTO C_P
+	VALUES (1697,
+	'TrackingUI',
+	'Unnamed Interface',
 	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	'GPSWatch::TrackingUI::TrackingUI');
+INSERT INTO SPR_PEP
+	VALUES (2602,
+	21,
+	1697);
+INSERT INTO SPR_PO
+	VALUES (2602,
+	'setData',
+	'',
+	'UI::setData(value:param.value, unit:param.unit);',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2603,
+	2602);
+INSERT INTO ACT_ACT
+	VALUES (2603,
+	'interface operation',
 	0,
 	2604,
+	0,
+	0,
+	'TrackingUI::TrackingUI::setData',
 	0);
-INSERT INTO S_BRG
+INSERT INTO ACT_BLK
+	VALUES (2604,
+	0,
+	0,
+	0,
+	'UI',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2603,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2605,
+	2604,
+	0,
+	1,
+	1,
+	'TrackingUI::TrackingUI::setData line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2605,
+	1,
+	5,
+	1,
+	1,
+	0,
+	2556,
+	0);
+INSERT INTO V_VAL
 	VALUES (2606,
-	2547,
-	'timer_add_time',
-	'This bridge operation attempts to add the specified number of microseconds to a
-passed existing timer. If the timer exists (that is, it has not expired), a TRUE
-value is returned. If the timer no longer exists, a FALSE value is returned.',
+	0,
+	0,
 	1,
-	72,
-	'',
+	25,
+	29,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2604);
+INSERT INTO V_PVL
+	VALUES (2606,
+	0,
+	0,
+	0,
+	22);
+INSERT INTO V_PAR
+	VALUES (2606,
+	2605,
+	0,
+	'value',
+	2607,
 	1,
-	'');
-INSERT INTO S_BPARM
+	13);
+INSERT INTO V_VAL
 	VALUES (2607,
-	2606,
-	'timer_inst_ref',
-	313,
 	0,
-	'',
-	2608,
-	'');
-INSERT INTO S_BPARM
+	0,
+	1,
+	43,
+	46,
+	0,
+	0,
+	0,
+	0,
+	24,
+	2604);
+INSERT INTO V_PVL
+	VALUES (2607,
+	0,
+	0,
+	0,
+	23);
+INSERT INTO V_PAR
+	VALUES (2607,
+	2605,
+	0,
+	'unit',
+	0,
+	1,
+	32);
+INSERT INTO SPR_PEP
 	VALUES (2608,
-	2606,
-	'microseconds',
-	13,
-	0,
+	25,
+	1697);
+INSERT INTO SPR_PO
+	VALUES (2608,
+	'setIndicator',
 	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
+	'UI::setIndicator(indicator:param.indicator);',
+	1);
+INSERT INTO ACT_POB
 	VALUES (2609,
-	2606);
+	2608);
 INSERT INTO ACT_ACT
 	VALUES (2609,
-	'bridge',
+	'interface operation',
 	0,
 	2610,
 	0,
 	0,
-	'Time::timer_add_time',
+	'TrackingUI::TrackingUI::setIndicator',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (2610,
 	0,
 	0,
 	0,
+	'UI',
 	'',
 	'',
-	'',
-	0,
-	0,
-	0,
-	0,
+	1,
+	1,
+	1,
+	1,
 	0,
 	0,
 	0,
@@ -41335,41 +41418,3522 @@ INSERT INTO ACT_BLK
 	0,
 	2609,
 	0);
-INSERT INTO S_BRG
+INSERT INTO ACT_SMT
 	VALUES (2611,
-	2547,
-	'timer_cancel',
-	'This bridge operation cancels and deletes the passed timer instance. If the 
-timer exists (that is, it had not expired), a TRUE value is returned. If the
-timer no longer exists, a FALSE value is returned.',
+	2610,
+	0,
 	1,
-	72,
+	1,
+	'TrackingUI::TrackingUI::setIndicator line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2611,
+	1,
+	5,
+	1,
+	1,
+	0,
+	2562,
+	0);
+INSERT INTO V_VAL
+	VALUES (2612,
+	0,
+	0,
+	1,
+	34,
+	42,
+	0,
+	0,
+	0,
+	0,
+	27,
+	2610);
+INSERT INTO V_PVL
+	VALUES (2612,
+	0,
+	0,
+	0,
+	26);
+INSERT INTO V_PAR
+	VALUES (2612,
+	2611,
+	0,
+	'indicator',
+	0,
+	1,
+	18);
+INSERT INTO SPR_PEP
+	VALUES (2613,
+	28,
+	1697);
+INSERT INTO SPR_PO
+	VALUES (2613,
+	'setTime',
+	'',
+	'UI::setTime(time:param.time);',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2614,
+	2613);
+INSERT INTO ACT_ACT
+	VALUES (2614,
+	'interface operation',
+	0,
+	2615,
+	0,
+	0,
+	'TrackingUI::TrackingUI::setTime',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2615,
+	0,
+	0,
+	0,
+	'UI',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2614,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2616,
+	2615,
+	0,
+	1,
+	1,
+	'TrackingUI::TrackingUI::setTime line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2616,
+	1,
+	5,
+	1,
+	1,
+	0,
+	2553,
+	0);
+INSERT INTO V_VAL
+	VALUES (2617,
+	0,
+	0,
+	1,
+	24,
+	27,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2615);
+INSERT INTO V_PVL
+	VALUES (2617,
+	0,
+	0,
+	0,
+	29);
+INSERT INTO V_PAR
+	VALUES (2617,
+	2616,
+	0,
+	'time',
+	0,
+	1,
+	13);
+INSERT INTO SPR_PEP
+	VALUES (2618,
+	31,
+	1697);
+INSERT INTO SPR_PO
+	VALUES (2618,
+	'newGoalSpec',
+	'',
+	'UI::newGoalSpec(sequenceNumber:param.sequenceNumber, minimum:param.minimum, maximum:param.maximum, span:param.span, criteriaType:param.criteriaType, spanType:param.spanType);',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2619,
+	2618);
+INSERT INTO ACT_ACT
+	VALUES (2619,
+	'interface operation',
+	0,
+	2620,
+	0,
+	0,
+	'TrackingUI::TrackingUI::newGoalSpec',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2620,
+	0,
+	0,
+	0,
+	'UI',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2619,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2621,
+	2620,
+	0,
+	1,
+	1,
+	'TrackingUI::TrackingUI::newGoalSpec line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2621,
+	1,
+	5,
+	1,
+	1,
+	0,
+	2565,
+	0);
+INSERT INTO V_VAL
+	VALUES (2622,
+	0,
+	0,
+	1,
+	38,
+	51,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2620);
+INSERT INTO V_PVL
+	VALUES (2622,
+	0,
+	0,
+	0,
+	32);
+INSERT INTO V_PAR
+	VALUES (2622,
+	2621,
+	0,
+	'sequenceNumber',
+	2623,
+	1,
+	17);
+INSERT INTO V_VAL
+	VALUES (2623,
+	0,
+	0,
+	1,
+	68,
+	74,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2620);
+INSERT INTO V_PVL
+	VALUES (2623,
+	0,
+	0,
+	0,
+	33);
+INSERT INTO V_PAR
+	VALUES (2623,
+	2621,
+	0,
+	'minimum',
+	2624,
+	1,
+	54);
+INSERT INTO V_VAL
+	VALUES (2624,
+	0,
+	0,
+	1,
+	91,
+	97,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2620);
+INSERT INTO V_PVL
+	VALUES (2624,
+	0,
+	0,
+	0,
+	34);
+INSERT INTO V_PAR
+	VALUES (2624,
+	2621,
+	0,
+	'maximum',
+	2625,
+	1,
+	77);
+INSERT INTO V_VAL
+	VALUES (2625,
+	0,
+	0,
+	1,
+	111,
+	114,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2620);
+INSERT INTO V_PVL
+	VALUES (2625,
+	0,
+	0,
+	0,
+	35);
+INSERT INTO V_PAR
+	VALUES (2625,
+	2621,
+	0,
+	'span',
+	2626,
+	1,
+	100);
+INSERT INTO V_VAL
+	VALUES (2626,
+	0,
+	0,
+	1,
+	136,
+	147,
+	0,
+	0,
+	0,
+	0,
+	37,
+	2620);
+INSERT INTO V_PVL
+	VALUES (2626,
+	0,
+	0,
+	0,
+	36);
+INSERT INTO V_PAR
+	VALUES (2626,
+	2621,
+	0,
+	'criteriaType',
+	2627,
+	1,
+	117);
+INSERT INTO V_VAL
+	VALUES (2627,
+	0,
+	0,
+	1,
+	165,
+	172,
+	0,
+	0,
+	0,
+	0,
+	39,
+	2620);
+INSERT INTO V_PVL
+	VALUES (2627,
+	0,
+	0,
+	0,
+	38);
+INSERT INTO V_PAR
+	VALUES (2627,
+	2621,
+	0,
+	'spanType',
+	0,
+	1,
+	150);
+INSERT INTO C_PO
+	VALUES (2628,
+	2525,
+	'Tracking',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES (1701,
+	40,
+	0,
+	2628);
+INSERT INTO C_R
+	VALUES (1701,
+	'Tracking',
+	'',
+	'Unnamed Interface',
+	'GPSWatch::Tracking::Tracking');
+INSERT INTO SPR_REP
+	VALUES (2629,
+	41,
+	1701);
+INSERT INTO SPR_RO
+	VALUES (2629,
+	'heartRateChanged',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2630,
+	2629);
+INSERT INTO ACT_ACT
+	VALUES (2630,
+	'interface operation',
+	0,
+	2631,
+	0,
+	0,
+	'Tracking::Tracking::heartRateChanged',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2631,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2630,
+	0);
+INSERT INTO SPR_REP
+	VALUES (2632,
+	43,
+	1701);
+INSERT INTO SPR_RO
+	VALUES (2632,
+	'lapResetPressed',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2633,
+	2632);
+INSERT INTO ACT_ACT
+	VALUES (2633,
+	'interface operation',
+	0,
+	2634,
+	0,
+	0,
+	'Tracking::Tracking::lapResetPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2634,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2633,
+	0);
+INSERT INTO SPR_REP
+	VALUES (2635,
+	44,
+	1701);
+INSERT INTO SPR_RO
+	VALUES (2635,
+	'modePressed',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2636,
+	2635);
+INSERT INTO ACT_ACT
+	VALUES (2636,
+	'interface operation',
+	0,
+	2637,
+	0,
+	0,
+	'Tracking::Tracking::modePressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2637,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2636,
+	0);
+INSERT INTO SPR_REP
+	VALUES (2638,
+	45,
+	1701);
+INSERT INTO SPR_RO
+	VALUES (2638,
+	'setTargetPressed',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2639,
+	2638);
+INSERT INTO ACT_ACT
+	VALUES (2639,
+	'interface operation',
+	0,
+	2640,
+	0,
+	0,
+	'Tracking::Tracking::setTargetPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2640,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2639,
+	0);
+INSERT INTO SPR_REP
+	VALUES (2641,
+	46,
+	1701);
+INSERT INTO SPR_RO
+	VALUES (2641,
+	'startStopPressed',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2642,
+	2641);
+INSERT INTO ACT_ACT
+	VALUES (2642,
+	'interface operation',
+	0,
+	2643,
+	0,
+	0,
+	'Tracking::Tracking::startStopPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2643,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2642,
+	0);
+INSERT INTO SPR_REP
+	VALUES (2644,
+	47,
+	1701);
+INSERT INTO SPR_RO
+	VALUES (2644,
+	'newGoalSpec',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2645,
+	2644);
+INSERT INTO ACT_ACT
+	VALUES (2645,
+	'interface operation',
+	0,
+	2646,
+	0,
+	0,
+	'Tracking::Tracking::newGoalSpec',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2646,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2645,
+	0);
+INSERT INTO SPR_REP
+	VALUES (2647,
+	54,
+	1701);
+INSERT INTO SPR_RO
+	VALUES (2647,
+	'lightPressed',
+	'',
+	'',
+	1);
+INSERT INTO ACT_ROB
+	VALUES (2648,
+	2647);
+INSERT INTO ACT_ACT
+	VALUES (2648,
+	'interface operation',
+	0,
+	2649,
+	0,
+	0,
+	'Tracking::Tracking::lightPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2649,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2648,
+	0);
+INSERT INTO C_PO
+	VALUES (2650,
+	2525,
+	'HeartRateMonitorUnspecified',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES (2522,
+	2304,
+	0,
+	2650);
+INSERT INTO C_P
+	VALUES (2522,
+	'HeartRateMonitorUnspecified',
+	'Unnamed Interface',
+	'',
+	'GPSWatch::HeartRateMonitorUnspecified::HeartRateMonitorUnspecified');
+INSERT INTO SPR_PEP
+	VALUES (2651,
+	2306,
+	2522);
+INSERT INTO SPR_PO
+	VALUES (2651,
+	'heartRateChanged',
+	'',
+	'Tracking::heartRateChanged(heartRate:param.heartRate);',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2652,
+	2651);
+INSERT INTO ACT_ACT
+	VALUES (2652,
+	'interface operation',
+	0,
+	2653,
+	0,
+	0,
+	'HeartRateMonitorUnspecified::HeartRateMonitorUnspecified::heartRateChanged',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2653,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2652,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2654,
+	2653,
+	0,
+	1,
+	1,
+	'HeartRateMonitorUnspecified::HeartRateMonitorUnspecified::heartRateChanged line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2654,
+	1,
+	11,
+	1,
+	1,
+	0,
+	2629,
+	0);
+INSERT INTO V_VAL
+	VALUES (2655,
+	0,
+	0,
+	1,
+	44,
+	52,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2653);
+INSERT INTO V_PVL
+	VALUES (2655,
+	0,
+	0,
+	0,
+	2489);
+INSERT INTO V_PAR
+	VALUES (2655,
+	2654,
+	0,
+	'heartRate',
+	0,
+	1,
+	28);
+INSERT INTO C_PO
+	VALUES (2656,
+	2525,
+	'UITracking',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES (2657,
+	1768,
+	0,
+	2656);
+INSERT INTO C_P
+	VALUES (2657,
+	'UITracking',
+	'Unnamed Interface',
+	'',
+	'GPSWatch::UITracking::UITracking');
+INSERT INTO SPR_PEP
+	VALUES (2658,
+	1770,
+	2657);
+INSERT INTO SPR_PO
+	VALUES (2658,
+	'setTargetPressed',
+	'',
+	'Tracking::setTargetPressed();',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2659,
+	2658);
+INSERT INTO ACT_ACT
+	VALUES (2659,
+	'interface operation',
+	0,
+	2660,
+	0,
+	0,
+	'UITracking::UITracking::setTargetPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2660,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2659,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2661,
+	2660,
+	0,
+	1,
+	1,
+	'UITracking::UITracking::setTargetPressed line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2661,
+	1,
+	11,
+	1,
+	1,
+	0,
+	2638,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (2662,
+	1774,
+	2657);
+INSERT INTO SPR_PO
+	VALUES (2662,
+	'startStopPressed',
+	'',
+	'Tracking::startStopPressed();',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2663,
+	2662);
+INSERT INTO ACT_ACT
+	VALUES (2663,
+	'interface operation',
+	0,
+	2664,
+	0,
+	0,
+	'UITracking::UITracking::startStopPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2664,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2663,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2665,
+	2664,
+	0,
+	1,
+	1,
+	'UITracking::UITracking::startStopPressed line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2665,
+	1,
+	11,
+	1,
+	1,
+	0,
+	2641,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (2666,
+	1778,
+	2657);
+INSERT INTO SPR_PO
+	VALUES (2666,
+	'lapResetPressed',
+	'',
+	'Tracking::lapResetPressed();',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2667,
+	2666);
+INSERT INTO ACT_ACT
+	VALUES (2667,
+	'interface operation',
+	0,
+	2668,
+	0,
+	0,
+	'UITracking::UITracking::lapResetPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2668,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2667,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2669,
+	2668,
+	0,
+	1,
+	1,
+	'UITracking::UITracking::lapResetPressed line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2669,
+	1,
+	11,
+	1,
+	1,
+	0,
+	2632,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (2670,
+	1782,
+	2657);
+INSERT INTO SPR_PO
+	VALUES (2670,
+	'modePressed',
+	'',
+	'Tracking::modePressed();',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2671,
+	2670);
+INSERT INTO ACT_ACT
+	VALUES (2671,
+	'interface operation',
+	0,
+	2672,
+	0,
+	0,
+	'UITracking::UITracking::modePressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2672,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2671,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2673,
+	2672,
+	0,
+	1,
+	1,
+	'UITracking::UITracking::modePressed line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2673,
+	1,
+	11,
+	1,
+	1,
+	0,
+	2635,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (2674,
+	1786,
+	2657);
+INSERT INTO SPR_PO
+	VALUES (2674,
+	'newGoalSpec',
+	'',
+	'Tracking::newGoalSpec(sequenceNumber:param.sequenceNumber, minimum:param.minimum, maximum:param.maximum, span:param.span, criteriaType:param.criteriaType, spanType:param.spanType);',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2675,
+	2674);
+INSERT INTO ACT_ACT
+	VALUES (2675,
+	'interface operation',
+	0,
+	2676,
+	0,
+	0,
+	'UITracking::UITracking::newGoalSpec',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2676,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2675,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2677,
+	2676,
+	0,
+	1,
+	1,
+	'UITracking::UITracking::newGoalSpec line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2677,
+	1,
+	11,
+	1,
+	1,
+	0,
+	2644,
+	0);
+INSERT INTO V_VAL
+	VALUES (2678,
+	0,
+	0,
+	1,
+	44,
+	57,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2676);
+INSERT INTO V_PVL
+	VALUES (2678,
+	0,
+	0,
+	0,
+	2278);
+INSERT INTO V_PAR
+	VALUES (2678,
+	2677,
+	0,
+	'sequenceNumber',
+	2679,
+	1,
+	23);
+INSERT INTO V_VAL
+	VALUES (2679,
+	0,
+	0,
+	1,
+	74,
+	80,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2676);
+INSERT INTO V_PVL
+	VALUES (2679,
+	0,
+	0,
+	0,
+	2279);
+INSERT INTO V_PAR
+	VALUES (2679,
+	2677,
+	0,
+	'minimum',
+	2680,
+	1,
+	60);
+INSERT INTO V_VAL
+	VALUES (2680,
+	0,
+	0,
+	1,
+	97,
+	103,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2676);
+INSERT INTO V_PVL
+	VALUES (2680,
+	0,
+	0,
+	0,
+	2280);
+INSERT INTO V_PAR
+	VALUES (2680,
+	2677,
+	0,
+	'maximum',
+	2681,
+	1,
+	83);
+INSERT INTO V_VAL
+	VALUES (2681,
+	0,
+	0,
+	1,
+	117,
+	120,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2676);
+INSERT INTO V_PVL
+	VALUES (2681,
+	0,
+	0,
+	0,
+	2281);
+INSERT INTO V_PAR
+	VALUES (2681,
+	2677,
+	0,
+	'span',
+	2682,
+	1,
+	106);
+INSERT INTO V_VAL
+	VALUES (2682,
+	0,
+	0,
+	1,
+	142,
+	153,
+	0,
+	0,
+	0,
+	0,
+	37,
+	2676);
+INSERT INTO V_PVL
+	VALUES (2682,
+	0,
+	0,
+	0,
+	2282);
+INSERT INTO V_PAR
+	VALUES (2682,
+	2677,
+	0,
+	'criteriaType',
+	2683,
+	1,
+	123);
+INSERT INTO V_VAL
+	VALUES (2683,
+	0,
+	0,
+	1,
+	171,
+	178,
+	0,
+	0,
+	0,
+	0,
+	39,
+	2676);
+INSERT INTO V_PVL
+	VALUES (2683,
+	0,
+	0,
+	0,
+	2283);
+INSERT INTO V_PAR
+	VALUES (2683,
+	2677,
+	0,
+	'spanType',
+	0,
+	1,
+	156);
+INSERT INTO SPR_PEP
+	VALUES (2684,
+	1790,
+	2657);
+INSERT INTO SPR_PO
+	VALUES (2684,
+	'lightPressed',
+	'',
+	'Tracking::lightPressed();',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2685,
+	2684);
+INSERT INTO ACT_ACT
+	VALUES (2685,
+	'interface operation',
+	0,
+	2686,
+	0,
+	0,
+	'UITracking::UITracking::lightPressed',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2686,
+	0,
+	0,
+	0,
+	'Tracking',
+	'',
+	'',
+	1,
+	1,
+	1,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2685,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2687,
+	2686,
+	0,
+	1,
+	1,
+	'UITracking::UITracking::lightPressed line: 1');
+INSERT INTO ACT_IOP
+	VALUES (2687,
+	1,
+	11,
+	1,
+	1,
+	0,
+	2647,
+	0);
+-- root-types-contained: SystemModel_c
+-- BP 7.1 content: StreamData syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO S_SYS
+	VALUES (2688,
+	'Location',
+	1);
+INSERT INTO EP_PKG
+	VALUES (2689,
+	2688,
+	2688,
+	'Location',
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES (2516,
+	1,
+	2689,
+	0,
+	2);
+INSERT INTO C_C
+	VALUES (2516,
+	0,
+	0,
+	'Location',
+	'Simulates a the GPS hardware/firmware. This component is only behavioral and included for testing purposes.',
+	0,
+	0,
+	0,
+	'');
+INSERT INTO C_PO
+	VALUES (2517,
+	2516,
+	'Location',
+	0,
+	0);
+INSERT INTO C_IR
+	VALUES (2520,
+	2527,
+	0,
+	2517);
+INSERT INTO C_P
+	VALUES (2520,
+	'Location',
+	'Unnamed Interface',
+	'',
+	'Location::Location::Location');
+INSERT INTO SPR_PEP
+	VALUES (2690,
+	2529,
+	2520);
+INSERT INTO SPR_PO
+	VALUES (2690,
+	'getLocation',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2691,
+	2690);
+INSERT INTO ACT_ACT
+	VALUES (2691,
+	'interface operation',
+	0,
+	2692,
+	0,
+	0,
+	'Location::Location::getLocation',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2692,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2691,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (2693,
+	2533,
+	2520);
+INSERT INTO SPR_PO
+	VALUES (2693,
+	'getDistance',
+	'',
+	'// Return the straight-line distance, expressed in meters, between the
+// two points passed as parameters, expressed in decimal degrees.
+
+deltaLat = param.toLat - param.fromLat;
+deltaLong = param.toLong - param.fromLong;
+sumSquares = (deltaLat * deltaLat) + (deltaLong * deltaLong);
+return ( (MATH::sqrt( x: sumSquares ) * kmPerDegree * 1000 ) );',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2694,
+	2693);
+INSERT INTO ACT_ACT
+	VALUES (2694,
+	'interface operation',
+	0,
+	2695,
+	0,
+	0,
+	'Location::Location::getDistance',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2695,
+	0,
+	0,
+	0,
+	'MATH',
+	'',
+	'',
+	7,
+	1,
+	7,
+	11,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2694,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2696,
+	2695,
+	2697,
+	4,
+	1,
+	'Location::Location::getDistance line: 4');
+INSERT INTO ACT_AI
+	VALUES (2696,
+	2698,
+	2699,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2697,
+	2695,
+	2700,
+	5,
+	1,
+	'Location::Location::getDistance line: 5');
+INSERT INTO ACT_AI
+	VALUES (2697,
+	2701,
+	2702,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2700,
+	2695,
+	2703,
+	6,
+	1,
+	'Location::Location::getDistance line: 6');
+INSERT INTO ACT_AI
+	VALUES (2700,
+	2704,
+	2705,
+	0,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (2703,
+	2695,
+	0,
+	7,
+	1,
+	'Location::Location::getDistance line: 7');
+INSERT INTO ACT_RET
+	VALUES (2703,
+	2706);
+INSERT INTO V_VAL
+	VALUES (2699,
+	1,
+	1,
+	4,
+	1,
+	8,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_TVL
+	VALUES (2699,
+	2707);
+INSERT INTO V_VAL
+	VALUES (2708,
+	0,
+	0,
+	4,
+	18,
+	22,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_PVL
+	VALUES (2708,
+	0,
+	0,
+	0,
+	2709);
+INSERT INTO V_VAL
+	VALUES (2698,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_BIN
+	VALUES (2698,
+	2710,
+	2708,
+	'-');
+INSERT INTO V_VAL
+	VALUES (2710,
+	0,
+	0,
+	4,
+	32,
+	38,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_PVL
+	VALUES (2710,
+	0,
+	0,
+	0,
+	2711);
+INSERT INTO V_VAL
+	VALUES (2702,
+	1,
+	1,
+	5,
+	1,
+	9,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_TVL
+	VALUES (2702,
+	2712);
+INSERT INTO V_VAL
+	VALUES (2713,
+	0,
+	0,
+	5,
+	19,
+	24,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_PVL
+	VALUES (2713,
+	0,
+	0,
+	0,
+	2714);
+INSERT INTO V_VAL
+	VALUES (2701,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_BIN
+	VALUES (2701,
+	2715,
+	2713,
+	'-');
+INSERT INTO V_VAL
+	VALUES (2715,
+	0,
+	0,
+	5,
+	34,
+	41,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_PVL
+	VALUES (2715,
+	0,
+	0,
+	0,
+	2716);
+INSERT INTO V_VAL
+	VALUES (2705,
+	1,
+	1,
+	6,
+	1,
+	10,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_TVL
+	VALUES (2705,
+	2717);
+INSERT INTO V_VAL
+	VALUES (2718,
+	0,
+	0,
+	6,
+	15,
+	22,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_TVL
+	VALUES (2718,
+	2707);
+INSERT INTO V_VAL
+	VALUES (2719,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_BIN
+	VALUES (2719,
+	2720,
+	2718,
+	'*');
+INSERT INTO V_VAL
+	VALUES (2720,
+	0,
+	0,
+	6,
+	26,
+	33,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_TVL
+	VALUES (2720,
+	2707);
+INSERT INTO V_VAL
+	VALUES (2704,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_BIN
+	VALUES (2704,
+	2721,
+	2719,
+	'+');
+INSERT INTO V_VAL
+	VALUES (2722,
+	0,
+	0,
+	6,
+	39,
+	47,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_TVL
+	VALUES (2722,
+	2712);
+INSERT INTO V_VAL
+	VALUES (2721,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_BIN
+	VALUES (2721,
+	2723,
+	2722,
+	'*');
+INSERT INTO V_VAL
+	VALUES (2723,
+	0,
+	0,
+	6,
+	51,
+	59,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_TVL
+	VALUES (2723,
+	2712);
+INSERT INTO V_VAL
+	VALUES (2724,
+	0,
+	0,
+	7,
+	17,
+	-1,
+	7,
+	23,
+	0,
+	0,
+	10,
+	2695);
+INSERT INTO V_BRV
+	VALUES (2724,
+	2725,
+	1,
+	7,
+	11);
+INSERT INTO V_VAL
+	VALUES (2726,
+	0,
+	0,
+	7,
+	26,
+	35,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_TVL
+	VALUES (2726,
+	2717);
+INSERT INTO V_PAR
+	VALUES (2726,
+	0,
+	2724,
+	'x',
+	0,
+	7,
+	23);
+INSERT INTO V_VAL
+	VALUES (2727,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2695);
+INSERT INTO V_BIN
+	VALUES (2727,
+	2728,
+	2724,
+	'*');
+INSERT INTO V_VAL
+	VALUES (2728,
+	0,
+	0,
+	7,
+	41,
+	51,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2695);
+INSERT INTO V_SCV
+	VALUES (2728,
+	2729,
+	10);
+INSERT INTO V_VAL
+	VALUES (2706,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	10,
+	2695);
+INSERT INTO V_BIN
+	VALUES (2706,
+	2730,
+	2727,
+	'*');
+INSERT INTO V_VAL
+	VALUES (2730,
+	0,
+	0,
+	7,
+	55,
+	58,
+	0,
+	0,
+	0,
+	0,
+	30,
+	2695);
+INSERT INTO V_LIN
+	VALUES (2730,
+	'1000');
+INSERT INTO V_VAR
+	VALUES (2707,
+	2695,
+	'deltaLat',
+	1,
+	30);
+INSERT INTO V_TRN
+	VALUES (2707,
+	0,
+	'');
+INSERT INTO V_VAR
+	VALUES (2712,
+	2695,
+	'deltaLong',
+	1,
+	30);
+INSERT INTO V_TRN
+	VALUES (2712,
+	0,
+	'');
+INSERT INTO V_VAR
+	VALUES (2717,
+	2695,
+	'sumSquares',
+	1,
+	30);
+INSERT INTO V_TRN
+	VALUES (2717,
+	0,
+	'');
+INSERT INTO SPR_PEP
+	VALUES (2731,
+	2537,
+	2520);
+INSERT INTO SPR_PO
+	VALUES (2731,
+	'registerListener',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2732,
+	2731);
+INSERT INTO ACT_ACT
+	VALUES (2732,
+	'interface operation',
+	0,
+	2733,
+	0,
+	0,
+	'Location::Location::registerListener',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2733,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2732,
+	0);
+INSERT INTO SPR_PEP
+	VALUES (2734,
+	2541,
+	2520);
+INSERT INTO SPR_PO
+	VALUES (2734,
+	'unregisterListener',
+	'',
+	'',
+	1);
+INSERT INTO ACT_POB
+	VALUES (2735,
+	2734);
+INSERT INTO ACT_ACT
+	VALUES (2735,
+	'interface operation',
+	0,
+	2736,
+	0,
+	0,
+	'Location::Location::unregisterListener',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2736,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2735,
+	0);
+INSERT INTO PE_PE
+	VALUES (2737,
+	1,
+	0,
+	2516,
+	7);
+INSERT INTO EP_PKG
+	VALUES (2737,
+	0,
+	2688,
+	'Location',
+	'',
+	0);
+INSERT INTO PE_PE
+	VALUES (2738,
+	1,
+	2737,
+	0,
+	10);
+INSERT INTO CNST_CSP
+	VALUES (2738,
+	'simulatedGPS',
+	'Constants specifying the behavior of the simulated GPS.
+
+initialLatitude and initialLongitude specify, as decimal degrees, 
+the initial location of the simulated GPS.
+
+latitudeIncrement and longitudeIncrement specify, as decimal degrees, 
+the distance the simulated GPS moves during each update period.
+
+updatePeriod specifies, in microseconds, the update period for the
+simulated GPS.  In other words, the simulated GPS updates its location
+once per updatePeriod.');
+INSERT INTO CNST_SYC
+	VALUES (2739,
+	'longitudeIncrement',
+	'',
+	10,
+	2738,
+	0,
+	0);
+INSERT INTO CNST_LFSC
+	VALUES (2739,
+	10);
+INSERT INTO CNST_LSC
+	VALUES (2739,
+	10,
+	'0.00002');
+INSERT INTO CNST_SYC
+	VALUES (2740,
+	'latitudeIncrement',
+	'',
+	10,
+	2738,
+	2739,
+	10);
+INSERT INTO CNST_LFSC
+	VALUES (2740,
+	10);
+INSERT INTO CNST_LSC
+	VALUES (2740,
+	10,
+	'0.00001');
+INSERT INTO CNST_SYC
+	VALUES (2741,
+	'initialLatitude',
+	'',
+	10,
+	2738,
+	2740,
+	10);
+INSERT INTO CNST_LFSC
+	VALUES (2741,
+	10);
+INSERT INTO CNST_LSC
+	VALUES (2741,
+	10,
+	'32.432237');
+INSERT INTO CNST_SYC
+	VALUES (2742,
+	'initialLongitude',
+	'',
+	10,
+	2738,
+	2741,
+	10);
+INSERT INTO CNST_LFSC
+	VALUES (2742,
+	10);
+INSERT INTO CNST_LSC
+	VALUES (2742,
+	10,
+	'-110.812283');
+INSERT INTO CNST_SYC
+	VALUES (2743,
+	'updatePeriod',
+	'',
+	30,
+	2738,
+	2742,
+	10);
+INSERT INTO CNST_LFSC
+	VALUES (2743,
+	30);
+INSERT INTO CNST_LSC
+	VALUES (2743,
+	30,
+	'1000000');
+INSERT INTO PE_PE
+	VALUES (2744,
+	1,
+	2737,
+	0,
+	5);
+INSERT INTO S_EE
+	VALUES (2744,
+	'Math',
+	'',
+	'MATH',
+	0,
+	'',
+	'Math',
+	1);
+INSERT INTO S_BRG
+	VALUES (2725,
+	2744,
+	'sqrt',
+	'',
+	0,
+	10,
 	'',
 	1,
 	'');
 INSERT INTO S_BPARM
-	VALUES (2612,
-	2611,
-	'timer_inst_ref',
-	313,
+	VALUES (2745,
+	2725,
+	'x',
+	10,
 	0,
 	'',
 	0,
 	'');
 INSERT INTO ACT_BRB
-	VALUES (2613,
-	2611);
+	VALUES (2746,
+	2725);
 INSERT INTO ACT_ACT
-	VALUES (2613,
+	VALUES (2746,
 	'bridge',
 	0,
-	2614,
+	2747,
+	0,
+	0,
+	'Math::sqrt',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2747,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2746,
+	0);
+INSERT INTO PE_PE
+	VALUES (2748,
+	1,
+	2737,
+	0,
+	5);
+INSERT INTO S_EE
+	VALUES (2748,
+	'Logging',
+	'',
+	'LOG',
+	0,
+	'',
+	'Logging',
+	1);
+INSERT INTO S_BRG
+	VALUES (2749,
+	2748,
+	'LogSuccess',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2750,
+	2749,
+	'message',
+	130,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2751,
+	2749);
+INSERT INTO ACT_ACT
+	VALUES (2751,
+	'bridge',
+	0,
+	2752,
+	0,
+	0,
+	'Logging::LogSuccess',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2752,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2751,
+	0);
+INSERT INTO S_BRG
+	VALUES (2753,
+	2748,
+	'LogFailure',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2754,
+	2753,
+	'message',
+	130,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2755,
+	2753);
+INSERT INTO ACT_ACT
+	VALUES (2755,
+	'bridge',
+	0,
+	2756,
+	0,
+	0,
+	'Logging::LogFailure',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2756,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2755,
+	0);
+INSERT INTO S_BRG
+	VALUES (2757,
+	2748,
+	'LogInfo',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2758,
+	2757,
+	'message',
+	130,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2759,
+	2757);
+INSERT INTO ACT_ACT
+	VALUES (2759,
+	'bridge',
+	0,
+	2760,
+	0,
+	0,
+	'Logging::LogInfo',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2760,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2759,
+	0);
+INSERT INTO S_BRG
+	VALUES (2761,
+	2748,
+	'LogDate',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2762,
+	2761,
+	'd',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2763,
+	2761,
+	'message',
+	130,
+	0,
+	'',
+	2762,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2764,
+	2761);
+INSERT INTO ACT_ACT
+	VALUES (2764,
+	'bridge',
+	0,
+	2765,
+	0,
+	0,
+	'Logging::LogDate',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2765,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2764,
+	0);
+INSERT INTO S_BRG
+	VALUES (2766,
+	2748,
+	'LogTime',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2767,
+	2766,
+	't',
+	278,
+	0,
+	'',
+	2768,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2768,
+	2766,
+	'message',
+	130,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2769,
+	2766);
+INSERT INTO ACT_ACT
+	VALUES (2769,
+	'bridge',
+	0,
+	2770,
+	0,
+	0,
+	'Logging::LogTime',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2770,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2769,
+	0);
+INSERT INTO S_BRG
+	VALUES (2771,
+	2748,
+	'LogReal',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2772,
+	2771,
+	'r',
+	10,
+	0,
+	'',
+	2773,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2773,
+	2771,
+	'message',
+	130,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2774,
+	2771);
+INSERT INTO ACT_ACT
+	VALUES (2774,
+	'bridge',
+	0,
+	2775,
+	0,
+	0,
+	'Logging::LogReal',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2775,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2774,
+	0);
+INSERT INTO S_BRG
+	VALUES (2776,
+	2748,
+	'LogInteger',
+	'',
+	0,
+	6,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2777,
+	2776,
+	'message',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2778,
+	2776);
+INSERT INTO ACT_ACT
+	VALUES (2778,
+	'bridge',
+	0,
+	2779,
+	0,
+	0,
+	'Logging::LogInteger',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2779,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2778,
+	0);
+INSERT INTO PE_PE
+	VALUES (2780,
+	1,
+	2737,
+	0,
+	5);
+INSERT INTO S_EE
+	VALUES (2780,
+	'Time',
+	'The Time external entity provides date, timestamp, and timer related operations.',
+	'TIM',
+	0,
+	'',
+	'Time',
+	1);
+INSERT INTO S_BRG
+	VALUES (2781,
+	2780,
+	'current_date',
+	'',
+	1,
+	272,
+	'',
+	1,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2782,
+	2781);
+INSERT INTO ACT_ACT
+	VALUES (2782,
+	'bridge',
+	0,
+	2783,
+	0,
+	0,
+	'Time::current_date',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2783,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2782,
+	0);
+INSERT INTO S_BRG
+	VALUES (2784,
+	2780,
+	'create_date',
+	'',
+	1,
+	272,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2785,
+	2784,
+	'second',
+	30,
+	0,
+	'',
+	2786,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2787,
+	2784,
+	'minute',
+	30,
+	0,
+	'',
+	2788,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2788,
+	2784,
+	'hour',
+	30,
+	0,
+	'',
+	2789,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2789,
+	2784,
+	'day',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2786,
+	2784,
+	'month',
+	30,
+	0,
+	'',
+	2787,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2790,
+	2784,
+	'year',
+	30,
+	0,
+	'',
+	2785,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2791,
+	2784);
+INSERT INTO ACT_ACT
+	VALUES (2791,
+	'bridge',
+	0,
+	2792,
+	0,
+	0,
+	'Time::create_date',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2792,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2791,
+	0);
+INSERT INTO S_BRG
+	VALUES (2793,
+	2780,
+	'get_second',
+	'',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2794,
+	2793,
+	'date',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2795,
+	2793);
+INSERT INTO ACT_ACT
+	VALUES (2795,
+	'bridge',
+	0,
+	2796,
+	0,
+	0,
+	'Time::get_second',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2796,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2795,
+	0);
+INSERT INTO S_BRG
+	VALUES (2797,
+	2780,
+	'get_minute',
+	'',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2798,
+	2797,
+	'date',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2799,
+	2797);
+INSERT INTO ACT_ACT
+	VALUES (2799,
+	'bridge',
+	0,
+	2800,
+	0,
+	0,
+	'Time::get_minute',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2800,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2799,
+	0);
+INSERT INTO S_BRG
+	VALUES (2801,
+	2780,
+	'get_hour',
+	'',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2802,
+	2801,
+	'date',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2803,
+	2801);
+INSERT INTO ACT_ACT
+	VALUES (2803,
+	'bridge',
+	0,
+	2804,
+	0,
+	0,
+	'Time::get_hour',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2804,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2803,
+	0);
+INSERT INTO S_BRG
+	VALUES (2805,
+	2780,
+	'get_day',
+	'',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2806,
+	2805,
+	'date',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2807,
+	2805);
+INSERT INTO ACT_ACT
+	VALUES (2807,
+	'bridge',
+	0,
+	2808,
+	0,
+	0,
+	'Time::get_day',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2808,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2807,
+	0);
+INSERT INTO S_BRG
+	VALUES (2809,
+	2780,
+	'get_month',
+	'',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2810,
+	2809,
+	'date',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2811,
+	2809);
+INSERT INTO ACT_ACT
+	VALUES (2811,
+	'bridge',
+	0,
+	2812,
+	0,
+	0,
+	'Time::get_month',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2812,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2811,
+	0);
+INSERT INTO S_BRG
+	VALUES (2813,
+	2780,
+	'get_year',
+	'',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2814,
+	2813,
+	'date',
+	272,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2815,
+	2813);
+INSERT INTO ACT_ACT
+	VALUES (2815,
+	'bridge',
+	0,
+	2816,
+	0,
+	0,
+	'Time::get_year',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2816,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2815,
+	0);
+INSERT INTO S_BRG
+	VALUES (2817,
+	2780,
+	'current_clock',
+	'',
+	1,
+	278,
+	'',
+	1,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2818,
+	2817);
+INSERT INTO ACT_ACT
+	VALUES (2818,
+	'bridge',
+	0,
+	2819,
+	0,
+	0,
+	'Time::current_clock',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2819,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2818,
+	0);
+INSERT INTO S_BRG
+	VALUES (2820,
+	2780,
+	'timer_start',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Returns the instance
+handle of the timer.',
+	1,
+	332,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2821,
+	2820,
+	'microseconds',
+	30,
+	0,
+	'',
+	2822,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2822,
+	2820,
+	'event_inst',
+	335,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2823,
+	2820);
+INSERT INTO ACT_ACT
+	VALUES (2823,
+	'bridge',
+	0,
+	2824,
+	0,
+	0,
+	'Time::timer_start',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2824,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2823,
+	0);
+INSERT INTO S_BRG
+	VALUES (2825,
+	2780,
+	'timer_start_recurring',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Upon expiration, the
+timer will be restarted and fire again in the specified number of microseconds
+generating the passed event. This bridge operation returns the instance handle
+of the timer.',
+	1,
+	332,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2826,
+	2825,
+	'microseconds',
+	30,
+	0,
+	'',
+	2827,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2827,
+	2825,
+	'event_inst',
+	335,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2828,
+	2825);
+INSERT INTO ACT_ACT
+	VALUES (2828,
+	'bridge',
+	0,
+	2829,
+	0,
+	0,
+	'Time::timer_start_recurring',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2829,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2828,
+	0);
+INSERT INTO S_BRG
+	VALUES (2830,
+	2780,
+	'timer_remaining_time',
+	'Returns the time remaining (in microseconds) for the passed timer instance. If
+the timer has expired, a zero value is returned.',
+	1,
+	30,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2831,
+	2830,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2832,
+	2830);
+INSERT INTO ACT_ACT
+	VALUES (2832,
+	'bridge',
+	0,
+	2833,
+	0,
+	0,
+	'Time::timer_remaining_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2833,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2832,
+	0);
+INSERT INTO S_BRG
+	VALUES (2834,
+	2780,
+	'timer_reset_time',
+	'This bridge operation attempts to set the passed existing timer to expire in
+the specified number of microseconds. If the timer exists (that is, it has not
+expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
+is returned.',
+	1,
+	108,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2835,
+	2834,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	2836,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2836,
+	2834,
+	'microseconds',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2837,
+	2834);
+INSERT INTO ACT_ACT
+	VALUES (2837,
+	'bridge',
+	0,
+	2838,
+	0,
+	0,
+	'Time::timer_reset_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2838,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2837,
+	0);
+INSERT INTO S_BRG
+	VALUES (2839,
+	2780,
+	'timer_add_time',
+	'This bridge operation attempts to add the specified number of microseconds to a
+passed existing timer. If the timer exists (that is, it has not expired), a TRUE
+value is returned. If the timer no longer exists, a FALSE value is returned.',
+	1,
+	108,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2840,
+	2839,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	2841,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2841,
+	2839,
+	'microseconds',
+	30,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2842,
+	2839);
+INSERT INTO ACT_ACT
+	VALUES (2842,
+	'bridge',
+	0,
+	2843,
+	0,
+	0,
+	'Time::timer_add_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (2843,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	2842,
+	0);
+INSERT INTO S_BRG
+	VALUES (2844,
+	2780,
+	'timer_cancel',
+	'This bridge operation cancels and deletes the passed timer instance. If the 
+timer exists (that is, it had not expired), a TRUE value is returned. If the
+timer no longer exists, a FALSE value is returned.',
+	1,
+	108,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (2845,
+	2844,
+	'timer_inst_ref',
+	332,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (2846,
+	2844);
+INSERT INTO ACT_ACT
+	VALUES (2846,
+	'bridge',
+	0,
+	2847,
 	0,
 	0,
 	'Time::timer_cancel',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2614,
+	VALUES (2847,
 	0,
 	0,
 	0,
@@ -41389,27 +44953,27 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2613,
+	2846,
 	0);
 INSERT INTO PE_PE
-	VALUES (2615,
+	VALUES (2848,
 	1,
-	2504,
+	2737,
 	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (2615,
+	VALUES (2848,
 	'GPS',
 	1,
 	'GPS',
 	'Simulates a GPS.',
 	0);
 INSERT INTO O_TFR
-	VALUES (2616,
-	2615,
+	VALUES (2849,
+	2848,
 	'activate',
 	'',
-	240,
+	6,
 	0,
 	'// The GPS is a singleton instance, so create it if it does not exist.
 
@@ -41429,19 +44993,19 @@ gps.timer = TIM::timer_start_recurring( event_inst: tick, microseconds: updatePe
 	'',
 	0);
 INSERT INTO ACT_OPB
-	VALUES (2617,
-	2616);
+	VALUES (2850,
+	2849);
 INSERT INTO ACT_ACT
-	VALUES (2617,
+	VALUES (2850,
 	'class operation',
 	0,
-	2618,
+	2851,
 	0,
 	0,
 	'GPS::activate',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2618,
+	VALUES (2851,
 	1,
 	0,
 	0,
@@ -41461,45 +45025,45 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2617,
+	2850,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2619,
-	2618,
-	2620,
+	VALUES (2852,
+	2851,
+	2853,
 	3,
 	1,
 	'GPS::activate line: 3');
 INSERT INTO ACT_FIO
-	VALUES (2619,
-	2621,
+	VALUES (2852,
+	2854,
 	1,
 	'any',
-	2615,
+	2848,
 	3,
 	34);
 INSERT INTO ACT_SMT
-	VALUES (2620,
-	2618,
-	2622,
+	VALUES (2853,
+	2851,
+	2855,
 	4,
 	1,
 	'GPS::activate line: 4');
 INSERT INTO ACT_IF
-	VALUES (2620,
-	2623,
-	2624,
+	VALUES (2853,
+	2856,
+	2857,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2622,
-	2618,
-	2625,
+	VALUES (2855,
+	2851,
+	2858,
 	13,
 	1,
 	'GPS::activate line: 13');
 INSERT INTO E_ESS
-	VALUES (2622,
+	VALUES (2855,
 	1,
 	0,
 	13,
@@ -41513,29 +45077,29 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_CES
-	VALUES (2622,
+	VALUES (2855,
 	1,
-	2626);
+	2859);
 INSERT INTO E_CSME
-	VALUES (2622,
-	2627);
+	VALUES (2855,
+	2860);
 INSERT INTO E_CEA
-	VALUES (2622);
+	VALUES (2855);
 INSERT INTO ACT_SMT
-	VALUES (2625,
-	2618,
+	VALUES (2858,
+	2851,
 	0,
 	14,
 	1,
 	'GPS::activate line: 14');
 INSERT INTO ACT_AI
-	VALUES (2625,
-	2628,
-	2629,
+	VALUES (2858,
+	2861,
+	2862,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (2630,
+	VALUES (2863,
 	0,
 	0,
 	4,
@@ -41545,13 +45109,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2618);
+	106,
+	2851);
 INSERT INTO V_IRF
-	VALUES (2630,
-	2621);
+	VALUES (2863,
+	2854);
 INSERT INTO V_VAL
-	VALUES (2624,
+	VALUES (2857,
 	0,
 	0,
 	-1,
@@ -41561,14 +45125,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	2618);
+	108,
+	2851);
 INSERT INTO V_UNY
-	VALUES (2624,
-	2630,
+	VALUES (2857,
+	2863,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (2631,
+	VALUES (2864,
 	1,
 	0,
 	14,
@@ -41578,13 +45142,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2618);
+	106,
+	2851);
 INSERT INTO V_IRF
-	VALUES (2631,
-	2621);
+	VALUES (2864,
+	2854);
 INSERT INTO V_VAL
-	VALUES (2629,
+	VALUES (2862,
 	1,
 	0,
 	14,
@@ -41594,15 +45158,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	313,
-	2618);
+	332,
+	2851);
 INSERT INTO V_AVL
-	VALUES (2629,
-	2631,
-	2615,
-	2632);
+	VALUES (2862,
+	2864,
+	2848,
+	2865);
 INSERT INTO V_VAL
-	VALUES (2628,
+	VALUES (2861,
 	0,
 	0,
 	14,
@@ -41612,16 +45176,16 @@ INSERT INTO V_VAL
 	41,
 	14,
 	59,
-	313,
-	2618);
+	332,
+	2851);
 INSERT INTO V_BRV
-	VALUES (2628,
-	2592,
+	VALUES (2861,
+	2825,
 	1,
 	14,
 	13);
 INSERT INTO V_VAL
-	VALUES (2633,
+	VALUES (2866,
 	0,
 	0,
 	14,
@@ -41631,21 +45195,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	316,
-	2618);
+	335,
+	2851);
 INSERT INTO V_TVL
-	VALUES (2633,
-	2626);
+	VALUES (2866,
+	2859);
 INSERT INTO V_PAR
-	VALUES (2633,
+	VALUES (2866,
 	0,
-	2628,
+	2861,
 	'event_inst',
-	2634,
+	2867,
 	14,
 	41);
 INSERT INTO V_VAL
-	VALUES (2634,
+	VALUES (2867,
 	0,
 	0,
 	14,
@@ -41655,42 +45219,42 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2618);
+	30,
+	2851);
 INSERT INTO V_SCV
-	VALUES (2634,
-	2510,
-	13);
+	VALUES (2867,
+	2743,
+	30);
 INSERT INTO V_PAR
-	VALUES (2634,
+	VALUES (2867,
 	0,
-	2628,
+	2861,
 	'microseconds',
 	0,
 	14,
 	59);
 INSERT INTO V_VAR
-	VALUES (2621,
-	2618,
+	VALUES (2854,
+	2851,
 	'gps',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (2621,
+	VALUES (2854,
 	0,
-	2615);
+	2848);
 INSERT INTO V_VAR
-	VALUES (2626,
-	2618,
+	VALUES (2859,
+	2851,
 	'tick',
 	1,
-	316);
+	335);
 INSERT INTO V_TRN
-	VALUES (2626,
+	VALUES (2859,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (2623,
+	VALUES (2856,
 	0,
 	0,
 	0,
@@ -41710,63 +45274,63 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2617,
+	2850,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2635,
-	2623,
-	2636,
+	VALUES (2868,
+	2856,
+	2869,
 	6,
 	3,
 	'GPS::activate line: 6');
 INSERT INTO ACT_CR
-	VALUES (2635,
-	2621,
+	VALUES (2868,
+	2854,
 	0,
-	2615,
+	2848,
 	6,
 	33);
 INSERT INTO ACT_SMT
-	VALUES (2636,
-	2623,
-	2637,
+	VALUES (2869,
+	2856,
+	2870,
 	7,
 	3,
 	'GPS::activate line: 7');
 INSERT INTO ACT_AI
-	VALUES (2636,
-	2638,
-	2639,
+	VALUES (2869,
+	2871,
+	2872,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2637,
-	2623,
-	2640,
+	VALUES (2870,
+	2856,
+	2873,
 	8,
 	3,
 	'GPS::activate line: 8');
 INSERT INTO ACT_AI
-	VALUES (2637,
-	2641,
-	2642,
+	VALUES (2870,
+	2874,
+	2875,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2640,
-	2623,
+	VALUES (2873,
+	2856,
 	0,
 	9,
 	3,
 	'GPS::activate line: 9');
 INSERT INTO ACT_AI
-	VALUES (2640,
-	2643,
-	2644,
+	VALUES (2873,
+	2876,
+	2877,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (2645,
+	VALUES (2878,
 	1,
 	0,
 	7,
@@ -41776,13 +45340,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2623);
+	106,
+	2856);
 INSERT INTO V_IRF
-	VALUES (2645,
-	2621);
+	VALUES (2878,
+	2854);
 INSERT INTO V_VAL
-	VALUES (2639,
+	VALUES (2872,
 	1,
 	0,
 	7,
@@ -41792,15 +45356,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2623);
+	30,
+	2856);
 INSERT INTO V_AVL
-	VALUES (2639,
-	2645,
-	2615,
-	2646);
+	VALUES (2872,
+	2878,
+	2848,
+	2879);
 INSERT INTO V_VAL
-	VALUES (2638,
+	VALUES (2871,
 	0,
 	0,
 	7,
@@ -41810,13 +45374,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2623);
+	30,
+	2856);
 INSERT INTO V_LIN
-	VALUES (2638,
+	VALUES (2871,
 	'0');
 INSERT INTO V_VAL
-	VALUES (2647,
+	VALUES (2880,
 	1,
 	0,
 	8,
@@ -41826,13 +45390,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2623);
+	106,
+	2856);
 INSERT INTO V_IRF
-	VALUES (2647,
-	2621);
+	VALUES (2880,
+	2854);
 INSERT INTO V_VAL
-	VALUES (2642,
+	VALUES (2875,
 	1,
 	0,
 	8,
@@ -41842,15 +45406,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2623);
+	10,
+	2856);
 INSERT INTO V_AVL
-	VALUES (2642,
-	2647,
-	2615,
-	2648);
+	VALUES (2875,
+	2880,
+	2848,
+	2881);
 INSERT INTO V_VAL
-	VALUES (2641,
+	VALUES (2874,
 	0,
 	0,
 	8,
@@ -41860,14 +45424,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2623);
+	10,
+	2856);
 INSERT INTO V_SCV
-	VALUES (2641,
-	2508,
-	170);
+	VALUES (2874,
+	2741,
+	10);
 INSERT INTO V_VAL
-	VALUES (2649,
+	VALUES (2882,
 	1,
 	0,
 	9,
@@ -41877,13 +45441,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2623);
+	106,
+	2856);
 INSERT INTO V_IRF
-	VALUES (2649,
-	2621);
+	VALUES (2882,
+	2854);
 INSERT INTO V_VAL
-	VALUES (2644,
+	VALUES (2877,
 	1,
 	0,
 	9,
@@ -41893,15 +45457,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2623);
+	10,
+	2856);
 INSERT INTO V_AVL
-	VALUES (2644,
-	2649,
-	2615,
-	2650);
+	VALUES (2877,
+	2882,
+	2848,
+	2883);
 INSERT INTO V_VAL
-	VALUES (2643,
+	VALUES (2876,
 	0,
 	0,
 	9,
@@ -41911,114 +45475,114 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2623);
+	10,
+	2856);
 INSERT INTO V_SCV
-	VALUES (2643,
-	2509,
-	170);
+	VALUES (2876,
+	2742,
+	10);
 INSERT INTO O_NBATTR
-	VALUES (2632,
-	2615);
+	VALUES (2865,
+	2848);
 INSERT INTO O_BATTR
-	VALUES (2632,
-	2615);
+	VALUES (2865,
+	2848);
 INSERT INTO O_ATTR
-	VALUES (2632,
-	2615,
-	2646,
+	VALUES (2865,
+	2848,
+	2879,
 	'timer',
 	'Handle for underlying timer mechanism enabling the generation 
 of delayed events that drive the GPS simulator.',
 	'',
 	'timer',
 	0,
-	313,
+	332,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (2648,
-	2615);
+	VALUES (2881,
+	2848);
 INSERT INTO O_BATTR
-	VALUES (2648,
-	2615);
+	VALUES (2881,
+	2848);
 INSERT INTO O_ATTR
-	VALUES (2648,
-	2615,
+	VALUES (2881,
+	2848,
 	0,
 	'currentLatitude',
 	'Current latitude, expressed in decimal degrees, of the simulated GPS.',
 	'',
 	'currentLatitude',
 	0,
-	170,
+	10,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (2650,
-	2615);
+	VALUES (2883,
+	2848);
 INSERT INTO O_BATTR
-	VALUES (2650,
-	2615);
+	VALUES (2883,
+	2848);
 INSERT INTO O_ATTR
-	VALUES (2650,
-	2615,
-	2648,
+	VALUES (2883,
+	2848,
+	2881,
 	'currentLongitude',
 	'Current longitude, expressed in decimal degrees, of the simulated GPS.',
 	'',
 	'currentLongitude',
 	0,
-	170,
+	10,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (2646,
-	2615);
+	VALUES (2879,
+	2848);
 INSERT INTO O_BATTR
-	VALUES (2646,
-	2615);
+	VALUES (2879,
+	2848);
 INSERT INTO O_ATTR
-	VALUES (2646,
-	2615,
-	2650,
+	VALUES (2879,
+	2848,
+	2883,
 	'motionSegments',
 	'The number of motion segments simulated by the GPS.',
 	'',
 	'motionSegments',
 	0,
-	13,
+	30,
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	2615);
+	2848);
 INSERT INTO O_ID
 	VALUES (1,
-	2615);
+	2848);
 INSERT INTO O_ID
 	VALUES (2,
-	2615);
+	2848);
 INSERT INTO SM_ASM
-	VALUES (2651,
-	2615);
+	VALUES (2884,
+	2848);
 INSERT INTO SM_SM
-	VALUES (2651,
+	VALUES (2884,
 	'',
 	0);
 INSERT INTO SM_MOORE
-	VALUES (2651);
+	VALUES (2884);
 INSERT INTO SM_LEVT
-	VALUES (2627,
-	2651,
+	VALUES (2860,
+	2884,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (2627,
-	2651,
+	VALUES (2860,
+	2884,
 	0);
 INSERT INTO SM_EVT
-	VALUES (2627,
-	2651,
+	VALUES (2860,
+	2884,
 	0,
 	1,
 	'tick',
@@ -42027,16 +45591,16 @@ INSERT INTO SM_EVT
 	'GPS_A1',
 	'');
 INSERT INTO SM_LEVT
-	VALUES (2652,
-	2651,
+	VALUES (2885,
+	2884,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (2652,
-	2651,
+	VALUES (2885,
+	2884,
 	0);
 INSERT INTO SM_EVT
-	VALUES (2652,
-	2651,
+	VALUES (2885,
+	2884,
 	0,
 	2,
 	'registerListener',
@@ -42045,16 +45609,16 @@ INSERT INTO SM_EVT
 	'GPS_A2',
 	'');
 INSERT INTO SM_LEVT
-	VALUES (2653,
-	2651,
+	VALUES (2886,
+	2884,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (2653,
-	2651,
+	VALUES (2886,
+	2884,
 	0);
 INSERT INTO SM_EVT
-	VALUES (2653,
-	2651,
+	VALUES (2886,
+	2884,
 	0,
 	3,
 	'unregisterListener',
@@ -42063,49 +45627,49 @@ INSERT INTO SM_EVT
 	'GPS_A3',
 	'');
 INSERT INTO SM_STATE
-	VALUES (2654,
-	2651,
+	VALUES (2887,
+	2884,
 	0,
 	'idle',
 	1,
 	0);
 INSERT INTO SM_EIGN
-	VALUES (2654,
-	2627,
-	2651,
+	VALUES (2887,
+	2860,
+	2884,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (2654,
-	2627,
-	2651,
+	VALUES (2887,
+	2860,
+	2884,
 	0);
 INSERT INTO SM_SEME
-	VALUES (2654,
-	2652,
-	2651,
+	VALUES (2887,
+	2885,
+	2884,
 	0);
 INSERT INTO SM_CH
-	VALUES (2654,
-	2653,
-	2651,
+	VALUES (2887,
+	2886,
+	2884,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (2654,
-	2653,
-	2651,
+	VALUES (2887,
+	2886,
+	2884,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (2655,
-	2651,
-	2654);
+	VALUES (2888,
+	2884,
+	2887);
 INSERT INTO SM_AH
-	VALUES (2655,
-	2651);
+	VALUES (2888,
+	2884);
 INSERT INTO SM_ACT
-	VALUES (2655,
-	2651,
+	VALUES (2888,
+	2884,
 	1,
 	'// Deactivate the timer.
 select any gps from instances of GPS;
@@ -42118,20 +45682,20 @@ end if;
 ',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (2656,
-	2651,
-	2655);
+	VALUES (2889,
+	2884,
+	2888);
 INSERT INTO ACT_ACT
-	VALUES (2656,
+	VALUES (2889,
 	'class state',
 	0,
-	2657,
+	2890,
 	0,
 	0,
 	'GPS::idle',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2657,
+	VALUES (2890,
 	1,
 	0,
 	0,
@@ -42151,65 +45715,65 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2656,
+	2889,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2658,
-	2657,
-	2659,
+	VALUES (2891,
+	2890,
+	2892,
 	2,
 	1,
 	'GPS::idle line: 2');
 INSERT INTO ACT_FIO
-	VALUES (2658,
-	2660,
+	VALUES (2891,
+	2893,
 	1,
 	'any',
-	2615,
+	2848,
 	2,
 	34);
 INSERT INTO ACT_SMT
-	VALUES (2659,
-	2657,
-	2661,
+	VALUES (2892,
+	2890,
+	2894,
 	3,
 	1,
 	'GPS::idle line: 3');
 INSERT INTO ACT_AI
-	VALUES (2659,
-	2662,
-	2663,
+	VALUES (2892,
+	2895,
+	2896,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2661,
-	2657,
-	2664,
+	VALUES (2894,
+	2890,
+	2897,
 	4,
 	1,
 	'GPS::idle line: 4');
 INSERT INTO ACT_BRG
-	VALUES (2661,
-	2524,
+	VALUES (2894,
+	2757,
 	4,
 	6,
 	4,
 	1);
 INSERT INTO ACT_SMT
-	VALUES (2664,
-	2657,
+	VALUES (2897,
+	2890,
 	0,
 	6,
 	1,
 	'GPS::idle line: 6');
 INSERT INTO ACT_IF
-	VALUES (2664,
-	2665,
-	2666,
+	VALUES (2897,
+	2898,
+	2899,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (2663,
+	VALUES (2896,
 	1,
 	1,
 	3,
@@ -42219,13 +45783,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	2657);
+	108,
+	2890);
 INSERT INTO V_TVL
-	VALUES (2663,
-	2667);
+	VALUES (2896,
+	2900);
 INSERT INTO V_VAL
-	VALUES (2662,
+	VALUES (2895,
 	0,
 	0,
 	3,
@@ -42235,16 +45799,16 @@ INSERT INTO V_VAL
 	25,
 	0,
 	0,
-	72,
-	2657);
+	108,
+	2890);
 INSERT INTO V_BRV
-	VALUES (2662,
-	2611,
+	VALUES (2895,
+	2844,
 	1,
 	3,
 	7);
 INSERT INTO V_VAL
-	VALUES (2668,
+	VALUES (2901,
 	0,
 	0,
 	3,
@@ -42254,13 +45818,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2657);
+	106,
+	2890);
 INSERT INTO V_IRF
-	VALUES (2668,
-	2660);
+	VALUES (2901,
+	2893);
 INSERT INTO V_VAL
-	VALUES (2669,
+	VALUES (2902,
 	0,
 	0,
 	3,
@@ -42270,23 +45834,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	313,
-	2657);
+	332,
+	2890);
 INSERT INTO V_AVL
-	VALUES (2669,
-	2668,
-	2615,
-	2632);
+	VALUES (2902,
+	2901,
+	2848,
+	2865);
 INSERT INTO V_PAR
-	VALUES (2669,
+	VALUES (2902,
 	0,
-	2662,
+	2895,
 	'timer_inst_ref',
 	0,
 	3,
 	25);
 INSERT INTO V_VAL
-	VALUES (2670,
+	VALUES (2903,
 	0,
 	0,
 	4,
@@ -42296,21 +45860,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	96,
-	2657);
+	130,
+	2890);
 INSERT INTO V_LST
-	VALUES (2670,
+	VALUES (2903,
 	'Location listener unregistered.');
 INSERT INTO V_PAR
-	VALUES (2670,
-	2661,
+	VALUES (2903,
+	2894,
 	0,
 	'message',
 	0,
 	4,
 	14);
 INSERT INTO V_VAL
-	VALUES (2671,
+	VALUES (2904,
 	0,
 	0,
 	6,
@@ -42320,13 +45884,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	2657);
+	108,
+	2890);
 INSERT INTO V_TVL
-	VALUES (2671,
-	2667);
+	VALUES (2904,
+	2900);
 INSERT INTO V_VAL
-	VALUES (2666,
+	VALUES (2899,
 	0,
 	0,
 	-1,
@@ -42336,34 +45900,34 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	2657);
+	108,
+	2890);
 INSERT INTO V_UNY
-	VALUES (2666,
-	2671,
+	VALUES (2899,
+	2904,
 	'not');
 INSERT INTO V_VAR
-	VALUES (2660,
-	2657,
+	VALUES (2893,
+	2890,
 	'gps',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (2660,
+	VALUES (2893,
 	0,
-	2615);
+	2848);
 INSERT INTO V_VAR
-	VALUES (2667,
-	2657,
+	VALUES (2900,
+	2890,
 	'res',
 	1,
-	72);
+	108);
 INSERT INTO V_TRN
-	VALUES (2667,
+	VALUES (2900,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (2665,
+	VALUES (2898,
 	0,
 	0,
 	0,
@@ -42383,24 +45947,24 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2656,
+	2889,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2672,
-	2665,
+	VALUES (2905,
+	2898,
 	0,
 	7,
 	3,
 	'GPS::idle line: 7');
 INSERT INTO ACT_BRG
-	VALUES (2672,
-	2520,
+	VALUES (2905,
+	2753,
 	7,
 	8,
 	7,
 	3);
 INSERT INTO V_VAL
-	VALUES (2673,
+	VALUES (2906,
 	0,
 	0,
 	7,
@@ -42410,57 +45974,57 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	96,
-	2665);
+	130,
+	2898);
 INSERT INTO V_LST
-	VALUES (2673,
+	VALUES (2906,
 	'Location listener: timer_cancel() failed.');
 INSERT INTO V_PAR
-	VALUES (2673,
-	2672,
+	VALUES (2906,
+	2905,
 	0,
 	'message',
 	0,
 	7,
 	20);
 INSERT INTO SM_STATE
-	VALUES (2674,
-	2651,
+	VALUES (2907,
+	2884,
 	0,
 	'locating',
 	2,
 	0);
 INSERT INTO SM_SEME
-	VALUES (2674,
-	2627,
-	2651,
+	VALUES (2907,
+	2860,
+	2884,
 	0);
 INSERT INTO SM_CH
-	VALUES (2674,
-	2652,
-	2651,
+	VALUES (2907,
+	2885,
+	2884,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (2674,
-	2652,
-	2651,
+	VALUES (2907,
+	2885,
+	2884,
 	0);
 INSERT INTO SM_SEME
-	VALUES (2674,
-	2653,
-	2651,
+	VALUES (2907,
+	2886,
+	2884,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (2675,
-	2651,
-	2674);
+	VALUES (2908,
+	2884,
+	2907);
 INSERT INTO SM_AH
-	VALUES (2675,
-	2651);
+	VALUES (2908,
+	2884);
 INSERT INTO SM_ACT
-	VALUES (2675,
-	2651,
+	VALUES (2908,
+	2884,
 	1,
 	'// Simulate movement.
 select any gps from instances of GPS;
@@ -42477,20 +46041,20 @@ end if;
 ',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (2676,
-	2651,
-	2675);
+	VALUES (2909,
+	2884,
+	2908);
 INSERT INTO ACT_ACT
-	VALUES (2676,
+	VALUES (2909,
 	'class state',
 	0,
-	2677,
+	2910,
 	0,
 	0,
 	'GPS::locating',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2677,
+	VALUES (2910,
 	1,
 	0,
 	0,
@@ -42510,61 +46074,61 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2676,
+	2909,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2678,
-	2677,
-	2679,
+	VALUES (2911,
+	2910,
+	2912,
 	2,
 	1,
 	'GPS::locating line: 2');
 INSERT INTO ACT_FIO
-	VALUES (2678,
-	2680,
+	VALUES (2911,
+	2913,
 	1,
 	'any',
-	2615,
+	2848,
 	2,
 	34);
 INSERT INTO ACT_SMT
-	VALUES (2679,
-	2677,
+	VALUES (2912,
+	2910,
 	0,
 	3,
 	1,
 	'GPS::locating line: 3');
 INSERT INTO ACT_IF
-	VALUES (2679,
-	2681,
-	2682,
+	VALUES (2912,
+	2914,
+	2915,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2683,
-	2677,
+	VALUES (2916,
+	2910,
 	0,
 	6,
 	1,
 	'GPS::locating line: 6');
 INSERT INTO ACT_EL
-	VALUES (2683,
-	2684,
-	2685,
-	2679);
+	VALUES (2916,
+	2917,
+	2918,
+	2912);
 INSERT INTO ACT_SMT
-	VALUES (2686,
-	2677,
+	VALUES (2919,
+	2910,
 	0,
 	9,
 	1,
 	'GPS::locating line: 9');
 INSERT INTO ACT_E
-	VALUES (2686,
-	2687,
-	2679);
+	VALUES (2919,
+	2920,
+	2912);
 INSERT INTO V_VAL
-	VALUES (2688,
+	VALUES (2921,
 	0,
 	0,
 	3,
@@ -42574,13 +46138,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2677);
+	106,
+	2910);
 INSERT INTO V_IRF
-	VALUES (2688,
-	2680);
+	VALUES (2921,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2689,
+	VALUES (2922,
 	0,
 	0,
 	3,
@@ -42590,15 +46154,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2677);
+	30,
+	2910);
 INSERT INTO V_AVL
-	VALUES (2689,
-	2688,
-	2615,
-	2646);
+	VALUES (2922,
+	2921,
+	2848,
+	2879);
 INSERT INTO V_VAL
-	VALUES (2690,
+	VALUES (2923,
 	0,
 	0,
 	-1,
@@ -42608,15 +46172,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2677);
+	30,
+	2910);
 INSERT INTO V_BIN
-	VALUES (2690,
-	2691,
-	2689,
+	VALUES (2923,
+	2924,
+	2922,
 	'%');
 INSERT INTO V_VAL
-	VALUES (2691,
+	VALUES (2924,
 	0,
 	0,
 	3,
@@ -42626,13 +46190,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2677);
+	30,
+	2910);
 INSERT INTO V_LIN
-	VALUES (2691,
+	VALUES (2924,
 	'3');
 INSERT INTO V_VAL
-	VALUES (2682,
+	VALUES (2915,
 	0,
 	0,
 	-1,
@@ -42642,15 +46206,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	2677);
+	108,
+	2910);
 INSERT INTO V_BIN
-	VALUES (2682,
-	2692,
-	2690,
+	VALUES (2915,
+	2925,
+	2923,
 	'==');
 INSERT INTO V_VAL
-	VALUES (2692,
+	VALUES (2925,
 	0,
 	0,
 	3,
@@ -42660,13 +46224,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2677);
+	30,
+	2910);
 INSERT INTO V_LIN
-	VALUES (2692,
+	VALUES (2925,
 	'0');
 INSERT INTO V_VAL
-	VALUES (2693,
+	VALUES (2926,
 	0,
 	0,
 	6,
@@ -42676,13 +46240,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2677);
+	106,
+	2910);
 INSERT INTO V_IRF
-	VALUES (2693,
-	2680);
+	VALUES (2926,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2694,
+	VALUES (2927,
 	0,
 	0,
 	6,
@@ -42692,15 +46256,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2677);
+	30,
+	2910);
 INSERT INTO V_AVL
-	VALUES (2694,
-	2693,
-	2615,
-	2646);
+	VALUES (2927,
+	2926,
+	2848,
+	2879);
 INSERT INTO V_VAL
-	VALUES (2695,
+	VALUES (2928,
 	0,
 	0,
 	-1,
@@ -42710,15 +46274,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2677);
+	30,
+	2910);
 INSERT INTO V_BIN
-	VALUES (2695,
-	2696,
-	2694,
+	VALUES (2928,
+	2929,
+	2927,
 	'%');
 INSERT INTO V_VAL
-	VALUES (2696,
+	VALUES (2929,
 	0,
 	0,
 	6,
@@ -42728,13 +46292,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2677);
+	30,
+	2910);
 INSERT INTO V_LIN
-	VALUES (2696,
+	VALUES (2929,
 	'5');
 INSERT INTO V_VAL
-	VALUES (2685,
+	VALUES (2918,
 	0,
 	0,
 	-1,
@@ -42744,15 +46308,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	72,
-	2677);
+	108,
+	2910);
 INSERT INTO V_BIN
-	VALUES (2685,
-	2697,
-	2695,
+	VALUES (2918,
+	2930,
+	2928,
 	'==');
 INSERT INTO V_VAL
-	VALUES (2697,
+	VALUES (2930,
 	0,
 	0,
 	6,
@@ -42762,23 +46326,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2677);
+	30,
+	2910);
 INSERT INTO V_LIN
-	VALUES (2697,
+	VALUES (2930,
 	'0');
 INSERT INTO V_VAR
-	VALUES (2680,
-	2677,
+	VALUES (2913,
+	2910,
 	'gps',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (2680,
+	VALUES (2913,
 	0,
-	2615);
+	2848);
 INSERT INTO ACT_BLK
-	VALUES (2681,
+	VALUES (2914,
 	0,
 	0,
 	0,
@@ -42798,36 +46362,36 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2676,
+	2909,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2698,
-	2681,
-	2699,
+	VALUES (2931,
+	2914,
+	2932,
 	4,
 	3,
 	'GPS::locating line: 4');
 INSERT INTO ACT_AI
-	VALUES (2698,
-	2700,
-	2701,
+	VALUES (2931,
+	2933,
+	2934,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2699,
-	2681,
+	VALUES (2932,
+	2914,
 	0,
 	5,
 	3,
 	'GPS::locating line: 5');
 INSERT INTO ACT_AI
-	VALUES (2699,
-	2702,
-	2703,
+	VALUES (2932,
+	2935,
+	2936,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (2704,
+	VALUES (2937,
 	1,
 	0,
 	4,
@@ -42837,13 +46401,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2681);
+	106,
+	2914);
 INSERT INTO V_IRF
-	VALUES (2704,
-	2680);
+	VALUES (2937,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2701,
+	VALUES (2934,
 	1,
 	0,
 	4,
@@ -42853,15 +46417,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2681);
+	10,
+	2914);
 INSERT INTO V_AVL
-	VALUES (2701,
-	2704,
-	2615,
-	2650);
+	VALUES (2934,
+	2937,
+	2848,
+	2883);
 INSERT INTO V_VAL
-	VALUES (2705,
+	VALUES (2938,
 	0,
 	0,
 	4,
@@ -42871,13 +46435,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2681);
+	106,
+	2914);
 INSERT INTO V_IRF
-	VALUES (2705,
-	2680);
+	VALUES (2938,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2706,
+	VALUES (2939,
 	0,
 	0,
 	4,
@@ -42887,15 +46451,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2681);
+	10,
+	2914);
 INSERT INTO V_AVL
-	VALUES (2706,
-	2705,
-	2615,
-	2650);
+	VALUES (2939,
+	2938,
+	2848,
+	2883);
 INSERT INTO V_VAL
-	VALUES (2700,
+	VALUES (2933,
 	0,
 	0,
 	-1,
@@ -42905,15 +46469,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2681);
+	10,
+	2914);
 INSERT INTO V_BIN
-	VALUES (2700,
-	2707,
-	2706,
+	VALUES (2933,
+	2940,
+	2939,
 	'+');
 INSERT INTO V_VAL
-	VALUES (2708,
+	VALUES (2941,
 	0,
 	0,
 	4,
@@ -42923,14 +46487,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2681);
+	10,
+	2914);
 INSERT INTO V_SCV
-	VALUES (2708,
-	2506,
-	170);
+	VALUES (2941,
+	2739,
+	10);
 INSERT INTO V_VAL
-	VALUES (2707,
+	VALUES (2940,
 	0,
 	0,
 	-1,
@@ -42940,15 +46504,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2681);
+	10,
+	2914);
 INSERT INTO V_BIN
-	VALUES (2707,
-	2709,
-	2708,
+	VALUES (2940,
+	2942,
+	2941,
 	'*');
 INSERT INTO V_VAL
-	VALUES (2709,
+	VALUES (2942,
 	0,
 	0,
 	4,
@@ -42958,13 +46522,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2681);
+	30,
+	2914);
 INSERT INTO V_LIN
-	VALUES (2709,
+	VALUES (2942,
 	'2');
 INSERT INTO V_VAL
-	VALUES (2710,
+	VALUES (2943,
 	1,
 	0,
 	5,
@@ -42974,13 +46538,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2681);
+	106,
+	2914);
 INSERT INTO V_IRF
-	VALUES (2710,
-	2680);
+	VALUES (2943,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2703,
+	VALUES (2936,
 	1,
 	0,
 	5,
@@ -42990,15 +46554,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2681);
+	10,
+	2914);
 INSERT INTO V_AVL
-	VALUES (2703,
-	2710,
-	2615,
-	2648);
+	VALUES (2936,
+	2943,
+	2848,
+	2881);
 INSERT INTO V_VAL
-	VALUES (2711,
+	VALUES (2944,
 	0,
 	0,
 	5,
@@ -43008,13 +46572,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2681);
+	106,
+	2914);
 INSERT INTO V_IRF
-	VALUES (2711,
-	2680);
+	VALUES (2944,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2712,
+	VALUES (2945,
 	0,
 	0,
 	5,
@@ -43024,15 +46588,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2681);
+	10,
+	2914);
 INSERT INTO V_AVL
-	VALUES (2712,
-	2711,
-	2615,
-	2648);
+	VALUES (2945,
+	2944,
+	2848,
+	2881);
 INSERT INTO V_VAL
-	VALUES (2702,
+	VALUES (2935,
 	0,
 	0,
 	-1,
@@ -43042,15 +46606,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2681);
+	10,
+	2914);
 INSERT INTO V_BIN
-	VALUES (2702,
-	2713,
-	2712,
+	VALUES (2935,
+	2946,
+	2945,
 	'+');
 INSERT INTO V_VAL
-	VALUES (2713,
+	VALUES (2946,
 	0,
 	0,
 	5,
@@ -43060,14 +46624,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2681);
+	10,
+	2914);
 INSERT INTO V_SCV
-	VALUES (2713,
-	2507,
-	170);
+	VALUES (2946,
+	2740,
+	10);
 INSERT INTO ACT_BLK
-	VALUES (2684,
+	VALUES (2917,
 	0,
 	0,
 	0,
@@ -43087,36 +46651,36 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2676,
+	2909,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2714,
-	2684,
-	2715,
+	VALUES (2947,
+	2917,
+	2948,
 	7,
 	3,
 	'GPS::locating line: 7');
 INSERT INTO ACT_AI
-	VALUES (2714,
-	2716,
-	2717,
+	VALUES (2947,
+	2949,
+	2950,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2715,
-	2684,
+	VALUES (2948,
+	2917,
 	0,
 	8,
 	3,
 	'GPS::locating line: 8');
 INSERT INTO ACT_AI
-	VALUES (2715,
-	2718,
-	2719,
+	VALUES (2948,
+	2951,
+	2952,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (2720,
+	VALUES (2953,
 	1,
 	0,
 	7,
@@ -43126,13 +46690,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2684);
+	106,
+	2917);
 INSERT INTO V_IRF
-	VALUES (2720,
-	2680);
+	VALUES (2953,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2717,
+	VALUES (2950,
 	1,
 	0,
 	7,
@@ -43142,15 +46706,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2684);
+	10,
+	2917);
 INSERT INTO V_AVL
-	VALUES (2717,
-	2720,
-	2615,
-	2650);
+	VALUES (2950,
+	2953,
+	2848,
+	2883);
 INSERT INTO V_VAL
-	VALUES (2721,
+	VALUES (2954,
 	0,
 	0,
 	7,
@@ -43160,13 +46724,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2684);
+	106,
+	2917);
 INSERT INTO V_IRF
-	VALUES (2721,
-	2680);
+	VALUES (2954,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2722,
+	VALUES (2955,
 	0,
 	0,
 	7,
@@ -43176,15 +46740,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2684);
+	10,
+	2917);
 INSERT INTO V_AVL
-	VALUES (2722,
-	2721,
-	2615,
-	2650);
+	VALUES (2955,
+	2954,
+	2848,
+	2883);
 INSERT INTO V_VAL
-	VALUES (2716,
+	VALUES (2949,
 	0,
 	0,
 	-1,
@@ -43194,15 +46758,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2684);
+	10,
+	2917);
 INSERT INTO V_BIN
-	VALUES (2716,
-	2723,
-	2722,
+	VALUES (2949,
+	2956,
+	2955,
 	'+');
 INSERT INTO V_VAL
-	VALUES (2723,
+	VALUES (2956,
 	0,
 	0,
 	7,
@@ -43212,14 +46776,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2684);
+	10,
+	2917);
 INSERT INTO V_SCV
-	VALUES (2723,
-	2506,
-	170);
+	VALUES (2956,
+	2739,
+	10);
 INSERT INTO V_VAL
-	VALUES (2724,
+	VALUES (2957,
 	1,
 	0,
 	8,
@@ -43229,13 +46793,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2684);
+	106,
+	2917);
 INSERT INTO V_IRF
-	VALUES (2724,
-	2680);
+	VALUES (2957,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2719,
+	VALUES (2952,
 	1,
 	0,
 	8,
@@ -43245,15 +46809,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2684);
+	10,
+	2917);
 INSERT INTO V_AVL
-	VALUES (2719,
-	2724,
-	2615,
-	2648);
+	VALUES (2952,
+	2957,
+	2848,
+	2881);
 INSERT INTO V_VAL
-	VALUES (2725,
+	VALUES (2958,
 	0,
 	0,
 	8,
@@ -43263,13 +46827,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2684);
+	106,
+	2917);
 INSERT INTO V_IRF
-	VALUES (2725,
-	2680);
+	VALUES (2958,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2726,
+	VALUES (2959,
 	0,
 	0,
 	8,
@@ -43279,15 +46843,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2684);
+	10,
+	2917);
 INSERT INTO V_AVL
-	VALUES (2726,
-	2725,
-	2615,
-	2648);
+	VALUES (2959,
+	2958,
+	2848,
+	2881);
 INSERT INTO V_VAL
-	VALUES (2718,
+	VALUES (2951,
 	0,
 	0,
 	-1,
@@ -43297,15 +46861,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2684);
+	10,
+	2917);
 INSERT INTO V_BIN
-	VALUES (2718,
-	2727,
-	2726,
+	VALUES (2951,
+	2960,
+	2959,
 	'+');
 INSERT INTO V_VAL
-	VALUES (2728,
+	VALUES (2961,
 	0,
 	0,
 	8,
@@ -43315,14 +46879,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2684);
+	10,
+	2917);
 INSERT INTO V_SCV
-	VALUES (2728,
-	2507,
-	170);
+	VALUES (2961,
+	2740,
+	10);
 INSERT INTO V_VAL
-	VALUES (2727,
+	VALUES (2960,
 	0,
 	0,
 	-1,
@@ -43332,15 +46896,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2684);
+	10,
+	2917);
 INSERT INTO V_BIN
-	VALUES (2727,
-	2729,
-	2728,
+	VALUES (2960,
+	2962,
+	2961,
 	'*');
 INSERT INTO V_VAL
-	VALUES (2729,
+	VALUES (2962,
 	0,
 	0,
 	8,
@@ -43350,13 +46914,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2684);
+	30,
+	2917);
 INSERT INTO V_LIN
-	VALUES (2729,
+	VALUES (2962,
 	'3');
 INSERT INTO ACT_BLK
-	VALUES (2687,
+	VALUES (2920,
 	0,
 	0,
 	0,
@@ -43376,36 +46940,36 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2676,
+	2909,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2730,
-	2687,
-	2731,
+	VALUES (2963,
+	2920,
+	2964,
 	10,
 	3,
 	'GPS::locating line: 10');
 INSERT INTO ACT_AI
-	VALUES (2730,
-	2732,
-	2733,
+	VALUES (2963,
+	2965,
+	2966,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2731,
-	2687,
+	VALUES (2964,
+	2920,
 	0,
 	11,
 	3,
 	'GPS::locating line: 11');
 INSERT INTO ACT_AI
-	VALUES (2731,
-	2734,
-	2735,
+	VALUES (2964,
+	2967,
+	2968,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (2736,
+	VALUES (2969,
 	1,
 	0,
 	10,
@@ -43415,13 +46979,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2687);
+	106,
+	2920);
 INSERT INTO V_IRF
-	VALUES (2736,
-	2680);
+	VALUES (2969,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2733,
+	VALUES (2966,
 	1,
 	0,
 	10,
@@ -43431,15 +46995,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2687);
+	10,
+	2920);
 INSERT INTO V_AVL
-	VALUES (2733,
-	2736,
-	2615,
-	2650);
+	VALUES (2966,
+	2969,
+	2848,
+	2883);
 INSERT INTO V_VAL
-	VALUES (2737,
+	VALUES (2970,
 	0,
 	0,
 	10,
@@ -43449,13 +47013,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2687);
+	106,
+	2920);
 INSERT INTO V_IRF
-	VALUES (2737,
-	2680);
+	VALUES (2970,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2738,
+	VALUES (2971,
 	0,
 	0,
 	10,
@@ -43465,15 +47029,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2687);
+	10,
+	2920);
 INSERT INTO V_AVL
-	VALUES (2738,
-	2737,
-	2615,
-	2650);
+	VALUES (2971,
+	2970,
+	2848,
+	2883);
 INSERT INTO V_VAL
-	VALUES (2732,
+	VALUES (2965,
 	0,
 	0,
 	-1,
@@ -43483,15 +47047,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2687);
+	10,
+	2920);
 INSERT INTO V_BIN
-	VALUES (2732,
-	2739,
-	2738,
+	VALUES (2965,
+	2972,
+	2971,
 	'+');
 INSERT INTO V_VAL
-	VALUES (2739,
+	VALUES (2972,
 	0,
 	0,
 	10,
@@ -43501,14 +47065,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2687);
+	10,
+	2920);
 INSERT INTO V_SCV
-	VALUES (2739,
-	2506,
-	170);
+	VALUES (2972,
+	2739,
+	10);
 INSERT INTO V_VAL
-	VALUES (2740,
+	VALUES (2973,
 	1,
 	0,
 	11,
@@ -43518,13 +47082,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2687);
+	106,
+	2920);
 INSERT INTO V_IRF
-	VALUES (2740,
-	2680);
+	VALUES (2973,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2735,
+	VALUES (2968,
 	1,
 	0,
 	11,
@@ -43534,15 +47098,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2687);
+	10,
+	2920);
 INSERT INTO V_AVL
-	VALUES (2735,
-	2740,
-	2615,
-	2648);
+	VALUES (2968,
+	2973,
+	2848,
+	2881);
 INSERT INTO V_VAL
-	VALUES (2741,
+	VALUES (2974,
 	0,
 	0,
 	11,
@@ -43552,13 +47116,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2687);
+	106,
+	2920);
 INSERT INTO V_IRF
-	VALUES (2741,
-	2680);
+	VALUES (2974,
+	2913);
 INSERT INTO V_VAL
-	VALUES (2742,
+	VALUES (2975,
 	0,
 	0,
 	11,
@@ -43568,15 +47132,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2687);
+	10,
+	2920);
 INSERT INTO V_AVL
-	VALUES (2742,
-	2741,
-	2615,
-	2648);
+	VALUES (2975,
+	2974,
+	2848,
+	2881);
 INSERT INTO V_VAL
-	VALUES (2734,
+	VALUES (2967,
 	0,
 	0,
 	-1,
@@ -43586,15 +47150,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2687);
+	10,
+	2920);
 INSERT INTO V_BIN
-	VALUES (2734,
-	2743,
-	2742,
+	VALUES (2967,
+	2976,
+	2975,
 	'+');
 INSERT INTO V_VAL
-	VALUES (2743,
+	VALUES (2976,
 	0,
 	0,
 	11,
@@ -43604,28 +47168,28 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	170,
-	2687);
+	10,
+	2920);
 INSERT INTO V_SCV
-	VALUES (2743,
-	2507,
-	170);
+	VALUES (2976,
+	2740,
+	10);
 INSERT INTO SM_NSTXN
-	VALUES (2744,
-	2651,
-	2654,
-	2652,
+	VALUES (2977,
+	2884,
+	2887,
+	2885,
 	0);
 INSERT INTO SM_TAH
-	VALUES (2745,
-	2651,
-	2744);
+	VALUES (2978,
+	2884,
+	2977);
 INSERT INTO SM_AH
-	VALUES (2745,
-	2651);
+	VALUES (2978,
+	2884);
 INSERT INTO SM_ACT
-	VALUES (2745,
-	2651,
+	VALUES (2978,
+	2884,
 	1,
 	'// Activate the simulated GPS.
 GPS::activate();
@@ -43634,20 +47198,20 @@ LOG::LogInfo(message: "Location listener registered.");
 ',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (2746,
-	2651,
-	2745);
+	VALUES (2979,
+	2884,
+	2978);
 INSERT INTO ACT_ACT
-	VALUES (2746,
+	VALUES (2979,
 	'class transition',
 	0,
-	2747,
+	2980,
 	0,
 	0,
 	'GPS_A2: registerListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2747,
+	VALUES (2980,
 	0,
 	0,
 	0,
@@ -43667,39 +47231,39 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2746,
+	2979,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2748,
-	2747,
-	2749,
+	VALUES (2981,
+	2980,
+	2982,
 	2,
 	1,
 	'GPS_A2: registerListener line: 2');
 INSERT INTO ACT_TFM
-	VALUES (2748,
-	2616,
+	VALUES (2981,
+	2849,
 	0,
 	2,
 	6,
 	2,
 	1);
 INSERT INTO ACT_SMT
-	VALUES (2749,
-	2747,
+	VALUES (2982,
+	2980,
 	0,
 	4,
 	1,
 	'GPS_A2: registerListener line: 4');
 INSERT INTO ACT_BRG
-	VALUES (2749,
-	2524,
+	VALUES (2982,
+	2757,
 	4,
 	6,
 	4,
 	1);
 INSERT INTO V_VAL
-	VALUES (2750,
+	VALUES (2983,
 	0,
 	0,
 	4,
@@ -43709,58 +47273,58 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	96,
-	2747);
+	130,
+	2980);
 INSERT INTO V_LST
-	VALUES (2750,
+	VALUES (2983,
 	'Location listener registered.');
 INSERT INTO V_PAR
-	VALUES (2750,
-	2749,
+	VALUES (2983,
+	2982,
 	0,
 	'message',
 	0,
 	4,
 	14);
 INSERT INTO SM_TXN
-	VALUES (2744,
-	2651,
-	2674,
+	VALUES (2977,
+	2884,
+	2907,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (2751,
-	2651,
-	2674,
-	2653,
+	VALUES (2984,
+	2884,
+	2907,
+	2886,
 	0);
 INSERT INTO SM_TAH
-	VALUES (2752,
-	2651,
-	2751);
+	VALUES (2985,
+	2884,
+	2984);
 INSERT INTO SM_AH
-	VALUES (2752,
-	2651);
+	VALUES (2985,
+	2884);
 INSERT INTO SM_ACT
-	VALUES (2752,
-	2651,
+	VALUES (2985,
+	2884,
 	1,
 	'',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (2753,
-	2651,
-	2752);
+	VALUES (2986,
+	2884,
+	2985);
 INSERT INTO ACT_ACT
-	VALUES (2753,
+	VALUES (2986,
 	'class transition',
 	0,
-	2754,
+	2987,
 	0,
 	0,
 	'GPS_A3: unregisterListener',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2754,
+	VALUES (2987,
 	0,
 	0,
 	0,
@@ -43780,29 +47344,29 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2753,
+	2986,
 	0);
 INSERT INTO SM_TXN
-	VALUES (2751,
-	2651,
-	2654,
+	VALUES (2984,
+	2884,
+	2887,
 	0);
 INSERT INTO SM_NSTXN
-	VALUES (2755,
-	2651,
-	2674,
-	2627,
+	VALUES (2988,
+	2884,
+	2907,
+	2860,
 	0);
 INSERT INTO SM_TAH
-	VALUES (2756,
-	2651,
-	2755);
+	VALUES (2989,
+	2884,
+	2988);
 INSERT INTO SM_AH
-	VALUES (2756,
-	2651);
+	VALUES (2989,
+	2884);
 INSERT INTO SM_ACT
-	VALUES (2756,
-	2651,
+	VALUES (2989,
+	2884,
 	1,
 	'// Increment simulated motion segment count.
 select any gps from instances of GPS;
@@ -43810,20 +47374,20 @@ gps.motionSegments = gps.motionSegments + 1;
 ',
 	'');
 INSERT INTO ACT_TAB
-	VALUES (2757,
-	2651,
-	2756);
+	VALUES (2990,
+	2884,
+	2989);
 INSERT INTO ACT_ACT
-	VALUES (2757,
+	VALUES (2990,
 	'class transition',
 	0,
-	2758,
+	2991,
 	0,
 	0,
 	'GPS_A1: tick',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (2758,
+	VALUES (2991,
 	1,
 	0,
 	0,
@@ -43843,38 +47407,38 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	2757,
+	2990,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (2759,
-	2758,
-	2760,
+	VALUES (2992,
+	2991,
+	2993,
 	2,
 	1,
 	'GPS_A1: tick line: 2');
 INSERT INTO ACT_FIO
-	VALUES (2759,
-	2761,
+	VALUES (2992,
+	2994,
 	1,
 	'any',
-	2615,
+	2848,
 	2,
 	34);
 INSERT INTO ACT_SMT
-	VALUES (2760,
-	2758,
+	VALUES (2993,
+	2991,
 	0,
 	3,
 	1,
 	'GPS_A1: tick line: 3');
 INSERT INTO ACT_AI
-	VALUES (2760,
-	2762,
-	2763,
+	VALUES (2993,
+	2995,
+	2996,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (2764,
+	VALUES (2997,
 	1,
 	0,
 	3,
@@ -43884,13 +47448,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2758);
+	106,
+	2991);
 INSERT INTO V_IRF
-	VALUES (2764,
-	2761);
+	VALUES (2997,
+	2994);
 INSERT INTO V_VAL
-	VALUES (2763,
+	VALUES (2996,
 	1,
 	0,
 	3,
@@ -43900,15 +47464,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2758);
+	30,
+	2991);
 INSERT INTO V_AVL
-	VALUES (2763,
-	2764,
-	2615,
-	2646);
+	VALUES (2996,
+	2997,
+	2848,
+	2879);
 INSERT INTO V_VAL
-	VALUES (2765,
+	VALUES (2998,
 	0,
 	0,
 	3,
@@ -43918,13 +47482,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	70,
-	2758);
+	106,
+	2991);
 INSERT INTO V_IRF
-	VALUES (2765,
-	2761);
+	VALUES (2998,
+	2994);
 INSERT INTO V_VAL
-	VALUES (2766,
+	VALUES (2999,
 	0,
 	0,
 	3,
@@ -43934,15 +47498,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2758);
+	30,
+	2991);
 INSERT INTO V_AVL
-	VALUES (2766,
-	2765,
-	2615,
-	2646);
+	VALUES (2999,
+	2998,
+	2848,
+	2879);
 INSERT INTO V_VAL
-	VALUES (2762,
+	VALUES (2995,
 	0,
 	0,
 	-1,
@@ -43952,15 +47516,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2758);
+	30,
+	2991);
 INSERT INTO V_BIN
-	VALUES (2762,
-	2767,
-	2766,
+	VALUES (2995,
+	3000,
+	2999,
 	'+');
 INSERT INTO V_VAL
-	VALUES (2767,
+	VALUES (3000,
 	0,
 	0,
 	3,
@@ -43970,47 +47534,47 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	13,
-	2758);
+	30,
+	2991);
 INSERT INTO V_LIN
-	VALUES (2767,
+	VALUES (3000,
 	'1');
 INSERT INTO V_VAR
-	VALUES (2761,
-	2758,
+	VALUES (2994,
+	2991,
 	'gps',
 	1,
-	70);
+	106);
 INSERT INTO V_INT
-	VALUES (2761,
+	VALUES (2994,
 	0,
-	2615);
+	2848);
 INSERT INTO SM_TXN
-	VALUES (2755,
-	2651,
-	2674,
+	VALUES (2988,
+	2884,
+	2907,
 	0);
 INSERT INTO PE_PE
-	VALUES (2768,
+	VALUES (3001,
 	1,
-	2448,
+	2689,
 	0,
 	7);
 INSERT INTO EP_PKG
-	VALUES (2768,
+	VALUES (3001,
 	0,
-	2447,
+	2688,
 	'shared',
 	'',
 	0);
 INSERT INTO PE_PE
-	VALUES (2769,
+	VALUES (3002,
 	1,
-	2768,
+	3001,
 	0,
 	10);
 INSERT INTO CNST_CSP
-	VALUES (2769,
+	VALUES (3002,
 	'Distance',
 	'kmPerDegree is a rough conversion figure valid for most latitude figures (except where 
 the irregular shape of the earth perturbs the value) and for longitude figures
@@ -44019,179 +47583,179 @@ away from the poles (where the distance between longitude lines decreases to zer
 latitudeIncrement and longitudeIncrement specify the distance traveled by the simulated
 GPS during each interval.');
 INSERT INTO CNST_SYC
-	VALUES (2494,
+	VALUES (2729,
 	'kmPerDegree',
 	'',
-	170,
-	2769,
+	10,
+	3002,
 	0,
 	0);
 INSERT INTO CNST_LFSC
-	VALUES (2494,
-	170);
+	VALUES (2729,
+	10);
 INSERT INTO CNST_LSC
-	VALUES (2494,
-	170,
+	VALUES (2729,
+	10,
 	'111.32');
 INSERT INTO PE_PE
-	VALUES (2770,
+	VALUES (3003,
 	1,
-	2768,
+	3001,
 	0,
 	10);
 INSERT INTO CNST_CSP
-	VALUES (2770,
+	VALUES (3003,
 	'Speed',
 	'SpeedAveragingWindow is the number of track points used to calculate the current average speed.
 SecondsPerHour is the number of seconds in one hour.');
 INSERT INTO CNST_SYC
-	VALUES (1415,
+	VALUES (1024,
 	'SecondsPerHour',
 	'',
-	13,
-	2770,
-	1400,
-	13);
+	30,
+	3003,
+	1009,
+	30);
 INSERT INTO CNST_LFSC
-	VALUES (1415,
-	13);
+	VALUES (1024,
+	30);
 INSERT INTO CNST_LSC
-	VALUES (1415,
-	13,
+	VALUES (1024,
+	30,
 	'3600');
 INSERT INTO CNST_SYC
-	VALUES (1400,
+	VALUES (1009,
 	'SpeedAveragingWindow',
 	'',
-	13,
-	2770,
+	30,
+	3003,
 	0,
 	0);
 INSERT INTO CNST_LFSC
-	VALUES (1400,
-	13);
+	VALUES (1009,
+	30);
 INSERT INTO CNST_LSC
-	VALUES (1400,
-	13,
+	VALUES (1009,
+	30,
 	'5');
 INSERT INTO PE_PE
-	VALUES (2452,
+	VALUES (2527,
 	1,
-	2768,
+	3001,
 	0,
 	6);
 INSERT INTO C_I
-	VALUES (2452,
+	VALUES (2527,
 	0,
 	'Location',
 	'');
 INSERT INTO C_EP
-	VALUES (2454,
-	2452,
+	VALUES (2529,
+	2527,
 	-1,
 	'getLocation',
 	'');
 INSERT INTO C_IO
-	VALUES (2454,
-	240,
+	VALUES (2529,
+	6,
 	'getLocation',
 	'',
 	0,
 	'',
-	2458);
+	2533);
 INSERT INTO C_PP
-	VALUES (2771,
-	2454,
-	13,
+	VALUES (3004,
+	2529,
+	30,
 	'latitude',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_PP
-	VALUES (2772,
-	2454,
-	13,
+	VALUES (3005,
+	2529,
+	30,
 	'longitude',
 	'',
 	0,
 	'',
-	2771);
+	3004);
 INSERT INTO C_EP
-	VALUES (2458,
-	2452,
+	VALUES (2533,
+	2527,
 	-1,
 	'getDistance',
 	'');
 INSERT INTO C_IO
-	VALUES (2458,
-	170,
+	VALUES (2533,
+	10,
 	'getDistance',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_PP
-	VALUES (2474,
-	2458,
-	13,
+	VALUES (2709,
+	2533,
+	30,
 	'toLat',
 	'',
 	0,
 	'',
 	0);
 INSERT INTO C_PP
-	VALUES (2476,
-	2458,
-	13,
+	VALUES (2711,
+	2533,
+	30,
 	'fromLat',
 	'',
 	0,
 	'',
-	2474);
+	2709);
 INSERT INTO C_PP
-	VALUES (2479,
-	2458,
-	13,
+	VALUES (2714,
+	2533,
+	30,
 	'toLong',
 	'',
 	0,
 	'',
-	2476);
+	2711);
 INSERT INTO C_PP
-	VALUES (2481,
-	2458,
-	13,
+	VALUES (2716,
+	2533,
+	30,
 	'fromLong',
 	'',
 	0,
 	'',
-	2479);
+	2714);
 INSERT INTO C_EP
-	VALUES (2497,
-	2452,
+	VALUES (2537,
+	2527,
 	-1,
 	'registerListener',
 	'');
 INSERT INTO C_IO
-	VALUES (2497,
-	240,
+	VALUES (2537,
+	6,
 	'registerListener',
 	'',
 	0,
 	'',
-	2454);
+	2529);
 INSERT INTO C_EP
-	VALUES (2501,
-	2452,
+	VALUES (2541,
+	2527,
 	-1,
 	'unregisterListener',
 	'');
 INSERT INTO C_IO
-	VALUES (2501,
-	240,
+	VALUES (2541,
+	6,
 	'unregisterListener',
 	'',
 	0,
 	'',
-	2497);
+	2537);

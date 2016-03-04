@@ -1,6 +1,16 @@
 domain UI is
   object TestCase;
   object UI;
+  public type Unit is 
+  ;
+  public type Indicator is 
+  ;
+    private service createGoals_1 (
+    );
+    private service init (
+    );
+    private service RunTestCase (
+    );
     private service sendLapResetPressed (
     );
     private service sendLightPressed (
@@ -11,12 +21,14 @@ domain UI is
     );
     private service sendTargetPressed (
     );
-    private service createGoals_1 (
-    );
-    private service init (
-    );
-    private service RunTestCase (
-    );
+    private service setData (
+        unit : in Unit,        value : in real    );
+    private service setTime (
+        time : in integer    );
+    private service setIndicator (
+        indicator : in Indicator    );
+    private service newGoalSpec (
+        spanType : in GoalSpan,        criteriaType : in GoalCriteria,        span : in real,        maximum : in real,        minimum : in real,        sequenceNumber : in integer    );
   terminator UI is
     public service setTime (
         time : in integer    );
@@ -44,24 +56,23 @@ domain UI is
     );
   end terminator;
   object TestCase is
-    current_state :   state<State_Model>;
     iterations :   integer;
     public  service execute (
     );
      state pressStartStop();
      state testCaseFinished();
-     event delay();
-     event start(        iterations : in integer);
-     event finish();
+     event tcdelay();
+     event tcstart(        iterations : in integer);
+     event tcfinish();
      transition is
       pressStartStop (
-        delay => pressStartStop,
-        start => cannot_happen,
-        finish => testCaseFinished      ); 
+        tcdelay => pressStartStop,
+        tcstart => cannot_happen,
+        tcfinish => testCaseFinished      ); 
       testCaseFinished (
-        delay => cannot_happen,
-        start => cannot_happen,
-        finish => cannot_happen      ); 
+        tcdelay => cannot_happen,
+        tcstart => cannot_happen,
+        tcfinish => cannot_happen      ); 
     end transition;
   end object;
   object UI is

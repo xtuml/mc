@@ -718,20 +718,1506 @@ INSERT INTO PE_PE
 	1,
 	60,
 	0,
+	10);
+INSERT INTO CNST_CSP
+	VALUES (61,
+	'simulatedGPS',
+	'Constants specifying the behavior of the simulated GPS.
+
+initialLatitude and initialLongitude specify, as decimal degrees, 
+the initial location of the simulated GPS.
+
+latitudeIncrement and longitudeIncrement specify, as decimal degrees, 
+the distance the simulated GPS moves during each update period.
+
+updatePeriod specifies, in microseconds, the update period for the
+simulated GPS.  In other words, the simulated GPS updates its location
+once per updatePeriod.');
+INSERT INTO CNST_SYC
+	VALUES (62,
+	'longitudeIncrement',
+	'',
+	45,
+	61,
+	0,
+	0);
+INSERT INTO CNST_LFSC
+	VALUES (62,
+	45);
+INSERT INTO CNST_LSC
+	VALUES (62,
+	45,
+	'0.00002');
+INSERT INTO CNST_SYC
+	VALUES (63,
+	'latitudeIncrement',
+	'',
+	45,
+	61,
+	62,
+	45);
+INSERT INTO CNST_LFSC
+	VALUES (63,
+	45);
+INSERT INTO CNST_LSC
+	VALUES (63,
+	45,
+	'0.00001');
+INSERT INTO CNST_SYC
+	VALUES (64,
+	'initialLatitude',
+	'',
+	45,
+	61,
+	63,
+	45);
+INSERT INTO CNST_LFSC
+	VALUES (64,
+	45);
+INSERT INTO CNST_LSC
+	VALUES (64,
+	45,
+	'32.432237');
+INSERT INTO CNST_SYC
+	VALUES (65,
+	'initialLongitude',
+	'',
+	45,
+	61,
+	64,
+	45);
+INSERT INTO CNST_LFSC
+	VALUES (65,
+	45);
+INSERT INTO CNST_LSC
+	VALUES (65,
+	45,
+	'-110.812283');
+INSERT INTO CNST_SYC
+	VALUES (66,
+	'updatePeriod',
+	'',
+	26,
+	61,
+	65,
+	45);
+INSERT INTO CNST_LFSC
+	VALUES (66,
+	26);
+INSERT INTO CNST_LSC
+	VALUES (66,
+	26,
+	'1000000');
+INSERT INTO PE_PE
+	VALUES (67,
+	1,
+	60,
+	0,
+	5);
+INSERT INTO S_EE
+	VALUES (67,
+	'Math',
+	'',
+	'MATH',
+	0,
+	'',
+	'Math',
+	1);
+INSERT INTO S_BRG
+	VALUES (46,
+	67,
+	'sqrt',
+	'',
+	0,
+	45,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (68,
+	46,
+	'x',
+	45,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (69,
+	46);
+INSERT INTO ACT_ACT
+	VALUES (69,
+	'bridge',
+	0,
+	70,
+	0,
+	0,
+	'Math::sqrt',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (70,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	69,
+	0);
+INSERT INTO PE_PE
+	VALUES (71,
+	1,
+	60,
+	0,
+	5);
+INSERT INTO S_EE
+	VALUES (71,
+	'Logging',
+	'',
+	'LOG',
+	0,
+	'',
+	'Logging',
+	1);
+INSERT INTO S_BRG
+	VALUES (72,
+	71,
+	'LogSuccess',
+	'',
+	0,
+	73,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (74,
+	72,
+	'message',
+	75,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (76,
+	72);
+INSERT INTO ACT_ACT
+	VALUES (76,
+	'bridge',
+	0,
+	77,
+	0,
+	0,
+	'Logging::LogSuccess',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (77,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	76,
+	0);
+INSERT INTO S_BRG
+	VALUES (78,
+	71,
+	'LogFailure',
+	'',
+	0,
+	73,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (79,
+	78,
+	'message',
+	75,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (80,
+	78);
+INSERT INTO ACT_ACT
+	VALUES (80,
+	'bridge',
+	0,
+	81,
+	0,
+	0,
+	'Logging::LogFailure',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (81,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	80,
+	0);
+INSERT INTO S_BRG
+	VALUES (82,
+	71,
+	'LogInfo',
+	'',
+	0,
+	73,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (83,
+	82,
+	'message',
+	75,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (84,
+	82);
+INSERT INTO ACT_ACT
+	VALUES (84,
+	'bridge',
+	0,
+	85,
+	0,
+	0,
+	'Logging::LogInfo',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (85,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	84,
+	0);
+INSERT INTO S_BRG
+	VALUES (86,
+	71,
+	'LogDate',
+	'',
+	0,
+	73,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (87,
+	86,
+	'd',
+	88,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES (89,
+	86,
+	'message',
+	75,
+	0,
+	'',
+	87,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (90,
+	86);
+INSERT INTO ACT_ACT
+	VALUES (90,
+	'bridge',
+	0,
+	91,
+	0,
+	0,
+	'Logging::LogDate',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (91,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	90,
+	0);
+INSERT INTO S_BRG
+	VALUES (92,
+	71,
+	'LogTime',
+	'',
+	0,
+	73,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (93,
+	92,
+	't',
+	94,
+	0,
+	'',
+	95,
+	'');
+INSERT INTO S_BPARM
+	VALUES (95,
+	92,
+	'message',
+	75,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (96,
+	92);
+INSERT INTO ACT_ACT
+	VALUES (96,
+	'bridge',
+	0,
+	97,
+	0,
+	0,
+	'Logging::LogTime',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (97,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	96,
+	0);
+INSERT INTO S_BRG
+	VALUES (98,
+	71,
+	'LogReal',
+	'',
+	0,
+	73,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (99,
+	98,
+	'r',
+	45,
+	0,
+	'',
+	100,
+	'');
+INSERT INTO S_BPARM
+	VALUES (100,
+	98,
+	'message',
+	75,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (101,
+	98);
+INSERT INTO ACT_ACT
+	VALUES (101,
+	'bridge',
+	0,
+	102,
+	0,
+	0,
+	'Logging::LogReal',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (102,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	101,
+	0);
+INSERT INTO S_BRG
+	VALUES (103,
+	71,
+	'LogInteger',
+	'',
+	0,
+	73,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (104,
+	103,
+	'message',
+	26,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (105,
+	103);
+INSERT INTO ACT_ACT
+	VALUES (105,
+	'bridge',
+	0,
+	106,
+	0,
+	0,
+	'Logging::LogInteger',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (106,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	105,
+	0);
+INSERT INTO PE_PE
+	VALUES (107,
+	1,
+	60,
+	0,
+	5);
+INSERT INTO S_EE
+	VALUES (107,
+	'Time',
+	'The Time external entity provides date, timestamp, and timer related operations.',
+	'TIM',
+	0,
+	'',
+	'Time',
+	1);
+INSERT INTO S_BRG
+	VALUES (108,
+	107,
+	'current_date',
+	'',
+	1,
+	88,
+	'',
+	1,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (109,
+	108);
+INSERT INTO ACT_ACT
+	VALUES (109,
+	'bridge',
+	0,
+	110,
+	0,
+	0,
+	'Time::current_date',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (110,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	109,
+	0);
+INSERT INTO S_BRG
+	VALUES (111,
+	107,
+	'create_date',
+	'',
+	1,
+	88,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (112,
+	111,
+	'second',
+	26,
+	0,
+	'',
+	113,
+	'');
+INSERT INTO S_BPARM
+	VALUES (114,
+	111,
+	'minute',
+	26,
+	0,
+	'',
+	115,
+	'');
+INSERT INTO S_BPARM
+	VALUES (115,
+	111,
+	'hour',
+	26,
+	0,
+	'',
+	116,
+	'');
+INSERT INTO S_BPARM
+	VALUES (116,
+	111,
+	'day',
+	26,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO S_BPARM
+	VALUES (113,
+	111,
+	'month',
+	26,
+	0,
+	'',
+	114,
+	'');
+INSERT INTO S_BPARM
+	VALUES (117,
+	111,
+	'year',
+	26,
+	0,
+	'',
+	112,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (118,
+	111);
+INSERT INTO ACT_ACT
+	VALUES (118,
+	'bridge',
+	0,
+	119,
+	0,
+	0,
+	'Time::create_date',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (119,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	118,
+	0);
+INSERT INTO S_BRG
+	VALUES (120,
+	107,
+	'get_second',
+	'',
+	1,
+	26,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (121,
+	120,
+	'date',
+	88,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (122,
+	120);
+INSERT INTO ACT_ACT
+	VALUES (122,
+	'bridge',
+	0,
+	123,
+	0,
+	0,
+	'Time::get_second',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (123,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	122,
+	0);
+INSERT INTO S_BRG
+	VALUES (124,
+	107,
+	'get_minute',
+	'',
+	1,
+	26,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (125,
+	124,
+	'date',
+	88,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (126,
+	124);
+INSERT INTO ACT_ACT
+	VALUES (126,
+	'bridge',
+	0,
+	127,
+	0,
+	0,
+	'Time::get_minute',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (127,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	126,
+	0);
+INSERT INTO S_BRG
+	VALUES (128,
+	107,
+	'get_hour',
+	'',
+	1,
+	26,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (129,
+	128,
+	'date',
+	88,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (130,
+	128);
+INSERT INTO ACT_ACT
+	VALUES (130,
+	'bridge',
+	0,
+	131,
+	0,
+	0,
+	'Time::get_hour',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (131,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	130,
+	0);
+INSERT INTO S_BRG
+	VALUES (132,
+	107,
+	'get_day',
+	'',
+	1,
+	26,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (133,
+	132,
+	'date',
+	88,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (134,
+	132);
+INSERT INTO ACT_ACT
+	VALUES (134,
+	'bridge',
+	0,
+	135,
+	0,
+	0,
+	'Time::get_day',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (135,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	134,
+	0);
+INSERT INTO S_BRG
+	VALUES (136,
+	107,
+	'get_month',
+	'',
+	1,
+	26,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (137,
+	136,
+	'date',
+	88,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (138,
+	136);
+INSERT INTO ACT_ACT
+	VALUES (138,
+	'bridge',
+	0,
+	139,
+	0,
+	0,
+	'Time::get_month',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (139,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	138,
+	0);
+INSERT INTO S_BRG
+	VALUES (140,
+	107,
+	'get_year',
+	'',
+	1,
+	26,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (141,
+	140,
+	'date',
+	88,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (142,
+	140);
+INSERT INTO ACT_ACT
+	VALUES (142,
+	'bridge',
+	0,
+	143,
+	0,
+	0,
+	'Time::get_year',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (143,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	142,
+	0);
+INSERT INTO S_BRG
+	VALUES (144,
+	107,
+	'current_clock',
+	'',
+	1,
+	94,
+	'',
+	1,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (145,
+	144);
+INSERT INTO ACT_ACT
+	VALUES (145,
+	'bridge',
+	0,
+	146,
+	0,
+	0,
+	'Time::current_clock',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (146,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	145,
+	0);
+INSERT INTO S_BRG
+	VALUES (147,
+	107,
+	'timer_start',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Returns the instance
+handle of the timer.',
+	1,
+	148,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (149,
+	147,
+	'microseconds',
+	26,
+	0,
+	'',
+	150,
+	'');
+INSERT INTO S_BPARM
+	VALUES (150,
+	147,
+	'event_inst',
+	151,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (152,
+	147);
+INSERT INTO ACT_ACT
+	VALUES (152,
+	'bridge',
+	0,
+	153,
+	0,
+	0,
+	'Time::timer_start',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (153,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	152,
+	0);
+INSERT INTO S_BRG
+	VALUES (154,
+	107,
+	'timer_start_recurring',
+	'This bridge operation starts a timer set to expire in the specified number of
+microseconds, generating the passed event upon expiration. Upon expiration, the
+timer will be restarted and fire again in the specified number of microseconds
+generating the passed event. This bridge operation returns the instance handle
+of the timer.',
+	1,
+	148,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (155,
+	154,
+	'microseconds',
+	26,
+	0,
+	'',
+	156,
+	'');
+INSERT INTO S_BPARM
+	VALUES (156,
+	154,
+	'event_inst',
+	151,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (157,
+	154);
+INSERT INTO ACT_ACT
+	VALUES (157,
+	'bridge',
+	0,
+	158,
+	0,
+	0,
+	'Time::timer_start_recurring',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (158,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	157,
+	0);
+INSERT INTO S_BRG
+	VALUES (159,
+	107,
+	'timer_remaining_time',
+	'Returns the time remaining (in microseconds) for the passed timer instance. If
+the timer has expired, a zero value is returned.',
+	1,
+	26,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (160,
+	159,
+	'timer_inst_ref',
+	148,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (161,
+	159);
+INSERT INTO ACT_ACT
+	VALUES (161,
+	'bridge',
+	0,
+	162,
+	0,
+	0,
+	'Time::timer_remaining_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (162,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	161,
+	0);
+INSERT INTO S_BRG
+	VALUES (163,
+	107,
+	'timer_reset_time',
+	'This bridge operation attempts to set the passed existing timer to expire in
+the specified number of microseconds. If the timer exists (that is, it has not
+expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
+is returned.',
+	1,
+	164,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (165,
+	163,
+	'timer_inst_ref',
+	148,
+	0,
+	'',
+	166,
+	'');
+INSERT INTO S_BPARM
+	VALUES (166,
+	163,
+	'microseconds',
+	26,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (167,
+	163);
+INSERT INTO ACT_ACT
+	VALUES (167,
+	'bridge',
+	0,
+	168,
+	0,
+	0,
+	'Time::timer_reset_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (168,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	167,
+	0);
+INSERT INTO S_BRG
+	VALUES (169,
+	107,
+	'timer_add_time',
+	'This bridge operation attempts to add the specified number of microseconds to a
+passed existing timer. If the timer exists (that is, it has not expired), a TRUE
+value is returned. If the timer no longer exists, a FALSE value is returned.',
+	1,
+	164,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (170,
+	169,
+	'timer_inst_ref',
+	148,
+	0,
+	'',
+	171,
+	'');
+INSERT INTO S_BPARM
+	VALUES (171,
+	169,
+	'microseconds',
+	26,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (172,
+	169);
+INSERT INTO ACT_ACT
+	VALUES (172,
+	'bridge',
+	0,
+	173,
+	0,
+	0,
+	'Time::timer_add_time',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (173,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	172,
+	0);
+INSERT INTO S_BRG
+	VALUES (174,
+	107,
+	'timer_cancel',
+	'This bridge operation cancels and deletes the passed timer instance. If the 
+timer exists (that is, it had not expired), a TRUE value is returned. If the
+timer no longer exists, a FALSE value is returned.',
+	1,
+	164,
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES (175,
+	174,
+	'timer_inst_ref',
+	148,
+	0,
+	'',
+	0,
+	'');
+INSERT INTO ACT_BRB
+	VALUES (176,
+	174);
+INSERT INTO ACT_ACT
+	VALUES (176,
+	'bridge',
+	0,
+	177,
+	0,
+	0,
+	'Time::timer_cancel',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (177,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	176,
+	0);
+INSERT INTO PE_PE
+	VALUES (178,
+	1,
+	60,
+	0,
 	4);
 INSERT INTO O_OBJ
-	VALUES (61,
+	VALUES (178,
 	'GPS',
 	1,
 	'GPS',
 	'Simulates a GPS.',
 	0);
 INSERT INTO O_TFR
-	VALUES (62,
-	61,
+	VALUES (179,
+	178,
 	'activate',
 	'',
-	63,
+	73,
 	0,
 	'// The GPS is a singleton instance, so create it if it does not exist.
 
@@ -751,19 +2237,19 @@ gps.timer = TIM::timer_start_recurring( event_inst: tick, microseconds: updatePe
 	'',
 	0);
 INSERT INTO ACT_OPB
-	VALUES (64,
-	62);
+	VALUES (180,
+	179);
 INSERT INTO ACT_ACT
-	VALUES (64,
+	VALUES (180,
 	'class operation',
 	0,
-	65,
+	181,
 	0,
 	0,
 	'GPS::activate',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (65,
+	VALUES (181,
 	1,
 	0,
 	0,
@@ -783,45 +2269,45 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	64,
+	180,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (66,
-	65,
-	67,
+	VALUES (182,
+	181,
+	183,
 	3,
 	1,
 	'GPS::activate line: 3');
 INSERT INTO ACT_FIO
-	VALUES (66,
-	68,
+	VALUES (182,
+	184,
 	1,
 	'any',
-	61,
+	178,
 	3,
 	34);
 INSERT INTO ACT_SMT
-	VALUES (67,
-	65,
-	69,
+	VALUES (183,
+	181,
+	185,
 	4,
 	1,
 	'GPS::activate line: 4');
 INSERT INTO ACT_IF
-	VALUES (67,
-	70,
-	71,
+	VALUES (183,
+	186,
+	187,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (69,
-	65,
-	72,
+	VALUES (185,
+	181,
+	188,
 	13,
 	1,
 	'GPS::activate line: 13');
 INSERT INTO E_ESS
-	VALUES (69,
+	VALUES (185,
 	1,
 	0,
 	13,
@@ -835,29 +2321,29 @@ INSERT INTO E_ESS
 	0,
 	0);
 INSERT INTO E_CES
-	VALUES (69,
+	VALUES (185,
 	1,
-	73);
+	189);
 INSERT INTO E_CSME
-	VALUES (69,
-	74);
+	VALUES (185,
+	190);
 INSERT INTO E_CEA
-	VALUES (69);
+	VALUES (185);
 INSERT INTO ACT_SMT
-	VALUES (72,
-	65,
+	VALUES (188,
+	181,
 	0,
 	14,
 	1,
 	'GPS::activate line: 14');
 INSERT INTO ACT_AI
-	VALUES (72,
-	75,
-	76,
+	VALUES (188,
+	191,
+	192,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (77,
+	VALUES (193,
 	0,
 	0,
 	4,
@@ -867,13 +2353,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	78,
-	65);
+	194,
+	181);
 INSERT INTO V_IRF
-	VALUES (77,
-	68);
+	VALUES (193,
+	184);
 INSERT INTO V_VAL
-	VALUES (71,
+	VALUES (187,
 	0,
 	0,
 	-1,
@@ -883,14 +2369,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	79,
-	65);
+	164,
+	181);
 INSERT INTO V_UNY
-	VALUES (71,
-	77,
+	VALUES (187,
+	193,
 	'empty');
 INSERT INTO V_VAL
-	VALUES (80,
+	VALUES (195,
 	1,
 	0,
 	14,
@@ -900,13 +2386,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	78,
-	65);
+	194,
+	181);
 INSERT INTO V_IRF
-	VALUES (80,
-	68);
+	VALUES (195,
+	184);
 INSERT INTO V_VAL
-	VALUES (76,
+	VALUES (192,
 	1,
 	0,
 	14,
@@ -916,15 +2402,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	81,
-	65);
+	148,
+	181);
 INSERT INTO V_AVL
-	VALUES (76,
-	80,
-	61,
-	82);
+	VALUES (192,
+	195,
+	178,
+	196);
 INSERT INTO V_VAL
-	VALUES (75,
+	VALUES (191,
 	0,
 	0,
 	14,
@@ -934,16 +2420,16 @@ INSERT INTO V_VAL
 	41,
 	14,
 	59,
-	81,
-	65);
+	148,
+	181);
 INSERT INTO V_BRV
-	VALUES (75,
-	83,
+	VALUES (191,
+	154,
 	1,
 	14,
 	13);
 INSERT INTO V_VAL
-	VALUES (84,
+	VALUES (197,
 	0,
 	0,
 	14,
@@ -953,21 +2439,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	85,
-	65);
+	151,
+	181);
 INSERT INTO V_TVL
-	VALUES (84,
-	73);
+	VALUES (197,
+	189);
 INSERT INTO V_PAR
-	VALUES (84,
+	VALUES (197,
 	0,
-	75,
+	191,
 	'event_inst',
-	86,
+	198,
 	14,
 	41);
 INSERT INTO V_VAL
-	VALUES (86,
+	VALUES (198,
 	0,
 	0,
 	14,
@@ -978,41 +2464,41 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	65);
+	181);
 INSERT INTO V_SCV
-	VALUES (86,
-	87,
+	VALUES (198,
+	66,
 	26);
 INSERT INTO V_PAR
-	VALUES (86,
+	VALUES (198,
 	0,
-	75,
+	191,
 	'microseconds',
 	0,
 	14,
 	59);
 INSERT INTO V_VAR
-	VALUES (68,
-	65,
+	VALUES (184,
+	181,
 	'gps',
 	1,
-	78);
+	194);
 INSERT INTO V_INT
-	VALUES (68,
+	VALUES (184,
 	0,
-	61);
+	178);
 INSERT INTO V_VAR
-	VALUES (73,
-	65,
+	VALUES (189,
+	181,
 	'tick',
 	1,
-	85);
+	151);
 INSERT INTO V_TRN
-	VALUES (73,
+	VALUES (189,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (70,
+	VALUES (186,
 	0,
 	0,
 	0,
@@ -1032,63 +2518,63 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	64,
+	180,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (88,
-	70,
-	89,
+	VALUES (199,
+	186,
+	200,
 	6,
 	3,
 	'GPS::activate line: 6');
 INSERT INTO ACT_CR
-	VALUES (88,
-	68,
+	VALUES (199,
+	184,
 	0,
-	61,
+	178,
 	6,
 	33);
 INSERT INTO ACT_SMT
-	VALUES (89,
-	70,
-	90,
+	VALUES (200,
+	186,
+	201,
 	7,
 	3,
 	'GPS::activate line: 7');
 INSERT INTO ACT_AI
-	VALUES (89,
-	91,
-	92,
+	VALUES (200,
+	202,
+	203,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (90,
-	70,
-	93,
+	VALUES (201,
+	186,
+	204,
 	8,
 	3,
 	'GPS::activate line: 8');
 INSERT INTO ACT_AI
-	VALUES (90,
-	94,
-	95,
+	VALUES (201,
+	205,
+	206,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (93,
-	70,
+	VALUES (204,
+	186,
 	0,
 	9,
 	3,
 	'GPS::activate line: 9');
 INSERT INTO ACT_AI
-	VALUES (93,
-	96,
-	97,
+	VALUES (204,
+	207,
+	208,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (98,
+	VALUES (209,
 	1,
 	0,
 	7,
@@ -1098,13 +2584,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	78,
-	70);
+	194,
+	186);
 INSERT INTO V_IRF
-	VALUES (98,
-	68);
+	VALUES (209,
+	184);
 INSERT INTO V_VAL
-	VALUES (92,
+	VALUES (203,
 	1,
 	0,
 	7,
@@ -1115,14 +2601,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	70);
+	186);
 INSERT INTO V_AVL
-	VALUES (92,
-	98,
-	61,
-	99);
+	VALUES (203,
+	209,
+	178,
+	210);
 INSERT INTO V_VAL
-	VALUES (91,
+	VALUES (202,
 	0,
 	0,
 	7,
@@ -1133,12 +2619,12 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	70);
+	186);
 INSERT INTO V_LIN
-	VALUES (91,
+	VALUES (202,
 	'0');
 INSERT INTO V_VAL
-	VALUES (100,
+	VALUES (211,
 	1,
 	0,
 	8,
@@ -1148,13 +2634,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	78,
-	70);
+	194,
+	186);
 INSERT INTO V_IRF
-	VALUES (100,
-	68);
+	VALUES (211,
+	184);
 INSERT INTO V_VAL
-	VALUES (95,
+	VALUES (206,
 	1,
 	0,
 	8,
@@ -1165,14 +2651,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	45,
-	70);
+	186);
 INSERT INTO V_AVL
-	VALUES (95,
-	100,
-	61,
-	101);
+	VALUES (206,
+	211,
+	178,
+	212);
 INSERT INTO V_VAL
-	VALUES (94,
+	VALUES (205,
 	0,
 	0,
 	8,
@@ -1183,13 +2669,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	45,
-	70);
+	186);
 INSERT INTO V_SCV
-	VALUES (94,
-	102,
+	VALUES (205,
+	64,
 	45);
 INSERT INTO V_VAL
-	VALUES (103,
+	VALUES (213,
 	1,
 	0,
 	9,
@@ -1199,13 +2685,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	78,
-	70);
+	194,
+	186);
 INSERT INTO V_IRF
-	VALUES (103,
-	68);
+	VALUES (213,
+	184);
 INSERT INTO V_VAL
-	VALUES (97,
+	VALUES (208,
 	1,
 	0,
 	9,
@@ -1216,14 +2702,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	45,
-	70);
+	186);
 INSERT INTO V_AVL
-	VALUES (97,
-	103,
-	61,
-	104);
+	VALUES (208,
+	213,
+	178,
+	214);
 INSERT INTO V_VAL
-	VALUES (96,
+	VALUES (207,
 	0,
 	0,
 	9,
@@ -1234,39 +2720,39 @@ INSERT INTO V_VAL
 	0,
 	0,
 	45,
-	70);
+	186);
 INSERT INTO V_SCV
-	VALUES (96,
-	105,
+	VALUES (207,
+	65,
 	45);
 INSERT INTO O_NBATTR
-	VALUES (82,
-	61);
+	VALUES (196,
+	178);
 INSERT INTO O_BATTR
-	VALUES (82,
-	61);
+	VALUES (196,
+	178);
 INSERT INTO O_ATTR
-	VALUES (82,
-	61,
-	99,
+	VALUES (196,
+	178,
+	210,
 	'timer',
 	'Handle for underlying timer mechanism enabling the generation 
 of delayed events that drive the GPS simulator.',
 	'',
 	'timer',
 	0,
-	81,
+	148,
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (101,
-	61);
+	VALUES (212,
+	178);
 INSERT INTO O_BATTR
-	VALUES (101,
-	61);
+	VALUES (212,
+	178);
 INSERT INTO O_ATTR
-	VALUES (101,
-	61,
+	VALUES (212,
+	178,
 	0,
 	'currentLatitude',
 	'Current latitude, expressed in decimal degrees, of the simulated GPS.',
@@ -1277,15 +2763,15 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (104,
-	61);
+	VALUES (214,
+	178);
 INSERT INTO O_BATTR
-	VALUES (104,
-	61);
+	VALUES (214,
+	178);
 INSERT INTO O_ATTR
-	VALUES (104,
-	61,
-	101,
+	VALUES (214,
+	178,
+	212,
 	'currentLongitude',
 	'Current longitude, expressed in decimal degrees, of the simulated GPS.',
 	'',
@@ -1295,15 +2781,15 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
-	VALUES (99,
-	61);
+	VALUES (210,
+	178);
 INSERT INTO O_BATTR
-	VALUES (99,
-	61);
+	VALUES (210,
+	178);
 INSERT INTO O_ATTR
-	VALUES (99,
-	61,
-	104,
+	VALUES (210,
+	178,
+	214,
 	'motionSegments',
 	'The number of motion segments simulated by the GPS.',
 	'',
@@ -1314,33 +2800,33 @@ INSERT INTO O_ATTR
 	'');
 INSERT INTO O_ID
 	VALUES (0,
-	61);
+	178);
 INSERT INTO O_ID
 	VALUES (1,
-	61);
+	178);
 INSERT INTO O_ID
 	VALUES (2,
-	61);
+	178);
 INSERT INTO SM_ASM
-	VALUES (106,
-	61);
+	VALUES (215,
+	178);
 INSERT INTO SM_SM
-	VALUES (106,
+	VALUES (215,
 	'',
 	0);
 INSERT INTO SM_MOORE
-	VALUES (106);
+	VALUES (215);
 INSERT INTO SM_LEVT
-	VALUES (74,
-	106,
+	VALUES (190,
+	215,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (74,
-	106,
+	VALUES (190,
+	215,
 	0);
 INSERT INTO SM_EVT
-	VALUES (74,
-	106,
+	VALUES (190,
+	215,
 	0,
 	1,
 	'tick',
@@ -1349,16 +2835,16 @@ INSERT INTO SM_EVT
 	'GPS_A1',
 	'');
 INSERT INTO SM_LEVT
-	VALUES (107,
-	106,
+	VALUES (216,
+	215,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (107,
-	106,
+	VALUES (216,
+	215,
 	0);
 INSERT INTO SM_EVT
-	VALUES (107,
-	106,
+	VALUES (216,
+	215,
 	0,
 	2,
 	'registerListener',
@@ -1367,16 +2853,16 @@ INSERT INTO SM_EVT
 	'GPS_A2',
 	'');
 INSERT INTO SM_LEVT
-	VALUES (108,
-	106,
+	VALUES (217,
+	215,
 	0);
 INSERT INTO SM_SEVT
-	VALUES (108,
-	106,
+	VALUES (217,
+	215,
 	0);
 INSERT INTO SM_EVT
-	VALUES (108,
-	106,
+	VALUES (217,
+	215,
 	0,
 	3,
 	'unregisterListener',
@@ -1385,49 +2871,49 @@ INSERT INTO SM_EVT
 	'GPS_A3',
 	'');
 INSERT INTO SM_STATE
-	VALUES (109,
-	106,
+	VALUES (218,
+	215,
 	0,
 	'idle',
 	1,
 	0);
 INSERT INTO SM_EIGN
-	VALUES (109,
-	74,
-	106,
+	VALUES (218,
+	190,
+	215,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (109,
-	74,
-	106,
+	VALUES (218,
+	190,
+	215,
 	0);
 INSERT INTO SM_SEME
-	VALUES (109,
-	107,
-	106,
+	VALUES (218,
+	216,
+	215,
 	0);
 INSERT INTO SM_CH
-	VALUES (109,
-	108,
-	106,
+	VALUES (218,
+	217,
+	215,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (109,
-	108,
-	106,
+	VALUES (218,
+	217,
+	215,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (110,
-	106,
-	109);
+	VALUES (219,
+	215,
+	218);
 INSERT INTO SM_AH
-	VALUES (110,
-	106);
+	VALUES (219,
+	215);
 INSERT INTO SM_ACT
-	VALUES (110,
-	106,
+	VALUES (219,
+	215,
 	1,
 	'// Deactivate the timer.
 select any gps from instances of GPS;
@@ -1440,20 +2926,20 @@ end if;
 ',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (111,
-	106,
-	110);
+	VALUES (220,
+	215,
+	219);
 INSERT INTO ACT_ACT
-	VALUES (111,
+	VALUES (220,
 	'class state',
 	0,
-	112,
+	221,
 	0,
 	0,
 	'GPS::idle',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (112,
+	VALUES (221,
 	1,
 	0,
 	0,
@@ -1473,65 +2959,65 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	111,
+	220,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (113,
-	112,
-	114,
+	VALUES (222,
+	221,
+	223,
 	2,
 	1,
 	'GPS::idle line: 2');
 INSERT INTO ACT_FIO
-	VALUES (113,
-	115,
+	VALUES (222,
+	224,
 	1,
 	'any',
-	61,
+	178,
 	2,
 	34);
 INSERT INTO ACT_SMT
-	VALUES (114,
-	112,
-	116,
+	VALUES (223,
+	221,
+	225,
 	3,
 	1,
 	'GPS::idle line: 3');
 INSERT INTO ACT_AI
-	VALUES (114,
-	117,
-	118,
+	VALUES (223,
+	226,
+	227,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (116,
-	112,
-	119,
+	VALUES (225,
+	221,
+	228,
 	4,
 	1,
 	'GPS::idle line: 4');
 INSERT INTO ACT_BRG
-	VALUES (116,
-	120,
+	VALUES (225,
+	82,
 	4,
 	6,
 	4,
 	1);
 INSERT INTO ACT_SMT
-	VALUES (119,
-	112,
+	VALUES (228,
+	221,
 	0,
 	6,
 	1,
 	'GPS::idle line: 6');
 INSERT INTO ACT_IF
-	VALUES (119,
-	121,
-	122,
+	VALUES (228,
+	229,
+	230,
 	0,
 	0);
 INSERT INTO V_VAL
-	VALUES (118,
+	VALUES (227,
 	1,
 	1,
 	3,
@@ -1541,13 +3027,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	79,
-	112);
+	164,
+	221);
 INSERT INTO V_TVL
-	VALUES (118,
-	123);
+	VALUES (227,
+	231);
 INSERT INTO V_VAL
-	VALUES (117,
+	VALUES (226,
 	0,
 	0,
 	3,
@@ -1557,16 +3043,16 @@ INSERT INTO V_VAL
 	25,
 	0,
 	0,
-	79,
-	112);
+	164,
+	221);
 INSERT INTO V_BRV
-	VALUES (117,
-	124,
+	VALUES (226,
+	174,
 	1,
 	3,
 	7);
 INSERT INTO V_VAL
-	VALUES (125,
+	VALUES (232,
 	0,
 	0,
 	3,
@@ -1576,13 +3062,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	78,
-	112);
+	194,
+	221);
 INSERT INTO V_IRF
-	VALUES (125,
-	115);
+	VALUES (232,
+	224);
 INSERT INTO V_VAL
-	VALUES (126,
+	VALUES (233,
 	0,
 	0,
 	3,
@@ -1592,23 +3078,23 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	81,
-	112);
+	148,
+	221);
 INSERT INTO V_AVL
-	VALUES (126,
-	125,
-	61,
-	82);
+	VALUES (233,
+	232,
+	178,
+	196);
 INSERT INTO V_PAR
-	VALUES (126,
+	VALUES (233,
 	0,
-	117,
+	226,
 	'timer_inst_ref',
 	0,
 	3,
 	25);
 INSERT INTO V_VAL
-	VALUES (127,
+	VALUES (234,
 	0,
 	0,
 	4,
@@ -1618,21 +3104,21 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	128,
-	112);
+	75,
+	221);
 INSERT INTO V_LST
-	VALUES (127,
+	VALUES (234,
 	'Location listener unregistered.');
 INSERT INTO V_PAR
-	VALUES (127,
-	116,
+	VALUES (234,
+	225,
 	0,
 	'message',
 	0,
 	4,
 	14);
 INSERT INTO V_VAL
-	VALUES (129,
+	VALUES (235,
 	0,
 	0,
 	6,
@@ -1642,13 +3128,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	79,
-	112);
+	164,
+	221);
 INSERT INTO V_TVL
-	VALUES (129,
-	123);
+	VALUES (235,
+	231);
 INSERT INTO V_VAL
-	VALUES (122,
+	VALUES (230,
 	0,
 	0,
 	-1,
@@ -1658,34 +3144,34 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	79,
-	112);
+	164,
+	221);
 INSERT INTO V_UNY
-	VALUES (122,
-	129,
+	VALUES (230,
+	235,
 	'not');
 INSERT INTO V_VAR
-	VALUES (115,
-	112,
+	VALUES (224,
+	221,
 	'gps',
 	1,
-	78);
+	194);
 INSERT INTO V_INT
-	VALUES (115,
+	VALUES (224,
 	0,
-	61);
+	178);
 INSERT INTO V_VAR
-	VALUES (123,
-	112,
+	VALUES (231,
+	221,
 	'res',
 	1,
-	79);
+	164);
 INSERT INTO V_TRN
-	VALUES (123,
+	VALUES (231,
 	0,
 	'');
 INSERT INTO ACT_BLK
-	VALUES (121,
+	VALUES (229,
 	0,
 	0,
 	0,
@@ -1705,24 +3191,24 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	111,
+	220,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (130,
-	121,
+	VALUES (236,
+	229,
 	0,
 	7,
 	3,
 	'GPS::idle line: 7');
 INSERT INTO ACT_BRG
-	VALUES (130,
-	131,
+	VALUES (236,
+	78,
 	7,
 	8,
 	7,
 	3);
 INSERT INTO V_VAL
-	VALUES (132,
+	VALUES (237,
 	0,
 	0,
 	7,
@@ -1732,57 +3218,57 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	128,
-	121);
+	75,
+	229);
 INSERT INTO V_LST
-	VALUES (132,
+	VALUES (237,
 	'Location listener: timer_cancel() failed.');
 INSERT INTO V_PAR
-	VALUES (132,
-	130,
+	VALUES (237,
+	236,
 	0,
 	'message',
 	0,
 	7,
 	20);
 INSERT INTO SM_STATE
-	VALUES (133,
-	106,
+	VALUES (238,
+	215,
 	0,
 	'locating',
 	2,
 	0);
 INSERT INTO SM_SEME
-	VALUES (133,
-	74,
-	106,
+	VALUES (238,
+	190,
+	215,
 	0);
 INSERT INTO SM_CH
-	VALUES (133,
-	107,
-	106,
+	VALUES (238,
+	216,
+	215,
 	0,
 	'');
 INSERT INTO SM_SEME
-	VALUES (133,
-	107,
-	106,
+	VALUES (238,
+	216,
+	215,
 	0);
 INSERT INTO SM_SEME
-	VALUES (133,
-	108,
-	106,
+	VALUES (238,
+	217,
+	215,
 	0);
 INSERT INTO SM_MOAH
-	VALUES (134,
-	106,
-	133);
+	VALUES (239,
+	215,
+	238);
 INSERT INTO SM_AH
-	VALUES (134,
-	106);
+	VALUES (239,
+	215);
 INSERT INTO SM_ACT
-	VALUES (134,
-	106,
+	VALUES (239,
+	215,
 	1,
 	'// Simulate movement.
 select any gps from instances of GPS;
@@ -1799,20 +3285,20 @@ end if;
 ',
 	'');
 INSERT INTO ACT_SAB
-	VALUES (135,
-	106,
-	134);
+	VALUES (240,
+	215,
+	239);
 INSERT INTO ACT_ACT
-	VALUES (135,
+	VALUES (240,
 	'class state',
 	0,
-	136,
+	241,
 	0,
 	0,
 	'GPS::locating',
 	0);
 INSERT INTO ACT_BLK
-	VALUES (136,
+	VALUES (241,
 	1,
 	0,
 	0,
@@ -1832,61 +3318,61 @@ INSERT INTO ACT_BLK
 	0,
 	0,
 	0,
-	135,
+	240,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (137,
-	136,
-	138,
+	VALUES (242,
+	241,
+	243,
 	2,
 	1,
 	'GPS::locating line: 2');
 INSERT INTO ACT_FIO
-	VALUES (137,
-	139,
+	VALUES (242,
+	244,
 	1,
 	'any',
-	61,
+	178,
 	2,
 	34);
 INSERT INTO ACT_SMT
-	VALUES (138,
-	136,
+	VALUES (243,
+	241,
 	0,
 	3,
 	1,
 	'GPS::locating line: 3');
 INSERT INTO ACT_IF
-	VALUES (138,
-	140,
-	141,
+	VALUES (243,
+	245,
+	246,
 	0,
 	0);
 INSERT INTO ACT_SMT
-	VALUES (142,
-	136,
+	VALUES (247,
+	241,
 	0,
 	6,
 	1,
 	'GPS::locating line: 6');
 INSERT INTO ACT_EL
-	VALUES (142,
-	143,
-	144,
-	138);
+	VALUES (247,
+	248,
+	249,
+	243);
 INSERT INTO ACT_SMT
-	VALUES (145,
-	136,
+	VALUES (250,
+	241,
 	0,
 	9,
 	1,
 	'GPS::locating line: 9');
 INSERT INTO ACT_E
-	VALUES (145,
-	146,
-	138);
+	VALUES (250,
+	251,
+	243);
 INSERT INTO V_VAL
-	VALUES (147,
+	VALUES (252,
 	0,
 	0,
 	3,
@@ -1896,13 +3382,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	78,
-	136);
+	194,
+	241);
 INSERT INTO V_IRF
-	VALUES (147,
-	139);
+	VALUES (252,
+	244);
 INSERT INTO V_VAL
-	VALUES (148,
+	VALUES (253,
 	0,
 	0,
 	3,
@@ -1913,14 +3399,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	136);
+	241);
 INSERT INTO V_AVL
-	VALUES (148,
-	147,
-	61,
-	99);
+	VALUES (253,
+	252,
+	178,
+	210);
 INSERT INTO V_VAL
-	VALUES (149,
+	VALUES (254,
 	0,
 	0,
 	-1,
@@ -1931,14 +3417,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	136);
+	241);
 INSERT INTO V_BIN
-	VALUES (149,
-	150,
-	148,
+	VALUES (254,
+	255,
+	253,
 	'%');
 INSERT INTO V_VAL
-	VALUES (150,
+	VALUES (255,
 	0,
 	0,
 	3,
@@ -1949,12 +3435,12 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	136);
+	241);
 INSERT INTO V_LIN
-	VALUES (150,
+	VALUES (255,
 	'3');
 INSERT INTO V_VAL
-	VALUES (141,
+	VALUES (246,
 	0,
 	0,
 	-1,
@@ -1964,15 +3450,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	79,
-	136);
+	164,
+	241);
 INSERT INTO V_BIN
-	VALUES (141,
-	151,
-	149,
+	VALUES (246,
+	256,
+	254,
 	'==');
 INSERT INTO V_VAL
-	VALUES (151,
+	VALUES (256,
 	0,
 	0,
 	3,
@@ -1983,12 +3469,12 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	136);
+	241);
 INSERT INTO V_LIN
-	VALUES (151,
+	VALUES (256,
 	'0');
 INSERT INTO V_VAL
-	VALUES (152,
+	VALUES (257,
 	0,
 	0,
 	6,
@@ -1998,13 +3484,13 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	78,
-	136);
+	194,
+	241);
 INSERT INTO V_IRF
-	VALUES (152,
-	139);
+	VALUES (257,
+	244);
 INSERT INTO V_VAL
-	VALUES (153,
+	VALUES (258,
 	0,
 	0,
 	6,
@@ -2015,14 +3501,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	136);
+	241);
 INSERT INTO V_AVL
-	VALUES (153,
-	152,
-	61,
-	99);
+	VALUES (258,
+	257,
+	178,
+	210);
 INSERT INTO V_VAL
-	VALUES (154,
+	VALUES (259,
 	0,
 	0,
 	-1,
@@ -2033,14 +3519,14 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	136);
+	241);
 INSERT INTO V_BIN
-	VALUES (154,
-	155,
-	153,
+	VALUES (259,
+	260,
+	258,
 	'%');
 INSERT INTO V_VAL
-	VALUES (155,
+	VALUES (260,
 	0,
 	0,
 	6,
@@ -2051,12 +3537,12 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	136);
+	241);
 INSERT INTO V_LIN
-	VALUES (155,
+	VALUES (260,
 	'5');
 INSERT INTO V_VAL
-	VALUES (144,
+	VALUES (249,
 	0,
 	0,
 	-1,
@@ -2066,15 +3552,15 @@ INSERT INTO V_VAL
 	0,
 	0,
 	0,
-	79,
-	136);
+	164,
+	241);
 INSERT INTO V_BIN
-	VALUES (144,
-	156,
-	154,
+	VALUES (249,
+	261,
+	259,
 	'==');
 INSERT INTO V_VAL
-	VALUES (156,
+	VALUES (261,
 	0,
 	0,
 	6,
@@ -2085,1507 +3571,30 @@ INSERT INTO V_VAL
 	0,
 	0,
 	26,
-	136);
+	241);
 INSERT INTO V_LIN
-	VALUES (156,
+	VALUES (261,
 	'0');
 INSERT INTO V_VAR
-	VALUES (139,
-	136,
-	'gps',
-	1,
-	78);
-INSERT INTO V_INT
-	VALUES (139,
-	0,
-	61);
-INSERT INTO ACT_BLK
-	VALUES (140,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	5,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	135,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (157,
-	140,
-	158,
-	4,
-	3,
-	'GPS::locating line: 4');
-INSERT INTO ACT_AI
-	VALUES (157,
-	159,
-	160,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (158,
-	140,
-	0,
-	5,
-	3,
-	'GPS::locating line: 5');
-INSERT INTO ACT_AI
-	VALUES (158,
-	161,
-	162,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (163,
-	1,
-	0,
-	4,
-	3,
-	5,
-	0,
-	0,
-	0,
-	0,
-	78,
-	140);
-INSERT INTO V_IRF
-	VALUES (163,
-	139);
-INSERT INTO V_VAL
-	VALUES (160,
-	1,
-	0,
-	4,
-	7,
-	22,
-	0,
-	0,
-	0,
-	0,
-	45,
-	140);
-INSERT INTO V_AVL
-	VALUES (160,
-	163,
-	61,
-	104);
-INSERT INTO V_VAL
-	VALUES (164,
-	0,
-	0,
-	4,
-	26,
-	28,
-	0,
-	0,
-	0,
-	0,
-	78,
-	140);
-INSERT INTO V_IRF
-	VALUES (164,
-	139);
-INSERT INTO V_VAL
-	VALUES (165,
-	0,
-	0,
-	4,
-	30,
-	45,
-	0,
-	0,
-	0,
-	0,
-	45,
-	140);
-INSERT INTO V_AVL
-	VALUES (165,
-	164,
-	61,
-	104);
-INSERT INTO V_VAL
-	VALUES (159,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	45,
-	140);
-INSERT INTO V_BIN
-	VALUES (159,
-	166,
-	165,
-	'+');
-INSERT INTO V_VAL
-	VALUES (167,
-	0,
-	0,
-	4,
-	50,
-	67,
-	0,
-	0,
-	0,
-	0,
-	45,
-	140);
-INSERT INTO V_SCV
-	VALUES (167,
-	168,
-	45);
-INSERT INTO V_VAL
-	VALUES (166,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	45,
-	140);
-INSERT INTO V_BIN
-	VALUES (166,
-	169,
-	167,
-	'*');
-INSERT INTO V_VAL
-	VALUES (169,
-	0,
-	0,
-	4,
-	71,
-	71,
-	0,
-	0,
-	0,
-	0,
-	26,
-	140);
-INSERT INTO V_LIN
-	VALUES (169,
-	'2');
-INSERT INTO V_VAL
-	VALUES (170,
-	1,
-	0,
-	5,
-	3,
-	5,
-	0,
-	0,
-	0,
-	0,
-	78,
-	140);
-INSERT INTO V_IRF
-	VALUES (170,
-	139);
-INSERT INTO V_VAL
-	VALUES (162,
-	1,
-	0,
-	5,
-	7,
-	21,
-	0,
-	0,
-	0,
-	0,
-	45,
-	140);
-INSERT INTO V_AVL
-	VALUES (162,
-	170,
-	61,
-	101);
-INSERT INTO V_VAL
-	VALUES (171,
-	0,
-	0,
-	5,
-	25,
-	27,
-	0,
-	0,
-	0,
-	0,
-	78,
-	140);
-INSERT INTO V_IRF
-	VALUES (171,
-	139);
-INSERT INTO V_VAL
-	VALUES (172,
-	0,
-	0,
-	5,
-	29,
-	43,
-	0,
-	0,
-	0,
-	0,
-	45,
-	140);
-INSERT INTO V_AVL
-	VALUES (172,
-	171,
-	61,
-	101);
-INSERT INTO V_VAL
-	VALUES (161,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	45,
-	140);
-INSERT INTO V_BIN
-	VALUES (161,
-	173,
-	172,
-	'+');
-INSERT INTO V_VAL
-	VALUES (173,
-	0,
-	0,
-	5,
-	47,
-	63,
-	0,
-	0,
-	0,
-	0,
-	45,
-	140);
-INSERT INTO V_SCV
-	VALUES (173,
-	174,
-	45);
-INSERT INTO ACT_BLK
-	VALUES (143,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	8,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	135,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (175,
-	143,
-	176,
-	7,
-	3,
-	'GPS::locating line: 7');
-INSERT INTO ACT_AI
-	VALUES (175,
-	177,
-	178,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (176,
-	143,
-	0,
-	8,
-	3,
-	'GPS::locating line: 8');
-INSERT INTO ACT_AI
-	VALUES (176,
-	179,
-	180,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (181,
-	1,
-	0,
-	7,
-	3,
-	5,
-	0,
-	0,
-	0,
-	0,
-	78,
-	143);
-INSERT INTO V_IRF
-	VALUES (181,
-	139);
-INSERT INTO V_VAL
-	VALUES (178,
-	1,
-	0,
-	7,
-	7,
-	22,
-	0,
-	0,
-	0,
-	0,
-	45,
-	143);
-INSERT INTO V_AVL
-	VALUES (178,
-	181,
-	61,
-	104);
-INSERT INTO V_VAL
-	VALUES (182,
-	0,
-	0,
-	7,
-	26,
-	28,
-	0,
-	0,
-	0,
-	0,
-	78,
-	143);
-INSERT INTO V_IRF
-	VALUES (182,
-	139);
-INSERT INTO V_VAL
-	VALUES (183,
-	0,
-	0,
-	7,
-	30,
-	45,
-	0,
-	0,
-	0,
-	0,
-	45,
-	143);
-INSERT INTO V_AVL
-	VALUES (183,
-	182,
-	61,
-	104);
-INSERT INTO V_VAL
-	VALUES (177,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	45,
-	143);
-INSERT INTO V_BIN
-	VALUES (177,
-	184,
-	183,
-	'+');
-INSERT INTO V_VAL
-	VALUES (184,
-	0,
-	0,
-	7,
-	49,
-	66,
-	0,
-	0,
-	0,
-	0,
-	45,
-	143);
-INSERT INTO V_SCV
-	VALUES (184,
-	168,
-	45);
-INSERT INTO V_VAL
-	VALUES (185,
-	1,
-	0,
-	8,
-	3,
-	5,
-	0,
-	0,
-	0,
-	0,
-	78,
-	143);
-INSERT INTO V_IRF
-	VALUES (185,
-	139);
-INSERT INTO V_VAL
-	VALUES (180,
-	1,
-	0,
-	8,
-	7,
-	21,
-	0,
-	0,
-	0,
-	0,
-	45,
-	143);
-INSERT INTO V_AVL
-	VALUES (180,
-	185,
-	61,
-	101);
-INSERT INTO V_VAL
-	VALUES (186,
-	0,
-	0,
-	8,
-	25,
-	27,
-	0,
-	0,
-	0,
-	0,
-	78,
-	143);
-INSERT INTO V_IRF
-	VALUES (186,
-	139);
-INSERT INTO V_VAL
-	VALUES (187,
-	0,
-	0,
-	8,
-	29,
-	43,
-	0,
-	0,
-	0,
-	0,
-	45,
-	143);
-INSERT INTO V_AVL
-	VALUES (187,
-	186,
-	61,
-	101);
-INSERT INTO V_VAL
-	VALUES (179,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	45,
-	143);
-INSERT INTO V_BIN
-	VALUES (179,
-	188,
-	187,
-	'+');
-INSERT INTO V_VAL
-	VALUES (189,
-	0,
-	0,
-	8,
-	48,
-	64,
-	0,
-	0,
-	0,
-	0,
-	45,
-	143);
-INSERT INTO V_SCV
-	VALUES (189,
-	174,
-	45);
-INSERT INTO V_VAL
-	VALUES (188,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	45,
-	143);
-INSERT INTO V_BIN
-	VALUES (188,
-	190,
-	189,
-	'*');
-INSERT INTO V_VAL
-	VALUES (190,
-	0,
-	0,
-	8,
-	68,
-	68,
-	0,
-	0,
-	0,
-	0,
-	26,
-	143);
-INSERT INTO V_LIN
-	VALUES (190,
-	'3');
-INSERT INTO ACT_BLK
-	VALUES (146,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	11,
-	3,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	135,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (191,
-	146,
-	192,
-	10,
-	3,
-	'GPS::locating line: 10');
-INSERT INTO ACT_AI
-	VALUES (191,
-	193,
-	194,
-	0,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (192,
-	146,
-	0,
-	11,
-	3,
-	'GPS::locating line: 11');
-INSERT INTO ACT_AI
-	VALUES (192,
-	195,
-	196,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (197,
-	1,
-	0,
-	10,
-	3,
-	5,
-	0,
-	0,
-	0,
-	0,
-	78,
-	146);
-INSERT INTO V_IRF
-	VALUES (197,
-	139);
-INSERT INTO V_VAL
-	VALUES (194,
-	1,
-	0,
-	10,
-	7,
-	22,
-	0,
-	0,
-	0,
-	0,
-	45,
-	146);
-INSERT INTO V_AVL
-	VALUES (194,
-	197,
-	61,
-	104);
-INSERT INTO V_VAL
-	VALUES (198,
-	0,
-	0,
-	10,
-	26,
-	28,
-	0,
-	0,
-	0,
-	0,
-	78,
-	146);
-INSERT INTO V_IRF
-	VALUES (198,
-	139);
-INSERT INTO V_VAL
-	VALUES (199,
-	0,
-	0,
-	10,
-	30,
-	45,
-	0,
-	0,
-	0,
-	0,
-	45,
-	146);
-INSERT INTO V_AVL
-	VALUES (199,
-	198,
-	61,
-	104);
-INSERT INTO V_VAL
-	VALUES (193,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	45,
-	146);
-INSERT INTO V_BIN
-	VALUES (193,
-	200,
-	199,
-	'+');
-INSERT INTO V_VAL
-	VALUES (200,
-	0,
-	0,
-	10,
-	49,
-	66,
-	0,
-	0,
-	0,
-	0,
-	45,
-	146);
-INSERT INTO V_SCV
-	VALUES (200,
-	168,
-	45);
-INSERT INTO V_VAL
-	VALUES (201,
-	1,
-	0,
-	11,
-	3,
-	5,
-	0,
-	0,
-	0,
-	0,
-	78,
-	146);
-INSERT INTO V_IRF
-	VALUES (201,
-	139);
-INSERT INTO V_VAL
-	VALUES (196,
-	1,
-	0,
-	11,
-	7,
-	21,
-	0,
-	0,
-	0,
-	0,
-	45,
-	146);
-INSERT INTO V_AVL
-	VALUES (196,
-	201,
-	61,
-	101);
-INSERT INTO V_VAL
-	VALUES (202,
-	0,
-	0,
-	11,
-	25,
-	27,
-	0,
-	0,
-	0,
-	0,
-	78,
-	146);
-INSERT INTO V_IRF
-	VALUES (202,
-	139);
-INSERT INTO V_VAL
-	VALUES (203,
-	0,
-	0,
-	11,
-	29,
-	43,
-	0,
-	0,
-	0,
-	0,
-	45,
-	146);
-INSERT INTO V_AVL
-	VALUES (203,
-	202,
-	61,
-	101);
-INSERT INTO V_VAL
-	VALUES (195,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	45,
-	146);
-INSERT INTO V_BIN
-	VALUES (195,
-	204,
-	203,
-	'+');
-INSERT INTO V_VAL
-	VALUES (204,
-	0,
-	0,
-	11,
-	47,
-	63,
-	0,
-	0,
-	0,
-	0,
-	45,
-	146);
-INSERT INTO V_SCV
-	VALUES (204,
-	174,
-	45);
-INSERT INTO SM_NSTXN
-	VALUES (205,
-	106,
-	109,
-	107,
-	0);
-INSERT INTO SM_TAH
-	VALUES (206,
-	106,
-	205);
-INSERT INTO SM_AH
-	VALUES (206,
-	106);
-INSERT INTO SM_ACT
-	VALUES (206,
-	106,
-	1,
-	'// Activate the simulated GPS.
-GPS::activate();
-
-LOG::LogInfo(message: "Location listener registered.");
-',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (207,
-	106,
-	206);
-INSERT INTO ACT_ACT
-	VALUES (207,
-	'class transition',
-	0,
-	208,
-	0,
-	0,
-	'GPS_A2: registerListener',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (208,
-	0,
-	0,
-	0,
-	'LOG',
-	'',
-	'',
-	4,
-	1,
-	4,
-	1,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	207,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (209,
-	208,
-	210,
-	2,
-	1,
-	'GPS_A2: registerListener line: 2');
-INSERT INTO ACT_TFM
-	VALUES (209,
-	62,
-	0,
-	2,
-	6,
-	2,
-	1);
-INSERT INTO ACT_SMT
-	VALUES (210,
-	208,
-	0,
-	4,
-	1,
-	'GPS_A2: registerListener line: 4');
-INSERT INTO ACT_BRG
-	VALUES (210,
-	120,
-	4,
-	6,
-	4,
-	1);
-INSERT INTO V_VAL
-	VALUES (211,
-	0,
-	0,
-	4,
-	23,
-	52,
-	0,
-	0,
-	0,
-	0,
-	128,
-	208);
-INSERT INTO V_LST
-	VALUES (211,
-	'Location listener registered.');
-INSERT INTO V_PAR
-	VALUES (211,
-	210,
-	0,
-	'message',
-	0,
-	4,
-	14);
-INSERT INTO SM_TXN
-	VALUES (205,
-	106,
-	133,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (212,
-	106,
-	133,
-	108,
-	0);
-INSERT INTO SM_TAH
-	VALUES (213,
-	106,
-	212);
-INSERT INTO SM_AH
-	VALUES (213,
-	106);
-INSERT INTO SM_ACT
-	VALUES (213,
-	106,
-	1,
-	'',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (214,
-	106,
-	213);
-INSERT INTO ACT_ACT
-	VALUES (214,
-	'class transition',
-	0,
-	215,
-	0,
-	0,
-	'GPS_A3: unregisterListener',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (215,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	214,
-	0);
-INSERT INTO SM_TXN
-	VALUES (212,
-	106,
-	109,
-	0);
-INSERT INTO SM_NSTXN
-	VALUES (216,
-	106,
-	133,
-	74,
-	0);
-INSERT INTO SM_TAH
-	VALUES (217,
-	106,
-	216);
-INSERT INTO SM_AH
-	VALUES (217,
-	106);
-INSERT INTO SM_ACT
-	VALUES (217,
-	106,
-	1,
-	'// Increment simulated motion segment count.
-select any gps from instances of GPS;
-gps.motionSegments = gps.motionSegments + 1;
-',
-	'');
-INSERT INTO ACT_TAB
-	VALUES (218,
-	106,
-	217);
-INSERT INTO ACT_ACT
-	VALUES (218,
-	'class transition',
-	0,
-	219,
-	0,
-	0,
-	'GPS_A1: tick',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (219,
-	1,
-	0,
-	0,
-	'',
-	'',
-	'',
-	3,
-	1,
-	2,
-	34,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	218,
-	0);
-INSERT INTO ACT_SMT
-	VALUES (220,
-	219,
-	221,
-	2,
-	1,
-	'GPS_A1: tick line: 2');
-INSERT INTO ACT_FIO
-	VALUES (220,
-	222,
-	1,
-	'any',
-	61,
-	2,
-	34);
-INSERT INTO ACT_SMT
-	VALUES (221,
-	219,
-	0,
-	3,
-	1,
-	'GPS_A1: tick line: 3');
-INSERT INTO ACT_AI
-	VALUES (221,
-	223,
-	224,
-	0,
-	0);
-INSERT INTO V_VAL
-	VALUES (225,
-	1,
-	0,
-	3,
-	1,
-	3,
-	0,
-	0,
-	0,
-	0,
-	78,
-	219);
-INSERT INTO V_IRF
-	VALUES (225,
-	222);
-INSERT INTO V_VAL
-	VALUES (224,
-	1,
-	0,
-	3,
-	5,
-	18,
-	0,
-	0,
-	0,
-	0,
-	26,
-	219);
-INSERT INTO V_AVL
-	VALUES (224,
-	225,
-	61,
-	99);
-INSERT INTO V_VAL
-	VALUES (226,
-	0,
-	0,
-	3,
-	22,
-	24,
-	0,
-	0,
-	0,
-	0,
-	78,
-	219);
-INSERT INTO V_IRF
-	VALUES (226,
-	222);
-INSERT INTO V_VAL
-	VALUES (227,
-	0,
-	0,
-	3,
-	26,
-	39,
-	0,
-	0,
-	0,
-	0,
-	26,
-	219);
-INSERT INTO V_AVL
-	VALUES (227,
-	226,
-	61,
-	99);
-INSERT INTO V_VAL
-	VALUES (223,
-	0,
-	0,
-	-1,
-	-1,
-	-1,
-	0,
-	0,
-	0,
-	0,
-	26,
-	219);
-INSERT INTO V_BIN
-	VALUES (223,
-	228,
-	227,
-	'+');
-INSERT INTO V_VAL
-	VALUES (228,
-	0,
-	0,
-	3,
-	43,
-	43,
-	0,
-	0,
-	0,
-	0,
-	26,
-	219);
-INSERT INTO V_LIN
-	VALUES (228,
-	'1');
-INSERT INTO V_VAR
-	VALUES (222,
-	219,
-	'gps',
-	1,
-	78);
-INSERT INTO V_INT
-	VALUES (222,
-	0,
-	61);
-INSERT INTO SM_TXN
-	VALUES (216,
-	106,
-	133,
-	0);
-INSERT INTO PE_PE
-	VALUES (229,
-	1,
-	60,
-	0,
-	10);
-INSERT INTO CNST_CSP
-	VALUES (229,
-	'simulatedGPS',
-	'Constants specifying the behavior of the simulated GPS.
-
-initialLatitude and initialLongitude specify, as decimal degrees, 
-the initial location of the simulated GPS.
-
-latitudeIncrement and longitudeIncrement specify, as decimal degrees, 
-the distance the simulated GPS moves during each update period.
-
-updatePeriod specifies, in microseconds, the update period for the
-simulated GPS.  In other words, the simulated GPS updates its location
-once per updatePeriod.');
-INSERT INTO CNST_SYC
-	VALUES (168,
-	'longitudeIncrement',
-	'',
-	45,
-	229,
-	0,
-	0);
-INSERT INTO CNST_LFSC
-	VALUES (168,
-	45);
-INSERT INTO CNST_LSC
-	VALUES (168,
-	45,
-	'0.00002');
-INSERT INTO CNST_SYC
-	VALUES (174,
-	'latitudeIncrement',
-	'',
-	45,
-	229,
-	168,
-	45);
-INSERT INTO CNST_LFSC
-	VALUES (174,
-	45);
-INSERT INTO CNST_LSC
-	VALUES (174,
-	45,
-	'0.00001');
-INSERT INTO CNST_SYC
-	VALUES (102,
-	'initialLatitude',
-	'',
-	45,
-	229,
-	174,
-	45);
-INSERT INTO CNST_LFSC
-	VALUES (102,
-	45);
-INSERT INTO CNST_LSC
-	VALUES (102,
-	45,
-	'32.432237');
-INSERT INTO CNST_SYC
-	VALUES (105,
-	'initialLongitude',
-	'',
-	45,
-	229,
-	102,
-	45);
-INSERT INTO CNST_LFSC
-	VALUES (105,
-	45);
-INSERT INTO CNST_LSC
-	VALUES (105,
-	45,
-	'-110.812283');
-INSERT INTO CNST_SYC
-	VALUES (87,
-	'updatePeriod',
-	'',
-	26,
-	229,
-	105,
-	45);
-INSERT INTO CNST_LFSC
-	VALUES (87,
-	26);
-INSERT INTO CNST_LSC
-	VALUES (87,
-	26,
-	'1000000');
-INSERT INTO PE_PE
-	VALUES (230,
-	1,
-	60,
-	0,
-	5);
-INSERT INTO S_EE
-	VALUES (230,
-	'Math',
-	'',
-	'MATH',
-	0,
-	'',
-	'Math',
-	1);
-INSERT INTO S_BRG
-	VALUES (46,
-	230,
-	'sqrt',
-	'',
-	0,
-	45,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (231,
-	46,
-	'x',
-	45,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (232,
-	46);
-INSERT INTO ACT_ACT
-	VALUES (232,
-	'bridge',
-	0,
-	233,
-	0,
-	0,
-	'Math::sqrt',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (233,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	232,
-	0);
-INSERT INTO PE_PE
-	VALUES (234,
-	1,
-	60,
-	0,
-	5);
-INSERT INTO S_EE
-	VALUES (234,
-	'Logging',
-	'',
-	'LOG',
-	0,
-	'',
-	'Logging',
-	1);
-INSERT INTO S_BRG
-	VALUES (235,
-	234,
-	'LogSuccess',
-	'',
-	0,
-	63,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (236,
-	235,
-	'message',
-	128,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (237,
-	235);
-INSERT INTO ACT_ACT
-	VALUES (237,
-	'bridge',
-	0,
-	238,
-	0,
-	0,
-	'Logging::LogSuccess',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (238,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	237,
-	0);
-INSERT INTO S_BRG
-	VALUES (131,
-	234,
-	'LogFailure',
-	'',
-	0,
-	63,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (239,
-	131,
-	'message',
-	128,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (240,
-	131);
-INSERT INTO ACT_ACT
-	VALUES (240,
-	'bridge',
-	0,
+	VALUES (244,
 	241,
+	'gps',
+	1,
+	194);
+INSERT INTO V_INT
+	VALUES (244,
 	0,
-	0,
-	'Logging::LogFailure',
-	0);
+	178);
 INSERT INTO ACT_BLK
-	VALUES (241,
+	VALUES (245,
 	0,
 	0,
 	0,
 	'',
 	'',
 	'',
-	0,
-	0,
+	5,
+	3,
 	0,
 	0,
 	0,
@@ -3599,994 +3608,964 @@ INSERT INTO ACT_BLK
 	0,
 	240,
 	0);
-INSERT INTO S_BRG
-	VALUES (120,
-	234,
-	'LogInfo',
-	'',
-	0,
-	63,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (242,
-	120,
-	'message',
-	128,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (243,
-	120);
-INSERT INTO ACT_ACT
-	VALUES (243,
-	'bridge',
-	0,
-	244,
-	0,
-	0,
-	'Logging::LogInfo',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (244,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	243,
-	0);
-INSERT INTO S_BRG
-	VALUES (245,
-	234,
-	'LogDate',
-	'',
-	0,
-	63,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (246,
-	245,
-	'd',
-	247,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO S_BPARM
-	VALUES (248,
-	245,
-	'message',
-	128,
-	0,
-	'',
-	246,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (249,
-	245);
-INSERT INTO ACT_ACT
-	VALUES (249,
-	'bridge',
-	0,
-	250,
-	0,
-	0,
-	'Logging::LogDate',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (250,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	249,
-	0);
-INSERT INTO S_BRG
-	VALUES (251,
-	234,
-	'LogTime',
-	'',
-	0,
-	63,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (252,
-	251,
-	't',
-	253,
-	0,
-	'',
-	254,
-	'');
-INSERT INTO S_BPARM
-	VALUES (254,
-	251,
-	'message',
-	128,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (255,
-	251);
-INSERT INTO ACT_ACT
-	VALUES (255,
-	'bridge',
-	0,
-	256,
-	0,
-	0,
-	'Logging::LogTime',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (256,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	255,
-	0);
-INSERT INTO S_BRG
-	VALUES (257,
-	234,
-	'LogReal',
-	'',
-	0,
-	63,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (258,
-	257,
-	'r',
-	45,
-	0,
-	'',
-	259,
-	'');
-INSERT INTO S_BPARM
-	VALUES (259,
-	257,
-	'message',
-	128,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (260,
-	257);
-INSERT INTO ACT_ACT
-	VALUES (260,
-	'bridge',
-	0,
-	261,
-	0,
-	0,
-	'Logging::LogReal',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (261,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	260,
-	0);
-INSERT INTO S_BRG
+INSERT INTO ACT_SMT
 	VALUES (262,
-	234,
-	'LogInteger',
-	'',
-	0,
-	63,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (263,
-	262,
-	'message',
-	26,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (264,
-	262);
-INSERT INTO ACT_ACT
-	VALUES (264,
-	'bridge',
-	0,
+	245,
+	263,
+	4,
+	3,
+	'GPS::locating line: 4');
+INSERT INTO ACT_AI
+	VALUES (262,
+	264,
 	265,
 	0,
-	0,
-	'Logging::LogInteger',
 	0);
-INSERT INTO ACT_BLK
-	VALUES (265,
+INSERT INTO ACT_SMT
+	VALUES (263,
+	245,
 	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	264,
-	0);
-INSERT INTO PE_PE
-	VALUES (266,
-	1,
-	60,
-	0,
-	5);
-INSERT INTO S_EE
-	VALUES (266,
-	'Time',
-	'The Time external entity provides date, timestamp, and timer related operations.',
-	'TIM',
-	0,
-	'',
-	'Time',
-	1);
-INSERT INTO S_BRG
-	VALUES (267,
+	5,
+	3,
+	'GPS::locating line: 5');
+INSERT INTO ACT_AI
+	VALUES (263,
 	266,
-	'current_date',
-	'',
-	1,
-	247,
-	'',
-	1,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (268,
-	267);
-INSERT INTO ACT_ACT
-	VALUES (268,
-	'bridge',
+	267,
 	0,
-	269,
-	0,
-	0,
-	'Time::current_date',
 	0);
-INSERT INTO ACT_BLK
+INSERT INTO V_VAL
+	VALUES (268,
+	1,
+	0,
+	4,
+	3,
+	5,
+	0,
+	0,
+	0,
+	0,
+	194,
+	245);
+INSERT INTO V_IRF
+	VALUES (268,
+	244);
+INSERT INTO V_VAL
+	VALUES (265,
+	1,
+	0,
+	4,
+	7,
+	22,
+	0,
+	0,
+	0,
+	0,
+	45,
+	245);
+INSERT INTO V_AVL
+	VALUES (265,
+	268,
+	178,
+	214);
+INSERT INTO V_VAL
 	VALUES (269,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	4,
+	26,
+	28,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	268,
-	0);
-INSERT INTO S_BRG
+	194,
+	245);
+INSERT INTO V_IRF
+	VALUES (269,
+	244);
+INSERT INTO V_VAL
 	VALUES (270,
-	266,
-	'create_date',
-	'',
-	1,
-	247,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (271,
-	270,
-	'second',
-	26,
 	0,
-	'',
-	272,
-	'');
-INSERT INTO S_BPARM
-	VALUES (273,
-	270,
-	'minute',
-	26,
 	0,
-	'',
-	274,
-	'');
-INSERT INTO S_BPARM
-	VALUES (274,
-	270,
-	'hour',
-	26,
+	4,
+	30,
+	45,
 	0,
-	'',
-	275,
-	'');
-INSERT INTO S_BPARM
-	VALUES (275,
-	270,
-	'day',
-	26,
 	0,
-	'',
 	0,
-	'');
-INSERT INTO S_BPARM
-	VALUES (272,
-	270,
-	'month',
-	26,
 	0,
-	'',
-	273,
-	'');
-INSERT INTO S_BPARM
-	VALUES (276,
-	270,
-	'year',
-	26,
+	45,
+	245);
+INSERT INTO V_AVL
+	VALUES (270,
+	269,
+	178,
+	214);
+INSERT INTO V_VAL
+	VALUES (264,
 	0,
-	'',
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	45,
+	245);
+INSERT INTO V_BIN
+	VALUES (264,
 	271,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (277,
-	270);
-INSERT INTO ACT_ACT
-	VALUES (277,
-	'bridge',
-	0,
-	278,
+	270,
+	'+');
+INSERT INTO V_VAL
+	VALUES (272,
 	0,
 	0,
-	'Time::create_date',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (278,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
+	4,
+	50,
+	67,
 	0,
 	0,
 	0,
 	0,
+	45,
+	245);
+INSERT INTO V_SCV
+	VALUES (272,
+	62,
+	45);
+INSERT INTO V_VAL
+	VALUES (271,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
 	0,
 	0,
 	0,
 	0,
+	45,
+	245);
+INSERT INTO V_BIN
+	VALUES (271,
+	273,
+	272,
+	'*');
+INSERT INTO V_VAL
+	VALUES (273,
+	0,
+	0,
+	4,
+	71,
+	71,
 	0,
 	0,
 	0,
 	0,
+	26,
+	245);
+INSERT INTO V_LIN
+	VALUES (273,
+	'2');
+INSERT INTO V_VAL
+	VALUES (274,
+	1,
 	0,
+	5,
+	3,
+	5,
+	0,
+	0,
+	0,
+	0,
+	194,
+	245);
+INSERT INTO V_IRF
+	VALUES (274,
+	244);
+INSERT INTO V_VAL
+	VALUES (267,
+	1,
+	0,
+	5,
+	7,
+	21,
+	0,
+	0,
+	0,
+	0,
+	45,
+	245);
+INSERT INTO V_AVL
+	VALUES (267,
+	274,
+	178,
+	212);
+INSERT INTO V_VAL
+	VALUES (275,
+	0,
+	0,
+	5,
+	25,
+	27,
+	0,
+	0,
+	0,
+	0,
+	194,
+	245);
+INSERT INTO V_IRF
+	VALUES (275,
+	244);
+INSERT INTO V_VAL
+	VALUES (276,
+	0,
+	0,
+	5,
+	29,
+	43,
+	0,
+	0,
+	0,
+	0,
+	45,
+	245);
+INSERT INTO V_AVL
+	VALUES (276,
+	275,
+	178,
+	212);
+INSERT INTO V_VAL
+	VALUES (266,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	45,
+	245);
+INSERT INTO V_BIN
+	VALUES (266,
 	277,
+	276,
+	'+');
+INSERT INTO V_VAL
+	VALUES (277,
+	0,
+	0,
+	5,
+	47,
+	63,
+	0,
+	0,
+	0,
+	0,
+	45,
+	245);
+INSERT INTO V_SCV
+	VALUES (277,
+	63,
+	45);
+INSERT INTO ACT_BLK
+	VALUES (248,
+	0,
+	0,
+	0,
+	'',
+	'',
+	'',
+	8,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	240,
 	0);
-INSERT INTO S_BRG
-	VALUES (279,
-	266,
-	'get_second',
-	'',
-	1,
-	26,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (280,
+INSERT INTO ACT_SMT
+	VALUES (278,
+	248,
 	279,
-	'date',
-	247,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (281,
-	279);
-INSERT INTO ACT_ACT
-	VALUES (281,
-	'bridge',
-	0,
-	282,
-	0,
-	0,
-	'Time::get_second',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (282,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	7,
+	3,
+	'GPS::locating line: 7');
+INSERT INTO ACT_AI
+	VALUES (278,
+	280,
 	281,
+	0,
 	0);
-INSERT INTO S_BRG
-	VALUES (283,
-	266,
-	'get_minute',
-	'',
-	1,
-	26,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (284,
+INSERT INTO ACT_SMT
+	VALUES (279,
+	248,
+	0,
+	8,
+	3,
+	'GPS::locating line: 8');
+INSERT INTO ACT_AI
+	VALUES (279,
+	282,
 	283,
-	'date',
-	247,
 	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (285,
-	283);
-INSERT INTO ACT_ACT
-	VALUES (285,
-	'bridge',
-	0,
-	286,
-	0,
-	0,
-	'Time::get_minute',
 	0);
-INSERT INTO ACT_BLK
+INSERT INTO V_VAL
+	VALUES (284,
+	1,
+	0,
+	7,
+	3,
+	5,
+	0,
+	0,
+	0,
+	0,
+	194,
+	248);
+INSERT INTO V_IRF
+	VALUES (284,
+	244);
+INSERT INTO V_VAL
+	VALUES (281,
+	1,
+	0,
+	7,
+	7,
+	22,
+	0,
+	0,
+	0,
+	0,
+	45,
+	248);
+INSERT INTO V_AVL
+	VALUES (281,
+	284,
+	178,
+	214);
+INSERT INTO V_VAL
+	VALUES (285,
+	0,
+	0,
+	7,
+	26,
+	28,
+	0,
+	0,
+	0,
+	0,
+	194,
+	248);
+INSERT INTO V_IRF
+	VALUES (285,
+	244);
+INSERT INTO V_VAL
 	VALUES (286,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	7,
+	30,
+	45,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	45,
+	248);
+INSERT INTO V_AVL
+	VALUES (286,
 	285,
-	0);
-INSERT INTO S_BRG
-	VALUES (287,
-	266,
-	'get_hour',
-	'',
-	1,
-	26,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (288,
+	178,
+	214);
+INSERT INTO V_VAL
+	VALUES (280,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	45,
+	248);
+INSERT INTO V_BIN
+	VALUES (280,
 	287,
-	'date',
-	247,
+	286,
+	'+');
+INSERT INTO V_VAL
+	VALUES (287,
 	0,
-	'',
 	0,
-	'');
-INSERT INTO ACT_BRB
+	7,
+	49,
+	66,
+	0,
+	0,
+	0,
+	0,
+	45,
+	248);
+INSERT INTO V_SCV
+	VALUES (287,
+	62,
+	45);
+INSERT INTO V_VAL
+	VALUES (288,
+	1,
+	0,
+	8,
+	3,
+	5,
+	0,
+	0,
+	0,
+	0,
+	194,
+	248);
+INSERT INTO V_IRF
+	VALUES (288,
+	244);
+INSERT INTO V_VAL
+	VALUES (283,
+	1,
+	0,
+	8,
+	7,
+	21,
+	0,
+	0,
+	0,
+	0,
+	45,
+	248);
+INSERT INTO V_AVL
+	VALUES (283,
+	288,
+	178,
+	212);
+INSERT INTO V_VAL
 	VALUES (289,
-	287);
-INSERT INTO ACT_ACT
+	0,
+	0,
+	8,
+	25,
+	27,
+	0,
+	0,
+	0,
+	0,
+	194,
+	248);
+INSERT INTO V_IRF
 	VALUES (289,
-	'bridge',
-	0,
-	290,
-	0,
-	0,
-	'Time::get_hour',
-	0);
-INSERT INTO ACT_BLK
+	244);
+INSERT INTO V_VAL
 	VALUES (290,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	8,
+	29,
+	43,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	45,
+	248);
+INSERT INTO V_AVL
+	VALUES (290,
 	289,
-	0);
-INSERT INTO S_BRG
-	VALUES (291,
-	266,
-	'get_day',
-	'',
-	1,
-	26,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (292,
+	178,
+	212);
+INSERT INTO V_VAL
+	VALUES (282,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	45,
+	248);
+INSERT INTO V_BIN
+	VALUES (282,
 	291,
-	'date',
-	247,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (293,
-	291);
-INSERT INTO ACT_ACT
-	VALUES (293,
-	'bridge',
-	0,
-	294,
+	290,
+	'+');
+INSERT INTO V_VAL
+	VALUES (292,
 	0,
 	0,
-	'Time::get_day',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (294,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
+	8,
+	48,
+	64,
 	0,
 	0,
 	0,
 	0,
+	45,
+	248);
+INSERT INTO V_SCV
+	VALUES (292,
+	63,
+	45);
+INSERT INTO V_VAL
+	VALUES (291,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	45,
+	248);
+INSERT INTO V_BIN
+	VALUES (291,
 	293,
-	0);
-INSERT INTO S_BRG
-	VALUES (295,
-	266,
-	'get_month',
-	'',
-	1,
+	292,
+	'*');
+INSERT INTO V_VAL
+	VALUES (293,
+	0,
+	0,
+	8,
+	68,
+	68,
+	0,
+	0,
+	0,
+	0,
 	26,
+	248);
+INSERT INTO V_LIN
+	VALUES (293,
+	'3');
+INSERT INTO ACT_BLK
+	VALUES (251,
+	0,
+	0,
+	0,
 	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (296,
+	'',
+	'',
+	11,
+	3,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	240,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (294,
+	251,
 	295,
-	'date',
-	247,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (297,
-	295);
-INSERT INTO ACT_ACT
-	VALUES (297,
-	'bridge',
-	0,
-	298,
-	0,
-	0,
-	'Time::get_month',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (298,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	10,
+	3,
+	'GPS::locating line: 10');
+INSERT INTO ACT_AI
+	VALUES (294,
+	296,
 	297,
+	0,
 	0);
-INSERT INTO S_BRG
-	VALUES (299,
-	266,
-	'get_year',
-	'',
-	1,
-	26,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (300,
+INSERT INTO ACT_SMT
+	VALUES (295,
+	251,
+	0,
+	11,
+	3,
+	'GPS::locating line: 11');
+INSERT INTO ACT_AI
+	VALUES (295,
+	298,
 	299,
-	'date',
-	247,
 	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (301,
-	299);
-INSERT INTO ACT_ACT
-	VALUES (301,
-	'bridge',
-	0,
-	302,
-	0,
-	0,
-	'Time::get_year',
 	0);
-INSERT INTO ACT_BLK
+INSERT INTO V_VAL
+	VALUES (300,
+	1,
+	0,
+	10,
+	3,
+	5,
+	0,
+	0,
+	0,
+	0,
+	194,
+	251);
+INSERT INTO V_IRF
+	VALUES (300,
+	244);
+INSERT INTO V_VAL
+	VALUES (297,
+	1,
+	0,
+	10,
+	7,
+	22,
+	0,
+	0,
+	0,
+	0,
+	45,
+	251);
+INSERT INTO V_AVL
+	VALUES (297,
+	300,
+	178,
+	214);
+INSERT INTO V_VAL
+	VALUES (301,
+	0,
+	0,
+	10,
+	26,
+	28,
+	0,
+	0,
+	0,
+	0,
+	194,
+	251);
+INSERT INTO V_IRF
+	VALUES (301,
+	244);
+INSERT INTO V_VAL
 	VALUES (302,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	10,
+	30,
+	45,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	45,
+	251);
+INSERT INTO V_AVL
+	VALUES (302,
 	301,
-	0);
-INSERT INTO S_BRG
+	178,
+	214);
+INSERT INTO V_VAL
+	VALUES (296,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	45,
+	251);
+INSERT INTO V_BIN
+	VALUES (296,
+	303,
+	302,
+	'+');
+INSERT INTO V_VAL
 	VALUES (303,
-	266,
-	'current_clock',
-	'',
-	1,
-	253,
-	'',
-	1,
-	'');
-INSERT INTO ACT_BRB
+	0,
+	0,
+	10,
+	49,
+	66,
+	0,
+	0,
+	0,
+	0,
+	45,
+	251);
+INSERT INTO V_SCV
+	VALUES (303,
+	62,
+	45);
+INSERT INTO V_VAL
 	VALUES (304,
-	303);
-INSERT INTO ACT_ACT
+	1,
+	0,
+	11,
+	3,
+	5,
+	0,
+	0,
+	0,
+	0,
+	194,
+	251);
+INSERT INTO V_IRF
 	VALUES (304,
-	'bridge',
+	244);
+INSERT INTO V_VAL
+	VALUES (299,
+	1,
 	0,
-	305,
+	11,
+	7,
+	21,
 	0,
 	0,
-	'Time::current_clock',
-	0);
-INSERT INTO ACT_BLK
+	0,
+	0,
+	45,
+	251);
+INSERT INTO V_AVL
+	VALUES (299,
+	304,
+	178,
+	212);
+INSERT INTO V_VAL
 	VALUES (305,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	11,
+	25,
+	27,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	304,
-	0);
-INSERT INTO S_BRG
+	194,
+	251);
+INSERT INTO V_IRF
+	VALUES (305,
+	244);
+INSERT INTO V_VAL
 	VALUES (306,
-	266,
-	'timer_start',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Returns the instance
-handle of the timer.',
-	1,
-	81,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
+	0,
+	0,
+	11,
+	29,
+	43,
+	0,
+	0,
+	0,
+	0,
+	45,
+	251);
+INSERT INTO V_AVL
+	VALUES (306,
+	305,
+	178,
+	212);
+INSERT INTO V_VAL
+	VALUES (298,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	45,
+	251);
+INSERT INTO V_BIN
+	VALUES (298,
+	307,
+	306,
+	'+');
+INSERT INTO V_VAL
 	VALUES (307,
-	306,
-	'microseconds',
-	26,
 	0,
-	'',
-	308,
-	'');
-INSERT INTO S_BPARM
+	0,
+	11,
+	47,
+	63,
+	0,
+	0,
+	0,
+	0,
+	45,
+	251);
+INSERT INTO V_SCV
+	VALUES (307,
+	63,
+	45);
+INSERT INTO SM_NSTXN
 	VALUES (308,
-	306,
-	'event_inst',
-	85,
-	0,
-	'',
-	0,
+	215,
+	218,
+	216,
+	0);
+INSERT INTO SM_TAH
+	VALUES (309,
+	215,
+	308);
+INSERT INTO SM_AH
+	VALUES (309,
+	215);
+INSERT INTO SM_ACT
+	VALUES (309,
+	215,
+	1,
+	'// Activate the simulated GPS.
+GPS::activate();
+
+LOG::LogInfo(message: "Location listener registered.");
+',
 	'');
-INSERT INTO ACT_BRB
-	VALUES (309,
-	306);
+INSERT INTO ACT_TAB
+	VALUES (310,
+	215,
+	309);
 INSERT INTO ACT_ACT
-	VALUES (309,
-	'bridge',
+	VALUES (310,
+	'class transition',
+	0,
+	311,
+	0,
+	0,
+	'GPS_A2: registerListener',
+	0);
+INSERT INTO ACT_BLK
+	VALUES (311,
+	0,
+	0,
+	0,
+	'LOG',
+	'',
+	'',
+	4,
+	1,
+	4,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
 	0,
 	310,
-	0,
-	0,
-	'Time::timer_start',
 	0);
-INSERT INTO ACT_BLK
-	VALUES (310,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	309,
-	0);
-INSERT INTO S_BRG
-	VALUES (83,
-	266,
-	'timer_start_recurring',
-	'This bridge operation starts a timer set to expire in the specified number of
-microseconds, generating the passed event upon expiration. Upon expiration, the
-timer will be restarted and fire again in the specified number of microseconds
-generating the passed event. This bridge operation returns the instance handle
-of the timer.',
-	1,
-	81,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (311,
-	83,
-	'microseconds',
-	26,
-	0,
-	'',
-	312,
-	'');
-INSERT INTO S_BPARM
+INSERT INTO ACT_SMT
 	VALUES (312,
-	83,
-	'event_inst',
-	85,
+	311,
+	313,
+	2,
+	1,
+	'GPS_A2: registerListener line: 2');
+INSERT INTO ACT_TFM
+	VALUES (312,
+	179,
 	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
+	2,
+	6,
+	2,
+	1);
+INSERT INTO ACT_SMT
 	VALUES (313,
-	83);
-INSERT INTO ACT_ACT
+	311,
+	0,
+	4,
+	1,
+	'GPS_A2: registerListener line: 4');
+INSERT INTO ACT_BRG
 	VALUES (313,
-	'bridge',
-	0,
-	314,
-	0,
-	0,
-	'Time::timer_start_recurring',
-	0);
-INSERT INTO ACT_BLK
+	82,
+	4,
+	6,
+	4,
+	1);
+INSERT INTO V_VAL
 	VALUES (314,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	4,
+	23,
+	52,
 	0,
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	75,
+	311);
+INSERT INTO V_LST
+	VALUES (314,
+	'Location listener registered.');
+INSERT INTO V_PAR
+	VALUES (314,
 	313,
+	0,
+	'message',
+	0,
+	4,
+	14);
+INSERT INTO SM_TXN
+	VALUES (308,
+	215,
+	238,
 	0);
-INSERT INTO S_BRG
+INSERT INTO SM_NSTXN
 	VALUES (315,
-	266,
-	'timer_remaining_time',
-	'Returns the time remaining (in microseconds) for the passed timer instance. If
-the timer has expired, a zero value is returned.',
-	1,
-	26,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
+	215,
+	238,
+	217,
+	0);
+INSERT INTO SM_TAH
 	VALUES (316,
-	315,
-	'timer_inst_ref',
-	81,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (317,
+	215,
 	315);
+INSERT INTO SM_AH
+	VALUES (316,
+	215);
+INSERT INTO SM_ACT
+	VALUES (316,
+	215,
+	1,
+	'',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (317,
+	215,
+	316);
 INSERT INTO ACT_ACT
 	VALUES (317,
-	'bridge',
+	'class transition',
 	0,
 	318,
 	0,
 	0,
-	'Time::timer_remaining_time',
+	'GPS_A3: unregisterListener',
 	0);
 INSERT INTO ACT_BLK
 	VALUES (318,
@@ -4611,192 +4590,213 @@ INSERT INTO ACT_BLK
 	0,
 	317,
 	0);
-INSERT INTO S_BRG
-	VALUES (319,
-	266,
-	'timer_reset_time',
-	'This bridge operation attempts to set the passed existing timer to expire in
-the specified number of microseconds. If the timer exists (that is, it has not
-expired), a TRUE value is returned. If the timer no longer exists, a FALSE value
-is returned.',
-	1,
-	79,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (320,
-	319,
-	'timer_inst_ref',
-	81,
-	0,
-	'',
-	321,
-	'');
-INSERT INTO S_BPARM
-	VALUES (321,
-	319,
-	'microseconds',
-	26,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (322,
-	319);
-INSERT INTO ACT_ACT
-	VALUES (322,
-	'bridge',
-	0,
-	323,
-	0,
-	0,
-	'Time::timer_reset_time',
+INSERT INTO SM_TXN
+	VALUES (315,
+	215,
+	218,
 	0);
-INSERT INTO ACT_BLK
-	VALUES (323,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+INSERT INTO SM_NSTXN
+	VALUES (319,
+	215,
+	238,
+	190,
+	0);
+INSERT INTO SM_TAH
+	VALUES (320,
+	215,
+	319);
+INSERT INTO SM_AH
+	VALUES (320,
+	215);
+INSERT INTO SM_ACT
+	VALUES (320,
+	215,
+	1,
+	'// Increment simulated motion segment count.
+select any gps from instances of GPS;
+gps.motionSegments = gps.motionSegments + 1;
+',
+	'');
+INSERT INTO ACT_TAB
+	VALUES (321,
+	215,
+	320);
+INSERT INTO ACT_ACT
+	VALUES (321,
+	'class transition',
 	0,
 	322,
+	0,
+	0,
+	'GPS_A1: tick',
 	0);
-INSERT INTO S_BRG
+INSERT INTO ACT_BLK
+	VALUES (322,
+	1,
+	0,
+	0,
+	'',
+	'',
+	'',
+	3,
+	1,
+	2,
+	34,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	321,
+	0);
+INSERT INTO ACT_SMT
+	VALUES (323,
+	322,
+	324,
+	2,
+	1,
+	'GPS_A1: tick line: 2');
+INSERT INTO ACT_FIO
+	VALUES (323,
+	325,
+	1,
+	'any',
+	178,
+	2,
+	34);
+INSERT INTO ACT_SMT
 	VALUES (324,
-	266,
-	'timer_add_time',
-	'This bridge operation attempts to add the specified number of microseconds to a
-passed existing timer. If the timer exists (that is, it has not expired), a TRUE
-value is returned. If the timer no longer exists, a FALSE value is returned.',
-	1,
-	79,
-	'',
-	1,
-	'');
-INSERT INTO S_BPARM
-	VALUES (325,
-	324,
-	'timer_inst_ref',
-	81,
+	322,
 	0,
-	'',
+	3,
+	1,
+	'GPS_A1: tick line: 3');
+INSERT INTO ACT_AI
+	VALUES (324,
 	326,
-	'');
-INSERT INTO S_BPARM
-	VALUES (326,
-	324,
-	'microseconds',
-	26,
-	0,
-	'',
-	0,
-	'');
-INSERT INTO ACT_BRB
-	VALUES (327,
-	324);
-INSERT INTO ACT_ACT
-	VALUES (327,
-	'bridge',
-	0,
-	328,
-	0,
-	0,
-	'Time::timer_add_time',
-	0);
-INSERT INTO ACT_BLK
-	VALUES (328,
-	0,
-	0,
-	0,
-	'',
-	'',
-	'',
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
 	327,
+	0,
 	0);
-INSERT INTO S_BRG
-	VALUES (124,
-	266,
-	'timer_cancel',
-	'This bridge operation cancels and deletes the passed timer instance. If the 
-timer exists (that is, it had not expired), a TRUE value is returned. If the
-timer no longer exists, a FALSE value is returned.',
+INSERT INTO V_VAL
+	VALUES (328,
 	1,
-	79,
-	'',
+	0,
+	3,
 	1,
-	'');
-INSERT INTO S_BPARM
+	3,
+	0,
+	0,
+	0,
+	0,
+	194,
+	322);
+INSERT INTO V_IRF
+	VALUES (328,
+	325);
+INSERT INTO V_VAL
+	VALUES (327,
+	1,
+	0,
+	3,
+	5,
+	18,
+	0,
+	0,
+	0,
+	0,
+	26,
+	322);
+INSERT INTO V_AVL
+	VALUES (327,
+	328,
+	178,
+	210);
+INSERT INTO V_VAL
 	VALUES (329,
-	124,
-	'timer_inst_ref',
-	81,
 	0,
-	'',
 	0,
-	'');
-INSERT INTO ACT_BRB
+	3,
+	22,
+	24,
+	0,
+	0,
+	0,
+	0,
+	194,
+	322);
+INSERT INTO V_IRF
+	VALUES (329,
+	325);
+INSERT INTO V_VAL
 	VALUES (330,
-	124);
-INSERT INTO ACT_ACT
-	VALUES (330,
-	'bridge',
 	0,
+	0,
+	3,
+	26,
+	39,
+	0,
+	0,
+	0,
+	0,
+	26,
+	322);
+INSERT INTO V_AVL
+	VALUES (330,
+	329,
+	178,
+	210);
+INSERT INTO V_VAL
+	VALUES (326,
+	0,
+	0,
+	-1,
+	-1,
+	-1,
+	0,
+	0,
+	0,
+	0,
+	26,
+	322);
+INSERT INTO V_BIN
+	VALUES (326,
 	331,
-	0,
-	0,
-	'Time::timer_cancel',
-	0);
-INSERT INTO ACT_BLK
+	330,
+	'+');
+INSERT INTO V_VAL
 	VALUES (331,
 	0,
 	0,
-	0,
-	'',
-	'',
-	'',
-	0,
+	3,
+	43,
+	43,
 	0,
 	0,
 	0,
 	0,
+	26,
+	322);
+INSERT INTO V_LIN
+	VALUES (331,
+	'1');
+INSERT INTO V_VAR
+	VALUES (325,
+	322,
+	'gps',
+	1,
+	194);
+INSERT INTO V_INT
+	VALUES (325,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	330,
+	178);
+INSERT INTO SM_TXN
+	VALUES (319,
+	215,
+	238,
 	0);
 INSERT INTO PE_PE
 	VALUES (332,
@@ -4811,6 +4811,77 @@ INSERT INTO EP_PKG
 	'shared',
 	'',
 	0);
+INSERT INTO PE_PE
+	VALUES (333,
+	1,
+	332,
+	0,
+	10);
+INSERT INTO CNST_CSP
+	VALUES (333,
+	'Distance',
+	'kmPerDegree is a rough conversion figure valid for most latitude figures (except where 
+the irregular shape of the earth perturbs the value) and for longitude figures
+away from the poles (where the distance between longitude lines decreases to zero).
+
+latitudeIncrement and longitudeIncrement specify the distance traveled by the simulated
+GPS during each interval.');
+INSERT INTO CNST_SYC
+	VALUES (50,
+	'kmPerDegree',
+	'',
+	45,
+	333,
+	0,
+	0);
+INSERT INTO CNST_LFSC
+	VALUES (50,
+	45);
+INSERT INTO CNST_LSC
+	VALUES (50,
+	45,
+	'111.32');
+INSERT INTO PE_PE
+	VALUES (334,
+	1,
+	332,
+	0,
+	10);
+INSERT INTO CNST_CSP
+	VALUES (334,
+	'Speed',
+	'SpeedAveragingWindow is the number of track points used to calculate the current average speed.
+SecondsPerHour is the number of seconds in one hour.');
+INSERT INTO CNST_SYC
+	VALUES (335,
+	'SecondsPerHour',
+	'',
+	26,
+	334,
+	336,
+	26);
+INSERT INTO CNST_LFSC
+	VALUES (335,
+	26);
+INSERT INTO CNST_LSC
+	VALUES (335,
+	26,
+	'3600');
+INSERT INTO CNST_SYC
+	VALUES (336,
+	'SpeedAveragingWindow',
+	'',
+	26,
+	334,
+	0,
+	0);
+INSERT INTO CNST_LFSC
+	VALUES (336,
+	26);
+INSERT INTO CNST_LSC
+	VALUES (336,
+	26,
+	'5');
 INSERT INTO PE_PE
 	VALUES (6,
 	1,
@@ -4830,14 +4901,14 @@ INSERT INTO C_EP
 	'');
 INSERT INTO C_IO
 	VALUES (8,
-	63,
+	73,
 	'getLocation',
 	'',
 	0,
 	'',
 	12);
 INSERT INTO C_PP
-	VALUES (333,
+	VALUES (337,
 	8,
 	26,
 	'latitude',
@@ -4846,14 +4917,14 @@ INSERT INTO C_PP
 	'',
 	0);
 INSERT INTO C_PP
-	VALUES (334,
+	VALUES (338,
 	8,
 	26,
 	'longitude',
 	'',
 	0,
 	'',
-	333);
+	337);
 INSERT INTO C_EP
 	VALUES (12,
 	6,
@@ -4912,7 +4983,7 @@ INSERT INTO C_EP
 	'');
 INSERT INTO C_IO
 	VALUES (53,
-	63,
+	73,
 	'registerListener',
 	'',
 	0,
@@ -4926,112 +4997,41 @@ INSERT INTO C_EP
 	'');
 INSERT INTO C_IO
 	VALUES (57,
-	63,
+	73,
 	'unregisterListener',
 	'',
 	0,
 	'',
 	53);
 INSERT INTO PE_PE
-	VALUES (335,
-	1,
-	332,
-	0,
-	10);
-INSERT INTO CNST_CSP
-	VALUES (335,
-	'Distance',
-	'kmPerDegree is a rough conversion figure valid for most latitude figures (except where 
-the irregular shape of the earth perturbs the value) and for longitude figures
-away from the poles (where the distance between longitude lines decreases to zero).
-
-latitudeIncrement and longitudeIncrement specify the distance traveled by the simulated
-GPS during each interval.');
-INSERT INTO CNST_SYC
-	VALUES (50,
-	'kmPerDegree',
-	'',
-	45,
-	335,
-	0,
-	0);
-INSERT INTO CNST_LFSC
-	VALUES (50,
-	45);
-INSERT INTO CNST_LSC
-	VALUES (50,
-	45,
-	'111.32');
-INSERT INTO PE_PE
-	VALUES (336,
-	1,
-	332,
-	0,
-	10);
-INSERT INTO CNST_CSP
-	VALUES (336,
-	'Speed',
-	'SpeedAveragingWindow is the number of track points used to calculate the current average speed.
-SecondsPerHour is the number of seconds in one hour.');
-INSERT INTO CNST_SYC
-	VALUES (337,
-	'SecondsPerHour',
-	'',
-	26,
-	336,
-	338,
-	26);
-INSERT INTO CNST_LFSC
-	VALUES (337,
-	26);
-INSERT INTO CNST_LSC
-	VALUES (337,
-	26,
-	'3600');
-INSERT INTO CNST_SYC
-	VALUES (338,
-	'SpeedAveragingWindow',
-	'',
-	26,
-	336,
-	0,
-	0);
-INSERT INTO CNST_LFSC
-	VALUES (338,
-	26);
-INSERT INTO CNST_LSC
-	VALUES (338,
-	26,
-	'5');
-INSERT INTO PE_PE
-	VALUES (63,
+	VALUES (73,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (63,
+	VALUES (73,
 	0,
 	'void',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (63,
+	VALUES (73,
 	0);
 INSERT INTO PE_PE
-	VALUES (79,
+	VALUES (164,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (79,
+	VALUES (164,
 	0,
 	'boolean',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (79,
+	VALUES (164,
 	1);
 INSERT INTO PE_PE
 	VALUES (26,
@@ -5064,19 +5064,19 @@ INSERT INTO S_CDT
 	VALUES (45,
 	3);
 INSERT INTO PE_PE
-	VALUES (128,
+	VALUES (75,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (128,
+	VALUES (75,
 	0,
 	'string',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (128,
+	VALUES (75,
 	4);
 INSERT INTO PE_PE
 	VALUES (339,
@@ -5124,19 +5124,19 @@ INSERT INTO S_CDT
 	VALUES (341,
 	7);
 INSERT INTO PE_PE
-	VALUES (78,
+	VALUES (194,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (78,
+	VALUES (194,
 	0,
 	'inst_ref<Object>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (78,
+	VALUES (194,
 	8);
 INSERT INTO PE_PE
 	VALUES (342,
@@ -5154,19 +5154,19 @@ INSERT INTO S_CDT
 	VALUES (342,
 	9);
 INSERT INTO PE_PE
-	VALUES (85,
+	VALUES (151,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (85,
+	VALUES (151,
 	0,
 	'inst<Event>',
 	'',
 	'');
 INSERT INTO S_CDT
-	VALUES (85,
+	VALUES (151,
 	10);
 INSERT INTO PE_PE
 	VALUES (343,
@@ -5214,50 +5214,50 @@ INSERT INTO S_CDT
 	VALUES (345,
 	13);
 INSERT INTO PE_PE
-	VALUES (247,
+	VALUES (88,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (247,
+	VALUES (88,
 	0,
 	'date',
 	'',
 	'');
 INSERT INTO S_UDT
-	VALUES (247,
+	VALUES (88,
 	343,
 	1);
 INSERT INTO PE_PE
-	VALUES (81,
+	VALUES (148,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (81,
+	VALUES (148,
 	0,
 	'inst_ref<Timer>',
 	'',
 	'');
 INSERT INTO S_UDT
-	VALUES (81,
+	VALUES (148,
 	344,
 	3);
 INSERT INTO PE_PE
-	VALUES (253,
+	VALUES (94,
 	1,
 	0,
 	0,
 	3);
 INSERT INTO S_DT
-	VALUES (253,
+	VALUES (94,
 	0,
 	'timestamp',
 	'',
 	'');
 INSERT INTO S_UDT
-	VALUES (253,
+	VALUES (94,
 	343,
 	2);
