@@ -1095,6 +1095,8 @@ end for;
 o_obj.Key_Lett = o_obj.Name; // OOA - o_obj.Key_Lett = OS::remove_spaces(s:name);
 self.ModelClass_addIdentifiers(o_obj:o_obj); // OOA - o_obj.addIdentifiers();
 
+// For MASL convert we want to go ahead and "Publish References" for the new class
+self.ModelClass_newInstanceReferenceDataType(o_obj:o_obj);
 ',
 	1,
 	'',
@@ -1626,7 +1628,7 @@ return operation;
 ',
 	1,
 	'',
-	"d16c3058-c420-428a-ab22-69a134a0c5d4");
+	"a10bcbd7-d0c1-4c7f-9af4-6820fada6371");
 INSERT INTO O_TPARM
 	VALUES ("cf0f4faa-7ab4-4f2c-ac3c-298e1e67de28",
 	"b44f67b8-f281-4aa2-9adc-27b62605a7c1",
@@ -4634,6 +4636,67 @@ INSERT INTO O_TPARM
 	"b8efe921-434b-45cf-ada8-f8d6e3742675",
 	'r_form',
 	"9a6e9e32-b2f0-4344-b3a3-123b16423c3d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("a10bcbd7-d0c1-4c7f-9af4-6820fada6371",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ModelClass_newInstanceReferenceDataType',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_obj = param.o_obj;
+
+// Model Class::newInstanceReferenceDataType()
+select one packageableElem related by o_obj->PE_PE[R8001];
+select one package related by packageableElem->EP_PKG[R8000];
+select one component related by packageableElem->C_C[R8003];
+
+  // Make sure the IRDTs don''t already exist before creating new ones.  Check
+  // the single and set version and create whatever does not exist.
+  select any existing_irdt related by o_obj->S_IRDT[R123] where selected.isSet == false;
+  if (empty existing_irdt)
+    create object instance pe of PE_PE;
+    relate pe to package across R8000;
+    self.PackageableElement_initialize(pe_pe:pe);
+    pe.type = ElementTypeConstants::DATATYPE;
+    create object instance dt of S_DT;
+    relate pe to dt across R8001;
+    create object instance irdt of S_IRDT;
+    irdt.isSet = false;
+    relate dt to irdt across R17;
+
+    self.Datatype_initialize(s_dt:dt, name:"inst_ref<" + o_obj.Name + ">");
+    relate o_obj to irdt across R123;
+  end if;
+
+  select any existing_irdt_set related by o_obj->S_IRDT[R123] where selected.isSet == true;
+  if (empty existing_irdt_set)
+    create object instance pe of PE_PE;
+    relate pe to package across R8000;
+    self.PackageableElement_initialize(pe_pe:pe);
+    pe.type = ElementTypeConstants::DATATYPE;
+    create object instance dt2 of S_DT;
+    relate pe to dt2 across R8001;
+    create object instance irsdt of S_IRDT;
+    irsdt.isSet = true;
+    relate irsdt to dt2 across R17;
+
+    self.Datatype_initialize(s_dt:dt2, name:"inst_ref_set<" + o_obj.Name + ">");
+    relate o_obj to irsdt across R123;
+  end if;  
+
+',
+	1,
+	'',
+	"d16c3058-c420-428a-ab22-69a134a0c5d4");
+INSERT INTO O_TPARM
+	VALUES ("9652ef07-49f9-49d1-933a-fffd16f76750",
+	"a10bcbd7-d0c1-4c7f-9af4-6820fada6371",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",

@@ -1103,6 +1103,8 @@ masl2xtuml_ooapopulation_op_ModelClass_initialize( masl2xtuml_ooapopulation * se
   o_obj->Key_Lett = Escher_strcpy( o_obj->Key_Lett, o_obj->Name );
   /* self.ModelClass_addIdentifiers( o_obj:o_obj ) */
   masl2xtuml_ooapopulation_op_ModelClass_addIdentifiers( self,  o_obj );
+  /* self.ModelClass_newInstanceReferenceDataType( o_obj:o_obj ) */
+  masl2xtuml_ooapopulation_op_ModelClass_newInstanceReferenceDataType( self,  o_obj );
   Escher_ClearSet( classes ); 
 }
 
@@ -4503,6 +4505,103 @@ void
 masl2xtuml_ooapopulation_op_ClassAsSimpleFormalizer_dispose( masl2xtuml_ooapopulation * self, masl2xtuml_R_FORM * p_r_form )
 {
 
+}
+
+/*
+ * instance operation:  ModelClass_newInstanceReferenceDataType
+ */
+void
+masl2xtuml_ooapopulation_op_ModelClass_newInstanceReferenceDataType( masl2xtuml_ooapopulation * self, masl2xtuml_O_OBJ * p_o_obj )
+{
+  masl2xtuml_O_OBJ * o_obj;masl2xtuml_C_C * component=0;masl2xtuml_EP_PKG * package=0;masl2xtuml_PE_PE * packageableElem=0;masl2xtuml_S_IRDT * existing_irdt_set=0;masl2xtuml_S_IRDT * existing_irdt=0;
+  /* ASSIGN o_obj = PARAM.o_obj */
+  o_obj = p_o_obj;
+  /* SELECT one packageableElem RELATED BY o_obj->PE_PE[R8001] */
+  packageableElem = ( 0 != o_obj ) ? o_obj->PE_PE_R8001 : 0;
+  /* SELECT one package RELATED BY packageableElem->EP_PKG[R8000] */
+  package = ( 0 != packageableElem ) ? packageableElem->EP_PKG_R8000_contained_by : 0;
+  /* SELECT one component RELATED BY packageableElem->C_C[R8003] */
+  component = ( 0 != packageableElem ) ? packageableElem->C_C_R8003_contained_in : 0;
+  /* SELECT any existing_irdt RELATED BY o_obj->S_IRDT[R123] WHERE ( ( SELECTED.isSet == FALSE ) ) */
+  existing_irdt = 0;
+  if ( 0 != o_obj ) {
+    masl2xtuml_S_IRDT * selected;
+    Escher_Iterator_s iS_IRDT_R123_is_available_as_a_reference_by;
+    Escher_IteratorReset( &iS_IRDT_R123_is_available_as_a_reference_by, &o_obj->S_IRDT_R123_is_available_as_a_reference_by );
+    while ( 0 != ( selected = (masl2xtuml_S_IRDT *) Escher_IteratorNext( &iS_IRDT_R123_is_available_as_a_reference_by ) ) ) {
+      if ( ( selected->isSet == FALSE ) ) {
+        existing_irdt = selected;
+        break;
+  }}}
+  /* IF ( empty existing_irdt ) */
+  if ( ( 0 == existing_irdt ) ) {
+    masl2xtuml_S_IRDT * irdt;masl2xtuml_S_DT * dt;masl2xtuml_PE_PE * pe;
+    /* CREATE OBJECT INSTANCE pe OF PE_PE */
+    pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
+    pe->Element_ID = (Escher_UniqueID_t) pe;
+    /* RELATE pe TO package ACROSS R8000 */
+    masl2xtuml_PE_PE_R8000_Link_contains( package, pe );
+    /* self.PackageableElement_initialize( pe_pe:pe ) */
+    masl2xtuml_ooapopulation_op_PackageableElement_initialize( self,  pe );
+    /* ASSIGN pe.type = DATATYPE */
+    pe->type = masl2xtuml_ElementTypeConstants_DATATYPE_e;
+    /* CREATE OBJECT INSTANCE dt OF S_DT */
+    dt = (masl2xtuml_S_DT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_DT_CLASS_NUMBER );
+    dt->DT_ID = (Escher_UniqueID_t) dt;
+    /* RELATE pe TO dt ACROSS R8001 */
+    masl2xtuml_S_DT_R8001_Link( pe, dt );
+    /* CREATE OBJECT INSTANCE irdt OF S_IRDT */
+    irdt = (masl2xtuml_S_IRDT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_IRDT_CLASS_NUMBER );
+    irdt->DT_ID = (Escher_UniqueID_t) irdt;
+    /* ASSIGN irdt.isSet = FALSE */
+    irdt->isSet = FALSE;
+    /* RELATE dt TO irdt ACROSS R17 */
+    masl2xtuml_S_IRDT_R17_Link( dt, irdt );
+    /* self.Datatype_initialize( name:( ( inst_ref< + o_obj.Name ) + > ), s_dt:dt ) */
+    masl2xtuml_ooapopulation_op_Datatype_initialize( self,  Escher_stradd( Escher_stradd( "inst_ref<", o_obj->Name ), ">" ), dt );
+    /* RELATE o_obj TO irdt ACROSS R123 */
+    masl2xtuml_S_IRDT_R123_Link_is_available_as_a_reference_by( o_obj, irdt );
+  }
+  /* SELECT any existing_irdt_set RELATED BY o_obj->S_IRDT[R123] WHERE ( ( SELECTED.isSet == TRUE ) ) */
+  existing_irdt_set = 0;
+  if ( 0 != o_obj ) {
+    masl2xtuml_S_IRDT * selected;
+    Escher_Iterator_s iS_IRDT_R123_is_available_as_a_reference_by;
+    Escher_IteratorReset( &iS_IRDT_R123_is_available_as_a_reference_by, &o_obj->S_IRDT_R123_is_available_as_a_reference_by );
+    while ( 0 != ( selected = (masl2xtuml_S_IRDT *) Escher_IteratorNext( &iS_IRDT_R123_is_available_as_a_reference_by ) ) ) {
+      if ( ( selected->isSet == TRUE ) ) {
+        existing_irdt_set = selected;
+        break;
+  }}}
+  /* IF ( empty existing_irdt_set ) */
+  if ( ( 0 == existing_irdt_set ) ) {
+    masl2xtuml_S_IRDT * irsdt;masl2xtuml_S_DT * dt2;masl2xtuml_PE_PE * pe;
+    /* CREATE OBJECT INSTANCE pe OF PE_PE */
+    pe = (masl2xtuml_PE_PE *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_PE_PE_CLASS_NUMBER );
+    pe->Element_ID = (Escher_UniqueID_t) pe;
+    /* RELATE pe TO package ACROSS R8000 */
+    masl2xtuml_PE_PE_R8000_Link_contains( package, pe );
+    /* self.PackageableElement_initialize( pe_pe:pe ) */
+    masl2xtuml_ooapopulation_op_PackageableElement_initialize( self,  pe );
+    /* ASSIGN pe.type = DATATYPE */
+    pe->type = masl2xtuml_ElementTypeConstants_DATATYPE_e;
+    /* CREATE OBJECT INSTANCE dt2 OF S_DT */
+    dt2 = (masl2xtuml_S_DT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_DT_CLASS_NUMBER );
+    dt2->DT_ID = (Escher_UniqueID_t) dt2;
+    /* RELATE pe TO dt2 ACROSS R8001 */
+    masl2xtuml_S_DT_R8001_Link( pe, dt2 );
+    /* CREATE OBJECT INSTANCE irsdt OF S_IRDT */
+    irsdt = (masl2xtuml_S_IRDT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_IRDT_CLASS_NUMBER );
+    irsdt->DT_ID = (Escher_UniqueID_t) irsdt;
+    /* ASSIGN irsdt.isSet = TRUE */
+    irsdt->isSet = TRUE;
+    /* RELATE irsdt TO dt2 ACROSS R17 */
+    masl2xtuml_S_IRDT_R17_Link( dt2, irsdt );
+    /* self.Datatype_initialize( name:( ( inst_ref_set< + o_obj.Name ) + > ), s_dt:dt2 ) */
+    masl2xtuml_ooapopulation_op_Datatype_initialize( self,  Escher_stradd( Escher_stradd( "inst_ref_set<", o_obj->Name ), ">" ), dt2 );
+    /* RELATE o_obj TO irsdt ACROSS R123 */
+    masl2xtuml_S_IRDT_R123_Link_is_available_as_a_reference_by( o_obj, irsdt );
+  }
 }
 
 /*
