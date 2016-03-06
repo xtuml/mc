@@ -142,6 +142,7 @@ elif ( "regularrel" == element )
   end if;
 elif ( "subsuper" == element )
   if ( "" == param.value[0] )
+    // TODO - subsuper is not yet handled. Will eventually call: ooapopulation.transformAssociation(); 
     ooapopulation.clearRelationshipCache();
   else
     ooapopulation.current_rel.type = RELATIONSHIP_TYPE::SUBSUPER;
@@ -695,7 +696,7 @@ end if;
 return c_c.Id;',
 	1,
 	'',
-	"2b8ec32a-cfed-4c9c-81fa-61a4f530fe75");
+	"43829a09-886f-4a7f-9089-61faea422330");
 INSERT INTO O_TPARM
 	VALUES ("f8b32f28-f05b-4aca-bf2b-629bbb42455c",
 	"edbc08df-df72-4ee9-9365-1a3d836b9fbd",
@@ -1277,7 +1278,7 @@ create object instance nba of O_NBATTR;
 relate ba to nba across R107;',
 	1,
 	'',
-	"4b15fc81-c210-44f8-9c04-0c7b1bf99672");
+	"91dc75c2-9edd-4caa-ab33-32d0edaded3a");
 INSERT INTO O_TPARM
 	VALUES ("9cb4d766-d51c-43c7-a331-72f1e7bcf49d",
 	"c59ea70d-68ee-4b9e-a501-5920a749fab1",
@@ -2261,7 +2262,7 @@ end if;
 ',
 	1,
 	'',
-	"62cc7ec1-12c6-444f-8e9c-8bf257676b92");
+	"c96782bb-4ef4-46d8-bbb5-0989d88ef9b7");
 INSERT INTO O_TPARM
 	VALUES ("3f0a949c-ae5b-44f0-ba87-4ca67b763463",
 	"eaeaa954-9f69-450a-a5a6-1b0d98435d31",
@@ -2751,7 +2752,7 @@ end for;
 ',
 	1,
 	'',
-	"806a97a3-4a9d-4fe2-994e-8b5705b455fc");
+	"39307b35-30ec-4d13-95c6-ec00ad55cd77");
 INSERT INTO O_TPARM
 	VALUES ("ce7ac460-d5ae-4d86-86d2-4e244dba0a7e",
 	"95d28c71-7112-48a3-9945-3db8666f33fa",
@@ -3226,7 +3227,7 @@ if(not_empty parameter)
 end if;',
 	1,
 	'',
-	"b44f67b8-f281-4aa2-9adc-27b62605a7c1");
+	"0fbf0e7d-26c3-4c87-b4fc-c9bf58b1656e");
 INSERT INTO O_TPARM
 	VALUES ("73e8922e-3160-41ad-8cca-68d25a87239c",
 	"9d4210cf-13a0-4a9c-a3e1-2351437a6a42",
@@ -3971,7 +3972,7 @@ unrelate oid from r_rto across R109;
 ',
 	1,
 	'',
-	"9e1603f8-30b3-45e7-a697-d89f16f10bf0");
+	"a0d04799-d672-4ed8-8a3c-9d45696ac060");
 INSERT INTO O_TPARM
 	VALUES ("c05f8e20-6b7d-4d77-a33d-35927ca2f309",
 	"e4bdc5ff-cd55-457f-a5d3-3c9753f8e304",
@@ -4017,7 +4018,7 @@ self.ReferringClassInAssoc_dispose(r_rgo:rgo);
 ',
 	1,
 	'',
-	"e4bdc5ff-cd55-457f-a5d3-3c9753f8e304");
+	"b8efe921-434b-45cf-ada8-f8d6e3742675");
 INSERT INTO O_TPARM
 	VALUES ("41f91bbb-84f6-4e87-85ef-e64d96fcf873",
 	"f7d11722-b6db-4a91-80c5-9d36afc0263f",
@@ -4066,7 +4067,7 @@ self.ReferringClassInAssoc_clearReferences(r_rgo:r_rgo);
 delete object instance self;',
 	1,
 	'',
-	"f7d11722-b6db-4a91-80c5-9d36afc0263f");
+	"3d837957-0a89-4567-9fc3-b1c7b37b2220");
 INSERT INTO O_TPARM
 	VALUES ("8baa908c-2eb0-44d1-9379-d99a52c4e4f7",
 	"39307b35-30ec-4d13-95c6-ec00ad55cd77",
@@ -4099,7 +4100,7 @@ end for;
 ',
 	1,
 	'',
-	"39307b35-30ec-4d13-95c6-ec00ad55cd77");
+	"0fa4ac75-d42c-41dd-afaa-0446f593aed8");
 INSERT INTO O_TPARM
 	VALUES ("004c6777-d856-40da-88a2-222157232bc0",
 	"3d837957-0a89-4567-9fc3-b1c7b37b2220",
@@ -4145,7 +4146,7 @@ end if;
 ',
 	1,
 	'',
-	"3d837957-0a89-4567-9fc3-b1c7b37b2220");
+	"45e0bc8e-5e04-43ce-ae2b-4769bfd0a9a7");
 INSERT INTO O_TPARM
 	VALUES ("9b11fda0-3695-4201-b316-486575c88d96",
 	"a0c8981a-e050-48bb-9746-0a90ab04dce7",
@@ -4198,7 +4199,7 @@ unrelate rtida from rgo across R111 using o_ref;
 delete object instance o_ref;',
 	1,
 	'',
-	"a0c8981a-e050-48bb-9746-0a90ab04dce7");
+	"2b8ec32a-cfed-4c9c-81fa-61a4f530fe75");
 INSERT INTO O_TPARM
 	VALUES ("1047c833-212f-43eb-9c5c-00f784e8efae",
 	"45e0bc8e-5e04-43ce-ae2b-4769bfd0a9a7",
@@ -4286,7 +4287,7 @@ end for;
 delete object instance o_attr;',
 	1,
 	'',
-	"45e0bc8e-5e04-43ce-ae2b-4769bfd0a9a7");
+	"4b15fc81-c210-44f8-9c04-0c7b1bf99672");
 INSERT INTO O_TPARM
 	VALUES ("a4646400-e6e6-4bd8-8663-3a78f050a21e",
 	"91dc75c2-9edd-4caa-ab33-32d0edaded3a",
@@ -4315,7 +4316,7 @@ end for;
 delete object instance o_oida;',
 	1,
 	'',
-	"91dc75c2-9edd-4caa-ab33-32d0edaded3a");
+	"f7d11722-b6db-4a91-80c5-9d36afc0263f");
 INSERT INTO O_TPARM
 	VALUES ("411e91e0-5194-4143-9556-ebc4bb816753",
 	"43829a09-886f-4a7f-9089-61faea422330",
@@ -4351,7 +4352,7 @@ unrelate oida from rto across R110 using o_rtida;
 delete object instance o_rtida;',
 	1,
 	'',
-	"43829a09-886f-4a7f-9089-61faea422330");
+	"e4bdc5ff-cd55-457f-a5d3-3c9753f8e304");
 INSERT INTO O_TPARM
 	VALUES ("e0edfae5-e6e0-433f-a206-751e73f6ed7f",
 	"0fa4ac75-d42c-41dd-afaa-0446f593aed8",
@@ -4407,7 +4408,7 @@ self.ReferentialAttribute_dispose(o_rattr:o_rattr);
 ',
 	1,
 	'',
-	"0fa4ac75-d42c-41dd-afaa-0446f593aed8");
+	"6639b67e-29d6-4046-8d4f-46a7711d0b75");
 INSERT INTO O_TPARM
 	VALUES ("82d5a0bf-409f-4fed-850a-f20d749db9cd",
 	"a0d04799-d672-4ed8-8a3c-9d45696ac060",
@@ -4449,7 +4450,7 @@ end if;
 delete object instance o_rattr;',
 	1,
 	'',
-	"a0d04799-d672-4ed8-8a3c-9d45696ac060");
+	"806a97a3-4a9d-4fe2-994e-8b5705b455fc");
 INSERT INTO O_TPARM
 	VALUES ("a304f5af-7269-4bdf-9617-ba9504dd4150",
 	"6639b67e-29d6-4046-8d4f-46a7711d0b75",
@@ -4489,7 +4490,7 @@ delete object instance o_battr;
 ',
 	1,
 	'',
-	"6639b67e-29d6-4046-8d4f-46a7711d0b75");
+	"a0c8981a-e050-48bb-9746-0a90ab04dce7");
 INSERT INTO O_TPARM
 	VALUES ("dcb9355e-f719-4a23-b651-f9a5d524f861",
 	"0e9377a2-daec-4c38-9d8b-4bb5213742c2",
@@ -4531,7 +4532,7 @@ delete object instance o_dbattr;
 ',
 	1,
 	'',
-	"0e9377a2-daec-4c38-9d8b-4bb5213742c2");
+	"62cc7ec1-12c6-444f-8e9c-8bf257676b92");
 INSERT INTO O_TPARM
 	VALUES ("db55ef13-222f-4cd8-b188-a5192979828b",
 	"c96782bb-4ef4-46d8-bbb5-0989d88ef9b7",
@@ -4563,7 +4564,7 @@ delete object instance o_nbattr;
 ',
 	1,
 	'',
-	"c96782bb-4ef4-46d8-bbb5-0989d88ef9b7");
+	"b44f67b8-f281-4aa2-9adc-27b62605a7c1");
 INSERT INTO O_TPARM
 	VALUES ("ef19cd52-b9e8-42ff-a79f-2e4850f92f9c",
 	"0fbf0e7d-26c3-4c87-b4fc-c9bf58b1656e",
@@ -4600,7 +4601,7 @@ delete object instance r_assr;
 ',
 	1,
 	'',
-	"0fbf0e7d-26c3-4c87-b4fc-c9bf58b1656e");
+	"0e9377a2-daec-4c38-9d8b-4bb5213742c2");
 INSERT INTO O_TPARM
 	VALUES ("8cc5448a-29aa-4994-bbf3-bce56ad658c8",
 	"9aff835c-7ded-4deb-9d72-a49a9a8e9b41",
