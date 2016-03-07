@@ -74,7 +74,8 @@ UserPreOoaInitializationCalloutf( void )
 void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
-  int project = 0; int domain = 0; char * name = "";
+  int project = 0; int domain = 0;
+  int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
@@ -82,11 +83,11 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       switch ( c ) {
         case 'd':
           domain = 1;
-          if ( optarg ) name = optarg;
+          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case 'p':
           project = 1;
-          if ( optarg ) name = optarg;
+          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
           break;
         case '?':
             fprintf( stderr, "Unknown option character '%c'.\n", optopt );
@@ -96,10 +97,11 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       }
     }
   }
+  int i = 0;
   if ( project ) {
-    xtuml2masl_masl_project( name );
+    while ( i < namecount ) xtuml2masl_masl_project( name[ i++ ] );
   } else if ( domain ) {
-    xtuml2masl_masl_domain( name );
+    while ( i < namecount ) xtuml2masl_masl_domain( name[ i++ ] );
   }
 }
 

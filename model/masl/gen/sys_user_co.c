@@ -152,9 +152,10 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   }
 
   int validate = 0; int Validateonly = 0;
-  char * outdirname = 0; char * projectdomain = 0; char * name = "";
+  char * outdirname = 0; char * projectdomain = 0;
+  int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
-    int c, index;
+    int c;
     opterr = 0;
     while ( ( c = getopt ( argc, argv, "vVo:d::p::" ) ) != -1 ) {
       switch ( c ) {
@@ -166,10 +167,12 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
           outdirname = optarg; break;
         case 'd':
           projectdomain = "domain";
-          name = optarg; break;
+          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
+          break;
         case 'p':
           projectdomain = "project";
-          name = optarg; break;
+          if ( optarg ) strncpy( name[ namecount++ ], optarg, 1024 );
+          break;
         case '?':
           if ( 'o' == optopt ) {
             fprintf( stderr, "Option -%c requires an argument.\n", optopt );
@@ -192,7 +195,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
       mkdir( outdirname, S_IWUSR );
     }
     if ( projectdomain ) {
-      masl_gen_render( projectdomain, name );
+      int i = 0;
+      while ( i < namecount )
+        masl_gen_render( projectdomain, name[ i++ ] );
     } else {
       masl_gen_render( "project", "" );
       masl_gen_render( "domain", "" );

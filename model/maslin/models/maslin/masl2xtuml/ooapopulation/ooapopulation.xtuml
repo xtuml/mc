@@ -2964,7 +2964,7 @@ else
 end if;',
 	1,
 	'',
-	"95d28c71-7112-48a3-9945-3db8666f33fa");
+	"cbcea1c4-3923-4c24-9dfd-471bb8c6ec10");
 INSERT INTO O_TPARM
 	VALUES ("ebfa211d-04c7-4122-8421-7b4986727737",
 	"bbd564a6-2b4f-4af1-8925-05597ade9485",
@@ -3673,6 +3673,9 @@ current_component = self.current_component;
 select any internals_pkg related by current_component->PE_PE[R8003]->EP_PKG[R8001] where (selected.Name == current_component.Name);
 
 if (  self.current_rel.type == RELATIONSHIP_TYPE::ASSOCIATIVE )
+  // Associative links are simple associations that are then migrated to be associative.  So here we 
+  // create the simple association first.
+  self.Package_newAssociation(ep_pkg:internals_pkg);
   self.Package_newAssociative(ep_pkg:internals_pkg);
 elif ( self.current_rel.type == RELATIONSHIP_TYPE::REGULAR )
   self.Package_newAssociation(ep_pkg:internals_pkg); 
@@ -3693,6 +3696,8 @@ select any fromOOAPart from instances of ooaparticipation where (selected.isFirs
 select any toOOAPart from instances of ooaparticipation where (selected.isFirst == false );
 
 // What follows is a heavily modified version of OOAofOOA''s Package::newAssociative()
+select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == fromOOAPart.className);
+
 /*  TODO - skipping imported classes for now
 if (param.fromIsImportedClass)
   select any fromIClass related by self->PE_PE[R8000]->O_IOBJ[R8001] where (selected.IObj_ID == param.from);
@@ -3700,30 +3705,33 @@ if (param.fromIsImportedClass)
     select one fromClass related by fromIClass->O_OBJ[R101];
   end if;
 end if;*/
-select any toAssoc related by ep_pkg->PE_PE[R8000]->R_REL[R8001] where (selected.Rel_ID == param.to);
+relNumber = STRING::atoi(s:self.current_rel.number); 
+select any toAssoc related by ep_pkg->PE_PE[R8000]->R_REL[R8001] where (selected.Numb == relNumber);
 // get the already related class in relationship instances
 select many classes related by toAssoc->R_OIR[R201]->O_OBJ[R201];
 for each clazz in classes
   if (clazz == fromClass)
     // A class cannot be it''s own link class
-    return false;
+    // TODO - not doing anything with return value, should we?  - return false;
   end if;
 end for;
 if (empty fromClass or empty toAssoc)
   // One of the elements was not found
-  return false;
+  // TODO - not doing anything with return value, should we?  - return false;
 end if;
 select one simp related by toAssoc->R_SIMP[R206];
 if (empty simp)
   // Only simple associations can have link classes attached. 
-  return false;
+  // TODO - not doing anything with return value, should we?  - return false;
 else
+  /* TODO - not handling imported link classes
   if (param.fromIsImportedClass)
     simp.migrateToLinked(using: fromClass.Obj_ID, imported_id: param.from);
-  else
-    simp.migrateToLinked(using: fromClass.Obj_ID, imported_id: GD::NULL_UNIQUE_ID());
-  end if;
-  return true;
+  else*/
+    select any usingClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == self.current_rel.usingObj);
+    self.SimpleAssociation_migrateToLinked(r_simp:simp, using: usingClass); // OOA - simp.migrateToLinked(using: fromClass.Obj_ID, imported_id: GD::NULL_UNIQUE_ID());
+  //end if;
+  // TODO - not doing anything with return value, should we?  - return true;
 end if;',
 	1,
 	'',
@@ -3733,6 +3741,898 @@ INSERT INTO O_TPARM
 	"e5ab0186-8756-4d6c-bb89-26bf2f9e1423",
 	'ep_pkg',
 	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("01970c74-b239-4dd8-bda0-c67f9d21607a",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'SimpleAssociation_migrateToLinked',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_simp = param.r_simp;
+
+// create the class as link
+create object instance assr of R_ASSR;
+
+// Unformalize r_simp if it is formalized
+if (self.SimpleAssociation_isFormalized(r_simp:r_simp))
+  self.SimpleAssociation_unformalize(r_simp:r_simp);
+end if;
+select one toAssoc related by r_simp->R_REL[R206];
+fromClass = param.using; // OOA - select any fromClass related by r_simp->R_REL[R206]->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1405]->PE_PE[R8000]->O_OBJ[R8001]  where (selected.Obj_ID == param.using);
+// migrate the simple association to a linked association
+create object instance assoc of R_ASSOC;
+unrelate r_simp from toAssoc across R206;
+relate assoc to toAssoc across R206;
+//
+select many parts related by r_simp->R_PART[R207];
+if (cardinality parts == 1)
+  // this association is formalized 
+  // migrate from participant to oneside
+  select any part related by r_simp->R_PART[R207];
+  select one rto related by part->R_RTO[R204];
+  unrelate part from rto across R204;
+  unrelate r_simp from part across R207;
+  create object instance aone of R_AONE;
+  aone.Mult = part.Mult;
+  aone.Cond = part.Cond;
+  aone.Txt_Phrs = part.Txt_Phrs;
+  relate rto to aone across R204;
+  delete object instance part;
+  // link the one side to the new linked association
+  relate aone to assoc across R209;
+  // migrate from formalizer to otherside
+  select one form related by r_simp->R_FORM[R208];
+  select one rgo related by form->R_RGO[R205];
+  unrelate form from rgo across R205;
+  unrelate r_simp from form across R208;
+  select one oir related by rgo->R_OIR[R203];
+  unrelate oir from rgo across R203;
+  self.ReferringClassInAssoc_dispose(r_rgo:rgo);
+  create object instance othRto of R_RTO;
+  relate oir to othRto across R203;
+  create object instance aoth of R_AOTH;
+  aoth.Mult = form.Mult;
+  aoth.Cond = form.Cond;
+  aoth.Txt_Phrs = form.Txt_Phrs;
+  delete object instance form;
+  relate othRto to aoth across R204;
+  // link the other side to the new linked association
+  relate aoth to assoc across R210;
+  select one refClass related by oir->O_OBJ[R201];
+else
+  // this association is unformalized
+  doingOneSide = true;
+  for each part in parts
+    if (doingOneSide)
+      // migrate from participant to oneside
+      select one rto related by part->R_RTO[R204];
+      unrelate part from rto across R204;
+      unrelate r_simp from part across R207;
+      create object instance aone of R_AONE;
+      aone.Mult = part.Mult;
+      aone.Cond = part.Cond;
+      aone.Txt_Phrs = part.Txt_Phrs;
+      delete object instance part;
+      relate rto to aone across R204;
+      // link the one side to the new linked association
+      relate aone to assoc across R209;
+      doingOneSide = false;
+    else
+      // migrate from participant to otherside
+      select one rto related by part->R_RTO[R204];
+      unrelate part from rto across R204;
+      unrelate r_simp from part across R207;
+      create object instance aoth of R_AOTH;
+      aoth.Mult = part.Mult;
+      aoth.Cond = part.Cond;
+      aoth.Txt_Phrs = part.Txt_Phrs;
+      delete object instance part;
+      relate rto to aoth across R204;
+      // link the other side to the new linked association
+      relate aoth to assoc across R210;
+    end if;
+  end for;
+end if;
+// link the fromClass to the association
+create object instance oir of R_OIR;
+relate fromClass to toAssoc across R201 using oir;
+// create the referring class in association
+create object instance rgo of R_RGO;
+relate rgo to oir across R203;
+relate rgo to assr across R205;
+// link it with the linked association
+relate assr to assoc across R211;
+/* TODO - not doing anything about imported link classes at this time.  Circle back to this
+if ( param.imported_id != GD::NULL_UNIQUE_ID() )
+  // link class is an imported class
+  select any imp_class related by fromClass->O_IOBJ[R101] 
+        where selected.IObj_ID == param.imported_id;
+  relate imp_class to oir across R202;
+end if;*/
+delete object instance r_simp;
+',
+	1,
+	'',
+	"2218adac-8f24-412c-8e58-e59dd6530054");
+INSERT INTO O_TPARM
+	VALUES ("c711d136-d115-4ce1-9816-38573d2745e9",
+	"01970c74-b239-4dd8-bda0-c67f9d21607a",
+	'using',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"07ee2a3a-b7f9-4f4d-a4f5-99050056c225",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("07ee2a3a-b7f9-4f4d-a4f5-99050056c225",
+	"01970c74-b239-4dd8-bda0-c67f9d21607a",
+	'r_simp',
+	"322c65da-132b-421a-a1b1-f757cb0acff7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("322c65da-132b-421a-a1b1-f757cb0acff7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Simple Association>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("2218adac-8f24-412c-8e58-e59dd6530054",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'SimpleAssociation_isFormalized',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'r_simp = param.r_simp;
+
+select one form related by r_simp->R_FORM[R208];
+if ( not_empty form )
+  select any rto related by r_simp->R_PART[R207]->R_RTO[R204];
+  select any rtida related by rto->O_RTIDA[R110];
+  if ( empty rtida )
+    select one assoc related by r_simp->R_REL[R206];
+  end if;
+  return true;
+end if;
+return false;
+',
+	1,
+	'',
+	"95d28c71-7112-48a3-9945-3db8666f33fa");
+INSERT INTO O_TPARM
+	VALUES ("477653e6-0331-473e-979b-cfc420d3cca6",
+	"2218adac-8f24-412c-8e58-e59dd6530054",
+	'r_simp',
+	"322c65da-132b-421a-a1b1-f757cb0acff7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("cbcea1c4-3923-4c24-9dfd-471bb8c6ec10",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'SimpleAssociation_unformalize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_simp = param.r_simp;
+
+select any part_rto related by r_simp->R_PART[R207]->R_RTO[R204];  // there is only one
+
+self.ReferredToClassInAssoc_unformalize(r_rto:part_rto); // OOA - part_rto.unformalize();
+
+// migrate formalizer back to Class As Simple Participant
+select one form related by r_simp->R_FORM[R208];
+self.ClassAsSimpleFormalizer_migrateToParticipant(r_form:form); // OOA - form.migrateToParticipant();
+
+
+',
+	1,
+	'',
+	"01970c74-b239-4dd8-bda0-c67f9d21607a");
+INSERT INTO O_TPARM
+	VALUES ("19e9d774-4d71-487f-987b-6cbc774642a2",
+	"cbcea1c4-3923-4c24-9dfd-471bb8c6ec10",
+	'r_simp',
+	"322c65da-132b-421a-a1b1-f757cb0acff7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("e4bdc5ff-cd55-457f-a5d3-3c9753f8e304",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ReferredToClassInAssoc_unformalize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_rto = param.r_rto;
+
+select many rtida_set related by r_rto->O_RTIDA[R110];
+for each rtida in rtida_set
+  select many ref_set related by rtida->O_REF[R111];
+  for each ref in ref_set
+    self.AttributeReferenceInClass_migrateRefAttrOrDispose(o_ref:ref);  
+  end for;
+  select one oida related by rtida->O_OIDA[R110];
+  unrelate oida from r_rto across R110 using rtida;
+  delete object instance rtida;
+end for;
+
+select one oid related by r_rto->O_ID[R109];
+unrelate oid from r_rto across R109;
+',
+	1,
+	'',
+	"9e1603f8-30b3-45e7-a697-d89f16f10bf0");
+INSERT INTO O_TPARM
+	VALUES ("c05f8e20-6b7d-4d77-a33d-35927ca2f309",
+	"e4bdc5ff-cd55-457f-a5d3-3c9753f8e304",
+	'r_rto',
+	"893ea6d3-466d-498e-b58a-cf5966da5549",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("893ea6d3-466d-498e-b58a-cf5966da5549",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Referred To Class in Assoc>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("f7d11722-b6db-4a91-80c5-9d36afc0263f",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ClassAsSimpleFormalizer_migrateToParticipant',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_form = param.r_form;
+
+create object instance rto of R_RTO;
+create object instance part of R_PART;
+
+part.Mult = r_form.Mult;
+part.Cond = r_form.Cond;
+part.Txt_Phrs = r_form.Txt_Phrs;
+
+select one rgo related by r_form->R_RGO[R205];
+select one oir related by rgo->R_OIR[R203];
+select one simp related by r_form->R_SIMP[R208];
+
+relate oir to rto across R203;
+relate rto to part across R204;
+relate part to simp across R207;
+
+// and dispose r_form from supertype
+self.ReferringClassInAssoc_dispose(r_rgo:rgo);
+',
+	1,
+	'',
+	"e4bdc5ff-cd55-457f-a5d3-3c9753f8e304");
+INSERT INTO O_TPARM
+	VALUES ("41f91bbb-84f6-4e87-85ef-e64d96fcf873",
+	"f7d11722-b6db-4a91-80c5-9d36afc0263f",
+	'r_form',
+	"9a6e9e32-b2f0-4344-b3a3-123b16423c3d",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9a6e9e32-b2f0-4344-b3a3-123b16423c3d",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class As Simple Formalizer>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("39307b35-30ec-4d13-95c6-ec00ad55cd77",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ReferringClassInAssoc_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_rgo = param.r_rgo;
+
+// Association Subsystem
+select one link related by r_rgo->R_ASSR[R205];
+select one sub related by r_rgo->R_SUB[R205];
+select one form related by r_rgo->R_FORM[R205];
+if (not_empty link)
+ self.ClassAsLink_dispose(r_assr:link);
+elif (not_empty sub)
+  // TODO - complete this work later - sub.dispose();
+elif (not_empty form)
+  self.ClassAsSimpleFormalizer_dispose(r_form:form);
+end if;
+select one cia related by r_rgo->R_OIR[R203];
+if ( not_empty cia )
+  unrelate r_rgo from cia across R203;
+end if;
+//
+// Subsystem Subsystem
+self.ReferringClassInAssoc_clearReferences(r_rgo:r_rgo);
+//
+// Finally delete self
+delete object instance self;',
+	1,
+	'',
+	"f7d11722-b6db-4a91-80c5-9d36afc0263f");
+INSERT INTO O_TPARM
+	VALUES ("8baa908c-2eb0-44d1-9379-d99a52c4e4f7",
+	"39307b35-30ec-4d13-95c6-ec00ad55cd77",
+	'r_rgo',
+	"f6b00fbb-5d4e-4e79-bd36-f3289da7ee17",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f6b00fbb-5d4e-4e79-bd36-f3289da7ee17",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Referring Class In Assoc>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("3d837957-0a89-4567-9fc3-b1c7b37b2220",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ReferringClassInAssoc_clearReferences',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_rgo = param.r_rgo;
+
+select many refs related by r_rgo->O_REF[R111];
+for each ref in refs
+  self.AttributeReferenceInClass_migrateRefAttrOrDispose(o_ref:ref);
+end for;
+',
+	1,
+	'',
+	"39307b35-30ec-4d13-95c6-ec00ad55cd77");
+INSERT INTO O_TPARM
+	VALUES ("004c6777-d856-40da-88a2-222157232bc0",
+	"3d837957-0a89-4567-9fc3-b1c7b37b2220",
+	'r_rgo',
+	"f6b00fbb-5d4e-4e79-bd36-f3289da7ee17",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("a0c8981a-e050-48bb-9746-0a90ab04dce7",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'AttributeReferenceInClass_migrateRefAttrOrDispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_ref = param.o_ref;
+
+select many siblings related by o_ref->O_RATTR[R108]->O_REF[R108];
+if (cardinality siblings == 1)
+  // This referential is not going to refer to anything after this . . . 
+  select one rattr related by o_ref->O_RATTR[R108];
+  select any idattr related by rattr->O_ATTR[R106]->O_OIDA[R105];
+  if (empty idattr)
+    // this referential has no references left and it''s not part of an identifier
+    // it should be removed
+    select one attr related by rattr->O_ATTR[R106];
+    self.Attribute_dispose(o_attr:attr);
+  else
+    select any rattr_ref related by idattr->O_RTIDA[R110];
+    if ( not_empty rattr_ref )
+      // rattr''s identifier is used to formalize another relationship
+      // we need to keep it as a base attribute
+      self.ReferentialAttribute_migrateToBase(o_rattr:rattr);
+    else
+      select one attr related by rattr->O_ATTR[R106];
+      self.Attribute_dispose(o_attr:attr);
+    end if;
+  end if;
+else
+  self.AttributeReferenceInClass_dispose(o_ref:o_ref); // OOA - self.dispose();
+end if;
+',
+	1,
+	'',
+	"3d837957-0a89-4567-9fc3-b1c7b37b2220");
+INSERT INTO O_TPARM
+	VALUES ("9b11fda0-3695-4201-b316-486575c88d96",
+	"a0c8981a-e050-48bb-9746-0a90ab04dce7",
+	'o_ref',
+	"f5752494-b9cf-4fc7-b96d-4b64d6be0431",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f5752494-b9cf-4fc7-b96d-4b64d6be0431",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Attribute Reference in Class>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TFR
+	VALUES ("45e0bc8e-5e04-43ce-ae2b-4769bfd0a9a7",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'AttributeReferenceInClass_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_ref = param.o_ref;
+
+select one next_ref related by o_ref->O_REF[R112.''precedes''];
+select one prior_ref related by o_ref->O_REF[R112.''succeeds''];
+if ( not_empty next_ref and not_empty prior_ref )
+  // in the middle of the chain
+  unrelate o_ref from next_ref across R112.''precedes'';
+  unrelate prior_ref from o_ref across R112.''precedes'';
+  relate prior_ref to next_ref across R112.''precedes'';
+else
+  if ( not_empty prior_ref and empty next_ref )
+    // we''re last in list
+    unrelate prior_ref from o_ref across R112.''precedes'';
+  else
+    // we''re first in list
+    unrelate o_ref from next_ref across R112.''precedes'';
+  end if;
+end if;
+select one owningReferential related by o_ref->O_RATTR[R108];
+if not_empty owningReferential
+ unrelate o_ref from owningReferential across R108;
+end if;
+select one rtida related by o_ref->O_RTIDA[R111];
+select one rgo related by o_ref->R_RGO[R111];
+select one rto related by rtida->R_RTO[R110];
+unrelate rtida from rgo across R111 using o_ref;
+delete object instance o_ref;',
+	1,
+	'',
+	"a0c8981a-e050-48bb-9746-0a90ab04dce7");
+INSERT INTO O_TPARM
+	VALUES ("1047c833-212f-43eb-9c5c-00f784e8efae",
+	"45e0bc8e-5e04-43ce-ae2b-4769bfd0a9a7",
+	'o_ref',
+	"f5752494-b9cf-4fc7-b96d-4b64d6be0431",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("91dc75c2-9edd-4caa-ab33-32d0edaded3a",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Attribute_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_attr = param.o_attr;
+
+// Subsystem Subsystem
+select many oidas related by o_attr->O_OIDA[R105];
+for each oida in oidas
+  self.ClassIdentifierAttribute_dispose(o_oida:oida);
+end for;
+select one battr related by o_attr->O_BATTR[R106];
+if (not_empty battr)
+  self.BaseAttribute_dispose(o_battr:battr);
+else
+  select one rattr related by o_attr->O_RATTR[R106];
+  self.ReferentialAttribute_dispose(o_rattr:rattr);
+end if;
+select one dt related by o_attr->S_DT[R114];
+if ( not_empty dt )
+  unrelate o_attr from dt across R114;
+end if;
+select one owningClass related by o_attr->O_OBJ[R102];
+select one nextAttr related by o_attr->O_ATTR[R103.''precedes''];
+if(not_empty nextAttr)
+  select one prevAttr related by o_attr->O_ATTR[R103.''succeeds''];
+  if ( empty prevAttr )
+  // OOA (replaced with succeeds select above) - if (o_attr.PAttr_ID == GD::NULL_UNIQUE_ID())
+    // this attribute is at the top of the list
+    unrelate o_attr from nextAttr across R103.''precedes'';
+  else
+    // otherwise this attribute is somewhere in the middle
+    // or at the end
+    select many attrs related by owningClass->O_ATTR[R102];
+    for each attr in attrs
+      select one thisAttr related by attr->O_ATTR[R103.''precedes''];
+      if (o_attr == thisAttr)
+        // now tell the next attribute that this is not
+        // the attribute that it succeeds anymore
+        unrelate o_attr from nextAttr across R103.''precedes'';
+        // and tell this attribute that it no longer succeeds
+        // any attribute. 
+        // *NOTE* this is not really required for deletion but
+        // more for restoration
+        unrelate o_attr from attr across R103.''succeeds'';
+        // finally connect the two attributes that this
+        // attribute was between
+        relate nextAttr to attr across R103.''succeeds'';
+        break;
+      end if;
+    end for;
+  end if;
+else
+  // we are at the end of the list
+  select one priorAttr related by o_attr->O_ATTR[R103.''succeeds''];
+  if ( not_empty priorAttr )
+    unrelate o_attr from priorAttr across R103.''succeeds'';
+  end if;
+end if;
+unrelate o_attr from owningClass across R102;
+//
+// Value Subsystem
+select many selref_set related by o_attr->V_SLR[R812];
+for each selref in selref_set
+  unrelate o_attr from selref across R812;
+end for;
+select many attrvals related by o_attr->V_AVL[R806];
+for each attrval in attrvals
+  unrelate o_attr from attrval across R806;
+end for;
+//
+// Finally delete o_attr
+delete object instance o_attr;',
+	1,
+	'',
+	"45e0bc8e-5e04-43ce-ae2b-4769bfd0a9a7");
+INSERT INTO O_TPARM
+	VALUES ("a4646400-e6e6-4bd8-8663-3a78f050a21e",
+	"91dc75c2-9edd-4caa-ab33-32d0edaded3a",
+	'o_attr',
+	"579b8247-e153-481d-8926-384cdc722464",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("43829a09-886f-4a7f-9089-61faea422330",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ClassIdentifierAttribute_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_oida = param.o_oida;
+
+select one attr related by o_oida->O_ATTR[R105];
+select one id related by o_oida->O_ID[R105];
+unrelate attr from id across R105 using o_oida;
+select many rtidas related by o_oida->O_RTIDA[R110];
+for each rtida in rtidas
+  self.ReferredToIdentifierAttribute_dispose(o_rtida:rtida);
+end for;
+delete object instance o_oida;',
+	1,
+	'',
+	"91dc75c2-9edd-4caa-ab33-32d0edaded3a");
+INSERT INTO O_TPARM
+	VALUES ("411e91e0-5194-4143-9556-ebc4bb816753",
+	"43829a09-886f-4a7f-9089-61faea422330",
+	'o_oida',
+	"08de18fb-cb5f-4d53-9826-375c4dad56f7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("08de18fb-cb5f-4d53-9826-375c4dad56f7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class Identifier Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TFR
+	VALUES ("0fa4ac75-d42c-41dd-afaa-0446f593aed8",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ReferredToIdentifierAttribute_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_rtida = param.o_rtida;
+
+select many refs related by o_rtida->O_REF[R111];
+for each ref in refs
+  self.AttributeReferenceInClass_migrateRefAttrOrDispose(o_ref:ref);
+end for;
+select one oida related by o_rtida->O_OIDA[R110];
+select one rto related by o_rtida->R_RTO[R110];
+unrelate oida from rto across R110 using o_rtida;
+delete object instance o_rtida;',
+	1,
+	'',
+	"43829a09-886f-4a7f-9089-61faea422330");
+INSERT INTO O_TPARM
+	VALUES ("e0edfae5-e6e0-433f-a206-751e73f6ed7f",
+	"0fa4ac75-d42c-41dd-afaa-0446f593aed8",
+	'o_rtida',
+	"f026ef24-b484-4ab0-8a8b-5f0709c3d576",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f026ef24-b484-4ab0-8a8b-5f0709c3d576",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Referred To Identifier Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TFR
+	VALUES ("a0d04799-d672-4ed8-8a3c-9d45696ac060",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ReferentialAttribute_migrateToBase',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_rattr = param.o_rattr;
+
+select one attr related by o_rattr->O_ATTR[R106];
+unrelate o_rattr from attr across R106;
+// Make the new base attribute have the same
+// data type as the original
+select one battr related by o_rattr->O_BATTR[R113];
+if (not_empty battr)
+  unrelate o_rattr from battr across R113;
+  // Migrate the data type of o_rattr to the type of the old referred to attribute
+  select one battrType related by battr->O_ATTR[R106]->S_DT[R114];
+  select one attrType related by attr->S_DT[R114];
+  unrelate attr from attrType across R114;
+  relate attr to battrType across R114;
+end if;
+create object instance battr of O_BATTR;
+relate attr to battr across R106;
+create object instance nbattr of O_NBATTR;
+relate nbattr to battr across R107;
+// Now change the base attribute of all referring
+// referentials to this new base.
+select many rtoRefs related by attr->O_OIDA[R105]->
+                             O_RTIDA[R110]->O_REF[R111]->O_RATTR[R108];
+for each ref in rtoRefs
+  select one oldBattr related by ref->O_BATTR[R113];
+  unrelate ref from oldBattr across R113;
+  relate ref to battr across R113;
+end for;
+self.ReferentialAttribute_dispose(o_rattr:o_rattr);
+',
+	1,
+	'',
+	"0fa4ac75-d42c-41dd-afaa-0446f593aed8");
+INSERT INTO O_TPARM
+	VALUES ("82d5a0bf-409f-4fed-850a-f20d749db9cd",
+	"a0d04799-d672-4ed8-8a3c-9d45696ac060",
+	'o_rattr',
+	"9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Referential Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TFR
+	VALUES ("6639b67e-29d6-4046-8d4f-46a7711d0b75",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ReferentialAttribute_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_rattr = param.o_rattr;
+
+select one battr related by o_rattr->O_BATTR[R113];
+if (not_empty battr)
+  unrelate o_rattr from battr across R113;
+end if;
+select many refs related by o_rattr->O_REF[R108];
+for each ref in refs
+  unrelate o_rattr from ref across R108;
+  self.AttributeReferenceInClass_dispose(o_ref:ref);
+end for;
+select one attr related by o_rattr->O_ATTR[R106];
+if ( not_empty attr )
+  unrelate o_rattr from attr across R106;
+end if;
+delete object instance o_rattr;',
+	1,
+	'',
+	"a0d04799-d672-4ed8-8a3c-9d45696ac060");
+INSERT INTO O_TPARM
+	VALUES ("a304f5af-7269-4bdf-9617-ba9504dd4150",
+	"6639b67e-29d6-4046-8d4f-46a7711d0b75",
+	'o_rattr',
+	"9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("0e9377a2-daec-4c38-9d8b-4bb5213742c2",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'BaseAttribute_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_battr = param.o_battr;
+
+select one dbattr related by o_battr->O_DBATTR[R107];
+if (not_empty dbattr)
+  self.DerivedBaseAttribute_dispose(o_dbattr:dbattr);
+else
+  select one nbattr related by o_battr->O_NBATTR[R107];
+  if (not_empty nbattr)
+    self.NewBaseAttribute_dispose(o_nbattr:nbattr);
+  end if;
+end if;
+select many rattrs related by o_battr->O_RATTR[R113];
+for each rattr in rattrs
+  unrelate o_battr from rattr across R113;
+end for;
+select one attr related by o_battr->O_ATTR[R106];
+if (not_empty attr)
+  unrelate o_battr from attr across R106;
+end if;
+delete object instance o_battr;
+',
+	1,
+	'',
+	"6639b67e-29d6-4046-8d4f-46a7711d0b75");
+INSERT INTO O_TPARM
+	VALUES ("dcb9355e-f719-4a23-b651-f9a5d524f861",
+	"0e9377a2-daec-4c38-9d8b-4bb5213742c2",
+	'o_battr',
+	"ffe937d5-4336-4bcd-906f-9fd5b8ec2a51",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ffe937d5-4336-4bcd-906f-9fd5b8ec2a51",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Base Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TFR
+	VALUES ("c96782bb-4ef4-46d8-bbb5-0989d88ef9b7",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'DerivedBaseAttribute_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_dbattr = param.o_dbattr;
+
+select one battr related by o_dbattr->O_BATTR[R107];
+unrelate o_dbattr from battr across R107;
+//Body Subsystem
+select one body related by o_dbattr->ACT_DAB[R693]->ACT_ACT[R698];
+if (not_empty body)
+  // TODO - not sure if this really needs to be called... If it does then it sets off a 
+  //   chain of a lot more dispose operations for bodies that will also need to be implemented
+  //   and called.  For now I''m skipping it.
+  //body.dispose();
+end if;
+//
+// Finally delete o_dbattr
+delete object instance o_dbattr;
+',
+	1,
+	'',
+	"0e9377a2-daec-4c38-9d8b-4bb5213742c2");
+INSERT INTO O_TPARM
+	VALUES ("db55ef13-222f-4cd8-b188-a5192979828b",
+	"c96782bb-4ef4-46d8-bbb5-0989d88ef9b7",
+	'o_dbattr',
+	"4f9e319a-3e53-416e-834c-97575e36b5fd",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4f9e319a-3e53-416e-834c-97575e36b5fd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Derived Base Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TFR
+	VALUES ("0fbf0e7d-26c3-4c87-b4fc-c9bf58b1656e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'NewBaseAttribute_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'o_nbattr = param.o_nbattr;
+
+select one battr related by o_nbattr->O_BATTR[R107];
+unrelate o_nbattr from battr across R107;
+delete object instance o_nbattr;
+',
+	1,
+	'',
+	"c96782bb-4ef4-46d8-bbb5-0989d88ef9b7");
+INSERT INTO O_TPARM
+	VALUES ("ef19cd52-b9e8-42ff-a79f-2e4850f92f9c",
+	"0fbf0e7d-26c3-4c87-b4fc-c9bf58b1656e",
+	'o_nbattr',
+	"7e942884-55b0-420b-97d7-19d2928132e8",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("7e942884-55b0-420b-97d7-19d2928132e8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<New Base Attribute>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO O_TFR
+	VALUES ("9aff835c-7ded-4deb-9d72-a49a9a8e9b41",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ClassAsLink_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_assr = param.r_assr;
+
+select one rassoc related by r_assr->R_ASSOC[R211];
+if (not_empty rassoc)
+  // TODO - add this in later, not needed right now.... - rassoc.migrateToSimple();
+  unrelate r_assr from rassoc across R211;
+end if;
+select one rgo related by r_assr->R_RGO[R205];
+unrelate r_assr from rgo across R205;
+delete object instance r_assr;
+',
+	1,
+	'',
+	"0fbf0e7d-26c3-4c87-b4fc-c9bf58b1656e");
+INSERT INTO O_TPARM
+	VALUES ("8cc5448a-29aa-4994-bbf3-bce56ad658c8",
+	"9aff835c-7ded-4deb-9d72-a49a9a8e9b41",
+	'r_assr',
+	"054a18f5-5e57-449b-b46f-5da2e9690ba5",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("054a18f5-5e57-449b-b46f-5da2e9690ba5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class As Link>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("b8efe921-434b-45cf-ada8-f8d6e3742675",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ClassAsSimpleFormalizer_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	1,
+	'',
+	"9aff835c-7ded-4deb-9d72-a49a9a8e9b41");
+INSERT INTO O_TPARM
+	VALUES ("d5ce28d4-ad22-4474-a700-5a88ff5ab320",
+	"b8efe921-434b-45cf-ada8-f8d6e3742675",
+	'r_form',
+	"9a6e9e32-b2f0-4344-b3a3-123b16423c3d",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
