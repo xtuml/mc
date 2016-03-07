@@ -1073,9 +1073,16 @@ sub xtuml2masl
 
   # input variables
   my $validate = "";
-  my @proj_files;
-  my @dom_files;
+  my $eclipse = "";
   my $out_dir = "";
+
+  my @inputs;
+  my $num_inputs = -1;
+  my @num_dom;
+  my @num_proj;
+
+  my @dom_names;
+  my @proj_names;
 
   # parse arguments
   my $directive = "";
@@ -1084,14 +1091,26 @@ sub xtuml2masl
       $validate = "$arg";
       $directive = "";                                              # encounterint a validation flag resets the directive because
     }
-    elsif ( $arg eq "-p" or $arg eq "-d" or $arg eq "-o" ) {        # set the directive
+    elsif ( $arg eq "-e" and $eclipse eq "" ) {                     # if we encounter eclipse flag
+      $eclipse = "$arg";
+      $directive = "";
+    }
+    elsif ( $arg eq "-p" or $arg eq "-d" or $arg eq "-i" or $arg eq "-o" ) {        # set the directive
       $directive = "$arg";
     }
-    elsif ( $directive eq "-p" ) {                                   # add a project file
-      push @proj_files, $arg;
+    elsif ( $directive eq "-i" ) {                                  # add an input
+      $num_inputs++;
+      push @inputs, $arg;
+      $num_dom[$num_inputs] = 0;
+      $num_proj[$num_inputs] = 0;
     }
-    elsif ( $directive eq "-d" ) {                                  # add a domain file
-      push @dom_files, $arg;
+    elsif ( $directive eq "-p" ) {                                   # add a project name
+      push @proj_names, $arg;
+      $num_proj[$num_inputs]++;
+    }
+    elsif ( $directive eq "-d" ) {                                  # add a domain name
+      push @dom_names, $arg;
+      $num_dom[$num_inputs]++;
     }
     elsif ( $directive eq "-o" and $out_dir eq "" ) {                # only can set the output directory once
       $out_dir = "$arg";
@@ -1115,28 +1134,39 @@ sub xtuml2masl
     exit 1
   }
 
-  # process domains
-  foreach $d (@dom_files) {
-    # scoop all into one file
-    &ConvertMultiFileToSingleFile ( "$d", "$out_dir/a.xtuml" );
-
-    # process the file
-    system( "cat \"$out_dir/a.xtuml\" | x2m -d | masl $validate -o \"$out_dir\"" );
-
-    # delete the intermediate file
-    unlink "$out_dir/a.xtuml";
+  # if the eclipse flag is not set, run the pre-builder
+  if ( $eclipse eq "" ) {
+    # run prebuilder
   }
 
-  # process projects
-  foreach $p (@proj_files) {
-    # scoop all into one file
-    &ConvertMultiFileToSingleFile ( "$p", "$out_dir/a.xtuml" );
+  # process command
+  my $c = 0;
+  my $doff = 0;
+  my $poff = 0;
+  foreach $i (@inputs) {
+    my $command = "";
+    for ( my $k = 0; $k < $num_dom[$c]; $k++ ) {
+      $command = "$command -d$dom_names[$k+$doff]";
+    }
+    $doff += $num_dom[$c];
+    for ( my $k = 0; $k < $num_proj[$c]; $k++ ) {
+      $command = "$command -p$proj_names[$k+$poff]";
+    }
+    $poff += $num_proj[$c];
+    $c++;
 
-    # process the file
-    system( "cat \"$out_dir/a.xtuml\" | x2m -p | masl $validate -o \"$out_dir\"" );
+    # cleanse the prebuilder output
+    system( "cat $i/gen/code_generation/*.sql > $i/gen/code_generation/z.xtuml" );
+    &xtumlmc_cleanse_for_BridgePoint ( "$i/gen/code_generation/z.xtuml", "$i/gen/code_generation/a.xtuml" );
 
-    # delete the intermediate file
-    unlink "$out_dir/a.xtuml";
+    # call the utilities
+    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $command | masl $command $validate -o$out_dir";
+    print STDERR "$sys_cmd\n";
+    system( $sys_cmd );
+
+    # clean up
+    unlink "$i/gen/code_generation/z.xtuml";
+    unlink "$i/gen/code_generation/a.xtuml";
   }
 
   print STDERR "Done.\n";
