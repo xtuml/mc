@@ -90,9 +90,11 @@ elif ( "attribute" == element )
     end if;
   end if;
 elif ( "state" == element )
-  if ( "" != param.value[0] )
-    // TODO - handle the domain and object  parameters from smasl
-    ooapopulation.transformState(name:param.value[2], type:param.value[3]);
+  if ( "" == param.value[2] )
+    select any sm_state from instances of SM_STATE where (false);
+    ooapopulation.current_state = sm_state;
+  else
+    ooapopulation.transformState(name:param.value[2], type:param.value[3], domain:param.value[0], obj:param.value[1]);
   end if;
 elif ( "event" == element )
   if ( "" != param.value[0] )
@@ -202,6 +204,14 @@ elif ( "transitiontable" == element )
 elif ( "transition" == element )
   //  TODO - do something with the eventDomain and eventObject parameters in phase 2
   ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4]);
+elif ( "codeblock" == element )
+  sm_state = ooapopulation.current_state;
+  if ( not_empty sm_state )
+    select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
+    if ( not_empty sm_act )
+      sm_act.Descrip = param.value[0];
+    end if;
+  end if;
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -885,19 +895,32 @@ INSERT INTO O_TFR
 	1,
 	'current_class = self.current_class;
 
-//  TODO - This currently doesn''t do anything with values other than assigner in the "type" parameter.  Needs to be
-//    enhanced to handle these.
+if ( not_empty current_class )
+  // We are in the midst of building a state machine inside a class definition.
+  select any sm_sm from instances of SM_SM where ( false );
+  if ( "assigner" == param.type )
+    sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
+  else
+    sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ISM");
+  end if;
 
-select any sm_sm from instances of SM_SM where ( false );
-if ( "assigner" == param.type )
-  sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
+  //  Create new xtUML state machine state
+  self.StateMachine_newState(sm_sm:sm_sm, name:param.name);
 else
-  sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ISM");
-end if;
-
-//  Create new xtUML state machine state
-self.StateMachine_newState(sm_sm:sm_sm, name:param.name);
-',
+  // No current_class.  That means we just need to find the given state and cache it so that the following 
+  // SMASL can modify it.
+  select any c_c from instances of C_C where ( selected.Name == param.domain );
+  select any ep_pkg related by c_c->PE_PE[R8003]->EP_PKG[R8001] where ( selected.Name == param.domain );  // Internal behavior package has the same name as the component
+  select any o_obj related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where ( selected.Name == param.obj );
+  
+  // NOTE: We assume the are no state name collisions between the ISM and ASM.  We simply search for the named
+  // state in the ISM first, then the ASM.
+  select any sm_state related by o_obj->SM_ISM[R518]->SM_SM[R517]->SM_STATE[R501] where ( selected.Name == param.name );
+  if ( empty sm_state )
+    select any sm_state related by o_obj->SM_ASM[R519]->SM_SM[R517]->SM_STATE[R501] where ( selected.Name == param.name );
+  end if;
+  self.current_state = sm_state;  
+end if;',
 	1,
 	'',
 	"a442a038-3373-4282-a5fc-098af44e9cbe");
@@ -918,6 +941,24 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"6cb4e208-1494-413a-bbd6-97b5eafc6fcd",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("086db421-4722-49e6-90c5-ee0c27d1b8ef",
+	"cd1f0452-4df9-45c5-949f-e319f8cb63e8",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"76efac52-8273-4c89-a55a-9e6c9f8d3248",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("04ca5f56-64b3-4db6-a6ae-06230c5c2d5f",
+	"cd1f0452-4df9-45c5-949f-e319f8cb63e8",
+	'obj',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"086db421-4722-49e6-90c5-ee0c27d1b8ef",
 	'');
 INSERT INTO O_TFR
 	VALUES ("3ed1f3e8-afb7-40dc-a2d2-2caac1c499d4",
@@ -4854,7 +4895,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"7b4c3a78-f304-4264-baa7-b5a804fc511b",
+	"cb5b9a80-ade2-420b-9945-3145ce091c84",
 	'processingIdentifier',
 	'',
 	'',
@@ -4960,6 +5001,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl2xtuml.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("cb5b9a80-ade2-420b-9945-3145ce091c84",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("cb5b9a80-ade2-420b-9945-3145ce091c84",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("cb5b9a80-ade2-420b-9945-3145ce091c84",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"7b4c3a78-f304-4264-baa7-b5a804fc511b",
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	"ce86dade-b263-4245-8001-19dd4123f4f9",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
