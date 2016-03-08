@@ -1136,7 +1136,10 @@ sub xtuml2masl
 
   # if the eclipse flag is not set, run the pre-builder
   if ( $eclipse eq "" ) {
-    # run prebuilder
+    print STDERR "Invoking BridgePoint pre-builder...\n";
+    # the WORKSPACE env variable is expected to be set properly
+    my ($volume, $directory, $file) = File::Spec->splitpath(__FILE__);
+    system( "$directory/../../../../CLI.sh Build -prebuildOnly" );
   }
 
   # process command
