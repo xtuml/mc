@@ -2941,18 +2941,32 @@ masl2xtuml_ooapopulation_op_Transition_addEvent( masl2xtuml_ooapopulation * self
 masl2xtuml_O_TPARM *
 masl2xtuml_ooapopulation_op_Operation_newParameter( masl2xtuml_ooapopulation * self, masl2xtuml_O_TFR * p_o_tfr, c_t * p_parameter_name )
 {
-  masl2xtuml_O_TFR * o_tfr;masl2xtuml_O_TPARM * parm;
+  masl2xtuml_O_TFR * o_tfr;masl2xtuml_O_TPARM * parm=0;
   /* ASSIGN o_tfr = PARAM.o_tfr */
   o_tfr = p_o_tfr;
-  /* CREATE OBJECT INSTANCE parm OF O_TPARM */
-  parm = (masl2xtuml_O_TPARM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_TPARM_CLASS_NUMBER );
-  parm->TParm_ID = (Escher_UniqueID_t) parm;
-  /* RELATE o_tfr TO parm ACROSS R117 */
-  masl2xtuml_O_TPARM_R117_Link_contains( o_tfr, parm );
-  /* self.OperationParameter_initialize( name:PARAM.parameter_name, o_tparm:parm ) */
-  masl2xtuml_ooapopulation_op_OperationParameter_initialize( self,  p_parameter_name, parm );
-  /* self.Operation_createParameterInInteractions( o_tfr:o_tfr, o_tparm:parm ) */
-  masl2xtuml_ooapopulation_op_Operation_createParameterInInteractions( self,  o_tfr, parm );
+  /* SELECT any parm RELATED BY o_tfr->O_TPARM[R117] WHERE ( ( SELECTED.Name == PARAM.parameter_name ) ) */
+  parm = 0;
+  if ( 0 != o_tfr ) {
+    masl2xtuml_O_TPARM * selected;
+    Escher_Iterator_s iO_TPARM_R117_contains;
+    Escher_IteratorReset( &iO_TPARM_R117_contains, &o_tfr->O_TPARM_R117_contains );
+    while ( 0 != ( selected = (masl2xtuml_O_TPARM *) Escher_IteratorNext( &iO_TPARM_R117_contains ) ) ) {
+      if ( ( Escher_strcmp( selected->Name, p_parameter_name ) == 0 ) ) {
+        parm = selected;
+        break;
+  }}}
+  /* IF ( empty parm ) */
+  if ( ( 0 == parm ) ) {
+    /* CREATE OBJECT INSTANCE parm OF O_TPARM */
+    parm = (masl2xtuml_O_TPARM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_O_TPARM_CLASS_NUMBER );
+    parm->TParm_ID = (Escher_UniqueID_t) parm;
+    /* RELATE o_tfr TO parm ACROSS R117 */
+    masl2xtuml_O_TPARM_R117_Link_contains( o_tfr, parm );
+    /* self.OperationParameter_initialize( name:PARAM.parameter_name, o_tparm:parm ) */
+    masl2xtuml_ooapopulation_op_OperationParameter_initialize( self,  p_parameter_name, parm );
+    /* self.Operation_createParameterInInteractions( o_tfr:o_tfr, o_tparm:parm ) */
+    masl2xtuml_ooapopulation_op_Operation_createParameterInInteractions( self,  o_tfr, parm );
+  }
   /* RETURN parm */
   {masl2xtuml_O_TPARM * xtumlOALrv = parm;
   return xtumlOALrv;}
@@ -3085,18 +3099,32 @@ masl2xtuml_ooapopulation_op_Operation_addParameterToOrdering( masl2xtuml_ooapopu
 masl2xtuml_S_SPARM *
 masl2xtuml_ooapopulation_op_Function_newParameter( masl2xtuml_ooapopulation * self, c_t * p_parameter_name, masl2xtuml_S_SYNC * p_s_sync )
 {
-  masl2xtuml_S_SYNC * s_sync;masl2xtuml_S_SPARM * parm;
+  masl2xtuml_S_SYNC * s_sync;masl2xtuml_S_SPARM * parm=0;
   /* ASSIGN s_sync = PARAM.s_sync */
   s_sync = p_s_sync;
-  /* CREATE OBJECT INSTANCE parm OF S_SPARM */
-  parm = (masl2xtuml_S_SPARM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_SPARM_CLASS_NUMBER );
-  parm->SParm_ID = (Escher_UniqueID_t) parm;
-  /* RELATE s_sync TO parm ACROSS R24 */
-  masl2xtuml_S_SPARM_R24_Link_defines( s_sync, parm );
-  /* self.FunctionParameter_initialize( name:PARAM.parameter_name, s_sparm:parm ) */
-  masl2xtuml_ooapopulation_op_FunctionParameter_initialize( self,  p_parameter_name, parm );
-  /* self.Function_createMessageArgumentsForParameter( s_sparm:parm, s_sync:s_sync ) */
-  masl2xtuml_ooapopulation_op_Function_createMessageArgumentsForParameter( self,  parm, s_sync );
+  /* SELECT any parm RELATED BY s_sync->S_SPARM[R24] WHERE ( ( SELECTED.Name == PARAM.parameter_name ) ) */
+  parm = 0;
+  if ( 0 != s_sync ) {
+    masl2xtuml_S_SPARM * selected;
+    Escher_Iterator_s iS_SPARM_R24_defines;
+    Escher_IteratorReset( &iS_SPARM_R24_defines, &s_sync->S_SPARM_R24_defines );
+    while ( 0 != ( selected = (masl2xtuml_S_SPARM *) Escher_IteratorNext( &iS_SPARM_R24_defines ) ) ) {
+      if ( ( Escher_strcmp( selected->Name, p_parameter_name ) == 0 ) ) {
+        parm = selected;
+        break;
+  }}}
+  /* IF ( empty parm ) */
+  if ( ( 0 == parm ) ) {
+    /* CREATE OBJECT INSTANCE parm OF S_SPARM */
+    parm = (masl2xtuml_S_SPARM *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_S_SPARM_CLASS_NUMBER );
+    parm->SParm_ID = (Escher_UniqueID_t) parm;
+    /* RELATE s_sync TO parm ACROSS R24 */
+    masl2xtuml_S_SPARM_R24_Link_defines( s_sync, parm );
+    /* self.FunctionParameter_initialize( name:PARAM.parameter_name, s_sparm:parm ) */
+    masl2xtuml_ooapopulation_op_FunctionParameter_initialize( self,  p_parameter_name, parm );
+    /* self.Function_createMessageArgumentsForParameter( s_sparm:parm, s_sync:s_sync ) */
+    masl2xtuml_ooapopulation_op_Function_createMessageArgumentsForParameter( self,  parm, s_sync );
+  }
   /* RETURN parm */
   {masl2xtuml_S_SPARM * xtumlOALrv = parm;
   return xtumlOALrv;}

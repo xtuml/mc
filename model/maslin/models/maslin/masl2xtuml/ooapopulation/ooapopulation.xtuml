@@ -3161,10 +3161,14 @@ INSERT INTO O_TFR
 	1,
 	'o_tfr = param.o_tfr;
 
-create object instance parm of O_TPARM;
-relate o_tfr to parm across R117;
-self.OperationParameter_initialize(o_tparm:parm, name:param.parameter_name);
-self.Operation_createParameterInInteractions(o_tparm: parm, o_tfr:o_tfr);
+select any parm related by o_tfr->O_TPARM[R117] where ( selected.Name == param.parameter_name );
+
+if ( empty parm )
+  create object instance parm of O_TPARM;
+  relate o_tfr to parm across R117;
+  self.OperationParameter_initialize(o_tparm:parm, name:param.parameter_name);
+  self.Operation_createParameterInInteractions(o_tparm: parm, o_tfr:o_tfr);
+end if;
 
 return parm;',
 	1,
@@ -3330,10 +3334,14 @@ INSERT INTO O_TFR
 	1,
 	's_sync = param.s_sync;
 
-create object instance parm of S_SPARM;
-relate s_sync to parm across R24;
-self.FunctionParameter_initialize(s_sparm:parm, name:param.parameter_name);
-self.Function_createMessageArgumentsForParameter(s_sync:s_sync, s_sparm:parm);
+select any parm related by s_sync->S_SPARM[R24] where ( selected.Name == param.parameter_name );
+
+if ( empty parm )
+  create object instance parm of S_SPARM;
+  relate s_sync to parm across R24;
+  self.FunctionParameter_initialize(s_sparm:parm, name:param.parameter_name);
+  self.Function_createMessageArgumentsForParameter(s_sync:s_sync, s_sparm:parm);
+end if;
 
 return parm;',
 	1,
