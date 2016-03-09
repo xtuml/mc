@@ -72,7 +72,7 @@ void masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation *, c_t 
 void masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_EP_PKG *, c_t * );
 void masl2xtuml_ooapopulation_op_Datatype_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_S_DT * );
 void masl2xtuml_ooapopulation_op_transformDomainFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
-void masl2xtuml_ooapopulation_op_transformObjectFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_transformObjectFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t *, c_t *, c_t * );
 masl2xtuml_O_TFR * masl2xtuml_ooapopulation_op_ModelClass_newOperation( masl2xtuml_ooapopulation *, masl2xtuml_O_OBJ *, c_t * );
 void masl2xtuml_ooapopulation_op_Operation_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_O_TFR * );
 void masl2xtuml_ooapopulation_op_ModelClass_addOperationToOrdering( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, masl2xtuml_O_OBJ * );

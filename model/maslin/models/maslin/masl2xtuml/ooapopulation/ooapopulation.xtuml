@@ -182,18 +182,7 @@ elif ( "operation" == element )
     select any o_tfr from instances of O_TFR where (false);
     ooapopulation.current_class_op = o_tfr;
   else
-    clazz = ooapopulation.current_class;
-    if ( not_empty clazz )
-    /*  TODO - do something with the domain and object parameters....
-domain
-object
-visibility
-name
-instance
-relationship
-    */
-      ooapopulation.transformObjectFunction(visibility:param.value[2], name:param.value[3], instance:param.value[4], relationship:param.value[5]);
-    end if;
+    ooapopulation.transformObjectFunction(visibility:param.value[2], name:param.value[3], instance:param.value[4], relationship:param.value[5], domain:param.value[0], obj:param.value[1]);
   end if;
 elif ( "transitiontable" == element )
   if ( "assigner" == param.value[0] )
@@ -205,6 +194,16 @@ elif ( "transition" == element )
   //  TODO - do something with the eventDomain and eventObject parameters in phase 2
   ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4]);
 elif ( "codeblock" == element )
+  s_sync = ooapopulation.current_domain_function;
+  if ( not_empty s_sync )
+    s_sync.Descrip = param.value[0];
+  end if;
+  
+  o_tfr = ooapopulation.current_class_op;
+  if ( not_empty o_tfr )
+    o_tfr.Descrip = param.value[0];
+  end if;
+  
   sm_state = ooapopulation.current_state;
   if ( not_empty sm_state )
     select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
@@ -1612,7 +1611,22 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'op_name = param.name;
-self.current_class_op = self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name);',
+current_class = self.current_class;
+
+
+if ( not_empty current_class )
+  // We are in the midst of building a class operation inside a class definition.
+  self.current_class_op = self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name);
+else
+  // No current_class.  That means we just need to find the given class operation and cache it so that the following 
+  // SMASL can modify it.
+  select any c_c from instances of C_C where ( selected.Name == param.domain );
+  select any ep_pkg related by c_c->PE_PE[R8003]->EP_PKG[R8001] where ( selected.Name == param.domain );  // Internal behavior package has the same name as the component
+  select any o_obj related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where ( selected.Name == param.obj );
+  
+  select any o_tfr related by o_obj->O_TFR[R115] where ( selected.Name == param.name );
+  self.current_class_op = o_tfr;  
+end if;',
 	1,
 	'',
 	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80");
@@ -1651,6 +1665,24 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"302dbd74-7ed1-4a13-9caf-be95b3597037",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("8849a70d-59e9-4668-97de-2c856cdc99a6",
+	"f2b299ab-c59f-4a3c-b813-659a745c2710",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"144a0b1a-61cf-4cd3-a93f-da5bdda735ef",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("adfc2649-503b-4da3-b49c-d83e3f7174b6",
+	"f2b299ab-c59f-4a3c-b813-659a745c2710",
+	'obj',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"8849a70d-59e9-4668-97de-2c856cdc99a6",
 	'');
 INSERT INTO O_TFR
 	VALUES ("b44f67b8-f281-4aa2-9adc-27b62605a7c1",
