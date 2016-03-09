@@ -90,9 +90,11 @@ elif ( "attribute" == element )
     end if;
   end if;
 elif ( "state" == element )
-  if ( "" != param.value[0] )
-    // TODO - handle the domain and object  parameters from smasl
-    ooapopulation.transformState(name:param.value[2], type:param.value[3]);
+  if ( "" == param.value[2] )
+    select any sm_state from instances of SM_STATE where (false);
+    ooapopulation.current_state = sm_state;
+  else
+    ooapopulation.transformState(name:param.value[2], type:param.value[3], domain:param.value[0], obj:param.value[1]);
   end if;
 elif ( "event" == element )
   if ( "" != param.value[0] )
@@ -202,6 +204,14 @@ elif ( "transitiontable" == element )
 elif ( "transition" == element )
   //  TODO - do something with the eventDomain and eventObject parameters in phase 2
   ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4]);
+elif ( "codeblock" == element )
+  sm_state = ooapopulation.current_state;
+  if ( not_empty sm_state )
+    select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
+    if ( not_empty sm_act )
+      sm_act.Descrip = param.value[0];
+    end if;
+  end if;
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
 end if;
@@ -291,8 +301,8 @@ relate pe to package across R8001;
 relate package to s_sys across R1401;
 relate package to s_sys across R1405;
 pe.type = ElementTypeConstants::PACKAGE;
-self.PackageableElement_initialize(pe_pe:pe); // OOA - pe.initialize();
-self.Package_initialize(ep_pkg:package, name:param.pkg_name); // OOA - package.initialize();
+self.PackageableElement_initialize(pe_pe:pe);
+self.Package_initialize(ep_pkg:package, name:param.pkg_name);
 
 return package; ',
 	1,
@@ -451,8 +461,8 @@ create object instance pe of PE_PE;
 relate component to pe across R8001;
 relate pe to ep_pkg across R8000;
 pe.type = ElementTypeConstants::COMPONENT;
-self.PackageableElement_initialize(pe_pe:pe); // OOA - pe.initialize();
-self.Component_initialize(c_c:component, name:param.component_name); // OOA - component.initialize();
+self.PackageableElement_initialize(pe_pe:pe);
+self.Component_initialize(c_c:component, name:param.component_name);
 
 return component;',
 	1,
@@ -647,9 +657,9 @@ select any rootComponent from instances of C_C where (selected.Id == rootCompIdI
 select one system related by rootComponent->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405];
 relate package to system across R1405;
 relate c_c to pe across R8003;
-self.Package_initialize(ep_pkg:package, name:param.pkg_name); // OOA - package.initialize();
+self.Package_initialize(ep_pkg:package, name:param.pkg_name);
 pe.type = ElementTypeConstants::PACKAGE;
-self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+self.PackageableElement_initialize(pe_pe:pe);
 
 return package;',
 	1,
@@ -691,7 +701,7 @@ INSERT INTO O_TFR
 // this package.  It does NOT search beyond the package boundary.
 select one parentComponent related by c_c->PE_PE[R8001]->C_C[R8003];
 if not_empty parentComponent
-  return self.Component_getRootComponentId(c_c:parentComponent); // OOA - return parentComponent.getRootComponentId();
+  return self.Component_getRootComponentId(c_c:parentComponent);
 end if;
 return c_c.Id;',
 	1,
@@ -885,19 +895,32 @@ INSERT INTO O_TFR
 	1,
 	'current_class = self.current_class;
 
-//  TODO - This currently doesn''t do anything with values other than assigner in the "type" parameter.  Needs to be
-//    enhanced to handle these.
+if ( not_empty current_class )
+  // We are in the midst of building a state machine inside a class definition.
+  select any sm_sm from instances of SM_SM where ( false );
+  if ( "assigner" == param.type )
+    sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
+  else
+    sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ISM");
+  end if;
 
-select any sm_sm from instances of SM_SM where ( false );
-if ( "assigner" == param.type )
-  sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
+  //  Create new xtUML state machine state
+  self.StateMachine_newState(sm_sm:sm_sm, name:param.name);
 else
-  sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ISM");
-end if;
-
-//  Create new xtUML state machine state
-self.StateMachine_newState(sm_sm:sm_sm, name:param.name);
-',
+  // No current_class.  That means we just need to find the given state and cache it so that the following 
+  // SMASL can modify it.
+  select any c_c from instances of C_C where ( selected.Name == param.domain );
+  select any ep_pkg related by c_c->PE_PE[R8003]->EP_PKG[R8001] where ( selected.Name == param.domain );  // Internal behavior package has the same name as the component
+  select any o_obj related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where ( selected.Name == param.obj );
+  
+  // NOTE: We assume the are no state name collisions between the ISM and ASM.  We simply search for the named
+  // state in the ISM first, then the ASM.
+  select any sm_state related by o_obj->SM_ISM[R518]->SM_SM[R517]->SM_STATE[R501] where ( selected.Name == param.name );
+  if ( empty sm_state )
+    select any sm_state related by o_obj->SM_ASM[R519]->SM_SM[R517]->SM_STATE[R501] where ( selected.Name == param.name );
+  end if;
+  self.current_state = sm_state;  
+end if;',
 	1,
 	'',
 	"a442a038-3373-4282-a5fc-098af44e9cbe");
@@ -918,6 +941,24 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"6cb4e208-1494-413a-bbd6-97b5eafc6fcd",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("086db421-4722-49e6-90c5-ee0c27d1b8ef",
+	"cd1f0452-4df9-45c5-949f-e319f8cb63e8",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"76efac52-8273-4c89-a55a-9e6c9f8d3248",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("04ca5f56-64b3-4db6-a6ae-06230c5c2d5f",
+	"cd1f0452-4df9-45c5-949f-e319f8cb63e8",
+	'obj',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"086db421-4722-49e6-90c5-ee0c27d1b8ef",
 	'');
 INSERT INTO O_TFR
 	VALUES ("3ed1f3e8-afb7-40dc-a2d2-2caac1c499d4",
@@ -977,7 +1018,7 @@ create object instance pe of PE_PE;
 relate importedComp to pe across R8001;
 relate pe to ep_pkg across R8000;
 pe.type = ElementTypeConstants::COMPONENT_REFERENCE;
-self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+self.PackageableElement_initialize(pe_pe:pe);
 
 return importedComp;',
 	1,
@@ -1006,10 +1047,10 @@ create object instance cl of O_OBJ;
 create object instance pe of PE_PE;
 relate cl to pe across R8001;
 pe.type = ElementTypeConstants::CLASS;
-self.PackageableElement_initialize(pe_pe:pe); // OOA - pe.initialize();
+self.PackageableElement_initialize(pe_pe:pe);
 
 relate ep_pkg to pe across R8000;
-self.ModelClass_initialize(o_obj:cl, name:param.class_name); // OOA - cl.initialize();
+self.ModelClass_initialize(o_obj:cl, name:param.class_name);
 
 return cl;',
 	1,
@@ -1066,7 +1107,7 @@ select many classes related by package->PE_PE[R8000]->O_OBJ[R8001];
       o_obj.Numb = package.Num_Rng;
     end if;
   else
-    rootCompIdInPkg = self.Component_getRootComponentId(c_c:component); // OOA - rootCompIdInPkg = component.getRootComponentId();
+    rootCompIdInPkg = self.Component_getRootComponentId(c_c:component);
     select any rootComponent from instances of C_C where (selected.Id == rootCompIdInPkg);
     select one package related by rootComponent->PE_PE[R8001]->EP_PKG[R8000];
     
@@ -1092,8 +1133,8 @@ for each clazz in classes
 end for;
 
 // MASL object names are not allowed to have spaces, so we can just use the name as the default key letters
-o_obj.Key_Lett = o_obj.Name; // OOA - o_obj.Key_Lett = OS::remove_spaces(s:name);
-self.ModelClass_addIdentifiers(o_obj:o_obj); // OOA - o_obj.addIdentifiers();
+o_obj.Key_Lett = o_obj.Name;
+self.ModelClass_addIdentifiers(o_obj:o_obj);
 
 // For MASL convert we want to go ahead and "Publish References" for the new class
 self.ModelClass_newInstanceReferenceDataType(o_obj:o_obj);
@@ -1391,9 +1432,9 @@ relate dt to udt across R17;
 //     relate udt to masltype_dt across R18;
 // TODO - add back when we allow UUID assignment.  For now we hand edit the id in or override the instance dumper: udt.CDT_DT_ID = dt_id;
 
-self.Datatype_initialize(s_dt:dt, name:param.type_name); // OOA - dt.initialize(newname:param.name);
+self.Datatype_initialize(s_dt:dt, name:param.type_name);
 pe.type = ElementTypeConstants::DATATYPE;
-self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+self.PackageableElement_initialize(pe_pe:pe);
 
 // For complex MASL types we store the definition in the description
 if ( "" != param.definition )
@@ -1755,9 +1796,9 @@ create object instance pe of PE_PE;
 relate fn to pe across R8001;
 relate pe to ep_pkg across R8000;
 pe.type = ElementTypeConstants::FUNCTION;
-self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+self.PackageableElement_initialize(pe_pe:pe);
 
-self.Function_initialize(s_sync:fn, name:param.function_name); // OOA - fn.initialize();
+self.Function_initialize(s_sync:fn, name:param.function_name);
 
 return fn;',
 	1,
@@ -1848,9 +1889,9 @@ relate package to pe across R8001;
 select one system related by ep_pkg->S_SYS[R1405];
 relate package to system across R1405;
 relate ep_pkg to pe across R8000;
-package.Name = param.package_name; // OOA - package.initialize();
+package.Name = param.package_name;
 pe.type = ElementTypeConstants::PACKAGE;
-self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
+self.PackageableElement_initialize(pe_pe:pe);
 
 return package;',
 	1,
@@ -1889,8 +1930,8 @@ create object instance pe of PE_PE;
 relate interface to pe across R8001;
 relate pe to ep_pkg across R8000;
 pe.type = ElementTypeConstants::INTERFACE;
-self.PackageableElement_initialize(pe_pe:pe);  // OOA - pe.initialize();
-interface.Name = param.interface_name; // OOA - interface.initialize();
+self.PackageableElement_initialize(pe_pe:pe);
+interface.Name = param.interface_name;
 
 return interface;',
 	1,
@@ -1938,8 +1979,8 @@ create object instance port of C_PO;
 relate provision to interfaceRef across R4009;
 relate interfaceRef to port across R4016;
 relate port to c_c across R4010;
-provision.InformalName = "Unnamed_Interface"; // OOA - provision.initialize();
-self.Port_initialize(c_po:port, name:param.port_name); // OOA - port.initialize();
+provision.InformalName = "Unnamed_Interface";
+self.Port_initialize(c_po:port, name:param.port_name);
 
 return interfaceRef;',
 	1,
@@ -2074,7 +2115,7 @@ if(not_empty interface)
       select one ep related by signal->C_EP[R4004];
       create object instance req_ep of SPR_REP;
       create object instance req_signal of SPR_RS;
-      req_signal.Suc_Pars = ParseStatus::parseInitial; // OOA - req_signal.initialize();
+      req_signal.Suc_Pars = ParseStatus::parseInitial;
       relate requirement to ep across R4500 using req_ep;
       relate req_signal to req_ep across R4502;
     end for;
@@ -2082,7 +2123,7 @@ if(not_empty interface)
       select one ep related by operation->C_EP[R4004];
       create object instance req_ep of SPR_REP;
       create object instance req_operation of SPR_RO;
-      req_operation.Suc_Pars = ParseStatus::parseInitial; // OOA - req_operation.initialize();
+      req_operation.Suc_Pars = ParseStatus::parseInitial;
       relate requirement to ep across R4500 using req_ep;
       relate req_operation to req_ep across R4502;
     end for;
@@ -2092,7 +2133,7 @@ if(not_empty interface)
       select one ep related by signal->C_EP[R4004];
       create object instance pro_ep of SPR_PEP;
       create object instance pro_signal of SPR_PS;
-      pro_signal.Suc_Pars = ParseStatus::parseInitial; // OOA - pro_signal.initialize();
+      pro_signal.Suc_Pars = ParseStatus::parseInitial;
       relate provision to ep across R4501 using pro_ep;
       relate pro_signal to pro_ep across R4503;
     end for;
@@ -2100,7 +2141,7 @@ if(not_empty interface)
       select one ep related by operation->C_EP[R4004];
       create object instance pro_ep of SPR_PEP;
       create object instance pro_operation of SPR_PO;
-      pro_operation.Suc_Pars = ParseStatus::parseInitial; // OOA - pro_operation.initialize();
+      pro_operation.Suc_Pars = ParseStatus::parseInitial;
       relate provision to ep across R4501 using pro_ep;
       relate pro_operation to pro_ep across R4503;
     end for;
@@ -2142,7 +2183,7 @@ select one package related by packageableElem->EP_PKG[R8000];
 select one component related by packageableElem->C_C[R8003];
 
 select one interface related by c_io->C_EP[R4004]->C_I[R4003];
-self.Interface_addInterfaceOperationToOrder(c_i:interface, c_io:c_io); // OOA - interface.addInterfaceOperationToOrder(id:c_io.Id);
+self.Interface_addInterfaceOperationToOrder(c_i:interface, c_io:c_io);
 
 systypes_pkg = self.systypes_pkg;
 select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "void" );
@@ -2198,7 +2239,7 @@ if(param.asynchronous)
 else
  create object instance ssignal of C_IO;
  relate signal to ssignal across R4004;
- self.InterfaceOperation_initialize(c_io:ssignal, name:param.ep_name); // OOA - ssignal.initialize();
+ self.InterfaceOperation_initialize(c_io:ssignal, name:param.ep_name);
 end if;
 
 return signal;',
@@ -2482,7 +2523,7 @@ INSERT INTO O_TFR
 
 create object instance st of SM_STATE;
 relate sm_sm to st across R501;
-self.StateMachineState_initialize(sm_state:st, name:param.name); // OOA - st.initialize();',
+self.StateMachineState_initialize(sm_state:st, name:param.name);',
 	1,
 	'',
 	"9bf9cd87-5a44-46e2-b3c6-f4b6d456609d");
@@ -2594,7 +2635,7 @@ INSERT INTO O_TFR
 
 create object instance newEvent of SM_EVT;
 relate sm_sm to newEvent across R502;
-self.StateMachineEvent_initialize(sm_evt:newEvent, name:param.name); // OOA - newEvent.initialize();
+self.StateMachineEvent_initialize(sm_evt:newEvent, name:param.name);
 ',
 	1,
 	'',
@@ -2633,7 +2674,7 @@ sm_evt.Mning = param.name;
 sm_evt.Numb = 1;
 
 // give this event a unique number
-self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false); // OOA - sm_evt.setUniqueNumber(checkForDuplicate:false);
+self.StateMachineEvent_setUniqueNumber(sm_evt:sm_evt, checkForDuplicate:false);
 
 select one sm related by sm_evt->SM_SM[R502];                                   
 create object instance semEvt of SM_SEVT;
@@ -2641,7 +2682,7 @@ relate sm_evt to semEvt across R525;
 create object instance locEvt of SM_LEVT;
 relate semEvt to locEvt across R526;
 //
-self.SEMEvent_createDefaultMatrixEntries(sm_sevt:semEvt); // OOA - semEvt.createDefaultMatrixEntries();
+self.SEMEvent_createDefaultMatrixEntries(sm_sevt:semEvt);
 ',
 	1,
 	'',
@@ -2851,7 +2892,7 @@ else
     relate net to fromState across R508;
     relate tr to toState across R506;
     relate sm_sm to tr across R505;
-    self.Transition_initialize(sm_txn:tr); // OOA - tr.initialize();
+    self.Transition_initialize(sm_txn:tr);
     // TODO - assign the event to the new transition
   /*else
       TODO - LOG error message?*/
@@ -2959,7 +3000,7 @@ else
     relate tr to ct across R507;
     relate tr to state across R506;
     relate sm_sm to tr across R505;
-    self.Transition_initialize(sm_txn:tr); // OOA - tr.initialize();
+    self.Transition_initialize(sm_txn:tr);
     // TODO - assign the event to the new transition
   /*else
       TODO - LOG error message?*/
@@ -3090,8 +3131,8 @@ INSERT INTO O_TFR
 
 create object instance parm of O_TPARM;
 relate o_tfr to parm across R117;
-self.OperationParameter_initialize(o_tparm:parm, name:param.parameter_name); // OOA - parm.initialize();
-self.Operation_createParameterInInteractions(o_tparm: parm, o_tfr:o_tfr); // OOA - self.createParameterInInteractions(id:parm.TParm_ID);
+self.OperationParameter_initialize(o_tparm:parm, name:param.parameter_name);
+self.Operation_createParameterInInteractions(o_tparm: parm, o_tfr:o_tfr);
 
 return parm;',
 	1,
@@ -3133,7 +3174,7 @@ INSERT INTO O_TFR
 
 // Note: this is a heavily modified version of the function from OOAofOOA
 select one operation related by o_tparm->O_TFR[R117];
-self.Operation_addParameterToOrdering(o_tfr:operation, o_tparm:o_tparm); // OOA - operation.addParameterToOrdering(id:self.TParm_ID);
+self.Operation_addParameterToOrdering(o_tfr:operation, o_tparm:o_tparm);
 
 // TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
 systypes_pkg = self.systypes_pkg;
@@ -3259,8 +3300,8 @@ INSERT INTO O_TFR
 
 create object instance parm of S_SPARM;
 relate s_sync to parm across R24;
-self.FunctionParameter_initialize(s_sparm:parm, name:param.parameter_name); // OOA - parm.initialize();
-self.Function_createMessageArgumentsForParameter(s_sync:s_sync, s_sparm:parm); // OOA - self.createMessageArgumentsForParameter(id:parm.SParm_ID);
+self.FunctionParameter_initialize(s_sparm:parm, name:param.parameter_name);
+self.Function_createMessageArgumentsForParameter(s_sync:s_sync, s_sparm:parm);
 
 return parm;',
 	1,
@@ -3301,7 +3342,7 @@ INSERT INTO O_TFR
 	's_sparm = param.s_sparm;
 
 select one function related by s_sparm->S_SYNC[R24];
-self.Function_addParameterToOrder(s_sync:function, s_sparm:s_sparm); // OOA - function.addParameterToOrder(id:self.SParm_ID);
+self.Function_addParameterToOrder(s_sync:function, s_sparm:s_sparm);
 
 // TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
 systypes_pkg = self.systypes_pkg;
@@ -3732,7 +3773,7 @@ else
     simp.migrateToLinked(using: fromClass.Obj_ID, imported_id: param.from);
   else*/
     select any usingClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == self.current_rel.usingObj);
-    self.SimpleAssociation_migrateToLinked(r_simp:simp, using: usingClass); // OOA - simp.migrateToLinked(using: fromClass.Obj_ID, imported_id: GD::NULL_UNIQUE_ID());
+    self.SimpleAssociation_migrateToLinked(r_simp:simp, using: usingClass);
   //end if;
   // TODO - not doing anything with return value, should we?  - return true;
 end if;',
@@ -3765,7 +3806,7 @@ if (self.SimpleAssociation_isFormalized(r_simp:r_simp))
   self.SimpleAssociation_unformalize(r_simp:r_simp);
 end if;
 select one toAssoc related by r_simp->R_REL[R206];
-fromClass = param.using; // OOA - select any fromClass related by r_simp->R_REL[R206]->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1405]->PE_PE[R8000]->O_OBJ[R8001]  where (selected.Obj_ID == param.using);
+fromClass = param.using;
 // migrate the simple association to a linked association
 create object instance assoc of R_ASSOC;
 unrelate r_simp from toAssoc across R206;
@@ -3929,11 +3970,11 @@ INSERT INTO O_TFR
 
 select any part_rto related by r_simp->R_PART[R207]->R_RTO[R204];  // there is only one
 
-self.ReferredToClassInAssoc_unformalize(r_rto:part_rto); // OOA - part_rto.unformalize();
+self.ReferredToClassInAssoc_unformalize(r_rto:part_rto);
 
 // migrate formalizer back to Class As Simple Participant
 select one form related by r_simp->R_FORM[R208];
-self.ClassAsSimpleFormalizer_migrateToParticipant(r_form:form); // OOA - form.migrateToParticipant();
+self.ClassAsSimpleFormalizer_migrateToParticipant(r_form:form);
 
 
 ',
@@ -4143,7 +4184,7 @@ if (cardinality siblings == 1)
     end if;
   end if;
 else
-  self.AttributeReferenceInClass_dispose(o_ref:o_ref); // OOA - self.dispose();
+  self.AttributeReferenceInClass_dispose(o_ref:o_ref);
 end if;
 ',
 	1,
@@ -4241,7 +4282,6 @@ select one nextAttr related by o_attr->O_ATTR[R103.''precedes''];
 if(not_empty nextAttr)
   select one prevAttr related by o_attr->O_ATTR[R103.''succeeds''];
   if ( empty prevAttr )
-  // OOA (replaced with succeeds select above) - if (o_attr.PAttr_ID == GD::NULL_UNIQUE_ID())
     // this attribute is at the top of the list
     unrelate o_attr from nextAttr across R103.''precedes'';
   else
@@ -4854,7 +4894,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("86e22f6d-21e0-4640-9a87-a4f66244ee02",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"7b4c3a78-f304-4264-baa7-b5a804fc511b",
+	"cb5b9a80-ade2-420b-9945-3145ce091c84",
 	'processingIdentifier',
 	'',
 	'',
@@ -4960,6 +5000,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl2xtuml.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("cb5b9a80-ade2-420b-9945-3145ce091c84",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("cb5b9a80-ade2-420b-9945-3145ce091c84",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("cb5b9a80-ade2-420b-9945-3145ce091c84",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"7b4c3a78-f304-4264-baa7-b5a804fc511b",
+	'current_state',
+	'',
+	'',
+	'current_state',
+	0,
+	"ce86dade-b263-4245-8001-19dd4123f4f9",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");

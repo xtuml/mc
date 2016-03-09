@@ -33,6 +33,7 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_S_SPARM * current_function_param;  
   masl2xtuml_O_TPARM * current_operation_param;  
   masl2xtuml_sdt_relationship_data current_rel;  
+  masl2xtuml_SM_STATE * current_state;  
   i_t processingIdentifier;  
   bool processingISM;  
 };
@@ -58,7 +59,7 @@ void masl2xtuml_ooapopulation_op_transformTerminator( masl2xtuml_ooapopulation *
 void masl2xtuml_ooapopulation_op_transformActivity( masl2xtuml_ooapopulation * );
 void masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformAttribute( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t * );
-void masl2xtuml_ooapopulation_op_transformState( masl2xtuml_ooapopulation *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_transformState( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformEvent( masl2xtuml_ooapopulation *, c_t *, c_t * );
 masl2xtuml_CL_IC * masl2xtuml_ooapopulation_op_Package_newImportedComponent( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
 masl2xtuml_O_OBJ * masl2xtuml_ooapopulation_op_Package_newClass( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_EP_PKG * );
