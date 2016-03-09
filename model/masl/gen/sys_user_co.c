@@ -191,8 +191,7 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   }
   if ( ! Validateonly ) {
     if ( outdirname ) {
-      masl_file_op_directory( outdirname );
-      mkdir( outdirname, S_IWUSR );
+      masl_file_op_outfolder( outdirname );
     }
     if ( projectdomain ) {
       int i = 0;

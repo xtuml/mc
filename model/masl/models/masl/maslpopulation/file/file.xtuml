@@ -28,6 +28,8 @@ if ( "project" == element )
       project.render();
       select one file related by project->markable[R3783]->element[R3786]->file[R3795];
       if ( not_empty file )
+        // Project files go into a directory named after the project.
+        file.directory( name:project.name );
         file.emit( name:project.name + file.suffix );
       end if;
       // terminator services
@@ -39,6 +41,8 @@ if ( "project" == element )
           code_block.render();
           select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
           if ( not_empty file )
+            // Project files go into a directory named after the project.
+            file.directory( name:project.name );
             file.suffix = ".tr";
             file.emit( name:terminator.name + "_" + activity.name + file.suffix );
           end if;
@@ -58,6 +62,8 @@ elif ( "domain" == element )
       domain.render();
       select one file related by domain->markable[R3783]->element[R3786]->file[R3795];
       if ( not_empty file )
+        // Domain files go into a directory named after the domain.
+        file.directory( name:domain.name );
         file.emit( name:domain.name + file.suffix );
       end if;
       // CDS - maybe we need null terminator services?
@@ -73,6 +79,8 @@ elif ( "domain" == element )
           if ( not_empty typeref )
             file.suffix = ".fn"; // default is .svc
           end if;
+          // Domain files go into a directory named after the domain.
+          file.directory( name:domain.name );
           file.emit( name:activity.name + file.suffix );
         end if;
       end for;
@@ -89,6 +97,8 @@ elif ( "domain" == element )
             if ( not_empty typeref )
               file.suffix = ".fn"; // default is .svc
             end if;
+            // Domain files go into a directory named after the domain.
+            file.directory( name:domain.name );
             file.emit( name:domain.name + "_" + object.name + "_" + activity.name + file.suffix );
           end if;
         end for;
@@ -102,6 +112,8 @@ elif ( "domain" == element )
           code_block.render();
           select one file related by code_block->unmarkable[R3788]->element[R3786]->file[R3795];
           if ( not_empty file )
+            // Domain files go into a directory named after the domain.
+            file.directory( name:domain.name );
             file.emit( name:object.name + "_" + activity.name + ".tr" );
           end if;
         end for;
@@ -224,13 +236,17 @@ INSERT INTO O_TPARM
 INSERT INTO O_TFR
 	VALUES ("0652aa1a-382c-4f76-b3b5-f382ef04ba69",
 	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
-	'directory',
+	'outfolder',
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
 	'select many files from instances of file;
 for each file in files
-  file.directory = param.name;
+  if ( "" == file.directory )
+    file.directory = param.name;
+  else
+    file.directory = file.directory + "/" + param.name;
+  end if;
 end for;',
 	1,
 	'',
@@ -261,10 +277,34 @@ end if;
 T::emit( file:fullfilename );',
 	1,
 	'',
-	"0652aa1a-382c-4f76-b3b5-f382ef04ba69");
+	"5cd5b315-bca4-4e80-ba18-2427ea690ab7");
 INSERT INTO O_TPARM
 	VALUES ("1e4e6c03-8024-460f-b234-2e3697d13d06",
 	"2f147788-5a86-4450-bedd-f6c445ca097c",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("5cd5b315-bca4-4e80-ba18-2427ea690ab7",
+	"687ad4bd-4a01-4dc7-be97-70f02360f9c4",
+	'directory',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'if ( "" == self.directory )
+  self.directory = param.name;
+else
+  self.directory = self.directory + "/" + param.name;
+end if;',
+	1,
+	'',
+	"0652aa1a-382c-4f76-b3b5-f382ef04ba69");
+INSERT INTO O_TPARM
+	VALUES ("29043fa1-8c39-4370-9b32-3c885eaddb8a",
+	"5cd5b315-bca4-4e80-ba18-2427ea690ab7",
 	'name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
