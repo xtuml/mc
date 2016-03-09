@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export MASL_BIN_DIR=$DIR
+
+$DIR/../../eclipse/plugins/org.xtuml.bp.mc.c.source*/mc3020/bin/xtumlmc_build.exe xtuml2masl $@
