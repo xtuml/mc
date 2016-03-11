@@ -6918,6 +6918,46 @@ INSERT INTO PE_PE
 	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("96262711-9aa1-476f-a01e-e61adb9c3647",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Event Matrix Entry>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("96262711-9aa1-476f-a01e-e61adb9c3647",
+	0,
+	"8319fa0a-b17c-41de-9b95-a9dfb2058b64");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("8319fa0a-b17c-41de-9b95-a9dfb2058b64",
+	'State Event Matrix Entry',
+	504,
+	'SM_SEME',
+	'This class represents an entry in the state event matrix (SEM).  A state event matrix entry describes what happens in each state (SM_STATE) for each event (SM_EVT).  The SEM can be thought of as a two-dimensional array where the states of a state machine  are represented by rows and events are represented by columns.  An entry consists of one of the following: transition to another state, event ignored, event cant happen.',
+	"00000000-0000-0000-0000-000000000000",
+	'./State Event Matrix Entry/State Event Matrix Entry.xtuml');
+INSERT INTO PE_PE
+	VALUES ("96262711-9aa1-476f-a01e-e61adb9c3647",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("dc194c14-1881-4585-a22a-9c5ea43cb679",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<State Event Matrix Entry>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("dc194c14-1881-4585-a22a-9c5ea43cb679",
+	1,
+	"8319fa0a-b17c-41de-9b95-a9dfb2058b64");
+INSERT INTO PE_PE
+	VALUES ("dc194c14-1881-4585-a22a-9c5ea43cb679",
+	1,
+	"30a5dc6f-57c6-4e5e-a245-0e18cf722a54",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("13d08a46-4678-4d63-824c-fb651cd2e4eb");
 INSERT INTO R_REL
@@ -7093,14 +7133,6 @@ INSERT INTO R_OIR
 	"f711374d-725f-4dc7-a1e0-988e2cd27937",
 	"aab8ae5d-ca9a-4adf-8198-fd2a62bcea8a",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("8319fa0a-b17c-41de-9b95-a9dfb2058b64",
-	'State Event Matrix Entry',
-	504,
-	'SM_SEME',
-	'This class represents an entry in the state event matrix (SEM).  A state event matrix entry describes what happens in each state (SM_STATE) for each event (SM_EVT).  The SEM can be thought of as a two-dimensional array where the states of a state machine  are represented by rows and events are represented by columns.  An entry consists of one of the following: transition to another state, event ignored, event cant happen.',
-	"00000000-0000-0000-0000-000000000000",
-	'./State Event Matrix Entry/State Event Matrix Entry.xtuml');
 INSERT INTO R_SUB
 	VALUES ("1d95bc31-1ff8-4b3b-989a-6e992414de9e",
 	"f711374d-725f-4dc7-a1e0-988e2cd27937",
