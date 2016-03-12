@@ -2606,15 +2606,18 @@ for each state in states
   end if;
 end for;
 
+// Maslin NOTE: The order in this block of code is different than in OOAofOOA.  MC-Java does automatic
+// maintenance of referential IDs, MC-3020 does not.  Thus, for MC-3020 we have to be careful about the 
+// order the relates are done.
+select one sm related by sm_state->SM_SM[R501];
+create object instance act of SM_ACT;
+relate act to sm across R515;
 create object instance ah of SM_AH;
 create object instance moah of SM_MOAH;
+relate act to ah across R514;
 relate ah to moah across R513;
-select one sm related by sm_state->SM_SM[R501];
 select one msm related by sm->SM_MOORE[R510];
 relate sm_state to msm across R511 using moah;
-create object instance act of SM_ACT;
-relate act to ah across R514;
-relate act to sm across R515;
 //
 // create SEM entry instances
 //

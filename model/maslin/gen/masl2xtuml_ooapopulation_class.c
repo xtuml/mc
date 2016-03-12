@@ -2483,7 +2483,7 @@ st->SM_ID = (Escher_UniqueID_t) st;
 void
 masl2xtuml_ooapopulation_op_StateMachineState_initialize( masl2xtuml_ooapopulation * self, c_t * p_name, masl2xtuml_SM_STATE * p_sm_state )
 {
-  masl2xtuml_SM_SEVT * event=0;masl2xtuml_SM_STATE * state=0;masl2xtuml_SM_STATE * sm_state;masl2xtuml_SM_ACT * act;masl2xtuml_SM_MOAH * moah;masl2xtuml_SM_AH * ah;Escher_ObjectSet_s event_set_space={0}; Escher_ObjectSet_s * event_set = &event_set_space;masl2xtuml_SM_MOORE * msm=0;masl2xtuml_SM_SM * sm=0;Escher_ObjectSet_s states_space={0}; Escher_ObjectSet_s * states = &states_space;
+  masl2xtuml_SM_SEVT * event=0;masl2xtuml_SM_STATE * state=0;masl2xtuml_SM_STATE * sm_state;masl2xtuml_SM_MOAH * moah;masl2xtuml_SM_AH * ah;masl2xtuml_SM_ACT * act;Escher_ObjectSet_s event_set_space={0}; Escher_ObjectSet_s * event_set = &event_set_space;masl2xtuml_SM_MOORE * msm=0;masl2xtuml_SM_SM * sm=0;Escher_ObjectSet_s states_space={0}; Escher_ObjectSet_s * states = &states_space;
   /* ASSIGN sm_state = PARAM.sm_state */
   sm_state = p_sm_state;
   /* ASSIGN sm_state.Name = PARAM.name */
@@ -2519,6 +2519,14 @@ masl2xtuml_ooapopulation_op_StateMachineState_initialize( masl2xtuml_ooapopulati
       sm_state->Numb = ( state->Numb + 1 );
     }
   }}}
+  /* SELECT one sm RELATED BY sm_state->SM_SM[R501] */
+  sm = ( 0 != sm_state ) ? sm_state->SM_SM_R501 : 0;
+  /* CREATE OBJECT INSTANCE act OF SM_ACT */
+  act = (masl2xtuml_SM_ACT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_ACT_CLASS_NUMBER );
+  act->Act_ID = (Escher_UniqueID_t) act;
+act->SM_ID = (Escher_UniqueID_t) act;
+  /* RELATE act TO sm ACROSS R515 */
+  masl2xtuml_SM_ACT_R515_Link_contains( sm, act );
   /* CREATE OBJECT INSTANCE ah OF SM_AH */
   ah = (masl2xtuml_SM_AH *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_AH_CLASS_NUMBER );
   ah->Act_ID = (Escher_UniqueID_t) ah;
@@ -2528,23 +2536,15 @@ ah->SM_ID = (Escher_UniqueID_t) ah;
   moah->Act_ID = (Escher_UniqueID_t) moah;
 moah->SM_ID = (Escher_UniqueID_t) moah;
 moah->SMstt_ID = (Escher_UniqueID_t) moah;
+  /* RELATE act TO ah ACROSS R514 */
+  masl2xtuml_SM_AH_R514_Link_resides_in( act, ah );
   /* RELATE ah TO moah ACROSS R513 */
   masl2xtuml_SM_MOAH_R513_Link( ah, moah );
-  /* SELECT one sm RELATED BY sm_state->SM_SM[R501] */
-  sm = ( 0 != sm_state ) ? sm_state->SM_SM_R501 : 0;
   /* SELECT one msm RELATED BY sm->SM_MOORE[R510] */
   msm = 0;
   if ( ( 0 != sm ) && ( masl2xtuml_SM_MOORE_CLASS_NUMBER == sm->R510_object_id ) )  msm = ( 0 != sm ) ? (masl2xtuml_SM_MOORE *) sm->R510_subtype : 0;
   /* RELATE sm_state TO msm ACROSS R511 USING moah */
   masl2xtuml_SM_MOAH_R511_Link( msm, sm_state, moah );
-  /* CREATE OBJECT INSTANCE act OF SM_ACT */
-  act = (masl2xtuml_SM_ACT *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_SM_ACT_CLASS_NUMBER );
-  act->Act_ID = (Escher_UniqueID_t) act;
-act->SM_ID = (Escher_UniqueID_t) act;
-  /* RELATE act TO ah ACROSS R514 */
-  masl2xtuml_SM_AH_R514_Link_resides_in( act, ah );
-  /* RELATE act TO sm ACROSS R515 */
-  masl2xtuml_SM_ACT_R515_Link_contains( sm, act );
   /* SELECT many event_set RELATED BY sm->SM_EVT[R502]->SM_SEVT[R525] */
   Escher_ClearSet( event_set );
   {  if ( 0 != sm ) {
