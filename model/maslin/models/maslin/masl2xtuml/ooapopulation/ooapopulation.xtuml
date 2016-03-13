@@ -182,18 +182,7 @@ elif ( "operation" == element )
     select any o_tfr from instances of O_TFR where (false);
     ooapopulation.current_class_op = o_tfr;
   else
-    clazz = ooapopulation.current_class;
-    if ( not_empty clazz )
-    /*  TODO - do something with the domain and object parameters....
-domain
-object
-visibility
-name
-instance
-relationship
-    */
-      ooapopulation.transformObjectFunction(visibility:param.value[2], name:param.value[3], instance:param.value[4], relationship:param.value[5]);
-    end if;
+    ooapopulation.transformObjectFunction(visibility:param.value[2], name:param.value[3], instance:param.value[4], relationship:param.value[5], domain:param.value[0], obj:param.value[1]);
   end if;
 elif ( "transitiontable" == element )
   if ( "assigner" == param.value[0] )
@@ -205,6 +194,16 @@ elif ( "transition" == element )
   //  TODO - do something with the eventDomain and eventObject parameters in phase 2
   ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4]);
 elif ( "codeblock" == element )
+  s_sync = ooapopulation.current_domain_function;
+  if ( not_empty s_sync )
+    s_sync.Descrip = param.value[0];
+  end if;
+  
+  o_tfr = ooapopulation.current_class_op;
+  if ( not_empty o_tfr )
+    o_tfr.Descrip = param.value[0];
+  end if;
+  
   sm_state = ooapopulation.current_state;
   if ( not_empty sm_state )
     select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
@@ -1612,7 +1611,22 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'op_name = param.name;
-self.current_class_op = self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name);',
+current_class = self.current_class;
+
+
+if ( not_empty current_class )
+  // We are in the midst of building a class operation inside a class definition.
+  self.current_class_op = self.ModelClass_newOperation(o_obj:self.current_class, op_name:op_name);
+else
+  // No current_class.  That means we just need to find the given class operation and cache it so that the following 
+  // SMASL can modify it.
+  select any c_c from instances of C_C where ( selected.Name == param.domain );
+  select any ep_pkg related by c_c->PE_PE[R8003]->EP_PKG[R8001] where ( selected.Name == param.domain );  // Internal behavior package has the same name as the component
+  select any o_obj related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where ( selected.Name == param.obj );
+  
+  select any o_tfr related by o_obj->O_TFR[R115] where ( selected.Name == param.name );
+  self.current_class_op = o_tfr;  
+end if;',
 	1,
 	'',
 	"8b5937f7-610b-4bd3-9fe2-8b9e795cfd80");
@@ -1651,6 +1665,24 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"302dbd74-7ed1-4a13-9caf-be95b3597037",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("8849a70d-59e9-4668-97de-2c856cdc99a6",
+	"f2b299ab-c59f-4a3c-b813-659a745c2710",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"144a0b1a-61cf-4cd3-a93f-da5bdda735ef",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("adfc2649-503b-4da3-b49c-d83e3f7174b6",
+	"f2b299ab-c59f-4a3c-b813-659a745c2710",
+	'obj',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"8849a70d-59e9-4668-97de-2c856cdc99a6",
 	'');
 INSERT INTO O_TFR
 	VALUES ("b44f67b8-f281-4aa2-9adc-27b62605a7c1",
@@ -2574,15 +2606,18 @@ for each state in states
   end if;
 end for;
 
+// Maslin NOTE: The order in this block of code is different than in OOAofOOA.  MC-Java does automatic
+// maintenance of referential IDs, MC-3020 does not.  Thus, for MC-3020 we have to be careful about the 
+// order the relates are done.
+select one sm related by sm_state->SM_SM[R501];
+create object instance act of SM_ACT;
+relate act to sm across R515;
 create object instance ah of SM_AH;
 create object instance moah of SM_MOAH;
+relate act to ah across R514;
 relate ah to moah across R513;
-select one sm related by sm_state->SM_SM[R501];
 select one msm related by sm->SM_MOORE[R510];
 relate sm_state to msm across R511 using moah;
-create object instance act of SM_ACT;
-relate act to ah across R514;
-relate act to sm across R515;
 //
 // create SEM entry instances
 //
@@ -2878,11 +2913,16 @@ INSERT INTO O_TFR
 // not really a state but is "Ignore" or "Cannot_Happen"
 
 select any fromState related by sm_sm->SM_STATE[R501] where (selected.Name == param.startState);
+select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.eventName );
 
 if ( "Ignore" == param.endState )
-  // TODO - handle setting the transition type on the event, look at StateMachineEvent ignoreOnState 
+  // change the matrix entry for the event found above from a can''t happen to an ignore
+  select any seme related by sm_evt->SM_SEVT[R525]->SM_SEME[R503] where (selected.SMstt_ID == fromState.SMstt_ID);
+  self.StateEventMatrixEntry_migrateChToEi(sm_seme:seme);
 elif ( "Cannot_Happen" == param.endState )
-  // TODO - handle setting the transition type on the event, look at StateMachineEvent sayCantHappenOnState
+  // change the matrix entry for the event found above from an ignore to a can''t happen
+  select any seme related by sm_evt->SM_SEVT[R525]->SM_SEME[R503] where (selected.SMstt_ID == fromState.SMstt_ID);
+  self.StateEventMatrixEntry_migrateEiToCh(sm_seme:seme);
 else
   select any toState related by sm_sm->SM_STATE[R501] where (selected.Name == param.endState);
   if (not_empty fromState and not_empty toState)
@@ -2893,7 +2933,7 @@ else
     relate tr to toState across R506;
     relate sm_sm to tr across R505;
     self.Transition_initialize(sm_txn:tr);
-    // TODO - assign the event to the new transition
+    self.Transition_addEvent(sm_txn:tr, sm_sm:sm_sm, sm_evt:sm_evt);
   /*else
       TODO - LOG error message?*/
   end if;
@@ -3008,7 +3048,7 @@ else
 end if;',
 	1,
 	'',
-	"cbcea1c4-3923-4c24-9dfd-471bb8c6ec10");
+	"becb75b7-ab37-4f29-8752-db272d0c670e");
 INSERT INTO O_TPARM
 	VALUES ("ebfa211d-04c7-4122-8421-7b4986727737",
 	"bbd564a6-2b4f-4af1-8925-05597ade9485",
@@ -3044,59 +3084,50 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'sm_txn = param.sm_txn;
+sm_sm = param.sm_sm;
+sm_evt = param.sm_evt;
 
-// TODO
-
-// find the event corresponding to the one given that is associated with 
-// this transition''s state machine, which in fact may be the one given, or not
-// if the given event is polymorphic
-/*select any event from instances of SM_EVT 
-    where selected.SMevt_ID == param.eventId
-        and selected.SM_ID == param.eventStateMachineId;
-select one sm related by sm_txn->SM_SM[R505];
-eventId = event.getAssociatedEventForStateMachine(stateMachineId:sm.SM_ID);
-select any event from instances of SM_EVT where selected.SMevt_ID == eventId;
-        
- select one no_evt_txn related by sm_txn->SM_NETXN[R507];
- if ( not_empty no_evt_txn )
-   select one orig_state related by no_evt_txn->SM_STATE[R508];
-   unrelate no_evt_txn from orig_state across R508;
-   unrelate no_evt_txn from sm_txn across R507;
-   delete object instance no_evt_txn;
-   create object instance ns_txn of SM_NSTXN;
-   relate sm_txn to ns_txn across R507;
+// Modified version of the same function from OOAofOOA
+select one no_evt_txn related by sm_txn->SM_NETXN[R507];
+if ( not_empty no_evt_txn )
+  select one orig_state related by no_evt_txn->SM_STATE[R508];
+  unrelate no_evt_txn from orig_state across R508;
+  unrelate no_evt_txn from sm_txn across R507;
+  delete object instance no_evt_txn;
+  create object instance ns_txn of SM_NSTXN;
+  relate sm_txn to ns_txn across R507;
    
-   select any seme related by orig_state->SM_SEME[R503] 
-       where selected.SMevt_ID == event.SMevt_ID;
-   seme.disposeChOrEi();
-   relate ns_txn to seme across R504;
- else
-   select one ns_txn related by sm_txn->SM_NSTXN[R507];
-   if ( not_empty ns_txn )
-     select one seme related by ns_txn->SM_SEME[R504];
-     select one orig_state related by seme->SM_STATE[R503];
+  select any seme related by orig_state->SM_SEME[R503] 
+      where selected.SMevt_ID == sm_evt.SMevt_ID;
+  self.StateEventMatrixEntry_disposeChOrEi(sm_seme:seme);
+  relate ns_txn to seme across R504;
+else
+  select one ns_txn related by sm_txn->SM_NSTXN[R507];
+  if ( not_empty ns_txn )
+    select one seme related by ns_txn->SM_SEME[R504];
+    select one orig_state related by seme->SM_STATE[R503];
 
-     // change SEME caused by old event to be cant happen
-     create object instance ch of SM_CH;
-     unrelate ns_txn from seme across R504;
-     relate seme to ch across R504;
+    // change SEME caused by old event to be cant happen
+    create object instance ch of SM_CH;
+    unrelate ns_txn from seme across R504;
+    relate seme to ch across R504;
      
-     // find SEME caused by new event
-     select any new_seme related by orig_state->SM_SEME[R503] 
-         where selected.SMevt_ID == event.SMevt_ID;
-     new_seme.disposeChOrEi();
-     relate new_seme to ns_txn across R504;
-     // state supplemental dataset should be unchanged
-   else
-     select one cr_txn related by sm_txn->SM_CRTXN[R507];
-     select one levt related by cr_txn->SM_LEVT[R509];
-     if ( not_empty levt )
-       unrelate cr_txn from levt across R509;
-     end if;
-     select one new_evt related by event->SM_SEVT[R525]->SM_LEVT[R526];         
-     relate cr_txn to new_evt across R509;
-   end if;
- end if;*/
+    // find SEME caused by new event
+    select any new_seme related by orig_state->SM_SEME[R503] 
+        where selected.SMevt_ID == sm_evt.SMevt_ID;
+    self.StateEventMatrixEntry_disposeChOrEi(sm_seme:new_seme);
+    relate new_seme to ns_txn across R504;
+    // state supplemental dataset should be unchanged
+  else
+    select one cr_txn related by sm_txn->SM_CRTXN[R507];
+    select one levt related by cr_txn->SM_LEVT[R509];
+    if ( not_empty levt )
+      unrelate cr_txn from levt across R509;
+    end if;
+    select one new_evt related by sm_evt->SM_SEVT[R525]->SM_LEVT[R526];         
+    relate cr_txn to new_evt across R509;
+  end if;
+end if;
 
 ',
 	1,
@@ -3105,11 +3136,11 @@ select any event from instances of SM_EVT where selected.SMevt_ID == eventId;
 INSERT INTO O_TPARM
 	VALUES ("48f10510-5096-44fc-a719-204eda762c85",
 	"b9a56abe-561b-4c63-aae8-9127fa0316e7",
-	'eventName',
-	"ba5eda7a-def5-0000-0000-000000000004",
+	'sm_evt',
+	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
 	0,
 	'',
-	"a6c8f437-c153-493f-9d9a-cc3cb8e6f469",
+	"a9b9cd5b-3edb-475a-a2ca-cfb0cdc21618",
 	'');
 INSERT INTO O_TPARM
 	VALUES ("a6c8f437-c153-493f-9d9a-cc3cb8e6f469",
@@ -3120,6 +3151,15 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("a9b9cd5b-3edb-475a-a2ca-cfb0cdc21618",
+	"b9a56abe-561b-4c63-aae8-9127fa0316e7",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"a6c8f437-c153-493f-9d9a-cc3cb8e6f469",
+	'');
 INSERT INTO O_TFR
 	VALUES ("c05e4e81-e31b-407e-82a8-6f734786b680",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -3129,10 +3169,14 @@ INSERT INTO O_TFR
 	1,
 	'o_tfr = param.o_tfr;
 
-create object instance parm of O_TPARM;
-relate o_tfr to parm across R117;
-self.OperationParameter_initialize(o_tparm:parm, name:param.parameter_name);
-self.Operation_createParameterInInteractions(o_tparm: parm, o_tfr:o_tfr);
+select any parm related by o_tfr->O_TPARM[R117] where ( selected.Name == param.parameter_name );
+
+if ( empty parm )
+  create object instance parm of O_TPARM;
+  relate o_tfr to parm across R117;
+  self.OperationParameter_initialize(o_tparm:parm, name:param.parameter_name);
+  self.Operation_createParameterInInteractions(o_tparm: parm, o_tfr:o_tfr);
+end if;
 
 return parm;',
 	1,
@@ -3298,10 +3342,14 @@ INSERT INTO O_TFR
 	1,
 	's_sync = param.s_sync;
 
-create object instance parm of S_SPARM;
-relate s_sync to parm across R24;
-self.FunctionParameter_initialize(s_sparm:parm, name:param.parameter_name);
-self.Function_createMessageArgumentsForParameter(s_sync:s_sync, s_sparm:parm);
+select any parm related by s_sync->S_SPARM[R24] where ( selected.Name == param.parameter_name );
+
+if ( empty parm )
+  create object instance parm of S_SPARM;
+  relate s_sync to parm across R24;
+  self.FunctionParameter_initialize(s_sparm:parm, name:param.parameter_name);
+  self.Function_createMessageArgumentsForParameter(s_sync:s_sync, s_sparm:parm);
+end if;
 
 return parm;',
 	1,
@@ -4737,6 +4785,103 @@ INSERT INTO O_TPARM
 	"a10bcbd7-d0c1-4c7f-9af4-6820fada6371",
 	'o_obj',
 	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("b5509850-1970-4266-848e-a4e910bab8bf",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateEventMatrixEntry_disposeChOrEi',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_seme = param.sm_seme;
+
+select one chevt related by sm_seme->SM_CH[R504];
+if (not_empty chevt)
+  unrelate sm_seme from chevt across R504;
+  delete object instance chevt;
+end if;
+select one igevt related by sm_seme->SM_EIGN[R504];
+if (not_empty igevt)
+  unrelate sm_seme from igevt across R504;
+  delete object instance igevt;
+end if;
+',
+	1,
+	'',
+	"cbcea1c4-3923-4c24-9dfd-471bb8c6ec10");
+INSERT INTO O_TPARM
+	VALUES ("3e3fda04-9438-4d5e-bbfa-5dbdcac1a034",
+	"b5509850-1970-4266-848e-a4e910bab8bf",
+	'sm_seme',
+	"96262711-9aa1-476f-a01e-e61adb9c3647",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("96262711-9aa1-476f-a01e-e61adb9c3647",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Event Matrix Entry>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO O_TFR
+	VALUES ("b871c364-3966-4276-a029-7f208d618293",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateEventMatrixEntry_migrateChToEi',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_seme = param.sm_seme;
+
+select one ch related by sm_seme->SM_CH[R504];
+if ( not_empty ch )
+  create object instance ei of SM_EIGN;
+  unrelate sm_seme from ch across R504;
+  relate sm_seme to ei across R504;
+  delete object instance ch;
+end if;
+',
+	1,
+	'',
+	"b5509850-1970-4266-848e-a4e910bab8bf");
+INSERT INTO O_TPARM
+	VALUES ("3f33ccf1-2f6b-401c-b6aa-e670b5567f46",
+	"b871c364-3966-4276-a029-7f208d618293",
+	'sm_seme',
+	"96262711-9aa1-476f-a01e-e61adb9c3647",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("becb75b7-ab37-4f29-8752-db272d0c670e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'StateEventMatrixEntry_migrateEiToCh',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'sm_seme = param.sm_seme;
+
+select one ei related by sm_seme->SM_EIGN[R504];
+if ( not_empty ei )
+  create object instance ch of SM_CH;
+  unrelate sm_seme from ei across R504;
+  relate sm_seme to ch across R504;
+  delete object instance ei;
+end if;
+',
+	1,
+	'',
+	"b871c364-3966-4276-a029-7f208d618293");
+INSERT INTO O_TPARM
+	VALUES ("964dd5d3-48e3-4768-bdc3-f6642f0f3054",
+	"becb75b7-ab37-4f29-8752-db272d0c670e",
+	'sm_seme',
+	"96262711-9aa1-476f-a01e-e61adb9c3647",
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
