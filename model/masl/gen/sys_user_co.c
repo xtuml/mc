@@ -152,17 +152,19 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
   }
 
   int validate = 0; int Validateonly = 0;
-  char * outdirname = 0; char * projectdomain = 0;
+  char * indirname = 0; char * outdirname = 0; char * projectdomain = 0;
   int namecount = 0; char name[8][1024] = {0,0,0,0,0,0,0,0};
   {
     int c;
     opterr = 0;
-    while ( ( c = getopt ( argc, argv, "vVo:d::p::" ) ) != -1 ) {
+    while ( ( c = getopt ( argc, argv, "vVi:o:d::p::" ) ) != -1 ) {
       switch ( c ) {
         case 'v':
           validate = 1; break;
         case 'V':
           Validateonly = 1; break;
+        case 'i':
+          indirname = optarg; break;
         case 'o':
           outdirname = optarg; break;
         case 'd':
@@ -190,6 +192,9 @@ UserPostOoaInitializationCalloutf( int argc, char ** argv )
     masl_gen_validate( "" );
   }
   if ( ! Validateonly ) {
+    if ( indirname ) {
+      masl_file_op_infolder( indirname );
+    }
     if ( outdirname ) {
       masl_file_op_outfolder( outdirname );
     }

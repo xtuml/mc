@@ -305,8 +305,9 @@ for each c_ep in c_eps
     end if;
   end if;
   
+  path = ::component_get_path( c_c:c_c );
   // Populate the action langauge body.
-  ::body2action( name:c_ep.Name, text:"" );
+  ::body2code_block( name:path + "/" + c_po.Name + "_" + c_ep.Name, text:"spr_*.Action_Semantics" );
   
   out::populate( element:"routine", value:emptyvalue );
   
@@ -861,8 +862,10 @@ for each s_sync in s_syncs
     end if;
   end if;
   
+  select one ep_pkg related by s_sync->PE_PE[R8001]->EP_PKG[R8000];
+  path = ::package_get_path( ep_pkg:ep_pkg );
   // Populate the action langauge body.
-  ::body2action( name:"", text:"" );
+  ::body2code_block( name:path + "/" + s_sync.Name, text:s_sync.Action_Semantics );
   
   out::populate( element:"routine", value:emptyvalue );
   
@@ -1099,6 +1102,7 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 o_obj = param.o_obj;
 sm_sm = param.sm_sm;
+path = ::class_get_path( o_obj:o_obj );
 select many sm_states related by sm_sm->SM_STATE[R501];
 select any sm_state related by sm_sm->SM_STATE[R501];
 lowest = 7777;
@@ -1113,6 +1117,9 @@ if ( "assigner" == param.type )
       lowest = sm_state.Numb;
     end if;
   end for;
+  path = path + "/AssignerStateMachine";
+else
+  path = path + "/InstanceStateMachine";
 end if;
 
 value[0] = ""; // domain, grammar allows this but we are not using it
@@ -1135,6 +1142,11 @@ for each sm_state in sm_states
     select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''precedes''];
   end while;
   ::parameterSM_EVTDI2parameter( sm_evtdi:first_sm_evtdi );
+  
+  select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
+  // Populate the action langauge body.
+  ::body2code_block( name:path + "/" + sm_state.Name, text:"sm_act.Action_Semantics" );
+  
   
   out::populate( element:"state", value:emptyvalue );
 end for;',
@@ -1414,6 +1426,11 @@ for each o_tfr in o_tfrs
     out::populate( element:"typeref", value:value );
     out::populate( element:"typeref", value:emptyvalue );
   end if;
+  
+  path = ::class_get_path( o_obj:o_obj );
+  // Populate the action langauge body.
+  ::body2code_block( name:path + "/" + o_tfr.Name, text:o_tfr.Action_Semantics );
+  
   out::populate( element:"operation", value:emptyvalue );
   
 end for;
@@ -1585,51 +1602,14 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("9feb3491-f835-4302-9628-50c776b209ed",
 	"00000000-0000-0000-0000-000000000000",
-	'body2action',
+	'body2code_block',
 	'',
 	'value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
-/*
-c_c = param.c_c;
-value[0] = c_c.Name;
-value[1] = "domain";
-select many s_syncs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_SYNC[R8001];
-for each s_sync in s_syncs
-
-  value[2] = "private"; // Domain functions are all private, even if used by messages.
-  value[3] = s_sync.Name;
-  value[4] = ""; // not instance
-  value[5] = ""; // not deferred
-  
-  // Get the first parameter.
-  select any s_sparm related by s_sync->S_SPARM[R24];
-  first_s_sparm = s_sparm;
-  while ( not_empty s_sparm )
-    first_s_sparm = s_sparm;
-    select one s_sparm related by s_sparm->S_SPARM[R54.''precedes''];
-  end while;
-  
-  out::populate( element:"routine", value:value );
-  ::parameterS_SPARM2parameter( s_sparm:first_s_sparm );
-  // find return type if exists
-  select one s_dt related by s_sync->S_DT[R25];
-  if ( not_empty s_dt )
-    // Do not send a void typeref.  No typeref equals void in MASL.
-    if ( "void" != s_dt.Name )
-      value[0] = s_dt.Name;
-      out::populate( element:"typeref", value:value );
-      out::populate( element:"typeref", value:emptyvalue );
-    end if;
-  end if;
-  
-  // Populate the action langauge body.
-  ::body2action();
-  
-  out::populate( element:"routine", value:emptyvalue );
-  
-end for;
-*/',
+value[0] = param.name + ".masl";
+out::populate( element:"codeblock", value:value );
+out::populate( element:"codeblock", value:emptyvalue );',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
@@ -1653,6 +1633,236 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("9feb3491-f835-4302-9628-50c776b209ed",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
+	"00000000-0000-0000-0000-000000000000",
+	'package_get_path',
+	'',
+	'// Recursively traverse upward to system to form full path.
+ep_pkg = param.ep_pkg;
+parent_path = "";
+select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
+if ( not_empty parent_ep_pkg )
+  // package in package
+  parent_path = ::package_get_path( ep_pkg:parent_ep_pkg ) + "/" + ep_pkg.Name;
+else
+  select one s_sys related by ep_pkg->S_SYS[R1401];
+  if ( not_empty s_sys )
+    // package in system
+    parent_path = s_sys.Name;
+  else
+    select one c_c related by ep_pkg->PE_PE[R8001]->C_C[R8003];
+    if ( not_empty c_c )
+      // package in component
+      parent_path = ::component_get_path( c_c:c_c ) + "/" + c_c.Name;
+    else
+      TRACE::log( flavor:"failure", id:110, message:"error building path of package" );
+    end if;
+  end if;
+end if;
+return parent_path + "/" + ep_pkg.Name;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("545013fa-458c-405b-a060-d3a4d72e3f2b",
+	"5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Package>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
+INSERT INTO PE_PE
+	VALUES ("5a9b9776-f803-49d5-aaa8-c432bae6ed6e",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
+	"00000000-0000-0000-0000-000000000000",
+	'class_get_path',
+	'',
+	'// Append parent path to name to get path to me.
+o_obj = param.o_obj;
+select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
+parent_path = ::package_get_path( ep_pkg:ep_pkg );
+return parent_path + "/" + o_obj.Name;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("f8a8a377-b99c-4b33-b380-028d84082c81",
+	"cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("cd2387a2-2be0-4a11-a6fd-01a03a69f1e1",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("10e28974-45a1-4163-aa99-0edb13366a24",
+	"00000000-0000-0000-0000-000000000000",
+	'component_get_path',
+	'',
+	'// Append name to parent path to form path to me.
+c_c = param.c_c;
+select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
+parent_path = ::package_get_path( ep_pkg:ep_pkg );
+return parent_path + "/" + c_c.Name;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b5b82ab6-5156-4fad-b8a1-6b51309f11a3",
+	"10e28974-45a1-4163-aa99-0edb13366a24",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("10e28974-45a1-4163-aa99-0edb13366a24",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("f60ed8df-36cc-47f1-ad6e-b7dcaee6bb4a",
+	"00000000-0000-0000-0000-000000000000",
+	'externalentity2terminator',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+// (outbound) EE -> terminator
+select many s_ees related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_EE[R8001];
+for each s_ee in s_ees
+  value[0] = s_ee.Name;
+  out::populate( element:"terminator", value:value );
+  ::bridge2routine( c_c:c_c, s_ee:s_ee );
+  // end terminator
+  out::populate( element:"terminator", value:emptyvalue );
+end for;
+
+  
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ed8dece4-68f0-484b-8c5c-5d237745ce5a",
+	"f60ed8df-36cc-47f1-ad6e-b7dcaee6bb4a",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("f60ed8df-36cc-47f1-ad6e-b7dcaee6bb4a",
+	1,
+	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("c1f44339-d7c8-438a-90fa-2e8cb41d36a7",
+	"00000000-0000-0000-0000-000000000000",
+	'bridge2routine',
+	'',
+	'value[7] = ""; // initialize length
+emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
+
+c_c = param.c_c;
+s_ee = param.s_ee;
+// bridge -> function/service
+value[0] = c_c.Name;
+value[1] = "terminator";
+
+select many s_brgs related by s_ee->S_BRG[R19];
+for each s_brg in s_brgs
+    
+  value[2] = "private"; // Messages turn into public services.
+  value[3] = s_brg.Name;
+  out::populate( element:"routine", value:value );
+  
+  select any s_bparm related by s_brg->S_BPARM[R21];
+  first_s_bparm = s_bparm;
+  while ( not_empty s_bparm )
+    first_s_bparm = s_bparm;
+    select one s_bparm related by s_bparm->S_BPARM[R55.''precedes''];
+  end while;
+  ::parameterS_BPARM2parameter( s_bparm:first_s_bparm );
+  
+  select one s_dt related by s_brg->S_DT[R20];
+  if ( not_empty s_dt )
+    // Do not send a void typeref.  No typeref equals void in MASL.
+    if ( "void" != s_dt.Name )
+      value[0] = s_dt.Name;
+      out::populate( element:"typeref", value:value );
+      out::populate( element:"typeref", value:emptyvalue );
+    end if;
+  end if;
+  
+  select one ep_pkg related by s_ee->PE_PE[R8001]->EP_PKG[R8000];
+  path = ::package_get_path( ep_pkg:ep_pkg );
+  // Populate the action langauge body.
+  ::body2code_block( name:path + "/" + s_ee.Name + "_" + s_brg.Name, text:"s_brg.Action_Semantics" );
+  
+  out::populate( element:"routine", value:emptyvalue );
+  
+end for;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("518c602c-b34d-4271-a7d1-076725ac98df",
+	"c1f44339-d7c8-438a-90fa-2e8cb41d36a7",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("ded9129e-fede-4246-997f-72c0bb9d3ead",
+	"c1f44339-d7c8-438a-90fa-2e8cb41d36a7",
+	's_ee',
+	"fc04695e-75c8-413e-a409-6dbc6465e011",
+	0,
+	'',
+	"518c602c-b34d-4271-a7d1-076725ac98df",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fc04695e-75c8-413e-a409-6dbc6465e011",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<External Entity>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Domain/Domain.xtuml');
+INSERT INTO PE_PE
+	VALUES ("c1f44339-d7c8-438a-90fa-2e8cb41d36a7",
 	1,
 	"19c98ca5-62e6-4d7e-957f-7c3645360e4e",
 	"00000000-0000-0000-0000-000000000000",
