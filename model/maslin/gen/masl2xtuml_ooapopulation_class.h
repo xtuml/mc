@@ -33,6 +33,7 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_S_SPARM * current_function_param;  
   masl2xtuml_O_TPARM * current_operation_param;  
   masl2xtuml_sdt_relationship_data current_rel;  
+  masl2xtuml_SM_STATE * current_state;  
   i_t processingIdentifier;  
   bool processingISM;  
 };
@@ -58,7 +59,7 @@ void masl2xtuml_ooapopulation_op_transformTerminator( masl2xtuml_ooapopulation *
 void masl2xtuml_ooapopulation_op_transformActivity( masl2xtuml_ooapopulation * );
 void masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformAttribute( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t * );
-void masl2xtuml_ooapopulation_op_transformState( masl2xtuml_ooapopulation *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_transformState( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformEvent( masl2xtuml_ooapopulation *, c_t *, c_t * );
 masl2xtuml_CL_IC * masl2xtuml_ooapopulation_op_Package_newImportedComponent( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
 masl2xtuml_O_OBJ * masl2xtuml_ooapopulation_op_Package_newClass( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_EP_PKG * );
@@ -71,7 +72,7 @@ void masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation *, c_t 
 void masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_EP_PKG *, c_t * );
 void masl2xtuml_ooapopulation_op_Datatype_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_S_DT * );
 void masl2xtuml_ooapopulation_op_transformDomainFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
-void masl2xtuml_ooapopulation_op_transformObjectFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_transformObjectFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t *, c_t *, c_t * );
 masl2xtuml_O_TFR * masl2xtuml_ooapopulation_op_ModelClass_newOperation( masl2xtuml_ooapopulation *, masl2xtuml_O_OBJ *, c_t * );
 void masl2xtuml_ooapopulation_op_Operation_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_O_TFR * );
 void masl2xtuml_ooapopulation_op_ModelClass_addOperationToOrdering( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, masl2xtuml_O_OBJ * );
@@ -99,7 +100,7 @@ void masl2xtuml_ooapopulation_op_transformTransition( masl2xtuml_ooapopulation *
 void masl2xtuml_ooapopulation_op_StateMachine_newTransition( masl2xtuml_ooapopulation *, c_t *, c_t *, masl2xtuml_SM_SM *, c_t * );
 void masl2xtuml_ooapopulation_op_Transition_initialize( masl2xtuml_ooapopulation *, masl2xtuml_SM_TXN * );
 void masl2xtuml_ooapopulation_op_StateMachine_newCreationTransition( masl2xtuml_ooapopulation *, c_t *, c_t *, masl2xtuml_SM_SM * );
-void masl2xtuml_ooapopulation_op_Transition_addEvent( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_SM_TXN * );
+void masl2xtuml_ooapopulation_op_Transition_addEvent( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVT *, masl2xtuml_SM_SM *, masl2xtuml_SM_TXN * );
 masl2xtuml_O_TPARM * masl2xtuml_ooapopulation_op_Operation_newParameter( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, c_t * );
 void masl2xtuml_ooapopulation_op_OperationParameter_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_O_TPARM * );
 void masl2xtuml_ooapopulation_op_Operation_createParameterInInteractions( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, masl2xtuml_O_TPARM * );
@@ -134,6 +135,10 @@ void masl2xtuml_ooapopulation_op_DerivedBaseAttribute_dispose( masl2xtuml_ooapop
 void masl2xtuml_ooapopulation_op_NewBaseAttribute_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_NBATTR * );
 void masl2xtuml_ooapopulation_op_ClassAsLink_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_ASSR * );
 void masl2xtuml_ooapopulation_op_ClassAsSimpleFormalizer_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_FORM * );
+void masl2xtuml_ooapopulation_op_ModelClass_newInstanceReferenceDataType( masl2xtuml_ooapopulation *, masl2xtuml_O_OBJ * );
+void masl2xtuml_ooapopulation_op_StateEventMatrixEntry_disposeChOrEi( masl2xtuml_ooapopulation *, masl2xtuml_SM_SEME * );
+void masl2xtuml_ooapopulation_op_StateEventMatrixEntry_migrateChToEi( masl2xtuml_ooapopulation *, masl2xtuml_SM_SEME * );
+void masl2xtuml_ooapopulation_op_StateEventMatrixEntry_migrateEiToCh( masl2xtuml_ooapopulation *, masl2xtuml_SM_SEME * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10

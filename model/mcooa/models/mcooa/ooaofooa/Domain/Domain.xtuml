@@ -4099,6 +4099,46 @@ INSERT INTO PE_PE
 	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("fc04695e-75c8-413e-a409-6dbc6465e011",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<External Entity>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("fc04695e-75c8-413e-a409-6dbc6465e011",
+	0,
+	"239df24f-295d-41f2-8bc5-72c6538640fd");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("239df24f-295d-41f2-8bc5-72c6538640fd",
+	'External Entity',
+	3,
+	'S_EE',
+	'An external entity (S_EE) represents something outside of the domain (S_DOM) being modeled that interacts with classes (O_OBJ) within the domain. The interactions are shown by event communication paths on the Communication Diagrams and data access paths on the Synchronous Communication Diagrams. Each external entity is given a unique name and keyletters within a domain.',
+	"00000000-0000-0000-0000-000000000000",
+	'./External Entity/External Entity.xtuml');
+INSERT INTO PE_PE
+	VALUES ("fc04695e-75c8-413e-a409-6dbc6465e011",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("02c5956b-b298-4d77-a275-4f0d8a2fbda8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<External Entity>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("02c5956b-b298-4d77-a275-4f0d8a2fbda8",
+	1,
+	"239df24f-295d-41f2-8bc5-72c6538640fd");
+INSERT INTO PE_PE
+	VALUES ("02c5956b-b298-4d77-a275-4f0d8a2fbda8",
+	1,
+	"a364f2b8-b884-44f2-ae2a-3f62ebc627cd",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("0ca8fc78-e628-4c9e-8e88-6e48e1758391");
 INSERT INTO R_REL
@@ -4139,14 +4179,6 @@ INSERT INTO R_OIR
 	"0ca8fc78-e628-4c9e-8e88-6e48e1758391",
 	"2143b922-d093-44a0-9f3a-790fe9438722",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("239df24f-295d-41f2-8bc5-72c6538640fd",
-	'External Entity',
-	3,
-	'S_EE',
-	'An external entity (S_EE) represents something outside of the domain (S_DOM) being modeled that interacts with classes (O_OBJ) within the domain. The interactions are shown by event communication paths on the Communication Diagrams and data access paths on the Synchronous Communication Diagrams. Each external entity is given a unique name and keyletters within a domain.',
-	"00000000-0000-0000-0000-000000000000",
-	'./External Entity/External Entity.xtuml');
 INSERT INTO R_FORM
 	VALUES ("a0db7b09-39da-4dcd-8054-563638e9c1d3",
 	"0ca8fc78-e628-4c9e-8e88-6e48e1758391",
