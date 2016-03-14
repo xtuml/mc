@@ -54,7 +54,9 @@ fi
 for domain in ${DOM_DIRS[*]}; do
     DN=$OUT_DIR/`basename $domain`/
     mkdir $DN
-    cp $domain/*.svc $domain/*.fn $domain/*.scn $domain/*.ext $domain/*.al $domain/*.tr $DN
+    shopt -s nullglob
+    files=`echo $domain/*.svc $domain/*.fn $domain/*.scn $domain/*.ext $domain/*.al $domain/*.tr`
+    cp $files $DN
     #echo "java -cp $CLASSPATH MaslImportParser -d $domain | m2x > $FN"
     java -cp $CLASSPATH MaslImportParser -d $domain | m2x > $DN/`basename $domain`.xtuml
 done
@@ -63,7 +65,9 @@ done
 for project in ${PROJ_DIRS[*]}; do
     DN=$OUT_DIR/`basename $project`/
     mkdir $DN
-    cp $project/*.tr $DN
+    shopt -s nullglob
+    files=`echo $project/*.tr`
+    cp $files $DN
     #echo "java -cp $CLASSPATH MaslImportParser -p $project | m2x > $FN"
     java -cp $CLASSPATH MaslImportParser -p $project | m2x > $DN/`basename $project`.xtuml
 done
