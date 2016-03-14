@@ -76,17 +76,22 @@ parser HOWTO [[2.4]](#2.4).
 
 6.1.2.1 Inputs
 
-`masl` reads serial MASL from standard input until the end of the file is reached. It also takes
-an optional validation flag and optional output directory.
+`masl` reads serial MASL from standard input until the end of the
+file is reached. It also takes an optional validation flag and
+optional output directory.
 
 6.1.2.2 Outputs
 
-`masl` writes MASL to the output directory or the current working directory
-if no output directory is specified. If the validation flag (`-v`) is set,
+`masl` writes MASL to the output directory (`-o`)or the current working
+directory if no output directory is specified.  An input project root
+folder is normally needed using (`-i`).
+
+If the validation flag (`-v`) is set,
 it first validates the model and writes any validation failures to standard
 error. If the validate only flag (`-V`) is set, it only validates the model
 (writing validation failures to standard error), and no output MASL is written.
 Any other error messages are written to standard error.
+
 Rendering of projects and domains is controlled with the respective
 flags (`-p`) or (`-d`).  The name of a project or domain optionally
 can be provided with flag.  When no name is provided all projects
@@ -94,7 +99,7 @@ or all domains are rendered.  When no project or domain flag is provided,
 then all projects and all domains are rendered.
 
 ```sh
-./masl [-v | -V] [ -p [project name] | -d [domain name] ] [ -o <output directory> ] < input_file
+./masl [-v | -V] [ -p [project name] | -d [domain name] ] [ -i <input project root directory> ] [ -o <output directory> ] < input_file
 ```
 
 #### 6.1.3 `m2x`
