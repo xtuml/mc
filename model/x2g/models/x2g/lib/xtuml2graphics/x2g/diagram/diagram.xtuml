@@ -1,0 +1,161 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	'diagram',
+	3901,
+	'diagram',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("f658dabc-0ca0-414e-ba26-8fc03415c812",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'create object instance diagram of diagram;
+diagram.name = param.name;
+diagram.ooaofooa_ID = param.ooaofooa_ID;
+flavor = param.flavor;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("dd6e0ea3-2389-4720-9c7d-fea2d04fe0ba",
+	"f658dabc-0ca0-414e-ba26-8fc03415c812",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("62c43128-68e3-4f73-bd1d-655c5a6a2682",
+	"f658dabc-0ca0-414e-ba26-8fc03415c812",
+	'ooaofooa_ID',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"dd6e0ea3-2389-4720-9c7d-fea2d04fe0ba",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("7a98eb27-de60-4c46-9496-6444fc596114",
+	"f658dabc-0ca0-414e-ba26-8fc03415c812",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"62c43128-68e3-4f73-bd1d-655c5a6a2682",
+	'');
+INSERT INTO O_TFR
+	VALUES ("3ab5f0ed-5a07-4481-a6d1-1d975a01bcff",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"t/t.diagram.sql" );',
+	1,
+	'',
+	"f658dabc-0ca0-414e-ba26-8fc03415c812");
+INSERT INTO O_NBATTR
+	VALUES ("eb3f6611-b265-4116-8e84-58cc03b07274",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("eb3f6611-b265-4116-8e84-58cc03b07274",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("eb3f6611-b265-4116-8e84-58cc03b07274",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"00000000-0000-0000-0000-000000000000",
+	'ID',
+	'',
+	'',
+	'ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6ef0c095-b483-4902-a45f-beb2dc63a12d",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("6ef0c095-b483-4902-a45f-beb2dc63a12d",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("6ef0c095-b483-4902-a45f-beb2dc63a12d",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"eb3f6611-b265-4116-8e84-58cc03b07274",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("30cf3c57-9916-42e8-9bbb-9d9221afeb79",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("30cf3c57-9916-42e8-9bbb-9d9221afeb79",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("30cf3c57-9916-42e8-9bbb-9d9221afeb79",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"6ef0c095-b483-4902-a45f-beb2dc63a12d",
+	'flavor',
+	'',
+	'',
+	'flavor',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8947e478-855f-4dc4-8787-9f74e5288b73",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("8947e478-855f-4dc4-8787-9f74e5288b73",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("8947e478-855f-4dc4-8787-9f74e5288b73",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"30cf3c57-9916-42e8-9bbb-9d9221afeb79",
+	'ooaofooa_ID',
+	'',
+	'',
+	'ooaofooa_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_OIDA
+	VALUES ("eb3f6611-b265-4116-8e84-58cc03b07274",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	0,
+	'ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ID
+	VALUES (2,
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO PE_PE
+	VALUES ("406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	"7f685551-3fe6-4c32-a2a4-d1cac568d8c7",
+	'x2g',
+	'',
+	0,
+	'../x2g.xtuml');
