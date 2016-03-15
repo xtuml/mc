@@ -1117,7 +1117,7 @@ if ( "assigner" == param.type )
       lowest = sm_state.Numb;
     end if;
   end for;
-  path = path + "/AssignerStateMachine";
+  path = path + "/ClassStateMachine";
 else
   path = path + "/InstanceStateMachine";
 end if;
@@ -1648,7 +1648,7 @@ parent_path = "";
 select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
 if ( not_empty parent_ep_pkg )
   // package in package
-  parent_path = ::package_get_path( ep_pkg:parent_ep_pkg ) + "/" + ep_pkg.Name;
+  parent_path = ::package_get_path( ep_pkg:parent_ep_pkg );
 else
   select one s_sys related by ep_pkg->S_SYS[R1401];
   if ( not_empty s_sys )
@@ -1658,7 +1658,7 @@ else
     select one c_c related by ep_pkg->PE_PE[R8001]->C_C[R8003];
     if ( not_empty c_c )
       // package in component
-      parent_path = ::component_get_path( c_c:c_c ) + "/" + c_c.Name;
+      parent_path = ::component_get_path( c_c:c_c );
     else
       TRACE::log( flavor:"failure", id:110, message:"error building path of package" );
     end if;

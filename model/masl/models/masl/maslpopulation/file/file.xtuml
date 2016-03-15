@@ -96,7 +96,7 @@ elif ( "domain" == element )
             end if;
             // Domain files go into a directory named after the domain.
             file.directory( name:domain.name );
-            file.copy( source:code_block.sourcefile, destination:domain.name + "_" + activity.name + file.suffix );
+            file.copy( source:code_block.sourcefile, destination:object.name + "_" + activity.name + file.suffix );
           end if;
         end for;
         // state actions
