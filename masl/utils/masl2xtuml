@@ -9,7 +9,11 @@ print_usage () { echo "Usage:" $0 "[-p <project source directory(s) ...> ] [-d <
 # set up paths
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/lib/"
 export PATH=$DIR:$PATH
-CLASSPATH="$DIR/antlr-3.5.2-complete.jar:$DIR/MASLParser-20160307.jar"
+TMPCP="$DIR/*.jar"
+CP=.
+for cp in $TMPCP; do
+    CP=$CP:$cp
+done
 
 # input variables
 PROJ_DIRS=()
@@ -57,8 +61,7 @@ for domain in ${DOM_DIRS[*]}; do
     shopt -s nullglob
     files=`echo $domain/*.svc $domain/*.fn $domain/*.scn $domain/*.ext $domain/*.al $domain/*.tr`
     cp $files $DN
-    #echo "java -cp $CLASSPATH MaslImportParser -d $domain | m2x > $FN"
-    java -cp $CLASSPATH MaslImportParser -d $domain | m2x > $DN/`basename $domain`.xtuml
+    ( java -cp $CP MaslImportParser -d $domain ) | m2x > $DN/`basename $domain`.xtuml
 done
 
 # process projects
@@ -68,6 +71,5 @@ for project in ${PROJ_DIRS[*]}; do
     shopt -s nullglob
     files=`echo $project/*.tr`
     cp $files $DN
-    #echo "java -cp $CLASSPATH MaslImportParser -p $project | m2x > $FN"
-    java -cp $CLASSPATH MaslImportParser -p $project | m2x > $DN/`basename $project`.xtuml
+    ( java -cp $CP MaslImportParser -p $project ) | m2x > $DN/`basename $project`.xtuml
 done
