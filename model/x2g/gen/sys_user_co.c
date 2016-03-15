@@ -14,7 +14,7 @@
  * callout points.
  *--------------------------------------------------------------------------*/
 
-#include "xtuml2graphics_sys_types.h"
+#include "x2g_sys_types.h"
 #include "sys_user_co.h"
 
 #ifdef SYS_USER_CO_PRINTF_ON

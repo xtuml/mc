@@ -44,7 +44,12 @@ INSERT INTO S_SYNC
 // Query the xtUML meta-model and populate the MASL meta-model.
 
 select any s_sys from instances of S_SYS;
-if ( empty s_sys )
+if ( not_empty s_sys )
+  select many ep_pkgs related by s_sys->EP_PKG[R1401];
+  for each ep_pkg in ep_pkgs
+    ::package( ep_pkg:ep_pkg ); 
+  end for;
+else
   TRACE::log( flavor:"failure", id:1, message:"ERROR:  system model not found" );
 end if;
 
@@ -55,6 +60,118 @@ TRACE::log( flavor:"info", id:102, message:"Done" );
 	'');
 INSERT INTO PE_PE
 	VALUES ("ba7aaa57-2964-4aef-af5a-7019542db760",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("13a71c52-1975-45c8-a9d6-733e8ef097e4",
+	"00000000-0000-0000-0000-000000000000",
+	'package',
+	'',
+	'// select the contained elements to gen from
+ep_pkg = param.ep_pkg;
+//select many o_objs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001];
+select many o_objs from instances of O_OBJ;
+for each o_obj in o_objs
+  ::class( o_obj:o_obj );
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("594d8ddd-bf67-48b0-aba2-93f87f4c650a",
+	"13a71c52-1975-45c8-a9d6-733e8ef097e4",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("9939c670-a721-4742-a824-ed4b0df4acd6",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Package>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Element Packaging/Element Packaging.xtuml');
+INSERT INTO PE_PE
+	VALUES ("13a71c52-1975-45c8-a9d6-733e8ef097e4",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("4d3b7db5-8458-475b-8fca-2cebf49e7cb3",
+	"00000000-0000-0000-0000-000000000000",
+	'class',
+	'',
+	'o_obj = param.o_obj;
+select one ism_sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
+if ( not_empty ism_sm_sm )
+  ::instancestatemachine( sm_sm:ism_sm_sm );
+end if;
+select one asm_sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517];
+if ( not_empty asm_sm_sm )
+  //::classstatemachine( sm_sm:asm_sm_sm );
+end if;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("2c4d0db0-68ab-4094-b8f7-ea5017ef7007",
+	"4d3b7db5-8458-475b-8fca-2cebf49e7cb3",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("63f4ff99-f127-443b-a678-30ace41da702",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Model Class>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Subsystem/Subsystem.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4d3b7db5-8458-475b-8fca-2cebf49e7cb3",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("359dd44e-b6d1-43b6-8f4d-2f2a52876008",
+	"00000000-0000-0000-0000-000000000000",
+	'instancestatemachine',
+	'',
+	'// select the contained elements to gen from
+sm_sm = param.sm_sm;
+
+select one o_obj related by sm_sm->SM_ISM[R517]->O_OBJ[R518];
+TRACE::log( flavor:"info", id:204, message:"object name of SM_SM is " + o_obj.Name );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("97627fe4-af58-4cbf-bc6e-96b85a62db16",
+	"359dd44e-b6d1-43b6-8f4d-2f2a52876008",
+	'sm_sm',
+	"f6562655-0940-4f4f-a1ae-7094b79949a7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("f6562655-0940-4f4f-a1ae-7094b79949a7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<State Machine>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO PE_PE
+	VALUES ("359dd44e-b6d1-43b6-8f4d-2f2a52876008",
 	1,
 	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
 	"00000000-0000-0000-0000-000000000000",

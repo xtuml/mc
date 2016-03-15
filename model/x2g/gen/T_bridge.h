@@ -16,7 +16,7 @@ extern	"C"	{
 #endif
 
 #include <string.h>
-#include "xtuml2graphics_sys_types.h"
+#include "x2g_sys_types.h"
 c_t * T_s( const i_t );
 void T_emit( c_t * );
 void T_clear( void );

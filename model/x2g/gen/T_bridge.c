@@ -10,7 +10,7 @@
  *--------------------------------------------------------------------------*/
 
 #include <ctype.h>
-#include "xtuml2graphics_sys_types.h"
+#include "x2g_sys_types.h"
 #include "T_bridge.h"
 
 extern bool Escher_run_flag;
