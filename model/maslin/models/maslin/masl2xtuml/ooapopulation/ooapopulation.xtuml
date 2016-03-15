@@ -853,8 +853,17 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'attr_name = param.name;
-// TODO - handle other parameters to this function
-self.current_attribute = self.ModelClass_newAttribute(o_obj:self.current_class, attr_name:attr_name);',
+
+self.current_attribute = self.ModelClass_newAttribute(o_obj:self.current_class, attr_name:attr_name);
+
+if ( "preferred" == param.preferred )
+  self.Attribute_addToIdentifier(o_attr:self.current_attribute, oid:0);
+end if;
+
+if ( "unique" == param.unique )
+  self.transformType(name:"MASLunique", visibility:"public", definition:"");
+  self.Attribute_setType(o_attr:self.current_attribute, type_name:"MASLunique");
+end if;',
 	1,
 	'',
 	"a1b455eb-8d8e-44a5-a755-7bd2a08eaec7");

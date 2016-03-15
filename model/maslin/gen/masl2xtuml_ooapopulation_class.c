@@ -929,6 +929,18 @@ masl2xtuml_ooapopulation_op_transformAttribute( masl2xtuml_ooapopulation * self,
   attr_name = Escher_strcpy( attr_name, p_name );
   /* ASSIGN self.current_attribute = self.ModelClass_newAttribute(attr_name:attr_name, o_obj:self.current_class) */
   self->current_attribute = masl2xtuml_ooapopulation_op_ModelClass_newAttribute(self, attr_name, self->current_class);
+  /* IF ( ( preferred == PARAM.preferred ) ) */
+  if ( ( Escher_strcmp( "preferred", p_preferred ) == 0 ) ) {
+    /* self.Attribute_addToIdentifier( o_attr:self.current_attribute, oid:0 ) */
+    masl2xtuml_ooapopulation_op_Attribute_addToIdentifier( self,  self->current_attribute, 0 );
+  }
+  /* IF ( ( unique == PARAM.unique ) ) */
+  if ( ( Escher_strcmp( "unique", p_unique ) == 0 ) ) {
+    /* self.transformType( definition:, name:MASLunique, visibility:public ) */
+    masl2xtuml_ooapopulation_op_transformType( self,  "", "MASLunique", "public" );
+    /* self.Attribute_setType( o_attr:self.current_attribute, type_name:MASLunique ) */
+    masl2xtuml_ooapopulation_op_Attribute_setType( self,  self->current_attribute, "MASLunique" );
+  }
 }
 
 /*

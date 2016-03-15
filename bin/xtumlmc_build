@@ -1130,7 +1130,7 @@ sub xtuml2masl
   use File::Path qw(make_path);
   eval { make_path("$out_dir") };
   if ($@) {
-    print STDERR "-masl2xtuml: ERROR could not create directory '$out_dir'\n";
+    print STDERR "-xtuml2masl: ERROR could not create directory '$out_dir'\n";
     exit 1
   }
 
@@ -1163,7 +1163,7 @@ sub xtuml2masl
     &xtumlmc_cleanse_for_BridgePoint ( "$i/gen/code_generation/z.xtuml", "$i/gen/code_generation/a.xtuml" );
 
     # call the utilities
-    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $command | masl $command $validate -o$out_dir";
+    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $command | masl $validate -i$i $command -o$out_dir";
     print STDERR "$sys_cmd\n";
     system( $sys_cmd );
 
