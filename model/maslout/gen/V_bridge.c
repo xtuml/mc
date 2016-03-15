@@ -14,7 +14,6 @@
 #include "STRING_bridge.h"
 #include "TRACE_bridge.h"
 #include "V_bridge.h"
-#include "V_bridge.h"
 
 /*
  * Bridge:  v

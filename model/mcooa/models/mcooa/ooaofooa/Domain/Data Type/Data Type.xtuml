@@ -16,7 +16,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("79f2da57-ed46-4840-a3df-f4a9a5d9b310",
 	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
-	"514c0d2b-556f-4eb5-9b47-350e5a33a70b",
+	"263bd145-e420-4908-90b1-a23b1050f112",
 	'Name',
 	'Full Name: Data Type Name',
 	'',
@@ -41,57 +41,6 @@ INSERT INTO O_ATTR
 	'Descrip',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
-	'',
-	'');
-INSERT INTO O_REF
-	VALUES ("b23d48f2-7281-4a18-8944-41a4182b7ce1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	0,
-	"6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"462ea1e4-5a40-445a-8e9e-d2e99a7837e7",
-	"e2b8ce2e-0bf7-4381-be4e-fd6cc22a5dfb",
-	"becf7cc9-325e-4f34-9232-0d1f16dc306f",
-	"514c0d2b-556f-4eb5-9b47-350e5a33a70b",
-	"2c799f31-4188-435e-825d-81e7938e3d84",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Domain',
-	'Dom_ID',
-	'R14.''defines types available within''');
-INSERT INTO R_RGO_PROXY
-	VALUES ("b23d48f2-7281-4a18-8944-41a4182b7ce1",
-	"462ea1e4-5a40-445a-8e9e-d2e99a7837e7",
-	"e2b8ce2e-0bf7-4381-be4e-fd6cc22a5dfb",
-	'../Domain.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	0,
-	"462ea1e4-5a40-445a-8e9e-d2e99a7837e7",
-	"becf7cc9-325e-4f34-9232-0d1f16dc306f",
-	'../Domain.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("514c0d2b-556f-4eb5-9b47-350e5a33a70b",
-	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
-	"6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	1,
-	'Dom_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	'../Domain/Domain.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("514c0d2b-556f-4eb5-9b47-350e5a33a70b",
-	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
-	"5cdd7449-254e-495b-9dc3-1eeb34212190",
-	'Dom_ID',
-	'',
-	'',
-	'Dom_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
 INSERT INTO O_NBATTR
@@ -163,6 +112,24 @@ INSERT INTO O_ATTR
 	'DT_ID',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("263bd145-e420-4908-90b1-a23b1050f112",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1");
+INSERT INTO O_BATTR
+	VALUES ("263bd145-e420-4908-90b1-a23b1050f112",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1");
+INSERT INTO O_ATTR
+	VALUES ("263bd145-e420-4908-90b1-a23b1050f112",
+	"b23d48f2-7281-4a18-8944-41a4182b7ce1",
+	"5cdd7449-254e-495b-9dc3-1eeb34212190",
+	'Dom_IDdeprecated',
+	'',
+	'',
+	'Dom_IDdeprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID

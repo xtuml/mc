@@ -104,50 +104,22 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
-INSERT INTO O_REF
-	VALUES ("041138e2-fb32-43bf-b3df-6300cbb76025",
-	"a532550b-16f4-4e0e-8849-1a53aa26896f",
-	1,
-	"09a13f71-e683-4da6-a687-795c10a746da",
-	"46a6caa1-6369-4674-aa54-1ed19b66a52f",
-	"c5e95270-6968-42b3-be35-295083a9ac05",
-	"05db52c9-4db9-425d-a49d-4d663b82f7b8",
-	"3839664b-0d89-49b6-b4f3-f1e8ddf1638c",
-	"e805dda9-e288-4de8-a1bc-ef5e26bd1af3",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'State Machine Event',
-	'SMspd_ID',
-	'R525');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("09a13f71-e683-4da6-a687-795c10a746da",
-	"a532550b-16f4-4e0e-8849-1a53aa26896f",
-	1,
-	"46a6caa1-6369-4674-aa54-1ed19b66a52f",
-	"05db52c9-4db9-425d-a49d-4d663b82f7b8",
-	'../State Machine.xtuml');
-INSERT INTO O_RATTR
+INSERT INTO O_NBATTR
 	VALUES ("3839664b-0d89-49b6-b4f3-f1e8ddf1638c",
-	"041138e2-fb32-43bf-b3df-6300cbb76025",
-	"95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	1,
-	'SMspd_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	'../Event Supplemental Data/Event Supplemental Data.xtuml');
+	"041138e2-fb32-43bf-b3df-6300cbb76025");
+INSERT INTO O_BATTR
+	VALUES ("3839664b-0d89-49b6-b4f3-f1e8ddf1638c",
+	"041138e2-fb32-43bf-b3df-6300cbb76025");
 INSERT INTO O_ATTR
 	VALUES ("3839664b-0d89-49b6-b4f3-f1e8ddf1638c",
 	"041138e2-fb32-43bf-b3df-6300cbb76025",
 	"97d7b79b-1c0e-4b88-826d-2137cdeebee2",
-	'SMspd_ID',
+	'SMspd_IDdeprecated',
 	'',
 	'',
-	'SMspd_ID',
+	'SMspd_IDdeprecated',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID
@@ -163,11 +135,6 @@ INSERT INTO O_OIDA
 	"041138e2-fb32-43bf-b3df-6300cbb76025",
 	0,
 	'SM_ID');
-INSERT INTO O_OIDA
-	VALUES ("3839664b-0d89-49b6-b4f3-f1e8ddf1638c",
-	"041138e2-fb32-43bf-b3df-6300cbb76025",
-	0,
-	'SMspd_ID');
 INSERT INTO O_ID
 	VALUES (1,
 	"041138e2-fb32-43bf-b3df-6300cbb76025");
