@@ -1,0 +1,83 @@
+-- BP 7.1.6 content: Package syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO EP_PKG
+	VALUES ("53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	"7f685551-3fe6-4c32-a2a4-d1cac568d8c7",
+	'x2g',
+	'',
+	0);
+INSERT INTO GD_MD
+	VALUES ("d733e11b-f99c-4f5b-a553-101caca87913",
+	112,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	108,
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'4.1.17',
+	'x2g::lib::xtuml2graphics::x2g');
+INSERT INTO DIM_DIA
+	VALUES ("d733e11b-f99c-4f5b-a553-101caca87913",
+	'',
+	1.000000,
+	4000.000000,
+	3000.000000,
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_SYNC
+	VALUES ("ba7aaa57-2964-4aef-af5a-7019542db760",
+	"00000000-0000-0000-0000-000000000000",
+	'system',
+	'',
+	'TRACE::log( flavor:"info", id:101, message:"Starting Graphics Population" );
+
+// Query and Populate
+// Query the xtUML meta-model and populate the MASL meta-model.
+
+select any s_sys from instances of S_SYS;
+if ( empty s_sys )
+  TRACE::log( flavor:"failure", id:1, message:"ERROR:  system model not found" );
+end if;
+
+TRACE::log( flavor:"info", id:102, message:"Done" );
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO PE_PE
+	VALUES ("ba7aaa57-2964-4aef-af5a-7019542db760",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO PE_PE
+	VALUES ("53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	1,
+	"00000000-0000-0000-0000-000000000000",
+	"7fbd2bdb-65c4-489a-8c17-cc5ada4981f0",
+	7);
+INSERT INTO C_C_PROXY
+	VALUES ("7fbd2bdb-65c4-489a-8c17-cc5ada4981f0",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	'xtuml2graphics',
+	'',
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'../xtuml2graphics.xtuml');
+INSERT INTO S_SYS_PROXY
+	VALUES ("7f685551-3fe6-4c32-a2a4-d1cac568d8c7",
+	'x2g',
+	1,
+	'../../../x2g.xtuml');
