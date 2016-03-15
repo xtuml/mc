@@ -1,0 +1,204 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("1416f703-db51-4598-b9ca-f24cc279da0e",
+	'markable',
+	3774,
+	'markable',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("7b3548a2-2120-43ca-904f-0de8634f06a1",
+	"1416f703-db51-4598-b9ca-f24cc279da0e",
+	'populate',
+	'',
+	"fd8da7a6-2f02-4846-958e-f29128812fc2",
+	0,
+	'create object instance markable of markable;
+element = element::populate( name:param.name );
+relate markable to element across R3786;
+return markable;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("2e7d1984-31c5-4319-b3ff-d5baaf6973f1",
+	"7b3548a2-2120-43ca-904f-0de8634f06a1",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("fd8da7a6-2f02-4846-958e-f29128812fc2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<markable>',
+	'',
+	'',
+	'../maslpopulation.xtuml');
+INSERT INTO O_TFR
+	VALUES ("31e08a49-b6f3-44e9-bba4-062ba7bc3191",
+	"1416f703-db51-4598-b9ca-f24cc279da0e",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+select one project related by self->project[R3783];
+select one domain related by self->domain[R3783];
+select one exception related by self->exception[R3783];
+select one type related by self->type[R3783];
+select one member related by self->member[R3783];
+select one terminator related by self->terminator[R3783];
+select one activity related by self->activity[R3783];
+select one relationship related by self->relationship[R3783];
+select one object related by self->object[R3783];
+select one attribute related by self->attribute[R3783];
+select one event related by self->event[R3783];
+select one identifier related by self->identifier[R3783];
+select one state_machine related by self->state_machine[R3783];
+
+if ( not_empty project )
+  valid = project.validate();
+elif ( not_empty domain )
+  valid = domain.validate();
+elif ( not_empty exception )
+  valid = exception.validate();
+elif ( not_empty type )
+  valid = type.validate();
+elif ( not_empty member )
+  valid = member.validate();
+elif ( not_empty terminator )
+  valid = terminator.validate();
+elif ( not_empty activity )
+  valid = activity.validate();
+elif ( not_empty relationship )
+  valid = relationship.validate();
+elif ( not_empty object )
+  valid = object.validate();
+elif ( not_empty attribute )
+  valid = attribute.validate();
+elif ( not_empty event )
+  valid = event.validate();
+elif ( not_empty identifier )
+  valid = identifier.validate();
+else
+  valid = state_machine.validate();
+end if;
+
+return valid;',
+	1,
+	'',
+	"b1850fad-bb57-4d6f-91b1-23e0e7ef73db");
+INSERT INTO O_TFR
+	VALUES ("b246cf4b-42f5-4e3d-86ae-056cc20a61b8",
+	"1416f703-db51-4598-b9ca-f24cc279da0e",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[8] = "";
+value[0] = "";
+//out::( element:"template_class", value:value );',
+	1,
+	'',
+	"7b3548a2-2120-43ca-904f-0de8634f06a1");
+INSERT INTO O_TFR
+	VALUES ("b1850fad-bb57-4d6f-91b1-23e0e7ef73db",
+	"1416f703-db51-4598-b9ca-f24cc279da0e",
+	'render_marking',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select any pragma_list related by self->pragma_list[R3782] where ( param.list == selected.name );
+if ( not_empty pragma_list )
+  pragma_list.render();
+end if;',
+	1,
+	'',
+	"bdb91b44-d996-4257-bce3-96c137ff0633");
+INSERT INTO O_TPARM
+	VALUES ("1cdbdfe2-4cf8-4764-82c0-bc187c2afb72",
+	"b1850fad-bb57-4d6f-91b1-23e0e7ef73db",
+	'list',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("bdb91b44-d996-4257-bce3-96c137ff0633",
+	"1416f703-db51-4598-b9ca-f24cc279da0e",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one project related by self->project[R3783];
+select one domain related by self->domain[R3783];
+select one exception related by self->exception[R3783];
+select one type related by self->type[R3783];
+select one member related by self->member[R3783];
+select one terminator related by self->terminator[R3783];
+select one activity related by self->activity[R3783];
+select one relationship related by self->relationship[R3783];
+select one object related by self->object[R3783];
+select one attribute related by self->attribute[R3783];
+select one event related by self->event[R3783];
+select one identifier related by self->identifier[R3783];
+select one state_machine related by self->state_machine[R3783];
+
+if ( not_empty project )
+  project.render();
+elif ( not_empty domain )
+  domain.render();
+elif ( not_empty exception )
+  exception.render();
+elif ( not_empty type )
+  type.render();
+elif ( not_empty member )
+  member.render();
+elif ( not_empty terminator )
+  terminator.render();
+elif ( not_empty activity )
+  activity.render();
+elif ( not_empty relationship )
+  relationship.render();
+elif ( not_empty object )
+  object.render();
+elif ( not_empty attribute )
+  attribute.render();
+elif ( not_empty event )
+  event.render();
+elif ( not_empty identifier )
+  identifier.render();
+else
+  state_machine.render();
+end if;',
+	1,
+	'',
+	"b246cf4b-42f5-4e3d-86ae-056cc20a61b8");
+INSERT INTO O_ID
+	VALUES (0,
+	"1416f703-db51-4598-b9ca-f24cc279da0e");
+INSERT INTO O_ID
+	VALUES (1,
+	"1416f703-db51-4598-b9ca-f24cc279da0e");
+INSERT INTO O_ID
+	VALUES (2,
+	"1416f703-db51-4598-b9ca-f24cc279da0e");
+INSERT INTO PE_PE
+	VALUES ("1416f703-db51-4598-b9ca-f24cc279da0e",
+	1,
+	"d432b434-2811-4b2d-92d2-5c964f00b191",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("d432b434-2811-4b2d-92d2-5c964f00b191",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'maslpopulation',
+	'',
+	0,
+	'../maslpopulation.xtuml');

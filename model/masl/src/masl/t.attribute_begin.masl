@@ -1,0 +1,7 @@
+T_b("    ");
+T_b(self->name);
+T_b(" : ");
+T_b(self->preferred);
+T_b(" ");
+T_b(self->unique);
+T_b(" ");

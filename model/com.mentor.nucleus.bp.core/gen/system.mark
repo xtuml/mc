@@ -1,8 +1,0 @@
-.select many s_syss from instances of S_SYS
-.for each s_sys in s_syss
-  .assign s_sys.Name = "sys"
-.end for
-.invoke TagDynamicMemoryAllocationOn( 10 )
-.invoke TagInstanceLoading()
-.invoke TagMaximumStringLength( 840 )
-.//

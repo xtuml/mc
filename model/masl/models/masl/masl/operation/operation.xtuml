@@ -1,0 +1,257 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("2a532900-c65a-4b9d-bc79-d836cdc84970",
+	'operation',
+	3705,
+	'operation',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970",
+	'populate',
+	'',
+	"1e5bcd4f-5fa3-4d29-b0f3-c585a35b6c90",
+	0,
+	'parent_object = param.parent_object;
+
+select any activity related by parent_object->operation[R3749]->activity[R3704] where ( selected.name == param.name );
+select one operation related by activity->operation[R3704];
+
+if ( empty operation )
+  activity = activity::populate( name:param.name );
+  create object instance operation of operation;
+  operation.visibility = param.visibility;
+  operation.instance = param.instance;
+  relate operation to parent_object across R3749;
+  if ( "" != param.deferred_relationship )
+    select any relationship related by operation->object[R3749]->participation[R3714]->relationship[R3713] where ( selected.name == param.deferred_relationship );
+    select one subsuper related by relationship->subsuper[R3721];
+    relate operation to subsuper across R3793.''defers to'';
+  end if;
+  relate operation to activity across R3704;
+  markable = markable::populate( name:"operation" );
+  relate activity to markable across R3783;
+end if;
+
+return operation;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("142b5999-d38f-4ecf-accb-b92509be173a",
+	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	'visibility',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("3423b009-27c4-4d42-8ffc-3e8cafb6cbb9",
+	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"142b5999-d38f-4ecf-accb-b92509be173a",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a02ded46-768e-4321-9a9f-6b55cb219b8b",
+	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	'instance',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3423b009-27c4-4d42-8ffc-3e8cafb6cbb9",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("7894cf96-6c95-49ab-a912-bcd82856c033",
+	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	'deferred_relationship',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a02ded46-768e-4321-9a9f-6b55cb219b8b",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("8b45dbd4-8e30-460a-80a9-63c2d4b48036",
+	"bf04f00c-4226-4f60-932e-b8c6751d1a21",
+	'parent_object',
+	"42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	0,
+	'',
+	"7894cf96-6c95-49ab-a912-bcd82856c033",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("42488ce2-7c14-405b-ab4a-c6b5a73ef562",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<object>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("1e5bcd4f-5fa3-4d29-b0f3-c585a35b6c90",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<operation>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("e889e439-cdfe-4477-b73a-7a33f6c3cbfc",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'name = param.name;
+visibility = self.visibility;
+deferred = "";
+instance = self.instance;
+flavor = "service";
+returntype = "";
+select one relationship related by self->subsuper[R3793.''defers to'']->relationship[R3721];
+if ( not_empty relationship )
+  deferred = relationship.name;
+end if;
+select one returntyperef related by self->typeref[R3741];
+if ( not_empty returntyperef )
+  flavor = "function";
+  returntype = returntyperef.body;
+end if;
+T::include( file:"masl/t.operation_begin.masl" );
+select one parameter related by self->activity[R3704]->parameter[R3705.''carries first''];
+if ( not_empty parameter )
+  parameter.render();
+end if;
+T::include( file:"masl/t.operation_end.masl" );',
+	1,
+	'',
+	"bf04f00c-4226-4f60-932e-b8c6751d1a21");
+INSERT INTO O_TPARM
+	VALUES ("63f0e4a9-953d-4562-b089-ee7781ca3b32",
+	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("3668380d-531d-4fe0-84c1-4d984a2aaa53",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate visibility
+if ( "public" != self.visibility and "private" != self.visibility )
+  TRACE::log( flavor:"failure", id:101, message:"invalid visibility for routine: " + self.visibility );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate instance
+if ( "instance" != self.instance and "" != self.instance )
+  TRACE::log( flavor:"failure", id:101, message:"invalid instance for routine: " + self.instance );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+// validate deferred
+select one subsuper related by self->subsuper[R3793.''defers to''];
+if ( not_empty subsuper )
+  select one parent_object related by self->object[R3749.''transforms''];
+  select one target_object related by self->subsuper[R3793.''defers to'']->relationship[R3721]->participation[R3713.''engages'']->object[R3714.''one''];
+  if ( parent_object != target_object )
+    TRACE::log( flavor:"failure", id:101, message:"invalid relationship for deferred operation" );
+    valid = false;
+    return valid;		// short circuit
+  end if;
+end if;
+
+
+// validate children
+select one child_activity related by self->activity[R3704];
+if ( not_empty child_activity )
+  valid = child_activity.validate();
+  if ( false == valid )
+    return valid;	// short circuit
+  end if;
+else
+  TRACE::log( flavor:"failure", id:101, message:"no activity for operation" );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+select one returntyperef related by self->typeref[R3741];
+if ( not_empty returntyperef )
+  valid = returntyperef.validate();
+end if;
+
+return valid;',
+	1,
+	'',
+	"e889e439-cdfe-4477-b73a-7a33f6c3cbfc");
+INSERT INTO O_NBATTR
+	VALUES ("6874e016-5548-463e-a51a-c63ea78ca5f7",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_BATTR
+	VALUES ("6874e016-5548-463e-a51a-c63ea78ca5f7",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_ATTR
+	VALUES ("6874e016-5548-463e-a51a-c63ea78ca5f7",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970",
+	"00000000-0000-0000-0000-000000000000",
+	'visibility',
+	'',
+	'',
+	'visibility',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("69fb8c4d-f075-4e02-90e0-44f80358a4fb",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_BATTR
+	VALUES ("69fb8c4d-f075-4e02-90e0-44f80358a4fb",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_ATTR
+	VALUES ("69fb8c4d-f075-4e02-90e0-44f80358a4fb",
+	"2a532900-c65a-4b9d-bc79-d836cdc84970",
+	"6874e016-5548-463e-a51a-c63ea78ca5f7",
+	'instance',
+	'',
+	'',
+	'instance',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_ID
+	VALUES (1,
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO O_ID
+	VALUES (2,
+	"2a532900-c65a-4b9d-bc79-d836cdc84970");
+INSERT INTO PE_PE
+	VALUES ("2a532900-c65a-4b9d-bc79-d836cdc84970",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

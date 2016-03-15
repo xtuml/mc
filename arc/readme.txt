@@ -4,7 +4,7 @@ Installing and using the Component Model Compiler
 HowTo to Change the Model Compiler:
 
 To change the model compiler, edit the archetypes (queries and templates)
-in the com.mentor.nucleus.bp.mc.mc3020_3.2.0/mc3020/arc folder.
+in the org.xtuml.bp.mc.c.source_5.2.0/mc3020/arc folder.
 sys.arc is the root archetype.  All translation starts from here.
 q.* are queries t.* are templates.
 Queries read the meta-model to extract customer model information.
@@ -23,5 +23,4 @@ Restrictions:
 
 - Cannot copy arrays and structures.
 - Structure fields are not generated in the modeled order.
-- Indenting/formatting of generated code is primitive at the moment.
 

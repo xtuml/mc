@@ -168,9 +168,8 @@
 .assign all_instance_dumpersd = ""
 .assign all_instance_dumpers = ""
 .assign all_max_class_numbers = "0"
-.select many te_cs from instances of TE_C where ( selected.included_in_build )
-.for each te_c in te_cs
-  .if ( te_c.internal_behavior )
+.assign te_c = first_te_c
+.while ( not_empty te_c )
     .select one te_dci related by te_c->TE_DCI[R2090]
     .assign all_domain_include_files = all_domain_include_files + "#include ""${te_c.classes_file}.${te_file.hdr_file_ext}""\n"
     .assign all_instance_loaders = all_instance_loaders + "  ${te_c.Name}_instance_loaders,\n"
@@ -178,8 +177,8 @@
     .assign all_instance_dumpersd = all_instance_dumpersd + "extern ${te_prefix.result}idf ${te_c.Name}_instance_dumpers[ ${te_dci.max} ];\n"
     .assign all_instance_dumpers = all_instance_dumpers + "  ${te_c.Name}_instance_dumpers,\n"
     .assign all_max_class_numbers = ( all_max_class_numbers + " + " ) + te_dci.max
-  .end if
-.end for
+  .select one te_c related by te_c->TE_C[R2017.'succeeds']
+.end while
 .//
 .//
 .//
@@ -284,15 +283,7 @@
   .invoke r = TE_DT_EnumerationDataTypes( te_dt )
   .assign te_typemap.enumeration_info = te_typemap.enumeration_info + r.body
 .end for
-.select many enumeration_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_EDT[R17]->S_DT[R17]->TE_DT[R2021]
-.for each te_dt in enumeration_te_dts
-  .invoke r = TE_DT_EnumerationDataTypes( te_dt )
-  .assign te_typemap.enumeration_info = te_typemap.enumeration_info + r.body
-.end for
 .select many structured_te_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
-.invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
-.assign te_typemap.structured_data_types = te_typemap.structured_data_types + s.body
-.select many structured_te_dts related by s_syss->SLD_SDINP[R4402]->S_DT[R4401]->S_SDT[R17]->S_DT[R17]->TE_DT[R2021]
 .invoke s = TE_DT_StructuredDataTypes( structured_te_dts )
 .assign te_typemap.structured_data_types = te_typemap.structured_data_types + s.body
 .// Get all components, not just those with internal behavior.

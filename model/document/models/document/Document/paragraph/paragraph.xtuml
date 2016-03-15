@@ -1,0 +1,297 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	'paragraph',
+	2306,
+	'DOC_PAR',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("b05b527c-046d-4afc-9cce-c76d453706d2",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select any doc_par from instances of DOC_PAR;
+doc_par = self;
+
+if ( self.formatted )
+  T::include( file:"docbook/t.paragraph_begin.xml" );
+else
+  T::include( file:"docbook/t.programlistingbegin.xml" );
+end if;
+select one doc_tbl related by self->DOC_TBL[R2315];
+if ( not_empty doc_tbl )
+  doc_tbl.render();
+end if;
+select one doc_fig related by self->DOC_FIG[R2316];
+if ( not_empty doc_fig )
+  doc_fig.render();
+end if;
+select one doc_img related by self->DOC_IMG[R2319];
+if ( not_empty doc_img )
+  doc_img.render();
+end if;
+if ( self.formatted )
+  T::include( file:"docbook/t.paragraph_end.xml" );
+else
+  T::include( file:"docbook/t.programlistingend.xml" );
+end if;
+
+// Render the next (and the next and the next) paragraph.
+select one doc_par related by self->DOC_PAR[R2314.''follows''];
+if ( not_empty doc_par )
+  doc_par.render();
+end if;
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("28117f40-a361-47fa-80eb-a1c8c8d59647",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	'populate',
+	'',
+	"1e22a7fa-abd8-4676-a5ff-2cb3c9bff5fe",
+	0,
+	'predecessor = param.predecessor;
+parent_doc_sec = param.doc_sec;
+create object instance doc_par of DOC_PAR;
+doc_par.text = param.text;
+//
+// ptext is for long strings, such as OAL listings.
+//
+doc_par.ptext = param.text;
+doc_par.formatted = true;
+if ( not_empty predecessor )
+  relate predecessor to doc_par across R2314.''follows'';
+end if;
+if ( not_empty parent_doc_sec )
+  relate doc_par to parent_doc_sec across R2305;
+end if;
+return doc_par;',
+	1,
+	'',
+	"b05b527c-046d-4afc-9cce-c76d453706d2");
+INSERT INTO O_TPARM
+	VALUES ("3c968b8d-1107-4624-818c-42e424aa7164",
+	"28117f40-a361-47fa-80eb-a1c8c8d59647",
+	'text',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a453f50e-c475-4af9-96f6-d1e46795d835",
+	"28117f40-a361-47fa-80eb-a1c8c8d59647",
+	'predecessor',
+	"1e22a7fa-abd8-4676-a5ff-2cb3c9bff5fe",
+	0,
+	'',
+	"3c968b8d-1107-4624-818c-42e424aa7164",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("1e22a7fa-abd8-4676-a5ff-2cb3c9bff5fe",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<paragraph>',
+	'',
+	'',
+	'../Document.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("f9d4f4bc-3f8a-41d2-b2e9-83de4dbd5410",
+	"28117f40-a361-47fa-80eb-a1c8c8d59647",
+	'doc_sec',
+	"07319e3c-105e-4996-bfb1-bc8d37462007",
+	0,
+	'',
+	"a453f50e-c475-4af9-96f6-d1e46795d835",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("07319e3c-105e-4996-bfb1-bc8d37462007",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<section>',
+	'',
+	'',
+	'../Document.xtuml');
+INSERT INTO O_TFR
+	VALUES ("fdec6695-7926-4cc6-96ee-1f7faf21cde7",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// A paragraph must be a child to a section or have a
+// predecessor or be inside of a table row cell.
+select many doc_pars from instances of DOC_PAR;
+for each doc_par in doc_pars
+  select one doc_cell related by doc_par->DOC_CELL[R2318];
+  if ( empty doc_cell )
+    select one predecessor_doc_par related by doc_par->DOC_PAR[R2314.''precedes''];
+  if ( empty predecessor_doc_par )
+    select one parent_doc_sec related by doc_par->DOC_SEC[R2305];
+  if ( empty parent_doc_sec )
+    LOG::LogFailure( message:"!Paragraph " + doc_par.text + " is not linked." );
+  end if;
+  end if;
+  end if;
+end for;',
+	1,
+	'',
+	"28117f40-a361-47fa-80eb-a1c8c8d59647");
+INSERT INTO O_NBATTR
+	VALUES ("7a2f80c8-bc35-4d94-bedf-90a2fde847e7",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO O_BATTR
+	VALUES ("7a2f80c8-bc35-4d94-bedf-90a2fde847e7",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO O_ATTR
+	VALUES ("7a2f80c8-bc35-4d94-bedf-90a2fde847e7",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	"16b0d1c5-9f41-44fe-b5d0-7dc81dcbbd46",
+	'text',
+	'',
+	'',
+	'text',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6237b1f5-609b-4fc4-a5e9-049cb74d5634",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO O_BATTR
+	VALUES ("6237b1f5-609b-4fc4-a5e9-049cb74d5634",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO O_ATTR
+	VALUES ("6237b1f5-609b-4fc4-a5e9-049cb74d5634",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	"00000000-0000-0000-0000-000000000000",
+	'ID',
+	'',
+	'',
+	'ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_REF
+	VALUES ("71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	"2d8cb3fd-f729-4472-a301-1d874e6479bd",
+	0,
+	"3ba9f96f-ba17-4fcc-a4f3-8f3a25647321",
+	"9c833374-09ba-4d0d-9a03-9e61f95319b9",
+	"47786dd0-2c16-4599-859d-8998b876398c",
+	"232767ab-d3c2-4dd6-93ae-1e728a3dbc35",
+	"16b0d1c5-9f41-44fe-b5d0-7dc81dcbbd46",
+	"e556f403-2dd1-42b9-a73c-21959658e72c",
+	"00000000-0000-0000-0000-000000000000",
+	0,
+	'',
+	'section',
+	'ID',
+	'R2305');
+INSERT INTO R_RGO_PROXY
+	VALUES ("71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	"9c833374-09ba-4d0d-9a03-9e61f95319b9",
+	"47786dd0-2c16-4599-859d-8998b876398c",
+	'../Document.xtuml');
+INSERT INTO O_RTIDA_PROXY
+	VALUES ("3ba9f96f-ba17-4fcc-a4f3-8f3a25647321",
+	"2d8cb3fd-f729-4472-a301-1d874e6479bd",
+	0,
+	"9c833374-09ba-4d0d-9a03-9e61f95319b9",
+	"232767ab-d3c2-4dd6-93ae-1e728a3dbc35",
+	'../Document.xtuml');
+INSERT INTO O_RATTR
+	VALUES ("16b0d1c5-9f41-44fe-b5d0-7dc81dcbbd46",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	"3ba9f96f-ba17-4fcc-a4f3-8f3a25647321",
+	"2d8cb3fd-f729-4472-a301-1d874e6479bd",
+	1,
+	'ID');
+INSERT INTO O_BATTR_PROXY
+	VALUES ("3ba9f96f-ba17-4fcc-a4f3-8f3a25647321",
+	"2d8cb3fd-f729-4472-a301-1d874e6479bd",
+	'../section/section.xtuml');
+INSERT INTO O_ATTR
+	VALUES ("16b0d1c5-9f41-44fe-b5d0-7dc81dcbbd46",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	"6237b1f5-609b-4fc4-a5e9-049cb74d5634",
+	'sectionID',
+	'',
+	'section',
+	'ID',
+	1,
+	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("3796de95-43f6-45e1-96e9-3e8bc02863cf",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO O_BATTR
+	VALUES ("3796de95-43f6-45e1-96e9-3e8bc02863cf",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO O_ATTR
+	VALUES ("3796de95-43f6-45e1-96e9-3e8bc02863cf",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	"edf9d99f-e7ec-4210-b491-910da8a0ce75",
+	'formatted',
+	'',
+	'',
+	'formatted',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("edf9d99f-e7ec-4210-b491-910da8a0ce75",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO O_BATTR
+	VALUES ("edf9d99f-e7ec-4210-b491-910da8a0ce75",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO O_ATTR
+	VALUES ("edf9d99f-e7ec-4210-b491-910da8a0ce75",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	"7a2f80c8-bc35-4d94-bedf-90a2fde847e7",
+	'ptext',
+	'',
+	'',
+	'ptext',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO O_OIDA
+	VALUES ("6237b1f5-609b-4fc4-a5e9-049cb74d5634",
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	0,
+	'ID');
+INSERT INTO O_ID
+	VALUES (1,
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO O_ID
+	VALUES (2,
+	"71bc5412-28f4-4a8d-ab38-95c2df7138cb");
+INSERT INTO PE_PE
+	VALUES ("71bc5412-28f4-4a8d-ab38-95c2df7138cb",
+	1,
+	"1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("1dafa938-86ba-4b87-94bf-ef40d8074cbf",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	"f63b8ed5-4bef-4993-8aba-fe8c8cd9dc99",
+	'Document',
+	'Model of document generated from the application model.
+
+// This is used by schema_gen to ignore this subsystem (for publication)
+TRANSLATE:FALSE',
+	2300,
+	'../Document.xtuml');

@@ -1,0 +1,276 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	'thread',
+	2042,
+	'TE_THREAD',
+	'access:te_prefix
+This class defines the methods and data used in tasking/threading.
+Various flavors of tasking are provided such as Nucleus PLUS, POSIX
+and others.',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("683b9f67-2e1a-46db-8d8d-4073d8aec3ed",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("683b9f67-2e1a-46db-8d8d-4073d8aec3ed",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("683b9f67-2e1a-46db-8d8d-4073d8aec3ed",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"00000000-0000-0000-0000-000000000000",
+	'file',
+	'This is the file name that will contain the RTOS-specific threading/tasking
+interface code.',
+	'',
+	'file',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'"sys_thread"');
+INSERT INTO O_NBATTR
+	VALUES ("d7c42610-119e-462c-acd5-6928f8bda3a3",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("d7c42610-119e-462c-acd5-6928f8bda3a3",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("d7c42610-119e-462c-acd5-6928f8bda3a3",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"e8a2fbea-8e2c-406d-a700-3b2cffb21445",
+	'mutex_lock',
+	'This routine is used to lock a resource.  It''s implementation may be a
+mutex, semaphore, shared memory or other.',
+	'',
+	'mutex_lock',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "mutex_lock"');
+INSERT INTO O_NBATTR
+	VALUES ("ca785b73-f503-4a54-ae17-ec3c50a9b5a8",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("ca785b73-f503-4a54-ae17-ec3c50a9b5a8",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("ca785b73-f503-4a54-ae17-ec3c50a9b5a8",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"d7c42610-119e-462c-acd5-6928f8bda3a3",
+	'mutex_unlock',
+	'This routine is used to unlock a resource previously locked.  The
+implementation may be a mutex, semaphore, shared memory or other.',
+	'',
+	'mutex_unlock',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "mutex_unlock"');
+INSERT INTO O_NBATTR
+	VALUES ("4117c375-86d2-41ef-ba93-d9847b0cead7",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("4117c375-86d2-41ef-ba93-d9847b0cead7",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("4117c375-86d2-41ef-ba93-d9847b0cead7",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"ca785b73-f503-4a54-ae17-ec3c50a9b5a8",
+	'nonbusy_wait',
+	'This routine puts the thread/task to sleep using no/little CPU resource.',
+	'',
+	'nonbusy_wait',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "nonbusy_wait"');
+INSERT INTO O_NBATTR
+	VALUES ("4c4ac381-4a29-41f8-a361-ccd50a3d3a89",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("4c4ac381-4a29-41f8-a361-ccd50a3d3a89",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("4c4ac381-4a29-41f8-a361-ccd50a3d3a89",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"4117c375-86d2-41ef-ba93-d9847b0cead7",
+	'nonbusy_wake',
+	'This routines wakes a sleeping task/thread.',
+	'',
+	'nonbusy_wake',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "nonbusy_wake"');
+INSERT INTO O_NBATTR
+	VALUES ("b303f893-2a78-4f44-ad40-14257b637293",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("b303f893-2a78-4f44-ad40-14257b637293",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("b303f893-2a78-4f44-ad40-14257b637293",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"4c4ac381-4a29-41f8-a361-ccd50a3d3a89",
+	'shutdown',
+	'Here a thread or task is (optionally) cleaned up and cleaned up.',
+	'',
+	'shutdown',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "thread_shutdown"');
+INSERT INTO O_NBATTR
+	VALUES ("e8a2fbea-8e2c-406d-a700-3b2cffb21445",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("e8a2fbea-8e2c-406d-a700-3b2cffb21445",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("e8a2fbea-8e2c-406d-a700-3b2cffb21445",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"683b9f67-2e1a-46db-8d8d-4073d8aec3ed",
+	'create',
+	'This routine creates a new thread/task.',
+	'',
+	'create',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.result + "thread_create"');
+INSERT INTO O_NBATTR
+	VALUES ("2a0c5a23-7f86-44b6-9044-66e75e75e8f5",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("2a0c5a23-7f86-44b6-9044-66e75e75e8f5",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("2a0c5a23-7f86-44b6-9044-66e75e75e8f5",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"b303f893-2a78-4f44-ad40-14257b637293",
+	'enabled',
+	'This indicates whether tasking/threading has been turned on.',
+	'',
+	'enabled',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'false');
+INSERT INTO O_NBATTR
+	VALUES ("d641da07-f372-46b1-b078-acfd40c5f698",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("d641da07-f372-46b1-b078-acfd40c5f698",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("d641da07-f372-46b1-b078-acfd40c5f698",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"2a0c5a23-7f86-44b6-9044-66e75e75e8f5",
+	'flavor',
+	'Presently this can be one of POSIX, Nucleus, Windows, AUTOSAR or OSX.',
+	'',
+	'flavor',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'"POSIX"');
+INSERT INTO O_NBATTR
+	VALUES ("e62818f8-f56a-4f3c-9a74-7e2692f1b008",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("e62818f8-f56a-4f3c-9a74-7e2692f1b008",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("e62818f8-f56a-4f3c-9a74-7e2692f1b008",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"d641da07-f372-46b1-b078-acfd40c5f698",
+	'serialize',
+	'This flag allows the serializing of all state actions even when there are
+more than one thread.  This flag causes the event dispatcher to interleave
+actions among threads.',
+	'',
+	'serialize',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'false');
+INSERT INTO O_NBATTR
+	VALUES ("d613ea35-ccf6-46e0-b1c3-908b19b9dec8",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("d613ea35-ccf6-46e0-b1c3-908b19b9dec8",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("d613ea35-ccf6-46e0-b1c3-908b19b9dec8",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"e62818f8-f56a-4f3c-9a74-7e2692f1b008",
+	'number_of_threads',
+	'This is the count of threads in the xtUML generated system.',
+	'',
+	'number_of_threads',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'1');
+INSERT INTO O_NBATTR
+	VALUES ("291c6cbb-ee3a-4582-84cc-86040ab1019d",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("291c6cbb-ee3a-4582-84cc-86040ab1019d",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("291c6cbb-ee3a-4582-84cc-86040ab1019d",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"d613ea35-ccf6-46e0-b1c3-908b19b9dec8",
+	'extra_initialization',
+	'This attribute will contain extra initialization code used by the various
+threading flavors.',
+	'',
+	'extra_initialization',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("516feab9-9dfe-49e8-8dd6-e8c13d4dda97",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_BATTR
+	VALUES ("516feab9-9dfe-49e8-8dd6-e8c13d4dda97",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ATTR
+	VALUES ("516feab9-9dfe-49e8-8dd6-e8c13d4dda97",
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	"291c6cbb-ee3a-4582-84cc-86040ab1019d",
+	'AUTOSAR_enabled',
+	'This is the name of the constant used to test if AUTOSAR is enabled.',
+	'',
+	'AUTOSAR_enabled',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'te_prefix.define_usw + "AUTOSAR_ENABLED"');
+INSERT INTO O_ID
+	VALUES (0,
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ID
+	VALUES (1,
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO O_ID
+	VALUES (2,
+	"98e15137-db61-4d7d-bfc9-c69ede3022c8");
+INSERT INTO PE_PE
+	VALUES ("98e15137-db61-4d7d-bfc9-c69ede3022c8",
+	1,
+	"08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("08381c43-a334-45bd-a718-37cccb80c24f",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Extensions',
+	'TRANSLATE:TRUE
+This subsystem contains meta objects to assist in the translation process. These objects are not know to Model Builder. The instantiation (via SQL table inserts) must be provided via import operations to the Generator Database.',
+	2200,
+	'../Translation Extensions.xtuml');

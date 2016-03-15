@@ -1,0 +1,150 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("8e83f3d0-9312-48bd-803d-f55634d8f9e7",
+	'expression',
+	3741,
+	'expression',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("facd2db5-480c-4340-a131-96baaae2e92a",
+	"8e83f3d0-9312-48bd-803d-f55634d8f9e7",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.expression.masl" );',
+	1,
+	'',
+	"39e326a5-5f64-4332-9def-67d310d39f3e");
+INSERT INTO O_TFR
+	VALUES ("39e326a5-5f64-4332-9def-67d310d39f3e",
+	"8e83f3d0-9312-48bd-803d-f55634d8f9e7",
+	'populate',
+	'',
+	"0740d88e-e232-4c45-a8af-5542c1eb67d2",
+	0,
+	'parent_attribute = param.parent_attribute;
+
+select one expression related by parent_attribute->expression[R3745.''initialized by''];
+if ( empty expression )
+  create object instance expression of expression;
+  relate parent_attribute to expression across R3745;
+elif ( expression.body != param.body )
+  unrelate expression from parent_attribute across R3745;	// unrelate the old expression
+  create object instance expression of expression;			// create and relate a new expression
+  relate parent_attribute to expression across R3745;
+end if;
+
+expression.body = param.body;
+return expression;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("3298e035-b738-484c-8e96-65dad108a5de",
+	"39e326a5-5f64-4332-9def-67d310d39f3e",
+	'body',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("8f610686-688a-47a8-85cb-5a827b52c81f",
+	"39e326a5-5f64-4332-9def-67d310d39f3e",
+	'parent_attribute',
+	"2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	0,
+	'',
+	"3298e035-b738-484c-8e96-65dad108a5de",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("2c8859d3-78f0-4799-9ba0-e82b40711de3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<attribute>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("0740d88e-e232-4c45-a8af-5542c1eb67d2",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<expression>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("14af9a0e-c845-4fc9-8905-5abbc556ea38",
+	"8e83f3d0-9312-48bd-803d-f55634d8f9e7",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+// validate body
+if ( "" == self.body )
+  TRACE::log( flavor:"failure", id:101, message:"typeref has no body." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+return valid;',
+	1,
+	'',
+	"bdd852cd-1211-4881-b3ec-e0d41e154c8e");
+INSERT INTO O_TFR
+	VALUES ("bdd852cd-1211-4881-b3ec-e0d41e154c8e",
+	"8e83f3d0-9312-48bd-803d-f55634d8f9e7",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'//value[8] = "";
+//value[0] = self.name;
+//out::( element:"template_class", value:value );',
+	1,
+	'',
+	"facd2db5-480c-4340-a131-96baaae2e92a");
+INSERT INTO O_NBATTR
+	VALUES ("513dda12-e8ae-40e7-b517-edc138f8eb6b",
+	"8e83f3d0-9312-48bd-803d-f55634d8f9e7");
+INSERT INTO O_BATTR
+	VALUES ("513dda12-e8ae-40e7-b517-edc138f8eb6b",
+	"8e83f3d0-9312-48bd-803d-f55634d8f9e7");
+INSERT INTO O_ATTR
+	VALUES ("513dda12-e8ae-40e7-b517-edc138f8eb6b",
+	"8e83f3d0-9312-48bd-803d-f55634d8f9e7",
+	"00000000-0000-0000-0000-000000000000",
+	'body',
+	'',
+	'',
+	'body',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"8e83f3d0-9312-48bd-803d-f55634d8f9e7");
+INSERT INTO O_ID
+	VALUES (1,
+	"8e83f3d0-9312-48bd-803d-f55634d8f9e7");
+INSERT INTO O_ID
+	VALUES (2,
+	"8e83f3d0-9312-48bd-803d-f55634d8f9e7");
+INSERT INTO PE_PE
+	VALUES ("8e83f3d0-9312-48bd-803d-f55634d8f9e7",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

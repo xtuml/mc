@@ -1,0 +1,378 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	'participation',
+	3724,
+	'participation',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("cf42fb5a-3aad-4c33-af67-0d26c26e746f",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// Rendering for participation is in each subtype of relationship.',
+	1,
+	'',
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d");
+INSERT INTO O_TFR
+	VALUES ("b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	'populate',
+	'',
+	"54954f4e-9821-47ec-9365-ecd9c1b057b9",
+	0,
+	'// populate gets called more than once to obtain both halves
+// of regular or associative relationship participations.
+fromobject = param.fromobject;
+phrase = param.phrase;
+conditionality = param.conditionality;
+multiplicity = param.multiplicity;
+toobject = param.toobject;
+relationship = param.relationship;
+participation = param.participation;
+
+if ( empty participation )
+  // first half, always get this
+  create object instance participation of participation;
+  participation.onephrase = phrase;
+  participation.oneconditionality = conditionality;
+  participation.onemultiplicity = multiplicity;
+  relate relationship to participation across R3713.''engages'';
+
+  select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
+  if ( not_empty object )
+    relate participation to object across R3714.''one'';
+  else
+    TRACE::log( flavor:"failure", id:84, message:"participation names non-existent object:  " + fromobject );
+    valid = false;
+  end if;
+  unmarkable = unmarkable::populate( name:"participation" );
+  relate participation to unmarkable across R3788;
+else
+  select one subsuper related by relationship->subsuper[R3721];
+  if ( empty subsuper )
+  	// binary relationship
+	participation.otherphrase = phrase;
+	participation.otherconditionality = conditionality;
+	participation.othermultiplicity = multiplicity;
+	
+	select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
+	if ( not_empty object )
+	  relate participation to object across R3720.''other'';
+	else
+	  TRACE::log( flavor:"failure", id:84, message:"participation names non-existent object:  " + fromobject );
+	  valid = false;
+	end if;
+  else
+  	// subsuper relationship
+  	select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == fromobject );
+	if ( not_empty object )
+	  relate participation to object across R3720.''other'';
+	else
+	  TRACE::log( flavor:"failure", id:84, message:"participation names non-existent object:  " + fromobject );
+	  valid = false;
+	end if;
+  end if;
+end if;
+
+return participation;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("8ecbb5ae-bc6e-4f7a-940f-65fcd5e5bad0",
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	'phrase',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"75710807-cc55-4c8a-872f-68ba59bdbdbd",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("3d816441-4b22-4b21-91fd-14df91ae049e",
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	'conditionality',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"8ecbb5ae-bc6e-4f7a-940f-65fcd5e5bad0",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("4dfc73a9-d768-4878-a68a-dd4262f2a283",
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	'multiplicity',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3d816441-4b22-4b21-91fd-14df91ae049e",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("874f754c-1ed7-4706-8d2f-58a0f34b8b60",
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	'relationship',
+	"128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	0,
+	'',
+	"dde64bb0-77e6-4926-a7f6-30deba766e53",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("128f6ac4-0571-4cb8-9779-27a404c8dbdd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<relationship>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("dde64bb0-77e6-4926-a7f6-30deba766e53",
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	'toobject',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"4dfc73a9-d768-4878-a68a-dd4262f2a283",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("75710807-cc55-4c8a-872f-68ba59bdbdbd",
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	'fromobject',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("6e7ab2c3-79d4-49cb-8e87-3ddcf823a546",
+	"b58ae0ba-77bb-4dd4-bf8b-9b33204c8d2d",
+	'participation',
+	"54954f4e-9821-47ec-9365-ecd9c1b057b9",
+	0,
+	'',
+	"874f754c-1ed7-4706-8d2f-58a0f34b8b60",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("54954f4e-9821-47ec-9365-ecd9c1b057b9",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<participation>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("f8eb3cac-9d9b-409b-9bd9-83b593da92a4",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+
+select one associative related by self->relationship[R3713]->associative[R3721];
+select one regularrel related by self->relationship[R3713]->regularrel[R3721];
+select one subsuper related by self->relationship[R3713]->subsuper[R3721];
+
+// check one object
+select one one_object related by self->object[R3714.''one''];
+if ( empty one_object )
+  TRACE::log( flavor:"failure", id:101, message:"participation has no one object." );
+  valid = false;
+  return valid;		// short circuit
+end if;
+
+if ( not_empty associative or not_empty regularrel )
+  // check all attributes
+  if ( "" == self.onephrase )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no one phrase." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+  if ( "" == self.oneconditionality )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no one conditionality." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+  if ( "" == self.onemultiplicity )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no one multiplicity." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+  if ( "" == self.otherphrase )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no other phrase." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+  if ( "" == self.otherconditionality )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no other conditionality." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+  if ( "" == self.othermultiplicity )
+	TRACE::log( flavor:"failure", id:101, message:"participation has no other multiplicity." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+
+  // check only one other object
+  select many others related by self->object[R3720.''other''];
+  if ( 1 != cardinality others )
+	TRACE::log( flavor:"failure", id:101, message:"exactly one other object is required for associative or regular participation." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+
+  if ( not_empty associative )
+    // check uses object
+    select one uses related by self->object[R3715.''uses''];
+    if ( empty uses )
+	  TRACE::log( flavor:"failure", id:101, message:"no uses object for associative participation." );
+	  valid = false;
+	  return valid;		// short circuit
+    end if;
+  end if;
+else
+  // check at least one other object
+  select many others related by self->object[R3720.''other''];
+  if ( 1 > cardinality others )
+	TRACE::log( flavor:"failure", id:101, message:"at least one other object is required for subsuper participation." );
+	valid = false;
+	return valid;		// short circuit
+  end if;
+end if;
+
+return valid;',
+	1,
+	'',
+	"cf42fb5a-3aad-4c33-af67-0d26c26e746f");
+INSERT INTO O_NBATTR
+	VALUES ("6e4199ac-c077-4cf0-bbf4-58f2ece2d2cc",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_BATTR
+	VALUES ("6e4199ac-c077-4cf0-bbf4-58f2ece2d2cc",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_ATTR
+	VALUES ("6e4199ac-c077-4cf0-bbf4-58f2ece2d2cc",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	"00000000-0000-0000-0000-000000000000",
+	'onephrase',
+	'',
+	'',
+	'onephrase',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("e054f166-b9ba-4b51-8f92-e1a5aec41c49",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_BATTR
+	VALUES ("e054f166-b9ba-4b51-8f92-e1a5aec41c49",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_ATTR
+	VALUES ("e054f166-b9ba-4b51-8f92-e1a5aec41c49",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	"6e4199ac-c077-4cf0-bbf4-58f2ece2d2cc",
+	'oneconditionality',
+	'',
+	'',
+	'oneconditionality',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("46552edf-a48e-4ca7-a33a-1a8a75e1b943",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_BATTR
+	VALUES ("46552edf-a48e-4ca7-a33a-1a8a75e1b943",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_ATTR
+	VALUES ("46552edf-a48e-4ca7-a33a-1a8a75e1b943",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	"e054f166-b9ba-4b51-8f92-e1a5aec41c49",
+	'onemultiplicity',
+	'',
+	'',
+	'onemultiplicity',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("bc132d77-5965-4031-ae59-bc8641b6d3bd",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_BATTR
+	VALUES ("bc132d77-5965-4031-ae59-bc8641b6d3bd",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_ATTR
+	VALUES ("bc132d77-5965-4031-ae59-bc8641b6d3bd",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	"46552edf-a48e-4ca7-a33a-1a8a75e1b943",
+	'otherphrase',
+	'',
+	'',
+	'otherphrase',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8448637a-9423-4aa6-a4dd-bc674f630a97",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_BATTR
+	VALUES ("8448637a-9423-4aa6-a4dd-bc674f630a97",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_ATTR
+	VALUES ("8448637a-9423-4aa6-a4dd-bc674f630a97",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	"bc132d77-5965-4031-ae59-bc8641b6d3bd",
+	'otherconditionality',
+	'',
+	'',
+	'otherconditionality',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("758f6d59-efda-48a3-ad65-6f5778f90510",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_BATTR
+	VALUES ("758f6d59-efda-48a3-ad65-6f5778f90510",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_ATTR
+	VALUES ("758f6d59-efda-48a3-ad65-6f5778f90510",
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	"8448637a-9423-4aa6-a4dd-bc674f630a97",
+	'othermultiplicity',
+	'',
+	'',
+	'othermultiplicity',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_ID
+	VALUES (1,
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO O_ID
+	VALUES (2,
+	"7ebb31b6-4c80-46d9-9b73-b1d211cf20f9");
+INSERT INTO PE_PE
+	VALUES ("7ebb31b6-4c80-46d9-9b73-b1d211cf20f9",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

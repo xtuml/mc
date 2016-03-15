@@ -1,0 +1,129 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("fee0932a-fc96-48a4-bd5d-97f94b18fe36",
+	'Tasking Mark',
+	2206,
+	'TM_THREAD',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_NBATTR
+	VALUES ("ecd82db9-5e30-43c7-b10b-4340a97a0e69",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_BATTR
+	VALUES ("ecd82db9-5e30-43c7-b10b-4340a97a0e69",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_ATTR
+	VALUES ("ecd82db9-5e30-43c7-b10b-4340a97a0e69",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36",
+	"00000000-0000-0000-0000-000000000000",
+	'enabled',
+	'MC-3020 provides for tasking/threading using the capabilities of the target operating system (OS) or real-time operating system (RTOS). An example of an RTOS is the Nucleus PLUS real-time operating system. 
+
+To cause MC-3020 to generate multi-tasking/threading code, invoke the following marking function. Pass it arguments that specify the type of multi-tasking environment and whether or not to serialize all action processing (across all tasks).
+
+',
+	'',
+	'enabled',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'false');
+INSERT INTO O_NBATTR
+	VALUES ("76afb3af-4f96-445c-b942-3192f5f03c54",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_BATTR
+	VALUES ("76afb3af-4f96-445c-b942-3192f5f03c54",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_ATTR
+	VALUES ("76afb3af-4f96-445c-b942-3192f5f03c54",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36",
+	"ecd82db9-5e30-43c7-b10b-4340a97a0e69",
+	'flavor',
+	'flavor is the type of tasking environment being integrated (such as "POSIX" or "Nucleus"). 
+ ',
+	'',
+	'flavor',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'"POSIX"');
+INSERT INTO O_NBATTR
+	VALUES ("ac26641f-66dd-4594-b38e-ee04b19a3971",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_BATTR
+	VALUES ("ac26641f-66dd-4594-b38e-ee04b19a3971",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_ATTR
+	VALUES ("ac26641f-66dd-4594-b38e-ee04b19a3971",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36",
+	"76afb3af-4f96-445c-b942-3192f5f03c54",
+	'serialize',
+	'serialization is set to "serialize" to force all action across all tasks to be run sequentially. Note that serializing the action processing reduces data access contention, but can severely reduce the multi-tasking performance of the generated system. 
+ ',
+	'',
+	'serialize',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'false');
+INSERT INTO O_NBATTR
+	VALUES ("c4a2b9e8-7c06-4d8f-81cd-45ed67e5f74d",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_BATTR
+	VALUES ("c4a2b9e8-7c06-4d8f-81cd-45ed67e5f74d",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_ATTR
+	VALUES ("c4a2b9e8-7c06-4d8f-81cd-45ed67e5f74d",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36",
+	"ac26641f-66dd-4594-b38e-ee04b19a3971",
+	'number_of_threads',
+	'the number of tasks/threads in the xtUML generated system',
+	'',
+	'number_of_threads',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'1');
+INSERT INTO O_NBATTR
+	VALUES ("45261ba6-d35f-4650-9fde-37d629cc8e32",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_BATTR
+	VALUES ("45261ba6-d35f-4650-9fde-37d629cc8e32",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_ATTR
+	VALUES ("45261ba6-d35f-4650-9fde-37d629cc8e32",
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36",
+	"c4a2b9e8-7c06-4d8f-81cd-45ed67e5f74d",
+	'extra_initialization',
+	'',
+	'',
+	'extra_initialization',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_ID
+	VALUES (1,
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO O_ID
+	VALUES (2,
+	"fee0932a-fc96-48a4-bd5d-97f94b18fe36");
+INSERT INTO PE_PE
+	VALUES ("fee0932a-fc96-48a4-bd5d-97f94b18fe36",
+	1,
+	"81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("81da0a01-baff-4b20-9ddb-851a1ffd35c5",
+	"00000000-0000-0000-0000-000000000000",
+	"d9bc5487-4193-4817-be1c-6c3f3339aebf",
+	'Translation Marking',
+	'This subsystem contains classes intended for marking or coloring the user
+model to guide the translation process.',
+	0,
+	'../Translation Marking.xtuml');

@@ -1,0 +1,148 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	'unconstrained_array',
+	3757,
+	'unconstrained_array',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("eb490198-38cc-4bc9-9f07-194b8e889127",
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'T::include( file:"masl/t.object_begin.masl" );
+T::include( file:"masl/t.object_end.masl" );
+',
+	1,
+	'',
+	"ba4d4929-cb38-4fa1-8629-4f08b016d190");
+INSERT INTO O_TFR
+	VALUES ("ba4d4929-cb38-4fa1-8629-4f08b016d190",
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	'populate',
+	'',
+	"2189ce07-61d5-49d5-b493-1e51ca15b520",
+	0,
+	'domain = param.domain;
+//select any unconstrained_array related by domain->unconstrained_array[R3799];
+select any unconstrained_array from instances of unconstrained_array; // DELETE THIS LINE
+if ( empty unconstrained_array )
+  create object instance unconstrained_array of unconstrained_array;
+  unconstrained_array.name = param.name;
+  //relate unconstrained_array to domain across R3799;
+end if;
+return unconstrained_array;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("9197fa93-02aa-48c0-bbab-5a74f65d4429",
+	"ba4d4929-cb38-4fa1-8629-4f08b016d190",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("ceda6bde-e919-4c54-b1c9-a43772a76d4d",
+	"ba4d4929-cb38-4fa1-8629-4f08b016d190",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"9197fa93-02aa-48c0-bbab-5a74f65d4429",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../../masl/masl.xtuml');
+INSERT INTO S_DT_PROXY
+	VALUES ("2189ce07-61d5-49d5-b493-1e51ca15b520",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<unconstrained_array>',
+	'',
+	'',
+	'../masltypes.xtuml');
+INSERT INTO O_TFR
+	VALUES ("8aeb2c48-dd70-4a39-b012-80527d45ab01",
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'valid = true;
+select many templates from instances of template;
+if ( empty templates )
+  TRACE::log( flavor:"failure", id:5, message:"There are no templates." );
+  valid = false;
+end if;
+
+// Validate siblings and subordinates.
+//return ( valid and structure::validate() );
+return valid;
+',
+	1,
+	'',
+	"32fd62af-40eb-428f-8a3e-425fed8366e5");
+INSERT INTO O_TFR
+	VALUES ("32fd62af-40eb-428f-8a3e-425fed8366e5",
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	'tostring',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'value[8] = "";
+value[0] = self.name;
+//out::( element:"template_class", value:value );',
+	1,
+	'',
+	"eb490198-38cc-4bc9-9f07-194b8e889127");
+INSERT INTO O_NBATTR
+	VALUES ("a9469412-d6ba-47da-a1ad-832d1a6ba098",
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed");
+INSERT INTO O_BATTR
+	VALUES ("a9469412-d6ba-47da-a1ad-832d1a6ba098",
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed");
+INSERT INTO O_ATTR
+	VALUES ("a9469412-d6ba-47da-a1ad-832d1a6ba098",
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	"00000000-0000-0000-0000-000000000000",
+	'name',
+	'',
+	'',
+	'name',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed");
+INSERT INTO O_ID
+	VALUES (1,
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed");
+INSERT INTO O_ID
+	VALUES (2,
+	"f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed");
+INSERT INTO PE_PE
+	VALUES ("f3e4776b-3aae-4dbd-b1f4-e9cbb95135ed",
+	1,
+	"b25c01b0-4491-4a75-a109-e8e515d7c29b",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("b25c01b0-4491-4a75-a109-e8e515d7c29b",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masltypes',
+	'',
+	0,
+	'../masltypes.xtuml');

@@ -1,0 +1,134 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("c33a532e-6ff3-43a4-b2ec-c00495ee0be2",
+	'associative',
+	3722,
+	'associative',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("e33bf2e0-9bd6-4f0a-ac61-d30836116225",
+	"c33a532e-6ff3-43a4-b2ec-c00495ee0be2",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one relationship related by self->relationship[R3721];
+select one participation related by relationship->participation[R3713.''engages''];
+select one one_object related by participation->object[R3714.''one''];
+select any other_object related by participation->object[R3720.''other''];
+select one using_object related by participation->object[R3715.''uses''];
+if ( ( empty one_object ) or ( empty other_object ) or ( empty using_object ) )
+  TRACE::log( flavor:"failure", id:55, message:"missing one or other object on associative render" );
+end if;
+T::include( file:"masl/t.associative.masl" );
+',
+	1,
+	'',
+	"d2b70be7-d4e3-42c0-a39d-623da36f965d");
+INSERT INTO O_TFR
+	VALUES ("d2b70be7-d4e3-42c0-a39d-623da36f965d",
+	"c33a532e-6ff3-43a4-b2ec-c00495ee0be2",
+	'populate',
+	'',
+	"dbc897bb-38f6-4aed-b682-2d921b75fc85",
+	0,
+	'domain = param.domain;
+using_objectname = param.using;
+select any relationship related by domain->relationship[R3712] where ( selected.name == param.name );
+select one associative related by relationship->associative[R3721];
+if ( empty associative )
+  relationship = relationship::populate( name:param.name, domain:domain );
+  create object instance associative of associative;
+  relate associative to relationship across R3721;
+  markable = markable::populate( name:"associative" );
+  relate relationship to markable across R3783;
+end if;
+if ( "" != using_objectname )
+  select one participation related by relationship->participation[R3713];
+  select any object related by relationship->domain[R3712]->object[R3708.''has abstract''] where ( selected.name == using_objectname );
+  if ( not_empty object and not_empty participation )
+    relate participation to object across R3715.''uses'';
+  end if;
+end if;
+return associative;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("3db1f298-b54d-4746-8b73-dc0bc32a9593",
+	"d2b70be7-d4e3-42c0-a39d-623da36f965d",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("11e1f4da-863a-44de-b014-c4b6031e5e45",
+	"d2b70be7-d4e3-42c0-a39d-623da36f965d",
+	'domain',
+	"baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	0,
+	'',
+	"0b526c3a-f112-4c72-bb75-592e0f0b0933",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("baca163b-e8d7-44c7-b0e0-61776ffb7cae",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<domain>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("0b526c3a-f112-4c72-bb75-592e0f0b0933",
+	"d2b70be7-d4e3-42c0-a39d-623da36f965d",
+	'using',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"3db1f298-b54d-4746-8b73-dc0bc32a9593",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("dbc897bb-38f6-4aed-b682-2d921b75fc85",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<associative>',
+	'',
+	'',
+	'../masl.xtuml');
+INSERT INTO O_TFR
+	VALUES ("98dd9cd5-89e9-4553-abf3-3451de30cc90",
+	"c33a532e-6ff3-43a4-b2ec-c00495ee0be2",
+	'validate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	1,
+	'valid = true;
+return valid;',
+	1,
+	'',
+	"e33bf2e0-9bd6-4f0a-ac61-d30836116225");
+INSERT INTO O_ID
+	VALUES (0,
+	"c33a532e-6ff3-43a4-b2ec-c00495ee0be2");
+INSERT INTO O_ID
+	VALUES (1,
+	"c33a532e-6ff3-43a4-b2ec-c00495ee0be2");
+INSERT INTO O_ID
+	VALUES (2,
+	"c33a532e-6ff3-43a4-b2ec-c00495ee0be2");
+INSERT INTO PE_PE
+	VALUES ("c33a532e-6ff3-43a4-b2ec-c00495ee0be2",
+	1,
+	"ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("ceafde1b-ef7d-4cdb-ab88-6866d249a397",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	"0c88bc32-05c8-40cf-8e56-04848518b4a9",
+	'masl',
+	'',
+	0,
+	'../masl.xtuml');

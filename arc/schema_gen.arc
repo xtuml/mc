@@ -668,11 +668,11 @@ ${rop.body}
       .select any id_attr related by oida->O_ATTR[R105] where ((selected.Attr_ID == oida.Attr_ID) and (selected.Obj_ID == oida.Obj_ID))
       .//
       .// Add the attributes to the comparison lists.
-      .assign attr_ref_attr_list = attr_ref_attr_list + "${ref_attr.Name}"\
-      .assign attr_id_attr_list  = attr_id_attr_list + "${id_attr.Name}"\
+      .assign attr_ref_attr_list = attr_ref_attr_list + ref_attr.Name
+      .assign attr_id_attr_list  = attr_id_attr_list + id_attr.Name
       .if ( not_last oida_set )
-        .assign attr_ref_attr_list = attr_ref_attr_list + ", " \
-        .assign attr_id_attr_list  = attr_id_attr_list + ", " \
+        .assign attr_ref_attr_list = attr_ref_attr_list + ", "
+        .assign attr_id_attr_list  = attr_id_attr_list + ", "
       .end if
       .//
     .end for
