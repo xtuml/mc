@@ -17,12 +17,14 @@ INSERT INTO O_TFR
 	'diagram = param.diagram;
 
 create object instance widget of widget;
+widget.ID = graph::id(); // factory
 widget.name = param.name;
 widget.number = param.number;
-widget.ooaofooa_ID = param.ooaofooa_ID;
+widget.ooaofooa_ID = T::idtoi( id:param.ooaofooa_ID );
 widget.flavor = param.flavor;
 widget.x = param.x;
 widget.y = param.y;
+widget.path = diagram.path + "::" + widget.name;
 
 relate widget to diagram across R3901;
 
@@ -152,7 +154,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("cb93a1fb-33cf-4e3b-8f40-de91141e618c",
 	"d37363a3-003c-41fe-b208-f45109de5e05",
-	"00000000-0000-0000-0000-000000000000",
+	"a628c498-1f9f-4925-8fdc-ed3726adb78e",
 	'name',
 	'',
 	'',
@@ -212,9 +214,16 @@ INSERT INTO O_ATTR
 	'',
 	'ooaofooa_ID',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000005",
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
 	'',
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("68ae699f-8534-4e8a-8357-4988cec5b93d",
+	"00000000-0000-0000-0000-000000000000",
+	'IDtype',
+	'',
+	'',
+	'../x2g.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("09075506-aabb-484a-bd22-9e140adc9bac",
 	"d37363a3-003c-41fe-b208-f45109de5e05");
@@ -242,13 +251,13 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("a628c498-1f9f-4925-8fdc-ed3726adb78e",
 	"d37363a3-003c-41fe-b208-f45109de5e05",
-	"09075506-aabb-484a-bd22-9e140adc9bac",
+	"00000000-0000-0000-0000-000000000000",
 	'ID',
 	'',
 	'',
 	'ID',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000005",
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
 	'',
 	'');
 INSERT INTO O_ID

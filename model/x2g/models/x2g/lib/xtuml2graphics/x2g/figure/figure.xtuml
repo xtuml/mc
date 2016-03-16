@@ -14,21 +14,19 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'// CDS - get x,y from diagram factory somehow
-x = 0;
-y = 0;
-number = 0; // CDS - count up and keep track of widgets
-// CDS - keep separate counters for figures and couplers
+	'diagram = param.diagram;
+// x,y and new number from diagram factory
+x = 0; y = 0;
+figurenumber = diagram.xy( x:x, y:y, figurenumber:0 );
 
 widget = widget::populate(
   name:param.name,
-  number:number,
+  number:figurenumber,
   ooaofooa_ID:param.ooaofooa_ID,
   flavor:param.flavor,
   x:x,
   y:y,
   diagram:param.diagram
-  // path
 );
 create object instance figure of figure;
 relate widget to figure across R3902;',

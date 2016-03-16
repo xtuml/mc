@@ -14,11 +14,14 @@ INSERT INTO O_TFR
 	'',
 	"a9916f4f-fba5-4d73-b797-c78730cb0054",
 	0,
-	'create object instance diagram of diagram;
+	'graph::populate(); // Initialize overall graphics system.
+create object instance diagram of diagram;
+diagram.ID = graph::id(); // factory
 diagram.name = param.name;
-diagram.ooaofooa_ID = param.ooaofooa_ID;
 diagram.flavor = param.flavor;
+diagram.ooaofooa_ID = T::idtoi( id:param.ooaofooa_ID );
 diagram.path = param.path;
+diagram.figurecount = 0; // number of figures on the diagram for placement calculations
 return diagram;
 ',
 	1,
@@ -90,6 +93,55 @@ end for;',
 	1,
 	'',
 	"f658dabc-0ca0-414e-ba26-8fc03415c812");
+INSERT INTO O_TFR
+	VALUES ("19594dd0-2e0b-4f26-93fa-18948d3f39cf",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	'xy',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'// Supply x and y for figure.
+// When 0 is supplied as the figure, it means we are creating a new figure.
+// Otherwise, we are just getting coordinates.
+figurenumber = param.figurenumber; 
+if ( 0 == param.figurenumber )
+  // Add a new figure.
+  // Bump number and return coordinates.
+  figurenumber = self.figurecount + 1;
+end if;
+param.x = 1000 + ( param.figurenumber % 8 ) * 400;
+param.y = 1000 + ( param.figurenumber / 8 ) * 400;
+return figurenumber;',
+	1,
+	'',
+	"3ab5f0ed-5a07-4481-a6d1-1d975a01bcff");
+INSERT INTO O_TPARM
+	VALUES ("8c2224b6-c71e-4030-b219-52efa8916a37",
+	"19594dd0-2e0b-4f26-93fa-18948d3f39cf",
+	'x',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("0b7c3d71-1e06-411a-8db5-5723e7b77da0",
+	"19594dd0-2e0b-4f26-93fa-18948d3f39cf",
+	'y',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	1,
+	'',
+	"8c2224b6-c71e-4030-b219-52efa8916a37",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("04f61bcf-d2d1-4e06-83c0-4b637437a556",
+	"19594dd0-2e0b-4f26-93fa-18948d3f39cf",
+	'figurenumber',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"0b7c3d71-1e06-411a-8db5-5723e7b77da0",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("eb3f6611-b265-4116-8e84-58cc03b07274",
 	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
@@ -105,9 +157,16 @@ INSERT INTO O_ATTR
 	'',
 	'ID',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000002",
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
 	'',
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("68ae699f-8534-4e8a-8357-4988cec5b93d",
+	"00000000-0000-0000-0000-000000000000",
+	'IDtype',
+	'',
+	'',
+	'../x2g.xtuml');
 INSERT INTO O_NBATTR
 	VALUES ("6ef0c095-b483-4902-a45f-beb2dc63a12d",
 	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
@@ -159,7 +218,7 @@ INSERT INTO O_ATTR
 	'',
 	'ooaofooa_ID',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000005",
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
 	'',
 	'');
 INSERT INTO O_NBATTR
@@ -178,6 +237,24 @@ INSERT INTO O_ATTR
 	'path',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("d869b2c5-d93c-4a2a-a8a9-b4d928539de0",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("d869b2c5-d93c-4a2a-a8a9-b4d928539de0",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("d869b2c5-d93c-4a2a-a8a9-b4d928539de0",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"44cb555d-9928-4d3a-8e20-86096f35497b",
+	'figurecount',
+	'',
+	'',
+	'figurecount',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID

@@ -70,6 +70,7 @@ void
 UserPostOoaInitializationCalloutf( int argc, char ** argv )
 {
   xtuml2graphics_system();
+  T_emit( "stdout" );
 }
 
 /*
@@ -88,7 +89,6 @@ UserBackgroundProcessingCalloutf( void )
   TIM_tick();
   #endif
   /* Insert implementation specific code here.  */
-  exit(0);
 }
 
 /*

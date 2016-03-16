@@ -30,8 +30,8 @@ widget = widget::populate(
   diagram:param.diagram
   // path
 );
-create object instance figure of figure;
-relate widget to figure across R3902;',
+create object instance coupler of coupler;
+relate widget to coupler across R3902;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");

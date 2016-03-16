@@ -29,7 +29,7 @@ c_t *
 T_s( const i_t p_i )
 {
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
-  //return Escher_itoa( tbuf[ current_tbuf ], p_i );
+  return Escher_itoa( tbuf[ current_tbuf ], p_i );
   return "";
 }
 
@@ -463,5 +463,14 @@ static int cp(const char *to, const char *from)
 
     errno = saved_errno;
     return -1;
+}
+
+/*
+ * Bridge:  idtoi
+ */
+i_t
+T_idtoi( Escher_UniqueID_t p_id )
+{
+  return ( 0xfffffff & (int) p_id );
 }
 
