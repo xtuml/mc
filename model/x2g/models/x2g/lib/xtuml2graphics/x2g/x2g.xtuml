@@ -830,6 +830,86 @@ INSERT INTO DIM_DIA
 	4000.000000,
 	3000.000000,
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT
+	VALUES ("a9916f4f-fba5-4d73-b797-c78730cb0054",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<diagram>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("a9916f4f-fba5-4d73-b797-c78730cb0054",
+	0,
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	'diagram',
+	3901,
+	'diagram',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./diagram/diagram.xtuml');
+INSERT INTO PE_PE
+	VALUES ("a9916f4f-fba5-4d73-b797-c78730cb0054",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("96d64ae3-add8-4f8a-8045-df22070fb8e5",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<diagram>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("96d64ae3-add8-4f8a-8045-df22070fb8e5",
+	1,
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO PE_PE
+	VALUES ("96d64ae3-add8-4f8a-8045-df22070fb8e5",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("fe6d1719-80cf-49b3-9ba6-ea5a1d9fa050",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<widget>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("fe6d1719-80cf-49b3-9ba6-ea5a1d9fa050",
+	0,
+	"d37363a3-003c-41fe-b208-f45109de5e05");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("d37363a3-003c-41fe-b208-f45109de5e05",
+	'widget',
+	3902,
+	'widget',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./widget/widget.xtuml');
+INSERT INTO PE_PE
+	VALUES ("fe6d1719-80cf-49b3-9ba6-ea5a1d9fa050",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("b1976637-c1c1-4bb6-b1b0-521b26b746dc",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<widget>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("b1976637-c1c1-4bb6-b1b0-521b26b746dc",
+	1,
+	"d37363a3-003c-41fe-b208-f45109de5e05");
+INSERT INTO PE_PE
+	VALUES ("b1976637-c1c1-4bb6-b1b0-521b26b746dc",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("1840d098-e27d-4d2f-bf54-80ad07b3580a");
 INSERT INTO R_REL
@@ -854,14 +934,6 @@ INSERT INTO R_OIR
 	"1840d098-e27d-4d2f-bf54-80ad07b3580a",
 	"c53b2741-4935-485f-8925-c57b63e125c2",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("406f1156-9982-4bfe-9c81-98edd9b73d9d",
-	'diagram',
-	3901,
-	'diagram',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./diagram/diagram.xtuml');
 INSERT INTO R_PART
 	VALUES ("d37363a3-003c-41fe-b208-f45109de5e05",
 	"1840d098-e27d-4d2f-bf54-80ad07b3580a",
@@ -879,14 +951,6 @@ INSERT INTO R_OIR
 	"1840d098-e27d-4d2f-bf54-80ad07b3580a",
 	"3728fe66-7773-4412-9591-6e33b28c8395",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("d37363a3-003c-41fe-b208-f45109de5e05",
-	'widget',
-	3902,
-	'widget',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./widget/widget.xtuml');
 INSERT INTO PE_PE
 	VALUES ("1840d098-e27d-4d2f-bf54-80ad07b3580a",
 	1,
@@ -1044,8 +1108,14 @@ INSERT INTO S_SYNC
 select any s_sys from instances of S_SYS;
 if ( not_empty s_sys )
   select many ep_pkgs related by s_sys->EP_PKG[R1401];
+  // populate
   for each ep_pkg in ep_pkgs
     ::package( ep_pkg:ep_pkg ); 
+  end for;
+  // render
+  select many diagrams from instances of diagram;
+  for each diagram in diagrams
+    diagram.render();
   end for;
 else
   TRACE::log( flavor:"failure", id:1, message:"ERROR:  system model not found" );
@@ -1148,6 +1218,28 @@ sm_sm = param.sm_sm;
 
 select one o_obj related by sm_sm->SM_ISM[R517]->O_OBJ[R518];
 TRACE::log( flavor:"info", id:204, message:"object name of SM_SM is " + o_obj.Name );
+
+diagram = diagram::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:40, path:o_obj.Name + "::Instance State Machine" );
+
+select many sm_states related by sm_sm->SM_STATE[R501];
+for each sm_state in sm_states
+  figure::populate( name:sm_state.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:41, diagram:diagram );
+end for;
+select many ne_sm_txns related by sm_sm->SM_TXN[R505]->SM_NETXN[R507]->SM_TXN[R507];
+// no event transitions
+for each sm_txn in ne_sm_txns
+  //coupler::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:41, diagram:diagram );
+end for;
+// new state transitions
+select many ns_sm_txns related by sm_sm->SM_TXN[R505]->SM_NSTXN[R507]->SM_TXN[R507];
+for each sm_txn in ne_sm_txns
+  //coupler::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:41, diagram:diagram );
+end for;
+// creation transitions
+select many cr_sm_txns related by sm_sm->SM_TXN[R505]->SM_CRTXN[R507]->SM_TXN[R507];
+for each sm_txn in ne_sm_txns
+  //coupler::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:41, diagram:diagram );
+end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,

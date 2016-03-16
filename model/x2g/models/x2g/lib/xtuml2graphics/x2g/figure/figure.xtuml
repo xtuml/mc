@@ -7,6 +7,91 @@ INSERT INTO O_OBJ
 	'figure',
 	'',
 	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("f8edaf80-31e9-4cd3-ae0c-2db66412394a",
+	"3e343190-bf66-4dbf-ad21-fd03389f7655",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// CDS - get x,y from diagram factory somehow
+x = 0;
+y = 0;
+number = 0; // CDS - count up and keep track of widgets
+// CDS - keep separate counters for figures and couplers
+
+widget = widget::populate(
+  name:param.name,
+  number:number,
+  ooaofooa_ID:param.ooaofooa_ID,
+  flavor:param.flavor,
+  x:x,
+  y:y,
+  diagram:param.diagram
+  // path
+);
+create object instance figure of figure;
+relate widget to figure across R3902;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("3cb7d8a2-6216-4198-9d80-b727d29a8f3a",
+	"f8edaf80-31e9-4cd3-ae0c-2db66412394a",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("fe0f607b-e2e2-4572-841e-065ca7313bd8",
+	"f8edaf80-31e9-4cd3-ae0c-2db66412394a",
+	'ooaofooa_ID',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"3cb7d8a2-6216-4198-9d80-b727d29a8f3a",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("5f9246e9-7f4a-4d0a-9d1c-d6a04de70343",
+	"f8edaf80-31e9-4cd3-ae0c-2db66412394a",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"fe0f607b-e2e2-4572-841e-065ca7313bd8",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("9bb97c86-3ba7-4631-8bcf-3eb52755fd01",
+	"f8edaf80-31e9-4cd3-ae0c-2db66412394a",
+	'diagram',
+	"a9916f4f-fba5-4d73-b797-c78730cb0054",
+	0,
+	'',
+	"5f9246e9-7f4a-4d0a-9d1c-d6a04de70343",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a9916f4f-fba5-4d73-b797-c78730cb0054",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<diagram>',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_TFR
+	VALUES ("b095956c-ba87-4969-a119-78431ecda672",
+	"3e343190-bf66-4dbf-ad21-fd03389f7655",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one widget related by self->widget[R3902];
+if ( 41 == widget.flavor )
+  T::include( file:"t/t.state.sql" );
+end if;',
+	1,
+	'',
+	"f8edaf80-31e9-4cd3-ae0c-2db66412394a");
 INSERT INTO O_ID
 	VALUES (0,
 	"3e343190-bf66-4dbf-ad21-fd03389f7655");

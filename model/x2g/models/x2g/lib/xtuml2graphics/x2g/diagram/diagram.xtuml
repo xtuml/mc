@@ -12,12 +12,14 @@ INSERT INTO O_TFR
 	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
 	'populate',
 	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
+	"a9916f4f-fba5-4d73-b797-c78730cb0054",
 	0,
 	'create object instance diagram of diagram;
 diagram.name = param.name;
 diagram.ooaofooa_ID = param.ooaofooa_ID;
-flavor = param.flavor;',
+diagram.flavor = param.flavor;
+diagram.path = param.path;
+',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -48,6 +50,22 @@ INSERT INTO O_TPARM
 	'',
 	"62c43128-68e3-4f73-bd1d-655c5a6a2682",
 	'');
+INSERT INTO O_TPARM
+	VALUES ("dbeb8e74-79ab-4f93-a590-700b4658e126",
+	"f658dabc-0ca0-414e-ba26-8fc03415c812",
+	'path',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"7a98eb27-de60-4c46-9496-6444fc596114",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a9916f4f-fba5-4d73-b797-c78730cb0054",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<diagram>',
+	'',
+	'',
+	'../x2g.xtuml');
 INSERT INTO O_TFR
 	VALUES ("3ab5f0ed-5a07-4481-a6d1-1d975a01bcff",
 	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
@@ -55,7 +73,16 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"t/t.diagram.sql" );',
+	'T::include( file:"t/t.diagram.sql" );
+
+select many figures related by self->widget[R3901]->figure[R3902];
+for each figure in figures
+  figure.render();
+end for;
+select many couplers related by self->widget[R3901]->coupler[R3902];
+for each coupler in couplers
+  coupler.render();
+end for;',
 	1,
 	'',
 	"f658dabc-0ca0-414e-ba26-8fc03415c812");
@@ -129,6 +156,24 @@ INSERT INTO O_ATTR
 	'ooaofooa_ID',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("44cb555d-9928-4d3a-8e20-86096f35497b",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_BATTR
+	VALUES ("44cb555d-9928-4d3a-8e20-86096f35497b",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d");
+INSERT INTO O_ATTR
+	VALUES ("44cb555d-9928-4d3a-8e20-86096f35497b",
+	"406f1156-9982-4bfe-9c81-98edd9b73d9d",
+	"8947e478-855f-4dc4-8787-9f74e5288b73",
+	'path',
+	'',
+	'',
+	'path',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
 INSERT INTO O_ID
