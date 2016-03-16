@@ -15,7 +15,7 @@ INSERT INTO GD_MD
 	0,     -- ${y_coordinate}    
 	0,     -- ${width}     
 	0,     -- ${height}
-	0,
+	0, 
 	'4.1.17',    -- This is the persistence version ("4.1.17" right now). This is set only if widgets are present. It is empty if there are no widgets
 	'${ooaofooa_path}');  -- example: 'ClassDiagramOnly::ClassDiagram::class1::Instance State Machine'
 --Note: this instance comes AFTER the last widget. In this simple example there were no widgets	
