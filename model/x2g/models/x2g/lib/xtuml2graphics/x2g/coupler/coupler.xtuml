@@ -1,0 +1,117 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	'coupler',
+	3904,
+	'coupler',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("26523f26-2f98-401a-b700-cf84c8985e1b",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'// CDS - get x,y from diagram factory somehow
+x = 0;
+y = 0;
+number = 0; // CDS - count up and keep track of widgets
+// CDS - keep separate counters for figures and couplers
+
+widget = widget::populate(
+  name:param.name,
+  number:number,
+  ooaofooa_ID:param.ooaofooa_ID,
+  flavor:param.flavor,
+  x:x,
+  y:y,
+  diagram:param.diagram
+  // path
+);
+create object instance figure of figure;
+relate widget to figure across R3902;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("29838aa2-8bdc-49ca-8886-036b146a508e",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("29dae068-5d0e-42aa-9db2-d70c1015359d",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'ooaofooa_ID',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"29838aa2-8bdc-49ca-8886-036b146a508e",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("71e9ed70-0668-465b-936d-c903ce80128f",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'flavor',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"29dae068-5d0e-42aa-9db2-d70c1015359d",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("97aed95f-a496-448a-9a52-9fdc852b3524",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'diagram',
+	"a9916f4f-fba5-4d73-b797-c78730cb0054",
+	0,
+	'',
+	"71e9ed70-0668-465b-936d-c903ce80128f",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("a9916f4f-fba5-4d73-b797-c78730cb0054",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<diagram>',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_TFR
+	VALUES ("50573961-00ac-4987-905e-219aaad33fcb",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one widget related by self->widget[R3902];
+if ( 42 == widget.flavor )
+  T::include( file:"t/t.transition.sql" );
+end if;',
+	1,
+	'',
+	"26523f26-2f98-401a-b700-cf84c8985e1b");
+INSERT INTO O_ID
+	VALUES (0,
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ID
+	VALUES (1,
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ID
+	VALUES (2,
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO PE_PE
+	VALUES ("6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	"7f685551-3fe6-4c32-a2a4-d1cac568d8c7",
+	'x2g',
+	'',
+	0,
+	'../x2g.xtuml');
