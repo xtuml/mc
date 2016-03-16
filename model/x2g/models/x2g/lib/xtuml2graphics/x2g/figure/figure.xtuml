@@ -86,6 +86,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'select one widget related by self->widget[R3902];
+select one diagram related by widget->diagram[R3901];
 if ( 41 == widget.flavor )
   T::include( file:"t/t.state.sql" );
 end if;',

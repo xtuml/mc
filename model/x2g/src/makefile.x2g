@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wno-pointer-to-int-cast # -g
+CFLAGS=-Wno-pointer-to-int-cast -g
 SOURCES := $(shell ls *.c)
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=x2g

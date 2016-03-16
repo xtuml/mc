@@ -1266,6 +1266,115 @@ INSERT INTO PE_PE
 	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
 	"00000000-0000-0000-0000-000000000000",
 	1);
+INSERT INTO S_SYNC
+	VALUES ("1d14f584-bf51-4a2a-a8c9-c9671e3c3dd4",
+	"00000000-0000-0000-0000-000000000000",
+	'class_get_path',
+	'',
+	'// Append parent path to name to get path to me.
+o_obj = param.o_obj;
+select one ep_pkg related by o_obj->PE_PE[R8001]->EP_PKG[R8000];
+parent_path = ::package_get_path( ep_pkg:ep_pkg );
+return parent_path + "/" + o_obj.Name;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("b5c0de79-bdfa-42d9-af54-8567d32e8d72",
+	"1d14f584-bf51-4a2a-a8c9-c9671e3c3dd4",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("1d14f584-bf51-4a2a-a8c9-c9671e3c3dd4",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("07dd4d95-be95-40dd-bbc9-a50981c777ab",
+	"00000000-0000-0000-0000-000000000000",
+	'component_get_path',
+	'',
+	'// Append name to parent path to form path to me.
+c_c = param.c_c;
+select one ep_pkg related by c_c->PE_PE[R8001]->EP_PKG[R8000];
+parent_path = ::package_get_path( ep_pkg:ep_pkg );
+return parent_path + "/" + c_c.Name;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("87fda2b8-6bcc-4658-8f7d-d5dff9d6eded",
+	"07dd4d95-be95-40dd-bbc9-a50981c777ab",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("67f93d18-1045-4c6c-b0d5-a692023c471c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Component>',
+	'',
+	'',
+	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO PE_PE
+	VALUES ("07dd4d95-be95-40dd-bbc9-a50981c777ab",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("dd1b5f80-c700-4e89-a7f3-03a8c1ac0f45",
+	"00000000-0000-0000-0000-000000000000",
+	'package_get_path',
+	'',
+	'// Recursively traverse upward to system to form full path.
+ep_pkg = param.ep_pkg;
+parent_path = "";
+select one parent_ep_pkg related by ep_pkg->PE_PE[R8001]->EP_PKG[R8000];
+if ( not_empty parent_ep_pkg )
+  // package in package
+  parent_path = ::package_get_path( ep_pkg:parent_ep_pkg );
+else
+  select one s_sys related by ep_pkg->S_SYS[R1401];
+  if ( not_empty s_sys )
+    // package in system
+    parent_path = s_sys.Name;
+  else
+    select one c_c related by ep_pkg->PE_PE[R8001]->C_C[R8003];
+    if ( not_empty c_c )
+      // package in component
+      parent_path = ::component_get_path( c_c:c_c );
+    else
+      TRACE::log( flavor:"failure", id:110, message:"error building path of package" );
+    end if;
+  end if;
+end if;
+return parent_path + "/" + ep_pkg.Name;',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("e05faf4f-5532-4bbb-bad0-2875fd693249",
+	"dd1b5f80-c700-4e89-a7f3-03a8c1ac0f45",
+	'ep_pkg',
+	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("dd1b5f80-c700-4e89-a7f3-03a8c1ac0f45",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	1);
 INSERT INTO PE_PE
 	VALUES ("53aa9d8a-7836-4d31-9b03-fecacd383a92",
 	1,

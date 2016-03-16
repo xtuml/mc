@@ -19,6 +19,7 @@ diagram.name = param.name;
 diagram.ooaofooa_ID = param.ooaofooa_ID;
 diagram.flavor = param.flavor;
 diagram.path = param.path;
+return diagram;
 ',
 	1,
 	'',
@@ -73,7 +74,10 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'T::include( file:"t/t.diagram.sql" );
+	'if ( 40 == self.flavor )
+  diagram = self;
+  T::include( file:"t/t.instancestatemachine.sql" );
+end if;
 
 select many figures related by self->widget[R3901]->figure[R3902];
 for each figure in figures

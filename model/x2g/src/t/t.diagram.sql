@@ -1,1 +1,0 @@
-printf( "diagram\n" );
