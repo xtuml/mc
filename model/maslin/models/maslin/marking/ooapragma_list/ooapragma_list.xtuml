@@ -32,10 +32,10 @@ INSERT INTO O_TFR
 	'',
 	"f9b84e2d-3dfb-4eb3-a696-af959101ac0c",
 	0,
-	'element = param.element;
+	'markable = param.markable;
 create object instance pragma_list of ooapragma_list;
 pragma_list.name = param.name;
-relate pragma_list to element across R3802;
+relate pragma_list to markable across R3802;
 return pragma_list;',
 	1,
 	'',
@@ -52,14 +52,14 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("c4a2c261-1ae4-4166-b434-21dd15dc6315",
 	"44f0f7c5-302a-46ee-9091-840da318b30b",
-	'element',
-	"67d44486-874e-43aa-a2a2-0487451e2390",
+	'markable',
+	"a912efec-064d-41ba-bff2-bd8bd01c29aa",
 	0,
 	'',
 	"126e31bc-9ed8-4f08-a3c3-5b9a5429338b",
 	'');
 INSERT INTO S_DT_PROXY
-	VALUES ("67d44486-874e-43aa-a2a2-0487451e2390",
+	VALUES ("a912efec-064d-41ba-bff2-bd8bd01c29aa",
 	"00000000-0000-0000-0000-000000000000",
 	'inst_ref<ooamarkable>',
 	'',
@@ -72,6 +72,22 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../marking.xtuml');
+INSERT INTO O_TFR
+	VALUES ("42ce23fa-264b-4b4b-a681-c1bd99fe0772",
+	"9ad3311a-52f0-4c9d-82ee-d4b5c7965bef",
+	'destruct',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select many ps related by self->ooapragma[R3803];
+for each p in ps
+	p.destruct();
+end for;
+
+delete object instance self;',
+	1,
+	'',
+	"44f0f7c5-302a-46ee-9091-840da318b30b");
 INSERT INTO O_NBATTR
 	VALUES ("39c1115b-e2b8-4784-8807-2d0f43683324",
 	"9ad3311a-52f0-4c9d-82ee-d4b5c7965bef");

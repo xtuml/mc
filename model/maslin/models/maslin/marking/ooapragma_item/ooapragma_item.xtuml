@@ -57,6 +57,17 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../marking.xtuml');
+INSERT INTO O_TFR
+	VALUES ("551cd483-7b76-4004-8521-d58ac7ca39e5",
+	"4bc4dee7-c267-4410-a757-dc2eaa15022a",
+	'destruct',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'delete object instance self;',
+	1,
+	'',
+	"ed78bbcd-a7c2-4433-97a8-0a9bfb54564d");
 INSERT INTO O_NBATTR
 	VALUES ("80398bfc-8853-4497-a949-c69dace126ac",
 	"4bc4dee7-c267-4410-a757-dc2eaa15022a");

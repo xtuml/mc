@@ -17,30 +17,35 @@ INSERT INTO O_TFR
 	'population = param.population;
 type = param.type;
 
-// check if it''s a valid markable type
-if ( ooaelement::ismarkable( type: param.type) )
-
+select one current_element related by population->ooaelement[R3801];
+if ( not_empty current_element  and ( "associative" == type or "participation" == type ) and type == current_element.type )
+	// only associative and participation can be called multiple times without being closed
+	// by an end tag
+	//TRACE::log( flavor:"info", id:83, message:"duplicate element" );
+else
 	// create instance
 	create object instance element of ooaelement;
 	element.type = type;
 
-	select one current_element related by population->ooaelement[R3801];
 	if ( empty current_element )
 		// first element 
 		relate population to element across R3801;
 	else
-		if ( ( "associative" == type or "participation" == type ) and type == current_element.type )
-			// only associative and participation can be called multiple times without being closed
-			// by an end tag
-		else
-			// push this element on the stack
-			unrelate population from current_element across R3801;
-			relate element to current_element across R3805.''child of'';
-			relate population to element across R3801;
-		end if;
+		// push this element on the stack
+		unrelate population from current_element across R3801;
+		relate element to current_element across R3805.''child of'';
+		relate population to element across R3801;
 	end if;
 
-end if;',
+	// check if it''s a valid markable type and create proper subtype
+	if ( ooaelement::ismarkable( type: param.type) )
+		ooamarkable::populate( element: element );
+	else
+		ooaunmarkable::populate( element: element );
+	end if;
+
+end if;
+',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -70,51 +75,6 @@ INSERT INTO O_TPARM
 	"d176430c-e434-40cd-9aae-4f1c34e03165",
 	'');
 INSERT INTO O_TFR
-	VALUES ("a12e23f7-8afb-47fa-80c2-4756eaffd439",
-	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
-	'render_pragmas',
-	'',
-	"ba5eda7a-def5-0000-0000-000000000000",
-	1,
-	'// render the pragma string
-pragma_string = "";
-select many pragma_lists related by self->ooapragma_list[R3802];
-for each list in pragma_lists
-	pragma_string = pragma_string + list.render();
-end for;
-
-// select the proper OOA instance to edit the description
-select one population related by self->ooapopulation[R3801];
-if ( not_empty population )
-
-	// check to see if we have any pragmas
-	if ( "" != pragma_string )
-
-		// put the pragmas in the description of the right object
-		if ( "domain" == self.type )
-			domain = population.current_component;
-			domain.Descrip = pragma_string;
-		else
-		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + self.type + "''" );
-		end if;
-
-	end if;
-
-	// pop from the stack
-	select one parent_element related by self->ooaelement[R3805.''child of''];
-	unrelate population from self across R3801;
-	if ( not_empty parent_element )
-		relate population to parent_element across R3801;
-		unrelate self from parent_element across R3805.''child of'';
-	end if;
-
-	// TODO delete self and children
-
-end if;',
-	1,
-	'',
-	"03266923-721c-4844-976a-fd6752d4055a");
-INSERT INTO O_TFR
 	VALUES ("2fa79bfe-dcc7-426a-a905-e511c2bf55b8",
 	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
 	'ismarkable',
@@ -129,7 +89,7 @@ else
 end if;',
 	1,
 	'',
-	"a12e23f7-8afb-47fa-80c2-4756eaffd439");
+	"03266923-721c-4844-976a-fd6752d4055a");
 INSERT INTO O_TPARM
 	VALUES ("96868822-d59b-4b7f-8643-2a6e7abd3dc0",
 	"2fa79bfe-dcc7-426a-a905-e511c2bf55b8",
@@ -139,6 +99,79 @@ INSERT INTO O_TPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO O_TFR
+	VALUES ("b77a5ea3-11c0-4a7c-9b37-4a06db26b0be",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	'pop_stack',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'// pop from the stack
+select one population related by self->ooapopulation[R3801];
+if ( not_empty population )
+
+	select one parent_element related by self->ooaelement[R3805.''child of''];
+	unrelate population from self across R3801;
+	if ( not_empty parent_element )
+		relate population to parent_element across R3801;
+		unrelate self from parent_element across R3805.''child of'';
+	end if;
+
+	// delete self and children
+	//self.destruct();
+
+end if;',
+	1,
+	'',
+	"2fa79bfe-dcc7-426a-a905-e511c2bf55b8");
+INSERT INTO O_TFR
+	VALUES ("484739eb-c4b6-4e69-abb1-f7f9c3d36118",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	'trace',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'population = param.population;
+
+TRACE::log( flavor:"stack_trace", id:82, message:"outputting element stack:" );
+select one current_element related by population->ooaelement[R3801];
+
+c = 0;
+while ( not_empty current_element and c < 100 );
+  TRACE::log( flavor:"stack_trace", id:82, message:current_element.type );
+  select one current_element related by current_element->ooaelement[R3805.''child of''];
+  c = c + 1;
+end while;
+
+TRACE::log( flavor:"stack_trace", id:82, message:"done." );',
+	1,
+	'',
+	"b77a5ea3-11c0-4a7c-9b37-4a06db26b0be");
+INSERT INTO O_TPARM
+	VALUES ("d484c15d-a7c7-4044-b0b3-65c872afd115",
+	"484739eb-c4b6-4e69-abb1-f7f9c3d36118",
+	'population',
+	"6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("cead7cad-d634-458c-87d6-120f28937c66",
+	"ed19a1be-ef18-40a2-9d35-d8318986c02e",
+	'destruct',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one markable related by self->ooamarkable[R3806];
+markable.destruct();
+select one unmarkable related by self->ooaunmarkable[R3806];
+unmarkable.destruct();
+
+delete object instance self;',
+	1,
+	'',
+	"484739eb-c4b6-4e69-abb1-f7f9c3d36118");
 INSERT INTO O_NBATTR
 	VALUES ("44a3f8d4-50ae-4b23-b6fd-291d4d873ba6",
 	"ed19a1be-ef18-40a2-9d35-d8318986c02e");

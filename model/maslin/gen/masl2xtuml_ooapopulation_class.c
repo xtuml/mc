@@ -69,27 +69,26 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     /* ASSIGN ooapopulation.processingISM = TRUE */
     ooapopulation->processingISM = TRUE;
   }
-  /* IF ( (  == PARAM.value[0] ) ) */
-  if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+  /* IF ( ( ( ( ( ( ( ( (  == value[0] ) and (  == value[1] ) ) and (  == value[2] ) ) and (  == value[3] ) ) and (  == value[4] ) ) and (  == value[5] ) ) and (  == value[6] ) ) and (  == value[7] ) ) ) */
+  if ( ( ( ( ( ( ( ( ( Escher_strcmp( "", value[0] ) == 0 ) && ( Escher_strcmp( "", value[1] ) == 0 ) ) && ( Escher_strcmp( "", value[2] ) == 0 ) ) && ( Escher_strcmp( "", value[3] ) == 0 ) ) && ( Escher_strcmp( "", value[4] ) == 0 ) ) && ( Escher_strcmp( "", value[5] ) == 0 ) ) && ( Escher_strcmp( "", value[6] ) == 0 ) ) && ( Escher_strcmp( "", value[7] ) == 0 ) ) ) {
+    masl2xtuml_ooaelement * current_element=0;
+    /* SELECT one current_element RELATED BY ooapopulation->ooaelement[R3801] */
+    current_element = ( 0 != ooapopulation ) ? ooapopulation->ooaelement_R3801_has_current : 0;
     /* IF ( ooaelement::ismarkable(type:element) ) */
     if ( masl2xtuml_ooaelement_op_ismarkable(element) ) {
-      masl2xtuml_ooaelement * curr_element=0;
-      /* SELECT one curr_element RELATED BY ooapopulation->ooaelement[R3801] */
-      curr_element = ( 0 != ooapopulation ) ? ooapopulation->ooaelement_R3801_has_current : 0;
-      /* IF ( not_empty curr_element ) */
-      if ( ( 0 != curr_element ) ) {
-        /* TRACE::log( flavor:levi, id:99, message:( ( rendering pragmas for ' + curr_element.type ) + ' ) ) */
-        TRACE_log( "levi", 99, Escher_stradd( Escher_stradd( "rendering pragmas for '", curr_element->type ), "'" ) );
-      }
-      /* curr_element.render_pragmas() */
-      masl2xtuml_ooaelement_op_render_pragmas( curr_element );
+      masl2xtuml_ooamarkable * markable=0;
+      /* SELECT one markable RELATED BY current_element->ooamarkable[R3806] */
+      markable = 0;
+      if ( ( 0 != current_element ) && ( masl2xtuml_ooamarkable_CLASS_NUMBER == current_element->R3806_object_id ) )      markable = ( 0 != current_element ) ? (masl2xtuml_ooamarkable *) current_element->R3806_subtype : 0;
+      /* markable.render_pragmas() */
+      masl2xtuml_ooamarkable_op_render_pragmas( markable );
     }
+    /* current_element.pop_stack() */
+    masl2xtuml_ooaelement_op_pop_stack( current_element );
   }
-  else {
+  else if ( !( ( ( ( ( ( Escher_strcmp( "typeref", element ) == 0 ) || ( Escher_strcmp( "referential", element ) == 0 ) ) || ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) || ( Escher_strcmp( "transition", element ) == 0 ) ) || ( Escher_strcmp( "expression", element ) == 0 ) ) || ( Escher_strcmp( "codeblock", element ) == 0 ) ) ) {
     /* ooaelement::populate( population:ooapopulation, type:element ) */
     masl2xtuml_ooaelement_op_populate( ooapopulation, element );
-    /* TRACE::log( flavor:levi, id:99, message:( ( populating a element ' + element ) + ' ) ) */
-    TRACE_log( "levi", 99, Escher_stradd( Escher_stradd( "populating a element '", element ), "'" ) );
   }
   /* IF ( ( project == element ) ) */
   if ( ( Escher_strcmp( "project", element ) == 0 ) ) {
@@ -430,6 +429,14 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     }
   }
   else if ( ( Escher_strcmp( "pragma", element ) == 0 ) ) {
+    masl2xtuml_ooaelement * parent_element=0;
+    /* SELECT one parent_element RELATED BY ooapopulation->ooaelement[R3801]->ooaelement[R3805.child of] */
+    parent_element = 0;
+    {    if ( 0 != ooapopulation ) {
+    masl2xtuml_ooaelement * ooaelement_R3801_has_current = ooapopulation->ooaelement_R3801_has_current;
+    if ( 0 != ooaelement_R3801_has_current ) {
+    parent_element = ooaelement_R3801_has_current->ooaelement_R3805_child_of;
+}}}
     /* IF ( (  == PARAM.value[0] ) ) */
     if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
       masl2xtuml_ooapragma * pragma=0;
@@ -438,17 +445,24 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       /* ASSIGN ooapopulation.current_pragma = pragma */
       ooapopulation->current_pragma = pragma;
     }
-    else {
-      masl2xtuml_ooaelement * curr_element=0;
-      /* SELECT one curr_element RELATED BY ooapopulation->ooaelement[R3801] */
-      curr_element = ( 0 != ooapopulation ) ? ooapopulation->ooaelement_R3801_has_current : 0;
-      /* ASSIGN ooapopulation.current_pragma = ooapragma::populate(element:curr_element, list:value[1], name:value[0]) */
-      ooapopulation->current_pragma = masl2xtuml_ooapragma_op_populate(curr_element, value[1], value[0]);
+    else if ( masl2xtuml_ooaelement_op_ismarkable(parent_element->type) ) {
+      masl2xtuml_ooamarkable * markable=0;
+      /* SELECT one markable RELATED BY parent_element->ooamarkable[R3806] */
+      markable = 0;
+      if ( ( 0 != parent_element ) && ( masl2xtuml_ooamarkable_CLASS_NUMBER == parent_element->R3806_object_id ) )      markable = ( 0 != parent_element ) ? (masl2xtuml_ooamarkable *) parent_element->R3806_subtype : 0;
+      /* ASSIGN ooapopulation.current_pragma = ooapragma::populate(list:value[1], markable:markable, name:value[0]) */
+      ooapopulation->current_pragma = masl2xtuml_ooapragma_op_populate(value[1], markable, value[0]);
     }
   }
   else if ( ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) {
-    /* ooapragma_item::populate( pragma:ooapopulation.current_pragma, value:value[0] ) */
-    masl2xtuml_ooapragma_item_op_populate( ooapopulation->current_pragma, value[0] );
+    masl2xtuml_ooaelement * current_element=0;
+    /* SELECT one current_element RELATED BY ooapopulation->ooaelement[R3801] */
+    current_element = ( 0 != ooapopulation ) ? ooapopulation->ooaelement_R3801_has_current : 0;
+    /* IF ( ( pragma == current_element.type ) ) */
+    if ( ( Escher_strcmp( "pragma", current_element->type ) == 0 ) ) {
+      /* ooapragma_item::populate( pragma:ooapopulation.current_pragma, value:value[0] ) */
+      masl2xtuml_ooapragma_item_op_populate( ooapopulation->current_pragma, value[0] );
+    }
   }
   else {
     /* TRACE::log( flavor:failure, id:59, message:( masl2xtuml unrecognized element:   + element ) ) */
