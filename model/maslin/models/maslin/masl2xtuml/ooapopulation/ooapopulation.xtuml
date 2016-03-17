@@ -1573,7 +1573,7 @@ else
       comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
       // create a port & provided interface from the component
       comp_port_name = current_component.Name;
-      new_ir = self.Component_initializeRequirement(c_c:current_component, c_i:comp_if, port_name:comp_port_name);
+      new_ir = self.Component_initializeProvision(c_c:current_component, c_i:comp_if, port_name:comp_port_name);
       // formalize the new interface reference to it
       self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
     end if;
