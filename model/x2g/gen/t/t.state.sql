@@ -15,8 +15,8 @@ INSERT INTO DIM_ND
 	85.000000,           -- heigth
 	$t{widget.ID});
 INSERT INTO DIM_GE
-	VALUES (7800.000000, -- positionX - This is the x position on the diagram, right goes positive
-	5880.000000,         -- positionY - This is the y position on the diagram, down goes positive
+	VALUES ($t{widget.x}.000000, -- positionX - This is the x position on the diagram, right goes positive
+	$t{widget.y}.000000,         -- positionY - This is the y position on the diagram, down goes positive
 	$t{widget.ID},
 	0);  -- Semantic model bridge id. (referential for DIM_SMB.Smb_ID) 
 -- Note: This is odd. In "UML 2.0 Diagram Interchange, this (DIM_ELE) only has 1 attribute, a represents)

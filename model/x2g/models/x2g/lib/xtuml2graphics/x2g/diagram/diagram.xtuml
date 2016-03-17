@@ -104,13 +104,14 @@ INSERT INTO O_TFR
 // When 0 is supplied as the figure, it means we are creating a new figure.
 // Otherwise, we are just getting coordinates.
 figurenumber = param.figurenumber; 
-if ( 0 == param.figurenumber )
+if ( 0 == figurenumber )
   // Add a new figure.
   // Bump number and return coordinates.
-  figurenumber = self.figurecount + 1;
+  self.figurecount = self.figurecount + 1;
+  figurenumber = self.figurecount;
 end if;
-param.x = 1000 + ( param.figurenumber % 8 ) * 400;
-param.y = 1000 + ( param.figurenumber / 8 ) * 400;
+param.x = 1000 + ( figurenumber % 8 ) * 400;
+param.y = 1000 + ( figurenumber / 8 ) * 400;
 return figurenumber;',
 	1,
 	'',

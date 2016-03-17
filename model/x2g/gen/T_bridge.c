@@ -30,7 +30,6 @@ T_s( const i_t p_i )
 {
   current_tbuf = ( current_tbuf + 1 ) % T_number_of_bufs;
   return Escher_itoa( tbuf[ current_tbuf ], p_i );
-  return "";
 }
 
 #include <string.h>
@@ -471,6 +470,6 @@ static int cp(const char *to, const char *from)
 i_t
 T_idtoi( Escher_UniqueID_t p_id )
 {
-  return ( 0xfffffff & (int) p_id );
+  return ( 0x0fffffff & (int) p_id );
 }
 

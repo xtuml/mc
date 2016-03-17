@@ -1283,16 +1283,17 @@ sm_sm = param.sm_sm;
 select one o_obj related by sm_sm->SM_ISM[R517]->O_OBJ[R518];
 TRACE::log( flavor:"info", id:204, message:"object name of SM_SM is " + o_obj.Name );
 
-diagram = diagram::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:40, path:o_obj.Name + "::Instance State Machine" );
+parent_path = ::class_get_path( o_obj:o_obj );
+diagram = diagram::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:40, path:parent_path + "::Instance State Machine" );
 
 select many sm_states related by sm_sm->SM_STATE[R501];
 for each sm_state in sm_states
-  figure::populate( name:sm_state.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:41, diagram:diagram );
+  figure::populate( name:sm_state.Name, ooaofooa_ID:sm_state.SMstt_ID, flavor:41, diagram:diagram );
 end for;
 select many ne_sm_txns related by sm_sm->SM_TXN[R505]->SM_NETXN[R507]->SM_TXN[R507];
 // no event transitions
 for each sm_txn in ne_sm_txns
-  //coupler::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:41, diagram:diagram );
+  //coupler::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:42, diagram:diagram );
 end for;
 // new state transitions
 select many ns_sm_txns related by sm_sm->SM_TXN[R505]->SM_NSTXN[R507]->SM_TXN[R507];
