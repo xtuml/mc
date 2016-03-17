@@ -929,6 +929,7 @@ transitionTable
                                    transTableType
                                                             {
                                                                 args[0] = $transTableType.type;
+                                                                args[1] = "symbolic";
                                                                 populate( "transitiontable", args );
                                                             }
                                    ( transitionRow          
