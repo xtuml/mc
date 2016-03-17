@@ -69,20 +69,27 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     /* ASSIGN ooapopulation.processingISM = TRUE */
     ooapopulation->processingISM = TRUE;
   }
-  /* IF ( (  != PARAM.value[0] ) ) */
-  if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
-    /* IF ( ooamarkable::ismarkable(type:element) ) */
-    if ( masl2xtuml_ooamarkable_op_ismarkable(element) ) {
-      masl2xtuml_ooamarkable * markable=0;
-      /* SELECT one markable RELATED BY ooapopulation->ooamarkable[R3801] */
-      markable = ( 0 != ooapopulation ) ? ooapopulation->ooamarkable_R3801_has_current : 0;
-      /* markable.render_pragmas() */
-      masl2xtuml_ooamarkable_op_render_pragmas( markable );
+  /* IF ( (  == PARAM.value[0] ) ) */
+  if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+    /* IF ( ooaelement::ismarkable(type:element) ) */
+    if ( masl2xtuml_ooaelement_op_ismarkable(element) ) {
+      masl2xtuml_ooaelement * curr_element=0;
+      /* SELECT one curr_element RELATED BY ooapopulation->ooaelement[R3801] */
+      curr_element = ( 0 != ooapopulation ) ? ooapopulation->ooaelement_R3801_has_current : 0;
+      /* IF ( not_empty curr_element ) */
+      if ( ( 0 != curr_element ) ) {
+        /* TRACE::log( flavor:levi, id:99, message:( ( rendering pragmas for ' + curr_element.type ) + ' ) ) */
+        TRACE_log( "levi", 99, Escher_stradd( Escher_stradd( "rendering pragmas for '", curr_element->type ), "'" ) );
+      }
+      /* curr_element.render_pragmas() */
+      masl2xtuml_ooaelement_op_render_pragmas( curr_element );
     }
   }
   else {
-    /* ooamarkable::populate( population:ooapopulation, type:element ) */
-    masl2xtuml_ooamarkable_op_populate( ooapopulation, element );
+    /* ooaelement::populate( population:ooapopulation, type:element ) */
+    masl2xtuml_ooaelement_op_populate( ooapopulation, element );
+    /* TRACE::log( flavor:levi, id:99, message:( ( populating a element ' + element ) + ' ) ) */
+    TRACE_log( "levi", 99, Escher_stradd( Escher_stradd( "populating a element '", element ), "'" ) );
   }
   /* IF ( ( project == element ) ) */
   if ( ( Escher_strcmp( "project", element ) == 0 ) ) {
@@ -432,11 +439,11 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       ooapopulation->current_pragma = pragma;
     }
     else {
-      masl2xtuml_ooamarkable * markable=0;
-      /* SELECT one markable RELATED BY ooapopulation->ooamarkable[R3801] */
-      markable = ( 0 != ooapopulation ) ? ooapopulation->ooamarkable_R3801_has_current : 0;
-      /* ASSIGN ooapopulation.current_pragma = ooapragma::populate(element:markable, list:value[1], name:value[0]) */
-      ooapopulation->current_pragma = masl2xtuml_ooapragma_op_populate(markable, value[1], value[0]);
+      masl2xtuml_ooaelement * curr_element=0;
+      /* SELECT one curr_element RELATED BY ooapopulation->ooaelement[R3801] */
+      curr_element = ( 0 != ooapopulation ) ? ooapopulation->ooaelement_R3801_has_current : 0;
+      /* ASSIGN ooapopulation.current_pragma = ooapragma::populate(element:curr_element, list:value[1], name:value[0]) */
+      ooapopulation->current_pragma = masl2xtuml_ooapragma_op_populate(curr_element, value[1], value[0]);
     }
   }
   else if ( ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) {

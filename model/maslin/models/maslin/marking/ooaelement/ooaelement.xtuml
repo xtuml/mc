@@ -2,9 +2,9 @@
 
 INSERT INTO O_OBJ
 	VALUES ("ed19a1be-ef18-40a2-9d35-d8318986c02e",
-	'ooamarkable',
+	'ooaelement',
 	3803,
-	'ooamarkable',
+	'ooaelement',
 	'',
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO O_TFR
@@ -18,25 +18,25 @@ INSERT INTO O_TFR
 type = param.type;
 
 // check if it''s a valid markable type
-if ( ooamarkable::ismarkable( type: param.type) )
+if ( ooaelement::ismarkable( type: param.type) )
 
 	// create instance
-	create object instance markable of ooamarkable;
-	markable.type = type;
+	create object instance element of ooaelement;
+	element.type = type;
 
-	select one current_markable related by population->ooamarkable[R3801];
-	if ( empty current_markable )
-		// first markable 
-		relate population to markable across R3801;
+	select one current_element related by population->ooaelement[R3801];
+	if ( empty current_element )
+		// first element 
+		relate population to element across R3801;
 	else
-		if ( ( "associative" == type or "participation" == type ) and type == current_markable.type )
+		if ( ( "associative" == type or "participation" == type ) and type == current_element.type )
 			// only associative and participation can be called multiple times without being closed
 			// by an end tag
 		else
-			// push this markable on the stack
-			unrelate population from current_markable across R3801;
-			relate markable to current_markable across R3805.''child of'';
-			relate population to markable across R3801;
+			// push this element on the stack
+			unrelate population from current_element across R3801;
+			relate element to current_element across R3805.''child of'';
+			relate population to element across R3801;
 		end if;
 	end if;
 
@@ -101,11 +101,11 @@ if ( not_empty population )
 	end if;
 
 	// pop from the stack
-	select one parent_markable related by self->ooamarkable[R3805.''child of''];
+	select one parent_element related by self->ooaelement[R3805.''child of''];
 	unrelate population from self across R3801;
-	if ( not_empty parent_markable )
-		relate population to parent_markable across R3801;
-		unrelate self from parent_markable across R3805.''child of'';
+	if ( not_empty parent_element )
+		relate population to parent_element across R3801;
+		unrelate self from parent_element across R3805.''child of'';
 	end if;
 
 	// TODO delete self and children

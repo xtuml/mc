@@ -38,7 +38,7 @@ struct masl2xtuml_ooapopulation {
   bool processingISM;  
   masl2xtuml_ooapragma * current_pragma;  
   /* relationship storage */
-  masl2xtuml_ooamarkable * ooamarkable_R3801_has_current;
+  masl2xtuml_ooaelement * ooaelement_R3801_has_current;
 };
 void masl2xtuml_ooapopulation_instancedumper( Escher_iHandle_t );
 Escher_iHandle_t masl2xtuml_ooapopulation_instanceloader( Escher_iHandle_t, const c_t * [] );

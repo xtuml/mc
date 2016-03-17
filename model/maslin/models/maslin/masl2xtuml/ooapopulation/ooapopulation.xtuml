@@ -27,13 +27,17 @@ if ( empty ooapopulation )
 end if;
 
 // deal with pragma stack
-if ( "" != param.value[0] )
-  if ( ooamarkable::ismarkable( type: element ) )
-	select one markable related by ooapopulation->ooamarkable[R3801];
-	markable.render_pragmas();
+if ( "" == param.value[0] )
+  if ( ooaelement::ismarkable( type: element ) )
+	select one curr_element related by ooapopulation->ooaelement[R3801];
+	if ( not_empty curr_element )
+  	  TRACE::log( flavor:"levi", id:99, message:"rendering pragmas for ''" + curr_element.type + "''" );
+  	end if;
+	curr_element.render_pragmas();
   end if;
 else
-  ooamarkable::populate( population: ooapopulation, type: element );
+  ooaelement::populate( population: ooapopulation, type: element );
+  TRACE::log( flavor:"levi", id:99, message:"populating a element ''" + element + "''" );
 end if;
 
 if ( "project" == element )
@@ -226,8 +230,8 @@ elif ( "pragma" == element )
     select any pragma from instances of ooapragma where (false);
     ooapopulation.current_pragma = pragma;
   else
-    select one markable related by ooapopulation->ooamarkable[R3801];
-    ooapopulation.current_pragma = ooapragma::populate( name:value[0], list:value[1], element:markable );
+    select one curr_element related by ooapopulation->ooaelement[R3801];
+    ooapopulation.current_pragma = ooapragma::populate( name:value[0], list:value[1], element:curr_element );
   end if;
 elif ( "pragmaitem" == element )
   ooapragma_item::populate( value:value[0], pragma:ooapopulation.current_pragma );
