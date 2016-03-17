@@ -919,7 +919,7 @@ INSERT INTO O_TFR
 if ( not_empty current_class )
   // We are in the midst of building a state machine inside a class definition.
   select any sm_sm from instances of SM_SM where ( false );
-  if ( "assigner" == param.type )
+  if ( ("assigner" == param.type) or ("assigner start" == param.type) )
     sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
   else
     sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ISM");
@@ -1556,7 +1556,7 @@ else
 
   // If the function/service is public:
   //   a) get the "Shared" package under the library package.
-  //   b) see if there is an interface named "<comp name>_if", formalized to a port named (port name does not matter I think) 
+  //   b) see if there is an interface named "<comp name>", formalized to a port named (port name does not matter I think) 
   //        on the component, create if not
   //   c) create an interface operation identical to the domain function/service
   //   d) modify the action body of the operation on the port to call the domain function/service
@@ -1566,13 +1566,13 @@ else
     select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
   
     // b
-    comp_if_name = current_component.Name + "_if";
+    comp_if_name = current_component.Name;
     select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
     if ( empty comp_if )
       // create the interface
       comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
       // create a port & provided interface from the component
-      comp_port_name = current_component.Name + "_port";
+      comp_port_name = current_component.Name;
       new_ir = self.Component_initializeProvision(c_c:current_component, c_i:comp_if, port_name:comp_port_name);
       // formalize the new interface reference to it
       self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
@@ -5505,6 +5505,57 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"086edc69-ce12-4285-8527-3755213c3450",
+	'');
+INSERT INTO O_TFR
+	VALUES ("de57cf0d-e159-4b31-907e-bba1cb341479",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Component_initializeRequirement',
+	'',
+	"3068be83-fc38-4a02-a09f-a2dc428b84f6",
+	1,
+	'c_c = param.c_c;
+c_i = param.c_i;
+
+// The OOA version of this function does _a lot_ more work than we have to do here.
+create object instance requirement of C_R;
+create object instance interfaceRef of C_IR;
+create object instance port of C_PO;
+relate requirement to interfaceRef across R4009;
+relate interfaceRef to port across R4016;
+relate port to c_c across R4010;
+requirement.InformalName = "Unnamed_Interface";
+self.Port_initialize(c_po:port, name:param.port_name);
+
+return interfaceRef;',
+	1,
+	'',
+	"9e1603f8-30b3-45e7-a697-d89f16f10bf0");
+INSERT INTO O_TPARM
+	VALUES ("c594153e-1c12-416a-b872-48fa7c3b623f",
+	"de57cf0d-e159-4b31-907e-bba1cb341479",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("e8fe3eac-7e91-4f0a-86df-13ad4d3f420c",
+	"de57cf0d-e159-4b31-907e-bba1cb341479",
+	'c_i',
+	"80698720-cc57-44ba-8aa5-600c524db338",
+	0,
+	'',
+	"c594153e-1c12-416a-b872-48fa7c3b623f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("180f2b75-6dd7-4f78-8b4d-fa093d818b15",
+	"de57cf0d-e159-4b31-907e-bba1cb341479",
+	'port_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e8fe3eac-7e91-4f0a-86df-13ad4d3f420c",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
