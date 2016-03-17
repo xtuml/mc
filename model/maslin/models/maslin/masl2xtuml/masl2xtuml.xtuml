@@ -229,6 +229,46 @@ INSERT INTO PE_PE
 	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooapopulation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	0,
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ooapopulation',
+	3801,
+	'ooapopulation',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./ooapopulation/ooapopulation.xtuml');
+INSERT INTO PE_PE
+	VALUES ("6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	1,
+	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("56532afb-ef31-41db-ac26-c6f9dceba67f",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<ooapopulation>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("56532afb-ef31-41db-ac26-c6f9dceba67f",
+	1,
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO PE_PE
+	VALUES ("56532afb-ef31-41db-ac26-c6f9dceba67f",
+	1,
+	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO PE_PE
 	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	1,
