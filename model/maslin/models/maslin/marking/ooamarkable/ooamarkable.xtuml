@@ -24,7 +24,7 @@ if ( ooamarkable::ismarkable( type: param.type) )
 	create object instance markable of ooamarkable;
 	markable.type = type;
 
-	select one current_markable related by population->ooamarkable[R3801.''has current''];
+	select one current_markable related by population->ooamarkable[R3801];
 	if ( empty current_markable )
 		// first markable 
 		relate population to markable across R3801;
@@ -85,27 +85,32 @@ end for;
 
 // select the proper OOA instance to edit the description
 select one population related by self->ooapopulation[R3801];
+if ( not_empty population )
 
-// check to see if we have any pragmas
-if ( "" != pragma_string )
+	// check to see if we have any pragmas
+	if ( "" != pragma_string )
 
-	// put the pragmas in the description of the right object
-	if ( "domain" == self.type )
-		domain = population.current_component;
-		domain.Descrip = pragma_string;
-	else
-	  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + self.type + "''" );
+		// put the pragmas in the description of the right object
+		if ( "domain" == self.type )
+			domain = population.current_component;
+			domain.Descrip = pragma_string;
+		else
+		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + self.type + "''" );
+		end if;
+
 	end if;
 
-end if;
+	// pop from the stack
+	select one parent_markable related by self->ooamarkable[R3805.''child of''];
+	unrelate population from self across R3801;
+	if ( not_empty parent_markable )
+		relate population to parent_markable across R3801;
+		unrelate self from parent_markable across R3805.''child of'';
+	end if;
 
-// pop from the stack
-select one parent_markable related by self->ooamarkable[R3805.''child of''];
-unrelate population from self across R3801;
-relate population to parent_markable across R3801;
-unrelate self from parent_markable across R3805.''child of'';
+	// TODO delete self and children
 
-// TODO delete self and children',
+end if;',
 	1,
 	'',
 	"03266923-721c-4844-976a-fd6752d4055a");

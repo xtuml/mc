@@ -16,7 +16,7 @@ INSERT INTO O_TFR
 	1,
 	'ret = "";
 
-select many pragmas related by self->ooapragma[R3803.''groups''];
+select many pragmas related by self->ooapragma[R3803];
 for each pragma in pragmas
 	ret = ret + pragma.render();
 end for;

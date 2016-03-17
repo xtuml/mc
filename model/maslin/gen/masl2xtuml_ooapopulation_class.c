@@ -36,6 +36,7 @@ masl2xtuml_ooapopulation_instanceloader( Escher_iHandle_t instance, const c_t * 
   Escher_memset( &self->current_state, avlstring[ 1 ], sizeof( self->current_state ) );
   self->processingIdentifier = Escher_atoi( avlstring[ 1 ] );
   self->processingISM = ( '0' != *avlstring[ 2 ] );
+  Escher_memset( &self->current_pragma, avlstring[ 3 ], sizeof( self->current_pragma ) );
   return return_identifier;
 }
 
@@ -67,6 +68,21 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     ooapopulation->processingIdentifier = -1;
     /* ASSIGN ooapopulation.processingISM = TRUE */
     ooapopulation->processingISM = TRUE;
+  }
+  /* IF ( (  != PARAM.value[0] ) ) */
+  if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
+    /* IF ( ooamarkable::ismarkable(type:element) ) */
+    if ( masl2xtuml_ooamarkable_op_ismarkable(element) ) {
+      masl2xtuml_ooamarkable * markable=0;
+      /* SELECT one markable RELATED BY ooapopulation->ooamarkable[R3801] */
+      markable = ( 0 != ooapopulation ) ? ooapopulation->ooamarkable_R3801_has_current : 0;
+      /* markable.render_pragmas() */
+      masl2xtuml_ooamarkable_op_render_pragmas( markable );
+    }
+  }
+  else {
+    /* ooamarkable::populate( population:ooapopulation, type:element ) */
+    masl2xtuml_ooamarkable_op_populate( ooapopulation, element );
   }
   /* IF ( ( project == element ) ) */
   if ( ( Escher_strcmp( "project", element ) == 0 ) ) {
@@ -405,6 +421,27 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
         sm_act->Descrip = Escher_strcpy( sm_act->Descrip, p_value[0] );
       }
     }
+  }
+  else if ( ( Escher_strcmp( "pragma", element ) == 0 ) ) {
+    /* IF ( (  == PARAM.value[0] ) ) */
+    if ( ( Escher_strcmp( "", p_value[0] ) == 0 ) ) {
+      masl2xtuml_ooapragma * pragma=0;
+      /* SELECT any pragma FROM INSTANCES OF ooapragma WHERE FALSE */
+      pragma = 0;
+      /* ASSIGN ooapopulation.current_pragma = pragma */
+      ooapopulation->current_pragma = pragma;
+    }
+    else {
+      masl2xtuml_ooamarkable * markable=0;
+      /* SELECT one markable RELATED BY ooapopulation->ooamarkable[R3801] */
+      markable = ( 0 != ooapopulation ) ? ooapopulation->ooamarkable_R3801_has_current : 0;
+      /* ASSIGN ooapopulation.current_pragma = ooapragma::populate(element:markable, list:value[1], name:value[0]) */
+      ooapopulation->current_pragma = masl2xtuml_ooapragma_op_populate(markable, value[1], value[0]);
+    }
+  }
+  else if ( ( Escher_strcmp( "pragmaitem", element ) == 0 ) ) {
+    /* ooapragma_item::populate( pragma:ooapopulation.current_pragma, value:value[0] ) */
+    masl2xtuml_ooapragma_item_op_populate( ooapopulation->current_pragma, value[0] );
   }
   else {
     /* TRACE::log( flavor:failure, id:59, message:( masl2xtuml unrecognized element:   + element ) ) */
