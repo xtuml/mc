@@ -791,7 +791,21 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'',
+	'comp_if_name = param.name + self.current_component.Name;
+
+lib_pkg = self.lib_pkg;
+select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+
+select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+if ( empty comp_if )
+  // create the interface
+  comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
+  // create a port & provided interface from the component
+  comp_port_name = param.name;
+  new_ir = self.Component_initializeRequirement(c_c:self.current_component, c_i:comp_if, port_name:comp_port_name);
+  // formalize the new interface reference to it
+  self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+end if;',
 	1,
 	'',
 	"cd1f0452-4df9-45c5-949f-e319f8cb63e8");
