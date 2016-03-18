@@ -393,8 +393,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       masl2xtuml_C_I * c_i;
       /* ASSIGN c_i = ooapopulation.current_interface */
       c_i = ooapopulation->current_interface;
-      /* IF ( not_empty c_i ) */
-      if ( ( 0 != c_i ) ) {
+      /* IF ( ( not_empty c_i or (  != PARAM.value[1] ) ) ) */
+      if ( ( ( 0 != c_i ) || ( Escher_strcmp( "", p_value[1] ) != 0 ) ) ) {
         /* ooapopulation.transformTerminatorService( domain:PARAM.value[0], name:PARAM.value[3], terminator:PARAM.value[1], visibility:PARAM.value[2] ) */
         masl2xtuml_ooapopulation_op_transformTerminatorService( ooapopulation,  p_value[0], p_value[3], p_value[1], p_value[2] );
       }

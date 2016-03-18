@@ -205,9 +205,12 @@ elif ( "routine" == element )
   if ( "" == param.value[3] )
     select any s_sync from instances of S_SYNC where ( false );
     ooapopulation.current_domain_function = s_sync;
+    // Note that we do not clear self.current_interface here because if we are processing inside a terminator definition we
+    //   will see multiple routines within the interface and we don''t want to clear out this cached interface after the 
+    //   first routine we see.
   else
     c_i = ooapopulation.current_interface;
-    if ( not_empty c_i )
+    if ( (not_empty c_i) or ( "" != param.value[1]) )
       ooapopulation.transformTerminatorService(visibility:param.value[2], name:param.value[3], domain:param.value[0], terminator:param.value[1]);
     else
       ooapopulation.transformDomainFunction(visibility:param.value[2], name:param.value[3], domain:param.value[0], terminator:param.value[1]);
