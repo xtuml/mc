@@ -90,8 +90,8 @@ masl2xtuml_ooaelement_op_populate( masl2xtuml_ooapopulation * p_population, c_t 
 bool
 masl2xtuml_ooaelement_op_ismarkable( c_t * p_type )
 {
-  /* IF ( ( ( object == PARAM.type ) or ( domain == PARAM.type ) ) ) */
-  if ( ( ( Escher_strcmp( "object", p_type ) == 0 ) || ( Escher_strcmp( "domain", p_type ) == 0 ) ) ) {
+  /* IF ( ( ( ( object == PARAM.type ) or ( attribute == PARAM.type ) ) or ( domain == PARAM.type ) ) ) */
+  if ( ( ( ( Escher_strcmp( "object", p_type ) == 0 ) || ( Escher_strcmp( "attribute", p_type ) == 0 ) ) || ( Escher_strcmp( "domain", p_type ) == 0 ) ) ) {
     /* RETURN TRUE */
     {bool xtumlOALrv = TRUE;
     return xtumlOALrv;}

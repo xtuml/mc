@@ -88,7 +88,7 @@ if ( //"project" == param.type or
      //"routine" == param.type or
      //"operation" == param.type or
      //"state" == param.type or
-     //"attribute" == param.type or
+     "attribute" == param.type or
      //"identifier" == param.type or
      //"transitiontable" == param.type or
      //"event" == param.type or

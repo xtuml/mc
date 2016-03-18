@@ -100,6 +100,13 @@ masl2xtuml_ooamarkable_op_render_pragmas( masl2xtuml_ooamarkable * self)
         /* ASSIGN obj.Descrip = pragma_string */
         obj->Descrip = Escher_strcpy( obj->Descrip, pragma_string );
       }
+      else if ( ( Escher_strcmp( "attribute", element->type ) == 0 ) ) {
+        masl2xtuml_O_ATTR * attr;
+        /* ASSIGN attr = population.current_attribute */
+        attr = population->current_attribute;
+        /* ASSIGN attr.Descrip = pragma_string */
+        attr->Descrip = Escher_strcpy( attr->Descrip, pragma_string );
+      }
       else {
         /* TRACE::log( flavor:failure, id:79, message:( ( Unable to find current ' + element.type ) + ' ) ) */
         TRACE_log( "failure", 79, Escher_stradd( Escher_stradd( "Unable to find current '", element->type ), "'" ) );
