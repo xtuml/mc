@@ -74,6 +74,11 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     masl2xtuml_ooaelement * current_element=0;
     /* SELECT one current_element RELATED BY ooapopulation->ooaelement[R3801] */
     current_element = ( 0 != ooapopulation ) ? ooapopulation->ooaelement_R3801_has_current : 0;
+    /* IF ( not_empty current_element ) */
+    if ( ( 0 != current_element ) ) {
+      /* TRACE::log( flavor:levi, id:99, message:( ( ( current_element->type:  + current_element.type ) + , element:  ) + element ) ) */
+      TRACE_log( "levi", 99, Escher_stradd( Escher_stradd( Escher_stradd( "current_element->type: ", current_element->type ), ", element: " ), element ) );
+    }
     /* IF ( ooaelement::ismarkable(type:element) ) */
     if ( masl2xtuml_ooaelement_op_ismarkable(element) ) {
       masl2xtuml_ooamarkable * markable=0;

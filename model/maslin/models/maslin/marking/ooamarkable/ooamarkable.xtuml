@@ -62,6 +62,9 @@ if ( not_empty population )
 		if ( "domain" == element.type )
 			domain = population.current_component;
 			domain.Descrip = pragma_string;
+		elif ( "object" == element.type )
+			obj = population.current_class;
+			obj.Descrip = pragma_string;
 		else
 		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + element.type + "''" );
 		end if;
