@@ -223,6 +223,23 @@ INSERT INTO C_EP_PROXY
 	'populate',
 	'',
 	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
+INSERT INTO SPR_REP
+	VALUES ("ea0b23ef-b005-42d4-a0cb-39847677de40",
+	"0ea72257-0ebc-46e1-ab27-94d34a5b47cc",
+	"a1f64161-7d59-4f75-a989-9739af6e60f7");
+INSERT INTO SPR_RS
+	VALUES ("ea0b23ef-b005-42d4-a0cb-39847677de40",
+	'end',
+	'',
+	'',
+	3);
+INSERT INTO C_EP_PROXY
+	VALUES ("0ea72257-0ebc-46e1-ab27-94d34a5b47cc",
+	"c221853e-39ef-4a21-8a0f-9730c3b2f618",
+	-1,
+	'end',
+	'',
+	'../../../../../mcshared/models/mcshared/lib/serial/serial.xtuml');
 INSERT INTO C_I_PROXY
 	VALUES ("c221853e-39ef-4a21-8a0f-9730c3b2f618",
 	"00000000-0000-0000-0000-000000000000",

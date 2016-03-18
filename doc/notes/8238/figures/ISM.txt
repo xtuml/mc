@@ -1,0 +1,31 @@
+--
+INSERT INTO GD_MD
+	VALUES ("e5fd4a95-e2d7-4dc6-95df-42e211ab72bc", 	${diagram.ID} 
+	8,                       // Model_Type
+	"6055c45a-99df-41e3-8c6d-621c600503ea", 			${ooaofooa_ID} // the id of the ooaofooa element for ISM this is the SM_SM's id
+	40,                      // OOA_TYPE
+	0,
+	0,
+	1,
+	1,
+	1,
+	12,
+	1,     // ${grid_on_flag}
+	0,     // ${x_coordinate}
+	0,     // ${y_coordinate}    
+	0,     // ${width}     
+	0,     // ${height}
+	0,
+	'',    // This is the persistence version ("4.1.17" right now). This is set only if widgets are present. It is empty if there are no widgets
+	'ClassDiagramOnly::ClassDiagram::class1::Instance State Machine');  // {$ooaofooa.represents_path}
+	
+INSERT INTO DIM_DIA                                     // Note: this instance comes AFTER the last widget.
+                                                        //       In this simple example there were no widgets
+	VALUES ("e5fd4a95-e2d7-4dc6-95df-42e211ab72bc", 	${diagram.ID}
+	'',
+	1.000000,                                   // zoom level
+	4000.000000,								// ${viewport_x_coordinate} 
+	                                            //  I do not see how these 2 "viewport coordinates are used.
+	                                            //  In simple test their value does not matter. 
+	3000.000000,							    // ${viewport_x_coordinate}
+	"00000000-0000-0000-0000-000000000000");

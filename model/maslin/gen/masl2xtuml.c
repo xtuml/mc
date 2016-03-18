@@ -17,6 +17,16 @@
 /*
  * Interface:  serial
  * Provided Port:  in
+ * To Provider Message:  end
+ */
+void
+masl2xtuml_in_end()
+{
+}
+
+/*
+ * Interface:  serial
+ * Provided Port:  in
  * To Provider Message:  populate
  */
 void
