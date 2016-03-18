@@ -29,6 +29,8 @@ widget = widget::populate(
   diagram:param.diagram
 );
 create object instance figure of figure;
+figure.fID1 = graph::id();
+figure.fID2 = graph::id();
 relate widget to figure across R3902;',
 	1,
 	'',
@@ -83,7 +85,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one widget related by self->widget[R3902];
+	'figure = self;
+select one widget related by self->widget[R3902];
 select one diagram related by widget->diagram[R3901];
 if ( 41 == widget.flavor )
   T::include( file:"t/t.state.sql" );
@@ -91,6 +94,49 @@ end if;',
 	1,
 	'',
 	"f8edaf80-31e9-4cd3-ae0c-2db66412394a");
+INSERT INTO O_NBATTR
+	VALUES ("79362b99-3152-4787-b292-ecd0c1451d8d",
+	"3e343190-bf66-4dbf-ad21-fd03389f7655");
+INSERT INTO O_BATTR
+	VALUES ("79362b99-3152-4787-b292-ecd0c1451d8d",
+	"3e343190-bf66-4dbf-ad21-fd03389f7655");
+INSERT INTO O_ATTR
+	VALUES ("79362b99-3152-4787-b292-ecd0c1451d8d",
+	"3e343190-bf66-4dbf-ad21-fd03389f7655",
+	"00000000-0000-0000-0000-000000000000",
+	'fID1',
+	'',
+	'',
+	'fID1',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("68ae699f-8534-4e8a-8357-4988cec5b93d",
+	"00000000-0000-0000-0000-000000000000",
+	'IDtype',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("6f83c3a8-d293-4122-8b9a-e5a0bb737a8a",
+	"3e343190-bf66-4dbf-ad21-fd03389f7655");
+INSERT INTO O_BATTR
+	VALUES ("6f83c3a8-d293-4122-8b9a-e5a0bb737a8a",
+	"3e343190-bf66-4dbf-ad21-fd03389f7655");
+INSERT INTO O_ATTR
+	VALUES ("6f83c3a8-d293-4122-8b9a-e5a0bb737a8a",
+	"3e343190-bf66-4dbf-ad21-fd03389f7655",
+	"79362b99-3152-4787-b292-ecd0c1451d8d",
+	'fID2',
+	'',
+	'',
+	'fID2',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"3e343190-bf66-4dbf-ad21-fd03389f7655");

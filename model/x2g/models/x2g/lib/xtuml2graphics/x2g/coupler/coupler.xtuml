@@ -14,24 +14,52 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	'// CDS - get x,y from diagram factory somehow
-x = 0;
-y = 0;
-number = 0; // CDS - count up and keep track of widgets
-// CDS - keep separate counters for figures and couplers
+	'diagram = param.diagram;
+flavor = param.flavor;
+name = param.name;
+ooaofooa_ID = param.ooaofooa_ID;
+orig_ID = param.orig_ID;
+dest_ID = param.dest_ID;
+
+// x,y and new number from diagram factory
+x = 0; y = 0;
+widgetnumber = diagram.xy( x:x, y:y, figurenumber:0 );
 
 widget = widget::populate(
-  name:param.name,
-  number:number,
-  ooaofooa_ID:param.ooaofooa_ID,
-  flavor:param.flavor,
+  name:name,
+  number:widgetnumber,
+  ooaofooa_ID:ooaofooa_ID,
+  flavor:flavor,
   x:x,
   y:y,
-  diagram:param.diagram
-  // path
+  diagram:diagram
 );
+
 create object instance coupler of coupler;
-relate widget to coupler across R3902;',
+relate widget to coupler across R3902;
+// general use linking identifiers
+coupler.cID1 = graph::id(); coupler.cID2 = graph::id(); coupler.cID3 = graph::id();
+coupler.textID1 = graph::id(); coupler.textID2 = graph::id(); coupler.textID3 = graph::id();
+coupler.lsID1 = graph::id(); coupler.lsID2 = graph::id(); coupler.lsID3 = graph::id();
+coupler.wpID1 = graph::id(); coupler.wpID2 = graph::id(); coupler.wpID3 = graph::id();
+
+// Relate coupler to orig and dest widgets. 
+select any orig_widget related by diagram->widget[R3901] where ( selected.ooaofooa_ID == T::idtoi( id:orig_ID ) );
+select any dest_widget related by diagram->widget[R3901] where ( selected.ooaofooa_ID == T::idtoi( id:dest_ID ) );
+if ( 24 == flavor )
+  // association
+elif ( 42 == flavor )
+  // transition
+  orig_junction = junction::populate( x:x, y:y, orig_dest:"orig" ); // CDS - xy?
+  relate coupler to orig_widget across R3903 using orig_junction;
+  dest_junction = junction::populate( x:x, y:y, orig_dest:"dest" ); // CDS - xy?
+  relate coupler to dest_widget across R3903 using dest_junction;
+elif ( 49 == flavor )
+  // creation transition
+  dest_junction = junction::populate( x:x, y:y, orig_dest:"dest" ); // CDS - xy?
+  relate coupler to dest_widget across R3903 using dest_junction;
+end if;
+',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -78,6 +106,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../x2g.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("6c0744f3-0194-42ba-b8e0-56517dc4c9f5",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'orig_ID',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"97aed95f-a496-448a-9a52-9fdc852b3524",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("191d0108-11b7-406d-ae0e-66bfe3119452",
+	"26523f26-2f98-401a-b700-cf84c8985e1b",
+	'dest_ID',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"6c0744f3-0194-42ba-b8e0-56517dc4c9f5",
+	'');
 INSERT INTO O_TFR
 	VALUES ("50573961-00ac-4987-905e-219aaad33fcb",
 	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
@@ -85,13 +131,247 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one widget related by self->widget[R3902];
-if ( 42 == widget.flavor )
+	'coupler = self;
+select one widget related by self->widget[R3902];
+select one diagram related by widget->diagram[R3901];
+select any orig_junction related by self->junction[R3903] where ( selected.orig_dest == "orig" );
+select any dest_junction related by self->junction[R3903] where ( selected.orig_dest == "dest" );
+select one orig_widget related by orig_junction->widget[R3903];
+select one dest_widget related by dest_junction->widget[R3903];
+if ( 24 == widget.flavor )
+elif ( 42 == widget.flavor )
+  // transition
   T::include( file:"t/t.transition.sql" );
+elif ( 49 == widget.flavor )
+  // creation transition
+  T::include( file:"t/t.creation_transition.sql" );
 end if;',
 	1,
 	'',
 	"26523f26-2f98-401a-b700-cf84c8985e1b");
+INSERT INTO O_NBATTR
+	VALUES ("fcf5ce59-008d-4936-976d-e9f603834436",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("fcf5ce59-008d-4936-976d-e9f603834436",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("fcf5ce59-008d-4936-976d-e9f603834436",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"00000000-0000-0000-0000-000000000000",
+	'cID1',
+	'',
+	'',
+	'cID1',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("68ae699f-8534-4e8a-8357-4988cec5b93d",
+	"00000000-0000-0000-0000-000000000000",
+	'IDtype',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("2a8ae65d-e086-4f03-9d29-c213b1ab4c04",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("2a8ae65d-e086-4f03-9d29-c213b1ab4c04",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("2a8ae65d-e086-4f03-9d29-c213b1ab4c04",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"fcf5ce59-008d-4936-976d-e9f603834436",
+	'cID2',
+	'',
+	'',
+	'cID2',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5a59add7-bbf9-4512-a94f-4ece85b2d180",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("5a59add7-bbf9-4512-a94f-4ece85b2d180",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("5a59add7-bbf9-4512-a94f-4ece85b2d180",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"2a8ae65d-e086-4f03-9d29-c213b1ab4c04",
+	'cID3',
+	'',
+	'',
+	'cID3',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("46ac7b21-f264-46f3-b6cd-afc3a6beb877",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("46ac7b21-f264-46f3-b6cd-afc3a6beb877",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("46ac7b21-f264-46f3-b6cd-afc3a6beb877",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"5a59add7-bbf9-4512-a94f-4ece85b2d180",
+	'textID1',
+	'',
+	'',
+	'textID1',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7c241982-c878-4949-9b1b-55a437a54394",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("7c241982-c878-4949-9b1b-55a437a54394",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("7c241982-c878-4949-9b1b-55a437a54394",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"46ac7b21-f264-46f3-b6cd-afc3a6beb877",
+	'textID2',
+	'',
+	'',
+	'textID2',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("7c076616-b1b5-441b-a22c-5c8cad249da1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("7c076616-b1b5-441b-a22c-5c8cad249da1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("7c076616-b1b5-441b-a22c-5c8cad249da1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"7c241982-c878-4949-9b1b-55a437a54394",
+	'textID3',
+	'',
+	'',
+	'textID3',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f849c044-8df1-4f5e-81c5-f39eea836cb9",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("f849c044-8df1-4f5e-81c5-f39eea836cb9",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("f849c044-8df1-4f5e-81c5-f39eea836cb9",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"7c076616-b1b5-441b-a22c-5c8cad249da1",
+	'lsID1',
+	'',
+	'',
+	'lsID1',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("564620af-d07f-48bc-96c4-e8f395ed1888",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("564620af-d07f-48bc-96c4-e8f395ed1888",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("564620af-d07f-48bc-96c4-e8f395ed1888",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"f849c044-8df1-4f5e-81c5-f39eea836cb9",
+	'lsID2',
+	'',
+	'',
+	'lsID2',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("b1d4d398-a126-48fe-9cb4-75f2096379f2",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("b1d4d398-a126-48fe-9cb4-75f2096379f2",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("b1d4d398-a126-48fe-9cb4-75f2096379f2",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"564620af-d07f-48bc-96c4-e8f395ed1888",
+	'lsID3',
+	'',
+	'',
+	'lsID3',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("ffbe1740-318c-4868-a5d8-a04ec345b354",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("ffbe1740-318c-4868-a5d8-a04ec345b354",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("ffbe1740-318c-4868-a5d8-a04ec345b354",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"b1d4d398-a126-48fe-9cb4-75f2096379f2",
+	'wpID1',
+	'',
+	'',
+	'wpID1',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("af758943-9463-48aa-b2f5-c1fb7079067d",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("af758943-9463-48aa-b2f5-c1fb7079067d",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("af758943-9463-48aa-b2f5-c1fb7079067d",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"ffbe1740-318c-4868-a5d8-a04ec345b354",
+	'wpID2',
+	'',
+	'',
+	'wpID2',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("09ddafa8-f843-447e-9893-bac7eec7e917",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("09ddafa8-f843-447e-9893-bac7eec7e917",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("09ddafa8-f843-447e-9893-bac7eec7e917",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"af758943-9463-48aa-b2f5-c1fb7079067d",
+	'wpID3',
+	'',
+	'',
+	'wpID3',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"6939d8b2-47e3-4845-ad23-b3490eda7b07");

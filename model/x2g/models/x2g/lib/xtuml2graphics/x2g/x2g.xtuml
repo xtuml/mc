@@ -207,7 +207,7 @@ INSERT INTO GD_NCS
 	VALUES ("f6a3f9ed-08f7-4c09-9fb3-95da1ca9e906");
 INSERT INTO DIM_ND
 	VALUES (160.000000,
-	112.000000,
+	145.000000,
 	"f6a3f9ed-08f7-4c09-9fb3-95da1ca9e906");
 INSERT INTO DIM_GE
 	VALUES (4224.000000,
@@ -236,7 +236,7 @@ INSERT INTO GD_NCS
 	VALUES ("9e2bf790-66e6-4981-a3ba-e8febfb11b72");
 INSERT INTO DIM_ND
 	VALUES (193.000000,
-	113.000000,
+	145.000000,
 	"9e2bf790-66e6-4981-a3ba-e8febfb11b72");
 INSERT INTO DIM_GE
 	VALUES (4400.000000,
@@ -599,7 +599,7 @@ INSERT INTO GD_NCS
 	VALUES ("c8c04d04-1ebc-49e1-8bcc-c0c93903aea5");
 INSERT INTO DIM_ND
 	VALUES (145.000000,
-	97.000000,
+	112.000000,
 	"c8c04d04-1ebc-49e1-8bcc-c0c93903aea5");
 INSERT INTO DIM_GE
 	VALUES (4688.000000,
@@ -974,6 +974,46 @@ INSERT INTO PE_PE
 	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("e92fcefd-9fb7-424f-96c3-96288bef1378",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<junction>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("e92fcefd-9fb7-424f-96c3-96288bef1378",
+	0,
+	"7ff342b4-c7cc-4e10-9aed-6a647103f44b");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("7ff342b4-c7cc-4e10-9aed-6a647103f44b",
+	'junction',
+	3905,
+	'junction',
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'./junction/junction.xtuml');
+INSERT INTO PE_PE
+	VALUES ("e92fcefd-9fb7-424f-96c3-96288bef1378",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7ab8a750-ca4c-4a13-8efd-01d550c49bd3",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<junction>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7ab8a750-ca4c-4a13-8efd-01d550c49bd3",
+	1,
+	"7ff342b4-c7cc-4e10-9aed-6a647103f44b");
+INSERT INTO PE_PE
+	VALUES ("7ab8a750-ca4c-4a13-8efd-01d550c49bd3",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("1840d098-e27d-4d2f-bf54-80ad07b3580a");
 INSERT INTO R_REL
@@ -1101,8 +1141,8 @@ INSERT INTO R_AONE
 	VALUES ("6939d8b2-47e3-4845-ad23-b3490eda7b07",
 	"7a31cdd6-2c15-4eda-9730-36fa63437ba7",
 	"89037124-df22-4863-8126-97613aa9db05",
-	0,
-	0,
+	1,
+	1,
 	'');
 INSERT INTO R_RTO
 	VALUES ("6939d8b2-47e3-4845-ad23-b3490eda7b07",
@@ -1145,14 +1185,6 @@ INSERT INTO R_OIR
 	"7a31cdd6-2c15-4eda-9730-36fa63437ba7",
 	"d321d619-97cc-46f6-89f7-686f1aee7e48",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("7ff342b4-c7cc-4e10-9aed-6a647103f44b",
-	'junction',
-	3905,
-	'junction',
-	'',
-	"00000000-0000-0000-0000-000000000000",
-	'./junction/junction.xtuml');
 INSERT INTO PE_PE
 	VALUES ("7a31cdd6-2c15-4eda-9730-36fa63437ba7",
 	1,
@@ -1286,24 +1318,38 @@ TRACE::log( flavor:"info", id:204, message:"object name of SM_SM is " + o_obj.Na
 parent_path = ::class_get_path( o_obj:o_obj );
 diagram = diagram::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:40, path:parent_path + "::Instance State Machine" );
 
+// Start with all of the figures (states).
+// These must exist before the connectors can connect.
 select many sm_states related by sm_sm->SM_STATE[R501];
 for each sm_state in sm_states
   figure::populate( name:sm_state.Name, ooaofooa_ID:sm_state.SMstt_ID, flavor:41, diagram:diagram );
 end for;
-select many ne_sm_txns related by sm_sm->SM_TXN[R505]->SM_NETXN[R507]->SM_TXN[R507];
-// no event transitions
-for each sm_txn in ne_sm_txns
-  //coupler::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:42, diagram:diagram );
-end for;
-// new state transitions
-select many ns_sm_txns related by sm_sm->SM_TXN[R505]->SM_NSTXN[R507]->SM_TXN[R507];
-for each sm_txn in ne_sm_txns
-  //coupler::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:41, diagram:diagram );
-end for;
-// creation transitions
-select many cr_sm_txns related by sm_sm->SM_TXN[R505]->SM_CRTXN[R507]->SM_TXN[R507];
-for each sm_txn in ne_sm_txns
-  //coupler::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, flavor:41, diagram:diagram );
+
+// Now add transitions.
+for each dest_sm_state in sm_states
+  // Get transitions destined here.
+  select many sm_txns related by dest_sm_state->SM_TXN[R506];
+  for each sm_txn in sm_txns
+    // no event transition
+    select one orig_sm_state related by sm_txn->SM_NETXN[R507]->SM_STATE[R508];
+    if ( not_empty orig_sm_state )
+      coupler::populate( name:orig_sm_state.Name + "::" + "No Event Assigned", ooaofooa_ID:sm_txn.Trans_ID, flavor:42,
+        diagram:diagram, orig_ID:orig_sm_state.SMstt_ID, dest_ID:dest_sm_state.SMstt_ID );
+    else
+      // next state transition
+      select one sm_seme related by sm_txn->SM_NSTXN[R507]->SM_SEME[R504];
+      select one sm_evt related by sm_seme->SM_SEVT[R503]->SM_EVT[R525];
+      select one orig_sm_state related by sm_seme->SM_STATE[R503];
+      if ( not_empty orig_sm_state )
+        coupler::populate( name:orig_sm_state.Name + "::" + sm_evt.Mning, ooaofooa_ID:sm_txn.Trans_ID, flavor:42,
+          diagram:diagram, orig_ID:orig_sm_state.SMstt_ID, dest_ID:dest_sm_state.SMstt_ID );
+      else
+        // creation state transition
+        coupler::populate( name:"creation", ooaofooa_ID:sm_txn.Trans_ID, flavor:49,
+          diagram:diagram, orig_ID:dest_sm_state.SMstt_ID, dest_ID:dest_sm_state.SMstt_ID );
+      end if;
+    end if;
+  end for;
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
