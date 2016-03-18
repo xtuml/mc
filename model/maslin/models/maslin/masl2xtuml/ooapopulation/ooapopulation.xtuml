@@ -30,9 +30,6 @@ end if;
 if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and	// If all values are empty, it is
 	 "" == value[4] and "" == value[5] and "" == value[6] and "" == value[7] )		// an end tag
   select one current_element related by ooapopulation->ooaelement[R3801];
-  if ( not_empty current_element )
-    TRACE::log( flavor:"levi", id:99, message:"current_element->type: " + current_element.type + ", element: " + element );
-  end if;
   if ( ooaelement::ismarkable( type: element ) )
 	select one markable related by current_element->ooamarkable[R3806];
 	markable.render_pragmas();
