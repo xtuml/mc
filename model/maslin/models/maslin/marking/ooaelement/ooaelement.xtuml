@@ -84,11 +84,11 @@ INSERT INTO O_TFR
 	'// check if it is a valid markable element
 if ( //"project" == param.type or				// waiting for keith on sys level modelling
 	 "domain" == param.type or
-     "object" == param.type or					// multiple pragma lists
+     "object" == param.type or
      "terminator" == param.type or
-     "routine" == param.type or					// aslo have filename in description, multiple pragma lists
-     "operation" == param.type or				// also have filename in description, multiple pragma lists
-     "state" == param.type or					// also have filename in description, multiple pragma lists
+     "routine" == param.type or
+     "operation" == param.type or
+     "state" == param.type or
      "attribute" == param.type or
      //"identifier" == param.type or			// not implemented
      "transitiontable" == param.type

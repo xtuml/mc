@@ -234,19 +234,19 @@ elif ( "transition" == element )
 elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
   if ( not_empty s_sync )
-    s_sync.Descrip = param.value[0];
+    s_sync.Descrip = s_sync.Descrip + "codeblock:" + param.value[0] + "\n";
   end if;
   
   o_tfr = ooapopulation.current_class_op;
   if ( not_empty o_tfr )
-    o_tfr.Descrip = param.value[0];
+    o_tfr.Descrip = o_tfr.Descrip + "codeblock:" + param.value[0] + "\n";
   end if;
   
   sm_state = ooapopulation.current_state;
   if ( not_empty sm_state )
     select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
     if ( not_empty sm_act )
-      sm_act.Descrip = param.value[0];
+      sm_act.Descrip = sm_act.Descrip + "codeblock:" + param.value[0] + "\n";
     end if;
   end if;
   
@@ -985,6 +985,10 @@ if ( not_empty current_class )
 
   //  Create new xtUML state machine state
   self.StateMachine_newState(sm_sm:sm_sm, name:param.name);
+
+  // Cache the current state
+  select any sm_state related by sm_sm->SM_STATE[R501] where ( selected.Name == param.name );
+  self.current_state = sm_state;
 else
   // No current_class.  That means we just need to find the given state and cache it so that the following 
   // SMASL can modify it.

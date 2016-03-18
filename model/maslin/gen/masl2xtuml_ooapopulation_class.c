@@ -440,15 +440,15 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     s_sync = ooapopulation->current_domain_function;
     /* IF ( not_empty s_sync ) */
     if ( ( 0 != s_sync ) ) {
-      /* ASSIGN s_sync.Descrip = PARAM.value[0] */
-      s_sync->Descrip = Escher_strcpy( s_sync->Descrip, p_value[0] );
+      /* ASSIGN s_sync.Descrip = ( ( ( s_sync.Descrip + codeblock: ) + PARAM.value[0] ) + \n ) */
+      s_sync->Descrip = Escher_strcpy( s_sync->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( s_sync->Descrip, "codeblock:" ), p_value[0] ), "\n" ) );
     }
     /* ASSIGN o_tfr = ooapopulation.current_class_op */
     o_tfr = ooapopulation->current_class_op;
     /* IF ( not_empty o_tfr ) */
     if ( ( 0 != o_tfr ) ) {
-      /* ASSIGN o_tfr.Descrip = PARAM.value[0] */
-      o_tfr->Descrip = Escher_strcpy( o_tfr->Descrip, p_value[0] );
+      /* ASSIGN o_tfr.Descrip = ( ( ( o_tfr.Descrip + codeblock: ) + PARAM.value[0] ) + \n ) */
+      o_tfr->Descrip = Escher_strcpy( o_tfr->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( o_tfr->Descrip, "codeblock:" ), p_value[0] ), "\n" ) );
     }
     /* ASSIGN sm_state = ooapopulation.current_state */
     sm_state = ooapopulation->current_state;
@@ -466,8 +466,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
 }}}}
       /* IF ( not_empty sm_act ) */
       if ( ( 0 != sm_act ) ) {
-        /* ASSIGN sm_act.Descrip = PARAM.value[0] */
-        sm_act->Descrip = Escher_strcpy( sm_act->Descrip, p_value[0] );
+        /* ASSIGN sm_act.Descrip = ( ( ( sm_act.Descrip + codeblock: ) + PARAM.value[0] ) + \n ) */
+        sm_act->Descrip = Escher_strcpy( sm_act->Descrip, Escher_stradd( Escher_stradd( Escher_stradd( sm_act->Descrip, "codeblock:" ), p_value[0] ), "\n" ) );
       }
     }
   }
@@ -1097,7 +1097,7 @@ masl2xtuml_ooapopulation_op_transformState( masl2xtuml_ooapopulation * self, c_t
   current_class = self->current_class;
   /* IF ( not_empty current_class ) */
   if ( ( 0 != current_class ) ) {
-    masl2xtuml_SM_SM * sm_sm=0;
+    masl2xtuml_SM_SM * sm_sm=0;masl2xtuml_SM_STATE * sm_state=0;
     /* SELECT any sm_sm FROM INSTANCES OF SM_SM WHERE FALSE */
     sm_sm = 0;
     /* IF ( ( ( assigner == PARAM.type ) or ( assigner start == PARAM.type ) ) ) */
@@ -1111,6 +1111,19 @@ masl2xtuml_ooapopulation_op_transformState( masl2xtuml_ooapopulation * self, c_t
     }
     /* self.StateMachine_newState( name:PARAM.name, sm_sm:sm_sm ) */
     masl2xtuml_ooapopulation_op_StateMachine_newState( self,  p_name, sm_sm );
+    /* SELECT any sm_state RELATED BY sm_sm->SM_STATE[R501] WHERE ( ( SELECTED.Name == PARAM.name ) ) */
+    sm_state = 0;
+    if ( 0 != sm_sm ) {
+      masl2xtuml_SM_STATE * selected;
+      Escher_Iterator_s iSM_STATE_R501_is_decomposed_into;
+      Escher_IteratorReset( &iSM_STATE_R501_is_decomposed_into, &sm_sm->SM_STATE_R501_is_decomposed_into );
+      while ( 0 != ( selected = (masl2xtuml_SM_STATE *) Escher_IteratorNext( &iSM_STATE_R501_is_decomposed_into ) ) ) {
+        if ( ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
+          sm_state = selected;
+          break;
+    }}}
+    /* ASSIGN self.current_state = sm_state */
+    self->current_state = sm_state;
   }
   else {
     masl2xtuml_C_C * c_c=0;masl2xtuml_SM_STATE * sm_state=0;masl2xtuml_O_OBJ * o_obj=0;masl2xtuml_EP_PKG * ep_pkg=0;
