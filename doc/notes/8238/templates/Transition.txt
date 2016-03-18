@@ -1,0 +1,115 @@
+--diagram.ID: ${diagram.ID}  widge.ID: ${widget.ID}   ooaofooa_path: ${ooaofooa_path}
+INSERT INTO DIM_CON                                 -- This represents an the anchor point for the connector
+                                                    -- In this example there are 2 of them because the line is connected to 
+                                                    -- a figure on each end
+	VALUES ("${coupler.ID1}",
+	7633.000000,									-- XPosition
+	5843.000000,                                    -- YPosition
+	"${coupler->widget.ID}"); 						-- ID if the widget this coupler is attached to
+INSERT INTO DIM_CON
+	VALUES ("${coupler.ID2}", 						-- This is a second coupler ID that will be generated
+	7752.000000,
+	5843.000000,
+	"${coupler->widget.ID}"); 						-- ID if the widget this coupler is attached to
+INSERT INTO GD_GE
+	VALUES ("${widget.ID}",
+	0,        -- null id         -- diagram.ID is null in this case
+	"${ooaofooa_ID}", 								-- This is the SM_TXN.id
+	42,                                             -- OOA_Type
+	0,
+	'${ooaofooa_path}');							--example: ClassDiagramOnly::ClassDiagram::class1::Instance State Machine::Unnamed State::No Event Assigned
+	                                                -- It is the source side that this represents_path represents
+INSERT INTO GD_CON
+	VALUES ("${widget.ID}",
+	0);        -- null id
+INSERT INTO GD_CTXT
+	VALUES ("${widget.textID1}",
+	"${widget.ID}",
+	1,                                              -- Enum the represents the end of the connector for which this is serving as text (start,middle,end)
+	0.000000,                                       -- x offset of the connector text from the default position
+	0.000000);                                      -- y offset of the connector text from the default position
+INSERT INTO DIM_ND
+	VALUES (0.000000,                               -- width
+	0.000000,                                       -- height
+	"${widget.textID1}");
+INSERT INTO DIM_GE
+	VALUES (0.000000,                               -- positionX - This is the x position on the diagram
+	0.000000,                                       -- positionY - This is the y position on the diagram
+	"${widget.textID1}",
+	0);        										-- Semantic model bridge id. (referential for DIM_SMB.Smb_ID)
+INSERT INTO DIM_ELE
+	VALUES ("${widget.textID1}",
+	0,
+	0);        											-- null id
+INSERT INTO GD_CTXT
+	VALUES ("${widget.textID2}",
+	"${widget.ID}",
+	3,                                              -- Enum the represents the end of the connector for which this is serving as text (start,middle,end)
+	0.000000,
+	0.000000);
+INSERT INTO DIM_ND
+	VALUES (0.000000,
+	0.000000,
+	"${widget.textID2}");        
+INSERT INTO DIM_GE
+	VALUES (0.000000,
+	0.000000,
+	"${widget.textID2}",			
+	0);        -- null id
+INSERT INTO DIM_ELE
+	VALUES ("${widget.textID2}",	
+	0,
+	0);        -- null id
+INSERT INTO GD_CTXT
+	VALUES ("${widget.textID3}", 
+	"${widget.ID}",       
+	2,                                            -- Enum the represents the end of the connector for which this is serving as text (start,middle,end)
+	0.000000,
+	0.000000);
+INSERT INTO DIM_ND
+	VALUES (0.000000,
+	0.000000,
+	"${widget.textID3}");		
+INSERT INTO DIM_GE
+	VALUES (0.000000,
+	0.000000,
+	"${widget.textID3}",			
+	0);        -- null id
+INSERT INTO DIM_ELE
+	VALUES ("${widget.textID3}",	
+	0,
+	0);        -- null id
+INSERT INTO GD_LS
+	VALUES ("${widget.LINE_SEGMENT_ID}",  
+	"${widget.ID}",          
+	0,        -- null id
+	"${widget.START_WAYPOINT_ID}",  		--start waypoint_id
+	"${widget.END_WAYPOINT_ID}"); 		-- end_watpoint_id
+INSERT INTO DIM_WAY
+	VALUES ("${widget.START_WAYPOINT_ID}", 
+	7633.000000,									-- xposition
+	5843.000000,									--yposition
+	"${widget.ID}",          
+	0,        									-- this is the "polyline" element id
+	0);        									-- This is the previous waypoint ID
+INSERT INTO DIM_WAY
+	VALUES ("${widget.END_WAYPOINT_ID}", 
+	7752.000000,									--xposition
+	5843.000000,									--yposition
+	"${widget.ID}",           
+	0,        -- null id
+	"${widget.START_WAYPOINT_ID}");		  -- This is the previous waypoint ID
+INSERT INTO DIM_GE
+	VALUES (0.000000,
+	0.000000,
+	"${widget.ID}",            
+	0);        -- null id
+INSERT INTO DIM_ELE
+	VALUES ("${widget.ID}",    
+	0,
+	0);        -- null id
+INSERT INTO DIM_ED
+	VALUES ("${coupler.ID1}",  
+	"${coupler.ID2}",          
+	"${widget.ID}");         
+	
