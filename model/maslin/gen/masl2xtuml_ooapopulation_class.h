@@ -153,6 +153,7 @@ void masl2xtuml_ooapopulation_op_ClassAsAssociatedOtherSide_dispose( masl2xtuml_
 void masl2xtuml_ooapopulation_op_ClassAsSimpleParticipant_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_PART * );
 masl2xtuml_O_RATTR * masl2xtuml_ooapopulation_op_ClassIdentifierAttribute_addReference( masl2xtuml_ooapopulation *, masl2xtuml_O_OBJ *, masl2xtuml_R_RGO *, const i_t, masl2xtuml_O_OIDA *, masl2xtuml_O_OBJ *, masl2xtuml_R_RTO *, masl2xtuml_R_REL * );
 masl2xtuml_O_RATTR * masl2xtuml_ooapopulation_op_ModelClass_newReferentialAttribute( masl2xtuml_ooapopulation *, const i_t, masl2xtuml_O_OBJ *, masl2xtuml_O_OIDA * );
+masl2xtuml_C_IR * masl2xtuml_ooapopulation_op_Component_initializeRequirement( masl2xtuml_ooapopulation *, masl2xtuml_C_C *, masl2xtuml_C_I *, c_t * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10

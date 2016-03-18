@@ -824,7 +824,7 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'comp_if_name = param.name + self.current_component.Name;
+	'comp_if_name = self.current_component.Name + param.name;
 
 lib_pkg = self.lib_pkg;
 select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
@@ -5847,7 +5847,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("7b4c3a78-f304-4264-baa7-b5a804fc511b",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"639dfebf-4ad6-4c83-a9ff-7f599558ec59",
+	"cca5c62d-a419-4247-8bd7-2e76b7cdf688",
 	'current_rel',
 	'',
 	'',
@@ -5890,7 +5890,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("cca5c62d-a419-4247-8bd7-2e76b7cdf688",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"45769a88-3b54-414b-8e30-d357063e4f0f",
+	"639dfebf-4ad6-4c83-a9ff-7f599558ec59",
 	'current_pragma',
 	'',
 	'',
@@ -5921,3 +5921,11 @@ INSERT INTO PE_PE
 	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"00000000-0000-0000-0000-000000000000",
 	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0,
+	'../masl2xtuml.xtuml');
