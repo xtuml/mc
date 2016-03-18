@@ -68,7 +68,10 @@ elif ( "object" == element )
     ooapopulation.transformObject(name:param.value[0]);
   end if;
 elif ( "terminator" == element )
-  if ( "" != param.value[0] )
+  if ( "" == param.value[0] )
+    select any c_i from instances of C_I where (false);
+    ooapopulation.current_interface = c_i;
+  else
     ooapopulation.transformTerminator(name:param.value[0]);
   end if;
 elif ( "activity" == element )
@@ -203,11 +206,12 @@ elif ( "routine" == element )
     select any s_sync from instances of S_SYNC where ( false );
     ooapopulation.current_domain_function = s_sync;
   else
-    // TODO -if ( not_empty ooapopulation.current_port )
-    // TODO -  ooapopulation.transformTerminatorFunction();
-    //else
+    c_i = ooapopulation.current_interface;
+    if ( not_empty c_i )
+      ooapopulation.transformTerminatorService(visibility:param.value[2], name:param.value[3], domain:param.value[0], terminator:param.value[1]);
+    else
       ooapopulation.transformDomainFunction(visibility:param.value[2], name:param.value[3], domain:param.value[0], terminator:param.value[1]);
-    //end if;
+    end if;
   end if;
 elif ( "operation" == element )
   if ( "" == param.value[3] )
@@ -223,7 +227,6 @@ elif ( "transitiontable" == element )
     ooapopulation.processingISM = true;
   end if;
 elif ( "transition" == element )
-  //  TODO - do something with the eventDomain and eventObject parameters in phase 2
   ooapopulation.transformTransition(eventName:param.value[3], startState:param.value[0], endState:param.value[4]);
 elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
@@ -243,6 +246,8 @@ elif ( "codeblock" == element )
       sm_act.Descrip = param.value[0];
     end if;
   end if;
+  
+  // TODO - handle code blocks for routines that are terminator services
 elif ( "pragma" == element )
   select one parent_element related by ooapopulation->ooaelement[R3801]->ooaelement[R3805.''child of''];
   if ( "" == param.value[0] )
@@ -709,7 +714,7 @@ self.PackageableElement_initialize(pe_pe:pe);
 return package;',
 	1,
 	'',
-	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d");
+	"de57cf0d-e159-4b31-907e-bba1cb341479");
 INSERT INTO O_TPARM
 	VALUES ("285fb005-4c64-4bab-a540-5f73ef671f89",
 	"747f4c49-5479-4ea7-b653-6c1a4424d418",
@@ -838,7 +843,10 @@ if ( empty comp_if )
   new_ir = self.Component_initializeRequirement(c_c:self.current_component, c_i:comp_if, port_name:comp_port_name);
   // formalize the new interface reference to it
   self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
-end if;',
+end if;
+
+self.current_interface = comp_if;
+',
 	1,
 	'',
 	"cd1f0452-4df9-45c5-949f-e319f8cb63e8");
@@ -1627,7 +1635,8 @@ else
   
     // c - Note that we (currently) always create an interface operation, never a signal
     c_ep = self.Interface_newExecutableProperty(c_i:comp_if, ep_name:param.name, asynchronous:false);
-  
+    c_ep.Direction = IFDirectionType::ClientServer;
+    
     // d
     select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
     // TODO - this isn''t working yet. - spr_po.Action_Semantics = "::" + param.name + "();";
@@ -2291,7 +2300,7 @@ select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( sel
 relate c_io to def_dt across R4008;
 
 c_io.Name = param.name;
-c_io.Direction = IFDirectionType::ServerClient;  // Note: in MASL convert we just always default the direction.
+c_io.Direction = IFDirectionType::ClientServer;  // Note: in MASL convert we just always default the direction.
 ',
 	1,
 	'',
@@ -2330,17 +2339,20 @@ INSERT INTO O_TFR
 	1,
 	'c_i = param.c_i;
 
-create object instance signal of C_EP;
-relate c_i to signal across R4003;
-select many references related by c_i->C_IR[R4012];
-if(param.asynchronous)
- //create object instance asignal of C_AS;
- //relate signal to asignal across R4004;
- //asignal.initialize();
-else
- create object instance ssignal of C_IO;
- relate signal to ssignal across R4004;
- self.InterfaceOperation_initialize(c_io:ssignal, name:param.ep_name);
+select any signal from instances of C_EP where ( selected.Name == param.ep_name );
+if ( empty signal )
+  create object instance signal of C_EP;
+  relate c_i to signal across R4003;
+  select many references related by c_i->C_IR[R4012];
+  if(param.asynchronous)
+    //create object instance asignal of C_AS;
+    //relate signal to asignal across R4004;
+    //asignal.initialize();
+  else
+    create object instance ssignal of C_IO;
+    relate signal to ssignal across R4004;
+    self.InterfaceOperation_initialize(c_io:ssignal, name:param.ep_name);
+  end if;
 end if;
 
 return signal;',
@@ -2941,7 +2953,7 @@ end if;
 ',
 	1,
 	'',
-	"fd3b1e58-e9c3-41df-a82e-724733a56a61");
+	"8bd3b9a0-f3ac-4342-8d1d-0d96cb608c48");
 INSERT INTO O_TPARM
 	VALUES ("d8b6a3cf-04fd-47d1-8e5b-186cdc6d49bf",
 	"7e69abb2-76bc-4021-8183-9dc2025688bb",
@@ -5576,7 +5588,7 @@ self.Port_initialize(c_po:port, name:param.port_name);
 return interfaceRef;',
 	1,
 	'',
-	"9e1603f8-30b3-45e7-a697-d89f16f10bf0");
+	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d");
 INSERT INTO O_TPARM
 	VALUES ("c594153e-1c12-416a-b872-48fa7c3b623f",
 	"de57cf0d-e159-4b31-907e-bba1cb341479",
@@ -5603,6 +5615,64 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"e8fe3eac-7e91-4f0a-86df-13ad4d3f420c",
+	'');
+INSERT INTO O_TFR
+	VALUES ("8bd3b9a0-f3ac-4342-8d1d-0d96cb608c48",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformTerminatorService',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_i = self.current_interface;
+
+if ( empty c_i )
+  select any c_c from instances of C_C where ( selected.Name == param.domain );
+  select any c_po related by c_c->C_PO[R4010] where ( selected.Name == param.terminator );
+  select any c_i related by c_po->C_IR[R4016]->C_I[R4012];
+  self.current_interface = c_i;
+end if;
+
+c_ep = self.Interface_newExecutableProperty(c_i:c_i, ep_name:param.name, asynchronous:false);
+c_ep.Direction = IFDirectionType::ClientServer;
+',
+	1,
+	'',
+	"fd3b1e58-e9c3-41df-a82e-724733a56a61");
+INSERT INTO O_TPARM
+	VALUES ("0a664570-6408-484b-8463-e0c8da3d5823",
+	"8bd3b9a0-f3ac-4342-8d1d-0d96cb608c48",
+	'visibility',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("0edd8974-5b0d-401b-b533-41dc264c2239",
+	"8bd3b9a0-f3ac-4342-8d1d-0d96cb608c48",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0a664570-6408-484b-8463-e0c8da3d5823",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("b955bc98-b515-4914-9a0a-120c8df82e66",
+	"8bd3b9a0-f3ac-4342-8d1d-0d96cb608c48",
+	'domain',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"0edd8974-5b0d-401b-b533-41dc264c2239",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("b4fa0f2e-9bd6-420b-a586-2abe56036bd4",
+	"8bd3b9a0-f3ac-4342-8d1d-0d96cb608c48",
+	'terminator',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"b955bc98-b515-4914-9a0a-120c8df82e66",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
@@ -5829,7 +5899,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("639dfebf-4ad6-4c83-a9ff-7f599558ec59",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"a3e129f2-38f6-47c9-a46a-4043ca376af6",
+	"33d45b78-9c27-4259-8d26-cadfd95a4313",
 	'current_operation_param',
 	'',
 	'',
@@ -5906,6 +5976,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../marking/marking.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("33d45b78-9c27-4259-8d26-cadfd95a4313",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("33d45b78-9c27-4259-8d26-cadfd95a4313",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("33d45b78-9c27-4259-8d26-cadfd95a4313",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"a3e129f2-38f6-47c9-a46a-4043ca376af6",
+	'current_interface',
+	'',
+	'',
+	'current_interface',
+	0,
+	"80698720-cc57-44ba-8aa5-600c524db338",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");

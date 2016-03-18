@@ -31,12 +31,13 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_C_C * current_component;  
   masl2xtuml_S_SYNC * current_domain_function;  
   masl2xtuml_S_SPARM * current_function_param;  
+  masl2xtuml_C_I * current_interface;  
   masl2xtuml_O_TPARM * current_operation_param;  
+  masl2xtuml_ooapragma * current_pragma;  
   masl2xtuml_sdt_relationship_data current_rel;  
   masl2xtuml_SM_STATE * current_state;  
   i_t processingIdentifier;  
   bool processingISM;  
-  masl2xtuml_ooapragma * current_pragma;  
   /* relationship storage */
   masl2xtuml_ooaelement * ooaelement_R3801_has_current;
 };
@@ -154,6 +155,7 @@ void masl2xtuml_ooapopulation_op_ClassAsSimpleParticipant_dispose( masl2xtuml_oo
 masl2xtuml_O_RATTR * masl2xtuml_ooapopulation_op_ClassIdentifierAttribute_addReference( masl2xtuml_ooapopulation *, masl2xtuml_O_OBJ *, masl2xtuml_R_RGO *, const i_t, masl2xtuml_O_OIDA *, masl2xtuml_O_OBJ *, masl2xtuml_R_RTO *, masl2xtuml_R_REL * );
 masl2xtuml_O_RATTR * masl2xtuml_ooapopulation_op_ModelClass_newReferentialAttribute( masl2xtuml_ooapopulation *, const i_t, masl2xtuml_O_OBJ *, masl2xtuml_O_OIDA * );
 masl2xtuml_C_IR * masl2xtuml_ooapopulation_op_Component_initializeRequirement( masl2xtuml_ooapopulation *, masl2xtuml_C_C *, masl2xtuml_C_I *, c_t * );
+void masl2xtuml_ooapopulation_op_transformTerminatorService( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10
