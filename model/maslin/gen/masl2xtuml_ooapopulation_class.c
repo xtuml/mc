@@ -38,7 +38,6 @@ masl2xtuml_ooapopulation_instanceloader( Escher_iHandle_t instance, const c_t * 
   Escher_memset( &self->current_state, avlstring[ 1 ], sizeof( self->current_state ) );
   self->processingIdentifier = Escher_atoi( avlstring[ 1 ] );
   self->processingISM = ( '0' != *avlstring[ 2 ] );
-  Escher_memset( &self->current_pragma, avlstring[ 3 ], sizeof( self->current_pragma ) );
   return return_identifier;
 }
 

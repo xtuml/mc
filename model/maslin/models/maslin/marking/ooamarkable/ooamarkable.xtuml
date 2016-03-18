@@ -65,6 +65,9 @@ if ( not_empty population )
 		elif ( "object" == element.type )
 			obj = population.current_class;
 			obj.Descrip = pragma_string;
+		elif ( "attribute" == element.type )
+			attr = population.current_attribute;
+			attr.Descrip = pragma_string;
 		else
 		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + element.type + "''" );
 		end if;
