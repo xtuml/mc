@@ -95,6 +95,12 @@ if ( not_empty population )
   					sm_sm.Descrip = pragma_string;
   				end if;
   			end if;
+		elif ( "event" == element.type )
+			evt = population.current_event;
+			evt.Descrip = evt.Descrip + pragma_string;
+		elif ( "type" == element.type )
+			type = population.current_type;
+			type.Descrip = type.Descrip + pragma_string;
 		else
 		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + element.type + "''" );
 		end if;

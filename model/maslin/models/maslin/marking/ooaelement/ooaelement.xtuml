@@ -91,12 +91,12 @@ if ( //"project" == param.type or				// waiting for keith on sys level modelling
      "state" == param.type or
      "attribute" == param.type or
      //"identifier" == param.type or			// not implemented
-     "transitiontable" == param.type
-     //"event" == param.type or					// ? no current
+     "transitiontable" == param.type or
+     "event" == param.type or
      //"regularrel" == param.type or			// ? created at end tag
      //"associative" == param.type or			// ? created at end tag
      //"subsuper" == param.type or				// not implemented
-     //"type" == param.type or					// ? also have definition in description, no current
+     "type" == param.type
      //"exception" == param.type or				// not implemented
     )
   return true;

@@ -38,6 +38,8 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_SM_STATE * current_state;  
   i_t processingIdentifier;  
   bool processingISM;  
+  masl2xtuml_S_DT * current_type;  
+  masl2xtuml_SM_EVT * current_event;  
   /* relationship storage */
   masl2xtuml_ooaelement * ooaelement_R3801_has_current;
 };
