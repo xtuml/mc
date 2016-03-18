@@ -22,6 +22,33 @@
 void
 masl2xtuml_in_end()
 {
+  masl2xtuml_referentialAttribute * ref=0;masl2xtuml_ooaelement * element=0;Escher_ObjectSet_s refs_space={0}; Escher_ObjectSet_s * refs = &refs_space;Escher_ObjectSet_s elements_space={0}; Escher_ObjectSet_s * elements = &elements_space;
+  /* SELECT many elements FROM INSTANCES OF ooaelement */
+  Escher_CopySet( elements, &pG_masl2xtuml_ooaelement_extent.active );
+  /* FOR EACH element IN elements */
+  { Escher_Iterator_s iterelement;
+  masl2xtuml_ooaelement * iielement;
+  Escher_IteratorReset( &iterelement, elements );
+  while ( (iielement = (masl2xtuml_ooaelement *)Escher_IteratorNext( &iterelement )) != 0 ) {
+    element = iielement; {
+    /* element.destruct() */
+    masl2xtuml_ooaelement_op_destruct( element );
+  }}}
+  /* SELECT many refs FROM INSTANCES OF referentialAttribute */
+  Escher_CopySet( refs, &pG_masl2xtuml_referentialAttribute_extent.active );
+  /* FOR EACH ref IN refs */
+  { Escher_Iterator_s iterref;
+  masl2xtuml_referentialAttribute * iiref;
+  Escher_IteratorReset( &iterref, refs );
+  while ( (iiref = (masl2xtuml_referentialAttribute *)Escher_IteratorNext( &iterref )) != 0 ) {
+    ref = iiref; {
+    /* DELETE OBJECT INSTANCE ref */
+    if ( 0 == ref ) {
+      XTUML_EMPTY_HANDLE_TRACE( "referentialAttribute", "Escher_DeleteInstance" );
+    }
+    Escher_DeleteInstance( (Escher_iHandle_t) ref, masl2xtuml_DOMAIN_ID, masl2xtuml_referentialAttribute_CLASS_NUMBER );
+  }}}
+  Escher_ClearSet( refs );Escher_ClearSet( elements );
 }
 
 /*
@@ -154,12 +181,12 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_ooapopulation_instancedumper,
   masl2xtuml_ooaparticipation_instancedumper,
   masl2xtuml_ooaelement_instancedumper,
+  masl2xtuml_referentialAttribute_instancedumper,
   masl2xtuml_ooapragma_list_instancedumper,
   masl2xtuml_ooapragma_instancedumper,
   masl2xtuml_ooapragma_item_instancedumper,
   masl2xtuml_ooamarkable_instancedumper,
   masl2xtuml_ooaunmarkable_instancedumper,
-  masl2xtuml_referentialAttribute_instancedumper,
   masl2xtuml_S_EE_instancedumper,
   masl2xtuml_C_C_instancedumper,
   masl2xtuml_C_I_instancedumper,
@@ -437,12 +464,12 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_ooapopulation_extent,
   &pG_masl2xtuml_ooaparticipation_extent,
   &pG_masl2xtuml_ooaelement_extent,
+  &pG_masl2xtuml_referentialAttribute_extent,
   &pG_masl2xtuml_ooapragma_list_extent,
   &pG_masl2xtuml_ooapragma_extent,
   &pG_masl2xtuml_ooapragma_item_extent,
   &pG_masl2xtuml_ooamarkable_extent,
   &pG_masl2xtuml_ooaunmarkable_extent,
-  &pG_masl2xtuml_referentialAttribute_extent,
   &pG_masl2xtuml_S_EE_extent,
   &pG_masl2xtuml_C_C_extent,
   &pG_masl2xtuml_C_I_extent,

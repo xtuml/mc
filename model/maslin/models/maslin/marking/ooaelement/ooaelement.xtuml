@@ -82,7 +82,23 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'// check if it is a valid markable element
-if ( "domain" == param.type )
+if ( //"project" == param.type or
+     "object" == param.type or
+     //"terminator" == param.type or
+     //"routine" == param.type or
+     //"operation" == param.type or
+     //"state" == param.type or
+     "attribute" == param.type or
+     //"identifier" == param.type or
+     //"transitiontable" == param.type or
+     //"event" == param.type or
+     //"regularrel" == param.type or
+     //"associative" == param.type or
+     //"subsuper" == param.type or
+     //"type" == param.type or
+     //"exception" == param.type or
+	 "domain" == param.type
+    )
   return true;
 else
   return false;

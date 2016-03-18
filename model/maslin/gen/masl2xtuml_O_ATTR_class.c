@@ -213,6 +213,22 @@ void
 masl2xtuml_O_ATTR_instancedumper( Escher_iHandle_t instance )
 {
   masl2xtuml_O_ATTR * self = (masl2xtuml_O_ATTR *) instance;
+
+  if ( ( Escher_strcmp( "current_state", self->Root_Nam ) == 0 ) ) {
+	  printf( "INSERT INTO O_ATTR VALUES ( %ld,%ld,%ld,'%s','%s','%s','%s',%d,\"%s\",'%s','%s' );\n",
+	    ((long)self->Attr_ID & ESCHER_IDDUMP_MASK),
+	    ((long)self->Obj_ID & ESCHER_IDDUMP_MASK),
+	    ((long)self->PAttr_ID & ESCHER_IDDUMP_MASK),
+	    ( 0 != self->Name ) ? self->Name : "",
+	    ( 0 != self->Descrip ) ? self->Descrip : "",
+	    ( 0 != self->Prefix ) ? self->Prefix : "",
+	    ( 0 != self->Root_Nam ) ? self->Root_Nam : "",
+	    self->Pfx_Mode,
+		"ba5eda7a-def5-0000-0000-000000000006",
+	    ( 0 != self->Dimensions ) ? self->Dimensions : "",
+	    ( 0 != self->DefaultValue ) ? self->DefaultValue : "" );
+
+  } else {
   printf( "INSERT INTO O_ATTR VALUES ( %ld,%ld,%ld,'%s','%s','%s','%s',%d,%ld,'%s','%s' );\n",
     ((long)self->Attr_ID & ESCHER_IDDUMP_MASK),
     ((long)self->Obj_ID & ESCHER_IDDUMP_MASK),
@@ -225,6 +241,7 @@ masl2xtuml_O_ATTR_instancedumper( Escher_iHandle_t instance )
     ((long)self->DT_ID & ESCHER_IDDUMP_MASK),
     ( 0 != self->Dimensions ) ? self->Dimensions : "",
     ( 0 != self->DefaultValue ) ? self->DefaultValue : "" );
+  }
 }
 /*
  * Statically allocate space for the instance population for this class.

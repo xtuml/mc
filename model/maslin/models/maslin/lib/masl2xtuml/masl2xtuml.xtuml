@@ -407,7 +407,19 @@ INSERT INTO SPR_PS
 	VALUES ("50327121-6a42-42db-9bf2-ffc152f34046",
 	'end',
 	'',
-	'//TRACE::log( flavor:"info", id:77, message:"End routine called" );',
+	'//TRACE::log( flavor:"info", id:77, message:"End routine called" );
+
+// destruct pragma stack
+select many elements from instances of ooaelement;
+for each element in elements
+	element.destruct();
+end for;
+
+// destruct referentialAttributes
+select many refs from instances of referentialAttribute;
+for each ref in refs
+	delete object instance ref;
+end for;',
 	1);
 INSERT INTO C_EP_PROXY
 	VALUES ("0ea72257-0ebc-46e1-ab27-94d34a5b47cc",
