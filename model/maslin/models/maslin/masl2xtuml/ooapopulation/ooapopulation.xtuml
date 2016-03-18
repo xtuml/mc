@@ -22,8 +22,27 @@ value = param.value;
 select any ooapopulation from instances of ooapopulation;
 if ( empty ooapopulation )
   create object instance ooapopulation of ooapopulation;
-  ooapopulation.processingIdentifier = -1;
+  ooapopulation.processingIdentifier = 0;
   ooapopulation.processingISM = true;
+end if;
+
+// deal with pragma stack
+if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and	// If all values are empty, it is
+	 "" == value[4] and "" == value[5] and "" == value[6] and "" == value[7] )		// an end tag
+  select one current_element related by ooapopulation->ooaelement[R3801];
+  if ( ooaelement::ismarkable( type: element ) )
+	select one markable related by current_element->ooamarkable[R3806];
+	markable.render_pragmas();
+  end if;
+  //ooaelement::trace( population: ooapopulation );
+  current_element.pop_stack();
+elif ( not ( "typeref" == element or 		// exclude leaf nodes in stack
+  	   "referential" == element or
+  	   "pragmaitem" == element or 
+  	   "transition" == element or
+  	   "expression" == element or
+  	   "codeblock" == element ) )
+  ooaelement::populate( population: ooapopulation, type: element );
 end if;
 
 if ( "project" == element )
@@ -34,6 +53,9 @@ elif ( "domain" == element )
   if ( "" == param.value[0] )
     select any c_c from instances of C_C where (false);
     ooapopulation.current_component = c_c;
+    
+    // Now that we are done processing the domain, formalize relationships
+    // TODO - does not work yet - ooapopulation.batchFormalize();
   else
     ooapopulation.transformDomain(name:param.value[0]);
   end if;
@@ -41,7 +63,7 @@ elif ( "object" == element )
   if ( "" == param.value[0] )
     select any o_obj from instances of O_OBJ where (false);
     ooapopulation.current_class = o_obj;
-    ooapopulation.processingIdentifier = -1;
+    ooapopulation.processingIdentifier = 0;
   else
     ooapopulation.transformObject(name:param.value[0]);
   end if;
@@ -65,12 +87,13 @@ elif ( "parameter" == element )
   end if;
 elif ( "identifier" == element )
   if ( "" != param.value[0] )
-    // Note that this works in concert with object processing, which resets the processingIdentifier attribute to -1 when we
-    // see the end of an object.
+    // Note that this works in concert with object processing, which resets the processingIdentifier attribute to 0 when we
+    // see the end of an object.  By setting back to 0, the following increment will mean any identifier specified with
+    // "identifier is" will either be in I2 or I3
     ooapopulation.processingIdentifier = ooapopulation.processingIdentifier + 1;
     // Safety check to not exceed xtUML limit of 3 identifiers
     if ( 3 == ooapopulation.processingIdentifier )
-      // TODO - do we need to output a warning here?
+      TRACE::log( flavor:"warning", id:59, message:"Maximum number of class identifiers reached.  Adding to I3." );
       ooapopulation.processingIdentifier = 2;
     end if;
   end if;
@@ -79,16 +102,25 @@ elif ( "attribute" == element )
     select any o_attr from instances of O_ATTR where (false);
     ooapopulation.current_attribute = o_attr;
   else
-    if ( ooapopulation.processingIdentifier >= 0 )
-      // TODO - set the named attribute as an identifier on the current_class.  NOTE that we assume here that the attribute
+    if ( ooapopulation.processingIdentifier >= 1 )
+      // Set the named attribute as an identifier on the current_class.  NOTE that we assume here that the attribute
       //   has already been created inside the current class.
       o_obj = ooapopulation.current_class;
-      select any o_attr related by o_obj->O_ATTR[R102] where ( selected.Name == param.value[0] );
-      ooapopulation.Attribute_addToIdentifier(o_attr:o_attr, oid:ooapopulation.processingIdentifier);
+      // Check if the identifier specified is a referential attribute.   If it is, put the identifier number into the cache.
+      // If it is not a referential, just make the attribute an identifier.
+      select any ref_o_attr from instances of referentialAttribute where ( (selected.attrName == param.value[0]) and (selected.o_obj == o_obj));
+      if ( not_empty ref_o_attr )
+        ref_o_attr.identifier = ooapopulation.processingIdentifier;
+      else
+        select any o_attr related by o_obj->O_ATTR[R102] where ( selected.Name == param.value[0] );      
+        ooapopulation.Attribute_addToIdentifier(o_attr:o_attr, oid:ooapopulation.processingIdentifier);
+      end if;
     else
       ooapopulation.transformAttribute(name:param.value[0], preferred:param.value[1], unique:param.value[2]);
     end if;
   end if;
+elif ( "referential" == element )
+  // TODO - This is not working yet - ooapopulation.transformReferential(attrName:param.value[4], relationship:param.value[0], roleOrObj:param.value[2]);
 elif ( "state" == element )
   if ( "" == param.value[2] )
     select any sm_state from instances of SM_STATE where (false);
@@ -210,6 +242,20 @@ elif ( "codeblock" == element )
     if ( not_empty sm_act )
       sm_act.Descrip = param.value[0];
     end if;
+  end if;
+elif ( "pragma" == element )
+  select one parent_element related by ooapopulation->ooaelement[R3801]->ooaelement[R3805.''child of''];
+  if ( "" == param.value[0] )
+    select any pragma from instances of ooapragma where (false);
+    ooapopulation.current_pragma = pragma;
+  elif ( ooaelement::ismarkable( type: parent_element.type ) )		// ignore pragma if we are not on a markable element
+    select one markable related by parent_element->ooamarkable[R3806];
+    ooapopulation.current_pragma = ooapragma::populate( name:value[0], list:value[1], markable:markable );
+  end if;
+elif ( "pragmaitem" == element )
+  select one current_element related by ooapopulation->ooaelement[R3801];
+  if ( "pragma" == current_element.type )	// ignore if not child of pragma
+    ooapragma_item::populate( value:value[0], pragma:ooapopulation.current_pragma );
   end if;
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
@@ -778,7 +824,21 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'',
+	'comp_if_name = param.name + self.current_component.Name;
+
+lib_pkg = self.lib_pkg;
+select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+
+select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+if ( empty comp_if )
+  // create the interface
+  comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
+  // create a port & provided interface from the component
+  comp_port_name = param.name;
+  new_ir = self.Component_initializeRequirement(c_c:self.current_component, c_i:comp_if, port_name:comp_port_name);
+  // formalize the new interface reference to it
+  self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+end if;',
 	1,
 	'',
 	"cd1f0452-4df9-45c5-949f-e319f8cb63e8");
@@ -906,7 +966,7 @@ INSERT INTO O_TFR
 if ( not_empty current_class )
   // We are in the midst of building a state machine inside a class definition.
   select any sm_sm from instances of SM_SM where ( false );
-  if ( "assigner" == param.type )
+  if ( ("assigner" == param.type) or ("assigner start" == param.type) )
     sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ASM");
   else
     sm_sm = self.ModelClass_create_sm(o_obj:current_class, sm_type:"ISM");
@@ -931,7 +991,7 @@ else
 end if;',
 	1,
 	'',
-	"a442a038-3373-4282-a5fc-098af44e9cbe");
+	"5834dfc6-c4a1-4b08-8149-5d52a504af4d");
 INSERT INTO O_TPARM
 	VALUES ("6cb4e208-1494-413a-bbd6-97b5eafc6fcd",
 	"cd1f0452-4df9-45c5-949f-e319f8cb63e8",
@@ -1543,7 +1603,7 @@ else
 
   // If the function/service is public:
   //   a) get the "Shared" package under the library package.
-  //   b) see if there is an interface named "<comp name>_if", formalized to a port named (port name does not matter I think) 
+  //   b) see if there is an interface named "<comp name>", formalized to a port named (port name does not matter I think) 
   //        on the component, create if not
   //   c) create an interface operation identical to the domain function/service
   //   d) modify the action body of the operation on the port to call the domain function/service
@@ -1553,13 +1613,13 @@ else
     select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
   
     // b
-    comp_if_name = current_component.Name + "_if";
+    comp_if_name = current_component.Name;
     select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
     if ( empty comp_if )
       // create the interface
       comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
       // create a port & provided interface from the component
-      comp_port_name = current_component.Name + "_port";
+      comp_port_name = current_component.Name;
       new_ir = self.Component_initializeProvision(c_c:current_component, c_i:comp_if, port_name:comp_port_name);
       // formalize the new interface reference to it
       self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
@@ -1710,7 +1770,7 @@ return operation;
 ',
 	1,
 	'',
-	"a10bcbd7-d0c1-4c7f-9af4-6820fada6371");
+	"96e13109-b598-4fd0-be21-6bd307704f41");
 INSERT INTO O_TPARM
 	VALUES ("cf0f4faa-7ab4-4f2c-ac3c-298e1e67de28",
 	"b44f67b8-f281-4aa2-9adc-27b62605a7c1",
@@ -3641,7 +3701,7 @@ for each part in parts
 end for;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000");
+	"afdf1a15-9d14-4cc7-807d-8326a83284ea");
 INSERT INTO O_TFR
 	VALUES ("d1b5e917-bf32-4867-853a-b46ead34387f",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -3814,16 +3874,19 @@ for each clazz in classes
   if (clazz == fromClass)
     // A class cannot be it''s own link class
     // TODO - not doing anything with return value, should we?  - return false;
+    return;
   end if;
 end for;
 if (empty fromClass or empty toAssoc)
   // One of the elements was not found
   // TODO - not doing anything with return value, should we?  - return false;
+  return;
 end if;
 select one simp related by toAssoc->R_SIMP[R206];
 if (empty simp)
   // Only simple associations can have link classes attached. 
   // TODO - not doing anything with return value, should we?  - return false;
+  return;
 else
   /* TODO - not handling imported link classes
   if (param.fromIsImportedClass)
@@ -3833,6 +3896,7 @@ else
     self.SimpleAssociation_migrateToLinked(r_simp:simp, using: usingClass);
   //end if;
   // TODO - not doing anything with return value, should we?  - return true;
+  return;
 end if;',
 	1,
 	'',
@@ -4006,7 +4070,7 @@ return false;
 ',
 	1,
 	'',
-	"95d28c71-7112-48a3-9945-3db8666f33fa");
+	"d0873ada-8a66-46eb-8826-5de36bc7e925");
 INSERT INTO O_TPARM
 	VALUES ("477653e6-0331-473e-979b-cfc420d3cca6",
 	"2218adac-8f24-412c-8e58-e59dd6530054",
@@ -4072,7 +4136,7 @@ unrelate oid from r_rto across R109;
 ',
 	1,
 	'',
-	"a0d04799-d672-4ed8-8a3c-9d45696ac060");
+	"10ea8696-d15f-4bc1-9e5d-a4a5ebc9bc7f");
 INSERT INTO O_TPARM
 	VALUES ("c05f8e20-6b7d-4d77-a33d-35927ca2f309",
 	"e4bdc5ff-cd55-457f-a5d3-3c9753f8e304",
@@ -4415,7 +4479,7 @@ end for;
 delete object instance o_oida;',
 	1,
 	'',
-	"f7d11722-b6db-4a91-80c5-9d36afc0263f");
+	"40c5e56c-f33a-4486-9063-f073fc5ea3ac");
 INSERT INTO O_TPARM
 	VALUES ("411e91e0-5194-4143-9556-ebc4bb816753",
 	"43829a09-886f-4a7f-9089-61faea422330",
@@ -4700,7 +4764,7 @@ delete object instance r_assr;
 ',
 	1,
 	'',
-	"0e9377a2-daec-4c38-9d8b-4bb5213742c2");
+	"56895ed1-1be3-4da9-90db-433447ebba5f");
 INSERT INTO O_TPARM
 	VALUES ("8cc5448a-29aa-4994-bbf3-bce56ad658c8",
 	"9aff835c-7ded-4deb-9d72-a49a9a8e9b41",
@@ -4894,6 +4958,651 @@ INSERT INTO O_TPARM
 	0,
 	'',
 	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("afdf1a15-9d14-4cc7-807d-8326a83284ea",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'batchFormalize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'/*
+
+Iterate over the stored data for referential attributes
+For each one
+  o Remove the attribute if the name already exists
+  o Formalize the relationship (creating the attribute again, this time as a referential)
+  o For simple associations, check to see if it was specified as being part of an identifier, if 
+      so, add it to that one - // TODO - this code is incomplete (too simple).  It assumes the 
+      attribute is part of only one identifier when it could be part of all 3.  See corresponding 
+      TODO in transformReferential.  If it is a linked association, the ids are automatically made
+      part of I1 and we don''t do anything. 
+
+TODO - note that this code, like Package_newAssociation , does not handle imported classes in associations
+*/
+
+select many ras from instances of referentialAttribute;
+for each ra in ras
+  o_obj = ra.o_obj;
+  select any curAttr related by o_obj->O_ATTR[R102] where (selected.Name == ra.attrName);
+  if ( not_empty curAttr )
+    self.Attribute_dispose(o_attr:curAttr);
+  end if;
+  
+  relNumber = STRING::atoi(s:ra.relationship); 
+  select any rel related by o_obj->PE_PE[R8001]->EP_PKG[R8000]->PE_PE[R8000]->R_REL[R8001] where (selected.Numb == relNumber);
+  select one simp related by rel->R_SIMP[R206];
+  if ( not_empty simp )
+    // Get the participant with the given phrase
+    select any r_part related by simp->R_PART[R207] where ( selected.Txt_Phrs == ra.roleOrObj );
+    // TODO - We could find out which oid the named attribute is part of via a selection and
+    //   then pass that oid to the following function.  But for now we just assume it is part of I1.
+    self.SimpleAssociation_formalize(r_simp:simp, r_part:r_part, id_id:0);
+    // TODO - now that the relationship is formalized, add the new ref attribute as an identifier if required
+  end if;
+  // TODO - handle formalizing linked associations
+end for;
+
+',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("5834dfc6-c4a1-4b08-8149-5d52a504af4d",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'transformReferential',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select any ooapopulation from instances of ooapopulation;
+
+// Create a new object in the referential cache
+create object instance ra of referentialAttribute;
+ra.attrName = param.attrName;
+ra.relationship = param.relationship;
+ra.roleOrObj = param.roleOrObj;
+ra.o_obj = ooapopulation.current_class;
+
+// Find out if the attribute was specified as being part of an identifier.  Cache
+// that info.
+// TODO - this code is incomplete (too simple).  It assumes the attribute is part 
+//        of only one identifier when it could be part of all 3.
+o_attr = ooapopulation.current_attribute;
+select any o_id related by o_attr->O_OIDA[R105]->O_ID[R105];
+if ( not_empty o_id )
+  ra.identifier = o_id.Oid_ID;
+else 
+  ra.identifier = -1;
+end if;
+',
+	1,
+	'',
+	"a442a038-3373-4282-a5fc-098af44e9cbe");
+INSERT INTO O_TPARM
+	VALUES ("1ab36396-b867-4684-9305-4291eda9ce6f",
+	"5834dfc6-c4a1-4b08-8149-5d52a504af4d",
+	'attrName',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a77354c1-c3a6-40cd-930d-d334ae3f1ca7",
+	"5834dfc6-c4a1-4b08-8149-5d52a504af4d",
+	'relationship',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"1ab36396-b867-4684-9305-4291eda9ce6f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("c9b2199a-7c9f-4092-b2a0-11ea434d798c",
+	"5834dfc6-c4a1-4b08-8149-5d52a504af4d",
+	'roleOrObj',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a77354c1-c3a6-40cd-930d-d334ae3f1ca7",
+	'');
+INSERT INTO O_TFR
+	VALUES ("d0873ada-8a66-46eb-8826-5de36bc7e925",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'SimpleAssociation_formalize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_simp = param.r_simp;
+part = param.r_part;
+
+// OOA functionality
+if ( self.SimpleAssociation_isFormalized(r_simp:r_simp) )
+  self.SimpleAssociation_unformalize(r_simp:r_simp);
+end if;
+
+// migrate participant to Class As Simple Formalizer
+// select using OIR_ID so that we get a different instance in the reflexive case
+select any form_part related by r_simp->R_PART[R207]
+  where selected.OIR_ID != part.OIR_ID;
+self.ClassAsSimpleParticipant_migrateToFormalizer(r_part:form_part);
+select one form related by r_simp->R_FORM[R208];
+
+select one part_rto related by part->R_RTO[R204];
+select one part_obj related by part_rto->R_OIR[R203]->O_OBJ[R201];
+select any oid related by part_obj->O_ID[R104] where selected.Oid_ID == param.id_id; 
+relate oid to part_rto across R109;
+
+select many oida_set related by oid->O_OIDA[R105];
+
+select one form_rgo related by form->R_RGO[R205];
+select one form_obj related by form_rgo->R_OIR[R203]->O_OBJ[R201];
+for each oida in oida_set
+    /* TODO - remove - orig from OOA
+    newAttr_id = oida.addReference(rel_id: r_simp.Rel_ID,
+        rto_obj_id: part_rto.Obj_ID, rto_oir_id: part_rto.OIR_ID, 
+        rgo_obj_id: form_rgo.Obj_ID, rgo_oir_id: form_rgo.OIR_ID,
+        id: -1);*/
+  //select one r_rel related by r_simp->R_REL[R206]; 
+  //self.ClassIdentifierAttribute_addReference(o_oida:oida, rel:r_rel, 
+  //  part_rto:part_rto, part_obj:part_obj, form_rgo:form_rgo, form_obj:form_obj, id:-1); 
+end for;
+',
+	1,
+	'',
+	"95d28c71-7112-48a3-9945-3db8666f33fa");
+INSERT INTO O_TPARM
+	VALUES ("ddbf4305-efd4-43e4-8826-5fad03b8e69f",
+	"d0873ada-8a66-46eb-8826-5de36bc7e925",
+	'r_simp',
+	"322c65da-132b-421a-a1b1-f757cb0acff7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("bdf2ee84-ac59-4ae1-b4ab-752e3196f386",
+	"d0873ada-8a66-46eb-8826-5de36bc7e925",
+	'r_part',
+	"11f40760-1dd1-4b08-9393-18b2e8520e6c",
+	0,
+	'',
+	"ddbf4305-efd4-43e4-8826-5fad03b8e69f",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("11f40760-1dd1-4b08-9393-18b2e8520e6c",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class As Simple Participant>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TPARM
+	VALUES ("233e2a00-c275-4822-8859-a00c6aff24af",
+	"d0873ada-8a66-46eb-8826-5de36bc7e925",
+	'id_id',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"bdf2ee84-ac59-4ae1-b4ab-752e3196f386",
+	'');
+INSERT INTO O_TFR
+	VALUES ("fe0b6659-9eb7-44fb-8056-da9a39f98e8d",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ClassAsSimpleParticipant_migrateToFormalizer',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_part = param.r_part;
+
+create object instance rgo of R_RGO;
+create object instance form of R_FORM;
+
+form.Mult = r_part.Mult;
+form.Cond = r_part.Cond;
+form.Txt_Phrs = r_part.Txt_Phrs;
+
+select one rto related by r_part->R_RTO[R204];
+select one oir related by rto->R_OIR[R203];
+select one simp related by r_part->R_SIMP[R207];
+
+relate oir to rgo across R203;
+relate rgo to form across R205;
+relate form to simp across R208;
+
+// and dispose r_part from supertype
+self.ReferredToClassInAssoc_dispose(r_rto:rto);
+',
+	1,
+	'',
+	"cd36a8cf-ad89-4f7b-b1fd-23c959355b0a");
+INSERT INTO O_TPARM
+	VALUES ("c3247215-52ec-479b-8637-a6c64d74fe9a",
+	"fe0b6659-9eb7-44fb-8056-da9a39f98e8d",
+	'r_part',
+	"11f40760-1dd1-4b08-9393-18b2e8520e6c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("10ea8696-d15f-4bc1-9e5d-a4a5ebc9bc7f",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ReferredToClassInAssoc_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_rto = param.r_rto;
+
+// Association Subsystem
+select one zuper related by r_rto->R_SUPER[R204];
+select one one related by r_rto->R_AONE[R204];
+select one other related by r_rto->R_AOTH[R204];
+select one part related by r_rto->R_PART[R204];
+if (not_empty zuper)
+  self.ClassAsSupertype_dispose(r_super:zuper);
+elif (not_empty one)
+  self.ClassAsAssociatedOneSide_dispose(r_aone:one);
+elif (not_empty other)
+  self.ClassAsAssociatedOtherSide_dispose(r_aoth:other);
+elif (not_empty part)
+  self.ClassAsSimpleParticipant_dispose(r_part:part);
+end if;
+select one cia related by r_rto->R_OIR[R203];
+if ( not_empty cia )
+  unrelate r_rto from cia across R203;
+end if;
+//
+// Subsystem Subsystem
+select one oid related by r_rto->O_ID[R109];
+if (not_empty oid)
+  unrelate r_rto from oid across R109;
+end if;
+select many rtidas related by r_rto->O_RTIDA[R110];
+for each rtida in rtidas
+  self.ReferredToIdentifierAttribute_dispose(o_rtida:rtida);
+end for;
+//
+// Finally delete r_rto
+delete object instance r_rto;
+',
+	1,
+	'',
+	"a0d04799-d672-4ed8-8a3c-9d45696ac060");
+INSERT INTO O_TPARM
+	VALUES ("76ce64f0-4d71-48e1-955b-9375437ca774",
+	"10ea8696-d15f-4bc1-9e5d-a4a5ebc9bc7f",
+	'r_rto',
+	"893ea6d3-466d-498e-b58a-cf5966da5549",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("a1a1e6f2-4005-4644-8022-99b459b559e6",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ClassAsSupertype_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_super = param.r_super;
+
+select one rsubsup related by r_super->R_SUBSUP[R212];
+unrelate r_super from rsubsup across R212;
+select one rto related by r_super->R_RTO[R204];
+unrelate r_super from rto across R204;
+delete object instance r_super;
+',
+	1,
+	'',
+	"fe0b6659-9eb7-44fb-8056-da9a39f98e8d");
+INSERT INTO O_TPARM
+	VALUES ("02a05f09-f5a5-4ce8-b6c9-a97f0d714a4b",
+	"a1a1e6f2-4005-4644-8022-99b459b559e6",
+	'r_super',
+	"558a05a8-1353-47b4-8d4d-04018ea4b537",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("558a05a8-1353-47b4-8d4d-04018ea4b537",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class As Supertype>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("edfd5ba3-065f-4a44-99ca-954c03b4d920",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ClassAsAssociatedOneSide_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_aone = param.r_aone;
+
+select one rassoc related by r_aone->R_ASSOC[R209];
+unrelate r_aone from rassoc across R209;
+select one rto related by r_aone->R_RTO[R204];
+unrelate r_aone from rto across R204;
+delete object instance r_aone;
+',
+	1,
+	'',
+	"0e9377a2-daec-4c38-9d8b-4bb5213742c2");
+INSERT INTO O_TPARM
+	VALUES ("8e333781-8c1a-46c6-b40c-3e5001ec9406",
+	"edfd5ba3-065f-4a44-99ca-954c03b4d920",
+	'r_aone',
+	"37e868cd-e616-45a0-aa57-7a32350b86f4",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("37e868cd-e616-45a0-aa57-7a32350b86f4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class As Associated One Side>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("56895ed1-1be3-4da9-90db-433447ebba5f",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ClassAsAssociatedOtherSide_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_aoth = param.r_aoth;
+
+select one rassoc related by r_aoth->R_ASSOC[R210];
+unrelate r_aoth from rassoc across R210;
+select one rto related by r_aoth->R_RTO[R204];
+unrelate r_aoth from rto across R204;
+delete object instance r_aoth;
+',
+	1,
+	'',
+	"edfd5ba3-065f-4a44-99ca-954c03b4d920");
+INSERT INTO O_TPARM
+	VALUES ("16088bc8-120c-4823-9dc1-52174df2a3b6",
+	"56895ed1-1be3-4da9-90db-433447ebba5f",
+	'r_aoth',
+	"ddf50731-13d8-4e02-932f-347f2ddc3444",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("ddf50731-13d8-4e02-932f-347f2ddc3444",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class As Associated Other Side>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
+INSERT INTO O_TFR
+	VALUES ("cd36a8cf-ad89-4f7b-b1fd-23c959355b0a",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ClassAsSimpleParticipant_dispose',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'r_part = param.r_part;
+
+select one rsimp related by r_part->R_SIMP[R207];
+unrelate r_part from rsimp across R207;
+select one rto related by r_part->R_RTO[R204];
+unrelate r_part from rto across R204;
+delete object instance r_part;
+',
+	1,
+	'',
+	"f7d11722-b6db-4a91-80c5-9d36afc0263f");
+INSERT INTO O_TPARM
+	VALUES ("82400607-9b58-46e5-976a-5eee7ac40a94",
+	"cd36a8cf-ad89-4f7b-b1fd-23c959355b0a",
+	'r_part',
+	"11f40760-1dd1-4b08-9393-18b2e8520e6c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TFR
+	VALUES ("40c5e56c-f33a-4486-9063-f073fc5ea3ac",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ClassIdentifierAttribute_addReference',
+	'',
+	"9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	1,
+	'oida = param.o_oida;
+rel = param.rel;
+rto = param.part_rto;
+rto_obj = param.part_obj;
+rgo = param.form_rgo;
+rgo_obj = param.form_obj;
+id = param.id;
+
+// This is a heavily modified version of the function from OOA
+// TODO - fix up, clean up
+//select any rel from instances of R_REL where selected.Rel_ID == param.rel_id;
+//select any rgo related by rel->R_OIR[R201]->R_RGO[R203] 
+//    where selected.Obj_ID == param.rgo_obj_id and selected.OIR_ID == param.rgo_oir_id;
+//select one rgo_obj related by rgo->R_OIR[R203]->O_OBJ[R201];
+
+/*
+newAttr_id = rgo_obj.newReferentialAttribute(ref_obj_id: oida.Obj_ID, 
+    ref_oid_id: oida.Oid_ID, ref_attr_id: oida.Attr_ID, id: param.id );
+
+select any ref_attr related by rgo_obj->O_ATTR[R102]->O_RATTR[R106]
+    where selected.Attr_ID == newAttr_id;*/
+ref_attr = self.ModelClass_newReferentialAttribute(o_obj:rgo_obj, o_oida:oida, id:param.id); 
+
+//select any rto related by rel->R_OIR[R201]->R_RTO[R203] 
+//    where selected.Obj_ID == param.rto_obj_id and selected.OIR_ID == param.rto_oir_id;
+
+// An rtida instance may already exist if we''re adding 
+// the second (or subsequent) subtype to an inheritance 
+// association
+/* TODO - this block should be in, commenting out temporarily
+select any rtida related by oida->O_RTIDA[R110] 
+    where selected.Rel_ID == param.rel_id and selected.OIR_ID == param.rto_oir_id;
+if ( empty rtida )
+  create object instance rtida of O_RTIDA;
+  relate oida to rto across R110 using rtida;
+end if;
+
+create object instance ref of O_REF;
+relate ref to ref_attr across R108;
+relate rtida to rgo across R111 using ref;*/
+
+return ref_attr;
+',
+	1,
+	'',
+	"a1a1e6f2-4005-4644-8022-99b459b559e6");
+INSERT INTO O_TPARM
+	VALUES ("624c4636-70ff-4e4b-8d98-dda5da9110c4",
+	"40c5e56c-f33a-4486-9063-f073fc5ea3ac",
+	'rel',
+	"4480b008-8c74-4f57-9256-08b7365520bc",
+	0,
+	'',
+	"3dd7832d-d9c8-455e-b9de-7ea604dc3d2b",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("0110c209-f838-41ce-8b1f-975b1d6a167c",
+	"40c5e56c-f33a-4486-9063-f073fc5ea3ac",
+	'part_rto',
+	"893ea6d3-466d-498e-b58a-cf5966da5549",
+	0,
+	'',
+	"624c4636-70ff-4e4b-8d98-dda5da9110c4",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("ee02106b-11da-4182-9488-e0a16b2c0bcb",
+	"40c5e56c-f33a-4486-9063-f073fc5ea3ac",
+	'part_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"0110c209-f838-41ce-8b1f-975b1d6a167c",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("bf8fc872-cdf2-4bfd-aa8a-a93bbcd0c637",
+	"40c5e56c-f33a-4486-9063-f073fc5ea3ac",
+	'form_rgo',
+	"f6b00fbb-5d4e-4e79-bd36-f3289da7ee17",
+	0,
+	'',
+	"ee02106b-11da-4182-9488-e0a16b2c0bcb",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("d0e90708-6cfe-4fe1-8cf0-0994638efb60",
+	"40c5e56c-f33a-4486-9063-f073fc5ea3ac",
+	'form_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"bf8fc872-cdf2-4bfd-aa8a-a93bbcd0c637",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("3dd7832d-d9c8-455e-b9de-7ea604dc3d2b",
+	"40c5e56c-f33a-4486-9063-f073fc5ea3ac",
+	'o_oida',
+	"08de18fb-cb5f-4d53-9826-375c4dad56f7",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("7cc93b5d-fa05-476d-8b72-20b6565bd18d",
+	"40c5e56c-f33a-4486-9063-f073fc5ea3ac",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"d0e90708-6cfe-4fe1-8cf0-0994638efb60",
+	'');
+INSERT INTO O_TFR
+	VALUES ("96e13109-b598-4fd0-be21-6bd307704f41",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'ModelClass_newReferentialAttribute',
+	'',
+	"9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	1,
+	'o_obj = param.o_obj;
+
+/* TODO - this should exist.  Commenting out temporarily
+select any ref_obj related by o_obj->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1405]->PE_PE[R8000]->O_OBJ[R8001]
+    where selected.Obj_ID == param.ref_obj_id;
+
+    
+select any ref_oid related by ref_obj->O_ID[R104] 
+    where selected.Oid_ID == param.ref_oid_id;
+select any ref_oida related by ref_oid->O_OIDA[R105] 
+    where selected.Attr_ID == param.ref_attr_id;
+
+select one id_attr related by ref_oida->O_ATTR[R105];
+
+select one base_attr related by id_attr->O_BATTR[R106];
+if ( empty base_attr )
+  select one base_attr related by id_attr->O_RATTR[R106]->O_BATTR[R113];
+end if;
+
+newAttr_id = o_obj.newAttribute();
+select any attr related by o_obj->O_ATTR[R102] where selected.Attr_ID == newAttr_id;
+attr.migrateBaseToReferential();
+attr.Root_Nam = id_attr.Name;
+
+select one ref_attr related by attr->O_RATTR[R106];
+relate ref_attr to base_attr across R113;
+
+if ( param.id != -1 )
+  select any assr_id related by o_obj->O_ID[R104] where selected.Oid_ID == param.id;
+  create object instance assr_oida of O_OIDA;
+   relate attr to assr_id across R105 using assr_oida;
+end if;*/
+select any ref_attr from instances of O_RATTR;  // TODO - remove when the above block is fixed.  Just here to have something to return
+return ref_attr;
+',
+	1,
+	'',
+	"a10bcbd7-d0c1-4c7f-9af4-6820fada6371");
+INSERT INTO O_TPARM
+	VALUES ("9e1dc67a-bdf6-4b98-9c89-547aa17f5c30",
+	"96e13109-b598-4fd0-be21-6bd307704f41",
+	'o_obj',
+	"63f4ff99-f127-443b-a678-30ace41da702",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("086edc69-ce12-4285-8527-3755213c3450",
+	"96e13109-b598-4fd0-be21-6bd307704f41",
+	'o_oida',
+	"08de18fb-cb5f-4d53-9826-375c4dad56f7",
+	0,
+	'',
+	"9e1dc67a-bdf6-4b98-9c89-547aa17f5c30",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("64fb917e-8871-4df6-a166-43a1ae0d9488",
+	"96e13109-b598-4fd0-be21-6bd307704f41",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"086edc69-ce12-4285-8527-3755213c3450",
+	'');
+INSERT INTO O_TFR
+	VALUES ("de57cf0d-e159-4b31-907e-bba1cb341479",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Component_initializeRequirement',
+	'',
+	"3068be83-fc38-4a02-a09f-a2dc428b84f6",
+	1,
+	'c_c = param.c_c;
+c_i = param.c_i;
+
+// The OOA version of this function does _a lot_ more work than we have to do here.
+create object instance requirement of C_R;
+create object instance interfaceRef of C_IR;
+create object instance port of C_PO;
+relate requirement to interfaceRef across R4009;
+relate interfaceRef to port across R4016;
+relate port to c_c across R4010;
+requirement.InformalName = "Unnamed_Interface";
+self.Port_initialize(c_po:port, name:param.port_name);
+
+return interfaceRef;',
+	1,
+	'',
+	"9e1603f8-30b3-45e7-a697-d89f16f10bf0");
+INSERT INTO O_TPARM
+	VALUES ("c594153e-1c12-416a-b872-48fa7c3b623f",
+	"de57cf0d-e159-4b31-907e-bba1cb341479",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("e8fe3eac-7e91-4f0a-86df-13ad4d3f420c",
+	"de57cf0d-e159-4b31-907e-bba1cb341479",
+	'c_i',
+	"80698720-cc57-44ba-8aa5-600c524db338",
+	0,
+	'',
+	"c594153e-1c12-416a-b872-48fa7c3b623f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("180f2b75-6dd7-4f78-8b4d-fa093d818b15",
+	"de57cf0d-e159-4b31-907e-bba1cb341479",
+	'port_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"e8fe3eac-7e91-4f0a-86df-13ad4d3f420c",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
@@ -5172,6 +5881,31 @@ INSERT INTO O_ATTR
 	"ce86dade-b263-4245-8001-19dd4123f4f9",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("cca5c62d-a419-4247-8bd7-2e76b7cdf688",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("cca5c62d-a419-4247-8bd7-2e76b7cdf688",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("cca5c62d-a419-4247-8bd7-2e76b7cdf688",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"45769a88-3b54-414b-8e30-d357063e4f0f",
+	'current_pragma',
+	'',
+	'',
+	'current_pragma',
+	0,
+	"150bb385-2132-4200-960b-2be5599a2b59",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("150bb385-2132-4200-960b-2be5599a2b59",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooapragma>',
+	'',
+	'',
+	'../../marking/marking.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");

@@ -17,6 +17,16 @@
 /*
  * Interface:  serial
  * Provided Port:  in
+ * To Provider Message:  end
+ */
+void
+masl2xtuml_in_end()
+{
+}
+
+/*
+ * Interface:  serial
+ * Provided Port:  in
  * To Provider Message:  populate
  */
 void
@@ -143,6 +153,13 @@ Escher_idf masl2xtuml_instance_dumpers[ masl2xtuml_MAX_CLASS_NUMBERS ] = {
   masl2xtuml_S_DIM_instancedumper,
   masl2xtuml_ooapopulation_instancedumper,
   masl2xtuml_ooaparticipation_instancedumper,
+  masl2xtuml_ooaelement_instancedumper,
+  masl2xtuml_ooapragma_list_instancedumper,
+  masl2xtuml_ooapragma_instancedumper,
+  masl2xtuml_ooapragma_item_instancedumper,
+  masl2xtuml_ooamarkable_instancedumper,
+  masl2xtuml_ooaunmarkable_instancedumper,
+  masl2xtuml_referentialAttribute_instancedumper,
   masl2xtuml_S_EE_instancedumper,
   masl2xtuml_C_C_instancedumper,
   masl2xtuml_C_I_instancedumper,
@@ -419,6 +436,13 @@ Escher_Extent_t * const masl2xtuml_class_info[ masl2xtuml_MAX_CLASS_NUMBERS ] = 
   &pG_masl2xtuml_S_DIM_extent,
   &pG_masl2xtuml_ooapopulation_extent,
   &pG_masl2xtuml_ooaparticipation_extent,
+  &pG_masl2xtuml_ooaelement_extent,
+  &pG_masl2xtuml_ooapragma_list_extent,
+  &pG_masl2xtuml_ooapragma_extent,
+  &pG_masl2xtuml_ooapragma_item_extent,
+  &pG_masl2xtuml_ooamarkable_extent,
+  &pG_masl2xtuml_ooaunmarkable_extent,
+  &pG_masl2xtuml_referentialAttribute_extent,
   &pG_masl2xtuml_S_EE_extent,
   &pG_masl2xtuml_C_C_extent,
   &pG_masl2xtuml_C_I_extent,
