@@ -180,9 +180,15 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'select one markable related by self->ooamarkable[R3806];
-markable.destruct();
+if ( not_empty markable )
+	unrelate self from markable across R3806;
+	markable.destruct();
+end if;
 select one unmarkable related by self->ooaunmarkable[R3806];
-unmarkable.destruct();
+if ( not_empty unmarkable )
+	unrelate self from unmarkable across R3806;
+	unmarkable.destruct();
+end if;
 
 delete object instance self;',
 	1,

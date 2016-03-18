@@ -85,9 +85,10 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select many pls related by self->ooapragma_list[R3802];
-for each pl in pls
-	pl.destruct();
+	'select many lists related by self->ooapragma_list[R3802];
+for each pragma_list in lists
+	unrelate self from pragma_list across R3802;
+	pragma_list.destruct();
 end for;
 
 delete object instance self;',
