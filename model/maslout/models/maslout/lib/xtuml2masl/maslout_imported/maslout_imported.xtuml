@@ -230,7 +230,7 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 c_c = param.c_c;
 // (outbound) port -> terminator
-select many c_pos related by c_c->C_PO[R4010];
+select many c_pos related by c_c->C_PO[R4010]->C_IR[R4016]->C_R[R4009]->C_IR[R4009]->C_PO[R4016];
 for each c_po in c_pos
   value[0] = c_po.Name;
   out::populate( element:"terminator", value:value );
@@ -835,10 +835,18 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 c_c = param.c_c;
 value[0] = c_c.Name;
 value[1] = "domain";
+select many c_eps related by c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009]->C_IR[R4009]->C_I[R4012]->C_EP[R4003];
 select many s_syncs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_SYNC[R8001];
 for each s_sync in s_syncs
 
-  value[2] = "private"; // Domain functions are all private, even if used by messages.
+  value[2] = "private";
+  // Find a provided port message with this same name.  If found, mark public.
+  for each c_ep in c_eps
+    if ( c_ep.Name == s_sync.Name )
+      value[2] = "public";
+      break;
+    end if;
+  end for;
   value[3] = s_sync.Name;
   
   // Get the first parameter.
