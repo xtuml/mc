@@ -62,12 +62,45 @@ if ( not_empty population )
 		if ( "domain" == element.type )
 			domain = population.current_component;
 			domain.Descrip = pragma_string;
+		elif ( "terminator" == element.type )
+			interface = population.current_interface;
+			select any terminator related by interface->C_IR[R4012]->C_R[R4009];
+			terminator.Descrip = pragma_string;
 		elif ( "object" == element.type )
 			obj = population.current_class;
 			obj.Descrip = pragma_string;
+		elif ( "routine" == element.type )
+			routine = population.current_domain_function;
+			routine.Descrip = pragma_string;
+		elif ( "operation" == element.type )
+			operation = population.current_class_op;
+			operation.Descrip = pragma_string;
+		elif ( "state" == element.type )
+			state = population.current_state;
+			select one sm_act related by state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
+			if ( not_empty sm_act )
+			  sm_act.Descrip = pragma_string;
+			end if;
 		elif ( "attribute" == element.type )
 			attr = population.current_attribute;
 			attr.Descrip = pragma_string;
+		elif ( "transitiontable" == element.type )
+			obj = population.current_class;
+  			select one sm_sm related by obj->SM_ISM[R518]->SM_SM[R517];
+  			if ( not_empty sm_sm )
+  				sm_sm.Descrip = pragma_string;
+  			else
+  				select one sm_sm related by obj->SM_ASM[R519]->SM_SM[R517];
+  				if ( not_empty sm_sm )
+  					sm_sm.Descrip = pragma_string;
+  				end if;
+  			end if;
+		elif ( "event" == element.type )
+			evt = population.current_event;
+			evt.Descrip = evt.Descrip + pragma_string;
+		elif ( "type" == element.type )
+			type = population.current_type;
+			type.Descrip = type.Descrip + pragma_string;
 		else
 		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + element.type + "''" );
 		end if;
