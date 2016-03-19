@@ -174,7 +174,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("f409da93-0e3e-4bf5-8f3c-b12a4feb9253",
 	"f4db9e5f-b6e8-4348-b882-007493e432e7",
-	"f0ea586b-ea75-4fd9-9eae-aa1c69873f66",
+	"661a1693-b673-4013-b7dc-876b06fb10a3",
 	'Label',
 	'',
 	'',
@@ -298,47 +298,14 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
-INSERT INTO O_REF
-	VALUES ("f4db9e5f-b6e8-4348-b882-007493e432e7",
-	"d89c00d0-52b0-4240-84e8-3a715897f751",
-	0,
-	"10459bba-8ef3-42e4-96cc-18d12967e863",
-	"5c7e1335-6838-4186-ba76-b2e378768946",
-	"78de8cde-5d5b-48d7-a79d-fe7f0951e46f",
-	"2c851115-a45e-4871-b19e-bf9c7bd6bf2e",
-	"f0ea586b-ea75-4fd9-9eae-aa1c69873f66",
-	"34bea156-6145-47ba-ac6e-962770e6d332",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Class In Engine',
-	'CIE_ID',
-	'R2962.''instance of''');
-INSERT INTO R_RGO_PROXY
-	VALUES ("f4db9e5f-b6e8-4348-b882-007493e432e7",
-	"5c7e1335-6838-4186-ba76-b2e378768946",
-	"78de8cde-5d5b-48d7-a79d-fe7f0951e46f",
-	'../Class State Machine Execution/Class State Machine Execution.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("10459bba-8ef3-42e4-96cc-18d12967e863",
-	"d89c00d0-52b0-4240-84e8-3a715897f751",
-	0,
-	"5c7e1335-6838-4186-ba76-b2e378768946",
-	"2c851115-a45e-4871-b19e-bf9c7bd6bf2e",
-	'../Class State Machine Execution/Class State Machine Execution.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("f0ea586b-ea75-4fd9-9eae-aa1c69873f66",
-	"f4db9e5f-b6e8-4348-b882-007493e432e7",
-	"10459bba-8ef3-42e4-96cc-18d12967e863",
-	"d89c00d0-52b0-4240-84e8-3a715897f751",
-	1,
-	'CIE_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("10459bba-8ef3-42e4-96cc-18d12967e863",
-	"d89c00d0-52b0-4240-84e8-3a715897f751",
-	'../Class State Machine Execution/Class In Engine/Class In Engine.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("661a1693-b673-4013-b7dc-876b06fb10a3",
+	"f4db9e5f-b6e8-4348-b882-007493e432e7");
+INSERT INTO O_BATTR
+	VALUES ("661a1693-b673-4013-b7dc-876b06fb10a3",
+	"f4db9e5f-b6e8-4348-b882-007493e432e7");
 INSERT INTO O_ATTR
-	VALUES ("f0ea586b-ea75-4fd9-9eae-aa1c69873f66",
+	VALUES ("661a1693-b673-4013-b7dc-876b06fb10a3",
 	"f4db9e5f-b6e8-4348-b882-007493e432e7",
 	"3391a85c-54ae-48c4-bdea-24a8c9205c44",
 	'CIE_ID',
@@ -346,7 +313,7 @@ INSERT INTO O_ATTR
 	'',
 	'CIE_ID',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID

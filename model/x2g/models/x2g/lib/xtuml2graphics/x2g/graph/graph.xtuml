@@ -1,0 +1,85 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("6e7ee935-9676-440f-8d1e-f51014600e7b",
+	'graph',
+	3906,
+	'graph',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("f29d044d-5293-4f46-a1a0-4807b5b58978",
+	"6e7ee935-9676-440f-8d1e-f51014600e7b",
+	'id',
+	'',
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	0,
+	'select any graph from instances of graph;
+graph.idfactory = graph.idfactory + 1;
+return graph.idfactory;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO S_DT_PROXY
+	VALUES ("68ae699f-8534-4e8a-8357-4988cec5b93d",
+	"00000000-0000-0000-0000-000000000000",
+	'IDtype',
+	'',
+	'',
+	'../x2g.xtuml');
+INSERT INTO O_TFR
+	VALUES ("787f3c99-e9b6-4e8a-92b0-4014e62ffa37",
+	"6e7ee935-9676-440f-8d1e-f51014600e7b",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'select any graph from instances of graph;
+if ( empty graph )
+  create object instance graph of graph;
+  graph.idfactory = 1000000; // start IDs at 1 million
+end if;',
+	1,
+	'',
+	"f29d044d-5293-4f46-a1a0-4807b5b58978");
+INSERT INTO O_NBATTR
+	VALUES ("9a104a2a-c7a7-48c7-b471-146a9b9918a1",
+	"6e7ee935-9676-440f-8d1e-f51014600e7b");
+INSERT INTO O_BATTR
+	VALUES ("9a104a2a-c7a7-48c7-b471-146a9b9918a1",
+	"6e7ee935-9676-440f-8d1e-f51014600e7b");
+INSERT INTO O_ATTR
+	VALUES ("9a104a2a-c7a7-48c7-b471-146a9b9918a1",
+	"6e7ee935-9676-440f-8d1e-f51014600e7b",
+	"00000000-0000-0000-0000-000000000000",
+	'idfactory',
+	'',
+	'',
+	'idfactory',
+	0,
+	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_ID
+	VALUES (0,
+	"6e7ee935-9676-440f-8d1e-f51014600e7b");
+INSERT INTO O_ID
+	VALUES (1,
+	"6e7ee935-9676-440f-8d1e-f51014600e7b");
+INSERT INTO O_ID
+	VALUES (2,
+	"6e7ee935-9676-440f-8d1e-f51014600e7b");
+INSERT INTO PE_PE
+	VALUES ("6e7ee935-9676-440f-8d1e-f51014600e7b",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	"7f685551-3fe6-4c32-a2a4-d1cac568d8c7",
+	'x2g',
+	'',
+	0,
+	'../x2g.xtuml');

@@ -4499,45 +4499,6 @@ INSERT INTO SM_EVTDI VALUES (\
   .end if
  );
 .end for
-.select many sm_supdts from instances of SM_SUPDT
-.for each sm_supdt in sm_supdts
-INSERT INTO SM_SUPDT VALUES (\
-  .if ( "un-initialized" == "${sm_supdt.SMspd_ID}" )
- 0\
-  .else
- ${sm_supdt.SMspd_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${sm_supdt.SM_ID}" )
-, 0\
-  .else
-, ${sm_supdt.SM_ID}\
-  .end if
-, ${sm_supdt.Non_Local} );
-.end for
-.select many sm_sdis from instances of SM_SDI
-.for each sm_sdi in sm_sdis
-INSERT INTO SM_SDI VALUES (\
-  .if ( "un-initialized" == "${sm_sdi.SMedi_ID}" )
- 0\
-  .else
- ${sm_sdi.SMedi_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${sm_sdi.SMspd_ID}" )
-, 0\
-  .else
-, ${sm_sdi.SMspd_ID}\
-  .end if
-\
-  .if ( "un-initialized" == "${sm_sdi.SM_ID}" )
-, 0\
-  .else
-, ${sm_sdi.SM_ID}\
-  .end if
- );
-.end for
-.select many sm_isms from instances of SM_ISM
 .for each sm_ism in sm_isms
 INSERT INTO SM_ISM VALUES (\
   .if ( "un-initialized" == "${sm_ism.SM_ID}" )

@@ -20,9 +20,7 @@ scope WhereClauseScope
 
 @header
 {
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.io.*;
 }
 
 @annotations
@@ -82,7 +80,8 @@ private void populate( String classname, String[] args ) {
 // get the current file
 private String getFile() {
     if ( null == masl_parser ) return null;
-    return masl_parser.getFile();
+    File f = new File( masl_parser.getFile() );
+    return f.getName();
 }
 
 }
@@ -786,8 +785,8 @@ returns [String[\] spec]
                               : ^( RELATIONSHIP_SPEC
                                    relationshipReference    
                                                             {
-                                                                s[0] = $relationshipReference.ref.get(0);
-                                                                s[1] = $relationshipReference.ref.get(1);
+                                                                s[0] = $relationshipReference.ref[0];
+                                                                s[1] = $relationshipReference.ref[1];
                                                             }
                                    ( objOrRole
                                                             {
@@ -824,7 +823,7 @@ objectServiceDeclaration
                                                                   if ( $INSTANCE != null )
                                                                       args[4] = $INSTANCE.text;
                                                                   if ( $relationshipReference.ref != null )
-                                                                      args[5] = $relationshipReference.ref.get(1);
+                                                                      args[5] = $relationshipReference.ref[1];
                                                                   populate( "operation", args );
                                                             }
                                    parameterList
@@ -930,6 +929,7 @@ transitionTable
                                    transTableType
                                                             {
                                                                 args[0] = $transTableType.type;
+                                                                args[1] = "symbolic";
                                                                 populate( "transitiontable", args );
                                                             }
                                    ( transitionRow          
@@ -1269,14 +1269,14 @@ returns [String name]
                               
 
 relationshipReference
-returns [List<String> ref]
+returns [String[\] ref]
 //returns [RelationshipDeclaration.Reference ref]
                               : optionalDomainReference
                                 relationshipName            
                                                             { 
-                                                                ArrayList<String> r = new ArrayList<String>();
-                                                                r.add( 0, $optionalDomainReference.ref );
-                                                                r.add( 1, $relationshipName.name );
+                                                                String[] r = new String[2];
+                                                                r[0] = $optionalDomainReference.ref;
+                                                                r[1] =$relationshipName.name;
                                                                 $ref = r;
                                                             }
                               ;

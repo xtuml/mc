@@ -31,8 +31,17 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_C_C * current_component;  
   masl2xtuml_S_SYNC * current_domain_function;  
   masl2xtuml_S_SPARM * current_function_param;  
+  masl2xtuml_C_I * current_interface;  
+  masl2xtuml_O_TPARM * current_operation_param;  
+  masl2xtuml_ooapragma * current_pragma;  
+  masl2xtuml_sdt_relationship_data current_rel;  
+  masl2xtuml_SM_STATE * current_state;  
   i_t processingIdentifier;  
   bool processingISM;  
+  masl2xtuml_S_DT * current_type;  
+  masl2xtuml_SM_EVT * current_event;  
+  /* relationship storage */
+  masl2xtuml_ooaelement * ooaelement_R3801_has_current;
 };
 void masl2xtuml_ooapopulation_instancedumper( Escher_iHandle_t );
 Escher_iHandle_t masl2xtuml_ooapopulation_instanceloader( Escher_iHandle_t, const c_t * [] );
@@ -56,7 +65,7 @@ void masl2xtuml_ooapopulation_op_transformTerminator( masl2xtuml_ooapopulation *
 void masl2xtuml_ooapopulation_op_transformActivity( masl2xtuml_ooapopulation * );
 void masl2xtuml_ooapopulation_op_transformParameter( masl2xtuml_ooapopulation *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformAttribute( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t * );
-void masl2xtuml_ooapopulation_op_transformState( masl2xtuml_ooapopulation *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_transformState( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformEvent( masl2xtuml_ooapopulation *, c_t *, c_t * );
 masl2xtuml_CL_IC * masl2xtuml_ooapopulation_op_Package_newImportedComponent( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
 masl2xtuml_O_OBJ * masl2xtuml_ooapopulation_op_Package_newClass( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_EP_PKG * );
@@ -69,7 +78,7 @@ void masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation *, c_t 
 void masl2xtuml_ooapopulation_op_Package_newDatatype( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_EP_PKG *, c_t * );
 void masl2xtuml_ooapopulation_op_Datatype_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_S_DT * );
 void masl2xtuml_ooapopulation_op_transformDomainFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
-void masl2xtuml_ooapopulation_op_transformObjectFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_transformObjectFunction( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t *, c_t *, c_t * );
 masl2xtuml_O_TFR * masl2xtuml_ooapopulation_op_ModelClass_newOperation( masl2xtuml_ooapopulation *, masl2xtuml_O_OBJ *, c_t * );
 void masl2xtuml_ooapopulation_op_Operation_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_O_TFR * );
 void masl2xtuml_ooapopulation_op_ModelClass_addOperationToOrdering( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, masl2xtuml_O_OBJ * );
@@ -97,8 +106,8 @@ void masl2xtuml_ooapopulation_op_transformTransition( masl2xtuml_ooapopulation *
 void masl2xtuml_ooapopulation_op_StateMachine_newTransition( masl2xtuml_ooapopulation *, c_t *, c_t *, masl2xtuml_SM_SM *, c_t * );
 void masl2xtuml_ooapopulation_op_Transition_initialize( masl2xtuml_ooapopulation *, masl2xtuml_SM_TXN * );
 void masl2xtuml_ooapopulation_op_StateMachine_newCreationTransition( masl2xtuml_ooapopulation *, c_t *, c_t *, masl2xtuml_SM_SM * );
-void masl2xtuml_ooapopulation_op_Transition_addEvent( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_SM_TXN * );
-void masl2xtuml_ooapopulation_op_Operation_newParameter( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, c_t * );
+void masl2xtuml_ooapopulation_op_Transition_addEvent( masl2xtuml_ooapopulation *, masl2xtuml_SM_EVT *, masl2xtuml_SM_SM *, masl2xtuml_SM_TXN * );
+masl2xtuml_O_TPARM * masl2xtuml_ooapopulation_op_Operation_newParameter( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, c_t * );
 void masl2xtuml_ooapopulation_op_OperationParameter_initialize( masl2xtuml_ooapopulation *, c_t *, masl2xtuml_O_TPARM * );
 void masl2xtuml_ooapopulation_op_Operation_createParameterInInteractions( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, masl2xtuml_O_TPARM * );
 void masl2xtuml_ooapopulation_op_Operation_addParameterToOrdering( masl2xtuml_ooapopulation *, masl2xtuml_O_TFR *, masl2xtuml_O_TPARM * );
@@ -107,6 +116,48 @@ void masl2xtuml_ooapopulation_op_FunctionParameter_initialize( masl2xtuml_ooapop
 void masl2xtuml_ooapopulation_op_Function_addParameterToOrder( masl2xtuml_ooapopulation *, masl2xtuml_S_SPARM *, masl2xtuml_S_SYNC * );
 void masl2xtuml_ooapopulation_op_Function_createMessageArgumentsForParameter( masl2xtuml_ooapopulation *, masl2xtuml_S_SPARM *, masl2xtuml_S_SYNC * );
 void masl2xtuml_ooapopulation_op_FunctionParameter_setType( masl2xtuml_ooapopulation *, masl2xtuml_S_SPARM *, c_t * );
+void masl2xtuml_ooapopulation_op_OperationParameter_setType( masl2xtuml_ooapopulation *, masl2xtuml_O_TPARM *, c_t * );
+void masl2xtuml_ooapopulation_op_clearRelationshipCache( masl2xtuml_ooapopulation * );
+void masl2xtuml_ooapopulation_op_Package_newAssociation( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
+void masl2xtuml_ooapopulation_op_Association_initialize( masl2xtuml_ooapopulation *, masl2xtuml_R_REL * );
+void masl2xtuml_ooapopulation_op_transformAssociation( masl2xtuml_ooapopulation * );
+void masl2xtuml_ooapopulation_op_Package_newAssociative( masl2xtuml_ooapopulation *, masl2xtuml_EP_PKG * );
+void masl2xtuml_ooapopulation_op_SimpleAssociation_migrateToLinked( masl2xtuml_ooapopulation *, masl2xtuml_R_SIMP *, masl2xtuml_O_OBJ * );
+bool masl2xtuml_ooapopulation_op_SimpleAssociation_isFormalized( masl2xtuml_ooapopulation *, masl2xtuml_R_SIMP * );
+void masl2xtuml_ooapopulation_op_SimpleAssociation_unformalize( masl2xtuml_ooapopulation *, masl2xtuml_R_SIMP * );
+void masl2xtuml_ooapopulation_op_ReferredToClassInAssoc_unformalize( masl2xtuml_ooapopulation *, masl2xtuml_R_RTO * );
+void masl2xtuml_ooapopulation_op_ClassAsSimpleFormalizer_migrateToParticipant( masl2xtuml_ooapopulation *, masl2xtuml_R_FORM * );
+void masl2xtuml_ooapopulation_op_ReferringClassInAssoc_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_RGO * );
+void masl2xtuml_ooapopulation_op_ReferringClassInAssoc_clearReferences( masl2xtuml_ooapopulation *, masl2xtuml_R_RGO * );
+void masl2xtuml_ooapopulation_op_AttributeReferenceInClass_migrateRefAttrOrDispose( masl2xtuml_ooapopulation *, masl2xtuml_O_REF * );
+void masl2xtuml_ooapopulation_op_AttributeReferenceInClass_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_REF * );
+void masl2xtuml_ooapopulation_op_Attribute_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_ATTR * );
+void masl2xtuml_ooapopulation_op_ClassIdentifierAttribute_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_OIDA * );
+void masl2xtuml_ooapopulation_op_ReferredToIdentifierAttribute_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_RTIDA * );
+void masl2xtuml_ooapopulation_op_ReferentialAttribute_migrateToBase( masl2xtuml_ooapopulation *, masl2xtuml_O_RATTR * );
+void masl2xtuml_ooapopulation_op_ReferentialAttribute_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_RATTR * );
+void masl2xtuml_ooapopulation_op_BaseAttribute_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_BATTR * );
+void masl2xtuml_ooapopulation_op_DerivedBaseAttribute_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_DBATTR * );
+void masl2xtuml_ooapopulation_op_NewBaseAttribute_dispose( masl2xtuml_ooapopulation *, masl2xtuml_O_NBATTR * );
+void masl2xtuml_ooapopulation_op_ClassAsLink_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_ASSR * );
+void masl2xtuml_ooapopulation_op_ClassAsSimpleFormalizer_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_FORM * );
+void masl2xtuml_ooapopulation_op_ModelClass_newInstanceReferenceDataType( masl2xtuml_ooapopulation *, masl2xtuml_O_OBJ * );
+void masl2xtuml_ooapopulation_op_StateEventMatrixEntry_disposeChOrEi( masl2xtuml_ooapopulation *, masl2xtuml_SM_SEME * );
+void masl2xtuml_ooapopulation_op_StateEventMatrixEntry_migrateChToEi( masl2xtuml_ooapopulation *, masl2xtuml_SM_SEME * );
+void masl2xtuml_ooapopulation_op_StateEventMatrixEntry_migrateEiToCh( masl2xtuml_ooapopulation *, masl2xtuml_SM_SEME * );
+void masl2xtuml_ooapopulation_op_batchFormalize( masl2xtuml_ooapopulation * );
+void masl2xtuml_ooapopulation_op_transformReferential( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_SimpleAssociation_formalize( masl2xtuml_ooapopulation *, const i_t, masl2xtuml_R_PART *, masl2xtuml_R_SIMP * );
+void masl2xtuml_ooapopulation_op_ClassAsSimpleParticipant_migrateToFormalizer( masl2xtuml_ooapopulation *, masl2xtuml_R_PART * );
+void masl2xtuml_ooapopulation_op_ReferredToClassInAssoc_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_RTO * );
+void masl2xtuml_ooapopulation_op_ClassAsSupertype_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_SUPER * );
+void masl2xtuml_ooapopulation_op_ClassAsAssociatedOneSide_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_AONE * );
+void masl2xtuml_ooapopulation_op_ClassAsAssociatedOtherSide_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_AOTH * );
+void masl2xtuml_ooapopulation_op_ClassAsSimpleParticipant_dispose( masl2xtuml_ooapopulation *, masl2xtuml_R_PART * );
+masl2xtuml_O_RATTR * masl2xtuml_ooapopulation_op_ClassIdentifierAttribute_addReference( masl2xtuml_ooapopulation *, masl2xtuml_O_OBJ *, masl2xtuml_R_RGO *, const i_t, masl2xtuml_O_OIDA *, masl2xtuml_O_OBJ *, masl2xtuml_R_RTO *, masl2xtuml_R_REL * );
+masl2xtuml_O_RATTR * masl2xtuml_ooapopulation_op_ModelClass_newReferentialAttribute( masl2xtuml_ooapopulation *, const i_t, masl2xtuml_O_OBJ *, masl2xtuml_O_OIDA * );
+masl2xtuml_C_IR * masl2xtuml_ooapopulation_op_Component_initializeRequirement( masl2xtuml_ooapopulation *, masl2xtuml_C_C *, masl2xtuml_C_I *, c_t * );
+void masl2xtuml_ooapopulation_op_transformTerminatorService( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10

@@ -86,6 +86,9 @@ UserPostOoaInitializationCalloutf( void )
     masl2xtuml_in_populate( element, value );
   }
 
+  // call the serial interface end signal when we are done reading input from stdin
+  masl2xtuml_in_end();
+
   // For the masl conversion, we have a system, but we don't want that to be the root type during import.
   // Instead, we want the user to create a project, then import this file, so the root types are packages.
   // Output the header info to specify this, then dump the in-memory instances.

@@ -3402,135 +3402,6 @@ INSERT INTO DIM_ED
 	"d5c4d60d-b149-4641-84ad-45723620abe3",
 	"731faddc-d717-4cc3-9567-f6fa869b54e7");
 INSERT INTO GD_GE
-	VALUES ("03c6301e-e476-46e5-970f-44003a4a849a",
-	"5094509f-28da-4a6e-ba47-f306f959e323",
-	"f5721a28-a061-479e-a60a-11ef5b57336f",
-	21,
-	0,
-	'mcooa::ooaofooa::Subsystem::Referential Attribute Visited Recorder');
-INSERT INTO GD_SHP
-	VALUES ("03c6301e-e476-46e5-970f-44003a4a849a");
-INSERT INTO GD_NCS
-	VALUES ("03c6301e-e476-46e5-970f-44003a4a849a");
-INSERT INTO DIM_ND
-	VALUES (252.000000,
-	156.000000,
-	"03c6301e-e476-46e5-970f-44003a4a849a");
-INSERT INTO DIM_GE
-	VALUES (2544.000000,
-	1908.000000,
-	"03c6301e-e476-46e5-970f-44003a4a849a",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ELE
-	VALUES ("03c6301e-e476-46e5-970f-44003a4a849a",
-	0,
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_CON
-	VALUES ("19ffba90-6f4b-4ebd-ae25-dba270907fdf",
-	2544.000000,
-	1986.000000,
-	"03c6301e-e476-46e5-970f-44003a4a849a");
-INSERT INTO GD_GE
-	VALUES ("140663b7-600b-442a-84a5-2d39751e2975",
-	"5094509f-28da-4a6e-ba47-f306f959e323",
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	24,
-	0,
-	'mcooa::ooaofooa::Subsystem::R119');
-INSERT INTO GD_CON
-	VALUES ("140663b7-600b-442a-84a5-2d39751e2975",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO GD_CTXT
-	VALUES ("f7b0c157-f214-4754-b8a0-0b133e32bdc4",
-	"140663b7-600b-442a-84a5-2d39751e2975",
-	1,
-	0.000000,
-	0.000000);
-INSERT INTO DIM_ND
-	VALUES (24.000000,
-	24.000000,
-	"f7b0c157-f214-4754-b8a0-0b133e32bdc4");
-INSERT INTO DIM_GE
-	VALUES (1852.000000,
-	574.000000,
-	"f7b0c157-f214-4754-b8a0-0b133e32bdc4",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ELE
-	VALUES ("f7b0c157-f214-4754-b8a0-0b133e32bdc4",
-	0,
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO GD_CTXT
-	VALUES ("02f50e60-faff-42c7-be18-c8fcb1c4416b",
-	"140663b7-600b-442a-84a5-2d39751e2975",
-	3,
-	0.000000,
-	0.000000);
-INSERT INTO DIM_ND
-	VALUES (29.000000,
-	24.000000,
-	"02f50e60-faff-42c7-be18-c8fcb1c4416b");
-INSERT INTO DIM_GE
-	VALUES (2473.000000,
-	1957.000000,
-	"02f50e60-faff-42c7-be18-c8fcb1c4416b",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ELE
-	VALUES ("02f50e60-faff-42c7-be18-c8fcb1c4416b",
-	0,
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO GD_CTXT
-	VALUES ("0a2cec3b-2856-4f32-9999-42491abf5e4d",
-	"140663b7-600b-442a-84a5-2d39751e2975",
-	2,
-	0.000000,
-	0.000000);
-INSERT INTO DIM_ND
-	VALUES (39.000000,
-	24.000000,
-	"0a2cec3b-2856-4f32-9999-42491abf5e4d");
-INSERT INTO DIM_GE
-	VALUES (2442.000000,
-	1996.000000,
-	"0a2cec3b-2856-4f32-9999-42491abf5e4d",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ELE
-	VALUES ("0a2cec3b-2856-4f32-9999-42491abf5e4d",
-	0,
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO GD_LS
-	VALUES ("b6c810e8-bace-4289-bfc6-5d3c4048914e",
-	"140663b7-600b-442a-84a5-2d39751e2975",
-	"00000000-0000-0000-0000-000000000000",
-	"15a55886-4c42-4d38-8307-b918b3284e20",
-	"f12fe70c-ffa9-4f1a-b280-1e6f906ec903");
-INSERT INTO DIM_WAY
-	VALUES ("15a55886-4c42-4d38-8307-b918b3284e20",
-	2544.000000,
-	1986.000000,
-	"140663b7-600b-442a-84a5-2d39751e2975",
-	"00000000-0000-0000-0000-000000000000",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_WAY
-	VALUES ("f12fe70c-ffa9-4f1a-b280-1e6f906ec903",
-	2432.000000,
-	1986.000000,
-	"140663b7-600b-442a-84a5-2d39751e2975",
-	"00000000-0000-0000-0000-000000000000",
-	"15a55886-4c42-4d38-8307-b918b3284e20");
-INSERT INTO DIM_GE
-	VALUES (0.000000,
-	0.000000,
-	"140663b7-600b-442a-84a5-2d39751e2975",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ELE
-	VALUES ("140663b7-600b-442a-84a5-2d39751e2975",
-	0,
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO DIM_ED
-	VALUES ("19ffba90-6f4b-4ebd-ae25-dba270907fdf",
-	"53a26021-acb5-4ec5-8691-907c16f855ac",
-	"140663b7-600b-442a-84a5-2d39751e2975");
-INSERT INTO GD_GE
 	VALUES ("502bd04c-58ed-4877-9345-043cc15d5792",
 	"5094509f-28da-4a6e-ba47-f306f959e323",
 	"b88e234c-abd8-4bad-b926-8de5e2ddb272",
@@ -4562,6 +4433,246 @@ INSERT INTO PE_PE
 	"0c6a5602-ebe1-4264-b018-1fae479545e7",
 	"00000000-0000-0000-0000-000000000000",
 	3);
+INSERT INTO S_DT
+	VALUES ("f5752494-b9cf-4fc7-b96d-4b64d6be0431",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Attribute Reference in Class>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f5752494-b9cf-4fc7-b96d-4b64d6be0431",
+	0,
+	"b354a8e8-8625-4ae0-a24e-632add00062c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("b354a8e8-8625-4ae0-a24e-632add00062c",
+	'Attribute Reference in Class',
+	110,
+	'O_REF',
+	'The class represents an association number (R#) which follows a referential attribute.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Attribute Reference in Class/Attribute Reference in Class.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f5752494-b9cf-4fc7-b96d-4b64d6be0431",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("536abbf7-2948-4fcf-b392-be05bdc40fb4",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Attribute Reference in Class>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("536abbf7-2948-4fcf-b392-be05bdc40fb4",
+	1,
+	"b354a8e8-8625-4ae0-a24e-632add00062c");
+INSERT INTO PE_PE
+	VALUES ("536abbf7-2948-4fcf-b392-be05bdc40fb4",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("08de18fb-cb5f-4d53-9826-375c4dad56f7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Class Identifier Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("08de18fb-cb5f-4d53-9826-375c4dad56f7",
+	0,
+	"3067d031-9816-44f7-ad6b-a55f5115381c");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("3067d031-9816-44f7-ad6b-a55f5115381c",
+	'Class Identifier Attribute',
+	105,
+	'O_OIDA',
+	'An attribute that is part of a class identifier is a class identifier attribute.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Class Identifier Attribute/Class Identifier Attribute.xtuml');
+INSERT INTO PE_PE
+	VALUES ("08de18fb-cb5f-4d53-9826-375c4dad56f7",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("612b8a1c-de3c-4434-a472-953d3e3e622b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Class Identifier Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("612b8a1c-de3c-4434-a472-953d3e3e622b",
+	1,
+	"3067d031-9816-44f7-ad6b-a55f5115381c");
+INSERT INTO PE_PE
+	VALUES ("612b8a1c-de3c-4434-a472-953d3e3e622b",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("f026ef24-b484-4ab0-8a8b-5f0709c3d576",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Referred To Identifier Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("f026ef24-b484-4ab0-8a8b-5f0709c3d576",
+	0,
+	"c44219a2-2d4f-47e1-8804-3385f6de5b2a");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("c44219a2-2d4f-47e1-8804-3385f6de5b2a",
+	'Referred To Identifier Attribute',
+	111,
+	'O_RTIDA',
+	'This class serves a linkage between R# (Attribute Reference in Class ) and the referred to class identifier attribute.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Referred To Identifier Attribute/Referred To Identifier Attribute.xtuml');
+INSERT INTO PE_PE
+	VALUES ("f026ef24-b484-4ab0-8a8b-5f0709c3d576",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("bd850f55-6c16-4118-88f4-b8a5e547279b",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Referred To Identifier Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("bd850f55-6c16-4118-88f4-b8a5e547279b",
+	1,
+	"c44219a2-2d4f-47e1-8804-3385f6de5b2a");
+INSERT INTO PE_PE
+	VALUES ("bd850f55-6c16-4118-88f4-b8a5e547279b",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Referential Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	0,
+	"9444d09c-81d8-4ab1-b5f0-c4bebbf14c25");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
+	'Referential Attribute',
+	109,
+	'O_RATTR',
+	'A referential attribute captures the formalization of an association.  A referential attribute refers to an identifying attribute in the class at the other end of the association which it formalizes.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Referential Attribute/Referential Attribute.xtuml');
+INSERT INTO PE_PE
+	VALUES ("9bb4b389-b488-46e0-aeca-fc90df7b856a",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("0a365046-7fea-4eb4-901d-39f606179c3e",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Referential Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("0a365046-7fea-4eb4-901d-39f606179c3e",
+	1,
+	"9444d09c-81d8-4ab1-b5f0-c4bebbf14c25");
+INSERT INTO PE_PE
+	VALUES ("0a365046-7fea-4eb4-901d-39f606179c3e",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("4f9e319a-3e53-416e-834c-97575e36b5fd",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Derived Base Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("4f9e319a-3e53-416e-834c-97575e36b5fd",
+	0,
+	"3eab6a96-7967-4a33-ae3a-272403488248");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("3eab6a96-7967-4a33-ae3a-272403488248",
+	'Derived Base Attribute',
+	107,
+	'O_DBATTR',
+	'A Derived Attribute is the result of an algorithm used to derive the value. A derived based attribute is said to be mathematically-dependent since is value is derived from other data in the model.  The action for the derived base attribute is used to set the value of the attribute by using the self keyword.',
+	"00000000-0000-0000-0000-000000000000",
+	'./Derived Base Attribute/Derived Base Attribute.xtuml');
+INSERT INTO PE_PE
+	VALUES ("4f9e319a-3e53-416e-834c-97575e36b5fd",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("2cbc6039-dcb2-409d-8651-66e8afd3e811",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<Derived Base Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("2cbc6039-dcb2-409d-8651-66e8afd3e811",
+	1,
+	"3eab6a96-7967-4a33-ae3a-272403488248");
+INSERT INTO PE_PE
+	VALUES ("2cbc6039-dcb2-409d-8651-66e8afd3e811",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("7e942884-55b0-420b-97d7-19d2928132e8",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<New Base Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("7e942884-55b0-420b-97d7-19d2928132e8",
+	0,
+	"bfca6659-9387-40a9-ad76-b6add80bb4b1");
+INSERT INTO O_OBJ_PROXY
+	VALUES ("bfca6659-9387-40a9-ad76-b6add80bb4b1",
+	'New Base Attribute',
+	108,
+	'O_NBATTR',
+	'A New Base Attribute is a non-derived base attribute.',
+	"00000000-0000-0000-0000-000000000000",
+	'./New Base Attribute/New Base Attribute.xtuml');
+INSERT INTO PE_PE
+	VALUES ("7e942884-55b0-420b-97d7-19d2928132e8",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
+INSERT INTO S_DT
+	VALUES ("b0eadebb-6da2-4a3f-9482-1f9893809ef7",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref_set<New Base Attribute>',
+	'',
+	'');
+INSERT INTO S_IRDT
+	VALUES ("b0eadebb-6da2-4a3f-9482-1f9893809ef7",
+	1,
+	"bfca6659-9387-40a9-ad76-b6add80bb4b1");
+INSERT INTO PE_PE
+	VALUES ("b0eadebb-6da2-4a3f-9482-1f9893809ef7",
+	1,
+	"0c6a5602-ebe1-4264-b018-1fae479545e7",
+	"00000000-0000-0000-0000-000000000000",
+	3);
 INSERT INTO R_SIMP
 	VALUES ("2af9f4dc-52e1-4e55-a2ed-eba51502a75f");
 INSERT INTO R_REL
@@ -5045,14 +5156,6 @@ INSERT INTO R_OIR
 	"a9a58f20-2c54-4195-8c6d-6f8bc343f1e8",
 	"5b1beda9-ec6b-40a4-aa80-02c131c60811",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
-	'Referential Attribute',
-	109,
-	'O_RATTR',
-	'A referential attribute captures the formalization of an association.  A referential attribute refers to an identifying attribute in the class at the other end of the association which it formalizes.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Referential Attribute/Referential Attribute.xtuml');
 INSERT INTO PE_PE
 	VALUES ("a9a58f20-2c54-4195-8c6d-6f8bc343f1e8",
 	1,
@@ -5179,14 +5282,6 @@ INSERT INTO R_OIR
 	"23041cf2-3561-4d28-8411-0b7a1a0629e7",
 	"ae2d9160-7722-4250-96a9-d3f2fc4b0333",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("3eab6a96-7967-4a33-ae3a-272403488248",
-	'Derived Base Attribute',
-	107,
-	'O_DBATTR',
-	'A Derived Attribute is the result of an algorithm used to derive the value. A derived based attribute is said to be mathematically-dependent since is value is derived from other data in the model.  The action for the derived base attribute is used to set the value of the attribute by using the self keyword.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Derived Base Attribute/Derived Base Attribute.xtuml');
 INSERT INTO R_SUB
 	VALUES ("bfca6659-9387-40a9-ad76-b6add80bb4b1",
 	"23041cf2-3561-4d28-8411-0b7a1a0629e7",
@@ -5200,14 +5295,6 @@ INSERT INTO R_OIR
 	"23041cf2-3561-4d28-8411-0b7a1a0629e7",
 	"a0bf0815-dea5-499c-a0cb-36c360352b91",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("bfca6659-9387-40a9-ad76-b6add80bb4b1",
-	'New Base Attribute',
-	108,
-	'O_NBATTR',
-	'A New Base Attribute is a non-derived base attribute.',
-	"00000000-0000-0000-0000-000000000000",
-	'./New Base Attribute/New Base Attribute.xtuml');
 INSERT INTO PE_PE
 	VALUES ("23041cf2-3561-4d28-8411-0b7a1a0629e7",
 	1,
@@ -5237,14 +5324,6 @@ INSERT INTO R_OIR
 	"98832654-a2bc-48f0-b967-fb276fb93c3d",
 	"6caeb674-d989-4ea8-92a0-eb5ea6d15bac",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("b354a8e8-8625-4ae0-a24e-632add00062c",
-	'Attribute Reference in Class',
-	110,
-	'O_REF',
-	'The class represents an association number (R#) which follows a referential attribute.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Attribute Reference in Class/Attribute Reference in Class.xtuml');
 INSERT INTO R_PART
 	VALUES ("9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
 	"98832654-a2bc-48f0-b967-fb276fb93c3d",
@@ -5453,14 +5532,6 @@ INSERT INTO R_OIR
 	"f6dce2b2-1988-4f07-9ad0-589e1576c5f4",
 	"94d8bf85-73b5-4115-9d97-c6369dcb2bc7",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("3067d031-9816-44f7-ad6b-a55f5115381c",
-	'Class Identifier Attribute',
-	105,
-	'O_OIDA',
-	'An attribute that is part of a class identifier is a class identifier attribute.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Class Identifier Attribute/Class Identifier Attribute.xtuml');
 INSERT INTO PE_PE
 	VALUES ("f6dce2b2-1988-4f07-9ad0-589e1576c5f4",
 	1,
@@ -5734,14 +5805,6 @@ INSERT INTO R_OIR
 	"bd483fe7-1f2e-4730-b05a-8564822fff65",
 	"c3d12aa2-1726-46f8-9f8b-474515ebee1a",
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("c44219a2-2d4f-47e1-8804-3385f6de5b2a",
-	'Referred To Identifier Attribute',
-	111,
-	'O_RTIDA',
-	'This class serves a linkage between R# (Attribute Reference in Class ) and the referred to class identifier attribute.',
-	"00000000-0000-0000-0000-000000000000",
-	'./Referred To Identifier Attribute/Referred To Identifier Attribute.xtuml');
 INSERT INTO PE_PE
 	VALUES ("bd483fe7-1f2e-4730-b05a-8564822fff65",
 	1,
@@ -5975,85 +6038,6 @@ INSERT INTO R_OIR
 	"00000000-0000-0000-0000-000000000000");
 INSERT INTO PE_PE
 	VALUES ("bb84e8d8-7ad6-46aa-9f47-f90151acba75",
-	1,
-	"0c6a5602-ebe1-4264-b018-1fae479545e7",
-	"00000000-0000-0000-0000-000000000000",
-	9);
-INSERT INTO R_SIMP
-	VALUES ("bd3dca56-8965-4b71-b649-3beeaa24e368");
-INSERT INTO R_REL
-	VALUES ("bd3dca56-8965-4b71-b649-3beeaa24e368",
-	119,
-	'Notify_Changes:false',
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO R_PART
-	VALUES ("f5721a28-a061-479e-a60a-11ef5b57336f",
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	"c25b7f34-4253-4ab7-b63f-4c25c59ab796",
-	0,
-	1,
-	'');
-INSERT INTO O_RTIDA
-	VALUES ("910b169d-001a-48f6-98fc-aa4af990e1f5",
-	"f5721a28-a061-479e-a60a-11ef5b57336f",
-	0,
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	"c25b7f34-4253-4ab7-b63f-4c25c59ab796");
-INSERT INTO O_OIDA_PROXY
-	VALUES ("910b169d-001a-48f6-98fc-aa4af990e1f5",
-	"f5721a28-a061-479e-a60a-11ef5b57336f",
-	0,
-	'recorderId',
-	'./Referential Attribute Visited Recorder/Referential Attribute Visited Recorder.xtuml');
-INSERT INTO R_RTO
-	VALUES ("f5721a28-a061-479e-a60a-11ef5b57336f",
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	"c25b7f34-4253-4ab7-b63f-4c25c59ab796",
-	0);
-INSERT INTO O_ID_PROXY
-	VALUES (0,
-	"f5721a28-a061-479e-a60a-11ef5b57336f",
-	'./Referential Attribute Visited Recorder/Referential Attribute Visited Recorder.xtuml');
-INSERT INTO R_OIR
-	VALUES ("f5721a28-a061-479e-a60a-11ef5b57336f",
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	"c25b7f34-4253-4ab7-b63f-4c25c59ab796",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_OBJ_PROXY
-	VALUES ("f5721a28-a061-479e-a60a-11ef5b57336f",
-	'Referential Attribute Visited Recorder',
-	114,
-	'O_RAVR',
-	'A non-persistent instance of this class is created per domain.  The sole 
-purpose of this instance is to allow instances of Referential Attribute to 
-be related to it across R119 as a way to mark that they have been visited
-during a traversal from a referential attribute to its base attribute. 
-This marking is performed in order to avoid an infinite loop during the 
-traversal caused by any circular referencing that may be present.  
-
-Persistent:false
-User_Visible:false
-TRANSLATE_FOR_EXTERNAL_USE:FALSE',
-	"00000000-0000-0000-0000-000000000000",
-	'./Referential Attribute Visited Recorder/Referential Attribute Visited Recorder.xtuml');
-INSERT INTO R_FORM
-	VALUES ("9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	"4db9d912-489d-4bce-a9d6-c0365d36a1f9",
-	1,
-	1,
-	'visited');
-INSERT INTO R_RGO
-	VALUES ("9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	"4db9d912-489d-4bce-a9d6-c0365d36a1f9");
-INSERT INTO R_OIR
-	VALUES ("9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	"4db9d912-489d-4bce-a9d6-c0365d36a1f9",
-	"00000000-0000-0000-0000-000000000000");
-INSERT INTO PE_PE
-	VALUES ("bd3dca56-8965-4b71-b649-3beeaa24e368",
 	1,
 	"0c6a5602-ebe1-4264-b018-1fae479545e7",
 	"00000000-0000-0000-0000-000000000000",

@@ -126,7 +126,7 @@ int Escher_xtUML_load(
   Escher_ClassNumber_t i;
   bool done = false;
   if ( 2 != argc ) {
-    printf( "xtumlload <input xtUML file>\n" );
+    fprintf( stderr, "xtumlload <input xtUML file>\n" );
     return 1;
   }
   if ( (xtumlfile = fopen( argv[1], "r" )) == 0 ) {
@@ -134,7 +134,6 @@ int Escher_xtUML_load(
     xtumlfile = stdin;
   }
   init();               /* Initialize the xml storage area.      */
-  printf( "-- Read %s on the %s command line.\n", argv[1], argv[0] );
   /*
    * Read a record.  Parse it.  Pass it.  Repeat until end of file.
    */
@@ -145,7 +144,7 @@ int Escher_xtUML_load(
         Escher_load_instance( wordindex, word );
       }
     } else {
-      printf( "Error:  Did not parse.\n" );
+      fprintf( stderr, "Error:  Did not parse.\n" );
     }
   }
   for ( i = 0; i < ${all_max_class_numbers}; i++ ) {

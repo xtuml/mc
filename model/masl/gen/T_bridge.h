@@ -34,6 +34,7 @@ c_t * T_xmlify( c_t * );
 c_t * T_parsekeyword( c_t *, c_t * );
 c_t * T_body( void );
 c_t * T_t( c_t * );
+void T_copyfile( c_t *, c_t * );
 
 #ifdef	__cplusplus
 }

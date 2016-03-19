@@ -115,13 +115,31 @@ INSERT INTO O_BATTR_PROXY
 INSERT INTO O_ATTR
 	VALUES ("b860ccc5-f4a5-4124-a1fe-55da227f4ea7",
 	"68c1a6cd-6aef-4bc7-a5af-020c4eb4fead",
-	"00000000-0000-0000-0000-000000000000",
+	"1118b4e2-1b6d-4d3e-ac8e-5f81fb52562c",
 	'Rel_ID',
 	'',
 	'',
 	'Rel_ID',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("1118b4e2-1b6d-4d3e-ac8e-5f81fb52562c",
+	"68c1a6cd-6aef-4bc7-a5af-020c4eb4fead");
+INSERT INTO O_BATTR
+	VALUES ("1118b4e2-1b6d-4d3e-ac8e-5f81fb52562c",
+	"68c1a6cd-6aef-4bc7-a5af-020c4eb4fead");
+INSERT INTO O_ATTR
+	VALUES ("1118b4e2-1b6d-4d3e-ac8e-5f81fb52562c",
+	"68c1a6cd-6aef-4bc7-a5af-020c4eb4fead",
+	"00000000-0000-0000-0000-000000000000",
+	'Participation_ID',
+	'',
+	'',
+	'Participation_ID',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID
