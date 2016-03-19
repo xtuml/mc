@@ -7,57 +7,6 @@ INSERT INTO O_OBJ
 	'S_SYNC',
 	'A function (S_SYNC) is a method associated with the domain (S_DOM).  It can be thought of as a global function within the domain.  Functions can be synchronously called from action specifications or used to provide a definition for bridge method  in another domain.',
 	"00000000-0000-0000-0000-000000000000");
-INSERT INTO O_REF
-	VALUES ("259423d7-4bec-4988-a8db-ed2761a9e68e",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	0,
-	"6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"1dec6403-b479-4086-9dd7-7f202d972c02",
-	"ac8ddd87-7020-4434-942c-fe1633b12f57",
-	"7f4077cc-aacf-4ffa-bd49-07ab65bd4929",
-	"94a916b6-a114-409e-8565-82edd0757a82",
-	"f3c62953-f96d-4ddc-9789-420d868f29d5",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Domain',
-	'Dom_ID',
-	'R23.''is defined in ''');
-INSERT INTO R_RGO_PROXY
-	VALUES ("259423d7-4bec-4988-a8db-ed2761a9e68e",
-	"1dec6403-b479-4086-9dd7-7f202d972c02",
-	"ac8ddd87-7020-4434-942c-fe1633b12f57",
-	'../Domain.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	0,
-	"1dec6403-b479-4086-9dd7-7f202d972c02",
-	"7f4077cc-aacf-4ffa-bd49-07ab65bd4929",
-	'../Domain.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("94a916b6-a114-409e-8565-82edd0757a82",
-	"259423d7-4bec-4988-a8db-ed2761a9e68e",
-	"6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	1,
-	'Dom_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("6501cc26-c379-4762-be5a-80bbe64aafb1",
-	"d85f11b7-7911-41f1-bb27-1d8a498c1427",
-	'../Domain/Domain.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("94a916b6-a114-409e-8565-82edd0757a82",
-	"259423d7-4bec-4988-a8db-ed2761a9e68e",
-	"aa9ca9b4-6b94-4abc-85a8-d76c8771f5b2",
-	'Dom_ID',
-	'',
-	'',
-	'Dom_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
 INSERT INTO O_NBATTR
 	VALUES ("efb3855c-3b24-4eaf-88e3-d0ff8fafd198",
 	"259423d7-4bec-4988-a8db-ed2761a9e68e");
@@ -67,7 +16,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("efb3855c-3b24-4eaf-88e3-d0ff8fafd198",
 	"259423d7-4bec-4988-a8db-ed2761a9e68e",
-	"94a916b6-a114-409e-8565-82edd0757a82",
+	"27198b69-3cbd-407f-afdf-e703a0d87a67",
 	'Name',
 	'Full Name: Name',
 	'',
@@ -273,6 +222,24 @@ INSERT INTO O_ATTR
 	'Sync_ID',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("27198b69-3cbd-407f-afdf-e703a0d87a67",
+	"259423d7-4bec-4988-a8db-ed2761a9e68e");
+INSERT INTO O_BATTR
+	VALUES ("27198b69-3cbd-407f-afdf-e703a0d87a67",
+	"259423d7-4bec-4988-a8db-ed2761a9e68e");
+INSERT INTO O_ATTR
+	VALUES ("27198b69-3cbd-407f-afdf-e703a0d87a67",
+	"259423d7-4bec-4988-a8db-ed2761a9e68e",
+	"aa9ca9b4-6b94-4abc-85a8-d76c8771f5b2",
+	'Dom_IDdeprecated',
+	'',
+	'',
+	'Dom_IDdeprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID

@@ -149,60 +149,6 @@ In Properties: false',
 	'');
 INSERT INTO O_REF
 	VALUES ("9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
-	"f5721a28-a061-479e-a60a-11ef5b57336f",
-	0,
-	"910b169d-001a-48f6-98fc-aa4af990e1f5",
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	"4db9d912-489d-4bce-a9d6-c0365d36a1f9",
-	"c25b7f34-4253-4ab7-b63f-4c25c59ab796",
-	"69935e5b-dcea-4d9a-967d-f1c6114f31c0",
-	"27f43bd2-3eff-4857-9195-3bff6dd83399",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'Referential Attribute Visited Recorder',
-	'recorderId',
-	'R119');
-INSERT INTO R_RGO_PROXY
-	VALUES ("9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	"4db9d912-489d-4bce-a9d6-c0365d36a1f9",
-	'../Subsystem.xtuml');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("910b169d-001a-48f6-98fc-aa4af990e1f5",
-	"f5721a28-a061-479e-a60a-11ef5b57336f",
-	0,
-	"bd3dca56-8965-4b71-b649-3beeaa24e368",
-	"c25b7f34-4253-4ab7-b63f-4c25c59ab796",
-	'../Subsystem.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("69935e5b-dcea-4d9a-967d-f1c6114f31c0",
-	"9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
-	"910b169d-001a-48f6-98fc-aa4af990e1f5",
-	"f5721a28-a061-479e-a60a-11ef5b57336f",
-	1,
-	'recorderId');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("910b169d-001a-48f6-98fc-aa4af990e1f5",
-	"f5721a28-a061-479e-a60a-11ef5b57336f",
-	'../Referential Attribute Visited Recorder/Referential Attribute Visited Recorder.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("69935e5b-dcea-4d9a-967d-f1c6114f31c0",
-	"9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
-	"ecda32b9-95d2-4b80-8ff4-1b5f859417bd",
-	'recorderId',
-	'Persistent:false
-User_Visible:false
-TRANSLATE_FOR_EXTERNAL_USE:FALSE
-',
-	'',
-	'recorderId',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
-INSERT INTO O_REF
-	VALUES ("9444d09c-81d8-4ab1-b5f0-c4bebbf14c25",
 	"b835fba4-c6f4-42bc-9aee-c2360514fba4",
 	0,
 	"a85ab373-8d7c-4efe-afe4-228a0a8687d9",

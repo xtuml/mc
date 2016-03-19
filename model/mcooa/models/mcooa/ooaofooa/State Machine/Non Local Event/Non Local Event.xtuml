@@ -106,52 +106,6 @@ INSERT INTO O_ATTR
 	'');
 INSERT INTO O_REF
 	VALUES ("ac7491ac-1389-45d9-8826-734432d2e1c4",
-	"041138e2-fb32-43bf-b3df-6300cbb76025",
-	0,
-	"3839664b-0d89-49b6-b4f3-f1e8ddf1638c",
-	"2cfa9357-a8b3-4677-b939-ca8e53d1989d",
-	"09be40f5-481c-4992-80d4-40c99e336793",
-	"cebdcd32-d182-4cc5-b660-17906334b4aa",
-	"fe01106c-0576-4210-8e88-65766ac1cb5a",
-	"b862f264-d0b3-4a2b-bb83-0e188b4c4fd2",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'SEM Event',
-	'SMspd_ID',
-	'R526');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("3839664b-0d89-49b6-b4f3-f1e8ddf1638c",
-	"041138e2-fb32-43bf-b3df-6300cbb76025",
-	0,
-	"2cfa9357-a8b3-4677-b939-ca8e53d1989d",
-	"cebdcd32-d182-4cc5-b660-17906334b4aa",
-	'../State Machine.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("fe01106c-0576-4210-8e88-65766ac1cb5a",
-	"ac7491ac-1389-45d9-8826-734432d2e1c4",
-	"95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	1,
-	'SMspd_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	'../Event Supplemental Data/Event Supplemental Data.xtuml');
-INSERT INTO O_ATTR
-	VALUES ("fe01106c-0576-4210-8e88-65766ac1cb5a",
-	"ac7491ac-1389-45d9-8826-734432d2e1c4",
-	"d97a777b-33d8-4569-8971-d96853591cbf",
-	'SMspd_ID',
-	'',
-	'',
-	'SMspd_ID',
-	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
-	'',
-	'');
-INSERT INTO O_REF
-	VALUES ("ac7491ac-1389-45d9-8826-734432d2e1c4",
 	"06b0f6ef-e655-49f3-9e5b-f995a1e199dd",
 	0,
 	"50fba555-2a9b-49a0-84cd-fa6e18689787",
@@ -188,7 +142,7 @@ INSERT INTO O_RATTR
 INSERT INTO O_ATTR
 	VALUES ("8c8da1a4-fc83-4ac9-9a25-de6eba5f0a7f",
 	"ac7491ac-1389-45d9-8826-734432d2e1c4",
-	"fe01106c-0576-4210-8e88-65766ac1cb5a",
+	"f9dcc971-35ac-4d55-863c-1757ffd2dd3e",
 	'polySMevt_ID',
 	'
 
@@ -253,12 +207,12 @@ INSERT INTO O_ATTR
 	VALUES ("b1bbe2cb-fb96-413e-a1cc-ae4a4879ff71",
 	"ac7491ac-1389-45d9-8826-734432d2e1c4",
 	"f9a9c598-066a-40c8-b678-07bd5daa9304",
-	'polySMspd_ID',
+	'polySMspd_IDdeprecated',
 	'This attribute is only here for backwards compatibility.
 
 ',
 	'',
-	'polySMspd_ID',
+	'polySMspd_IDdeprecated',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
@@ -300,14 +254,27 @@ Full Name: Name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("f9dcc971-35ac-4d55-863c-1757ffd2dd3e",
+	"ac7491ac-1389-45d9-8826-734432d2e1c4");
+INSERT INTO O_BATTR
+	VALUES ("f9dcc971-35ac-4d55-863c-1757ffd2dd3e",
+	"ac7491ac-1389-45d9-8826-734432d2e1c4");
+INSERT INTO O_ATTR
+	VALUES ("f9dcc971-35ac-4d55-863c-1757ffd2dd3e",
+	"ac7491ac-1389-45d9-8826-734432d2e1c4",
+	"d97a777b-33d8-4569-8971-d96853591cbf",
+	'SMspd_IDdeprecated',
+	'',
+	'',
+	'SMspd_IDdeprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"ac7491ac-1389-45d9-8826-734432d2e1c4");
-INSERT INTO O_OIDA
-	VALUES ("fe01106c-0576-4210-8e88-65766ac1cb5a",
-	"ac7491ac-1389-45d9-8826-734432d2e1c4",
-	0,
-	'SMspd_ID');
 INSERT INTO O_OIDA
 	VALUES ("d97a777b-33d8-4569-8971-d96853591cbf",
 	"ac7491ac-1389-45d9-8826-734432d2e1c4",

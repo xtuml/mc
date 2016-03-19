@@ -760,6 +760,53 @@ INSERT INTO S_BPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_BRG
+	VALUES ("67ee4dd6-307d-4c42-970b-32ec596feb93",
+	"d5a9b463-d62b-48e1-be9c-c3e0d84d9c47",
+	'copyfile',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000000",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("fae37b6f-1698-47e1-8383-6ecf5338bdca",
+	"67ee4dd6-307d-4c42-970b-32ec596feb93",
+	'source',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("4e7b8efc-fa7d-491a-89b4-827640c3a680",
+	"67ee4dd6-307d-4c42-970b-32ec596feb93",
+	'destination',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"fae37b6f-1698-47e1-8383-6ecf5338bdca",
+	'');
+INSERT INTO S_BRG
+	VALUES ("d85fcc5d-0038-4b0c-abcd-f75663fc1f2d",
+	"d5a9b463-d62b-48e1-be9c-c3e0d84d9c47",
+	'idtoi',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'return 0;',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("331addbd-e217-4b92-ad56-2fee13a8346b",
+	"d85fcc5d-0038-4b0c-abcd-f75663fc1f2d",
+	'id',
+	"ba5eda7a-def5-0000-0000-000000000005",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO PE_PE
 	VALUES ("d5a9b463-d62b-48e1-be9c-c3e0d84d9c47",
 	1,

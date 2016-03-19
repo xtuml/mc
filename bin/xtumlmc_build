@@ -1056,6 +1056,127 @@ sub modelFinderCallback($$)
 }
 
 #---------------------------------------------------------------------------
+# Export a BridgePoint model to MASL
+#---------------------------------------------------------------------------
+sub xtuml2masl;
+sub xtuml2masl
+{
+  # xtumlmc_build xtuml2masl [-v | -V] [-p <xtUML file(s) ...> ] [-d <xtUML file(s) ...> ] [ -o <output directory> ]
+
+  # get command line arguments
+  my @param_list = @_;
+
+  # set the path
+  my $current_path = $ENV{'PATH'};
+  my $masl_bin_dir = $ENV{'MASL_BIN_DIR'};
+  $ENV{'PATH'} = "$masl_bin_dir:$current_path";
+
+  # input variables
+  my $validate = "";
+  my $eclipse = "";
+  my $out_dir = "";
+
+  my @inputs;
+  my $num_inputs = -1;
+  my @num_dom;
+  my @num_proj;
+
+  my @dom_names;
+  my @proj_names;
+
+  # parse arguments
+  my $directive = "";
+  foreach my $arg(@param_list) {
+    if ( ( $arg eq "-v" or $arg eq "-V" ) and $validate eq "" ) {   # if we encounter a validate flag, set the validation
+      $validate = "$arg";
+      $directive = "";                                              # encounterint a validation flag resets the directive because
+    }
+    elsif ( $arg eq "-e" and $eclipse eq "" ) {                     # if we encounter eclipse flag
+      $eclipse = "$arg";
+      $directive = "";
+    }
+    elsif ( $arg eq "-p" or $arg eq "-d" or $arg eq "-i" or $arg eq "-o" ) {        # set the directive
+      $directive = "$arg";
+    }
+    elsif ( $directive eq "-i" ) {                                  # add an input
+      $num_inputs++;
+      push @inputs, $arg;
+      $num_dom[$num_inputs] = 0;
+      $num_proj[$num_inputs] = 0;
+    }
+    elsif ( $directive eq "-p" ) {                                   # add a project name
+      push @proj_names, $arg;
+      $num_proj[$num_inputs]++;
+    }
+    elsif ( $directive eq "-d" ) {                                  # add a domain name
+      push @dom_names, $arg;
+      $num_dom[$num_inputs]++;
+    }
+    elsif ( $directive eq "-o" and $out_dir eq "" ) {                # only can set the output directory once
+      $out_dir = "$arg";
+    }
+    else {
+      print STDERR "Usage: xtumlmc_build xtuml2masl [-v | -V] [-p <xtUML file(s) ...> ] [-d <xtUML file(s) ...> ] [ -o <output directory> ]\n";
+      exit 1;
+    }
+  }
+
+  print STDERR "Initializing MASL export...\n";
+
+  # if no out directory was given, give the current working directory
+  if ( $out_dir eq "" ) { $out_dir = "."; }
+
+  # make the output directory if ther is one
+  use File::Path qw(make_path);
+  eval { make_path("$out_dir") };
+  if ($@) {
+    print STDERR "-xtuml2masl: ERROR could not create directory '$out_dir'\n";
+    exit 1
+  }
+
+  # if the eclipse flag is not set, run the pre-builder
+  if ( $eclipse eq "" ) {
+    print STDERR "Invoking BridgePoint pre-builder...\n";
+    # the WORKSPACE env variable is expected to be set properly
+    my ($volume, $directory, $file) = File::Spec->splitpath(__FILE__);
+    system( "$directory/../../../../CLI.sh Build -prebuildOnly" );
+  }
+
+  # process command
+  my $c = 0;
+  my $doff = 0;
+  my $poff = 0;
+  foreach $i (@inputs) {
+    my $command = "";
+    for ( my $k = 0; $k < $num_dom[$c]; $k++ ) {
+      $command = "$command -d$dom_names[$k+$doff]";
+    }
+    $doff += $num_dom[$c];
+    for ( my $k = 0; $k < $num_proj[$c]; $k++ ) {
+      $command = "$command -p$proj_names[$k+$poff]";
+    }
+    $poff += $num_proj[$c];
+    $c++;
+
+    # cleanse the prebuilder output
+    system( "cat $i/gen/code_generation/*.sql > $i/gen/code_generation/z.xtuml" );
+    &xtumlmc_cleanse_for_BridgePoint ( "$i/gen/code_generation/z.xtuml", "$i/gen/code_generation/a.xtuml" );
+
+    # call the utilities
+    my $sys_cmd = "cat $i/gen/code_generation/a.xtuml | x2m $command | masl $validate -i$i $command -o$out_dir";
+    print STDERR "$sys_cmd\n";
+    system( $sys_cmd );
+
+    # clean up
+    unlink "$i/gen/code_generation/z.xtuml";
+    unlink "$i/gen/code_generation/a.xtuml";
+  }
+
+  print STDERR "Done.\n";
+
+}
+
+#---------------------------------------------------------------------------
 # Show function usage.
 #---------------------------------------------------------------------------
 sub usage();
@@ -1151,6 +1272,7 @@ if ( 0 < @ARGV ) {
 # and passing the name of the routine as the first argument.
 #
 my %xtumlmc_utility_routines = (
+  "xtuml2masl" => TRUE,
   "xtumlmc_gen_erate" => TRUE,
   "xtumlmc_gen_file" => TRUE,
   "xtumlmc_gen_import" => TRUE,

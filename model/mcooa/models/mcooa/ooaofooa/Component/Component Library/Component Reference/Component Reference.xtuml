@@ -16,7 +16,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("b89ad6e5-27d9-4867-8c92-2afda8bb1758",
 	"e8df4552-6754-4c07-95d6-ddfcb8d5a852",
-	"9b0cc318-648d-41f0-a176-9279f22bebf1",
+	"51c66496-34be-4645-9c9b-c88f83b33f5a",
 	'Mult',
 	'Full Name: Multiplicity
 Description: Multiplicity of the component.  Indicates how many instances of the component may exist.
@@ -224,6 +224,24 @@ INSERT INTO O_ATTR
 	'Id',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000007",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("51c66496-34be-4645-9c9b-c88f83b33f5a",
+	"e8df4552-6754-4c07-95d6-ddfcb8d5a852");
+INSERT INTO O_BATTR
+	VALUES ("51c66496-34be-4645-9c9b-c88f83b33f5a",
+	"e8df4552-6754-4c07-95d6-ddfcb8d5a852");
+INSERT INTO O_ATTR
+	VALUES ("51c66496-34be-4645-9c9b-c88f83b33f5a",
+	"e8df4552-6754-4c07-95d6-ddfcb8d5a852",
+	"9b0cc318-648d-41f0-a176-9279f22bebf1",
+	'Component_Package_IDdeprecated',
+	'',
+	'',
+	'Component_Package_IDdeprecated',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID

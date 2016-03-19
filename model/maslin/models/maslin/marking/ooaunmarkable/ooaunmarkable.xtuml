@@ -1,0 +1,72 @@
+-- BP 7.1.6 content: ModelClass syschar: 3 persistence-version: 7.1.6
+
+INSERT INTO O_OBJ
+	VALUES ("4b4dc370-41e1-4947-a513-c81a13613cb3",
+	'ooaunmarkable',
+	3808,
+	'ooaunmarkable',
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TFR
+	VALUES ("3260b1bd-11f5-40eb-be1c-86cb22918419",
+	"4b4dc370-41e1-4947-a513-c81a13613cb3",
+	'populate',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	0,
+	'element = param.element;
+create object instance unmarkable of ooaunmarkable;
+relate unmarkable to element across R3806;',
+	1,
+	'',
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("c4e274d9-e646-413e-90a2-2ab599e77f6f",
+	"3260b1bd-11f5-40eb-be1c-86cb22918419",
+	'element',
+	"67d44486-874e-43aa-a2a2-0487451e2390",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("67d44486-874e-43aa-a2a2-0487451e2390",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooaelement>',
+	'',
+	'',
+	'../marking.xtuml');
+INSERT INTO O_TFR
+	VALUES ("29b5a077-149f-4d8c-b9e9-59844f20e524",
+	"4b4dc370-41e1-4947-a513-c81a13613cb3",
+	'destruct',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'delete object instance self;',
+	1,
+	'',
+	"3260b1bd-11f5-40eb-be1c-86cb22918419");
+INSERT INTO O_ID
+	VALUES (0,
+	"4b4dc370-41e1-4947-a513-c81a13613cb3");
+INSERT INTO O_ID
+	VALUES (1,
+	"4b4dc370-41e1-4947-a513-c81a13613cb3");
+INSERT INTO O_ID
+	VALUES (2,
+	"4b4dc370-41e1-4947-a513-c81a13613cb3");
+INSERT INTO PE_PE
+	VALUES ("4b4dc370-41e1-4947-a513-c81a13613cb3",
+	1,
+	"14d75964-4149-4868-8a33-9a696539a4fa",
+	"00000000-0000-0000-0000-000000000000",
+	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("14d75964-4149-4868-8a33-9a696539a4fa",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'marking',
+	'',
+	0,
+	'../marking.xtuml');

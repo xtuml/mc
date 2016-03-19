@@ -99,6 +99,20 @@ masl2xtuml_O_ATTR_R102_Link_has_characteristics_abstracted_by( masl2xtuml_O_OBJ 
 }
 
 /*
+ * UNRELATE O_OBJ FROM O_ATTR ACROSS R102
+ */
+void
+masl2xtuml_O_ATTR_R102_Unlink_has_characteristics_abstracted_by( masl2xtuml_O_OBJ * part, masl2xtuml_O_ATTR * form )
+{
+  if ( (part == 0) || (form == 0) ) {
+    XTUML_EMPTY_HANDLE_TRACE( "O_ATTR", "masl2xtuml_O_ATTR_R102_Unlink_has_characteristics_abstracted_by" );
+    return;
+  }
+  form->O_OBJ_R102_abstracts_characteristics_of = 0;
+  Escher_SetRemoveElement( &part->O_ATTR_R102_has_characteristics_abstracted_by, (Escher_ObjectSet_s *) form );
+}
+
+/*
  * RELATE <left> O_ATTR TO <right> O_ATTR ACROSS R103.'succeeds'
  */
 void
@@ -114,7 +128,20 @@ masl2xtuml_O_ATTR_R103_Link_succeeds( masl2xtuml_O_ATTR * left, masl2xtuml_O_ATT
   right->O_ATTR_R103_precedes = left; /* SR L2 */
 }
 
-/* Note:  R103.'succeeds' never unrelated (or not needed).  */
+/*
+ * UNRELATE <left> O_ATTR FROM <right> O_ATTR ACROSS R103.'succeeds'
+ */
+void
+masl2xtuml_O_ATTR_R103_Unlink_succeeds( masl2xtuml_O_ATTR * left, masl2xtuml_O_ATTR * right )
+{
+  if ( (left == 0) || (right == 0) ) {
+    XTUML_EMPTY_HANDLE_TRACE( "O_ATTR", "masl2xtuml_O_ATTR_R103_Unlink_succeeds" );
+    return;
+  }
+  left->PAttr_ID = 0;
+  left->O_ATTR_R103_succeeds = 0; /* SR U1 */
+  right->O_ATTR_R103_precedes = 0; /* SR U2 */
+}
 
 /*
  * RELATE <left> O_ATTR TO <right> O_ATTR ACROSS R103.'precedes'
@@ -132,7 +159,20 @@ masl2xtuml_O_ATTR_R103_Link_precedes( masl2xtuml_O_ATTR * left, masl2xtuml_O_ATT
   left->O_ATTR_R103_precedes = right; /* SR L5 */
 }
 
-/* Note:  R103.'precedes' never unrelated (or not needed).  */
+/*
+ * UNRELATE <left> O_ATTR FROM <right> O_ATTR ACROSS R103.'precedes'
+ */
+void
+masl2xtuml_O_ATTR_R103_Unlink_precedes( masl2xtuml_O_ATTR * left, masl2xtuml_O_ATTR * right )
+{
+  if ( (left == 0) || (right == 0) ) {
+    XTUML_EMPTY_HANDLE_TRACE( "O_ATTR", "masl2xtuml_O_ATTR_R103_Unlink_precedes" );
+    return;
+  }
+  right->PAttr_ID = 0;
+  right->O_ATTR_R103_succeeds = 0; /* SR U4 */
+  left->O_ATTR_R103_precedes = 0; /* SR U5 */
+}
 
 /* Accessors to O_ATTR[R106] subtypes */
 

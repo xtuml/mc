@@ -179,62 +179,27 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000007",
 	'',
 	'');
-INSERT INTO O_REF
-	VALUES ("8319fa0a-b17c-41de-9b95-a9dfb2058b64",
-	"041138e2-fb32-43bf-b3df-6300cbb76025",
-	0,
-	"3839664b-0d89-49b6-b4f3-f1e8ddf1638c",
-	"0ecb4010-478f-47dc-a8ee-46f05f7881f5",
-	"240d2e58-b133-4213-9b5b-0c31090f77bc",
-	"2c59ece4-b262-4b09-8181-711f1390a292",
-	"1b6e5dbd-a114-4d34-89b6-673b3c9d910b",
-	"4533edba-8358-48c3-ac86-c0fc4133b73c",
-	"00000000-0000-0000-0000-000000000000",
-	0,
-	'',
-	'SEM Event',
-	'SMspd_ID',
-	'R503.''receives''');
-INSERT INTO O_RTIDA_PROXY
-	VALUES ("3839664b-0d89-49b6-b4f3-f1e8ddf1638c",
-	"041138e2-fb32-43bf-b3df-6300cbb76025",
-	0,
-	"0ecb4010-478f-47dc-a8ee-46f05f7881f5",
-	"2c59ece4-b262-4b09-8181-711f1390a292",
-	'../State Machine.xtuml');
-INSERT INTO O_RATTR
-	VALUES ("1b6e5dbd-a114-4d34-89b6-673b3c9d910b",
-	"8319fa0a-b17c-41de-9b95-a9dfb2058b64",
-	"95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	1,
-	'SMspd_ID');
-INSERT INTO O_BATTR_PROXY
-	VALUES ("95dc8756-4252-42a0-885d-2e481a50460b",
-	"d33f9337-c0c8-4d3d-a2ee-791b2a9bd466",
-	'../Event Supplemental Data/Event Supplemental Data.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("6c856bf3-5dd0-4d80-80a7-4ab0066f12aa",
+	"8319fa0a-b17c-41de-9b95-a9dfb2058b64");
+INSERT INTO O_BATTR
+	VALUES ("6c856bf3-5dd0-4d80-80a7-4ab0066f12aa",
+	"8319fa0a-b17c-41de-9b95-a9dfb2058b64");
 INSERT INTO O_ATTR
-	VALUES ("1b6e5dbd-a114-4d34-89b6-673b3c9d910b",
+	VALUES ("6c856bf3-5dd0-4d80-80a7-4ab0066f12aa",
 	"8319fa0a-b17c-41de-9b95-a9dfb2058b64",
 	"e3614c8a-9381-4054-9028-3e31bad3fb56",
-	'SMspd_ID',
-	'
-
-',
+	'SMspd_IDdeprecated',
 	'',
-	'SMspd_ID',
+	'',
+	'SMspd_IDdeprecated',
 	0,
-	"ba5eda7a-def5-0000-0000-000000000007",
+	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
 	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"8319fa0a-b17c-41de-9b95-a9dfb2058b64");
-INSERT INTO O_OIDA
-	VALUES ("1b6e5dbd-a114-4d34-89b6-673b3c9d910b",
-	"8319fa0a-b17c-41de-9b95-a9dfb2058b64",
-	0,
-	'SMspd_ID');
 INSERT INTO O_OIDA
 	VALUES ("a606bfa7-507c-4257-81f8-786118118d0d",
 	"8319fa0a-b17c-41de-9b95-a9dfb2058b64",
