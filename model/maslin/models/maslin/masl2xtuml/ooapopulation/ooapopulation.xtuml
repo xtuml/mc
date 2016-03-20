@@ -5685,24 +5685,6 @@ INSERT INTO O_TPARM
 	"b955bc98-b515-4914-9a0a-120c8df82e66",
 	'');
 INSERT INTO O_NBATTR
-	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
-	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
-INSERT INTO O_BATTR
-	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
-	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
-INSERT INTO O_ATTR
-	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
-	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"905dcf80-14b6-447f-a4a5-f1373afcb527",
-	'wiring_pkg',
-	'',
-	'',
-	'wiring_pkg',
-	0,
-	"9939c670-a721-4742-a824-ed4b0df4acd6",
-	'',
-	'');
-INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
 INSERT INTO O_BATTR
@@ -5783,7 +5765,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("6139bb3c-17ee-4d48-8ec9-bc73c62c2715",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
+	"905dcf80-14b6-447f-a4a5-f1373afcb527",
 	'current_attribute',
 	'',
 	'',
