@@ -48,6 +48,7 @@ end if;
 if ( "project" == element )
   if ( "" != param.value[0] )
     ooapopulation.transformProject(name:param.value[0]);
+    ooapopulation.processingProject = true;
   end if;
 elif ( "domain" == element )
   if ( "" == param.value[0] )
@@ -55,7 +56,7 @@ elif ( "domain" == element )
     ooapopulation.current_component = c_c;
     
     // Now that we are done processing the domain, formalize relationships
-    // TODO - does not work yet - ooapopulation.batchFormalize();
+    // TODO - does not work yet - if ( !processingProject ) ooapopulation.batchFormalize();
   else
     ooapopulation.transformDomain(name:param.value[0]);
   end if;
@@ -322,10 +323,8 @@ INSERT INTO O_TFR
 self.createSystem();
 
 // Create a package named the same as the project and cache it
-self.wiring_pkg = self.SystemModel_newPackage(s_sys:self.current_sys, pkg_name:param.name);
+self.transformDomain(name:param.name);
 
-
-// TODO - more work?
 ',
 	1,
 	'',
@@ -460,33 +459,35 @@ INSERT INTO O_TFR
 	1,
 	'self.createSystem();
 
-// Create a package named the same as the domain and cache it
-self.lib_pkg = self.SystemModel_newPackage(s_sys:self.current_sys, pkg_name:param.name);
-
-// Create a component in the library package if it doesn''t already exist
-lib_pkg = self.lib_pkg;
-select any c_c related by lib_pkg->PE_PE[R8000]->C_C[R8001] where ( param.name == selected.Name );
-
-if ( empty c_c )
-  // Create the component itself and a package inside it to hold the internal behavior
-  c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
-  internal_bhv_pkg = self.Component_newPackage(c_c:c_c, pkg_name:param.name);
-
-  // Create a package to hold public bits that other components will need visibility to
-  shared_pkg = self.Package_newPackage(ep_pkg:self.lib_pkg, package_name:"Shared");
-  
-  /* TODO - We may not want to do any of the project-related work here...  Need to revisit later
+if ( self.processingProject )
   // Create a component reference in the project wiring package
-  wiring_pkg = self.wiring_pkg;
-  if ( not_empty wiring_pkg )
-    cl_ic = self.Package_newImportedComponent(ep_pkg:self.wiring_pkg);
+  lib_pkg = self.lib_pkg;
+  if ( not_empty lib_pkg )
+    cl_ic = self.Package_newImportedComponent(ep_pkg:lib_pkg);
+    cl_ic.Name = param.name;
+  end if;
 
-    // Assign the component reference to the component 
-    self.ComponentReference_assignToComp(cl_ic:cl_ic, c_c:c_c);
-  end if;*/
+  // TODO - create required interface off of the system wiring (project) component for the imported domain
+else
+  // Create a package named the same as the domain and cache it
+  self.lib_pkg = self.SystemModel_newPackage(s_sys:self.current_sys, pkg_name:param.name);
+
+  // Create a component in the library package if it doesn''t already exist
+  lib_pkg = self.lib_pkg;
+  select any c_c related by lib_pkg->PE_PE[R8000]->C_C[R8001] where ( param.name == selected.Name );
+
+  if ( empty c_c )
+    // Create the component itself and a package inside it to hold the internal behavior
+    c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
+    internal_bhv_pkg = self.Component_newPackage(c_c:c_c, pkg_name:param.name);
+
+    // Create a package to hold public bits that other components will need visibility to
+    shared_pkg = self.Package_newPackage(ep_pkg:self.lib_pkg, package_name:"Shared");
+  end if;
+
+  self.current_component = c_c;
 end if;
-
-self.current_component = c_c;',
+',
 	1,
 	'',
 	"9438bf8f-4666-499e-9822-00e7b064286f");
@@ -832,23 +833,28 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'comp_if_name = self.current_component.Name + param.name;
+	'lib_pkg = self.lib_pkg;
 
-lib_pkg = self.lib_pkg;
-select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+if ( self.processingProject )
+  // TODO - create provided interface off of the system wiring (project) component for this terminator
+else
+  comp_if_name = self.current_component.Name + param.name;
 
-select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
-if ( empty comp_if )
-  // create the interface
-  comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
-  // create a port & provided interface from the component
-  comp_port_name = param.name;
-  new_ir = self.Component_initializeRequirement(c_c:self.current_component, c_i:comp_if, port_name:comp_port_name);
-  // formalize the new interface reference to it
-  self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+
+  select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+  if ( empty comp_if )
+    // create the interface
+    comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
+    // create a port & provided interface from the component
+    comp_port_name = param.name;
+    new_ir = self.Component_initializeRequirement(c_c:self.current_component, c_i:comp_if, port_name:comp_port_name);
+    // formalize the new interface reference to it
+    self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  end if;
+
+  self.current_interface = comp_if;
 end if;
-
-self.current_interface = comp_if;
 ',
 	1,
 	'',
@@ -1426,8 +1432,9 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// TODO - What special handling is needed in the case that we already saw a typeref and created the s_dt.  Are we now getting a full "definition"
-//   of the type with info that must be added to the s_dt?
+	'if ( self.processingProject )
+  return;
+end if;
  
 // If the type visibility is public, put it in the package of shared public data.  If private, put it inside the component.
 lib_pkg = self.lib_pkg;
@@ -5995,6 +6002,24 @@ INSERT INTO O_ATTR
 	'current_interface',
 	0,
 	"80698720-cc57-44ba-8aa5-600c524db338",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6c59590e-567f-49e4-85f9-1e85bdcc0c15",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("6c59590e-567f-49e4-85f9-1e85bdcc0c15",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("6c59590e-567f-49e4-85f9-1e85bdcc0c15",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"45769a88-3b54-414b-8e30-d357063e4f0f",
+	'processingProject',
+	'',
+	'',
+	'processingProject',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
 INSERT INTO O_ID
