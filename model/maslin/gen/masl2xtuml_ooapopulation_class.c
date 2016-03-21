@@ -25,7 +25,6 @@ masl2xtuml_ooapopulation_instanceloader( Escher_iHandle_t instance, const c_t * 
   Escher_memset( &self->current_sys, avlstring[ 1 ], sizeof( self->current_sys ) );
   Escher_memset( &self->lib_pkg, avlstring[ 1 ], sizeof( self->lib_pkg ) );
   Escher_memset( &self->systypes_pkg, avlstring[ 1 ], sizeof( self->systypes_pkg ) );
-  Escher_memset( &self->wiring_pkg, avlstring[ 1 ], sizeof( self->wiring_pkg ) );
   Escher_memset( &self->current_attribute, avlstring[ 1 ], sizeof( self->current_attribute ) );
   Escher_memset( &self->current_class, avlstring[ 1 ], sizeof( self->current_class ) );
   Escher_memset( &self->current_class_op, avlstring[ 1 ], sizeof( self->current_class_op ) );
@@ -41,6 +40,7 @@ masl2xtuml_ooapopulation_instanceloader( Escher_iHandle_t instance, const c_t * 
   Escher_memset( &self->current_type, avlstring[ 3 ], sizeof( self->current_type ) );
   Escher_memset( &self->current_event, avlstring[ 3 ], sizeof( self->current_event ) );
   Escher_memset( &self->current_executable_property, avlstring[ 3 ], sizeof( self->current_executable_property ) );
+  self->processingProject = ( '0' != *avlstring[ 3 ] );
   return return_identifier;
 }
 
@@ -100,6 +100,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
     if ( ( Escher_strcmp( "", p_value[0] ) != 0 ) ) {
       /* ooapopulation.transformProject( name:PARAM.value[0] ) */
       masl2xtuml_ooapopulation_op_transformProject( ooapopulation,  p_value[0] );
+      /* ASSIGN ooapopulation.processingProject = TRUE */
+      ooapopulation->processingProject = TRUE;
     }
   }
   else if ( ( Escher_strcmp( "domain", element ) == 0 ) ) {
@@ -567,8 +569,8 @@ masl2xtuml_ooapopulation_op_transformProject( masl2xtuml_ooapopulation * self, c
 {
   /* self.createSystem() */
   masl2xtuml_ooapopulation_op_createSystem( self );
-  /* ASSIGN self.wiring_pkg = self.SystemModel_newPackage(pkg_name:PARAM.name, s_sys:self.current_sys) */
-  self->wiring_pkg = masl2xtuml_ooapopulation_op_SystemModel_newPackage(self, p_name, self->current_sys);
+  /* self.transformDomain( name:PARAM.name ) */
+  masl2xtuml_ooapopulation_op_transformDomain( self,  p_name );
 }
 
 /*
@@ -632,37 +634,53 @@ masl2xtuml_ooapopulation_op_Package_initialize( masl2xtuml_ooapopulation * self,
 void
 masl2xtuml_ooapopulation_op_transformDomain( masl2xtuml_ooapopulation * self, c_t * p_name )
 {
-  masl2xtuml_EP_PKG * lib_pkg;masl2xtuml_C_C * c_c=0;
   /* self.createSystem() */
   masl2xtuml_ooapopulation_op_createSystem( self );
-  /* ASSIGN self.lib_pkg = self.SystemModel_newPackage(pkg_name:PARAM.name, s_sys:self.current_sys) */
-  self->lib_pkg = masl2xtuml_ooapopulation_op_SystemModel_newPackage(self, p_name, self->current_sys);
-  /* ASSIGN lib_pkg = self.lib_pkg */
-  lib_pkg = self->lib_pkg;
-  /* SELECT any c_c RELATED BY lib_pkg->PE_PE[R8000]->C_C[R8001] WHERE ( ( PARAM.name == SELECTED.Name ) ) */
-  c_c = 0;
-  {  if ( 0 != lib_pkg ) {
-  masl2xtuml_PE_PE * PE_PE_R8000_contains;
-  Escher_Iterator_s iPE_PE_R8000_contains;
-  Escher_IteratorReset( &iPE_PE_R8000_contains, &lib_pkg->PE_PE_R8000_contains );
-  while ( ( 0 == c_c ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
-  if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_C_C * selected = (masl2xtuml_C_C *) PE_PE_R8000_contains->R8001_subtype;
-  if ( ( 0 != selected ) && ( Escher_strcmp( p_name, selected->Name ) == 0 ) ) {
-    c_c = selected;
-  }}
-}}}
-  /* IF ( empty c_c ) */
-  if ( ( 0 == c_c ) ) {
-    masl2xtuml_EP_PKG * shared_pkg;masl2xtuml_EP_PKG * internal_bhv_pkg;
-    /* ASSIGN c_c = self.Package_newComponent(component_name:PARAM.name, ep_pkg:self.lib_pkg) */
-    c_c = masl2xtuml_ooapopulation_op_Package_newComponent(self, p_name, self->lib_pkg);
-    /* ASSIGN internal_bhv_pkg = self.Component_newPackage(c_c:c_c, pkg_name:PARAM.name) */
-    internal_bhv_pkg = masl2xtuml_ooapopulation_op_Component_newPackage(self, c_c, p_name);
-    /* ASSIGN shared_pkg = self.Package_newPackage(ep_pkg:self.lib_pkg, package_name:Shared) */
-    shared_pkg = masl2xtuml_ooapopulation_op_Package_newPackage(self, self->lib_pkg, "Shared");
+  /* IF ( self.processingProject ) */
+  if ( self->processingProject ) {
+    masl2xtuml_EP_PKG * lib_pkg;
+    /* ASSIGN lib_pkg = self.lib_pkg */
+    lib_pkg = self->lib_pkg;
+    /* IF ( not_empty lib_pkg ) */
+    if ( ( 0 != lib_pkg ) ) {
+      masl2xtuml_CL_IC * cl_ic;
+      /* ASSIGN cl_ic = self.Package_newImportedComponent(ep_pkg:lib_pkg) */
+      cl_ic = masl2xtuml_ooapopulation_op_Package_newImportedComponent(self, lib_pkg);
+      /* ASSIGN cl_ic.Name = PARAM.name */
+      cl_ic->Name = Escher_strcpy( cl_ic->Name, p_name );
+    }
   }
-  /* ASSIGN self.current_component = c_c */
-  self->current_component = c_c;
+  else {
+    masl2xtuml_EP_PKG * lib_pkg;masl2xtuml_C_C * c_c=0;
+    /* ASSIGN self.lib_pkg = self.SystemModel_newPackage(pkg_name:PARAM.name, s_sys:self.current_sys) */
+    self->lib_pkg = masl2xtuml_ooapopulation_op_SystemModel_newPackage(self, p_name, self->current_sys);
+    /* ASSIGN lib_pkg = self.lib_pkg */
+    lib_pkg = self->lib_pkg;
+    /* SELECT any c_c RELATED BY lib_pkg->PE_PE[R8000]->C_C[R8001] WHERE ( ( PARAM.name == SELECTED.Name ) ) */
+    c_c = 0;
+    {    if ( 0 != lib_pkg ) {
+    masl2xtuml_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s iPE_PE_R8000_contains;
+    Escher_IteratorReset( &iPE_PE_R8000_contains, &lib_pkg->PE_PE_R8000_contains );
+    while ( ( 0 == c_c ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+    if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_C_C_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )    {masl2xtuml_C_C * selected = (masl2xtuml_C_C *) PE_PE_R8000_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( p_name, selected->Name ) == 0 ) ) {
+      c_c = selected;
+    }}
+}}}
+    /* IF ( empty c_c ) */
+    if ( ( 0 == c_c ) ) {
+      masl2xtuml_EP_PKG * shared_pkg;masl2xtuml_EP_PKG * internal_bhv_pkg;
+      /* ASSIGN c_c = self.Package_newComponent(component_name:PARAM.name, ep_pkg:self.lib_pkg) */
+      c_c = masl2xtuml_ooapopulation_op_Package_newComponent(self, p_name, self->lib_pkg);
+      /* ASSIGN internal_bhv_pkg = self.Component_newPackage(c_c:c_c, pkg_name:PARAM.name) */
+      internal_bhv_pkg = masl2xtuml_ooapopulation_op_Component_newPackage(self, c_c, p_name);
+      /* ASSIGN shared_pkg = self.Package_newPackage(ep_pkg:self.lib_pkg, package_name:Shared) */
+      shared_pkg = masl2xtuml_ooapopulation_op_Package_newPackage(self, self->lib_pkg, "Shared");
+    }
+    /* ASSIGN self.current_component = c_c */
+    self->current_component = c_c;
+  }
 }
 
 /*
@@ -1001,49 +1019,55 @@ masl2xtuml_ooapopulation_op_InterfaceReference_isFormal( masl2xtuml_ooapopulatio
 void
 masl2xtuml_ooapopulation_op_transformTerminator( masl2xtuml_ooapopulation * self, c_t * p_name )
 {
-  masl2xtuml_EP_PKG * lib_pkg;c_t * comp_if_name=0;masl2xtuml_C_I * comp_if=0;masl2xtuml_EP_PKG * shared_pkg=0;
-  /* ASSIGN comp_if_name = ( self.current_component.Name + PARAM.name ) */
-  comp_if_name = Escher_strcpy( comp_if_name, Escher_stradd( self->current_component->Name, p_name ) );
+  masl2xtuml_EP_PKG * lib_pkg;
   /* ASSIGN lib_pkg = self.lib_pkg */
   lib_pkg = self->lib_pkg;
-  /* SELECT any shared_pkg RELATED BY lib_pkg->PE_PE[R8000]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == Shared ) ) */
-  shared_pkg = 0;
-  {  if ( 0 != lib_pkg ) {
-  masl2xtuml_PE_PE * PE_PE_R8000_contains;
-  Escher_Iterator_s iPE_PE_R8000_contains;
-  Escher_IteratorReset( &iPE_PE_R8000_contains, &lib_pkg->PE_PE_R8000_contains );
-  while ( ( 0 == shared_pkg ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
-  if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_EP_PKG_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_EP_PKG * selected = (masl2xtuml_EP_PKG *) PE_PE_R8000_contains->R8001_subtype;
-  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "Shared" ) == 0 ) ) {
-    shared_pkg = selected;
-  }}
-}}}
-  /* SELECT any comp_if RELATED BY shared_pkg->PE_PE[R8000]->C_I[R8001] WHERE ( ( SELECTED.Name == comp_if_name ) ) */
-  comp_if = 0;
-  {  if ( 0 != shared_pkg ) {
-  masl2xtuml_PE_PE * PE_PE_R8000_contains;
-  Escher_Iterator_s iPE_PE_R8000_contains;
-  Escher_IteratorReset( &iPE_PE_R8000_contains, &shared_pkg->PE_PE_R8000_contains );
-  while ( ( 0 == comp_if ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
-  if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_C_I_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_C_I * selected = (masl2xtuml_C_I *) PE_PE_R8000_contains->R8001_subtype;
-  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, comp_if_name ) == 0 ) ) {
-    comp_if = selected;
-  }}
-}}}
-  /* IF ( empty comp_if ) */
-  if ( ( 0 == comp_if ) ) {
-    masl2xtuml_C_IR * new_ir;c_t * comp_port_name=0;
-    /* ASSIGN comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name) */
-    comp_if = masl2xtuml_ooapopulation_op_Package_newInterface(self, shared_pkg, comp_if_name);
-    /* ASSIGN comp_port_name = PARAM.name */
-    comp_port_name = Escher_strcpy( comp_port_name, p_name );
-    /* ASSIGN new_ir = self.Component_initializeRequirement(c_c:self.current_component, c_i:comp_if, port_name:comp_port_name) */
-    new_ir = masl2xtuml_ooapopulation_op_Component_initializeRequirement(self, self->current_component, comp_if, comp_port_name);
-    /* RELATE comp_if TO new_ir ACROSS R4012 */
-    masl2xtuml_C_IR_R4012_Link_is_formal_definition( comp_if, new_ir );
+  /* IF ( self.processingProject ) */
+  if ( self->processingProject ) {
   }
-  /* ASSIGN self.current_interface = comp_if */
-  self->current_interface = comp_if;
+  else {
+    c_t * comp_if_name=0;masl2xtuml_C_I * comp_if=0;masl2xtuml_EP_PKG * shared_pkg=0;
+    /* ASSIGN comp_if_name = ( self.current_component.Name + PARAM.name ) */
+    comp_if_name = Escher_strcpy( comp_if_name, Escher_stradd( self->current_component->Name, p_name ) );
+    /* SELECT any shared_pkg RELATED BY lib_pkg->PE_PE[R8000]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == Shared ) ) */
+    shared_pkg = 0;
+    {    if ( 0 != lib_pkg ) {
+    masl2xtuml_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s iPE_PE_R8000_contains;
+    Escher_IteratorReset( &iPE_PE_R8000_contains, &lib_pkg->PE_PE_R8000_contains );
+    while ( ( 0 == shared_pkg ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+    if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_EP_PKG_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )    {masl2xtuml_EP_PKG * selected = (masl2xtuml_EP_PKG *) PE_PE_R8000_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, "Shared" ) == 0 ) ) {
+      shared_pkg = selected;
+    }}
+}}}
+    /* SELECT any comp_if RELATED BY shared_pkg->PE_PE[R8000]->C_I[R8001] WHERE ( ( SELECTED.Name == comp_if_name ) ) */
+    comp_if = 0;
+    {    if ( 0 != shared_pkg ) {
+    masl2xtuml_PE_PE * PE_PE_R8000_contains;
+    Escher_Iterator_s iPE_PE_R8000_contains;
+    Escher_IteratorReset( &iPE_PE_R8000_contains, &shared_pkg->PE_PE_R8000_contains );
+    while ( ( 0 == comp_if ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
+    if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_C_I_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )    {masl2xtuml_C_I * selected = (masl2xtuml_C_I *) PE_PE_R8000_contains->R8001_subtype;
+    if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, comp_if_name ) == 0 ) ) {
+      comp_if = selected;
+    }}
+}}}
+    /* IF ( empty comp_if ) */
+    if ( ( 0 == comp_if ) ) {
+      masl2xtuml_C_IR * new_ir;c_t * comp_port_name=0;
+      /* ASSIGN comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name) */
+      comp_if = masl2xtuml_ooapopulation_op_Package_newInterface(self, shared_pkg, comp_if_name);
+      /* ASSIGN comp_port_name = PARAM.name */
+      comp_port_name = Escher_strcpy( comp_port_name, p_name );
+      /* ASSIGN new_ir = self.Component_initializeRequirement(c_c:self.current_component, c_i:comp_if, port_name:comp_port_name) */
+      new_ir = masl2xtuml_ooapopulation_op_Component_initializeRequirement(self, self->current_component, comp_if, comp_port_name);
+      /* RELATE comp_if TO new_ir ACROSS R4012 */
+      masl2xtuml_C_IR_R4012_Link_is_formal_definition( comp_if, new_ir );
+    }
+    /* ASSIGN self.current_interface = comp_if */
+    self->current_interface = comp_if;
+  }
 }
 
 /*
@@ -1643,6 +1667,10 @@ void
 masl2xtuml_ooapopulation_op_transformType( masl2xtuml_ooapopulation * self, c_t * p_definition, c_t * p_name, c_t * p_visibility )
 {
   masl2xtuml_EP_PKG * systypes_pkg;masl2xtuml_EP_PKG * lib_pkg;masl2xtuml_S_DT * s_dt=0;masl2xtuml_S_DT * sys_s_dt=0;masl2xtuml_EP_PKG * types_pkg=0;
+  /* IF ( self.processingProject ) */
+  if ( self->processingProject ) {
+    /* RETURN  */
+    return;  }
   /* ASSIGN lib_pkg = self.lib_pkg */
   lib_pkg = self->lib_pkg;
   /* SELECT any types_pkg RELATED BY lib_pkg->PE_PE[R8000]->EP_PKG[R8001] WHERE ( ( SELECTED.Name == Shared ) ) */
@@ -2277,6 +2305,8 @@ masl2xtuml_ooapopulation_op_InterfaceReference_formalize( masl2xtuml_ooapopulati
   c_ir = p_c_ir;
   /* self.InterfaceReference_createSignalsAndOperations( c_i:c_i, c_ir:c_ir ) */
   masl2xtuml_ooapopulation_op_InterfaceReference_createSignalsAndOperations( self,  c_i, c_ir );
+  /* RELATE c_i TO c_ir ACROSS R4012 */
+  masl2xtuml_C_IR_R4012_Link_is_formal_definition( c_i, c_ir );
 }
 
 /*
@@ -5836,7 +5866,7 @@ masl2xtuml_ooapopulation_op_Component_initializeRequirement( masl2xtuml_ooapopul
 void
 masl2xtuml_ooapopulation_op_transformTerminatorService( masl2xtuml_ooapopulation * self, c_t * p_domain, c_t * p_name, c_t * p_terminator, c_t * p_visibility )
 {
-  masl2xtuml_C_I * c_i;masl2xtuml_C_EP * c_ep=0;
+  masl2xtuml_C_EP * c_ep;masl2xtuml_C_I * c_i;
   /* ASSIGN c_i = self.current_interface */
   c_i = self->current_interface;
   /* IF ( empty c_i ) */
@@ -5875,25 +5905,10 @@ masl2xtuml_ooapopulation_op_transformTerminatorService( masl2xtuml_ooapopulation
     c_i = C_IR_R4016_exposes->C_I_R4012_may_be_defined_by;
 }}}
   }
-  /* SELECT any c_ep FROM INSTANCES OF C_EP WHERE ( SELECTED.Name == PARAM.name ) */
-  c_ep = 0;
-  { masl2xtuml_C_EP * selected;
-    Escher_Iterator_s iterc_epmasl2xtuml_C_EP;
-    Escher_IteratorReset( &iterc_epmasl2xtuml_C_EP, &pG_masl2xtuml_C_EP_extent.active );
-    while ( (selected = (masl2xtuml_C_EP *) Escher_IteratorNext( &iterc_epmasl2xtuml_C_EP )) != 0 ) {
-      if ( ( Escher_strcmp( selected->Name, p_name ) == 0 ) ) {
-        c_ep = selected;
-        break;
-      }
-    }
-  }
-  /* IF ( empty c_ep ) */
-  if ( ( 0 == c_ep ) ) {
-    /* ASSIGN c_ep = self.Interface_newExecutableProperty(asynchronous:FALSE, c_i:c_i, ep_name:PARAM.name) */
-    c_ep = masl2xtuml_ooapopulation_op_Interface_newExecutableProperty(self, FALSE, c_i, p_name);
-    /* ASSIGN c_ep.Direction = ClientServer */
-    c_ep->Direction = masl2xtuml_IFDirectionType_ClientServer_e;
-  }
+  /* ASSIGN c_ep = self.Interface_newExecutableProperty(asynchronous:FALSE, c_i:c_i, ep_name:PARAM.name) */
+  c_ep = masl2xtuml_ooapopulation_op_Interface_newExecutableProperty(self, FALSE, c_i, p_name);
+  /* ASSIGN c_ep.Direction = ClientServer */
+  c_ep->Direction = masl2xtuml_IFDirectionType_ClientServer_e;
   /* ASSIGN self.current_executable_property = c_ep */
   self->current_executable_property = c_ep;
 }

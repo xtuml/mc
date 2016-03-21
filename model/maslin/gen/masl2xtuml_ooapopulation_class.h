@@ -38,6 +38,7 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_SM_STATE * current_state;  
   i_t processingIdentifier;  
   bool processingISM;  
+  bool processingProject;  
   masl2xtuml_S_DT * current_type;  
   masl2xtuml_SM_EVT * current_event;  
   masl2xtuml_C_EP * current_executable_property;  
