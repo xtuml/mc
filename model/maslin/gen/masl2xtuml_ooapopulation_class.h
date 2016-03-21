@@ -40,6 +40,7 @@ struct masl2xtuml_ooapopulation {
   bool processingISM;  
   masl2xtuml_S_DT * current_type;  
   masl2xtuml_SM_EVT * current_event;  
+  masl2xtuml_C_EP * current_executable_property;  
   /* relationship storage */
   masl2xtuml_ooaelement * ooaelement_R3801_has_current;
 };

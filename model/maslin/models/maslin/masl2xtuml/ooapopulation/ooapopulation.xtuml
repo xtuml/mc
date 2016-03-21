@@ -69,6 +69,11 @@ elif ( "object" == element )
   end if;
 elif ( "terminator" == element )
   if ( "" == param.value[0] )
+  	// formalize the new interface reference to it
+  	comp_if = ooapopulation.current_interface;
+  	select any new_ir related by comp_if->C_IR[R4012];
+  	ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+
     select any c_i from instances of C_I where (false);
     ooapopulation.current_interface = c_i;
   else
@@ -211,6 +216,8 @@ elif ( "routine" == element )
   if ( "" == param.value[3] )
     select any s_sync from instances of S_SYNC where ( false );
     ooapopulation.current_domain_function = s_sync;
+    select any c_ep from instances of C_EP where ( false );
+    ooapopulation.current_executable_property = c_ep;
     // Note that we do not clear self.current_interface here because if we are processing inside a terminator definition we
     //   will see multiple routines within the interface and we don''t want to clear out this cached interface after the 
     //   first routine we see.
@@ -240,19 +247,27 @@ elif ( "transition" == element )
 elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
   if ( not_empty s_sync )
-    s_sync.Descrip = s_sync.Descrip + "codeblock:" + param.value[0] + "\n";
+    s_sync.Action_Semantics_internal = s_sync.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+  end if;
+
+  c_ep = ooapopulation.current_executable_property;
+  if ( not_empty c_ep )
+  	select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
+  	if ( not_empty spr_ro )
+      spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+  	end if;
   end if;
   
   o_tfr = ooapopulation.current_class_op;
   if ( not_empty o_tfr )
-    o_tfr.Descrip = o_tfr.Descrip + "codeblock:" + param.value[0] + "\n";
+    o_tfr.Action_Semantics_internal = o_tfr.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
   end if;
   
   sm_state = ooapopulation.current_state;
   if ( not_empty sm_state )
     select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
     if ( not_empty sm_act )
-      sm_act.Descrip = sm_act.Descrip + "codeblock:" + param.value[0] + "\n";
+      sm_act.Action_Semantics_internal = sm_act.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
     end if;
   end if;
   
@@ -850,8 +865,7 @@ if ( empty comp_if )
   // create a port & provided interface from the component
   comp_port_name = param.name;
   new_ir = self.Component_initializeRequirement(c_c:self.current_component, c_i:comp_if, port_name:comp_port_name);
-  // formalize the new interface reference to it
-  self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  relate comp_if to new_ir across R4012;    // formalize at end tag. for now, just relate it to the C_R
 end if;
 
 self.current_interface = comp_if;
@@ -2367,6 +2381,7 @@ INSERT INTO O_TFR
 select any signal from instances of C_EP where ( selected.Name == param.ep_name );
 if ( empty signal )
   create object instance signal of C_EP;
+  signal.Name = param.ep_name;
   relate c_i to signal across R4003;
   select many references related by c_i->C_IR[R4012];
   if(param.asynchronous)
@@ -5654,7 +5669,6 @@ if ( empty c_i )
   select any c_c from instances of C_C where ( selected.Name == param.domain );
   select any c_po related by c_c->C_PO[R4010] where ( selected.Name == param.terminator );
   select any c_i related by c_po->C_IR[R4016]->C_I[R4012];
-  self.current_interface = c_i;
 end if;
 
 c_ep = self.Interface_newExecutableProperty(c_i:c_i, ep_name:param.name, asynchronous:false);
@@ -6055,6 +6069,24 @@ INSERT INTO O_ATTR
 	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("66a9c427-8b7f-48ab-9086-7d022a526425",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("66a9c427-8b7f-48ab-9086-7d022a526425",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("66a9c427-8b7f-48ab-9086-7d022a526425",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"eaa75738-d8e2-424e-bc3a-80752318351b",
+	'current_executable_property',
+	'',
+	'',
+	'current_executable_property',
+	0,
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -6070,11 +6102,3 @@ INSERT INTO PE_PE
 	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"00000000-0000-0000-0000-000000000000",
 	4);
-INSERT INTO EP_PKG_PROXY
-	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	'masl2xtuml',
-	'',
-	0,
-	'../masl2xtuml.xtuml');
