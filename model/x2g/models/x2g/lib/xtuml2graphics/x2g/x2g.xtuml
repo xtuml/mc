@@ -1765,13 +1765,13 @@ select any s_sys from instances of S_SYS;
 if ( not_empty s_sys )
 
   // system package diagram
-  diagram = diagram::populate( name:s_sys.Name, ooaofooa_ID:s_sys.Sys_ID, Model_Type:ModelType::SystemModelPackage, OOA_Type:OOAType::SystemModel, path:"" );
+  diagram = diagram::populate( name:s_sys.Name, ooaofooa_ID:s_sys.Sys_ID, Model_Type:ModelType::SystemModelPackage, OOA_Type:OOAType::SystemModel, path:s_sys.Name );
 
   select many ep_pkgs related by s_sys->EP_PKG[R1401];
   // populate
   for each ep_pkg in ep_pkgs
     // Add shape for package on this diagram.
-    //figure::populate( name:ep_pkg.Name, ooaofooa_ID:ep_pkg.Package_ID, flavor:XX, diagram:diagram );
+    figure::populate( name:ep_pkg.Name, ooaofooa_ID:ep_pkg.Package_ID, OOA_Type:OOAType::Package, diagram:diagram );
     // Add diagram for package.
     ::package( ep_pkg:ep_pkg ); 
   end for;
@@ -1783,8 +1783,6 @@ if ( not_empty s_sys )
 else
   TRACE::log( flavor:"failure", id:1, message:"ERROR:  system model not found" );
 end if;
-
-TRACE::log( flavor:"info", id:102, message:"Done" );
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -1810,7 +1808,7 @@ select many o_objs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001];
 for each o_obj in o_objs
 
   // Add shape for class.
-  //figure::populate( name:o_lbj.Name, ooaofooa_ID:o_obj.Obj_ID, flavor:XX, diagram:diagram );
+  figure::populate( name:o_obj.Name, ooaofooa_ID:o_obj.Obj_ID, OOA_Type:OOAType::Class, diagram:diagram );
   
   // Add state machine diagrams.
   ::class( o_obj:o_obj );

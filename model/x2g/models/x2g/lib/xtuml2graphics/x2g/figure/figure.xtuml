@@ -95,12 +95,7 @@ INSERT INTO O_TFR
 	'figure = self;
 select one widget related by self->widget[R3902];
 select one diagram related by widget->diagram[R3901];
-T::include( file:"t/t.figure.sql" );
-/*
-if ( 41 == widget.flavor )
-  T::include( file:"t/t.state.sql" );
-end if;
-*/',
+T::include( file:"t/t.figure.sql" );',
 	1,
 	'',
 	"f8edaf80-31e9-4cd3-ae0c-2db66412394a");

@@ -3,10 +3,11 @@ INSERT INTO GD_GE VALUES ($t{widget.ID}, $t{diagram.ID}, $t{widget.ooaofooa_ID},
 INSERT INTO GD_SHP VALUES ($t{widget.ID});
 INSERT INTO GD_NCS VALUES ($t{widget.ID});
 INSERT INTO DIM_ND VALUES (
-	157.000000, -- width
-	85.000000, -- height
+	160.000000, -- width
+	80.000000, -- height
 	$t{widget.ID});
-INSERT INTO DIM_GE VALUES ($t{widget.x}.000000, -- positionX
-	$t{widget.y}.000000, -- positionY
+INSERT INTO DIM_GE VALUES (
+	$t{widget.x}.000000, -- X
+	$t{widget.y}.000000, -- Y
 	$t{widget.ID}, 0);
 INSERT INTO DIM_ELE VALUES ($t{widget.ID}, 0, 0);
