@@ -76,6 +76,11 @@ elif ( "object" == element )
   end if;
 elif ( "terminator" == element )
   if ( "" == param.value[0] )
+  	// formalize the new interface reference to it
+  	comp_if = ooapopulation.current_interface;
+  	select any new_ir related by comp_if->C_IR[R4012];
+  	ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+
     select any c_i from instances of C_I where (false);
     ooapopulation.current_interface = c_i;
   else
@@ -139,11 +144,17 @@ elif ( "state" == element )
     ooapopulation.transformState(name:param.value[2], type:param.value[3], domain:param.value[0], obj:param.value[1]);
   end if;
 elif ( "event" == element )
-  if ( "" != param.value[0] )
+  if ( "" == param.value[0] )
+  	select any sm_evt from instances of SM_EVT where (false);
+  	ooapopulation.current_event = sm_evt;
+  else
     ooapopulation.transformEvent(name:param.value[0], type:param.value[1]);
   end if;
 elif ( "type" == element )
-  if ( "" != param.value[0] )
+  if ( "" == param.value[0] )
+  	select any s_dt from instances of S_DT where (false);
+  	ooapopulation.current_type = s_dt;
+  else
     ooapopulation.transformType(name:param.value[0], visibility:param.value[1], definition:param.value[2]);
   end if;
 elif ( "typeref" == element )
@@ -212,6 +223,8 @@ elif ( "routine" == element )
   if ( "" == param.value[3] )
     select any s_sync from instances of S_SYNC where ( false );
     ooapopulation.current_domain_function = s_sync;
+    select any c_ep from instances of C_EP where ( false );
+    ooapopulation.current_executable_property = c_ep;
     // Note that we do not clear self.current_interface here because if we are processing inside a terminator definition we
     //   will see multiple routines within the interface and we don''t want to clear out this cached interface after the 
     //   first routine we see.
@@ -241,19 +254,27 @@ elif ( "transition" == element )
 elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
   if ( not_empty s_sync )
-    s_sync.Descrip = param.value[0];
+    s_sync.Action_Semantics_internal = s_sync.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+  end if;
+
+  c_ep = ooapopulation.current_executable_property;
+  if ( not_empty c_ep )
+  	select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
+  	if ( not_empty spr_ro )
+      spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+  	end if;
   end if;
   
   o_tfr = ooapopulation.current_class_op;
   if ( not_empty o_tfr )
-    o_tfr.Descrip = param.value[0];
+    o_tfr.Action_Semantics_internal = o_tfr.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
   end if;
   
   sm_state = ooapopulation.current_state;
   if ( not_empty sm_state )
     select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
     if ( not_empty sm_act )
-      sm_act.Descrip = param.value[0];
+      sm_act.Action_Semantics_internal = sm_act.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
     end if;
   end if;
   
@@ -863,8 +884,7 @@ else
     // create a port & provided interface from the component
     comp_port_name = param.name;
     new_ir = self.Component_initializeRequirement(c_c:self.current_component, port_name:comp_port_name, if_name:"");
-    // formalize the new interface reference to it
-    self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+    relate comp_if to new_ir across R4012;    // formalize at end tag. for now, just relate it to the C_R
   end if;
 
   self.current_interface = comp_if;
@@ -1005,6 +1025,10 @@ if ( not_empty current_class )
 
   //  Create new xtUML state machine state
   self.StateMachine_newState(sm_sm:sm_sm, name:param.name);
+
+  // Cache the current state
+  select any sm_state related by sm_sm->SM_STATE[R501] where ( selected.Name == param.name );
+  self.current_state = sm_state;
 else
   // No current_class.  That means we just need to find the given state and cache it so that the following 
   // SMASL can modify it.
@@ -1080,7 +1104,10 @@ end if;
 
 //  Create new xtUML state machine state
 self.StateMachine_newEvent(sm_sm:sm_sm, name:param.name);
-',
+
+// Cache the current event
+select any sm_evt related by sm_sm->SM_EVT[R502] where ( selected.Mning == param.name );
+self.current_event = sm_evt;',
 	1,
 	'',
 	"f2d9d56f-7fb7-485b-9cf5-6188743dd596");
@@ -1473,6 +1500,15 @@ select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.
 if ( (empty sys_s_dt) and (empty s_dt) )
   // The type doesn''t already exist, create it
   self.Package_newDatatype(ep_pkg:types_pkg, type_name:param.name, definition:param.definition);
+  
+  // Cache the new type
+  select any sys_s_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
+  if ( empty sys_s_dt )
+  	select any s_dt related by types_pkg->PE_PE[R8000]->S_DT[R8001] where (selected.Name == param.name);
+  	self.current_type = s_dt;
+  else
+  	self.current_type = sys_s_dt;
+  end if;
 end if;
 ',
 	1,
@@ -1538,7 +1574,7 @@ self.PackageableElement_initialize(pe_pe:pe);
 
 // For complex MASL types we store the definition in the description
 if ( "" != param.definition )
-  dt.Descrip = param.definition;
+  dt.Descrip = dt.Descrip + "definition:" + param.definition + "\n";
 end if;',
 	1,
 	'',
@@ -2370,6 +2406,7 @@ INSERT INTO O_TFR
 select any signal from instances of C_EP where ( selected.Name == param.ep_name );
 if ( empty signal )
   create object instance signal of C_EP;
+  signal.Name = param.ep_name;
   relate c_i to signal across R4003;
   select many references related by c_i->C_IR[R4012];
   if(param.asynchronous)
@@ -5660,12 +5697,11 @@ if ( empty c_i )
   select any c_c from instances of C_C where ( selected.Name == param.domain );
   select any c_po related by c_c->C_PO[R4010] where ( selected.Name == param.terminator );
   select any c_i related by c_po->C_IR[R4016]->C_I[R4012];
-  self.current_interface = c_i;
 end if;
 
 c_ep = self.Interface_newExecutableProperty(c_i:c_i, ep_name:param.name, asynchronous:false);
 c_ep.Direction = IFDirectionType::ClientServer;
-',
+self.current_executable_property = c_ep;',
 	1,
 	'',
 	"fd3b1e58-e9c3-41df-a82e-724733a56a61");
@@ -6008,6 +6044,60 @@ INSERT INTO O_ATTR
 	'',
 	'');
 INSERT INTO O_NBATTR
+	VALUES ("4dd58eee-77a6-4acc-873a-5c545a0701cc",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("4dd58eee-77a6-4acc-873a-5c545a0701cc",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("4dd58eee-77a6-4acc-873a-5c545a0701cc",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"45769a88-3b54-414b-8e30-d357063e4f0f",
+	'current_type',
+	'',
+	'',
+	'current_type',
+	0,
+	"4a90cd45-ece0-4e72-afe7-44996f9d7e1e",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("eaa75738-d8e2-424e-bc3a-80752318351b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("eaa75738-d8e2-424e-bc3a-80752318351b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("eaa75738-d8e2-424e-bc3a-80752318351b",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"4dd58eee-77a6-4acc-873a-5c545a0701cc",
+	'current_event',
+	'',
+	'',
+	'current_event',
+	0,
+	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("66a9c427-8b7f-48ab-9086-7d022a526425",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("66a9c427-8b7f-48ab-9086-7d022a526425",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("66a9c427-8b7f-48ab-9086-7d022a526425",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"eaa75738-d8e2-424e-bc3a-80752318351b",
+	'current_executable_property',
+	'',
+	'',
+	'current_executable_property',
+	0,
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	'',
+	'');
+INSERT INTO O_NBATTR
 	VALUES ("6c59590e-567f-49e4-85f9-1e85bdcc0c15",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
 INSERT INTO O_BATTR
@@ -6016,7 +6106,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("6c59590e-567f-49e4-85f9-1e85bdcc0c15",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"45769a88-3b54-414b-8e30-d357063e4f0f",
+	"66a9c427-8b7f-48ab-9086-7d022a526425",
 	'processingProject',
 	'',
 	'',
@@ -6058,11 +6148,3 @@ INSERT INTO PE_PE
 	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"00000000-0000-0000-0000-000000000000",
 	4);
-INSERT INTO EP_PKG_PROXY
-	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	'masl2xtuml',
-	'',
-	0,
-	'../masl2xtuml.xtuml');
