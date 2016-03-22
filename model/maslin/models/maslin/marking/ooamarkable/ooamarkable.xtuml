@@ -61,29 +61,62 @@ if ( not_empty population )
 		// put the pragmas in the description of the right object
 		if ( "domain" == element.type )
 			domain = population.current_component;
-			domain.Descrip = domain.Descrip + pragma_string;
+			if ( not_empty domain )
+			  domain.Descrip = domain.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:61, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
 		elif ( "terminator" == element.type )
 			interface = population.current_interface;
 			select any terminator related by interface->C_IR[R4012]->C_R[R4009];
-			terminator.Descrip = terminator.Descrip + pragma_string;
+			if ( not_empty terminator )
+			  terminator.Descrip = terminator.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:62, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
 		elif ( "object" == element.type )
 			obj = population.current_class;
-			obj.Descrip = obj.Descrip + pragma_string;
+			if ( not_empty obj )
+			  obj.Descrip = obj.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:63, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
 		elif ( "routine" == element.type )
 			routine = population.current_domain_function;
-			routine.Descrip = routine.Descrip + pragma_string;
+			if ( not_empty routine )
+			  routine.Descrip = routine.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:64, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
 		elif ( "operation" == element.type )
 			operation = population.current_class_op;
-			operation.Descrip = operation.Descrip + pragma_string;
+			if ( not_empty operation )
+			  operation.Descrip = operation.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:65, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
 		elif ( "state" == element.type )
 			state = population.current_state;
 			select one sm_act related by state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
 			if ( not_empty sm_act )
 			  sm_act.Descrip = sm_act.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:66, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
 			end if;
 		elif ( "attribute" == element.type )
 			attr = population.current_attribute;
-			attr.Descrip = attr.Descrip + pragma_string;
+			if ( not_empty attr )
+			  attr.Descrip = attr.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:67, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
 		elif ( "transitiontable" == element.type )
 			obj = population.current_class;
   			select one sm_sm related by obj->SM_ISM[R518]->SM_SM[R517];
@@ -93,14 +126,27 @@ if ( not_empty population )
   				select one sm_sm related by obj->SM_ASM[R519]->SM_SM[R517];
   				if ( not_empty sm_sm )
   					sm_sm.Descrip = sm_sm.Descrip + pragma_string;
+			    else
+    		      TRACE::log( flavor:"failure", id:68, message:"Could not obtain markable." );
+    		      ooaelement::trace( population: population );
   				end if;
   			end if;
 		elif ( "event" == element.type )
 			evt = population.current_event;
-			evt.Descrip = evt.Descrip + pragma_string;
+			if ( not_empty evt )
+			  evt.Descrip = evt.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:69, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
 		elif ( "type" == element.type )
 			type = population.current_type;
-			type.Descrip = type.Descrip + pragma_string;
+			if ( not_empty type )
+			  type.Descrip = type.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:70, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
 		else
 		  TRACE::log( flavor:"failure", id:79, message:"Unable to find current ''" + element.type + "''" );
 		end if;
