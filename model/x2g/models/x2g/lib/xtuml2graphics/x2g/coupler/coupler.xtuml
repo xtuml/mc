@@ -15,7 +15,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
 	'diagram = param.diagram;
-flavor = param.flavor;
+OOA_Type = param.OOA_Type;
 name = param.name;
 ooaofooa_ID = param.ooaofooa_ID;
 orig_ID = param.orig_ID;
@@ -29,7 +29,7 @@ widget = widget::populate(
   name:name,
   number:widgetnumber,
   ooaofooa_ID:ooaofooa_ID,
-  flavor:flavor,
+  OOA_Type:OOA_Type,
   x:x,
   y:y,
   diagram:diagram
@@ -46,20 +46,17 @@ coupler.wpID1 = graph::id(); coupler.wpID2 = graph::id(); coupler.wpID3 = graph:
 // Relate coupler to orig and dest widgets. 
 select any orig_widget related by diagram->widget[R3901] where ( selected.ooaofooa_ID == T::idtoi( id:orig_ID ) );
 select any dest_widget related by diagram->widget[R3901] where ( selected.ooaofooa_ID == T::idtoi( id:dest_ID ) );
-if ( 24 == flavor )
-  // association
-elif ( 42 == flavor )
+if ( OOAType::Transition == OOA_Type )
   // transition
   orig_junction = junction::populate( x:x, y:y, orig_dest:"orig" ); // CDS - xy?
   relate coupler to orig_widget across R3903 using orig_junction;
   dest_junction = junction::populate( x:x, y:y, orig_dest:"dest" ); // CDS - xy?
   relate coupler to dest_widget across R3903 using dest_junction;
-elif ( 49 == flavor )
+elif ( OOAType::CreationTransition == OOA_Type )
   // creation transition
   dest_junction = junction::populate( x:x, y:y, orig_dest:"dest" ); // CDS - xy?
   relate coupler to dest_widget across R3903 using dest_junction;
-end if;
-',
+end if;',
 	1,
 	'',
 	"00000000-0000-0000-0000-000000000000");
@@ -84,12 +81,19 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("71e9ed70-0668-465b-936d-c903ce80128f",
 	"26523f26-2f98-401a-b700-cf84c8985e1b",
-	'flavor',
-	"ba5eda7a-def5-0000-0000-000000000002",
+	'OOA_Type',
+	"696e9a94-513e-4efa-9b34-1178961cf1f7",
 	0,
 	'',
 	"29dae068-5d0e-42aa-9db2-d70c1015359d",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("696e9a94-513e-4efa-9b34-1178961cf1f7",
+	"00000000-0000-0000-0000-000000000000",
+	'OOAType',
+	'',
+	'',
+	'../x2g.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("97aed95f-a496-448a-9a52-9fdc852b3524",
 	"26523f26-2f98-401a-b700-cf84c8985e1b",
@@ -138,6 +142,8 @@ select any orig_junction related by self->junction[R3903] where ( selected.orig_
 select any dest_junction related by self->junction[R3903] where ( selected.orig_dest == "dest" );
 select one orig_widget related by orig_junction->widget[R3903];
 select one dest_widget related by dest_junction->widget[R3903];
+/*
+T::include( file:"t/t.coupler.sql" );
 if ( 24 == widget.flavor )
 elif ( 42 == widget.flavor )
   // transition
@@ -145,7 +151,8 @@ elif ( 42 == widget.flavor )
 elif ( 49 == widget.flavor )
   // creation transition
   T::include( file:"t/t.creation_transition.sql" );
-end if;',
+end if;
+*/',
 	1,
 	'',
 	"26523f26-2f98-401a-b700-cf84c8985e1b");

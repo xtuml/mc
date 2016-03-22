@@ -23,7 +23,7 @@ widget = widget::populate(
   name:param.name,
   number:figurenumber,
   ooaofooa_ID:param.ooaofooa_ID,
-  flavor:param.flavor,
+  OOA_Type:param.OOA_Type,
   x:x,
   y:y,
   diagram:param.diagram
@@ -56,12 +56,19 @@ INSERT INTO O_TPARM
 INSERT INTO O_TPARM
 	VALUES ("5f9246e9-7f4a-4d0a-9d1c-d6a04de70343",
 	"f8edaf80-31e9-4cd3-ae0c-2db66412394a",
-	'flavor',
-	"ba5eda7a-def5-0000-0000-000000000002",
+	'OOA_Type',
+	"696e9a94-513e-4efa-9b34-1178961cf1f7",
 	0,
 	'',
 	"fe0f607b-e2e2-4572-841e-065ca7313bd8",
 	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("696e9a94-513e-4efa-9b34-1178961cf1f7",
+	"00000000-0000-0000-0000-000000000000",
+	'OOAType',
+	'',
+	'',
+	'../x2g.xtuml');
 INSERT INTO O_TPARM
 	VALUES ("9bb97c86-3ba7-4631-8bcf-3eb52755fd01",
 	"f8edaf80-31e9-4cd3-ae0c-2db66412394a",
@@ -88,9 +95,12 @@ INSERT INTO O_TFR
 	'figure = self;
 select one widget related by self->widget[R3902];
 select one diagram related by widget->diagram[R3901];
+T::include( file:"t/t.figure.sql" );
+/*
 if ( 41 == widget.flavor )
   T::include( file:"t/t.state.sql" );
-end if;',
+end if;
+*/',
 	1,
 	'',
 	"f8edaf80-31e9-4cd3-ae0c-2db66412394a");

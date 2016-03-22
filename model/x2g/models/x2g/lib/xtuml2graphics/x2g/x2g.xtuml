@@ -1898,7 +1898,7 @@ diagram = diagram::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, Model_Typ
 // These must exist before the connectors can connect.
 select many sm_states related by sm_sm->SM_STATE[R501];
 for each sm_state in sm_states
-  figure::populate( name:sm_state.Name, ooaofooa_ID:sm_state.SMstt_ID, flavor:41, diagram:diagram );
+  figure::populate( name:sm_state.Name, ooaofooa_ID:sm_state.SMstt_ID, OOA_Type:OOAType::State, diagram:diagram );
 end for;
 
 // Now add transitions.
