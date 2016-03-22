@@ -62,6 +62,18 @@ elif ( "domain" == element )
       select any cl_ic from instances of CL_IC where (false);
       ooapopulation.current_imported_component = cl_ic;
     else
+
+  	  // formalize the provided interface reference for the domain
+  	  c_c = ooapopulation.current_component;
+  	  lib_pkg = ooapopulation.lib_pkg;
+  	  if ( not_empty c_c and not_empty lib_pkg )
+    	select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+        comp_if_name = c_c.Name;
+        select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+  		select any new_ir related by comp_if->C_IR[R4012];
+  		ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  	  end if;
+
       select any c_c from instances of C_C where (false);
       ooapopulation.current_component = c_c;
     
@@ -1706,17 +1718,13 @@ else
       // create a port & provided interface from the component
       comp_port_name = current_component.Name;
       new_ir = self.Component_initializeProvision(c_c:current_component, port_name:comp_port_name, if_name:"");
-      // formalize the new interface reference to it
-      self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+      relate comp_if to new_ir across R4012;    // formalize at end tag of domain. for now, just relate it to the C_R
     end if;
   
     // c - Note that we (currently) always create an interface operation, never a signal
     c_ep = self.Interface_newExecutableProperty(c_i:comp_if, ep_name:param.name, asynchronous:false);
     c_ep.Direction = IFDirectionType::ClientServer;
     
-    // d
-    select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
-    // TODO - this isn''t working yet. - spr_po.Action_Semantics = "::" + param.name + "();";
   end if;
 end if;',
 	1,
@@ -6165,3 +6173,11 @@ INSERT INTO PE_PE
 	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"00000000-0000-0000-0000-000000000000",
 	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0,
+	'../masl2xtuml.xtuml');
