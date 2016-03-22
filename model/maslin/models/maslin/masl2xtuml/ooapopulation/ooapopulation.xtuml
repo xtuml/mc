@@ -57,11 +57,17 @@ if ( "project" == element )
   end if;
 elif ( "domain" == element )
   if ( "" == param.value[0] )
-    select any c_c from instances of C_C where (false);
-    ooapopulation.current_component = c_c;
+    if ( ooapopulation.processingProject )
+      // If we are processing a project, all domains we see are handled as imported components, so clear that cache attribute
+      select any cl_ic from instances of CL_IC where (false);
+      ooapopulation.current_imported_component = cl_ic;
+    else
+      select any c_c from instances of C_C where (false);
+      ooapopulation.current_component = c_c;
     
-    // Now that we are done processing the domain, formalize relationships
-    // TODO - does not work yet - if ( !processingProject ) ooapopulation.batchFormalize();
+      // Now that we are done processing the domain, formalize relationships
+      // TODO - does not work yet - if ( !processingProject ) ooapopulation.batchFormalize();
+    end if;
   else
     ooapopulation.transformDomain(name:param.value[0]);
   end if;
@@ -502,10 +508,12 @@ if ( self.processingProject )
   lib_pkg = self.lib_pkg;
   if ( not_empty lib_pkg )
     cl_ic = self.Package_newImportedComponent(ep_pkg:lib_pkg);
-    cl_ic.Name = param.name;
+    cl_ic.Descrip = "name:" + param.name;
+    self.current_imported_component = cl_ic;
   end if;
 
-  // TODO - create required interface off of the system wiring (project) component for the imported domain
+  // Create an informal required interface off of the system wiring (project) component for the imported domain
+  new_ir = self.Component_initializeRequirement(c_c:self.current_component, port_name:param.name, if_name:param.name);
 else
   // Create a package named the same as the domain and cache it
   self.lib_pkg = self.SystemModel_newPackage(s_sys:self.current_sys, pkg_name:param.name);
@@ -874,7 +882,13 @@ INSERT INTO O_TFR
 	'lib_pkg = self.lib_pkg;
 
 if ( self.processingProject )
-  // TODO - create provided interface off of the system wiring (project) component for this terminator
+  // Create provided interface off of the system wiring (project) component for this terminator, unless the name matches the "imported" 
+  // domain we''re processing.  In that case we have already created a required interface when we saw the domain itself
+  clic_name = self.current_imported_component.Name;
+  if ( clic_name != param.name )
+    comp_if_name = clic_name + param.name;
+    new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:comp_if_name, if_name:comp_if_name);
+  end if;
 else
   comp_if_name = self.current_component.Name + param.name;
 
@@ -886,7 +900,7 @@ else
     comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
     // create a port & provided interface from the component
     comp_port_name = param.name;
-    new_ir = self.Component_initializeRequirement(c_c:self.current_component, c_i:comp_if, port_name:comp_port_name);
+    new_ir = self.Component_initializeRequirement(c_c:self.current_component, port_name:comp_port_name, if_name:"");
     relate comp_if to new_ir across R4012;    // formalize at end tag. for now, just relate it to the C_R
   end if;
 
@@ -1691,7 +1705,7 @@ else
       comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
       // create a port & provided interface from the component
       comp_port_name = current_component.Name;
-      new_ir = self.Component_initializeProvision(c_c:current_component, c_i:comp_if, port_name:comp_port_name);
+      new_ir = self.Component_initializeProvision(c_c:current_component, port_name:comp_port_name, if_name:"");
       // formalize the new interface reference to it
       self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
     end if;
@@ -2143,7 +2157,6 @@ INSERT INTO O_TFR
 	"3068be83-fc38-4a02-a09f-a2dc428b84f6",
 	1,
 	'c_c = param.c_c;
-c_i = param.c_i;
 
 // The OOA version of this function does _a lot_ more work than we have to do here.
 create object instance provision of C_P;
@@ -2152,7 +2165,12 @@ create object instance port of C_PO;
 relate provision to interfaceRef across R4009;
 relate interfaceRef to port across R4016;
 relate port to c_c across R4010;
-provision.InformalName = "Unnamed_Interface";
+if ( "" == param.if_name )
+  provision.InformalName = "Unnamed_Interface";
+else
+  provision.InformalName = param.if_name;
+end if;
+
 self.Port_initialize(c_po:port, name:param.port_name);
 
 return interfaceRef;',
@@ -2169,22 +2187,22 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TPARM
-	VALUES ("835af959-b640-4f41-b348-a6c9267980ac",
-	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d",
-	'c_i',
-	"80698720-cc57-44ba-8aa5-600c524db338",
-	0,
-	'',
-	"cf4bd80f-3895-4c80-897b-2a439dc0d5c7",
-	'');
-INSERT INTO O_TPARM
 	VALUES ("a0e3fc5e-33f9-47a5-9e00-6fe59650f5a6",
 	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d",
 	'port_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"835af959-b640-4f41-b348-a6c9267980ac",
+	"cf4bd80f-3895-4c80-897b-2a439dc0d5c7",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("3dc4f167-809f-48d2-9d12-69928c1639b6",
+	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d",
+	'if_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a0e3fc5e-33f9-47a5-9e00-6fe59650f5a6",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("3068be83-fc38-4a02-a09f-a2dc428b84f6",
@@ -5637,7 +5655,6 @@ INSERT INTO O_TFR
 	"3068be83-fc38-4a02-a09f-a2dc428b84f6",
 	1,
 	'c_c = param.c_c;
-c_i = param.c_i;
 
 // The OOA version of this function does _a lot_ more work than we have to do here.
 create object instance requirement of C_R;
@@ -5646,7 +5663,11 @@ create object instance port of C_PO;
 relate requirement to interfaceRef across R4009;
 relate interfaceRef to port across R4016;
 relate port to c_c across R4010;
-requirement.InformalName = "Unnamed_Interface";
+if ( "" == param.if_name )
+  requirement.InformalName = "Unnamed_Interface";
+else
+  requirement.InformalName = param.if_name;
+end if;
 self.Port_initialize(c_po:port, name:param.port_name);
 
 return interfaceRef;',
@@ -5663,22 +5684,22 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TPARM
-	VALUES ("e8fe3eac-7e91-4f0a-86df-13ad4d3f420c",
-	"de57cf0d-e159-4b31-907e-bba1cb341479",
-	'c_i',
-	"80698720-cc57-44ba-8aa5-600c524db338",
-	0,
-	'',
-	"c594153e-1c12-416a-b872-48fa7c3b623f",
-	'');
-INSERT INTO O_TPARM
 	VALUES ("180f2b75-6dd7-4f78-8b4d-fa093d818b15",
 	"de57cf0d-e159-4b31-907e-bba1cb341479",
 	'port_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"e8fe3eac-7e91-4f0a-86df-13ad4d3f420c",
+	"c594153e-1c12-416a-b872-48fa7c3b623f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("33bd7b77-b2d7-4531-ae7d-4d7a20a3fe55",
+	"de57cf0d-e159-4b31-907e-bba1cb341479",
+	'if_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"180f2b75-6dd7-4f78-8b4d-fa093d818b15",
 	'');
 INSERT INTO O_TFR
 	VALUES ("8bd3b9a0-f3ac-4342-8d1d-0d96cb608c48",
@@ -6030,7 +6051,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("33d45b78-9c27-4259-8d26-cadfd95a4313",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"a3e129f2-38f6-47c9-a46a-4043ca376af6",
+	"23255510-3c96-4798-b066-ebb7dbb166ea",
 	'current_interface',
 	'',
 	'',
@@ -6111,6 +6132,24 @@ INSERT INTO O_ATTR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
+INSERT INTO O_NBATTR
+	VALUES ("23255510-3c96-4798-b066-ebb7dbb166ea",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("23255510-3c96-4798-b066-ebb7dbb166ea",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("23255510-3c96-4798-b066-ebb7dbb166ea",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"a3e129f2-38f6-47c9-a46a-4043ca376af6",
+	'current_imported_component',
+	'',
+	'',
+	'current_imported_component',
+	0,
+	"4bf19d7e-1bcd-469a-b056-4523dd59dc1d",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -6126,11 +6165,3 @@ INSERT INTO PE_PE
 	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"00000000-0000-0000-0000-000000000000",
 	4);
-INSERT INTO EP_PKG_PROXY
-	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	"319083ee-ba5f-4645-a409-d6249f9350bd",
-	'masl2xtuml',
-	'',
-	0,
-	'../masl2xtuml.xtuml');
