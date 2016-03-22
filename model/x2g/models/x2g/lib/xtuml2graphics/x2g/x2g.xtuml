@@ -1758,10 +1758,7 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'system',
 	'',
-	'// Query and Populate
-// Query the xtUML meta-model and populate the MASL meta-model.
-
-select any s_sys from instances of S_SYS;
+	'select any s_sys from instances of S_SYS;
 if ( not_empty s_sys )
 
   // system package diagram
@@ -1798,21 +1795,71 @@ INSERT INTO S_SYNC
 	"00000000-0000-0000-0000-000000000000",
 	'package',
 	'',
-	'// select the contained elements to gen from
-ep_pkg = param.ep_pkg;
+	'ep_pkg = param.ep_pkg;
 
 parent_path = ::package_get_path( ep_pkg:ep_pkg );
 diagram = diagram::populate( name:ep_pkg.Name, ooaofooa_ID:ep_pkg.Package_ID, Model_Type:ModelType::Package, OOA_Type:OOAType::Package, path:parent_path );
 
+// packages (nested)
+select many nested_ep_pkgs related by ep_pkg->PE_PE[R8000]->EP_PKG[R8001];
+for each nested_ep_pkg in nested_ep_pkgs
+  // Add shape for package on this diagram.
+  figure::populate( name:nested_ep_pkg.Name, ooaofooa_ID:nested_ep_pkg.Package_ID, OOA_Type:OOAType::Package, diagram:diagram );
+  // Add diagram for package.
+  ::package( ep_pkg:nested_ep_pkg ); 
+end for;
+
+// data types
+select many s_dts related by ep_pkg->PE_PE[R8000]->S_DT[R8001];
+for each s_dt in s_dts
+  select one s_udt related by s_dt->S_UDT[R17];
+  if ( not_empty s_udt )
+    figure::populate( name:s_dt.Name, ooaofooa_ID:s_dt.DT_ID, OOA_Type:OOAType::UserDataType, diagram:diagram );
+  else
+  select one s_sdt related by s_dt->S_SDT[R17];
+  if ( not_empty s_sdt )
+    figure::populate( name:s_dt.Name, ooaofooa_ID:s_dt.DT_ID, OOA_Type:OOAType::StructuredDataType, diagram:diagram );
+  else
+    select one s_edt related by s_dt->S_EDT[R17];
+  if ( not_empty s_edt )
+    figure::populate( name:s_dt.Name, ooaofooa_ID:s_dt.DT_ID, OOA_Type:OOAType::EnumerationDataType, diagram:diagram );
+  else
+    // IRDT, CDT do not have shapes
+  end if;
+  end if;
+  end if;
+end for;
+
+// classes
 select many o_objs related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001];
 for each o_obj in o_objs
-
   // Add shape for class.
   figure::populate( name:o_obj.Name, ooaofooa_ID:o_obj.Obj_ID, OOA_Type:OOAType::Class, diagram:diagram );
-  
   // Add state machine diagrams.
   ::class( o_obj:o_obj );
-end for;',
+end for;
+
+// components
+select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001];
+for each c_c in c_cs
+  // Add shape for component.
+  figure::populate( name:c_c.Name, ooaofooa_ID:c_c.Id, OOA_Type:OOAType::Component, diagram:diagram );
+end for;
+
+// component references
+select many cl_ics related by ep_pkg->PE_PE[R8000]->CL_IC[R8001];
+for each cl_ic in cl_ics
+  // Add shape for component reference.
+  figure::populate( name:cl_ic.Name, ooaofooa_ID:cl_ic.Id, OOA_Type:OOAType::ComponentReference, diagram:diagram );
+end for;
+
+// interfaces
+select many c_is related by ep_pkg->PE_PE[R8000]->C_I[R8001];
+for each c_i in c_is
+  // Add shape for interface.
+  figure::populate( name:c_i.Name, ooaofooa_ID:c_i.Id, OOA_Type:OOAType::Interface, diagram:diagram );
+end for;
+',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'');
@@ -1846,12 +1893,11 @@ INSERT INTO S_SYNC
 	'o_obj = param.o_obj;
 select one ism_sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
 if ( not_empty ism_sm_sm )
-  ::instancestatemachine( sm_sm:ism_sm_sm );
+  ::statemachine( sm_sm:ism_sm_sm, ISM:true );
 end if;
 select one asm_sm_sm related by o_obj->SM_ASM[R519]->SM_SM[R517];
 if ( not_empty asm_sm_sm )
-  // CSMs are depicted identically to ISMs
-  ::instancestatemachine( sm_sm:asm_sm_sm );
+  ::statemachine( sm_sm:ism_sm_sm, ISM:false );
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
@@ -1881,16 +1927,23 @@ INSERT INTO PE_PE
 INSERT INTO S_SYNC
 	VALUES ("359dd44e-b6d1-43b6-8f4d-2f2a52876008",
 	"00000000-0000-0000-0000-000000000000",
-	'instancestatemachine',
+	'statemachine',
 	'',
 	'// select the contained elements to gen from
 sm_sm = param.sm_sm;
+ISM = param.ISM; // Instance State Machine?
 
 select one o_obj related by sm_sm->SM_ISM[R517]->O_OBJ[R518];
-TRACE::log( flavor:"info", id:204, message:"object name of SM_SM is " + o_obj.Name );
-
+Model_Type = ModelType::InstanceStateChartDiagram;
+flavor = "::Instance State Machine";
+if ( not ISM )
+  select one o_obj related by sm_sm->SM_ASM[R517]->O_OBJ[R519];
+  Model_Type = ModelType::ClassStateChartDiagram;
+  flavor = "::Class State Machine";
+end if;
 parent_path = ::class_get_path( o_obj:o_obj );
-diagram = diagram::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, Model_Type:ModelType::InstanceStateChartDiagram, OOA_Type:OOAType::StateMachine, path:parent_path + "::Instance State Machine" );
+
+diagram = diagram::populate( name:o_obj.Name, ooaofooa_ID:sm_sm.SM_ID, Model_Type:Model_Type, OOA_Type:OOAType::StateMachine, path:parent_path + flavor );
 
 // Start with all of the figures (states).
 // These must exist before the connectors can connect.
@@ -1951,6 +2004,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/State Machine/State Machine.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("2044cb8b-fc37-4acf-868f-5823c73f21c3",
+	"359dd44e-b6d1-43b6-8f4d-2f2a52876008",
+	'ISM',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"97627fe4-af58-4cbf-bc6e-96b85a62db16",
+	'');
 INSERT INTO PE_PE
 	VALUES ("359dd44e-b6d1-43b6-8f4d-2f2a52876008",
 	1,
@@ -2062,6 +2124,42 @@ INSERT INTO S_SPARM
 	'');
 INSERT INTO PE_PE
 	VALUES ("dd1b5f80-c700-4e89-a7f3-03a8c1ac0f45",
+	1,
+	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("859c1168-8966-49df-a9f9-584094fbeefd",
+	"00000000-0000-0000-0000-000000000000",
+	'component',
+	'',
+	'c_c = param.c_c;
+
+// component diagram
+parent_path = "";
+diagram = diagram::populate( name:c_c.Name, ooaofooa_ID:c_c.Id, Model_Type:ModelType::ComponentDiagram, OOA_Type:OOAType::ComponentDiagram, path:parent_path );
+
+select many ep_pkgs related by c_c->PE_PE[R8003]->EP_PKG[R8001];
+for each ep_pkg in ep_pkgs
+  // Add shape for package on this diagram.
+  figure::populate( name:ep_pkg.Name, ooaofooa_ID:ep_pkg.Package_ID, OOA_Type:OOAType::Package, diagram:diagram );
+  // Add diagram for package.
+  ::package( ep_pkg:ep_pkg ); 
+end for;',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'');
+INSERT INTO S_SPARM
+	VALUES ("9117a713-1cf4-4d29-ab3a-c8f2c10d3059",
+	"859c1168-8966-49df-a9f9-584094fbeefd",
+	'c_c',
+	"67f93d18-1045-4c6c-b0d5-a692023c471c",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO PE_PE
+	VALUES ("859c1168-8966-49df-a9f9-584094fbeefd",
 	1,
 	"53aa9d8a-7836-4d31-9b03-fecacd383a92",
 	"00000000-0000-0000-0000-000000000000",
