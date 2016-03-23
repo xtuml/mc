@@ -664,13 +664,7 @@ sub xtumlmc_gen_erate($)
   my $dos_or_unix = add_to_path( "$pt_home/$mc/bin" );
   my $gencmd = "gen_erate";
   my $rval = 0;
-  $ENV{'MGLS_LICENSE_FILE'} =~ s/:/;/g;
-  if ( "win32" eq "$osplatform" ) {
-    $rval = system( "$gencmd @param_list" );
-  } else {
-    $gencmd = "wine $ENV{'ROX_MC_BIN_DIR'}/gen_erate";
-    $rval = system( "$gencmd @param_list" );
-  }
+  $rval = system( "$gencmd @param_list" );
   return $rval;
 }
 
