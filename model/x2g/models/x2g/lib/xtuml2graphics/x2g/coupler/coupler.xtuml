@@ -43,19 +43,47 @@ coupler.textID1 = graph::id(); coupler.textID2 = graph::id(); coupler.textID3 = 
 coupler.lsID1 = graph::id(); coupler.lsID2 = graph::id(); coupler.lsID3 = graph::id();
 coupler.wpID1 = graph::id(); coupler.wpID2 = graph::id(); coupler.wpID3 = graph::id();
 
-// Relate coupler to orig and dest widgets. 
+// Relate coupler to src and dest widgets. 
 select any orig_widget related by diagram->widget[R3901] where ( selected.ooaofooa_ID == T::idtoi( id:orig_ID ) );
 select any dest_widget related by diagram->widget[R3901] where ( selected.ooaofooa_ID == T::idtoi( id:dest_ID ) );
 if ( OOAType::Transition == OOA_Type )
   // transition
-  orig_junction = junction::populate( x:x, y:y, orig_dest:"orig" ); // CDS - xy?
-  relate coupler to orig_widget across R3903 using orig_junction;
-  dest_junction = junction::populate( x:x, y:y, orig_dest:"dest" ); // CDS - xy?
-  relate coupler to dest_widget across R3903 using dest_junction;
+  select one orig_figure related by orig_widget->figure[R3902];
+  select one dest_figure related by dest_widget->figure[R3902];
+  // For each case, calculate the middle of the edge where the connection will be made.
+  if ( orig_widget.y > dest_widget.y )
+    // dest above
+    coupler.orig_x = orig_widget.x + ( orig_figure.width / 2 );
+    coupler.orig_y = orig_widget.y;
+    coupler.dest_x = dest_widget.x + ( dest_figure.width / 2 );
+    coupler.dest_y = dest_widget.y + dest_figure.height;
+  elif ( orig_widget.y < dest_widget.y )
+    // dest below
+    coupler.orig_x = orig_widget.x + ( orig_figure.width / 2 );
+    coupler.orig_y = orig_widget.y + orig_figure.height;
+    coupler.dest_x = dest_widget.x + ( dest_figure.width / 2 );
+    coupler.dest_y = dest_widget.y;
+  elif ( orig_widget.x < dest_widget.x )
+    // dest right
+    coupler.orig_x = orig_widget.x + orig_figure.width;
+    coupler.orig_y = orig_widget.y + ( orig_figure.height / 2 );
+    coupler.dest_x = dest_widget.x;
+    coupler.dest_y = dest_widget.y + ( dest_figure.height / 2 );
+  else
+    // dest left
+    coupler.orig_x = orig_widget.x;
+    coupler.orig_y = orig_widget.y + ( orig_figure.height / 2 );
+    coupler.dest_x = dest_widget.x + dest_figure.width;
+    coupler.dest_y = dest_widget.y + ( dest_figure.height / 2 );
+  end if;
+  relate coupler to orig_widget across R3904;
+  relate coupler to dest_widget across R3903;
 elif ( OOAType::CreationTransition == OOA_Type )
   // creation transition
+  /* Do this differently using dst x,y.
   dest_junction = junction::populate( x:x, y:y, orig_dest:"dest" ); // CDS - xy?
   relate coupler to dest_widget across R3903 using dest_junction;
+  */
 end if;',
 	1,
 	'',
@@ -138,21 +166,17 @@ INSERT INTO O_TFR
 	'coupler = self;
 select one widget related by self->widget[R3902];
 select one diagram related by widget->diagram[R3901];
-select any orig_junction related by self->junction[R3903] where ( selected.orig_dest == "orig" );
-select any dest_junction related by self->junction[R3903] where ( selected.orig_dest == "dest" );
-select one orig_widget related by orig_junction->widget[R3903];
-select one dest_widget related by dest_junction->widget[R3903];
-/*
-T::include( file:"t/t.coupler.sql" );
-if ( 24 == widget.flavor )
-elif ( 42 == widget.flavor )
+select one orig_widget related by self->widget[R3904];
+select one dest_widget related by self->widget[R3903];
+if ( OOAType::Transition == widget.OOA_Type )
   // transition
   T::include( file:"t/t.transition.sql" );
+/*
 elif ( 49 == widget.flavor )
   // creation transition
   T::include( file:"t/t.creation_transition.sql" );
-end if;
-*/',
+*/
+end if;',
 	1,
 	'',
 	"26523f26-2f98-401a-b700-cf84c8985e1b");
@@ -165,7 +189,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("fcf5ce59-008d-4936-976d-e9f603834436",
 	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
-	"00000000-0000-0000-0000-000000000000",
+	"f44e25d6-d5ac-4d1b-a086-595fabaad9be",
 	'cID1',
 	'',
 	'',
@@ -377,6 +401,78 @@ INSERT INTO O_ATTR
 	'wpID3',
 	0,
 	"68ae699f-8534-4e8a-8357-4988cec5b93d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("963fcaa4-c23f-4bfe-85d7-ba8bd7594f51",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("963fcaa4-c23f-4bfe-85d7-ba8bd7594f51",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("963fcaa4-c23f-4bfe-85d7-ba8bd7594f51",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"00000000-0000-0000-0000-000000000000",
+	'orig_x',
+	'',
+	'',
+	'orig_x',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("35368ee6-5404-4c33-b6f4-ca46e3815e1a",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("35368ee6-5404-4c33-b6f4-ca46e3815e1a",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("35368ee6-5404-4c33-b6f4-ca46e3815e1a",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"963fcaa4-c23f-4bfe-85d7-ba8bd7594f51",
+	'orig_y',
+	'',
+	'',
+	'orig_y',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("8f3ade78-4de2-4da6-8022-74c0a815fad1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("8f3ade78-4de2-4da6-8022-74c0a815fad1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("8f3ade78-4de2-4da6-8022-74c0a815fad1",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"35368ee6-5404-4c33-b6f4-ca46e3815e1a",
+	'dest_x',
+	'',
+	'',
+	'dest_x',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("f44e25d6-d5ac-4d1b-a086-595fabaad9be",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_BATTR
+	VALUES ("f44e25d6-d5ac-4d1b-a086-595fabaad9be",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07");
+INSERT INTO O_ATTR
+	VALUES ("f44e25d6-d5ac-4d1b-a086-595fabaad9be",
+	"6939d8b2-47e3-4845-ad23-b3490eda7b07",
+	"8f3ade78-4de2-4da6-8022-74c0a815fad1",
+	'dest_y',
+	'',
+	'',
+	'dest_y',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
 	'',
 	'');
 INSERT INTO O_ID

@@ -1,27 +1,24 @@
---diagram.ID: $t{diagram.ID}  widge.ID: $t{widget.ID}  ooaofooa_path: ${widget.path}
+--path:${widget.path}
 INSERT INTO DIM_CON                      -- This represents an the anchor point for the connector
                                          -- In this example there are 2 of them because the line is connected to 
                                          -- a figure on each end
 	VALUES ($t{coupler.cID1},
-	$t{orig_widget.x}.000000,                      -- XPosition
-	$t{orig_widget.y}.000000,                      -- YPosition
+	$t{coupler.orig_x}.000000,                      -- XPosition
+	$t{coupler.orig_y}.000000,                      -- YPosition
 	$t{orig_widget.ID});             -- ID of the widget this coupler is attached to
 INSERT INTO DIM_CON
 	VALUES ($t{coupler.cID2},        -- This is a second coupler ID that will be generated
-	$t{dest_widget.x}.000000,
-	$t{dest_widget.y}.000000,
-	$t{orig_widget->ID});            -- ID if the widget this coupler is attached to
+	$t{coupler.dest_x}.000000,
+	$t{coupler.dest_y}.000000,
+	$t{dest_widget->ID});            -- ID if the widget this coupler is attached to
 INSERT INTO GD_GE
 	VALUES ($t{widget.ID},
-	${diagram.ID},
+	$t{diagram.ID},
 	$t{widget.ooaofooa_ID},          -- This is the SM_TXN.id
-	42,                              -- OOA_Type
+	$t{widget.OOA_Type},
 	0,
-	"${widget.path}");               --example: ClassDiagramOnly::ClassDiagram::class1::Instance State Machine::Unnamed State::No Event Assigned
-	                                 -- It is the source side that this represents_path represents
-INSERT INTO GD_CON
-	VALUES ($t{widget.ID},
-	0);        -- null id
+	'${widget.path}');               -- It is the source side that this represents_path represents
+INSERT INTO GD_CON VALUES ($t{widget.ID}, 0);
 INSERT INTO GD_CTXT
 	VALUES ($t{coupler.textID1},
 	$t{widget.ID},
@@ -87,15 +84,15 @@ INSERT INTO GD_LS
 	$t{coupler.wpID2});      -- end_watpoint_id
 INSERT INTO DIM_WAY
 	VALUES ($t{coupler.wpID1}, 
-	7633.000000,            -- xposition
-	5843.000000,            --yposition
+	$t{coupler.orig_x}.000000,                      -- XPosition
+	$t{coupler.orig_y}.000000,                      -- YPosition
 	$t{widget.ID},          
 	0,        -- this is the "polyline" element id
 	0);       -- This is the previous waypoint ID
 INSERT INTO DIM_WAY
 	VALUES ($t{coupler.wpID2}, 
-	7752.000000,  --xposition
-	5843.000000,  --yposition
+	$t{coupler.dest_x}.000000,
+	$t{coupler.dest_y}.000000,
 	$t{widget.ID},
 	0,        -- null id
 	$t{coupler.wpID1});  -- This is the previous waypoint ID

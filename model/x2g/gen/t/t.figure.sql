@@ -3,8 +3,8 @@ INSERT INTO GD_GE VALUES ($t{widget.ID}, $t{diagram.ID}, $t{widget.ooaofooa_ID},
 INSERT INTO GD_SHP VALUES ($t{widget.ID});
 INSERT INTO GD_NCS VALUES ($t{widget.ID});
 INSERT INTO DIM_ND VALUES (
-	160.000000, -- width
-	80.000000, -- height
+	$t{figure.width}.000000, -- width
+	$t{figure.height}.000000, -- height
 	$t{widget.ID});
 INSERT INTO DIM_GE VALUES (
 	$t{widget.x}.000000, -- X
