@@ -46,7 +46,7 @@ coupler.wpID1 = graph::id(); coupler.wpID2 = graph::id(); coupler.wpID3 = graph:
 // Relate coupler to src and dest widgets. 
 select any orig_widget related by diagram->widget[R3901] where ( selected.ooaofooa_ID == T::idtoi( id:orig_ID ) );
 select any dest_widget related by diagram->widget[R3901] where ( selected.ooaofooa_ID == T::idtoi( id:dest_ID ) );
-if ( OOAType::Transition == OOA_Type )
+if ( ( OOAType::Transition == OOA_Type ) or ( OOAType::Association == OOA_Type ) )
   // transition
   select one orig_figure related by orig_widget->figure[R3902];
   select one dest_figure related by dest_widget->figure[R3902];
@@ -168,8 +168,9 @@ select one widget related by self->widget[R3902];
 select one diagram related by widget->diagram[R3901];
 select one orig_widget related by self->widget[R3904];
 select one dest_widget related by self->widget[R3903];
-if ( OOAType::Transition == widget.OOA_Type )
-  // transition
+if ( OOAType::Association == widget.OOA_Type )
+  T::include( file:"t/t.transition.sql" );
+elif ( OOAType::Transition == widget.OOA_Type )
   T::include( file:"t/t.transition.sql" );
 /*
 elif ( 49 == widget.flavor )

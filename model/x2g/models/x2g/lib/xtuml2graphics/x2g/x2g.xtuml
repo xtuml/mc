@@ -1812,6 +1812,26 @@ for each o_obj in o_objs
   // Add state machine diagrams.
   ::class( o_obj:o_obj );
 end for;
+if ( not_empty o_objs )
+  // Add simple associations.
+  select any orig_o_obj from instances of O_OBJ where ( false );
+  dest_o_obj = orig_o_obj;
+  select many r_rels related by ep_pkg->PE_PE[R8000]->R_REL[R8001]->R_SIMP[R206]->R_REL[R206];
+  for each r_rel in r_rels
+    select many oir_o_objs related by r_rel->O_OBJ[R201];
+    first = true;
+    for each oir_o_obj in oir_o_objs
+      if ( first )
+        orig_o_obj = oir_o_obj;
+        first = false;
+      else
+        dest_o_obj = oir_o_obj;
+      end if;
+    end for;
+    coupler::populate( name:orig_o_obj.Name + "::R" + T::s( i:r_rel.Numb ), ooaofooa_ID:r_rel.Rel_ID, OOA_Type:OOAType::Association,
+      diagram:diagram, orig_ID:orig_o_obj.Obj_ID, dest_ID:o_obj.Obj_ID );
+  end for;
+end if;
 
 // components
 select many c_cs related by ep_pkg->PE_PE[R8000]->C_C[R8001];
@@ -1834,6 +1854,13 @@ select many c_is related by ep_pkg->PE_PE[R8000]->C_I[R8001];
 for each c_i in c_is
   // Add shape for interface.
   figure::populate( name:c_i.Name, ooaofooa_ID:c_i.Id, OOA_Type:OOAType::Interface, diagram:diagram );
+end for;
+
+// EEs
+select many s_ees related by ep_pkg->PE_PE[R8000]->S_EE[R8001];
+for each s_ee in s_ees
+  // Add shape for external entity.
+  figure::populate( name:s_ee.Name, ooaofooa_ID:s_ee.EE_ID, OOA_Type:OOAType::EE, diagram:diagram );
 end for;
 ',
 	"ba5eda7a-def5-0000-0000-000000000000",
