@@ -59,7 +59,15 @@ if ( not_empty population )
 	if ( "" != pragma_string )
 
 		// put the pragmas in the description of the right object
-		if ( "domain" == element.type )
+		if ( "project" == element.type )
+			project = population.current_component;
+			if ( not_empty project )
+			  project.Descrip = project.Descrip + pragma_string;
+			else
+    		  TRACE::log( flavor:"failure", id:60, message:"Could not obtain markable." );
+    		  ooaelement::trace( population: population );
+			end if;
+		elif ( "domain" == element.type )
 			domain = population.current_component;
 			if ( not_empty domain )
 			  domain.Descrip = domain.Descrip + pragma_string;
