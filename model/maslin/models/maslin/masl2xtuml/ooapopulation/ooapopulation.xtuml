@@ -108,6 +108,8 @@ elif ( "parameter" == element )
     ooapopulation.current_function_param = s_sparm;
     select any o_tparm from instances of O_TPARM where (false);
     ooapopulation.current_operation_param = o_tparm;
+    select any c_pp from instances of C_PP where (false);
+    ooapopulation.current_interface_param = c_pp;
     // TODO - null out other parameter cache values as they are implemented
   else
     ooapopulation.transformParameter(name:param.value[0], direction:param.value[1]);
@@ -188,6 +190,10 @@ elif ( "typeref" == element )
     o_tparm = ooapopulation.current_operation_param;
     if ( not_empty o_tparm )
       ooapopulation.OperationParameter_setType(o_tparm:ooapopulation.current_operation_param, type_name:param.value[0]); 
+    end if;
+    c_pp = ooapopulation.current_interface_param;
+    if ( not_empty c_pp )
+      ooapopulation.InterfaceParameter_setType(c_pp:ooapopulation.current_interface_param, type_name:param.value[0]);
     end if;
   end if;
 elif ( "associative" == element )
@@ -951,6 +957,7 @@ INSERT INTO O_TFR
 	'// Check to see what type of element this parameter goes to.  Pass control appropriately.
 class_op = self.current_class_op;
 domain_function = self.current_domain_function;
+interface_message = self.current_executable_property;
 
 if ( not_empty class_op )
   select any o_tparm related by class_op->O_TPARM[R117] where ( selected.Name == param.name );
@@ -961,6 +968,11 @@ elif ( not_empty domain_function )
   select any s_sparm related by domain_function->S_SPARM[R24] where ( selected.Name == param.name );
   if ( empty  s_sparm )
     self.current_function_param = self.Function_newParameter(s_sync:domain_function, parameter_name:param.name);
+  end if;
+elif ( not_empty interface_message )
+  select any c_pp related by interface_message->C_PP[R4006] where ( selected.Name == param.name );
+  if ( empty c_pp )
+    self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:param.name);
   end if;
 end if;',
 	1,
@@ -2347,7 +2359,7 @@ if(not_empty interface)
 end if;',
 	1,
 	'',
-	"5a638f8c-37fc-48ad-85a7-117da5262634");
+	"c1d107db-3920-45fc-8976-f5135aa4c119");
 INSERT INTO O_TPARM
 	VALUES ("9850e799-4e62-4c3f-b192-033885ef68e2",
 	"4ed94333-e76e-470c-95ec-c351a39b2df5",
@@ -2392,7 +2404,7 @@ c_io.Direction = IFDirectionType::ClientServer;  // Note: in MASL convert we jus
 ',
 	1,
 	'',
-	"102c4921-1e91-4570-87ba-0ccd6106d389");
+	"72bf6324-6202-4d48-8dba-ffe5e88ace77");
 INSERT INTO O_TPARM
 	VALUES ("ef2ab14f-b464-494a-8d6e-75c207ac34c0",
 	"5a638f8c-37fc-48ad-85a7-117da5262634",
@@ -2447,7 +2459,7 @@ end if;
 return signal;',
 	1,
 	'',
-	"eaeaa954-9f69-450a-a5a6-1b0d98435d31");
+	"02d4b2b3-e219-4c57-bfa3-f9f74d3ee861");
 INSERT INTO O_TPARM
 	VALUES ("2b7848d2-1f57-47fd-b47d-3add03222a89",
 	"102c4921-1e91-4570-87ba-0ccd6106d389",
@@ -5872,6 +5884,239 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl2xtuml.xtuml');
+INSERT INTO O_TFR
+	VALUES ("72bf6324-6202-4d48-8dba-ffe5e88ace77",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Interface_newParameter',
+	'',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	1,
+	'c_ep = param.c_ep;
+
+select any parm related by c_ep->C_PP[R4006] where ( selected.Name == param.parameter_name );
+
+if ( empty parm )
+  create object instance parm of C_PP;
+  relate c_ep to parm across R4006;
+  self.InterfaceParameter_initialize(c_pp:parm, name:param.parameter_name);
+  self.Interface_createMessageArgumentsForParameter(c_ep:c_ep, c_pp:parm);
+end if;
+
+return parm;',
+	1,
+	'',
+	"102c4921-1e91-4570-87ba-0ccd6106d389");
+INSERT INTO O_TPARM
+	VALUES ("88268d5f-5c1f-40b0-ae54-8bd552b3522e",
+	"72bf6324-6202-4d48-8dba-ffe5e88ace77",
+	'c_ep',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("9cf548b1-de4d-4ae7-b59a-283c6b5c1abe",
+	"72bf6324-6202-4d48-8dba-ffe5e88ace77",
+	'parameter_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"88268d5f-5c1f-40b0-ae54-8bd552b3522e",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Property Parameter>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO O_TFR
+	VALUES ("a727dbb8-0c72-49e4-b399-6803d51938b0",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'InterfaceParameter_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_pp = param.c_pp;
+
+select one c_ep related by c_pp->C_EP[R4006];
+self.Interface_addParameterToOrder(c_ep:c_ep, c_pp:c_pp);
+
+// TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
+systypes_pkg = self.systypes_pkg;
+select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+// END
+
+relate c_pp to def_dt across R4007;
+c_pp.Name = param.name;
+    ',
+	1,
+	'',
+	"5a638f8c-37fc-48ad-85a7-117da5262634");
+INSERT INTO O_TPARM
+	VALUES ("739aa9b1-3f98-4f25-b5cf-ef6c614912a7",
+	"a727dbb8-0c72-49e4-b399-6803d51938b0",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("28aaafac-9408-4a27-a736-8f98ed8ea77f",
+	"a727dbb8-0c72-49e4-b399-6803d51938b0",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"739aa9b1-3f98-4f25-b5cf-ef6c614912a7",
+	'');
+INSERT INTO O_TFR
+	VALUES ("1b49dbff-ae0d-4560-a737-ca98e9122e43",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Interface_addParameterToOrder',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_ep = param.c_ep;
+parameter = param.c_pp;
+
+if(not_empty parameter)
+  select many peers related by c_ep->C_PP[R4006];
+  for each peer in peers
+    if (peer != parameter)
+      select one predecessor related by peer->C_PP[R4021.''precedes''];
+      if (empty predecessor)
+        relate parameter to peer across R4021.''succeeds'';
+      end if;
+    end if;
+  end for;
+end if;
+',
+	1,
+	'',
+	"eaeaa954-9f69-450a-a5a6-1b0d98435d31");
+INSERT INTO O_TPARM
+	VALUES ("08fa4e62-6e37-4413-9009-ff0107d35e4b",
+	"1b49dbff-ae0d-4560-a737-ca98e9122e43",
+	'c_ep',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("ea69c2fc-2c65-4ab5-a8af-683acfd6d824",
+	"1b49dbff-ae0d-4560-a737-ca98e9122e43",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	0,
+	'',
+	"08fa4e62-6e37-4413-9009-ff0107d35e4b",
+	'');
+INSERT INTO O_TFR
+	VALUES ("02d4b2b3-e219-4c57-bfa3-f9f74d3ee861",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Interface_createMessageArgumentsForParameter',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_ep = param.c_ep;
+parameter = param.c_pp;
+
+if(not_empty parameter)
+  // for each message associated with this interface
+  // create a message argument
+  select many messages related by c_ep->C_AS[R4004]->MSG_SIG[R1021]->
+                                                    MSG_AM[R1019]->MSG_M[R1018];
+  if(empty messages)
+    select many messages related by c_ep->C_IO[R4004]->MSG_IOP[R1022]->
+    											    MSG_SM[R1020]->MSG_M[R1018];
+  end if;
+  for each message in messages
+    create object instance arg of MSG_A;
+    create object instance oa of MSG_EPA;
+    relate oa to parameter across R1023;
+    relate oa to arg across R1013;
+    relate message to arg across R1001;
+  end for;
+end if;',
+	1,
+	'',
+	"1b49dbff-ae0d-4560-a737-ca98e9122e43");
+INSERT INTO O_TPARM
+	VALUES ("f0a003ef-3444-4070-9a3f-f81cd040a8ae",
+	"02d4b2b3-e219-4c57-bfa3-f9f74d3ee861",
+	'c_ep',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("f47f6ab4-0952-4d54-895a-061b4bfc8ef8",
+	"02d4b2b3-e219-4c57-bfa3-f9f74d3ee861",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	0,
+	'',
+	"f0a003ef-3444-4070-9a3f-f81cd040a8ae",
+	'');
+INSERT INTO O_TFR
+	VALUES ("c1d107db-3920-45fc-8976-f5135aa4c119",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'InterfaceParameter_setType',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_pp = param.c_pp;
+type_name = param.type_name;
+
+// NOTE: This isn''t really a copied operation from the OOAofOOA, but we''re following the same paradigm for it
+//   as other functions that are from the OOA
+
+// Get a handle to the DT that is named as a parameter, output error if none found
+//   TODO - This is a very broad selection.  Is that OK?  Can we assume that during convert we won''t see data that 
+//     has multiple (different) types with the same name?  Keith thinks so.
+select any s_dt from instances of S_DT where ( selected.Name == type_name );
+if ( empty s_dt )
+  // TODO - what should the ID be set to?
+  TRACE::log( flavor:"failure", id:0, message:"could not find datatype  " + type_name + " to set for attribute " + c_pp.Name);
+end if;
+
+// Get a handle to the DT that is currently associated with the attribute
+select one cur_s_dt related by c_pp->S_DT[R4007];
+
+// If the new DT does not equal the existing DT, continue
+if ( s_dt != cur_s_dt )
+  // un-relate the existing DT across R4007
+  unrelate c_pp from cur_s_dt across R4007;
+  
+  // relate the new attribute across R4007
+  relate c_pp to s_dt across R4007;
+end if;',
+	1,
+	'',
+	"a727dbb8-0c72-49e4-b399-6803d51938b0");
+INSERT INTO O_TPARM
+	VALUES ("58a063db-aee8-48d5-bc20-c2eea0380815",
+	"c1d107db-3920-45fc-8976-f5135aa4c119",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a1bfbad2-a96b-408c-a149-bcca9d74ccf3",
+	"c1d107db-3920-45fc-8976-f5135aa4c119",
+	'type_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"58a063db-aee8-48d5-bc20-c2eea0380815",
+	'');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
@@ -6289,6 +6534,24 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../masl2xtuml.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("4687d9e9-533d-409c-87c6-1d83078378cb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("4687d9e9-533d-409c-87c6-1d83078378cb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("4687d9e9-533d-409c-87c6-1d83078378cb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"553f8cea-b8b6-402d-9dc1-672c1ebfc74e",
+	'current_interface_param',
+	'',
+	'',
+	'current_interface_param',
+	0,
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	'',
+	'');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
