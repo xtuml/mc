@@ -662,9 +662,20 @@ sub xtumlmc_gen_erate($)
   my $pt_home = ROX_BridgePointHome();
   $ENV{'PT_LOG_DIR'} = "$pt_home/log_dir";
   my $dos_or_unix = add_to_path( "$pt_home/$mc/bin" );
-  my $gencmd = "gen_erate";
   my $rval = 0;
-  $rval = system( "$gencmd @param_list" );
+  if ( "win32" eq "$osplatform" ) {
+    $rval = system( "gen_erate.exe @param_list" );
+  } else {
+    # If we are running on linux, see if the new python generator 
+    # is in place.  If it is, use it.  Otherwise use the old one.
+    if ( -f "$ENV{'ROX_MC_BIN_DIR'}/gen_erate.pyz" ) {
+      $rval = system( "gen_erate.pyz @param_list" );
+    } else {
+      $gencmd = "wine $ENV{'ROX_MC_BIN_DIR'}/gen_erate.exe";
+      $rval = system( "$gencmd @param_list" );
+    }
+  }
+
   return $rval;
 }
 
