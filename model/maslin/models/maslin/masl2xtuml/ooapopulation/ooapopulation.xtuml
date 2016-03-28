@@ -2359,7 +2359,7 @@ if(not_empty interface)
 end if;',
 	1,
 	'',
-	"5a638f8c-37fc-48ad-85a7-117da5262634");
+	"c1d107db-3920-45fc-8976-f5135aa4c119");
 INSERT INTO O_TPARM
 	VALUES ("9850e799-4e62-4c3f-b192-033885ef68e2",
 	"4ed94333-e76e-470c-95ec-c351a39b2df5",
@@ -2404,7 +2404,7 @@ c_io.Direction = IFDirectionType::ClientServer;  // Note: in MASL convert we jus
 ',
 	1,
 	'',
-	"102c4921-1e91-4570-87ba-0ccd6106d389");
+	"72bf6324-6202-4d48-8dba-ffe5e88ace77");
 INSERT INTO O_TPARM
 	VALUES ("ef2ab14f-b464-494a-8d6e-75c207ac34c0",
 	"5a638f8c-37fc-48ad-85a7-117da5262634",
@@ -2459,7 +2459,7 @@ end if;
 return signal;',
 	1,
 	'',
-	"eaeaa954-9f69-450a-a5a6-1b0d98435d31");
+	"02d4b2b3-e219-4c57-bfa3-f9f74d3ee861");
 INSERT INTO O_TPARM
 	VALUES ("2b7848d2-1f57-47fd-b47d-3add03222a89",
 	"102c4921-1e91-4570-87ba-0ccd6106d389",
@@ -5905,7 +5905,7 @@ end if;
 return parm;',
 	1,
 	'',
-	"9e1603f8-30b3-45e7-a697-d89f16f10bf0");
+	"102c4921-1e91-4570-87ba-0ccd6106d389");
 INSERT INTO O_TPARM
 	VALUES ("88268d5f-5c1f-40b0-ae54-8bd552b3522e",
 	"72bf6324-6202-4d48-8dba-ffe5e88ace77",
@@ -5953,7 +5953,7 @@ c_pp.Name = param.name;
     ',
 	1,
 	'',
-	"72bf6324-6202-4d48-8dba-ffe5e88ace77");
+	"5a638f8c-37fc-48ad-85a7-117da5262634");
 INSERT INTO O_TPARM
 	VALUES ("739aa9b1-3f98-4f25-b5cf-ef6c614912a7",
 	"a727dbb8-0c72-49e4-b399-6803d51938b0",
@@ -5996,7 +5996,7 @@ end if;
 ',
 	1,
 	'',
-	"a727dbb8-0c72-49e4-b399-6803d51938b0");
+	"eaeaa954-9f69-450a-a5a6-1b0d98435d31");
 INSERT INTO O_TPARM
 	VALUES ("08fa4e62-6e37-4413-9009-ff0107d35e4b",
 	"1b49dbff-ae0d-4560-a737-ca98e9122e43",
@@ -6098,7 +6098,7 @@ if ( s_dt != cur_s_dt )
 end if;',
 	1,
 	'',
-	"02d4b2b3-e219-4c57-bfa3-f9f74d3ee861");
+	"a727dbb8-0c72-49e4-b399-6803d51938b0");
 INSERT INTO O_TPARM
 	VALUES ("58a063db-aee8-48d5-bc20-c2eea0380815",
 	"c1d107db-3920-45fc-8976-f5135aa4c119",
@@ -6567,3 +6567,11 @@ INSERT INTO PE_PE
 	"15343df7-4335-41a1-93bf-5b14dcf08e0b",
 	"00000000-0000-0000-0000-000000000000",
 	4);
+INSERT INTO EP_PKG_PROXY
+	VALUES ("15343df7-4335-41a1-93bf-5b14dcf08e0b",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	"319083ee-ba5f-4645-a409-d6249f9350bd",
+	'masl2xtuml',
+	'',
+	0,
+	'../masl2xtuml.xtuml');
