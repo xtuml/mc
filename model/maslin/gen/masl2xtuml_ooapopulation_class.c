@@ -444,8 +444,8 @@ masl2xtuml_ooapopulation_op_populate( c_t * p_element, c_t p_value[8][ESCHER_SYS
       part->className = Escher_strcpy( part->className, p_value[1] );
       /* ASSIGN part.phrase = PARAM.value[2] */
       part->phrase = Escher_strcpy( part->phrase, p_value[2] );
-      /* ASSIGN part.conditionality = ooaparticipation::getMult(text:PARAM.value[3]) */
-      part->conditionality = masl2xtuml_ooaparticipation_op_getMult(p_value[3]);
+      /* ASSIGN part.conditionality = ooaparticipation::getCond(text:PARAM.value[3]) */
+      part->conditionality = masl2xtuml_ooaparticipation_op_getCond(p_value[3]);
       /* ASSIGN part.multiplicity = ooaparticipation::getMult(text:PARAM.value[4]) */
       part->multiplicity = masl2xtuml_ooaparticipation_op_getMult(p_value[4]);
       /* ASSIGN part.isFirst = isFirst */
@@ -4013,12 +4013,12 @@ fromPART->OIR_ID = (Escher_UniqueID_t) fromPART;
     masl2xtuml_R_PART_R204_Link( fromRTO, fromPART );
     /* RELATE fromPART TO simp ACROSS R207 */
     masl2xtuml_R_PART_R207_Link_relates( simp, fromPART );
-    /* ASSIGN fromPART.Mult = fromOOAPart.multiplicity */
-    fromPART->Mult = fromOOAPart->multiplicity;
-    /* ASSIGN fromPART.Cond = fromOOAPart.conditionality */
-    fromPART->Cond = fromOOAPart->conditionality;
-    /* ASSIGN fromPART.Txt_Phrs = fromOOAPart.phrase */
-    fromPART->Txt_Phrs = Escher_strcpy( fromPART->Txt_Phrs, fromOOAPart->phrase );
+    /* ASSIGN fromPART.Mult = toOOAPart.multiplicity */
+    fromPART->Mult = toOOAPart->multiplicity;
+    /* ASSIGN fromPART.Cond = toOOAPart.conditionality */
+    fromPART->Cond = toOOAPart->conditionality;
+    /* ASSIGN fromPART.Txt_Phrs = toOOAPart.phrase */
+    fromPART->Txt_Phrs = Escher_strcpy( fromPART->Txt_Phrs, toOOAPart->phrase );
     /* CREATE OBJECT INSTANCE toOIR OF R_OIR */
     toOIR = (masl2xtuml_R_OIR *) Escher_CreateInstance( masl2xtuml_DOMAIN_ID, masl2xtuml_R_OIR_CLASS_NUMBER );
     toOIR->Obj_ID = (Escher_UniqueID_t) toOIR;
@@ -4042,12 +4042,12 @@ toPART->OIR_ID = (Escher_UniqueID_t) toPART;
     masl2xtuml_R_PART_R204_Link( toRTO, toPART );
     /* RELATE toPART TO simp ACROSS R207 */
     masl2xtuml_R_PART_R207_Link_relates( simp, toPART );
-    /* ASSIGN toPART.Mult = toOOAPart.multiplicity */
-    toPART->Mult = toOOAPart->multiplicity;
-    /* ASSIGN toPART.Cond = toOOAPart.conditionality */
-    toPART->Cond = toOOAPart->conditionality;
-    /* ASSIGN toPART.Txt_Phrs = toOOAPart.phrase */
-    toPART->Txt_Phrs = Escher_strcpy( toPART->Txt_Phrs, toOOAPart->phrase );
+    /* ASSIGN toPART.Mult = fromOOAPart.multiplicity */
+    toPART->Mult = fromOOAPart->multiplicity;
+    /* ASSIGN toPART.Cond = fromOOAPart.conditionality */
+    toPART->Cond = fromOOAPart->conditionality;
+    /* ASSIGN toPART.Txt_Phrs = fromOOAPart.phrase */
+    toPART->Txt_Phrs = Escher_strcpy( toPART->Txt_Phrs, fromOOAPart->phrase );
   }
 }
 

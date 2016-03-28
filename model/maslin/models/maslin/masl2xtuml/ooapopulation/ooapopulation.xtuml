@@ -226,7 +226,7 @@ elif ( "participation" == element )
     part.fromDomain = param.value[0];
     part.className = param.value[1];
     part.phrase = param.value[2];
-    part.conditionality = ooaparticipation::getMult(text:param.value[3]);
+    part.conditionality = ooaparticipation::getCond(text:param.value[3]);
     part.multiplicity = ooaparticipation::getMult(text:param.value[4]); 
     part.isFirst = isFirst;
   end if;
@@ -3858,9 +3858,9 @@ if (not_empty fromClass and not_empty toClass)
       relate fromOIR to fromIClass across R202;
     end if;
   end if;*/
-  fromPART.Mult = fromOOAPart.multiplicity;
-  fromPART.Cond = fromOOAPart.conditionality;
-  fromPART.Txt_Phrs = fromOOAPart.phrase;
+  fromPART.Mult = toOOAPart.multiplicity;
+  fromPART.Cond = toOOAPart.conditionality;
+  fromPART.Txt_Phrs = toOOAPart.phrase;
   //
   create object instance toOIR of R_OIR;
   relate toClass to assoc across R201 using toOIR;
@@ -3876,9 +3876,9 @@ if (not_empty fromClass and not_empty toClass)
     end if;
   end if;*/
   // TODO - set phrase, cond, mult
-  toPART.Mult = toOOAPart.multiplicity;
-  toPART.Cond = toOOAPart.conditionality;
-  toPART.Txt_Phrs = toOOAPart.phrase;
+  toPART.Mult = fromOOAPart.multiplicity;
+  toPART.Cond = fromOOAPart.conditionality;
+  toPART.Txt_Phrs = fromOOAPart.phrase;
 end if;
 ',
 	1,
