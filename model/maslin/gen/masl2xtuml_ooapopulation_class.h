@@ -38,10 +38,11 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_SM_STATE * current_state;  
   i_t processingIdentifier;  
   bool processingISM;  
-  bool processingProject;  
   masl2xtuml_S_DT * current_type;  
   masl2xtuml_SM_EVT * current_event;  
   masl2xtuml_C_EP * current_executable_property;  
+  bool processingProject;  
+  masl2xtuml_sdt_routine_info current_routine_info;  
   /* relationship storage */
   masl2xtuml_ooaelement * ooaelement_R3801_has_current;
 };
@@ -160,6 +161,7 @@ masl2xtuml_O_RATTR * masl2xtuml_ooapopulation_op_ClassIdentifierAttribute_addRef
 masl2xtuml_O_RATTR * masl2xtuml_ooapopulation_op_ModelClass_newReferentialAttribute( masl2xtuml_ooapopulation *, const i_t, masl2xtuml_O_OBJ *, masl2xtuml_O_OIDA * );
 masl2xtuml_C_IR * masl2xtuml_ooapopulation_op_Component_initializeRequirement( masl2xtuml_ooapopulation *, masl2xtuml_C_C *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformTerminatorService( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
+void masl2xtuml_ooapopulation_op_populate_project(  c_t *, masl2xtuml_ooapopulation *, c_t [8][ESCHER_SYS_MAX_STRING_LEN] );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10
