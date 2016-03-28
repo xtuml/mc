@@ -43,6 +43,7 @@ struct masl2xtuml_ooapopulation {
   masl2xtuml_C_EP * current_executable_property;  
   bool processingProject;  
   masl2xtuml_sdt_routine_info current_routine_info;  
+  masl2xtuml_C_PP * current_interface_param;  
   /* relationship storage */
   masl2xtuml_ooaelement * ooaelement_R3801_has_current;
 };
@@ -162,6 +163,11 @@ masl2xtuml_O_RATTR * masl2xtuml_ooapopulation_op_ModelClass_newReferentialAttrib
 masl2xtuml_C_IR * masl2xtuml_ooapopulation_op_Component_initializeRequirement( masl2xtuml_ooapopulation *, masl2xtuml_C_C *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_transformTerminatorService( masl2xtuml_ooapopulation *, c_t *, c_t *, c_t *, c_t * );
 void masl2xtuml_ooapopulation_op_populate_project(  c_t *, masl2xtuml_ooapopulation *, c_t [8][ESCHER_SYS_MAX_STRING_LEN] );
+masl2xtuml_C_PP * masl2xtuml_ooapopulation_op_Interface_newParameter( masl2xtuml_ooapopulation *, masl2xtuml_C_EP *, c_t * );
+void masl2xtuml_ooapopulation_op_InterfaceParameter_initialize( masl2xtuml_ooapopulation *, masl2xtuml_C_PP *, c_t * );
+void masl2xtuml_ooapopulation_op_Interface_addParameterToOrder( masl2xtuml_ooapopulation *, masl2xtuml_C_EP *, masl2xtuml_C_PP * );
+void masl2xtuml_ooapopulation_op_Interface_createMessageArgumentsForParameter( masl2xtuml_ooapopulation *, masl2xtuml_C_EP *, masl2xtuml_C_PP * );
+void masl2xtuml_ooapopulation_op_InterfaceParameter_setType( masl2xtuml_ooapopulation *, masl2xtuml_C_PP *, c_t * );
 
 
 #define masl2xtuml_ooapopulation_MAX_EXTENT_SIZE 10
