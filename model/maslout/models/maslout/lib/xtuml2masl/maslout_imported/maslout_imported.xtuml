@@ -615,15 +615,20 @@ c_c = param.c_c;
 // Data types in packages inside the component are considered private.
 select many s_dts related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
-  value[0] = s_dt.Name;
-  value[1] = "private";
-  value[2] = s_dt.Descrip;  // body of type
-  out::populate( element:"type", value:value );
-  out::populate( element:"type", value:emptyvalue );
+  select one s_irdt related by s_dt->S_IRDT[R17];
+  // Do not output type definitions for instance reference data types.
+  if ( empty s_irdt )
+    value[0] = s_dt.Name;
+    value[1] = "private";
+    value[2] = s_dt.Descrip;  // body of type
+    out::populate( element:"type", value:value );
+    out::populate( element:"type", value:emptyvalue );
+  end if;
 end for;
 
 // Data types in packages directly off of the system are considered public.
-select many s_dts related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401]->PE_PE[R8000]->S_DT[R8001];
+select many ep_pkgs related by c_c->PE_PE[R8001]->EP_PKG[R8000]->S_SYS[R1405]->EP_PKG[R1401] where ( selected.Name != "types" );
+select many s_dts related by ep_pkgs->PE_PE[R8000]->S_DT[R8001];
 for each s_dt in s_dts
   value[0] = s_dt.Name;
   value[1] = "public";
