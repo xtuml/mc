@@ -8,9 +8,6 @@
 .if ( not_empty te_state )
  * State ${te_state.Numb}:  [${te_state.name}]
 .end if
-.if ( not_empty sm_crtxn )
- * Note: Self creation state (asynchronous creation)
-.end if
 .// Note - nothing precludes a state from being both creation and deletion.
 .//.if ( sm_state.Final == 1 )
 .// * Note: Self deletion state (asynchronous deletion)

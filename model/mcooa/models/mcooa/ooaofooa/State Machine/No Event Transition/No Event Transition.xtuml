@@ -190,12 +190,12 @@ INSERT INTO O_ATTR
 	VALUES ("88995e70-1cae-4c82-a4b0-0b43ab3c1202",
 	"514ac2d7-d386-4b4d-b0cc-ce3548c0ac1e",
 	"d2925e37-3fba-4b76-a0f4-254488a9301e",
-	'SMspd_ID',
+	'SMspd_IDdeprecated',
 	'
 
 ',
 	'',
-	'SMspd_ID',
+	'SMspd_IDdeprecated',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000005",
 	'',
