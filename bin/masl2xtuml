@@ -1,10 +1,14 @@
 #!/bin/bash
 
-#   ./masl2xtuml [-p <project source directory(s) ...> ] \
-#       [-d <domain source directory(s) ...> ] [ -o <output directory> ]
+#   masl2xtuml -d <domain source directory(s) ...> [-o <output directory>]
+#   masl2xtuml -p <project source directory(s) ...> [-o <output directory>]
 
 # USAGE
-print_usage () { echo "Usage:" $0 "[-p <project source directory(s) ...> ] [-d <domain source directory(s) ...> ] [ -o <output directory> ]"; }
+print_usage () { 
+    echo "Usage:"
+    echo "        masl2xtuml -d <domain source directory(s) ...> [-o <output directory>]";
+    echo "        masl2xtuml -p <project source directory(s) ...> [-o <output directory>]";
+}
 
 # set up paths
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/lib/"
@@ -36,6 +40,12 @@ for arg in $@; do
         exit 1
     fi
 done
+
+# check if we have any projects or domains to convert
+if [[ ${#PROJ_DIRS[@]} == 0 && ${#DOM_DIRS[@]} == 0 ]]; then
+    print_usage
+    exit 1
+fi
 
 # if no out directory was given, give the current working directory
 if [[ $OUT_DIR == "" ]]; then OUT_DIR=.; fi
