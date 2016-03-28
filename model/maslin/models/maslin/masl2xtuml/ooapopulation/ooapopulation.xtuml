@@ -6264,31 +6264,6 @@ INSERT INTO O_ATTR
 	"4bf19d7e-1bcd-469a-b056-4523dd59dc1d",
 	'',
 	'');
-INSERT INTO O_NBATTR
-	VALUES ("553f8cea-b8b6-402d-9dc1-672c1ebfc74e",
-	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
-INSERT INTO O_BATTR
-	VALUES ("553f8cea-b8b6-402d-9dc1-672c1ebfc74e",
-	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
-INSERT INTO O_ATTR
-	VALUES ("553f8cea-b8b6-402d-9dc1-672c1ebfc74e",
-	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"6c59590e-567f-49e4-85f9-1e85bdcc0c15",
-	'current_routine_info',
-	'',
-	'',
-	'current_routine_info',
-	0,
-	"97487c7a-2635-4fbd-9f27-1c7dc29cf1a3",
-	'',
-	'');
-INSERT INTO S_DT_PROXY
-	VALUES ("97487c7a-2635-4fbd-9f27-1c7dc29cf1a3",
-	"00000000-0000-0000-0000-000000000000",
-	'routine_info',
-	'',
-	'',
-	'../masl2xtuml.xtuml');
 INSERT INTO O_ID
 	VALUES (0,
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");

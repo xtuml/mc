@@ -664,7 +664,19 @@ sub xtumlmc_gen_erate($)
   my $dos_or_unix = add_to_path( "$pt_home/$mc/bin" );
   my $gencmd = "gen_erate";
   my $rval = 0;
-  $rval = system( "$gencmd @param_list" );
+  if ( "win32" eq "$osplatform" ) {
+    $rval = system( "$gencmd @param_list" );
+  } else {
+    # If we are running on linux, see if the new python generator 
+    # is in place.  If it is, use it.  Otherwise use the old one.
+    if ( -f "$ENV{'ROX_MC_BIN_DIR'}/gen_erate" ) {
+      $rval = system( "$gencmd @param_list" );
+    } else {
+      $gencmd = "wine $ENV{'ROX_MC_BIN_DIR'}/gen_erate";
+      $rval = system( "$gencmd @param_list" );
+    }
+  }
+
   return $rval;
 }
 
