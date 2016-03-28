@@ -54,7 +54,7 @@ end if;
 if ( empty c_cs )
   TRACE::log( flavor:"failure", id:1, message:"ERROR:  Component/domain not found in model:  " + domain );
 else
-  ::component2domain( c_cs:c_cs );
+  ::component2domain( c_cs:c_cs, project:false );
   for each c_c in c_cs
     //gen::render( element:"domain", name:c_c.Name );
   end for;
@@ -139,7 +139,7 @@ for each c_c in c_cs;
   
   ::type2type( c_c:c_c );
   ::function2routine( c_c:c_c );
-  ::port2terminator( c_c:c_c );
+  ::port2terminator( c_c:c_c, project:param.project );
   ::class2object( c_c:c_c );
   ::association2relationship( c_c:c_c );
   
@@ -165,6 +165,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("75a907fb-78de-49b0-b748-176ee43e0b29",
+	"84687e5f-e288-4907-9432-62372e5f265f",
+	'project',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"cf4db11c-a368-4494-9f14-382c45cdc747",
+	'');
 INSERT INTO PE_PE
 	VALUES ("84687e5f-e288-4907-9432-62372e5f265f",
 	1,
@@ -185,10 +194,8 @@ for each ep_pkg in ep_pkgs
   value[0] = ep_pkg.Name;
   out::populate( element:"project", value:value );
 
-  select many direct_c_cs related by ep_pkgs->PE_PE[R8000]->C_C[R8001];
-  ::component2domain( c_cs:direct_c_cs );
   select many referred_c_cs related by ep_pkgs->PE_PE[R8000]->CL_IC[R8001]->C_C[R4201];
-  ::component2domain( c_cs:referred_c_cs );
+  ::component2domain( c_cs:referred_c_cs, project:true );
 
 end for;
 
@@ -234,7 +241,7 @@ select many c_pos related by c_c->C_PO[R4010]->C_IR[R4016]->C_R[R4009]->C_IR[R40
 for each c_po in c_pos
   value[0] = c_po.Name;
   out::populate( element:"terminator", value:value );
-  ::message2routine( c_c:c_c, c_po:c_po );
+  ::message2routine( c_c:c_c, c_po:c_po, project:param.project );
   // end terminator
   out::populate( element:"terminator", value:emptyvalue );
 end for;
@@ -260,6 +267,15 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO S_SPARM
+	VALUES ("0df5f9f2-ee02-4900-9478-2ee36ce46c1d",
+	"3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
+	'project',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"e557817d-dd43-43a1-b7c1-a522bda54d2a",
+	'');
 INSERT INTO PE_PE
 	VALUES ("3ddfd9b1-d62f-4fa1-9e31-b48931032ee9",
 	1,
@@ -278,7 +294,7 @@ c_c = param.c_c;
 c_po = param.c_po;
 // message -> function/service
 value[0] = c_c.Name;
-value[1] = "terminator";
+value[1] = "";
 
 select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
 for each c_ep in c_eps
@@ -300,12 +316,22 @@ for each c_ep in c_eps
     // Do not send a void typeref.  No typeref equals void in MASL.
     if ( "void" != s_dt.Name )
       value[0] = s_dt.Name;
+      value[1] = "";
+      value[2] = "";
+      value[3] = "";
       out::populate( element:"typeref", value:value );
       out::populate( element:"typeref", value:emptyvalue );
     end if;
   end if;
   
-  path = ::component_get_path( c_c:c_c );
+  path = "";
+  if ( param.project )
+    select any project_c_c related by c_po->C_IR[R4016]->C_I[R4012]->C_IR[R4012]->C_P[R4009]->C_IR[R4009]->C_PO[R4016]->C_C[R4010];
+    path = ::component_get_path( c_c:project_c_c );
+  else
+    path = ::component_get_path( c_c:c_c );
+  end if;
+
   // Populate the action langauge body.
   ::body2code_block( name:path + "/" + c_po.Name + "_" + c_ep.Name, text:"spr_*.Action_Semantics" );
   
@@ -341,6 +367,15 @@ INSERT INTO S_SPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_SPARM
+	VALUES ("bd5f6378-3914-4e0b-98f4-b339368ec422",
+	"d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
+	'project',
+	"ba5eda7a-def5-0000-0000-000000000001",
+	0,
+	'',
+	"8898a959-9ae1-44df-90ff-dcc22215a9db",
+	'');
 INSERT INTO PE_PE
 	VALUES ("d9c8ef77-73d8-4253-978c-d7cbf7b9b520",
 	1,
@@ -366,6 +401,7 @@ if ( not_empty c_pp )
   out::populate( element:"parameter", value:value );
   select one s_dt related by c_pp->S_DT[R4007];
   value[0] = s_dt.Name;
+  value[1] = "";
   out::populate( element:"typeref", value:value );
   out::populate( element:"typeref", value:emptyvalue );
   select one c_pp related by c_pp->C_PP[R4021.''succeeds''];
@@ -834,7 +870,7 @@ emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyval
 
 c_c = param.c_c;
 value[0] = c_c.Name;
-value[1] = "domain";
+value[1] = "";
 select many c_eps related by c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009]->C_IR[R4009]->C_I[R4012]->C_EP[R4003];
 select many s_syncs related by c_c->PE_PE[R8003]->EP_PKG[R8001]->PE_PE[R8000]->S_SYNC[R8001];
 for each s_sync in s_syncs
@@ -918,6 +954,7 @@ if ( not_empty s_sparm )
   out::populate( element:"parameter", value:value );
   select one s_dt related by s_sparm->S_DT[R26];
   value[0] = s_dt.Name;
+  value[1] = "";
   out::populate( element:"typeref", value:value );
   out::populate( element:"typeref", value:emptyvalue );
   select one s_sparm related by s_sparm->S_SPARM[R54.''succeeds''];
@@ -1209,6 +1246,7 @@ if ( not_empty sm_evtdi )
   out::populate( element:"parameter", value:value );
   select one s_dt related by sm_evtdi->S_DT[R524];
   value[0] = s_dt.Name;
+  value[1] = "";
   out::populate( element:"typeref", value:value );
   out::populate( element:"typeref", value:emptyvalue );
   select one sm_evtdi related by sm_evtdi->SM_EVTDI[R533.''succeeds''];
@@ -1490,6 +1528,7 @@ if ( not_empty o_tparm )
   out::populate( element:"parameter", value:value );
   select one s_dt related by o_tparm->S_DT[R118];
   value[0] = s_dt.Name;
+  value[1] = "";
   out::populate( element:"typeref", value:value );
   out::populate( element:"typeref", value:emptyvalue );
   select one o_tparm related by o_tparm->O_TPARM[R124.''succeeds''];
@@ -1541,6 +1580,7 @@ if ( not_empty s_bparm )
   out::populate( element:"parameter", value:value );
   select one s_dt related by s_bparm->S_DT[R22];
   value[0] = s_dt.Name;
+  value[1] = "";
   out::populate( element:"typeref", value:value );
   out::populate( element:"typeref", value:emptyvalue );
   select one s_bparm related by s_bparm->S_BPARM[R55.''succeeds''];

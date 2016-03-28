@@ -82,7 +82,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000001",
 	0,
 	'// check if it is a valid markable element
-if ( //"project" == param.type or				// TODO waiting for keith on sys level modelling
+if ( "project" == param.type or
 	 "domain" == param.type or
      "object" == param.type or
      "terminator" == param.type or
