@@ -299,7 +299,7 @@ value[1] = "";
 select many c_eps related by c_po->C_IR[R4016]->C_I[R4012]->C_EP[R4003];
 for each c_ep in c_eps
     
-  value[2] = "public"; // Messages turn into public services.
+  value[2] = "private"; // Outbound messages are considered private.
   value[3] = c_ep.Name;
   out::populate( element:"routine", value:value );
   
@@ -680,8 +680,8 @@ for each r_rel in r_rels
   if ( not_empty r_assoc )
     // Get the name of the associator.
     select one o_obj related by r_assoc->R_ASSR[R211]->R_RGO[R205]->R_OIR[R203]->O_OBJ[R201];
-    value[1] = o_obj.Name;
-    value[2] = c_c.Name;
+    value[1] = c_c.Name;
+    value[2] = o_obj.Name;
     out::populate( element:"associative", value:value );
     ::associative2associative( c_c:c_c, r_assoc:r_assoc );
     out::populate( element:"associative", value:value ); // 2nd call for using
@@ -726,7 +726,8 @@ value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
 o_obj = param.o_obj;
-select many o_ids related by o_obj->O_ID[R104];
+// Select the non-primary identifiers.  The primary identifier will be marked as preferred.
+select many o_ids related by o_obj->O_ID[R104] where ( selected.Oid_ID != 0 );
 for each o_id in o_ids
   value[7] = ""; value[6] = ""; value[5] = ""; value[4] = "";
   value[3] = ""; value[2] = ""; value[1] = ""; value[0] = "";
@@ -811,21 +812,21 @@ if ( 1 == i )
 end if;
 
 value[0] = c_c.Name;
-value[1] = name[1];
-value[2] = phrase[0];
-value[3] = cond[0];
-value[4] = mult[0];
-value[5] = c_c.Name;
-value[6] = name[0];
-out::populate( element:"participation", value:value );
-
-value[0] = c_c.Name;
 value[1] = name[0];
 value[2] = phrase[1];
 value[3] = cond[1];
 value[4] = mult[1];
 value[5] = c_c.Name;
 value[6] = name[1];
+out::populate( element:"participation", value:value );
+
+value[0] = c_c.Name;
+value[1] = name[1];
+value[2] = phrase[0];
+value[3] = cond[0];
+value[4] = mult[0];
+value[5] = c_c.Name;
+value[6] = name[0];
 out::populate( element:"participation", value:value );
 
 out::populate( element:"participation", value:emptyvalue );
@@ -1292,6 +1293,7 @@ INSERT INTO S_SYNC
 	'value[7] = ""; // initialize length
 emptyvalue[7]=""; emptyvalue[6]=""; emptyvalue[5]=""; emptyvalue[4]=""; emptyvalue[3]=""; emptyvalue[2]=""; emptyvalue[1]=""; emptyvalue[0]="";
 
+c_c = param.c_c;
 r_assoc = param.r_assoc;
 select one r_aone related by r_assoc->R_AONE[R209];
 select one one_o_obj related by r_aone->R_RTO[R204]->R_OIR[R203]->O_OBJ[R201]; 
@@ -1312,7 +1314,7 @@ if ( 0 == r_aone.Cond )
   onecond = "unconditionally";
 end if;
 if ( 0 == r_aoth.Cond )
-  onecond = "unconditionally";
+  othcond = "unconditionally";
 end if;
 if ( 0 == r_aone.Mult )
   onemult = "one";
@@ -1321,18 +1323,22 @@ if ( 0 == r_aoth.Mult )
   othmult = "one";
 end if;
 
-value[0] = othname;
-value[1] = onephrase;
-value[2] = onecond;
-value[3] = onemult;
-value[4] = onename;
+value[0] = c_c.Name;
+value[1] = onename;
+value[2] = othphrase;
+value[3] = othcond;
+value[4] = othmult;
+value[5] = c_c.Name;
+value[6] = othname;
 out::populate( element:"participation", value:value );
 
-value[0] = onename;
-value[1] = othphrase;
-value[2] = othcond;
-value[3] = othmult;
-value[4] = othname;
+value[0] = c_c.Name;
+value[1] = othname;
+value[2] = onephrase;
+value[3] = onecond;
+value[4] = onemult;
+value[5] = c_c.Name;
+value[6] = onename;
 out::populate( element:"participation", value:value );
 
 out::populate( element:"participation", value:emptyvalue );

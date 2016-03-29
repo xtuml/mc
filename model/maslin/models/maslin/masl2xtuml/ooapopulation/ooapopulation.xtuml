@@ -3966,11 +3966,9 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'ep_pkg = param.ep_pkg;
-select any fromOOAPart from instances of ooaparticipation where (selected.isFirst == true );
-select any toOOAPart from instances of ooaparticipation where (selected.isFirst == false );
 
 // What follows is a heavily modified version of OOAofOOA''s Package::newAssociative()
-select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == fromOOAPart.className);
+select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == self.current_rel.usingObj);
 
 /*  TODO - skipping imported classes for now
 if (param.fromIsImportedClass)
