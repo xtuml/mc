@@ -4139,34 +4139,10 @@ masl2xtuml_ooapopulation_op_transformAssociation( masl2xtuml_ooapopulation * sel
 void
 masl2xtuml_ooapopulation_op_Package_newAssociative( masl2xtuml_ooapopulation * self, masl2xtuml_EP_PKG * p_ep_pkg )
 {
-  masl2xtuml_O_OBJ * clazz=0;i_t relNumber;masl2xtuml_EP_PKG * ep_pkg;masl2xtuml_ooaparticipation * toOOAPart=0;masl2xtuml_ooaparticipation * fromOOAPart=0;masl2xtuml_R_SIMP * simp=0;Escher_ObjectSet_s classes_space={0}; Escher_ObjectSet_s * classes = &classes_space;masl2xtuml_R_REL * toAssoc=0;masl2xtuml_O_OBJ * fromClass=0;
+  masl2xtuml_O_OBJ * clazz=0;i_t relNumber;masl2xtuml_EP_PKG * ep_pkg;masl2xtuml_R_SIMP * simp=0;Escher_ObjectSet_s classes_space={0}; Escher_ObjectSet_s * classes = &classes_space;masl2xtuml_R_REL * toAssoc=0;masl2xtuml_O_OBJ * fromClass=0;
   /* ASSIGN ep_pkg = PARAM.ep_pkg */
   ep_pkg = p_ep_pkg;
-  /* SELECT any fromOOAPart FROM INSTANCES OF ooaparticipation WHERE ( SELECTED.isFirst == TRUE ) */
-  fromOOAPart = 0;
-  { masl2xtuml_ooaparticipation * selected;
-    Escher_Iterator_s iterfromOOAPartmasl2xtuml_ooaparticipation;
-    Escher_IteratorReset( &iterfromOOAPartmasl2xtuml_ooaparticipation, &pG_masl2xtuml_ooaparticipation_extent.active );
-    while ( (selected = (masl2xtuml_ooaparticipation *) Escher_IteratorNext( &iterfromOOAPartmasl2xtuml_ooaparticipation )) != 0 ) {
-      if ( ( selected->isFirst == TRUE ) ) {
-        fromOOAPart = selected;
-        break;
-      }
-    }
-  }
-  /* SELECT any toOOAPart FROM INSTANCES OF ooaparticipation WHERE ( SELECTED.isFirst == FALSE ) */
-  toOOAPart = 0;
-  { masl2xtuml_ooaparticipation * selected;
-    Escher_Iterator_s itertoOOAPartmasl2xtuml_ooaparticipation;
-    Escher_IteratorReset( &itertoOOAPartmasl2xtuml_ooaparticipation, &pG_masl2xtuml_ooaparticipation_extent.active );
-    while ( (selected = (masl2xtuml_ooaparticipation *) Escher_IteratorNext( &itertoOOAPartmasl2xtuml_ooaparticipation )) != 0 ) {
-      if ( ( selected->isFirst == FALSE ) ) {
-        toOOAPart = selected;
-        break;
-      }
-    }
-  }
-  /* SELECT any fromClass RELATED BY ep_pkg->PE_PE[R8000]->O_OBJ[R8001] WHERE ( ( SELECTED.Name == fromOOAPart.className ) ) */
+  /* SELECT any fromClass RELATED BY ep_pkg->PE_PE[R8000]->O_OBJ[R8001] WHERE ( ( SELECTED.Name == self.current_rel.usingObj ) ) */
   fromClass = 0;
   {  if ( 0 != ep_pkg ) {
   masl2xtuml_PE_PE * PE_PE_R8000_contains;
@@ -4174,7 +4150,7 @@ masl2xtuml_ooapopulation_op_Package_newAssociative( masl2xtuml_ooapopulation * s
   Escher_IteratorReset( &iPE_PE_R8000_contains, &ep_pkg->PE_PE_R8000_contains );
   while ( ( 0 == fromClass ) && ( 0 != ( PE_PE_R8000_contains = (masl2xtuml_PE_PE *) Escher_IteratorNext( &iPE_PE_R8000_contains ) ) ) ) {
   if ( ( 0 != PE_PE_R8000_contains ) && ( masl2xtuml_O_OBJ_CLASS_NUMBER == PE_PE_R8000_contains->R8001_object_id ) )  {masl2xtuml_O_OBJ * selected = (masl2xtuml_O_OBJ *) PE_PE_R8000_contains->R8001_subtype;
-  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, fromOOAPart->className ) == 0 ) ) {
+  if ( ( 0 != selected ) && ( Escher_strcmp( selected->Name, self->current_rel.usingObj ) == 0 ) ) {
     fromClass = selected;
   }}
 }}}
