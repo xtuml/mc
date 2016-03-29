@@ -8,13 +8,16 @@
 # are not usable MASL files. Removing all whitespace will cause them to
 # be unable to parse, however, no information required for a diff is lost.
 
-# difftool
-DIFFTOOL=vimdiff
-#DIFFTOOL=diff
+# difftool (replace with your favorite diff utility)
+#DIFFTOOL=vimdiff
+DIFFTOOL=diff
 
 # check arguments
-if [[ $# != 2 ]]; then
-    echo "Usage:    ./masldiff.sh <file1> <file2>"
+if [[ $# != 2 && $# != 3 ]]; then
+    echo "Usage:    ./masldiff.sh <file1> <file2> [-n]"
+    echo "          <file1>     path to left MASL file"
+    echo "          <file2>     path to right MASL file"
+    echo "          -n          do not open diff tool"
     exit 1
 fi
 
@@ -35,8 +38,10 @@ perl -pe 's/;/;\n/g' right3 > $2.masldiff
 # remove temp files
 rm -f left* right*
 
-# open vimdiff
-$DIFFTOOL $1.masldiff $2.masldiff
+# open diff tool
+if [[ $# != 3 || $3 != "-n" ]]; then
+    $DIFFTOOL $1.masldiff $2.masldiff
+fi
 
-# remove the files
-rm -f *.masldiff
+# remove the files after diff
+#rm -f *.masldiff
