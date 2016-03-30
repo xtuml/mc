@@ -189,10 +189,9 @@ specified). If no source directories are specified, no output will be produced a
 exit normally. Any error messages are written to standard error.
 
 ```sh
-./masl2xtuml [-p <project source directory(s) ...> ] \
-    [-d <domain source directory(s) ...> ] [ -o <output directory> ]
+masl2xtuml -d <domain source directory(s) ...> [-o <output directory>]
+masl2xtuml -p <project source directory(s) ...> [-o <output directory>]
 ```
-(command split on two lines for readability)
 
 #### 6.2.3 `xtuml2masl` (export)
 ![xtuml2masl](xtuml2masl.png)
@@ -220,10 +219,9 @@ any validation failures to standard error. If the validate only flag (`-vo`) is 
 only validate, and not render any output. Any other error messages are written to standard error.
 
 ```sh
-./xtuml2masl [-v | -vo] [-p <xtUML file(s) ...> ] [-d <xtUML file(s) ...> ] \
-    [ -o <output directory> ]
+xtuml2masl [-v | -V] [-e] -i <eclipse project> -d <domain component> [-o <output directory>]
+xtuml2masl [-v | -V] [-e] -i <eclipse project> -p <project package> [-o <output directory>]
 ```
-(command split on two lines for readability)
 
 6.2.3.4 Eclipse UI
 

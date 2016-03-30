@@ -10,7 +10,7 @@
  *--------------------------------------------------------------------------*/
 
 #include <ctype.h>
-#include "masl_sys_types.h"
+#include "maslout_sys_types.h"
 #include "T_bridge.h"
 
 extern bool Escher_run_flag;

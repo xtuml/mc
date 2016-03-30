@@ -662,15 +662,20 @@ sub xtumlmc_gen_erate($)
   my $pt_home = ROX_BridgePointHome();
   $ENV{'PT_LOG_DIR'} = "$pt_home/log_dir";
   my $dos_or_unix = add_to_path( "$pt_home/$mc/bin" );
-  my $gencmd = "gen_erate";
   my $rval = 0;
-  $ENV{'MGLS_LICENSE_FILE'} =~ s/:/;/g;
   if ( "win32" eq "$osplatform" ) {
-    $rval = system( "$gencmd @param_list" );
+    $rval = system( "gen_erate.exe @param_list" );
   } else {
-    $gencmd = "wine $ENV{'ROX_MC_BIN_DIR'}/gen_erate";
-    $rval = system( "$gencmd @param_list" );
+    # If we are running on linux, see if the new python generator 
+    # is in place.  If it is, use it.  Otherwise use the old one.
+    if ( -f "$ENV{'ROX_MC_BIN_DIR'}/gen_erate.pyz" ) {
+      $rval = system( "gen_erate.pyz @param_list" );
+    } else {
+      $gencmd = "wine $ENV{'ROX_MC_BIN_DIR'}/gen_erate.exe";
+      $rval = system( "$gencmd @param_list" );
+    }
   }
+
   return $rval;
 }
 
@@ -1061,7 +1066,8 @@ sub modelFinderCallback($$)
 sub xtuml2masl;
 sub xtuml2masl
 {
-  # xtumlmc_build xtuml2masl [-v | -V] [-p <xtUML file(s) ...> ] [-d <xtUML file(s) ...> ] [ -o <output directory> ]
+  # xtuml2masl [-v | -V] [-e] -i <eclipse project> -d <domain component> [-o <output directory>]
+  # xtuml2masl [-v | -V] [-e] -i <eclipse project> -p <project package> [-o <output directory>]
 
   # get command line arguments
   my @param_list = @_;
@@ -1084,6 +1090,8 @@ sub xtuml2masl
   my @dom_names;
   my @proj_names;
 
+  my $usage = "Usage:\n\txtuml2masl [-v | -V] [-e] -i <eclipse project> -d <domain component> [-o <output directory>]\n\txtuml2masl [-v | -V] [-e] -i <eclipse project> -p <project package> [-o <output directory>]\n";
+
   # parse arguments
   my $directive = "";
   foreach my $arg(@param_list) {
@@ -1105,20 +1113,30 @@ sub xtuml2masl
       $num_proj[$num_inputs] = 0;
     }
     elsif ( $directive eq "-p" ) {                                   # add a project name
-      push @proj_names, $arg;
-      $num_proj[$num_inputs]++;
+      if ( $num_inputs >= 0 ) {
+        push @proj_names, $arg;
+        $num_proj[$num_inputs]++;
+      }
     }
     elsif ( $directive eq "-d" ) {                                  # add a domain name
-      push @dom_names, $arg;
-      $num_dom[$num_inputs]++;
+      if ( $num_inputs >= 0 ) {
+        push @dom_names, $arg;
+        $num_dom[$num_inputs]++;
+      }
     }
     elsif ( $directive eq "-o" and $out_dir eq "" ) {                # only can set the output directory once
       $out_dir = "$arg";
     }
     else {
-      print STDERR "Usage: xtumlmc_build xtuml2masl [-v | -V] [-p <xtUML file(s) ...> ] [-d <xtUML file(s) ...> ] [ -o <output directory> ]\n";
+      print STDERR $usage;
       exit 1;
     }
+  }
+
+  # check if we have any projects or domains to convert
+  if ( !@inputs || ( !@proj_names && !@dom_names ) ) {
+    print STDERR $usage;
+    exit 1;
   }
 
   print STDERR "Initializing MASL export...\n";

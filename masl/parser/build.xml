@@ -80,8 +80,8 @@
         <!-- Create the distribution directory -->
         <mkdir dir="${dist}/lib"/>
 
-        <!-- Put everything in ${build} into the MASLParser-${DSTAMP}.jar file -->
-        <jar jarfile="${dist}/lib/MASLParser-${DSTAMP}.jar" basedir="${build}"/>
+        <!-- Put everything in ${build} into the MASLParser.jar file -->
+        <jar jarfile="${dist}/lib/MASLParser.jar" basedir="${build}"/>
     </target>
 
     <target name="clean"

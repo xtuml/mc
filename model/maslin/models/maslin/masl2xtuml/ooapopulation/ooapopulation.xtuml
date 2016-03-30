@@ -24,18 +24,24 @@ if ( empty ooapopulation )
   create object instance ooapopulation of ooapopulation;
   ooapopulation.processingIdentifier = 0;
   ooapopulation.processingISM = true;
+  ooapopulation.processingProject = false;
 end if;
 
 // deal with pragma stack
 if ( "" == value[0] and "" == value[1] and "" == value[2] and "" == value[3] and	// If all values are empty, it is
 	 "" == value[4] and "" == value[5] and "" == value[6] and "" == value[7] )		// an end tag
   select one current_element related by ooapopulation->ooaelement[R3801];
-  if ( ooaelement::ismarkable( type: element ) )
-	select one markable related by current_element->ooamarkable[R3806];
-	markable.render_pragmas();
+  if ( not_empty current_element )
+    if ( ooaelement::ismarkable( type: element ) )
+	  select one markable related by current_element->ooamarkable[R3806];
+	  markable.render_pragmas();
+    end if;
+    //ooaelement::trace( population: ooapopulation );
+    current_element.pop_stack();
+  else
+    TRACE::log( flavor:"failure", id:55, message:"Element stack is malformed." );
+    ooaelement::trace( population: ooapopulation );
   end if;
-  //ooaelement::trace( population: ooapopulation );
-  current_element.pop_stack();
 elif ( not ( "typeref" == element or 		// exclude leaf nodes in stack
   	   "referential" == element or
   	   "pragmaitem" == element or 
@@ -45,17 +51,30 @@ elif ( not ( "typeref" == element or 		// exclude leaf nodes in stack
   ooaelement::populate( population: ooapopulation, type: element );
 end if;
 
-if ( "project" == element )
-  if ( "" != param.value[0] )
-    ooapopulation.transformProject(name:param.value[0]);
-  end if;
-elif ( "domain" == element )
+// divert to project processing if we are processing a project
+if ( "project" == element or ooapopulation.processingProject )
+  ooapopulation::populate_project( element:param.element, value:param.value, ooapopulation:ooapopulation );
+  return;
+end if;
+
+if ( "domain" == element )
   if ( "" == param.value[0] )
-    select any c_c from instances of C_C where (false);
-    ooapopulation.current_component = c_c;
+  	  // formalize the provided interface reference for the domain
+  	  c_c = ooapopulation.current_component;
+  	  lib_pkg = ooapopulation.lib_pkg;
+  	  if ( not_empty c_c and not_empty lib_pkg )
+    	select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+        comp_if_name = c_c.Name;
+        select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+  		select any new_ir related by comp_if->C_IR[R4012];
+  		ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  	  end if;
+
+      select any c_c from instances of C_C where (false);
+      ooapopulation.current_component = c_c;
     
-    // Now that we are done processing the domain, formalize relationships
-    // TODO - does not work yet - ooapopulation.batchFormalize();
+      // Now that we are done processing the domain, formalize relationships
+      // TODO - does not work yet - if ( !processingProject ) ooapopulation.batchFormalize();
   else
     ooapopulation.transformDomain(name:param.value[0]);
   end if;
@@ -69,6 +88,11 @@ elif ( "object" == element )
   end if;
 elif ( "terminator" == element )
   if ( "" == param.value[0] )
+  	// formalize the new interface reference to it
+  	comp_if = ooapopulation.current_interface;
+  	select any new_ir related by comp_if->C_IR[R4012];
+  	ooapopulation.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+
     select any c_i from instances of C_I where (false);
     ooapopulation.current_interface = c_i;
   else
@@ -84,6 +108,8 @@ elif ( "parameter" == element )
     ooapopulation.current_function_param = s_sparm;
     select any o_tparm from instances of O_TPARM where (false);
     ooapopulation.current_operation_param = o_tparm;
+    select any c_pp from instances of C_PP where (false);
+    ooapopulation.current_interface_param = c_pp;
     // TODO - null out other parameter cache values as they are implemented
   else
     ooapopulation.transformParameter(name:param.value[0], direction:param.value[1]);
@@ -165,6 +191,10 @@ elif ( "typeref" == element )
     if ( not_empty o_tparm )
       ooapopulation.OperationParameter_setType(o_tparm:ooapopulation.current_operation_param, type_name:param.value[0]); 
     end if;
+    c_pp = ooapopulation.current_interface_param;
+    if ( not_empty c_pp )
+      ooapopulation.InterfaceParameter_setType(c_pp:ooapopulation.current_interface_param, type_name:param.value[0]);
+    end if;
   end if;
 elif ( "associative" == element )
   if ( "" == param.value[0] )
@@ -202,7 +232,7 @@ elif ( "participation" == element )
     part.fromDomain = param.value[0];
     part.className = param.value[1];
     part.phrase = param.value[2];
-    part.conditionality = ooaparticipation::getMult(text:param.value[3]);
+    part.conditionality = ooaparticipation::getCond(text:param.value[3]);
     part.multiplicity = ooaparticipation::getMult(text:param.value[4]); 
     part.isFirst = isFirst;
   end if;
@@ -211,6 +241,8 @@ elif ( "routine" == element )
   if ( "" == param.value[3] )
     select any s_sync from instances of S_SYNC where ( false );
     ooapopulation.current_domain_function = s_sync;
+    select any c_ep from instances of C_EP where ( false );
+    ooapopulation.current_executable_property = c_ep;
     // Note that we do not clear self.current_interface here because if we are processing inside a terminator definition we
     //   will see multiple routines within the interface and we don''t want to clear out this cached interface after the 
     //   first routine we see.
@@ -240,36 +272,56 @@ elif ( "transition" == element )
 elif ( "codeblock" == element )
   s_sync = ooapopulation.current_domain_function;
   if ( not_empty s_sync )
-    s_sync.Descrip = s_sync.Descrip + "codeblock:" + param.value[0] + "\n";
+    s_sync.Action_Semantics_internal = s_sync.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+  end if;
+
+  c_ep = ooapopulation.current_executable_property;
+  if ( not_empty c_ep )
+  	select any spr_ro related by c_ep->SPR_REP[R4500]->SPR_RO[R4502];
+  	if ( not_empty spr_ro )
+      spr_ro.Action_Semantics_internal = spr_ro.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
+  	end if;
   end if;
   
   o_tfr = ooapopulation.current_class_op;
   if ( not_empty o_tfr )
-    o_tfr.Descrip = o_tfr.Descrip + "codeblock:" + param.value[0] + "\n";
+    o_tfr.Action_Semantics_internal = o_tfr.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
   end if;
   
   sm_state = ooapopulation.current_state;
   if ( not_empty sm_state )
     select one sm_act related by sm_state->SM_MOAH[R511]->SM_AH[R513]->SM_ACT[R514];
     if ( not_empty sm_act )
-      sm_act.Descrip = sm_act.Descrip + "codeblock:" + param.value[0] + "\n";
+      sm_act.Action_Semantics_internal = sm_act.Action_Semantics_internal + "codeblock:" + param.value[0] + "\n";
     end if;
   end if;
   
   // TODO - handle code blocks for routines that are terminator services
 elif ( "pragma" == element )
-  select one parent_element related by ooapopulation->ooaelement[R3801]->ooaelement[R3805.''child of''];
   if ( "" == param.value[0] )
     select any pragma from instances of ooapragma where (false);
     ooapopulation.current_pragma = pragma;
-  elif ( ooaelement::ismarkable( type: parent_element.type ) )		// ignore pragma if we are not on a markable element
-    select one markable related by parent_element->ooamarkable[R3806];
-    ooapopulation.current_pragma = ooapragma::populate( name:value[0], list:value[1], markable:markable );
+  else
+  	select one parent_element related by ooapopulation->ooaelement[R3801]->ooaelement[R3805.''child of''];
+  	if ( not_empty parent_element )
+      if ( ooaelement::ismarkable( type: parent_element.type ) )		// ignore pragma if we are not on a markable element
+        select one markable related by parent_element->ooamarkable[R3806];
+        ooapopulation.current_pragma = ooapragma::populate( name:value[0], list:value[1], markable:markable );
+      end if;
+  	else
+      TRACE::log( flavor:"failure", id:56, message:"Element stack is malformed." );
+      ooaelement::trace( population: ooapopulation );
+    end if;
   end if;
 elif ( "pragmaitem" == element )
   select one current_element related by ooapopulation->ooaelement[R3801];
-  if ( "pragma" == current_element.type )	// ignore if not child of pragma
-    ooapragma_item::populate( value:value[0], pragma:ooapopulation.current_pragma );
+  if ( not_empty current_element )
+    if ( "pragma" == current_element.type )	// ignore if not child of pragma
+      ooapragma_item::populate( value:value[0], pragma:ooapopulation.current_pragma );
+    end if;
+  else
+    TRACE::log( flavor:"failure", id:57, message:"Element stack is malformed." );
+    ooaelement::trace( population: ooapopulation );
   end if;
 else
   // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
@@ -328,10 +380,8 @@ INSERT INTO O_TFR
 self.createSystem();
 
 // Create a package named the same as the project and cache it
-self.wiring_pkg = self.SystemModel_newPackage(s_sys:self.current_sys, pkg_name:param.name);
+self.transformDomain(name:param.name);
 
-
-// TODO - more work?
 ',
 	1,
 	'',
@@ -466,33 +516,38 @@ INSERT INTO O_TFR
 	1,
 	'self.createSystem();
 
-// Create a package named the same as the domain and cache it
-self.lib_pkg = self.SystemModel_newPackage(s_sys:self.current_sys, pkg_name:param.name);
-
-// Create a component in the library package if it doesn''t already exist
-lib_pkg = self.lib_pkg;
-select any c_c related by lib_pkg->PE_PE[R8000]->C_C[R8001] where ( param.name == selected.Name );
-
-if ( empty c_c )
-  // Create the component itself and a package inside it to hold the internal behavior
-  c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
-  internal_bhv_pkg = self.Component_newPackage(c_c:c_c, pkg_name:param.name);
-
-  // Create a package to hold public bits that other components will need visibility to
-  shared_pkg = self.Package_newPackage(ep_pkg:self.lib_pkg, package_name:"Shared");
-  
-  /* TODO - We may not want to do any of the project-related work here...  Need to revisit later
+if ( self.processingProject )
   // Create a component reference in the project wiring package
-  wiring_pkg = self.wiring_pkg;
-  if ( not_empty wiring_pkg )
-    cl_ic = self.Package_newImportedComponent(ep_pkg:self.wiring_pkg);
+  lib_pkg = self.lib_pkg;
+  if ( not_empty lib_pkg )
+    cl_ic = self.Package_newImportedComponent(ep_pkg:lib_pkg);
+    cl_ic.Descrip = "name:" + param.name;
+    cl_ic.Name = param.name;
+    self.current_imported_component = cl_ic;
+  end if;
 
-    // Assign the component reference to the component 
-    self.ComponentReference_assignToComp(cl_ic:cl_ic, c_c:c_c);
-  end if;*/
+  // Create an informal required interface off of the system wiring (project) component for the imported domain
+  new_ir = self.Component_initializeRequirement(c_c:self.current_component, port_name:param.name, if_name:param.name);
+else
+  // Create a package named the same as the domain and cache it
+  self.lib_pkg = self.SystemModel_newPackage(s_sys:self.current_sys, pkg_name:param.name);
+
+  // Create a component in the library package if it doesn''t already exist
+  lib_pkg = self.lib_pkg;
+  select any c_c related by lib_pkg->PE_PE[R8000]->C_C[R8001] where ( param.name == selected.Name );
+
+  if ( empty c_c )
+    // Create the component itself and a package inside it to hold the internal behavior
+    c_c = self.Package_newComponent(ep_pkg:self.lib_pkg, component_name:param.name);
+    internal_bhv_pkg = self.Component_newPackage(c_c:c_c, pkg_name:param.name);
+
+    // Create a package to hold public bits that other components will need visibility to
+    shared_pkg = self.Package_newPackage(ep_pkg:self.lib_pkg, package_name:"Shared");
+  end if;
+
+  self.current_component = c_c;
 end if;
-
-self.current_component = c_c;',
+',
 	1,
 	'',
 	"9438bf8f-4666-499e-9822-00e7b064286f");
@@ -838,23 +893,36 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'comp_if_name = self.current_component.Name + param.name;
+	'lib_pkg = self.lib_pkg;
 
-lib_pkg = self.lib_pkg;
-select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+if ( self.processingProject )
+  // Create provided interface off of the system wiring (project) component for this terminator, unless the name matches the "imported" 
+  // domain we''re processing.  In that case we have already created a required interface when we saw the domain itself
+  current_imported = self.current_imported_component;
+  if ( not_empty current_imported )
+    clic_name = current_imported.Name;
+    if ( clic_name != param.name )
+      comp_if_name = clic_name + param.name;
+      new_ir = self.Component_initializeProvision(c_c:self.current_component, port_name:comp_if_name, if_name:comp_if_name);
+    end if;
+  end if;
+else
+  comp_if_name = self.current_component.Name + param.name;
 
-select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
-if ( empty comp_if )
-  // create the interface
-  comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
-  // create a port & provided interface from the component
-  comp_port_name = param.name;
-  new_ir = self.Component_initializeRequirement(c_c:self.current_component, c_i:comp_if, port_name:comp_port_name);
-  // formalize the new interface reference to it
-  self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+  select any shared_pkg related by lib_pkg->PE_PE[R8000]->EP_PKG[R8001] where (selected.Name == "Shared");
+
+  select any comp_if related by shared_pkg->PE_PE[R8000]->C_I[R8001] where (selected.Name == comp_if_name);
+  if ( empty comp_if )
+    // create the interface
+    comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
+    // create a port & provided interface from the component
+    comp_port_name = param.name;
+    new_ir = self.Component_initializeRequirement(c_c:self.current_component, port_name:comp_port_name, if_name:"");
+    relate comp_if to new_ir across R4012;    // formalize at end tag. for now, just relate it to the C_R
+  end if;
+
+  self.current_interface = comp_if;
 end if;
-
-self.current_interface = comp_if;
 ',
 	1,
 	'',
@@ -878,7 +946,7 @@ INSERT INTO O_TFR
 	'',
 	1,
 	'',
-	"87050544-e583-4582-86a9-367a73543eb0");
+	"7c945081-3482-4e6c-ae0f-158868c18ca3");
 INSERT INTO O_TFR
 	VALUES ("9fda3415-6862-461d-ab35-5239c783bde0",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
@@ -889,6 +957,7 @@ INSERT INTO O_TFR
 	'// Check to see what type of element this parameter goes to.  Pass control appropriately.
 class_op = self.current_class_op;
 domain_function = self.current_domain_function;
+interface_message = self.current_executable_property;
 
 if ( not_empty class_op )
   select any o_tparm related by class_op->O_TPARM[R117] where ( selected.Name == param.name );
@@ -899,6 +968,11 @@ elif ( not_empty domain_function )
   select any s_sparm related by domain_function->S_SPARM[R24] where ( selected.Name == param.name );
   if ( empty  s_sparm )
     self.current_function_param = self.Function_newParameter(s_sync:domain_function, parameter_name:param.name);
+  end if;
+elif ( not_empty interface_message )
+  select any c_pp related by interface_message->C_PP[R4006] where ( selected.Name == param.name );
+  if ( empty c_pp )
+    self.current_interface_param = self.Interface_newParameter(c_ep:interface_message, parameter_name:param.name);
   end if;
 end if;',
 	1,
@@ -1439,8 +1513,9 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'// TODO - What special handling is needed in the case that we already saw a typeref and created the s_dt.  Are we now getting a full "definition"
-//   of the type with info that must be added to the s_dt?
+	'if ( self.processingProject )
+  return;
+end if;
  
 // If the type visibility is public, put it in the package of shared public data.  If private, put it inside the component.
 lib_pkg = self.lib_pkg;
@@ -1653,18 +1728,14 @@ else
       comp_if = self.Package_newInterface(ep_pkg:shared_pkg, interface_name:comp_if_name);
       // create a port & provided interface from the component
       comp_port_name = current_component.Name;
-      new_ir = self.Component_initializeProvision(c_c:current_component, c_i:comp_if, port_name:comp_port_name);
-      // formalize the new interface reference to it
-      self.InterfaceReference_formalize(c_i:comp_if, c_ir:new_ir);
+      new_ir = self.Component_initializeProvision(c_c:current_component, port_name:comp_port_name, if_name:"");
+      relate comp_if to new_ir across R4012;    // formalize at end tag of domain. for now, just relate it to the C_R
     end if;
   
     // c - Note that we (currently) always create an interface operation, never a signal
     c_ep = self.Interface_newExecutableProperty(c_i:comp_if, ep_name:param.name, asynchronous:false);
     c_ep.Direction = IFDirectionType::ClientServer;
     
-    // d
-    select any spr_po related by c_ep->SPR_PEP[R4501]->SPR_PO[R4503];
-    // TODO - this isn''t working yet. - spr_po.Action_Semantics = "::" + param.name + "();";
   end if;
 end if;',
 	1,
@@ -2105,7 +2176,6 @@ INSERT INTO O_TFR
 	"3068be83-fc38-4a02-a09f-a2dc428b84f6",
 	1,
 	'c_c = param.c_c;
-c_i = param.c_i;
 
 // The OOA version of this function does _a lot_ more work than we have to do here.
 create object instance provision of C_P;
@@ -2114,7 +2184,12 @@ create object instance port of C_PO;
 relate provision to interfaceRef across R4009;
 relate interfaceRef to port across R4016;
 relate port to c_c across R4010;
-provision.InformalName = "Unnamed_Interface";
+if ( "" == param.if_name )
+  provision.InformalName = "Unnamed_Interface";
+else
+  provision.InformalName = param.if_name;
+end if;
+
 self.Port_initialize(c_po:port, name:param.port_name);
 
 return interfaceRef;',
@@ -2131,22 +2206,22 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TPARM
-	VALUES ("835af959-b640-4f41-b348-a6c9267980ac",
-	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d",
-	'c_i',
-	"80698720-cc57-44ba-8aa5-600c524db338",
-	0,
-	'',
-	"cf4bd80f-3895-4c80-897b-2a439dc0d5c7",
-	'');
-INSERT INTO O_TPARM
 	VALUES ("a0e3fc5e-33f9-47a5-9e00-6fe59650f5a6",
 	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d",
 	'port_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"835af959-b640-4f41-b348-a6c9267980ac",
+	"cf4bd80f-3895-4c80-897b-2a439dc0d5c7",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("3dc4f167-809f-48d2-9d12-69928c1639b6",
+	"75b3e1c3-8e2f-4809-bd60-ff2d77a2f06d",
+	'if_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"a0e3fc5e-33f9-47a5-9e00-6fe59650f5a6",
 	'');
 INSERT INTO S_DT_PROXY
 	VALUES ("3068be83-fc38-4a02-a09f-a2dc428b84f6",
@@ -2284,7 +2359,7 @@ if(not_empty interface)
 end if;',
 	1,
 	'',
-	"5a638f8c-37fc-48ad-85a7-117da5262634");
+	"c1d107db-3920-45fc-8976-f5135aa4c119");
 INSERT INTO O_TPARM
 	VALUES ("9850e799-4e62-4c3f-b192-033885ef68e2",
 	"4ed94333-e76e-470c-95ec-c351a39b2df5",
@@ -2329,7 +2404,7 @@ c_io.Direction = IFDirectionType::ClientServer;  // Note: in MASL convert we jus
 ',
 	1,
 	'',
-	"102c4921-1e91-4570-87ba-0ccd6106d389");
+	"72bf6324-6202-4d48-8dba-ffe5e88ace77");
 INSERT INTO O_TPARM
 	VALUES ("ef2ab14f-b464-494a-8d6e-75c207ac34c0",
 	"5a638f8c-37fc-48ad-85a7-117da5262634",
@@ -2367,6 +2442,7 @@ INSERT INTO O_TFR
 select any signal from instances of C_EP where ( selected.Name == param.ep_name );
 if ( empty signal )
   create object instance signal of C_EP;
+  signal.Name = param.ep_name;
   relate c_i to signal across R4003;
   select many references related by c_i->C_IR[R4012];
   if(param.asynchronous)
@@ -2383,7 +2459,7 @@ end if;
 return signal;',
 	1,
 	'',
-	"eaeaa954-9f69-450a-a5a6-1b0d98435d31");
+	"02d4b2b3-e219-4c57-bfa3-f9f74d3ee861");
 INSERT INTO O_TPARM
 	VALUES ("2b7848d2-1f57-47fd-b47d-3add03222a89",
 	"102c4921-1e91-4570-87ba-0ccd6106d389",
@@ -3794,9 +3870,9 @@ if (not_empty fromClass and not_empty toClass)
       relate fromOIR to fromIClass across R202;
     end if;
   end if;*/
-  fromPART.Mult = fromOOAPart.multiplicity;
-  fromPART.Cond = fromOOAPart.conditionality;
-  fromPART.Txt_Phrs = fromOOAPart.phrase;
+  fromPART.Mult = toOOAPart.multiplicity;
+  fromPART.Cond = toOOAPart.conditionality;
+  fromPART.Txt_Phrs = toOOAPart.phrase;
   //
   create object instance toOIR of R_OIR;
   relate toClass to assoc across R201 using toOIR;
@@ -3812,9 +3888,9 @@ if (not_empty fromClass and not_empty toClass)
     end if;
   end if;*/
   // TODO - set phrase, cond, mult
-  toPART.Mult = toOOAPart.multiplicity;
-  toPART.Cond = toOOAPart.conditionality;
-  toPART.Txt_Phrs = toOOAPart.phrase;
+  toPART.Mult = fromOOAPart.multiplicity;
+  toPART.Cond = fromOOAPart.conditionality;
+  toPART.Txt_Phrs = fromOOAPart.phrase;
 end if;
 ',
 	1,
@@ -3890,11 +3966,9 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'ep_pkg = param.ep_pkg;
-select any fromOOAPart from instances of ooaparticipation where (selected.isFirst == true );
-select any toOOAPart from instances of ooaparticipation where (selected.isFirst == false );
 
 // What follows is a heavily modified version of OOAofOOA''s Package::newAssociative()
-select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == fromOOAPart.className);
+select any fromClass related by ep_pkg->PE_PE[R8000]->O_OBJ[R8001] where (selected.Name == self.current_rel.usingObj);
 
 /*  TODO - skipping imported classes for now
 if (param.fromIsImportedClass)
@@ -5598,7 +5672,6 @@ INSERT INTO O_TFR
 	"3068be83-fc38-4a02-a09f-a2dc428b84f6",
 	1,
 	'c_c = param.c_c;
-c_i = param.c_i;
 
 // The OOA version of this function does _a lot_ more work than we have to do here.
 create object instance requirement of C_R;
@@ -5607,7 +5680,11 @@ create object instance port of C_PO;
 relate requirement to interfaceRef across R4009;
 relate interfaceRef to port across R4016;
 relate port to c_c across R4010;
-requirement.InformalName = "Unnamed_Interface";
+if ( "" == param.if_name )
+  requirement.InformalName = "Unnamed_Interface";
+else
+  requirement.InformalName = param.if_name;
+end if;
 self.Port_initialize(c_po:port, name:param.port_name);
 
 return interfaceRef;',
@@ -5624,22 +5701,22 @@ INSERT INTO O_TPARM
 	"00000000-0000-0000-0000-000000000000",
 	'');
 INSERT INTO O_TPARM
-	VALUES ("e8fe3eac-7e91-4f0a-86df-13ad4d3f420c",
-	"de57cf0d-e159-4b31-907e-bba1cb341479",
-	'c_i',
-	"80698720-cc57-44ba-8aa5-600c524db338",
-	0,
-	'',
-	"c594153e-1c12-416a-b872-48fa7c3b623f",
-	'');
-INSERT INTO O_TPARM
 	VALUES ("180f2b75-6dd7-4f78-8b4d-fa093d818b15",
 	"de57cf0d-e159-4b31-907e-bba1cb341479",
 	'port_name',
 	"ba5eda7a-def5-0000-0000-000000000004",
 	0,
 	'',
-	"e8fe3eac-7e91-4f0a-86df-13ad4d3f420c",
+	"c594153e-1c12-416a-b872-48fa7c3b623f",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("33bd7b77-b2d7-4531-ae7d-4d7a20a3fe55",
+	"de57cf0d-e159-4b31-907e-bba1cb341479",
+	'if_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"180f2b75-6dd7-4f78-8b4d-fa093d818b15",
 	'');
 INSERT INTO O_TFR
 	VALUES ("8bd3b9a0-f3ac-4342-8d1d-0d96cb608c48",
@@ -5654,12 +5731,11 @@ if ( empty c_i )
   select any c_c from instances of C_C where ( selected.Name == param.domain );
   select any c_po related by c_c->C_PO[R4010] where ( selected.Name == param.terminator );
   select any c_i related by c_po->C_IR[R4016]->C_I[R4012];
-  self.current_interface = c_i;
 end if;
 
 c_ep = self.Interface_newExecutableProperty(c_i:c_i, ep_name:param.name, asynchronous:false);
 c_ep.Direction = IFDirectionType::ClientServer;
-',
+self.current_executable_property = c_ep;',
 	1,
 	'',
 	"fd3b1e58-e9c3-41df-a82e-724733a56a61");
@@ -5699,23 +5775,345 @@ INSERT INTO O_TPARM
 	'',
 	"b955bc98-b515-4914-9a0a-120c8df82e66",
 	'');
-INSERT INTO O_NBATTR
-	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
-	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
-INSERT INTO O_BATTR
-	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
-	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
-INSERT INTO O_ATTR
-	VALUES ("f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
+INSERT INTO O_TFR
+	VALUES ("7c945081-3482-4e6c-ae0f-158868c18ca3",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"905dcf80-14b6-447f-a4a5-f1373afcb527",
-	'wiring_pkg',
+	'populate_project',
 	'',
-	'',
-	'wiring_pkg',
+	"ba5eda7a-def5-0000-0000-000000000000",
 	0,
-	"9939c670-a721-4742-a824-ed4b0df4acd6",
+	'// Populate OOAofOOA.
+
+element = param.element;
+value = param.value;
+ooapopulation = param.ooapopulation;
+
+if ( "project" == element )
+  if ( "" != param.value[0] )
+    ooapopulation.transformProject(name:param.value[0]);
+    ooapopulation.processingProject = true;
+  end if;
+elif ( "domain" == element )
+  if ( "" == param.value[0] )
+    // If we are processing a project, all domains we see are handled as imported components, so clear that cache attribute
+    select any cl_ic from instances of CL_IC where (false);
+    ooapopulation.current_imported_component = cl_ic;
+  else
+    ooapopulation.transformDomain(name:param.value[0]);
+  end if;
+elif ( "terminator" == element )
+  if ( "" == param.value[0] )
+    select any c_i from instances of C_I where (false);
+    ooapopulation.current_interface = c_i;
+  else
+    ooapopulation.transformTerminator(name:param.value[0]);
+  end if;
+elif ( "routine" == element )
+  //  See if we''re processing inside a domain or terminator.  Then call the appropriate conversion function.
+  if ( "" != param.value[3] )
+    ooapopulation.current_routine_info.domain = param.value[0];
+    ooapopulation.current_routine_info.terminator = param.value[1];
+    ooapopulation.current_routine_info.name = param.value[3];
+  end if;
+elif ( "codeblock" == element )
+  c_c = ooapopulation.current_component;
+  if_name = ooapopulation.current_routine_info.domain + ooapopulation.current_routine_info.terminator;
+  select any c_p related by c_c->C_PO[R4010]->C_IR[R4016]->C_P[R4009] where (selected.InformalName == if_name);
+  if ( not_empty c_p )
+    c_p.Descrip = c_p.Descrip + "routine:" + ooapopulation.current_routine_info.name + ",codeblock:" + param.value[0] + "\n";
+  end if;
+else
+  // TRACE::log( flavor:"failure", id:59, message:"maslin unrecognized element:  " + element );
+end if;
+',
+	1,
 	'',
+	"87050544-e583-4582-86a9-367a73543eb0");
+INSERT INTO O_TPARM
+	VALUES ("1019d8f1-50db-4525-8efa-ab5f93cf5b84",
+	"7c945081-3482-4e6c-ae0f-158868c18ca3",
+	'element',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("3ac4b005-6f40-497e-844c-7fe3cb6e0c7b",
+	"7c945081-3482-4e6c-ae0f-158868c18ca3",
+	'value',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'[8]',
+	"1019d8f1-50db-4525-8efa-ab5f93cf5b84",
+	'');
+INSERT INTO S_DIM
+	VALUES (8,
+	0,
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"3ac4b005-6f40-497e-844c-7fe3cb6e0c7b",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"00000000-0000-0000-0000-000000000000",
+	"d2cfb710-a113-4fe9-8f3b-85e2616544a5",
+	"00000000-0000-0000-0000-000000000000");
+INSERT INTO O_TPARM
+	VALUES ("620ecd02-3e75-44f2-a4e3-9108c1091bfc",
+	"7c945081-3482-4e6c-ae0f-158868c18ca3",
+	'ooapopulation',
+	"6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	0,
+	'',
+	"3ac4b005-6f40-497e-844c-7fe3cb6e0c7b",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("6b004b50-6faf-4d6c-84e5-1972ed5ff094",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<ooapopulation>',
+	'',
+	'',
+	'../masl2xtuml.xtuml');
+INSERT INTO O_TFR
+	VALUES ("72bf6324-6202-4d48-8dba-ffe5e88ace77",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Interface_newParameter',
+	'',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	1,
+	'c_ep = param.c_ep;
+
+select any parm related by c_ep->C_PP[R4006] where ( selected.Name == param.parameter_name );
+
+if ( empty parm )
+  create object instance parm of C_PP;
+  relate c_ep to parm across R4006;
+  self.InterfaceParameter_initialize(c_pp:parm, name:param.parameter_name);
+  self.Interface_createMessageArgumentsForParameter(c_ep:c_ep, c_pp:parm);
+end if;
+
+return parm;',
+	1,
+	'',
+	"102c4921-1e91-4570-87ba-0ccd6106d389");
+INSERT INTO O_TPARM
+	VALUES ("88268d5f-5c1f-40b0-ae54-8bd552b3522e",
+	"72bf6324-6202-4d48-8dba-ffe5e88ace77",
+	'c_ep',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("9cf548b1-de4d-4ae7-b59a-283c6b5c1abe",
+	"72bf6324-6202-4d48-8dba-ffe5e88ace77",
+	'parameter_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"88268d5f-5c1f-40b0-ae54-8bd552b3522e",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<Property Parameter>',
+	'',
+	'',
+	'../../../../../mcooa/models/mcooa/ooaofooa/Component/Component.xtuml');
+INSERT INTO O_TFR
+	VALUES ("a727dbb8-0c72-49e4-b399-6803d51938b0",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'InterfaceParameter_initialize',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_pp = param.c_pp;
+
+select one c_ep related by c_pp->C_EP[R4006];
+self.Interface_addParameterToOrder(c_ep:c_ep, c_pp:c_pp);
+
+// TODO - assign a default type to aid in testing.  Do we want to keep this (to // END)?
+systypes_pkg = self.systypes_pkg;
+select any def_dt related by systypes_pkg->PE_PE[R8000]->S_DT[R8001] where ( selected.Name == "string" );
+// END
+
+relate c_pp to def_dt across R4007;
+c_pp.Name = param.name;
+    ',
+	1,
+	'',
+	"5a638f8c-37fc-48ad-85a7-117da5262634");
+INSERT INTO O_TPARM
+	VALUES ("739aa9b1-3f98-4f25-b5cf-ef6c614912a7",
+	"a727dbb8-0c72-49e4-b399-6803d51938b0",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("28aaafac-9408-4a27-a736-8f98ed8ea77f",
+	"a727dbb8-0c72-49e4-b399-6803d51938b0",
+	'name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"739aa9b1-3f98-4f25-b5cf-ef6c614912a7",
+	'');
+INSERT INTO O_TFR
+	VALUES ("1b49dbff-ae0d-4560-a737-ca98e9122e43",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Interface_addParameterToOrder',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_ep = param.c_ep;
+parameter = param.c_pp;
+
+if(not_empty parameter)
+  select many peers related by c_ep->C_PP[R4006];
+  for each peer in peers
+    if (peer != parameter)
+      select one predecessor related by peer->C_PP[R4021.''precedes''];
+      if (empty predecessor)
+        relate parameter to peer across R4021.''succeeds'';
+      end if;
+    end if;
+  end for;
+end if;
+',
+	1,
+	'',
+	"eaeaa954-9f69-450a-a5a6-1b0d98435d31");
+INSERT INTO O_TPARM
+	VALUES ("08fa4e62-6e37-4413-9009-ff0107d35e4b",
+	"1b49dbff-ae0d-4560-a737-ca98e9122e43",
+	'c_ep',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("ea69c2fc-2c65-4ab5-a8af-683acfd6d824",
+	"1b49dbff-ae0d-4560-a737-ca98e9122e43",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	0,
+	'',
+	"08fa4e62-6e37-4413-9009-ff0107d35e4b",
+	'');
+INSERT INTO O_TFR
+	VALUES ("02d4b2b3-e219-4c57-bfa3-f9f74d3ee861",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'Interface_createMessageArgumentsForParameter',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_ep = param.c_ep;
+parameter = param.c_pp;
+
+if(not_empty parameter)
+  // for each message associated with this interface
+  // create a message argument
+  select many messages related by c_ep->C_AS[R4004]->MSG_SIG[R1021]->
+                                                    MSG_AM[R1019]->MSG_M[R1018];
+  if(empty messages)
+    select many messages related by c_ep->C_IO[R4004]->MSG_IOP[R1022]->
+    											    MSG_SM[R1020]->MSG_M[R1018];
+  end if;
+  for each message in messages
+    create object instance arg of MSG_A;
+    create object instance oa of MSG_EPA;
+    relate oa to parameter across R1023;
+    relate oa to arg across R1013;
+    relate message to arg across R1001;
+  end for;
+end if;',
+	1,
+	'',
+	"1b49dbff-ae0d-4560-a737-ca98e9122e43");
+INSERT INTO O_TPARM
+	VALUES ("f0a003ef-3444-4070-9a3f-f81cd040a8ae",
+	"02d4b2b3-e219-4c57-bfa3-f9f74d3ee861",
+	'c_ep',
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("f47f6ab4-0952-4d54-895a-061b4bfc8ef8",
+	"02d4b2b3-e219-4c57-bfa3-f9f74d3ee861",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	0,
+	'',
+	"f0a003ef-3444-4070-9a3f-f81cd040a8ae",
+	'');
+INSERT INTO O_TFR
+	VALUES ("c1d107db-3920-45fc-8976-f5135aa4c119",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	'InterfaceParameter_setType',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'c_pp = param.c_pp;
+type_name = param.type_name;
+
+// NOTE: This isn''t really a copied operation from the OOAofOOA, but we''re following the same paradigm for it
+//   as other functions that are from the OOA
+
+// Get a handle to the DT that is named as a parameter, output error if none found
+//   TODO - This is a very broad selection.  Is that OK?  Can we assume that during convert we won''t see data that 
+//     has multiple (different) types with the same name?  Keith thinks so.
+select any s_dt from instances of S_DT where ( selected.Name == type_name );
+if ( empty s_dt )
+  // TODO - what should the ID be set to?
+  TRACE::log( flavor:"failure", id:0, message:"could not find datatype  " + type_name + " to set for attribute " + c_pp.Name);
+end if;
+
+// Get a handle to the DT that is currently associated with the attribute
+select one cur_s_dt related by c_pp->S_DT[R4007];
+
+// If the new DT does not equal the existing DT, continue
+if ( s_dt != cur_s_dt )
+  // un-relate the existing DT across R4007
+  unrelate c_pp from cur_s_dt across R4007;
+  
+  // relate the new attribute across R4007
+  relate c_pp to s_dt across R4007;
+end if;',
+	1,
+	'',
+	"a727dbb8-0c72-49e4-b399-6803d51938b0");
+INSERT INTO O_TPARM
+	VALUES ("58a063db-aee8-48d5-bc20-c2eea0380815",
+	"c1d107db-3920-45fc-8976-f5135aa4c119",
+	'c_pp',
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO O_TPARM
+	VALUES ("a1bfbad2-a96b-408c-a149-bcca9d74ccf3",
+	"c1d107db-3920-45fc-8976-f5135aa4c119",
+	'type_name',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"58a063db-aee8-48d5-bc20-c2eea0380815",
 	'');
 INSERT INTO O_NBATTR
 	VALUES ("d14202df-9ea9-4589-a309-406b4ed0b070",
@@ -5798,7 +6196,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("6139bb3c-17ee-4d48-8ec9-bc73c62c2715",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"f4cd4ba4-38c5-43c4-9b67-917389fffcc4",
+	"905dcf80-14b6-447f-a4a5-f1373afcb527",
 	'current_attribute',
 	'',
 	'',
@@ -6010,7 +6408,7 @@ INSERT INTO O_BATTR
 INSERT INTO O_ATTR
 	VALUES ("33d45b78-9c27-4259-8d26-cadfd95a4313",
 	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
-	"a3e129f2-38f6-47c9-a46a-4043ca376af6",
+	"23255510-3c96-4798-b066-ebb7dbb166ea",
 	'current_interface',
 	'',
 	'',
@@ -6053,6 +6451,103 @@ INSERT INTO O_ATTR
 	'current_event',
 	0,
 	"33eebb24-8068-410b-a905-37c4e5cc2fdb",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("66a9c427-8b7f-48ab-9086-7d022a526425",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("66a9c427-8b7f-48ab-9086-7d022a526425",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("66a9c427-8b7f-48ab-9086-7d022a526425",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"eaa75738-d8e2-424e-bc3a-80752318351b",
+	'current_executable_property',
+	'',
+	'',
+	'current_executable_property',
+	0,
+	"5441230d-b4d6-495f-9e87-84acf5819d26",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("6c59590e-567f-49e4-85f9-1e85bdcc0c15",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("6c59590e-567f-49e4-85f9-1e85bdcc0c15",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("6c59590e-567f-49e4-85f9-1e85bdcc0c15",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"66a9c427-8b7f-48ab-9086-7d022a526425",
+	'processingProject',
+	'',
+	'',
+	'processingProject',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("23255510-3c96-4798-b066-ebb7dbb166ea",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("23255510-3c96-4798-b066-ebb7dbb166ea",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("23255510-3c96-4798-b066-ebb7dbb166ea",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"a3e129f2-38f6-47c9-a46a-4043ca376af6",
+	'current_imported_component',
+	'',
+	'',
+	'current_imported_component',
+	0,
+	"4bf19d7e-1bcd-469a-b056-4523dd59dc1d",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("553f8cea-b8b6-402d-9dc1-672c1ebfc74e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("553f8cea-b8b6-402d-9dc1-672c1ebfc74e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("553f8cea-b8b6-402d-9dc1-672c1ebfc74e",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"6c59590e-567f-49e4-85f9-1e85bdcc0c15",
+	'current_routine_info',
+	'',
+	'',
+	'current_routine_info',
+	0,
+	"97487c7a-2635-4fbd-9f27-1c7dc29cf1a3",
+	'',
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("97487c7a-2635-4fbd-9f27-1c7dc29cf1a3",
+	"00000000-0000-0000-0000-000000000000",
+	'routine_info',
+	'',
+	'',
+	'../masl2xtuml.xtuml');
+INSERT INTO O_NBATTR
+	VALUES ("4687d9e9-533d-409c-87c6-1d83078378cb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_BATTR
+	VALUES ("4687d9e9-533d-409c-87c6-1d83078378cb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f");
+INSERT INTO O_ATTR
+	VALUES ("4687d9e9-533d-409c-87c6-1d83078378cb",
+	"2caf6fbd-3dbc-4f0d-9fbb-834f70662a1f",
+	"553f8cea-b8b6-402d-9dc1-672c1ebfc74e",
+	'current_interface_param',
+	'',
+	'',
+	'current_interface_param',
+	0,
+	"4d4c0ef2-2520-4dbe-8096-a56393ea3f85",
 	'',
 	'');
 INSERT INTO O_ID
