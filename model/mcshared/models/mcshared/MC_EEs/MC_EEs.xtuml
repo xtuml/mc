@@ -870,6 +870,69 @@ INSERT INTO S_BPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_BRG
+	VALUES ("24cd0f42-7321-45b1-8c8c-726958e5b8ca",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'substr',
+	'returns a substring of the giben string s starting at the index begin and ending at the index end - 1.
+if begin < 0 or > the length of s - 1, returns a substring starting at the beginning of s
+if end < 1 or > the length of s, returns a substring starting at begin to the end of s
+if end <= begin, returns empty string
+
+usage examples:
+foo = substr( s:"Hello, World!", 4, 8 );	// foo == "o, Wo"
+bar = substr( s:"Hello, World!", 2, -1 );	// bar == "llo, World!"',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("b45c35f4-805a-421a-90ab-be055eb4c0dd",
+	"24cd0f42-7321-45b1-8c8c-726958e5b8ca",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("03bfd9e6-cb9b-4e44-a879-7bfb01ca0d60",
+	"24cd0f42-7321-45b1-8c8c-726958e5b8ca",
+	'begin',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"b45c35f4-805a-421a-90ab-be055eb4c0dd",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("36a3e6af-3981-4946-915d-f1c1ce649714",
+	"24cd0f42-7321-45b1-8c8c-726958e5b8ca",
+	'end',
+	"ba5eda7a-def5-0000-0000-000000000002",
+	0,
+	'',
+	"03bfd9e6-cb9b-4e44-a879-7bfb01ca0d60",
+	'');
+INSERT INTO S_BRG
+	VALUES ("9b4a754f-c3ab-47ed-9798-df78e185a9a8",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'strlen',
+	'',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	1,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("181f6844-6ad7-4d48-a378-4b6a531da2e6",
+	"9b4a754f-c3ab-47ed-9798-df78e185a9a8",
+	's',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
 INSERT INTO PE_PE
 	VALUES ("bb9efba5-486a-4a39-a358-d0e112844c11",
 	1,
