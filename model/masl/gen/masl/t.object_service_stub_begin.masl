@@ -1,0 +1,1 @@
+${operation.visibility} ${operation.instance} service ${domain.name}::${object.name}.${activity.name} (\
