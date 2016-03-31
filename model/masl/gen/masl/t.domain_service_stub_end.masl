@@ -1,4 +1,4 @@
-) return ${returntype.body} is
+) is
 begin
   null;
 end service;

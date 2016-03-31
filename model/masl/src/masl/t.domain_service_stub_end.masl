@@ -1,6 +1,4 @@
-T_b(") return ");
-T_b(returntype->body);
-T_b(" is");
+T_b(") is");
 T_b("\n");
 T_b("begin");
 T_b("\n");
