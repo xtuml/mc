@@ -520,6 +520,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'destination = param.destination;
+doEmit = false;
 
 select any activity related by self->element[R3795]->markable[R3786]->activity[R3783];
 if ( not_empty activity )
@@ -540,6 +541,7 @@ if ( not_empty activity )
 		  parameter.render();
 		end if;
 		T::include( file:"masl/t.domain_function_stub_end.masl" );
+	    doEmit = true;
       else							// domain service
 		T::include( file:"masl/t.domain_service_stub_begin.masl" );
 		select one parameter related by activity->parameter[R3705];
@@ -547,6 +549,7 @@ if ( not_empty activity )
 		  parameter.render();
 		end if;
 		T::include( file:"masl/t.domain_service_stub_end.masl" );
+	    doEmit = true;
       end if;
     else							// terminator routine
       select one domain related by terminator->domain[R3702];
@@ -557,6 +560,7 @@ if ( not_empty activity )
 		  parameter.render();
 		end if;
 		T::include( file:"masl/t.terminator_function_stub_end.masl" );
+	    doEmit = true;
       else							// terminator service
 		T::include( file:"masl/t.terminator_service_stub_begin.masl" );
 		select one parameter related by activity->parameter[R3705];
@@ -564,6 +568,7 @@ if ( not_empty activity )
 		  parameter.render();
 		end if;
 		T::include( file:"masl/t.terminator_service_stub_end.masl" );
+	    doEmit = true;
       end if;
     end if;
   elif ( not_empty operation )
@@ -577,6 +582,7 @@ if ( not_empty activity )
 	    parameter.render();
 	  end if;
 	  T::include( file:"masl/t.object_function_stub_end.masl" );
+	  doEmit = true;
 	else								// object service
 	  T::include( file:"masl/t.object_service_stub_begin.masl" );
 	  select one parameter related by activity->parameter[R3705];
@@ -584,8 +590,9 @@ if ( not_empty activity )
 	    parameter.render();
 	  end if;
 	  T::include( file:"masl/t.object_service_stub_end.masl" );
+	  doEmit = true;
 	end if;
-  elif ( not_empty state )
+  elif ( not_empty state and not state.non_existent )
     select one returntype related by operation->typeref[R3741];
     select one object related by state->object[R3750];
     select one domain related by object->domain[R3708];
@@ -595,11 +602,14 @@ if ( not_empty activity )
 	  parameter.render();
 	end if;
 	T::include( file:"masl/t.object_state_stub_end.masl" );
+	doEmit = true;
   end if;
 
 end if;
 
-self.emit( name:destination );',
+if ( doEmit )
+  self.emit( name:destination );
+end if;',
 	1,
 	'',
 	"5184e566-c21d-4e41-adf8-4be0bb366c90");
