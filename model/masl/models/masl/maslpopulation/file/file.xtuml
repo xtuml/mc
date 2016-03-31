@@ -508,6 +508,32 @@ if ( not_empty activity )
 
 end if;
 
+// check for a duplicate name
+// TODO this handles overloading which is not yet supported in MASL
+select any dup_file from instances of file where ( selected.name == name );
+overload = 1;
+orig_name = name;
+while ( not_empty dup_file )
+
+  // process name
+  i = STRING::indexof( haystack:orig_name, needle:"." );
+  len = STRING::strlen( s:orig_name );
+  base = STRING::substr( s:orig_name, begin:0, end:i );
+  ext = STRING::substr( s:orig_name, begin:i, end:len );
+  str_num = STRING::itoa( i:overload );
+  
+  // set name
+  name = base + "_" + str_num + ext;
+  
+  // increment overload number
+  overload = overload + 1;
+  
+  // retry selection
+  select any dup_file from instances of file where ( selected.name == name );
+
+end while;
+
+self.name = name;
 return name;',
 	1,
 	'',
