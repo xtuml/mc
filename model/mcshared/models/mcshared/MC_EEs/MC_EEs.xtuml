@@ -933,6 +933,34 @@ INSERT INTO S_BPARM
 	'',
 	"00000000-0000-0000-0000-000000000000",
 	'');
+INSERT INTO S_BRG
+	VALUES ("a034fc43-c69a-4748-b9df-b3cd04458e8d",
+	"bb9efba5-486a-4a39-a358-d0e112844c11",
+	'indexof',
+	'Returns the index of the first occurence of needle in haystack. Returns -1 if no match is found.',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000002",
+	'',
+	3,
+	'');
+INSERT INTO S_BPARM
+	VALUES ("1203a3de-acbf-4ab2-99d1-2bd14503147f",
+	"a034fc43-c69a-4748-b9df-b3cd04458e8d",
+	'haystack',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_BPARM
+	VALUES ("c1a72d81-44e8-4171-889e-031c2e3b9349",
+	"a034fc43-c69a-4748-b9df-b3cd04458e8d",
+	'needle',
+	"ba5eda7a-def5-0000-0000-000000000004",
+	0,
+	'',
+	"1203a3de-acbf-4ab2-99d1-2bd14503147f",
+	'');
 INSERT INTO PE_PE
 	VALUES ("bb9efba5-486a-4a39-a358-d0e112844c11",
 	1,
